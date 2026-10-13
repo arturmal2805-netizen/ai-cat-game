@@ -37,3 +37,5 @@ Workflow `.github/workflows/cloudflare.yml` запускает тесты и п�
 
 ## Автоматическое подключение ИИ к Pages
 Запустите Test and deploy Chichi вручную с deploy=true. После публикации Worker workflow определит workers.dev subdomain, выполнит реальный запрос решения и проверит CORS. Только после успешной проверки он публикует GitHub Pages с адресом AI backend. Дополнительная CHICHI_API_URL при таком запуске не нужна. Проверка выполняет до трёх небольших AI-запросов при сбоях. API-token должен также позволять чтение Workers subdomain; Workers Scripts Edit включает доступ к конфигурации Worker.
+
+Публикация теперь автоматически выполняется при push в main: тесты → Cloudflare Worker → реальный запрос ИИ → GitHub Pages. Статический Pages workflow доступен вручную, чтобы не запускать два конкурирующих деплоя. Нужны сохранённые GitHub Secrets Cloudflare.
