@@ -1,5 +1,5 @@
 import {spawn} from 'node:child_process';
-const tail=spawn('npx',['--no-install','wrangler','tail','chichi-cat-world','--format','json'],{stdio:['ignore','pipe','pipe'],env:{...process.env,WRANGLER_SEND_METRICS:'false'}});
+const tail=spawn('npx',['--no-install','wrangler','tail','chichi-cat-world','--format','json'],{detached:process.platform!=='win32',stdio:['ignore','pipe','pipe'],env:{...process.env,WRANGLER_SEND_METRICS:'false'}});
 let logs='';
 tail.stdout.on('data',chunk=>{logs+=chunk;});
 tail.stderr.on('data',()=>{});
@@ -15,4 +15,10 @@ try {
   if(!errors.length)console.error('No inference details received from Worker logs. Check Cloudflare Worker Observability logs.');
  }
  process.exitCode=code;
-} finally {tail.kill('SIGTERM');}
+} finally {
+ if(tail.pid){
+  try {if(process.platform!=='win32')process.kill(-tail.pid,'SIGTERM');else tail.kill('SIGTERM');}catch(error){if(error.code!=='ESRCH')throw error;}
+ }
+ tail.stdout.destroy();tail.stderr.destroy();tail.unref();
+}
+
