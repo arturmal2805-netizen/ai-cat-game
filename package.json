@@ -1,0 +1,1 @@
+{"name":"chichi-cat-world","private":true,"type":"module","scripts":{"start":"node server.mjs","test":"node --test"},"engines":{"node":">=20"},"devDependencies":{"wrangler":"4.150.0"}}

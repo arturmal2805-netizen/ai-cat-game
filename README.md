@@ -1,0 +1,29 @@
+# Чичи — маленький мир
+Уютный сайт с котиком, который выбирает маршруты по саду через Cloudflare Workers AI. Решения запрашиваются раз в 8 секунд во время прогулки. Демо явно обозначено и работает без ИИ.
+
+## Запуск
+Node.js 20 или новее. Внешних npm-зависимостей нет.
+
+```sh
+npm test
+npm start
+```
+Сервер слушает порт 3000 (можно переопределить PORT).
+
+## Cloudflare AI
+На сервере нужны `CLOUDFLARE_ACCOUNT_ID` и `CLOUDFLARE_API_TOKEN` с правом Workers AI Read для выбранного аккаунта. В облачной среде добавьте их через настройки окружения, не в исходники и не в браузер. Для локального запуска можно использовать игнорируемый `.env` и `node --env-file=.env server.mjs`. Доступ нужен к `api.cloudflare.com` по HTTPS. Модель: `@cf/meta/llama-3.1-8b-instruct`.
+
+Ключ остаётся на сервере. Некорректные ответы ИИ отклоняются. При ошибке прогулка останавливается, подмена ИИ случайными решениями не выполняется. Запросы ограничены одним одновременно и интервалом 4 секунды на сервер.
+
+Это локальный прототип. Перед публичным размещением добавьте авторизацию пользователей и лимиты расходов Cloudflare: доступ к `/api/decide` сейчас открыт посетителям сервера. Публикация не выполнялась.
+
+## GitHub Actions → Cloudflare Workers
+Workflow `.github/workflows/cloudflare.yml` запускает тесты и проверку сборки при push в main и pull request. Публикация запускается отдельно: GitHub → Actions → Test and deploy Chichi → Run workflow → ветка main → включить deploy.
+
+В Settings → Secrets and variables → Actions нужны:
+- Secret `CLOUDFLARE_API_TOKEN`: разрешения Account / Workers Scripts / Edit и Account / Workers AI / Read для нужного аккаунта.
+- `CLOUDFLARE_ACCOUNT_ID`: secret либо repository variable.
+
+Если ваши секреты имеют другие имена, измените ссылки в workflow. Для environment-scoped secrets используйте environment `production`; секреты репозитория также доступны. Организационные secrets должны разрешать доступ этому репозиторию.
+
+Опубликованный Worker использует прямой AI binding: API-ключ нужен только GitHub Actions для деплоя, в браузер он не передаётся и в Worker не сохраняется. Адрес сайта появится в выводе шага Deploy. Перед открытием публичного доступа настройте защиту и бюджет Cloudflare Workers AI: API сайта пока не требует входа. Лимит локального Node-сервера не применяется к Worker.
