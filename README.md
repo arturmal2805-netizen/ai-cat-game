@@ -32,3 +32,5 @@ Workflow `.github/workflows/cloudflare.yml` запускает тесты и п�
 `pages.yml` публикует папку public при push в main. Адрес: https://arturmal2805-netizen.github.io/ai-cat-game/ . Если автоматическое включение Pages запрещено, в Settings → Pages выберите Source: GitHub Actions и повторите workflow.
 
 В Settings → Secrets and variables → Actions → Variables добавьте `CHICHI_API_URL` — публичный HTTPS-адрес опубликованного Cloudflare Worker (не ключ). Затем повторите Publish Chichi to GitHub Pages. Cloudflare Worker нужно повторно опубликовать через Test and deploy Chichi с deploy=true, чтобы применить CORS для GitHub Pages. Без доступного backend сайт открывается в явно обозначенном деморежиме.
+
+Если Pages использует Deploy from a branch → main → / (root), корневой index.html перенаправит посетителей в public/. Рекомендуемый вариант остаётся Source: GitHub Actions. Не выбирайте /docs: такой папки в проекте нет.
