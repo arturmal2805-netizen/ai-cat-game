@@ -1,41 +1,45 @@
-# Чичи — маленький мир
-Уютный сайт с котиком, который выбирает маршруты по саду через Cloudflare Workers AI. Каждое нажатие «Дай Чичи решить самой» запрашивает одно решение ИИ; автоматического цикла нет. Демо явно обозначено и работает без ИИ.
+# Чичи — остров настроений
 
-## Запуск
-Node.js 20 или новее. Внешних npm-зависимостей нет.
+3D-остров на Three.js с одной процедурной моделью рыжей Чичи. Настроение и следующую локацию выбирает Cloudflare Workers AI по нажатию «Дай Чичи решить самой». Модель: `@cf/meta/llama-3.3-70b-instruct-fp8-fast`.
+
+## Три состояния
+
+- `sleep`: закрытые глаза, низкая поза, спокойное дыхание. Обычно при сильной усталости.
+- `crazy hungry`: широко открытые глаза, открытый рот, беспокойный хвост. Обычно при сильном голоде.
+- `happy`: румяные щёчки, спокойная анимация и прогулки.
+
+ИИ получает энергию, голод, комфорт (`happiness`), предыдущее настроение и локацию. Возвращает ровно одно допустимое настроение, место и мысль. Кнопки кормления, игры и отдыха меняют факторы, но не выбирают настроение. Потребности обновляются раз в 20 секунд, когда вкладка активна; во время запроса ИИ они фиксированы. Демо обозначено отдельно и выбирает локально без ИИ.
+
+Для каждого состояния браузер рендерит отдельный портрет из той же модели. Сборка создаёт три downloadable `.glb` с анимациями `MoodLoop` и `Walk`. Остров можно вращать перетаскиванием. На устройствах без WebGL доступен упрощённый вид; ИИ и уход продолжают работать. Учитывается настройка уменьшения движения.
+
+## Локальная разработка
+
+Node.js >=20, рекомендуется 22.
 
 ```sh
+npm ci
+npm run build
 npm test
 npm start
 ```
-Сервер слушает порт 3000 (можно переопределить PORT).
 
-## Cloudflare AI
-На сервере нужны `CLOUDFLARE_ACCOUNT_ID` и `CLOUDFLARE_API_TOKEN` с правом Workers AI Read для выбранного аккаунта. В облачной среде добавьте их через настройки окружения, не в исходники и не в браузер. Для локального запуска можно использовать игнорируемый `.env` и `node --env-file=.env server.mjs`. Доступ нужен к `api.cloudflare.com` по HTTPS. Модель: `@cf/meta/llama-3.3-70b-instruct-fp8-fast`.
+Сервер слушает порт 3000, можно переопределить `PORT`. Для локального реального ИИ нужны серверные `CLOUDFLARE_API_TOKEN` и `CLOUDFLARE_ACCOUNT_ID`. Для игнорируемого `.env`: `npm run build && node --env-file=.env server.mjs`. Ключи никогда не помещаются в браузер или исходники. Без ключей доступно демо.
 
-Ключ остаётся на сервере. Некорректные ответы ИИ отклоняются. При ошибке прогулка останавливается, подмена ИИ случайными решениями не выполняется. Запросы ограничены одним одновременно и интервалом 4 секунды на сервер.
+`npm run build` собирает браузерный код и генерирует GLB. `public/dist/` и `public/models/` — игнорируемые, воспроизводимые результаты. Не запускайте приложение без сборки.
 
-Это локальный прототип. Перед публичным размещением добавьте авторизацию пользователей и лимиты расходов Cloudflare: доступ к `/api/decide` сейчас открыт посетителям сервера. Публикация не выполнялась.
+## Публикация GitHub Pages + Cloudflare
 
-## GitHub Actions → Cloudflare Workers
-Workflow `.github/workflows/cloudflare.yml` запускает тесты и проверку сборки при push в main и pull request. Публикация запускается отдельно: GitHub → Actions → Test and deploy Chichi → Run workflow → ветка main → включить deploy.
+Сайт: https://arturmal2805-netizen.github.io/ai-cat-game/
 
-В Settings → Secrets and variables → Actions нужны:
-- Secret `CLOUDFLARE_API_TOKEN`: разрешения Account / Workers Scripts / Edit и Account / Workers AI / Read для нужного аккаунта.
+GitHub Settings → Pages → Source: GitHub Actions. В **Actions secrets**, не Agents secrets:
+
+- `CLOUDFLARE_API_TOKEN`: Account / Workers Scripts / Edit и Account / Workers AI / Read для нужного аккаунта.
 - `CLOUDFLARE_ACCOUNT_ID`: secret либо repository variable.
 
-Если ваши секреты имеют другие имена, измените ссылки в workflow. Для environment-scoped secrets используйте environment `production`; секреты репозитория также доступны. Организационные secrets должны разрешать доступ этому репозиторию.
+В Cloudflare должен быть зарегистрирован workers.dev subdomain. Worker использует прямой binding `AI`; токен нужен только для деплоя. В браузер и Worker API-токен не сохраняется.
 
-Опубликованный Worker использует прямой AI binding: API-ключ нужен только GitHub Actions для деплоя, в браузер он не передаётся и в Worker не сохраняется. Адрес сайта появится в выводе шага Deploy. Перед открытием публичного доступа настройте защиту и бюджет Cloudflare Workers AI: API сайта пока не требует входа. Лимит локального Node-сервера не применяется к Worker.
+Push в main запускает: установка → сборка → тесты → Worker → три реальных AI-сценария → GitHub Pages с адресом Worker. Проверяется решение для истощённой, голодной и довольной Чичи; ошибка ИИ блокирует обновление Pages. Публикация Pages использует environment `github-pages`, Cloudflare — `production`. GitHub Actions logs показывают адрес сайта и подробности проверки.
 
-## GitHub Pages
-`pages.yml` публикует папку public при push в main. Адрес: https://arturmal2805-netizen.github.io/ai-cat-game/ . Если автоматическое включение Pages запрещено, в Settings → Pages выберите Source: GitHub Actions и повторите workflow.
+Статический workflow Publish Chichi to GitHub Pages доступен вручную. Для него можно указать публичный `CHICHI_API_URL` в repository variables. Без адреса он пытается сохранить подключение ранее опубликованного сайта.
 
-В Settings → Secrets and variables → Actions → Variables добавьте `CHICHI_API_URL` — публичный HTTPS-адрес опубликованного Cloudflare Worker (не ключ). Затем повторите Publish Chichi to GitHub Pages. Cloudflare Worker нужно повторно опубликовать через Test and deploy Chichi с deploy=true, чтобы применить CORS для GitHub Pages. Без доступного backend сайт открывается в явно обозначенном деморежиме.
-
-Если Pages использует Deploy from a branch → main → / (root), корневой index.html перенаправит посетителей в public/. Рекомендуемый вариант остаётся Source: GitHub Actions. Не выбирайте /docs: такой папки в проекте нет.
-
-## Автоматическое подключение ИИ к Pages
-Запустите Test and deploy Chichi вручную с deploy=true. После публикации Worker workflow определит workers.dev subdomain, выполнит реальный запрос решения и проверит CORS. Только после успешной проверки он публикует GitHub Pages с адресом AI backend. Дополнительная CHICHI_API_URL при таком запуске не нужна. Проверка выполняет до трёх небольших AI-запросов при сбоях. API-token должен также позволять чтение Workers subdomain; Workers Scripts Edit включает доступ к конфигурации Worker.
-
-Публикация теперь автоматически выполняется при push в main: тесты → Cloudflare Worker → реальный запрос ИИ → GitHub Pages. Статический Pages workflow доступен вручную, чтобы не запускать два конкурирующих деплоя. Нужны сохранённые GitHub Secrets Cloudflare.
+API публичный: перед более широким использованием настройте ограничения расходов и доступа Cloudflare. CORS разрешает фронтенд GitHub Pages, но не заменяет авторизацию. ИИ-проверка выполняет до девяти небольших запросов при повторных попытках.

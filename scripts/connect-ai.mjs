@@ -14,10 +14,20 @@ for(let attempt=0;attempt<3;attempt++) {
  try {
   const status=await fetch(`${apiBase}/api/status`,{signal:AbortSignal.timeout(20000)});
   if(!status.ok||!(await status.json()).configured)throw new Error('AI binding is unavailable');
-  const decision=await fetch(`${apiBase}/api/decide`,{method:'POST',headers:{'Content-Type':'application/json',Origin:'https://arturmal2805-netizen.github.io'},body:JSON.stringify({location:'home',hunger:30,energy:85}),signal:AbortSignal.timeout(30000)});
-  if(!decision.ok){const failure=await decision.json().catch(()=>({}));throw new Error(`AI decision failed: HTTP ${decision.status}; ${failure.code||'UNKNOWN'}; ${failure.error||'No details'}`);}
-  if(decision.headers.get('Access-Control-Allow-Origin')!=='https://arturmal2805-netizen.github.io')throw new Error('GitHub Pages CORS is missing');
-  parseDecision(JSON.stringify(await decision.json()));
+  const cases=[
+   {location:'home',hunger:10,energy:5,happiness:60,mood:'happy',expected:'sleep'},
+   {location:'home',hunger:98,energy:85,happiness:20,mood:'happy',expected:'crazy hungry'},
+   {location:'garden',hunger:5,energy:95,happiness:95,mood:'happy',expected:'happy'}
+  ];
+  for(const scenario of cases){
+   const {expected,...state}=scenario;
+   const decision=await fetch(`${apiBase}/api/decide`,{method:'POST',headers:{'Content-Type':'application/json',Origin:'https://arturmal2805-netizen.github.io'},body:JSON.stringify(state),signal:AbortSignal.timeout(30000)});
+   if(!decision.ok){const failure=await decision.json().catch(()=>({}));throw new Error(`AI decision failed: HTTP ${decision.status}; ${failure.code||'UNKNOWN'}; ${failure.error||'No details'}`);}
+   if(decision.headers.get('Access-Control-Allow-Origin')!=='https://arturmal2805-netizen.github.io')throw new Error('GitHub Pages CORS is missing');
+   const value=parseDecision(await decision.json());
+   if(value.mood!==expected)throw new Error(`AI mood scenario failed: expected ${expected}, got ${value.mood}`);
+   console.log(`Real AI mood verified: ${value.mood}`);
+  }
   verified=true;break;
  } catch(error) {if(attempt===2)throw error;await new Promise(resolve=>setTimeout(resolve,5000));}
 }
