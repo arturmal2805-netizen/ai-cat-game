@@ -15,7 +15,7 @@ http.createServer(async(req,res)=>{
    let state; try {state=validateState(JSON.parse(body));} catch {return json(res,400,{error:'Некорректное состояние котика'});}
    busy=true; last=Date.now();
    try {
-    const response=await fetch(`https://api.cloudflare.com/client/v4/accounts/${encodeURIComponent(account)}/ai/run/@cf/meta/llama-3.1-8b-instruct`,{method:'POST',headers:{Authorization:`Bearer ${token}`,'Content-Type':'application/json'},body:JSON.stringify({messages:messages(state),max_tokens:150}),signal:AbortSignal.timeout(20000)});
+    const response=await fetch(`https://api.cloudflare.com/client/v4/accounts/${encodeURIComponent(account)}/ai/run/@cf/meta/llama-3.3-70b-instruct-fp8-fast`,{method:'POST',headers:{Authorization:`Bearer ${token}`,'Content-Type':'application/json'},body:JSON.stringify({messages:messages(state),max_tokens:256,response_format:{type:'json_object'}}),signal:AbortSignal.timeout(20000)});
     if(!response.ok) throw new Error(`Cloudflare HTTP ${response.status}`);
     const result=await response.json(); if(!result.success) throw new Error('Cloudflare rejected request');
     return json(res,200,parseDecision(result.result));
