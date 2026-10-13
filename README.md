@@ -34,3 +34,6 @@ Workflow `.github/workflows/cloudflare.yml` запускает тесты и п�
 В Settings → Secrets and variables → Actions → Variables добавьте `CHICHI_API_URL` — публичный HTTPS-адрес опубликованного Cloudflare Worker (не ключ). Затем повторите Publish Chichi to GitHub Pages. Cloudflare Worker нужно повторно опубликовать через Test and deploy Chichi с deploy=true, чтобы применить CORS для GitHub Pages. Без доступного backend сайт открывается в явно обозначенном деморежиме.
 
 Если Pages использует Deploy from a branch → main → / (root), корневой index.html перенаправит посетителей в public/. Рекомендуемый вариант остаётся Source: GitHub Actions. Не выбирайте /docs: такой папки в проекте нет.
+
+## Автоматическое подключение ИИ к Pages
+Запустите Test and deploy Chichi вручную с deploy=true. После публикации Worker workflow определит workers.dev subdomain, выполнит реальный запрос решения и проверит CORS. Только после успешной проверки он публикует GitHub Pages с адресом AI backend. Дополнительная CHICHI_API_URL при таком запуске не нужна. Проверка выполняет до трёх небольших AI-запросов при сбоях. API-token должен также позволять чтение Workers subdomain; Workers Scripts Edit включает доступ к конфигурации Worker.

@@ -11,6 +11,8 @@ on:
         default: false
 permissions:
   contents: read
+  pages: write
+  id-token: write
 concurrency:
   group: chichi-${{ github.ref }}
   cancel-in-progress: true
@@ -50,3 +52,19 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || vars.CLOUDFLARE_ACCOUNT_ID }}
         run: npx wrangler deploy
+      - name: Connect and verify real AI
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || vars.CLOUDFLARE_ACCOUNT_ID }}
+        run: node scripts/connect-ai.mjs
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+      - name: Publish AI-connected cat website
+        id: pages
+        uses: actions/deploy-pages@v4
+      - name: Website address
+        env:
+          PAGE_URL: ${{ steps.pages.outputs.page_url }}
+        run: echo "Chichi website — $PAGE_URL" >> "$GITHUB_STEP_SUMMARY"
