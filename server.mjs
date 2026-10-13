@@ -11,14 +11,14 @@ http.createServer(async(req,res)=>{
   if(req.url==='/api/decide' && req.method==='POST') {
    if(!token||!account) return json(res,503,{error:'Cloudflare AI не подключён. Укажите серверные CLOUDFLARE_API_TOKEN и CLOUDFLARE_ACCOUNT_ID.'});
    if(busy || Date.now()-last<4000) return json(res,429,{error:'Чичи ещё думает. Попробуйте чуть позже.'});
-   let body=''; for await (const chunk of req) {body+=chunk; if(body.length>2048) return json(res,413,{error:'Слишком большой запрос'});}
+   let body=''; for await (const chunk of req) {body+=chunk; if(body.length>16384) return json(res,413,{error:'Слишком большой запрос'});}
    let state; try {state=validateState(JSON.parse(body));} catch {return json(res,400,{error:'Некорректное состояние котика'});}
    busy=true; last=Date.now();
    try {
     const response=await fetch(`https://api.cloudflare.com/client/v4/accounts/${encodeURIComponent(account)}/ai/run/@cf/meta/llama-3.3-70b-instruct-fp8-fast`,{method:'POST',headers:{Authorization:`Bearer ${token}`,'Content-Type':'application/json'},body:JSON.stringify({messages:messages(state),max_tokens:384,response_format:{type:'json_object'}}),signal:AbortSignal.timeout(20000)});
     if(!response.ok) throw new Error(`Cloudflare HTTP ${response.status}`);
     const result=await response.json(); if(!result.success) throw new Error('Cloudflare rejected request');
-    return json(res,200,parseDecision(result.result));
+    return json(res,200,parseDecision(result.result,state));
    } finally {busy=false;}
   }
   if(req.method==='GET') {

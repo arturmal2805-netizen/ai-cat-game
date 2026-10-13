@@ -1,1 +1,354 @@
-<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f7f5ef"><title>Чичи • остров настроений</title><link rel="stylesheet" href="./style.css"></head><body><header><a class="logo" href="./">🐾 чичи<span>остров маленьких чувств</span></a><span class="badge">✦ CLOUDFLARE AI × 3D</span></header><main><section class="intro"><div><p class="eyebrow">ОДНА ЧИЧИ. ЦЕЛЫЙ МИР.</p><h1>У каждого настроения<br>своё приключение<span> ✿</span></h1><p>Покормите, поиграйте или дайте ей отдохнуть.<br>Чичи сама решит, что чувствует и куда пойдёт.</p></div><div class="note">Немного солнца.<br>Немного мур-мур.</div></section><div class="layout"><section class="world"><div class="world-top"><span>🌿 Остров Чичи</span><span id="mode">Подключаем ИИ…</span></div><div id="map"><div id="world-loading">Загружаем мир Чичи…</div><div id="bubble" aria-live="polite">Мяу! Давай проведём этот день вместе.</div><span class="orbit-hint">↔ Потяните, чтобы повернуть остров</span><span id="mood-badge">Happy · стартовое состояние</span></div><div class="world-bottom"><span>☀ Тихий солнечный день</span><span id="steps">0 решений</span></div><div class="care"><button id="feed">🥣 Покормить</button><button id="play">🧶 Поиграть</button><button id="rest">🌙 Отдохнуть</button></div></section><aside><section class="profile"><p class="eyebrow">КАК ЧУВСТВУЕТ СЕБЯ ЧИЧИ</p><h2>Маленькая жизнь</h2><p>Её потребности меняются. Настроение выбирает ИИ, а не кнопки ухода.</p><label>Энергия <span id="energy-text">85%</span></label><progress id="energy" value="85" max="100"></progress><label>Сытость <span id="food-text">70%</span></label><progress id="food" value="70" max="100"></progress><label>Комфорт <span id="happiness-text">75%</span></label><progress id="happiness" value="75" max="100"></progress><button id="toggle" class="primary">Дай Чичи решить самой</button><button id="demo" class="secondary">Попробовать демо без ИИ</button><p id="status" role="status" aria-live="polite">Подготовка…</p></section><section class="diary"><h3>✎ Мысли Чичи</h3><ul id="diary"><li>Первое приключение ещё впереди.</li></ul></section></aside></div><section class="moods"><div class="section-title"><div><p class="eyebrow">ТРИ СТОРОНЫ ОДНОГО КОТИКА</p><h2>Какой будет Чичи сегодня?</h2></div><span>Решает Cloudflare AI</span></div><div class="mood-grid"><article data-mood="sleep"><img data-mood-image="sleep" alt="3D Чичи: спит с закрытыми глазами"><div><span class="mood-number">01 / ТИХИЙ РЕЖИМ</span><h3>Sleep <span>☾</span></h3><p>Глазки закрыты. Лапки отдыхают.<br>Когда день отнял слишком много сил.</p><a href="./models/chichi-sleep.glb" download>Скачать 3D-модель ↗</a></div></article><article data-mood="crazy hungry"><img data-mood-image="crazy hungry" alt="3D Чичи: голодная, с широко открытыми глазами"><div><span class="mood-number">02 / ПОРА ПЕРЕКУСИТЬ</span><h3>Crazy hungry <span>!</span></h3><p>Большие глаза, нетерпеливый хвост.<br>Нужна еда. Прямо сейчас. Мяу!</p><a href="./models/chichi-crazy-hungry.glb" download>Скачать 3D-модель ↗</a></div></article><article data-mood="happy" class="active"><img data-mood-image="happy" alt="3D Чичи: счастливая, с румяными щёчками"><div><span class="mood-number">03 / ВСЁ ХОРОШО</span><h3>Happy <span>✿</span></h3><p>Сытая, отдохнувшая и любопытная.<br>Самое время искать маленькие чудеса.</p><a href="./models/chichi-happy.glb" download>Скачать 3D-модель ↗</a></div></article></div></section><footer>Чичи — маленький мир больших чувств<span>🐾 Один клик — одно решение ИИ</span></footer></main><script type="module" src="./dist/app.js"></script></body></html>
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#eeeaf3" />
+    <title>Чичи • мир маленьких чудес</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header>
+      <a class="logo" href="./"
+        ><span>☾</span> чичи<small>CAT WIZARD WORLD</small></a
+      >
+      <nav>
+        <button id="farm-open" class="nav-button" aria-label="Открыть ферму">
+          <span class="nav-icon">🌱</span><span class="nav-label">Ферма</span>
+        </button>
+        <button id="friends-open" class="nav-button">
+          <span class="nav-icon">🐈</span><span class="nav-label">Друзья</span>
+          <b id="friend-count">0</b></button
+        ><button
+          id="rewards-open"
+          class="coin-pill"
+          title="Награды и котомонеты"
+        >
+          <span class="coin-icon">✦</span><strong id="coins">0</strong
+          ><span>+</span></button
+        ><button id="shop-open" class="shop-button">▦ Магазин</button>
+      </nav>
+    </header>
+    <main>
+      <section class="intro">
+        <div>
+          <p class="eyebrow">ТИХАЯ МАГИЯ. БОЛЬШИЕ ПРИКЛЮЧЕНИЯ.</p>
+          <h1>Мир, в котором<br />хочется <em>остаться.</em></h1>
+          <p>
+            Откройте острова, наполните их чудесами.<br />Чичи сама решит —
+            поиграть, покататься или встретить друзей.
+          </p>
+        </div>
+        <div class="world-facts">
+          <div><strong>24</strong><span>сказочных биомов</span></div>
+          <div><strong>56</strong><span>маленьких чудес</span></div>
+          <div><strong>28</strong><span>котов-соседей</span></div>
+        </div>
+      </section>
+      <div class="game-layout">
+        <section class="world">
+          <div class="world-top">
+            <span
+              ><i class="live-dot"></i> <b id="biome-name">Лунный сад</b
+              ><small id="mode">Подключаем ИИ…</small></span
+            >
+            <div class="map-controls">
+              <button
+                id="camera-home"
+                title="Вернуться в лунный сад"
+                aria-label="Домой"
+              >
+                ⌂</button
+              ><button id="camera-all" title="Показать все острова">
+                Весь мир ↗</button
+              ><button id="zoom-in" aria-label="Приблизить">+</button
+              ><button id="zoom-out" aria-label="Отдалить">−</button>
+            </div>
+          </div>
+          <div id="map">
+            <div id="world-loading">Зажигаем звёзды и открываем острова…</div>
+            <div id="bubble" aria-live="polite">
+              Мяу… кажется, сегодня случится что-то чудесное.
+            </div>
+            <span class="orbit-hint"
+              >Потяните для поворота · прокрутите для приближения</span
+            ><span id="mood-badge">happy · стартовое состояние</span>
+            <div id="build-panel" hidden>
+              <div>
+                <span class="eyebrow">РЕЖИМ СТРОИТЕЛЬСТВА</span>
+                <h3 id="build-title">Размещение</h3>
+                <p id="build-reason">Выберите место</p>
+              </div>
+              <div class="build-actions">
+                <label
+                  >Остров
+                  <select id="build-biome"></select></label
+                ><button id="build-rotate">↻ Повернуть</button
+                ><button id="build-confirm" class="primary">Разместить</button
+                ><button id="build-cancel" class="quiet">Отмена</button>
+              </div>
+            </div>
+          </div>
+          <div class="world-bottom">
+            <span>✦ Волшебный час</span><span id="steps">0 решений</span
+            ><button id="bag-open">▣ Моя сумка <b id="bag-count">0</b></button>
+          </div>
+          <div id="biome-nav" class="biome-nav"></div>
+        </section>
+        <aside>
+          <section class="profile">
+            <div class="profile-heading">
+              <p class="eyebrow">ВАША ЧИЧИ</p>
+              <span id="cat-activity">Дома</span>
+            </div>
+            <div class="mood-strip">
+              <div data-mood="sleep">
+                <img data-mood-image="sleep" alt="Чичи sleep" /><span
+                  >sleep</span
+                >
+              </div>
+              <div data-mood="crazy hungry">
+                <img
+                  data-mood-image="crazy hungry"
+                  alt="Чичи crazy hungry"
+                /><span>crazy hungry</span>
+              </div>
+              <div data-mood="happy" class="active">
+                <img data-mood-image="happy" alt="Чичи happy" /><span
+                  >happy</span
+                >
+              </div>
+            </div>
+            <h2>Маленькая жизнь.<br />Большие желания.</h2>
+            <label>Энергия <span id="energy-text">85%</span></label
+            ><progress id="energy" value="85" max="100"></progress
+            ><label>Сытость <span id="food-text">70%</span></label
+            ><progress id="food" value="70" max="100"></progress
+            ><label>Комфорт <span id="happiness-text">75%</span></label
+            ><progress id="happiness" value="75" max="100"></progress>
+            <div class="care">
+              <button id="feed" title="Покормить" aria-label="Покормить">
+                🥣<span>Еда</span></button
+              ><button id="play" title="Поиграть" aria-label="Поиграть">
+                🧶<span>Игра</span></button
+              ><button id="rest" title="Отдохнуть" aria-label="Отдохнуть">
+                🌙<span>Отдых</span>
+              </button>
+            </div>
+            <button id="toggle" class="primary">Дай Чичи решить самой ✦</button
+            ><button id="demo" class="quiet">Попробовать демо без ИИ</button>
+            <p id="status" role="status" aria-live="polite">Подготовка…</p>
+          </section>
+          <section class="diary">
+            <h3>✎ Маленькие истории</h3>
+            <ul id="diary">
+              <li>Здесь начинается наша сказка.</li>
+            </ul>
+          </section>
+        </aside>
+      </div>
+      <section class="neighbors-section">
+        <div class="section-title">
+          <div>
+            <p class="eyebrow">КОМПАНИЯ ДЛЯ ПРИКЛЮЧЕНИЙ</p>
+            <h2>Соседи, которые станут друзьями</h2>
+          </div>
+          <span>Чичи знакомится по собственному желанию</span>
+        </div>
+        <div id="neighbors" class="neighbors"></div>
+      </section>
+      <section class="discovery">
+        <div>
+          <span>✦</span>
+          <p class="eyebrow">МИР РАСТЁТ ВМЕСТЕ С ВАМИ</p>
+          <h2>Чуть больше магии.<br />Каждый день.</h2>
+          <p>
+            Котомонеты за визит, часы в мире и заботу.<br />Игрушки, аттракционы
+            и новые острова — без настоящих денег.
+          </p>
+          <button id="discover-shop" class="primary">
+            Открыть коллекцию чудес ↗
+          </button>
+        </div>
+        <div class="discovery-islands">
+          <span>🍁</span><span>❄</span><span>🔮</span><span>🐚</span
+          ><span>🌸</span><span>☁</span>
+          <p>Осень · зима · магия · море · сакура · облака</p>
+        </div>
+      </section>
+      <footer>
+        Чичи · мир маленьких чудес<span id="save-state"
+          >Прогресс сохраняется на этом устройстве</span
+        >
+      </footer>
+    </main>
+    <dialog id="shop-dialog" class="shop-dialog">
+      <div class="dialog-top">
+        <div>
+          <p class="eyebrow">ЧТО-ТО ОСОБЕННОЕ ДЛЯ ЧИЧИ</p>
+          <h2>Коллекция чудес</h2>
+        </div>
+        <div class="dialog-controls">
+          <span class="balance"
+            ><span class="coin-icon">✦</span> <b id="shop-coins">0</b></span
+          ><button
+            data-close="shop-dialog"
+            class="close"
+            aria-label="Закрыть магазин"
+          >
+            ×
+          </button>
+        </div>
+      </div>
+      <div class="shop-search">
+        <input
+          id="shop-search"
+          type="search"
+          placeholder="Найти своё маленькое чудо…"
+          aria-label="Поиск по магазину"
+        /><span id="shop-count"></span>
+      </div>
+      <div id="shop-tabs" class="shop-tabs" role="tablist"></div>
+      <div id="shop-grid" class="shop-grid"></div>
+      <div class="shop-footer">
+        <span>Покупка попадает в сумку. Место выбираете вы.</span
+        ><button id="shop-rewards">Как получить котомонеты ↗</button>
+      </div>
+    </dialog>
+    <dialog id="rewards-dialog" class="small-dialog">
+      <button
+        data-close="rewards-dialog"
+        class="close"
+        aria-label="Закрыть награды"
+      >
+        ×
+      </button>
+      <p class="eyebrow">МАЛЕНЬКИЕ ЗНАКИ БОЛЬШОЙ ЗАБОТЫ</p>
+      <h2>Котомонеты <span class="coin-icon">✦</span></h2>
+      <p class="dialog-copy">
+        Только игровая валюта. Приходите, заботьтесь и наполняйте мир чудесами.
+      </p>
+      <div class="reward-row">
+        <span>☀</span>
+        <div>
+          <h3>Ежедневный визит</h3>
+          <p id="login-reward">Получено сегодня</p>
+        </div>
+        <b>+70</b>
+      </div>
+      <div class="reward-row">
+        <span>◷</span>
+        <div>
+          <h3>Каждый полный час</h3>
+          <p id="hourly-reward">Следующая награда через час</p>
+        </div>
+        <b>+60</b>
+      </div>
+      <div class="reward-row">
+        <span>♡</span>
+        <div>
+          <h3>Внимание к Чичи</h3>
+          <p id="attention-reward">Уход или совместное приключение</p>
+        </div>
+        <b>+10</b>
+      </div>
+      <p class="fine-print">
+        Награда за внимание — раз в 10 минут. Почасовые монеты начисляются и
+        между визитами, до 24 часов за один сбор.
+      </p>
+    </dialog>
+    <dialog id="friends-dialog" class="small-dialog">
+      <button
+        data-close="friends-dialog"
+        class="close"
+        aria-label="Закрыть друзей"
+      >
+        ×
+      </button>
+      <p class="eyebrow">ПРИЯТНО БЫТЬ ВМЕСТЕ</p>
+      <h2>Кошачья компания</h2>
+      <p class="dialog-copy">
+        ИИ решает, с кем познакомиться и когда пойти на вечеринку. Каждая
+        встреча делает дружбу теплее.
+      </p>
+      <div id="friends-list"></div>
+    </dialog>
+    <dialog id="item-dialog" class="small-dialog">
+      <button
+        data-close="item-dialog"
+        class="close"
+        aria-label="Закрыть предмет"
+      >
+        ×</button
+      ><span id="item-icon" class="big-icon"></span>
+      <h2 id="item-name"></h2>
+      <p id="item-construction" class="construction-info"></p>
+      <p id="item-description" class="dialog-copy"></p>
+      <p class="fine-print">
+        Чичи пользуется этим предметом, когда сама выберет его через ИИ.
+      </p>
+      <div class="item-actions">
+        <button id="item-move" class="primary">Переставить</button
+        ><button id="item-store" class="quiet">Убрать в сумку</button>
+      </div>
+    </dialog>
+    <dialog id="farm-dialog" class="farm-dialog">
+      <div class="dialog-top">
+        <div>
+          <p class="eyebrow">ПОСАДИТЬ. ВЫРАСТИТЬ. СОБРАТЬ.</p>
+          <h2>Маленькая ферма</h2>
+        </div>
+        <button
+          data-close="farm-dialog"
+          class="close"
+          aria-label="Закрыть ферму"
+        >
+          ×
+        </button>
+      </div>
+      <div class="farm-content">
+        <p class="dialog-copy">
+          Перетащите Чичи на готовые грядки на карте — она соберёт урожай. Или
+          отправьте её кнопкой. ИИ тоже может выбрать работу на ферме.
+        </p>
+        <div class="farm-toolbar">
+          <label
+            >Постройка
+            <select id="farm-field"></select></label
+          ><label
+            >Культура
+            <select id="farm-crop"></select></label
+          ><button id="farm-command" class="primary">Отправить Чичи 🌱</button>
+        </div>
+        <div id="farm-plots" class="farm-plots"></div>
+        <div class="farm-stock">
+          <div>
+            <p class="eyebrow">СКЛАД УРОЖАЯ</p>
+            <p id="farm-stock-text"></p>
+            <small id="farm-level"></small>
+          </div>
+          <button id="farm-sell" class="primary">Продать урожай</button>
+        </div>
+        <h3 class="farm-section-title">Открытия новых биомов</h3>
+        <div id="farm-jobs" class="farm-jobs"></div>
+        <p class="fine-print">
+          Рост, стройки, урожай и деньги сохраняются сразу. Таймеры продолжаются
+          между визитами.
+        </p>
+        <div class="backup-controls">
+          <button id="save-export" class="quiet">Скачать сохранение ↓</button
+          ><button id="save-import" class="quiet">
+            Восстановить из файла ↑</button
+          ><input
+            id="save-file"
+            type="file"
+            accept="application/json,.json"
+            hidden
+          />
+        </div>
+      </div>
+    </dialog>
+    <div id="toast" role="status" aria-live="polite" hidden></div>
+    <script type="module" src="./dist/app.js"></script>
+  </body>
+</html>
