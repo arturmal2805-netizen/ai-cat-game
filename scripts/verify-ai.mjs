@@ -1,4 +1,5 @@
 import {spawn} from 'node:child_process';
+import {inferenceDiagnostics} from './tail-diagnostics.mjs';
 const tail=spawn('npx',['--no-install','wrangler','tail','chichi-cat-world','--format','json'],{detached:process.platform!=='win32',stdio:['ignore','pipe','pipe'],env:{...process.env,WRANGLER_SEND_METRICS:'false'}});
 let logs='';
 tail.stdout.on('data',chunk=>{logs+=chunk;});
@@ -10,7 +11,7 @@ try {
  if(code!==0){
   await new Promise(resolve=>setTimeout(resolve,2000));
   // Emit only our own inference-error messages, not request headers or full tail events.
-  const errors=logs.match(/Cloudflare AI inference failed:[^\r\n]*/g)||[];
+  const errors=inferenceDiagnostics(logs);
   for(const message of [...new Set(errors)])console.error('Worker diagnostic:',message.slice(0,600));
   if(!errors.length)console.error('No inference details received from Worker logs. Check Cloudflare Worker Observability logs.');
  }
@@ -21,4 +22,3 @@ try {
  }
  tail.stdout.destroy();tail.stderr.destroy();tail.unref();
 }
-
