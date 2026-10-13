@@ -27,3 +27,8 @@ Workflow `.github/workflows/cloudflare.yml` запускает тесты и п�
 Если ваши секреты имеют другие имена, измените ссылки в workflow. Для environment-scoped secrets используйте environment `production`; секреты репозитория также доступны. Организационные secrets должны разрешать доступ этому репозиторию.
 
 Опубликованный Worker использует прямой AI binding: API-ключ нужен только GitHub Actions для деплоя, в браузер он не передаётся и в Worker не сохраняется. Адрес сайта появится в выводе шага Deploy. Перед открытием публичного доступа настройте защиту и бюджет Cloudflare Workers AI: API сайта пока не требует входа. Лимит локального Node-сервера не применяется к Worker.
+
+## GitHub Pages
+`pages.yml` публикует папку public при push в main. Адрес: https://arturmal2805-netizen.github.io/ai-cat-game/ . Если автоматическое включение Pages запрещено, в Settings → Pages выберите Source: GitHub Actions и повторите workflow.
+
+В Settings → Secrets and variables → Actions → Variables добавьте `CHICHI_API_URL` — публичный HTTPS-адрес опубликованного Cloudflare Worker (не ключ). Затем повторите Publish Chichi to GitHub Pages. Cloudflare Worker нужно повторно опубликовать через Test and deploy Chichi с deploy=true, чтобы применить CORS для GitHub Pages. Без доступного backend сайт открывается в явно обозначенном деморежиме.

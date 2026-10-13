@@ -2,6 +2,15 @@ import {messages,parseDecision,validateState} from './ai.mjs';
 const json=(data,status=200)=>Response.json(data,{status,headers:{'Cache-Control':'no-store'}});
 export default {
  async fetch(request,env) {
+  const origin=request.headers.get('Origin');
+  const allowed=origin==='https://arturmal2805-netizen.github.io';
+  if(request.method==='OPTIONS')return new Response(null,{status:allowed?204:403,headers:allowed?{'Access-Control-Allow-Origin':origin,'Access-Control-Allow-Methods':'GET, POST, OPTIONS','Access-Control-Allow-Headers':'Content-Type','Vary':'Origin'}:{}});
+  const response=await this.handle(request,env);
+  if(!allowed)return response;
+  const headers=new Headers(response.headers);headers.set('Access-Control-Allow-Origin',origin);headers.set('Vary','Origin');
+  return new Response(response.body,{status:response.status,headers});
+ },
+ async handle(request,env) {
   const path=new URL(request.url).pathname;
   if(path==='/api/status' && request.method==='GET') return json({configured:!!env.AI});
   if(path==='/api/decide' && request.method==='POST') {
