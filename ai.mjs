@@ -1,9 +1,12 @@
 export const places = ['home', 'pond', 'garden', 'tree', 'picnic'];
 export function parseDecision(response) {
-  const text = typeof response === 'string' ? response : response?.response;
-  const match = text?.match(/\{[\s\S]*\}/);
-  if (!match) throw new Error('AI returned no decision');
-  const value = JSON.parse(match[0]);
+  let value = response?.response ?? response;
+  if (typeof value === 'string') {
+    const match = value.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error('AI returned no decision');
+    value = JSON.parse(match[0]);
+  }
+  if (!value || typeof value !== 'object') throw new Error('AI returned no decision');
   if (!places.includes(value.target) || typeof value.thought !== 'string') throw new Error('Invalid AI decision');
   return { target: value.target, thought: value.thought.slice(0, 180) };
 }

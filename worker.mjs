@@ -20,8 +20,12 @@ export default {
    let size=0,chunks=[];
    while(true){const {done,value}=await reader.read();if(done)break;size+=value.length;if(size>2048){await reader.cancel();return json({error:'Слишком большой запрос'},413);}chunks.push(value);}
    let state;try {const bytes=new Uint8Array(size);let offset=0;for(const chunk of chunks){bytes.set(chunk,offset);offset+=chunk.length;}state=validateState(JSON.parse(new TextDecoder().decode(bytes)));}catch{return json({error:'Некорректное состояние котика'},400);}
-   try {const result=await env.AI.run('@cf/meta/llama-3.1-8b-instruct',{messages:messages(state),max_tokens:150});return json(parseDecision(result));}
-   catch{return json({error:'Cloudflare AI сейчас не отвечает. Повторите попытку.'},502);}
+   let result;
+   try {result=await env.AI.run('@cf/meta/llama-3.1-8b-instruct',{messages:messages(state),max_tokens:256,response_format:{type:'json_object'}});}
+   catch(error){console.error('Cloudflare AI inference failed:',String(error?.message||'Unknown error').slice(0,500));return json({code:'AI_INFERENCE_FAILED',error:'Cloudflare AI не смог выполнить запрос. Проверьте лимит и доступ к Workers AI.'},502);}
+   try{return json(parseDecision(result));}
+   catch{console.error('Cloudflare AI returned an invalid decision; response type:',typeof result?.response);return json({code:'AI_INVALID_DECISION',error:'ИИ вернул некорректное решение. Повторите попытку.'},502);}
+
   }
   if(path.startsWith('/api/'))return json({error:'Not found'},404);
   return env.ASSETS.fetch(request);

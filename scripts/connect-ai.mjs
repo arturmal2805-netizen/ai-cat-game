@@ -15,7 +15,7 @@ for(let attempt=0;attempt<3;attempt++) {
   const status=await fetch(`${apiBase}/api/status`,{signal:AbortSignal.timeout(20000)});
   if(!status.ok||!(await status.json()).configured)throw new Error('AI binding is unavailable');
   const decision=await fetch(`${apiBase}/api/decide`,{method:'POST',headers:{'Content-Type':'application/json',Origin:'https://arturmal2805-netizen.github.io'},body:JSON.stringify({location:'home',hunger:30,energy:85}),signal:AbortSignal.timeout(30000)});
-  if(!decision.ok)throw new Error(`AI decision failed: HTTP ${decision.status}`);
+  if(!decision.ok){const failure=await decision.json().catch(()=>({}));throw new Error(`AI decision failed: HTTP ${decision.status}; ${failure.code||'UNKNOWN'}; ${failure.error||'No details'}`);}
   if(decision.headers.get('Access-Control-Allow-Origin')!=='https://arturmal2805-netizen.github.io')throw new Error('GitHub Pages CORS is missing');
   parseDecision(JSON.stringify(await decision.json()));
   verified=true;break;
