@@ -14,13 +14,16 @@ import {
 } from "../public/landscape-detail.js";
 import { createReef } from "../public/reef.js";
 import { createLagoon } from "../public/lagoon.js";
+import { RENEWED_ISLANDS } from "../public/renewal-data.js";
 
-test("all 25 islands have a few authored trees with varied positions and silhouettes", () => {
+test("every island has authored trees with varied positions and silhouettes", () => {
   const kinds = new Set();
   for (const biome of BIOMES) {
     const trees = landscapedTrees(biome.id);
     assert.ok(
-      trees.length >= 2 && trees.length <= (biome.id === "aquapark" ? 5 : 3),
+      trees.length >= 2 &&
+        trees.length <=
+          (biome.id === "aquapark" || RENEWED_ISLANDS[biome.id] ? 5 : 3),
       biome.id,
     );
     assert.equal(new Set(trees.map((t) => t.id)).size, trees.length);

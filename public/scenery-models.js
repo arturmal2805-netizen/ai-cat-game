@@ -31,8 +31,9 @@ function curvedBranch(parent, points, radius, color) {
   parent.add(mesh);
 }
 function tree(source, kind, style, low) {
-  const leaf =
-    kind === "sakura"
+  const leaf = ["jelly", "butterfly", "bloom", "dinosaur"].includes(style.hero)
+    ? style.leaf
+    : kind === "sakura"
       ? 0xe5aac5
       : kind === "willow"
         ? 0x8dae77

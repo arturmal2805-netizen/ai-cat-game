@@ -46,6 +46,32 @@ test("offline rewards cap at 24 hours and clock rollback cannot pay twice", () =
     0,
   );
 });
+test("reloading across Kyiv midnight preserves the balance and awards the new daily visit only once", () => {
+  const beforeMidnight = Date.UTC(2026, 9, 14, 20, 59, 59),
+    afterMidnight = beforeMidnight + 2000,
+    s = storage();
+  const before = claimRewards(
+    newGame(beforeMidnight),
+    beforeMidnight,
+    true,
+  ).game;
+  saveGame(s, before);
+  const after = claimRewards(
+    loadGame(s, afterMidnight),
+    afterMidnight,
+    true,
+  ).game;
+  assert.equal(after.coins, before.coins + 70);
+  assert.equal(after.progression.xp, before.progression.xp + 25);
+  saveGame(s, after);
+  const again = claimRewards(
+    loadGame(s, afterMidnight),
+    afterMidnight,
+    true,
+  ).game;
+  assert.equal(again.coins, after.coins);
+  assert.equal(again.progression.xp, after.progression.xp);
+});
 test("attention rewards require a meaningful action and ten minute cooldown", () => {
   const game = newGame(now);
   assert.equal(attentionReward(game, now, false).amount, 0);
@@ -114,7 +140,7 @@ test("malformed saves recover, and unavailable neighbors cannot gain friendship"
   const store = storage();
   store.setItem(SAVE_KEY, "broken");
   assert.equal(loadGame(store, now).coins, 420);
-  assert.deepEqual(befriend(newGame(now), "salem").friendship, {});
+  assert.deepEqual(befriend(newGame(now), "neighbor-galaxy").friendship, {});
 });
 test("scenery landmarks stay clear when new islands are unlocked", () => {
   const game = newGame(now);

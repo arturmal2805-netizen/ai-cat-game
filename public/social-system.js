@@ -1,4 +1,5 @@
 import { NEIGHBORS } from "./game-data.js";
+import { catAvailable } from "./cat-roster.js";
 export const SOCIAL_VERSION = 3,
   SOCIAL_COOLDOWN = 120000;
 export const SOCIAL_INTENTS = [
@@ -103,7 +104,7 @@ export function recordSocialEncounter(
   source = "manual",
   now = Date.now(),
 ) {
-  if (!NEIGHBORS.some((n) => n.id === id && game.unlocked.includes(n.biome)))
+  if (!NEIGHBORS.some((n) => n.id === id && catAvailable(game, n)))
     throw Error("Котик пока недоступен.");
   const next = structuredClone(game),
     r = next.social.relationships[id],

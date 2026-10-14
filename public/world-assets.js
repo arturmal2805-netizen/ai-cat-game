@@ -1,4 +1,7 @@
+import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
 import { legendaryAttraction } from "./legendary-assets.js";
+import { catVenue } from "./cat-venues.js";
+import { creatureRide } from "./creature-rides.js";
 import { advancedAttraction, animateAdvanced } from "./advanced-assets.js";
 import { dressAttraction } from "./fantasy-scenery.js";
 import { byItem } from "./game-data.js";
@@ -31,7 +34,7 @@ export function primitive(parent, geo, color, x = 0, y = 0, z = 0, glow = 0) {
 export const ball = (p, c, x, y, z, r = 0.2) =>
   primitive(p, new THREE.SphereGeometry(r, 12, 8), c, x, y, z);
 export const box = (p, c, x, y, z, w, h, d) =>
-  primitive(p, new THREE.BoxGeometry(w, h, d), c, x, y, z);
+  primitive(p, new RoundedBoxGeometry(w,h,d,2,Math.min(w,h,d)*0.1), c, x, y, z);
 export const rod = (p, c, x, y, z, r, h) =>
   primitive(p, new THREE.CylinderGeometry(r, r, h, 8), c, x, y, z);
 function arch(parent, color, radius, y, z = 0) {
@@ -175,6 +178,10 @@ function vehicle(parent, kind, color = 0xc9a3cf) {
   return g;
 }
 export function makeAttraction(id, fields = [], now = Date.now()) {
+  const creature = creatureRide(id);
+  if (creature) return creature;
+  const venue = catVenue(id);
+  if (venue) return venue;
   const legend = legendaryAttraction(id);
   if (legend) return dressAttraction(legend, byItem(id));
   const advanced = advancedAttraction(id, fields, now);

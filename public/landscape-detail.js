@@ -1,3 +1,4 @@
+import { RENEWED_ISLANDS } from "./renewal-data.js";
 import * as THREE from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { byItem } from "./game-data.js";
@@ -17,7 +18,7 @@ export function placementClearance(items = []) {
     );
 }
 export function meadowPalette(style, id) {
-  if (["winter", "ice", "crystal"].includes(id))
+  if (!RENEWED_ISLANDS[id] && ["winter", "ice", "crystal"].includes(id))
     return [0xbedbe3, 0x9fc6cb, 0xe3ede7];
   if (["desert", "beach", "coral"].includes(id))
     return [0x9eae68, 0xc4bb78, 0x91b97b];
@@ -159,8 +160,8 @@ export function createGroundCover(
     palette = meadowPalette(style, id),
     points = [];
   const routeSeed = [...id].reduce((n, c) => n + c.charCodeAt(0), 0),
-    dry = ["desert", "volcano"].includes(id),
-    cold = ["winter", "ice"].includes(id);
+    dry = !RENEWED_ISLANDS[id] && ["desert", "volcano"].includes(id),
+    cold = !RENEWED_ISLANDS[id] && ["winter", "ice"].includes(id);
   const target = Math.round(
     (preview ? 530 : 900) * (dry ? 0.58 : cold ? 0.75 : 1),
   );
@@ -170,12 +171,24 @@ export function createGroundCover(
     attempt++
   ) {
     const angle = random() * Math.PI * 2,
-      radius = Math.sqrt(random()) * (id === "aquapark" ? 18.2 : 10.8),
+      radius =
+        Math.sqrt(random()) *
+        (id === "aquapark" ? 18.2 : RENEWED_ISLANDS[id] ? 14 : 10.8),
       x = Math.cos(angle) * radius,
       z = Math.sin(angle) * radius;
     if (radius < 1.35 || !clear(x, z, 0.55)) continue;
     if (style.water) {
       const [px, pz, rx, rz] = style.water;
+      if (((x - px) / (rx + 0.2)) ** 2 + ((z - pz) / (rz + 0.2)) ** 2 < 1)
+        continue;
+    }
+    if (style.river) {
+      const [x0, z0, rx, rz] = style.river;
+      if (((x - x0) / (rx + 0.2)) ** 2 + ((z - z0) / (rz + 0.2)) ** 2 < 1)
+        continue;
+    }
+    if (style.upper) {
+      const [px, pz, rx, rz] = style.upper;
       if (((x - px) / (rx + 0.2)) ** 2 + ((z - pz) / (rz + 0.2)) ** 2 < 1)
         continue;
     }
@@ -241,7 +254,15 @@ export function createGroundCover(
     mesh.name = "Meadow " + kind;
     mesh.frustumCulled = false;
     list.forEach((point, index) => {
-      dummy.position.set(point.x, 0.145, point.z);
+      dummy.position.set(
+        point.x,
+        0.145 +
+          (RENEWED_ISLANDS[id] &&
+          ((point.x + 4) / 4.5) ** 2 + ((point.z + 8) / 3) ** 2 <= 1
+            ? 2.4
+            : 0),
+        point.z,
+      );
       dummy.rotation.set(0, point.turn, 0);
       dummy.scale.setScalar(point.scale);
       dummy.updateMatrix();

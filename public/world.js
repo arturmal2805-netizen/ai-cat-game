@@ -1,5 +1,10 @@
+import { RENEWED_ISLANDS } from "./renewal-data.js";
+import { islandHeight } from "./renewed-biomes.js";
 import { permanentObjects } from "./world-objects.js";
 import { swimFrame } from "./swimming.js";
+import { activeCats } from "./cat-roster.js";
+import { catAppearance } from "./cat-breeds.js";
+import { incomeFor } from "./business.js";
 import {
   HOME_OBJECTS,
   dropTarget,
@@ -45,12 +50,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
   const mobileRender =
     container.clientWidth < 700 || matchMedia("(pointer: coarse)").matches;
   const renderer = new THREE.WebGLRenderer({
-    antialias: !mobileRender,
+    antialias: true,
     alpha: true,
     powerPreference: "high-performance",
   });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, mobileRender ? 1.1 : 1.5));
-  renderer.shadowMap.enabled = !mobileRender;
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.0;
@@ -58,7 +63,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   container.prepend(renderer.domElement);
   renderer.domElement.setAttribute(
     "aria-label",
-    "Сказочный мир Чичи: 25 биомов, коты и аттракционы",
+    "Сказочный мир Чичи: 24 биома, коты и аттракционы",
   );
   const scene = new THREE.Scene();
   scene.fog = new THREE.FogExp2(0xc0bfd7, 0.0035);
@@ -196,6 +201,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     npcs = new Map();
   const mealVisits = new Map(),
     swimVisits = new Map();
+  const islandContentKeys = new Map();
   const socialGlow = new THREE.Group();
   scene.add(socialGlow);
   const heartShape = new THREE.Shape();
@@ -237,6 +243,17 @@ export function createWorld(container, initialGame, callbacks = {}) {
     disposed = false;
   const chichiCarrier = new THREE.Group();
   chichiCarrier.position.set(-6, 0.14, -3);
+  if (initialGame.catPosition) {
+    const p = initialGame.catPosition,
+      b = byBiome(p.biome);
+    if (b)
+      chichiCarrier.position.set(b.center[0] + p.x, 0.16, b.center[1] + p.z);
+  }
+  let heroGather = null,
+    gatherUntil = 0;
+  const incomeButtons = new Map();
+  let incomeSecond = -1;
+  const incomeCache = new Map();
   let cat = createCat(initialGame.cat.mood);
   chichiCarrier.add(cat);
   scene.add(chichiCarrier);
@@ -257,11 +274,14 @@ export function createWorld(container, initialGame, callbacks = {}) {
   const detailQueue = new Set();
   let detailTimer = null;
   function makeIsland(biome) {
+    const placements = game.placements.filter((p) => p.biome === biome.id),
+      scenery = game.scenery?.filter((r) => r.biome === biome.id);
     const g = createBiomeScene(biome, {
       lowOnly: biome.id !== "moon",
-      placements: game.placements.filter((p) => p.biome === biome.id),
-      scenery: game.scenery?.filter((r) => r.biome === biome.id),
+      placements,
+      scenery,
     });
+    islandContentKeys.set(biome.id, JSON.stringify([placements, scenery]));
     g.position.set(biome.center[0], 0, biome.center[1]);
     scene.add(g);
     islands.set(biome.id, g);
@@ -269,10 +289,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
     label.className = "island-label";
     label.textContent = biome.icon + " " + biome.name;
     label.setAttribute("aria-label", "Остров " + biome.name);
-    label.onclick = () =>
-      game.unlocked.includes(biome.id)
-        ? focus(biome.id)
-        : callbacks.onLockedBiome?.(biome.id);
+    label.onclick = () => {
+      if (game.unlocked.includes(biome.id)) {
+        focus(biome.id);
+        if (!buildMode) callbacks.onSelectBiome?.(biome.id);
+      } else callbacks.onLockedBiome?.(biome.id);
+    };
     container.append(label);
     labels.set(biome.id, label);
     return g;
@@ -300,7 +322,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         old.userData.lowOnly &&
         distance < 110 &&
         Math.hypot(b.center[0] - desiredLook.x, b.center[1] - desiredLook.z) <
-          (mobileRender ? 31 : 40)
+          40
       ) {
         const g = createBiomeScene(b, {
           placements: game.placements.filter((p) => p.biome === id),
@@ -373,6 +395,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
   }
   function sync(next) {
     game = next;
+    incomeSecond = -1;
+    for (const [id, button] of incomeButtons)
+      if (!game.placements.some((p) => p.id === id)) {
+        button.remove();
+        incomeButtons.delete(id);
+      }
     itemGroups.get("chichi-food")?.userData.updateFood?.(game);
     if (!operation && game.care?.resting) {
       const bed = itemGroups.get(game.care.resting.activityId);
@@ -406,6 +434,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
     }
     const key = JSON.stringify([
       game.unlocked,
+      game.adoption,
+      game.catDestinations,
       game.placements,
       game.scenery,
       game.placements.map((p) => isBuilt(p)),
@@ -416,11 +446,16 @@ export function createWorld(container, initialGame, callbacks = {}) {
     ]);
     if (key === sceneKey) return;
     sceneKey = key;
-    for (const [id, island] of islands)
-      island.userData.updatePlacements?.(
-        game.placements.filter((p) => p.biome === id),
-        game.scenery?.filter((r) => r.biome === id),
-      );
+    // Keep unchanged vegetation and scenery buffers when income, adoption or
+    // herd destinations change. Only an edited island needs new geometry.
+    for (const [id, island] of islands) {
+      const placements = game.placements.filter((p) => p.biome === id),
+        scenery = game.scenery?.filter((r) => r.biome === id),
+        contentKey = JSON.stringify([placements, scenery]);
+      if (islandContentKeys.get(id) === contentKey) continue;
+      island.userData.updatePlacements?.(placements, scenery);
+      islandContentKeys.set(id, contentKey);
+    }
     for (const o of permanentObjects(game.unlocked)) {
       if (itemGroups.has(o.id)) continue;
       let g;
@@ -449,7 +484,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
       const b = byBiome(o.biome);
       g.position.set(
         b.center[0] + o.x,
-        o.type === "swim-lagoon" ? o.surfaceY : 0.16,
+        o.type === "swim-lagoon"
+          ? o.surfaceY
+          : 0.16 + islandHeight(o.biome, o.x, o.z),
         b.center[1] + o.z,
       );
       g.userData.placement = {
@@ -496,7 +533,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         b = byBiome(placement.biome);
       g.position.set(
         b.center[0] + placement.x,
-        0.16,
+        0.16 + islandHeight(placement.biome, placement.x, placement.z),
         b.center[1] + placement.z,
       );
       g.rotation.y = (placement.rotation * Math.PI) / 2;
@@ -525,12 +562,17 @@ export function createWorld(container, initialGame, callbacks = {}) {
       label.classList.toggle("locked", !unlocked);
       label.textContent = (unlocked ? biome.icon : "🔒") + " " + biome.name;
     }
-    for (const profile of NEIGHBORS) {
-      if (!game.unlocked.includes(profile.biome) || npcs.has(profile.id))
+    for (const profile of activeCats(game)) {
+      if (npcs.has(profile.id)) {
+        npcs.get(profile.id).profile = profile;
         continue;
+      }
       const carrier = new THREE.Group(),
-        model = createCat("happy", { detail: "npc", color: profile.color });
-      model.scale.setScalar(0.63);
+        model = createCat("happy", {
+          detail: "npc",
+          ...catAppearance(profile),
+        });
+      model.scale.setScalar(0.63 * (profile.size || 1));
       carrier.add(model);
       if (profile.hat) {
         const hat = primitive(
@@ -551,7 +593,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         );
         hat.rotation.z = 0.15;
       }
-      const index = NEIGHBORS.indexOf(profile),
+      const index = NEIGHBORS.findIndex((n) => n.id === profile.id),
         b = byBiome(profile.biome);
       carrier.position.set(
         b.center[0] + Math.sin(index * 2.4) * 6,
@@ -561,6 +603,16 @@ export function createWorld(container, initialGame, callbacks = {}) {
       scene.add(carrier);
       npcs.set(profile.id, { carrier, model, profile, index });
     }
+    const activeIds = new Set(activeCats(game).map((c) => c.id));
+    for (const [id, n] of npcs)
+      if (!activeIds.has(id)) {
+        scene.remove(n.carrier);
+        disposeCat(n.model);
+        npcs.delete(id);
+        npcDummy.scale.setScalar(0);
+        npcDummy.updateMatrix();
+        npcMarkers.setMatrixAt(n.index, npcDummy.matrix);
+      }
   }
   for (const object of HOME_OBJECTS) {
     const g =
@@ -580,16 +632,22 @@ export function createWorld(container, initialGame, callbacks = {}) {
   function focus(id, overview = false) {
     const b = byBiome(id) || byBiome("moon");
     focused = b.id;
+    const enchanted = !!RENEWED_ISLANDS[b.id];
     sky.material.uniforms.top.value.set(
-      b.id === "aquapark" ? 0x010914 : 0x788ab9,
+      b.id === "aquapark" ? 0x010914 : enchanted ? 0x172749 : 0x788ab9,
     );
     sky.material.uniforms.bottom.value.set(
-      b.id === "aquapark" ? 0x153054 : 0xb2b8d5,
+      b.id === "aquapark" ? 0x153054 : enchanted ? 0x697da9 : 0xb2b8d5,
     );
-    royalStars.visible = b.id === "aquapark";
+    royalStars.visible = b.id === "aquapark" || enchanted;
+    royalStars.position.set(
+      enchanted ? b.center[0] - 88 : 0,
+      0,
+      enchanted ? b.center[1] - 36 : 0,
+    );
     scene.fog.color.set(b.id === "aquapark" ? 0x162f52 : 0xc0bfd7);
     desiredLook.set(b.center[0], 0, overview ? 0 : b.center[1]);
-    distance = b.radius ? (mobileRender ? 85 : 57) : 37;
+    distance = b.radius ? (mobileRender ? (b.radius > 18 ? 85 : 65) : 57) : 37;
     if (overview) {
       const view = camera.clone();
       for (let fit = 150; fit <= 600; fit += 5) {
@@ -625,6 +683,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     setCatMood(cat, mood, { immediate: reduced });
   }
   function perform(decision) {
+    heroGather = null;
     socialGlow.visible = false;
     sync(game);
     if (operation) {
@@ -682,6 +741,17 @@ export function createWorld(container, initialGame, callbacks = {}) {
       ["tunnel", "swim-lagoon"].includes(attraction?.userData.id)
         ? 0
         : 0.8;
+    let dismount = null;
+    if (attraction?.userData.rideFrame && decision.action === "ride") {
+      dismount = attraction.localToWorld(new THREE.Vector3(0, 0, 0.8));
+      const biome = byBiome(attraction.userData.placement.biome);
+      dismount.y =
+        islandHeight(
+          biome.id,
+          dismount.x - biome.center[0],
+          dismount.z - biome.center[1],
+        ) + 0.16;
+    }
     return new Promise((resolve) => {
       operation = {
         decision,
@@ -707,6 +777,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         socialOrigin: neighbor?.carrier.position.clone(),
         from: chichiCarrier.position.clone(),
         destination,
+        dismount,
         start: performance.now(),
         duration: reduced
           ? 50
@@ -756,7 +827,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     const b = byBiome(buildMode.biome);
     preview.position.set(
       b.center[0] + buildMode.x,
-      0.2,
+      0.2 + islandHeight(buildMode.biome, buildMode.x, buildMode.z),
       b.center[1] + buildMode.z,
     );
     preview.rotation.y = (buildMode.rotation * Math.PI) / 2;
@@ -1198,9 +1269,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
       return;
     }
     const b = BIOMES.find(
-      (b) => Math.hypot(point.x - b.center[0], point.z - b.center[1]) < 11.5,
+      (b) =>
+        Math.hypot(point.x - b.center[0], point.z - b.center[1]) <
+        (b.radius || 11.5),
     );
     if (b && !game.unlocked.includes(b.id)) callbacks.onLockedBiome?.(b.id);
+    else if (b) callbacks.onSelectBiome?.(b.id);
   });
   renderer.domElement.addEventListener("pointercancel", (e) => {
     activePointers.delete(e.pointerId);
@@ -1254,7 +1328,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     lastRender = 0;
   function loop(now) {
     if (disposed) return;
-    if (now - lastRender < (operation || pointerDown ? 33 : 50)) {
+    if (now - lastRender < (operation || pointerDown || heroGather ? 16 : 33)) {
       requestAnimationFrame(loop);
       return;
     }
@@ -1273,8 +1347,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       const island = islands.get(b.id),
         close =
           distance < 110 &&
-          Math.hypot(b.center[0] - look.x, b.center[1] - look.z) <
-            (mobileRender ? 31 : 39);
+          Math.hypot(b.center[0] - look.x, b.center[1] - look.z) < 39;
       island.userData.detail.visible = close && !island.userData.lowOnly;
       island.userData.lowDetail.visible = !close || !!island.userData.lowOnly;
       if (close) ensureDetail(b.id);
@@ -1295,6 +1368,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         operation?.decision.friendId === id || operation?.partyIds?.has(id);
       if (
         !busyWithChichi &&
+        now >= gatherUntil &&
         !draggingCat &&
         !mealVisits.has(id) &&
         !swimVisits.has(id) &&
@@ -1303,7 +1377,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         bowlPortions(game) > 0
       ) {
         const cafes = [...itemGroups.values()].filter(
-            (g) => g.userData.id === "cat-barista" && g.userData.built,
+            (g) => g.userData.barista && g.userData.built,
           ),
           bowl =
             cafes.sort(
@@ -1353,6 +1427,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }
       if (
         !busyWithChichi &&
+        now >= gatherUntil &&
         !draggingCat &&
         !mealVisits.has(id) &&
         !swimVisits.has(id) &&
@@ -1544,7 +1619,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         Math.hypot(
           n.carrier.position.x - look.x,
           n.carrier.position.z - look.z,
-        ) < (mobileRender ? 35 : 45);
+        ) < 45;
       n.carrier.visible = near;
       npcDummy.position.copy(n.carrier.position);
       npcDummy.position.y += 0.3;
@@ -1569,6 +1644,20 @@ export function createWorld(container, initialGame, callbacks = {}) {
     const localSwim = new THREE.Vector3();
     let walking = false,
       reaction = null;
+    if (heroGather && !operation && !draggingCat) {
+      const t = Math.min(1, (now - heroGather.start) / heroGather.duration);
+      chichiCarrier.position.lerpVectors(
+        heroGather.from,
+        heroGather.to,
+        t * t * (3 - 2 * t),
+      );
+      chichiCarrier.rotation.y = Math.atan2(
+        heroGather.to.x - heroGather.from.x,
+        heroGather.to.z - heroGather.from.z,
+      );
+      walking = t < 1;
+      if (t === 1) heroGather = null;
+    }
     if (operation) {
       const op = operation;
       if (op.stage === "travel") {
@@ -1836,8 +1925,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
             g.userData.playing = false;
             delete g.userData.heroPlayPos;
           }
-          if (action !== "meet" && action !== "swim" && !g?.userData.rideFrame)
-            chichiCarrier.position.copy(op.destination);
+          if (action !== "meet" && action !== "swim")
+            chichiCarrier.position.copy(op.dismount || op.destination);
           if (g) delete g.userData.rideElapsed;
           socialGlow.visible = false;
           operation = null;
@@ -1862,6 +1951,49 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }
     const width = container.clientWidth,
       height = container.clientHeight;
+    if (Math.floor(now / 1000) !== incomeSecond) {
+      incomeSecond = Math.floor(now / 1000);
+      incomeCache.clear();
+      for (const p of game.placements)
+        incomeCache.set(p.id, incomeFor(game, p.id));
+    }
+    for (const [id, button] of incomeButtons) {
+      const object = itemGroups.get(id),
+        amount = incomeCache.get(id) || 0;
+      button.hidden = !object || !amount || distance > 110;
+      if (button.hidden) continue;
+      const point = object.position
+        .clone()
+        .add(new THREE.Vector3(0, 3.6, 0))
+        .project(camera);
+      button.hidden =
+        point.z > 1 || Math.abs(point.x) > 1.1 || Math.abs(point.y) > 1.1;
+      button.textContent = "✦ " + amount;
+      button.setAttribute(
+        "aria-label",
+        "Собрать " +
+          amount +
+          " монет · " +
+          byItem(object.userData.placement.item).name,
+      );
+      button.style.transform = `translate(-50%,-50%) translate(${((point.x + 1) * width) / 2}px,${((1 - point.y) * height) / 2}px)`;
+    }
+    for (const [id, g] of itemGroups)
+      if (
+        g.userData.placement &&
+        (incomeCache.get(id) || 0) > 0 &&
+        !incomeButtons.has(id)
+      ) {
+        const button = document.createElement("button");
+        button.className = "world-income";
+        button.dataset.income = id;
+        button.onclick = (event) => {
+          event.stopPropagation();
+          callbacks.onCollectIncome?.(id);
+        };
+        container.append(button);
+        incomeButtons.set(id, button);
+      }
     for (const b of BIOMES) {
       const p = new THREE.Vector3(b.center[0], 0.3, b.center[1] - 9).project(
         camera,
@@ -1878,8 +2010,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     updateOcclusion(now, dt);
     // The opaque shop covers the map. Keep the simulation running, but avoid
     // competing GPU draws while its miniature scenes are being rendered.
-    if (!document.getElementById("shop-dialog")?.open)
-      renderer.render(scene, camera);
+    if (!document.querySelector("dialog[open]")) renderer.render(scene, camera);
     requestAnimationFrame(loop);
   }
   requestAnimationFrame(loop);
@@ -1890,6 +2021,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     preserveDrawingBuffer: true,
   });
   portraitRenderer.setSize(192, 192);
+  portraitRenderer.setPixelRatio(2);
   for (const mood of moodNames) {
     const portrait = new THREE.Scene();
     portrait.add(new THREE.HemisphereLight(0xfff4e2, 0xb29b83, 3));
@@ -1931,8 +2063,30 @@ export function createWorld(container, initialGame, callbacks = {}) {
       updatePreview();
     },
     getFocused: () => focused,
+    gather(biome) {
+      const b = byBiome(biome);
+      if (!b || operation) return false;
+      const to = new THREE.Vector3(b.center[0], 0.16, b.center[1]);
+      gatherUntil = performance.now() + 20000;
+      heroGather = {
+        from: chichiCarrier.position.clone(),
+        to,
+        start: performance.now(),
+        duration: Math.max(
+          1800,
+          Math.min(18000, chichiCarrier.position.distanceTo(to) * 180),
+        ),
+      };
+      for (const id of npcs.keys()) {
+        mealVisits.delete(id);
+        swimVisits.delete(id);
+      }
+      focus(biome);
+      return true;
+    },
     dispose() {
       disposed = true;
+      for (const button of incomeButtons.values()) button.remove();
       clearTimeout(detailTimer);
       for (const island of islands.values()) island.userData.dispose?.();
       disposeCat(cat);

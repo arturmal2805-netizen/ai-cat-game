@@ -1,3 +1,14 @@
+import { ADOPTION_CATS, BREEDS, catAppearance } from "./cat-breeds.js";
+import { activeCats, catAvailable } from "./cat-roster.js";
+import { adoptCat, adoptionCenters, gatherCats } from "./adoption.js";
+import {
+  incomeFor,
+  collectIncome,
+  revenueRate,
+  BUSINESS_CAP_HOURS,
+  businessXP,
+} from "./business.js";
+import { prepareCatPortraits, catPortraits } from "./cat-portraits.js";
 import {
   levelStatus,
   levelRequirement,
@@ -172,6 +183,8 @@ function commit(next, syncWorld = true) {
   renderGame();
   if ($("shop-dialog").open) renderShop();
   if ($("bowl-dialog").open) renderBowl();
+  if ($("adoption-dialog").open) renderAdoption();
+  if ($("business-dialog").open) renderBusiness();
 }
 $("care-open").onclick = () => open("care-dialog");
 $("level-open").onclick = () => open("level-dialog");
@@ -299,9 +312,11 @@ function renderBiomes() {
 function renderNeighbors() {
   $("neighbors").replaceChildren();
   $("friends-list").replaceChildren();
-  for (const n of NEIGHBORS) {
+  for (const n of NEIGHBORS.filter(
+    (n) => !n.adoption || catAvailable(game, n),
+  )) {
     const r = game.social.relationships[n.id],
-      unlocked = game.unlocked.includes(n.biome),
+      unlocked = catAvailable(game, n),
       stage = relationshipStage(r, n.id === game.social.bestFriendId),
       needs = game.care.residents[n.id];
     const row = document.createElement("div");
@@ -757,13 +772,17 @@ window.addEventListener("keydown", (e) => {
     world?.updateBuild(buildMode);
   }
 });
-function inspect(id) {
+function inspect(id, manage = false) {
   if (busy || buildMode) return;
   selectedItem = id;
   selectedScenery = false;
   const placement = game.placements.find((p) => p.id === id);
   if (!placement) return;
   const item = byItem(placement.item);
+  if (item.id === "adoption-center" && isBuilt(placement) && !manage) {
+    showAdoption(placement.id);
+    return;
+  }
   $("item-icon").textContent = item.icon;
   $("item-name").textContent = item.name;
   $("item-description").textContent = item.description;
@@ -773,8 +792,13 @@ function inspect(id) {
   $("item-store").disabled = !isBuilt(placement);
   $("item-store").hidden = false;
   $("item-move").textContent = "Переставить";
-  $("item-note").textContent =
-    "Чичи пользуется этим предметом, когда сама выберет его через ИИ.";
+  $("item-note").textContent = revenueRate(item.id)
+    ? "Приносит " +
+      revenueRate(item.id) +
+      " ✦ и " +
+      businessXP(item.id) +
+      " XP в час. Монетку можно собрать прямо над постройкой."
+    : "Чичи пользуется этим предметом, когда сама выберет его через ИИ.";
   open("item-dialog");
 }
 function inspectScenery(id) {
@@ -867,6 +891,8 @@ try {
     onSelectItem: inspect,
     onSelectScenery: inspectScenery,
     onSelectBowl: () => showBowl(),
+    onCollectIncome: collectBusiness,
+    onSelectBiome: showIsland,
     onResidentSwam: (id) => {
       try {
         commit(residentSwam(game, id));
@@ -901,7 +927,7 @@ try {
     onReaction: (text) => ($("bubble").textContent = text),
     onFocus: (id, overview) => {
       $("biome-name").textContent = overview
-        ? "Мир чудес · 24 острова"
+        ? "Мир чудес · " + BIOMES.length + " острова"
         : byBiome(id).name;
       renderBiomes();
     },
@@ -1420,9 +1446,14 @@ function renderFarm() {
         " ×" +
         qty,
     );
-  $("farm-stock-text").textContent = stock.length
-    ? stock.join(" · ")
-    : "Пока пусто. Соберите первый урожай.";
+  const receipt = game.farm.sales?.at(-1);
+  $("farm-stock-text").textContent =
+    (stock.length ? stock.join(" · ") : "Склад пуст. Соберите урожай.") +
+    (receipt
+      ? " · Последняя продажа: +" +
+        money(receipt.value) +
+        " ✦, начислено и сохранено"
+      : "");
   $("farm-level").textContent =
     "Фермерский уровень " +
     (1 + Math.floor(game.farm.harvests / 10)) +
@@ -1430,7 +1461,7 @@ function renderFarm() {
     game.farm.harvests +
     " урожаев";
   $("farm-sell").textContent = "Продать всё · " + stockValue(game) + " ✦";
-  $("farm-sell").disabled = stockValue(game) === 0;
+  $("farm-sell").disabled = busy || stockValue(game) === 0;
   $("farm-jobs").replaceChildren();
   for (const job of JOBS) {
     const unlocked = job.biomes.some((id) => game.unlocked.includes(id)),
@@ -1518,6 +1549,10 @@ $("farm-crop").onchange = (e) => {
 };
 $("farm-command").onclick = () => manualFarm(farmSelected);
 $("farm-sell").onclick = () => {
+  if (busy) {
+    toast("Дождитесь, пока Чичи закончит собирать урожай.");
+    return;
+  }
   try {
     const sale = sellHarvest(game);
     commit(sale.game);
@@ -1572,3 +1607,161 @@ try {
   $("status").textContent =
     "Не удалось подключиться к Cloudflare AI. Демо доступно отдельно.";
 }
+
+let adoptionCenterId = null,
+  selectedIsland = "moon";
+function showAdoption(id = null) {
+  adoptionCenterId = id || adoptionCenters(game)[0]?.id;
+  renderAdoption();
+  open("adoption-dialog");
+  prepareCatPortraits(ADOPTION_CATS.map(catAppearance), (id, src) => {
+    const image = document.querySelector(`[data-adopt-portrait="${id}"]`);
+    if (image) {
+      image.src = src;
+      image.hidden = false;
+    }
+  }).catch(() => {});
+}
+function renderAdoption() {
+  const centers = adoptionCenters(game);
+  if (!centers.some((c) => c.id === adoptionCenterId))
+    adoptionCenterId = centers[0]?.id;
+  $("adoption-note").textContent = centers.length
+    ? "Усыновление — навсегда. Котик появится у центра, начнёт знакомиться, играть и есть из общей миски."
+    : "Сначала купите Cat Adoption Center в магазине и дождитесь окончания стройки.";
+  $("adoption-build").hidden = !!centers.length;
+  $("adoption-manage").hidden = !centers.length;
+  $("adoption-centers").replaceChildren();
+  for (const p of centers) {
+    const option = document.createElement("option");
+    option.value = p.id;
+    option.textContent = "Центр · " + byBiome(p.biome).name;
+    $("adoption-centers").append(option);
+  }
+  $("adoption-centers").value = adoptionCenterId || "";
+  $("adoption-centers").hidden = centers.length < 2;
+  $("adoption-grid").replaceChildren();
+  for (const cat of ADOPTION_CATS) {
+    const owned = game.adoption.cats.some((c) => c.id === cat.id),
+      locked = levelRequirement(game, cat.requiredLevel);
+    const card = document.createElement("article");
+    card.className = "adopt-card";
+    const image = document.createElement("img");
+    image.dataset.adoptPortrait = cat.id;
+    image.alt = cat.name + " · " + BREEDS[cat.breed].name;
+    image.hidden = !catPortraits.has(cat.id);
+    if (!image.hidden) image.src = catPortraits.get(cat.id);
+    const title = document.createElement("h3"),
+      type = document.createElement("small"),
+      text = document.createElement("p"),
+      button = document.createElement("button");
+    title.textContent = cat.name;
+    type.textContent =
+      BREEDS[cat.breed].name + " · уровень " + cat.requiredLevel;
+    text.textContent = cat.personality;
+    button.className = "primary";
+    button.dataset.adopt = cat.id;
+    button.textContent = owned
+      ? "Уже дома ♥"
+      : locked
+        ? "Уровень " + cat.requiredLevel
+        : "Усыновить · " + money(cat.price) + " ✦";
+    button.disabled =
+      owned || !!locked || !adoptionCenterId || game.coins < cat.price;
+    button.onclick = () => {
+      try {
+        commit(adoptCat(game, cat.id, adoptionCenterId));
+        toast(cat.name + " теперь с нами ♥");
+      } catch (e) {
+        toast(e.message);
+      }
+    };
+    card.append(image, title, type, text, button);
+    $("adoption-grid").append(card);
+  }
+}
+$("adoption-open").onclick = () => showAdoption();
+$("adoption-build").onclick = () => showShop("social", "Adoption");
+$("adoption-centers").onchange = (e) => {
+  adoptionCenterId = e.target.value;
+};
+function showIsland(id) {
+  selectedIsland = id;
+  $("island-title").textContent = byBiome(id).name;
+  $("island-summary").textContent =
+    "Отправьте Чичи и всех доступных котов на этот остров. Они будут добираться и гулять здесь; знакомство и дружба развиваются отдельно.";
+  $("island-gather").disabled = busy || !!buildMode;
+  open("island-dialog");
+}
+$("island-open").onclick = () => showIsland(world?.getFocused() || "moon");
+$("island-gather").onclick = () => {
+  if (busy || buildMode) return;
+  try {
+    commit(gatherCats(game, selectedIsland));
+    world?.gather(selectedIsland);
+    $("island-dialog").close();
+    toast("Все котики отправляются в " + byBiome(selectedIsland).name + " 🐾");
+  } catch (e) {
+    toast(e.message);
+  }
+};
+function collectBusiness(id) {
+  try {
+    const result = collectIncome(game, id);
+    commit(result.game);
+    toast(
+      "Кошачий доход +" + money(result.amount) + " ✦ · +" + result.xp + " XP",
+    );
+  } catch (e) {
+    toast(e.message);
+  }
+}
+function renderBusiness() {
+  $("business-grid").replaceChildren();
+  const venues = game.placements.filter((p) => revenueRate(p.item) > 0);
+  $("business-note").textContent =
+    "Бизнес и готовые аттракционы приносят чистую прибыль даже в ваше отсутствие. Касса хранит до " +
+    BUSINESS_CAP_HOURS +
+    " часов дохода. Нажмите монетку над постройкой или соберите здесь.";
+  for (const p of venues) {
+    const item = byItem(p.item),
+      amount = incomeFor(game, p.id);
+    const row = document.createElement("article");
+    row.className = "business-row";
+    const title = document.createElement("h3"),
+      description = document.createElement("p"),
+      button = document.createElement("button");
+    title.textContent = item.icon + " " + item.name;
+    description.textContent = isBuilt(p)
+      ? money(revenueRate(p.item)) +
+        " ✦/ч · " +
+        businessXP(p.item) +
+        " XP/ч · " +
+        byBiome(p.biome).name
+      : "Строится · " + countdown(p.readyAt);
+    button.className = "primary";
+    button.dataset.collect = p.id;
+    button.textContent = amount
+      ? "Собрать " + money(amount) + " ✦"
+      : "Монетки копятся";
+    button.disabled = !amount;
+    button.onclick = () => collectBusiness(p.id);
+    row.append(title, description, button);
+    $("business-grid").append(row);
+  }
+  if (!venues.length)
+    $("business-grid").textContent =
+      "Постройте первую кофейню или аттракцион, и здесь появится ваша касса.";
+}
+$("business-open").onclick = () => {
+  renderBusiness();
+  open("business-dialog");
+};
+$("business-shop").onclick = () => showShop("business");
+setInterval(() => {
+  if ($("business-dialog").open) renderBusiness();
+}, 5000);
+
+$("adoption-manage").onclick = () => {
+  if (adoptionCenterId) inspect(adoptionCenterId, true);
+};

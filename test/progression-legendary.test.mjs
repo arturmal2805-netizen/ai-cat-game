@@ -1,3 +1,4 @@
+import { initialScenery } from "../public/scenery-data.js";
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
@@ -47,10 +48,10 @@ test("novice cannot buy late attractions or legendary land with money alone", ()
 test("XP is progressive and daily bounded; clock rollback and refresh cannot bypass the pace", () => {
   let g = addXP(newGame(now), 1000000, now);
   assert.equal(g.progression.xp, DAILY_XP_LIMIT);
-  assert.ok(levelForXP(g.progression.xp) < 5);
+  assert.ok(levelForXP(g.progression.xp) < 8);
   assert.equal(addXP(g, 1000, now).progression.xp, DAILY_XP_LIMIT);
   assert.equal(addXP(g, 1000, now - 86400000).progression.xp, DAILY_XP_LIMIT);
-  g = addXP(g, 1000, now + 86400000);
+  g = addXP(g, DAILY_XP_LIMIT, now + 86400000);
   assert.equal(g.progression.xp, DAILY_XP_LIMIT * 2);
   for (let i = 2; i <= 30; i++) assert.ok(xpForLevel(i) > xpForLevel(i - 1));
   const s = storage();
@@ -116,7 +117,7 @@ test("old purchased objects, inventory, deadlines, currency and unlocked land mi
   const xp = restored.progression.xp;
   saveGame(s, restored);
   assert.equal(loadGame(s, now).progression.xp, xp);
-  assert.equal(restored.scenery.length, 240);
+  assert.equal(restored.scenery.length, initialScenery(g.placements).length);
 });
 test("six new rides have distinct finite trajectories and a real catapult flight", () => {
   const ids = [

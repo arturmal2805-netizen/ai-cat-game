@@ -1,7 +1,7 @@
 import { byItem, NEIGHBORS, byBiome } from "./game-data.js";
 import { SOCIAL_INTENTS } from "./social-system.js";
 
-export const DECISION_PROTOCOL = "legendary-water-v3";
+export const DECISION_PROTOCOL = "living-cat-world-v4";
 
 // These free, permanent objects are rendered in the reserved home/picnic areas.
 // Their IDs are stable across saves, browser validation and Workers AI.
@@ -24,13 +24,15 @@ export const HOME_OBJECTS = [
   },
 ];
 export function activityLocation(action, type) {
-  return action === "swim" ? "pond" : action === "rest"
-    ? "home"
-    : action === "eat"
-      ? "picnic"
-      : type === "pond"
-        ? "pond"
-        : "garden";
+  return action === "swim"
+    ? "pond"
+    : action === "rest"
+      ? "home"
+      : action === "eat"
+        ? "picnic"
+        : type === "pond"
+          ? "pond"
+          : "garden";
 }
 export function resolveInteraction(world, value, { historical = false } = {}) {
   const action = value?.action;

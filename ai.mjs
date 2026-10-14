@@ -239,13 +239,26 @@ export function validateState(value) {
     mood,
   };
   if (value.world !== undefined) {
-    const world = value.world;
+    const rawWorld = value.world;
+    // Older open tabs can still describe purchases on the retired island.
+    // Keep their physical IDs usable until the frontend migrates the save.
+    const world = rawWorld && {
+      ...rawWorld,
+      biomes: Array.isArray(rawWorld.biomes)
+        ? rawWorld.biomes.map((id) => (id === "wizard" ? "moon" : id))
+        : rawWorld.biomes,
+      activities: Array.isArray(rawWorld.activities)
+        ? rawWorld.activities.map((a) =>
+            a?.biome === "wizard" ? { ...a, biome: "moon" } : a,
+          )
+        : rawWorld.activities,
+    };
     if (
       !world ||
       !Array.isArray(world.activities) ||
-      world.activities.length > 76 ||
+      world.activities.length > 100 ||
       !Array.isArray(world.friends) ||
-      world.friends.length > 32 ||
+      world.friends.length > NEIGHBORS.length ||
       !Array.isArray(world.biomes) ||
       world.biomes.length > 25
     )
@@ -329,6 +342,8 @@ export function validateState(value) {
         friends.some((n) => n.id === f.id)
       )
         throw new Error("Invalid friend");
+      if (f.biome !== undefined && !biomes.includes(f.biome))
+        throw new Error("Invalid friend location");
       const bounded = (v, max) =>
         Math.max(0, Math.min(max, Math.floor(Number(v) || 0)));
       const r = {
@@ -338,6 +353,7 @@ export function validateState(value) {
       };
       friends.push({
         id: profile.id,
+        biome: f.biome || profile.biome,
         closeness: r.points,
         meetings: r.meetings,
         plays: Math.min(r.plays, r.meetings),

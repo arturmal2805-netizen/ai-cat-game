@@ -1,4 +1,7 @@
+import { RENEWED_ISLANDS, ISLAND_RIDES } from "./renewal-data.js";
 import { BIOME_STYLES } from "./biome-styles.js";
+import { ADOPTION_CATS } from "./cat-breeds.js";
+import { BUSINESSES } from "./business-data.js";
 export const BIOMES = [
   {
     id: "moon",
@@ -598,6 +601,36 @@ export function biomeReservations(id) {
       { x: 9, z: -7, w: 10, d: 9 },
       { x: -10, z: -8, w: 9, d: 8 },
     );
+  if (RENEWED_ISLANDS[id]) {
+    const upper = RENEWED_ISLANDS[id].upper;
+    fixed.push({
+      x: upper[0],
+      z: upper[1],
+      w: upper[2] * 2 + 0.7,
+      d: upper[3] * 2 + 0.7,
+      rx: upper[2] + 0.12,
+      rz: upper[3] + 0.12,
+    });
+    for (const ride of ISLAND_RIDES.filter((r) => r.biome === id)) {
+      const item = byItem(ride.type);
+      fixed.push({
+        x: ride.x,
+        z: ride.z,
+        w: item.footprint[0],
+        d: item.footprint[1],
+      });
+    }
+  }
+  const river = BIOME_STYLES[id]?.river;
+  if (river)
+    fixed.push({
+      x: river[0],
+      z: river[1],
+      w: river[2] * 2,
+      d: river[3] * 2,
+      rx: river[2] + 0.12,
+      rz: river[3] + 0.12,
+    });
   const water = BIOME_STYLES[id]?.water;
   if (water)
     fixed.push({
@@ -605,6 +638,8 @@ export function biomeReservations(id) {
       z: water[1],
       w: water[2] * 2 + 0.4,
       d: water[3] * 2 + 0.4,
+      rx: water[2] + 0.12,
+      rz: water[3] + 0.12,
     });
   return fixed;
 }
@@ -1251,7 +1286,80 @@ CATALOG.push(
     ["swim", "explore"],
   ),
 );
+CATALOG.push(
+  item(
+    "adoption-center",
+    "Cat Adoption Center",
+    "social",
+    680,
+    "🐾",
+    "Постройте уютный дом знакомства: усыновляйте котиков разных пород, размеров и окрасов.",
+    [5, 5],
+    ["explore"],
+  ),
+);
+CATALOG.push(
+  ...BUSINESSES.map((b) => ({
+    ...b,
+    category: "business",
+    footprint: [5, 5],
+    actions:
+      b.id === "business-florist" ? ["explore", "party"] : ["eat", "party"],
+  })),
+);
+CATEGORIES.splice(
+  CATEGORIES.findIndex((c) => c.id === "lands"),
+  0,
+  { id: "business", name: "Кошачий бизнес", icon: "☕" },
+);
+CATALOG.push(
+  item(
+    "ride-butterfly",
+    "Бабочка цветущих снов",
+    "rides",
+    1200,
+    "🦋",
+    "Настоящие взмахи крыльев, седло и плавный полёт над островом.",
+    [4, 4],
+    ["ride"],
+  ),
+  item(
+    "ride-lotus",
+    "Парусный лотос",
+    "rides",
+    1500,
+    "🪷",
+    "Гигантский раскрывающийся цветок несёт Чичи над водой.",
+    [4, 4],
+    ["ride"],
+  ),
+  item(
+    "ride-dragonfly",
+    "Стрекоза кристальной лагуны",
+    "rides",
+    1100,
+    "✨",
+    "Четыре переливчатых крыла и длинный голубой хвост несут Чичи над цветами.",
+    [4, 4],
+    ["ride"],
+  ),
+  item(
+    "ride-dinosaur",
+    "Добрый динозавр",
+    "rides",
+    1800,
+    "🦕",
+    "Небольшой динозавр шагает с Чичи на спине и кивает друзьям.",
+    [4, 4],
+    ["ride"],
+  ),
+);
 const levelOverrides = {
+  "adoption-center": 3,
+  "ride-butterfly": 6,
+  "ride-lotus": 11,
+  "ride-dragonfly": 10,
+  "ride-dinosaur": 12,
   yarn: 1,
   mouse: 1,
   feather: 2,
@@ -1329,7 +1437,7 @@ for (const biome of BIOMES) {
       Math.round((biome.price * (1 + biome.requiredLevel * 0.7)) / 10) * 10;
 }
 for (const product of CATALOG) {
-  product.requiredLevel =
+  product.requiredLevel ||=
     levelOverrides[product.id] ||
     (product.id.includes("mystic")
       ? 19
@@ -1343,6 +1451,8 @@ for (const product of CATALOG) {
               ? 12
               : 8);
   if (
+    product.category !== "business" &&
+    product.id !== "adoption-center" &&
     ![
       "coaster-rainbow-launch",
       "slide-royal-cascade",
@@ -1361,6 +1471,7 @@ for (const product of CATALOG) {
       Math.round((product.price * (1 + product.requiredLevel * 0.28)) / 5) * 5;
 }
 const buildOverrides = {
+  "adoption-center": 60,
   "coaster-rainbow-launch": 720,
   "slide-royal-cascade": 960,
   "slide-vortex-bowl": 480,
@@ -1395,7 +1506,7 @@ const buildOverrides = {
   orchard: 120,
 };
 for (const product of CATALOG) {
-  product.buildMinutes =
+  product.buildMinutes ||=
     buildOverrides[product.id] ||
     (["rides", "transport"].includes(product.category)
       ? 120
@@ -1674,6 +1785,7 @@ export const buildTimeLabel = (minutes) =>
       ? Math.round((minutes / 60) * 10) / 10 + " ч"
       : minutes + " мин";
 export const biomeFeature = (b) =>
+  RENEWED_ISLANDS[b]?.feature ||
   CROPS.find((c) => c.biome === b)?.name ||
   JOBS.find((j) => j.biomes.includes(b))?.name ||
   "Новые друзья и приключения";
@@ -1703,3 +1815,59 @@ NEIGHBORS.push(
     personality: "Плавает в лагуне и обожает разноцветных рыбок",
   },
 );
+const residentBreeds = [
+  "british",
+  "ragdoll",
+  "blue",
+  "tabby",
+  "munchkin",
+  "tuxedo",
+  "persian",
+  "blue",
+  "tabby",
+  "calico",
+  "tabby",
+  "cheshire",
+];
+for (const [index, profile] of NEIGHBORS.entries()) {
+  profile.breed = residentBreeds[index % residentBreeds.length];
+  profile.eyes = [0xb4ce73, 0x8dbfda, 0xe0bc6b, 0x90c49d][index % 4];
+  if (profile.id === "moti") profile.build = "plush";
+  if (profile.id === "bagel" || profile.id === "boba") profile.build = "giant";
+}
+NEIGHBORS.push(...ADOPTION_CATS);
+
+// Preserve the four stable save IDs while replacing their art and activities.
+for (const biome of BIOMES)
+  if (RENEWED_ISLANDS[biome.id]) {
+    const next = RENEWED_ISLANDS[biome.id];
+    Object.assign(biome, {
+      name: next.name,
+      subtitle: next.subtitle,
+      icon: next.icon,
+      radius: 14.8,
+      ground: next.ground,
+      foliage: next.leaf,
+      accent: next.flower,
+    });
+  }
+BIOMES.splice(
+  BIOMES.findIndex((b) => b.id === "wizard"),
+  1,
+);
+for (const cat of NEIGHBORS) if (cat.biome === "wizard") cat.biome = "moon";
+for (const crop of CROPS) if (crop.biome === "wizard") crop.biome = "moon";
+for (const job of JOBS)
+  job.biomes = job.biomes.map((id) => (id === "wizard" ? "moon" : id));
+
+const renewalCrops = {
+  autumn: ["Янтарные яблочки", "🍎"],
+  ice: ["Кристальные ягоды", "🫐"],
+  galaxy: ["Жемчужный виноград", "🍇"],
+  volcano: ["Тропический плод", "🥭"],
+};
+for (const crop of CROPS)
+  if (renewalCrops[crop.biome]) {
+    crop.name = renewalCrops[crop.biome][0];
+    crop.icon = renewalCrops[crop.biome][1];
+  }

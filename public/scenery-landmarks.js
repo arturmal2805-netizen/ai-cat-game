@@ -12,13 +12,54 @@ import {
   crescentGate,
 } from "./fantasy-scenery.js";
 import { coralCluster } from "./reef.js";
+import { creatureRide } from "./creature-rides.js";
 export function buildLandmark(parent, style, id) {
   const h = new THREE.Group();
   h.position.set(0, 0, 0);
   parent.add(h);
   h.name = "Landmark-" + id;
   const hero = style.hero;
-  if (hero === "moon" || hero === "wizard") {
+  if (hero === "bloom") {
+    const flower = creatureRide("ride-lotus", { ambient: true });
+    flower.scale.setScalar(1.25);
+    h.add(flower);
+    for (let i = 0; i < 5; i++)
+      shape(
+        h,
+        "crystal",
+        [0xb8e5ec, 0xd6b5ec, 0xf1bcdc][i % 3],
+        Math.sin(i * 2.4) * 1.6,
+        0.6,
+        Math.cos(i * 2.4) * 1.6,
+        0.32,
+        1.2,
+        0.32,
+        true,
+      );
+  } else if (hero === "jelly") {
+    crescentGate(h, 0, 0, 0, 0xffe0a1, 1.1);
+    teaPavilion(h, 0, 0, 0, style.roof, 0.65);
+  } else if (hero === "butterfly") {
+    fluffyTree(h, 0, 0, style.leaf, "sakura", 0.9);
+    for (let i = 0; i < 8; i++)
+      shape(
+        h,
+        "sphere",
+        0xffd277,
+        Math.sin(i * 2.4),
+        1.5 + (i % 3) * 0.4,
+        Math.cos(i * 2.4),
+        0.13,
+        0.18,
+        0.13,
+        true,
+      );
+  } else if (hero === "dinosaur") {
+    const friend = creatureRide("ride-dinosaur", { ambient: true });
+    friend.scale.setScalar(0.95);
+    h.add(friend);
+    flowerCluster(h, -1.5, 1, style.flower, 1.2);
+  } else if (hero === "moon" || hero === "wizard") {
     crescentGate(h, 0, 0, 0, 0xffdc90, 0.88);
   } else if (["tea", "bamboo"].includes(hero)) {
     teaPavilion(h, 0, 0, 0, style.roof, 1.15);

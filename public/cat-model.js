@@ -1,4 +1,11 @@
 import * as THREE from "three";
+import { catAppearance, CAT_BUILDS } from "./cat-breeds.js";
+import {
+  sculptedCoat,
+  taperedLeg,
+  paintCoat,
+  velvetCoat,
+} from "./cat-sculpt.js";
 import {
   mergeGeometries,
   mergeVertices,
@@ -35,6 +42,51 @@ const poses = {
   },
 };
 const clamp = THREE.MathUtils.clamp;
+function batchRigParts(parent, animated = new Set()) {
+  parent.updateMatrixWorld(true);
+  const buckets = new Map();
+  for (const part of parent.children)
+    if (
+      part.isMesh &&
+      part.visible &&
+      !animated.has(part) &&
+      !part.name.startsWith("ClosedEye")
+    ) {
+      const list = buckets.get(part.material) || [];
+      list.push(part);
+      buckets.set(part.material, list);
+    }
+  for (const parts of buckets.values()) {
+    if (parts.length < 2) continue;
+    const geometries = parts.map((part) => {
+      part.updateMatrix();
+      const g = part.geometry.index
+        ? part.geometry.toNonIndexed()
+        : part.geometry.clone();
+      g.applyMatrix4(part.matrix);
+      g.deleteAttribute("uv");
+      if (parts[0].material.vertexColors && !g.attributes.color)
+        g.setAttribute(
+          "color",
+          new THREE.Float32BufferAttribute(
+            new Float32Array(g.attributes.position.count * 3).fill(1),
+            3,
+          ),
+        );
+      if (!parts[0].material.vertexColors) g.deleteAttribute("color");
+      return g;
+    });
+    const combined = mergeGeometries(geometries);
+    geometries.forEach((g) => g.dispose());
+    if (!combined) continue;
+    const main = parts[0];
+    main.geometry = combined;
+    main.position.set(0, 0, 0);
+    main.rotation.set(0, 0, 0);
+    main.scale.setScalar(1);
+    for (const other of parts.slice(1)) other.visible = false;
+  }
+}
 // Vertex-coloured velvet exports to GLB and needs no fur shaders or downloads.
 function coatGeometry(detail) {
   const g = new THREE.SphereGeometry(1, detail ? 40 : 16, detail ? 28 : 12);
@@ -63,7 +115,7 @@ function earShape(inner = false) {
   s.quadraticCurveTo(0, -0.075, -w, 0);
   return s;
 }
-function irisGeometry(detail) {
+function irisGeometry(detail, eyeColor = 0xaacb75) {
   const g = new THREE.CircleGeometry(1, detail ? 64 : 20),
     p = g.attributes.position,
     colours = [],
@@ -71,9 +123,12 @@ function irisGeometry(detail) {
   for (let i = 0; i < p.count; i++) {
     const r = Math.hypot(p.getX(i), p.getY(i)),
       a = Math.atan2(p.getY(i), p.getX(i));
-    c.setHex(r < 0.2 ? 0xd8ad4e : 0x899347).multiplyScalar(
-      0.92 + Math.sin(a * 37) * 0.11,
-    );
+    c.setHex(eyeColor)
+      .lerp(
+        new THREE.Color(r < 0.2 ? 0xddc071 : 0x52633c),
+        r < 0.2 ? 0.2 : 0.12,
+      )
+      .multiplyScalar(0.92 + Math.sin(a * 37) * 0.11);
     colours.push(c.r, c.g, c.b);
   }
   g.setAttribute("color", new THREE.Float32BufferAttribute(colours, 3));
@@ -83,14 +138,33 @@ export function createCat(mood = "happy", options = {}) {
   if (!moodNames.includes(mood)) throw new RangeError("Unknown Chichi mood");
   const detailed = options?.detail !== "npc",
     cat = new THREE.Group();
-  cat.name = "Chichi";
+  const appearance = catAppearance({
+      breed: options.breed || (options.color == null ? "blue" : "tabby"),
+      ...options,
+    }),
+    build = {
+      ...(CAT_BUILDS[appearance.build] || CAT_BUILDS.balanced),
+      ...(options.color == null
+        ? { width: 0.99, length: 1.12, face: 0.97 }
+        : {}),
+    };
+  cat.name = options.name || "Chichi";
   const furColour = options?.color ?? CHICHI_FUR;
   const materials = {
-    fur: new THREE.MeshStandardMaterial({
-      color: furColour,
-      roughness: 0.94,
-      vertexColors: detailed,
-    }),
+    fur: velvetCoat(
+      new THREE.MeshPhysicalMaterial({
+        color: furColour,
+        roughness: appearance.fur === "bare" ? 0.72 : 0.94,
+        vertexColors: true,
+        sheen: appearance.fur === "bare" ? 0 : 0.9,
+        sheenColor: new THREE.Color(furColour).lerp(
+          new THREE.Color(0xe7eced),
+          0.3,
+        ),
+        sheenRoughness: 0.72,
+      }),
+      appearance.fur === "bare",
+    ),
     muzzle: new THREE.MeshStandardMaterial({
       color: new THREE.Color(furColour).lerp(
         new THREE.Color(options?.color == null ? 0xb8bec4 : 0xb7ada1),
@@ -114,13 +188,14 @@ export function createCat(mood = "happy", options = {}) {
     }),
     pupil: new THREE.MeshStandardMaterial({ color: 0x111916, roughness: 0.18 }),
     shine: new THREE.MeshBasicMaterial({ color: 0xfffaf1, toneMapped: false }),
+    white: new THREE.MeshStandardMaterial({ color: 0xf2ede2, roughness: 0.95 }),
     tongue: new THREE.MeshStandardMaterial({
       color: 0xd8a4a6,
       roughness: 0.85,
     }),
   };
   // Shared within one cat only: disposing portraits cannot invalidate the hero.
-  const sphere = coatGeometry(detailed),
+  const sphere = paintCoat(coatGeometry(detailed), appearance),
     smooth = new THREE.SphereGeometry(1, detailed ? 28 : 12, detailed ? 18 : 8);
   function ball(parent, name, material, pos, scale) {
     const mesh = new THREE.Mesh(
@@ -158,36 +233,42 @@ export function createCat(mood = "happy", options = {}) {
     parent.add(mesh);
     return mesh;
   }
-  const body = ball(cat, "Body", "fur", [0, 0.83, -0.06], [0.47, 0.51, 0.72]);
-  const chest = ball(cat, "Chest", "fur", [0, 0.94, 0.43], [0.4, 0.45, 0.37]);
-  for (const side of [-1, 1])
-    ball(
-      cat,
-      `Haunch${side}`,
-      "fur",
-      [side * 0.3, 0.58, -0.48],
-      [0.28, 0.36, 0.34],
-    );
+  const body = new THREE.Mesh(
+    sculptedCoat("body", detailed, appearance),
+    materials.fur,
+  );
+  body.name = "Body";
+  body.position.set(0, 0.83, -0.06);
+  body.scale.set(0.47 * build.width, 0.51, 0.72 * build.length);
+  body.castShadow = true;
+  cat.add(body);
+  const chest = ball(
+    cat,
+    "Chest",
+    "fur",
+    [0, 0.94, 0.43],
+    [0.3 * build.width, 0.4, 0.24],
+  );
+  chest.visible = appearance.pattern === "tuxedo";
+  if (chest.visible) {
+    chest.material = materials.white;
+    chest.scale.set(0.22, 0.28, 0.1);
+  }
   const head = new THREE.Group();
   head.name = "Head";
-  head.position.set(0, 1.43, 0.49);
+  head.position.set(0, 1.32, 0.53);
   cat.add(head);
-  ball(head, "Face", "fur", [0, 0, 0], [0.55, 0.46, 0.47]);
+  const face = new THREE.Mesh(
+    sculptedCoat("face", detailed, appearance),
+    materials.fur,
+  );
+  face.name = "Face";
+  face.scale.set(0.41, 0.35, 0.38);
+  face.castShadow = true;
+  head.add(face);
+  head.scale.setScalar(build.face);
+  // Cheeks are part of Face. The short paired whisker pads keep a feline muzzle.
   for (const side of [-1, 1]) {
-    ball(
-      head,
-      `SoftCheek${side}`,
-      "fur",
-      [side * 0.32, -0.18, 0.1],
-      [0.25, 0.25, 0.33],
-    );
-    ball(
-      head,
-      `Muzzle${side}`,
-      "muzzle",
-      [side * 0.135, -0.205, 0.42],
-      [0.2, 0.125, 0.16],
-    );
   }
   const ears = [],
     eyes = [],
@@ -196,9 +277,10 @@ export function createCat(mood = "happy", options = {}) {
   for (const side of [-1, 1]) {
     const ear = new THREE.Group();
     ear.name = side < 0 ? "LeftEar" : "RightEar";
-    ear.position.set(side * 0.36, 0.32, -0.06);
+    ear.position.set(side * 0.27, 0.24, -0.06);
     head.add(ear);
     ears.push(ear);
+    ear.scale.set(appearance.ears, appearance.ears, 1);
     const outer = new THREE.Mesh(
       new THREE.ExtrudeGeometry(earShape(), {
         depth: 0.09,
@@ -231,6 +313,19 @@ export function createCat(mood = "happy", options = {}) {
       materials.pink,
     );
     inner.position.set(0, 0.065, 0.128);
+    if (appearance.fur === "long") {
+      stroke(
+        ear,
+        "EarTuft" + side,
+        [
+          [0, 0.45, 0.025],
+          [side * 0.016, 0.61, 0.02],
+          [side * 0.035, 0.7, -0.025],
+        ],
+        "fur",
+        0.018,
+      );
+    }
     ear.add(inner);
     if (detailed)
       for (let strand = 0; strand < 3; strand++) {
@@ -249,29 +344,40 @@ export function createCat(mood = "happy", options = {}) {
       }
     const eye = new THREE.Group();
     eye.name = `Eye${side}`;
-    eye.position.set(side * 0.248, 0.025, 0.413);
+    eye.position.set(side * 0.175, 0.027, 0.29);
     eye.rotation.y = side * 0.16;
     head.add(eye);
     eyes.push(eye);
-    ball(eye, `EyeRim${side}`, "nose", [0, 0, 0.055], [0.153, 0.18, 0.021]);
-    const iris = new THREE.Mesh(irisGeometry(detailed), materials.iris);
+    ball(eye, `EyeRim${side}`, "nose", [0, 0, 0.055], [0.103, 0.121, 0.018]);
+    const iris = new THREE.Mesh(
+      irisGeometry(
+        detailed,
+        side > 0
+          ? appearance.otherEye || appearance.eyeColor
+          : appearance.eyeColor,
+      ),
+      materials.iris,
+    );
     iris.name = `Iris${side}`;
     iris.position.z = 0.074;
-    iris.scale.set(0.143, 0.165, 1);
+    iris.scale.set(0.096, 0.112, 1);
     eye.add(iris);
     if (detailed) {
       const fibres = [];
       for (let ray = 0; ray < 48; ray++) {
         const a = (ray * Math.PI * 2) / 48,
-          g = new THREE.CylinderGeometry(0.0017, 0.001, 0.065, 3);
+          g = new THREE.CylinderGeometry(0.0012, 0.0008, 0.045, 3);
         g.rotateZ(-a);
         g.scale(0.87, 1, 1);
-        g.translate(Math.sin(a) * 0.101, Math.cos(a) * 0.116, 0.0755);
+        g.translate(Math.sin(a) * 0.068, Math.cos(a) * 0.079, 0.0755);
         fibres.push(g);
       }
       const fibresMesh = new THREE.Mesh(
         mergeGeometries(fibres),
-        new THREE.MeshStandardMaterial({ color: 0xbfa457, roughness: 0.38 }),
+        new THREE.MeshStandardMaterial({
+          color: appearance.eyeColor,
+          roughness: 0.38,
+        }),
       );
       fibresMesh.name = `IrisFibres${side}`;
       eye.add(fibresMesh);
@@ -282,46 +388,46 @@ export function createCat(mood = "happy", options = {}) {
       `Pupil${side}`,
       "pupil",
       [0, 0, 0.081],
-      [0.061, 0.115, 0.019],
+      [0.04, 0.078, 0.019],
     );
     pupils.push(pupil);
     ball(
       eye,
       `EyeShine${side}`,
       "shine",
-      [-0.035, 0.065, 0.103],
-      [0.028, 0.035, 0.007],
+      [-0.025, 0.044, 0.103],
+      [0.017, 0.023, 0.007],
     );
     ball(
       eye,
       `EyeShineSmall${side}`,
       "shine",
-      [0.039, -0.055, 0.099],
-      [0.01, 0.012, 0.004],
+      [0.024, -0.038, 0.099],
+      [0.007, 0.009, 0.004],
     );
     closedEyes.push(
       stroke(
         head,
         `ClosedEye${side}`,
         [
-          [side * 0.248 - 0.14, 0.019, 0.489],
-          [side * 0.248, -0.017, 0.505],
-          [side * 0.248 + 0.14, 0.019, 0.489],
+          [side * 0.175 - 0.095, 0.019, 0.371],
+          [side * 0.175, -0.01, 0.389],
+          [side * 0.175 + 0.095, 0.019, 0.371],
         ],
         "nose",
         0.009,
       ),
     );
-    if (detailed) {
-      for (let line = 0; line < 4; line++) {
+    {
+      for (let line = 0; line < (detailed ? 4 : 2); line++) {
         const y = -0.2 + line * 0.035;
         stroke(
           head,
           `Whisker${side}_${line}`,
           [
-            [side * 0.17, y, 0.559],
-            [side * 0.43, y + (line - 1.5) * 0.036, 0.595],
-            [side * (0.76 + line * 0.018), y + (line - 1.5) * 0.083, 0.51],
+            [side * 0.17, y, 0.43],
+            [side * 0.43, y + (line - 1.5) * 0.036, 0.45],
+            [side * (0.76 + line * 0.018), y + (line - 1.5) * 0.083, 0.405],
           ],
           "whisker",
           0.0032,
@@ -358,15 +464,16 @@ export function createCat(mood = "happy", options = {}) {
     materials.nose,
   );
   nose.name = "Nose";
-  nose.position.set(0, -0.135, 0.564);
+  nose.position.set(0, -0.106, 0.405);
+  nose.scale.setScalar(0.78);
   head.add(nose);
   stroke(
     head,
     "Philtrum",
     [
-      [0, -0.191, 0.58],
-      [0, -0.224, 0.578],
-      [0, -0.245, 0.563],
+      [0, -0.15, 0.416],
+      [0, -0.19, 0.407],
+      [0, -0.2, 0.4],
     ],
     "nose",
     0.005,
@@ -376,23 +483,23 @@ export function createCat(mood = "happy", options = {}) {
       head,
       `Smile${side}`,
       [
-        [0, -0.242, 0.565],
-        [side * 0.043, -0.26, 0.556],
-        [side * 0.11, -0.248, 0.54],
+        [0, -0.2, 0.4],
+        [side * 0.043, -0.22, 0.397],
+        [side * 0.09, -0.2, 0.391],
       ],
       "nose",
       0.006,
     );
   const jaw = new THREE.Group();
   jaw.name = "Jaw";
-  jaw.position.set(0, -0.255, 0.425);
+  jaw.position.set(0, -0.215, 0.31);
   head.add(jaw);
   ball(jaw, "Chin", "muzzle", [0, -0.038, 0.01], [0.17, 0.075, 0.113]);
   const mouth = ball(
     head,
     "Mouth",
     "dark",
-    [0, -0.278, 0.53],
+    [0, -0.218, 0.385],
     [0.09, 0.001, 0.015],
   );
   const tongue = ball(
@@ -410,8 +517,22 @@ export function createCat(mood = "happy", options = {}) {
       leg.position.set(side * 0.295, 0.51, front * 0.455);
       cat.add(leg);
       legs.push(leg);
-      ball(leg, "Shin", "fur", [0, -0.12, 0], [0.153, 0.28, 0.165]);
-      ball(leg, "Paw", "fur", [0, -0.396, 0.075], [0.186, 0.105, 0.217]);
+      leg.position.x *= build.width;
+      leg.scale.y = build.height;
+      const shin = new THREE.Mesh(
+        taperedLeg(detailed, appearance),
+        materials.fur,
+      );
+      shin.name = "Shin";
+      shin.castShadow = true;
+      leg.add(shin);
+      ball(
+        leg,
+        "Paw",
+        ["tuxedo", "ragdoll"].includes(appearance.breed) ? "white" : "fur",
+        [0, -0.396, 0.075],
+        [0.147, 0.095, 0.178],
+      );
       if (detailed)
         for (const toe of [-1, 1])
           stroke(
@@ -465,11 +586,22 @@ export function createCat(mood = "happy", options = {}) {
   );
   const tailMesh = new THREE.Mesh(g, materials.fur);
   tailMesh.castShadow = true;
+  if (appearance.fur === "long") tailMesh.scale.set(1.3, 1.12, 1.12);
   tailTip.add(tailMesh);
-  if (detailed)
+  if (appearance.fur !== "bare")
     for (const [parent, name, radii, amount] of [
-      [head, "CheekFluff", [0.55, 0.46, 0.47], 1200],
-      [body, "CoatFluff", [1, 1, 1], 1400],
+      [
+        head,
+        detailed ? "CheekFluff" : "CheekFibres",
+        [0.42, 0.34, 0.38],
+        detailed ? 1200 : 160,
+      ],
+      [
+        body,
+        detailed ? "CoatFluff" : "CoatFibres",
+        [1, 1, 1],
+        detailed ? 1400 : 220,
+      ],
     ]) {
       const tufts = [];
       for (let i = 0; i < amount; i++) {
@@ -478,7 +610,13 @@ export function createCat(mood = "happy", options = {}) {
           r = Math.sqrt(1 - y * y),
           direction = new THREE.Vector3(Math.cos(a) * r, y, Math.sin(a) * r);
         if (parent === head && direction.z > 0.35) continue;
-        const length = 0.026 + (Math.sin(i * 71) + 1) * 0.009,
+        const length =
+            (0.026 + (Math.sin(i * 71) + 1) * 0.009) *
+            (appearance.fur === "long"
+              ? 2.8
+              : appearance.fur === "plush"
+                ? 1.3
+                : 1),
           t = new THREE.ConeGeometry(0.0022, length, 3);
         const groom = new THREE.Vector3(0, -1, -0.15)
           .addScaledVector(direction, direction.y + direction.z * 0.15)
@@ -514,6 +652,8 @@ export function createCat(mood = "happy", options = {}) {
   cat.userData = {
     mood,
     detailed,
+    appearance,
+    build,
     head,
     tail,
     tailTip,
@@ -530,6 +670,12 @@ export function createCat(mood = "happy", options = {}) {
     pose: { ...poses[mood] },
     lastTime: null,
   };
+  // Keep all rig nodes and every vertex. Only their static draw calls merge;
+  // eyes, jaw, head, ears and each leg remain independently animated.
+  batchRigParts(head, new Set([mouth, ...closedEyes]));
+  for (const eye of eyes) batchRigParts(eye, new Set(pupils));
+  for (const ear of ears) batchRigParts(ear);
+  for (const leg of legs) batchRigParts(leg);
   applyPose(cat, 0, false, true);
   return cat;
 }
@@ -551,18 +697,21 @@ function applyPose(cat, time, walking, reduced) {
   const d = cat.userData,
     p = d.pose,
     moving = !reduced,
+    shape = d.build,
+    gaitTime = time * shape.gait,
     speed = d.mood === "crazy hungry" ? 4.8 : 1.8;
   cat.scale.y = cat.scale.x * p.height;
-  cat.position.y = moving && walking ? Math.sin(time * 10) * 0.027 : 0;
+  cat.position.y =
+    moving && walking ? Math.sin(gaitTime * 10) * shape.bounce : 0;
   const rest = clamp((1 - p.height) / 0.3, 0, 1) * (walking ? 0.15 : 1);
   const breath = moving ? Math.sin(time * (d.mood === "sleep" ? 1.5 : 2.1)) : 0;
   d.body.position.y = 0.83 - rest * 0.17;
   d.chest.position.y = 0.94 - rest * 0.22;
-  d.head.position.y = 1.43 - rest * 0.34;
+  d.head.position.y = 1.32 + (shape.height - 1) * 0.22 - rest * 0.34;
   d.body.scale.set(
-    0.47 + breath * 0.006,
+    0.47 * shape.width + breath * 0.006,
     0.51 - rest * 0.08 + breath * 0.008,
-    0.72,
+    0.72 * shape.length,
   );
   d.chest.scale.y = 0.45 + breath * 0.006;
   d.head.rotation.set(
@@ -570,13 +719,17 @@ function applyPose(cat, time, walking, reduced) {
     moving ? Math.sin(time * 0.67) * 0.045 : 0,
     p.headZ + (moving ? Math.sin(time * speed * 0.6) * 0.024 : 0),
   );
+  if (walking && moving && shape.width > 1.3) {
+    d.body.rotation.z = Math.sin(gaitTime * 10) * 0.035;
+    d.head.rotation.z += Math.sin(gaitTime * 10 + 0.5) * 0.025;
+  } else d.body.rotation.z = 0;
   d.tail.rotation.set(
     -rest * 0.9,
     moving ? Math.sin(time * speed * 0.55) * 0.15 : 0,
     p.tail + (moving ? Math.sin(time * speed) * 0.13 : 0),
   );
   d.tailTip.rotation.x = moving ? Math.sin(time * speed - 0.5) * 0.055 : 0;
-  const blink = moving && d.detailed ? blinkOpenness(time) : 1;
+  const blink = moving ? blinkOpenness(time) : 1;
   for (let i = 0; i < 2; i++) {
     const side = i === 0 ? -1 : 1,
       openness = p.eyes * blink;
@@ -587,7 +740,7 @@ function applyPose(cat, time, walking, reduced) {
     );
     d.closedEyes[i].scale.setScalar(openness <= 0.075 ? 1 : 0.001);
     d.pupils[i].position.x = moving ? Math.sin(time * 0.67) * 0.009 : 0;
-    d.pupils[i].scale.x = 0.061 + clamp((p.eyes - 1) / 0.12, 0, 1) * 0.018;
+    d.pupils[i].scale.x = 0.04 + clamp((p.eyes - 1) / 0.12, 0, 1) * 0.018;
     const twitch = moving
       ? Math.pow(Math.max(0, Math.sin(time * 0.8 + i * 1.7)), 18) * 0.055
       : 0;
@@ -598,20 +751,20 @@ function applyPose(cat, time, walking, reduced) {
     );
   }
   d.jaw.rotation.x = p.jaw + (moving ? Math.sin(time * 3.1) * p.jaw * 0.15 : 0);
-  d.jaw.position.y = -0.255 - p.jaw * 0.35;
+  d.jaw.position.y = -0.215 - p.jaw * 0.35;
   d.mouth.scale.y = 0.001 + p.jaw * 0.29;
   d.tongue.visible = p.jaw > 0.05;
   for (const leg of d.legs) {
     const phase = leg.position.x * leg.position.z > 0 ? Math.PI : 0;
     leg.rotation.x =
       moving && walking
-        ? Math.sin(time * 10 + phase) * 0.32
+        ? Math.sin(gaitTime * 10 + phase) * shape.stride
         : rest * (leg.position.z > 0 ? -0.95 : 1);
     leg.position.y =
       0.51 -
       rest * 0.24 +
       (moving && walking
-        ? Math.max(0, Math.sin(time * 10 + phase)) * 0.026
+        ? Math.max(0, Math.sin(gaitTime * 10 + phase)) * shape.bounce
         : 0);
   }
 }

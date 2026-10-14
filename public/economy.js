@@ -1,4 +1,18 @@
 import { permanentObjects } from "./world-objects.js";
+import { migrateRetiredIsland, WORLD_REVISION } from "./world-migration.js";
+import { activeCats, catAvailable } from "./cat-roster.js";
+import {
+  newAdoption,
+  normalizeAdoption,
+  normalizeDestinations,
+} from "./adoption.js";
+import {
+  newBusiness,
+  normalizeBusiness,
+  revenueRate,
+  incomeFor,
+  collectIncome,
+} from "./business.js";
 import {
   newProgression,
   normalizeProgression,
@@ -54,6 +68,9 @@ const dateKey = (now) =>
 export function newGame(now = Date.now()) {
   const game = {
     version: 2,
+    worldRevision: WORLD_REVISION,
+    retiredIslandRefund: 0,
+    relocatedPurchases: [],
     coins: 420,
     unlocked: ["moon"],
     inventory: {},
@@ -98,6 +115,10 @@ export function newGame(now = Date.now()) {
       },
     ],
     friendship: {},
+    adoption: newAdoption(),
+    business: newBusiness(),
+    catDestinations: {},
+    catPosition: null,
     recentActivities: [],
     cat: {
       location: "home",
@@ -113,6 +134,7 @@ export function newGame(now = Date.now()) {
     totalEarned: 0,
   };
   game.scenery = initialScenery(game.placements);
+  game.business = normalizeBusiness(game.business, game, now);
   game.care = newCare(now);
   game.social = newSocial();
   game.progression = newProgression();
@@ -120,7 +142,7 @@ export function newGame(now = Date.now()) {
 }
 export function loadGame(storage, now = Date.now()) {
   try {
-    const saved = readSavedState(storage);
+    let saved = readSavedState(storage);
     if (!saved) return newGame(now);
     if (
       saved.version !== 2 ||
@@ -129,11 +151,31 @@ export function loadGame(storage, now = Date.now()) {
       saved.coins > 10000000
     )
       return newGame(now);
+    saved = migrateRetiredIsland(saved, now);
     const game = newGame(now);
+    game.retiredIslandRefund = saved.retiredIslandRefund || 0;
+    game.relocatedPurchases = (
+      Array.isArray(saved.relocatedPurchases) ? saved.relocatedPurchases : []
+    )
+      .slice(0, 60)
+      .filter((p) => byItem(p?.item));
     game.coins = saved.coins;
     game.unlocked = BIOMES.filter(
       (x) => x.id === "moon" || saved.unlocked?.includes(x.id),
     ).map((x) => x.id);
+    game.adoption = normalizeAdoption(saved.adoption, game);
+    game.catDestinations = normalizeDestinations(saved.catDestinations, game);
+    if (
+      game.unlocked.includes(saved.catPosition?.biome) &&
+      Number.isFinite(saved.catPosition.x) &&
+      Number.isFinite(saved.catPosition.z) &&
+      Math.hypot(saved.catPosition.x, saved.catPosition.z) < 9
+    )
+      game.catPosition = {
+        biome: saved.catPosition.biome,
+        x: saved.catPosition.x,
+        z: saved.catPosition.z,
+      };
     game.inventory = Object.fromEntries(
       CATALOG.map((x) => [
         x.id,
@@ -172,6 +214,7 @@ export function loadGame(storage, now = Date.now()) {
         game.placements.push(p);
     }
     game.social = normalizeSocial(saved.social);
+    game.business = normalizeBusiness(saved.business, game, now);
     syncFriendship(game);
     for (const key of ["hunger", "energy", "happiness"])
       if (Number.isFinite(saved.cat?.[key]))
@@ -398,10 +441,13 @@ export function canPlace(
       .map(sceneryBounds),
   );
   if (
-    rectangles.some(
-      (p) =>
-        Math.abs(x - p.x) < (w + p.w) / 2 + 0.2 &&
-        Math.abs(z - p.z) < (d + p.d) / 2 + 0.2,
+    rectangles.some((p) =>
+      p.rx && p.rz
+        ? (Math.max(0, Math.abs(x - p.x) - w / 2) / p.rx) ** 2 +
+            (Math.max(0, Math.abs(z - p.z) - d / 2) / p.rz) ** 2 <
+          1
+        : Math.abs(x - p.x) < (w + p.w) / 2 + 0.2 &&
+          Math.abs(z - p.z) < (d + p.d) / 2 + 0.2,
     )
   )
     return { ok: false, reason: "Это место занято. Выберите другое." };
@@ -440,6 +486,13 @@ export function placeItem(
   if (!check.ok) throw Error(check.reason);
   const next = copy(game);
   next.inventory[item]--;
+  const relocatedIndex = next.relocatedPurchases.findIndex(
+      (p) => p.item === item,
+    ),
+    relocated =
+      relocatedIndex >= 0
+        ? next.relocatedPurchases.splice(relocatedIndex, 1)[0]
+        : null;
   next.placements.push({
     id: "p-" + next.nextId++,
     item,
@@ -448,17 +501,23 @@ export function placeItem(
     z,
     rotation,
     startedAt: now,
-    readyAt:
-      (next.builtInventory?.[item] || 0) > 0
+    readyAt: relocated
+      ? relocated.readyAt || 0
+      : (next.builtInventory?.[item] || 0) > 0
         ? 0
         : now + byItem(item).buildMinutes * 60000,
   });
+  if (revenueRate(item)) {
+    const placed = next.placements.at(-1);
+    next.business.accounts[placed.id] = {
+      collectedAt: Math.max(now, placed.readyAt || 0),
+    };
+  }
   if ((next.builtInventory?.[item] || 0) > 0) next.builtInventory[item]--;
   if (byItem(item).category === "farm")
-    next.farm.fields[next.placements.at(-1).id] = Array.from(
-      { length: 3 },
-      () => ({ crop: null, readyAt: 0 }),
-    );
+    next.farm.fields[next.placements.at(-1).id] =
+      relocated?.fieldCells ||
+      Array.from({ length: 3 }, () => ({ crop: null, readyAt: 0 }));
   return next;
 }
 export function moveItem(game, id, biome, x, z, rotation = 0) {
@@ -481,7 +540,25 @@ function restoreScenery(game, raw) {
       .map((r) => [r.id, r]),
   );
   game.scenery = [];
-  for (const seed of initialScenery(game.placements)) {
+  const retired = [...saved.values()]
+    .filter((r) => r.id.startsWith("decor-wizard-") && byScenery(r.type))
+    .map((r) => ({
+      id: r.id,
+      type: r.type,
+      originBiome: "moon",
+      biome: game.unlocked.includes(r.biome) ? r.biome : "moon",
+      x: Number.isFinite(r.x) ? r.x : 0,
+      z: Number.isFinite(r.z) ? r.z : 0,
+      rotation:
+        Number.isInteger(r.rotation) && r.rotation >= 0 && r.rotation <= 3
+          ? r.rotation
+          : 0,
+      scale: Number.isFinite(r.scale)
+        ? Math.max(0.35, Math.min(1.6, r.scale))
+        : 1,
+      stored: true,
+    }));
+  for (const seed of [...retired, ...initialScenery(game.placements)]) {
     const old = saved.get(seed.id);
     const record = { ...seed, stored: true };
     game.scenery.push(record);
@@ -490,8 +567,8 @@ function restoreScenery(game, raw) {
         (game.unlocked.includes(old.biome) || old.biome === seed.biome) &&
         Number.isFinite(old.x) &&
         Number.isFinite(old.z) &&
-        Math.abs(old.x) <= 11 &&
-        Math.abs(old.z) <= 11 &&
+        Math.abs(old.x) <= (byBiome(old.biome)?.radius || 11.6) &&
+        Math.abs(old.z) <= (byBiome(old.biome)?.radius || 11.6) &&
         Number.isInteger(old.rotation) &&
         old.rotation >= 0 &&
         old.rotation <= 3
@@ -580,7 +657,11 @@ export function storeItem(game, id, now = Date.now()) {
     );
   if (game.farm.fields[id]?.some((p) => p.crop))
     throw Error("Сначала соберите урожай с этих грядок.");
-  const next = copy(game);
+  const next =
+    incomeFor(game, id, now) > 0
+      ? collectIncome(game, id, now).game
+      : copy(game);
+  delete next.business.accounts[id];
   next.placements = next.placements.filter((p) => p.id !== id);
   next.builtInventory[found.item] = (next.builtInventory[found.item] || 0) + 1;
   delete next.farm.fields[id];
@@ -588,8 +669,7 @@ export function storeItem(game, id, now = Date.now()) {
   return next;
 }
 export function befriend(game, id, amount = 15) {
-  if (!NEIGHBORS.some((n) => n.id === id && game.unlocked.includes(n.biome)))
-    return game;
+  if (!NEIGHBORS.some((n) => n.id === id && catAvailable(game, n))) return game;
   const next = copy(game);
   next.friendship[id] = Math.min(100, (next.friendship[id] || 0) + amount);
   const r = next.social.relationships[id];
@@ -628,21 +708,20 @@ export function worldSnapshot(game) {
         })),
     ],
     recent: [...(game.recentActivities || [])],
-    friends: NEIGHBORS.filter((n) => game.unlocked.includes(n.biome)).map(
-      (n) => {
-        const r = game.social.relationships[n.id];
-        return {
-          id: n.id,
-          closeness: r.points,
-          meetings: r.meetings,
-          plays: r.plays,
-          stage: relationshipStage(r, n.id === game.social.bestFriendId),
-          bestEligible: bestEligible(r),
-          hunger: game.care.residents[n.id].hunger,
-          happiness: game.care.residents[n.id].happiness,
-        };
-      },
-    ),
+    friends: activeCats(game).map((n) => {
+      const r = game.social.relationships[n.id];
+      return {
+        id: n.id,
+        biome: n.biome,
+        closeness: r.points,
+        meetings: r.meetings,
+        plays: r.plays,
+        stage: relationshipStage(r, n.id === game.social.bestFriendId),
+        bestEligible: bestEligible(r),
+        hunger: game.care.residents[n.id].hunger,
+        happiness: game.care.residents[n.id].happiness,
+      };
+    }),
     biomes: [...game.unlocked],
   };
 }
@@ -709,6 +788,14 @@ export function normalizeFarm(raw, game, now) {
     stock,
     jobs,
     harvests: Math.max(0, Math.floor(raw.harvests) || 0),
+    sales: (Array.isArray(raw.sales) ? raw.sales : [])
+      .filter(
+        (s) =>
+          Number.isSafeInteger(s?.value) &&
+          s.value > 0 &&
+          Number.isFinite(s.at),
+      )
+      .slice(-8),
   };
 }
 export function plantCrop(game, field, index, cropId, now = Date.now()) {
@@ -774,6 +861,10 @@ export function sellHarvest(game) {
   const next = copy(game);
   next.coins += value;
   next.totalEarned += value;
+  next.farm.sales = [
+    ...(next.farm.sales || []),
+    { value, at: Date.now(), balance: next.coins },
+  ].slice(-8);
   next.farm.stock = {};
   return { game: next, value };
 }

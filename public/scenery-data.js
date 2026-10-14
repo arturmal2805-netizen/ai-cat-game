@@ -117,6 +117,23 @@ export function initialScenery(placements = []) {
         scale: 0.75 + i * 0.08,
       })),
     ];
+    if (["autumn", "ice", "galaxy", "volcano"].includes(biome.id)) {
+      const kinds = {
+        autumn: ["sakura", "apple"],
+        ice: ["sakura", "crystal"],
+        galaxy: ["willow", "enchanted"],
+        volcano: ["palm", "bamboo"],
+      };
+      candidates.push(
+        { type: "scenery-tree-" + kinds[biome.id][0], x: 9, z: 7, scale: 1.1 },
+        {
+          type: "scenery-tree-" + kinds[biome.id][1],
+          x: -11,
+          z: -1,
+          scale: 0.92,
+        },
+      );
+    }
     if (biome.id === "aquapark") {
       candidates.splice(
         0,
@@ -335,6 +352,28 @@ const artKinds = {
   crystal: [true, 4, "snow"],
   mushroom: [true, 5, "oak"],
 };
+Object.assign(layouts, {
+  autumn: [
+    [-9, 4, "sakura", 1.18],
+    [6, -5, "apple", 1.02],
+    [6, 7, "sakura", 0.94],
+  ],
+  ice: [
+    [-9, 4, "sakura", 1.12],
+    [6, -5, "crystal", 1.05],
+    [6, 7, "sakura", 0.94],
+  ],
+  galaxy: [
+    [-9, 4, "willow", 1.2],
+    [6, -5, "enchanted", 0.96],
+    [6, 7, "willow", 0.92],
+  ],
+  volcano: [
+    [-9, 4, "palm", 1.28],
+    [6, -5, "palm", 1.04],
+    [6, 7, "bamboo", 1.1],
+  ],
+});
 export function landscapedTrees(id) {
   return (layouts[id] || []).map(([x, z, kind, scale], index) => {
     const [trees, cell, fallback] = artKinds[kind];

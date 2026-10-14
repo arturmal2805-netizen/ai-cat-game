@@ -46,7 +46,7 @@ test("AI cannot invent rides, friends or use a toy as a ride", () => {
   for (const choice of [
     { action: "ride", activityId: "not-owned" },
     { action: "ride", activityId: "welcome-yarn" },
-    { action: "meet", friendId: "salem" },
+    { action: "meet", friendId: "neighbor-galaxy" },
     { action: "dance" },
   ])
     assert.throws(() =>

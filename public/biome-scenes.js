@@ -1,3 +1,4 @@
+import { decorateRenewedBiome, islandHeight } from "./renewed-biomes.js";
 import { createLegendaryBiome } from "./legendary-biome.js";
 import * as THREE from "three";
 import {
@@ -27,12 +28,12 @@ export { BIOME_STYLES } from "./biome-styles.js";
 function seedOf(id) {
   return [...id].reduce((s, c) => s + c.charCodeAt(0), 0);
 }
-function terrainGeometry(style, seed) {
+function terrainGeometry(style, seed, radius = 11.65) {
   const outline = new THREE.Shape();
   for (let i = 0; i <= 96; i++) {
     const a = (i / 96) * Math.PI * 2,
       r =
-        11.65 +
+        radius +
         Math.sin(a * 3 + seed) * 0.32 +
         Math.cos(a * 5 + seed * 0.2) * 0.2;
     const x = Math.cos(a) * r,
@@ -41,6 +42,12 @@ function terrainGeometry(style, seed) {
   }
   if (style.water) {
     const [x, z, rx, rz] = style.water,
+      hole = new THREE.Path();
+    hole.absellipse(x, -z, rx, rz, 0, Math.PI * 2, true);
+    outline.holes.push(hole);
+  }
+  if (style.river) {
+    const [x, z, rx, rz] = style.river,
       hole = new THREE.Path();
     hole.absellipse(x, -z, rx, rz, 0, Math.PI * 2, true);
     outline.holes.push(hole);
@@ -195,6 +202,7 @@ export function createBiomeScene(
           sceneryObjects.set(record.id, model);
         }
         positionScenery(model, record);
+        model.position.y += islandHeight(biome.id, record.x, record.z);
       }
     if (sceneryLow) {
       low.remove(sceneryLow);
@@ -213,7 +221,7 @@ export function createBiomeScene(
   };
   root.userData.updateScenery(records);
   const ground = new THREE.Mesh(
-    terrainGeometry(style, seed),
+    terrainGeometry(style, seed, biome.radius || 11.65),
     new THREE.MeshStandardMaterial({
       color: 0xffffff,
       vertexColors: true,
@@ -225,7 +233,14 @@ export function createBiomeScene(
   );
   ground.receiveShadow = true;
   base.add(ground);
-  const cliffGeo = new THREE.CylinderGeometry(11.5, 9.1, 2.5, 40, 3, true),
+  const cliffGeo = new THREE.CylinderGeometry(
+      (biome.radius || 11.65) - 0.15,
+      (biome.radius || 11.65) * 0.78,
+      2.5,
+      40,
+      3,
+      true,
+    ),
     pos = cliffGeo.getAttribute("position");
   for (let i = 0; i < pos.count; i++) {
     const a = Math.atan2(pos.getZ(i), pos.getX(i)),
@@ -266,7 +281,7 @@ export function createBiomeScene(
       root.userData.updateScenery(next);
     root.userData.update = () => {};
     root.userData.dispose = () => disposeBiome(root);
-    return root;
+    return decorateRenewedBiome(root, biome, { lowOnly: true });
   }
   for (let i = 0; i < 12; i++) {
     const a = (i * Math.PI) / 6 + seed * 0.03,
@@ -573,7 +588,7 @@ export function createBiomeScene(
     }
   };
   root.userData.dispose = () => disposeBiome(root);
-  return root;
+  return decorateRenewedBiome(root, biome, { preview });
 }
 
 function createLowScenery(style) {

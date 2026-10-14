@@ -13,7 +13,7 @@ import {
   worldSnapshot,
 } from "../public/economy.js";
 import { BIOMES } from "../public/game-data.js";
-import { byScenery } from "../public/scenery-data.js";
+import { byScenery, initialScenery } from "../public/scenery-data.js";
 import {
   createSceneryModel,
   fadeScenery,
@@ -31,8 +31,11 @@ const storage = () => {
 
 test("all islands start with independently identified trees, houses, rocks and a clear starter ride yard", () => {
   const g = newGame();
-  assert.equal(g.scenery.length, 240);
-  assert.equal(new Set(g.scenery.map((r) => r.id)).size, 240);
+  assert.equal(g.scenery.length, initialScenery(g.placements).length);
+  assert.equal(
+    new Set(g.scenery.map((r) => r.id)).size,
+    initialScenery(g.placements).length,
+  );
   for (const r of g.scenery)
     assert.ok(
       canPlace(g, r.type, r.biome, r.x, r.z, r.rotation, r.id, {
@@ -164,7 +167,10 @@ test("old saves retain all sixty purchases, currency, friends and construction t
   assert.deepEqual(restored.placements, legacy.placements);
   assert.equal(restored.coins, legacy.coins);
   assert.equal(restored.friendship.luna, 45);
-  assert.equal(restored.scenery.length, 240);
+  assert.equal(
+    restored.scenery.length,
+    initialScenery(restored.placements).length,
+  );
   assert.ok(saveGame(s, restored));
   assert.deepEqual(loadGame(s, 100000).placements, legacy.placements);
   const rock = restored.scenery.find(
@@ -190,7 +196,7 @@ test("invalid decoration records cannot alter identities, geometry scale or intr
   original.scenery.push({ id: "injected", type: "unknown", biome: "moon" });
   saveGame(s, original);
   const g = loadGame(s);
-  assert.equal(g.scenery.length, 240);
+  assert.equal(g.scenery.length, initialScenery(g.placements).length);
   assert.ok(!g.scenery.some((r) => r.id === "injected"));
   assert.equal(g.scenery[0].type, "scenery-landmark");
   assert.equal(g.scenery[0].scale, 0.88);

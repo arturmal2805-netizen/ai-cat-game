@@ -1,6 +1,6 @@
 export const PROGRESSION_VERSION = 1,
   MAX_LEVEL = 30,
-  DAILY_XP_LIMIT = 900;
+  DAILY_XP_LIMIT = 1800;
 export const gameDay = (now) =>
   new Intl.DateTimeFormat("en-CA", {
     timeZone: "Europe/Kyiv",
@@ -9,7 +9,7 @@ export const gameDay = (now) =>
     day: "2-digit",
   }).format(new Date(now));
 export const xpForLevel = (level) =>
-  level <= 1 ? 0 : Math.round(120 * (level - 1) ** 1.65 + 80 * (level - 1));
+  level <= 1 ? 0 : Math.round(110 * (level - 1) ** 1.55 + 70 * (level - 1));
 export function levelForXP(xp = 0) {
   let level = 1;
   while (level < MAX_LEVEL && xp >= xpForLevel(level + 1)) level++;
@@ -46,7 +46,7 @@ export function normalizeProgression(raw, game) {
           0,
           Math.min(
             key === "xp"
-              ? xpForLevel(MAX_LEVEL)
+              ? 1000000
               : key === "dailyXP"
                 ? DAILY_XP_LIMIT
                 : key === "visits"
@@ -81,7 +81,7 @@ export function addXP(game, amount, now = Date.now()) {
   const gain = Math.min(
     Math.max(0, Math.floor(amount)),
     DAILY_XP_LIMIT - n.dailyXP,
-    xpForLevel(MAX_LEVEL) - n.xp,
+    Math.max(0, xpForLevel(MAX_LEVEL) - n.xp),
   );
   n.xp += gain;
   n.dailyXP += gain;

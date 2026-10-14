@@ -10,6 +10,7 @@ const geometries = {
   pole: new THREE.CylinderGeometry(1, 1, 1, 8),
   cone: new THREE.ConeGeometry(1, 1, 16),
   dome: new THREE.SphereGeometry(1, 20, 10, 0, Math.PI * 2, 0, Math.PI / 2),
+  crystal: new THREE.CylinderGeometry(0.03, 0.5, 1, 6),
 };
 for (const geometry of Object.values(geometries))
   geometry.userData.sharedScenery = true;
@@ -739,6 +740,72 @@ export function dressAttraction(group, item) {
           0.03,
         );
     }
+  }
+  if (sizable && ["rides", "transport", "social"].includes(item.category)) {
+    const scale = Math.min(1.15, w / 6),
+      px = -w * 0.3,
+      pz = -d * 0.3;
+    const booth = shape(
+      decor,
+      "cube",
+      palette[0],
+      px,
+      0.42,
+      pz,
+      scale * 1.2,
+      0.84,
+      scale * 0.9,
+    );
+    shape(
+      decor,
+      "cone",
+      palette[2],
+      px,
+      1.08,
+      pz,
+      scale * 0.85,
+      0.5,
+      scale * 0.75,
+    );
+    shape(
+      decor,
+      "cube",
+      0xffd783,
+      px,
+      0.52,
+      pz + scale * 0.47,
+      scale * 0.65,
+      0.3,
+      0.05,
+      true,
+    );
+    for (const sign of [-1, 1])
+      line(
+        decor,
+        [px + sign * scale * 0.5, 0, pz + scale * 0.4],
+        [px + sign * scale * 0.5, 0.95, pz + scale * 0.4],
+        palette[1],
+        0.035,
+      );
+    // Each attraction gets its own motif and boarding booth. These join the
+    // static batch; no extra per-frame objects are needed for the detail.
+    for (let k = 0; k < 4; k++) {
+      const x = w * 0.28,
+        z = -d * 0.28 + k * 0.18;
+      shape(
+        decor,
+        hash % 3 === 0 ? "crystal" : hash % 3 === 1 ? "cone" : "sphere",
+        palette[k % 3],
+        x,
+        0.34 + k * 0.08,
+        z,
+        0.075,
+        0.12,
+        0.075,
+        true,
+      );
+    }
+    flowerCluster(decor, px, pz + 0.8, palette[2], 0.6);
   }
   group.add(batchScenery(decor));
   group.userData.dressed = true;

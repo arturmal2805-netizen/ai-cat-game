@@ -1,4 +1,5 @@
 import { NEIGHBORS, CROPS, byItem } from "./game-data.js";
+import { activeCats, catAvailable } from "./cat-roster.js";
 export const CARE_VERSION = 1,
   NEEDS_MINUTE = 60000,
   BOWL_CAPACITY = 160;
@@ -119,7 +120,7 @@ function consume(next, id, now, offline = false) {
 export function eatFromBowl(game, id = "chichi", now = Date.now()) {
   if (
     id !== "chichi" &&
-    !NEIGHBORS.some((n) => n.id === id && game.unlocked.includes(n.biome))
+    !NEIGHBORS.some((n) => n.id === id && catAvailable(game, n))
   )
     throw Error("Котик пока недоступен.");
   if (!bowlPortions(game))
@@ -150,9 +151,7 @@ export function advanceCare(game, now = Date.now(), { offline = false } = {}) {
   if (!elapsed) return game;
   const next = structuredClone(game),
     ticks = Math.min(elapsed, 4320),
-    residents = NEIGHBORS.filter((n) => next.unlocked.includes(n.biome)).map(
-      (n) => n.id,
-    );
+    residents = activeCats(next).map((n) => n.id);
   for (let i = 1; i <= ticks; i++) {
     const time = next.care.lastTick + (elapsed - ticks + i) * NEEDS_MINUTE;
     if (
@@ -199,9 +198,7 @@ export function advanceCare(game, now = Date.now(), { offline = false } = {}) {
   return next;
 }
 export function colonyNeeds(game) {
-  const residents = NEIGHBORS.filter((n) =>
-    game.unlocked.includes(n.biome),
-  ).map((n) => game.care.residents[n.id]);
+  const residents = activeCats(game).map((n) => game.care.residents[n.id]);
   return {
     count: residents.length,
     hunger: residents.length
@@ -214,7 +211,7 @@ export function colonyNeeds(game) {
 }
 
 export function residentSwam(game, id, now = Date.now()) {
-  if (!NEIGHBORS.some((n) => n.id === id && game.unlocked.includes(n.biome)))
+  if (!NEIGHBORS.some((n) => n.id === id && catAvailable(game, n)))
     throw Error("Котик пока недоступен.");
   const next = structuredClone(game),
     pet = next.care.residents[id];

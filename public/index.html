@@ -30,6 +30,13 @@
         <button id="farm-open" class="nav-button" aria-label="Открыть ферму">
           <span class="nav-icon">🌱</span><span class="nav-label">Ферма</span>
         </button>
+        <button id="adoption-open" class="nav-button">
+          <span class="nav-icon">🐾</span
+          ><span class="nav-label">Усыновить</span>
+        </button>
+        <button id="business-open" class="nav-button">
+          <span class="nav-icon">☕</span><span class="nav-label">Бизнес</span>
+        </button>
         <button id="friends-open" class="nav-button">
           <span class="nav-icon">🐈</span><span class="nav-label">Друзья</span>
           <b id="friend-count">0</b></button
@@ -54,9 +61,9 @@
           </p>
         </div>
         <div class="world-facts">
-          <div><strong>25</strong><span>сказочных биомов</span></div>
-          <div><strong>72</strong><span>маленьких чудес</span></div>
-          <div><strong>30</strong><span>котов-соседей</span></div>
+          <div><strong>24</strong><span>сказочных биомов</span></div>
+          <div><strong>83</strong><span>маленьких чудес</span></div>
+          <div><strong>18</strong><span>котиков для усыновления</span></div>
         </div>
       </section>
       <div class="game-layout">
@@ -67,6 +74,13 @@
               ><small id="mode">Подключаем ИИ…</small></span
             >
             <div class="map-controls">
+              <button
+                id="island-open"
+                aria-label="Собрать котов на этом острове"
+                title="Отправить всех котов на этот остров"
+              >
+                🐾
+              </button>
               <button
                 id="care-open"
                 class="cat-menu"
@@ -230,6 +244,7 @@
           <li>Здесь начинается наша сказка.</li>
         </ul>
       </section>
+
       <section class="neighbors-section">
         <div class="section-title">
           <div>
@@ -332,6 +347,50 @@
       </p>
       <div id="friends-list"></div>
     </dialog>
+    <dialog id="adoption-dialog" class="shop-dialog">
+      <button
+        data-close="adoption-dialog"
+        class="close"
+        aria-label="Закрыть усыновление"
+      >
+        ×
+      </button>
+      <p class="eyebrow">Маленькие лапки · большое сердце</p>
+      <h2>Cat Adoption Center</h2>
+      <p id="adoption-note" class="dialog-copy"></p>
+      <select id="adoption-centers" aria-label="Центр усыновления"></select
+      ><button id="adoption-build" class="primary">Построить центр</button>
+      <button id="adoption-manage" class="quiet">Переставить центр</button>
+      <div id="adoption-grid" class="adoption-grid"></div>
+    </dialog>
+    <dialog id="business-dialog" class="shop-dialog">
+      <button
+        data-close="business-dialog"
+        class="close"
+        aria-label="Закрыть бизнес"
+      >
+        ×
+      </button>
+      <p class="eyebrow">Дело для маленьких лапок</p>
+      <h2>Кошачий бизнес</h2>
+      <p id="business-note" class="dialog-copy"></p>
+      <button id="business-shop" class="primary">Открыть новые бизнесы</button>
+      <div id="business-grid" class="business-grid"></div>
+    </dialog>
+    <dialog id="island-dialog" class="small-dialog">
+      <button
+        data-close="island-dialog"
+        class="close"
+        aria-label="Закрыть остров"
+      >
+        ×
+      </button>
+      <h2 id="island-title"></h2>
+      <p id="island-summary" class="dialog-copy"></p>
+      <button id="island-gather" class="primary">
+        Отправить сюда всех котов 🐾
+      </button>
+    </dialog>
     <dialog id="item-dialog" class="small-dialog">
       <button
         data-close="item-dialog"
@@ -364,13 +423,14 @@
       <p id="level-detail" class="dialog-copy"></p>
       <progress id="level-big-xp" max="100"></progress>
       <p class="dialog-copy">
-        XP — за первый экземпляр новой покупки, собранный урожай, ресурсы,
-        ежедневный визит и завершённые приключения. Перестановки и повторные
-        покупки одного предмета XP не дают.
+        XP — за сбор дохода бизнеса и аттракционов, первый экземпляр новой
+        покупки, собранный урожай, ресурсы, ежедневный визит и завершённые
+        приключения. Перестановки и повторные покупки одного предмета XP не
+        дают.
       </p>
       <p id="level-next" class="dialog-copy"></p>
       <p class="fine-print">
-        Уровень растёт постепенно. За один день можно получить до 900 XP.
+        Уровень растёт постепенно. За один день можно получить до 1800 XP.
         Награда за каждый новый уровень — котомонеты. Уже открытые острова и
         покупки сохраняются.
       </p>

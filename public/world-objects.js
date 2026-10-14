@@ -1,3 +1,4 @@
+import { RENEWED_ISLANDS, ISLAND_RIDES } from "./renewal-data.js";
 import { BIOMES } from "./game-data.js";
 import { BIOME_STYLES } from "./biome-styles.js";
 export const PARK_RIDES = [
@@ -27,6 +28,35 @@ export function permanentObjects(biomes) {
   const objects = [];
   for (const b of BIOMES) {
     if (!biomes.includes(b.id)) continue;
+    if (RENEWED_ISLANDS[b.id]) {
+      objects.push(...ISLAND_RIDES.filter((r) => r.biome === b.id));
+      const upper = RENEWED_ISLANDS[b.id].upper;
+      objects.push({
+        id: "lake-" + b.id + "-upper",
+        type: "swim-lagoon",
+        biome: b.id,
+        x: upper[0],
+        z: upper[1],
+        rx: upper[2],
+        rz: upper[3],
+        surfaceY: 2.555,
+        shoreY: 2.55,
+        name: "Каскадная лагуна · " + b.name,
+      });
+    }
+    const river = BIOME_STYLES[b.id]?.river;
+    if (river)
+      objects.push({
+        id: "lake-" + b.id + "-river",
+        type: "swim-lagoon",
+        biome: b.id,
+        x: river[0],
+        z: river[1],
+        rx: river[2],
+        rz: river[3],
+        surfaceY: 0.155,
+        name: "Речной каскад · " + b.name,
+      });
     const w = BIOME_STYLES[b.id]?.water;
     if (w)
       objects.push({

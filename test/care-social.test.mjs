@@ -1,3 +1,4 @@
+import { activeCats } from "../public/cat-roster.js";
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
@@ -127,7 +128,7 @@ test("sleep is a saved physical state: energy rises gradually, persists and wake
 });
 test("colony indicators exclude Chichi and locked residents", () => {
   const g = newGame(now),
-    residents = NEIGHBORS.filter((n) => n.biome === "moon");
+    residents = activeCats(g);
   for (const n of residents) {
     g.care.residents[n.id].hunger = 60;
     g.care.residents[n.id].happiness = 40;
