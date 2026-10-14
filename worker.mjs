@@ -2,6 +2,14 @@ import { requestDecision, validateState } from "./ai.mjs";
 import { DECISION_PROTOCOL } from "./public/interactions.js";
 import { cloudSave } from "./save-vault.mjs";
 export { SaveVault } from "./save-vault.mjs";
+// Replaced by esbuild for every deployment, including Cloudflare Git builds.
+// The env fallback supports direct source execution in local tests.
+const sourceRevision =
+  typeof __CHICHI_SOURCE_REVISION__ === "undefined"
+    ? null
+    : __CHICHI_SOURCE_REVISION__;
+const deployedRevision = (env) =>
+  sourceRevision || env.GAME_RELEASE || "development";
 const json = (data, status = 200) =>
   Response.json(data, { status, headers: { "Cache-Control": "no-store" } });
 export default {
@@ -26,7 +34,7 @@ export default {
     if (!allowed && !api) return response;
     const headers = new Headers(response.headers);
     if (api) {
-      headers.set("X-Chichi-Release", env.GAME_RELEASE || "development");
+      headers.set("X-Chichi-Release", deployedRevision(env));
       headers.set("X-Chichi-Protocol", DECISION_PROTOCOL);
     }
     if (allowed) {
@@ -45,7 +53,7 @@ export default {
       return json({
         configured: !!env.AI,
         protocol: DECISION_PROTOCOL,
-        release: env.GAME_RELEASE || "development",
+        release: deployedRevision(env),
         versionId: env.CF_VERSION_METADATA?.id || null,
         cloudSave: !!env.SAVE_VAULT,
       });

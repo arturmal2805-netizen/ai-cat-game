@@ -6,20 +6,10 @@ const delays = [30000, 60000];
 for (let attempt = 0; attempt <= delays.length; attempt++) {
   let output = "";
   const code = await new Promise((resolve, reject) => {
-    const child = spawn(
-      "npx",
-      [
-        "--no-install",
-        "wrangler",
-        "deploy",
-        "--var",
-        `GAME_RELEASE:${release}`,
-      ],
-      {
-        stdio: ["ignore", "pipe", "pipe"],
-        env: { ...process.env, WRANGLER_SEND_METRICS: "false" },
-      },
-    );
+    const child = spawn("npx", ["--no-install", "wrangler", "deploy"], {
+      stdio: ["ignore", "pipe", "pipe"],
+      env: { ...process.env, WRANGLER_SEND_METRICS: "false" },
+    });
     child.stdout.on("data", (chunk) => {
       process.stdout.write(chunk);
       output += chunk;

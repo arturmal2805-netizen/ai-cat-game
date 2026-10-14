@@ -1,6 +1,14 @@
 import { execFileSync } from "node:child_process";
 import { DECISION_PROTOCOL } from "../public/interactions.js";
 export { DECISION_PROTOCOL };
+export class ReleaseMismatch extends Error {
+  constructor(expected, release, protocol) {
+    super(
+      `Worker release changed or is outdated: expected ${expected.slice(0, 12)} / ${DECISION_PROTOCOL}; received ${release?.slice(0, 12) || "unknown"} / ${protocol || "unknown"}`,
+    );
+    this.name = "ReleaseMismatch";
+  }
+}
 export function releaseRevision(env = process.env) {
   const revision =
     env.GITHUB_SHA ||
@@ -14,9 +22,7 @@ export function checkReleaseResponse(response, expected) {
   const release = response.headers.get("X-Chichi-Release"),
     protocol = response.headers.get("X-Chichi-Protocol");
   if (release !== expected || protocol !== DECISION_PROTOCOL)
-    throw Error(
-      `Worker release changed or is outdated: expected ${expected.slice(0, 12)} / ${DECISION_PROTOCOL}; received ${release?.slice(0, 12) || "unknown"} / ${protocol || "unknown"}`,
-    );
+    throw new ReleaseMismatch(expected, release, protocol);
 }
 // Poll readiness without paid AI requests. A successful deploy command does
 // not imply every workers.dev edge is already serving this commit.

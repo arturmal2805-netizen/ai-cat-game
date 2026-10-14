@@ -3,6 +3,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { GLTFExporter } from "three/addons/exporters/GLTFExporter.js";
 import { createCat, disposeCat } from "../public/cat-model.js";
 import { catAnimations } from "./cat-animation.mjs";
+import { buildWorker } from "./build-worker.mjs";
 globalThis.FileReader = class {
   async readAsArrayBuffer(blob) {
     this.result = await blob.arrayBuffer();
@@ -49,4 +50,5 @@ for (const mood of ["sleep", "crazy hungry", "happy"]) {
   );
   disposeCat(model);
 }
-console.log("Built 3D world and three downloadable Chichi GLB models.");
+const revision = await buildWorker();
+console.log(`Built 3D world, Chichi GLB models and Worker commit ${revision}.`);

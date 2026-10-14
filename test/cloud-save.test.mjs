@@ -323,6 +323,78 @@ test("default browser fetch keeps the global receiver needed by native APIs", as
     globalThis.fetch = previous;
   }
 });
+test("publication retries stale save replies without duplicating a committed PUT or accepting an old GET", async () => {
+  const instance = vault(),
+    revision = "a".repeat(40),
+    requests = [],
+    waits = [];
+  let staleRead = true;
+  const env = {
+    GAME_RELEASE: revision,
+    SAVE_VAULT: { idFromName: (n) => n, get: () => instance.instance },
+  };
+  await verifyCloudSave(
+    "https://cat.example",
+    revision,
+    async (url, options) => {
+      requests.push({
+        url: String(url),
+        token: options.headers["X-Chichi-Save-Token"],
+        body: options.body,
+      });
+      const reply = await worker.fetch(new Request(url, options), env);
+      if (requests.length === 1 || (!options.body && staleRead)) {
+        staleRead = !!options.body;
+        reply.headers.set("X-Chichi-Release", "development");
+      }
+      return reply;
+    },
+    { wait: async (ms) => waits.push(ms), attempts: 3 },
+  );
+  assert.equal(requests.length, 5);
+  assert.equal(waits.length, 2);
+  assert.equal(new Set(requests.map((r) => r.url)).size, 5);
+  assert.equal(new Set(requests.map((r) => r.token)).size, 1);
+  assert.equal(
+    new Set(requests.filter((r) => r.body).map((r) => r.body)).size,
+    1,
+  );
+  assert.equal(instance.map.get("current").revision, 1);
+  assert.equal(instance.map.get("previous"), undefined);
+});
+test("publication refuses persistent development labels and does not retry genuine storage failures", async () => {
+  const revision = "a".repeat(40);
+  let staleCalls = 0,
+    failedCalls = 0;
+  await assert.rejects(
+    verifyCloudSave(
+      "https://cat.example",
+      revision,
+      async () => {
+        staleCalls++;
+        return Response.json(
+          {},
+          {
+            headers: { "X-Chichi-Release": "development" },
+          },
+        );
+      },
+      { wait: async () => {}, attempts: 3 },
+    ),
+    /received development/,
+  );
+  assert.equal(staleCalls, 3);
+  await assert.rejects(
+    verifyCloudSave("https://cat.example", revision, async (url, options) => {
+      failedCalls++;
+      return worker.fetch(new Request(url, options), {
+        GAME_RELEASE: revision,
+      });
+    }),
+    /HTTP 503/,
+  );
+  assert.equal(failedCalls, 1);
+});
 test("a replaced code resets revision metadata, while corrupt metadata preserves the recovery code", async () => {
   const srv = service(),
     s = local();

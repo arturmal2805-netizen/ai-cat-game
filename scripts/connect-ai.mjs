@@ -32,7 +32,9 @@ await waitForRelease(apiBase, expectedRelease, {
   onWait: (reason) => console.log("Waiting for deployed Worker: " + reason),
 });
 console.log(`Serving verified commit ${expectedRelease}`);
-await verifyCloudSave(apiBase, expectedRelease);
+await verifyCloudSave(apiBase, expectedRelease, fetch, {
+  onWait: (reason) => console.log("Waiting for cloud save release: " + reason),
+});
 console.log("Cloud save write, read-back and idempotent retry verified.");
 let verified = false;
 for (let attempt = 0; attempt < 3; attempt++) {

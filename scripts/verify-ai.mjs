@@ -35,7 +35,7 @@ try {
       console.error("Worker diagnostic:", message.slice(0, 600));
     if (!errors.length)
       console.error(
-        "No AI error details received from Worker logs. Check Cloudflare Worker Observability logs.",
+        "No inference errors received from Worker logs. See the verification error above; release or storage failures occur before AI scenarios.",
       );
   }
   process.exitCode = code;

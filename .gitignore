@@ -3,5 +3,6 @@
 node_modules/
 *.log
 .wrangler/
+.generated/
 public/dist/
 public/models/
