@@ -156,8 +156,8 @@ test("Worker recovers the exhaustion scenario with world context and keeps Pages
         return {
           response:
             calls === 1
-              ? { ...hungry, action: "eat" }
-              : { ...asleep, action: "rest" },
+              ? { ...hungry, action: "eat", activityId: "chichi-food" }
+              : { ...asleep, action: "rest", activityId: "chichi-bed" },
         };
       },
     },
@@ -167,7 +167,11 @@ test("Worker recovers the exhaustion scenario with world context and keeps Pages
     response.headers.get("Access-Control-Allow-Origin"),
     "https://arturmal2805-netizen.github.io",
   );
-  assert.deepEqual(await response.json(), { ...asleep, action: "rest" });
+  assert.deepEqual(await response.json(), {
+    ...asleep,
+    action: "rest",
+    activityId: "chichi-bed",
+  });
   assert.equal(calls, 2);
 });
 

@@ -1,4 +1,5 @@
 import { writeFile } from "node:fs/promises";
+import { newGame, worldSnapshot } from "../public/economy.js";
 import { parseDecision, validateState } from "../ai.mjs";
 const account = process.env.CLOUDFLARE_ACCOUNT_ID;
 const token = process.env.CLOUDFLARE_API_TOKEN;
@@ -76,7 +77,11 @@ for (let attempt = 0; attempt < 3; attempt++) {
       },
     ];
     for (const scenario of cases) {
-      const { expected, ...state } = scenario;
+      const { expected, ...input } = scenario;
+      const state = {
+        ...input,
+        world: input.world || worldSnapshot(newGame()),
+      };
       console.log(
         `Checking real AI: energy=${state.energy}, hunger=${state.hunger}, happiness=${state.happiness}; expected ${expected}${state.world ? " with world activities" : ""}`,
       );

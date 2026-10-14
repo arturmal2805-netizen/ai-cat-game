@@ -186,18 +186,22 @@ export function makeAttraction(id, fields = [], now = Date.now()) {
     gold = 0xe4c99c,
     teal = 0x82b3b0;
   if (id === "yarn") {
-    const yarn = ball(moving, pink, 0, 0.4, 0, 0.4);
-    for (let i = 0; i < 4; i++) {
+    moving.position.y = 0.4;
+    const yarn = ball(moving, pink, 0, 0, 0, 0.4);
+    const yarnString = new THREE.Group();
+    group.add(yarnString);
+    group.userData.yarnString = yarnString;
+    for (let i = 0; i < 6; i++) {
       const ring = primitive(
         yarn,
-        new THREE.TorusGeometry(0.395, 0.018, 5, 22),
+        new THREE.TorusGeometry(0.401, 0.014, 5, 32),
         0xf0c9d7,
       );
       ring.rotation.x = i * 0.5;
       ring.rotation.y = i * 0.6;
     }
     ribbon(
-      group,
+      yarnString,
       [
         [-0.1, 0.04, 0.1],
         [0.5, 0.04, 0.5],
@@ -609,7 +613,15 @@ export function makeAttraction(id, fields = [], now = Date.now()) {
       ball(group, pink, lily.position.x, 0.14, lily.position.z, 0.1);
     }
   }
-  group.userData = { id, moving, curve, seatHeight, ridePosition };
+  group.userData = {
+    ...group.userData,
+    id,
+    moving,
+    curve,
+    seatHeight,
+    ridePosition,
+    ...(id === "yarn" ? { duration: 10.8 } : {}),
+  };
   return dressAttraction(group, byItem(id));
 }
 export function animateAttraction(group, time) {
@@ -633,7 +645,7 @@ export function animateAttraction(group, time) {
   } else if (id === "swing") moving.rotation.x = Math.sin(time) * 0.35;
   else if (id === "balloon")
     moving.position.y = 0.25 + Math.sin(time * 0.7) * 0.3;
-  else if (["yarn", "mouse"].includes(id)) {
+  else if (id === "mouse") {
     moving.rotation.y = time * 0.8;
     moving.position.x = Math.sin(time * 0.7) * 0.2;
   } else if (id === "crystal") moving.rotation.y = time * 0.12;

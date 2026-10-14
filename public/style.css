@@ -1735,3 +1735,25 @@ dialog::backdrop {
   color: #796187;
   min-height: 38px;
 }
+
+.cat-drop-hint {
+  position: absolute;
+  bottom: 58px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: calc(100% - 28px);
+  padding: 12px 16px;
+  border: 1px solid #ffffff40;
+  border-radius: 18px;
+  background: #443953ed;
+  color: #fff4e8;
+  font-size: 13px;
+  text-align: center;
+  pointer-events: none;
+  z-index: 9;
+  box-shadow: 0 6px 26px #22223430;
+}
+.cat-drop-hint[hidden] {
+  display: none;
+}

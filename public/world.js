@@ -1,7 +1,15 @@
+import {
+  HOME_OBJECTS,
+  dropTarget,
+  manualInteraction,
+  objectPosition,
+} from "./interactions.js";
+import { yarnPlayFrame, applyYarnFrame, resetYarn } from "./yarn-play.js";
 import * as THREE from "three";
 import {
   createCat,
   animateCat,
+  reactCat,
   setCatMood,
   disposeCat,
   moodNames,
@@ -21,13 +29,6 @@ import {
   makeAttraction,
   animateAttraction,
 } from "./world-assets.js";
-export const destinations = {
-  home: [-6, -3],
-  pond: [6.7, 5.7],
-  garden: [-5, 5],
-  tree: [5, -3],
-  picnic: [-2, 6],
-};
 export function createWorld(container, initialGame, callbacks = {}) {
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const mobileRender =
@@ -312,6 +313,23 @@ export function createWorld(container, initialGame, callbacks = {}) {
   }
   function sync(next) {
     game = next;
+    if (
+      operation &&
+      !HOME_OBJECTS.some((o) => o.id === operation.decision.activityId)
+    ) {
+      const id = operation.decision.activityId;
+      if (id && !game.placements.some((p) => p.id === id && isBuilt(p))) {
+        const old = operation;
+        chichiCarrier.position.copy(old.destination);
+        chichiCarrier.position.y = 0.16;
+        resetYarn(old.attraction);
+        operation = null;
+        callbacks.onReaction?.(
+          "Предмет убрали. Выберите новое занятие для Чичи.",
+        );
+        old.resolve({ cancelled: true });
+      }
+    }
     const key = JSON.stringify([
       game.unlocked,
       game.placements,
@@ -328,6 +346,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         game.placements.filter((p) => p.biome === id),
       );
     for (const [id, g] of itemGroups) {
+      if (g.userData.homeObject) continue;
       const retained = game.placements.find((p) => p.id === id);
       if (
         retained &&
@@ -374,6 +393,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
       scene.add(g);
       itemGroups.set(placement.id, g);
     }
+    if (operation?.decision.activityId) {
+      operation.attraction = itemGroups.get(operation.decision.activityId);
+      operation.destination
+        .copy(operation.attraction.position)
+        .add(new THREE.Vector3(0, 0, 0.8));
+    }
     for (const biome of BIOMES) {
       const unlocked = game.unlocked.includes(biome.id);
       const label = labels.get(biome.id);
@@ -417,6 +442,17 @@ export function createWorld(container, initialGame, callbacks = {}) {
       npcs.set(profile.id, { carrier, model, profile, index });
     }
   }
+  for (const object of HOME_OBJECTS) {
+    const g = makeAttraction(object.type),
+      p = objectPosition(object);
+    g.position.set(p.x, 0.16, p.z);
+    g.userData.placement = { ...object, item: object.type, rotation: 0 };
+    g.userData.placementId = object.id;
+    g.userData.built = true;
+    g.userData.homeObject = true;
+    scene.add(g);
+    itemGroups.set(object.id, g);
+  }
   sync(initialGame);
   function focus(id, overview = false) {
     const b = byBiome(id) || byBiome("moon");
@@ -458,7 +494,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
     setCatMood(cat, mood, { immediate: reduced });
   }
   function perform(decision) {
+    sync(game);
     if (operation) {
+      resetYarn(operation.attraction);
       operation.resolve({ cancelled: true });
       operation = null;
     }
@@ -475,12 +513,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
       destination = neighbor.carrier.position.clone();
       focus(neighbor.profile.biome);
     } else {
-      const [x, z] = destinations[decision.target] || destinations.home;
-      destination = new THREE.Vector3(x, 0.16, z);
-      focus("moon");
+      return Promise.reject(
+        new Error("Выбранный предмет или котик больше недоступен."),
+      );
     }
     destination.y = 0.16;
-    destination.z += attraction?.userData.id === "tunnel" ? 0 : 1;
+    destination.z += attraction?.userData.id === "tunnel" ? 0 : 0.8;
     return new Promise((resolve) => {
       operation = {
         decision,
@@ -561,6 +599,128 @@ export function createWorld(container, initialGame, callbacks = {}) {
   const raycaster = new THREE.Raycaster(),
     mouse = new THREE.Vector2(),
     ground = new THREE.Plane(new THREE.Vector3(0, 1, 0), -0.16);
+  const dropHint = document.createElement("span");
+  let dropHover = null;
+  dropHint.className = "cat-drop-hint";
+  dropHint.hidden = true;
+  dropHint.setAttribute("aria-live", "polite");
+  container.append(dropHint);
+  const dropRing = new THREE.Mesh(
+    new THREE.TorusGeometry(0.9, 0.04, 6, 40),
+    new THREE.MeshBasicMaterial({
+      color: 0xc6f0bd,
+      transparent: true,
+      opacity: 0.85,
+      depthTest: false,
+    }),
+  );
+  dropRing.rotation.x = -Math.PI / 2;
+  dropRing.visible = false;
+  dropRing.renderOrder = 8;
+  scene.add(dropRing);
+  const hideDrop = () => {
+    dropHint.hidden = true;
+    dropRing.visible = false;
+    dropHover = null;
+  };
+  function pickDrop(e, point) {
+    const objects = [...itemGroups.values()].map((g) => ({
+      id: g.userData.placementId,
+      type: g.userData.placement.item,
+      rotation: g.userData.placement.rotation,
+      x: g.position.x,
+      z: g.position.z,
+      built: g.userData.built,
+    }));
+    const friends = [...npcs.values()]
+      .filter((n) => n.carrier.visible)
+      .map((n) => ({
+        id: n.profile.id,
+        x: n.carrier.position.x,
+        z: n.carrier.position.z,
+      }));
+    const targets = new Map([
+      ...[...npcs.values()]
+        .filter((n) => n.carrier.visible)
+        .map((n) => [n.carrier, { friendId: n.profile.id }]),
+      ...[...itemGroups.values()].map((g) => [
+        g,
+        g.userData.built
+          ? { activityId: g.userData.placementId }
+          : { unavailable: true },
+      ]),
+    ]);
+    const hit = raycaster.intersectObjects([...targets.keys()], true)[0];
+    if (hit) {
+      let node = hit.object;
+      while (node && !targets.has(node)) node = node.parent;
+      if (node) return targets.get(node);
+    }
+    // On a phone the neighbour's mesh is only a few pixels wide. Hit the
+    // visible cat on screen as well: its head projects above the ground plane.
+    const bounds = renderer.domElement.getBoundingClientRect();
+    const screenFriends = [...npcs.values()]
+      .filter((n) => n.carrier.visible)
+      .map((n) => {
+        const p = n.carrier.position
+          .clone()
+          .add(new THREE.Vector3(0, 0.8, 0))
+          .project(camera);
+        return {
+          id: n.profile.id,
+          d: Math.hypot(
+            e.clientX - (bounds.left + ((p.x + 1) * bounds.width) / 2),
+            e.clientY - (bounds.top + ((1 - p.y) * bounds.height) / 2),
+          ),
+          visible: p.z < 1 && Math.abs(p.x) < 1.05 && Math.abs(p.y) < 1.05,
+        };
+      })
+      .filter((n) => n.visible && n.d < (e.pointerType === "touch" ? 9 : 6))
+      .sort((a, b) => a.d - b.d);
+    if (screenFriends.length) return { friendId: screenFriends[0].id };
+    return dropTarget(point, objects, friends, {
+      touch: e.pointerType === "touch",
+    });
+  }
+  function showDrop(selection, point) {
+    dropHint.hidden = false;
+    dropRing.visible = !!selection;
+    dropRing.position.set(point.x, 0.22, point.z);
+    dropRing.material.color.set(selection?.unavailable ? 0xe3a2ac : 0xc6f0bd);
+    if (selection?.unavailable) {
+      dropHint.textContent = "⏳ Здесь ещё идёт строительство";
+      return;
+    }
+    if (!selection) {
+      dropHint.textContent = "Отпусти на игрушку, аттракцион, ферму или котика";
+      return;
+    }
+    const snapshot = {
+      activities: [...itemGroups.values()]
+        .filter((g) => g.userData.built)
+        .map((g) => ({
+          id: g.userData.placementId,
+          type: g.userData.placement.item,
+        })),
+      friends: [...npcs.keys()].map((id) => ({ id })),
+    };
+    const decision = manualInteraction(snapshot, selection, cat.userData.mood);
+    const verbs = {
+      play: "поиграть",
+      ride: "покататься",
+      farm: "проверить грядки",
+      meet: "познакомиться",
+      party: "на вечеринку",
+      rest: "отдохнуть",
+      eat: "поесть",
+      explore: "исследовать",
+    };
+    const name = selection.friendId
+      ? npcs.get(selection.friendId).profile.name
+      : HOME_OBJECTS.find((o) => o.id === selection.activityId)?.name ||
+        byItem(itemGroups.get(selection.activityId).userData.id).name;
+    dropHint.textContent = "Отпусти: " + verbs[decision.action] + " · " + name;
+  }
   const activePointers = new Set();
   let pointerDown = null,
     pinchDistance = null,
@@ -586,6 +746,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   }
   renderer.domElement.addEventListener("pointerdown", (e) => {
     pendingTap = false;
+    dropHover = null;
     activePointers.add(e.pointerId);
     pointerDown = {
       x: e.clientX,
@@ -595,7 +756,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     };
     pointerDown.multi = activePointers.size > 1;
     renderer.domElement.setPointerCapture(e.pointerId);
-    if (!buildMode && !operation) {
+    if (!buildMode && !operation && callbacks.canDragCat?.() !== false) {
       pointer(e);
       const bounds = renderer.domElement.getBoundingClientRect();
       const projected = chichiCarrier.position
@@ -618,6 +779,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
       pointer(e);
       const point = new THREE.Vector3();
       if (raycaster.ray.intersectPlane(ground, point)) {
+        const selection = pickDrop(e, point);
+        dropHover = { selection, x: e.clientX, y: e.clientY };
+        showDrop(selection, point);
         point.y = 0.7;
         chichiCarrier.position.copy(point);
       }
@@ -643,6 +807,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (draggingCat) {
         chichiCarrier.position.copy(draggingCat);
         draggingCat = null;
+        hideDrop();
       }
       if (!activePointers.size) pointerDown = null;
       return;
@@ -651,20 +816,30 @@ export function createWorld(container, initialGame, callbacks = {}) {
       pointer(e);
       const point = new THREE.Vector3();
       raycaster.ray.intersectPlane(ground, point);
-      const farm = [...itemGroups.values()].find(
-        (g) =>
-          byItem(g.userData.placement.item).category === "farm" &&
-          g.userData.built &&
-          (() => {
-            const local = g.worldToLocal(point.clone()),
-              [w, d] = byItem(g.userData.placement.item).footprint;
-            return Math.abs(local.x) < w / 2 && Math.abs(local.z) < d / 2;
-          })(),
-      );
-      chichiCarrier.position.copy(draggingCat);
+      const original = draggingCat;
+      const moved =
+        pointerDown &&
+        Math.hypot(e.clientX - pointerDown.x, e.clientY - pointerDown.y) >= 7;
+      // Execute the target shown under the finger. A wandering neighbour must
+      // not replace the highlighted ride in the time between move and release.
+      const selection = !moved
+        ? null
+        : dropHover &&
+            Math.hypot(e.clientX - dropHover.x, e.clientY - dropHover.y) < 3
+          ? dropHover.selection
+          : pickDrop(e, point);
+      chichiCarrier.position.copy(original);
       draggingCat = null;
       pointerDown = null;
-      callbacks.onFarmDrag?.(farm?.userData.placementId);
+      hideDrop();
+      if (moved) {
+        if (selection && !selection.unavailable) {
+          point.y = 0.16;
+          chichiCarrier.position.copy(point);
+        }
+        if (callbacks.onCatDrop?.(selection) === false)
+          chichiCarrier.position.copy(original);
+      }
       return;
     }
 
@@ -687,7 +862,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
     if (hit) {
       let root = hit.object;
       while (root && !root.userData.placementId) root = root.parent;
-      if (root) callbacks.onSelectItem?.(root.userData.placementId);
+      if (root?.userData.homeObject)
+        callbacks.onCatDrop?.({ activityId: root.userData.placementId });
+      else if (root) callbacks.onSelectItem?.(root.userData.placementId);
       return;
     }
     const point = new THREE.Vector3();
@@ -700,7 +877,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
       );
     });
     if (placement) {
-      callbacks.onSelectItem?.(placement.userData.placementId);
+      if (placement.userData.homeObject)
+        callbacks.onCatDrop?.({ activityId: placement.userData.placementId });
+      else callbacks.onSelectItem?.(placement.userData.placementId);
       return;
     }
     const b = BIOMES.find(
@@ -712,6 +891,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     activePointers.delete(e.pointerId);
     pointerDown = null;
     pendingTap = false;
+    hideDrop();
     if (draggingCat) {
       chichiCarrier.position.copy(draggingCat);
       draggingCat = null;
@@ -791,7 +971,16 @@ export function createWorld(container, initialGame, callbacks = {}) {
     for (const [id, n] of npcs) {
       let x, z;
       const b = byBiome(n.profile.biome);
-      if (
+      if (draggingCat) {
+        // Neighbours watch the held cat instead of walking out from under
+        // the player's finger while a manual destination is being chosen.
+        x = n.carrier.position.x;
+        z = n.carrier.position.z;
+        n.carrier.rotation.y = Math.atan2(
+          chichiCarrier.position.x - x,
+          chichiCarrier.position.z - z,
+        );
+      } else if (
         operation?.decision.action === "party" &&
         operation.partyIds?.has(id)
       ) {
@@ -799,6 +988,13 @@ export function createWorld(container, initialGame, callbacks = {}) {
         z = operation.attraction.position.z + Math.cos(n.index * 1.4) * 1.1;
         n.carrier.position.y =
           0.25 + (reduced ? 0 : Math.abs(Math.sin(time * 4 + n.index)) * 0.09);
+      } else if (operation?.decision.friendId === id) {
+        x = n.carrier.position.x;
+        z = n.carrier.position.z;
+        n.carrier.rotation.y = Math.atan2(
+          chichiCarrier.position.x - x,
+          chichiCarrier.position.z - z,
+        );
       } else {
         x = b.center[0] + Math.sin(time * 0.07 + n.index * 2.4) * 6;
         z = b.center[1] + Math.cos(time * 0.07 + n.index * 2.4) * 6;
@@ -832,7 +1028,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
         );
     }
     npcMarkers.instanceMatrix.needsUpdate = true;
-    let walking = false;
+    let walking = false,
+      reaction = null;
     if (operation) {
       const op = operation;
       if (op.stage === "travel") {
@@ -849,13 +1046,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
           op.stage = "activity";
           op.activityStart = now;
           if (
-            !["ride", "play", "party", "meet", "farm"].includes(
-              op.decision.action,
-            )
-          ) {
-            operation = null;
-            op.resolve({ completed: true });
-          }
+            op.attraction?.userData.id === "yarn" &&
+            op.decision.action === "play"
+          )
+            op.attraction.userData.playing = true;
         }
       } else {
         const elapsed = (now - op.activityStart) / 1000,
@@ -927,6 +1121,28 @@ export function createWorld(container, initialGame, callbacks = {}) {
           );
           chichiCarrier.rotation.y = elapsed;
           walking = true;
+        } else if (action === "play" && id === "yarn") {
+          const frame = yarnPlayFrame(elapsed, reduced);
+          applyYarnFrame(g, frame);
+          chichiCarrier.position.copy(
+            g.localToWorld(
+              new THREE.Vector3(frame.cat.x, 0.16 + frame.jump, frame.cat.z),
+            ),
+          );
+          const yaw = g.rotation.y + frame.yaw;
+          chichiCarrier.rotation.y +=
+            Math.atan2(
+              Math.sin(yaw - chichiCarrier.rotation.y),
+              Math.cos(yaw - chichiCarrier.rotation.y),
+            ) * Math.min(1, dt * 12);
+          walking = frame.running;
+          reaction = frame;
+          if (elapsed >= 2.25 && !op.reacted) {
+            op.reacted = true;
+            callbacks.onReaction?.(
+              "Прыг! Поймала… ой, клубочек опять убежал! 🧶",
+            );
+          }
         } else if (action === "play" && g) {
           const local = new THREE.Vector3(
             Math.sin(elapsed * 2) * 0.7,
@@ -942,6 +1158,23 @@ export function createWorld(container, initialGame, callbacks = {}) {
           chichiCarrier.position.copy(g.localToWorld(local));
           chichiCarrier.rotation.y = -elapsed * 2;
           walking = true;
+        } else if (action === "rest" && g) {
+          chichiCarrier.position.copy(
+            g.localToWorld(
+              new THREE.Vector3(0, g.userData.id === "bed" ? 0.3 : 0.16, 0),
+            ),
+          );
+          reaction = { headPitch: 0.12 };
+        } else if (action === "eat" && g) {
+          chichiCarrier.position.copy(
+            g.localToWorld(new THREE.Vector3(-0.3, 0.16, 0.8)),
+          );
+          reaction = {
+            headPitch: reduced ? 0.25 : 0.25 + Math.sin(elapsed * 4) * 0.06,
+          };
+        } else if (action === "explore" && g) {
+          chichiCarrier.rotation.y =
+            g.rotation.y + Math.sin(elapsed * 0.9) * 0.3;
         } else if (action === "party") {
           chichiCarrier.position.y =
             0.35 + (reduced ? 0 : Math.abs(Math.sin(elapsed * 4)) * 0.15);
@@ -967,6 +1200,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           );
         }
         if (elapsed > (reduced ? 0.2 : g?.userData.duration || 6)) {
+          resetYarn(g);
           chichiCarrier.position.copy(op.destination);
           operation = null;
           op.resolve({ completed: true });
@@ -974,6 +1208,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }
     }
     animateCat(cat, time, walking, reduced);
+    if (reaction) reactCat(cat, reaction, reduced);
     for (let i = 0; i < motes.length; i++)
       if (!reduced) {
         motes[i].position.y =
@@ -1046,6 +1281,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
       for (const island of islands.values()) island.userData.dispose?.();
       disposeCat(cat);
       for (const npc of npcs.values()) disposeCat(npc.model);
+      resetYarn(operation?.attraction);
+      operation?.resolve({ cancelled: true });
+      dropHint.remove();
+      dropRing.geometry.dispose();
+      dropRing.material.dispose();
       resize.disconnect();
       renderer.dispose();
     },

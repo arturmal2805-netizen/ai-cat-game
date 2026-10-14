@@ -1,3 +1,4 @@
+import { HOME_OBJECTS, cleanRecent } from "./interactions.js";
 import {
   BIOMES,
   CATALOG,
@@ -69,6 +70,7 @@ export function newGame(now = Date.now()) {
       },
     ],
     friendship: {},
+    recentActivities: [],
     cat: {
       location: "home",
       hunger: 30,
@@ -193,6 +195,10 @@ export function loadGame(storage, now = Date.now()) {
       }
     }
 
+    game.recentActivities = cleanRecent(
+      saved.recentActivities,
+      worldSnapshot(game),
+    );
     return game;
   } catch {
     return newGame(now);
@@ -397,22 +403,27 @@ export function befriend(game, id, amount = 15) {
 }
 export function worldSnapshot(game) {
   return {
-    activities: game.placements
-      .filter((p) => isBuilt(p))
-      .map((p) => ({
-        id: p.id,
-        type: p.item,
-        biome: p.biome,
-        ...(byItem(p.item).category === "farm"
-          ? {
-              harvestReady: (game.farm.fields[p.id] || []).filter(
-                (c) => c.crop && Date.now() >= c.readyAt,
-              ).length,
-              emptyPlots: (game.farm.fields[p.id] || []).filter((c) => !c.crop)
-                .length,
-            }
-          : {}),
-      })),
+    activities: [
+      ...HOME_OBJECTS,
+      ...game.placements
+        .filter((p) => isBuilt(p))
+        .map((p) => ({
+          id: p.id,
+          type: p.item,
+          biome: p.biome,
+          ...(byItem(p.item).category === "farm"
+            ? {
+                harvestReady: (game.farm.fields[p.id] || []).filter(
+                  (c) => c.crop && Date.now() >= c.readyAt,
+                ).length,
+                emptyPlots: (game.farm.fields[p.id] || []).filter(
+                  (c) => !c.crop,
+                ).length,
+              }
+            : {}),
+        })),
+    ],
+    recent: [...(game.recentActivities || [])],
     friends: NEIGHBORS.filter((n) => game.unlocked.includes(n.biome)).map(
       (n) => ({ id: n.id, closeness: game.friendship[n.id] || 0 }),
     ),

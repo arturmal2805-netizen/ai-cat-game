@@ -1,5 +1,8 @@
 import * as THREE from "three";
-import { mergeGeometries, mergeVertices } from "three/addons/utils/BufferGeometryUtils.js";
+import {
+  mergeGeometries,
+  mergeVertices,
+} from "three/addons/utils/BufferGeometryUtils.js";
 export const moodNames = ["sleep", "crazy hungry", "happy"];
 export const CHICHI_FUR = 0x71655f;
 const poses = {
@@ -642,4 +645,23 @@ export function disposeCat(cat) {
   });
   geometries.forEach((g) => g.dispose());
   materials.forEach((m) => m.dispose());
+}
+
+// Activity reactions layer over the AI mood, never replacing it.
+export function reactCat(cat, reaction, reduced = false) {
+  const d = cat.userData;
+  if (reduced) return;
+  const crouch = reaction.crouch || 0,
+    paw = reaction.paw || 0;
+  d.body.scale.y *= 1 - crouch;
+  d.head.position.y -= crouch * 0.5;
+  d.head.rotation.x += (reaction.headPitch || 0) - paw * 0.13;
+  for (const leg of d.legs)
+    if (leg.position.z > 0) {
+      leg.rotation.x -= paw * (leg.position.x < 0 ? 1.1 : 0.65);
+      leg.position.y -= crouch * 0.3;
+    }
+  d.ears[0].rotation.x -= paw * 0.08;
+  d.ears[1].rotation.x -= paw * 0.08;
+  d.tail.rotation.z += paw * 0.13;
 }

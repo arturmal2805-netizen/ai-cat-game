@@ -1,3 +1,9 @@
+import {
+  resolveInteraction,
+  manualInteraction,
+  recordInteraction,
+  HOME_OBJECTS,
+} from "./interactions.js";
 import { apiBase } from "./config.js";
 import { createWorld } from "./world.js";
 import {
@@ -7,7 +13,6 @@ import {
   NEIGHBORS,
   byItem,
   byBiome,
-  ACTIONS,
   CROPS,
   JOBS,
   buildTimeLabel,
@@ -612,13 +617,22 @@ $("item-store").onclick = () => {
 };
 try {
   world = createWorld($("map"), game, {
+    canDragCat: () => !busy,
     onPreview: previewChanged,
     onSelectItem: inspect,
     onLockedBiome: (id) => showShop("lands", byBiome(id).name),
-    onFarmDrag: (id) => {
-      if (id) manualFarm(id);
-      else
-        toast("Перетащите Чичи на готовую ферму или откройте раздел «Ферма».");
+    onCatDrop: (selection) => {
+      if (selection?.unavailable) {
+        toast(
+          "Этот предмет ещё строится. Чичи сможет пользоваться им, когда он будет готов.",
+        );
+        return false;
+      }
+      if (selection) return manualActivity(selection);
+      toast(
+        "Перетащите Чичи на игрушку, готовый аттракцион, ферму или к другому котику.",
+      );
+      return false;
     },
     onReaction: (text) => ($("bubble").textContent = text),
     onFocus: (id, overview) => {
@@ -678,7 +692,7 @@ for (const kind of ["feed", "play", "rest"])
       toast(error.message);
     }
   };
-function effects(decision) {
+function effects(decision, source = "ai") {
   if (decision.action === "farm") {
     const cells = game.farm.fields[decision.activityId] || [];
     if (cells.some((c) => c.crop && Date.now() >= c.readyAt)) {
@@ -722,6 +736,7 @@ function effects(decision) {
     next.cat.happiness = clamp(next.cat.happiness + 6);
   }
   if (action === "rest") next.cat.energy = clamp(next.cat.energy + 12);
+  next = recordInteraction(next, decision, source);
   const reward = attentionReward(next);
   commit(reward.game, false);
   if (reward.amount)
@@ -729,27 +744,14 @@ function effects(decision) {
 }
 function validateDecision(value) {
   if (
-    !["home", "pond", "garden", "tree", "picnic"].includes(value.target) ||
+    !value ||
     !["sleep", "crazy hungry", "happy"].includes(value.mood) ||
     typeof value.thought !== "string"
   )
     throw Error("ИИ вернул некорректное решение.");
-  if (value.action && !ACTIONS.includes(value.action))
-    throw Error("Неизвестное занятие.");
-  if (["play", "ride", "party", "farm"].includes(value.action)) {
-    const p = game.placements.find((p) => p.id === value.activityId);
-    if (!p || !isBuilt(p) || !byItem(p.item).actions.includes(value.action))
-      throw Error("Этот аттракцион больше недоступен. Повторите решение.");
-  }
-  if (
-    value.action === "meet" &&
-    !NEIGHBORS.some(
-      (n) => n.id === value.friendId && game.unlocked.includes(n.biome),
-    )
-  )
-    throw Error("Этот сосед пока недоступен.");
-  return value;
+  return { ...value, ...resolveInteraction(worldSnapshot(game), value) };
 }
+
 async function decide(demo = false, manualDecision = null) {
   if (busy) return;
   if (buildMode) {
@@ -776,39 +778,26 @@ async function decide(demo = false, manualDecision = null) {
           : game.cat.hunger > 60
             ? "crazy hungry"
             : "happy";
-      const available = game.placements.filter((p) => isBuilt(p));
-      const activity = available[steps % available.length];
-      const neighbor = NEIGHBORS.filter((n) => game.unlocked.includes(n.biome))[
-        steps % NEIGHBORS.filter((n) => game.unlocked.includes(n.biome)).length
-      ];
-      const action =
-        mood === "sleep"
-          ? "rest"
-          : mood === "crazy hungry"
-            ? "eat"
-            : steps % 3 === 2
-              ? "meet"
-              : byItem(activity?.item)?.actions[0] || "explore";
-      decision = {
-        mood,
-        target:
+      const snapshot = worldSnapshot(game);
+      const objects = snapshot.activities.filter(
+        (a) => !HOME_OBJECTS.some((o) => o.id === a.id),
+      );
+      if (mood === "happy" && steps % 3 === 2 && snapshot.friends.length) {
+        decision = manualInteraction(
+          snapshot,
+          { friendId: snapshot.friends[steps % snapshot.friends.length].id },
+          mood,
+        );
+      } else {
+        const id =
           mood === "sleep"
-            ? "home"
+            ? "chichi-bed"
             : mood === "crazy hungry"
-              ? "picnic"
-              : "garden",
-        action,
-        thought:
-          "Демо: " +
-          (action === "meet"
-            ? "Пойду познакомлюсь с " + neighbor.name + "."
-            : activity
-              ? "Хочу посмотреть " + byItem(activity.item).name + "."
-              : "Погуляю под звёздами."),
-      };
-      if (mood === "happy" && action !== "meet" && activity)
-        decision.activityId = activity.id;
-      if (action === "meet") decision.friendId = neighbor.id;
+              ? "chichi-food"
+              : objects[steps % objects.length]?.id || "chichi-bed";
+        decision = manualInteraction(snapshot, { activityId: id }, mood);
+      }
+      decision.thought = "Демо: " + decision.thought;
     } else {
       $("status").textContent =
         "ИИ учитывает потребности, доступные чудеса и друзей…";
@@ -822,7 +811,7 @@ async function decide(demo = false, manualDecision = null) {
       if (!response.ok)
         throw Error(decision.error || "Не удалось получить решение ИИ.");
     }
-    validateDecision(decision);
+    decision = validateDecision(decision);
     const next = structuredClone(game);
     next.cat.location = decision.target;
     next.cat.mood = decision.mood;
@@ -864,10 +853,16 @@ async function decide(demo = false, manualDecision = null) {
         "crazy hungry": "🙀",
         happy: "😺",
       }[decision.mood];
-    await world?.perform(decision);
-    effects(decision);
+    const result = await world?.perform(decision);
+    if (result?.cancelled) {
+      $("cat-activity").textContent = "Ждёт новое занятие";
+      $("status").textContent =
+        "Занятие отменено: выбранный предмет больше недоступен.";
+      return;
+    }
+    effects(decision, manualDecision ? "manual" : demo ? "demo" : "ai");
     $("status").textContent = manualDecision
-      ? "Чичи поработала на ферме по вашей команде."
+      ? "Чичи закончила занятие по вашей команде."
       : demo
         ? "Демо: выбор сделан локально без ИИ."
         : "Чичи решила! Настроение и занятие выбрал Cloudflare AI.";
@@ -927,7 +922,7 @@ persist();
 renderGame();
 if (matchMedia("(max-width:600px)").matches)
   document.querySelector(".orbit-hint").textContent =
-    "Потяните · два пальца для масштаба";
+    "Чичи — к игрушке или котику · масштаб двумя пальцами";
 if (firstRewards.rewards.length)
   toast(
     "Рады видеть вас! +" +
@@ -1098,11 +1093,27 @@ function renderFarm() {
     $("farm-jobs").append(button);
   }
 }
-function manualFarm(id = null) {
+function manualActivity(selection) {
   if (busy) {
-    toast("Чичи уже занимается приключением.");
-    return;
+    toast("Чичи уже выбирает или занимается приключением.");
+    return false;
   }
+  try {
+    const decision = manualInteraction(
+      worldSnapshot(game),
+      selection,
+      game.cat.mood,
+    );
+    for (const dialog of document.querySelectorAll("dialog[open]"))
+      dialog.close();
+    decide(false, decision);
+    return true;
+  } catch (error) {
+    toast(error.message);
+    return false;
+  }
+}
+function manualFarm(id = null) {
   const farm = game.placements.find(
     (p) =>
       (id ? p.id === id : byItem(p.item).category === "farm") && isBuilt(p),
@@ -1111,16 +1122,9 @@ function manualFarm(id = null) {
     toast("Нужна готовая ферма.");
     return;
   }
-  for (const dialog of document.querySelectorAll("dialog[open]"))
-    dialog.close();
-  decide(false, {
-    target: "garden",
-    mood: game.cat.mood,
-    action: "farm",
-    activityId: farm.id,
-    thought: "Пойду проверю грядки и соберу всё, что созрело!",
-  });
+  manualActivity({ activityId: farm.id });
 }
+
 function updateTimers() {
   for (const node of document.querySelectorAll("[data-until]"))
     node.textContent = countdown(Number(node.dataset.until));
