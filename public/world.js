@@ -1,5 +1,11 @@
 import * as THREE from "three";
-import { createCat, animateCat, moodNames } from "./cat-model.js";
+import {
+  createCat,
+  animateCat,
+  setCatMood,
+  disposeCat,
+  moodNames,
+} from "./cat-model.js";
 import { BIOMES, NEIGHBORS, byBiome, byItem } from "./game-data.js";
 import { canPlace, isBuilt } from "./economy.js";
 import { fantasyArtVersion, loadFantasyArt } from "./fantasy-art.js";
@@ -378,16 +384,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (!game.unlocked.includes(profile.biome) || npcs.has(profile.id))
         continue;
       const carrier = new THREE.Group(),
-        model = createCat("happy");
+        model = createCat("happy", { detail: "npc", color: profile.color });
       model.scale.setScalar(0.63);
-      const changed = new Set();
-      model.traverse((o) => {
-        if (o.isMesh && !changed.has(o.material)) {
-          changed.add(o.material);
-          if (o.material.color.getHex() === 0xf2b479)
-            o.material.color.set(profile.color);
-        }
-      });
       carrier.add(model);
       if (profile.hat) {
         const hat = primitive(
@@ -457,15 +455,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   }
   function switchMood(mood) {
     if (cat.userData.mood === mood) return;
-    chichiCarrier.remove(cat);
-    cat.traverse((o) => {
-      if (o.isMesh) {
-        o.geometry.dispose();
-        o.material.dispose();
-      }
-    });
-    cat = createCat(mood);
-    chichiCarrier.add(cat);
+    setCatMood(cat, mood, { immediate: reduced });
   }
   function perform(decision) {
     if (operation) {
@@ -1013,7 +1003,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     requestAnimationFrame(loop);
   }
   requestAnimationFrame(loop);
-  // Existing Chichi portraits use the unchanged model and mood system.
+  // Portraits and the live hero share the same photo-inspired model.
   const portraitRenderer = new THREE.WebGLRenderer({
     antialias: true,
     alpha: true,
@@ -1034,12 +1024,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     portraitRenderer.render(portrait, view);
     const image = document.querySelector(`[data-mood-image="${mood}"]`);
     if (image) image.src = portraitRenderer.domElement.toDataURL("image/png");
-    model.traverse((o) => {
-      if (o.isMesh) {
-        o.geometry.dispose();
-        o.material.dispose();
-      }
-    });
+    disposeCat(model);
   }
   portraitRenderer.dispose();
   return {
@@ -1059,6 +1044,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
       disposed = true;
       clearTimeout(detailTimer);
       for (const island of islands.values()) island.userData.dispose?.();
+      disposeCat(cat);
+      for (const npc of npcs.values()) disposeCat(npc.model);
       resize.disconnect();
       renderer.dispose();
     },
