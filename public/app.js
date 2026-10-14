@@ -30,7 +30,6 @@ import {
   placeItem,
   moveItem,
   storeItem,
-  befriend,
   worldSnapshot,
   HOUR,
   ATTENTION_COOLDOWN,
@@ -46,6 +45,25 @@ import {
 import { catalogPreviews } from "./catalog-previews.js";
 import { byScenery, sceneryName } from "./scenery-data.js";
 import { moveScenery, storeScenery } from "./economy.js";
+import { readSavedState } from "./economy.js";
+import { CloudBackup } from "./cloud-save.js";
+import {
+  fillBowl,
+  bowlPortions,
+  BOWL_CAPACITY,
+  foodYield,
+  advanceCare,
+  eatFromBowl,
+  startRest,
+  colonyNeeds,
+} from "./care-system.js";
+import {
+  relationshipStage,
+  stageLabel,
+  recordSocialEncounter,
+  encounterKind,
+  bestEligible,
+} from "./social-system.js";
 const $ = (id) => document.getElementById(id),
   api = (path) =>
     apiBase
@@ -62,7 +80,43 @@ try {
     },
   };
 }
-let game = loadGame(storage),
+let cloudStatus = "local";
+function cloudStatusChanged(status) {
+  cloudStatus = status;
+  const texts = {
+    local: "Локальная копия",
+    ready: "Облако подключено",
+    pending: "☁ Синхронизация…",
+    saved: "☁ Сохранено в облаке",
+    offline: "☁ Локально сохранено · ждём сеть",
+    conflict: "☁ Найдена более новая копия — откройте восстановление",
+  };
+  $("cloud-state").textContent = texts[status] || texts.local;
+  $("cloud-detail").textContent =
+    status === "saved"
+      ? "Последние изменения подтверждены в облаке. На устройстве также ведутся резервные копии."
+      : status === "conflict"
+        ? "На другом устройстве есть новая копия. Локальные изменения сохранены отдельно; облако не перезаписано. Вставьте свой код ниже, чтобы получить облачную копию."
+        : "Каждая подтверждённая покупка и перестановка сначала записывается на этом устройстве. Облачная копия обновляется автоматически; статус показывает, завершилась ли синхронизация.";
+}
+const cloud = new CloudBackup({
+  storage,
+  base: apiBase,
+  onStatus: cloudStatusChanged,
+});
+const localSaved = readSavedState(storage);
+const recoveredAtBoot =
+  !cloud.createdToken && cloud.token
+    ? await cloud.load({ force: !localSaved })
+    : null;
+let game = loadGame(
+    recoveredAtBoot
+      ? {
+          getItem: (key) =>
+            key === SAVE_KEY ? JSON.stringify(recoveredAtBoot) : null,
+        }
+      : storage,
+  ),
   busy = false,
   configured = false,
   steps = 0,
@@ -78,7 +132,7 @@ let game = loadGame(storage),
   farmCrop = "wheat",
   farmViewKey = "";
 const firstRewards = claimRewards(game, Date.now(), true);
-game = firstRewards.game;
+if (saveGame(storage, firstRewards.game)) game = firstRewards.game;
 const clamp = (n) => Math.max(0, Math.min(100, n)),
   money = (n) => new Intl.NumberFormat("ru-RU").format(n),
   buttonLabel = "Дай Чичи решить самой ✦";
@@ -93,6 +147,7 @@ function persist() {
   $("save-state").textContent = ok
     ? "Прогресс сохраняется на этом устройстве"
     : "Сохранение недоступно. Прогресс сохранится только до закрытия страницы.";
+  if (ok) cloud.enqueue(game);
 }
 function commit(next, syncWorld = true) {
   if (!saveGame(storage, next)) {
@@ -103,11 +158,13 @@ function commit(next, syncWorld = true) {
     );
   }
   game = next;
+  cloud.enqueue(game);
   $("save-state").textContent =
     "Сохранено на этом устройстве · резервная копия включена";
   if (syncWorld) world?.sync(game);
   renderGame();
   if ($("shop-dialog").open) renderShop();
+  if ($("bowl-dialog").open) renderBowl();
 }
 function open(id) {
   for (const dialog of document.querySelectorAll("dialog[open]"))
@@ -134,19 +191,51 @@ function renderGame() {
     $(key).value = game.cat[key];
     $(key + "-text").textContent = Math.round(game.cat[key]) + "%";
   }
-  $("food").value = 100 - game.cat.hunger;
-  $("food-text").textContent = Math.round(100 - game.cat.hunger) + "%";
+  $("food").value = game.cat.hunger;
+  $("food-text").textContent = Math.round(game.cat.hunger) + "%";
   $("coins").textContent = money(game.coins);
   $("shop-coins").textContent = money(game.coins);
   $("bag-count").textContent = Object.values(game.inventory).reduce(
     (a, b) => a + b,
     0,
   );
-  $("friend-count").textContent = Object.values(game.friendship).filter(
-    (x) => x >= 30,
+  $("friend-count").textContent = Object.entries(
+    game.social.relationships,
+  ).filter(([id, r]) =>
+    ["friend", "close", "best"].includes(
+      relationshipStage(r, id === game.social.bestFriendId),
+    ),
   ).length;
   for (const node of document.querySelectorAll("[data-mood]"))
-    node.classList.toggle("active", node.dataset.mood === game.cat.mood);
+    node.classList.toggle(
+      "active",
+      node.dataset.mood === (game.care.resting ? "sleep" : game.cat.mood),
+    );
+  const colony = colonyNeeds(game);
+  $("colony-count").textContent = colony.count;
+  $("colony-hunger").value = colony.hunger;
+  $("colony-hunger-text").textContent = Math.round(colony.hunger) + "%";
+  $("colony-happiness").value = colony.happiness;
+  $("colony-happiness-text").textContent = Math.round(colony.happiness) + "%";
+  $("bowl-count").textContent = bowlPortions(game);
+  $("rest-hint").textContent = game.care.resting
+    ? "Чичи спит: энергия восстанавливается. Перетащите её к другому предмету, чтобы разбудить."
+    : "Перетащите Чичи на подушку, чтобы уложить спать. К игрушке — чтобы поиграть.";
+  for (const [id, value, negative] of [
+    ["energy", game.cat.energy, false],
+    ["food", game.cat.hunger, true],
+    ["happiness", game.cat.happiness, false],
+    ["colony-hunger", colony.hunger, true],
+    ["colony-happiness", colony.happiness, false],
+  ])
+    $(id).style.setProperty(
+      "--need-color",
+      (negative ? value >= 75 : value <= 25)
+        ? "#d99298"
+        : (negative ? value >= 45 : value <= 50)
+          ? "#d4b176"
+          : "#96b7a6",
+    );
   renderBiomes();
   renderNeighbors();
   renderRewards();
@@ -183,27 +272,20 @@ function renderBiomes() {
     $("biome-nav").append(button);
   }
 }
-function friendLabel(value) {
-  return value >= 75
-    ? "Лучшие друзья"
-    : value >= 30
-      ? "Друзья"
-      : value > 0
-        ? "Уже знакомы"
-        : "Ещё не знакомы";
-}
 function renderNeighbors() {
-  const visible = NEIGHBORS.filter((n) => game.unlocked.includes(n.biome));
   $("neighbors").replaceChildren();
   $("friends-list").replaceChildren();
   for (const n of NEIGHBORS) {
-    const value = game.friendship[n.id] || 0,
-      unlocked = game.unlocked.includes(n.biome);
+    const r = game.social.relationships[n.id],
+      unlocked = game.unlocked.includes(n.biome),
+      stage = relationshipStage(r, n.id === game.social.bestFriendId),
+      needs = game.care.residents[n.id];
     const row = document.createElement("div");
     row.className = "friend-list-row" + (unlocked ? "" : " locked");
+    row.dataset.friend = n.id;
     const face = document.createElement("span");
     face.className = "neighbor-face";
-    face.textContent = n.hat ? "🐱" : "🐈";
+    face.textContent = stage === "best" ? "💞" : n.hat ? "🐱" : "🐈";
     face.style.setProperty(
       "--tint",
       "#" + n.color.toString(16).padStart(6, "0") + "44",
@@ -211,16 +293,49 @@ function renderNeighbors() {
     const content = document.createElement("div"),
       name = document.createElement("h3"),
       description = document.createElement("p");
-    name.textContent = n.name;
+    name.textContent = r.meetings ? n.name : "Незнакомый котик · " + n.name;
     description.textContent = unlocked
-      ? n.personality + " · " + friendLabel(value)
+      ? n.personality + " · " + stageLabel(stage)
       : "Откройте " + byBiome(n.biome).name;
     const meter = document.createElement("div");
     meter.className = "friend-meter";
     const fill = document.createElement("i");
-    fill.style.width = value + "%";
+    fill.style.width = r.points + "%";
     meter.append(fill);
-    content.append(name, description, meter);
+    const history = document.createElement("p");
+    history.className = "friend-history";
+    history.textContent = r.meetings
+      ? r.meetings +
+        " встреч · " +
+        r.plays +
+        " игр · доверие " +
+        r.points +
+        "/100"
+      : "Начните с настоящей встречи на карте.";
+    content.append(name, description, meter, history);
+    if (unlocked) {
+      const wellbeing = document.createElement("div");
+      wellbeing.className = "neighbor-needs";
+      for (const [key, label] of [
+        ["hunger", "Голод"],
+        ["happiness", "Счастье"],
+      ]) {
+        const line = document.createElement("label");
+        line.textContent =
+          (key === "hunger" ? "🥣 " : "💛 ") +
+          label +
+          " " +
+          Math.round(needs[key]) +
+          "%";
+        const p = document.createElement("progress");
+        p.max = 100;
+        p.value = needs[key];
+        p.setAttribute("aria-label", n.name + " · " + label);
+        p.className = "neighbor-" + key;
+        wellbeing.append(line, p);
+      }
+      content.append(wellbeing);
+    }
     row.append(face, content);
     $("friends-list").append(row);
     if (unlocked) {
@@ -231,7 +346,7 @@ function renderNeighbors() {
         h = document.createElement("h3"),
         p = document.createElement("p");
       h.textContent = n.name;
-      p.textContent = friendLabel(value);
+      p.textContent = stageLabel(stage);
       text.append(h, p, meter.cloneNode(true));
       card.append(face.cloneNode(true), text);
       card.onclick = () => open("friends-dialog");
@@ -713,6 +828,17 @@ try {
     onPreview: previewChanged,
     onSelectItem: inspect,
     onSelectScenery: inspectScenery,
+    onSelectBowl: () => showBowl(),
+    onResidentAte: (id) => {
+      try {
+        if (!bowlPortions(game)) return false;
+        commit(eatFromBowl(game, id).game);
+        return true;
+      } catch (error) {
+        $("save-state").textContent = error.message;
+        return false;
+      }
+    },
     onLockedBiome: (id) => showShop("lands", byBiome(id).name),
     onCatDrop: (selection) => {
       if (selection?.unavailable) {
@@ -750,89 +876,164 @@ $("camera-home").onclick = () => world?.focus("moon");
 $("camera-all").onclick = () => world?.overview();
 $("zoom-in").onclick = () => world?.zoom(-5);
 $("zoom-out").onclick = () => world?.zoom(5);
-function care(kind) {
-  if (busy) return;
-  const next = structuredClone(game);
-  const before = JSON.stringify(next.cat);
-  if (kind === "feed") {
-    next.cat.hunger = clamp(next.cat.hunger - 35);
-    next.cat.happiness = clamp(next.cat.happiness + 8);
+function renderBowl() {
+  const portions = bowlPortions(game);
+  $("bowl-summary").textContent = portions
+    ? portions +
+      " порций из " +
+      BOWL_CAPACITY +
+      ". Соседи подходят к миске, когда голодны. Чичи можно перетащить к ней."
+    : "Миска пустая. Соберите готовый урожай на ферме и положите его сюда.";
+  $("bowl-stock").replaceChildren();
+  const available = CROPS.filter((c) => (game.farm.stock[c.id] || 0) > 0);
+  for (const crop of available) {
+    const row = document.createElement("div");
+    row.className = "bowl-stock-row";
+    const label = document.createElement("span");
+    label.textContent = crop.icon + " " + crop.name;
+    const small = document.createElement("small");
+    small.textContent =
+      "На складе: " +
+      game.farm.stock[crop.id] +
+      " · 1 урожай = " +
+      foodYield(crop) +
+      " порций";
+    label.append(small);
+    row.append(label);
+    for (const quantity of [1, 3])
+      if (game.farm.stock[crop.id] >= quantity) {
+        const button = document.createElement("button");
+        button.className = "primary";
+        button.textContent = "Добавить " + quantity;
+        button.dataset.feedcrop = crop.id;
+        button.dataset.quantity = quantity;
+        button.onclick = () => {
+          try {
+            commit(fillBowl(game, crop.id, quantity));
+            toast("Урожай в миске. Котики смогут поесть.");
+          } catch (error) {
+            toast(error.message);
+          }
+        };
+        row.append(button);
+      }
+    $("bowl-stock").append(row);
   }
-  if (kind === "play") {
-    next.cat.happiness = clamp(next.cat.happiness + 22);
-    next.cat.energy = clamp(next.cat.energy - 22);
-    next.cat.hunger = clamp(next.cat.hunger + 15);
+  if (!available.length) {
+    const empty = document.createElement("p");
+    empty.className = "dialog-copy";
+    empty.textContent =
+      "На складе нет урожая. На стартовых грядках уже ждёт пшеница: перетащите туда Чичи, чтобы собрать её.";
+    $("bowl-stock").append(empty);
   }
-  if (kind === "rest") {
-    next.cat.energy = clamp(next.cat.energy + 28);
-    next.cat.happiness = clamp(next.cat.happiness + 5);
-  }
-  const reward = attentionReward(
-    next,
-    Date.now(),
-    before !== JSON.stringify(next.cat),
-  );
-  commit(reward.game, false);
-  if (reward.amount) toast("За внимание к Чичи +" + reward.amount + " ✦");
-  $("status").textContent =
-    "Потребности изменились. Настроение по-прежнему выбирает ИИ.";
 }
-for (const kind of ["feed", "play", "rest"])
-  $(kind).onclick = () => {
-    try {
-      care(kind);
-    } catch (error) {
-      toast(error.message);
-    }
-  };
-function effects(decision, source = "ai") {
-  if (decision.action === "farm") {
-    const cells = game.farm.fields[decision.activityId] || [];
+function showBowl() {
+  renderBowl();
+  open("bowl-dialog");
+}
+$("bowl-open").onclick = showBowl;
+$("bowl-farm").onclick = () => showFarm();
+$("cloud-save-open").onclick = () => {
+  $("recovery-code").value =
+    cloud.token || "Код недоступен: разрешите сохранение в браузере.";
+  open("cloud-save-dialog");
+};
+$("recovery-copy").onclick = async () => {
+  try {
+    await navigator.clipboard.writeText(cloud.token);
+    toast("Код скопирован. Сохраните его у себя.");
+  } catch {
+    $("recovery-code").select();
+    toast("Выделенный код можно скопировать вручную.");
+  }
+};
+$("cloud-retry").onclick = () => {
+  cloud.flush();
+};
+$("recovery-restore").onclick = async () => {
+  if (busy || buildMode) {
+    toast("Сначала завершите текущее действие.");
+    return;
+  }
+  $("recovery-restore").disabled = true;
+  try {
+    const raw = await cloud.recover($("recovery-enter").value, (raw) => {
+        const restored = loadGame({
+          getItem: (key) => (key === SAVE_KEY ? JSON.stringify(raw) : null),
+        });
+        if (!saveGame(storage, restored))
+          throw Error(
+            "Не удалось записать восстановленный мир. Текущий мир сохранён.",
+          );
+      }),
+      restored = loadGame({
+        getItem: (key) => (key === SAVE_KEY ? JSON.stringify(raw) : null),
+      });
+    commit(restored);
+    location.reload();
+  } catch (error) {
+    toast(error.message);
+  } finally {
+    $("recovery-restore").disabled = false;
+  }
+};
+function effects(decision, source = "ai", result = {}) {
+  let next = structuredClone(game),
+    message = null;
+  const action = decision.action || "explore";
+  if (action === "farm") {
+    const cells = next.farm.fields[decision.activityId] || [];
     if (cells.some((c) => c.crop && Date.now() >= c.readyAt)) {
-      const harvest = harvestField(game, decision.activityId);
-      commit(harvest.game);
-      toast(
+      const harvested = harvestField(next, decision.activityId);
+      next = harvested.game;
+      message =
         "Чичи собрала урожай: " +
-          harvest.count +
-          ". Его можно продать в разделе «Ферма».",
-      );
+        harvested.count +
+        ". Его можно продать или положить в общую миску.";
     } else {
       const empty = cells.findIndex((c) => !c.crop);
       if (empty >= 0) {
-        commit(plantCrop(game, decision.activityId, empty, farmCrop));
-        toast(
-          "Чичи посадила " + CROPS.find((c) => c.id === farmCrop).name + ".",
-        );
-      } else toast("Чичи проверила грядки. Урожай ещё растёт.");
+        next = plantCrop(next, decision.activityId, empty, farmCrop);
+        message =
+          "Чичи посадила " + CROPS.find((c) => c.id === farmCrop).name + ".";
+      } else message = "Урожай ещё растёт.";
     }
   }
-
-  let next = structuredClone(game);
-  const action = decision.action || "explore";
-  if (action === "meet") {
-    next = befriend(next, decision.friendId, 15);
+  if (action === "meet" && result.completed) {
+    const intent =
+      result.socialKind ||
+      encounterKind(next, decision.friendId, decision.socialIntent);
+    next = recordSocialEncounter(next, decision.friendId, intent, source);
+    decision = { ...decision, socialIntent: intent };
+    const r = next.social.relationships[decision.friendId],
+      n = NEIGHBORS.find((n) => n.id === decision.friendId);
+    message =
+      n.name +
+      " · " +
+      stageLabel(relationshipStage(r, next.social.bestFriendId === n.id)) +
+      " · " +
+      r.meetings +
+      " встреч";
   }
-  if (action === "party") {
-    for (const n of NEIGHBORS.filter((n) =>
-      next.unlocked.includes(n.biome),
-    ).slice(0, 6))
-      next = befriend(next, n.id, 8);
-  }
+  if (action === "party" && result.completed)
+    for (const id of result.participantIds || [])
+      next = recordSocialEncounter(next, id, "party", source);
   if (["play", "ride", "party"].includes(action)) {
     next.cat.energy = clamp(next.cat.energy - 6);
     next.cat.hunger = clamp(next.cat.hunger + 5);
     next.cat.happiness = clamp(next.cat.happiness + 12);
   }
-  if (action === "meet") next.cat.happiness = clamp(next.cat.happiness + 8);
-  if (action === "eat") {
-    next.cat.hunger = clamp(next.cat.hunger - 18);
-    next.cat.happiness = clamp(next.cat.happiness + 6);
+  if (action === "meet") {
+    next.cat.happiness = clamp(next.cat.happiness + 8);
+    next.cat.energy = clamp(next.cat.energy - 2);
   }
-  if (action === "rest") next.cat.energy = clamp(next.cat.energy + 12);
+  if (action === "eat") next = eatFromBowl(next).game;
+  if (action === "rest") next = startRest(next, decision.activityId);
   next = recordInteraction(next, decision, source);
-  const reward = attentionReward(next);
-  commit(reward.game, false);
-  if (reward.amount)
+  const reward = attentionReward(next, Date.now(), source !== "care");
+  commit(reward.game);
+  if (message) toast(message);
+  else if (reward.amount)
     toast("За совместное приключение +" + reward.amount + " ✦");
 }
 function validateDecision(value) {
@@ -845,7 +1046,7 @@ function validateDecision(value) {
   return { ...value, ...resolveInteraction(worldSnapshot(game), value) };
 }
 
-async function decide(demo = false, manualDecision = null) {
+async function decide(demo = false, manualDecision = null, routine = false) {
   if (busy) return;
   if (buildMode) {
     toast("Сначала завершите или отмените размещение.");
@@ -857,8 +1058,7 @@ async function decide(demo = false, manualDecision = null) {
     return;
   }
   busy = true;
-  for (const id of ["toggle", "demo", "feed", "play", "rest"])
-    $(id).disabled = true;
+  for (const id of ["toggle", "demo"]) $(id).disabled = true;
   $("toggle").textContent = "Чичи выбирает приключение…";
   try {
     let decision;
@@ -885,7 +1085,7 @@ async function decide(demo = false, manualDecision = null) {
         const id =
           mood === "sleep"
             ? "chichi-bed"
-            : mood === "crazy hungry"
+            : mood === "crazy hungry" && bowlPortions(game) > 0
               ? "chichi-food"
               : objects[steps % objects.length]?.id || "chichi-bed";
         decision = manualInteraction(snapshot, { activityId: id }, mood);
@@ -906,19 +1106,28 @@ async function decide(demo = false, manualDecision = null) {
     }
     decision = validateDecision(decision);
     const next = structuredClone(game);
+    next.care.resting = null;
     next.cat.location = decision.target;
     next.cat.mood = decision.mood;
-    commit(next, false);
+    commit(next);
     $("bubble").textContent = decision.thought;
     $("steps").textContent = ++steps + " решений";
     $("mood-badge").textContent =
       decision.mood +
-      (manualDecision ? " · ручная команда" : demo ? " · демо" : " · выбор ИИ");
-    $("mode").textContent = manualDecision
-      ? "Ручная команда"
-      : demo
-        ? "Демо · без ИИ"
-        : "Cloudflare AI";
+      (routine
+        ? " · повседневный уход"
+        : manualDecision
+          ? " · ручная команда"
+          : demo
+            ? " · демо"
+            : " · выбор ИИ");
+    $("mode").textContent = routine
+      ? "Повседневный уход"
+      : manualDecision
+        ? "Ручная команда"
+        : demo
+          ? "Демо · без ИИ"
+          : "Cloudflare AI";
     const actionNames = {
       explore: "Исследует",
       play: "Играет",
@@ -953,18 +1162,23 @@ async function decide(demo = false, manualDecision = null) {
         "Занятие отменено: выбранный предмет больше недоступен.";
       return;
     }
-    effects(decision, manualDecision ? "manual" : demo ? "demo" : "ai");
-    $("status").textContent = manualDecision
-      ? "Чичи закончила занятие по вашей команде."
-      : demo
-        ? "Демо: выбор сделан локально без ИИ."
-        : "Чичи решила! Настроение и занятие выбрал Cloudflare AI.";
+    effects(
+      decision,
+      routine ? "care" : manualDecision ? "manual" : demo ? "demo" : "ai",
+      result,
+    );
+    $("status").textContent = routine
+      ? "Чичи перекусила. Одна порция ушла из общей миски."
+      : manualDecision
+        ? "Чичи закончила занятие по вашей команде."
+        : demo
+          ? "Демо: выбор сделан локально без ИИ."
+          : "Чичи решила! Настроение и занятие выбрал Cloudflare AI.";
   } catch (error) {
     $("status").textContent = error.message;
   } finally {
     busy = false;
-    for (const id of ["toggle", "demo", "feed", "play", "rest"])
-      $(id).disabled = false;
+    for (const id of ["toggle", "demo"]) $(id).disabled = false;
     $("toggle").textContent = buttonLabel;
     farmViewKey = "";
     if ($("farm-dialog").open) renderFarm();
@@ -988,22 +1202,34 @@ setInterval(() => {
   updateTimers();
 }, 1000);
 setInterval(() => {
-  if (busy || document.hidden) return;
-  const next = structuredClone(game);
-  next.cat.hunger = clamp(next.cat.hunger + 1);
-  next.cat.energy = clamp(
-    next.cat.energy + (next.cat.mood === "sleep" ? 2 : -1),
-  );
-  next.cat.happiness = clamp(
-    next.cat.happiness +
-      (next.cat.hunger > 70 ? -2 : next.cat.mood === "sleep" ? 1 : -0.5),
-  );
-  try {
-    commit(next, false);
-  } catch (error) {
-    $("save-state").textContent = error.message;
+  if (document.hidden) return;
+  const next = advanceCare(game);
+  if (next !== game)
+    try {
+      commit(next);
+    } catch (error) {
+      $("save-state").textContent = error.message;
+    }
+  if (
+    !busy &&
+    !buildMode &&
+    !game.care.resting &&
+    game.cat.hunger >= 50 &&
+    bowlPortions(game) > 0 &&
+    !document.querySelector("dialog[open]")
+  ) {
+    const decision = manualInteraction(
+      worldSnapshot(game),
+      { activityId: "chichi-food" },
+      game.cat.mood,
+    );
+    decision.thought = "В общей миске есть урожай. Пойду тихонько перекушу.";
+    decide(false, decision, true);
   }
-}, 20000);
+}, 5000);
+setInterval(() => cloud.flush(), 30000);
+window.addEventListener("online", () => cloud.flush());
+window.addEventListener("pagehide", () => cloud.flush());
 window.addEventListener("storage", (event) => {
   if (event.key === SAVE_KEY && !busy) {
     game = loadGame(storage);

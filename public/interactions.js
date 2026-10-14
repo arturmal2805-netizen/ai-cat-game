@@ -1,6 +1,7 @@
 import { byItem, NEIGHBORS, byBiome } from "./game-data.js";
+import { SOCIAL_INTENTS } from "./social-system.js";
 
-export const DECISION_PROTOCOL = "physical-objects-v1";
+export const DECISION_PROTOCOL = "care-social-v2";
 
 // These free, permanent objects are rendered in the reserved home/picnic areas.
 // Their IDs are stable across saves, browser validation and Workers AI.
@@ -19,7 +20,7 @@ export const HOME_OBJECTS = [
     biome: "moon",
     x: -2,
     z: 5,
-    name: "Перекус Чичи на пледе",
+    name: "Общая миска котиков",
   },
 ];
 export function activityLocation(action, type) {
@@ -31,18 +32,37 @@ export function activityLocation(action, type) {
         ? "pond"
         : "garden";
 }
-export function resolveInteraction(world, value) {
+export function resolveInteraction(world, value, { historical = false } = {}) {
   const action = value?.action;
   if (action === "meet") {
     if (value.activityId || !world.friends.some((f) => f.id === value.friendId))
       throw Error("Friend is unavailable");
-    return { action, friendId: value.friendId, target: "garden" };
+    const f = world.friends.find((f) => f.id === value.friendId);
+    if (
+      value.socialIntent !== undefined &&
+      (!SOCIAL_INTENTS.includes(value.socialIntent) ||
+        (value.socialIntent === "best_friend" && !f.bestEligible))
+    )
+      throw Error("Choose a compatible friendship intent");
+    return {
+      action,
+      friendId: value.friendId,
+      target: "garden",
+      ...(value.socialIntent ? { socialIntent: value.socialIntent } : {}),
+    };
   }
   if (value?.friendId) throw Error("Choose exactly one physical target");
   const object = world.activities.find((a) => a.id === value?.activityId);
   if (!object) throw Error("Choose an available physical object");
   if (!byItem(object.type)?.actions.includes(action))
     throw Error("Activity is unavailable");
+  if (
+    !historical &&
+    action === "eat" &&
+    Number.isFinite(object.foodPortions) &&
+    object.foodPortions <= 0
+  )
+    throw Error("Миска пустая. Добавьте урожай со склада фермы.");
   return {
     action,
     activityId: object.id,
@@ -89,10 +109,12 @@ export function cleanRecent(recent, world) {
   const result = [];
   for (const entry of recent.slice(-8)) {
     try {
-      const choice = resolveInteraction(world, entry);
+      const choice = resolveInteraction(world, entry, { historical: true });
       result.push({
         ...choice,
-        source: ["manual", "demo"].includes(entry.source) ? entry.source : "ai",
+        source: ["manual", "demo", "care"].includes(entry.source)
+          ? entry.source
+          : "ai",
       });
     } catch {}
   }
@@ -106,7 +128,11 @@ export function recordInteraction(game, decision, source = "ai") {
       action: decision.action,
       ...(decision.activityId ? { activityId: decision.activityId } : {}),
       ...(decision.friendId ? { friendId: decision.friendId } : {}),
-      source: ["manual", "demo"].includes(source) ? source : "ai",
+      ...(decision.action === "meet" &&
+      SOCIAL_INTENTS.includes(decision.socialIntent)
+        ? { socialIntent: decision.socialIntent }
+        : {}),
+      source: ["manual", "demo", "care"].includes(source) ? source : "ai",
     },
   ].slice(-8);
   return next;

@@ -139,6 +139,11 @@ test("old saves retain all sixty purchases, currency, friends and construction t
   legacy.unlocked = BIOMES.map((b) => b.id);
   legacy.coins = 98765;
   legacy.friendship = { luna: 45 };
+  Object.assign(legacy.social.relationships.luna, {
+    points: 45,
+    meetings: 6,
+    plays: 3,
+  });
   legacy.placements = [];
   for (let i = 0; i < 60; i++)
     legacy.placements.push({

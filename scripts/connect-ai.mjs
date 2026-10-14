@@ -5,7 +5,9 @@ import {
 } from "./release-check.mjs";
 import { writeFile } from "node:fs/promises";
 import { newGame, worldSnapshot } from "../public/economy.js";
+import { fillBowl } from "../public/care-system.js";
 import { parseDecision, validateState } from "../ai.mjs";
+import { verifyCloudSave } from "./cloud-check.mjs";
 const account = process.env.CLOUDFLARE_ACCOUNT_ID;
 const token = process.env.CLOUDFLARE_API_TOKEN;
 if (!account || !token)
@@ -26,9 +28,12 @@ if (!data.success || !subdomain || !/^[a-z0-9-]+$/i.test(subdomain))
 const apiBase = `https://chichi-cat-world.${subdomain}.workers.dev`;
 const expectedRelease = releaseRevision();
 await waitForRelease(apiBase, expectedRelease, {
+  requireCloudSave: true,
   onWait: (reason) => console.log("Waiting for deployed Worker: " + reason),
 });
 console.log(`Serving verified commit ${expectedRelease}`);
+await verifyCloudSave(apiBase, expectedRelease);
+console.log("Cloud save write, read-back and idempotent retry verified.");
 let verified = false;
 for (let attempt = 0; attempt < 3; attempt++) {
   try {
@@ -91,7 +96,15 @@ for (let attempt = 0; attempt < 3; attempt++) {
       const { expected, ...input } = scenario;
       const state = {
         ...input,
-        world: input.world || worldSnapshot(newGame()),
+        world:
+          input.world ||
+          worldSnapshot(
+            (() => {
+              const g = newGame();
+              g.farm.stock.wheat = 2;
+              return fillBowl(g, "wheat", 2);
+            })(),
+          ),
       };
       console.log(
         `Checking real AI: energy=${state.energy}, hunger=${state.hunger}, happiness=${state.happiness}; expected ${expected}${state.world ? " with world activities" : ""}`,

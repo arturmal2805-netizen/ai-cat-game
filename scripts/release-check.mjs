@@ -28,6 +28,7 @@ export async function waitForRelease(
     wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms)),
     attempts = 12,
     onWait = () => {},
+    requireCloudSave = false,
   } = {},
 ) {
   let reason = "No status received";
@@ -58,6 +59,10 @@ export async function waitForRelease(
       if (!status.configured)
         throw Error(
           "Expected Worker version is active, but AI binding is unavailable",
+        );
+      if (requireCloudSave && !status.cloudSave)
+        throw Error(
+          "Expected Worker version is active, but cloud save binding is unavailable",
         );
       return status;
     } catch (error) {

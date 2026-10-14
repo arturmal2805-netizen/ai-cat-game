@@ -1,5 +1,18 @@
 import { HOME_OBJECTS, cleanRecent } from "./interactions.js";
 import {
+  newCare,
+  normalizeCare,
+  advanceCare,
+  bowlPortions,
+} from "./care-system.js";
+import {
+  newSocial,
+  normalizeSocial,
+  syncFriendship,
+  relationshipStage,
+  bestEligible,
+} from "./social-system.js";
+import {
   initialScenery,
   byScenery,
   sceneryBounds,
@@ -91,20 +104,14 @@ export function newGame(now = Date.now()) {
     totalEarned: 0,
   };
   game.scenery = initialScenery(game.placements);
+  game.care = newCare(now);
+  game.social = newSocial();
   return game;
 }
 export function loadGame(storage, now = Date.now()) {
   try {
-    const raw = storage.getItem(SAVE_KEY);
-    if (!raw) return newGame(now);
-    let saved;
-    try {
-      saved = JSON.parse(raw);
-    } catch {
-      const backup = storage.getItem(SAVE_KEY + ":backup");
-      if (!backup) return newGame(now);
-      saved = JSON.parse(backup);
-    }
+    const saved = readSavedState(storage);
+    if (!saved) return newGame(now);
     if (
       saved.version !== 2 ||
       !Number.isSafeInteger(saved.coins) ||
@@ -154,12 +161,8 @@ export function loadGame(storage, now = Date.now()) {
       )
         game.placements.push(p);
     }
-    game.friendship = Object.fromEntries(
-      NEIGHBORS.map((n) => [
-        n.id,
-        Math.max(0, Math.min(100, Math.floor(saved.friendship?.[n.id] || 0))),
-      ]),
-    );
+    game.social = normalizeSocial(saved.social);
+    syncFriendship(game);
     for (const key of ["hunger", "energy", "happiness"])
       if (Number.isFinite(saved.cat?.[key]))
         game.cat[key] = Math.max(0, Math.min(100, saved.cat[key]));
@@ -209,26 +212,68 @@ export function loadGame(storage, now = Date.now()) {
     }
 
     restoreScenery(game, saved.scenery);
+    game.care = normalizeCare(saved.care, game, now);
     game.recentActivities = cleanRecent(
       saved.recentActivities,
       worldSnapshot(game),
     );
-    return game;
+    return advanceCare(game, now, { offline: true });
   } catch {
     return newGame(now);
   }
 }
+export function readSavedState(storage) {
+  for (const key of [SAVE_KEY, SAVE_KEY + ":backup", SAVE_KEY + ":backup2"])
+    try {
+      const saved = JSON.parse(storage.getItem(key) || "null");
+      if (
+        saved?.version === 2 &&
+        Number.isSafeInteger(saved.coins) &&
+        saved.coins >= 0 &&
+        saved.coins <= 10000000 &&
+        Array.isArray(saved.placements) &&
+        Array.isArray(saved.unlocked) &&
+        saved.cat &&
+        typeof saved.cat === "object"
+      )
+        return saved;
+    } catch {}
+  return null;
+}
 export function saveGame(storage, game) {
+  let previous, rollback;
   try {
     const encoded = JSON.stringify(game),
-      previous = storage.getItem(SAVE_KEY);
-    if (previous && previous !== encoded)
-      storage.setItem(SAVE_KEY + ":backup", previous);
+      trusted = readSavedState(storage);
+    previous = storage.getItem(SAVE_KEY);
+    rollback = trusted ? JSON.stringify(trusted) : null;
+    if (previous && previous !== encoded) {
+      let valid = false;
+      try {
+        const p = JSON.parse(previous);
+        valid =
+          p?.version === 2 &&
+          Number.isSafeInteger(p.coins) &&
+          Array.isArray(p.placements);
+      } catch {}
+      if (valid) {
+        const backup = storage.getItem(SAVE_KEY + ":backup");
+        if (backup)
+          try {
+            JSON.parse(backup);
+            storage.setItem(SAVE_KEY + ":backup2", backup);
+          } catch {}
+        storage.setItem(SAVE_KEY + ":backup", previous);
+      }
+    }
     storage.setItem(SAVE_KEY, encoded);
-    return storage.getItem(SAVE_KEY) === encoded;
-  } catch {
-    return false;
-  }
+    if (storage.getItem(SAVE_KEY) === encoded) return true;
+  } catch {}
+  if (rollback)
+    try {
+      storage.setItem(SAVE_KEY, rollback);
+    } catch {}
+  return false;
 }
 export function claimRewards(game, now = Date.now(), visit = false) {
   const next = copy(game);
@@ -531,18 +576,28 @@ export function befriend(game, id, amount = 15) {
     return game;
   const next = copy(game);
   next.friendship[id] = Math.min(100, (next.friendship[id] || 0) + amount);
+  const r = next.social.relationships[id];
+  r.points = next.friendship[id];
+  r.meetings++;
+  r.firstMetAt ??= Date.now();
   return next;
 }
 export function worldSnapshot(game) {
   return {
     activities: [
-      ...HOME_OBJECTS,
+      ...HOME_OBJECTS.map((o) => ({
+        ...o,
+        ...(o.id === "chichi-food" ? { foodPortions: bowlPortions(game) } : {}),
+      })),
       ...game.placements
         .filter((p) => isBuilt(p))
         .map((p) => ({
           id: p.id,
           type: p.item,
           biome: p.biome,
+          ...(byItem(p.item).actions.includes("eat")
+            ? { foodPortions: bowlPortions(game) }
+            : {}),
           ...(byItem(p.item).category === "farm"
             ? {
                 harvestReady: (game.farm.fields[p.id] || []).filter(
@@ -557,7 +612,19 @@ export function worldSnapshot(game) {
     ],
     recent: [...(game.recentActivities || [])],
     friends: NEIGHBORS.filter((n) => game.unlocked.includes(n.biome)).map(
-      (n) => ({ id: n.id, closeness: game.friendship[n.id] || 0 }),
+      (n) => {
+        const r = game.social.relationships[n.id];
+        return {
+          id: n.id,
+          closeness: r.points,
+          meetings: r.meetings,
+          plays: r.plays,
+          stage: relationshipStage(r, n.id === game.social.bestFriendId),
+          bestEligible: bestEligible(r),
+          hunger: game.care.residents[n.id].hunger,
+          happiness: game.care.residents[n.id].happiness,
+        };
+      },
     ),
     biomes: [...game.unlocked],
   };
@@ -575,7 +642,11 @@ export function biomeRequirement(game, id) {
       quest.harvests +
       ")."
     );
-  const friends = Object.values(game.friendship).filter((v) => v >= 30).length;
+  const friends = Object.entries(game.social.relationships).filter(([id, r]) =>
+    ["friend", "close", "best"].includes(
+      relationshipStage(r, id === game.social.bestFriendId),
+    ),
+  ).length;
   if (quest?.friends > friends)
     return (
       "Сначала подружитесь с " +

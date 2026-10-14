@@ -11,4 +11,10 @@
   "vars": { "GAME_RELEASE": "development" },
   "version_metadata": { "binding": "CF_VERSION_METADATA" },
   "ai": { "binding": "AI" },
+  "durable_objects": {
+    "bindings": [{ "name": "SAVE_VAULT", "class_name": "SaveVault" }],
+  },
+  "migrations": [
+    { "tag": "save-vault-v1", "new_sqlite_classes": ["SaveVault"] },
+  ],
 }

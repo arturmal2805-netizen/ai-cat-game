@@ -23,6 +23,10 @@ import {
   fadeScenery,
 } from "./scenery-models.js";
 import { createBiomeScene } from "./biome-scenes.js";
+import { createBowlModel } from "./care-model.js";
+import { bowlPortions } from "./care-system.js";
+import { encounterKind } from "./social-system.js";
+import { socialFrame, socialDuration } from "./social-animation.js";
 import { constructionModel } from "./advanced-assets.js";
 import {
   primitive,
@@ -161,6 +165,25 @@ export function createWorld(container, initialGame, callbacks = {}) {
     labels = new Map(),
     itemGroups = new Map(),
     npcs = new Map();
+  const mealVisits = new Map();
+  const socialGlow = new THREE.Group();
+  scene.add(socialGlow);
+  const heartShape = new THREE.Shape();
+  heartShape.moveTo(0, 0.12);
+  heartShape.bezierCurveTo(-0.35, 0.5, -0.55, 0.12, 0, -0.32);
+  heartShape.bezierCurveTo(0.55, 0.12, 0.35, 0.5, 0, 0.12);
+  const heartGeo = new THREE.ExtrudeGeometry(heartShape, {
+      depth: 0.08,
+      bevelEnabled: false,
+      curveSegments: 5,
+    }),
+    heartMaterial = new THREE.MeshBasicMaterial({ color: 0xe5b5cc });
+  for (let i = 0; i < 4; i++) {
+    const heart = new THREE.Mesh(heartGeo, heartMaterial);
+    heart.scale.setScalar(0.25);
+    socialGlow.add(heart);
+  }
+  socialGlow.visible = false;
   const npcMarkers = new THREE.InstancedMesh(
       new THREE.SphereGeometry(0.23, 8, 5),
       new THREE.MeshStandardMaterial({ color: 0xffffff }),
@@ -320,6 +343,18 @@ export function createWorld(container, initialGame, callbacks = {}) {
   }
   function sync(next) {
     game = next;
+    itemGroups.get("chichi-food")?.userData.updateFood?.(game);
+    if (!operation && game.care?.resting) {
+      const bed = itemGroups.get(game.care.resting.activityId);
+      if (bed) {
+        chichiCarrier.position
+          .copy(bed.position)
+          .add(new THREE.Vector3(0, 0.25, 0));
+        if (cat.userData.mood !== "sleep")
+          setCatMood(cat, "sleep", { immediate: reduced });
+      }
+    } else if (!operation && cat.userData.mood !== game.cat.mood)
+      setCatMood(cat, game.cat.mood, { immediate: reduced });
     if (
       operation &&
       !HOME_OBJECTS.some((o) => o.id === operation.decision.activityId)
@@ -450,7 +485,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
     }
   }
   for (const object of HOME_OBJECTS) {
-    const g = makeAttraction(object.type),
+    const g =
+        object.id === "chichi-food"
+          ? createBowlModel()
+          : makeAttraction(object.type),
       p = objectPosition(object);
     g.position.set(p.x, 0.16, p.z);
     g.userData.placement = { ...object, item: object.type, rotation: 0 };
@@ -501,6 +539,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     setCatMood(cat, mood, { immediate: reduced });
   }
   function perform(decision) {
+    socialGlow.visible = false;
     sync(game);
     if (operation) {
       resetYarn(operation.attraction);
@@ -533,8 +572,22 @@ export function createWorld(container, initialGame, callbacks = {}) {
         neighbor,
         partyIds:
           decision.action === "party"
-            ? new Set([...npcs.keys()].slice(0, 6))
+            ? new Set(
+                [...npcs.values()]
+                  .filter(
+                    (n) =>
+                      n.profile.biome === attraction.userData.placement.biome &&
+                      game.social?.relationships[n.profile.id]?.meetings > 0,
+                  )
+                  .slice(0, 4)
+                  .map((n) => n.profile.id),
+              )
             : null,
+        partyPresent: new Set(),
+        socialKind: neighbor
+          ? encounterKind(game, decision.friendId, decision.socialIntent)
+          : null,
+        socialOrigin: neighbor?.carrier.position.clone(),
         from: chichiCarrier.position.clone(),
         destination,
         start: performance.now(),
@@ -772,6 +825,16 @@ export function createWorld(container, initialGame, callbacks = {}) {
       dropHint.textContent = "Отпусти на игрушку, аттракцион, ферму или котика";
       return;
     }
+    const selected = itemGroups.get(selection.activityId);
+    if (
+      selected &&
+      byItem(selected.userData.placement.item)?.actions.includes("eat") &&
+      !bowlPortions(game)
+    ) {
+      dropRing.material.color.set(0xe3a2ac);
+      dropHint.textContent = "Миска пустая. Нажмите на неё и добавьте урожай.";
+      return;
+    }
     const snapshot = {
       activities: [...itemGroups.values()]
         .filter((g) => g.userData.built)
@@ -950,7 +1013,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
         else callbacks.onLockedBiome?.(record.biome);
         return;
       }
-      if (root?.userData.homeObject)
+      if (root?.userData.placementId === "chichi-food")
+        callbacks.onSelectBowl?.();
+      else if (root?.userData.homeObject)
         callbacks.onCatDrop?.({ activityId: root.userData.placementId });
       else if (root) callbacks.onSelectItem?.(root.userData.placementId);
       return;
@@ -965,7 +1030,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
       );
     });
     if (placement) {
-      if (placement.userData.homeObject)
+      if (placement.userData.placementId === "chichi-food")
+        callbacks.onSelectBowl?.();
+      else if (placement.userData.homeObject)
         callbacks.onCatDrop?.({ activityId: placement.userData.placementId });
       else callbacks.onSelectItem?.(placement.userData.placementId);
       return;
@@ -1072,13 +1139,85 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (!reduced) animateAttraction(g, time);
     if (preview && !reduced) animateAttraction(preview, time);
     for (const [id, n] of npcs) {
-      let x, z;
-      const b = byBiome(n.profile.biome);
-      if (draggingCat) {
-        // Neighbours watch the held cat instead of walking out from under
-        // the player's finger while a manual destination is being chosen.
-        x = n.carrier.position.x;
-        z = n.carrier.position.z;
+      const b = byBiome(n.profile.biome),
+        needs = game.care?.residents[id];
+      let x = n.carrier.position.x,
+        z = n.carrier.position.z,
+        npcWalking = false,
+        npcReaction = null,
+        direct = false;
+      const busyWithChichi =
+        operation?.decision.friendId === id || operation?.partyIds?.has(id);
+      if (
+        !busyWithChichi &&
+        !draggingCat &&
+        !mealVisits.has(id) &&
+        mealVisits.size < 2 &&
+        needs?.hunger >= 45 &&
+        bowlPortions(game) > 0
+      ) {
+        const bowl = itemGroups.get("chichi-food"),
+          goal = bowl.position
+            .clone()
+            .add(
+              new THREE.Vector3(
+                Math.sin(n.index * 2.4) * 1.2,
+                0,
+                Math.cos(n.index * 2.4) * 1.2,
+              ),
+            );
+        goal.y = 0.16;
+        mealVisits.set(id, {
+          from: n.carrier.position.clone(),
+          goal,
+          start: now,
+          duration: Math.max(
+            2500,
+            Math.min(18000, n.carrier.position.distanceTo(goal) * 250),
+          ),
+          stage: "travel",
+          tried: false,
+        });
+      }
+      if (busyWithChichi || draggingCat) mealVisits.delete(id);
+      const visit = mealVisits.get(id);
+      if (visit && !busyWithChichi && !draggingCat) {
+        if (!bowlPortions(game) && !visit.tried) mealVisits.delete(id);
+        else if (visit.stage === "travel") {
+          const t = Math.min(1, (now - visit.start) / visit.duration),
+            q = t * t * (3 - 2 * t);
+          n.carrier.position.lerpVectors(visit.from, visit.goal, q);
+          x = n.carrier.position.x;
+          z = n.carrier.position.z;
+          direct = true;
+          npcWalking = t < 1;
+          n.carrier.rotation.y = Math.atan2(
+            visit.goal.x - visit.from.x,
+            visit.goal.z - visit.from.z,
+          );
+          if (t === 1) {
+            visit.stage = "eat";
+            visit.eatStart = now;
+          }
+        } else {
+          const elapsed = (now - visit.eatStart) / 1000,
+            bowl = itemGroups.get("chichi-food");
+          x = visit.goal.x;
+          z = visit.goal.z;
+          npcReaction = {
+            headPitch: 0.24 + (reduced ? 0 : Math.sin(elapsed * 4) * 0.05),
+          };
+          n.carrier.rotation.y = Math.atan2(
+            bowl.position.x - x,
+            bowl.position.z - z,
+          );
+          if (elapsed >= 2 && !visit.tried) {
+            visit.tried = true;
+            callbacks.onResidentAte?.(id);
+          }
+          if (elapsed >= 3.5) mealVisits.delete(id);
+        }
+      } else if (draggingCat) {
         n.carrier.rotation.y = Math.atan2(
           chichiCarrier.position.x - x,
           chichiCarrier.position.z - z,
@@ -1089,15 +1228,41 @@ export function createWorld(container, initialGame, callbacks = {}) {
       ) {
         x = operation.attraction.position.x + Math.sin(n.index * 1.4) * 1.35;
         z = operation.attraction.position.z + Math.cos(n.index * 1.4) * 1.1;
+        if (n.carrier.position.distanceTo(new THREE.Vector3(x, 0.16, z)) < 1.6)
+          operation.partyPresent.add(id);
         n.carrier.position.y =
-          0.25 + (reduced ? 0 : Math.abs(Math.sin(time * 4 + n.index)) * 0.09);
+          0.16 + (reduced ? 0 : Math.abs(Math.sin(time * 4 + n.index)) * 0.09);
       } else if (operation?.decision.friendId === id) {
-        x = n.carrier.position.x;
-        z = n.carrier.position.z;
-        n.carrier.rotation.y = Math.atan2(
-          chichiCarrier.position.x - x,
-          chichiCarrier.position.z - z,
-        );
+        if (operation.stage === "activity") {
+          const frame = socialFrame(
+            (now - operation.activityStart) / 1000,
+            operation.socialKind,
+            reduced,
+          ).friend;
+          n.carrier.position.set(
+            operation.socialOrigin.x + frame.x,
+            0.16 + frame.jump,
+            operation.socialOrigin.z + frame.z,
+          );
+          x = n.carrier.position.x;
+          z = n.carrier.position.z;
+          n.carrier.rotation.y = frame.yaw;
+          direct = true;
+          npcWalking = frame.running;
+          npcReaction = frame;
+        } else
+          n.carrier.rotation.y = Math.atan2(
+            chichiCarrier.position.x - x,
+            chichiCarrier.position.z - z,
+          );
+      } else if (game.social?.bestFriendId === id) {
+        const anchor =
+          chichiCarrier.position.y > 1.3 && operation?.destination
+            ? operation.destination
+            : chichiCarrier.position;
+        x = anchor.x - Math.sin(chichiCarrier.rotation.y) * 1.15 + 0.5;
+        z = anchor.z - Math.cos(chichiCarrier.rotation.y) * 1.15;
+        n.carrier.position.y = 0.16;
       } else {
         x = b.center[0] + Math.sin(time * 0.07 + n.index * 2.4) * 6;
         z = b.center[1] + Math.cos(time * 0.07 + n.index * 2.4) * 6;
@@ -1106,10 +1271,13 @@ export function createWorld(container, initialGame, callbacks = {}) {
       const direction = new THREE.Vector3(x, n.carrier.position.y, z).sub(
         n.carrier.position,
       );
-      if (direction.length() > 0.03)
-        n.carrier.rotation.y = Math.atan2(direction.x, direction.z);
-      n.carrier.position.x += direction.x * dt * 0.6;
-      n.carrier.position.z += direction.z * dt * 0.6;
+      if (!direct) {
+        if (direction.length() > 0.03)
+          n.carrier.rotation.y = Math.atan2(direction.x, direction.z);
+        n.carrier.position.x += direction.x * dt * 0.8;
+        n.carrier.position.z += direction.z * dt * 0.8;
+        npcWalking = direction.length() > 0.1;
+      }
       const near =
         distance < 110 &&
         Math.hypot(
@@ -1122,13 +1290,18 @@ export function createWorld(container, initialGame, callbacks = {}) {
       npcDummy.scale.setScalar(near ? 0 : 1);
       npcDummy.updateMatrix();
       npcMarkers.setMatrixAt(n.index, npcDummy.matrix);
-      if (near)
-        animateCat(
-          n.model,
-          time + n.index,
-          Math.abs(direction.x) + Math.abs(direction.z) > 0.1,
-          reduced,
-        );
+      const desiredMood =
+        game.social?.bestFriendId === id && game.care?.resting
+          ? "sleep"
+          : needs?.hunger >= 75
+            ? "crazy hungry"
+            : "happy";
+      if (n.model.userData.mood !== desiredMood)
+        setCatMood(n.model, desiredMood, { immediate: reduced });
+      if (near) {
+        animateCat(n.model, time + n.index, npcWalking, reduced);
+        if (npcReaction) reactCat(n.model, npcReaction, reduced);
+      }
     }
     npcMarkers.instanceMatrix.needsUpdate = true;
     let walking = false,
@@ -1272,6 +1445,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
           chichiCarrier.position.copy(
             g.localToWorld(new THREE.Vector3(-0.3, 0.16, 0.8)),
           );
+          chichiCarrier.rotation.y = Math.atan2(
+            g.position.x - chichiCarrier.position.x,
+            g.position.z - chichiCarrier.position.z,
+          );
           reaction = {
             headPitch: reduced ? 0.25 : 0.25 + Math.sin(elapsed * 4) * 0.06,
           };
@@ -1283,16 +1460,35 @@ export function createWorld(container, initialGame, callbacks = {}) {
             0.35 + (reduced ? 0 : Math.abs(Math.sin(elapsed * 4)) * 0.15);
           chichiCarrier.rotation.y = Math.sin(elapsed * 2) * 0.35;
         } else if (action === "meet" && op.neighbor) {
-          chichiCarrier.position.lerp(
-            op.neighbor.carrier.position
-              .clone()
-              .add(new THREE.Vector3(0.75, 0, 0.75)),
-            0.03,
+          const frame = socialFrame(elapsed, op.socialKind, reduced);
+          chichiCarrier.position.set(
+            op.socialOrigin.x + frame.hero.x,
+            0.16 + frame.hero.jump,
+            op.socialOrigin.z + frame.hero.z,
           );
-          chichiCarrier.rotation.y = Math.atan2(
-            op.neighbor.carrier.position.x - chichiCarrier.position.x,
-            op.neighbor.carrier.position.z - chichiCarrier.position.z,
-          );
+          chichiCarrier.rotation.y = frame.hero.yaw;
+          walking = frame.hero.running;
+          reaction = frame.hero;
+          if (elapsed > 2 && !op.reacted) {
+            op.reacted = true;
+            callbacks.onReaction?.(
+              op.socialKind === "greet"
+                ? "Привет… давай познакомимся! Носик к носику 🐾"
+                : op.socialKind === "play"
+                  ? "Догоняй меня! Ой, теперь я догоняю тебя! 🐾"
+                  : "Мур… с тобой так уютно 💛",
+            );
+          }
+          socialGlow.visible = frame.hearts;
+          socialGlow.position.copy(op.socialOrigin);
+          socialGlow.children.forEach((heart, i) => {
+            heart.position.set(
+              Math.sin(i * 2.4) * 0.55,
+              1.6 + (reduced ? i * 0.12 : (elapsed * 0.45 + i * 0.25) % 1.2),
+              Math.cos(i * 2.4) * 0.35,
+            );
+            heart.rotation.y = reduced ? i : time * 0.5 + i;
+          });
         }
         if (elapsed > 1 && !op.reacted && action === "ride") {
           op.reacted = true;
@@ -1302,11 +1498,25 @@ export function createWorld(container, initialGame, callbacks = {}) {
               : "Мур! Вот это приключение! ✦",
           );
         }
-        if (elapsed > (reduced ? 0.2 : g?.userData.duration || 6)) {
+        if (
+          elapsed >
+          (reduced
+            ? 0.2
+            : action === "meet"
+              ? socialDuration(op.socialKind)
+              : g?.userData.duration || 6)
+        ) {
           resetYarn(g);
-          chichiCarrier.position.copy(op.destination);
+          if (action !== "meet") chichiCarrier.position.copy(op.destination);
+          socialGlow.visible = false;
           operation = null;
-          op.resolve({ completed: true });
+          op.resolve({
+            completed: true,
+            ...(action === "meet" ? { socialKind: op.socialKind } : {}),
+            ...(action === "party"
+              ? { participantIds: [...op.partyPresent] }
+              : {}),
+          });
         }
       }
     }
@@ -1385,6 +1595,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
       for (const island of islands.values()) island.userData.dispose?.();
       disposeCat(cat);
       for (const npc of npcs.values()) disposeCat(npc.model);
+      socialGlow.visible = false;
+      heartGeo.dispose();
+      heartMaterial.dispose();
       resetYarn(operation?.attraction);
       operation?.resolve({ cancelled: true });
       dropHint.remove();

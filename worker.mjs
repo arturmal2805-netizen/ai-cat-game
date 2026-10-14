@@ -1,5 +1,7 @@
 import { requestDecision, validateState } from "./ai.mjs";
 import { DECISION_PROTOCOL } from "./public/interactions.js";
+import { cloudSave } from "./save-vault.mjs";
+export { SaveVault } from "./save-vault.mjs";
 const json = (data, status = 200) =>
   Response.json(data, { status, headers: { "Cache-Control": "no-store" } });
 export default {
@@ -12,8 +14,9 @@ export default {
         headers: allowed
           ? {
               "Access-Control-Allow-Origin": origin,
-              "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-              "Access-Control-Allow-Headers": "Content-Type",
+              "Access-Control-Allow-Methods": "GET, POST, PUT, OPTIONS",
+              "Access-Control-Allow-Headers":
+                "Content-Type, X-Chichi-Save-Token",
               Vary: "Origin",
             }
           : {},
@@ -44,7 +47,13 @@ export default {
         protocol: DECISION_PROTOCOL,
         release: env.GAME_RELEASE || "development",
         versionId: env.CF_VERSION_METADATA?.id || null,
+        cloudSave: !!env.SAVE_VAULT,
       });
+    if (
+      path === "/api/save" &&
+      (request.method === "GET" || request.method === "PUT")
+    )
+      return cloudSave(request, env);
     if (path === "/api/decide" && request.method === "POST") {
       if (!env.AI) return json({ error: "Cloudflare AI не подключён." }, 503);
       if (Number(request.headers.get("content-length")) > 16384)

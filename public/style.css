@@ -1787,3 +1787,156 @@ dialog::backdrop {
 .cat-drop-hint[hidden] {
   display: none;
 }
+
+/* Clear, touch-friendly care indicators share the world's moss-and-honey palette. */
+.needs-panel {
+  display: grid;
+  gap: 12px;
+  margin: 22px 0 12px;
+}
+.needs-panel .need {
+  background: linear-gradient(140deg, #f7f4fa, #eee9f4);
+  border: 1px solid #e4ddec;
+  border-radius: 18px;
+  padding: 13px 15px 15px;
+}
+.needs-panel label {
+  font-size: 14px;
+  margin: 0;
+  color: #72627f;
+  align-items: center;
+}
+.needs-panel label span {
+  font-size: 21px;
+  font-weight: 700;
+  color: #746180;
+}
+.needs-panel progress,
+.colony-panel progress {
+  height: 16px;
+  margin-top: 10px;
+  border-radius: 9px;
+  box-shadow: inset 0 1px 3px #77658912;
+}
+.needs-panel progress::-webkit-progress-value,
+.colony-panel progress::-webkit-progress-value {
+  background: var(--need-color, #96b7a6);
+  border-radius: 9px;
+  transition:
+    width 0.35s ease,
+    background 0.3s;
+}
+.needs-panel progress::-moz-progress-bar,
+.colony-panel progress::-moz-progress-bar {
+  background: var(--need-color, #96b7a6);
+  border-radius: 9px;
+}
+.bowl-button {
+  width: 100%;
+  min-height: 49px;
+  margin: 12px 0;
+  padding: 13px;
+  border: 1px solid #cfded7;
+  background: linear-gradient(135deg, #e4efe8, #edf0df);
+  color: #617e6f;
+  font-size: 13px;
+}
+.care-hint {
+  color: #94839f;
+  font-size: 11px;
+  line-height: 1.7;
+  margin: 10px 0;
+}
+.colony-panel {
+  background: #f3eef7;
+  border: 1px solid #e5deed;
+  border-radius: 19px;
+  padding: 16px;
+  margin: 12px 0 18px;
+}
+.colony-panel label {
+  font-size: 12px;
+  margin-top: 14px;
+}
+.colony-panel label span {
+  font-size: 15px;
+  font-weight: 600;
+}
+.colony-panel .eyebrow {
+  margin: 0;
+  font-size: 9px;
+}
+.neighbor-needs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px 10px;
+  margin-top: 10px;
+}
+.neighbor-needs label {
+  margin: 0;
+  font-size: 10px;
+  grid-row: 1;
+}
+.neighbor-needs progress {
+  margin: 0;
+  height: 7px;
+}
+.neighbor-hunger::-webkit-progress-value {
+  background: #cdb181;
+}
+.neighbor-happiness::-webkit-progress-value {
+  background: #95b4a4;
+}
+.friend-history {
+  margin-top: 6px !important;
+}
+.bowl-stock-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 14px 0;
+  border-bottom: 1px solid #e5deed;
+}
+.bowl-stock-row > span {
+  flex: 1;
+  color: #766181;
+  font-size: 13px;
+}
+.bowl-stock-row small {
+  display: block;
+  font-size: 10px;
+  color: #a393aa;
+  margin-top: 6px;
+}
+.bowl-stock-row button {
+  padding: 11px;
+  font-size: 11px;
+  min-height: 42px;
+}
+.recovery-input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid #ded5e7;
+  border-radius: 12px;
+  background: #f5f1f8;
+  padding: 12px;
+  color: #75637f;
+  font-size: 12px;
+  margin: 10px 0;
+}
+#cloud-save-dialog > button:not(.close) {
+  min-height: 42px;
+}
+#cloud-state {
+  font-size: 10px;
+  color: #8d789c;
+}
+footer {
+  flex-wrap: wrap;
+}
+@media (prefers-reduced-motion: reduce) {
+  .needs-panel progress::-webkit-progress-value {
+    transition: none;
+  }
+}

@@ -184,3 +184,13 @@ test("deployment stamps use the actual checkout SHA rather than a development la
     /full Git commit SHA/,
   );
 });
+test("publication requires the cloud storage binding as well as AI readiness", async () => {
+  await assert.rejects(
+    waitForRelease("https://cat.example", revision, {
+      fetcher: async () => response(),
+      attempts: 1,
+      requireCloudSave: true,
+    }),
+    /cloud save binding is unavailable/,
+  );
+});

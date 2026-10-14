@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="theme-color" content="#eeeaf3" />
     <title>Чичи • мир маленьких чудес</title>
-    <link rel="stylesheet" href="./style.css?v=chichi-movable-3d-20261014" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="stylesheet" href="./style.css?v=chichi-care-social-20261014" />
   </head>
   <body>
     <header>
@@ -128,20 +129,41 @@
               </div>
             </div>
             <h2>Маленькая жизнь.<br />Большие желания.</h2>
-            <label>Энергия <span id="energy-text">85%</span></label
-            ><progress id="energy" value="85" max="100"></progress
-            ><label>Сытость <span id="food-text">70%</span></label
-            ><progress id="food" value="70" max="100"></progress
-            ><label>Комфорт <span id="happiness-text">75%</span></label
-            ><progress id="happiness" value="75" max="100"></progress>
-            <div class="care">
-              <button id="feed" title="Покормить" aria-label="Покормить">
-                🥣<span>Еда</span></button
-              ><button id="play" title="Поиграть" aria-label="Поиграть">
-                🧶<span>Игра</span></button
-              ><button id="rest" title="Отдохнуть" aria-label="Отдохнуть">
-                🌙<span>Отдых</span>
-              </button>
+            <div class="needs-panel">
+              <div class="need">
+                <label>⚡ Энергия <span id="energy-text">85%</span></label
+                ><progress id="energy" value="85" max="100"></progress>
+              </div>
+              <div class="need">
+                <label>🥣 Голод <span id="food-text">30%</span></label
+                ><progress id="food" value="30" max="100"></progress>
+              </div>
+              <div class="need">
+                <label>💛 Счастье <span id="happiness-text">75%</span></label
+                ><progress id="happiness" value="75" max="100"></progress>
+              </div>
+            </div>
+            <p id="rest-hint" class="care-hint">
+              Перетащите Чичи на подушку, чтобы уложить спать. К игрушке — чтобы
+              поиграть.
+            </p>
+            <button id="bowl-open" class="bowl-button">
+              🥣 Общая миска · <span id="bowl-count">0</span> порций
+            </button>
+            <div class="colony-panel">
+              <p class="eyebrow">
+                ВСЕ СОСЕДИ · <span id="colony-count">5</span> КОТИКОВ
+              </p>
+              <label>🥣 Общий голод <span id="colony-hunger-text"></span></label
+              ><progress id="colony-hunger" max="100"></progress>
+              <label
+                >💛 Общее счастье
+                <span id="colony-happiness-text"></span></label
+              ><progress id="colony-happiness" max="100"></progress>
+              <p id="colony-hint" class="care-hint">
+                Урожай в миске — для всех. Игры и общение делают котиков
+                счастливее.
+              </p>
             </div>
             <button id="toggle" class="primary">Дай Чичи решить самой ✦</button
             ><button id="demo" class="quiet">Попробовать демо без ИИ</button>
@@ -185,9 +207,11 @@
         </div>
       </section>
       <footer>
-        Чичи · мир маленьких чудес<span id="save-state"
-          >Прогресс сохраняется на этом устройстве</span
-        >
+        Чичи · мир маленьких чудес
+        <button id="cloud-save-open" class="quiet">
+          ☁ Сохранение и восстановление</button
+        ><span id="cloud-state">Локальная копия</span
+        ><span id="save-state">Прогресс сохраняется на этом устройстве</span>
       </footer>
     </main>
     <dialog id="shop-dialog" class="shop-dialog">
@@ -300,6 +324,59 @@
         ><button id="item-store" class="quiet">Убрать в сумку</button>
       </div>
     </dialog>
+    <dialog id="bowl-dialog" class="small-dialog">
+      <button data-close="bowl-dialog" class="close" aria-label="Закрыть миску">
+        ×
+      </button>
+      <p class="eyebrow">ВЫРАЩЕНО С ЗАБОТОЙ</p>
+      <h2>Миска для всех</h2>
+      <p id="bowl-summary" class="dialog-copy"></p>
+      <div id="bowl-stock"></div>
+      <p class="fine-print">
+        Нажмите на урожай со склада, чтобы добавить его в миску. Он расходуется
+        при кормлении и больше не продаётся. Чичи и соседи едят, пока есть
+        порции.
+      </p>
+      <button id="bowl-farm" class="primary">🌱 Открыть ферму</button>
+    </dialog>
+    <dialog id="cloud-save-dialog" class="small-dialog">
+      <button
+        data-close="cloud-save-dialog"
+        class="close"
+        aria-label="Закрыть сохранение"
+      >
+        ×
+      </button>
+      <p class="eyebrow">ВАШ МИР · ВАША ИСТОРИЯ</p>
+      <h2>Мир под защитой</h2>
+      <p id="cloud-detail" class="dialog-copy"></p>
+      <label for="recovery-code">Ваш код восстановления</label
+      ><input
+        id="recovery-code"
+        readonly
+        class="recovery-input"
+        aria-label="Ваш код восстановления"
+      />
+      <button id="recovery-copy" class="primary">Скопировать код</button>
+      <p class="fine-print">
+        Сохраните этот код у себя и никому не передавайте. Он открывает ваш мир
+        на другом устройстве или после очистки браузера.
+      </p>
+      <label for="recovery-enter">Восстановить мир по коду</label
+      ><input
+        id="recovery-enter"
+        class="recovery-input"
+        placeholder="Вставьте свой код"
+        autocomplete="off"
+      />
+      <button id="recovery-restore" class="quiet">Восстановить из облака</button
+      ><button id="cloud-retry" class="quiet">Повторить синхронизацию</button>
+      <p class="fine-print">
+        Локальная копия записывается сразу. Облачная считается сохранённой
+        только после подтверждения. При конфликте двух устройств новая копия не
+        перезаписывается автоматически.
+      </p>
+    </dialog>
     <dialog id="scenery-dialog" class="small-dialog">
       <button
         data-close="scenery-dialog"
@@ -375,7 +452,7 @@
     <div id="toast" role="status" aria-live="polite" hidden></div>
     <script
       type="module"
-      src="./dist/app.js?v=chichi-movable-3d-20261014"
+      src="./dist/app.js?v=chichi-care-social-20261014"
     ></script>
   </body>
 </html>

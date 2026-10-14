@@ -20,6 +20,7 @@ import {
   messages,
 } from "../ai.mjs";
 import { CATALOG } from "../public/game-data.js";
+import { fillBowl } from "../public/care-system.js";
 const world = worldSnapshot(newGame()),
   state = validateState({
     location: "home",
@@ -92,8 +93,18 @@ test("every AI activity requires exactly one real target, including rest/eat/exp
   );
 });
 test("sleep and food always refer to concrete permanent objects without adding purchases", () => {
-  const game = newGame();
+  let game = newGame();
   game.placements = [];
+  assert.throws(
+    () =>
+      resolveInteraction(worldSnapshot(game), {
+        action: "eat",
+        activityId: "chichi-food",
+      }),
+    /Миска пустая/,
+  );
+  game.farm.stock.wheat = 1;
+  game = fillBowl(game, "wheat");
   const snapshot = worldSnapshot(game);
   assert.deepEqual(
     snapshot.activities.map((a) => a.id),
