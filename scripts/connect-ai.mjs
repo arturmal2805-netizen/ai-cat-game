@@ -1,3 +1,8 @@
+import {
+  releaseRevision,
+  waitForRelease,
+  checkReleaseResponse,
+} from "./release-check.mjs";
 import { writeFile } from "node:fs/promises";
 import { newGame, worldSnapshot } from "../public/economy.js";
 import { parseDecision, validateState } from "../ai.mjs";
@@ -19,14 +24,20 @@ const subdomain = data.result?.subdomain;
 if (!data.success || !subdomain || !/^[a-z0-9-]+$/i.test(subdomain))
   throw new Error("Cloudflare workers.dev subdomain is not configured");
 const apiBase = `https://chichi-cat-world.${subdomain}.workers.dev`;
+const expectedRelease = releaseRevision();
+await waitForRelease(apiBase, expectedRelease, {
+  onWait: (reason) => console.log("Waiting for deployed Worker: " + reason),
+});
+console.log(`Serving verified commit ${expectedRelease}`);
 let verified = false;
 for (let attempt = 0; attempt < 3; attempt++) {
   try {
-    const status = await fetch(`${apiBase}/api/status`, {
-      signal: AbortSignal.timeout(20000),
-    });
-    if (!status.ok || !(await status.json()).configured)
-      throw new Error("AI binding is unavailable");
+    if (attempt > 0)
+      await waitForRelease(apiBase, expectedRelease, {
+        attempts: 4,
+        onWait: (reason) =>
+          console.log("Waiting for deployed Worker: " + reason),
+      });
     const cases = [
       {
         location: "home",
@@ -94,6 +105,7 @@ for (let attempt = 0; attempt < 3; attempt++) {
         body: JSON.stringify(state),
         signal: AbortSignal.timeout(30000),
       });
+      checkReleaseResponse(decision, expectedRelease);
       if (!decision.ok) {
         const failure = await decision.json().catch(() => ({}));
         throw new Error(

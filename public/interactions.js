@@ -1,5 +1,7 @@
 import { byItem, NEIGHBORS, byBiome } from "./game-data.js";
 
+export const DECISION_PROTOCOL = "physical-objects-v1";
+
 // These free, permanent objects are rendered in the reserved home/picnic areas.
 // Their IDs are stable across saves, browser validation and Workers AI.
 export const HOME_OBJECTS = [

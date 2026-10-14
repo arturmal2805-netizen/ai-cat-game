@@ -1,4 +1,5 @@
 import { requestDecision, validateState } from "./ai.mjs";
+import { DECISION_PROTOCOL } from "./public/interactions.js";
 const json = (data, status = 200) =>
   Response.json(data, { status, headers: { "Cache-Control": "no-store" } });
 export default {
@@ -18,16 +19,32 @@ export default {
           : {},
       });
     const response = await this.handle(request, env);
-    if (!allowed) return response;
+    const api = new URL(request.url).pathname.startsWith("/api/");
+    if (!allowed && !api) return response;
     const headers = new Headers(response.headers);
-    headers.set("Access-Control-Allow-Origin", origin);
-    headers.set("Vary", "Origin");
+    if (api) {
+      headers.set("X-Chichi-Release", env.GAME_RELEASE || "development");
+      headers.set("X-Chichi-Protocol", DECISION_PROTOCOL);
+    }
+    if (allowed) {
+      headers.set("Access-Control-Allow-Origin", origin);
+      headers.set(
+        "Access-Control-Expose-Headers",
+        "X-Chichi-Release, X-Chichi-Protocol",
+      );
+      headers.set("Vary", "Origin");
+    }
     return new Response(response.body, { status: response.status, headers });
   },
   async handle(request, env) {
     const path = new URL(request.url).pathname;
     if (path === "/api/status" && request.method === "GET")
-      return json({ configured: !!env.AI });
+      return json({
+        configured: !!env.AI,
+        protocol: DECISION_PROTOCOL,
+        release: env.GAME_RELEASE || "development",
+        versionId: env.CF_VERSION_METADATA?.id || null,
+      });
     if (path === "/api/decide" && request.method === "POST") {
       if (!env.AI) return json({ error: "Cloudflare AI не подключён." }, 503);
       if (Number(request.headers.get("content-length")) > 16384)
