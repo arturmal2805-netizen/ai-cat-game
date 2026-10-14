@@ -1,10 +1,13 @@
 import * as THREE from "three";
-import { CATALOG } from "./game-data.js";
+import { loadFantasyArt } from "./fantasy-art.js";
+import { CATALOG, BIOMES } from "./game-data.js";
+import { createBiomeScene, disposeBiome } from "./biome-scenes.js";
 import { makeAttraction } from "./world-assets.js";
-export async function catalogPreviews() {
+export async function catalogPreviews(onPreview) {
   const result = new Map();
   let renderer;
   try {
+    await loadFantasyArt();
     renderer = new THREE.WebGLRenderer({
       antialias: true,
       alpha: true,
@@ -12,33 +15,44 @@ export async function catalogPreviews() {
     });
     renderer.setSize(300, 200);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.3;
-    for (const item of CATALOG) {
+    renderer.toneMappingExposure = 1.05;
+    for (const item of [
+      ...CATALOG,
+      ...BIOMES.map((b) => ({ ...b, isBiome: true })),
+    ]) {
       const scene = new THREE.Scene();
       scene.add(new THREE.HemisphereLight(0xfff1eb, 0xc1b3d7, 3));
       const light = new THREE.DirectionalLight(0xffe9df, 3);
       light.position.set(-3, 7, 5);
       scene.add(light);
-      const object = makeAttraction(item.id);
+      const object = item.isBiome
+        ? createBiomeScene(item, { preview: true })
+        : makeAttraction(item.id);
       scene.add(object);
       const bounds = new THREE.Box3().setFromObject(object),
         size = bounds.getSize(new THREE.Vector3()),
         center = bounds.getCenter(new THREE.Vector3());
       const radius = Math.max(size.x, size.y, size.z, 1.4);
-      const camera = new THREE.PerspectiveCamera(34, 1.5, 0.1, 60);
+      const camera = new THREE.PerspectiveCamera(34, 1.5, 0.1, 180);
       camera.position
         .copy(center)
         .add(
           new THREE.Vector3(0.95, 0.65, 1.25)
             .normalize()
-            .multiplyScalar(radius * 2.4),
+            .multiplyScalar(radius * (item.isBiome ? 2.0 : 2.4)),
         );
       camera.lookAt(center);
       renderer.render(scene, camera);
-      result.set(item.id, renderer.domElement.toDataURL("image/png"));
-      object.traverse((o) => {
-        if (o.isMesh) o.geometry.dispose();
-      });
+      const key = item.isBiome ? "biome-" + item.id : item.id,
+        src = renderer.domElement.toDataURL("image/png");
+      result.set(key, src);
+      onPreview?.(key, src);
+      if (item.isBiome) disposeBiome(object);
+      else
+        object.traverse((o) => {
+          if (o.isMesh && !o.geometry.userData.sharedScenery)
+            o.geometry.dispose();
+        });
       await new Promise((r) => setTimeout(r, 0));
     }
   } catch (error) {

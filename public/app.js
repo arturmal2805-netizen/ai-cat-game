@@ -254,7 +254,20 @@ async function showShop(category = "all", search = "") {
   open("shop-dialog");
   if (!previewsStarted) {
     previewsStarted = true;
-    previews = await catalogPreviews();
+    previews = await catalogPreviews((key, src) => {
+      previews.set(key, src);
+      const node = document.querySelector(`[data-preview="${key}"]`);
+      if (node) {
+        let img = node.querySelector("img");
+        if (!img) {
+          img = document.createElement("img");
+          img.alt = node.dataset.name;
+          node.querySelector(".placeholder")?.remove();
+          node.prepend(img);
+        }
+        img.src = src;
+      }
+    });
     if ($("shop-dialog").open) renderShop();
   }
 }
@@ -303,9 +316,12 @@ function renderShop() {
     card.dataset.product = entry.id;
     const art = document.createElement("div");
     art.className = "shop-art";
-    if (!land && previews.has(entry.id)) {
+    const previewKey = land ? "biome-" + entry.id : entry.id;
+    art.dataset.preview = previewKey;
+    art.dataset.name = entry.name;
+    if (previews.has(previewKey)) {
       const img = document.createElement("img");
-      img.src = previews.get(entry.id);
+      img.src = previews.get(previewKey);
       img.alt = entry.name;
       art.append(img);
     } else {
@@ -397,6 +413,17 @@ function renderShop() {
       }
     };
     info.append(title, text, button);
+    if (land && !owned) {
+      const preview = document.createElement("button");
+      preview.className = "biome-preview-button";
+      preview.textContent = "Посмотреть остров";
+      preview.setAttribute("aria-label", "Предпросмотр " + entry.name);
+      preview.onclick = () => {
+        $("shop-dialog").close();
+        world?.focus(entry.id);
+      };
+      info.append(preview);
+    }
     card.append(art, info);
     $("shop-grid").append(card);
   }

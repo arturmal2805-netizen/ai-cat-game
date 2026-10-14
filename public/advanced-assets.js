@@ -1,3 +1,12 @@
+import {
+  shape,
+  line,
+  mushroomHouse,
+  crescentGate,
+  fluffyTree,
+  batchScenery,
+} from "./fantasy-scenery.js";
+import { createLagoon, waterMaterial } from "./lagoon.js";
 import * as THREE from "three";
 import {
   primitive,
@@ -15,19 +24,68 @@ export function advancedAttraction(id, fields = [], now = Date.now()) {
     moving = new THREE.Group();
   g.add(moving);
   let curve = null,
-    seatHeight = 0.5;
+    seatHeight = 0.5,
+    aquarium = null,
+    waterSurface = null;
+  const themeColors = {
+    "coaster-lagoon": 0x72c1ce,
+    "coaster-sakura": 0xe9b1cc,
+    "coaster-moon": 0xb4a0d9,
+    "coaster-mushroom": 0xc995bb,
+    "coaster-cloud": 0xe1d7ee,
+    "coaster-clockwork": 0xd9b782,
+  };
   const color =
-      item.rarity === "Легендарное"
+      themeColors[id] ||
+      (item.rarity === "Легендарное"
         ? 0xb5a2e8
         : item.rarity === "Эпическое"
           ? 0xd6a0c6
-          : 0x91bcbc,
+          : 0x91bcbc),
     gold = 0xf0d19f;
   const path = (points) => {
     curve = new THREE.CatmullRomCurve3(
       points.map((p) => new THREE.Vector3(...p)),
     );
-    primitive(g, new THREE.TubeGeometry(curve, 90, 0.08, 6, false), gold);
+    primitive(g, new THREE.TubeGeometry(curve, 100, 0.075, 6, false), gold);
+    const ties = new THREE.Group();
+    for (let i = 0; i < 38; i++) {
+      const p = curve.getPoint(i / 38),
+        t = curve.getTangent(i / 38),
+        beam = shape(
+          ties,
+          "cube",
+          0xb99268,
+          p.x,
+          p.y - 0.025,
+          p.z,
+          0.62,
+          0.065,
+          0.14,
+        );
+      beam.rotation.y = Math.atan2(t.x, t.z);
+    }
+    g.add(batchScenery(ties));
+    for (const sign of [-1, 1]) {
+      const points = [];
+      for (let i = 0; i <= 90; i++) {
+        const p = curve.getPoint(i / 90),
+          t = curve.getTangent(i / 90),
+          side = new THREE.Vector3(t.z, 0, -t.x).normalize();
+        points.push(p.addScaledVector(side, sign * 0.22));
+      }
+      primitive(
+        g,
+        new THREE.TubeGeometry(
+          new THREE.CatmullRomCurve3(points),
+          90,
+          0.04,
+          5,
+          false,
+        ),
+        gold,
+      );
+    }
     for (let i = 0; i < 14; i++) {
       const p = curve.getPoint(i / 14);
       rod(g, 0x8c809f, p.x, p.y / 2, p.z, 0.06, Math.max(0.1, p.y));
@@ -37,11 +95,15 @@ export function advancedAttraction(id, fields = [], now = Date.now()) {
   if (id.startsWith("coaster-")) {
     const [w, d] = item.footprint;
     const height =
-      id === "coaster-legendary" ? 7 : id === "coaster-mystic" ? 6 : 4;
+      id === "coaster-legendary" || id === "coaster-cloud"
+        ? 7
+        : id === "coaster-mystic"
+          ? 6
+          : 4;
     const points = [];
     for (let i = 0; i <= 60; i++) {
       const t = (i / 60) * Math.PI * 2;
-      if (id === "coaster-mystic")
+      if (id === "coaster-mystic" || id === "coaster-sakura")
         points.push([
           Math.sin(t) * (w / 2 - 0.5),
           0.8 + ((Math.cos(t * 2) + 1) * height) / 2,
@@ -102,6 +164,45 @@ export function advancedAttraction(id, fields = [], now = Date.now()) {
         0.45,
       );
     }
+    const station = new THREE.Group();
+    mushroomHouse(station, -w / 2 + 1.25, 0, -d / 2 + 1.25, color, 0.55);
+    if (id.includes("moon") || id.includes("mystic"))
+      crescentGate(station, w / 2 - 1.2, 0, -d / 2 + 1.1, gold, 0.43);
+    if (id === "coaster-sakura")
+      for (const sign of [-1, 1])
+        fluffyTree(
+          station,
+          sign * (w / 2 - 1),
+          -d / 2 + 1,
+          0xf1b5d0,
+          "sakura",
+          0.5,
+        );
+    if (id === "coaster-lagoon") {
+      aquarium = createLagoon({
+        rx: w * 0.19,
+        rz: d * 0.18,
+        fishCount: 12,
+        color: 0x43c8dd,
+      });
+      aquarium.position.y = 1;
+      g.add(aquarium);
+      fluffyTree(station, w / 2 - 1, -d / 2 + 1, 0x8fbf70, "palm", 0.6);
+    }
+    if (id === "coaster-cloud")
+      for (let i = 0; i < 5; i++)
+        shape(
+          station,
+          "sphere",
+          0xf2eaf6,
+          Math.sin(i) * w * 0.35,
+          2 + Math.cos(i),
+          Math.cos(i) * d * 0.35,
+          0.9,
+          0.35,
+          0.6,
+        );
+    g.add(batchScenery(station));
     g.userData.duration = 12;
   } else if (["water-river", "water-whirlpool", "water-extreme"].includes(id)) {
     const [w, d] = item.footprint;
@@ -119,7 +220,13 @@ export function advancedAttraction(id, fields = [], now = Date.now()) {
       ]);
     }
     path(points);
-    primitive(g, new THREE.TubeGeometry(curve, 90, 0.25, 8, false), 0x93cdcd);
+    waterSurface = waterMaterial(0x64c7d9, 0.75);
+    g.add(
+      new THREE.Mesh(
+        new THREE.TubeGeometry(curve, 90, 0.25, 8, false),
+        waterSurface,
+      ),
+    );
     box(moving, color, 0, 0, 0, 0.75, 0.25, 1.1);
     g.userData.duration = 10;
   } else if (item.category === "farm") {
@@ -392,7 +499,15 @@ export function advancedAttraction(id, fields = [], now = Date.now()) {
     );
     for (const x of [-1.15, 1.15]) rod(g, gold, x, 0.65, 0, 0.1, 1.3);
   } else return null;
-  g.userData = { id, moving, curve, seatHeight, duration: g.userData.duration };
+  g.userData = {
+    id,
+    moving,
+    curve,
+    seatHeight,
+    duration: g.userData.duration,
+    aquarium,
+    waterMaterial: waterSurface,
+  };
   return g;
 }
 export function constructionModel(itemId) {
@@ -425,6 +540,9 @@ export function constructionModel(itemId) {
 export function animateAdvanced(g, time) {
   const { id, moving, curve } = g.userData;
   if (!moving) return;
+  g.userData.aquarium?.userData.update(time);
+  if (g.userData.waterMaterial)
+    g.userData.waterMaterial.uniforms.uTime.value = time;
   if (curve) {
     const progress = (time * 0.1) % 1,
       p = curve.getPoint(progress),

@@ -2,6 +2,8 @@ import * as THREE from "three";
 import { createCat, animateCat, moodNames } from "./cat-model.js";
 import { BIOMES, NEIGHBORS, byBiome, byItem } from "./game-data.js";
 import { canPlace, isBuilt } from "./economy.js";
+import { fantasyArtVersion, loadFantasyArt } from "./fantasy-art.js";
+import { createBiomeScene } from "./biome-scenes.js";
 import { constructionModel } from "./advanced-assets.js";
 import {
   primitive,
@@ -9,15 +11,13 @@ import {
   ball,
   box,
   rod,
-  tree,
-  mushroom,
   glowOrb,
   makeAttraction,
   animateAttraction,
 } from "./world-assets.js";
 export const destinations = {
   home: [-6, -3],
-  pond: [5, 5],
+  pond: [6.7, 5.7],
   garden: [-5, 5],
   tree: [5, -3],
   picnic: [-2, 6],
@@ -35,23 +35,23 @@ export function createWorld(container, initialGame, callbacks = {}) {
   renderer.shadowMap.enabled = !mobileRender;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.15;
-  renderer.setClearColor(0x182434);
+  renderer.toneMappingExposure = 1.0;
+  renderer.setClearColor(0xb5bfdc);
   container.prepend(renderer.domElement);
   renderer.domElement.setAttribute(
     "aria-label",
     "Сказочный мир Чичи: 24 биомов, коты и аттракционы",
   );
   const scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x243346, 0.006);
+  scene.fog = new THREE.FogExp2(0xc0bfd7, 0.0035);
   const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 1200);
   const look = new THREE.Vector3(0, 0, 0),
     desiredLook = look.clone();
   let azimuth = 0.72,
     distance = 37,
     elevation = 0.67;
-  scene.add(new THREE.HemisphereLight(0xe9d9ff, 0x67748a, 1.9));
-  const sun = new THREE.DirectionalLight(0xffd4b0, 2.1);
+  scene.add(new THREE.HemisphereLight(0xffe9db, 0x8b9e85, 1.2));
+  const sun = new THREE.DirectionalLight(0xffd8b7, 2.2);
   sun.position.set(-14, 35, 20);
   sun.castShadow = true;
   sun.shadow.mapSize.set(1024, 1024);
@@ -64,6 +64,54 @@ export function createWorld(container, initialGame, callbacks = {}) {
   sun.shadow.bias = -0.0005;
   scene.add(sun);
   scene.add(sun.target);
+  const rimLight = new THREE.DirectionalLight(0xb8b7ec, 0.9);
+  rimLight.position.set(20, 16, -30);
+  scene.add(rimLight);
+  const sky = new THREE.Mesh(
+    new THREE.SphereGeometry(520, 24, 14),
+    new THREE.ShaderMaterial({
+      uniforms: {
+        top: { value: new THREE.Color(0x788ab9) },
+        bottom: { value: new THREE.Color(0xb2b8d5) },
+      },
+      vertexShader:
+        "varying vec3 direction;void main(){direction=position;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}",
+      fragmentShader:
+        "uniform vec3 top;uniform vec3 bottom;varying vec3 direction;void main(){float h=normalize(direction).y;vec3 c=mix(bottom,top,smoothstep(-.12,.75,h));gl_FragColor=vec4(c,1.0);#include <colorspace_fragment>}",
+      side: THREE.BackSide,
+      depthWrite: false,
+      toneMapped: false,
+    }),
+  );
+  sky.material.fragmentShader = sky.material.fragmentShader.replace(
+    "#include",
+    "\n#include",
+  );
+  scene.add(sky);
+  const cloudGeometry = new THREE.SphereGeometry(1, 12, 8),
+    cloudMaterial = new THREE.MeshStandardMaterial({
+      color: 0xf4edf5,
+      roughness: 1,
+      transparent: true,
+      opacity: 0.22,
+      depthWrite: false,
+    });
+  const clouds = new THREE.InstancedMesh(cloudGeometry, cloudMaterial, 72),
+    cloudDummy = new THREE.Object3D();
+  for (let i = 0; i < 72; i++) {
+    const a = i * 2.399,
+      r = 16 + (i % 9) * 14;
+    cloudDummy.position.set(
+      Math.cos(a) * r,
+      -12 - (i % 6) * 2,
+      Math.sin(a) * r,
+    );
+    cloudDummy.scale.set(5 + (i % 3) * 2, 1.7, 3.5 + (i % 4));
+    cloudDummy.updateMatrix();
+    clouds.setMatrixAt(i, cloudDummy.matrix);
+  }
+  scene.add(clouds);
+
   const moon = glowOrb(scene, 0xffe7ce, -25, 28, -55, 4);
   const moonRing = primitive(
     scene,
@@ -97,11 +145,24 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }),
     ),
   );
-  const weather = [],
-    islands = new Map(),
+  const islands = new Map(),
     labels = new Map(),
     itemGroups = new Map(),
     npcs = new Map();
+  const npcMarkers = new THREE.InstancedMesh(
+      new THREE.SphereGeometry(0.23, 8, 5),
+      new THREE.MeshStandardMaterial({ color: 0xffffff }),
+      NEIGHBORS.length,
+    ),
+    npcDummy = new THREE.Object3D();
+  npcMarkers.frustumCulled = false;
+  for (let i = 0; i < NEIGHBORS.length; i++) {
+    npcMarkers.setColorAt(i, new THREE.Color(NEIGHBORS[i].color));
+    npcDummy.scale.setScalar(0);
+    npcDummy.updateMatrix();
+    npcMarkers.setMatrixAt(i, npcDummy.matrix);
+  }
+  scene.add(npcMarkers);
   let game = initialGame,
     sceneKey = "",
     focused = "moon",
@@ -128,424 +189,68 @@ export function createWorld(container, initialGame, callbacks = {}) {
     );
     motes.push(mote);
   }
-  function flower(parent, x, z, color) {
-    rod(parent, 0x789d8e, x, 0.23, z, 0.025, 0.46);
-    for (let i = 0; i < 5; i++) {
-      const a = (i * Math.PI * 2) / 5;
-      ball(
-        parent,
-        color,
-        x + Math.sin(a) * 0.1,
-        0.48,
-        z + Math.cos(a) * 0.1,
-        0.1,
-      );
-    }
-    glowOrb(parent, 0xffddb0, x, 0.5, z, 0.05);
-  }
-  function cottage(parent, x, z, color = 0xb68b94) {
-    const home = new THREE.Group();
-    home.position.set(x, 0, z);
-    parent.add(home);
-    box(home, 0xb3a4a5, 0, 1, 0, 2.7, 2, 2.2);
-    primitive(
-      home,
-      new THREE.ConeGeometry(2.3, 1.6, 4),
-      color,
-      0,
-      2.7,
-      0,
-    ).rotation.y = Math.PI / 4;
-    box(home, 0x5b5369, 0, 0.65, 1.13, 0.65, 1.3, 0.08);
-    for (const dx of [-0.8, 0.8]) glowOrb(home, 0xffdda8, dx, 1.05, 1.14, 0.2);
-    rod(home, 0x8d7a83, 0.8, 2.7, -0.4, 0.16, 1.3);
-    const smoke = ball(home, 0xaaa2bd, 0.8, 3.5, -0.4, 0.16);
-    smoke.material = material(0xa0a0b0);
-  }
+  const detailQueue = new Set();
+  let detailTimer = null;
   function makeIsland(biome) {
-    const g = new THREE.Group();
+    const g = createBiomeScene(biome, {
+      lowOnly: biome.id !== "moon",
+      placements: game.placements.filter((p) => p.biome === biome.id),
+    });
     g.position.set(biome.center[0], 0, biome.center[1]);
     scene.add(g);
-    const cliff = primitive(
-      g,
-      new THREE.CylinderGeometry(11.5, 9.5, 2.2, 30, 2),
-      biome.edge,
-      0,
-      -1.05,
-      0,
-    );
-    cliff.geometry.computeVertexNormals();
-    const ground = primitive(
-      g,
-      new THREE.CylinderGeometry(11.6, 11.4, 0.24, 48, 1),
-      biome.ground,
-      0,
-      0.02,
-      0,
-    );
-    const terrain = ground.geometry.toNonIndexed(),
-      colors = [];
-    const positions = terrain.getAttribute("position");
-    for (let vertex = 0; vertex < positions.count; vertex++) {
-      const x = positions.getX(vertex),
-        z = positions.getZ(vertex),
-        shade = 0.9 + Math.sin(x * 0.6) * Math.cos(z * 0.8) * 0.095;
-      const color = new THREE.Color(biome.ground).multiplyScalar(shade);
-      colors.push(color.r, color.g, color.b);
-    }
-    terrain.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
-    ground.geometry.dispose();
-    ground.geometry = terrain;
-    ground.material = ground.material.clone();
-    ground.material.vertexColors = true;
-    ground.material.color.set(0xffffff);
-    // Curved paths, garden beds and rough cliff details soften the floating island.
-    for (let pathIndex = 0; pathIndex < 4; pathIndex++) {
-      const angle = (pathIndex * Math.PI) / 2;
-      const points = [
-        new THREE.Vector3(0, 0.17, 0),
-        new THREE.Vector3(
-          Math.sin(angle + 0.15) * 3,
-          0.17,
-          Math.cos(angle + 0.15) * 3,
-        ),
-        new THREE.Vector3(Math.sin(angle) * 7.5, 0.17, Math.cos(angle) * 7.5),
-      ];
-      const curve = new THREE.CatmullRomCurve3(points);
-      primitive(g, new THREE.TubeGeometry(curve, 30, 0.14, 5, false), 0xa598aa);
-    }
-    for (let rockIndex = 0; rockIndex < 14; rockIndex++) {
-      const angle = (rockIndex * Math.PI * 2) / 14,
-        rock = primitive(
-          g,
-          new THREE.DodecahedronGeometry(0.7 + (rockIndex % 3) * 0.18, 0),
-          biome.edge,
-          Math.cos(angle) * 10.5,
-          -0.8 - (rockIndex % 2) * 0.35,
-          Math.sin(angle) * 10.5,
-        );
-      rock.scale.set(1, 1.7, 0.7);
-    }
-    const grassGeometry = new THREE.ConeGeometry(0.045, 0.25, 3),
-      grassMaterial = material(biome.foliage),
-      grass = new THREE.InstancedMesh(grassGeometry, grassMaterial, 65);
-    const dummy = new THREE.Object3D();
-    for (let grassIndex = 0; grassIndex < 65; grassIndex++) {
-      const angle = grassIndex * 2.399,
-        radius = 8.4 + (grassIndex % 5) * 0.43;
-      dummy.position.set(
-        Math.sin(angle) * radius,
-        0.27,
-        Math.cos(angle) * radius,
-      );
-      dummy.rotation.z = Math.sin(grassIndex) * 0.18;
-      dummy.updateMatrix();
-      grass.setMatrixAt(grassIndex, dummy.matrix);
-    }
-    g.add(grass);
-    if (["winter", "sakura", "wizard", "autumn", "stars"].includes(biome.id)) {
-      const floats = [];
-      for (let particle = 0; particle < 45; particle++)
-        floats.push(
-          Math.sin(particle * 2.4) * 10,
-          1 + (particle % 8) * 0.55,
-          Math.cos(particle * 2.4) * 10,
-        );
-      const geo = new THREE.BufferGeometry();
-      geo.setAttribute("position", new THREE.Float32BufferAttribute(floats, 3));
-      const points = new THREE.Points(
-        geo,
-        new THREE.PointsMaterial({
-          color: biome.accent,
-          size: biome.id === "winter" ? 0.1 : 0.08,
-          transparent: true,
-          opacity: 0.7,
-        }),
-      );
-      g.add(points);
-      weather.push({ points, id: biome.id });
-    }
-
-    const halo = primitive(
-      g,
-      new THREE.TorusGeometry(11.55, 0.025, 5, 80),
-      biome.accent,
-      0,
-      0.17,
-      0,
-      0.55,
-    );
-    halo.rotation.x = Math.PI / 2;
-    primitive(
-      g,
-      new THREE.CylinderGeometry(1.15, 1.15, 0.03, 24),
-      biome.accent,
-      0,
-      0.17,
-      0,
-    );
-    const ring = primitive(
-      g,
-      new THREE.TorusGeometry(0.95, 0.04, 6, 40),
-      biome.accent,
-      0,
-      0.2,
-      0,
-      0.6,
-    );
-    ring.rotation.x = Math.PI / 2;
-    const type = ["beach", "desert", "water"].includes(biome.id)
-      ? "palm"
-      : ["winter", "wizard"].includes(biome.id)
-        ? "pine"
-        : "normal";
-    for (let i = 0; i < 7; i++) {
-      const a = i * 0.88 + 0.2,
-        r = 9.8;
-      const x = Math.cos(a) * r,
-        z = Math.sin(a) * r;
-      if (biome.id === "desert" && i % 2) {
-        rod(g, 0x90a18e, x, 0.6, z, 0.14, 1.2);
-        ball(g, 0x90a18e, x, 0.95, z, 0.2);
-      } else tree(g, x, z, biome.foliage, type, 0.8 + (i % 3) * 0.2);
-    }
-    for (let i = 0; i < 8; i++) {
-      const a = i * 2.399,
-        r = 9.7 - (i % 2) * 0.6,
-        x = Math.sin(a) * r,
-        z = Math.cos(a) * r;
-      if (["moon", "autumn", "wizard", "nature"].includes(biome.id))
-        mushroom(g, x, z, biome.accent, 0.4 + (i % 2) * 0.2);
-      else if (["summer", "sakura", "stars"].includes(biome.id))
-        flower(g, x, z, biome.accent);
-      else if (biome.id === "winter") {
-        const snow = ball(g, 0xe5edf0, x, 0.15, z, 0.45);
-        snow.scale.y = 0.4;
-      } else {
-        const rock = primitive(
-          g,
-          new THREE.DodecahedronGeometry(0.3, 0),
-          biome.accent,
-          x,
-          0.18,
-          z,
-        );
-        rock.scale.y = 0.6;
-      }
-    }
-    for (let i = 0; i < 4; i++) {
-      const x = -8 + i * 5,
-        z = -8;
-      rod(g, 0x6b687e, x, 1.05, z, 0.04, 2.1);
-      glowOrb(g, biome.accent, x, 2.15, z, 0.13);
-    }
-    if (biome.id === "moon") {
-      for (let i = 0; i < 8; i++) {
-        const a = i * 0.8;
-        mushroom(g, Math.cos(a) * 8.8, Math.sin(a) * 8.8, 0xaf80a9, 0.5);
-      }
-      const portal = primitive(
-        g,
-        new THREE.TorusGeometry(1.1, 0.075, 8, 40),
-        0xc7a7df,
-        0,
-        1.4,
-        -9,
-        0.7,
-      );
-      for (const x of [-1.2, 1.2]) rod(g, 0x887096, x, 0.7, -9, 0.1, 1.4);
-      cottage(g, -6, -5, 0x8f739d);
-      const pond = primitive(
-        g,
-        new THREE.CylinderGeometry(1.7, 1.7, 0.05, 32),
-        0x81b9bd,
-        5,
-        0.18,
-        4,
-      );
-      pond.scale.z = 0.8;
-      tree(g, 5, -5, 0xa0b3a0, "normal", 1.5);
-      box(g, 0xbc9baa, -2, 0.18, 5, 2.2, 0.06, 1.8);
-      for (let i = 0; i < 6; i++)
-        flower(g, -7 + i * 0.38, 4.5 + (i % 2) * 0.4, 0xd2b5da);
-    }
-    if (biome.id === "wizard") {
-      for (let i = 0; i < 3; i++) mushroom(g, -7 + i * 2, 6, 0xb78cc8, 1.1);
-      const crystal = makeAttraction("crystal");
-      crystal.position.set(-7, 0.15, 3);
-      crystal.scale.setScalar(1.6);
-      g.add(crystal);
-      cottage(g, 7, -5, 0x645887);
-    }
-    if (biome.id === "winter") {
-      for (let ribbon = 0; ribbon < 3; ribbon++) {
-        const curve = new THREE.CatmullRomCurve3([
-          new THREE.Vector3(-9, 4 + ribbon * 0.4, -8),
-          new THREE.Vector3(-4, 5 + ribbon * 0.3, -9),
-          new THREE.Vector3(2, 4.5 + ribbon * 0.3, -9),
-          new THREE.Vector3(8, 5 + ribbon * 0.3, -8),
-        ]);
-        const aurora = primitive(
-          g,
-          new THREE.TubeGeometry(curve, 40, 0.14, 6, false),
-          [0x86c6c0, 0xaab5e2, 0xc7abde][ribbon],
-          0,
-          0,
-          0,
-          0.55,
-        );
-        aurora.material = aurora.material.clone();
-        aurora.material.transparent = true;
-        aurora.material.opacity = 0.5;
-      }
-      for (let i = 0; i < 3; i++)
-        ball(g, 0xe8f3f5, 7, 0.3 + i * 0.35, -6, 0.48 - i * 0.1);
-      glowOrb(g, 0xa2e8db, 0, 6, -9, 0.6);
-    }
-    if (biome.id === "beach" || biome.id === "water") {
-      const shoreline = primitive(
-        g,
-        new THREE.TorusGeometry(11.6, 0.36, 8, 70),
-        0x7fbac3,
-        0,
-        -0.02,
-        0,
-        0.07,
-      );
-      shoreline.rotation.x = Math.PI / 2;
-      const pool = primitive(
-        g,
-        new THREE.CylinderGeometry(3, 3, 0.05, 40),
-        0x7ec8c5,
-        -6,
-        0.16,
-        -5,
-      );
-      pool.scale.z = 0.7;
-      for (let i = 0; i < 4; i++)
-        ball(g, 0xe3d6bd, -8 + i * 0.7, 0.2, -7, 0.18);
-    }
-    if (biome.id === "clouds") {
-      cottage(g, -7, -5, 0xc6b8d9);
-      cottage(g, 7, -5, 0xbab0d2);
-      for (let i = 0; i < 6; i++) {
-        const cloud = ball(
-          g,
-          0xd9d9eb,
-          Math.sin(i) * 10,
-          -0.3,
-          Math.cos(i) * 10,
-          2,
-        );
-        cloud.scale.y = 0.4;
-      }
-    }
-    if (biome.id === "desert") {
-      const oasis = primitive(
-        g,
-        new THREE.CylinderGeometry(2.2, 2.2, 0.06, 30),
-        0x7faab1,
-        -6,
-        0.16,
-        -5,
-      );
-      oasis.scale.z = 0.6;
-      for (let i = 0; i < 4; i++) {
-        const dune = ball(g, 0xcbb189, -7 + i * 4, 0.2, 8, 1.5);
-        dune.scale.y = 0.3;
-      }
-    }
-    if (biome.id === "summer") {
-      for (let i = 0; i < 18; i++)
-        flower(
-          g,
-          Math.sin(i * 2.4) * 8.5,
-          Math.cos(i * 2.4) * 8.5,
-          [0xf1d48f, 0xd0afd8, 0xe3b4bd][i % 3],
-        );
-    }
-    if (biome.id === "sakura") {
-      for (let i = 0; i < 3; i++) {
-        rod(g, 0x9b7e9a, -7 + i * 7, 1.2, 7, 0.06, 2.4);
-        glowOrb(g, 0xf0b7c8, -7 + i * 7, 2.5, 7, 0.3);
-      }
-    }
-    if (biome.id === "stars") {
-      for (let i = 0; i < 4; i++)
-        primitive(
-          g,
-          new THREE.OctahedronGeometry(0.25, 0),
-          0xe3c6eb,
-          -7 + i * 4,
-          3,
-          -8,
-          0.8,
-        );
-    }
-    if (["water", "moon", "nature", "winter"].includes(biome.id)) {
-      for (let fall = 0; fall < 3; fall++) {
-        const sheet = box(
-          g,
-          biome.id === "winter" ? 0xc5e7ef : 0x82b6c7,
-          -2.5 + fall * 0.3,
-          -1.6,
-          11.2,
-          0.18,
-          3.4,
-          0.1,
-        );
-        sheet.material = sheet.material.clone();
-        sheet.material.transparent = true;
-        sheet.material.opacity = 0.65;
-        sheet.material.emissive.set(0x75aabb);
-        sheet.material.emissiveIntensity = 0.25;
-      }
-      const mist = ball(g, 0x9cb8c5, -2.2, -3.3, 11.3, 0.6);
-      mist.scale.set(1.8, 0.3, 0.7);
-      mist.material = mist.material.clone();
-      mist.material.transparent = true;
-      mist.material.opacity = 0.25;
-    }
+    islands.set(biome.id, g);
     const label = document.createElement("button");
     label.className = "island-label";
     label.textContent = biome.icon + " " + biome.name;
     label.setAttribute("aria-label", "Остров " + biome.name);
-    label.onclick = () => {
-      if (game.unlocked.includes(biome.id)) focus(biome.id);
-      else callbacks.onLockedBiome?.(biome.id);
-    };
+    label.onclick = () =>
+      game.unlocked.includes(biome.id)
+        ? focus(biome.id)
+        : callbacks.onLockedBiome?.(biome.id);
     container.append(label);
     labels.set(biome.id, label);
-    islands.set(biome.id, g);
-    const detail = new THREE.Group();
-    for (const child of [...g.children].slice(4)) {
-      g.remove(child);
-      detail.add(child);
-    }
-    g.add(detail);
-    const lowDetail = new THREE.Group();
-    for (let i = 0; i < 4; i++) {
-      const a = (i * Math.PI) / 2 + 0.4,
-        x = Math.cos(a) * 9,
-        z = Math.sin(a) * 9;
-      rod(lowDetail, biome.edge, x, 0.7, z, 0.12, 1.4);
-      if (["winter", "wizard", "ice"].includes(biome.id))
-        primitive(
-          lowDetail,
-          new THREE.ConeGeometry(0.9, 2.1, 6),
-          biome.foliage,
-          x,
-          1.6,
-          z,
-        );
-      else ball(lowDetail, biome.foliage, x, 1.7, z, 0.9);
-    }
-    g.add(lowDetail);
-    g.userData.detail = detail;
-    g.userData.lowDetail = lowDetail;
     return g;
   }
+  function ensureDetail(id) {
+    const data = islands.get(id)?.userData;
+    if (!data || (!data.lowOnly && data.artVersion === fantasyArtVersion()))
+      return;
+    detailQueue.add(id);
+    if (detailTimer) return;
+    const upgrade = () => {
+      detailTimer = null;
+      if (disposed || !detailQueue.size) return;
+      const id = detailQueue.has(focused)
+        ? focused
+        : detailQueue.values().next().value;
+      detailQueue.delete(id);
+      const old = islands.get(id),
+        b = byBiome(id);
+      if (
+        old &&
+        (old.userData.lowOnly ||
+          old.userData.artVersion !== fantasyArtVersion()) &&
+        distance < 110 &&
+        Math.hypot(b.center[0] - desiredLook.x, b.center[1] - desiredLook.z) <
+          (mobileRender ? 31 : 40)
+      ) {
+        const g = createBiomeScene(b, {
+          placements: game.placements.filter((p) => p.biome === id),
+        });
+        g.position.copy(old.position);
+        scene.remove(old);
+        old.userData.dispose?.();
+        scene.add(g);
+        islands.set(id, g);
+      }
+      if (detailQueue.size) detailTimer = setTimeout(upgrade, 32);
+    };
+    detailTimer = setTimeout(upgrade, 16);
+  }
   for (const biome of BIOMES) makeIsland(biome);
+  loadFantasyArt().then((ready) => {
+    if (ready && !disposed) for (const id of islands.keys()) ensureDetail(id);
+  });
   // Connect nearby shores instead of drawing long roads across other islands.
   const connected = new Set(["moon"]);
   while (connected.size < BIOMES.length) {
@@ -572,7 +277,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     const middle = from.clone().add(to).multiplyScalar(0.5);
     const bridge = box(
       scene,
-      0xa799ad,
+      0xc6aa85,
       middle.x,
       0.14,
       middle.z,
@@ -595,59 +300,6 @@ export function createWorld(container, initialGame, callbacks = {}) {
       );
     }
   }
-  for (const biome of BIOMES.slice(12)) {
-    const g = islands.get(biome.id);
-    if (["crystal", "ice", "galaxy"].includes(biome.id)) {
-      for (let i = 0; i < 5; i++) {
-        const crystal = primitive(
-          g,
-          new THREE.OctahedronGeometry(0.8, 0),
-          biome.accent,
-          Math.sin(i * 1.25) * 8,
-          1.8,
-          Math.cos(i * 1.25) * 8,
-          0.35,
-        );
-        crystal.scale.y = 2.2;
-      }
-    }
-    if (biome.id === "mushrooms")
-      for (let i = 0; i < 7; i++)
-        mushroom(g, Math.sin(i) * 9, Math.cos(i) * 9, biome.accent, 1.3);
-    if (biome.id === "galaxy") {
-      const planet = ball(g, 0xb7a2d0, -7, 4, -7, 1.3);
-      primitive(
-        g,
-        new THREE.TorusGeometry(2, 0.09, 8, 40),
-        0xf0d4ae,
-        -7,
-        4,
-        -7,
-        0.25,
-      ).rotation.x = 1.1;
-    }
-    if (biome.id === "volcano") {
-      primitive(g, new THREE.ConeGeometry(2, 3.5, 9), 0x584155, -7, 1.6, -7);
-      glowOrb(g, 0xffa170, -7, 3.4, -7, 0.5);
-    }
-    if (biome.id === "rainbow") {
-      for (let i = 0; i < 5; i++)
-        primitive(
-          g,
-          new THREE.TorusGeometry(2.2 - i * 0.15, 0.07, 6, 40, Math.PI),
-          [0xe2afba, 0xf1cf9d, 0xb7d2b0, 0xa9cbd5, 0xc7acd9][i],
-          -7,
-          2,
-          -7,
-          0.15,
-        );
-    }
-    if (biome.id === "clockwork" || biome.id === "dusk") {
-      cottage(g, -7, -7, biome.foliage);
-      rod(g, biome.foliage, 7, 2.2, -7, 0.65, 4.4);
-      glowOrb(g, biome.accent, 7, 4.7, -7, 0.3);
-    }
-  }
   function sync(next) {
     game = next;
     const key = JSON.stringify([
@@ -661,6 +313,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
     ]);
     if (key === sceneKey) return;
     sceneKey = key;
+    for (const [id, island] of islands)
+      island.userData.updatePlacements?.(
+        game.placements.filter((p) => p.biome === id),
+      );
     for (const [id, g] of itemGroups) {
       const retained = game.placements.find((p) => p.id === id);
       if (
@@ -1117,7 +773,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     const dt = Math.min((now - previousTime) / 1000, 0.1);
     previousTime = now;
     const time = now / 1000;
-    look.lerp(desiredLook, reduced ? 1 : 0.07);
+    look.lerp(desiredLook, reduced ? 1 : 1 - Math.exp(-dt * 8));
     camera.position.set(
       look.x + Math.sin(azimuth) * Math.cos(elevation) * distance,
       Math.sin(elevation) * distance,
@@ -1128,9 +784,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
       const island = islands.get(b.id),
         close =
           distance < 110 &&
-          Math.hypot(b.center[0] - look.x, b.center[1] - look.z) < 39;
-      island.userData.detail.visible = close;
-      island.userData.lowDetail.visible = !close;
+          Math.hypot(b.center[0] - look.x, b.center[1] - look.z) <
+            (mobileRender ? 31 : 39);
+      island.userData.detail.visible = close && !island.userData.lowOnly;
+      island.userData.lowDetail.visible = !close || !!island.userData.lowOnly;
+      if (close) ensureDetail(b.id);
+      island.userData.update?.(time, reduced);
     }
     for (const g of itemGroups.values())
       if (!reduced) animateAttraction(g, time);
@@ -1158,13 +817,27 @@ export function createWorld(container, initialGame, callbacks = {}) {
         n.carrier.rotation.y = Math.atan2(direction.x, direction.z);
       n.carrier.position.x += direction.x * dt * 0.6;
       n.carrier.position.z += direction.z * dt * 0.6;
-      animateCat(
-        n.model,
-        time + n.index,
-        Math.abs(direction.x) + Math.abs(direction.z) > 0.1,
-        reduced,
-      );
+      const near =
+        distance < 110 &&
+        Math.hypot(
+          n.carrier.position.x - look.x,
+          n.carrier.position.z - look.z,
+        ) < (mobileRender ? 35 : 45);
+      n.carrier.visible = near;
+      npcDummy.position.copy(n.carrier.position);
+      npcDummy.position.y += 0.3;
+      npcDummy.scale.setScalar(near ? 0 : 1);
+      npcDummy.updateMatrix();
+      npcMarkers.setMatrixAt(n.index, npcDummy.matrix);
+      if (near)
+        animateCat(
+          n.model,
+          time + n.index,
+          Math.abs(direction.x) + Math.abs(direction.z) > 0.1,
+          reduced,
+        );
     }
+    npcMarkers.instanceMatrix.needsUpdate = true;
     let walking = false;
     if (operation) {
       const op = operation;
@@ -1307,18 +980,6 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }
     }
     animateCat(cat, time, walking, reduced);
-    for (const item of weather) {
-      if (!reduced) {
-        item.points.rotation.y = time * 0.015;
-        const data = item.points.geometry.getAttribute("position");
-        for (let index = 0; index < data.count; index++) {
-          let y = data.getY(index) - dt * (item.id === "winter" ? 0.2 : 0.05);
-          if (y < 0.4) y = 5.5;
-          data.setY(index, y);
-        }
-        data.needsUpdate = true;
-      }
-    }
     for (let i = 0; i < motes.length; i++)
       if (!reduced) {
         motes[i].position.y =
@@ -1340,7 +1001,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     }
     sun.position.set(look.x - 14, 35, look.z + 20);
     sun.target.position.copy(look);
-    scene.fog.density = distance > 90 ? 0.0008 : 0.006;
+    scene.fog.density = distance > 90 ? 0.0007 : 0.0035;
     renderer.render(scene, camera);
     requestAnimationFrame(loop);
   }
@@ -1389,6 +1050,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
     getFocused: () => focused,
     dispose() {
       disposed = true;
+      clearTimeout(detailTimer);
+      for (const island of islands.values()) island.userData.dispose?.();
       resize.disconnect();
       renderer.dispose();
     },

@@ -1,4 +1,6 @@
 import { advancedAttraction, animateAdvanced } from "./advanced-assets.js";
+import { dressAttraction } from "./fantasy-scenery.js";
+import { byItem } from "./game-data.js";
 import * as THREE from "three";
 const cache = new Map();
 export function material(color, glow = 0) {
@@ -172,7 +174,7 @@ function vehicle(parent, kind, color = 0xc9a3cf) {
 }
 export function makeAttraction(id, fields = [], now = Date.now()) {
   const advanced = advancedAttraction(id, fields, now);
-  if (advanced) return advanced;
+  if (advanced) return dressAttraction(advanced, byItem(id));
   const group = new THREE.Group();
   const moving = new THREE.Group();
   group.add(moving);
@@ -608,7 +610,7 @@ export function makeAttraction(id, fields = [], now = Date.now()) {
     }
   }
   group.userData = { id, moving, curve, seatHeight, ridePosition };
-  return group;
+  return dressAttraction(group, byItem(id));
 }
 export function animateAttraction(group, time) {
   animateAdvanced(group, time);

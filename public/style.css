@@ -1728,3 +1728,10 @@ dialog::backdrop {
   border-color: #e8cf9f;
   box-shadow: 0 3px 13px #d8b08422;
 }
+.shop-info .biome-preview-button {
+  margin-top: 7px;
+  background: transparent;
+  border: 1px solid #d8cbe3;
+  color: #796187;
+  min-height: 38px;
+}
