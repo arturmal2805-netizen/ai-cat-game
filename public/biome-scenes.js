@@ -1012,17 +1012,6 @@ export function createBiomeScene(
       return true;
     });
     for (const tree of root.userData.trees) {
-      shape(
-        gardens,
-        "sphere",
-        new THREE.Color(style.ground).multiplyScalar(0.8).getHex(),
-        tree.x,
-        0.144,
-        tree.z,
-        1.0 * tree.scale,
-        0.014,
-        0.85 * tree.scale,
-      );
       if (hasFantasyArt(tree.trees))
         (tree.trees ? treeArt : originalTreeArt).push({
           ...tree,
@@ -1141,6 +1130,10 @@ export function createBiomeScene(
     if (detail.visible) {
       for (const object of animations) object.userData.update(time, reduced);
       coverRoot?.userData.update(time, reduced);
+      paintedHero?.userData.update(time, reduced);
+      illustrations?.userData.update(time, reduced);
+      for (const object of gardenRoot?.children || [])
+        object.userData.update?.(time, reduced);
     }
   };
   root.userData.dispose = () => disposeBiome(root);

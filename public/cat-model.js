@@ -4,7 +4,7 @@ import {
   mergeVertices,
 } from "three/addons/utils/BufferGeometryUtils.js";
 export const moodNames = ["sleep", "crazy hungry", "happy"];
-export const CHICHI_FUR = 0x71655f;
+export const CHICHI_FUR = 0x747c84;
 const poses = {
   sleep: {
     height: 0.7,
@@ -92,7 +92,10 @@ export function createCat(mood = "happy", options = {}) {
       vertexColors: detailed,
     }),
     muzzle: new THREE.MeshStandardMaterial({
-      color: new THREE.Color(furColour).lerp(new THREE.Color(0xb7ada1), 0.38),
+      color: new THREE.Color(furColour).lerp(
+        new THREE.Color(options?.color == null ? 0xb8bec4 : 0xb7ada1),
+        0.38,
+      ),
       roughness: 0.97,
       vertexColors: detailed,
     }),
