@@ -1,28 +1,41 @@
 import * as THREE from "three";
 
 let texture;
+let treeTexture;
 let loading;
-export const fantasyArtVersion = () => (texture ? 1 : 0);
+export const fantasyArtVersion = () =>
+  (texture ? 1 : 0) + (treeTexture ? 2 : 0);
+export const hasFantasyArt = (trees = false) =>
+  Boolean(trees ? treeTexture : texture);
 
 // One original transparent illustration atlas. Loading never blocks the game:
 // the geometric scenery remains available if an image cannot be downloaded.
 export function loadFantasyArt() {
   if (loading) return loading;
-  loading = new Promise((resolve) => {
-    new THREE.TextureLoader().load(
-      new URL("./art/fantasy-atlas.png", document.baseURI).href,
-      (image) => {
-        image.colorSpace = THREE.SRGBColorSpace;
-        image.minFilter = THREE.LinearMipmapLinearFilter;
-        image.magFilter = THREE.LinearFilter;
-        image.generateMipmaps = true;
-        texture = image;
-        resolve(true);
-      },
-      undefined,
-      () => resolve(false),
-    );
-  });
+  const load = (name, accept) =>
+    new Promise((resolve) => {
+      new THREE.TextureLoader().load(
+        new URL(`./art/${name}.png`, document.baseURI).href,
+        (image) => {
+          image.colorSpace = THREE.SRGBColorSpace;
+          image.minFilter = THREE.LinearMipmapLinearFilter;
+          image.magFilter = THREE.LinearFilter;
+          image.generateMipmaps = true;
+          accept(image);
+          resolve(true);
+        },
+        undefined,
+        () => resolve(false),
+      );
+    });
+  loading = Promise.all([
+    load("fantasy-atlas", (image) => {
+      texture = image;
+    }),
+    load("tree-varieties", (image) => {
+      treeTexture = image;
+    }),
+  ]).then((results) => results.some(Boolean));
   return loading;
 }
 
@@ -38,8 +51,9 @@ export function treeCell(kind) {
 
 // Camera-facing, depth-tested illustrations enrich the 3D landscape using one
 // draw call per island. Water, cats, terrain and moving rides remain geometry.
-export function illustratedScenery(entries) {
-  if (!texture || !entries.length) return null;
+export function illustratedScenery(entries, { trees = false } = {}) {
+  const atlas = trees ? treeTexture : texture;
+  if (!atlas || !entries.length) return null;
   const geometry = new THREE.PlaneGeometry(1, 1);
   geometry.setAttribute(
     "artCell",
@@ -58,7 +72,7 @@ export function illustratedScenery(entries) {
     ),
   );
   const material = new THREE.ShaderMaterial({
-    uniforms: { atlas: { value: texture } },
+    uniforms: { atlas: { value: atlas }, recolor: { value: trees ? 0 : 1 } },
     side: THREE.DoubleSide,
     vertexShader: `
       attribute float artCell;
@@ -82,6 +96,7 @@ export function illustratedScenery(entries) {
       }`,
     fragmentShader: `
       uniform sampler2D atlas;
+      uniform float recolor;
       varying vec2 artUv;
       varying vec3 artTint;
       varying float cellNumber;
@@ -91,7 +106,7 @@ export function illustratedScenery(entries) {
         // Recolor purple foliage for each habitat, preserving warm trunks,
         // lanterns and cottage windows. The other original illustrations retain
         // their painted palette.
-        if (cellNumber < 0.5 && painted.b > painted.r * 0.68 && painted.b > painted.g * 1.20) {
+        if (recolor > 0.5 && cellNumber < 0.5 && painted.b > painted.r * 0.68 && painted.b > painted.g * 1.20) {
           float luminance = dot(painted.rgb, vec3(0.2126, 0.7152, 0.0722));
           painted.rgb = mix(painted.rgb, artTint * luminance * 2.8, 0.95);
         }
@@ -103,7 +118,7 @@ export function illustratedScenery(entries) {
   const mesh = new THREE.InstancedMesh(geometry, material, entries.length);
   const dummy = new THREE.Object3D();
   entries.forEach((entry, i) => {
-    dummy.position.set(entry.x, (entry.y || 0.14) + entry.height / 2, entry.z);
+    dummy.position.set(entry.x, (entry.y ?? 0.14) + entry.height / 2, entry.z);
     dummy.scale.set(entry.width || entry.height, entry.height, 1);
     dummy.updateMatrix();
     mesh.setMatrixAt(i, dummy.matrix);

@@ -3,10 +3,42 @@ import { loadFantasyArt } from "./fantasy-art.js";
 import { CATALOG, BIOMES } from "./game-data.js";
 import { createBiomeScene, disposeBiome } from "./biome-scenes.js";
 import { makeAttraction } from "./world-assets.js";
-export async function catalogPreviews(onPreview) {
+export async function catalogPreviews(onPreview, { forceRender = false } = {}) {
   const result = new Map();
+  const expected = [
+    ...CATALOG.map((item) => item.id),
+    ...BIOMES.map((biome) => "biome-" + biome.id),
+  ];
+  if (!forceRender) {
+    try {
+      const response = await fetch(
+        new URL("./art/previews/catalog.json", document.baseURI),
+      );
+      if (response.ok) {
+        const manifest = await response.json(),
+          available = new Set(manifest.items);
+        if (expected.every((key) => available.has(key))) {
+          for (const key of expected) {
+            const src = new URL(
+              `./art/previews/${key}.png?v=${encodeURIComponent(manifest.version)}`,
+              document.baseURI,
+            ).href;
+            result.set(key, src);
+            onPreview?.(key, src);
+          }
+          return result;
+        }
+      }
+    } catch {
+      /* Development checkouts without cached art can still render it. */
+    }
+  }
   let renderer;
   try {
+    // Let the modal paint before compiling WebGL programs or reading pixels.
+    await new Promise((resolve) =>
+      requestAnimationFrame(() => setTimeout(resolve, 0)),
+    );
     await loadFantasyArt();
     renderer = new THREE.WebGLRenderer({
       antialias: true,
@@ -42,6 +74,7 @@ export async function catalogPreviews(onPreview) {
             .multiplyScalar(radius * (item.isBiome ? 2.0 : 2.4)),
         );
       camera.lookAt(center);
+      await renderer.compileAsync(scene, camera);
       renderer.render(scene, camera);
       const key = item.isBiome ? "biome-" + item.id : item.id,
         src = renderer.domElement.toDataURL("image/png");

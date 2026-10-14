@@ -220,6 +220,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
     const upgrade = () => {
       detailTimer = null;
       if (disposed || !detailQueue.size) return;
+      if (document.getElementById("shop-dialog")?.open) {
+        detailTimer = setTimeout(upgrade, 200);
+        return;
+      }
       const id = detailQueue.has(focused)
         ? focused
         : detailQueue.values().next().value;
@@ -1002,7 +1006,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
     sun.position.set(look.x - 14, 35, look.z + 20);
     sun.target.position.copy(look);
     scene.fog.density = distance > 90 ? 0.0007 : 0.0035;
-    renderer.render(scene, camera);
+    // The opaque shop covers the map. Keep the simulation running, but avoid
+    // competing GPU draws while its miniature scenes are being rendered.
+    if (!document.getElementById("shop-dialog")?.open)
+      renderer.render(scene, camera);
     requestAnimationFrame(loop);
   }
   requestAnimationFrame(loop);

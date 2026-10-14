@@ -16,9 +16,15 @@ import {
 import {
   fantasyArtVersion,
   illustratedScenery,
-  treeCell,
+  hasFantasyArt,
 } from "./fantasy-art.js";
+import {
+  createGroundCover,
+  landscapedTrees,
+  placementClearance,
+} from "./landscape-detail.js";
 import { byItem } from "./game-data.js";
+import { coralCluster } from "./reef.js";
 import { createLagoon, createWaterfall } from "./lagoon.js";
 
 export const BIOME_STYLES = {
@@ -180,7 +186,7 @@ export const BIOME_STYLES = {
     hero: "planet",
   },
   coral: {
-    ground: 0xb3d3ca,
+    ground: 0xc8ce95,
     leaf: 0xabbcc3,
     flower: 0xf5aebd,
     roof: 0xca9ab7,
@@ -294,7 +300,7 @@ function landmark(parent, style, id, art = []) {
   } else if (
     ["pumpkin", "mushrooms", "snow", "oasis", "beach", "library"].includes(hero)
   ) {
-    if (fantasyArtVersion()) {
+    if (hasFantasyArt()) {
       art.push({
         cell: hero === "mushrooms" ? 4 : 5,
         x: -7.8,
@@ -518,13 +524,14 @@ function landmark(parent, style, id, art = []) {
         );
     }
   } else if (hero === "coral") {
-    for (let i = 0; i < 7; i++) {
-      const x = Math.sin(i * 2.4) * 1.8,
-        z = Math.cos(i * 2.4) * 1.4;
-      line(h, [x, 0, z], [x, 0.8 + (i % 3) * 0.2, z], style.flower, 0.11);
-      for (const side of [-1, 1])
-        line(h, [x, 0.45, z], [x + side * 0.35, 1, z], style.flower, 0.08);
-    }
+    for (let i = 0; i < 7; i++)
+      coralCluster(
+        h,
+        Math.sin(i * 2.4) * 1.4,
+        Math.cos(i * 2.4) * 1.1,
+        1.6 + (i % 3) * 0.25,
+        i,
+      );
     shape(h, "sphere", 0xf9e8c7, 0, 0.5, 0, 0.9, 0.75, 0.2);
   } else if (hero === "sunflower") {
     teaPavilion(h, 0, 0, 0, style.roof, 1.05);
@@ -567,10 +574,10 @@ function landmark(parent, style, id, art = []) {
   lantern(h, 1.9, 0, 1.3, 0.7);
   return h;
 }
-function lakeShore(parent, pond, style) {
+function lakeShore(parent, pond, style, id) {
   const [x, z, rx, rz] = pond;
-  for (let i = 0; i < 18; i++) {
-    const a = (i / 18) * Math.PI * 2,
+  for (let i = 0; i < 28; i++) {
+    const a = (i / 28) * Math.PI * 2,
       px = x + Math.cos(a) * (rx + 0.15),
       pz = z + Math.sin(a) * (rz + 0.14);
     const stone = shape(
@@ -585,6 +592,15 @@ function lakeShore(parent, pond, style) {
       0.22,
     );
     stone.rotation.y = a;
+    if (["coral", "beach", "water"].includes(id) && i % 4 === 0)
+      coralCluster(
+        parent,
+        px + Math.cos(a) * 0.42,
+        pz + Math.sin(a) * 0.42,
+        0.85 + (i % 3) * 0.15,
+        i,
+        0.12,
+      );
     if (i % 3 === 0)
       flowerCluster(
         parent,
@@ -688,7 +704,7 @@ export function createBiomeScene(
   const lower = shape(base, "stone", 0x998d9b, 0, -3.9, 0, 10.6, 3.4, 10.6);
   lower.rotation.y = seed * 0.1;
   if (lowOnly) {
-    const cheap = createLowScenery(style);
+    const cheap = createLowScenery(style, biome.id);
     low.add(cheap);
     detail.visible = false;
     root.userData.detail = detail;
@@ -756,40 +772,7 @@ export function createBiomeScene(
   const paintedHero = illustratedScenery(heroArt);
   if (paintedHero) heroBatch.add(paintedHero);
   detail.add(heroBatch);
-  // Outer gardens keep a generous central area for existing buildings and rides.
-  for (let i = 0; i < 10; i++) {
-    const a = (i * Math.PI * 2) / 10 + 0.21,
-      r = 9.9,
-      x = Math.cos(a) * r,
-      z = Math.sin(a) * r;
-    if (style.water) {
-      const [px, pz, rx, rz] = style.water;
-      if (((x - px) / (rx + 1)) ** 2 + ((z - pz) / (rz + 1)) ** 2 < 1.05)
-        continue;
-    }
-    if (Math.hypot(x + 7.8, z + 7.8) < 3.8) continue;
-    shape(
-      props,
-      "sphere",
-      new THREE.Color(style.ground).multiplyScalar(0.82).getHex(),
-      x,
-      0.143,
-      z,
-      1.2,
-      0.012,
-      1.0,
-    );
-    if (fantasyArtVersion())
-      art.push({
-        cell: treeCell(style.kind),
-        x,
-        z,
-        height: 3.9 + (i % 3) * 0.6,
-        width: 3.5 + (i % 3) * 0.4,
-        tint: style.leaf,
-      });
-    else fluffyTree(props, x, z, style.leaf, style.kind, 0.8 + (i % 3) * 0.13);
-  }
+  // Tall trees are added by the adaptive landscape, never as a ring.
   for (let i = 0; i < 26; i++) {
     const a = i * 2.399 + seed * 0.01,
       r = 8.7 + (i % 3) * 0.45,
@@ -813,14 +796,10 @@ export function createBiomeScene(
   for (const a of [0.35, 1.7, 3.0, 5.2])
     lantern(props, Math.cos(a) * 9.0, 0, Math.sin(a) * 9.0, 0.68);
   if (biome.id === "moon") {
-    if (fantasyArtVersion()) {
-      art.push(
-        { cell: 5, x: -6, z: -5, height: 4.2, width: 4.2 },
-        { cell: 0, x: 5, z: -5, height: 4.8, width: 4.2, tint: style.leaf },
-      );
+    if (hasFantasyArt()) {
+      art.push({ cell: 5, x: -6, z: -5, height: 4.2, width: 4.2 });
     } else {
       wizardCottage(props, -6, 0, -5, style.roof, 1.15);
-      fluffyTree(props, 5, -5, 0xa3b181, "oak", 1.3);
     }
     for (let i = 0; i < 5; i++)
       mushroomHouse(props, -8.4 + i * 0.42, 0.02, 6.4, style.roof, 0.2, false);
@@ -916,7 +895,7 @@ export function createBiomeScene(
       });
     detail.add(lagoon);
     animations.push(lagoon);
-    lakeShore(props, style.water, style);
+    lakeShore(props, style.water, style, biome.id);
     const lowWater = new THREE.Mesh(
       new THREE.CircleGeometry(1, 32),
       new THREE.MeshBasicMaterial({ color: 0x63cadb }),
@@ -960,17 +939,15 @@ export function createBiomeScene(
   if (illustrations) detail.add(illustrations);
   // Small, distinct silhouettes remain visible when viewing the whole archipelago.
   const cheap = new THREE.Group();
-  for (let i = 0; i < 4; i++) {
-    const a = (i * Math.PI) / 2 + 0.4;
+  for (const tree of landscapedTrees(biome.id))
     fluffyTree(
       cheap,
-      Math.cos(a) * 9.3,
-      Math.sin(a) * 9.3,
+      tree.x,
+      tree.z,
       style.leaf,
-      style.kind,
-      0.65,
+      tree.fallback,
+      0.65 * tree.scale,
     );
-  }
   const cheapHero = new THREE.Group();
   shape(cheapHero, "stone", style.ground, -7.8, 0.2, -7.8, 2.5, 0.5, 2.1);
   if (["planet", "observatory", "rainbow", "moon"].includes(style.hero))
@@ -994,7 +971,8 @@ export function createBiomeScene(
     sourceMeshes: batched.userData.sourceMeshes,
     fishCount: style.water?.[4] || 0,
   };
-  let gardenRoot = null,
+  let coverRoot = null,
+    gardenRoot = null,
     gardenKey = "";
   root.userData.updatePlacements = (items = []) => {
     const key = JSON.stringify(
@@ -1017,7 +995,69 @@ export function createBiomeScene(
       disposeBiome(gardenRoot);
     }
     const gardens = new THREE.Group(),
-      gardenArt = [];
+      gardenArt = [],
+      treeArt = [],
+      originalTreeArt = [];
+    const clear = placementClearance(items);
+    root.userData.trees = landscapedTrees(biome.id).filter((tree) => {
+      if (!clear(tree.x, tree.z, 2.5 * tree.scale)) return false;
+      if (style.water) {
+        const [x, z, rx, rz] = style.water;
+        if (
+          ((tree.x - x) / (rx + 0.8)) ** 2 + ((tree.z - z) / (rz + 0.8)) ** 2 <
+          1
+        )
+          return false;
+      }
+      return true;
+    });
+    for (const tree of root.userData.trees) {
+      shape(
+        gardens,
+        "sphere",
+        new THREE.Color(style.ground).multiplyScalar(0.8).getHex(),
+        tree.x,
+        0.144,
+        tree.z,
+        1.0 * tree.scale,
+        0.014,
+        0.85 * tree.scale,
+      );
+      if (hasFantasyArt(tree.trees))
+        (tree.trees ? treeArt : originalTreeArt).push({
+          ...tree,
+          tint: style.leaf,
+        });
+      else
+        fluffyTree(
+          gardens,
+          tree.x,
+          tree.z,
+          style.leaf,
+          tree.fallback,
+          tree.scale,
+        );
+      for (let i = 0; i < 4; i++)
+        flowerCluster(
+          gardens,
+          tree.x + Math.sin(i * 2.4) * 1.05 * tree.scale,
+          tree.z + Math.cos(i * 2.4) * 0.85 * tree.scale,
+          style.flower,
+          0.65,
+        );
+    }
+    if (coverRoot) {
+      detail.remove(coverRoot);
+      disposeBiome(coverRoot);
+    }
+    coverRoot = createGroundCover(style, biome.id, {
+      placements: items,
+      preview,
+      seed,
+    });
+    detail.add(coverRoot);
+    root.userData.groundCover = coverRoot;
+
     for (const [x, z] of [
       [-3, -3],
       [3, 1],
@@ -1076,7 +1116,7 @@ export function createBiomeScene(
       }
       if (["sakura", "bamboo", "lotus"].includes(biome.id))
         teaPavilion(gardens, x, 0, z, style.roof, 0.65);
-      else if (fantasyArtVersion())
+      else if (hasFantasyArt())
         gardenArt.push({
           cell: biome.id === "wizard" ? 5 : 4,
           x,
@@ -1089,32 +1129,36 @@ export function createBiomeScene(
     gardenRoot = batchScenery(gardens);
     const painted = illustratedScenery(gardenArt);
     if (painted) gardenRoot.add(painted);
+    const treeImages = illustratedScenery(treeArt, { trees: true }),
+      originalTrees = illustratedScenery(originalTreeArt);
+    if (treeImages) gardenRoot.add(treeImages);
+    if (originalTrees) gardenRoot.add(originalTrees);
     gardenRoot.name = "Adaptive gardens";
     detail.add(gardenRoot);
   };
   root.userData.updatePlacements(placements);
   root.userData.update = (time, reduced = false) => {
-    if (detail.visible)
+    if (detail.visible) {
       for (const object of animations) object.userData.update(time, reduced);
+      coverRoot?.userData.update(time, reduced);
+    }
   };
   root.userData.dispose = () => disposeBiome(root);
   return root;
 }
 
-function createLowScenery(style) {
+function createLowScenery(style, id) {
   const root = new THREE.Group(),
     cheap = new THREE.Group();
-  for (let i = 0; i < 4; i++) {
-    const a = (i * Math.PI) / 2 + 0.4;
+  for (const tree of landscapedTrees(id))
     fluffyTree(
       cheap,
-      Math.cos(a) * 9.3,
-      Math.sin(a) * 9.3,
+      tree.x,
+      tree.z,
       style.leaf,
-      style.kind,
-      0.65,
+      tree.fallback,
+      0.65 * tree.scale,
     );
-  }
   shape(cheap, "stone", style.ground, -7.8, 0.2, -7.8, 2.5, 0.5, 2.1);
   if (["planet", "observatory", "rainbow", "moon"].includes(style.hero))
     torus(cheap, 0xffdc99, 1.2, 0.1, -7.8, 2.3, -7.8, true).rotation.x =
@@ -1143,6 +1187,7 @@ export function disposeBiome(root) {
     materials = new Set();
   root.traverse((o) => {
     if (!o.isMesh) return;
+    if (o.isInstancedMesh) o.dispose();
     if (!o.geometry.userData.sharedScenery) geometries.add(o.geometry);
     for (const m of Array.isArray(o.material) ? o.material : [o.material])
       if (!m.userData.sharedScenery) materials.add(m);

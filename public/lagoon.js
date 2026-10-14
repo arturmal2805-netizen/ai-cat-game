@@ -1,22 +1,44 @@
 import * as THREE from "three";
+import { createReef } from "./reef.js";
+
+// Moving cellular caustics keep their organic shape at different lake sizes.
+const caustics = `
+vec2 causticHash(vec2 p){return fract(sin(vec2(dot(p,vec2(127.1,311.7)),dot(p,vec2(269.5,183.3))))*43758.5453);}
+float causticNet(vec2 p,float time){
+ p+=vec2(sin(p.y*.82+time*.23),cos(p.x*.71-time*.17))*.20;
+ vec2 cell=floor(p),uv=fract(p);float first=10.0,second=10.0;
+ for(int y=-1;y<=1;y++)for(int x=-1;x<=1;x++){
+  vec2 neighbor=vec2(float(x),float(y));
+  vec2 offset=neighbor+.5+.26*sin(time*.25+6.2831*causticHash(cell+neighbor))-uv;
+  float d=dot(offset,offset);
+  if(d<first){second=first;first=d;}else{second=min(second,d);}
+ }
+ return 1.0-smoothstep(.012,.085,second-first);
+}`;
 
 const vertex = `
 uniform float uTime;
 varying vec3 vWorld;
 varying vec3 vNormal;
+varying vec2 lakeUv;
 void main(){
  vec3 p=position;
  p.z+=sin(p.x*3.0+uTime*.7)*.008+cos(p.y*4.0-uTime*.9)*.006;
  vec4 world=modelMatrix*vec4(p,1.0);vWorld=world.xyz;
  vNormal=normalize(mat3(modelMatrix)*normal);
+ lakeUv=uv;
  gl_Position=projectionMatrix*viewMatrix*world;
 }`;
 const fragment = `
 uniform float uTime;
 uniform vec3 uColor;
 uniform float uOpacity;
+uniform float uLake;
+uniform vec3 uShoreColor;
 varying vec3 vWorld;
 varying vec3 vNormal;
+varying vec2 lakeUv;
+${caustics}
 void main(){
  vec2 p=vWorld.xz;
  float ripple=sin(p.x*3.7+uTime*.8)+cos(p.y*4.2-uTime*.7);
@@ -27,23 +49,31 @@ void main(){
  float clouds=smoothstep(.12,.72,sin(reflected.x*7.0+reflected.z*4.0)*.4+cos(reflected.z*8.0)*.3);
  vec3 sky=mix(vec3(.64,.75,.92),vec3(1.0,.91,.79),clouds);
  float sun=pow(max(dot(reflect(normalize(vec3(-.45,-1.0,-.2)),n),view),0.0),120.0);
- float caustic=pow(1.0-abs(sin(p.x*3.1+sin(p.y*2.0)+uTime*.3)*cos(p.y*3.0+uTime*.23)),16.0);
- vec3 color=mix(uColor,sky,.06+fresnel*.45)+vec3(.45,.75,.78)*caustic*.14+sun*vec3(1.0,.92,.7)*1.4;
+ float caustic=causticNet(p*1.12,uTime);
+ float edge=length((lakeUv-.5)*2.0);
+ float shallow=smoothstep(.55,1.0,edge)*uLake;
+ vec3 body=mix(uColor,uShoreColor,shallow*.68);
+ vec3 color=mix(body,sky,.035+fresnel*.45)+vec3(.45,.75,.78)*caustic*.26+sun*vec3(1.0,.92,.7)*1.15;
+ float foam=smoothstep(.91,.99,edge)*(.45+.35*sin(p.x*5.0+p.y*3.0-uTime*.6))*uLake;
+ color=mix(color,vec3(.72,.97,.88),foam*.56);
  color+=ripple*.012;
- gl_FragColor=vec4(color,clamp(uOpacity+fresnel*.22,.0,.85));
+ gl_FragColor=vec4(color,clamp(uOpacity+fresnel*.18-shallow*.15,.0,.85));
  #include <tonemapping_fragment>
  #include <colorspace_fragment>
 }`;
-export function waterMaterial(color = 0x0b9fcb, opacity = 0.52) {
+export function waterMaterial(color = 0x08b5d0, opacity = 0.62) {
   return new THREE.ShaderMaterial({
     uniforms: {
       uTime: { value: 0 },
       uColor: { value: new THREE.Color(color) },
       uOpacity: { value: opacity },
+      uLake: { value: 0 },
+      uShoreColor: { value: new THREE.Color(0x73e4c5) },
     },
     vertexShader: vertex,
     fragmentShader: fragment,
     transparent: true,
+    toneMapped: false,
     depthWrite: false,
     side: THREE.DoubleSide,
   });
@@ -54,33 +84,36 @@ export function createLagoon({
   rx = 3,
   rz = 2,
   fishCount = 24,
-  color = 0x0aa8d0,
+  color = 0x08b5d0,
   seed = 1,
 } = {}) {
   const group = new THREE.Group();
   group.position.set(x, 0, z);
   group.name = "Lagoon";
   const bedMaterial = new THREE.MeshStandardMaterial({
-    color: 0xaacbc2,
+    color: 0x83ccc1,
     roughness: 0.8,
   });
   bedMaterial.onBeforeCompile = (shader) => {
     shader.uniforms.causticTime = { value: 0 };
+    shader.uniforms.bedScale = { value: new THREE.Vector2(rx, rz) };
     group.userData.bedShader = shader;
     shader.vertexShader =
-      "varying vec3 bedPosition;\n" +
+      "varying vec3 bedPosition;uniform vec2 bedScale;\n" +
       shader.vertexShader.replace(
         "#include <begin_vertex>",
-        "#include <begin_vertex>\nbedPosition=position;",
+        "#include <begin_vertex>\nbedPosition=vec3(position.xy*bedScale,position.z);",
       );
     shader.fragmentShader =
       "uniform float causticTime; varying vec3 bedPosition;\n" +
+      caustics +
+      "\n" +
       shader.fragmentShader.replace(
         "#include <color_fragment>",
-        "#include <color_fragment>\nfloat c=pow(1.0-abs(sin(bedPosition.x*13.0+sin(bedPosition.y*9.0)+causticTime*.3)*cos(bedPosition.y*12.0-causticTime*.2)),18.0); diffuseColor.rgb+=vec3(.18,.32,.28)*c;",
+        "#include <color_fragment>\nfloat c=causticNet(bedPosition.xy*1.12,causticTime); diffuseColor.rgb+=vec3(.24,.40,.31)*c;",
       );
   };
-  bedMaterial.customProgramCacheKey = () => "lagoon-caustics-v1";
+  bedMaterial.customProgramCacheKey = () => "lagoon-caustics-v2";
   const bed = new THREE.Mesh(new THREE.CircleGeometry(1, 64), bedMaterial);
   bed.rotation.x = -Math.PI / 2;
   bed.scale.set(rx, rz, 1);
@@ -103,7 +136,15 @@ export function createLagoon({
   surface.scale.set(rx, rz, 1);
   surface.position.y = 0.155;
   surface.renderOrder = 3;
+  material.uniforms.uLake.value = 1;
   group.add(surface);
+  const reef = createReef({
+    rx,
+    rz,
+    seed,
+    count: Math.min(18, Math.max(8, Math.round(rx * rz))),
+  });
+  group.add(reef);
   const rim = new THREE.Mesh(
     new THREE.TorusGeometry(1, 0.025, 6, 64),
     new THREE.MeshBasicMaterial({
@@ -173,6 +214,7 @@ export function createLagoon({
   function update(time, reduced = false) {
     const t = reduced ? 0 : time;
     material.uniforms.uTime.value = t;
+    reef.userData.update(t, reduced);
     if (group.userData.bedShader)
       group.userData.bedShader.uniforms.causticTime.value = t;
     for (let i = 0; i < states.length; i++) {

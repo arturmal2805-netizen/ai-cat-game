@@ -268,7 +268,8 @@ async function showShop(category = "all", search = "") {
         img.src = src;
       }
     });
-    if ($("shop-dialog").open) renderShop();
+    // Each preview has already updated its current card. Rebuilding the grid
+    // here would interrupt a player's scroll, focus or pending tap.
   }
 }
 function renderShop() {
