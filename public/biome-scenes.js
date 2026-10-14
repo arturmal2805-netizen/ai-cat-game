@@ -173,6 +173,7 @@ export function createBiomeScene(
     low = new THREE.Group(),
     animations = [];
   root.add(base, detail, low);
+  root.userData.navigationSurface = base;
   detail.add(props);
   const sceneryLayer = new THREE.Group(),
     sceneryObjects = new Map();

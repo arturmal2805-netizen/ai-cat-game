@@ -32,6 +32,7 @@ export function createLegendaryBiome(
     animations = [],
     sceneryObjects = new Map();
   root.add(base, detail, low);
+  root.userData.navigationSurface = base;
   root.name = "Biome-aquapark";
   const outline = new THREE.Shape();
   for (let i = 0; i <= 96; i++) {

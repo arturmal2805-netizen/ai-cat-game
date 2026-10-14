@@ -1,5 +1,5 @@
 {
-  "version": "50e2a062fdd0",
+  "version": "859e64607c22",
   "items": [
     "adoption-center",
     "airship",
@@ -84,6 +84,8 @@
     "ride-dragonfly",
     "ride-jellyfish",
     "ride-lotus",
+    "ride-whale",
+    "ride-whale-aurora",
     "rocket",
     "scooter",
     "scratch",

@@ -1,4 +1,20 @@
 export const RENEWED_ISLANDS = {
+  winter: {
+    name: "Китовая лагуна звёзд",
+    subtitle: "Небесные киты, жемчужные ракушки и сияющие водопады",
+    icon: "🐋",
+    radius: 16,
+    arrival: [0, 13],
+    ground: 0x9bacc8,
+    leaf: 0x9ebadd,
+    flower: 0xefb4ed,
+    roof: 0xae9de6,
+    kind: "palm",
+    hero: "whale",
+    water: [0, -0.5, 8.5, 7.1, 58],
+    upper: [-5.2, -10.5, 2.5, 1.4],
+    feature: "Полёты на четырёх небесных китах, купание и звёздная рыбалка",
+  },
   autumn: {
     name: "Сад янтарных бабочек",
     subtitle: "Деревья с плодами-фонариками, бабочки, мосты и каскады",
@@ -61,6 +77,30 @@ export const RENEWED_ISLANDS = {
   },
 };
 export const ISLAND_RIDES = [
+  { id: "island-whale-blue", type: "ride-whale", biome: "winter", x: 11, z: 2 },
+  {
+    id: "island-whale-aurora",
+    type: "ride-whale-aurora",
+    biome: "winter",
+    x: -11,
+    z: -2,
+  },
+  {
+    id: "island-whale-pearl",
+    type: "ride-whale",
+    biome: "winter",
+    x: 0,
+    z: 11,
+    scale: 0.56,
+  },
+  {
+    id: "island-whale-dream",
+    type: "ride-whale-aurora",
+    biome: "winter",
+    x: 6,
+    z: -10,
+    scale: 0.5,
+  },
   {
     id: "island-butterfly",
     type: "ride-butterfly",

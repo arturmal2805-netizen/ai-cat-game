@@ -1354,7 +1354,31 @@ CATALOG.push(
     ["ride"],
   ),
 );
+CATALOG.push(
+  item(
+    "ride-whale",
+    "Небесный синий кит",
+    "rides",
+    2200,
+    "🐋",
+    "Живой звёздный кит несёт Чичи над лагуной, машет плавниками и выпускает фонтанчики.",
+    [5, 5],
+    ["ride"],
+  ),
+  item(
+    "ride-whale-aurora",
+    "Кит лилового сияния",
+    "rides",
+    3200,
+    "✨",
+    "Перламутровый кит с созвездиями и светящимся хвостом пролетает над островом по своему маршруту.",
+    [5, 5],
+    ["ride"],
+  ),
+);
 const levelOverrides = {
+  "ride-whale": 9,
+  "ride-whale-aurora": 12,
   "adoption-center": 3,
   "ride-butterfly": 6,
   "ride-lotus": 11,
@@ -1837,7 +1861,7 @@ for (const [index, profile] of NEIGHBORS.entries()) {
 }
 NEIGHBORS.push(...ADOPTION_CATS);
 
-// Preserve the four stable save IDs while replacing their art and activities.
+// Preserve stable save IDs while replacing island art and activities.
 for (const biome of BIOMES)
   if (RENEWED_ISLANDS[biome.id]) {
     const next = RENEWED_ISLANDS[biome.id];
@@ -1845,7 +1869,8 @@ for (const biome of BIOMES)
       name: next.name,
       subtitle: next.subtitle,
       icon: next.icon,
-      radius: 14.8,
+      radius: next.radius || 14.8,
+      ...(next.arrival ? { arrival: next.arrival } : {}),
       ground: next.ground,
       foliage: next.leaf,
       accent: next.flower,
@@ -1861,6 +1886,7 @@ for (const job of JOBS)
   job.biomes = job.biomes.map((id) => (id === "wizard" ? "moon" : id));
 
 const renewalCrops = {
+  winter: ["Лунная морская ягода", "🔮"],
   autumn: ["Янтарные яблочки", "🍎"],
   ice: ["Кристальные ягоды", "🫐"],
   galaxy: ["Жемчужный виноград", "🍇"],
@@ -1871,3 +1897,4 @@ for (const crop of CROPS)
     crop.name = renewalCrops[crop.biome][0];
     crop.icon = renewalCrops[crop.biome][1];
   }
+JOBS.find((job) => job.id === "fishing").biomes.push("winter");

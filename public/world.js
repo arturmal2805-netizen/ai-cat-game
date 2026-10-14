@@ -237,6 +237,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   let game = initialGame,
     sceneKey = "",
     focused = "moon",
+    viewingOverview = false,
     buildMode = null,
     preview = null,
     operation = null,
@@ -273,6 +274,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
   }
   const detailQueue = new Set();
   let detailTimer = null;
+  function showWhalePreview(island, id) {
+    if (island.userData.renewal?.hero === "whale")
+      for (const whale of island.userData.renewal.flyers)
+        whale.visible = !game.unlocked.includes(id);
+  }
   function makeIsland(biome) {
     const placements = game.placements.filter((p) => p.biome === biome.id),
       scenery = game.scenery?.filter((r) => r.biome === biome.id);
@@ -281,6 +287,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       placements,
       scenery,
     });
+    showWhalePreview(g, biome.id);
     islandContentKeys.set(biome.id, JSON.stringify([placements, scenery]));
     g.position.set(biome.center[0], 0, biome.center[1]);
     scene.add(g);
@@ -289,12 +296,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     label.className = "island-label";
     label.textContent = biome.icon + " " + biome.name;
     label.setAttribute("aria-label", "Остров " + biome.name);
-    label.onclick = () => {
-      if (game.unlocked.includes(biome.id)) {
-        focus(biome.id);
-        if (!buildMode) callbacks.onSelectBiome?.(biome.id);
-      } else callbacks.onLockedBiome?.(biome.id);
-    };
+    label.onclick = () => focus(biome.id);
     container.append(label);
     labels.set(biome.id, label);
     return g;
@@ -328,6 +330,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           placements: game.placements.filter((p) => p.biome === id),
           scenery: game.scenery?.filter((r) => r.biome === id),
         });
+        showWhalePreview(g, id);
         g.position.copy(old.position);
         scene.remove(old);
         old.userData.dispose?.();
@@ -446,6 +449,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     ]);
     if (key === sceneKey) return;
     sceneKey = key;
+    for (const [id, island] of islands) showWhalePreview(island, id);
     // Keep unchanged vegetation and scenery buffers when income, adoption or
     // herd destinations change. Only an edited island needs new geometry.
     for (const [id, island] of islands) {
@@ -481,6 +485,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           duration: 12,
         };
       } else g = makeAttraction(o.type);
+      if (o.scale) g.scale.setScalar(o.scale);
       const b = byBiome(o.biome);
       g.position.set(
         b.center[0] + o.x,
@@ -594,11 +599,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
         hat.rotation.z = 0.15;
       }
       const index = NEIGHBORS.findIndex((n) => n.id === profile.id),
-        b = byBiome(profile.biome);
+        b = byBiome(profile.biome),
+        wanderRadius = b.arrival ? 11.8 : 6;
       carrier.position.set(
-        b.center[0] + Math.sin(index * 2.4) * 6,
+        b.center[0] + Math.sin(index * 2.4) * wanderRadius,
         0.16,
-        b.center[1] + Math.cos(index * 2.4) * 6,
+        b.center[1] + Math.cos(index * 2.4) * wanderRadius,
       );
       scene.add(carrier);
       npcs.set(profile.id, { carrier, model, profile, index });
@@ -632,6 +638,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   function focus(id, overview = false) {
     const b = byBiome(id) || byBiome("moon");
     focused = b.id;
+    viewingOverview = overview;
     const enchanted = !!RENEWED_ISLANDS[b.id];
     sky.material.uniforms.top.value.set(
       b.id === "aquapark" ? 0x010914 : enchanted ? 0x172749 : 0x788ab9,
@@ -1222,6 +1229,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
       let root = hit.object;
       while (root && !root.userData.placementId && !root.userData.sceneryId)
         root = root.parent;
+      const biome =
+        root?.userData.sceneryRecord?.biome || root?.userData.placement?.biome;
+      if (biome && (viewingOverview || biome !== focused)) {
+        focus(biome);
+        return;
+      }
       if (root?.userData.sceneryId) {
         const record = root.userData.sceneryRecord;
         if (game.unlocked.includes(record.biome))
@@ -1236,6 +1249,29 @@ export function createWorld(container, initialGame, callbacks = {}) {
       else if (root) callbacks.onSelectItem?.(root.userData.placementId);
       return;
     }
+    // Use the visible island's solid surface rather than a projected flat
+    // ground point, which can select a neighbour when tapping a tall cliff.
+    const islandHit = raycaster.intersectObjects(
+      [...islands.values()].flatMap((island) => [
+        ...(island.userData.navigationSurface
+          ? [island.userData.navigationSurface]
+          : []),
+        ...(island.userData.detail.visible
+          ? island.userData.renewal?.flyers?.filter((f) => f.visible) || []
+          : []),
+      ]),
+      true,
+    )[0];
+    let clickedIsland = islandHit?.object;
+    while (clickedIsland && !clickedIsland.userData.biomeId)
+      clickedIsland = clickedIsland.parent;
+    const clickedBiome = clickedIsland
+      ? byBiome(clickedIsland.userData.biomeId)
+      : null;
+    if (clickedBiome && (viewingOverview || clickedBiome.id !== focused)) {
+      focus(clickedBiome.id);
+      return;
+    }
     const point = new THREE.Vector3();
     if (!raycaster.ray.intersectPlane(ground, point)) return;
     const placement = [...itemGroups.values()].find((g) => {
@@ -1246,6 +1282,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
       );
     });
     if (placement) {
+      const biome = placement.userData.placement.biome;
+      if (viewingOverview || biome !== focused) {
+        focus(biome);
+        return;
+      }
       if (placement.userData.placementId === "chichi-food")
         callbacks.onSelectBowl?.();
       else if (placement.userData.homeObject)
@@ -1264,17 +1305,22 @@ export function createWorld(container, initialGame, callbacks = {}) {
       });
     if (decoration) {
       const r = decoration.userData.sceneryRecord;
+      if (viewingOverview || r.biome !== focused) {
+        focus(r.biome);
+        return;
+      }
       if (game.unlocked.includes(r.biome)) callbacks.onSelectScenery?.(r.id);
       else callbacks.onLockedBiome?.(r.biome);
       return;
     }
-    const b = BIOMES.find(
-      (b) =>
-        Math.hypot(point.x - b.center[0], point.z - b.center[1]) <
-        (b.radius || 11.5),
-    );
-    if (b && !game.unlocked.includes(b.id)) callbacks.onLockedBiome?.(b.id);
-    else if (b) callbacks.onSelectBiome?.(b.id);
+    const b =
+      clickedBiome ||
+      BIOMES.find(
+        (b) =>
+          Math.hypot(point.x - b.center[0], point.z - b.center[1]) <
+          (b.radius || 11.5),
+      );
+    if (b) focus(b.id);
   });
   renderer.domElement.addEventListener("pointercancel", (e) => {
     activePointers.delete(e.pointerId);
@@ -1600,8 +1646,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
               ? (operation.attraction.userData.shoreHeight ?? 0.16)
               : Math.max(0.16, chichiCarrier.position.y);
       } else {
-        x = b.center[0] + Math.sin(time * 0.07 + n.index * 2.4) * 6;
-        z = b.center[1] + Math.cos(time * 0.07 + n.index * 2.4) * 6;
+        const wanderRadius = b.arrival ? 11.8 : 6;
+        x = b.center[0] + Math.sin(time * 0.07 + n.index * 2.4) * wanderRadius;
+        z = b.center[1] + Math.cos(time * 0.07 + n.index * 2.4) * wanderRadius;
         n.carrier.position.y = 0.16;
       }
       const direction = new THREE.Vector3(x, n.carrier.position.y, z).sub(
@@ -2066,7 +2113,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
     gather(biome) {
       const b = byBiome(biome);
       if (!b || operation) return false;
-      const to = new THREE.Vector3(b.center[0], 0.16, b.center[1]);
+      const arrival = b.arrival || [0, 0],
+        to = new THREE.Vector3(
+          b.center[0] + arrival[0],
+          0.16,
+          b.center[1] + arrival[1],
+        );
       gatherUntil = performance.now() + 20000;
       heroGather = {
         from: chichiCarrier.position.clone(),

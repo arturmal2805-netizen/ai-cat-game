@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { shellHouse } from "./whale-diorama.js";
 import {
   shape,
   line,
@@ -31,7 +32,9 @@ function curvedBranch(parent, points, radius, color) {
   parent.add(mesh);
 }
 function tree(source, kind, style, low) {
-  const leaf = ["jelly", "butterfly", "bloom", "dinosaur"].includes(style.hero)
+  const leaf = ["jelly", "butterfly", "bloom", "dinosaur", "whale"].includes(
+    style.hero,
+  )
     ? style.leaf
     : kind === "sakura"
       ? 0xe5aac5
@@ -267,6 +270,16 @@ function template(record, low) {
     style = BIOME_STYLES[record.originBiome],
     spec = byScenery(record.type);
   if (spec.category === "tree") tree(source, spec.kind, style, low);
+  else if (
+    !low &&
+    style.hero === "whale" &&
+    (spec.category === "house" || record.type === "scenery-landmark")
+  )
+    shellHouse(
+      source,
+      style.roof,
+      record.type === "scenery-landmark" ? 1.1 : 0.92,
+    );
   else if (record.type === "scenery-boulder") {
     shape(
       source,

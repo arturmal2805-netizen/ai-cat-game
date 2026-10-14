@@ -285,10 +285,7 @@ function renderBiomes() {
     const owned = game.unlocked.includes(biome.id);
     const button = document.createElement("button");
     button.className = "biome-chip" + (active === biome.id ? " active" : "");
-    button.setAttribute(
-      "aria-label",
-      (owned ? "Посмотреть " : "Открыть ") + biome.name,
-    );
+    button.setAttribute("aria-label", "Посмотреть " + biome.name);
     const icon = document.createElement("span");
     icon.textContent = owned ? biome.icon : "🔒";
     const text = document.createElement("span");
@@ -298,13 +295,11 @@ function renderBiomes() {
     text.append(subtitle);
     button.append(icon, text);
     button.onclick = () => {
-      if (owned) {
-        world?.focus(biome.id);
-        if (buildMode) {
-          $("build-biome").value = biome.id;
-          changeBuildBiome(biome.id);
-        }
-      } else showShop("lands", biome.name);
+      world?.focus(biome.id);
+      if (owned && buildMode) {
+        $("build-biome").value = biome.id;
+        changeBuildBiome(biome.id);
+      }
     };
     $("biome-nav").append(button);
   }
@@ -892,7 +887,6 @@ try {
     onSelectScenery: inspectScenery,
     onSelectBowl: () => showBowl(),
     onCollectIncome: collectBusiness,
-    onSelectBiome: showIsland,
     onResidentSwam: (id) => {
       try {
         commit(residentSwam(game, id));
@@ -1687,10 +1681,12 @@ $("adoption-centers").onchange = (e) => {
 };
 function showIsland(id) {
   selectedIsland = id;
+  const owned = game.unlocked.includes(id);
   $("island-title").textContent = byBiome(id).name;
-  $("island-summary").textContent =
-    "Отправьте Чичи и всех доступных котов на этот остров. Они будут добираться и гулять здесь; знакомство и дружба развиваются отдельно.";
-  $("island-gather").disabled = busy || !!buildMode;
+  $("island-summary").textContent = owned
+    ? "Отправьте Чичи и всех доступных котов на этот остров. Они будут добираться и гулять здесь; знакомство и дружба развиваются отдельно."
+    : "Вы рассматриваете закрытый остров. Его можно открыть в разделе «Острова» магазина, когда накопите монеты и выполните условия.";
+  $("island-gather").disabled = !owned || busy || !!buildMode;
   open("island-dialog");
 }
 $("island-open").onclick = () => showIsland(world?.getFocused() || "moon");

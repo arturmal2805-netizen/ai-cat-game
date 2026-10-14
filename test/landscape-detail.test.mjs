@@ -38,7 +38,8 @@ test("every island has authored trees with varied positions and silhouettes", ()
     });
   }
   assert.equal(landscapedTrees("coral").length, 2);
-  assert.ok(kinds.size >= 10);
+  assert.ok(kinds.size >= 9);
+  assert.ok(landscapedTrees("winter").every((t) => t.kind !== "snow"));
 });
 
 test("every meadow is deterministic, diverse and rendered in at most four draw calls", () => {

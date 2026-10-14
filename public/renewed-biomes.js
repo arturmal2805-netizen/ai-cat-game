@@ -13,9 +13,15 @@ import {
 } from "./fantasy-scenery.js";
 import { createLagoon, createWaterfall } from "./lagoon.js";
 import { creatureRide } from "./creature-rides.js";
+import { decorateWhaleBiome } from "./whale-diorama.js";
 export function islandHeight(biome, x, z) {
-  if (!RENEWED_ISLANDS[biome]) return 0;
-  return ((x + 4) / 4.5) ** 2 + ((z + 8) / 3) ** 2 <= 1 ? 2.4 : 0;
+  const upper = RENEWED_ISLANDS[biome]?.upper;
+  if (!upper) return 0;
+  return ((x - upper[0]) / (upper[2] + 1.8)) ** 2 +
+    ((z - upper[1]) / (upper[3] + 1.5)) ** 2 <=
+    1
+    ? 2.4
+    : 0;
 }
 function lotus(parent, x, y, z, size = 1, color = 0xf2add4) {
   const root = new THREE.Group();
@@ -90,6 +96,8 @@ export function decorateRenewedBiome(
 ) {
   const style = RENEWED_ISLANDS[biome.id];
   if (!style) return root;
+  if (style.hero === "whale")
+    return decorateWhaleBiome(root, biome, { preview, lowOnly });
   const detail = root.userData.detail,
     props = new THREE.Group(),
     animated = [],

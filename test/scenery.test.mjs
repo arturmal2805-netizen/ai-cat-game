@@ -13,7 +13,11 @@ import {
   worldSnapshot,
 } from "../public/economy.js";
 import { BIOMES } from "../public/game-data.js";
-import { byScenery, initialScenery } from "../public/scenery-data.js";
+import {
+  byScenery,
+  initialScenery,
+  SCENERY_TYPES,
+} from "../public/scenery-data.js";
 import {
   createSceneryModel,
   fadeScenery,
@@ -205,6 +209,20 @@ test("invalid decoration records cannot alter identities, geometry scale or intr
 test("every decorative design has volumetric lit geometry and bounded draw/triangle counts", () => {
   const records = newGame().scenery,
     types = new Set();
+  // Legacy snow trees remain renderable even though the marine replacement
+  // no longer plants them. Exercise every supported stored design as well.
+  for (const type of Object.keys(SCENERY_TYPES))
+    if (!records.some((r) => r.type === type))
+      records.push({
+        id: "legacy-design-" + type,
+        type,
+        biome: "winter",
+        originBiome: "winter",
+        x: 0,
+        z: 0,
+        rotation: 0,
+        scale: 1,
+      });
   for (const r of records) {
     if (types.has(r.type)) continue;
     types.add(r.type);
@@ -230,7 +248,7 @@ test("every decorative design has volumetric lit geometry and bounded draw/trian
     assert.ok(triangles < 35000, r.type + " " + triangles);
     disposeScenery(model);
   }
-  assert.equal(types.size, 15);
+  assert.equal(types.size, Object.keys(SCENERY_TYPES).length);
 });
 test("cached geometry remains valid after removing another instance, while fading affects only the occluding object", () => {
   const record = newGame().scenery.find(

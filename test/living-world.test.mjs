@@ -355,7 +355,7 @@ test("an older open tab can still submit physical targets from retired Witch For
     "bed",
   );
 });
-test("the four replacements have distinct features, fish, animated waterfalls and two usable pools each", () => {
+test("renewed islands have distinct features, fish, animated waterfalls and two usable pools each", () => {
   assert.equal(BIOMES.length, 24);
   assert.equal(byBiome("wizard"), undefined);
   const themes = new Set();
@@ -372,7 +372,7 @@ test("the four replacements have distinct features, fish, animated waterfalls an
     assert.notDeepEqual(flyer.userData.moving.position, before);
     root.userData.dispose();
   }
-  assert.equal(themes.size, 4);
+  assert.equal(themes.size, Object.keys(RENEWED_ISLANDS).length);
 });
 test("innate rides can be chosen as physical AI targets and full adopted worlds fit the request and save limits", () => {
   let g = prepared();
@@ -402,6 +402,8 @@ test("new ride rigs produce finite closed journeys and move both the creature an
     "ride-lotus",
     "ride-dinosaur",
     "ride-dragonfly",
+    "ride-whale",
+    "ride-whale-aurora",
   ]) {
     const rig = makeAttraction(id),
       start = rig.userData.rideFrame(0),

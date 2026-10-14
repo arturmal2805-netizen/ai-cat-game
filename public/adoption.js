@@ -65,7 +65,8 @@ export function gatherCats(game, biome) {
     throw Error("Сначала откройте остров.");
   const next = structuredClone(game);
   for (const cat of activeCats(game)) next.catDestinations[cat.id] = biome;
-  next.catPosition = { biome, x: 0, z: 0 };
+  const arrival = byBiome(biome).arrival || [0, 0];
+  next.catPosition = { biome, x: arrival[0], z: arrival[1] };
   next.care.resting = null;
   return next;
 }

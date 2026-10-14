@@ -169,7 +169,8 @@ export function loadGame(storage, now = Date.now()) {
       game.unlocked.includes(saved.catPosition?.biome) &&
       Number.isFinite(saved.catPosition.x) &&
       Number.isFinite(saved.catPosition.z) &&
-      Math.hypot(saved.catPosition.x, saved.catPosition.z) < 9
+      Math.hypot(saved.catPosition.x, saved.catPosition.z) <
+        (byBiome(saved.catPosition.biome).radius || 11) - 0.8
     )
       game.catPosition = {
         biome: saved.catPosition.biome,

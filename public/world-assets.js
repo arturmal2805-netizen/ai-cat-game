@@ -2,6 +2,7 @@ import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.j
 import { legendaryAttraction } from "./legendary-assets.js";
 import { catVenue } from "./cat-venues.js";
 import { creatureRide } from "./creature-rides.js";
+import { whaleRide } from "./whale-assets.js";
 import { advancedAttraction, animateAdvanced } from "./advanced-assets.js";
 import { dressAttraction } from "./fantasy-scenery.js";
 import { byItem } from "./game-data.js";
@@ -178,6 +179,8 @@ function vehicle(parent, kind, color = 0xc9a3cf) {
   return g;
 }
 export function makeAttraction(id, fields = [], now = Date.now()) {
+  const whale = whaleRide(id);
+  if (whale) return whale;
   const creature = creatureRide(id);
   if (creature) return creature;
   const venue = catVenue(id);

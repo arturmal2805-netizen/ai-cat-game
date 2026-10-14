@@ -117,12 +117,13 @@ export function initialScenery(placements = []) {
         scale: 0.75 + i * 0.08,
       })),
     ];
-    if (["autumn", "ice", "galaxy", "volcano"].includes(biome.id)) {
+    if (["autumn", "ice", "galaxy", "volcano", "winter"].includes(biome.id)) {
       const kinds = {
         autumn: ["sakura", "apple"],
         ice: ["sakura", "crystal"],
         galaxy: ["willow", "enchanted"],
         volcano: ["palm", "bamboo"],
+        winter: ["palm", "crystal"],
       };
       candidates.push(
         { type: "scenery-tree-" + kinds[biome.id][0], x: 9, z: 7, scale: 1.1 },
@@ -133,6 +134,14 @@ export function initialScenery(placements = []) {
           scale: 0.92,
         },
       );
+    }
+    if (biome.id === "winter") {
+      Object.assign(candidates[0], { x: 10, z: -5, scale: 0.86 });
+      const houses = candidates.filter((c) => c.type === "scenery-mushroom");
+      Object.assign(houses[0], { x: -11, z: 7.5, scale: 0.88 });
+      Object.assign(houses[1], { x: 6, z: 10.8, scale: 0.84 });
+      Object.assign(candidates.at(-2), { x: 12, z: 6, scale: 0.98 });
+      Object.assign(candidates.at(-1), { x: -12, z: 5, scale: 0.92 });
     }
     if (biome.id === "aquapark") {
       candidates.splice(
@@ -353,6 +362,11 @@ const artKinds = {
   mushroom: [true, 5, "oak"],
 };
 Object.assign(layouts, {
+  winter: [
+    [-11, -8, "palm", 1.22],
+    [9, 9, "palm", 1.08],
+    [-4, 12, "crystal", 0.9],
+  ],
   autumn: [
     [-9, 4, "sakura", 1.18],
     [6, -5, "apple", 1.02],
