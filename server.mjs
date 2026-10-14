@@ -1,34 +1,112 @@
-import http from 'node:http';
-import {readFile} from 'node:fs/promises';
-import {resolve,extname,sep} from 'node:path';
-import {messages,parseDecision,validateState} from './ai.mjs';
-const token=process.env.CLOUDFLARE_API_TOKEN, account=process.env.CLOUDFLARE_ACCOUNT_ID;
-let busy=false, last=0;
-const json=(res,status,data)=>{res.writeHead(status,{'Content-Type':'application/json','Cache-Control':'no-store'});res.end(JSON.stringify(data));};
-http.createServer(async(req,res)=>{
- try {
-  if(req.url==='/api/status' && req.method==='GET') return json(res,200,{configured:!!(token&&account)});
-  if(req.url==='/api/decide' && req.method==='POST') {
-   if(!token||!account) return json(res,503,{error:'Cloudflare AI не подключён. Укажите серверные CLOUDFLARE_API_TOKEN и CLOUDFLARE_ACCOUNT_ID.'});
-   if(busy || Date.now()-last<4000) return json(res,429,{error:'Чичи ещё думает. Попробуйте чуть позже.'});
-   let body=''; for await (const chunk of req) {body+=chunk; if(body.length>16384) return json(res,413,{error:'Слишком большой запрос'});}
-   let state; try {state=validateState(JSON.parse(body));} catch {return json(res,400,{error:'Некорректное состояние котика'});}
-   busy=true; last=Date.now();
-   try {
-    const response=await fetch(`https://api.cloudflare.com/client/v4/accounts/${encodeURIComponent(account)}/ai/run/@cf/meta/llama-3.3-70b-instruct-fp8-fast`,{method:'POST',headers:{Authorization:`Bearer ${token}`,'Content-Type':'application/json'},body:JSON.stringify({messages:messages(state),max_tokens:384,response_format:{type:'json_object'}}),signal:AbortSignal.timeout(20000)});
-    if(!response.ok) throw new Error(`Cloudflare HTTP ${response.status}`);
-    const result=await response.json(); if(!result.success) throw new Error('Cloudflare rejected request');
-    return json(res,200,parseDecision(result.result,state));
-   } finally {busy=false;}
-  }
-  if(req.method==='GET') {
-   const path=new URL(req.url,'http://local').pathname;
-   const root=resolve(new URL('public/',import.meta.url).pathname);
-   let file;try{file=resolve(root,'.'+decodeURIComponent(path==='/'?'/index.html':path));}catch{return json(res,400,{error:'Invalid path'});}
-   if(file.startsWith(root+sep)){
-    try{const data=await readFile(file);const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.glb':'model/gltf-binary'};res.writeHead(200,{'Content-Type':types[extname(file)]||'application/octet-stream'});return res.end(data);}catch(error){if(error.code!=='ENOENT'&&error.code!=='EISDIR')throw error;}
-   }
-  }
-  json(res,404,{error:'Not found'});
- } catch(error) {console.error(error.message);json(res,502,{error:'Cloudflare AI сейчас не отвечает. Повторите попытку.'});}
-}).listen(Number(process.env.PORT||3000),'0.0.0.0',()=>console.log('Chichi server started'));
+import http from "node:http";
+import { readFile } from "node:fs/promises";
+import { resolve, extname, sep } from "node:path";
+import { requestDecision, validateState } from "./ai.mjs";
+const token = process.env.CLOUDFLARE_API_TOKEN,
+  account = process.env.CLOUDFLARE_ACCOUNT_ID;
+let busy = false,
+  last = 0;
+const json = (res, status, data) => {
+  res.writeHead(status, {
+    "Content-Type": "application/json",
+    "Cache-Control": "no-store",
+  });
+  res.end(JSON.stringify(data));
+};
+http
+  .createServer(async (req, res) => {
+    try {
+      if (req.url === "/api/status" && req.method === "GET")
+        return json(res, 200, { configured: !!(token && account) });
+      if (req.url === "/api/decide" && req.method === "POST") {
+        if (!token || !account)
+          return json(res, 503, {
+            error:
+              "Cloudflare AI не подключён. Укажите серверные CLOUDFLARE_API_TOKEN и CLOUDFLARE_ACCOUNT_ID.",
+          });
+        if (busy || Date.now() - last < 4000)
+          return json(res, 429, {
+            error: "Чичи ещё думает. Попробуйте чуть позже.",
+          });
+        let body = "";
+        for await (const chunk of req) {
+          body += chunk;
+          if (body.length > 16384)
+            return json(res, 413, { error: "Слишком большой запрос" });
+        }
+        let state;
+        try {
+          state = validateState(JSON.parse(body));
+        } catch {
+          return json(res, 400, { error: "Некорректное состояние котика" });
+        }
+        busy = true;
+        last = Date.now();
+        try {
+          const signal = AbortSignal.timeout(20000);
+          const decision = await requestDecision(state, async (input) => {
+            const response = await fetch(
+              `https://api.cloudflare.com/client/v4/accounts/${encodeURIComponent(account)}/ai/run/@cf/meta/llama-3.3-70b-instruct-fp8-fast`,
+              {
+                method: "POST",
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(input),
+                signal,
+              },
+            );
+            if (!response.ok)
+              throw new Error(`Cloudflare HTTP ${response.status}`);
+            const result = await response.json();
+            if (!result.success) throw new Error("Cloudflare rejected request");
+            return result.result;
+          });
+          return json(res, 200, decision);
+        } finally {
+          busy = false;
+        }
+      }
+      if (req.method === "GET") {
+        const path = new URL(req.url, "http://local").pathname;
+        const root = resolve(new URL("public/", import.meta.url).pathname);
+        let file;
+        try {
+          file = resolve(
+            root,
+            "." + decodeURIComponent(path === "/" ? "/index.html" : path),
+          );
+        } catch {
+          return json(res, 400, { error: "Invalid path" });
+        }
+        if (file.startsWith(root + sep)) {
+          try {
+            const data = await readFile(file);
+            const types = {
+              ".html": "text/html; charset=utf-8",
+              ".js": "text/javascript; charset=utf-8",
+              ".css": "text/css; charset=utf-8",
+              ".glb": "model/gltf-binary",
+            };
+            res.writeHead(200, {
+              "Content-Type":
+                types[extname(file)] || "application/octet-stream",
+            });
+            return res.end(data);
+          } catch (error) {
+            if (error.code !== "ENOENT" && error.code !== "EISDIR") throw error;
+          }
+        }
+      }
+      json(res, 404, { error: "Not found" });
+    } catch (error) {
+      console.error(error.message);
+      json(res, 502, {
+        error: "Cloudflare AI сейчас не отвечает. Повторите попытку.",
+      });
+    }
+  })
+  .listen(Number(process.env.PORT || 3000), "0.0.0.0", () =>
+    console.log("Chichi server started"),
+  );

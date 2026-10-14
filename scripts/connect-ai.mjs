@@ -77,6 +77,9 @@ for (let attempt = 0; attempt < 3; attempt++) {
     ];
     for (const scenario of cases) {
       const { expected, ...state } = scenario;
+      console.log(
+        `Checking real AI: energy=${state.energy}, hunger=${state.hunger}, happiness=${state.happiness}; expected ${expected}${state.world ? " with world activities" : ""}`,
+      );
       const decision = await fetch(`${apiBase}/api/decide`, {
         method: "POST",
         headers: {
