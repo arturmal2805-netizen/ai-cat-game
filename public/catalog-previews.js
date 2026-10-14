@@ -12,6 +12,7 @@ export async function catalogPreviews(onPreview, { forceRender = false } = {}) {
     try {
       const response = await fetch(
         new URL("./art/previews/catalog.json", document.baseURI),
+        { cache: "no-store" },
       );
       if (response.ok) {
         const manifest = await response.json(),

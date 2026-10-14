@@ -1,9 +1,10 @@
 import { build } from "esbuild";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, writeFile, readFile } from "node:fs/promises";
 import { GLTFExporter } from "three/addons/exporters/GLTFExporter.js";
 import { createCat, disposeCat } from "../public/cat-model.js";
 import { catAnimations } from "./cat-animation.mjs";
 import { buildWorker } from "./build-worker.mjs";
+import { versionSiteAssets } from "./build-site.mjs";
 globalThis.FileReader = class {
   async readAsArrayBuffer(blob) {
     this.result = await blob.arrayBuffer();
@@ -28,12 +29,13 @@ await build({
   external: ["./config.js"],
 });
 // The bundle is served from dist; runtime configuration stays at the site root.
-const { readFile } = await import("node:fs/promises");
-const bundle = await readFile("public/dist/app.js", "utf8");
-await writeFile(
-  "public/dist/app.js",
-  bundle.replaceAll('"./config.js"', '"../config.js"'),
-);
+const site = versionSiteAssets({
+  bundle: await readFile("public/dist/app.js", "utf8"),
+  stylesheet: await readFile("public/style.css"),
+  html: await readFile("public/index.html", "utf8"),
+});
+await writeFile("public/dist/app.js", site.script);
+await writeFile("public/index.html", site.html);
 for (const mood of ["sleep", "crazy hungry", "happy"]) {
   const model = createCat(mood),
     animations = catAnimations(model);
