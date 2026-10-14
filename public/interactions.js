@@ -1,7 +1,7 @@
 import { byItem, NEIGHBORS, byBiome } from "./game-data.js";
 import { SOCIAL_INTENTS } from "./social-system.js";
 
-export const DECISION_PROTOCOL = "care-social-v2";
+export const DECISION_PROTOCOL = "legendary-water-v3";
 
 // These free, permanent objects are rendered in the reserved home/picnic areas.
 // Their IDs are stable across saves, browser validation and Workers AI.
@@ -24,7 +24,7 @@ export const HOME_OBJECTS = [
   },
 ];
 export function activityLocation(action, type) {
-  return action === "rest"
+  return action === "swim" ? "pond" : action === "rest"
     ? "home"
     : action === "eat"
       ? "picnic"
@@ -91,6 +91,7 @@ export function manualInteraction(world, selection, mood) {
     "farm",
     "rest",
     "eat",
+    "swim",
     "party",
     "explore",
   ].find((a) => actions.includes(a));
@@ -144,7 +145,7 @@ export function footprintDistance(point, object) {
     dz = point.z - object.z;
   const x = dx * Math.cos(angle) - dz * Math.sin(angle),
     z = dx * Math.sin(angle) + dz * Math.cos(angle);
-  const [w, d] = byItem(object.type).footprint;
+  const [w, d] = object.footprint || byItem(object.type).footprint;
   return Math.hypot(
     Math.max(0, Math.abs(x) - w / 2),
     Math.max(0, Math.abs(z) - d / 2),

@@ -581,6 +581,7 @@ export const ACTIONS = [
   "party",
   "rest",
   "eat",
+  "swim",
 ];
 export function biomeReservations(id) {
   const fixed =
@@ -590,6 +591,13 @@ export function biomeReservations(id) {
           { x: -2, z: 5, w: 2.5, d: 2.5 },
         ]
       : [];
+  if (id === "aquapark")
+    fixed.push(
+      { x: -3, z: -8, w: 11, d: 10 },
+      { x: 8, z: 6, w: 10, d: 8 },
+      { x: 9, z: -7, w: 10, d: 9 },
+      { x: -10, z: -8, w: 9, d: 8 },
+    );
   const water = BIOME_STYLES[id]?.water;
   if (water)
     fixed.push({
@@ -1126,7 +1134,241 @@ CATALOG.push(
     ["ride"],
   ),
 );
+BIOMES.push({
+  id: "aquapark",
+  name: "Радужная корона",
+  subtitle: "Легендарный аквапарк · замок, каскады, полёты и лазурные лагуны",
+  icon: "🏰",
+  price: 35000,
+  center: [88, 36],
+  radius: 19,
+  ground: 0x89b982,
+  edge: 0x425b80,
+  foliage: 0x72b578,
+  accent: 0xffd26a,
+  requiredLevel: 20,
+  quest: { harvests: 180, friends: 3, visits: 7 },
+});
+CATALOG.push(
+  item(
+    "coaster-rainbow-launch",
+    "Радужная катапульта",
+    "rides",
+    4800,
+    "🌈",
+    "Цветные рельсы, облачная арка и смешной полёт Чичи над лагуной.",
+    [10, 8],
+    ["ride"],
+  ),
+  item(
+    "slide-royal-cascade",
+    "Королевский каскад",
+    "rides",
+    5600,
+    "🏰",
+    "Золотая башня, длинный голубой спуск и искрящийся водный финиш.",
+    [10, 9],
+    ["ride"],
+  ),
+  item(
+    "slide-vortex-bowl",
+    "Чаша водоворота",
+    "rides",
+    4100,
+    "🌀",
+    "Обойти радужную чашу по спирали, провалиться в центр и мягко приводниться.",
+    [9, 8],
+    ["ride"],
+  ),
+  item(
+    "coaster-comet-flight",
+    "Комета Чичи",
+    "rides",
+    7600,
+    "☄️",
+    "Космическая петля и огромный полёт с растопыренными лапками.",
+    [12, 10],
+    ["ride"],
+  ),
+  item(
+    "ride-jellyfish",
+    "Медузья карусель",
+    "rides",
+    2900,
+    "🪼",
+    "Прозрачный купол, светящиеся щупальца и покачивающиеся корзинки.",
+    [6, 6],
+    ["ride"],
+  ),
+  item(
+    "ride-dragon-cloud",
+    "Облачный дракон",
+    "rides",
+    5200,
+    "🐉",
+    "Кружить верхом на смешном драконе между цветными облаками.",
+    [8, 7],
+    ["ride"],
+  ),
+  item(
+    "toy-bubble-garden",
+    "Сад мыльных пузырей",
+    "toys",
+    620,
+    "🫧",
+    "Пузырьки разных размеров и прыжки за радужными бликами.",
+    [3, 3],
+    ["play"],
+  ),
+  item(
+    "toy-magic-fish",
+    "Летающая рыбка",
+    "toys",
+    820,
+    "🐠",
+    "Рыбка летит над цветами, Чичи ловит её лапками и смешно подпрыгивает.",
+    [3, 3],
+    ["play"],
+  ),
+  item(
+    "cat-barista",
+    "Мур-бариста",
+    "social",
+    1800,
+    "☕",
+    "Объёмное кафе с котиком-бариста, паром над чашечками и настоящими гостями. Перекусы расходуют еду из общей миски.",
+    [5, 4],
+    ["eat", "party"],
+  ),
+  item(
+    "swim-lagoon",
+    "Лагуна для плавания",
+    "decor",
+    450,
+    "💦",
+    "Прозрачная вода, разноцветные рыбки и круги от кошачьих лапок.",
+    [4, 4],
+    ["swim", "explore"],
+  ),
+);
+const levelOverrides = {
+  yarn: 1,
+  mouse: 1,
+  feather: 2,
+  tunnel: 3,
+  scratch: 2,
+  trampoline: 3,
+  swing: 2,
+  carousel: 5,
+  coaster: 6,
+  waterslide: 5,
+  ferris: 7,
+  teacup: 4,
+  train: 6,
+  boat: 3,
+  balloon: 5,
+  broom: 4,
+  scooter: 2,
+  party: 3,
+  cafe: 4,
+  picnic: 2,
+  stage: 5,
+  fountain: 2,
+  mushroom: 3,
+  crystal: 3,
+  lantern: 1,
+  flowers: 1,
+  bed: 1,
+  pond: 2,
+  "farm-field": 2,
+  greenhouse: 5,
+  barn: 3,
+  orchard: 4,
+  "cat-barista": 5,
+  "swim-lagoon": 3,
+  "coaster-rainbow-launch": 12,
+  "slide-royal-cascade": 14,
+  "slide-vortex-bowl": 11,
+  "coaster-comet-flight": 18,
+  "ride-jellyfish": 9,
+  "ride-dragon-cloud": 15,
+  "toy-bubble-garden": 4,
+  "toy-magic-fish": 6,
+};
+const biomeLevels = {
+  moon: 1,
+  autumn: 3,
+  summer: 4,
+  beach: 5,
+  winter: 6,
+  water: 7,
+  nature: 7,
+  wizard: 8,
+  sakura: 9,
+  desert: 10,
+  bamboo: 10,
+  mushrooms: 11,
+  candy: 11,
+  coral: 12,
+  lotus: 12,
+  crystal: 13,
+  rainbow: 14,
+  clouds: 15,
+  volcano: 16,
+  dusk: 16,
+  stars: 17,
+  ice: 18,
+  clockwork: 18,
+  galaxy: 19,
+  aquapark: 20,
+};
+for (const biome of BIOMES) {
+  biome.requiredLevel = biomeLevels[biome.id];
+  if (biome.id !== "moon" && biome.id !== "aquapark")
+    biome.price =
+      Math.round((biome.price * (1 + biome.requiredLevel * 0.7)) / 10) * 10;
+}
+for (const product of CATALOG) {
+  product.requiredLevel =
+    levelOverrides[product.id] ||
+    (product.id.includes("mystic")
+      ? 19
+      : product.id.includes("legendary")
+        ? 18
+        : product.id.includes("epic")
+          ? 11
+          : product.id.includes("coaster")
+            ? 14
+            : product.id.includes("water-")
+              ? 12
+              : 8);
+  if (
+    ![
+      "coaster-rainbow-launch",
+      "slide-royal-cascade",
+      "slide-vortex-bowl",
+      "coaster-comet-flight",
+      "ride-jellyfish",
+      "ride-dragon-cloud",
+      "toy-bubble-garden",
+      "toy-magic-fish",
+      "cat-barista",
+      "swim-lagoon",
+    ].includes(product.id) &&
+    product.requiredLevel > 1
+  )
+    product.price =
+      Math.round((product.price * (1 + product.requiredLevel * 0.28)) / 5) * 5;
+}
 const buildOverrides = {
+  "coaster-rainbow-launch": 720,
+  "slide-royal-cascade": 960,
+  "slide-vortex-bowl": 480,
+  "coaster-comet-flight": 1440,
+  "ride-jellyfish": 360,
+  "ride-dragon-cloud": 960,
+  "cat-barista": 240,
+  "swim-lagoon": 90,
   coaster: 240,
   "coaster-lagoon": 720,
   "coaster-sakura": 480,
@@ -1435,3 +1677,29 @@ export const biomeFeature = (b) =>
   CROPS.find((c) => c.biome === b)?.name ||
   JOBS.find((j) => j.biomes.includes(b))?.name ||
   "Новые друзья и приключения";
+
+CROPS.push({
+  id: "rainbow-mango",
+  name: "Радужное манго",
+  icon: "🥭",
+  minutes: 240,
+  seed: 16,
+  value: 240,
+  biome: "aquapark",
+});
+NEIGHBORS.push(
+  {
+    id: "boba",
+    name: "Боба",
+    biome: "aquapark",
+    color: 0xc8aa8c,
+    personality: "Любит водные горки и мягкие приводнения",
+  },
+  {
+    id: "splash",
+    name: "Капелька",
+    biome: "aquapark",
+    color: 0x91bbcb,
+    personality: "Плавает в лагуне и обожает разноцветных рыбок",
+  },
+);

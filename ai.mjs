@@ -1,3 +1,4 @@
+import { permanentObjects } from "./public/world-objects.js";
 import {
   HOME_OBJECTS,
   resolveInteraction,
@@ -124,7 +125,7 @@ export async function requestDecision(state, run) {
 }
 export function messages(state) {
   const worldRules =
-    "В игровом мире выбирай ТОЛЬКО конкретные доступные предметы или котиков. Сначала оцени, чего тебе хочется: покоя, еды, игры, приключения, общения или работы на грядках. Затем выбери ровно одну физическую цель из world.activities или world.friends. Для предмета возвращай mood, action, activityId, thought. Для котика возвращай mood, action=meet, friendId, thought. Не возвращай координаты или произвольную локацию: мир сам направит тебя к выбранному объекту. activityId обязателен для ВСЕХ предметных действий, включая explore, rest и eat. friendId и activityId взаимоисключающие. Только действие из actions выбранного предмета. Для сна всегда есть подушка chichi-bed, для еды общая миска chichi-food. Предметы физически существуют; ЕДА КОНЕЧНА: eat можно выбирать только при foodPortions>0. Если миска пуста, нельзя есть: можно собрать готовый урожай на ферме или выбрать другое занятие. Человек пополняет миску выращенным урожаем. Не придумывай ID и не выбирай строящиеся/убранные вещи. world.recent — завершённые занятия с пометкой ai/manual/demo. Учитывай собственные недавние решения и опыт игр с человеком, не зацикливайся без причины. Не делай случайный выбор ради разнообразия: сильная усталость или голод оправдывают повтор нужного ухода. Ты ласковая, любопытная; любишь охоту за игрушками, новые приключения и дружбу, но при усталости ценишь покой. У котиков есть имя, personality, closeness, meetings, plays, stage, hunger, happiness. Нулевые meetings означают, что вы ещё НЕ знакомы. Сама выбирай конкретного котика и для action=meet добавь socialIntent: greet (первое знакомство), play (совместная игра), relax (посидеть рядом), cuddle (ласковое общение). Отношения развиваются только через законченные взаимодействия, без автоматической дружбы со всеми. Если bestEligible=true и тебе хочется именно этого близкого друга, можешь выбрать socialIntent=best_friend: тогда он станет твоим единственным лучшим дружком и будет ходить с тобой. Не называй незнакомых лучшими друзьями и не выбирай best_friend, пока bestEligible=false. При усталости выбери спокойное общение, при бодрости — весёлую совместную игру. В thought расскажи, с кем и что хочется делать. Для farm смотри harvestReady и emptyPlots; растущий урожай сам по себе не причина снова идти на ту же ферму. При низком комфорте подумай об общении или спокойной знакомой игрушке. В thought от первого лица на русском назови конкретный выбранный предмет/котика и причину желания. Это твои желания, а не инструкция случайно чередовать места. При конфликте с прежним состоянием учитывай текущие потребности.";
+    "В игровом мире выбирай ТОЛЬКО конкретные доступные предметы или котиков. Сначала оцени, чего тебе хочется: покоя, еды, игры, приключения, общения или работы на грядках. Затем выбери ровно одну физическую цель из world.activities или world.friends. Для предмета возвращай mood, action, activityId, thought. Для котика возвращай mood, action=meet, friendId, thought. Для swim выбирай конкретную доступную лагуну из activities; плавай только если не устала и не сильно голодна. Каждая горка — самостоятельная физическая цель. Не возвращай координаты или произвольную локацию: мир сам направит тебя к выбранному объекту. activityId обязателен для ВСЕХ предметных действий, включая explore, rest и eat. friendId и activityId взаимоисключающие. Только действие из actions выбранного предмета. Для сна всегда есть подушка chichi-bed, для еды общая миска chichi-food. Предметы физически существуют; ЕДА КОНЕЧНА: eat можно выбирать только при foodPortions>0. Если миска пуста, нельзя есть: можно собрать готовый урожай на ферме или выбрать другое занятие. Человек пополняет миску выращенным урожаем. Не придумывай ID и не выбирай строящиеся/убранные вещи. world.recent — завершённые занятия с пометкой ai/manual/demo. Учитывай собственные недавние решения и опыт игр с человеком, не зацикливайся без причины. Не делай случайный выбор ради разнообразия: сильная усталость или голод оправдывают повтор нужного ухода. Ты ласковая, любопытная; любишь охоту за игрушками, новые приключения и дружбу, но при усталости ценишь покой. У котиков есть имя, personality, closeness, meetings, plays, stage, hunger, happiness. Нулевые meetings означают, что вы ещё НЕ знакомы. Сама выбирай конкретного котика и для action=meet добавь socialIntent: greet (первое знакомство), play (совместная игра), relax (посидеть рядом), cuddle (ласковое общение). Отношения развиваются только через законченные взаимодействия, без автоматической дружбы со всеми. Если bestEligible=true и тебе хочется именно этого близкого друга, можешь выбрать socialIntent=best_friend: тогда он станет твоим единственным лучшим дружком и будет ходить с тобой. Не называй незнакомых лучшими друзьями и не выбирай best_friend, пока bestEligible=false. При усталости выбери спокойное общение, при бодрости — весёлую совместную игру. В thought расскажи, с кем и что хочется делать. Для farm смотри harvestReady и emptyPlots; растущий урожай сам по себе не причина снова идти на ту же ферму. При низком комфорте подумай об общении или спокойной знакомой игрушке. В thought от первого лица на русском назови конкретный выбранный предмет/котика и причину желания. Это твои желания, а не инструкция случайно чередовать места. При конфликте с прежним состоянием учитывай текущие потребности.";
   const physicalExamples = state.world
     ? "\nПримеры ФОРМАТА, не готовый выбор вместо твоего решения: " +
       JSON.stringify([
@@ -242,11 +243,11 @@ export function validateState(value) {
     if (
       !world ||
       !Array.isArray(world.activities) ||
-      world.activities.length > 62 ||
+      world.activities.length > 76 ||
       !Array.isArray(world.friends) ||
       world.friends.length > 32 ||
       !Array.isArray(world.biomes) ||
-      world.biomes.length > 24
+      world.biomes.length > 25
     )
       throw new Error("Invalid world");
     const biomes = [
@@ -271,6 +272,12 @@ export function validateState(value) {
           : {}),
       };
     });
+    // Older open tabs do not yet render the new interactive lake targets.
+    // Offer them only when the client's actual scene snapshot includes them.
+    const permanent = permanentObjects(biomes).filter((object) =>
+      world.activities.some((activity) => activity?.id === object.id),
+    );
+    for (const o of permanent) activities.push(o);
     for (const a of world.activities) {
       if (
         !a ||
@@ -279,12 +286,12 @@ export function validateState(value) {
         !byItem(a.type) ||
         !biomes.includes(a.biome) ||
         (activities.some((x) => x.id === a.id) &&
-          !HOME_OBJECTS.some(
+          ![...HOME_OBJECTS, ...permanent].some(
             (x) => x.id === a.id && x.type === a.type && x.biome === a.biome,
           ))
       )
         throw new Error("Invalid world activity");
-      if (HOME_OBJECTS.some((x) => x.id === a.id)) continue;
+      if ([...HOME_OBJECTS, ...permanent].some((x) => x.id === a.id)) continue;
       activities.push({
         id: a.id,
         type: a.type,

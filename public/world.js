@@ -1,3 +1,5 @@
+import { permanentObjects } from "./world-objects.js";
+import { swimFrame } from "./swimming.js";
 import {
   HOME_OBJECTS,
   dropTarget,
@@ -56,7 +58,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   container.prepend(renderer.domElement);
   renderer.domElement.setAttribute(
     "aria-label",
-    "Сказочный мир Чичи: 24 биомов, коты и аттракционы",
+    "Сказочный мир Чичи: 25 биомов, коты и аттракционы",
   );
   const scene = new THREE.Scene();
   scene.fog = new THREE.FogExp2(0xc0bfd7, 0.0035);
@@ -161,11 +163,39 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }),
     ),
   );
+  const royalStarGeo = new THREE.BufferGeometry(),
+    royalStarsPositions = [];
+  for (let i = 0; i < 420; i++) {
+    const a = i * 2.399,
+      r = 38 + (i % 11) * 9;
+    royalStarsPositions.push(
+      88 + Math.cos(a) * r,
+      -8 + (i % 17) * 5,
+      36 + Math.sin(a) * r,
+    );
+  }
+  royalStarGeo.setAttribute(
+    "position",
+    new THREE.Float32BufferAttribute(royalStarsPositions, 3),
+  );
+  const royalStars = new THREE.Points(
+    royalStarGeo,
+    new THREE.PointsMaterial({
+      color: 0xffecd0,
+      size: 0.22,
+      transparent: true,
+      opacity: 0.85,
+      toneMapped: false,
+    }),
+  );
+  royalStars.visible = false;
+  scene.add(royalStars);
   const islands = new Map(),
     labels = new Map(),
     itemGroups = new Map(),
     npcs = new Map();
-  const mealVisits = new Map();
+  const mealVisits = new Map(),
+    swimVisits = new Map();
   const socialGlow = new THREE.Group();
   scene.add(socialGlow);
   const heartShape = new THREE.Shape();
@@ -313,8 +343,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
       to = new THREE.Vector3(link.to.center[0], 0.18, link.to.center[1]),
       direction = to.clone().sub(from).normalize(),
       side = new THREE.Vector3(direction.z, 0, -direction.x);
-    from.addScaledVector(direction, 11.3);
-    to.addScaledVector(direction, -11.3);
+    from.addScaledVector(direction, link.from.radius || 11.3);
+    to.addScaledVector(direction, -(link.to.radius || 11.3));
     const middle = from.clone().add(to).multiplyScalar(0.5);
     const bridge = box(
       scene,
@@ -357,7 +387,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
       setCatMood(cat, game.cat.mood, { immediate: reduced });
     if (
       operation &&
-      !HOME_OBJECTS.some((o) => o.id === operation.decision.activityId)
+      ![...HOME_OBJECTS, ...permanentObjects(game.unlocked)].some(
+        (o) => o.id === operation.decision.activityId,
+      )
     ) {
       const id = operation.decision.activityId;
       if (id && !game.placements.some((p) => p.id === id && isBuilt(p))) {
@@ -389,6 +421,52 @@ export function createWorld(container, initialGame, callbacks = {}) {
         game.placements.filter((p) => p.biome === id),
         game.scenery?.filter((r) => r.biome === id),
       );
+    for (const o of permanentObjects(game.unlocked)) {
+      if (itemGroups.has(o.id)) continue;
+      let g;
+      if (o.type === "swim-lagoon") {
+        g = new THREE.Group();
+        const proxy = new THREE.Mesh(
+          new THREE.CircleGeometry(1, 48),
+          new THREE.MeshBasicMaterial({
+            transparent: true,
+            opacity: 0,
+            depthWrite: false,
+            colorWrite: false,
+            side: THREE.DoubleSide,
+          }),
+        );
+        proxy.rotation.x = -Math.PI / 2;
+        proxy.scale.set(o.rx, o.rz, 1);
+        g.add(proxy);
+        g.userData = {
+          id: o.type,
+          swimBounds: { rx: o.rx, rz: o.rz },
+          shoreHeight: o.shoreY ?? 0.16,
+          duration: 12,
+        };
+      } else g = makeAttraction(o.type);
+      const b = byBiome(o.biome);
+      g.position.set(
+        b.center[0] + o.x,
+        o.type === "swim-lagoon" ? o.surfaceY : 0.16,
+        b.center[1] + o.z,
+      );
+      g.userData.placement = {
+        id: o.id,
+        item: o.type,
+        biome: o.biome,
+        x: o.x,
+        z: o.z,
+        rotation: 0,
+      };
+      g.userData.placementId = o.id;
+      g.userData.homeObject = true;
+      g.userData.built = true;
+      g.userData.permanent = true;
+      scene.add(g);
+      itemGroups.set(o.id, g);
+    }
     for (const [id, g] of itemGroups) {
       if (g.userData.homeObject) continue;
       const retained = game.placements.find((p) => p.id === id);
@@ -502,8 +580,16 @@ export function createWorld(container, initialGame, callbacks = {}) {
   function focus(id, overview = false) {
     const b = byBiome(id) || byBiome("moon");
     focused = b.id;
+    sky.material.uniforms.top.value.set(
+      b.id === "aquapark" ? 0x010914 : 0x788ab9,
+    );
+    sky.material.uniforms.bottom.value.set(
+      b.id === "aquapark" ? 0x153054 : 0xb2b8d5,
+    );
+    royalStars.visible = b.id === "aquapark";
+    scene.fog.color.set(b.id === "aquapark" ? 0x162f52 : 0xc0bfd7);
     desiredLook.set(b.center[0], 0, overview ? 0 : b.center[1]);
-    distance = 37;
+    distance = b.radius ? (mobileRender ? 85 : 57) : 37;
     if (overview) {
       const view = camera.clone();
       for (let fit = 150; fit <= 600; fit += 5) {
@@ -517,8 +603,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
         distance = fit;
         if (
           BIOMES.every((island) =>
-            [-12, 12].every((dx) =>
-              [-12, 12].every((dz) => {
+            [-(island.radius || 12), island.radius || 12].every((dx) =>
+              [-(island.radius || 12), island.radius || 12].every((dz) => {
                 const p = new THREE.Vector3(
                   island.center[0] + dx,
                   0,
@@ -543,6 +629,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
     sync(game);
     if (operation) {
       resetYarn(operation.attraction);
+      if (operation.attraction) {
+        operation.attraction.userData.playing = false;
+        delete operation.attraction.userData.heroPlayPos;
+      }
       operation.resolve({ cancelled: true });
       operation = null;
     }
@@ -551,9 +641,27 @@ export function createWorld(container, initialGame, callbacks = {}) {
       ? itemGroups.get(decision.activityId)
       : null;
     const neighbor = decision.friendId ? npcs.get(decision.friendId) : null;
+    const interruptedSwim = swimVisits.get(decision.friendId);
+    if (neighbor && interruptedSwim) {
+      const lake = interruptedSwim.lake,
+        bounds = lake.userData.swimBounds || { rx: 1.7 };
+      neighbor.carrier.position.copy(
+        lake.localToWorld(new THREE.Vector3(bounds.rx + 0.5, 0, 0)),
+      );
+      neighbor.carrier.position.y = lake.userData.shoreHeight ?? 0.16;
+      swimVisits.delete(decision.friendId);
+    }
+
     let destination;
     if (attraction) {
-      destination = attraction.position.clone();
+      destination =
+        attraction.userData.rideFrame && decision.action === "ride"
+          ? attraction.localToWorld(
+              new THREE.Vector3(
+                ...attraction.userData.rideFrame(0, true).position,
+              ),
+            )
+          : attraction.position.clone();
       focus(attraction.userData.placement.biome);
     } else if (neighbor) {
       destination = neighbor.carrier.position.clone();
@@ -563,8 +671,17 @@ export function createWorld(container, initialGame, callbacks = {}) {
         new Error("Выбранный предмет или котик больше недоступен."),
       );
     }
-    destination.y = 0.16;
-    destination.z += attraction?.userData.id === "tunnel" ? 0 : 0.8;
+    if (
+      !attraction?.userData.rideFrame &&
+      attraction?.userData.id !== "swim-lagoon" &&
+      !neighbor
+    )
+      destination.y = 0.16;
+    destination.z +=
+      attraction?.userData.rideFrame ||
+      ["tunnel", "swim-lagoon"].includes(attraction?.userData.id)
+        ? 0
+        : 0.8;
     return new Promise((resolve) => {
       operation = {
         decision,
@@ -761,6 +878,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
       x: g.position.x,
       z: g.position.z,
       built: g.userData.built,
+      footprint: g.userData.swimBounds
+        ? [g.userData.swimBounds.rx * 2, g.userData.swimBounds.rz * 2]
+        : undefined,
     }));
     const friends = [...npcs.values()]
       .filter((n) => n.carrier.visible)
@@ -781,11 +901,35 @@ export function createWorld(container, initialGame, callbacks = {}) {
       ]),
     ]);
     const hit = raycaster.intersectObjects([...targets.keys()], true)[0];
+    let meshSelection = null;
     if (hit) {
       let node = hit.object;
       while (node && !targets.has(node)) node = node.parent;
-      if (node) return targets.get(node);
+      if (node) meshSelection = targets.get(node);
     }
+    if (meshSelection?.friendId) return meshSelection;
+    // A high lake or roof can overlap a ride's entrance on screen. A drop
+    // directly at the projected entrance selects that ride before the occluder.
+    const dropBounds = renderer.domElement.getBoundingClientRect();
+    const entrances = [...itemGroups.values()]
+      .map((g) => {
+        const p = g.position.clone().project(camera);
+        return {
+          g,
+          d: Math.hypot(
+            e.clientX - (dropBounds.left + ((p.x + 1) * dropBounds.width) / 2),
+            e.clientY - (dropBounds.top + ((1 - p.y) * dropBounds.height) / 2),
+          ),
+          visible: p.z < 1 && Math.abs(p.x) < 1 && Math.abs(p.y) < 1,
+        };
+      })
+      .filter((v) => v.visible && v.d < (e.pointerType === "touch" ? 16 : 8))
+      .sort((a, b) => a.d - b.d);
+    if (entrances.length)
+      return entrances[0].g.userData.built
+        ? { activityId: entrances[0].g.userData.placementId }
+        : { unavailable: true };
+    if (meshSelection) return meshSelection;
     // On a phone the neighbour's mesh is only a few pixels wide. Hit the
     // visible cat on screen as well: its head projects above the ground plane.
     const bounds = renderer.domElement.getBoundingClientRect();
@@ -853,6 +997,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       party: "на вечеринку",
       rest: "отдохнуть",
       eat: "поесть",
+      swim: "поплавать",
       explore: "исследовать",
     };
     const name = selection.friendId
@@ -1152,11 +1297,20 @@ export function createWorld(container, initialGame, callbacks = {}) {
         !busyWithChichi &&
         !draggingCat &&
         !mealVisits.has(id) &&
+        !swimVisits.has(id) &&
         mealVisits.size < 2 &&
         needs?.hunger >= 45 &&
         bowlPortions(game) > 0
       ) {
-        const bowl = itemGroups.get("chichi-food"),
+        const cafes = [...itemGroups.values()].filter(
+            (g) => g.userData.id === "cat-barista" && g.userData.built,
+          ),
+          bowl =
+            cafes.sort(
+              (a, b) =>
+                a.position.distanceTo(n.carrier.position) -
+                b.position.distanceTo(n.carrier.position),
+            )[0] || itemGroups.get("chichi-food"),
           goal = bowl.position
             .clone()
             .add(
@@ -1166,9 +1320,23 @@ export function createWorld(container, initialGame, callbacks = {}) {
                 Math.cos(n.index * 2.4) * 1.2,
               ),
             );
+        const seat = bowl.userData.barista
+          ? [-1.2, 1.2].find(
+              (x) =>
+                ![...mealVisits.values()].some(
+                  (v) => v.venue === bowl.userData.placementId && v.seat === x,
+                ),
+            )
+          : null;
+        if (bowl.userData.barista)
+          goal.copy(
+            bowl.localToWorld(new THREE.Vector3(seat ?? -1.2, 0, 2.12)),
+          );
         goal.y = 0.16;
         mealVisits.set(id, {
+          seat,
           from: n.carrier.position.clone(),
+          venue: bowl.userData.placementId,
           goal,
           start: now,
           duration: Math.max(
@@ -1179,7 +1347,44 @@ export function createWorld(container, initialGame, callbacks = {}) {
           tried: false,
         });
       }
-      if (busyWithChichi || draggingCat) mealVisits.delete(id);
+      if (busyWithChichi || draggingCat) {
+        mealVisits.delete(id);
+        swimVisits.delete(id);
+      }
+      if (
+        !busyWithChichi &&
+        !draggingCat &&
+        !mealVisits.has(id) &&
+        !swimVisits.has(id) &&
+        swimVisits.size < 2 &&
+        needs?.hunger < 45 &&
+        needs?.happiness < 85 &&
+        Date.now() - (needs.lastSwimAt || 0) > 180000 &&
+        (Math.floor(time) + n.index * 19) % 80 < 3
+      ) {
+        const lakes = [...itemGroups.values()].filter(
+          (g) =>
+            g.userData.id === "swim-lagoon" &&
+            g.position.distanceTo(n.carrier.position) < 32,
+        );
+        const lake = lakes.sort(
+          (a, b) =>
+            a.position.distanceTo(n.carrier.position) -
+            b.position.distanceTo(n.carrier.position),
+        )[0];
+        if (lake)
+          swimVisits.set(id, {
+            lake,
+            from: n.carrier.position.clone(),
+            start: now,
+            duration: Math.min(
+              12000,
+              2500 + n.carrier.position.distanceTo(lake.position) * 220,
+            ),
+            stage: "travel",
+          });
+      }
+      const swim = swimVisits.get(id);
       const visit = mealVisits.get(id);
       if (visit && !busyWithChichi && !draggingCat) {
         if (!bowlPortions(game) && !visit.tried) mealVisits.delete(id);
@@ -1201,9 +1406,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
           }
         } else {
           const elapsed = (now - visit.eatStart) / 1000,
-            bowl = itemGroups.get("chichi-food");
+            bowl = itemGroups.get(visit.venue) || itemGroups.get("chichi-food");
           x = visit.goal.x;
           z = visit.goal.z;
+          if (bowl.userData.barista) bowl.userData.lastServiceTime = time;
           npcReaction = {
             headPitch: 0.24 + (reduced ? 0 : Math.sin(elapsed * 4) * 0.05),
           };
@@ -1216,6 +1422,56 @@ export function createWorld(container, initialGame, callbacks = {}) {
             callbacks.onResidentAte?.(id);
           }
           if (elapsed >= 3.5) mealVisits.delete(id);
+        }
+      } else if (swim && !busyWithChichi && !draggingCat) {
+        if (swim.stage === "travel") {
+          const t = Math.min(1, (now - swim.start) / swim.duration);
+          n.carrier.position.lerpVectors(
+            swim.from,
+            swim.lake.position,
+            t * t * (3 - 2 * t),
+          );
+          x = n.carrier.position.x;
+          z = n.carrier.position.z;
+          direct = true;
+          npcWalking = t < 1;
+          if (t === 1) {
+            swim.stage = "swim";
+            swim.activityStart = now;
+          }
+        } else {
+          const elapsed = (now - swim.activityStart) / 1000,
+            bounds = swim.lake.userData.swimBounds || { rx: 1.7, rz: 1.7 },
+            f = swimFrame(elapsed, bounds, n.index, reduced);
+          const enter = Math.min(1, elapsed);
+          n.carrier.position.copy(
+            swim.lake.localToWorld(
+              new THREE.Vector3(f.x, f.y, f.z).multiplyScalar(
+                enter * enter * (3 - 2 * enter),
+              ),
+            ),
+          );
+          n.carrier.rotation.y = f.yaw;
+          x = n.carrier.position.x;
+          z = n.carrier.position.z;
+          direct = true;
+          npcReaction = f;
+          const lagoon =
+            swim.lake.userData.lagoon ||
+            islands
+              .get(swim.lake.userData.placement.biome)
+              ?.userData.lagoons?.get(swim.lake.userData.placementId);
+          if (!reduced) lagoon?.userData.disturb?.(f.x, f.z, time, 0.35);
+          if (elapsed > 14) {
+            n.carrier.position.copy(
+              swim.lake.localToWorld(
+                new THREE.Vector3(bounds.rx + 0.5, 0.01, 0),
+              ),
+            );
+            n.carrier.position.y = swim.lake.userData.shoreHeight ?? 0.16;
+            swimVisits.delete(id);
+            callbacks.onResidentSwam?.(id);
+          }
         }
       } else if (draggingCat) {
         n.carrier.rotation.y = Math.atan2(
@@ -1241,7 +1497,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           ).friend;
           n.carrier.position.set(
             operation.socialOrigin.x + frame.x,
-            0.16 + frame.jump,
+            operation.socialOrigin.y + frame.jump,
             operation.socialOrigin.z + frame.z,
           );
           x = n.carrier.position.x;
@@ -1262,7 +1518,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
             : chichiCarrier.position;
         x = anchor.x - Math.sin(chichiCarrier.rotation.y) * 1.15 + 0.5;
         z = anchor.z - Math.cos(chichiCarrier.rotation.y) * 1.15;
-        n.carrier.position.y = 0.16;
+        n.carrier.position.y =
+          operation?.decision.action === "ride"
+            ? 0.16
+            : operation?.decision.action === "swim"
+              ? (operation.attraction.userData.shoreHeight ?? 0.16)
+              : Math.max(0.16, chichiCarrier.position.y);
       } else {
         x = b.center[0] + Math.sin(time * 0.07 + n.index * 2.4) * 6;
         z = b.center[1] + Math.cos(time * 0.07 + n.index * 2.4) * 6;
@@ -1304,6 +1565,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }
     }
     npcMarkers.instanceMatrix.needsUpdate = true;
+    chichiCarrier.rotation.z = 0;
+    const localSwim = new THREE.Vector3();
     let walking = false,
       reaction = null;
     if (operation) {
@@ -1326,6 +1589,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
             op.decision.action === "play"
           )
             op.attraction.userData.playing = true;
+          if (
+            op.attraction?.userData.playFrame &&
+            op.decision.action === "play"
+          )
+            op.attraction.userData.playing = true;
         }
       } else {
         const elapsed = (now - op.activityStart) / 1000,
@@ -1335,7 +1603,21 @@ export function createWorld(container, initialGame, callbacks = {}) {
         if (action === "ride" && g) {
           let local = new THREE.Vector3(0, g.userData.seatHeight, 0);
           const moving = g.userData.moving;
-          if (
+          if (g.userData.rideFrame) {
+            g.userData.rideElapsed = elapsed;
+            const f = g.userData.rideFrame(elapsed, reduced);
+            local.set(...f.position);
+            chichiCarrier.rotation.y = f.yaw || 0;
+            chichiCarrier.rotation.z = f.roll || 0;
+            reaction = { paw: f.paw || 0, headPitch: f.headPitch || 0 };
+            g.userData.update?.(time, reduced);
+            if (f.phase === "flight" && !op.flew) {
+              op.flew = true;
+              callbacks.onReaction?.(
+                "Уиии! Лапки в воздухе — я маленькая комета! 🐾",
+              );
+            }
+          } else if (
             g.userData.curve &&
             (id.includes("coaster") ||
               id === "train" ||
@@ -1384,7 +1666,41 @@ export function createWorld(container, initialGame, callbacks = {}) {
           } else if (id === "trampoline")
             local.y += reduced ? 0 : Math.abs(Math.sin(elapsed * 3)) * 1.5;
           if (local) chichiCarrier.position.copy(g.localToWorld(local));
-          chichiCarrier.rotation.y = time * 0.8;
+          if (!g.userData.rideFrame) chichiCarrier.rotation.y = time * 0.8;
+        } else if (action === "swim" && g) {
+          const bounds = g.userData.swimBounds || {
+              rx: g.userData.lagoon?.userData.rx || 1.7,
+              rz: g.userData.lagoon?.userData.rz || 1.7,
+            },
+            f = swimFrame(elapsed, bounds, 0, reduced);
+          if (elapsed > 10) {
+            const shore = new THREE.Vector3(
+                bounds.rx + 0.5,
+                (g.userData.shoreHeight ?? 0.16) - g.position.y,
+                0,
+              ),
+              u = Math.min(1, (elapsed - 10) / 2);
+            localSwim.set(f.x, f.y, f.z).lerp(shore, u);
+          } else {
+            localSwim.set(f.x, f.y, f.z);
+            if (elapsed < 1)
+              localSwim.multiplyScalar(elapsed * elapsed * (3 - 2 * elapsed));
+          }
+          chichiCarrier.position.copy(g.localToWorld(localSwim));
+          chichiCarrier.rotation.y = f.yaw;
+          reaction = f;
+          const lagoon =
+            g.userData.lagoon ||
+            islands
+              .get(g.userData.placement.biome)
+              ?.userData.lagoons?.get(g.userData.placementId);
+          if (!reduced) lagoon?.userData.disturb?.(f.x, f.z, time, 0.65);
+          if (elapsed > 1 && !op.splashed) {
+            op.splashed = true;
+            callbacks.onReaction?.(
+              "Плюх! Лапки гребут, рыбки щекочут носик 🫧",
+            );
+          }
         } else if (action === "farm" && g) {
           chichiCarrier.position.copy(
             g.localToWorld(
@@ -1419,6 +1735,15 @@ export function createWorld(container, initialGame, callbacks = {}) {
               "Прыг! Поймала… ой, клубочек опять убежал! 🧶",
             );
           }
+        } else if (action === "play" && g?.userData.playFrame) {
+          const f = g.userData.playFrame(elapsed, reduced);
+          g.userData.heroPlayPos = { x: f.position[0], z: f.position[2] };
+          chichiCarrier.position.copy(
+            g.localToWorld(new THREE.Vector3(...f.position)),
+          );
+          chichiCarrier.rotation.y = f.yaw;
+          walking = !reduced;
+          reaction = { paw: f.paw };
         } else if (action === "play" && g) {
           const local = new THREE.Vector3(
             Math.sin(elapsed * 2) * 0.7,
@@ -1463,7 +1788,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           const frame = socialFrame(elapsed, op.socialKind, reduced);
           chichiCarrier.position.set(
             op.socialOrigin.x + frame.hero.x,
-            0.16 + frame.hero.jump,
+            op.socialOrigin.y + frame.hero.jump,
             op.socialOrigin.z + frame.hero.z,
           );
           chichiCarrier.rotation.y = frame.hero.yaw;
@@ -1507,7 +1832,13 @@ export function createWorld(container, initialGame, callbacks = {}) {
               : g?.userData.duration || 6)
         ) {
           resetYarn(g);
-          if (action !== "meet") chichiCarrier.position.copy(op.destination);
+          if (g) {
+            g.userData.playing = false;
+            delete g.userData.heroPlayPos;
+          }
+          if (action !== "meet" && action !== "swim" && !g?.userData.rideFrame)
+            chichiCarrier.position.copy(op.destination);
+          if (g) delete g.userData.rideElapsed;
           socialGlow.visible = false;
           operation = null;
           op.resolve({
@@ -1573,6 +1904,17 @@ export function createWorld(container, initialGame, callbacks = {}) {
     portraitRenderer.render(portrait, view);
     const image = document.querySelector(`[data-mood-image="${mood}"]`);
     if (image) image.src = portraitRenderer.domElement.toDataURL("image/png");
+    if (mood === "happy" && image) {
+      const avatar = document.getElementById("care-avatar");
+      if (avatar) {
+        avatar.onload = () => {
+          avatar.hidden = false;
+          document.getElementById("care-avatar-fallback").hidden = true;
+        };
+        avatar.src = image.src;
+      }
+    }
+
     disposeCat(model);
   }
   portraitRenderer.dispose();
@@ -1596,6 +1938,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
       disposeCat(cat);
       for (const npc of npcs.values()) disposeCat(npc.model);
       socialGlow.visible = false;
+      royalStarGeo.dispose();
+      royalStars.material.dispose();
       heartGeo.dispose();
       heartMaterial.dispose();
       resetYarn(operation?.attraction);

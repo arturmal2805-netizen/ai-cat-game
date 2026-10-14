@@ -117,6 +117,30 @@ export function initialScenery(placements = []) {
         scale: 0.75 + i * 0.08,
       })),
     ];
+    if (biome.id === "aquapark") {
+      candidates.splice(
+        0,
+        candidates.length,
+        ...[
+          [-14, 0],
+          [-7, 14],
+          [5, 15],
+          [15, 1],
+          [1, -16],
+        ].map(([x, z], i) => ({
+          type: "scenery-tree-palm",
+          x,
+          z,
+          scale: 1.15 + i * 0.08,
+        })),
+        ...[
+          [-13, 12],
+          [3, 15],
+          [16, -3],
+          [-13, -13],
+        ].map(([x, z]) => ({ type: "scenery-boulder", x, z, scale: 1.1 })),
+      );
+    }
     candidates.forEach((c, index) => {
       const record = {
         id: `decor-${biome.id}-${index}`,
@@ -144,7 +168,8 @@ export function initialScenery(placements = []) {
       const free = (x, z) => {
         const [w, d] = sceneryFootprint(record);
         return (
-          Math.hypot(Math.abs(x) + w / 2, Math.abs(z) + d / 2) <= 10.8 &&
+          Math.hypot(Math.abs(x) + w / 2, Math.abs(z) + d / 2) <=
+            (biome.radius ? biome.radius - 0.7 : 10.8) &&
           !occupied.some(
             (p) =>
               Math.abs(x - p.x) < (w + p.w) / 2 + 0.2 &&
@@ -155,8 +180,17 @@ export function initialScenery(placements = []) {
       let point = free(c.x, c.z) ? { x: c.x, z: c.z } : null;
       if (!point) {
         const choices = [];
-        for (let x = -9; x <= 9; x++)
-          for (let z = -9; z <= 9; z++) if (free(x, z)) choices.push({ x, z });
+        for (
+          let x = -(biome.radius ? 17 : 9);
+          x <= (biome.radius ? 17 : 9);
+          x++
+        )
+          for (
+            let z = -(biome.radius ? 17 : 9);
+            z <= (biome.radius ? 17 : 9);
+            z++
+          )
+            if (free(x, z)) choices.push({ x, z });
         choices.sort(
           (a, b) =>
             Math.hypot(a.x - c.x, a.z - c.z) - Math.hypot(b.x - c.x, b.z - c.z),
@@ -171,6 +205,13 @@ export function initialScenery(placements = []) {
 
 // Authored arrangements rather than a uniform ring of repeated trees.
 const layouts = {
+  aquapark: [
+    [-14, 0, "palm", 1.15],
+    [-7, 14, "palm", 1.23],
+    [5, 15, "palm", 1.31],
+    [15, 1, "palm", 1.39],
+    [1, -16, "palm", 1.47],
+  ],
   moon: [
     [-1, -8, "enchanted", 1],
     [6, -3, "willow", 1.08],

@@ -45,14 +45,14 @@ export async function catalogPreviews(onPreview, { forceRender = false } = {}) {
     });
     renderer.setSize(300, 200);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.05;
+    renderer.toneMappingExposure = 0.95;
     for (const item of [
       ...CATALOG,
       ...BIOMES.map((b) => ({ ...b, isBiome: true })),
     ]) {
       const scene = new THREE.Scene();
-      scene.add(new THREE.HemisphereLight(0xfff1eb, 0xc1b3d7, 3));
-      const light = new THREE.DirectionalLight(0xffe9df, 3);
+      scene.add(new THREE.HemisphereLight(0xfff1eb, 0xc1b3d7, 1.6));
+      const light = new THREE.DirectionalLight(0xffe9df, 2.5);
       light.position.set(-3, 7, 5);
       scene.add(light);
       const object = item.isBiome
@@ -69,7 +69,7 @@ export async function catalogPreviews(onPreview, { forceRender = false } = {}) {
         .add(
           new THREE.Vector3(0.95, 0.65, 1.25)
             .normalize()
-            .multiplyScalar(radius * (item.isBiome ? 2.0 : 2.4)),
+            .multiplyScalar(radius * (item.isBiome ? 1.45 : 1.75)),
         );
       camera.lookAt(center);
       await renderer.compileAsync(scene, camera);

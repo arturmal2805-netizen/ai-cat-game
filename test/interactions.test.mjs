@@ -107,7 +107,7 @@ test("sleep and food always refer to concrete permanent objects without adding p
   game = fillBowl(game, "wheat");
   const snapshot = worldSnapshot(game);
   assert.deepEqual(
-    snapshot.activities.map((a) => a.id),
+    snapshot.activities.filter((a) => a.id !== "lake-moon").map((a) => a.id),
     HOME_OBJECTS.map((a) => a.id),
   );
   for (const [action, id] of [

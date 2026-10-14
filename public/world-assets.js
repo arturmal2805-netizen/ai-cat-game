@@ -1,3 +1,4 @@
+import { legendaryAttraction } from "./legendary-assets.js";
 import { advancedAttraction, animateAdvanced } from "./advanced-assets.js";
 import { dressAttraction } from "./fantasy-scenery.js";
 import { byItem } from "./game-data.js";
@@ -174,6 +175,8 @@ function vehicle(parent, kind, color = 0xc9a3cf) {
   return g;
 }
 export function makeAttraction(id, fields = [], now = Date.now()) {
+  const legend = legendaryAttraction(id);
+  if (legend) return dressAttraction(legend, byItem(id));
   const advanced = advancedAttraction(id, fields, now);
   if (advanced) return dressAttraction(advanced, byItem(id));
   const group = new THREE.Group();
@@ -626,6 +629,10 @@ export function makeAttraction(id, fields = [], now = Date.now()) {
   return dressAttraction(group, byItem(id));
 }
 export function animateAttraction(group, time) {
+  if (group.userData.handpainted) {
+    group.userData.update?.(time);
+    return;
+  }
   animateAdvanced(group, time);
   const { id, moving, curve } = group.userData;
   if (!moving) return;

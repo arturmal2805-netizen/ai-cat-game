@@ -1,3 +1,4 @@
+import { createLegendaryBiome } from "./legendary-biome.js";
 import * as THREE from "three";
 import {
   shape,
@@ -147,6 +148,13 @@ export function createBiomeScene(
   biome,
   { preview = false, placements = [], scenery = null, lowOnly = false } = {},
 ) {
+  if (biome.id === "aquapark")
+    return createLegendaryBiome(biome, {
+      preview,
+      placements,
+      scenery: scenery ?? defaultScenery.filter((r) => r.biome === biome.id),
+      lowOnly,
+    });
   const style = BIOME_STYLES[biome.id],
     seed = seedOf(biome.id),
     root = new THREE.Group();
@@ -409,6 +417,7 @@ export function createBiomeScene(
         seed,
       });
     detail.add(lagoon);
+    root.userData.lagoons = new Map([["lake-" + biome.id, lagoon]]);
     animations.push(lagoon);
     lakeShore(props, style.water, style, biome.id);
     const lowWater = new THREE.Mesh(

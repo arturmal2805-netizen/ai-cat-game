@@ -35,6 +35,7 @@ uniform vec3 uColor;
 uniform float uOpacity;
 uniform float uLake;
 uniform vec3 uShoreColor;
+uniform vec4 uRipples[6];
 varying vec3 vWorld;
 varying vec3 vNormal;
 varying vec2 lakeUv;
@@ -42,7 +43,10 @@ ${caustics}
 void main(){
  vec2 p=vWorld.xz;
  float ripple=sin(p.x*3.7+uTime*.8)+cos(p.y*4.2-uTime*.7);
- vec3 n=normalize(vNormal+vec3(cos(p.x*3.7+uTime*.8)*.055,0.0,sin(p.y*4.2-uTime*.7)*.045));
+ float wake=0.0;
+ for(int i=0;i<6;i++){float age=uTime-uRipples[i].z;float d=length(p-uRipples[i].xy);float live=step(0.0,age)*(1.0-smoothstep(0.0,3.5,age));wake+=sin(d*12.0-age*9.0)*exp(-d*1.1)*live*uRipples[i].w;}
+ ripple+=wake*3.0;
+ vec3 n=normalize(vNormal+vec3(cos(p.x*3.7+uTime*.8)*.055+wake*.07,0.0,sin(p.y*4.2-uTime*.7)*.045+wake*.04));
  vec3 view=normalize(cameraPosition-vWorld);
  float fresnel=pow(1.0-max(dot(n,view),0.0),3.0);
  vec3 reflected=reflect(-view,n);
@@ -56,7 +60,7 @@ void main(){
  vec3 color=mix(body,sky,.035+fresnel*.45)+vec3(.45,.75,.78)*caustic*.26+sun*vec3(1.0,.92,.7)*1.15;
  float foam=smoothstep(.91,.99,edge)*(.45+.35*sin(p.x*5.0+p.y*3.0-uTime*.6))*uLake;
  color=mix(color,vec3(.72,.97,.88),foam*.56);
- color+=ripple*.012;
+ color+=ripple*.012+vec3(.65,.9,1.0)*abs(wake)*.12;
  gl_FragColor=vec4(color,clamp(uOpacity+fresnel*.18-shallow*.15,.0,.85));
  #include <tonemapping_fragment>
  #include <colorspace_fragment>
@@ -65,6 +69,12 @@ export function waterMaterial(color = 0x08b5d0, opacity = 0.62) {
   return new THREE.ShaderMaterial({
     uniforms: {
       uTime: { value: 0 },
+      uRipples: {
+        value: Array.from(
+          { length: 6 },
+          () => new THREE.Vector4(0, 0, -100, 0),
+        ),
+      },
       uColor: { value: new THREE.Color(color) },
       uOpacity: { value: opacity },
       uLake: { value: 0 },
@@ -193,6 +203,35 @@ export function createLagoon({
     body.setColorAt(i, new THREE.Color(colors[i % colors.length]));
     tail.setColorAt(i, new THREE.Color(colors[i % colors.length]));
   }
+  const impacts = [],
+    origin = new THREE.Vector3();
+  let impactIndex = 0;
+  const splash = new THREE.InstancedMesh(
+    new THREE.SphereGeometry(0.035, 5, 4),
+    new THREE.MeshBasicMaterial({
+      color: 0xc9ffff,
+      transparent: true,
+      opacity: 0.75,
+      depthWrite: false,
+    }),
+    30,
+  );
+  splash.frustumCulled = false;
+  group.add(splash);
+  group.userData.disturb = (x, z, time, force = 0.6) => {
+    if (!Number.isFinite(x + z + time + force)) return;
+    if (impacts.length && time - impacts.at(-1).time < 0.11) return;
+    group.getWorldPosition(origin);
+    material.uniforms.uRipples.value[impactIndex % 6].set(
+      x + origin.x,
+      z + origin.z,
+      time,
+      force,
+    );
+    impactIndex++;
+    impacts.push({ x, z, time, force });
+    if (impacts.length > 6) impacts.shift();
+  };
   const dummy = new THREE.Object3D(),
     local = new THREE.Matrix4(),
     fishTransform = new THREE.Matrix4();
@@ -217,6 +256,23 @@ export function createLagoon({
     reef.userData.update(t, reduced);
     if (group.userData.bedShader)
       group.userData.bedShader.uniforms.causticTime.value = t;
+    for (let i = 0; i < 30; i++) {
+      const impact = impacts[Math.floor(i / 5) % Math.max(1, impacts.length)],
+        age = impact ? t - impact.time : 10;
+      const active = !reduced && age >= 0 && age < 0.9;
+      const a = i * 2.399;
+      dummy.position.set(
+        active ? impact.x + Math.sin(a) * age * 0.5 : 0,
+        active
+          ? 0.2 + Math.sin((age / 0.9) * Math.PI) * 0.28 * impact.force
+          : -2,
+        active ? impact.z + Math.cos(a) * age * 0.5 : 0,
+      );
+      dummy.scale.setScalar(active ? 1 : 0);
+      dummy.updateMatrix();
+      splash.setMatrixAt(i, dummy.matrix);
+    }
+    splash.instanceMatrix.needsUpdate = true;
     for (let i = 0; i < states.length; i++) {
       const f = states[i],
         a = f.phase + t * f.speed;
@@ -225,6 +281,17 @@ export function createLagoon({
         f.depth + Math.sin(a * 2) * 0.025,
         Math.sin(a) * rz * f.radius,
       );
+      for (const hit of impacts) {
+        const age = t - hit.time,
+          dx = dummy.position.x - hit.x,
+          dz = dummy.position.z - hit.z,
+          d = Math.hypot(dx, dz);
+        if (age >= 0 && age < 2 && d < 1.1) {
+          const push = (1.1 - d) * 0.22 * (1 - age / 2);
+          dummy.position.x += (dx / (d || 1)) * push;
+          dummy.position.z += (dz / (d || 1)) * push;
+        }
+      }
       dummy.rotation.set(0, Math.atan2(-Math.sin(a) * rx, Math.cos(a) * rz), 0);
       dummy.scale.setScalar(f.scale);
       dummy.updateMatrix();

@@ -6,7 +6,10 @@
     <meta name="theme-color" content="#eeeaf3" />
     <title>Чичи • мир маленьких чудес</title>
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
-    <link rel="stylesheet" href="./style.css?v=chichi-care-social-20261014" />
+    <link
+      rel="stylesheet"
+      href="./style.css?v=chichi-legendary-world-20261014"
+    />
   </head>
   <body>
     <header>
@@ -14,6 +17,16 @@
         ><span>☾</span> чичи<small>CAT WIZARD WORLD</small></a
       >
       <nav>
+        <button
+          id="level-open"
+          class="level-pill"
+          aria-label="Ваш уровень и опыт"
+        >
+          <span id="level-number">1</span
+          ><span
+            >уровень<progress id="level-xp" max="100" value="0"></progress
+          ></span>
+        </button>
         <button id="farm-open" class="nav-button" aria-label="Открыть ферму">
           <span class="nav-icon">🌱</span><span class="nav-label">Ферма</span>
         </button>
@@ -41,9 +54,9 @@
           </p>
         </div>
         <div class="world-facts">
-          <div><strong>24</strong><span>сказочных биомов</span></div>
-          <div><strong>62</strong><span>маленьких чудес</span></div>
-          <div><strong>28</strong><span>котов-соседей</span></div>
+          <div><strong>25</strong><span>сказочных биомов</span></div>
+          <div><strong>72</strong><span>маленьких чудес</span></div>
+          <div><strong>30</strong><span>котов-соседей</span></div>
         </div>
       </section>
       <div class="game-layout">
@@ -54,6 +67,19 @@
               ><small id="mode">Подключаем ИИ…</small></span
             >
             <div class="map-controls">
+              <button
+                id="care-open"
+                class="cat-menu"
+                aria-label="Открыть меню Чичи"
+                title="Чичи и все котики"
+              >
+                <span class="cat-menu-face"
+                  ><img id="care-avatar" alt="" hidden /><span
+                    id="care-avatar-fallback"
+                    >🐈‍⬛</span
+                  ></span
+                >
+              </button>
               <button
                 id="scenery-open"
                 aria-label="Декорации островов"
@@ -99,94 +125,15 @@
             </div>
           </div>
           <div class="world-bottom">
+            <button id="toggle" class="primary">Дай Чичи решить самой ✦</button
+            ><button id="demo" class="quiet">Попробовать демо без ИИ</button>
+
             <span>✦ Волшебный час</span><span id="steps">0 решений</span
             ><button id="bag-open">▣ Моя сумка <b id="bag-count">0</b></button>
           </div>
           <div id="biome-nav" class="biome-nav"></div>
         </section>
-        <aside>
-          <section class="profile">
-            <div class="profile-heading">
-              <p class="eyebrow">ВАША ЧИЧИ</p>
-              <span id="cat-activity">Дома</span>
-            </div>
-            <div class="mood-strip">
-              <div data-mood="sleep">
-                <img data-mood-image="sleep" alt="Чичи sleep" /><span
-                  >sleep</span
-                >
-              </div>
-              <div data-mood="crazy hungry">
-                <img
-                  data-mood-image="crazy hungry"
-                  alt="Чичи crazy hungry"
-                /><span>crazy hungry</span>
-              </div>
-              <div data-mood="happy" class="active">
-                <img data-mood-image="happy" alt="Чичи happy" /><span
-                  >happy</span
-                >
-              </div>
-            </div>
-            <h2>Маленькая жизнь.<br />Большие желания.</h2>
-            <div class="needs-panel">
-              <div class="need">
-                <label>⚡ Энергия <span id="energy-text">85%</span></label
-                ><progress id="energy" value="85" max="100"></progress>
-              </div>
-              <div class="need">
-                <label>🥣 Голод <span id="food-text">30%</span></label
-                ><progress id="food" value="30" max="100"></progress>
-              </div>
-              <div class="need">
-                <label>💛 Счастье <span id="happiness-text">75%</span></label
-                ><progress id="happiness" value="75" max="100"></progress>
-              </div>
-            </div>
-            <p id="rest-hint" class="care-hint">
-              Перетащите Чичи на подушку, чтобы уложить спать. К игрушке — чтобы
-              поиграть.
-            </p>
-            <button id="bowl-open" class="bowl-button">
-              🥣 Общая миска · <span id="bowl-count">0</span> порций
-            </button>
-            <div class="colony-panel">
-              <p class="eyebrow">
-                ВСЕ СОСЕДИ · <span id="colony-count">5</span> КОТИКОВ
-              </p>
-              <label>🥣 Общий голод <span id="colony-hunger-text"></span></label
-              ><progress id="colony-hunger" max="100"></progress>
-              <label
-                >💛 Общее счастье
-                <span id="colony-happiness-text"></span></label
-              ><progress id="colony-happiness" max="100"></progress>
-              <p id="colony-hint" class="care-hint">
-                Урожай в миске — для всех. Игры и общение делают котиков
-                счастливее.
-              </p>
-            </div>
-            <button id="toggle" class="primary">Дай Чичи решить самой ✦</button
-            ><button id="demo" class="quiet">Попробовать демо без ИИ</button>
-            <p id="status" role="status" aria-live="polite">Подготовка…</p>
-          </section>
-          <section class="diary">
-            <h3>✎ Маленькие истории</h3>
-            <ul id="diary">
-              <li>Здесь начинается наша сказка.</li>
-            </ul>
-          </section>
-        </aside>
       </div>
-      <section class="neighbors-section">
-        <div class="section-title">
-          <div>
-            <p class="eyebrow">КОМПАНИЯ ДЛЯ ПРИКЛЮЧЕНИЙ</p>
-            <h2>Соседи, которые станут друзьями</h2>
-          </div>
-          <span>Чичи знакомится по собственному желанию</span>
-        </div>
-        <div id="neighbors" class="neighbors"></div>
-      </section>
       <section class="discovery">
         <div>
           <span>✦</span>
@@ -214,6 +161,86 @@
         ><span id="save-state">Прогресс сохраняется на этом устройстве</span>
       </footer>
     </main>
+    <dialog id="care-dialog" class="care-dialog">
+      <button
+        data-close="care-dialog"
+        class="close"
+        aria-label="Закрыть меню Чичи"
+      >
+        ×
+      </button>
+      <section class="profile">
+        <div class="profile-heading">
+          <p class="eyebrow">ВАША ЧИЧИ</p>
+          <span id="cat-activity">Дома</span>
+        </div>
+        <div class="mood-strip">
+          <div data-mood="sleep">
+            <img data-mood-image="sleep" alt="Чичи sleep" /><span>sleep</span>
+          </div>
+          <div data-mood="crazy hungry">
+            <img data-mood-image="crazy hungry" alt="Чичи crazy hungry" /><span
+              >crazy hungry</span
+            >
+          </div>
+          <div data-mood="happy" class="active">
+            <img data-mood-image="happy" alt="Чичи happy" /><span>happy</span>
+          </div>
+        </div>
+        <h2>Маленькая жизнь.<br />Большие желания.</h2>
+        <div class="needs-panel">
+          <div class="need">
+            <label>⚡ Энергия <span id="energy-text">85%</span></label
+            ><progress id="energy" value="85" max="100"></progress>
+          </div>
+          <div class="need">
+            <label>🥣 Голод <span id="food-text">30%</span></label
+            ><progress id="food" value="30" max="100"></progress>
+          </div>
+          <div class="need">
+            <label>💛 Счастье <span id="happiness-text">75%</span></label
+            ><progress id="happiness" value="75" max="100"></progress>
+          </div>
+        </div>
+        <p id="rest-hint" class="care-hint">
+          Перетащите Чичи на подушку, чтобы уложить спать. К игрушке — чтобы
+          поиграть.
+        </p>
+        <button id="bowl-open" class="bowl-button">
+          🥣 Общая миска · <span id="bowl-count">0</span> порций
+        </button>
+        <div class="colony-panel">
+          <p class="eyebrow">
+            ВСЕ СОСЕДИ · <span id="colony-count">5</span> КОТИКОВ
+          </p>
+          <label>🥣 Общий голод <span id="colony-hunger-text"></span></label
+          ><progress id="colony-hunger" max="100"></progress>
+          <label
+            >💛 Общее счастье <span id="colony-happiness-text"></span></label
+          ><progress id="colony-happiness" max="100"></progress>
+          <p id="colony-hint" class="care-hint">
+            Урожай в миске — для всех. Игры и общение делают котиков счастливее.
+          </p>
+        </div>
+        <p id="status" role="status" aria-live="polite">Подготовка…</p>
+      </section>
+      <section class="diary">
+        <h3>✎ Маленькие истории</h3>
+        <ul id="diary">
+          <li>Здесь начинается наша сказка.</li>
+        </ul>
+      </section>
+      <section class="neighbors-section">
+        <div class="section-title">
+          <div>
+            <p class="eyebrow">КОМПАНИЯ ДЛЯ ПРИКЛЮЧЕНИЙ</p>
+            <h2>Соседи, которые станут друзьями</h2>
+          </div>
+          <span>Чичи знакомится по собственному желанию</span>
+        </div>
+        <div id="neighbors" class="neighbors"></div>
+      </section>
+    </dialog>
     <dialog id="shop-dialog" class="shop-dialog">
       <div class="dialog-top">
         <div>
@@ -323,6 +350,30 @@
         <button id="item-move" class="primary">Переставить</button
         ><button id="item-store" class="quiet">Убрать в сумку</button>
       </div>
+    </dialog>
+    <dialog id="level-dialog" class="small-dialog">
+      <button
+        data-close="level-dialog"
+        class="close"
+        aria-label="Закрыть уровень"
+      >
+        ×
+      </button>
+      <p class="eyebrow">МИР РАСТЁТ ВМЕСТЕ С ВАМИ</p>
+      <h2 id="level-title"></h2>
+      <p id="level-detail" class="dialog-copy"></p>
+      <progress id="level-big-xp" max="100"></progress>
+      <p class="dialog-copy">
+        XP — за первый экземпляр новой покупки, собранный урожай, ресурсы,
+        ежедневный визит и завершённые приключения. Перестановки и повторные
+        покупки одного предмета XP не дают.
+      </p>
+      <p id="level-next" class="dialog-copy"></p>
+      <p class="fine-print">
+        Уровень растёт постепенно. За один день можно получить до 900 XP.
+        Награда за каждый новый уровень — котомонеты. Уже открытые острова и
+        покупки сохраняются.
+      </p>
     </dialog>
     <dialog id="bowl-dialog" class="small-dialog">
       <button data-close="bowl-dialog" class="close" aria-label="Закрыть миску">
@@ -452,7 +503,7 @@
     <div id="toast" role="status" aria-live="polite" hidden></div>
     <script
       type="module"
-      src="./dist/app.js?v=chichi-care-social-20261014"
+      src="./dist/app.js?v=chichi-legendary-world-20261014"
     ></script>
   </body>
 </html>

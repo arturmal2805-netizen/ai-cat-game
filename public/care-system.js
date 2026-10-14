@@ -17,7 +17,12 @@ export function newCare(now = Date.now()) {
     residents: Object.fromEntries(
       NEIGHBORS.map((n, i) => [
         n.id,
-        { hunger: 30 + (i % 3) * 4, happiness: 72, lastMealAt: 0 },
+        {
+          hunger: 30 + (i % 3) * 4,
+          happiness: 72,
+          lastMealAt: 0,
+          lastSwimAt: 0,
+        },
       ]),
     ),
     mealId: 0,
@@ -30,7 +35,10 @@ export function normalizeCare(raw, game, now = Date.now()) {
   care.lastTick = Math.max(0, number(raw.lastTick, now));
   care.mealId = Math.max(0, Math.floor(number(raw.mealId)));
   let capacity = BOWL_CAPACITY;
-  for (const batch of (Array.isArray(raw.bowl) ? raw.bowl : []).slice(0, 24)) {
+  for (const batch of (Array.isArray(raw.bowl) ? raw.bowl : []).slice(
+    0,
+    CROPS.length,
+  )) {
     const crop = CROPS.find((c) => c.id === batch?.crop);
     if (!crop) continue;
     const portions = Math.min(
@@ -49,6 +57,7 @@ export function normalizeCare(raw, game, now = Date.now()) {
         hunger: clamp(number(old.hunger, 35)),
         happiness: clamp(number(old.happiness, 72)),
         lastMealAt: Math.max(0, number(old.lastMealAt)),
+        lastSwimAt: Math.max(0, number(old.lastSwimAt)),
       };
   }
   const r = raw.resting;
@@ -202,4 +211,15 @@ export function colonyNeeds(game) {
       ? residents.reduce((n, p) => n + p.happiness, 0) / residents.length
       : 100,
   };
+}
+
+export function residentSwam(game, id, now = Date.now()) {
+  if (!NEIGHBORS.some((n) => n.id === id && game.unlocked.includes(n.biome)))
+    throw Error("Котик пока недоступен.");
+  const next = structuredClone(game),
+    pet = next.care.residents[id];
+  pet.lastSwimAt = now;
+  pet.happiness = clamp(pet.happiness + 6);
+  pet.hunger = clamp(pet.hunger + 2);
+  return next;
 }

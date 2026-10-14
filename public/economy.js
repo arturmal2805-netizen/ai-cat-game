@@ -1,3 +1,12 @@
+import { permanentObjects } from "./world-objects.js";
+import {
+  newProgression,
+  normalizeProgression,
+  visitXP,
+  purchaseXP,
+  addXP,
+  levelRequirement,
+} from "./progression.js";
 import { HOME_OBJECTS, cleanRecent } from "./interactions.js";
 import {
   newCare,
@@ -106,6 +115,7 @@ export function newGame(now = Date.now()) {
   game.scenery = initialScenery(game.placements);
   game.care = newCare(now);
   game.social = newSocial();
+  game.progression = newProgression();
   return game;
 }
 export function loadGame(storage, now = Date.now()) {
@@ -211,6 +221,7 @@ export function loadGame(storage, now = Date.now()) {
       }
     }
 
+    game.progression = normalizeProgression(saved.progression, game);
     restoreScenery(game, saved.scenery);
     game.care = normalizeCare(saved.care, game, now);
     game.recentActivities = cleanRecent(
@@ -296,7 +307,7 @@ export function claimRewards(game, now = Date.now(), visit = false) {
     next.totalEarned += LOGIN_COINS;
     rewards.push({ type: "login", amount: LOGIN_COINS });
   }
-  return { game: next, rewards };
+  return { game: visit ? visitXP(next, now) : next, rewards };
 }
 export function attentionReward(game, now = Date.now(), meaningful = true) {
   const next = copy(game);
@@ -310,6 +321,8 @@ export function attentionReward(game, now = Date.now(), meaningful = true) {
 export function purchase(game, id) {
   const item = byItem(id);
   if (!item) throw Error("Такого предмета нет.");
+  const locked = levelRequirement(game, item.requiredLevel);
+  if (locked) throw Error(locked);
   if (game.coins < item.price)
     throw Error("Нужно ещё " + (item.price - game.coins) + " котомонет.");
   if ((game.inventory[id] || 0) >= 100)
@@ -317,7 +330,7 @@ export function purchase(game, id) {
   const next = copy(game);
   next.coins -= item.price;
   next.inventory[id] = (next.inventory[id] || 0) + 1;
-  return next;
+  return purchaseXP(next, id, item.price);
 }
 export function unlockBiome(game, id) {
   const biome = byBiome(id);
@@ -330,7 +343,7 @@ export function unlockBiome(game, id) {
   const next = copy(game);
   next.coins -= biome.price;
   next.unlocked.push(id);
-  return next;
+  return addXP(next, 80);
 }
 export function footprint(item, rotation = 0) {
   const [w, d] = (byItem(item) || byScenery(item))?.footprint || [2, 2];
@@ -364,7 +377,10 @@ export function canPlace(
   const [w, d] = record
     ? sceneryFootprint(record, rotation)
     : footprint(item, rotation);
-  if (Math.hypot(Math.abs(x) + w / 2, Math.abs(z) + d / 2) > 10.8)
+  if (
+    Math.hypot(Math.abs(x) + w / 2, Math.abs(z) + d / 2) >
+    (byBiome(biome).radius ? byBiome(biome).radius - 0.7 : 10.8)
+  )
     return {
       ok: false,
       reason: "Предмет должен целиком поместиться на острове.",
@@ -399,7 +415,7 @@ export function findSpace(
   ignoreId = null,
   options = {},
 ) {
-  for (let radius = 0; radius <= 10; radius++)
+  for (let radius = 0; radius <= (byBiome(biome)?.radius ? 17 : 10); radius++)
     for (let x = -radius; x <= radius; x++)
       for (let z = -radius; z <= radius; z++) {
         if (Math.max(Math.abs(x), Math.abs(z)) !== radius) continue;
@@ -589,6 +605,7 @@ export function worldSnapshot(game) {
         ...o,
         ...(o.id === "chichi-food" ? { foodPortions: bowlPortions(game) } : {}),
       })),
+      ...permanentObjects(game.unlocked),
       ...game.placements
         .filter((p) => isBuilt(p))
         .map((p) => ({
@@ -631,7 +648,12 @@ export function worldSnapshot(game) {
 }
 export const isBuilt = (p, now = Date.now()) => !p.readyAt || now >= p.readyAt;
 export function biomeRequirement(game, id) {
-  const quest = byBiome(id)?.quest;
+  const biome = byBiome(id),
+    quest = biome?.quest;
+  const locked = levelRequirement(game, biome?.requiredLevel);
+  if (locked) return locked;
+  if (quest?.visits > game.progression.visits)
+    return `Посетите мир в ${quest.visits} разных дней (${game.progression.visits}/${quest.visits})`;
   if (quest?.harvests > (game.farm?.harvests || 0))
     return (
       "Сначала соберите " +
@@ -733,7 +755,7 @@ export function harvestField(game, field, now = Date.now()) {
   }
   if (!count) throw Error("Урожай ещё не созрел.");
   next.farm.harvests += count;
-  return { game: next, count };
+  return { game: addXP(next, count * 10, now), count };
 }
 export function stockValue(game) {
   return Object.entries(game.farm.stock).reduce(
@@ -764,5 +786,5 @@ export function gatherResource(game, jobId, now = Date.now()) {
   const next = copy(game);
   next.farm.jobs[jobId] = now + job.minutes * 60000;
   next.farm.stock[job.resource] = (next.farm.stock[job.resource] || 0) + 1;
-  return next;
+  return addXP(next, 12, now);
 }

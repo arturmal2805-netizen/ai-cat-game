@@ -15,11 +15,14 @@ import {
 import { createReef } from "../public/reef.js";
 import { createLagoon } from "../public/lagoon.js";
 
-test("all 24 islands have a few authored trees with varied positions and silhouettes", () => {
+test("all 25 islands have a few authored trees with varied positions and silhouettes", () => {
   const kinds = new Set();
   for (const biome of BIOMES) {
     const trees = landscapedTrees(biome.id);
-    assert.ok(trees.length >= 2 && trees.length <= 3, biome.id);
+    assert.ok(
+      trees.length >= 2 && trees.length <= (biome.id === "aquapark" ? 5 : 3),
+      biome.id,
+    );
     assert.equal(new Set(trees.map((t) => t.id)).size, trees.length);
     assert.ok(
       new Set(trees.map((t) => Math.hypot(t.x, t.z).toFixed(2))).size > 1,
@@ -27,7 +30,7 @@ test("all 24 islands have a few authored trees with varied positions and silhoue
     );
     trees.forEach((t) => {
       kinds.add(t.kind);
-      assert.ok(Math.hypot(t.x, t.z) < 11);
+      assert.ok(Math.hypot(t.x, t.z) < (biome.radius || 11));
       assert.ok(t.cell >= 0 && t.cell < 6);
     });
   }

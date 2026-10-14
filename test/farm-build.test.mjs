@@ -1,3 +1,4 @@
+import { xpForLevel } from "../public/progression.js";
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
@@ -21,7 +22,10 @@ import {
 import { CATALOG, BIOMES, CROPS } from "../public/game-data.js";
 const now = Date.UTC(2026, 9, 14, 12);
 test("construction deadlines block usage until done, then appear in AI snapshot", () => {
-  let game = purchase(newGame(now), "coaster");
+  const seed = newGame(now);
+  seed.progression.xp = xpForLevel(6);
+  seed.coins = 5000;
+  let game = purchase(seed, "coaster");
   const spot = findSpace(game, "coaster", "moon");
   game = placeItem(game, "coaster", "moon", spot.x, spot.z, 0, now);
   const p = game.placements.at(-1);
@@ -53,7 +57,10 @@ test("harvest and sale pay once; seed growth respects saved deadlines", () => {
   assert.throws(() => sellHarvest(sold.game));
 });
 test("resource jobs unlock with biomes and cannot be collected twice", () => {
-  let game = unlockBiome(newGame(now), "beach");
+  const seed = newGame(now);
+  seed.progression.xp = xpForLevel(5);
+  seed.coins = 5000;
+  let game = unlockBiome(seed, "beach");
   game = gatherResource(game, "fishing", now);
   assert.equal(game.farm.stock.fish, 1);
   assert.throws(() => gatherResource(game, "fishing", now + 100));
@@ -107,9 +114,9 @@ test("farm saves restore crops, inventory and construction timestamps", () => {
   assert.equal(restored.farm.fields["welcome-farm"][0].readyAt, now + 180000);
   assert.equal(restored.farm.stock.wheat, 2);
 });
-test("expanded world has 24 biomes and 62 objects, with legendary build times and unlock quests", () => {
-  assert.equal(CATALOG.length, 62);
-  assert.equal(BIOMES.length, 24);
+test("expanded world has 25 biomes and 72 objects, with legendary build times and unlock quests", () => {
+  assert.equal(CATALOG.length, 72);
+  assert.equal(BIOMES.length, 25);
   assert.equal(
     CATALOG.find((i) => i.id === "coaster-mystic").buildMinutes,
     1440,

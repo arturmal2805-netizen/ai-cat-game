@@ -1,4 +1,10 @@
 import {
+  levelStatus,
+  levelRequirement,
+  adventureXP,
+  DAILY_XP_LIMIT,
+} from "./progression.js";
+import {
   resolveInteraction,
   manualInteraction,
   recordInteraction,
@@ -48,6 +54,7 @@ import { moveScenery, storeScenery } from "./economy.js";
 import { readSavedState } from "./economy.js";
 import { CloudBackup } from "./cloud-save.js";
 import {
+  residentSwam,
   fillBowl,
   bowlPortions,
   BOWL_CAPACITY,
@@ -166,6 +173,8 @@ function commit(next, syncWorld = true) {
   if ($("shop-dialog").open) renderShop();
   if ($("bowl-dialog").open) renderBowl();
 }
+$("care-open").onclick = () => open("care-dialog");
+$("level-open").onclick = () => open("level-dialog");
 function open(id) {
   for (const dialog of document.querySelectorAll("dialog[open]"))
     dialog.close();
@@ -187,6 +196,21 @@ for (const dialog of document.querySelectorAll("dialog"))
     }
   });
 function renderGame() {
+  const lvl = levelStatus(game);
+  $("level-number").textContent = lvl.level;
+  $("level-xp").value = lvl.progress;
+  $("level-big-xp").value = lvl.progress;
+  $("level-title").textContent = "Уровень " + lvl.level;
+  $("level-detail").textContent =
+    `${lvl.xp} XP · до следующего уровня: ${lvl.needed} XP · сегодня: ${game.progression.dailyXP}/${DAILY_XP_LIMIT} XP`;
+  const upcoming = [...CATALOG, ...BIOMES]
+    .filter((i) => i.requiredLevel === lvl.level + 1)
+    .map((i) => i.name);
+  $("level-next").textContent = upcoming.length
+    ? "Следующие открытия: " + upcoming.join(", ")
+    : lvl.level >= 20
+      ? "Коллекция доступна по уровню. Для легендарного острова также нужны достижения и накопления."
+      : "Следующий уровень принесёт награду и приблизит новые открытия.";
   for (const key of ["energy", "happiness"]) {
     $(key).value = game.cat[key];
     $(key + "-text").textContent = Math.round(game.cat[key]) + "%";
@@ -489,6 +513,9 @@ function renderShop() {
     title.textContent = entry.name;
     text.textContent =
       (entry.description || entry.subtitle) +
+      " · Уровень " +
+      entry.requiredLevel +
+      " · " +
       (land
         ? " · Открывает: " + biomeFeature(entry.id)
         : " · " +
@@ -503,6 +530,16 @@ function renderShop() {
         ? "Разместить"
         : "Купить · " + money(entry.price) + " ✦";
     button.setAttribute("aria-label", button.textContent + " " + entry.name);
+    if (!land && shopCategory !== "bag") {
+      const locked = levelRequirement(game, entry.requiredLevel);
+      if (locked) {
+        text.textContent += " · " + locked;
+        button.textContent = "🔒 Уровень " + entry.requiredLevel;
+        button.disabled = true;
+      } else if (game.coins < entry.price) {
+        button.disabled = true;
+      }
+    }
     if (land && !owned) {
       const requirement = biomeRequirement(game, entry.id);
       if (requirement) {
@@ -510,6 +547,7 @@ function renderShop() {
         button.disabled = true;
       }
     }
+    button.setAttribute("aria-label", button.textContent + " " + entry.name);
     button.onclick = () => {
       try {
         if (land) {
@@ -829,6 +867,13 @@ try {
     onSelectItem: inspect,
     onSelectScenery: inspectScenery,
     onSelectBowl: () => showBowl(),
+    onResidentSwam: (id) => {
+      try {
+        commit(residentSwam(game, id));
+      } catch (error) {
+        $("save-state").textContent = error.message;
+      }
+    },
     onResidentAte: (id) => {
       try {
         if (!bowlPortions(game)) return false;
@@ -1018,7 +1063,7 @@ function effects(decision, source = "ai", result = {}) {
   if (action === "party" && result.completed)
     for (const id of result.participantIds || [])
       next = recordSocialEncounter(next, id, "party", source);
-  if (["play", "ride", "party"].includes(action)) {
+  if (["play", "ride", "party", "swim"].includes(action)) {
     next.cat.energy = clamp(next.cat.energy - 6);
     next.cat.hunger = clamp(next.cat.hunger + 5);
     next.cat.happiness = clamp(next.cat.happiness + 12);
@@ -1030,6 +1075,7 @@ function effects(decision, source = "ai", result = {}) {
   if (action === "eat") next = eatFromBowl(next).game;
   if (action === "rest") next = startRest(next, decision.activityId);
   next = recordInteraction(next, decision, source);
+  if (result.completed && source !== "care") next = adventureXP(next);
   const reward = attentionReward(next, Date.now(), source !== "care");
   commit(reward.game);
   if (message) toast(message);
@@ -1132,6 +1178,7 @@ async function decide(demo = false, manualDecision = null, routine = false) {
       explore: "Исследует",
       play: "Играет",
       ride: "Катается",
+      swim: "Плавает",
       meet: "Знакомится",
       party: "На вечеринке",
       rest: "Отдыхает",

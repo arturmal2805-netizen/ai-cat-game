@@ -144,7 +144,7 @@ test("invalid and oversized snapshots are refused before cloud storage mutation"
   for (const bad of [
     { ...g, coins: -1 },
     { ...g, placements: Array(61).fill({}) },
-    { ...g, unlocked: Array(25).fill("moon") },
+    { ...g, unlocked: Array(26).fill("moon") },
   ])
     assert.equal((await put(v.instance, 0, bad)).status, 400);
   assert.equal(

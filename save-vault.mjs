@@ -37,7 +37,7 @@ export async function readSaveBody(request) {
     !Array.isArray(value.game.placements) ||
     value.game.placements.length > 60 ||
     !Array.isArray(value.game.unlocked) ||
-    value.game.unlocked.length > 24
+    value.game.unlocked.length > 25
   )
     throw Error("SAVE_INVALID");
   return value;

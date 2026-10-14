@@ -1,3 +1,5 @@
+import { byItem, byBiome } from "../public/game-data.js";
+import { xpForLevel } from "../public/progression.js";
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
@@ -53,9 +55,11 @@ test("attention rewards require a meaningful action and ten minute cooldown", ()
   assert.equal(attentionReward(reward.game, now + 600000).amount, 10);
 });
 test("purchase debits once and placement uses inventory without another debit", () => {
-  const initial = newGame(now),
-    bought = purchase(initial, "coaster");
-  assert.equal(initial.coins, 420);
+  const initial = newGame(now);
+  initial.coins = byItem("coaster").price + 160;
+  initial.progression.xp = xpForLevel(6);
+  const bought = purchase(initial, "coaster");
+  assert.equal(initial.coins, byItem("coaster").price + 160);
   assert.equal(bought.coins, 160);
   const position = findSpace(bought, "coaster", "moon");
   assert.ok(position);
@@ -84,7 +88,10 @@ test("objects can be moved and returned to bag, with no coin duplication", () =>
   assert.throws(() => storeItem(next, "welcome-yarn"));
 });
 test("land unlock is permanent, costs once and enables new neighbors", () => {
-  const game = unlockBiome(newGame(now), "autumn");
+  const seed = newGame(now);
+  seed.coins = byBiome("autumn").price + 180;
+  seed.progression.xp = xpForLevel(3);
+  const game = unlockBiome(seed, "autumn");
   assert.equal(game.coins, 180);
   assert.ok(worldSnapshot(game).friends.some((f) => f.id === "honey"));
   assert.throws(() => unlockBiome(game, "autumn"));
@@ -111,7 +118,8 @@ test("malformed saves recover, and unavailable neighbors cannot gain friendship"
 });
 test("scenery landmarks stay clear when new islands are unlocked", () => {
   const game = newGame(now);
-  game.coins = 1000;
+  game.coins = 3000;
+  game.progression.xp = xpForLevel(5);
   const next = unlockBiome(game, "beach");
   assert.equal(canPlace(next, "yarn", "beach", -6, -5).ok, false);
   assert.ok(findSpace(next, "yarn", "beach"));

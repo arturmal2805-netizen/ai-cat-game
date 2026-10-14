@@ -170,7 +170,7 @@ export function createGroundCover(
     attempt++
   ) {
     const angle = random() * Math.PI * 2,
-      radius = Math.sqrt(random()) * 10.8,
+      radius = Math.sqrt(random()) * (id === "aquapark" ? 18.2 : 10.8),
       x = Math.cos(angle) * radius,
       z = Math.sin(angle) * radius;
     if (radius < 1.35 || !clear(x, z, 0.55)) continue;

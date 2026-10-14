@@ -603,8 +603,78 @@ export function batchScenery(root) {
 }
 export function dressAttraction(group, item) {
   if (!item || group.userData.dressed) return group;
+  const hash = [...item.id].reduce(
+    (n, c) => (n * 31 + c.charCodeAt(0)) >>> 0,
+    7,
+  );
+  const palettes = [
+    [0x6bcfc2, 0xffbd63, 0xef8bba],
+    [0xf47caa, 0x92d6e1, 0xffdc7b],
+    [0x8d90e8, 0xf7c966, 0xd99aed],
+    [0x79bf85, 0xffd896, 0xea9ec8],
+    [0xffa85c, 0x6abacf, 0xe16d8f],
+    [0x6bbde0, 0xcdabef, 0xffe4b2],
+    [0xcb89ce, 0x88dab9, 0xffb874],
+  ];
+  const palette = palettes[hash % palettes.length],
+    clones = new Map();
+  if (!group.userData.handpainted)
+    group.traverse((o) => {
+      if (!o.isMesh || !o.material.color) return;
+      let protectedNode = o;
+      while (protectedNode && protectedNode !== group) {
+        if (protectedNode.userData.preservePalette) return;
+        protectedNode = protectedNode.parent;
+      }
+      const mat = o.material,
+        hsl = {};
+      mat.color.getHSL(hsl);
+      if (hsl.s < 0.32 && hsl.l > 0.22 && hsl.l < 0.86) {
+        if (!clones.has(mat)) {
+          const copy = mat.clone();
+          copy.color.lerp(new THREE.Color(palette[clones.size % 3]), 0.76);
+          copy.roughness = Math.min(copy.roughness, 0.65);
+          clones.set(mat, copy);
+        }
+        o.material = clones.get(mat);
+      }
+    });
   const decor = new THREE.Group(),
     [w, d] = item.footprint;
+  group.userData.palette = palette;
+  if (item.category === "toys") {
+    for (let i = 0; i < 3; i++)
+      shape(
+        decor,
+        "sphere",
+        palette[i],
+        Math.sin(hash + i * 2.4) * 0.7,
+        0.05,
+        Math.cos(hash + i * 2.4) * 0.7,
+        0.09,
+        0.045,
+        0.09,
+      );
+  }
+  if (group.userData.curve && !group.userData.handpainted) {
+    for (let k = 0; k < 7; k++) {
+      const pts = Array.from({ length: 9 }, (_, j) => {
+        const p = group.userData.curve.getPoint((k + j / 8) / 7);
+        p.y += 0.07;
+        return p;
+      });
+      const segment = new THREE.CatmullRomCurve3(pts);
+      const mesh = new THREE.Mesh(
+        new THREE.TubeGeometry(segment, 16, 0.085, 6, false),
+        new THREE.MeshStandardMaterial({
+          color: palettes[(hash + k) % palettes.length][k % 3],
+          roughness: 0.3,
+        }),
+      );
+      decor.add(mesh);
+    }
+  }
+
   const sizable = ["rides", "social", "farm", "transport", "decor"].includes(
     item.category,
   );
@@ -612,7 +682,7 @@ export function dressAttraction(group, item) {
     const base = shape(
       decor,
       "cube",
-      0xd5be9e,
+      palette[1],
       0,
       -0.045,
       0,
@@ -633,11 +703,33 @@ export function dressAttraction(group, item) {
         decor,
         sign * (w / 2 - 0.4),
         d / 2 - 0.4,
-        item.category === "farm" ? 0xf2d27f : 0xebb7d5,
+        item.category === "farm" ? 0xf2d27f : palette[2],
         0.58,
       );
     }
     if (item.category === "rides" || item.category === "social") {
+      for (let i = 0; i < 5; i++) {
+        const x = -w * 0.32 + i * w * 0.16;
+        line(
+          decor,
+          [x, 0.3, -d * 0.42],
+          [x, 0.9 + (i % 2) * 0.15, -d * 0.42],
+          palette[0],
+          0.035,
+        );
+        shape(
+          decor,
+          hash % 2 ? "cone" : "sphere",
+          palette[i % 3],
+          x,
+          1 + (i % 2) * 0.15,
+          -d * 0.42,
+          0.11,
+          0.16,
+          0.11,
+        );
+      }
+
       for (const sign of [-1, 1])
         line(
           decor,

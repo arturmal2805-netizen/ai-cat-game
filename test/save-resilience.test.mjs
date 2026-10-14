@@ -1,3 +1,4 @@
+import { xpForLevel } from "../public/progression.js";
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
@@ -26,6 +27,7 @@ test("every purchase, placement, move, storage and crop deadline survives a sepa
   const s = storage();
   let g = newGame(now);
   g.coins = 20000;
+  g.progression.xp = xpForLevel(6);
   g.scenery = g.scenery.map((r) => ({ ...r, stored: true }));
   saveGame(s, g);
   g = loadGame(s, now);

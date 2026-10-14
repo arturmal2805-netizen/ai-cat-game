@@ -1,4 +1,5 @@
 export const BIOME_STYLES = {
+ aquapark:{ground:0x92c398,leaf:0x54b883,flower:0xffbdcf,roof:0x6ccddd,kind:"palm",hero:"cloudcastle",water:[-6,5,8,5,52]},
   moon: {
     ground: 0x7c9b77,
     leaf: 0x8776b5,
