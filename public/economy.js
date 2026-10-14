@@ -1,5 +1,11 @@
 import { HOME_OBJECTS, cleanRecent } from "./interactions.js";
 import {
+  initialScenery,
+  byScenery,
+  sceneryBounds,
+  sceneryFootprint,
+} from "./scenery-data.js";
+import {
   BIOMES,
   CATALOG,
   NEIGHBORS,
@@ -24,7 +30,7 @@ const dateKey = (now) =>
     day: "2-digit",
   }).format(new Date(now));
 export function newGame(now = Date.now()) {
-  return {
+  const game = {
     version: 2,
     coins: 420,
     unlocked: ["moon"],
@@ -84,6 +90,8 @@ export function newGame(now = Date.now()) {
     nextId: 1,
     totalEarned: 0,
   };
+  game.scenery = initialScenery(game.placements);
+  return game;
 }
 export function loadGame(storage, now = Date.now()) {
   try {
@@ -128,6 +136,9 @@ export function loadGame(storage, now = Date.now()) {
       ]),
     );
     game.placements = [];
+    // Existing purchases are restored first. New scenery finds spare land,
+    // never invalidating an attraction that was valid before this update.
+    game.scenery = [];
     for (const p of (Array.isArray(saved.placements)
       ? saved.placements
       : []
@@ -136,7 +147,9 @@ export function loadGame(storage, now = Date.now()) {
         typeof p.id === "string" &&
         /^[\w-]{1,40}$/.test(p.id) &&
         byItem(p.item) &&
-        canPlace(game, p.item, p.biome, p.x, p.z, p.rotation).ok &&
+        canPlace(game, p.item, p.biome, p.x, p.z, p.rotation, null, {
+          ignoreTerrain: true,
+        }).ok &&
         !game.placements.some((x) => x.id === p.id)
       )
         game.placements.push(p);
@@ -195,6 +208,7 @@ export function loadGame(storage, now = Date.now()) {
       }
     }
 
+    restoreScenery(game, saved.scenery);
     game.recentActivities = cleanRecent(
       saved.recentActivities,
       worldSnapshot(game),
@@ -274,7 +288,7 @@ export function unlockBiome(game, id) {
   return next;
 }
 export function footprint(item, rotation = 0) {
-  const [w, d] = byItem(item)?.footprint || [2, 2];
+  const [w, d] = (byItem(item) || byScenery(item))?.footprint || [2, 2];
   return rotation % 2 ? [d, w] : [w, d];
 }
 export function canPlace(
@@ -285,8 +299,13 @@ export function canPlace(
   z,
   rotation = 0,
   ignoreId = null,
+  { allowLocked = false, ignoreTerrain = false } = {},
 ) {
-  if (!byItem(item) || !game.unlocked.includes(biome))
+  if (
+    !(byItem(item) || byScenery(item)) ||
+    !byBiome(biome) ||
+    (!allowLocked && !game.unlocked.includes(biome))
+  )
     return { ok: false, reason: "Сначала откройте этот биом." };
   if (
     !Number.isFinite(x) ||
@@ -296,7 +315,10 @@ export function canPlace(
     rotation > 3
   )
     return { ok: false, reason: "Некорректная позиция." };
-  const [w, d] = footprint(item, rotation);
+  const record = game.scenery?.find((p) => p.id === ignoreId);
+  const [w, d] = record
+    ? sceneryFootprint(record, rotation)
+    : footprint(item, rotation);
   if (Math.hypot(Math.abs(x) + w / 2, Math.abs(z) + d / 2) > 10.8)
     return {
       ok: false,
@@ -308,7 +330,12 @@ export function canPlace(
       const [w, d] = footprint(p.item, p.rotation);
       return { ...p, w, d };
     });
-  rectangles.push(...biomeReservations(biome));
+  if (!ignoreTerrain) rectangles.push(...biomeReservations(biome));
+  rectangles.push(
+    ...(game.scenery || [])
+      .filter((p) => !p.stored && p.biome === biome && p.id !== ignoreId)
+      .map(sceneryBounds),
+  );
   if (
     rectangles.some(
       (p) =>
@@ -319,13 +346,20 @@ export function canPlace(
     return { ok: false, reason: "Это место занято. Выберите другое." };
   return { ok: true, reason: "Красивое место. Можно разместить!" };
 }
-export function findSpace(game, item, biome, rotation = 0, ignoreId = null) {
+export function findSpace(
+  game,
+  item,
+  biome,
+  rotation = 0,
+  ignoreId = null,
+  options = {},
+) {
   for (let radius = 0; radius <= 10; radius++)
     for (let x = -radius; x <= radius; x++)
       for (let z = -radius; z <= radius; z++) {
         if (Math.max(Math.abs(x), Math.abs(z)) !== radius) continue;
-        if (canPlace(game, item, biome, x, z, rotation, ignoreId).ok)
-          return { x, z };
+        if (canPlace(game, item, biome, x, z, rotation, ignoreId, options).ok)
+          return { x: x || 0, z: z || 0 };
       }
   return null;
 }
@@ -376,6 +410,104 @@ export function moveItem(game, id, biome, x, z, rotation = 0) {
     next.placements.find((p) => p.id === id),
     { biome, x, z, rotation },
   );
+  return next;
+}
+function restoreScenery(game, raw) {
+  const saved = new Map(
+    (Array.isArray(raw) ? raw : [])
+      .slice(0, 400)
+      .filter((r) => r && typeof r.id === "string")
+      .map((r) => [r.id, r]),
+  );
+  game.scenery = [];
+  for (const seed of initialScenery(game.placements)) {
+    const old = saved.get(seed.id);
+    const record = { ...seed, stored: true };
+    game.scenery.push(record);
+    if (old?.stored === true) {
+      if (
+        (game.unlocked.includes(old.biome) || old.biome === seed.biome) &&
+        Number.isFinite(old.x) &&
+        Number.isFinite(old.z) &&
+        Math.abs(old.x) <= 11 &&
+        Math.abs(old.z) <= 11 &&
+        Number.isInteger(old.rotation) &&
+        old.rotation >= 0 &&
+        old.rotation <= 3
+      )
+        Object.assign(record, {
+          biome: old.biome,
+          x: old.x,
+          z: old.z,
+          rotation: old.rotation,
+        });
+      continue;
+    }
+    const candidate =
+      old && (game.unlocked.includes(old.biome) || old.biome === seed.biome)
+        ? old
+        : seed;
+    let position = canPlace(
+      game,
+      seed.type,
+      candidate.biome,
+      candidate.x,
+      candidate.z,
+      candidate.rotation,
+      seed.id,
+      { allowLocked: true },
+    ).ok
+      ? candidate
+      : null;
+    if (
+      !position &&
+      canPlace(
+        game,
+        seed.type,
+        seed.biome,
+        seed.x,
+        seed.z,
+        seed.rotation,
+        seed.id,
+        { allowLocked: true },
+      ).ok
+    )
+      position = seed;
+    if (!position) {
+      const free = findSpace(game, seed.type, seed.biome, 0, seed.id, {
+        allowLocked: true,
+      });
+      if (free) position = { ...free, biome: seed.biome, rotation: 0 };
+    }
+    if (position)
+      Object.assign(record, {
+        biome: position.biome,
+        x: position.x,
+        z: position.z,
+        rotation: position.rotation,
+        stored: false,
+      });
+  }
+}
+export function moveScenery(game, id, biome, x, z, rotation = 0) {
+  const old = game.scenery?.find((r) => r.id === id);
+  if (!old || !game.unlocked.includes(old.biome))
+    throw Error("Сначала откройте остров этой декорации.");
+  const check = canPlace(game, old.type, biome, x, z, rotation, id);
+  if (!check.ok) throw Error(check.reason);
+  const next = copy(game);
+  Object.assign(
+    next.scenery.find((r) => r.id === id),
+    { biome, x, z, rotation, stored: false },
+  );
+  return next;
+}
+export function storeScenery(game, id) {
+  const old = game.scenery?.find((r) => r.id === id);
+  if (!old || old.stored || !game.unlocked.includes(old.biome))
+    throw Error("Декорация недоступна.");
+  const next = copy(game);
+  next.scenery.find((r) => r.id === id).stored = true;
   return next;
 }
 export function storeItem(game, id, now = Date.now()) {

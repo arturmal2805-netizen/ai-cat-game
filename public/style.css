@@ -966,6 +966,34 @@ dialog::backdrop {
 .item-actions > * {
   flex: 1;
 }
+#scenery-list {
+  display: grid;
+  gap: 8px;
+  max-height: 50vh;
+  overflow-y: auto;
+  margin-top: 20px;
+}
+.scenery-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  padding: 12px;
+  min-height: 52px;
+  border: 1px solid #e6dfef;
+  border-radius: 15px;
+  background: #f3eff7;
+  color: #64536f;
+}
+.scenery-row > span:first-child {
+  font-size: 25px;
+}
+.scenery-row small {
+  display: block;
+  font-size: 11px;
+  color: #9584a4;
+  margin-top: 4px;
+}
 .friend-list-row {
   display: flex;
   gap: 12px;
@@ -1270,6 +1298,8 @@ dialog::backdrop {
   .world-top {
     padding: 12px;
     font-size: 10px;
+    flex-wrap: wrap;
+    gap: 8px;
   }
   .map-controls button {
     padding: 6px 7px;

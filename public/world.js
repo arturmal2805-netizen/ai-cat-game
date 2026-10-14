@@ -16,7 +16,12 @@ import {
 } from "./cat-model.js";
 import { BIOMES, NEIGHBORS, byBiome, byItem } from "./game-data.js";
 import { canPlace, isBuilt } from "./economy.js";
-import { fantasyArtVersion, loadFantasyArt } from "./fantasy-art.js";
+import { byScenery } from "./scenery-data.js";
+import {
+  createSceneryModel,
+  disposeScenery,
+  fadeScenery,
+} from "./scenery-models.js";
 import { createBiomeScene } from "./biome-scenes.js";
 import { constructionModel } from "./advanced-assets.js";
 import {
@@ -202,6 +207,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     const g = createBiomeScene(biome, {
       lowOnly: biome.id !== "moon",
       placements: game.placements.filter((p) => p.biome === biome.id),
+      scenery: game.scenery?.filter((r) => r.biome === biome.id),
     });
     g.position.set(biome.center[0], 0, biome.center[1]);
     scene.add(g);
@@ -220,8 +226,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   }
   function ensureDetail(id) {
     const data = islands.get(id)?.userData;
-    if (!data || (!data.lowOnly && data.artVersion === fantasyArtVersion()))
-      return;
+    if (!data || !data.lowOnly) return;
     detailQueue.add(id);
     if (detailTimer) return;
     const upgrade = () => {
@@ -239,14 +244,14 @@ export function createWorld(container, initialGame, callbacks = {}) {
         b = byBiome(id);
       if (
         old &&
-        (old.userData.lowOnly ||
-          old.userData.artVersion !== fantasyArtVersion()) &&
+        old.userData.lowOnly &&
         distance < 110 &&
         Math.hypot(b.center[0] - desiredLook.x, b.center[1] - desiredLook.z) <
           (mobileRender ? 31 : 40)
       ) {
         const g = createBiomeScene(b, {
           placements: game.placements.filter((p) => p.biome === id),
+          scenery: game.scenery?.filter((r) => r.biome === id),
         });
         g.position.copy(old.position);
         scene.remove(old);
@@ -259,9 +264,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
     detailTimer = setTimeout(upgrade, 16);
   }
   for (const biome of BIOMES) makeIsland(biome);
-  loadFantasyArt().then((ready) => {
-    if (ready && !disposed) for (const id of islands.keys()) ensureDetail(id);
-  });
+  function sceneryGroups() {
+    return [...islands.values()]
+      .filter((island) => island.userData.detail.visible)
+      .flatMap((island) => [...island.userData.sceneryObjects.values()]);
+  }
   // Connect nearby shores instead of drawing long roads across other islands.
   const connected = new Set(["moon"]);
   while (connected.size < BIOMES.length) {
@@ -333,6 +340,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     const key = JSON.stringify([
       game.unlocked,
       game.placements,
+      game.scenery,
       game.placements.map((p) => isBuilt(p)),
       Object.entries(game.farm?.fields || {}).map(([id, cells]) => [
         id,
@@ -344,6 +352,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     for (const [id, island] of islands)
       island.userData.updatePlacements?.(
         game.placements.filter((p) => p.biome === id),
+        game.scenery?.filter((r) => r.biome === id),
       );
     for (const [id, g] of itemGroups) {
       if (g.userData.homeObject) continue;
@@ -362,9 +371,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       )
         continue;
       scene.remove(g);
-      g.traverse((o) => {
-        if (o.isMesh) o.geometry.dispose();
-      });
+      disposeScenery(g);
       itemGroups.delete(id);
     }
     for (const placement of game.placements) {
@@ -543,24 +550,28 @@ export function createWorld(container, initialGame, callbacks = {}) {
     });
   }
   function beginBuild(mode) {
+    if (buildMode?.scenery)
+      for (const g of sceneryGroups())
+        if (g.userData.sceneryId === buildMode.ignoreId) g.visible = true;
     buildMode = mode;
     if (preview) {
       scene.remove(preview);
-      preview.traverse((o) => {
-        if (o.isMesh) {
-          o.geometry.dispose();
-          o.material.dispose();
-        }
-      });
+      disposeScenery(preview);
     }
     if (!mode) {
       preview = null;
       return;
     }
-    preview = makeAttraction(mode.item);
+    preview = mode.scenery
+      ? createSceneryModel(game.scenery.find((r) => r.id === mode.ignoreId))
+      : makeAttraction(mode.item);
+    if (mode.scenery)
+      for (const g of sceneryGroups())
+        if (g.userData.sceneryId === mode.ignoreId) g.visible = false;
     preview.traverse((o) => {
       if (o.isMesh) {
         o.material = o.material.clone();
+        o.material.userData.sharedScenery = false;
         o.material.transparent = true;
         o.material.opacity = 0.62;
         o.castShadow = false;
@@ -590,8 +601,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
     );
     preview.traverse((o) => {
       if (o.isMesh) {
-        o.material.emissive.set(check.ok ? 0x376b64 : 0x9d394e);
-        o.material.emissiveIntensity = 0.35;
+        if (o.material.emissive) {
+          o.material.emissive.set(check.ok ? 0x376b64 : 0x9d394e);
+          o.material.emissiveIntensity = 0.35;
+        }
       }
     });
     callbacks.onPreview?.({ ...buildMode, ...check });
@@ -599,6 +612,70 @@ export function createWorld(container, initialGame, callbacks = {}) {
   const raycaster = new THREE.Raycaster(),
     mouse = new THREE.Vector2(),
     ground = new THREE.Plane(new THREE.Vector3(0, 1, 0), -0.16);
+  const occlusionRay = new THREE.Raycaster();
+  const occlusionBounds = new THREE.Box3(),
+    occlusionPoint = new THREE.Vector3();
+  let lastOcclusionCheck = -1;
+  const occludedScenery = new Set();
+  function updateOcclusion(now, dt) {
+    const objects = sceneryGroups();
+    for (const object of objects)
+      object.visible = !(
+        buildMode?.scenery && object.userData.sceneryId === buildMode.ignoreId
+      );
+    if (now - lastOcclusionCheck > 180) {
+      lastOcclusionCheck = now;
+      occludedScenery.clear();
+      const targets = [
+        chichiCarrier.position.clone().add(new THREE.Vector3(0, 0.9, 0)),
+      ];
+      if (preview)
+        targets.push(
+          preview.position.clone().add(new THREE.Vector3(0, 0.6, 0)),
+        );
+      if (operation?.attraction)
+        targets.push(
+          operation.attraction.position
+            .clone()
+            .add(new THREE.Vector3(0, 0.6, 0)),
+        );
+      for (const object of objects) object.updateWorldMatrix(true, true);
+      for (const target of targets) {
+        const direction = target.clone().sub(camera.position),
+          length = direction.length();
+        occlusionRay.set(camera.position, direction.normalize());
+        occlusionRay.far = Math.max(0, length - 0.35);
+        // Test coarse volumes first; detailed leaf/flower triangles are only
+        // inspected for the few objects crossing this short line of sight.
+        const candidates = objects.filter(
+          (g) =>
+            g.visible &&
+            occlusionRay.ray.intersectBox(
+              occlusionBounds.setFromObject(g),
+              occlusionPoint,
+            ) &&
+            camera.position.distanceTo(occlusionPoint) <= occlusionRay.far,
+        );
+        for (const hit of occlusionRay.intersectObjects(candidates, true)) {
+          let root = hit.object;
+          while (root && !root.userData.sceneryId) root = root.parent;
+          if (root) occludedScenery.add(root.userData.sceneryId);
+        }
+      }
+    }
+    for (const object of objects) {
+      const target = occludedScenery.has(object.userData.sceneryId) ? 0.27 : 1;
+      const opacity = reduced
+        ? target
+        : THREE.MathUtils.lerp(
+            object.userData.opacity,
+            target,
+            1 - Math.exp(-dt * 12),
+          );
+      if (Math.abs(opacity - object.userData.opacity) > 0.001)
+        fadeScenery(object, opacity);
+    }
+  }
   const dropHint = document.createElement("span");
   let dropHover = null;
   dropHint.className = "cat-drop-hint";
@@ -858,10 +935,21 @@ export function createWorld(container, initialGame, callbacks = {}) {
     if (!pendingTap) return;
     pendingTap = false;
     pointer(e);
-    const hit = raycaster.intersectObjects([...itemGroups.values()], true)[0];
+    const hit = raycaster.intersectObjects(
+      [...itemGroups.values(), ...sceneryGroups().filter((g) => g.visible)],
+      true,
+    )[0];
     if (hit) {
       let root = hit.object;
-      while (root && !root.userData.placementId) root = root.parent;
+      while (root && !root.userData.placementId && !root.userData.sceneryId)
+        root = root.parent;
+      if (root?.userData.sceneryId) {
+        const record = root.userData.sceneryRecord;
+        if (game.unlocked.includes(record.biome))
+          callbacks.onSelectScenery?.(record.id);
+        else callbacks.onLockedBiome?.(record.biome);
+        return;
+      }
       if (root?.userData.homeObject)
         callbacks.onCatDrop?.({ activityId: root.userData.placementId });
       else if (root) callbacks.onSelectItem?.(root.userData.placementId);
@@ -880,6 +968,21 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (placement.userData.homeObject)
         callbacks.onCatDrop?.({ activityId: placement.userData.placementId });
       else callbacks.onSelectItem?.(placement.userData.placementId);
+      return;
+    }
+    const decoration = sceneryGroups()
+      .filter((g) => g.visible)
+      .find((g) => {
+        const local = g.worldToLocal(point.clone());
+        const [w, d] = byScenery(g.userData.sceneryRecord.type).footprint;
+        return (
+          Math.abs(local.x) <= w / 2 + 0.15 && Math.abs(local.z) <= d / 2 + 0.15
+        );
+      });
+    if (decoration) {
+      const r = decoration.userData.sceneryRecord;
+      if (game.unlocked.includes(r.biome)) callbacks.onSelectScenery?.(r.id);
+      else callbacks.onLockedBiome?.(r.biome);
       return;
     }
     const b = BIOMES.find(
@@ -1231,6 +1334,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     sun.position.set(look.x - 14, 35, look.z + 20);
     sun.target.position.copy(look);
     scene.fog.density = distance > 90 ? 0.0007 : 0.0035;
+    updateOcclusion(now, dt);
     // The opaque shop covers the map. Keep the simulation running, but avoid
     // competing GPU draws while its miniature scenes are being rendered.
     if (!document.getElementById("shop-dialog")?.open)

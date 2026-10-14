@@ -388,7 +388,14 @@ export function mushroomHouse(
       "sphere",
       0xffe9c9,
       Math.cos(a) * 0.8,
-      1.82 + (i % 2) * 0.06,
+      1.35 +
+        0.75 *
+          Math.sqrt(
+            1 -
+              ((Math.cos(a) * 0.8) / 1.3) ** 2 -
+              ((Math.sin(a) * 0.65) / 1.15) ** 2,
+          ) +
+        0.015,
       Math.sin(a) * 0.65,
       0.1,
       0.03,
@@ -403,6 +410,22 @@ export function mushroomHouse(
     }
     shape(g, "cube", 0xcfb38b, 0, 0.08, 1, 0.75, 0.15, 0.35);
     flowerCluster(g, -0.72, 0.75, 0xf5bdd1, 0.7);
+    for (const side of [-1, 1]) {
+      shape(
+        g,
+        "sphere",
+        0xffd282,
+        side * 0.84,
+        0.82,
+        0,
+        0.025,
+        0.18,
+        0.15,
+        true,
+      );
+      torus(g, 0x9c7249, 0.17, 0.025, side * 0.86, 0.82, 0).rotation.y =
+        Math.PI / 2;
+    }
   }
   return g;
 }
@@ -414,6 +437,13 @@ export function wizardCottage(parent, x, y, z, color = 0x9572b7, scale = 1) {
   shape(g, "pole", 0xf1dfc5, 0, 1, 0, 1.18, 1.95, 1.05);
   shape(g, "cube", 0xab805c, 0, 0.65, 1.02, 0.61, 1.3, 0.1);
   shape(g, "sphere", 0xd5a472, 0, 1.23, 1.02, 0.305, 0.3, 0.09);
+  for (const side of [-1, 1]) {
+    shape(g, "sphere", 0xffd58d, side * 1.17, 1.15, 0, 0.07, 0.25, 0.22, true);
+    torus(g, 0x9b724d, 0.24, 0.035, side * 1.2, 1.15, 0).rotation.y =
+      Math.PI / 2;
+  }
+  shape(g, "sphere", 0xffd58d, 0, 1.2, -1.04, 0.23, 0.25, 0.08, true);
+  torus(g, 0x9b724d, 0.25, 0.035, 0, 1.2, -1.1);
   for (const dx of [-0.65, 0.65]) {
     shape(g, "sphere", 0xffd58d, dx, 1.12, 0.88, 0.23, 0.26, 0.1, true);
     torus(g, 0x9b724d, 0.25, 0.035, dx, 1.12, 0.98);
@@ -522,9 +552,11 @@ export function batchScenery(root) {
       c = new THREE.Color(mesh.material.color),
       colors = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      colors[i * 3] = c.r;
-      colors[i * 3 + 1] = c.g;
-      colors[i * 3 + 2] = c.b;
+      const original =
+        mesh.material.vertexColors && geometry.getAttribute("color");
+      colors[i * 3] = c.r * (original ? original.getX(i) : 1);
+      colors[i * 3 + 1] = c.g * (original ? original.getY(i) : 1);
+      colors[i * 3 + 2] = c.b * (original ? original.getZ(i) : 1);
     }
     geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
     // Uniform attributes make arbitrary spheres, rocks, roofs and tubes mergeable.
@@ -558,6 +590,7 @@ export function batchScenery(root) {
             bumpScale: 0.025,
           });
     const mesh = new THREE.Mesh(geometry, material);
+    material.userData.surfaceKind = key;
     mesh.castShadow = key !== "glow";
     mesh.receiveShadow = key !== "glow";
     result.add(mesh);

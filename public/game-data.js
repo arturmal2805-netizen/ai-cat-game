@@ -1,3 +1,4 @@
+import { BIOME_STYLES } from "./biome-styles.js";
 export const BIOMES = [
   {
     id: "moon",
@@ -582,24 +583,22 @@ export const ACTIONS = [
   "eat",
 ];
 export function biomeReservations(id) {
-  const fixed = {
-    wizard: [
-      { x: 7, z: -5, w: 4, d: 4 },
-      { x: -7, z: 3, w: 4, d: 4 },
-      { x: -5, z: 6, w: 7, d: 3 },
-    ],
-    winter: [{ x: 7, z: -6, w: 2, d: 2 }],
-    beach: [{ x: -6, z: -5, w: 6, d: 4 }],
-    water: [{ x: -6, z: -5, w: 6, d: 4 }],
-    clouds: [
-      { x: -7, z: -5, w: 4, d: 4 },
-      { x: 7, z: -5, w: 4, d: 4 },
-    ],
-    desert: [{ x: -6, z: -5, w: 5, d: 4 }],
-  };
-  return id === "moon"
-    ? [...RESERVATIONS, { x: 0, z: -9, w: 3, d: 2 }]
-    : fixed[id] || [];
+  const fixed =
+    id === "moon"
+      ? [
+          { x: -6, z: -4, w: 1.8, d: 1.8 },
+          { x: -2, z: 5, w: 2.5, d: 2.5 },
+        ]
+      : [];
+  const water = BIOME_STYLES[id]?.water;
+  if (water)
+    fixed.push({
+      x: water[0],
+      z: water[1],
+      w: water[2] * 2 + 0.4,
+      d: water[3] * 2 + 0.4,
+    });
+  return fixed;
 }
 BIOMES.push(
   {

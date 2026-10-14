@@ -80,24 +80,30 @@ test("ground cover leaves water and rotated building footprints clear without to
   disposeBiome(root);
 });
 
-test("placing a building clears its tree and meadow, restoring them when it is removed", () => {
+test("moving a real tree preserves its model and clears vegetation at its new position", () => {
   const root = createBiomeScene(BIOMES.find((b) => b.id === "coral"));
-  const trees = root.userData.trees.map((t) => t.id),
-    first = root.userData.trees[0];
-  root.userData.updatePlacements([
-    { item: "farm-field", x: first.x, z: first.z, rotation: 0 },
-  ]);
-  assert.ok(!root.userData.trees.some((t) => t.id === first.id));
+  const records = [...root.userData.sceneryObjects.values()].map(
+    (g) => g.userData.sceneryRecord,
+  );
+  const first = root.userData.trees[0],
+    model = root.userData.sceneryObjects.get(first.id);
+  const moved = records.map((r) =>
+    r.id === first.id ? { ...r, x: 1, z: 3, rotation: 1 } : r,
+  );
+  root.userData.updatePlacements([], moved);
+  assert.equal(root.userData.sceneryObjects.get(first.id), model);
+  assert.equal(model.position.x, 1);
+  assert.equal(model.rotation.y, Math.PI / 2);
   const cover = root.userData.groundCover;
   assert.ok(
     cover.userData.samples.every(
-      (p) => Math.abs(p.x - first.x) > 1.72 || Math.abs(p.z - first.z) > 1.72,
+      (p) => Math.abs(p.x - 1) > 1.65 || Math.abs(p.z - 3) > 1.65,
     ),
   );
-  root.userData.updatePlacements([]);
+  root.userData.updatePlacements([], records);
   assert.deepEqual(
     root.userData.trees.map((t) => t.id),
-    trees,
+    records.filter((r) => r.type.startsWith("scenery-tree-")).map((r) => r.id),
   );
   root.userData.dispose();
 });

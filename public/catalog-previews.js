@@ -1,5 +1,4 @@
 import * as THREE from "three";
-import { loadFantasyArt } from "./fantasy-art.js";
 import { CATALOG, BIOMES } from "./game-data.js";
 import { createBiomeScene, disposeBiome } from "./biome-scenes.js";
 import { makeAttraction } from "./world-assets.js";
@@ -39,7 +38,6 @@ export async function catalogPreviews(onPreview, { forceRender = false } = {}) {
     await new Promise((resolve) =>
       requestAnimationFrame(() => setTimeout(resolve, 0)),
     );
-    await loadFantasyArt();
     renderer = new THREE.WebGLRenderer({
       antialias: true,
       alpha: true,

@@ -121,6 +121,7 @@ test("every biome unlocks a unique crop and every catalog object fits on an isla
   const game = newGame(now);
   game.unlocked = BIOMES.map((b) => b.id);
   game.placements = [];
+  game.scenery = []; // All movable objects can be stored to clear a ride site.
   for (const biome of BIOMES)
     assert.ok(
       CROPS.some((c) => c.biome === biome.id),

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="theme-color" content="#eeeaf3" />
     <title>Чичи • мир маленьких чудес</title>
-    <link rel="stylesheet" href="./style.css?v=chichi-soft-gardens-20261014" />
+    <link rel="stylesheet" href="./style.css?v=chichi-movable-3d-20261014" />
   </head>
   <body>
     <header>
@@ -53,6 +53,13 @@
               ><small id="mode">Подключаем ИИ…</small></span
             >
             <div class="map-controls">
+              <button
+                id="scenery-open"
+                aria-label="Декорации островов"
+                title="Деревья, домики и камни"
+              >
+                🌿 Декор
+              </button>
               <button
                 id="camera-home"
                 title="Вернуться в лунный сад"
@@ -285,13 +292,29 @@
       <h2 id="item-name"></h2>
       <p id="item-construction" class="construction-info"></p>
       <p id="item-description" class="dialog-copy"></p>
-      <p class="fine-print">
+      <p id="item-note" class="fine-print">
         Чичи пользуется этим предметом, когда сама выберет его через ИИ.
       </p>
       <div class="item-actions">
         <button id="item-move" class="primary">Переставить</button
         ><button id="item-store" class="quiet">Убрать в сумку</button>
       </div>
+    </dialog>
+    <dialog id="scenery-dialog" class="small-dialog">
+      <button
+        data-close="scenery-dialog"
+        class="close"
+        aria-label="Закрыть декорации"
+      >
+        ×
+      </button>
+      <p class="eyebrow">ВАШ ОСТРОВ · ВАШЕ НАСТРОЕНИЕ</p>
+      <h2>Деревья и домики</h2>
+      <p class="dialog-copy">
+        Выберите декорацию здесь или нажмите на неё на карте. Можно свободно
+        переставлять, поворачивать и возвращать из коллекции.
+      </p>
+      <div id="scenery-list"></div>
     </dialog>
     <dialog id="farm-dialog" class="farm-dialog">
       <div class="dialog-top">
@@ -352,7 +375,7 @@
     <div id="toast" role="status" aria-live="polite" hidden></div>
     <script
       type="module"
-      src="./dist/app.js?v=chichi-soft-gardens-20261014"
+      src="./dist/app.js?v=chichi-movable-3d-20261014"
     ></script>
   </body>
 </html>

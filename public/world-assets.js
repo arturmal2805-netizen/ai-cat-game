@@ -16,6 +16,7 @@ export function material(color, glow = 0) {
         emissiveIntensity: glow,
       }),
     );
+  cache.get(key).userData.sharedScenery = true;
   return cache.get(key);
 }
 export function primitive(parent, geo, color, x = 0, y = 0, z = 0, glow = 0) {

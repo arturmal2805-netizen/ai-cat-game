@@ -44,6 +44,8 @@ import {
   gatherResource,
 } from "./economy.js";
 import { catalogPreviews } from "./catalog-previews.js";
+import { byScenery, sceneryName } from "./scenery-data.js";
+import { moveScenery, storeScenery } from "./economy.js";
 const $ = (id) => document.getElementById(id),
   api = (path) =>
     apiBase
@@ -67,6 +69,7 @@ let game = loadGame(storage),
   world,
   buildMode = null,
   selectedItem = null,
+  selectedScenery = false,
   shopCategory = "all",
   previews = new Map(),
   previewsStarted = false,
@@ -456,23 +459,31 @@ $("shop-rewards").onclick = () => {
   renderRewards();
   open("rewards-dialog");
 };
-function beginPlacement(item, ignoreId = null) {
+function beginPlacement(item, ignoreId = null, scenery = false) {
   if (busy) {
     toast("Сначала дождитесь приключения Чичи. Предмет остаётся в сумке.");
     return;
   }
   let biome = world?.getFocused() || "moon";
   if (!game.unlocked.includes(biome)) biome = "moon";
-  const old = game.placements.find((p) => p.id === ignoreId);
+  const old = (scenery ? game.scenery : game.placements).find(
+    (p) => p.id === ignoreId,
+  );
   if (old) biome = old.biome;
-  const space = old || findSpace(game, item, biome);
+  const space =
+    (old && !old.stored ? old : null) ||
+    findSpace(game, item, biome, 0, ignoreId);
   if (!space) {
     toast("На этом острове тесно. Выберите другой открытый биом.");
-    const candidate = game.unlocked.find((b) => findSpace(game, item, b));
+    const candidate = game.unlocked.find((b) =>
+      findSpace(game, item, b, 0, ignoreId),
+    );
     if (!candidate) return;
     biome = candidate;
   }
-  const chosen = old || findSpace(game, item, biome);
+  const chosen =
+    (old && !old.stored ? old : null) ||
+    findSpace(game, item, biome, 0, ignoreId);
   buildMode = {
     item,
     biome,
@@ -480,9 +491,10 @@ function beginPlacement(item, ignoreId = null) {
     z: chosen.z,
     rotation: old?.rotation || 0,
     ignoreId,
+    scenery,
   };
   $("build-panel").hidden = false;
-  $("build-title").textContent = byItem(item).name;
+  $("build-title").textContent = scenery ? sceneryName(old) : byItem(item).name;
   $("build-biome").replaceChildren();
   for (const id of game.unlocked) {
     const option = document.createElement("option");
@@ -551,18 +563,24 @@ $("build-confirm").onclick = () => {
   try {
     const p = buildMode;
     commit(
-      p.ignoreId
-        ? moveItem(game, p.ignoreId, p.biome, p.x, p.z, p.rotation)
-        : placeItem(game, p.item, p.biome, p.x, p.z, p.rotation),
+      p.scenery
+        ? moveScenery(game, p.ignoreId, p.biome, p.x, p.z, p.rotation)
+        : p.ignoreId
+          ? moveItem(game, p.ignoreId, p.biome, p.x, p.z, p.rotation)
+          : placeItem(game, p.item, p.biome, p.x, p.z, p.rotation),
     );
     const placed = p.ignoreId
-      ? game.placements.find((item) => item.id === p.ignoreId)
+      ? (p.scenery ? game.scenery : game.placements).find(
+          (item) => item.id === p.ignoreId,
+        )
       : game.placements.at(-1);
     cancelPlacement();
     toast(
-      isBuilt(placed)
-        ? "Готово! Предмет на новом месте, Чичи может его выбрать."
-        : "Стройка началась! После завершения Чичи сможет выбрать предмет.",
+      p.scenery
+        ? "Декорация на новом месте. Положение сохранено."
+        : isBuilt(placed)
+          ? "Готово! Предмет на новом месте, Чичи может его выбрать."
+          : "Стройка началась! После завершения Чичи сможет выбрать предмет.",
     );
   } catch (error) {
     toast(error.message);
@@ -589,6 +607,7 @@ window.addEventListener("keydown", (e) => {
 function inspect(id) {
   if (busy || buildMode) return;
   selectedItem = id;
+  selectedScenery = false;
   const placement = game.placements.find((p) => p.id === id);
   if (!placement) return;
   const item = byItem(placement.item);
@@ -599,18 +618,91 @@ function inspect(id) {
     ? item.rarity + " · Постройка готова"
     : "Строится · осталось " + countdown(placement.readyAt);
   $("item-store").disabled = !isBuilt(placement);
+  $("item-store").hidden = false;
+  $("item-move").textContent = "Переставить";
+  $("item-note").textContent =
+    "Чичи пользуется этим предметом, когда сама выберет его через ИИ.";
   open("item-dialog");
 }
+function inspectScenery(id) {
+  if (busy || buildMode) return;
+  const record = game.scenery.find((r) => r.id === id);
+  if (!record || !game.unlocked.includes(record.biome)) return;
+  selectedItem = id;
+  selectedScenery = true;
+  $("item-icon").textContent = byScenery(record.type).icon;
+  $("item-name").textContent = sceneryName(record);
+  $("item-description").textContent =
+    "Частичка вашего острова. Её можно повернуть, перенести на свободное место или на другой открытый остров.";
+  $("item-construction").textContent = record.stored
+    ? "В коллекции декораций"
+    : byBiome(record.biome).name;
+  $("item-note").textContent =
+    "Перемещение бесплатно. Новое положение сохраняется сразу.";
+  $("item-store").disabled = false;
+  $("item-store").hidden = !!record.stored;
+  $("item-move").textContent = record.stored
+    ? "Вернуть на остров"
+    : "Переставить";
+  open("item-dialog");
+}
+function showScenery() {
+  if (buildMode || busy) {
+    toast("Сначала завершите текущее действие.");
+    return;
+  }
+  const focused = world?.getFocused() || "moon";
+  $("scenery-list").replaceChildren();
+  const records = game.scenery
+    .filter((r) => game.unlocked.includes(r.biome))
+    .sort(
+      (a, b) =>
+        (a.biome === focused ? -1 : 0) - (b.biome === focused ? -1 : 0) ||
+        a.biome.localeCompare(b.biome),
+    );
+  for (const record of records) {
+    const button = document.createElement("button");
+    button.className = "scenery-row";
+    button.dataset.scenery = record.id;
+    const icon = document.createElement("span");
+    icon.textContent = byScenery(record.type).icon;
+    const text = document.createElement("span");
+    text.textContent = sceneryName(record);
+    const small = document.createElement("small");
+    small.textContent =
+      (record.stored ? "В коллекции · " : "") + byBiome(record.biome).name;
+    text.append(small);
+    button.append(icon, text);
+    button.onclick = () => {
+      world?.focus(record.biome);
+      inspectScenery(record.id);
+    };
+    $("scenery-list").append(button);
+  }
+  open("scenery-dialog");
+}
+$("scenery-open").onclick = showScenery;
 $("item-move").onclick = () => {
-  const p = game.placements.find((p) => p.id === selectedItem);
+  const p = (selectedScenery ? game.scenery : game.placements).find(
+    (p) => p.id === selectedItem,
+  );
   $("item-dialog").close();
-  if (p) beginPlacement(p.item, p.id);
+  if (p)
+    beginPlacement(selectedScenery ? p.type : p.item, p.id, selectedScenery);
 };
 $("item-store").onclick = () => {
   try {
-    commit(storeItem(game, selectedItem));
+    commit(
+      selectedScenery
+        ? storeScenery(game, selectedItem)
+        : storeItem(game, selectedItem),
+    );
     $("item-dialog").close();
-    toast("Предмет вернулся в сумку. Можно разместить его в другом месте.");
+    toast(
+      selectedScenery
+        ? "Декорация в коллекции. Вернуть её можно кнопкой «Декор»."
+        : "Предмет вернулся в сумку. Можно разместить его в другом месте.",
+    );
   } catch (error) {
     toast(error.message);
   }
@@ -620,6 +712,7 @@ try {
     canDragCat: () => !busy,
     onPreview: previewChanged,
     onSelectItem: inspect,
+    onSelectScenery: inspectScenery,
     onLockedBiome: (id) => showShop("lands", byBiome(id).name),
     onCatDrop: (selection) => {
       if (selection?.unavailable) {
@@ -1129,7 +1222,7 @@ function updateTimers() {
   for (const node of document.querySelectorAll("[data-until]"))
     node.textContent = countdown(Number(node.dataset.until));
   if ($("farm-dialog").open) renderFarm();
-  if ($("item-dialog").open) {
+  if ($("item-dialog").open && !selectedScenery) {
     const p = game.placements.find((p) => p.id === selectedItem);
     if (p) {
       $("item-construction").textContent = isBuilt(p)
