@@ -1774,8 +1774,8 @@ export const CROPS = [
   },
   {
     id: "clock-pumpkin",
-    name: "Тыква часовщика",
-    icon: "⏳",
+    name: "Клубничная тыковка",
+    icon: "🍓",
     minutes: 150,
     seed: 10,
     value: 115,

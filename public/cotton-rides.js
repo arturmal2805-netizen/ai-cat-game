@@ -469,7 +469,12 @@ export function cottonRide(id) {
       f = frame(elapsed, reduced);
     animated.forEach((a) => a.userData.update?.(time, reduced));
     if (id.startsWith("ride-pig-")) {
-      moving.position.set(f.position[0], f.position[1] - 1.56, f.position[2]);
+      const bodyBounce = moving.children[0].userData.body.position.y;
+      moving.position.set(
+        f.position[0],
+        f.position[1] - 1.56 - bodyBounce,
+        f.position[2],
+      );
       moving.rotation.y = f.yaw;
     } else if (wheel) {
       const a = reduced ? Math.PI : Math.PI + (elapsed / duration) * TAU;

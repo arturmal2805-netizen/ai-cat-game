@@ -117,7 +117,13 @@ test("each physical ride follows its actual animated seat on a finite closed rou
       if (s.id.startsWith("ride-pig-"))
         seat = g.userData.moving.position
           .clone()
-          .add(new THREE.Vector3(0, 1.56, 0));
+          .add(
+            new THREE.Vector3(
+              0,
+              1.56 + g.userData.moving.children[0].userData.body.position.y,
+              0,
+            ),
+          );
       else if (s.id === "ride-cupcake-wheel")
         seat = g.userData.vehicles[0].position
           .clone()
@@ -152,6 +158,7 @@ test("each physical ride follows its actual animated seat on a finite closed rou
 test("the island has real pink swimming openings, animated falls, an instanced piglet crowd and separate distant geometry", () => {
   const s = createBiomeScene(byBiome("clockwork"), { preview: true });
   assert.equal(s.userData.lagoons.size, 3);
+  assert.equal(s.userData.cotton.mother.visible, true);
   assert.equal(s.userData.cotton.waterfalls.length, 8);
   assert.ok(s.userData.cotton.piglets.length >= 16);
   assert.equal(s.userData.stats.staticMeshes, 6);

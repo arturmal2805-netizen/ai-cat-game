@@ -7,7 +7,7 @@ import {
   surfaceTexture,
 } from "./fantasy-scenery.js";
 import { batchModelGeometry } from "./model-batching.js";
-import { createLagoon, createWaterfall } from "./lagoon.js";
+import { createLagoon, createWaterfall, waterMaterial } from "./lagoon.js";
 import {
   createSceneryModel,
   positionScenery,
@@ -326,8 +326,28 @@ export function createCottonBiome(
       [-21, -7, 1.6, 7.6, 1.2, -1.8],
       [8, -21.3, 1.9, 8, 2.4, 3],
     ];
-    for (const [x, z, w, h, y, rot] of falls) {
-      const f = createWaterfall(x, z, w, h, {
+    for (const [index, [x, z, w, h, y, rot]] of falls.entries()) {
+      const scale = index >= 3 ? 23.18 / Math.hypot(x, z) : 1,
+        fx = x * scale,
+        fz = z * scale;
+      if (index >= 3) {
+        const length = Math.hypot(fx - x, fz - z) + 0.3,
+          material = waterMaterial(0xf49cc8, 0.78),
+          stream = new THREE.Mesh(
+            new THREE.PlaneGeometry(w, length, 8, 16),
+            material,
+          );
+        stream.rotation.set(-Math.PI / 2, 0, -Math.atan2(fx - x, fz - z));
+        stream.position.set((x + fx) / 2, y + 0.16, (z + fz) / 2);
+        detail.add(stream);
+        animations.push({
+          userData: {
+            update: (t, reduced) =>
+              (material.uniforms.uTime.value = reduced ? 0 : t),
+          },
+        });
+      }
+      const f = createWaterfall(fx, fz, w, h, {
         color: 0xf69bc7,
         foam: 0xffedf7,
       });
@@ -526,6 +546,14 @@ export function createCottonBiome(
         [7, -5],
         [-3, 3],
         [9, 5],
+        [0, 0],
+        [1, 4],
+        [-3, -2],
+        [4, 4],
+        ...Array.from({ length: 81 }, (_, i) => [
+          (i % 9) * 2 - 8,
+          Math.floor(i / 9) * 2 - 8,
+        ]).filter(([x, z]) => Math.hypot(x, z) < 9),
       ].find(([x, z]) => clear(x, z, 2.4));
       if (spare) {
         mother.visible = true;

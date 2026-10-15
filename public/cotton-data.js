@@ -107,6 +107,9 @@ export function cottonHeight(x, z) {
 }
 export function cottonReservations() {
   return [
+    // Prevent new buildings from straddling the stepped cake terraces.
+    { x: 0, z: -11, w: 40, d: 0.4 },
+    { x: -11, z: -4, w: 0.4, d: 14 },
     ...COTTON_OBJECTS.map((o) => {
       const s = COTTON_RIDES.find((r) => r.id === o.type);
       return { x: o.x, z: o.z, w: s.footprint[0], d: s.footprint[1] };

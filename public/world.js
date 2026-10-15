@@ -248,7 +248,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
     const p = initialGame.catPosition,
       b = byBiome(p.biome);
     if (b)
-      chichiCarrier.position.set(b.center[0] + p.x, 0.16, b.center[1] + p.z);
+      chichiCarrier.position.set(
+        b.center[0] + p.x,
+        0.16 + islandHeight(b.id, p.x, p.z),
+        b.center[1] + p.z,
+      );
   }
   let heroGather = null,
     gatherUntil = 0;
@@ -1144,7 +1148,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         .add(new THREE.Vector3(0, 0.9, 0))
         .project(camera);
       const nearCat =
-        distance < 80 &&
+        distance < Math.max(80, (byBiome(focused)?.radius || 12) * 7) &&
         Math.hypot(
           e.clientX - (bounds.left + ((projected.x + 1) * bounds.width) / 2),
           e.clientY - (bounds.top + ((1 - projected.y) * bounds.height) / 2),
@@ -1666,7 +1670,13 @@ export function createWorld(container, initialGame, callbacks = {}) {
         const wanderRadius = b.arrival ? 11.8 : 6;
         x = b.center[0] + Math.sin(time * 0.07 + n.index * 2.4) * wanderRadius;
         z = b.center[1] + Math.cos(time * 0.07 + n.index * 2.4) * wanderRadius;
-        n.carrier.position.y = 0.16;
+        n.carrier.position.y =
+          0.16 +
+          islandHeight(
+            b.id,
+            n.carrier.position.x - b.center[0],
+            n.carrier.position.z - b.center[1],
+          );
       }
       const direction = new THREE.Vector3(x, n.carrier.position.y, z).sub(
         n.carrier.position,
@@ -2133,7 +2143,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       const arrival = b.arrival || [0, 0],
         to = new THREE.Vector3(
           b.center[0] + arrival[0],
-          0.16,
+          0.16 + islandHeight(b.id, arrival[0], arrival[1]),
           b.center[1] + arrival[1],
         );
       gatherUntil = performance.now() + 20000;
