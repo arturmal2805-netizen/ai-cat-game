@@ -1,4 +1,6 @@
 import * as THREE from "three";
+import { createReferenceChichi } from "./chichi-model.js";
+import { CHICHI_COAT } from "./chichi-sculpt.js";
 import { catAppearance, CAT_BUILDS } from "./cat-breeds.js";
 import {
   sculptedCoat,
@@ -11,7 +13,7 @@ import {
   mergeVertices,
 } from "three/addons/utils/BufferGeometryUtils.js";
 export const moodNames = ["sleep", "crazy hungry", "happy"];
-export const CHICHI_FUR = 0x747c84;
+export const CHICHI_FUR = CHICHI_COAT;
 const poses = {
   sleep: {
     height: 0.7,
@@ -136,6 +138,12 @@ function irisGeometry(detail, eyeColor = 0xaacb75) {
 }
 export function createCat(mood = "happy", options = {}) {
   if (!moodNames.includes(mood)) throw new RangeError("Unknown Chichi mood");
+  if (options.color == null && !options.breed) {
+    const cat = createReferenceChichi(mood, options);
+    cat.userData.pose = { ...poses[mood] };
+    applyPose(cat, 0, false, true);
+    return cat;
+  }
   const detailed = options?.detail !== "npc",
     cat = new THREE.Group();
   const appearance = catAppearance({
@@ -720,25 +728,31 @@ function applyPose(cat, time, walking, reduced) {
     moving = !reduced,
     shape = d.build,
     gaitTime = time * shape.gait,
-    speed = d.mood === "crazy hungry" ? 4.8 : 1.8;
+    speed = d.mood === "crazy hungry" ? 4.8 : 1.8,
+    anatomy = d.anatomy;
   cat.scale.y = cat.scale.x * p.height;
   cat.position.y =
     moving && walking ? Math.sin(gaitTime * 10) * shape.bounce : 0;
   const rest = clamp((1 - p.height) / 0.3, 0, 1) * (walking ? 0.15 : 1);
   const breath = moving ? Math.sin(time * (d.mood === "sleep" ? 1.5 : 2.1)) : 0;
-  d.body.position.y = 0.83 - rest * 0.17;
+  d.body.position.y = (anatomy?.bodyY ?? 0.83) - rest * 0.17;
   d.chest.position.y = 0.94 - rest * 0.22;
-  d.head.position.y = 1.32 + (shape.height - 1) * 0.22 - rest * 0.34;
+  d.head.position.y =
+    (anatomy?.headY ?? 1.32) + (shape.height - 1) * 0.22 - rest * 0.34;
   d.body.scale.set(
-    0.47 * shape.width + breath * 0.006,
-    0.51 - rest * 0.08 + breath * 0.008,
-    0.72 * shape.length,
+    (anatomy?.bodyX ?? 0.47) * shape.width + breath * 0.006,
+    (anatomy?.bodyHeight ?? 0.51) - rest * 0.08 + breath * 0.008,
+    (anatomy?.bodyLength ?? 0.72) * shape.length,
   );
   d.chest.scale.y = 0.45 + breath * 0.006;
   d.head.rotation.set(
-    p.headX + (moving ? Math.sin(time * 1.1) * 0.014 : 0),
+    p.headX +
+      (anatomy ? anatomy.headPitch + 0.025 : 0) +
+      (moving ? Math.sin(time * 1.1) * 0.014 : 0),
     moving ? Math.sin(time * 0.67) * 0.045 : 0,
-    p.headZ + (moving ? Math.sin(time * speed * 0.6) * 0.024 : 0),
+    p.headZ +
+      (anatomy?.headRoll ?? 0) +
+      (moving ? Math.sin(time * speed * 0.6) * 0.024 : 0),
   );
   if (walking && moving && shape.width > 1.3) {
     d.body.rotation.z = Math.sin(gaitTime * 10) * 0.035;
@@ -761,7 +775,9 @@ function applyPose(cat, time, walking, reduced) {
     );
     d.closedEyes[i].scale.setScalar(openness <= 0.075 ? 1 : 0.001);
     d.pupils[i].position.x = moving ? Math.sin(time * 0.67) * 0.009 : 0;
-    d.pupils[i].scale.x = 0.04 + clamp((p.eyes - 1) / 0.12, 0, 1) * 0.018;
+    d.pupils[i].scale.x =
+      (anatomy?.pupilX ?? 0.04) +
+      clamp((p.eyes - 1) / 0.12, 0, 1) * (anatomy ? 0.006 : 0.018);
     const twitch = moving
       ? Math.pow(Math.max(0, Math.sin(time * 0.8 + i * 1.7)), 18) * 0.055
       : 0;
@@ -772,21 +788,29 @@ function applyPose(cat, time, walking, reduced) {
     );
   }
   d.jaw.rotation.x = p.jaw + (moving ? Math.sin(time * 3.1) * p.jaw * 0.15 : 0);
-  d.jaw.position.y = -0.215 - p.jaw * 0.35;
+  d.jaw.position.y = (anatomy?.jawY ?? -0.215) - p.jaw * 0.35;
   d.mouth.scale.y = 0.001 + p.jaw * 0.29;
   d.tongue.visible = p.jaw > 0.05;
-  for (const leg of d.legs) {
+  for (const [i, leg] of d.legs.entries()) {
     const phase = leg.position.x * leg.position.z > 0 ? Math.PI : 0;
     leg.rotation.x =
       moving && walking
         ? Math.sin(gaitTime * 10 + phase) * shape.stride
         : rest * (leg.position.z > 0 ? -0.95 : 1);
     leg.position.y =
-      0.51 -
+      (anatomy?.legY ?? 0.51) -
       rest * 0.24 +
       (moving && walking
         ? Math.max(0, Math.sin(gaitTime * 10 + phase)) * shape.bounce
         : 0);
+    const joints = d.legJoints?.[i];
+    if (joints) {
+      const lift =
+          moving && walking ? Math.max(0, Math.sin(gaitTime * 10 + phase)) : 0,
+        bend = lift * (leg.position.z > 0 ? 0.66 : -0.54);
+      joints.knee.rotation.x = bend + rest * 0.2;
+      joints.ankle.rotation.x = -bend * 0.55 - rest * 0.14;
+    }
   }
 }
 export function animateCat(cat, time, walking = false, reduced = false) {
@@ -811,10 +835,12 @@ export function animateCat(cat, time, walking = false, reduced = false) {
 }
 export function disposeCat(cat) {
   const geometries = new Set(),
-    materials = new Set();
+    materials = new Set(),
+    skeletons = new Set();
   cat.traverse((node) => {
     if (!node.isMesh) return;
     geometries.add(node.geometry);
+    if (node.isSkinnedMesh) skeletons.add(node.skeleton);
     for (const m of Array.isArray(node.material)
       ? node.material
       : [node.material])
@@ -822,6 +848,7 @@ export function disposeCat(cat) {
   });
   geometries.forEach((g) => g.dispose());
   materials.forEach((m) => m.dispose());
+  skeletons.forEach((s) => s.dispose());
 }
 
 // Activity reactions layer over the AI mood, never replacing it.
@@ -838,6 +865,11 @@ export function reactCat(cat, reaction, reduced = false) {
       leg.rotation.x -= paw * (leg.position.x < 0 ? 1.1 : 0.65);
       leg.position.y -= crouch * 0.3;
     }
+  for (const [i, joints] of (d.legJoints || []).entries()) {
+    if (d.legs[i].position.z <= 0) continue;
+    joints.knee.rotation.x += crouch * 0.85 + paw * 0.28;
+    joints.ankle.rotation.x -= crouch * 0.35 + paw * 0.12;
+  }
   d.ears[0].rotation.x -= paw * 0.08;
   d.ears[1].rotation.x -= paw * 0.08;
   d.tail.rotation.z += paw * 0.13;

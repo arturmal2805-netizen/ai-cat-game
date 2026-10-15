@@ -2181,8 +2181,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
   portraitRenderer.setPixelRatio(2);
   for (const mood of moodNames) {
     const portrait = new THREE.Scene();
-    portrait.add(new THREE.HemisphereLight(0xfff4e2, 0xb29b83, 3));
-    const light = new THREE.DirectionalLight(0xffffff, 3);
+    portrait.add(new THREE.HemisphereLight(0xf2f4ff, 0x777b7f, 1.8));
+    const light = new THREE.DirectionalLight(0xffffff, 2.5);
     light.position.set(3, 5, 5);
     portrait.add(light);
     const model = createCat(mood);

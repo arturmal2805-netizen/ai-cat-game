@@ -23,6 +23,10 @@ export function catAnimations(model) {
     ...d.eyes.map((n) => [n, "scale"]),
     ...d.closedEyes.map((n) => [n, "scale"]),
     ...d.pupils.map((n) => [n, "position"]),
+    ...(d.legJoints || []).flatMap((j) => [
+      [j.knee, "quaternion"],
+      [j.ankle, "quaternion"],
+    ]),
   ];
   function sample(name, duration, walking, nodes) {
     const times = [],
@@ -70,15 +74,16 @@ export function catAnimations(model) {
     return new THREE.AnimationClip(name, duration, tracks);
   }
   const idle = sample("MoodLoop", 4.8, false, bindings);
-  const walk = sample(
-    "Walk",
-    Math.PI / 5,
-    true,
-    d.legs.flatMap((n) => [
+  const walk = sample("Walk", Math.PI / 5, true, [
+    ...d.legs.flatMap((n) => [
       [n, "quaternion"],
       [n, "position"],
     ]),
-  );
+    ...(d.legJoints || []).flatMap((j) => [
+      [j.knee, "quaternion"],
+      [j.ankle, "quaternion"],
+    ]),
+  ]);
   // Export the resting mood, not the last sampled step of the walking clip.
   animateCat(model, 0, false);
   return [idle, walk];

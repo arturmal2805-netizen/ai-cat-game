@@ -28,12 +28,14 @@ test("reduced-motion setting preserves static pose", () => {
   assert.equal(cat.getObjectByName("Tail").rotation.z, tail);
 });
 
-test("photo model has a taupe coat, green-gold irises and no orange tabby stripes", async () => {
+test("photo model has a grey coat, convex green-gold irises and no orange tabby stripes", async () => {
   const { CHICHI_FUR, disposeCat } = await import("../public/cat-model.js");
   const cat = createCat();
-  assert.equal(cat.getObjectByName("Face").material.color.getHex(), CHICHI_FUR);
+  assert.equal(cat.userData.appearance.color, CHICHI_FUR);
   assert.ok(cat.getObjectByName("Iris-1").geometry.attributes.color);
-  assert.ok(cat.getObjectByName("IrisFibres1"));
+  assert.ok(
+    cat.getObjectByName("Iris1").geometry.attributes.normal.getZ(40) > 0,
+  );
   assert.ok(cat.getObjectByName("Whisker-1_3"));
   assert.ok(cat.getObjectByName("CheekFluff"));
   assert.equal(cat.getObjectByName("ForeheadStripe0"), undefined);
