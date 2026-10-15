@@ -1,3 +1,4 @@
+import { islandProject } from "./island-construction.js";
 import { RENEWED_ISLANDS, ISLAND_RIDES } from "./renewal-data.js";
 import { COTTON_OBJECTS, COTTON_POOLS } from "./cotton-data.js";
 import { BIOMES } from "./game-data.js";
@@ -97,4 +98,18 @@ export function permanentObjects(biomes) {
       name: "Верхняя королевская лагуна",
     });
   return objects;
+}
+
+export function islandObjects(
+  game,
+  { now = Date.now(), includeBuilding = false } = {},
+) {
+  return permanentObjects(game.unlocked)
+    .map((o) => {
+      const p = islandProject(game, o.id, now);
+      return p?.readyAt
+        ? { ...o, startedAt: p.startedAt, readyAt: p.readyAt }
+        : o;
+    })
+    .filter((o) => includeBuilding || !o.readyAt || now >= o.readyAt);
 }

@@ -29,3 +29,20 @@ Validation: `npm test`, `npm run build`, and
 availability, real water openings, pig animation, tint batching and 30 save/load
 cycles preserving construction and crops. Preview production uses the existing
 `scripts/capture-previews.mjs` optional browser tool; generated PNGs are tracked.
+
+## Automatic island construction
+
+A newly purchased island stores `islandConstruction.clockwork` once, in the
+same snapshot as the land purchase. Teacups take 90 minutes, the wheel 180,
+the slide 240 and the express 360. Their cost is included in the island.
+Pigs and pools are usable immediately. Native construction does not consume
+any of the player's 60 purchased-placement slots.
+
+The live scene shows fenced, translucent versions of the actual preview
+models, percentage/time badges and a project list behind the island button.
+Only finished rides enter the AI/manual activity list. Deadlines use absolute
+timestamps, so closing the game does not stop construction. Both phones update
+completion without a click or background simulator lease. Shared saves keep
+the earliest recorded start, including when an older tab omits the new field.
+Already-open worlds without a construction timestamp keep their completed
+park. `test/island-construction.test.mjs` covers these compatibility cases.

@@ -1,3 +1,4 @@
+import { mergeIslandConstruction } from "./public/island-construction.js";
 import {
   canPlace,
   HOUR,
@@ -43,6 +44,8 @@ const guarded = (path) =>
 
 function merge(base, current, incoming, path = "", depth = 0) {
   if (depth > 40) throw new SharedConflict("Сохранение слишком сложное.");
+  if (path === "islandConstruction")
+    return mergeIslandConstruction(base, current, incoming);
   if (equal(base, incoming)) return clone(current);
   if (guarded(path) && changed(base, current)) throw new SharedConflict();
   if (additive(path)) {
@@ -301,6 +304,11 @@ export function mergeSharedWorld(base, current, incoming) {
   for (const field of ["xp", "dailyXP", "xpDay"])
     n.progression[field] = b.progression[field];
   const result = merge(b, c, n);
+  result.islandConstruction = mergeIslandConstruction(
+    b.islandConstruction,
+    c.islandConstruction,
+    n.islandConstruction,
+  );
   result.progression.xp = c.progression.xp + gain;
   result.progression.dailyXP = daily + gain;
   result.progression.xpDay = day;

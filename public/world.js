@@ -1,6 +1,7 @@
 import { RENEWED_ISLANDS } from "./renewal-data.js";
 import { islandHeight } from "./renewed-biomes.js";
-import { permanentObjects } from "./world-objects.js";
+import { islandProjectModel } from "./island-project-model.js";
+import { islandObjects } from "./world-objects.js";
 import { swimFrame } from "./swimming.js";
 import { activeCats } from "./cat-roster.js";
 import { catAppearance } from "./cat-breeds.js";
@@ -256,7 +257,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
   }
   let heroGather = null,
     gatherUntil = 0;
-  const incomeButtons = new Map();
+  const incomeButtons = new Map(),
+    projectBadges = new Map();
   let incomeSecond = -1;
   const incomeCache = new Map();
   let cat = createCat(initialGame.cat.mood);
@@ -422,7 +424,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       setCatMood(cat, game.cat.mood, { immediate: reduced });
     if (
       operation &&
-      ![...HOME_OBJECTS, ...permanentObjects(game.unlocked)].some(
+      ![...HOME_OBJECTS, ...islandObjects(game)].some(
         (o) => o.id === operation.decision.activityId,
       )
     ) {
@@ -446,6 +448,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
       game.placements,
       game.scenery,
       game.placements.map((p) => isBuilt(p)),
+      islandObjects(game, { includeBuilding: true }).map((o) => [
+        o.id,
+        o.readyAt || 0,
+        isBuilt(o),
+      ]),
       Object.entries(game.farm?.fields || {}).map(([id, cells]) => [
         id,
         cells.map((c) => [c.crop, c.readyAt, Date.now() >= c.readyAt]),
@@ -464,8 +471,20 @@ export function createWorld(container, initialGame, callbacks = {}) {
       island.userData.updatePlacements?.(placements, scenery);
       islandContentKeys.set(id, contentKey);
     }
-    for (const o of permanentObjects(game.unlocked)) {
-      if (itemGroups.has(o.id)) continue;
+    for (const o of islandObjects(game, { includeBuilding: true })) {
+      const built = isBuilt(o),
+        existing = itemGroups.get(o.id);
+      if (
+        existing &&
+        existing.userData.built === built &&
+        existing.userData.placement.readyAt === o.readyAt
+      )
+        continue;
+      if (existing) {
+        scene.remove(existing);
+        disposeScenery(existing);
+        itemGroups.delete(o.id);
+      }
       let g;
       if (o.type === "swim-lagoon") {
         g = new THREE.Group();
@@ -488,7 +507,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           shoreHeight: o.shoreY ?? 0.16,
           duration: 12,
         };
-      } else g = makeAttraction(o.type);
+      } else g = built ? makeAttraction(o.type) : islandProjectModel(o.type);
       if (o.scale) g.scale.setScalar(o.scale);
       const b = byBiome(o.biome);
       g.position.set(
@@ -505,10 +524,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
         x: o.x,
         z: o.z,
         rotation: 0,
+        ...(o.readyAt ? { readyAt: o.readyAt, startedAt: o.startedAt } : {}),
       };
       g.userData.placementId = o.id;
       g.userData.homeObject = true;
-      g.userData.built = true;
+      g.userData.built = built;
       g.userData.permanent = true;
       scene.add(g);
       itemGroups.set(o.id, g);
@@ -1265,6 +1285,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }
       if (root?.userData.placementId === "chichi-food")
         callbacks.onSelectBowl?.();
+      else if (root?.userData.permanent && !root.userData.built)
+        callbacks.onSelectIsland?.(root.userData.placement.biome);
       else if (root?.userData.homeObject)
         callbacks.onCatDrop?.({ activityId: root.userData.placementId });
       else if (root) callbacks.onSelectItem?.(root.userData.placementId);
@@ -1310,6 +1332,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }
       if (placement.userData.placementId === "chichi-food")
         callbacks.onSelectBowl?.();
+      else if (placement.userData.permanent && !placement.userData.built)
+        callbacks.onSelectIsland?.(placement.userData.placement.biome);
       else if (placement.userData.homeObject)
         callbacks.onCatDrop?.({ activityId: placement.userData.placementId });
       else callbacks.onSelectItem?.(placement.userData.placementId);
@@ -2068,6 +2092,65 @@ export function createWorld(container, initialGame, callbacks = {}) {
         container.append(button);
         incomeButtons.set(id, button);
       }
+    for (const [id, button] of projectBadges)
+      if (!itemGroups.has(id) || itemGroups.get(id).userData.built) {
+        button.remove();
+        projectBadges.delete(id);
+      }
+    for (const [id, g] of itemGroups)
+      if (g.userData.permanent && !g.userData.built) {
+        let button = projectBadges.get(id);
+        if (!button) {
+          button = document.createElement("button");
+          button.className = "island-build-badge";
+          button.onclick = () =>
+            callbacks.onSelectIsland?.(g.userData.placement.biome);
+          container.append(button);
+          projectBadges.set(id, button);
+        }
+        const place = g.userData.placement,
+          remaining = Math.max(
+            0,
+            Math.ceil((place.readyAt - Date.now()) / 60000),
+          ),
+          progress = Math.min(
+            100,
+            Math.max(
+              0,
+              ((Date.now() - place.startedAt) /
+                (place.readyAt - place.startedAt)) *
+                100,
+            ),
+          ),
+          p = g.position
+            .clone()
+            .add(new THREE.Vector3(0, 2, 0))
+            .project(camera);
+        const text =
+          "⏳ " +
+          Math.floor(progress) +
+          "% · " +
+          (remaining >= 60
+            ? Math.floor(remaining / 60) + " ч " + (remaining % 60) + " м"
+            : remaining + " м");
+        if (button.textContent !== text) {
+          button.textContent = text;
+          button.setAttribute(
+            "aria-label",
+            byItem(place.item).name + ": " + text,
+          );
+          button.style.setProperty(
+            "--build-progress",
+            Math.floor(progress) + "%",
+          );
+        }
+        button.style.transform = `translate(-50%,-50%) translate(${((p.x + 1) * width) / 2}px,${((1 - p.y) * height) / 2}px)`;
+        button.hidden =
+          p.z > 1 ||
+          Math.abs(p.x) > 0.98 ||
+          Math.abs(p.y) > 0.94 ||
+          distance > 170;
+      }
     for (const b of BIOMES) {
       const p = new THREE.Vector3(b.center[0], 0.3, b.center[1] - 9).project(
         camera,
@@ -2166,6 +2249,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     dispose() {
       disposed = true;
       for (const button of incomeButtons.values()) button.remove();
+      for (const button of projectBadges.values()) button.remove();
       clearTimeout(detailTimer);
       for (const island of islands.values()) island.userData.dispose?.();
       disposeCat(cat);

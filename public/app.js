@@ -1,3 +1,4 @@
+import { islandProjects } from "./island-construction.js";
 import { ADOPTION_CATS, BREEDS, catAppearance } from "./cat-breeds.js";
 import { activeCats, catAvailable } from "./cat-roster.js";
 import { adoptCat, adoptionCenters, gatherCats } from "./adoption.js";
@@ -975,6 +976,7 @@ try {
       }
     },
     onLockedBiome: (id) => showShop("lands", byBiome(id).name),
+    onSelectIsland: (id) => showIsland(id),
     onCatDrop: (selection) => {
       if (selection?.unavailable) {
         toast(
@@ -1418,6 +1420,7 @@ async function decide(demo = false, manualDecision = null, routine = false) {
 $("toggle").onclick = () => decide();
 $("demo").onclick = () => decide(true);
 setInterval(() => {
+  if (!document.hidden) world?.sync(game);
   if (!cloud.simulationOwner || cloud.conflict || document.hidden) {
     updateTimers();
     return;
@@ -1442,7 +1445,6 @@ setInterval(() => {
         .join(" · "),
     );
   }
-  world?.sync(game);
   updateTimers();
 }, 1000);
 setInterval(() => {
@@ -1737,6 +1739,7 @@ function manualFarm(id = null) {
 }
 
 function updateTimers() {
+  if ($("island-dialog").open) renderIslandProjects();
   for (const node of document.querySelectorAll("[data-until]"))
     node.textContent = countdown(Number(node.dataset.until));
   if ($("farm-dialog").open) renderFarm();
@@ -1923,8 +1926,56 @@ function showIsland(id) {
   $("island-summary").textContent = owned
     ? "Отправьте Чичи и всех доступных котов на этот остров. Они будут добираться и гулять здесь; знакомство и дружба развиваются отдельно."
     : "Вы рассматриваете закрытый остров. Его можно открыть в разделе «Острова» магазина, когда накопите монеты и выполните условия.";
+  if (id === "clockwork")
+    $("island-summary").textContent = owned
+      ? "Хрюшки и бассейны уже ждут котиков. Все четыре аттракциона включены в остров: строительство начинается автоматически и продолжается, пока сайт закрыт."
+      : "Превью показывает готовый парк. После открытия здесь автоматически начнут строиться все четыре аттракциона — без отдельных покупок. Хрюшки и купание доступны сразу.";
+  renderIslandProjects();
   $("island-gather").disabled = !owned || busy || !!buildMode;
   open("island-dialog");
+}
+function renderIslandProjects() {
+  const container = $("island-projects"),
+    projects = islandProjects(game, selectedIsland);
+  if (!container) return;
+  container.hidden = !projects.length;
+  const key = projects.map((p) => p.id).join(",");
+  if (container.dataset.projects !== key) {
+    container.replaceChildren();
+    container.dataset.projects = key;
+    for (const p of projects) {
+      const row = document.createElement("article"),
+        title = document.createElement("strong"),
+        status = document.createElement("span"),
+        progress = document.createElement("progress"),
+        button = document.createElement("button");
+      row.className = "island-project";
+      row.dataset.project = p.id;
+      title.textContent = p.icon + " " + p.name;
+      status.className = "project-status";
+      progress.max = 1;
+      progress.setAttribute("aria-label", p.name + ": строительство");
+      button.className = "soft";
+      button.textContent = "Покататься";
+      button.onclick = () => {
+        $("island-dialog").close();
+        manualActivity({ activityId: p.id });
+      };
+      row.append(title, status, progress, button);
+      container.append(row);
+    }
+  }
+  for (const p of projects) {
+    const row = container.querySelector('[data-project="' + p.id + '"]');
+    row.querySelector(".project-status").textContent = p.built
+      ? "Готово · можно кататься"
+      : "Строится · " +
+        Math.floor(p.progress * 100) +
+        "% · ещё " +
+        countdown(p.readyAt);
+    row.querySelector("progress").value = p.progress;
+    row.querySelector("button").disabled = !p.built || busy || !!buildMode;
+  }
 }
 $("island-open").onclick = () => showIsland(world?.getFocused() || "moon");
 $("island-gather").onclick = () => {

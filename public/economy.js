@@ -1,4 +1,8 @@
-import { permanentObjects } from "./world-objects.js";
+import {
+  normalizeIslandConstruction,
+  startIslandConstruction,
+} from "./island-construction.js";
+import { islandObjects } from "./world-objects.js";
 import { migrateRetiredIsland, WORLD_REVISION } from "./world-migration.js";
 import { activeCats, catAvailable } from "./cat-roster.js";
 import {
@@ -73,6 +77,7 @@ export function newGame(now = Date.now()) {
     relocatedPurchases: [],
     coins: 420,
     unlocked: ["moon"],
+    islandConstruction: {},
     inventory: {},
     builtInventory: {},
     farm: {
@@ -163,6 +168,9 @@ export function loadGame(storage, now = Date.now(), { advance = true } = {}) {
     game.unlocked = BIOMES.filter(
       (x) => x.id === "moon" || saved.unlocked?.includes(x.id),
     ).map((x) => x.id);
+    game.islandConstruction = normalizeIslandConstruction(
+      saved.islandConstruction,
+    );
     game.adoption = normalizeAdoption(saved.adoption, game);
     game.catDestinations = normalizeDestinations(saved.catDestinations, game);
     if (
@@ -387,7 +395,7 @@ export function unlockBiome(game, id, now = Date.now()) {
   const next = copy(game);
   next.coins -= biome.price;
   next.unlocked.push(id);
-  return addXP(next, 80, now);
+  return addXP(startIslandConstruction(next, id, now), 80, now);
 }
 export function footprint(item, rotation = 0) {
   const [w, d] = (byItem(item) || byScenery(item))?.footprint || [2, 2];
@@ -680,14 +688,14 @@ export function befriend(game, id, amount = 15) {
   r.firstMetAt ??= Date.now();
   return next;
 }
-export function worldSnapshot(game) {
+export function worldSnapshot(game, now = Date.now()) {
   return {
     activities: [
       ...HOME_OBJECTS.map((o) => ({
         ...o,
         ...(o.id === "chichi-food" ? { foodPortions: bowlPortions(game) } : {}),
       })),
-      ...permanentObjects(game.unlocked),
+      ...islandObjects(game, { now }),
       ...game.placements
         .filter((p) => isBuilt(p))
         .map((p) => ({
