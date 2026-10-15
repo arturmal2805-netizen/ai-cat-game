@@ -1,3 +1,4 @@
+import { cottonTree, cupcake } from "./cotton-props.js";
 import * as THREE from "three";
 import { shellHouse } from "./whale-diorama.js";
 import {
@@ -269,7 +270,19 @@ function template(record, low) {
   const source = new THREE.Group(),
     style = BIOME_STYLES[record.originBiome],
     spec = byScenery(record.type);
-  if (spec.category === "tree") tree(source, spec.kind, style, low);
+  if (style.hero === "cotton" && spec.category === "tree")
+    cottonTree(source, style.leaf, low ? 0.8 : 1);
+  else if (
+    style.hero === "cotton" &&
+    (spec.category === "house" || record.type === "scenery-landmark")
+  )
+    cupcake(
+      source,
+      style.roof,
+      record.type === "scenery-landmark" ? 1.25 : 1,
+      true,
+    );
+  else if (spec.category === "tree") tree(source, spec.kind, style, low);
   else if (
     !low &&
     style.hero === "whale" &&

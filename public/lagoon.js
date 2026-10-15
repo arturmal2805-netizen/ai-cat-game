@@ -96,12 +96,15 @@ export function createLagoon({
   fishCount = 24,
   color = 0x08b5d0,
   seed = 1,
+  bedColor = 0x83ccc1,
+  wallColor = 0xadc8b5,
+  shoreColor = 0x73e4c5,
 } = {}) {
   const group = new THREE.Group();
   group.position.set(x, 0, z);
   group.name = "Lagoon";
   const bedMaterial = new THREE.MeshStandardMaterial({
-    color: 0x83ccc1,
+    color: bedColor,
     roughness: 0.8,
   });
   bedMaterial.onBeforeCompile = (shader) => {
@@ -132,7 +135,7 @@ export function createLagoon({
   const wall = new THREE.Mesh(
     new THREE.CylinderGeometry(1, 1, 0.76, 64, 1, true),
     new THREE.MeshStandardMaterial({
-      color: 0xadc8b5,
+      color: wallColor,
       roughness: 0.95,
       side: THREE.DoubleSide,
     }),
@@ -147,6 +150,7 @@ export function createLagoon({
   surface.position.y = 0.155;
   surface.renderOrder = 3;
   material.uniforms.uLake.value = 1;
+  material.uniforms.uShoreColor.value.set(shoreColor);
   group.add(surface);
   const reef = createReef({
     rx,
@@ -332,11 +336,17 @@ export function createLagoon({
   group.userData.rz = rz;
   return group;
 }
-export function createWaterfall(x, z, width = 0.8, height = 4) {
+export function createWaterfall(
+  x,
+  z,
+  width = 0.8,
+  height = 4,
+  { color = 0x7edced, foam = 0xe7ffff } = {},
+) {
   const group = new THREE.Group();
   group.position.set(x, -height / 2 + 0.12, z);
   group.name = "Waterfall";
-  const mat = waterMaterial(0x7edced, 0.67);
+  const mat = waterMaterial(color, 0.67);
   const sheet = new THREE.Mesh(
     new THREE.PlaneGeometry(width, height, 6, 18),
     mat,
@@ -345,7 +355,7 @@ export function createWaterfall(x, z, width = 0.8, height = 4) {
   const lines = new THREE.InstancedMesh(
     new THREE.CylinderGeometry(0.015, 0.025, 0.4, 4),
     new THREE.MeshBasicMaterial({
-      color: 0xe7ffff,
+      color: foam,
       transparent: true,
       opacity: 0.65,
     }),
@@ -357,7 +367,7 @@ export function createWaterfall(x, z, width = 0.8, height = 4) {
   const mist = new THREE.Mesh(
     new THREE.SphereGeometry(1, 12, 8),
     new THREE.MeshBasicMaterial({
-      color: 0xdaf7ff,
+      color: foam,
       transparent: true,
       opacity: 0.22,
       depthWrite: false,

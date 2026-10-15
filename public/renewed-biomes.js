@@ -1,3 +1,4 @@
+import { cottonHeight } from "./cotton-data.js";
 import * as THREE from "three";
 import { RENEWED_ISLANDS } from "./renewal-data.js";
 import {
@@ -15,6 +16,7 @@ import { createLagoon, createWaterfall } from "./lagoon.js";
 import { creatureRide } from "./creature-rides.js";
 import { decorateWhaleBiome } from "./whale-diorama.js";
 export function islandHeight(biome, x, z) {
+  if (biome === "clockwork") return cottonHeight(x, z);
   const upper = RENEWED_ISLANDS[biome]?.upper;
   if (!upper) return 0;
   return ((x - upper[0]) / (upper[2] + 1.8)) ** 2 +

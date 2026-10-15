@@ -143,6 +143,39 @@ export function initialScenery(placements = []) {
       Object.assign(candidates.at(-2), { x: 12, z: 6, scale: 0.98 });
       Object.assign(candidates.at(-1), { x: -12, z: 5, scale: 0.92 });
     }
+    if (biome.id === "clockwork") {
+      candidates.push(
+        ...[
+          [-18, 7],
+          [-14, 13],
+          [19, 8],
+          [15, -12],
+          [-8, -19],
+          [1, -21],
+          [-20, -4],
+          [-18, -13],
+          [8, 7],
+          [4, -7],
+          [-4, 3],
+        ].map(([x, z], i) => ({
+          type: "scenery-tree-sakura",
+          x,
+          z,
+          scale: 0.95 + (i % 3) * 0.12,
+        })),
+        ...[
+          [-10, 7],
+          [-5, 8],
+          [8, -6],
+          [-9, -3],
+        ].map(([x, z], i) => ({
+          type: "scenery-mushroom",
+          x,
+          z,
+          scale: 0.9 + (i % 2) * 0.12,
+        })),
+      );
+    }
     if (biome.id === "aquapark") {
       candidates.splice(
         0,

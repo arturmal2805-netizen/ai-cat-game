@@ -3,6 +3,7 @@ import { legendaryAttraction } from "./legendary-assets.js";
 import { catVenue } from "./cat-venues.js";
 import { creatureRide } from "./creature-rides.js";
 import { whaleRide } from "./whale-assets.js";
+import { cottonRide } from "./cotton-rides.js";
 import { cityRide } from "./city-rides.js";
 import { advancedAttraction, animateAdvanced } from "./advanced-assets.js";
 import { dressAttraction } from "./fantasy-scenery.js";
@@ -187,6 +188,8 @@ function vehicle(parent, kind, color = 0xc9a3cf) {
   return g;
 }
 export function makeAttraction(id, fields = [], now = Date.now()) {
+  const cotton = cottonRide(id);
+  if (cotton) return cotton;
   const city = cityRide(id);
   if (city) return city;
   const whale = whaleRide(id);

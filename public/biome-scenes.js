@@ -1,4 +1,5 @@
 import { decorateRenewedBiome, islandHeight } from "./renewed-biomes.js";
+import { createCottonBiome } from "./cotton-biome.js";
 import { createLegendaryBiome } from "./legendary-biome.js";
 import * as THREE from "three";
 import {
@@ -155,6 +156,13 @@ export function createBiomeScene(
   biome,
   { preview = false, placements = [], scenery = null, lowOnly = false } = {},
 ) {
+  if (biome.id === "clockwork")
+    return createCottonBiome(biome, {
+      preview,
+      placements,
+      lowOnly,
+      scenery: scenery ?? defaultScenery.filter((r) => r.biome === biome.id),
+    });
   if (biome.id === "aquapark")
     return createLegendaryBiome(biome, {
       preview,

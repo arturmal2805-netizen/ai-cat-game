@@ -17,7 +17,9 @@ test("every habitat has finite detailed scenery and an explicit, separate distan
     assert.equal(root.userData.lowOnly, false);
     assert.equal(root.userData.detail.visible, true);
     assert.equal(root.userData.lowDetail.visible, false);
-    assert.ok(root.userData.stats.staticMeshes <= 6);
+    assert.ok(
+      root.userData.stats.staticMeshes <= 6,
+    );
     assert.ok(root.userData.stats.sourceMeshes > 200);
     root.traverse((object) => {
       if (!object.isMesh) return;

@@ -322,7 +322,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (
         old &&
         old.userData.lowOnly &&
-        distance < 110 &&
+        distance < Math.max(110, (b.radius || 12) * 7) &&
         Math.hypot(b.center[0] - desiredLook.x, b.center[1] - desiredLook.z) <
           40
       ) {
@@ -639,12 +639,20 @@ export function createWorld(container, initialGame, callbacks = {}) {
     const b = byBiome(id) || byBiome("moon");
     focused = b.id;
     viewingOverview = overview;
-    const enchanted = !!RENEWED_ISLANDS[b.id];
+    const enchanted = !!RENEWED_ISLANDS[b.id] || b.legendary;
     sky.material.uniforms.top.value.set(
-      b.id === "aquapark" ? 0x010914 : enchanted ? 0x172749 : 0x788ab9,
+      b.legendary || b.id === "aquapark"
+        ? 0x010914
+        : enchanted
+          ? 0x172749
+          : 0x788ab9,
     );
     sky.material.uniforms.bottom.value.set(
-      b.id === "aquapark" ? 0x153054 : enchanted ? 0x697da9 : 0xb2b8d5,
+      b.legendary || b.id === "aquapark"
+        ? 0x153054
+        : enchanted
+          ? 0x697da9
+          : 0xb2b8d5,
     );
     royalStars.visible = b.id === "aquapark" || enchanted;
     royalStars.position.set(
@@ -652,9 +660,18 @@ export function createWorld(container, initialGame, callbacks = {}) {
       0,
       enchanted ? b.center[1] - 36 : 0,
     );
-    scene.fog.color.set(b.id === "aquapark" ? 0x162f52 : 0xc0bfd7);
+    scene.fog.color.set(
+      b.legendary || b.id === "aquapark" ? 0x162f52 : 0xc0bfd7,
+    );
     desiredLook.set(b.center[0], 0, overview ? 0 : b.center[1]);
     distance = b.radius ? (mobileRender ? (b.radius > 18 ? 85 : 65) : 57) : 37;
+    if (mobileRender && b.legendary)
+      distance = Math.max(
+        distance,
+        (b.radius * 1.08) /
+          (Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) *
+            Math.min(1, camera.aspect)),
+      );
     if (overview) {
       const view = camera.clone();
       for (let fit = 150; fit <= 600; fit += 5) {
@@ -1392,7 +1409,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     for (const b of BIOMES) {
       const island = islands.get(b.id),
         close =
-          distance < 110 &&
+          distance < Math.max(110, (b.radius || 12) * 7) &&
           Math.hypot(b.center[0] - look.x, b.center[1] - look.z) < 39;
       island.userData.detail.visible = close && !island.userData.lowOnly;
       island.userData.lowDetail.visible = !close || !!island.userData.lowOnly;
@@ -1662,7 +1679,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         npcWalking = direction.length() > 0.1;
       }
       const near =
-        distance < 110 &&
+        distance < Math.max(110, (b.radius || 12) * 7) &&
         Math.hypot(
           n.carrier.position.x - look.x,
           n.carrier.position.z - look.z,

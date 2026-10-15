@@ -188,7 +188,7 @@ test("both purchased whales and their lagoon require exactly level four, while s
 test("eight city attractions have distinct continuous closed journeys, animated rigs and luminous model detail", () => {
   assert.equal(CITY_RIDES.length, 8);
   assert.equal(BUSINESSES.length, 14);
-  assert.equal(CATALOG.length, 101);
+  assert.equal(CATALOG.length, 108);
   const paths = [];
   for (const spec of CITY_RIDES) {
     const g = makeAttraction(spec.id),
@@ -240,7 +240,7 @@ test("eight city attractions have distinct continuous closed journeys, animated 
     assert.ok(glow, b.id);
   }
 });
-test("the bounded AI endpoint accepts all 60 cats with 100 physical targets and rejects oversized requests", async () => {
+test("the bounded AI endpoint accepts all 60 cats with 110 physical targets and rejects oversized requests", async () => {
   const g = newGame(now);
   g.unlocked = BIOMES.map((b) => b.id);
   g.adoption.cats = ADOPTION_CATS.map((c) => ({ id: c.id, homeBiome: "moon" }));

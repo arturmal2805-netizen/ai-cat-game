@@ -193,12 +193,12 @@ export const BIOME_STYLES = {
     hero: "ice",
   },
   clockwork: {
-    ground: 0xcbbd93,
-    leaf: 0xb9a289,
-    flower: 0xfbd996,
-    roof: 0xb69474,
-    kind: "maple",
-    hero: "clock",
+    ground: 0xffdac8,
+    leaf: 0xf4a2cd,
+    flower: 0xffbadc,
+    roof: 0xf99dc7,
+    kind: "sakura",
+    hero: "cotton",
   },
   dusk: {
     ground: 0x9e91aa,

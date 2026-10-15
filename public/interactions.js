@@ -2,7 +2,7 @@ import { byItem, NEIGHBORS, byBiome } from "./game-data.js";
 import { SOCIAL_INTENTS } from "./social-system.js";
 
 export const DECISION_PROTOCOL = "living-cat-world-v4";
-// Sixty residents and the full 100-object scene still fit a bounded request.
+// Sixty residents and the full 110-object scene still fit a bounded request.
 export const MAX_DECISION_BYTES = 24576;
 
 // These free, permanent objects are rendered in the reserved home/picnic areas.

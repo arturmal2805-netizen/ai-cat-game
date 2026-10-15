@@ -3,6 +3,7 @@ import { BIOME_STYLES } from "./biome-styles.js";
 import { ADOPTION_CATS } from "./cat-breeds.js";
 import { BUSINESSES } from "./business-data.js";
 import { CITY_RIDES } from "./city-ride-data.js";
+import { COTTON_RIDES, cottonReservations } from "./cotton-data.js";
 export const BIOMES = [
   {
     id: "moon",
@@ -588,6 +589,7 @@ export const ACTIONS = [
   "swim",
 ];
 export function biomeReservations(id) {
+  if (id === "clockwork") return cottonReservations();
   const fixed =
     id === "moon"
       ? [
@@ -770,15 +772,18 @@ BIOMES.push(
   },
   {
     id: "clockwork",
-    name: "Город золотых часов",
-    subtitle: "Колокольни, шестерёнки и маленькие трамваи",
-    icon: "⚙",
+    name: "Остров сладкой ваты",
+    subtitle: "Легендарный парк хрюшек · розовые водопады и сахарные горки",
+    icon: "🍭",
+    radius: 23,
+    legendary: true,
+    arrival: [0, 9],
     price: 1100,
-    center: [54, -54],
-    ground: 0xbfa98b,
-    edge: 0x7c6781,
-    foliage: 0xb6a59e,
-    accent: 0xf8dfad,
+    center: [68, -68],
+    ground: 0xffdac8,
+    edge: 0xc56b97,
+    foliage: 0xf5a8d3,
+    accent: 0xffe0a2,
     quest: { friends: 2 },
   },
   {
@@ -1383,7 +1388,7 @@ CATALOG.push(
   ),
 );
 CATALOG.push(
-  ...CITY_RIDES.map((ride) => ({
+  ...[...CITY_RIDES, ...COTTON_RIDES].map((ride) => ({
     ...ride,
     category: "rides",
     actions: ["ride"],

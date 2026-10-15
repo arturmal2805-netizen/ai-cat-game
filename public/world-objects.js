@@ -1,4 +1,5 @@
 import { RENEWED_ISLANDS, ISLAND_RIDES } from "./renewal-data.js";
+import { COTTON_OBJECTS, COTTON_POOLS } from "./cotton-data.js";
 import { BIOMES } from "./game-data.js";
 import { BIOME_STYLES } from "./biome-styles.js";
 export const PARK_RIDES = [
@@ -71,6 +72,17 @@ export function permanentObjects(biomes) {
         name: "Лагуна · " + b.name,
       });
   }
+  if (biomes.includes("clockwork"))
+    objects.push(
+      ...COTTON_OBJECTS,
+      ...COTTON_POOLS.map((p) => ({
+        ...p,
+        biome: "clockwork",
+        type: "swim-lagoon",
+        surfaceY: p.y + 0.155,
+        shoreY: p.y + 0.16,
+      })),
+    );
   if (biomes.includes("aquapark"))
     objects.push(...PARK_RIDES, {
       id: "lake-aquapark-upper",

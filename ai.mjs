@@ -316,7 +316,10 @@ export function validateState(value) {
     if (
       !world ||
       !Array.isArray(world.activities) ||
-      world.activities.length > 100 ||
+      world.activities.length >
+        HOME_OBJECTS.length +
+          permanentObjects(BIOMES.map((b) => b.id)).length +
+          60 ||
       !Array.isArray(world.friends) ||
       world.friends.length > NEIGHBORS.length ||
       !Array.isArray(world.biomes) ||
