@@ -28,11 +28,13 @@ export function* lagoonSteps({
   yield;
   group.name = "Lagoon";
   yield;
-  const waterClock = { value: 0 };
+  const waterClock = { value: 0 },
+    waterLevel = { value: 0.155 };
   const bedMaterial = applyUnderwaterLighting(
     new THREE.MeshStandardMaterial({ color: bedColor, roughness: 0.82 }),
     waterClock,
     color,
+    { level: waterLevel, refract: false },
   );
   yield;
   // A colored basin gives the clear water depth without a depth texture or
@@ -98,6 +100,7 @@ export function* lagoonSteps({
     rz,
     seed,
     count: Math.min(18, Math.max(8, Math.round(rx * rz))),
+    waterLevel,
   });
   yield;
   group.add(reef);
@@ -169,7 +172,13 @@ export function* lagoonSteps({
   }
   yield;
   for (const mesh of [body, tail, fins])
-    applyUnderwaterLighting(mesh.material, waterClock, color);
+    applyUnderwaterLighting(mesh.material, waterClock, color, {
+      level: waterLevel,
+    });
+  applyUnderwaterLighting(eyes.material, waterClock, color, {
+    level: waterLevel,
+    light: false,
+  });
   const impacts = [],
     origin = new THREE.Vector3();
   yield;
@@ -231,6 +240,9 @@ export function* lagoonSteps({
     const t = reduced ? 0 : time;
     advanceWater(material, t, reduced);
     waterClock.value = t;
+    group.updateWorldMatrix(true, false);
+    waterLevel.value =
+      group.matrixWorld.elements[13] + 0.155 * group.matrixWorld.elements[5];
     reef.userData.update(t, reduced);
     while (impacts.length && (t - impacts[0].time > 3.5 || reduced))
       impacts.shift();

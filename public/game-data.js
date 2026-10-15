@@ -4,6 +4,7 @@ import { ADOPTION_CATS } from "./cat-breeds.js";
 import { BUSINESSES } from "./business-data.js";
 import { CITY_RIDES } from "./city-ride-data.js";
 import { COTTON_RIDES, cottonReservations } from "./cotton-data.js";
+import { separateIslandCenters } from "./world-layout.js";
 export const BIOMES = [
   {
     id: "moon",
@@ -1925,3 +1926,7 @@ for (const crop of CROPS)
     crop.icon = renewalCrops[crop.biome][1];
   }
 JOBS.find((job) => job.id === "fishing").biomes.push("winter");
+
+// Art upgrades changed several radii. Keep their shores apart in both the
+// renderer and navigation instead of masking coplanar terrain with depth bias.
+separateIslandCenters(BIOMES);

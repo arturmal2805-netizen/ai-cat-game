@@ -5,6 +5,7 @@ import { createLagoon, createWaterfall } from "../public/lagoon.js";
 import { createReef } from "../public/reef.js";
 import { disposeBiome } from "../public/biome-scenes.js";
 import { makeAttraction, animateAttraction } from "../public/world-assets.js";
+import { waterEnvironmentTexture } from "../public/water-environment.js";
 import {
   waterMaterial,
   waterFieldTexture,
@@ -181,4 +182,71 @@ test("legacy pond, boat, slide basin and fountain animate real water on their ex
     assert.ok(geometry.every((g) => g.getAttribute("position").count > 0));
     disposeBiome(root);
   }
+});
+
+test("reflections share one bounded mipmapped light probe, without a render target", () => {
+  const probe = waterEnvironmentTexture(),
+    a = waterMaterial(),
+    b = waterMaterial(0xf49cc8);
+  assert.equal(probe.image.data.byteLength, 65536);
+  assert.equal(probe.isRenderTargetTexture, false);
+  assert.equal(probe.generateMipmaps, true);
+  assert.equal(probe.wrapS, THREE.ClampToEdgeWrapping);
+  assert.equal(a.uniforms.uWaterEnvironment.value, probe);
+  assert.equal(b.uniforms.uWaterEnvironment.value, probe);
+  const triples = new Set();
+  for (let i = 0; i < probe.image.data.length; i += 4)
+    triples.add(probe.image.data.slice(i, i + 3).join(","));
+  assert.ok(triples.size > 500);
+  a.dispose();
+  b.dispose();
+});
+
+test("refraction follows a raised pool and moves eyes with the fish, while leaving its dark eye shading intact", () => {
+  const parent = new THREE.Group(),
+    lake = createLagoon({ fishCount: 12 });
+  parent.position.y = 3;
+  parent.scale.y = 1.2;
+  lake.position.y = 2;
+  parent.add(lake);
+  lake.userData.update(4);
+  let materials = 0,
+    eyes = 0,
+    reefs = 0;
+  lake.traverse((mesh) => {
+    const optical = mesh.material?.userData.waterLight;
+    if (!optical) return;
+    materials++;
+    assert.ok(Math.abs(optical.level.value - (3 + 1.2 * (2 + 0.155))) < 1e-8);
+    const base = mesh.material.isMeshBasicMaterial
+      ? THREE.ShaderLib.basic
+      : THREE.ShaderLib.standard;
+    const shader = {
+      uniforms: {},
+      vertexShader: base.vertexShader,
+      fragmentShader: base.fragmentShader,
+    };
+    mesh.material.onBeforeCompile(shader);
+    assert.equal(shader.uniforms.uWaterLevel, optical.level);
+    if (optical.refract)
+      assert.ok(shader.vertexShader.includes("waterPoint.xz+=bend"));
+    if (mesh.material.isMeshBasicMaterial) {
+      eyes++;
+      assert.equal(optical.refract, true);
+      assert.equal(optical.light, false);
+      assert.ok(!shader.fragmentShader.includes("waterCaustic"));
+    }
+    if (shader.uniforms.reefTime) reefs++;
+  });
+  assert.ok(materials >= 6);
+  assert.equal(eyes, 1);
+  assert.ok(reefs > 0);
+  parent.position.y = 7;
+  lake.userData.update(5);
+  lake.traverse((mesh) => {
+    const optical = mesh.material?.userData.waterLight;
+    if (optical)
+      assert.ok(Math.abs(optical.level.value - (7 + 1.2 * (2 + 0.155))) < 1e-8);
+  });
+  disposeBiome(lake);
 });

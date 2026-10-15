@@ -3,8 +3,9 @@
 The legendary **Остров сладкой ваты** replaces Clockwork using the existing
 `clockwork` save ID. It keeps the existing level 18 unlock, ownership, coins,
 purchased placements, crop/construction deadlines and decoration identities.
-Its radius is 23 (3.9× the area of an ordinary radius-11.65 island), with map
-center `[68, -68]` to leave space between neighbors. The former central building
+Its radius is 23 (3.9× the area of an ordinary radius-11.65 island). Its authored
+map centre `[68, -68]` is expanded by the shared map-spacing rule to leave space
+between enlarged neighbours (see `island-spacing.md`). The former central building
 yard stays level. New purchases cannot straddle terrace seams.
 
 - `cotton-data.js`: shared, stable native IDs, pool bounds, reservations and terrain heights.

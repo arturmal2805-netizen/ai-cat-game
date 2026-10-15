@@ -74,7 +74,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
   );
   const scene = new THREE.Scene();
   scene.fog = new THREE.FogExp2(0xc0bfd7, 0.0035);
-  const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 1200);
+  // The closest allowed orbit is 21 units. A less extreme near/far ratio gives
+  // small ground decorations more depth precision without clipping that orbit.
+  const camera = new THREE.PerspectiveCamera(40, 1, 0.5, 1200);
   const look = new THREE.Vector3(0, 0, 0),
     desiredLook = look.clone();
   let azimuth = 0.72,
@@ -177,14 +179,15 @@ export function createWorld(container, initialGame, callbacks = {}) {
     ),
   );
   const royalStarGeo = new THREE.BufferGeometry(),
+    royalCenter = byBiome("aquapark").center,
     royalStarsPositions = [];
   for (let i = 0; i < 420; i++) {
     const a = i * 2.399,
       r = 38 + (i % 11) * 9;
     royalStarsPositions.push(
-      88 + Math.cos(a) * r,
+      royalCenter[0] + Math.cos(a) * r,
       -8 + (i % 17) * 5,
-      36 + Math.sin(a) * r,
+      royalCenter[1] + Math.sin(a) * r,
     );
   }
   royalStarGeo.setAttribute(
@@ -210,6 +213,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   const mealVisits = new Map(),
     swimVisits = new Map();
   const islandContentKeys = new Map();
+  const hudPoint = new THREE.Vector3();
   const socialGlow = new THREE.Group();
   scene.add(socialGlow);
   const heartShape = new THREE.Shape();
@@ -320,12 +324,21 @@ export function createWorld(container, initialGame, callbacks = {}) {
     await yieldSceneTask();
     while (!disposed && document.querySelector("dialog[open]"))
       await new Promise((resolve) => setTimeout(resolve, 100));
+    // During a flight, let the next input/animation frame run before preparing
+    // another slice. Keep the old complete island visible while this is pending.
+    if (
+      !disposed &&
+      !document.hidden &&
+      (look.distanceToSquared(desiredLook) > 0.0004 ||
+        Math.abs(distance - desiredDistance) > 0.02)
+    )
+      await new Promise(requestAnimationFrame);
   }
   async function refreshIsland(island, placements, scenery) {
     if (island.userData.placementSteps)
       await prepareSceneSteps(
         island.userData.placementSteps(placements, scenery),
-        { yieldTask: sceneTurn },
+        { yieldTask: sceneTurn, budget: 3 },
       );
     else island.userData.updatePlacements?.(placements, scenery);
   }
@@ -365,7 +378,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
               placements: content[0],
               scenery: content[1],
             },
-            { yieldTask: sceneTurn },
+            { yieldTask: sceneTurn, budget: 3 },
           );
           if (disposed) {
             g.userData.dispose?.();
@@ -443,8 +456,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
       to = new THREE.Vector3(link.to.center[0], 0.18, link.to.center[1]),
       direction = to.clone().sub(from).normalize(),
       side = new THREE.Vector3(direction.z, 0, -direction.x);
-    from.addScaledVector(direction, link.from.radius || 11.3);
-    to.addScaledVector(direction, -(link.to.radius || 11.3));
+    // Enter the uneven shore slightly so the longer bridge still lands on soil.
+    from.addScaledVector(direction, (link.from.radius || 11.65) - 0.7);
+    to.addScaledVector(direction, -((link.to.radius || 11.65) - 0.7));
     const middle = from.clone().add(to).multiplyScalar(0.5);
     const bridge = box(
       scene,
@@ -758,9 +772,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
     );
     royalStars.visible = b.id === "aquapark" || enchanted;
     royalStars.position.set(
-      enchanted ? b.center[0] - 88 : 0,
+      enchanted ? b.center[0] - royalCenter[0] : 0,
       0,
-      enchanted ? b.center[1] - 36 : 0,
+      enchanted ? b.center[1] - royalCenter[1] : 0,
     );
     scene.fog.color.set(
       b.legendary || b.id === "aquapark" ? 0x162f52 : 0xc0bfd7,
@@ -2197,20 +2211,22 @@ export function createWorld(container, initialGame, callbacks = {}) {
         amount = incomeCache.get(id) || 0;
       button.hidden = !object || !amount || distance > 110;
       if (button.hidden) continue;
-      const point = object.position
-        .clone()
-        .add(new THREE.Vector3(0, 3.6, 0))
-        .project(camera);
+      const point = hudPoint.copy(object.position);
+      point.y += 3.6;
+      point.project(camera);
       button.hidden =
         point.z > 1 || Math.abs(point.x) > 1.1 || Math.abs(point.y) > 1.1;
-      button.textContent = "✦ " + amount;
-      button.setAttribute(
-        "aria-label",
-        "Собрать " +
-          amount +
-          " монет · " +
-          byItem(object.userData.placement.item).name,
-      );
+      const text = "✦ " + amount;
+      if (button.textContent !== text) {
+        button.textContent = text;
+        button.setAttribute(
+          "aria-label",
+          "Собрать " +
+            amount +
+            " монет · " +
+            byItem(object.userData.placement.item).name,
+        );
+      }
       button.style.transform = `translate(-50%,-50%) translate(${((point.x + 1) * width) / 2}px,${((1 - point.y) * height) / 2}px)`;
     }
     for (const [id, g] of itemGroups)
@@ -2259,10 +2275,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
                 100,
             ),
           ),
-          p = g.position
-            .clone()
-            .add(new THREE.Vector3(0, 2, 0))
-            .project(camera);
+          p = hudPoint.copy(g.position);
+        p.y += 2;
+        p.project(camera);
         const text =
           "⏳ " +
           Math.floor(progress) +
@@ -2289,9 +2304,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           distance > 170;
       }
     for (const b of BIOMES) {
-      const p = new THREE.Vector3(b.center[0], 0.3, b.center[1] - 9).project(
-        camera,
-      );
+      const p = hudPoint.set(b.center[0], 0.3, b.center[1] - 9).project(camera);
       const label = labels.get(b.id);
       label.style.transform = `translate(-50%,-50%) translate(${((p.x + 1) * width) / 2}px,${((1 - p.y) * height) / 2}px)`;
       label.hidden =

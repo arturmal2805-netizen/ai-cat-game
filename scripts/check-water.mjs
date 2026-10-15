@@ -199,6 +199,27 @@ try {
         path: resolve(folder, `${root.name}-${mode.name}.png`),
       });
     }
+    // Review the optics at several real view angles, not just a top-down pose.
+    await page.setViewportSize({ width: 900, height: 600 });
+    for (const [name, position] of [
+      ["high-angle", [9, 16, 20]],
+      ["grazing", [9, 3, 18]],
+      ["sunlit", [-8, 7, 14]],
+    ]) {
+      await page.evaluate((position) => {
+        const { renderer: r, camera: c } = check;
+        r.setPixelRatio(1);
+        r.setSize(900, 600);
+        c.aspect = 1.5;
+        c.position.set(...position);
+        c.lookAt(0, 0, 0);
+        c.updateProjectionMatrix();
+        draw(7);
+      }, position);
+      await page.screenshot({
+        path: resolve(folder, `${root.name}-${name}.png`),
+      });
+    }
     assert.deepEqual(errors, [], "WebGL compilation or browser runtime failed");
     await page.close();
   }
