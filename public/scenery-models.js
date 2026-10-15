@@ -1,3 +1,4 @@
+import { runSceneSteps } from "./scene-tasks.js";
 import { cottonTree, cupcake } from "./cotton-props.js";
 import * as THREE from "three";
 import { shellHouse } from "./whale-diorama.js";
@@ -12,6 +13,7 @@ import {
   wizardCottage,
   teaPavilion,
   batchScenery,
+  batchScenerySteps,
 } from "./fantasy-scenery.js";
 import { BIOME_STYLES } from "./biome-styles.js";
 import { byScenery } from "./scenery-data.js";
@@ -32,7 +34,8 @@ function curvedBranch(parent, points, radius, color) {
   mesh.material.userData.surfaceKind = "wood";
   parent.add(mesh);
 }
-function tree(source, kind, style, low) {
+function* sceneryTreeSteps(source, kind, style, low) {
+  yield;
   const leaf = ["jelly", "butterfly", "bloom", "dinosaur", "whale"].includes(
     style.hero,
   )
@@ -46,7 +49,9 @@ function tree(source, kind, style, low) {
           : kind === "maple"
             ? 0xdc9854
             : style.leaf;
+  yield;
   if (low) {
+    yield;
     fluffyTree(
       source,
       0,
@@ -61,15 +66,25 @@ function tree(source, kind, style, low) {
             : kind,
       0.95,
     );
+    yield;
     return;
   }
+  yield;
   if (["palm", "snow", "bamboo"].includes(kind)) {
+    yield;
     fluffyTree(source, 0, 0, leaf, kind, 1.15);
+    yield;
     if (kind === "bamboo")
-      for (const x of [-0.55, 0.5]) lantern(source, x, 1.5, 0.1, 0.32);
+      for (const x of [-0.55, 0.5]) {
+        yield;
+        lantern(source, x, 1.5, 0.1, 0.32);
+      }
+    yield;
     if (kind === "snow")
       for (let i = 0; i < 7; i++) {
+        yield;
         const a = i * 2.399;
+        yield;
         shape(
           source,
           "sphere",
@@ -84,9 +99,13 @@ function tree(source, kind, style, low) {
         );
       }
   } else if (kind === "crystal") {
+    yield;
     fluffyTree(source, 0, 0, 0x8ebdcc, "snow", 1.04);
+    yield;
     for (let i = 0; i < 7; i++) {
+      yield;
       const a = i * 2.399;
+      yield;
       const c = shape(
         source,
         "stone",
@@ -98,9 +117,11 @@ function tree(source, kind, style, low) {
         0.52,
         0.18,
       );
+      yield;
       c.rotation.z = Math.sin(i) * 0.2;
     }
   } else {
+    yield;
     curvedBranch(
       source,
       [
@@ -112,8 +133,11 @@ function tree(source, kind, style, low) {
       0.22,
       0x9e795a,
     );
+    yield;
     for (let i = 0; i < 5; i++) {
+      yield;
       const a = i * 2.399;
+      yield;
       curvedBranch(
         source,
         [
@@ -125,6 +149,7 @@ function tree(source, kind, style, low) {
         0x9e795a,
       );
     }
+    yield;
     const crown = [
       [0, 3.4, 0, 1.05],
       [-1, 2.95, 0, 0.85],
@@ -132,8 +157,11 @@ function tree(source, kind, style, low) {
       [0, 2.9, -0.9, 0.9],
       [0, 3, 1, 0.9],
     ];
+    yield;
     if (kind === "mushroom") {
+      yield;
       for (const [x, y, z, r] of crown) {
+        yield;
         shape(
           source,
           "dome",
@@ -145,9 +173,12 @@ function tree(source, kind, style, low) {
           0.48 * r,
           r,
         );
+        yield;
         torus(source, 0xe9c7d5, r * 0.9, 0.05, x, y, z).rotation.x =
           Math.PI / 2;
-        for (let i = 0; i < 3; i++)
+        yield;
+        for (let i = 0; i < 3; i++) {
+          yield;
           shape(
             source,
             "sphere",
@@ -159,14 +190,19 @@ function tree(source, kind, style, low) {
             0.035,
             0.1,
           );
+        }
       }
     } else {
+      yield;
       for (let i = 0; i < crown.length; i++) {
+        yield;
         const [x, y, z, r] = crown[i];
+        yield;
         const color = new THREE.Color(leaf).lerp(
           new THREE.Color(i % 2 ? 0xe8dfc3 : 0x516855),
           i % 2 ? 0.12 : 0.06,
         );
+        yield;
         shape(
           source,
           "sphere",
@@ -179,12 +215,16 @@ function tree(source, kind, style, low) {
           r,
         );
       }
+      yield;
       if (kind === "willow" || kind === "enchanted")
         for (let i = 0; i < 14; i++) {
+          yield;
           const a = i * 2.399,
             x = Math.sin(a) * 1.25,
             z = Math.cos(a) * 1.1;
-          for (let j = 0; j < 3; j++)
+          yield;
+          for (let j = 0; j < 3; j++) {
+            yield;
             shape(
               source,
               "sphere",
@@ -196,15 +236,20 @@ function tree(source, kind, style, low) {
               0.36,
               0.16,
             );
+          }
         }
+      yield;
       if (kind === "sakura" || kind === "enchanted")
         for (let i = 0; i < 18; i++) {
+          yield;
           const a = i * 2.399,
             [cx, cy, cz, r] = crown[i % crown.length],
             x = cx + Math.sin(a) * r * 0.35,
             z = cz + Math.cos(a) * r * 0.35,
             y = cy + r * 0.85 * 0.96;
-          for (let p = 0; p < 5; p++)
+          yield;
+          for (let p = 0; p < 5; p++) {
+            yield;
             shape(
               source,
               "petal",
@@ -216,6 +261,8 @@ function tree(source, kind, style, low) {
               0.045,
               0.09,
             );
+          }
+          yield;
           shape(
             source,
             "sphere",
@@ -228,10 +275,13 @@ function tree(source, kind, style, low) {
             0.035,
           );
         }
+      yield;
       if (kind === "apple")
         for (let i = 0; i < 9; i++) {
+          yield;
           const a = i * 2.399,
             [cx, cy, cz, r] = crown[i % crown.length];
+          yield;
           shape(
             source,
             "sphere",
@@ -245,12 +295,22 @@ function tree(source, kind, style, low) {
           );
         }
     }
-    for (const x of [-0.9, 0.95]) lantern(source, x, 1.3, 0.9, 0.42);
+    yield;
+    for (const x of [-0.9, 0.95]) {
+      yield;
+      lantern(source, x, 1.3, 0.9, 0.42);
+    }
   }
+  yield;
   if (!low) {
-    for (const x of [-0.65, 0.55])
+    yield;
+    for (const x of [-0.65, 0.55]) {
+      yield;
       flowerCluster(source, x, 0.5, style.flower, 0.65);
-    for (let i = 0; i < 3; i++)
+    }
+    yield;
+    for (let i = 0; i < 3; i++) {
+      yield;
       shape(
         source,
         "stone",
@@ -262,14 +322,19 @@ function tree(source, kind, style, low) {
         0.18,
         0.22,
       );
+    }
   }
 }
-function template(record, low) {
+function* sceneryTemplateSteps(record, low) {
+  yield;
   const key = [record.type, record.originBiome, low].join(":");
+  yield;
   if (templates.has(key)) return templates.get(key);
+  yield;
   const source = new THREE.Group(),
     style = BIOME_STYLES[record.originBiome],
     spec = byScenery(record.type);
+  yield;
   if (style.hero === "cotton" && spec.category === "tree")
     cottonTree(source, style.leaf, low ? 0.8 : 1);
   else if (
@@ -282,7 +347,8 @@ function template(record, low) {
       record.type === "scenery-landmark" ? 1.25 : 1,
       true,
     );
-  else if (spec.category === "tree") tree(source, spec.kind, style, low);
+  else if (spec.category === "tree")
+    yield* sceneryTreeSteps(source, spec.kind, style, low);
   else if (
     !low &&
     style.hero === "whale" &&
@@ -294,6 +360,7 @@ function template(record, low) {
       record.type === "scenery-landmark" ? 1.1 : 0.92,
     );
   else if (record.type === "scenery-boulder") {
+    yield;
     shape(
       source,
       "stone",
@@ -307,12 +374,17 @@ function template(record, low) {
       0.62,
       0.68,
     );
+    yield;
     if (!low) {
+      yield;
       shape(source, "sphere", 0x95aa76, -0.18, 0.86, 0.1, 0.38, 0.055, 0.3);
+      yield;
       flowerCluster(source, 0.58, 0.25, style.flower, 0.5);
     }
   } else if (low && spec.category === "house") {
+    yield;
     shape(source, "pole", 0xe2d2bb, 0, 0.8, 0, 1, 1.6, 0.95);
+    yield;
     shape(source, "dome", style.roof, 0, 1.6, 0, 1.25, 0.7, 1.2);
   } else if (record.type === "scenery-cottage")
     wizardCottage(source, 0, 0, 0, style.roof, 0.92);
@@ -321,31 +393,46 @@ function template(record, low) {
   else if (record.type === "scenery-tea")
     teaPavilion(source, 0, 0, 0, style.roof, 0.85);
   else if (low) {
+    yield;
     shape(source, "pole", 0xe0cfb6, 0, 1, 0, 1.1, 2, 1.1);
+    yield;
     shape(source, "cone", style.roof, 0, 2.5, 0, 1.3, 1.5, 1.3);
   } else buildLandmark(source, style, record.originBiome);
-  const batched = batchScenery(source);
+  yield;
+  const batched = yield* batchScenerySteps(source);
+  yield;
   source.traverse((o) => {
     if (o.isMesh) {
       if (!o.geometry.userData.sharedScenery) o.geometry.dispose();
       if (!o.material.userData.sharedScenery) o.material.dispose();
     }
   });
+  yield;
   for (const mesh of batched.children) {
+    yield;
     mesh.geometry.userData.sharedScenery = true;
+    yield;
     mesh.material.userData.sharedScenery = true;
   }
+  yield;
   templates.set(key, batched);
+  yield;
   return batched;
 }
-export function createSceneryModel(record, { low = false } = {}) {
-  const group = template(record, low).clone(),
+export function* sceneryModelSteps(record, { low = false } = {}) {
+  yield;
+  const group = (yield* sceneryTemplateSteps(record, low)).clone(),
     clock = { value: 0 },
     motion = { value: 1 };
+  yield;
   group.name = record.id;
+  yield;
   group.userData.sceneryId = record.id;
+  yield;
   group.userData.sceneryRecord = record;
+  yield;
   group.userData.opacity = 1;
+  yield;
   group.traverse((mesh) => {
     if (!mesh.isMesh) return;
     mesh.material = mesh.material.clone();
@@ -371,11 +458,14 @@ export function createSceneryModel(record, { low = false } = {}) {
       mesh.material.customProgramCacheKey = () => "volumetric-garden-breeze-v1";
     }
   });
+  yield;
   group.userData.update = (time, reduced) => {
     clock.value = time;
     motion.value = reduced ? 0 : 1;
   };
+  yield;
   positionScenery(group, record);
+  yield;
   return group;
 }
 export function positionScenery(group, record) {
@@ -407,4 +497,16 @@ export function disposeScenery(group) {
   });
   geometries.forEach((g) => g.dispose());
   materials.forEach((m) => m.dispose());
+}
+
+function tree(...args) {
+  return runSceneSteps(sceneryTreeSteps(...args));
+}
+
+function template(...args) {
+  return runSceneSteps(sceneryTemplateSteps(...args));
+}
+
+export function createSceneryModel(...args) {
+  return runSceneSteps(sceneryModelSteps(...args));
 }

@@ -1,15 +1,22 @@
+import { runSceneSteps } from "./scene-tasks.js";
 import * as THREE from "three";
 import {
   shape,
   line,
   flowerCluster,
   batchScenery,
+  batchScenerySteps,
   lantern,
   surfaceTexture,
 } from "./fantasy-scenery.js";
-import { createLagoon, createWaterfall } from "./lagoon.js";
+import {
+  createLagoon,
+  lagoonSteps,
+  createWaterfall,
+  waterfallSteps,
+} from "./lagoon.js";
 import { coralCluster } from "./reef.js";
-import { whaleRide } from "./whale-assets.js";
+import { whaleRide, whaleRideSteps } from "./whale-assets.js";
 import { RENEWED_ISLANDS } from "./renewal-data.js";
 
 export function shellHouse(parent, color = 0xb59adf, scale = 1) {
@@ -147,17 +154,20 @@ function bloomingLotus(parent, x, y, z, color, size = 1) {
     }
   shape(h, "sphere", 0xffe29a, 0, 0.35, 0, 0.22, 0.12, 0.22, true);
 }
-export function decorateWhaleBiome(
+export function* whaleBiomeSteps(
   root,
   biome,
   { preview = false, lowOnly = false } = {},
 ) {
+  yield;
   const style = RENEWED_ISLANDS[biome.id],
     detail = root.userData.detail,
     props = new THREE.Group(),
     animated = [],
     flyers = [];
+  yield;
   if (lowOnly) {
+    yield;
     shape(
       root.userData.lowDetail,
       "dome",
@@ -169,18 +179,28 @@ export function decorateWhaleBiome(
       1.3,
       1.4,
     );
-    const whale = whaleRide("ride-whale", { ambient: true });
+    yield;
+    const whale = yield* whaleRideSteps("ride-whale", { ambient: true });
+    yield;
     whale.scale.setScalar(0.8);
+    yield;
     whale.position.set(0, 2, 0);
+    yield;
     root.userData.lowDetail.add(whale);
+    yield;
     return root;
   }
+  yield;
   const [ux, uz, rx, rz] = style.upper,
     outline = new THREE.Shape(),
     hole = new THREE.Path();
+  yield;
   outline.absellipse(ux, -uz, rx + 1.8, rz + 1.5, 0, Math.PI * 2, false);
+  yield;
   hole.absellipse(ux, -uz, rx, rz, 0, Math.PI * 2, true);
+  yield;
   outline.holes.push(hole);
+  yield;
   const terrace = new THREE.Mesh(
     new THREE.ExtrudeGeometry(outline, {
       depth: 2.3,
@@ -196,10 +216,14 @@ export function decorateWhaleBiome(
       map: surfaceTexture("stone"),
     }),
   );
+  yield;
   terrace.geometry.rotateX(-Math.PI / 2);
+  yield;
   terrace.position.y = 0.1;
+  yield;
   props.add(terrace);
-  const upper = createLagoon({
+  yield;
+  const upper = yield* lagoonSteps({
     x: ux,
     z: uz,
     rx,
@@ -208,10 +232,15 @@ export function decorateWhaleBiome(
     color: 0x47c7e3,
     seed: 73,
   });
+  yield;
   upper.position.y = 2.4;
+  yield;
   detail.add(upper);
+  yield;
   animated.push(upper);
+  yield;
   root.userData.lagoons.set("lake-winter-upper", upper);
+  yield;
   const cascades = [
     [ux, uz + rz + 0.12, 2.7, 2.4, 0, 2.4],
     [-3, 14.7, 2.5, 6, 0, 0],
@@ -219,31 +248,48 @@ export function decorateWhaleBiome(
     [14.7, 0, 2, 5.8, -Math.PI / 2, 0],
     [-14.7, -2, 2.4, 6.5, Math.PI / 2, 0],
   ];
+  yield;
   for (const [x, z, w, h, rot, lift] of cascades) {
-    const f = createWaterfall(x, z, w, h);
+    yield;
+    const f = yield* waterfallSteps(x, z, w, h);
+    yield;
     f.rotation.y = rot;
+    yield;
     f.position.y += lift;
+    yield;
     detail.add(f);
+    yield;
     animated.push(f);
   }
   // Stream channels connect the lagoon to the cascading island rim.
+  yield;
   for (const [x, z, sx, sz] of [
     [-3, 10.4, 2.3, 8],
     [3, 10.4, 1.8, 8],
     [11.5, 0, 7, 1.9],
     [-11.5, -2, 7, 2.1],
-  ])
+  ]) {
+    yield;
     shape(props, "cube", 0x81d9e9, x, 0.08, z, sx, 0.035, sz, true);
+  }
+  yield;
   bridge(props, 0, 7.5, 12.2);
+  yield;
   bridge(props, 8.8, -4.5, 6.5, Math.PI / 2);
+  yield;
   bridge(props, -9.5, 1.5, 5.3, Math.PI / 2);
+  yield;
   bridge(props, -1, -10, 4.7, 0, 2.45);
+  yield;
   for (let i = 0; i < 48; i++) {
+    yield;
     const a = i * 2.399,
       r = 10.1 + (i % 5) * 0.86,
       x = Math.sin(a) * r,
       z = Math.cos(a) * r;
+    yield;
     if (Math.hypot(x - ux, z - uz) < 4.3) continue;
+    yield;
     flowerCluster(
       props,
       x,
@@ -252,13 +298,18 @@ export function decorateWhaleBiome(
       1.0 + (i % 3) * 0.15,
       0.06,
     );
+    yield;
     if (i % 3 === 0)
       coralCluster(props, x + 0.25, z, 0.6 + (i % 4) * 0.13, i, 0.04);
+    yield;
     if (i % 5 === 0)
       bloomingLotus(props, x, 0.07, z, i % 2 ? 0x9fdcf2 : 0xefbce6, 1.15);
   }
+  yield;
   for (let i = 0; i < 9; i++) {
+    yield;
     const a = i * 2.399;
+    yield;
     bloomingLotus(
       props,
       Math.sin(a) * 6.3,
@@ -268,8 +319,11 @@ export function decorateWhaleBiome(
       0.45 + (i % 3) * 0.14,
     );
   }
+  yield;
   for (let i = 0; i < 22; i++) {
+    yield;
     const a = (i * Math.PI) / 11;
+    yield;
     shape(
       props,
       "stone",
@@ -281,6 +335,7 @@ export function decorateWhaleBiome(
       2.4,
       1.1,
     );
+    yield;
     shape(
       props,
       "crystal",
@@ -294,19 +349,23 @@ export function decorateWhaleBiome(
       true,
     );
   }
+  yield;
   const whales = [
     { id: "ride-whale", x: 0, y: 1.8, z: -1, scale: 1.05 },
     { id: "ride-whale-aurora", x: -5, y: 6.3, z: -5, scale: 0.73 },
     { id: "ride-whale", x: -10, y: 0.1, z: 8, scale: 0.44 },
     { id: "ride-whale-aurora", x: 8, y: 2.7, z: 8, scale: 0.4 },
   ];
-  whales.forEach((p, i) => {
-    const whale = whaleRide(p.id, { ambient: true, variant: i });
+  yield;
+  for (const [i, p] of whales.entries()) {
+    const whale = yield* whaleRideSteps(p.id, { ambient: true, variant: i });
     whale.position.set(p.x, p.y, p.z);
     whale.scale.setScalar(p.scale);
     detail.add(whale);
     flyers.push(whale);
-  });
+    yield;
+  }
+  yield;
   const bubbleGeo = new THREE.SphereGeometry(1, 16, 10),
     bubbleMat = new THREE.MeshPhysicalMaterial({
       color: 0xdce8ff,
@@ -319,17 +378,27 @@ export function decorateWhaleBiome(
       depthWrite: false,
     }),
     bubbles = [];
+  yield;
   for (let i = 0; i < 22; i++) {
+    yield;
     const bubble = new THREE.Mesh(bubbleGeo, bubbleMat),
       a = i * 2.399;
+    yield;
     bubble.scale.setScalar(0.1 + (i % 5) * 0.05);
+    yield;
     bubble.position.set(Math.sin(a) * 9, 1.6 + (i % 6) * 0.75, Math.cos(a) * 8);
+    yield;
     detail.add(bubble);
+    yield;
     bubbles.push(bubble);
   }
-  detail.add(batchScenery(props));
+  yield;
+  detail.add(yield* batchScenerySteps(props));
+  yield;
   const before = root.userData.update;
+  yield;
   let lastSplash = -100;
+  yield;
   root.userData.update = (time, reduced = false) => {
     before?.(time, reduced);
     animated.forEach((o) => o.userData.update(time, reduced));
@@ -352,6 +421,7 @@ export function decorateWhaleBiome(
       lastSplash = time;
     }
   };
+  yield;
   root.userData.renewal = {
     hero: "whale",
     flyers,
@@ -359,5 +429,10 @@ export function decorateWhaleBiome(
     waterfalls: animated.filter((o) => o.name === "Waterfall"),
     flowers: 48,
   };
+  yield;
   return root;
+}
+
+export function decorateWhaleBiome(...args) {
+  return runSceneSteps(whaleBiomeSteps(...args));
 }

@@ -72,7 +72,7 @@ function randomSequence(seed) {
 export function kittenSurface(kind, detailed) {
   const key = kind + detailed;
   if (!cache.has(key)) {
-    const size = detailed ? 76 : 34,
+    const size = typeof detailed === "number" ? detailed : detailed ? 76 : 34,
       domain = 1.34,
       clay = new MarchingCubes(
         size,
@@ -352,7 +352,7 @@ export function groomFur(
 export function kittenLeg(front, detailed) {
   const key = "leg:" + front + ":" + detailed;
   if (cache.has(key)) return cache.get(key).clone();
-  const size = detailed ? 54 : 28,
+  const size = typeof detailed === "number" ? detailed : detailed ? 54 : 28,
     clay = new MarchingCubes(
       size,
       new THREE.MeshBasicMaterial(),
@@ -419,13 +419,13 @@ export function kittenLeg(front, detailed) {
   return g;
 }
 
-export function kittenEar(side) {
+export function kittenEar(side, { color = CHICHI_COAT, detailed = true } = {}) {
   const vertices = [],
     colors = [],
     indices = [],
-    rows = 24,
-    cols = 18,
-    gray = new THREE.Color(CHICHI_COAT),
+    rows = detailed ? 24 : 10,
+    cols = detailed ? 18 : 8,
+    gray = new THREE.Color(color),
     pink = new THREE.Color(0x926f74);
   for (let back = 0; back < 2; back++)
     for (let j = 0; j <= rows; j++)
@@ -490,15 +490,21 @@ export function kittenEar(side) {
   return g;
 }
 
-export function kittenIris(detailed) {
+export function kittenIris(detailed, eyeColor = CHICHI_EYES) {
   const rings = detailed ? 14 : 6,
     segments = detailed ? 256 : 40,
     vertices = [0, 0, 0.034],
     colors = [],
     indices = [],
-    light = new THREE.Color(CHICHI_EYES),
-    gold = new THREE.Color(0xd1c77a),
-    edge = new THREE.Color(0x536349);
+    light = new THREE.Color(eyeColor),
+    gold = new THREE.Color(eyeColor === CHICHI_EYES ? 0xd1c77a : eyeColor).lerp(
+      new THREE.Color(0xd1c77a),
+      eyeColor === CHICHI_EYES ? 0 : 0.16,
+    ),
+    edge =
+      eyeColor === CHICHI_EYES
+        ? new THREE.Color(0x536349)
+        : new THREE.Color(eyeColor).multiplyScalar(0.35);
   colors.push(gold.r, gold.g, gold.b);
   for (let j = 1; j <= rings; j++)
     for (let i = 0; i <= segments; i++) {

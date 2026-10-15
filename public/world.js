@@ -1,3 +1,4 @@
+import { CHICHI_PORTRAITS } from "./cat-portrait-manifest.js";
 import { RENEWED_ISLANDS } from "./renewal-data.js";
 import { islandHeight } from "./renewed-biomes.js";
 import { islandProjectModel } from "./island-project-model.js";
@@ -30,7 +31,12 @@ import {
   disposeScenery,
   fadeScenery,
 } from "./scenery-models.js";
-import { createBiomeScene } from "./biome-scenes.js";
+import {
+  prepareSceneSteps,
+  queueSceneRefresh,
+  yieldSceneTask,
+} from "./scene-tasks.js";
+import { createBiomeScene, prepareBiomeScene } from "./biome-scenes.js";
 import { createBowlModel } from "./care-model.js";
 import { bowlPortions } from "./care-system.js";
 import { encounterKind } from "./social-system.js";
@@ -73,6 +79,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     desiredLook = look.clone();
   let azimuth = 0.72,
     distance = 37,
+    desiredDistance = 37,
     elevation = 0.67;
   scene.add(new THREE.HemisphereLight(0xffe9db, 0x8b9e85, 1.2));
   const sun = new THREE.DirectionalLight(0xffd8b7, 2.2);
@@ -307,16 +314,30 @@ export function createWorld(container, initialGame, callbacks = {}) {
     labels.set(biome.id, label);
     return g;
   }
+  const islandRefreshes = new Map();
+  let detailRunning = false;
+  async function sceneTurn() {
+    await yieldSceneTask();
+    while (!disposed && document.querySelector("dialog[open]"))
+      await new Promise((resolve) => setTimeout(resolve, 100));
+  }
+  async function refreshIsland(island, placements, scenery) {
+    if (island.userData.placementSteps)
+      await prepareSceneSteps(
+        island.userData.placementSteps(placements, scenery),
+        { yieldTask: sceneTurn },
+      );
+    else island.userData.updatePlacements?.(placements, scenery);
+  }
   function ensureDetail(id) {
-    const data = islands.get(id)?.userData;
-    if (!data || !data.lowOnly) return;
+    if (!islands.get(id)?.userData.lowOnly || disposed) return;
     detailQueue.add(id);
-    if (detailTimer) return;
-    const upgrade = () => {
+    if (detailTimer || detailRunning) return;
+    const upgrade = async () => {
       detailTimer = null;
       if (disposed || !detailQueue.size) return;
-      if (document.getElementById("shop-dialog")?.open) {
-        detailTimer = setTimeout(upgrade, 200);
+      if (document.querySelector("dialog[open]")) {
+        detailTimer = setTimeout(upgrade, 150);
         return;
       }
       const id = detailQueue.has(focused)
@@ -325,25 +346,73 @@ export function createWorld(container, initialGame, callbacks = {}) {
       detailQueue.delete(id);
       const old = islands.get(id),
         b = byBiome(id);
-      if (
-        old &&
-        old.userData.lowOnly &&
-        distance < Math.max(110, (b.radius || 12) * 7) &&
-        Math.hypot(b.center[0] - desiredLook.x, b.center[1] - desiredLook.z) <
-          40
-      ) {
-        const g = createBiomeScene(b, {
-          placements: game.placements.filter((p) => p.biome === id),
-          scenery: game.scenery?.filter((r) => r.biome === id),
-        });
-        showWhalePreview(g, id);
-        g.position.copy(old.position);
-        scene.remove(old);
-        old.userData.dispose?.();
-        scene.add(g);
-        islands.set(id, g);
+      detailRunning = true;
+      try {
+        if (
+          old?.userData.lowOnly &&
+          desiredDistance < Math.max(110, (b.radius || 12) * 7) &&
+          Math.hypot(b.center[0] - desiredLook.x, b.center[1] - desiredLook.z) <
+            40
+        ) {
+          const snapshot = () => [
+            game.placements.filter((p) => p.biome === id),
+            game.scenery?.filter((r) => r.biome === id),
+          ];
+          let content = snapshot();
+          const g = await prepareBiomeScene(
+            b,
+            {
+              placements: content[0],
+              scenery: content[1],
+            },
+            { yieldTask: sceneTurn },
+          );
+          if (disposed) {
+            g.userData.dispose?.();
+            return;
+          }
+          // Edits/sync can arrive while geometry is being prepared; never install
+          // an older placement snapshot over the user's latest changes.
+          let latest = snapshot();
+          showWhalePreview(g, id);
+          g.position.copy(old.position);
+          g.updateMatrixWorld(true);
+          // Compile against the real scene lighting while the old island remains
+          // usable. Parallel shader compilation avoids the first-visit hitch.
+          await sceneTurn();
+          if (!disposed) await renderer.compileAsync(g, camera, scene);
+          if (disposed) {
+            g.userData.dispose?.();
+            return;
+          }
+          latest = snapshot();
+          while (JSON.stringify(content) !== JSON.stringify(latest)) {
+            await refreshIsland(g, ...latest);
+            content = latest;
+            latest = snapshot();
+          }
+          if (disposed) {
+            g.userData.dispose?.();
+            return;
+          }
+          scene.remove(old);
+          scene.add(g);
+          islands.set(id, g);
+          islandContentKeys.set(id, JSON.stringify(latest));
+          const pendingRefresh = islandRefreshes.get(id);
+          if (pendingRefresh)
+            pendingRefresh
+              .finally(() => old.userData.dispose?.())
+              .catch(() => {});
+          else old.userData.dispose?.();
+        }
+      } catch (error) {
+        console.warn("Island detail could not be prepared", id, error);
+      } finally {
+        detailRunning = false;
+        if (!disposed && detailQueue.size)
+          detailTimer = setTimeout(upgrade, 32);
       }
-      if (detailQueue.size) detailTimer = setTimeout(upgrade, 32);
     };
     detailTimer = setTimeout(upgrade, 16);
   }
@@ -468,7 +537,16 @@ export function createWorld(container, initialGame, callbacks = {}) {
         scenery = game.scenery?.filter((r) => r.biome === id),
         contentKey = JSON.stringify([placements, scenery]);
       if (islandContentKeys.get(id) === contentKey) continue;
-      island.userData.updatePlacements?.(placements, scenery);
+      const refresh = queueSceneRefresh(islandRefreshes, id, () =>
+        disposed ? undefined : refreshIsland(island, placements, scenery),
+      );
+      refresh.catch((error) => {
+        if (islandRefreshes.get(id) === refresh) {
+          islandContentKeys.delete(id);
+          sceneKey = "";
+        }
+        console.warn("Island scenery refresh failed", id, error);
+      });
       islandContentKeys.set(id, contentKey);
     }
     for (const o of islandObjects(game, { includeBuilding: true })) {
@@ -688,10 +766,16 @@ export function createWorld(container, initialGame, callbacks = {}) {
       b.legendary || b.id === "aquapark" ? 0x162f52 : 0xc0bfd7,
     );
     desiredLook.set(b.center[0], 0, overview ? 0 : b.center[1]);
-    distance = b.radius ? (mobileRender ? (b.radius > 18 ? 85 : 65) : 57) : 37;
+    desiredDistance = b.radius
+      ? mobileRender
+        ? b.radius > 18
+          ? 85
+          : 65
+        : 57
+      : 37;
     if (mobileRender && b.legendary)
-      distance = Math.max(
-        distance,
+      desiredDistance = Math.max(
+        desiredDistance,
         (b.radius * 1.08) /
           (Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) *
             Math.min(1, camera.aspect)),
@@ -706,7 +790,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         );
         view.lookAt(desiredLook);
         view.updateMatrixWorld();
-        distance = fit;
+        desiredDistance = fit;
         if (
           BIOMES.every((island) =>
             [-(island.radius || 12), island.radius || 12].every((dx) =>
@@ -906,6 +990,20 @@ export function createWorld(container, initialGame, callbacks = {}) {
     occlusionPoint = new THREE.Vector3();
   let lastOcclusionCheck = -1;
   const occludedScenery = new Set();
+  const sceneryBoundCache = new WeakMap();
+  function sceneryBounds(object) {
+    const key =
+      object.position.toArray().join(":") +
+      ":" +
+      object.rotation.y +
+      ":" +
+      object.scale.x;
+    const cached = sceneryBoundCache.get(object);
+    if (cached?.key === key) return cached.bounds;
+    const bounds = new THREE.Box3().setFromObject(object);
+    sceneryBoundCache.set(object, { key, bounds });
+    return bounds;
+  }
   function updateOcclusion(now, dt) {
     const objects = sceneryGroups();
     for (const object of objects)
@@ -928,7 +1026,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
             .clone()
             .add(new THREE.Vector3(0, 0.6, 0)),
         );
-      for (const object of objects) object.updateWorldMatrix(true, true);
+
       for (const target of targets) {
         const direction = target.clone().sub(camera.position),
           length = direction.length();
@@ -939,17 +1037,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
         const candidates = objects.filter(
           (g) =>
             g.visible &&
-            occlusionRay.ray.intersectBox(
-              occlusionBounds.setFromObject(g),
-              occlusionPoint,
-            ) &&
+            occlusionRay.ray.intersectBox(sceneryBounds(g), occlusionPoint) &&
             camera.position.distanceTo(occlusionPoint) <= occlusionRay.far,
         );
-        for (const hit of occlusionRay.intersectObjects(candidates, true)) {
-          let root = hit.object;
-          while (root && !root.userData.sceneryId) root = root.parent;
-          if (root) occludedScenery.add(root.userData.sceneryId);
-        }
+        for (const object of candidates)
+          occludedScenery.add(object.userData.sceneryId);
       }
     }
     for (const object of objects) {
@@ -1173,7 +1265,16 @@ export function createWorld(container, initialGame, callbacks = {}) {
           e.clientX - (bounds.left + ((projected.x + 1) * bounds.width) / 2),
           e.clientY - (bounds.top + ((1 - projected.y) * bounds.height) / 2),
         ) < (e.pointerType === "touch" ? 22 : 11);
-      if (nearCat || raycaster.intersectObject(chichiCarrier, true).length)
+      const dragSurfaces = [
+        cat.userData.body,
+        cat.getObjectByName("Face"),
+        cat.getObjectByName("TailCoat"),
+        ...cat.userData.legs.map((leg) => leg.getObjectByName("Shin")),
+      ];
+      if (
+        nearCat ||
+        raycaster.intersectObjects(dragSurfaces.filter(Boolean), false).length
+      )
         draggingCat = chichiCarrier.position.clone();
     }
   });
@@ -1263,7 +1364,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
     pendingTap = false;
     pointer(e);
     const hit = raycaster.intersectObjects(
-      [...itemGroups.values(), ...sceneryGroups().filter((g) => g.visible)],
+      [
+        ...itemGroups.values(),
+        ...sceneryGroups().filter(
+          (g) => g.visible && raycaster.ray.intersectsBox(sceneryBounds(g)),
+        ),
+      ],
       true,
     )[0];
     if (hit) {
@@ -1381,7 +1487,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
     "wheel",
     (e) => {
       e.preventDefault();
-      distance = THREE.MathUtils.clamp(distance + e.deltaY * 0.025, 21, 600);
+      desiredDistance = THREE.MathUtils.clamp(
+        desiredDistance + e.deltaY * 0.025,
+        21,
+        600,
+      );
     },
     { passive: false },
   );
@@ -1394,8 +1504,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
           e.touches[0].clientY - e.touches[1].clientY,
         );
         if (pinchDistance)
-          distance = THREE.MathUtils.clamp(
-            distance + (pinchDistance - d) * 0.1,
+          desiredDistance = THREE.MathUtils.clamp(
+            desiredDistance + (pinchDistance - d) * 0.1,
             21,
             600,
           );
@@ -1408,8 +1518,16 @@ export function createWorld(container, initialGame, callbacks = {}) {
     "touchend",
     () => (pinchDistance = null),
   );
+  let renderWidth = 0,
+    renderHeight = 0;
   const resize = new ResizeObserver(() => {
-    const { width, height } = container.getBoundingClientRect();
+    const bounds = container.getBoundingClientRect(),
+      width = Math.round(bounds.width),
+      height = Math.round(bounds.height);
+    if (!width || !height || (renderWidth === width && renderHeight === height))
+      return;
+    renderWidth = width;
+    renderHeight = height;
     renderer.setSize(width, height);
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
@@ -1419,7 +1537,18 @@ export function createWorld(container, initialGame, callbacks = {}) {
     lastRender = 0;
   function loop(now) {
     if (disposed) return;
-    if (now - lastRender < (operation || pointerDown || heroGather ? 16 : 33)) {
+    const cameraMoving =
+      look.distanceToSquared(desiredLook) > 0.0001 ||
+      Math.abs(distance - desiredDistance) > 0.01;
+    const dialogOpen = !!document.querySelector("dialog[open]");
+    if (
+      now - lastRender <
+      (dialogOpen
+        ? 100
+        : operation || pointerDown || heroGather || cameraMoving
+          ? 16
+          : 33)
+    ) {
       requestAnimationFrame(loop);
       return;
     }
@@ -1427,7 +1556,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
     const dt = Math.min((now - previousTime) / 1000, 0.1);
     previousTime = now;
     const time = now / 1000;
-    look.lerp(desiredLook, reduced ? 1 : 1 - Math.exp(-dt * 8));
+    const cameraBlend = reduced ? 1 : 1 - Math.exp(-dt * 8);
+    look.lerp(desiredLook, cameraBlend);
+    distance += (desiredDistance - distance) * cameraBlend;
     camera.position.set(
       look.x + Math.sin(azimuth) * Math.cos(elevation) * distance,
       Math.sin(elevation) * distance,
@@ -1442,10 +1573,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
       island.userData.detail.visible = close && !island.userData.lowOnly;
       island.userData.lowDetail.visible = !close || !!island.userData.lowOnly;
       if (close) ensureDetail(b.id);
-      island.userData.update?.(time, reduced);
+      if (!dialogOpen) island.userData.update?.(time, reduced);
     }
     for (const g of itemGroups.values())
-      if (!reduced) animateAttraction(g, time);
+      if (!reduced && !dialogOpen) animateAttraction(g, time);
     if (preview && !reduced) animateAttraction(preview, time);
     for (const [id, n] of npcs) {
       const b = byBiome(n.profile.biome),
@@ -1732,7 +1863,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
             : "happy";
       if (n.model.userData.mood !== desiredMood)
         setCatMood(n.model, desiredMood, { immediate: reduced });
-      if (near) {
+      if (near && !dialogOpen) {
         animateCat(n.model, time + n.index, npcWalking, reduced);
         if (npcReaction) reactCat(n.model, npcReaction, reduced);
       }
@@ -2038,8 +2169,14 @@ export function createWorld(container, initialGame, callbacks = {}) {
         }
       }
     }
-    animateCat(cat, time, walking, reduced);
-    if (reaction) reactCat(cat, reaction, reduced);
+    if (!dialogOpen) {
+      animateCat(cat, time, walking, reduced);
+      if (reaction) reactCat(cat, reaction, reduced);
+    }
+    if (dialogOpen) {
+      requestAnimationFrame(loop);
+      return;
+    }
     for (let i = 0; i < motes.length; i++)
       if (!reduced) {
         motes[i].position.y =
@@ -2167,53 +2304,33 @@ export function createWorld(container, initialGame, callbacks = {}) {
     updateOcclusion(now, dt);
     // The opaque shop covers the map. Keep the simulation running, but avoid
     // competing GPU draws while its miniature scenes are being rendered.
-    if (!document.querySelector("dialog[open]")) renderer.render(scene, camera);
+    if (!dialogOpen) renderer.render(scene, camera);
     requestAnimationFrame(loop);
   }
   requestAnimationFrame(loop);
-  // Portraits and the live hero share the same photo-inspired model.
-  const portraitRenderer = new THREE.WebGLRenderer({
-    antialias: true,
-    alpha: true,
-    preserveDrawingBuffer: true,
-  });
-  portraitRenderer.setSize(192, 192);
-  portraitRenderer.setPixelRatio(2);
   for (const mood of moodNames) {
-    const portrait = new THREE.Scene();
-    portrait.add(new THREE.HemisphereLight(0xf2f4ff, 0x777b7f, 1.8));
-    const light = new THREE.DirectionalLight(0xffffff, 2.5);
-    light.position.set(3, 5, 5);
-    portrait.add(light);
-    const model = createCat(mood);
-    portrait.add(model);
-    const view = new THREE.PerspectiveCamera(35, 1, 0.1, 20);
-    view.position.set(2, 2.2, 4);
-    view.lookAt(0, 0.9, 0);
-    portraitRenderer.render(portrait, view);
     const image = document.querySelector(`[data-mood-image="${mood}"]`);
-    if (image) image.src = portraitRenderer.domElement.toDataURL("image/png");
-    if (mood === "happy" && image) {
-      const avatar = document.getElementById("care-avatar");
-      if (avatar) {
-        avatar.onload = () => {
-          avatar.hidden = false;
-          document.getElementById("care-avatar-fallback").hidden = true;
-        };
-        avatar.src = image.src;
-      }
-    }
-
-    disposeCat(model);
+    if (image) image.src = CHICHI_PORTRAITS[mood];
   }
-  portraitRenderer.dispose();
+  const avatar = document.getElementById("care-avatar");
+  if (avatar) {
+    avatar.onload = () => {
+      avatar.hidden = false;
+      document.getElementById("care-avatar-fallback").hidden = true;
+    };
+    avatar.src = CHICHI_PORTRAITS.happy;
+  }
   return {
     perform,
     sync,
     focus,
     overview: () => focus("moon", true),
     zoom: (delta) =>
-      (distance = THREE.MathUtils.clamp(distance + delta, 21, 600)),
+      (desiredDistance = THREE.MathUtils.clamp(
+        desiredDistance + delta,
+        21,
+        600,
+      )),
     beginBuild,
     updateBuild: (mode) => {
       buildMode = { ...buildMode, ...mode };
@@ -2251,7 +2368,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
       for (const button of incomeButtons.values()) button.remove();
       for (const button of projectBadges.values()) button.remove();
       clearTimeout(detailTimer);
-      for (const island of islands.values()) island.userData.dispose?.();
+      for (const [id, island] of islands) {
+        const pending = islandRefreshes.get(id);
+        if (pending)
+          pending.finally(() => island.userData.dispose?.()).catch(() => {});
+        else island.userData.dispose?.();
+      }
       disposeCat(cat);
       for (const npc of npcs.values()) disposeCat(npc.model);
       socialGlow.visible = false;

@@ -1,3 +1,4 @@
+import { runSceneSteps } from "./scene-tasks.js";
 import * as THREE from "three";
 import {
   shape,
@@ -6,10 +7,17 @@ import {
   lantern,
   surfaceTexture,
 } from "./fantasy-scenery.js";
-import { batchModelGeometry } from "./model-batching.js";
-import { createLagoon, createWaterfall, waterMaterial } from "./lagoon.js";
+import { batchModelGeometry, batchModelSteps } from "./model-batching.js";
+import {
+  createLagoon,
+  lagoonSteps,
+  createWaterfall,
+  waterfallSteps,
+  waterMaterial,
+} from "./lagoon.js";
 import {
   createSceneryModel,
+  sceneryModelSteps,
   positionScenery,
   disposeScenery,
 } from "./scenery-models.js";
@@ -90,12 +98,16 @@ function slab(parent, radius, height, y, color, cuts = [], pools = []) {
   parent.add(m);
   return m;
 }
-function addBaked(parent, source) {
-  const b = batchModelGeometry(source, { combineColors: true });
+function* addBakedSteps(parent, source) {
+  yield;
+  const b = yield* batchModelSteps(source, { combineColors: true });
+  yield;
   parent.add(b);
+  yield;
   source.traverse((o) => {
     if (o.isMesh && !o.geometry.userData.sharedScenery) o.geometry.dispose();
   });
+  yield;
   return b;
 }
 function decorationsClear(items, records) {
@@ -107,10 +119,11 @@ function decorationsClear(items, records) {
     ...cottonReservations().map((r) => ({ ...r, footprint: [r.w, r.d] })),
   ]);
 }
-export function createCottonBiome(
+export function* cottonBiomeSteps(
   biome,
   { preview = false, lowOnly = false, placements = [], scenery = [] } = {},
 ) {
+  yield;
   const root = new THREE.Group(),
     base = new THREE.Group(),
     detail = new THREE.Group(),
@@ -119,8 +132,11 @@ export function createCottonBiome(
     animations = [],
     sceneryObjects = new Map(),
     lagoons = new Map();
+  yield;
   root.name = "Biome-clockwork-cotton";
+  yield;
   root.add(base, detail, low);
+  yield;
   slab(
     base,
     23,
@@ -130,6 +146,7 @@ export function createCottonBiome(
     [],
     COTTON_POOLS.filter((p) => p.y === 0),
   );
+  yield;
   const cliff = new THREE.Mesh(
     new THREE.CylinderGeometry(22.9, 17, 5.5, 64, 4, true),
     new THREE.MeshStandardMaterial({
@@ -138,8 +155,11 @@ export function createCottonBiome(
       map: surfaceTexture("stone"),
     }),
   );
+  yield;
   cliff.position.y = -2.65;
+  yield;
   base.add(cliff);
+  yield;
   const underside = new THREE.Mesh(
     new THREE.CylinderGeometry(17, 2.5, 6, 48, 3),
     new THREE.MeshStandardMaterial({
@@ -148,10 +168,15 @@ export function createCottonBiome(
       map: surfaceTexture("stone"),
     }),
   );
+  yield;
   underside.position.y = -7.8;
+  yield;
   base.add(underside);
+  yield;
   for (let i = 0; i < 48; i++) {
+    yield;
     const a = (i * TAU) / 48;
+    yield;
     shape(
       props,
       "stone",
@@ -165,8 +190,11 @@ export function createCottonBiome(
     );
   }
   // Piped icing and warm railings on the visible terrace faces.
+  yield;
   for (let i = 0; i < 46; i++) {
+    yield;
     const x = -19.7 + i * 0.85;
+    yield;
     shape(
       props,
       "sphere",
@@ -178,13 +206,18 @@ export function createCottonBiome(
       0.23,
       0.45,
     );
+    yield;
     if (i % 3 === 0) {
+      yield;
       shape(props, "sphere", 0xffb2d1, x, 2, -10.96, 0.15, 0.55, 0.16);
+      yield;
       lantern(props, x, 2.5, -11.35, 0.42);
     }
   }
 
+  yield;
   for (let level = 0; level < 3; level++) {
+    yield;
     const m = new THREE.Mesh(
       new THREE.CylinderGeometry(
         22.7 - level * 0.8,
@@ -199,10 +232,14 @@ export function createCottonBiome(
         roughness: 0.7,
       }),
     );
+    yield;
     m.position.y = -0.5 - level * 1.15;
+    yield;
     base.add(m);
   }
+  yield;
   slab(base, 22.9, 2.4, 0.14, 0xf6c4c6, [[1, -11, -1]], [COTTON_POOLS[1]]);
+  yield;
   slab(
     base,
     22.9,
@@ -217,10 +254,13 @@ export function createCottonBiome(
     [COTTON_POOLS[2]],
   );
   // An icing skirt, glossy drips and floating sugar crystals, all volumetric.
+  yield;
   for (let i = 0; i < 96; i++) {
+    yield;
     const a = (i * TAU) / 96,
       r = 22.7,
       y = cottonHeight(Math.sin(a) * r, Math.cos(a) * r);
+    yield;
     shape(
       props,
       "sphere",
@@ -232,6 +272,7 @@ export function createCottonBiome(
       0.35,
       0.9,
     );
+    yield;
     if (i % 2 === 0)
       shape(
         props,
@@ -244,7 +285,9 @@ export function createCottonBiome(
         0.8 + (i % 4) * 0.15,
         0.28,
       );
+    yield;
     if (i % 4 === 0) {
+      yield;
       const c = shape(
         props,
         "crystal",
@@ -257,16 +300,25 @@ export function createCottonBiome(
         0.42,
         true,
       );
+      yield;
       c.rotation.z = Math.sin(a) * 0.25;
     }
   }
+  yield;
   const lowProps = new THREE.Group();
+  yield;
   const tree = cottonTree(lowProps, 0xffa6d1, 1.4);
+  yield;
   tree.position.set(-6, 0, -3);
+  yield;
   const house = cupcake(lowProps, 0xff9eca, 1.6, true);
+  yield;
   house.position.set(-9, 0, 7);
+  yield;
   shape(lowProps, "sphere", 0xf6a3ce, -0.5, 0.16, 15, 4.8, 0.03, 2.8);
-  addBaked(low, lowProps);
+  yield;
+  yield* addBakedSteps(low, lowProps);
+  yield;
   root.userData = {
     navigationSurface: base,
     detail,
@@ -285,9 +337,12 @@ export function createCottonBiome(
       piglets: [],
     },
   };
+  yield;
   if (!lowOnly) {
+    yield;
     for (const [i, p] of COTTON_POOLS.entries()) {
-      const lagoon = createLagoon({
+      yield;
+      const lagoon = yield* lagoonSteps({
         ...p,
         fishCount: preview ? 12 : 22,
         color: 0xed83ba,
@@ -296,13 +351,21 @@ export function createCottonBiome(
         shoreColor: 0xffd2e9,
         seed: 771 + i,
       });
+      yield;
       lagoon.position.y = p.y;
+      yield;
       detail.add(lagoon);
+      yield;
       lagoons.set(p.id, lagoon);
+      yield;
       animations.push(lagoon);
+      yield;
       root.userData.stats.fishCount += preview ? 12 : 22;
+      yield;
       for (let j = 0; j < 24; j++) {
+        yield;
         const a = (j * TAU) / 24;
+        yield;
         shape(
           props,
           "stone",
@@ -316,6 +379,7 @@ export function createCottonBiome(
         );
       }
     }
+    yield;
     const falls = [
       [-5, -11.8, 2.2, 2.5, 2.4, 0],
       [-11.1, -1, 1.7, 1.3, 1.2, -Math.PI / 2],
@@ -326,20 +390,28 @@ export function createCottonBiome(
       [-21, -7, 1.6, 7.6, 1.2, -1.8],
       [8, -21.3, 1.9, 8, 2.4, 3],
     ];
+    yield;
     for (const [index, [x, z, w, h, y, rot]] of falls.entries()) {
+      yield;
       const scale = index >= 3 ? 23.18 / Math.hypot(x, z) : 1,
         fx = x * scale,
         fz = z * scale;
+      yield;
       if (index >= 3) {
+        yield;
         const length = Math.hypot(fx - x, fz - z) + 0.3,
           material = waterMaterial(0xf49cc8, 0.78),
           stream = new THREE.Mesh(
             new THREE.PlaneGeometry(w, length, 8, 16),
             material,
           );
+        yield;
         stream.rotation.set(-Math.PI / 2, 0, -Math.atan2(fx - x, fz - z));
+        yield;
         stream.position.set((x + fx) / 2, y + 0.16, (z + fz) / 2);
+        yield;
         detail.add(stream);
+        yield;
         animations.push({
           userData: {
             update: (t, reduced) =>
@@ -347,21 +419,32 @@ export function createCottonBiome(
           },
         });
       }
-      const f = createWaterfall(fx, fz, w, h, {
+      yield;
+      const f = yield* waterfallSteps(fx, fz, w, h, {
         color: 0xf69bc7,
         foam: 0xffedf7,
       });
+      yield;
       f.position.y += y;
+      yield;
       f.rotation.y = rot;
+      yield;
       detail.add(f);
+      yield;
       animations.push(f);
+      yield;
       root.userData.cotton.waterfalls.push(f);
     }
+    yield;
     candyBridge(props, -0.5, 0.24, 16, 17);
+    yield;
     candyBridge(props, -5, 2.62, -14, 8.8);
+    yield;
     candyBridge(props, -16, 1.4, 0, 6.6, Math.PI / 2);
     // Tiered paths and fences, with warm lamps rather than a bare flat disc.
-    for (let i = 0; i < 17; i++)
+    yield;
+    for (let i = 0; i < 17; i++) {
+      yield;
       shape(
         props,
         "cube",
@@ -373,7 +456,10 @@ export function createCottonBiome(
         0.17,
         0.27,
       );
-    for (const side of [-1, 1])
+    }
+    yield;
+    for (const side of [-1, 1]) {
+      yield;
       line(
         props,
         [-10.3 + side * 0.85, 0.65, -8.5],
@@ -381,7 +467,10 @@ export function createCottonBiome(
         0xe5b482,
         0.07,
       );
-    for (let i = 0; i < 9; i++)
+    }
+    yield;
+    for (let i = 0; i < 9; i++) {
+      yield;
       shape(
         props,
         "cube",
@@ -393,48 +482,70 @@ export function createCottonBiome(
         0.17,
         1.7,
       );
+    }
+    yield;
     for (let i = 0; i < 68; i++) {
+      yield;
       const a = (i * TAU) / 68,
         x = Math.sin(a) * 20.8,
         z = Math.cos(a) * 20.8,
         y = cottonHeight(x, z);
+      yield;
       if (i % 5 === 0) lantern(props, x, y, z, 0.66);
       else {
+        yield;
         line(props, [x, y + 0.15, z], [x, y + 0.78, z], 0xd39b83, 0.065);
+        yield;
         heart(props, x, y + 0.76, z, 0xffa2c4, 0.15);
       }
+      yield;
       const b = a + TAU / 68,
         x2 = Math.sin(b) * 20.8,
         z2 = Math.cos(b) * 20.8;
+      yield;
       if (Math.abs(cottonHeight(x2, z2) - y) < 0.1)
         line(props, [x, y + 0.55, z], [x2, y + 0.55, z2], 0xe8bba0, 0.045);
     }
+    yield;
     for (const [x, z, c] of [
       [-10, 2, 0xf7aacd],
       [9, -8, 0xa7cce9],
       [-11, -12, 0xffcc96],
       [13, 5, 0xffb1d6],
       [4, 11, 0xc7b6eb],
-    ])
+    ]) {
+      yield;
       lollipop(props, x, cottonHeight(x, z), z, c, 0.9);
+    }
+    yield;
     const mother = createPig({ color: 0xffb7d0 });
+    yield;
     mother.scale.setScalar(1.4);
+    yield;
     mother.position.set(0, 0, -5);
+    yield;
     detail.add(mother);
+    yield;
     animations.push(mother);
+    yield;
     root.userData.cotton.mother = mother;
+    yield;
     heart(props, 0, 3.3, -5, 0xffa2c9, 0.4);
     // Piglets are instanced by material: the crowd needs a handful of draws,
     // while each piglet still has an independent looping walk and bounce.
+    yield;
     const baby = createPig(),
-      template = batchModelGeometry(baby),
+      template = yield* batchModelSteps(baby),
       dummy = new THREE.Object3D(),
       piglets = [];
+    yield;
     for (let i = 0; i < 24; i++) {
+      yield;
       const a = i * 2.399,
         r = 4 + (i % 5) * 2.9,
         x = Math.sin(a) * r,
         z = Math.cos(a) * r;
+      yield;
       if (
         COTTON_POOLS.some(
           (p) =>
@@ -442,10 +553,13 @@ export function createCottonBiome(
         )
       )
         continue;
+      yield;
       if (COTTON_OBJECTS.some((o) => Math.hypot(x - o.x, z - o.z) < 3.5))
         continue;
+      yield;
       piglets.push({ x, z, phase: i, scale: 0.3 + (i % 3) * 0.06 });
     }
+    yield;
     const instances = template.children.map((m) => {
       const inst = new THREE.InstancedMesh(
         m.geometry,
@@ -457,7 +571,9 @@ export function createCottonBiome(
       detail.add(inst);
       return inst;
     });
+    yield;
     const crowd = new THREE.Group();
+    yield;
     crowd.userData.update = (time, reduced) => {
       piglets.forEach((p, i) => {
         const t = reduced ? 0 : time * 0.3 + p.phase,
@@ -480,55 +596,95 @@ export function createCottonBiome(
       });
       instances.forEach((m) => (m.instanceMatrix.needsUpdate = true));
     };
+    yield;
     crowd.userData.update(0, true);
+    yield;
     animations.push(crowd);
+    yield;
     root.userData.cotton.piglets = piglets;
+    yield;
     baby.traverse((o) => {
       if (o.isMesh && !o.geometry.userData.sharedScenery) o.geometry.dispose();
     });
+    yield;
     if (preview)
       for (const o of COTTON_OBJECTS) {
+        yield;
         const ride = cottonRide(o.type);
+        yield;
         ride.position.set(o.x, 0.16 + cottonHeight(o.x, o.z), o.z);
+        yield;
         detail.add(ride);
+        yield;
         animations.push(ride);
       }
   }
-  const decoration = addBaked(detail, props);
+  yield;
+  const decoration = yield* addBakedSteps(detail, props);
+  yield;
   root.userData.stats.staticMeshes = decoration.children.length;
+  yield;
   root.userData.stats.sourceMeshes = decoration.userData.sourceMeshes;
+  yield;
   let gardens = null,
     gardenKey = "";
-  root.userData.updateScenery = (records = []) => {
+  yield;
+  root.userData.scenerySteps = function* (records = []) {
+    yield;
     const visible = records.filter((r) => !r.stored && r.biome === "clockwork");
-    for (const [id, g] of sceneryObjects)
+    yield;
+    for (const [id, g] of sceneryObjects) {
+      yield;
       if (!visible.some((r) => r.id === id)) {
+        yield;
         detail.remove(g);
+        yield;
         disposeScenery(g);
+        yield;
         sceneryObjects.delete(id);
       }
+    }
+    yield;
     if (!lowOnly)
       for (const r of visible) {
+        yield;
         let g = sceneryObjects.get(r.id);
+        yield;
         if (!g) {
-          g = createSceneryModel(r);
+          yield;
+          g = yield* sceneryModelSteps(r);
+          yield;
           detail.add(g);
+          yield;
           sceneryObjects.set(r.id, g);
         }
+        yield;
         positionScenery(g, r);
+        yield;
         g.position.y += cottonHeight(r.x, r.z);
       }
+    yield;
     root.userData.trees = visible.filter(
       (r) => byScenery(r.type)?.category === "tree",
     );
   };
-  root.userData.updatePlacements = (items = [], records = []) => {
-    root.userData.updateScenery(records);
+  root.userData.updateScenery = (...args) =>
+    runSceneSteps(root.userData.scenerySteps(...args));
+  yield;
+  root.userData.placementSteps = function* (items = [], records = []) {
+    yield;
+    yield* root.userData.scenerySteps(records);
+    yield;
     const key = JSON.stringify([items, records]);
+    yield;
     if (lowOnly || key === gardenKey) return;
+    yield;
     gardenKey = key;
+    yield;
     if (gardens) {
+      yield;
       detail.remove(gardens);
+      yield;
       gardens.traverse((o) => {
         if (o.isMesh) {
           o.geometry.dispose();
@@ -536,10 +692,14 @@ export function createCottonBiome(
         }
       });
     }
+    yield;
     const flowers = new THREE.Group(),
       clear = decorationsClear(items, records);
+    yield;
     const mother = root.userData.cotton.mother;
+    yield;
     if (mother) {
+      yield;
       const spare = [
         [0, -5],
         [-2, -8],
@@ -555,20 +715,28 @@ export function createCottonBiome(
           Math.floor(i / 9) * 2 - 8,
         ]).filter(([x, z]) => Math.hypot(x, z) < 9),
       ].find(([x, z]) => clear(x, z, 2.4));
+      yield;
       if (spare) {
+        yield;
         mother.visible = true;
+        yield;
         mother.position.set(spare[0], cottonHeight(...spare), spare[1]);
       } else mother.visible = false;
     }
     // Paths and little gardens fill spare ground; clearing a building yard
     // removes only these decorative plants, never the saved building.
-    for (let route = 0; route < 5; route++)
+    yield;
+    for (let route = 0; route < 5; route++) {
+      yield;
       for (let i = 0; i < 70; i++) {
+        yield;
         const a = (i / 69) * Math.PI * 1.8 + route * 0.71,
           r = 3.5 + route * 3.6 + Math.sin(a * 3) * 0.6,
           x = Math.sin(a) * r,
           z = Math.cos(a) * r;
+        yield;
         if (Math.hypot(x, z) > 21 || !clear(x, z, 0.8)) continue;
+        yield;
         const tile = shape(
           flowers,
           "stone",
@@ -580,18 +748,28 @@ export function createCottonBiome(
           0.06,
           0.44,
         );
+        yield;
         tile.rotation.y = -a;
       }
+    }
+    yield;
     for (let i = 0; i < 75; i++) {
+      yield;
       const a = i * 2.399,
         r = 3 + (i % 8) * 2.3,
         x = Math.sin(a) * r,
         z = Math.cos(a) * r;
+      yield;
       if (!clear(x, z, 1.1)) continue;
+      yield;
       const patch = new THREE.Group();
+      yield;
       patch.position.set(x, cottonHeight(x, z), z);
+      yield;
       for (let j = 0; j < 8; j++) {
+        yield;
         const b = j * 2.399;
+        yield;
         flowerCluster(
           patch,
           Math.sin(b) * 0.7,
@@ -600,6 +778,7 @@ export function createCottonBiome(
           0.65,
         );
       }
+      yield;
       shape(
         patch,
         "sphere",
@@ -611,33 +790,51 @@ export function createCottonBiome(
         0.23,
         0.4,
       );
+      yield;
       flowers.add(patch);
     }
 
+    yield;
     for (let i = 0; i < 340; i++) {
+      yield;
       const a = i * 2.399,
         r = Math.sqrt((i + 0.5) / 340) * 21.4,
         x = Math.sin(a) * r,
         z = Math.cos(a) * r;
+      yield;
       if (!clear(x, z, 0.4)) continue;
+      yield;
       const bed = new THREE.Group();
+      yield;
       bed.position.set(x, cottonHeight(x, z) + 0.13, z);
+      yield;
       flowerCluster(bed, 0, 0, SWEETS[i % 5], 0.38 + (i % 3) * 0.12);
+      yield;
       if (i % 5 === 0)
         shape(bed, "sphere", 0xffe9d4, 0.3, 0.05, 0.2, 0.13, 0.08, 0.15);
+      yield;
       flowers.add(bed);
     }
-    gardens = addBaked(detail, flowers);
+    yield;
+    gardens = yield* addBakedSteps(detail, flowers);
+    yield;
     gardens.name = "Candy flower gardens";
   };
-  root.userData.updatePlacements(placements, scenery);
+  root.userData.updatePlacements = (...args) =>
+    runSceneSteps(root.userData.placementSteps(...args));
+  yield;
+  yield* root.userData.placementSteps(placements, scenery);
+  yield;
   root.userData.update = (time, reduced = false) => {
     if (!detail.visible) return;
     animations.forEach((g) => g.userData.update?.(time, reduced));
     for (const g of sceneryObjects.values()) g.userData.update?.(time, reduced);
   };
+  yield;
   detail.visible = !lowOnly;
+  yield;
   low.visible = lowOnly;
+  yield;
   root.userData.dispose = () => {
     const geometries = new Set(),
       materials = new Set();
@@ -651,5 +848,14 @@ export function createCottonBiome(
     geometries.forEach((g) => g.dispose());
     materials.forEach((m) => m.dispose());
   };
+  yield;
   return root;
+}
+
+export function createCottonBiome(...args) {
+  return runSceneSteps(cottonBiomeSteps(...args));
+}
+
+function addBaked(...args) {
+  return runSceneSteps(addBakedSteps(...args));
 }

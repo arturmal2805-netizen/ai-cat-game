@@ -1,6 +1,7 @@
-import { decorateRenewedBiome, islandHeight } from "./renewed-biomes.js";
-import { createCottonBiome } from "./cotton-biome.js";
-import { createLegendaryBiome } from "./legendary-biome.js";
+import { runSceneSteps, prepareSceneSteps } from "./scene-tasks.js";
+import { renewedBiomeSteps, islandHeight } from "./renewed-biomes.js";
+import { cottonBiomeSteps } from "./cotton-biome.js";
+import { legendaryBiomeSteps } from "./legendary-biome.js";
 import * as THREE from "three";
 import {
   shape,
@@ -10,11 +11,13 @@ import {
   lantern,
   mushroomHouse,
   batchScenery,
+  batchScenerySteps,
   surfaceTexture,
 } from "./fantasy-scenery.js";
 import { initialScenery, byScenery, sceneryFootprint } from "./scenery-data.js";
 import {
   createSceneryModel,
+  sceneryModelSteps,
   positionScenery,
   disposeScenery,
 } from "./scenery-models.js";
@@ -22,7 +25,12 @@ const defaultScenery = initialScenery();
 import { createGroundCover } from "./landscape-detail.js";
 import { byItem } from "./game-data.js";
 import { coralCluster } from "./reef.js";
-import { createLagoon, createWaterfall } from "./lagoon.js";
+import {
+  createLagoon,
+  lagoonSteps,
+  createWaterfall,
+  waterfallSteps,
+} from "./lagoon.js";
 
 import { BIOME_STYLES } from "./biome-styles.js";
 export { BIOME_STYLES } from "./biome-styles.js";
@@ -152,83 +160,135 @@ function lakeShore(parent, pond, style, id) {
     lantern(parent, px + sign * 0.58, 0.9, pz + 0.55, 0.35);
   }
 }
-export function createBiomeScene(
+export function* biomeSceneSteps(
   biome,
   { preview = false, placements = [], scenery = null, lowOnly = false } = {},
 ) {
+  yield;
   if (biome.id === "clockwork")
-    return createCottonBiome(biome, {
+    return yield* cottonBiomeSteps(biome, {
       preview,
       placements,
       lowOnly,
       scenery: scenery ?? defaultScenery.filter((r) => r.biome === biome.id),
     });
+  yield;
   if (biome.id === "aquapark")
-    return createLegendaryBiome(biome, {
+    return yield* legendaryBiomeSteps(biome, {
       preview,
       placements,
       scenery: scenery ?? defaultScenery.filter((r) => r.biome === biome.id),
       lowOnly,
     });
+  yield;
   const style = BIOME_STYLES[biome.id],
     seed = seedOf(biome.id),
     root = new THREE.Group();
+  yield;
   root.name = "Biome-" + biome.id;
 
+  yield;
   const base = new THREE.Group(),
     props = new THREE.Group(),
     detail = new THREE.Group(),
     low = new THREE.Group(),
     animations = [];
+  yield;
   root.add(base, detail, low);
+  yield;
   root.userData.navigationSurface = base;
+  yield;
   detail.add(props);
+  yield;
   const sceneryLayer = new THREE.Group(),
     sceneryObjects = new Map();
+  yield;
   sceneryLayer.name = "Movable 3D scenery";
+  yield;
   detail.add(sceneryLayer);
+  yield;
   let sceneryKey = "",
     sceneryLow = null;
+  yield;
   const records = scenery ?? defaultScenery.filter((r) => r.biome === biome.id);
+  yield;
   root.userData.sceneryObjects = sceneryObjects;
-  root.userData.updateScenery = (next = records) => {
+  yield;
+  root.userData.scenerySteps = function* (next = records) {
+    yield;
     const visible = next.filter((r) => !r.stored && r.biome === biome.id);
+    yield;
     const key = JSON.stringify(visible);
+    yield;
     if (key === sceneryKey) return;
+    yield;
     sceneryKey = key;
-    for (const [id, model] of sceneryObjects)
+    yield;
+    for (const [id, model] of sceneryObjects) {
+      yield;
       if (!visible.some((r) => r.id === id)) {
+        yield;
         sceneryLayer.remove(model);
+        yield;
         disposeScenery(model);
+        yield;
         sceneryObjects.delete(id);
       }
+    }
+    yield;
     if (!lowOnly)
       for (const record of visible) {
+        yield;
         let model = sceneryObjects.get(record.id);
+        yield;
         if (!model) {
-          model = createSceneryModel(record);
+          yield;
+          model = yield* sceneryModelSteps(record);
+          yield;
           sceneryLayer.add(model);
+          yield;
           sceneryObjects.set(record.id, model);
         }
+        yield;
         positionScenery(model, record);
+        yield;
         model.position.y += islandHeight(biome.id, record.x, record.z);
       }
+    yield;
     if (sceneryLow) {
+      yield;
       low.remove(sceneryLow);
+      yield;
       disposeBiome(sceneryLow);
     }
+    yield;
     const source = new THREE.Group();
-    for (const record of visible)
-      source.add(createSceneryModel(record, { low: true }));
-    sceneryLow = batchScenery(source);
-    for (const model of source.children) disposeScenery(model);
+    yield;
+    for (const record of visible) {
+      yield;
+      source.add(yield* sceneryModelSteps(record, { low: true }));
+    }
+    yield;
+    sceneryLow = yield* batchScenerySteps(source);
+    yield;
+    for (const model of source.children) {
+      yield;
+      disposeScenery(model);
+    }
+    yield;
     sceneryLow.name = "Distant movable scenery";
+    yield;
     low.add(sceneryLow);
+    yield;
     root.userData.trees = visible.filter(
       (r) => byScenery(r.type).category === "tree",
     );
   };
-  root.userData.updateScenery(records);
+  root.userData.updateScenery = (...args) =>
+    runSceneSteps(root.userData.scenerySteps(...args));
+  yield;
+  yield* root.userData.scenerySteps(records);
+  yield;
   const ground = new THREE.Mesh(
     terrainGeometry(style, seed, biome.radius || 11.65),
     new THREE.MeshStandardMaterial({
@@ -240,8 +300,11 @@ export function createBiomeScene(
       bumpScale: 0.012,
     }),
   );
+  yield;
   ground.receiveShadow = true;
+  yield;
   base.add(ground);
+  yield;
   const cliffGeo = new THREE.CylinderGeometry(
       (biome.radius || 11.65) - 0.15,
       (biome.radius || 11.65) * 0.78,
@@ -251,13 +314,19 @@ export function createBiomeScene(
       true,
     ),
     pos = cliffGeo.getAttribute("position");
+  yield;
   for (let i = 0; i < pos.count; i++) {
+    yield;
     const a = Math.atan2(pos.getZ(i), pos.getX(i)),
       r = 1 + Math.sin(a * 3 + seed) * 0.025 + Math.cos(a * 5) * 0.018;
+    yield;
     pos.setX(i, pos.getX(i) * r);
+    yield;
     pos.setZ(i, pos.getZ(i) * r);
   }
+  yield;
   cliffGeo.computeVertexNormals();
+  yield;
   const cliff = new THREE.Mesh(
     cliffGeo,
     new THREE.MeshStandardMaterial({
@@ -268,47 +337,76 @@ export function createBiomeScene(
       bumpScale: 0.05,
     }),
   );
+  yield;
   cliff.position.y = -1.18;
+  yield;
   base.add(cliff);
+  yield;
   const lower = shape(base, "stone", 0x998d9b, 0, -3.9, 0, 10.6, 3.4, 10.6);
+  yield;
   lower.rotation.y = seed * 0.1;
+  yield;
   if (lowOnly) {
+    yield;
     const cheap = createLowScenery(style, biome.id);
+    yield;
     low.add(cheap);
+    yield;
     detail.visible = false;
+    yield;
     root.userData.detail = detail;
+    yield;
     root.userData.lowDetail = low;
+    yield;
     root.userData.style = style;
+    yield;
     root.userData.biomeId = biome.id;
+    yield;
     root.userData.lowOnly = true;
+    yield;
     root.userData.stats = {
       staticMeshes: cheap.children.length,
       sourceMeshes: 0,
       fishCount: 0,
     };
-    root.userData.updatePlacements = (_items, next) =>
-      root.userData.updateScenery(next);
+    yield;
+    root.userData.placementSteps = function* (_items, next) {
+      yield;
+      return yield* root.userData.scenerySteps(next);
+    };
+    root.userData.updatePlacements = (...args) =>
+      runSceneSteps(root.userData.placementSteps(...args));
+    yield;
     root.userData.update = () => {};
+    yield;
     root.userData.dispose = () => disposeBiome(root);
-    return decorateRenewedBiome(root, biome, { lowOnly: true });
+    yield;
+    return yield* renewedBiomeSteps(root, biome, { lowOnly: true });
   }
+  yield;
   for (let i = 0; i < 12; i++) {
+    yield;
     const a = (i * Math.PI) / 6 + seed * 0.03,
       x = Math.cos(a) * 10.8,
       z = Math.sin(a) * 10.8;
+    yield;
     if (i % 2 === 0) {
+      yield;
       const vine = new THREE.CatmullRomCurve3([
         new THREE.Vector3(x, 0.05, z),
         new THREE.Vector3(x * 1.025, -1.5, z * 1.025),
         new THREE.Vector3(x * 0.97, -3.4, z * 0.97),
       ]);
+      yield;
       props.add(
         new THREE.Mesh(
           new THREE.TubeGeometry(vine, 12, 0.045, 4, false),
           new THREE.MeshStandardMaterial({ color: 0x718660, roughness: 1 }),
         ),
       );
+      yield;
       for (let l = 0; l < 5; l++) {
+        yield;
         const p = vine.getPoint(l / 5),
           leaf = shape(
             props,
@@ -321,21 +419,28 @@ export function createBiomeScene(
             0.08,
             0.1,
           );
+        yield;
         leaf.rotation.z = (l % 2 ? 1 : -1) * 0.5;
       }
     }
   }
   // Tall trees are added by the adaptive landscape, never as a ring.
+  yield;
   for (let i = 0; i < 26; i++) {
+    yield;
     const a = i * 2.399 + seed * 0.01,
       r = 8.7 + (i % 3) * 0.45,
       x = Math.sin(a) * r,
       z = Math.cos(a) * r;
+    yield;
     if (style.water) {
+      yield;
       const [px, pz, rx, rz] = style.water;
+      yield;
       if (((x - px) / (rx + 0.7)) ** 2 + ((z - pz) / (rz + 0.7)) ** 2 < 1)
         continue;
     }
+    yield;
     flowerCluster(
       props,
       x,
@@ -343,16 +448,25 @@ export function createBiomeScene(
       i % 4 ? style.flower : 0xffedc0,
       1.0 + (i % 3) * 0.16,
     );
+    yield;
     if (i % 4 === 0)
       shape(props, "sphere", style.leaf, x, 0.18, z, 0.55, 0.3, 0.5);
   }
-  for (const a of [0.35, 1.7, 3.0, 5.2])
+  yield;
+  for (const a of [0.35, 1.7, 3.0, 5.2]) {
+    yield;
     lantern(props, Math.cos(a) * 9.0, 0, Math.sin(a) * 9.0, 0.68);
+  }
+  yield;
   if (biome.id === "moon")
-    for (let i = 0; i < 5; i++)
+    for (let i = 0; i < 5; i++) {
+      yield;
       mushroomHouse(props, -8.4 + i * 0.42, 0.02, 6.4, style.roof, 0.2, false);
+    }
+  yield;
   if (biome.id === "wizard" || biome.id === "mushrooms")
-    for (let i = 0; i < 4; i++)
+    for (let i = 0; i < 4; i++) {
+      yield;
       mushroomHouse(
         props,
         Math.sin(i * 1.7) * 8.7,
@@ -362,11 +476,16 @@ export function createBiomeScene(
         0.5 + i * 0.1,
         false,
       );
+    }
+  yield;
   if (biome.id === "candy")
     for (let i = 0; i < 5; i++) {
+      yield;
       const x = Math.sin(i * 2.4) * 9,
         z = Math.cos(i * 2.4) * 9;
+      yield;
       line(props, [x, 0, z], [x, 1.1, z], 0xfff0cc, 0.04);
+      yield;
       shape(
         props,
         "sphere",
@@ -379,8 +498,11 @@ export function createBiomeScene(
         0.08,
       );
     }
+  yield;
   for (let i = 0; i < 10; i++) {
+    yield;
     const a = (i * Math.PI) / 5;
+    yield;
     shape(
       props,
       "stone",
@@ -393,31 +515,42 @@ export function createBiomeScene(
       0.23,
     ).rotation.y = a;
   }
+  yield;
   for (const [x, z, r] of [
     [0, 0.05, 0.25],
     [-0.33, -0.26, 0.11],
     [-0.1, -0.38, 0.12],
     [0.15, -0.38, 0.12],
     [0.36, -0.24, 0.11],
-  ])
+  ]) {
+    yield;
     shape(props, "sphere", 0xf2d8aa, x, 0.152, z, r, 0.008, r);
+  }
   // Winding stepping-stone routes replace the identical cross drawn on each island.
-  for (let route = 0; route < 3; route++)
+  yield;
+  for (let route = 0; route < 3; route++) {
+    yield;
     for (let i = 1; i < 13; i++) {
+      yield;
       const a = route * 2.094 + seed * 0.01,
         r = i * 0.65,
         x = Math.cos(a) * r + Math.sin(i * 0.4) * 0.28,
         z = Math.sin(a) * r;
+      yield;
       if (style.water) {
+        yield;
         const [px, pz, rx, rz] = style.water;
+        yield;
         if (((x - px) / rx) ** 2 + ((z - pz) / rz) ** 2 < 1.05) continue;
       }
+      yield;
       if (
         placements.some(
           (p) => Math.abs(p.x - x) < 1.5 && Math.abs(p.z - z) < 1.5,
         )
       )
         continue;
+      yield;
       shape(
         props,
         "stone",
@@ -430,9 +563,12 @@ export function createBiomeScene(
         0.18,
       ).rotation.y = i * 0.7;
     }
+  }
+  yield;
   if (style.water) {
+    yield;
     const [x, z, rx, rz, count] = style.water,
-      lagoon = createLagoon({
+      lagoon = yield* lagoonSteps({
         x,
         z,
         rx,
@@ -440,25 +576,40 @@ export function createBiomeScene(
         fishCount: preview ? Math.min(count, 12) : count,
         seed,
       });
+    yield;
     detail.add(lagoon);
+    yield;
     root.userData.lagoons = new Map([["lake-" + biome.id, lagoon]]);
+    yield;
     animations.push(lagoon);
+    yield;
     lakeShore(props, style.water, style, biome.id);
+    yield;
     const lowWater = new THREE.Mesh(
       new THREE.CircleGeometry(1, 32),
       new THREE.MeshBasicMaterial({ color: 0x63cadb }),
     );
+    yield;
     lowWater.rotation.x = -Math.PI / 2;
+    yield;
     lowWater.scale.set(rx, rz, 1);
+    yield;
     lowWater.position.set(x, 0.15, z);
+    yield;
     low.add(lowWater);
+    yield;
     if (["sakura", "lotus", "water"].includes(biome.id))
       for (let i = 0; i < 4; i++) {
+        yield;
         const px = x + Math.sin(i * 2.4) * rx * 0.58,
           pz = z + Math.cos(i * 2.4) * rz * 0.5;
+        yield;
         shape(props, "sphere", 0x92b682, px, 0.18, pz, 0.25, 0.025, 0.25);
+        yield;
         for (let p = 0; p < 6; p++) {
+          yield;
           const a = (p * Math.PI) / 3;
+          yield;
           shape(
             props,
             "sphere",
@@ -473,44 +624,67 @@ export function createBiomeScene(
         }
       }
   }
+  yield;
   for (let i = 0; i < 2; i++) {
+    yield;
     const x = -2.3 + i * 1.3,
       z = 11.1,
-      fall = createWaterfall(x, z, 0.7 + i * 0.15, 4.2 + i * 0.5);
+      fall = yield* waterfallSteps(x, z, 0.7 + i * 0.15, 4.2 + i * 0.5);
+    yield;
     detail.add(fall);
+    yield;
     animations.push(fall);
   }
-  const batched = batchScenery(props);
+  yield;
+  const batched = yield* batchScenerySteps(props);
+  yield;
   detail.remove(props);
+  yield;
   detail.add(batched);
+  yield;
   low.add(createLowScenery(style, biome.id));
+  yield;
   low.visible = false;
+  yield;
   root.userData.detail = detail;
+  yield;
   root.userData.lowDetail = low;
+  yield;
   root.userData.style = style;
+  yield;
   root.userData.biomeId = biome.id;
+  yield;
   root.userData.lowOnly = false;
+  yield;
   root.userData.stats = {
     staticMeshes: batched.children.length,
     sourceMeshes: batched.userData.sourceMeshes,
     fishCount: style.water?.[4] || 0,
   };
+  yield;
   let coverRoot = null,
     gardenRoot = null,
     gardenKey = "";
-  root.userData.updatePlacements = (items = [], nextScenery = records) => {
-    root.userData.updateScenery(nextScenery);
+  yield;
+  root.userData.placementSteps = function* (items = [], nextScenery = records) {
+    yield;
+    yield* root.userData.scenerySteps(nextScenery);
+    yield;
     const terrainItems = [
       ...items,
       ...nextScenery
         .filter((r) => !r.stored && r.biome === biome.id)
         .map((r) => ({ ...r, footprint: sceneryFootprint(r, 0) })),
     ];
+    yield;
     const key = JSON.stringify(
       terrainItems.map((p) => [p.item || p.type, p.x, p.z, p.rotation]),
     );
+    yield;
     if (key === gardenKey) return;
+    yield;
     gardenKey = key;
+    yield;
     const occupied = (x, z, w, d) =>
       terrainItems.some((p) => {
         const size = p.footprint || byItem(p.item)?.footprint || [2, 2],
@@ -520,23 +694,34 @@ export function createBiomeScene(
           Math.abs(z - p.z) < (d + pd) / 2 + 0.12
         );
       });
+    yield;
     if (gardenRoot) {
+      yield;
       detail.remove(gardenRoot);
+      yield;
       disposeBiome(gardenRoot);
     }
+    yield;
     const gardens = new THREE.Group();
+    yield;
     if (coverRoot) {
+      yield;
       detail.remove(coverRoot);
+      yield;
       disposeBiome(coverRoot);
     }
+    yield;
     coverRoot = createGroundCover(style, biome.id, {
       placements: terrainItems,
       preview,
       seed,
     });
+    yield;
     detail.add(coverRoot);
+    yield;
     root.userData.groundCover = coverRoot;
 
+    yield;
     for (const [x, z] of [
       [-3, -3],
       [3, 1],
@@ -545,12 +730,17 @@ export function createBiomeScene(
       [0, 4],
       [0, -6],
     ]) {
+      yield;
       if (occupied(x, z, 2.7, 2.7)) continue;
+      yield;
       if (style.water) {
+        yield;
         const [px, pz, rx, rz] = style.water;
+        yield;
         if (((x - px) / (rx + 1.4)) ** 2 + ((z - pz) / (rz + 1.4)) ** 2 < 1)
           continue;
       }
+      yield;
       shape(
         gardens,
         "sphere",
@@ -562,7 +752,9 @@ export function createBiomeScene(
         0.014,
         1.0,
       );
-      for (let i = 0; i < 3; i++)
+      yield;
+      for (let i = 0; i < 3; i++) {
+        yield;
         flowerCluster(
           gardens,
           x + Math.sin(i * 2.4) * 0.6,
@@ -570,6 +762,8 @@ export function createBiomeScene(
           i % 2 ? style.flower : 0xffe0a2,
           1.1,
         );
+      }
+      yield;
       shape(
         gardens,
         "sphere",
@@ -581,13 +775,21 @@ export function createBiomeScene(
         0.3,
         0.35,
       );
+      yield;
       lantern(gardens, x - 0.8, 0, z - 0.8, 0.42);
     }
-    gardenRoot = batchScenery(gardens);
+    yield;
+    gardenRoot = yield* batchScenerySteps(gardens);
+    yield;
     gardenRoot.name = "Adaptive gardens";
+    yield;
     detail.add(gardenRoot);
   };
-  root.userData.updatePlacements(placements, records);
+  root.userData.updatePlacements = (...args) =>
+    runSceneSteps(root.userData.placementSteps(...args));
+  yield;
+  yield* root.userData.placementSteps(placements, records);
+  yield;
   root.userData.update = (time, reduced = false) => {
     if (detail.visible) {
       for (const object of animations) object.userData.update(time, reduced);
@@ -596,8 +798,10 @@ export function createBiomeScene(
         object.userData.update(time, reduced);
     }
   };
+  yield;
   root.userData.dispose = () => disposeBiome(root);
-  return decorateRenewedBiome(root, biome, { preview });
+  yield;
+  return yield* renewedBiomeSteps(root, biome, { preview });
 }
 
 function createLowScenery(style) {
@@ -627,4 +831,12 @@ export function disposeBiome(root) {
   });
   geometries.forEach((g) => g.dispose());
   materials.forEach((m) => m.dispose());
+}
+
+export function createBiomeScene(...args) {
+  return runSceneSteps(biomeSceneSteps(...args));
+}
+
+export function prepareBiomeScene(biome, options, scheduling) {
+  return prepareSceneSteps(biomeSceneSteps(biome, options), scheduling);
 }

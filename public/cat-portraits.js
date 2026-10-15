@@ -1,8 +1,13 @@
 import * as THREE from "three";
 import { createCat, disposeCat } from "./cat-model.js";
-export const catPortraits = new Map();
+import { CAT_PORTRAITS } from "./cat-portrait-manifest.js";
+export const catPortraits = new Map(Object.entries(CAT_PORTRAITS));
 let pending = null;
 export function prepareCatPortraits(profiles, onReady = () => {}) {
+  for (const p of profiles)
+    if (catPortraits.has(p.id)) onReady(p.id, catPortraits.get(p.id));
+  profiles = profiles.filter((p) => !catPortraits.has(p.id));
+  if (!profiles.length) return Promise.resolve();
   if (pending) return pending;
   pending = (async () => {
     const renderer = new THREE.WebGLRenderer({
@@ -24,7 +29,7 @@ export function prepareCatPortraits(profiles, onReady = () => {}) {
     try {
       for (const profile of profiles) {
         if (!catPortraits.has(profile.id)) {
-          const model = createCat("happy", profile);
+          const model = createCat("happy", { ...profile, detail: "npc" });
           scene.add(model);
           renderer.render(scene, view);
           catPortraits.set(

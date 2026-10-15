@@ -1,5 +1,12 @@
+import { runSceneSteps } from "./scene-tasks.js";
 import * as THREE from "three";
-import { shape, line, torus, batchScenery } from "./fantasy-scenery.js";
+import {
+  shape,
+  line,
+  torus,
+  batchScenery,
+  batchScenerySteps,
+} from "./fantasy-scenery.js";
 
 const palette = [0xf49cac, 0xb798dc, 0xffcf7e, 0x87d5c1, 0xea9bc8, 0x8dbde3];
 export function coralCluster(parent, x, z, size = 1, variant = 0, y = 0) {
@@ -93,11 +100,15 @@ export function coralCluster(parent, x, z, size = 1, variant = 0, y = 0) {
   }
   return root;
 }
-export function createReef({ rx = 3, rz = 2, seed = 1, count = 14 } = {}) {
+export function* reefSteps({ rx = 3, rz = 2, seed = 1, count = 14 } = {}) {
+  yield;
   const source = new THREE.Group();
+  yield;
   for (let i = 0; i < count; i++) {
+    yield;
     const a = i * 2.399 + seed,
       r = 0.48 + (i % 4) * 0.105;
+    yield;
     coralCluster(
       source,
       Math.cos(a) * rx * r,
@@ -106,7 +117,9 @@ export function createReef({ rx = 3, rz = 2, seed = 1, count = 14 } = {}) {
       i,
       -0.61,
     );
+    yield;
     for (let leaf = 0; leaf < 3; leaf++) {
+      yield;
       const kelp = shape(
         source,
         "sphere",
@@ -118,14 +131,20 @@ export function createReef({ rx = 3, rz = 2, seed = 1, count = 14 } = {}) {
         0.16 + leaf * 0.02,
         0.058,
       );
+      yield;
       kelp.rotation.z = Math.sin(i + leaf) * 0.24;
     }
   }
-  const root = batchScenery(source);
+  yield;
+  const root = yield* batchScenerySteps(source);
+  yield;
   root.name = "Underwater coral garden";
+  yield;
   root.userData.clusterCount = count;
+  yield;
   const clock = { value: 0 },
     motion = { value: 1 };
+  yield;
   root.traverse((mesh) => {
     if (!mesh.isMesh || !mesh.material.isMeshStandardMaterial) return;
     const material = mesh.material;
@@ -141,9 +160,15 @@ export function createReef({ rx = 3, rz = 2, seed = 1, count = 14 } = {}) {
     };
     material.customProgramCacheKey = () => "reef-current-v1";
   });
+  yield;
   root.userData.update = (time, reduced = false) => {
     clock.value = time;
     motion.value = reduced ? 0 : 1;
   };
+  yield;
   return root;
+}
+
+export function createReef(...args) {
+  return runSceneSteps(reefSteps(...args));
 }

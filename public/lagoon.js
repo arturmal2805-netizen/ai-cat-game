@@ -1,5 +1,6 @@
+import { runSceneSteps } from "./scene-tasks.js";
 import * as THREE from "three";
-import { createReef } from "./reef.js";
+import { createReef, reefSteps } from "./reef.js";
 
 // Moving cellular caustics keep their organic shape at different lake sizes.
 const caustics = `
@@ -88,7 +89,7 @@ export function waterMaterial(color = 0x08b5d0, opacity = 0.62) {
     side: THREE.DoubleSide,
   });
 }
-export function createLagoon({
+export function* lagoonSteps({
   x = 0,
   z = 0,
   rx = 3,
@@ -100,13 +101,18 @@ export function createLagoon({
   wallColor = 0xadc8b5,
   shoreColor = 0x73e4c5,
 } = {}) {
+  yield;
   const group = new THREE.Group();
+  yield;
   group.position.set(x, 0, z);
+  yield;
   group.name = "Lagoon";
+  yield;
   const bedMaterial = new THREE.MeshStandardMaterial({
     color: bedColor,
     roughness: 0.8,
   });
+  yield;
   bedMaterial.onBeforeCompile = (shader) => {
     shader.uniforms.causticTime = { value: 0 };
     shader.uniforms.bedScale = { value: new THREE.Vector2(rx, rz) };
@@ -126,12 +132,19 @@ export function createLagoon({
         "#include <color_fragment>\nfloat c=causticNet(bedPosition.xy*1.12,causticTime); diffuseColor.rgb+=vec3(.24,.40,.31)*c;",
       );
   };
+  yield;
   bedMaterial.customProgramCacheKey = () => "lagoon-caustics-v2";
+  yield;
   const bed = new THREE.Mesh(new THREE.CircleGeometry(1, 64), bedMaterial);
+  yield;
   bed.rotation.x = -Math.PI / 2;
+  yield;
   bed.scale.set(rx, rz, 1);
+  yield;
   bed.position.y = -0.63;
+  yield;
   group.add(bed);
+  yield;
   const wall = new THREE.Mesh(
     new THREE.CylinderGeometry(1, 1, 0.76, 64, 1, true),
     new THREE.MeshStandardMaterial({
@@ -140,25 +153,39 @@ export function createLagoon({
       side: THREE.DoubleSide,
     }),
   );
+  yield;
   wall.scale.set(rx, 1, rz);
+  yield;
   wall.position.y = -0.25;
+  yield;
   group.add(wall);
+  yield;
   const material = waterMaterial(color),
     surface = new THREE.Mesh(new THREE.CircleGeometry(1, 64), material);
+  yield;
   surface.rotation.x = -Math.PI / 2;
+  yield;
   surface.scale.set(rx, rz, 1);
+  yield;
   surface.position.y = 0.155;
+  yield;
   surface.renderOrder = 3;
+  yield;
   material.uniforms.uLake.value = 1;
+  yield;
   material.uniforms.uShoreColor.value.set(shoreColor);
+  yield;
   group.add(surface);
-  const reef = createReef({
+  yield;
+  const reef = yield* reefSteps({
     rx,
     rz,
     seed,
     count: Math.min(18, Math.max(8, Math.round(rx * rz))),
   });
+  yield;
   group.add(reef);
+  yield;
   const rim = new THREE.Mesh(
     new THREE.TorusGeometry(1, 0.025, 6, 64),
     new THREE.MeshBasicMaterial({
@@ -167,18 +194,26 @@ export function createLagoon({
       opacity: 0.7,
     }),
   );
+  yield;
   rim.rotation.x = Math.PI / 2;
+  yield;
   rim.scale.set(rx, rz, 1);
+  yield;
   rim.position.y = 0.17;
+  yield;
   group.add(rim);
+  yield;
   const colors = [0xff9454, 0xffd75f, 0xf3a2c5, 0x6dbfff, 0x72d6b4, 0xf3d1ff];
+  yield;
   const bodyGeo = new THREE.SphereGeometry(1, 12, 8),
     tailGeo = new THREE.ConeGeometry(1, 1, 3);
+  yield;
   const body = new THREE.InstancedMesh(
     bodyGeo,
     new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5 }),
     fishCount,
   );
+  yield;
   const tail = new THREE.InstancedMesh(
     tailGeo,
     new THREE.MeshStandardMaterial({
@@ -188,28 +223,40 @@ export function createLagoon({
     }),
     fishCount,
   );
+  yield;
   const eyes = new THREE.InstancedMesh(
     bodyGeo,
     new THREE.MeshBasicMaterial({ color: 0x253850 }),
     fishCount * 2,
   );
+  yield;
   const fins = new THREE.InstancedMesh(
     bodyGeo,
     new THREE.MeshStandardMaterial({ color: 0xfff0cc, roughness: 0.6 }),
     fishCount * 2,
   );
+  yield;
   for (const mesh of [body, tail, eyes, fins]) {
+    yield;
     mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+    yield;
     mesh.frustumCulled = false;
+    yield;
     group.add(mesh);
   }
+  yield;
   for (let i = 0; i < fishCount; i++) {
+    yield;
     body.setColorAt(i, new THREE.Color(colors[i % colors.length]));
+    yield;
     tail.setColorAt(i, new THREE.Color(colors[i % colors.length]));
   }
+  yield;
   const impacts = [],
     origin = new THREE.Vector3();
+  yield;
   let impactIndex = 0;
+  yield;
   const splash = new THREE.InstancedMesh(
     new THREE.SphereGeometry(0.035, 5, 4),
     new THREE.MeshBasicMaterial({
@@ -220,8 +267,11 @@ export function createLagoon({
     }),
     30,
   );
+  yield;
   splash.frustumCulled = false;
+  yield;
   group.add(splash);
+  yield;
   group.userData.disturb = (x, z, time, force = 0.6) => {
     if (!Number.isFinite(x + z + time + force)) return;
     if (impacts.length && time - impacts.at(-1).time < 0.11) return;
@@ -236,9 +286,11 @@ export function createLagoon({
     impacts.push({ x, z, time, force });
     if (impacts.length > 6) impacts.shift();
   };
+  yield;
   const dummy = new THREE.Object3D(),
     local = new THREE.Matrix4(),
     fishTransform = new THREE.Matrix4();
+  yield;
   const states = Array.from({ length: fishCount }, (_, i) => ({
     phase: i * 2.399 + seed,
     radius: 0.25 + (i % 6) * 0.11,
@@ -328,30 +380,44 @@ export function createLagoon({
     for (const mesh of [body, tail, eyes, fins])
       mesh.instanceMatrix.needsUpdate = true;
   }
+  yield;
   update(0);
+  yield;
   group.userData.update = update;
+  yield;
   group.userData.fishCount = fishCount;
+  yield;
   group.userData.water = material;
+  yield;
   group.userData.rx = rx;
+  yield;
   group.userData.rz = rz;
+  yield;
   return group;
 }
-export function createWaterfall(
+export function* waterfallSteps(
   x,
   z,
   width = 0.8,
   height = 4,
   { color = 0x7edced, foam = 0xe7ffff } = {},
 ) {
+  yield;
   const group = new THREE.Group();
+  yield;
   group.position.set(x, -height / 2 + 0.12, z);
+  yield;
   group.name = "Waterfall";
+  yield;
   const mat = waterMaterial(color, 0.67);
+  yield;
   const sheet = new THREE.Mesh(
     new THREE.PlaneGeometry(width, height, 6, 18),
     mat,
   );
+  yield;
   group.add(sheet);
+  yield;
   const lines = new THREE.InstancedMesh(
     new THREE.CylinderGeometry(0.015, 0.025, 0.4, 4),
     new THREE.MeshBasicMaterial({
@@ -361,9 +427,13 @@ export function createWaterfall(
     }),
     18,
   );
+  yield;
   lines.frustumCulled = false;
+  yield;
   group.add(lines);
+  yield;
   const dummy = new THREE.Object3D();
+  yield;
   const mist = new THREE.Mesh(
     new THREE.SphereGeometry(1, 12, 8),
     new THREE.MeshBasicMaterial({
@@ -373,9 +443,13 @@ export function createWaterfall(
       depthWrite: false,
     }),
   );
+  yield;
   mist.scale.set(width * 1.4, 0.2, 0.45);
+  yield;
   mist.position.y = -height / 2;
+  yield;
   group.add(mist);
+  yield;
   group.userData.update = (time, reduced = false) => {
     const t = reduced ? 0 : time;
     mat.uniforms.uTime.value = t;
@@ -392,6 +466,16 @@ export function createWaterfall(
     }
     lines.instanceMatrix.needsUpdate = true;
   };
+  yield;
   group.userData.update(0);
+  yield;
   return group;
+}
+
+export function createLagoon(...args) {
+  return runSceneSteps(lagoonSteps(...args));
+}
+
+export function createWaterfall(...args) {
+  return runSceneSteps(waterfallSteps(...args));
 }

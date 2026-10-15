@@ -311,8 +311,12 @@ function renderGame() {
   renderRewards();
   if ($("farm-dialog").open) renderFarm();
 }
+let biomeNavKey = "";
 function renderBiomes() {
   const active = world?.getFocused() || "moon";
+  const key = active + ":" + game.unlocked.join(",");
+  if (key === biomeNavKey) return;
+  biomeNavKey = key;
   $("biome-nav").replaceChildren();
   for (const biome of BIOMES) {
     const owned = game.unlocked.includes(biome.id);

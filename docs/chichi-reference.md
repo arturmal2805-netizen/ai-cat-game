@@ -1,9 +1,11 @@
 # Chichi reference kitten
 
 The default `createCat()` now builds an independent reference kitten in
-`public/chichi-model.js`. Cats with an explicit breed or coat colour still use
-the existing neighbour/adoption models. Save data, economy, AI choices and world
-ownership do not change.
+`public/chichi-model.js`. Every neighbour, adoptable cat, venue employee and
+visitor now uses the same reference-family sculpt. The full Chichi hero remains
+unchanged; other cats use a compact version with their breed, coat, eye colours,
+body type, ear fold, short tail, socks and gait. Save data, economy, AI choices
+and world ownership do not change.
 
 The target is the supplied grey, green-eyed kitten: broad cheeks, short muzzle,
 large round pupils, soft pink ear interiors, compact body and an upright plush
@@ -21,7 +23,18 @@ The full sculpt and every generated strand remain present. Cached geometry
 templates avoid rebuilding hair for each mood portrait. Normalised 16-bit GPU
 normals and 8-bit fur colours/skin weights reduce memory and GLB size. Static
 parts merge by material while animated eyes, jaws, ears and joints stay separate.
-No other cat or world geometry is simplified for this change.
+Other cats use the same continuous anatomical surfaces at crowd resolution,
+with compact geometric fur, skinned knees and ankles, convex irises and animated
+lids. Half-float positions/colours and 16-bit normals reduce crowd bandwidth.
+Static colour parts merge within each animated rig node. Cat shapes and breed
+traits remain visible; no island objects or landscape details are removed.
+
+All 30 adoption portraits and three mood portraits are baked from the actual
+models into `public/art/cats`. Opening the menu creates no temporary 3D scenes.
+To regenerate them, run `scripts/render-cat-portraits.mjs` with a local Playwright
+installation (`PLAYWRIGHT_MODULE` may point to its module) and `CHROMIUM_PATH`.
+Pass `--venues` to refresh the shop pictures of businesses and the adoption
+centre as well. This optional authoring step is separate from production builds.
 
 The three downloadable GLBs include the geometric fur, weighted skin, PBR
 materials and both live-rig clips. The game's additional procedural undercoat

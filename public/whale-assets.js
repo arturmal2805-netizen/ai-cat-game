@@ -1,5 +1,12 @@
+import { runSceneSteps } from "./scene-tasks.js";
 import * as THREE from "three";
-import { shape, line, batchScenery, lantern } from "./fantasy-scenery.js";
+import {
+  shape,
+  line,
+  batchScenery,
+  batchScenerySteps,
+  lantern,
+} from "./fantasy-scenery.js";
 
 const whaleTypes = ["ride-whale", "ride-whale-aurora"];
 function skinGeometry(violet) {
@@ -99,14 +106,18 @@ function arc(parent, points, color, width = 0.025) {
   parent.add(mesh);
   return mesh;
 }
-export function whaleRide(id, { ambient = false, variant = 0 } = {}) {
+export function* whaleRideSteps(id, { ambient = false, variant = 0 } = {}) {
+  yield;
   if (!whaleTypes.includes(id)) return null;
+  yield;
   const violet = id === "ride-whale-aurora",
     root = new THREE.Group(),
     moving = new THREE.Group(),
     props = new THREE.Group(),
     fins = [];
+  yield;
   root.add(moving);
+  yield;
   const body = new THREE.Mesh(
     skinGeometry(violet),
     new THREE.MeshPhysicalMaterial({
@@ -120,18 +131,31 @@ export function whaleRide(id, { ambient = false, variant = 0 } = {}) {
       emissiveIntensity: 0.22,
     }),
   );
+  yield;
   body.name = "Sculpted whale body";
+  yield;
   body.castShadow = true;
+  yield;
   body.receiveShadow = true;
+  yield;
   moving.add(body);
+  yield;
   for (const side of [-1, 1]) {
+    yield;
     const pivot = new THREE.Group();
+    yield;
     pivot.position.set(side * 0.96, -0.25, 0.7);
+    yield;
     moving.add(pivot);
+    yield;
     const flipper = fin(pivot, violet ? 0xc1a1ef : 0x75c8ec, 2.05, 0.48);
+    yield;
     flipper.scale.x = side;
+    yield;
     fins.push(pivot);
+    yield;
     shape(moving, "sphere", 0xf0f6fb, side * 0.93, 0.3, 1.7, 0.16, 0.18, 0.13);
+    yield;
     shape(
       moving,
       "sphere",
@@ -143,6 +167,7 @@ export function whaleRide(id, { ambient = false, variant = 0 } = {}) {
       0.11,
       0.1,
     );
+    yield;
     shape(
       moving,
       "sphere",
@@ -155,6 +180,7 @@ export function whaleRide(id, { ambient = false, variant = 0 } = {}) {
       0.028,
       true,
     );
+    yield;
     shape(
       moving,
       "sphere",
@@ -168,19 +194,32 @@ export function whaleRide(id, { ambient = false, variant = 0 } = {}) {
       true,
     );
   }
+  yield;
   const tail = new THREE.Group();
+  yield;
   tail.position.set(0, -0.04, -3.4);
+  yield;
   moving.add(tail);
+  yield;
   for (const side of [-1, 1]) {
+    yield;
     const blade = fin(tail, violet ? 0xccaaef : 0x8bdaf0, 1.8, 0.7);
+    yield;
     blade.scale.x = side;
+    yield;
     blade.rotation.y = side * 0.25;
   }
+  yield;
   const dorsal = fin(moving, violet ? 0xac93e8 : 0x68b6df, 1.1, 0.35);
+  yield;
   dorsal.rotation.x = 0;
+  yield;
   dorsal.rotation.y = Math.PI / 2;
+  yield;
   dorsal.position.set(0, 0.75, -1.2);
-  for (let i = 0; i < 7; i++)
+  yield;
+  for (let i = 0; i < 7; i++) {
+    yield;
     arc(
       moving,
       [
@@ -191,6 +230,8 @@ export function whaleRide(id, { ambient = false, variant = 0 } = {}) {
       0xbadbe9,
       0.012,
     );
+  }
+  yield;
   arc(
     moving,
     [
@@ -201,6 +242,7 @@ export function whaleRide(id, { ambient = false, variant = 0 } = {}) {
     0x46678b,
     0.025,
   );
+  yield;
   const constellation = [
     [-0.63, 0.8, -1.2],
     [-0.7, 0.94, -0.45],
@@ -209,14 +251,20 @@ export function whaleRide(id, { ambient = false, variant = 0 } = {}) {
     [0.2, 0.96, 0.05],
     [0.52, 0.79, -0.7],
   ];
+  yield;
   constellation.forEach((p, i) => {
     shape(moving, "sphere", 0xd9f7ff, ...p, 0.055, 0.055, 0.055, true);
     if (i) arc(moving, [constellation[i - 1], p], 0xa2dbf6, 0.014);
   });
+  yield;
   const spout = new THREE.Group();
+  yield;
   spout.position.set(0, 0.91, 1.1);
+  yield;
   moving.add(spout);
-  for (const side of [-1, 1])
+  yield;
+  for (const side of [-1, 1]) {
+    yield;
     arc(
       spout,
       [
@@ -228,8 +276,12 @@ export function whaleRide(id, { ambient = false, variant = 0 } = {}) {
       0xb9edff,
       0.045,
     );
+  }
+  yield;
   const bubbles = [];
+  yield;
   for (let i = 0; i < 12; i++) {
+    yield;
     const b = shape(
       spout,
       "sphere",
@@ -242,11 +294,16 @@ export function whaleRide(id, { ambient = false, variant = 0 } = {}) {
       0.055,
       true,
     );
+    yield;
     b.userData.restScale = b.scale.clone();
+    yield;
     bubbles.push(b);
   }
+  yield;
   const trail = new THREE.Group();
+  yield;
   moving.add(trail);
+  yield;
   arc(
     trail,
     [
@@ -259,7 +316,9 @@ export function whaleRide(id, { ambient = false, variant = 0 } = {}) {
     violet ? 0xe5caff : 0x9fddff,
     0.023,
   );
-  for (let i = 0; i < 12; i++)
+  yield;
+  for (let i = 0; i < 12; i++) {
+    yield;
     shape(
       trail,
       "sphere",
@@ -272,12 +331,18 @@ export function whaleRide(id, { ambient = false, variant = 0 } = {}) {
       0.045,
       true,
     );
+  }
+  yield;
   const seat = 1.18,
     duration = 20,
     direction = violet ? -1 : 1;
+  yield;
   if (!ambient) {
+    yield;
     shape(moving, "sphere", 0xe2c190, 0, seat - 0.04, 0, 0.5, 0.09, 0.62);
-    for (const side of [-1, 1])
+    yield;
+    for (const side of [-1, 1]) {
+      yield;
       line(
         moving,
         [side * 0.5, seat, 0],
@@ -285,7 +350,10 @@ export function whaleRide(id, { ambient = false, variant = 0 } = {}) {
         0xf5dea7,
         0.035,
       );
-    for (let i = 0; i < 7; i++)
+    }
+    yield;
+    for (let i = 0; i < 7; i++) {
+      yield;
       shape(
         props,
         "cube",
@@ -297,10 +365,15 @@ export function whaleRide(id, { ambient = false, variant = 0 } = {}) {
         0.1,
         0.27,
       );
+    }
+    yield;
     lantern(props, -1.1, 0.25, 2, 0.6);
+    yield;
     lantern(props, 1.1, 0.25, 2, 0.6);
-    root.add(batchScenery(props));
+    yield;
+    root.add(yield* batchScenerySteps(props));
   }
+  yield;
   const frame = (elapsed, reduced = false) => {
     const t = Math.max(0, Math.min(1, elapsed / duration)),
       angle = t * Math.PI * 2,
@@ -323,6 +396,7 @@ export function whaleRide(id, { ambient = false, variant = 0 } = {}) {
       headPitch: -0.06,
     };
   };
+  yield;
   root.userData = {
     id,
     handpainted: true,
@@ -334,6 +408,7 @@ export function whaleRide(id, { ambient = false, variant = 0 } = {}) {
     tail,
     spout,
   };
+  yield;
   root.userData.update = (time, reduced = false) => {
     const elapsed =
         root.userData.rideElapsed ?? (time + variant * 3) % duration,
@@ -357,6 +432,12 @@ export function whaleRide(id, { ambient = false, variant = 0 } = {}) {
     trail.visible = !reduced;
     body.scale.y = 1 + (reduced ? 0 : Math.sin(time * 1.2) * 0.012);
   };
+  yield;
   root.userData.update(0, true);
+  yield;
   return root;
+}
+
+export function whaleRide(...args) {
+  return runSceneSteps(whaleRideSteps(...args));
 }

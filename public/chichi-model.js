@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
+import { paintCoat } from "./cat-sculpt.js";
 import { catAppearance, CAT_BUILDS } from "./cat-breeds.js";
 import {
   CHICHI_COAT,
@@ -55,23 +56,97 @@ function softCoat(color = CHICHI_COAT, face = false) {
 
 // Same named rig as the neighbours, but an independently sculpted kitten.
 // Geometry and per-vertex fur are shared by the live model and downloadable GLBs.
-export function createReferenceChichi(mood, { detail } = {}) {
-  const detailed = detail !== "npc",
+export function createReferenceChichi(mood, options = {}) {
+  const crowd = options.color != null || !!options.breed,
+    detailed = !crowd && options.detail !== "npc",
     cat = new THREE.Group();
-  cat.name = "Chichi";
-  const appearance = catAppearance({
-      breed: "blue",
-      color: CHICHI_COAT,
-      eyeColor: CHICHI_EYES,
-    }),
-    build = { ...CAT_BUILDS.balanced };
-  const fur = softCoat(),
+  cat.name = options.name || "Chichi";
+  const appearance = catAppearance(
+      crowd
+        ? { breed: "tabby", ...options }
+        : {
+            breed: "blue",
+            color: CHICHI_COAT,
+            eyeColor: CHICHI_EYES,
+          },
+    ),
+    build = { ...CAT_BUILDS[crowd ? appearance.build : "balanced"] },
+    coat = appearance.color ?? CHICHI_COAT,
+    surfaceQuality = crowd ? 19 : detailed;
+  function coatGeometry(geometry, region, sculpt = true) {
+    if (!crowd) return geometry;
+    // Pattern coordinates are in the same anatomical space for skin and fur.
+    if (
+      sculpt &&
+      appearance.fur === "long" &&
+      ["body", "face"].includes(region)
+    ) {
+      const p = geometry.attributes.position;
+      for (let i = 0; i < p.count; i++) {
+        const x = p.getX(i),
+          y = p.getY(i),
+          z = p.getZ(i),
+          edge =
+            region === "face"
+              ? THREE.MathUtils.smoothstep(Math.abs(x), 0.32, 0.5)
+              : 0.7;
+        const tuft = 1 + edge * (0.06 + 0.03 * Math.sin(y * 45 + z * 19));
+        p.setXYZ(i, x * tuft, y, z);
+      }
+      geometry.computeVertexNormals();
+    }
+    const g = geometry.clone();
+    if (region === "face") g.scale(1 / 0.545, 1 / 0.443, 1 / 0.435);
+    paintCoat(g, appearance, region);
+    const position = g.attributes.position,
+      colors = g.attributes.color,
+      base = new THREE.Color(coat),
+      light = new THREE.Color(0xf6eddd);
+    for (let i = 0; i < position.count; i++) {
+      const x = position.getX(i),
+        y = position.getY(i),
+        z = position.getZ(i);
+      const white =
+        (region === "paw" &&
+          y < -0.24 &&
+          (appearance.whitePaws || appearance.pattern === "tuxedo")) ||
+        (region === "face" &&
+          appearance.pattern === "tuxedo" &&
+          y < -0.25 &&
+          z > 0.67 &&
+          Math.abs(x) < 0.3);
+      if (white)
+        colors.setXYZ(
+          i,
+          light.r / Math.max(0.001, base.r),
+          light.g / Math.max(0.001, base.g),
+          light.b / Math.max(0.001, base.b),
+        );
+      else if (
+        appearance.pattern === "point" &&
+        ((region === "face" && y < 0.25 && z > 0.45) ||
+          region === "paw" ||
+          region === "tail")
+      ) {
+        colors.setXYZ(
+          i,
+          colors.getX(i) * 0.38,
+          colors.getY(i) * 0.38,
+          colors.getZ(i) * 0.38,
+        );
+      }
+    }
+    geometry.setAttribute("color", g.attributes.color);
+    g.dispose();
+    return geometry;
+  }
+  const fur = softCoat(coat),
     faceMaterial = softCoat(
-      new THREE.Color(CHICHI_COAT).multiplyScalar(1.3),
+      new THREE.Color(coat).multiplyScalar(crowd ? 1 : 1.3),
       true,
     ),
     hairMaterial = new THREE.MeshPhysicalMaterial({
-      color: new THREE.Color(CHICHI_COAT).multiplyScalar(1.5),
+      color: new THREE.Color(coat).multiplyScalar(1.5),
       vertexColors: true,
       roughness: 0.88,
       sheen: 0.65,
@@ -112,7 +187,9 @@ export function createReferenceChichi(mood, { detail } = {}) {
       toneMapped: false,
     }),
     muzzleMaterial = new THREE.MeshStandardMaterial({
-      color: 0x83888c,
+      color: crowd
+        ? new THREE.Color(coat).lerp(new THREE.Color(0xbcc0c2), 0.18)
+        : 0x83888c,
       roughness: 1,
     }),
     tongueMaterial = new THREE.MeshStandardMaterial({
@@ -139,7 +216,11 @@ export function createReferenceChichi(mood, { detail } = {}) {
     const o = mesh(
       parent,
       name,
-      new THREE.SphereGeometry(1, detailed ? 32 : 16, detailed ? 24 : 12),
+      new THREE.SphereGeometry(
+        1,
+        detailed ? 32 : crowd ? 10 : 16,
+        detailed ? 24 : crowd ? 7 : 12,
+      ),
       material,
     );
     o.position.set(...position);
@@ -164,16 +245,36 @@ export function createReferenceChichi(mood, { detail } = {}) {
     );
   }
   function furOn(parent, name, surface, count, options) {
+    if (crowd && appearance.fur === "bare") return null;
     const geometry = groomFur(
       surface,
-      detailed ? count : Math.round(count * 0.075),
-      options,
+      detailed
+        ? count
+        : Math.round(
+            count *
+              (crowd ? (appearance.fur === "long" ? 0.006 : 0.0035) : 0.075),
+          ),
+      {
+        ...options,
+        length: options.length * (crowd && appearance.fur === "long" ? 2.8 : 1),
+      },
     );
+    if (crowd && name !== "EarVelvet-1" && name !== "EarVelvet1")
+      coatGeometry(
+        geometry,
+        options.region === "leg" ? "paw" : options.region || "body",
+        false,
+      );
     const o = mesh(parent, name, geometry, hairMaterial);
     o.castShadow = false;
     return o;
   }
-  const body = mesh(cat, "Body", kittenSurface("body", detailed), fur);
+  const body = mesh(
+    cat,
+    "Body",
+    coatGeometry(kittenSurface("body", surfaceQuality), "body"),
+    fur,
+  );
   body.position.set(0, CHICHI_ANATOMY.bodyY, -0.095);
   body.scale.set(
     CHICHI_ANATOMY.bodyX,
@@ -194,7 +295,7 @@ export function createReferenceChichi(mood, { detail } = {}) {
   const face = mesh(
     head,
     "Face",
-    kittenSurface("face", detailed),
+    coatGeometry(kittenSurface("face", surfaceQuality), "face"),
     faceMaterial,
   );
   const cheekFur = furOn(
@@ -209,8 +310,52 @@ export function createReferenceChichi(mood, { detail } = {}) {
       region: "face",
     },
   );
-  cheekFur.material = hairMaterial.clone();
-  cheekFur.material.color.multiplyScalar(1.3);
+  if (cheekFur) {
+    cheekFur.material = hairMaterial.clone();
+    if (!crowd) cheekFur.material.color.multiplyScalar(1.3);
+  }
+  if (crowd) {
+    head.scale.set(
+      build.face * (appearance.faceWidth || 1),
+      build.face,
+      build.face,
+    );
+    if (appearance.neckRuff)
+      ellipsoid(
+        cat,
+        "NeckRuff",
+        fur,
+        [0, 1.02, 0.33],
+        [0.31 * appearance.neckRuff, 0.28, 0.25],
+      );
+    if (appearance.pattern === "tuxedo") {
+      chest.visible = true;
+      chest.material = fur.clone();
+      chest.material.color.set(0xf2ede2);
+      chest.scale.set(0.2, 0.24, 0.075);
+    }
+    if (appearance.fur === "bare") {
+      fur.sheen = 0;
+      fur.roughness = 0.75;
+      for (const material of [fur, faceMaterial]) {
+        material.onBeforeCompile = (shader) => {
+          shader.vertexShader =
+            "varying vec3 kittenSkin;\n" +
+            shader.vertexShader.replace(
+              "#include <begin_vertex>",
+              "#include <begin_vertex>\nkittenSkin=position;",
+            );
+          shader.fragmentShader =
+            "varying vec3 kittenSkin;\n" +
+            shader.fragmentShader.replace(
+              "#include <color_fragment>",
+              "#include <color_fragment>\nfloat wrinkle=sin(kittenSkin.y*85.0+sin(kittenSkin.x*10.0)*2.0)*exp(-pow((kittenSkin.y-.15)*5.0,2.0));diffuseColor.rgb*=1.0-wrinkle*.025;",
+            );
+        };
+        material.customProgramCacheKey = () => "reference-bare-skin-v1";
+      }
+    }
+  }
   const ears = [],
     eyes = [],
     pupils = [],
@@ -223,7 +368,18 @@ export function createReferenceChichi(mood, { detail } = {}) {
     ear.position.set(side * 0.335, 0.285, -0.08);
     head.add(ear);
     ears.push(ear);
-    const outer = mesh(ear, "EarShell" + side, kittenEar(side), earMaterial);
+    const outer = mesh(
+      ear,
+      "EarShell" + side,
+      kittenEar(side, {
+        color:
+          crowd && appearance.pattern === "point"
+            ? new THREE.Color(coat).multiplyScalar(0.28).getHex()
+            : coat,
+        detailed: !crowd,
+      }),
+      earMaterial,
+    );
     const earFur = furOn(ear, "EarVelvet" + side, outer.geometry, 4800, {
       seed: side + 70,
       length: 0.018,
@@ -232,8 +388,11 @@ export function createReferenceChichi(mood, { detail } = {}) {
       colorRange: 1,
     });
     // Ear geometry already carries full coat/skin colours, so no second grey tint.
-    earFur.material = hairMaterial.clone();
-    earFur.material.color.set(0xffffff);
+    if (earFur) {
+      earFur.material = hairMaterial.clone();
+      earFur.material.color.set(0xffffff);
+    }
+    if (crowd) ear.scale.setScalar(appearance.ears || 1);
     if (detailed)
       for (let wisp = 0; wisp < 5; wisp++)
         curve(
@@ -264,7 +423,17 @@ export function createReferenceChichi(mood, { detail } = {}) {
       [0, 0, 0.012],
       [0.151, 0.161, 0.052],
     );
-    const iris = mesh(eye, "Iris" + side, kittenIris(detailed), irisMaterial);
+    const iris = mesh(
+      eye,
+      "Iris" + side,
+      kittenIris(
+        detailed,
+        side > 0
+          ? appearance.otherEye || appearance.eyeColor
+          : appearance.eyeColor,
+      ),
+      irisMaterial,
+    );
     iris.scale.set(0.143, 0.151, 1);
     iris.position.z = 0.045;
     const pupil = mesh(
@@ -498,9 +667,21 @@ export function createReferenceChichi(mood, { detail } = {}) {
         CHICHI_ANATOMY.legY,
         front * (front > 0 ? 0.36 : 0.43),
       );
+      if (crowd) {
+        leg.scale.set(
+          Math.sqrt(build.width),
+          build.height,
+          Math.sqrt(build.width),
+        );
+        leg.position.x *= Math.sqrt(build.width);
+        leg.position.z *= build.length;
+      }
       cat.add(leg);
       legs.push(leg);
-      const shape = kittenLeg(front, detailed);
+      const shape = coatGeometry(
+        kittenLeg(front, crowd ? 16 : detailed),
+        "paw",
+      );
       const shin = mesh(leg, "Shin", shape, fur);
       furOn(leg, `LegVelvet${side}_${front}`, shape, 3500, {
         seed: 100 + side * 5 + front,
@@ -538,8 +719,8 @@ export function createReferenceChichi(mood, { detail } = {}) {
         [-0.17, 1.3, -0.13],
       ].map((p) => new THREE.Vector3(...p)),
     ),
-    steps = detailed ? 56 : 20,
-    radial = detailed ? 18 : 10,
+    steps = detailed ? 56 : crowd ? 12 : 20,
+    radial = detailed ? 18 : crowd ? 6 : 10,
     tailGeometry = new THREE.TubeGeometry(
       tailCurve,
       steps,
@@ -570,7 +751,12 @@ export function createReferenceChichi(mood, { detail } = {}) {
       3,
     ),
   );
+  coatGeometry(tailGeometry, "tail");
   mesh(tailTip, "TailCoat", tailGeometry, fur);
+  if (crowd && appearance.tailLength)
+    tail.scale.setScalar(appearance.tailLength);
+  if (crowd && appearance.fur === "long")
+    tailTip.scale.set(1.25 * (appearance.tailPlume || 1), 1.05, 1.25);
   furOn(tailTip, "TailVelvet", tailGeometry, 6500, {
     seed: 57,
     length: 0.02,
@@ -582,8 +768,20 @@ export function createReferenceChichi(mood, { detail } = {}) {
     detailed,
     appearance,
     build,
-    reference: true,
-    anatomy: CHICHI_ANATOMY,
+    reference: !crowd,
+    referenceFamily: true,
+    anatomy: crowd
+      ? {
+          ...CHICHI_ANATOMY,
+          legY: CHICHI_ANATOMY.legY * build.height,
+          bodyY:
+            CHICHI_ANATOMY.bodyY - CHICHI_ANATOMY.legY * (1 - build.height),
+          headY:
+            CHICHI_ANATOMY.headY -
+            CHICHI_ANATOMY.legY * (1 - build.height) -
+            (build.height - 1) * 0.22,
+        }
+      : CHICHI_ANATOMY,
     head,
     body,
     chest,
@@ -602,6 +800,31 @@ export function createReferenceChichi(mood, { detail } = {}) {
   // Merge static surface parts per material, retaining independently animated rig nodes.
   const batch = (parent, exclude = []) => {
     const groups = new Map();
+    if (crowd) {
+      const parts = parent.children.filter(
+        (o) => o.isMesh && !exclude.includes(o),
+      );
+      const target = parent.name.startsWith("EyeGlobe")
+        ? irisMaterial
+        : parts[0]?.material;
+      if (target && parts.length > 1) {
+        for (const part of parts) {
+          const g = part.geometry,
+            source = g.attributes.color,
+            colors = new Float32Array(g.attributes.position.count * 3);
+          const tint = part.material.color;
+          for (let i = 0; i < colors.length / 3; i++)
+            for (let axis = 0; axis < 3; axis++) {
+              const key = ["r", "g", "b"][axis],
+                v = source ? source.getComponent(i, axis) : 1;
+              colors[i * 3 + axis] =
+                (v * tint[key]) / Math.max(0.0001, target.color[key]);
+            }
+          g.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
+          part.material = target;
+        }
+      }
+    }
     for (const child of parent.children)
       if (child.isMesh && !exclude.includes(child)) {
         const group = groups.get(child.material) || [];
@@ -612,10 +835,27 @@ export function createReferenceChichi(mood, { detail } = {}) {
       if (parts.length > 1) {
         const geometries = parts.map((o) => {
           o.updateMatrix();
-          const g = o.geometry.index
-            ? o.geometry.toNonIndexed()
-            : o.geometry.clone();
+          const g = crowd
+            ? o.geometry.clone()
+            : o.geometry.index
+              ? o.geometry.toNonIndexed()
+              : o.geometry.clone();
+          if (crowd && !g.index)
+            g.setIndex(
+              Array.from({ length: g.attributes.position.count }, (_, i) => i),
+            );
           g.deleteAttribute("uv");
+          if (crowd && !(g.attributes.normal.array instanceof Float32Array)) {
+            const normal = g.attributes.normal,
+              values = new Float32Array(normal.count * 3);
+            for (let i = 0; i < normal.count; i++)
+              for (let k = 0; k < 3; k++)
+                values[i * 3 + k] = normal.getComponent(i, k);
+            g.setAttribute(
+              "normal",
+              new THREE.Float32BufferAttribute(values, 3),
+            );
+          }
           g.applyMatrix4(o.matrix);
           return g;
         });
@@ -636,6 +876,11 @@ export function createReferenceChichi(mood, { detail } = {}) {
   for (const eye of eyes) batch(eye.children[0], pupils);
   for (const ear of ears) batch(ear);
   for (const leg of legs) batch(leg);
+  if (crowd) {
+    for (const closed of closedEyes) batch(closed);
+    batch(body);
+    batch(tailTip);
+  }
   // Continuous weighted surfaces. Skin, fur and toe grooves share the same
   // bones, including in exported glTF files.
   for (const leg of legs) {
@@ -687,7 +932,11 @@ export function createReferenceChichi(mood, { detail } = {}) {
       leg.remove(part);
       leg.add(skin);
       skin.bind(skeleton);
-      skin.frustumCulled = false;
+      skin.frustumCulled = crowd;
+      if (crowd) {
+        skin.computeBoundingSphere();
+        skin.boundingSphere.radius += 0.25;
+      }
     }
   }
   cat.userData.legJoints = legJoints;
@@ -712,5 +961,28 @@ export function createReferenceChichi(mood, { detail } = {}) {
     }
     g.setAttribute("normal", new THREE.Int16BufferAttribute(packed, 3, true));
   });
+  if (crowd) {
+    // Half-float colour/position storage retains the sculpt and every strand;
+    // it halves their GPU bandwidth at well below a pixel of world-space error.
+    const done = new Set();
+    cat.traverse((o) => {
+      if (!o.isMesh || done.has(o.geometry)) return;
+      done.add(o.geometry);
+      for (const name of ["position", "color"]) {
+        const attr = o.geometry.attributes[name];
+        if (!attr) continue;
+        const values = new Uint16Array(attr.count * attr.itemSize);
+        for (let i = 0; i < attr.count; i++)
+          for (let axis = 0; axis < attr.itemSize; axis++)
+            values[i * attr.itemSize + axis] = THREE.DataUtils.toHalfFloat(
+              attr.getComponent(i, axis),
+            );
+        o.geometry.setAttribute(
+          name,
+          new THREE.Float16BufferAttribute(values, attr.itemSize),
+        );
+      }
+    });
+  }
   return cat;
 }

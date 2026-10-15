@@ -1,6 +1,7 @@
+import { runSceneSteps } from "./scene-tasks.js";
 import * as THREE from "three";
 import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
-import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
+import { mergeSceneSteps } from "./geometry-tasks.js";
 
 const geometries = {
   sphere: new THREE.SphereGeometry(1, 12, 8),
@@ -534,13 +535,23 @@ export function crescentGate(parent, x, y, z, color = 0xffd98d, scale = 1) {
   return g;
 }
 // Batch static props by material surface, retaining vertex colors and glow.
-export function batchScenery(root) {
+export function* batchScenerySteps(root) {
+  yield;
   root.updateWorldMatrix(true, true);
+  yield;
   const inverse = root.matrixWorld.clone().invert(),
     parts = { glow: [] };
+  yield;
+  const meshes = [];
+  yield;
   root.traverse((mesh) => {
-    if (!mesh.isMesh) return;
+    if (mesh.isMesh) meshes.push(mesh);
+  });
+  yield;
+  for (const mesh of meshes) {
+    yield;
     let geometry = mesh.geometry.clone();
+    yield;
     if (!geometry.index)
       geometry.setIndex(
         Array.from(
@@ -548,38 +559,60 @@ export function batchScenery(root) {
           (_, i) => i,
         ),
       );
+    yield;
     geometry.applyMatrix4(inverse.clone().multiply(mesh.matrixWorld));
+    yield;
     const count = geometry.getAttribute("position").count,
       c = new THREE.Color(mesh.material.color),
       colors = new Float32Array(count * 3);
+    yield;
     for (let i = 0; i < count; i++) {
+      if ((i & 2047) === 0) yield;
+
       const original =
         mesh.material.vertexColors && geometry.getAttribute("color");
+
       colors[i * 3] = c.r * (original ? original.getX(i) : 1);
+
       colors[i * 3 + 1] = c.g * (original ? original.getY(i) : 1);
+
       colors[i * 3 + 2] = c.b * (original ? original.getZ(i) : 1);
     }
+    yield;
     geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
     // Uniform attributes make arbitrary spheres, rocks, roofs and tubes mergeable.
-    for (const name of Object.keys(geometry.attributes))
+    yield;
+    for (const name of Object.keys(geometry.attributes)) {
+      yield;
       if (!["position", "normal", "color", "uv"].includes(name))
         geometry.deleteAttribute(name);
+    }
+    yield;
     if (!geometry.getAttribute("uv"))
       geometry.setAttribute(
         "uv",
         new THREE.Float32BufferAttribute(new Float32Array(count * 2), 2),
       );
+    yield;
     if (!geometry.getAttribute("normal")) geometry.computeVertexNormals();
+    yield;
     const key = mesh.material.isMeshBasicMaterial
       ? "glow"
       : mesh.material.userData.surfaceKind || "stone";
+    yield;
     (parts[key] ||= []).push(geometry);
-  });
+  }
+  yield;
   const result = new THREE.Group();
+  yield;
   for (const [key, pieces] of Object.entries(parts)) {
+    yield;
     if (!pieces.length) continue;
-    const geometry = mergeGeometries(pieces, false);
+    yield;
+    const geometry = yield* mergeSceneSteps(pieces);
+    yield;
     pieces.forEach((g) => g.dispose());
+    yield;
     const material =
       key === "glow"
         ? new THREE.MeshBasicMaterial({ vertexColors: true })
@@ -590,16 +623,23 @@ export function batchScenery(root) {
             bumpMap: surfaceTexture(key),
             bumpScale: 0.025,
           });
+    yield;
     const mesh = new THREE.Mesh(geometry, material);
+    yield;
     material.userData.surfaceKind = key;
+    yield;
     mesh.castShadow = key !== "glow";
+    yield;
     mesh.receiveShadow = key !== "glow";
+    yield;
     result.add(mesh);
   }
+  yield;
   result.userData.sourceMeshes = Object.values(parts).reduce(
     (sum, p) => sum + p.length,
     0,
   );
+  yield;
   return result;
 }
 export function dressAttraction(group, item) {
@@ -897,4 +937,8 @@ export function dressAttraction(group, item) {
   group.add(batchScenery(decor));
   group.userData.dressed = true;
   return group;
+}
+
+export function batchScenery(...args) {
+  return runSceneSteps(batchScenerySteps(...args));
 }
