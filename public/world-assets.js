@@ -8,6 +8,7 @@ import { cityRide } from "./city-rides.js";
 import { advancedAttraction, animateAdvanced } from "./advanced-assets.js";
 import { dressAttraction } from "./fantasy-scenery.js";
 import { byItem } from "./game-data.js";
+import { waterMaterial, advanceWater } from "./water-shading.js";
 import * as THREE from "three";
 const cache = new Map();
 export function material(color, glow = 0) {
@@ -208,6 +209,15 @@ export function makeAttraction(id, fields = [], now = Date.now()) {
   let curve = null,
     seatHeight = 0.55,
     ridePosition = null;
+  const waterSurfaces = [];
+  const water = (geometry, color, x = 0, y = 0, z = 0) => {
+    const material = waterMaterial(color, 0.74),
+      mesh = new THREE.Mesh(geometry, material);
+    mesh.position.set(x, y, z);
+    group.add(mesh);
+    waterSurfaces.push(material);
+    return mesh;
+  };
   const purple = 0xa991c1,
     pink = 0xd6a2b3,
     gold = 0xe4c99c,
@@ -391,10 +401,9 @@ export function makeAttraction(id, fields = [], now = Date.now()) {
         0.08,
         0.3,
       );
-    const pool = primitive(
-      group,
+    const pool = water(
       new THREE.CylinderGeometry(1, 1, 0.08, 24),
-      0x89c8cf,
+      0x08b5d0,
       -0.8,
       0.09,
       1.3,
@@ -468,15 +477,14 @@ export function makeAttraction(id, fields = [], now = Date.now()) {
     );
     seatHeight = 0.58;
   } else if (id === "boat") {
-    const water = primitive(
-      group,
+    const basin = water(
       new THREE.CylinderGeometry(1.6, 1.6, 0.06, 32),
-      0x7dacb6,
+      0x08b5d0,
       0,
       0.05,
       0,
     );
-    water.scale.z = 0.75;
+    basin.scale.z = 0.75;
     vehicle(moving, "boat");
     seatHeight = 0.25;
     ridePosition = (t) => [Math.sin(t) * 0.8, 0.3, Math.cos(t) * 0.5];
@@ -578,6 +586,10 @@ export function makeAttraction(id, fields = [], now = Date.now()) {
         0x9cd7d2,
         0.025,
       );
+      const jet = group.children.at(-1);
+      jet.material = waterMaterial(0x50d1df, 0.82);
+      jet.castShadow = false;
+      waterSurfaces.push(jet.material);
     }
   } else if (id === "mushroom") {
     rod(group, 0xc9bfa8, 0, 0.7, 0, 0.65, 1.4);
@@ -619,10 +631,9 @@ export function makeAttraction(id, fields = [], now = Date.now()) {
     bed.scale.y = 0.25;
     ball(group, pink, 0, 0.27, 0, 0.5).scale.y = 0.18;
   } else if (id === "pond") {
-    const pond = primitive(
-      group,
+    const pond = water(
       new THREE.CylinderGeometry(1.2, 1.2, 0.06, 32),
-      teal,
+      0x08b5d0,
       0,
       0.04,
       0,
@@ -647,6 +658,7 @@ export function makeAttraction(id, fields = [], now = Date.now()) {
     curve,
     seatHeight,
     ridePosition,
+    waterSurfaces,
     ...(id === "yarn" ? { duration: 10.8 } : {}),
   };
   return dressAttraction(group, byItem(id));
@@ -657,6 +669,8 @@ export function animateAttraction(group, time) {
     return;
   }
   animateAdvanced(group, time);
+  for (const water of group.userData.waterSurfaces || [])
+    advanceWater(water, time);
   const { id, moving, curve } = group.userData;
   if (!moving) return;
   if (id === "carousel") moving.rotation.y = time * 0.65;

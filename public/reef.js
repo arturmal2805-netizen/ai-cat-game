@@ -1,3 +1,4 @@
+import { applyUnderwaterLighting } from "./water-shading.js";
 import { runSceneSteps } from "./scene-tasks.js";
 import * as THREE from "three";
 import {
@@ -159,6 +160,7 @@ export function* reefSteps({ rx = 3, rz = 2, seed = 1, count = 14 } = {}) {
         );
     };
     material.customProgramCacheKey = () => "reef-current-v1";
+    applyUnderwaterLighting(material, clock);
   });
   yield;
   root.userData.update = (time, reduced = false) => {
