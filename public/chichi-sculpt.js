@@ -72,8 +72,13 @@ function randomSequence(seed) {
 export function kittenSurface(kind, detailed) {
   const key = kind + detailed;
   if (!cache.has(key)) {
-    const size = typeof detailed === "number" ? detailed : detailed ? 76 : 34,
-      domain = 1.34,
+    // MarchingCubes skips the outer sampling rows. Keep the crowd's original
+    // voxel spacing, but pad its field so muzzle tips cannot reach that border.
+    // Boolean hero quality follows the original path byte for byte.
+    const resolution =
+        typeof detailed === "number" ? detailed : detailed ? 76 : 34,
+      size = resolution + (typeof detailed === "number" ? 4 : 0),
+      domain = typeof detailed === "number" ? (1.34 * size) / resolution : 1.34,
       clay = new MarchingCubes(
         size,
         new THREE.MeshBasicMaterial(),
@@ -192,6 +197,7 @@ export function groomFur(
     width = 0.00075,
     region = "body",
     colorRange = 1.5,
+    surfaceKey = "",
   } = {},
 ) {
   const key = [
@@ -203,7 +209,8 @@ export function groomFur(
     colorRange,
     surface.attributes.position.count,
   ].join(":");
-  if (furCache.has(key)) return furCache.get(key).clone();
+  const cacheKey = surfaceKey ? key + ":" + surfaceKey : key;
+  if (furCache.has(cacheKey)) return furCache.get(cacheKey).clone();
   const p = surface.attributes.position,
     n = surface.attributes.normal,
     c = surface.attributes.color,
@@ -345,14 +352,17 @@ export function groomFur(
   );
   g.setIndex(indices);
   g.userData.strands = strands;
-  furCache.set(key, g.clone());
+  furCache.set(cacheKey, g.clone());
   return g;
 }
 
 export function kittenLeg(front, detailed) {
   const key = "leg:" + front + ":" + detailed;
   if (cache.has(key)) return cache.get(key).clone();
-  const size = typeof detailed === "number" ? detailed : detailed ? 54 : 28,
+  const resolution =
+      typeof detailed === "number" ? detailed : detailed ? 54 : 28,
+    size = resolution + (typeof detailed === "number" ? 4 : 0),
+    padding = size / resolution,
     clay = new MarchingCubes(
       size,
       new THREE.MeshBasicMaterial(),
@@ -379,9 +389,9 @@ export function kittenLeg(front, detailed) {
   for (let z = 0; z < size; z++)
     for (let y = 0; y < size; y++)
       for (let x = 0; x < size; x++) {
-        const px = ((x / size) * 2 - 1) * 0.235,
-          py = ((y / size) * 2 - 1) * 0.43 - 0.1,
-          pz = ((z / size) * 2 - 1) * 0.28;
+        const px = ((x / size) * 2 - 1) * 0.235 * padding,
+          py = ((y / size) * 2 - 1) * 0.43 * padding - 0.1,
+          pz = ((z / size) * 2 - 1) * 0.28 * padding;
         let d = 10;
         for (const [cx, cy, cz, rx, ry, rz] of volumes) {
           const v =
@@ -401,7 +411,7 @@ export function kittenLeg(front, detailed) {
       3,
     ),
   );
-  raw.scale(0.235, 0.43, 0.28);
+  raw.scale(0.235 * padding, 0.43 * padding, 0.28 * padding);
   raw.translate(0, -0.1, 0);
   const g = mergeVertices(raw, 0.00001);
   raw.dispose();

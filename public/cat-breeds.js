@@ -41,6 +41,10 @@ export const BREEDS = {
     pattern: "tabby",
     ears: 1.2,
     fur: "long",
+    neckRuff: 1.22,
+    earTufts: 0.13,
+    squareMuzzle: 0.1,
+    tailPlume: 1.32,
   },
   persian: {
     name: "Персидская",
@@ -177,6 +181,25 @@ export const BREEDS = {
     ears: 1.4,
     fur: "bare",
   },
+  curl: {
+    name: "Американский кёрл",
+    build: "balanced",
+    pattern: "solid",
+    ears: 1.12,
+    earCurl: 1,
+    fur: "long",
+    neckRuff: 1.05,
+    tailPlume: 1.2,
+  },
+  van: {
+    name: "Турецкий ван",
+    build: "balanced",
+    pattern: "van",
+    ears: 1.02,
+    fur: "long",
+    tailPlume: 1.3,
+    patchColor: 0xc57c44,
+  },
 };
 export const CAT_BUILDS = {
   slender: {
@@ -225,13 +248,13 @@ export const CAT_BUILDS = {
     stride: 0.27,
   },
   giant: {
-    width: 1.48,
-    height: 0.98,
-    length: 1.18,
-    face: 1.19,
-    gait: 0.66,
-    bounce: 0.048,
-    stride: 0.2,
+    width: 1.92,
+    height: 0.9,
+    length: 1.32,
+    face: 1.25,
+    gait: 0.61,
+    bounce: 0.039,
+    stride: 0.18,
   },
 };
 const cat = (
@@ -370,8 +393,8 @@ export const ADOPTION_CATS = [
     0xccad65,
     2400,
     10,
-    "Очень большая плюшевая булочка",
-    { build: "giant", size: 1.36 },
+    "Огромная плюшевая булочка: круглый животик и смешные переваливающиеся шажки",
+    { build: "giant", size: 1.48 },
   ),
   cat(
     "pearl",
@@ -433,7 +456,7 @@ export const ADOPTION_CATS = [
     6800,
     17,
     "Громадный добряк: медленно топает и смешно качается",
-    { build: "giant", size: 1.9 },
+    { build: "giant", size: 2.1 },
   ),
   cat(
     "snowdrop",
@@ -569,6 +592,27 @@ export const ADOPTION_CATS = [
     3300,
     10,
     "Нежные белые лапки и пушистая тёмная маска",
+  ),
+  cat(
+    "pretzel",
+    "Кренделёк",
+    "curl",
+    0xb7a99b,
+    0xa9cd82,
+    1650,
+    6,
+    "Ушки завиты назад, пушистый воротничок и хвост-пёрышко",
+  ),
+  cat(
+    "marzipan",
+    "Марципан",
+    "van",
+    0xf0eade,
+    0x86bfdf,
+    1850,
+    7,
+    "Белая шубка, рыжая шапочка и полосатый хвост: обожает лагуны",
+    { otherEye: 0xdbb85d },
   ),
 ];
 export function catAppearance(profile = {}) {

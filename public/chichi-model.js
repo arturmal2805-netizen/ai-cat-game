@@ -3,6 +3,13 @@ import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { paintCoat } from "./cat-sculpt.js";
 import { catAppearance, CAT_BUILDS } from "./cat-breeds.js";
 import {
+  sculptBreedDetails,
+  curlEar,
+  lynxTuft,
+  ruffGeometry,
+  bareSkin,
+} from "./cat-breed-details.js";
+import {
   CHICHI_COAT,
   CHICHI_EYES,
   CHICHI_ANATOMY,
@@ -75,6 +82,7 @@ export function createReferenceChichi(mood, options = {}) {
     surfaceQuality = crowd ? 19 : detailed;
   function coatGeometry(geometry, region, sculpt = true) {
     if (!crowd) return geometry;
+    if (sculpt) sculptBreedDetails(geometry, appearance, region);
     // Pattern coordinates are in the same anatomical space for skin and fur.
     if (
       sculpt &&
@@ -101,7 +109,9 @@ export function createReferenceChichi(mood, options = {}) {
     const position = g.attributes.position,
       colors = g.attributes.color,
       base = new THREE.Color(coat),
-      light = new THREE.Color(0xf6eddd);
+      light = new THREE.Color(0xf6eddd),
+      accent = new THREE.Color(appearance.patchColor ?? coat),
+      tint = new THREE.Color();
     for (let i = 0; i < position.count; i++) {
       const x = position.getX(i),
         y = position.getY(i),
@@ -115,7 +125,23 @@ export function createReferenceChichi(mood, options = {}) {
           y < -0.25 &&
           z > 0.67 &&
           Math.abs(x) < 0.3);
-      if (white)
+      if (appearance.pattern === "van") {
+        const cap =
+            region === "face"
+              ? THREE.MathUtils.smoothstep(y, 0.18, 0.43) *
+                THREE.MathUtils.smoothstep(Math.abs(x), 0.16, 0.38)
+              : region === "tail"
+                ? 1
+                : 0,
+          stripe = region === "tail" ? 0.88 + 0.12 * Math.cos(y * 25) : 1;
+        tint.copy(base).lerp(accent, cap);
+        colors.setXYZ(
+          i,
+          (tint.r / base.r) * stripe,
+          (tint.g / base.g) * stripe,
+          (tint.b / base.b) * stripe,
+        );
+      } else if (white)
         colors.setXYZ(
           i,
           light.r / Math.max(0.001, base.r),
@@ -257,6 +283,16 @@ export function createReferenceChichi(mood, options = {}) {
       {
         ...options,
         length: options.length * (crowd && appearance.fur === "long" ? 2.8 : 1),
+        surfaceKey: crowd
+          ? JSON.stringify([
+              appearance.breed,
+              appearance.build,
+              coat,
+              appearance.pattern,
+              appearance.earCurl,
+              appearance.squareMuzzle,
+            ])
+          : "",
       },
     );
     if (crowd && name !== "EarVelvet-1" && name !== "EarVelvet1")
@@ -320,14 +356,18 @@ export function createReferenceChichi(mood, options = {}) {
       build.face,
       build.face,
     );
-    if (appearance.neckRuff)
-      ellipsoid(
-        cat,
+    if (appearance.neckRuff) {
+      const ruff = mesh(
+        head,
         "NeckRuff",
+        coatGeometry(ruffGeometry(), "ruff"),
         fur,
-        [0, 1.02, 0.33],
-        [0.31 * appearance.neckRuff, 0.28, 0.25],
       );
+      // Follow the chin and batch into the head: a distinct mane costs no
+      // additional draw on the phone, including during turns and blinks.
+      ruff.position.set(0, -0.33, -0.12);
+      ruff.scale.set(0.32 * appearance.neckRuff, 0.33, 0.29);
+    }
     if (appearance.pattern === "tuxedo") {
       chest.visible = true;
       chest.material = fur.clone();
@@ -335,25 +375,10 @@ export function createReferenceChichi(mood, options = {}) {
       chest.scale.set(0.2, 0.24, 0.075);
     }
     if (appearance.fur === "bare") {
-      fur.sheen = 0;
-      fur.roughness = 0.75;
-      for (const material of [fur, faceMaterial]) {
-        material.onBeforeCompile = (shader) => {
-          shader.vertexShader =
-            "varying vec3 kittenSkin;\n" +
-            shader.vertexShader.replace(
-              "#include <begin_vertex>",
-              "#include <begin_vertex>\nkittenSkin=position;",
-            );
-          shader.fragmentShader =
-            "varying vec3 kittenSkin;\n" +
-            shader.fragmentShader.replace(
-              "#include <color_fragment>",
-              "#include <color_fragment>\nfloat wrinkle=sin(kittenSkin.y*85.0+sin(kittenSkin.x*10.0)*2.0)*exp(-pow((kittenSkin.y-.15)*5.0,2.0));diffuseColor.rgb*=1.0-wrinkle*.025;",
-            );
-        };
-        material.customProgramCacheKey = () => "reference-bare-skin-v1";
-      }
+      bareSkin(fur);
+      bareSkin(faceMaterial, "face");
+      bareSkin(earMaterial, "ear");
+      noseMaterial.color.set(0x946f79);
     }
   }
   const ears = [],
@@ -371,13 +396,18 @@ export function createReferenceChichi(mood, options = {}) {
     const outer = mesh(
       ear,
       "EarShell" + side,
-      kittenEar(side, {
-        color:
-          crowd && appearance.pattern === "point"
-            ? new THREE.Color(coat).multiplyScalar(0.28).getHex()
-            : coat,
-        detailed: !crowd,
-      }),
+      curlEar(
+        kittenEar(side, {
+          color:
+            crowd && appearance.pattern === "point"
+              ? new THREE.Color(coat).multiplyScalar(0.28).getHex()
+              : crowd && appearance.pattern === "van"
+                ? appearance.patchColor
+                : coat,
+          detailed: !crowd,
+        }),
+        crowd ? appearance.earCurl : 0,
+      ),
       earMaterial,
     );
     const earFur = furOn(ear, "EarVelvet" + side, outer.geometry, 4800, {
@@ -393,6 +423,8 @@ export function createReferenceChichi(mood, options = {}) {
       earFur.material.color.set(0xffffff);
     }
     if (crowd) ear.scale.setScalar(appearance.ears || 1);
+    if (crowd && appearance.earTufts)
+      mesh(ear, "LynxTuft" + side, lynxTuft(side, appearance.earTufts), fur);
     if (detailed)
       for (let wisp = 0; wisp < 5; wisp++)
         curve(
@@ -773,6 +805,9 @@ export function createReferenceChichi(mood, options = {}) {
     anatomy: crowd
       ? {
           ...CHICHI_ANATOMY,
+          bodyHeight:
+            CHICHI_ANATOMY.bodyHeight *
+            (appearance.build === "giant" ? 1.22 : 1),
           legY: CHICHI_ANATOMY.legY * build.height,
           bodyY:
             CHICHI_ANATOMY.bodyY - CHICHI_ANATOMY.legY * (1 - build.height),

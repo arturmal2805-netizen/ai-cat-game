@@ -29,11 +29,12 @@ lids. Half-float positions/colours and 16-bit normals reduce crowd bandwidth.
 Static colour parts merge within each animated rig node. Cat shapes and breed
 traits remain visible; no island objects or landscape details are removed.
 
-All 30 adoption portraits and three mood portraits are baked from the actual
+All 32 adoption portraits and three mood portraits are baked from the actual
 models into `public/art/cats`. Opening the menu creates no temporary 3D scenes.
 To regenerate them, run `scripts/render-cat-portraits.mjs` with a local Playwright
 installation (`PLAYWRIGHT_MODULE` may point to its module) and `CHROMIUM_PATH`.
-Pass `--venues` to refresh the shop pictures of businesses and the adoption
+Pass `--adoption-only` to leave all approved Chichi images untouched, or
+`--venues` to refresh the shop pictures of businesses and the adoption
 centre as well. This optional authoring step is separate from production builds.
 
 The three downloadable GLBs include the geometric fur, weighted skin, PBR
@@ -51,3 +52,8 @@ every physical phone.
 Geometry, animation and export tests check concrete technical properties. They
 cannot certify AAA art quality or pixel-identical resemblance to a single
 reference photograph. Visual likeness must be judged from actual rendered views.
+
+The subsequent breed refinements preserve the approved hero exactly. Frozen
+geometry/material/pose fingerprints cover all three moods; the browser review
+also compares the hero's rendered pixels against the preceding checkout.
+See [Breed refinements](breed-refinements.md) for the cheek fix and crowd traits.

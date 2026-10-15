@@ -40,7 +40,7 @@ function budget(root) {
   });
   return { triangles, draws, bytes };
 }
-test("all 30 breeds use the reference-family sculpt within the previous total crowd GPU budget", () => {
+test("all adoption cats use the reference-family sculpt within a bounded crowd GPU budget", () => {
   const sum = { triangles: 0, draws: 0, bytes: 0 };
   for (const profile of ADOPTION_CATS) {
     const cat = createCat("happy", {
@@ -54,6 +54,12 @@ test("all 30 breeds use the reference-family sculpt within the previous total cr
     assert.equal(cat.userData.legJoints.length, 4);
     assert.ok(cat.getObjectByName("Face").geometry.isBufferGeometry);
     const b = budget(cat);
+    // Closed muzzles/paws and the new breed silhouettes remain small. The
+    // additional candidates are baked images until they are actually adopted.
+    assert.ok(
+      b.triangles <= 18500 && b.draws <= 19 && b.bytes <= 410000,
+      profile.id + ": " + JSON.stringify(b),
+    );
     for (const k in sum) sum[k] += b[k];
     for (const mood of ["sleep", "crazy hungry", "happy"]) {
       setCatMood(cat, mood, { immediate: true });
@@ -67,8 +73,8 @@ test("all 30 breeds use the reference-family sculpt within the previous total cr
     }
     disposeCat(cat);
   }
-  // Measured from d441ff0 with precisely these 30 profiles and detail:'npc'.
-  assert.ok(sum.triangles <= 490806, JSON.stringify(sum));
+  assert.ok(sum.triangles <= ADOPTION_CATS.length * 18500, JSON.stringify(sum));
+  // Retain the earlier whole-catalogue draw/memory caps even with more cats.
   assert.ok(sum.draws <= 802, JSON.stringify(sum));
   assert.ok(sum.bytes <= 35188756, JSON.stringify(sum));
 });

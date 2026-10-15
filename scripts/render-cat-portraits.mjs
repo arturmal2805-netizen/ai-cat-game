@@ -47,6 +47,9 @@ window.ready=true;`,
     const p = await browser.newPage();
     const errors = [];
     p.on("pageerror", (e) => errors.push(e.message));
+    p.on("console", (m) => {
+      if (m.type() === "error") errors.push(m.text());
+    });
     await p.goto("http://127.0.0.1:" + server.address().port);
     await p.waitForFunction(() => window.ready);
     fs.mkdirSync(root + "/public/art/cats", { recursive: true });
@@ -63,7 +66,9 @@ window.ready=true;`,
       manifest[profile.id] = "./art/cats/" + profile.id + ".png";
       console.log(profile.id, stats);
     }
-    for (const mood of ["sleep", "crazy hungry", "happy"]) {
+    for (const mood of process.argv.includes("--adoption-only")
+      ? []
+      : ["sleep", "crazy hungry", "happy"]) {
       const { url } = await p.evaluate((m) => renderCat(null, m), mood);
       fs.writeFileSync(
         root + "/public/art/cats/chichi-" + mood.replace(" ", "-") + ".png",
