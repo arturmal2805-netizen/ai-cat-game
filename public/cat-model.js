@@ -154,7 +154,12 @@ export function createCat(mood = "happy", options = {}) {
     fur: velvetCoat(
       new THREE.MeshPhysicalMaterial({
         color: furColour,
-        roughness: appearance.fur === "bare" ? 0.72 : 0.94,
+        roughness:
+          appearance.fur === "bare"
+            ? 0.72
+            : appearance.fur === "sleek"
+              ? 0.65
+              : 0.94,
         vertexColors: true,
         sheen: appearance.fur === "bare" ? 0 : 0.9,
         sheenColor: new THREE.Color(furColour).lerp(
@@ -255,6 +260,14 @@ export function createCat(mood = "happy", options = {}) {
     chest.scale.set(0.22, 0.28, 0.1);
   }
   const head = new THREE.Group();
+  if (appearance.neckRuff)
+    ball(
+      cat,
+      "NeckRuff",
+      "fur",
+      [0, 1.02, 0.33],
+      [0.32 * appearance.neckRuff, 0.3, 0.28],
+    );
   head.name = "Head";
   head.position.set(0, 1.32, 0.53);
   cat.add(head);
@@ -266,7 +279,11 @@ export function createCat(mood = "happy", options = {}) {
   face.scale.set(0.41, 0.35, 0.38);
   face.castShadow = true;
   head.add(face);
-  head.scale.setScalar(build.face);
+  head.scale.set(
+    build.face * (appearance.faceWidth || 1),
+    build.face,
+    build.face,
+  );
   // Cheeks are part of Face. The short paired whisker pads keep a feline muzzle.
   for (const side of [-1, 1]) {
   }
@@ -529,7 +546,9 @@ export function createCat(mood = "happy", options = {}) {
       ball(
         leg,
         "Paw",
-        ["tuxedo", "ragdoll"].includes(appearance.breed) ? "white" : "fur",
+        appearance.whitePaws || ["tuxedo", "ragdoll"].includes(appearance.breed)
+          ? "white"
+          : "fur",
         [0, -0.396, 0.075],
         [0.147, 0.095, 0.178],
       );
@@ -586,8 +605,10 @@ export function createCat(mood = "happy", options = {}) {
   );
   const tailMesh = new THREE.Mesh(g, materials.fur);
   tailMesh.castShadow = true;
-  if (appearance.fur === "long") tailMesh.scale.set(1.3, 1.12, 1.12);
+  if (appearance.fur === "long")
+    tailMesh.scale.set(1.3 * (appearance.tailPlume || 1), 1.12, 1.12);
   tailTip.add(tailMesh);
+  if (appearance.tailLength) tail.scale.setScalar(appearance.tailLength);
   if (appearance.fur !== "bare")
     for (const [parent, name, radii, amount] of [
       [
@@ -745,7 +766,7 @@ function applyPose(cat, time, walking, reduced) {
       ? Math.pow(Math.max(0, Math.sin(time * 0.8 + i * 1.7)), 18) * 0.055
       : 0;
     d.ears[i].rotation.set(
-      -0.045 + p.ears + twitch,
+      -0.045 + p.ears + twitch + (d.appearance.earFold || 0),
       side * 0.06,
       side * -0.26 + side * p.ears * 0.35,
     );

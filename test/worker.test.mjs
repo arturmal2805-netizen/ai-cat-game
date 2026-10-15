@@ -1,10 +1,129 @@
-import {test} from 'node:test';import assert from 'node:assert/strict';import worker from '../worker.mjs';
-const request=body=>new Request('https://example.com/api/decide',{method:'POST',body:JSON.stringify(body)});
-test('worker passes validated state to AI and returns decision',async()=>{let called=false;const env={AI:{run:async(model,input)=>{called=true;assert.equal(model,'@cf/meta/llama-3.3-70b-instruct-fp8-fast');assert.equal(input.messages.length,2);return {response:'{"target":"pond","mood":"happy","thought":"Мяу"}'};}}};const r=await worker.fetch(request({location:'home',energy:85,hunger:30}),env);assert.equal(r.status,200);assert.equal((await r.json()).target,'pond');assert.ok(called);});
-test('invalid state never calls AI',async()=>{const r=await worker.fetch(request({location:'moon'}),{AI:{run:()=>{throw Error('Should not call');}}});assert.equal(r.status,400);});
-test('AI errors and malformed decisions fail clearly',async()=>{for(const run of [async()=>{throw Error('offline');},async()=>({response:'{"target":"moon","mood":"happy","thought":"?"}'})]){const r=await worker.fetch(request({location:'home',energy:85,hunger:30}),{AI:{run}});assert.equal(r.status,502);}});
-test('missing AI binding returns 503',async()=>assert.equal((await worker.fetch(request({location:'home',energy:85,hunger:30}),{})).status,503));
-test('large payload rejected',async()=>assert.equal((await worker.fetch(request({extra:'x'.repeat(20000)}),{AI:{}})).status,413));
-test('allows GitHub Pages preflight and adds CORS to API',async()=>{const headers={Origin:'https://arturmal2805-netizen.github.io'};const preflight=await worker.fetch(new Request('https://example.com/api/decide',{method:'OPTIONS',headers}),{});assert.equal(preflight.status,204);const response=await worker.fetch(new Request('https://example.com/api/status',{headers}),{});assert.equal(response.headers.get('Access-Control-Allow-Origin'),headers.Origin);const denied=await worker.fetch(new Request('https://example.com/api/decide',{method:'OPTIONS',headers:{Origin:'https://other.example'}}),{});assert.equal(denied.status,403);});
-test('distinguishes inference errors from invalid model output',async()=>{const state={location:'home',energy:85,hunger:30};const invalid=await worker.fetch(request(state),{AI:{run:async()=>({response:'not JSON'})}});assert.equal((await invalid.json()).code,'AI_INVALID_DECISION');const unavailable=await worker.fetch(request(state),{AI:{run:async()=>{throw Error('quota');}}});assert.equal((await unavailable.json()).code,'AI_INFERENCE_FAILED');});
-test('asks for JSON output and accepts a structured response',async()=>{const r=await worker.fetch(request({location:'home',energy:85,hunger:30}),{AI:{run:async(model,input)=>{assert.deepEqual(input.response_format,{type:'json_object'});return {response:{target:'garden',mood:'happy',thought:'Цветы!'}};}}});assert.equal(r.status,200);assert.equal((await r.json()).target,'garden');});
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import worker from "../worker.mjs";
+const request = (body) =>
+  new Request("https://example.com/api/decide", {
+    method: "POST",
+    body: JSON.stringify(body),
+  });
+test("worker passes validated state to AI and returns decision", async () => {
+  let called = false;
+  const env = {
+    AI: {
+      run: async (model, input) => {
+        called = true;
+        assert.equal(model, "@cf/meta/llama-3.3-70b-instruct-fp8-fast");
+        assert.equal(input.messages.length, 2);
+        return { response: '{"target":"pond","mood":"happy","thought":"Мяу"}' };
+      },
+    },
+  };
+  const r = await worker.fetch(
+    request({ location: "home", energy: 85, hunger: 30 }),
+    env,
+  );
+  assert.equal(r.status, 200);
+  assert.equal((await r.json()).target, "pond");
+  assert.ok(called);
+});
+test("invalid state never calls AI", async () => {
+  const r = await worker.fetch(request({ location: "moon" }), {
+    AI: {
+      run: () => {
+        throw Error("Should not call");
+      },
+    },
+  });
+  assert.equal(r.status, 400);
+});
+test("AI errors and malformed decisions fail clearly", async () => {
+  for (const run of [
+    async () => {
+      throw Error("offline");
+    },
+    async () => ({
+      response: '{"target":"moon","mood":"happy","thought":"?"}',
+    }),
+  ]) {
+    const r = await worker.fetch(
+      request({ location: "home", energy: 85, hunger: 30 }),
+      { AI: { run } },
+    );
+    assert.equal(r.status, 502);
+  }
+});
+test("missing AI binding returns 503", async () =>
+  assert.equal(
+    (
+      await worker.fetch(
+        request({ location: "home", energy: 85, hunger: 30 }),
+        {},
+      )
+    ).status,
+    503,
+  ));
+test("large payload rejected", async () =>
+  assert.equal(
+    (await worker.fetch(request({ extra: "x".repeat(24576) }), { AI: {} }))
+      .status,
+    413,
+  ));
+test("allows GitHub Pages preflight and adds CORS to API", async () => {
+  const headers = { Origin: "https://arturmal2805-netizen.github.io" };
+  const preflight = await worker.fetch(
+    new Request("https://example.com/api/decide", {
+      method: "OPTIONS",
+      headers,
+    }),
+    {},
+  );
+  assert.equal(preflight.status, 204);
+  const response = await worker.fetch(
+    new Request("https://example.com/api/status", { headers }),
+    {},
+  );
+  assert.equal(
+    response.headers.get("Access-Control-Allow-Origin"),
+    headers.Origin,
+  );
+  const denied = await worker.fetch(
+    new Request("https://example.com/api/decide", {
+      method: "OPTIONS",
+      headers: { Origin: "https://other.example" },
+    }),
+    {},
+  );
+  assert.equal(denied.status, 403);
+});
+test("distinguishes inference errors from invalid model output", async () => {
+  const state = { location: "home", energy: 85, hunger: 30 };
+  const invalid = await worker.fetch(request(state), {
+    AI: { run: async () => ({ response: "not JSON" }) },
+  });
+  assert.equal((await invalid.json()).code, "AI_INVALID_DECISION");
+  const unavailable = await worker.fetch(request(state), {
+    AI: {
+      run: async () => {
+        throw Error("quota");
+      },
+    },
+  });
+  assert.equal((await unavailable.json()).code, "AI_INFERENCE_FAILED");
+});
+test("asks for JSON output and accepts a structured response", async () => {
+  const r = await worker.fetch(
+    request({ location: "home", energy: 85, hunger: 30 }),
+    {
+      AI: {
+        run: async (model, input) => {
+          assert.deepEqual(input.response_format, { type: "json_object" });
+          return {
+            response: { target: "garden", mood: "happy", thought: "Цветы!" },
+          };
+        },
+      },
+    },
+  );
+  assert.equal(r.status, 200);
+  assert.equal((await r.json()).target, "garden");
+});

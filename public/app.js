@@ -4,6 +4,7 @@ import { adoptCat, adoptionCenters, gatherCats } from "./adoption.js";
 import {
   incomeFor,
   collectIncome,
+  collectAllIncome,
   revenueRate,
   BUSINESS_CAP_HOURS,
   businessXP,
@@ -36,7 +37,7 @@ import {
   biomeFeature,
 } from "./game-data.js";
 import {
-  loadGame,
+  loadGame as readGame,
   saveGame,
   claimRewards,
   attentionReward,
@@ -82,6 +83,8 @@ import {
   encounterKind,
   bestEligible,
 } from "./social-system.js";
+// Shared snapshots are loaded verbatim; only the elected simulator advances offline care.
+const loadGame = (storage) => readGame(storage, Date.now(), { advance: false });
 const $ = (id) => document.getElementById(id),
   api = (path) =>
     apiBase
@@ -103,30 +106,48 @@ function cloudStatusChanged(status) {
   cloudStatus = status;
   const texts = {
     local: "Локальная копия",
-    ready: "Облако подключено",
+    ready: "☁ Общий мир синхронизирован",
     pending: "☁ Синхронизация…",
     saved: "☁ Сохранено в облаке",
     offline: "☁ Локально сохранено · ждём сеть",
-    conflict: "☁ Найдена более новая копия — откройте восстановление",
+    conflict: "☁ Другая версия · откройте аккаунт",
+    watching: "☁ Общий мир · наблюдение",
   };
   $("cloud-state").textContent = texts[status] || texts.local;
   $("cloud-detail").textContent =
-    status === "saved"
-      ? "Последние изменения подтверждены в облаке. На устройстве также ведутся резервные копии."
+    status === "saved" || status === "ready"
+      ? "Изменения сохранены в облаке. Второй телефон обновляется автоматически."
       : status === "conflict"
         ? "На другом устройстве есть новая копия. Локальные изменения сохранены отдельно; облако не перезаписано. Вставьте свой код ниже, чтобы получить облачную копию."
-        : "Каждая подтверждённая покупка и перестановка сначала записывается на этом устройстве. Облачная копия обновляется автоматически; статус показывает, завершилась ли синхронизация.";
+        : status === "watching"
+          ? "Вы видите общий мир. Изменения с другого телефона появляются автоматически; действия обоих игроков сохраняются вместе."
+          : "Каждая подтверждённая покупка и перестановка сначала записывается на этом устройстве. Облачная копия обновляется автоматически; статус показывает, завершилась ли синхронизация.";
 }
 const cloud = new CloudBackup({
   storage,
   base: apiBase,
   onStatus: cloudStatusChanged,
+  shared: true,
+  cooperative: true,
+  onSnapshot: (raw) => {
+    if (busy || buildMode) return false;
+    installRemote(raw);
+    return true;
+  },
+  onNotice: (message) => toast(message),
+  onMode: (editable) => {
+    document.body.classList.toggle("watching-world", !editable);
+    $("account-mode").textContent = "Один мир для вас двоих";
+  },
 });
 const localSaved = readSavedState(storage);
 const recoveredAtBoot =
   !cloud.createdToken && cloud.token
     ? await cloud.load({ force: !localSaved })
     : null;
+await cloud.claimEditor();
+let adoptionCenterId = null,
+  selectedIsland = "moon";
 let game = loadGame(
     recoveredAtBoot
       ? {
@@ -148,8 +169,15 @@ let game = loadGame(
   toastTimer,
   farmSelected = null,
   farmCrop = "wheat",
-  farmViewKey = "";
-const firstRewards = claimRewards(game, Date.now(), true);
+  farmViewKey = "",
+  adoptionViewKey = "",
+  shopViewKey = "";
+if (cloud.simulationOwner)
+  game = advanceCare(game, Date.now(), { offline: true });
+const firstRewards =
+  cloud.simulationOwner && !cloud.conflict
+    ? claimRewards(game, Date.now(), true)
+    : { game, rewards: [] };
 if (saveGame(storage, firstRewards.game)) game = firstRewards.game;
 const clamp = (n) => Math.max(0, Math.min(100, n)),
   money = (n) => new Intl.NumberFormat("ru-RU").format(n),
@@ -161,6 +189,7 @@ function toast(message) {
   toastTimer = setTimeout(() => ($("toast").hidden = true), 4500);
 }
 function persist() {
+  if (!cloud.editable || cloud.conflict) return;
   const ok = saveGame(storage, game);
   $("save-state").textContent = ok
     ? "Прогресс сохраняется на этом устройстве"
@@ -168,6 +197,7 @@ function persist() {
   if (ok) cloud.enqueue(game);
 }
 function commit(next, syncWorld = true) {
+  cloud.assertEditable();
   if (!saveGame(storage, next)) {
     $("save-state").textContent =
       "Сохранение не подтверждено. Изменение отменено.";
@@ -216,7 +246,9 @@ function renderGame() {
   $("level-title").textContent = "Уровень " + lvl.level;
   $("level-detail").textContent =
     `${lvl.xp} XP · до следующего уровня: ${lvl.needed} XP · сегодня: ${game.progression.dailyXP}/${DAILY_XP_LIMIT} XP`;
-  const upcoming = [...CATALOG, ...BIOMES]
+  $("level-guide").textContent =
+    "Быстрый старт: урожайная лавочка доступна с уровня 1, кофейня — с уровня 2. Собранная грядка даёт 18 XP, визит — 40 XP, приключение — 16 XP раз в 3 минуты. Прибыль бизнеса тоже приносит XP. Киты и китовая лагуна открываются на уровне 4.";
+  const upcoming = [...CATALOG, ...BIOMES, ...ADOPTION_CATS]
     .filter((i) => i.requiredLevel === lvl.level + 1)
     .map((i) => i.name);
   $("level-next").textContent = upcoming.length
@@ -405,6 +437,7 @@ function renderRewards() {
     : "За заботу или завершённое приключение";
 }
 async function showShop(category = "all", search = "") {
+  if (category === "cats") return showAdoption();
   shopCategory = category;
   $("shop-search").value = search;
   renderShop();
@@ -419,6 +452,8 @@ async function showShop(category = "all", search = "") {
         if (!img) {
           img = document.createElement("img");
           img.alt = node.dataset.name;
+          img.loading = "lazy";
+          img.decoding = "async";
           node.querySelector(".placeholder")?.remove();
           node.prepend(img);
         }
@@ -430,6 +465,19 @@ async function showShop(category = "all", search = "") {
   }
 }
 function renderShop() {
+  const viewKey = JSON.stringify([
+    shopCategory,
+    $("shop-search").value,
+    game.coins,
+    game.inventory,
+    game.unlocked,
+    game.progression.xp,
+    shopCategory === "lands"
+      ? BIOMES.map((b) => biomeRequirement(game, b.id))
+      : null,
+  ]);
+  if (shopViewKey === viewKey) return;
+  shopViewKey = viewKey;
   $("shop-coins").textContent = money(game.coins);
   $("shop-tabs").replaceChildren();
   for (const category of CATEGORIES) {
@@ -441,6 +489,10 @@ function renderShop() {
     );
     button.textContent = category.icon + " " + category.name;
     button.onclick = () => {
+      if (category.id === "cats") {
+        showAdoption();
+        return;
+      }
       shopCategory = category.id;
       $("shop-search").value = "";
       renderShop();
@@ -481,6 +533,8 @@ function renderShop() {
       const img = document.createElement("img");
       img.src = previews.get(previewKey);
       img.alt = entry.name;
+      img.loading = "lazy";
+      img.decoding = "async";
       art.append(img);
     } else {
       const icon = document.createElement("span");
@@ -585,6 +639,16 @@ function renderShop() {
       }
     };
     info.append(title, text, button);
+    if (!land && revenueRate(entry.id)) {
+      const income = document.createElement("p");
+      income.className = "shop-income";
+      income.textContent =
+        money(revenueRate(entry.id)) +
+        " ✦/ч · " +
+        businessXP(entry.id) +
+        " XP/ч";
+      info.insertBefore(income, button);
+    }
     if (land && !owned) {
       const preview = document.createElement("button");
       preview.className = "biome-preview-button";
@@ -623,6 +687,10 @@ $("shop-rewards").onclick = () => {
   open("rewards-dialog");
 };
 function beginPlacement(item, ignoreId = null, scenery = false) {
+  if (!cloud.editable || cloud.conflict) {
+    toast("Дождитесь синхронизации в аккаунте перед изменением мира.");
+    return;
+  }
   if (busy) {
     toast("Сначала дождитесь приключения Чичи. Предмет остаётся в сумке.");
     return;
@@ -888,6 +956,7 @@ try {
     onSelectBowl: () => showBowl(),
     onCollectIncome: collectBusiness,
     onResidentSwam: (id) => {
+      if (!cloud.simulationOwner) return;
       try {
         commit(residentSwam(game, id));
       } catch (error) {
@@ -895,6 +964,7 @@ try {
       }
     },
     onResidentAte: (id) => {
+      if (!cloud.simulationOwner) return;
       try {
         if (!bowlPortions(game)) return false;
         commit(eatFromBowl(game, id).game);
@@ -1001,8 +1071,83 @@ $("bowl-farm").onclick = () => showFarm();
 $("cloud-save-open").onclick = () => {
   $("recovery-code").value =
     cloud.token || "Код недоступен: разрешите сохранение в браузере.";
+  $("account-code").value = storage.getItem("chichi-account-code") || "1427";
   open("cloud-save-dialog");
 };
+async function connectAccount() {
+  if (busy || buildMode) {
+    toast("Сначала завершите действие.");
+    return;
+  }
+  for (const id of ["account-login"]) $(id).disabled = true;
+  try {
+    let token;
+    try {
+      token = await cloud.account("login", $("account-code").value);
+    } catch (error) {
+      if (!error.message.includes("пока не создан")) throw error;
+      try {
+        token = await cloud.account("create", $("account-code").value);
+      } catch (createError) {
+        if (!createError.message.includes("уже связан")) throw createError;
+        token = await cloud.account("login", $("account-code").value);
+      }
+    }
+    if (token === cloud.token) {
+      await syncShared();
+      toast("Вы в общем мире. На втором телефоне введите этот же код.");
+    } else {
+      await cloud.releaseEditor();
+      await cloud.recover(token, (raw) => {
+        cloud.archive(game);
+        const restored = loadGame({
+          getItem: (key) => (key === SAVE_KEY ? JSON.stringify(raw) : null),
+        });
+        if (!saveGame(storage, restored))
+          throw Error("Не удалось записать мир. Текущая копия сохранена.");
+      });
+      location.reload();
+    }
+  } catch (e) {
+    toast(e.message);
+  } finally {
+    for (const id of ["account-login"]) $(id).disabled = false;
+  }
+}
+
+$("account-login").onclick = () => connectAccount();
+$("cloud-load-latest").onclick = async () => {
+  if (busy || buildMode) return toast("Сначала завершите действие.");
+  try {
+    await cloud.recover(cloud.token, (raw) => {
+      cloud.archive(game);
+      installRemote(raw);
+    });
+    location.reload();
+  } catch (e) {
+    toast(e.message);
+  }
+};
+$("account-archive").onclick = () => {
+  try {
+    const archived = JSON.parse(
+      storage.getItem("chichi-world-archives") || "[]",
+    )[0];
+    if (!archived)
+      return toast("При смене мира здесь появится его отдельная копия.");
+    const url = URL.createObjectURL(
+      new Blob([JSON.stringify(archived.game)], { type: "application/json" }),
+    );
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "chichi-previous-world.json";
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  } catch (e) {
+    toast("Не удалось скачать прежний мир.");
+  }
+};
+$("account-open").onclick = () => $("cloud-save-open").click();
 $("recovery-copy").onclick = async () => {
   try {
     await navigator.clipboard.writeText(cloud.token);
@@ -1026,6 +1171,7 @@ $("recovery-restore").onclick = async () => {
         const restored = loadGame({
           getItem: (key) => (key === SAVE_KEY ? JSON.stringify(raw) : null),
         });
+        cloud.archive(game);
         if (!saveGame(storage, restored))
           throw Error(
             "Не удалось записать восстановленный мир. Текущий мир сохранён.",
@@ -1034,7 +1180,7 @@ $("recovery-restore").onclick = async () => {
       restored = loadGame({
         getItem: (key) => (key === SAVE_KEY ? JSON.stringify(raw) : null),
       });
-    commit(restored);
+    game = restored;
     location.reload();
   } catch (error) {
     toast(error.message);
@@ -1058,9 +1204,22 @@ function effects(decision, source = "ai", result = {}) {
     } else {
       const empty = cells.findIndex((c) => !c.crop);
       if (empty >= 0) {
-        next = plantCrop(next, decision.activityId, empty, farmCrop);
-        message =
-          "Чичи посадила " + CROPS.find((c) => c.id === farmCrop).name + ".";
+        const selected = CROPS.find((c) => c.id === farmCrop);
+        const crop =
+          source === "ai" &&
+          (!selected ||
+            !next.unlocked.includes(selected.biome) ||
+            selected.seed > next.coins)
+            ? CROPS.filter(
+                (c) => next.unlocked.includes(c.biome) && c.seed <= next.coins,
+              ).sort((a, b) => a.seed - b.seed)[0]
+            : selected;
+        if (!crop)
+          throw Error(
+            "Не хватает монет на семена. Соберите доход бизнеса или выберите другое занятие.",
+          );
+        next = plantCrop(next, decision.activityId, empty, crop.id);
+        message = "Чичи посадила " + crop.name + ".";
       } else message = "Урожай ещё растёт.";
     }
   }
@@ -1113,6 +1272,10 @@ function validateDecision(value) {
 }
 
 async function decide(demo = false, manualDecision = null, routine = false) {
+  if (!cloud.editable || cloud.conflict) {
+    toast("Дождитесь синхронизации в аккаунте перед приключением.");
+    return;
+  }
   if (busy) return;
   if (buildMode) {
     toast("Сначала завершите или отмените размещение.");
@@ -1249,13 +1412,18 @@ async function decide(demo = false, manualDecision = null, routine = false) {
     $("toggle").textContent = buttonLabel;
     farmViewKey = "";
     if ($("farm-dialog").open) renderFarm();
+    cloud.acceptSnapshot();
   }
 }
 $("toggle").onclick = () => decide();
 $("demo").onclick = () => decide(true);
 setInterval(() => {
+  if (!cloud.simulationOwner || cloud.conflict || document.hidden) {
+    updateTimers();
+    return;
+  }
   renderRewards();
-  const reward = claimRewards(game);
+  const reward = claimRewards(game, Date.now(), true);
   if (reward.rewards.length) {
     try {
       commit(reward.game, false);
@@ -1263,13 +1431,22 @@ setInterval(() => {
       $("save-state").textContent = error.message;
       return;
     }
-    toast("Почасовая награда +" + reward.rewards[0].amount + " ✦");
+    toast(
+      reward.rewards
+        .map(
+          (r) =>
+            (r.type === "login" ? "За визит +" : "Почасовая награда +") +
+            r.amount +
+            " ✦",
+        )
+        .join(" · "),
+    );
   }
   world?.sync(game);
   updateTimers();
 }, 1000);
 setInterval(() => {
-  if (document.hidden) return;
+  if (document.hidden || !cloud.simulationOwner || cloud.conflict) return;
   const next = advanceCare(game);
   if (next !== game)
     try {
@@ -1294,15 +1471,58 @@ setInterval(() => {
     decide(false, decision, true);
   }
 }, 5000);
-setInterval(() => cloud.flush(), 30000);
-window.addEventListener("online", () => cloud.flush());
-window.addEventListener("pagehide", () => cloud.flush());
+function installRemote(raw) {
+  const restored = loadGame({
+    getItem: (key) => (key === SAVE_KEY ? JSON.stringify(raw) : null),
+  });
+  if (!saveGame(storage, restored))
+    throw Error("Не удалось записать общий мир на устройстве.");
+  game = restored;
+  world?.sync(game);
+  renderGame();
+  if ($("shop-dialog").open) renderShop();
+  if ($("business-dialog").open) renderBusiness();
+  if ($("farm-dialog").open) renderFarm();
+  if ($("adoption-dialog").open) renderAdoption();
+}
+const syncShared = (claim = false) =>
+  cloud.sync(installRemote, { canInstall: () => !busy && !buildMode, claim });
+setInterval(() => {
+  if (!document.hidden) syncShared();
+}, 5000);
+window.addEventListener("online", () => syncShared(true));
+window.addEventListener("offline", () => {
+  cloud.simulationOwner = false;
+  cloudStatusChanged("offline");
+});
+window.addEventListener("pagehide", () => cloud.releaseEditor());
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) cloud.releaseEditor();
+  else syncShared(true);
+});
 window.addEventListener("storage", (event) => {
-  if (event.key === SAVE_KEY && !busy) {
-    game = loadGame(storage);
-    world?.sync(game);
-    renderGame();
+  if (event.key === "chichi-recovery-code" && event.newValue !== cloud.token) {
+    clearTimeout(cloud.timer);
+    cloud.conflict = true;
+    try {
+      cloud.archive(game);
+    } catch {}
+    // Another tab changed the account. Do not write this tab's old world
+    // into the new account's local primary snapshot.
+    const reloadWhenIdle = () => {
+      if (busy || buildMode) setTimeout(reloadWhenIdle, 300);
+      else location.reload();
+    };
+    reloadWhenIdle();
+    return;
   }
+  // A second tab must get the cloud revision too, rather than writing with stale metadata.
+  if (
+    [SAVE_KEY, "chichi-cloud-save"].includes(event.key) &&
+    !busy &&
+    !buildMode
+  )
+    syncShared();
 });
 persist();
 renderGame();
@@ -1602,8 +1822,6 @@ try {
     "Не удалось подключиться к Cloudflare AI. Демо доступно отдельно.";
 }
 
-let adoptionCenterId = null,
-  selectedIsland = "moon";
 function showAdoption(id = null) {
   adoptionCenterId = id || adoptionCenters(game)[0]?.id;
   renderAdoption();
@@ -1612,7 +1830,7 @@ function showAdoption(id = null) {
     const image = document.querySelector(`[data-adopt-portrait="${id}"]`);
     if (image) {
       image.src = src;
-      image.hidden = false;
+      image.classList.remove("portrait-loading");
     }
   }).catch(() => {});
 }
@@ -1620,6 +1838,17 @@ function renderAdoption() {
   const centers = adoptionCenters(game);
   if (!centers.some((c) => c.id === adoptionCenterId))
     adoptionCenterId = centers[0]?.id;
+  const query = $("adoption-search").value.trim().toLocaleLowerCase("ru");
+  const viewKey = JSON.stringify([
+    query,
+    adoptionCenterId,
+    centers.map((c) => c.id),
+    game.coins,
+    game.progression.xp,
+    game.adoption.cats,
+  ]);
+  if (viewKey === adoptionViewKey) return;
+  adoptionViewKey = viewKey;
   $("adoption-note").textContent = centers.length
     ? "Усыновление — навсегда. Котик появится у центра, начнёт знакомиться, играть и есть из общей миски."
     : "Сначала купите Cat Adoption Center в магазине и дождитесь окончания стройки.";
@@ -1635,7 +1864,11 @@ function renderAdoption() {
   $("adoption-centers").value = adoptionCenterId || "";
   $("adoption-centers").hidden = centers.length < 2;
   $("adoption-grid").replaceChildren();
-  for (const cat of ADOPTION_CATS) {
+  for (const cat of ADOPTION_CATS.filter((c) =>
+    (c.name + " " + BREEDS[c.breed].name + " " + c.personality)
+      .toLocaleLowerCase("ru")
+      .includes(query),
+  ).sort((a, b) => a.requiredLevel - b.requiredLevel || a.price - b.price)) {
     const owned = game.adoption.cats.some((c) => c.id === cat.id),
       locked = levelRequirement(game, cat.requiredLevel);
     const card = document.createElement("article");
@@ -1643,8 +1876,11 @@ function renderAdoption() {
     const image = document.createElement("img");
     image.dataset.adoptPortrait = cat.id;
     image.alt = cat.name + " · " + BREEDS[cat.breed].name;
-    image.hidden = !catPortraits.has(cat.id);
-    if (!image.hidden) image.src = catPortraits.get(cat.id);
+    const portraitReady = catPortraits.has(cat.id);
+    image.classList.toggle("portrait-loading", !portraitReady);
+    image.loading = "lazy";
+    image.decoding = "async";
+    if (portraitReady) image.src = catPortraits.get(cat.id);
     const title = document.createElement("h3"),
       type = document.createElement("small"),
       text = document.createElement("p"),
@@ -1679,6 +1915,7 @@ $("adoption-build").onclick = () => showShop("social", "Adoption");
 $("adoption-centers").onchange = (e) => {
   adoptionCenterId = e.target.value;
 };
+$("adoption-search").oninput = renderAdoption;
 function showIsland(id) {
   selectedIsland = id;
   const owned = game.unlocked.includes(id);
@@ -1715,10 +1952,15 @@ function collectBusiness(id) {
 function renderBusiness() {
   $("business-grid").replaceChildren();
   const venues = game.placements.filter((p) => revenueRate(p.item) > 0);
+  const ready = venues.filter((p) => isBuilt(p)),
+    total = venues.reduce((n, p) => n + incomeFor(game, p.id), 0);
+  $("business-summary").textContent =
+    `${ready.length} работают · ${money(ready.reduce((n, p) => n + revenueRate(p.item), 0))} ✦/ч · ${ready.reduce((n, p) => n + businessXP(p.item), 0)} XP/ч · в кассах ${money(total)} ✦`;
+  $("business-collect-all").disabled = !total;
   $("business-note").textContent =
     "Бизнес и готовые аттракционы приносят чистую прибыль даже в ваше отсутствие. Касса хранит до " +
     BUSINESS_CAP_HOURS +
-    " часов дохода. Нажмите монетку над постройкой или соберите здесь.";
+    " часов дохода. XP начисляется при сборе, в пределах дневного лимита. Нажмите монетку над постройкой или соберите здесь.";
   for (const p of venues) {
     const item = byItem(p.item),
       amount = incomeFor(game, p.id);
@@ -1747,8 +1989,19 @@ function renderBusiness() {
   }
   if (!venues.length)
     $("business-grid").textContent =
-      "Постройте первую кофейню или аттракцион, и здесь появится ваша касса.";
+      "Начните с урожайной лавочки: уровень 1, 180 монет, стройка 5 минут. Кофейня доступна с уровня 2. Здесь появятся доход и XP всех ваших построек.";
 }
+$("business-collect-all").onclick = () => {
+  try {
+    const result = collectAllIncome(game);
+    commit(result.game);
+    toast(
+      `Собрано из ${result.count} касс: +${money(result.amount)} ✦ · +${result.xp} XP`,
+    );
+  } catch (e) {
+    toast(e.message);
+  }
+};
 $("business-open").onclick = () => {
   renderBusiness();
   open("business-dialog");

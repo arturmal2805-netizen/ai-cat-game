@@ -70,7 +70,7 @@ test("first purchase awards XP once, duplicates and rearrangement never farm exp
 });
 test("only completed actual harvests and spaced adventures award XP; daily visits count once", () => {
   let g = harvestField(newGame(now), "welcome-farm", now).game;
-  assert.equal(g.progression.xp, 20);
+  assert.equal(g.progression.xp, 36);
   assert.throws(() => harvestField(g, "welcome-farm", now));
   g = adventureXP(g, now);
   assert.equal(adventureXP(g, now + 1).progression.xp, g.progression.xp);

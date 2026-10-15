@@ -52,8 +52,8 @@ test("harvest and sale pay once; seed growth respects saved deadlines", () => {
   assert.throws(() => harvestField(game, "welcome-farm", now + 179999));
   game = harvestField(game, "welcome-farm", now + 180000).game;
   const sold = sellHarvest(game);
-  assert.equal(sold.value, 24);
-  assert.equal(sold.game.coins, 442);
+  assert.equal(sold.value, 42);
+  assert.equal(sold.game.coins, 460);
   assert.throws(() => sellHarvest(sold.game));
 });
 test("resource jobs unlock with biomes and cannot be collected twice", () => {
@@ -114,8 +114,8 @@ test("farm saves restore crops, inventory and construction timestamps", () => {
   assert.equal(restored.farm.fields["welcome-farm"][0].readyAt, now + 180000);
   assert.equal(restored.farm.stock.wheat, 2);
 });
-test("expanded world has 24 biomes and 85 objects, with legendary build times and unlock quests", () => {
-  assert.equal(CATALOG.length, 85);
+test("expanded world has 24 biomes and 101 objects, with legendary build times and unlock quests", () => {
+  assert.equal(CATALOG.length, 101);
   assert.equal(BIOMES.length, 24);
   assert.equal(
     CATALOG.find((i) => i.id === "coaster-mystic").buildMinutes,

@@ -2317,3 +2317,65 @@ main {
     font-size: 26px;
   }
 }
+:root {
+  --income-glow: rgba(131, 184, 161, 0.14);
+}
+.shop-info .shop-income,
+.income-summary {
+  color: var(--ink, #413d52);
+  background: var(--income-glow);
+  border: 1px solid rgba(131, 184, 161, 0.23);
+  border-radius: 16px;
+  padding: 12px 14px;
+  line-height: 1.65;
+  font-size: 0.85rem;
+}
+.shop-info .shop-income {
+  margin: 0 0 12px;
+  font-weight: 600;
+}
+#adoption-search {
+  width: 100%;
+  min-height: 48px;
+  margin: 18px 0 8px;
+  border-radius: 16px;
+  border: 1px solid rgba(154, 131, 185, 0.24);
+  background: rgba(255, 255, 255, 0.65);
+  padding: 12px 16px;
+  color: inherit;
+  font: inherit;
+  font-size: 16px;
+}
+#business-collect-all {
+  margin: 0 8px 12px 0;
+  min-height: 44px;
+}
+
+.account-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 10px 0 16px;
+}
+.account-actions button {
+  flex: 1 1 130px;
+  min-height: 46px;
+}
+#cloud-save-dialog details {
+  margin-top: 20px;
+}
+#cloud-save-dialog summary {
+  cursor: pointer;
+  padding: 12px 0;
+  color: var(--ink, #554665);
+}
+#cloud-save-dialog details button {
+  margin: 6px 0;
+}
+.watching-world #account-mode {
+  color: #746185;
+}
+
+.adopt-card img.portrait-loading {
+  opacity: 0;
+}

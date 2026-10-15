@@ -1743,7 +1743,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
             g.userData.rideElapsed = elapsed;
             const f = g.userData.rideFrame(elapsed, reduced);
             local.set(...f.position);
-            chichiCarrier.rotation.y = f.yaw || 0;
+            chichiCarrier.rotation.y = (f.yaw || 0) + g.rotation.y;
             chichiCarrier.rotation.z = f.roll || 0;
             reaction = { paw: f.paw || 0, headPitch: f.headPitch || 0 };
             g.userData.update?.(time, reduced);

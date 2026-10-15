@@ -29,7 +29,7 @@ test("Snowy Tale is replaced in place by a whale lagoon with swimming, fish and 
   const b = byBiome("winter");
   assert.equal(BIOMES.length, 24);
   assert.equal(b.name, "Китовая лагуна звёзд");
-  assert.equal(b.requiredLevel, 6);
+  assert.equal(b.requiredLevel, 4);
   assert.ok(JOBS.find((j) => j.id === "fishing").biomes.includes("winter"));
   const scene = createBiomeScene(b);
   assert.equal(scene.userData.renewal.hero, "whale");

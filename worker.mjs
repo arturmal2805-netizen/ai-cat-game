@@ -1,6 +1,9 @@
 import { requestDecision, validateState } from "./ai.mjs";
-import { DECISION_PROTOCOL } from "./public/interactions.js";
-import { cloudSave } from "./save-vault.mjs";
+import {
+  DECISION_PROTOCOL,
+  MAX_DECISION_BYTES,
+} from "./public/interactions.js";
+import { cloudSave, accountAccess } from "./save-vault.mjs";
 export { SaveVault } from "./save-vault.mjs";
 // Replaced by esbuild for every deployment, including Cloudflare Git builds.
 // The env fallback supports direct source execution in local tests.
@@ -57,14 +60,13 @@ export default {
         versionId: env.CF_VERSION_METADATA?.id || null,
         cloudSave: !!env.SAVE_VAULT,
       });
-    if (
-      path === "/api/save" &&
-      (request.method === "GET" || request.method === "PUT")
-    )
+    if (path === "/api/account" && request.method === "POST")
+      return accountAccess(request, env);
+    if (path === "/api/save" && ["GET", "PUT", "POST"].includes(request.method))
       return cloudSave(request, env);
     if (path === "/api/decide" && request.method === "POST") {
       if (!env.AI) return json({ error: "Cloudflare AI не подключён." }, 503);
-      if (Number(request.headers.get("content-length")) > 16384)
+      if (Number(request.headers.get("content-length")) > MAX_DECISION_BYTES)
         return json({ error: "Слишком большой запрос" }, 413);
       const reader = request.body?.getReader();
       if (!reader) return json({ error: "Нет состояния" }, 400);
@@ -74,7 +76,7 @@ export default {
         const { done, value } = await reader.read();
         if (done) break;
         size += value.length;
-        if (size > 16384) {
+        if (size > MAX_DECISION_BYTES) {
           await reader.cancel();
           return json({ error: "Слишком большой запрос" }, 413);
         }

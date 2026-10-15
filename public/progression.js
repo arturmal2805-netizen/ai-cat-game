@@ -9,7 +9,7 @@ export const gameDay = (now) =>
     day: "2-digit",
   }).format(new Date(now));
 export const xpForLevel = (level) =>
-  level <= 1 ? 0 : Math.round(110 * (level - 1) ** 1.55 + 70 * (level - 1));
+  level <= 1 ? 0 : Math.round(80 * (level - 1) ** 1.55 + 40 * (level - 1));
 export function levelForXP(xp = 0) {
   let level = 1;
   while (level < MAX_LEVEL && xp >= xpForLevel(level + 1)) level++;
@@ -64,7 +64,7 @@ export function normalizeProgression(raw, game) {
         (id) => typeof id === "string" && /^[\w-]{1,40}$/.test(id),
       ),
     ),
-  ].slice(0, 120);
+  ].slice(0, 200);
   return p;
 }
 export function addXP(game, amount, now = Date.now()) {
@@ -100,7 +100,7 @@ export function visitXP(game, now = Date.now()) {
   const next = structuredClone(game);
   next.progression.lastVisitDay = day;
   next.progression.visits++;
-  return addXP(next, 25, now);
+  return addXP(next, 40, now);
 }
 export function purchaseXP(game, id, price, now = Date.now()) {
   if (game.progression.discoveries.includes(id)) return game;
@@ -108,15 +108,15 @@ export function purchaseXP(game, id, price, now = Date.now()) {
   next.progression.discoveries.push(id);
   return addXP(
     next,
-    Math.max(12, Math.min(180, Math.round(price * 0.04))),
+    Math.max(25, Math.min(240, Math.round(price * 0.08))),
     now,
   );
 }
 export function adventureXP(game, now = Date.now()) {
-  if (now - game.progression.lastAdventureAt < 300000) return game;
+  if (now - game.progression.lastAdventureAt < 180000) return game;
   const next = structuredClone(game);
   next.progression.lastAdventureAt = now;
-  return addXP(next, 8, now);
+  return addXP(next, 16, now);
 }
 export function levelRequirement(game, level = 1) {
   const current = levelForXP(game.progression?.xp || 0);

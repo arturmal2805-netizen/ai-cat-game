@@ -2,6 +2,7 @@ import { RENEWED_ISLANDS, ISLAND_RIDES } from "./renewal-data.js";
 import { BIOME_STYLES } from "./biome-styles.js";
 import { ADOPTION_CATS } from "./cat-breeds.js";
 import { BUSINESSES } from "./business-data.js";
+import { CITY_RIDES } from "./city-ride-data.js";
 export const BIOMES = [
   {
     id: "moon",
@@ -1291,7 +1292,7 @@ CATALOG.push(
     "adoption-center",
     "Cat Adoption Center",
     "social",
-    680,
+    320,
     "🐾",
     "Постройте уютный дом знакомства: усыновляйте котиков разных пород, размеров и окрасов.",
     [5, 5],
@@ -1302,15 +1303,20 @@ CATALOG.push(
   ...BUSINESSES.map((b) => ({
     ...b,
     category: "business",
-    footprint: [5, 5],
+    footprint: b.footprint || [5, 5],
     actions:
-      b.id === "business-florist" ? ["explore", "party"] : ["eat", "party"],
+      ["produce", "fish", "toys"].includes(b.goods) ||
+      b.id === "business-florist" ||
+      b.id === "business-artist"
+        ? ["explore", "party"]
+        : ["eat", "party"],
   })),
 );
 CATEGORIES.splice(
   CATEGORIES.findIndex((c) => c.id === "lands"),
   0,
   { id: "business", name: "Кошачий бизнес", icon: "☕" },
+  { id: "cats", name: "Породы котиков", icon: "🐱" },
 );
 CATALOG.push(
   item(
@@ -1376,10 +1382,25 @@ CATALOG.push(
     ["ride"],
   ),
 );
+CATALOG.push(
+  ...CITY_RIDES.map((ride) => ({
+    ...ride,
+    category: "rides",
+    actions: ["ride"],
+    fixedPrice: true,
+  })),
+);
+for (const [id, price, minutes] of [
+  ["ride-whale", 1200, 45],
+  ["ride-whale-aurora", 1650, 60],
+]) {
+  const whale = CATALOG.find((i) => i.id === id);
+  Object.assign(whale, { price, buildMinutes: minutes, fixedPrice: true });
+}
 const levelOverrides = {
-  "ride-whale": 9,
-  "ride-whale-aurora": 12,
-  "adoption-center": 3,
+  "ride-whale": 4,
+  "ride-whale-aurora": 4,
+  "adoption-center": 2,
   "ride-butterfly": 6,
   "ride-lotus": 11,
   "ride-dragonfly": 10,
@@ -1432,7 +1453,7 @@ const biomeLevels = {
   autumn: 3,
   summer: 4,
   beach: 5,
-  winter: 6,
+  winter: 4,
   water: 7,
   nature: 7,
   wizard: 8,
@@ -1475,6 +1496,7 @@ for (const product of CATALOG) {
               ? 12
               : 8);
   if (
+    !product.fixedPrice &&
     product.category !== "business" &&
     product.id !== "adoption-center" &&
     ![
@@ -1495,7 +1517,7 @@ for (const product of CATALOG) {
       Math.round((product.price * (1 + product.requiredLevel * 0.28)) / 5) * 5;
 }
 const buildOverrides = {
-  "adoption-center": 60,
+  "adoption-center": 20,
   "coaster-rainbow-launch": 720,
   "slide-royal-cascade": 960,
   "slide-vortex-bowl": 480,
@@ -1553,7 +1575,7 @@ export const CROPS = [
     icon: "🌾",
     minutes: 3,
     seed: 2,
-    value: 8,
+    value: 14,
     biome: "moon",
   },
   {

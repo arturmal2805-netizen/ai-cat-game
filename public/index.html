@@ -6,10 +6,7 @@
     <meta name="theme-color" content="#eeeaf3" />
     <title>Чичи • мир маленьких чудес</title>
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
-    <link
-      rel="stylesheet"
-      href="./style.css?v=a470b4b322c48286"
-    />
+    <link rel="stylesheet" href="./style.css?v=f14afed359847f57" />
   </head>
   <body>
     <header>
@@ -47,6 +44,9 @@
         >
           <span class="coin-icon">✦</span><strong id="coins">0</strong
           ><span>+</span></button
+        ><button id="account-open" class="nav-button" aria-label="Аккаунт">
+          <span class="nav-icon">☁</span
+          ><span class="nav-label">Аккаунт</span></button
         ><button id="shop-open" class="shop-button">▦ Магазин</button>
       </nav>
     </header>
@@ -62,8 +62,8 @@
         </div>
         <div class="world-facts">
           <div><strong>24</strong><span>сказочных биомов</span></div>
-          <div><strong>85</strong><span>маленьких чудес</span></div>
-          <div><strong>18</strong><span>котиков для усыновления</span></div>
+          <div><strong>101</strong><span>маленьких чудес</span></div>
+          <div><strong>30</strong><span>котиков для усыновления</span></div>
         </div>
       </section>
       <div class="game-layout">
@@ -170,8 +170,9 @@
       <footer>
         Чичи · мир маленьких чудес
         <button id="cloud-save-open" class="quiet">
-          ☁ Сохранение и восстановление</button
-        ><span id="cloud-state">Локальная копия</span
+          ☁ Аккаунт и сохранение
+        </button>
+        <span id="cloud-state">Локальная копия</span
         ><span id="save-state">Прогресс сохраняется на этом устройстве</span>
       </footer>
     </main>
@@ -361,6 +362,12 @@
       <select id="adoption-centers" aria-label="Центр усыновления"></select
       ><button id="adoption-build" class="primary">Построить центр</button>
       <button id="adoption-manage" class="quiet">Переставить центр</button>
+      <input
+        id="adoption-search"
+        type="search"
+        placeholder="Имя, порода или характер"
+        aria-label="Поиск котиков по породе"
+      />
       <div id="adoption-grid" class="adoption-grid"></div>
     </dialog>
     <dialog id="business-dialog" class="shop-dialog">
@@ -374,6 +381,10 @@
       <p class="eyebrow">Дело для маленьких лапок</p>
       <h2>Кошачий бизнес</h2>
       <p id="business-note" class="dialog-copy"></p>
+      <p id="business-summary" class="income-summary"></p>
+      <button id="business-collect-all" class="primary">
+        Собрать все монеты и XP
+      </button>
       <button id="business-shop" class="primary">Открыть новые бизнесы</button>
       <div id="business-grid" class="business-grid"></div>
     </dialog>
@@ -422,6 +433,7 @@
       <h2 id="level-title"></h2>
       <p id="level-detail" class="dialog-copy"></p>
       <progress id="level-big-xp" max="100"></progress>
+      <p id="level-guide" class="income-summary"></p>
       <p class="dialog-copy">
         XP — за сбор дохода бизнеса и аттракционов, первый экземпляр новой
         покупки, собранный урожай, ресурсы, ежедневный визит и завершённые
@@ -459,29 +471,57 @@
         ×
       </button>
       <p class="eyebrow">ВАШ МИР · ВАША ИСТОРИЯ</p>
-      <h2>Мир под защитой</h2>
-      <p id="cloud-detail" class="dialog-copy"></p>
-      <label for="recovery-code">Ваш код восстановления</label
-      ><input
-        id="recovery-code"
-        readonly
-        class="recovery-input"
-        aria-label="Ваш код восстановления"
-      />
-      <button id="recovery-copy" class="primary">Скопировать код</button>
-      <p class="fine-print">
-        Сохраните этот код у себя и никому не передавайте. Он открывает ваш мир
-        на другом устройстве или после очистки браузера.
+      <h2>Наш аккаунт</h2>
+      <p class="dialog-copy">
+        Первый раз войдите на телефоне с нужным прогрессом. Затем введите тот же
+        код на втором — у вас будет один общий мир.
       </p>
-      <label for="recovery-enter">Восстановить мир по коду</label
-      ><input
-        id="recovery-enter"
+      <label for="account-code">Код аккаунта</label>
+      <input
+        id="account-code"
         class="recovery-input"
-        placeholder="Вставьте свой код"
+        inputmode="numeric"
         autocomplete="off"
+        maxlength="12"
+        placeholder="1427"
+        aria-label="Код аккаунта"
       />
-      <button id="recovery-restore" class="quiet">Восстановить из облака</button
-      ><button id="cloud-retry" class="quiet">Повторить синхронизацию</button>
+      <button id="account-login" class="primary">Войти в общий мир</button>
+      <p class="fine-print">
+        Ваш код — 1427. Код открывает доступ к миру: 4 цифры легко угадать;
+        можно выбрать до 12 цифр.
+      </p>
+      <p id="account-mode" class="dialog-copy">Один мир для вас двоих</p>
+      <p id="cloud-detail" class="dialog-copy"></p>
+      <details>
+        <summary>Резервные копии и полный код мира</summary>
+        <label for="recovery-code">Ваш код восстановления</label
+        ><input
+          id="recovery-code"
+          readonly
+          class="recovery-input"
+          aria-label="Ваш код восстановления"
+        />
+        <button id="recovery-copy" class="primary">Скопировать код</button>
+        <p class="fine-print">
+          Сохраните этот код у себя и никому не передавайте. Он открывает ваш
+          мир на другом устройстве или после очистки браузера.
+        </p>
+        <label for="recovery-enter">Восстановить мир по коду</label
+        ><input
+          id="recovery-enter"
+          class="recovery-input"
+          placeholder="Вставьте свой код"
+          autocomplete="off"
+        />
+        <button id="recovery-restore" class="quiet">
+          Восстановить из облака</button
+        ><button id="cloud-retry" class="quiet">Повторить синхронизацию</button>
+        <button id="cloud-load-latest" class="quiet">
+          Загрузить последнюю облачную версию
+        </button>
+        <button id="account-archive" class="quiet">Скачать прежний мир</button>
+      </details>
       <p class="fine-print">
         Локальная копия записывается сразу. Облачная считается сохранённой
         только после подтверждения. При конфликте двух устройств новая копия не
@@ -561,9 +601,6 @@
       </div>
     </dialog>
     <div id="toast" role="status" aria-live="polite" hidden></div>
-    <script
-      type="module"
-      src="./dist/app.js?v=d14bd3df046eff89"
-    ></script>
+    <script type="module" src="./dist/app.js?v=d50b5d8c70958c3f"></script>
   </body>
 </html>

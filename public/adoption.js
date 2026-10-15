@@ -58,7 +58,7 @@ export function adoptCat(game, catId, centerId, now = Date.now()) {
     lastMealAt: now,
     lastSwimAt: 0,
   };
-  return addXP(next, 35);
+  return addXP(next, 45, now);
 }
 export function gatherCats(game, biome) {
   if (!byBiome(biome) || !game.unlocked.includes(biome))

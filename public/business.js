@@ -4,7 +4,7 @@ import { addXP } from "./progression.js";
 export const BUSINESS_CAP_HOURS = 8;
 export function businessXP(item) {
   const rate = revenueRate(item);
-  return rate ? Math.max(12, Math.round(rate * 0.25)) : 0;
+  return rate ? Math.max(30, Math.round(rate * 0.38)) : 0;
 }
 export const revenueRate = (item) => {
   const business = BUSINESSES.find((b) => b.id === item);
@@ -14,7 +14,7 @@ export const revenueRate = (item) => {
   if (["cafe", "cat-barista"].includes(item))
     return item === "cat-barista" ? 320 : 140;
   if (["rides", "transport"].includes(product.category))
-    return Math.max(45, Math.min(420, Math.round(product.price * 0.075)));
+    return Math.max(70, Math.min(650, Math.round(product.price * 0.1)));
   return 0;
 };
 export const newBusiness = () => ({
@@ -82,5 +82,26 @@ export function collectIncome(game, id, now = Date.now()) {
     game: rewarded,
     amount,
     xp: rewarded.progression.xp - game.progression.xp,
+  };
+}
+// A single confirmed snapshot for the whole collection; repeated clicks at
+// this same instant cannot collect the same income or experience twice.
+export function collectAllIncome(game, now = Date.now()) {
+  let next = game,
+    amount = 0,
+    count = 0;
+  for (const p of game.placements) {
+    if (incomeFor(next, p.id, now) < 1) continue;
+    const result = collectIncome(next, p.id, now);
+    next = result.game;
+    amount += result.amount;
+    count++;
+  }
+  if (!count) throw Error("Монетки ещё копятся. Загляните чуть позже.");
+  return {
+    game: next,
+    amount,
+    count,
+    xp: next.progression.xp - game.progression.xp,
   };
 }

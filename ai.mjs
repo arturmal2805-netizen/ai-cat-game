@@ -80,7 +80,63 @@ export function parseDecision(response, state = null) {
     decision.action = value.action;
   }
   checkNeeds(decision, state);
+  if (state?.world) checkAvailableChoice(decision, state);
   return decision;
+}
+
+export function decisionOptions(state) {
+  if (!state.world) return null;
+  const recent = state.world.recent || [],
+    last = recent.at(-1);
+  let activities = state.world.activities.map((a) => ({
+    ...a,
+    actions: byItem(a.type).actions.filter((action) => {
+      if (action === "eat")
+        return !Number.isFinite(a.foodPortions) || a.foodPortions > 0;
+      if (action === "farm" && a.farmStateKnown !== false)
+        return (
+          (a.harvestReady || 0) > 0 ||
+          ((a.emptyPlots || 0) > 0 && a.seedAffordable !== false)
+        );
+      return true;
+    }),
+  }));
+  const hasLeisure =
+    state.world.friends.length > 0 ||
+    activities.some((a) =>
+      a.actions.some((action) =>
+        ["play", "ride", "swim", "party"].includes(action),
+      ),
+    );
+  const lastWasFarm =
+    last?.action === "farm" ||
+    byItem(activities.find((a) => a.id === last?.activityId)?.type)
+      ?.category === "farm";
+  const farmBreak =
+    lastWasFarm && hasLeisure && state.energy > 20 && state.hunger < 80;
+  if (farmBreak)
+    activities = activities.filter((a) => byItem(a.type).category !== "farm");
+  activities = activities.filter((a) => a.actions.length);
+  const counts = {};
+  for (const a of activities)
+    for (const action of a.actions) counts[action] = (counts[action] || 0) + 1;
+  counts.meet = state.world.friends.length;
+  return { activities, counts, farmBreak };
+}
+function checkAvailableChoice(decision, state) {
+  if (decision.action === "meet") return;
+  const options = decisionOptions(state),
+    object = options.activities.find((a) => a.id === decision.activityId);
+  if (object?.actions.includes(decision.action)) return;
+  throw new ChoiceMismatch(
+    decision,
+    options.farmBreak &&
+    byItem(
+      state.world.activities.find((a) => a.id === decision.activityId)?.type,
+    )?.category === "farm"
+      ? "Чичи только что была на ферме. Сейчас нет срочной потребности в еде или сне: выбери доступную игру, конкретную горку, воду или котика."
+      : "На этой ферме нечего собирать и нельзя посадить урожай. Выбери доступное действие из списка; не жди на растущей грядке.",
+  );
 }
 
 export async function requestDecision(state, run) {
@@ -88,7 +144,8 @@ export async function requestDecision(state, run) {
   for (let attempt = 0; attempt < 2; attempt++) {
     const input = {
       messages: messages(state),
-      temperature: 0.1,
+      temperature:
+        state.world && state.energy > 20 && state.hunger < 80 ? 0.35 : 0.1,
       max_tokens: 384,
       response_format: { type: "json_object" },
     };
@@ -124,6 +181,7 @@ export async function requestDecision(state, run) {
   }
 }
 export function messages(state) {
+  const options = decisionOptions(state);
   const worldRules =
     "В игровом мире выбирай ТОЛЬКО конкретные доступные предметы или котиков. Сначала оцени, чего тебе хочется: покоя, еды, игры, приключения, общения или работы на грядках. Затем выбери ровно одну физическую цель из world.activities или world.friends. Для предмета возвращай mood, action, activityId, thought. Для котика возвращай mood, action=meet, friendId, thought. Для swim выбирай конкретную доступную лагуну из activities; плавай только если не устала и не сильно голодна. Каждая горка — самостоятельная физическая цель. Не возвращай координаты или произвольную локацию: мир сам направит тебя к выбранному объекту. activityId обязателен для ВСЕХ предметных действий, включая explore, rest и eat. friendId и activityId взаимоисключающие. Только действие из actions выбранного предмета. Для сна всегда есть подушка chichi-bed, для еды общая миска chichi-food. Предметы физически существуют; ЕДА КОНЕЧНА: eat можно выбирать только при foodPortions>0. Если миска пуста, нельзя есть: можно собрать готовый урожай на ферме или выбрать другое занятие. Человек пополняет миску выращенным урожаем. Не придумывай ID и не выбирай строящиеся/убранные вещи. world.recent — завершённые занятия с пометкой ai/manual/demo. Учитывай собственные недавние решения и опыт игр с человеком, не зацикливайся без причины. Не делай случайный выбор ради разнообразия: сильная усталость или голод оправдывают повтор нужного ухода. Ты ласковая, любопытная; любишь охоту за игрушками, новые приключения и дружбу, но при усталости ценишь покой. У котиков есть имя, personality, closeness, meetings, plays, stage, hunger, happiness. Нулевые meetings означают, что вы ещё НЕ знакомы. Сама выбирай конкретного котика и для action=meet добавь socialIntent: greet (первое знакомство), play (совместная игра), relax (посидеть рядом), cuddle (ласковое общение). Отношения развиваются только через законченные взаимодействия, без автоматической дружбы со всеми. Если bestEligible=true и тебе хочется именно этого близкого друга, можешь выбрать socialIntent=best_friend: тогда он станет твоим единственным лучшим дружком и будет ходить с тобой. Не называй незнакомых лучшими друзьями и не выбирай best_friend, пока bestEligible=false. При усталости выбери спокойное общение, при бодрости — весёлую совместную игру. В thought расскажи, с кем и что хочется делать. Для farm смотри harvestReady и emptyPlots; растущий урожай сам по себе не причина снова идти на ту же ферму. При низком комфорте подумай об общении или спокойной знакомой игрушке. В thought от первого лица на русском назови конкретный выбранный предмет/котика и причину желания. Это твои желания, а не инструкция случайно чередовать места. При конфликте с прежним состоянием учитывай текущие потребности.";
   const physicalExamples = state.world
@@ -154,7 +212,9 @@ export function messages(state) {
         needsRules +
         "\n" +
         (state.world
-          ? worldRules + physicalExamples
+          ? worldRules +
+            physicalExamples +
+            " Ты живой котик, а не автоматический фермер. Работа на грядках — один вариант наравне с играми, катанием, купанием и друзьями. Учитывай availableChoices: ферма предлагается для работы только если есть готовый урожай или свободная грядка и доступные семена. После работы, когда сыта и есть силы, выбирай своё следующее желание среди развлечений и общения. Предпочитай ещё не испытанные доступные предметы и разных котиков, если потребности не требуют повторного ухода. Не придумывай некупленные или закрытые аттракционы."
           : "Верни target, mood, thought. Старые локации: home (отдых), picnic (еда), pond (пруд), garden (цветы), tree (дерево)."),
     },
     {
@@ -166,17 +226,17 @@ export function messages(state) {
               needs: needSummary(state),
               world: {
                 ...state.world,
-                activities: state.world.activities.map((a) => ({
+                availableChoices: options.counts,
+                farmBreak: options.farmBreak,
+                activities: options.activities.map((a) => ({
                   ...a,
                   name:
                     HOME_OBJECTS.find((o) => o.id === a.id)?.name ||
                     byItem(a.type).name,
                   description: byItem(a.type).description,
-                  actions: byItem(a.type).actions.filter(
-                    (action) =>
-                      action !== "eat" ||
-                      !Number.isFinite(a.foodPortions) ||
-                      a.foodPortions > 0,
+                  actions: a.actions,
+                  recentlyUsed: (state.world.recent || []).some(
+                    (r) => r.activityId === a.id,
                   ),
                 })),
                 friends: state.world.friends.map((f) => ({
@@ -325,6 +385,10 @@ export function validateState(value) {
                 Math.min(3, Number(a.harvestReady) || 0),
               ),
               emptyPlots: Math.max(0, Math.min(3, Number(a.emptyPlots) || 0)),
+              seedAffordable: a.seedAffordable !== false,
+              farmStateKnown:
+                Number.isFinite(a.harvestReady) &&
+                Number.isFinite(a.emptyPlots),
             }
           : {}),
       });

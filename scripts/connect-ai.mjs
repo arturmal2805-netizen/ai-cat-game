@@ -34,8 +34,11 @@ await waitForRelease(apiBase, expectedRelease, {
 console.log(`Serving verified commit ${expectedRelease}`);
 await verifyCloudSave(apiBase, expectedRelease, fetch, {
   onWait: (reason) => console.log("Waiting for cloud save release: " + reason),
+  cooperativeCheck: true,
 });
-console.log("Cloud save write, read-back and idempotent retry verified.");
+console.log(
+  "Cloud save, concurrent shared purchases, read-back and idempotent retry verified.",
+);
 let verified = false;
 for (let attempt = 0; attempt < 3; attempt++) {
   try {
@@ -94,6 +97,20 @@ for (let attempt = 0; attempt < 3; attempt++) {
         },
       },
     ];
+    const varied = newGame();
+    varied.unlocked.push("winter");
+    varied.recentActivities = [
+      { action: "farm", activityId: "welcome-farm", source: "ai" },
+    ];
+    cases.push({
+      location: "garden",
+      hunger: 5,
+      energy: 95,
+      happiness: 95,
+      mood: "happy",
+      expected: "happy",
+      world: worldSnapshot(varied),
+    });
     for (const scenario of cases) {
       const { expected, ...input } = scenario;
       const state = {

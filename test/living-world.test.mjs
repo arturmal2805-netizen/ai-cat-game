@@ -243,14 +243,14 @@ test("business clock rollback, construction and move-to-inventory cannot duplica
 test("harvest sale debits stock and credits the exact money in the same restored snapshot", () => {
   const harvested = harvestField(newGame(now), "welcome-farm", now).game,
     sale = sellHarvest(harvested);
-  assert.equal(sale.value, 16);
-  assert.equal(sale.game.coins, harvested.coins + 16);
+  assert.equal(sale.value, 28);
+  assert.equal(sale.game.coins, harvested.coins + 28);
   assert.deepEqual(sale.game.farm.stock, {});
   const s = storage();
   saveGame(s, sale.game);
   const restored = loadGame(s, now);
   assert.equal(restored.coins, sale.game.coins);
-  assert.equal(restored.farm.sales.at(-1).value, 16);
+  assert.equal(restored.farm.sales.at(-1).value, 28);
   assert.throws(() => sellHarvest(restored), /пустой/);
 });
 test("removing Witch Forest refunds once and keeps unfinished purchases, farm timers and movable decor", () => {
@@ -390,7 +390,7 @@ test("innate rides can be chosen as physical AI targets and full adopted worlds 
   }));
   const state = { ...g.cat, world: worldSnapshot(g) };
   assert.doesNotThrow(() => validateState(state));
-  assert.ok(JSON.stringify(state).length < 16384);
+  assert.ok(new TextEncoder().encode(JSON.stringify(state)).length < 24576);
   assert.ok(JSON.stringify(g).length < 120000);
   for (const ride of ISLAND_RIDES)
     assert.ok(state.world.activities.some((a) => a.id === ride.id));

@@ -2,6 +2,7 @@ import http from "node:http";
 import { readFile } from "node:fs/promises";
 import { resolve, extname, sep } from "node:path";
 import { requestDecision, validateState } from "./ai.mjs";
+import { MAX_DECISION_BYTES } from "./public/interactions.js";
 const token = process.env.CLOUDFLARE_API_TOKEN,
   account = process.env.CLOUDFLARE_ACCOUNT_ID;
 let busy = false,
@@ -28,15 +29,19 @@ http
           return json(res, 429, {
             error: "Чичи ещё думает. Попробуйте чуть позже.",
           });
-        let body = "";
+        let bytes = 0;
+        const chunks = [];
         for await (const chunk of req) {
-          body += chunk;
-          if (body.length > 16384)
+          bytes += chunk.length;
+          if (bytes > MAX_DECISION_BYTES)
             return json(res, 413, { error: "Слишком большой запрос" });
+          chunks.push(chunk);
         }
         let state;
         try {
-          state = validateState(JSON.parse(body));
+          state = validateState(
+            JSON.parse(Buffer.concat(chunks).toString("utf8")),
+          );
         } catch {
           return json(res, 400, { error: "Некорректное состояние котика" });
         }

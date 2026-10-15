@@ -140,7 +140,7 @@ export function newGame(now = Date.now()) {
   game.progression = newProgression();
   return game;
 }
-export function loadGame(storage, now = Date.now()) {
+export function loadGame(storage, now = Date.now(), { advance = true } = {}) {
   try {
     let saved = readSavedState(storage);
     if (!saved) return newGame(now);
@@ -272,7 +272,7 @@ export function loadGame(storage, now = Date.now()) {
       saved.recentActivities,
       worldSnapshot(game),
     );
-    return advanceCare(game, now, { offline: true });
+    return advance ? advanceCare(game, now, { offline: true }) : game;
   } catch {
     return newGame(now);
   }
@@ -362,7 +362,7 @@ export function attentionReward(game, now = Date.now(), meaningful = true) {
   next.totalEarned += ATTENTION_COINS;
   return { game: next, amount: ATTENTION_COINS };
 }
-export function purchase(game, id) {
+export function purchase(game, id, now = Date.now()) {
   const item = byItem(id);
   if (!item) throw Error("Такого предмета нет.");
   const locked = levelRequirement(game, item.requiredLevel);
@@ -374,9 +374,9 @@ export function purchase(game, id) {
   const next = copy(game);
   next.coins -= item.price;
   next.inventory[id] = (next.inventory[id] || 0) + 1;
-  return purchaseXP(next, id, item.price);
+  return purchaseXP(next, id, item.price, now);
 }
-export function unlockBiome(game, id) {
+export function unlockBiome(game, id, now = Date.now()) {
   const biome = byBiome(id);
   if (!biome || game.unlocked.includes(id))
     throw Error("Этот биом уже открыт.");
@@ -387,7 +387,7 @@ export function unlockBiome(game, id) {
   const next = copy(game);
   next.coins -= biome.price;
   next.unlocked.push(id);
-  return addXP(next, 80);
+  return addXP(next, 80, now);
 }
 export function footprint(item, rotation = 0) {
   const [w, d] = (byItem(item) || byScenery(item))?.footprint || [2, 2];
@@ -494,8 +494,9 @@ export function placeItem(
       relocatedIndex >= 0
         ? next.relocatedPurchases.splice(relocatedIndex, 1)[0]
         : null;
+  next.nextId++;
   next.placements.push({
-    id: "p-" + next.nextId++,
+    id: "p-" + crypto.randomUUID(),
     item,
     biome,
     x,
@@ -704,6 +705,10 @@ export function worldSnapshot(game) {
                 emptyPlots: (game.farm.fields[p.id] || []).filter(
                   (c) => !c.crop,
                 ).length,
+                seedAffordable: CROPS.some(
+                  (c) =>
+                    game.unlocked.includes(c.biome) && c.seed <= game.coins,
+                ),
               }
             : {}),
         })),
@@ -843,7 +848,7 @@ export function harvestField(game, field, now = Date.now()) {
   }
   if (!count) throw Error("Урожай ещё не созрел.");
   next.farm.harvests += count;
-  return { game: addXP(next, count * 10, now), count };
+  return { game: addXP(next, count * 18, now), count };
 }
 export function stockValue(game) {
   return Object.entries(game.farm.stock).reduce(

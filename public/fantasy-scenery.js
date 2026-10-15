@@ -658,6 +658,68 @@ export function dressAttraction(group, item) {
       );
   }
   if (group.userData.curve && !group.userData.handpainted) {
+    // Individually shaped sleepers, twin trim rails and lights follow the
+    // actual track. These join static batches and add no animation callbacks.
+    const rails = [[], []];
+    for (let i = 0; i <= 64; i++) {
+      const t = i / 64,
+        p = group.userData.curve.getPoint(t),
+        tangent = group.userData.curve.getTangent(t);
+      const side = new THREE.Vector3(tangent.z, 0, -tangent.x).normalize();
+      for (let k = 0; k < 2; k++)
+        rails[k].push(
+          p
+            .clone()
+            .addScaledVector(side, k ? 0.18 : -0.18)
+            .add(new THREE.Vector3(0, 0.1, 0)),
+        );
+      if (i % 2 === 0) {
+        const sleeper = shape(
+          decor,
+          "cube",
+          palette[i % 3],
+          p.x,
+          p.y - 0.07,
+          p.z,
+          0.58,
+          0.065,
+          0.11,
+        );
+        sleeper.rotation.y = Math.atan2(tangent.x, tangent.z);
+      }
+      if (i % 8 === 0)
+        shape(
+          decor,
+          "sphere",
+          0xffe8a5,
+          p.x + side.x * 0.32,
+          p.y + 0.18,
+          p.z + side.z * 0.32,
+          0.055,
+          0.055,
+          0.055,
+          true,
+        );
+    }
+    for (const points of rails) {
+      const geometry = new THREE.TubeGeometry(
+        new THREE.CatmullRomCurve3(points),
+        100,
+        0.028,
+        6,
+        false,
+      );
+      decor.add(
+        new THREE.Mesh(
+          geometry,
+          new THREE.MeshStandardMaterial({
+            color: 0xffdf9f,
+            roughness: 0.3,
+            metalness: 0.15,
+          }),
+        ),
+      );
+    }
     for (let k = 0; k < 7; k++) {
       const pts = Array.from({ length: 9 }, (_, j) => {
         const p = group.userData.curve.getPoint((k + j / 8) / 7);
@@ -742,6 +804,31 @@ export function dressAttraction(group, item) {
     }
   }
   if (sizable && ["rides", "transport", "social"].includes(item.category)) {
+    const entryZ = d / 2 - 0.32;
+    for (const sign of [-1, 1]) {
+      line(
+        decor,
+        [sign * Math.min(0.85, w * 0.24), 0, entryZ],
+        [sign * Math.min(0.85, w * 0.24), 1.6, entryZ],
+        palette[0],
+        0.055,
+      );
+      lantern(decor, sign * Math.min(0.85, w * 0.24), 1.55, entryZ, 0.28);
+    }
+    for (let i = 0; i < 7; i++) {
+      const x = (i - 3) * Math.min(0.22, w / 14);
+      shape(
+        decor,
+        "cone",
+        palette[i % 3],
+        x,
+        1.6 + Math.sin((i / 6) * Math.PI) * 0.3,
+        entryZ,
+        0.075,
+        0.15,
+        0.07,
+      );
+    }
     const scale = Math.min(1.15, w / 6),
       px = -w * 0.3,
       pz = -d * 0.3;

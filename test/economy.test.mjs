@@ -62,7 +62,7 @@ test("reloading across Kyiv midnight preserves the balance and awards the new da
     true,
   ).game;
   assert.equal(after.coins, before.coins + 70);
-  assert.equal(after.progression.xp, before.progression.xp + 25);
+  assert.equal(after.progression.xp, before.progression.xp + 40);
   saveGame(s, after);
   const again = claimRewards(
     loadGame(s, afterMidnight),

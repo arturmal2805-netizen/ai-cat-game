@@ -118,6 +118,18 @@ export function paintCoat(geometry, appearance, region = "body") {
       if (stripe > 0.72 && (region !== "face" || y > 0.23))
         shade *= appearance.pattern === "cheshire" ? 0.68 : 0.78;
     }
+    if (appearance.pattern === "rosettes") {
+      const spot = Math.sin(z * 13 + y * 2) * Math.sin(y * 11 + x * 5);
+      if (region !== "face" || y > 0.2) {
+        if (spot > 0.52 && spot < 0.88) shade *= 0.5;
+        else if (spot >= 0.88) shade *= 0.82;
+      }
+    }
+    if (appearance.pattern === "ticked")
+      shade *= 0.86 + Math.sin(y * 44 + z * 38 + x * 29) * 0.08;
+    if (appearance.fur === "curly")
+      shade *=
+        0.92 + Math.sin(x * 30 + Math.sin(y * 23)) * Math.cos(z * 26) * 0.07;
     if (appearance.pattern === "point") {
       if (region === "ear" || region === "paw" || region === "tail")
         shade *= 0.45;
@@ -125,6 +137,8 @@ export function paintCoat(geometry, appearance, region = "body") {
         shade *= 0.55 + Math.abs(x) * 0.1;
     }
     if (appearance.pattern === "tuxedo" && (y < -0.25 || region === "paw"))
+      color.copy(light);
+    if (appearance.whitePaws && region === "paw" && y < -0.24)
       color.copy(light);
     if (appearance.pattern === "calico") {
       const patchField = Math.sin(x * 4 + z * 2.5) + Math.sin(y * 5 - z * 3);

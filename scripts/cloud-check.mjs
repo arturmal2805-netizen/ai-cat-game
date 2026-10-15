@@ -1,4 +1,4 @@
-import { newGame } from "../public/economy.js";
+import { newGame, purchase } from "../public/economy.js";
 import { checkReleaseResponse, ReleaseMismatch } from "./release-check.mjs";
 // This isolated test world never reads or writes a player's recovery code.
 export async function verifyCloudSave(
@@ -9,6 +9,7 @@ export async function verifyCloudSave(
     wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms)),
     attempts = 6,
     onWait = () => {},
+    cooperativeCheck = false,
   } = {},
 ) {
   const code = Array.from(crypto.getRandomValues(new Uint8Array(32)))
@@ -70,4 +71,43 @@ export async function verifyCloudSave(
     throw Error(
       "Cloud save verification failed: snapshot read-back or retry differs",
     );
+  if (cooperativeCheck) {
+    const a = purchase(game, "mouse"),
+      b = purchase(game, "yarn");
+    const bodyA = JSON.stringify({
+      cooperative: true,
+      expectedRevision: 1,
+      mutationId: crypto.randomUUID(),
+      clientId: crypto.randomUUID(),
+      sequence: 1,
+      baseGame: game,
+      game: a,
+    });
+    const bodyB = JSON.stringify({
+      cooperative: true,
+      expectedRevision: 1,
+      mutationId: crypto.randomUUID(),
+      clientId: crypto.randomUUID(),
+      sequence: 1,
+      baseGame: game,
+      game: b,
+    });
+    await Promise.all([
+      send({ method: "PUT", headers, body: bodyA }),
+      send({ method: "PUT", headers, body: bodyB }),
+    ]);
+    // Retry the first request after the other writer. It must not apply twice.
+    await send({ method: "PUT", headers, body: bodyA });
+    const shared = await send({ headers });
+    if (
+      shared.revision !== 3 ||
+      shared.game.inventory.mouse !== 1 ||
+      shared.game.inventory.yarn !== 1 ||
+      shared.game.coins !== game.coins - 80 ||
+      shared.game.progression.xp !== 50
+    )
+      throw Error(
+        "Shared world verification failed: concurrent purchases or idempotent retry differ",
+      );
+  }
 }
