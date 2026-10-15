@@ -91,6 +91,12 @@ const $ = (id) => document.getElementById(id),
     apiBase
       ? new URL(path, apiBase).href
       : new URL("." + path, location.href).href;
+for (const [id, value] of [
+  ["biome-total", BIOMES.length],
+  ["wonder-total", CATALOG.length],
+  ["adoption-total", ADOPTION_CATS.length],
+])
+  $(id).textContent = value;
 let storage;
 try {
   storage = localStorage;
@@ -317,12 +323,15 @@ function renderBiomes() {
   const key = active + ":" + game.unlocked.join(",");
   if (key === biomeNavKey) return;
   biomeNavKey = key;
+  const navScroll = $("biome-nav").scrollLeft;
   $("biome-nav").replaceChildren();
   for (const biome of BIOMES) {
     const owned = game.unlocked.includes(biome.id);
     const button = document.createElement("button");
     button.className = "biome-chip" + (active === biome.id ? " active" : "");
     button.setAttribute("aria-label", "Посмотреть " + biome.name);
+    button.dataset.biome = biome.id;
+    if (active === biome.id) button.setAttribute("aria-current", "location");
     const icon = document.createElement("span");
     icon.textContent = owned ? biome.icon : "🔒";
     const text = document.createElement("span");
@@ -333,6 +342,12 @@ function renderBiomes() {
     button.append(icon, text);
     button.onclick = () => {
       world?.focus(biome.id);
+      $("map").scrollIntoView({
+        behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? "instant"
+          : "smooth",
+        block: "start",
+      });
       if (owned && buildMode) {
         $("build-biome").value = biome.id;
         changeBuildBiome(biome.id);
@@ -340,6 +355,7 @@ function renderBiomes() {
     };
     $("biome-nav").append(button);
   }
+  $("biome-nav").scrollLeft = navScroll;
 }
 function renderNeighbors() {
   $("neighbors").replaceChildren();

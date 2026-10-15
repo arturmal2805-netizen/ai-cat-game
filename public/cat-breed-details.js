@@ -5,7 +5,7 @@ import * as THREE from "three";
 export function sculptBreedDetails(geometry, appearance, region) {
   if (
     !(region === "face" && appearance.squareMuzzle) &&
-    !(region === "body" && appearance.build === "giant") &&
+    !(region === "body" && ["giant", "colossal"].includes(appearance.build)) &&
     !(appearance.fur === "bare" && ["body", "face", "paw"].includes(region))
   )
     return geometry;
@@ -22,7 +22,7 @@ export function sculptBreedDetails(geometry, appearance, region) {
         THREE.MathUtils.smoothstep(z, 0.3, 0.44);
       x *= 1 + muzzle * appearance.squareMuzzle;
     }
-    if (region === "body" && appearance.build === "giant") {
+    if (region === "body" && ["giant", "colossal"].includes(appearance.build)) {
       // Round the lower flanks into one continuous belly, without extra balls.
       const lower = 1 - THREE.MathUtils.smoothstep(y, -0.7, 0.1);
       x *= 1 + lower * 0.08;

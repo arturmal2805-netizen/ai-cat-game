@@ -119,6 +119,9 @@ try {
         "adopt-mooncake",
         "adopt-pretzel",
         "adopt-marzipan",
+        "adopt-plushkin",
+        "adopt-doughnut",
+        "adopt-marshmallow",
       ]);
       for (const profile of profiles) {
         for (const mood of ["happy", "sleep", "crazy hungry"]) {

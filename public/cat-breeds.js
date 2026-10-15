@@ -200,6 +200,30 @@ export const BREEDS = {
     tailPlume: 1.3,
     patchColor: 0xc57c44,
   },
+  exotic: {
+    name: "Экзотическая короткошёрстная",
+    build: "colossal",
+    pattern: "solid",
+    ears: 0.7,
+    fur: "plush",
+    faceWidth: 1.04,
+  },
+  selkirk: {
+    name: "Селкирк-рекс",
+    build: "colossal",
+    pattern: "solid",
+    ears: 0.84,
+    fur: "curly",
+  },
+  ragamuffin: {
+    name: "Рагамаффин",
+    build: "colossal",
+    pattern: "solid",
+    ears: 0.89,
+    fur: "long",
+    neckRuff: 1.18,
+    tailPlume: 1.4,
+  },
 };
 export const CAT_BUILDS = {
   slender: {
@@ -255,6 +279,15 @@ export const CAT_BUILDS = {
     gait: 0.61,
     bounce: 0.039,
     stride: 0.18,
+  },
+  colossal: {
+    width: 2.55,
+    height: 0.84,
+    length: 1.5,
+    face: 1.35,
+    gait: 0.48,
+    bounce: 0.032,
+    stride: 0.14,
   },
 };
 const cat = (
@@ -613,6 +646,39 @@ export const ADOPTION_CATS = [
     7,
     "Белая шубка, рыжая шапочка и полосатый хвост: обожает лагуны",
     { otherEye: 0xdbb85d },
+  ),
+  cat(
+    "plushkin",
+    "Плюшкин",
+    "exotic",
+    0xd6baa0,
+    0xcba55e,
+    3600,
+    11,
+    "Гигантская плюшевая подушка: крошечные ушки, огромный животик и важные смешные шажки",
+    { size: 2.05 },
+  ),
+  cat(
+    "doughnut",
+    "Пончик",
+    "selkirk",
+    0xb7bdc6,
+    0xb0d17c,
+    4600,
+    13,
+    "Кудрявый великан: вдвое шире Морошки, обожает обниматься и смешно переваливается",
+    { size: 2.15 },
+  ),
+  cat(
+    "marshmallow",
+    "Зефир",
+    "ragamuffin",
+    0xe8dfd4,
+    0x8abdd9,
+    6300,
+    15,
+    "Огромное пушистое облако с воротником, хвостом-пёрышком и самым мягким животиком",
+    { size: 2.25, otherEye: 0xd7b26e },
   ),
 ];
 export function catAppearance(profile = {}) {

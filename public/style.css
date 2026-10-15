@@ -217,7 +217,7 @@ main {
   justify-content: space-between;
   padding: 17px 20px;
   color: #eadfed;
-  background: #283244;
+  background: none;
   font-size: 12px;
   align-items: center;
 }
@@ -258,7 +258,7 @@ main {
   height: 640px;
   position: relative;
   overflow: hidden;
-  background: #182434;
+  background: #b5bfdc;
 }
 #map canvas {
   width: 100%;
@@ -286,7 +286,6 @@ main {
   color: #dbd3e2;
   background: #ffffff0c;
   border: 1px solid #ffffff1c;
-  backdrop-filter: blur(18px);
   border-radius: 15px;
   padding: 14px 17px;
   font-size: 11px;
@@ -314,26 +313,6 @@ main {
   border-radius: 20px;
   pointer-events: none;
 }
-.island-label {
-  position: absolute;
-  left: 0;
-  top: 0;
-  background: #242c43b8;
-  backdrop-filter: blur(8px);
-  color: #eadfdf;
-  border: 1px solid #ffffff24;
-  white-space: nowrap;
-  font-size: 9px;
-  padding: 6px 10px;
-  border-radius: 20px;
-  box-shadow: 0 5px 20px #00000018;
-  z-index: 1;
-}
-.island-label.locked {
-  color: #c1b5cb;
-  background: #323245a0;
-  font-size: 8px;
-}
 .world-bottom {
   display: flex;
   align-items: center;
@@ -341,8 +320,8 @@ main {
   padding: 13px 20px;
   font-size: 9px;
   color: #a9a0b9;
-  background: #293143;
-  border-top: 1px solid #ffffff0c;
+  background: none;
+  border: 0;
 }
 .world-bottom button {
   background: #ffffff0b;
@@ -1424,13 +1403,6 @@ dialog::backdrop {
   .shop-footer button {
     font-size: 7px;
   }
-  .island-label {
-    font-size: 7px;
-    padding: 5px 7px;
-  }
-  .island-label.locked {
-    font-size: 7px;
-  }
   #build-panel {
     bottom: 45px;
     left: 10px;
@@ -1473,9 +1445,6 @@ dialog::backdrop {
 }
 .orbit-hint {
   color: #b6adbf;
-}
-.island-label {
-  box-shadow: 0 4px 20px #00000028;
 }
 .farm-dialog {
   width: min(850px, 94vw);
@@ -1962,9 +1931,9 @@ main {
   border-radius: 24px;
 }
 #map {
-  height: calc(100dvh - 210px);
-  min-height: 460px;
-  max-height: none;
+  height: calc(100svh - 120px);
+  min-height: 560px;
+  max-height: 1200px;
   aspect-ratio: auto;
 }
 .world-top {
@@ -2103,8 +2072,8 @@ main {
     border-radius: 18px;
   }
   #map {
-    height: calc(100dvh - 220px);
-    min-height: 430px;
+    height: calc(100svh - 112px);
+    min-height: 560px;
   }
   .world-top {
     padding: 8px 11px;
@@ -2435,4 +2404,214 @@ main {
 .island-build-badge[hidden],
 .island-projects[hidden] {
   display: none;
+}
+
+/* The world fills its frame. Controls float above it without opaque header/footer bands. */
+.world {
+  isolation: isolate;
+}
+#map {
+  scroll-margin-top: 10px;
+}
+.world-top {
+  position: absolute;
+  inset: 12px 12px auto;
+  z-index: 5;
+  padding: 0;
+  background: none;
+  border: 0;
+  pointer-events: none;
+  align-items: flex-start;
+}
+.world-top > span {
+  padding: 9px 12px;
+  border-radius: 15px;
+  background: #26364ed9;
+  border: 1px solid #ffffff26;
+  box-shadow: 0 3px 14px #13203818;
+}
+.map-controls {
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.map-controls button,
+.map-zoom button {
+  min-height: 44px;
+  min-width: 40px;
+  padding: 9px 12px;
+  border: 1px solid #ffffff36;
+  border-radius: 13px;
+  background: #293a55d9;
+  color: #f7efff;
+  font-size: 12px;
+  box-shadow: 0 3px 14px #1320381a;
+  pointer-events: auto;
+}
+.map-controls button:hover,
+.map-zoom button:hover {
+  background: #435777ed;
+}
+.map-zoom {
+  position: absolute;
+  top: 45%;
+  right: 12px;
+  display: grid;
+  gap: 7px;
+  z-index: 4;
+}
+.map-zoom button {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  font-size: 23px;
+}
+#bubble {
+  top: 76px;
+  background: #39465bc9;
+  border-color: #ffffff30;
+  color: #f2eaf8;
+  backdrop-filter: none;
+}
+.world-bottom {
+  position: absolute;
+  inset: auto 12px 12px;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 7px;
+  padding: 0;
+  pointer-events: none;
+}
+.world-primary-actions,
+.world-meta-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.world-primary-actions {
+  justify-content: space-between;
+}
+.world-bottom button {
+  pointer-events: auto;
+  min-height: 44px;
+  background: #293a55de;
+  border: 1px solid #ffffff36;
+  border-radius: 14px;
+  padding: 10px 13px;
+  color: #fff1ff;
+  font-size: 12px;
+  box-shadow: 0 3px 14px #1320381a;
+}
+.world-bottom #demo {
+  color: #f0e7f8;
+  background: #293a55cf;
+  font-size: 10px;
+  padding: 7px 11px;
+}
+.world-meta-actions > span {
+  color: #f0e7f8;
+  background: #293a55cf;
+  border-radius: 20px;
+  padding: 6px 9px;
+  font-size: 9px;
+}
+.orbit-hint {
+  bottom: 114px;
+}
+#mood-badge {
+  bottom: 111px;
+  background: #293a55b8;
+}
+#build-panel {
+  bottom: 118px;
+}
+.world-recovery {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #514365;
+  background: #b5bfdc;
+  z-index: 3;
+  pointer-events: none;
+}
+.world-recovery[hidden] {
+  display: none;
+}
+.biome-nav {
+  margin-top: 24px;
+  padding: 12px;
+  gap: 10px;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  max-width: 100%;
+  border-radius: 20px;
+  background: #fbf8ffba;
+  border: 1px solid #ffffffcc;
+  overscroll-behavior-x: contain;
+  scrollbar-color: #b1a0c4 transparent;
+}
+.biome-chip {
+  min-height: 56px;
+  color: #78658c;
+  background: #eee8f5;
+  border-color: #dfd3eb;
+}
+.biome-chip small {
+  color: #897694;
+}
+.biome-chip.active {
+  background: #d9c9ef;
+  border-color: #ae8fce;
+  color: #59436e;
+}
+@media (max-width: 700px) {
+  .world-top {
+    gap: 8px;
+  }
+  .world-top > span {
+    font-size: 11px;
+    padding: 7px 10px;
+  }
+  .world-top > span small {
+    display: none;
+  }
+  .map-controls {
+    width: 100%;
+  }
+  .map-controls button {
+    padding: 8px 10px;
+    font-size: 11px;
+  }
+  #bubble {
+    top: 112px;
+    left: 12px;
+    max-width: 230px;
+  }
+  .world-primary-actions {
+    flex-wrap: nowrap;
+  }
+  .world-bottom #toggle {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 11px;
+    font-size: 11px;
+  }
+  .world-bottom #bag-open {
+    white-space: nowrap;
+    font-size: 10px;
+  }
+  .world-meta-actions {
+    gap: 5px;
+  }
+  .world-meta-actions > span {
+    padding: 6px;
+    font-size: 8px;
+  }
+  .world-bottom #demo {
+    font-size: 9px;
+    min-height: 38px;
+  }
 }

@@ -66,6 +66,53 @@ test("Chichi remains byte-identical to the approved hero in all three moods", ()
   }
 });
 
+test("approved Cloudberry and Nimbus models remain unchanged while new giants are added", () => {
+  const expected = {
+    "adopt-cloudberry":
+      "37414b6f170f324801b4db02020bdb4c3a02087814c499cd32756a73387387b2",
+    "adopt-nimbus":
+      "2dc23226d0bc251719b82e6908766db6d62cac7d5cec7efa42631c94842c24b3",
+  };
+  for (const [id, hash] of Object.entries(expected)) {
+    const c = createCat(
+      "happy",
+      catAppearance(ADOPTION_CATS.find((p) => p.id === id)),
+    );
+    assert.equal(fingerprint(c), hash, id);
+    disposeCat(c);
+  }
+});
+
+test("new colossal cats are about twice Cloudberry's world width with a slow stable gait", () => {
+  const cloudProfile = ADOPTION_CATS.find((p) => p.id === "adopt-cloudberry"),
+    cloud = createCat("happy", catAppearance(cloudProfile)),
+    width = (cat) => {
+      const body = cat.userData.body;
+      body.geometry.computeBoundingBox();
+      return (
+        body.geometry.boundingBox.getSize(new THREE.Vector3()).x * body.scale.x
+      );
+    },
+    reference = width(cloud) * cloudProfile.size;
+  for (const id of ["adopt-plushkin", "adopt-doughnut", "adopt-marshmallow"]) {
+    const profile = ADOPTION_CATS.find((p) => p.id === id),
+      cat = createCat("happy", catAppearance(profile)),
+      ratio = (width(cat) * profile.size) / reference;
+    assert.ok(ratio > 1.8 && ratio < 2.2, id + ": " + ratio);
+    assert.ok(cat.userData.build.gait < cloud.userData.build.gait);
+    for (const mood of ["sleep", "happy", "crazy hungry"]) {
+      cat.userData.mood = mood;
+      animateCat(cat, 0.15, true);
+      cat.updateMatrixWorld(true);
+      cat.traverse((o) =>
+        assert.ok(o.matrixWorld.elements.every(Number.isFinite)),
+      );
+    }
+    disposeCat(cat);
+  }
+  disposeCat(cloud);
+});
+
 test("crowd sculpt has closed cheeks, body and paws instead of clipped marching-grid borders", () => {
   for (const geometry of [
     kittenSurface("face", 19),
@@ -212,7 +259,13 @@ test("new breeds are paid adoptions and reload alongside existing cats without l
   });
   let game = adoptCat(initial, "adopt-biscuit", "breed-center", now);
   const before = game.coins,
-    ids = ["adopt-pretzel", "adopt-marzipan"];
+    ids = [
+      "adopt-pretzel",
+      "adopt-marzipan",
+      "adopt-plushkin",
+      "adopt-doughnut",
+      "adopt-marshmallow",
+    ];
   for (const id of ids) game = adoptCat(game, id, "breed-center", now);
   const cost = ADOPTION_CATS.filter((c) => ids.includes(c.id)).reduce(
     (n, c) => n + c.price,

@@ -29,7 +29,7 @@ lids. Half-float positions/colours and 16-bit normals reduce crowd bandwidth.
 Static colour parts merge within each animated rig node. Cat shapes and breed
 traits remain visible; no island objects or landscape details are removed.
 
-All 32 adoption portraits and three mood portraits are baked from the actual
+All 35 adoption portraits and three mood portraits are baked from the actual
 models into `public/art/cats`. Opening the menu creates no temporary 3D scenes.
 To regenerate them, run `scripts/render-cat-portraits.mjs` with a local Playwright
 installation (`PLAYWRIGHT_MODULE` may point to its module) and `CHROMIUM_PATH`.

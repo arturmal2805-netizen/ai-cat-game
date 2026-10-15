@@ -6,6 +6,7 @@ import { islandObjects } from "./world-objects.js";
 import { swimFrame } from "./swimming.js";
 import { activeCats } from "./cat-roster.js";
 import { catAppearance } from "./cat-breeds.js";
+import { watchWorldViewport } from "./world-viewport.js";
 import { incomeFor } from "./business.js";
 import {
   HOME_OBJECTS,
@@ -58,7 +59,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     container.clientWidth < 700 || matchMedia("(pointer: coarse)").matches;
   const renderer = new THREE.WebGLRenderer({
     antialias: true,
-    alpha: true,
+    alpha: false,
     powerPreference: "high-performance",
   });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
@@ -207,7 +208,6 @@ export function createWorld(container, initialGame, callbacks = {}) {
   royalStars.visible = false;
   scene.add(royalStars);
   const islands = new Map(),
-    labels = new Map(),
     itemGroups = new Map(),
     npcs = new Map();
   const mealVisits = new Map(),
@@ -309,13 +309,6 @@ export function createWorld(container, initialGame, callbacks = {}) {
     g.position.set(biome.center[0], 0, biome.center[1]);
     scene.add(g);
     islands.set(biome.id, g);
-    const label = document.createElement("button");
-    label.className = "island-label";
-    label.textContent = biome.icon + " " + biome.name;
-    label.setAttribute("aria-label", "Остров " + biome.name);
-    label.onclick = () => focus(biome.id);
-    container.append(label);
-    labels.set(biome.id, label);
     return g;
   }
   const islandRefreshes = new Map();
@@ -676,12 +669,6 @@ export function createWorld(container, initialGame, callbacks = {}) {
       operation.destination
         .copy(operation.attraction.position)
         .add(new THREE.Vector3(0, 0, 0.8));
-    }
-    for (const biome of BIOMES) {
-      const unlocked = game.unlocked.includes(biome.id);
-      const label = labels.get(biome.id);
-      label.classList.toggle("locked", !unlocked);
-      label.textContent = (unlocked ? biome.icon : "🔒") + " " + biome.name;
     }
     for (const profile of activeCats(game)) {
       if (npcs.has(profile.id)) {
@@ -1532,40 +1519,65 @@ export function createWorld(container, initialGame, callbacks = {}) {
     "touchend",
     () => (pinchDistance = null),
   );
-  let renderWidth = 0,
-    renderHeight = 0;
-  const resize = new ResizeObserver(() => {
-    const bounds = container.getBoundingClientRect(),
-      width = Math.round(bounds.width),
-      height = Math.round(bounds.height);
-    if (!width || !height || (renderWidth === width && renderHeight === height))
-      return;
-    renderWidth = width;
-    renderHeight = height;
-    renderer.setSize(width, height);
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
-  });
-  resize.observe(container);
+  const viewport = watchWorldViewport(container);
+  let worldVisible = true;
+  const visibility = globalThis.IntersectionObserver
+    ? new IntersectionObserver(
+        ([entry]) => {
+          worldVisible = entry.isIntersecting;
+          if (worldVisible) viewport.invalidate();
+        },
+        { rootMargin: "160px 0px" },
+      )
+    : null;
+  visibility?.observe(container);
+  let contextLost = false;
+  const recovery = document.createElement("div");
+  recovery.className = "world-recovery";
+  recovery.textContent = "Мир возвращается… ✦";
+  recovery.setAttribute("role", "status");
+  recovery.hidden = true;
+  container.append(recovery);
+  const loseContext = (event) => {
+    event.preventDefault();
+    contextLost = true;
+    recovery.hidden = false;
+  };
+  const restoreContext = () => {
+    contextLost = false;
+    viewport.invalidate();
+  };
+  const resume = () => {
+    if (!document.hidden) viewport.invalidate();
+  };
+  renderer.domElement.addEventListener("webglcontextlost", loseContext);
+  renderer.domElement.addEventListener("webglcontextrestored", restoreContext);
+  document.addEventListener("visibilitychange", resume);
   let previousTime = performance.now(),
     lastRender = 0;
   function loop(now) {
     if (disposed) return;
+    if (contextLost || document.hidden) {
+      requestAnimationFrame(loop);
+      return;
+    }
     const cameraMoving =
       look.distanceToSquared(desiredLook) > 0.0001 ||
       Math.abs(distance - desiredDistance) > 0.01;
     const dialogOpen = !!document.querySelector("dialog[open]");
     if (
+      !(viewport.pending && !dialogOpen && worldVisible) &&
       now - lastRender <
-      (dialogOpen
-        ? 100
-        : operation || pointerDown || heroGather || cameraMoving
-          ? 16
-          : 33)
+        (dialogOpen
+          ? 100
+          : operation || pointerDown || heroGather || cameraMoving
+            ? 16
+            : 33)
     ) {
       requestAnimationFrame(loop);
       return;
     }
+    if (!dialogOpen && worldVisible) viewport.apply(renderer, camera);
     lastRender = now;
     const dt = Math.min((now - previousTime) / 1000, 0.1);
     previousTime = now;
@@ -2187,7 +2199,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       animateCat(cat, time, walking, reduced);
       if (reaction) reactCat(cat, reaction, reduced);
     }
-    if (dialogOpen) {
+    if (dialogOpen || !worldVisible) {
       requestAnimationFrame(loop);
       return;
     }
@@ -2303,21 +2315,16 @@ export function createWorld(container, initialGame, callbacks = {}) {
           Math.abs(p.y) > 0.94 ||
           distance > 170;
       }
-    for (const b of BIOMES) {
-      const p = hudPoint.set(b.center[0], 0.3, b.center[1] - 9).project(camera);
-      const label = labels.get(b.id);
-      label.style.transform = `translate(-50%,-50%) translate(${((p.x + 1) * width) / 2}px,${((1 - p.y) * height) / 2}px)`;
-      label.hidden =
-        p.z > 1 || p.x > 1.15 || p.x < -1.15 || p.y > 1.1 || p.y < -1.1;
-      label.style.opacity = b.id === focused ? "1" : ".7";
-    }
     sun.position.set(look.x - 14, 35, look.z + 20);
     sun.target.position.copy(look);
     scene.fog.density = distance > 90 ? 0.0007 : 0.0035;
     updateOcclusion(now, dt);
     // The opaque shop covers the map. Keep the simulation running, but avoid
     // competing GPU draws while its miniature scenes are being rendered.
-    if (!dialogOpen) renderer.render(scene, camera);
+    if (!dialogOpen) {
+      renderer.render(scene, camera);
+      recovery.hidden = true;
+    }
     requestAnimationFrame(loop);
   }
   requestAnimationFrame(loop);
@@ -2399,7 +2406,15 @@ export function createWorld(container, initialGame, callbacks = {}) {
       dropHint.remove();
       dropRing.geometry.dispose();
       dropRing.material.dispose();
-      resize.disconnect();
+      viewport.dispose();
+      visibility?.disconnect();
+      renderer.domElement.removeEventListener("webglcontextlost", loseContext);
+      renderer.domElement.removeEventListener(
+        "webglcontextrestored",
+        restoreContext,
+      );
+      document.removeEventListener("visibilitychange", resume);
+      recovery.remove();
       renderer.dispose();
     },
   };

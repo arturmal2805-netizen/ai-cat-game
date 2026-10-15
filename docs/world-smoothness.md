@@ -12,8 +12,8 @@ cat pass; actual world rendering also includes shadows, scenery and water.
 It is not a claim of FPS on every device.
 
 Island focus interpolates both position and distance. Camera movement requests
-an animation frame even while the cat is idle. A ResizeObserver reallocates the
-canvas only when dimensions actually change; mobile DPR remains capped at 2,
+an animation frame even while the cat is idle. A ResizeObserver records dimensions; the render loop reallocates the
+canvas immediately before drawing, only when dimensions actually change. Mobile DPR remains capped at 2,
 with no dynamic resolution or reduction of world detail.
 
 Scene builders expose generators alongside their synchronous public APIs.
@@ -57,3 +57,11 @@ The small triangle increase closes real holes and supplies breed silhouettes;
 it does not reduce any cat, landscape or mobile rendering detail. Neck ruffs
 and ear tufts batch into existing animated head/ear surfaces. Adoption menus
 still use cached images, and unadopted candidates never join the world scene.
+
+
+The immersive-interface release moves controls over the full canvas and removes
+floating island-name labels. A stable small-viewport height avoids reallocating
+the canvas while mobile browser bars slide. The world pauses GPU draws when it
+is well outside the viewport, resumes before re-entry, and restores a lost WebGL
+context without resetting the game. See [Immersive world](immersive-world.md)
+for the resize regression and the three new colossal adoption candidates.

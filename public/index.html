@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#eeeaf3" />
     <title>Чичи • мир маленьких чудес</title>
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
-    <link rel="stylesheet" href="./style.css?v=ae7b922d327cdb6f" />
+    <link rel="stylesheet" href="./style.css?v=605a484823250c5e" />
   </head>
   <body>
     <header>
@@ -61,59 +61,66 @@
           </p>
         </div>
         <div class="world-facts">
-          <div><strong>24</strong><span>сказочных биомов</span></div>
-          <div><strong>101</strong><span>маленьких чудес</span></div>
-          <div><strong>30</strong><span>котиков для усыновления</span></div>
+          <div>
+            <strong id="biome-total">24</strong><span>сказочных биомов</span>
+          </div>
+          <div>
+            <strong id="wonder-total">108</strong><span>маленьких чудес</span>
+          </div>
+          <div>
+            <strong id="adoption-total">35</strong
+            ><span>котиков для усыновления</span>
+          </div>
         </div>
       </section>
       <div class="game-layout">
         <section class="world">
-          <div class="world-top">
-            <span
-              ><i class="live-dot"></i> <b id="biome-name">Лунный сад</b
-              ><small id="mode">Подключаем ИИ…</small></span
-            >
-            <div class="map-controls">
-              <button
-                id="island-open"
-                aria-label="Собрать котов на этом острове"
-                title="Отправить всех котов на этот остров"
-              >
-                🐾
-              </button>
-              <button
-                id="care-open"
-                class="cat-menu"
-                aria-label="Открыть меню Чичи"
-                title="Чичи и все котики"
-              >
-                <span class="cat-menu-face"
-                  ><img id="care-avatar" alt="" hidden /><span
-                    id="care-avatar-fallback"
-                    >🐈‍⬛</span
-                  ></span
-                >
-              </button>
-              <button
-                id="scenery-open"
-                aria-label="Декорации островов"
-                title="Деревья, домики и камни"
-              >
-                🌿 Декор
-              </button>
-              <button
-                id="camera-home"
-                title="Вернуться в лунный сад"
-                aria-label="Домой"
-              >
-                ⌂</button
-              ><button id="camera-all" title="Показать все острова">
-                Весь мир ↗</button
-              ><button id="zoom-in" aria-label="Приблизить">+</button
-              ><button id="zoom-out" aria-label="Отдалить">−</button>
-            </div>
-          </div>
           <div id="map">
+            <div class="world-top">
+              <span
+                ><i class="live-dot"></i> <b id="biome-name">Лунный сад</b
+                ><small id="mode">Подключаем ИИ…</small></span
+              >
+              <div class="map-controls">
+                <button
+                  id="island-open"
+                  aria-label="Собрать котов на этом острове"
+                  title="Отправить всех котов на этот остров"
+                >
+                  🐾
+                </button>
+                <button
+                  id="care-open"
+                  class="cat-menu"
+                  aria-label="Открыть меню Чичи"
+                  title="Чичи и все котики"
+                >
+                  <span class="cat-menu-face"
+                    ><img id="care-avatar" alt="" hidden /><span
+                      id="care-avatar-fallback"
+                      >🐈‍⬛</span
+                    ></span
+                  >
+                </button>
+                <button
+                  id="scenery-open"
+                  aria-label="Декорации островов"
+                  title="Деревья, домики и камни"
+                >
+                  🌿 Декор
+                </button>
+                <button
+                  id="camera-home"
+                  title="Вернуться в лунный сад"
+                  aria-label="Домой"
+                >
+                  ⌂</button
+                ><button id="camera-all" title="Показать все острова">
+                  Весь мир ↗
+                </button>
+              </div>
+            </div>
+
             <div id="world-loading">Зажигаем звёзды и открываем острова…</div>
             <div id="bubble" aria-live="polite">
               Мяу… кажется, сегодня случится что-то чудесное.
@@ -137,15 +144,24 @@
                 ><button id="build-cancel" class="quiet">Отмена</button>
               </div>
             </div>
+            <div class="map-zoom" role="group" aria-label="Масштаб мира">
+              <button id="zoom-in" aria-label="Приблизить">+</button
+              ><button id="zoom-out" aria-label="Отдалить">−</button>
+            </div>
+            <div class="world-bottom">
+              <div class="world-primary-actions">
+                <button id="toggle" class="primary">
+                  Дай Чичи решить самой ✦</button
+                ><button id="bag-open">
+                  ▣ Моя сумка <b id="bag-count">0</b>
+                </button>
+              </div>
+              <div class="world-meta-actions">
+                <button id="demo" class="quiet">Попробовать демо без ИИ</button
+                ><span>✦ Волшебный час</span><span id="steps">0 решений</span>
+              </div>
+            </div>
           </div>
-          <div class="world-bottom">
-            <button id="toggle" class="primary">Дай Чичи решить самой ✦</button
-            ><button id="demo" class="quiet">Попробовать демо без ИИ</button>
-
-            <span>✦ Волшебный час</span><span id="steps">0 решений</span
-            ><button id="bag-open">▣ Моя сумка <b id="bag-count">0</b></button>
-          </div>
-          <div id="biome-nav" class="biome-nav"></div>
         </section>
       </div>
       <section class="discovery">
@@ -167,6 +183,7 @@
           <p>Осень · зима · магия · море · сакура · облака</p>
         </div>
       </section>
+      <nav id="biome-nav" class="biome-nav" aria-label="Острова мира"></nav>
       <footer>
         Чичи · мир маленьких чудес
         <button id="cloud-save-open" class="quiet">
@@ -602,6 +619,6 @@
       </div>
     </dialog>
     <div id="toast" role="status" aria-live="polite" hidden></div>
-    <script type="module" src="./dist/app.js?v=8d466e8f24c52e49"></script>
+    <script type="module" src="./dist/app.js?v=f7415780e35d8d89"></script>
   </body>
 </html>

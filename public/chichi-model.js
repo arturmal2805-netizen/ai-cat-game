@@ -807,7 +807,11 @@ export function createReferenceChichi(mood, options = {}) {
           ...CHICHI_ANATOMY,
           bodyHeight:
             CHICHI_ANATOMY.bodyHeight *
-            (appearance.build === "giant" ? 1.22 : 1),
+            (appearance.build === "colossal"
+              ? 1.4
+              : appearance.build === "giant"
+                ? 1.22
+                : 1),
           legY: CHICHI_ANATOMY.legY * build.height,
           bodyY:
             CHICHI_ANATOMY.bodyY - CHICHI_ANATOMY.legY * (1 - build.height),

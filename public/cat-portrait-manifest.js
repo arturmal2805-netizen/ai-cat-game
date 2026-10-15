@@ -32,6 +32,9 @@ export const CAT_PORTRAITS = {
   "adopt-silk": "./art/cats/adopt-silk.png?v=23e553dcde9c",
   "adopt-pretzel": "./art/cats/adopt-pretzel.png?v=1d927088cbcd",
   "adopt-marzipan": "./art/cats/adopt-marzipan.png?v=cb326b1a9dee",
+  "adopt-plushkin": "./art/cats/adopt-plushkin.png?v=faca609212bb",
+  "adopt-doughnut": "./art/cats/adopt-doughnut.png?v=90e9292f9ecb",
+  "adopt-marshmallow": "./art/cats/adopt-marshmallow.png?v=2e889607f00e",
 };
 export const CHICHI_PORTRAITS = {
   sleep: "./art/cats/chichi-sleep.png?v=108c3131d849",
