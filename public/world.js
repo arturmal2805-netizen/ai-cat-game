@@ -1,6 +1,7 @@
 import { CHICHI_PORTRAITS } from "./cat-portrait-manifest.js";
 import { RENEWED_ISLANDS } from "./renewal-data.js";
 import { islandHeight } from "./renewed-biomes.js";
+import { capybaraDryPoint } from "./capybara-data.js";
 import { islandProjectModel } from "./island-project-model.js";
 import { islandObjects } from "./world-objects.js";
 import { swimFrame } from "./swimming.js";
@@ -257,7 +258,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
   const chichiCarrier = new THREE.Group();
   chichiCarrier.position.set(-6, 0.14, -3);
   if (initialGame.catPosition) {
-    const p = initialGame.catPosition,
+    const saved = initialGame.catPosition,
+      p =
+        saved.biome === "summer"
+          ? { ...saved, ...capybaraDryPoint(saved.x, saved.z) }
+          : saved,
       b = byBiome(p.biome);
     if (b)
       chichiCarrier.position.set(
@@ -594,6 +599,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         };
       } else g = built ? makeAttraction(o.type) : islandProjectModel(o.type);
       if (o.scale) g.scale.setScalar(o.scale);
+      if (o.dismount) g.userData.dismount = o.dismount;
       const b = byBiome(o.biome);
       g.position.set(
         b.center[0] + o.x,
@@ -876,7 +882,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
         : 0.8;
     let dismount = null;
     if (attraction?.userData.rideFrame && decision.action === "ride") {
-      dismount = attraction.localToWorld(new THREE.Vector3(0, 0, 0.8));
+      dismount = attraction.localToWorld(
+        new THREE.Vector3(...(attraction.userData.dismount || [0, 0, 0.8])),
+      );
       const biome = byBiome(attraction.userData.placement.biome);
       dismount.y =
         islandHeight(
@@ -1553,6 +1561,13 @@ export function createWorld(container, initialGame, callbacks = {}) {
   renderer.domElement.addEventListener("webglcontextlost", loseContext);
   renderer.domElement.addEventListener("webglcontextrestored", restoreContext);
   document.addEventListener("visibilitychange", resume);
+  // Frame-local results are copied to carriers immediately. Reuse storage
+  // instead of creating short-lived vectors for every cat on every draw.
+  const framePoint = new THREE.Vector3(),
+    npcDirection = new THREE.Vector3(),
+    localSwim = new THREE.Vector3(),
+    shorePoint = new THREE.Vector3(),
+    travelDirection = new THREE.Vector3();
   let previousTime = performance.now(),
     lastRender = 0;
   function loop(now) {
@@ -1769,9 +1784,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
           const enter = Math.min(1, elapsed);
           n.carrier.position.copy(
             swim.lake.localToWorld(
-              new THREE.Vector3(f.x, f.y, f.z).multiplyScalar(
-                enter * enter * (3 - 2 * enter),
-              ),
+              framePoint
+                .set(f.x, f.y, f.z)
+                .multiplyScalar(enter * enter * (3 - 2 * enter)),
             ),
           );
           n.carrier.rotation.y = f.yaw;
@@ -1787,9 +1802,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           if (!reduced) lagoon?.userData.disturb?.(f.x, f.z, time, 0.35);
           if (elapsed > 14) {
             n.carrier.position.copy(
-              swim.lake.localToWorld(
-                new THREE.Vector3(bounds.rx + 0.5, 0.01, 0),
-              ),
+              swim.lake.localToWorld(framePoint.set(bounds.rx + 0.5, 0.01, 0)),
             );
             n.carrier.position.y = swim.lake.userData.shoreHeight ?? 0.16;
             swimVisits.delete(id);
@@ -1807,7 +1820,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       ) {
         x = operation.attraction.position.x + Math.sin(n.index * 1.4) * 1.35;
         z = operation.attraction.position.z + Math.cos(n.index * 1.4) * 1.1;
-        if (n.carrier.position.distanceTo(new THREE.Vector3(x, 0.16, z)) < 1.6)
+        if (n.carrier.position.distanceTo(framePoint.set(x, 0.16, z)) < 1.6)
           operation.partyPresent.add(id);
         n.carrier.position.y =
           0.16 + (reduced ? 0 : Math.abs(Math.sin(time * 4 + n.index)) * 0.09);
@@ -1851,6 +1864,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
         const wanderRadius = b.arrival ? 11.8 : 6;
         x = b.center[0] + Math.sin(time * 0.07 + n.index * 2.4) * wanderRadius;
         z = b.center[1] + Math.cos(time * 0.07 + n.index * 2.4) * wanderRadius;
+        if (b.id === "summer") {
+          const dry = capybaraDryPoint(x - b.center[0], z - b.center[1]);
+          x = b.center[0] + dry.x;
+          z = b.center[1] + dry.z;
+        }
         n.carrier.position.y =
           0.16 +
           islandHeight(
@@ -1859,9 +1877,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
             n.carrier.position.z - b.center[1],
           );
       }
-      const direction = new THREE.Vector3(x, n.carrier.position.y, z).sub(
-        n.carrier.position,
-      );
+      const direction = npcDirection
+        .set(x, n.carrier.position.y, z)
+        .sub(n.carrier.position);
       if (!direct) {
         if (direction.length() > 0.03)
           n.carrier.rotation.y = Math.atan2(direction.x, direction.z);
@@ -1896,7 +1914,6 @@ export function createWorld(container, initialGame, callbacks = {}) {
     }
     npcMarkers.instanceMatrix.needsUpdate = true;
     chichiCarrier.rotation.z = 0;
-    const localSwim = new THREE.Vector3();
     let walking = false,
       reaction = null;
     if (heroGather && !operation && !draggingCat) {
@@ -1922,7 +1939,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           op.destination,
           p * p * (3 - 2 * p),
         );
-        const d = op.destination.clone().sub(op.from);
+        const d = travelDirection.copy(op.destination).sub(op.from);
         chichiCarrier.rotation.y = Math.atan2(d.x, d.z);
         walking = p < 1;
         if (p === 1) {
@@ -1945,7 +1962,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           id = g?.userData.id,
           action = op.decision.action;
         if (action === "ride" && g) {
-          let local = new THREE.Vector3(0, g.userData.seatHeight, 0);
+          let local = framePoint.set(0, g.userData.seatHeight, 0);
           const moving = g.userData.moving;
           if (g.userData.rideFrame) {
             g.userData.rideElapsed = elapsed;
@@ -2003,7 +2020,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
             ].includes(id)
           ) {
             local = moving.localToWorld(
-              new THREE.Vector3(0, g.userData.seatHeight, 0),
+              framePoint.set(0, g.userData.seatHeight, 0),
             );
             chichiCarrier.position.copy(local);
             local = null;
@@ -2018,7 +2035,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
             },
             f = swimFrame(elapsed, bounds, 0, reduced);
           if (elapsed > 10) {
-            const shore = new THREE.Vector3(
+            const shore = shorePoint.set(
                 bounds.rx + 0.5,
                 (g.userData.shoreHeight ?? 0.16) - g.position.y,
                 0,
@@ -2048,7 +2065,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         } else if (action === "farm" && g) {
           chichiCarrier.position.copy(
             g.localToWorld(
-              new THREE.Vector3(
+              framePoint.set(
                 Math.sin(elapsed * 1.5) * 1,
                 0.18,
                 Math.cos(elapsed * 1.5) * 0.7,
@@ -2062,7 +2079,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           applyYarnFrame(g, frame);
           chichiCarrier.position.copy(
             g.localToWorld(
-              new THREE.Vector3(frame.cat.x, 0.16 + frame.jump, frame.cat.z),
+              framePoint.set(frame.cat.x, 0.16 + frame.jump, frame.cat.z),
             ),
           );
           const yaw = g.rotation.y + frame.yaw;
@@ -2083,13 +2100,13 @@ export function createWorld(container, initialGame, callbacks = {}) {
           const f = g.userData.playFrame(elapsed, reduced);
           g.userData.heroPlayPos = { x: f.position[0], z: f.position[2] };
           chichiCarrier.position.copy(
-            g.localToWorld(new THREE.Vector3(...f.position)),
+            g.localToWorld(framePoint.set(...f.position)),
           );
           chichiCarrier.rotation.y = f.yaw;
           walking = !reduced;
           reaction = { paw: f.paw };
         } else if (action === "play" && g) {
-          const local = new THREE.Vector3(
+          const local = framePoint.set(
             Math.sin(elapsed * 2) * 0.7,
             0.16 +
               (!reduced && ["feather", "scratch"].includes(id)
@@ -2106,13 +2123,13 @@ export function createWorld(container, initialGame, callbacks = {}) {
         } else if (action === "rest" && g) {
           chichiCarrier.position.copy(
             g.localToWorld(
-              new THREE.Vector3(0, g.userData.id === "bed" ? 0.3 : 0.16, 0),
+              framePoint.set(0, g.userData.id === "bed" ? 0.3 : 0.16, 0),
             ),
           );
           reaction = { headPitch: 0.12 };
         } else if (action === "eat" && g) {
           chichiCarrier.position.copy(
-            g.localToWorld(new THREE.Vector3(-0.3, 0.16, 0.8)),
+            g.localToWorld(framePoint.set(-0.3, 0.16, 0.8)),
           );
           chichiCarrier.rotation.y = Math.atan2(
             g.position.x - chichiCarrier.position.x,

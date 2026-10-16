@@ -374,7 +374,12 @@ export function mergeSharedWorld(base, current, incoming) {
       !proposed ||
       p.stored ||
       !["x", "z", "biome", "rotation", "stored"].some(
-        (k) => old[k] !== proposed[k],
+        // Early saves omit `stored` for visible decorations. Normalization
+        // writes false; that is not a player move into the replacement lake.
+        (k) =>
+          k === "stored"
+            ? !!old.stored !== !!proposed.stored
+            : old[k] !== proposed[k],
       )
     )
       continue;

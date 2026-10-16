@@ -1,3 +1,4 @@
+import { junglePalmSteps, tropicalHut } from "./jungle-props.js";
 import { runSceneSteps } from "./scene-tasks.js";
 import { cottonTree, cupcake } from "./cotton-props.js";
 import * as THREE from "three";
@@ -335,7 +336,18 @@ function* sceneryTemplateSteps(record, low) {
     style = BIOME_STYLES[record.originBiome],
     spec = byScenery(record.type);
   yield;
-  if (style.hero === "cotton" && spec.category === "tree")
+  if (style.hero === "capybara" && spec.category === "tree")
+    yield* junglePalmSteps(
+      source,
+      low,
+      spec.kind === "willow" ? 1 : spec.kind === "apple" ? 2 : 0,
+    );
+  else if (
+    style.hero === "capybara" &&
+    (spec.category === "house" || record.type === "scenery-landmark")
+  )
+    tropicalHut(source, low);
+  else if (style.hero === "cotton" && spec.category === "tree")
     cottonTree(source, style.leaf, low ? 0.8 : 1);
   else if (
     style.hero === "cotton" &&
@@ -399,7 +411,11 @@ function* sceneryTemplateSteps(record, low) {
     shape(source, "cone", style.roof, 0, 2.5, 0, 1.3, 1.5, 1.3);
   } else buildLandmark(source, style, record.originBiome);
   yield;
-  const batched = yield* batchScenerySteps(source);
+  const batched = yield* batchScenerySteps(source, {
+    // A single organic surface keeps the many new jungle palms inexpensive;
+    // the full crown, trunk rings, leaf veins, colours and geometry stay present.
+    surfaceKind: style.hero === "capybara" ? "leaf" : null,
+  });
   yield;
   source.traverse((o) => {
     if (o.isMesh) {

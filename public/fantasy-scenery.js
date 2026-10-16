@@ -535,7 +535,7 @@ export function crescentGate(parent, x, y, z, color = 0xffd98d, scale = 1) {
   return g;
 }
 // Batch static props by material surface, retaining vertex colors and glow.
-export function* batchScenerySteps(root) {
+export function* batchScenerySteps(root, { surfaceKind = null } = {}) {
   yield;
   root.updateWorldMatrix(true, true);
   yield;
@@ -598,7 +598,7 @@ export function* batchScenerySteps(root) {
     yield;
     const key = mesh.material.isMeshBasicMaterial
       ? "glow"
-      : mesh.material.userData.surfaceKind || "stone";
+      : surfaceKind || mesh.material.userData.surfaceKind || "stone";
     yield;
     (parts[key] ||= []).push(geometry);
   }

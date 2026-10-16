@@ -10,6 +10,10 @@ import { CATALOG, BIOMES } from "../public/game-data.js";
 // Optional art production tool. Normal installs, builds and CI do not need a
 // browser: the finished images are versioned alongside their source scenes.
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const selected =
+  process.env.CHICHI_PREVIEW_KEYS?.split(",")
+    .map((k) => k.trim())
+    .filter(Boolean) || null;
 const { chromium } = createRequire(import.meta.url)(
   process.env.CHICHI_PLAYWRIGHT_MODULE || "playwright",
 );
@@ -40,7 +44,9 @@ const server = createServer((request, response) => {
   } else if (path === "/") {
     response.writeHead(200, { "Content-Type": "text/html" });
     response.end(
-      '<script type="module">import {catalogPreviews} from "/preview.js";catalogPreviews((key)=>console.log("Captured "+key),{forceRender:true}).then(map=>window.previews=Object.fromEntries(map)).catch(error=>window.captureError=error.message);</script>',
+      '<script type="module">import {catalogPreviews} from "/preview.js";catalogPreviews((key)=>console.log("Captured "+key),{forceRender:true,keys:' +
+        JSON.stringify(selected) +
+        "}).then(map=>window.previews=Object.fromEntries(map)).catch(error=>window.captureError=error.message);</script>",
     );
   } else {
     response.writeHead(404);
@@ -82,17 +88,24 @@ try {
     ...CATALOG.map((item) => item.id),
     ...BIOMES.map((biome) => "biome-" + biome.id),
   ];
+  const requested = selected || expected;
+  if (!requested.every((key) => expected.includes(key)))
+    throw Error("Unknown preview key");
   if (
-    Object.keys(images).length !== expected.length ||
-    !expected.every((key) => images[key])
+    Object.keys(images).length !== requested.length ||
+    !requested.every((key) => images[key])
   )
     throw Error("The preview capture is incomplete");
   await mkdir(folder, { recursive: true });
   const revision = createHash("sha256");
-  for (const key of Object.keys(images).sort())
+  for (const key of expected.slice().sort())
     revision
       .update(key)
-      .update(Buffer.from(images[key].split(",")[1], "base64"));
+      .update(
+        images[key]
+          ? Buffer.from(images[key].split(",")[1], "base64")
+          : await readFile(resolve(folder, key + ".png")),
+      );
   for (const [key, data] of Object.entries(images)) {
     if (!/^[\w-]+$/.test(key) || !data.startsWith("data:image/png;base64,"))
       throw Error("Invalid preview output");
@@ -106,7 +119,7 @@ try {
     JSON.stringify(
       {
         version: revision.digest("hex").slice(0, 12),
-        items: Object.keys(images).sort(),
+        items: expected.sort(),
       },
       null,
       2,

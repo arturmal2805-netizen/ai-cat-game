@@ -61,12 +61,12 @@ export const BIOME_STYLES = {
     hero: "wizard",
   },
   summer: {
-    ground: 0xb1bb76,
-    leaf: 0x9fba68,
-    flower: 0xffd171,
-    roof: 0xba9270,
-    kind: "fruit",
-    hero: "sunflower",
+    ground: 0x8dbb53,
+    leaf: 0x65b836,
+    flower: 0xff8c78,
+    roof: 0xcaa15f,
+    kind: "palm",
+    hero: "capybara",
   },
   nature: {
     ground: 0x6f9973,

@@ -1,3 +1,8 @@
+import {
+  CAPYBARA_RADIUS,
+  CAPYBARA_RIDES,
+  capybaraReservations,
+} from "./capybara-data.js";
 import { RENEWED_ISLANDS, ISLAND_RIDES } from "./renewal-data.js";
 import { BIOME_STYLES } from "./biome-styles.js";
 import { ADOPTION_CATS } from "./cat-breeds.js";
@@ -80,14 +85,16 @@ export const BIOMES = [
   },
   {
     id: "summer",
-    name: "Солнечный луг",
-    subtitle: "Цветы, воздушные шары и пикники",
-    icon: "🌻",
+    name: "Блакитна лагуна капібар",
+    subtitle: "Блакитні каскади, соковиті джунглі й пухкенькі капібари",
+    radius: CAPYBARA_RADIUS,
+    arrival: [-11, 10],
+    icon: "🌴",
     price: 340,
     center: [-27, 27],
-    ground: 0x8c9e65,
+    ground: 0x80b94d,
     edge: 0x535f55,
-    foliage: 0xb6c589,
+    foliage: 0x69ba39,
     accent: 0xf3d49c,
   },
   {
@@ -591,6 +598,7 @@ export const ACTIONS = [
 ];
 export function biomeReservations(id) {
   if (id === "clockwork") return cottonReservations();
+  if (id === "summer") return capybaraReservations();
   const fixed =
     id === "moon"
       ? [
@@ -1389,7 +1397,7 @@ CATALOG.push(
   ),
 );
 CATALOG.push(
-  ...[...CITY_RIDES, ...COTTON_RIDES].map((ride) => ({
+  ...[...CITY_RIDES, ...COTTON_RIDES, ...CAPYBARA_RIDES].map((ride) => ({
     ...ride,
     category: "rides",
     actions: ["ride"],
@@ -1837,6 +1845,9 @@ export const buildTimeLabel = (minutes) =>
       ? Math.round((minutes / 60) * 10) / 10 + " ч"
       : minutes + " мин";
 export const biomeFeature = (b) =>
+  (b === "summer"
+    ? "Чотири їздові капібари, купання в чотирьох лагунах і каскадні водоспади"
+    : null) ||
   RENEWED_ISLANDS[b]?.feature ||
   CROPS.find((c) => c.biome === b)?.name ||
   JOBS.find((j) => j.biomes.includes(b))?.name ||

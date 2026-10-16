@@ -64,9 +64,12 @@ export const SCENERY_TYPES = Object.fromEntries([
 ]);
 export const byScenery = (type) => SCENERY_TYPES[type];
 export function sceneryFootprint(record, rotation = record.rotation || 0) {
-  const size = byScenery(record.type).footprint.map(
-    (v) => v * (record.scale || 1),
-  );
+  const spec = byScenery(record.type),
+    footprint =
+      record.originBiome === "summer" && spec.category === "tree"
+        ? [1.9, 1.9]
+        : spec.footprint,
+    size = footprint.map((v) => v * (record.scale || 1));
   return rotation % 2 ? size.reverse() : size;
 }
 export function sceneryBounds(record) {
@@ -143,6 +146,31 @@ export function initialScenery(placements = []) {
       Object.assign(candidates.at(-2), { x: 12, z: 6, scale: 0.98 });
       Object.assign(candidates.at(-1), { x: -12, z: 5, scale: 0.92 });
     }
+    if (biome.id === "summer") {
+      candidates.push(
+        ...[
+          [-8, -17],
+          [-13, -12],
+          [-18, -1],
+          [-17, 5],
+          [-13, 12],
+          [11, 12],
+          [17, 5],
+          [18, -1],
+          [13, -12],
+          [5, -17],
+          [-5, 7],
+          [2, -6],
+          [-6, -1],
+          [4, 8],
+        ].map(([x, z], i) => ({
+          type: "scenery-tree-palm",
+          x,
+          z,
+          scale: 0.92 + (i % 3) * 0.12,
+        })),
+      );
+    }
     if (biome.id === "clockwork") {
       candidates.push(
         ...[
@@ -212,6 +240,7 @@ export function initialScenery(placements = []) {
         // Keep a usable building yard beside the starter activities. This is
         // only a planting preference, never a permanent placement restriction.
         ...(biome.id === "moon" ? [{ x: 0, z: -5, w: 6.4, d: 5.4 }] : []),
+        ...(biome.id === "summer" ? [{ x: -7, z: -7, w: 5.6, d: 5.6 }] : []),
         ...biomeReservations(biome.id),
         ...placements
           .filter((p) => p.biome === biome.id)
@@ -229,10 +258,13 @@ export function initialScenery(placements = []) {
         return (
           Math.hypot(Math.abs(x) + w / 2, Math.abs(z) + d / 2) <=
             (biome.radius ? biome.radius - 0.7 : 10.8) &&
-          !occupied.some(
-            (p) =>
-              Math.abs(x - p.x) < (w + p.w) / 2 + 0.2 &&
-              Math.abs(z - p.z) < (d + p.d) / 2 + 0.2,
+          !occupied.some((p) =>
+            biome.id === "summer" && p.rx && p.rz
+              ? (Math.max(0, Math.abs(x - p.x) - w / 2) / p.rx) ** 2 +
+                  (Math.max(0, Math.abs(z - p.z) - d / 2) / p.rz) ** 2 <
+                1
+              : Math.abs(x - p.x) < (w + p.w) / 2 + 0.2 &&
+                Math.abs(z - p.z) < (d + p.d) / 2 + 0.2,
           )
         );
       };

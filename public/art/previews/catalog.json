@@ -1,5 +1,5 @@
 {
-  "version": "5a4c3463a1c9",
+  "version": "995ba9468cc6",
   "items": [
     "adoption-center",
     "airship",
@@ -89,6 +89,10 @@
     "pond",
     "portal",
     "ride-butterfly",
+    "ride-capybara-boba",
+    "ride-capybara-coconut",
+    "ride-capybara-float",
+    "ride-capybara-mango",
     "ride-cloud-tram",
     "ride-crystal-slide",
     "ride-cupcake-wheel",

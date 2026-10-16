@@ -1,3 +1,4 @@
+import { capybaraHeight } from "./capybara-data.js";
 import { runSceneSteps } from "./scene-tasks.js";
 import { cottonHeight } from "./cotton-data.js";
 import * as THREE from "three";
@@ -24,6 +25,7 @@ import { creatureRide } from "./creature-rides.js";
 import { whaleBiomeSteps } from "./whale-diorama.js";
 export function islandHeight(biome, x, z) {
   if (biome === "clockwork") return cottonHeight(x, z);
+  if (biome === "summer") return capybaraHeight(x, z);
   const upper = RENEWED_ISLANDS[biome]?.upper;
   if (!upper) return 0;
   return ((x - upper[0]) / (upper[2] + 1.8)) ** 2 +

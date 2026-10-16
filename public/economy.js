@@ -603,7 +603,10 @@ function restoreScenery(game, raw) {
       candidate.z,
       candidate.rotation,
       seed.id,
-      { allowLocked: true },
+      {
+        allowLocked: true,
+        ignoreTerrain: !!old && candidate.biome === "summer",
+      },
     ).ok
       ? candidate
       : null;

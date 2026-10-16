@@ -2,12 +2,22 @@ import * as THREE from "three";
 import { CATALOG, BIOMES } from "./game-data.js";
 import { createBiomeScene, disposeBiome } from "./biome-scenes.js";
 import { makeAttraction } from "./world-assets.js";
-export async function catalogPreviews(onPreview, { forceRender = false } = {}) {
+export async function catalogPreviews(
+  onPreview,
+  { forceRender = false, keys = null } = {},
+) {
   const result = new Map();
-  const expected = [
-    ...CATALOG.map((item) => item.id),
-    ...BIOMES.map((biome) => "biome-" + biome.id),
-  ];
+  const selected = keys ? new Set(keys) : null,
+    targets = [
+      ...CATALOG,
+      ...BIOMES.map((b) => ({ ...b, isBiome: true })),
+    ].filter(
+      (item) =>
+        !selected || selected.has(item.isBiome ? "biome-" + item.id : item.id),
+    ),
+    expected = targets.map((item) =>
+      item.isBiome ? "biome-" + item.id : item.id,
+    );
   if (!forceRender) {
     try {
       const response = await fetch(
@@ -47,10 +57,7 @@ export async function catalogPreviews(onPreview, { forceRender = false } = {}) {
     renderer.setSize(300, 200);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 0.95;
-    for (const item of [
-      ...CATALOG,
-      ...BIOMES.map((b) => ({ ...b, isBiome: true })),
-    ]) {
+    for (const item of targets) {
       const scene = new THREE.Scene();
       scene.add(new THREE.HemisphereLight(0xfff1eb, 0xc1b3d7, 1.6));
       const light = new THREE.DirectionalLight(0xffe9df, 2.5);

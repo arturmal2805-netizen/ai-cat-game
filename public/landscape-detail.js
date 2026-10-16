@@ -151,19 +151,27 @@ function foliageGeometry(kind) {
 export function createGroundCover(
   style,
   id,
-  { placements = [], preview = false, seed = 0 } = {},
+  {
+    placements = [],
+    preview = false,
+    seed = 0,
+    radius: coverRadius,
+    density = 1,
+    heightAt,
+    clearance,
+  } = {},
 ) {
   const group = new THREE.Group();
   group.name = "Living ground cover";
   const random = randomGenerator(id + seed),
-    clear = placementClearance(placements),
+    clear = clearance || placementClearance(placements),
     palette = meadowPalette(style, id),
     points = [];
   const routeSeed = [...id].reduce((n, c) => n + c.charCodeAt(0), 0),
     dry = !RENEWED_ISLANDS[id] && ["desert", "volcano"].includes(id),
     cold = !RENEWED_ISLANDS[id] && ["winter", "ice"].includes(id);
   const target = Math.round(
-    (preview ? 530 : 900) * (dry ? 0.58 : cold ? 0.75 : 1),
+    (preview ? 530 : 900) * (dry ? 0.58 : cold ? 0.75 : 1) * density,
   );
   for (
     let attempt = 0;
@@ -173,7 +181,8 @@ export function createGroundCover(
     const angle = random() * Math.PI * 2,
       radius =
         Math.sqrt(random()) *
-        (id === "aquapark" ? 18.2 : RENEWED_ISLANDS[id] ? 14 : 10.8),
+        (coverRadius ??
+          (id === "aquapark" ? 18.2 : RENEWED_ISLANDS[id] ? 14 : 10.8)),
       x = Math.cos(angle) * radius,
       z = Math.sin(angle) * radius;
     if (radius < 1.35 || !clear(x, z, 0.55)) continue;
@@ -257,10 +266,12 @@ export function createGroundCover(
       dummy.position.set(
         point.x,
         0.145 +
-          (RENEWED_ISLANDS[id] &&
-          ((point.x + 4) / 4.5) ** 2 + ((point.z + 8) / 3) ** 2 <= 1
-            ? 2.4
-            : 0),
+          (heightAt
+            ? heightAt(point.x, point.z)
+            : RENEWED_ISLANDS[id] &&
+                ((point.x + 4) / 4.5) ** 2 + ((point.z + 8) / 3) ** 2 <= 1
+              ? 2.4
+              : 0),
         point.z,
       );
       dummy.rotation.set(0, point.turn, 0);

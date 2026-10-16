@@ -1,3 +1,4 @@
+import { CAPYBARA_OBJECTS, CAPYBARA_POOLS } from "./capybara-data.js";
 import { islandProject } from "./island-construction.js";
 import { RENEWED_ISLANDS, ISLAND_RIDES } from "./renewal-data.js";
 import { COTTON_OBJECTS, COTTON_POOLS } from "./cotton-data.js";
@@ -73,6 +74,17 @@ export function permanentObjects(biomes) {
         name: "Лагуна · " + b.name,
       });
   }
+  if (biomes.includes("summer"))
+    objects.push(
+      ...CAPYBARA_OBJECTS,
+      ...CAPYBARA_POOLS.map((p) => ({
+        ...p,
+        biome: "summer",
+        type: "swim-lagoon",
+        surfaceY: p.y + 0.155,
+        shoreY: p.y + 0.16,
+      })),
+    );
   if (biomes.includes("clockwork"))
     objects.push(
       ...COTTON_OBJECTS,
