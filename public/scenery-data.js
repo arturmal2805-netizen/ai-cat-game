@@ -83,7 +83,21 @@ export function sceneryName(record) {
 }
 // Decorative objects keep stable identities separate from purchased attractions.
 // This also permits old saves with sixty purchases to retain all their items.
+const arrangementCache = new Map();
 export function initialScenery(placements = []) {
+  const key = JSON.stringify(
+    placements.map((p) => [p.item, p.biome, p.x, p.z, p.rotation]),
+  );
+  if (!arrangementCache.has(key)) {
+    const arrangement = buildInitialScenery(placements);
+    if (arrangementCache.size >= 4)
+      arrangementCache.delete(arrangementCache.keys().next().value);
+    arrangementCache.set(key, arrangement);
+  }
+  // Game actions mutate records, never the reusable authored arrangement.
+  return arrangementCache.get(key).map((r) => ({ ...r }));
+}
+function buildInitialScenery(placements) {
   const result = [];
   for (const biome of BIOMES) {
     const candidates = [

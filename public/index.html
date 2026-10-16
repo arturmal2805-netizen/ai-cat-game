@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#eeeaf3" />
     <title>Чичи • мир маленьких чудес</title>
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
-    <link rel="stylesheet" href="./style.css?v=605a484823250c5e" />
+    <link rel="stylesheet" href="./style.css?v=b8cc8c9c0070772b" />
   </head>
   <body>
     <header>
@@ -147,6 +147,14 @@
             <div class="map-zoom" role="group" aria-label="Масштаб мира">
               <button id="zoom-in" aria-label="Приблизить">+</button
               ><button id="zoom-out" aria-label="Отдалить">−</button>
+              <button
+                id="camera-follow-exit"
+                hidden
+                title="Повернути огляд світу"
+                aria-label="Вийти з камери Чичі"
+              >
+                ↩
+              </button>
             </div>
             <div class="world-bottom">
               <div class="world-primary-actions">
@@ -206,6 +214,16 @@
           <p class="eyebrow">ВАША ЧИЧИ</p>
           <span id="cat-activity">Дома</span>
         </div>
+        <button
+          id="chichi-camera"
+          class="chichi-camera-button"
+          aria-pressed="false"
+        >
+          <span aria-hidden="true">📷</span
+          ><span id="chichi-camera-label"
+            >Камера Чичі · ближче до мордочки</span
+          >
+        </button>
         <div class="mood-strip">
           <div data-mood="sleep">
             <img data-mood-image="sleep" alt="Чичи sleep" /><span>sleep</span>
@@ -619,6 +637,6 @@
       </div>
     </dialog>
     <div id="toast" role="status" aria-live="polite" hidden></div>
-    <script type="module" src="./dist/app.js?v=7950c25f1e0464c2"></script>
+    <script type="module" src="./dist/app.js?v=48f60de9ecb32c26"></script>
   </body>
 </html>

@@ -2,6 +2,7 @@ import { CHICHI_PORTRAITS } from "./cat-portrait-manifest.js";
 import { RENEWED_ISLANDS } from "./renewal-data.js";
 import { islandHeight } from "./renewed-biomes.js";
 import { capybaraDryPoint } from "./capybara-data.js";
+import { createChichiCamera } from "./chichi-camera.js";
 import { islandProjectModel } from "./island-project-model.js";
 import { islandObjects } from "./world-objects.js";
 import { swimFrame } from "./swimming.js";
@@ -35,6 +36,7 @@ import {
 } from "./scenery-models.js";
 import {
   prepareSceneSteps,
+  createSceneScheduler,
   queueSceneRefresh,
   yieldSceneTask,
 } from "./scene-tasks.js";
@@ -280,6 +282,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
   let cat = createCat(initialGame.cat.mood);
   chichiCarrier.add(cat);
   scene.add(chichiCarrier);
+  const faceCamera = createChichiCamera(camera, cat.userData.head, {
+    reduced,
+    onChange: (enabled) => callbacks.onCameraMode?.(enabled),
+  });
   const ambient = new THREE.Group();
   scene.add(ambient);
   const motes = [];
@@ -317,20 +323,17 @@ export function createWorld(container, initialGame, callbacks = {}) {
     return g;
   }
   const islandRefreshes = new Map();
-  let detailRunning = false;
+  const detailJobs = new Map(),
+    scenePreparation = createSceneScheduler({
+      getPriority: () => focused,
+      canRun: () =>
+        disposed ||
+        (!document.hidden && !document.querySelector("dialog[open]")),
+    });
   async function sceneTurn() {
     await yieldSceneTask();
     while (!disposed && document.querySelector("dialog[open]"))
       await new Promise((resolve) => setTimeout(resolve, 100));
-    // During a flight, let the next input/animation frame run before preparing
-    // another slice. Keep the old complete island visible while this is pending.
-    if (
-      !disposed &&
-      !document.hidden &&
-      (look.distanceToSquared(desiredLook) > 0.0004 ||
-        Math.abs(distance - desiredDistance) > 0.02)
-    )
-      await new Promise(requestAnimationFrame);
   }
   async function refreshIsland(island, placements, scenery) {
     if (island.userData.placementSteps)
@@ -341,23 +344,39 @@ export function createWorld(container, initialGame, callbacks = {}) {
     else island.userData.updatePlacements?.(placements, scenery);
   }
   function ensureDetail(id) {
-    if (!islands.get(id)?.userData.lowOnly || disposed) return;
+    if (!islands.get(id)?.userData.lowOnly || disposed || detailJobs.has(id))
+      return;
     detailQueue.add(id);
-    if (detailTimer || detailRunning) return;
-    const upgrade = async () => {
+    if (detailTimer) return;
+    const pumpDetails = () => {
       detailTimer = null;
       if (disposed || !detailQueue.size) return;
       if (document.querySelector("dialog[open]")) {
-        detailTimer = setTimeout(upgrade, 150);
+        detailTimer = setTimeout(pumpDetails, 150);
         return;
       }
-      const id = detailQueue.has(focused)
-        ? focused
-        : detailQueue.values().next().value;
-      detailQueue.delete(id);
+      const next = [...detailQueue].sort(
+        (a, b) => Number(b === focused) - Number(a === focused),
+      );
+      for (const id of next) {
+        if (detailJobs.has(id)) {
+          detailQueue.delete(id);
+          continue;
+        }
+        if (detailJobs.size >= 2 && id !== focused) continue;
+        detailQueue.delete(id);
+        const job = upgrade(id);
+        detailJobs.set(id, job);
+        job.finally(() => {
+          detailJobs.delete(id);
+          if (!disposed && detailQueue.size && !detailTimer)
+            detailTimer = setTimeout(pumpDetails, 0);
+        });
+      }
+    };
+    const upgrade = async (id) => {
       const old = islands.get(id),
         b = byBiome(id);
-      detailRunning = true;
       try {
         if (
           old?.userData.lowOnly &&
@@ -376,7 +395,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
               placements: content[0],
               scenery: content[1],
             },
-            { yieldTask: sceneTurn, budget: 3 },
+            { scheduler: scenePreparation, priority: id },
           );
           if (disposed) {
             g.userData.dispose?.();
@@ -419,13 +438,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
         }
       } catch (error) {
         console.warn("Island detail could not be prepared", id, error);
-      } finally {
-        detailRunning = false;
-        if (!disposed && detailQueue.size)
-          detailTimer = setTimeout(upgrade, 32);
       }
     };
-    detailTimer = setTimeout(upgrade, 16);
+    detailTimer = setTimeout(pumpDetails, 0);
   }
   for (const biome of BIOMES) makeIsland(biome);
   function sceneryGroups() {
@@ -744,7 +759,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
     itemGroups.set(object.id, g);
   }
   sync(initialGame);
-  function focus(id, overview = false) {
+  function focus(id, overview = false, keepFollow = false) {
+    if (!keepFollow) faceCamera.setEnabled(false, look);
     const b = byBiome(id) || byBiome("moon");
     focused = b.id;
     viewingOverview = overview;
@@ -815,6 +831,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           break;
       }
     }
+    ensureDetail(b.id);
     callbacks.onFocus?.(b.id, overview);
   }
   function switchMood(mood) {
@@ -860,10 +877,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
               ),
             )
           : attraction.position.clone();
-      focus(attraction.userData.placement.biome);
+      focus(attraction.userData.placement.biome, false, true);
     } else if (neighbor) {
       destination = neighbor.carrier.position.clone();
-      focus(neighbor.profile.biome);
+      focus(neighbor.profile.biome, false, true);
     } else {
       return Promise.reject(
         new Error("Выбранный предмет или котик больше недоступен."),
@@ -1023,13 +1040,15 @@ export function createWorld(container, initialGame, callbacks = {}) {
       lastOcclusionCheck = now;
       occludedScenery.clear();
       const targets = [
-        chichiCarrier.position.clone().add(new THREE.Vector3(0, 0.9, 0)),
+        faceCamera.enabled
+          ? faceCamera.facePoint(new THREE.Vector3())
+          : chichiCarrier.position.clone().add(new THREE.Vector3(0, 0.9, 0)),
       ];
       if (preview)
         targets.push(
           preview.position.clone().add(new THREE.Vector3(0, 0.6, 0)),
         );
-      if (operation?.attraction)
+      if (!faceCamera.enabled && operation?.attraction)
         targets.push(
           operation.attraction.position
             .clone()
@@ -1054,7 +1073,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }
     }
     for (const object of objects) {
-      const target = occludedScenery.has(object.userData.sceneryId) ? 0.27 : 1;
+      const target = occludedScenery.has(object.userData.sceneryId)
+        ? faceCamera.enabled
+          ? 0
+          : 0.27
+        : 1;
       const opacity = reduced
         ? target
         : THREE.MathUtils.lerp(
@@ -1064,6 +1087,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           );
       if (Math.abs(opacity - object.userData.opacity) > 0.001)
         fadeScenery(object, opacity);
+      if (faceCamera.enabled && opacity < 0.005) object.visible = false;
     }
   }
   const dropHint = document.createElement("span");
@@ -1261,7 +1285,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
     };
     pointerDown.multi = activePointers.size > 1;
     renderer.domElement.setPointerCapture(e.pointerId);
-    if (!buildMode && !operation && callbacks.canDragCat?.() !== false) {
+    if (
+      !faceCamera.enabled &&
+      !buildMode &&
+      !operation &&
+      callbacks.canDragCat?.() !== false
+    ) {
       pointer(e);
       const bounds = renderer.domElement.getBoundingClientRect();
       const projected = chichiCarrier.position
@@ -1305,7 +1334,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (pointerDown) chooseGround(e);
       return;
     }
-    if (!pointerDown) return;
+    if (!pointerDown || faceCamera.enabled) return;
     azimuth -= (e.clientX - pointerDown.lastX) * 0.004;
     elevation = THREE.MathUtils.clamp(
       elevation + (e.clientY - pointerDown.lastY) * 0.002,
@@ -1369,6 +1398,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   // Open dialogs on click, after touch release, so the same gesture cannot
   // immediately land on the newly opened dialog's backdrop and close it.
   renderer.domElement.addEventListener("click", (e) => {
+    if (faceCamera.enabled) return;
     if (!pendingTap) return;
     pendingTap = false;
     pointer(e);
@@ -1496,6 +1526,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
     "wheel",
     (e) => {
       e.preventDefault();
+      if (faceCamera.enabled) {
+        faceCamera.zoom(e.deltaY * 0.001);
+        return;
+      }
       desiredDistance = THREE.MathUtils.clamp(
         desiredDistance + e.deltaY * 0.025,
         21,
@@ -1512,7 +1546,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
           e.touches[0].clientX - e.touches[1].clientX,
           e.touches[0].clientY - e.touches[1].clientY,
         );
-        if (pinchDistance)
+        if (pinchDistance && faceCamera.enabled)
+          faceCamera.zoom((pinchDistance - d) * 0.003);
+        else if (pinchDistance)
           desiredDistance = THREE.MathUtils.clamp(
             desiredDistance + (pinchDistance - d) * 0.1,
             21,
@@ -1585,7 +1621,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
       now - lastRender <
         (dialogOpen
           ? 100
-          : operation || pointerDown || heroGather || cameraMoving
+          : operation ||
+              pointerDown ||
+              heroGather ||
+              cameraMoving ||
+              faceCamera.enabled
             ? 16
             : 33)
     ) {
@@ -1598,6 +1638,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     previousTime = now;
     const time = now / 1000;
     const cameraBlend = reduced ? 1 : 1 - Math.exp(-dt * 8);
+    if (faceCamera.enabled) faceCamera.facePoint(desiredLook);
     look.lerp(desiredLook, cameraBlend);
     distance += (desiredDistance - distance) * cameraBlend;
     camera.position.set(
@@ -2216,6 +2257,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       animateCat(cat, time, walking, reduced);
       if (reaction) reactCat(cat, reaction, reduced);
     }
+    faceCamera.update(dt, look);
     if (dialogOpen || !worldVisible) {
       requestAnimationFrame(loop);
       return;
@@ -2361,13 +2403,21 @@ export function createWorld(container, initialGame, callbacks = {}) {
     perform,
     sync,
     focus,
+    followChichi(value = !faceCamera.enabled) {
+      faceCamera.setEnabled(value, look);
+      if (!value) focus(focused, false, true);
+      return faceCamera.enabled;
+    },
+    isFollowingChichi: () => faceCamera.enabled,
     overview: () => focus("moon", true),
     zoom: (delta) =>
-      (desiredDistance = THREE.MathUtils.clamp(
-        desiredDistance + delta,
-        21,
-        600,
-      )),
+      faceCamera.enabled
+        ? faceCamera.zoom(delta * 0.015)
+        : (desiredDistance = THREE.MathUtils.clamp(
+            desiredDistance + delta,
+            21,
+            600,
+          )),
     beginBuild,
     updateBuild: (mode) => {
       buildMode = { ...buildMode, ...mode };
@@ -2397,7 +2447,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         mealVisits.delete(id);
         swimVisits.delete(id);
       }
-      focus(biome);
+      focus(biome, false, true);
       return true;
     },
     dispose() {

@@ -25,6 +25,7 @@ import {
 } from "./interactions.js";
 import { apiBase } from "./config.js";
 import { createWorld } from "./world.js";
+import { restoreSculptCache, scheduleSculptCache } from "./sculpt-cache.js";
 import {
   BIOMES,
   CATALOG,
@@ -969,6 +970,7 @@ $("item-store").onclick = () => {
   }
 };
 try {
+  await restoreSculptCache();
   world = createWorld($("map"), game, {
     canDragCat: () => !busy,
     onPreview: previewChanged,
@@ -1011,6 +1013,13 @@ try {
       return false;
     },
     onReaction: (text) => ($("bubble").textContent = text),
+    onCameraMode: (enabled) => {
+      $("chichi-camera").setAttribute("aria-pressed", String(enabled));
+      $("chichi-camera-label").textContent = enabled
+        ? "Повернути звичайний огляд світу"
+        : "Камера Чичі · ближче до мордочки";
+      $("camera-follow-exit").hidden = !enabled;
+    },
     onFocus: (id, overview) => {
       $("biome-name").textContent = overview
         ? "Мир чудес · " + BIOMES.length + " острова"
@@ -1019,6 +1028,7 @@ try {
     },
   });
   $("world-loading").remove();
+  scheduleSculptCache();
 } catch (error) {
   console.error("3D rendering unavailable:", error.message);
   $("world-loading").textContent =
@@ -1033,6 +1043,17 @@ $("camera-home").onclick = () => world?.focus("moon");
 $("camera-all").onclick = () => world?.overview();
 $("zoom-in").onclick = () => world?.zoom(-5);
 $("zoom-out").onclick = () => world?.zoom(5);
+$("chichi-camera").onclick = () => {
+  world?.followChichi();
+  $("care-dialog").close();
+  $("map").scrollIntoView({
+    block: "start",
+    behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
+      ? "instant"
+      : "smooth",
+  });
+};
+$("camera-follow-exit").onclick = () => world?.followChichi(false);
 function renderBowl() {
   const portions = bowlPortions(game);
   $("bowl-summary").textContent = portions

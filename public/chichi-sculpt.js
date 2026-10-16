@@ -23,6 +23,105 @@ export const CHICHI_ANATOMY = Object.freeze({
 const cache = new Map();
 const furCache = new Map();
 
+// Persist only reusable construction buffers. Live models still receive their
+// own clones, materials, bones and animations; no visual data is simplified.
+export function kittenCacheSnapshot() {
+  const encode = (g) => ({
+    attributes: Object.fromEntries(
+      Object.entries(g.attributes).map(([name, a]) => [
+        name,
+        { array: a.array, itemSize: a.itemSize, normalized: a.normalized },
+      ]),
+    ),
+    index: g.index?.array || null,
+    userData: { ...g.userData },
+  });
+  return {
+    schema: 1,
+    surfaces: [...cache].map(([key, g]) => [key, encode(g)]),
+    fur: [...furCache].map(([key, g]) => [key, encode(g)]),
+  };
+}
+export function installKittenCache(snapshot) {
+  if (
+    snapshot?.schema !== 1 ||
+    !Array.isArray(snapshot.surfaces) ||
+    !Array.isArray(snapshot.fur)
+  )
+    return false;
+  const decoded = [];
+  let bytes = 0;
+  try {
+    for (const [target, entries] of [
+      [cache, snapshot.surfaces],
+      [furCache, snapshot.fur],
+    ]) {
+      if (entries.length > 256) throw Error("Invalid sculpt cache");
+      for (const [key, record] of entries) {
+        if (
+          typeof key !== "string" ||
+          key.length > 1000 ||
+          !record.attributes?.position ||
+          !record.attributes.normal
+        )
+          throw Error("Invalid cache entry");
+        const g = new THREE.BufferGeometry();
+        decoded.push({ target, key, g });
+        for (const [name, a] of Object.entries(record.attributes)) {
+          if (
+            !["position", "normal", "color", "uv"].includes(name) ||
+            !ArrayBuffer.isView(a.array) ||
+            a.array instanceof DataView ||
+            ![2, 3].includes(a.itemSize) ||
+            a.array.length % a.itemSize ||
+            !a.array.every(Number.isFinite)
+          )
+            throw Error("Invalid cached attribute");
+          bytes += a.array.byteLength;
+          if (bytes > 32 * 1024 * 1024) throw Error("Oversized sculpt cache");
+          g.setAttribute(
+            name,
+            new THREE.BufferAttribute(a.array, a.itemSize, !!a.normalized),
+          );
+        }
+        if (
+          g.attributes.position.itemSize !== 3 ||
+          Object.entries(g.attributes).some(
+            ([name, a]) =>
+              a.count !== g.attributes.position.count ||
+              a.itemSize !== (name === "uv" ? 2 : 3),
+          )
+        )
+          throw Error("Mismatched cached attributes");
+        if (record.index) {
+          if (
+            !(
+              record.index instanceof Uint16Array ||
+              record.index instanceof Uint32Array
+            ) ||
+            record.index.length % 3 ||
+            !record.index.every((i) => i < g.attributes.position.count)
+          )
+            throw Error("Invalid cached triangles");
+          bytes += record.index.byteLength;
+          if (bytes > 32 * 1024 * 1024) throw Error("Oversized sculpt cache");
+          g.setIndex(new THREE.BufferAttribute(record.index, 1));
+        }
+        if (record.userData?.strands)
+          g.userData.strands = record.userData.strands;
+      }
+    }
+    for (const { target, key, g } of decoded) {
+      target.get(key)?.dispose();
+      target.set(key, g);
+    }
+    return true;
+  } catch {
+    decoded.forEach(({ g }) => g.dispose());
+    return false;
+  }
+}
+
 // Remove marching-grid ripples without shrinking the silhouette or the paws.
 function polishSurface(g) {
   const p = g.attributes.position,
