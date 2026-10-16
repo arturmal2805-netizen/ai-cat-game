@@ -4,6 +4,7 @@ import { RENEWED_ISLANDS, ISLAND_RIDES } from "./renewal-data.js";
 import { COTTON_OBJECTS, COTTON_POOLS } from "./cotton-data.js";
 import { BIOMES } from "./game-data.js";
 import { BIOME_STYLES } from "./biome-styles.js";
+import { SPA_OBJECTS } from "./spa-data.js";
 export const PARK_RIDES = [
   {
     id: "royal-rainbow",
@@ -29,6 +30,7 @@ export const PARK_RIDES = [
 ];
 export function permanentObjects(biomes) {
   const objects = [];
+  if (biomes.includes("water")) objects.push(...SPA_OBJECTS);
   for (const b of BIOMES) {
     if (!biomes.includes(b.id)) continue;
     if (RENEWED_ISLANDS[b.id]) {

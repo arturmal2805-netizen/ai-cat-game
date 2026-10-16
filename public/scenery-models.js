@@ -336,13 +336,24 @@ function* sceneryTemplateSteps(record, low) {
     style = BIOME_STYLES[record.originBiome],
     spec = byScenery(record.type);
   yield;
-  if (style.hero === "capybara" && spec.category === "tree")
+  if (["capybara", "spa"].includes(style.hero) && spec.category === "tree")
     yield* junglePalmSteps(
       source,
       low,
       spec.kind === "willow" ? 1 : spec.kind === "apple" ? 2 : 0,
     );
   else if (
+    style.hero === "spa" &&
+    (spec.category === "house" || record.type === "scenery-landmark")
+  ) {
+    shape(source, "pole", 0xf0dfc3, 0, 1.5, 0, 1.6, 3, 1.5);
+    shape(source, "dome", 0x93c7c4, 0, 3.1, 0, 2.1, 0.75, 1.95);
+    shape(source, "sphere", 0xffdda3, 0, 1.5, 1.46, 0.4, 0.6, 0.06, true);
+    if (!low) {
+      flowerCluster(source, -1.2, 0.1, style.flower, 0.8);
+      lantern(source, 1.25, 0.12, 1.25, 0.55);
+    }
+  } else if (
     style.hero === "capybara" &&
     (spec.category === "house" || record.type === "scenery-landmark")
   )
@@ -414,7 +425,7 @@ function* sceneryTemplateSteps(record, low) {
   const batched = yield* batchScenerySteps(source, {
     // A single organic surface keeps the many new jungle palms inexpensive;
     // the full crown, trunk rings, leaf veins, colours and geometry stay present.
-    surfaceKind: style.hero === "capybara" ? "leaf" : null,
+    surfaceKind: ["capybara", "spa"].includes(style.hero) ? "leaf" : null,
   });
   yield;
   source.traverse((o) => {

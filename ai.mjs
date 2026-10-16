@@ -3,6 +3,7 @@ import {
   HOME_OBJECTS,
   resolveInteraction,
   cleanRecent,
+  activityActions,
 } from "./public/interactions.js";
 import { ACTIONS, byItem, BIOMES, NEIGHBORS } from "./public/game-data.js";
 import { bestEligible, relationshipStage } from "./public/social-system.js";
@@ -90,7 +91,7 @@ export function decisionOptions(state) {
     last = recent.at(-1);
   let activities = state.world.activities.map((a) => ({
     ...a,
-    actions: byItem(a.type).actions.filter((action) => {
+    actions: activityActions(a).filter((action) => {
       if (action === "eat")
         return !Number.isFinite(a.foodPortions) || a.foodPortions > 0;
       if (action === "farm" && a.farmStateKnown !== false)
@@ -231,6 +232,7 @@ export function messages(state) {
                 activities: options.activities.map((a) => ({
                   ...a,
                   name:
+                    a.name ||
                     HOME_OBJECTS.find((o) => o.id === a.id)?.name ||
                     byItem(a.type).name,
                   description: byItem(a.type).description,
@@ -353,7 +355,21 @@ export function validateState(value) {
     const permanent = permanentObjects(biomes).filter((object) =>
       world.activities.some((activity) => activity?.id === object.id),
     );
-    for (const o of permanent) activities.push(o);
+    for (const o of permanent) {
+      const raw = world.activities.find((a) => a.id === o.id);
+      activities.push({
+        ...o,
+        ...(activityActions(o).includes("eat") &&
+        Number.isFinite(raw?.foodPortions)
+          ? {
+              foodPortions: Math.max(
+                0,
+                Math.min(160, Math.floor(raw.foodPortions)),
+              ),
+            }
+          : {}),
+      });
+    }
     for (const a of world.activities) {
       if (
         !a ||

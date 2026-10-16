@@ -46,6 +46,11 @@ function merge(base, current, incoming, path = "", depth = 0) {
   if (depth > 40) throw new SharedConflict("Сохранение слишком сложное.");
   if (path === "islandConstruction")
     return mergeIslandConstruction(base, current, incoming);
+  if (path === "spa.receipts")
+    return [...new Set([...(current || []), ...(incoming || [])])].slice(-96);
+  if (/^spa\.visits\.[\w-]+$/.test(path))
+    return Math.max(current || 0, incoming || 0);
+  if (path === "spa.selectedDrink") return clone(incoming);
   if (equal(base, incoming)) return clone(current);
   if (guarded(path) && changed(base, current)) throw new SharedConflict();
   if (additive(path)) {
@@ -188,6 +193,13 @@ export function mergeSharedWorld(base, current, incoming) {
   // so two purchases cannot award the same level-up coins twice.
   const b = clone(base),
     n = clone(incoming);
+  const newSpaReceipts = (n.spa?.receipts || []).filter(
+    (id) => !b.spa?.receipts?.includes(id),
+  );
+  if (newSpaReceipts.some((id) => current.spa?.receipts?.includes(id)))
+    throw new SharedConflict(
+      "Цей візит до SPA вже збережено. Монети не списані повторно.",
+    );
   let c = clone(current),
     duplicateVisitXP = 0,
     duplicateAdventureXP = 0;

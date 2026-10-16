@@ -9,7 +9,12 @@ import { swimFrame } from "./swimming.js";
 import { activeCats } from "./cat-roster.js";
 import { catAppearance } from "./cat-breeds.js";
 import { watchWorldViewport } from "./world-viewport.js";
-import { incomeFor } from "./business.js";
+import { incomeFor, businessVenues } from "./business.js";
+import { spaObject, SPA_GATE, SPA_ENTRANCES, SPA_DRINKS } from "./spa-data.js";
+import { spaWalkable, nearestSpaGround } from "./spa-navigation.js";
+import { createSpaRuntime } from "./spa-runtime.js";
+import { spaLounge, spaBar, spaCup } from "./spa-assets.js";
+import { sceneryFootprint } from "./scenery-data.js";
 import {
   HOME_OBJECTS,
   dropTarget,
@@ -286,6 +291,78 @@ export function createWorld(container, initialGame, callbacks = {}) {
     reduced,
     onChange: (enabled) => callbacks.onCameraMode?.(enabled),
   });
+  const spaBiome = byBiome("water"),
+    spaCups = new Map();
+  let spaObstacles = [];
+  const spaLocal = (p) => ({
+    x: p.x - spaBiome.center[0],
+    z: p.z - spaBiome.center[1],
+    y: p.y,
+  });
+  const spaRadius = (model) =>
+    Math.max(
+      0.48,
+      model.userData.body.scale.x *
+        model.scale.x *
+        (model.userData.appearance?.width || 1) +
+        0.16,
+    );
+  const spa = createSpaRuntime({
+    reduced,
+    getObstacles: () => spaObstacles,
+    onComplete: (receipt) => {
+      const carrier =
+        receipt.catId === "chichi"
+          ? chichiCarrier
+          : npcs.get(receipt.catId)?.carrier;
+      if (carrier)
+        carrier.position.set(
+          spaBiome.center[0] + receipt.position.x,
+          0.16,
+          spaBiome.center[1] + receipt.position.z,
+        );
+      if (receipt.catId === "chichi" && operation?.spa)
+        operation.spaCompleted = receipt;
+      else callbacks.onSpaVisit?.(receipt);
+    },
+  });
+  function startHeroSpa(op) {
+    op.stage = "spa";
+    const local = spaLocal(chichiCarrier.position),
+      groundPoint = nearestSpaGround(
+        spaWalkable(local, spaRadius(cat), spaObstacles)
+          ? local
+          : SPA_ENTRANCES[op.decision.activityId],
+        spaRadius(cat),
+        spaObstacles,
+      );
+    if (!groundPoint) {
+      op.spaFailed = true;
+      return;
+    }
+    // A manual drop may put Chichi inside the basin: approach via its steps.
+    if (!spaWalkable(local, spaRadius(cat), spaObstacles)) {
+      chichiCarrier.position.set(
+        spaBiome.center[0] + groundPoint.x,
+        0.16,
+        spaBiome.center[1] + groundPoint.z,
+      );
+    }
+    const v = spa.start({
+      catId: "chichi",
+      objectId: op.decision.activityId,
+      position: groundPoint,
+      radius: spaRadius(cat),
+      drinkId: game.spa?.selectedDrink,
+    });
+    if (!v) {
+      op.spaFailed = true;
+      callbacks.onReaction?.(
+        "Усі місця зараз зайняті. Спробуймо трохи пізніше.",
+      );
+    }
+    op.stage = "spa";
+  }
   const ambient = new THREE.Group();
   scene.add(ambient);
   const motes = [];
@@ -502,7 +579,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     game = next;
     incomeSecond = -1;
     for (const [id, button] of incomeButtons)
-      if (!game.placements.some((p) => p.id === id)) {
+      if (!businessVenues(game).some((p) => p.id === id)) {
         button.remove();
         incomeButtons.delete(id);
       }
@@ -556,6 +633,31 @@ export function createWorld(container, initialGame, callbacks = {}) {
     ]);
     if (key === sceneKey) return;
     sceneKey = key;
+    spaObstacles = [
+      ...game.placements
+        .filter((p) => p.biome === "water")
+        .map((p) => {
+          const f = byItem(p.item).footprint;
+          return {
+            x: p.x,
+            z: p.z,
+            w: f[p.rotation % 2 ? 1 : 0],
+            d: f[p.rotation % 2 ? 0 : 1],
+          };
+        }),
+      ...game.scenery
+        .filter((r) => r.biome === "water" && !r.stored)
+        .map((r) => {
+          const f = sceneryFootprint(r);
+          return {
+            x: r.x,
+            z: r.z,
+            ...(byScenery(r.type).category === "tree"
+              ? { radius: 0.45 * (r.scale || 1) }
+              : { w: f[0], d: f[1] }),
+          };
+        }),
+    ];
     for (const [id, island] of islands) showWhalePreview(island, id);
     // Keep unchanged vegetation and scenery buffers when income, adoption or
     // herd destinations change. Only an edited island needs new geometry.
@@ -612,6 +714,21 @@ export function createWorld(container, initialGame, callbacks = {}) {
           shoreHeight: o.shoreY ?? 0.16,
           duration: 12,
         };
+      } else if (o.id === "spa-lounge") g = spaLounge();
+      else if (o.id === "spa-bar") g = spaBar();
+      else if (o.id === "spa-jacuzzi") {
+        g = new THREE.Group();
+        const proxy = new THREE.Mesh(
+          new THREE.CylinderGeometry(3.35, 3.35, 0.65, 40),
+          new THREE.MeshBasicMaterial({
+            transparent: true,
+            opacity: 0,
+            depthWrite: false,
+            colorWrite: false,
+          }),
+        );
+        g.add(proxy);
+        g.userData = { id: "bed", spa: true, duration: 24 };
       } else g = built ? makeAttraction(o.type) : islandProjectModel(o.type);
       if (o.scale) g.scale.setScalar(o.scale);
       if (o.dismount) g.userData.dismount = o.dismount;
@@ -630,6 +747,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         x: o.x,
         z: o.z,
         rotation: 0,
+        ...(o.footprint ? { footprint: o.footprint } : {}),
         ...(o.readyAt ? { readyAt: o.readyAt, startedAt: o.startedAt } : {}),
       };
       g.userData.placementId = o.id;
@@ -685,7 +803,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       scene.add(g);
       itemGroups.set(placement.id, g);
     }
-    if (operation?.decision.activityId) {
+    if (operation?.decision.activityId && !operation.spa) {
       operation.attraction = itemGroups.get(operation.decision.activityId);
       operation.destination
         .copy(operation.attraction.position)
@@ -730,12 +848,22 @@ export function createWorld(container, initialGame, callbacks = {}) {
         0.16,
         b.center[1] + Math.cos(index * 2.4) * wanderRadius,
       );
+      if (b.id === "water") {
+        const dry = nearestSpaGround(
+          spaLocal(carrier.position),
+          spaRadius(model),
+          spaObstacles,
+        );
+        if (dry)
+          carrier.position.set(b.center[0] + dry.x, 0.16, b.center[1] + dry.z);
+      }
       scene.add(carrier);
       npcs.set(profile.id, { carrier, model, profile, index });
     }
     const activeIds = new Set(activeCats(game).map((c) => c.id));
     for (const [id, n] of npcs)
       if (!activeIds.has(id)) {
+        spa.cancel(id);
         scene.remove(n.carrier);
         disposeCat(n.model);
         npcs.delete(id);
@@ -796,7 +924,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           : 65
         : 57
       : 37;
-    if (mobileRender && b.legendary)
+    if (mobileRender && (b.legendary || b.id === "water"))
       desiredDistance = Math.max(
         desiredDistance,
         (b.radius * 1.08) /
@@ -843,6 +971,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     socialGlow.visible = false;
     sync(game);
     if (operation) {
+      spa.cancel("chichi");
       resetYarn(operation.attraction);
       if (operation.attraction) {
         operation.attraction.userData.playing = false;
@@ -856,6 +985,23 @@ export function createWorld(container, initialGame, callbacks = {}) {
       ? itemGroups.get(decision.activityId)
       : null;
     const neighbor = decision.friendId ? npcs.get(decision.friendId) : null;
+    if (neighbor) {
+      const visit = spa.get(decision.friendId);
+      if (visit) {
+        const dry = nearestSpaGround(
+          SPA_ENTRANCES[visit.objectId],
+          visit.radius,
+          spaObstacles,
+        );
+        if (dry)
+          neighbor.carrier.position.set(
+            spaBiome.center[0] + dry.x,
+            0.16,
+            spaBiome.center[1] + dry.z,
+          );
+      }
+      spa.cancel(decision.friendId);
+    }
     const interruptedSwim = swimVisits.get(decision.friendId);
     if (neighbor && interruptedSwim) {
       const lake = interruptedSwim.lake,
@@ -910,8 +1056,16 @@ export function createWorld(container, initialGame, callbacks = {}) {
           dismount.z - biome.center[1],
         ) + 0.16;
     }
+    const spaTarget = !!spaObject(decision.activityId);
+    if (spaTarget)
+      destination.set(
+        spaBiome.center[0] + SPA_GATE.x,
+        0.16,
+        spaBiome.center[1] + SPA_GATE.z,
+      );
     return new Promise((resolve) => {
       operation = {
+        spa: spaTarget,
         decision,
         attraction,
         neighbor,
@@ -946,6 +1100,14 @@ export function createWorld(container, initialGame, callbacks = {}) {
         stage: "travel",
         resolve,
       };
+      if (
+        spaTarget &&
+        Math.hypot(
+          chichiCarrier.position.x - spaBiome.center[0],
+          chichiCarrier.position.z - spaBiome.center[1],
+        ) < spaBiome.radius
+      )
+        startHeroSpa(operation);
     });
   }
   function beginBuild(mode) {
@@ -1124,7 +1286,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       built: g.userData.built,
       footprint: g.userData.swimBounds
         ? [g.userData.swimBounds.rx * 2, g.userData.swimBounds.rz * 2]
-        : undefined,
+        : g.userData.placement.footprint,
     }));
     const friends = [...npcs.values()]
       .filter((n) => n.carrier.visible)
@@ -1432,6 +1594,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
         callbacks.onSelectBowl?.();
       else if (root?.userData.permanent && !root.userData.built)
         callbacks.onSelectIsland?.(root.userData.placement.biome);
+      else if (root?.userData.placementId === "spa-bar")
+        callbacks.onSelectSpaBar?.();
       else if (root?.userData.homeObject)
         callbacks.onCatDrop?.({ activityId: root.userData.placementId });
       else if (root) callbacks.onSelectItem?.(root.userData.placementId);
@@ -1464,7 +1628,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
     if (!raycaster.ray.intersectPlane(ground, point)) return;
     const placement = [...itemGroups.values()].find((g) => {
       const local = g.worldToLocal(point.clone()),
-        [w, d] = byItem(g.userData.placement.item).footprint;
+        [w, d] =
+          g.userData.placement.footprint ||
+          byItem(g.userData.placement.item).footprint;
       return (
         Math.abs(local.x) <= w / 2 + 0.2 && Math.abs(local.z) <= d / 2 + 0.2
       );
@@ -1479,6 +1645,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
         callbacks.onSelectBowl?.();
       else if (placement.userData.permanent && !placement.userData.built)
         callbacks.onSelectIsland?.(placement.userData.placement.biome);
+      else if (placement.userData.placementId === "spa-bar")
+        callbacks.onSelectSpaBar?.();
       else if (placement.userData.homeObject)
         callbacks.onCatDrop?.({ activityId: placement.userData.placementId });
       else callbacks.onSelectItem?.(placement.userData.placementId);
@@ -1660,6 +1828,46 @@ export function createWorld(container, initialGame, callbacks = {}) {
     for (const g of itemGroups.values())
       if (!reduced && !dialogOpen) animateAttraction(g, time);
     if (preview && !reduced) animateAttraction(preview, time);
+    if (!dialogOpen) spa.step(dt, time);
+    for (const [id, cup] of spaCups)
+      if (!spa.get(id)?.drinking) {
+        scene.remove(cup);
+        disposeScenery(cup);
+        spaCups.delete(id);
+      }
+    function applySpaFrame(v, carrier, model) {
+      carrier.position.set(
+        spaBiome.center[0] + v.position.x,
+        v.position.y,
+        spaBiome.center[1] + v.position.z,
+      );
+      carrier.rotation.y = v.yaw;
+      const resting =
+          v.phase === "relax" &&
+          ["spa-lounge", "spa-jacuzzi"].includes(v.objectId),
+        mood = resting ? "sleep" : "happy";
+      if (model.userData.mood !== mood)
+        setCatMood(model, mood, { immediate: reduced });
+      if (v.objectId === "spa-bar" && v.phase === "relax")
+        itemGroups.get("spa-bar").userData.lastServiceTime = time;
+      if (v.drinking) {
+        let cup = spaCups.get(v.catId);
+        if (!cup) {
+          cup = spaCup(SPA_DRINKS.find((d) => d.id === v.drinkId)?.color);
+          scene.add(cup);
+          spaCups.set(v.catId, cup);
+        }
+        cup.position.copy(carrier.position);
+        cup.position.y += model.scale.x * 1.03;
+        cup.position.x += Math.sin(v.yaw) * 0.45;
+        cup.position.z += Math.cos(v.yaw) * 0.45;
+      }
+      if (!reduced && v.objectId === "lake-water" && v.phase === "relax")
+        islands
+          .get("water")
+          ?.userData.lagoons?.get("lake-water")
+          ?.userData.disturb?.(v.position.x, v.position.z - 1, time, 0.35);
+    }
     for (const [id, n] of npcs) {
       const b = byBiome(n.profile.biome),
         needs = game.care?.residents[id];
@@ -1670,7 +1878,60 @@ export function createWorld(container, initialGame, callbacks = {}) {
         direct = false;
       const busyWithChichi =
         operation?.decision.friendId === id || operation?.partyIds?.has(id);
+      if (busyWithChichi || draggingCat || b.id !== "water") spa.cancel(id);
       if (
+        b.id === "water" &&
+        !busyWithChichi &&
+        !draggingCat &&
+        !dialogOpen &&
+        now >= gatherUntil &&
+        !spa.get(id) &&
+        Date.now() - Math.max(game.spa?.visits?.[id] || 0, n.lastSpaAt || 0) >
+          90000 &&
+        now > (n.nextSpaAttempt || 0) &&
+        spa.visits.size < 9 &&
+        (Math.floor(time) + n.index * 7) % 7 === 0
+      ) {
+        n.nextSpaAttempt = now + 5000;
+        const options =
+          needs?.hunger > 45
+            ? ["spa-bar", "spa-lounge"]
+            : ["spa-lounge", "lake-water", "spa-jacuzzi", "spa-bar"];
+        const objectId =
+          options[Math.abs(n.index + Math.floor(time / 20)) % options.length];
+        const dry = nearestSpaGround(
+          spaLocal(n.carrier.position),
+          spaRadius(n.model),
+          spaObstacles,
+        );
+        if (
+          dry &&
+          !spaWalkable(
+            spaLocal(n.carrier.position),
+            spaRadius(n.model),
+            spaObstacles,
+          )
+        )
+          n.carrier.position.set(
+            b.center[0] + dry.x,
+            0.16,
+            b.center[1] + dry.z,
+          );
+        if (
+          dry &&
+          spa.start({
+            catId: id,
+            objectId,
+            position: dry,
+            radius: spaRadius(n.model),
+            drinkId: SPA_DRINKS[Math.abs(n.index) % 3].id,
+          })
+        )
+          n.lastSpaAt = Date.now();
+      }
+      const spaVisit = spa.get(id);
+      if (
+        b.id !== "water" &&
         !busyWithChichi &&
         now >= gatherUntil &&
         !draggingCat &&
@@ -1730,6 +1991,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         swimVisits.delete(id);
       }
       if (
+        b.id !== "water" &&
         !busyWithChichi &&
         now >= gatherUntil &&
         !draggingCat &&
@@ -1743,6 +2005,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       ) {
         const lakes = [...itemGroups.values()].filter(
           (g) =>
+            !spaObject(g.userData.placementId) &&
             g.userData.id === "swim-lagoon" &&
             g.position.distanceTo(n.carrier.position) < 32,
         );
@@ -1765,7 +2028,14 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }
       const swim = swimVisits.get(id);
       const visit = mealVisits.get(id);
-      if (visit && !busyWithChichi && !draggingCat) {
+      if (spaVisit) {
+        applySpaFrame(spaVisit, n.carrier, n.model);
+        x = n.carrier.position.x;
+        z = n.carrier.position.z;
+        direct = true;
+        npcWalking = spaVisit.walking;
+        npcReaction = spaVisit.reaction;
+      } else if (visit && !busyWithChichi && !draggingCat) {
         if (!bowlPortions(game) && !visit.tried) mealVisits.delete(id);
         else if (visit.stage === "travel") {
           const t = Math.min(1, (now - visit.start) / visit.duration),
@@ -1850,6 +2120,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
             callbacks.onResidentSwam?.(id);
           }
         }
+      } else if (b.id === "water" && !busyWithChichi && now >= gatherUntil) {
+        // Between visits the cat stays on dry ground, breathing and looking around.
+        direct = true;
       } else if (draggingCat) {
         n.carrier.rotation.y = Math.atan2(
           chichiCarrier.position.x - x,
@@ -1941,11 +2214,14 @@ export function createWorld(container, initialGame, callbacks = {}) {
       npcDummy.updateMatrix();
       npcMarkers.setMatrixAt(n.index, npcDummy.matrix);
       const desiredMood =
-        game.social?.bestFriendId === id && game.care?.resting
+        spaVisit?.phase === "relax" &&
+        ["spa-lounge", "spa-jacuzzi"].includes(spaVisit.objectId)
           ? "sleep"
-          : needs?.hunger >= 75
-            ? "crazy hungry"
-            : "happy";
+          : game.social?.bestFriendId === id && game.care?.resting
+            ? "sleep"
+            : needs?.hunger >= 75
+              ? "crazy hungry"
+              : "happy";
       if (n.model.userData.mood !== desiredMood)
         setCatMood(n.model, desiredMood, { immediate: reduced });
       if (near && !dialogOpen) {
@@ -1973,7 +2249,23 @@ export function createWorld(container, initialGame, callbacks = {}) {
     }
     if (operation) {
       const op = operation;
-      if (op.stage === "travel") {
+      if (op.stage === "spa") {
+        const v = spa.get("chichi");
+        if (v) {
+          applySpaFrame(v, chichiCarrier, cat);
+          walking = v.walking;
+          reaction = v.reaction;
+        }
+        if (op.spaCompleted || op.spaFailed) {
+          operation = null;
+          setCatMood(cat, game.cat.mood, { immediate: reduced });
+          op.resolve(
+            op.spaFailed
+              ? { cancelled: true }
+              : { completed: true, spaVisit: op.spaCompleted },
+          );
+        }
+      } else if (op.stage === "travel") {
         const p = Math.min((now - op.start) / op.duration, 1);
         chichiCarrier.position.lerpVectors(
           op.from,
@@ -1984,7 +2276,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
         chichiCarrier.rotation.y = Math.atan2(d.x, d.z);
         walking = p < 1;
         if (p === 1) {
-          op.stage = "activity";
+          if (op.spa) {
+            startHeroSpa(op);
+          } else op.stage = "activity";
           op.activityStart = now;
           if (
             op.attraction?.userData.id === "yarn" &&
@@ -2274,7 +2568,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     if (Math.floor(now / 1000) !== incomeSecond) {
       incomeSecond = Math.floor(now / 1000);
       incomeCache.clear();
-      for (const p of game.placements)
+      for (const p of businessVenues(game))
         incomeCache.set(p.id, incomeFor(game, p.id));
     }
     for (const [id, button] of incomeButtons) {
@@ -2433,6 +2727,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           0.16 + islandHeight(b.id, arrival[0], arrival[1]),
           b.center[1] + arrival[1],
         );
+      spa.clear();
       gatherUntil = performance.now() + 20000;
       heroGather = {
         from: chichiCarrier.position.clone(),
@@ -2452,6 +2747,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
     },
     dispose() {
       disposed = true;
+      spa.clear();
+      for (const cup of spaCups.values()) {
+        scene.remove(cup);
+        disposeScenery(cup);
+      }
       for (const button of incomeButtons.values()) button.remove();
       for (const button of projectBadges.values()) button.remove();
       clearTimeout(detailTimer);

@@ -1,4 +1,5 @@
 import { capybaraBiomeSteps } from "./capybara-biome.js";
+import { spaBiomeSteps } from "./spa-biome.js";
 import { runSceneSteps, prepareSceneSteps } from "./scene-tasks.js";
 import { renewedBiomeSteps, islandHeight } from "./renewed-biomes.js";
 import { cottonBiomeSteps } from "./cotton-biome.js";
@@ -166,6 +167,13 @@ export function* biomeSceneSteps(
   { preview = false, placements = [], scenery = null, lowOnly = false } = {},
 ) {
   yield;
+  if (biome.id === "water")
+    return yield* spaBiomeSteps(biome, {
+      preview,
+      placements,
+      lowOnly,
+      scenery: scenery ?? defaultScenery.filter((r) => r.biome === biome.id),
+    });
   if (biome.id === "summer")
     return yield* capybaraBiomeSteps(biome, {
       preview,

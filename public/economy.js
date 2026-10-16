@@ -1,3 +1,5 @@
+import { newSpa, normalizeSpa } from "./spa-system.js";
+import { SPA_DRINKS } from "./spa-data.js";
 import {
   normalizeIslandConstruction,
   startIslandConstruction,
@@ -121,6 +123,7 @@ export function newGame(now = Date.now()) {
     ],
     friendship: {},
     adoption: newAdoption(),
+    spa: newSpa(),
     business: newBusiness(),
     catDestinations: {},
     catPosition: null,
@@ -172,6 +175,7 @@ export function loadGame(storage, now = Date.now(), { advance = true } = {}) {
       saved.islandConstruction,
     );
     game.adoption = normalizeAdoption(saved.adoption, game);
+    game.spa = normalizeSpa(saved.spa);
     game.catDestinations = normalizeDestinations(saved.catDestinations, game);
     if (
       game.unlocked.includes(saved.catPosition?.biome) &&
@@ -395,6 +399,8 @@ export function unlockBiome(game, id, now = Date.now()) {
   const next = copy(game);
   next.coins -= biome.price;
   next.unlocked.push(id);
+  if (id === "water")
+    next.business = normalizeBusiness(next.business, next, now);
   return addXP(startIslandConstruction(next, id, now), 80, now);
 }
 export function footprint(item, rotation = 0) {
@@ -605,7 +611,7 @@ function restoreScenery(game, raw) {
       seed.id,
       {
         allowLocked: true,
-        ignoreTerrain: !!old && candidate.biome === "summer",
+        ignoreTerrain: !!old && ["summer", "water"].includes(candidate.biome),
       },
     ).ok
       ? candidate
@@ -698,7 +704,21 @@ export function worldSnapshot(game, now = Date.now()) {
         ...o,
         ...(o.id === "chichi-food" ? { foodPortions: bowlPortions(game) } : {}),
       })),
-      ...islandObjects(game, { now }),
+      ...islandObjects(game, { now }).map((o) =>
+        o.id === "spa-bar"
+          ? {
+              ...o,
+              foodPortions:
+                game.coins >=
+                (
+                  SPA_DRINKS.find((d) => d.id === game.spa?.selectedDrink) ||
+                  SPA_DRINKS[0]
+                ).price
+                  ? 1
+                  : 0,
+            }
+          : o,
+      ),
       ...game.placements
         .filter((p) => isBuilt(p))
         .map((p) => ({

@@ -134,6 +134,43 @@ function buildInitialScenery(placements) {
         scale: 0.75 + i * 0.08,
       })),
     ];
+    if (biome.id === "water") {
+      // Keep seed IDs/types for old saves; give the larger SPA a planted rim.
+      const points = [
+        [-9.5, -13],
+        [-15, -7],
+        [-8.5, -16],
+        [0, -17.5],
+        [3.4, -17.2],
+        [-15, 8.5],
+        [-11, 13],
+        [4, 13],
+        [-8, -9],
+        [10, 13],
+        [-7, 15],
+        [-17, -4],
+      ];
+      candidates.forEach((c, i) => {
+        const p = points[i % points.length];
+        c.x = p[0];
+        c.z = p[1];
+      });
+      candidates.push(
+        ...[
+          [-17, 6],
+          [-13, 12],
+          [-5, -17],
+          [16, -2],
+          [16, -8],
+          [5, -16],
+        ].map(([x, z], i) => ({
+          type: "scenery-tree-palm",
+          x,
+          z,
+          scale: 0.9 + (i % 3) * 0.1,
+        })),
+      );
+    }
     if (["autumn", "ice", "galaxy", "volcano", "winter"].includes(biome.id)) {
       const kinds = {
         autumn: ["sakura", "apple"],

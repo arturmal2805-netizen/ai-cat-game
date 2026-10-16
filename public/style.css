@@ -2634,3 +2634,29 @@ main {
     min-height: 38px;
   }
 }
+
+.spa-bar-actions {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+}
+.spa-bar-actions button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  text-align: left;
+  padding: 16px;
+  border-radius: 18px;
+  background: #f4f0fa;
+  border: 1px solid #dcd3e9;
+  color: #675775;
+  min-height: 58px;
+}
+.spa-bar-actions button:disabled {
+  opacity: 0.55;
+}
+.spa-bar-actions small {
+  color: #8b7798;
+  white-space: nowrap;
+}

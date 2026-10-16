@@ -10,6 +10,7 @@ import { BUSINESSES } from "./business-data.js";
 import { CITY_RIDES } from "./city-ride-data.js";
 import { COTTON_RIDES, cottonReservations } from "./cotton-data.js";
 import { separateIslandCenters } from "./world-layout.js";
+import { SPA_RADIUS, spaReservations } from "./spa-data.js";
 export const BIOMES = [
   {
     id: "moon",
@@ -61,8 +62,10 @@ export const BIOMES = [
   },
   {
     id: "water",
-    name: "Лагуна снов",
-    subtitle: "Лилии, водные горки и светлая вода",
+    name: "Cat SPA",
+    subtitle: "Басейн, тепле джакузі, спільний лежак і котячий бар",
+    radius: SPA_RADIUS,
+    arrival: [0, 15.6],
     icon: "🪷",
     price: 420,
     center: [0, -27],
@@ -597,6 +600,7 @@ export const ACTIONS = [
   "swim",
 ];
 export function biomeReservations(id) {
+  if (id === "water") return spaReservations();
   if (id === "clockwork") return cottonReservations();
   if (id === "summer") return capybaraReservations();
   const fixed =
@@ -1845,9 +1849,11 @@ export const buildTimeLabel = (minutes) =>
       ? Math.round((minutes / 60) * 10) / 10 + " ч"
       : minutes + " мин";
 export const biomeFeature = (b) =>
-  (b === "summer"
-    ? "Чотири їздові капібари, купання в чотирьох лагунах і каскадні водоспади"
-    : null) ||
+  (b === "water"
+    ? "Спільний відпочинок, плавання, тепле джакузі та напої в SPA-барі"
+    : b === "summer"
+      ? "Чотири їздові капібари, купання в чотирьох лагунах і каскадні водоспади"
+      : null) ||
   RENEWED_ISLANDS[b]?.feature ||
   CROPS.find((c) => c.biome === b)?.name ||
   JOBS.find((j) => j.biomes.includes(b))?.name ||

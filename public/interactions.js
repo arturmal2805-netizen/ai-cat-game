@@ -36,6 +36,11 @@ export function activityLocation(action, type) {
           ? "pond"
           : "garden";
 }
+export function activityActions(object) {
+  return (byItem(object?.type)?.actions || []).filter(
+    (a) => !Array.isArray(object.actions) || object.actions.includes(a),
+  );
+}
 export function resolveInteraction(world, value, { historical = false } = {}) {
   const action = value?.action;
   if (action === "meet") {
@@ -58,7 +63,7 @@ export function resolveInteraction(world, value, { historical = false } = {}) {
   if (value?.friendId) throw Error("Choose exactly one physical target");
   const object = world.activities.find((a) => a.id === value?.activityId);
   if (!object) throw Error("Choose an available physical object");
-  if (!byItem(object.type)?.actions.includes(action))
+  if (!activityActions(object).includes(action))
     throw Error("Activity is unavailable");
   if (
     !historical &&
@@ -66,7 +71,11 @@ export function resolveInteraction(world, value, { historical = false } = {}) {
     Number.isFinite(object.foodPortions) &&
     object.foodPortions <= 0
   )
-    throw Error("Миска пустая. Добавьте урожай со склада фермы.");
+    throw Error(
+      object.id === "spa-bar"
+        ? "Не вистачає монет на обраний напій у SPA-барі."
+        : "Миска пустая. Добавьте урожай со склада фермы.",
+    );
   return {
     action,
     activityId: object.id,
@@ -88,7 +97,7 @@ export function manualInteraction(world, selection, mood) {
     };
   const object = world.activities.find((a) => a.id === selection.activityId);
   if (!object) throw Error("Этот предмет ещё строится или больше недоступен.");
-  const actions = byItem(object.type).actions;
+  const actions = activityActions(object);
   const action = [
     "ride",
     "play",
@@ -103,7 +112,8 @@ export function manualInteraction(world, selection, mood) {
     mood,
     thought:
       "Хочу попробовать " +
-      (HOME_OBJECTS.find((o) => o.id === object.id)?.name ||
+      (object.name ||
+        HOME_OBJECTS.find((o) => o.id === object.id)?.name ||
         byItem(object.type).name) +
       "!",
     ...resolveInteraction(world, { action, activityId: object.id }),

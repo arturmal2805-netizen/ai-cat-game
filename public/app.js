@@ -1,4 +1,6 @@
 import { islandProjects } from "./island-construction.js";
+import { SPA_DRINKS } from "./spa-data.js";
+import { selectSpaDrink, completeSpaVisit } from "./spa-system.js";
 import { ADOPTION_CATS, BREEDS, catAppearance } from "./cat-breeds.js";
 import { activeCats, catAvailable } from "./cat-roster.js";
 import { adoptCat, adoptionCenters, gatherCats } from "./adoption.js";
@@ -9,6 +11,7 @@ import {
   revenueRate,
   BUSINESS_CAP_HOURS,
   businessXP,
+  businessVenues,
 } from "./business.js";
 import { prepareCatPortraits, catPortraits } from "./cat-portraits.js";
 import {
@@ -857,7 +860,52 @@ window.addEventListener("keydown", (e) => {
     world?.updateBuild(buildMode);
   }
 });
+function showSpaBar() {
+  if (busy || buildMode || !game.unlocked.includes("water")) return;
+  selectedItem = "spa-bar";
+  selectedScenery = false;
+  $("item-icon").textContent = "🍹";
+  $("item-name").textContent = "Cat SPA · бар біля басейну";
+  $("item-construction").textContent =
+    "Відкрито · " +
+    revenueRate("cat-barista") +
+    " ✦/год · " +
+    businessXP("cat-barista") +
+    " XP/год";
+  $("item-description").textContent =
+    "Оберіть напій для Чичі. Вона підійде до бару, дочекається вільного місця та вип’є замовлення. Інші котики теж відвідують бар.";
+  $("item-note").textContent =
+    "Оплата після обслуговування. Скасування в черзі не коштує монет. Дохід бару збирається монеткою або в розділі «Бізнес».";
+  $("item-move").hidden = true;
+  $("item-store").hidden = true;
+  const list = $("spa-bar-actions");
+  list.hidden = false;
+  list.replaceChildren();
+  for (const drink of SPA_DRINKS) {
+    const button = document.createElement("button"),
+      name = document.createElement("span"),
+      price = document.createElement("small");
+    name.textContent = drink.icon + " " + drink.name;
+    price.textContent = drink.price + " ✦";
+    button.append(name, price);
+    button.disabled = game.coins < drink.price;
+    button.dataset.drink = drink.id;
+    button.onclick = () => {
+      try {
+        commit(selectSpaDrink(game, drink.id));
+        manualActivity({ activityId: "spa-bar" });
+      } catch (error) {
+        toast(error.message);
+      }
+    };
+    list.append(button);
+  }
+  open("item-dialog");
+}
 function inspect(id, manage = false) {
+  $("spa-bar-actions").hidden = true;
+  $("item-move").hidden = false;
+  if (id === "spa-bar") return showSpaBar();
   if (busy || buildMode) return;
   selectedItem = id;
   selectedScenery = false;
@@ -887,6 +935,8 @@ function inspect(id, manage = false) {
   open("item-dialog");
 }
 function inspectScenery(id) {
+  $("spa-bar-actions").hidden = true;
+  $("item-move").hidden = false;
   if (busy || buildMode) return;
   const record = game.scenery.find((r) => r.id === id);
   if (!record || !game.unlocked.includes(record.biome)) return;
@@ -977,6 +1027,15 @@ try {
     onSelectItem: inspect,
     onSelectScenery: inspectScenery,
     onSelectBowl: () => showBowl(),
+    onSelectSpaBar: () => showSpaBar(),
+    onSpaVisit: (receipt) => {
+      if (!cloud.simulationOwner || cloud.conflict) return;
+      try {
+        commit(completeSpaVisit(game, receipt));
+      } catch (error) {
+        $("save-state").textContent = error.message;
+      }
+    },
     onCollectIncome: collectBusiness,
     onResidentSwam: (id) => {
       if (!cloud.simulationOwner) return;
@@ -1285,7 +1344,7 @@ function effects(decision, source = "ai", result = {}) {
   if (action === "party" && result.completed)
     for (const id of result.participantIds || [])
       next = recordSocialEncounter(next, id, "party", source);
-  if (["play", "ride", "party", "swim"].includes(action)) {
+  if (!result.spaVisit && ["play", "ride", "party", "swim"].includes(action)) {
     next.cat.energy = clamp(next.cat.energy - 6);
     next.cat.hunger = clamp(next.cat.hunger + 5);
     next.cat.happiness = clamp(next.cat.happiness + 12);
@@ -1294,8 +1353,11 @@ function effects(decision, source = "ai", result = {}) {
     next.cat.happiness = clamp(next.cat.happiness + 8);
     next.cat.energy = clamp(next.cat.energy - 2);
   }
-  if (action === "eat") next = eatFromBowl(next).game;
-  if (action === "rest") next = startRest(next, decision.activityId);
+  if (result.spaVisit) next = completeSpaVisit(next, result.spaVisit);
+  else {
+    if (action === "eat") next = eatFromBowl(next).game;
+    if (action === "rest") next = startRest(next, decision.activityId);
+  }
   next = recordInteraction(next, decision, source);
   if (result.completed && source !== "care") next = adventureXP(next);
   const reward = attentionReward(next, Date.now(), source !== "care");
@@ -2043,7 +2105,7 @@ function collectBusiness(id) {
 }
 function renderBusiness() {
   $("business-grid").replaceChildren();
-  const venues = game.placements.filter((p) => revenueRate(p.item) > 0);
+  const venues = businessVenues(game);
   const ready = venues.filter((p) => isBuilt(p)),
     total = venues.reduce((n, p) => n + incomeFor(game, p.id), 0);
   $("business-summary").textContent =

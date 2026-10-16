@@ -49,8 +49,7 @@ export const BIOME_STYLES = {
     flower: 0xf5bfd9,
     roof: 0x749eb1,
     kind: "palm",
-    hero: "lotus",
-    water: [-4.5, -4, 4.2, 2.8, 28],
+    hero: "spa",
   },
   wizard: {
     ground: 0x877c9e,

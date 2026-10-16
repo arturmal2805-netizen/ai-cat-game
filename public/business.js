@@ -2,6 +2,24 @@ import { byItem } from "./game-data.js";
 import { BUSINESSES } from "./business-data.js";
 import { addXP } from "./progression.js";
 export const BUSINESS_CAP_HOURS = 8;
+export function businessVenues(game) {
+  return [
+    ...game.placements,
+    ...(game.unlocked.includes("water")
+      ? [
+          {
+            id: "spa-bar",
+            item: "cat-barista",
+            biome: "water",
+            x: 9.2,
+            z: -13,
+            rotation: 0,
+            readyAt: 0,
+          },
+        ]
+      : []),
+  ].filter((p) => revenueRate(p.item));
+}
 export function businessXP(item) {
   const rate = revenueRate(item);
   return rate ? Math.max(30, Math.round(rate * 0.38)) : 0;
@@ -27,7 +45,7 @@ export function normalizeBusiness(raw, game, now = Date.now()) {
   state.totalCollected = Number.isFinite(raw?.totalCollected)
     ? Math.max(0, Math.floor(raw.totalCollected))
     : 0;
-  for (const p of game.placements.filter((p) => revenueRate(p.item))) {
+  for (const p of businessVenues(game)) {
     const old = raw?.accounts?.[p.id];
     const start = Number.isFinite(old?.collectedAt)
       ? Math.max(0, Math.min(1e15, old.collectedAt))
@@ -42,7 +60,10 @@ export function normalizeBusiness(raw, game, now = Date.now()) {
   return state;
 }
 export function incomeFor(game, id, now = Date.now()) {
-  const p = game.placements.find((p) => p.id === id);
+  const p =
+    id === "spa-bar" && game.unlocked.includes("water")
+      ? { item: "cat-barista", readyAt: 0 }
+      : game.placements.find((p) => p.id === id);
   if (!p || (p.readyAt && p.readyAt > now)) return 0;
   const rate = revenueRate(p.item);
   if (!rate) return 0;
@@ -60,7 +81,7 @@ export function collectIncome(game, id, now = Date.now()) {
   const amount = incomeFor(game, id, now);
   if (amount < 1) throw Error("Монетки ещё копятся. Загляните чуть позже.");
   const next = structuredClone(game),
-    item = next.placements.find((p) => p.id === id).item,
+    item = businessVenues(next).find((p) => p.id === id).item,
     rate = revenueRate(item),
     rawXP =
       (next.business.accounts[id]?.xpRemainder || 0) +
@@ -90,7 +111,7 @@ export function collectAllIncome(game, now = Date.now()) {
   let next = game,
     amount = 0,
     count = 0;
-  for (const p of game.placements) {
+  for (const p of businessVenues(game)) {
     if (incomeFor(next, p.id, now) < 1) continue;
     const result = collectIncome(next, p.id, now);
     next = result.game;
