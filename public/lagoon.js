@@ -1,3 +1,8 @@
+import {
+  LAGOON_BED_Y,
+  LAGOON_SURFACE_Y,
+  LEGACY_SEA_DEPTH,
+} from "./water-depths.js";
 import { runSceneSteps } from "./scene-tasks.js";
 import * as THREE from "three";
 import { reefSteps } from "./reef.js";
@@ -20,6 +25,7 @@ export function* lagoonSteps({
   bedColor = 0x83ccc1,
   wallColor = 0xadc8b5,
   shoreColor = 0x73e4c5,
+  depth = LEGACY_SEA_DEPTH,
 } = {}) {
   yield;
   const group = new THREE.Group();
@@ -29,7 +35,7 @@ export function* lagoonSteps({
   group.name = "Lagoon";
   yield;
   const waterClock = { value: 0 },
-    waterLevel = { value: 0.155 };
+    waterLevel = { value: LAGOON_SURFACE_Y };
   const bedMaterial = applyUnderwaterLighting(
     new THREE.MeshStandardMaterial({ color: bedColor, roughness: 0.82 }),
     waterClock,
@@ -43,10 +49,10 @@ export function* lagoonSteps({
     bedPositions = bedGeometry.getAttribute("position"),
     bedColors = new Float32Array(bedPositions.count * 3),
     sand = new THREE.Color(bedColor),
-    depth = new THREE.Color(color).lerp(sand, 0.24);
+    depthColor = new THREE.Color(color).lerp(sand, 0.24);
   for (let i = 0; i < bedPositions.count; i++) {
     const radius = Math.hypot(bedPositions.getX(i), bedPositions.getY(i));
-    const shade = depth.clone().lerp(sand, radius * radius);
+    const shade = depthColor.clone().lerp(sand, radius * radius);
     shade.toArray(bedColors, i * 3);
   }
   bedGeometry.setAttribute("color", new THREE.BufferAttribute(bedColors, 3));
@@ -58,12 +64,15 @@ export function* lagoonSteps({
   yield;
   bed.scale.set(rx, rz, 1);
   yield;
-  bed.position.y = -0.63;
+  bed.position.y = LAGOON_SURFACE_Y - depth;
+  bed.name = "Lagoon physical seabed";
+  group.userData.depth = depth;
+  group.userData.bed = bed;
   yield;
   group.add(bed);
   yield;
   const wall = new THREE.Mesh(
-    new THREE.CylinderGeometry(1, 1, 0.76, 64, 1, true),
+    new THREE.CylinderGeometry(1, 1, depth - 0.025, 64, 1, true),
     new THREE.MeshStandardMaterial({
       color: wallColor,
       roughness: 0.95,
@@ -73,7 +82,7 @@ export function* lagoonSteps({
   yield;
   wall.scale.set(rx, 1, rz);
   yield;
-  wall.position.y = -0.25;
+  wall.position.y = LAGOON_SURFACE_Y - depth / 2 - 0.0125;
   yield;
   group.add(wall);
   yield;

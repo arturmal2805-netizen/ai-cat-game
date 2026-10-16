@@ -538,9 +538,10 @@ function renderShop() {
       ? BIOMES.filter((b) => b.id !== "moon")
       : CATALOG.filter(
           (i) =>
-            shopCategory === "all" ||
-            (shopCategory === "bag" && game.inventory[i.id] > 0) ||
-            i.category === shopCategory,
+            !i.islandOnly &&
+            (shopCategory === "all" ||
+              (shopCategory === "bag" && game.inventory[i.id] > 0) ||
+              i.category === shopCategory),
         );
   collection = collection.filter((i) =>
     (i.name + " " + (i.description || i.subtitle || ""))

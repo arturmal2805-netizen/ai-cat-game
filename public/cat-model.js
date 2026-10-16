@@ -125,6 +125,8 @@ function applyPose(cat, time, walking, reduced) {
   for (let i = 0; i < 2; i++) {
     const side = i === 0 ? -1 : 1,
       openness = p.eyes * blink * (emotion?.eyes ?? 1);
+    if (d.eyes[i].userData.rideEyeZ !== undefined)
+      d.eyes[i].position.z = d.eyes[i].userData.rideEyeZ;
     d.eyes[i].scale.set(
       openness > 0.075 ? 1 : 0.001,
       Math.max(0.025, openness),
@@ -271,6 +273,17 @@ export function disposeCat(cat) {
 export function reactCat(cat, reaction, reduced = false) {
   const d = cat.userData;
   if (reduced) return;
+  const surprise = Math.max(0, Math.min(1, reaction.surprise || 0));
+  if (surprise)
+    for (const eye of d.eyes) {
+      eye.userData.rideEyeZ ??= eye.position.z;
+      eye.position.z = eye.userData.rideEyeZ + surprise * 0.035;
+      eye.scale.set(
+        1 + surprise * 0.1,
+        1 + surprise * 0.17,
+        1 + surprise * 0.12,
+      );
+    }
   const crouch = reaction.crouch || 0,
     paw = reaction.paw || 0;
   d.body.scale.y *= 1 - crouch;

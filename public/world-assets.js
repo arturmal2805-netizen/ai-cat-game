@@ -1,3 +1,4 @@
+import { mosasaurRide } from "./mosasaur-assets.js";
 import { capybaraRide } from "./capybara-rides.js";
 import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
 import { legendaryAttraction } from "./legendary-assets.js";
@@ -190,6 +191,8 @@ function vehicle(parent, kind, color = 0xc9a3cf) {
   return g;
 }
 export function makeAttraction(id, fields = [], now = Date.now()) {
+  const mosa = mosasaurRide(id);
+  if (mosa) return mosa;
   const capybara = capybaraRide(id);
   if (capybara) return capybara;
   const cotton = cottonRide(id);

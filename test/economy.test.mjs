@@ -116,7 +116,7 @@ test("objects can be moved and returned to bag, with no coin duplication", () =>
 test("land unlock is permanent, costs once and enables new neighbors", () => {
   const seed = newGame(now);
   seed.coins = byBiome("autumn").price + 180;
-  seed.progression.xp = xpForLevel(3);
+  seed.progression.xp = xpForLevel(8);
   const game = unlockBiome(seed, "autumn");
   assert.equal(game.coins, 180);
   assert.ok(worldSnapshot(game).friends.some((f) => f.id === "honey"));

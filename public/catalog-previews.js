@@ -79,6 +79,30 @@ export async function catalogPreviews(
             .normalize()
             .multiplyScalar(radius * (item.isBiome ? 1.45 : 1.75)),
         );
+      if (item.isBiome && item.id === "autumn") {
+        center.set(0, -17, 0);
+        camera.far = 800;
+        camera.updateProjectionMatrix();
+        const direction = new THREE.Vector3(0.85, 1.1, 1.1).normalize();
+        let fit = radius * 1.55;
+        for (let i = 0; i < 16; i++) {
+          camera.position.copy(center).addScaledVector(direction, fit);
+          camera.lookAt(center);
+          camera.updateMatrixWorld(true);
+          let visible = true;
+          for (let k = 0; k < 8; k++) {
+            const p = new THREE.Vector3(
+              k & 1 ? bounds.max.x : bounds.min.x,
+              k & 2 ? bounds.max.y : bounds.min.y,
+              k & 4 ? bounds.max.z : bounds.min.z,
+            ).project(camera);
+            if (Math.abs(p.x) > 0.92 || Math.abs(p.y) > 0.88 || p.z >= 1)
+              visible = false;
+          }
+          if (visible) break;
+          fit *= 1.08;
+        }
+      }
       camera.lookAt(center);
       await renderer.compileAsync(scene, camera);
       renderer.render(scene, camera);

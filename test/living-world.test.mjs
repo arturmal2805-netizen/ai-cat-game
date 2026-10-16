@@ -359,7 +359,7 @@ test("renewed islands have distinct features, fish, animated waterfalls and two 
   assert.equal(BIOMES.length, 24);
   assert.equal(byBiome("wizard"), undefined);
   const themes = new Set();
-  for (const id of Object.keys(RENEWED_ISLANDS)) {
+  for (const id of Object.keys(RENEWED_ISLANDS).filter(id=>id!=="autumn")) {
     const root = createBiomeScene(byBiome(id));
     themes.add(root.userData.renewal.hero);
     assert.ok(root.userData.stats.fishCount >= 30);
@@ -372,7 +372,7 @@ test("renewed islands have distinct features, fish, animated waterfalls and two 
     assert.notDeepEqual(flyer.userData.moving.position, before);
     root.userData.dispose();
   }
-  assert.equal(themes.size, Object.keys(RENEWED_ISLANDS).length);
+  assert.equal(themes.size, Object.keys(RENEWED_ISLANDS).length - 1);
 });
 test("innate rides can be chosen as physical AI targets and full adopted worlds fit the request and save limits", () => {
   let g = prepared();

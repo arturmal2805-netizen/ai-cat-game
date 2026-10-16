@@ -182,7 +182,7 @@ test("a manual action can cancel any helper immediately without a saved side eff
 test("helpers travelling to a different island follow its real bridge instead of running through the sky", () => {
   const site = {
       id: "away",
-      biome: "autumn",
+      biome: "winter",
       x: 0,
       z: 0,
       w: 2,
@@ -194,19 +194,19 @@ test("helpers travelling to a different island follow its real bridge instead of
       bridges: [
         {
           from: "moon",
-          to: "autumn",
-          start: { x: -10.95, z: 0, y: 0.18 },
-          end: { x: -25.9, z: 0, y: 0.18 },
+          to: "winter",
+          start: { x: 10.95, z: 0, y: 0.18 },
+          end: { x: 25.9, z: 0, y: 0.18 },
         },
       ],
     }),
     seen = [];
-  let p = { x: -4, z: 0, y: 0.16 };
+  let p = { x: 4, z: 0, y: 0.16 };
   for (let i = 0; i < 1800; i++) {
     const v = crew.frame("traveller", p, "moon", 0, 0.5, 1 / 30, i / 30, now);
     assert.ok(v);
     p = { ...v.position };
-    if (p.x < -11.65 && p.x > -25) seen.push({ ...p });
+    if (p.x > 11.65 && p.x < 25) seen.push({ ...p });
   }
   assert.ok(seen.length > 0);
   assert.ok(seen.every((p) => Math.abs(p.z) < 0.05));

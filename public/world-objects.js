@@ -1,3 +1,4 @@
+import { MOSA_OBJECTS } from "./mosasaur-data.js";
 import { CHILL_OBJECTS } from "./chill-data.js";
 import { CAPYBARA_OBJECTS, CAPYBARA_POOLS } from "./capybara-data.js";
 import { islandProject } from "./island-construction.js";
@@ -35,6 +36,10 @@ export function permanentObjects(biomes) {
   if (biomes.includes("water")) objects.push(...SPA_OBJECTS);
   for (const b of BIOMES) {
     if (!biomes.includes(b.id)) continue;
+    if (b.id === "autumn") {
+      objects.push(...MOSA_OBJECTS);
+      continue;
+    }
     if (RENEWED_ISLANDS[b.id]) {
       objects.push(...ISLAND_RIDES.filter((r) => r.biome === b.id));
       const upper = RENEWED_ISLANDS[b.id].upper;

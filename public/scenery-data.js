@@ -298,6 +298,18 @@ function buildInitialScenery(placements) {
         ].map(([x, z]) => ({ type: "scenery-boulder", x, z, scale: 1.1 })),
       );
     }
+    if (biome.id === "autumn") {
+      candidates.splice(
+        0,
+        candidates.length,
+        ...Array.from({ length: 8 }, (_, i) => ({
+          type: i % 3 === 0 ? "scenery-boulder" : "scenery-tree-palm",
+          x: Math.sin(0.45 + i * 0.78) * 25,
+          z: Math.cos(0.45 + i * 0.78) * 25,
+          scale: 0.8 + (i % 3) * 0.14,
+        })),
+      );
+    }
     candidates.forEach((c, index) => {
       const record = {
         id: `decor-${biome.id}-${index}`,
@@ -329,7 +341,7 @@ function buildInitialScenery(placements) {
           Math.hypot(Math.abs(x) + w / 2, Math.abs(z) + d / 2) <=
             (biome.radius ? biome.radius - 0.7 : 10.8) &&
           !occupied.some((p) =>
-            biome.id === "summer" && p.rx && p.rz
+            ["summer", "autumn"].includes(biome.id) && p.rx && p.rz
               ? (Math.max(0, Math.abs(x - p.x) - w / 2) / p.rx) ** 2 +
                   (Math.max(0, Math.abs(z - p.z) - d / 2) / p.rz) ** 2 <
                 1

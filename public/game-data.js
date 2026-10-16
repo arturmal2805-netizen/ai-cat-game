@@ -1,3 +1,4 @@
+import { MOSA_RADIUS, mosaReservations } from "./mosasaur-data.js";
 import { CHILL_RADIUS, CHILL_GATE, chillReservations } from "./chill-data.js";
 import {
   CAPYBARA_RADIUS,
@@ -601,6 +602,7 @@ export const ACTIONS = [
   "swim",
 ];
 export function biomeReservations(id) {
+  if (id === "autumn") return mosaReservations();
   if (id === "sakura") return chillReservations();
   if (id === "water") return spaReservations();
   if (id === "clockwork") return cottonReservations();
@@ -1976,3 +1978,29 @@ Object.assign(
     arrival: [CHILL_GATE.x, CHILL_GATE.z],
   },
 );
+
+// Resolve the established layout first; only this replacement moves/enlarges.
+Object.assign(
+  BIOMES.find((b) => b.id === "autumn"),
+  {
+    radius: MOSA_RADIUS,
+    center: [-150, -42],
+    arrival: [0, 23],
+    requiredLevel: 8,
+  },
+);
+CATALOG.push({
+  id: "ride-mosasaur",
+  name: "Марин · морской великан",
+  icon: "🦕",
+  category: "rides",
+  islandOnly: true,
+  requiredLevel: 8,
+  price: 0,
+  buildMinutes: 0,
+  footprint: [5, 5],
+  actions: ["ride"],
+  rarity: "Легендарное",
+  description:
+    "Друг небесного моря: ныряет глубоко и взлетает над волнами вместе с котиком.",
+});

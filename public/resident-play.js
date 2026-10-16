@@ -19,6 +19,19 @@ export function createResidentPlay({
   function cancel(id) {
     const v = visits.get(id);
     if (!v) return;
+    if (v.object?.userData.deepRide) {
+      const n = getCat(id);
+      if (n) {
+        n.carrier.position.copy(
+          v.object.localToWorld(
+            new THREE.Vector3(...v.object.userData.dismount),
+          ),
+        );
+        n.carrier.position.y = 0.16;
+        n.carrier.rotation.x = 0;
+        n.carrier.rotation.z = 0;
+      }
+    }
     if (v.object) {
       resetYarn(v.object);
       v.object.userData.playing = false;
@@ -53,13 +66,20 @@ export function createResidentPlay({
           ),
         )
       : friend.carrier.position.clone().add(new THREE.Vector3(1, 0, 0));
-    destination.y =
-      decision.action === "swim"
-        ? (object.userData.shoreHeight ?? object.position.y)
-        : groundY(
-            destination,
-            object?.userData.placement?.biome || n.profile.biome,
-          );
+    if (object?.userData.approachFrame && decision.action === "ride")
+      destination.copy(
+        object.localToWorld(
+          new THREE.Vector3(...object.userData.rideFrame(0, true).position),
+        ),
+      );
+    if (!object?.userData.approachFrame)
+      destination.y =
+        decision.action === "swim"
+          ? (object.userData.shoreHeight ?? object.position.y)
+          : groundY(
+              destination,
+              object?.userData.placement?.biome || n.profile.biome,
+            );
     const v = {
       id,
       decision,
@@ -105,11 +125,23 @@ export function createResidentPlay({
       reaction: null,
       mood: d.action === "rest" ? "sleep" : "happy",
       roll: 0,
+      pitch: 0,
+      quaternion: null,
     };
     if (v.phase === "approach") {
       const t = Math.min(1, (now - v.started) / (reduced ? 50 : v.travel)),
         q = t * t * (3 - 2 * t);
-      result.position.lerpVectors(v.from, v.destination, q);
+      if (g?.userData.approachFrame) {
+        const a = g.worldToLocal(v.from.clone()),
+          b = g.worldToLocal(v.destination.clone());
+        result.position.copy(
+          g.localToWorld(
+            new THREE.Vector3(
+              ...g.userData.approachFrame(a.toArray(), b.toArray(), t),
+            ),
+          ),
+        );
+      } else result.position.lerpVectors(v.from, v.destination, q);
       result.yaw = Math.atan2(
         v.destination.x - v.from.x,
         v.destination.z - v.from.z,
@@ -134,7 +166,16 @@ export function createResidentPlay({
         local.set(...f.position);
         result.yaw = (f.yaw || 0) + g.rotation.y;
         result.roll = f.roll || 0;
-        result.reaction = { paw: f.paw || 0, headPitch: f.headPitch || 0 };
+        result.pitch = f.pitch || 0;
+        if (f.quaternion)
+          result.quaternion = g.quaternion
+            .clone()
+            .multiply(new THREE.Quaternion().fromArray(f.quaternion));
+        result.reaction = {
+          paw: f.paw || 0,
+          headPitch: f.headPitch || 0,
+          surprise: f.surprise || 0,
+        };
         g.userData.update?.(time, reduced);
       } else if (g.userData.curve) {
         local.copy(
@@ -245,7 +286,14 @@ export function createResidentPlay({
           ? 12
           : g?.userData.duration || 10;
     if (elapsed > duration) {
-      result.position.copy(v.destination);
+      result.position.copy(
+        g?.userData.deepRide
+          ? g.localToWorld(new THREE.Vector3(...g.userData.dismount))
+          : v.destination,
+      );
+      result.quaternion = null;
+      result.pitch = 0;
+      result.roll = 0;
       cancel(id);
       onComplete(id, d);
       result.completed = true;

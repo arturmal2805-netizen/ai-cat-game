@@ -115,7 +115,7 @@ test("farm saves restore crops, inventory and construction timestamps", () => {
   assert.equal(restored.farm.stock.wheat, 2);
 });
 test("expanded world has 24 biomes and 112 objects, with legendary build times and unlock quests", () => {
-  assert.equal(CATALOG.length, 112);
+  assert.equal(CATALOG.filter(i => !i.islandOnly).length, 112);
   assert.equal(BIOMES.length, 24);
   assert.equal(
     CATALOG.find((i) => i.id === "coaster-mystic").buildMinutes,

@@ -227,6 +227,44 @@ export function loadGame(storage, now = Date.now(), { advance = true } = {}) {
       )
         game.placements.push(p);
     }
+    // A replaced biome must not swallow paid buildings in its new sea.
+    // Move only conflicting autumn plots; keep IDs, timers, crops and tiers.
+    for (const building of game.placements.filter(
+      (p) => p.biome === "autumn",
+    )) {
+      if (
+        canPlace(
+          game,
+          building.item,
+          building.biome,
+          building.x,
+          building.z,
+          building.rotation,
+          building.id,
+        ).ok
+      )
+        continue;
+      const free = findSpace(
+        game,
+        building.item,
+        "autumn",
+        building.rotation,
+        building.id,
+      );
+      if (free) Object.assign(building, free);
+      else {
+        game.placements = game.placements.filter((p) => p.id !== building.id);
+        game.inventory[building.item] =
+          (game.inventory[building.item] || 0) + 1;
+        game.builtInventory[building.item] =
+          (game.builtInventory[building.item] || 0) + 1;
+        game.relocatedPurchases.push({
+          ...building,
+          businessLevel: saved.business?.levels?.[building.id] || 1,
+          fieldCells: saved.farm?.fields?.[building.id],
+        });
+      }
+    }
     // Venue kittens need restored placements before their saved home can be
     // validated. Released kittens also keep living here if the stand is stored.
     game.catDestinations = normalizeDestinations(saved.catDestinations, game);
@@ -381,6 +419,8 @@ export function attentionReward(game, now = Date.now(), meaningful = true) {
 export function purchase(game, id, now = Date.now()) {
   const item = byItem(id);
   if (!item) throw Error("Такого предмета нет.");
+  if (item.islandOnly)
+    throw Error("Этот друг уже живёт на своём острове. Откройте его локацию.");
   const locked = levelRequirement(game, item.requiredLevel);
   if (locked) throw Error(locked);
   if (game.coins < item.price)
@@ -480,7 +520,16 @@ export function findSpace(
   ignoreId = null,
   options = {},
 ) {
-  for (let radius = 0; radius <= (byBiome(biome)?.radius ? 17 : 10); radius++)
+  for (
+    let radius = 0;
+    radius <=
+    (biome === "autumn"
+      ? Math.floor(byBiome(biome).radius - 1)
+      : byBiome(biome)?.radius
+        ? 17
+        : 10);
+    radius++
+  )
     for (let x = -radius; x <= radius; x++)
       for (let z = -radius; z <= radius; z++) {
         if (Math.max(Math.abs(x), Math.abs(z)) !== radius) continue;

@@ -1,3 +1,4 @@
+import { mosaDryPoint } from "./mosasaur-data.js";
 import { createResidentPlay } from "./resident-play.js";
 import { decorateBusiness } from "./business-decor.js";
 import {
@@ -297,9 +298,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
   if (initialGame.catPosition) {
     const saved = initialGame.catPosition,
       p =
-        saved.biome === "summer"
-          ? { ...saved, ...capybaraDryPoint(saved.x, saved.z) }
-          : saved,
+        saved.biome === "autumn"
+          ? { ...saved, ...mosaDryPoint(saved.x, saved.z) }
+          : saved.biome === "summer"
+            ? { ...saved, ...capybaraDryPoint(saved.x, saved.z) }
+            : saved,
       b = byBiome(p.biome);
     if (b)
       chichiCarrier.position.set(
@@ -1149,6 +1152,13 @@ export function createWorld(container, initialGame, callbacks = {}) {
         0.16,
         b.center[1] + Math.cos(index * 2.4) * wanderRadius,
       );
+      if (b.id === "autumn") {
+        const dry = mosaDryPoint(
+          carrier.position.x - b.center[0],
+          carrier.position.z - b.center[1],
+        );
+        carrier.position.set(b.center[0] + dry.x, 0.16, b.center[1] + dry.z);
+      }
       if (profile.venueHome && venue) {
         carrier.position.copy(
           venue.localToWorld(new THREE.Vector3(1.65, 0, 1.9)),
@@ -1216,22 +1226,26 @@ export function createWorld(container, initialGame, callbacks = {}) {
     const enchanted =
       !!RENEWED_ISLANDS[b.id] || b.legendary || b.id === "sakura";
     sky.material.uniforms.top.value.set(
-      b.id === "sakura"
-        ? 0xbba4d4
-        : b.legendary || b.id === "aquapark"
-          ? 0x010914
-          : enchanted
-            ? 0x172749
-            : 0x788ab9,
+      b.id === "autumn"
+        ? 0x75b9e4
+        : b.id === "sakura"
+          ? 0xbba4d4
+          : b.legendary || b.id === "aquapark"
+            ? 0x010914
+            : enchanted
+              ? 0x172749
+              : 0x788ab9,
     );
     sky.material.uniforms.bottom.value.set(
-      b.id === "sakura"
-        ? 0xf5cdba
-        : b.legendary || b.id === "aquapark"
-          ? 0x153054
-          : enchanted
-            ? 0x697da9
-            : 0xb2b8d5,
+      b.id === "autumn"
+        ? 0xeee2dd
+        : b.id === "sakura"
+          ? 0xf5cdba
+          : b.legendary || b.id === "aquapark"
+            ? 0x153054
+            : enchanted
+              ? 0x697da9
+              : 0xb2b8d5,
     );
     royalStars.visible = b.id === "aquapark" || enchanted;
     royalStars.position.set(
@@ -1315,6 +1329,17 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (operation.attraction) {
         operation.attraction.userData.playing = false;
         delete operation.attraction.userData.heroPlayPos;
+        if (operation.attraction.userData.deepRide) {
+          chichiCarrier.position.copy(
+            operation.attraction.localToWorld(
+              new THREE.Vector3(...operation.attraction.userData.dismount),
+            ),
+          );
+          chichiCarrier.position.y = 0.16;
+          chichiCarrier.rotation.x = 0;
+          chichiCarrier.rotation.z = 0;
+          delete operation.attraction.userData.rideElapsed;
+        }
       }
       operation.resolve({ cancelled: true });
       operation = null;
@@ -2211,12 +2236,20 @@ export function createWorld(container, initialGame, callbacks = {}) {
     previousTime = now;
     const time = now / 1000;
     const cameraBlend = reduced ? 1 : 1 - Math.exp(-dt * 8);
+    if (
+      operation?.attraction?.userData.deepRide &&
+      operation.stage === "activity" &&
+      !faceCamera.enabled
+    ) {
+      desiredLook.copy(chichiCarrier.position);
+      desiredDistance = mobileRender ? 64 : 40;
+    }
     if (faceCamera.enabled) faceCamera.facePoint(desiredLook);
     look.lerp(desiredLook, cameraBlend);
     distance += (desiredDistance - distance) * cameraBlend;
     camera.position.set(
       look.x + Math.sin(azimuth) * Math.cos(elevation) * distance,
-      Math.sin(elevation) * distance,
+      look.y + Math.sin(elevation) * distance,
       look.z + Math.cos(azimuth) * Math.cos(elevation) * distance,
     );
     camera.lookAt(look);
@@ -2345,6 +2378,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         npcWalking = false,
         npcReaction = null,
         direct = false;
+      n.carrier.rotation.x = 0;
       n.carrier.rotation.z = 0;
       const draggingThis = draggingCat?.catId === id,
         manualVisit = residentPlay.get(id),
@@ -2585,6 +2619,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
         n.carrier.position.copy(manualFrame.position);
         n.carrier.rotation.y = manualFrame.yaw;
         n.carrier.rotation.z = manualFrame.roll;
+        n.carrier.rotation.x = manualFrame.pitch || 0;
+        if (manualFrame.quaternion)
+          n.carrier.quaternion.copy(manualFrame.quaternion);
         x = n.carrier.position.x;
         z = n.carrier.position.z;
         direct = true;
@@ -2785,6 +2822,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
         const wanderRadius = b.arrival ? 11.8 : 6;
         x = b.center[0] + Math.sin(time * 0.07 + n.index * 2.4) * wanderRadius;
         z = b.center[1] + Math.cos(time * 0.07 + n.index * 2.4) * wanderRadius;
+        if (b.id === "autumn") {
+          const dry = mosaDryPoint(x - b.center[0], z - b.center[1]);
+          x = b.center[0] + dry.x;
+          z = b.center[1] + dry.z;
+        }
         if (b.id === "summer") {
           const dry = capybaraDryPoint(x - b.center[0], z - b.center[1]);
           x = b.center[0] + dry.x;
@@ -2797,6 +2839,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
             n.carrier.position.x - b.center[0],
             n.carrier.position.z - b.center[1],
           );
+      }
+      if (!direct && b.id === "autumn") {
+        const dry = mosaDryPoint(x - b.center[0], z - b.center[1]);
+        x = b.center[0] + dry.x;
+        z = b.center[1] + dry.z;
       }
       const direction = npcDirection
         .set(x, n.carrier.position.y, z)
@@ -2854,6 +2901,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }
     }
     npcMarkers.instanceMatrix.needsUpdate = true;
+    chichiCarrier.rotation.x = 0;
     chichiCarrier.rotation.z = 0;
     let walking = false,
       reaction = null;
@@ -2953,11 +3001,23 @@ export function createWorld(container, initialGame, callbacks = {}) {
         }
       } else if (op.stage === "travel") {
         const p = Math.min((now - op.start) / op.duration, 1);
-        chichiCarrier.position.lerpVectors(
-          op.from,
-          op.destination,
-          p * p * (3 - 2 * p),
-        );
+        if (op.attraction?.userData.approachFrame) {
+          const g = op.attraction,
+            a = g.worldToLocal(op.from.clone()),
+            b = g.worldToLocal(op.destination.clone());
+          chichiCarrier.position.copy(
+            g.localToWorld(
+              framePoint.set(
+                ...g.userData.approachFrame(a.toArray(), b.toArray(), p),
+              ),
+            ),
+          );
+        } else
+          chichiCarrier.position.lerpVectors(
+            op.from,
+            op.destination,
+            p * p * (3 - 2 * p),
+          );
         const d = travelDirection.copy(op.destination).sub(op.from);
         chichiCarrier.rotation.y = Math.atan2(d.x, d.z);
         walking = p < 1;
@@ -2994,7 +3054,16 @@ export function createWorld(container, initialGame, callbacks = {}) {
             local.set(...f.position);
             chichiCarrier.rotation.y = (f.yaw || 0) + g.rotation.y;
             chichiCarrier.rotation.z = f.roll || 0;
-            reaction = { paw: f.paw || 0, headPitch: f.headPitch || 0 };
+            chichiCarrier.rotation.x = f.pitch || 0;
+            if (f.quaternion)
+              chichiCarrier.quaternion
+                .copy(g.quaternion)
+                .multiply(new THREE.Quaternion().fromArray(f.quaternion));
+            reaction = {
+              paw: f.paw || 0,
+              headPitch: f.headPitch || 0,
+              surprise: f.surprise || 0,
+            };
             g.userData.update?.(time, reduced);
             if (f.phase === "flight" && !op.flew) {
               op.flew = true;
@@ -3225,6 +3294,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
           if (action !== "meet" && action !== "swim")
             chichiCarrier.position.copy(op.dismount || op.destination);
           if (g) delete g.userData.rideElapsed;
+          if (g?.userData.deepRide && !faceCamera.enabled) {
+            const b = byBiome("autumn");
+            desiredLook.set(b.center[0], 0, b.center[1]);
+            desiredDistance = mobileRender ? 85 : 57;
+          }
           socialGlow.visible = false;
           operation = null;
           op.resolve({
@@ -3240,6 +3314,23 @@ export function createWorld(container, initialGame, callbacks = {}) {
     if (!dialogOpen) {
       animateCat(cat, time, walking, reduced);
       if (reaction) reactCat(cat, reaction, reduced);
+    }
+    // Apply ride tracking after the current rig pose, so even a slow frame or
+    // a dive/jump cannot leave the rider outside the view for one whole frame.
+    if (
+      operation?.attraction?.userData.deepRide &&
+      operation.stage === "activity" &&
+      !faceCamera.enabled
+    ) {
+      desiredLook.copy(chichiCarrier.position);
+      if (look.distanceTo(desiredLook) > 8) look.copy(desiredLook);
+      else look.lerp(desiredLook, Math.min(1, dt * 14));
+      camera.position.set(
+        look.x + Math.sin(azimuth) * Math.cos(elevation) * distance,
+        look.y + Math.sin(elevation) * distance,
+        look.z + Math.cos(azimuth) * Math.cos(elevation) * distance,
+      );
+      camera.lookAt(look);
     }
     faceCamera.update(dt, look);
     if (dialogOpen || !worldVisible) {

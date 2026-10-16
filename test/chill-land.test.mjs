@@ -208,12 +208,12 @@ test("front rooms have no glass; both pillows and the bath are visible from an e
   }
 });
 
-test("the other 23 biome records are byte-for-byte unchanged from the approved map", () => {
+test("the other approved biome records remain unchanged except the later mosasaur replacement", () => {
   assert.equal(
     createHash("sha256")
-      .update(JSON.stringify(BIOMES.filter((b) => b.id !== "sakura")))
+      .update(JSON.stringify(BIOMES.filter((b) => !["sakura", "autumn"].includes(b.id))))
       .digest("hex"),
-    "1cf85d979e1de23188c2bf0b64c4befd9a7e44ef4dacfa459406828c319b4c4f",
+    "c197127c8e59fea9b628cda08f51ed88cc4d61aba32d7ac586a2333ba68f0427",
   );
 });
 test("fourteen concurrent visitors across seven mansions all finish without leaking a reservation", () => {
