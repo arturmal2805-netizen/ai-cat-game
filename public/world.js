@@ -1,3 +1,8 @@
+import {
+  attachBuilderHammer,
+  constructionSites,
+  createConstructionCrew,
+} from "./construction-crew.js";
 import { CHICHI_PORTRAITS } from "./cat-portrait-manifest.js";
 import { RENEWED_ISLANDS } from "./renewal-data.js";
 import { islandHeight } from "./renewed-biomes.js";
@@ -39,7 +44,13 @@ import {
   disposeCat,
   moodNames,
 } from "./cat-model.js";
-import { BIOMES, NEIGHBORS, byBiome, byItem } from "./game-data.js";
+import {
+  BIOMES,
+  NEIGHBORS,
+  byBiome,
+  byItem,
+  biomeReservations,
+} from "./game-data.js";
 import { canPlace, isBuilt } from "./economy.js";
 import { byScenery } from "./scenery-data.js";
 import {
@@ -534,6 +545,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       .flatMap((island) => [...island.userData.sceneryObjects.values()]);
   }
   // Connect nearby shores instead of drawing long roads across other islands.
+  const constructionBridges = [];
   const connected = new Set(["moon"]);
   while (connected.size < BIOMES.length) {
     let link;
@@ -557,6 +569,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
     // Enter the uneven shore slightly so the longer bridge still lands on soil.
     from.addScaledVector(direction, (link.from.radius || 11.65) - 0.7);
     to.addScaledVector(direction, -((link.to.radius || 11.65) - 0.7));
+    constructionBridges.push({
+      from: link.from.id,
+      to: link.to.id,
+      start: { x: from.x, y: 0.18, z: from.z },
+      end: { x: to.x, y: 0.18, z: to.z },
+    });
     const middle = from.clone().add(to).multiplyScalar(0.5);
     const bridge = box(
       scene,
@@ -581,6 +599,25 @@ export function createWorld(container, initialGame, callbacks = {}) {
         new THREE.TubeGeometry(rope, 12, 0.045, 5, false),
         0xe0c6a4,
       );
+    }
+  }
+  let buildingSites = [],
+    builderObstacles = new Map();
+  const crew = createConstructionCrew({
+    bridges: constructionBridges,
+    getSites: () => buildingSites,
+    getObstacles: (id) => builderObstacles.get(id) || [],
+  });
+  const builderHammers = new Map();
+  function builderHammer(id, model, frame) {
+    let hammer = builderHammers.get(id);
+    if (!hammer && frame) {
+      hammer = attachBuilderHammer(model);
+      if (hammer) builderHammers.set(id, hammer);
+    }
+    if (hammer) {
+      hammer.visible = !!frame;
+      if (frame) hammer.rotation.x = reduced ? 0 : frame.hammerAngle;
     }
   }
   function sync(next) {
@@ -666,6 +703,37 @@ export function createWorld(container, initialGame, callbacks = {}) {
           };
         }),
     ];
+    builderObstacles = new Map(
+      BIOMES.map((b) => [
+        b.id,
+        [
+          ...biomeReservations(b.id),
+          ...game.placements
+            .filter((p) => p.biome === b.id)
+            .map((p) => {
+              const f = byItem(p.item).footprint;
+              return {
+                x: p.x,
+                z: p.z,
+                w: f[p.rotation % 2 ? 1 : 0],
+                d: f[p.rotation % 2 ? 0 : 1],
+              };
+            }),
+          ...game.scenery
+            .filter((r) => r.biome === b.id && !r.stored)
+            .map((r) => {
+              const f = sceneryFootprint(r);
+              return {
+                x: r.x,
+                z: r.z,
+                ...(byScenery(r.type).category === "tree"
+                  ? { radius: 0.45 * (r.scale || 1) }
+                  : { w: f[0], d: f[1] }),
+              };
+            }),
+        ],
+      ]),
+    );
     for (const [id, island] of islands) showWhalePreview(island, id);
     // Keep unchanged vegetation and scenery buffers when income, adoption or
     // herd destinations change. Only an edited island needs new geometry.
@@ -875,6 +943,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
     for (const [id, n] of npcs)
       if (!activeIds.has(id)) {
         spa.cancel(id);
+        crew.cancel(id);
+        builderHammers.get(id)?.removeFromParent();
+        builderHammers.delete(id);
         scene.remove(n.carrier);
         disposeCat(n.model);
         npcs.delete(id);
@@ -994,6 +1065,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     sync(game);
     if (operation) {
       spa.cancel("chichi");
+      crew.cancel("chichi");
       resetYarn(operation.attraction);
       if (operation.attraction) {
         operation.attraction.userData.playing = false;
@@ -1865,6 +1937,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     for (const g of itemGroups.values())
       if (!reduced && !dialogOpen) animateAttraction(g, time);
     if (preview && !reduced) animateAttraction(preview, time);
+    buildingSites = constructionSites(itemGroups);
     if (!dialogOpen) spa.step(dt, time);
     for (const [id, cup] of spaCups)
       if (!spa.get(id)?.drinking) {
@@ -1939,6 +2012,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         !dialogOpen &&
         now >= gatherUntil &&
         !spa.get(id) &&
+        !crew.workers.has(id) &&
         Date.now() - Math.max(game.spa?.visits?.[id] || 0, n.lastSpaAt || 0) >
           90000 &&
         now > (n.nextSpaAttempt || 0) &&
@@ -1983,8 +2057,31 @@ export function createWorld(container, initialGame, callbacks = {}) {
           n.lastSpaAt = Date.now();
       }
       const spaVisit = spa.get(id);
+      const canBuild =
+        !busyWithChichi &&
+        !draggingCat &&
+        !dialogOpen &&
+        now >= gatherUntil &&
+        !spaVisit &&
+        !mealVisits.has(id) &&
+        !swimVisits.has(id) &&
+        (needs?.hunger || 0) < 85;
+      if (!canBuild) crew.cancel(id);
+      const builderFrame = canBuild
+        ? crew.frame(
+            id,
+            n.carrier.position,
+            b.id,
+            n.index,
+            spaRadius(n.model),
+            dt,
+            time,
+          )
+        : null;
+      builderHammer(id, n.model, builderFrame);
       if (
         b.id !== "water" &&
+        !builderFrame &&
         !busyWithChichi &&
         now >= gatherUntil &&
         !draggingCat &&
@@ -2045,6 +2142,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }
       if (
         b.id !== "water" &&
+        !builderFrame &&
         !busyWithChichi &&
         now >= gatherUntil &&
         !draggingCat &&
@@ -2081,7 +2179,19 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }
       const swim = swimVisits.get(id);
       const visit = mealVisits.get(id);
-      if (spaVisit) {
+      if (builderFrame) {
+        n.carrier.position.set(
+          builderFrame.position.x,
+          builderFrame.position.y,
+          builderFrame.position.z,
+        );
+        n.carrier.rotation.y = builderFrame.yaw;
+        x = n.carrier.position.x;
+        z = n.carrier.position.z;
+        direct = true;
+        npcWalking = builderFrame.walking;
+        npcReaction = reduced ? null : builderFrame.reaction;
+      } else if (spaVisit) {
         applySpaFrame(spaVisit, n.carrier, n.model);
         x = n.carrier.position.x;
         z = n.carrier.position.z;
@@ -2313,6 +2423,52 @@ export function createWorld(container, initialGame, callbacks = {}) {
       );
       walking = t < 1;
       if (t === 1) heroGather = null;
+    }
+    const heroCanBuild =
+      !operation &&
+      !heroGather &&
+      !draggingCat &&
+      !dialogOpen &&
+      !game.care?.resting &&
+      game.cat.mood === "happy" &&
+      game.cat.energy > 25 &&
+      game.cat.hunger < 85;
+    if (!heroCanBuild) crew.cancel("chichi");
+    const heroBiome = BIOMES.reduce(
+        (best, b) =>
+          Math.hypot(
+            chichiCarrier.position.x - b.center[0],
+            chichiCarrier.position.z - b.center[1],
+          ) <
+          Math.hypot(
+            chichiCarrier.position.x - best.center[0],
+            chichiCarrier.position.z - best.center[1],
+          )
+            ? b
+            : best,
+        BIOMES[0],
+      ),
+      heroBuild = heroCanBuild
+        ? crew.frame(
+            "chichi",
+            chichiCarrier.position,
+            heroBiome.id,
+            -1,
+            spaRadius(cat),
+            dt,
+            time,
+          )
+        : null;
+    builderHammer("chichi", cat, heroBuild);
+    if (heroBuild) {
+      chichiCarrier.position.set(
+        heroBuild.position.x,
+        heroBuild.position.y,
+        heroBuild.position.z,
+      );
+      chichiCarrier.rotation.y = heroBuild.yaw;
+      walking = heroBuild.walking;
+      reaction = reduced ? null : heroBuild.reaction;
     }
     if (operation) {
       const op = operation;
@@ -2812,6 +2968,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           b.center[1] + arrival[1],
         );
       spa.clear();
+      crew.clear();
       gatherUntil = performance.now() + 20000;
       heroGather = {
         from: chichiCarrier.position.clone(),
@@ -2832,6 +2989,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     dispose() {
       disposed = true;
       spa.clear();
+      crew.clear();
       for (const cup of spaCups.values()) {
         scene.remove(cup);
         disposeScenery(cup);
@@ -2845,6 +3003,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
           pending.finally(() => island.userData.dispose?.()).catch(() => {});
         else island.userData.dispose?.();
       }
+      for (const hammer of builderHammers.values()) hammer.removeFromParent();
+      builderHammers.clear();
       disposeCat(cat);
       for (const npc of npcs.values()) disposeCat(npc.model);
       socialGlow.visible = false;
