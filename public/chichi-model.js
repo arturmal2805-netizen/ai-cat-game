@@ -222,6 +222,11 @@ export function createReferenceChichi(mood, options = {}) {
       color: 0xcd929c,
       roughness: 0.8,
     });
+  // Keep this separate from the mouth and eyelid materials: changing only the
+  // globe backing removes the side-on black wedge without recolouring the lip
+  // or rebatching the approved irises, pupils, lids and reflections.
+  const eyeBackingMaterial = crowd ? fur : mouthMaterial.clone();
+  if (!crowd) eyeBackingMaterial.color.set(coat);
 
   function mesh(parent, name, geometry, material) {
     if (material.vertexColors && !geometry.attributes.color)
@@ -451,10 +456,8 @@ export function createReferenceChichi(mood, options = {}) {
     ellipsoid(
       eye,
       "EyeRim" + side,
-      // The globe's backing used to expose a dark wedge outside the lid on
-      // low-poly neighbours. Their existing iris already has a dark limbus;
-      // tuck its backing into the coat instead. Chichi's eyes stay untouched.
-      crowd ? fur : mouthMaterial,
+      // The iris keeps its existing dark limbus; the backing matches the coat.
+      eyeBackingMaterial,
       [0, 0, 0.012],
       [0.151, 0.161, 0.052],
     );
@@ -672,13 +675,17 @@ export function createReferenceChichi(mood, options = {}) {
   jaw.name = "Jaw";
   jaw.position.set(0, CHICHI_ANATOMY.jawY, 0.35);
   head.add(jaw);
-  ellipsoid(
+  const chin = ellipsoid(
     jaw,
     "Chin",
     muzzleMaterial,
     [0, -0.02, 0.025],
     [0.16, 0.061, 0.092],
   );
+  // Chichi's continuous sculpt already includes a fully groomed chin. The
+  // extra smooth cap hid that fur and looked detached; expose the real surface.
+  // Keep the jaw rig and correctly anchored tongue, and leave neighbours exact.
+  chin.visible = crowd;
   const mouth = ellipsoid(
     head,
     "Mouth",

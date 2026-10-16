@@ -40,6 +40,7 @@ import { mergeSharedWorld } from "../shared-world.mjs";
 import { validateState, parseDecision } from "../ai.mjs";
 import { createBiomeScene, prepareBiomeScene } from "../public/biome-scenes.js";
 import { spaBar } from "../public/spa-assets.js";
+import { SPA_STEAM_PUFFS } from "../public/spa-effects.js";
 const now = Date.UTC(2026, 9, 16, 12),
   game = () => {
     const g = newGame(now);
@@ -51,6 +52,12 @@ test("the SPA canopy leaves the bartender's face visible from normal high game c
   const bar = spaBar(),
     staff = bar.getObjectByName("SPA barista");
   assert.ok(staff);
+  assert.equal(
+    staff.userData.reference,
+    false,
+    "the permanent seller is not the player's Chichi",
+  );
+  assert.equal(bar.userData.vendorName, "Мурко");
   // Animate first: the old animation reset the model's own Y to zero and
   // dropped its face underneath the counter after the initial frame.
   bar.userData.update(4);
@@ -78,6 +85,33 @@ test("the SPA canopy leaves the bartender's face visible from normal high game c
       "roof/sign must not hide the cat behind the bar",
     );
   }
+});
+test("the permanent seller prepares and hands over a customer's selected drink", () => {
+  const bar = spaBar(),
+    cup = bar.getObjectByName("SPA bartender serving drink"),
+    order = {
+      phase: "relax",
+      elapsed: 1.5,
+      drinkId: "berry",
+      seat: SPA_SEATS["spa-bar"][0],
+    };
+  bar.userData.servingVisit = order;
+  bar.userData.update(5);
+  assert.equal(bar.userData.servicePhase, "prepare");
+  assert.equal(cup.visible, true);
+  assert.equal(
+    cup.getObjectByName("SPA drink liquid").material.color.getHex(),
+    0xf3a9c3,
+  );
+  const start = cup.position.clone();
+  order.elapsed = 3.9;
+  bar.userData.update(7);
+  assert.equal(bar.userData.servicePhase, "handover");
+  assert.ok(cup.position.distanceTo(start) > 1);
+  order.elapsed = 5;
+  bar.userData.update(8);
+  assert.equal(cup.visible, false);
+  assert.equal(bar.userData.servicePhase, "idle");
 });
 test("SPA replaces the original lagoon in place, triples playable area and preserves the map arrangement", () => {
   assert.equal(BIOMES.length, 24);
@@ -486,14 +520,18 @@ test("the actual SPA has open water basins, animated bubbles/steam and equivalen
     );
     assert.ok(a.userData.lagoons.has(p.id));
   }
-  const steam = [];
-  a.traverse((o) => {
-    if (o.isInstancedMesh && [8, 24].includes(o.count)) steam.push(o);
-  });
+  const steam = [
+    a.getObjectByName("SPA warm rising steam"),
+    a.getObjectByName("SPA jacuzzi bubbles"),
+  ];
   const before = steam.map((m) => [...m.instanceMatrix.array]);
   a.userData.update(4);
   const plume = a.getObjectByName("SPA warm rising steam");
-  assert.equal(plume.count, 8, "one small instanced steam draw");
+  assert.equal(
+    plume.count,
+    SPA_STEAM_PUFFS,
+    "more steam stays in one instanced draw",
+  );
   assert.equal(
     plume.geometry.index.count,
     6,
@@ -501,18 +539,24 @@ test("the actual SPA has open water basins, animated bubbles/steam and equivalen
   );
   assert.equal(plume.material.depthWrite, false);
   assert.equal(plume.material.uniforms.time.value, 4);
-  const fade = [...plume.geometry.attributes.steamOpacity.array];
-  assert.ok(fade.every((v) => v >= 0 && v <= 1));
-  assert.ok(
-    Math.max(...fade) > 0.9,
-    "visible steam fades naturally during ascent",
-  );
-  assert.ok(
-    steam.some(
-      (m, i) =>
-        JSON.stringify([...m.instanceMatrix.array]) !==
-        JSON.stringify(before[i]),
+  const phases = [...plume.geometry.attributes.steamPhase.array];
+  assert.equal(new Set(phases).size, SPA_STEAM_PUFFS);
+  assert.ok(phases.every((v) => v >= 0 && v < 1));
+  assert.equal(steam[1].userData.particleClock.value, 4);
+  steam.forEach((m, i) =>
+    assert.deepEqual(
+      [...m.instanceMatrix.array],
+      before[i],
+      "GPU animation never reuploads instance matrices",
     ),
+  );
+  a.userData.update(8);
+  assert.equal(plume.material.uniforms.time.value, 8);
+  a.userData.update(12, true);
+  assert.equal(
+    plume.material.uniforms.time.value,
+    0,
+    "reduced motion keeps a static plume",
   );
   const geometry = (root) => {
     const meshes = [];

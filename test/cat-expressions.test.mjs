@@ -16,12 +16,17 @@ import {
 } from "../public/cat-emotions.js";
 import { ADOPTION_CATS, catAppearance } from "../public/cat-breeds.js";
 
-test("both neighbour eye backings match the coat rather than exposing a black socket wedge", () => {
-  for (const profile of ADOPTION_CATS) {
-    const cat = createCat("happy", {
-      ...catAppearance(profile),
-      detail: "npc",
-    });
+test("both Chichi and neighbour eye backings match their coat instead of exposing a black socket wedge", () => {
+  for (const profile of [null, ...ADOPTION_CATS]) {
+    const cat = createCat(
+      "happy",
+      profile
+        ? {
+            ...catAppearance(profile),
+            detail: "npc",
+          }
+        : {},
+    );
     cat.updateMatrixWorld(true);
     for (const eye of cat.userData.eyes) {
       const globe = eye.children[0],
@@ -33,23 +38,63 @@ test("both neighbour eye backings match the coat rather than exposing a black so
           new THREE.Vector3(0, 0, 1).transformDirection(globe.matrixWorld),
         ),
         hit = ray.intersectObject(backing, false)[0];
-      assert.ok(hit, profile.id);
+      assert.ok(hit, profile?.id || "Chichi");
       const colors = backing.geometry.attributes.color,
-        tint = new THREE.Color()
-          .fromBufferAttribute(colors, hit.face.a)
-          .multiply(backing.material.color),
-        coat = new THREE.Color(profile.color);
+        tint = (
+          colors
+            ? new THREE.Color().fromBufferAttribute(colors, hit.face.a)
+            : new THREE.Color(0xffffff)
+        ).multiply(backing.material.color),
+        coat = new THREE.Color(cat.userData.appearance.color);
       // Crowd attributes use half floats; allow their existing quantisation.
       assert.ok(
         Math.abs(tint.r - coat.r) +
           Math.abs(tint.g - coat.g) +
           Math.abs(tint.b - coat.b) <
           0.002,
-        profile.id,
+        profile?.id || "Chichi",
       );
     }
     disposeCat(cat);
   }
+});
+test("Chichi's real continuous chin is furry, with no smooth cap covering it", () => {
+  const cat = createCat(),
+    face = cat.getObjectByName("Face"),
+    fur = cat.getObjectByName("CheekFluff");
+  assert.equal(cat.getObjectByName("Chin").visible, false);
+  assert.ok(fur.visible);
+  cat.updateMatrixWorld(true);
+  for (const x of [-0.08, 0, 0.08]) {
+    const origin = cat.userData.head.localToWorld(
+        new THREE.Vector3(x, -0.28, 1),
+      ),
+      ray = new THREE.Raycaster(
+        origin,
+        new THREE.Vector3(0, 0, -1).transformDirection(
+          cat.userData.head.matrixWorld,
+        ),
+      );
+    assert.ok(
+      ray.intersectObject(face, false).length,
+      "the original sculpt contains the chin surface",
+    );
+  }
+  const p = fur.geometry.attributes.position;
+  let chinHairVertices = 0;
+  for (let i = 0; i < p.count; i++)
+    if (
+      p.getY(i) < -0.22 &&
+      p.getY(i) > -0.35 &&
+      Math.abs(p.getX(i)) < 0.12 &&
+      p.getZ(i) > 0.38
+    )
+      chinHairVertices++;
+  assert.ok(
+    chinHairVertices > 100,
+    "existing groomed strands cover the chin rather than a smooth cap",
+  );
+  disposeCat(cat);
 });
 
 test("tongues stay inside the mouth through jaw opening, mood transitions and every breed", () => {
@@ -116,6 +161,7 @@ test("expressions never accumulate, disturb sleep, or keep moving after reduced 
   const cat = createCat();
   animateCat(cat, 0);
   emoteCat(cat, "affectionate");
+  animateCat(cat, 0);
   animateCat(cat, 1.4);
   assert.ok(cat.userData.eyes[0].scale.y < 0.05);
   animateCat(cat, 1.4);
@@ -135,5 +181,18 @@ test("expressions never accumulate, disturb sleep, or keep moving after reduced 
   emoteCat(neighbor, "delighted");
   assert.equal(neighbor.userData.expression, undefined);
   disposeCat(neighbor);
+  disposeCat(cat);
+});
+test("a reaction begins on its first drawn frame rather than expiring during a loading pause", () => {
+  const cat = createCat();
+  animateCat(cat, 1);
+  emoteCat(cat, "curious");
+  animateCat(cat, 31);
+  assert.equal(cat.userData.expression.start, 31);
+  for (let i = 1; i <= 84; i++) animateCat(cat, 31 + i / 60);
+  assert.ok(
+    cat.userData.expressionFrame.tilt > 0.15,
+    "the full reaction plays after resuming",
+  );
   disposeCat(cat);
 });

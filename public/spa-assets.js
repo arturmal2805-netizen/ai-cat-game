@@ -3,6 +3,7 @@ import { shape, line, lantern } from "./fantasy-scenery.js";
 import { createCat, animateCat, reactCat } from "./cat-model.js";
 import { catAppearance } from "./cat-breeds.js";
 import { batchModelGeometry } from "./model-batching.js";
+import { SPA_DRINKS } from "./spa-data.js";
 function mergeFurniture(group) {
   const merged = batchModelGeometry(group, { combineColors: true });
   group.traverse((o) => {
@@ -42,7 +43,8 @@ function lettering(text, width, height) {
 export function spaCup(color = 0xfff2da) {
   const g = new THREE.Group();
   shape(g, "pole", 0xfaf1e5, 0, 0.19, 0, 0.13, 0.34, 0.13);
-  shape(g, "pole", color, 0, 0.37, 0, 0.115, 0.025, 0.115);
+  const liquid = shape(g, "pole", color, 0, 0.37, 0, 0.115, 0.025, 0.115);
+  liquid.name = "SPA drink liquid";
   line(g, [0.04, 0.38, 0], [0.07, 0.66, 0.02], 0xf3a9c3, 0.018);
   cushion(g, -0.08, 0.4, 0.02, 0.08, 0.025, 0.08, 0xd5b5ed);
   return g;
@@ -141,6 +143,9 @@ export function spaBar({ preview = false } = {}) {
       0.08,
     );
   shape(g, "cube", 0xf0d3a3, 0, 2.03, 0, 8, 0.2, 2.2);
+  // A front serving perch keeps the resident seller clear of the canopy and
+  // counter from the game's high camera, including on a portrait phone.
+  shape(g, "cube", 0xf0d3a3, 0, 2.03, 1.3, 1.8, 0.2, 1.4);
   for (const x of [-3.65, 3.65])
     for (const z of [-2, 0.2]) line(g, [x, 0.2, z], [x, 4.7, z], 0xb28a5c, 0.1);
   for (let i = 0; i < 12; i++) {
@@ -203,7 +208,7 @@ export function spaBar({ preview = false } = {}) {
     sign.position.set(0, 1.05, 1.09);
     g.add(sign);
   }
-  if (!preview) {
+  {
     const cat = createCat("happy", {
       detail: "npc",
       ...catAppearance({
@@ -212,24 +217,80 @@ export function spaBar({ preview = false } = {}) {
         eyeColor: 0x8fc7b3,
       }),
     });
-    cat.scale.setScalar(0.62);
+    cat.scale.setScalar(0.86);
     cat.name = "SPA barista";
     const platform = new THREE.Group();
     platform.name = "SPA barista platform";
-    platform.position.set(0, 1.9, -1);
+    platform.position.set(0, 2.13, 1.25);
     platform.add(cat);
     g.add(platform);
-    shape(cat, "sphere", 0xb4d7c9, 0, 0.55, 0.4, 0.31, 0.32, 0.06);
+    const cloth = new THREE.MeshStandardMaterial({
+        color: 0xb4d7c9,
+        roughness: 0.9,
+      }),
+      apron = new THREE.Mesh(new THREE.SphereGeometry(1, 12, 8), cloth),
+      cap = new THREE.Mesh(
+        new THREE.SphereGeometry(1, 16, 10),
+        new THREE.MeshStandardMaterial({ color: 0xfff4df, roughness: 0.92 }),
+      );
+    apron.position.set(0, 0.79, 0.43);
+    apron.scale.set(0.28, 0.3, 0.06);
+    cat.add(apron);
+    cap.position.set(0, 0.45, -0.06);
+    cap.scale.set(0.25, 0.095, 0.19);
+    cat.userData.head.add(cap);
+    const servingCup = spaCup(),
+      liquid = servingCup.getObjectByName("SPA drink liquid");
+    liquid.material = liquid.material.clone();
+    servingCup.visible = false;
+    servingCup.name = "SPA bartender serving drink";
+    g.add(servingCup);
+    g.userData.vendorId = "spa-barista-murko";
+    g.userData.vendorName = "Мурко";
     g.userData.update = (time, reduced) => {
       animateCat(cat, time, false, reduced);
-      if (time - (g.userData.lastServiceTime || -100) < 2)
+      const order = g.userData.servingVisit,
+        serving = order?.phase === "relax" && order.elapsed < 4.1,
+        elapsed = serving ? order.elapsed : 0,
+        handover = THREE.MathUtils.smoothstep(elapsed, 3.2, 4.1);
+      g.userData.servicePhase = serving
+        ? handover > 0
+          ? "handover"
+          : "prepare"
+        : "idle";
+      servingCup.visible = serving;
+      if (serving) {
+        const color =
+          SPA_DRINKS.find((d) => d.id === order.drinkId)?.color ?? 0xfff2da;
+        liquid.material.color.set(color);
+        servingCup.position.set(
+          0.65 + (order.seat.x - 9.2 - 0.65) * handover,
+          2.35 - handover * 0.45,
+          1.85 + handover * 2.95,
+        );
+        servingCup.rotation.z = reduced
+          ? 0
+          : Math.sin(time * 5) * 0.06 * (1 - handover);
         reactCat(
           cat,
-          { paw: 0.3 + Math.sin(time * 4) * 0.15, headPitch: 0.12 },
+          {
+            paw: 0.25 + (reduced ? 0 : Math.sin(time * 4) * 0.12),
+            headPitch: 0.09,
+          },
           reduced,
         );
-      cat.userData.head.rotation.y = reduced ? 0 : Math.sin(time * 0.45) * 0.18;
+      }
+      cat.userData.head.rotation.y += serving
+        ? THREE.MathUtils.clamp(
+            Math.atan2(order.seat.x - 9.2, 5) * 0.6,
+            -0.4,
+            0.4,
+          )
+        : reduced
+          ? 0
+          : Math.sin(time * 0.45) * 0.18;
     };
+    g.userData.update(0, true);
   }
   g.userData.id = "cat-barista";
   g.userData.handpainted = true;

@@ -67,7 +67,9 @@ export function emoteCat(cat, name) {
     throw new RangeError("Unknown cat expression");
   const d = cat.userData;
   if (!d.reference) return;
-  d.expression = { name, start: d.lastTime };
+  // Start at the next animated frame. A slow first load or returning from a
+  // background tab must not consume the reaction before the player can see it.
+  d.expression = { name, start: null };
   d.expressionIdleStart = d.lastTime;
 }
 // 180 ms blinks, 4.8 seconds apart. Sleeping eyes remain gently closed.
@@ -274,6 +276,7 @@ export function reactCat(cat, reaction, reduced = false) {
   d.body.scale.y *= 1 - crouch;
   d.head.position.y -= crouch * 0.5;
   d.head.rotation.x += (reaction.headPitch || 0) - paw * 0.13;
+  d.head.rotation.z += reaction.headRoll || 0;
   for (const leg of d.legs)
     if (leg.position.z > 0) {
       leg.rotation.x -= paw * (leg.position.x < 0 ? 1.1 : 0.65);
@@ -284,7 +287,7 @@ export function reactCat(cat, reaction, reduced = false) {
     joints.knee.rotation.x += crouch * 0.85 + paw * 0.28;
     joints.ankle.rotation.x -= crouch * 0.35 + paw * 0.12;
   }
-  d.ears[0].rotation.x -= paw * 0.08;
-  d.ears[1].rotation.x -= paw * 0.08;
-  d.tail.rotation.z += paw * 0.13;
+  d.ears[0].rotation.x += (reaction.earRelax || 0) - paw * 0.08;
+  d.ears[1].rotation.x += (reaction.earRelax || 0) - paw * 0.08;
+  d.tail.rotation.z += paw * 0.13 + (reaction.tailSway || 0);
 }

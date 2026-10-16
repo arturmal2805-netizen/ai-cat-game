@@ -20,6 +20,7 @@ import { byScenery, sceneryFootprint } from "./scenery-data.js";
 import { byItem } from "./game-data.js";
 import { junglePlant, jungleFlowers } from "./jungle-props.js";
 import { spaLounge, spaBar, spaSign, umbrella } from "./spa-assets.js";
+import { createJacuzziEffects } from "./spa-effects.js";
 function release(root) {
   if (!root) return;
   disposeScenery(root);
@@ -51,103 +52,6 @@ function terrain() {
   geo.rotateX(-Math.PI / 2);
   geo.translate(0, -0.15, 0);
   return geo;
-}
-function steamAndBubbles(parent) {
-  const geo = new THREE.SphereGeometry(1, 8, 6),
-    bubbleMat = new THREE.MeshStandardMaterial({
-      color: 0xedffef,
-      transparent: true,
-      opacity: 0.48,
-      roughness: 0.25,
-      depthWrite: false,
-    });
-  const steamOpacity = new THREE.InstancedBufferAttribute(
-      new Float32Array(8),
-      1,
-    ),
-    steamGeo = new THREE.PlaneGeometry(1, 1);
-  steamGeo.setAttribute("steamOpacity", steamOpacity);
-  const bubbles = new THREE.InstancedMesh(geo, bubbleMat, 24),
-    steam = new THREE.InstancedMesh(
-      steamGeo,
-      new THREE.ShaderMaterial({
-        transparent: true,
-        depthWrite: false,
-        uniforms: { time: { value: 0 } },
-        vertexShader: `
-          attribute float steamOpacity;
-          varying vec2 steamUv;
-          varying float fade;
-          void main() {
-            steamUv=uv; fade=steamOpacity;
-            vec4 center=modelViewMatrix*instanceMatrix*vec4(0.,0.,0.,1.);
-            center.xy+=position.xy*vec2(length(instanceMatrix[0].xyz),length(instanceMatrix[1].xyz));
-            gl_Position=projectionMatrix*center;
-          }`,
-        fragmentShader: `
-          uniform float time;
-          varying vec2 steamUv;
-          varying float fade;
-          void main() {
-            vec2 p=steamUv-.5;
-            p.x+=sin(p.y*8.+time*.6)*.045;
-            float soft=1.-smoothstep(.08,.5,length(p));
-            gl_FragColor=vec4(1.,.97,.91,soft*fade*.42);
-            #include <tonemapping_fragment>
-            #include <colorspace_fragment>
-          }`,
-      }),
-      8,
-    ),
-    dummy = new THREE.Object3D();
-  bubbles.frustumCulled = steam.frustumCulled = false;
-  bubbles.name = "SPA jacuzzi bubbles";
-  steam.name = "SPA warm rising steam";
-  bubbles.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
-  steam.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
-  steamOpacity.setUsage(THREE.DynamicDrawUsage);
-  parent.add(bubbles, steam);
-  const animation = {
-    userData: {
-      update(time, reduced = false) {
-        const t = reduced ? 0 : time;
-        steam.material.uniforms.time.value = t;
-        for (let i = 0; i < 24; i++) {
-          const a = i * 2.399,
-            r = 0.4 + (i % 5) * 0.43,
-            h = (t * 0.23 + i * 0.14) % 1;
-          dummy.position.set(
-            14.1 + Math.sin(a) * r,
-            0.4 + h * 0.2,
-            4.5 + Math.cos(a) * r,
-          );
-          dummy.scale.setScalar(0.03 + Math.sin(h * Math.PI) * 0.06);
-          dummy.updateMatrix();
-          bubbles.setMatrixAt(i, dummy.matrix);
-        }
-        for (let i = 0; i < 8; i++) {
-          const a = i * 2.399,
-            h = (t * 0.15 + i / 8) % 1;
-          dummy.position.set(
-            SPA_JACUZZI.x +
-              Math.sin(a) * 1.4 +
-              Math.sin(t * 0.3 + i) * h * 0.35,
-            0.75 + h * 2.5,
-            SPA_JACUZZI.z + Math.cos(a) * 1.4,
-          );
-          dummy.scale.set(0.95 + h * 1.1, 1.1 + h * 2, 1);
-          dummy.updateMatrix();
-          steam.setMatrixAt(i, dummy.matrix);
-          steamOpacity.setX(i, Math.sin(Math.PI * h) ** 0.7);
-        }
-        steamOpacity.needsUpdate = true;
-        bubbles.instanceMatrix.needsUpdate =
-          steam.instanceMatrix.needsUpdate = true;
-      },
-    },
-  };
-  animation.userData.update(0);
-  return animation;
 }
 export function* spaBiomeSteps(
   biome,
@@ -311,7 +215,7 @@ export function* spaBiomeSteps(
     });
     fall.position.y += 1.7;
     detail.add(fall);
-    animations.push(fall, steamAndBubbles(detail));
+    animations.push(fall, createJacuzziEffects(detail));
     spaSign(props);
     // A generous path leads through the gate; the planted beds stay beside it.
     for (let i = 0; i < 6; i++) {

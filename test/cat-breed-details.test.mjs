@@ -54,9 +54,10 @@ function fingerprint(cat, { ignoreEyeBacking = false } = {}) {
 }
 
 // Frozen before this update: includes every vertex, hair, colour, material and
-// rig transform. Restore only the deliberately corrected tongue anchor before
-// comparing: the approved sculpt, eyes, coat and every other transform stay exact.
-test("Chichi's approved model stays byte-identical apart from the corrected tongue anchor", () => {
+// rig transform. Normalise only the explicitly requested fixes: tongue anchor,
+// eye backing colour and redundant chin cap visibility. Everything else must
+// still match the original approved sculpt, including every hair and iris.
+test("Chichi stays byte-identical outside her repaired eye backings, chin cap and tongue anchor", () => {
   const expected = {
     sleep: "b00d4b1d701495eb26bd05a333c9a63531cb2711859f7aa3f8edab6824c1ac39",
     "crazy hungry":
@@ -66,9 +67,27 @@ test("Chichi's approved model stays byte-identical apart from the corrected tong
   for (const [mood, hash] of Object.entries(expected)) {
     const cat = createCat(mood);
     cat.userData.tongue.position.set(0, 0.018, 0.112);
+    cat.getObjectByName("Chin").visible = true;
+    const backingMaterial = cat.getObjectByName("EyeRim-1").material;
+    for (const side of [-1, 1])
+      cat.getObjectByName("EyeRim" + side).material =
+        cat.userData.mouth.material;
+    backingMaterial.dispose();
     assert.equal(fingerprint(cat), hash, mood);
     disposeCat(cat);
   }
+});
+test("all 35 approved neighbour models remain byte-identical during Chichi's face repair", () => {
+  const hash = createHash("sha256");
+  for (const profile of ADOPTION_CATS) {
+    const cat = createCat("happy", catAppearance(profile));
+    hash.update(profile.id).update(fingerprint(cat));
+    disposeCat(cat);
+  }
+  assert.equal(
+    hash.digest("hex"),
+    "6a7afee7cc49b384770a58e8d95d9d8c4c4a020da4f143d14332a75afd546f05",
+  );
 });
 
 test("approved Cloudberry and Nimbus keep their model outside the repaired eye backing and tongue anchor", () => {

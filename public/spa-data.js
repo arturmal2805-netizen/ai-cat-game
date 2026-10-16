@@ -110,7 +110,7 @@ export const SPA_SEATS = {
       x: 14.1 + Math.sin(a) * 1.8,
       z: 4.5 + Math.cos(a) * 1.8,
       y: 0.02,
-      yaw: a + Math.PI,
+      yaw: a,
     };
   }),
   "spa-bar": [5.9, 8.1, 10.3, 12.5].map((x) => ({

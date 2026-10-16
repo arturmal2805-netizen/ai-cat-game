@@ -158,6 +158,7 @@ export function createSpaRuntime({
     return [point(s.x, -6.4), { ...s }];
   }
   function step(dt, time, external = []) {
+    if (!visits.size) return;
     const agents = [...visits.values()];
     for (const v of agents) {
       v.walking = false;
@@ -271,6 +272,19 @@ export function createSpaRuntime({
           v.reaction = {
             headPitch: v.drinking ? 0.18 + Math.sin(time * 3) * 0.05 : 0,
             paw: v.drinking ? 0.32 : 0,
+          };
+        } else if (v.objectId === "spa-jacuzzi") {
+          const warmth = Math.min(1, v.elapsed / 1.2),
+            sway = reduced ? 0 : Math.sin(time * 0.8 + v.seatIndex);
+          v.position.y += reduced
+            ? 0
+            : Math.sin(time * 1.5 + v.seatIndex) * 0.025;
+          v.reaction = {
+            headPitch: 0.08 + sway * 0.025 * warmth,
+            headRoll: sway * 0.045 * warmth,
+            crouch: 0.03,
+            earRelax: -0.04 * warmth,
+            tailSway: sway * 0.035 * warmth,
           };
         } else {
           v.position.y += reduced

@@ -3,6 +3,7 @@ import { RENEWED_ISLANDS } from "./renewal-data.js";
 import { islandHeight } from "./renewed-biomes.js";
 import { capybaraDryPoint } from "./capybara-data.js";
 import { createChichiCamera } from "./chichi-camera.js";
+import { placeWorldBadge } from "./world-hud.js";
 import { islandProjectModel } from "./island-project-model.js";
 import { islandObjects } from "./world-objects.js";
 import { swimFrame } from "./swimming.js";
@@ -10,7 +11,13 @@ import { activeCats } from "./cat-roster.js";
 import { catAppearance } from "./cat-breeds.js";
 import { watchWorldViewport } from "./world-viewport.js";
 import { incomeFor, businessVenues } from "./business.js";
-import { spaObject, SPA_GATE, SPA_ENTRANCES, SPA_DRINKS } from "./spa-data.js";
+import {
+  spaObject,
+  SPA_GATE,
+  SPA_ENTRANCES,
+  SPA_DRINKS,
+  SPA_JACUZZI,
+} from "./spa-data.js";
 import { spaWalkable, nearestSpaGround } from "./spa-navigation.js";
 import { createSpaRuntime } from "./spa-runtime.js";
 import { spaLounge, spaBar, spaCup } from "./spa-assets.js";
@@ -822,9 +829,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
         });
       model.scale.setScalar(0.63 * (profile.size || 1));
       carrier.add(model);
+      let hatRig;
       if (profile.hat) {
+        hatRig = new THREE.Group();
+        carrier.add(hatRig);
         const hat = primitive(
-          carrier,
+          hatRig,
           new THREE.ConeGeometry(0.33, 0.65, 8),
           0x6f638b,
           0,
@@ -832,7 +842,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           0.2,
         );
         primitive(
-          carrier,
+          hatRig,
           new THREE.CylinderGeometry(0.48, 0.48, 0.04, 18),
           0x6f638b,
           0,
@@ -859,7 +869,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           carrier.position.set(b.center[0] + dry.x, 0.16, b.center[1] + dry.z);
       }
       scene.add(carrier);
-      npcs.set(profile.id, { carrier, model, profile, index });
+      npcs.set(profile.id, { carrier, model, profile, index, hatRig });
     }
     const activeIds = new Set(activeCats(game).map((c) => c.id));
     for (const [id, n] of npcs)
@@ -1838,6 +1848,20 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (close) ensureDetail(b.id);
       if (!dialogOpen) island.userData.update?.(time, reduced);
     }
+    const spaBarGroup = itemGroups.get("spa-bar");
+    if (spaBarGroup) {
+      let servingVisit = null;
+      for (const visit of spa.visits.values())
+        if (
+          visit.objectId === "spa-bar" &&
+          visit.phase === "relax" &&
+          visit.elapsed < 4.1
+        ) {
+          servingVisit = visit;
+          break;
+        }
+      spaBarGroup.userData.servingVisit = servingVisit;
+    }
     for (const g of itemGroups.values())
       if (!reduced && !dialogOpen) animateAttraction(g, time);
     if (preview && !reduced) animateAttraction(preview, time);
@@ -1859,10 +1883,26 @@ export function createWorld(container, initialGame, callbacks = {}) {
           v.phase === "relax" &&
           ["spa-lounge", "spa-jacuzzi"].includes(v.objectId),
         mood = resting ? "sleep" : "happy";
+      // Every size rests with its face above the warm surface. In particular,
+      // small neighbours must not disappear when the sleeping rig curls down.
+      const d = model.userData,
+        restingHead =
+          ((d.anatomy?.headY ?? 1.25) + (d.build.height - 1) * 0.22 - 0.375) *
+          model.scale.x *
+          0.7,
+        lift =
+          resting && v.objectId === "spa-jacuzzi"
+            ? Math.max(
+                0,
+                SPA_JACUZZI.y + 0.155 + 0.19 - (v.seat.y + restingHead),
+              )
+            : 0;
+      v.visualLift =
+        (v.visualLift || 0) +
+        (lift - (v.visualLift || 0)) * (reduced ? 1 : 1 - Math.exp(-dt * 5));
+      carrier.position.y += v.visualLift;
       if (model.userData.mood !== mood)
         setCatMood(model, mood, { immediate: reduced });
-      if (v.objectId === "spa-bar" && v.phase === "relax")
-        itemGroups.get("spa-bar").userData.lastServiceTime = time;
       if (v.drinking) {
         let cup = spaCups.get(v.catId);
         if (!cup) {
@@ -2240,6 +2280,20 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (near && !dialogOpen) {
         animateCat(n.model, time + n.index, npcWalking, reduced);
         if (npcReaction) reactCat(n.model, npcReaction, reduced);
+        if (n.hatRig) {
+          const resting =
+              spaVisit?.phase === "relax" &&
+              ["spa-lounge", "spa-jacuzzi"].includes(spaVisit.objectId),
+            targetY = resting
+              ? (n.model.userData.head.position.y +
+                  n.model.userData.head.scale.y * 0.4) *
+                  n.model.scale.y -
+                1.3
+              : 0;
+          n.hatRig.position.y +=
+            (targetY - n.hatRig.position.y) *
+            (reduced ? 1 : 1 - Math.exp(-dt * 6));
+        }
       }
     }
     npcMarkers.instanceMatrix.needsUpdate = true;
@@ -2589,13 +2643,22 @@ export function createWorld(container, initialGame, callbacks = {}) {
     for (const [id, button] of incomeButtons) {
       const object = itemGroups.get(id),
         amount = incomeCache.get(id) || 0;
-      button.hidden = !object || !amount || distance > 110;
-      if (button.hidden) continue;
+      if (!object || !amount || distance > 110) {
+        placeWorldBadge(button, true);
+        continue;
+      }
       const point = hudPoint.copy(object.position);
       point.y += 3.6;
       point.project(camera);
-      button.hidden =
+      const hidden =
         point.z > 1 || Math.abs(point.x) > 1.1 || Math.abs(point.y) > 1.1;
+      placeWorldBadge(
+        button,
+        hidden,
+        ((point.x + 1) * width) / 2,
+        ((1 - point.y) * height) / 2,
+      );
+      if (hidden) continue;
       const text = "✦ " + amount;
       if (button.textContent !== text) {
         button.textContent = text;
@@ -2607,7 +2670,6 @@ export function createWorld(container, initialGame, callbacks = {}) {
             byItem(object.userData.placement.item).name,
         );
       }
-      button.style.transform = `translate(-50%,-50%) translate(${((point.x + 1) * width) / 2}px,${((1 - point.y) * height) / 2}px)`;
     }
     for (const [id, g] of itemGroups)
       if (
@@ -2676,12 +2738,17 @@ export function createWorld(container, initialGame, callbacks = {}) {
             Math.floor(progress) + "%",
           );
         }
-        button.style.transform = `translate(-50%,-50%) translate(${((p.x + 1) * width) / 2}px,${((1 - p.y) * height) / 2}px)`;
-        button.hidden =
+        const hidden =
           p.z > 1 ||
           Math.abs(p.x) > 0.98 ||
           Math.abs(p.y) > 0.94 ||
           distance > 170;
+        placeWorldBadge(
+          button,
+          hidden,
+          ((p.x + 1) * width) / 2,
+          ((1 - p.y) * height) / 2,
+        );
       }
     sun.position.set(look.x - 14, 35, look.z + 20);
     sun.target.position.copy(look);

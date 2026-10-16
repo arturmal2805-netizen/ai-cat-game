@@ -403,6 +403,21 @@ async function localWorker() {
         () => __lagoonQA.cat.userData.mood === "happy",
       );
       await page.evaluate(() => {
+        __lagoonQA.spa.get("chichi").elapsed = 1.5;
+      });
+      await page.waitForFunction(() => {
+        const bar = __lagoonQA.itemGroups.get("spa-bar");
+        return (
+          bar.userData.vendorId === "spa-barista-murko" &&
+          bar.userData.servicePhase === "prepare" &&
+          bar.getObjectByName("SPA bartender serving drink").visible
+        );
+      });
+      await page.screenshot({
+        path: review + "/barista-serving-phone.png",
+        timeout: 90000,
+      });
+      await page.evaluate(() => {
         const v = __lagoonQA.spa.get("chichi");
         v.elapsed = 5;
       });
@@ -533,6 +548,57 @@ async function localWorker() {
       await page.waitForFunction(
         () => Math.abs(__lagoonQA.getDistance() - 26) < 0.1,
       );
+      const restingNpc = await page.evaluate(() => {
+        const q = __lagoonQA,
+          entry = [...q.npcs.entries()]
+            .filter(([, n]) => n.profile.biome === "water")
+            .sort((a, b) => a[1].model.scale.x - b[1].model.scale.x)[0];
+        if (!entry) throw Error("No test SPA resident");
+        const [id, n] = entry;
+        q.spa.clear();
+        const v = q.spa.start({
+          catId: id,
+          objectId: "spa-jacuzzi",
+          position: { x: 0, y: 0.16, z: 15.6 },
+          radius: 0.5,
+        });
+        if (!v) throw Error("Resident jacuzzi route unavailable");
+        for (let f = 0; f < 6000 && v.phase !== "relax"; f++)
+          q.spa.step(1 / 30, performance.now() / 1000);
+        if (v.phase !== "relax") throw Error("Resident did not enter jacuzzi");
+        v.elapsed = 3;
+        return id;
+      });
+      await page.waitForFunction(
+        (id) => {
+          const q = __lagoonQA,
+            n = q.npcs.get(id),
+            v = q.spa.get(id);
+          if (
+            !v ||
+            n.model.userData.mood !== "sleep" ||
+            n.model.userData.pose.height > 0.705 ||
+            !v.visualLift
+          )
+            return false;
+          return (
+            n.model.userData.head.getWorldPosition(new q.THREE.Vector3()).y >
+            0.59
+          );
+        },
+        restingNpc,
+        { timeout: 30000 },
+      );
+      assert.equal(
+        await page.evaluate(
+          (id) =>
+            __lagoonQA.npcs
+              .get(id)
+              .model.userData.eyes.every((e) => e.scale.y < 0.05),
+          restingNpc,
+        ),
+        true,
+      );
       await page.screenshot({ path: review + "/jacuzzi-steam-closeup.png" });
       const steamPixels = await page.evaluate(() => {
         const q = __lagoonQA,
@@ -541,7 +607,8 @@ async function localWorker() {
             .getObjectByName("SPA warm rising steam"),
           target = new q.THREE.WebGLRenderTarget(256, 512),
           before = new Uint8Array(256 * 512 * 4),
-          after = new Uint8Array(before.length);
+          after = new Uint8Array(before.length),
+          later = new Uint8Array(before.length);
         q.renderer.setRenderTarget(target);
         plume.visible = false;
         q.renderer.render(q.scene, q.camera);
@@ -549,10 +616,16 @@ async function localWorker() {
         plume.visible = true;
         q.renderer.render(q.scene, q.camera);
         q.renderer.readRenderTargetPixels(target, 0, 0, 256, 512, after);
+        const time = plume.material.uniforms.time.value;
+        plume.material.uniforms.time.value = time + 1.5;
+        q.renderer.render(q.scene, q.camera);
+        q.renderer.readRenderTargetPixels(target, 0, 0, 256, 512, later);
+        plume.material.uniforms.time.value = time;
         q.renderer.setRenderTarget(null);
         target.dispose();
-        let changed = 0;
-        for (let i = 0; i < before.length; i += 4)
+        let changed = 0,
+          moving = 0;
+        for (let i = 0; i < before.length; i += 4) {
           if (
             Math.abs(before[i] - after[i]) +
               Math.abs(before[i + 1] - after[i + 1]) +
@@ -560,11 +633,20 @@ async function localWorker() {
             3
           )
             changed++;
-        return changed;
+          if (
+            Math.abs(after[i] - later[i]) +
+              Math.abs(after[i + 1] - later[i + 1]) +
+              Math.abs(after[i + 2] - later[i + 2]) >
+            3
+          )
+            moving++;
+        }
+        return { visible: changed, moving };
       });
       assert.ok(
-        steamPixels > 50,
-        "Steam must actually be visible in the phone render: " + steamPixels,
+        steamPixels.visible > 50 && steamPixels.moving > 50,
+        "Steam must actually be visible and animated in the phone render: " +
+          JSON.stringify(steamPixels),
       );
       await page.evaluate(() => __lagoonQA.reviewView(9.2, -53, 27));
       await page.waitForFunction(
@@ -590,10 +672,15 @@ async function localWorker() {
       await page.waitForFunction(() => __lagoonQA.faceCamera.enabled);
       await page.waitForFunction(() => {
         const q = __lagoonQA;
+        const center = q.faceCamera
+          .facePoint(new q.THREE.Vector3())
+          .project(q.camera);
         return (
           q.camera.position.distanceTo(
             q.cat.userData.head.getWorldPosition(new q.THREE.Vector3()),
-          ) < 12
+          ) < 12 &&
+          Math.abs(center.x) < 0.12 &&
+          Math.abs(center.y) < 0.12
         );
       });
       await page.screenshot({ path: review + "/chichi-camera.png" });

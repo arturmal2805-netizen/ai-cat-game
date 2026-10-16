@@ -37,7 +37,7 @@ export const CAT_PORTRAITS={
   "adopt-marshmallow": "./art/cats/adopt-marshmallow.png?v=586ce9b70f79"
 };
 export const CHICHI_PORTRAITS={
-  "sleep": "./art/cats/chichi-sleep.png?v=108c3131d849",
-  "crazy hungry": "./art/cats/chichi-crazy-hungry.png?v=81f54e86b275",
-  "happy": "./art/cats/chichi-happy.png?v=8cdf0b033ac6"
+  "sleep": "./art/cats/chichi-sleep.png?v=95047622a35d",
+  "crazy hungry": "./art/cats/chichi-crazy-hungry.png?v=6fcc4005f01b",
+  "happy": "./art/cats/chichi-happy.png?v=6055d1d25c1f"
 };
