@@ -144,12 +144,17 @@ export function createSpaRuntime({
         point(14.1, 4.5, 0.02),
         { ...s },
       ];
-    if (v.objectId === "spa-lounge")
+    if (v.objectId === "spa-lounge" && s.row === 0)
+      // The back row climbs over the continuous soft backrest. Keep both
+      // directions above its top instead of walking through the cushion.
       return [
-        point(s.x, s.row === 0 ? -3.8 : 3.8, 0.35),
-        point(s.x, s.row === 0 ? -2.8 : 2.8, 0.75),
+        point(s.x, -4.2),
+        point(s.x, -3.2, 2.05),
+        point(s.x, -1.3, 2.05),
         { ...s },
       ];
+    if (v.objectId === "spa-lounge")
+      return [point(s.x, 3.8, 0.35), point(s.x, 2.8, 0.75), { ...s }];
     return [point(s.x, -6.4), { ...s }];
   }
   function step(dt, time, external = []) {

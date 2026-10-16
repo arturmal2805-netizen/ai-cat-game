@@ -188,6 +188,34 @@ test("four cats finish every facility through real approach, enter, relax and ex
     assert.equal(runtime.visits.size, 0);
   }
 });
+test("rear daybed places climb above the solid backrest on entry and exit", () => {
+  let completed = false;
+  const runtime = createSpaRuntime({ onComplete: () => (completed = true) });
+  assert.ok(
+    runtime.start({
+      catId: "chichi",
+      objectId: "spa-lounge",
+      position: { x: 0, z: 15.6, y: 0.16 },
+      now,
+    }),
+  );
+  const crossed = new Set();
+  for (let i = 0; i < 6000 && !completed; i++) {
+    runtime.step(1 / 30, i / 30);
+    const v = runtime.get("chichi");
+    if (
+      v &&
+      ["enter", "leave"].includes(v.phase) &&
+      v.position.z > -3 &&
+      v.position.z < -1.5
+    ) {
+      crossed.add(v.phase);
+      assert.ok(v.position.y > 1.8, "Clear the 1.75m backrest");
+    }
+  }
+  assert.equal(completed, true);
+  assert.deepEqual(crossed, new Set(["enter", "leave"]));
+});
 test("large cats reserve enough mattress space, bar queue is bounded and cancellation does not produce a charge", () => {
   const receipts = [],
     runtime = createSpaRuntime({ onComplete: (r) => receipts.push(r) });
