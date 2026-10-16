@@ -1,4 +1,4 @@
-// Keep the crystal save ID; only its territory, architecture and activities change.
+// Keep the dream garden save ID (sakura); only territory, art and activities change.
 export const CHILL_RADIUS = 11.65 * Math.sqrt(5);
 export const CHILL_GATE = { x: 0, z: 21.8 };
 export const CHILL_FLOOR = 0.5;
