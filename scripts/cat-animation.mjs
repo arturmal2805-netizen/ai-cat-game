@@ -18,6 +18,7 @@ export function catAnimations(model) {
     [d.tailTip, "quaternion"],
     [d.jaw, "quaternion"],
     [d.jaw, "position"],
+    [d.tongue, "position"],
     [d.mouth, "scale"],
     ...d.ears.map((n) => [n, "quaternion"]),
     ...d.eyes.map((n) => [n, "scale"]),

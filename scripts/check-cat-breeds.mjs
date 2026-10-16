@@ -36,6 +36,16 @@ window.renderCat=async(id,mood,angle=0)=>{
  const data=renderer.domElement.toDataURL(), stats={calls:renderer.info.render.calls,triangles:renderer.info.render.triangles};
  return {data,stats};
 };
+window.renderExpression=async(name)=>{
+ clear();current=make(null);scene.add(current);animateCat(current,0);
+ current.userData.expression={name,start:0};current.userData.expressionIdleStart=0;
+ animateCat(current,1.4);current.updateMatrixWorld(true);
+ const face=current.userData.head.getWorldPosition(new T.Vector3());
+ camera.aspect=1;camera.updateProjectionMatrix();camera.position.copy(face).add(new T.Vector3(.2,.12,2.45));camera.lookAt(face);
+ renderer.setPixelRatio(1);renderer.setSize(520,520);
+ await renderer.compileAsync(scene,camera);renderer.render(scene,camera);
+ return renderer.domElement.toDataURL();
+};
 window.stress=async()=>{
  clear();
  const cats=['mist','juniper','fig','cloudberry','curls','cloud'].map((id,i)=>{
@@ -112,6 +122,16 @@ try {
     console.log(name, await page.evaluate(() => stress()));
     if (name === "after") {
       const profiles = await page.evaluate(() => window.profiles);
+      for (const name of ["curious", "delighted", "affectionate", "drowsy"]) {
+        const data = await page.evaluate(
+          (name) => renderExpression(name),
+          name,
+        );
+        await fs.writeFile(
+          path.join(review, "chichi-" + name + ".png"),
+          Buffer.from(data.split(",")[1], "base64"),
+        );
+      }
       const featured = new Set([
         "adopt-fig",
         "adopt-juniper",
@@ -150,6 +170,14 @@ try {
               Buffer.from(result.data.split(",")[1], "base64"),
             );
           }
+        const closeSide = await page.evaluate(
+          (id) => renderCat(id, "crazy hungry", 0.6),
+          profile.id,
+        );
+        assert.ok(
+          closeSide.stats.calls <= 20 && closeSide.stats.triangles <= 18500,
+          profile.id + " side view",
+        );
         console.log("Verified", profile.id);
       }
       console.log(
@@ -161,7 +189,9 @@ try {
     assert.deepEqual(errors, [], "WebGL/browser errors");
     await page.close();
   }
-  console.log("Approved Chichi pixels unchanged. No shader errors.");
+  console.log(
+    "Approved neutral happy Chichi pixels unchanged. Four live expression closeups saved. No shader errors.",
+  );
 } finally {
   await browser.close();
   server.close();

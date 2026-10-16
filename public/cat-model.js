@@ -1,6 +1,11 @@
 import * as THREE from "three";
 import { createReferenceChichi } from "./chichi-model.js";
 import { CHICHI_COAT } from "./chichi-sculpt.js";
+import {
+  CAT_EXPRESSIONS,
+  EXPRESSION_DURATION,
+  expressionFrame,
+} from "./cat-emotions.js";
 export const moodNames = ["sleep", "crazy hungry", "happy"];
 export const CHICHI_FUR = CHICHI_COAT;
 const poses = {
@@ -42,11 +47,28 @@ export function createCat(mood = "happy", options = {}) {
 }
 export function setCatMood(cat, mood, { immediate = false } = {}) {
   if (!moodNames.includes(mood)) throw new RangeError("Unknown Chichi mood");
+  const changed = cat.userData.mood !== mood;
   cat.userData.mood = mood;
+  if (changed && !immediate)
+    emoteCat(
+      cat,
+      mood === "happy" ? "delighted" : mood === "sleep" ? "drowsy" : "curious",
+    );
   if (immediate) {
+    cat.userData.expression = null;
+    if (cat.userData.expressionFrame)
+      expressionFrame(null, 0, cat.userData.expressionFrame);
     Object.assign(cat.userData.pose, poses[mood]);
     applyPose(cat, 0, false, true);
   }
+}
+export function emoteCat(cat, name) {
+  if (!CAT_EXPRESSIONS.includes(name))
+    throw new RangeError("Unknown cat expression");
+  const d = cat.userData;
+  if (!d.reference) return;
+  d.expression = { name, start: d.lastTime };
+  d.expressionIdleStart = d.lastTime;
 }
 // 180 ms blinks, 4.8 seconds apart. Sleeping eyes remain gently closed.
 export function blinkOpenness(time) {
@@ -61,7 +83,8 @@ function applyPose(cat, time, walking, reduced) {
     shape = d.build,
     gaitTime = time * shape.gait,
     speed = d.mood === "crazy hungry" ? 4.8 : 1.8,
-    anatomy = d.anatomy;
+    anatomy = d.anatomy,
+    emotion = d.expressionFrame;
   cat.scale.y = cat.scale.x * p.height;
   cat.position.y =
     moving && walking ? Math.sin(gaitTime * 10) * shape.bounce : 0;
@@ -99,7 +122,7 @@ function applyPose(cat, time, walking, reduced) {
   const blink = moving ? blinkOpenness(time) : 1;
   for (let i = 0; i < 2; i++) {
     const side = i === 0 ? -1 : 1,
-      openness = p.eyes * blink;
+      openness = p.eyes * blink * (emotion?.eyes ?? 1);
     d.eyes[i].scale.set(
       openness > 0.075 ? 1 : 0.001,
       Math.max(0.025, openness),
@@ -119,10 +142,23 @@ function applyPose(cat, time, walking, reduced) {
       side * -0.26 + side * p.ears * 0.35,
     );
   }
-  d.jaw.rotation.x = p.jaw + (moving ? Math.sin(time * 3.1) * p.jaw * 0.15 : 0);
-  d.jaw.position.y = (anatomy?.jawY ?? -0.215) - p.jaw * 0.35;
-  d.mouth.scale.y = 0.001 + p.jaw * 0.29;
-  d.tongue.visible = p.jaw > 0.05;
+  const jawOpen = Math.max(p.jaw, moving ? (emotion?.blep || 0) * 0.075 : 0);
+  d.jaw.rotation.x =
+    jawOpen + (moving ? Math.sin(time * 3.1) * jawOpen * 0.15 : 0);
+  d.jaw.position.y = (anatomy?.jawY ?? -0.215) - jawOpen * 0.35;
+  d.mouth.scale.y = 0.001 + jawOpen * 0.29;
+  d.tongue.visible = jawOpen > 0.05;
+  // The tongue stays inside the mouth opening, rather than travelling down
+  // with the chin. Invert the jaw's local X rotation without matrix updates.
+  const tongueY = d.mouth.position.y - 0.006 - d.jaw.position.y,
+    tongueZ = d.mouth.position.z + 0.032 - d.jaw.position.z,
+    cos = Math.cos(d.jaw.rotation.x),
+    sin = Math.sin(d.jaw.rotation.x);
+  d.tongue.position.set(
+    0,
+    tongueY * cos + tongueZ * sin,
+    -tongueY * sin + tongueZ * cos,
+  );
   for (const [i, leg] of d.legs.entries()) {
     const phase = leg.position.x * leg.position.z > 0 ? Math.PI : 0;
     leg.rotation.x =
@@ -144,11 +180,27 @@ function applyPose(cat, time, walking, reduced) {
       joints.ankle.rotation.x = -bend * 0.55 - rest * 0.14;
     }
   }
+  if (moving && emotion) {
+    d.head.rotation.x += emotion.pitch;
+    d.head.rotation.y += emotion.turn;
+    d.head.rotation.z += emotion.tilt;
+    d.tail.rotation.z += emotion.tail;
+    for (const ear of d.ears) ear.rotation.x += emotion.ears;
+    if (!walking && d.mood !== "sleep") {
+      d.legs[1].rotation.x -= emotion.paw;
+      d.legJoints[1].knee.rotation.x += emotion.paw * 0.4;
+    }
+  }
 }
 export function animateCat(cat, time, walking = false, reduced = false) {
   const d = cat.userData;
   if (reduced) {
+    const wasAnimated = d.lastTime !== null;
+    if (d.expressionFrame) expressionFrame(null, 0, d.expressionFrame);
+    d.expression = null;
+    d.lastTime = null;
     if (
+      wasAnimated ||
       Object.keys(poses[d.mood]).some(
         (k) => Math.abs(d.pose[k] - poses[d.mood][k]) > 0.0001,
       )
@@ -160,6 +212,36 @@ export function animateCat(cat, time, walking = false, reduced = false) {
   }
   const dt = d.lastTime === null ? 1 / 60 : clamp(time - d.lastTime, 0, 0.1);
   d.lastTime = time;
+  if (d.reference) {
+    d.expressionFrame ||= {};
+    d.expressionIdleStart ??= time;
+    if (d.expression) {
+      d.expression.start ??= time;
+      if (time - d.expression.start >= EXPRESSION_DURATION) d.expression = null;
+    }
+    const idleAge = time - d.expressionIdleStart,
+      idleCycle = Math.floor(idleAge / 14),
+      idlePhase = idleAge % 14;
+    if (
+      !d.expression &&
+      !walking &&
+      d.mood === "happy" &&
+      idlePhase >= 9 &&
+      idlePhase < 9 + EXPRESSION_DURATION &&
+      d.expressionIdleCycle !== idleCycle
+    ) {
+      d.expression = {
+        name: ["curious", "affectionate", "delighted"][idleCycle % 3],
+        start: time,
+      };
+      d.expressionIdleCycle = idleCycle;
+    }
+    expressionFrame(
+      d.expression?.name,
+      d.expression ? time - d.expression.start : 0,
+      d.expressionFrame,
+    );
+  }
   const blend = 1 - Math.exp(-dt * 7);
   for (const k of Object.keys(d.pose))
     d.pose[k] += (poses[d.mood][k] - d.pose[k]) * blend;

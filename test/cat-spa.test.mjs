@@ -39,6 +39,7 @@ import { manualInteraction } from "../public/interactions.js";
 import { mergeSharedWorld } from "../shared-world.mjs";
 import { validateState, parseDecision } from "../ai.mjs";
 import { createBiomeScene, prepareBiomeScene } from "../public/biome-scenes.js";
+import { spaBar } from "../public/spa-assets.js";
 const now = Date.UTC(2026, 9, 16, 12),
   game = () => {
     const g = newGame(now);
@@ -46,6 +47,38 @@ const now = Date.UTC(2026, 9, 16, 12),
     g.business = normalizeBusiness(g.business, g, now);
     return g;
   };
+test("the SPA canopy leaves the bartender's face visible from normal high game camera angles", () => {
+  const bar = spaBar(),
+    staff = bar.getObjectByName("SPA barista");
+  assert.ok(staff);
+  // Animate first: the old animation reset the model's own Y to zero and
+  // dropped its face underneath the counter after the initial frame.
+  bar.userData.update(4);
+  bar.updateMatrixWorld(true);
+  const face = staff.userData.head.localToWorld(
+      new THREE.Vector3(0, 0.02, 0.33),
+    ),
+    furniture = bar.children.filter((o) => o.isMesh);
+  assert.ok(face.y > 2.4, "the animated bartender stays above the counter");
+  for (const position of [
+    new THREE.Vector3(0, 22, 20),
+    new THREE.Vector3(12, 24, 22),
+    new THREE.Vector3(-12, 24, 22),
+  ]) {
+    const direction = face.clone().sub(position),
+      ray = new THREE.Raycaster(
+        position,
+        direction.clone().normalize(),
+        0,
+        direction.length() - 0.03,
+      );
+    assert.equal(
+      ray.intersectObjects(furniture, false).length,
+      0,
+      "roof/sign must not hide the cat behind the bar",
+    );
+  }
+});
 test("SPA replaces the original lagoon in place, triples playable area and preserves the map arrangement", () => {
   assert.equal(BIOMES.length, 24);
   assert.equal(byBiome("water").name, "Cat SPA");
@@ -459,6 +492,21 @@ test("the actual SPA has open water basins, animated bubbles/steam and equivalen
   });
   const before = steam.map((m) => [...m.instanceMatrix.array]);
   a.userData.update(4);
+  const plume = a.getObjectByName("SPA warm rising steam");
+  assert.equal(plume.count, 8, "one small instanced steam draw");
+  assert.equal(
+    plume.geometry.index.count,
+    6,
+    "soft billboards replace solid spheres",
+  );
+  assert.equal(plume.material.depthWrite, false);
+  assert.equal(plume.material.uniforms.time.value, 4);
+  const fade = [...plume.geometry.attributes.steamOpacity.array];
+  assert.ok(fade.every((v) => v >= 0 && v <= 1));
+  assert.ok(
+    Math.max(...fade) > 0.9,
+    "visible steam fades naturally during ascent",
+  );
   assert.ok(
     steam.some(
       (m, i) =>

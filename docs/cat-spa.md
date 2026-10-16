@@ -6,13 +6,22 @@ unlock level, price and map centre stay the same. The playable radius is
 island centres, catalog products or cat designs are changed.
 
 The scene has a real opening for the main pool and a separate raised warm
-jacuzzi, entry steps, animated water, 24 bubbles and 8 faint steam puffs. One
+jacuzzi, entry steps, animated water, 24 bubbles and 8 soft rising steam puffs. One
 continuous daybed has six reservable places. The pool and jacuzzi have four
 places each; large cats reserve enough space to leave neighbouring places
 empty. Four bar stools and a three-cat queue use the same reservation system.
 Static daybed/bar geometry is merged into four material groups apiece without
 removing vertices, colours or texture maps. The scene builds cooperatively
 through the existing focus-prioritized scheduler.
+
+Steam uses eight camera-facing feathered quads in a single instanced draw,
+with a fade at both ends of its ascent. It is visible from the phone overview
+without opaque clouds hiding the cats. The live bar has a front-facing SPA BAR
+sign, drinks and the existing barista model; tapping it opens the normal drink
+choices. The preview and live scene use the same furniture asset.
+The canopy is shallow enough for the normal overhead camera to see the serving
+counter. The bartender uses a separate platform transform, so its animation's
+normal root-height reset cannot drop it underneath the counter.
 
 `spa-runtime.js` owns transient occupancy and visit phases: approach, entry,
 rest/swim/order, and exit. Dry A* routes clear the real pool/furniture footprints

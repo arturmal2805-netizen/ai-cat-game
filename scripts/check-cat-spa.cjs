@@ -169,7 +169,7 @@ async function localWorker() {
                   )
                   .replace(
                     marker,
-                    `  const qa=window.__lagoonQA={camera,look,desiredLook,renderer,islands,cat,npcs,chichiCarrier,itemGroups,THREE,pickDrop,pointer,raycaster,ground,viewport,perform,faceCamera,spa,callbacks,constructorMs:performance.now()-qaStart,focused:()=>focused,getOperation:()=>operation,isVisible:()=>worldVisible,getDistance:()=>distance,getDesiredDistance:()=>desiredDistance,frames:0,resizes:0,black:[],audit:false};
+                    `  const qa=window.__lagoonQA={camera,look,desiredLook,renderer,islands,cat,npcs,chichiCarrier,itemGroups,THREE,scene,pickDrop,pointer,raycaster,ground,viewport,perform,faceCamera,spa,callbacks,reviewView:(x,z,d)=>{desiredLook.set(x,0,z);desiredDistance=d;},constructorMs:performance.now()-qaStart,focused:()=>focused,getOperation:()=>operation,isVisible:()=>worldVisible,getDistance:()=>distance,getDesiredDistance:()=>desiredDistance,frames:0,resizes:0,black:[],audit:false};
   const draw=renderer.render.bind(renderer);renderer.render=(...args)=>{draw(...args);qa.frames++;};
   const size=renderer.setSize.bind(renderer);renderer.setSize=(...args)=>{qa.resizes++;return size(...args);};
   const audit=new MutationObserver(()=>{if(!qa.audit)return;const gl=renderer.getContext(),p=new Uint8Array(4);gl.readPixels(0,0,1,1,gl.RGBA,gl.UNSIGNED_BYTE,p);if(p[0]+p[1]+p[2]===0)qa.black.push(Array.from(p));});audit.observe(renderer.domElement,{attributes:true,attributeFilter:['width','height']});
@@ -353,7 +353,11 @@ async function localWorker() {
           () => __lagoonSaveQA.getGame().totalEarned,
         );
       await page.locator('[data-drink="berry"]').tap();
-      await page.waitForFunction(() => __lagoonQA.getOperation()?.stage === "spa" && __lagoonQA.spa.get("chichi"));
+      await page.waitForFunction(
+        () =>
+          __lagoonQA.getOperation()?.stage === "spa" &&
+          __lagoonQA.spa.get("chichi"),
+      );
       assert.equal(
         await page.evaluate(() => __lagoonSaveQA.getGame().coins),
         beforeCoins,
@@ -506,7 +510,11 @@ async function localWorker() {
             (id) => __lagoonQA.callbacks.onCatDrop({ activityId: id }),
             id,
           );
-        await page.waitForFunction(() => __lagoonQA.getOperation()?.stage === "spa" && __lagoonQA.spa.get("chichi"));
+        await page.waitForFunction(
+          () =>
+            __lagoonQA.getOperation()?.stage === "spa" &&
+            __lagoonQA.spa.get("chichi"),
+        );
         await reachPhase("relax");
         await page.screenshot({
           path: review + "/" + id + "-phone.png",
@@ -521,9 +529,73 @@ async function localWorker() {
       console.log(
         "Manual drop handler uses shared daybed and warm jacuzzi, existing sleeping pose, releases both places.",
       );
+      await page.evaluate(() => __lagoonQA.reviewView(14.1, -35.5, 26));
+      await page.waitForFunction(
+        () => Math.abs(__lagoonQA.getDistance() - 26) < 0.1,
+      );
+      await page.screenshot({ path: review + "/jacuzzi-steam-closeup.png" });
+      const steamPixels = await page.evaluate(() => {
+        const q = __lagoonQA,
+          plume = q.islands
+            .get("water")
+            .getObjectByName("SPA warm rising steam"),
+          target = new q.THREE.WebGLRenderTarget(256, 512),
+          before = new Uint8Array(256 * 512 * 4),
+          after = new Uint8Array(before.length);
+        q.renderer.setRenderTarget(target);
+        plume.visible = false;
+        q.renderer.render(q.scene, q.camera);
+        q.renderer.readRenderTargetPixels(target, 0, 0, 256, 512, before);
+        plume.visible = true;
+        q.renderer.render(q.scene, q.camera);
+        q.renderer.readRenderTargetPixels(target, 0, 0, 256, 512, after);
+        q.renderer.setRenderTarget(null);
+        target.dispose();
+        let changed = 0;
+        for (let i = 0; i < before.length; i += 4)
+          if (
+            Math.abs(before[i] - after[i]) +
+              Math.abs(before[i + 1] - after[i + 1]) +
+              Math.abs(before[i + 2] - after[i + 2]) >
+            3
+          )
+            changed++;
+        return changed;
+      });
+      assert.ok(
+        steamPixels > 50,
+        "Steam must actually be visible in the phone render: " + steamPixels,
+      );
+      await page.evaluate(() => __lagoonQA.reviewView(9.2, -53, 27));
+      await page.waitForFunction(
+        () => __lagoonQA.look.distanceTo(__lagoonQA.desiredLook) < 0.1,
+      );
+      await page.screenshot({ path: review + "/spa-bar-closeup.png" });
+      assert.equal(
+        await page.evaluate(
+          () =>
+            !!__lagoonQA.itemGroups
+              .get("spa-bar")
+              .getObjectByName("SPA bar lettering"),
+        ),
+        true,
+      );
+      console.log(
+        "Visible phone-rendered jacuzzi steam pixels:",
+        steamPixels,
+        "; live bar sign/staff present.",
+      );
       await page.locator("#care-open").tap();
       await page.locator("#chichi-camera").tap();
       await page.waitForFunction(() => __lagoonQA.faceCamera.enabled);
+      await page.waitForFunction(() => {
+        const q = __lagoonQA;
+        return (
+          q.camera.position.distanceTo(
+            q.cat.userData.head.getWorldPosition(new q.THREE.Vector3()),
+          ) < 12
+        );
+      });
       await page.screenshot({ path: review + "/chichi-camera.png" });
       await page.locator("#camera-follow-exit").tap();
       await page.setViewportSize({ width: 1280, height: 900 });

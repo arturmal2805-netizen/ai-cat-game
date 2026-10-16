@@ -16,6 +16,29 @@ function mergeFurniture(group) {
 function cushion(parent, x, y, z, sx, sy, sz, color) {
   return shape(parent, "sphere", color, x, y, z, sx, sy, sz);
 }
+function lettering(text, width, height) {
+  if (typeof document === "undefined") return null;
+  const c = document.createElement("canvas");
+  c.width = 768;
+  c.height = 192;
+  const ctx = c.getContext("2d");
+  ctx.fillStyle = "#775135";
+  ctx.font = "bold 108px Georgia";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(text, 384, 96);
+  const texture = new THREE.CanvasTexture(c);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  return new THREE.Mesh(
+    new THREE.PlaneGeometry(width, height),
+    new THREE.MeshBasicMaterial({
+      map: texture,
+      transparent: true,
+      depthWrite: false,
+      side: THREE.DoubleSide,
+    }),
+  );
+}
 export function spaCup(color = 0xfff2da) {
   const g = new THREE.Group();
   shape(g, "pole", 0xfaf1e5, 0, 0.19, 0, 0.13, 0.34, 0.13);
@@ -119,8 +142,7 @@ export function spaBar({ preview = false } = {}) {
     );
   shape(g, "cube", 0xf0d3a3, 0, 2.03, 0, 8, 0.2, 2.2);
   for (const x of [-3.65, 3.65])
-    for (const z of [-1.55, 1.35])
-      line(g, [x, 0.2, z], [x, 4.7, z], 0xb28a5c, 0.1);
+    for (const z of [-2, 0.2]) line(g, [x, 0.2, z], [x, 4.7, z], 0xb28a5c, 0.1);
   for (let i = 0; i < 12; i++) {
     const x = -3.85 + i * 0.7,
       roof = shape(
@@ -129,13 +151,13 @@ export function spaBar({ preview = false } = {}) {
         i % 2 ? 0xffe6ce : 0xf5b5c9,
         x,
         4.6,
-        0,
+        -0.9,
         0.71,
         0.16,
-        4.4,
+        2.6,
       );
     roof.rotation.x = 0.13;
-    cushion(g, x, 4.22, 2.1, 0.35, 0.24, 0.1, i % 2 ? 0xffe6ce : 0xf5b5c9);
+    cushion(g, x, 4.22, 0.4, 0.35, 0.24, 0.1, i % 2 ? 0xffe6ce : 0xf5b5c9);
   }
   for (let i = 0; i < 4; i++) {
     const x = -3.3 + i * 2.2;
@@ -157,12 +179,30 @@ export function spaBar({ preview = false } = {}) {
   }
   for (let i = 0; i < 5; i++) {
     const x = -2.8 + i * 1.35;
-    line(g, [x, 4.5, 1.5], [x, 4.05, 1.5], 0xa3845d, 0.02);
-    cushion(g, x, 3.98, 1.5, 0.13, 0.18, 0.13, 0xffdc88);
+    line(g, [x, 4.5, 0.1], [x, 4.05, 0.1], 0xa3845d, 0.02);
+    cushion(g, x, 3.98, 0.1, 0.13, 0.18, 0.13, 0xffdc88);
   }
   lantern(g, -3.75, 2.1, 0.6, 0.45);
   lantern(g, 3.75, 2.1, 0.6, 0.45);
+  // A broad front-facing shop sign and a milk/cocktail display make this a
+  // recognisable bar even when the entire large island fits a phone screen.
+  // The normal high game camera must see the bartender and serving top:
+  // keep the shallow canopy behind them and the sign below the counter.
+  shape(g, "cube", 0xb58a62, 0, 1.05, 0.94, 5.3, 0.95, 0.18);
+  shape(g, "cube", 0xffe4ce, 0, 1.05, 1.05, 5.08, 0.75, 0.06);
+  for (const side of [-1, 1]) {
+    const display = spaCup(side < 0 ? 0xfff2da : 0xf1adc7);
+    display.position.set(side * 2.9, 2.14, 0.5);
+    display.scale.setScalar(1.4);
+    g.add(display);
+  }
   mergeFurniture(g);
+  const sign = lettering("SPA · BAR", 4.7, 0.74);
+  if (sign) {
+    sign.name = "SPA bar lettering";
+    sign.position.set(0, 1.05, 1.09);
+    g.add(sign);
+  }
   if (!preview) {
     const cat = createCat("happy", {
       detail: "npc",
@@ -173,8 +213,12 @@ export function spaBar({ preview = false } = {}) {
       }),
     });
     cat.scale.setScalar(0.62);
-    cat.position.set(0, 1.5, -1);
-    g.add(cat);
+    cat.name = "SPA barista";
+    const platform = new THREE.Group();
+    platform.name = "SPA barista platform";
+    platform.position.set(0, 1.9, -1);
+    platform.add(cat);
+    g.add(platform);
     shape(cat, "sphere", 0xb4d7c9, 0, 0.55, 0.4, 0.31, 0.32, 0.06);
     g.userData.update = (time, reduced) => {
       animateCat(cat, time, false, reduced);

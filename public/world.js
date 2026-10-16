@@ -28,6 +28,7 @@ import {
   animateCat,
   reactCat,
   setCatMood,
+  emoteCat,
   disposeCat,
   moodNames,
 } from "./cat-model.js";
@@ -966,6 +967,17 @@ export function createWorld(container, initialGame, callbacks = {}) {
     if (cat.userData.mood === mood) return;
     setCatMood(cat, mood, { immediate: reduced });
   }
+  function choiceExpression(decision) {
+    if (!reduced && decision.mood === "happy")
+      emoteCat(
+        cat,
+        decision.action === "meet"
+          ? "affectionate"
+          : decision.action === "ride" || decision.action === "eat"
+            ? "delighted"
+            : "curious",
+      );
+  }
   function perform(decision) {
     heroGather = null;
     socialGlow.visible = false;
@@ -981,6 +993,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       operation = null;
     }
     switchMood(decision.mood);
+    choiceExpression(decision);
     const attraction = decision.activityId
       ? itemGroups.get(decision.activityId)
       : null;
@@ -2276,6 +2289,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         chichiCarrier.rotation.y = Math.atan2(d.x, d.z);
         walking = p < 1;
         if (p === 1) {
+          choiceExpression(op.decision);
           if (op.spa) {
             startHeroSpa(op);
           } else op.stage = "activity";
@@ -2513,6 +2527,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         }
         if (elapsed > 1 && !op.reacted && action === "ride") {
           op.reacted = true;
+          if (!reduced) emoteCat(cat, "delighted");
           callbacks.onReaction?.(
             id.includes("coaster")
               ? "Уиии! До самых звёзд! ✦"
@@ -2699,6 +2714,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
     focus,
     followChichi(value = !faceCamera.enabled) {
       faceCamera.setEnabled(value, look);
+      if (value && !reduced && cat.userData.mood === "happy")
+        emoteCat(cat, "curious");
       if (!value) focus(focused, false, true);
       return faceCamera.enabled;
     },

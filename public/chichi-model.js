@@ -451,7 +451,10 @@ export function createReferenceChichi(mood, options = {}) {
     ellipsoid(
       eye,
       "EyeRim" + side,
-      mouthMaterial,
+      // The globe's backing used to expose a dark wedge outside the lid on
+      // low-poly neighbours. Their existing iris already has a dark limbus;
+      // tuck its backing into the coat instead. Chichi's eyes stay untouched.
+      crowd ? fur : mouthMaterial,
       [0, 0, 0.012],
       [0.151, 0.161, 0.052],
     );
