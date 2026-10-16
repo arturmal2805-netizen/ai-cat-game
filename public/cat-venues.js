@@ -438,11 +438,12 @@ export function catVenue(id) {
     guests,
   };
   group.userData.update = (time, reduced = false) => {
+    const pace = 1 + ((group.userData.businessLevel || 1) - 1) * 0.15;
     animateCat(staff, time, false, reduced);
     reactCat(
       staff,
       {
-        paw: reduced ? 0 : Math.max(0, Math.sin(time * 2)) * 0.32,
+        paw: reduced ? 0 : Math.max(0, Math.sin(time * 2 * pace)) * 0.32,
         headPitch: 0.14,
       },
       reduced,
@@ -453,7 +454,9 @@ export function catVenue(id) {
       p.scale.setScalar(1 + p.position.y);
     });
     guests.forEach((guest, i) => {
-      const t = (time * 0.08 + i * 0.5) % 1;
+      // A released helper is animated by the resident runtime, not the stand.
+      if (!guest.visible || guest.parent !== group) return;
+      const t = (time * 0.08 * pace + i * 0.5) % 1;
       guest.position.set(1.6 + i * 0.08, 0.17, -1.6 + 3.6 * t);
       guest.rotation.y = t < 0.75 ? 0 : -Math.PI / 2;
       animateCat(guest, time + i, t < 0.75, reduced);

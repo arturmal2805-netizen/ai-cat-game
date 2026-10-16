@@ -2,6 +2,54 @@ import { byItem } from "./game-data.js";
 import { BUSINESSES } from "./business-data.js";
 import { addXP } from "./progression.js";
 export const BUSINESS_CAP_HOURS = 8;
+export const BUSINESS_LEVELS = [
+  {
+    name: "Уютное начало",
+    coins: 1,
+    xp: 1,
+    decor: "Знакомая маленькая лавочка",
+  },
+  {
+    name: "Тёплые огоньки",
+    coins: 1.45,
+    xp: 1.5,
+    decor: "Гирлянды, фонари и полосатый навес",
+  },
+  {
+    name: "Любимое место",
+    coins: 2.05,
+    xp: 2.2,
+    decor: "Богатая витрина, цветы и столик для гостей",
+  },
+  {
+    name: "Звезда острова",
+    coins: 2.85,
+    xp: 3.1,
+    decor: "Золотая вывеска, праздничные флажки и ещё больше товаров",
+  },
+  {
+    name: "Легендарный бизнес",
+    coins: 3.8,
+    xp: 4.2,
+    decor: "Цветочная арка, сияющая корона и роскошный декор",
+  },
+];
+export const normalizeBusinessLevel = (value) =>
+  Number.isSafeInteger(value)
+    ? Math.max(1, Math.min(BUSINESS_LEVELS.length, value))
+    : 1;
+export const businessLevel = (game, id) =>
+  normalizeBusinessLevel(game.business?.levels?.[id]);
+export function businessUpgradeCost(item, level = 1) {
+  if (!revenueRate(item) || level >= BUSINESS_LEVELS.length) return 0;
+  return (
+    Math.round(
+      (Math.max(120, (byItem(item)?.price || 720) * 0.65) *
+        1.85 ** (level - 1)) /
+        10,
+    ) * 10
+  );
+}
 export function businessVenues(game) {
   return [
     ...game.placements,
@@ -20,11 +68,22 @@ export function businessVenues(game) {
       : []),
   ].filter((p) => revenueRate(p.item));
 }
-export function businessXP(item) {
+export function businessXP(item, level = 1) {
   const rate = revenueRate(item);
-  return rate ? Math.max(30, Math.round(rate * 0.38)) : 0;
+  return rate
+    ? Math.round(
+        Math.max(30, Math.round(rate * 0.38)) *
+          BUSINESS_LEVELS[normalizeBusinessLevel(level) - 1].xp,
+      )
+    : 0;
 }
-export const revenueRate = (item) => {
+export const revenueRate = (item, level = 1) => {
+  const base = baseRevenue(item);
+  return Math.round(
+    base * BUSINESS_LEVELS[normalizeBusinessLevel(level) - 1].coins,
+  );
+};
+function baseRevenue(item) {
   const business = BUSINESSES.find((b) => b.id === item);
   if (business) return business.rate;
   const product = byItem(item);
@@ -34,10 +93,11 @@ export const revenueRate = (item) => {
   if (["rides", "transport"].includes(product.category))
     return Math.max(70, Math.min(650, Math.round(product.price * 0.1)));
   return 0;
-};
+}
 export const newBusiness = () => ({
   version: 1,
   accounts: {},
+  levels: {},
   totalCollected: 0,
 });
 export function normalizeBusiness(raw, game, now = Date.now()) {
@@ -46,6 +106,8 @@ export function normalizeBusiness(raw, game, now = Date.now()) {
     ? Math.max(0, Math.floor(raw.totalCollected))
     : 0;
   for (const p of businessVenues(game)) {
+    const level = normalizeBusinessLevel(raw?.levels?.[p.id]);
+    if (level > 1) state.levels[p.id] = level;
     const old = raw?.accounts?.[p.id];
     const start = Number.isFinite(old?.collectedAt)
       ? Math.max(0, Math.min(1e15, old.collectedAt))
@@ -65,7 +127,7 @@ export function incomeFor(game, id, now = Date.now()) {
       ? { item: "cat-barista", readyAt: 0 }
       : game.placements.find((p) => p.id === id);
   if (!p || (p.readyAt && p.readyAt > now)) return 0;
-  const rate = revenueRate(p.item);
+  const rate = revenueRate(p.item, businessLevel(game, id));
   if (!rate) return 0;
   const start = Math.max(
     game.business?.accounts?.[id]?.collectedAt ?? now,
@@ -82,10 +144,11 @@ export function collectIncome(game, id, now = Date.now()) {
   if (amount < 1) throw Error("Монетки ещё копятся. Загляните чуть позже.");
   const next = structuredClone(game),
     item = businessVenues(next).find((p) => p.id === id).item,
-    rate = revenueRate(item),
+    level = businessLevel(game, id),
+    rate = revenueRate(item, level),
     rawXP =
       (next.business.accounts[id]?.xpRemainder || 0) +
-      (amount * businessXP(item)) / rate,
+      (amount * businessXP(item, level)) / rate,
     xp = Math.floor(rawXP + 1e-9);
   const old = next.business.accounts[id]?.collectedAt ?? now;
   // Preserve the unfinished fraction of a coin. Time beyond the full cash
@@ -104,6 +167,46 @@ export function collectIncome(game, id, now = Date.now()) {
     amount,
     xp: rewarded.progression.xp - game.progression.xp,
   };
+}
+// Settle the old rate first. Only future time earns the upgraded rate; the
+// unfinished fraction of a coin is carried forward instead of disappearing.
+export function upgradeBusiness(game, id, now = Date.now()) {
+  const venue = businessVenues(game).find((p) => p.id === id),
+    level = businessLevel(game, id);
+  if (!venue || (venue.readyAt || 0) > now)
+    throw Error("Спочатку дочекайтеся завершення будівництва.");
+  if (level >= BUSINESS_LEVELS.length)
+    throw Error("Цей бізнес уже легендарний!");
+  const cost = businessUpgradeCost(venue.item, level);
+  if (game.coins < cost) throw Error("Недостатньо монет для покращення.");
+  const start = Math.max(
+      game.business.accounts[id]?.collectedAt ?? now,
+      venue.readyAt || 0,
+    ),
+    oldRate = revenueRate(venue.item, level),
+    exact =
+      Math.min(BUSINESS_CAP_HOURS, Math.max(0, now - start) / 3600000) *
+      oldRate,
+    amount = incomeFor(game, id, now),
+    settled = amount
+      ? collectIncome(game, id, now).game
+      : structuredClone(game);
+  settled.coins -= cost;
+  settled.business.levels ||= {};
+  settled.business.levels[id] = level + 1;
+  settled.business.accounts[id] = {
+    ...settled.business.accounts[id],
+    collectedAt:
+      now -
+      (Math.max(0, exact - amount) / revenueRate(venue.item, level + 1)) *
+        3600000,
+  };
+  const next = addXP(
+    settled,
+    Math.min(80, Math.max(15, Math.round(cost * 0.04))),
+    now,
+  );
+  return { game: next, level: level + 1, cost, collected: amount };
 }
 // A single confirmed snapshot for the whole collection; repeated clicks at
 // this same instant cannot collect the same income or experience twice.

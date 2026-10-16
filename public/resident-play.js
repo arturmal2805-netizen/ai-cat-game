@@ -8,6 +8,9 @@ import { socialFrame } from "./social-animation.js";
 export function createResidentPlay({
   getCat,
   getObject,
+  groundY = () => 0.16,
+  disturb = (g, f, time) =>
+    g.userData.lagoon?.userData.disturb?.(f.x, f.z, time, 0.4),
   onComplete = () => {},
 }) {
   const visits = new Map(),
@@ -40,10 +43,23 @@ export function createResidentPlay({
     )
       return false;
     cancel(id);
+    const bounds = object?.userData.swimBounds || { rx: 1.7, rz: 1.7 };
     const destination = object
-      ? object.position.clone().add(new THREE.Vector3(0, 0, 1.2))
+      ? object.localToWorld(
+          new THREE.Vector3(
+            decision.action === "swim" ? bounds.rx + 0.65 : 0,
+            0,
+            decision.action === "swim" ? 0 : 1.2,
+          ),
+        )
       : friend.carrier.position.clone().add(new THREE.Vector3(1, 0, 0));
-    destination.y = 0.16;
+    destination.y =
+      decision.action === "swim"
+        ? (object.userData.shoreHeight ?? object.position.y)
+        : groundY(
+            destination,
+            object?.userData.placement?.biome || n.profile.biome,
+          );
     const v = {
       id,
       decision,
@@ -51,6 +67,10 @@ export function createResidentPlay({
       friend,
       from: n.carrier.position.clone(),
       destination,
+      shoreLocal:
+        object && decision.action === "swim"
+          ? object.worldToLocal(destination.clone())
+          : null,
       started: now,
       travel: Math.min(
         6500,
@@ -70,7 +90,11 @@ export function createResidentPlay({
     const n = getCat(id),
       g = v.object,
       d = v.decision;
-    if (!n || (g && g !== getObject(d.activityId))) {
+    if (
+      !n ||
+      (g && g !== getObject(d.activityId)) ||
+      (v.friend && v.friend !== getCat(d.friendId))
+    ) {
       cancel(id);
       return null;
     }
@@ -151,7 +175,7 @@ export function createResidentPlay({
       const f = g.userData.playFrame(elapsed, reduced);
       g.userData.heroPlayPos = { x: f.position[0], z: f.position[2] };
       local.set(...f.position);
-      result.yaw = f.yaw;
+      result.yaw = g.rotation.y + (f.yaw || 0);
       result.reaction = { paw: f.paw };
       result.walking = !reduced;
     } else if (d.action === "swim") {
@@ -162,15 +186,8 @@ export function createResidentPlay({
       result.reaction = f;
       result.walking = true;
       if (elapsed > 10)
-        local.lerp(
-          new THREE.Vector3(
-            bounds.rx + 0.65,
-            (g.userData.shoreHeight ?? 0.16) - g.position.y,
-            0,
-          ),
-          Math.min(1, (elapsed - 10) / 2),
-        );
-      g.userData.lagoon?.userData.disturb?.(f.x, f.z, time, 0.4);
+        local.lerp(v.shoreLocal, Math.min(1, (elapsed - 10) / 2));
+      if (!reduced) disturb(g, f, time);
     } else if (d.action === "rest") {
       local.y = g.userData.id === "bed" ? 0.3 : 0.16;
       result.reaction = { headPitch: 0.12 };
@@ -215,6 +232,11 @@ export function createResidentPlay({
       result.yaw = g.rotation.y + Math.sin(elapsed * 0.9) * 0.3;
     }
     if (g) result.position.copy(world ? local : g.localToWorld(local));
+    if (d.action === "swim" && elapsed < 1) {
+      const t = Math.max(0, elapsed),
+        q = t * t * (3 - 2 * t);
+      result.position.lerpVectors(v.destination, result.position, q);
+    }
     const duration = reduced
       ? 0.3
       : d.action === "meet"
@@ -224,7 +246,6 @@ export function createResidentPlay({
           : g?.userData.duration || 10;
     if (elapsed > duration) {
       result.position.copy(v.destination);
-      result.position.y = 0.16;
       cancel(id);
       onComplete(id, d);
       result.completed = true;

@@ -1909,6 +1909,20 @@ for (const [index, profile] of NEIGHBORS.entries()) {
   if (profile.id === "bagel" || profile.id === "boba") profile.build = "giant";
 }
 NEIGHBORS.push(...ADOPTION_CATS);
+// The little munchkin already visiting the hot-dog stand becomes a real
+// resident. A stable identity reuses care, friendship and shared destinations;
+// rebuilding or adding a second stand must never duplicate this kitten.
+NEIGHBORS.push({
+  id: "hotdog-bun",
+  name: "Булочка",
+  biome: "moon",
+  venue: "business-hotdog",
+  breed: "munchkin",
+  color: 0xe2c19d,
+  eyes: 0xa5c569,
+  size: 0.36 / 0.63,
+  personality: "Маленький помощник повара: любит клубочки, купание и прогулки",
+});
 
 // Preserve stable save IDs while replacing island art and activities.
 for (const biome of BIOMES)

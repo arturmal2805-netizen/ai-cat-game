@@ -16,6 +16,10 @@ import {
   BUSINESS_CAP_HOURS,
   businessXP,
   businessVenues,
+  businessLevel,
+  upgradeBusiness,
+  businessUpgradeCost,
+  BUSINESS_LEVELS,
 } from "./business.js";
 import { prepareCatPortraits, catPortraits } from "./cat-portraits.js";
 import {
@@ -369,7 +373,7 @@ function renderNeighbors() {
   $("neighbors").replaceChildren();
   $("friends-list").replaceChildren();
   for (const n of NEIGHBORS.filter(
-    (n) => !n.adoption || catAvailable(game, n),
+    (n) => (!n.adoption && !n.venue) || catAvailable(game, n),
   )) {
     const r = game.social.relationships[n.id],
       unlocked = catAvailable(game, n),
@@ -872,9 +876,9 @@ function showSpaBar() {
   $("item-name").textContent = "Cat SPA · бар біля басейну";
   $("item-construction").textContent =
     "Відкрито · " +
-    revenueRate("cat-barista") +
+    revenueRate("cat-barista", businessLevel(game, "spa-bar")) +
     " ✦/год · " +
-    businessXP("cat-barista") +
+    businessXP("cat-barista", businessLevel(game, "spa-bar")) +
     " XP/год";
   $("item-description").textContent =
     "Оберіть напій для Чичі. Вона підійде до бару, дочекається вільного місця та вип’є замовлення. Інші котики теж відвідують бар.";
@@ -931,10 +935,10 @@ function inspect(id, manage = false) {
   $("item-move").textContent = "Переставить";
   $("item-note").textContent = revenueRate(item.id)
     ? "Приносит " +
-      revenueRate(item.id) +
+      revenueRate(item.id, businessLevel(game, id)) +
       " ✦ и " +
-      businessXP(item.id) +
-      " XP в час. Монетку можно собрать прямо над постройкой."
+      businessXP(item.id, businessLevel(game, id)) +
+      " XP в час. Монетку можно собрать прямо над постройкой. Улучшения и новый декор — в разделе «Бизнес»."
     : "Чичи пользуется этим предметом, когда сама выберет его через ИИ.";
   open("item-dialog");
 }
@@ -2145,7 +2149,7 @@ function renderBusiness() {
   const ready = venues.filter((p) => isBuilt(p)),
     total = venues.reduce((n, p) => n + incomeFor(game, p.id), 0);
   $("business-summary").textContent =
-    `${ready.length} работают · ${money(ready.reduce((n, p) => n + revenueRate(p.item), 0))} ✦/ч · ${ready.reduce((n, p) => n + businessXP(p.item), 0)} XP/ч · в кассах ${money(total)} ✦`;
+    `${ready.length} работают · ${money(ready.reduce((n, p) => n + revenueRate(p.item, businessLevel(game, p.id)), 0))} ✦/ч · ${ready.reduce((n, p) => n + businessXP(p.item, businessLevel(game, p.id)), 0)} XP/ч · в кассах ${money(total)} ✦`;
   $("business-collect-all").disabled = !total;
   $("business-note").textContent =
     "Бизнес и готовые аттракционы приносят чистую прибыль даже в ваше отсутствие. Касса хранит до " +
@@ -2153,17 +2157,18 @@ function renderBusiness() {
     " часов дохода. XP начисляется при сборе, в пределах дневного лимита. Нажмите монетку над постройкой или соберите здесь.";
   for (const p of venues) {
     const item = byItem(p.item),
-      amount = incomeFor(game, p.id);
+      amount = incomeFor(game, p.id),
+      level = businessLevel(game, p.id);
     const row = document.createElement("article");
     row.className = "business-row";
     const title = document.createElement("h3"),
       description = document.createElement("p"),
       button = document.createElement("button");
-    title.textContent = item.icon + " " + item.name;
+    title.textContent = item.icon + " " + item.name + " · ур. " + level;
     description.textContent = isBuilt(p)
-      ? money(revenueRate(p.item)) +
+      ? money(revenueRate(p.item, level)) +
         " ✦/ч · " +
-        businessXP(p.item) +
+        businessXP(p.item, level) +
         " XP/ч · " +
         byBiome(p.biome).name
       : "Строится · " + countdown(p.readyAt);
@@ -2175,6 +2180,62 @@ function renderBusiness() {
     button.disabled = !amount;
     button.onclick = () => collectBusiness(p.id);
     row.append(title, description, button);
+    const show = document.createElement("button");
+    show.className = "quiet business-show";
+    show.textContent = "Показать на острове ↗";
+    show.onclick = () => {
+      $("business-dialog").close();
+      world?.focus(p.biome);
+      $("map").scrollIntoView({ block: "start", behavior: "smooth" });
+    };
+    row.append(show);
+    const stars = document.createElement("p"),
+      detail = document.createElement("p");
+    stars.className = "business-stars";
+    stars.textContent =
+      "★".repeat(level) +
+      "☆".repeat(BUSINESS_LEVELS.length - level) +
+      " · " +
+      BUSINESS_LEVELS[level - 1].name;
+    row.append(stars);
+    if (level < BUSINESS_LEVELS.length) {
+      const cost = businessUpgradeCost(p.item, level),
+        upgrade = document.createElement("button");
+      detail.className = "business-upgrade-detail";
+      detail.textContent =
+        "Следующий уровень: " +
+        money(revenueRate(p.item, level + 1)) +
+        " ✦/ч · " +
+        businessXP(p.item, level + 1) +
+        " XP/ч. " +
+        BUSINESS_LEVELS[level].decor +
+        ".";
+      upgrade.className = "primary business-upgrade";
+      upgrade.dataset.upgrade = p.id;
+      upgrade.textContent =
+        "Улучшить до ур. " + (level + 1) + " · " + money(cost) + " ✦";
+      upgrade.disabled =
+        !isBuilt(p) || game.coins < cost || !cloud.editable || !!cloud.conflict;
+      upgrade.onclick = () => {
+        try {
+          const result = upgradeBusiness(game, p.id);
+          commit(result.game);
+          toast(
+            item.name +
+              " · уровень " +
+              result.level +
+              "! Больше монет, XP и красоты ✨",
+          );
+        } catch (error) {
+          toast(error.message);
+        }
+      };
+      row.append(detail, upgrade);
+    } else {
+      detail.textContent =
+        "Максимальный уровень · " + BUSINESS_LEVELS[level - 1].decor;
+      row.append(detail);
+    }
     $("business-grid").append(row);
   }
   if (!venues.length)

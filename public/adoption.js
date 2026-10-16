@@ -72,7 +72,7 @@ export function gatherCats(game, biome) {
 }
 export function normalizeDestinations(raw, game) {
   return Object.fromEntries(
-    activeCats(game)
+    activeCats({ ...game, catDestinations: raw || {} })
       .filter((cat) => game.unlocked.includes(raw?.[cat.id]))
       .map((cat) => [cat.id, raw[cat.id]]),
   );

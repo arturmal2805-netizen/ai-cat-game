@@ -1,4 +1,5 @@
 import { createResidentPlay } from "./resident-play.js";
+import { decorateBusiness } from "./business-decor.js";
 import {
   attachBuilderHammer,
   constructionSites,
@@ -25,7 +26,7 @@ import { swimFrame } from "./swimming.js";
 import { activeCats } from "./cat-roster.js";
 import { catAppearance } from "./cat-breeds.js";
 import { watchWorldViewport } from "./world-viewport.js";
-import { incomeFor, businessVenues } from "./business.js";
+import { incomeFor, businessVenues, businessLevel } from "./business.js";
 import {
   spaObject,
   SPA_GATE,
@@ -691,6 +692,21 @@ export function createWorld(container, initialGame, callbacks = {}) {
   const residentPlay = createResidentPlay({
     getCat: (id) => npcs.get(id),
     getObject: (id) => itemGroups.get(id),
+    groundY: (point, biome) => {
+      const b = byBiome(biome);
+      return b
+        ? 0.16 +
+            islandHeight(biome, point.x - b.center[0], point.z - b.center[1])
+        : 0.16;
+    },
+    disturb: (g, f, time) => {
+      const lagoon =
+        g.userData.lagoon ||
+        islands
+          .get(g.userData.placement?.biome)
+          ?.userData.lagoons?.get(g.userData.placementId);
+      lagoon?.userData.disturb?.(f.x, f.z, time, 0.4);
+    },
     onComplete: (id, decision) => callbacks.onResidentAction?.(id, decision),
   });
   function cancelResident(id) {
@@ -813,6 +829,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       game.unlocked,
       game.adoption,
       game.catDestinations,
+      game.business?.levels,
       game.placements,
       game.scenery,
       game.placements.map((p) => isBuilt(p)),
@@ -1068,6 +1085,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
       scene.add(g);
       itemGroups.set(placement.id, g);
     }
+    for (const p of businessVenues(game)) {
+      const g = itemGroups.get(p.id);
+      if (g?.userData.built)
+        decorateBusiness(g, p.item, businessLevel(game, p.id));
+    }
     if (operation?.decision.activityId && !operation.spa) {
       operation.attraction = itemGroups.get(operation.decision.activityId);
       operation.destination
@@ -1075,16 +1097,27 @@ export function createWorld(container, initialGame, callbacks = {}) {
         .add(new THREE.Vector3(0, 0, 0.8));
     }
     for (const profile of activeCats(game)) {
+      const venue = profile.homeVenueId && itemGroups.get(profile.homeVenueId),
+        littleGuest = venue?.userData.guests?.[0];
       if (npcs.has(profile.id)) {
         npcs.get(profile.id).profile = profile;
+        if (littleGuest && littleGuest.parent === venue)
+          littleGuest.visible = false;
         continue;
       }
       const carrier = new THREE.Group(),
-        model = createCat("happy", {
-          detail: "npc",
-          ...catAppearance(profile),
-        });
+        model =
+          littleGuest ||
+          createCat("happy", {
+            detail: "npc",
+            ...catAppearance(profile),
+          });
       model.scale.setScalar(0.63 * (profile.size || 1));
+      // Move the exact existing tiny model into the normal actor rig. The
+      // cook and second visitor stay at the counter; no duplicate mesh is drawn.
+      model.position.set(0, 0, 0);
+      model.rotation.set(0, 0, 0);
+      model.visible = true;
       carrier.add(model);
       let hatRig;
       if (profile.hat) {
@@ -1116,6 +1149,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
         0.16,
         b.center[1] + Math.cos(index * 2.4) * wanderRadius,
       );
+      if (profile.venueHome && venue) {
+        carrier.position.copy(
+          venue.localToWorld(new THREE.Vector3(1.65, 0, 1.9)),
+        );
+        carrier.position.y = venue.position.y;
+      }
       if (b.id === "water") {
         const dry = nearestSpaGround(
           spaLocal(carrier.position),
@@ -2670,6 +2709,20 @@ export function createWorld(container, initialGame, callbacks = {}) {
         }
       } else if (n.manualAnchor && now < (n.manualUntil || 0)) {
         direct = true;
+      } else if (n.profile.venueHome && !busyWithChichi) {
+        const home = itemGroups.get(n.profile.homeVenueId);
+        if (home) {
+          const p = home.localToWorld(
+            framePoint.set(
+              1.7 + Math.sin(time * 0.3) * 0.35,
+              0,
+              2.1 + Math.cos(time * 0.3) * 0.3,
+            ),
+          );
+          x = p.x;
+          z = p.z;
+          n.carrier.position.y = home.position.y;
+        }
       } else if (
         ["water", "sakura"].includes(b.id) &&
         !busyWithChichi &&
@@ -2769,7 +2822,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       npcMarkers.setMatrixAt(n.index, npcDummy.matrix);
       const desiredMood =
         manualFrame?.mood ||
-        (spaVisit?.phase === "relax" &&
+        ((spaVisit?.phase === "relax" &&
           ["spa-lounge", "spa-jacuzzi"].includes(spaVisit.objectId)) ||
         chillVisit?.phase === "relax"
           ? "sleep"
@@ -2777,7 +2830,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
             ? "sleep"
             : needs?.hunger >= 75
               ? "crazy hungry"
-              : "happy";
+              : "happy");
       if (n.model.userData.mood !== desiredMood)
         setCatMood(n.model, desiredMood, { immediate: reduced });
       if (near && !dialogOpen) {

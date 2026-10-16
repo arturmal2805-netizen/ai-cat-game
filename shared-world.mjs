@@ -38,7 +38,7 @@ const transient = (path) =>
     path,
   );
 const guarded = (path) =>
-  /^(lastVisit|lastHourly|lastAttention|farm\.fields\.[\w-]+\.\d+|business\.accounts\.[\w-]+|social\.relationships\.[\w-]+)$/.test(
+  /^(lastVisit|lastHourly|lastAttention|farm\.fields\.[\w-]+\.\d+|business\.(?:accounts|levels)\.[\w-]+|social\.relationships\.[\w-]+)$/.test(
     path,
   );
 
@@ -193,6 +193,20 @@ export function mergeSharedWorld(base, current, incoming) {
   // so two purchases cannot award the same level-up coins twice.
   const b = clone(base),
     n = clone(incoming);
+  // A tab opened before business upgrades existed must not erase paid tiers
+  // while saving an unrelated move or meal. Tiers only increase; removing the
+  // actual building still transfers its tier to the inventory normally.
+  if (b.business?.levels) {
+    n.business.levels ||= {};
+    for (const [id, level] of Object.entries(b.business.levels)) {
+      const retained =
+        id === "spa-bar"
+          ? n.unlocked.includes("water")
+          : n.placements.some((p) => p.id === id);
+      if (retained && !(n.business.levels[id] >= level))
+        n.business.levels[id] = level;
+    }
+  }
   const newSpaReceipts = (n.spa?.receipts || []).filter(
     (id) => !b.spa?.receipts?.includes(id),
   );
@@ -371,11 +385,13 @@ export function mergeSharedWorld(base, current, incoming) {
         {
           item: p.item,
           readyAt: p.readyAt || 0,
+          businessLevel: result.business.levels?.[p.id] || 1,
           fieldCells: result.farm.fields[p.id],
         },
       ].slice(-60);
       delete result.farm.fields[p.id];
       delete result.business.accounts[p.id];
+      delete result.business.levels?.[p.id];
     }
   }
   for (const p of result.scenery || []) {

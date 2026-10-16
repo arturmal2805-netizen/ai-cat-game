@@ -2206,6 +2206,24 @@ main {
 .business-row button {
   min-height: 44px;
 }
+.business-row .business-stars {
+  color: #a17b36;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.business-row .business-show {
+  margin-left: 10px;
+}
+.business-row .business-upgrade-detail {
+  line-height: 1.6;
+}
+.business-row .business-upgrade {
+  display: block;
+  margin-top: 10px;
+  width: 100%;
+  white-space: normal;
+  background: linear-gradient(120deg, #ad8bba, #7b91ae);
+}
 .world-income {
   position: absolute;
   left: 0;

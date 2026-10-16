@@ -18,6 +18,8 @@ import {
   revenueRate,
   incomeFor,
   collectIncome,
+  businessLevel,
+  normalizeBusinessLevel,
 } from "./business.js";
 import {
   newProgression,
@@ -176,7 +178,6 @@ export function loadGame(storage, now = Date.now(), { advance = true } = {}) {
     );
     game.adoption = normalizeAdoption(saved.adoption, game);
     game.spa = normalizeSpa(saved.spa);
-    game.catDestinations = normalizeDestinations(saved.catDestinations, game);
     if (
       game.unlocked.includes(saved.catPosition?.biome) &&
       Number.isFinite(saved.catPosition.x) &&
@@ -226,6 +227,9 @@ export function loadGame(storage, now = Date.now(), { advance = true } = {}) {
       )
         game.placements.push(p);
     }
+    // Venue kittens need restored placements before their saved home can be
+    // validated. Released kittens also keep living here if the stand is stored.
+    game.catDestinations = normalizeDestinations(saved.catDestinations, game);
     game.social = normalizeSocial(saved.social);
     game.business = normalizeBusiness(saved.business, game, now);
     syncFriendship(game);
@@ -525,6 +529,8 @@ export function placeItem(
   });
   if (revenueRate(item)) {
     const placed = next.placements.at(-1);
+    const level = normalizeBusinessLevel(relocated?.businessLevel);
+    if (level > 1) next.business.levels[placed.id] = level;
     next.business.accounts[placed.id] = {
       collectedAt: Math.max(now, placed.readyAt || 0),
     };
@@ -681,6 +687,14 @@ export function storeItem(game, id, now = Date.now()) {
       ? collectIncome(game, id, now).game
       : copy(game);
   delete next.business.accounts[id];
+  const level = businessLevel(next, id);
+  if (level > 1)
+    next.relocatedPurchases.push({
+      item: found.item,
+      readyAt: 0,
+      businessLevel: level,
+    });
+  delete next.business.levels[id];
   next.placements = next.placements.filter((p) => p.id !== id);
   next.builtInventory[found.item] = (next.builtInventory[found.item] || 0) + 1;
   delete next.farm.fields[id];
