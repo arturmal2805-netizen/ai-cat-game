@@ -1,3 +1,4 @@
+import { CHILL_OBJECTS } from "./chill-data.js";
 import { CAPYBARA_OBJECTS, CAPYBARA_POOLS } from "./capybara-data.js";
 import { islandProject } from "./island-construction.js";
 import { RENEWED_ISLANDS, ISLAND_RIDES } from "./renewal-data.js";
@@ -30,6 +31,7 @@ export const PARK_RIDES = [
 ];
 export function permanentObjects(biomes) {
   const objects = [];
+  if (biomes.includes("sakura")) objects.push(...CHILL_OBJECTS);
   if (biomes.includes("water")) objects.push(...SPA_OBJECTS);
   for (const b of BIOMES) {
     if (!biomes.includes(b.id)) continue;

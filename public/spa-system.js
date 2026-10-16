@@ -1,3 +1,4 @@
+import { chillObject } from "./chill-data.js";
 import { SPA_DRINKS, spaObject } from "./spa-data.js";
 const clamp = (v) => Math.max(0, Math.min(100, v));
 export const newSpa = () => ({
@@ -36,9 +37,11 @@ export function selectSpaDrink(game, id) {
 // No charge for reserving a place or cancelling a visit. A served drink and
 // its needs/currency changes are committed together in the normal save path.
 export function completeSpaVisit(game, visit, now = Date.now()) {
+  const cozy = chillObject(visit?.objectId),
+    biome = cozy ? "sakura" : "water";
   if (
-    !game.unlocked.includes("water") ||
-    !spaObject(visit?.objectId) ||
+    !game.unlocked.includes(biome) ||
+    !(cozy || spaObject(visit?.objectId)) ||
     !/^[\w-]{1,80}$/.test(visit?.id || "")
   )
     throw Error("Недійсний візит до SPA.");
@@ -48,7 +51,14 @@ export function completeSpaVisit(game, visit, now = Date.now()) {
   const hero = visit.catId === "chichi",
     needs = hero ? next.cat : next.care?.residents?.[visit.catId];
   if (!needs) return game;
-  if (visit.objectId === "spa-bar") {
+  if (cozy) {
+    needs.happiness = clamp(needs.happiness + (cozy.kind === "bed" ? 10 : 14));
+    if (hero)
+      next.cat.energy = clamp(
+        next.cat.energy + (cozy.kind === "bed" ? 24 : 14),
+      );
+    if (cozy.kind === "bath") needs.lastSwimAt = now;
+  } else if (visit.objectId === "spa-bar") {
     const drink = SPA_DRINKS.find((d) => d.id === visit.drinkId);
     if (!drink) throw Error("Недійсний напій.");
     if (hero) {
@@ -84,7 +94,7 @@ export function completeSpaVisit(game, visit, now = Date.now()) {
     Number.isFinite(visit.position?.z)
   )
     next.catPosition = {
-      biome: "water",
+      biome,
       x: visit.position.x,
       z: visit.position.z,
     };

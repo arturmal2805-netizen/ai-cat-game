@@ -52,10 +52,9 @@ export function spaPath(
   radius = 0.5,
   obstacles = [],
   walkable = spaWalkable,
+  { extent = 32, cell = 0.6 } = {},
 ) {
-  const cell = 0.6,
-    extent = 32,
-    size = extent * 2 + 1,
+  const size = extent * 2 + 1,
     key = (x, z) => (z + extent) * size + x + extent;
   const from =
       walkable === spaWalkable

@@ -1,8 +1,18 @@
+import { createResidentPlay } from "./resident-play.js";
 import {
   attachBuilderHammer,
   constructionSites,
   createConstructionCrew,
 } from "./construction-crew.js";
+import {
+  CHILL_OBJECTS,
+  CHILL_GATE,
+  CHILL_WATER_Y,
+  chillObject,
+  chillEntrance,
+} from "./chill-data.js";
+import { chillWalkable, nearestChillGround } from "./chill-navigation.js";
+import { createChillRuntime } from "./chill-runtime.js";
 import { CHICHI_PORTRAITS } from "./cat-portrait-manifest.js";
 import { RENEWED_ISLANDS } from "./renewal-data.js";
 import { islandHeight } from "./renewed-biomes.js";
@@ -310,6 +320,13 @@ export function createWorld(container, initialGame, callbacks = {}) {
     reduced,
     onChange: (enabled) => callbacks.onCameraMode?.(enabled),
   });
+  const chillBiome = byBiome("sakura");
+  let chillObstacles = [];
+  const chillLocal = (p) => ({
+    x: p.x - chillBiome.center[0],
+    z: p.z - chillBiome.center[1],
+    y: p.y,
+  });
   const spaBiome = byBiome("water"),
     spaCups = new Map();
   let spaObstacles = [];
@@ -342,9 +359,72 @@ export function createWorld(container, initialGame, callbacks = {}) {
         );
       if (receipt.catId === "chichi" && operation?.spa)
         operation.spaCompleted = receipt;
-      else callbacks.onSpaVisit?.(receipt);
+      else {
+        const resident = npcs.get(receipt.catId),
+          manual = resident?.manualWellnessId === receipt.id;
+        if (resident) resident.manualWellnessId = null;
+        callbacks.onSpaVisit?.({
+          ...receipt,
+          ...(manual ? { manual: true } : {}),
+        });
+      }
     },
   });
+  const chill = createChillRuntime({
+    reduced,
+    getObstacles: () => chillObstacles,
+    onComplete: (receipt) => {
+      const carrier =
+        receipt.catId === "chichi"
+          ? chichiCarrier
+          : npcs.get(receipt.catId)?.carrier;
+      if (carrier)
+        carrier.position.set(
+          chillBiome.center[0] + receipt.position.x,
+          0.16,
+          chillBiome.center[1] + receipt.position.z,
+        );
+      if (receipt.catId === "chichi" && operation?.chill)
+        operation.spaCompleted = receipt;
+      else {
+        const resident = npcs.get(receipt.catId),
+          manual = resident?.manualWellnessId === receipt.id;
+        if (resident) resident.manualWellnessId = null;
+        callbacks.onSpaVisit?.({
+          ...receipt,
+          ...(manual ? { manual: true } : {}),
+        });
+      }
+    },
+  });
+  function startHeroChill(op) {
+    op.stage = "chill";
+    const object = chillObject(op.decision.activityId),
+      local = chillLocal(chichiCarrier.position),
+      dry = nearestChillGround(
+        chillWalkable(local, spaRadius(cat), chillObstacles)
+          ? local
+          : chillEntrance(object),
+        spaRadius(cat),
+        chillObstacles,
+      );
+    if (!dry) {
+      op.spaFailed = true;
+      return;
+    }
+    const v = chill.start({
+      catId: "chichi",
+      objectId: object.id,
+      position: dry,
+      radius: spaRadius(cat),
+    });
+    if (!v) {
+      op.spaFailed = true;
+      callbacks.onReaction?.(
+        "Зараз тут зайнято. Оберімо іншу лежанку або ванну.",
+      );
+    }
+  }
   function startHeroSpa(op) {
     op.stage = "spa";
     const local = spaLocal(chichiCarrier.position),
@@ -608,6 +688,76 @@ export function createWorld(container, initialGame, callbacks = {}) {
     getSites: () => buildingSites,
     getObstacles: (id) => builderObstacles.get(id) || [],
   });
+  const residentPlay = createResidentPlay({
+    getCat: (id) => npcs.get(id),
+    getObject: (id) => itemGroups.get(id),
+    onComplete: (id, decision) => callbacks.onResidentAction?.(id, decision),
+  });
+  function cancelResident(id) {
+    const actor = npcs.get(id);
+    if (actor) actor.manualWellnessId = null;
+    const greeting = residentPlay.friendVisit(id);
+    if (greeting) residentPlay.cancel(greeting.id);
+    residentPlay.cancel(id);
+    spa.cancel(id);
+    chill.cancel(id);
+    crew.cancel(id);
+    mealVisits.delete(id);
+    swimVisits.delete(id);
+  }
+  function performResident(id, decision) {
+    const n = npcs.get(id),
+      object = itemGroups.get(decision.activityId);
+    if (
+      !n ||
+      (decision.activityId &&
+        (!object?.userData.built ||
+          (operation?.decision.activityId === decision.activityId &&
+            !chillObject(decision.activityId) &&
+            !spaObject(decision.activityId))))
+    )
+      return false;
+    cancelResident(id);
+    n.manualAnchor = null;
+    n.manualUntil = performance.now() + 90000;
+    const cozy = chillObject(decision.activityId),
+      wellness = spaObject(decision.activityId);
+    if (cozy || wellness) {
+      const local = cozy
+          ? chillLocal(n.carrier.position)
+          : spaLocal(n.carrier.position),
+        radius = spaRadius(n.model),
+        origin = cozy
+          ? nearestChillGround(
+              chillWalkable(local, radius, chillObstacles)
+                ? local
+                : chillEntrance(cozy),
+              radius,
+              chillObstacles,
+            )
+          : nearestSpaGround(
+              spaWalkable(local, radius, spaObstacles)
+                ? local
+                : SPA_ENTRANCES[wellness.id],
+              radius,
+              spaObstacles,
+            ),
+        runtime = cozy ? chill : spa;
+      const visit =
+        origin &&
+        runtime.start({
+          catId: id,
+          objectId: decision.activityId,
+          position: origin,
+          radius,
+          drinkId: game.spa?.selectedDrink,
+        });
+      if (visit) n.manualWellnessId = visit.id;
+      return !!visit;
+    }
+    if (decision.friendId) cancelResident(decision.friendId);
+    return residentPlay.start(id, decision);
+  }
   const builderHammers = new Map();
   function builderHammer(id, model, frame) {
     let hammer = builderHammers.get(id);
@@ -734,6 +884,31 @@ export function createWorld(container, initialGame, callbacks = {}) {
         ],
       ]),
     );
+    chillObstacles = [
+      ...game.placements
+        .filter((p) => p.biome === "sakura")
+        .map((p) => {
+          const f = byItem(p.item).footprint;
+          return {
+            x: p.x,
+            z: p.z,
+            w: f[p.rotation % 2 ? 1 : 0],
+            d: f[p.rotation % 2 ? 0 : 1],
+          };
+        }),
+      ...game.scenery
+        .filter((r) => r.biome === "sakura" && !r.stored)
+        .map((r) => {
+          const f = sceneryFootprint(r);
+          return {
+            x: r.x,
+            z: r.z,
+            ...(byScenery(r.type).category === "tree"
+              ? { radius: 0.45 * (r.scale || 1) }
+              : { w: f[0], d: f[1] }),
+          };
+        }),
+    ];
     for (const [id, island] of islands) showWhalePreview(island, id);
     // Keep unchanged vegetation and scenery buffers when income, adoption or
     // herd destinations change. Only an edited island needs new geometry.
@@ -769,7 +944,21 @@ export function createWorld(container, initialGame, callbacks = {}) {
         itemGroups.delete(o.id);
       }
       let g;
-      if (o.type === "swim-lagoon") {
+      if (chillObject(o.id)?.kind === "bed") {
+        g = new THREE.Group();
+        const proxy = new THREE.Mesh(
+          new THREE.BoxGeometry(...[o.footprint[0], 0.8, o.footprint[1]]),
+          new THREE.MeshBasicMaterial({
+            transparent: true,
+            opacity: 0,
+            depthWrite: false,
+            colorWrite: false,
+          }),
+        );
+        proxy.position.y = 0.65;
+        g.add(proxy);
+        g.userData = { id: "bed", duration: 24 };
+      } else if (o.type === "swim-lagoon") {
         g = new THREE.Group();
         const proxy = new THREE.Mesh(
           new THREE.CircleGeometry(1, 48),
@@ -936,6 +1125,15 @@ export function createWorld(container, initialGame, callbacks = {}) {
         if (dry)
           carrier.position.set(b.center[0] + dry.x, 0.16, b.center[1] + dry.z);
       }
+      if (b.id === "sakura") {
+        const dry = nearestChillGround(
+          chillLocal(carrier.position),
+          spaRadius(model),
+          chillObstacles,
+        );
+        if (dry)
+          carrier.position.set(b.center[0] + dry.x, 0.16, b.center[1] + dry.z);
+      }
       scene.add(carrier);
       npcs.set(profile.id, { carrier, model, profile, index, hatRig });
     }
@@ -946,6 +1144,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
         crew.cancel(id);
         builderHammers.get(id)?.removeFromParent();
         builderHammers.delete(id);
+        chill.cancel(id);
+        residentPlay.cancel(id);
         scene.remove(n.carrier);
         disposeCat(n.model);
         npcs.delete(id);
@@ -974,20 +1174,25 @@ export function createWorld(container, initialGame, callbacks = {}) {
     const b = byBiome(id) || byBiome("moon");
     focused = b.id;
     viewingOverview = overview;
-    const enchanted = !!RENEWED_ISLANDS[b.id] || b.legendary;
+    const enchanted =
+      !!RENEWED_ISLANDS[b.id] || b.legendary || b.id === "sakura";
     sky.material.uniforms.top.value.set(
-      b.legendary || b.id === "aquapark"
-        ? 0x010914
-        : enchanted
-          ? 0x172749
-          : 0x788ab9,
+      b.id === "sakura"
+        ? 0xbba4d4
+        : b.legendary || b.id === "aquapark"
+          ? 0x010914
+          : enchanted
+            ? 0x172749
+            : 0x788ab9,
     );
     sky.material.uniforms.bottom.value.set(
-      b.legendary || b.id === "aquapark"
-        ? 0x153054
-        : enchanted
-          ? 0x697da9
-          : 0xb2b8d5,
+      b.id === "sakura"
+        ? 0xf5cdba
+        : b.legendary || b.id === "aquapark"
+          ? 0x153054
+          : enchanted
+            ? 0x697da9
+            : 0xb2b8d5,
     );
     royalStars.visible = b.id === "aquapark" || enchanted;
     royalStars.position.set(
@@ -1066,6 +1271,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     if (operation) {
       spa.cancel("chichi");
       crew.cancel("chichi");
+      chill.cancel("chichi");
       resetYarn(operation.attraction);
       if (operation.attraction) {
         operation.attraction.userData.playing = false;
@@ -1076,11 +1282,24 @@ export function createWorld(container, initialGame, callbacks = {}) {
     }
     switchMood(decision.mood);
     choiceExpression(decision);
+    if (decision.activityId)
+      for (const [id, v] of residentPlay.visits)
+        if (v.decision.activityId === decision.activityId)
+          residentPlay.cancel(id);
     const attraction = decision.activityId
       ? itemGroups.get(decision.activityId)
       : null;
     const neighbor = decision.friendId ? npcs.get(decision.friendId) : null;
     if (neighbor) {
+      const cv = chill.get(decision.friendId);
+      if (cv) {
+        neighbor.carrier.position.set(
+          chillBiome.center[0] + cv.entrance.x,
+          0.16,
+          chillBiome.center[1] + cv.entrance.z,
+        );
+        chill.cancel(decision.friendId);
+      }
       const visit = spa.get(decision.friendId);
       if (visit) {
         const dry = nearestSpaGround(
@@ -1151,6 +1370,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           dismount.z - biome.center[1],
         ) + 0.16;
     }
+    const chillTarget = !!chillObject(decision.activityId);
     const spaTarget = !!spaObject(decision.activityId);
     if (spaTarget)
       destination.set(
@@ -1158,8 +1378,15 @@ export function createWorld(container, initialGame, callbacks = {}) {
         0.16,
         spaBiome.center[1] + SPA_GATE.z,
       );
+    if (chillTarget)
+      destination.set(
+        chillBiome.center[0] + CHILL_GATE.x,
+        0.16,
+        chillBiome.center[1] + CHILL_GATE.z,
+      );
     return new Promise((resolve) => {
       operation = {
+        chill: chillTarget,
         spa: spaTarget,
         decision,
         attraction,
@@ -1203,6 +1430,14 @@ export function createWorld(container, initialGame, callbacks = {}) {
         ) < spaBiome.radius
       )
         startHeroSpa(operation);
+      if (
+        chillTarget &&
+        Math.hypot(
+          chichiCarrier.position.x - chillBiome.center[0],
+          chichiCarrier.position.z - chillBiome.center[1],
+        ) < chillBiome.radius
+      )
+        startHeroChill(operation);
     });
   }
   function beginBuild(mode) {
@@ -1384,7 +1619,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         : g.userData.placement.footprint,
     }));
     const friends = [...npcs.values()]
-      .filter((n) => n.carrier.visible)
+      .filter((n) => n.carrier.visible && n.profile.id !== draggingCat?.catId)
       .map((n) => ({
         id: n.profile.id,
         x: n.carrier.position.x,
@@ -1392,7 +1627,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }));
     const targets = new Map([
       ...[...npcs.values()]
-        .filter((n) => n.carrier.visible)
+        .filter((n) => n.carrier.visible && n.profile.id !== draggingCat?.catId)
         .map((n) => [n.carrier, { friendId: n.profile.id }]),
       ...[...itemGroups.values()].map((g) => [
         g,
@@ -1435,7 +1670,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     // visible cat on screen as well: its head projects above the ground plane.
     const bounds = renderer.domElement.getBoundingClientRect();
     const screenFriends = [...npcs.values()]
-      .filter((n) => n.carrier.visible)
+      .filter((n) => n.carrier.visible && n.profile.id !== draggingCat?.catId)
       .map((n) => {
         const p = n.carrier.position
           .clone()
@@ -1474,7 +1709,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
     if (
       selected &&
       byItem(selected.userData.placement.item)?.actions.includes("eat") &&
-      !bowlPortions(game)
+      !bowlPortions(game) &&
+      selected.userData.placementId !== "spa-bar"
     ) {
       dropRing.material.color.set(0xe3a2ac);
       dropHint.textContent = "Миска пустая. Нажмите на неё и добавьте урожай.";
@@ -1489,7 +1725,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
         })),
       friends: [...npcs.keys()].map((id) => ({ id })),
     };
-    const decision = manualInteraction(snapshot, selection, cat.userData.mood);
+    const decision = manualInteraction(
+      snapshot,
+      selection,
+      (draggingCat?.model || cat).userData.mood,
+    );
     const verbs = {
       play: "поиграть",
       ride: "покататься",
@@ -1542,35 +1782,48 @@ export function createWorld(container, initialGame, callbacks = {}) {
     };
     pointerDown.multi = activePointers.size > 1;
     renderer.domElement.setPointerCapture(e.pointerId);
-    if (
-      !faceCamera.enabled &&
-      !buildMode &&
-      !operation &&
-      callbacks.canDragCat?.() !== false
-    ) {
+    if (!faceCamera.enabled && !buildMode && !pointerDown.multi) {
       pointer(e);
-      const bounds = renderer.domElement.getBoundingClientRect();
-      const projected = chichiCarrier.position
-        .clone()
-        .add(new THREE.Vector3(0, 0.9, 0))
-        .project(camera);
-      const nearCat =
-        distance < Math.max(80, (byBiome(focused)?.radius || 12) * 7) &&
-        Math.hypot(
-          e.clientX - (bounds.left + ((projected.x + 1) * bounds.width) / 2),
-          e.clientY - (bounds.top + ((1 - projected.y) * bounds.height) / 2),
-        ) < (e.pointerType === "touch" ? 22 : 11);
-      const dragSurfaces = [
-        cat.userData.body,
-        cat.getObjectByName("Face"),
-        cat.getObjectByName("TailCoat"),
-        ...cat.userData.legs.map((leg) => leg.getObjectByName("Shin")),
-      ];
-      if (
-        nearCat ||
-        raycaster.intersectObjects(dragSurfaces.filter(Boolean), false).length
-      )
-        draggingCat = chichiCarrier.position.clone();
+      const bounds = renderer.domElement.getBoundingClientRect(),
+        actors = [
+          ...(!operation
+            ? [{ id: "chichi", carrier: chichiCarrier, model: cat }]
+            : []),
+          ...[...npcs]
+            .filter(([, n]) => n.carrier.visible)
+            .map(([id, n]) => ({ id, ...n })),
+        ].filter((a) => callbacks.canDragCat?.(a.id) !== false),
+        candidates = [];
+      for (const actor of actors) {
+        const head = actor.carrier.position
+            .clone()
+            .add(new THREE.Vector3(0, actor.model.scale.x * 0.9, 0))
+            .project(camera),
+          d = Math.hypot(
+            e.clientX - (bounds.left + ((head.x + 1) * bounds.width) / 2),
+            e.clientY - (bounds.top + ((1 - head.y) * bounds.height) / 2),
+          ),
+          parts = [
+            actor.model.userData.body,
+            actor.model.getObjectByName("Face"),
+            actor.model.getObjectByName("TailCoat"),
+            ...actor.model.userData.legs.map((leg) =>
+              leg.getObjectByName("Shin"),
+            ),
+          ].filter(Boolean),
+          hit = raycaster.intersectObjects(parts, false)[0];
+        if (head.z < 1 && (hit || d < (e.pointerType === "touch" ? 22 : 11)))
+          candidates.push({ actor, score: hit ? hit.distance * 0.001 : d + 1 });
+      }
+      candidates.sort((a, b) => a.score - b.score);
+      const actor = candidates[0]?.actor;
+      if (actor) {
+        draggingCat = actor.carrier.position.clone();
+        draggingCat.catId = actor.id;
+        draggingCat.carrier = actor.carrier;
+        draggingCat.model = actor.model;
+        if (actor.id !== "chichi") cancelResident(actor.id);
+      }
     }
   });
   renderer.domElement.addEventListener("pointermove", (e) => {
@@ -1583,7 +1836,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         dropHover = { selection, x: e.clientX, y: e.clientY };
         showDrop(selection, point);
         point.y = 0.7;
-        chichiCarrier.position.copy(point);
+        draggingCat.carrier.position.copy(point);
       }
       return;
     }
@@ -1605,7 +1858,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     activePointers.delete(e.pointerId);
     if (pointerDown?.multi) {
       if (draggingCat) {
-        chichiCarrier.position.copy(draggingCat);
+        draggingCat.carrier.position.copy(draggingCat);
         draggingCat = null;
         hideDrop();
       }
@@ -1628,10 +1881,28 @@ export function createWorld(container, initialGame, callbacks = {}) {
             Math.hypot(e.clientX - dropHover.x, e.clientY - dropHover.y) < 3
           ? dropHover.selection
           : pickDrop(e, point);
-      chichiCarrier.position.copy(original);
+      original.carrier.position.copy(original);
       draggingCat = null;
       pointerDown = null;
       hideDrop();
+      if (moved && original.catId !== "chichi") {
+        const biome = selection?.activityId
+          ? itemGroups.get(selection.activityId)?.userData.placement.biome
+          : selection?.friendId
+            ? npcs.get(selection.friendId)?.profile.biome
+            : BIOMES.find(
+                (b) =>
+                  game.unlocked.includes(b.id) &&
+                  Math.hypot(point.x - b.center[0], point.z - b.center[1]) <
+                    (b.radius || 11.65) - 0.65,
+              )?.id;
+        if (biome && !selection?.unavailable)
+          callbacks.onResidentDrop?.(original.catId, selection, biome, {
+            x: point.x,
+            z: point.z,
+          });
+        return;
+      }
       if (moved) {
         if (selection && !selection.unavailable) {
           point.y = 0.16;
@@ -1781,7 +2052,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     pendingTap = false;
     hideDrop();
     if (draggingCat) {
-      chichiCarrier.position.copy(draggingCat);
+      draggingCat.carrier.position.copy(draggingCat);
       draggingCat = null;
     }
   });
@@ -1938,7 +2209,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (!reduced && !dialogOpen) animateAttraction(g, time);
     if (preview && !reduced) animateAttraction(preview, time);
     buildingSites = constructionSites(itemGroups);
-    if (!dialogOpen) spa.step(dt, time);
+    if (!dialogOpen) {
+      spa.step(dt, time);
+      chill.step(dt, time);
+    }
     for (const [id, cup] of spaCups)
       if (!spa.get(id)?.drinking) {
         scene.remove(cup);
@@ -1994,6 +2268,36 @@ export function createWorld(container, initialGame, callbacks = {}) {
           ?.userData.lagoons?.get("lake-water")
           ?.userData.disturb?.(v.position.x, v.position.z - 1, time, 0.35);
     }
+    function applyChillFrame(v, carrier, model) {
+      carrier.position.set(
+        chillBiome.center[0] + v.position.x,
+        v.position.y,
+        chillBiome.center[1] + v.position.z,
+      );
+      carrier.rotation.y = v.yaw;
+      const resting = v.phase === "relax",
+        mood = resting ? "sleep" : "happy",
+        d = model.userData,
+        head =
+          ((d.anatomy?.headY ?? 1.25) + (d.build.height - 1) * 0.22 - 0.375) *
+          model.scale.x *
+          0.7,
+        lift =
+          resting && v.kind === "bath"
+            ? Math.max(0, CHILL_WATER_Y + 0.19 - (v.seat.y + head))
+            : 0;
+      v.visualLift =
+        (v.visualLift || 0) +
+        (lift - (v.visualLift || 0)) * (reduced ? 1 : 1 - Math.exp(-dt * 5));
+      carrier.position.y += v.visualLift;
+      if (model.userData.mood !== mood)
+        setCatMood(model, mood, { immediate: reduced });
+      if (!reduced && resting && v.kind === "bath")
+        islands
+          .get("sakura")
+          ?.userData.lagoons?.get(v.objectId)
+          ?.userData.disturb?.(time);
+    }
     for (const [id, n] of npcs) {
       const b = byBiome(n.profile.biome),
         needs = game.care?.residents[id];
@@ -2002,16 +2306,24 @@ export function createWorld(container, initialGame, callbacks = {}) {
         npcWalking = false,
         npcReaction = null,
         direct = false;
+      n.carrier.rotation.z = 0;
+      const draggingThis = draggingCat?.catId === id,
+        manualVisit = residentPlay.get(id),
+        friendVisit = residentPlay.friendVisit(id);
       const busyWithChichi =
-        operation?.decision.friendId === id || operation?.partyIds?.has(id);
-      if (busyWithChichi || draggingCat || b.id !== "water") spa.cancel(id);
+        operation?.decision.friendId === id ||
+        operation?.partyIds?.has(id) ||
+        !!manualVisit ||
+        !!friendVisit;
+      if (busyWithChichi || draggingThis || b.id !== "water") spa.cancel(id);
       if (
         b.id === "water" &&
         !busyWithChichi &&
-        !draggingCat &&
+        !draggingThis &&
         !dialogOpen &&
         now >= gatherUntil &&
         !spa.get(id) &&
+        now > (n.manualUntil || 0) &&
         !crew.workers.has(id) &&
         Date.now() - Math.max(game.spa?.visits?.[id] || 0, n.lastSpaAt || 0) >
           90000 &&
@@ -2056,13 +2368,57 @@ export function createWorld(container, initialGame, callbacks = {}) {
         )
           n.lastSpaAt = Date.now();
       }
+      if (busyWithChichi || draggingThis || b.id !== "sakura") chill.cancel(id);
+      if (
+        b.id === "sakura" &&
+        !busyWithChichi &&
+        !draggingThis &&
+        !dialogOpen &&
+        now >= gatherUntil &&
+        !chill.get(id) &&
+        !crew.workers.has(id) &&
+        now > (n.manualUntil || 0) &&
+        now > (n.nextChillAttempt || 0) &&
+        Date.now() - Math.max(game.spa?.visits?.[id] || 0, n.lastChillAt || 0) >
+          35000
+      ) {
+        n.nextChillAttempt = now + 6000;
+        const origin = chillLocal(n.carrier.position),
+          radius = spaRadius(n.model),
+          dry = nearestChillGround(origin, radius, chillObstacles),
+          preferred = (n.index + Math.floor(time / 35)) % 2 ? "bed" : "bath",
+          options = [...CHILL_OBJECTS].sort(
+            (a, b) =>
+              (a.kind === preferred ? 0 : 50) +
+              Math.hypot(a.x - origin.x, a.z - origin.z) -
+              (b.kind === preferred ? 0 : 50) -
+              Math.hypot(b.x - origin.x, b.z - origin.z),
+          );
+        if (dry)
+          for (const object of options) {
+            if (
+              chill.start({
+                catId: id,
+                objectId: object.id,
+                position: dry,
+                radius,
+              })
+            ) {
+              n.lastChillAt = Date.now();
+              break;
+            }
+          }
+      }
+      const chillVisit = chill.get(id);
       const spaVisit = spa.get(id);
       const canBuild =
         !busyWithChichi &&
-        !draggingCat &&
+        !draggingThis &&
         !dialogOpen &&
         now >= gatherUntil &&
         !spaVisit &&
+        !chillVisit &&
+        now > (n.manualUntil || 0) &&
         !mealVisits.has(id) &&
         !swimVisits.has(id) &&
         (needs?.hunger || 0) < 85;
@@ -2081,10 +2437,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
       builderHammer(id, n.model, builderFrame);
       if (
         b.id !== "water" &&
+        b.id !== "sakura" &&
         !builderFrame &&
         !busyWithChichi &&
         now >= gatherUntil &&
-        !draggingCat &&
+        !draggingThis &&
         !mealVisits.has(id) &&
         !swimVisits.has(id) &&
         mealVisits.size < 2 &&
@@ -2136,16 +2493,18 @@ export function createWorld(container, initialGame, callbacks = {}) {
           tried: false,
         });
       }
-      if (busyWithChichi || draggingCat) {
+      if (busyWithChichi || draggingThis) {
         mealVisits.delete(id);
         swimVisits.delete(id);
       }
       if (
         b.id !== "water" &&
+        b.id !== "sakura" &&
+        now > (n.manualUntil || 0) &&
         !builderFrame &&
         !busyWithChichi &&
         now >= gatherUntil &&
-        !draggingCat &&
+        !draggingThis &&
         !mealVisits.has(id) &&
         !swimVisits.has(id) &&
         swimVisits.size < 2 &&
@@ -2179,7 +2538,26 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }
       const swim = swimVisits.get(id);
       const visit = mealVisits.get(id);
-      if (builderFrame) {
+      const manualFrame =
+        manualVisit && !draggingThis
+          ? residentPlay.frame(id, now, time, reduced)
+          : null;
+      if (manualFrame) {
+        n.carrier.position.copy(manualFrame.position);
+        n.carrier.rotation.y = manualFrame.yaw;
+        n.carrier.rotation.z = manualFrame.roll;
+        x = n.carrier.position.x;
+        z = n.carrier.position.z;
+        direct = true;
+        npcWalking = manualFrame.walking;
+        npcReaction = manualFrame.reaction;
+      } else if (friendVisit) {
+        direct = true;
+        npcWalking = !!friendVisit.friendFrame?.running;
+        npcReaction = friendVisit.friendFrame;
+      } else if (draggingThis) {
+        direct = true;
+      } else if (builderFrame) {
         n.carrier.position.set(
           builderFrame.position.x,
           builderFrame.position.y,
@@ -2191,6 +2569,13 @@ export function createWorld(container, initialGame, callbacks = {}) {
         direct = true;
         npcWalking = builderFrame.walking;
         npcReaction = reduced ? null : builderFrame.reaction;
+      } else if (chillVisit) {
+        applyChillFrame(chillVisit, n.carrier, n.model);
+        x = n.carrier.position.x;
+        z = n.carrier.position.z;
+        direct = true;
+        npcWalking = chillVisit.walking;
+        npcReaction = chillVisit.reaction;
       } else if (spaVisit) {
         applySpaFrame(spaVisit, n.carrier, n.model);
         x = n.carrier.position.x;
@@ -2198,7 +2583,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         direct = true;
         npcWalking = spaVisit.walking;
         npcReaction = spaVisit.reaction;
-      } else if (visit && !busyWithChichi && !draggingCat) {
+      } else if (visit && !busyWithChichi && !draggingThis) {
         if (!bowlPortions(game) && !visit.tried) mealVisits.delete(id);
         else if (visit.stage === "travel") {
           const t = Math.min(1, (now - visit.start) / visit.duration),
@@ -2235,7 +2620,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           }
           if (elapsed >= 3.5) mealVisits.delete(id);
         }
-      } else if (swim && !busyWithChichi && !draggingCat) {
+      } else if (swim && !busyWithChichi && !draggingThis) {
         if (swim.stage === "travel") {
           const t = Math.min(1, (now - swim.start) / swim.duration);
           n.carrier.position.lerpVectors(
@@ -2283,10 +2668,16 @@ export function createWorld(container, initialGame, callbacks = {}) {
             callbacks.onResidentSwam?.(id);
           }
         }
-      } else if (b.id === "water" && !busyWithChichi && now >= gatherUntil) {
+      } else if (n.manualAnchor && now < (n.manualUntil || 0)) {
+        direct = true;
+      } else if (
+        ["water", "sakura"].includes(b.id) &&
+        !busyWithChichi &&
+        now >= gatherUntil
+      ) {
         // Between visits the cat stays on dry ground, breathing and looking around.
         direct = true;
-      } else if (draggingCat) {
+      } else if (draggingThis) {
         n.carrier.rotation.y = Math.atan2(
           chichiCarrier.position.x - x,
           chichiCarrier.position.z - z,
@@ -2377,8 +2768,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
       npcDummy.updateMatrix();
       npcMarkers.setMatrixAt(n.index, npcDummy.matrix);
       const desiredMood =
-        spaVisit?.phase === "relax" &&
-        ["spa-lounge", "spa-jacuzzi"].includes(spaVisit.objectId)
+        manualFrame?.mood ||
+        (spaVisit?.phase === "relax" &&
+          ["spa-lounge", "spa-jacuzzi"].includes(spaVisit.objectId)) ||
+        chillVisit?.phase === "relax"
           ? "sleep"
           : game.social?.bestFriendId === id && game.care?.resting
             ? "sleep"
@@ -2392,8 +2785,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
         if (npcReaction) reactCat(n.model, npcReaction, reduced);
         if (n.hatRig) {
           const resting =
-              spaVisit?.phase === "relax" &&
-              ["spa-lounge", "spa-jacuzzi"].includes(spaVisit.objectId),
+              (spaVisit?.phase === "relax" &&
+                ["spa-lounge", "spa-jacuzzi"].includes(spaVisit.objectId)) ||
+              chillVisit?.phase === "relax",
             targetY = resting
               ? (n.model.userData.head.position.y +
                   n.model.userData.head.scale.y * 0.4) *
@@ -2472,7 +2866,23 @@ export function createWorld(container, initialGame, callbacks = {}) {
     }
     if (operation) {
       const op = operation;
-      if (op.stage === "spa") {
+      if (op.stage === "chill") {
+        const v = chill.get("chichi");
+        if (v) {
+          applyChillFrame(v, chichiCarrier, cat);
+          walking = v.walking;
+          reaction = v.reaction;
+        }
+        if (op.spaCompleted || op.spaFailed) {
+          operation = null;
+          setCatMood(cat, game.cat.mood, { immediate: reduced });
+          op.resolve(
+            op.spaFailed
+              ? { cancelled: true }
+              : { completed: true, spaVisit: op.spaCompleted },
+          );
+        }
+      } else if (op.stage === "spa") {
         const v = spa.get("chichi");
         if (v) {
           applySpaFrame(v, chichiCarrier, cat);
@@ -2500,7 +2910,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
         walking = p < 1;
         if (p === 1) {
           choiceExpression(op.decision);
-          if (op.spa) {
+          if (op.chill) {
+            startHeroChill(op);
+          } else if (op.spa) {
             startHeroSpa(op);
           } else op.stage = "activity";
           op.activityStart = now;
@@ -2933,6 +3345,31 @@ export function createWorld(container, initialGame, callbacks = {}) {
   }
   return {
     perform,
+    performResident,
+    moveResident(id, biome, position) {
+      const n = npcs.get(id),
+        b = byBiome(biome);
+      if (!n || !b || !game.unlocked.includes(biome)) return false;
+      cancelResident(id);
+      let p = {
+        x: position.x - b.center[0],
+        z: position.z - b.center[1],
+        y: 0.16,
+      };
+      if (biome === "sakura")
+        p = nearestChillGround(p, spaRadius(n.model), chillObstacles);
+      else if (biome === "water")
+        p = nearestSpaGround(p, spaRadius(n.model), spaObstacles);
+      if (!p) return false;
+      n.carrier.position.set(
+        b.center[0] + p.x,
+        0.16 + islandHeight(biome, p.x, p.z),
+        b.center[1] + p.z,
+      );
+      n.manualAnchor = { x: n.carrier.position.x, z: n.carrier.position.z };
+      n.manualUntil = performance.now() + 30000;
+      return true;
+    },
     sync,
     focus,
     followChichi(value = !faceCamera.enabled) {
@@ -2969,6 +3406,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
         );
       spa.clear();
       crew.clear();
+      chill.clear();
+      residentPlay.clear();
       gatherUntil = performance.now() + 20000;
       heroGather = {
         from: chichiCarrier.position.clone(),
@@ -2990,6 +3429,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
       disposed = true;
       spa.clear();
       crew.clear();
+      chill.clear();
+      residentPlay.clear();
       for (const cup of spaCups.values()) {
         scene.remove(cup);
         disposeScenery(cup);

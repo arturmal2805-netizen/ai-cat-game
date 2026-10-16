@@ -134,6 +134,25 @@ function buildInitialScenery(placements) {
         scale: 0.75 + i * 0.08,
       })),
     ];
+    if (biome.id === "sakura") {
+      candidates.push(
+        ...[
+          [-7.5, -11],
+          [7.5, -11],
+          [-7, -2],
+          [7, -2],
+          [-6.5, 7],
+          [6.5, 7],
+          [-8, 19],
+          [8, 19],
+        ].map(([x, z], i) => ({
+          type: "scenery-tree-" + (i % 3 === 0 ? "sakura" : "enchanted"),
+          x,
+          z,
+          scale: 0.95 + (i % 3) * 0.12,
+        })),
+      );
+    }
     if (biome.id === "water") {
       // Keep seed IDs/types for old saves; give the larger SPA a planted rim.
       const points = [

@@ -1,3 +1,4 @@
+import { CHILL_RADIUS, CHILL_GATE, chillReservations } from "./chill-data.js";
 import {
   CAPYBARA_RADIUS,
   CAPYBARA_RIDES,
@@ -114,15 +115,15 @@ export const BIOMES = [
   },
   {
     id: "sakura",
-    name: "Сад цветущих снов",
-    subtitle: "Сакура, лепестки и розовый закат",
-    icon: "🌸",
+    name: "Chill Land",
+    subtitle: "Затишні особняки, спільні сни та теплі ванни серед квітів",
+    icon: "🏡",
     price: 580,
     center: [-54, 0],
-    ground: 0xb696a9,
-    edge: 0x705773,
-    foliage: 0xe2aac6,
-    accent: 0xffd5e8,
+    ground: 0xa7bd8a,
+    edge: 0x85838b,
+    foliage: 0x7c9b5d,
+    accent: 0xffd9ae,
   },
   {
     id: "clouds",
@@ -600,6 +601,7 @@ export const ACTIONS = [
   "swim",
 ];
 export function biomeReservations(id) {
+  if (id === "sakura") return chillReservations();
   if (id === "water") return spaReservations();
   if (id === "clockwork") return cottonReservations();
   if (id === "summer") return capybaraReservations();
@@ -1849,11 +1851,13 @@ export const buildTimeLabel = (minutes) =>
       ? Math.round((minutes / 60) * 10) / 10 + " ч"
       : minutes + " мин";
 export const biomeFeature = (b) =>
-  (b === "water"
-    ? "Спільний відпочинок, плавання, тепле джакузі та напої в SPA-барі"
-    : b === "summer"
-      ? "Чотири їздові капібари, купання в чотирьох лагунах і каскадні водоспади"
-      : null) ||
+  (b === "sakura"
+    ? "Сім відкритих особняків, 14 місць на спільних лежанках та 7 теплих ванн"
+    : b === "water"
+      ? "Спільний відпочинок, плавання, тепле джакузі та напої в SPA-барі"
+      : b === "summer"
+        ? "Чотири їздові капібари, купання в чотирьох лагунах і каскадні водоспади"
+        : null) ||
   RENEWED_ISLANDS[b]?.feature ||
   CROPS.find((c) => c.biome === b)?.name ||
   JOBS.find((j) => j.biomes.includes(b))?.name ||
@@ -1947,3 +1951,14 @@ JOBS.find((job) => job.id === "fishing").biomes.push("winter");
 // Art upgrades changed several radii. Keep their shores apart in both the
 // renderer and navigation instead of masking coplanar terrain with depth bias.
 separateIslandCenters(BIOMES);
+
+// Enlarge only this island after the established map layout is resolved.
+// Its small move leaves every other island (especially stars) exactly in place.
+Object.assign(
+  BIOMES.find((b) => b.id === "sakura"),
+  {
+    radius: CHILL_RADIUS,
+    center: [-104, 0],
+    arrival: [CHILL_GATE.x, CHILL_GATE.z],
+  },
+);

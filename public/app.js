@@ -1,3 +1,7 @@
+import {
+  moveResidentToBiome,
+  completeResidentAction,
+} from "./resident-actions.js";
 import { islandProjects } from "./island-construction.js";
 import { SPA_DRINKS } from "./spa-data.js";
 import { selectSpaDrink, completeSpaVisit } from "./spa-system.js";
@@ -1022,14 +1026,20 @@ $("item-store").onclick = () => {
 try {
   await restoreSculptCache();
   world = createWorld($("map"), game, {
-    canDragCat: () => !busy,
+    canDragCat: (id = "chichi") =>
+      cloud.editable && !cloud.conflict && (id !== "chichi" || !busy),
     onPreview: previewChanged,
     onSelectItem: inspect,
     onSelectScenery: inspectScenery,
     onSelectBowl: () => showBowl(),
     onSelectSpaBar: () => showSpaBar(),
     onSpaVisit: (receipt) => {
-      if (!cloud.simulationOwner || cloud.conflict) return;
+      if (
+        !cloud.editable ||
+        cloud.conflict ||
+        (!receipt.manual && !cloud.simulationOwner)
+      )
+        return;
       try {
         commit(completeSpaVisit(game, receipt));
       } catch (error) {
@@ -1037,6 +1047,32 @@ try {
       }
     },
     onCollectIncome: collectBusiness,
+    onResidentDrop: (id, selection, biome, point) => {
+      if (!cloud.editable || cloud.conflict) return false;
+      try {
+        const decision = selection
+          ? manualInteraction(worldSnapshot(game), selection, "happy")
+          : null;
+        commit(moveResidentToBiome(game, id, biome));
+        const started = decision
+          ? world.performResident(id, decision)
+          : world.moveResident(id, biome, point);
+        if (!started)
+          toast("Зараз тут зайнято. Оберіть інший предмет або вільне місце.");
+        return started;
+      } catch (error) {
+        toast(error.message);
+        return false;
+      }
+    },
+    onResidentAction: (id, decision) => {
+      if (!cloud.editable || cloud.conflict) return;
+      try {
+        commit(completeResidentAction(game, id, decision));
+      } catch (error) {
+        toast(error.message);
+      }
+    },
     onResidentSwam: (id) => {
       if (!cloud.simulationOwner) return;
       try {
