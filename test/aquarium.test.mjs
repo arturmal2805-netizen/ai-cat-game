@@ -298,3 +298,18 @@ test("level 14 is enforced and the actual animated fish vertices remain inside t
     }
   }
 });
+
+test("fish cameras follow the actual displayed pose when animations are paused, reduced or resumed", () => {
+  const tank = courtVenue(AQUARIUM_TANKS[1]);
+  tank.userData.update(4);
+  const shown = tank.userData.fishPoint(0, 4);
+  assert.deepEqual(tank.userData.fishPoint(0, 400), shown);
+  tank.userData.update(8);
+  assert.ok(tank.userData.fishPoint(0).distanceTo(shown) > 0.1);
+  tank.userData.update(9, true);
+  const frozen = tank.userData.fishPoint(0, 9);
+  tank.userData.update(70, true);
+  assert.deepEqual(tank.userData.fishPoint(0, 70), frozen);
+  tank.userData.update(71);
+  assert.ok(tank.userData.fishPoint(0).distanceTo(frozen) > 0.1);
+});

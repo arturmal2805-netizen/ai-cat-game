@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { aquariumOutline, aquariumFishFrame } from "./aquarium-data.js";
+import { aquariumOutline } from "./aquarium-data.js";
 import { part } from "./bikini-scenery.js";
 import { line } from "./fantasy-scenery.js";
 import { batchModelSteps } from "./model-batching.js";
@@ -251,13 +251,15 @@ export function* aquariumTankSteps(o) {
   root.userData.tank = o;
   root.userData.glass = glass;
   root.userData.surface = surface;
-  root.userData.fishPoint = (i, time) => {
-    const f = aquariumFishFrame(o, Math.max(0, Math.min(o.fish - 1, i)), time);
-    return new THREE.Vector3(
-      f.x + Math.sin(f.yaw) * f.scale * 0.7,
-      f.y + f.scale * 0.22,
-      f.z + Math.cos(f.yaw) * f.scale * 0.7,
+  const fishMatrix = new THREE.Matrix4();
+  // Track the displayed instance, including its roll and a frozen/reduced
+  // motion pose. Wall-clock extrapolation can point at an empty part of a tank.
+  root.userData.fishPoint = (i) => {
+    shoal.children[0].getMatrixAt(
+      Math.max(0, Math.min(o.fish - 1, i)),
+      fishMatrix,
     );
+    return new THREE.Vector3(0, 0.22, 0.7).applyMatrix4(fishMatrix);
   };
   root.userData.update = (time, reduced = false) => {
     clock.value = reduced ? 0 : time;

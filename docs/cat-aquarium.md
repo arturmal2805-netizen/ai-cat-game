@@ -86,9 +86,11 @@ Validation:
   and reload. Software WebGL results are functional evidence, not an iPhone FPS
   guarantee. Set `CHICHI_PLAYWRIGHT_MODULE`, `CHICHI_CHROMIUM` if needed.
 
-Verified on 18 October 2026 (Kyiv): all **425** automated tests passed, the build
+Verified on 18 October 2026 (Kyiv): the automated tests passed, the build
 and Worker deployment dry run passed. The private browser check also passed
 actual touch drops resident→resident, Chichi→resident and resident→Chichi,
 fish-instance camera selection through glass, six simultaneous visitors,
 unchanged legacy aquarium-coaster visibility and exact significant save fields
-after reload. Reviewed large in-game screenshots of fish and piggyback poses.
+after reload. Reviewed large in-game screenshots of fish and piggyback poses. An additional
+regression checks camera tracking against the displayed instance matrix when
+fish motion is paused, reduced or resumed.
