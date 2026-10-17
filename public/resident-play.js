@@ -19,7 +19,7 @@ export function createResidentPlay({
   function cancel(id) {
     const v = visits.get(id);
     if (!v) return;
-    if (v.object?.userData.deepRide) {
+    if (v.object?.userData.deepRide || v.object?.userData.mega) {
       const n = getCat(id);
       if (n) {
         n.carrier.position.copy(
@@ -169,6 +169,7 @@ export function createResidentPlay({
       if (g.userData.rideFrame) {
         g.userData.rideElapsed = elapsed;
         const f = g.userData.rideFrame(elapsed, reduced);
+        result.walking = f.walking ?? false;
         local.set(...f.position);
         result.yaw = (f.yaw || 0) + g.rotation.y;
         result.roll = f.roll || 0;

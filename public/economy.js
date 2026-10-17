@@ -795,7 +795,7 @@ export function worldSnapshot(game, now = Date.now()) {
               : o,
         ),
       ...game.placements
-        .filter((p) => isBuilt(p))
+        .filter((p) => isBuilt(p, now))
         .map((p) => ({
           id: p.id,
           type: p.item,

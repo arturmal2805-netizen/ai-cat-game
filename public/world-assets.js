@@ -1,4 +1,5 @@
 import { bikiniFriend } from "./bikini-data.js";
+import { megaAttraction } from "./mega-ride-assets.js";
 import { createBikiniCharacter } from "./bikini-characters.js";
 import { courtType } from "./foodcourt-data.js";
 import { courtVenue } from "./foodcourt-assets.js";
@@ -198,6 +199,8 @@ export function makeAttraction(id, fields = [], now = Date.now()) {
   if (bikiniFriend(id)) return createBikiniCharacter(bikiniFriend(id).kind);
   if (courtType(id)) return courtVenue(courtType(id));
 
+  const mega = megaAttraction(id);
+  if (mega) return mega;
   const mosa = mosasaurRide(id);
   if (mosa) return mosa;
   const capybara = capybaraRide(id);

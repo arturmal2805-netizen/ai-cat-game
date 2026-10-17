@@ -25,6 +25,7 @@ import { BIOME_STYLES } from "./biome-styles.js";
 import { ADOPTION_CATS } from "./cat-breeds.js";
 import { BUSINESSES } from "./business-data.js";
 import { CITY_RIDES } from "./city-ride-data.js";
+import { MEGA_RIDES } from "./mega-ride-data.js";
 import { COTTON_RIDES, cottonReservations } from "./cotton-data.js";
 import { separateIslandCenters } from "./world-layout.js";
 import { SPA_RADIUS, spaReservations } from "./spa-data.js";
@@ -2149,3 +2150,5 @@ CROPS.push({
   value: 28,
   biome: "homestead",
 });
+
+CATALOG.push(...MEGA_RIDES);

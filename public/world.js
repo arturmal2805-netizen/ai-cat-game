@@ -51,6 +51,7 @@ import { islandObjects } from "./world-objects.js";
 import { swimFrame } from "./swimming.js";
 import { activeCats } from "./cat-roster.js";
 import { catAppearance } from "./cat-breeds.js";
+import { outsideMegaPlots } from "./mega-ride-data.js";
 import { watchWorldViewport } from "./world-viewport.js";
 import {
   incomeFor,
@@ -280,6 +281,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
   const islands = new Map(),
     itemGroups = new Map(),
     npcs = new Map();
+  let megaGroundPlots = [];
+  const megaGroundPoint = { x: 0, z: 0 };
   const mealVisits = new Map(),
     swimVisits = new Map();
   const islandContentKeys = new Map();
@@ -1065,6 +1068,19 @@ export function createWorld(container, initialGame, callbacks = {}) {
     ]);
     if (key === sceneKey) return;
     sceneKey = key;
+    megaGroundPlots = game.placements
+      .filter((p) => byItem(p.item)?.mega)
+      .map((p) => {
+        const size = byItem(p.item).footprint,
+          b = byBiome(p.biome);
+        return {
+          biome: p.biome,
+          x: b.center[0] + p.x,
+          z: b.center[1] + p.z,
+          w: size[p.rotation % 2 ? 1 : 0],
+          d: size[p.rotation % 2 ? 0 : 1],
+        };
+      });
     courtExtra = [
       ...game.placements
         .filter((p) => p.biome === "foodcourt")
@@ -1657,7 +1673,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (operation.attraction) {
         operation.attraction.userData.playing = false;
         delete operation.attraction.userData.heroPlayPos;
-        if (operation.attraction.userData.deepRide) {
+        delete operation.attraction.userData.rideElapsed;
+        if (
+          operation.attraction.userData.deepRide ||
+          operation.attraction.userData.mega
+        ) {
           chichiCarrier.position.copy(
             operation.attraction.localToWorld(
               new THREE.Vector3(...operation.attraction.userData.dismount),
@@ -3393,6 +3413,18 @@ export function createWorld(container, initialGame, callbacks = {}) {
           n.carrier.rotation.y = Math.atan2(direction.x, direction.z);
         n.carrier.position.x += direction.x * dt * 0.8;
         n.carrier.position.z += direction.z * dt * 0.8;
+        if (megaGroundPlots.length) {
+          outsideMegaPlots(
+            n.carrier.position.x,
+            n.carrier.position.z,
+            megaGroundPlots,
+            b.id,
+            spaRadius(n.model),
+            megaGroundPoint,
+          );
+          n.carrier.position.x = megaGroundPoint.x;
+          n.carrier.position.z = megaGroundPoint.z;
+        }
         npcWalking = direction.length() > 0.1;
       }
       const near =
@@ -3608,6 +3640,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           if (g.userData.rideFrame) {
             g.userData.rideElapsed = elapsed;
             const f = g.userData.rideFrame(elapsed, reduced);
+            walking = f.walking ?? false;
             local.set(...f.position);
             chichiCarrier.rotation.y = (f.yaw || 0) + g.rotation.y;
             chichiCarrier.rotation.z = f.roll || 0;
