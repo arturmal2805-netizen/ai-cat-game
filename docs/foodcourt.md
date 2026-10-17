@@ -37,17 +37,39 @@ it. The small order button sends Chichi through the same physical interaction.
 
 ## Cinema content
 
-No episode/video files were present in the project. `cinema-playlist.js` is an
-intentionally empty list of project-provided video URLs. Add actual provided
-files and their titles there. The in-world screen uses `THREE.VideoTexture`,
-not a poster or an invented substitute cartoon. The player may also select a
-local MP4/WebM video; a local file is only available on that device and is not
-uploaded to a shared save. User taps control play/pause; videos pause on exit,
-page backgrounding and when the world scrolls out of view.
+`cinema-playlist.js` contains three original mini-stories starring SpongeBob:
+“Пузырь для Гэри” (18 s), “Большой крабсбургер” (20 s), and “Танец медуз” (18 s).
+These are newly authored animations, not official television episode excerpts.
+The committed MP4s contain moving characters, story beats, Russian captions,
+original synthesized music and cartoon sounds. They use H.264/AAC, 960×540 at
+24 fps, with fast-start metadata. Together they are about 2.2 MB; only the
+current movie is decoded. Nothing is rendered to a canvas every game frame.
 
-The browser QA uses a private generated colour test clip to check decoding,
-texture updates, pause and mobile input. That clip is never shipped or described
-as a SpongeBob episode. Add supplied episodes separately to enable that content.
+Regenerate offline with `python3 scripts/render-cinema.py` (Pillow, NumPy,
+FFmpeg and Open Sans fonts); `--stills` writes a review storyboard to `/tmp`.
+The in-world screen uses `THREE.VideoTexture` at the movie's 16:9 aspect ratio.
+The video source is attached lazily when the cinema scene becomes available.
+Seated viewers start the playlist automatically, muted for mobile autoplay.
+Controls offer play/pause, next story, sound and a local MP4/WebM file. Local
+files stay on that device and are never uploaded to the shared save.
+
+Leaving the interior camera keeps a seated audience watching. Leaving the
+island, backgrounding the page, opening a dialog or scrolling the world away
+pauses decoding. Explicit user pause stays paused. Every story loops through
+the playlist; viewers count only actual decoded playing time toward their
+30-second visit. Seats remain reserved while paused. Cats turn toward the
+physical screen and react to timed story cues with brief curious/delighted
+expressions, ears, tail and paw motion, staggered by seat. Their approved
+geometry is unchanged; expressions recover through the existing cat rig.
+
+The cinema uses the existing ordinary business account: 480 coins and 182 XP
+per hour at level one, collected from its coin badge or the Business menu.
+Existing upgrades increase both rates and shared-save guards prevent duplicate
+collection. The cinema controls show the current upgraded hourly rates.
+
+The browser QA decodes all three shipped movies, advances the playlist,
+checks pause/resume and an interested manually seated cat outside the interior
+camera, then verifies exact coins/XP/receipts in a private cloud save.
 
 ## Validation
 

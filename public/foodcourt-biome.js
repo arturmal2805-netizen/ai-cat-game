@@ -150,6 +150,34 @@ export function* foodcourtBiomeSteps(
     // A low sculptural fountain leaves the surrounding water usable for swimming.
     shape(props, "pole", 0xd5c7b0, 0, 0.45, 3, 0.65, 0.7, 0.65);
     shape(props, "sphere", 0xe5d5b2, 0, 1.25, 3, 0.78, 0.65, 0.7);
+    shape(props, "sphere", 0xe5d5b2, 0, 0.86, 3.3, 0.72, 0.73, 0.65);
+    for (const side of [-1, 1]) {
+      shape(
+        props,
+        "sphere",
+        0xe5d5b2,
+        side * 0.49,
+        0.57,
+        3.65,
+        0.33,
+        0.24,
+        0.43,
+      );
+      shape(
+        props,
+        "sphere",
+        0x6d7775,
+        side * 0.25,
+        1.39,
+        3.63,
+        0.08,
+        0.1,
+        0.035,
+      );
+      shape(props, "sphere", 0xe5d5b2, side * 0.5, 1.02, 3.7, 0.23, 0.27, 0.25);
+    }
+    shape(props, "petal", 0xa98482, 0, 1.19, 3.71, 0.09, 0.065, 0.035);
+    shape(props, "sphere", 0xffdfa0, 0, 0.95, 3.82, 0.34, 0.34, 0.34, true);
     for (const s of [-1, 1])
       shape(props, "cone", 0xe5d5b2, s * 0.46, 1.94, 3, 0.23, 0.6, 0.2);
     for (const o of COURT_VENUES) {

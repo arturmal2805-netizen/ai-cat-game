@@ -7,10 +7,12 @@ import {
   nearestCourtGround,
 } from "./foodcourt-navigation.js";
 import { spaDistance } from "./spa-navigation.js";
+import { cinemaReaction } from "./cinema-playlist.js";
 export function createCourtRuntime({
   getObstacles = () => courtObstacles(),
   isReady = () => true,
   onComplete = () => {},
+  getCinema = () => ({ playing: true, time: 0 }),
 } = {}) {
   const visits = new Map(),
     locks = new Map();
@@ -78,6 +80,7 @@ export function createCourtRuntime({
       path: [],
       reaction: null,
       slot: orders.length,
+      watched: 0,
     };
     const goal =
       o.kind === "cinema"
@@ -241,18 +244,23 @@ export function createCourtRuntime({
         }
       } else if (v.phase === "consume") {
         v.position = { ...v.seat };
-        v.yaw = Math.PI;
+        v.yaw =
+          v.kind === "cinema"
+            ? Math.atan2(o.x - v.seat.x, o.z - 6.15 - v.seat.z)
+            : Math.PI;
         v.holding = v.kind !== "cinema";
+        const playback = v.kind === "cinema" ? getCinema() : null;
+        if (playback?.playing) v.watched += dt;
         v.reaction =
           v.kind === "cinema"
-            ? { headPitch: -0.07, crouch: 0.12, earRelax: -0.04 }
+            ? cinemaReaction(playback, v.seatIndex)
             : {
                 paw: 0.32 + Math.sin(time * 3) * 0.09,
                 headPitch: 0.13 + Math.sin(time * 3) * 0.045,
                 headRoll: Math.sin(time * 1.3) * 0.025,
               };
         if (
-          v.elapsed > (v.kind === "cinema" ? 30 : 17) &&
+          (v.kind === "cinema" ? v.watched > 30 : v.elapsed > 17) &&
           (!locks.has(o.id) || locks.get(o.id) === v.catId)
         ) {
           const goal = nearestCourtGround(

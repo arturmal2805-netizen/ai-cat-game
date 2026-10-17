@@ -5,6 +5,7 @@ import {
   torus,
   flowerCluster,
   lantern,
+  surfaceTexture,
 } from "./fantasy-scenery.js";
 import { runSceneSteps } from "./scene-tasks.js";
 import { batchModelSteps, batchModelGeometry } from "./model-batching.js";
@@ -43,6 +44,11 @@ export function courtLabel(text, width = 5, height = 0.8) {
   return m;
 }
 const foodTemplates = new Map();
+const floorMaterial = new THREE.MeshStandardMaterial({
+  color: 0xf0dfc7,
+  roughness: 0.83,
+});
+floorMaterial.userData.sharedScenery = true;
 export function courtFood(kind = "burger") {
   if (foodTemplates.has(kind)) return foodTemplates.get(kind).clone(true);
   const g = new THREE.Group();
@@ -231,27 +237,39 @@ export function* courtVenueSteps(o, { staff = true } = {}) {
   let videoSurface = null;
   if (o.kind === "cinema") {
     shape(staticPart, "cube", 0xb79778, 0, 0.13, 0, o.w, 0.22, o.d);
-    shape(staticPart, "cube", 0x7b668c, 0, 3.9, -6.5, 14, 7.1, 0.4);
+    shape(staticPart, "cube", 0x7b668c, 0, 4.5, -6.5, 14, 8.3, 0.4);
     for (const s of [-1, 1]) {
       const ear = shape(
         staticPart,
         "cone",
         0x7b668c,
         s * 5.7,
-        8,
+        8.8,
         -6.5,
         1.4,
         2,
         1,
       );
       ear.rotation.z = -s * 0.2;
+      const inner = shape(
+        staticPart,
+        "cone",
+        0xe3acc3,
+        s * 5.7,
+        8.85,
+        -5.96,
+        0.78,
+        1.15,
+        0.12,
+      );
+      inner.rotation.z = -s * 0.2;
     }
-    shape(staticPart, "cube", 0xc0a77f, 0, 3.9, -6.22, 13.1, 6.25, 0.08);
+    shape(staticPart, "cube", 0xc0a77f, 0, 4.5, -6.22, 13.1, 7.6, 0.08);
     videoSurface = new THREE.Mesh(
-      new THREE.PlaneGeometry(12.5, 5.8),
-      new THREE.MeshBasicMaterial({ color: 0x172739 }),
+      new THREE.PlaneGeometry(12.5, (12.5 * 9) / 16),
+      new THREE.MeshBasicMaterial({ color: 0x172739, toneMapped: false }),
     );
-    videoSurface.position.set(0, 3.9, -6.15);
+    videoSurface.position.set(0, 4.5, -6.15);
     videoSurface.name = "Cinema video surface";
     g.add(videoSurface);
     for (const s of courtSeats(o)) {
@@ -269,6 +287,42 @@ export function* courtVenueSteps(o, { staff = true } = {}) {
         1.65,
       );
       shape(staticPart, "sphere", 0xf1dfd5, x, 0.75, z - 0.85, 1.35, 0.37, 0.6);
+      // Tufted back pillow and tiny paw embroidery sit behind the reserved seat.
+      for (const dx of [-0.62, 0, 0.62])
+        shape(
+          staticPart,
+          "sphere",
+          0xe1b7c9,
+          x + dx,
+          0.97,
+          z - 0.87,
+          0.065,
+          0.025,
+          0.065,
+        );
+      shape(
+        staticPart,
+        "sphere",
+        0xdfb7c8,
+        x + 1.21,
+        0.7,
+        z - 0.92,
+        0.17,
+        0.035,
+        0.14,
+      );
+      for (const dx of [-0.16, 0, 0.16])
+        shape(
+          staticPart,
+          "sphere",
+          0xdfb7c8,
+          x + 1.21 + dx,
+          0.73,
+          z - 1.15,
+          0.065,
+          0.03,
+          0.08,
+        );
     }
     for (const x of [-8.4, 8.4]) {
       shape(staticPart, "cube", 0x534e69, x, 1.4, -5, 1.1, 2.5, 1);
@@ -277,8 +331,60 @@ export function* courtVenueSteps(o, { staff = true } = {}) {
     }
     for (const x of [-8.2, 8.2])
       for (const z of [-6, 2, 8]) lantern(staticPart, x, 0.15, z, 0.6);
+    for (let j = 0; j < 25; j++) {
+      const x = -7.5 + j * 0.625,
+        y = 9.25 - Math.sin((j / 24) * Math.PI) * 0.44;
+      shape(staticPart, "sphere", 0xffd789, x, y, -5.9, 0.09, 0.12, 0.09, true);
+      if (j)
+        line(
+          staticPart,
+          [x - 0.625, 9.25 - Math.sin(((j - 1) / 24) * Math.PI) * 0.44, -5.9],
+          [x, y, -5.9],
+          wood,
+          0.025,
+        );
+    }
+    for (const side of [-1, 1]) {
+      shape(staticPart, "cube", wood, side * 8.3, 0.35, 5, 0.8, 0.5, 3.2);
+      for (let j = 0; j < 4; j++)
+        flowerCluster(
+          staticPart,
+          side * 8.3,
+          3.8 + j * 0.8,
+          [0xf3b0cc, 0xf6d495][j % 2],
+          0.7,
+        );
+    }
   } else {
-    shape(staticPart, "cube", 0xd7bc95, 0, 0.06, 0, o.w, 0.13, o.d);
+    const floor = shape(
+      staticPart,
+      "cube",
+      0xd7bc95,
+      0,
+      0.06,
+      0,
+      o.w,
+      0.13,
+      o.d,
+    );
+    floor.material = floorMaterial;
+    // Fine tile joints replace the stretched wood grain on large floor slabs.
+    for (let x = -hw + 1; x < hw; x += 1.4)
+      line(
+        staticPart,
+        [x, 0.131, -hd + 0.12],
+        [x, 0.131, hd - 0.12],
+        0xe2ceb0,
+        0.012,
+      );
+    for (let z = -hd + 1; z < hd; z += 1.4)
+      line(
+        staticPart,
+        [-hw + 0.12, 0.131, z],
+        [hw - 0.12, 0.131, z],
+        0xe2ceb0,
+        0.012,
+      );
     shape(staticPart, "cube", o.color, 0, 2.6, -hd, o.w, 5, 0.22);
     for (const s of [-1, 1]) {
       shape(staticPart, "cube", o.color, s * hw, 0.5, 0, 0.25, 0.8, o.d);
@@ -325,6 +431,49 @@ export function* courtVenueSteps(o, { staff = true } = {}) {
       g.add(pane);
     }
     shape(staticPart, "cube", cream, 0, 5.05, hd, o.w + 0.3, 0.65, 0.3);
+    // Warm pendants and wall niches, batched with the interior: no point lights.
+    for (const x of [-3.3, 0, 3.3]) {
+      line(roofPart, [x, 5.15, -0.2], [x, 4.15, -0.2], wood, 0.035);
+      shape(roofPart, "dome", 0xf3c982, x, 4.03, -0.2, 0.36, 0.32, 0.36);
+      shape(
+        roofPart,
+        "sphere",
+        0xffe3a5,
+        x,
+        3.98,
+        -0.2,
+        0.19,
+        0.09,
+        0.19,
+        true,
+      );
+    }
+    for (const side of [-1, 1]) {
+      shape(
+        staticPart,
+        "cube",
+        wood,
+        side * (hw - 1.35),
+        3.7,
+        -hd + 0.15,
+        1.5,
+        1.5,
+        0.15,
+      );
+      shape(
+        staticPart,
+        "cube",
+        0xffdba0,
+        side * (hw - 1.35),
+        3.7,
+        -hd + 0.24,
+        1.25,
+        1.23,
+        0.03,
+        true,
+      );
+      catLogo(staticPart, side * (hw - 1.35), 3.7, -hd + 0.29, 0xfff0d3);
+    }
     shape(staticPart, "cube", wood, 0, 0.75, -1.5, o.w - 1.6, 1.45, 1.1);
     shape(staticPart, "cube", cream, 0, 1.52, -1.5, o.w - 1.3, 0.16, 1.35);
     for (let i = 0; i < 5; i++)
@@ -432,11 +581,61 @@ export function* courtVenueSteps(o, { staff = true } = {}) {
         bevelSize: 0.1,
         bevelThickness: 0.08,
       }),
-      new THREE.MeshStandardMaterial({ color: o.roof, roughness: 0.7 }),
+      new THREE.MeshStandardMaterial({
+        color: o.roof,
+        roughness: 0.7,
+        map: surfaceTexture("roof"),
+      }),
     );
     roofMesh.position.z = -hd - 0.4;
     roofMesh.castShadow = true;
     roofPart.add(roofMesh);
+    // Trailing flowers frame the corners, leaving doors, windows and roofs clear.
+    for (const side of [-1, 1]) {
+      for (let j = 0; j < 12; j++) {
+        const x = side * (hw - 0.35) + Math.sin(j * 2.4) * 0.34,
+          y = 5.5 - j * 0.21,
+          z = hd + 0.32;
+        shape(
+          roofPart,
+          "petal",
+          j % 2 ? 0x78a36c : 0x94b278,
+          x,
+          y,
+          z,
+          0.23,
+          0.14,
+          0.14,
+        );
+        if (j % 3 === 0) {
+          for (let k = 0; k < 5; k++) {
+            const a = (k / 5) * Math.PI * 2;
+            shape(
+              roofPart,
+              "petal",
+              o.kind === "boba" ? 0xf2b7d9 : 0xf5d1a1,
+              x + Math.cos(a) * 0.12,
+              y + Math.sin(a) * 0.12,
+              z + 0.12,
+              0.12,
+              0.1,
+              0.04,
+            );
+          }
+          shape(
+            roofPart,
+            "sphere",
+            0xffe5a5,
+            x,
+            y,
+            z + 0.17,
+            0.065,
+            0.065,
+            0.03,
+          );
+        }
+      }
+    }
     for (let i = 0; i < 20; i++) {
       const x = -hw + 0.2 + (i * (o.w - 0.4)) / 19,
         y = 4.65 - Math.sin((i / 19) * Math.PI) * 0.27;
@@ -554,7 +753,31 @@ export function* courtVenueSteps(o, { staff = true } = {}) {
       catLogo(roofPart, 0, 7.5, 1.05, 0xffecd8);
     } else if (o.kind === "coffee") {
       shape(roofPart, "sphere", o.roof, 0, 6.6, 0, 3.2, 1.6, 3);
-      catLogo(roofPart, 0, 6.8, hd + 0.4, 0xffe8c5);
+      const sign = shape(
+        roofPart,
+        "pole",
+        cream,
+        0,
+        7.1,
+        hd + 0.39,
+        1.32,
+        0.17,
+        1.32,
+      );
+      sign.rotation.x = Math.PI / 2;
+      const inset = shape(
+        roofPart,
+        "pole",
+        0x497b68,
+        0,
+        7.1,
+        hd + 0.5,
+        1.15,
+        0.08,
+        1.15,
+      );
+      inset.rotation.x = Math.PI / 2;
+      catLogo(roofPart, 0, 7.1, hd + 0.6, 0xffe8c5);
     } else {
       const f = courtFood("cookie");
       f.scale.setScalar(5);
@@ -591,7 +814,7 @@ export function* courtVenueSteps(o, { staff = true } = {}) {
   );
   name.position.set(
     0,
-    o.kind === "cinema" ? 7.7 : 5.02,
+    o.kind === "cinema" ? 8.9 : 5.02,
     o.kind === "cinema" ? -6.1 : hd + 0.22,
   );
   g.add(name);

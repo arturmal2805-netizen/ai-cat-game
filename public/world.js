@@ -46,7 +46,13 @@ import { swimFrame } from "./swimming.js";
 import { activeCats } from "./cat-roster.js";
 import { catAppearance } from "./cat-breeds.js";
 import { watchWorldViewport } from "./world-viewport.js";
-import { incomeFor, businessVenues, businessLevel } from "./business.js";
+import {
+  incomeFor,
+  businessVenues,
+  businessLevel,
+  revenueRate,
+  businessXP,
+} from "./business.js";
 import {
   spaObject,
   SPA_GATE,
@@ -484,7 +490,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       courtBiome.center[1] + o.z + (o.kind === "cinema" ? 0 : 1),
     );
     desiredDistance =
-      o.kind === "cinema" ? (mobileRender ? 32 : 26) : mobileRender ? 24 : 19;
+      o.kind === "cinema" ? (mobileRender ? 40 : 30) : mobileRender ? 24 : 19;
     azimuth = 0.06;
     elevation = 0.85;
     courtExit.hidden = false;
@@ -499,6 +505,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   const court = createCourtRuntime({
     getObstacles: () => courtBlockers,
     isReady: (id) => courtProject(game, id)?.built,
+    getCinema: () => cinema.playback,
     onComplete: (receipt) => {
       if (receipt.catId === "chichi" && operation?.court)
         operation.spaCompleted = receipt;
@@ -2560,6 +2567,21 @@ export function createWorld(container, initialGame, callbacks = {}) {
           position: courtLocal(chichiCarrier.position),
           radius: spaRadius(cat),
         });
+      let viewers = 0;
+      for (const v of court.visits.values())
+        if (v.kind === "cinema" && ["settle", "consume"].includes(v.phase))
+          viewers++;
+      const cinemaLevel = businessLevel(game, "court-cinema");
+      cinema.update({
+        viewers,
+        active:
+          worldVisible &&
+          !document.hidden &&
+          focused === "foodcourt" &&
+          distance < 180,
+        coins: revenueRate("court-cinema", cinemaLevel),
+        xp: businessXP("court-cinema", cinemaLevel),
+      });
       court.step(dt, time, courtIdle);
       for (const o of COURT_VENUES) {
         const g = itemGroups.get(o.id);
@@ -2571,6 +2593,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
             ) || null;
       }
     }
+    if (dialogOpen) cinema.pause();
     for (const [id, cup] of spaCups)
       if (!spa.get(id)?.drinking) {
         scene.remove(cup);
@@ -2669,6 +2692,13 @@ export function createWorld(container, initialGame, callbacks = {}) {
         courtBiome.center[1] + v.position.z,
       );
       carrier.rotation.y = v.yaw;
+      if (
+        v.reaction?.cue &&
+        model.userData.courtCue !== `${v.id}:${v.reaction.cue}`
+      ) {
+        model.userData.courtCue = `${v.id}:${v.reaction.cue}`;
+        emoteCat(model, v.reaction.emotion, { crowd: true });
+      }
       if (v.holding) {
         let food = courtFoods.get(v.catId);
         if (!food) {

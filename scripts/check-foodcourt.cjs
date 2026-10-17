@@ -491,56 +491,157 @@ async function localWorker() {
       false,
     );
     console.log("Resident orders and drinks bubble tea", resident.id);
-    // The actual VideoTexture is exercised using a private test clip. It is
-    // never shipped or represented as a supplied SpongeBob episode.
+    // Decode the actual shipped shorts, not a mocked colour test clip.
     await page.evaluate(() => __lagoonQA.enterCourt("court-cinema"));
-    const clip = fs.readFileSync(
-      process.env.CHICHI_TEST_VIDEO || "/tmp/court-video-test.mp4",
+    await page.waitForFunction(
+      () =>
+        __lagoonQA.cinema.video.readyState >= 2 &&
+        !__lagoonQA.cinema.video.paused,
     );
-    await page.route("**/test-video.mp4", (r) =>
-      r.fulfill({ contentType: "video/mp4", body: clip }),
-    );
-    await page.evaluate(
-      (base) =>
-        __lagoonQA.cinema.load(
-          base + "/test-video.mp4",
-          "Private decoder test",
-        ),
-      base,
-    );
-    await page.waitForFunction(() => __lagoonQA.cinema.video.readyState >= 2);
-    await page.locator(".court-cinema-controls button").first().tap();
-    await page.waitForTimeout(1100);
+    await page.waitForTimeout(500);
     const first = await page.evaluate(() => ({
       time: __lagoonQA.cinema.video.currentTime,
+      src: __lagoonQA.cinema.video.currentSrc,
+      width: __lagoonQA.cinema.video.videoWidth,
+      duration: __lagoonQA.cinema.video.duration,
+      muted: __lagoonQA.cinema.video.muted,
       version:
         __lagoonQA.itemGroups.get("court-cinema").userData.videoSurface.material
           .map.version,
     }));
     assert.ok(first.time > 0.1);
-    await page.evaluate(() => (__lagoonQA.drawPaused = false));
-    await page.waitForTimeout(500);
-    await page.screenshot({
-      path: path.join(review, "cinema-video-phone.png"),
+    assert.ok(first.src.endsWith("sponge-bubbles.mp4"));
+    assert.equal(first.width, 960);
+    assert.equal(first.duration, 18);
+    assert.equal(first.muted, true);
+    assert.ok(first.version > 0);
+    for (const name of ["sponge-burger.mp4", "sponge-jellyfish.mp4"]) {
+      await page
+        .getByRole("button", { name: "Следующий ▶", exact: true })
+        .tap();
+      await page.waitForFunction(
+        (name) =>
+          __lagoonQA.cinema.video.currentSrc.endsWith(name) &&
+          __lagoonQA.cinema.playback.playing,
+        name,
+      );
+    }
+    // A completed episode advances to the next story automatically.
+    await page.evaluate(() => {
+      const v = __lagoonQA.cinema.video;
+      v.currentTime = v.duration - 0.12;
     });
+    await page.waitForFunction(
+      () =>
+        __lagoonQA.cinema.video.currentSrc.endsWith("sponge-bubbles.mp4") &&
+        __lagoonQA.cinema.playback.playing,
+    );
     await page.locator(".court-cinema-controls button").first().tap();
     const paused = await page.evaluate(
       () => __lagoonQA.cinema.video.currentTime,
     );
-    await page.waitForTimeout(400);
+    await page.waitForTimeout(600);
     assert.ok(
       Math.abs(
         (await page.evaluate(() => __lagoonQA.cinema.video.currentTime)) -
           paused,
       ) < 0.08,
     );
+    await page.locator(".court-cinema-controls button").first().tap();
+    await page.waitForFunction(() => __lagoonQA.cinema.playback.playing);
+    assert.ok(
+      (await page.locator(".court-cinema-income").textContent()).includes(
+        "480 монет + 182 XP",
+      ),
+    );
+    // A manual cinema action reserves a pouf and starts playback even with
+    // the interior controls closed. The runtime follows the decoded timeline.
+    const viewer = await page.evaluate((id) => {
+      const q = __lagoonQA;
+      q.court.clear();
+      const started = q.performResident(id, {
+        mood: "happy",
+        thought: "Посмотрю Губку Боба!",
+        action: "rest",
+        activityId: "court-cinema",
+        target: "picnic",
+      });
+      for (let i = 0; i < 3000 && q.court.get(id)?.phase !== "consume"; i++)
+        q.court.step(1 / 30, i / 30);
+      return { started, phase: q.court.get(id)?.phase };
+    }, resident.id);
+    assert.ok(viewer.started);
+    assert.equal(viewer.phase, "consume");
+    await page.evaluate(() => {
+      __lagoonQA.exitCourt();
+      __lagoonQA.cinema.video.currentTime = 14.25;
+    });
+    await page.waitForFunction(
+      (id) =>
+        __lagoonQA.cinema.playback.playing &&
+        __lagoonQA.court.get(id)?.reaction?.emotion === "delighted",
+      resident.id,
+    );
+    const watching = await page.evaluate(
+      (id) => ({
+        visit: __lagoonQA.court.get(id),
+        expression: __lagoonQA.npcs.get(id).model.userData.expression?.name,
+        controlsHidden: __lagoonQA.cinema.controls.hidden,
+      }),
+      resident.id,
+    );
+    assert.equal(watching.controlsHidden, true);
+    assert.ok(watching.visit.watched > 0);
+    assert.equal(watching.visit.reaction.emotion, "delighted");
+    assert.equal(watching.expression, "delighted");
+    await page.evaluate(() => {
+      __lagoonQA.drawPaused = false;
+      __lagoonQA.enterCourt("court-cinema");
+    });
+    await page.waitForTimeout(400);
+    await page.screenshot({
+      path: path.join(review, "cinema-video-phone.png"),
+    });
+    // Background/offscreen pause stops decoding; visibility resumes without
+    // erasing the selected story or the explicit pause setting.
+    await page.evaluate(() =>
+      __lagoonQA.cinema.update({ viewers: 1, active: false }),
+    );
+    assert.equal(
+      await page.evaluate(() => __lagoonQA.cinema.video.paused),
+      true,
+    );
+    await page.evaluate(() =>
+      __lagoonQA.cinema.update({ viewers: 1, active: true }),
+    );
+    await page.waitForFunction(() => __lagoonQA.cinema.playback.playing);
     await page.evaluate(() => {
       __lagoonQA.drawPaused = true;
       __lagoonQA.exitCourt();
     });
     console.log(
-      "VideoTexture playback, decoding, pause and exit verified",
+      "Three actual SpongeBob shorts, automatic sequence, explicit pause, muted mobile playback, interested seated audience and cinema income verified",
       first,
+    );
+    const cinemaBefore = await page.evaluate(() => {
+      const q = __lagoonSaveQA,
+        g = structuredClone(q.getGame());
+      g.business.accounts["court-cinema"].collectedAt = Date.now() - 3600000;
+      q.commit(g);
+      __lagoonQA.reviewView(-167, 95.5, 40);
+      return { coins: g.coins, xp: g.progression.xp };
+    });
+    const cinemaCoin = page.locator('[data-income="court-cinema"]');
+    await cinemaCoin.waitFor({ state: "visible" });
+    await cinemaCoin.tap();
+    await page.waitForFunction(
+      (before) =>
+        __lagoonSaveQA.getGame().coins >= before.coins + 480 &&
+        __lagoonSaveQA.getGame().progression.xp >= before.xp + 182,
+      cinemaBefore,
+    );
+    console.log(
+      "Cinema coin badge pays ordinary coins and XP through the existing saved business account",
     );
     await page.evaluate(() => {
       const q = __lagoonQA;

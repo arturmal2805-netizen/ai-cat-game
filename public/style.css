@@ -2718,6 +2718,32 @@ main {
   text-align: center;
   font-size: 0.82rem;
 }
+.court-cinema-controls .court-cinema-income {
+  font-size: 0.7rem;
+  color: #89758e;
+}
+.court-cinema-controls button {
+  min-height: 2.75rem;
+  padding: 0.4rem 0.65rem;
+  border: 1px solid #dfcce7;
+  border-radius: 999px;
+  background: #f3e8f7;
+  color: #65516b;
+  font: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+.court-cinema-controls button:active {
+  background: #e8d8ef;
+}
+.court-cinema-controls button:focus-visible {
+  outline: 2px solid #a383bc;
+  outline-offset: 2px;
+}
+.court-cinema-controls button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
 @media (max-width: 700px) {
   .court-camera-exit {
     top: 7rem;

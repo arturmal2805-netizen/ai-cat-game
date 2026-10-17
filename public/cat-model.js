@@ -62,11 +62,11 @@ export function setCatMood(cat, mood, { immediate = false } = {}) {
     applyPose(cat, 0, false, true);
   }
 }
-export function emoteCat(cat, name) {
+export function emoteCat(cat, name, { crowd = false } = {}) {
   if (!CAT_EXPRESSIONS.includes(name))
     throw new RangeError("Unknown cat expression");
   const d = cat.userData;
-  if (!d.reference) return;
+  if (!d.referenceFamily || (!d.reference && !crowd)) return;
   // Start at the next animated frame. A slow first load or returning from a
   // background tab must not consume the reaction before the player can see it.
   d.expression = { name, start: null };
@@ -216,7 +216,9 @@ export function animateCat(cat, time, walking = false, reduced = false) {
   }
   const dt = d.lastTime === null ? 1 / 60 : clamp(time - d.lastTime, 0, 0.1);
   d.lastTime = time;
-  if (d.reference) {
+  // Crowd rigs use the same approved face joints. Animate a requested reaction
+  // without enabling the hero's continual idle-expression schedule for every NPC.
+  if (d.reference || d.expression) {
     d.expressionFrame ||= {};
     d.expressionIdleStart ??= time;
     if (d.expression) {
@@ -227,6 +229,7 @@ export function animateCat(cat, time, walking = false, reduced = false) {
       idleCycle = Math.floor(idleAge / 14),
       idlePhase = idleAge % 14;
     if (
+      d.reference &&
       !d.expression &&
       !walking &&
       d.mood === "happy" &&
