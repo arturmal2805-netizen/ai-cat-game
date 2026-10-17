@@ -1,3 +1,4 @@
+import { DIAMOND_MINE } from "./diamond-data.js";
 import { courtType, courtBusinessVenues } from "./foodcourt-data.js";
 import { byItem } from "./game-data.js";
 import { BUSINESSES } from "./business-data.js";
@@ -85,7 +86,12 @@ export const revenueRate = (item, level = 1) => {
     base * BUSINESS_LEVELS[normalizeBusinessLevel(level) - 1].coins,
   );
 };
+export const incomeCurrency = (item) =>
+  item === DIAMOND_MINE.id ? "diamonds" : "coins";
+export const incomeSymbol = (item) =>
+  incomeCurrency(item) === "diamonds" ? "💎" : "✦";
 function baseRevenue(item) {
+  if (item === DIAMOND_MINE.id) return DIAMOND_MINE.rate;
   if (courtType(item)) return courtType(item).rate;
   const business = BUSINESSES.find((b) => b.id === item);
   if (business) return business.rate;
@@ -102,11 +108,15 @@ export const newBusiness = () => ({
   accounts: {},
   levels: {},
   totalCollected: 0,
+  totalDiamonds: 0,
 });
 export function normalizeBusiness(raw, game, now = Date.now()) {
   const state = newBusiness();
   state.totalCollected = Number.isFinite(raw?.totalCollected)
     ? Math.max(0, Math.floor(raw.totalCollected))
+    : 0;
+  state.totalDiamonds = Number.isSafeInteger(raw?.totalDiamonds)
+    ? Math.max(0, raw.totalDiamonds)
     : 0;
   for (const p of businessVenues(game)) {
     const level = normalizeBusinessLevel(raw?.levels?.[p.id]);
@@ -124,18 +134,22 @@ export function normalizeBusiness(raw, game, now = Date.now()) {
   }
   return state;
 }
+function businessStart(game, p, now) {
+  const old = game.business?.accounts?.[p.id]?.collectedAt ?? now;
+  return Math.max(
+    p.boostBaseReadyAt && old === p.boostBaseReadyAt ? p.readyAt : old,
+    p.readyAt || 0,
+  );
+}
 export function incomeFor(game, id, now = Date.now()) {
   const p =
     id === "spa-bar" && game.unlocked.includes("water")
-      ? { item: "cat-barista", readyAt: 0 }
+      ? { id, item: "cat-barista", readyAt: 0 }
       : businessVenues(game).find((p) => p.id === id);
   if (!p || (p.readyAt && p.readyAt > now)) return 0;
   const rate = revenueRate(p.item, businessLevel(game, id));
   if (!rate) return 0;
-  const start = Math.max(
-    game.business?.accounts?.[id]?.collectedAt ?? now,
-    p.readyAt || 0,
-  );
+  const start = businessStart(game, p, now);
   const hours = Math.min(
     BUSINESS_CAP_HOURS,
     Math.max(0, now - start) / 3600000,
@@ -144,7 +158,8 @@ export function incomeFor(game, id, now = Date.now()) {
 }
 export function collectIncome(game, id, now = Date.now()) {
   const amount = incomeFor(game, id, now);
-  if (amount < 1) throw Error("Монетки ещё копятся. Загляните чуть позже.");
+  if (amount < 1)
+    throw Error("Монетки и алмазы ещё копятся. Загляните чуть позже.");
   const next = structuredClone(game),
     item = businessVenues(next).find((p) => p.id === id).item,
     level = businessLevel(game, id),
@@ -153,7 +168,11 @@ export function collectIncome(game, id, now = Date.now()) {
       (next.business.accounts[id]?.xpRemainder || 0) +
       (amount * businessXP(item, level)) / rate,
     xp = Math.floor(rawXP + 1e-9);
-  const old = next.business.accounts[id]?.collectedAt ?? now;
+  const old = businessStart(
+    game,
+    businessVenues(game).find((p) => p.id === id),
+    now,
+  );
   // Preserve the unfinished fraction of a coin. Time beyond the full cash
   // register is intentionally capped, so long absences cannot break prices.
   const start = Math.max(old, now - BUSINESS_CAP_HOURS * 3600000);
@@ -161,13 +180,20 @@ export function collectIncome(game, id, now = Date.now()) {
     collectedAt: start + (amount / rate) * 3600000,
     xpRemainder: Math.max(0, rawXP - xp),
   };
-  next.business.totalCollected += amount;
-  next.coins += amount;
-  next.totalEarned += amount;
+  const currency = incomeCurrency(item);
+  if (currency === "diamonds") {
+    next.diamonds = (next.diamonds || 0) + amount;
+    next.business.totalDiamonds = (next.business.totalDiamonds || 0) + amount;
+  } else {
+    next.business.totalCollected += amount;
+    next.coins += amount;
+    next.totalEarned += amount;
+  }
   const rewarded = addXP(next, xp, now);
   return {
     game: rewarded,
     amount,
+    currency,
     xp: rewarded.progression.xp - game.progression.xp,
   };
 }
@@ -182,10 +208,7 @@ export function upgradeBusiness(game, id, now = Date.now()) {
     throw Error("Цей бізнес уже легендарний!");
   const cost = businessUpgradeCost(venue.item, level);
   if (game.coins < cost) throw Error("Недостатньо монет для покращення.");
-  const start = Math.max(
-      game.business.accounts[id]?.collectedAt ?? now,
-      venue.readyAt || 0,
-    ),
+  const start = businessStart(game, venue, now),
     oldRate = revenueRate(venue.item, level),
     exact =
       Math.min(BUSINESS_CAP_HOURS, Math.max(0, now - start) / 3600000) *
@@ -216,18 +239,21 @@ export function upgradeBusiness(game, id, now = Date.now()) {
 export function collectAllIncome(game, now = Date.now()) {
   let next = game,
     amount = 0,
+    diamonds = 0,
     count = 0;
   for (const p of businessVenues(game)) {
     if (incomeFor(next, p.id, now) < 1) continue;
     const result = collectIncome(next, p.id, now);
     next = result.game;
-    amount += result.amount;
+    if (result.currency === "diamonds") diamonds += result.amount;
+    else amount += result.amount;
     count++;
   }
   if (!count) throw Error("Монетки ещё копятся. Загляните чуть позже.");
   return {
     game: next,
     amount,
+    diamonds,
     count,
     xp: next.progression.xp - game.progression.xp,
   };

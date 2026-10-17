@@ -1,3 +1,4 @@
+import { builderSpeed } from "./construction-boost.js";
 import { bikiniFriend, BIKINI_GATE } from "./bikini-data.js";
 import { createBikiniCharacter } from "./bikini-characters.js";
 import { createBikiniLife } from "./bikini-life.js";
@@ -19,6 +20,7 @@ import {
   courtObstacles,
   courtWalkable,
   nearestCourtGround,
+  nearestCourtIdleGround,
 } from "./foodcourt-navigation.js";
 import { createCourtRuntime } from "./foodcourt-runtime.js";
 import { createCourtCinema } from "./foodcourt-cinema.js";
@@ -28,6 +30,7 @@ import { createResidentPlay } from "./resident-play.js";
 import { decorateBusiness } from "./business-decor.js";
 import {
   attachBuilderHammer,
+  attachBuilderGlow,
   constructionSites,
   createConstructionCrew,
 } from "./construction-crew.js";
@@ -56,6 +59,7 @@ import { outsideMegaPlots } from "./mega-ride-data.js";
 import { watchWorldViewport } from "./world-viewport.js";
 import {
   incomeFor,
+  incomeSymbol,
   businessVenues,
   businessLevel,
   revenueRate,
@@ -896,6 +900,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   let buildingSites = [],
     builderObstacles = new Map();
   const crew = createConstructionCrew({
+    getSpeed: () => builderSpeed(game),
     bridges: constructionBridges,
     getSites: () => buildingSites,
     getObstacles: (id) => builderObstacles.get(id) || [],
@@ -949,7 +954,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
     cancelResident(id);
     if (
       bikiniFriend(decision.activityId) &&
-      !bikiniLife.reserve(decision.activityId, decision.characterAction)
+      !bikiniLife.reserve(decision.activityId, decision.characterAction, {
+        catId: id,
+        model: n.model,
+      })
     )
       return false;
     n.manualAnchor = null;
@@ -1021,11 +1029,19 @@ export function createWorld(container, initialGame, callbacks = {}) {
     let hammer = builderHammers.get(id);
     if (!hammer && frame) {
       hammer = attachBuilderHammer(model);
-      if (hammer) builderHammers.set(id, hammer);
+      if (hammer) {
+        hammer.userData.boostGlow = attachBuilderGlow(model);
+        builderHammers.set(id, hammer);
+      }
     }
     if (hammer) {
       hammer.visible = !!frame;
       if (frame) hammer.rotation.x = reduced ? 0 : frame.hammerAngle;
+      hammer.userData.boostGlow?.userData.updateBoost(
+        performance.now() / 1000,
+        frame?.speed || 1,
+        reduced,
+      );
     }
   }
   function sync(next) {
@@ -1401,6 +1417,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       )
         continue;
       scene.remove(g);
+      g.userData.disposeStaff?.();
       disposeScenery(g);
       itemGroups.delete(id);
     }
@@ -1508,7 +1525,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         carrier.position.y = venue.position.y;
       }
       if (["foodcourt", "bikini"].includes(b.id)) {
-        const dry = nearestCourtGround(
+        const dry = nearestCourtIdleGround(
           courtLocal(carrier.position, b.id),
           spaRadius(model),
           getCourtBlockers(b.id),
@@ -1549,6 +1566,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         }
         spa.cancel(id);
         crew.cancel(id);
+        builderHammers.get(id)?.userData.boostGlow?.removeFromParent();
         builderHammers.get(id)?.removeFromParent();
         builderHammers.delete(id);
         chill.cancel(id);
@@ -1730,7 +1748,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
   function perform(decision) {
     if (
       bikiniFriend(decision.activityId) &&
-      !bikiniLife.reserve(decision.activityId, decision.characterAction)
+      !bikiniLife.reserve(decision.activityId, decision.characterAction, {
+        catId: "chichi",
+        model: cat,
+      })
     )
       return Promise.reject(
         new Error(
@@ -1747,6 +1768,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       chill.cancel("chichi");
       resetYarn(operation.attraction);
       if (operation.attraction) {
+        operation.attraction.userData.releasePlay?.(chichiCarrier);
         operation.attraction.userData.playing = false;
         delete operation.attraction.userData.heroPlayPos;
         delete operation.attraction.userData.rideElapsed;
@@ -3441,7 +3463,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         now >= gatherUntil
       ) {
         direct = true;
-        const dry = nearestCourtGround(
+        const dry = nearestCourtIdleGround(
           courtLocal(n.carrier.position, b.id),
           spaRadius(n.model),
           getCourtBlockers(b.id),
@@ -3546,7 +3568,16 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (n.model.userData.mood !== desiredMood)
         setCatMood(n.model, desiredMood, { immediate: reduced });
       if (near && !dialogOpen) {
-        animateCat(n.model, time + n.index, npcWalking, reduced);
+        animateCat(
+          n.model,
+          time +
+            n.index +
+            (builderFrame?.speed > 1
+              ? builderFrame.elapsed * (1 - 1 / builderFrame.speed)
+              : 0),
+          npcWalking,
+          reduced,
+        );
         if (npcReaction) reactCat(n.model, npcReaction, reduced);
         if (n.hatRig) {
           const resting =
@@ -3889,6 +3920,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
                 five: "Лапку сюда — дай пять! 🐾",
                 hug: "Обнимашки с морским другом 💛",
                 pet: "Мур-р-р… как приятно!",
+                pickup: "Оп! На ручки к Губке Бобу 🤗",
+                carry: "Как уютно! Гуляем по Бикини-Боттом на ручках 💛",
+                putdown: "Аккуратно на лапки… ещё погуляем! 🐾",
                 play: "Лови пузырёк! Прыг — и ещё один! 🫧",
                 dance: "Танцуем вместе! 🎵",
                 photo: "Скажи мяу! 📸",
@@ -3992,6 +4026,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           }
           if (action !== "meet" && action !== "swim")
             chichiCarrier.position.copy(op.dismount || op.destination);
+          g?.userData.releasePlay?.(chichiCarrier);
           if (g) delete g.userData.rideElapsed;
           if (
             g?.userData.deepRide &&
@@ -4029,7 +4064,15 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }
     }
     if (!dialogOpen) {
-      animateCat(cat, time, walking, reduced);
+      animateCat(
+        cat,
+        time +
+          (heroBuild?.speed > 1
+            ? heroBuild.elapsed * (1 - 1 / heroBuild.speed)
+            : 0),
+        walking,
+        reduced,
+      );
       if (reaction) reactCat(cat, reaction, reduced);
     }
     const spongeFriend = itemGroups.get("bikini-sponge");
@@ -4113,14 +4156,16 @@ export function createWorld(container, initialGame, callbacks = {}) {
         ((1 - point.y) * height) / 2,
       );
       if (hidden) continue;
-      const text = "✦ " + amount;
+      const symbol = incomeSymbol(object.userData.placement.item),
+        text = symbol + " " + amount;
+      button.classList.toggle("diamond-income", symbol === "💎");
       if (button.textContent !== text) {
         button.textContent = text;
         button.setAttribute(
           "aria-label",
           "Собрать " +
             amount +
-            " монет · " +
+            (symbol === "💎" ? " алмазов · " : " монет · ") +
             byItem(object.userData.placement.item).name,
         );
       }
@@ -4357,7 +4402,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
           pending.finally(() => island.userData.dispose?.()).catch(() => {});
         else island.userData.dispose?.();
       }
-      for (const hammer of builderHammers.values()) hammer.removeFromParent();
+      for (const hammer of builderHammers.values()) {
+        hammer.userData.boostGlow?.removeFromParent();
+        hammer.removeFromParent();
+      }
       builderHammers.clear();
       disposeCat(cat);
       for (const npc of npcs.values()) disposeCat(npc.model);

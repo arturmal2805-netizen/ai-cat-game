@@ -1,3 +1,9 @@
+import {
+  activateBuilderBoost,
+  builderBoostUntil,
+  BUILDER_BOOST_COST,
+  resolveConstructionBoosts,
+} from "./construction-boost.js";
 import { bikiniFriend, BIKINI_ACTIONS } from "./bikini-data.js";
 import {
   moveResidentToBiome,
@@ -13,6 +19,8 @@ import { activeCats, catAvailable } from "./cat-roster.js";
 import { adoptCat, adoptionCenters, gatherCats } from "./adoption.js";
 import {
   incomeFor,
+  incomeCurrency,
+  incomeSymbol,
   collectIncome,
   collectAllIncome,
   revenueRate,
@@ -220,6 +228,7 @@ function persist() {
 }
 function commit(next, syncWorld = true) {
   cloud.assertEditable();
+  next = resolveConstructionBoosts(next);
   if (!saveGame(storage, next)) {
     $("save-state").textContent =
       "Сохранение не подтверждено. Изменение отменено.";
@@ -285,6 +294,7 @@ function renderGame() {
   $("food").value = game.cat.hunger;
   $("food-text").textContent = Math.round(game.cat.hunger) + "%";
   $("coins").textContent = money(game.coins);
+  renderBuilderBoost();
   $("shop-coins").textContent = money(game.coins);
   $("bag-count").textContent = Object.values(game.inventory).reduce(
     (a, b) => a + b,
@@ -681,7 +691,9 @@ function renderShop() {
       income.className = "shop-income";
       income.textContent =
         money(revenueRate(entry.id)) +
-        " ✦/ч · " +
+        " " +
+        incomeSymbol(entry.id) +
+        "/ч · " +
         businessXP(entry.id) +
         " XP/ч";
       info.insertBefore(income, button);
@@ -941,7 +953,7 @@ function showBikiniFriend(id, catId = "chichi") {
   $("item-construction").textContent = "Бикини-Боттом · дружба и игры";
   $("item-note").textContent =
     friend.kind === "sponge"
-      ? "Когда есть заказы, Губка Боб работает на кухне. После смены он снова готов играть."
+      ? "Губка Боб может взять котика на ручки и погулять по дорожкам. Когда есть заказы, он работает на кухне."
       : "Патрик любит компанию, фотографии и крабсбургеры.";
   $("item-move").hidden = $("item-store").hidden = true;
   const actions = $("spa-bar-actions");
@@ -1056,9 +1068,11 @@ function inspect(id, manage = false) {
   $("item-note").textContent = revenueRate(item.id)
     ? "Приносит " +
       revenueRate(item.id, businessLevel(game, id)) +
-      " ✦ и " +
+      " " +
+      incomeSymbol(item.id) +
+      " и " +
       businessXP(item.id, businessLevel(game, id)) +
-      " XP в час. Монетку можно собрать прямо над постройкой. Улучшения и новый декор — в разделе «Бизнес»."
+      " XP в час. Доход можно собрать прямо над постройкой. Улучшения — в разделе «Бизнес»."
     : "Чичи пользуется этим предметом, когда сама выберет его через ИИ.";
   open("item-dialog");
 }
@@ -2314,12 +2328,57 @@ $("island-gather").onclick = () => {
     toast(e.message);
   }
 };
+function renderBuilderBoost() {
+  $("diamonds").textContent = money(game.diamonds || 0);
+  const until = builderBoostUntil(game);
+  $("builder-boost-status").textContent = until
+    ? "Котики-строители ×10 · осталось " + countdown(until)
+    : "8 💎: котики строят и бегают в 10 раз быстрее целый час";
+  $("builder-boost-buy").textContent = until
+    ? "Ускорение уже действует"
+    : "Ускорить стройки ×10 · 1 час · " + BUILDER_BOOST_COST + " 💎";
+  $("builder-boost-buy").disabled =
+    !!until ||
+    (game.diamonds || 0) < BUILDER_BOOST_COST ||
+    !cloud.editable ||
+    !!cloud.conflict;
+  $("diamonds-open").classList.toggle("boost-active", !!until);
+  $("builder-boost-hud").hidden = !until;
+  $("builder-boost-hud").textContent = until
+    ? "💎 Строители ×10 · " + countdown(until)
+    : "";
+}
+$("diamonds-open").onclick = () => {
+  renderBusiness();
+  open("business-dialog");
+};
+$("builder-boost-buy").onclick = () => {
+  try {
+    commit(activateBuilderBoost(game));
+    cloud.flush();
+    toast("Алмазный рывок! Котики светятся и строят ×10 целый час 💎🐾");
+  } catch (error) {
+    toast(error.message);
+  }
+};
+$("diamond-mine-shop").onclick = () => {
+  $("business-dialog").close();
+  showShop("business", "Алмазная шахта");
+};
+setInterval(() => {
+  if (!document.hidden) renderBuilderBoost();
+}, 1000);
 function collectBusiness(id) {
   try {
     const result = collectIncome(game, id);
     commit(result.game);
     toast(
-      "Кошачий доход +" + money(result.amount) + " ✦ · +" + result.xp + " XP",
+      "Кошачий доход +" +
+        money(result.amount) +
+        (result.currency === "diamonds" ? " 💎" : " ✦") +
+        " · +" +
+        result.xp +
+        " XP",
     );
   } catch (e) {
     toast(e.message);
@@ -2329,10 +2388,16 @@ function renderBusiness() {
   $("business-grid").replaceChildren();
   const venues = businessVenues(game);
   const ready = venues.filter((p) => isBuilt(p)),
-    total = venues.reduce((n, p) => n + incomeFor(game, p.id), 0);
+    total = venues
+      .filter((p) => incomeCurrency(p.item) === "coins")
+      .reduce((n, p) => n + incomeFor(game, p.id), 0),
+    gems = venues
+      .filter((p) => incomeCurrency(p.item) === "diamonds")
+      .reduce((n, p) => n + incomeFor(game, p.id), 0);
   $("business-summary").textContent =
-    `${ready.length} работают · ${money(ready.reduce((n, p) => n + revenueRate(p.item, businessLevel(game, p.id)), 0))} ✦/ч · ${ready.reduce((n, p) => n + businessXP(p.item, businessLevel(game, p.id)), 0)} XP/ч · в кассах ${money(total)} ✦`;
-  $("business-collect-all").disabled = !total;
+    `${ready.length} работают · ${money(ready.filter((p) => incomeCurrency(p.item) === "coins").reduce((n, p) => n + revenueRate(p.item, businessLevel(game, p.id)), 0))} ✦/ч · ${ready.reduce((n, p) => n + businessXP(p.item, businessLevel(game, p.id)), 0)} XP/ч · в кассах ${money(total)} ✦ и ${money(gems)} 💎`;
+  $("business-collect-all").disabled = !(total || gems);
+  renderBuilderBoost();
   $("business-note").textContent =
     "Бизнес и готовые аттракционы приносят чистую прибыль даже в ваше отсутствие. Касса хранит до " +
     BUSINESS_CAP_HOURS +
@@ -2349,7 +2414,9 @@ function renderBusiness() {
     title.textContent = item.icon + " " + item.name + " · ур. " + level;
     description.textContent = isBuilt(p)
       ? money(revenueRate(p.item, level)) +
-        " ✦/ч · " +
+        " " +
+        incomeSymbol(p.item) +
+        "/ч · " +
         businessXP(p.item, level) +
         " XP/ч · " +
         byBiome(p.biome).name
@@ -2357,8 +2424,10 @@ function renderBusiness() {
     button.className = "primary";
     button.dataset.collect = p.id;
     button.textContent = amount
-      ? "Собрать " + money(amount) + " ✦"
-      : "Монетки копятся";
+      ? "Собрать " + money(amount) + " " + incomeSymbol(p.item)
+      : incomeCurrency(p.item) === "diamonds"
+        ? "Алмазы копятся"
+        : "Монетки копятся";
     button.disabled = !amount;
     button.onclick = () => collectBusiness(p.id);
     row.append(title, description, button);
@@ -2387,7 +2456,9 @@ function renderBusiness() {
       detail.textContent =
         "Следующий уровень: " +
         money(revenueRate(p.item, level + 1)) +
-        " ✦/ч · " +
+        " " +
+        incomeSymbol(p.item) +
+        "/ч · " +
         businessXP(p.item, level + 1) +
         " XP/ч. " +
         BUSINESS_LEVELS[level].decor +
@@ -2429,7 +2500,7 @@ $("business-collect-all").onclick = () => {
     const result = collectAllIncome(game);
     commit(result.game);
     toast(
-      `Собрано из ${result.count} касс: +${money(result.amount)} ✦ · +${result.xp} XP`,
+      `Собрано из ${result.count} касс: +${money(result.amount)} ✦ · +${money(result.diamonds)} 💎 · +${result.xp} XP`,
     );
   } catch (e) {
     toast(e.message);

@@ -1,6 +1,12 @@
 import { courtGroundY } from "./foodcourt-data.js";
 import { BIKINI_RESTAURANT as restaurant } from "./bikini-data.js";
-import { courtPath } from "./foodcourt-navigation.js";
+import { createCarryWalk, carriedCatSize } from "./bikini-carry.js";
+import {
+  courtPath,
+  courtSegment,
+  courtWalkable,
+  nearestCourtGround,
+} from "./foodcourt-navigation.js";
 import { courtFood } from "./foodcourt-assets.js";
 const distance = (a, b) => Math.hypot(a.x - b.x, a.z - b.z);
 // One SpongeBob switches between walking, friendship and the actual kitchen.
@@ -63,14 +69,34 @@ export function createBikiniLife({
           const avoid = getActors()
             .filter((a) => a.biome === "bikini")
             .map((a) => ({ ...a.position, radius: a.radius + 0.08 }));
-          const revised = courtPath(
-            from,
-            goal,
-            radius,
-            [...obs, ...avoid],
-            "bikini",
-          );
-          if (revised) s.path = revised;
+          const obstacles = [...obs, ...avoid];
+          const revised = courtPath(from, goal, radius, obstacles, "bikini");
+          if (
+            revised &&
+            courtSegment(from, revised[0], radius, obstacles, "bikini")
+          )
+            s.path = revised;
+          else {
+            // A customer may stop beside the chef's current position. Move into
+            // a clear passing pocket before replanning, without snapping through them.
+            for (let j = 0; j < 16; j++) {
+              const angle = (j / 16) * Math.PI * 2;
+              const q = {
+                x: from.x + Math.sin(angle) * 0.65,
+                z: from.z + Math.cos(angle) * 0.65,
+              };
+              if (
+                !courtSegment(from, q, radius, obs, "bikini") ||
+                !courtWalkable(q, radius, obstacles, "bikini")
+              )
+                continue;
+              const path = courtPath(q, goal, radius, obstacles, "bikini");
+              if (path) {
+                s.path = [q, ...path];
+                break;
+              }
+            }
+          }
           s.blocked = 0;
         }
       }
@@ -95,8 +121,30 @@ export function createBikiniLife({
   function bind(g) {
     if (g.userData.reserve) return;
     const d = g.userData;
-    d.reserve = (intent = "play") => {
+    d.reserve = (intent = "play", visitor = {}) => {
       if (d.chefBusy || d.playing) return false;
+      if (intent === "carry") {
+        if (d.bikiniFriend !== "sponge" || !visitor.model) return false;
+        const size = carriedCatSize(visitor.model),
+          radius = Math.max(1.45, size.depth + size.width + 0.65),
+          origin = local(g),
+          obstacles = [
+            ...getObstacles(),
+            ...getActors()
+              .filter(
+                (a) =>
+                  a.catId !== visitor.catId &&
+                  Math.hypot(a.position.x - origin.x, a.position.z - origin.z) >
+                    radius + a.radius,
+              )
+              .map((a) => ({ ...a.position, radius: a.radius + 0.1 })),
+          ],
+          route = createCarryWalk(origin, obstacles, radius);
+        if (!route) return false;
+        d.carryRoute = route;
+        d.carrySize = size;
+        d.carryCatId = visitor.catId;
+      }
       if (d.bikiniFriend === "patrick") {
         court.cancel("bikini-patrick-guest");
         if (d.burger) d.burger.visible = false;
@@ -107,6 +155,41 @@ export function createBikiniLife({
       d.reserved = true;
       state(g).goal = null;
       return true;
+    };
+    d.releasePlay = (carrier) => {
+      if (d.intent !== "carry" || !d.pose?.carry) return;
+      const offset = d.rig.position,
+        origin = local(g),
+        actual = { x: origin.x + offset.x, z: origin.z + offset.z },
+        released = {
+          x: origin.x + d.pose.position[0],
+          z: origin.z + d.pose.position[2],
+        },
+        ground = nearestCourtGround(
+          released,
+          Math.max(0.45, d.carrySize.width + 0.15),
+          getObstacles(),
+          "bikini",
+        );
+      if (carrier && ground) {
+        carrier.position.set(
+          center[0] + ground.x,
+          courtGroundY(ground, "bikini"),
+          center[1] + ground.z,
+        );
+        carrier.rotation.x = carrier.rotation.z = 0;
+      }
+      g.position.set(
+        center[0] + actual.x,
+        courtGroundY(actual, "bikini"),
+        center[1] + actual.z,
+      );
+      d.carryRoute = null;
+      d.carryCatId = null;
+      d.playing = false;
+      d.pose = null;
+      d.applyPose(0, {});
+      state(g).goal = null;
     };
     let approach = null,
       key = "";
@@ -276,11 +359,11 @@ export function createBikiniLife({
     canPrepare: (o) =>
       o.id !== restaurant.id ||
       !!groups.get("bikini-sponge")?.userData.chefReady,
-    reserve(id, intent) {
+    reserve(id, intent, visitor) {
       const g = groups.get(id);
       if (!g) return false;
       bind(g);
-      return g.userData.reserve(intent);
+      return g.userData.reserve(intent, visitor);
     },
     approach(id) {
       return groups.get(id)?.userData.approachOffset;
@@ -299,8 +382,14 @@ export function createBikiniLife({
         .map(({ id, g }) => ({
           catId: id,
           biome: "bikini",
-          position: local(g),
-          radius: 1.1,
+          position: g.userData.pose?.carry
+            ? {
+                ...local(g),
+                x: local(g).x + g.userData.rig.position.x,
+                z: local(g).z + g.userData.rig.position.z,
+              }
+            : local(g),
+          radius: g.userData.pose?.carry ? g.userData.carryRoute.radius : 1.1,
         })),
     getStates: () => states,
   };

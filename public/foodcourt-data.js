@@ -1,3 +1,4 @@
+import { constructionDeadline } from "./construction-boost.js";
 import {
   BIKINI_RESTAURANT,
   BIKINI_RADIUS,
@@ -169,11 +170,17 @@ export function courtProject(game, id, now = Date.now()) {
       ? game.islandConstruction[id]
       : 0,
     unstarted = !!o.requiresBuild && !startedAt,
-    readyAt = startedAt ? startedAt + o.buildMinutes * 60000 : 0;
+    readyAt = startedAt
+      ? constructionDeadline(
+          { startedAt, readyAt: startedAt + o.buildMinutes * 60000 },
+          game.builderBoosts,
+        )
+      : 0;
   return {
     ...o,
     startedAt,
     readyAt,
+    boostBaseReadyAt: startedAt ? startedAt + o.buildMinutes * 60000 : 0,
     unstarted,
     built: !unstarted && (!readyAt || now >= readyAt),
     progress: unstarted
@@ -194,6 +201,7 @@ export function courtBusinessVenues(game) {
       z: o.z,
       rotation: 0,
       readyAt: o.readyAt,
+      boostBaseReadyAt: o.boostBaseReadyAt,
       startedAt: o.startedAt,
     }));
 }

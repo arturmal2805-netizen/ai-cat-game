@@ -1,3 +1,7 @@
+import {
+  normalizeBuilderBoosts,
+  resolveConstructionBoosts,
+} from "./public/construction-boost.js";
 import { mergeIslandConstruction } from "./public/island-construction.js";
 import {
   canPlace,
@@ -30,7 +34,7 @@ const levelCoins = (before, after) => {
   return total;
 };
 const additive = (path) =>
-  /^(coins|totalEarned|inventory\.[\w-]+|builtInventory\.[\w-]+|farm\.stock\.[\w-]+|farm\.harvests|business\.totalCollected|care\.mealId)$/.test(
+  /^(coins|diamonds|totalEarned|inventory\.[\w-]+|builtInventory\.[\w-]+|farm\.stock\.[\w-]+|farm\.harvests|business\.(?:totalCollected|totalDiamonds)|care\.mealId)$/.test(
     path,
   );
 const transient = (path) =>
@@ -44,6 +48,26 @@ const guarded = (path) =>
 
 function merge(base, current, incoming, path = "", depth = 0) {
   if (depth > 40) throw new SharedConflict("Сохранение слишком сложное.");
+  if (path === "builderBoosts") {
+    const added = normalizeBuilderBoosts(incoming).filter(
+      (e) => !(base || []).some((b) => b.id === e.id),
+    );
+    const others = normalizeBuilderBoosts(current).filter(
+      (e) => !(base || []).some((b) => b.id === e.id),
+    );
+    if (
+      added.some((e) =>
+        others.some(
+          (o) =>
+            e.id !== o.id && e.startedAt < o.until && o.startedAt < e.until,
+        ),
+      )
+    )
+      throw new SharedConflict(
+        "Ускорение уже включили на другом телефоне. Алмазы не списаны повторно.",
+      );
+    return normalizeBuilderBoosts([...(current || []), ...added]);
+  }
   if (path === "islandConstruction") {
     for (const id of Object.keys(incoming || {}))
       if (
@@ -204,6 +228,9 @@ export function mergeSharedWorld(base, current, incoming) {
   // so two purchases cannot award the same level-up coins twice.
   const b = clone(base),
     n = clone(incoming);
+  if (n.diamonds === undefined) n.diamonds = b.diamonds || 0;
+  if (n.business.totalDiamonds === undefined)
+    n.business.totalDiamonds = b.business.totalDiamonds || 0;
   // A tab opened before business upgrades existed must not erase paid tiers
   // while saving an unrelated move or meal. Tiers only increase; removing the
   // actual building still transfers its tier to the inventory normally.
@@ -397,6 +424,10 @@ export function mergeSharedWorld(base, current, incoming) {
         {
           item: p.item,
           readyAt: p.readyAt || 0,
+          ...(p.startedAt ? { startedAt: p.startedAt } : {}),
+          ...(p.boostBaseReadyAt
+            ? { boostBaseReadyAt: p.boostBaseReadyAt }
+            : {}),
           businessLevel: result.business.levels?.[p.id] || 1,
           fieldCells: result.farm.fields[p.id],
         },
@@ -436,11 +467,14 @@ export function mergeSharedWorld(base, current, incoming) {
     result.placements.length > 60 ||
     result.unlocked.length > BIOMES.length ||
     result.coins > 10000000 ||
-    result.coins < 0
+    result.coins < 0 ||
+    !Number.isSafeInteger(result.diamonds) ||
+    result.diamonds < 0 ||
+    result.diamonds > 1000000
   )
     throw new SharedConflict("Общий мир достиг ограничения.");
   for (const p of result.placements)
     if (!byItem(p.item))
       throw new SharedConflict("Неизвестный предмет в сохранении.");
-  return result;
+  return resolveConstructionBoosts(result);
 }

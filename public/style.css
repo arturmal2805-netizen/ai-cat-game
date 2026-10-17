@@ -2792,3 +2792,79 @@ main {
     top: 158px;
   }
 }
+
+.diamond-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 13px;
+  border: 1px solid #d5b9ef;
+  border-radius: 17px;
+  background: #f2e6fd;
+  color: #775397;
+  min-height: 44px;
+  white-space: nowrap;
+}
+.diamond-pill.boost-active {
+  background: #d9c3f6;
+  box-shadow: 0 0 14px #b894e64d;
+}
+.builder-boost-card {
+  padding: 15px;
+  border: 1px solid #d9c1ed;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #f6eafb, #e8e4fa);
+  margin: 12px 0;
+}
+.builder-boost-card p {
+  color: #79559c;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.builder-boost-card button {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+}
+.world-income.diamond-income {
+  color: #785195;
+  background: #f3defde8;
+  border-color: #d7adf1;
+}
+.builder-boost-hud {
+  position: absolute;
+  right: 12px;
+  top: 160px;
+  z-index: 3;
+  padding: 8px 12px;
+  border-radius: 15px;
+  background: #6c4d9dd9;
+  color: #fff4ff;
+  font-size: 11px;
+  pointer-events: none;
+}
+.builder-boost-hud[hidden] {
+  display: none;
+}
+@media (max-width: 700px) {
+  .diamond-pill {
+    padding: 8px;
+    font-size: 11px;
+  }
+  .builder-boost-hud {
+    top: 244px;
+  }
+}
+
+/* Accidental double taps must not zoom the browser page. Normal scrolling and
+   deliberate browser pinch remain available; the game canvas keeps its own
+   touch-action:none and existing two-finger camera controls. */
+html,
+body,
+button,
+a,
+input,
+select,
+label {
+  touch-action: manipulation;
+}

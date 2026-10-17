@@ -43,3 +43,19 @@ touch input, all nine friendship actions, screenshots, cooking, food, roof and
 camera restoration, and exact cloud wallet/XP/position/receipt comparisons.
 `scripts/check-foodcourt.cjs` covers the established court and video cinema.
 SwiftShader screenshots verify rendering correctness, not device frame rate.
+
+SpongeBob's friendship menu includes **🤗 Погулять на ручках** (`carry`). He
+kneels, lifts the existing cat, walks a cached clear out-and-back path for a
+40-second visit, lowers the cat and waves goodbye. The same action supports
+Chichi and residents. The carrier follows the current character rig transform;
+both palms solve to the animated cat's belly each frame. Existing approved cat
+geometry and appearance stay intact; only temporary leg/head/tail poses change.
+A cancelled visit releases the cat onto clear ground and commits SpongeBob's
+current walking position, so neither actor snaps back to the start. One visitor
+holds the character reservation; kitchen work still takes priority over new
+friendship requests. Route finding runs at reservation, not per animation frame.
+
+`test/bikini-carry.test.mjs` checks physical-action validation, real city route
+clearance, kitten/hero/giant scale, both palm contacts, complete resident visits
+and mid-walk cancellation. `scripts/check-bikini.cjs` also runs the carry action
+through the actual mobile touch menu and captures the moving held-cat view.

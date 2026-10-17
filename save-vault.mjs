@@ -59,6 +59,10 @@ export async function readSaveBody(request) {
     !Number.isSafeInteger(value.game.coins) ||
     value.game.coins < 0 ||
     value.game.coins > 10000000 ||
+    (value.game.diamonds !== undefined &&
+      (!Number.isSafeInteger(value.game.diamonds) ||
+        value.game.diamonds < 0 ||
+        value.game.diamonds > 1000000)) ||
     !Array.isArray(value.game.placements) ||
     value.game.placements.length > 60 ||
     !Array.isArray(value.game.unlocked) ||

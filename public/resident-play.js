@@ -33,6 +33,7 @@ export function createResidentPlay({
       }
     }
     if (v.object) {
+      v.object.userData.releasePlay?.(getCat(id)?.carrier);
       resetYarn(v.object);
       v.object.userData.playing = false;
       delete v.object.userData.heroPlayPos;
@@ -302,6 +303,8 @@ export function createResidentPlay({
       result.pitch = 0;
       result.roll = 0;
       cancel(id);
+      if (g?.userData.bikiniFriend && d.characterAction === "carry")
+        result.position.copy(n.carrier.position);
       onComplete(id, d);
       result.completed = true;
     }

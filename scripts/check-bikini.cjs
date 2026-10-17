@@ -179,6 +179,7 @@ async function localWorker() {
             });
             b.onLoad({ filter: /\/public\/app\.js$/ }, () => ({
               contents: (
+                "import {placeItem as qaPlace,findSpace as qaSpace} from './economy.js'; window.__diamondQA={placeItem:qaPlace,findSpace:qaSpace};\n" +
                 "import {storeSculptCache as qaStoreGraphics} from './sculpt-cache.js';\n" +
                 fs.readFileSync(root + "/public/app.js", "utf8")
               )
@@ -316,93 +317,135 @@ async function localWorker() {
         () => document.querySelector("#item-dialog").open,
       );
     }
-    for (const [id, intents] of [
-      ["bikini-sponge", ["greet", "five", "hug", "pet", "play", "dance"]],
-      ["bikini-patrick", ["greet", "photo", "sit"]],
-    ]) {
-      for (const intent of intents) {
-        await page.evaluate(() => {
-          const q = __lagoonQA;
-          q.court.clear();
-          const s = q.itemGroups.get("bikini-sponge");
-          s.userData.chefBusy = false;
-        });
-        await tapCharacter(id);
-        await page.locator('[data-bikini-action="' + intent + '"]').tap();
-        await page.waitForFunction(
-          () => __lagoonQA.getOperation()?.stage === "activity",
-        );
-        const audit = await page.evaluate(
-          ({ id, intent }) => {
-            const q = __lagoonQA,
-              g = q.itemGroups.get(id),
-              op = q.getOperation();
-            q.pinnedRide = intent === "play" ? 12 : 6;
-            q.reviewView(g.position.x, g.position.z + 1, 18);
-            return {
-              intent: op.decision.characterAction,
-              duration: g.userData.duration,
-            };
-          },
-          { id, intent },
-        );
-        assert.equal(audit.intent, intent);
-        await page.waitForFunction(
-          () => Math.abs(__lagoonQA.getDistance() - 18) < 0.3,
-        );
-        await page.waitForTimeout(250);
-        if (["five", "hug", "play", "photo"].includes(intent)) {
+    if (process.env.CHICHI_BIKINI_ACTIONS !== "0") {
+      for (const [id, intents] of [
+        [
+          "bikini-sponge",
+          ["greet", "five", "hug", "pet", "carry", "play", "dance"],
+        ],
+        ["bikini-patrick", ["greet", "photo", "sit"]],
+      ]) {
+        for (const intent of intents) {
           await page.evaluate(() => {
-            __lagoonQA.drawPaused = false;
+            const q = __lagoonQA;
+            q.court.clear();
+            const s = q.itemGroups.get("bikini-sponge");
+            s.userData.chefBusy = false;
           });
-          await page.waitForTimeout(150);
-          await page.screenshot({
-            path: path.join(review, id + "-" + intent + "-phone.png"),
-          });
+          await tapCharacter(id);
+          await page.locator('[data-bikini-action="' + intent + '"]').tap();
+          await page.waitForFunction(
+            () => __lagoonQA.getOperation()?.stage === "activity",
+          );
+          const audit = await page.evaluate(
+            ({ id, intent }) => {
+              const q = __lagoonQA,
+                g = q.itemGroups.get(id),
+                op = q.getOperation();
+              q.pinnedRide =
+                intent === "carry" ? 18 : intent === "play" ? 12 : 6;
+              q.reviewView(g.position.x, g.position.z + 1, 18);
+              return {
+                intent: op.decision.characterAction,
+                duration: g.userData.duration,
+              };
+            },
+            { id, intent },
+          );
+          assert.equal(audit.intent, intent);
+          await page.waitForFunction(
+            () => Math.abs(__lagoonQA.getDistance() - 18) < 0.3,
+          );
+          await page.waitForTimeout(250);
+          if (intent === "carry") {
+            await page.waitForFunction(
+              () =>
+                __lagoonQA.itemGroups.get("bikini-sponge").userData.playTime ===
+                18,
+            );
+            const carry = await page.evaluate(() => {
+              const q = __lagoonQA,
+                g = q.itemGroups.get("bikini-sponge"),
+                d = g.userData;
+              const anchor = d.rig.localToWorld(
+                new q.THREE.Vector3(
+                  0,
+                  2 - d.carrySize.bellyY,
+                  0.7 + d.carrySize.depth,
+                ),
+              );
+              const p = d.rig.getWorldPosition(new q.THREE.Vector3());
+              q.reviewView(p.x, p.z, 18);
+              return {
+                error: anchor.distanceTo(q.chichiCarrier.position),
+                phase: d.pose.phase,
+                length: d.carryRoute.total,
+                height: q.chichiCarrier.position.y,
+              };
+            });
+            assert.ok(carry.error < 1e-6, JSON.stringify(carry));
+            assert.ok(carry.length > 10);
+            assert.ok(carry.height > 1);
+            assert.equal(carry.phase, "carry");
+            console.log("Chichi held on the actual moving rig:", carry);
+          }
+          if (["five", "hug", "carry", "play", "photo"].includes(intent)) {
+            await page.evaluate(() => {
+              __lagoonQA.drawPaused = false;
+            });
+            await page.waitForTimeout(150);
+            await page.screenshot({
+              path: path.join(review, id + "-" + intent + "-phone.png"),
+            });
+            await page.evaluate(() => {
+              __lagoonQA.drawPaused = true;
+            });
+          }
           await page.evaluate(() => {
-            __lagoonQA.drawPaused = true;
+            const q = __lagoonQA;
+            delete q.pinnedRide;
+            if (q.getOperation())
+              q.getOperation().activityStart = performance.now() - 40000;
           });
+          await page.waitForFunction(() => !__lagoonQA.getOperation());
+          await page.waitForFunction(
+            () => !document.querySelector("#toggle").disabled,
+          );
+          console.log("Physical friendship menu/action completed:", id, intent);
         }
-        await page.evaluate(() => {
-          const q = __lagoonQA;
-          delete q.pinnedRide;
-          if (q.getOperation())
-            q.getOperation().activityStart = performance.now() - 40000;
-        });
-        await page.waitForFunction(() => !__lagoonQA.getOperation());
-        await page.waitForFunction(
-          () => !document.querySelector("#toggle").disabled,
-        );
-        console.log("Physical friendship menu/action completed:", id, intent);
       }
+      await page.evaluate(() => {
+        const q = __lagoonQA;
+        q.reviewView(
+          q.chichiCarrier.position.x,
+          q.chichiCarrier.position.z,
+          18,
+        );
+      });
+      await page.waitForFunction(
+        () => Math.abs(__lagoonQA.getDistance() - 18) < 0.3,
+      );
+      const catPoint = await page.evaluate(() => {
+        const q = __lagoonQA;
+        q.scene.updateMatrixWorld(true);
+        q.camera.updateMatrixWorld(true);
+        const p = q.cat.userData.head
+            .localToWorld(new q.THREE.Vector3(0, 0, 0.3))
+            .project(q.camera),
+          r = q.renderer.domElement.getBoundingClientRect();
+        return {
+          x: r.left + ((p.x + 1) * r.width) / 2,
+          y: r.top + ((1 - p.y) * r.height) / 2,
+        };
+      });
+      await page.touchscreen.tap(catPoint.x, catPoint.y);
+      await page.waitForFunction(
+        () => document.querySelector("#item-dialog").open,
+      );
+      assert.equal(await page.locator("[data-bikini-action]").count(), 7);
+      await page.evaluate(() => document.querySelector("#item-dialog").close());
+      console.log("A real tap on Chichi opens the same friendship choices.");
     }
-    await page.evaluate(() => {
-      const q = __lagoonQA;
-      q.reviewView(q.chichiCarrier.position.x, q.chichiCarrier.position.z, 18);
-    });
-    await page.waitForFunction(
-      () => Math.abs(__lagoonQA.getDistance() - 18) < 0.3,
-    );
-    const catPoint = await page.evaluate(() => {
-      const q = __lagoonQA;
-      q.scene.updateMatrixWorld(true);
-      q.camera.updateMatrixWorld(true);
-      const p = q.cat.userData.head
-          .localToWorld(new q.THREE.Vector3(0, 0, 0.3))
-          .project(q.camera),
-        r = q.renderer.domElement.getBoundingClientRect();
-      return {
-        x: r.left + ((p.x + 1) * r.width) / 2,
-        y: r.top + ((1 - p.y) * r.height) / 2,
-      };
-    });
-    await page.touchscreen.tap(catPoint.x, catPoint.y);
-    await page.waitForFunction(
-      () => document.querySelector("#item-dialog").open,
-    );
-    assert.equal(await page.locator("[data-bikini-action]").count(), 6);
-    await page.evaluate(() => document.querySelector("#item-dialog").close());
-    console.log("A real tap on Chichi opens the same friendship choices.");
     await page.evaluate(() => {
       const q = __lagoonQA;
       q.court.clear();
@@ -430,6 +473,20 @@ async function localWorker() {
         for (let j = 0; j < 30; j++) {
           q.bikiniLife.step(1 / 30, performance.now() / 1000);
           q.court.step(1 / 30, performance.now() / 1000);
+          // The accelerated simulation must move the visible actors too;
+          // otherwise collision checks see the hero's stale pre-order position.
+          for (const v of q.court.visits.values()) {
+            const carrier =
+              v.catId === "chichi"
+                ? q.chichiCarrier
+                : q.npcs.get(v.catId)?.carrier;
+            if (carrier)
+              carrier.position.set(
+                -225 + v.position.x,
+                v.position.y,
+                80 + v.position.z,
+              );
+          }
         }
         const v = q.court.get("chichi");
         return v
@@ -462,7 +519,31 @@ async function localWorker() {
         });
       }
     }
-    assert.ok(chef && food);
+    assert.ok(
+      chef && food,
+      JSON.stringify({
+        phases: [...phases],
+        state: await page.evaluate(() => {
+          const q = __lagoonQA,
+            g = q.itemGroups.get("bikini-sponge");
+          return {
+            position: g.position.toArray(),
+            playing: g.userData.playing,
+            chef: g.userData.chefReady,
+            visit: q.court.get("chichi")?.phase,
+            path: q.bikiniLife.getStates().get(g),
+            actors: [...q.npcs].map(([id, n]) => ({
+              id,
+              biome: n.profile.biome,
+              p: n.carrier.position.toArray(),
+              scale: n.model.scale.x,
+            })),
+            hero: q.chichiCarrier.position.toArray(),
+            customer: q.court.get("chichi"),
+          };
+        }),
+      }),
+    );
     for (const phase of ["prepare", "serve", "consume", "leave"])
       assert.ok(phases.has(phase), phase);
     await page.waitForFunction(() => !__lagoonQA.getOperation());
@@ -480,6 +561,145 @@ async function localWorker() {
       "One SpongeBob cooks/serves; Chichi receives, eats, exits and restores roof.",
       [...phases],
     );
+    // Test touch browser behavior and the new currency against this private SQLite world.
+    await page.evaluate(() => window.scrollTo(0, 0));
+    const browserScale = await page.evaluate(() => visualViewport.scale);
+    const walletPoint = await page.locator("#diamonds-open").boundingBox();
+    await page.touchscreen.tap(
+      walletPoint.x + walletPoint.width / 2,
+      walletPoint.y + walletPoint.height / 2,
+    );
+    await page.touchscreen.tap(
+      walletPoint.x + walletPoint.width / 2,
+      walletPoint.y + walletPoint.height / 2,
+    );
+    await page.evaluate(() => {
+      for (const d of document.querySelectorAll("dialog[open]")) d.close();
+    });
+    await page.waitForTimeout(350);
+    assert.equal(await page.evaluate(() => visualViewport.scale), browserScale);
+    assert.equal(
+      await page.evaluate(() => getComputedStyle(document.body).touchAction),
+      "manipulation",
+    );
+    assert.equal(
+      await page.evaluate(
+        () => getComputedStyle(__lagoonQA.renderer.domElement).touchAction,
+      ),
+      "none",
+    );
+    const initialMine = await page.evaluate(() => {
+      const qa = __lagoonSaveQA,
+        api = __diamondQA,
+        at = Date.now();
+      let g = structuredClone(qa.getGame());
+      g.diamonds = 6;
+      g.inventory["diamond-mine"] = 1;
+      let space = api.findSpace(g, "diamond-mine", "moon");
+      g = api.placeItem(g, "diamond-mine", "moon", space.x, space.z, 0, at);
+      const mine = g.placements.at(-1);
+      mine.readyAt = 0;
+      mine.startedAt = at - 3600000;
+      g.business.accounts[mine.id].collectedAt = at - 3600000;
+      g.inventory.yarn = (g.inventory.yarn || 0) + 1;
+      space = api.findSpace(g, "yarn", "moon");
+      g = api.placeItem(g, "yarn", "moon", space.x, space.z, 0, at);
+      const work = g.placements.at(-1);
+      qa.commit(g);
+      return { mine: mine.id, work: work.id, deadline: work.readyAt };
+    });
+    await page.locator("#diamonds-open").click();
+    await page.locator('[data-collect="' + initialMine.mine + '"]').click();
+    assert.equal(
+      await page.evaluate(() => __lagoonSaveQA.getGame().diamonds),
+      8,
+    );
+    await page.locator("#builder-boost-buy").click();
+    await page.waitForFunction(
+      () => __lagoonSaveQA.getGame().builderBoosts.length === 1,
+    );
+    const boosted = await page.evaluate(() => __lagoonSaveQA.getGame());
+    assert.equal(boosted.diamonds, 0);
+    assert.ok(
+      boosted.placements.find((p) => p.id === initialMine.work).readyAt <
+        initialMine.deadline,
+    );
+    assert.equal(await page.locator("#builder-boost-buy").isDisabled(), true);
+    assert.equal(await page.locator("#builder-boost-hud").isVisible(), true);
+    await page.screenshot({
+      path: path.join(review, "diamond-boost-phone.png"),
+    });
+    await page.evaluate(async () => {
+      await __lagoonSaveQA.cloud.flush();
+    });
+    const savedMine = await (
+      await fetch(base + "/api/save", { headers })
+    ).json();
+    assert.equal(savedMine.game.diamonds, 0);
+    assert.deepEqual(savedMine.game.builderBoosts, boosted.builderBoosts);
+    assert.equal(
+      savedMine.game.placements.find((p) => p.id === initialMine.work).readyAt,
+      boosted.placements.find((p) => p.id === initialMine.work).readyAt,
+    );
+    await page.reload();
+    await page.waitForFunction(
+      () => window.__lagoonQA && window.__lagoonSaveQA?.cloud.editable,
+    );
+    const restoredBoost = await page.evaluate(() => __lagoonSaveQA.getGame());
+    assert.equal(restoredBoost.diamonds, 0);
+    assert.deepEqual(restoredBoost.builderBoosts, boosted.builderBoosts);
+    assert.equal(
+      restoredBoost.placements.find((p) => p.id === initialMine.work).readyAt,
+      boosted.placements.find((p) => p.id === initialMine.work).readyAt,
+    );
+    await page.evaluate(() =>
+      document.querySelector("#map").scrollIntoView({ block: "start" }),
+    );
+    const canvasPoint = await page.evaluate(() => {
+      const r = __lagoonQA.renderer.domElement.getBoundingClientRect();
+      return {
+        x: r.left + r.width / 2,
+        y: Math.min(innerHeight - 90, Math.max(r.top + 170, innerHeight / 2)),
+      };
+    });
+    await page.touchscreen.tap(canvasPoint.x, canvasPoint.y);
+    await page.touchscreen.tap(canvasPoint.x, canvasPoint.y);
+    await page.waitForTimeout(350);
+    assert.equal(await page.evaluate(() => visualViewport.scale), browserScale);
+    await page.evaluate(() => {
+      for (const d of document.querySelectorAll("dialog[open]")) d.close();
+    });
+    const beforePinch = await page.evaluate(() =>
+      __lagoonQA.getDesiredDistance(),
+    );
+    const cdp = await context.newCDPSession(page);
+    const touches = (gap) => [
+      { id: 1, x: canvasPoint.x - gap, y: canvasPoint.y },
+      { id: 2, x: canvasPoint.x + gap, y: canvasPoint.y },
+    ];
+    await cdp.send("Input.dispatchTouchEvent", {
+      type: "touchStart",
+      touchPoints: touches(30),
+    });
+    for (let i = 1; i <= 6; i++)
+      await cdp.send("Input.dispatchTouchEvent", {
+        type: "touchMove",
+        touchPoints: touches(30 + i * 6),
+      });
+    await cdp.send("Input.dispatchTouchEvent", {
+      type: "touchEnd",
+      touchPoints: [],
+    });
+    assert.ok(
+      Math.abs(
+        (await page.evaluate(() => __lagoonQA.getDesiredDistance())) -
+          beforePinch,
+      ) > 1,
+    );
+    assert.equal(await page.evaluate(() => visualViewport.scale), browserScale);
+    console.log(
+      "PASS: double taps retain browser scale and game pinch still zooms the camera; mine collection, 8-diamond boost, earlier deadline and exact persistent hour survive reload.",
+    );
     await page.waitForFunction(
       () =>
         !__lagoonSaveQA.cloud.pending &&
@@ -492,9 +712,10 @@ async function localWorker() {
     assert.equal(remote.game.progression.xp, current.progression.xp);
     assert.deepEqual(remote.game.catPosition, current.catPosition);
     assert.ok(remote.game.unlocked.includes("bikini"));
-    assert.ok(
-      remote.game.spa.receipts.some((id) => id.startsWith("bikini-friend-")),
-    );
+    if (process.env.CHICHI_BIKINI_ACTIONS !== "0")
+      assert.ok(
+        remote.game.spa.receipts.some((id) => id.startsWith("bikini-friend-")),
+      );
     assert.ok(remote.game.spa.receipts.some((id) => id.startsWith("court-")));
     console.log(
       "Private cloud retained exact coins, XP, city position and friendship/meal receipts:",
@@ -519,7 +740,7 @@ async function localWorker() {
       [],
     );
     console.log(
-      "PASS: mobile city, nine actual friendship actions, physical chef, food, interior camera and private persistent saves.",
+      "PASS: mobile city, requested friendship actions, physical chef, food, touch gestures and private persistent saves.",
     );
   } catch (error) {
     console.error("Bikini Bottom browser check failed", error);

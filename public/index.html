@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#eeeaf3" />
     <title>Чичи • мир маленьких чудес</title>
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
-    <link rel="stylesheet" href="./style.css?v=c8695d7b91e206de" />
+    <link rel="stylesheet" href="./style.css?v=46a413fc09321168" />
   </head>
   <body>
     <header>
@@ -44,6 +44,12 @@
         >
           <span class="coin-icon">✦</span><strong id="coins">0</strong
           ><span>+</span></button
+        ><button
+          id="diamonds-open"
+          class="diamond-pill"
+          title="Алмазы и ускорение котиков-строителей"
+        >
+          <span>💎</span><strong id="diamonds">0</strong></button
         ><button id="account-open" class="nav-button" aria-label="Аккаунт">
           <span class="nav-icon">☁</span
           ><span class="nav-label">Аккаунт</span></button
@@ -140,6 +146,11 @@
             <div id="bubble" aria-live="polite">
               Мяу… кажется, сегодня случится что-то чудесное.
             </div>
+            <span
+              id="builder-boost-hud"
+              class="builder-boost-hud"
+              hidden
+            ></span>
             <span class="orbit-hint"
               >Потяните карту для поворота · перетащите Чичи к предмету или
               котику</span
@@ -438,10 +449,19 @@
       </button>
       <p class="eyebrow">Дело для маленьких лапок</p>
       <h2>Кошачий бизнес</h2>
+      <div class="builder-boost-card">
+        <p id="builder-boost-status"></p>
+        <button id="builder-boost-buy" class="primary">
+          Ускорить стройки ×10 · 1 час · 8 💎
+        </button>
+        <button id="diamond-mine-shop" class="quiet">
+          💎 Построить алмазную шахту
+        </button>
+      </div>
       <p id="business-note" class="dialog-copy"></p>
       <p id="business-summary" class="income-summary"></p>
       <button id="business-collect-all" class="primary">
-        Собрать все монеты и XP
+        Собрать весь доход и XP
       </button>
       <button id="business-shop" class="primary">Открыть новые бизнесы</button>
       <div id="business-grid" class="business-grid"></div>
@@ -661,6 +681,6 @@
       </div>
     </dialog>
     <div id="toast" role="status" aria-live="polite" hidden></div>
-    <script type="module" src="./dist/app.js?v=cfc778284c9ff802"></script>
+    <script type="module" src="./dist/app.js?v=3f5a70ce5e48ebb5"></script>
   </body>
 </html>

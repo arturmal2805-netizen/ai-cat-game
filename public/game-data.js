@@ -1,3 +1,4 @@
+import { DIAMOND_MINE } from "./diamond-data.js";
 import {
   BIKINI_RADIUS,
   BIKINI_GATE,
@@ -2152,3 +2153,5 @@ CROPS.push({
 });
 
 CATALOG.push(...MEGA_RIDES);
+
+CATALOG.push(DIAMOND_MINE);

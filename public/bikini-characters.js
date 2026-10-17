@@ -1,4 +1,9 @@
 import * as THREE from "three";
+import {
+  CARRY_DURATION,
+  carryTiming,
+  relaxCarriedCat,
+} from "./bikini-carry.js";
 import { part } from "./bikini-scenery.js";
 import { line } from "./fantasy-scenery.js";
 import { batchModelGeometry } from "./model-batching.js";
@@ -7,6 +12,7 @@ export const FRIEND_DURATIONS = {
   five: 12,
   hug: 14,
   pet: 17,
+  carry: CARRY_DURATION,
   play: 30,
   dance: 18,
   photo: 13,
@@ -84,9 +90,21 @@ export function bikiniFriendFrame(
     wave = 0;
     walking = false;
   }
+  const carry = intent === "carry" ? carryTiming(t, reduced) : null;
+  if (carry) {
+    phase = carry.phase;
+    arm = carry.weight * 0.7;
+    crouch =
+      0.25 *
+      (phase === "pickup" || phase === "putdown"
+        ? Math.sin(carry.weight * Math.PI)
+        : 0);
+    lean = 0.13 * (1 - carry.weight) * smooth(t / 2) * exit;
+  }
   return {
     phase,
     duration,
+    carry,
     position: [x, jump, z],
     yaw:
       intent === "play"
@@ -124,7 +142,11 @@ export function bikiniFriendFrame(
       wave,
       lean,
       arm,
-      crouch: intent === "pet" || intent === "sit" ? 0.5 * weight : 0,
+      crouch: carry
+        ? crouch
+        : intent === "pet" || intent === "sit"
+          ? 0.5 * weight
+          : 0,
       pet,
       bounce:
         intent === "dance" && !reduced
@@ -454,7 +476,9 @@ export function createBikiniCharacter(kind = "sponge") {
     handBase = new THREE.Vector3(0.4, -1.02, 0.03),
     handDirection = handBase.clone().normalize(),
     handOriginal = new THREE.Quaternion(),
-    handTarget = new THREE.Quaternion();
+    handTarget = new THREE.Quaternion(),
+    seat = new THREE.Vector3(),
+    groundSeat = new THREE.Vector3(0.5, 0, 2.65);
   const d = (root.userData = {
     id: "bikini-" + kind,
     bikiniFriend: kind,
@@ -466,6 +490,8 @@ export function createBikiniCharacter(kind = "sponge") {
     bubbles,
     intent: "play",
     pose: null,
+    carryRoute: null,
+    carrySize: { bellyY: 0.45, depth: 0.7, width: 0.3 },
     setIntent(intent) {
       d.intent = FRIEND_DURATIONS[intent] ? intent : "play";
       d.duration = FRIEND_DURATIONS[d.intent];
@@ -482,13 +508,24 @@ export function createBikiniCharacter(kind = "sponge") {
         bounce = 0,
         chef = false,
         stepForward = 0,
+        carry = null,
       } = {},
       reduced = false,
     ) {
       cap.visible = spatula.visible = chef;
       rig.position.y =
         -crouch + bounce + (reduced ? 0 : Math.sin(time * 2) * 0.025);
+      rig.position.x = 0;
       rig.position.z = stepForward;
+      if (carry) {
+        const point = d.carryRoute?.sample(carry.progress);
+        if (point) {
+          rig.position.x = point.x;
+          rig.position.z += point.z;
+          rig.rotation.y =
+            Math.atan2(Math.sin(point.yaw), Math.cos(point.yaw)) * carry.turn;
+        }
+      }
       rig.rotation.x = lean;
       rig.rotation.z = 0;
       for (let i = 0; i < 2; i++) {
@@ -508,6 +545,31 @@ export function createBikiniCharacter(kind = "sponge") {
     },
     touchCat(model) {
       const phase = d.intent;
+      if (sponge && phase === "carry" && d.pose?.carry) {
+        const w = d.pose.carry.weight;
+        relaxCarriedCat(model, w, d.playTime || 0, d.playReduced);
+        for (const [i, arm] of arms.entries()) {
+          const sign = i ? 1 : -1;
+          model.updateWorldMatrix(true, false);
+          contact.set(
+            sign * 0.24,
+            model.userData.body.position.y - model.userData.body.scale.y * 0.75,
+            0,
+          );
+          model.localToWorld(contact);
+          rig.worldToLocal(contact);
+          direction.copy(contact).sub(arm.position);
+          handBase.set(sign * 0.4, -1.02, 0.03);
+          handDirection.copy(handBase).normalize();
+          const length = direction.length();
+          handOriginal.copy(arm.quaternion);
+          handTarget.setFromUnitVectors(handDirection, direction.normalize());
+          arm.quaternion.slerpQuaternions(handOriginal, handTarget, w);
+          arm.scale.setScalar(1 + (length / handBase.length() - 1) * w);
+          arm.updateWorldMatrix(false, true);
+        }
+        return;
+      }
       if (
         !sponge ||
         !d.pose ||
@@ -515,6 +577,8 @@ export function createBikiniCharacter(kind = "sponge") {
         !["five", "pet"].includes(phase)
       )
         return;
+      handBase.set(0.4, -1.02, 0.03);
+      handDirection.copy(handBase).normalize();
       const joints = model.userData.legJoints,
         legs = model.userData.legs;
       const ankle = joints.find(
@@ -548,8 +612,29 @@ export function createBikiniCharacter(kind = "sponge") {
     },
     playFrame(t, reduced = false) {
       const f = bikiniFriendFrame(t, d.intent, kind, reduced);
+      if (f.carry)
+        f.character.walking =
+          !reduced && f.carry.progress > 0 && f.carry.progress < 1;
       d.pose = f;
-      d.applyPose(t, f.character, reduced);
+      d.playTime = t;
+      d.playReduced = reduced;
+      d.applyPose(t, { ...f.character, carry: f.carry }, reduced);
+      if (f.carry) {
+        const w = f.carry.weight;
+        rig.updateMatrix();
+        seat
+          .set(0, 2 - d.carrySize.bellyY, 0.7 + d.carrySize.depth)
+          .applyMatrix4(rig.matrix);
+        seat.lerpVectors(groundSeat, seat, w);
+        f.position = seat.toArray();
+        f.yaw = Math.PI * (1 - w) + rig.rotation.y * w;
+        f.walking = false;
+        f.reaction = {
+          headPitch: -0.08,
+          earRelax: 0.12 * w,
+          headRoll: reduced ? 0 : Math.sin(t * 1.3) * 0.035 * w,
+        };
+      }
       bubbles.visible = f.bubbles && !reduced;
       if (bubbles.visible) {
         for (let i = 0; i < 12; i++) {

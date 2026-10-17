@@ -1,3 +1,4 @@
+import { constructionDeadline } from "./construction-boost.js";
 import { COURT_VENUES, courtObject, courtProject } from "./foodcourt-data.js";
 import { purchaseXP } from "./progression.js";
 import { COTTON_OBJECTS, COTTON_RIDES } from "./cotton-data.js";
@@ -37,7 +38,10 @@ export function startCourtConstruction(game, id, now = Date.now()) {
     [id]: now,
   };
   next.business.accounts[id] = {
-    collectedAt: now + p.buildMinutes * 60000,
+    collectedAt: constructionDeadline(
+      { startedAt: now, readyAt: now + p.buildMinutes * 60000 },
+      next.builderBoosts,
+    ),
     xpRemainder: 0,
   };
   return purchaseXP(next, id, p.price, now);
@@ -56,7 +60,12 @@ export function islandProject(game, id, now = Date.now()) {
   const spec = COTTON_RIDES.find((r) => r.id === o.type),
     startedAt =
       normalizeIslandConstruction(game.islandConstruction).clockwork || 0,
-    readyAt = startedAt ? startedAt + spec.buildMinutes * 60000 : 0;
+    readyAt = startedAt
+      ? constructionDeadline(
+          { startedAt, readyAt: startedAt + spec.buildMinutes * 60000 },
+          game.builderBoosts,
+        )
+      : 0;
   // Existing opened worlds keep their completed park; migration must never
   // take away a ride that a player could already use.
   return {

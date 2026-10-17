@@ -65,6 +65,24 @@ export function nearestCourtGround(
     }
   return null;
 }
+// Idle cats need a resting spot outside the entrance lane. Visitors still use
+// the ordinary walkable floor and can walk through the doorway to order.
+const idleLanes = new WeakMap();
+export function nearestCourtIdleGround(p, radius, obstacles, biome) {
+  let layouts = idleLanes.get(obstacles);
+  if (!layouts) {
+    layouts = new Map();
+    idleLanes.set(obstacles, layouts);
+  }
+  if (!layouts.has(biome))
+    layouts.set(biome, [
+      ...obstacles,
+      ...courtLayout(biome)
+        .venues.filter((o) => o.kind !== "cinema")
+        .map((o) => ({ x: o.x, z: o.z + o.d / 2 - 0.4, w: 5.4, d: 5.6 })),
+    ]);
+  return nearestCourtGround(p, radius, layouts.get(biome), biome);
+}
 export function courtSegment(a, b, radius, obstacles, biome = "foodcourt") {
   const d = spaDistance(a, b),
     n = Math.ceil(d / 0.22);

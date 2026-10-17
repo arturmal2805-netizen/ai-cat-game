@@ -70,6 +70,7 @@ export function createConstructionCrew({
   getSites,
   getObstacles = () => [],
   bridges = [],
+  getSpeed = () => 1,
 }) {
   const workers = new Map(),
     retryAt = new Map();
@@ -211,43 +212,77 @@ export function createConstructionCrew({
       if (!w) return null;
     }
     radius = w.radius;
-    w.elapsed += dt;
+    const speed = Math.max(1, Math.min(10, getSpeed(now)));
+    w.elapsed += dt * speed;
     if (w.path.length) {
-      const to = w.path[0],
-        d = Math.hypot(to.x - w.position.x, to.z - w.position.z),
-        f = d ? Math.min(1, (2.9 * Math.min(dt, 0.05)) / d) : 1,
-        next = {
-          x: w.position.x + (to.x - w.position.x) * f,
-          z: w.position.z + (to.z - w.position.z) * f,
-          y:
-            w.position.y +
-            (to.y - w.position.y) * Math.min(1, Math.max(f, dt * 6)),
-        };
-      if (
-        ![...workers.values()].some(
-          (o) =>
-            o !== w &&
-            Math.hypot(next.x - o.position.x, next.z - o.position.z) <
-              radius + o.radius + 0.01,
-        )
-      ) {
-        w.blocked = 0;
-        w.yaw = Math.atan2(to.x - w.position.x, to.z - w.position.z);
-        w.position = next;
-        if (d < 0.08) w.path.shift();
-      } else {
-        w.blocked = (w.blocked || 0) + dt;
-        if (w.blocked > (w.repathAt || 0.8)) {
-          w.repathAt = w.blocked + 1.2;
-          const b = byBiome(w.site.biome),
-            avoid = [...workers.values()]
-              .filter((o) => o !== w)
-              .map((o) => ({
-                ...local(o.position, b),
-                radius: o.radius + 0.02,
-              })),
-            path = localRoute(w.position, global(w.slot, b), b, radius, avoid);
-          if (path?.length) w.path = path;
+      let remaining = 2.9 * Math.min(dt, 0.05) * speed;
+      while (w.path.length && remaining > 1e-8) {
+        const to = w.path[0],
+          d = Math.hypot(to.x - w.position.x, to.z - w.position.z),
+          step = Math.min(d, remaining),
+          f = d ? step / d : 1,
+          next = {
+            x: w.position.x + (to.x - w.position.x) * f,
+            z: w.position.z + (to.z - w.position.z) * f,
+            y:
+              w.position.y +
+              (to.y - w.position.y) * Math.min(1, Math.max(f, dt * 6)),
+          };
+        if (
+          ![...workers.values()].some(
+            (o) =>
+              o !== w &&
+              (() => {
+                const dx = next.x - w.position.x,
+                  dz = next.z - w.position.z,
+                  length = dx * dx + dz * dz,
+                  t = length
+                    ? Math.max(
+                        0,
+                        Math.min(
+                          1,
+                          ((o.position.x - w.position.x) * dx +
+                            (o.position.z - w.position.z) * dz) /
+                            length,
+                        ),
+                      )
+                    : 0;
+                return (
+                  Math.hypot(
+                    w.position.x + dx * t - o.position.x,
+                    w.position.z + dz * t - o.position.z,
+                  ) <
+                  radius + o.radius + 0.01
+                );
+              })(),
+          )
+        ) {
+          w.blocked = 0;
+          w.yaw = Math.atan2(to.x - w.position.x, to.z - w.position.z);
+          w.position = next;
+          remaining -= step;
+          if (d - step < 0.001) w.path.shift();
+        } else {
+          remaining = 0;
+          w.blocked = (w.blocked || 0) + dt;
+          if (w.blocked > (w.repathAt || 0.8)) {
+            w.repathAt = w.blocked + 1.2;
+            const b = byBiome(w.site.biome),
+              avoid = [...workers.values()]
+                .filter((o) => o !== w)
+                .map((o) => ({
+                  ...local(o.position, b),
+                  radius: o.radius + 0.02,
+                })),
+              path = localRoute(
+                w.position,
+                global(w.slot, b),
+                b,
+                radius,
+                avoid,
+              );
+            if (path?.length) w.path = path;
+          }
         }
       }
       w.phase = "run";
@@ -257,9 +292,10 @@ export function createConstructionCrew({
         goal = global(w.site, b);
       w.yaw = Math.atan2(goal.x - w.position.x, goal.z - w.position.z);
     }
-    const tap = Math.max(0, Math.sin(time * 7 + index * 1.8));
+    const tap = Math.max(0, Math.sin(w.elapsed * 7 + index * 1.8));
     return {
       ...w,
+      speed,
       walking: w.phase === "run",
       reaction:
         w.phase === "hammer"
@@ -278,4 +314,36 @@ export function createConstructionCrew({
     cancel: (id) => workers.delete(id),
     clear: () => workers.clear(),
   };
+}
+
+const boostRing = new THREE.TorusGeometry(0.7, 0.045, 5, 24),
+  boostPaint = new THREE.MeshBasicMaterial({
+    color: 0xb8a0ff,
+    transparent: true,
+    opacity: 0.42,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+  }),
+  boostDummy = new THREE.Object3D();
+boostRing.userData.sharedScenery = boostPaint.userData.sharedScenery = true;
+export function attachBuilderGlow(model) {
+  const glow = new THREE.InstancedMesh(boostRing, boostPaint, 3);
+  glow.name = "Diamond builder speed aura";
+  glow.frustumCulled = false;
+  glow.visible = false;
+  model.add(glow);
+  glow.userData.updateBoost = (time, speed, reduced = false) => {
+    glow.visible = speed > 1;
+    if (!glow.visible) return;
+    for (let i = 0; i < 3; i++) {
+      const wave = reduced ? i / 3 : (time * 1.8 + i / 3) % 1;
+      boostDummy.position.set(0, 0.05 + wave * 0.65, 0);
+      boostDummy.rotation.set(Math.PI / 2, 0, 0);
+      boostDummy.scale.set(1 + wave * 0.5, 1 + wave * 0.5, 1);
+      boostDummy.updateMatrix();
+      glow.setMatrixAt(i, boostDummy.matrix);
+    }
+    glow.instanceMatrix.needsUpdate = true;
+  };
+  return glow;
 }

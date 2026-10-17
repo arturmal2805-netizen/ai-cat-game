@@ -1,3 +1,7 @@
+import {
+  normalizeBuilderBoosts,
+  resolveConstructionBoosts,
+} from "./construction-boost.js";
 import { courtObject, COURT_MENU } from "./foodcourt-data.js";
 import { newSpa, normalizeSpa } from "./spa-system.js";
 import { SPA_DRINKS } from "./spa-data.js";
@@ -81,6 +85,8 @@ export function newGame(now = Date.now()) {
     retiredIslandRefund: 0,
     relocatedPurchases: [],
     coins: 420,
+    diamonds: 0,
+    builderBoosts: [],
     unlocked: ["moon"],
     islandConstruction: {},
     inventory: {},
@@ -171,6 +177,10 @@ export function loadGame(storage, now = Date.now(), { advance = true } = {}) {
       .slice(0, 60)
       .filter((p) => byItem(p?.item));
     game.coins = saved.coins;
+    game.diamonds = Number.isSafeInteger(saved.diamonds)
+      ? Math.max(0, Math.min(1000000, saved.diamonds))
+      : 0;
+    game.builderBoosts = normalizeBuilderBoosts(saved.builderBoosts);
     game.unlocked = BIOMES.filter(
       (x) => x.id === "moon" || saved.unlocked?.includes(x.id),
     ).map((x) => x.id);
@@ -327,7 +337,8 @@ export function loadGame(storage, now = Date.now(), { advance = true } = {}) {
       saved.recentActivities,
       worldSnapshot(game),
     );
-    return advance ? advanceCare(game, now, { offline: true }) : game;
+    const resolved = resolveConstructionBoosts(game);
+    return advance ? advanceCare(resolved, now, { offline: true }) : resolved;
   } catch {
     return newGame(now);
   }
@@ -570,7 +581,10 @@ export function placeItem(
     x,
     z,
     rotation,
-    startedAt: now,
+    startedAt: relocated?.startedAt || now,
+    ...(relocated?.boostBaseReadyAt
+      ? { boostBaseReadyAt: relocated.boostBaseReadyAt }
+      : {}),
     readyAt: relocated
       ? relocated.readyAt || 0
       : (next.builtInventory?.[item] || 0) > 0
@@ -590,7 +604,7 @@ export function placeItem(
     next.farm.fields[next.placements.at(-1).id] =
       relocated?.fieldCells ||
       Array.from({ length: 3 }, () => ({ crop: null, readyAt: 0 }));
-  return next;
+  return resolveConstructionBoosts(next);
 }
 export function moveItem(game, id, biome, x, z, rotation = 0) {
   const old = game.placements.find((p) => p.id === id);
