@@ -4,7 +4,9 @@ import { SOCIAL_INTENTS } from "./social-system.js";
 
 export const DECISION_PROTOCOL = "living-cat-world-v4";
 // Sixty residents and the full 110-object scene still fit a bounded request.
-export const MAX_DECISION_BYTES = 24576;
+// Complete worlds can now include 95 adopted pets; keep a finite request cap
+// while allowing their care/social records alongside all physical targets.
+export const MAX_DECISION_BYTES = 49152;
 
 // These free, permanent objects are rendered in the reserved home/picnic areas.
 // Their IDs are stable across saves, browser validation and Workers AI.

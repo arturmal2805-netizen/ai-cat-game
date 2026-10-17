@@ -524,7 +524,7 @@ export function findSpace(
   for (
     let radius = 0;
     radius <=
-    (biome === "autumn"
+    (["autumn", "homestead"].includes(biome)
       ? Math.floor(byBiome(biome).radius - 1)
       : byBiome(biome)?.radius
         ? 17

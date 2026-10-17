@@ -391,7 +391,11 @@ test("a full world above the browser keepalive budget uses normal fetch and rema
     return real(u, o);
   };
   const g = structuredClone(a.game);
-  g.padding = "x".repeat(66000);
+  // Exercise keepalive without crossing the independent server save cap as
+  // new real care/social records are added to the base world.
+  g.padding = "x".repeat(
+    Math.max(0, 66000 - new TextEncoder().encode(JSON.stringify(g)).length),
+  );
   a.send(g);
   await a.cloud.flush();
   assert.equal(seen.keepalive, false);

@@ -1,4 +1,5 @@
 // Proportions belong to the rig, so portraits, GLB exports and live cats agree.
+import { EXTRA_BREEDS, MAGIC_BREEDS, EXTRA_CATS } from "./cat-expansion.js";
 export const BREEDS = {
   blue: {
     name: "Русская голубая",
@@ -225,6 +226,7 @@ export const BREEDS = {
     tailPlume: 1.4,
   },
 };
+Object.assign(BREEDS, EXTRA_BREEDS, MAGIC_BREEDS);
 export const CAT_BUILDS = {
   slender: {
     width: 0.86,
@@ -681,6 +683,7 @@ export const ADOPTION_CATS = [
     { size: 2.25, otherEye: 0xd7b26e },
   ),
 ];
+ADOPTION_CATS.push(...EXTRA_CATS);
 export function catAppearance(profile = {}) {
   const breed = BREEDS[profile.breed] || BREEDS.tabby;
   return {

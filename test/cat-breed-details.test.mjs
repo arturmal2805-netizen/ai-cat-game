@@ -79,7 +79,7 @@ test("Chichi stays byte-identical outside her repaired eye backings, chin cap an
 });
 test("all 35 approved neighbour models remain byte-identical during Chichi's face repair", () => {
   const hash = createHash("sha256");
-  for (const profile of ADOPTION_CATS) {
+  for (const profile of ADOPTION_CATS.filter(p => !p.collection)) {
     const cat = createCat("happy", catAppearance(profile));
     hash.update(profile.id).update(fingerprint(cat));
     disposeCat(cat);

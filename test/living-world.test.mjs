@@ -141,7 +141,7 @@ test("gathering moves only available cats, keeps their relationships and restore
   assert.deepEqual(loadGame(s, now).catDestinations, g.catDestinations);
 });
 test("all adoption models have finite sculpted anatomy, individual eyes and intact animated moods", () => {
-  assert.equal(ADOPTION_CATS.filter((c) => c.breed === "sphynx").length, 1);
+  assert.equal(ADOPTION_CATS.filter((c) => c.breed === "sphynx").length, 2);
   for (const p of [{}, ...ADOPTION_CATS]) {
     const cat = createCat("happy", { ...p, detail: "npc" });
     assert.equal(cat.getObjectByName("Face").geometry.type, "BufferGeometry");
@@ -356,10 +356,12 @@ test("an older open tab can still submit physical targets from retired Witch For
   );
 });
 test("renewed islands have distinct features, fish, animated waterfalls and two usable pools each", () => {
-  assert.equal(BIOMES.length, 26);
+  assert.equal(BIOMES.length, 27);
   assert.equal(byBiome("wizard"), undefined);
   const themes = new Set();
-  for (const id of Object.keys(RENEWED_ISLANDS).filter(id=>id!=="autumn")) {
+  for (const id of Object.keys(RENEWED_ISLANDS).filter(
+    (id) => id !== "autumn",
+  )) {
     const root = createBiomeScene(byBiome(id));
     themes.add(root.userData.renewal.hero);
     assert.ok(root.userData.stats.fishCount >= 30);
@@ -376,6 +378,7 @@ test("renewed islands have distinct features, fish, animated waterfalls and two 
 });
 test("innate rides can be chosen as physical AI targets and full adopted worlds fit the request and save limits", () => {
   let g = prepared();
+  g.coins = ADOPTION_CATS.reduce((n, c) => n + c.price, 1000);
   g.unlocked = BIOMES.map((b) => b.id);
   for (const cat of ADOPTION_CATS)
     g = adoptCat(g, cat.id, "adoption-test", now);
@@ -390,7 +393,7 @@ test("innate rides can be chosen as physical AI targets and full adopted worlds 
   }));
   const state = { ...g.cat, world: worldSnapshot(g) };
   assert.doesNotThrow(() => validateState(state));
-  assert.ok(new TextEncoder().encode(JSON.stringify(state)).length < 24576);
+  assert.ok(new TextEncoder().encode(JSON.stringify(state)).length < 49152);
   assert.ok(JSON.stringify(g).length < 120000);
   for (const ride of ISLAND_RIDES)
     assert.ok(state.world.activities.some((a) => a.id === ride.id));

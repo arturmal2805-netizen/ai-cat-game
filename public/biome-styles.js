@@ -231,3 +231,12 @@ BIOME_STYLES.bikini = {
   kind: "palm",
   hero: "bikini",
 };
+
+BIOME_STYLES.homestead = {
+  ground: 0xabc68c,
+  leaf: 0xa1bd84,
+  flower: 0xf2c2d5,
+  roof: 0xb8a0c8,
+  kind: "oak",
+  hero: "meadow",
+};

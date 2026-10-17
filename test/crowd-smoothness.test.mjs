@@ -42,6 +42,7 @@ function budget(root) {
 }
 test("all adoption cats use the reference-family sculpt within a bounded crowd GPU budget", () => {
   const sum = { triangles: 0, draws: 0, bytes: 0 };
+  const approved = { draws: 0, bytes: 0 };
   for (const profile of ADOPTION_CATS) {
     const cat = createCat("happy", {
       ...catAppearance(profile),
@@ -57,10 +58,16 @@ test("all adoption cats use the reference-family sculpt within a bounded crowd G
     // Closed muzzles/paws and the new breed silhouettes remain small. The
     // additional candidates are baked images until they are actually adopted.
     assert.ok(
-      b.triangles <= 18500 && b.draws <= 19 && b.bytes <= 410000,
+      b.triangles <= (profile.magic ? 25000 : 18500) &&
+        b.draws <= (profile.magic ? 23 : 19) &&
+        b.bytes <= (profile.magic ? 550000 : 410000),
       profile.id + ": " + JSON.stringify(b),
     );
     for (const k in sum) sum[k] += b[k];
+    if (!profile.collection) {
+      approved.draws += b.draws;
+      approved.bytes += b.bytes;
+    }
     for (const mood of ["sleep", "crazy hungry", "happy"]) {
       setCatMood(cat, mood, { immediate: true });
       animateCat(cat, 0.15, true);
@@ -73,10 +80,15 @@ test("all adoption cats use the reference-family sculpt within a bounded crowd G
     }
     disposeCat(cat);
   }
-  assert.ok(sum.triangles <= ADOPTION_CATS.length * 18500, JSON.stringify(sum));
-  // Retain the earlier whole-catalogue draw/memory caps even with more cats.
-  assert.ok(sum.draws <= 802, JSON.stringify(sum));
-  assert.ok(sum.bytes <= 35188756, JSON.stringify(sum));
+  assert.ok(
+    sum.triangles <=
+      ADOPTION_CATS.reduce((n, p) => n + (p.magic ? 25000 : 18500), 0),
+    JSON.stringify(sum),
+  );
+  // The approved 35 models retain their exact caps; new unowned candidates are
+  // cached PNGs, and only adopted magical pets pay the bounded ornament cost.
+  assert.ok(approved.draws <= 802, JSON.stringify(approved));
+  assert.ok(approved.bytes <= 35188756, JSON.stringify(approved));
 });
 test("venue employees and adoption guests use the same new feline rig", () => {
   for (const id of [

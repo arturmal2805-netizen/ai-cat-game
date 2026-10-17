@@ -42,7 +42,7 @@ function game() {
 }
 test("capybara lagoon replaces summer in place, triples area and leaves all shores separate", () => {
   const b = byBiome("summer");
-  assert.equal(BIOMES.length, 26);
+  assert.equal(BIOMES.length, 27);
   assert.equal(b.name, "Блакитна лагуна капібар");
   assert.ok(Math.abs((b.radius / 11.65) ** 2 - 3) < 1e-10);
   assert.equal(b.requiredLevel, 4);

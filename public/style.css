@@ -2340,7 +2340,8 @@ main {
   margin: 0 0 12px;
   font-weight: 600;
 }
-#adoption-search {
+#adoption-search,
+#adoption-filter {
   width: 100%;
   min-height: 48px;
   margin: 18px 0 8px;
@@ -2351,6 +2352,18 @@ main {
   color: inherit;
   font: inherit;
   font-size: 16px;
+}
+#adoption-filter {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+.adopt-card.adopt-magic {
+  background: linear-gradient(
+    145deg,
+    rgba(245, 229, 250, 0.94),
+    rgba(225, 243, 242, 0.9)
+  );
+  border-color: rgba(172, 137, 194, 0.45);
 }
 #business-collect-all {
   margin: 0 8px 12px 0;

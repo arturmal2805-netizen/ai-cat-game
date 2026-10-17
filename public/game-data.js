@@ -2122,3 +2122,30 @@ CROPS.push({
   value: 34,
   biome: "bikini",
 });
+
+// A genuinely blank plot. Append after resolving the old map, so no existing
+// house, island, bridge endpoint or saved coordinate changes.
+BIOMES.push({
+  id: "homestead",
+  name: "Наш остров",
+  subtitle: "Огромный цветущий луг — всё остальное построите вы",
+  icon: "🌼",
+  price: 1800,
+  requiredLevel: 3,
+  radius: 46.6,
+  center: [-250, -55],
+  arrival: [0, 0],
+  ground: 0xabc68c,
+  edge: 0x95978e,
+  foliage: 0xa1bd84,
+  accent: 0xf3d3ba,
+});
+CROPS.push({
+  id: "homestead-strawberry",
+  name: "Луговая клубника",
+  icon: "🍓",
+  minutes: 12,
+  seed: 4,
+  value: 28,
+  biome: "homestead",
+});

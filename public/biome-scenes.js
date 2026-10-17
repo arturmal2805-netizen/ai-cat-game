@@ -1,4 +1,5 @@
 import { bikiniBiomeSteps } from "./bikini-biome.js";
+import { homesteadBiomeSteps } from "./homestead-biome.js";
 import { foodcourtBiomeSteps } from "./foodcourt-biome.js";
 import { mosasaurBiomeSteps } from "./mosasaur-biome.js";
 import { chillBiomeSteps } from "./chill-biome.js";
@@ -171,6 +172,13 @@ export function* biomeSceneSteps(
   { preview = false, placements = [], scenery = null, lowOnly = false } = {},
 ) {
   yield;
+  if (biome.id === "homestead")
+    return yield* homesteadBiomeSteps(biome, {
+      preview,
+      placements,
+      scenery: scenery ?? [],
+      lowOnly,
+    });
   if (biome.id === "bikini")
     return yield* bikiniBiomeSteps(biome, {
       preview,

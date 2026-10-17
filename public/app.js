@@ -2095,8 +2095,10 @@ function renderAdoption() {
   if (!centers.some((c) => c.id === adoptionCenterId))
     adoptionCenterId = centers[0]?.id;
   const query = $("adoption-search").value.trim().toLocaleLowerCase("ru");
+  const collection = $("adoption-filter").value;
   const viewKey = JSON.stringify([
     query,
+    collection,
     adoptionCenterId,
     centers.map((c) => c.id),
     game.coins,
@@ -2120,15 +2122,30 @@ function renderAdoption() {
   $("adoption-centers").value = adoptionCenterId || "";
   $("adoption-centers").hidden = centers.length < 2;
   $("adoption-grid").replaceChildren();
-  for (const cat of ADOPTION_CATS.filter((c) =>
-    (c.name + " " + BREEDS[c.breed].name + " " + c.personality)
-      .toLocaleLowerCase("ru")
-      .includes(query),
+  for (const cat of ADOPTION_CATS.filter(
+    (c) =>
+      (collection === "all" ||
+        (collection === "tiny" && c.tiny) ||
+        (collection === "adult" && !c.tiny) ||
+        (collection === "plump" &&
+          ["giant", "colossal"].includes(catAppearance(c).build)) ||
+        c.collection === collection) &&
+      (
+        c.name +
+        " " +
+        BREEDS[c.breed].name +
+        " " +
+        c.personality +
+        " " +
+        (c.rarity || "")
+      )
+        .toLocaleLowerCase("ru")
+        .includes(query),
   ).sort((a, b) => a.requiredLevel - b.requiredLevel || a.price - b.price)) {
     const owned = game.adoption.cats.some((c) => c.id === cat.id),
       locked = levelRequirement(game, cat.requiredLevel);
     const card = document.createElement("article");
-    card.className = "adopt-card";
+    card.className = "adopt-card" + (cat.magic ? " adopt-magic" : "");
     const image = document.createElement("img");
     image.dataset.adoptPortrait = cat.id;
     image.alt = cat.name + " · " + BREEDS[cat.breed].name;
@@ -2143,7 +2160,11 @@ function renderAdoption() {
       button = document.createElement("button");
     title.textContent = cat.name;
     type.textContent =
-      BREEDS[cat.breed].name + " · уровень " + cat.requiredLevel;
+      (cat.tiny ? "Малыш · " : "") +
+      (cat.rarity ? cat.rarity + " · " : "") +
+      BREEDS[cat.breed].name +
+      " · уровень " +
+      cat.requiredLevel;
     text.textContent = cat.personality;
     button.className = "primary";
     button.dataset.adopt = cat.id;
@@ -2172,6 +2193,10 @@ $("adoption-centers").onchange = (e) => {
   adoptionCenterId = e.target.value;
 };
 $("adoption-search").oninput = renderAdoption;
+$("adoption-filter").onchange = () => {
+  renderAdoption();
+  $("adoption-dialog").scrollTop = 0;
+};
 function showIsland(id) {
   selectedIsland = id;
   const owned = game.unlocked.includes(id);

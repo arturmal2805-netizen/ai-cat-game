@@ -3,6 +3,7 @@ import http from "node:http";
 import { fileURLToPath } from "node:url";
 import { createHash } from "node:crypto";
 import { build } from "esbuild";
+import { CAT_PORTRAITS } from "../public/cat-portrait-manifest.js";
 const { chromium } = await import(
   process.env.PLAYWRIGHT_MODULE || "playwright"
 );
@@ -53,8 +54,11 @@ window.ready=true;`,
     await p.goto("http://127.0.0.1:" + server.address().port);
     await p.waitForFunction(() => window.ready);
     fs.mkdirSync(root + "/public/art/cats", { recursive: true });
-    const manifest = {};
+    const manifest = process.argv.includes("--new-only")
+      ? { ...CAT_PORTRAITS }
+      : {};
     for (const profile of await p.evaluate(() => profiles)) {
+      if (process.argv.includes("--new-only") && manifest[profile.id]) continue;
       const { url, stats } = await p.evaluate(
         (id) => renderCat(id),
         profile.id,
@@ -66,7 +70,8 @@ window.ready=true;`,
       manifest[profile.id] = "./art/cats/" + profile.id + ".png";
       console.log(profile.id, stats);
     }
-    for (const mood of process.argv.includes("--adoption-only")
+    for (const mood of process.argv.includes("--adoption-only") ||
+    process.argv.includes("--new-only")
       ? []
       : ["sleep", "crazy hungry", "happy"]) {
       const { url } = await p.evaluate((m) => renderCat(null, m), mood);
@@ -96,14 +101,18 @@ window.ready=true;`,
     const path = root + "/public/cat-portrait-manifest.js";
     let text = fs.readFileSync(path, "utf8");
     text = text.replace(
-      /\.\/art\/cats\/[^"?]+\.png/g,
-      (url) =>
-        url +
-        "?v=" +
-        createHash("sha256")
-          .update(fs.readFileSync(root + "/public/" + url.slice(2)))
-          .digest("hex")
-          .slice(0, 12),
+      /\.\/art\/cats\/[^"?]+\.png(?:\?v=[a-f0-9]+)?/g,
+      (versioned) => {
+        const url = versioned.split("?")[0];
+        return (
+          url +
+          "?v=" +
+          createHash("sha256")
+            .update(fs.readFileSync(root + "/public/" + url.slice(2)))
+            .digest("hex")
+            .slice(0, 12)
+        );
+      },
     );
     if (errors.length) throw new Error(errors.join("\n"));
     fs.writeFileSync(path, text);

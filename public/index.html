@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#eeeaf3" />
     <title>Чичи • мир маленьких чудес</title>
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
-    <link rel="stylesheet" href="./style.css?v=17e22d5427d04386" />
+    <link rel="stylesheet" href="./style.css?v=46fa36f09d40a5dd" />
   </head>
   <body>
     <header>
@@ -403,6 +403,14 @@
         placeholder="Имя, порода или характер"
         aria-label="Поиск котиков по породе"
       />
+      <select id="adoption-filter" aria-label="Коллекция котиков">
+        <option value="all">Все котики</option>
+        <option value="tiny">Малыши · как у хот-догов</option>
+        <option value="plump">Пухляши</option>
+        <option value="new-breeds">Новые породы</option>
+        <option value="magic">Магические и легендарные</option>
+        <option value="adult">Большие котики</option>
+      </select>
       <div id="adoption-grid" class="adoption-grid"></div>
     </dialog>
     <dialog id="business-dialog" class="shop-dialog">
@@ -638,6 +646,6 @@
       </div>
     </dialog>
     <div id="toast" role="status" aria-live="polite" hidden></div>
-    <script type="module" src="./dist/app.js?v=fa6c9ecf45713a60"></script>
+    <script type="module" src="./dist/app.js?v=a188bba649e124ec"></script>
   </body>
 </html>

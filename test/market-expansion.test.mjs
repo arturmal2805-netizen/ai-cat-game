@@ -43,11 +43,11 @@ const memory = () => {
   };
 };
 
-test("35 adoptable cats include 29 distinct breeds with preserved ear, coat and tail traits", () => {
-  assert.equal(ADOPTION_CATS.length, 35);
-  assert.equal(Object.keys(BREEDS).length, 29);
-  assert.equal(new Set(ADOPTION_CATS.map((c) => c.id)).size, 35);
-  assert.equal(ADOPTION_CATS.filter((c) => c.breed === "sphynx").length, 1);
+test("95 adoptable cats include 57 distinct breeds with preserved ear, coat and tail traits", () => {
+  assert.equal(ADOPTION_CATS.length, 95);
+  assert.equal(Object.keys(BREEDS).length, 57);
+  assert.equal(new Set(ADOPTION_CATS.map((c) => c.id)).size, 95);
+  assert.equal(ADOPTION_CATS.filter((c) => c.breed === "sphynx").length, 2);
   const models = Object.fromEntries(
     ["scottish", "bengal", "abyssinian", "bobtail", "norwegian"].map(
       (breed) => [

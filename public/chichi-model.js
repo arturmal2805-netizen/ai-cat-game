@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { paintCoat } from "./cat-sculpt.js";
 import { catAppearance, CAT_BUILDS } from "./cat-breeds.js";
+import { attachCatMagic } from "./cat-magic.js";
 import {
   sculptBreedDetails,
   curlEar,
@@ -989,6 +990,7 @@ export function createReferenceChichi(mood, options = {}) {
     }
   }
   cat.userData.legJoints = legJoints;
+  if (crowd && appearance.magic) attachCatMagic(cat, appearance);
   // Keep the full sculpt and all strand geometry. Compact GPU normals rather
   // than decimating the hero model to meet the mobile/export memory budget.
   cat.traverse((o) => {

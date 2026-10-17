@@ -20,6 +20,10 @@ test("every island has authored trees with varied positions and silhouettes", ()
   const kinds = new Set();
   for (const biome of BIOMES) {
     const trees = landscapedTrees(biome.id);
+    if (biome.id === "homestead") {
+      assert.deepEqual(trees, []);
+      continue;
+    }
     assert.ok(
       trees.length >= 2 &&
         trees.length <=
@@ -44,7 +48,11 @@ test("every island has authored trees with varied positions and silhouettes", ()
 
 test("every meadow is deterministic, diverse and rendered in at most four draw calls", () => {
   for (const biome of BIOMES) {
-    const root = createGroundCover(BIOME_STYLES[biome.id], biome.id, biome.id === "autumn" ? {radius:biome.radius} : {});
+    const root = createGroundCover(
+      BIOME_STYLES[biome.id],
+      biome.id,
+      biome.id === "autumn" ? { radius: biome.radius } : {},
+    );
     assert.ok(root.children.length <= 4);
     assert.ok(
       root.userData.samples.length >= 300 &&

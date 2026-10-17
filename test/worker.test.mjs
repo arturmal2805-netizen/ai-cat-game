@@ -1,6 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import worker from "../worker.mjs";
+import { MAX_DECISION_BYTES } from "../public/interactions.js";
 const request = (body) =>
   new Request("https://example.com/api/decide", {
     method: "POST",
@@ -64,8 +65,11 @@ test("missing AI binding returns 503", async () =>
   ));
 test("large payload rejected", async () =>
   assert.equal(
-    (await worker.fetch(request({ extra: "x".repeat(24576) }), { AI: {} }))
-      .status,
+    (
+      await worker.fetch(request({ extra: "x".repeat(MAX_DECISION_BYTES) }), {
+        AI: {},
+      })
+    ).status,
     413,
   ));
 test("allows GitHub Pages preflight and adds CORS to API", async () => {

@@ -18,10 +18,17 @@ test("every habitat has finite detailed scenery and an explicit, separate distan
     assert.equal(root.userData.detail.visible, true);
     assert.equal(root.userData.lowDetail.visible, false);
     assert.ok(
-      root.userData.stats.staticMeshes <= (["sakura", "autumn"].includes(biome.id) ? 10 : biome.id === "summer" ? 7 : 6),
+      root.userData.stats.staticMeshes <=
+        (["sakura", "autumn"].includes(biome.id)
+          ? 10
+          : biome.id === "summer"
+            ? 7
+            : 6),
       `${biome.id}: static meshes must stay within its distinct material buckets`,
     );
-    assert.ok(root.userData.stats.sourceMeshes > 200);
+    assert.ok(
+      root.userData.stats.sourceMeshes > (biome.id === "homestead" ? 50 : 200),
+    );
     root.traverse((object) => {
       if (!object.isMesh) return;
       const position = object.geometry.getAttribute("position");
@@ -29,7 +36,10 @@ test("every habitat has finite detailed scenery and an explicit, separate distan
       assert.ok([...position.array].every(Number.isFinite), biome.id);
     });
     const bound = new THREE.Box3().setFromObject(root);
-    assert.ok(bound.min.y < -4 && bound.max.y > 2, biome.id);
+    assert.ok(
+      bound.min.y < -4 && bound.max.y > (biome.id === "homestead" ? 0.1 : 2),
+      biome.id,
+    );
     root.userData.dispose();
     const distant = createBiomeScene(biome, { lowOnly: true });
     assert.equal(distant.userData.lowOnly, true);

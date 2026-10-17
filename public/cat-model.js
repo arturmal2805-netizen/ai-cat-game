@@ -198,6 +198,7 @@ function applyPose(cat, time, walking, reduced) {
 }
 export function animateCat(cat, time, walking = false, reduced = false) {
   const d = cat.userData;
+  d.magic?.update(time, reduced);
   if (reduced) {
     const wasAnimated = d.lastTime !== null;
     if (d.expressionFrame) expressionFrame(null, 0, d.expressionFrame);
