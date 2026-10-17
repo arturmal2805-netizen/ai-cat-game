@@ -27,7 +27,7 @@ export default {
               "Access-Control-Allow-Origin": origin,
               "Access-Control-Allow-Methods": "GET, POST, PUT, OPTIONS",
               "Access-Control-Allow-Headers":
-                "Content-Type, X-Chichi-Save-Token",
+                "Content-Type, Content-Encoding, X-Chichi-Save-Token",
               Vary: "Origin",
             }
           : {},

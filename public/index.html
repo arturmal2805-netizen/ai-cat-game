@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#eeeaf3" />
     <title>Чичи • мир маленьких чудес</title>
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
-    <link rel="stylesheet" href="./style.css?v=46fa36f09d40a5dd" />
+    <link rel="stylesheet" href="./style.css?v=c8695d7b91e206de" />
   </head>
   <body>
     <header>
@@ -118,6 +118,21 @@
                 ><button id="camera-all" title="Показать все острова">
                   Весь мир ↗
                 </button>
+                <button
+                  id="camera-island"
+                  title="Обзор текущего острова сверху"
+                  aria-label="Показать текущий остров целиком сверху"
+                >
+                  🏝 Остров
+                </button>
+                <button
+                  id="camera-random-cat"
+                  title="Приблизиться к случайному котику и следовать за ним"
+                  aria-label="Ближняя камера случайного котика"
+                  aria-pressed="false"
+                >
+                  🎲 Котик
+                </button>
               </div>
             </div>
 
@@ -151,7 +166,7 @@
                 id="camera-follow-exit"
                 hidden
                 title="Повернути огляд світу"
-                aria-label="Вийти з камери Чичі"
+                aria-label="Вернуться из ближней камеры котика"
               >
                 ↩
               </button>
@@ -646,6 +661,6 @@
       </div>
     </dialog>
     <div id="toast" role="status" aria-live="polite" hidden></div>
-    <script type="module" src="./dist/app.js?v=e72604b2c807451d"></script>
+    <script type="module" src="./dist/app.js?v=cfc778284c9ff802"></script>
   </body>
 </html>

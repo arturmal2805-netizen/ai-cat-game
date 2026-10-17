@@ -826,7 +826,7 @@ $("build-rotate").onclick = () => {
   world?.updateBuild(buildMode);
 };
 $("build-cancel").onclick = cancelPlacement;
-$("build-confirm").onclick = () => {
+$("build-confirm").onclick = async () => {
   if (!buildMode) return;
   try {
     const p = buildMode;
@@ -848,8 +848,21 @@ $("build-confirm").onclick = () => {
         ? "Декорация на новом месте. Положение сохранено."
         : isBuilt(placed)
           ? "Готово! Предмет на новом месте, Чичи может его выбрать."
-          : "Стройка началась! После завершения Чичи сможет выбрать предмет.",
+          : "Стройка началась! Сохраняем её для обоих телефонов…",
     );
+    await cloud.flush();
+    if (cloud.dirty || cloud.pending || cloud.retryEntry)
+      toast(
+        "Постройка записана на этом телефоне. Облачная синхронизация ещё идёт.",
+      );
+    else if (
+      !cloud.reconciling &&
+      !cloud.conflict &&
+      (p.scenery ? game.scenery : game.placements).some(
+        (item) => item.id === placed.id,
+      )
+    )
+      toast("Положение постройки сохранено в общем мире ☁");
   } catch (error) {
     toast(error.message);
   }
@@ -1222,9 +1235,17 @@ try {
       return false;
     },
     onReaction: (text) => ($("bubble").textContent = text),
-    onCameraMode: (enabled) => {
-      $("chichi-camera").setAttribute("aria-pressed", String(enabled));
-      $("chichi-camera-label").textContent = enabled
+    onCameraMode: (enabled, target) => {
+      const chichi = enabled && target?.id === "chichi";
+      $("chichi-camera").setAttribute("aria-pressed", String(chichi));
+      $("camera-random-cat").setAttribute(
+        "aria-pressed",
+        String(enabled && !chichi),
+      );
+      $("camera-random-cat").title = enabled
+        ? "Сейчас: " + target.name + " · нажмите для другого котика"
+        : "Приблизиться к случайному котику и следовать за ним";
+      $("chichi-camera-label").textContent = chichi
         ? "Повернути звичайний огляд світу"
         : "Камера Чичі · ближче до мордочки";
       $("camera-follow-exit").hidden = !enabled;
@@ -1250,6 +1271,8 @@ try {
 }
 $("camera-home").onclick = () => world?.focus("moon");
 $("camera-all").onclick = () => world?.overview();
+$("camera-island").onclick = () => world?.islandOverview();
+$("camera-random-cat").onclick = () => world?.followRandomCat();
 $("zoom-in").onclick = () => world?.zoom(-5);
 $("zoom-out").onclick = () => world?.zoom(5);
 $("chichi-camera").onclick = () => {

@@ -7,7 +7,7 @@ import {
   ATTENTION_COINS,
   ATTENTION_COOLDOWN,
 } from "./public/economy.js";
-import { byItem } from "./public/game-data.js";
+import { BIOMES, byItem } from "./public/game-data.js";
 import { BOWL_CAPACITY, advanceCare } from "./public/care-system.js";
 import { levelForXP, DAILY_XP_LIMIT } from "./public/progression.js";
 
@@ -434,7 +434,7 @@ export function mergeSharedWorld(base, current, incoming) {
   }
   if (
     result.placements.length > 60 ||
-    result.unlocked.length > 25 ||
+    result.unlocked.length > BIOMES.length ||
     result.coins > 10000000 ||
     result.coins < 0
   )

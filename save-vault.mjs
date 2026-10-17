@@ -1,4 +1,5 @@
 import { mergeSharedWorld, SharedConflict } from "./shared-world.mjs";
+import { BIOMES } from "./public/game-data.js";
 export const SAVE_LIMIT = 120000;
 export const EDITOR_LEASE_MS = 25000;
 const sessionValid = (value) => /^[a-zA-Z0-9-]{8,64}$/.test(value || "");
@@ -7,7 +8,11 @@ const json = (data, status = 200) =>
 async function readJSON(request, limit) {
   if (Number(request.headers.get("content-length")) > limit)
     throw Error("SAVE_TOO_LARGE");
-  const reader = request.body?.getReader();
+  const stream =
+    request.headers.get("Content-Encoding") === "gzip" && request.body
+      ? request.body.pipeThrough(new DecompressionStream("gzip"))
+      : request.body;
+  const reader = stream?.getReader();
   if (!reader) throw Error("SAVE_INVALID");
   const chunks = [];
   let size = 0;
@@ -57,7 +62,7 @@ export async function readSaveBody(request) {
     !Array.isArray(value.game.placements) ||
     value.game.placements.length > 60 ||
     !Array.isArray(value.game.unlocked) ||
-    value.game.unlocked.length > 25
+    value.game.unlocked.length > BIOMES.length
   )
     throw Error("SAVE_INVALID");
   return value;

@@ -43,7 +43,18 @@ export function surfaceTexture(kind) {
           0.85 +
           0.08 * Math.sin(u * 17 + Math.cos(v * 21)) * Math.cos(v * 13) +
           noise * 0.06;
-      else if (kind === "ground")
+      else if (kind === "lawn") {
+        // Match both edges exactly: non-periodic ground noise made visible
+        // square seams when repeated across the large player-owned island.
+        const a = (x / (size - 1)) * Math.PI * 2,
+          b = (y / (size - 1)) * Math.PI * 2;
+        value =
+          0.93 +
+          0.012 * Math.sin(a + 2 * b) +
+          0.009 * Math.cos(2 * a - b) +
+          0.005 * Math.sin(7 * a + 5 * b) +
+          0.003 * Math.cos(19 * a - 17 * b);
+      } else if (kind === "ground")
         value = 0.91 + 0.025 * Math.sin(u * 7.3 + v * 11.1) + noise * 0.035;
       else value = 0.86 + 0.055 * Math.sin(u * 24 + v * 17) + noise * 0.06;
       const i = (y * size + x) * 4;
@@ -61,7 +72,7 @@ export function surfaceTexture(kind) {
   texture.generateMipmaps = true;
   texture.needsUpdate = true;
   texture.userData.sharedScenery = true;
-  if (kind === "ground") texture.repeat.set(0.14, 0.14);
+  if (kind === "ground" || kind === "lawn") texture.repeat.set(0.14, 0.14);
   textureCache.set(kind, texture);
   return texture;
 }

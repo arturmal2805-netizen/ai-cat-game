@@ -1,7 +1,9 @@
 # Our island and the adoption collection
 
-`homestead` is an appended destination at `[-250, -55]`. Its radius is 46.6,
-giving exactly 16 ordinary island areas. It unlocks at level 3 for 1,800 coins.
+`homestead` is an appended destination at `[-250, -55]`. Its radius is now `46.6 * √2` (about 65.9),
+giving 32 ordinary island areas: twice its previous construction area. Its map
+centre and every saved plot coordinate stay unchanged. The dedicated seamless
+lawn texture removes repeated square borders without changing other islands. It unlocks at level 3 for 1,800 coins.
 No existing island record is changed (the published 26-record fixture covers
 this). There are no initial residents, fixed attractions, water, scenery or
 building reservations. Low flowers and grass are instanced cosmetic cover and

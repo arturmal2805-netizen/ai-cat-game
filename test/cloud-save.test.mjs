@@ -2,6 +2,8 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { SaveVault, cloudSave, SAVE_LIMIT } from "../save-vault.mjs";
 import { CloudBackup } from "../public/cloud-save.js";
+import { BIOMES } from "../public/game-data.js";
+import { gunzipSync } from "node:zlib";
 import { newGame } from "../public/economy.js";
 import { verifyCloudSave } from "../scripts/cloud-check.mjs";
 import worker from "../worker.mjs";
@@ -144,7 +146,7 @@ test("invalid and oversized snapshots are refused before cloud storage mutation"
   for (const bad of [
     { ...g, coins: -1 },
     { ...g, placements: Array(61).fill({}) },
-    { ...g, unlocked: Array(26).fill("moon") },
+    { ...g, unlocked: Array(BIOMES.length + 1).fill("moon") },
   ])
     assert.equal((await put(v.instance, 0, bad)).status, 400);
   assert.equal(
@@ -160,7 +162,14 @@ test("lost acknowledgement retries the original snapshot before saving newer pen
   let lose = true;
   const seen = [];
   const c = client(s, async (url, options = {}) => {
-    if (options.method === "PUT") seen.push(JSON.parse(options.body));
+    if (options.method === "PUT")
+      seen.push(
+        JSON.parse(
+          typeof options.body === "string"
+            ? options.body
+            : gunzipSync(options.body).toString(),
+        ),
+      );
     const r = await srv.fetcher(url, options);
     if (options.method === "PUT" && lose) {
       lose = false;

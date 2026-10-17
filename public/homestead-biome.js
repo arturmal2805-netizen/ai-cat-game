@@ -33,7 +33,7 @@ export function* homesteadBiomeSteps(
     trees: [],
     stats: { fishCount: 0 },
     emptyPlot: true,
-    areaMultiplier: 16,
+    areaMultiplier: 32,
   };
   const outline = new THREE.Shape();
   outline.absarc(0, 0, biome.radius, 0, Math.PI * 2, false);
@@ -48,7 +48,7 @@ export function* homesteadBiomeSteps(
     surface,
     new THREE.MeshStandardMaterial({
       color: biome.ground,
-      map: surfaceTexture("ground"),
+      map: surfaceTexture("lawn"),
       roughness: 0.94,
     }),
   );

@@ -2133,7 +2133,7 @@ BIOMES.push({
   icon: "🌼",
   price: 1800,
   requiredLevel: 3,
-  radius: 46.6,
+  radius: 46.6 * Math.SQRT2,
   center: [-250, -55],
   arrival: [0, 0],
   ground: 0xabc68c,

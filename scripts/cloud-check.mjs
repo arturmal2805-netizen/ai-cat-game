@@ -1,3 +1,4 @@
+import { cloudSaveRequest } from "../public/save-transport.js";
 import { newGame, purchase } from "../public/economy.js";
 import { checkReleaseResponse, ReleaseMismatch } from "./release-check.mjs";
 // This isolated test world never reads or writes a player's recovery code.
@@ -58,7 +59,14 @@ export async function verifyCloudSave(
     }
     throw Error("Cloud save release was not verified");
   };
-  const body = JSON.stringify({ expectedRevision: 0, mutationId, game });
+  // Verify the same compact transport phones use, on a fresh isolated vault.
+  const transport = await cloudSaveRequest({
+    expectedRevision: 0,
+    mutationId,
+    game,
+  });
+  Object.assign(headers, transport.headers);
+  const body = transport.body;
   const first = await send({ method: "PUT", headers, body });
   const retry = await send({ method: "PUT", headers, body });
   const read = await send({ headers });
@@ -72,6 +80,7 @@ export async function verifyCloudSave(
       "Cloud save verification failed: snapshot read-back or retry differs",
     );
   if (cooperativeCheck) {
+    delete headers["Content-Encoding"];
     const a = purchase(game, "mouse"),
       b = purchase(game, "yarn");
     const bodyA = JSON.stringify({

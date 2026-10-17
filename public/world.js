@@ -45,6 +45,7 @@ import { RENEWED_ISLANDS } from "./renewal-data.js";
 import { islandHeight } from "./renewed-biomes.js";
 import { capybaraDryPoint } from "./capybara-data.js";
 import { createChichiCamera } from "./chichi-camera.js";
+import { islandOverviewDistance, randomCameraCat } from "./camera-views.js";
 import { placeWorldBadge } from "./world-hud.js";
 import { islandProjectModel } from "./island-project-model.js";
 import { islandObjects } from "./world-objects.js";
@@ -154,7 +155,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
   let azimuth = 0.72,
     distance = 37,
     desiredDistance = 37,
-    elevation = 0.67;
+    elevation = 0.67,
+    overviewElevation = null,
+    overviewAspect = camera.aspect;
   scene.add(new THREE.HemisphereLight(0xffe9db, 0x8b9e85, 1.2));
   const sun = new THREE.DirectionalLight(0xffd8b7, 2.2);
   sun.position.set(-14, 35, 20);
@@ -354,9 +357,23 @@ export function createWorld(container, initialGame, callbacks = {}) {
   let cat = createCat(initialGame.cat.mood);
   chichiCarrier.add(cat);
   scene.add(chichiCarrier);
+  let followedCatId = "chichi",
+    lastRandomCatId = null;
   const faceCamera = createChichiCamera(camera, cat.userData.head, {
     reduced,
-    onChange: (enabled) => callbacks.onCameraMode?.(enabled),
+    onChange: (enabled) =>
+      callbacks.onCameraMode?.(
+        enabled,
+        enabled
+          ? {
+              id: followedCatId,
+              name:
+                followedCatId === "chichi"
+                  ? "Чичи"
+                  : npcs.get(followedCatId)?.profile.name,
+            }
+          : null,
+      ),
   });
   const chillBiome = byBiome("sakura");
   let chillObstacles = [];
@@ -488,6 +505,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
     exitCourt();
     faceCamera.setEnabled(false, look);
     focused = o.biome;
+    viewingOverview = false;
+    overviewElevation = null;
     const venueBiome = byBiome(o.biome);
     courtCamera = {
       id,
@@ -1522,6 +1541,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
     const activeIds = new Set(activeCats(game).map((c) => c.id));
     for (const [id, n] of npcs)
       if (!activeIds.has(id)) {
+        if (followedCatId === id) {
+          faceCamera.setEnabled(false, look);
+          followedCatId = "chichi";
+          faceCamera.setTarget(cat.userData.head, look);
+          focus(focused, false, true);
+        }
         spa.cancel(id);
         crew.cancel(id);
         builderHammers.get(id)?.removeFromParent();
@@ -1555,8 +1580,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
     exitCourt(false);
     if (!keepFollow) faceCamera.setEnabled(false, look);
     const b = byBiome(id) || byBiome("moon");
-    focused = b.id;
+    if (!overview) focused = b.id;
     viewingOverview = overview;
+    overviewElevation = null;
     const enchanted =
       !!RENEWED_ISLANDS[b.id] || b.legendary || b.id === "sakura";
     sky.material.uniforms.top.value.set(
@@ -1635,6 +1661,56 @@ export function createWorld(container, initialGame, callbacks = {}) {
     }
     ensureDetail(b.id);
     callbacks.onFocus?.(b.id, overview);
+  }
+  function viewedIsland() {
+    if (!faceCamera.enabled) return focused;
+    const point = faceCamera.facePoint(new THREE.Vector3());
+    return BIOMES.filter((b) => game.unlocked.includes(b.id)).reduce(
+      (best, b) =>
+        Math.hypot(point.x - b.center[0], point.z - b.center[1]) <
+        Math.hypot(point.x - best.center[0], point.z - best.center[1])
+          ? b
+          : best,
+      byBiome(focused),
+    ).id;
+  }
+  function islandOverview() {
+    const id = viewedIsland();
+    focus(id);
+    overviewElevation = 1.03;
+    overviewAspect = camera.aspect;
+    desiredDistance = islandOverviewDistance(
+      byBiome(id).radius,
+      camera.fov,
+      camera.aspect,
+    );
+    return id;
+  }
+  function followCat(id) {
+    const model = id === "chichi" ? cat : npcs.get(id)?.model;
+    if (!model) return false;
+    exitCourt(false);
+    followedCatId = id;
+    faceCamera.setTarget(model.userData.head, look);
+    faceCamera.setEnabled(true, look);
+    if (!reduced && model.userData.mood === "happy") emoteCat(model, "curious");
+    return true;
+  }
+  function followRandomCat() {
+    const target = randomCameraCat(
+      [...npcs]
+        .filter(([, n]) => n.carrier.parent && n.model.userData.head)
+        .map(([id, n]) => ({ id, ...n })),
+      faceCamera.enabled ? followedCatId : lastRandomCatId,
+    );
+    if (!target) {
+      followCat("chichi");
+      return "chichi";
+    }
+    lastRandomCatId = target.id;
+    focus(target.profile.biome);
+    followCat(target.id);
+    return target.id;
   }
   function switchMood(mood) {
     if (cat.userData.mood === mood) return;
@@ -2284,6 +2360,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       return;
     }
     if (!pointerDown || faceCamera.enabled) return;
+    overviewElevation = null;
     azimuth -= (e.clientX - pointerDown.lastX) * 0.004;
     elevation = THREE.MathUtils.clamp(
       elevation + (e.clientY - pointerDown.lastY) * 0.002,
@@ -2615,7 +2692,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
     }
     const cameraMoving =
       look.distanceToSquared(desiredLook) > 0.0001 ||
-      Math.abs(distance - desiredDistance) > 0.01;
+      Math.abs(distance - desiredDistance) > 0.01 ||
+      (overviewElevation !== null &&
+        Math.abs(elevation - overviewElevation) > 0.001);
     const dialogOpen = !!document.querySelector("dialog[open]");
     if (
       !(viewport.pending && !dialogOpen && worldVisible) &&
@@ -2639,10 +2718,22 @@ export function createWorld(container, initialGame, callbacks = {}) {
     previousTime = now;
     const time = now / 1000;
     const cameraBlend = reduced ? 1 : 1 - Math.exp(-dt * 8);
+    if (overviewElevation !== null) {
+      elevation += (overviewElevation - elevation) * cameraBlend;
+      if (overviewAspect !== camera.aspect) {
+        overviewAspect = camera.aspect;
+        desiredDistance = islandOverviewDistance(
+          byBiome(focused).radius,
+          camera.fov,
+          camera.aspect,
+        );
+      }
+    }
     if (
       operation?.attraction?.userData.deepRide &&
       operation.stage === "activity" &&
-      !faceCamera.enabled
+      !faceCamera.enabled &&
+      overviewElevation === null
     ) {
       desiredLook.copy(chichiCarrier.position);
       desiredDistance = mobileRender ? 64 : 40;
@@ -3428,11 +3519,13 @@ export function createWorld(container, initialGame, callbacks = {}) {
         npcWalking = direction.length() > 0.1;
       }
       const near =
-        distance < Math.max(110, (b.radius || 12) * 7) &&
-        Math.hypot(
-          n.carrier.position.x - look.x,
-          n.carrier.position.z - look.z,
-        ) < 45;
+        (faceCamera.enabled && followedCatId === id) ||
+        (overviewElevation !== null && b.id === focused) ||
+        (distance < Math.max(110, (b.radius || 12) * 7) &&
+          Math.hypot(
+            n.carrier.position.x - look.x,
+            n.carrier.position.z - look.z,
+          ) < 45);
       n.carrier.visible = near;
       npcDummy.position.copy(n.carrier.position);
       npcDummy.position.y += 0.3;
@@ -3900,7 +3993,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
           if (action !== "meet" && action !== "swim")
             chichiCarrier.position.copy(op.dismount || op.destination);
           if (g) delete g.userData.rideElapsed;
-          if (g?.userData.deepRide && !faceCamera.enabled) {
+          if (
+            g?.userData.deepRide &&
+            !faceCamera.enabled &&
+            overviewElevation === null
+          ) {
             const b = byBiome("autumn");
             desiredLook.set(b.center[0], 0, b.center[1]);
             desiredDistance = mobileRender ? 85 : 57;
@@ -3964,7 +4061,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
     if (
       operation?.attraction?.userData.deepRide &&
       operation.stage === "activity" &&
-      !faceCamera.enabled
+      !faceCamera.enabled &&
+      overviewElevation === null
     ) {
       desiredLook.copy(chichiCarrier.position);
       if (look.distanceTo(desiredLook) > 8) look.copy(desiredLook);
@@ -4172,15 +4270,18 @@ export function createWorld(container, initialGame, callbacks = {}) {
     },
     sync,
     focus,
-    followChichi(value = !faceCamera.enabled) {
-      if (value) exitCourt(false);
-      faceCamera.setEnabled(value, look);
-      if (value && !reduced && cat.userData.mood === "happy")
-        emoteCat(cat, "curious");
-      if (!value) focus(focused, false, true);
-      return faceCamera.enabled;
+    followChichi(value = !(faceCamera.enabled && followedCatId === "chichi")) {
+      if (value) followCat("chichi");
+      else {
+        const id = viewedIsland();
+        faceCamera.setEnabled(false, look);
+        focus(id, false, true);
+      }
+      return faceCamera.enabled && followedCatId === "chichi";
     },
-    isFollowingChichi: () => faceCamera.enabled,
+    isFollowingChichi: () => faceCamera.enabled && followedCatId === "chichi",
+    followRandomCat,
+    islandOverview,
     overview: () => focus("moon", true),
     zoom: (delta) =>
       faceCamera.enabled

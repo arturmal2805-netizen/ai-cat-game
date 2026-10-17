@@ -14,7 +14,8 @@ export function createChichiCamera(
     lastLook = new THREE.Vector3(),
     rotation = new THREE.Quaternion(),
     desiredRotation = new THREE.Quaternion(),
-    offset = new THREE.Vector3();
+    offset = new THREE.Vector3(),
+    scale = new THREE.Vector3();
   let enabled = false,
     transition = 1,
     zoom = 1;
@@ -22,6 +23,7 @@ export function createChichiCamera(
     if (enabled === value) return enabled;
     fromEye.copy(camera.position);
     fromLook.copy(enabled ? lastLook : look);
+    head.updateWorldMatrix(true, false);
     head.getWorldQuaternion(rotation);
     enabled = value;
     transition = reduced ? 1 : 0;
@@ -33,6 +35,17 @@ export function createChichiCamera(
       return enabled;
     },
     setEnabled,
+    setTarget(nextHead, look) {
+      if (head === nextHead) return;
+      fromEye.copy(camera.position);
+      fromLook.copy(enabled ? lastLook : look);
+      head = nextHead;
+      head.updateWorldMatrix(true, false);
+      head.getWorldQuaternion(rotation);
+      transition = reduced ? 1 : 0;
+      zoom = 1;
+      if (enabled) onChange(true);
+    },
     zoom(delta) {
       zoom = THREE.MathUtils.clamp(zoom + delta, 0.85, 1.65);
     },
@@ -50,6 +63,8 @@ export function createChichiCamera(
         this.facePoint(face);
         head.getWorldQuaternion(desiredRotation);
         rotation.slerp(desiredRotation, reduced ? 1 : 1 - Math.exp(-dt * 9));
+        head.getWorldScale(scale);
+        const faceScale = Math.max(scale.x, scale.y, scale.z);
         const distance =
           Math.max(
             2.5,
@@ -57,7 +72,9 @@ export function createChichiCamera(
               (2 *
                 Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) *
                 Math.min(1, camera.aspect)),
-          ) * zoom;
+          ) *
+          faceScale *
+          zoom;
         offset.set(0.13, 0.06, 1).normalize().applyQuaternion(rotation);
         eye.copy(face).addScaledVector(offset, distance);
         camera.position.lerpVectors(fromEye, eye, blend);

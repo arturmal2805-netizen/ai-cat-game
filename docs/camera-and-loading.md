@@ -30,3 +30,19 @@ measurements are not phone FPS guarantees. The isolated lagoon comparison
 improved from approximately 10.5 to 3.6 seconds to full detail. A separate actual
 app check restored the graphics cache and reduced world-constructor work from
 about 5.3 to 2.7 seconds. These are environment-specific measurements.
+
+
+The floating top controls also provide **🏝 Остров** and **🎲 Котик**. Island
+view fits the full current island, turns toward an overhead angle and refits on
+phone rotation. World overview remembers that island. Random portrait selects
+an actual active resident (including distant cats), avoids immediate repeats
+and scales the same head-tracking camera to kittens and giants. The selected
+resident stays rendered even while travelling outside the normal visibility
+radius. Chichi's care-menu camera still selects Chichi; either mode can exit
+through the return button or island navigation. Removed residents release the
+camera safely. These view choices never modify the shared world save.
+
+`scripts/check-camera-shortcuts.cjs` exercises the real app on a mobile viewport
+with a private local SQLite vault. It checks portrait targets, repeated random
+selection, all-world/island/Chichi transitions, rotation, touch controls and
+saved building reloads. Software browser checks do not certify device FPS.

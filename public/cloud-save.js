@@ -1,3 +1,5 @@
+import { cloudSaveRequest } from "./save-transport.js";
+
 const TOKEN_KEY = "chichi-recovery-code",
   META_KEY = "chichi-cloud-save";
 export class CloudBackup {
@@ -249,7 +251,7 @@ export class CloudBackup {
         this.metadata(true);
         let response;
         try {
-          const body = JSON.stringify({
+          const transport = await cloudSaveRequest({
             expectedRevision: this.revision,
             ...entry,
             ...(this.shared ? { sessionId: this.sessionId } : {}),
@@ -262,28 +264,32 @@ export class CloudBackup {
             headers: {
               "Content-Type": "application/json",
               "X-Chichi-Save-Token": this.token,
+              ...transport.headers,
             },
-            body,
-            keepalive: new TextEncoder().encode(body).length <= 60000,
+            body: transport.body,
+            keepalive: transport.keepalive,
             signal: AbortSignal.timeout(8000),
           });
           if (response.status === 409 && this.cooperative) {
             const value = await response.json();
             if (value.game) {
               this.archive(this.localGame);
-              this.pending = this.retryEntry = null;
+              // Only this rejected mutation is rolled back. A newer queued
+              // action has its own merge base and must still reach the vault.
+              this.retryEntry = null;
               this.revision = value.revision;
               this.inflightId = null;
               this.remoteGame = value.game;
               this.reconciling = true;
               this.saveOutbox();
-              this.metadata(false);
+              this.metadata(!!this.pending);
               this.acceptSnapshot();
               this.onNotice(
                 value.error ||
                   "Мир обновлён с другого телефона. Повторите последнее действие.",
               );
-              this.onStatus("saved");
+              this.onStatus(this.pending ? "pending" : "saved");
+              if (this.pending) continue;
               break;
             }
           }

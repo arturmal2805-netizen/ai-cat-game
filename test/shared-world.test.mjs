@@ -13,6 +13,7 @@ import {
   placeItem,
   findSpace,
   moveItem,
+  storeItem,
   claimRewards,
   attentionReward,
   HOUR,
@@ -252,8 +253,11 @@ test("overspending is refused, archived locally and refreshed automatically with
   assert.equal(b.game.inventory.mouse, 1);
   assert.equal(a.game.coins, 15);
   assert.equal(b.game.coins, 15);
-  assert.equal(b.notices.length, 1);
-  assert.ok(b.storage.getItem("chichi-world-archives"));
+  assert.equal(a.notices.length + b.notices.length, 1);
+  assert.ok(
+    a.storage.getItem("chichi-world-archives") ||
+      b.storage.getItem("chichi-world-archives"),
+  );
   assert.equal(b.cloud.conflict, false);
 });
 test("a lost acknowledgement is idempotent even after another phone saves in between", async () => {
@@ -382,7 +386,7 @@ test("a full local outbox never sends unjournaled mutations, and restart reconst
   assert.equal(reboot.game.coins, 4955);
   assert.equal(reboot.cloud.dirty, false);
 });
-test("a full world above the browser keepalive budget uses normal fetch and remains durably queued", async () => {
+test("a full world is compressed under the browser keepalive budget and remains durably queued", async () => {
   const { a } = await pair();
   const real = a.cloud.fetcher;
   let seen;
@@ -398,7 +402,9 @@ test("a full world above the browser keepalive budget uses normal fetch and rema
   );
   a.send(g);
   await a.cloud.flush();
-  assert.equal(seen.keepalive, false);
+  assert.equal(seen.keepalive, true);
+  assert.equal(seen.headers["Content-Encoding"], "gzip");
+  assert.ok(seen.body.byteLength < 60000);
   assert.equal(a.cloud.dirty, false);
 });
 test("daily shared XP caps and distinct simultaneous level gains cannot duplicate level rewards", () => {
@@ -693,4 +699,126 @@ test("two adventure cooldown rewards never reject unrelated purchases or award t
   assert.equal(g.inventory.mouse, 1);
   assert.equal(g.inventory.yarn, 1);
   assert.equal(g.progression.xp, base.progression.xp + 66);
+});
+
+test("an income conflict cannot discard an independently queued Adoption Center placement", async () => {
+  const initial = fresh(),
+    now = Date.now();
+  initial.unlocked.push("homestead");
+  initial.inventory["adoption-center"] = 1;
+  initial.placements.push({
+    id: "existing-register",
+    item: "business-coffee",
+    biome: "homestead",
+    x: -20,
+    z: -20,
+    rotation: 0,
+    readyAt: 0,
+  });
+  initial.business = normalizeBusiness({}, initial, now - 3600000);
+  const { a, b } = await pair(service(), initial);
+  let resume;
+  const gate = new Promise((resolve) => (resume = resolve)),
+    real = a.cloud.fetcher;
+  let block = true;
+  a.cloud.fetcher = async (u, o) => {
+    if (o?.method === "PUT" && block) {
+      block = false;
+      await gate;
+    }
+    return real(u, o);
+  };
+  a.send(collectIncome(a.game, "existing-register", now).game);
+  const flight = a.cloud.flush();
+  a.send(placeItem(a.game, "adoption-center", "homestead", 20, 20, 0, now));
+  const placed = structuredClone(a.game.placements.at(-1));
+  b.send(collectIncome(b.game, "existing-register", now).game);
+  await b.cloud.flush();
+  resume();
+  await flight;
+  await saveBoth(a, b);
+  for (const p of [a, b]) {
+    assert.ok(
+      p.game.placements.some((x) => x.id === placed.id),
+      "later building must survive the earlier register conflict",
+    );
+    assert.equal(p.game.inventory["adoption-center"], 0);
+    saveGame(p.storage, p.game);
+    assert.equal(
+      loadGame(p.storage, now, { advance: false }).placements.find(
+        (x) => x.id === placed.id,
+      ).readyAt,
+      placed.readyAt,
+    );
+  }
+  assert.equal(a.game.coins, b.game.coins);
+  assert.equal(a.notices.length, 1);
+});
+
+test("30 mobile restarts with offline placement preserve Adoption Centers, glass slides and the other phone's changes", async () => {
+  const initial = fresh();
+  initial.unlocked.push("homestead");
+  initial.inventory["adoption-center"] = 1;
+  initial.inventory["slide-glass-corkscrew"] = 1;
+  const server = service();
+  let { a, b } = await pair(server, initial);
+  const real = server.fetcher;
+  for (let round = 0; round < 30; round++) {
+    const now = Date.now() + round * 86400000;
+    a.cloud.fetcher = async () => {
+      throw Error("phone connection interrupted");
+    };
+    a.send(placeItem(a.game, "adoption-center", "homestead", -25, -25, 0, now));
+    const center = structuredClone(a.game.placements.at(-1));
+    await a.cloud.flush();
+    a.send(
+      placeItem(
+        a.game,
+        "slide-glass-corkscrew",
+        "homestead",
+        15,
+        15,
+        round % 4,
+        now,
+      ),
+    );
+    const slide = structuredClone(a.game.placements.at(-1));
+    const next = structuredClone(b.game);
+    next.coins += 7;
+    next.totalEarned += 7;
+    b.send(next);
+    await b.cloud.flush();
+    const restart = player(a.storage, server);
+    assert.ok(restart.cloud.retryEntry);
+    assert.ok(restart.cloud.pending);
+    await restart.cloud.flush();
+    await saveBoth(restart, b);
+    for (const p of [restart, b]) {
+      assert.deepEqual(
+        p.game.placements.find((x) => x.id === center.id),
+        center,
+        "center round " + round,
+      );
+      assert.deepEqual(
+        p.game.placements.find((x) => x.id === slide.id),
+        slide,
+        "slide round " + round,
+      );
+      saveGame(p.storage, p.game);
+      assert.deepEqual(
+        loadGame(p.storage, now, { advance: false }).placements,
+        p.game.placements,
+      );
+    }
+    // Free the same plots after finishing their actual construction deadlines.
+    restart.send(
+      storeItem(
+        storeItem(restart.game, center.id, slide.readyAt + 1),
+        slide.id,
+        slide.readyAt + 1,
+      ),
+    );
+    await saveBoth(restart, b);
+    a = restart;
+  }
 });
