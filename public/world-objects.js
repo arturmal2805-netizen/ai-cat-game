@@ -1,4 +1,9 @@
 import {
+  BIKINI_RESTAURANT,
+  BIKINI_FRIENDS,
+  BIKINI_POOLS,
+} from "./bikini-data.js";
+import {
   COURT_VENUES,
   COURT_FOUNTAIN,
   courtProject,
@@ -37,13 +42,15 @@ export const PARK_RIDES = [
 ];
 export function permanentObjects(biomes) {
   const objects = [];
+  if (biomes.includes("bikini"))
+    objects.push(BIKINI_RESTAURANT, ...BIKINI_FRIENDS, ...BIKINI_POOLS);
   if (biomes.includes("foodcourt"))
     objects.push(...COURT_VENUES, COURT_FOUNTAIN);
   if (biomes.includes("sakura")) objects.push(...CHILL_OBJECTS);
   if (biomes.includes("water")) objects.push(...SPA_OBJECTS);
   for (const b of BIOMES) {
     if (!biomes.includes(b.id)) continue;
-    if (b.id === "foodcourt") continue;
+    if (["foodcourt", "bikini"].includes(b.id)) continue;
     if (b.id === "autumn") {
       objects.push(...MOSA_OBJECTS);
       continue;

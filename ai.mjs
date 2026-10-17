@@ -325,7 +325,7 @@ export function validateState(value) {
       !Array.isArray(world.friends) ||
       world.friends.length > NEIGHBORS.length ||
       !Array.isArray(world.biomes) ||
-      world.biomes.length > 25
+      world.biomes.length > BIOMES.length
     )
       throw new Error("Invalid world");
     const biomes = [

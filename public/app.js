@@ -1,3 +1,4 @@
+import { bikiniFriend, BIKINI_ACTIONS } from "./bikini-data.js";
 import {
   moveResidentToBiome,
   completeResidentAction,
@@ -913,6 +914,65 @@ function showSpaBar() {
   }
   open("item-dialog");
 }
+function showBikiniFriend(id, catId = "chichi") {
+  const friend = bikiniFriend(id);
+  if (!friend || busy || buildMode || !game.unlocked.includes("bikini")) return;
+  selectedItem = id;
+  selectedScenery = false;
+  $("item-icon").textContent = friend.kind === "sponge" ? "🧽" : "⭐";
+  $("item-name").textContent = friend.name;
+  $("item-description").textContent =
+    catId === "chichi"
+      ? "Чичи выбирает, как провести время с морским другом."
+      : "Выберите совместное занятие для котика.";
+  $("item-construction").textContent = "Бикини-Боттом · дружба и игры";
+  $("item-note").textContent =
+    friend.kind === "sponge"
+      ? "Когда есть заказы, Губка Боб работает на кухне. После смены он снова готов играть."
+      : "Патрик любит компанию, фотографии и крабсбургеры.";
+  $("item-move").hidden = $("item-store").hidden = true;
+  const actions = $("spa-bar-actions");
+  actions.hidden = false;
+  actions.replaceChildren();
+  for (const [intent, label] of BIKINI_ACTIONS[friend.kind]) {
+    const button = document.createElement("button");
+    button.className = "primary";
+    button.textContent = label;
+    button.dataset.bikiniAction = intent;
+    button.onclick = () => {
+      if (!cloud.editable || cloud.conflict)
+        return toast("Дождитесь синхронизации мира.");
+      if (catId === "chichi")
+        manualActivity({ activityId: id, characterAction: intent });
+      else
+        try {
+          const decision = manualInteraction(
+            worldSnapshot(game),
+            { activityId: id, characterAction: intent },
+            "happy",
+          );
+          commit(moveResidentToBiome(game, catId, "bikini"));
+          $("item-dialog").close();
+          if (!world.performResident(catId, decision))
+            toast("Друг пока занят. Попробуйте чуть позже.");
+        } catch (e) {
+          toast(e.message);
+        }
+    };
+    actions.append(button);
+  }
+  const other = document.createElement("button");
+  other.className = "soft";
+  other.textContent =
+    friend.kind === "sponge" ? "⭐ Пойти к Патрику" : "🧽 Пойти к Губке Бобу";
+  other.onclick = () =>
+    showBikiniFriend(
+      friend.kind === "sponge" ? "bikini-patrick" : "bikini-sponge",
+      catId,
+    );
+  actions.append(other);
+  open("item-dialog");
+}
 function showCourt(id) {
   const o = courtObject(id),
     p = courtProject(game, id);
@@ -1082,6 +1142,7 @@ try {
     onPreview: previewChanged,
     onSelectItem: inspect,
     onSelectCourt: showCourt,
+    onSelectBikiniFriend: showBikiniFriend,
     onCourtOrder: (id) => manualActivity({ activityId: id }),
     onSelectScenery: inspectScenery,
     onSelectBowl: () => showBowl(),

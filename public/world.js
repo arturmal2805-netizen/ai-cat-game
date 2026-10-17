@@ -1,5 +1,10 @@
+import { bikiniFriend, BIKINI_GATE } from "./bikini-data.js";
+import { createBikiniCharacter } from "./bikini-characters.js";
+import { createBikiniLife } from "./bikini-life.js";
 import {
   COURT_VENUES,
+  ALL_COURT_VENUES,
+  courtLayout,
   COURT_GATE,
   courtObject,
   courtProject,
@@ -434,11 +439,14 @@ export function createWorld(container, initialGame, callbacks = {}) {
     cinema = createCourtCinema(container);
   let courtExtra = [],
     courtBlockers = courtObstacles(),
+    bikiniBlockers = courtObstacles([], "bikini"),
     nextCourtStart = 0,
     courtCamera = null;
-  const courtLocal = (p) => ({
-    x: p.x - courtBiome.center[0],
-    z: p.z - courtBiome.center[1],
+  const getCourtBlockers = (biome = "foodcourt") =>
+    biome === "bikini" ? bikiniBlockers : courtBlockers;
+  const courtLocal = (p, biome = "foodcourt") => ({
+    x: p.x - byBiome(biome).center[0],
+    z: p.z - byBiome(biome).center[1],
     y: p.y,
   });
   const courtExit = document.createElement("button");
@@ -476,7 +484,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
     if (!o || !g?.userData.built) return false;
     exitCourt();
     faceCamera.setEnabled(false, look);
-    focused = "foodcourt";
+    focused = o.biome;
+    const venueBiome = byBiome(o.biome);
     courtCamera = {
       id,
       look: desiredLook.clone(),
@@ -486,9 +495,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
     };
     if (g.userData.roof) g.userData.roof.visible = false;
     desiredLook.set(
-      courtBiome.center[0] + o.x,
+      venueBiome.center[0] + o.x,
       1.8,
-      courtBiome.center[1] + o.z + (o.kind === "cinema" ? 0 : 1),
+      venueBiome.center[1] + o.z + (o.kind === "cinema" ? 0 : 1),
     );
     desiredDistance =
       o.kind === "cinema" ? (mobileRender ? 40 : 30) : mobileRender ? 24 : 19;
@@ -504,10 +513,15 @@ export function createWorld(container, initialGame, callbacks = {}) {
     return true;
   }
   const court = createCourtRuntime({
-    getObstacles: () => courtBlockers,
-    isReady: (id) => courtProject(game, id)?.built,
+    getObstacles: getCourtBlockers,
+    canPrepare: (o) => bikiniLife.canPrepare(o),
+    isReady: (id) =>
+      courtProject(game, id)?.built &&
+      (id !== "bikini-krusty" ||
+        !itemGroups.get("bikini-sponge")?.userData.playing),
     getCinema: () => cinema.playback,
     onComplete: (receipt) => {
+      if (receipt.catId === "bikini-patrick-guest") return;
       if (receipt.catId === "chichi" && operation?.court)
         operation.spaCompleted = receipt;
       else {
@@ -521,15 +535,44 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }
     },
   });
+  const bikiniLife = createBikiniLife({
+    groups: itemGroups,
+    court,
+    center: byBiome("bikini").center,
+    getObstacles: () => bikiniBlockers,
+    getActors: () => {
+      const actors = [...npcs]
+        .filter(([, n]) => n.profile.biome === "bikini")
+        .map(([id, n]) => ({
+          catId: id,
+          biome: "bikini",
+          position: courtLocal(n.carrier.position, "bikini"),
+          radius: spaRadius(n.model),
+        }));
+      const p = courtLocal(chichiCarrier.position, "bikini");
+      if (Math.hypot(p.x, p.z) < byBiome("bikini").radius)
+        actors.push({
+          catId: "chichi",
+          biome: "bikini",
+          position: p,
+          radius: spaRadius(cat),
+        });
+      return actors;
+    },
+  });
   function startHeroCourt(op) {
     op.stage = "court";
     const o = courtObject(op.decision.activityId),
+      venueBiome = byBiome(o.biome),
       r = spaRadius(cat),
-      local = courtLocal(chichiCarrier.position),
+      local = courtLocal(chichiCarrier.position, o.biome),
       origin = nearestCourtGround(
-        Math.hypot(local.x, local.z) < courtBiome.radius ? local : COURT_GATE,
+        Math.hypot(local.x, local.z) < venueBiome.radius
+          ? local
+          : courtLayout(o.biome).gate,
         r,
-        courtBlockers,
+        getCourtBlockers(o.biome),
+        o.biome,
       );
     const v =
       origin &&
@@ -882,12 +925,23 @@ export function createWorld(container, initialGame, callbacks = {}) {
     )
       return false;
     cancelResident(id);
+    if (
+      bikiniFriend(decision.activityId) &&
+      !bikiniLife.reserve(decision.activityId, decision.characterAction)
+    )
+      return false;
     n.manualAnchor = null;
     n.manualUntil = performance.now() + 90000;
     if (courtObject(decision.activityId)) {
-      const local = courtLocal(n.carrier.position),
+      const biome = courtObject(decision.activityId).biome;
+      const local = courtLocal(n.carrier.position, biome),
         radius = spaRadius(n.model),
-        origin = nearestCourtGround(local, radius, courtBlockers);
+        origin = nearestCourtGround(
+          local,
+          radius,
+          getCourtBlockers(biome),
+          biome,
+        );
       const v =
         origin &&
         court.start({
@@ -935,7 +989,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
       return !!visit;
     }
     if (decision.friendId) cancelResident(decision.friendId);
-    return residentPlay.start(id, decision);
+    const started = residentPlay.start(id, decision);
+    if (!started && bikiniFriend(decision.activityId))
+      object.userData.playing = false;
+    return started;
   }
   const builderHammers = new Map();
   function builderHammer(id, model, frame) {
@@ -1028,6 +1085,24 @@ export function createWorld(container, initialGame, callbacks = {}) {
         }),
     ];
     courtBlockers = courtObstacles(courtExtra);
+    bikiniBlockers = courtObstacles(
+      [
+        ...game.placements
+          .filter((p) => p.biome === "bikini")
+          .map((p) => ({
+            ...p,
+            w: byItem(p.item).footprint[p.rotation % 2 ? 1 : 0],
+            d: byItem(p.item).footprint[p.rotation % 2 ? 0 : 1],
+          })),
+        ...(game.scenery || [])
+          .filter((r) => !r.stored && r.biome === "bikini")
+          .map((r) => ({
+            ...r,
+            radius: Math.min(...sceneryFootprint(r)) * 0.2,
+          })),
+      ],
+      "bikini",
+    );
     spaObstacles = [
       ...game.placements
         .filter((p) => p.biome === "water")
@@ -1145,10 +1220,15 @@ export function createWorld(container, initialGame, callbacks = {}) {
         !existing?.userData.built
       ) {
         if (!courtPreparing.has(o.id)) {
-          const task = prepareSceneSteps(courtVenueSteps(courtObject(o.id)), {
-            scheduler: scenePreparation,
-            priority: "foodcourt",
-          });
+          const task = prepareSceneSteps(
+            courtVenueSteps(courtObject(o.id), {
+              staff: !courtObject(o.id).nautical,
+            }),
+            {
+              scheduler: scenePreparation,
+              priority: "foodcourt",
+            },
+          );
           courtPreparing.set(o.id, task);
           task
             .then((g) => {
@@ -1182,6 +1262,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
           : courtBlueprint(courtObject(o.id), courtProject(game, o.id));
         courtModels.delete(o.id);
         if (o.id === "court-cinema") cinema.setSurface(g.userData.videoSurface);
+      } else if (bikiniFriend(o.id)) {
+        g = createBikiniCharacter(bikiniFriend(o.id).kind);
       } else if (chillObject(o.id)?.kind === "bed") {
         g = new THREE.Group();
         const proxy = new THREE.Mesh(
@@ -1390,11 +1472,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
         );
         carrier.position.y = venue.position.y;
       }
-      if (b.id === "foodcourt") {
+      if (["foodcourt", "bikini"].includes(b.id)) {
         const dry = nearestCourtGround(
-          courtLocal(carrier.position),
+          courtLocal(carrier.position, b.id),
           spaRadius(model),
-          courtBlockers,
+          getCourtBlockers(b.id),
+          b.id,
         );
         if (dry)
           carrier.position.set(b.center[0] + dry.x, 0.16, b.center[1] + dry.z);
@@ -1553,6 +1636,15 @@ export function createWorld(container, initialGame, callbacks = {}) {
       );
   }
   function perform(decision) {
+    if (
+      bikiniFriend(decision.activityId) &&
+      !bikiniLife.reserve(decision.activityId, decision.characterAction)
+    )
+      return Promise.reject(
+        new Error(
+          "Губка Боб заканчивает заказ. Скоро он снова сможет поиграть!",
+        ),
+      );
     heroGather = null;
     court.cancel("chichi");
     socialGlow.visible = false;
@@ -1671,12 +1763,21 @@ export function createWorld(container, initialGame, callbacks = {}) {
           dismount.z - biome.center[1],
         ) + 0.16;
     }
-    const courtTarget = !!courtObject(decision.activityId);
+    if (attraction?.userData.approachOffset)
+      destination.copy(
+        attraction.localToWorld(
+          new THREE.Vector3(...attraction.userData.approachOffset),
+        ),
+      );
+    const courtTarget = courtObject(decision.activityId);
+    const targetCourtBiome = courtTarget
+      ? byBiome(courtTarget.biome)
+      : courtBiome;
     if (courtTarget)
       destination.set(
-        courtBiome.center[0] + COURT_GATE.x,
+        targetCourtBiome.center[0] + courtLayout(courtTarget.biome).gate.x,
         0.16,
-        courtBiome.center[1] + COURT_GATE.z,
+        targetCourtBiome.center[1] + courtLayout(courtTarget.biome).gate.z,
       );
     const chillTarget = !!chillObject(decision.activityId);
     const spaTarget = !!spaObject(decision.activityId);
@@ -1750,9 +1851,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (
         courtTarget &&
         Math.hypot(
-          chichiCarrier.position.x - courtBiome.center[0],
-          chichiCarrier.position.z - courtBiome.center[1],
-        ) < courtBiome.radius
+          chichiCarrier.position.x - targetCourtBiome.center[0],
+          chichiCarrier.position.z - targetCourtBiome.center[1],
+        ) < targetCourtBiome.radius
       )
         startHeroCourt(operation);
     });
@@ -2069,6 +2170,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     pinchDistance = null,
     draggingCat = null,
     pendingTap = false;
+  let pendingBikiniCat = null;
   function pointer(e) {
     const bounds = renderer.domElement.getBoundingClientRect();
     mouse.set(
@@ -2220,6 +2322,18 @@ export function createWorld(container, initialGame, callbacks = {}) {
           });
         return;
       }
+      if (
+        !moved &&
+        (original.catId === "chichi"
+          ? Math.hypot(
+              original.x - byBiome("bikini").center[0],
+              original.z - byBiome("bikini").center[1],
+            ) < byBiome("bikini").radius
+          : npcs.get(original.catId)?.profile.biome === "bikini")
+      ) {
+        pendingBikiniCat = original.catId;
+        pendingTap = true;
+      }
       if (moved) {
         if (selection && !selection.unavailable) {
           point.y = 0.16;
@@ -2246,6 +2360,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
     if (faceCamera.enabled) return;
     if (!pendingTap) return;
     pendingTap = false;
+    if (pendingBikiniCat) {
+      const id = pendingBikiniCat;
+      pendingBikiniCat = null;
+      callbacks.onSelectBikiniFriend?.("bikini-sponge", id);
+      return;
+    }
     pointer(e);
     const hit = raycaster.intersectObjects(
       [
@@ -2275,6 +2395,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }
       if (root?.userData.placementId === "chichi-food")
         callbacks.onSelectBowl?.();
+      else if (root?.userData.bikiniFriend)
+        callbacks.onSelectBikiniFriend?.(root.userData.placementId);
       else if (root?.userData.foodcourt)
         callbacks.onSelectCourt?.(root.userData.placementId);
       else if (root?.userData.permanent && !root.userData.built)
@@ -2328,6 +2450,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }
       if (placement.userData.placementId === "chichi-food")
         callbacks.onSelectBowl?.();
+      else if (placement.userData.bikiniFriend)
+        callbacks.onSelectBikiniFriend?.(placement.userData.placementId);
       else if (placement.userData.foodcourt)
         callbacks.onSelectCourt?.(placement.userData.placementId);
       else if (placement.userData.permanent && !placement.userData.built)
@@ -2541,7 +2665,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         !reduced &&
         !dialogOpen &&
         (!g.userData.foodcourt ||
-          (focused === "foodcourt" &&
+          (focused === g.userData.placement?.biome &&
             g.position.distanceToSquared(camera.position) < 180 * 180))
       )
         animateAttraction(g, time);
@@ -2553,13 +2677,14 @@ export function createWorld(container, initialGame, callbacks = {}) {
       const courtIdle = [];
       for (const [id, n] of npcs)
         if (
-          n.profile.biome === "foodcourt" &&
+          ["foodcourt", "bikini"].includes(n.profile.biome) &&
           !court.get(id) &&
           draggingCat?.catId !== id
         )
           courtIdle.push({
             catId: id,
-            position: courtLocal(n.carrier.position),
+            biome: n.profile.biome,
+            position: courtLocal(n.carrier.position, n.profile.biome),
             radius: spaRadius(n.model),
           });
       if (
@@ -2589,8 +2714,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
         coins: revenueRate("court-cinema", cinemaLevel),
         xp: businessXP("court-cinema", cinemaLevel),
       });
+      courtIdle.push(...bikiniLife.actors());
       court.step(dt, time, courtIdle);
-      for (const o of COURT_VENUES) {
+      for (const o of ALL_COURT_VENUES) {
         const g = itemGroups.get(o.id);
         if (g)
           g.userData.servingVisit =
@@ -2600,6 +2726,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
             ) || null;
       }
     }
+    if (!dialogOpen && game.unlocked.includes("bikini"))
+      bikiniLife.step(dt, time, reduced);
     if (dialogOpen) cinema.pause();
     for (const [id, cup] of spaCups)
       if (!spa.get(id)?.drinking) {
@@ -2693,10 +2821,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
         courtFoods.delete(id);
       }
     function applyCourtFrame(v, carrier, model) {
+      const venueBiome = byBiome(v.biome || "foodcourt");
       carrier.position.set(
-        courtBiome.center[0] + v.position.x,
+        venueBiome.center[0] + v.position.x,
         v.position.y,
-        courtBiome.center[1] + v.position.z,
+        venueBiome.center[1] + v.position.z,
       );
       carrier.rotation.y = v.yaw;
       if (
@@ -2827,10 +2956,14 @@ export function createWorld(container, initialGame, callbacks = {}) {
             }
           }
       }
-      if (busyWithChichi || draggingThis || b.id !== "foodcourt")
+      if (
+        busyWithChichi ||
+        draggingThis ||
+        !["foodcourt", "bikini"].includes(b.id)
+      )
         court.cancel(id);
       if (
-        b.id === "foodcourt" &&
+        ["foodcourt", "bikini"].includes(b.id) &&
         !busyWithChichi &&
         !draggingThis &&
         !dialogOpen &&
@@ -2838,12 +2971,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
         !court.get(id) &&
         now > nextCourtStart &&
         now > (n.manualUntil || 0) &&
-        Date.now() - (n.lastCourtAt || 0) > 45000
+        Date.now() - (n.lastCourtAt || 0) > (b.id === "bikini" ? 90000 : 45000)
       ) {
         nextCourtStart = now + 1400;
         n.lastCourtAt = Date.now();
-        const options = COURT_VENUES.filter(
-            (o) => courtProject(game, o.id)?.built,
+        const options = ALL_COURT_VENUES.filter(
+            (o) => o.biome === b.id && courtProject(game, o.id)?.built,
           ),
           start = n.index + Math.floor(time / 25);
         for (let j = 0; j < options.length; j++) {
@@ -2851,7 +2984,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
             v = court.start({
               catId: id,
               objectId: o.id,
-              position: courtLocal(n.carrier.position),
+              position: courtLocal(n.carrier.position, b.id),
               radius: spaRadius(n.model),
             });
           if (v) break;
@@ -2888,7 +3021,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (
         b.id !== "water" &&
         b.id !== "sakura" &&
-        b.id !== "foodcourt" &&
+        !["foodcourt", "bikini"].includes(b.id) &&
         !builderFrame &&
         !busyWithChichi &&
         now >= gatherUntil &&
@@ -2951,7 +3084,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (
         b.id !== "water" &&
         b.id !== "sakura" &&
-        b.id !== "foodcourt" &&
+        !["foodcourt", "bikini"].includes(b.id) &&
         now > (n.manualUntil || 0) &&
         !builderFrame &&
         !busyWithChichi &&
@@ -3192,15 +3325,16 @@ export function createWorld(container, initialGame, callbacks = {}) {
             chichiCarrier.position.z - z,
           );
       } else if (
-        b.id === "foodcourt" &&
+        ["foodcourt", "bikini"].includes(b.id) &&
         !busyWithChichi &&
         now >= gatherUntil
       ) {
         direct = true;
         const dry = nearestCourtGround(
-          courtLocal(n.carrier.position),
+          courtLocal(n.carrier.position, b.id),
           spaRadius(n.model),
-          courtBlockers,
+          getCourtBlockers(b.id),
+          b.id,
         );
         if (dry) {
           n.carrier.position.set(
@@ -3618,9 +3752,25 @@ export function createWorld(container, initialGame, callbacks = {}) {
           chichiCarrier.position.copy(
             g.localToWorld(framePoint.set(...f.position)),
           );
-          chichiCarrier.rotation.y = f.yaw;
-          walking = !reduced;
-          reaction = { paw: f.paw };
+          chichiCarrier.rotation.y = (f.yaw || 0) + g.rotation.y;
+          walking = f.walking ?? !reduced;
+          reaction = f.reaction || { paw: f.paw };
+          if (g.userData.bikiniFriend && op.bikiniPhase !== f.phase) {
+            op.bikiniPhase = f.phase;
+            callbacks.onReaction?.(
+              {
+                greet: "Привет! Как здорово видеть тебя! 👋",
+                five: "Лапку сюда — дай пять! 🐾",
+                hug: "Обнимашки с морским другом 💛",
+                pet: "Мур-р-р… как приятно!",
+                play: "Лови пузырёк! Прыг — и ещё один! 🫧",
+                dance: "Танцуем вместе! 🎵",
+                photo: "Скажи мяу! 📸",
+                sit: "Посидим рядом и посмотрим на облака ☁️",
+                goodbye: "До встречи, пушистый дружок! 💛",
+              }[f.phase],
+            );
+          }
         } else if (action === "play" && g) {
           const local = framePoint.set(
             Math.sin(elapsed * 2) * 0.7,
@@ -3726,6 +3876,20 @@ export function createWorld(container, initialGame, callbacks = {}) {
           operation = null;
           op.resolve({
             completed: true,
+            ...(g?.userData.bikiniFriend
+              ? {
+                  spaVisit: {
+                    id:
+                      "bikini-friend-" +
+                      Date.now().toString(36) +
+                      "-" +
+                      Math.random().toString(36).slice(2, 8),
+                    catId: "chichi",
+                    objectId: op.decision.activityId,
+                    position: courtLocal(chichiCarrier.position, "bikini"),
+                  },
+                }
+              : {}),
             ...(action === "meet" ? { socialKind: op.socialKind } : {}),
             ...(action === "party"
               ? { participantIds: [...op.partyPresent] }
@@ -3737,6 +3901,18 @@ export function createWorld(container, initialGame, callbacks = {}) {
     if (!dialogOpen) {
       animateCat(cat, time, walking, reduced);
       if (reaction) reactCat(cat, reaction, reduced);
+    }
+    const spongeFriend = itemGroups.get("bikini-sponge");
+    if (spongeFriend?.userData.playing && spongeFriend.userData.pose) {
+      const visitor =
+        operation?.attraction === spongeFriend
+          ? cat
+          : npcs.get(
+              [...residentPlay.visits.values()].find(
+                (v) => v.object === spongeFriend && v.phase === "activity",
+              )?.id,
+            )?.model;
+      if (visitor) spongeFriend.userData.touchCat(visitor);
     }
     for (const [id, food] of courtFoods) {
       const visit = court.get(id),
@@ -3940,8 +4116,13 @@ export function createWorld(container, initialGame, callbacks = {}) {
         z: position.z - b.center[1],
         y: 0.16,
       };
-      if (biome === "foodcourt")
-        p = nearestCourtGround(p, spaRadius(n.model), courtBlockers);
+      if (["foodcourt", "bikini"].includes(biome))
+        p = nearestCourtGround(
+          p,
+          spaRadius(n.model),
+          getCourtBlockers(biome),
+          biome,
+        );
       else if (biome === "sakura")
         p = nearestChillGround(p, spaRadius(n.model), chillObstacles);
       else if (biome === "water")

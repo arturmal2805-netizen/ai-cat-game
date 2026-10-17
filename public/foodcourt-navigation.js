@@ -3,11 +3,20 @@ import {
   COURT_VENUES,
   COURT_FOUNTAIN,
   courtSeats,
+  courtLayout,
 } from "./foodcourt-data.js";
 import { spaClear, spaDistance } from "./spa-navigation.js";
-export function courtObstacles(extra = []) {
-  const r = [{ ...COURT_FOUNTAIN, radius: 3.4 }, ...extra];
-  for (const o of COURT_VENUES) {
+export function courtObstacles(extra = [], biome = "foodcourt") {
+  const layout = courtLayout(biome);
+  const r = [
+    ...layout.pools.map((p) => ({
+      ...p,
+      radius: biome === "foodcourt" ? 3.4 : Math.max(p.rx, p.rz) + 0.7,
+    })),
+    ...layout.houses,
+    ...extra,
+  ];
+  for (const o of layout.venues) {
     if (o.kind === "cinema") {
       r.push({ x: o.x, z: o.z - 6.5, w: 15, d: 0.6 });
       continue;
@@ -30,9 +39,14 @@ export function courtObstacles(extra = []) {
   }
   return r;
 }
-export function courtWalkable(p, radius = 0.55, obstacles = courtObstacles()) {
+export function courtWalkable(
+  p,
+  radius = 0.55,
+  obstacles = courtObstacles(),
+  biome = "foodcourt",
+) {
   return (
-    Math.hypot(p.x, p.z) < COURT_RADIUS - radius - 0.5 &&
+    Math.hypot(p.x, p.z) < courtLayout(biome).radius - radius - 0.5 &&
     spaClear(p, radius, obstacles)
   );
 }
@@ -40,17 +54,18 @@ export function nearestCourtGround(
   p,
   radius = 0.55,
   obstacles = courtObstacles(),
+  biome = "foodcourt",
 ) {
-  if (courtWalkable(p, radius, obstacles)) return { ...p, y: 0.16 };
-  for (let r = 0.4; r < COURT_RADIUS * 2; r += 0.4)
+  if (courtWalkable(p, radius, obstacles, biome)) return { ...p, y: 0.16 };
+  for (let r = 0.4; r < courtLayout(biome).radius * 2; r += 0.4)
     for (let i = 0, n = Math.ceil(r * 10); i < n; i++) {
       const a = (i / n) * Math.PI * 2,
         q = { x: p.x + Math.sin(a) * r, z: p.z + Math.cos(a) * r, y: 0.16 };
-      if (courtWalkable(q, radius, obstacles)) return q;
+      if (courtWalkable(q, radius, obstacles, biome)) return q;
     }
   return null;
 }
-export function courtSegment(a, b, radius, obstacles) {
+export function courtSegment(a, b, radius, obstacles, biome = "foodcourt") {
   const d = spaDistance(a, b),
     n = Math.ceil(d / 0.22);
   for (let i = 0; i <= n; i++) {
@@ -60,6 +75,7 @@ export function courtSegment(a, b, radius, obstacles) {
         { x: a.x + (b.x - a.x) * f, z: a.z + (b.z - a.z) * f },
         radius,
         obstacles,
+        biome,
       )
     )
       return false;
@@ -74,14 +90,15 @@ export function courtPath(
   goal,
   radius = 0.55,
   obstacles = courtObstacles(),
+  biome = "foodcourt",
 ) {
-  const from = nearestCourtGround(start, radius, obstacles);
-  if (!from || !courtWalkable(goal, radius, obstacles)) return null;
-  if (courtSegment(from, goal, radius, obstacles))
+  const from = nearestCourtGround(start, radius, obstacles, biome);
+  if (!from || !courtWalkable(goal, radius, obstacles, biome)) return null;
+  if (courtSegment(from, goal, radius, obstacles, biome))
     return [{ ...goal, y: goal.y ?? 0.16 }];
   const cell = 0.55,
-    extent = 61,
-    size = 123,
+    extent = Math.ceil(courtLayout(biome).radius / cell) + 1,
+    size = extent * 2 + 1,
     heap = [],
     nodes = new Map(),
     key = (x, z) => (z + extent) * size + x + extent;
@@ -117,7 +134,7 @@ export function courtPath(
     sizes = new Map();
     masks.set(obstacles, sizes);
   }
-  const rk = radius.toFixed(4);
+  const rk = biome + ":" + radius.toFixed(4);
   let mask = sizes.get(rk);
   if (!mask) {
     mask = new Int8Array(size * size);
@@ -128,7 +145,7 @@ export function courtPath(
         ? { x: o.x, z: o.z, r2: (o.radius + radius) ** 2 }
         : { x: o.x, z: o.z, w: o.w / 2 + radius, d: o.d / 2 + radius },
     ),
-    limit = (COURT_RADIUS - radius - 0.5) ** 2;
+    limit = (courtLayout(biome).radius - radius - 0.5) ** 2;
   const valid = (x, z) => {
       if (Math.abs(x) > extent || Math.abs(z) > extent) return false;
       const k = key(x, z);
@@ -167,7 +184,11 @@ export function courtPath(
         ) {
           const q = { x: x * cell, z: z * cell },
             dd = spaDistance(p, q);
-          if (dd < d && valid(x, z) && courtSegment(p, q, radius, obstacles)) {
+          if (
+            dd < d &&
+            valid(x, z) &&
+            courtSegment(p, q, radius, obstacles, biome)
+          ) {
             d = dd;
             best = { x, z };
           }
@@ -225,7 +246,7 @@ export function courtPath(
   let p = from;
   for (let i = 0; i < path.length; ) {
     let j = path.length - 1;
-    while (j > i && !courtSegment(p, path[j], radius, obstacles)) j--;
+    while (j > i && !courtSegment(p, path[j], radius, obstacles, biome)) j--;
     clean.push(path[j]);
     p = path[j];
     i = j + 1;

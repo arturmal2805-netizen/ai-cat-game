@@ -1,3 +1,10 @@
+import {
+  BIKINI_RESTAURANT,
+  BIKINI_RADIUS,
+  BIKINI_GATE,
+  BIKINI_HOUSES,
+  BIKINI_POOLS,
+} from "./bikini-data.js";
 // This island is appended after the established map layout. No existing island
 // centre, save ID, unlock rule, cat appearance or purchased plot is replaced.
 export const COURT_RADIUS = 11.65 * Math.sqrt(8);
@@ -140,8 +147,9 @@ export const COURT_MENU = {
     energy: 6,
   },
 };
-export const courtObject = (id) => COURT_VENUES.find((o) => o.id === id);
-export const courtType = (id) => COURT_VENUES.find((o) => o.type === id);
+export const ALL_COURT_VENUES = [...COURT_VENUES, BIKINI_RESTAURANT];
+export const courtObject = (id) => ALL_COURT_VENUES.find((o) => o.id === id);
+export const courtType = (id) => ALL_COURT_VENUES.find((o) => o.type === id);
 export const COURT_FOUNTAIN = {
   id: "lake-foodcourt",
   type: "swim-lagoon",
@@ -156,7 +164,7 @@ export const COURT_FOUNTAIN = {
 };
 export function courtProject(game, id, now = Date.now()) {
   const o = courtObject(id);
-  if (!o || !game.unlocked.includes("foodcourt")) return null;
+  if (!o || !game.unlocked.includes(o.biome)) return null;
   const startedAt = Number.isSafeInteger(game.islandConstruction?.[id])
       ? game.islandConstruction[id]
       : 0,
@@ -176,7 +184,7 @@ export function courtProject(game, id, now = Date.now()) {
   };
 }
 export function courtBusinessVenues(game) {
-  return COURT_VENUES.map((o) => courtProject(game, o.id))
+  return ALL_COURT_VENUES.map((o) => courtProject(game, o.id))
     .filter((o) => o && !o.unstarted)
     .map((o) => ({
       id: o.id,
@@ -212,6 +220,12 @@ export function courtSeats(o) {
         index: i * 2 + row,
       })),
     );
+  if (o.nautical)
+    return [
+      { x: o.x - 3.65, z: o.z + 1.3, y: 0.67 },
+      { x: o.x - 3.65, z: o.z + 6.9, y: 0.67 },
+      { x: o.x + 3.65, z: o.z + 6.9, y: 0.67 },
+    ];
   return [
     { x: o.x - 3.65, z: o.z + 1.3, y: 0.67 },
     { x: o.x + 3.65, z: o.z + 1.3, y: 0.67 },
@@ -250,9 +264,29 @@ export const COURT_LOCALS = [
   },
 ];
 
-export function courtGroundY(p) {
-  for (const o of COURT_VENUES)
+export function courtGroundY(p, biome = "foodcourt") {
+  for (const o of ALL_COURT_VENUES.filter((o) => o.biome === biome))
     if (Math.abs(p.x - o.x) <= o.w / 2 && Math.abs(p.z - o.z) <= o.d / 2)
       return o.kind === "cinema" ? 0.4 : 0.285;
   return 0.16;
+}
+
+export function courtLayout(biome = "foodcourt") {
+  return biome === "bikini"
+    ? {
+        id: biome,
+        radius: BIKINI_RADIUS,
+        gate: BIKINI_GATE,
+        venues: [BIKINI_RESTAURANT],
+        pools: BIKINI_POOLS,
+        houses: BIKINI_HOUSES,
+      }
+    : {
+        id: "foodcourt",
+        radius: COURT_RADIUS,
+        gate: COURT_GATE,
+        venues: COURT_VENUES,
+        pools: [COURT_FOUNTAIN],
+        houses: [],
+      };
 }

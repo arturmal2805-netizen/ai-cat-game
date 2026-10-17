@@ -474,8 +474,28 @@ export function* courtVenueSteps(o, { staff = true } = {}) {
       );
       catLogo(staticPart, side * (hw - 1.35), 3.7, -hd + 0.29, 0xfff0d3);
     }
-    shape(staticPart, "cube", wood, 0, 0.75, -1.5, o.w - 1.6, 1.45, 1.1);
-    shape(staticPart, "cube", cream, 0, 1.52, -1.5, o.w - 1.3, 0.16, 1.35);
+    shape(
+      staticPart,
+      "cube",
+      wood,
+      o.nautical ? -1 : 0,
+      0.75,
+      -1.5,
+      o.w - (o.nautical ? 4.6 : 1.6),
+      1.45,
+      1.1,
+    );
+    shape(
+      staticPart,
+      "cube",
+      cream,
+      o.nautical ? -1 : 0,
+      1.52,
+      -1.5,
+      o.w - (o.nautical ? 4.3 : 1.3),
+      0.16,
+      1.35,
+    );
     for (let i = 0; i < 5; i++)
       shape(
         staticPart,
@@ -702,7 +722,7 @@ export function* courtVenueSteps(o, { staff = true } = {}) {
         0.36,
         1.1,
       );
-    for (const s of [-1, 1]) {
+    for (const s of o.nautical ? [] : [-1, 1]) {
       const ear = shape(
         roofPart,
         "cone",
@@ -716,7 +736,78 @@ export function* courtVenueSteps(o, { staff = true } = {}) {
       );
       ear.rotation.z = -s * 0.23;
     }
-    if (o.kind === "burger") {
+    if (o.nautical) {
+      for (const z of [-hd + 0.25, 0, hd - 0.25]) {
+        const points = [];
+        for (let j = 0; j <= 32; j++) {
+          const x = -hw - 0.35 + (j * (o.w + 0.7)) / 32;
+          points.push(
+            new THREE.Vector3(
+              x,
+              5.57 + Math.cos(((x / (hw + 0.4)) * Math.PI) / 2) * 0.8,
+              z,
+            ),
+          );
+        }
+        roofPart.add(
+          new THREE.Mesh(
+            new THREE.TubeGeometry(
+              new THREE.CatmullRomCurve3(points),
+              32,
+              0.13,
+              6,
+              false,
+            ),
+            new THREE.MeshStandardMaterial({ color: 0xd8b67e }),
+          ),
+        );
+      }
+      line(roofPart, [0, 6.25, hd + 0.35], [0, 8.5, hd + 0.35], 0x976b46, 0.1);
+      const ring = new THREE.Mesh(
+        new THREE.TorusGeometry(0.22, 0.075, 8, 24),
+        new THREE.MeshStandardMaterial({ color: 0x8bb5bb }),
+      );
+      ring.position.set(0, 8.5, hd + 0.36);
+      roofPart.add(ring);
+      line(roofPart, [0, 6.5, hd + 0.35], [0, 8.2, hd + 0.35], 0x89b2b5, 0.1);
+      line(
+        roofPart,
+        [-0.55, 7.75, hd + 0.35],
+        [0.55, 7.75, hd + 0.35],
+        0x89b2b5,
+        0.09,
+      );
+      for (const sign of [-1, 1]) {
+        line(
+          roofPart,
+          [0, 6.65, hd + 0.35],
+          [sign * 0.83, 7.2, hd + 0.35],
+          0x89b2b5,
+          0.1,
+        );
+        line(
+          roofPart,
+          [sign * 0.83, 7.2, hd + 0.35],
+          [sign * 0.78, 7.55, hd + 0.35],
+          0x89b2b5,
+          0.1,
+        );
+      }
+      for (let i = 0; i < 9; i++) {
+        const x = -4 + i;
+        shape(
+          roofPart,
+          "cube",
+          [0xe5c25b, 0x75afc7, 0xe69c8d, 0xf5e8cf][i % 4],
+          x,
+          4.1 - Math.sin((i / 8) * Math.PI) * 0.35,
+          hd + 0.25,
+          0.55,
+          0.62,
+          0.03,
+        );
+      }
+    } else if (o.kind === "burger") {
       const food = courtFood("burger");
       food.scale.setScalar(4);
       food.position.set(-2, 6.25, -0.8);
@@ -800,15 +891,17 @@ export function* courtVenueSteps(o, { staff = true } = {}) {
     });
   yield;
   const name = courtLabel(
-    o.kind === "burger"
-      ? "McDonald’s · cats"
-      : o.kind === "coffee"
-        ? "MURRBUCKS"
-        : o.kind === "cookie"
-          ? "КОТО-ПЕЧЕНЬКА"
-          : o.kind === "boba"
-            ? "BOBA CLOUD"
-            : "КОТОКИНО",
+    o.nautical
+      ? "КРАСТИ КРАБ"
+      : o.kind === "burger"
+        ? "McDonald’s · cats"
+        : o.kind === "coffee"
+          ? "MURRBUCKS"
+          : o.kind === "cookie"
+            ? "КОТО-ПЕЧЕНЬКА"
+            : o.kind === "boba"
+              ? "BOBA CLOUD"
+              : "КОТОКИНО",
     o.kind === "cinema" ? 8 : o.w - 1,
     0.7,
   );
@@ -817,8 +910,14 @@ export function* courtVenueSteps(o, { staff = true } = {}) {
     o.kind === "cinema" ? 8.9 : 5.02,
     o.kind === "cinema" ? -6.1 : hd + 0.22,
   );
-  g.add(name);
-  if (staff && o.kind !== "cinema") {
+  (o.nautical ? roof : g).add(name);
+  if (o.nautical) {
+    const serving = courtFood("burger");
+    serving.visible = false;
+    g.add(serving);
+    g.userData.servingFood = serving;
+  }
+  if (staff && !o.nautical && o.kind !== "cinema") {
     const cat = createCat("happy", {
       detail: "npc",
       ...catAppearance({

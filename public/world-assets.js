@@ -1,3 +1,5 @@
+import { bikiniFriend } from "./bikini-data.js";
+import { createBikiniCharacter } from "./bikini-characters.js";
 import { courtType } from "./foodcourt-data.js";
 import { courtVenue } from "./foodcourt-assets.js";
 import { mosasaurRide } from "./mosasaur-assets.js";
@@ -193,6 +195,7 @@ function vehicle(parent, kind, color = 0xc9a3cf) {
   return g;
 }
 export function makeAttraction(id, fields = [], now = Date.now()) {
+  if (bikiniFriend(id)) return createBikiniCharacter(bikiniFriend(id).kind);
   if (courtType(id)) return courtVenue(courtType(id));
 
   const mosa = mosasaurRide(id);

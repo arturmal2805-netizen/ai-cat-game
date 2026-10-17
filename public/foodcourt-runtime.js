@@ -9,7 +9,8 @@ import {
 import { spaDistance } from "./spa-navigation.js";
 import { cinemaReaction } from "./cinema-playlist.js";
 export function createCourtRuntime({
-  getObstacles = () => courtObstacles(),
+  getObstacles = (biome) => courtObstacles([], biome),
+  canPrepare = () => true,
   isReady = () => true,
   onComplete = () => {},
   getCinema = () => ({ playing: true, time: 0 }),
@@ -23,7 +24,13 @@ export function createCourtRuntime({
     visits.delete(id);
   }
   function path(v, goal, phase) {
-    const p = courtPath(v.position, goal, v.radius, getObstacles());
+    const p = courtPath(
+      v.position,
+      goal,
+      v.radius,
+      getObstacles(v.biome),
+      v.biome,
+    );
     if (!p) return false;
     v.path = p;
     v.phase = phase;
@@ -44,10 +51,10 @@ export function createCourtRuntime({
     if (!o || !isReady(o.id)) return null;
     cancel(catId);
     const seats = courtSeats(o),
-      agents = [...visits.values()],
+      agents = [...visits.values()].filter((v) => v.biome === o.biome),
       index = seats.findIndex(
         (s) =>
-          courtWalkable(s, radius, getObstacles()) &&
+          courtWalkable(s, radius, getObstacles(o.biome), o.biome) &&
           !agents.some(
             (v) => spaDistance(s, v.seat) < radius + v.radius + 0.35,
           ),
@@ -59,15 +66,21 @@ export function createCourtRuntime({
         ["approach", "queue", "order", "prepare", "serve"].includes(v.phase),
     );
     if (o.kind !== "cinema" && orders.length >= 2) return null;
-    const origin = nearestCourtGround(position, radius, [
-      ...getObstacles(),
-      ...agents.map((v) => ({ ...v.position, radius: v.radius + 0.15 })),
-    ]);
+    const origin = nearestCourtGround(
+      position,
+      radius,
+      [
+        ...getObstacles(o.biome),
+        ...agents.map((v) => ({ ...v.position, radius: v.radius + 0.15 })),
+      ],
+      o.biome,
+    );
     if (!origin) return null;
     const v = {
       id: `court-${now.toString(36)}-${++serial}-${Math.random().toString(36).slice(2, 8)}`,
       catId,
       objectId,
+      biome: o.biome,
       kind: o.kind,
       radius,
       seat: { ...seats[index] },
@@ -91,8 +104,12 @@ export function createCourtRuntime({
     return v;
   }
   function step(dt, time, external = []) {
-    const agents = [...visits.values()];
-    for (const v of agents) {
+    const all = [...visits.values()];
+    for (const v of all) {
+      const agents = all.filter((a) => a.biome === v.biome);
+      const nearby = external.filter(
+        (a) => (a.biome || "foodcourt") === v.biome,
+      );
       v.elapsed += dt;
       v.walking = false;
       v.reaction = null;
@@ -109,8 +126,8 @@ export function createCourtRuntime({
           };
         next.y =
           v.position.y +
-          (courtGroundY(next) - v.position.y) * Math.min(1, dt * 10);
-        const blockers = [...agents, ...external].filter(
+          (courtGroundY(next, v.biome) - v.position.y) * Math.min(1, dt * 10);
+        const blockers = [...agents, ...nearby].filter(
           (a) =>
             a !== v &&
             a.catId !== v.catId &&
@@ -129,16 +146,17 @@ export function createCourtRuntime({
         } else {
           v.blocked = (v.blocked || 0) + dt;
           if (v.blocked > 1.6) {
-            const avoid = [...agents, ...external]
+            const avoid = [...agents, ...nearby]
                 .filter((a) => a !== v && a.catId !== v.catId)
                 .map((a) => ({
                   ...(a.position || a),
                   radius: a.radius + 0.055,
                 })),
               goal = v.path.at(-1),
-              obs = [...getObstacles(), ...avoid];
-            let p = courtPath(v.position, goal, v.radius, obs);
-            if (p && courtSegment(v.position, p[0], v.radius, obs)) v.path = p;
+              obs = [...getObstacles(v.biome), ...avoid];
+            let p = courtPath(v.position, goal, v.radius, obs, v.biome);
+            if (p && courtSegment(v.position, p[0], v.radius, obs, v.biome))
+              v.path = p;
             else {
               // Step into a free passing pocket before replanning, never snap an
               // obstructed origin through a cat when nearest-ground projects it.
@@ -150,17 +168,23 @@ export function createCourtRuntime({
                     y: 0.16,
                   };
                 if (
-                  !courtSegment(v.position, q, v.radius, getObstacles()) ||
-                  !courtWalkable(q, v.radius, obs)
+                  !courtSegment(
+                    v.position,
+                    q,
+                    v.radius,
+                    getObstacles(v.biome),
+                    v.biome,
+                  ) ||
+                  !courtWalkable(q, v.radius, obs, v.biome)
                 )
                   continue;
-                const blocked = [...agents, ...external].some(
+                const blocked = [...agents, ...nearby].some(
                   (a) =>
                     a !== v &&
                     spaDistance(q, a.position) < v.radius + a.radius + 0.06,
                 );
                 if (blocked) continue;
-                p = courtPath(q, goal, v.radius, obs);
+                p = courtPath(q, goal, v.radius, obs, v.biome);
                 if (p) {
                   v.path = [q, ...p];
                   break;
@@ -195,6 +219,7 @@ export function createCourtRuntime({
         locks.set(o.id, v.catId);
         if (path(v, queuePoint(o, 0), "order")) continue;
       } else if (v.phase === "order") {
+        if (!canPrepare(o)) continue;
         v.phase = "prepare";
         v.elapsed = 0;
       } else if (v.phase === "prepare") {
@@ -215,7 +240,7 @@ export function createCourtRuntime({
       } else if (v.phase === "settle") {
         const t = Math.min(1, v.elapsed / 1.1),
           f = t * t * (3 - 2 * t),
-          floor = courtGroundY(v.seat);
+          floor = courtGroundY(v.seat, v.biome);
         v.position = {
           ...v.seat,
           y: floor + (v.seat.y - floor) * f + Math.sin(t * Math.PI) * 0.12,
@@ -234,7 +259,7 @@ export function createCourtRuntime({
           f = t * t * (3 - 2 * t);
         v.position.y =
           v.seat.y +
-          (courtGroundY(v.seat) - v.seat.y) * f +
+          (courtGroundY(v.seat, v.biome) - v.seat.y) * f +
           Math.sin(t * Math.PI) * 0.15;
         if (t === 1) {
           v.path = v.exitPath;
@@ -269,7 +294,8 @@ export function createCourtRuntime({
               z: o.z + (o.kind === "cinema" ? 10 : 9.7),
             },
             v.radius,
-            getObstacles(),
+            getObstacles(v.biome),
+            v.biome,
           );
           if (goal && path(v, goal, "leave")) {
             locks.set(o.id, v.catId);

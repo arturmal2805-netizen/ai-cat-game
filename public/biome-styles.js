@@ -222,3 +222,12 @@ BIOME_STYLES.foodcourt = {
   hero: "foodcourt",
   water: [0, 3, 3, 2.6, 12],
 };
+
+BIOME_STYLES.bikini = {
+  ground: 0xe9d5a3,
+  leaf: 0x91b894,
+  flower: 0xeaa8ca,
+  roof: 0x9c6345,
+  kind: "palm",
+  hero: "bikini",
+};

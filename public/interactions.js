@@ -1,3 +1,4 @@
+import { bikiniFriend, BIKINI_ACTIONS } from "./bikini-data.js";
 import { byItem, NEIGHBORS, byBiome } from "./game-data.js";
 import { SOCIAL_INTENTS } from "./social-system.js";
 
@@ -76,10 +77,22 @@ export function resolveInteraction(world, value, { historical = false } = {}) {
         ? "Не вистачає монет на обраний напій у SPA-барі."
         : "Миска пустая. Добавьте урожай со склада фермы.",
     );
+  const character = bikiniFriend(object.id);
+  if (
+    value.characterAction !== undefined &&
+    (!character ||
+      !BIKINI_ACTIONS[character.kind].some(
+        ([id]) => id === value.characterAction,
+      ))
+  )
+    throw Error("Это действие недоступно этому персонажу.");
   return {
     action,
     activityId: object.id,
     target: activityLocation(action, object.type),
+    ...(character && value.characterAction
+      ? { characterAction: value.characterAction }
+      : {}),
   };
 }
 export function manualInteraction(world, selection, mood) {
@@ -116,7 +129,13 @@ export function manualInteraction(world, selection, mood) {
         HOME_OBJECTS.find((o) => o.id === object.id)?.name ||
         byItem(object.type).name) +
       "!",
-    ...resolveInteraction(world, { action, activityId: object.id }),
+    ...resolveInteraction(world, {
+      action,
+      activityId: object.id,
+      ...(selection.characterAction
+        ? { characterAction: selection.characterAction }
+        : {}),
+    }),
   };
 }
 export function cleanRecent(recent, world) {

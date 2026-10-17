@@ -64,6 +64,8 @@ async function localWorker() {
       path.join(temp, "sqlite"),
       "--port",
       String(port),
+      "--inspector-port",
+      "0",
     ],
     {
       cwd: root,

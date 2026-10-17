@@ -1,3 +1,4 @@
+import { bikiniFriend } from "./bikini-data.js";
 import { courtObject, COURT_MENU } from "./foodcourt-data.js";
 import { chillObject } from "./chill-data.js";
 import { SPA_DRINKS, spaObject } from "./spa-data.js";
@@ -40,10 +41,17 @@ export function selectSpaDrink(game, id) {
 export function completeSpaVisit(game, visit, now = Date.now()) {
   const court = courtObject(visit?.objectId),
     cozy = chillObject(visit?.objectId),
-    biome = court ? "foodcourt" : cozy ? "sakura" : "water";
+    character = bikiniFriend(visit?.objectId),
+    biome = character
+      ? "bikini"
+      : court
+        ? court.biome
+        : cozy
+          ? "sakura"
+          : "water";
   if (
     !game.unlocked.includes(biome) ||
-    !(court || cozy || spaObject(visit?.objectId)) ||
+    !(court || cozy || character || spaObject(visit?.objectId)) ||
     !/^[\w-]{1,80}$/.test(visit?.id || "")
   )
     throw Error("Недійсний візит до SPA.");
@@ -53,7 +61,9 @@ export function completeSpaVisit(game, visit, now = Date.now()) {
   const hero = visit.catId === "chichi",
     needs = hero ? next.cat : next.care?.residents?.[visit.catId];
   if (!needs) return game;
-  if (court) {
+  if (character) {
+    needs.happiness = clamp(needs.happiness + 9);
+  } else if (court) {
     const meal = COURT_MENU[court.kind];
     if (meal) {
       if (hero) {

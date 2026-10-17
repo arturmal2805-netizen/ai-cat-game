@@ -48,7 +48,9 @@ test("all islands start with independently identified trees, houses, rocks and a
       r.id,
     );
   for (const b of BIOMES)
-    for (const kind of ["aquapark", "autumn", "foodcourt"].includes(b.id)
+    for (const kind of ["aquapark", "autumn", "foodcourt", "bikini"].includes(
+      b.id,
+    )
       ? ["tree", "rock"]
       : ["tree", "house", "rock", "landmark"])
       assert.ok(
@@ -168,11 +170,24 @@ test("old saves retain all sixty purchases, currency, friends and construction t
   const s = storage();
   saveGame(s, legacy);
   const restored = loadGame(s, 100000);
-  assert.deepEqual(restored.placements.filter(p=>p.biome!=="autumn"), legacy.placements.filter(p=>p.biome!=="autumn"));
-  for(const before of legacy.placements.filter(p=>p.biome==="autumn")) {
-    const after=restored.placements.find(p=>p.id===before.id);
-    assert.deepEqual({...after,x:before.x,z:before.z},before);
-    assert.ok(canPlace(restored,after.item,"autumn",after.x,after.z,after.rotation,after.id).ok);
+  assert.deepEqual(
+    restored.placements.filter((p) => p.biome !== "autumn"),
+    legacy.placements.filter((p) => p.biome !== "autumn"),
+  );
+  for (const before of legacy.placements.filter((p) => p.biome === "autumn")) {
+    const after = restored.placements.find((p) => p.id === before.id);
+    assert.deepEqual({ ...after, x: before.x, z: before.z }, before);
+    assert.ok(
+      canPlace(
+        restored,
+        after.item,
+        "autumn",
+        after.x,
+        after.z,
+        after.rotation,
+        after.id,
+      ).ok,
+    );
   }
   assert.equal(restored.coins, legacy.coins);
   assert.equal(restored.friendship.luna, 45);

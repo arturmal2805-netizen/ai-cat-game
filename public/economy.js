@@ -444,7 +444,7 @@ export function unlockBiome(game, id, now = Date.now()) {
   const next = copy(game);
   next.coins -= biome.price;
   next.unlocked.push(id);
-  if (["water", "foodcourt"].includes(id))
+  if (["water", "foodcourt", "bikini"].includes(id))
     next.business = normalizeBusiness(next.business, next, now);
   return addXP(startIslandConstruction(next, id, now), 80, now);
 }

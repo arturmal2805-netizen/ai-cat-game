@@ -310,6 +310,23 @@ function buildInitialScenery(placements) {
         })),
       );
     }
+    if (biome.id === "bikini")
+      candidates.splice(
+        0,
+        candidates.length,
+        ...[
+          [-25, -9],
+          [-14, -24],
+          [15, -24],
+          [26, 7],
+          [-22, 21],
+        ].map(([x, z]) => ({ type: "scenery-tree-palm", x, z, scale: 1.1 })),
+      );
+    if (biome.id === "bikini")
+      candidates.push(
+        { type: "scenery-boulder", x: -27, z: 5, scale: 0.85 },
+        { type: "scenery-boulder", x: 17, z: 25, scale: 0.9 },
+      );
     if (biome.id === "foodcourt")
       candidates.splice(
         0,
@@ -507,6 +524,11 @@ const layouts = {
     [7, 3, "mushroom", 0.74],
   ],
 };
+layouts.bikini = [
+  [-25, -9, "palm", 1.1],
+  [15, -24, "palm", 0.95],
+  [26, 7, "palm", 1.03],
+];
 layouts.foodcourt = [
   [-27, -8, "palm", 1.1],
   [24, 22, "palm", 0.95],

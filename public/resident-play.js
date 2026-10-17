@@ -66,6 +66,12 @@ export function createResidentPlay({
           ),
         )
       : friend.carrier.position.clone().add(new THREE.Vector3(1, 0, 0));
+    if (object?.userData.approachOffset)
+      destination.copy(
+        object.localToWorld(
+          new THREE.Vector3(...object.userData.approachOffset),
+        ),
+      );
     if (object?.userData.approachFrame && decision.action === "ride")
       destination.copy(
         object.localToWorld(
@@ -217,8 +223,8 @@ export function createResidentPlay({
       g.userData.heroPlayPos = { x: f.position[0], z: f.position[2] };
       local.set(...f.position);
       result.yaw = g.rotation.y + (f.yaw || 0);
-      result.reaction = { paw: f.paw };
-      result.walking = !reduced;
+      result.reaction = f.reaction || { paw: f.paw };
+      result.walking = f.walking ?? !reduced;
     } else if (d.action === "swim") {
       const bounds = g.userData.swimBounds || { rx: 1.7, rz: 1.7 },
         f = swimFrame(elapsed, bounds, n.index, reduced);

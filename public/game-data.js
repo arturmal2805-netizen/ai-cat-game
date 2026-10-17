@@ -1,4 +1,12 @@
 import {
+  BIKINI_RADIUS,
+  BIKINI_GATE,
+  BIKINI_RESTAURANT,
+  BIKINI_FRIENDS,
+  BIKINI_LOCALS,
+  bikiniReservations,
+} from "./bikini-data.js";
+import {
   COURT_RADIUS,
   COURT_GATE,
   COURT_VENUES,
@@ -609,6 +617,7 @@ export const ACTIONS = [
   "swim",
 ];
 export function biomeReservations(id) {
+  if (id === "bikini") return bikiniReservations();
   if (id === "foodcourt") return courtReservations();
   if (id === "autumn") return mosaReservations();
   if (id === "sakura") return chillReservations();
@@ -2055,4 +2064,61 @@ CROPS.push({
   seed: 6,
   value: 38,
   biome: "foodcourt",
+});
+
+BIOMES.push({
+  id: "bikini",
+  name: "Бикини-Боттом",
+  subtitle: "Губка Боб, Патрик, крабсбургеры и мыльные пузыри над облаками",
+  icon: "🧽",
+  price: 2400,
+  requiredLevel: 5,
+  radius: BIKINI_RADIUS,
+  center: [-225, 80],
+  arrival: [BIKINI_GATE.x, BIKINI_GATE.z],
+  ground: 0xe9d5a3,
+  edge: 0x8e939f,
+  foliage: 0x91b894,
+  accent: 0x62cbd9,
+});
+CATALOG.push(
+  {
+    id: BIKINI_RESTAURANT.type,
+    name: BIKINI_RESTAURANT.name,
+    description: BIKINI_RESTAURANT.description,
+    category: "business",
+    icon: "🍔",
+    price: 0,
+    buildMinutes: 0,
+    requiredLevel: 5,
+    islandOnly: true,
+    rarity: "Бикини-Боттом",
+    footprint: [12, 10],
+    actions: ["eat", "explore"],
+  },
+  ...BIKINI_FRIENDS.map((f) => ({
+    id: f.type,
+    name: f.name,
+    description: "Живой друг: приветствия, игры и объятия с котиками",
+    category: "toys",
+    icon: f.kind === "sponge" ? "🧽" : "⭐",
+    price: 0,
+    buildMinutes: 0,
+    requiredLevel: 5,
+    islandOnly: true,
+    rarity: "Друг Бикини-Боттом",
+    footprint: [3, 3],
+    actions: ["play"],
+  })),
+);
+NEIGHBORS.push(...BIKINI_LOCALS);
+
+CROPS.push({
+  id: "bikini-sea-grape",
+  name: "Морской виноград",
+  icon: "🟢",
+  minutes: 16,
+  seed: 5,
+  value: 34,
+  biome: "bikini",
 });
