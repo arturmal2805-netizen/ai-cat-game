@@ -350,12 +350,14 @@ async function localWorker() {
       }, mode);
       for (const [phase, t] of [
         ["boarding", 1],
-        ["surface-crossing", 7],
-        ["deep", 16],
-        ["ascent", 25],
-        ["leap", 32],
-        ["splash", 37],
-        ["return", 46],
+        ["surface-crossing", 3.2],
+        ["deep", 12],
+        ["ascent", 18.4],
+        ["launch", 19.45],
+        ["leap", 20.4],
+        ["dive-entry", 21.35],
+        ["splash", 22],
+        ["return", 28.8],
       ]) {
         await page.evaluate((t) => {
           const q = __lagoonQA;
@@ -412,7 +414,10 @@ async function localWorker() {
           if (phase === "deep") assert.ok(audit.camera[1] < 0);
         }
         console.log(mode ? "Face camera" : "Orbit camera", phase, audit);
-        if (capture && ["deep", "leap"].includes(phase)) {
+        if (
+          capture &&
+          ["deep", "launch", "leap", "dive-entry", "splash"].includes(phase)
+        ) {
           await page.evaluate(() => (__lagoonQA.drawPaused = false));
           await page.waitForTimeout(500);
           await page.screenshot({
@@ -429,7 +434,7 @@ async function localWorker() {
       const q = __lagoonQA;
       q.faceCamera.setEnabled(false, q.look);
       delete q.pinnedRide;
-      q.getOperation().activityStart = performance.now() - 49000;
+      q.getOperation().activityStart = performance.now() - 31000;
     });
     await page.waitForFunction(() => !__lagoonQA.getOperation());
     const end = await page.evaluate(() =>

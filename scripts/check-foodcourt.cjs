@@ -445,6 +445,43 @@ async function localWorker() {
         await page.screenshot({
           path: path.join(review, "coffee-" + state.phase + "-phone.png"),
         });
+        if (state.phase === "consume") {
+          const mug = await page.evaluate(() => {
+            const q = __lagoonQA,
+              cup = q.courtFoods.get("chichi"),
+              lip = q.cat.userData.head.localToWorld(
+                q.cat.userData.mouth.position.clone(),
+              ),
+              forward = new q.THREE.Vector3(0, 0, 1).applyQuaternion(
+                q.chichiCarrier.quaternion,
+              ),
+              distance = cup.position.clone().sub(lip).dot(forward);
+            q.faceCamera.setEnabled(true, q.look);
+            return { distance, scale: q.cat.scale.x };
+          });
+          assert.ok(mug.distance > 0.05 * mug.scale, JSON.stringify(mug));
+          await page.waitForFunction(() => {
+            const q = __lagoonQA,
+              face = q.faceCamera.facePoint(new q.THREE.Vector3()),
+              distance = face.distanceTo(q.camera.position);
+            face.project(q.camera);
+            return (
+              distance < 6 && Math.abs(face.x) < 0.03 && Math.abs(face.y) < 0.03
+            );
+          });
+          await page.screenshot({
+            path: path.join(review, "coffee-sip-face-phone.png"),
+          });
+          await page.evaluate(() => {
+            const q = __lagoonQA;
+            q.faceCamera.setEnabled(false, q.look);
+            q.enterCourt("court-coffee");
+          });
+          console.log(
+            "Coffee cup stays visibly ahead of the animated muzzle",
+            mug,
+          );
+        }
         await page.evaluate(() => (__lagoonQA.drawPaused = true));
       }
     }

@@ -17,6 +17,7 @@ import {
 } from "./foodcourt-navigation.js";
 import { createCourtRuntime } from "./foodcourt-runtime.js";
 import { createCourtCinema } from "./foodcourt-cinema.js";
+import { placeCourtFood } from "./court-food-pose.js";
 import { mosaDryPoint } from "./mosasaur-data.js";
 import { createResidentPlay } from "./resident-play.js";
 import { decorateBusiness } from "./business-decor.js";
@@ -1257,6 +1258,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
       g.userData.built = built;
       g.userData.permanent = true;
       g.userData.unstarted = !!o.unstarted;
+      if (g.userData.deepRide)
+        g.userData.onWaterImpact = (x, z, time, force) =>
+          islands
+            .get(o.biome)
+            ?.userData.lagoons?.get("lake-autumn")
+            ?.userData.disturb?.(x, z, time, force);
       scene.add(g);
       itemGroups.set(o.id, g);
     }
@@ -2703,20 +2710,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
         let food = courtFoods.get(v.catId);
         if (!food) {
           food = courtFood(v.kind);
-          food.scale.setScalar(0.65);
           scene.add(food);
           courtFoods.set(v.catId, food);
         }
-        const sip = v.phase === "consume" ? (Math.sin(time * 3) + 1) * 0.5 : 0;
-        food.position.copy(carrier.position);
-        food.position.y += model.scale.x * (0.78 + sip * 0.24);
-        food.position.x += Math.sin(v.yaw) * 0.47;
-        food.position.z += Math.cos(v.yaw) * 0.47;
-        food.rotation.set(
-          v.kind === "boba" || v.kind === "coffee" ? sip * 0.2 : 0,
-          v.yaw,
-          0,
-        );
       }
     }
     for (const [id, n] of npcs) {
@@ -3741,6 +3737,18 @@ export function createWorld(container, initialGame, callbacks = {}) {
     if (!dialogOpen) {
       animateCat(cat, time, walking, reduced);
       if (reaction) reactCat(cat, reaction, reduced);
+    }
+    for (const [id, food] of courtFoods) {
+      const visit = court.get(id),
+        resident = npcs.get(id),
+        model = id === "chichi" ? cat : resident?.model,
+        carrier = id === "chichi" ? chichiCarrier : resident?.carrier;
+      if (visit && model && carrier)
+        placeCourtFood(food, model, carrier, {
+          kind: visit.kind,
+          drinking: visit.phase === "consume",
+          time,
+        });
     }
     // Apply ride tracking after the current rig pose, so even a slow frame or
     // a dive/jump cannot leave the rider outside the view for one whole frame.

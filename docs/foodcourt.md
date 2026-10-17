@@ -90,6 +90,14 @@ climbing onto and leaving the seat, and indoor walking follows the real floor
 height. The chef's working height belongs to a separate carrier so the existing
 cat animation's local bob cannot push the barista behind the counter.
 
+Carried food is positioned after the current frame's cat pose. `court-food-pose.js`
+anchors coffee's near rim (or bubble tea's straw tip) to the actual animated
+mouth, with a small forward gap, visible outward tilt and a lower carrying pose.
+Cup scale follows the cat's real world scale. It no longer uses a fixed carrier
+offset that clips into a large head. Regression tests cover Chichi, kittens,
+Maine coons, hairless cats and giant breeds; browser QA checks a real coffee
+order and the face-camera drinking view.
+
 In a host CPU sample of 12,000 simulation steps with twenty simultaneous mixed
 visitors, all visits completed; the 99th percentile was below 0.05 ms. A separate
 same-layout navigation sample reduced a cold route from about 55 ms with the
