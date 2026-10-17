@@ -1,3 +1,8 @@
+import {
+  COURT_VENUES,
+  COURT_FOUNTAIN,
+  courtProject,
+} from "./foodcourt-data.js";
 import { MOSA_OBJECTS } from "./mosasaur-data.js";
 import { CHILL_OBJECTS } from "./chill-data.js";
 import { CAPYBARA_OBJECTS, CAPYBARA_POOLS } from "./capybara-data.js";
@@ -32,10 +37,13 @@ export const PARK_RIDES = [
 ];
 export function permanentObjects(biomes) {
   const objects = [];
+  if (biomes.includes("foodcourt"))
+    objects.push(...COURT_VENUES, COURT_FOUNTAIN);
   if (biomes.includes("sakura")) objects.push(...CHILL_OBJECTS);
   if (biomes.includes("water")) objects.push(...SPA_OBJECTS);
   for (const b of BIOMES) {
     if (!biomes.includes(b.id)) continue;
+    if (b.id === "foodcourt") continue;
     if (b.id === "autumn") {
       objects.push(...MOSA_OBJECTS);
       continue;
@@ -128,9 +136,19 @@ export function islandObjects(
   return permanentObjects(game.unlocked)
     .map((o) => {
       const p = islandProject(game, o.id, now);
+      if (p?.unstarted)
+        return {
+          ...o,
+          unstarted: true,
+          readyAt: 900000000000000,
+          startedAt: 0,
+        };
       return p?.readyAt
         ? { ...o, startedAt: p.startedAt, readyAt: p.readyAt }
         : o;
     })
-    .filter((o) => includeBuilding || !o.readyAt || now >= o.readyAt);
+    .filter(
+      (o) =>
+        includeBuilding || (!o.unstarted && (!o.readyAt || now >= o.readyAt)),
+    );
 }

@@ -1,3 +1,4 @@
+import { courtObject, COURT_MENU } from "./foodcourt-data.js";
 import { chillObject } from "./chill-data.js";
 import { SPA_DRINKS, spaObject } from "./spa-data.js";
 const clamp = (v) => Math.max(0, Math.min(100, v));
@@ -37,11 +38,12 @@ export function selectSpaDrink(game, id) {
 // No charge for reserving a place or cancelling a visit. A served drink and
 // its needs/currency changes are committed together in the normal save path.
 export function completeSpaVisit(game, visit, now = Date.now()) {
-  const cozy = chillObject(visit?.objectId),
-    biome = cozy ? "sakura" : "water";
+  const court = courtObject(visit?.objectId),
+    cozy = chillObject(visit?.objectId),
+    biome = court ? "foodcourt" : cozy ? "sakura" : "water";
   if (
     !game.unlocked.includes(biome) ||
-    !(cozy || spaObject(visit?.objectId)) ||
+    !(court || cozy || spaObject(visit?.objectId)) ||
     !/^[\w-]{1,80}$/.test(visit?.id || "")
   )
     throw Error("Недійсний візит до SPA.");
@@ -51,7 +53,22 @@ export function completeSpaVisit(game, visit, now = Date.now()) {
   const hero = visit.catId === "chichi",
     needs = hero ? next.cat : next.care?.residents?.[visit.catId];
   if (!needs) return game;
-  if (cozy) {
+  if (court) {
+    const meal = COURT_MENU[court.kind];
+    if (meal) {
+      if (hero) {
+        if (next.coins < meal.price) throw Error("Не хватает монет на заказ.");
+        next.coins -= meal.price;
+        next.cat.energy = clamp(next.cat.energy + meal.energy);
+      }
+      needs.hunger = clamp(needs.hunger - meal.hunger);
+      needs.happiness = clamp(needs.happiness + meal.happiness);
+      needs.lastMealAt = now;
+    } else {
+      needs.happiness = clamp(needs.happiness + 12);
+      if (hero) next.cat.energy = clamp(next.cat.energy + 8);
+    }
+  } else if (cozy) {
     needs.happiness = clamp(needs.happiness + (cozy.kind === "bed" ? 10 : 14));
     if (hero)
       next.cat.energy = clamp(

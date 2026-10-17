@@ -1,3 +1,4 @@
+import { courtObject, COURT_MENU } from "./foodcourt-data.js";
 import { newSpa, normalizeSpa } from "./spa-system.js";
 import { SPA_DRINKS } from "./spa-data.js";
 import {
@@ -443,7 +444,7 @@ export function unlockBiome(game, id, now = Date.now()) {
   const next = copy(game);
   next.coins -= biome.price;
   next.unlocked.push(id);
-  if (id === "water")
+  if (["water", "foodcourt"].includes(id))
     next.business = normalizeBusiness(next.business, next, now);
   return addXP(startIslandConstruction(next, id, now), 80, now);
 }
@@ -767,21 +768,32 @@ export function worldSnapshot(game, now = Date.now()) {
         ...o,
         ...(o.id === "chichi-food" ? { foodPortions: bowlPortions(game) } : {}),
       })),
-      ...islandObjects(game, { now }).map((o) =>
-        o.id === "spa-bar"
-          ? {
-              ...o,
-              foodPortions:
-                game.coins >=
-                (
-                  SPA_DRINKS.find((d) => d.id === game.spa?.selectedDrink) ||
-                  SPA_DRINKS[0]
-                ).price
-                  ? 1
-                  : 0,
-            }
-          : o,
-      ),
+      ...islandObjects(game, { now })
+        .map(({ id, type, biome, name }) => ({ id, type, biome, name }))
+        .map((o) =>
+          courtObject(o.id) && COURT_MENU[courtObject(o.id).kind]
+            ? {
+                ...o,
+                foodPortions:
+                  game.coins >= COURT_MENU[courtObject(o.id).kind].price
+                    ? 1
+                    : 0,
+              }
+            : o.id === "spa-bar"
+              ? {
+                  ...o,
+                  foodPortions:
+                    game.coins >=
+                    (
+                      SPA_DRINKS.find(
+                        (d) => d.id === game.spa?.selectedDrink,
+                      ) || SPA_DRINKS[0]
+                    ).price
+                      ? 1
+                      : 0,
+                }
+              : o,
+        ),
       ...game.placements
         .filter((p) => isBuilt(p))
         .map((p) => ({

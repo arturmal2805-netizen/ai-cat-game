@@ -1,3 +1,4 @@
+import { courtType, courtBusinessVenues } from "./foodcourt-data.js";
 import { byItem } from "./game-data.js";
 import { BUSINESSES } from "./business-data.js";
 import { addXP } from "./progression.js";
@@ -53,6 +54,7 @@ export function businessUpgradeCost(item, level = 1) {
 export function businessVenues(game) {
   return [
     ...game.placements,
+    ...courtBusinessVenues(game),
     ...(game.unlocked.includes("water")
       ? [
           {
@@ -84,6 +86,7 @@ export const revenueRate = (item, level = 1) => {
   );
 };
 function baseRevenue(item) {
+  if (courtType(item)) return courtType(item).rate;
   const business = BUSINESSES.find((b) => b.id === item);
   if (business) return business.rate;
   const product = byItem(item);
@@ -125,7 +128,7 @@ export function incomeFor(game, id, now = Date.now()) {
   const p =
     id === "spa-bar" && game.unlocked.includes("water")
       ? { item: "cat-barista", readyAt: 0 }
-      : game.placements.find((p) => p.id === id);
+      : businessVenues(game).find((p) => p.id === id);
   if (!p || (p.readyAt && p.readyAt > now)) return 0;
   const rate = revenueRate(p.item, businessLevel(game, id));
   if (!rate) return 0;

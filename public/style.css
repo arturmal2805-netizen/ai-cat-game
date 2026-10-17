@@ -2678,3 +2678,57 @@ main {
   color: #8b7798;
   white-space: nowrap;
 }
+
+.court-camera-exit {
+  position: absolute;
+  left: 50%;
+  top: 5.4rem;
+  transform: translateX(-50%);
+  z-index: 9;
+  border: 1px solid #e6d2b8;
+  border-radius: 999px;
+  padding: 0.7rem 1.1rem;
+  background: #fff3e8ed;
+  color: #65516b;
+  box-shadow: 0 4px 16px #36284225;
+}
+.court-cinema-controls {
+  position: absolute;
+  bottom: 7.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(92%, 36rem);
+  padding: 0.7rem;
+  border-radius: 1.1rem;
+  background: #fff4eaf0;
+  color: #65516b;
+  z-index: 9;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.court-cinema-controls[hidden],
+.court-camera-exit[hidden] {
+  display: none;
+}
+.court-cinema-controls span {
+  width: 100%;
+  text-align: center;
+  font-size: 0.82rem;
+}
+@media (max-width: 700px) {
+  .court-camera-exit {
+    top: 7rem;
+    font-size: 0.85rem;
+  }
+  .court-cinema-controls {
+    bottom: 10rem;
+  }
+}
+.court-order {
+  top: auto;
+  bottom: 3rem;
+  font-size: 0.88rem;
+}

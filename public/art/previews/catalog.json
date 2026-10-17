@@ -1,5 +1,5 @@
 {
-  "version": "bb4a345f4d76",
+  "version": "b0fca786f45e",
   "items": [
     "adoption-center",
     "airship",
@@ -17,6 +17,7 @@
     "biome-crystal",
     "biome-desert",
     "biome-dusk",
+    "biome-foodcourt",
     "biome-galaxy",
     "biome-ice",
     "biome-lotus",
@@ -66,6 +67,11 @@
     "coaster-piglet-express",
     "coaster-rainbow-launch",
     "coaster-sakura",
+    "court-bakery",
+    "court-boba",
+    "court-burger",
+    "court-cinema",
+    "court-coffee",
     "crystal",
     "drop-tower",
     "farm-field",

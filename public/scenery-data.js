@@ -310,6 +310,17 @@ function buildInitialScenery(placements) {
         })),
       );
     }
+    if (biome.id === "foodcourt")
+      candidates.splice(
+        0,
+        candidates.length,
+        ...Array.from({ length: 16 }, (_, i) => ({
+          type: i % 5 === 0 ? "scenery-boulder" : "scenery-tree-palm",
+          x: Math.sin(i * 0.39 + 0.15) * 30,
+          z: Math.cos(i * 0.39 + 0.15) * 30,
+          scale: 0.85 + (i % 3) * 0.13,
+        })),
+      );
     candidates.forEach((c, index) => {
       const record = {
         id: `decor-${biome.id}-${index}`,
@@ -496,6 +507,11 @@ const layouts = {
     [7, 3, "mushroom", 0.74],
   ],
 };
+layouts.foodcourt = [
+  [-27, -8, "palm", 1.1],
+  [24, 22, "palm", 0.95],
+  [-4, -28, "apple", 1.02],
+];
 const artKinds = {
   enchanted: [false, 0, "oak"],
   sakura: [false, 1, "sakura"],

@@ -37,7 +37,12 @@ export function attachBuilderHammer(model) {
 }
 export function constructionSites(groups, now = Date.now()) {
   return [...groups.values()]
-    .filter((g) => !g.userData.built && g.userData.placement?.readyAt > now)
+    .filter(
+      (g) =>
+        !g.userData.unstarted &&
+        !g.userData.built &&
+        g.userData.placement?.readyAt > now,
+    )
     .map((g) => {
       const p = g.userData.placement,
         f = p.footprint || byItem(p.item).footprint,

@@ -1,3 +1,10 @@
+import {
+  COURT_RADIUS,
+  COURT_GATE,
+  COURT_VENUES,
+  COURT_LOCALS,
+  courtReservations,
+} from "./foodcourt-data.js";
 import { MOSA_RADIUS, mosaReservations } from "./mosasaur-data.js";
 import { CHILL_RADIUS, CHILL_GATE, chillReservations } from "./chill-data.js";
 import {
@@ -602,6 +609,7 @@ export const ACTIONS = [
   "swim",
 ];
 export function biomeReservations(id) {
+  if (id === "foodcourt") return courtReservations();
   if (id === "autumn") return mosaReservations();
   if (id === "sakura") return chillReservations();
   if (id === "water") return spaReservations();
@@ -2003,4 +2011,48 @@ CATALOG.push({
   rarity: "Легендарное",
   description:
     "Друг небесного моря: ныряет глубоко и взлетает над волнами вместе с котиком.",
+});
+
+// Add only the new destination after all established centres have settled.
+BIOMES.push({
+  id: "foodcourt",
+  name: "Котячий фуд-корт",
+  subtitle: "Бургеры, бабл-ти, котячье печенье и кино под облаками",
+  icon: "🍔",
+  price: 2800,
+  requiredLevel: 6,
+  radius: COURT_RADIUS,
+  center: [-155, 80],
+  arrival: [COURT_GATE.x, COURT_GATE.z],
+  ground: 0xa9c48b,
+  edge: 0x7e8d92,
+  foliage: 0x76aa78,
+  accent: 0xf4cc9f,
+});
+CATALOG.push(
+  ...COURT_VENUES.map((o) => ({
+    id: o.type,
+    name: o.name,
+    description: o.description,
+    category: "business",
+    icon: o.icon,
+    price: o.price,
+    buildMinutes: o.buildMinutes,
+    requiredLevel: 6,
+    islandOnly: true,
+    rarity: "Островной бизнес",
+    footprint: [o.w, o.d],
+    actions: [o.kind === "cinema" ? "rest" : "eat", "explore"],
+  })),
+);
+NEIGHBORS.push(...COURT_LOCALS);
+
+CROPS.push({
+  id: "court-strawberry",
+  name: "Жемчужная клубника",
+  icon: "🍓",
+  minutes: 18,
+  seed: 6,
+  value: 38,
+  biome: "foodcourt",
 });

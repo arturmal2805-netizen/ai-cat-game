@@ -48,7 +48,7 @@ test("all islands start with independently identified trees, houses, rocks and a
       r.id,
     );
   for (const b of BIOMES)
-    for (const kind of ["aquapark", "autumn"].includes(b.id)
+    for (const kind of ["aquapark", "autumn", "foodcourt"].includes(b.id)
       ? ["tree", "rock"]
       : ["tree", "house", "rock", "landmark"])
       assert.ok(

@@ -1,19 +1,46 @@
+import { COURT_VENUES, courtObject, courtProject } from "./foodcourt-data.js";
+import { purchaseXP } from "./progression.js";
 import { COTTON_OBJECTS, COTTON_RIDES } from "./cotton-data.js";
 
 const projects = COTTON_OBJECTS.filter((o) => !o.type.startsWith("ride-pig-"));
 // A single, write-once opening timestamp keeps every deadline identical on
 // both phones. Finished rides need no background job or recurring save write.
 export function normalizeIslandConstruction(raw) {
-  const start = raw?.clockwork;
-  return Number.isSafeInteger(start) && start > 0 && start < 1e15
-    ? { clockwork: start }
-    : {};
+  const state = {};
+  for (const id of [
+    "clockwork",
+    ...COURT_VENUES.filter((o) => o.requiresBuild).map((o) => o.id),
+  ]) {
+    const t = raw?.[id];
+    if (Number.isSafeInteger(t) && t > 0 && t < 1e15) state[id] = t;
+  }
+  return state;
 }
 export function mergeIslandConstruction(...states) {
-  const starts = states
-    .map((v) => normalizeIslandConstruction(v).clockwork)
-    .filter(Boolean);
-  return starts.length ? { clockwork: Math.min(...starts) } : {};
+  const out = {};
+  for (const state of states)
+    for (const [id, t] of Object.entries(normalizeIslandConstruction(state)))
+      out[id] = Math.min(out[id] || t, t);
+  return out;
+}
+export function startCourtConstruction(game, id, now = Date.now()) {
+  const p = courtProject(game, id, now);
+  if (!p || !p.requiresBuild) throw Error("Эта площадка недоступна.");
+  if (!p.unstarted)
+    throw Error("Строительство уже начато. Оплата не нужна повторно.");
+  if (game.coins < p.price)
+    throw Error("Не хватает монет для открытия заведения.");
+  const next = structuredClone(game);
+  next.coins -= p.price;
+  next.islandConstruction = {
+    ...normalizeIslandConstruction(next.islandConstruction),
+    [id]: now,
+  };
+  next.business.accounts[id] = {
+    collectedAt: now + p.buildMinutes * 60000,
+    xpRemainder: 0,
+  };
+  return purchaseXP(next, id, p.price, now);
 }
 export function startIslandConstruction(game, biome, now = Date.now()) {
   if (biome !== "clockwork" || game.islandConstruction?.clockwork) return game;
@@ -23,6 +50,7 @@ export function startIslandConstruction(game, biome, now = Date.now()) {
   };
 }
 export function islandProject(game, id, now = Date.now()) {
+  if (courtObject(id)) return courtProject(game, id, now);
   const o = projects.find((o) => o.id === id);
   if (!o || !game.unlocked.includes(o.biome)) return null;
   const spec = COTTON_RIDES.find((r) => r.id === o.type),
@@ -44,7 +72,7 @@ export function islandProject(game, id, now = Date.now()) {
   };
 }
 export function islandProjects(game, biome, now = Date.now()) {
-  return projects
+  return (biome === "foodcourt" ? COURT_VENUES : projects)
     .filter((o) => o.biome === biome)
     .map((o) => islandProject(game, o.id, now))
     .filter(Boolean)

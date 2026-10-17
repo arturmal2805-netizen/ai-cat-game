@@ -212,3 +212,13 @@ for (const [id, style] of Object.entries(RENEWED_ISLANDS))
   BIOME_STYLES[id] = { ...style };
 
 delete BIOME_STYLES.wizard;
+
+BIOME_STYLES.foodcourt = {
+  ground: 0xa9c48b,
+  leaf: 0x72ad7b,
+  flower: 0xf5bad3,
+  roof: 0xc49aad,
+  kind: "palm",
+  hero: "foodcourt",
+  water: [0, 3, 3, 2.6, 12],
+};

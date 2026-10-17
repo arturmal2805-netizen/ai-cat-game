@@ -44,8 +44,19 @@ const guarded = (path) =>
 
 function merge(base, current, incoming, path = "", depth = 0) {
   if (depth > 40) throw new SharedConflict("Сохранение слишком сложное.");
-  if (path === "islandConstruction")
+  if (path === "islandConstruction") {
+    for (const id of Object.keys(incoming || {}))
+      if (
+        id.startsWith("court-") &&
+        !base?.[id] &&
+        current?.[id] &&
+        incoming[id]
+      )
+        throw new SharedConflict(
+          "Это заведение уже строится. Повторная оплата отменена.",
+        );
     return mergeIslandConstruction(base, current, incoming);
+  }
   if (path === "spa.receipts")
     return [...new Set([...(current || []), ...(incoming || [])])].slice(-96);
   if (/^spa\.visits\.[\w-]+$/.test(path))
@@ -199,8 +210,9 @@ export function mergeSharedWorld(base, current, incoming) {
   if (b.business?.levels) {
     n.business.levels ||= {};
     for (const [id, level] of Object.entries(b.business.levels)) {
-      const retained =
-        id === "spa-bar"
+      const retained = id.startsWith("court-")
+        ? n.unlocked.includes("foodcourt")
+        : id === "spa-bar"
           ? n.unlocked.includes("water")
           : n.placements.some((p) => p.id === id);
       if (retained && !(n.business.levels[id] >= level))

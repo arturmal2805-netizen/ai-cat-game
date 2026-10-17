@@ -1,3 +1,22 @@
+import {
+  COURT_VENUES,
+  COURT_GATE,
+  courtObject,
+  courtProject,
+} from "./foodcourt-data.js";
+import {
+  courtVenue,
+  courtVenueSteps,
+  courtFood,
+  courtBlueprint,
+} from "./foodcourt-assets.js";
+import {
+  courtObstacles,
+  courtWalkable,
+  nearestCourtGround,
+} from "./foodcourt-navigation.js";
+import { createCourtRuntime } from "./foodcourt-runtime.js";
+import { createCourtCinema } from "./foodcourt-cinema.js";
 import { mosaDryPoint } from "./mosasaur-data.js";
 import { createResidentPlay } from "./resident-play.js";
 import { decorateBusiness } from "./business-decor.js";
@@ -110,7 +129,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   container.prepend(renderer.domElement);
   renderer.domElement.setAttribute(
     "aria-label",
-    "Сказочный мир Чичи: 24 биома, коты и аттракционы",
+    `Сказочный мир Чичи: ${BIOMES.length} биомов, коты и атттракционы`,
   );
   const scene = new THREE.Scene();
   scene.fog = new THREE.FogExp2(0xc0bfd7, 0.0035);
@@ -401,6 +420,122 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }
     },
   });
+  const courtModels = new Map(),
+    courtPreparing = new Map();
+  const courtBiome = byBiome("foodcourt"),
+    courtFoods = new Map(),
+    cinema = createCourtCinema(container);
+  let courtExtra = [],
+    courtBlockers = courtObstacles(),
+    nextCourtStart = 0,
+    courtCamera = null;
+  const courtLocal = (p) => ({
+    x: p.x - courtBiome.center[0],
+    z: p.z - courtBiome.center[1],
+    y: p.y,
+  });
+  const courtExit = document.createElement("button");
+  courtExit.className = "court-camera-exit";
+  courtExit.textContent = "← Вернуться на остров";
+  courtExit.hidden = true;
+  container.append(courtExit);
+  function exitCourt(restore = true) {
+    if (!courtCamera) return;
+    const old = courtCamera;
+    courtCamera = null;
+    const roof = itemGroups.get(old.id)?.userData.roof;
+    if (roof) roof.visible = true;
+    courtExit.hidden = true;
+    courtOrder.hidden = true;
+    cinema.show(false);
+    if (restore) {
+      desiredLook.copy(old.look);
+      desiredDistance = old.distance;
+      azimuth = old.azimuth;
+      elevation = old.elevation;
+    }
+  }
+  const courtOrder = document.createElement("button");
+  courtOrder.className = "court-camera-exit court-order";
+  courtOrder.hidden = true;
+  container.append(courtOrder);
+  courtOrder.onclick = () => {
+    if (courtCamera) callbacks.onCourtOrder?.(courtCamera.id);
+  };
+  courtExit.onclick = () => exitCourt();
+  function enterCourt(id) {
+    const o = courtObject(id),
+      g = itemGroups.get(id);
+    if (!o || !g?.userData.built) return false;
+    exitCourt();
+    faceCamera.setEnabled(false, look);
+    focused = "foodcourt";
+    courtCamera = {
+      id,
+      look: desiredLook.clone(),
+      distance: desiredDistance,
+      azimuth,
+      elevation,
+    };
+    if (g.userData.roof) g.userData.roof.visible = false;
+    desiredLook.set(
+      courtBiome.center[0] + o.x,
+      1.8,
+      courtBiome.center[1] + o.z + (o.kind === "cinema" ? 0 : 1),
+    );
+    desiredDistance =
+      o.kind === "cinema" ? (mobileRender ? 32 : 26) : mobileRender ? 24 : 19;
+    azimuth = 0.06;
+    elevation = 0.85;
+    courtExit.hidden = false;
+    courtOrder.hidden = false;
+    courtOrder.textContent =
+      o.kind === "cinema"
+        ? "Позвать Чичи смотреть кино"
+        : "Позвать Чичи · заказать";
+    cinema.show(o.kind === "cinema");
+    return true;
+  }
+  const court = createCourtRuntime({
+    getObstacles: () => courtBlockers,
+    isReady: (id) => courtProject(game, id)?.built,
+    onComplete: (receipt) => {
+      if (receipt.catId === "chichi" && operation?.court)
+        operation.spaCompleted = receipt;
+      else {
+        const n = npcs.get(receipt.catId),
+          manual = n?.manualWellnessId === receipt.id;
+        if (n) n.manualWellnessId = null;
+        callbacks.onSpaVisit?.({
+          ...receipt,
+          ...(manual ? { manual: true } : {}),
+        });
+      }
+    },
+  });
+  function startHeroCourt(op) {
+    op.stage = "court";
+    const o = courtObject(op.decision.activityId),
+      r = spaRadius(cat),
+      local = courtLocal(chichiCarrier.position),
+      origin = nearestCourtGround(
+        Math.hypot(local.x, local.z) < courtBiome.radius ? local : COURT_GATE,
+        r,
+        courtBlockers,
+      );
+    const v =
+      origin &&
+      court.start({
+        catId: "chichi",
+        objectId: o.id,
+        position: origin,
+        radius: r,
+      });
+    if (!v) {
+      op.spaFailed = true;
+      callbacks.onReaction?.("Здесь пока занято. Попробуем другое заведение.");
+    }
+  }
   function startHeroChill(op) {
     op.stage = "chill";
     const object = chillObject(op.decision.activityId),
@@ -720,6 +855,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     residentPlay.cancel(id);
     spa.cancel(id);
     chill.cancel(id);
+    court.cancel(id);
     crew.cancel(id);
     mealVisits.delete(id);
     swimVisits.delete(id);
@@ -733,12 +869,28 @@ export function createWorld(container, initialGame, callbacks = {}) {
         (!object?.userData.built ||
           (operation?.decision.activityId === decision.activityId &&
             !chillObject(decision.activityId) &&
-            !spaObject(decision.activityId))))
+            !spaObject(decision.activityId) &&
+            !courtObject(decision.activityId))))
     )
       return false;
     cancelResident(id);
     n.manualAnchor = null;
     n.manualUntil = performance.now() + 90000;
+    if (courtObject(decision.activityId)) {
+      const local = courtLocal(n.carrier.position),
+        radius = spaRadius(n.model),
+        origin = nearestCourtGround(local, radius, courtBlockers);
+      const v =
+        origin &&
+        court.start({
+          catId: id,
+          objectId: decision.activityId,
+          position: origin,
+          radius,
+        });
+      if (v) n.manualWellnessId = v.id;
+      return !!v;
+    }
     const cozy = chillObject(decision.activityId),
       wellness = spaObject(decision.activityId);
     if (cozy || wellness) {
@@ -848,6 +1000,26 @@ export function createWorld(container, initialGame, callbacks = {}) {
     ]);
     if (key === sceneKey) return;
     sceneKey = key;
+    courtExtra = [
+      ...game.placements
+        .filter((p) => p.biome === "foodcourt")
+        .map((p) => {
+          const f = byItem(p.item).footprint;
+          return {
+            x: p.x,
+            z: p.z,
+            w: f[p.rotation % 2 ? 1 : 0],
+            d: f[p.rotation % 2 ? 0 : 1],
+          };
+        }),
+      ...(game.scenery || [])
+        .filter((r) => !r.stored && r.biome === "foodcourt")
+        .map((r) => {
+          const f = sceneryFootprint(r);
+          return { x: r.x, z: r.z, radius: Math.min(f[0], f[1]) * 0.2 };
+        }),
+    ];
+    courtBlockers = courtObstacles(courtExtra);
     spaObstacles = [
       ...game.placements
         .filter((p) => p.biome === "water")
@@ -958,13 +1130,51 @@ export function createWorld(container, initialGame, callbacks = {}) {
         existing.userData.placement.readyAt === o.readyAt
       )
         continue;
+      if (
+        courtObject(o.id) &&
+        built &&
+        !courtModels.has(o.id) &&
+        !existing?.userData.built
+      ) {
+        if (!courtPreparing.has(o.id)) {
+          const task = prepareSceneSteps(courtVenueSteps(courtObject(o.id)), {
+            scheduler: scenePreparation,
+            priority: "foodcourt",
+          });
+          courtPreparing.set(o.id, task);
+          task
+            .then((g) => {
+              courtPreparing.delete(o.id);
+              if (disposed) {
+                g.userData.disposeStaff?.();
+                disposeScenery(g);
+                return;
+              }
+              courtModels.set(o.id, g);
+              sceneKey = "";
+              sync(game);
+            })
+            .catch((error) => {
+              courtPreparing.delete(o.id);
+              console.warn("Court venue build failed", error);
+            });
+        }
+        continue;
+      }
       if (existing) {
         scene.remove(existing);
+        existing.userData.disposeStaff?.();
         disposeScenery(existing);
         itemGroups.delete(o.id);
       }
       let g;
-      if (chillObject(o.id)?.kind === "bed") {
+      if (courtObject(o.id)) {
+        g = built
+          ? courtModels.get(o.id)
+          : courtBlueprint(courtObject(o.id), courtProject(game, o.id));
+        courtModels.delete(o.id);
+        if (o.id === "court-cinema") cinema.setSurface(g.userData.videoSurface);
+      } else if (chillObject(o.id)?.kind === "bed") {
         g = new THREE.Group();
         const proxy = new THREE.Mesh(
           new THREE.BoxGeometry(...[o.footprint[0], 0.8, o.footprint[1]]),
@@ -1039,6 +1249,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       g.userData.homeObject = true;
       g.userData.built = built;
       g.userData.permanent = true;
+      g.userData.unstarted = !!o.unstarted;
       scene.add(g);
       itemGroups.set(o.id, g);
     }
@@ -1093,7 +1304,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (g?.userData.built)
         decorateBusiness(g, p.item, businessLevel(game, p.id));
     }
-    if (operation?.decision.activityId && !operation.spa) {
+    if (operation?.decision.activityId && !operation.spa && !operation.court) {
       operation.attraction = itemGroups.get(operation.decision.activityId);
       operation.destination
         .copy(operation.attraction.position)
@@ -1165,6 +1376,15 @@ export function createWorld(container, initialGame, callbacks = {}) {
         );
         carrier.position.y = venue.position.y;
       }
+      if (b.id === "foodcourt") {
+        const dry = nearestCourtGround(
+          courtLocal(carrier.position),
+          spaRadius(model),
+          courtBlockers,
+        );
+        if (dry)
+          carrier.position.set(b.center[0] + dry.x, 0.16, b.center[1] + dry.z);
+      }
       if (b.id === "water") {
         const dry = nearestSpaGround(
           spaLocal(carrier.position),
@@ -1219,6 +1439,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   }
   sync(initialGame);
   function focus(id, overview = false, keepFollow = false) {
+    exitCourt(false);
     if (!keepFollow) faceCamera.setEnabled(false, look);
     const b = byBiome(id) || byBiome("moon");
     focused = b.id;
@@ -1319,6 +1540,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   }
   function perform(decision) {
     heroGather = null;
+    court.cancel("chichi");
     socialGlow.visible = false;
     sync(game);
     if (operation) {
@@ -1401,7 +1623,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
               ),
             )
           : attraction.position.clone();
-      focus(attraction.userData.placement.biome, false, true);
+      if (!courtCamera || courtCamera.id !== decision.activityId)
+        focus(attraction.userData.placement.biome, false, true);
     } else if (neighbor) {
       destination = neighbor.carrier.position.clone();
       focus(neighbor.profile.biome, false, true);
@@ -1434,6 +1657,13 @@ export function createWorld(container, initialGame, callbacks = {}) {
           dismount.z - biome.center[1],
         ) + 0.16;
     }
+    const courtTarget = !!courtObject(decision.activityId);
+    if (courtTarget)
+      destination.set(
+        courtBiome.center[0] + COURT_GATE.x,
+        0.16,
+        courtBiome.center[1] + COURT_GATE.z,
+      );
     const chillTarget = !!chillObject(decision.activityId);
     const spaTarget = !!spaObject(decision.activityId);
     if (spaTarget)
@@ -1450,6 +1680,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       );
     return new Promise((resolve) => {
       operation = {
+        court: courtTarget,
         chill: chillTarget,
         spa: spaTarget,
         decision,
@@ -1502,6 +1733,14 @@ export function createWorld(container, initialGame, callbacks = {}) {
         ) < chillBiome.radius
       )
         startHeroChill(operation);
+      if (
+        courtTarget &&
+        Math.hypot(
+          chichiCarrier.position.x - courtBiome.center[0],
+          chichiCarrier.position.z - courtBiome.center[1],
+        ) < courtBiome.radius
+      )
+        startHeroCourt(operation);
     });
   }
   function beginBuild(mode) {
@@ -2022,6 +2261,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }
       if (root?.userData.placementId === "chichi-food")
         callbacks.onSelectBowl?.();
+      else if (root?.userData.foodcourt)
+        callbacks.onSelectCourt?.(root.userData.placementId);
       else if (root?.userData.permanent && !root.userData.built)
         callbacks.onSelectIsland?.(root.userData.placement.biome);
       else if (root?.userData.placementId === "spa-bar")
@@ -2073,6 +2314,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }
       if (placement.userData.placementId === "chichi-food")
         callbacks.onSelectBowl?.();
+      else if (placement.userData.foodcourt)
+        callbacks.onSelectCourt?.(placement.userData.placementId);
       else if (placement.userData.permanent && !placement.userData.built)
         callbacks.onSelectIsland?.(placement.userData.placement.biome);
       else if (placement.userData.placementId === "spa-bar")
@@ -2130,7 +2373,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }
       desiredDistance = THREE.MathUtils.clamp(
         desiredDistance + e.deltaY * 0.025,
-        21,
+        courtCamera ? 10 : 21,
         600,
       );
     },
@@ -2149,7 +2392,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         else if (pinchDistance)
           desiredDistance = THREE.MathUtils.clamp(
             desiredDistance + (pinchDistance - d) * 0.1,
-            21,
+            courtCamera ? 10 : 21,
             600,
           );
         pinchDistance = d;
@@ -2167,6 +2410,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     ? new IntersectionObserver(
         ([entry]) => {
           worldVisible = entry.isIntersecting;
+          if (!worldVisible) cinema.pause();
           if (worldVisible) viewport.invalidate();
         },
         { rootMargin: "160px 0px" },
@@ -2190,6 +2434,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     viewport.invalidate();
   };
   const resume = () => {
+    if (document.hidden) cinema.pause();
     if (!document.hidden) viewport.invalidate();
   };
   renderer.domElement.addEventListener("webglcontextlost", loseContext);
@@ -2278,12 +2523,53 @@ export function createWorld(container, initialGame, callbacks = {}) {
       spaBarGroup.userData.servingVisit = servingVisit;
     }
     for (const g of itemGroups.values())
-      if (!reduced && !dialogOpen) animateAttraction(g, time);
+      if (
+        !reduced &&
+        !dialogOpen &&
+        (!g.userData.foodcourt ||
+          (focused === "foodcourt" &&
+            g.position.distanceToSquared(camera.position) < 180 * 180))
+      )
+        animateAttraction(g, time);
     if (preview && !reduced) animateAttraction(preview, time);
     buildingSites = constructionSites(itemGroups);
     if (!dialogOpen) {
       spa.step(dt, time);
       chill.step(dt, time);
+      const courtIdle = [];
+      for (const [id, n] of npcs)
+        if (
+          n.profile.biome === "foodcourt" &&
+          !court.get(id) &&
+          draggingCat?.catId !== id
+        )
+          courtIdle.push({
+            catId: id,
+            position: courtLocal(n.carrier.position),
+            radius: spaRadius(n.model),
+          });
+      if (
+        !court.get("chichi") &&
+        Math.hypot(
+          chichiCarrier.position.x - courtBiome.center[0],
+          chichiCarrier.position.z - courtBiome.center[1],
+        ) < courtBiome.radius
+      )
+        courtIdle.push({
+          catId: "chichi",
+          position: courtLocal(chichiCarrier.position),
+          radius: spaRadius(cat),
+        });
+      court.step(dt, time, courtIdle);
+      for (const o of COURT_VENUES) {
+        const g = itemGroups.get(o.id);
+        if (g)
+          g.userData.servingVisit =
+            [...court.visits.values()].find(
+              (v) =>
+                v.objectId === o.id && ["prepare", "serve"].includes(v.phase),
+            ) || null;
+      }
     }
     for (const [id, cup] of spaCups)
       if (!spa.get(id)?.drinking) {
@@ -2369,6 +2655,39 @@ export function createWorld(container, initialGame, callbacks = {}) {
           .get("sakura")
           ?.userData.lagoons?.get(v.objectId)
           ?.userData.disturb?.(time);
+    }
+    for (const [id, food] of courtFoods)
+      if (!court.get(id)?.holding) {
+        food.removeFromParent();
+        disposeScenery(food);
+        courtFoods.delete(id);
+      }
+    function applyCourtFrame(v, carrier, model) {
+      carrier.position.set(
+        courtBiome.center[0] + v.position.x,
+        v.position.y,
+        courtBiome.center[1] + v.position.z,
+      );
+      carrier.rotation.y = v.yaw;
+      if (v.holding) {
+        let food = courtFoods.get(v.catId);
+        if (!food) {
+          food = courtFood(v.kind);
+          food.scale.setScalar(0.65);
+          scene.add(food);
+          courtFoods.set(v.catId, food);
+        }
+        const sip = v.phase === "consume" ? (Math.sin(time * 3) + 1) * 0.5 : 0;
+        food.position.copy(carrier.position);
+        food.position.y += model.scale.x * (0.78 + sip * 0.24);
+        food.position.x += Math.sin(v.yaw) * 0.47;
+        food.position.z += Math.cos(v.yaw) * 0.47;
+        food.rotation.set(
+          v.kind === "boba" || v.kind === "coffee" ? sip * 0.2 : 0,
+          v.yaw,
+          0,
+        );
+      }
     }
     for (const [id, n] of npcs) {
       const b = byBiome(n.profile.biome),
@@ -2482,6 +2801,37 @@ export function createWorld(container, initialGame, callbacks = {}) {
             }
           }
       }
+      if (busyWithChichi || draggingThis || b.id !== "foodcourt")
+        court.cancel(id);
+      if (
+        b.id === "foodcourt" &&
+        !busyWithChichi &&
+        !draggingThis &&
+        !dialogOpen &&
+        now >= gatherUntil &&
+        !court.get(id) &&
+        now > nextCourtStart &&
+        now > (n.manualUntil || 0) &&
+        Date.now() - (n.lastCourtAt || 0) > 45000
+      ) {
+        nextCourtStart = now + 1400;
+        n.lastCourtAt = Date.now();
+        const options = COURT_VENUES.filter(
+            (o) => courtProject(game, o.id)?.built,
+          ),
+          start = n.index + Math.floor(time / 25);
+        for (let j = 0; j < options.length; j++) {
+          const o = options[(start + j) % options.length],
+            v = court.start({
+              catId: id,
+              objectId: o.id,
+              position: courtLocal(n.carrier.position),
+              radius: spaRadius(n.model),
+            });
+          if (v) break;
+        }
+      }
+      const courtVisit = court.get(id);
       const chillVisit = chill.get(id);
       const spaVisit = spa.get(id);
       const canBuild =
@@ -2491,6 +2841,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         now >= gatherUntil &&
         !spaVisit &&
         !chillVisit &&
+        !courtVisit &&
         now > (n.manualUntil || 0) &&
         !mealVisits.has(id) &&
         !swimVisits.has(id) &&
@@ -2511,6 +2862,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (
         b.id !== "water" &&
         b.id !== "sakura" &&
+        b.id !== "foodcourt" &&
         !builderFrame &&
         !busyWithChichi &&
         now >= gatherUntil &&
@@ -2573,6 +2925,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (
         b.id !== "water" &&
         b.id !== "sakura" &&
+        b.id !== "foodcourt" &&
         now > (n.manualUntil || 0) &&
         !builderFrame &&
         !busyWithChichi &&
@@ -2645,6 +2998,13 @@ export function createWorld(container, initialGame, callbacks = {}) {
         direct = true;
         npcWalking = builderFrame.walking;
         npcReaction = reduced ? null : builderFrame.reaction;
+      } else if (courtVisit) {
+        applyCourtFrame(courtVisit, n.carrier, n.model);
+        x = n.carrier.position.x;
+        z = n.carrier.position.z;
+        direct = true;
+        npcWalking = courtVisit.walking;
+        npcReaction = courtVisit.reaction;
       } else if (chillVisit) {
         applyChillFrame(chillVisit, n.carrier, n.model);
         x = n.carrier.position.x;
@@ -2805,6 +3165,26 @@ export function createWorld(container, initialGame, callbacks = {}) {
             chichiCarrier.position.x - x,
             chichiCarrier.position.z - z,
           );
+      } else if (
+        b.id === "foodcourt" &&
+        !busyWithChichi &&
+        now >= gatherUntil
+      ) {
+        direct = true;
+        const dry = nearestCourtGround(
+          courtLocal(n.carrier.position),
+          spaRadius(n.model),
+          courtBlockers,
+        );
+        if (dry) {
+          n.carrier.position.set(
+            b.center[0] + dry.x,
+            0.16,
+            b.center[1] + dry.z,
+          );
+          x = n.carrier.position.x;
+          z = n.carrier.position.z;
+        }
       } else if (game.social?.bestFriendId === id) {
         const anchor =
           chichiCarrier.position.y > 1.3 && operation?.destination
@@ -2967,7 +3347,22 @@ export function createWorld(container, initialGame, callbacks = {}) {
     }
     if (operation) {
       const op = operation;
-      if (op.stage === "chill") {
+      if (op.stage === "court") {
+        const v = court.get("chichi");
+        if (v) {
+          applyCourtFrame(v, chichiCarrier, cat);
+          walking = v.walking;
+          reaction = v.reaction;
+        }
+        if (op.spaCompleted || op.spaFailed) {
+          operation = null;
+          op.resolve(
+            op.spaFailed
+              ? { cancelled: true }
+              : { completed: true, spaVisit: op.spaCompleted },
+          );
+        }
+      } else if (op.stage === "chill") {
         const v = chill.get("chichi");
         if (v) {
           applyChillFrame(v, chichiCarrier, cat);
@@ -3023,7 +3418,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
         walking = p < 1;
         if (p === 1) {
           choiceExpression(op.decision);
-          if (op.chill) {
+          if (op.court) {
+            startHeroCourt(op);
+          } else if (op.chill) {
             startHeroChill(op);
           } else if (op.spa) {
             startHeroSpa(op);
@@ -3355,7 +3752,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     for (const [id, button] of incomeButtons) {
       const object = itemGroups.get(id),
         amount = incomeCache.get(id) || 0;
-      if (!object || !amount || distance > 110) {
+      if (!object || !amount || distance > 110 || courtCamera?.id === id) {
         placeWorldBadge(button, true);
         continue;
       }
@@ -3411,7 +3808,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
           button = document.createElement("button");
           button.className = "island-build-badge";
           button.onclick = () =>
-            callbacks.onSelectIsland?.(g.userData.placement.biome);
+            courtObject(id)
+              ? callbacks.onSelectCourt?.(id)
+              : callbacks.onSelectIsland?.(g.userData.placement.biome);
           container.append(button);
           projectBadges.set(id, button);
         }
@@ -3432,13 +3831,14 @@ export function createWorld(container, initialGame, callbacks = {}) {
           p = hudPoint.copy(g.position);
         p.y += 2;
         p.project(camera);
-        const text =
-          "⏳ " +
-          Math.floor(progress) +
-          "% · " +
-          (remaining >= 60
-            ? Math.floor(remaining / 60) + " ч " + (remaining % 60) + " м"
-            : remaining + " м");
+        const text = g.userData.unstarted
+          ? byItem(place.item).icon + " Построить"
+          : "⏳ " +
+            Math.floor(progress) +
+            "% · " +
+            (remaining >= 60
+              ? Math.floor(remaining / 60) + " ч " + (remaining % 60) + " м"
+              : remaining + " м");
         if (button.textContent !== text) {
           button.textContent = text;
           button.setAttribute(
@@ -3489,6 +3889,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
   }
   return {
     perform,
+    enterCourt,
+    exitCourt,
     performResident,
     moveResident(id, biome, position) {
       const n = npcs.get(id),
@@ -3500,7 +3902,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
         z: position.z - b.center[1],
         y: 0.16,
       };
-      if (biome === "sakura")
+      if (biome === "foodcourt")
+        p = nearestCourtGround(p, spaRadius(n.model), courtBlockers);
+      else if (biome === "sakura")
         p = nearestChillGround(p, spaRadius(n.model), chillObstacles);
       else if (biome === "water")
         p = nearestSpaGround(p, spaRadius(n.model), spaObstacles);
@@ -3517,6 +3921,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     sync,
     focus,
     followChichi(value = !faceCamera.enabled) {
+      if (value) exitCourt(false);
       faceCamera.setEnabled(value, look);
       if (value && !reduced && cat.userData.mood === "happy")
         emoteCat(cat, "curious");
@@ -3530,7 +3935,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         ? faceCamera.zoom(delta * 0.015)
         : (desiredDistance = THREE.MathUtils.clamp(
             desiredDistance + delta,
-            21,
+            courtCamera ? 10 : 21,
             600,
           )),
     beginBuild,
@@ -3551,6 +3956,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       spa.clear();
       crew.clear();
       chill.clear();
+      court.clear();
       residentPlay.clear();
       gatherUntil = performance.now() + 20000;
       heroGather = {
@@ -3571,9 +3977,19 @@ export function createWorld(container, initialGame, callbacks = {}) {
     },
     dispose() {
       disposed = true;
+      exitCourt(false);
+      cinema.dispose();
+      courtExit.remove();
+      courtOrder.remove();
+      for (const food of courtFoods.values()) {
+        food.removeFromParent();
+        disposeScenery(food);
+      }
+      for (const g of itemGroups.values()) g.userData.disposeStaff?.();
       spa.clear();
       crew.clear();
       chill.clear();
+      court.clear();
       residentPlay.clear();
       for (const cup of spaCups.values()) {
         scene.remove(cup);

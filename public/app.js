@@ -2,6 +2,8 @@ import {
   moveResidentToBiome,
   completeResidentAction,
 } from "./resident-actions.js";
+import { COURT_MENU, courtObject, courtProject } from "./foodcourt-data.js";
+import { startCourtConstruction } from "./island-construction.js";
 import { islandProjects } from "./island-construction.js";
 import { SPA_DRINKS } from "./spa-data.js";
 import { selectSpaDrink, completeSpaVisit } from "./spa-system.js";
@@ -911,6 +913,50 @@ function showSpaBar() {
   }
   open("item-dialog");
 }
+function showCourt(id) {
+  const o = courtObject(id),
+    p = courtProject(game, id);
+  if (!o || !p) return;
+  if (p.built) {
+    world?.enterCourt(id);
+    return;
+  }
+  selectedItem = id;
+  selectedScenery = false;
+  $("item-icon").textContent = o.icon;
+  $("item-name").textContent = o.name;
+  $("item-description").textContent = o.description;
+  $("item-construction").textContent = p.unstarted
+    ? "Строительная площадка · " +
+      money(p.price) +
+      " ✦ · " +
+      p.buildMinutes +
+      " мин"
+    : "Строится · осталось " + countdown(p.readyAt);
+  $("item-note").textContent =
+    "После открытия здесь будут работать котики. Доход — монеты и XP; улучшения доступны в разделе «Бизнес». Строительство сохраняется, даже если закрыть игру.";
+  $("item-move").hidden = $("item-store").hidden = true;
+  const actions = $("spa-bar-actions");
+  actions.hidden = false;
+  actions.replaceChildren();
+  if (p.unstarted) {
+    const button = document.createElement("button");
+    button.className = "primary";
+    button.textContent = "Построить · " + money(p.price) + " ✦";
+    button.disabled = game.coins < p.price;
+    button.onclick = () => {
+      try {
+        commit(startCourtConstruction(game, id));
+        $("item-dialog").close();
+        toast("Котики начинают строить " + o.name + " 🛠️");
+      } catch (e) {
+        toast(e.message);
+      }
+    };
+    actions.append(button);
+  }
+  open("item-dialog");
+}
 function inspect(id, manage = false) {
   $("spa-bar-actions").hidden = true;
   $("item-move").hidden = false;
@@ -1035,6 +1081,8 @@ try {
       cloud.editable && !cloud.conflict && (id !== "chichi" || !busy),
     onPreview: previewChanged,
     onSelectItem: inspect,
+    onSelectCourt: showCourt,
+    onCourtOrder: (id) => manualActivity({ activityId: id }),
     onSelectScenery: inspectScenery,
     onSelectBowl: () => showBowl(),
     onSelectSpaBar: () => showSpaBar(),
@@ -2074,6 +2122,10 @@ function showIsland(id) {
     $("island-summary").textContent = owned
       ? "Хрюшки и бассейны уже ждут котиков. Все четыре аттракциона включены в остров: строительство начинается автоматически и продолжается, пока сайт закрыт."
       : "Превью показывает готовый парк. После открытия здесь автоматически начнут строиться все четыре аттракциона — без отдельных покупок. Хрюшки и купание доступны сразу.";
+  if (id === "foodcourt")
+    $("island-summary").textContent = owned
+      ? "Кофейня и кинотеатр уже открыты. Нажмите на свободную площадку, чтобы построить бургерную, бабл-ти или пекарню. В работающем заведении можно заглянуть внутрь и позвать Чичи."
+      : "Большой котячий фуд-корт: пять заведений, террасы, кино под открытым небом. Откроется с 6 уровня.";
   renderIslandProjects();
   $("island-gather").disabled = !owned || busy || !!buildMode;
   open("island-dialog");
@@ -2103,7 +2155,8 @@ function renderIslandProjects() {
       button.textContent = "Покататься";
       button.onclick = () => {
         $("island-dialog").close();
-        manualActivity({ activityId: p.id });
+        if (courtObject(p.id)) showCourt(p.id);
+        else manualActivity({ activityId: p.id });
       };
       row.append(title, status, progress, button);
       container.append(row);
@@ -2111,6 +2164,25 @@ function renderIslandProjects() {
   }
   for (const p of projects) {
     const row = container.querySelector('[data-project="' + p.id + '"]');
+    if (courtObject(p.id)) {
+      row.querySelector(".project-status").textContent = p.unstarted
+        ? "Площадка · " + money(p.price) + " ✦"
+        : p.built
+          ? "Открыто · доход в монетах и XP"
+          : "Строится · " +
+            Math.floor(p.progress * 100) +
+            "% · ещё " +
+            countdown(p.readyAt);
+      row.querySelector("progress").value = p.progress;
+      const button = row.querySelector("button");
+      button.textContent = p.unstarted
+        ? "Построить"
+        : p.built
+          ? "Зайти"
+          : "Строительство";
+      button.disabled = busy || !!buildMode;
+      continue;
+    }
     row.querySelector(".project-status").textContent = p.built
       ? "Готово · можно кататься"
       : "Строится · " +

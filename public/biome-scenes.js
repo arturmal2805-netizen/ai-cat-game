@@ -1,3 +1,4 @@
+import { foodcourtBiomeSteps } from "./foodcourt-biome.js";
 import { mosasaurBiomeSteps } from "./mosasaur-biome.js";
 import { chillBiomeSteps } from "./chill-biome.js";
 import { capybaraBiomeSteps } from "./capybara-biome.js";
@@ -169,6 +170,13 @@ export function* biomeSceneSteps(
   { preview = false, placements = [], scenery = null, lowOnly = false } = {},
 ) {
   yield;
+  if (biome.id === "foodcourt")
+    return yield* foodcourtBiomeSteps(biome, {
+      lowOnly,
+      placements,
+      scenery: scenery ?? defaultScenery.filter((r) => r.biome === biome.id),
+      preview,
+    });
   if (biome.id === "autumn")
     return yield* mosasaurBiomeSteps(biome, {
       preview,

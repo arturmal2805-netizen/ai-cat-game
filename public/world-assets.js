@@ -1,3 +1,5 @@
+import { courtType } from "./foodcourt-data.js";
+import { courtVenue } from "./foodcourt-assets.js";
 import { mosasaurRide } from "./mosasaur-assets.js";
 import { capybaraRide } from "./capybara-rides.js";
 import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
@@ -191,6 +193,8 @@ function vehicle(parent, kind, color = 0xc9a3cf) {
   return g;
 }
 export function makeAttraction(id, fields = [], now = Date.now()) {
+  if (courtType(id)) return courtVenue(courtType(id));
+
   const mosa = mosasaurRide(id);
   if (mosa) return mosa;
   const capybara = capybaraRide(id);
