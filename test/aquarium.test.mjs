@@ -313,3 +313,50 @@ test("fish cameras follow the actual displayed pose when animations are paused, 
   tank.userData.update(71);
   assert.ok(tank.userData.fishPoint(0).distanceTo(frozen) > 0.1);
 });
+
+test("plush fish have no pinched neck, smooth finite surfaces and continuous richly coloured fans within the shared draw budget", () => {
+  const tank = courtVenue(AQUARIUM_TANKS[1]),
+    parts = tank.userData.shoal.children,
+    material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide }),
+    body = new THREE.Mesh(parts[0].geometry, material);
+  body.updateMatrixWorld(true);
+  const ray = new THREE.Raycaster(
+    new THREE.Vector3(),
+    new THREE.Vector3(1, 0, 0),
+    0,
+    6,
+  );
+  for (const z of [-0.3, 0, 0.35]) {
+    ray.ray.origin.set(-3, 0.1, z);
+    const hits = ray.intersectObject(body);
+    assert.ok(hits.length >= 2);
+    const half = (hits.at(-1).point.x - hits[0].point.x) / 2;
+    assert.ok(half > 0.9, "pinched head/body at " + z + ": " + half);
+  }
+  let vertices = 0;
+  for (const p of parts) {
+    vertices += p.geometry.attributes.position.count;
+    assert.ok([...p.geometry.attributes.normal.array].every(Number.isFinite));
+  }
+  assert.ok(
+    vertices < 29000,
+    "shared topology must save vertex work without removing the richer shapes",
+  );
+  for (const name of ["tail", "leftFin", "rightFin"]) {
+    const mesh = parts.find((p) => p.name.endsWith(name)),
+      colors = mesh.geometry.attributes.color,
+      unique = new Set();
+    for (let i = 0; i < colors.count; i++)
+      unique.add(
+        [colors.getX(i), colors.getY(i), colors.getZ(i)]
+          .map((v) => Math.round(v * 255))
+          .join(","),
+      );
+    assert.ok(
+      unique.size > 100,
+      name + " must have a smooth pearly colour gradient",
+    );
+  }
+  assert.equal(parts.length, 5);
+  material.dispose();
+});

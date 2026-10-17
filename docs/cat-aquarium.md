@@ -17,7 +17,7 @@ no new account, currency, inventory or save format is introduced.
   the actual game models rather than a separate concept image.
 - Fifty cat-headed fish, with five especially large fish and small companions:
   round bellies, kitten ears, white muzzle/cheeks, whiskers, layered shiny eyes,
-  colourful coats, broad petal tails and individually moving fins. Fish faces
+  colourful coats, broad flowing tails and individually moving fins. Fish faces
   retain white cheeks and bright eyes independently of their instance colour.
 - The four new locals are ordinary cats built from the approved existing rigs.
   Existing Chichi/adoption geometry, eyes, coats and fur are unchanged.
@@ -68,6 +68,13 @@ batched; bubble instances and existing shared water/caustic shaders are reused.
 Far views use the existing separate distant layer. No ray tracing, scene-copy
 render targets, external fish textures or per-frame geometry rebuilds are used.
 
+A second close-up review replaced the overlapping head/body shells with one
+continuous plush surface, painted cream markings and thinner welded ears. The
+tail and side fins are closed scalloped fans with pearly colour gradients and
+fine rays. The five shared draws now use 27,065 vertices and 32,040 triangles,
+down from 29,506 vertices and 36,560 triangles. Front/profile renders of all five
+large fish verify clear eyes, whiskers, animated fins and stable reduced motion.
+
 The aquarium navigation uses exact long-segment wall checks. Adjacent A\* cells
 reuse the mask and orthogonal-corner checks, with a small analytic circular-tank
 check instead of testing every palace wall on every search edge.
@@ -77,6 +84,8 @@ Validation:
 - `npm test`: includes unchanged-biome snapshots, level gates, actual transformed
   fish vertices inside all tanks, clear entrance routes for three cat sizes,
   eight simultaneous visitors, receipt idempotence and repeated save/reloads.
+- The fish surface regression checks the full rounded silhouette, finite
+  normals, continuous fin gradients and shared geometry/draw budget.
 - `test/social-motion.test.mjs`: exact 37% threshold, separate silhouettes for
   three size pairings, continuous mount/ride/dismount, rigid back attachment,
   one random draw per encounter, safe cancellation and reduced motion.
@@ -86,8 +95,8 @@ Validation:
   and reload. Software WebGL results are functional evidence, not an iPhone FPS
   guarantee. Set `CHICHI_PLAYWRIGHT_MODULE`, `CHICHI_CHROMIUM` if needed.
 
-Verified on 18 October 2026 (Kyiv): the automated tests passed, the build
-and Worker deployment dry run passed. The private browser check also passed
+Local validation: all 427 automated tests passed, as did the build and Worker
+deployment dry run. The private browser check also passed
 actual touch drops resident→resident, Chichi→resident and resident→Chichi,
 fish-instance camera selection through glass, six simultaneous visitors,
 unchanged legacy aquarium-coaster visibility and exact significant save fields

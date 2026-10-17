@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { mergeVertices } from "three/addons/utils/BufferGeometryUtils.js";
 import { part } from "./bikini-scenery.js";
 import { line as lineGeometry } from "./fantasy-scenery.js";
 import { batchModelSteps } from "./model-batching.js";
@@ -30,6 +31,7 @@ function soft(g, color, x, y, z, sx, sy, sz, polished = false) {
   const p = part(g, "sphere", color, x, y, z, sx, sy, sz);
   p.geometry = sx > 0.6 || polished ? round : smallRound;
   if (polished) {
+    p.position.z += 0.1;
     if (!glossy.has(color)) {
       const m = p.material.clone();
       m.roughness = 0.16;
@@ -50,22 +52,180 @@ function ear(g, color, x, y, z, sx, sy, sz) {
     s.quadraticCurveTo(0.55, -0.05, 0.48, -0.4);
     s.quadraticCurveTo(0, -0.56, -0.47, -0.4);
     earGeometry = new THREE.ExtrudeGeometry(s, {
-      depth: 0.18,
+      depth: 0.07,
       bevelEnabled: true,
-      bevelThickness: 0.1,
-      bevelSize: 0.085,
-      bevelSegments: 3,
+      bevelThickness: 0.045,
+      bevelSize: 0.065,
+      bevelSegments: 4,
       steps: 1,
       curveSegments: 10,
     });
-    earGeometry.translate(0, 0, -0.09);
+    earGeometry.translate(0, 0, -0.035);
     earGeometry.computeVertexNormals();
+    const unindexed = earGeometry;
+    earGeometry = mergeVertices(unindexed, 1e-5);
+    unindexed.dispose();
     earGeometry.userData.sharedScenery = true;
   }
   const p = part(g, "sphere", color, x, y, z, sx, sy, sz);
   p.geometry = earGeometry;
   return p;
 }
+// A single continuous, rounded surface avoids a pinched seam between the
+// kitten's head and belly. Coat markings live on this surface, not glued beads.
+function plushBody(g) {
+  const profile = new THREE.CatmullRomCurve3(
+    [
+      [0, -1.35, -0.03],
+      [0.48, -1.15, -0.03],
+      [0.8, -0.75, -0.02],
+      [0.94, -0.3, 0.02],
+      [0.97, 0.25, 0.13],
+      [0.94, 0.65, 0.18],
+      [0.82, 0.96, 0.15],
+      [0.62, 1.21, 0.1],
+      [0.3, 1.4, 0.03],
+      [0, 1.46, 0],
+    ].map((p) => new THREE.Vector3(...p)),
+    false,
+    "centripetal",
+  );
+  const positions = [],
+    colors = [],
+    indices = [],
+    rings = 48,
+    sides = 40,
+    c = new THREE.Color();
+  const spots = [
+    [-0.83, 0.18, 0.085],
+    [-0.55, 0.39, 0.06],
+    [-0.35, 0.17, 0.07],
+    [-0.66, -0.12, 0.065],
+    [-0.14, 0.42, 0.055],
+  ];
+  for (let j = 0; j <= rings; j++) {
+    const p = profile.getPoint(j / rings),
+      r = Math.max(0, p.x);
+    for (let k = 0; k <= sides; k++) {
+      const a = (k / sides) * Math.PI * 2,
+        x = Math.cos(a) * r,
+        y = p.z + Math.sin(a) * r * 0.88,
+        z = p.y;
+      positions.push(x, y, z);
+      const white =
+        (z > 0.63 && y < 0.69 - Math.abs(x) * 0.13) || (y < -0.29 && z < 1.1);
+      const freckle =
+        Math.abs(x) > 0.55 &&
+        spots.some(([sz, sy, sr]) => (z - sz) ** 2 + (y - sy) ** 2 < sr ** 2);
+      c.set(white ? 0xfffbf3 : freckle ? 0xffeddb : COAT);
+      colors.push(c.r, c.g, c.b);
+      if (j < rings && k < sides) {
+        const n = j * (sides + 1) + k;
+        indices.push(
+          n,
+          n + 1,
+          n + sides + 1,
+          n + 1,
+          n + sides + 2,
+          n + sides + 1,
+        );
+      }
+    }
+  }
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute(
+    "position",
+    new THREE.Float32BufferAttribute(positions, 3),
+  );
+  geometry.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
+  geometry.setIndex(indices);
+  geometry.computeVertexNormals();
+  const mesh = part(g, "sphere", 0xffffff, 0, 0, 0);
+  mesh.geometry = geometry;
+  mesh.material = mesh.material.clone();
+  mesh.material.vertexColors = true;
+  mesh.name = "Continuous plush kitten-fish body";
+}
+function fanPoint(angle, t, tail, face = 0) {
+  const radius = (tail ? 0.85 : 0.8) * (1 + 0.075 * Math.cos(angle * 7)) * t,
+    thickness = face * 0.035 * Math.sin(t * Math.PI);
+  return tail
+    ? [
+        Math.sin(angle) * radius,
+        (Math.cos(angle) - 0.2) * radius,
+        -0.65 * t + thickness,
+      ]
+    : [thickness, -Math.cos(angle) * radius, -Math.sin(angle) * radius];
+}
+function flowingFan(g, tail = false) {
+  const positions = [],
+    colors = [],
+    indices = [],
+    rings = 10,
+    sides = 32,
+    stride = (rings + 1) * (sides + 1),
+    start = tail ? -1.8 : -0.65,
+    end = tail ? 1.8 : 1.25;
+  const palette = [0xf6a4d0, 0xb9a6ef, 0x8ed4ef].map((c) => new THREE.Color(c)),
+    color = new THREE.Color(),
+    cream = new THREE.Color(0xffe9f4);
+  for (let face = 0; face < 2; face++)
+    for (let j = 0; j <= rings; j++)
+      for (let k = 0; k <= sides; k++) {
+        const t = j / rings,
+          u = k / sides,
+          a = start + (end - start) * u;
+        positions.push(...fanPoint(a, t, tail, face === 0 ? 1 : -1));
+        const v = u * 2,
+          lo = Math.min(1, Math.floor(v));
+        color
+          .copy(palette[lo])
+          .lerp(palette[lo + 1], v - lo)
+          .lerp(cream, (1 - t) * 0.75);
+        colors.push(color.r, color.g, color.b);
+        if (j < rings && k < sides) {
+          const n = face * stride + j * (sides + 1) + k,
+            b = n + 1,
+            c = n + sides + 1,
+            d = c + 1;
+          if ((face === 0) !== !tail) indices.push(n, b, c, b, d, c);
+          else indices.push(n, c, b, b, c, d);
+        }
+      }
+  for (const k of [0, sides])
+    for (let j = 0; j < rings; j++) {
+      const a = j * (sides + 1) + k,
+        b = a + sides + 1;
+      indices.push(a, b, a + stride, b, b + stride, a + stride);
+    }
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute(
+    "position",
+    new THREE.Float32BufferAttribute(positions, 3),
+  );
+  geometry.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
+  geometry.setIndex(indices);
+  geometry.computeVertexNormals();
+  const mesh = part(g, "sphere", 0xffffff, 0, 0, 0);
+  mesh.geometry = geometry;
+  mesh.material = mesh.material.clone();
+  mesh.material.vertexColors = true;
+  mesh.name = tail
+    ? "Scalloped flowing tail fan"
+    : "Continuous pearly side fin";
+  for (let i = 0; i < 8; i++) {
+    const a = start + ((end - start) * (i + 0.25)) / 8;
+    for (const face of [-1, 1]) {
+      const mid = fanPoint(a, 0.5, tail),
+        tip = fanPoint(a, 0.98, tail);
+      mid[tail ? 2 : 0] += face * 0.042;
+      tip[tail ? 2 : 0] += face * 0.018;
+      line(g, [0, 0, 0], mid, 0xffeaf7, 0.008);
+      line(g, mid, tip, 0xffeaf7, 0.006);
+    }
+  }
+}
+
 function* bake(g) {
   const b = yield* batchModelSteps(g, { combineColors: true });
   g.traverse((o) => {
@@ -86,20 +246,16 @@ function* fishTemplates() {
   const body = new THREE.Group(),
     tail = new THREE.Group(),
     fin = new THREE.Group();
-  // Round belly, a generous kitten head, a coloured hood and pillowy white cheeks.
-  soft(body, COAT, 0, -0.02, -0.38, 0.91, 0.78, 0.94);
-  soft(body, 0xfff7e8, 0, -0.3, -0.13, 0.78, 0.56, 0.82);
-  soft(body, COAT, 0, 0.2, 0.43, 0.96, 0.83, 0.84);
-  soft(body, 0xfffbf3, 0, 0.06, 0.85, 0.86, 0.66, 0.55);
+  plushBody(body);
   for (const sign of [-1, 1]) {
-    const outer = ear(body, COAT, sign * 0.62, 0.98, 0.39, 0.66, 0.62, 1.35);
+    const outer = ear(body, COAT, sign * 0.62, 0.98, 0.45, 0.66, 0.62, 1.35);
     outer.rotation.z = sign * -0.22;
     const inner = ear(
       body,
       0xf5a7c8,
       sign * 0.62,
       1.005,
-      0.65,
+      0.58,
       0.39,
       0.42,
       0.24,
@@ -189,22 +345,7 @@ function* fishTemplates() {
   line(body, [0, -0.12, 1.46], [0, -0.2, 1.447], 0x936780, 0.012);
   for (const sign of [-1, 1])
     line(body, [0, -0.2, 1.447], [sign * 0.11, -0.235, 1.43], 0x936780, 0.012);
-  // Cream freckles and a soft scalloped back crest.
-  for (let i = 0; i < 14; i++) {
-    const a = i * 2.399,
-      y = 0.05 + Math.sin(a) * 0.44,
-      z = -0.55 + Math.cos(a) * 0.45;
-    soft(
-      body,
-      i % 2 ? 0xffeddb : 0xece5ff,
-      (i % 2 ? 1 : -1) * 0.854,
-      y,
-      z,
-      0.018,
-      0.055,
-      0.062,
-    );
-  }
+  // A scalloped dorsal crest complements the continuous painted body.
   for (let i = 0; i < 5; i++) {
     const p = soft(
       body,
@@ -218,60 +359,8 @@ function* fishTemplates() {
     );
     p.rotation.x = -0.5;
   }
-  // A broad, ruffled fan with seven pearly petals and visible fin rays.
-  for (let i = 0; i < 7; i++) {
-    const a = -1.18 + i * 0.393;
-    const p = soft(
-      tail,
-      [0xf9a8d4, 0xc2a4ee, 0x8ed5ee][i % 3],
-      Math.sin(a) * 0.42,
-      Math.cos(a) * 0.32 - 0.17,
-      -0.35,
-      0.19,
-      0.57,
-      0.07,
-    );
-    p.rotation.z = -a;
-    p.rotation.x = 0.36;
-    line(
-      tail,
-      [0, 0, 0.02],
-      [Math.sin(a) * 0.54, Math.cos(a) * 0.68 - 0.18, -0.58],
-      0xffe9f8,
-      0.012,
-    );
-    soft(
-      tail,
-      0xffe9f8,
-      Math.sin(a) * 0.58,
-      Math.cos(a) * 0.7 - 0.19,
-      -0.6,
-      0.034,
-      0.043,
-      0.022,
-    );
-  }
-  for (let i = 0; i < 4; i++) {
-    const p = soft(
-      fin,
-      i % 2 ? 0xf6b6d9 : 0xb9caef,
-      0,
-      -0.1 - i * 0.06,
-      -i * 0.115,
-      0.13,
-      0.38,
-      0.06,
-    );
-    p.rotation.x = -0.5;
-    p.rotation.z = 0.3;
-    line(
-      fin,
-      [0, 0, 0.04],
-      [0.11, -0.42 - i * 0.06, -0.12 - i * 0.1],
-      0xffedf7,
-      0.008,
-    );
-  }
+  flowingFan(tail, true);
+  flowingFan(fin, false);
   return (templates = {
     body: yield* bake(body),
     tail: yield* bake(tail),
@@ -354,7 +443,11 @@ export function* aquariumShoalSteps(tank, clock) {
         ["rightFin", 1],
       ]) {
         local.position.set(sign * 0.8, -0.03, -0.25);
-        local.rotation.set(0.1, 0, sign * (0.4 + (reduced ? 0 : f.fin)));
+        local.rotation.set(
+          0.1,
+          sign * 0.5,
+          sign * (0.4 + (reduced ? 0 : f.fin)),
+        );
         local.updateMatrix();
         matrix.multiplyMatrices(dummy.matrix, local.matrix);
         for (const m of sets[key]) m.setMatrixAt(i, matrix);
