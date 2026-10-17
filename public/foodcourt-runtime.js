@@ -1,3 +1,4 @@
+import { aquariumFishFrame, aquariumExit } from "./aquarium-data.js";
 import { courtObject, courtSeats, courtGroundY } from "./foodcourt-data.js";
 import {
   courtObstacles,
@@ -65,7 +66,8 @@ export function createCourtRuntime({
         v.objectId === o.id &&
         ["approach", "queue", "order", "prepare", "serve"].includes(v.phase),
     );
-    if (o.kind !== "cinema" && orders.length >= 2) return null;
+    if (!["cinema", "aquarium"].includes(o.kind) && orders.length >= 2)
+      return null;
     const origin = nearestCourtGround(
       position,
       radius,
@@ -95,10 +97,9 @@ export function createCourtRuntime({
       slot: orders.length,
       watched: 0,
     };
-    const goal =
-      o.kind === "cinema"
-        ? { ...v.seat, y: 0.16 }
-        : { x: o.x - 1.5 + v.slot * 3, z: o.z + 13.2, y: 0.16 };
+    const goal = ["cinema", "aquarium"].includes(o.kind)
+      ? { ...v.seat, y: o.kind === "aquarium" ? 0.2 : 0.16 }
+      : { x: o.x - 1.5 + v.slot * 3, z: o.z + 13.2, y: 0.16 };
     if (!path(v, goal, "approach")) return null;
     visits.set(catId, v);
     return v;
@@ -197,6 +198,68 @@ export function createCourtRuntime({
         continue;
       }
       const o = courtObject(v.objectId);
+      if (v.kind === "aquarium") {
+        if (v.phase === "approach") {
+          v.phase = "watch";
+          v.elapsed = 0;
+        }
+        if (v.phase === "watch") {
+          const fish = aquariumFishFrame(o, 0, time),
+            dx = o.x + fish.x - v.position.x,
+            dz = o.z + fish.z - v.position.z;
+          const desired = Math.atan2(dx, dz),
+            turn = Math.atan2(
+              Math.sin(desired - v.yaw),
+              Math.cos(desired - v.yaw),
+            );
+          v.yaw += turn * Math.min(1, dt * 3.5);
+          const lift = Math.max(0, Math.sin(v.elapsed * 1.3 + v.seatIndex));
+          v.reaction = {
+            paw: 0.08 + lift * 0.36,
+            headPitch: -Math.min(
+              0.4,
+              Math.atan2(fish.y - 1.1, Math.hypot(dx, dz)) * 0.55,
+            ),
+            headRoll: Math.sin(time * 1.2 + v.seatIndex) * 0.045,
+            crouch: 0.1,
+            surprise: fish.near * 0.35,
+            tailSway: Math.sin(time * 2) * 0.05,
+            cue: "fish-" + Math.floor(v.elapsed / 7),
+            emotion: fish.near > 0.45 ? "delighted" : "curious",
+          };
+          if (v.elapsed > 22 + v.seatIndex * 1.4) {
+            const base = aquariumExit(o, v.seatIndex),
+              avoid = [
+                ...getObstacles(v.biome),
+                ...agents
+                  .filter((a) => a !== v)
+                  .map((a) => ({ ...a.position, radius: a.radius + 0.1 })),
+                ...nearby.map((a) => ({
+                  ...a.position,
+                  radius: a.radius + 0.1,
+                })),
+              ];
+            for (const offset of [0, 2, -2, 4, -4, 6, -6]) {
+              const goal = { ...base, x: base.x + offset };
+              if (
+                courtWalkable(goal, v.radius, avoid, v.biome) &&
+                path(v, goal, "leave")
+              )
+                break;
+            }
+          }
+        } else if (v.phase === "leave") {
+          const receipt = {
+            id: v.id,
+            catId: v.catId,
+            objectId: v.objectId,
+            position: { x: v.position.x, z: v.position.z },
+          };
+          cancel(v.catId);
+          onComplete(receipt);
+        }
+        continue;
+      }
       if (v.phase === "approach" || v.phase === "queue") {
         if (v.kind === "cinema") {
           v.phase = "settle";

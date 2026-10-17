@@ -19,11 +19,13 @@ test("every habitat has finite detailed scenery and an explicit, separate distan
     assert.equal(root.userData.lowDetail.visible, false);
     assert.ok(
       root.userData.stats.staticMeshes <=
-        (["sakura", "autumn"].includes(biome.id)
-          ? 10
-          : biome.id === "summer"
-            ? 7
-            : 6),
+        (biome.id === "aquarium"
+          ? 12
+          : ["sakura", "autumn"].includes(biome.id)
+            ? 10
+            : biome.id === "summer"
+              ? 7
+              : 6),
       `${biome.id}: static meshes must stay within its distinct material buckets`,
     );
     assert.ok(

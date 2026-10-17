@@ -1,7 +1,12 @@
 import * as THREE from "three";
 import { yarnPlayFrame, applyYarnFrame, resetYarn } from "./yarn-play.js";
 import { swimFrame } from "./swimming.js";
-import { socialFrame } from "./social-animation.js";
+import {
+  socialFrame,
+  socialDuration,
+  socialContext,
+  chooseSocialRide,
+} from "./social-animation.js";
 // Uses the same authored ride seats, toy chase and swim frames as Chichi.
 // Each normal object has one reservation; communal SPA/Chill seating uses its
 // existing multi-place runtime instead. No new cat meshes or saved AI moods.
@@ -12,6 +17,7 @@ export function createResidentPlay({
   disturb = (g, f, time) =>
     g.userData.lagoon?.userData.disturb?.(f.x, f.z, time, 0.4),
   onComplete = () => {},
+  random = Math.random,
 }) {
   const visits = new Map(),
     locks = new Map(),
@@ -31,6 +37,12 @@ export function createResidentPlay({
         n.carrier.rotation.x = 0;
         n.carrier.rotation.z = 0;
       }
+    }
+    if (v.friend && v.social) {
+      const actor = getCat(id);
+      for (const a of [actor, v.friend])
+        if (a)
+          a.carrier.position.y = groundY(a.carrier.position, a.profile.biome);
     }
     if (v.object) {
       v.object.userData.releasePlay?.(getCat(id)?.carrier);
@@ -57,6 +69,9 @@ export function createResidentPlay({
     )
       return false;
     cancel(id);
+    const social = friend
+      ? socialContext(n.model, friend.model, { ride: chooseSocialRide(random) })
+      : null;
     const bounds = object?.userData.swimBounds || { rx: 1.7, rz: 1.7 };
     const destination = object
       ? object.localToWorld(
@@ -66,7 +81,9 @@ export function createResidentPlay({
             decision.action === "swim" ? 0 : 1.2,
           ),
         )
-      : friend.carrier.position.clone().add(new THREE.Vector3(1, 0, 0));
+      : friend.carrier.position
+          .clone()
+          .add(new THREE.Vector3(social.gap, 0, 0));
     if (object?.userData.approachOffset)
       destination.copy(
         object.localToWorld(
@@ -89,6 +106,8 @@ export function createResidentPlay({
             );
     const v = {
       id,
+      social,
+      socialKind: friend && social.ride ? "piggyback" : "play",
       decision,
       object,
       friend,
@@ -158,6 +177,10 @@ export function createResidentPlay({
       if (t >= 1) {
         v.phase = "activity";
         v.activityStart = now;
+        if (v.social) {
+          v.social.heroYaw = result.yaw;
+          v.social.friendYaw = v.friend.carrier.rotation.y;
+        }
         if (g && d.action === "play") g.userData.playing = true;
       }
       return result;
@@ -252,7 +275,7 @@ export function createResidentPlay({
       result.yaw = elapsed;
       result.reaction = { paw: Math.max(0, Math.sin(elapsed * 3)) * 0.3 };
     } else if (d.action === "meet") {
-      const f = socialFrame(elapsed, "play", reduced),
+      const f = socialFrame(elapsed, v.socialKind, reduced, v.social),
         friend = v.friend;
       result.position
         .copy(v.origin)
@@ -289,16 +312,19 @@ export function createResidentPlay({
     const duration = reduced
       ? 0.3
       : d.action === "meet"
-        ? 14
+        ? socialDuration(v.socialKind)
         : d.action === "swim"
           ? 12
           : g?.userData.duration || 10;
     if (elapsed > duration) {
-      result.position.copy(
-        g?.userData.deepRide
-          ? g.localToWorld(new THREE.Vector3(...g.userData.dismount))
-          : v.destination,
-      );
+      if (d.action !== "meet")
+        result.position.copy(
+          g?.userData.deepRide
+            ? g.localToWorld(new THREE.Vector3(...g.userData.dismount))
+            : v.destination,
+        );
+      if (d.action === "meet")
+        result.position.y = groundY(result.position, n.profile.biome);
       result.quaternion = null;
       result.pitch = 0;
       result.roll = 0;

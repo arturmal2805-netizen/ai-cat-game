@@ -1,3 +1,4 @@
+import { aquariumTankSteps } from "./aquarium-assets.js";
 import * as THREE from "three";
 import {
   shape,
@@ -227,6 +228,7 @@ export function courtVenue(o, options) {
   return runSceneSteps(courtVenueSteps(o, options));
 }
 export function* courtVenueSteps(o, { staff = true } = {}) {
+  if (o.kind === "aquarium") return yield* aquariumTankSteps(o);
   yield;
   const g = new THREE.Group(),
     staticPart = new THREE.Group(),

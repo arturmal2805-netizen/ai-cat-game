@@ -63,6 +63,9 @@ export function completeSpaVisit(game, visit, now = Date.now()) {
   if (!needs) return game;
   if (character) {
     needs.happiness = clamp(needs.happiness + 9);
+  } else if (court?.kind === "aquarium") {
+    needs.happiness = clamp(needs.happiness + 12);
+    if (hero) next.cat.energy = clamp(next.cat.energy + 2);
   } else if (court) {
     const meal = COURT_MENU[court.kind];
     if (meal) {

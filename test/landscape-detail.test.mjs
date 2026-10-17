@@ -20,7 +20,7 @@ test("every island has authored trees with varied positions and silhouettes", ()
   const kinds = new Set();
   for (const biome of BIOMES) {
     const trees = landscapedTrees(biome.id);
-    if (biome.id === "homestead") {
+    if (["homestead", "aquarium"].includes(biome.id)) {
       assert.deepEqual(trees, []);
       continue;
     }

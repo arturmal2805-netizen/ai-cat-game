@@ -1,3 +1,4 @@
+import { aquariumObstacles } from "./aquarium-data.js";
 import {
   COURT_RADIUS,
   COURT_VENUES,
@@ -7,6 +8,7 @@ import {
 } from "./foodcourt-data.js";
 import { spaClear, spaDistance } from "./spa-navigation.js";
 export function courtObstacles(extra = [], biome = "foodcourt") {
+  if (biome === "aquarium") return aquariumObstacles(extra);
   const layout = courtLayout(biome);
   const r = [
     ...layout.pools.map((p) => ({
@@ -78,12 +80,60 @@ export function nearestCourtIdleGround(p, radius, obstacles, biome) {
     layouts.set(biome, [
       ...obstacles,
       ...courtLayout(biome)
-        .venues.filter((o) => o.kind !== "cinema")
+        .venues.filter((o) => !["cinema", "aquarium"].includes(o.kind))
         .map((o) => ({ x: o.x, z: o.z + o.d / 2 - 0.4, w: 5.4, d: 5.6 })),
     ]);
   return nearestCourtGround(p, radius, layouts.get(biome), biome);
 }
 export function courtSegment(a, b, radius, obstacles, biome = "foodcourt") {
+  if (biome === "aquarium") {
+    if (
+      !courtWalkable(a, radius, obstacles, biome) ||
+      !courtWalkable(b, radius, obstacles, biome)
+    )
+      return false;
+    const dx = b.x - a.x,
+      dz = b.z - a.z,
+      length = dx * dx + dz * dz;
+    for (const o of obstacles) {
+      if (o.radius) {
+        const t = length
+          ? Math.max(
+              0,
+              Math.min(1, ((o.x - a.x) * dx + (o.z - a.z) * dz) / length),
+            )
+          : 0;
+        if (
+          Math.hypot(a.x + dx * t - o.x, a.z + dz * t - o.z) <
+          o.radius + radius - 1e-8
+        )
+          return false;
+      } else {
+        let enter = 0,
+          exit = 1;
+        for (const [p, d, c, h] of [
+          [a.x, dx, o.x, o.w / 2 + radius],
+          [a.z, dz, o.z, o.d / 2 + radius],
+        ]) {
+          if (Math.abs(d) < 1e-12) {
+            if (Math.abs(p - c) >= h - 1e-8) {
+              enter = 2;
+              break;
+            }
+          } else {
+            let t0 = (c - h - p) / d,
+              t1 = (c + h - p) / d;
+            if (t0 > t1) [t0, t1] = [t1, t0];
+            enter = Math.max(enter, t0);
+            exit = Math.min(exit, t1);
+          }
+        }
+        if (enter < exit - 1e-9 && exit > 1e-9 && enter < 1 - 1e-9)
+          return false;
+      }
+    }
+    return true;
+  }
   const d = spaDistance(a, b),
     n = Math.ceil(d / 0.22);
   for (let i = 0; i <= n; i++) {
@@ -243,6 +293,24 @@ export function courtPath(
       if (
         !valid(x, z) ||
         (dx && dz && (!valid(n.x + dx, n.z) || !valid(n.x, n.z + dz)))
+      )
+        continue;
+      // Both orthogonal neighbours above exclude every rectangular corner.
+      // Only a circle can still intersect the chord between two valid cells.
+      if (
+        biome === "aquarium" &&
+        expanded.some((o) => {
+          if (!o.r2) return false;
+          const ax = n.x * cell - o.x,
+            az = n.z * cell - o.z,
+            dxw = dx * cell,
+            dzw = dz * cell;
+          const t = Math.max(
+            0,
+            Math.min(1, -(ax * dxw + az * dzw) / (dxw * dxw + dzw * dzw)),
+          );
+          return (ax + t * dxw) ** 2 + (az + t * dzw) ** 2 < o.r2 - 1e-8;
+        })
       )
         continue;
       const k = key(x, z),

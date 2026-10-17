@@ -100,7 +100,7 @@ export function initialScenery(placements = []) {
 function buildInitialScenery(placements) {
   const result = [];
   for (const biome of BIOMES) {
-    if (biome.id === "homestead") continue;
+    if (["homestead", "aquarium"].includes(biome.id)) continue;
     const candidates = [
       { type: "scenery-landmark", x: -6, z: -6, scale: 0.88 },
       ...(biome.id === "moon"

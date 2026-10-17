@@ -998,12 +998,12 @@ function showBikiniFriend(id, catId = "chichi") {
   actions.append(other);
   open("item-dialog");
 }
-function showCourt(id) {
+function showCourt(id, fishIndex) {
   const o = courtObject(id),
     p = courtProject(game, id);
   if (!o || !p) return;
   if (p.built) {
-    world?.enterCourt(id);
+    world?.enterCourt(id, fishIndex);
     return;
   }
   selectedItem = id;
@@ -1191,6 +1191,16 @@ try {
     onResidentDrop: (id, selection, biome, point) => {
       if (!cloud.editable || cloud.conflict) return false;
       try {
+        if (selection?.friendId === "chichi") {
+          if (busy) {
+            toast("Чичи зараз зайнята. Спробуйте після її пригоди.");
+            return false;
+          }
+          commit(moveResidentToBiome(game, id, biome));
+          if (!world.moveResident(id, biome, { nearChichi: true }))
+            return false;
+          return manualActivity({ friendId: id });
+        }
         const decision = selection
           ? manualInteraction(worldSnapshot(game), selection, "happy")
           : null;
@@ -1677,7 +1687,9 @@ async function decide(demo = false, manualDecision = null, routine = false) {
         "crazy hungry": "🙀",
         happy: "😺",
       }[decision.mood];
-    const result = await world?.perform(decision);
+    const result = await world?.perform(decision, {
+      manualFriendDrop: !!manualDecision && !!decision.friendId,
+    });
     if (result?.cancelled) {
       $("cat-activity").textContent = "Ждёт новое занятие";
       $("status").textContent =

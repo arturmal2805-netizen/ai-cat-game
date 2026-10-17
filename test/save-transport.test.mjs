@@ -61,7 +61,7 @@ test("compressed invalid/oversized data keeps the original save limits", async (
     /SAVE_TOO_LARGE/,
   );
 });
-test("all 27 real islands can be saved and every new mega ride fits the doubled construction island", async () => {
+test("all 28 real islands can be saved and every new mega ride fits the doubled construction island", async () => {
   const game = newGame();
   game.unlocked = BIOMES.map((b) => b.id);
   const payload = {

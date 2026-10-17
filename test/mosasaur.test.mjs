@@ -44,10 +44,10 @@ import { createChichiCamera } from "../public/chichi-camera.js";
 const now = Date.UTC(2026, 9, 17);
 test("only the butterfly garden becomes the six-area ocean; level eight unlocks it and previous ownership remains", () => {
   assert.equal(byBiome("autumn").requiredLevel, 8);
-  assert.equal(BIOMES.length, 27);
+  assert.equal(BIOMES.length, 28);
   assert.ok(Math.abs(MOSA_RADIUS ** 2 / 11.65 ** 2 - 6) < 1e-12);
   assert.deepEqual(
-    BIOMES.filter((b) => !["autumn", "foodcourt", "bikini", "homestead"].includes(b.id)),
+    BIOMES.filter((b) => !["autumn", "foodcourt", "bikini", "homestead", "aquarium"].includes(b.id)),
     JSON.parse(
       fs.readFileSync(
         new URL("./fixtures/mosasaur-unaffected-biomes.json", import.meta.url),
@@ -69,7 +69,7 @@ test("the measured mesh seabed is at least ten times deeper than every previous 
   assert.equal(actual, MOSA_DEPTH);
   let deepest = 0;
   for (const b of BIOMES.filter(
-    (b) => !["autumn", "foodcourt", "bikini", "homestead"].includes(b.id),
+    (b) => !["autumn", "foodcourt", "bikini", "homestead", "aquarium"].includes(b.id),
   )) {
     const island = createBiomeScene(b, { lowOnly: false });
     for (const pond of island.userData.lagoons?.values() || [])

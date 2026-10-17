@@ -1,3 +1,10 @@
+import {
+  AQUARIUM_RADIUS,
+  AQUARIUM_GATE,
+  AQUARIUM_TANKS,
+  AQUARIUM_LOCALS,
+  AQUARIUM_BUILDING,
+} from "./aquarium-data.js";
 import { DIAMOND_MINE } from "./diamond-data.js";
 import {
   BIKINI_RADIUS,
@@ -619,6 +626,10 @@ export const ACTIONS = [
   "swim",
 ];
 export function biomeReservations(id) {
+  if (id === "aquarium")
+    return [
+      { x: 0, z: 0, w: AQUARIUM_BUILDING.w + 1, d: AQUARIUM_BUILDING.d + 1 },
+    ];
   if (id === "bikini") return bikiniReservations();
   if (id === "foodcourt") return courtReservations();
   if (id === "autumn") return mosaReservations();
@@ -2155,3 +2166,36 @@ CROPS.push({
 CATALOG.push(...MEGA_RIDES);
 
 CATALOG.push(DIAMOND_MINE);
+
+BIOMES.push({
+  id: "aquarium",
+  name: "Котячий океанариум",
+  subtitle: "Стеклянный дворец, огромные рыбки-котики и нежные встречи у воды",
+  icon: "🐠",
+  price: 3200,
+  requiredLevel: 14,
+  radius: AQUARIUM_RADIUS,
+  center: [-335, 95],
+  arrival: [AQUARIUM_GATE.x, AQUARIUM_GATE.z],
+  ground: 0xcbdca6,
+  edge: 0xaaa1b5,
+  foliage: 0xa8c986,
+  accent: 0xa4dfef,
+});
+CATALOG.push(
+  ...AQUARIUM_TANKS.map((o) => ({
+    id: o.type,
+    name: o.name,
+    description: o.description,
+    category: "toys",
+    icon: o.icon,
+    price: 0,
+    buildMinutes: 0,
+    requiredLevel: 6,
+    islandOnly: true,
+    rarity: "Океанариум",
+    footprint: [o.w, o.d],
+    actions: ["play", "explore"],
+  })),
+);
+NEIGHBORS.push(...AQUARIUM_LOCALS);

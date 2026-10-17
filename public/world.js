@@ -1,3 +1,4 @@
+import { aquariumTank } from "./aquarium-data.js";
 import { builderSpeed } from "./construction-boost.js";
 import { bikiniFriend, BIKINI_GATE } from "./bikini-data.js";
 import { createBikiniCharacter } from "./bikini-characters.js";
@@ -117,7 +118,12 @@ import { createBiomeScene, prepareBiomeScene } from "./biome-scenes.js";
 import { createBowlModel } from "./care-model.js";
 import { bowlPortions } from "./care-system.js";
 import { encounterKind } from "./social-system.js";
-import { socialFrame, socialDuration } from "./social-animation.js";
+import {
+  socialFrame,
+  socialDuration,
+  socialContext,
+  chooseSocialRide,
+} from "./social-animation.js";
 import { constructionModel } from "./advanced-assets.js";
 import {
   primitive,
@@ -464,10 +470,15 @@ export function createWorld(container, initialGame, callbacks = {}) {
   let courtExtra = [],
     courtBlockers = courtObstacles(),
     bikiniBlockers = courtObstacles([], "bikini"),
+    aquariumBlockers = courtObstacles([], "aquarium"),
     nextCourtStart = 0,
     courtCamera = null;
   const getCourtBlockers = (biome = "foodcourt") =>
-    biome === "bikini" ? bikiniBlockers : courtBlockers;
+    biome === "aquarium"
+      ? aquariumBlockers
+      : biome === "bikini"
+        ? bikiniBlockers
+        : courtBlockers;
   const courtLocal = (p, biome = "foodcourt") => ({
     x: p.x - byBiome(biome).center[0],
     z: p.z - byBiome(biome).center[1],
@@ -502,7 +513,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     if (courtCamera) callbacks.onCourtOrder?.(courtCamera.id);
   };
   courtExit.onclick = () => exitCourt();
-  function enterCourt(id) {
+  function enterCourt(id, fishIndex) {
     const o = courtObject(id),
       g = itemGroups.get(id);
     if (!o || !g?.userData.built) return false;
@@ -518,6 +529,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
       distance: desiredDistance,
       azimuth,
       elevation,
+      ...(o.kind === "aquarium" && Number.isInteger(fishIndex)
+        ? { fishIndex }
+        : {}),
     };
     if (g.userData.roof) g.userData.roof.visible = false;
     desiredLook.set(
@@ -525,16 +539,46 @@ export function createWorld(container, initialGame, callbacks = {}) {
       1.8,
       venueBiome.center[1] + o.z + (o.kind === "cinema" ? 0 : 1),
     );
+
     desiredDistance =
       o.kind === "cinema" ? (mobileRender ? 40 : 30) : mobileRender ? 24 : 19;
+    if (o.kind === "aquarium") {
+      desiredLook.set(
+        venueBiome.center[0] + o.x,
+        o.h * 0.43,
+        venueBiome.center[1] + o.z,
+      );
+      desiredDistance = mobileRender
+        ? Math.max(30, o.w * 1.8)
+        : Math.max(23, o.w * 1.4);
+      if (Number.isInteger(fishIndex)) {
+        desiredLook.copy(
+          g.localToWorld(
+            g.userData.fishPoint(fishIndex, performance.now() / 1000),
+          ),
+        );
+        desiredDistance = Math.max(
+          13,
+          (fishIndex === 0 ? o.hero : 0.7) * 7 + 6,
+        );
+      }
+      ensureDetail("aquarium");
+    }
     azimuth = 0.06;
-    elevation = 0.85;
+    elevation =
+      o.kind === "aquarium"
+        ? Number.isInteger(fishIndex)
+          ? 0.32
+          : 0.58
+        : 0.85;
     courtExit.hidden = false;
     courtOrder.hidden = false;
     courtOrder.textContent =
-      o.kind === "cinema"
-        ? "Позвать Чичи смотреть кино"
-        : "Позвать Чичи · заказать";
+      o.kind === "aquarium"
+        ? "🐠 Позвать Чичи смотреть рыбок"
+        : o.kind === "cinema"
+          ? "Позвать Чичи смотреть кино"
+          : "Позвать Чичи · заказать";
     cinema.show(o.kind === "cinema");
     return true;
   }
@@ -1154,6 +1198,24 @@ export function createWorld(container, initialGame, callbacks = {}) {
       ],
       "bikini",
     );
+    aquariumBlockers = courtObstacles(
+      [
+        ...game.placements
+          .filter((p) => p.biome === "aquarium")
+          .map((p) => {
+            const dims = byItem(p.item).footprint;
+            const f = p.rotation % 2 ? [dims[1], dims[0]] : dims;
+            return { x: p.x, z: p.z, w: f[0], d: f[1] };
+          }),
+        ...(game.scenery || [])
+          .filter((r) => r.biome === "aquarium" && !r.stored)
+          .map((r) => {
+            const f = sceneryFootprint(r);
+            return { x: r.x, z: r.z, w: f[0], d: f[1] };
+          }),
+      ],
+      "aquarium",
+    );
     spaObstacles = [
       ...game.placements
         .filter((p) => p.biome === "water")
@@ -1524,7 +1586,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         );
         carrier.position.y = venue.position.y;
       }
-      if (["foodcourt", "bikini"].includes(b.id)) {
+      if (["foodcourt", "bikini", "aquarium"].includes(b.id)) {
         const dry = nearestCourtIdleGround(
           courtLocal(carrier.position, b.id),
           spaRadius(model),
@@ -1745,7 +1807,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
             : "curious",
       );
   }
-  function perform(decision) {
+  function perform(decision, { manualFriendDrop = false } = {}) {
     if (
       bikiniFriend(decision.activityId) &&
       !bikiniLife.reserve(decision.activityId, decision.characterAction, {
@@ -1786,6 +1848,17 @@ export function createWorld(container, initialGame, callbacks = {}) {
           chichiCarrier.rotation.z = 0;
           delete operation.attraction.userData.rideElapsed;
         }
+      }
+      if (operation.neighbor) {
+        const b = byBiome(operation.neighbor.profile.biome);
+        for (const carrier of [chichiCarrier, operation.neighbor.carrier])
+          carrier.position.y =
+            0.16 +
+            islandHeight(
+              b.id,
+              carrier.position.x - b.center[0],
+              carrier.position.z - b.center[1],
+            );
       }
       operation.resolve({ cancelled: true });
       operation = null;
@@ -1837,6 +1910,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
       swimVisits.delete(decision.friendId);
     }
 
+    if (neighbor) cancelResident(decision.friendId);
+    const social = neighbor
+      ? socialContext(cat, neighbor.model, {
+          ride: manualFriendDrop && chooseSocialRide(),
+        })
+      : null;
     let destination;
     if (attraction) {
       destination =
@@ -1850,7 +1929,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (!courtCamera || courtCamera.id !== decision.activityId)
         focus(attraction.userData.placement.biome, false, true);
     } else if (neighbor) {
-      destination = neighbor.carrier.position.clone();
+      destination = neighbor.carrier.position
+        .clone()
+        .add(new THREE.Vector3(social.gap, 0, 0));
       focus(neighbor.profile.biome, false, true);
     } else {
       return Promise.reject(
@@ -1863,11 +1944,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
       !neighbor
     )
       destination.y = 0.16;
-    destination.z +=
-      attraction?.userData.rideFrame ||
-      ["tunnel", "swim-lagoon"].includes(attraction?.userData.id)
-        ? 0
-        : 0.8;
+    if (!neighbor)
+      destination.z +=
+        attraction?.userData.rideFrame ||
+        ["tunnel", "swim-lagoon"].includes(attraction?.userData.id)
+          ? 0
+          : 0.8;
     let dismount = null;
     if (attraction?.userData.rideFrame && decision.action === "ride") {
       dismount = attraction.localToWorld(
@@ -1933,9 +2015,15 @@ export function createWorld(container, initialGame, callbacks = {}) {
               )
             : null,
         partyPresent: new Set(),
-        socialKind: neighbor
+        social,
+        socialEncounterKind: neighbor
           ? encounterKind(game, decision.friendId, decision.socialIntent)
           : null,
+        socialKind: social?.ride
+          ? "piggyback"
+          : neighbor
+            ? encounterKind(game, decision.friendId, decision.socialIntent)
+            : null,
         socialOrigin: neighbor?.carrier.position.clone(),
         from: chichiCarrier.position.clone(),
         destination,
@@ -2143,6 +2231,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
     dropHover = null;
   };
   function pickDrop(e, point) {
+    const friendActors = [...npcs.values()];
+    if (draggingCat?.catId && draggingCat.catId !== "chichi")
+      friendActors.push({ profile: { id: "chichi" }, carrier: chichiCarrier });
     const objects = [...itemGroups.values()].map((g) => ({
       id: g.userData.placementId,
       type: g.userData.placement.item,
@@ -2154,7 +2245,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         ? [g.userData.swimBounds.rx * 2, g.userData.swimBounds.rz * 2]
         : g.userData.placement.footprint,
     }));
-    const friends = [...npcs.values()]
+    const friends = friendActors
       .filter((n) => n.carrier.visible && n.profile.id !== draggingCat?.catId)
       .map((n) => ({
         id: n.profile.id,
@@ -2162,7 +2253,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         z: n.carrier.position.z,
       }));
     const targets = new Map([
-      ...[...npcs.values()]
+      ...friendActors
         .filter((n) => n.carrier.visible && n.profile.id !== draggingCat?.catId)
         .map((n) => [n.carrier, { friendId: n.profile.id }]),
       ...[...itemGroups.values()].map((g) => [
@@ -2205,7 +2296,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     // On a phone the neighbour's mesh is only a few pixels wide. Hit the
     // visible cat on screen as well: its head projects above the ground plane.
     const bounds = renderer.domElement.getBoundingClientRect();
-    const screenFriends = [...npcs.values()]
+    const screenFriends = friendActors
       .filter((n) => n.carrier.visible && n.profile.id !== draggingCat?.catId)
       .map((n) => {
         const p = n.carrier.position
@@ -2259,7 +2350,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           id: g.userData.placementId,
           type: g.userData.placement.item,
         })),
-      friends: [...npcs.keys()].map((id) => ({ id })),
+      friends: ["chichi", ...npcs.keys()].map((id) => ({ id })),
     };
     const decision = manualInteraction(
       snapshot,
@@ -2278,7 +2369,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
       explore: "исследовать",
     };
     const name = selection.friendId
-      ? npcs.get(selection.friendId).profile.name
+      ? selection.friendId === "chichi"
+        ? "Чичи"
+        : npcs.get(selection.friendId).profile.name
       : HOME_OBJECTS.find((o) => o.id === selection.activityId)?.name ||
         byItem(itemGroups.get(selection.activityId).userData.id).name;
     dropHint.textContent = "Отпусти: " + verbs[decision.action] + " · " + name;
@@ -2289,6 +2382,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     draggingCat = null,
     pendingTap = false;
   let pendingBikiniCat = null;
+  let pendingAquariumCat = null;
   function pointer(e) {
     const bounds = renderer.domElement.getBoundingClientRect();
     mouse.set(
@@ -2427,7 +2521,16 @@ export function createWorld(container, initialGame, callbacks = {}) {
         const biome = selection?.activityId
           ? itemGroups.get(selection.activityId)?.userData.placement.biome
           : selection?.friendId
-            ? npcs.get(selection.friendId)?.profile.biome
+            ? selection.friendId === "chichi"
+              ? BIOMES.find(
+                  (b) =>
+                    game.unlocked.includes(b.id) &&
+                    Math.hypot(
+                      chichiCarrier.position.x - b.center[0],
+                      chichiCarrier.position.z - b.center[1],
+                    ) < (b.radius || 11.65),
+                )?.id
+              : npcs.get(selection.friendId)?.profile.biome
             : BIOMES.find(
                 (b) =>
                   game.unlocked.includes(b.id) &&
@@ -2451,6 +2554,18 @@ export function createWorld(container, initialGame, callbacks = {}) {
           : npcs.get(original.catId)?.profile.biome === "bikini")
       ) {
         pendingBikiniCat = original.catId;
+        pendingTap = true;
+      }
+      if (
+        !moved &&
+        (original.catId === "chichi"
+          ? Math.hypot(
+              original.x - byBiome("aquarium").center[0],
+              original.z - byBiome("aquarium").center[1],
+            ) < byBiome("aquarium").radius
+          : npcs.get(original.catId)?.profile.biome === "aquarium")
+      ) {
+        pendingAquariumCat = original.catId;
         pendingTap = true;
       }
       if (moved) {
@@ -2479,6 +2594,14 @@ export function createWorld(container, initialGame, callbacks = {}) {
     if (faceCamera.enabled) return;
     if (!pendingTap) return;
     pendingTap = false;
+    if (pendingAquariumCat) {
+      const id = pendingAquariumCat;
+      pendingAquariumCat = null;
+      const model = id === "chichi" ? cat : npcs.get(id)?.model;
+      if (model) emoteCat(model, "curious", { crowd: id !== "chichi" });
+      callbacks.onReaction?.("Мур-р! Как красиво плывут рыбки-котики 🐠");
+      return;
+    }
     if (pendingBikiniCat) {
       const id = pendingBikiniCat;
       pendingBikiniCat = null;
@@ -2486,15 +2609,19 @@ export function createWorld(container, initialGame, callbacks = {}) {
       return;
     }
     pointer(e);
-    const hit = raycaster.intersectObjects(
+    const hits = raycaster.intersectObjects(
       [
-        ...itemGroups.values(),
+        ...[...itemGroups.values()].filter(
+          (g) => g.userData.aquarium !== true || g.visible,
+        ),
         ...sceneryGroups().filter(
           (g) => g.visible && raycaster.ray.intersectsBox(sceneryBounds(g)),
         ),
       ],
       true,
-    )[0];
+    );
+    // Clear glass must not consume a tap on the fish visible behind it.
+    const hit = hits.find((h) => h.object.userData.aquariumFish) || hits[0];
     if (hit) {
       let root = hit.object;
       while (root && !root.userData.placementId && !root.userData.sceneryId)
@@ -2517,7 +2644,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
       else if (root?.userData.bikiniFriend)
         callbacks.onSelectBikiniFriend?.(root.userData.placementId);
       else if (root?.userData.foodcourt)
-        callbacks.onSelectCourt?.(root.userData.placementId);
+        callbacks.onSelectCourt?.(
+          root.userData.placementId,
+          hit.object.userData.aquariumFish ? hit.instanceId : undefined,
+        );
       else if (root?.userData.permanent && !root.userData.built)
         callbacks.onSelectIsland?.(root.userData.placement.biome);
       else if (root?.userData.placementId === "spa-bar")
@@ -2548,6 +2678,13 @@ export function createWorld(container, initialGame, callbacks = {}) {
       : null;
     if (clickedBiome && (viewingOverview || clickedBiome.id !== focused)) {
       focus(clickedBiome.id);
+      return;
+    }
+    if (
+      clickedBiome?.id === "aquarium" &&
+      islandHit?.object.userData.aquariumBuilding
+    ) {
+      callbacks.onSelectCourt?.("aquarium-aurora");
       return;
     }
     const point = new THREE.Vector3();
@@ -2777,6 +2914,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
       island.userData.detail.visible = close && !island.userData.lowOnly;
       island.userData.lowDetail.visible = !close || !!island.userData.lowOnly;
       if (close) ensureDetail(b.id);
+      if (b.id === "aquarium")
+        island.userData.setInteriorView?.(
+          focused === "aquarium" &&
+            (distance < 75 || !!aquariumTank(courtCamera?.id)),
+        );
       if (!dialogOpen) island.userData.update?.(time, reduced);
     }
     const spaBarGroup = itemGroups.get("spa-bar");
@@ -2792,6 +2934,21 @@ export function createWorld(container, initialGame, callbacks = {}) {
           break;
         }
       spaBarGroup.userData.servingVisit = servingVisit;
+    }
+    for (const g of itemGroups.values())
+      if (g.userData.aquarium === true)
+        g.visible = !!islands.get("aquarium")?.userData.detail.visible;
+    if (
+      aquariumTank(courtCamera?.id) &&
+      Number.isInteger(courtCamera.fishIndex)
+    ) {
+      const target = itemGroups.get(courtCamera.id);
+      if (target)
+        desiredLook.copy(
+          target.localToWorld(
+            target.userData.fishPoint(courtCamera.fishIndex, time),
+          ),
+        );
     }
     for (const g of itemGroups.values())
       if (
@@ -2810,7 +2967,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       const courtIdle = [];
       for (const [id, n] of npcs)
         if (
-          ["foodcourt", "bikini"].includes(n.profile.biome) &&
+          ["foodcourt", "bikini", "aquarium"].includes(n.profile.biome) &&
           !court.get(id) &&
           draggingCat?.catId !== id
         )
@@ -2847,6 +3004,19 @@ export function createWorld(container, initialGame, callbacks = {}) {
         coins: revenueRate("court-cinema", cinemaLevel),
         xp: businessXP("court-cinema", cinemaLevel),
       });
+      if (
+        !court.get("chichi") &&
+        Math.hypot(
+          chichiCarrier.position.x - byBiome("aquarium").center[0],
+          chichiCarrier.position.z - byBiome("aquarium").center[1],
+        ) < byBiome("aquarium").radius
+      )
+        courtIdle.push({
+          catId: "chichi",
+          biome: "aquarium",
+          position: courtLocal(chichiCarrier.position, "aquarium"),
+          radius: spaRadius(cat),
+        });
       courtIdle.push(...bikiniLife.actors());
       court.step(dt, time, courtIdle);
       for (const o of ALL_COURT_VENUES) {
@@ -3092,11 +3262,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (
         busyWithChichi ||
         draggingThis ||
-        !["foodcourt", "bikini"].includes(b.id)
+        !["foodcourt", "bikini", "aquarium"].includes(b.id)
       )
         court.cancel(id);
       if (
-        ["foodcourt", "bikini"].includes(b.id) &&
+        ["foodcourt", "bikini", "aquarium"].includes(b.id) &&
         !busyWithChichi &&
         !draggingThis &&
         !dialogOpen &&
@@ -3104,7 +3274,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
         !court.get(id) &&
         now > nextCourtStart &&
         now > (n.manualUntil || 0) &&
-        Date.now() - (n.lastCourtAt || 0) > (b.id === "bikini" ? 90000 : 45000)
+        Date.now() - (n.lastCourtAt || 0) >
+          (b.id === "aquarium" ? 18000 : b.id === "bikini" ? 90000 : 45000)
       ) {
         nextCourtStart = now + 1400;
         n.lastCourtAt = Date.now();
@@ -3154,7 +3325,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (
         b.id !== "water" &&
         b.id !== "sakura" &&
-        !["foodcourt", "bikini"].includes(b.id) &&
+        !["foodcourt", "bikini", "aquarium"].includes(b.id) &&
         !builderFrame &&
         !busyWithChichi &&
         now >= gatherUntil &&
@@ -3217,7 +3388,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (
         b.id !== "water" &&
         b.id !== "sakura" &&
-        !["foodcourt", "bikini"].includes(b.id) &&
+        !["foodcourt", "bikini", "aquarium"].includes(b.id) &&
         now > (n.manualUntil || 0) &&
         !builderFrame &&
         !busyWithChichi &&
@@ -3260,6 +3431,20 @@ export function createWorld(container, initialGame, callbacks = {}) {
         manualVisit && !draggingThis
           ? residentPlay.frame(id, now, time, reduced)
           : null;
+      if (
+        manualVisit?.decision.action === "meet" &&
+        manualVisit.phase === "activity"
+      ) {
+        const cue = manualFrame?.reaction?.crouch > 0.08 ? "cuddle" : "play";
+        if (manualVisit.emoteCue !== cue) {
+          manualVisit.emoteCue = cue;
+          emoteCat(n.model, cue === "cuddle" ? "affectionate" : "delighted", {
+            crowd: true,
+          });
+          const peer = npcs.get(manualVisit.decision.friendId);
+          if (peer) emoteCat(peer.model, "delighted", { crowd: true });
+        }
+      }
       if (manualFrame) {
         n.carrier.position.copy(manualFrame.position);
         n.carrier.rotation.y = manualFrame.yaw;
@@ -3440,6 +3625,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
             (now - operation.activityStart) / 1000,
             operation.socialKind,
             reduced,
+            operation.social,
           ).friend;
           n.carrier.position.set(
             operation.socialOrigin.x + frame.x,
@@ -3458,7 +3644,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
             chichiCarrier.position.z - z,
           );
       } else if (
-        ["foodcourt", "bikini"].includes(b.id) &&
+        ["foodcourt", "bikini", "aquarium"].includes(b.id) &&
         !busyWithChichi &&
         now >= gatherUntil
       ) {
@@ -3742,6 +3928,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
             startHeroSpa(op);
           } else op.stage = "activity";
           op.activityStart = now;
+          if (op.social) {
+            op.social.heroYaw = chichiCarrier.rotation.y;
+            op.social.friendYaw = op.neighbor.carrier.rotation.y;
+          }
           if (
             op.attraction?.userData.id === "yarn" &&
             op.decision.action === "play"
@@ -3972,7 +4162,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
             0.35 + (reduced ? 0 : Math.abs(Math.sin(elapsed * 4)) * 0.15);
           chichiCarrier.rotation.y = Math.sin(elapsed * 2) * 0.35;
         } else if (action === "meet" && op.neighbor) {
-          const frame = socialFrame(elapsed, op.socialKind, reduced);
+          const frame = socialFrame(elapsed, op.socialKind, reduced, op.social);
           chichiCarrier.position.set(
             op.socialOrigin.x + frame.hero.x,
             op.socialOrigin.y + frame.hero.jump,
@@ -3983,12 +4173,19 @@ export function createWorld(container, initialGame, callbacks = {}) {
           reaction = frame.hero;
           if (elapsed > 2 && !op.reacted) {
             op.reacted = true;
+            emoteCat(
+              cat,
+              op.socialKind === "piggyback" ? "delighted" : "affectionate",
+            );
+            emoteCat(op.neighbor.model, "delighted", { crowd: true });
             callbacks.onReaction?.(
-              op.socialKind === "greet"
-                ? "Привет… давай познакомимся! Носик к носику 🐾"
-                : op.socialKind === "play"
-                  ? "Догоняй меня! Ой, теперь я догоняю тебя! 🐾"
-                  : "Мур… с тобой так уютно 💛",
+              op.socialKind === "piggyback"
+                ? "Тримайся лапками! Мур-р, пухнастий котобус вирушає! 🐾"
+                : op.socialKind === "greet"
+                  ? "Привет… давай познакомимся! Носик к носику 🐾"
+                  : op.socialKind === "play"
+                    ? "Догоняй меня! Ой, теперь я догоняю тебя! 🐾"
+                    : "Мур… с тобой так уютно 💛",
             );
           }
           socialGlow.visible = frame.hearts;
@@ -4055,7 +4252,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
                   },
                 }
               : {}),
-            ...(action === "meet" ? { socialKind: op.socialKind } : {}),
+            ...(action === "meet"
+              ? { socialKind: op.socialEncounterKind }
+              : {}),
             ...(action === "party"
               ? { participantIds: [...op.partyPresent] }
               : {}),
@@ -4287,12 +4486,17 @@ export function createWorld(container, initialGame, callbacks = {}) {
         b = byBiome(biome);
       if (!n || !b || !game.unlocked.includes(biome)) return false;
       cancelResident(id);
+      if (position.nearChichi)
+        position = {
+          x: chichiCarrier.position.x + socialContext(cat, n.model).gap,
+          z: chichiCarrier.position.z,
+        };
       let p = {
         x: position.x - b.center[0],
         z: position.z - b.center[1],
         y: 0.16,
       };
-      if (["foodcourt", "bikini"].includes(biome))
+      if (["foodcourt", "bikini", "aquarium"].includes(biome))
         p = nearestCourtGround(
           p,
           spaRadius(n.model),

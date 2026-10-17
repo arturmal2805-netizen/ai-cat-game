@@ -1,3 +1,9 @@
+import {
+  AQUARIUM_TANKS,
+  AQUARIUM_GATE,
+  AQUARIUM_RADIUS,
+  aquariumSeats,
+} from "./aquarium-data.js";
 import { constructionDeadline } from "./construction-boost.js";
 import {
   BIKINI_RESTAURANT,
@@ -148,7 +154,11 @@ export const COURT_MENU = {
     energy: 6,
   },
 };
-export const ALL_COURT_VENUES = [...COURT_VENUES, BIKINI_RESTAURANT];
+export const ALL_COURT_VENUES = [
+  ...COURT_VENUES,
+  BIKINI_RESTAURANT,
+  ...AQUARIUM_TANKS,
+];
 export const courtObject = (id) => ALL_COURT_VENUES.find((o) => o.id === id);
 export const courtType = (id) => ALL_COURT_VENUES.find((o) => o.type === id);
 export const COURT_FOUNTAIN = {
@@ -219,6 +229,7 @@ export function courtReservations() {
   ];
 }
 export function courtSeats(o) {
+  if (o.kind === "aquarium") return aquariumSeats(o);
   if (o.kind === "cinema")
     return [-1, 0, 1].flatMap((s, i) =>
       [0, 1].map((row) => ({
@@ -273,6 +284,7 @@ export const COURT_LOCALS = [
 ];
 
 export function courtGroundY(p, biome = "foodcourt") {
+  if (biome === "aquarium") return 0.2;
   for (const o of ALL_COURT_VENUES.filter((o) => o.biome === biome))
     if (Math.abs(p.x - o.x) <= o.w / 2 && Math.abs(p.z - o.z) <= o.d / 2)
       return o.kind === "cinema" ? 0.4 : 0.285;
@@ -280,6 +292,15 @@ export function courtGroundY(p, biome = "foodcourt") {
 }
 
 export function courtLayout(biome = "foodcourt") {
+  if (biome === "aquarium")
+    return {
+      id: biome,
+      radius: AQUARIUM_RADIUS,
+      gate: AQUARIUM_GATE,
+      venues: AQUARIUM_TANKS,
+      pools: [],
+      houses: [],
+    };
   return biome === "bikini"
     ? {
         id: biome,

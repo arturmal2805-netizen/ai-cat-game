@@ -1,8 +1,13 @@
 {
-  "version": "bd2ed834a825",
+  "version": "d793b7d189f2",
   "items": [
     "adoption-center",
     "airship",
+    "aquarium-aurora",
+    "aquarium-coral",
+    "aquarium-lilac",
+    "aquarium-pearl",
+    "aquarium-sunrise",
     "balloon",
     "barn",
     "bed",
@@ -10,6 +15,7 @@
     "bikini-patrick",
     "bikini-sponge",
     "biome-aquapark",
+    "biome-aquarium",
     "biome-autumn",
     "biome-bamboo",
     "biome-beach",
