@@ -11,7 +11,8 @@ const { chromium } = createRequire(import.meta.url)(
 const output =
   process.env.CHICHI_CAT_BATCH_REVIEW || "/tmp/chichi-cat-batching";
 await mkdir(output, { recursive: true });
-const source = `
+const native = !!process.env.CHICHI_NATIVE_SKIN_CHECK;
+let source = `
 import * as T from 'three';
 import {createCat,animateCat,reactCat,setCatMood,disposeCat} from './public/cat-model.js';
 import {enableCatRenderBatch,CAT_PICK_LAYER} from './public/cat-render-batch.js';
@@ -30,6 +31,24 @@ window.compare=(mood,time,walking,reaction)=>{
  let changed=0,large=0,error=0,max=0;for(let i=0;i<before.length;i++){const d=Math.abs(before[i]-after[i]);if(d){changed++;error+=d;max=Math.max(max,d);if(d>8)large++;}}
  return {mood,time,walking,old,current,changed,large,max,mean:error/before.length,pixels:before.length/4};
 };window.ready=true;`;
+if (native)
+  source = source
+    .replace(
+      "import * as T from 'three';",
+      "import * as T from 'three';import {skipUnusedSkinJoints} from './public/native-skinning.js';let nativeMaterials;",
+    )
+    .replace(
+      "enableCatRenderBatch(cat);",
+      "nativeMaterials=new Map();cat.traverse(m=>{if(m.isSkinnedMesh&&!nativeMaterials.has(m.material))nativeMaterials.set(m.material,[m.material.onBeforeCompile,m.material.customProgramCacheKey]);});",
+    )
+    .replace(
+      "cat.userData.renderBatches.update();",
+      "cat.userData.renderBatches?.update();",
+    )
+    .replace(
+      "function mode(batched){b.setEnabled(batched);}",
+      "function mode(optimized){if(optimized)skipUnusedSkinJoints(cat);else for(const [m,[compile,key]] of nativeMaterials){m.onBeforeCompile=compile;m.customProgramCacheKey=key;delete m.userData.skipUnusedSkinJoints;m.needsUpdate=true;}}",
+    );
 const bundle = await build({
   stdin: { contents: source, resolveDir: process.cwd(), loader: "js" },
   bundle: true,
@@ -59,11 +78,13 @@ try {
   });
   await page.goto("http://127.0.0.1:" + server.address().port);
   await page.waitForFunction(() => window.ready);
-  for (const [name, options] of [
-    ["plush", { breed: "british", color: 0xa9adb7, build: "plush" }],
-    ["bare", { breed: "sphynx", color: 0xd7b5b0 }],
-    ["long", { breed: "maine", color: 0xb9a692, build: "giant" }],
-  ]) {
+  for (const [name, options] of native
+    ? [["chichi", {}]]
+    : [
+        ["plush", { breed: "british", color: 0xa9adb7, build: "plush" }],
+        ["bare", { breed: "sphynx", color: 0xd7b5b0 }],
+        ["long", { breed: "maine", color: 0xb9a692, build: "giant" }],
+      ]) {
     await page.evaluate((o) => load(o), options);
     for (const pose of [
       ["happy", 3, true, {}],
@@ -81,7 +102,8 @@ try {
         r.mean < 0.02 && r.large < r.pixels * 0.0002,
         JSON.stringify(r),
       );
-      assert.ok(r.current.calls < r.old.calls, JSON.stringify(r));
+      if (native) assert.equal(r.current.calls, r.old.calls);
+      else assert.ok(r.current.calls < r.old.calls, JSON.stringify(r));
     }
   }
   assert.deepEqual(errors, []);

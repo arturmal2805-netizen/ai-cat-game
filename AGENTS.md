@@ -90,3 +90,7 @@ duplicating or resurrecting a building removed on the other device.
   interval from each late callback or replay missed GPU frames in a burst.
   Browser/SQLite checks must snapshot `.generated/worker.mjs` to their own temp
   directory: `npm test` rebuilds that file and otherwise hot-reloads QA servers.
+- Keep GPU submissions bounded with nonblocking fences. Never wait for GPU
+  completion on the UI thread, lower DPR, or skip visual details to relieve a
+  busy frame queue. Preserve native Chichi skinning and zero-weight semantics;
+  verify `CHICHI_NATIVE_SKIN_CHECK=1 node scripts/check-cat-render-batch.mjs`.

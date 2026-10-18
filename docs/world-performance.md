@@ -86,3 +86,17 @@ restarting the 30/60 Hz interval after a late frame. A one-minute synthetic
 1,349. This is a scheduling regression test, not a device frame-rate benchmark.
 The private browser Workers copy their tested bundle into their own temporary
 directory so a concurrent Worker build cannot hot-reload the save test.
+
+The subsequent aquarium patch precomposes the four fish-part transforms once
+per fish and shares their matrix rows with every vertex. CPU picking reuses the
+same cached transforms. Part and surface IDs use exact byte-sized indices;
+the two original roughness/metalness pairs are recovered exactly in the shader.
+Vertices, triangles, colours, tank populations and DPR remain intact. The user's
+later eye request increases only the convex eye caps and kitten pupils.
+
+`gpu-frame-queue.js` polls nonblocking WebGL fences and permits at most two
+submitted frames. It avoids filling the driver's queue with stale camera views
+on a busy phone. No resolution or scene detail is adjusted. Chichi retains native
+skinning; the vertex shader skips only bone fetches whose weight is exactly zero.
+`CHICHI_NATIVE_SKIN_CHECK=1 node scripts/check-cat-render-batch.mjs` compares her
+original and optimized colour/shadow frames; all four poses matched pixel for pixel.

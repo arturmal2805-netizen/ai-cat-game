@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { aquariumFishFrame } from "./aquarium-data.js";
+const PARTS = ["body", "tail", "leftFin", "rightFin"];
 
 // One small pose palette per tank, shared by all five fish batches. Geometry,
 // instance matrices and colours stay on the GPU for the life of the tank.
@@ -9,9 +10,11 @@ export function createFishPalette(tank) {
     place = { value: new Float32Array(tank.fish * 4) },
     heading = { value: new Float32Array(tank.fish * 4) },
     limbs = { value: new Float32Array(tank.fish * 4) },
+    rows = { value: new Float32Array(tank.fish * 4 * 12) },
     visibleIds = { value: Int32Array.from({ length: tank.fish }, (_, i) => i) },
     fish = new THREE.Object3D(),
-    local = new THREE.Object3D();
+    local = new THREE.Object3D(),
+    matrices = Array.from({ length: tank.fish * 4 }, () => new THREE.Matrix4());
   let shownTime = NaN,
     shownReduced;
   function update(time, reduced = false) {
@@ -40,9 +43,21 @@ export function createFishPalette(tank) {
       l[k + 1] = Math.sin(f.tail);
       l[k + 2] = Math.cos(0.4 + f.fin);
       l[k + 3] = Math.sin(0.4 + f.fin);
+      for (let part = 0; part < PARTS.length; part++) {
+        const matrix = matrices[i * 4 + part];
+        poseMatrix(i, PARTS[part], matrix);
+        const e = matrix.elements,
+          offset = (i * 4 + part) * 12;
+        for (let row = 0; row < 3; row++) {
+          rows.value[offset + row * 4] = e[row] / f.scale;
+          rows.value[offset + row * 4 + 1] = e[4 + row] / f.scale;
+          rows.value[offset + row * 4 + 2] = e[8 + row] / f.scale;
+          rows.value[offset + row * 4 + 3] = e[12 + row];
+        }
+      }
     }
   }
-  function matrixAt(i, part, matrix) {
+  function poseMatrix(i, part, matrix) {
     const f = poses[i];
     fish.position.set(f.x, f.y, f.z);
     fish.rotation.set(0, f.yaw, f.roll);
@@ -60,8 +75,21 @@ export function createFishPalette(tank) {
     local.updateMatrix();
     return matrix.multiplyMatrices(fish.matrix, local.matrix);
   }
+  function matrixAt(i, part, matrix) {
+    return matrix.copy(matrices[i * 4 + PARTS.indexOf(part)]);
+  }
   update(0, true);
-  return { tank, place, heading, limbs, visibleIds, poses, update, matrixAt };
+  return {
+    tank,
+    place,
+    heading,
+    limbs,
+    rows,
+    visibleIds,
+    poses,
+    update,
+    matrixAt,
+  };
 }
 
 export function applyFishMotion(material, palette) {
@@ -74,6 +102,7 @@ export function applyFishMotion(material, palette) {
       uFishPlace: palette.place,
       uFishHeading: palette.heading,
       uFishLimbs: palette.limbs,
+      uFishRows: palette.rows,
       uFishIds: palette.visibleIds,
     });
     shader.vertexShader =
@@ -84,28 +113,19 @@ export function applyFishMotion(material, palette) {
       #undef USE_INSTANCING
       #undef USE_INSTANCING_COLOR
       attribute float aFishPart;
-      attribute vec2 aFishSurface;
+      attribute float aFishSurface;
       varying vec2 vFishSurface;
       uniform vec4 uFishPlace[${count}];
       uniform vec4 uFishHeading[${count}];
       uniform vec4 uFishLimbs[${count}];
+      uniform vec4 uFishRows[${count * 4 * 3}];
       uniform int uFishIds[${count}];
       vec3 aquariumPose(vec3 p,bool positionPart){
         int i=uFishIds[gl_InstanceID];
-        vec4 h=uFishHeading[i],l=uFishLimbs[i];
-        if(aFishPart>.5 && aFishPart<1.5){
-          p=vec3(l.x*p.x+l.y*p.z,p.y,-l.y*p.x+l.x*p.z);
-          if(positionPart)p+=vec3(0.,0.,-1.3);
-        }else if(aFishPart>1.5){
-          float signFin=aFishPart<2.5 ? -1. : 1.;
-          p=vec3(l.z*p.x-signFin*l.w*p.y,signFin*l.w*p.x+l.z*p.y,p.z);
-          p=vec3(.877582562*p.x+signFin*.479425539*p.z,p.y,-signFin*.479425539*p.x+.877582562*p.z);
-          p=vec3(p.x,.995004165*p.y-.099833417*p.z,.099833417*p.y+.995004165*p.z);
-          if(positionPart)p+=vec3(signFin*.8,-.03,-.25);
-        }
-        p=vec3(h.z*p.x-h.w*p.y,h.w*p.x+h.z*p.y,p.z);
-        p=vec3(h.x*p.x+h.y*p.z,p.y,-h.y*p.x+h.x*p.z);
-        return positionPart ? p*uFishPlace[i].w+uFishPlace[i].xyz : p;
+        int joint=(i*4+int(aFishPart+.5))*3;
+        vec4 a=uFishRows[joint],b=uFishRows[joint+1],c=uFishRows[joint+2];
+        vec3 rotated=vec3(dot(a.xyz,p),dot(b.xyz,p),dot(c.xyz,p));
+        return positionPart ? rotated*uFishPlace[i].w+vec3(a.w,b.w,c.w) : rotated;
       }
     ` +
       shader.vertexShader
@@ -115,7 +135,7 @@ export function applyFishMotion(material, palette) {
         )
         .replace(
           "#include <begin_vertex>",
-          "#include <begin_vertex>\ntransformed=aquariumPose(transformed,true);vFishSurface=aFishSurface;",
+          "#include <begin_vertex>\ntransformed=aquariumPose(transformed,true);vFishSurface=aFishSurface>.5?vec2(.16,.025):vec2(.68,0.);",
         );
     shader.fragmentShader =
       "varying vec2 vFishSurface;\n" +
@@ -129,6 +149,6 @@ export function applyFishMotion(material, palette) {
           "#include <metalnessmap_fragment>\nmetalnessFactor=vFishSurface.y;",
         );
   };
-  material.customProgramCacheKey = () => key + "-fish-palette-v3-" + count;
+  material.customProgramCacheKey = () => key + "-fish-palette-v4-" + count;
   return material;
 }
