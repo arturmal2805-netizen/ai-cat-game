@@ -80,67 +80,73 @@ try {
         process.env.CHICHI_SLIDE_FILTER.split(",").includes(r.id),
     )) {
       await page.evaluate((id) => loadRide(id), spec.id);
-      const stats = await page.evaluate(async () => {
-        const { renderer: r } = check,
-          w = model.userData.slideWater;
-        draw(6);
-        const still = r.domElement.toDataURL();
-        draw(6.4);
-        const animated = still !== r.domElement.toDataURL();
-        draw(5, true);
-        const frozen = r.domElement.toDataURL();
-        draw(35, true);
-        const stable = frozen === r.domElement.toDataURL();
-        const versions = w
-          ? [
-              w.effects.spray.geometry.attributes.aLife.version,
-              w.effects.spray.geometry.attributes.aOrigin.version,
-            ]
-          : [];
-        draw(40);
-        draw(41);
-        const buffersStable =
-          !w ||
-          (versions[0] === w.effects.spray.geometry.attributes.aLife.version &&
-            versions[1] ===
-              w.effects.spray.geometry.attributes.aOrigin.version);
-        const idleSpray = w?.effects.spray.visible;
-        if (w?.events.length) {
-          model.userData.rideElapsed = w.events.at(-1).time + 0.02;
-          draw(50);
-        }
-        const impact = w
-          ? Array.from(w.effects.power).some((n) => n > 0)
-          : null;
-        delete model.userData.rideElapsed;
-        const gl = r.getContext(),
-          times = [];
-        for (let i = 0; i < 16; i++) {
-          const start = performance.now();
-          draw(60 + i / 30);
-          gl.finish();
-          if (i >= 4) times.push(performance.now() - start);
-        }
-        times.sort((a, b) => a - b);
-        return {
-          draws: r.info.render.calls,
-          triangles: r.info.render.triangles,
-          textures: r.info.memory.textures,
-          medianMs: times[Math.floor(times.length / 2)],
-          p95Ms: times.at(-1),
-          animated,
-          stable,
-          buffersStable,
-          idleSpray,
-          impact,
-          channels: w
-            ? w.channels.length +
-              w.materials.filter((m) => m.uniforms.uFlowing.value === 2).length
-            : null,
-          outlets: w?.outlets.length,
-          contextLost: gl.isContextLost(),
-        };
-      });
+      const stats = await page.evaluate(
+        async (timedFrames) => {
+          const { renderer: r } = check,
+            w = model.userData.slideWater;
+          draw(6);
+          const still = r.domElement.toDataURL();
+          draw(6.4);
+          const animated = still !== r.domElement.toDataURL();
+          draw(5, true);
+          const frozen = r.domElement.toDataURL();
+          draw(35, true);
+          const stable = frozen === r.domElement.toDataURL();
+          const versions = w
+            ? [
+                w.effects.spray.geometry.attributes.aLife.version,
+                w.effects.spray.geometry.attributes.aOrigin.version,
+              ]
+            : [];
+          draw(40);
+          draw(41);
+          const buffersStable =
+            !w ||
+            (versions[0] ===
+              w.effects.spray.geometry.attributes.aLife.version &&
+              versions[1] ===
+                w.effects.spray.geometry.attributes.aOrigin.version);
+          const idleSpray = w?.effects.spray.visible;
+          if (w?.events.length) {
+            model.userData.rideElapsed = w.events.at(-1).time + 0.02;
+            draw(50);
+          }
+          const impact = w
+            ? Array.from(w.effects.power).some((n) => n > 0)
+            : null;
+          delete model.userData.rideElapsed;
+          const gl = r.getContext(),
+            times = [];
+          for (let i = 0; i < timedFrames; i++) {
+            const start = performance.now();
+            draw(60 + i / 30);
+            gl.finish();
+            if (i >= 4) times.push(performance.now() - start);
+          }
+          times.sort((a, b) => a - b);
+          return {
+            draws: r.info.render.calls,
+            triangles: r.info.render.triangles,
+            textures: r.info.memory.textures,
+            medianMs: times[Math.floor(times.length / 2)],
+            p95Ms: times.at(-1),
+            timingSkipped: timedFrames === 0,
+            animated,
+            stable,
+            buffersStable,
+            idleSpray,
+            impact,
+            channels: w
+              ? w.channels.length +
+                w.materials.filter((m) => m.uniforms.uFlowing.value === 2)
+                  .length
+              : null,
+            outlets: w?.outlets.length,
+            contextLost: gl.isContextLost(),
+          };
+        },
+        process.env.CHICHI_SKIP_TIMING ? 0 : 16,
+      );
       if (root.name === "after") {
         assert.equal(stats.channels, spec.channels, spec.id);
         assert.equal(stats.animated, true, spec.id + " is static");
@@ -194,7 +200,13 @@ try {
           "slide-marshmallow",
           "waterslide",
           "slide-rainbow-tsunami",
-        ].concat(WATER_RIDES.filter(r=>r.id.startsWith("slide-dream-")).map(r=>r.id)).includes(spec.id)
+        ]
+          .concat(
+            WATER_RIDES.filter((r) => r.id.startsWith("slide-dream-")).map(
+              (r) => r.id,
+            ),
+          )
+          .includes(spec.id)
       ) {
         await page.evaluate(() => {
           reviewAngle(true);
@@ -212,7 +224,12 @@ try {
       "slide-marshmallow",
       "slide-glass-corkscrew",
       "slide-rainbow-tsunami",
-      ...WATER_RIDES.filter(r=>r.id.startsWith("slide-dream-") && (!process.env.CHICHI_SLIDE_FILTER || process.env.CHICHI_SLIDE_FILTER.split(",").includes(r.id))).map(r=>r.id),
+      ...WATER_RIDES.filter(
+        (r) =>
+          r.id.startsWith("slide-dream-") &&
+          (!process.env.CHICHI_SLIDE_FILTER ||
+            process.env.CHICHI_SLIDE_FILTER.split(",").includes(r.id)),
+      ).map((r) => r.id),
     ]) {
       await page.evaluate(async (id) => {
         const { renderer: r, camera: c } = check;

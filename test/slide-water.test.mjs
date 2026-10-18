@@ -47,7 +47,11 @@ test("every shop and permanent island water ride declares and implements the sha
     assert.ok(w.pool.userData.rx > 0 && w.pool.userData.rz > 0);
     assert.equal(
       w.materials.length,
-      spec.kind === "dive" ? 0 : spec.id === "slide-titan-funnel" ? 2 : 1 + (g.userData.route?.bowls?.length || 0),
+      spec.kind === "dive"
+        ? 0
+        : spec.id === "slide-titan-funnel"
+          ? 2
+          : 1 + (g.userData.route?.bowls?.length || 0),
     );
     disposeScenery(g);
   }
@@ -157,7 +161,10 @@ test("a real rider impact creates one strong burst and basin waves, remains idem
     g.userData.rideElapsed = event.time + 0.01;
     g.userData.update(100);
     assert.equal(w.effects.power.filter((n) => n > 0).length, 1, spec.id);
-    assert.ok(w.pool.userData.water.uniforms.uRippleCount.value > 0);
+    if (event.basin === false) {
+      assert.equal(w.pool.userData.water.uniforms.uRippleCount.value, 0);
+      assert.ok(w.materials.some((m) => m.uniforms.uRippleCount.value > 0));
+    } else assert.ok(w.pool.userData.water.uniforms.uRippleCount.value > 0);
     const points = w.effects.points.map((p) => p.toArray());
     g.userData.update(100);
     g.userData.update(100.1);

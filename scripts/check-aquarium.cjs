@@ -401,6 +401,66 @@ async function localWorker() {
     assert.equal(report.scene.legacyShopAquarium[0].fish, 12);
     assert.equal(report.scene.fish, 50);
     assert.ok(report.scene.locals >= 6);
+    if (process.env.CHICHI_PICK_AUDIT) {
+      await page.evaluate(() => {
+        __lagoonQA.reviewView(-335, 95, 90);
+      });
+      await page.waitForFunction(
+        () => Math.abs(__lagoonQA.getDistance() - 90) < 0.1,
+      );
+      const audit = await page.evaluate(() => {
+        const q = __lagoonQA;
+        q.drawPaused = true;
+        const rows = [],
+          pointer = new q.THREE.Vector2();
+        for (const y of [-0.6, 0, 0.6])
+          for (const x of [-0.6, 0, 0.6]) {
+            pointer.set(x, y);
+            q.raycaster.setFromCamera(pointer, q.camera);
+            const start = performance.now();
+            const hits = q.raycaster.intersectObjects(
+              [...q.itemGroups.values()],
+              true,
+            );
+            const itemMs = performance.now() - start;
+            const cats = [
+              q.cat,
+              ...[...q.npcs.values()]
+                .filter((n) => n.carrier.visible)
+                .map((n) => n.model),
+            ];
+            const parts = cats
+              .flatMap((cat) => [
+                cat.userData.body,
+                cat.getObjectByName("Face"),
+                cat.getObjectByName("TailCoat"),
+                ...cat.userData.legs.map((l) => l.getObjectByName("Shin")),
+              ])
+              .filter(Boolean);
+            const catStart = performance.now();
+            const catHits = q.raycaster.intersectObjects(parts, false);
+            rows.push({
+              x,
+              y,
+              itemMs,
+              catMs: performance.now() - catStart,
+              hits: hits.length,
+              catHits: catHits.length,
+            });
+          }
+        return {
+          rows,
+          renderer: { ...q.renderer.info.render },
+          look: q.look.toArray(),
+        };
+      });
+      fs.writeFileSync(
+        path.join(review, "pick-audit.json"),
+        JSON.stringify(audit, null, 2),
+      );
+      console.log(JSON.stringify(audit, null, 2));
+      return;
+    }
     if (process.env.CHICHI_DRAW_AUDIT) {
       await page.evaluate((stress) => {
         if (stress) {

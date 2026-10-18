@@ -7,10 +7,31 @@ import {
   reserveSlide,
   releaseSlide,
   SLIDE_HEADWAY_MS,
+  updateSlideVehicles,
 } from "../public/slide-riders.js";
 import { disposeScenery } from "../public/scenery-models.js";
 import { createSlideAudio } from "../public/slide-audio.js";
 import { rideGuests } from "../public/ride-guests.js";
+
+test("a later visitor can arrive before earlier reserved raft slots", () => {
+  const g = makeAttraction("slide-dream-canyon-twins");
+  const riders = Array.from({ length: 4 }, (_, i) =>
+    reserveSlide(g, "cat" + i),
+  );
+  const leg = g.userData.route.legs.find((l) => l.phase === "ride");
+  riders[3].elapsed = leg.start + leg.duration * 0.5;
+  updateSlideVehicles(g, false);
+  updateSlideVehicles(g, false);
+  assert.equal(g.userData.slideVehicles[3].visible, true);
+  assert.equal(g.userData.slideVehicles[1], undefined);
+  riders[1].elapsed = leg.start + leg.duration * 0.25;
+  updateSlideVehicles(g, false);
+  assert.equal(g.userData.slideVehicles.filter((v) => v?.visible).length, 2);
+  releaseSlide(g, "cat3");
+  updateSlideVehicles(g, false);
+  assert.equal(g.userData.slideVehicles[3].visible, false);
+  disposeScenery(g);
+});
 
 test("four guests reserve one slide, walk to separate waiting spots, depart with headway and keep independent moving rafts", () => {
   for (const id of ["slide-titan-funnel", "slide-dream-canyon-twins"]) {

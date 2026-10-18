@@ -113,3 +113,32 @@ income account and crops. It reconciles ownership counts, so genuine storage and
 replacement work and concurrent changes on the other phone remain authoritative.
 Regression checks cover repeated old-client saves and simultaneous storage or
 replacement without resurrection or duplication.
+
+## Twenty-five reference complexes
+
+The additional `slide-dream-*` catalogue family is separate from all fifteen
+previous water attractions. `reference-slide-data.js` defines the 5×5 reference
+order, independent prices/income, footprints and shop metadata. The minimum
+price is 28,000 coins; the largest four-funnel complex costs 240,000. Business
+upgrades, XP and collection use the existing ledger and currency.
+
+`reference-slide-motion.js`, `reference-slide-assets.js` and
+`reference-slide-props.js` share the actual lane routes between flowing water,
+raft seats, cat choreography, transparent flumes, bowls and receiving pools.
+Launches are ballistic; intermediate impacts land on their actual raised wet
+channel and only the final landing drives the lower basin's rings. All 25
+catalogue images are pre-rendered from these real models.
+
+`slide-riders.js` keeps four independent, bounded tickets/rafts per attraction,
+separate lane choices and 5.2-second launch spacing. Lazy raft slots support
+out-of-order arrivals without stopping the world loop. Rafts share geometry and
+materials. Ordinary and hero cats, autonomous visits, drag actions and both
+camera buttons use these same seats and clocks. New object IDs are retained
+when an older cached client uploads its save; they are not duplicated.
+
+Validation: the water rendering audit covers all 40 attractions, including
+normal, grazing and DPR-2 phone views of all new complexes. The private browser
+check accepts `CHICHI_REFERENCE_SLIDES=1 CHICHI_CAMERA_CHECKS=1` and exercises
+hero, tiny and giant cats, independent concurrent riders, both cameras and
+shared SQLite save/reload. `reference-slide-clearance.test.mjs` measures actual
+animated giant paw vertices against the curved flume floor in every new lane.

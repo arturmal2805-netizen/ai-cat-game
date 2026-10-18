@@ -65,7 +65,9 @@ export function updateSlideVehicles(g, reduced) {
   const d = g.userData;
   if (!d.slideRiders || !d.moving) return;
   const vehicles = (d.slideVehicles ||= [d.moving]);
-  for (const v of vehicles) v.visible = false;
+  // A later slot may reach the slide before its earlier queue neighbours.
+  // Clones are allocated lazily, so the bounded array can have empty slots.
+  for (const v of vehicles) if (v) v.visible = false;
   for (const r of d.slideRiders.values()) {
     if (!Number.isFinite(r.elapsed)) continue;
     let v = vehicles[r.slot];

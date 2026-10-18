@@ -113,7 +113,7 @@ async function localWorker() {
     g.adoption.cats = [
       { id: "adopt-crumb", homeBiome: "homestead" },
       { id: "adopt-doughnut", homeBiome: "homestead" },
-      { id: "adopt-luna", homeBiome: "homestead" },
+      { id: "adopt-biscuit", homeBiome: "homestead" },
     ];
     g.progression.xp = xpForLevel(20);
     g.lastVisit = gameDay(now);
@@ -169,7 +169,7 @@ async function localWorker() {
                 contents: source
                   .replace(
                     "    const time = now / 1000;",
-                    "    if(window.__lagoonQA?.pinnedRide !== undefined && operation?.stage === 'activity') operation.activityStart=now-window.__lagoonQA.pinnedRide*1000;\n    if(window.__lagoonQA?.pinnedResident){const p=window.__lagoonQA.pinnedResident,v=residentPlay.get(p.id);if(v)v.activityStart=now-p.time*1000;}\n    const time = now / 1000;",
+                    "    if(window.__lagoonQA?.pinnedRide !== undefined && operation?.stage === 'activity') operation.activityStart=now-window.__lagoonQA.pinnedRide*1000;\n    if(window.__lagoonQA?.pinnedResident){const p=window.__lagoonQA.pinnedResident,v=residentPlay.get(p.id);if(v)v.activityStart=now-p.time*1000;}\n    for(const p of window.__lagoonQA?.pinnedResidents||[]){const v=residentPlay.get(p.id);if(v)v.activityStart=now-p.time*1000;}\n    const time = now / 1000;",
                   )
                   .replace(
                     "  const reduced =",
@@ -347,7 +347,13 @@ async function localWorker() {
           true,
           id,
         );
-        await page.waitForTimeout(1000);
+        await page.waitForFunction(() => {
+          const q = __lagoonQA;
+          return (
+            q.look.distanceTo(q.desiredLook) < 0.025 &&
+            Math.abs(q.getDistance() - q.getDesiredDistance()) < 0.1
+          );
+        });
         const fit = await page.evaluate((id) => {
           const q = __lagoonQA,
             g = q.itemGroups.get(id),
@@ -433,7 +439,18 @@ async function localWorker() {
         );
         assert.equal(await page.locator("#item-move").isDisabled(), true);
         await page.locator("#item-guest-camera").tap();
-        await page.waitForTimeout(900);
+        await page.waitForFunction(() => {
+          const q = __lagoonQA,
+            p = q.cat.userData.head
+              .getWorldPosition(new q.THREE.Vector3())
+              .project(q.camera);
+          return (
+            q.faceCamera.enabled &&
+            Math.abs(p.x) < 0.9 &&
+            Math.abs(p.y) < 0.9 &&
+            p.z < 1
+          );
+        });
         assert.equal(
           await page.evaluate(() => __lagoonQA.faceCamera.enabled),
           true,
@@ -449,12 +466,20 @@ async function localWorker() {
         const guestFrame = await page.evaluate(() => {
           const q = __lagoonQA;
           q.drawFrame();
-          return q.cat.userData.head.getWorldPosition(new q.THREE.Vector3())
-            .project(q.camera).toArray();
+          return q.cat.userData.head
+            .getWorldPosition(new q.THREE.Vector3())
+            .project(q.camera)
+            .toArray();
         });
-        assert.ok(Math.abs(guestFrame[0]) < 0.9 && Math.abs(guestFrame[1]) < 0.9 &&
-          guestFrame[2] < 1, "Guest camera must contain its actual rider: " + guestFrame);
-        await page.screenshot({path: path.join(review, spec.id + "-guest-camera.png")});
+        assert.ok(
+          Math.abs(guestFrame[0]) < 0.9 &&
+            Math.abs(guestFrame[1]) < 0.9 &&
+            guestFrame[2] < 1,
+          "Guest camera must contain its actual rider: " + guestFrame,
+        );
+        await page.screenshot({
+          path: path.join(review, spec.id + "-guest-camera.png"),
+        });
         await page.evaluate(() => {
           const q = __lagoonQA;
           q.faceCamera.setEnabled(false, q.look);
@@ -489,7 +514,11 @@ async function localWorker() {
             }
           }
         __lagoonQA.pinnedRide = t;
-        return { sample: t, impact: r.impacts[0]?.time, duration: r.duration };
+        return {
+          sample: t,
+          impact: r.impacts.at(-1)?.time,
+          duration: r.duration,
+        };
       }, id);
       await page.waitForFunction((id) => {
         const q = __lagoonQA,
@@ -874,6 +903,168 @@ async function localWorker() {
         );
       }
       console.log("Real hero and resident rides completed:", spec.id);
+      if (spec.kind === "canyon-twins") {
+        const kittens = ["adopt-crumb", "adopt-doughnut", "adopt-biscuit"];
+        await page.evaluate(
+          ({ id, kittens }) => {
+            const q = __lagoonQA;
+            q.residentPlay.clear();
+            for (const n of q.npcs.values())
+              n.manualUntil = performance.now() + 1e8;
+            q.callbacks.onCatDrop({ activityId: id });
+            q.getOperation().start -= 20000;
+            for (const cat of kittens) {
+              if (
+                !q.callbacks.onResidentDrop(
+                  cat,
+                  { activityId: id },
+                  "homestead",
+                  { x: 0, z: 0 },
+                )
+              )
+                throw Error("Concurrent drop rejected: " + cat);
+              q.residentPlay.get(cat).started -= 20000;
+            }
+          },
+          { id, kittens },
+        );
+        await page.waitForFunction(
+          ({ id, kittens }) => {
+            const q = __lagoonQA,
+              g = q.itemGroups.get(id);
+            return (
+              g.userData.slideRiders?.size === 4 &&
+              [...g.userData.slideRiders.values()].every(
+                (r) => r.launchAt !== null,
+              )
+            );
+          },
+          { id, kittens },
+        );
+        const headways = await page.evaluate((id) => {
+          const riders = [
+            ...__lagoonQA.itemGroups.get(id).userData.slideRiders.values(),
+          ];
+          const times = riders.map((r) => r.launchAt).sort((a, b) => a - b);
+          riders.forEach((r) => (r.launchAt -= 30000));
+          return times.slice(1).map((t, i) => t - times[i]);
+        }, id);
+        assert.ok(
+          headways.every((ms) => ms >= 5200 - 1e-6),
+          JSON.stringify(headways),
+        );
+        await page.waitForFunction(
+          (kittens) =>
+            __lagoonQA.getOperation()?.stage === "activity" &&
+            kittens.every(
+              (id) => __lagoonQA.residentPlay.get(id)?.phase === "activity",
+            ),
+          kittens,
+        );
+        await page.evaluate(
+          ({ id, kittens }) => {
+            const q = __lagoonQA,
+              g = q.itemGroups.get(id),
+              leg = g.userData.route.legs.find((l) => l.phase === "ride");
+            q.pinnedRide = leg.start + leg.duration * 0.2;
+            q.pinnedResidents = kittens.map((id, i) => ({
+              id,
+              time: leg.start + leg.duration * (0.4 + i * 0.2),
+            }));
+          },
+          { id, kittens },
+        );
+        // GPU back-pressure can defer a world update in software WebGL. Wait
+        // for the actual pinned poses and the subsequent raft update, rather
+        // than inspecting actors which have not left the entrance yet.
+        await page.waitForFunction(
+          ({ id, kittens }) => {
+            const q = __lagoonQA,
+              g = q.itemGroups.get(id),
+              actors = [
+                [q.getOperation(), q.chichiCarrier, q.pinnedRide],
+                ...kittens.map((cat, i) => [
+                  q.residentPlay.get(cat),
+                  q.npcs.get(cat).carrier,
+                  q.pinnedResidents[i].time,
+                ]),
+              ];
+            return (
+              actors.every(([v, carrier, time]) => {
+                if (!v?.rider || Math.abs(v.rider.elapsed - time) > 0.001)
+                  return false;
+                const frame = g.userData.rideFrame(time, false, v.rider.lane);
+                return (
+                  carrier.position.distanceTo(
+                    g.localToWorld(new q.THREE.Vector3(...frame.position)),
+                  ) < 0.005
+                );
+              }) &&
+              g.userData.slideVehicles.filter((v) => v.visible).length === 4
+            );
+          },
+          { id, kittens },
+          { timeout: 90000 },
+        );
+        const concurrent = await page.evaluate(
+          ({ id, kittens }) => {
+            const q = __lagoonQA,
+              g = q.itemGroups.get(id),
+              positions = [];
+            const errors = [
+              ["chichi", q.getOperation()],
+              ...kittens.map((id) => [id, q.residentPlay.get(id)]),
+            ].map(([cat, v]) => {
+              const elapsed = cat === "chichi" ? q.pinnedRide : v.elapsed,
+                f = g.userData.rideFrame(elapsed, false, v.rider.lane),
+                p = g.localToWorld(new q.THREE.Vector3(...f.position)),
+                carrier =
+                  cat === "chichi" ? q.chichiCarrier : q.npcs.get(cat).carrier;
+              positions.push(carrier.position.toArray());
+              return carrier.position.distanceTo(p);
+            });
+            return {
+              errors,
+              positions,
+              rafts: g.userData.slideVehicles.filter((v) => v.visible).length,
+            };
+          },
+          { id, kittens },
+        );
+        assert.ok(
+          concurrent.errors.every((e) => e < 0.005),
+          JSON.stringify(concurrent),
+        );
+        assert.equal(concurrent.rafts, 4);
+        for (let i = 0; i < 4; i++)
+          for (let j = 0; j < i; j++)
+            assert.ok(
+              Math.hypot(
+                ...concurrent.positions[i].map(
+                  (v, k) => v - concurrent.positions[j][k],
+                ),
+              ) > 1,
+              "Concurrent riders must not overlap: " +
+                JSON.stringify(concurrent),
+            );
+        await page.evaluate(() => {
+          const q = __lagoonQA;
+          delete q.pinnedRide;
+          delete q.pinnedResidents;
+          q.getOperation().activityStart -= 100000;
+          for (const v of q.residentPlay.visits.values())
+            v.activityStart -= 100000;
+        });
+        await page.waitForFunction(
+          () =>
+            !__lagoonQA.getOperation() &&
+            !__lagoonQA.residentPlay.visits.size &&
+            !__expansionActions.busy(),
+        );
+        console.log(
+          "Four actual simultaneous riders keep separate lanes, clocks, rafts and launch headways.",
+        );
+      }
     }
     for (const biome of ["candy", "nature", "rainbow", "clouds"]) {
       const building = await page.evaluate((biome) => {

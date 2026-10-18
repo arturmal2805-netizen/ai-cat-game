@@ -114,8 +114,12 @@ test("farm saves restore crops, inventory and construction timestamps", () => {
   assert.equal(restored.farm.fields["welcome-farm"][0].readyAt, now + 180000);
   assert.equal(restored.farm.stock.wheat, 2);
 });
-test("expanded world has 28 biomes and 123 buildable objects, with legendary build times and unlock quests", () => {
-  assert.equal(CATALOG.filter(i => !i.islandOnly).length, 123);
+test("expanded world retains 28 biomes and 123 established objects plus 25 new slide complexes", () => {
+  assert.equal(
+    CATALOG.filter((i) => !i.islandOnly && !i.referenceSlide).length,
+    123,
+  );
+  assert.equal(CATALOG.filter((i) => !i.islandOnly).length, 148);
   assert.equal(BIOMES.length, 28);
   assert.equal(
     CATALOG.find((i) => i.id === "coaster-mystic").buildMinutes,
@@ -129,12 +133,12 @@ test("every biome unlocks a unique crop and every catalog object fits on an isla
   game.unlocked = BIOMES.map((b) => b.id);
   game.placements = [];
   game.scenery = []; // All movable objects can be stored to clear a ride site.
-  for (const biome of BIOMES.filter(b=>b.id!=="aquarium"))
+  for (const biome of BIOMES.filter((b) => b.id !== "aquarium"))
     assert.ok(
       CROPS.some((c) => c.biome === biome.id),
       biome.id,
     );
-  for (const item of CATALOG.filter(item=>!item.islandOnly))
+  for (const item of CATALOG.filter((item) => !item.islandOnly))
     assert.ok(
       BIOMES.some((b) => findSpace(game, item.id, b.id)),
       item.id + " must be placeable",
