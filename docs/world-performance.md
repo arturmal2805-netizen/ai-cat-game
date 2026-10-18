@@ -100,3 +100,11 @@ on a busy phone. No resolution or scene detail is adjusted. Chichi retains nativ
 skinning; the vertex shader skips only bone fetches whose weight is exactly zero.
 `CHICHI_NATIVE_SKIN_CHECK=1 node scripts/check-cat-render-batch.mjs` compares her
 original and optimized colour/shadow frames; all four poses matched pixel for pixel.
+
+`cat-picking-bounds.js` avoids the first-gesture scan of every skinned vertex.
+It unions rest geometry boxes transformed by each current joint. Positive
+normalized skin weights keep every actual vertex inside this conservative
+volume. Exact native triangle raycasts remain in use after that early test.
+The same preparation covers hero/resident selection and cat-to-object drops.
+`cat-picking-bounds.test.mjs` checks actual articulated vertices through walking
+and ride reactions, plus identical ray hit faces, distances and positions.

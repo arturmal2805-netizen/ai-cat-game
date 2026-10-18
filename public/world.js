@@ -3,6 +3,10 @@ import { attractionVisibility } from "./attraction-visibility.js";
 import { rideGuests } from "./ride-guests.js";
 import { createRenderPacer } from "./render-pacer.js";
 import { createGpuFrameQueue } from "./gpu-frame-queue.js";
+import {
+  prepareCatPicking,
+  updateCatPickingBounds,
+} from "./cat-picking-bounds.js";
 import { skipUnusedSkinJoints } from "./native-skinning.js";
 import {
   enableCatRenderBatch,
@@ -2470,6 +2474,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
           : { unavailable: true },
       ]),
     ]);
+    for (const actor of friendActors)
+      if (actor.carrier.visible && actor.profile.id !== draggingCat?.catId)
+        prepareCatPicking(actor.model || cat);
     const hit = raycaster.intersectObjects([...targets.keys()], true)[0];
     let meshSelection = null;
     if (hit) {
@@ -2648,8 +2655,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
             ...actor.model.userData.legs.map((leg) =>
               leg.getObjectByName("Shin"),
             ),
-          ].filter(Boolean),
-          hit = raycaster.intersectObjects(parts, false)[0];
+          ].filter(Boolean);
+        for (const part of parts) updateCatPickingBounds(part);
+        const hit = raycaster.intersectObjects(parts, false)[0];
         if (head.z < 1 && (hit || d < (e.pointerType === "touch" ? 22 : 11)))
           candidates.push({ actor, score: hit ? hit.distance * 0.001 : d + 1 });
       }
