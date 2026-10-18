@@ -6,6 +6,11 @@ import {
   AQUARIUM_BUILDING,
 } from "./aquarium-data.js";
 import { DIAMOND_MINE } from "./diamond-data.js";
+import { waterRideSpec } from "./water-ride-data.js";
+import {
+  BUILDING_EXPANSIONS,
+  expandedBuildingRadius,
+} from "./building-expansions.js";
 import {
   BIKINI_RADIUS,
   BIKINI_GATE,
@@ -2199,3 +2204,20 @@ CATALOG.push(
   })),
 );
 NEIGHBORS.push(...AQUARIUM_LOCALS);
+for (const product of CATALOG) {
+  const water = waterRideSpec(product.id);
+  if (water)
+    product.waterRide = {
+      version: water.version,
+      kind: water.kind,
+      channels: water.channels,
+    };
+}
+// Run after the established layout: all other island centres remain identical.
+for (const [id, spec] of Object.entries(BUILDING_EXPANSIONS)) {
+  Object.assign(byBiome(id), {
+    radius: expandedBuildingRadius(id),
+    center: [...spec.center],
+    buildableAreaMultiplier: spec.areaMultiplier,
+  });
+}

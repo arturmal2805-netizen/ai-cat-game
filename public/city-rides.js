@@ -9,6 +9,7 @@ import {
 } from "./fantasy-scenery.js";
 import { batchModelGeometry } from "./model-batching.js";
 import { createLagoon, waterMaterial } from "./lagoon.js";
+import { installSlideWater } from "./slide-water.js";
 
 const gold = 0xf5d69a,
   cream = 0xffeed3;
@@ -90,7 +91,7 @@ export function cityRide(id) {
     curve,
     lake = null,
     wheel = null,
-    channelWater = null,
+    slide = null,
     cabins = [];
   if (id === "ride-paris-wheel") {
     duration = 20;
@@ -299,13 +300,23 @@ export function cityRide(id) {
       );
     }
     curve = new THREE.CatmullRomCurve3(pts);
-    rail(props, curve, spec.color, 0.28);
-    channelWater = new THREE.Mesh(
-      new THREE.TubeGeometry(curve, 160, 0.13, 8, false),
-      waterMaterial(0x81daee),
-    );
-    channelWater.position.y = 0.22;
-    props.add(channelWater);
+    const end = curve.getPoint(1);
+    slide = {
+      channels: [
+        {
+          curve,
+          width: 0.34,
+          offset: 0.075,
+          steps: 160,
+          shell: { color: spec.color, depth: 0.34 },
+        },
+      ],
+      pool: { x: end.x, z: end.z, rx: 1.05, rz: 1.0, surfaceY: 0.365 },
+      speed: 5.4,
+      impacts: [
+        { time: duration * 0.85, point: [end.x, 0.37, end.z], power: 1.4 },
+      ],
+    };
     torus(moving, spec.accent, 0.42, 0.13, 0, 0.19, 0).rotation.x = Math.PI / 2;
     frame = (t, reduced) => {
       const p = reduced ? 0 : Math.min(1, Math.max(0, t / duration));
@@ -375,11 +386,10 @@ export function cityRide(id) {
     city: true,
   };
   g.userData.update = (time, reduced = false) => {
+    if (slide) moving.visible = Number.isFinite(g.userData.rideElapsed);
     const elapsed = g.userData.rideElapsed ?? time % duration,
       f = frame(elapsed, reduced);
     lake?.userData.update(time, reduced);
-    if (channelWater)
-      channelWater.material.uniforms.uTime.value = reduced ? 0 : time;
     if (wheel) {
       const a = reduced
         ? Math.PI
@@ -397,6 +407,7 @@ export function cityRide(id) {
       moving.rotation.y = f.yaw;
     }
   };
+  if (slide) installSlideWater(g, slide);
   g.userData.update(0, true);
   return g;
 }

@@ -8,6 +8,7 @@ import {
 } from "./fantasy-scenery.js";
 import { batchModelGeometry } from "./model-batching.js";
 import { waterMaterial } from "./lagoon.js";
+import { installSlideWater } from "./slide-water.js";
 import { COTTON_RIDES } from "./cotton-data.js";
 import {
   SWEETS,
@@ -72,7 +73,7 @@ export function cottonRide(id) {
     frame,
     wheel = null,
     curve = null,
-    water = null;
+    slide = null;
   if (id.startsWith("ride-pig-")) {
     const pig = createPig({
       color: id.endsWith("lilac")
@@ -372,14 +373,18 @@ export function cottonRide(id) {
       }
     }
     curve = tracks[1];
-    water = waterMaterial(0xf5a6d2, 0.67);
-    const channel = new THREE.Mesh(
-      new THREE.PlaneGeometry(3.5, 7.7, 12, 32),
-      water,
-    );
-    channel.rotation.x = -Math.PI / 2;
-    channel.position.set(0, 0.2, 0.1);
-    props.add(channel);
+    slide = {
+      channels: tracks.map((curve) => ({
+        curve,
+        width: 0.44,
+        offset: 0.22,
+        crossX: true,
+      })),
+      pool: { x: 0, z: 4.15, rx: 2.7, rz: 0.6, surfaceY: 0.195 },
+      color: 0xf5a6d2,
+      speed: 4.8,
+      impacts: [{ time: duration * 0.88, point: [0, 0.2, 4.15], power: 1.5 }],
+    };
     for (const x of [-2, 2])
       line(props, [x, 0, -3.7], [x, 5.7, -3.7], 0xc79598, 0.13);
     shape(props, "cube", 0xffd7b5, 0, 5.65, -3.7, 4.5, 0.18, 1.1);
@@ -404,7 +409,7 @@ export function cottonRide(id) {
       if (u < 0.24) {
         const v = u / 0.24;
         return {
-          position: [0, 0.55 + v * 5.45, 4.1 - v * 7.8],
+          position: [0, 0.55 + v * 5.73, 4.1 - v * 7.8],
           yaw: Math.PI,
           phase: "lift",
           paw: 0.08,
@@ -412,7 +417,7 @@ export function cottonRide(id) {
       }
       if (u < 0.88) {
         const v = (u - 0.24) / 0.64,
-          f = point(curve, v, 0.3);
+          f = point(curve, v, 0.58);
         f.phase = v > 0.82 ? "flight" : "slide";
         f.position[1] +=
           v > 0.82 ? Math.sin(((v - 0.82) / 0.18) * Math.PI) * 0.65 : 0;
@@ -422,7 +427,7 @@ export function cottonRide(id) {
       return {
         position: [
           0,
-          0.75 - ((u - 0.88) / 0.12) * 0.2,
+          1.03 - ((u - 0.88) / 0.12) * 0.48,
           3.8 + ((u - 0.88) / 0.12) * 0.3,
         ],
         yaw: 0,
@@ -500,6 +505,7 @@ export function cottonRide(id) {
       });
     } else {
       vehicles.forEach((c, i) => {
+        c.visible = i !== 1 || Number.isFinite(root.userData.rideElapsed);
         const e = i === 1 ? elapsed : (elapsed + i * 5) % duration,
           p = frame(e, reduced);
         c.position.set(
@@ -509,9 +515,9 @@ export function cottonRide(id) {
         );
         c.rotation.y = p.yaw;
       });
-      if (water) water.uniforms.uTime.value = reduced ? 0 : time;
     }
   };
+  if (slide) installSlideWater(root, slide);
   root.userData.update(0, true);
   return root;
 }

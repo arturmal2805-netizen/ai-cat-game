@@ -129,7 +129,11 @@ test("the vortex rides on the concave bowl and coasters really invert with norma
     swirl = funnel.legs.find((l) => l.phase === "vortex");
   for (let u = 0; u <= 1; u += 0.05) {
     const p = swirl.fn(u).position;
-    assert.ok(Math.abs(p[1] - funnelFloor(Math.hypot(p[0], p[2]))) < 0.07);
+    const clearance = p[1] - funnelFloor(Math.hypot(p[0], p[2]));
+    assert.ok(
+      clearance > 0.3 && clearance < 0.8,
+      "raft and paws sit above the bowl rather than inside it",
+    );
   }
   for (const spec of MEGA_RIDES.filter((r) => r.id.startsWith("coaster"))) {
     const r = createMegaRoute(spec);

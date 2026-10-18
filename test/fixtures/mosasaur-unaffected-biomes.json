@@ -102,13 +102,15 @@
     "price": 2710,
     "center": [
       40,
-      40
+      135
     ],
     "ground": 5732710,
     "edge": 3165005,
     "foliage": 8233351,
     "accent": 12113323,
-    "requiredLevel": 7
+    "requiredLevel": 7,
+    "radius": 26.05019193787255,
+    "buildableAreaMultiplier": 5
   },
   {
     "id": "sakura",
@@ -138,14 +140,16 @@
     "icon": "☁",
     "price": 8280,
     "center": [
-      80,
-      0
+      132,
+      -8
     ],
     "ground": 13421275,
     "edge": 7894422,
     "foliage": 13814505,
     "accent": 16772546,
-    "requiredLevel": 15
+    "requiredLevel": 15,
+    "radius": 26.05019193787255,
+    "buildableAreaMultiplier": 5
   },
   {
     "id": "desert",
@@ -222,14 +226,16 @@
     "icon": "🍭",
     "price": 5570,
     "center": [
-      -80,
-      40
+      -88,
+      130
     ],
     "ground": 12886712,
     "edge": 9528452,
     "foliage": 15515097,
     "accent": 16769200,
-    "requiredLevel": 11
+    "requiredLevel": 11,
+    "radius": 26.05019193787255,
+    "buildableAreaMultiplier": 5
   },
   {
     "id": "rainbow",
@@ -238,14 +244,16 @@
     "icon": "🌈",
     "price": 8210,
     "center": [
-      80,
-      40
+      125,
+      112
     ],
     "ground": 10664122,
     "edge": 7501718,
     "foliage": 12693723,
     "accent": 16765669,
-    "requiredLevel": 14
+    "requiredLevel": 14,
+    "radius": 26.05019193787255,
+    "buildableAreaMultiplier": 5
   },
   {
     "id": "bamboo",

@@ -17,6 +17,7 @@ import { advancedAttraction, animateAdvanced } from "./advanced-assets.js";
 import { dressAttraction } from "./fantasy-scenery.js";
 import { byItem } from "./game-data.js";
 import { waterMaterial, advanceWater } from "./water-shading.js";
+import { installSlideWater } from "./slide-water.js";
 import * as THREE from "three";
 const cache = new Map();
 export function material(color, glow = 0) {
@@ -226,7 +227,8 @@ export function makeAttraction(id, fields = [], now = Date.now()) {
   group.add(moving);
   let curve = null,
     seatHeight = 0.55,
-    ridePosition = null;
+    ridePosition = null,
+    slide = null;
   const waterSurfaces = [];
   const water = (geometry, color, x = 0, y = 0, z = 0) => {
     const material = waterMaterial(color, 0.74),
@@ -406,7 +408,9 @@ export function makeAttraction(id, fields = [], now = Date.now()) {
       [0.6, 0.7, 1.5],
       [-0.8, 0.28, 1.5],
     ];
-    curve = ribbon(group, points, teal, 0.27);
+    curve = new THREE.CatmullRomCurve3(
+      points.map((p) => new THREE.Vector3(...p)),
+    );
     for (const p of points.slice(0, 4)) support(group, p[0], p[2], p[1]);
     for (let i = 0; i < 7; i++)
       box(
@@ -419,14 +423,19 @@ export function makeAttraction(id, fields = [], now = Date.now()) {
         0.08,
         0.3,
       );
-    const pool = water(
-      new THREE.CylinderGeometry(1, 1, 0.08, 24),
-      0x08b5d0,
-      -0.8,
-      0.09,
-      1.3,
-    );
-    pool.scale.z = 0.75;
+    slide = {
+      channels: [
+        {
+          curve,
+          width: 0.38,
+          offset: 0.08,
+          shell: { color: teal, depth: 0.35 },
+        },
+      ],
+      pool: { x: -0.8, z: 1.3, rx: 1, rz: 0.75, surfaceY: 0.155 },
+      simpleRide: true,
+      speed: 3.2,
+    };
     ridePosition = (t) => {
       const p = curve.getPoint((t / 5) % 1);
       return [p.x, p.y + 0.3, p.z];
@@ -679,6 +688,13 @@ export function makeAttraction(id, fields = [], now = Date.now()) {
     waterSurfaces,
     ...(id === "yarn" ? { duration: 10.8 } : {}),
   };
+  if (slide) {
+    installSlideWater(group, slide);
+    group.userData.waterSurfaces.push(
+      ...group.userData.slideWater.materials,
+      group.userData.slideWater.pool.userData.water,
+    );
+  }
   return dressAttraction(group, byItem(id));
 }
 export function animateAttraction(group, time) {

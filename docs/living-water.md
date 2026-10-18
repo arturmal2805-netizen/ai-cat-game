@@ -1,5 +1,9 @@
 # Living water
 
+The complete slide flow/outlet/impact contract and attraction inventory are in
+[`slide-water.md`](./slide-water.md). It applies to shop and island slides and is
+required for future water attractions by [`AGENTS.md`](../AGENTS.md).
+
 `water-shading.js` supplies lagoons, pools, slide channels, streams and
 waterfalls through the existing `waterMaterial` API. Classic ponds, boat basins,
 slide pools and fountain jets use it on their existing meshes as well. Blue and

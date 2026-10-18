@@ -6,11 +6,14 @@ import {
   sampleMegaCurve,
   stairPoint,
   funnelFloor,
+  funnelNormal,
   FUNNEL_RADIUS,
 } from "./mega-ride-motion.js";
 import { batchModelGeometry } from "./model-batching.js";
 import { createLagoon, createWaterfall } from "./lagoon.js";
 import { waterMaterial, advanceWater } from "./water-shading.js";
+import { installSlideWater } from "./slide-water.js";
+import { installRideActing } from "./ride-acting.js";
 import { courtLabel } from "./foodcourt-assets.js";
 const cream = 0xffedd2,
   gold = 0xf6cf86;
@@ -27,9 +30,32 @@ function flume(data, radius, { full = false, offset = 0, flat = 1 } = {}) {
   for (let i = 0; i <= steps; i++) {
     const s = data.samples[Math.round((i / steps) * 600)];
     for (let j = 0; j <= sides; j++) {
-      const a = (full ? 0 : Math.PI) + (j / sides) * Math.PI * (full ? 2 : 1),
-        x = Math.cos(a) * radius,
-        y = Math.sin(a) * radius * flat + offset;
+      const open = full
+        ? Math.max(
+            data.narrowEnd ? THREE.MathUtils.smoothstep(i / steps, 0.76, 1) : 0,
+            data.narrowStart
+              ? 1 - THREE.MathUtils.smoothstep(i / steps, 0, 0.22)
+              : 0,
+          )
+        : 1;
+      const a = Math.PI * open + (j / sides) * Math.PI * (2 - open),
+        taper =
+          (data.narrowEnd
+            ? THREE.MathUtils.lerp(
+                1,
+                0.38,
+                THREE.MathUtils.smoothstep(i / steps, 0.78, 1),
+              )
+            : 1) *
+          (data.narrowStart
+            ? THREE.MathUtils.lerp(
+                0.38,
+                1,
+                THREE.MathUtils.smoothstep(i / steps, 0, 0.22),
+              )
+            : 1),
+        x = Math.cos(a) * radius * taper,
+        y = Math.sin(a) * radius * taper * flat + offset;
       positions.push(
         s.p.x + s.right.x * x + s.up.x * y,
         s.p.y + s.right.y * x + s.up.y * y,
@@ -92,7 +118,9 @@ export function megaAttraction(id) {
     route = createMegaRoute(spec),
     materials = new Map(),
     water = [],
+    channels = [],
     animations = [],
+    bowlPostTops = [],
     labels = [];
   g.name = spec.name;
   g.add(moving);
@@ -186,16 +214,16 @@ export function megaAttraction(id) {
         0,
         true,
       ),
-    rim = (p, c, r, x, y, z, rotation) => {
-      const m = mesh(
-        p,
-        new THREE.TorusGeometry(r, 0.075, 6, 28),
-        c,
-        x,
-        y,
-        z,
-        true,
+    rim = (p, c, r, x, y, z, rotation, open = false) => {
+      const geometry = new THREE.TorusGeometry(
+        r,
+        0.075,
+        6,
+        28,
+        open ? Math.PI : Math.PI * 2,
       );
+      if (open) geometry.rotateZ(Math.PI);
+      const m = mesh(p, geometry, c, x, y, z, true);
       if (rotation) m.quaternion.copy(rotation);
       else m.rotation.x = Math.PI / 2;
       return m;
@@ -430,14 +458,26 @@ export function megaAttraction(id) {
           shell.material = shell.material.clone();
           shell.material.side = THREE.DoubleSide;
         }
-        const wm = waterMaterial(0x43d1e7, 0.7),
-          channel = new THREE.Mesh(
-            flume(data, 1.32, { flat: 0.16, offset: -0.6 }),
-            wm,
-          );
-        channel.name = "Flowing water inside flume";
-        g.add(channel);
-        water.push(wm);
+        const transfer = segment.narrowEnd ? data.samples.at(-1).p : null;
+        channels.push({
+          samples: data.samples,
+          width: 1.32,
+          widthStart: segment.narrowStart ? 0.46 : undefined,
+          widthEnd: segment.narrowEnd ? 0.46 : undefined,
+          offset: -0.53,
+          steps: 180,
+          ...(transfer
+            ? {
+                outletPoint: [
+                  transfer.x,
+                  funnelFloor(Math.hypot(transfer.x, transfer.z)) + 0.045,
+                  transfer.z,
+                ],
+                outletNormal: funnelNormal(transfer.x, transfer.z).toArray(),
+              }
+            : {}),
+          outlet: true,
+        });
       }
       for (let i = 0; i <= 16; i++) {
         const s = segment.samples[Math.round((i / 16) * 600)];
@@ -445,20 +485,55 @@ export function megaAttraction(id) {
           rim(
             props,
             i % 2 ? spec.color : spec.accent,
-            1.84,
+            1.84 *
+              (segment.narrowEnd
+                ? THREE.MathUtils.lerp(
+                    1,
+                    0.38,
+                    THREE.MathUtils.smoothstep(i / 16, 0.78, 1),
+                  )
+                : 1) *
+              (segment.narrowStart
+                ? THREE.MathUtils.lerp(
+                    0.38,
+                    1,
+                    THREE.MathUtils.smoothstep(i / 16, 0, 0.22),
+                  )
+                : 1),
             s.p.x,
             s.p.y,
             s.p.z,
             s.q,
+            !!((segment.narrowEnd && i > 13) || (segment.narrowStart && i < 3)),
           );
         if (i % 3 === 0) {
-          rod(
+          const radius = Math.hypot(s.p.x, s.p.z),
+            top =
+              spec.kind === "funnel" &&
+              radius > 1.85 &&
+              radius < FUNNEL_RADIUS + 0.2
+                ? Math.min(
+                    s.p.y - 1.65,
+                    funnelFloor(Math.min(radius, FUNNEL_RADIUS)) - 0.28,
+                  )
+                : s.p.y - 1.65;
+          const support = rod(
             props,
             gold,
             [s.p.x, 0.12, s.p.z],
-            [s.p.x, Math.max(0.3, s.p.y - 1.65), s.p.z],
+            [s.p.x, Math.max(0.3, top), s.p.z],
             0.12,
           );
+          if (
+            spec.kind === "funnel" &&
+            radius > 1.85 &&
+            radius < FUNNEL_RADIUS + 0.2
+          )
+            bowlPostTops.push([
+              support.position.x,
+              support.position.y + support.geometry.parameters.height / 2,
+              support.position.z,
+            ]);
         }
       }
     }
@@ -493,7 +568,14 @@ export function megaAttraction(id) {
     const bowl = new THREE.Mesh(new THREE.LatheGeometry(profile, 96), bm);
     bowl.name = "Real concave vortex bowl with open throat";
     g.add(bowl);
-    const film = waterMaterial(0x76e2e5, 0.7),
+    const film = waterMaterial(0x76e2e5, 0.7, {
+        flow: {
+          vortex: true,
+          speed: 5,
+          width: Math.PI * 2 * FUNNEL_RADIUS,
+          length: 9,
+        },
+      }),
       wet = new THREE.Mesh(
         new THREE.LatheGeometry(
           profile.map((p) => new THREE.Vector2(p.x, p.y + 0.035)),
@@ -770,25 +852,6 @@ export function megaAttraction(id) {
   props.traverse((o) => {
     if (o.isMesh && !o.geometry.userData.sharedScenery) o.geometry.dispose();
   });
-  const fx = new THREE.Group();
-  g.add(fx);
-  const spray = new THREE.InstancedMesh(
-    new THREE.SphereGeometry(0.12, 6, 4),
-    new THREE.MeshBasicMaterial({
-      color: 0xe6ffff,
-      transparent: true,
-      opacity: 0.8,
-      depthWrite: false,
-    }),
-    64,
-  );
-  spray.frustumCulled = false;
-  fx.add(spray);
-  spray.visible = false;
-  const dummy = new THREE.Object3D(),
-    q = new THREE.Quaternion();
-  let lastPhase = "",
-    splashAt = -100;
   g.userData = {
     id,
     mega: true,
@@ -802,6 +865,7 @@ export function megaAttraction(id) {
     route,
     pool,
     labels,
+    bowlPostTops,
     stats: {
       sourceMeshes: staticModel.userData.sourceMeshes,
       staticMeshes: staticModel.children.length,
@@ -816,9 +880,10 @@ export function megaAttraction(id) {
     for (const a of animations) a.userData.update(time, reduced);
     moving.visible =
       route.coaster ||
-      (!["board", "climb", "return", "anticipation", "done"].includes(
-        f.phase,
-      ) &&
+      (Number.isFinite(g.userData.rideElapsed) &&
+        !["board", "climb", "return", "anticipation", "done"].includes(
+          f.phase,
+        ) &&
         spec.kind !== "dive");
     const vehicle =
       route.coaster && ["board", "exit", "done"].includes(f.phase)
@@ -832,41 +897,19 @@ export function megaAttraction(id) {
         vehicle.yaw || 0,
         vehicle.roll || 0,
       );
-    if (
-      f.phase === "splash" &&
-      lastPhase !== "splash" &&
-      !reduced &&
-      Number.isFinite(g.userData.rideElapsed)
-    ) {
-      splashAt = time;
-      fx.position.set(f.position[0], 1.45, f.position[2]);
-      pool?.userData.disturb(
-        f.position[0] - spec.pool[0],
-        f.position[2] - spec.pool[1],
-        time,
-        1.8,
-      );
-    }
-    lastPhase = f.phase;
-    const age = time - splashAt;
-    spray.visible = !reduced && age >= 0 && age < 1.5;
-    if (spray.visible) {
-      for (let i = 0; i < 64; i++) {
-        const a = i * 2.399,
-          v = 3 + (i % 7) * 0.65,
-          rad = (1 + (i % 5) * 0.45) * age;
-        dummy.position.set(
-          Math.sin(a) * rad,
-          Math.max(0, v * age - 4.9 * age * age),
-          Math.cos(a) * rad,
-        );
-        dummy.scale.setScalar(Math.max(0.02, 1 - age * 0.55));
-        dummy.updateMatrix();
-        spray.setMatrixAt(i, dummy.matrix);
-      }
-      spray.instanceMatrix.needsUpdate = true;
-    }
   };
+  if (pool) {
+    installSlideWater(g, {
+      channels,
+      pool,
+      extraSurfaces: water,
+      color: 0x43d1e7,
+      speed: spec.kind === "racer" ? 8 : 6.5,
+    });
+    g.userData.waterMaterials = g.userData.slideWater.materials;
+    g.userData.stats.waterDraws = (channels.length ? 1 : 0) + water.length;
+  }
+  installRideActing(g);
   g.userData.update(0, true);
   return g;
 }

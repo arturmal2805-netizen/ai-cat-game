@@ -208,18 +208,30 @@ test("front rooms have no glass; both pillows and the bath are visible from an e
   }
 });
 
-test("the other approved biome records remain unchanged except the later mosasaur replacement", () => {
+test("other approved biome records remain unchanged except the later authorized replacements and four expansions", () => {
   assert.equal(
     createHash("sha256")
       .update(
         JSON.stringify(
           BIOMES.filter(
-            (b) => !["sakura", "autumn", "foodcourt", "bikini", "homestead", "aquarium"].includes(b.id),
+            (b) =>
+              ![
+                "sakura",
+                "autumn",
+                "foodcourt",
+                "bikini",
+                "homestead",
+                "aquarium",
+                "candy",
+                "nature",
+                "rainbow",
+                "clouds",
+              ].includes(b.id),
           ),
         ),
       )
       .digest("hex"),
-    "c197127c8e59fea9b628cda08f51ed88cc4d61aba32d7ac586a2333ba68f0427",
+    "40e077b7e694b69577de492f1ebaf0fc419712e38bc69b720362bed1283f266b",
   );
 });
 test("fourteen concurrent visitors across seven mansions all finish without leaking a reservation", () => {

@@ -57,6 +57,7 @@ import { swimFrame } from "./swimming.js";
 import { activeCats } from "./cat-roster.js";
 import { catAppearance } from "./cat-breeds.js";
 import { outsideMegaPlots } from "./mega-ride-data.js";
+import { createRideOutings } from "./ride-outings.js";
 import { watchWorldViewport } from "./world-viewport.js";
 import {
   incomeFor,
@@ -296,6 +297,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     npcs = new Map();
   let megaGroundPlots = [];
   const megaGroundPoint = { x: 0, z: 0 };
+  const rideOutings = createRideOutings();
   const mealVisits = new Map(),
     swimVisits = new Map();
   const islandContentKeys = new Map();
@@ -982,7 +984,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     mealVisits.delete(id);
     swimVisits.delete(id);
   }
-  function performResident(id, decision) {
+  function performResident(id, decision, { autonomous = false } = {}) {
     const n = npcs.get(id),
       object = itemGroups.get(decision.activityId);
     if (
@@ -995,6 +997,14 @@ export function createWorld(container, initialGame, callbacks = {}) {
             !courtObject(decision.activityId))))
     )
       return false;
+    if (!autonomous)
+      for (const [other, v] of residentPlay.visits)
+        if (
+          other !== id &&
+          v.autonomous &&
+          v.decision.activityId === decision.activityId
+        )
+          cancelResident(other);
     cancelResident(id);
     if (
       bikiniFriend(decision.activityId) &&
@@ -1064,6 +1074,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     }
     if (decision.friendId) cancelResident(decision.friendId);
     const started = residentPlay.start(id, decision);
+    if (started && autonomous) residentPlay.get(id).autonomous = true;
     if (!started && bikiniFriend(decision.activityId))
       object.userData.playing = false;
     return started;
@@ -1704,7 +1715,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
           : 65
         : 57
       : 37;
-    if (mobileRender && (b.legendary || b.id === "water"))
+    if (
+      mobileRender &&
+      (b.legendary || b.id === "water" || b.buildableAreaMultiplier)
+    )
       desiredDistance = Math.max(
         desiredDistance,
         (b.radius * 1.08) /
@@ -3147,6 +3161,37 @@ export function createWorld(container, initialGame, callbacks = {}) {
         }
       }
     }
+    if (!dialogOpen && !reduced && now >= gatherUntil)
+      rideOutings.step(now, {
+        cats: npcs,
+        objects: itemGroups,
+        visits: residentPlay.visits,
+        reserved: (id) =>
+          residentPlay.reserved(id) || operation?.decision.activityId === id,
+        blocked: (n) => {
+          const id = n.profile.id,
+            needs = game.care?.residents[id];
+          return (
+            draggingCat?.catId === id ||
+            operation?.decision.friendId === id ||
+            operation?.partyIds?.has(id) ||
+            residentPlay.get(id) ||
+            residentPlay.friendVisit(id) ||
+            spa.get(id) ||
+            chill.get(id) ||
+            court.get(id) ||
+            crew.workers.has(id) ||
+            buildingSites.some((s) => s.biome === n.profile.biome) ||
+            mealVisits.has(id) ||
+            swimVisits.has(id) ||
+            now < (n.manualUntil || 0) ||
+            (needs?.hunger ?? 0) > 65 ||
+            (needs?.energy ?? 100) < 25
+          );
+        },
+        start: (id, decision) =>
+          performResident(id, decision, { autonomous: true }),
+      });
     for (const [id, n] of npcs) {
       const b = byBiome(n.profile.biome),
         needs = game.care?.residents[id];
@@ -3963,7 +4008,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
               chichiCarrier.quaternion
                 .copy(g.quaternion)
                 .multiply(new THREE.Quaternion().fromArray(f.quaternion));
-            reaction = {
+            reaction = g.userData.rideReaction?.(elapsed, reduced) || {
               paw: f.paw || 0,
               headPitch: f.headPitch || 0,
               surprise: f.surprise || 0,

@@ -202,7 +202,7 @@ export function createResidentPlay({
           result.quaternion = g.quaternion
             .clone()
             .multiply(new THREE.Quaternion().fromArray(f.quaternion));
-        result.reaction = {
+        result.reaction = g.userData.rideReaction?.(elapsed, reduced) || {
           paw: f.paw || 0,
           headPitch: f.headPitch || 0,
           surprise: f.surprise || 0,

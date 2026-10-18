@@ -8,6 +8,8 @@ import {
 } from "./fantasy-scenery.js";
 import { createLagoon, waterMaterial } from "./lagoon.js";
 import * as THREE from "three";
+import { installSlideWater } from "./slide-water.js";
+import { batchModelGeometry } from "./model-batching.js";
 import {
   primitive,
   ball,
@@ -26,7 +28,8 @@ export function advancedAttraction(id, fields = [], now = Date.now()) {
   let curve = null,
     seatHeight = 0.5,
     aquarium = null,
-    waterSurface = null;
+    waterSurface = null,
+    slide = null;
   const themeColors = {
     "coaster-lagoon": 0x72c1ce,
     "coaster-sakura": 0xe9b1cc,
@@ -43,52 +46,62 @@ export function advancedAttraction(id, fields = [], now = Date.now()) {
           ? 0xd6a0c6
           : 0x91bcbc),
     gold = 0xf0d19f;
-  const path = (points) => {
+  const path = (points, wet = false) => {
     curve = new THREE.CatmullRomCurve3(
       points.map((p) => new THREE.Vector3(...p)),
     );
-    primitive(g, new THREE.TubeGeometry(curve, 100, 0.075, 6, false), gold);
-    const ties = new THREE.Group();
-    for (let i = 0; i < 38; i++) {
-      const p = curve.getPoint(i / 38),
-        t = curve.getTangent(i / 38),
-        beam = shape(
-          ties,
-          "cube",
-          0xb99268,
-          p.x,
-          p.y - 0.025,
-          p.z,
-          0.62,
-          0.065,
-          0.14,
-        );
-      beam.rotation.y = Math.atan2(t.x, t.z);
-    }
-    g.add(batchScenery(ties));
-    for (const sign of [-1, 1]) {
-      const points = [];
-      for (let i = 0; i <= 90; i++) {
-        const p = curve.getPoint(i / 90),
-          t = curve.getTangent(i / 90),
-          side = new THREE.Vector3(t.z, 0, -t.x).normalize();
-        points.push(p.addScaledVector(side, sign * 0.22));
+    if (!wet) {
+      primitive(g, new THREE.TubeGeometry(curve, 100, 0.075, 6, false), gold);
+      const ties = new THREE.Group();
+      for (let i = 0; i < 38; i++) {
+        const p = curve.getPoint(i / 38),
+          t = curve.getTangent(i / 38),
+          beam = shape(
+            ties,
+            "cube",
+            0xb99268,
+            p.x,
+            p.y - 0.025,
+            p.z,
+            0.62,
+            0.065,
+            0.14,
+          );
+        beam.rotation.y = Math.atan2(t.x, t.z);
       }
-      primitive(
-        g,
-        new THREE.TubeGeometry(
-          new THREE.CatmullRomCurve3(points),
-          90,
-          0.04,
-          5,
-          false,
-        ),
-        gold,
-      );
+      g.add(batchScenery(ties));
+      for (const sign of [-1, 1]) {
+        const points = [];
+        for (let i = 0; i <= 90; i++) {
+          const p = curve.getPoint(i / 90),
+            t = curve.getTangent(i / 90),
+            side = new THREE.Vector3(t.z, 0, -t.x).normalize();
+          points.push(p.addScaledVector(side, sign * 0.22));
+        }
+        primitive(
+          g,
+          new THREE.TubeGeometry(
+            new THREE.CatmullRomCurve3(points),
+            90,
+            0.04,
+            5,
+            false,
+          ),
+          gold,
+        );
+      }
     }
+    const supports = wet ? new THREE.Group() : g;
     for (let i = 0; i < 14; i++) {
       const p = curve.getPoint(i / 14);
-      rod(g, 0x8c809f, p.x, p.y / 2, p.z, 0.06, Math.max(0.1, p.y));
+      rod(supports, 0x8c809f, p.x, p.y / 2, p.z, 0.06, Math.max(0.1, p.y));
+    }
+    if (wet) {
+      g.add(batchModelGeometry(supports));
+      supports.traverse((m) => {
+        if (m.isMesh && !m.geometry.userData.sharedScenery)
+          m.geometry.dispose();
+      });
     }
     return curve;
   };
@@ -219,14 +232,23 @@ export function advancedAttraction(id, fields = [], now = Date.now()) {
         Math.sin(t) * (id === "water-whirlpool" ? r : d / 2 - 0.6),
       ]);
     }
-    path(points);
-    waterSurface = waterMaterial(0x64c7d9, 0.75);
-    g.add(
-      new THREE.Mesh(
-        new THREE.TubeGeometry(curve, 90, 0.25, 8, false),
-        waterSurface,
-      ),
-    );
+    path(points, true);
+    const end = curve.getPoint(1),
+      whirl = id === "water-whirlpool";
+    slide = {
+      channels: [
+        { curve, width: 0.29, offset: 0.09, shell: { color, depth: 0.34 } },
+      ],
+      pool: {
+        x: whirl ? 0 : end.x - 0.12,
+        z: whirl ? 0 : end.z,
+        rx: whirl ? 1.3 : 0.48,
+        rz: whirl ? 1.1 : 0.46,
+        surfaceY: 0.155,
+      },
+      simpleRide: true,
+      speed: id === "water-river" ? 1.1 : 4.4,
+    };
     box(moving, color, 0, 0, 0, 0.75, 0.25, 1.1);
     g.userData.duration = 10;
   } else if (item.category === "farm") {
@@ -508,6 +530,7 @@ export function advancedAttraction(id, fields = [], now = Date.now()) {
     aquarium,
     waterMaterial: waterSurface,
   };
+  if (slide) installSlideWater(g, slide);
   return g;
 }
 export function constructionModel(itemId) {

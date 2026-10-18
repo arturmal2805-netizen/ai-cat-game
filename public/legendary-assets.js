@@ -8,6 +8,7 @@ import {
   batchScenery,
 } from "./fantasy-scenery.js";
 import { createLagoon, waterMaterial } from "./lagoon.js";
+import { installSlideWater } from "./slide-water.js";
 import { createCat, animateCat, reactCat } from "./cat-model.js";
 export const LEGENDARY_RIDES = [
   "coaster-rainbow-launch",
@@ -141,7 +142,7 @@ export function legendaryAttraction(id) {
   let curve = null,
     lagoon = null,
     barista = null,
-    channelWater = null,
+    slide = null,
     duration = 12,
     flight = false,
     frame;
@@ -228,26 +229,33 @@ export function legendaryAttraction(id) {
         ring.rotation.x = Math.PI / 2;
       }
     }
-    track(staticPart, curve, id.startsWith("slide") ? 0.48 : 0.13);
+    if (!id.startsWith("slide")) track(staticPart, curve, 0.13);
     if (id.startsWith("slide")) {
-      channelWater = waterMaterial(0x4ae0ed, 0.8);
-      const waterCurve = new THREE.CatmullRomCurve3(
-        Array.from({ length: 61 }, (_, i) => {
-          const p = curve.getPoint(i / 60);
-          p.y += 0.32;
-          return p;
-        }),
-      );
-      g.add(
-        new THREE.Mesh(
-          new THREE.TubeGeometry(waterCurve, 90, 0.23, 8, false),
-          channelWater,
-        ),
-      );
-    }
-    if (id.startsWith("slide")) {
-      lagoon = createLagoon({ x: 1, z: 2.8, rx: 2.1, rz: 1.5, fishCount: 12 });
+      const vortex = id === "slide-vortex-bowl";
+      lagoon = createLagoon({
+        x: vortex ? 0 : 1,
+        z: vortex ? 0 : 2.8,
+        rx: vortex ? 1.5 : 2.1,
+        rz: vortex ? 1.3 : 1.5,
+        fishCount: 12,
+      });
       g.add(lagoon);
+      const end = curve.getPoint(1);
+      slide = {
+        channels: [
+          {
+            curve,
+            width: 0.45,
+            offset: 0.08,
+            shell: { colors: RAINBOW, depth: 0.42 },
+          },
+        ],
+        pool: lagoon,
+        speed: vortex ? 4 : 5.6,
+        impacts: [
+          { time: duration * 0.9, point: [end.x, 0.161, end.z], power: 1.4 },
+        ],
+      };
     }
     for (let i = 0; i < 9; i++) {
       const p = curve.getPoint(i / 9);
@@ -282,10 +290,15 @@ export function legendaryAttraction(id) {
         p = end.lerp(curve.getPoint(0), clamp((t - 0.94) / 0.06));
         phase = "landing";
       } else {
-        const u = flight ? Math.min(1, t / 0.65) : t;
+        const u = flight
+          ? Math.min(1, t / 0.65)
+          : id.startsWith("slide")
+            ? Math.min(1, t / 0.9)
+            : t;
         p = curve.getPoint(u);
         const tangent = curve.getTangent(u);
         yaw = Math.atan2(tangent.x, tangent.z);
+        if (id.startsWith("slide") && t >= 0.9) phase = "splash";
       }
       return {
         position: [p.x, p.y + 0.4, p.z],
@@ -497,8 +510,8 @@ export function legendaryAttraction(id) {
       paw: reduced ? 0 : Math.max(0, Math.sin(t * 2.2)) * 0.65,
     });
   g.userData.update = (time, reduced = false) => {
+    if (slide) moving.visible = Number.isFinite(g.userData.rideElapsed);
     lagoon?.userData.update(time, reduced);
-    if (channelWater) channelWater.uniforms.uTime.value = reduced ? 0 : time;
     if (barista) {
       animateCat(barista, time, false, reduced);
       reactCat(
@@ -545,6 +558,7 @@ export function legendaryAttraction(id) {
       }
     } else if (!reduced && barista) moving.position.y = Math.sin(time) * 0.035;
   };
+  if (slide) installSlideWater(g, slide);
   g.userData.update(0, true);
   return g;
 }

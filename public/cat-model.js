@@ -102,6 +102,7 @@ function applyPose(cat, time, walking, reduced) {
     (anatomy?.bodyLength ?? 0.72) * shape.length,
   );
   d.chest.scale.y = 0.45 + breath * 0.006;
+  d.body.rotation.x = 0;
   d.head.rotation.set(
     p.headX +
       (anatomy ? anatomy.headPitch + 0.025 : 0) +
@@ -164,6 +165,7 @@ function applyPose(cat, time, walking, reduced) {
     -tongueY * sin + tongueZ * cos,
   );
   for (const [i, leg] of d.legs.entries()) {
+    leg.rotation.z = 0;
     const phase = leg.position.x * leg.position.z > 0 ? Math.PI : 0;
     leg.rotation.x =
       moving && walking
@@ -307,4 +309,34 @@ export function reactCat(cat, reaction, reduced = false) {
   d.ears[0].rotation.x += (reaction.earRelax || 0) - paw * 0.08;
   d.ears[1].rotation.x += (reaction.earRelax || 0) - paw * 0.08;
   d.tail.rotation.z += paw * 0.13 + (reaction.tailSway || 0);
+  if (reaction.ride) {
+    // Animate the approved rig, leaving its carrier exactly on the real seat.
+    d.head.rotation.y += reaction.headYaw || 0;
+    d.body.rotation.z += reaction.bodyLean || 0;
+    d.body.rotation.x += reaction.bodyPitch || 0;
+    d.tail.rotation.x += reaction.tailTrail || 0;
+    const grip = reaction.grip || 0;
+    for (const [i, leg] of d.legs.entries()) {
+      if (leg.position.z > 0) {
+        leg.rotation.x -= grip * 0.24 + (reaction.frontLift || 0);
+        leg.rotation.z += Math.sign(leg.position.x) * (reaction.pawSpread || 0);
+        const joint = d.legJoints?.[i];
+        if (joint) {
+          joint.knee.rotation.x += grip * 0.24;
+          joint.ankle.rotation.x -= grip * 0.22;
+        }
+      } else {
+        leg.rotation.x += grip * 0.1 + (reaction.hindTuck || 0);
+      }
+    }
+    const close = clamp(reaction.eyeClose || 0, 0, 0.98);
+    for (let i = 0; i < d.eyes.length; i++) {
+      const eye = d.eyes[i];
+      eye.scale.y = Math.max(0.025, eye.scale.y * (1 - close));
+      if (eye.scale.y <= 0.075) {
+        eye.scale.x = 0.001;
+        d.closedEyes[i].scale.setScalar(1);
+      }
+    }
+  }
 }

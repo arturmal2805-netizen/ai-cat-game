@@ -383,7 +383,10 @@ export function* biomeSceneSteps(
   for (let i = 0; i < pos.count; i++) {
     yield;
     const a = Math.atan2(pos.getZ(i), pos.getX(i)),
-      r = 1 + Math.sin(a * 3 + seed) * 0.025 + Math.cos(a * 5) * 0.018;
+      r =
+        1 +
+        (Math.sin(a * 3 + seed) * 0.025 + Math.cos(a * 5) * 0.018) *
+          (biome.buildableAreaMultiplier ? 11.65 / biome.radius : 1);
     yield;
     pos.setX(i, pos.getX(i) * r);
     yield;
@@ -452,8 +455,12 @@ export function* biomeSceneSteps(
   for (let i = 0; i < 12; i++) {
     yield;
     const a = (i * Math.PI) / 6 + seed * 0.03,
-      x = Math.cos(a) * 10.8,
-      z = Math.sin(a) * 10.8;
+      x =
+        Math.cos(a) *
+        (biome.buildableAreaMultiplier ? biome.radius - 0.85 : 10.8),
+      z =
+        Math.sin(a) *
+        (biome.buildableAreaMultiplier ? biome.radius - 0.85 : 10.8);
     yield;
     if (i % 2 === 0) {
       yield;
@@ -780,6 +787,7 @@ export function* biomeSceneSteps(
       placements: terrainItems,
       preview,
       seed,
+      ...(biome.buildableAreaMultiplier ? { radius: biome.radius - 0.85 } : {}),
     });
     yield;
     detail.add(coverRoot);

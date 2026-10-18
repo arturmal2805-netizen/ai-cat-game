@@ -5,6 +5,25 @@ const clamp = THREE.MathUtils.clamp,
 export const MEGA_SEAT = { slide: -0.55, coaster: 0.52 };
 export const FUNNEL_RADIUS = 7.1;
 export const funnelFloor = (r) => 4 + 6 * (r / FUNNEL_RADIUS) ** 1.7;
+export function funnelNormal(x, z) {
+  const r = Math.hypot(x, z),
+    slope = r ? ((6 * 1.7) / FUNNEL_RADIUS) * (r / FUNNEL_RADIUS) ** 0.7 : 0;
+  return new THREE.Vector3(
+    (-x / (r || 1)) * slope,
+    1,
+    (-z / (r || 1)) * slope,
+  ).normalize();
+}
+function bowlPose(f) {
+  const up = funnelNormal(f.position[0], f.position[2]),
+    forward = new THREE.Vector3(Math.sin(f.yaw), 0, Math.cos(f.yaw));
+  forward.addScaledVector(up, -forward.dot(up)).normalize();
+  const right = new THREE.Vector3().crossVectors(up, forward).normalize();
+  f.quaternion = new THREE.Quaternion()
+    .setFromRotationMatrix(new THREE.Matrix4().makeBasis(right, up, forward))
+    .toArray();
+  return f;
+}
 export const stairPoint = (tower, height, t) => {
   const a = ((height * Math.PI) / 2) * t;
   return [
@@ -390,22 +409,60 @@ export function createMegaRoute(spec) {
       run = path(points, 4.6, "ride", "glass", { accelerate: true });
       flight(run.at(1).position, hit, 2.6);
     } else if (spec.kind === "funnel") {
-      points.push([-6, 17, -6], [6, 12, -4], [6.8, funnelFloor(6.8) - seat, 0]);
-      run = path(points, 3.1, "ride", "glass", { accelerate: true });
       const spiral = [];
       for (let i = 0; i <= 120; i++) {
         const u = i / 120,
           a = Math.PI / 2 + u * Math.PI * 5.4,
           r = 1.9 + (6.8 - 1.9) * (1 - u);
-        spiral.push([Math.sin(a) * r, funnelFloor(r) - seat, Math.cos(a) * r]);
+        const x = Math.sin(a) * r,
+          z = Math.cos(a) * r,
+          p = new THREE.Vector3(x, funnelFloor(r), z).addScaledVector(
+            funnelNormal(x, z),
+            0.36,
+          );
+        spiral.push([p.x, p.y - seat, p.z]);
       }
+      points.push([-6, 17, -6], [9.4, 14, 4.4], spiral[0]);
+      run = path(points, 3.1, "ride", "glass", { accelerate: true });
+      geometry.at(-1).narrowEnd = true;
+      const lead = legs.at(-1),
+        leadFrame = lead.fn;
       path(spiral, 4.2, "vortex", "bowl");
+      const spin = legs.at(-1),
+        spinFrame = spin.fn;
+      spin.fn = (u) => bowlPose(spinFrame(u));
+      const startQ = new THREE.Quaternion().fromArray(spin.fn(0).quaternion),
+        endQ = new THREE.Quaternion().fromArray(spin.fn(1).quaternion);
+      lead.fn = (u) => {
+        const f = leadFrame(u),
+          q = new THREE.Quaternion().setFromEuler(
+            new THREE.Euler(f.pitch || 0, f.yaw, 0),
+          );
+        f.quaternion = q
+          .slerp(startQ, THREE.MathUtils.smoothstep(u, 0.78, 1))
+          .toArray();
+        return f;
+      };
       path(
         [spiral.at(-1), [0, 4.2, 0], [0, 2.5, 4], [0, 2, 9]],
         2,
         "drain",
         "glass",
       );
+      geometry.at(-1).narrowStart = true;
+      const drain = legs.at(-1),
+        drainFrame = drain.fn;
+      drain.fn = (u) => {
+        const f = drainFrame(u),
+          q = new THREE.Quaternion().setFromEuler(
+            new THREE.Euler(f.pitch || 0, f.yaw, 0),
+          );
+        f.quaternion = endQ
+          .clone()
+          .slerp(q, THREE.MathUtils.smoothstep(u, 0, 0.22))
+          .toArray();
+        return f;
+      };
     } else if (spec.kind === "jungle") {
       points.push(
         [0, 17, -8],

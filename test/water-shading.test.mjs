@@ -164,7 +164,7 @@ test("legacy pond, boat, slide basin and fountain animate real water on their ex
   for (const [id, count] of [
     ["pond", 1],
     ["boat", 1],
-    ["waterslide", 1],
+    ["waterslide", 2],
     ["fountain", 6],
   ]) {
     const root = makeAttraction(id);
