@@ -10,7 +10,11 @@ The original venue and cat models are retained when applying a tier.
 `business.levels[placementId]` uses the usual local backups and transactional
 shared-world save. Old saves start at level one. Income before an upgrade is
 settled at its original rate; the remaining coin fraction carries into the new
-clock. Future income and collected XP use the new rate and existing daily cap.
+clock. Future income and collected XP use the new rate. Business XP is exempt
+from the daily activity allowance; the eight-hour register cap and maximum
+level 30 still apply. `progression.businessXP` records the earned portion so
+shared saves can merge independent registers without clipping XP at 1800.
+Missing counters from cached clients cannot erase the current ledger.
 The shared merge rejects two competing upgrades/collections on the same register;
 older clients cannot erase a retained building's paid level. Storing a building
 moves its tier through the existing `relocatedPurchases` inventory metadata, and

@@ -166,7 +166,10 @@ test("active starter farming plus two compact businesses funds the level-four wh
   }
   assert.ok(opened !== null && opened <= 90);
   assert.ok(g.coins >= 0);
-  assert.ok(levelForXP(g.progression.xp) < 8);
+  // Business earnings now advance levels beyond the activity allowance.
+  assert.ok(g.progression.businessXP > 0);
+  assert.ok(g.progression.dailyXP <= 1800);
+  assert.ok(g.progression.xp - g.progression.businessXP <= 1800);
   assert.equal(g.unlocked.includes("aquapark"), false);
 });
 test("both purchased whales and their lagoon require exactly level four, while saved ownership remains usable", () => {

@@ -15,7 +15,12 @@ import {
 import { BUILDING_EXPANSIONS } from "./public/building-expansions.js";
 import { BIOMES, byItem } from "./public/game-data.js";
 import { BOWL_CAPACITY, advanceCare } from "./public/care-system.js";
-import { levelForXP, DAILY_XP_LIMIT } from "./public/progression.js";
+import {
+  levelForXP,
+  xpForLevel,
+  MAX_LEVEL,
+  DAILY_XP_LIMIT,
+} from "./public/progression.js";
 
 export class SharedConflict extends Error {
   constructor(
@@ -375,10 +380,21 @@ export function mergeSharedWorld(base, current, incoming) {
         : 0)
     );
   }, 0);
+  // Business income is guarded by each register above. Merge its earned XP
+  // separately, including offline income, without spending the activity cap.
+  // Missing counters from cached clients mean zero NEW business XP, not a reset.
+  const businessGain = Math.min(
+    Math.max(0, n.progression.xp - b.progression.xp),
+    Math.max(
+      0,
+      (n.progression.businessXP || 0) - (b.progression.businessXP || 0),
+    ),
+  );
   const xpGain = Math.max(
     0,
     n.progression.xp -
       b.progression.xp -
+      businessGain -
       duplicateXP -
       duplicateVisitXP -
       duplicateAdventureXP,
@@ -387,13 +403,17 @@ export function mergeSharedWorld(base, current, incoming) {
     [c.progression.xpDay, n.progression.xpDay].filter(Boolean).sort().at(-1) ||
     null;
   const daily = c.progression.xpDay === day ? c.progression.dailyXP : 0;
-  const gain =
+  const activityGain =
     n.progression.xpDay === day ? Math.min(xpGain, DAILY_XP_LIMIT - daily) : 0;
+  const room = Math.max(0, xpForLevel(MAX_LEVEL) - c.progression.xp),
+    earnedBusiness = Math.min(businessGain, room),
+    earnedActivity = Math.min(activityGain, room - earnedBusiness),
+    gain = earnedBusiness + earnedActivity;
   const localBonus = levelCoins(b.progression.xp, n.progression.xp);
   n.coins -= localBonus;
   n.totalEarned -= localBonus;
   // These fields are reconstructed below, not merged as competing whole snapshots.
-  for (const field of ["xp", "dailyXP", "xpDay"])
+  for (const field of ["xp", "businessXP", "dailyXP", "xpDay"])
     n.progression[field] = b.progression[field];
   const result = merge(b, c, n);
   result.islandConstruction = mergeIslandConstruction(
@@ -402,7 +422,9 @@ export function mergeSharedWorld(base, current, incoming) {
     n.islandConstruction,
   );
   result.progression.xp = c.progression.xp + gain;
-  result.progression.dailyXP = daily + gain;
+  result.progression.businessXP =
+    (c.progression.businessXP || 0) + earnedBusiness;
+  result.progression.dailyXP = daily + earnedActivity;
   result.progression.xpDay = day;
   const bonus = levelCoins(c.progression.xp, result.progression.xp);
   if (

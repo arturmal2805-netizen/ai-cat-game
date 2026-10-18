@@ -2,7 +2,7 @@ import { DIAMOND_MINE } from "./diamond-data.js";
 import { courtType, courtBusinessVenues } from "./foodcourt-data.js";
 import { byItem } from "./game-data.js";
 import { BUSINESSES } from "./business-data.js";
-import { addXP } from "./progression.js";
+import { addXP, addBusinessXP } from "./progression.js";
 export const BUSINESS_CAP_HOURS = 8;
 export const BUSINESS_LEVELS = [
   {
@@ -189,7 +189,7 @@ export function collectIncome(game, id, now = Date.now()) {
     next.coins += amount;
     next.totalEarned += amount;
   }
-  const rewarded = addXP(next, xp, now);
+  const rewarded = addBusinessXP(next, xp, now);
   return {
     game: rewarded,
     amount,

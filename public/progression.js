@@ -19,6 +19,7 @@ export function newProgression() {
   return {
     version: PROGRESSION_VERSION,
     xp: 0,
+    businessXP: 0,
     dailyXP: 0,
     xpDay: null,
     visits: 0,
@@ -40,12 +41,18 @@ export function normalizeProgression(raw, game) {
     p.lastVisitDay = game.lastVisit;
     return p;
   }
-  for (const key of ["xp", "dailyXP", "visits", "lastAdventureAt"])
+  for (const key of [
+    "xp",
+    "businessXP",
+    "dailyXP",
+    "visits",
+    "lastAdventureAt",
+  ])
     p[key] = Number.isFinite(raw[key])
       ? Math.max(
           0,
           Math.min(
-            key === "xp"
+            key === "xp" || key === "businessXP"
               ? 1000000
               : key === "dailyXP"
                 ? DAILY_XP_LIMIT
@@ -68,23 +75,32 @@ export function normalizeProgression(raw, game) {
   return p;
 }
 export function addXP(game, amount, now = Date.now()) {
+  return grantXP(game, amount, now, false);
+}
+// Register deadlines and fractional remainders already bound business income.
+// Its earned XP must not be silently consumed by the activity daily allowance.
+export function addBusinessXP(game, amount, now = Date.now()) {
+  return grantXP(game, amount, now, true);
+}
+function grantXP(game, amount, now, business) {
   const p = game.progression,
     day = gameDay(now);
-  if (p.xpDay && day < p.xpDay) return game;
+  if (!business && p.xpDay && day < p.xpDay) return game;
   const next = structuredClone(game),
     n = next.progression,
     before = levelForXP(n.xp);
-  if (n.xpDay !== day) {
+  if (!business && n.xpDay !== day) {
     n.xpDay = day;
     n.dailyXP = 0;
   }
   const gain = Math.min(
     Math.max(0, Math.floor(amount)),
-    DAILY_XP_LIMIT - n.dailyXP,
+    business ? Infinity : DAILY_XP_LIMIT - n.dailyXP,
     Math.max(0, xpForLevel(MAX_LEVEL) - n.xp),
   );
   n.xp += gain;
-  n.dailyXP += gain;
+  if (business) n.businessXP = (n.businessXP || 0) + gain;
+  else n.dailyXP += gain;
   const after = levelForXP(n.xp);
   for (let level = before + 1; level <= after; level++) {
     const coins = 30 + level * 15;

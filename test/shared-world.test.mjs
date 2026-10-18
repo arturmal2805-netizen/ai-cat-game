@@ -23,7 +23,13 @@ import {
   loadGame,
 } from "../public/economy.js";
 import { collectIncome, normalizeBusiness } from "../public/business.js";
-import { xpForLevel, levelForXP, adventureXP } from "../public/progression.js";
+import {
+  xpForLevel,
+  levelForXP,
+  adventureXP,
+  addXP,
+  DAILY_XP_LIMIT,
+} from "../public/progression.js";
 
 const memory = () => {
   const data = new Map();
@@ -125,6 +131,38 @@ const saveBoth = async (a, b) => {
     b.game = g;
   });
 };
+
+test("cloud saves on two phones preserve uncapped business XP after the activity allowance is full", async () => {
+  const at = Date.now(),
+    initial = addXP(fresh(), DAILY_XP_LIMIT, at);
+  initial.unlocked.push("homestead");
+  for (const [i, item] of ["business-coffee", "business-hotdog"].entries())
+    initial.placements.push({
+      id: "uncapped-" + i,
+      item,
+      biome: "homestead",
+      x: i ? 15 : -15,
+      z: 0,
+      rotation: 0,
+      readyAt: 0,
+    });
+  initial.business = normalizeBusiness(initial.business, initial, at - 3600000);
+  const { a, b } = await pair(service(), initial);
+  a.send(collectIncome(a.game, "uncapped-0", at).game);
+  b.send(collectIncome(b.game, "uncapped-1", at).game);
+  await saveBoth(a, b);
+  for (const p of [a, b]) {
+    assert.equal(p.game.progression.xp, initial.progression.xp + 99 + 137);
+    assert.equal(p.game.progression.businessXP, 99 + 137);
+    assert.equal(p.game.progression.dailyXP, DAILY_XP_LIMIT);
+    saveGame(p.storage, p.game);
+    const restored = loadGame(p.storage, at, { advance: false });
+    assert.equal(restored.progression.xp, p.game.progression.xp);
+    assert.equal(restored.progression.businessXP, 236);
+    assert.throws(() => collectIncome(restored, "uncapped-0", at));
+    assert.throws(() => collectIncome(restored, "uncapped-1", at));
+  }
+});
 
 test("two devices use one account code without overwriting or choosing another world", async () => {
   const { a, server } = await pair();
