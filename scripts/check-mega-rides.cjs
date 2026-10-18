@@ -797,6 +797,54 @@ async function localWorker() {
     assert.equal(remote.game.progression.xp, current.progression.xp);
     assert.deepEqual(remote.game.placements, current.placements);
     assert.deepEqual(remote.game.inventory, current.inventory);
+    // Reproduce a second phone still using the old, smaller shoreline. Its
+    // normalized snapshot loses the four new outer plots without storing them.
+    const oldPhone = structuredClone(remote.game),
+      outerIds = new Set(
+        oldPhone.placements
+          .filter(
+            (p) =>
+              ["candy", "nature", "rainbow", "clouds"].includes(p.biome) &&
+              p.x === 18,
+          )
+          .map((p) => p.id),
+      );
+    assert.equal(outerIds.size, 4);
+    oldPhone.placements = oldPhone.placements.filter(
+      (p) => !outerIds.has(p.id),
+    );
+    const clipped = loadGame(
+      {
+        getItem: (k) =>
+          k === "chichi-world-v2" ? JSON.stringify(oldPhone) : null,
+      },
+      Date.now(),
+      { advance: false },
+    );
+    const staleReply = await fetch(base + "/api/save", {
+      method: "PUT",
+      headers,
+      body: JSON.stringify({
+        cooperative: true,
+        clientId: crypto.randomUUID(),
+        sequence: 1,
+        expectedRevision: remote.revision,
+        mutationId: crypto.randomUUID(),
+        baseGame: remote.game,
+        game: clipped,
+      }),
+    });
+    assert.equal(staleReply.status, 200);
+    const protectedSave = await staleReply.json();
+    assert.deepEqual(protectedSave.game.placements, current.placements);
+    assert.deepEqual(
+      protectedSave.game.business.accounts,
+      remote.game.business.accounts,
+    );
+    assert.equal(protectedSave.game.coins, current.coins);
+    console.log(
+      "Cached old phone snapshot preserved all four outer-land businesses in the real SQLite Worker.",
+    );
     await page.reload();
     await page.waitForFunction(
       (id) =>

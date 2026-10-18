@@ -92,7 +92,7 @@ building and repeated save/reload with existing slides/adoption centres.
 
 ## Release verification
 
-- Full Node suite: 447 passed. The additional compositing regression also passes
+- Full Node suite: 449 passed. The additional compositing regression also passes
   for all 15 water types.
 - Actual private browser world: 10 legendary attractions, each ridden by Chichi,
   a tiny resident and a giant resident; Titan autonomous selection and a real
@@ -105,3 +105,11 @@ building and repeated save/reload with existing slides/adoption centres.
   six-lane tsunami drops from 18 to 15. No attraction gains water textures.
   Some attractions need additional draws for their new basins/flow/effects;
   these figures are not a guarantee about frame rate on a physical phone.
+
+The shared save also handles a phone still running the pre-expansion shoreline.
+If that client filters an outer plot out of its local snapshot without putting
+the item in its bag, the server preserves the purchase's ID, deadline, tier,
+income account and crops. It reconciles ownership counts, so genuine storage and
+replacement work and concurrent changes on the other phone remain authoritative.
+Regression checks cover repeated old-client saves and simultaneous storage or
+replacement without resurrection or duplication.

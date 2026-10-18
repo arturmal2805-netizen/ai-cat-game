@@ -52,3 +52,7 @@ and leave genuinely buildable outer land. Check all shore clearances, camera fit
 bridges, old and new placements, and repeated saves. Update only snapshots whose
 records were explicitly changed by the user's request; add an independent test
 that all other island records and existing save fields stay unchanged.
+Test shared saves from cached clients using the previous island boundaries.
+Their normalization must not silently delete new outer-land purchases; preserve
+IDs and attached state while permitting actual storage/replacement without
+duplicating or resurrecting a building removed on the other device.

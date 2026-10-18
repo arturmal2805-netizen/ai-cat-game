@@ -10,7 +10,9 @@ import {
   LOGIN_COINS,
   ATTENTION_COINS,
   ATTENTION_COOLDOWN,
+  footprint,
 } from "./public/economy.js";
+import { BUILDING_EXPANSIONS } from "./public/building-expansions.js";
 import { BIOMES, byItem } from "./public/game-data.js";
 import { BOWL_CAPACITY, advanceCare } from "./public/care-system.js";
 import { levelForXP, DAILY_XP_LIMIT } from "./public/progression.js";
@@ -228,6 +230,31 @@ export function mergeSharedWorld(base, current, incoming) {
   // so two purchases cannot award the same level-up coins twice.
   const b = clone(base),
     n = clone(incoming);
+  // A cached pre-expansion client drops outer plots in loadGame. This is not a
+  // store action: genuine storage/replacement retains the owned item count.
+  // Restore only the unaccounted loss, with stable IDs and its attached state.
+  const owned = (game, item) =>
+    (game.inventory[item] || 0) +
+    game.placements.filter((p) => p.item === item).length;
+  for (const p of b.placements) {
+    const expanded = BUILDING_EXPANSIONS[p.biome];
+    if (!expanded || n.placements.some((v) => v.id === p.id)) continue;
+    const [w, d] = footprint(p.item, p.rotation);
+    if (
+      Math.hypot(Math.abs(p.x) + w / 2, Math.abs(p.z) + d / 2) <=
+        expanded.originalRadius - 0.7 ||
+      owned(n, p.item) >= owned(b, p.item)
+    )
+      continue;
+    n.placements.push(clone(p));
+    for (const [old, next] of [
+      [b.farm.fields, n.farm.fields],
+      [b.business.accounts, n.business.accounts],
+      [b.business.levels || {}, (n.business.levels ||= {})],
+    ])
+      if (old[p.id] !== undefined && next[p.id] === undefined)
+        next[p.id] = clone(old[p.id]);
+  }
   if (n.diamonds === undefined) n.diamonds = b.diamonds || 0;
   if (n.business.totalDiamonds === undefined)
     n.business.totalDiamonds = b.business.totalDiamonds || 0;
