@@ -10,6 +10,88 @@ import {
 import { dreamStair } from "./reference-slide-motion.js";
 const GOLD = 0xffd17f,
   CREAM = 0xffedcf;
+const cliffs = new Map();
+function cliff(parent, x, z, height, radius, ice, seed = 0) {
+  seed %= 4;
+  if (!cliffs.has(seed)) {
+    const g = new THREE.CylinderGeometry(0.83, 1.13, 1, 10, 5),
+      p = g.attributes.position;
+    for (let i = 0; i < p.count; i++) {
+      const y = p.getY(i) + 0.5,
+        a = Math.atan2(p.getZ(i), p.getX(i)),
+        ledge =
+          1 +
+          0.08 * Math.sin(y * 27 + seed * 2) +
+          0.07 * Math.sin(a * 3 + seed);
+      p.setXYZ(
+        i,
+        p.getX(i) * ledge + Math.sin(y * 5 + seed) * 0.08,
+        y,
+        p.getZ(i) * ledge,
+      );
+    }
+    g.computeVertexNormals();
+    g.userData.sharedScenery = true;
+    cliffs.set(seed, g);
+  }
+  const rock = shape(
+    parent,
+    "stone",
+    ice ? 0xb8d9ed : 0xb3ad9e,
+    x,
+    0,
+    z,
+    radius,
+    height,
+    radius * 0.86,
+  );
+  rock.geometry = cliffs.get(seed);
+  rock.name = "Faceted cliff with a flat garden terrace";
+  shape(
+    parent,
+    "sphere",
+    ice ? 0xeffaff : 0x79ad62,
+    x,
+    height + 0.05,
+    z,
+    radius * 0.94,
+    0.26,
+    radius * 0.78,
+  );
+  // Hanging gardens follow the cliff face, clear of all boarding corridors.
+  for (let vine = 0; vine < 3; vine++) {
+    const vx = x + (vine - 1) * radius * 0.47,
+      vz = z + radius * 0.73;
+    for (let leaf = 0; leaf < 5; leaf++) {
+      const yy = height - leaf * 0.7 - 0.25;
+      if (yy < 0.6) break;
+      shape(
+        parent,
+        "petal",
+        ice ? 0xb2d3c0 : leaf % 2 ? 0x6ca858 : 0x9ccf67,
+        vx + Math.sin(leaf * 1.6 + vine) * 0.15,
+        yy,
+        vz,
+        0.27,
+        0.43,
+        0.18,
+      ).rotation.z = vine % 2 ? 0.3 : -0.3;
+      if (leaf === 1 && vine !== 1)
+        flowerCluster(parent, vx, vz + 0.1, ice ? 0xcdb6ef : 0xffa6cb, 0.8, yy);
+    }
+  }
+}
+function pavilion(parent, x, y, z, scale = 1) {
+  const g = teaPavilion(parent, x, y, z, 0xffc75d, scale);
+  shape(g, "cone", 0xffd775, 0, 3.05, 0, 1.38, 0.85, 1.16).rotation.y =
+    Math.PI / 4;
+  shape(g, "sphere", 0xffedb1, 0, 3.58, 0, 0.16, 0.25, 0.16, true);
+  for (const side of [-1, 1]) {
+    line(g, [side * 1.55, 2.18, 0], [side * 1.92, 2.52, 0], GOLD, 0.05);
+    lantern(g, side * 1.1, 1.65, 0.9, 0.32);
+  }
+  return g;
+}
 export function shellFan(props, x, y, z, size = 1, pink = 0xf3b6dc) {
   const fan = new THREE.Group();
   fan.position.set(x, y, z);
@@ -143,8 +225,9 @@ export function* referenceProps(props, spec, route) {
         0.2,
         1.05,
       );
+    m.name = "Wide radial boarding stair tread";
     m.rotation.y =
-      (i / steps) * Math.PI * 2 * Math.max(1, Math.round(route.height / 8));
+      (i / steps) * Math.PI * 2 * Math.max(1, Math.round(route.height / 8)) - Math.PI / 2;
   }
   shape(
     props,
@@ -251,20 +334,8 @@ export function* referenceProps(props, spec, route) {
     const x = i === 0 ? -12 : i % 2 ? 16 : -18,
       z = i === 0 ? 14.5 : -13 + i * 5.7,
       y = i ? Math.max(0, h * 0.65 - i * 3) : 0;
-    if (y)
-      for (let j = 0; j < 3; j++)
-        shape(
-          props,
-          "stone",
-          j % 2 ? 0xa8b2aa : 0xc0b5ab,
-          x + (j - 1) * 0.65,
-          y / 2,
-          z,
-          1.5,
-          y / 2,
-          1.7,
-        );
-    teaPavilion(props, x, y, z, 0xffd17c, 0.95);
+    if (y) cliff(props, x, z, y, 2.15, kind === "ice-tunnel", i);
+    pavilion(props, x, y, z, 1.45);
     flowerCluster(props, x + 1.4, z + 1.2, 0xffb4d7, 0.9, y);
   }
   // A terraced cliff garden connects the towers to the themed landscape.
@@ -274,29 +345,7 @@ export function* referenceProps(props, spec, route) {
     const x = -12 + i * 4,
       y = 5 + (i % 4) * 3.2,
       ice = kind === "ice-tunnel";
-    for (let j = 0; j < 3; j++)
-      shape(
-        props,
-        "stone",
-        ice ? 0xc7e5f6 : j % 2 ? 0xb7afa5 : 0x9ca8a2,
-        x + (j - 1) * 0.65,
-        y / 2,
-        -20.5,
-        2.3,
-        y / 2 + 1,
-        2.3,
-      );
-    shape(
-      props,
-      "sphere",
-      ice ? 0xe3f4ff : 0x8eb66d,
-      x,
-      y + 0.4,
-      -20.5,
-      2.2,
-      0.4,
-      2.1,
-    );
+    cliff(props, x, -20.5, y + 0.3, 2.2, ice, i);
     flowerCluster(
       props,
       x,
@@ -306,7 +355,26 @@ export function* referenceProps(props, spec, route) {
       y + 0.5,
     );
     if (i % 2 === 0) palm(props, x, y + 0.5, -20.5, 0.6);
-    if (i % 3 === 1) teaPavilion(props, x, y + 0.6, -20.5, 0xffd07a, 0.8);
+    if (i % 3 === 1) pavilion(props, x, y + 0.6, -20.5, 0.9);
+  }
+  for (let i = 0; i < 12; i++) {
+    yield;
+    const a = -1.2 + i * 0.205,
+      x = Math.sin(a) * 17,
+      z = 4 + Math.cos(a) * 14.5;
+    // The pool stairs and dry left-hand return route remain unobstructed.
+    if (Math.abs(x - 3) < 4.5) continue;
+    shape(props, "sphere", 0x7daf66, x, 0.35, z, 1.1, 0.4, 0.75);
+    for (let f = 0; f < 3; f++)
+      flowerCluster(
+        props,
+        x + (f - 1) * 0.55,
+        z,
+        [0xff9bc5, 0xe2b6fa, 0xffdd78][(i + f) % 3],
+        1.2,
+        0.45,
+      );
+    if (i % 3 === 0) lantern(props, x, 0.6, z - 0.4, 0.8);
   }
   if (["pearl-funnel", "orbital-shell"].includes(kind))
     shellFan(props, 0, 10, -8, 1.05, color);

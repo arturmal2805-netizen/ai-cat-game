@@ -127,6 +127,41 @@ test("guest list omits the waiting queue and exposes each active rider on its ow
   ]);
   assert.deepEqual(rideGuests("s", null, visits), ["riding"]);
 });
+test("wave-slide hops splash on their raised receiving channel before the final pool landing", () => {
+  const g = makeAttraction("slide-dream-tidal-wave"),
+    w = g.userData.slideWater;
+  g.position.set(37, 0.16, -24);
+  g.rotation.y = 0.7;
+  g.updateMatrixWorld(true);
+  const transfers = w.events.filter((e) => e.basin === false);
+  assert.equal(transfers.length, 2);
+  for (const [i, event] of transfers.entries()) {
+    g.userData.rideElapsed = event.time + 0.02;
+    g.userData.update(100 + i);
+    const splash = w.effects.points.find((p) => p.w === 100 + i);
+    assert.ok(splash);
+    assert.ok(
+      new THREE.Vector3(splash.x, splash.y, splash.z).distanceTo(
+        new THREE.Vector3(...event.waterPoint),
+      ) < 1e-6,
+    );
+    assert.ok(splash.y > g.userData.pool.position.y + 2);
+    assert.equal(g.userData.pool.userData.water.uniforms.uRippleCount.value, 0);
+    const world = g.localToWorld(new THREE.Vector3(...event.waterPoint));
+    assert.ok(
+      w.materials.some((m) =>
+        m.uniforms.uRipples.value.some(
+          (r) =>
+            Math.hypot(r.x - world.x, r.y - world.z) < 1e-6 && r.z === 100 + i,
+        ),
+      ),
+    );
+  }
+  g.userData.rideElapsed = w.events.at(-1).time + 0.02;
+  g.userData.update(103);
+  assert.equal(g.userData.pool.userData.water.uniforms.uRippleCount.value, 1);
+  disposeScenery(g);
+});
 test("splash audio stays silent before a gesture, reuses one noise buffer, bounds voices and disposes its listener", () => {
   let allocated = 0,
     contexts = 0,

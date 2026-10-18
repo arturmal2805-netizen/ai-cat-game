@@ -113,11 +113,12 @@ async function localWorker() {
     g.adoption.cats = [
       { id: "adopt-crumb", homeBiome: "homestead" },
       { id: "adopt-doughnut", homeBiome: "homestead" },
+      { id: "adopt-luna", homeBiome: "homestead" },
     ];
     g.progression.xp = xpForLevel(20);
     g.lastVisit = gameDay(now);
     g.progression.lastVisitDay = gameDay(now);
-    g.coins = 1000000;
+    g.coins = 8000000;
     g.catPosition = { biome: "homestead", x: -18, z: 20 };
     g.catDestinations = {};
     g.cat.energy = 95;
@@ -271,7 +272,13 @@ async function localWorker() {
       () => window.__lagoonQA && window.__lagoonSaveQA?.cloud.editable,
     );
 
-    const { MEGA_RIDES } = await import(root + "/public/mega-ride-data.js");
+    const { MEGA_RIDES } = await import(root + "/public/mega-ride-data.js"),
+      { REFERENCE_SLIDES } = await import(
+        root + "/public/reference-slide-data.js"
+      ),
+      rides = process.env.CHICHI_REFERENCE_SLIDES
+        ? REFERENCE_SLIDES
+        : MEGA_RIDES;
     await page.locator('[data-biome="homestead"]').tap();
     await page.waitForFunction(
       () =>
@@ -286,10 +293,10 @@ async function localWorker() {
     });
     let previous = null;
     const selected = process.env.CHICHI_MEGA_FILTER
-      ? MEGA_RIDES.filter((r) =>
+      ? rides.filter((r) =>
           process.env.CHICHI_MEGA_FILTER.split(",").includes(r.id),
         )
-      : MEGA_RIDES;
+      : rides;
     for (const spec of selected) {
       console.log("Checking mobile ride:", spec.id);
       const id = await page.evaluate(
@@ -439,9 +446,22 @@ async function localWorker() {
           true,
           id,
         );
-        await page.evaluate(() =>
-          __lagoonQA.faceCamera.setEnabled(false, __lagoonQA.look),
-        );
+        const guestFrame = await page.evaluate(() => {
+          const q = __lagoonQA;
+          q.drawFrame();
+          return q.cat.userData.head.getWorldPosition(new q.THREE.Vector3())
+            .project(q.camera).toArray();
+        });
+        assert.ok(Math.abs(guestFrame[0]) < 0.9 && Math.abs(guestFrame[1]) < 0.9 &&
+          guestFrame[2] < 1, "Guest camera must contain its actual rider: " + guestFrame);
+        await page.screenshot({path: path.join(review, spec.id + "-guest-camera.png")});
+        await page.evaluate(() => {
+          const q = __lagoonQA;
+          q.faceCamera.setEnabled(false, q.look);
+          q.focus("homestead");
+          q.reviewView(-250, -55, 105);
+          q.desiredLook.y = 9;
+        });
         console.log("Actual occupied guest-camera button checked:", spec.id);
       }
       const times = await page.evaluate((id) => {
@@ -666,7 +686,10 @@ async function localWorker() {
               g = q.itemGroups.get(id);
             if (!v || v.elapsed < t - 0.01) return false;
             const p = g.localToWorld(
-              new q.THREE.Vector3(...g.userData.rideFrame(v.elapsed).position),
+              new q.THREE.Vector3(
+                ...g.userData.rideFrame(v.elapsed, false, v.rider?.lane || 0)
+                  .position,
+              ),
             );
             return q.npcs.get(kitten).carrier.position.distanceTo(p) < 0.005;
           },
@@ -677,10 +700,14 @@ async function localWorker() {
             const q = __lagoonQA,
               v = q.residentPlay.get(kitten),
               g = q.itemGroups.get(id),
-              f = g.userData.rideFrame(v.elapsed),
+              f = g.userData.rideFrame(v.elapsed, false, v.rider?.lane || 0),
               p = g.localToWorld(new q.THREE.Vector3(...f.position)),
               rig = q.npcs.get(kitten).model.userData,
-              reaction = g.userData.rideReaction(v.elapsed),
+              reaction = g.userData.rideReaction(
+                v.elapsed,
+                false,
+                v.rider?.lane || 0,
+              ),
               front = rig.legs.find((leg) => leg.position.z > 0);
             return {
               gap: q.npcs.get(kitten).carrier.position.distanceTo(p),

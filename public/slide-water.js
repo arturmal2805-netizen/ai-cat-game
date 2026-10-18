@@ -486,10 +486,16 @@ export function installSlideWater(
     lastElapsed = null,
     lastReduced = null;
   const events = impacts || root.userData.route?.impacts || [];
+  let surfaceRipple = 0;
   const update = (time, reduced = false) => {
     const elapsed = root.userData.rideElapsed;
     previous?.(time, reduced);
-    if (!root.userData.slideRiders?.size && time === lastTime && elapsed === lastElapsed && reduced === lastReduced)
+    if (
+      !root.userData.slideRiders?.size &&
+      time === lastTime &&
+      elapsed === lastElapsed &&
+      reduced === lastReduced
+    )
       return;
     clock.value = reduced ? 0 : time;
     effects.uniforms.uReduced.value = reduced ? 1 : 0;
@@ -510,25 +516,49 @@ export function installSlideWater(
     const clocks = root.userData.slideRiders
       ? [...root.userData.slideRiders.values()]
       : [{ elapsed, waterElapsed: lastElapsed }];
-    for (const rider of clocks) if (Number.isFinite(rider.elapsed) && !reduced) {
-      const elapsed = rider.elapsed;
-      const start =
-        rider.waterElapsed !== null && elapsed >= rider.waterElapsed ? rider.waterElapsed : -0.001;
-      for (const event of (root.userData.route?.lanes?.[rider.lane || 0]?.impacts || events))
-        if (event.time > start && event.time <= elapsed) {
-          const point = new THREE.Vector3(...event.point);
-          point.y = basin.position.y + 0.161;
-          effects.burst(point, time, event.power ?? 1.8);
-          basin.userData.disturb?.(
-            point.x - basin.position.x,
-            point.z - basin.position.z,
-            time,
-            event.power ?? 1.5,
-          );
-          root.userData.onWaterImpact?.(event.power ?? 1.5);
-        }
-      rider.waterElapsed = elapsed;
-    }
+    for (const rider of clocks)
+      if (Number.isFinite(rider.elapsed) && !reduced) {
+        const elapsed = rider.elapsed;
+        const start =
+          rider.waterElapsed !== null && elapsed >= rider.waterElapsed
+            ? rider.waterElapsed
+            : -0.001;
+        for (const event of root.userData.route?.lanes?.[rider.lane || 0]
+          ?.impacts || events)
+          if (event.time > start && event.time <= elapsed) {
+            const point = new THREE.Vector3(
+              ...(event.waterPoint || event.point),
+            );
+            if (event.basin !== false) point.y = basin.position.y + 0.161;
+            effects.burst(point, time, event.power ?? 1.8);
+            if (event.basin !== false)
+              basin.userData.disturb?.(
+                point.x - basin.position.x,
+                point.z - basin.position.z,
+                time,
+                event.power ?? 1.5,
+              );
+            else {
+              root.updateWorldMatrix(true, false);
+              const worldPoint = point.clone().applyMatrix4(root.matrixWorld);
+              const index = surfaceRipple++ % 6;
+              for (const material of materials) {
+                material.uniforms.uRipples.value[index].set(
+                  worldPoint.x,
+                  worldPoint.z,
+                  time,
+                  event.power ?? 0.7,
+                );
+                material.uniforms.uRippleCount.value = Math.min(
+                  6,
+                  surfaceRipple,
+                );
+              }
+            }
+            root.userData.onWaterImpact?.(event.power ?? 1.5);
+          }
+        rider.waterElapsed = elapsed;
+      }
     const activeBurst = effects.points.some(
       (p) => time - p.w >= 0 && time - p.w < 1.8,
     );

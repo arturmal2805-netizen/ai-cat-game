@@ -36,7 +36,6 @@ import { createCourtCinema } from "./foodcourt-cinema.js";
 import { placeCourtFood } from "./court-food-pose.js";
 import { mosaDryPoint } from "./mosasaur-data.js";
 import { createResidentPlay } from "./resident-play.js";
-import { rideGuests } from "./ride-guests.js";
 import {
   reserveSlide,
   releaseSlide,

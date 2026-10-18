@@ -588,8 +588,21 @@ function makeLane(spec, lane) {
       };
     });
     last = { position: to };
-    if (i < authored.parts.length - 1)
-      impacts.push({ time: clock, point: to, power: 0.7 });
+    if (i < authored.parts.length - 1) {
+      const receiving = datasets.get(next).at(0),
+        up = new THREE.Vector3(0, 1, 0).applyQuaternion(
+          new THREE.Quaternion().fromArray(receiving.quaternion),
+        );
+      impacts.push({
+        time: clock,
+        point: to,
+        power: 0.7,
+        basin: false,
+        waterPoint: V(to)
+          .addScaledVector(up, DREAM_WATER - DREAM_SEAT)
+          .toArray(),
+      });
+    }
   }
   const end = last.position,
     hit = [3, 1.67, 12];

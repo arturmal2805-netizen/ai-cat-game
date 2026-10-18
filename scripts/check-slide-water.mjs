@@ -106,7 +106,7 @@ try {
               w.effects.spray.geometry.attributes.aOrigin.version);
         const idleSpray = w?.effects.spray.visible;
         if (w?.events.length) {
-          model.userData.rideElapsed = w.events[0].time + 0.02;
+          model.userData.rideElapsed = w.events.at(-1).time + 0.02;
           draw(50);
         }
         const impact = w
