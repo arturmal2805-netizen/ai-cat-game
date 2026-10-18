@@ -1,4 +1,11 @@
 import { aquariumTank } from "./aquarium-data.js";
+import { attractionVisibility } from "./attraction-visibility.js";
+import { rideGuests } from "./ride-guests.js";
+import {
+  enableCatRenderBatch,
+  batchSceneCats,
+  CAT_PICK_LAYER,
+} from "./cat-render-batch.js";
 import { builderSpeed } from "./construction-boost.js";
 import { bikiniFriend, BIKINI_GATE } from "./bikini-data.js";
 import { createBikiniCharacter } from "./bikini-characters.js";
@@ -49,7 +56,11 @@ import { RENEWED_ISLANDS } from "./renewal-data.js";
 import { islandHeight } from "./renewed-biomes.js";
 import { capybaraDryPoint } from "./capybara-data.js";
 import { createChichiCamera } from "./chichi-camera.js";
-import { islandOverviewDistance, randomCameraCat } from "./camera-views.js";
+import {
+  islandOverviewDistance,
+  randomCameraCat,
+  attractionCameraView,
+} from "./camera-views.js";
 import { placeWorldBadge } from "./world-hud.js";
 import { islandProjectModel } from "./island-project-model.js";
 import { islandObjects } from "./world-objects.js";
@@ -163,6 +174,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
     `Сказочный мир Чичи: ${BIOMES.length} биомов, коты и атттракционы`,
   );
   const scene = new THREE.Scene();
+  const attractionViews = new WeakMap(),
+    attractionFrustum = new THREE.Frustum(),
+    attractionProjection = new THREE.Matrix4();
   scene.matrixAutoUpdate = false;
   scene.fog = new THREE.FogExp2(0xc0bfd7, 0.0035);
   // The closest allowed orbit is 21 units. A less extreme near/far ratio gives
@@ -376,6 +390,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   let cat = createCat(initialGame.cat.mood);
   chichiCarrier.add(cat);
   scene.add(chichiCarrier);
+  const heroVisibility = attractionVisibility(chichiCarrier);
   let followedCatId = "chichi",
     lastRandomCatId = null;
   const faceCamera = createChichiCamera(camera, cat.userData.head, {
@@ -582,6 +597,36 @@ export function createWorld(container, initialGame, callbacks = {}) {
           ? "Позвать Чичи смотреть кино"
           : "Позвать Чичи · заказать";
     cinema.show(o.kind === "cinema");
+    return true;
+  }
+  function applyAttractionCamera(g) {
+    const view = attractionCameraView(
+      new THREE.Box3().setFromObject(g),
+      camera.fov,
+      camera.aspect,
+      g.rotation.y,
+    );
+    desiredLook.copy(view.target);
+    desiredDistance = view.distance;
+    azimuth = view.azimuth;
+    elevation = view.elevation;
+    if (courtCamera) courtCamera.aspect = camera.aspect;
+  }
+  function inspectAttraction(id) {
+    const g = itemGroups.get(id);
+    if (!g?.userData.built) return false;
+    focus(g.userData.placement.biome);
+    courtCamera = {
+      id,
+      attraction: true,
+      look: desiredLook.clone(),
+      distance: desiredDistance,
+      azimuth,
+      elevation,
+    };
+    applyAttractionCamera(g);
+    courtExit.hidden = false;
+    courtOrder.hidden = true;
     return true;
   }
   const court = createCourtRuntime({
@@ -1465,6 +1510,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
             ?.userData.disturb?.(x, z, time, force);
       scene.add(g);
       itemGroups.set(o.id, g);
+      batchSceneCats(g);
+      if (g.userData.aquarium !== true)
+        attractionViews.set(g, attractionVisibility(g));
     }
     for (const [id, g] of itemGroups) {
       if (g.userData.homeObject) continue;
@@ -1512,6 +1560,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
       g.userData.placementId = placement.id;
       scene.add(g);
       itemGroups.set(placement.id, g);
+      batchSceneCats(g);
+      attractionViews.set(g, attractionVisibility(g));
     }
     for (const p of businessVenues(game)) {
       const g = itemGroups.get(p.id);
@@ -1541,6 +1591,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
             ...catAppearance(profile),
           });
       model.scale.setScalar(0.63 * (profile.size || 1));
+      enableCatRenderBatch(model);
       // Move the exact existing tiny model into the normal actor rig. The
       // cook and second visitor stay at the counter; no duplicate mesh is drawn.
       model.position.set(0, 0, 0);
@@ -2136,6 +2187,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     mouse = new THREE.Vector2(),
     ground = new THREE.Plane(new THREE.Vector3(0, 1, 0), -0.16);
   const occlusionRay = new THREE.Raycaster();
+  raycaster.layers.enable(CAT_PICK_LAYER);
   const occlusionBounds = new THREE.Box3(),
     occlusionPoint = new THREE.Vector3();
   let lastOcclusionCheck = -1;
@@ -2880,6 +2932,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
       return;
     }
     if (!dialogOpen && worldVisible) viewport.apply(renderer, camera);
+    if (courtCamera?.attraction) {
+      const g = itemGroups.get(courtCamera.id);
+      if (!g) exitCourt();
+      else if (courtCamera.aspect !== camera.aspect) applyAttractionCamera(g);
+    }
     lastRender = now;
     const dt = Math.min((now - previousTime) / 1000, 0.1);
     previousTime = now;
@@ -2958,10 +3015,15 @@ export function createWorld(container, initialGame, callbacks = {}) {
           ),
         );
     }
+    const occupiedAttractions = new Set(
+      [...residentPlay.visits.values()].map((v) => v.object),
+    );
+    if (operation?.attraction) occupiedAttractions.add(operation.attraction);
     for (const g of itemGroups.values())
       if (
         !reduced &&
         !dialogOpen &&
+        (g.visible || occupiedAttractions.has(g)) &&
         (!g.userData.foodcourt ||
           (focused === g.userData.placement?.biome &&
             g.position.distanceToSquared(camera.position) < 180 * 180))
@@ -4490,6 +4552,38 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }
     sun.position.set(look.x - 14, 35, look.z + 20);
     sun.target.position.copy(look);
+    sun.updateWorldMatrix(true, false);
+    sun.target.updateWorldMatrix(true, false);
+    sun.shadow.updateMatrices(sun);
+    camera.updateMatrixWorld();
+    attractionProjection.multiplyMatrices(
+      camera.projectionMatrix,
+      camera.matrixWorldInverse,
+    );
+    attractionFrustum.setFromProjectionMatrix(
+      attractionProjection,
+      camera.coordinateSystem,
+      camera.reversedDepth,
+    );
+    chichiCarrier.visible = heroVisibility(
+      attractionFrustum,
+      sun.shadow.getFrustum(),
+    );
+    for (const g of itemGroups.values()) {
+      if (!attractionViews.has(g)) continue;
+      const visible = attractionViews.get(g)(
+        attractionFrustum,
+        sun.shadow.getFrustum(),
+      );
+      if (
+        visible &&
+        !g.visible &&
+        !reduced &&
+        (!g.userData.foodcourt || focused === g.userData.placement?.biome)
+      )
+        animateAttraction(g, time);
+      g.visible = visible;
+    }
     scene.fog.density = distance > 90 ? 0.0007 : 0.0035;
     updateOcclusion(now, dt);
     // The opaque shop covers the map. Keep the simulation running, but avoid
@@ -4567,6 +4661,13 @@ export function createWorld(container, initialGame, callbacks = {}) {
     },
     isFollowingChichi: () => faceCamera.enabled && followedCatId === "chichi",
     followRandomCat,
+    inspectAttraction,
+    rideGuests: (id) => rideGuests(id, operation, residentPlay.visits),
+    followRideGuest(id) {
+      const guests = rideGuests(id, operation, residentPlay.visits);
+      const next = guests[(guests.indexOf(followedCatId) + 1) % guests.length];
+      return next && followCat(next) ? next : null;
+    },
     islandOverview,
     overview: () => focus("moon", true),
     zoom: (delta) =>

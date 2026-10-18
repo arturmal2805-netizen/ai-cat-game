@@ -9,6 +9,8 @@ import { batchModelSteps } from "./model-batching.js";
 import { applyUnderwaterLighting } from "./water-shading.js";
 import { aquariumFishFrame } from "./aquarium-data.js";
 import { createFishPalette, applyFishMotion } from "./aquarium-motion.js";
+import { fishVisibility } from "./aquarium-visibility.js";
+import { optimizeGeometryCache } from "./geometry-cache.js";
 import { runSceneSteps } from "./scene-tasks.js";
 
 // One smoothly rounded model shared by all 50 fish. The marker is replaced by
@@ -407,7 +409,7 @@ function* fishTemplates() {
     fin: yield* bake(fin),
   });
 }
-function coatMaterial(source, clock, tint) {
+function coatMaterial(source, clock, tint, palette, coats) {
   const m = applyUnderwaterLighting(source.clone(), clock, tint, {
     refract: false,
   });
@@ -415,15 +417,17 @@ function coatMaterial(source, clock, tint) {
     key = m.customProgramCacheKey();
   m.onBeforeCompile = function (shader, ...args) {
     previous.call(this, shader, ...args);
+    shader.uniforms.uFishCoats = { value: coats };
     shader.vertexShader = shader.vertexShader.replace(
       "#include <color_vertex>",
       `#include <color_vertex>
-#ifdef USE_INSTANCING_COLOR
  // Pure magenta marks fur only. Do not tint the whites, pupils or catchlights.
- if(color.r>.99 && color.g<.01 && color.b>.99) vColor.rgb=instanceColor;
+ if(color.r>.99 && color.g<.01 && color.b>.99) vColor.rgb=uFishCoats[uFishIds[gl_InstanceID]];
  else vColor.rgb=color;
-#endif`,
+`,
     );
+    shader.vertexShader =
+      `uniform vec3 uFishCoats[${palette.tank.fish}];\n` + shader.vertexShader;
   };
   m.customProgramCacheKey = () => key + "-kitten-coat-v1";
   m.userData.sharedScenery = false;
@@ -461,6 +465,7 @@ function* packedFishSteps(parts) {
   if (!packed) throw Error("Incompatible kitten-fish surfaces");
   geometries.forEach((g) => g.dispose());
   packed.userData.sharedScenery = true;
+  optimizeGeometryCache(packed);
   return packed;
 }
 export function* aquariumShoalSteps(tank, clock) {
@@ -468,6 +473,7 @@ export function* aquariumShoalSteps(tank, clock) {
     parts = yield* fishTemplates(),
     geometry = yield* packedFishSteps(parts),
     palette = createFishPalette(tank),
+    coats = new Float32Array(tank.fish * 3),
     material = applyFishMotion(
       coatMaterial(
         new THREE.MeshStandardMaterial({
@@ -477,6 +483,8 @@ export function* aquariumShoalSteps(tank, clock) {
         }),
         clock,
         tank.color,
+        palette,
+        coats,
       ),
       palette,
     ),
@@ -518,8 +526,19 @@ export function* aquariumShoalSteps(tank, clock) {
     for (let i = first; i < hits.length; i++) hits[i].object = mesh;
   };
   const color = new THREE.Color();
-  for (let i = 0; i < tank.fish; i++)
-    mesh.setColorAt(i, color.set(aquariumFishFrame(tank, i, 0).color));
+  for (let i = 0; i < tank.fish; i++) {
+    color.set(aquariumFishFrame(tank, i, 0).color);
+    mesh.setColorAt(i, color);
+    color.toArray(coats, i * 3);
+  }
+  const cull = fishVisibility(mesh, palette, [
+    ["body", parts.body.map((p) => p.geometry)],
+    ["tail", parts.tail.map((p) => p.geometry)],
+    ["leftFin", parts.fin.map((p) => p.geometry)],
+    ["rightFin", parts.fin.map((p) => p.geometry)],
+  ]);
+  mesh.onBeforeRender = (_renderer, _scene, camera) => cull(camera);
+  mesh.userData.cullFish = cull;
   root.add(mesh);
   root.userData.palette = palette;
   root.userData.collisionParts = colliders;

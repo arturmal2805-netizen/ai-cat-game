@@ -309,6 +309,62 @@ async function localWorker() {
         id,
       );
       await page.waitForFunction(() => !__expansionActions.busy());
+      if (process.env.CHICHI_CAMERA_CHECKS) {
+        await page.evaluate((id) => {
+          __lagoonQA.residentPlay.clear();
+          for (const n of __lagoonQA.npcs.values())
+            n.manualUntil = performance.now() + 1e8;
+          __lagoonQA.callbacks.onSelectItem(id);
+        }, id);
+        await page.locator("#item-guest-camera").waitFor({ state: "visible" });
+        assert.equal(
+          await page.locator("#item-guest-camera").isDisabled(),
+          true,
+        );
+        await page.locator("#item-attraction-camera").tap();
+        assert.equal(
+          await page.locator("#item-dialog").evaluate((d) => d.open),
+          false,
+        );
+        assert.equal(
+          await page.evaluate(
+            (id) =>
+              __lagoonQA.getCourtCamera()?.id === id &&
+              __lagoonQA.getCourtCamera()?.attraction,
+            id,
+          ),
+          true,
+          id,
+        );
+        await page.waitForTimeout(1000);
+        const fit = await page.evaluate((id) => {
+          const q = __lagoonQA,
+            g = q.itemGroups.get(id),
+            b = new q.THREE.Box3().setFromObject(g);
+          return {
+            distance: q.getDesiredDistance(),
+            target: q.desiredLook.toArray(),
+            center: b.getCenter(new q.THREE.Vector3()).toArray(),
+          };
+        }, id);
+        assert.ok(
+          fit.target.every((v, i) => Math.abs(v - fit.center[i]) < 0.001),
+          JSON.stringify(fit),
+        );
+        await page
+          .locator(".court-camera-exit")
+          .filter({ hasText: "Вернуться" })
+          .tap();
+        assert.equal(
+          await page.evaluate(() => __lagoonQA.getCourtCamera()),
+          null,
+        );
+        console.log(
+          "Attraction overview button and return checked:",
+          spec.id,
+          fit.distance,
+        );
+      }
       if (spec.kind === "funnel") {
         await page.evaluate(() => {
           const q = __lagoonQA;
@@ -342,6 +398,32 @@ async function localWorker() {
       await page.waitForFunction(
         () => __lagoonQA.getOperation()?.stage === "activity",
       );
+      if (process.env.CHICHI_CAMERA_CHECKS) {
+        await page.evaluate((id) => __lagoonQA.callbacks.onSelectItem(id), id);
+        assert.equal(
+          await page.locator("#item-guest-camera").isEnabled(),
+          true,
+        );
+        assert.equal(await page.locator("#item-move").isDisabled(), true);
+        await page.locator("#item-guest-camera").tap();
+        await page.waitForTimeout(900);
+        assert.equal(
+          await page.evaluate(() => __lagoonQA.faceCamera.enabled),
+          true,
+        );
+        assert.equal(
+          await page.evaluate(
+            (id) => __lagoonQA.getOperation()?.decision.activityId === id,
+            id,
+          ),
+          true,
+          id,
+        );
+        await page.evaluate(() =>
+          __lagoonQA.faceCamera.setEnabled(false, __lagoonQA.look),
+        );
+        console.log("Actual occupied guest-camera button checked:", spec.id);
+      }
       const times = await page.evaluate((id) => {
         const r = __lagoonQA.itemGroups.get(id).userData.route;
         let t = r.legs.find(

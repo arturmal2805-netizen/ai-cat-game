@@ -19,7 +19,7 @@ const scene=new T.Scene();scene.background=new T.Color(0xc5d9e3);scene.add(new T
 const camera=new T.PerspectiveCamera(35,800/620,.1,150);let tank;
 window.load=async(index)=>{if(tank){tank.userData.shoal.removeFromParent();tank.removeFromParent();}tank=courtVenue(AQUARIUM_TANKS[index]);scene.add(tank);tank.userData.update(4,true);await renderer.compileAsync(scene,camera);return tank.userData.stats;};
 window.gpuAudit=()=>{
- const mesh=tank.userData.shoal.children[0],pal=tank.userData.shoal.userData.palette,g=mesh.geometry,gl=renderer.getContext();
+ const mesh=tank.userData.shoal.children[0],pal=tank.userData.shoal.userData.palette,g=mesh.geometry,gl=renderer.getContext();mesh.count=pal.tank.fish;for(let i=0;i<mesh.count;i++)pal.visibleIds.value[i]=mesh.count-1-i;
  const shader={uniforms:{},vertexShader:T.ShaderLib.standard.vertexShader,fragmentShader:T.ShaderLib.standard.fragmentShader};mesh.material.onBeforeCompile(shader,renderer);
  const end=shader.vertexShader.indexOf('varying vec2 vWaterLightPoint;');if(end<0)throw Error('Missing real pose shader');
  const prefix=shader.vertexShader.slice(0,end).replaceAll('attribute ','in ').replaceAll('varying ','out ');
@@ -37,10 +37,10 @@ window.gpuAudit=()=>{
   for(const [time,reduced] of [[0,false],[4.75,false],[18.3,false],[59.9,false],[32,true],[71,true]]){
    tank.userData.update(time,reduced);
    for(const [name,u] of [['uFishPlace',pal.place],['uFishHeading',pal.heading],['uFishLimbs',pal.limbs]])gl.uniform4fv(gl.getUniformLocation(program,name+'[0]'),u.value);
-   gl.enable(gl.RASTERIZER_DISCARD);gl.beginTransformFeedback(gl.POINTS);gl.drawArraysInstanced(gl.POINTS,0,ids.length,mesh.count);gl.endTransformFeedback();gl.disable(gl.RASTERIZER_DISCARD);gl.getBufferSubData(gl.TRANSFORM_FEEDBACK_BUFFER,0,values);
+   gl.uniform1iv(gl.getUniformLocation(program,'uFishIds[0]'),pal.visibleIds.value);gl.enable(gl.RASTERIZER_DISCARD);gl.beginTransformFeedback(gl.POINTS);gl.drawArraysInstanced(gl.POINTS,0,ids.length,mesh.count);gl.endTransformFeedback();gl.disable(gl.RASTERIZER_DISCARD);gl.getBufferSubData(gl.TRANSFORM_FEEDBACK_BUFFER,0,values);
    for(let fish=0;fish<mesh.count;fish++)for(let v=0;v<ids.length;v++){
-    const k=(fish*ids.length+v)*6,part=['body','tail','leftFin','rightFin'][parts[v]];pal.matrixAt(fish,part,matrix);normalMatrix.getNormalMatrix(matrix);
-    p.fromArray(positions,v*3).applyMatrix4(matrix);n.fromArray(normals,v*3).applyMatrix3(normalMatrix).multiplyScalar(pal.poses[fish].scale);
+    const k=(fish*ids.length+v)*6,part=['body','tail','leftFin','rightFin'][parts[v]];pal.matrixAt(pal.visibleIds.value[fish],part,matrix);normalMatrix.getNormalMatrix(matrix);
+    p.fromArray(positions,v*3).applyMatrix4(matrix);n.fromArray(normals,v*3).applyMatrix3(normalMatrix).multiplyScalar(pal.poses[pal.visibleIds.value[fish]].scale);
     maxPositionError=Math.max(maxPositionError,p.distanceTo(new T.Vector3().fromArray(values,k)));maxNormalError=Math.max(maxNormalError,n.distanceTo(new T.Vector3().fromArray(values,k+3)));samples++;
    }
   }
@@ -52,7 +52,22 @@ window.beauty=async(angle=0,phone=false)=>{
  const shoal=tank.userData.shoal;shoal.removeFromParent();scene.add(shoal);tank.visible=false;tank.userData.update(4,true);
  const m=new T.Matrix4();shoal.children[0].getMatrixAt(0,m);const q=new T.Quaternion(),scale=new T.Vector3(),pos=new T.Vector3();m.decompose(pos,q,scale);
  const target=new T.Vector3(0,.28,1.2).applyMatrix4(m);camera.position.copy(target).add(new T.Vector3(Math.sin(angle),.13,Math.cos(angle)).applyQuaternion(q).multiplyScalar(scale.x*3.6));camera.lookAt(target);
- renderer.setPixelRatio(phone?2:1);renderer.setSize(phone?390:800,phone?560:620);camera.aspect=phone?390/560:800/620;camera.updateProjectionMatrix();await renderer.compileAsync(scene,camera);const count=shoal.children[0].count;shoal.children[0].count=1;renderer.render(scene,camera);shoal.children[0].count=count;
+ renderer.setPixelRatio(phone?2:1);renderer.setSize(phone?390:800,phone?560:620);camera.aspect=phone?390/560:800/620;camera.updateProjectionMatrix();await renderer.compileAsync(scene,camera);const mesh=shoal.children[0],before=mesh.onBeforeRender;mesh.onBeforeRender=()=>{mesh.count=1;shoal.userData.palette.visibleIds.value[0]=0;};renderer.render(scene,camera);mesh.onBeforeRender=before;
+};
+window.visibilityAudit=()=>{
+ const mesh=tank.userData.shoal.children[0],pal=tank.userData.shoal.userData.palette,gl=renderer.getContext(),before=mesh.onBeforeRender,rows=[];
+ renderer.setPixelRatio(2);renderer.setSize(390,560);camera.aspect=390/560;camera.updateProjectionMatrix();
+ const a=new Uint8Array(gl.drawingBufferWidth*gl.drawingBufferHeight*4),b=new Uint8Array(a.length);
+ tank.userData.update(8.25,false);
+ for(const [eye,target] of [[[0,16,40],[0,4,0]],[[2,6,13],[0,4,0]],[[23,6,2],[0,4,0]],[[0,30,0],[0,0,0]],[[100,6,2],[100,4,0]]]){
+  camera.position.set(...eye);camera.lookAt(new T.Vector3(...target));
+  mesh.onBeforeRender=()=>{mesh.count=pal.tank.fish;for(let i=0;i<mesh.count;i++)pal.visibleIds.value[i]=i;};
+  renderer.render(scene,camera);gl.readPixels(0,0,gl.drawingBufferWidth,gl.drawingBufferHeight,gl.RGBA,gl.UNSIGNED_BYTE,a);
+  mesh.onBeforeRender=before;renderer.render(scene,camera);gl.readPixels(0,0,gl.drawingBufferWidth,gl.drawingBufferHeight,gl.RGBA,gl.UNSIGNED_BYTE,b);
+  let changed=0,maxError=0;for(let i=0;i<a.length;i++)if(a[i]!==b[i]){changed++;maxError=Math.max(maxError,Math.abs(a[i]-b[i]));}
+  rows.push({eye,visible:mesh.count,total:pal.tank.fish,changed,maxError,triangles:renderer.info.render.triangles});
+ }
+ return rows;
 };window.ready=true;`;
 const result = await build({
   stdin: { contents: source, resolveDir: process.cwd(), loader: "js" },
@@ -90,7 +105,10 @@ try {
     assert.ok(r.maxPositionError < 0.00002, JSON.stringify(r));
     assert.ok(r.maxNormalError < 0.000002, JSON.stringify(r));
     assert.equal(r.draws, 1);
-    console.log("Tank", i, r);
+    const visibility = await page.evaluate(() => visibilityAudit());
+    report[report.length - 1].visibility = visibility;
+    for (const v of visibility) assert.equal(v.changed, 0, JSON.stringify(v));
+    console.log("Tank", i, r, visibility);
     if (i === 1) {
       for (const [name, angle, phone] of [
         ["front", 0, false],

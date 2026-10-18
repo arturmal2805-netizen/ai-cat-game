@@ -5,9 +5,48 @@ import { createChichiCamera } from "../public/chichi-camera.js";
 import {
   islandOverviewDistance,
   randomCameraCat,
+  attractionCameraView,
 } from "../public/camera-views.js";
 import { BIOMES } from "../public/game-data.js";
 import { surfaceTexture } from "../public/fantasy-scenery.js";
+
+test("front attraction camera fits wide pools and tall slides on every phone orientation", () => {
+  for (const aspect of [320 / 740, 390 / 700, 844 / 390, 16 / 9])
+    for (const size of [
+      [6, 4, 5],
+      [54, 52, 48],
+      [26, 35, 28],
+    ])
+      for (const yaw of [0, Math.PI / 2, Math.PI, (3 * Math.PI) / 2]) {
+        const bounds = new THREE.Box3(
+            new THREE.Vector3(-size[0] / 2, 0, -size[2] / 2),
+            new THREE.Vector3(size[0] / 2, size[1], size[2] / 2),
+          ).translate(new THREE.Vector3(-250, 0, -55)),
+          view = attractionCameraView(bounds, 40, aspect, yaw),
+          camera = new THREE.PerspectiveCamera(40, aspect, 0.5, 1200);
+        camera.position
+          .copy(view.target)
+          .add(
+            new THREE.Vector3(
+              Math.sin(view.azimuth) * Math.cos(view.elevation),
+              Math.sin(view.elevation),
+              Math.cos(view.azimuth) * Math.cos(view.elevation),
+            ).multiplyScalar(view.distance),
+          );
+        camera.lookAt(view.target);
+        camera.updateMatrixWorld();
+        for (let i = 0; i < 8; i++) {
+          const p = new THREE.Vector3(
+            i & 1 ? bounds.max.x : bounds.min.x,
+            i & 2 ? bounds.max.y : bounds.min.y,
+            i & 4 ? bounds.max.z : bounds.min.z,
+          ).project(camera);
+          assert.ok(
+            Math.abs(p.x) < 0.84 && Math.abs(p.y) < 0.8 && p.z < 1 && p.z > 0,
+          );
+        }
+      }
+});
 
 test("island shortcut fits every entire island on portrait and landscape screens", () => {
   for (const aspect of [320 / 700, 390 / 700, 844 / 390, 1280 / 720])

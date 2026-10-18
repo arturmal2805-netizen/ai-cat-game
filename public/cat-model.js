@@ -269,6 +269,8 @@ export function disposeCat(cat) {
       ? node.material
       : [node.material])
       materials.add(m);
+    if (node.customDepthMaterial) materials.add(node.customDepthMaterial);
+    if (node.customDistanceMaterial) materials.add(node.customDistanceMaterial);
   });
   geometries.forEach((g) => g.dispose());
   materials.forEach((m) => m.dispose());

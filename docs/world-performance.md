@@ -45,3 +45,37 @@ bytes per rendered frame from 42,688 to 19,008 (55% less), and geometry objects
 from 514 to 460. The five shoals changed 25 draws to 5; fireflies changed 55 draws
 to 3. Both runs retained 56 textures and a 776 × 1464 drawing buffer. These are
 workload measurements, not physical-phone FPS guarantees.
+
+The follow-up also removes unseen fish using the complete articulated bounds,
+not screen-size thresholds. A stable logical-ID palette preserves coats,
+raycasts and fish tracking when GPU instance order changes. All 25 tested
+hall/close/side/overhead/away views at DPR 2 produced identical framebuffer
+pixels with culling enabled. Close views can submit about 70% fewer fish
+triangles. The fish shader no longer fetches and reapplies identity native
+instance matrices after its own pose palette. Index-cache ordering retains the
+exact oriented triangles and every existing attribute byte.
+
+Owned attractions defer visual animation and matrix traversal outside both the
+final camera and its shadow view. Active ride simulation continues, including
+jumps, diving and guest tracking. The same conservative bounds stop Chichi's
+off-camera, deliberately non-culled leg meshes submitting invisible triangles.
+Her approved geometry/material/animation renderer remains unchanged.
+
+Other live cats, including business staff and their tiny visitors, submit their
+existing rig in groups per original material. The GPU receives exact weighted
+bone/rigid transforms and normal transforms; skin, coat fibres, iris clearcoat,
+colours, Float16 coordinates and shadow behaviour are retained. Native rig
+meshes stay available for the existing drag raycasts on layer 31. Geometry and
+uniform storage remain fixed during animation. A private loaded-island audit
+uses four large water attractions, sixteen businesses and sixteen adopted cats;
+it compares original and batched draws in the same scene/pose.
+
+Additional checks are `test/render-workload.test.mjs`,
+`test/cat-render-batch.test.mjs` (every adoption profile),
+`scripts/check-cat-render-batch.mjs` (real colour/shadow frame comparisons), and
+`CHICHI_DRAW_AUDIT=1 CHICHI_SCENE_STRESS=1 node scripts/check-aquarium.cjs`.
+The real phone checks in `scripts/check-mega-rides.cjs` accept
+`CHICHI_CAMERA_CHECKS=1` to exercise both item-dialog camera buttons. Attraction
+overview fits the real model bounds from slightly above its front, including
+portrait/landscape resize; guest tracking selects actual active riders without
+starting/cancelling their visits or changing the saved world.

@@ -9,6 +9,7 @@ export function createFishPalette(tank) {
     place = { value: new Float32Array(tank.fish * 4) },
     heading = { value: new Float32Array(tank.fish * 4) },
     limbs = { value: new Float32Array(tank.fish * 4) },
+    visibleIds = { value: Int32Array.from({ length: tank.fish }, (_, i) => i) },
     fish = new THREE.Object3D(),
     local = new THREE.Object3D();
   let shownTime = NaN,
@@ -60,7 +61,7 @@ export function createFishPalette(tank) {
     return matrix.multiplyMatrices(fish.matrix, local.matrix);
   }
   update(0, true);
-  return { tank, place, heading, limbs, poses, update, matrixAt };
+  return { tank, place, heading, limbs, visibleIds, poses, update, matrixAt };
 }
 
 export function applyFishMotion(material, palette) {
@@ -73,17 +74,24 @@ export function applyFishMotion(material, palette) {
       uFishPlace: palette.place,
       uFishHeading: palette.heading,
       uFishLimbs: palette.limbs,
+      uFishIds: palette.visibleIds,
     });
     shader.vertexShader =
       `
+      // The pose palette already places each complete fish. Native instance
+      // matrices are all identity; applying their position/normal transforms
+      // again needlessly fetches 16 attributes and repeats work per vertex.
+      #undef USE_INSTANCING
+      #undef USE_INSTANCING_COLOR
       attribute float aFishPart;
       attribute vec2 aFishSurface;
       varying vec2 vFishSurface;
       uniform vec4 uFishPlace[${count}];
       uniform vec4 uFishHeading[${count}];
       uniform vec4 uFishLimbs[${count}];
+      uniform int uFishIds[${count}];
       vec3 aquariumPose(vec3 p,bool positionPart){
-        int i=gl_InstanceID;
+        int i=uFishIds[gl_InstanceID];
         vec4 h=uFishHeading[i],l=uFishLimbs[i];
         if(aFishPart>.5 && aFishPart<1.5){
           p=vec3(l.x*p.x+l.y*p.z,p.y,-l.y*p.x+l.x*p.z);
@@ -121,6 +129,6 @@ export function applyFishMotion(material, palette) {
           "#include <metalnessmap_fragment>\nmetalnessFactor=vFishSurface.y;",
         );
   };
-  material.customProgramCacheKey = () => key + "-fish-palette-v2-" + count;
+  material.customProgramCacheKey = () => key + "-fish-palette-v3-" + count;
   return material;
 }

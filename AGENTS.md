@@ -73,3 +73,16 @@ duplicating or resurrecting a building removed on the other device.
   `scripts/check-aquarium-motion.mjs`, and the phone/save integration in
   `scripts/check-aquarium.cjs`. Separate software-renderer diagnostics from real
   phone frame-rate claims; report counts/bytes and retain equal detail/DPR.
+- Whole-attraction culling must use the FINAL camera after face tracking and
+  retain shadow casters and complete airborne/underwater rider bounds. Hidden
+  active rides must continue simulation. Refresh matrices when shown again.
+- Keep Chichi's approved native renderer. Other live cat rigs may batch draw
+  submissions per original material, retaining all vertices, Float16 data,
+  weighted bone transforms, coat coordinates and depth/shadow shaders. Original
+  articulated meshes remain the picking targets on `CAT_PICK_LAYER`; raycasters
+  must include it. Dispose custom depth materials along with regular materials.
+  Run `test/cat-render-batch.test.mjs` for every adoption profile and
+  `scripts/check-cat-render-batch.mjs` for actual same-pose colour/shadow images.
+- Aquarium instance culling must preserve logical fish IDs for colour, picking
+  and tracking. Compare full and culled frames pixel-for-pixel, including hall,
+  close, overhead and phone views; never cull by apparent size or simplify fish.

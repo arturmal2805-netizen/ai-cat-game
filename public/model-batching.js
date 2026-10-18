@@ -1,6 +1,7 @@
 import { runSceneSteps } from "./scene-tasks.js";
 import * as THREE from "three";
 import { mergeSceneSteps } from "./geometry-tasks.js";
+import { optimizeGeometryCache } from "./geometry-cache.js";
 
 // Reduce static draws without replacing the authored material: illuminated
 // windows, polished rails and custom water shaders retain their appearance.
@@ -126,6 +127,8 @@ export function* batchModelSteps(root, { combineColors = false } = {}) {
     parts.forEach((p) => p.geometry.dispose());
     yield;
     if (!geometry) throw Error("Incompatible static model geometry");
+    yield;
+    if (!material.transparent) optimizeGeometryCache(geometry);
     yield;
     const mesh = new THREE.Mesh(geometry, material);
     // Positions were baked into geometry. Parent placement/animation still

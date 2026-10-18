@@ -521,6 +521,8 @@ export function disposeScenery(group) {
       ? mesh.material
       : [mesh.material])
       if (!material.userData.sharedScenery) materials.add(material);
+    if (mesh.customDepthMaterial) materials.add(mesh.customDepthMaterial);
+    if (mesh.customDistanceMaterial) materials.add(mesh.customDistanceMaterial);
   });
   geometries.forEach((g) => g.dispose());
   materials.forEach((m) => m.dispose());

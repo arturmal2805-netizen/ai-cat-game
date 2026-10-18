@@ -143,6 +143,43 @@ async function localWorker() {
     );
     for (const p of g.placements)
       if (p.item === "coaster-lagoon") p.readyAt = now - 1000;
+    if (process.env.CHICHI_SCENE_STRESS) {
+      const { ADOPTION_CATS } = await import(root + "/public/cat-breeds.js");
+      g.progression.xp = xpForLevel(30);
+      g.coins = 8_000_000;
+      for (const item of [
+        "slide-glass-corkscrew",
+        "slide-titan-funnel",
+        "slide-sky-cannon",
+        "slide-rainbow-tsunami",
+        ...Array.from({ length: 16 }, (_, i) =>
+          i % 2 ? "business-hotdog" : "cat-barista",
+        ),
+      ]) {
+        const space = findSpace(g, item, "homestead");
+        assert.ok(space, item);
+        Object.assign(
+          g,
+          placeItem(
+            purchase(g, item, now),
+            item,
+            "homestead",
+            space.x,
+            space.z,
+          ),
+        );
+      }
+      for (const p of g.placements) p.readyAt = now - 1000;
+      for (const c of ADOPTION_CATS.slice(0, 16)) {
+        g.adoption.cats.push({
+          id: c.id,
+          adoptedAt: now,
+          homeBiome: "homestead",
+          centerId: "",
+        });
+        g.catDestinations[c.id] = "homestead";
+      }
+    }
     const base = local.base,
       token = crypto.randomBytes(32).toString("hex"),
       headers = {
@@ -356,11 +393,104 @@ async function localWorker() {
       };
     });
     assert.equal(report.scene.tanks, 5);
-    assert.deepEqual(report.scene.legacyShopAquarium, [
-      { visible: true, fish: 12 },
-    ]);
+    assert.equal(report.scene.legacyShopAquarium.length, 1);
+    assert.equal(report.scene.legacyShopAquarium[0].fish, 12);
     assert.equal(report.scene.fish, 50);
     assert.ok(report.scene.locals >= 6);
+    if (process.env.CHICHI_DRAW_AUDIT) {
+      await page.evaluate((stress) => {
+        if (stress) {
+          __lagoonQA.callbacks.onFocus?.("homestead");
+          document.querySelector('[data-biome="homestead"]').click();
+          __lagoonQA.reviewView(-250, -55, 85);
+        } else __lagoonQA.reviewView(-335, 95, 90);
+      }, !!process.env.CHICHI_SCENE_STRESS);
+      await page.waitForTimeout(6000);
+      const audit = await page.evaluate(async () => {
+        const q = __lagoonQA;
+        q.drawPaused = true;
+        for (const n of q.npcs.values())
+          n.manualUntil = performance.now() + 1e9;
+        await new Promise((r) => setTimeout(r, 500));
+        const rows = new Map();
+        q.scene.traverse((mesh) => {
+          if (!mesh.isMesh && !mesh.isPoints) return;
+          const before = mesh.onBeforeRender;
+          mesh.onBeforeRender = function (...args) {
+            before.apply(this, args);
+            let root = this;
+            while (root.parent && root.parent !== q.scene) root = root.parent;
+            const key =
+              root.userData.placement?.item ||
+              root.userData.biomeId ||
+              (root === q.chichiCarrier
+                ? "chichi"
+                : [...q.npcs.values()].find((n) => n.carrier === root)?.profile
+                    .id) ||
+              root.name ||
+              root.type;
+            const row = rows.get(key) || {
+              calls: 0,
+              triangles: 0,
+              materials: {},
+            };
+            row.calls++;
+            const count =
+              ((this.geometry.index?.count ||
+                this.geometry.attributes.position.count) /
+                3) *
+              (this.count ?? 1);
+            row.triangles += count;
+            row.materials[this.material.name || this.material.type] =
+              (row.materials[this.material.name || this.material.type] || 0) +
+              1;
+            rows.set(key, row);
+          };
+        });
+        const cats = [];
+        q.scene.traverse((o) => {
+          if (o.userData.renderBatches) cats.push(o);
+        });
+        const snapshot = () => ({ ...q.renderer.info.render });
+        for (const cat of cats) {
+          cat.userData.renderBatches.setEnabled(false);
+        }
+        q.drawFrame();
+        const originalDraws = snapshot();
+        for (const cat of cats) {
+          cat.userData.renderBatches.setEnabled(true);
+        }
+        rows.clear();
+        q.drawFrame();
+        const gl = q.renderer.getContext();
+        gl.finish();
+        return {
+          look: q.look.toArray(),
+          camera: q.camera.position.toArray(),
+          rows: [...rows].sort((a, b) => b[1].triangles - a[1].triangles),
+          render: { ...q.renderer.info.render },
+          samePoseComparison: {
+            original: originalDraws,
+            batched: snapshot(),
+            cats: cats.length,
+          },
+          placements: [...q.itemGroups.values()]
+            .filter((g) => !g.userData.permanent && g.userData.placement)
+            .map((g) => ({
+              id: g.userData.placement.id,
+              item: g.userData.placement.item,
+              visible: g.visible,
+            })),
+          gpu: gl.getParameter(gl.RENDERER),
+        };
+      });
+      fs.writeFileSync(
+        path.join(review, "draw-audit.json"),
+        JSON.stringify(audit, null, 2),
+      );
+      console.log(JSON.stringify(audit, null, 2));
+      return;
+    }
     if (process.env.CHICHI_PERF_ONLY) {
       await page.evaluate(() => {
         const q = __lagoonQA;
