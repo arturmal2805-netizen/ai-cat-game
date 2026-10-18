@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { yarnPlayFrame, applyYarnFrame, resetYarn } from "./yarn-play.js";
 import { swimFrame } from "./swimming.js";
+import { reserveSlide, releaseSlide, launchSlide, hasSlideRoom } from "./slide-riders.js";
 import {
   socialFrame,
   socialDuration,
@@ -10,6 +11,18 @@ import {
 // Uses the same authored ride seats, toy chase and swim frames as Chichi.
 // Each normal object has one reservation; communal SPA/Chill seating uses its
 // existing multi-place runtime instead. No new cat meshes or saved AI moods.
+function riderPhase(v, now) {
+  if (!v.rider) return "activity";
+  launchSlide(v.object, v.rider, now);
+  return "queue";
+}
+function localQueue(result, g, rider, u) {
+  result.position.copy(g.localToWorld(new THREE.Vector3(...rider.queue).lerp(
+    new THREE.Vector3(...rider.entry), u * u * (3 - 2 * u),
+  )));
+  result.walking = u > 0 && u < 1;
+  result.yaw = g.rotation.y + Math.atan2(rider.entry[0] - rider.queue[0], rider.entry[2] - rider.queue[2]);
+}
 export function createResidentPlay({
   getCat,
   getObject,
@@ -18,6 +31,7 @@ export function createResidentPlay({
     g.userData.lagoon?.userData.disturb?.(f.x, f.z, time, 0.4),
   onComplete = () => {},
   random = Math.random,
+  concurrentSlides = false,
 }) {
   const visits = new Map(),
     locks = new Map(),
@@ -49,7 +63,8 @@ export function createResidentPlay({
       resetYarn(v.object);
       v.object.userData.playing = false;
       delete v.object.userData.heroPlayPos;
-      delete v.object.userData.rideElapsed;
+      releaseSlide(v.object, id);
+      if (!v.object.userData.slideRiders?.size) delete v.object.userData.rideElapsed;
     }
     if (
       locks.get(v.decision.activityId || "friend:" + v.decision.friendId) === id
@@ -65,10 +80,14 @@ export function createResidentPlay({
       !n ||
       (!object && !friend) ||
       decision.friendId === id ||
-      locks.has(decision.activityId || "friend:" + decision.friendId)
+      (locks.has(decision.activityId || "friend:" + decision.friendId) &&
+        !(concurrentSlides && decision.action === "ride" && hasSlideRoom(object)))
     )
       return false;
     cancel(id);
+    const rider = concurrentSlides && decision.action === "ride" && object?.userData.slideWater
+      ? reserveSlide(object, id) : null;
+    if (concurrentSlides && decision.action === "ride" && object?.userData.slideWater && !rider) return false;
     const social = friend
       ? socialContext(n.model, friend.model, { ride: chooseSocialRide(random) })
       : null;
@@ -96,6 +115,7 @@ export function createResidentPlay({
           new THREE.Vector3(...object.userData.rideFrame(0, true).position),
         ),
       );
+    if (rider) destination.copy(object.localToWorld(new THREE.Vector3(...rider.queue)));
     if (!object?.userData.approachFrame)
       destination.y =
         decision.action === "swim"
@@ -106,6 +126,7 @@ export function createResidentPlay({
             );
     const v = {
       id,
+      rider,
       social,
       socialKind: friend && social.ride ? "piggyback" : "play",
       decision,
@@ -175,7 +196,7 @@ export function createResidentPlay({
       result.walking = t < 1;
       result.mood = "happy";
       if (t >= 1) {
-        v.phase = "activity";
+        v.phase = riderPhase(v, now);
         v.activityStart = now;
         if (v.social) {
           v.social.heroYaw = result.yaw;
@@ -185,6 +206,12 @@ export function createResidentPlay({
       }
       return result;
     }
+    if (v.phase === "queue") {
+      const launch = v.rider.launchAt, u = Math.min(1, Math.max(0, (now - launch) / 1100));
+      localQueue(result, g, v.rider, u);
+      if (u >= 1) { v.phase = "activity"; v.activityStart = now; }
+      return result;
+    }
     const elapsed = (now - v.activityStart) / 1000;
     v.elapsed = elapsed;
     let local = point.set(0, 0.16, 0),
@@ -192,7 +219,8 @@ export function createResidentPlay({
     if (d.action === "ride" && g) {
       if (g.userData.rideFrame) {
         g.userData.rideElapsed = elapsed;
-        const f = g.userData.rideFrame(elapsed, reduced);
+        if (v.rider) v.rider.elapsed = elapsed;
+        const f = g.userData.rideFrame(elapsed, reduced, v.rider?.lane || 0);
         result.walking = f.walking ?? false;
         local.set(...f.position);
         result.yaw = (f.yaw || 0) + g.rotation.y;
@@ -202,7 +230,7 @@ export function createResidentPlay({
           result.quaternion = g.quaternion
             .clone()
             .multiply(new THREE.Quaternion().fromArray(f.quaternion));
-        result.reaction = g.userData.rideReaction?.(elapsed, reduced) || {
+        result.reaction = g.userData.rideReaction?.(elapsed, reduced, v.rider?.lane || 0) || {
           paw: f.paw || 0,
           headPitch: f.headPitch || 0,
           surprise: f.surprise || 0,
@@ -342,7 +370,7 @@ export function createResidentPlay({
     cancel,
     frame,
     get: (id) => visits.get(id),
-    reserved: (id) => locks.has(id),
+    reserved: (id) => locks.has(id) && !(concurrentSlides && hasSlideRoom(getObject(id))),
     friendVisit: (id) =>
       [...visits.values()].find((v) => v.decision.friendId === id),
     clear() {

@@ -97,6 +97,7 @@ function baseRevenue(item) {
   if (business) return business.rate;
   const product = byItem(item);
   if (!product) return 0;
+  if (product.referenceSlide && Number.isSafeInteger(product.incomePerHour)) return product.incomePerHour;
   if (["cafe", "cat-barista"].includes(item))
     return item === "cat-barista" ? 320 : 140;
   if (["rides", "transport"].includes(product.category))

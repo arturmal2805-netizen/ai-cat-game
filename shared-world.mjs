@@ -242,12 +242,12 @@ export function mergeSharedWorld(base, current, incoming) {
     (game.inventory[item] || 0) +
     game.placements.filter((p) => p.item === item).length;
   for (const p of b.placements) {
-    const expanded = BUILDING_EXPANSIONS[p.biome];
-    if (!expanded || n.placements.some((v) => v.id === p.id)) continue;
+    const expanded = BUILDING_EXPANSIONS[p.biome], newSlide = !!byItem(p.item)?.referenceSlide;
+    if ((!expanded && !newSlide) || n.placements.some((v) => v.id === p.id)) continue;
     const [w, d] = footprint(p.item, p.rotation);
     if (
-      Math.hypot(Math.abs(p.x) + w / 2, Math.abs(p.z) + d / 2) <=
-        expanded.originalRadius - 0.7 ||
+      (!newSlide && Math.hypot(Math.abs(p.x) + w / 2, Math.abs(p.z) + d / 2) <=
+        expanded.originalRadius - 0.7) ||
       owned(n, p.item) >= owned(b, p.item)
     )
       continue;
@@ -259,6 +259,21 @@ export function mergeSharedWorld(base, current, incoming) {
     ])
       if (old[p.id] !== undefined && next[p.id] === undefined)
         next[p.id] = clone(old[p.id]);
+  }
+  // A cached catalogue also filters unfamiliar unplaced purchases out of its
+  // bag. Attractions cannot be sold: moving one into/out of the bag preserves
+  // ownership, so only an unexplained loss is restored here.
+  for (const [item, count] of Object.entries(b.inventory)) {
+    if (!byItem(item)?.referenceSlide) continue;
+    const missing = owned(b,item)-owned(n,item);
+    if (missing <= 0) continue;
+    n.inventory[item] = (n.inventory[item] || 0) + missing;
+    n.builtInventory ||= {};
+    n.builtInventory[item] = Math.min(n.inventory[item],Math.max(n.builtInventory[item]||0,b.builtInventory?.[item]||0));
+    const old = (b.relocatedPurchases||[]).filter(p=>p.item===item);
+    n.relocatedPurchases ||= [];
+    const retained=n.relocatedPurchases.filter(p=>p.item===item).length;
+    n.relocatedPurchases.push(...clone(old.slice(retained)));
   }
   if (n.diamonds === undefined) n.diamonds = b.diamonds || 0;
   if (n.business.totalDiamonds === undefined)

@@ -194,7 +194,7 @@ try {
           "slide-marshmallow",
           "waterslide",
           "slide-rainbow-tsunami",
-        ].includes(spec.id)
+        ].concat(WATER_RIDES.filter(r=>r.id.startsWith("slide-dream-")).map(r=>r.id)).includes(spec.id)
       ) {
         await page.evaluate(() => {
           reviewAngle(true);
@@ -212,6 +212,7 @@ try {
       "slide-marshmallow",
       "slide-glass-corkscrew",
       "slide-rainbow-tsunami",
+      ...WATER_RIDES.filter(r=>r.id.startsWith("slide-dream-") && (!process.env.CHICHI_SLIDE_FILTER || process.env.CHICHI_SLIDE_FILTER.split(",").includes(r.id))).map(r=>r.id),
     ]) {
       await page.evaluate(async (id) => {
         const { renderer: r, camera: c } = check;

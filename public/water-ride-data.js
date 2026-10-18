@@ -1,5 +1,6 @@
 // Every water attraction must declare its water contract here. Geometry is
 // authored beside its real rider route; this list is checked against CATALOG.
+import { REFERENCE_SLIDES } from "./reference-slide-data.js";
 export const WATER_RIDE_RULE_VERSION = 1;
 export const WATER_RIDES = [
   ["waterslide", "flume", 1],
@@ -17,6 +18,7 @@ export const WATER_RIDES = [
   ["slide-rainbow-tsunami", "flume", 6],
   ["slide-abyss-capsule", "flume", 1],
   ["dive-triple-sky", "dive", 0],
+  ...REFERENCE_SLIDES.map((s) => [s.id, "flume", s.channels]),
 ].map(([id, kind, channels]) => ({
   id,
   kind,

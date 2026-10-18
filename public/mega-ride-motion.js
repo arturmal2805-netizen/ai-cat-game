@@ -36,7 +36,7 @@ export const stairPoint = (tower, height, t) => {
 // same bases build rail ties, place the cart and carry the cat through loops.
 export function sampleMegaCurve(
   points,
-  { seat = 0, coaster = false, orientation = null } = {},
+  { seat = 0, coaster = false, orientation = null, terminalUpright = true } = {},
 ) {
   const curve = new THREE.CatmullRomCurve3(points.map(V), false, "centripetal");
   curve.arcLengthDivisions = 1200;
@@ -57,7 +57,7 @@ export function sampleMegaCurve(
         b = i === 0 ? points[1] : points.at(-1);
       tangent.set(b[0] - a[0], b[1] - a[1], b[2] - a[2]).normalize();
     }
-    if (i === 0 || (coaster && (i > count - 5 || p.y < 2))) {
+    if (i === 0 || (coaster && terminalUpright && (i > count - 5 || p.y < 2))) {
       right.set(tangent.z, 0, -tangent.x);
       if (right.lengthSq() < 0.001) right.set(1, 0, 0);
       right.normalize();

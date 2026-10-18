@@ -898,6 +898,7 @@ window.addEventListener("keydown", (e) => {
   }
 });
 function showSpaBar() {
+  $("item-guest-camera").hidden = true;
   if (busy || buildMode || !game.unlocked.includes("water")) return;
   selectedItem = "spa-bar";
   selectedScenery = false;
@@ -1043,10 +1044,11 @@ function showCourt(id, fishIndex) {
   open("item-dialog");
 }
 function inspect(id, manage = false) {
+  $("item-guest-camera").hidden = true;
   $("spa-bar-actions").hidden = true;
   $("item-move").hidden = false;
   if (id === "spa-bar") return showSpaBar();
-  if (busy || buildMode) return;
+  if (buildMode) return;
   selectedItem = id;
   selectedScenery = false;
   const placement = game.placements.find((p) => p.id === id);
@@ -1062,7 +1064,8 @@ function inspect(id, manage = false) {
   $("item-construction").textContent = isBuilt(placement)
     ? item.rarity + " · Постройка готова"
     : "Строится · осталось " + countdown(placement.readyAt);
-  $("item-store").disabled = !isBuilt(placement);
+  $("item-store").disabled = busy || !isBuilt(placement);
+  $("item-move").disabled = busy;
   $("item-store").hidden = false;
   $("item-move").textContent = "Переставить";
   $("item-note").textContent = revenueRate(item.id)
@@ -1074,8 +1077,29 @@ function inspect(id, manage = false) {
       businessXP(item.id, businessLevel(game, id)) +
       " XP в час. Доход можно собрать прямо над постройкой. Улучшения — в разделе «Бизнес»."
     : "Чичи пользуется этим предметом, когда сама выберет его через ИИ.";
+  updateGuestCamera();
   open("item-dialog");
 }
+function updateGuestCamera() {
+  const p = !selectedScenery && game.placements.find((p) => p.id === selectedItem),
+    button = $("item-guest-camera");
+  button.hidden = !p || !byItem(p.item)?.actions.includes("ride");
+  if (button.hidden) return;
+  const guests = world?.rideGuests(p.id) || [];
+  button.disabled = !guests.length;
+  button.textContent = guests.length ? "📷 Камера гостя · " + guests.length : "📷 Пока никто не катается";
+}
+$("item-guest-camera").onclick = () => {
+  if (!world?.followRideGuest(selectedItem)) {
+    updateGuestCamera();
+    return;
+  }
+  $("item-dialog").close();
+  $("map").scrollIntoView({ block: "start", behavior: "smooth" });
+};
+setInterval(() => {
+  if ($("item-dialog").open) updateGuestCamera();
+}, 500);
 function inspectScenery(id) {
   $("spa-bar-actions").hidden = true;
   $("item-move").hidden = false;
@@ -1084,6 +1108,7 @@ function inspectScenery(id) {
   if (!record || !game.unlocked.includes(record.biome)) return;
   selectedItem = id;
   selectedScenery = true;
+  $("item-guest-camera").hidden = true;
   $("item-icon").textContent = byScenery(record.type).icon;
   $("item-name").textContent = sceneryName(record);
   $("item-description").textContent =

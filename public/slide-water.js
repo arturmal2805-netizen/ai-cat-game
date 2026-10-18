@@ -3,6 +3,7 @@ import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { waterMaterial, advanceWater } from "./water-shading.js";
 import { waterRideSpec } from "./water-ride-data.js";
 import { installRideActing } from "./ride-acting.js";
+import { updateSlideVehicles } from "./slide-riders.js";
 
 const UP = new THREE.Vector3(0, 1, 0),
   GRAVITY = 9.81;
@@ -488,7 +489,7 @@ export function installSlideWater(
   const update = (time, reduced = false) => {
     const elapsed = root.userData.rideElapsed;
     previous?.(time, reduced);
-    if (time === lastTime && elapsed === lastElapsed && reduced === lastReduced)
+    if (!root.userData.slideRiders?.size && time === lastTime && elapsed === lastElapsed && reduced === lastReduced)
       return;
     clock.value = reduced ? 0 : time;
     effects.uniforms.uReduced.value = reduced ? 1 : 0;
@@ -505,10 +506,15 @@ export function installSlideWater(
       moving.position.y -= root.userData.seatHeight ?? 0.5;
       moving.rotation.y = frame.yaw;
     }
-    if (Number.isFinite(elapsed) && !reduced) {
+    updateSlideVehicles(root, reduced);
+    const clocks = root.userData.slideRiders
+      ? [...root.userData.slideRiders.values()]
+      : [{ elapsed, waterElapsed: lastElapsed }];
+    for (const rider of clocks) if (Number.isFinite(rider.elapsed) && !reduced) {
+      const elapsed = rider.elapsed;
       const start =
-        lastElapsed !== null && elapsed >= lastElapsed ? lastElapsed : -0.001;
-      for (const event of events)
+        rider.waterElapsed !== null && elapsed >= rider.waterElapsed ? rider.waterElapsed : -0.001;
+      for (const event of (root.userData.route?.lanes?.[rider.lane || 0]?.impacts || events))
         if (event.time > start && event.time <= elapsed) {
           const point = new THREE.Vector3(...event.point);
           point.y = basin.position.y + 0.161;
@@ -519,7 +525,9 @@ export function installSlideWater(
             time,
             event.power ?? 1.5,
           );
+          root.userData.onWaterImpact?.(event.power ?? 1.5);
         }
+      rider.waterElapsed = elapsed;
     }
     const activeBurst = effects.points.some(
       (p) => time - p.w >= 0 && time - p.w < 1.8,

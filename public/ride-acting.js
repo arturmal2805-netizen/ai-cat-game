@@ -17,6 +17,7 @@ const active = new Set([
   "drain",
   "flight",
   "splash",
+  "underwater",
 ]);
 
 export function sampleRideActing(frame, duration, impacts = []) {
