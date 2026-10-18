@@ -345,14 +345,30 @@ async function localWorker() {
           const q = __lagoonQA,
             g = q.itemGroups.get(id),
             b = new q.THREE.Box3().setFromObject(g);
+          const projected = Array.from({ length: 8 }, (_, i) =>
+            new q.THREE.Vector3(
+              i & 1 ? b.max.x : b.min.x,
+              i & 2 ? b.max.y : b.min.y,
+              i & 4 ? b.max.z : b.min.z,
+            )
+              .project(q.camera)
+              .toArray(),
+          );
           return {
             distance: q.getDesiredDistance(),
             target: q.desiredLook.toArray(),
             center: b.getCenter(new q.THREE.Vector3()).toArray(),
+            projected,
           };
         }, id);
+        // Animated rafts and staff can shift the live bounding-box centre
+        // slightly after the tap. Check the actual view, not a frozen pose.
         assert.ok(
-          fit.target.every((v, i) => Math.abs(v - fit.center[i]) < 0.001),
+          fit.target.every((v, i) => Math.abs(v - fit.center[i]) < 0.5) &&
+            fit.projected.every(
+              ([x, y, z]) =>
+                Math.abs(x) < 0.98 && Math.abs(y) < 0.98 && z > -1 && z < 1,
+            ),
           JSON.stringify(fit),
         );
         await page
