@@ -7,6 +7,7 @@ import {
 } from "./aquarium-data.js";
 import { DIAMOND_MINE } from "./diamond-data.js";
 import { waterRideSpec } from "./water-ride-data.js";
+import { REFERENCE_SLIDES } from "./reference-slide-data.js";
 import {
   BUILDING_EXPANSIONS,
   expandedBuildingRadius,
@@ -1538,6 +1539,7 @@ for (const biome of BIOMES) {
     biome.price =
       Math.round((biome.price * (1 + biome.requiredLevel * 0.7)) / 10) * 10;
 }
+CATALOG.push(...REFERENCE_SLIDES);
 for (const product of CATALOG) {
   product.requiredLevel ||=
     levelOverrides[product.id] ||

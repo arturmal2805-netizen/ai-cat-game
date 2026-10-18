@@ -17,7 +17,7 @@ const waterID = (id) =>
   /^(slide-|water-)/.test(id) ||
   ["waterslide", "ride-crystal-slide", "dive-triple-sky"].includes(id);
 test("every shop and permanent island water ride declares and implements the shared water contract, including all three/six lanes", () => {
-  assert.equal(WATER_RIDES.length, 15);
+  assert.equal(WATER_RIDES.length, 40);
   assert.deepEqual(
     CATALOG.filter((i) => waterID(i.id))
       .map((i) => i.id)
@@ -47,7 +47,7 @@ test("every shop and permanent island water ride declares and implements the sha
     assert.ok(w.pool.userData.rx > 0 && w.pool.userData.rz > 0);
     assert.equal(
       w.materials.length,
-      spec.kind === "dive" ? 0 : spec.id === "slide-titan-funnel" ? 2 : 1,
+      spec.kind === "dive" ? 0 : spec.id === "slide-titan-funnel" ? 2 : 1 + (g.userData.route?.bowls?.length || 0),
     );
     disposeScenery(g);
   }

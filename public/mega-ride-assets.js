@@ -20,7 +20,7 @@ const cream = 0xffedd2,
 
 // A real flume cross-section, sampled along the SAME arc-length path as the
 // rider. Clear shells use alpha/Fresnel, never transmission or a scene copy.
-function flume(data, radius, { full = false, offset = 0, flat = 1 } = {}) {
+export function flume(data, radius, { full = false, offset = 0, flat = 1 } = {}) {
   const positions = [],
     normals = [],
     uv = [],
@@ -32,6 +32,8 @@ function flume(data, radius, { full = false, offset = 0, flat = 1 } = {}) {
     for (let j = 0; j <= sides; j++) {
       const open = full
         ? Math.max(
+            data.openStart ? 1 - THREE.MathUtils.smoothstep(i / steps, 0, .15) : 0,
+            data.openEnd ? THREE.MathUtils.smoothstep(i / steps, .85, 1) : 0,
             data.narrowEnd ? THREE.MathUtils.smoothstep(i / steps, 0.76, 1) : 0,
             data.narrowStart
               ? 1 - THREE.MathUtils.smoothstep(i / steps, 0, 0.22)
@@ -87,7 +89,7 @@ function flume(data, radius, { full = false, offset = 0, flat = 1 } = {}) {
   g.setIndex(indices);
   return g;
 }
-function crystalGlass(color) {
+export function crystalGlass(color) {
   const m = new THREE.MeshPhysicalMaterial({
     color,
     transparent: true,

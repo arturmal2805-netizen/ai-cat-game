@@ -36,6 +36,15 @@ import { createCourtCinema } from "./foodcourt-cinema.js";
 import { placeCourtFood } from "./court-food-pose.js";
 import { mosaDryPoint } from "./mosasaur-data.js";
 import { createResidentPlay } from "./resident-play.js";
+import { rideGuests } from "./ride-guests.js";
+import {
+  reserveSlide,
+  releaseSlide,
+  launchSlide,
+  hasSlideRoom,
+} from "./slide-riders.js";
+import { createSlideAudio } from "./slide-audio.js";
+import { referenceSlideSteps } from "./reference-slide-assets.js";
 import { decorateBusiness } from "./business-decor.js";
 import {
   attachBuilderHammer,
@@ -164,6 +173,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     powerPreference: "high-performance",
   });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  const slideAudio = createSlideAudio(renderer.domElement);
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -482,6 +492,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
   });
   const courtModels = new Map(),
     courtPreparing = new Map();
+  const referenceModels = new Map(),
+    referencePreparing = new Map();
+  let previewGeneration = 0;
   const courtBiome = byBiome("foodcourt"),
     courtFoods = new Map(),
     cinema = createCourtCinema(container);
@@ -989,6 +1002,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     getObstacles: (id) => builderObstacles.get(id) || [],
   });
   const residentPlay = createResidentPlay({
+    concurrentSlides: true,
     getCat: (id) => npcs.get(id),
     getObject: (id) => itemGroups.get(id),
     groundY: (point, biome) => {
@@ -1029,12 +1043,13 @@ export function createWorld(container, initialGame, callbacks = {}) {
       (decision.activityId &&
         (!object?.userData.built ||
           (operation?.decision.activityId === decision.activityId &&
+            !hasSlideRoom(object) &&
             !chillObject(decision.activityId) &&
             !spaObject(decision.activityId) &&
             !courtObject(decision.activityId))))
     )
       return false;
-    if (!autonomous)
+    if (!autonomous && !object?.userData.slideWater)
       for (const [other, v] of residentPlay.visits)
         if (
           other !== id &&
@@ -1501,6 +1516,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
       g.userData.placementId = o.id;
       g.userData.homeObject = true;
       g.userData.built = built;
+      if (g.userData.slideWater)
+        g.userData.onWaterImpact = (power) => {
+          if (g.position.distanceToSquared(camera.position) < 140 * 140)
+            slideAudio.splash(power);
+        };
       g.userData.permanent = true;
       g.userData.unstarted = !!o.unstarted;
       if (g.userData.deepRide)
@@ -1518,6 +1538,27 @@ export function createWorld(container, initialGame, callbacks = {}) {
     for (const [id, g] of itemGroups) {
       if (g.userData.homeObject) continue;
       const retained = game.placements.find((p) => p.id === id);
+      if (
+        retained &&
+        byItem(retained.item)?.referenceSlide &&
+        retained.item === g.userData.placement.item &&
+        isBuilt(retained) &&
+        (g.userData.referenceSlide || g.userData.loadingReference)
+      ) {
+        if (JSON.stringify(retained) !== JSON.stringify(g.userData.placement)) {
+          for (const [catId, v] of residentPlay.visits)
+            if (v.decision.activityId === id) cancelResident(catId);
+          const b = byBiome(retained.biome);
+          g.position.set(
+            b.center[0] + retained.x,
+            0.16 + islandHeight(b.id, retained.x, retained.z),
+            b.center[1] + retained.z,
+          );
+          g.rotation.y = (retained.rotation * Math.PI) / 2;
+          g.userData.placement = retained;
+        }
+        continue;
+      }
       if (
         retained &&
         JSON.stringify(retained) === JSON.stringify(g.userData.placement) &&
@@ -1538,11 +1579,57 @@ export function createWorld(container, initialGame, callbacks = {}) {
     }
     for (const placement of game.placements) {
       if (itemGroups.has(placement.id)) continue;
-      const built = isBuilt(placement);
-      const g = built
-          ? makeAttraction(placement.item, game.farm?.fields?.[placement.id])
-          : constructionModel(placement.item),
+      const built = isBuilt(placement),
+        reference = !!byItem(placement.item)?.referenceSlide,
+        prepared = referenceModels.get(placement.id),
+        loadingReference = reference && built && !prepared;
+      if (loadingReference && !referencePreparing.has(placement.id)) {
+        const task = prepareSceneSteps(referenceSlideSteps(placement.item), {
+          scheduler: scenePreparation,
+          priority: placement.biome,
+        });
+        referencePreparing.set(placement.id, task);
+        task
+          .then(async (model) => {
+            referencePreparing.delete(placement.id);
+            const current = game.placements.find(
+              (p) => p.id === placement.id && p.item === placement.item,
+            );
+            if (disposed || !current || !isBuilt(current)) {
+              disposeScenery(model);
+              return;
+            }
+            await renderer.compileAsync(model, camera, scene);
+            if (
+              disposed ||
+              !game.placements.some((p) => p.id === placement.id)
+            ) {
+              disposeScenery(model);
+              return;
+            }
+            const old = itemGroups.get(placement.id);
+            if (old) {
+              scene.remove(old);
+              disposeScenery(old);
+              itemGroups.delete(placement.id);
+            }
+            referenceModels.set(placement.id, model);
+            sceneKey = "";
+            sync(game);
+          })
+          .catch((error) => {
+            referencePreparing.delete(placement.id);
+            console.warn("Water attraction preparation failed", error);
+          });
+      }
+      const g =
+          built && !loadingReference
+            ? prepared ||
+              makeAttraction(placement.item, game.farm?.fields?.[placement.id])
+            : constructionModel(placement.item),
         b = byBiome(placement.biome);
+      referenceModels.delete(placement.id);
+      g.userData.loadingReference = loadingReference;
       g.position.set(
         b.center[0] + placement.x,
         0.16 + islandHeight(placement.biome, placement.x, placement.z),
@@ -1550,7 +1637,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
       );
       g.rotation.y = (placement.rotation * Math.PI) / 2;
       g.userData.placement = placement;
-      g.userData.built = built;
+      g.userData.built = built && !loadingReference;
+      if (g.userData.slideWater)
+        g.userData.onWaterImpact = (power) => {
+          if (g.position.distanceToSquared(camera.position) < 140 * 140)
+            slideAudio.splash(power);
+        };
       g.userData.fieldKey = JSON.stringify(
         (game.farm?.fields?.[placement.id] || []).map((c) => [
           c.crop,
@@ -1893,7 +1985,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
         operation.attraction.userData.releasePlay?.(chichiCarrier);
         operation.attraction.userData.playing = false;
         delete operation.attraction.userData.heroPlayPos;
-        delete operation.attraction.userData.rideElapsed;
+        releaseSlide(operation.attraction, "chichi");
+        if (!operation.attraction.userData.slideRiders?.size)
+          delete operation.attraction.userData.rideElapsed;
         if (
           operation.attraction.userData.deepRide ||
           operation.attraction.userData.mega
@@ -1906,7 +2000,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
           chichiCarrier.position.y = 0.16;
           chichiCarrier.rotation.x = 0;
           chichiCarrier.rotation.z = 0;
-          delete operation.attraction.userData.rideElapsed;
+          if (!operation.attraction.userData.slideRiders?.size)
+            delete operation.attraction.userData.rideElapsed;
         }
       }
       if (operation.neighbor) {
@@ -1925,13 +2020,24 @@ export function createWorld(container, initialGame, callbacks = {}) {
     }
     switchMood(decision.mood);
     choiceExpression(decision);
-    if (decision.activityId)
+    if (
+      decision.activityId &&
+      !itemGroups.get(decision.activityId)?.userData.slideWater
+    )
       for (const [id, v] of residentPlay.visits)
         if (v.decision.activityId === decision.activityId)
           residentPlay.cancel(id);
     const attraction = decision.activityId
       ? itemGroups.get(decision.activityId)
       : null;
+    const rider =
+      decision.action === "ride" && attraction?.userData.slideWater
+        ? reserveSlide(attraction, "chichi")
+        : null;
+    if (decision.action === "ride" && attraction?.userData.slideWater && !rider)
+      return Promise.reject(
+        new Error("Горка занята: дождитесь свободного места."),
+      );
     const neighbor = decision.friendId ? npcs.get(decision.friendId) : null;
     if (neighbor) {
       const cv = chill.get(decision.friendId);
@@ -2029,6 +2135,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
           new THREE.Vector3(...attraction.userData.approachOffset),
         ),
       );
+    if (rider)
+      destination.copy(
+        attraction.localToWorld(new THREE.Vector3(...rider.queue)),
+      );
     const courtTarget = courtObject(decision.activityId);
     const targetCourtBiome = courtTarget
       ? byBiome(courtTarget.biome)
@@ -2060,6 +2170,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         spa: spaTarget,
         decision,
         attraction,
+        rider,
         neighbor,
         partyIds:
           decision.action === "party"
@@ -2125,6 +2236,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     });
   }
   function beginBuild(mode) {
+    const previewId = ++previewGeneration;
     if (buildMode?.scenery)
       for (const g of sceneryGroups())
         if (g.userData.sceneryId === buildMode.ignoreId) g.visible = true;
@@ -2137,9 +2249,40 @@ export function createWorld(container, initialGame, callbacks = {}) {
       preview = null;
       return;
     }
+    const reference = !mode.scenery && byItem(mode.item)?.referenceSlide;
     preview = mode.scenery
       ? createSceneryModel(game.scenery.find((r) => r.id === mode.ignoreId))
-      : makeAttraction(mode.item);
+      : reference
+        ? constructionModel(mode.item)
+        : makeAttraction(mode.item);
+    if (reference)
+      prepareSceneSteps(referenceSlideSteps(mode.item), {
+        scheduler: scenePreparation,
+        priority: mode.biome,
+      })
+        .then((model) => {
+          if (disposed || previewId !== previewGeneration || !buildMode) {
+            disposeScenery(model);
+            return;
+          }
+          scene.remove(preview);
+          disposeScenery(preview);
+          preview = model;
+          preview.traverse((o) => {
+            if (o.isMesh) {
+              o.material = o.material.clone();
+              o.material.userData.sharedScenery = false;
+              o.material.transparent = true;
+              o.material.opacity = 0.62;
+              o.castShadow = false;
+            }
+          });
+          scene.add(preview);
+          updatePreview();
+        })
+        .catch((error) =>
+          console.warn("Water attraction preview preparation failed", error),
+        );
     if (mode.scenery)
       for (const g of sceneryGroups())
         if (g.userData.sceneryId === mode.ignoreId) g.visible = false;
@@ -3228,7 +3371,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
         objects: itemGroups,
         visits: residentPlay.visits,
         reserved: (id) =>
-          residentPlay.reserved(id) || operation?.decision.activityId === id,
+          residentPlay.reserved(id) ||
+          (operation?.decision.activityId === id &&
+            !hasSlideRoom(itemGroups.get(id))),
         blocked: (n) => {
           const id = n.profile.id,
             needs = game.care?.residents[id];
@@ -3242,7 +3387,6 @@ export function createWorld(container, initialGame, callbacks = {}) {
             chill.get(id) ||
             court.get(id) ||
             crew.workers.has(id) ||
-            buildingSites.some((s) => s.biome === n.profile.biome) ||
             mealVisits.has(id) ||
             swimVisits.has(id) ||
             now < (n.manualUntil || 0) ||
@@ -4002,6 +4146,19 @@ export function createWorld(container, initialGame, callbacks = {}) {
               : { completed: true, spaVisit: op.spaCompleted },
           );
         }
+      } else if (op.stage === "queue") {
+        const u = reduced
+          ? 1
+          : THREE.MathUtils.clamp((now - op.rider.launchAt) / 1100, 0, 1);
+        framePoint
+          .fromArray(op.rider.queue)
+          .lerp(new THREE.Vector3(...op.rider.entry), u * u * (3 - 2 * u));
+        chichiCarrier.position.copy(op.attraction.localToWorld(framePoint));
+        walking = u > 0 && u < 1;
+        if (u >= 1) {
+          op.stage = "activity";
+          op.activityStart = now;
+        }
       } else if (op.stage === "travel") {
         const p = Math.min((now - op.start) / op.duration, 1);
         if (op.attraction?.userData.approachFrame) {
@@ -4033,6 +4190,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
           } else if (op.spa) {
             startHeroSpa(op);
           } else op.stage = "activity";
+          if (op.rider) {
+            launchSlide(op.attraction, op.rider, now);
+            op.stage = "queue";
+          }
           op.activityStart = now;
           if (op.social) {
             op.social.heroYaw = chichiCarrier.rotation.y;
@@ -4059,7 +4220,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
           const moving = g.userData.moving;
           if (g.userData.rideFrame) {
             g.userData.rideElapsed = elapsed;
-            const f = g.userData.rideFrame(elapsed, reduced);
+            if (op.rider) op.rider.elapsed = elapsed;
+            const f = g.userData.rideFrame(
+              elapsed,
+              reduced,
+              op.rider?.lane || 0,
+            );
             walking = f.walking ?? false;
             local.set(...f.position);
             chichiCarrier.rotation.y = (f.yaw || 0) + g.rotation.y;
@@ -4069,7 +4235,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
               chichiCarrier.quaternion
                 .copy(g.quaternion)
                 .multiply(new THREE.Quaternion().fromArray(f.quaternion));
-            reaction = g.userData.rideReaction?.(elapsed, reduced) || {
+            reaction = g.userData.rideReaction?.(
+              elapsed,
+              reduced,
+              op.rider?.lane || 0,
+            ) || {
               paw: f.paw || 0,
               headPitch: f.headPitch || 0,
               surprise: f.surprise || 0,
@@ -4330,7 +4500,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
           if (action !== "meet" && action !== "swim")
             chichiCarrier.position.copy(op.dismount || op.destination);
           g?.userData.releasePlay?.(chichiCarrier);
-          if (g) delete g.userData.rideElapsed;
+          releaseSlide(g, "chichi");
+          if (g && !g.userData.slideRiders?.size) delete g.userData.rideElapsed;
           if (
             g?.userData.deepRide &&
             !faceCamera.enabled &&
@@ -4719,6 +4890,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     },
     dispose() {
       disposed = true;
+      slideAudio.dispose();
       exitCourt(false);
       cinema.dispose();
       courtExit.remove();

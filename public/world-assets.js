@@ -1,4 +1,5 @@
 import { diamondMine } from "./diamond-mine.js";
+import { referenceSlideAttraction } from "./reference-slide-assets.js";
 import { bikiniFriend } from "./bikini-data.js";
 import { megaAttraction } from "./mega-ride-assets.js";
 import { createBikiniCharacter } from "./bikini-characters.js";
@@ -198,6 +199,8 @@ function vehicle(parent, kind, color = 0xc9a3cf) {
   return g;
 }
 export function makeAttraction(id, fields = [], now = Date.now()) {
+  const reference = referenceSlideAttraction(id);
+  if (reference) return reference;
   if (id === "diamond-mine") return diamondMine();
   if (bikiniFriend(id)) return createBikiniCharacter(bikiniFriend(id).kind);
   if (courtType(id)) return courtVenue(courtType(id));
