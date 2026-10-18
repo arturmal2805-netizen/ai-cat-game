@@ -1,6 +1,7 @@
 import { aquariumTank } from "./aquarium-data.js";
 import { attractionVisibility } from "./attraction-visibility.js";
 import { rideGuests } from "./ride-guests.js";
+import { createRenderPacer } from "./render-pacer.js";
 import {
   enableCatRenderBatch,
   batchSceneCats,
@@ -2901,8 +2902,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
     localSwim = new THREE.Vector3(),
     shorePoint = new THREE.Vector3(),
     travelDirection = new THREE.Vector3();
-  let previousTime = performance.now(),
-    lastRender = 0;
+  let previousTime = performance.now();
+  const renderDue = createRenderPacer();
   function loop(now) {
     if (disposed) return;
     if (contextLost || document.hidden) {
@@ -2916,17 +2917,19 @@ export function createWorld(container, initialGame, callbacks = {}) {
         Math.abs(elevation - overviewElevation) > 0.001);
     const dialogOpen = !!document.querySelector("dialog[open]");
     if (
-      !(viewport.pending && !dialogOpen && worldVisible) &&
-      now - lastRender <
-        (dialogOpen || !worldVisible
+      !renderDue(
+        now,
+        dialogOpen || !worldVisible
           ? 100
           : operation ||
               pointerDown ||
               heroGather ||
               cameraMoving ||
               faceCamera.enabled
-            ? 16
-            : 33)
+            ? 1000 / 60
+            : 1000 / 30,
+        viewport.pending && !dialogOpen && worldVisible,
+      )
     ) {
       requestAnimationFrame(loop);
       return;
@@ -2937,7 +2940,6 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (!g) exitCourt();
       else if (courtCamera.aspect !== camera.aspect) applyAttractionCamera(g);
     }
-    lastRender = now;
     const dt = Math.min((now - previousTime) / 1000, 0.1);
     previousTime = now;
     const time = now / 1000;

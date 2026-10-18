@@ -23,11 +23,15 @@ async function localWorker() {
   await new Promise((r) => socket.close(r));
   const config = path.join(temp, "wrangler.json"),
     log = fs.openSync(path.join(temp, "worker.log"), "w");
+  fs.copyFileSync(
+    path.join(root, ".generated/worker.mjs"),
+    path.join(temp, "worker.mjs"),
+  );
   fs.writeFileSync(
     config,
     JSON.stringify({
       name: "chichi-chill-local",
-      main: path.join(root, ".generated/worker.mjs"),
+      main: path.join(temp, "worker.mjs"),
       compatibility_date: "2026-10-13",
       assets: {
         directory: path.join(root, "public"),

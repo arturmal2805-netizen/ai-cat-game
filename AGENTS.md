@@ -86,3 +86,7 @@ duplicating or resurrecting a building removed on the other device.
 - Aquarium instance culling must preserve logical fish IDs for colour, picking
   and tracking. Compare full and culled frames pixel-for-pixel, including hall,
   close, overhead and phone views; never cull by apparent size or simplify fish.
+- Preserve render deadlines through RAF jitter; do not restart the idle-frame
+  interval from each late callback or replay missed GPU frames in a burst.
+  Browser/SQLite checks must snapshot `.generated/worker.mjs` to their own temp
+  directory: `npm test` rebuilds that file and otherwise hot-reloads QA servers.

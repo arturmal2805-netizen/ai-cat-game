@@ -79,3 +79,10 @@ The real phone checks in `scripts/check-mega-rides.cjs` accept
 overview fits the real model bounds from slightly above its front, including
 portrait/landscape resize; guest tracking selects actual active riders without
 starting/cancelling their visits or changing the saved world.
+
+`render-pacer.js` retains frame deadlines through callback jitter instead of
+restarting the 30/60 Hz interval after a late frame. A one-minute synthetic
+60 Hz jitter trace retains 1,800 idle draws; the previous limiter admitted only
+1,349. This is a scheduling regression test, not a device frame-rate benchmark.
+The private browser Workers copy their tested bundle into their own temporary
+directory so a concurrent Worker build cannot hot-reload the save test.
