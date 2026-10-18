@@ -1,10 +1,14 @@
 import * as THREE from "three";
-import { mergeVertices } from "three/addons/utils/BufferGeometryUtils.js";
+import {
+  mergeVertices,
+  mergeGeometries,
+} from "three/addons/utils/BufferGeometryUtils.js";
 import { part } from "./bikini-scenery.js";
 import { line as lineGeometry } from "./fantasy-scenery.js";
 import { batchModelSteps } from "./model-batching.js";
 import { applyUnderwaterLighting } from "./water-shading.js";
 import { aquariumFishFrame } from "./aquarium-data.js";
+import { createFishPalette, applyFishMotion } from "./aquarium-motion.js";
 import { runSceneSteps } from "./scene-tasks.js";
 
 // One smoothly rounded model shared by all 50 fish. The marker is replaced by
@@ -14,7 +18,7 @@ const round = new THREE.SphereGeometry(1, 24, 16);
 round.userData.sharedScenery = true;
 const smallRound = new THREE.SphereGeometry(1, 16, 12);
 smallRound.userData.sharedScenery = true;
-let templates, earGeometry;
+let templates, earGeometry, packed;
 const glossy = new Map(),
   rayPaints = new Map();
 function line(g, a, b, color, r) {
@@ -226,6 +230,79 @@ function flowingFan(g, tail = false) {
   }
 }
 
+// A continuous convex globe: large kitten pupils, a fine coloured limbus and
+// crisp reflections. A single sculpted cap replaces seven intersecting spheres
+// per eye; no hidden shells or dark wedges show through from grazing views.
+function kittenFishEye(g, x, sign) {
+  const positions = [],
+    colors = [],
+    indices = [],
+    rings = 28,
+    sides = 64,
+    color = new THREE.Color(),
+    pupil = new THREE.Color(0x192437),
+    edge = new THREE.Color(0x445769),
+    mint = new THREE.Color(0x8ed5bd),
+    gold = new THREE.Color(0xd6d998),
+    cream = new THREE.Color(0xfff5ec);
+  for (let j = 0; j <= rings; j++) {
+    const r = j / rings,
+      depth = Math.sqrt(Math.max(0, 1 - r * r));
+    for (let k = 0; k <= sides; k++) {
+      const a = (k / sides) * Math.PI * 2,
+        u = Math.cos(a) * r,
+        v = Math.sin(a) * r;
+      positions.push(u * 0.305, v * 0.337, depth * 0.32);
+      const p = Math.hypot(u / 0.57, v / 0.72),
+        iris = THREE.MathUtils.smoothstep(p, 0.96, 1.07),
+        fiber =
+          Math.sin(a * 43 + r * 31) * 0.035 + Math.sin(a * 23 - r * 19) * 0.025;
+      color
+        .copy(gold)
+        .lerp(mint, THREE.MathUtils.smoothstep(r, 0.35, 0.83))
+        .multiplyScalar(0.97 + fiber)
+        .lerp(edge, THREE.MathUtils.smoothstep(r, 0.83, 0.94) * 0.8)
+        .lerp(cream, THREE.MathUtils.smoothstep(r, 0.96, 1))
+        .lerp(pupil, 1 - iris);
+      colors.push(color.r, color.g, color.b);
+      if (j < rings && k < sides) {
+        const n = j * (sides + 1) + k;
+        indices.push(
+          n,
+          n + sides + 1,
+          n + 1,
+          n + 1,
+          n + sides + 1,
+          n + sides + 2,
+        );
+      }
+    }
+  }
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute(
+    "position",
+    new THREE.Float32BufferAttribute(positions, 3),
+  );
+  geometry.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
+  geometry.setIndex(indices);
+  geometry.computeVertexNormals();
+  const globe = soft(g, 0xffffff, x, 0.34, 1.18, 1, 1, 1, true);
+  globe.position.z = 1.18;
+  globe.geometry = geometry;
+  globe.material = globe.material.clone();
+  globe.material.vertexColors = true;
+  globe.name = "Convex kitten eye · iris and pupil";
+  const glint = (dx, dy, sx, sy) => {
+    const r2 = (dx / 0.305) ** 2 + (dy / 0.337) ** 2,
+      z = 1.18 + 0.32 * Math.sqrt(1 - r2) + 0.007;
+    const p = soft(g, 0xffffff, x + dx, 0.34 + dy, z, sx, sy, 0.014, true);
+    p.position.z = z;
+    p.name = "Kitten eye catchlight";
+  };
+  glint(-sign * 0.078, 0.118, 0.062, 0.073);
+  glint(sign * 0.087, -0.116, 0.024, 0.031);
+}
+
 function* bake(g) {
   const b = yield* batchModelSteps(g, { combineColors: true });
   g.traverse((o) => {
@@ -264,44 +341,7 @@ function* fishTemplates() {
     soft(body, 0xfffbf3, sign * 0.27, -0.18, 1.24, 0.34, 0.255, 0.18);
     soft(body, 0xf7bad1, sign * 0.66, -0.07, 1.2, 0.17, 0.095, 0.035);
     const x = sign * 0.39;
-    // A rounded violet iris, turquoise inner ring, dark pupil and crisp glints.
-    soft(body, 0x7d7394, x, 0.35, 1.23, 0.267, 0.298, 0.105, true);
-    soft(body, 0x8fdbe4, x, 0.36, 1.29, 0.238, 0.267, 0.085, true);
-    soft(body, 0x8b78d3, x, 0.39, 1.349, 0.188, 0.21, 0.043, true);
-    soft(body, 0x27294d, x, 0.4, 1.383, 0.142, 0.181, 0.03, true);
-    soft(
-      body,
-      0xffffff,
-      x - sign * 0.07,
-      0.505,
-      1.413,
-      0.079,
-      0.081,
-      0.019,
-      true,
-    );
-    soft(
-      body,
-      0xffffff,
-      x + sign * 0.088,
-      0.32,
-      1.414,
-      0.032,
-      0.035,
-      0.015,
-      true,
-    );
-    soft(
-      body,
-      0xcedeff,
-      x - sign * 0.007,
-      0.222,
-      1.397,
-      0.059,
-      0.024,
-      0.012,
-      true,
-    );
+    kittenFishEye(body, x, sign);
     // Muzzle dots, curved whiskers and tiny eyebrow tufts keep the face feline.
     for (let j = 0; j < 3; j++) {
       const points = [
@@ -389,79 +429,102 @@ function coatMaterial(source, clock, tint) {
   m.userData.sharedScenery = false;
   return m;
 }
+function* packedFishSteps(parts) {
+  if (packed) return packed;
+  const geometries = [];
+  for (const [id, sources] of [
+    parts.body,
+    parts.tail,
+    parts.fin,
+    parts.fin,
+  ].entries())
+    for (const p of sources) {
+      const g = p.geometry.clone(),
+        count = g.attributes.position.count,
+        surface = new Float32Array(count * 2);
+      for (let i = 0; i < count; i++) {
+        surface[i * 2] = p.material.roughness;
+        surface[i * 2 + 1] = p.material.metalness;
+      }
+      g.setAttribute(
+        "aFishPart",
+        new THREE.Float32BufferAttribute(new Float32Array(count).fill(id), 1),
+      );
+      g.setAttribute(
+        "aFishSurface",
+        new THREE.Float32BufferAttribute(surface, 2),
+      );
+      geometries.push(g);
+      yield;
+    }
+  packed = mergeGeometries(geometries);
+  if (!packed) throw Error("Incompatible kitten-fish surfaces");
+  geometries.forEach((g) => g.dispose());
+  packed.userData.sharedScenery = true;
+  return packed;
+}
 export function* aquariumShoalSteps(tank, clock) {
   const root = new THREE.Group(),
     parts = yield* fishTemplates(),
-    sets = {},
-    dummy = new THREE.Object3D(),
-    local = new THREE.Object3D(),
-    matrix = new THREE.Matrix4();
-  const add = (name, source) =>
-    (sets[name] = source.map((p) => {
-      const m = new THREE.InstancedMesh(
+    geometry = yield* packedFishSteps(parts),
+    palette = createFishPalette(tank),
+    material = applyFishMotion(
+      coatMaterial(
+        new THREE.MeshStandardMaterial({
+          color: 0xffffff,
+          vertexColors: true,
+          roughness: 1,
+        }),
+        clock,
+        tank.color,
+      ),
+      palette,
+    ),
+    mesh = new THREE.InstancedMesh(geometry, material, tank.fish),
+    bounds = new THREE.Sphere(
+      new THREE.Vector3(0, tank.h / 2, 0),
+      Math.hypot(tank.w / 2, tank.h / 2, tank.d / 2),
+    ),
+    colliders = [];
+  mesh.name = "Aquarium catfish · packed articulated kittens";
+  mesh.userData.aquariumFish = true;
+  mesh.boundingSphere = bounds;
+  mesh.getMatrixAt = (i, target) => palette.matrixAt(i, "body", target);
+  for (const [name, sources] of [
+    ["body", parts.body],
+    ["tail", parts.tail],
+    ["leftFin", parts.fin],
+    ["rightFin", parts.fin],
+  ])
+    for (const p of sources) {
+      const collider = new THREE.InstancedMesh(
         p.geometry,
-        coatMaterial(p.material, clock, tank.color),
+        p.material,
         tank.fish,
       );
-      m.name = "Aquarium catfish · " + name;
-      m.userData.aquariumFish = true;
-      m.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
-      m.frustumCulled = false;
-      root.add(m);
-      return m;
-    }));
-  add("body", parts.body);
-  add("tail", parts.tail);
-  add("leftFin", parts.fin);
-  add("rightFin", parts.fin);
-  const color = new THREE.Color();
-  for (let i = 0; i < tank.fish; i++) {
-    color.set(aquariumFishFrame(tank, i, 0).color);
-    for (const meshes of Object.values(sets))
-      for (const m of meshes) m.setColorAt(i, color);
-  }
-  root.userData.update = (time, reduced = false) => {
-    for (let i = 0; i < tank.fish; i++) {
-      const f = aquariumFishFrame(tank, i, reduced ? 0 : time);
-      dummy.position.set(f.x, f.y, f.z);
-      dummy.rotation.set(
-        0,
-        f.yaw,
-        reduced ? 0 : Math.sin(time * 0.7 + i) * 0.025,
-      );
-      dummy.scale.setScalar(f.scale);
-      dummy.updateMatrix();
-      for (const m of sets.body) m.setMatrixAt(i, dummy.matrix);
-      local.position.set(0, 0, -1.3);
-      local.rotation.set(0, reduced ? 0 : f.tail, 0);
-      local.scale.setScalar(1);
-      local.updateMatrix();
-      matrix.multiplyMatrices(dummy.matrix, local.matrix);
-      for (const m of sets.tail) m.setMatrixAt(i, matrix);
-      for (const [key, sign] of [
-        ["leftFin", -1],
-        ["rightFin", 1],
-      ]) {
-        local.position.set(sign * 0.8, -0.03, -0.25);
-        local.rotation.set(
-          0.1,
-          sign * 0.5,
-          sign * (0.4 + (reduced ? 0 : f.fin)),
-        );
-        local.updateMatrix();
-        matrix.multiplyMatrices(dummy.matrix, local.matrix);
-        for (const m of sets[key]) m.setMatrixAt(i, matrix);
-      }
+      collider.name = "Aquarium picking · " + name;
+      collider.getMatrixAt = (i, target) => palette.matrixAt(i, name, target);
+      collider.boundingSphere = bounds;
+      colliders.push(collider);
     }
-    for (const meshes of Object.values(sets))
-      for (const m of meshes) m.instanceMatrix.needsUpdate = true;
+  // Use the articulated surfaces for picking. The packed mesh's bind-pose
+  // fins alone cannot describe their displayed positions during a tail stroke.
+  mesh.raycast = (raycaster, hits) => {
+    const first = hits.length;
+    for (const c of colliders) {
+      c.matrixWorld.copy(mesh.matrixWorld);
+      c.raycast(raycaster, hits);
+    }
+    for (let i = first; i < hits.length; i++) hits[i].object = mesh;
   };
-  root.userData.update(0, true);
-  root.userData.stats = {
-    fish: tank.fish,
-    draws: root.children.length,
-    sharedTemplates: true,
-  };
+  const color = new THREE.Color();
+  for (let i = 0; i < tank.fish; i++)
+    mesh.setColorAt(i, color.set(aquariumFishFrame(tank, i, 0).color));
+  root.add(mesh);
+  root.userData.palette = palette;
+  root.userData.collisionParts = colliders;
+  root.userData.update = palette.update;
+  root.userData.stats = { fish: tank.fish, draws: 1, sharedTemplates: true };
   return root;
 }
 

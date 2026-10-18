@@ -19,6 +19,7 @@ import { activeCats, catAvailable } from "./cat-roster.js";
 import { adoptCat, adoptionCenters, gatherCats } from "./adoption.js";
 import {
   incomeFor,
+  incomeForVenue,
   incomeCurrency,
   incomeSymbol,
   collectIncome,
@@ -2399,13 +2400,17 @@ function collectBusiness(id) {
 function renderBusiness() {
   $("business-grid").replaceChildren();
   const venues = businessVenues(game);
+  const incomeNow = Date.now(),
+    amounts = new Map(
+      venues.map((p) => [p.id, incomeForVenue(game, p, incomeNow)]),
+    );
   const ready = venues.filter((p) => isBuilt(p)),
     total = venues
       .filter((p) => incomeCurrency(p.item) === "coins")
-      .reduce((n, p) => n + incomeFor(game, p.id), 0),
+      .reduce((n, p) => n + amounts.get(p.id), 0),
     gems = venues
       .filter((p) => incomeCurrency(p.item) === "diamonds")
-      .reduce((n, p) => n + incomeFor(game, p.id), 0);
+      .reduce((n, p) => n + amounts.get(p.id), 0);
   $("business-summary").textContent =
     `${ready.length} работают · ${money(ready.filter((p) => incomeCurrency(p.item) === "coins").reduce((n, p) => n + revenueRate(p.item, businessLevel(game, p.id)), 0))} ✦/ч · ${ready.reduce((n, p) => n + businessXP(p.item, businessLevel(game, p.id)), 0)} XP/ч · в кассах ${money(total)} ✦ и ${money(gems)} 💎`;
   $("business-collect-all").disabled = !(total || gems);
@@ -2416,7 +2421,7 @@ function renderBusiness() {
     " часов дохода. Каждый бизнес и аттракцион даёт XP при сборе без дневного лимита, до максимального уровня 30. Дробные части XP сохраняются до следующего сбора. Нажмите монетку над постройкой или соберите здесь.";
   for (const p of venues) {
     const item = byItem(p.item),
-      amount = incomeFor(game, p.id),
+      amount = amounts.get(p.id),
       level = businessLevel(game, p.id);
     const row = document.createElement("article");
     row.className = "business-row";

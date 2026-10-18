@@ -56,3 +56,20 @@ Test shared saves from cached clients using the previous island boundaries.
 Their normalization must not silently delete new outer-land purchases; preserve
 IDs and attached state while permitting actual storage/replacement without
 duplicating or resurrecting a building removed on the other device.
+
+## Map and aquarium performance
+
+- Preserve the approved cats, fish counts/sizes, authored scenery, water,
+  shadow quality and mobile pixel ratio. Batch identical rendering work instead
+  of reducing those details. Keep CPU camera/picking poses aligned with the
+  actual GPU animation, including frozen and reduced-motion frames.
+- Navigation radii must come from rest anatomy with breathing clearance, never
+  the current animated body scale. Keep pathfinding caches bounded.
+- Continuous ambient/fish/bubble animation must keep fixed geometry and instance
+  buffers. Use shared pose palettes or clocks, not per-frame matrix uploads.
+  Hidden visual branches may defer matrices, but must refresh completely when
+  shown; explicit world-space queries must still work.
+- Check `test/world-performance.test.mjs`, the actual GPU pose/normal probe
+  `scripts/check-aquarium-motion.mjs`, and the phone/save integration in
+  `scripts/check-aquarium.cjs`. Separate software-renderer diagnostics from real
+  phone frame-rate claims; report counts/bytes and retain equal detail/DPR.

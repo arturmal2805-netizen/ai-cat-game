@@ -196,7 +196,7 @@ export const AQUARIUM_LOCALS = [
   },
 ].map((o) => ({ ...o, biome: "aquarium" }));
 const palette = [0xf3b15a, 0xb097eb, 0xf49ac4, 0x72c4ed, 0x76cbb4, 0xf6ce6b];
-export function aquariumFishFrame(tank, i, time) {
+export function aquariumFishFrame(tank, i, time, out = {}) {
   const large = i === 0,
     scale = large ? tank.hero : 0.32 + (i % 4) * 0.13;
   const extent = scale * 2.05;
@@ -214,15 +214,14 @@ export function aquariumFishFrame(tank, i, time) {
   const y = large
     ? tank.h * 0.44 + Math.sin(a * 1.35) * 0.25
     : 1.6 + ((i % 4) * (tank.h - 3.1)) / 4 + Math.sin(a * 1.4 + i) * 0.35;
-  return {
-    x,
-    y,
-    z,
-    yaw,
-    scale,
-    tail: Math.sin(time * (large ? 2.7 : 4.2) + i) * 0.34,
-    fin: Math.sin(time * 3.3 + i) * 0.3,
-    color: palette[(i + tank.index) % palette.length],
-    near,
-  };
+  out.x = x;
+  out.y = y;
+  out.z = z;
+  out.yaw = yaw;
+  out.scale = scale;
+  out.tail = Math.sin(time * (large ? 2.7 : 4.2) + i) * 0.34;
+  out.fin = Math.sin(time * 3.3 + i) * 0.3;
+  out.color = palette[(i + tank.index) % palette.length];
+  out.near = near;
+  return out;
 }

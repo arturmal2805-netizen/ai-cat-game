@@ -636,6 +636,7 @@ export function* batchScenerySteps(root, { surfaceKind = null } = {}) {
           });
     yield;
     const mesh = new THREE.Mesh(geometry, material);
+    mesh.matrixAutoUpdate = false;
     yield;
     material.userData.surfaceKind = key;
     yield;

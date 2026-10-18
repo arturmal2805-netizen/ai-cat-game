@@ -127,18 +127,15 @@ test("five tanks have huge friendly catfish and smaller companions, sharing anim
       }
     }
     assert.ok(travel > 2, o.id);
-    const matrices = model.userData.shoal.children.map((m) =>
-      m.instanceMatrix.array.slice(),
-    );
+    const matrices = [...model.userData.shoal.userData.palette.place.value];
     model.userData.update(2, true);
-    const reduced = model.userData.shoal.children.map((m) =>
-      m.instanceMatrix.array.slice(),
-    );
+    const reduced = [...model.userData.shoal.userData.palette.place.value];
     model.userData.update(20, true);
-    model.userData.shoal.children.forEach((m, i) =>
-      assert.deepEqual(m.instanceMatrix.array, reduced[i]),
+    assert.deepEqual(
+      [...model.userData.shoal.userData.palette.place.value],
+      reduced,
     );
-    assert.notDeepEqual(matrices[0], reduced[0]);
+    assert.notDeepEqual(matrices, reduced);
     const headPart = model.userData.shoal.children[0];
     assert.ok(headPart.geometry.attributes.position.count > 2000);
     assert.equal(headPart.count, o.fish);
@@ -281,7 +278,7 @@ test("level 14 is enforced and the actual animated fish vertices remain inside t
       shoal = tank.userData.shoal;
     for (const t of [0, 2.4, 5.7, 10.1, 18.8, 27.2, 39.1]) {
       tank.userData.update(t);
-      for (const mesh of shoal.children) {
+      for (const mesh of shoal.userData.collisionParts) {
         mesh.getMatrixAt(0, m);
         const a = mesh.geometry.attributes.position;
         for (let i = 0; i < a.count; i++) {
@@ -316,7 +313,7 @@ test("fish cameras follow the actual displayed pose when animations are paused, 
 
 test("plush fish have no pinched neck, smooth finite surfaces and continuous richly coloured fans within the shared draw budget", () => {
   const tank = courtVenue(AQUARIUM_TANKS[1]),
-    parts = tank.userData.shoal.children,
+    parts = tank.userData.shoal.userData.collisionParts,
     material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide }),
     body = new THREE.Mesh(parts[0].geometry, material);
   body.updateMatrixWorld(true);
@@ -358,5 +355,6 @@ test("plush fish have no pinched neck, smooth finite surfaces and continuous ric
     );
   }
   assert.equal(parts.length, 5);
+  assert.equal(tank.userData.shoal.children.length, 1);
   material.dispose();
 });

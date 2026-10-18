@@ -27,6 +27,7 @@ import {
   normalizeBusinessLevel,
 } from "./business.js";
 import {
+  gameDay,
   newProgression,
   normalizeProgression,
   visitXP,
@@ -71,13 +72,7 @@ export const SAVE_KEY = "chichi-world-v2",
   ATTENTION_COINS = 10,
   ATTENTION_COOLDOWN = 600000;
 const copy = (value) => structuredClone(value);
-const dateKey = (now) =>
-  new Intl.DateTimeFormat("en-CA", {
-    timeZone: "Europe/Kyiv",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).format(new Date(now));
+const dateKey = gameDay;
 export function newGame(now = Date.now()) {
   const game = {
     version: 2,
@@ -397,9 +392,17 @@ export function saveGame(storage, game) {
   return false;
 }
 export function claimRewards(game, now = Date.now(), visit = false) {
+  const hours = Math.floor(Math.max(0, now - game.lastHourly) / HOUR),
+    day = visit ? dateKey(now) : null,
+    login = visit && game.lastVisit !== day && now >= game.lastHourly - HOUR,
+    xpVisit =
+      visit &&
+      (!game.progression.lastVisitDay || day > game.progression.lastVisitDay);
+  // This is polled once a second. A large world should not be cloned just to
+  // discover that the next reward is still an hour away.
+  if (!hours && !login && !xpVisit) return { game, rewards: [] };
   const next = copy(game);
   const rewards = [];
-  const hours = Math.floor(Math.max(0, now - next.lastHourly) / HOUR);
   if (hours > 0) {
     const value = Math.min(hours, 24) * HOURLY_COINS;
     next.coins += value;
@@ -407,12 +410,8 @@ export function claimRewards(game, now = Date.now(), visit = false) {
     next.lastHourly += hours * HOUR;
     rewards.push({ type: "hourly", amount: value, hours: Math.min(hours, 24) });
   }
-  if (
-    visit &&
-    next.lastVisit !== dateKey(now) &&
-    now >= next.lastHourly - HOUR
-  ) {
-    next.lastVisit = dateKey(now);
+  if (visit && next.lastVisit !== day && now >= next.lastHourly - HOUR) {
+    next.lastVisit = day;
     next.coins += LOGIN_COINS;
     next.totalEarned += LOGIN_COINS;
     rewards.push({ type: "login", amount: LOGIN_COINS });

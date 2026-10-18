@@ -146,8 +146,13 @@ export function incomeFor(game, id, now = Date.now()) {
     id === "spa-bar" && game.unlocked.includes("water")
       ? { id, item: "cat-barista", readyAt: 0 }
       : businessVenues(game).find((p) => p.id === id);
+  return incomeForVenue(game, p, now);
+}
+// Bulk HUD/menu reads already know the venue. Avoid rebuilding and searching
+// the entire register list once for every business on every timer tick.
+export function incomeForVenue(game, p, now = Date.now()) {
   if (!p || (p.readyAt && p.readyAt > now)) return 0;
-  const rate = revenueRate(p.item, businessLevel(game, id));
+  const rate = revenueRate(p.item, businessLevel(game, p.id));
   if (!rate) return 0;
   const start = businessStart(game, p, now);
   const hours = Math.min(

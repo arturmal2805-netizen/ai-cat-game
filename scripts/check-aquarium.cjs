@@ -15,6 +15,18 @@ const root = path.resolve(__dirname, ".."),
     process.env.CHICHI_REVIEW_DIR ||
     path.join(os.tmpdir(), "chichi-aquarium-review");
 fs.mkdirSync(review, { recursive: true });
+const baseline = process.env.CHICHI_BASELINE_REF;
+if (baseline && !/^[a-f0-9]{7,40}$/.test(baseline))
+  throw Error("Expected a commit hash");
+const readPublic = (name) =>
+  baseline
+    ? require("node:child_process").execFileSync(
+        "git",
+        ["show", baseline + ":public/" + name],
+        { cwd: root, encoding: "utf8" },
+      )
+    : fs.readFileSync(root + "/public/" + name, "utf8");
+
 async function localWorker() {
   const temp = fs.mkdtempSync(path.join(os.tmpdir(), "chichi-aquarium-"));
   const socket = net.createServer();
@@ -169,7 +181,7 @@ async function localWorker() {
           name: "qa",
           setup(b) {
             b.onLoad({ filter: /\/public\/world\.js$/ }, () => {
-              const source = fs.readFileSync(root + "/public/world.js", "utf8"),
+              const source = readPublic("world.js"),
                 marker = "  return {\n    perform,";
               assert.ok(source.includes(marker));
               return {
@@ -187,12 +199,20 @@ async function localWorker() {
                     "    if(window.__lagoonQA?.pinnedRide !== undefined && operation?.stage === 'activity') operation.activityStart=now-window.__lagoonQA.pinnedRide*1000;\n    const time = now / 1000;",
                   )
                   .replace(
+                    "    const dt = Math.min((now - previousTime) / 1000, 0.1);",
+                    "    const qaFrameStart=performance.now();\n    const dt = Math.min((now - previousTime) / 1000, 0.1);",
+                  )
+                  .replace(
+                    "      renderer.render(scene, camera);",
+                    "      if(window.__lagoonQA?.measure)window.__lagoonQA.cpu.push(performance.now()-qaFrameStart);\n      renderer.render(scene, camera);",
+                  )
+                  .replace(
                     "  const reduced =",
                     "  const qaStart=performance.now();\n  const reduced =",
                   )
                   .replace(
                     marker,
-                    `  const qa=window.__lagoonQA={camera,look,desiredLook,renderer,islands,cat,npcs,chichiCarrier,itemGroups,THREE,scene,pickDrop,pointer,raycaster,ground,viewport,perform,performResident,faceCamera,spa,chill,court,cinema,courtFoods,bikiniLife,enterCourt,exitCourt,getCourtCamera:()=>courtCamera,residentPlay,callbacks,getDragging:()=>draggingCat?.catId,reviewView:(x,z,d)=>{desiredLook.set(x,0,z);desiredDistance=d;azimuth=.15;},constructorMs:performance.now()-qaStart,focused:()=>focused,getOperation:()=>operation,isVisible:()=>worldVisible,getDistance:()=>distance,getDesiredDistance:()=>desiredDistance,frames:0,resizes:0,black:[],audit:false};
+                    `  const qa=window.__lagoonQA={camera,look,desiredLook,renderer,islands,cat,npcs,chichiCarrier,itemGroups,THREE,scene,pickDrop,pointer,raycaster,ground,viewport,sync,perform,performResident,faceCamera,spa,chill,court,cinema,courtFoods,bikiniLife,enterCourt,exitCourt,getCourtCamera:()=>courtCamera,residentPlay,callbacks,getDragging:()=>draggingCat?.catId,reviewView:(x,z,d)=>{desiredLook.set(x,0,z);desiredDistance=d;azimuth=.15;},constructorMs:performance.now()-qaStart,focused:()=>focused,getOperation:()=>operation,isVisible:()=>worldVisible,getDistance:()=>distance,getDesiredDistance:()=>desiredDistance,frames:0,resizes:0,black:[],audit:false,measure:false,cpu:[]};
   const draw=renderer.render.bind(renderer);qa.drawFrame=()=>draw(scene,camera);renderer.render=(...args)=>{if(qa.drawPaused)return;draw(...args);qa.frames++;};
   const size=renderer.setSize.bind(renderer);renderer.setSize=(...args)=>{qa.resizes++;return size(...args);};
   const audit=new MutationObserver(()=>{if(!qa.audit)return;const gl=renderer.getContext(),p=new Uint8Array(4);gl.readPixels(0,0,1,1,gl.RGBA,gl.UNSIGNED_BYTE,p);if(p[0]+p[1]+p[2]===0)qa.black.push(Array.from(p));});audit.observe(renderer.domElement,{attributes:true,attributeFilter:['width','height']});
@@ -205,7 +225,7 @@ async function localWorker() {
               contents: (
                 "import {placeItem as qaPlace,findSpace as qaSpace} from './economy.js'; window.__diamondQA={placeItem:qaPlace,findSpace:qaSpace};\n" +
                 "import {storeSculptCache as qaStoreGraphics} from './sculpt-cache.js';\n" +
-                fs.readFileSync(root + "/public/app.js", "utf8")
+                readPublic("app.js")
               )
                 .replace(
                   "await restoreSculptCache();",
@@ -217,6 +237,11 @@ async function localWorker() {
                 ),
               loader: "js",
             }));
+            if (baseline)
+              b.onLoad({ filter: /\/public\/.*\.js$/ }, (args) => ({
+                contents: readPublic(path.basename(args.path)),
+                loader: "js",
+              }));
           },
         },
       ],
@@ -336,6 +361,101 @@ async function localWorker() {
     ]);
     assert.equal(report.scene.fish, 50);
     assert.ok(report.scene.locals >= 6);
+    if (process.env.CHICHI_PERF_ONLY) {
+      await page.evaluate(() => {
+        const q = __lagoonQA;
+        q.reviewView(-335, 95, 130);
+        q.drawPaused = false;
+      });
+      await page.waitForTimeout(5000);
+      const cdp = await context.newCDPSession(page);
+      await cdp.send("Profiler.enable");
+      await cdp.send("Profiler.setSamplingInterval", { interval: 500 });
+      await page.evaluate(() => {
+        const q = __lagoonQA,
+          gl = q.renderer.getContext(),
+          sub = gl.bufferSubData.bind(gl);
+        q.uploads = { calls: 0, bytes: 0 };
+        gl.bufferSubData = (...a) => {
+          q.uploads.calls++;
+          q.uploads.bytes += a[2]?.byteLength || 0;
+          return sub(...a);
+        };
+        q.cpu = [];
+        q.measure = true;
+        q.startFrames = q.frames;
+      });
+      await cdp.send("Profiler.start");
+      await page.waitForTimeout(10000);
+      const gpuPhase = await page.evaluate(() => {
+        const q = __lagoonQA;
+        return {
+          frames: q.frames - q.startFrames,
+          uploads: { ...q.uploads },
+          draws: q.renderer.info.render.calls,
+          triangles: q.renderer.info.render.triangles,
+        };
+      });
+      await cdp.send("Profiler.stop");
+      await page.evaluate(() => {
+        const q = __lagoonQA;
+        q.drawPaused = true;
+        q.cpu = [];
+      });
+      await cdp.send("Profiler.start");
+      await page.waitForTimeout(10000);
+      const profile = await cdp.send("Profiler.stop");
+      const perf = await page.evaluate(() => {
+        const q = __lagoonQA,
+          a = q.cpu.sort((a, b) => a - b),
+          percent = (p) => a[Math.min(a.length - 1, Math.floor(a.length * p))];
+        q.measure = false;
+        const g = __lagoonSaveQA.getGame(),
+          times = [];
+        for (let i = 0; i < 50; i++) {
+          const t = performance.now();
+          q.sync(g);
+          times.push(performance.now() - t);
+        }
+        return {
+          frames: q.frames - q.startFrames,
+          cpu: {
+            samples: a.length,
+            median: percent(0.5),
+            p95: percent(0.95),
+            p99: percent(0.99),
+            max: a.at(-1),
+          },
+          sync: {
+            mean: times.reduce((s, v) => s + v, 0) / times.length,
+            max: Math.max(...times),
+          },
+          uploads: q.uploads,
+          draws: q.renderer.info.render.calls,
+          triangles: q.renderer.info.render.triangles,
+          geometries: q.renderer.info.memory.geometries,
+          textures: q.renderer.info.memory.textures,
+          pixelRatio: q.renderer.getPixelRatio(),
+          size: [q.renderer.domElement.width, q.renderer.domElement.height],
+        };
+      });
+      fs.writeFileSync(
+        path.join(review, "cpu-profile.json"),
+        JSON.stringify(profile),
+      );
+      fs.writeFileSync(
+        path.join(review, "performance.json"),
+        JSON.stringify(
+          { ...report, perf, gpuPhase, errors, httpErrors },
+          null,
+          2,
+        ),
+      );
+      console.log(JSON.stringify({ perf, gpuPhase }, null, 2));
+      await page.evaluate(() => __lagoonQA.drawFrame());
+      await page.screenshot({ path: path.join(review, "aquarium-phone.png") });
+      return;
+    }
     await page.evaluate(() => {
       const q = __lagoonQA;
       q.court.clear();

@@ -46,9 +46,14 @@ export function* mergeSceneSteps(parts) {
     }
     // Preserve Float16/normalisation semantics without copying the complete
     // island-sized array a second time in a typed attribute constructor.
-    const attribute = source.clone();
+    const attribute = source.isFloat16BufferAttribute
+      ? new THREE.Float16BufferAttribute([], source.itemSize, source.normalized)
+      : new THREE.BufferAttribute(values, source.itemSize, source.normalized);
     attribute.array = values;
     attribute.count = values.length / source.itemSize;
+    attribute.name = source.name;
+    attribute.usage = source.usage;
+    attribute.gpuType = source.gpuType;
     result.setAttribute(name, attribute);
     yield;
   }
@@ -71,5 +76,32 @@ export function* mergeSceneSteps(parts) {
     }
     result.setIndex(new THREE.BufferAttribute(values, 1));
   }
+  // First-view culling must not synchronously scan an island-sized buffer.
+  // Compute the same bounds during the cooperative preparation slices.
+  yield* geometryBoundsSteps(result);
   return result;
+}
+
+export function* geometryBoundsSteps(geometry) {
+  const a = geometry.attributes.position;
+  if (!a) return;
+  const box = new THREE.Box3(),
+    p = new THREE.Vector3(),
+    center = new THREE.Vector3();
+  for (let i = 0; i < a.count; i++) {
+    if ((i & 4095) === 0) yield;
+    p.fromBufferAttribute(a, i);
+    box.expandByPoint(p);
+  }
+  box.getCenter(center);
+  let radiusSq = 0;
+  for (let i = 0; i < a.count; i++) {
+    if ((i & 4095) === 0) yield;
+    radiusSq = Math.max(
+      radiusSq,
+      p.fromBufferAttribute(a, i).distanceToSquared(center),
+    );
+  }
+  geometry.boundingBox = box;
+  geometry.boundingSphere = new THREE.Sphere(center, Math.sqrt(radiusSq));
 }

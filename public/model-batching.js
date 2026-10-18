@@ -128,6 +128,9 @@ export function* batchModelSteps(root, { combineColors = false } = {}) {
     if (!geometry) throw Error("Incompatible static model geometry");
     yield;
     const mesh = new THREE.Mesh(geometry, material);
+    // Positions were baked into geometry. Parent placement/animation still
+    // updates normally; this identity transform never needs recomposition.
+    mesh.matrixAutoUpdate = false;
     yield;
     mesh.castShadow = parts.some((p) => p.castShadow);
     yield;

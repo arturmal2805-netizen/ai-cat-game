@@ -1,13 +1,13 @@
 export const PROGRESSION_VERSION = 1,
   MAX_LEVEL = 30,
   DAILY_XP_LIMIT = 1800;
-export const gameDay = (now) =>
-  new Intl.DateTimeFormat("en-CA", {
-    timeZone: "Europe/Kyiv",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).format(new Date(now));
+const dayFormatter = new Intl.DateTimeFormat("en-CA", {
+  timeZone: "Europe/Kyiv",
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+});
+export const gameDay = (now) => dayFormatter.format(now);
 export const xpForLevel = (level) =>
   level <= 1 ? 0 : Math.round(80 * (level - 1) ** 1.55 + 40 * (level - 1));
 export function levelForXP(xp = 0) {

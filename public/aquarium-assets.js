@@ -246,6 +246,33 @@ export function* aquariumTankSteps(o) {
     dummy = new THREE.Object3D();
   bubbles.frustumCulled = false;
   bubbles.renderOrder = 5;
+  bubbles.name = "Aquarium bubbles · fixed GPU instances";
+  const bubbleHeight = o.h - 0.7;
+  bubbles.material.onBeforeCompile = (shader) => {
+    shader.uniforms.uBubbleTime = clock;
+    shader.vertexShader =
+      "uniform float uBubbleTime;\n" +
+      shader.vertexShader.replace(
+        "#include <project_vertex>",
+        `#include <project_vertex>
+       vec4 bubblePoint=instanceMatrix*vec4(transformed,1.0);
+       bubblePoint.y=.3+mod(uBubbleTime*.55+bubblePoint.y-.3,${bubbleHeight.toFixed(6)});
+       mvPosition=modelViewMatrix*bubblePoint;
+       gl_Position=projectionMatrix*mvPosition;`,
+      );
+  };
+  bubbles.material.customProgramCacheKey = () =>
+    "aquarium-bubbles-v1-" + bubbleHeight;
+  for (let i = 0; i < 24; i++) {
+    dummy.position.set(
+      Math.sin(i * 2.4) * (o.w / 2 - 1),
+      0.3 + ((i * 0.73) % bubbleHeight),
+      Math.cos(i * 2.4) * (o.d / 2 - 1),
+    );
+    dummy.scale.setScalar(0.7 + (i % 3) * 0.22);
+    dummy.updateMatrix();
+    bubbles.setMatrixAt(i, dummy.matrix);
+  }
   root.add(bubbles);
   root.userData.shoal = shoal;
   root.userData.tank = o;
@@ -265,17 +292,6 @@ export function* aquariumTankSteps(o) {
     clock.value = reduced ? 0 : time;
     advanceWater(water, time, reduced);
     shoal.userData.update(time, reduced);
-    for (let i = 0; i < 24; i++) {
-      dummy.position.set(
-        Math.sin(i * 2.4) * (o.w / 2 - 1),
-        0.3 + (((reduced ? 0 : time * 0.55) + i * 0.73) % (o.h - 0.7)),
-        Math.cos(i * 2.4) * (o.d / 2 - 1),
-      );
-      dummy.scale.setScalar(0.7 + (i % 3) * 0.22);
-      dummy.updateMatrix();
-      bubbles.setMatrixAt(i, dummy.matrix);
-    }
-    bubbles.instanceMatrix.needsUpdate = true;
   };
   root.userData.update((Math.PI * 2 - o.index * 0.8) / 0.16, false);
   root.userData.stats = {

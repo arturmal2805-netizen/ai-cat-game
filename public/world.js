@@ -59,8 +59,14 @@ import { catAppearance } from "./cat-breeds.js";
 import { outsideMegaPlots } from "./mega-ride-data.js";
 import { createRideOutings } from "./ride-outings.js";
 import { watchWorldViewport } from "./world-viewport.js";
+import { createWorldMotes } from "./world-effects.js";
+import { catNavigationRadius } from "./cat-navigation-size.js";
 import {
-  incomeFor,
+  pauseHiddenMatrixUpdates,
+  prepareIslandMatrices,
+} from "./scene-visibility.js";
+import {
+  incomeForVenue,
   incomeSymbol,
   businessVenues,
   businessLevel,
@@ -157,6 +163,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     `Сказочный мир Чичи: ${BIOMES.length} биомов, коты и атттракционы`,
   );
   const scene = new THREE.Scene();
+  scene.matrixAutoUpdate = false;
   scene.fog = new THREE.FogExp2(0xc0bfd7, 0.0035);
   // The closest allowed orbit is 21 units. A less extreme near/far ratio gives
   // small ground decorations more depth precision without clipping that orbit.
@@ -402,14 +409,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     z: p.z - spaBiome.center[1],
     y: p.y,
   });
-  const spaRadius = (model) =>
-    Math.max(
-      0.48,
-      model.userData.body.scale.x *
-        model.scale.x *
-        (model.userData.appearance?.width || 1) +
-        0.16,
-    );
+  const spaRadius = catNavigationRadius;
   const spa = createSpaRuntime({
     reduced,
     getObstacles: () => spaObstacles,
@@ -724,20 +724,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
     }
     op.stage = "spa";
   }
-  const ambient = new THREE.Group();
+  const ambient = createWorldMotes();
   scene.add(ambient);
-  const motes = [];
-  for (let i = 0; i < 55; i++) {
-    const mote = glowOrb(
-      ambient,
-      [0xebcda1, 0xc8b5ed, 0x99d6c4][i % 3],
-      Math.sin(i * 2.4) * 10,
-      0.5 + (i % 6) * 0.25,
-      Math.cos(i * 2.4) * 10,
-      0.025,
-    );
-    motes.push(mote);
-  }
   const detailQueue = new Set();
   let detailTimer = null;
   function showWhalePreview(island, id) {
@@ -756,6 +744,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     showWhalePreview(g, biome.id);
     islandContentKeys.set(biome.id, JSON.stringify([placements, scenery]));
     g.position.set(biome.center[0], 0, biome.center[1]);
+    prepareIslandMatrices(g);
     scene.add(g);
     islands.set(biome.id, g);
     return g;
@@ -844,6 +833,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           let latest = snapshot();
           showWhalePreview(g, id);
           g.position.copy(old.position);
+          prepareIslandMatrices(g);
           g.updateMatrixWorld(true);
           // Compile against the real scene lighting while the old island remains
           // usable. Parallel shader compilation avoids the first-visit hitch.
@@ -944,6 +934,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     }
   }
   let buildingSites = [],
+    nextSiteCheck = 0,
     builderObstacles = new Map();
   const crew = createConstructionCrew({
     getSpeed: () => builderSpeed(game),
@@ -1102,8 +1093,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
   function sync(next) {
     game = next;
     incomeSecond = -1;
+    const venues = new Set(businessVenues(game).map((p) => p.id));
     for (const [id, button] of incomeButtons)
-      if (!businessVenues(game).some((p) => p.id === id)) {
+      if (!venues.has(id)) {
         button.remove();
         incomeButtons.delete(id);
       }
@@ -1158,6 +1150,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     ]);
     if (key === sceneKey) return;
     sceneKey = key;
+    nextSiteCheck = 0;
     megaGroundPlots = game.placements
       .filter((p) => byItem(p.item)?.mega)
       .map((p) => {
@@ -1554,6 +1547,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       model.rotation.set(0, 0, 0);
       model.visible = true;
       carrier.add(model);
+      pauseHiddenMatrixUpdates(carrier);
       let hatRig;
       if (profile.hat) {
         hatRig = new THREE.Group();
@@ -2872,7 +2866,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     if (
       !(viewport.pending && !dialogOpen && worldVisible) &&
       now - lastRender <
-        (dialogOpen
+        (dialogOpen || !worldVisible
           ? 100
           : operation ||
               pointerDown ||
@@ -2974,7 +2968,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
       )
         animateAttraction(g, time);
     if (preview && !reduced) animateAttraction(preview, time);
-    buildingSites = constructionSites(itemGroups);
+    if (now >= nextSiteCheck) {
+      buildingSites = constructionSites(itemGroups);
+      nextSiteCheck = now + 250;
+    }
     if (!dialogOpen) {
       spa.step(dt, time);
       chill.step(dt, time);
@@ -4366,20 +4363,15 @@ export function createWorld(container, initialGame, callbacks = {}) {
       requestAnimationFrame(loop);
       return;
     }
-    for (let i = 0; i < motes.length; i++)
-      if (!reduced) {
-        motes[i].position.y =
-          0.8 + (i % 6) * 0.24 + Math.sin(time * 0.6 + i) * 0.25;
-        motes[i].position.x = look.x + Math.sin(i * 2.4 + time * 0.03) * 10;
-        motes[i].position.z = look.z + Math.cos(i * 2.4 + time * 0.03) * 10;
-      }
+    ambient.userData.update(time, look, reduced);
     const width = container.clientWidth,
       height = container.clientHeight;
     if (Math.floor(now / 1000) !== incomeSecond) {
       incomeSecond = Math.floor(now / 1000);
       incomeCache.clear();
+      const incomeNow = Date.now();
       for (const p of businessVenues(game))
-        incomeCache.set(p.id, incomeFor(game, p.id));
+        incomeCache.set(p.id, incomeForVenue(game, p, incomeNow));
     }
     for (const [id, button] of incomeButtons) {
       const object = itemGroups.get(id),
@@ -4661,6 +4653,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       socialGlow.visible = false;
       royalStarGeo.dispose();
       royalStars.material.dispose();
+      ambient.userData.dispose();
       heartGeo.dispose();
       heartMaterial.dispose();
       resetYarn(operation?.attraction);

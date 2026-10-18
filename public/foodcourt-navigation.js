@@ -153,6 +153,16 @@ export function courtSegment(a, b, radius, obstacles, biome = "foodcourt") {
 // Binary-heap A*, direct visibility fast path and string pulling. No per-frame
 // grid rebuilding or linear sorting of thousands of open nodes on phones.
 const masks = new WeakMap();
+export const COURT_MASK_LIMIT = 48;
+export function courtNavigationStats(obstacles) {
+  const cache = masks.get(obstacles);
+  return {
+    masks: cache?.size || 0,
+    bytes: cache
+      ? [...cache.values()].reduce((n, a) => n + a.byteLength, 0)
+      : 0,
+  };
+}
 export function courtPath(
   start,
   goal,
@@ -202,10 +212,14 @@ export function courtPath(
     sizes = new Map();
     masks.set(obstacles, sizes);
   }
-  const rk = biome + ":" + radius.toFixed(4);
+  const rk = biome + ":" + radius;
   let mask = sizes.get(rk);
   if (!mask) {
     mask = new Int8Array(size * size);
+    if (sizes.size >= COURT_MASK_LIMIT) sizes.delete(sizes.keys().next().value);
+    sizes.set(rk, mask);
+  } else {
+    sizes.delete(rk);
     sizes.set(rk, mask);
   }
   const expanded = obstacles.map((o) =>
