@@ -1,0 +1,110 @@
+{
+  "rows": [
+    {
+      "name": "full",
+      "times": [
+        1873,
+        1748.3999999985099
+      ],
+      "render": {
+        "frame": 23,
+        "calls": 232,
+        "triangles": 2237378,
+        "points": 0,
+        "lines": 0
+      }
+    },
+    {
+      "name": "fish-hidden",
+      "times": [
+        1117.5999999977648,
+        1104.800000000745
+      ],
+      "render": {
+        "frame": 26,
+        "calls": 227,
+        "triangles": 1373162,
+        "points": 0,
+        "lines": 0
+      }
+    },
+    {
+      "name": "cats-hidden",
+      "times": [
+        1280.699999999255,
+        1308.6000000014901
+      ],
+      "render": {
+        "frame": 29,
+        "calls": 84,
+        "triangles": 1415523,
+        "points": 0,
+        "lines": 0
+      }
+    },
+    {
+      "name": "water-hidden",
+      "times": [
+        1871.800000000745,
+        1735.199999999255
+      ],
+      "render": {
+        "frame": 32,
+        "calls": 225,
+        "triangles": 2236715,
+        "points": 0,
+        "lines": 0
+      }
+    },
+    {
+      "name": "tanks-hidden",
+      "times": [
+        892.8000000007451,
+        993.3999999985099
+      ],
+      "render": {
+        "frame": 35,
+        "calls": 182,
+        "triangles": 1116959,
+        "points": 0,
+        "lines": 0
+      }
+    },
+    {
+      "name": "shadow-disabled",
+      "times": [
+        1698.0999999977648,
+        1741.699999999255
+      ],
+      "render": {
+        "frame": 38,
+        "calls": 165,
+        "triangles": 1820618,
+        "points": 0,
+        "lines": 0
+      }
+    },
+    {
+      "name": "full-repeat",
+      "times": [
+        1800.3999999985099,
+        1674.800000000745
+      ],
+      "render": {
+        "frame": 41,
+        "calls": 232,
+        "triangles": 2237378,
+        "points": 0,
+        "lines": 0
+      }
+    }
+  ],
+  "buffer": [
+    776,
+    1464
+  ],
+  "textures": 16,
+  "geometries": 353,
+  "programs": 78,
+  "renderer": "WebKit WebGL"
+}

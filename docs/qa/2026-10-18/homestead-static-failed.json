@@ -1,0 +1,119 @@
+{
+  "rows": [
+    {
+      "offset": [
+        30,
+        45,
+        72
+      ],
+      "before": {
+        "frame": 29,
+        "calls": 1396,
+        "triangles": 2790116,
+        "points": 0,
+        "lines": 0
+      },
+      "after": {
+        "frame": 31,
+        "calls": 1396,
+        "triangles": 2511056,
+        "points": 0,
+        "lines": 0
+      },
+      "beforeMs": 2085.39999999851,
+      "afterMs": 2645.5,
+      "changed": 7931,
+      "max": 96,
+      "large": 6156,
+      "mean": 0.04023804996901583
+    },
+    {
+      "offset": [
+        0,
+        9,
+        26
+      ],
+      "before": {
+        "frame": 33,
+        "calls": 1148,
+        "triangles": 2369322,
+        "points": 0,
+        "lines": 0
+      },
+      "after": {
+        "frame": 35,
+        "calls": 1140,
+        "triangles": 2023978,
+        "points": 0,
+        "lines": 0
+      },
+      "beforeMs": 1849.199999999255,
+      "afterMs": 1788.0999999977648,
+      "changed": 1787,
+      "max": 124,
+      "large": 1386,
+      "mean": 0.00979170187595065
+    },
+    {
+      "offset": [
+        25,
+        14,
+        5
+      ],
+      "before": {
+        "frame": 37,
+        "calls": 842,
+        "triangles": 1979977,
+        "points": 0,
+        "lines": 0
+      },
+      "after": {
+        "frame": 39,
+        "calls": 833,
+        "triangles": 1612729,
+        "points": 0,
+        "lines": 0
+      },
+      "beforeMs": 1274.199999999255,
+      "afterMs": 1092.8999999985099,
+      "changed": 5935,
+      "max": 124,
+      "large": 4749,
+      "mean": 0.0351212607740409
+    },
+    {
+      "offset": [
+        0,
+        95,
+        0.01
+      ],
+      "before": {
+        "frame": 41,
+        "calls": 1412,
+        "triangles": 2882940,
+        "points": 0,
+        "lines": 0
+      },
+      "after": {
+        "frame": 43,
+        "calls": 1412,
+        "triangles": 2524372,
+        "points": 0,
+        "lines": 0
+      },
+      "beforeMs": 2267.099999997765,
+      "afterMs": 2012.199999999255,
+      "changed": 7406,
+      "max": 78,
+      "large": 5609,
+      "mean": 0.031053928299814095
+    }
+  ],
+  "meshes": 140,
+  "buffer": [
+    776,
+    1464
+  ],
+  "fish": 50,
+  "contextLost": false
+}

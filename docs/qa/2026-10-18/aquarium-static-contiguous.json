@@ -1,0 +1,119 @@
+{
+  "rows": [
+    {
+      "offset": [
+        30,
+        45,
+        72
+      ],
+      "before": {
+        "frame": 20,
+        "calls": 204,
+        "triangles": 2044803,
+        "points": 0,
+        "lines": 0
+      },
+      "after": {
+        "frame": 22,
+        "calls": 204,
+        "triangles": 1751235,
+        "points": 0,
+        "lines": 0
+      },
+      "beforeMs": 1661.5,
+      "afterMs": 1571.7000000029802,
+      "changed": 0,
+      "max": 0,
+      "large": 0,
+      "mean": 0
+    },
+    {
+      "offset": [
+        0,
+        9,
+        26
+      ],
+      "before": {
+        "frame": 24,
+        "calls": 149,
+        "triangles": 1101935,
+        "points": 0,
+        "lines": 0
+      },
+      "after": {
+        "frame": 26,
+        "calls": 147,
+        "triangles": 774287,
+        "points": 0,
+        "lines": 0
+      },
+      "beforeMs": 954.8000000007451,
+      "afterMs": 824.0999999977648,
+      "changed": 0,
+      "max": 0,
+      "large": 0,
+      "mean": 0
+    },
+    {
+      "offset": [
+        25,
+        14,
+        5
+      ],
+      "before": {
+        "frame": 28,
+        "calls": 150,
+        "triangles": 1336415,
+        "points": 0,
+        "lines": 0
+      },
+      "after": {
+        "frame": 30,
+        "calls": 148,
+        "triangles": 975983,
+        "points": 0,
+        "lines": 0
+      },
+      "beforeMs": 1295.1000000014901,
+      "afterMs": 1319.300000000745,
+      "changed": 0,
+      "max": 0,
+      "large": 0,
+      "mean": 0
+    },
+    {
+      "offset": [
+        0,
+        95,
+        0.01
+      ],
+      "before": {
+        "frame": 32,
+        "calls": 232,
+        "triangles": 2266722,
+        "points": 0,
+        "lines": 0
+      },
+      "after": {
+        "frame": 34,
+        "calls": 232,
+        "triangles": 1965586,
+        "points": 0,
+        "lines": 0
+      },
+      "beforeMs": 2096.39999999851,
+      "afterMs": 2015.699999999255,
+      "changed": 0,
+      "max": 0,
+      "large": 0,
+      "mean": 0
+    }
+  ],
+  "meshes": 71,
+  "buffer": [
+    776,
+    1464
+  ],
+  "fish": 50,
+  "contextLost": false
+}
