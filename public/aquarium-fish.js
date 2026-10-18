@@ -16,6 +16,7 @@ import { runSceneSteps } from "./scene-tasks.js";
 // One smoothly rounded model shared by all 50 fish. The marker is replaced by
 // each fish's coat colour in the vertex shader; white cheeks and eyes stay white.
 const COAT = 0xff00ff;
+const EYE = { x: 0.326, y: 0.351, depth: 0.43 };
 const round = new THREE.SphereGeometry(1, 24, 16);
 round.userData.sharedScenery = true;
 const smallRound = new THREE.SphereGeometry(1, 16, 12);
@@ -254,8 +255,8 @@ function kittenFishEye(g, x, sign) {
       const a = (k / sides) * Math.PI * 2,
         u = Math.cos(a) * r,
         v = Math.sin(a) * r;
-      positions.push(u * 0.305, v * 0.337, depth * 0.32);
-      const p = Math.hypot(u / 0.57, v / 0.72),
+      positions.push(u * EYE.x, v * EYE.y, depth * EYE.depth);
+      const p = Math.hypot(u / 0.63, v / 0.77),
         iris = THREE.MathUtils.smoothstep(p, 0.96, 1.07),
         fiber =
           Math.sin(a * 43 + r * 31) * 0.035 + Math.sin(a * 23 - r * 19) * 0.025;
@@ -295,13 +296,13 @@ function kittenFishEye(g, x, sign) {
   globe.material.vertexColors = true;
   globe.name = "Convex kitten eye · iris and pupil";
   const glint = (dx, dy, sx, sy) => {
-    const r2 = (dx / 0.305) ** 2 + (dy / 0.337) ** 2,
-      z = 1.18 + 0.32 * Math.sqrt(1 - r2) + 0.007;
+    const r2 = (dx / EYE.x) ** 2 + (dy / EYE.y) ** 2,
+      z = 1.18 + EYE.depth * Math.sqrt(1 - r2) + 0.007;
     const p = soft(g, 0xffffff, x + dx, 0.34 + dy, z, sx, sy, 0.014, true);
     p.position.z = z;
     p.name = "Kitten eye catchlight";
   };
-  glint(-sign * 0.078, 0.118, 0.062, 0.073);
+  glint(-sign * 0.078, 0.118, 0.068, 0.078);
   glint(sign * 0.087, -0.116, 0.024, 0.031);
 }
 
@@ -445,18 +446,19 @@ function* packedFishSteps(parts) {
     for (const p of sources) {
       const g = p.geometry.clone(),
         count = g.attributes.position.count,
-        surface = new Float32Array(count * 2);
+        surface = new Uint8Array(count);
       for (let i = 0; i < count; i++) {
-        surface[i * 2] = p.material.roughness;
-        surface[i * 2 + 1] = p.material.metalness;
+        if (p.material.roughness !== 0.68 && p.material.roughness !== 0.16)
+          throw Error("Unknown packed fish surface");
+        surface[i] = p.material.roughness === 0.16 ? 1 : 0;
       }
       g.setAttribute(
         "aFishPart",
-        new THREE.Float32BufferAttribute(new Float32Array(count).fill(id), 1),
+        new THREE.Uint8BufferAttribute(new Uint8Array(count).fill(id), 1),
       );
       g.setAttribute(
         "aFishSurface",
-        new THREE.Float32BufferAttribute(surface, 2),
+        new THREE.Uint8BufferAttribute(surface, 1),
       );
       geometries.push(g);
       yield;

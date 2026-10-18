@@ -2,6 +2,8 @@ import { aquariumTank } from "./aquarium-data.js";
 import { attractionVisibility } from "./attraction-visibility.js";
 import { rideGuests } from "./ride-guests.js";
 import { createRenderPacer } from "./render-pacer.js";
+import { createGpuFrameQueue } from "./gpu-frame-queue.js";
+import { skipUnusedSkinJoints } from "./native-skinning.js";
 import {
   enableCatRenderBatch,
   batchSceneCats,
@@ -173,6 +175,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
   const slideAudio = createSlideAudio(renderer.domElement);
+  const gpuFrames = createGpuFrameQueue(renderer.getContext());
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -398,6 +401,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   let incomeSecond = -1;
   const incomeCache = new Map();
   let cat = createCat(initialGame.cat.mood);
+  skipUnusedSkinJoints(cat);
   chichiCarrier.add(cat);
   scene.add(chichiCarrier);
   const heroVisibility = attractionVisibility(chichiCarrier);
@@ -3024,6 +3028,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   const loseContext = (event) => {
     event.preventDefault();
     contextLost = true;
+    gpuFrames.clear();
     recovery.hidden = false;
   };
   const restoreContext = () => {
@@ -3048,7 +3053,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   const renderDue = createRenderPacer();
   function loop(now) {
     if (disposed) return;
-    if (contextLost || document.hidden) {
+    if (contextLost || document.hidden || !gpuFrames.ready()) {
       requestAnimationFrame(loop);
       return;
     }
@@ -4762,6 +4767,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     // competing GPU draws while its miniature scenes are being rendered.
     if (!dialogOpen) {
       renderer.render(scene, camera);
+      gpuFrames.submitted();
       recovery.hidden = true;
     }
     requestAnimationFrame(loop);
@@ -4944,6 +4950,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       );
       document.removeEventListener("visibilitychange", resume);
       recovery.remove();
+      gpuFrames.clear();
       renderer.dispose();
     },
   };

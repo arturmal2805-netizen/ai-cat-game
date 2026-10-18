@@ -36,7 +36,7 @@ window.gpuAudit=()=>{
  try{
   for(const [time,reduced] of [[0,false],[4.75,false],[18.3,false],[59.9,false],[32,true],[71,true]]){
    tank.userData.update(time,reduced);
-   for(const [name,u] of [['uFishPlace',pal.place],['uFishHeading',pal.heading],['uFishLimbs',pal.limbs]])gl.uniform4fv(gl.getUniformLocation(program,name+'[0]'),u.value);
+   for(const [name,u] of [['uFishPlace',pal.place],['uFishHeading',pal.heading],['uFishLimbs',pal.limbs],['uFishRows',pal.rows]])gl.uniform4fv(gl.getUniformLocation(program,name+'[0]'),u.value);
    gl.uniform1iv(gl.getUniformLocation(program,'uFishIds[0]'),pal.visibleIds.value);gl.enable(gl.RASTERIZER_DISCARD);gl.beginTransformFeedback(gl.POINTS);gl.drawArraysInstanced(gl.POINTS,0,ids.length,mesh.count);gl.endTransformFeedback();gl.disable(gl.RASTERIZER_DISCARD);gl.getBufferSubData(gl.TRANSFORM_FEEDBACK_BUFFER,0,values);
    for(let fish=0;fish<mesh.count;fish++)for(let v=0;v<ids.length;v++){
     const k=(fish*ids.length+v)*6,part=['body','tail','leftFin','rightFin'][parts[v]];pal.matrixAt(pal.visibleIds.value[fish],part,matrix);normalMatrix.getNormalMatrix(matrix);
