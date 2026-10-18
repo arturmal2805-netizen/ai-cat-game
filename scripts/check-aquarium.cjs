@@ -237,7 +237,7 @@ async function localWorker() {
                   )
                   .replace(
                     "    const time = now / 1000;",
-                    "    if(window.__lagoonQA?.pinnedRide !== undefined && operation?.stage === 'activity') operation.activityStart=now-window.__lagoonQA.pinnedRide*1000;\n    const time = now / 1000;",
+                    "    if(window.__lagoonQA?.freeze){requestAnimationFrame(loop);return;}\n    if(window.__lagoonQA?.pinnedRide !== undefined && operation?.stage === 'activity') operation.activityStart=now-window.__lagoonQA.pinnedRide*1000;\n    const time = now / 1000;",
                   )
                   .replace(
                     "    const dt = Math.min((now - previousTime) / 1000, 0.1);",
@@ -401,6 +401,246 @@ async function localWorker() {
     assert.equal(report.scene.legacyShopAquarium[0].fish, 12);
     assert.equal(report.scene.fish, 50);
     assert.ok(report.scene.locals >= 6);
+    if (process.env.CHICHI_STATIC_PROOF) {
+      const stress = !!process.env.CHICHI_SCENE_STRESS;
+      if (stress) await page.locator('[data-biome="homestead"]').tap();
+      await page.evaluate(
+        (stress) =>
+          __lagoonQA.reviewView(stress ? -250 : -335, stress ? -55 : 95, 85),
+        stress,
+      );
+      await page.waitForFunction(
+        () =>
+          Math.abs(__lagoonQA.getDistance() - 85) < 0.1 &&
+          __lagoonQA.look.distanceTo(__lagoonQA.desiredLook) < 0.01,
+      );
+      const proof = await page.evaluate(
+        ({ stress, timing }) => {
+          const q = __lagoonQA,
+            renderer = q.renderer,
+            gl = renderer.getContext(),
+            states = [];
+          q.freeze = true;
+          q.drawPaused = true;
+          q.scene.traverse((o) => {
+            if (typeof o.userData.staticSubmission?.setEnabled === "function")
+              states.push(o.userData.staticSubmission);
+          });
+          const center = stress ? [-250, -55] : [-335, 95],
+            a = new Uint8Array(
+              gl.drawingBufferWidth * gl.drawingBufferHeight * 4,
+            ),
+            b = new Uint8Array(a.length),
+            rows = [];
+          const draw = (pixels) => {
+            const start = performance.now();
+            q.drawFrame();
+            gl.readPixels(
+              0,
+              0,
+              gl.drawingBufferWidth,
+              gl.drawingBufferHeight,
+              gl.RGBA,
+              gl.UNSIGNED_BYTE,
+              pixels,
+            );
+            return timing ? performance.now() - start : null;
+          };
+          for (const [offset, target] of [
+            [
+              [30, 45, 72],
+              [0, 3, 0],
+            ],
+            [
+              [0, 9, 26],
+              [0, 6, 0],
+            ],
+            [
+              [25, 14, 5],
+              [0, 6, 0],
+            ],
+            [
+              [0, 95, 0.01],
+              [0, 0, 0],
+            ],
+          ]) {
+            q.camera.position.set(
+              center[0] + offset[0],
+              offset[1],
+              center[1] + offset[2],
+            );
+            q.camera.lookAt(
+              center[0] + target[0],
+              target[1],
+              center[1] + target[2],
+            );
+            q.camera.updateMatrixWorld(true);
+            states.forEach((s) => s.setEnabled(false));
+            draw(a);
+            const beforeMs = draw(a),
+              before = { ...renderer.info.render };
+            states.forEach((s) => s.setEnabled(true));
+            draw(b);
+            const afterMs = draw(b),
+              after = { ...renderer.info.render };
+            let changed = 0,
+              max = 0,
+              error = 0,
+              large = 0;
+            for (let i = 0; i < a.length; i++) {
+              const d = Math.abs(a[i] - b[i]);
+              if (d) {
+                changed++;
+                max = Math.max(max, d);
+                error += d;
+                if (d > 8) large++;
+              }
+            }
+            rows.push({
+              offset,
+              before,
+              after,
+              beforeMs,
+              afterMs,
+              changed,
+              max,
+              large,
+              mean: error / a.length,
+            });
+          }
+          return {
+            rows,
+            meshes: states.length,
+            buffer: [gl.drawingBufferWidth, gl.drawingBufferHeight],
+            fish: [...q.itemGroups.values()]
+              .filter((g) => g.userData.aquarium === true)
+              .reduce((n, g) => n + g.userData.tank.fish, 0),
+            contextLost: gl.isContextLost(),
+          };
+        },
+        { stress, timing: process.env.CHICHI_SKIP_TIMING !== "1" },
+      );
+      fs.writeFileSync(
+        path.join(review, "static-proof.json"),
+        JSON.stringify(proof, null, 2),
+      );
+      console.log(JSON.stringify(proof, null, 2));
+      assert.ok(proof.meshes > 10);
+      for (const r of proof.rows) {
+        assert.ok(r.mean < 0.00001 && r.large === 0, JSON.stringify(r));
+        assert.ok(r.after.triangles <= r.before.triangles);
+      }
+      assert.equal(proof.contextLost, false);
+      assert.equal(proof.fish, 50);
+      assert.deepEqual(errors, []);
+      return;
+    }
+    if (process.env.CHICHI_STYLE_AUDIT) {
+      const filters = await page.evaluate(() =>
+        [...document.querySelectorAll("*")].flatMap((e) => {
+          const s = getComputedStyle(e),
+            r = e.getBoundingClientRect();
+          return r.width &&
+            r.height &&
+            (s.backdropFilter !== "none" || s.filter !== "none")
+            ? [
+                {
+                  tag: e.tagName,
+                  id: e.id,
+                  cls: e.className,
+                  backdrop: s.backdropFilter,
+                  filter: s.filter,
+                  rect: [r.x, r.y, r.width, r.height],
+                },
+              ]
+            : [];
+        }),
+      );
+      console.log(JSON.stringify(filters, null, 2));
+      return;
+    }
+    if (process.env.CHICHI_GPU_ABLATE) {
+      await page.evaluate(() => __lagoonQA.reviewView(-335, 95, 90));
+      await page.waitForFunction(
+        () =>
+          Math.abs(__lagoonQA.getDistance() - 90) < 0.1 &&
+          __lagoonQA.look.distanceTo(__lagoonQA.desiredLook) < 0.01,
+      );
+      const audit = await page.evaluate(() => {
+        const q = __lagoonQA,
+          renderer = q.renderer,
+          gl = renderer.getContext();
+        q.freeze = true;
+        q.drawPaused = true;
+        const water = [],
+          cats = [
+            q.chichiCarrier,
+            ...[...q.npcs.values()].map((n) => n.carrier),
+          ],
+          tanks = [...q.itemGroups.values()].filter(
+            (g) => g.userData.aquarium === true,
+          ),
+          fish = tanks.map((g) => g.userData.shoal);
+        q.scene.traverse((o) => {
+          if (
+            o.isMesh &&
+            (o.material.uniforms?.uWaterField ||
+              /water|waterfall|lagoon/i.test(o.material.name))
+          )
+            water.push(o);
+        });
+        const pixels = new Uint8Array(
+            gl.drawingBufferWidth * gl.drawingBufferHeight * 4,
+          ),
+          rows = [];
+        const draw = () => {
+          const t = performance.now();
+          q.drawFrame();
+          gl.readPixels(
+            0,
+            0,
+            gl.drawingBufferWidth,
+            gl.drawingBufferHeight,
+            gl.RGBA,
+            gl.UNSIGNED_BYTE,
+            pixels,
+          );
+          return performance.now() - t;
+        };
+        for (const [name, hidden, shadows] of [
+          ["full", [], true],
+          ["fish-hidden", fish, true],
+          ["cats-hidden", cats, true],
+          ["water-hidden", water, true],
+          ["tanks-hidden", tanks, true],
+          ["shadow-disabled", [], false],
+          ["full-repeat", [], true],
+        ]) {
+          const shown = hidden.map((o) => o.visible);
+          hidden.forEach((o) => (o.visible = false));
+          renderer.shadowMap.enabled = shadows;
+          draw();
+          const times = [draw(), draw()];
+          rows.push({ name, times, render: { ...renderer.info.render } });
+          hidden.forEach((o, i) => (o.visible = shown[i]));
+          renderer.shadowMap.enabled = true;
+        }
+        return {
+          rows,
+          buffer: [gl.drawingBufferWidth, gl.drawingBufferHeight],
+          textures: renderer.info.memory.textures,
+          geometries: renderer.info.memory.geometries,
+          programs: renderer.info.programs.length,
+          renderer: gl.getParameter(gl.RENDERER),
+        };
+      });
+      fs.writeFileSync(
+        path.join(review, "gpu-ablation.json"),
+        JSON.stringify(audit, null, 2),
+      );
+      console.log(JSON.stringify(audit, null, 2));
+      return;
+    }
     if (process.env.CHICHI_PICK_AUDIT) {
       await page.evaluate(() => {
         __lagoonQA.reviewView(-335, 95, 90);

@@ -2,6 +2,7 @@ import { runSceneSteps } from "./scene-tasks.js";
 import * as THREE from "three";
 import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
 import { mergeSceneSteps } from "./geometry-tasks.js";
+import { staticSubmissionSteps } from "./static-submissions.js";
 
 const geometries = {
   sphere: new THREE.SphereGeometry(1, 12, 8),
@@ -644,6 +645,7 @@ export function* batchScenerySteps(root, { surfaceKind = null } = {}) {
     yield;
     mesh.receiveShadow = key !== "glow";
     yield;
+    yield* staticSubmissionSteps(mesh);
     result.add(mesh);
   }
   yield;

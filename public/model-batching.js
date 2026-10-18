@@ -2,6 +2,7 @@ import { runSceneSteps } from "./scene-tasks.js";
 import * as THREE from "three";
 import { mergeSceneSteps } from "./geometry-tasks.js";
 import { optimizeGeometryCache } from "./geometry-cache.js";
+import { staticSubmissionSteps } from "./static-submissions.js";
 
 // Reduce static draws without replacing the authored material: illuminated
 // windows, polished rails and custom water shaders retain their appearance.
@@ -139,6 +140,7 @@ export function* batchModelSteps(root, { combineColors = false } = {}) {
     yield;
     mesh.receiveShadow = true;
     yield;
+    yield* staticSubmissionSteps(mesh);
     result.add(mesh);
   }
   yield;
