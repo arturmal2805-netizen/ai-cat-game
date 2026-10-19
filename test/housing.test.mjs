@@ -26,6 +26,7 @@ import {
   applyHousingDecisions,
 } from "../public/housing-system.js";
 import { createHousingRuntime } from "../public/housing-runtime.js";
+import { ADOPTION_CATS } from "../public/cat-breeds.js";
 import { mergeSharedWorld } from "../shared-world.mjs";
 import { validateCityAIState, requestCityPlan } from "../jobcity-ai.mjs";
 import { createBiomeScene, disposeBiome } from "../public/biome-scenes.js";
@@ -434,6 +435,75 @@ test("two active residents reach separate places on the original Chill bed, incl
     assert.equal(rt.visits.size, 0);
   }
 });
+test("all 147 residents reach 74 homes across seven sections without crowd deadlocks or overlaps, in three arrival orders", () => {
+  let g = seed();
+  g.unlocked = BIOMES.map((b) => b.id);
+  g.adoption.cats = ADOPTION_CATS.map((c) => ({
+    id: c.id,
+    adoptedAt: now,
+    homeBiome: "moon",
+    centerId: "",
+  }));
+  g = ensureJobCity(g, now);
+  const ids = Object.keys(g.jobCity.profiles);
+  assert.equal(ids.length, 147);
+  for (const id of ids) g.jobCity.profiles[id].coins = 100000;
+  for (let i = 0; i < Math.ceil(ids.length / 2); i++)
+    g = buy(g, ids[i * 2], HOUSE_TYPES[i % 7].id, {
+      roommate: ids[i * 2 + 1] || null,
+    });
+  assert.equal(housingSectionCount(g.housing), 7);
+  const orders = [
+    ids,
+    [...ids].reverse(),
+    ids.filter((_, i) => i % 2).concat(ids.filter((_, i) => !(i % 2))),
+  ];
+  for (const [order, names] of orders.entries()) {
+    const rt = createHousingRuntime(),
+      actors = names.map((id) => ({ id, radius: 0.55 }));
+    let complete = false;
+    for (let i = 0; i < 9000; i++) {
+      rt.step(g, actors, 0.05, i * 0.05, { night: true });
+      const visits = [...rt.visits.values()];
+      if (i % 20 === 0)
+        for (let a = 0; a < visits.length; a++)
+          for (let b = a + 1; b < visits.length; b++)
+            assert.ok(
+              Math.hypot(
+                visits[a].position.x - visits[b].position.x,
+                visits[a].position.z - visits[b].position.z,
+              ) >= 1.1,
+              `residents overlap in arrival order ${order}`,
+            );
+      if (
+        visits.length === ids.length &&
+        visits.every((v) => v.phase === "relax")
+      ) {
+        complete = true;
+        break;
+      }
+    }
+    assert.ok(
+      complete,
+      `every resident must reach home in arrival order ${order}: ${JSON.stringify(
+        [...rt.visits.values()]
+          .filter((v) => v.phase !== "relax")
+          .map((v) => ({
+            cat: v.catId,
+            phase: v.phase,
+            position: v.position,
+            next: v.path[0],
+            home: v.objectId,
+          }))
+          .slice(0, 8),
+      )}`,
+    );
+    for (const v of rt.visits.values())
+      assert.equal(v.objectId, g.housing.residences[v.catId] + "-bed");
+    rt.step(g, actors, 0.05, 500, { night: false });
+    assert.equal(rt.visits.size, 0);
+  }
+});
 test("rendered homes reuse the exact Chill architecture and nameplates refresh without rebuilding the house geometry", async () => {
   const g = buy(seed()),
     h = ownedHomes(g, "chichi")[0],
@@ -472,4 +542,31 @@ test("rendered homes reuse the exact Chill architecture and nameplates refresh w
     originalGeometry,
   );
   disposeBiome(root);
+});
+test("ordinary save updates cannot cancel a visible paid house while its shared model is loading", async () => {
+  const g = buy(seed()),
+    h = ownedHomes(g, "chichi")[0],
+    b = byBiome(HOUSING_ID),
+    root = createBiomeScene(b),
+    p = housingPlot(h.plot),
+    look = { x: b.center[0] + p.x, z: b.center[1] + p.z },
+    camera = new T.PerspectiveCamera(40, 1.5, 0.1, 200);
+  root.position.set(b.center[0], 0, b.center[1]);
+  root.userData.syncHousing(g);
+  camera.position.set(look.x, 12, look.z + 25);
+  camera.lookAt(look.x, 2, look.z);
+  camera.updateMatrixWorld();
+  try {
+    for (let i = 0; i < 100 && !root.userData.houses.has(h.id); i++) {
+      root.userData.viewHousing(look, 25, camera, i / 4);
+      // Income/care/shared snapshots may arrive between the model's async
+      // preparation slices. The unchanged purchase must keep loading.
+      root.userData.syncHousing({ ...g, coins: g.coins + i });
+      await new Promise((resolve) => setTimeout(resolve, 5));
+    }
+    assert.ok(root.userData.houses.has(h.id), "paid home must become visible");
+    assert.equal(root.userData.houses.size, 1);
+  } finally {
+    root.userData.dispose();
+  }
 });

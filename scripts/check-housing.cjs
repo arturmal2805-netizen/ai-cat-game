@@ -441,7 +441,7 @@ async function verifyHousingStorage(local, headers, seed, example) {
       g.jobCity.profiles.chichi.name = "Чічі Квіточка";
       s.commit(g);
       s.world.showCatHome(id);
-      window.__housingQA.step(170);
+      window.__housingQA.step(300);
     }, firstHome);
     await page.waitForFunction(
       (id) =>
@@ -460,6 +460,18 @@ async function verifyHousingStorage(local, headers, seed, example) {
     );
     const owner = residents.find((v) => v.id === "chichi"),
       roommate = residents.find((v) => v.id === "luna");
+    assert.equal(
+      residents.length,
+      await page.evaluate(
+        () =>
+          Object.keys(window.__housingSave.getGame().housing.residences).length,
+      ),
+      "every assigned resident must actually arrive",
+    );
+    assert.ok(
+      residents.every((v) => v.phase === "relax"),
+      "all returning residents reach their homes without a crowd deadlock",
+    );
     assert.equal(owner.phase, "relax");
     assert.equal(roommate.phase, "relax");
     assert.equal(owner.home, roommate.home);
@@ -492,21 +504,23 @@ async function verifyHousingStorage(local, headers, seed, example) {
     ).json();
     assert.deepEqual(remote.game.housing, before.homes);
     assert.equal(remote.game.jobCity.profiles.chichi.coins, before.coins);
-    await page.reload();
-    await page.waitForFunction(
-      () => window.__housingSave?.cloud.editable && window.__housingQA,
-    );
-    assert.equal(aiCalls, 1);
-    assert.deepEqual(
-      await page.evaluate(() => window.__housingSave.getGame().housing),
-      before.homes,
-    );
-    assert.equal(
-      await page.evaluate(
-        () => window.__housingSave.getGame().jobCity.profiles.chichi.coins,
-      ),
-      before.coins,
-    );
+    for (let reload = 0; reload < 3; reload++) {
+      await page.reload();
+      await page.waitForFunction(
+        () => window.__housingSave?.cloud.editable && window.__housingQA,
+      );
+      assert.equal(aiCalls, 1);
+      assert.deepEqual(
+        await page.evaluate(() => window.__housingSave.getGame().housing),
+        before.homes,
+      );
+      assert.equal(
+        await page.evaluate(
+          () => window.__housingSave.getGame().jobCity.profiles.chichi.coins,
+        ),
+        before.coins,
+      );
+    }
     await page.setViewportSize({ width: 390, height: 844 });
     await page.locator("#jobcity-open").click();
     await page.screenshot({ path: review + "/housing-phone-inventory.png" });
@@ -536,9 +550,10 @@ async function verifyHousingStorage(local, headers, seed, example) {
         "Chill models",
         "owner name update",
         "two separate sleeping cats",
+        "all assigned residents arrive without crowd deadlocks",
         "duplicate plan replay",
         "SQLite read-back",
-        "reload without charges or duplicates",
+        "three reloads without charges or duplicates",
         "390px phone layout",
       ],
       errors,

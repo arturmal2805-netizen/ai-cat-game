@@ -125,7 +125,6 @@ export function* housingBiomeSteps(biome, { lowOnly = false } = {}) {
     sphere = new T.Sphere();
   let snapshot = null,
     stopped = false,
-    revision = 0,
     viewSection = 0;
   const labelGeometry = new T.PlaneGeometry(4.5, 0.76);
   function labelMaterial(owner, name) {
@@ -193,17 +192,15 @@ export function* housingBiomeSteps(biome, { lowOnly = false } = {}) {
     return preparing.get(type);
   }
   async function prepareHouse(id) {
-    const home = snapshot?.housing?.homes[id];
-    if (!home || houses.has(id)) return;
-    const savedRevision = revision,
-      t = await template(home.type);
+    const requested = snapshot?.housing?.homes[id];
+    if (!requested || houses.has(id)) return;
+    const t = await template(requested.type);
     await yieldSceneTask();
-    if (
-      stopped ||
-      savedRevision !== revision ||
-      !snapshot?.housing?.homes[id] ||
-      houses.has(id)
-    )
+    // Care, income and shared-save updates must not restart an unchanged
+    // purchase. Read the latest plot/name after yielding so a merged purchase
+    // appears at its current address, even while other game state keeps moving.
+    const home = snapshot?.housing?.homes[id];
+    if (stopped || !home || home.type !== requested.type || houses.has(id))
       return;
     const g = new T.Group(),
       p = housingPlot(home.plot),
@@ -244,7 +241,6 @@ export function* housingBiomeSteps(biome, { lowOnly = false } = {}) {
   }
   function syncHousing(game) {
     snapshot = game;
-    revision++;
     const count = housingSectionCount(game.housing);
     for (let i = sections.size; i < count; i++) {
       const g = terrain.clone(true);

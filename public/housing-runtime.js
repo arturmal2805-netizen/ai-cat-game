@@ -111,6 +111,21 @@ export function createHousingRuntime({ reduced = false } = {}) {
       { night, eligible = () => true, blocked = () => false } = {},
     ) {
       sync(game);
+      // Give each column its own approach lane. Returning every resident at
+      // the same gate made their collision avoidance lock the whole crowd.
+      const arriving = new Map();
+      const lane = (home) => {
+        const p = housingPlot(home.plot);
+        return p.section + ":" + (p.slot % 4);
+      };
+      for (const visit of runtime.visits.values()) {
+        const home = state?.homes[objects.get(visit.objectId)?.houseId];
+        if (home && visit.phase !== "relax") {
+          const key = lane(home);
+          arriving.set(key, (arriving.get(key) || 0) + 1);
+        }
+      }
+      let starts = 0;
       for (const actor of actors) {
         const id = state?.residences[actor.id],
           h = state?.homes[id],
@@ -126,20 +141,30 @@ export function createHousingRuntime({ reduced = false } = {}) {
           continue;
         }
         if (!visit) {
+          const key = lane(h);
+          if (starts >= 2 || (arriving.get(key) || 0) >= 1) continue;
           const p = housingPlot(h.plot),
             cx = -p.section * HOUSING_SECTION_PITCH;
           const origin =
             actor.local &&
             Math.hypot(actor.local.x - cx, actor.local.z) < HOUSING_RADIUS - 1
               ? actor.local
-              : { x: cx, z: 32, y: 0.16 };
+              : {
+                  x: p.x - 2.55 + (h.owner === actor.id ? -1.5 : 1.5),
+                  z: 27,
+                  y: 0.16,
+                };
           const v = runtime.start({
             catId: actor.id,
             objectId: id + "-bed",
             position: origin,
             radius: actor.radius || 0.55,
           });
-          if (v) v.hold = 86400;
+          if (v) {
+            v.hold = 86400;
+            starts++;
+            arriving.set(key, (arriving.get(key) || 0) + 1);
+          }
         }
       }
       runtime.step(dt, time);
