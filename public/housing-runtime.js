@@ -1,4 +1,5 @@
 import { cityClock } from "./jobcity-system.js";
+import { leisurePlanOwner } from "./leisure-data.js";
 import { createChillRuntime } from "./chill-runtime.js";
 import { chillSeats, CHILL_WATER_Y } from "./chill-data.js";
 import { spaPath, spaClear } from "./spa-navigation.js";
@@ -16,6 +17,15 @@ export function homeRestTime(game, id, now = Date.now()) {
   const clock = cityClock(game.jobCity, now),
     p = game.jobCity.profiles[id];
   if (clock.working) return false;
+  const planner = game.jobCity.profiles[leisurePlanOwner(game, id)],
+    progress = p?.leisureProgress;
+  if (
+    clock.minute < 22 * 60 &&
+    planner?.schedule?.day === clock.day &&
+    planner.schedule.outings?.length >
+      (progress?.day === clock.day ? progress.done : 0)
+  )
+    return false;
   if (clock.minute >= 19 * 60 && clock.minute < 22 * 60)
     return p?.schedule?.evening === "rest";
   return true;

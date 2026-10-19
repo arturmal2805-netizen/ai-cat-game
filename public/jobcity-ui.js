@@ -1,3 +1,11 @@
+import { catProfileCard } from "./cat-card-ui.js";
+import { leisureOffers } from "./leisure-data.js";
+import {
+  familyCalendar,
+  familyReview,
+  familyPartner,
+  familyLimit,
+} from "./family-system.js";
 import { ownedHomes, availableRoommates } from "./housing-system.js";
 import { houseType } from "./housing-data.js";
 import {
@@ -35,8 +43,8 @@ export function createJobCityUI({
   close.onclick = () => dialog.close();
   dialog.append(
     close,
-    text("p", "CAT JOB CITY", "eyebrow"),
-    text("h2", "Професії та монетки котиків"),
+    text("p", "ЇХНІ МАЛЕНЬКІ ІСТОРІЇ", "eyebrow"),
+    text("h2", "Життя та монетки котиків"),
   );
   const clock = text("p", "", "dialog-copy");
   dialog.append(clock);
@@ -98,29 +106,62 @@ export function createJobCityUI({
     selects.value = selected;
     const p = state.profiles[selected],
       c = cityClock(state);
-    clock.textContent = `День ${c.day + 1} · ${c.label} · робочі години 12:00–19:00 · план: ${state.plan?.source === "ai" ? "Cloudflare AI" : state.plan?.source === "pending" ? "місцевий, AI обирає" : "місцевий"}`;
-    const key = JSON.stringify([selected, p, state.plan?.source, game.housing]);
+    clock.textContent = `${familyCalendar(game, c.day).label} · ${c.label} · робочі години 12:00–19:00 · план: ${state.plan?.source === "ai" ? "Cloudflare AI" : state.plan?.source === "pending" ? "місцевий, AI обирає" : "місцевий"}`;
+    const key = JSON.stringify([
+      selected,
+      p,
+      state.plan?.source,
+      game.housing,
+      game.family,
+    ]);
     if (key === lastKey) return;
     lastKey = key;
     body.replaceChildren();
-    const title = text(
-      "h3",
-      p.name + " · " + (jobBusiness(p.profession)?.name || "Обирає професію"),
-    );
-    body.append(title);
+    const navigation = document.createElement("nav");
+    navigation.className = "cat-life-nav";
+    navigation.setAttribute("aria-label", "Розділи життя котика");
+    const sections = new Map();
+    for (const [id, label] of [
+      ["overview", "Огляд"],
+      ["family", "Сім’я"],
+      ["inventory", "Інвентар"],
+      ["property", "Нерухомість"],
+      ["shopping", "Покупки"],
+      ["history", "Історія"],
+      ["career", "Кар’єра"],
+    ]) {
+      const section = document.createElement("section");
+      section.className = "cat-life-section";
+      section.id = "cat-life-" + id;
+      sections.set(id, section);
+      const button = text("button", label);
+      button.type = "button";
+      button.onclick = () =>
+        section.scrollIntoView({ behavior: "smooth", block: "start" });
+      navigation.append(button);
+    }
+    body.append(navigation, ...sections.values());
+    let content = sections.get("overview");
+    const portrait = catProfileCard(p, {
+      subtitle: jobBusiness(p.profession)?.name || "Обирає професію",
+    });
+    portrait.classList.add("cat-profile-hero");
+    content.append(portrait);
+    const title = text("h3", p.name);
+    content.append(title);
     const balances = text(
       "p",
       `${money(p.coins)} 🐾 власних монеток · зароблено ${money(p.earnedTotal)} · витрачено ${money(p.spentTotal)}`,
       "jobcity-balance",
     );
-    body.append(balances);
-    body.append(
+    content.append(balances);
+    content.append(
       text(
         "p",
         `${p.personality} · ${p.professionReason || "Знайомиться зі своїми здібностями"} · змін професії ${p.professionChanges}/3`,
       ),
     );
-    body.append(
+    content.append(
       text(
         "p",
         p.schedule?.job && p.schedule.job !== "rest"
@@ -140,13 +181,111 @@ export function createJobCityUI({
         view(business);
       }),
     );
-    body.append(controls);
+    content.append(controls);
     const skills = document.createElement("div");
     skills.className = "jobcity-skills";
     for (const b of JOB_BUSINESSES)
       skills.append(text("span", `${b.icon} ${b.name}: ${p.skills[b.kind]}`));
-    body.append(skills);
-    body.append(text("h3", "Власний інвентар"));
+    content.append(skills);
+    content = sections.get("family");
+    content.append(text("h3", "Сім’я"));
+    const partnerId = familyPartner(game, p.id),
+      partner = state.profiles[partnerId];
+    if (partner) {
+      const pair = Object.values(game.family.couples).find((pair) =>
+        [pair.male, pair.female].includes(p.id),
+      );
+      const couple = document.createElement("div");
+      couple.className = "cat-family-couple";
+      const select = (id) => {
+        selected = id;
+        lastKey = "";
+        render();
+      };
+      const heart = text("span", "♥", "cat-family-heart");
+      heart.setAttribute("aria-hidden", "true");
+      couple.append(
+        catProfileCard(p, {
+          onSelect: select,
+          subtitle: jobBusiness(p.profession)?.name || "Мріє про професію",
+        }),
+        heart,
+        catProfileCard(partner, {
+          onSelect: select,
+          subtitle:
+            jobBusiness(partner.profession)?.name || "Мріє про професію",
+        }),
+      );
+      content.append(
+        couple,
+        text(
+          "p",
+          `Разом із ${familyCalendar(game, pair.formedDay).label.toLowerCase()} · назавжди`,
+          "cat-family-since",
+        ),
+        text("p", pair.reason, "cat-family-reason"),
+        text(
+          "p",
+          "Працюють кожен за своєю професією, а гуляють, відпочивають і повертаються додому разом.",
+          "dialog-copy",
+        ),
+      );
+      const home = game.housing?.residences[p.id];
+      if (home && home === game.housing.residences[partnerId])
+        content.append(
+          action("🏡 Наш спільний дім", () => {
+            dialog.close();
+            viewHome(home);
+          }),
+        );
+      else
+        content.append(
+          text(
+            "p",
+            "Поки мріють про спільний дім. Коли хтось із пари придбає оселю, вони житимуть разом.",
+            "dialog-copy",
+          ),
+        );
+    } else {
+      const review = familyReview(game, c.day),
+        available =
+          Object.keys(game.family?.couples || {}).length < familyLimit(cats);
+      content.append(
+        text(
+          "p",
+          "Знайомиться, дружить і шукає свою близьку душу.",
+          "cat-family-empty",
+        ),
+        text(
+          "p",
+          available
+            ? `Сім’я буде приблизно у кожного четвертого котика. AI обирає нові пари раз на 14 ігрових днів. ${review.due ? "Сьогодні можливе нове знайомство." : "Наступний вибір: день " + familyCalendar(game, review.nextDay).number + "."}`
+            : "Сім’я є приблизно у чверті котиків. Решта люблять друзів, власні пригоди та вільний час.",
+          "dialog-copy",
+        ),
+      );
+    }
+    const planner = partner
+      ? p.id === "chichi" || partner.id === "chichi"
+        ? state.profiles.chichi
+        : p.sex === "male"
+          ? p
+          : partner
+      : p;
+    if (planner.schedule?.outings?.length) {
+      const names = new Map(leisureOffers(game).map((o) => [o.id, o.name]));
+      content.append(text("h4", "Плани на вільний час"));
+      for (const id of planner.schedule.outings)
+        content.append(
+          text(
+            "p",
+            names.get(id) || "Відпочинок на острові",
+            "cat-outing-plan",
+          ),
+        );
+    }
+    content = sections.get("inventory");
+    content.append(text("h3", "Власний інвентар"));
     const inventory = document.createElement("div");
     inventory.className = "jobcity-inventory";
     for (const [id, count] of Object.entries(p.inventory)) {
@@ -168,10 +307,11 @@ export function createJobCityUI({
     }
     if (!inventory.children.length)
       inventory.append(text("p", "Перші покупки ще попереду."));
-    body.append(inventory);
-    body.append(text("h3", "Нерухомість"));
+    content.append(inventory);
+    content = sections.get("property");
+    content.append(text("h3", "Нерухомість"));
     const homes = ownedHomes(game, p.id);
-    body.append(
+    content.append(
       text(
         "p",
         `${homes.length} власних будинків · нова покупка не змінює активний дім`,
@@ -216,6 +356,9 @@ export function createJobCityUI({
         cohabit.append(o);
       }
       cohabit.value = home.roommate || "";
+      cohabit.disabled =
+        !!familyPartner(game, home.owner) &&
+        game.housing.residences[home.owner] === home.id;
       cohabit.onchange = () => {
         try {
           updateRoommate(home.id, cohabit.value || null);
@@ -225,23 +368,24 @@ export function createJobCityUI({
         }
       };
       row.append(cohabit);
-      body.append(row);
+      content.append(row);
     }
     if (homes.length > propertyLimit)
-      body.append(
+      content.append(
         action("Показати ще будинки", () => {
           propertyLimit += 20;
           lastKey = "";
         }),
       );
     if (!homes.length)
-      body.append(
+      content.append(
         text(
           "p",
           "AI може сам обрати будинок у щоденному плані. Можна також купити його нижче за власні монетки котика.",
         ),
       );
-    body.append(text("h3", "Покупки за монетки цього котика"));
+    content = sections.get("shopping");
+    content.append(text("h3", "Покупки за монетки цього котика"));
     const products = document.createElement("div");
     products.className = "jobcity-products";
     const filter = document.createElement("select");
@@ -259,7 +403,7 @@ export function createJobCityUI({
       filter.append(o);
     }
     filter.value = productCategory;
-    body.append(filter, products);
+    content.append(filter, products);
     const showProducts = () => {
       products.replaceChildren();
       for (const product of catProducts(game).filter(
@@ -307,21 +451,23 @@ export function createJobCityUI({
       showProducts();
     };
     showProducts();
-    body.append(text("h3", "Історія доходів і витрат"));
+    content = sections.get("history");
+    content.append(text("h3", "Історія доходів і витрат"));
     for (const t of [...p.transactions].reverse())
-      body.append(
+      content.append(
         text(
           "p",
           `${t.amount > 0 ? "+" : ""}${money(t.amount)} 🐾 · ${t.kind === "wage" ? "Зміна: " + jobBusiness(t.job)?.name : catProducts(game).find((x) => x.id === t.item)?.name || "Покупка"}`,
           "jobcity-history",
         ),
       );
-    body.append(text("h3", "Кар’єра"));
+    content = sections.get("career");
+    content.append(text("h3", "Кар’єра"));
     for (const h of p.career)
-      body.append(
+      content.append(
         text(
           "p",
-          `День ${h.day + 1} · ${jobBusiness(h.job)?.name} · ${h.reason}`,
+          `${h.day < (game.family?.calendar.startDay || 0) ? "Раніше" : "День " + familyCalendar(game, h.day).number} · ${jobBusiness(h.job)?.name} · ${h.reason}`,
         ),
       );
   }

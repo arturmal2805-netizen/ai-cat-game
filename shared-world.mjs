@@ -1,5 +1,10 @@
 import { mergeHousing } from "./public/housing-system.js";
 import {
+  mergeFamily,
+  reconcileFamilyHomes,
+  familyLimit,
+} from "./public/family-system.js";
+import {
   normalizeBuilderBoosts,
   resolveConstructionBoosts,
 } from "./public/construction-boost.js";
@@ -56,6 +61,13 @@ const guarded = (path) =>
 
 function merge(base, current, incoming, path = "", depth = 0) {
   if (depth > 40) throw new SharedConflict("Сохранение слишком сложное.");
+  if (path === "family") {
+    try {
+      return mergeFamily(base, current, incoming);
+    } catch (error) {
+      throw new SharedConflict(error.message);
+    }
+  }
   if (path === "housing") {
     try {
       return mergeHousing(base, current, incoming);
@@ -123,7 +135,15 @@ function merge(base, current, incoming, path = "", depth = 0) {
             profile[key] = Math.max(actual[key] ?? -1, p[key] ?? -1);
           else if (key === "manualUntil")
             profile[key] = Math.max(actual[key] || 0, p[key] || 0);
-          else if (key === "attendance") {
+          else if (key === "leisureProgress") {
+            const other = actual[key];
+            profile[key] =
+              !other || p[key]?.day > other.day
+                ? clone(p[key])
+                : p[key]?.day === other.day
+                  ? { day: other.day, done: Math.max(other.done, p[key].done) }
+                  : clone(other);
+          } else if (key === "attendance") {
             if (p[key] && profile.lastPaidDay >= p[key].day) continue;
             if (
               actual[key] &&
@@ -663,5 +683,16 @@ export function mergeSharedWorld(base, current, incoming) {
   for (const p of result.placements)
     if (!byItem(p.item))
       throw new SharedConflict("Неизвестный предмет в сохранении.");
-  return resolveConstructionBoosts(result);
+  if (
+    result.family &&
+    Object.keys(result.family.couples).length >
+      Math.max(
+        Object.keys(current.family?.couples || {}).length,
+        familyLimit(Object.values(result.jobCity?.profiles || {})),
+      )
+  )
+    throw new SharedConflict(
+      "Сім'ї вже обрали на іншому пристрої. Оновіть світ.",
+    );
+  return resolveConstructionBoosts(reconcileFamilyHomes(result));
 }

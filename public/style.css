@@ -2877,9 +2877,226 @@ label {
 }
 
 .jobcity-dialog {
-  width: min(860px, 94vw);
+  width: min(960px, 94vw);
   max-height: 88dvh;
   overflow: auto;
+  padding: clamp(18px, 3vw, 34px);
+  background: linear-gradient(145deg, #fffaf4 0%, #f4eef9 68%, #edf5f2 100%);
+}
+.cat-life-nav {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  position: sticky;
+  top: -18px;
+  z-index: 2;
+  padding: 12px 0;
+  background: #faf5f8ed;
+  backdrop-filter: blur(10px);
+  border-radius: 14px;
+  margin: 10px 0 18px;
+}
+.cat-life-nav button {
+  border: 1px solid #dfd1e7;
+  background: #fffaf6;
+  color: #766082;
+  padding: 9px 12px;
+  border-radius: 30px;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.cat-life-nav button:hover,
+.cat-life-nav button:focus-visible {
+  background: #e9daf3;
+  outline: 2px solid #af8fc2;
+  outline-offset: 2px;
+}
+.cat-life-section {
+  background: #ffffffa8;
+  border: 1px solid #e6dce9;
+  border-radius: 23px;
+  padding: 20px;
+  margin: 14px 0;
+  scroll-margin-top: 120px;
+  box-shadow: 0 7px 24px #6c4f7b08;
+}
+.cat-life-section h3 {
+  margin: 0 0 16px;
+  font-size: 1.25rem;
+  color: #6f557c;
+}
+.cat-profile-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  min-width: 0;
+  border: 1px solid #e4d5e9;
+  border-radius: 22px;
+  padding: 12px;
+  background: linear-gradient(160deg, #fff8ee, #f1e7fa);
+  color: #685075;
+  font: inherit;
+}
+button.cat-profile-card {
+  cursor: pointer;
+}
+.cat-profile-photo {
+  position: relative;
+  aspect-ratio: 1;
+  width: min(100%, 170px);
+  border-radius: 50%;
+  background: radial-gradient(circle, #fffdf9, #eaddef);
+}
+.cat-profile-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.cat-profile-card strong {
+  overflow-wrap: anywhere;
+  font-size: 1.02rem;
+}
+.cat-profile-card small {
+  font-size: 0.78rem;
+  color: #8a7594;
+}
+.cat-sex {
+  display: inline-grid;
+  place-items: center;
+  min-width: 24px;
+  height: 24px;
+  margin-left: 7px;
+  border-radius: 50%;
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  background: #f3e6f3;
+  color: #946c9d;
+  vertical-align: middle;
+}
+.cat-profile-photo .cat-sex {
+  position: absolute;
+  right: 1px;
+  bottom: 5px;
+  box-shadow: 0 2px 9px #81688a25;
+}
+.cat-profile-hero {
+  float: left;
+  width: 145px;
+  margin: 0 20px 12px 0;
+}
+#cat-life-overview::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.cat-family-couple {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 40px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  max-width: 560px;
+  margin: 0 auto;
+}
+.cat-family-heart {
+  font-size: 35px;
+  text-align: center;
+  color: #cf7d9f;
+  filter: drop-shadow(0 3px 5px #d189aa40);
+}
+.cat-family-since {
+  text-align: center;
+  color: #9a6b91;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.cat-family-reason {
+  text-align: center;
+  color: #7d6684;
+  font-style: italic;
+}
+.cat-family-empty {
+  padding: 18px;
+  border-radius: 16px;
+  background: #f6edf7;
+  color: #927196;
+  text-align: center;
+}
+.cat-outing-plan {
+  display: inline-block;
+  border-radius: 14px;
+  background: #eff3e9;
+  padding: 8px 12px;
+  margin: 4px;
+  font-size: 0.85rem;
+  color: #70805f;
+}
+@media (max-width: 600px) {
+  .cat-life-section {
+    padding: 15px;
+    border-radius: 19px;
+  }
+  .cat-profile-hero {
+    float: none;
+    width: 150px;
+    margin: 0 auto 16px;
+  }
+  .cat-life-nav {
+    top: -18px;
+    gap: 5px;
+  }
+  .cat-life-nav button {
+    padding: 8px 10px;
+    font-size: 0.78rem;
+  }
+  .cat-family-couple {
+    grid-template-columns: minmax(0, 1fr) 25px minmax(0, 1fr);
+    gap: 4px;
+  }
+  .cat-family-heart {
+    font-size: 25px;
+  }
+  .cat-profile-card {
+    padding: 9px;
+    border-radius: 17px;
+  }
+  .cat-profile-card strong {
+    font-size: 0.9rem;
+  }
+  .cat-profile-card small {
+    font-size: 0.72rem;
+  }
+}
+.jobcity-dialog .small-button {
+  min-height: 44px;
+  padding: 10px 15px;
+  border: 1px solid #d5c1df;
+  border-radius: 14px;
+  background: #f0e6f7;
+  color: #6f557c;
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-align: center;
+}
+.jobcity-dialog .small-button:hover:not(:disabled) {
+  background: #e6d5ef;
+}
+.jobcity-dialog .small-button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.jobcity-dialog .small-button:focus-visible {
+  outline: 2px solid #ac88bf;
+  outline-offset: 2px;
+}
+.cat-life-section .dialog-copy {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #85738f;
 }
 .jobcity-dialog select {
   max-width: 100%;

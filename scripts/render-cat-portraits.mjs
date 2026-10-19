@@ -7,6 +7,7 @@ import { CAT_PORTRAITS } from "../public/cat-portrait-manifest.js";
 const { chromium } = await import(
   process.env.PLAYWRIGHT_MODULE || "playwright"
 );
+const residentsOnly = process.argv.includes("--residents-only");
 (async () => {
   const root = fileURLToPath(new URL("../", import.meta.url)).replace(
     /\/$/,
@@ -15,9 +16,9 @@ const { chromium } = await import(
   const out = await build({
     stdin: {
       contents: `
-import{BUSINESSES}from'./public/business-data.js';import{makeAttraction}from'./public/world-assets.js';import{disposeScenery}from'./public/scenery-models.js';import*as T from'three';import{createCat,disposeCat}from'./public/cat-model.js';import{ADOPTION_CATS,catAppearance}from'./public/cat-breeds.js';
+import{BUSINESSES}from'./public/business-data.js';import{makeAttraction}from'./public/world-assets.js';import{disposeScenery}from'./public/scenery-models.js';import*as T from'three';import{createCat,disposeCat}from'./public/cat-model.js';import{ADOPTION_CATS,catAppearance}from'./public/cat-breeds.js';import{NEIGHBORS}from'./public/game-data.js';
 const r=new T.WebGLRenderer({antialias:true,alpha:true,preserveDrawingBuffer:true});r.setSize(400,400);r.setPixelRatio(1);r.toneMapping=T.ACESFilmicToneMapping;document.body.append(r.domElement);const scene=new T.Scene();scene.add(new T.HemisphereLight(0xf2f4ff,0x777b7f,1.8));const sun=new T.DirectionalLight(0xffffff,2.5);sun.position.set(-3,5,5);scene.add(sun);const fill=new T.DirectionalLight(0xc6d0f7,.7);fill.position.set(4,2,-2);scene.add(fill);const c=new T.PerspectiveCamera(32,1,.1,30);c.position.set(-1.5,2.6,4.5);c.lookAt(0,1.05,0);
-window.profiles=ADOPTION_CATS;window.renderCat=async(id,mood='happy')=>{const p=ADOPTION_CATS.find(p=>p.id===id);const cat=createCat(mood,p?{...catAppearance(p),detail:'npc'}:{});const colossal=cat.userData.appearance.build==='colossal';c.position.set(...(colossal?[-1.75,2.85,5.1]:[-1.5,2.6,4.5]));c.lookAt(0,1.05,0);scene.add(cat);await r.compileAsync(scene,c);r.render(scene,c);let stats={calls:r.info.render.calls,tris:r.info.render.triangles};const url=r.domElement.toDataURL('image/png');scene.remove(cat);disposeCat(cat);return {url,stats};};window.venueIds=[...BUSINESSES.map(b=>b.id),'adoption-center','cat-barista'];
+window.profiles=${residentsOnly ? "NEIGHBORS.filter(p=>!p.adoption)" : "ADOPTION_CATS"};window.renderCat=async(id,mood='happy')=>{const p=profiles.find(p=>p.id===id);const cat=createCat(mood,p?{...catAppearance(p),detail:'npc'}:{});const colossal=cat.userData.appearance.build==='colossal';c.position.set(...(colossal?[-1.75,2.85,5.1]:[-1.5,2.6,4.5]));c.lookAt(0,1.05,0);scene.add(cat);await r.compileAsync(scene,c);r.render(scene,c);let stats={calls:r.info.render.calls,tris:r.info.render.triangles};const url=r.domElement.toDataURL('image/png');scene.remove(cat);disposeCat(cat);return {url,stats};};window.venueIds=[...BUSINESSES.map(b=>b.id),'adoption-center','cat-barista'];
 window.renderVenue=async id=>{
 const scene=new T.Scene();scene.add(new T.HemisphereLight(0xfff1eb,0xc1b3d7,1.6));const light=new T.DirectionalLight(0xffe9df,2.5);light.position.set(-3,7,5);scene.add(light);
 const object=makeAttraction(id);scene.add(object);const box=new T.Box3().setFromObject(object),size=box.getSize(new T.Vector3()),center=box.getCenter(new T.Vector3()),radius=Math.max(size.x,size.y,size.z,1.4);
@@ -54,11 +55,16 @@ window.ready=true;`,
     await p.goto("http://127.0.0.1:" + server.address().port);
     await p.waitForFunction(() => window.ready);
     fs.mkdirSync(root + "/public/art/cats", { recursive: true });
-    const manifest = process.argv.includes("--new-only")
-      ? { ...CAT_PORTRAITS }
-      : {};
+    const manifest =
+      process.argv.includes("--new-only") || residentsOnly
+        ? { ...CAT_PORTRAITS }
+        : {};
     for (const profile of await p.evaluate(() => profiles)) {
-      if (process.argv.includes("--new-only") && manifest[profile.id]) continue;
+      if (
+        (process.argv.includes("--new-only") || residentsOnly) &&
+        manifest[profile.id]
+      )
+        continue;
       const { url, stats } = await p.evaluate(
         (id) => renderCat(id),
         profile.id,
@@ -71,7 +77,8 @@ window.ready=true;`,
       console.log(profile.id, stats);
     }
     for (const mood of process.argv.includes("--adoption-only") ||
-    process.argv.includes("--new-only")
+    process.argv.includes("--new-only") ||
+    residentsOnly
       ? []
       : ["sleep", "crazy hungry", "happy"]) {
       const { url } = await p.evaluate((m) => renderCat(null, m), mood);

@@ -102,3 +102,22 @@ duplicating or resurrecting a building removed on the other device.
   reef sway or underwater refraction after merging: those meshes must remain
   native, including during shader precompilation. Compare actual frozen frames
   on both the aquarium and a heavily built homestead before publishing.
+
+## Permanent families and personal cat lives
+
+- Preserve released `cat-sex.js` identity assignments: changing the hash or an
+  existing cat's override invalidates lifelong couples. Sex badges belong only
+  on cards, never on the map or approved meshes.
+- Families are permanent AI choices in the existing daily batch, reviewed every
+  14 game days, with about one quarter of the roster coupled. Keep existing
+  partners, the calendar origin, shared active residence, personal ownership and
+  private balances. A paired venue kitten must remain available after storage.
+- Cached clients omitting `family` must not erase it. Conflicting partners and
+  over-capacity concurrent proposals must fail atomically; progress merges must
+  not replay a completed visit or a payment. Never test against a player world.
+- Reuse native reserved seats, routes and animations for AI leisure. Bound active
+  outings and give work/manual control priority. No additional per-cat AI calls,
+  GPU portrait builds, altered approved rigs or reduced graphics.
+- Run the family/leisure, housing and shared-save tests, full suite/build and
+  `scripts/check-family.cjs`. Inspect real phone cards and the loaded shared
+  house, not only transient simulation positions.

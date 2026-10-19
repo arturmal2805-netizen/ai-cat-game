@@ -4,7 +4,17 @@ import {
   reconcileHousingProfiles,
 } from "./housing-system.js";
 import { HOUSING_ID } from "./housing-data.js";
-import { normalizeJobCity, ensureJobCity } from "./jobcity-system.js";
+import {
+  normalizeJobCity,
+  ensureJobCity,
+  cityClock,
+} from "./jobcity-system.js";
+import {
+  normalizeFamily,
+  familySnapshotValid,
+  ensureFamily,
+  reconcileFamilyHomes,
+} from "./family-system.js";
 import {
   normalizeBuilderBoosts,
   resolveConstructionBoosts,
@@ -93,6 +103,7 @@ export function newGame(now = Date.now()) {
     islandConstruction: {},
     jobCity: null,
     housing: null,
+    family: null,
     inventory: {},
     builtInventory: {},
     farm: {
@@ -336,6 +347,14 @@ export function loadGame(storage, now = Date.now(), { advance = true } = {}) {
 
     game.jobCity = normalizeJobCity(saved.jobCity, game, now);
     game.housing = normalizeHousing(saved.housing, game.jobCity?.profiles);
+    game.family = normalizeFamily(saved.family);
+    if (game.jobCity && !game.family)
+      game.family = ensureFamily(
+        game,
+        cityClock(game.jobCity, now).day,
+        now,
+      ).family;
+    reconcileFamilyHomes(game);
     reconcileHousingProfiles(game);
     if (game.housing && !game.unlocked.includes(HOUSING_ID))
       game.unlocked.push(HOUSING_ID);
@@ -365,14 +384,16 @@ export function readSavedState(storage) {
         Array.isArray(saved.unlocked) &&
         saved.cat &&
         typeof saved.cat === "object" &&
-        housingSnapshotValid(saved.housing)
+        housingSnapshotValid(saved.housing) &&
+        familySnapshotValid(saved.family)
       )
         return saved;
     } catch {}
   return null;
 }
 export function saveGame(storage, game) {
-  if (!housingSnapshotValid(game.housing)) return false;
+  if (!housingSnapshotValid(game.housing) || !familySnapshotValid(game.family))
+    return false;
   let previous, rollback;
   try {
     const encoded = JSON.stringify(game),

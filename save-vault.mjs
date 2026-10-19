@@ -1,4 +1,5 @@
 import { housingSnapshotValid } from "./public/housing-system.js";
+import { familySnapshotValid } from "./public/family-system.js";
 import { chunkedSaveStorage } from "./chunked-save-store.mjs";
 import { mergeSharedWorld, SharedConflict } from "./shared-world.mjs";
 import { BIOMES } from "./public/game-data.js";
@@ -58,6 +59,7 @@ export async function readSaveBody(request) {
     (value.sessionId !== undefined && !sessionValid(value.sessionId)) ||
     !value.game ||
     !housingSnapshotValid(value.game.housing) ||
+    !familySnapshotValid(value.game.family) ||
     value.game.version !== 2 ||
     !Number.isSafeInteger(value.game.coins) ||
     value.game.coins < 0 ||

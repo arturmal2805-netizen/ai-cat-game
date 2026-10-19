@@ -4,6 +4,7 @@ import {
   housingPlot,
   HOUSING_ID,
 } from "./housing-data.js";
+import { familyPartner, reconcileFamilyHomes } from "./family-system.js";
 const clone = (v) => structuredClone(v);
 const equal = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 const validId = (v) => typeof v === "string" && /^[\w-]{1,90}$/.test(v);
@@ -124,6 +125,8 @@ export function buyCatHome(
   if (p.coins < product.price)
     throw Error("У котика поки недостатньо власних монеток на будинок");
   const free = availableRoommates(game, owner);
+  const spouse = familyPartner(game, owner);
+  if (spouse) roommate = free.some((c) => c.id === spouse) ? spouse : null;
   if (roommate && !free.some((c) => c.id === roommate)) {
     if (source === "ai") roommate = null;
     else
@@ -168,7 +171,7 @@ export function buyCatHome(
   if (!next.housing.residences[owner]) next.housing.residences[owner] = id;
   if (roommate) next.housing.residences[roommate] = id;
   if (!next.unlocked.includes(HOUSING_ID)) next.unlocked.push(HOUSING_ID);
-  return next;
+  return reconcileFamilyHomes(next);
 }
 // Called with the already persisted daily AI plan, including after a reload.
 // The day marker also covers an unaffordable decision: it never becomes a
@@ -214,11 +217,18 @@ export function setActiveHome(game, cat, homeId) {
     throw Error("Котик не може оселитися в цьому будинку");
   const next = clone(game);
   next.housing.residences[cat] = homeId;
-  return next;
+  return reconcileFamilyHomes(next, homeId);
 }
 export function setHomeRoommate(game, homeId, cat = null) {
   const home = game.housing?.homes[homeId];
   if (!home) throw Error("Будинок не знайдено");
+  const spouse = familyPartner(game, home.owner);
+  if (
+    spouse &&
+    game.housing.residences[home.owner] === homeId &&
+    cat !== spouse
+  )
+    throw Error("У цьому будинку разом живе постійна сім'я");
   if (
     cat &&
     (cat === home.owner ||

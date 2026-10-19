@@ -19,6 +19,14 @@ import {
 } from "./housing-system.js";
 import { houseType, HOUSE_TYPES } from "./housing-data.js";
 import { activeCats } from "./cat-roster.js";
+import { catSex } from "./cat-sex.js";
+import { leisureOffers } from "./leisure-data.js";
+import {
+  ensureFamily,
+  familyReview,
+  familyPartners,
+  applyFamilyDecisions,
+} from "./family-system.js";
 import { CATALOG, byItem } from "./game-data.js";
 const clone = (v) => structuredClone(v);
 const safe = (v, max = 10000000) =>
@@ -55,6 +63,7 @@ export function newJobProfile(cat) {
   return {
     id: cat.id,
     name: cat.name,
+    sex: catSex(cat),
     coins: 0,
     purchaseCount: 0,
     lastHousingAIDay: -1,
@@ -180,6 +189,23 @@ export function normalizeJobCity(raw, game, now = Date.now()) {
           evening: ["rest", "walk", "drive"].includes(r.schedule.evening)
             ? r.schedule.evening
             : "rest",
+          ...(Array.isArray(r.schedule.outings)
+            ? {
+                outings: r.schedule.outings
+                  .filter(
+                    (id) => typeof id === "string" && /^[\w-]{1,90}$/.test(id),
+                  )
+                  .slice(0, 3),
+              }
+            : {}),
+        };
+      if (
+        Number.isSafeInteger(r.leisureProgress?.day) &&
+        Number.isSafeInteger(r.leisureProgress?.done)
+      )
+        p.leisureProgress = {
+          day: r.leisureProgress.day,
+          done: Math.max(0, Math.min(3, r.leisureProgress.done)),
         };
       if (
         r.attendance &&
@@ -252,7 +278,7 @@ export function ensureJobCity(game, now = Date.now()) {
   if (!game.unlocked.includes(JOB_CITY_ID)) return game;
   const cats = cityCats(game);
   if (game.jobCity && cats.every((c) => game.jobCity.profiles[c.id]))
-    return game;
+    return ensureFamily(game, cityClock(game.jobCity, now).day, now);
   const next = clone(game);
   if (!next.jobCity)
     next.jobCity = {
@@ -263,7 +289,7 @@ export function ensureJobCity(game, now = Date.now()) {
       profiles: {},
     };
   for (const c of cats) next.jobCity.profiles[c.id] ||= newJobProfile(c);
-  return next;
+  return ensureFamily(next, cityClock(next.jobCity, now).day, now);
 }
 export function localJobPlan(profiles, day) {
   const counts = Object.fromEntries(JOB_KINDS.map((k) => [k, 0]));
@@ -351,6 +377,16 @@ export function validateJobAssignments(raw, profiles) {
         throw Error("Некоректна покупка будинку");
       house = { type: a.house.type, roommate: a.house.roommate || null };
     }
+    if (
+      a.outings !== undefined &&
+      (!Array.isArray(a.outings) ||
+        a.outings.length > 3 ||
+        new Set(a.outings).size !== a.outings.length ||
+        a.outings.some(
+          (id) => typeof id !== "string" || !/^[\w-]{1,90}$/.test(id),
+        ))
+    )
+      throw Error("Некоректний план відпочинку");
     return {
       id: a.id,
       job: a.job,
@@ -358,10 +394,17 @@ export function validateJobAssignments(raw, profiles) {
       profession,
       reason,
       ...(house ? { house } : {}),
+      ...(a.outings !== undefined ? { outings: [...a.outings] } : {}),
     };
   });
 }
-export function applyJobPlan(game, assignments, day, source = "local") {
+export function applyJobPlan(
+  game,
+  assignments,
+  day,
+  source = "local",
+  families = [],
+) {
   const next = clone(game),
     state = next.jobCity;
   if (!state || state.plan?.day > day) return game;
@@ -369,6 +412,11 @@ export function applyJobPlan(game, assignments, day, source = "local") {
     { assignments },
     Object.values(state.profiles),
   );
+  const outings = valid.some((a) => a.outings?.length)
+    ? new Set(leisureOffers(game).map((o) => o.id))
+    : null;
+  if (outings && valid.some((a) => a.outings?.some((id) => !outings.has(id))))
+    throw Error("Обране місце відпочинку зараз недоступне");
   state.plan = { day, source, assignments: valid };
   for (const a of valid) {
     const p = state.profiles[a.id];
@@ -400,9 +448,40 @@ export function applyJobPlan(game, assignments, day, source = "local") {
       source !== "pending"
     )
       p.professionSource = source;
-    p.schedule = { day, job: a.job, evening: a.evening };
+    p.schedule = {
+      day,
+      job: a.job,
+      evening: a.evening,
+      ...(a.outings ? { outings: a.outings } : {}),
+    };
+    if (a.outings && p.leisureProgress?.day !== day)
+      p.leisureProgress = { day, done: 0 };
   }
-  return source === "ai" ? applyHousingDecisions(next, day, valid) : next;
+  if (source !== "ai") return next;
+  const planned = applyFamilyDecisions(
+    applyHousingDecisions(next, day, valid),
+    day,
+    families,
+  );
+  // Share the AI's chosen itinerary, while each partner keeps their own shift.
+  for (const pair of Object.values(planned.family?.couples || {})) {
+    const ids = [pair.male, pair.female],
+      leader = ids.includes("chichi") ? "chichi" : pair.male;
+    const other = ids.find((id) => id !== leader),
+      profiles = planned.jobCity.profiles;
+    const itinerary = profiles[leader]?.schedule?.outings?.length
+      ? profiles[leader].schedule.outings
+      : profiles[other]?.schedule?.outings;
+    if (itinerary)
+      for (const id of ids) {
+        const profile = profiles[id];
+        if (profile?.schedule?.day !== day) continue;
+        profile.schedule.outings = [...itinerary];
+        if (profile.leisureProgress?.day !== day)
+          profile.leisureProgress = { day, done: 0 };
+      }
+  }
+  return planned;
 }
 function transaction(p, t) {
   if (p.transactions.some((x) => x.id === t.id)) return false;
@@ -606,12 +685,17 @@ export function finishCatDrive(game, id, tripId, position) {
 }
 export function jobAIState(game, now = Date.now()) {
   const clock = cityClock(game.jobCity, now);
+  const partners = familyPartners(game);
   return {
     day: clock.day,
+    familyReview: familyReview(game, clock.day),
+    leisureOffers: leisureOffers(game, now),
     housingOffers: housingOffers(),
     cats: Object.values(game.jobCity.profiles).map((p) => ({
       id: p.id,
       name: p.name,
+      sex: catSex(p.id),
+      partner: partners.get(p.id) || null,
       coins: p.coins,
       ...housingAIProfile(game, p.id),
       personality: p.personality,

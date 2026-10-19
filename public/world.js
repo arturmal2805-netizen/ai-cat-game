@@ -5,6 +5,9 @@ import {
   housingPlot,
 } from "./housing-data.js";
 import { createHousingRuntime, homeRestTime } from "./housing-runtime.js";
+import { createLeisureRuntime, familyFollowTarget } from "./leisure-runtime.js";
+import { leisureOffers } from "./leisure-data.js";
+import { familyPartners } from "./family-system.js";
 import { cityClock } from "./jobcity-system.js";
 import { jobBusiness, JOB_CITY_CENTER } from "./jobcity-data.js";
 import { jobBuildingSteps, cityCar, animateCityCar } from "./jobcity-assets.js";
@@ -487,6 +490,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           ...receipt,
           ...(manual ? { manual: true } : {}),
         });
+        finishLeisure(receipt.catId);
       }
     },
   });
@@ -514,14 +518,182 @@ export function createWorld(container, initialGame, callbacks = {}) {
           ...receipt,
           ...(manual ? { manual: true } : {}),
         });
+        finishLeisure(receipt.catId);
       }
     },
   });
   const housingLife = createHousingRuntime({ reduced });
+  const leisure = createLeisureRuntime();
+  let leisureCatalogue = new Map(),
+    leisureKey = "",
+    familyLinks = new Map();
+  function finishLeisure(id, result = null) {
+    const visit = leisure.finish(id);
+    const actor = npcs.get(id);
+    if (actor && visit) actor.manualUntil = 0;
+    if (visit) callbacks.onLeisureComplete?.(id, visit, result);
+  }
+  function stepLeisure(dt, time, now) {
+    if (!game.jobCity) return;
+    const clock = cityClock(game.jobCity),
+      actors = [
+        {
+          id: "chichi",
+          position: chichiCarrier.position,
+          radius: spaRadius(cat),
+        },
+        ...[...npcs].map(([id, n]) => ({
+          id,
+          position: n.carrier.position,
+          radius: spaRadius(n.model),
+        })),
+      ];
+    for (const a of actors) {
+      const p = game.jobCity.profiles[a.id],
+        v = jobs.get(a.id);
+      if (
+        v &&
+        !v.job &&
+        v.phase !== "leave" &&
+        !v.manual &&
+        !p?.trip &&
+        (!clock.working || p?.schedule?.job === "rest") &&
+        (familyLinks.has(a.id) || p?.schedule?.outings?.length)
+      )
+        jobs.cancel(a.id);
+    }
+    leisure.step(game, actors, dt, time, {
+      clock,
+      offers: leisureCatalogue,
+      allow: callbacks.canSimulateLeisure?.() !== false,
+      blocked: (id, visit) => {
+        const n = npcs.get(id),
+          p = game.jobCity.profiles[id];
+        return (
+          !p ||
+          draggingCat?.catId === id ||
+          now < gatherUntil ||
+          crew.workers.has(id) ||
+          p.trip ||
+          Date.now() < (p.manualUntil || 0) ||
+          (jobs.has(id) && !(visit && jobs.get(id)?.decision?.leisure)) ||
+          housingLife.get(id) ||
+          (id === "chichi"
+            ? callbacks.isHeroBusy?.() ||
+              heroGather ||
+              game.care?.resting ||
+              (operation && !operation.leisureTicket)
+            : (!visit &&
+                (now < (n?.manualUntil || 0) ||
+                  residentPlay.get(id) ||
+                  residentPlay.friendVisit(id) ||
+                  spa.get(id) ||
+                  chill.get(id) ||
+                  court.get(id) ||
+                  mealVisits.has(id) ||
+                  swimVisits.has(id))) ||
+              operation?.decision.friendId === id ||
+              operation?.partyIds?.has(id))
+        );
+      },
+      active: (id) =>
+        id === "chichi"
+          ? !!operation?.leisureTicket
+          : !!(
+              residentPlay.get(id) ||
+              court.get(id) ||
+              spa.get(id) ||
+              chill.get(id) ||
+              jobs.get(id)?.decision?.leisure
+            ),
+      prepare: (offer) => {
+        ensureDetail(offer.biome);
+        const g = itemGroups.get(offer.id);
+        return !!g?.userData.built;
+      },
+      skip: (id, ticket) =>
+        callbacks.onLeisureComplete?.(id, ticket, {
+          completed: false,
+          skipped: true,
+        }),
+      destination: (offer, a, slot, members) => {
+        const b = byBiome(offer.biome);
+        // Local visits start on the existing collision-aware native path.
+        if (
+          Math.hypot(a.position.x - b.center[0], a.position.z - b.center[1]) <
+          (b.radius || 12)
+        )
+          return a.position;
+        const arrival = b.arrival || [0, 0],
+          other = members.find((id) => id !== a.id),
+          gap =
+            a.radius +
+            (actors.find((x) => x.id === other)?.radius || 0.6) +
+            0.5;
+        let p = {
+          x: arrival[0] + (slot ? gap : -gap / 2),
+          z: arrival[1] - 3,
+          y: 0.16,
+        };
+        if (["foodcourt", "bikini", "aquarium"].includes(b.id))
+          p = nearestCourtGround(p, a.radius, getCourtBlockers(b.id), b.id);
+        else if (b.id === "sakura")
+          p = nearestChillGround(p, a.radius, chillObstacles);
+        else if (b.id === "water")
+          p = nearestSpaGround(p, a.radius, spaObstacles);
+        if (!p) return null;
+        return {
+          x: b.center[0] + p.x,
+          z: b.center[1] + p.z,
+          y: 0.16 + islandHeight(b.id, p.x, p.z),
+        };
+      },
+      start: (id, offer, ticket) => {
+        const decision = {
+          mood: "happy",
+          action: offer.action,
+          activityId: offer.id,
+          thought: "Час для нашої маленької пригоди",
+          leisure: true,
+        };
+        if (id === "chichi") {
+          if (operation) return false;
+          const promise = perform(decision, {
+            leisureTicket: ticket,
+            background: true,
+          });
+          if (operation) operation.leisureTicket = ticket;
+          promise
+            .then((result) => {
+              if (result.completed) finishLeisure(id, result);
+              else leisure.cancel(id);
+            })
+            .catch(() => leisure.cancel(id));
+          return true;
+        }
+        const n = npcs.get(id);
+        if (!n) return false;
+        n.leisureBiome = offer.biome;
+        return performResident(id, decision, { autonomous: true });
+      },
+      stop: (id) => {
+        if (id === "chichi") {
+          if (operation?.leisureTicket) cancelHeroActivity();
+        } else {
+          cancelResident(id);
+          const n = npcs.get(id);
+          if (n) n.manualUntil = 0;
+        }
+      },
+    });
+  }
   const jobs = createJobCityRuntime({
     onVisitDone: (id, decision) => {
       if (id === "chichi" && operation?.jobCity) operation.jobFinished = true;
-      else if (decision) callbacks.onResidentAction?.(id, decision);
+      else if (decision) {
+        callbacks.onResidentAction?.(id, decision);
+        if (decision.leisure) finishLeisure(id);
+      }
     },
     onAttendance: (id, job, active) =>
       callbacks.onJobAttendance?.(id, job, active),
@@ -746,6 +918,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           ...receipt,
           ...(manual ? { manual: true } : {}),
         });
+        finishLeisure(receipt.catId);
       }
     },
   });
@@ -1103,10 +1276,15 @@ export function createWorld(container, initialGame, callbacks = {}) {
           ?.userData.lagoons?.get(g.userData.placementId);
       lagoon?.userData.disturb?.(f.x, f.z, time, 0.4);
     },
-    onComplete: (id, decision) => callbacks.onResidentAction?.(id, decision),
+    onComplete: (id, decision) => {
+      callbacks.onResidentAction?.(id, decision);
+      if (decision.leisure) finishLeisure(id);
+    },
   });
-  function cancelResident(id) {
+  function cancelResident(id, keepLeisure = false) {
+    if (!keepLeisure) leisure.cancel(id);
     const actor = npcs.get(id);
+    if (actor && !keepLeisure) actor.leisureBiome = null;
     if (actor) actor.manualWellnessId = null;
     const greeting = residentPlay.friendVisit(id);
     if (greeting) residentPlay.cancel(greeting.id);
@@ -1141,7 +1319,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           v.decision.activityId === decision.activityId
         )
           cancelResident(other);
-    cancelResident(id);
+    cancelResident(id, !!decision.leisure);
     if (
       bikiniFriend(decision.activityId) &&
       !bikiniLife.reserve(decision.activityId, decision.characterAction, {
@@ -1248,6 +1426,19 @@ export function createWorld(container, initialGame, callbacks = {}) {
   }
   function sync(next) {
     game = next;
+    familyLinks = familyPartners(game);
+    const catalogueKey = JSON.stringify([
+      game.unlocked,
+      game.placements,
+      game.islandConstruction,
+      game.scenery,
+      bowlPortions(game) > 0,
+      Math.floor(game.coins / 10),
+    ]);
+    if (catalogueKey !== leisureKey) {
+      leisureKey = catalogueKey;
+      leisureCatalogue = new Map(leisureOffers(game).map((o) => [o.id, o]));
+    }
     islands.get(HOUSING_ID)?.userData.syncHousing?.(game);
     housingLife.sync(game);
     incomeSecond = -1;
@@ -2124,23 +2315,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
             : "curious",
       );
   }
-  function perform(decision, { manualFriendDrop = false } = {}) {
-    if (
-      bikiniFriend(decision.activityId) &&
-      !bikiniLife.reserve(decision.activityId, decision.characterAction, {
-        catId: "chichi",
-        model: cat,
-      })
-    )
-      return Promise.reject(
-        new Error(
-          "Губка Боб заканчивает заказ. Скоро он снова сможет поиграть!",
-        ),
-      );
-    heroGather = null;
+  function cancelHeroActivity(keepLeisure = false) {
+    if (!keepLeisure) leisure.cancel("chichi");
     court.cancel("chichi");
-    socialGlow.visible = false;
-    sync(game);
     if (operation) {
       spa.cancel("chichi");
       crew.cancel("chichi");
@@ -2183,10 +2360,32 @@ export function createWorld(container, initialGame, callbacks = {}) {
       operation.resolve({ cancelled: true });
       operation = null;
     }
+  }
+  function perform(
+    decision,
+    { manualFriendDrop = false, leisureTicket = null, background = false } = {},
+  ) {
+    if (
+      bikiniFriend(decision.activityId) &&
+      !bikiniLife.reserve(decision.activityId, decision.characterAction, {
+        catId: "chichi",
+        model: cat,
+      })
+    )
+      return Promise.reject(
+        new Error(
+          "Губка Боб заканчивает заказ. Скоро он снова сможет поиграть!",
+        ),
+      );
+    heroGather = null;
+    court.cancel("chichi");
+    socialGlow.visible = false;
+    sync(game);
+    cancelHeroActivity(!!leisureTicket);
     switchMood(decision.mood);
     choiceExpression(decision);
     if (jobBusiness(decision.activityId)) {
-      focus("jobcity", false, true);
+      if (!background) focus("jobcity", false, true);
       return new Promise((resolve) => {
         const visit = jobs.visit(
           "chichi",
@@ -2290,12 +2489,13 @@ export function createWorld(container, initialGame, callbacks = {}) {
             )
           : attraction.position.clone();
       if (!courtCamera || courtCamera.id !== decision.activityId)
-        focus(attraction.userData.placement.biome, false, true);
+        if (!background)
+          focus(attraction.userData.placement.biome, false, true);
     } else if (neighbor) {
       destination = neighbor.carrier.position
         .clone()
         .add(new THREE.Vector3(social.gap, 0, 0));
-      focus(neighbor.profile.biome, false, true);
+      if (!background) focus(neighbor.profile.biome, false, true);
     } else {
       return Promise.reject(
         new Error("Выбранный предмет или котик больше недоступен."),
@@ -3371,6 +3571,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         );
       if (!dialogOpen) island.userData.update?.(time, reduced);
     }
+    if (!dialogOpen) stepLeisure(dt, time, now);
     if (!dialogOpen && game.jobCity && game.unlocked.includes("jobcity")) {
       const actors = [
         {
@@ -3408,6 +3609,14 @@ export function createWorld(container, initialGame, callbacks = {}) {
             manualJob = jobs.get(id)?.manual;
           return (
             !p ||
+            ((!cityClock(game.jobCity).working || p.schedule?.job === "rest") &&
+              !p.trip &&
+              !manualJob &&
+              jobs.get(id)?.phase !== "leave" &&
+              !jobs.get(id)?.job &&
+              (leisure.has(id) ||
+                familyLinks.has(id) ||
+                p.schedule?.outings?.length)) ||
             (homeRestTime(game, id) && !p.trip && !manualJob) ||
             (Date.now() < (p.manualUntil || 0) && !p.trip && !manualJob) ||
             draggingCat?.catId === id ||
@@ -3738,6 +3947,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
             crew.workers.has(id) ||
             jobs.has(id) ||
             housingLife.get(id) ||
+            leisure.has(id) ||
+            familyLinks.has(id) ||
+            !!game.jobCity?.profiles[id]?.schedule?.outings?.length ||
             mealVisits.has(id) ||
             swimVisits.has(id) ||
             now < (n.manualUntil || 0) ||
@@ -3748,13 +3960,64 @@ export function createWorld(container, initialGame, callbacks = {}) {
         start: (id, decision) =>
           performResident(id, decision, { autonomous: true }),
       });
+    const familyClock = game.jobCity ? cityClock(game.jobCity) : null,
+      familyFree = (who) =>
+        !familyClock?.working ||
+        game.jobCity?.profiles[who]?.schedule?.job === "rest";
     for (const [id, n] of npcs) {
       const jobFrame = jobs.has(id)
         ? jobCatFrame(jobs.get(id), time, reduced)
         : null;
       const homeVisit = housingLife.get(id);
+      const leisureFrame = leisure.frame(id);
+      const spouse = familyLinks.get(id),
+        follows =
+          spouse &&
+          id !== "chichi" &&
+          (spouse === "chichi" || game.jobCity?.profiles[id]?.sex === "female");
+      const leader = follows
+        ? spouse === "chichi"
+          ? {
+              carrier: chichiCarrier,
+              model: cat,
+              biome: BIOMES.filter((b) => game.unlocked.includes(b.id)).reduce(
+                (a, b) =>
+                  Math.hypot(
+                    chichiCarrier.position.x - b.center[0],
+                    chichiCarrier.position.z - b.center[1],
+                  ) <
+                  Math.hypot(
+                    chichiCarrier.position.x - a.center[0],
+                    chichiCarrier.position.z - a.center[1],
+                  )
+                    ? b
+                    : a,
+                byBiome("moon"),
+              ).id,
+            }
+          : npcs.get(spouse)
+        : null;
+      const follow =
+        leader &&
+        familyFree(id) &&
+        familyFree(spouse) &&
+        !jobs.has(id) &&
+        !jobs.has(spouse) &&
+        !housingLife.get(spouse) &&
+        now >= (n.manualUntil || 0)
+          ? leader
+          : null;
       const b = byBiome(
-          homeVisit ? HOUSING_ID : jobFrame ? "jobcity" : n.profile.biome,
+          homeVisit
+            ? HOUSING_ID
+            : jobFrame
+              ? "jobcity"
+              : leisure.get(id)?.offer.biome ||
+                follow?.leisureBiome ||
+                follow?.biome ||
+                follow?.profile?.biome ||
+                n.leisureBiome ||
+                n.profile.biome,
         ),
         needs = game.care?.residents[id];
       updateCityCar(id, jobFrame, time);
@@ -3768,14 +4031,19 @@ export function createWorld(container, initialGame, callbacks = {}) {
       const draggingThis = draggingCat?.catId === id,
         manualVisit = residentPlay.get(id),
         friendVisit = residentPlay.friendVisit(id);
+      const plannedFreeTime =
+        familyLinks.has(id) ||
+        !!game.jobCity?.profiles[id]?.schedule?.outings?.length;
       const busyWithChichi =
         operation?.decision.friendId === id ||
         operation?.partyIds?.has(id) ||
         !!manualVisit ||
-        !!friendVisit;
+        !!friendVisit ||
+        !!leisureFrame;
       if (busyWithChichi || draggingThis || b.id !== "water") spa.cancel(id);
       if (
         b.id === "water" &&
+        !plannedFreeTime &&
         !busyWithChichi &&
         !draggingThis &&
         !dialogOpen &&
@@ -3829,6 +4097,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (busyWithChichi || draggingThis || b.id !== "sakura") chill.cancel(id);
       if (
         b.id === "sakura" &&
+        !plannedFreeTime &&
         !busyWithChichi &&
         !draggingThis &&
         !dialogOpen &&
@@ -3875,6 +4144,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         court.cancel(id);
       if (
         ["foodcourt", "bikini", "aquarium"].includes(b.id) &&
+        !plannedFreeTime &&
         !busyWithChichi &&
         !draggingThis &&
         !dialogOpen &&
@@ -4056,7 +4326,19 @@ export function createWorld(container, initialGame, callbacks = {}) {
           if (peer) emoteCat(peer.model, "delighted", { crowd: true });
         }
       }
-      if (manualFrame) {
+      if (leisureFrame && !draggingThis) {
+        n.carrier.position.set(
+          leisureFrame.position.x,
+          leisureFrame.position.y,
+          leisureFrame.position.z,
+        );
+        n.carrier.rotation.y = leisureFrame.yaw;
+        x = n.carrier.position.x;
+        z = n.carrier.position.z;
+        direct = true;
+        npcWalking = leisureFrame.walking;
+        npcReaction = leisureFrame.reaction;
+      } else if (manualFrame) {
         n.carrier.position.copy(manualFrame.position);
         n.carrier.rotation.y = manualFrame.yaw;
         n.carrier.rotation.z = manualFrame.roll;
@@ -4208,7 +4490,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         }
       } else if (n.manualAnchor && now < (n.manualUntil || 0)) {
         direct = true;
-      } else if (n.profile.venueHome && !busyWithChichi) {
+      } else if (n.profile.venueHome && !busyWithChichi && !follow) {
         const home = itemGroups.get(n.profile.homeVenueId);
         if (home) {
           const p = home.localToWorld(
@@ -4224,6 +4506,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         }
       } else if (
         ["water", "sakura"].includes(b.id) &&
+        !follow &&
         !busyWithChichi &&
         now >= gatherUntil
       ) {
@@ -4270,6 +4553,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           );
       } else if (
         ["foodcourt", "bikini", "aquarium"].includes(b.id) &&
+        !plannedFreeTime &&
         !busyWithChichi &&
         now >= gatherUntil
       ) {
@@ -4288,6 +4572,37 @@ export function createWorld(container, initialGame, callbacks = {}) {
           );
           x = n.carrier.position.x;
           z = n.carrier.position.z;
+        }
+      } else if (follow) {
+        const point = familyFollowTarget(
+          { position: follow.carrier.position, yaw: follow.carrier.rotation.y },
+          spaRadius(n.model),
+          spaRadius(follow.model),
+        );
+        let target = {
+          x: point.x - b.center[0],
+          z: point.z - b.center[1],
+          y: 0.16,
+        };
+        if (["foodcourt", "bikini", "aquarium"].includes(b.id))
+          target = nearestCourtGround(
+            target,
+            spaRadius(n.model),
+            getCourtBlockers(b.id),
+            b.id,
+          );
+        else if (b.id === "water")
+          target = nearestSpaGround(target, spaRadius(n.model), spaObstacles);
+        else if (b.id === "sakura")
+          target = nearestChillGround(
+            target,
+            spaRadius(n.model),
+            chillObstacles,
+          );
+        if (target) {
+          x = b.center[0] + target.x;
+          z = b.center[1] + target.z;
+          n.carrier.position.y = 0.16 + islandHeight(b.id, target.x, target.z);
         }
       } else if (game.social?.bestFriendId === id) {
         const anchor =
@@ -4953,6 +5268,23 @@ export function createWorld(container, initialGame, callbacks = {}) {
       walking = heroHome.walking;
       reaction = heroHome.reaction;
     }
+    const heroLeisure = leisure.frame("chichi");
+    if (
+      heroLeisure &&
+      !operation &&
+      !heroGather &&
+      !draggingCat &&
+      !heroBuild
+    ) {
+      chichiCarrier.position.set(
+        heroLeisure.position.x,
+        heroLeisure.position.y,
+        heroLeisure.position.z,
+      );
+      chichiCarrier.rotation.y = heroLeisure.yaw;
+      walking = heroLeisure.walking;
+      reaction = heroLeisure.reaction;
+    }
     if (!dialogOpen) {
       animateCat(
         cat,
@@ -5340,6 +5672,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       disposed = true;
       jobs.clear();
       housingLife.clear();
+      leisure.clear();
       drivePrompt.remove();
       for (const car of cityCars.values()) car.removeFromParent();
       cityCars.clear();

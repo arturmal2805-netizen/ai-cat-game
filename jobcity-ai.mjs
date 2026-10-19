@@ -1,7 +1,10 @@
 import { housingOffers } from "./public/housing-system.js";
 import { JOB_KINDS, JOB_CAPACITY } from "./public/jobcity-data.js";
 import { validateJobAssignments } from "./public/jobcity-system.js";
-export const JOB_AI_LIMIT = 90000;
+import { catSex } from "./public/cat-sex.js";
+import { validateFamilyProposals } from "./public/family-system.js";
+import { validateLeisureOffers } from "./public/leisure-data.js";
+export const JOB_AI_LIMIT = 192 * 1024;
 export function validateCityAIState(s) {
   if (
     !Number.isSafeInteger(s?.day) ||
@@ -38,6 +41,8 @@ export function validateCityAIState(s) {
     return {
       id: c.id,
       name: c.name,
+      sex: catSex(c.id),
+      partner: typeof c.partner === "string" ? c.partner : null,
       coins: c.coins,
       ownedHomes:
         Number.isSafeInteger(c.ownedHomes) && c.ownedHomes >= 0
@@ -60,9 +65,21 @@ export function validateCityAIState(s) {
       hasCar: !!c.hasCar,
     };
   });
-  return { day: s.day, cats, housingOffers: housingOffers() };
+  for (const cat of cats)
+    if (cat.partner && (!seen.has(cat.partner) || cat.partner === cat.id))
+      throw Error("Invalid partner");
+  return {
+    day: s.day,
+    cats,
+    housingOffers: housingOffers(),
+    leisureOffers: validateLeisureOffers(s.leisureOffers),
+    familyReview: {
+      due: s.familyReview?.due === true,
+      slots: Math.max(0, Math.min(2, Number(s.familyReview?.slots) || 0)),
+    },
+  };
 }
-export async function requestCityPlan(state, run, timeout = 70000) {
+export async function requestCityPlan(state, run, timeout = 100000) {
   let timer;
   const inference = run(cityPlanInput(state));
   let result;
@@ -84,8 +101,9 @@ export async function requestCityPlan(state, run, timeout = 70000) {
         .replace(/^```(?:json)?\s*/, "")
         .replace(/\s*```$/, ""),
     );
+  const expanded = expandCityPlan(raw, state);
   const valid = validateJobAssignments(
-    limitCityWorkplaces(expandCityPlan(raw, state), state),
+    limitCityWorkplaces(expanded, state),
     state.cats,
   );
   for (const a of valid) {
@@ -94,8 +112,21 @@ export async function requestCityPlan(state, run, timeout = 70000) {
       throw Error("AI changed a permanent career");
     if (a.evening === "drive" && !p.hasCar)
       throw Error("AI chose an unavailable car");
+    if (a.outings?.some((id) => !state.leisureOffers.some((o) => o.id === id)))
+      throw Error("AI chose an unavailable outing");
   }
-  return { day: state.day, assignments: valid };
+  const families = state.familyReview?.due
+    ? validateFamilyProposals(
+        expanded.families || [],
+        state.cats,
+        state.familyReview.slots,
+      )
+    : [];
+  return {
+    day: state.day,
+    assignments: valid,
+    ...(state.familyReview?.due ? { families } : {}),
+  };
 }
 
 // The 70B fast model has a 24k context window. Repeating object keys for every
@@ -119,17 +150,23 @@ export function cityPlanInput(state) {
     p.ownedHomes || 0,
     p.activeHome ? 1 : 0,
     p.wishes,
+    p.sex === "male" ? 0 : 1,
+    state.cats.findIndex((c) => c.id === p.partner),
   ]);
+  const places = state.leisureOffers || [],
+    types = [...new Set(places.map((p) => p.type))],
+    islands = [...new Set(places.map((p) => p.biome))];
   return {
     messages: [
       {
         role: "system",
-        content: `Plan ONE fictional cat day. Output ONLY JSON {"assignments":[[catIndex,job,profession,evening,house,roommate,reasonOptional],...]}.
+        content: `Plan ONE fictional cat day. Output ONLY compact JSON {"assignments":[[catIndex,job,profession,evening,house,roommate,reason,outings],...],"families":[[maleIndex,femaleIndex,"short Ukrainian reason"],...]}.
 Include ALL ${state.cats.length} cat indices exactly once, including resting cats. Job/profession indices: ${JOB_KINDS.map((k, i) => i + "=" + k).join(", ")}. Job -1 means off work; profession must be 0..5. At most ${JOB_CAPACITY} workers per job: the rest keep their profession and take a day off. Rotate seats fairly: oldest lastPaidDay first; avoid permanently unemployed cats. Work 12:00-19:00.
 Profession is permanent, NOT a daily random job. Keep existing profession unless changeAllowed=1; at most 3 lifetime changes. If profession=-1 choose a first career using personality, skills and preferences. Give a short Ukrainian reason only for changing an established profession; omit reason for an initial or unchanged career.
-Evening: 0=rest/home,1=walk/visit friends,2=drive. Choose 2 ONLY if hasCar=1. Give cats varied free-time choices.
+Evening: 0=rest/home,1=walk/visit friends,2=drive. Choose 2 ONLY if hasCar=1. Give cats varied free-time choices. Outings is an array of 1-3 DIFFERENT place indices for free time; [] if resting. All offered places are real and available, across all islands. Choose varied food cafes, Krusty Krab, lemonade, art, swimming, rides and rest by personality. Partners share their outings outside work; retain their separate careers. No invented indices. reason is "" for initial/unchanged careers.
 House: -1=no purchase, otherwise its index in houses. Buy only if affordable from that cat's coins; prioritize a first home when saving permits, occasionally another home (no ownership limit). Roommate: -1=none or another catIndex with hasActiveHome=0. An owner keeps their existing active home on another purchase.
-Input cat columns: [index,name,personality,coins,profession,changeAllowed,careerChanges,skillsByJob,preferredJobs,lastPaidDay,recentWorkedDays,hasCar,ownedHomes,hasActiveHome,wishes]. House columns: [index,id,name,price]. Keep every row compact: numbers, no repeated names or keys. This is one batch for the whole day, no follow-up requests.`,
+Families: ${state.familyReview?.due ? `this is the rare 14-game-day review; choose up to ${state.familyReview.slots} new mutual lifelong couples, male + female, both partner=-1. Pick compatible personalities, not everyone. Keep every existing partner forever. Total coupled cats is limited to one quarter of the population.` : "NO review today: output families:[]; never form or change a pair."}
+Input cat columns: [index,name,personality,coins,profession,changeAllowed,careerChanges,skillsByJob,preferredJobs,lastPaidDay,recentWorkedDays,hasCar,ownedHomes,hasActiveHome,wishes,sex(0male/1female),partnerIndex(-1none)]. House columns: [index,id,name,price]. Place columns: [index,typeIndex,islandIndex,action]; types and islands give their names. Keep every row compact: numbers, no repeated names or keys. One batch for the whole day, no follow-up requests.`,
       },
       {
         role: "user",
@@ -137,10 +174,21 @@ Input cat columns: [index,name,personality,coins,profession,changeAllowed,career
           day: state.day,
           houses: houses.map((h, i) => [i, h.id, h.name, h.price]),
           cats,
+          types: types.map((t, i) => [
+            i,
+            places.find((p) => p.type === t).name,
+          ]),
+          islands: islands.map((id, i) => [i, id]),
+          places: places.map((p, i) => [
+            i,
+            types.indexOf(p.type),
+            islands.indexOf(p.biome),
+            p.action,
+          ]),
         }),
       },
     ],
-    max_tokens: Math.min(6500, Math.max(1500, state.cats.length * 25 + 400)),
+    max_tokens: Math.min(6500, Math.max(1500, state.cats.length * 34 + 700)),
     temperature: 0.3,
   };
 }
@@ -148,11 +196,29 @@ export function expandCityPlan(raw, state) {
   if (!Array.isArray(raw?.assignments)) return raw;
   const houses = housingOffers();
   return {
+    ...raw,
+    families: Array.isArray(raw.families)
+      ? raw.families.map((p) => {
+          if (!Array.isArray(p)) return p;
+          if (
+            !Number.isSafeInteger(p[0]) ||
+            !Number.isSafeInteger(p[1]) ||
+            !state.cats[p[0]] ||
+            !state.cats[p[1]]
+          )
+            throw Error("Invalid family indices");
+          return {
+            male: state.cats[p[0]].id,
+            female: state.cats[p[1]].id,
+            reason: p[2],
+          };
+        })
+      : [],
     assignments: raw.assignments.map((a) => {
       if (!Array.isArray(a)) return a;
       if (
         a.length < 6 ||
-        a.length > 7 ||
+        a.length > 8 ||
         !a.slice(0, 6).every(Number.isSafeInteger) ||
         a[0] < 0 ||
         a[0] >= state.cats.length ||
@@ -168,6 +234,18 @@ export function expandCityPlan(raw, state) {
         a[5] >= state.cats.length
       )
         throw Error("Invalid compact city plan");
+      if (
+        a[7] !== undefined &&
+        (!Array.isArray(a[7]) ||
+          a[7].length > 3 ||
+          !a[7].every(
+            (i) =>
+              Number.isSafeInteger(i) &&
+              i >= 0 &&
+              i < (state.leisureOffers?.length || 0),
+          ))
+      )
+        throw Error("Invalid outing indices");
       return {
         id: state.cats[a[0]].id,
         job: a[1] === -1 ? "rest" : JOB_KINDS[a[1]],
@@ -182,6 +260,9 @@ export function expandCityPlan(raw, state) {
             }
           : {}),
         ...(a[6] ? { reason: String(a[6]).slice(0, 160) } : {}),
+        ...(a[7]
+          ? { outings: a[7].map((i) => state.leisureOffers[i].id) }
+          : {}),
       };
     }),
   };
@@ -200,9 +281,16 @@ export function limitCityWorkplaces(raw, state) {
         a.profession ??
         p?.profession ??
         (a.job === "rest" ? p?.preferences[0] : a.job);
-    if (a.job !== "rest" && profession !== a.job)
-      throw Error("Робота не відповідає професії");
-    return { ...a, profession };
+    // A model can write a different job number beside its chosen profession.
+    // Treat that as a request for a shift in that profession, then reserve real
+    // seats below. Never change an AI-selected lifelong profession to fit a seat.
+    return {
+      ...a,
+      profession,
+      job: a.job === "rest" ? "rest" : profession,
+      // Walking is the existing safe alternative when no owned car exists.
+      evening: a.evening === "drive" && !p?.hasCar ? "walk" : a.evening,
+    };
   });
   const working = new Map();
   for (const kind of JOB_KINDS) {

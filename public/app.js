@@ -4,6 +4,9 @@ import {
   setHomeRoommate,
 } from "./housing-system.js";
 import { createJobCityUI } from "./jobcity-ui.js";
+import { catSexBadge } from "./cat-card-ui.js";
+import { familyCalendar } from "./family-system.js";
+import { completeLeisure } from "./leisure-data.js";
 import {
   ensureJobCity,
   advanceJobCity,
@@ -315,7 +318,7 @@ let cityPlanning = false;
 async function requestDailyCareers(day) {
   cityPlanning = true;
   const controller = new AbortController(),
-    timer = setTimeout(() => controller.abort(), 75000);
+    timer = setTimeout(() => controller.abort(), 105000);
   try {
     const response = await fetch(api("/api/jobcity/plan"), {
       method: "POST",
@@ -331,7 +334,9 @@ async function requestDailyCareers(day) {
       !cloud.simulationOwner
     )
       return;
-    commit(applyJobPlan(game, result.assignments, day, "ai"));
+    commit(
+      applyJobPlan(game, result.assignments, day, "ai", result.families || []),
+    );
   } catch {
     if (
       game.jobCity?.plan?.day === day &&
@@ -353,7 +358,9 @@ async function requestDailyCareers(day) {
 function cityTick() {
   if (game.unlocked.includes("jobcity")) {
     $("jobcity-open").hidden = false;
-    $("jobcity-clock").textContent = cityClock(game.jobCity).label;
+    const clock = cityClock(game.jobCity);
+    $("jobcity-clock").textContent =
+      `День ${familyCalendar(game, clock.day).number} · ${clock.label}`;
   }
   cityUI.render();
   if (
@@ -551,6 +558,7 @@ function renderNeighbors() {
       name = document.createElement("h3"),
       description = document.createElement("p");
     name.textContent = r.meetings ? n.name : "Незнакомый котик · " + n.name;
+    name.append(catSexBadge(n));
     description.textContent = unlocked
       ? n.personality + " · " + stageLabel(stage)
       : "Откройте " + byBiome(n.biome).name;
@@ -603,6 +611,7 @@ function renderNeighbors() {
         h = document.createElement("h3"),
         p = document.createElement("p");
       h.textContent = n.name;
+      h.append(catSexBadge(n));
       p.textContent = stageLabel(stage);
       text.append(h, p, meter.cloneNode(true));
       card.append(face.cloneNode(true), text);
@@ -1344,6 +1353,36 @@ $("item-store").onclick = () => {
 try {
   await restoreSculptCache();
   world = createWorld($("map"), game, {
+    canSimulateLeisure: () =>
+      cloud.simulationOwner && cloud.editable && !cloud.conflict,
+    isHeroBusy: () => busy || !!buildMode,
+    onLeisureComplete: (id, visit, result) => {
+      if (!cloud.simulationOwner || !cloud.editable || cloud.conflict) return;
+      try {
+        if (id === "chichi" && result?.completed)
+          effects(
+            {
+              leisure: true,
+              mood: "happy",
+              action: visit.offer.action,
+              activityId: visit.offer.id,
+              thought: "Пригода у вільний час",
+            },
+            "ai",
+            result,
+          );
+        const next = completeLeisure(
+          game,
+          id,
+          visit.day,
+          visit.index,
+          visit.offer.biome,
+        );
+        if (next !== game) commit(next);
+      } catch (error) {
+        $("save-state").textContent = error.message;
+      }
+    },
     canDragCat: (id = "chichi") =>
       cloud.editable && !cloud.conflict && (id !== "chichi" || !busy),
     onPreview: previewChanged,
@@ -1761,7 +1800,10 @@ function effects(decision, source = "ai", result = {}) {
   if (result.spaVisit) next = completeSpaVisit(next, result.spaVisit);
   else {
     if (action === "eat") next = eatFromBowl(next).game;
-    if (action === "rest") next = startRest(next, decision.activityId);
+    if (action === "rest") {
+      if (decision.leisure) next.cat.energy = clamp(next.cat.energy + 24);
+      else next = startRest(next, decision.activityId);
+    }
   }
   next = recordInteraction(next, decision, source);
   if (result.completed && source !== "care") next = adventureXP(next);
@@ -2418,6 +2460,7 @@ function renderAdoption() {
       text = document.createElement("p"),
       button = document.createElement("button");
     title.textContent = cat.name;
+    title.append(catSexBadge(cat));
     type.textContent =
       (cat.tiny ? "Малыш · " : "") +
       (cat.rarity ? cat.rarity + " · " : "") +
