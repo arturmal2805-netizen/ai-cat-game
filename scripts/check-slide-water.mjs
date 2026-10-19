@@ -29,10 +29,31 @@ window.loadRide=async(id)=>{if(model){model.removeFromParent();disposeScenery(mo
 window.draw=(time,reduced=false)=>{if(model.userData.update)model.userData.update(time,reduced);else animateAttraction(model,reduced?0:time);model.userData.moving.visible=false;for(const vehicle of model.userData.vehicles||[])vehicle.visible=false;renderer.render(scene,camera);};
 window.reviewAngle=(grazing=false)=>{camera.position.copy(center).add(new T.Vector3(grazing?.85:.6,grazing?.12:.48,grazing?.85:.85).multiplyScalar(extent*1.25));camera.lookAt(center);};
 window.check={renderer,scene,camera};window.ready=true;`;
+const staticAudit = `
+import {configureStaticSubmissions} from './public/static-submissions.js';
+window.staticAudit=()=>{
+ const states=[];model.traverse(o=>{if(typeof o.userData.staticSubmission?.setEnabled==='function')states.push(o.userData.staticSubmission);});
+ const gl=renderer.getContext(),a=new Uint8Array(gl.drawingBufferWidth*gl.drawingBufferHeight*4),b=new Uint8Array(a.length);
+ states.forEach(s=>s.setEnabled(false));renderer.render(scene,camera);gl.readPixels(0,0,gl.drawingBufferWidth,gl.drawingBufferHeight,gl.RGBA,gl.UNSIGNED_BYTE,a);
+ states.forEach(s=>s.setEnabled(true));renderer.render(scene,camera);gl.readPixels(0,0,gl.drawingBufferWidth,gl.drawingBufferHeight,gl.RGBA,gl.UNSIGNED_BYTE,b);
+ let changed=0;for(let i=0;i<a.length;i++)if(a[i]!==b[i])changed++;
+ return{changed,meshes:states.length};
+};`;
 const bundles = new Map();
 for (const root of roots) {
   const r = await build({
-    stdin: { contents: source, resolveDir: root.path, loader: "js" },
+    stdin: {
+      contents:
+        root.name === "after"
+          ? staticAudit +
+            source.replace(
+              "renderer.toneMapping=",
+              "configureStaticSubmissions(renderer);renderer.toneMapping=",
+            )
+          : source,
+      resolveDir: root.path,
+      loader: "js",
+    },
     bundle: true,
     format: "esm",
     write: false,
@@ -148,6 +169,14 @@ try {
         process.env.CHICHI_SKIP_TIMING ? 0 : 16,
       );
       if (root.name === "after") {
+        stats.staticFrames = [
+          { view: "normal", ...(await page.evaluate(() => staticAudit())) },
+        ];
+        assert.equal(
+          stats.staticFrames[0].changed,
+          0,
+          spec.id + " static submission changed pixels",
+        );
         assert.equal(stats.channels, spec.channels, spec.id);
         assert.equal(stats.animated, true, spec.id + " is static");
         assert.equal(stats.stable, true, spec.id + " reduced motion");
@@ -215,6 +244,9 @@ try {
         await page.screenshot({
           path: resolve(folder, root.name + "-" + spec.id + "-grazing.png"),
         });
+        const frame = await page.evaluate(() => staticAudit());
+        stats.staticFrames.push({ view: "grazing", ...frame });
+        assert.equal(frame.changed, 0, spec.id + " grazing pixels");
       }
       report.push({ version: root.name, id: spec.id, ...stats });
       console.log(root.name, spec.id, JSON.stringify(stats));
@@ -248,6 +280,13 @@ try {
       await page.screenshot({
         path: resolve(folder, root.name + "-" + id + "-phone.png"),
       });
+      if (root.name === "after") {
+        const frame = await page.evaluate(() => staticAudit());
+        report
+          .find((r) => r.version === root.name && r.id === id)
+          ?.staticFrames.push({ view: "phone", ...frame });
+        assert.equal(frame.changed, 0, id + " phone pixels");
+      }
     }
     assert.deepEqual(errors, [], root.name + " browser/GLSL errors");
     await page.close();

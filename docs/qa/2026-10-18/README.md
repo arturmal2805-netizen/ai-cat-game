@@ -10,16 +10,15 @@ camera buttons, four concurrent riders, and private SQLite shared save/reload.
 Main subsequently received the isolated picking fix at `7aecbaa`; GitHub run
 39167235203 owns its gated publication. Its 13 targeted rendering/bounds tests,
 production build and Wrangler dry-run passed before push. The private full
-phone check was also started. Chichi, fish, cat geometry and rendering are not
+phone check subsequently passed. Chichi, fish, cat geometry and rendering are not
 changed by that fix. Do not replace or test with the real account/save 1427.
 
-This WIP branch preserves the further spatial rendering experiment. It is NOT
-approved for main: aquarium framebuffer comparisons passed with no changed
-pixels, but the crowded homestead comparison failed (see the JSON). Resolve
-that mismatch and recheck actual GPU/CPU costs before publishing. The helper
+This checkpoint preserved the spatial rendering experiment before validation.
+The initial aquarium framebuffer comparisons passed, but the crowded homestead
+comparison failed (see the historical JSON). The subsequent fix and repeated
+comparisons are documented in ../2026-10-19/README.md. The helper
 uses contiguous original index ranges, fixed command buffers, unchanged
-vertices/materials, and WebGL multi-draw with a native fallback. It also has a
-transparent-material variant that still needs its own complete GPU proof.
+vertices/materials, and WebGL multi-draw with a native fallback. The final transparent-material variant is covered by the later GPU proofs.
 
 The ablation timings are software Chromium diagnostics at 776×1464, not real
 MacBook/phone FPS. The user reports severe aquarium and camera lag even on a

@@ -97,3 +97,8 @@ duplicating or resurrecting a building removed on the other device.
 - Camera gestures must not initialize picking bounds by skinning every vertex
   of every cat. Use conservative current-joint bounds before exact raycasts;
   preserve hit positions/faces and test actual articulated mesh vertices.
+- Static range submissions must retain original index order and attribute
+  buffers, and use the actual colour/shadow camera. Builders can install wind,
+  reef sway or underwater refraction after merging: those meshes must remain
+  native, including during shader precompilation. Compare actual frozen frames
+  on both the aquarium and a heavily built homestead before publishing.

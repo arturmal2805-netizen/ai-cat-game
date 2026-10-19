@@ -237,7 +237,7 @@ async function localWorker() {
                   )
                   .replace(
                     "    const time = now / 1000;",
-                    "    if(window.__lagoonQA?.freeze){requestAnimationFrame(loop);return;}\n    if(window.__lagoonQA?.pinnedRide !== undefined && operation?.stage === 'activity') operation.activityStart=now-window.__lagoonQA.pinnedRide*1000;\n    const time = now / 1000;",
+                    "    if(window.__lagoonQA?.freeze){requestAnimationFrame(loop);return;}\n    if(window.__lagoonQA?.pinnedRide !== undefined && operation?.stage === 'activity') operation.activityStart=now-window.__lagoonQA.pinnedRide*1000;\n    if(window.__lagoonQA?.pinnedSocial){const p=window.__lagoonQA.pinnedSocial,v=p.heroMeeting?operation:residentPlay.get(p.actorId);if(v)v.activityStart=now-p.time*1000;}\n    const time = now / 1000;",
                   )
                   .replace(
                     "    const dt = Math.min((now - previousTime) / 1000, 0.1);",
@@ -415,7 +415,7 @@ async function localWorker() {
           __lagoonQA.look.distanceTo(__lagoonQA.desiredLook) < 0.01,
       );
       const proof = await page.evaluate(
-        ({ stress, timing }) => {
+        ({ stress, timing, diagnose, repeats }) => {
           const q = __lagoonQA,
             renderer = q.renderer,
             gl = renderer.getContext(),
@@ -426,6 +426,7 @@ async function localWorker() {
             if (typeof o.userData.staticSubmission?.setEnabled === "function")
               states.push(o.userData.staticSubmission);
           });
+          const diagnostic = [];
           const center = stress ? [-250, -55] : [-335, 95],
             a = new Uint8Array(
               gl.drawingBufferWidth * gl.drawingBufferHeight * 4,
@@ -475,10 +476,50 @@ async function localWorker() {
               center[1] + target[2],
             );
             q.camera.updateMatrixWorld(true);
+            if (diagnose && rows.length) break;
+            const compare = (label, first, second) => {
+              let changed = 0,
+                max = 0,
+                error = 0;
+              for (let i = 0; i < first.length; i++) {
+                const d = Math.abs(first[i] - second[i]);
+                if (d) {
+                  changed++;
+                  max = Math.max(max, d);
+                  error += d;
+                }
+              }
+              diagnostic.push({
+                label,
+                changed,
+                max,
+                mean: error / first.length,
+              });
+            };
+            const png = (pixels) => {
+              const canvas = document.createElement("canvas");
+              canvas.width = gl.drawingBufferWidth;
+              canvas.height = gl.drawingBufferHeight;
+              const context = canvas.getContext("2d");
+              context.putImageData(
+                new ImageData(
+                  new Uint8ClampedArray(pixels),
+                  canvas.width,
+                  canvas.height,
+                ),
+                0,
+                0,
+              );
+              return canvas.toDataURL("image/png").split(",")[1];
+            };
             states.forEach((s) => s.setEnabled(false));
             draw(a);
             const beforeMs = draw(a),
               before = { ...renderer.info.render };
+            if (diagnose) {
+              draw(b);
+              compare("native-repeat", a, b);
+            }
             states.forEach((s) => s.setEnabled(true));
             draw(b);
             const afterMs = draw(b),
@@ -496,12 +537,102 @@ async function localWorker() {
                 if (d > 8) large++;
               }
             }
+            const samples = { native: [beforeMs], spatial: [afterMs] };
+            if (timing)
+              for (let repeat = 1; repeat < repeats; repeat++) {
+                for (const enabled of repeat % 2
+                  ? [true, false]
+                  : [false, true]) {
+                  states.forEach((s) => s.setEnabled(enabled));
+                  samples[enabled ? "spatial" : "native"].push(
+                    draw(enabled ? b : a),
+                  );
+                }
+              }
+            if (diagnose) {
+              const reference = a.slice(),
+                optimized = b.slice();
+              const all = [];
+              q.scene.traverse((o) => {
+                if (
+                  typeof o.userData.staticSubmission?.setEnabled === "function"
+                ) {
+                  all.push([o, o.onBeforeRender, o.onBeforeShadow]);
+                  const c = o.userData.staticSubmission.cull;
+                  o.onBeforeRender = (r, s, camera) => c(camera, true);
+                  o.onBeforeShadow = (r, obj, camera, shadowCamera) =>
+                    c(shadowCamera, true);
+                }
+              });
+              draw(b);
+              draw(b);
+              compare("native-vs-all-ranges", reference, b);
+              all.forEach(([o, r, s]) => {
+                o.onBeforeRender = r;
+                o.onBeforeShadow = s;
+              });
+              draw(a);
+              draw(b);
+              compare("optimized-repeat", a, b);
+              renderer.shadowMap.enabled = false;
+              states.forEach((s) => s.setEnabled(false));
+              draw(a);
+              draw(a);
+              states.forEach((s) => s.setEnabled(true));
+              draw(b);
+              draw(b);
+              compare("without-shadows", a, b);
+              diagnostic.push({
+                nativePNG: png(reference),
+                optimizedPNG: png(optimized),
+                noShadowNativePNG: png(a),
+                noShadowOptimizedPNG: png(b),
+              });
+              const referenceNoShadow = a.slice();
+              let candidates = states.slice();
+              while (candidates.length > 1) {
+                states.forEach((s) => s.setEnabled(false));
+                const half = candidates.slice(
+                  0,
+                  Math.ceil(candidates.length / 2),
+                );
+                half.forEach((s) => s.setEnabled(true));
+                draw(b);
+                draw(b);
+                const differs = b.some((v, i) => v !== referenceNoShadow[i]);
+                candidates = differs ? half : candidates.slice(half.length);
+              }
+              const culprit = [];
+              q.scene.traverse((o) => {
+                if (candidates.includes(o.userData.staticSubmission)) {
+                  const chain = [];
+                  for (let p = o; p; p = p.parent)
+                    chain.push({
+                      name: p.name,
+                      id: p.userData.id,
+                      placement: p.userData.placement?.item,
+                    });
+                  culprit.push({
+                    chain,
+                    material: {
+                      type: o.material.type,
+                      color: o.material.color?.getHexString(),
+                      custom: o.material.customProgramCacheKey(),
+                      userDataKeys: Object.keys(o.material.userData),
+                    },
+                    indices: o.geometry.index.count,
+                  });
+                }
+              });
+              diagnostic.push({ culprit });
+            }
             rows.push({
               offset,
               before,
               after,
               beforeMs,
               afterMs,
+              samples,
               changed,
               max,
               large,
@@ -510,6 +641,7 @@ async function localWorker() {
           }
           return {
             rows,
+            diagnostic,
             meshes: states.length,
             buffer: [gl.drawingBufferWidth, gl.drawingBufferHeight],
             fish: [...q.itemGroups.values()]
@@ -518,12 +650,26 @@ async function localWorker() {
             contextLost: gl.isContextLost(),
           };
         },
-        { stress, timing: process.env.CHICHI_SKIP_TIMING !== "1" },
+        {
+          stress,
+          timing: process.env.CHICHI_SKIP_TIMING !== "1",
+          diagnose: !!process.env.CHICHI_STATIC_DIAGNOSE,
+          repeats: Number(process.env.CHICHI_STATIC_TIMING_REPEATS || 1),
+        },
       );
       fs.writeFileSync(
         path.join(review, "static-proof.json"),
         JSON.stringify(proof, null, 2),
       );
+      for (const d of proof.diagnostic ?? [])
+        for (const key of Object.keys(d))
+          if (key.endsWith("PNG")) {
+            fs.writeFileSync(
+              path.join(review, key + ".png"),
+              Buffer.from(d[key], "base64"),
+            );
+            delete d[key];
+          }
       console.log(JSON.stringify(proof, null, 2));
       assert.ok(proof.meshes > 10);
       for (const r of proof.rows) {
@@ -1176,13 +1322,15 @@ async function localWorker() {
         touchPoints: [],
       });
       await page.waitForFunction(
-        ({ actorId, heroMeeting }) =>
-          (heroMeeting
-            ? __lagoonQA.getOperation()
-            : __lagoonQA.residentPlay.get(actorId)
-          )?.stage === "activity" ||
-          (!heroMeeting &&
-            __lagoonQA.residentPlay.get(actorId)?.phase === "activity"),
+        ({ actorId, heroMeeting }) => {
+          const q = __lagoonQA,
+            v = heroMeeting ? q.getOperation() : q.residentPlay.get(actorId);
+          if (v?.stage !== "activity" && v?.phase !== "activity") return false;
+          // Keep the real encounter at its inspection time while software GPU
+          // readback/screenshots run. Wall time must not end it between checks.
+          q.pinnedSocial = { actorId, heroMeeting, time: 8 };
+          return true;
+        },
         { actorId, heroMeeting },
       );
       const encounter = await page.evaluate(
@@ -1219,6 +1367,8 @@ async function localWorker() {
         ({ actorId, heroMeeting }) => {
           const q = __lagoonQA,
             v = heroMeeting ? q.getOperation() : q.residentPlay.get(actorId);
+          if (!v) throw Error("Pinned encounter ended before inspection");
+          delete q.pinnedSocial;
           v.activityStart = performance.now() - 19000;
           delete q.socialRoll;
         },

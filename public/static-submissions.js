@@ -130,6 +130,9 @@ export function* staticSubmissionSteps(mesh, { force = false } = {}) {
     view = new THREE.Matrix4(),
     frustum = new THREE.Frustum();
   shader(material);
+  const staticShader = material.onBeforeCompile,
+    staticKey = material.customProgramCacheKey,
+    geometry = mesh.geometry;
   const depth = new THREE.MeshDepthMaterial({
     depthPacking: THREE.RGBADepthPacking,
     map: material.map,
@@ -138,7 +141,14 @@ export function* staticSubmissionSteps(mesh, { force = false } = {}) {
   });
   shader(depth);
   mesh.customDepthMaterial = depth;
-  mesh.isBatchedMesh = true;
+  let enabled = true,
+    retired = false;
+  // Builders may attach animation before compileAsync. Expose the real mode
+  // there too, avoiding a redundant/wrong batched shader on the first visit.
+  Object.defineProperty(mesh, "isBatchedMesh", {
+    configurable: true,
+    get: () => enabled && compatible(),
+  });
   mesh._matricesTexture = mesh._indirectTexture = mesh._colorsTexture = null;
   mesh._multiDrawStarts = starts;
   mesh._multiDrawCounts = counts;
@@ -146,6 +156,26 @@ export function* staticSubmissionSteps(mesh, { force = false } = {}) {
   starts[0] = 0;
   counts[0] = count;
   const stats = { sourceIndices: count, submittedIndices: count, commands: 1 };
+  function compatible() {
+    // Some builders add reef sway/refraction or meadow wind AFTER merging.
+    // Those vertices no longer obey static bounds, and their replacement
+    // shader may require Three's ordinary dispatch. Keep them entirely native.
+    return (
+      !retired &&
+      mesh.material === material &&
+      mesh.geometry === geometry &&
+      material.onBeforeCompile === staticShader &&
+      material.customProgramCacheKey === staticKey
+    );
+  }
+  function fallback() {
+    enabled = false;
+    retired = true;
+    if (mesh.customDepthMaterial === depth) {
+      mesh.customDepthMaterial = undefined;
+      depth.dispose();
+    }
+  }
   function cull(camera, all = false) {
     projection.multiplyMatrices(
       camera.projectionMatrix,
@@ -192,8 +222,8 @@ export function* staticSubmissionSteps(mesh, { force = false } = {}) {
     shadow = mesh.onBeforeShadow;
   mesh.onBeforeRender = function (renderer, scene, camera, ...args) {
     before.call(this, renderer, scene, camera, ...args);
-    if (!renderer.extensions.has("WEBGL_multi_draw"))
-      this.isBatchedMesh = false;
+    if (!compatible() || !renderer.extensions.has("WEBGL_multi_draw"))
+      fallback();
     if (this.isBatchedMesh) cull(camera);
   };
   mesh.onBeforeShadow = function (
@@ -204,16 +234,21 @@ export function* staticSubmissionSteps(mesh, { force = false } = {}) {
     ...args
   ) {
     shadow.call(this, renderer, object, camera, shadowCamera, ...args);
-    if (!renderer.extensions.has("WEBGL_multi_draw"))
-      this.isBatchedMesh = false;
+    if (!compatible() || !renderer.extensions.has("WEBGL_multi_draw"))
+      fallback();
     if (this.isBatchedMesh) cull(shadowCamera);
   };
-  mesh.userData.staticSubmission = {
-    chunks,
-    stats,
-    cull,
-    setEnabled(enabled) {
-      mesh.isBatchedMesh = enabled;
+  // Three clones userData via JSON. Do not serialize thousands of bounds into
+  // each guest raft/preview, or copy closures that belong to the source mesh.
+  Object.defineProperty(mesh.userData, "staticSubmission", {
+    configurable: true,
+    value: {
+      chunks,
+      stats,
+      cull,
+      setEnabled(value) {
+        enabled = !!value;
+      },
     },
-  };
+  });
 }

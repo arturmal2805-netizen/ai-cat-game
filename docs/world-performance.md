@@ -108,3 +108,13 @@ volume. Exact native triangle raycasts remain in use after that early test.
 The same preparation covers hero/resident selection and cat-to-object drops.
 `cat-picking-bounds.test.mjs` checks actual articulated vertices through walking
 and ride reactions, plus identical ray hit faces, distances and positions.
+
+Large merged static meshes now submit only contiguous original index ranges
+inside the actual colour/shadow camera. Fixed multi-draw command arrays share
+the existing index/attribute buffers and preserve transparent triangle order.
+Unsupported renderers retain native dispatch. Builders that install wind,
+reef sway or refraction after merging are detected before shader precompilation
+and retain native rendering, since their vertices no longer obey static bounds.
+Transient command bounds are excluded from Three's JSON-based guest raft clones.
+Actual full-resolution same-pose comparisons, repeated software timings and
+limits of those measurements are recorded in `docs/qa/2026-10-19/README.md`.

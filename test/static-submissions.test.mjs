@@ -146,3 +146,64 @@ test("transparent glass keeps its exact triangle order and material", () => {
   assert.equal(mesh.material, material);
   assert.equal(mesh.geometry.index, index);
 });
+
+test("wind and underwater shaders installed after merging retain native rendering, including the first shadow pass", () => {
+  for (const firstPass of ["colour", "shadow"])
+    for (const mutation of ["shader", "material", "geometry"]) {
+      const mesh = field();
+      runSceneSteps(staticSubmissionSteps(mesh, { force: true }));
+      const helper = mesh.userData.staticSubmission,
+        depth = mesh.customDepthMaterial;
+      let disposed = 0;
+      depth.addEventListener("dispose", () => disposed++);
+      if (mutation === "shader") {
+        mesh.material.onBeforeCompile = (shader) => {
+          shader.vertexShader = "// animated reef\n" + shader.vertexShader;
+        };
+        mesh.material.customProgramCacheKey = () => "reef-current-v1";
+      } else if (mutation === "material") mesh.material = mesh.material.clone();
+      else mesh.geometry = mesh.geometry.clone();
+      assert.equal(
+        mesh.isBatchedMesh,
+        false,
+        "shader precompilation must see native mode before the first render hook",
+      );
+      const renderer = { extensions: { has: () => true } };
+      if (firstPass === "colour") mesh.onBeforeRender(renderer, {}, {});
+      else mesh.onBeforeShadow(renderer, mesh, {}, {});
+      assert.equal(mesh.isBatchedMesh, false);
+      assert.equal(mesh.customDepthMaterial, undefined);
+      assert.equal(disposed, 1);
+      helper.setEnabled(true);
+      assert.equal(
+        mesh.isBatchedMesh,
+        false,
+        "QA toggles cannot bypass safety",
+      );
+      mesh.onBeforeRender(renderer, {}, {});
+      assert.equal(disposed, 1);
+    }
+});
+
+test("guest raft clones retain shared original buffers without serializing source command bounds or callbacks", () => {
+  const mesh = field();
+  mesh.userData.guestRaft = true;
+  runSceneSteps(staticSubmissionSteps(mesh, { force: true }));
+  const clone = mesh.clone();
+  assert.equal(clone.geometry, mesh.geometry);
+  assert.equal(clone.material, mesh.material);
+  assert.deepEqual(clone.userData, { guestRaft: true });
+  assert.equal(clone.isBatchedMesh, undefined);
+  assert.ok(mesh.userData.staticSubmission.chunks.length > 16);
+});
+
+test("a runtime native fallback cannot revive disposed shadow resources when the renderer changes", () => {
+  const mesh = field();
+  runSceneSteps(staticSubmissionSteps(mesh, { force: true }));
+  mesh.onBeforeRender({ extensions: { has: () => false } }, {}, {});
+  assert.equal(mesh.isBatchedMesh, false);
+  assert.equal(mesh.customDepthMaterial, undefined);
+  mesh.userData.staticSubmission.setEnabled(true);
+  mesh.onBeforeRender({ extensions: { has: () => true } }, {}, {});
+  assert.equal(mesh.isBatchedMesh, false);
+});
