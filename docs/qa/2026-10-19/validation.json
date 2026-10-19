@@ -1,0 +1,40 @@
+{
+  "nodeFullSuite": {
+    "passed": 499,
+    "failed": 0,
+    "note": "Before the additional runtime fallback case; final static targeted suite is 6/6."
+  },
+  "staticTargeted": {
+    "passed": 6,
+    "failed": 0
+  },
+  "productionBuild": "passed",
+  "workerDryRun": "passed",
+  "water": {
+    "rides": 40,
+    "newReferenceSlides": 25,
+    "sameFrameComparisons": 98,
+    "changedChannels": 0,
+    "allAnimated": true,
+    "allReducedMotionStable": true,
+    "allBuffersStable": true,
+    "allImpacts": true
+  },
+  "fish": {
+    "samples": 77700,
+    "maxPositionError": 1.1332306763989666e-06,
+    "maxNormalError": 1.1981218416935928e-07,
+    "sameFrameComparisons": 25,
+    "changedChannels": 0,
+    "errors": []
+  },
+  "privateBrowserIntegration": {
+    "result": "passed",
+    "coverage": [
+      "50 fish, ordinary visitors, glass interior and fish tracking",
+      "actual touch drag, greeting and piggyback for hero and residents",
+      "private SQLite shared save and reload"
+    ],
+    "liveSaveTouched": false
+  }
+}

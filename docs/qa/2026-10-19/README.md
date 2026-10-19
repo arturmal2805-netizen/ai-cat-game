@@ -34,3 +34,14 @@ comparisons sequentially. `CHICHI_STATIC_DIAGNOSE=1` additionally captures real
 frames, repeated-frame controls, a full-range control, no-shadow control and
 bisection for an unexpected image difference. All Workers use temporary private
 SQLite saves and random tokens, never the real account 1427.
+
+Final local regression checks passed: 499 full Node tests, then all 6 targeted
+static tests after an additional permanent-fallback case; production build;
+Wrangler dry-run; all 40 water attractions (including all 25 reference slides),
+98 normal/grazing/full-DPR phone framebuffer comparisons with zero changed
+channels; 77,700 GPU fish position/normal samples and 25 zero-difference fish
+visibility frames. The private mobile/SQLite integration passed all 50 fish,
+visitors, interior/fish cameras, actual hero/resident touch drops, friendship,
+piggyback and shared save/reload. The screenshot test pins encounter time so
+slow software readback cannot consume the animation between assertions.
+See `validation.json`; GitHub reruns the complete suite before deploying.
