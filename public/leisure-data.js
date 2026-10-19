@@ -5,8 +5,8 @@ import { courtObject, COURT_MENU } from "./foodcourt-data.js";
 import { SPA_DRINKS } from "./spa-data.js";
 import { bowlPortions } from "./care-system.js";
 import { familyPartner } from "./family-system.js";
-export function leisurePlanOwner(game, id) {
-  const partner = familyPartner(game, id);
+export function leisurePlanOwner(game, id, partners = null) {
+  const partner = partners ? partners.get(id) : familyPartner(game, id);
   if (!partner) return id;
   if (id === "chichi" || partner === "chichi") return "chichi";
   return game.jobCity?.profiles[id]?.sex === "male" ? id : partner;

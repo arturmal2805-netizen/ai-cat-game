@@ -12,12 +12,13 @@ import {
 
 // A walk or drive is an evening choice, not an order to go straight to bed.
 // Quiet cats can return at 19:00; other residents have free time until 22:00.
-export function homeRestTime(game, id, now = Date.now()) {
+export function homeRestTime(game, id, now = Date.now(), context = null) {
   if (!game.housing?.residences[id] || !game.jobCity) return false;
-  const clock = cityClock(game.jobCity, now),
+  const clock = context?.clock || cityClock(game.jobCity, now),
     p = game.jobCity.profiles[id];
   if (clock.working) return false;
-  const planner = game.jobCity.profiles[leisurePlanOwner(game, id)],
+  const planner =
+      game.jobCity.profiles[leisurePlanOwner(game, id, context?.partners)],
     progress = p?.leisureProgress;
   if (
     clock.minute < 22 * 60 &&

@@ -5,6 +5,7 @@ import {
 } from "./housing-system.js";
 import { createJobCityUI } from "./jobcity-ui.js";
 import { catSexBadge } from "./cat-card-ui.js";
+import { createFriendCards } from "./friend-cards.js";
 import { familyCalendar } from "./family-system.js";
 import { completeLeisure } from "./leisure-data.js";
 import {
@@ -18,7 +19,7 @@ import {
   buyCatProduct,
   startCatDrive,
   finishCatDrive,
-  recordJobAttendance,
+  recordJobAttendanceBatch,
   pauseCatCareer,
 } from "./jobcity-system.js";
 import {
@@ -315,6 +316,24 @@ $("rewards-cat-tab").onclick = () => cityUI.open();
 $("rewards-player-tab").onclick = () => renderRewards();
 $("jobcity-open").onclick = () => cityUI.open();
 let cityPlanning = false;
+let attendanceEvents = [];
+function queueAttendance(id, job, active) {
+  attendanceEvents.push({ id, job, active, now: Date.now() });
+  if (attendanceEvents.length !== 1) return;
+  // A microtask commits before the browser can handle another input event or
+  // paint. No timed/debounced save window is introduced for player actions.
+  queueMicrotask(() => {
+    const events = attendanceEvents;
+    attendanceEvents = [];
+    if (!cloud.simulationOwner || !cloud.editable || cloud.conflict) return;
+    try {
+      const next = recordJobAttendanceBatch(game, events);
+      if (next !== game) commit(next, false);
+    } catch (e) {
+      $("save-state").textContent = e.message;
+    }
+  });
+}
 async function requestDailyCareers(day) {
   cityPlanning = true;
   const controller = new AbortController(),
@@ -534,92 +553,15 @@ function renderBiomes() {
   }
   $("biome-nav").scrollLeft = navScroll;
 }
+const updateFriendCards = createFriendCards(
+  $("neighbors"),
+  $("friends-list"),
+  () => open("friends-dialog"),
+);
 function renderNeighbors() {
-  $("neighbors").replaceChildren();
-  $("friends-list").replaceChildren();
-  for (const n of NEIGHBORS.filter(
-    (n) => (!n.adoption && !n.venue) || catAvailable(game, n),
-  )) {
-    const r = game.social.relationships[n.id],
-      unlocked = catAvailable(game, n),
-      stage = relationshipStage(r, n.id === game.social.bestFriendId),
-      needs = game.care.residents[n.id];
-    const row = document.createElement("div");
-    row.className = "friend-list-row" + (unlocked ? "" : " locked");
-    row.dataset.friend = n.id;
-    const face = document.createElement("span");
-    face.className = "neighbor-face";
-    face.textContent = stage === "best" ? "💞" : n.hat ? "🐱" : "🐈";
-    face.style.setProperty(
-      "--tint",
-      "#" + n.color.toString(16).padStart(6, "0") + "44",
-    );
-    const content = document.createElement("div"),
-      name = document.createElement("h3"),
-      description = document.createElement("p");
-    name.textContent = r.meetings ? n.name : "Незнакомый котик · " + n.name;
-    name.append(catSexBadge(n));
-    description.textContent = unlocked
-      ? n.personality + " · " + stageLabel(stage)
-      : "Откройте " + byBiome(n.biome).name;
-    const meter = document.createElement("div");
-    meter.className = "friend-meter";
-    const fill = document.createElement("i");
-    fill.style.width = r.points + "%";
-    meter.append(fill);
-    const history = document.createElement("p");
-    history.className = "friend-history";
-    history.textContent = r.meetings
-      ? r.meetings +
-        " встреч · " +
-        r.plays +
-        " игр · доверие " +
-        r.points +
-        "/100"
-      : "Начните с настоящей встречи на карте.";
-    content.append(name, description, meter, history);
-    if (unlocked) {
-      const wellbeing = document.createElement("div");
-      wellbeing.className = "neighbor-needs";
-      for (const [key, label] of [
-        ["hunger", "Голод"],
-        ["happiness", "Счастье"],
-      ]) {
-        const line = document.createElement("label");
-        line.textContent =
-          (key === "hunger" ? "🥣 " : "💛 ") +
-          label +
-          " " +
-          Math.round(needs[key]) +
-          "%";
-        const p = document.createElement("progress");
-        p.max = 100;
-        p.value = needs[key];
-        p.setAttribute("aria-label", n.name + " · " + label);
-        p.className = "neighbor-" + key;
-        wellbeing.append(line, p);
-      }
-      content.append(wellbeing);
-    }
-    row.append(face, content);
-    $("friends-list").append(row);
-    if (unlocked) {
-      const card = document.createElement("button");
-      card.className = "neighbor";
-      card.setAttribute("aria-label", "Дружба с " + n.name);
-      const text = document.createElement("div"),
-        h = document.createElement("h3"),
-        p = document.createElement("p");
-      h.textContent = n.name;
-      h.append(catSexBadge(n));
-      p.textContent = stageLabel(stage);
-      text.append(h, p, meter.cloneNode(true));
-      card.append(face.cloneNode(true), text);
-      card.onclick = () => open("friends-dialog");
-      $("neighbors").append(card);
-    }
-  }
+  updateFriendCards(game);
 }
+
 function renderRewards() {
   const until = Math.max(0, game.lastHourly + HOUR - Date.now());
   $("hourly-reward").textContent =
@@ -1399,12 +1341,7 @@ try {
     },
     onJobAttendance: (id, job, active) => {
       if (!cloud.simulationOwner || cloud.conflict) return;
-      try {
-        const next = recordJobAttendance(game, id, job, active);
-        if (next !== game) commit(next, false);
-      } catch (e) {
-        $("save-state").textContent = e.message;
-      }
+      queueAttendance(id, job, active);
     },
     onCityTripDone: (id, trip, position) => {
       if (!cloud.simulationOwner || cloud.conflict) return;

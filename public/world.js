@@ -25,6 +25,10 @@ import { createRenderPacer } from "./render-pacer.js";
 import { createGpuFrameQueue } from "./gpu-frame-queue.js";
 import { configureStaticSubmissions } from "./static-submissions.js";
 import {
+  createStaticDrawBatch,
+  STATIC_PICK_LAYER,
+} from "./static-draw-batch.js";
+import {
   prepareCatPicking,
   updateCatPickingBounds,
 } from "./cat-picking-bounds.js";
@@ -221,6 +225,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   // The closest allowed orbit is 21 units. A less extreme near/far ratio gives
   // small ground decorations more depth precision without clipping that orbit.
   const camera = new THREE.PerspectiveCamera(40, 1, 0.5, 1200);
+  const staticDraws = createStaticDrawBatch(scene, renderer, camera);
   const look = new THREE.Vector3(0, 0, 0),
     desiredLook = look.clone();
   let azimuth = 0.72,
@@ -526,7 +531,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
   const leisure = createLeisureRuntime();
   let leisureCatalogue = new Map(),
     leisureKey = "",
-    familyLinks = new Map();
+    familyLinks = new Map(),
+    lifeActors = [];
   function finishLeisure(id, result = null) {
     const visit = leisure.finish(id);
     const actor = npcs.get(id);
@@ -536,18 +542,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   function stepLeisure(dt, time, now) {
     if (!game.jobCity) return;
     const clock = cityClock(game.jobCity),
-      actors = [
-        {
-          id: "chichi",
-          position: chichiCarrier.position,
-          radius: spaRadius(cat),
-        },
-        ...[...npcs].map(([id, n]) => ({
-          id,
-          position: n.carrier.position,
-          radius: spaRadius(n.model),
-        })),
-      ];
+      actors = lifeActors;
     for (const a of actors) {
       const p = game.jobCity.profiles[a.id],
         v = jobs.get(a.id);
@@ -1954,6 +1949,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (g?.userData.built)
         decorateBusiness(g, p.item, businessLevel(game, p.id));
     }
+    staticDraws.sync(itemGroups.values());
     if (
       operation?.decision.activityId &&
       !operation.spa &&
@@ -2087,6 +2083,21 @@ export function createWorld(container, initialGame, callbacks = {}) {
         npcDummy.updateMatrix();
         npcMarkers.setMatrixAt(n.index, npcDummy.matrix);
       }
+    lifeActors = [
+      { id: "chichi", index: -1, model: cat, carrier: chichiCarrier },
+      ...[...npcs].map(([id, n]) => ({
+        id,
+        index: n.index,
+        model: n.model,
+        carrier: n.carrier,
+        resident: n,
+      })),
+    ].map((a) => ({
+      ...a,
+      position: a.carrier.position,
+      radius: spaRadius(a.model),
+      local: { x: 0, y: 0, z: 0 },
+    }));
   }
   for (const object of HOME_OBJECTS) {
     const g =
@@ -2729,6 +2740,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     ground = new THREE.Plane(new THREE.Vector3(0, 1, 0), -0.16);
   const occlusionRay = new THREE.Raycaster();
   raycaster.layers.enable(CAT_PICK_LAYER);
+  raycaster.layers.enable(STATIC_PICK_LAYER);
   const occlusionBounds = new THREE.Box3(),
     occlusionPoint = new THREE.Vector3();
   let lastOcclusionCheck = -1;
@@ -3572,35 +3584,19 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (!dialogOpen) island.userData.update?.(time, reduced);
     }
     if (!dialogOpen) stepLeisure(dt, time, now);
+    const wallNow = Date.now(),
+      lifeClock = game.jobCity ? cityClock(game.jobCity, wallNow) : null,
+      restContext = { clock: lifeClock, partners: familyLinks };
     if (!dialogOpen && game.jobCity && game.unlocked.includes("jobcity")) {
-      const actors = [
-        {
-          id: "chichi",
-          index: -1,
-          biome:
-            Math.hypot(
-              chichiCarrier.position.x - JOB_CITY_CENTER[0],
-              chichiCarrier.position.z - JOB_CITY_CENTER[1],
-            ) < 67
-              ? "jobcity"
-              : "",
-          local: {
-            x: chichiCarrier.position.x - JOB_CITY_CENTER[0],
-            y: chichiCarrier.position.y,
-            z: chichiCarrier.position.z - JOB_CITY_CENTER[1],
-          },
-        },
-        ...[...npcs].map(([id, n]) => ({
-          id,
-          index: n.index,
-          biome: n.profile.biome,
-          local: {
-            x: n.carrier.position.x - JOB_CITY_CENTER[0],
-            y: n.carrier.position.y,
-            z: n.carrier.position.z - JOB_CITY_CENTER[1],
-          },
-        })),
-      ];
+      const actors = lifeActors;
+      for (const a of actors) {
+        a.local.x = a.position.x - JOB_CITY_CENTER[0];
+        a.local.y = a.position.y;
+        a.local.z = a.position.z - JOB_CITY_CENTER[1];
+        a.biome =
+          a.resident?.profile.biome ||
+          (Math.hypot(a.local.x, a.local.z) < 67 ? "jobcity" : "");
+      }
       jobs.step(game, actors, dt, time, {
         blocked: (actor) => {
           const id = actor.id,
@@ -3609,7 +3605,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
             manualJob = jobs.get(id)?.manual;
           return (
             !p ||
-            ((!cityClock(game.jobCity).working || p.schedule?.job === "rest") &&
+            ((!lifeClock.working || p.schedule?.job === "rest") &&
               !p.trip &&
               !manualJob &&
               jobs.get(id)?.phase !== "leave" &&
@@ -3617,7 +3613,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
               (leisure.has(id) ||
                 familyLinks.has(id) ||
                 p.schedule?.outings?.length)) ||
-            (homeRestTime(game, id) && !p.trip && !manualJob) ||
+            (homeRestTime(game, id, wallNow, restContext) &&
+              !p.trip &&
+              !manualJob) ||
             (Date.now() < (p.manualUntil || 0) && !p.trip && !manualJob) ||
             draggingCat?.catId === id ||
             now < gatherUntil ||
@@ -3642,25 +3640,15 @@ export function createWorld(container, initialGame, callbacks = {}) {
       });
     }
     if (!dialogOpen && game.housing && game.jobCity) {
-      const actors = [
-        { id: "chichi", carrier: chichiCarrier, model: cat },
-        ...[...npcs].map(([id, n]) => ({
-          id,
-          carrier: n.carrier,
-          model: n.model,
-        })),
-      ].map((a) => ({
-        id: a.id,
-        radius: spaRadius(a.model),
-        local: {
-          x: a.carrier.position.x - HOUSING_CENTER[0],
-          y: a.carrier.position.y,
-          z: a.carrier.position.z - HOUSING_CENTER[1],
-        },
-      }));
+      const actors = lifeActors;
+      for (const a of actors) {
+        a.local.x = a.position.x - HOUSING_CENTER[0];
+        a.local.y = a.position.y;
+        a.local.z = a.position.z - HOUSING_CENTER[1];
+      }
       housingLife.step(game, actors, dt, time, {
-        eligible: (actor) => homeRestTime(game, actor.id),
-        night: !cityClock(game.jobCity).working,
+        eligible: (actor) => homeRestTime(game, actor.id, wallNow, restContext),
+        night: !lifeClock.working,
         blocked: (a) => {
           const id = a.id,
             n = npcs.get(id),
@@ -3960,7 +3948,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         start: (id, decision) =>
           performResident(id, decision, { autonomous: true }),
       });
-    const familyClock = game.jobCity ? cityClock(game.jobCity) : null,
+    const familyClock = lifeClock,
       familyFree = (who) =>
         !familyClock?.working ||
         game.jobCity?.profiles[who]?.schedule?.job === "rest";
@@ -5670,6 +5658,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     },
     dispose() {
       disposed = true;
+      staticDraws.dispose();
       jobs.clear();
       housingLife.clear();
       leisure.clear();

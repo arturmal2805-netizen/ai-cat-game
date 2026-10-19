@@ -5,13 +5,18 @@ export const FAMILY_SHARE = 4;
 const clone = (value) => structuredClone(value);
 const idValid = (id) => typeof id === "string" && /^[\w-]{1,40}$/.test(id);
 const integer = (n) => Number.isSafeInteger(n) && n >= 0;
-const kyivDate = (now) =>
-  new Intl.DateTimeFormat("en-CA", {
-    timeZone: "Europe/Kyiv",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).format(now);
+const dateFormatter = new Intl.DateTimeFormat("en-CA", {
+  timeZone: "Europe/Kyiv",
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+});
+const dayFormatter = new Intl.DateTimeFormat("uk-UA", {
+  day: "numeric",
+  month: "long",
+  timeZone: "UTC",
+});
+const kyivDate = (now) => dateFormatter.format(now);
 export function newFamily(day, now = Date.now()) {
   return {
     version: 1,
@@ -110,7 +115,7 @@ export function familyCalendar(game, day) {
   return {
     number,
     date: date.toISOString().slice(0, 10),
-    label: `День ${number} · ${new Intl.DateTimeFormat("uk-UA", { day: "numeric", month: "long", timeZone: "UTC" }).format(date)}`,
+    label: `День ${number} · ${dayFormatter.format(date)}`,
   };
 }
 export function validateFamilyProposals(proposals, profiles, slots = 2) {

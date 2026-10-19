@@ -1,0 +1,32 @@
+{
+  "localFullSuite": {
+    "tests": 574,
+    "failed": 0
+  },
+  "subsequentFocusedRegressions": {
+    "tests": 41,
+    "failed": 0
+  },
+  "latestStaticBatchTests": {
+    "tests": 7,
+    "failed": 0
+  },
+  "build": "passed",
+  "mapTraversals": 2,
+  "islandsPerTraversal": 30,
+  "residentActors": 147,
+  "chichiAdditional": true,
+  "dpr": 2,
+  "exactRangeFrames": 8,
+  "unchangedNativeChichiFrames": 4,
+  "gpuFishTanks": 5,
+  "gpuFishSamples": 77700,
+  "gpuFishMaxPositionError": 1.1332306763989666e-06,
+  "familyReloads": 3,
+  "privateSqliteRetryReplays": 5,
+  "privateSqliteClients": 2,
+  "productionPlayerSavesTouched": false,
+  "phoneGesturesAndAquariumReload": "passed",
+  "browserErrors": [],
+  "limitations": "Software Chromium counts and pixel probes; not physical Mac/iPhone FPS."
+}

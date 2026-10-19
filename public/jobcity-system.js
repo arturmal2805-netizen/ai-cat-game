@@ -553,31 +553,39 @@ export function advanceJobCity(game, now = Date.now()) {
   return next;
 }
 export function recordJobAttendance(game, id, job, active, now = Date.now()) {
-  const p = game.jobCity?.profiles[id],
-    clock = cityClock(game.jobCity, now);
-  if (!p || !jobBusiness(job) || !clock.working || p.lastPaidDay >= clock.day)
-    return game;
-  if (active && (p.schedule?.day !== clock.day || p.schedule.job !== job))
-    return game;
-  if (!active && p.attendance?.job !== job) return game;
-  if (
-    p.attendance?.active === active &&
-    p.attendance?.day === clock.day &&
-    p.attendance.job === job
-  )
-    return game;
-  const next = clone(game),
-    n = next.jobCity.profiles[id],
-    old = n.attendance;
-  n.attendance = {
-    day: clock.day,
-    job,
-    at: clock.absolute,
-    worked: old?.day === clock.day ? worked(old, clock.absolute) : 0,
-    credit: old?.day === clock.day ? wages(old, clock.absolute) : 0,
-    active,
-  };
-  n.status = active ? "work" : "rest";
+  return recordJobAttendanceBatch(game, [{ id, job, active, now }]);
+}
+// A shift can admit many cats in the same frame. Retain event order and exact
+// timestamps, but clone/save the world once rather than once per employee.
+export function recordJobAttendanceBatch(game, events) {
+  let next = game;
+  for (const { id, job, active, now = Date.now() } of events) {
+    const p = next.jobCity?.profiles[id],
+      clock = cityClock(next.jobCity, now);
+    if (!p || !jobBusiness(job) || !clock.working || p.lastPaidDay >= clock.day)
+      continue;
+    if (active && (p.schedule?.day !== clock.day || p.schedule.job !== job))
+      continue;
+    if (!active && p.attendance?.job !== job) continue;
+    if (
+      p.attendance?.active === active &&
+      p.attendance?.day === clock.day &&
+      p.attendance.job === job
+    )
+      continue;
+    if (next === game) next = clone(game);
+    const n = next.jobCity.profiles[id],
+      old = n.attendance;
+    n.attendance = {
+      day: clock.day,
+      job,
+      at: clock.absolute,
+      worked: old?.day === clock.day ? worked(old, clock.absolute) : 0,
+      credit: old?.day === clock.day ? wages(old, clock.absolute) : 0,
+      active,
+    };
+    n.status = active ? "work" : "rest";
+  }
   return next;
 }
 export function catProducts(game) {

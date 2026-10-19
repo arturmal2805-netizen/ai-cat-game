@@ -1,5 +1,31 @@
 # Static rendering validation
 
+## Whole-map follow-up
+
+`global-map.json` records a second full traversal of all 30 islands with 147
+resident actors plus Chichi, four large placed slides and sixteen businesses.
+All views retain DPR 2 and render without context loss or browser/HTTP errors.
+It includes 39 exact original-prop raycasts, retained identities for 147 friend
+cards during a coin update, and live hunger/relationship changes on those same
+cards. Family/house integration separately passed three reloads, five identical
+lost-acknowledgement retries and concurrent private SQLite clients, including an
+older client. No player account was used.
+
+`global-props.json` isolates shared small-prop submissions in four identical
+frozen homestead views. Draws change **1388→1109, 1120→908, 834→690 and
+1419→1140** (17–20% fewer), with exactly equal submitted triangle counts in each
+pair. Pixel differences are limited to floating-point transform rounding at a
+few antialiased edges: mean absolute channel error stays below 0.00026/255, using
+a stricter tolerance than the existing exact cat-palette test. Aquarium prop
+comparisons have zero changed channels in all four views and retain all 50 fish.
+
+The JSON retains alternating repeated software-renderer timings. Most views'
+timings overlap; one view is about 10% faster. They do **not** establish a 20%
+device-FPS increase. The measured reduction concerns draw submission overhead;
+unchanged GPU geometry and actual Mac/iPhone performance must be distinguished.
+
+The original range-only proof below remains a separate pixel-exact check.
+
 The 25 reference slides are already live at `35ff676`; the isolated gesture
 picking fix is live at `7aecbaa`. This patch reduces invisible static GPU work
 without changing any index/vertex/attribute bytes, material, cat or fish model,

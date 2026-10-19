@@ -132,6 +132,7 @@ export function* batchModelSteps(root, { combineColors = false } = {}) {
     if (!material.transparent) optimizeGeometryCache(geometry);
     yield;
     const mesh = new THREE.Mesh(geometry, material);
+    mesh.userData.staticModel = true;
     // Positions were baked into geometry. Parent placement/animation still
     // updates normally; this identity transform never needs recomposition.
     mesh.matrixAutoUpdate = false;

@@ -39,6 +39,10 @@ async function localWorker() {
     path.join(root, ".generated/worker.mjs"),
     path.join(temp, "worker.mjs"),
   );
+  // A build also rewrites the public entry/cache keys. Keep Wrangler's asset
+  // watcher from reloading this private test server halfway through a probe.
+  const assets = path.join(temp, "assets");
+  fs.cpSync(path.join(root, "public"), assets, { recursive: true });
   fs.writeFileSync(
     config,
     JSON.stringify({
@@ -46,7 +50,7 @@ async function localWorker() {
       main: path.join(temp, "worker.mjs"),
       compatibility_date: "2026-10-13",
       assets: {
-        directory: path.join(root, "public"),
+        directory: assets,
         binding: "ASSETS",
         run_worker_first: ["/api/*"],
       },
@@ -184,6 +188,40 @@ async function localWorker() {
         g.catDestinations[c.id] = "homestead";
       }
     }
+    if (process.env.CHICHI_LIFE_STRESS || process.env.CHICHI_MAP_CHECK) {
+      const { ADOPTION_CATS } = await import(root + "/public/cat-breeds.js");
+      const { ensureJobCity } = await import(
+        root + "/public/jobcity-system.js"
+      );
+      const { BIOMES } = await import(root + "/public/game-data.js");
+      g.unlocked = BIOMES.map((b) => b.id);
+      g.adoption.cats = ADOPTION_CATS.map((c) => ({
+        id: c.id,
+        adoptedAt: now,
+        homeBiome: "homestead",
+        centerId: "",
+      }));
+      for (const c of ADOPTION_CATS) g.catDestinations[c.id] = "homestead";
+      Object.assign(g, ensureJobCity(g, now));
+      if (process.env.CHICHI_MAP_CHECK) {
+        const { localJobPlan, applyJobPlan, cityClock } = await import(
+          root + "/public/jobcity-system.js"
+        );
+        const day = cityClock(g.jobCity, now).day;
+        Object.assign(
+          g,
+          applyJobPlan(
+            g,
+            localJobPlan(Object.values(g.jobCity.profiles), day),
+            day,
+            "local",
+            [],
+            now,
+          ),
+        );
+        g.jobCity.requestedDay = day;
+      }
+    }
     const base = local.base,
       token = crypto.randomBytes(32).toString("hex"),
       headers = {
@@ -228,6 +266,18 @@ async function localWorker() {
               return {
                 contents: source
                   .replace(
+                    "  function loop(now) {",
+                    "  function loop(now) {\n    if(window.__lagoonQA?.cpuOnly)worldVisible=true;",
+                  )
+                  .replace(
+                    "!gpuFrames.ready()",
+                    "(!window.__lagoonQA?.drawPaused && !gpuFrames.ready())",
+                  )
+                  .replace(
+                    "      gpuFrames.submitted();",
+                    "      if(!window.__lagoonQA?.drawPaused)gpuFrames.submitted();",
+                  )
+                  .replace(
                     "manualFriendDrop && chooseSocialRide()",
                     "manualFriendDrop && chooseSocialRide(()=>window.__lagoonQA?.socialRoll ?? Math.random())",
                   )
@@ -244,6 +294,10 @@ async function localWorker() {
                     "    const qaFrameStart=performance.now();\n    const dt = Math.min((now - previousTime) / 1000, 0.1);",
                   )
                   .replace(
+                    "    const cameraBlend =",
+                    "    if(window.__lagoonQA?.orbit){const o=window.__lagoonQA.orbit;desiredLook.set(o.x+Math.sin(time*.8)*12,0,o.z+Math.cos(time*.8)*12);}\n    const cameraBlend =",
+                  )
+                  .replace(
                     "      renderer.render(scene, camera);",
                     "      if(window.__lagoonQA?.measure)window.__lagoonQA.cpu.push(performance.now()-qaFrameStart);\n      renderer.render(scene, camera);",
                   )
@@ -253,7 +307,7 @@ async function localWorker() {
                   )
                   .replace(
                     marker,
-                    `  const qa=window.__lagoonQA={camera,look,desiredLook,renderer,islands,cat,npcs,chichiCarrier,itemGroups,THREE,scene,pickDrop,pointer,raycaster,ground,viewport,sync,perform,performResident,faceCamera,spa,chill,court,cinema,courtFoods,bikiniLife,enterCourt,exitCourt,getCourtCamera:()=>courtCamera,residentPlay,callbacks,getDragging:()=>draggingCat?.catId,reviewView:(x,z,d)=>{desiredLook.set(x,0,z);desiredDistance=d;azimuth=.15;},constructorMs:performance.now()-qaStart,focused:()=>focused,getOperation:()=>operation,isVisible:()=>worldVisible,getDistance:()=>distance,getDesiredDistance:()=>desiredDistance,frames:0,resizes:0,black:[],audit:false,measure:false,cpu:[]};
+                    `  const qa=window.__lagoonQA={staticDraws:typeof staticDraws==='undefined'?null:staticDraws,camera,look,desiredLook,renderer,islands,cat,npcs,chichiCarrier,itemGroups,THREE,scene,pickDrop,pointer,raycaster,ground,viewport,sync,perform,performResident,faceCamera,spa,chill,court,cinema,courtFoods,bikiniLife,enterCourt,exitCourt,getCourtCamera:()=>courtCamera,residentPlay,callbacks,getDragging:()=>draggingCat?.catId,reviewView:(x,z,d)=>{desiredLook.set(x,0,z);desiredDistance=d;azimuth=.15;},constructorMs:performance.now()-qaStart,focused:()=>focused,getOperation:()=>operation,isVisible:()=>worldVisible,getDistance:()=>distance,getDesiredDistance:()=>desiredDistance,frames:0,resizes:0,black:[],audit:false,measure:false,cpu:[]};
   const draw=renderer.render.bind(renderer);qa.drawFrame=()=>draw(scene,camera);renderer.render=(...args)=>{if(qa.drawPaused)return;draw(...args);qa.frames++;};
   const size=renderer.setSize.bind(renderer);renderer.setSize=(...args)=>{qa.resizes++;return size(...args);};
   const audit=new MutationObserver(()=>{if(!qa.audit)return;const gl=renderer.getContext(),p=new Uint8Array(4);gl.readPixels(0,0,1,1,gl.RGBA,gl.UNSIGNED_BYTE,p);if(p[0]+p[1]+p[2]===0)qa.black.push(Array.from(p));});audit.observe(renderer.domElement,{attributes:true,attributeFilter:['width','height']});
@@ -401,7 +455,7 @@ async function localWorker() {
     assert.equal(report.scene.legacyShopAquarium[0].fish, 12);
     assert.equal(report.scene.fish, 50);
     assert.ok(report.scene.locals >= 6);
-    if (process.env.CHICHI_STATIC_PROOF) {
+    if (process.env.CHICHI_STATIC_PROOF || process.env.CHICHI_PROP_PROOF) {
       const stress = !!process.env.CHICHI_SCENE_STRESS;
       if (stress) await page.locator('[data-biome="homestead"]').tap();
       await page.evaluate(
@@ -415,7 +469,7 @@ async function localWorker() {
           __lagoonQA.look.distanceTo(__lagoonQA.desiredLook) < 0.01,
       );
       const proof = await page.evaluate(
-        ({ stress, timing, diagnose, repeats }) => {
+        ({ stress, timing, diagnose, repeats, props }) => {
           const q = __lagoonQA,
             renderer = q.renderer,
             gl = renderer.getContext(),
@@ -426,6 +480,10 @@ async function localWorker() {
             if (typeof o.userData.staticSubmission?.setEnabled === "function")
               states.push(o.userData.staticSubmission);
           });
+          if (props) {
+            states.length = 0;
+            if (q.staticDraws) states.push(q.staticDraws);
+          }
           const diagnostic = [];
           const center = stress ? [-250, -55] : [-335, 95],
             a = new Uint8Array(
@@ -637,6 +695,7 @@ async function localWorker() {
               max,
               large,
               mean: error / a.length,
+              ...(props ? { nativePNG: png(a), optimizedPNG: png(b) } : {}),
             });
           }
           return {
@@ -655,8 +714,19 @@ async function localWorker() {
           timing: process.env.CHICHI_SKIP_TIMING !== "1",
           diagnose: !!process.env.CHICHI_STATIC_DIAGNOSE,
           repeats: Number(process.env.CHICHI_STATIC_TIMING_REPEATS || 1),
+          props: !!process.env.CHICHI_PROP_PROOF,
         },
       );
+      for (const [i, row] of proof.rows.entries()) {
+        for (const name of ["nativePNG", "optimizedPNG"])
+          if (row[name]) {
+            fs.writeFileSync(
+              path.join(review, `${i}-${name}.png`),
+              Buffer.from(row[name], "base64"),
+            );
+            delete row[name];
+          }
+      }
       fs.writeFileSync(
         path.join(review, "static-proof.json"),
         JSON.stringify(proof, null, 2),
@@ -671,9 +741,17 @@ async function localWorker() {
             delete d[key];
           }
       console.log(JSON.stringify(proof, null, 2));
-      assert.ok(proof.meshes > 10);
+      assert.ok(proof.meshes > (process.env.CHICHI_PROP_PROOF ? 0 : 10));
       for (const r of proof.rows) {
-        assert.ok(r.mean < 0.00001 && r.large === 0, JSON.stringify(r));
+        // Instanced world transforms introduce subpixel float rounding at a
+        // few antialiased edges, as with the existing exact cat palette check.
+        assert.ok(
+          process.env.CHICHI_PROP_PROOF
+            ? r.mean < 0.002 &&
+                r.large < proof.buffer[0] * proof.buffer[1] * 0.0001
+            : r.mean < 0.00001 && r.large === 0,
+          JSON.stringify(r),
+        );
         assert.ok(r.after.triangles <= r.before.triangles);
       }
       assert.equal(proof.contextLost, false);
@@ -942,11 +1020,24 @@ async function localWorker() {
       return;
     }
     if (process.env.CHICHI_PERF_ONLY) {
-      await page.evaluate(() => {
+      const perfBiome = process.env.CHICHI_PERF_BIOME || "aquarium";
+      if (perfBiome !== "aquarium") {
+        await page.locator(`[data-biome="${perfBiome}"]`).tap();
+        await page.waitForFunction(
+          (id) => !__lagoonQA.islands.get(id)?.userData.lowOnly,
+          perfBiome,
+        );
+      }
+      await page.evaluate((id) => {
         const q = __lagoonQA;
-        q.reviewView(-335, 95, 130);
+        const island = q.islands.get(id);
+        q.reviewView(
+          island.position.x,
+          island.position.z,
+          id === "homestead" ? 140 : 130,
+        );
         q.drawPaused = false;
-      });
+      }, perfBiome);
       await page.waitForTimeout(5000);
       const cdp = await context.newCDPSession(page);
       await cdp.send("Profiler.enable");
@@ -976,12 +1067,23 @@ async function localWorker() {
           triangles: q.renderer.info.render.triangles,
         };
       });
-      await cdp.send("Profiler.stop");
+      const renderProfile = await cdp.send("Profiler.stop");
+      fs.writeFileSync(
+        path.join(review, "render-cpu-profile.json"),
+        JSON.stringify(renderProfile),
+      );
       await page.evaluate(() => {
         const q = __lagoonQA;
         q.drawPaused = true;
+        q.renderer.getContext().finish();
+        q.cpuOnly = true;
         q.cpu = [];
       });
+      if (process.env.CHICHI_PERF_ORBIT)
+        await page.evaluate(() => {
+          const q = __lagoonQA;
+          q.orbit = { x: q.look.x, z: q.look.z };
+        });
       await cdp.send("Profiler.start");
       await page.waitForTimeout(10000);
       const profile = await cdp.send("Profiler.stop");
@@ -1026,7 +1128,7 @@ async function localWorker() {
       fs.writeFileSync(
         path.join(review, "performance.json"),
         JSON.stringify(
-          { ...report, perf, gpuPhase, errors, httpErrors },
+          { ...report, perfBiome, perf, gpuPhase, errors, httpErrors },
           null,
           2,
         ),
@@ -1034,6 +1136,145 @@ async function localWorker() {
       console.log(JSON.stringify({ perf, gpuPhase }, null, 2));
       await page.evaluate(() => __lagoonQA.drawFrame());
       await page.screenshot({ path: path.join(review, "aquarium-phone.png") });
+      return;
+    }
+    if (process.env.CHICHI_MAP_CHECK) {
+      await page.evaluate(() => {
+        __lagoonQA.drawPaused = true;
+      });
+      const ids = await page
+        .locator("[data-biome]")
+        .evaluateAll((nodes) => nodes.map((n) => n.dataset.biome));
+      const mapRows = [];
+      for (const id of [...new Set(ids)]) {
+        await page.locator(`[data-biome="${id}"]`).tap();
+        await page.waitForFunction(
+          (id) => !__lagoonQA.islands.get(id).userData.lowOnly,
+          id,
+        );
+        await page.evaluate((id) => {
+          const q = __lagoonQA,
+            island = q.islands.get(id);
+          q.cpu = [];
+          q.measure = true;
+          q.reviewView(island.position.x + 7, island.position.z - 4, 85);
+        }, id);
+        await page.waitForTimeout(800);
+        const row = await page.evaluate((id) => {
+          const q = __lagoonQA,
+            gl = q.renderer.getContext();
+          q.measure = false;
+          const a = q.cpu.sort((a, b) => a - b);
+          q.drawFrame();
+          gl.finish();
+          let staticPicks = 0;
+          const oldRay = q.raycaster.ray.clone(),
+            oldFar = q.raycaster.far,
+            oldNear = q.raycaster.near;
+          for (const root of q.itemGroups.values())
+            if (root.visible && root.userData.placement?.biome === id) {
+              root.traverse((m) => {
+                if (staticPicks >= 3 || !m.isMesh || !m.layers.isEnabled(30))
+                  return;
+                const g = m.geometry,
+                  at = (i) =>
+                    new q.THREE.Vector3().fromBufferAttribute(
+                      g.attributes.position,
+                      g.index.getX(i),
+                    );
+                const a = at(0),
+                  b = at(1),
+                  c = at(2),
+                  normal = b
+                    .clone()
+                    .sub(a)
+                    .cross(c.clone().sub(a))
+                    .normalize()
+                    .applyNormalMatrix(
+                      new q.THREE.Matrix3().getNormalMatrix(m.matrixWorld),
+                    );
+                const center = a
+                  .add(b)
+                  .add(c)
+                  .multiplyScalar(1 / 3)
+                  .applyMatrix4(m.matrixWorld);
+                q.raycaster.ray.set(
+                  center.clone().addScaledVector(normal, 0.2),
+                  normal.clone().negate(),
+                );
+                q.raycaster.near = 0;
+                q.raycaster.far = 1;
+                if (q.raycaster.intersectObject(m, false).length) staticPicks++;
+              });
+            }
+          q.raycaster.ray.copy(oldRay);
+          q.raycaster.far = oldFar;
+          q.raycaster.near = oldNear;
+          return {
+            id,
+            samples: a.length,
+            median: a[Math.floor(a.length * 0.5)],
+            p95: a[Math.floor(a.length * 0.95)],
+            draw: { ...q.renderer.info.render },
+            staticProps: q.staticDraws?.stats,
+            cats: q.npcs.size,
+            dpr: q.renderer.getPixelRatio(),
+            contextLost: gl.isContextLost(),
+            staticPicks,
+          };
+        }, id);
+        mapRows.push(row);
+        console.log("MAP", JSON.stringify(row));
+        assert.ok(
+          row.samples > 0 && row.draw.calls > 0 && !row.contextLost,
+          id,
+        );
+        if (
+          ["homestead", "aquarium", "jobcity", "cat-homes", "moon"].includes(id)
+        )
+          await page.screenshot({ path: path.join(review, `map-${id}.png`) });
+      }
+      const dom = await page.evaluate(() => {
+        const before = [...document.querySelectorAll(".neighbor")];
+        const rows = [...document.querySelectorAll(".friend-list-row")];
+        const game = structuredClone(__lagoonSaveQA.getGame());
+        game.coins++;
+        __lagoonSaveQA.commit(game, false);
+        const after = [...document.querySelectorAll(".neighbor")];
+        const currentRows = [...document.querySelectorAll(".friend-list-row")];
+        const id = currentRows.find((r) => !r.classList.contains("locked"))
+          .dataset.friend;
+        const next = structuredClone(__lagoonSaveQA.getGame());
+        next.care.residents[id].hunger = 37;
+        next.social.relationships[id].points = 83;
+        __lagoonSaveQA.commit(next, false);
+        const updated = document.querySelector(`[data-friend="${id}"]`);
+        return {
+          cards: before.length,
+          unchanged: before.every((n, i) => n === after[i]),
+          rowsUnchanged: rows.every((n, i) => n === currentRows[i]),
+          valuesUpdated:
+            updated.querySelector(".neighbor-hunger").value === 37 &&
+            updated.querySelector(".friend-meter i").style.width === "83%",
+        };
+      });
+      if (!baseline)
+        assert.ok(
+          dom.unchanged && dom.rowsUnchanged && dom.valuesUpdated,
+          JSON.stringify(dom),
+        );
+      if (!baseline)
+        assert.ok(mapRows.find((r) => r.id === "homestead").staticPicks > 0);
+      const result = { mapRows, dom, errors, httpErrors };
+      fs.writeFileSync(
+        path.join(review, "map.json"),
+        JSON.stringify(result, null, 2),
+      );
+      assert.deepEqual(errors, []);
+      assert.deepEqual(
+        httpErrors.filter((e) => e.path !== "/api/jobcity/plan"),
+        [],
+      );
       return;
     }
     await page.evaluate(() => {

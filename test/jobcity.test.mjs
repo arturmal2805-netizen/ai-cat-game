@@ -24,6 +24,7 @@ import {
   localJobPlan,
   advanceJobCity,
   recordJobAttendance,
+  recordJobAttendanceBatch,
   buyCatProduct,
   cityClock,
   jobAIState,
@@ -89,6 +90,36 @@ function rested(g) {
     p.schedule = { day: 0, job: "rest", evening: "walk" };
   return next;
 }
+test("simultaneous shift arrivals are one immutable batch with the exact ordered attendance and wages of individual events", () => {
+  const g = seed(),
+    before = structuredClone(g),
+    events = [];
+  const minute = 1000;
+  for (const p of Object.values(g.jobCity.profiles)) {
+    const job = p.schedule.job;
+    events.push({ id: p.id, job, active: true, now: now + minute });
+    events.push({ id: p.id, job, active: false, now: now + 8 * minute });
+    events.push({ id: p.id, job, active: true, now: now + 9 * minute });
+  }
+  const expected = events.reduce(
+    (state, e) => recordJobAttendance(state, e.id, e.job, e.active, e.now),
+    g,
+  );
+  const actual = recordJobAttendanceBatch(g, events);
+  assert.notDeepEqual(actual, g);
+  assert.deepEqual(actual, expected);
+  assert.deepEqual(g, before);
+  assert.deepEqual(
+    advanceJobCity(actual, now + 8 * 60 * minute),
+    advanceJobCity(expected, now + 8 * 60 * minute),
+  );
+  assert.equal(
+    recordJobAttendanceBatch(g, [
+      { id: "missing", job: "bank", active: true, now },
+    ]),
+    g,
+  );
+});
 test("Cat Job City appends a separate island without changing a single established island record", () => {
   const old = JSON.parse(
     fs.readFileSync(

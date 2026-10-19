@@ -118,3 +118,53 @@ and retain native rendering, since their vertices no longer obey static bounds.
 Transient command bounds are excluded from Three's JSON-based guest raft clones.
 Actual full-resolution same-pose comparisons, repeated software timings and
 limits of those measurements are recorded in `docs/qa/2026-10-19/README.md`.
+
+## Whole-map follow-up
+
+The next pass covers all 30 current islands with 147 resident cats plus Chichi,
+four large placed slides and sixteen businesses. Small baked opaque props with
+identical material settings share multi-draw submissions. Their complete source
+geometry, index order and materials remain available for picking on layer 30.
+Each instance uses the actual colour/shadow camera; hidden parents, interior
+roofs, moving/stored buildings and later shader changes retain native behaviour.
+Moving raft templates and guest clones remain native. Unsupported devices,
+animated shaders, transparent water, large existing range batches, Float16 cat
+geometry and unsupported transforms retain their previous rendering.
+
+Matrices upload only when an object actually moves. Removed/replaced batches
+release their GPU resources. Comparing material settings uses texture identities
+without encoding canvas images during building edits.
+Shared shaders prepare in parallel against the real scene lighting; original
+props remain visible until preparation finishes, including native fallback on
+failure and safe retirement of an island/building while preparation is pending.
+
+The simulation reuses roster records/position references across leisure, work
+and housing, and shares the frame's clock/partner lookup. Simultaneous attendance
+events retain their ordered timestamps and wages in one immutable update and
+one microtask commit. Player purchases and cloud/backups keep their existing
+immediate persistence. Friend cards retain their DOM nodes across income/save
+updates; needs, relationships, adoption availability and card-only sex badges
+continue updating. Family date formatters are shared rather than reconstructed
+for every label.
+
+Additional reproducible checks:
+
+- `CHICHI_MAP_CHECK=1 CHICHI_SCENE_STRESS=1 node scripts/check-aquarium.cjs`:
+  actual renders and camera transitions on every island at DPR 2, resident crowd,
+  original prop raycasts and unchanged/live-updating friend cards.
+- `CHICHI_PROP_PROOF=1 CHICHI_SCENE_STRESS=1 node scripts/check-aquarium.cjs`:
+  same frozen full-resolution crowded island, native versus shared static props,
+  four views, complete shadows and alternating repeated timing samples.
+- The same proof without `CHICHI_SCENE_STRESS` covers Catquarium. Its 50 fish,
+  bubbles, tank water, approved models and framebuffer resolution are unchanged.
+- `test/static-draw-batch.test.mjs` checks every original attribute/index,
+  native fallbacks, live transforms, hidden branches, exact picking, fixed
+  matrix storage, raft clones, texture handling and resource retirement.
+- `test/jobcity.test.mjs` compares grouped attendance with the same ordered
+  individual events, subsequent wages and immutable input.
+
+These browser timings use software Chromium. Draw workload and image parity are
+separate from FPS on a physical Mac/iPhone. Batched matrix multiplication may
+round a few antialiased edge samples differently; the prop proof bounds this
+below the existing cat palette image tolerance. It never permits a changed model,
+missing object, texture downgrade, reduced shadow map or lower pixel ratio.
