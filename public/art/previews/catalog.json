@@ -1,5 +1,5 @@
 {
-  "version": "e446cde42363",
+  "version": "ab18a1768283",
   "items": [
     "adoption-center",
     "airship",
@@ -31,6 +31,7 @@
     "biome-galaxy",
     "biome-homestead",
     "biome-ice",
+    "biome-jobcity",
     "biome-lotus",
     "biome-moon",
     "biome-mushrooms",
@@ -98,6 +99,12 @@
     "flowers",
     "fountain",
     "greenhouse",
+    "job-bank",
+    "job-cars",
+    "job-crypto",
+    "job-estate",
+    "job-factory",
+    "job-furniture",
     "lantern",
     "laser",
     "library",

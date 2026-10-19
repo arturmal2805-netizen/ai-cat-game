@@ -1,3 +1,5 @@
+import { jobBusiness } from "./jobcity-data.js";
+import { jobBuilding } from "./jobcity-assets.js";
 import { diamondMine } from "./diamond-mine.js";
 import { referenceSlideAttraction } from "./reference-slide-assets.js";
 import { bikiniFriend } from "./bikini-data.js";
@@ -199,6 +201,7 @@ function vehicle(parent, kind, color = 0xc9a3cf) {
   return g;
 }
 export function makeAttraction(id, fields = [], now = Date.now()) {
+  if (jobBusiness(id)) return jobBuilding(id);
   const reference = referenceSlideAttraction(id);
   if (reference) return reference;
   if (id === "diamond-mine") return diamondMine();
@@ -701,6 +704,10 @@ export function makeAttraction(id, fields = [], now = Date.now()) {
   return dressAttraction(group, byItem(id));
 }
 export function animateAttraction(group, time) {
+  if (group.userData.jobBusiness) {
+    group.userData.update?.(time);
+    return;
+  }
   if (group.userData.handpainted) {
     group.userData.update?.(time);
     return;

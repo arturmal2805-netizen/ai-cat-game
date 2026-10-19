@@ -1,3 +1,8 @@
+import {
+  JOB_AI_LIMIT,
+  validateCityAIState,
+  requestCityPlan,
+} from "./jobcity-ai.mjs";
 import { requestDecision, validateState } from "./ai.mjs";
 import {
   DECISION_PROTOCOL,
@@ -64,6 +69,51 @@ export default {
       return accountAccess(request, env);
     if (path === "/api/save" && ["GET", "PUT", "POST"].includes(request.method))
       return cloudSave(request, env);
+    if (path === "/api/jobcity/plan" && request.method === "POST") {
+      if (!env.AI) return json({ error: "AI unavailable" }, 503);
+      if (Number(request.headers.get("content-length")) > JOB_AI_LIMIT)
+        return json({ error: "Request too large" }, 413);
+      let state;
+      try {
+        const reader = request.body?.getReader();
+        if (!reader) throw Error("Missing body");
+        const chunks = [];
+        let size = 0;
+        for (;;) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          size += value.length;
+          if (size > JOB_AI_LIMIT) {
+            await reader.cancel();
+            return json({ error: "Request too large" }, 413);
+          }
+          chunks.push(value);
+        }
+        const bytes = new Uint8Array(size);
+        let offset = 0;
+        for (const c of chunks) {
+          bytes.set(c, offset);
+          offset += c.length;
+        }
+        state = validateCityAIState(
+          JSON.parse(new TextDecoder().decode(bytes)),
+        );
+      } catch {
+        return json({ error: "Invalid work profiles" }, 400);
+      }
+      try {
+        return json(
+          await requestCityPlan(state, (input) =>
+            env.AI.run("@cf/meta/llama-3.3-70b-instruct-fp8-fast", input),
+          ),
+        );
+      } catch {
+        return json(
+          { error: "Daily AI plan unavailable; use the local plan" },
+          502,
+        );
+      }
+    }
     if (path === "/api/decide" && request.method === "POST") {
       if (!env.AI) return json({ error: "Cloudflare AI не подключён." }, 503);
       if (Number(request.headers.get("content-length")) > MAX_DECISION_BYTES)

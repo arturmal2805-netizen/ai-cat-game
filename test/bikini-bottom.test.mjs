@@ -45,14 +45,14 @@ import { completeSpaVisit } from "../public/spa-system.js";
 const now = Date.UTC(2026, 9, 17);
 test("Bikini Bottom appends seven ordinary island areas without moving, replacing or changing any established island", () => {
   assert.deepEqual(
-    BIOMES.filter((b) => !["bikini", "homestead", "aquarium"].includes(b.id)),
+    BIOMES.filter((b) => !["bikini", "homestead", "aquarium", "jobcity"].includes(b.id)),
     JSON.parse(
       fs.readFileSync(
         new URL("./fixtures/bikini-unaffected-biomes.json", import.meta.url),
       ),
     ),
   );
-  assert.equal(BIOMES.length, 28);
+  assert.equal(BIOMES.length, 29);
   assert.ok(Math.abs(BIKINI_RADIUS ** 2 / 11.65 ** 2 - 7) < 1e-10);
 });
 test("the sky city has actual lagoon openings, submerged bottoms, deep cliffs and animated water", () => {

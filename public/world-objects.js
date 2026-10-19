@@ -1,3 +1,4 @@
+import { JOB_BUSINESSES } from "./jobcity-data.js";
 import { AQUARIUM_TANKS } from "./aquarium-data.js";
 import {
   BIKINI_RESTAURANT,
@@ -43,6 +44,7 @@ export const PARK_RIDES = [
 ];
 export function permanentObjects(biomes) {
   const objects = [];
+  if (biomes.includes("jobcity")) objects.push(...JOB_BUSINESSES);
   if (biomes.includes("aquarium")) objects.push(...AQUARIUM_TANKS);
   if (biomes.includes("bikini"))
     objects.push(BIKINI_RESTAURANT, ...BIKINI_FRIENDS, ...BIKINI_POOLS);
@@ -52,7 +54,7 @@ export function permanentObjects(biomes) {
   if (biomes.includes("water")) objects.push(...SPA_OBJECTS);
   for (const b of BIOMES) {
     if (!biomes.includes(b.id)) continue;
-    if (["foodcourt", "bikini", "aquarium"].includes(b.id)) continue;
+    if (["foodcourt", "bikini", "aquarium", "jobcity"].includes(b.id)) continue;
     if (b.id === "autumn") {
       objects.push(...MOSA_OBJECTS);
       continue;

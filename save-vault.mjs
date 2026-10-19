@@ -1,6 +1,6 @@
 import { mergeSharedWorld, SharedConflict } from "./shared-world.mjs";
 import { BIOMES } from "./public/game-data.js";
-export const SAVE_LIMIT = 120000;
+export const SAVE_LIMIT = 800000;
 export const EDITOR_LEASE_MS = 25000;
 const sessionValid = (value) => /^[a-zA-Z0-9-]{8,64}$/.test(value || "");
 const json = (data, status = 200) =>

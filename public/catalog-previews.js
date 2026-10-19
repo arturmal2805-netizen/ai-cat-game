@@ -103,6 +103,18 @@ export async function catalogPreviews(
           fit *= 1.08;
         }
       }
+      if (item.isBiome && item.id === "jobcity") {
+        camera.far = 800;
+        camera.updateProjectionMatrix();
+        center.set(0, -3, 0);
+        camera.position
+          .copy(center)
+          .add(
+            new THREE.Vector3(0.12, 0.72, 1.25)
+              .normalize()
+              .multiplyScalar(radius * 1.8),
+          );
+      }
       camera.lookAt(center);
       await renderer.compileAsync(scene, camera);
       renderer.render(scene, camera);

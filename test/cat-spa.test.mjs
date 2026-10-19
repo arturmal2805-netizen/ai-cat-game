@@ -114,7 +114,7 @@ test("the permanent seller prepares and hands over a customer's selected drink",
   assert.equal(bar.userData.servicePhase, "idle");
 });
 test("SPA replaces the original lagoon in place, triples playable area and preserves the map arrangement", () => {
-  assert.equal(BIOMES.length, 28);
+  assert.equal(BIOMES.length, 29);
   assert.equal(byBiome("water").name, "Cat SPA");
   assert.deepEqual(byBiome("water").center, [0, -40]);
   assert.ok(Math.abs(SPA_RADIUS ** 2 / 11.65 ** 2 - 3) < 1e-12);

@@ -1,3 +1,4 @@
+import { JOB_BUSINESSES, jobBusiness } from "./jobcity-data.js";
 import { DIAMOND_MINE } from "./diamond-data.js";
 import { courtType, courtBusinessVenues } from "./foodcourt-data.js";
 import { byItem } from "./game-data.js";
@@ -55,6 +56,14 @@ export function businessUpgradeCost(item, level = 1) {
 export function businessVenues(game) {
   return [
     ...game.placements,
+    ...(game.unlocked.includes("jobcity")
+      ? JOB_BUSINESSES.map((b) => ({
+          ...b,
+          item: b.id,
+          rotation: 0,
+          readyAt: 0,
+        }))
+      : []),
     ...courtBusinessVenues(game),
     ...(game.unlocked.includes("water")
       ? [
@@ -91,13 +100,15 @@ export const incomeCurrency = (item) =>
 export const incomeSymbol = (item) =>
   incomeCurrency(item) === "diamonds" ? "💎" : "✦";
 function baseRevenue(item) {
+  if (jobBusiness(item)) return jobBusiness(item).rate;
   if (item === DIAMOND_MINE.id) return DIAMOND_MINE.rate;
   if (courtType(item)) return courtType(item).rate;
   const business = BUSINESSES.find((b) => b.id === item);
   if (business) return business.rate;
   const product = byItem(item);
   if (!product) return 0;
-  if (product.referenceSlide && Number.isSafeInteger(product.incomePerHour)) return product.incomePerHour;
+  if (product.referenceSlide && Number.isSafeInteger(product.incomePerHour))
+    return product.incomePerHour;
   if (["cafe", "cat-barista"].includes(item))
     return item === "cat-barista" ? 320 : 140;
   if (["rides", "transport"].includes(product.category))

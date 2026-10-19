@@ -1,3 +1,18 @@
+import { createJobCityUI } from "./jobcity-ui.js";
+import {
+  ensureJobCity,
+  advanceJobCity,
+  advanceCityEvening,
+  localJobPlan,
+  applyJobPlan,
+  cityClock,
+  jobAIState,
+  buyCatProduct,
+  startCatDrive,
+  finishCatDrive,
+  recordJobAttendance,
+  pauseCatCareer,
+} from "./jobcity-system.js";
 import {
   activateBuilderBoost,
   builderBoostUntil,
@@ -247,7 +262,119 @@ function commit(next, syncWorld = true) {
   if ($("bowl-dialog").open) renderBowl();
   if ($("adoption-dialog").open) renderAdoption();
   if ($("business-dialog").open) renderBusiness();
+  cityUI?.render();
 }
+const cityUI = createJobCityUI({
+  getGame: () => game,
+  onError: toast,
+  buy: (id, product) => {
+    const p = game.jobCity.profiles[id];
+    commit(
+      buyCatProduct(
+        game,
+        id,
+        product,
+        "buy-" + id + "-" + (p.purchaseCount + 1),
+      ),
+      false,
+    );
+    toast("Покупка у власному інвентарі котика");
+  },
+  drive: (id, car) => {
+    world?.chooseCityDrive(id, car);
+  },
+  view: (id) => {
+    world?.focus("jobcity");
+    if (id) world?.inspectJobBusiness(id);
+  },
+  follow: (id) => {
+    world?.followCat(id);
+  },
+});
+$("rewards-cat-tab").onclick = () => cityUI.open();
+$("rewards-player-tab").onclick = () => renderRewards();
+$("jobcity-open").onclick = () => cityUI.open();
+let cityPlanning = false;
+async function requestDailyCareers(day) {
+  cityPlanning = true;
+  const controller = new AbortController(),
+    timer = setTimeout(() => controller.abort(), 25000);
+  try {
+    const response = await fetch(api("/api/jobcity/plan"), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(jobAIState(game)),
+      signal: controller.signal,
+    });
+    if (!response.ok) throw Error("AI unavailable");
+    const result = await response.json();
+    if (
+      result.day !== day ||
+      cityClock(game.jobCity).day !== day ||
+      !cloud.simulationOwner
+    )
+      return;
+    commit(applyJobPlan(game, result.assignments, day, "ai"), false);
+  } catch {
+    if (
+      game.jobCity?.plan?.day === day &&
+      game.jobCity.plan.source === "pending"
+    )
+      try {
+        commit(
+          applyJobPlan(game, game.jobCity.plan.assignments, day, "local"),
+          false,
+        );
+      } catch {
+        /* A newer shared snapshot remains authoritative. */
+      }
+  } finally {
+    clearTimeout(timer);
+    cityPlanning = false;
+  }
+}
+function cityTick() {
+  if (game.unlocked.includes("jobcity")) {
+    $("jobcity-open").hidden = false;
+    $("jobcity-clock").textContent = cityClock(game.jobCity).label;
+  }
+  cityUI.render();
+  if (
+    document.hidden ||
+    !cloud.simulationOwner ||
+    !cloud.editable ||
+    cloud.conflict ||
+    !game.unlocked.includes("jobcity")
+  )
+    return;
+  try {
+    let next = advanceCityEvening(advanceJobCity(game));
+    if (next !== game) commit(next, false);
+    const state = game.jobCity,
+      clock = cityClock(state);
+    if (clock.minute >= 720 && state.plan?.day !== clock.day) {
+      const base = structuredClone(game),
+        request = base.jobCity.requestedDay < clock.day;
+      if (request) base.jobCity.requestedDay = clock.day;
+      next = applyJobPlan(
+        base,
+        localJobPlan(Object.values(base.jobCity.profiles), clock.day),
+        clock.day,
+        request ? "pending" : "local",
+      );
+      commit(next, false);
+      if (request && !cityPlanning) void requestDailyCareers(clock.day);
+    } else if (state.plan?.source === "pending" && !cityPlanning) {
+      commit(
+        applyJobPlan(game, state.plan.assignments, state.plan.day, "local"),
+        false,
+      );
+    }
+  } catch (error) {
+    $("save-state").textContent = error.message;
+  }
+}
+setInterval(cityTick, 1000);
 $("care-open").onclick = () => open("care-dialog");
 $("level-open").onclick = () => open("level-dialog");
 function open(id) {
@@ -1205,6 +1332,33 @@ try {
     onPreview: previewChanged,
     onSelectItem: inspect,
     onSelectCourt: showCourt,
+    onSelectJobCity: (id) => cityUI.open(id),
+    onCityDrive: (id, car, point) => {
+      try {
+        commit(startCatDrive(pauseCatCareer(game, id), id, car, point));
+        toast("Котик сідає за кермо");
+      } catch (e) {
+        toast(e.message);
+      }
+    },
+    onJobAttendance: (id, job, active) => {
+      if (!cloud.simulationOwner || cloud.conflict) return;
+      try {
+        const next = recordJobAttendance(game, id, job, active);
+        if (next !== game) commit(next, false);
+      } catch (e) {
+        $("save-state").textContent = e.message;
+      }
+    },
+    onCityTripDone: (id, trip, position) => {
+      if (!cloud.simulationOwner || cloud.conflict) return;
+      try {
+        const next = finishCatDrive(game, id, trip, position);
+        if (next !== game) commit(next, false);
+      } catch (e) {
+        $("save-state").textContent = e.message;
+      }
+    },
     onSelectBikiniFriend: showBikiniFriend,
     onCourtOrder: (id) => manualActivity({ activityId: id }),
     onSelectScenery: inspectScenery,
@@ -1226,6 +1380,7 @@ try {
     onCollectIncome: collectBusiness,
     onResidentDrop: (id, selection, biome, point) => {
       if (!cloud.editable || cloud.conflict) return false;
+      if (game.jobCity?.profiles[id]) commit(pauseCatCareer(game, id), false);
       try {
         if (selection?.friendId === "chichi") {
           if (busy) {
@@ -1723,6 +1878,8 @@ async function decide(demo = false, manualDecision = null, routine = false) {
         "crazy hungry": "🙀",
         happy: "😺",
       }[decision.mood];
+    if (game.jobCity?.profiles.chichi)
+      commit(pauseCatCareer(game, "chichi"), false);
     const result = await world?.perform(decision, {
       manualFriendDrop: !!manualDecision && !!decision.friendId,
     });

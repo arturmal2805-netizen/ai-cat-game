@@ -1,5 +1,13 @@
 import { RENEWED_ISLANDS } from "./renewal-data.js";
 export const BIOME_STYLES = {
+  jobcity: {
+    ground: 0xb9c994,
+    leaf: 0x82ac6e,
+    flower: 0xf2bbcf,
+    roof: 0xd6b073,
+    kind: "oak",
+    hero: "jobcity",
+  },
   aquarium: {
     ground: 0xcbdca6,
     leaf: 0xa8c986,

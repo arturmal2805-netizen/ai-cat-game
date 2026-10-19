@@ -1,3 +1,4 @@
+import { normalizeJobCity, ensureJobCity } from "./jobcity-system.js";
 import {
   normalizeBuilderBoosts,
   resolveConstructionBoosts,
@@ -84,6 +85,7 @@ export function newGame(now = Date.now()) {
     builderBoosts: [],
     unlocked: ["moon"],
     islandConstruction: {},
+    jobCity: null,
     inventory: {},
     builtInventory: {},
     farm: {
@@ -325,6 +327,7 @@ export function loadGame(storage, now = Date.now(), { advance = true } = {}) {
       }
     }
 
+    game.jobCity = normalizeJobCity(saved.jobCity, game, now);
     game.progression = normalizeProgression(saved.progression, game);
     restoreScenery(game, saved.scenery);
     game.care = normalizeCare(saved.care, game, now);
@@ -454,9 +457,13 @@ export function unlockBiome(game, id, now = Date.now()) {
   const next = copy(game);
   next.coins -= biome.price;
   next.unlocked.push(id);
-  if (["water", "foodcourt", "bikini"].includes(id))
+  if (["water", "foodcourt", "bikini", "jobcity"].includes(id))
     next.business = normalizeBusiness(next.business, next, now);
-  return addXP(startIslandConstruction(next, id, now), 80, now);
+  return addXP(
+    ensureJobCity(startIslandConstruction(next, id, now), now),
+    80,
+    now,
+  );
 }
 export function footprint(item, rotation = 0) {
   const [w, d] = (byItem(item) || byScenery(item))?.footprint || [2, 2];

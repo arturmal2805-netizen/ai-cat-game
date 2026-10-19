@@ -20,9 +20,14 @@ export function randomCameraCat(cats, previousId, random = Math.random) {
 
 // Fit the actual building rather than its purchase footprint. Tall slides and
 // wide pools remain completely visible in a portrait phone's narrow field.
-export function attractionCameraView(bounds, fov, aspect, yaw = 0) {
+export function attractionCameraView(
+  bounds,
+  fov,
+  aspect,
+  yaw = 0,
+  elevation = 0.53,
+) {
   const target = bounds.getCenter(new THREE.Vector3()),
-    elevation = 0.53,
     azimuth = yaw + 0.16,
     back = new THREE.Vector3(
       Math.sin(azimuth) * Math.cos(elevation),

@@ -51,7 +51,7 @@ function prepared() {
 }
 test("the expanded 32-area blank island is appended without changing any of the 26 approved islands", () => {
   assert.deepEqual(
-    BIOMES.filter((b) => !["homestead", "aquarium"].includes(b.id)),
+    BIOMES.filter((b) => !["homestead", "aquarium", "jobcity"].includes(b.id)),
     JSON.parse(
       fs.readFileSync(
         new URL("./fixtures/homestead-unaffected-biomes.json", import.meta.url),

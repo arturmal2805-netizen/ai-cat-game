@@ -1,3 +1,12 @@
+import { jobBusiness, JOB_CITY_CENTER } from "./jobcity-data.js";
+import { jobBuildingSteps, cityCar, animateCityCar } from "./jobcity-assets.js";
+import { createJobCityRuntime, jobCatFrame } from "./jobcity-runtime.js";
+import {
+  nearestRoad,
+  cityPoint,
+  nearestCityGround,
+  cityViewOccluders,
+} from "./jobcity-navigation.js";
 import { aquariumTank } from "./aquarium-data.js";
 import { attractionVisibility } from "./attraction-visibility.js";
 import { rideGuests } from "./ride-guests.js";
@@ -499,6 +508,59 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }
     },
   });
+  const jobs = createJobCityRuntime({
+    onVisitDone: (id, decision) => {
+      if (id === "chichi" && operation?.jobCity) operation.jobFinished = true;
+      else if (decision) callbacks.onResidentAction?.(id, decision);
+    },
+    onAttendance: (id, job, active) =>
+      callbacks.onJobAttendance?.(id, job, active),
+    onTripDone: (id, trip, position) =>
+      callbacks.onCityTripDone?.(id, trip, position),
+  });
+  const cityCars = new Map();
+  let cityDriveChoice = null;
+  const drivePrompt = document.createElement("button");
+  drivePrompt.className = "jobcity-drive-prompt";
+  drivePrompt.hidden = true;
+  drivePrompt.onclick = () => {
+    cityDriveChoice = null;
+    drivePrompt.hidden = true;
+  };
+  container.append(drivePrompt);
+  function applyJobFrame(v, carrier) {
+    carrier.position.set(
+      JOB_CITY_CENTER[0] + v.position.x,
+      v.position.y,
+      JOB_CITY_CENTER[1] + v.position.z,
+    );
+    carrier.rotation.y = v.yaw;
+  }
+  function updateCityCar(id, v, time) {
+    const profile = game.jobCity?.profiles[id],
+      trip = profile?.trip;
+    let car = cityCars.get(id);
+    const spec = v?.carVisible
+      ? v.car
+      : profile?.parkedCar || car?.userData.carId;
+    if (!spec) return;
+    if (!car || car.userData.carId !== spec) {
+      car?.removeFromParent();
+      car = cityCar(spec);
+      cityCars.set(id, car);
+      scene.add(car);
+    }
+    const position = v?.carVisible ? v.carPosition : profile?.parkedAt;
+    car.visible = !!position && focused === "jobcity";
+    if (!position) return;
+    car.position.set(
+      JOB_CITY_CENTER[0] + position.x,
+      0.16,
+      JOB_CITY_CENTER[1] + position.z,
+    );
+    if (v?.carVisible) car.rotation.y = v.yaw;
+    animateCityCar(car, jobs.get(id)?.distance || 0, v?.steer || 0, reduced);
+  }
   const courtModels = new Map(),
     courtPreparing = new Map();
   const referenceModels = new Map(),
@@ -623,11 +685,13 @@ export function createWorld(container, initialGame, callbacks = {}) {
     return true;
   }
   function applyAttractionCamera(g) {
+    if (g.userData.jobBusiness) g.updateWorldMatrix(true, true);
     const view = attractionCameraView(
       new THREE.Box3().setFromObject(g),
       camera.fov,
       camera.aspect,
       g.rotation.y,
+      g.userData.jobBusiness ? 0.12 : 0.53,
     );
     desiredLook.copy(view.target);
     desiredDistance = view.distance;
@@ -877,7 +941,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           old?.userData.lowOnly &&
           desiredDistance < Math.max(110, (b.radius || 12) * 7) &&
           Math.hypot(b.center[0] - desiredLook.x, b.center[1] - desiredLook.z) <
-            40
+            (b.id === "jobcity" ? b.radius + 10 : 40)
         ) {
           const snapshot = () => [
             game.placements.filter((p) => p.biome === id),
@@ -1040,6 +1104,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     spa.cancel(id);
     chill.cancel(id);
     court.cancel(id);
+    jobs.cancel(id);
     crew.cancel(id);
     mealVisits.delete(id);
     swimVisits.delete(id);
@@ -1077,6 +1142,17 @@ export function createWorld(container, initialGame, callbacks = {}) {
       return false;
     n.manualAnchor = null;
     n.manualUntil = performance.now() + 90000;
+    if (jobBusiness(decision.activityId))
+      return !!jobs.visit(
+        id,
+        decision.activityId,
+        {
+          x: n.carrier.position.x - JOB_CITY_CENTER[0],
+          y: n.carrier.position.y,
+          z: n.carrier.position.z - JOB_CITY_CENTER[1],
+        },
+        decision,
+      );
     if (courtObject(decision.activityId)) {
       const biome = courtObject(decision.activityId).biome;
       const local = courtLocal(n.carrier.position, biome),
@@ -1401,19 +1477,21 @@ export function createWorld(container, initialGame, callbacks = {}) {
       )
         continue;
       if (
-        courtObject(o.id) &&
+        (courtObject(o.id) || jobBusiness(o.id)) &&
         built &&
         !courtModels.has(o.id) &&
         !existing?.userData.built
       ) {
         if (!courtPreparing.has(o.id)) {
           const task = prepareSceneSteps(
-            courtVenueSteps(courtObject(o.id), {
-              staff: !courtObject(o.id).nautical,
-            }),
+            jobBusiness(o.id)
+              ? jobBuildingSteps(o.id)
+              : courtVenueSteps(courtObject(o.id), {
+                  staff: !courtObject(o.id).nautical,
+                }),
             {
               scheduler: scenePreparation,
-              priority: "foodcourt",
+              priority: jobBusiness(o.id) ? "jobcity" : "foodcourt",
             },
           );
           courtPreparing.set(o.id, task);
@@ -1443,7 +1521,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
         itemGroups.delete(o.id);
       }
       let g;
-      if (courtObject(o.id)) {
+      if (jobBusiness(o.id)) {
+        g = courtModels.get(o.id);
+        courtModels.delete(o.id);
+      } else if (courtObject(o.id)) {
         g = built
           ? courtModels.get(o.id)
           : courtBlueprint(courtObject(o.id), courtProject(game, o.id));
@@ -1670,7 +1751,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (g?.userData.built)
         decorateBusiness(g, p.item, businessLevel(game, p.id));
     }
-    if (operation?.decision.activityId && !operation.spa && !operation.court) {
+    if (
+      operation?.decision.activityId &&
+      !operation.spa &&
+      !operation.court &&
+      !operation.jobCity
+    ) {
       operation.attraction = itemGroups.get(operation.decision.activityId);
       operation.destination
         .copy(operation.attraction.position)
@@ -1820,6 +1906,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
     const b = byBiome(id) || byBiome("moon");
     if (!overview) focused = b.id;
     viewingOverview = overview;
+    if (!overview && camera.far !== 1200) {
+      camera.far = 1200;
+      camera.updateProjectionMatrix();
+    }
     overviewElevation = null;
     const enchanted =
       !!RENEWED_ISLANDS[b.id] || b.legendary || b.id === "sakura";
@@ -1873,12 +1963,25 @@ export function createWorld(container, initialGame, callbacks = {}) {
             Math.min(1, camera.aspect)),
       );
     if (overview) {
+      const bounds = new THREE.Box3();
+      for (const island of BIOMES) {
+        const r = (island.radius || 12) + 2;
+        bounds.expandByPoint(
+          new THREE.Vector3(island.center[0] - r, 0, island.center[1] - r),
+        );
+        bounds.expandByPoint(
+          new THREE.Vector3(island.center[0] + r, 0, island.center[1] + r),
+        );
+      }
+      bounds.getCenter(desiredLook);
+      camera.far = 4000;
+      camera.updateProjectionMatrix();
       const view = camera.clone();
-      for (let fit = 150; fit <= 600; fit += 5) {
+      for (let fit = 150; fit <= 2400; fit += 5) {
         view.position.set(
-          Math.sin(azimuth) * Math.cos(elevation) * fit,
+          desiredLook.x + Math.sin(azimuth) * Math.cos(elevation) * fit,
           Math.sin(elevation) * fit,
-          Math.cos(azimuth) * Math.cos(elevation) * fit,
+          desiredLook.z + Math.cos(azimuth) * Math.cos(elevation) * fit,
         );
         view.lookAt(desiredLook);
         view.updateMatrixWorld();
@@ -2029,6 +2132,38 @@ export function createWorld(container, initialGame, callbacks = {}) {
     }
     switchMood(decision.mood);
     choiceExpression(decision);
+    if (jobBusiness(decision.activityId)) {
+      focus("jobcity", false, true);
+      return new Promise((resolve) => {
+        const visit = jobs.visit(
+          "chichi",
+          decision.activityId,
+          {
+            x: chichiCarrier.position.x - JOB_CITY_CENTER[0],
+            y: chichiCarrier.position.y,
+            z: chichiCarrier.position.z - JOB_CITY_CENTER[1],
+          },
+          decision,
+        );
+        if (!visit) {
+          resolve({ cancelled: true });
+          return;
+        }
+        operation = {
+          jobCity: true,
+          decision,
+          stage: "jobcity",
+          resolve,
+          attraction: itemGroups.get(decision.activityId),
+          from: chichiCarrier.position.clone(),
+          destination: new THREE.Vector3(
+            JOB_CITY_CENTER[0] + jobBusiness(decision.activityId).x,
+            0.32,
+            JOB_CITY_CENTER[1] + jobBusiness(decision.activityId).z + 11.7,
+          ),
+        };
+      });
+    }
     if (
       decision.activityId &&
       !itemGroups.get(decision.activityId)?.userData.slideWater
@@ -2826,6 +2961,24 @@ export function createWorld(container, initialGame, callbacks = {}) {
       return;
     }
     pointer(e);
+    if (cityDriveChoice) {
+      const point = new THREE.Vector3();
+      if (!raycaster.ray.intersectPlane(ground, point)) return;
+      const local = {
+        x: point.x - JOB_CITY_CENTER[0],
+        z: point.z - JOB_CITY_CENTER[1],
+      };
+      if (!cityPoint(local, 2)) {
+        callbacks.onReaction?.("Виберіть дорогу на острові Cat Job City");
+        return;
+      }
+      const road = nearestRoad(local),
+        choice = cityDriveChoice;
+      cityDriveChoice = null;
+      drivePrompt.hidden = true;
+      callbacks.onCityDrive?.(choice.id, choice.car, road);
+      return;
+    }
     const hits = raycaster.intersectObjects(
       [
         ...[...itemGroups.values()].filter(
@@ -2858,6 +3011,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }
       if (root?.userData.placementId === "chichi-food")
         callbacks.onSelectBowl?.();
+      else if (root?.userData.jobBusiness)
+        callbacks.onSelectJobCity?.(root.userData.placementId);
       else if (root?.userData.bikiniFriend)
         callbacks.onSelectBikiniFriend?.(root.userData.placementId);
       else if (root?.userData.foodcourt)
@@ -2923,6 +3078,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }
       if (placement.userData.placementId === "chichi-food")
         callbacks.onSelectBowl?.();
+      else if (placement.userData.jobBusiness)
+        callbacks.onSelectJobCity?.(placement.userData.placementId);
       else if (placement.userData.bikiniFriend)
         callbacks.onSelectBikiniFriend?.(placement.userData.placementId);
       else if (placement.userData.foodcourt)
@@ -2985,7 +3142,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       desiredDistance = THREE.MathUtils.clamp(
         desiredDistance + e.deltaY * 0.025,
         courtCamera ? 10 : 21,
-        600,
+        viewingOverview ? 2400 : 600,
       );
     },
     { passive: false },
@@ -3004,7 +3161,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           desiredDistance = THREE.MathUtils.clamp(
             desiredDistance + (pinchDistance - d) * 0.1,
             courtCamera ? 10 : 21,
-            600,
+            viewingOverview ? 2400 : 600,
           );
         pinchDistance = d;
       }
@@ -3134,7 +3291,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
       const island = islands.get(b.id),
         close =
           distance < Math.max(110, (b.radius || 12) * 7) &&
-          Math.hypot(b.center[0] - look.x, b.center[1] - look.z) < 39;
+          Math.hypot(b.center[0] - look.x, b.center[1] - look.z) <
+            (b.id === "jobcity" ? b.radius + 10 : 39);
       island.userData.detail.visible = close && !island.userData.lowOnly;
       island.userData.lowDetail.visible = !close || !!island.userData.lowOnly;
       if (close) ensureDetail(b.id);
@@ -3144,6 +3302,66 @@ export function createWorld(container, initialGame, callbacks = {}) {
             (distance < 75 || !!aquariumTank(courtCamera?.id)),
         );
       if (!dialogOpen) island.userData.update?.(time, reduced);
+    }
+    if (!dialogOpen && game.jobCity && game.unlocked.includes("jobcity")) {
+      const actors = [
+        {
+          id: "chichi",
+          index: -1,
+          biome:
+            Math.hypot(
+              chichiCarrier.position.x - JOB_CITY_CENTER[0],
+              chichiCarrier.position.z - JOB_CITY_CENTER[1],
+            ) < 67
+              ? "jobcity"
+              : "",
+          local: {
+            x: chichiCarrier.position.x - JOB_CITY_CENTER[0],
+            y: chichiCarrier.position.y,
+            z: chichiCarrier.position.z - JOB_CITY_CENTER[1],
+          },
+        },
+        ...[...npcs].map(([id, n]) => ({
+          id,
+          index: n.index,
+          biome: n.profile.biome,
+          local: {
+            x: n.carrier.position.x - JOB_CITY_CENTER[0],
+            y: n.carrier.position.y,
+            z: n.carrier.position.z - JOB_CITY_CENTER[1],
+          },
+        })),
+      ];
+      jobs.step(game, actors, dt, time, {
+        blocked: (actor) => {
+          const id = actor.id,
+            n = npcs.get(id),
+            p = game.jobCity?.profiles[id],
+            manualJob = jobs.get(id)?.manual;
+          return (
+            !p ||
+            (Date.now() < (p.manualUntil || 0) && !p.trip && !manualJob) ||
+            draggingCat?.catId === id ||
+            now < gatherUntil ||
+            (id === "chichi"
+              ? (!!operation && !operation.jobCity) ||
+                !!heroGather ||
+                game.care?.resting ||
+                crew.workers.has(id)
+              : !!residentPlay.get(id) ||
+                !!residentPlay.friendVisit(id) ||
+                operation?.decision.friendId === id ||
+                operation?.partyIds?.has(id) ||
+                spa.get(id) ||
+                chill.get(id) ||
+                court.get(id) ||
+                crew.workers.has(id) ||
+                mealVisits.has(id) ||
+                swimVisits.has(id) ||
+                (now < (n?.manualUntil || 0) && !manualJob))
+          );
+        },
+      });
     }
     const spaBarGroup = itemGroups.get("spa-bar");
     if (spaBarGroup) {
@@ -3401,6 +3619,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
             chill.get(id) ||
             court.get(id) ||
             crew.workers.has(id) ||
+            jobs.has(id) ||
             mealVisits.has(id) ||
             swimVisits.has(id) ||
             now < (n.manualUntil || 0) ||
@@ -3412,8 +3631,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
           performResident(id, decision, { autonomous: true }),
       });
     for (const [id, n] of npcs) {
-      const b = byBiome(n.profile.biome),
+      const jobFrame = jobs.has(id)
+        ? jobCatFrame(jobs.get(id), time, reduced)
+        : null;
+      const b = byBiome(jobFrame ? "jobcity" : n.profile.biome),
         needs = game.care?.residents[id];
+      updateCityCar(id, jobFrame, time);
       let x = n.carrier.position.x,
         z = n.carrier.position.z,
         npcWalking = false,
@@ -3562,6 +3785,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       const chillVisit = chill.get(id);
       const spaVisit = spa.get(id);
       const canBuild =
+        !jobFrame &&
         !busyWithChichi &&
         !draggingThis &&
         !dialogOpen &&
@@ -3591,6 +3815,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         b.id !== "sakura" &&
         !["foodcourt", "bikini", "aquarium"].includes(b.id) &&
         !builderFrame &&
+        !jobFrame &&
         !busyWithChichi &&
         now >= gatherUntil &&
         !draggingThis &&
@@ -3655,6 +3880,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         !["foodcourt", "bikini", "aquarium"].includes(b.id) &&
         now > (n.manualUntil || 0) &&
         !builderFrame &&
+        !jobFrame &&
         !busyWithChichi &&
         now >= gatherUntil &&
         !draggingThis &&
@@ -3739,6 +3965,13 @@ export function createWorld(container, initialGame, callbacks = {}) {
         direct = true;
         npcWalking = builderFrame.walking;
         npcReaction = reduced ? null : builderFrame.reaction;
+      } else if (jobFrame) {
+        applyJobFrame(jobFrame, n.carrier);
+        x = n.carrier.position.x;
+        z = n.carrier.position.z;
+        direct = true;
+        npcWalking = jobFrame.walking;
+        npcReaction = jobFrame.reaction;
       } else if (courtVisit) {
         applyCourtFrame(courtVisit, n.carrier, n.model);
         x = n.carrier.position.x;
@@ -4068,6 +4301,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     const heroCanBuild =
       !operation &&
       !heroGather &&
+      !jobs.has("chichi") &&
       !draggingCat &&
       !dialogOpen &&
       !game.care?.resting &&
@@ -4113,7 +4347,22 @@ export function createWorld(container, initialGame, callbacks = {}) {
     }
     if (operation) {
       const op = operation;
-      if (op.stage === "court") {
+      if (op.stage === "jobcity") {
+        const v = jobs.get("chichi");
+        if (v) {
+          const f = jobCatFrame(v, time, reduced);
+          applyJobFrame(f, chichiCarrier);
+          walking = f.walking;
+          reaction = f.reaction;
+        }
+        if (op.jobFinished || !v) {
+          operation = null;
+          op.resolve({
+            completed: !!op.jobFinished,
+            cancelled: !op.jobFinished,
+          });
+        }
+      } else if (op.stage === "court") {
         const v = court.get("chichi");
         if (v) {
           applyCourtFrame(v, chichiCarrier, cat);
@@ -4553,6 +4802,21 @@ export function createWorld(container, initialGame, callbacks = {}) {
         }
       }
     }
+    const heroJobFrame = jobs.has("chichi")
+      ? jobCatFrame(jobs.get("chichi"), time, reduced)
+      : null;
+    updateCityCar("chichi", heroJobFrame, time);
+    if (
+      heroJobFrame &&
+      !operation &&
+      !heroGather &&
+      !draggingCat &&
+      !heroBuild
+    ) {
+      applyJobFrame(heroJobFrame, chichiCarrier);
+      walking = heroJobFrame.walking;
+      reaction = heroJobFrame.reaction;
+    }
     if (!dialogOpen) {
       animateCat(
         cat,
@@ -4756,12 +5020,16 @@ export function createWorld(container, initialGame, callbacks = {}) {
       attractionFrustum,
       sun.shadow.getFrustum(),
     );
+    const cityOccluded = cityViewOccluders(courtCamera?.id, {
+      x: camera.position.x - JOB_CITY_CENTER[0],
+      y: camera.position.y,
+      z: camera.position.z - JOB_CITY_CENTER[1],
+    });
     for (const g of itemGroups.values()) {
       if (!attractionViews.has(g)) continue;
-      const visible = attractionViews.get(g)(
-        attractionFrustum,
-        sun.shadow.getFrustum(),
-      );
+      const visible =
+        !cityOccluded.has(g.userData.placementId) &&
+        attractionViews.get(g)(attractionFrustum, sun.shadow.getFrustum());
       if (
         visible &&
         !g.visible &&
@@ -4770,6 +5038,18 @@ export function createWorld(container, initialGame, callbacks = {}) {
       )
         animateAttraction(g, time);
       g.visible = visible;
+    }
+    if (cityOccluded.size) {
+      for (const [id, n] of npcs) {
+        const state = jobs.get(id),
+          business = jobBusiness(state?.job || state?.visitor);
+        if (business && cityOccluded.has(business.id))
+          n.carrier.visible = false;
+      }
+      const hero = jobs.get("chichi"),
+        business = jobBusiness(hero?.job || hero?.visitor);
+      if (business && cityOccluded.has(business.id))
+        chichiCarrier.visible = false;
     }
     scene.fog.density = distance > 90 ? 0.0007 : 0.0035;
     updateOcclusion(now, dt);
@@ -4797,6 +5077,17 @@ export function createWorld(container, initialGame, callbacks = {}) {
   }
   return {
     perform,
+    followCat,
+    inspectJobBusiness: inspectAttraction,
+    chooseCityDrive(id, car) {
+      if (!game.jobCity?.profiles[id]?.inventory[car]) return false;
+      focus("jobcity");
+      islandOverview();
+      cityDriveChoice = { id, car };
+      drivePrompt.textContent = "🚗 Натисніть дорогу для поїздки · скасувати";
+      drivePrompt.hidden = false;
+      return true;
+    },
     enterCourt,
     exitCourt,
     performResident,
@@ -4815,7 +5106,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
         z: position.z - b.center[1],
         y: 0.16,
       };
-      if (["foodcourt", "bikini", "aquarium"].includes(biome))
+      if (biome === "jobcity") p = nearestCityGround(p, spaRadius(n.model));
+      else if (["foodcourt", "bikini", "aquarium"].includes(biome))
         p = nearestCourtGround(
           p,
           spaRadius(n.model),
@@ -4864,7 +5156,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         : (desiredDistance = THREE.MathUtils.clamp(
             desiredDistance + delta,
             courtCamera ? 10 : 21,
-            600,
+            viewingOverview ? 2400 : 600,
           )),
     beginBuild,
     updateBuild: (mode) => {
@@ -4905,6 +5197,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
     },
     dispose() {
       disposed = true;
+      jobs.clear();
+      drivePrompt.remove();
+      for (const car of cityCars.values()) car.removeFromParent();
+      cityCars.clear();
       slideAudio.dispose();
       exitCourt(false);
       cinema.dispose();

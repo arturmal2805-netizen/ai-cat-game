@@ -55,6 +55,99 @@ const guarded = (path) =>
 
 function merge(base, current, incoming, path = "", depth = 0) {
   if (depth > 40) throw new SharedConflict("Сохранение слишком сложное.");
+  if (path === "jobCity") {
+    if (!incoming) return clone(current);
+    if (!current) return clone(incoming);
+    if (!base) {
+      const result = clone(current);
+      for (const [id, p] of Object.entries(incoming.profiles || {}))
+        if (!result.profiles[id]) result.profiles[id] = clone(p);
+      return result;
+    }
+    const result = clone(current);
+    for (const [id, p] of Object.entries(incoming.profiles || {})) {
+      const old = base.profiles?.[id],
+        actual = current.profiles?.[id];
+      if (equal(old, p) || equal(actual, p)) continue;
+      if (!old || !actual) {
+        result.profiles[id] = clone(p);
+        continue;
+      }
+      // Private payments/purchases are atomic, but arriving at a desk on the
+      // simulator must not reject a purchase made by the other phone.
+      const groups = [
+        [
+          "coins",
+          "earnedTotal",
+          "spentTotal",
+          "purchaseCount",
+          "inventory",
+          "transactions",
+          "lastPaidDay",
+          "shifts",
+        ],
+        [
+          "profession",
+          "professionChanges",
+          "professionSinceDay",
+          "professionReason",
+          "professionSource",
+          "career",
+        ],
+        ["trip", "parkedAt", "parkedCar"],
+      ];
+      for (const keys of groups) {
+        const incomingChanged = keys.some((k) => changed(old[k], p[k])),
+          currentChanged = keys.some((k) => changed(old[k], actual[k]));
+        if (
+          incomingChanged &&
+          currentChanged &&
+          !keys.every((k) => equal(p[k], actual[k]))
+        )
+          throw new SharedConflict(
+            "Гаманець або професію цього котика вже змінили на іншому пристрої. Повторіть дію після синхронізації.",
+          );
+      }
+      const profile = clone(actual);
+      for (const key of Object.keys(p))
+        if (changed(old[key], p[key])) {
+          if (key === "manualUntil")
+            profile[key] = Math.max(actual[key] || 0, p[key] || 0);
+          else if (key === "attendance") {
+            if (p[key] && profile.lastPaidDay >= p[key].day) continue;
+            if (
+              actual[key] &&
+              p[key] &&
+              changed(old[key], actual[key]) &&
+              actual[key].at > p[key].at
+            )
+              continue;
+            profile[key] = clone(p[key]);
+          } else profile[key] = clone(p[key]);
+        }
+      // An unrelated arrival update cannot resurrect attendance after wages.
+      if (profile.attendance && profile.lastPaidDay >= profile.attendance.day)
+        profile.attendance = null;
+      result.profiles[id] = profile;
+    }
+    if (!equal(base.plan, incoming.plan)) {
+      if (
+        !current.plan ||
+        incoming.plan?.day > current.plan.day ||
+        equal(base.plan, current.plan)
+      )
+        result.plan = clone(incoming.plan);
+      else if (!equal(current.plan, incoming.plan))
+        throw new SharedConflict(
+          "План котиків уже збережений на іншому пристрої.",
+        );
+    }
+    result.requestedDay = Math.max(
+      current.requestedDay ?? -1,
+      incoming.requestedDay ?? -1,
+    );
+    return result;
+  }
   if (path === "builderBoosts") {
     const added = normalizeBuilderBoosts(incoming).filter(
       (e) => !(base || []).some((b) => b.id === e.id),
@@ -231,6 +324,13 @@ function merge(base, current, incoming, path = "", depth = 0) {
 
 export function mergeSharedWorld(base, current, incoming) {
   if (!base || !current) return clone(incoming);
+  // Older cached clients cannot know the appended city or its private wallets.
+  if (
+    current.jobCity &&
+    base.unlocked?.includes("jobcity") &&
+    !incoming.unlocked.includes("jobcity")
+  )
+    incoming = { ...incoming, unlocked: [...incoming.unlocked, "jobcity"] };
   // XP is an earned delta. Recalculate shared daily caps and level rewards once,
   // so two purchases cannot award the same level-up coins twice.
   const b = clone(base),
@@ -242,12 +342,15 @@ export function mergeSharedWorld(base, current, incoming) {
     (game.inventory[item] || 0) +
     game.placements.filter((p) => p.item === item).length;
   for (const p of b.placements) {
-    const expanded = BUILDING_EXPANSIONS[p.biome], newSlide = !!byItem(p.item)?.referenceSlide;
-    if ((!expanded && !newSlide) || n.placements.some((v) => v.id === p.id)) continue;
+    const expanded = BUILDING_EXPANSIONS[p.biome],
+      newSlide = !!byItem(p.item)?.referenceSlide;
+    if ((!expanded && !newSlide) || n.placements.some((v) => v.id === p.id))
+      continue;
     const [w, d] = footprint(p.item, p.rotation);
     if (
-      (!newSlide && Math.hypot(Math.abs(p.x) + w / 2, Math.abs(p.z) + d / 2) <=
-        expanded.originalRadius - 0.7) ||
+      (!newSlide &&
+        Math.hypot(Math.abs(p.x) + w / 2, Math.abs(p.z) + d / 2) <=
+          expanded.originalRadius - 0.7) ||
       owned(n, p.item) >= owned(b, p.item)
     )
       continue;
@@ -265,14 +368,17 @@ export function mergeSharedWorld(base, current, incoming) {
   // ownership, so only an unexplained loss is restored here.
   for (const [item, count] of Object.entries(b.inventory)) {
     if (!byItem(item)?.referenceSlide) continue;
-    const missing = owned(b,item)-owned(n,item);
+    const missing = owned(b, item) - owned(n, item);
     if (missing <= 0) continue;
     n.inventory[item] = (n.inventory[item] || 0) + missing;
     n.builtInventory ||= {};
-    n.builtInventory[item] = Math.min(n.inventory[item],Math.max(n.builtInventory[item]||0,b.builtInventory?.[item]||0));
-    const old = (b.relocatedPurchases||[]).filter(p=>p.item===item);
+    n.builtInventory[item] = Math.min(
+      n.inventory[item],
+      Math.max(n.builtInventory[item] || 0, b.builtInventory?.[item] || 0),
+    );
+    const old = (b.relocatedPurchases || []).filter((p) => p.item === item);
     n.relocatedPurchases ||= [];
-    const retained=n.relocatedPurchases.filter(p=>p.item===item).length;
+    const retained = n.relocatedPurchases.filter((p) => p.item === item).length;
     n.relocatedPurchases.push(...clone(old.slice(retained)));
   }
   if (n.diamonds === undefined) n.diamonds = b.diamonds || 0;
@@ -284,11 +390,13 @@ export function mergeSharedWorld(base, current, incoming) {
   if (b.business?.levels) {
     n.business.levels ||= {};
     for (const [id, level] of Object.entries(b.business.levels)) {
-      const retained = id.startsWith("court-")
-        ? n.unlocked.includes("foodcourt")
-        : id === "spa-bar"
-          ? n.unlocked.includes("water")
-          : n.placements.some((p) => p.id === id);
+      const retained = id.startsWith("job-")
+        ? n.unlocked.includes("jobcity")
+        : id.startsWith("court-")
+          ? n.unlocked.includes("foodcourt")
+          : id === "spa-bar"
+            ? n.unlocked.includes("water")
+            : n.placements.some((p) => p.id === id);
       if (retained && !(n.business.levels[id] >= level))
         n.business.levels[id] = level;
     }

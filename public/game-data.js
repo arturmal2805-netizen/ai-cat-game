@@ -1,4 +1,12 @@
 import {
+  JOB_CITY_ID,
+  JOB_CITY_RADIUS,
+  JOB_CITY_CENTER,
+  JOB_BUSINESSES,
+  JOB_CITY_LOCALS,
+  jobReservations,
+} from "./jobcity-data.js";
+import {
   AQUARIUM_RADIUS,
   AQUARIUM_GATE,
   AQUARIUM_TANKS,
@@ -632,6 +640,7 @@ export const ACTIONS = [
   "swim",
 ];
 export function biomeReservations(id) {
+  if (id === JOB_CITY_ID) return jobReservations();
   if (id === "aquarium")
     return [
       { x: 0, z: 0, w: AQUARIUM_BUILDING.w + 1, d: AQUARIUM_BUILDING.d + 1 },
@@ -2223,3 +2232,37 @@ for (const [id, spec] of Object.entries(BUILDING_EXPANSIONS)) {
     buildableAreaMultiplier: spec.areaMultiplier,
   });
 }
+
+// Independent new destination; existing records and their resolved centres stay byte-for-byte unchanged.
+BIOMES.push({
+  id: JOB_CITY_ID,
+  name: "Cat Job City",
+  subtitle: "Місто професій, власних монеток та котячих машин",
+  icon: "🏙️",
+  price: 6500,
+  requiredLevel: 8,
+  radius: JOB_CITY_RADIUS,
+  center: [...JOB_CITY_CENTER],
+  arrival: [0, 59],
+  ground: 0xb9c994,
+  edge: 0x95978d,
+  foliage: 0x82ac6e,
+  accent: 0xe9c38a,
+});
+CATALOG.push(
+  ...JOB_BUSINESSES.map((b) => ({
+    id: b.id,
+    name: b.name,
+    description: b.description,
+    category: "business",
+    icon: b.icon,
+    price: 0,
+    buildMinutes: 0,
+    requiredLevel: 8,
+    islandOnly: true,
+    rarity: "Cat Job City",
+    footprint: [b.w, b.d],
+    actions: ["explore"],
+  })),
+);
+NEIGHBORS.push(...JOB_CITY_LOCALS);

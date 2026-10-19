@@ -19,7 +19,7 @@ test("every habitat has finite detailed scenery and an explicit, separate distan
     assert.equal(root.userData.lowDetail.visible, false);
     assert.ok(
       root.userData.stats.staticMeshes <=
-        (biome.id === "aquarium"
+        (["aquarium", "jobcity"].includes(biome.id)
           ? 12
           : ["sakura", "autumn"].includes(biome.id)
             ? 10

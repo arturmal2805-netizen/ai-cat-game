@@ -59,7 +59,12 @@ test("exactly 25 independent reference cards map the 5 by 5 grid and preserve ev
   assert.equal(REFERENCE_SLIDES.length, 25);
   assert.equal(new Set(REFERENCE_SLIDES.map((s) => s.id)).size, 25);
   assert.equal(
-    hash({ CATALOG: CATALOG.filter((s) => !s.referenceSlide), BIOMES }),
+    hash({
+      CATALOG: CATALOG.filter(
+        (s) => !s.referenceSlide && !s.id.startsWith("job-"),
+      ),
+      BIOMES: BIOMES.filter((b) => b.id !== "jobcity"),
+    }),
     "b1d6afc10f501d355cf44fab856d0de84d03e73a9ad520f2098ba2cf11848869",
   );
   for (const [i, s] of REFERENCE_SLIDES.entries()) {
