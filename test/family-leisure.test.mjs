@@ -357,3 +357,90 @@ test("storing a ride while its native visit is cancelled releases the reservatio
   for (const id of ids)
     assert.equal(g.jobCity.profiles[id].leisureProgress.done, 1);
 });
+
+test("all 147 cats get a first leisure turn before repeat outings, with six concurrent reservations and varied daily priority", () => {
+  let g = itinerary(seed());
+  for (const p of Object.values(g.jobCity.profiles)) {
+    p.schedule = {
+      day: 13,
+      job: "rest",
+      evening: "walk",
+      outings: ["bikini-krusty", "spa-lounge", "spa-jacuzzi"],
+    };
+    p.leisureProgress = { day: 13, done: 0 };
+  }
+  const people = Object.values(g.jobCity.profiles).map((p, i) => ({
+    id: p.id,
+    radius: 0.55,
+    position: { x: i * 2, y: 0.16, z: 0 },
+  }));
+  const r = createLeisureRuntime(),
+    offers = new Map(leisureOffers(g).map((o) => [o.id, o])),
+    finished = new Set();
+  let max = 0;
+  for (let i = 0; i < 15000 && finished.size < people.length; i++) {
+    r.step(g, people, 0.05, i * 0.05, {
+      clock: evening,
+      offers,
+      start: () => true,
+    });
+    max = Math.max(max, r.visits.size);
+    for (const [id, v] of [...r.visits])
+      if (v.phase === "activity") {
+        assert.equal(
+          v.index,
+          0,
+          "No repeats while another cat has not had a first turn",
+        );
+        r.finish(id);
+        g = completeLeisure(g, id, v.day, v.index, v.offer.biome);
+        finished.add(id);
+      }
+  }
+  assert.equal(finished.size, 147);
+  assert.ok(max <= 6);
+  const first = [];
+  for (let day = 14; day < 20; day++) {
+    const n = structuredClone(g);
+    for (const p of Object.values(n.jobCity.profiles)) {
+      p.schedule.day = day;
+      p.leisureProgress = { day, done: 0 };
+    }
+    const runtime = createLeisureRuntime();
+    runtime.step(n, people, 0.05, 0, { clock: { ...evening, day }, offers });
+    first.push([...runtime.visits.keys()].sort().join(","));
+  }
+  assert.ok(
+    new Set(first).size >= 5,
+    "Daily priority should not always favour the same roster entries",
+  );
+});
+
+test("a couple waits for two free reservations instead of overflowing a six-cat leisure budget", () => {
+  const g = itinerary(seed()),
+    r = createLeisureRuntime(),
+    people = Object.values(g.jobCity.profiles).map((p) => ({
+      id: p.id,
+      radius: 0.55,
+      position: { x: 0, y: 0.16, z: 0 },
+    })),
+    offer = leisureOffers(g).find((o) => o.id === "bikini-krusty");
+  const occupied = people.filter((p) => !ids.includes(p.id)).slice(0, 5);
+  for (const p of occupied)
+    r.visits.set(p.id, {
+      catId: p.id,
+      day: 13,
+      index: 0,
+      phase: "activity",
+      offer,
+    });
+  const options = { clock: evening, offers: new Map([[offer.id, offer]]) };
+  r.step(g, people, 0.05, 0, options);
+  assert.equal(r.visits.size, 5);
+  assert.equal(r.has("chichi"), false);
+  r.finish(occupied[0].id);
+  r.step(g, people, 0.05, 2, options);
+  assert.equal(r.visits.size, 6);
+  assert.ok(r.has("chichi"));
+  assert.ok(r.has("adopt-nimbus"));
+});

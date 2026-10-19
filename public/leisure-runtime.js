@@ -7,7 +7,16 @@ const free = (p, clock) =>
   (!clock.working || p.schedule?.job === "rest");
 export function createLeisureRuntime() {
   const visits = new Map();
-  let next = 0;
+  let next = 0,
+    orderDay = -1;
+  const ranks = new Map();
+  const rank = (id, day) => {
+    let n =
+      [...id].reduce((h, c) => Math.imul(h, 31) + c.charCodeAt(0), 17) ^
+      Math.imul(day + 1, 0x9e3779b1);
+    n = Math.imul(n ^ (n >>> 16), 0x85ebca6b);
+    return (n ^ (n >>> 13)) >>> 0;
+  };
   const done = (p, day) =>
     p?.leisureProgress?.day === day ? p.leisureProgress.done : 0;
   function cancel(id) {
@@ -104,7 +113,20 @@ export function createLeisureRuntime() {
       next = time + 1.4;
       const partners = familyPartners(game),
         checked = new Set();
-      for (const a of actors) {
+      if (orderDay !== clock.day) {
+        ranks.clear();
+        orderDay = clock.day;
+      }
+      for (const a of actors)
+        if (!ranks.has(a.id)) ranks.set(a.id, rank(a.id, clock.day));
+      // First outings take priority over repeat visits. A stable daily shuffle
+      // gives later roster entries their turn without more active simulations.
+      const ordered = [...actors].sort(
+        (a, b) =>
+          done(profiles[a.id], clock.day) - done(profiles[b.id], clock.day) ||
+          ranks.get(a.id) - ranks.get(b.id),
+      );
+      for (const a of ordered) {
         if (
           checked.has(a.id) ||
           visits.has(a.id) ||
@@ -146,7 +168,7 @@ export function createLeisureRuntime() {
         const pending = members.filter(
           (id) => done(profiles[id], clock.day) <= index,
         );
-        if (!pending.length) continue;
+        if (!pending.length || visits.size + pending.length > 6) continue;
         for (const [slot, id] of pending.entries()) {
           const actor = people.get(id),
             to = destination(offer, actor, slot, members);
