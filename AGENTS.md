@@ -94,3 +94,6 @@ duplicating or resurrecting a building removed on the other device.
   completion on the UI thread, lower DPR, or skip visual details to relieve a
   busy frame queue. Preserve native Chichi skinning and zero-weight semantics;
   verify `CHICHI_NATIVE_SKIN_CHECK=1 node scripts/check-cat-render-batch.mjs`.
+- Camera gestures must not initialize picking bounds by skinning every vertex
+  of every cat. Use conservative current-joint bounds before exact raycasts;
+  preserve hit positions/faces and test actual articulated mesh vertices.
