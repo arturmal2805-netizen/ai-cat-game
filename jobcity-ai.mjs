@@ -101,6 +101,27 @@ export async function requestCityPlan(state, run, timeout = 100000) {
         .replace(/^```(?:json)?\s*/, "")
         .replace(/\s*```$/, ""),
     );
+  // Keep the complete real roster if the model appends a phantom extra row.
+  // Missing or duplicate real cats still fail strict expansion/validation.
+  if (
+    Array.isArray(raw?.assignments) &&
+    raw.assignments.length > state.cats.length &&
+    raw.assignments.length <= state.cats.length + 16
+  ) {
+    const ids = new Set(state.cats.map((p) => p.id));
+    const key = (row) =>
+      Array.isArray(row)
+        ? Number.isSafeInteger(row[0]) && state.cats[row[0]]?.id
+        : ids.has(row?.id)
+          ? row.id
+          : null;
+    const actual = raw.assignments.filter((row) => key(row));
+    if (
+      actual.length === state.cats.length &&
+      new Set(actual.map(key)).size === state.cats.length
+    )
+      raw = { ...raw, assignments: actual };
+  }
   const expanded = expandCityPlan(raw, state);
   const valid = validateJobAssignments(
     limitCityWorkplaces(expanded, state),
@@ -115,13 +136,24 @@ export async function requestCityPlan(state, run, timeout = 100000) {
     if (a.outings?.some((id) => !state.leisureOffers.some((o) => o.id === id)))
       throw Error("AI chose an unavailable outing");
   }
-  const families = state.familyReview?.due
-    ? validateFamilyProposals(
-        expanded.families || [],
-        state.cats,
-        state.familyReview.slots,
-      )
-    : [];
+  const families = [];
+  if (state.familyReview?.due) {
+    for (const pair of expanded.families || []) {
+      if (families.length >= state.familyReview.slots) break;
+      try {
+        const [valid] = validateFamilyProposals([pair], state.cats, 1);
+        if (
+          !families.some(
+            (p) => p.male === valid.male || p.female === valid.female,
+          )
+        )
+          families.push(valid);
+      } catch {
+        // An ineligible/repeated suggestion cannot change a permanent partner
+        // or invalidate everyone else's valid career and leisure choices.
+      }
+    }
+  }
   return {
     day: state.day,
     assignments: valid,
@@ -161,11 +193,11 @@ export function cityPlanInput(state) {
       {
         role: "system",
         content: `Plan ONE fictional cat day. Output ONLY compact JSON {"assignments":[[catIndex,job,profession,evening,house,roommate,reason,outings],...],"families":[[maleIndex,femaleIndex,"short Ukrainian reason"],...]}.
-Include ALL ${state.cats.length} cat indices exactly once, including resting cats. Job/profession indices: ${JOB_KINDS.map((k, i) => i + "=" + k).join(", ")}. Job -1 means off work; profession must be 0..5. At most ${JOB_CAPACITY} workers per job: the rest keep their profession and take a day off. Rotate seats fairly: oldest lastPaidDay first; avoid permanently unemployed cats. Work 12:00-19:00.
+Include ALL ${state.cats.length} cat indices from 0 through ${state.cats.length - 1} exactly once, including resting cats. ${state.cats.length} is NOT a cat index. Job/profession indices: ${JOB_KINDS.map((k, i) => i + "=" + k).join(", ")}. Job -1 means off work; profession must be 0..5. At most ${JOB_CAPACITY} workers per job: the rest keep their profession and take a day off. Rotate seats fairly: oldest lastPaidDay first; avoid permanently unemployed cats. Work 12:00-19:00.
 Profession is permanent, NOT a daily random job. Keep existing profession unless changeAllowed=1; at most 3 lifetime changes. If profession=-1 choose a first career using personality, skills and preferences. Give a short Ukrainian reason only for changing an established profession; omit reason for an initial or unchanged career.
 Evening: 0=rest/home,1=walk/visit friends,2=drive. Choose 2 ONLY if hasCar=1. Give cats varied free-time choices. Outings is an array of 1-3 DIFFERENT place indices for free time; [] if resting. All offered places are real and available, across all islands. Choose varied food cafes, Krusty Krab, lemonade, art, swimming, rides and rest by personality. Partners share their outings outside work; retain their separate careers. No invented indices. reason is "" for initial/unchanged careers.
 House: -1=no purchase, otherwise its index in houses. Buy only if affordable from that cat's coins; prioritize a first home when saving permits, occasionally another home (no ownership limit). Roommate: -1=none or another catIndex with hasActiveHome=0. An owner keeps their existing active home on another purchase.
-Families: ${state.familyReview?.due ? `this is the rare 14-game-day review; choose up to ${state.familyReview.slots} new mutual lifelong couples, male + female, both partner=-1. Pick compatible personalities, not everyone. Keep every existing partner forever. Total coupled cats is limited to one quarter of the population.` : "NO review today: output families:[]; never form or change a pair."}
+Families: ${state.familyReview?.due ? `this is the rare 14-game-day review; choose up to ${state.familyReview.slots} new mutual lifelong couples, male + female, both partner=-1. Pick compatible personalities, not everyone. Choose the male index ONLY from familyCandidates.males and female ONLY from familyCandidates.females; these lists exclude taken cats. Do NOT repeat existing pairs. Keep every existing partner forever. Total coupled cats is limited to one quarter of the population.` : "NO review today: output families:[]; never form or change a pair."}
 Input cat columns: [index,name,personality,coins,profession,changeAllowed,careerChanges,skillsByJob,preferredJobs,lastPaidDay,recentWorkedDays,hasCar,ownedHomes,hasActiveHome,wishes,sex(0male/1female),partnerIndex(-1none)]. House columns: [index,id,name,price]. Place columns: [index,typeIndex,islandIndex,action]; types and islands give their names. Keep every row compact: numbers, no repeated names or keys. One batch for the whole day, no follow-up requests.`,
       },
       {
@@ -174,6 +206,18 @@ Input cat columns: [index,name,personality,coins,profession,changeAllowed,career
           day: state.day,
           houses: houses.map((h, i) => [i, h.id, h.name, h.price]),
           cats,
+          ...(state.familyReview?.due
+            ? {
+                familyCandidates: {
+                  males: state.cats.flatMap((p, i) =>
+                    !p.partner && p.sex === "male" ? [i] : [],
+                  ),
+                  females: state.cats.flatMap((p, i) =>
+                    !p.partner && p.sex === "female" ? [i] : [],
+                  ),
+                },
+              }
+            : {}),
           types: types.map((t, i) => [
             i,
             places.find((p) => p.type === t).name,
@@ -278,9 +322,11 @@ export function limitCityWorkplaces(raw, state) {
       throw Error("Invalid work choice");
     const p = profiles.get(a.id),
       profession =
-        a.profession ??
-        p?.profession ??
-        (a.job === "rest" ? p?.preferences[0] : a.job);
+        p?.profession && !p.canChangeProfession
+          ? p.profession
+          : (a.profession ??
+            p?.profession ??
+            (a.job === "rest" ? p?.preferences[0] : a.job));
     // A model can write a different job number beside its chosen profession.
     // Treat that as a request for a shift in that profession, then reserve real
     // seats below. Never change an AI-selected lifelong profession to fit a seat.

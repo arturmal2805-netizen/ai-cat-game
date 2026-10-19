@@ -444,3 +444,88 @@ test("a couple waits for two free reservations instead of overflowing a six-cat 
   assert.ok(r.has("chichi"));
   assert.ok(r.has("adopt-nimbus"));
 });
+
+test("an invalid AI career suggestion cannot reset a permanent profession or discard a valid new family and leisure plan", async () => {
+  const { requestCityPlan, validateCityAIState, cityPlanInput } = await import(
+    "../jobcity-ai.mjs"
+  );
+  const { jobAIState } = await import("../public/jobcity-system.js");
+  let g = itinerary(seed());
+  const state = validateCityAIState(jobAIState(g, now + 27 * 1440000));
+  for (const p of state.cats) p.canChangeProfession = false;
+  const free = state.cats.filter((p) => !p.partner),
+    male = free.find((p) => p.sex === "male"),
+    female = free.find((p) => p.sex === "female");
+  const wrong = localJobPlan(Object.values(g.jobCity.profiles), 27).map(
+    (a, i) => ({
+      ...a,
+      profession: ["bank", "crypto", "factory", "furniture", "estate", "cars"][
+        (i + 2) % 6
+      ],
+      outings: ["bikini-krusty"],
+    }),
+  );
+  const result = await requestCityPlan(state, async () => ({
+    response: {
+      assignments: wrong,
+      families: [
+        { male: "adopt-nimbus", female: "chichi" },
+        { male: male.id, female: female.id, reason: "Люблять гуляти разом" },
+      ],
+    },
+  }));
+  assert.equal(result.assignments.length, 147);
+  for (const a of result.assignments) {
+    assert.equal(
+      a.profession,
+      state.cats.find((p) => p.id === a.id).profession,
+    );
+    assert.deepEqual(a.outings, ["bikini-krusty"]);
+  }
+  assert.equal(result.families.length, 1);
+  assert.equal(result.families[0].male, male.id);
+  const input = JSON.parse(cityPlanInput(state).messages[1].content);
+  for (const index of input.familyCandidates.males) {
+    assert.equal(state.cats[index].sex, "male");
+    assert.equal(state.cats[index].partner, null);
+  }
+  for (const index of input.familyCandidates.females) {
+    assert.equal(state.cats[index].sex, "female");
+    assert.equal(state.cats[index].partner, null);
+  }
+});
+
+test("a phantom extra AI row is ignored only when all real cats have exactly one complete decision", async () => {
+  const { requestCityPlan, validateCityAIState } = await import(
+    "../jobcity-ai.mjs"
+  );
+  const { jobAIState } = await import("../public/jobcity-system.js");
+  const { JOB_KINDS } = await import("../public/jobcity-data.js");
+  const g = seed(),
+    state = validateCityAIState(jobAIState(g, now + 13 * 1440000));
+  const rows = localJobPlan(Object.values(g.jobCity.profiles), 13).map((a) => [
+    state.cats.findIndex((p) => p.id === a.id),
+    a.job === "rest" ? -1 : JOB_KINDS.indexOf(a.job),
+    JOB_KINDS.indexOf(a.profession),
+    0,
+    -1,
+    -1,
+    "",
+    [],
+  ]);
+  const phantom = [147, 0, 0, 0, -1, -1, "", []];
+  const result = await requestCityPlan(state, async () => ({
+    response: { assignments: [...rows, phantom], families: [] },
+  }));
+  assert.equal(result.assignments.length, 147);
+  await assert.rejects(
+    requestCityPlan(state, async () => ({
+      response: { assignments: [...rows.slice(1), phantom] },
+    })),
+  );
+  await assert.rejects(
+    requestCityPlan(state, async () => ({
+      response: { assignments: [...rows, rows[0], phantom] },
+    })),
+  );
+});
