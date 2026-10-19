@@ -315,7 +315,7 @@ let cityPlanning = false;
 async function requestDailyCareers(day) {
   cityPlanning = true;
   const controller = new AbortController(),
-    timer = setTimeout(() => controller.abort(), 25000);
+    timer = setTimeout(() => controller.abort(), 75000);
   try {
     const response = await fetch(api("/api/jobcity/plan"), {
       method: "POST",

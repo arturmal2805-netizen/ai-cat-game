@@ -4,7 +4,7 @@ import {
   HOUSING_SECTION_PITCH,
   housingPlot,
 } from "./housing-data.js";
-import { createHousingRuntime } from "./housing-runtime.js";
+import { createHousingRuntime, homeRestTime } from "./housing-runtime.js";
 import { cityClock } from "./jobcity-system.js";
 import { jobBusiness, JOB_CITY_CENTER } from "./jobcity-data.js";
 import { jobBuildingSteps, cityCar, animateCityCar } from "./jobcity-assets.js";
@@ -3408,10 +3408,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
             manualJob = jobs.get(id)?.manual;
           return (
             !p ||
-            (game.housing?.residences[id] &&
-              !cityClock(game.jobCity).working &&
-              !p.trip &&
-              !manualJob) ||
+            (homeRestTime(game, id) && !p.trip && !manualJob) ||
             (Date.now() < (p.manualUntil || 0) && !p.trip && !manualJob) ||
             draggingCat?.catId === id ||
             now < gatherUntil ||
@@ -3453,6 +3450,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         },
       }));
       housingLife.step(game, actors, dt, time, {
+        eligible: (actor) => homeRestTime(game, actor.id),
         night: !cityClock(game.jobCity).working,
         blocked: (a) => {
           const id = a.id,

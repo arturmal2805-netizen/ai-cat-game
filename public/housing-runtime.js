@@ -1,3 +1,4 @@
+import { cityClock } from "./jobcity-system.js";
 import { createChillRuntime } from "./chill-runtime.js";
 import { chillSeats, CHILL_WATER_Y } from "./chill-data.js";
 import { spaPath, spaClear } from "./spa-navigation.js";
@@ -8,6 +9,17 @@ import {
   housingObjects,
 } from "./housing-data.js";
 
+// A walk or drive is an evening choice, not an order to go straight to bed.
+// Quiet cats can return at 19:00; other residents have free time until 22:00.
+export function homeRestTime(game, id, now = Date.now()) {
+  if (!game.housing?.residences[id] || !game.jobCity) return false;
+  const clock = cityClock(game.jobCity, now),
+    p = game.jobCity.profiles[id];
+  if (clock.working) return false;
+  if (clock.minute >= 19 * 60 && clock.minute < 22 * 60)
+    return p?.schedule?.evening === "rest";
+  return true;
+}
 export function createHousingRuntime({ reduced = false } = {}) {
   let homes = [],
     state = null,
@@ -91,7 +103,13 @@ export function createHousingRuntime({ reduced = false } = {}) {
     sync,
     walkable,
     object: (id) => objects.get(id),
-    step(game, actors, dt, time, { night, blocked = () => false } = {}) {
+    step(
+      game,
+      actors,
+      dt,
+      time,
+      { night, eligible = () => true, blocked = () => false } = {},
+    ) {
       sync(game);
       for (const actor of actors) {
         const id = state?.residences[actor.id],
@@ -99,6 +117,7 @@ export function createHousingRuntime({ reduced = false } = {}) {
           visit = runtime.get(actor.id);
         if (
           !night ||
+          !eligible(actor) ||
           !h ||
           blocked(actor) ||
           (visit && visit.objectId !== id + "-bed")

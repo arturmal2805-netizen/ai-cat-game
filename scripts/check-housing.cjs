@@ -437,7 +437,7 @@ async function verifyHousingStorage(local, headers, seed, example) {
     await page.evaluate((id) => {
       const s = window.__housingSave,
         g = structuredClone(s.getGame());
-      g.jobCity.epoch = Date.now() - 430000;
+      g.jobCity.epoch = Date.now() - 610000;
       g.jobCity.profiles.chichi.name = "Чічі Квіточка";
       s.commit(g);
       s.world.showCatHome(id);

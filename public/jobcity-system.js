@@ -270,8 +270,10 @@ export function localJobPlan(profiles, day) {
   return [...profiles]
     .sort(
       (a, b) =>
+        (a.lastPaidDay ?? -1) - (b.lastPaidDay ?? -1) ||
         Number(b.id.startsWith("jobcat-")) -
-          Number(a.id.startsWith("jobcat-")) || a.id.localeCompare(b.id),
+          Number(a.id.startsWith("jobcat-")) ||
+        a.id.localeCompare(b.id),
     )
     .map((p) => {
       const work = p.id.startsWith("jobcat-") || hash(p.id + day) % 5 !== 0;
@@ -621,6 +623,8 @@ export function jobAIState(game, now = Date.now()) {
       canChangeProfession: careerReviewAllowed(p, clock.day),
       professionReason: p.professionReason,
       previous: p.shifts.at(-1)?.job || null,
+      lastPaidDay: p.lastPaidDay,
+      recentWorkedDays: p.shifts.map((s) => s.day),
       hasCar: Object.keys(p.inventory).some(jobCar),
     })),
   };

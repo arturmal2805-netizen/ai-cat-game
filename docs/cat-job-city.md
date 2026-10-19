@@ -21,7 +21,13 @@ The elected shared-world simulator makes one batch POST to
 reload. The Worker uses the existing `AI` binding, validates IDs, capacities,
 professions and car ownership, and bounds inference time. No Cloudflare secret
 is sent to the client. Failed, missing or malformed AI responses leave a complete
-local plan in place. Manual commands and dragging take priority over work.
+local plan in place. Manual commands and dragging take priority over work. The internal model request
+uses numbered rows rather than repeating every profile key: the real 147-cat
+roster fits the fast model's 24,000-token context in one request. The public
+API still returns validated objects with stable cat IDs. Initial/long-idle cats
+receive available shifts in their AI-selected profession; overbooked requests
+reserve only the six actual seats, prioritizing the oldest paid shift. Career
+choice stays with AI, while seat and schedule rules stay in the game.
 
 Workers have individually reserved seats on all three floors; visitors use
 separate seats across the desks. Ground paths avoid the six footprints; authored
@@ -78,3 +84,15 @@ cat anatomy, fish, old scenery, water, shadows and mobile DPR are retained.
   and mobile layout. Review images and counts are written under the system temp
   directory. No production account is used. Software-renderer timings are not
   physical-device FPS claims.
+
+## Full life-cycle regression
+
+`test/cat-life-cycle.test.mjs` covers all 147 available cats over 120 simulated
+game days, actual attendance/payment functions, different earned totals and
+private balances, automatic houses, desired cars and reloads. Captured responses
+from the real 147-cat Cloudflare AI request cover both first career selection
+and established careers. A homeowner choosing a walk or drive has evening free
+time until 22:00; quiet cats can go home at 19:00. Everyone with an active home
+can return after 22:00, and work starts again at 12:00. Manual play and trips
+retain priority. The planner's bounded timeout accommodates the full roster
+without freezing the immediate local provisional plan or issuing extra calls.
