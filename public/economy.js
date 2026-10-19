@@ -1,3 +1,9 @@
+import {
+  normalizeHousing,
+  housingSnapshotValid,
+  reconcileHousingProfiles,
+} from "./housing-system.js";
+import { HOUSING_ID } from "./housing-data.js";
 import { normalizeJobCity, ensureJobCity } from "./jobcity-system.js";
 import {
   normalizeBuilderBoosts,
@@ -86,6 +92,7 @@ export function newGame(now = Date.now()) {
     unlocked: ["moon"],
     islandConstruction: {},
     jobCity: null,
+    housing: null,
     inventory: {},
     builtInventory: {},
     farm: {
@@ -328,6 +335,10 @@ export function loadGame(storage, now = Date.now(), { advance = true } = {}) {
     }
 
     game.jobCity = normalizeJobCity(saved.jobCity, game, now);
+    game.housing = normalizeHousing(saved.housing, game.jobCity?.profiles);
+    reconcileHousingProfiles(game);
+    if (game.housing && !game.unlocked.includes(HOUSING_ID))
+      game.unlocked.push(HOUSING_ID);
     game.progression = normalizeProgression(saved.progression, game);
     restoreScenery(game, saved.scenery);
     game.care = normalizeCare(saved.care, game, now);
@@ -353,13 +364,15 @@ export function readSavedState(storage) {
         Array.isArray(saved.placements) &&
         Array.isArray(saved.unlocked) &&
         saved.cat &&
-        typeof saved.cat === "object"
+        typeof saved.cat === "object" &&
+        housingSnapshotValid(saved.housing)
       )
         return saved;
     } catch {}
   return null;
 }
 export function saveGame(storage, game) {
+  if (!housingSnapshotValid(game.housing)) return false;
   let previous, rollback;
   try {
     const encoded = JSON.stringify(game),
@@ -479,6 +492,12 @@ export function canPlace(
   ignoreId = null,
   { allowLocked = false, ignoreTerrain = false } = {},
 ) {
+  if (biome === HOUSING_ID)
+    return {
+      ok: false,
+      reason:
+        "Будинки котиків купуються в розділі «Нерухомість». Ділянки додаються автоматично.",
+    };
   if (
     !(byItem(item) || byScenery(item)) ||
     !byBiome(biome) ||

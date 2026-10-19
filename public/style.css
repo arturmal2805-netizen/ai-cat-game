@@ -2922,6 +2922,17 @@ label {
   max-height: 330px;
   overflow: auto;
 }
+.housing-item {
+  align-items: flex-start;
+  flex-direction: column;
+}
+.housing-item select,
+.jobcity-products select {
+  max-width: 100%;
+}
+.jobcity-products .jobcity-item {
+  flex-wrap: wrap;
+}
 .jobcity-history {
   margin: 6px 0;
   font-size: 0.9rem;

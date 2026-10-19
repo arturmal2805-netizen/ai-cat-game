@@ -1,5 +1,13 @@
 import { RENEWED_ISLANDS } from "./renewal-data.js";
 export const BIOME_STYLES = {
+  "cat-homes": {
+    ground: 0xa7bd8a,
+    leaf: 0x83a56e,
+    flower: 0xf2bbcf,
+    roof: 0x71966e,
+    kind: "oak",
+    hero: "housing",
+  },
   jobcity: {
     ground: 0xb9c994,
     leaf: 0x82ac6e,

@@ -1,6 +1,8 @@
+import { housingSnapshotValid } from "./public/housing-system.js";
+import { chunkedSaveStorage } from "./chunked-save-store.mjs";
 import { mergeSharedWorld, SharedConflict } from "./shared-world.mjs";
 import { BIOMES } from "./public/game-data.js";
-export const SAVE_LIMIT = 800000;
+export const SAVE_LIMIT = 8 * 1024 * 1024;
 export const EDITOR_LEASE_MS = 25000;
 const sessionValid = (value) => /^[a-zA-Z0-9-]{8,64}$/.test(value || "");
 const json = (data, status = 200) =>
@@ -55,6 +57,7 @@ export async function readSaveBody(request) {
         value.sequence < 1)) ||
     (value.sessionId !== undefined && !sessionValid(value.sessionId)) ||
     !value.game ||
+    !housingSnapshotValid(value.game.housing) ||
     value.game.version !== 2 ||
     !Number.isSafeInteger(value.game.coins) ||
     value.game.coins < 0 ||
@@ -75,7 +78,7 @@ export async function readSaveBody(request) {
 // Transactions refuse an older device overwriting a newer saved revision.
 export class SaveVault {
   constructor(state) {
-    this.storage = state.storage;
+    this.storage = chunkedSaveStorage(state.storage);
   }
   async fetch(request) {
     if (

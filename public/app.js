@@ -1,3 +1,8 @@
+import {
+  buyCatHome,
+  setActiveHome,
+  setHomeRoommate,
+} from "./housing-system.js";
 import { createJobCityUI } from "./jobcity-ui.js";
 import {
   ensureJobCity,
@@ -280,6 +285,18 @@ const cityUI = createJobCityUI({
     );
     toast("Покупка у власному інвентарі котика");
   },
+  buyHome: (id, type, roommate) => {
+    const p = game.jobCity.profiles[id];
+    commit(
+      buyCatHome(game, id, type, "buy-" + id + "-" + (p.purchaseCount + 1), {
+        roommate,
+      }),
+    );
+    toast("Будинок уже на житловому острові · покупку збережено");
+  },
+  viewHome: (id) => world?.showCatHome(id),
+  liveHome: (id, home) => commit(setActiveHome(game, id, home)),
+  roommate: (id, cat) => commit(setHomeRoommate(game, id, cat)),
   drive: (id, car) => {
     world?.chooseCityDrive(id, car);
   },
@@ -314,7 +331,7 @@ async function requestDailyCareers(day) {
       !cloud.simulationOwner
     )
       return;
-    commit(applyJobPlan(game, result.assignments, day, "ai"), false);
+    commit(applyJobPlan(game, result.assignments, day, "ai"));
   } catch {
     if (
       game.jobCity?.plan?.day === day &&

@@ -1,3 +1,4 @@
+import { housingBiomeSteps } from "./housing-biome.js";
 import { jobCityBiomeSteps } from "./jobcity-biome.js";
 import { aquariumBiomeSteps } from "./aquarium-biome.js";
 import { bikiniBiomeSteps } from "./bikini-biome.js";
@@ -174,6 +175,8 @@ export function* biomeSceneSteps(
   { preview = false, placements = [], scenery = null, lowOnly = false } = {},
 ) {
   yield;
+  if (biome.id === "cat-homes")
+    return yield* housingBiomeSteps(biome, { lowOnly });
   if (biome.id === "jobcity")
     return yield* jobCityBiomeSteps(biome, {
       preview,

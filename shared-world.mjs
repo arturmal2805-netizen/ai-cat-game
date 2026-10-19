@@ -1,3 +1,4 @@
+import { mergeHousing } from "./public/housing-system.js";
 import {
   normalizeBuilderBoosts,
   resolveConstructionBoosts,
@@ -55,6 +56,13 @@ const guarded = (path) =>
 
 function merge(base, current, incoming, path = "", depth = 0) {
   if (depth > 40) throw new SharedConflict("Сохранение слишком сложное.");
+  if (path === "housing") {
+    try {
+      return mergeHousing(base, current, incoming);
+    } catch (e) {
+      throw new SharedConflict(e.message);
+    }
+  }
   if (path === "jobCity") {
     if (!incoming) return clone(current);
     if (!current) return clone(incoming);
@@ -111,7 +119,9 @@ function merge(base, current, incoming, path = "", depth = 0) {
       const profile = clone(actual);
       for (const key of Object.keys(p))
         if (changed(old[key], p[key])) {
-          if (key === "manualUntil")
+          if (key === "lastHousingAIDay")
+            profile[key] = Math.max(actual[key] ?? -1, p[key] ?? -1);
+          else if (key === "manualUntil")
             profile[key] = Math.max(actual[key] || 0, p[key] || 0);
           else if (key === "attendance") {
             if (p[key] && profile.lastPaidDay >= p[key].day) continue;
@@ -213,7 +223,10 @@ function merge(base, current, incoming, path = "", depth = 0) {
   ) {
     if (["unlocked", "progression.discoveries"].includes(path)) {
       const added = incoming.filter((x) => !base.includes(x));
-      if (path === "unlocked" && added.some((x) => current.includes(x)))
+      if (
+        path === "unlocked" &&
+        added.some((x) => x !== "cat-homes" && current.includes(x))
+      )
         throw new SharedConflict(
           "Это открытие уже сделано на другом телефоне.",
         );
@@ -331,6 +344,8 @@ export function mergeSharedWorld(base, current, incoming) {
     !incoming.unlocked.includes("jobcity")
   )
     incoming = { ...incoming, unlocked: [...incoming.unlocked, "jobcity"] };
+  if (current.housing && !incoming.unlocked.includes("cat-homes"))
+    incoming = { ...incoming, unlocked: [...incoming.unlocked, "cat-homes"] };
   // XP is an earned delta. Recalculate shared daily caps and level rewards once,
   // so two purchases cannot award the same level-up coins twice.
   const b = clone(base),

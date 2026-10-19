@@ -11,6 +11,13 @@ import {
   jobCar,
   JOB_CARS,
 } from "./jobcity-data.js";
+import {
+  applyHousingDecisions,
+  buyCatHome,
+  housingAIProfile,
+  housingOffers,
+} from "./housing-system.js";
+import { houseType, HOUSE_TYPES } from "./housing-data.js";
 import { activeCats } from "./cat-roster.js";
 import { CATALOG, byItem } from "./game-data.js";
 const clone = (v) => structuredClone(v);
@@ -50,6 +57,7 @@ export function newJobProfile(cat) {
     name: cat.name,
     coins: 0,
     purchaseCount: 0,
+    lastHousingAIDay: -1,
     lastEveningDay: -1,
     lastWishDay: -1,
     manualUntil: 0,
@@ -100,7 +108,12 @@ export function normalizeJobCity(raw, game, now = Date.now()) {
       r = raw.profiles?.[cat.id];
     if (r) {
       p.coins = safe(r.coins);
-      p.purchaseCount = safe(r.purchaseCount);
+      p.purchaseCount = safe(r.purchaseCount, Number.MAX_SAFE_INTEGER);
+      p.lastHousingAIDay = Number.isSafeInteger(r.lastHousingAIDay)
+        ? r.lastHousingAIDay
+        : -1;
+      if (typeof r.name === "string" && r.name.trim())
+        p.name = r.name.trim().slice(0, 60);
       p.manualUntil = Number.isFinite(r.manualUntil) ? r.manualUntil : 0;
       p.lastEveningDay = Number.isSafeInteger(r.lastEveningDay)
         ? r.lastEveningDay
@@ -115,8 +128,8 @@ export function normalizeJobCity(raw, game, now = Date.now()) {
         p.parkedAt = { x: r.parkedAt.x, z: r.parkedAt.z };
       p.parkedCar =
         jobCar(r.parkedCar) && r.inventory?.[r.parkedCar] ? r.parkedCar : null;
-      p.earnedTotal = safe(r.earnedTotal);
-      p.spentTotal = safe(r.spentTotal);
+      p.earnedTotal = safe(r.earnedTotal, Number.MAX_SAFE_INTEGER);
+      p.spentTotal = safe(r.spentTotal, Number.MAX_SAFE_INTEGER);
       p.profession = JOB_KINDS.includes(r.profession) ? r.profession : null;
       p.professionChanges = safe(r.professionChanges, 3);
       p.professionSinceDay = Number.isSafeInteger(r.professionSinceDay)
@@ -326,7 +339,24 @@ export function validateJobAssignments(raw, profiles) {
       (a.job !== "rest" && a.job !== profession)
     )
       throw Error("Робота не відповідає професії");
-    return { id: a.id, job: a.job, evening: a.evening, profession, reason };
+    let house = null;
+    if (a.house) {
+      if (
+        !houseType(a.house.type) ||
+        (a.house.roommate != null &&
+          (!ids.has(a.house.roommate) || a.house.roommate === a.id))
+      )
+        throw Error("Некоректна покупка будинку");
+      house = { type: a.house.type, roommate: a.house.roommate || null };
+    }
+    return {
+      id: a.id,
+      job: a.job,
+      evening: a.evening,
+      profession,
+      reason,
+      ...(house ? { house } : {}),
+    };
   });
 }
 export function applyJobPlan(game, assignments, day, source = "local") {
@@ -370,7 +400,7 @@ export function applyJobPlan(game, assignments, day, source = "local") {
       p.professionSource = source;
     p.schedule = { day, job: a.job, evening: a.evening };
   }
-  return next;
+  return source === "ai" ? applyHousingDecisions(next, day, valid) : next;
 }
 function transaction(p, t) {
   if (p.transactions.some((x) => x.id === t.id)) return false;
@@ -472,6 +502,7 @@ export function recordJobAttendance(game, id, job, active, now = Date.now()) {
 export function catProducts(game) {
   return [
     ...JOB_CARS.map((c) => ({ ...c, category: "cars" })),
+    ...HOUSE_TYPES,
     ...CATALOG.filter(
       (p) =>
         !p.islandOnly &&
@@ -489,6 +520,8 @@ export function catProducts(game) {
   ];
 }
 export function buyCatProduct(game, id, productId, receipt, now = Date.now()) {
+  if (houseType(productId))
+    return buyCatHome(game, id, productId, receipt, {}, now);
   const p = game.jobCity?.profiles[id],
     product = catProducts(game).find((x) => x.id === productId);
   if (
@@ -573,10 +606,12 @@ export function jobAIState(game, now = Date.now()) {
   const clock = cityClock(game.jobCity, now);
   return {
     day: clock.day,
+    housingOffers: housingOffers(),
     cats: Object.values(game.jobCity.profiles).map((p) => ({
       id: p.id,
       name: p.name,
       coins: p.coins,
+      ...housingAIProfile(game, p.id),
       personality: p.personality,
       skills: p.skills,
       preferences: p.preferences,

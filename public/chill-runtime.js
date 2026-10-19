@@ -14,6 +14,11 @@ export function createChillRuntime({
   getObstacles = () => [],
   onComplete = () => {},
   reduced = false,
+  getObject = chillObject,
+  getSeats = chillSeats,
+  getEntrance = chillEntrance,
+  findPath = chillPath,
+  nearestGround = nearestChillGround,
 } = {}) {
   const visits = new Map(),
     locks = new Map();
@@ -25,7 +30,7 @@ export function createChillRuntime({
     if (locks.get(v.objectId) === id) locks.delete(v.objectId);
   }
   function interior(v) {
-    const o = chillObject(v.objectId),
+    const o = getObject(v.objectId),
       s = v.seat,
       e = v.entrance;
     if (o.kind === "bed")
@@ -53,11 +58,11 @@ export function createChillRuntime({
     radius = 0.55,
     now = Date.now(),
   }) {
-    const o = chillObject(objectId);
+    const o = getObject(objectId);
     if (!o) return null;
     cancel(catId);
     const obstacles = getObstacles(),
-      seats = chillSeats(o),
+      seats = getSeats(o),
       seatIndex = seats.findIndex(
         (s) =>
           spaClear(s, radius, obstacles) &&
@@ -70,13 +75,10 @@ export function createChillRuntime({
         ...v.position,
         radius: v.radius + 0.15,
       })),
-      origin = nearestChillGround(position, radius, [
-        ...obstacles,
-        ...occupied,
-      ]),
-      entrance = chillEntrance(o, seatIndex);
+      origin = nearestGround(position, radius, [...obstacles, ...occupied]),
+      entrance = getEntrance(o, seatIndex);
     if (!origin) return null;
-    const path = chillPath(origin, entrance, radius, obstacles);
+    const path = findPath(origin, entrance, radius, obstacles);
     if (!path?.length) return null;
     const v = {
       id: `chill-${now.toString(36)}-${++serial}-${Math.random().toString(36).slice(2, 8)}`,
@@ -135,7 +137,7 @@ export function createChillRuntime({
           const avoid = agents
               .filter((a) => a !== v && !a.walking)
               .map((a) => ({ ...a.position, radius: a.radius + 0.15 })),
-            path = chillPath(v.position, v.entrance, v.radius, [
+            path = findPath(v.position, v.entrance, v.radius, [
               ...getObstacles(),
               ...avoid,
             ]);

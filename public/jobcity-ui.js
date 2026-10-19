@@ -1,3 +1,5 @@
+import { ownedHomes, availableRoommates } from "./housing-system.js";
+import { houseType } from "./housing-data.js";
 import {
   JOB_BUSINESSES,
   JOB_CARS,
@@ -18,6 +20,10 @@ export function createJobCityUI({
   drive,
   view,
   follow,
+  buyHome,
+  viewHome,
+  liveHome,
+  roommate: updateRoommate,
   onError = () => {},
 }) {
   const dialog = document.createElement("dialog");
@@ -44,7 +50,8 @@ export function createJobCityUI({
   let selected = "chichi",
     business = null,
     productCategory = "cars",
-    lastKey = "";
+    lastKey = "",
+    propertyLimit = 20;
   selects.onchange = () => {
     selected = selects.value;
     render();
@@ -86,11 +93,13 @@ export function createJobCityUI({
         }),
       );
     }
+    for (const option of selects.options)
+      option.textContent = state.profiles[option.value]?.name || option.value;
     selects.value = selected;
     const p = state.profiles[selected],
       c = cityClock(state);
     clock.textContent = `День ${c.day + 1} · ${c.label} · робочі години 12:00–19:00 · план: ${state.plan?.source === "ai" ? "Cloudflare AI" : state.plan?.source === "pending" ? "місцевий, AI обирає" : "місцевий"}`;
-    const key = JSON.stringify([selected, p, state.plan?.source]);
+    const key = JSON.stringify([selected, p, state.plan?.source, game.housing]);
     if (key === lastKey) return;
     lastKey = key;
     body.replaceChildren();
@@ -160,12 +169,85 @@ export function createJobCityUI({
     if (!inventory.children.length)
       inventory.append(text("p", "Перші покупки ще попереду."));
     body.append(inventory);
+    body.append(text("h3", "Нерухомість"));
+    const homes = ownedHomes(game, p.id);
+    body.append(
+      text(
+        "p",
+        `${homes.length} власних будинків · нова покупка не змінює активний дім`,
+      ),
+    );
+    for (const home of homes.slice(0, propertyLimit)) {
+      const row = document.createElement("div");
+      row.className = "jobcity-item housing-item";
+      const active = game.housing.residences[p.id] === home.id;
+      row.append(
+        action(
+          `${houseType(home.type).name} · №${home.plot + 1}${active ? " · 💤 Ваш дім" : ""}`,
+          () => {
+            dialog.close();
+            viewHome(home.id);
+          },
+        ),
+      );
+      row.append(
+        text(
+          "p",
+          `Співмешканець: ${state.profiles[home.roommate]?.name || "вільне місце"} · ${money(home.price)} 🐾 · ${home.source === "ai" ? "обрав AI" : "ручна покупка"}`,
+        ),
+      );
+      if (!active)
+        row.append(action("Оселитися тут", () => liveHome(p.id, home.id)));
+      const cohabit = document.createElement("select");
+      cohabit.setAttribute(
+        "aria-label",
+        "Співмешканець будинку " + (home.plot + 1),
+      );
+      const empty = text("option", "Вільне місце");
+      empty.value = "";
+      cohabit.append(empty);
+      for (const cat of Object.values(state.profiles).filter(
+        (c) =>
+          c.id === home.roommate ||
+          availableRoommates(game, p.id).some((f) => f.id === c.id),
+      )) {
+        const o = text("option", cat.name);
+        o.value = cat.id;
+        cohabit.append(o);
+      }
+      cohabit.value = home.roommate || "";
+      cohabit.onchange = () => {
+        try {
+          updateRoommate(home.id, cohabit.value || null);
+          render();
+        } catch (e) {
+          onError(e.message);
+        }
+      };
+      row.append(cohabit);
+      body.append(row);
+    }
+    if (homes.length > propertyLimit)
+      body.append(
+        action("Показати ще будинки", () => {
+          propertyLimit += 20;
+          lastKey = "";
+        }),
+      );
+    if (!homes.length)
+      body.append(
+        text(
+          "p",
+          "AI може сам обрати будинок у щоденному плані. Можна також купити його нижче за власні монетки котика.",
+        ),
+      );
     body.append(text("h3", "Покупки за монетки цього котика"));
     const products = document.createElement("div");
     products.className = "jobcity-products";
     const filter = document.createElement("select");
     filter.setAttribute("aria-label", "Категорія покупки");
     for (const [v, n] of [
+      ["property", "Будинки"],
       ["cars", "Машинки"],
       ["comfort", "Меблі"],
       ["toys", "Іграшки"],
@@ -185,6 +267,24 @@ export function createJobCityUI({
       )) {
         const row = document.createElement("div");
         row.className = "jobcity-item";
+        let roomChoice = null;
+        if (houseType(product.id)) {
+          roomChoice = document.createElement("select");
+          roomChoice.setAttribute(
+            "aria-label",
+            "Співмешканець для нового будинку",
+          );
+          const none = text("option", "Підібрати співмешканця");
+          none.value = "";
+          roomChoice.append(none);
+          for (const cat of availableRoommates(game, p.id)) {
+            const o = text("option", cat.name);
+            o.value = cat.id;
+            roomChoice.append(o);
+          }
+          if (roomChoice.options.length > 1) roomChoice.selectedIndex = 1;
+          row.append(roomChoice);
+        }
         row.append(
           text(
             "span",
@@ -192,7 +292,10 @@ export function createJobCityUI({
           ),
           action(
             "Купити",
-            () => buy(p.id, product.id),
+            () =>
+              houseType(product.id)
+                ? buyHome(p.id, product.id, roomChoice.value || null)
+                : buy(p.id, product.id),
             p.coins < product.price,
           ),
         );

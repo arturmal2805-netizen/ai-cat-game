@@ -1,3 +1,4 @@
+import { HOUSING_ID, HOUSING_RADIUS, HOUSING_CENTER } from "./housing-data.js";
 import {
   JOB_CITY_ID,
   JOB_CITY_RADIUS,
@@ -2266,3 +2267,22 @@ CATALOG.push(
   })),
 );
 NEIGHBORS.push(...JOB_CITY_LOCALS);
+
+// Permanent residential destination. Expansions are sections of this one realm,
+// not extra catalogue islands or ordinary (sixty-item-limited) placements.
+BIOMES.push({
+  id: HOUSING_ID,
+  name: "Котячі оселі",
+  subtitle: "Власні будиночки котиків · нові квартали з кожною покупкою",
+  icon: "🏡",
+  price: 0,
+  requiredLevel: 8,
+  radius: HOUSING_RADIUS,
+  center: [...HOUSING_CENTER],
+  arrival: [0, 37],
+  ground: 0xa7bd8a,
+  edge: 0x9e9b92,
+  foliage: 0x83a56e,
+  accent: 0xe8b5c5,
+  housingOnly: true,
+});

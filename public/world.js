@@ -1,3 +1,11 @@
+import {
+  HOUSING_ID,
+  HOUSING_CENTER,
+  HOUSING_SECTION_PITCH,
+  housingPlot,
+} from "./housing-data.js";
+import { createHousingRuntime } from "./housing-runtime.js";
+import { cityClock } from "./jobcity-system.js";
 import { jobBusiness, JOB_CITY_CENTER } from "./jobcity-data.js";
 import { jobBuildingSteps, cityCar, animateCityCar } from "./jobcity-assets.js";
 import { createJobCityRuntime, jobCatFrame } from "./jobcity-runtime.js";
@@ -387,6 +395,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     sceneKey = "",
     focused = "moon",
     viewingOverview = false,
+    overviewDistanceLimit = 2400,
     buildMode = null,
     preview = null,
     operation = null,
@@ -508,6 +517,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }
     },
   });
+  const housingLife = createHousingRuntime({ reduced });
   const jobs = createJobCityRuntime({
     onVisitDone: (id, decision) => {
       if (id === "chichi" && operation?.jobCity) operation.jobFinished = true;
@@ -869,7 +879,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     const placements = game.placements.filter((p) => p.biome === biome.id),
       scenery = game.scenery?.filter((r) => r.biome === biome.id);
     const g = createBiomeScene(biome, {
-      lowOnly: biome.id !== "moon",
+      lowOnly: biome.id !== "moon" && biome.id !== HOUSING_ID,
       placements,
       scenery,
     });
@@ -1238,6 +1248,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
   }
   function sync(next) {
     game = next;
+    islands.get(HOUSING_ID)?.userData.syncHousing?.(game);
+    housingLife.sync(game);
     incomeSecond = -1;
     const venues = new Set(businessVenues(game).map((p) => p.id));
     for (const [id, button] of incomeButtons)
@@ -1964,7 +1976,17 @@ export function createWorld(container, initialGame, callbacks = {}) {
       );
     if (overview) {
       const bounds = new THREE.Box3();
-      for (const island of BIOMES) {
+      const targets = [...BIOMES];
+      const sections = islands.get(HOUSING_ID)?.userData.sections.size || 1;
+      if (sections > 1)
+        targets.push({
+          center: [
+            HOUSING_CENTER[0] - (sections - 1) * HOUSING_SECTION_PITCH,
+            HOUSING_CENTER[1],
+          ],
+          radius: byBiome(HOUSING_ID).radius,
+        });
+      for (const island of targets) {
         const r = (island.radius || 12) + 2;
         bounds.expandByPoint(
           new THREE.Vector3(island.center[0] - r, 0, island.center[1] - r),
@@ -1974,10 +1996,16 @@ export function createWorld(container, initialGame, callbacks = {}) {
         );
       }
       bounds.getCenter(desiredLook);
-      camera.far = 4000;
+      overviewDistanceLimit = Math.max(
+        2400,
+        (bounds.getSize(new THREE.Vector3()).length() * 2) /
+          Math.min(1, camera.aspect),
+      );
+      camera.far = Math.max(4000, overviewDistanceLimit * 2);
       camera.updateProjectionMatrix();
       const view = camera.clone();
-      for (let fit = 150; fit <= 2400; fit += 5) {
+      const fitStep = Math.max(5, overviewDistanceLimit / 1000);
+      for (let fit = 150; fit <= overviewDistanceLimit; fit += fitStep) {
         view.position.set(
           desiredLook.x + Math.sin(azimuth) * Math.cos(elevation) * fit,
           Math.sin(elevation) * fit,
@@ -1987,7 +2015,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         view.updateMatrixWorld();
         desiredDistance = fit;
         if (
-          BIOMES.every((island) =>
+          targets.every((island) =>
             [-(island.radius || 12), island.radius || 12].every((dx) =>
               [-(island.radius || 12), island.radius || 12].every((dz) => {
                 const p = new THREE.Vector3(
@@ -2006,6 +2034,17 @@ export function createWorld(container, initialGame, callbacks = {}) {
     ensureDetail(b.id);
     callbacks.onFocus?.(b.id, overview);
   }
+  function showCatHome(id) {
+    const h = game.housing?.homes[id];
+    if (!h) return false;
+    focus(HOUSING_ID);
+    const p = housingPlot(h.plot);
+    desiredLook.set(HOUSING_CENTER[0] + p.x, 1.5, HOUSING_CENTER[1] + p.z);
+    desiredDistance = mobileRender ? 34 : 26;
+    azimuth = 0.08;
+    elevation = 0.46;
+    return true;
+  }
   function viewedIsland() {
     if (!faceCamera.enabled) return focused;
     const point = faceCamera.facePoint(new THREE.Vector3());
@@ -2020,7 +2059,21 @@ export function createWorld(container, initialGame, callbacks = {}) {
   }
   function islandOverview() {
     const id = viewedIsland();
+    const housingLook = id === HOUSING_ID ? look.clone() : null;
     focus(id);
+    if (housingLook)
+      desiredLook.set(
+        HOUSING_CENTER[0] -
+          Math.max(
+            0,
+            Math.round(
+              -(housingLook.x - HOUSING_CENTER[0]) / HOUSING_SECTION_PITCH,
+            ),
+          ) *
+            HOUSING_SECTION_PITCH,
+        0,
+        HOUSING_CENTER[1],
+      );
     overviewElevation = 1.03;
     overviewAspect = camera.aspect;
     desiredDistance = islandOverviewDistance(
@@ -2979,6 +3032,19 @@ export function createWorld(container, initialGame, callbacks = {}) {
       callbacks.onCityDrive?.(choice.id, choice.car, road);
       return;
     }
+    if (focused === HOUSING_ID) {
+      const homes = islands.get(HOUSING_ID)?.userData.houses;
+      const hit =
+        homes &&
+        raycaster.intersectObjects(
+          [...homes.values()].filter((g) => g.visible),
+          true,
+        )[0];
+      if (hit?.object.userData.housingHouseId) {
+        showCatHome(hit.object.userData.housingHouseId);
+        return;
+      }
+    }
     const hits = raycaster.intersectObjects(
       [
         ...[...itemGroups.values()].filter(
@@ -3142,7 +3208,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       desiredDistance = THREE.MathUtils.clamp(
         desiredDistance + e.deltaY * 0.025,
         courtCamera ? 10 : 21,
-        viewingOverview ? 2400 : 600,
+        viewingOverview ? overviewDistanceLimit : 600,
       );
     },
     { passive: false },
@@ -3161,7 +3227,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           desiredDistance = THREE.MathUtils.clamp(
             desiredDistance + (pinchDistance - d) * 0.1,
             courtCamera ? 10 : 21,
-            viewingOverview ? 2400 : 600,
+            viewingOverview ? overviewDistanceLimit : 600,
           );
         pinchDistance = d;
       }
@@ -3291,8 +3357,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
       const island = islands.get(b.id),
         close =
           distance < Math.max(110, (b.radius || 12) * 7) &&
-          Math.hypot(b.center[0] - look.x, b.center[1] - look.z) <
-            (b.id === "jobcity" ? b.radius + 10 : 39);
+          (b.id === HOUSING_ID
+            ? island.userData.near(look)
+            : Math.hypot(b.center[0] - look.x, b.center[1] - look.z) <
+              (b.id === "jobcity" ? b.radius + 10 : 39));
       island.userData.detail.visible = close && !island.userData.lowOnly;
       island.userData.lowDetail.visible = !close || !!island.userData.lowOnly;
       if (close) ensureDetail(b.id);
@@ -3340,6 +3408,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
             manualJob = jobs.get(id)?.manual;
           return (
             !p ||
+            (game.housing?.residences[id] &&
+              !cityClock(game.jobCity).working &&
+              !p.trip &&
+              !manualJob) ||
             (Date.now() < (p.manualUntil || 0) && !p.trip && !manualJob) ||
             draggingCat?.catId === id ||
             now < gatherUntil ||
@@ -3359,6 +3431,52 @@ export function createWorld(container, initialGame, callbacks = {}) {
                 mealVisits.has(id) ||
                 swimVisits.has(id) ||
                 (now < (n?.manualUntil || 0) && !manualJob))
+          );
+        },
+      });
+    }
+    if (!dialogOpen && game.housing && game.jobCity) {
+      const actors = [
+        { id: "chichi", carrier: chichiCarrier, model: cat },
+        ...[...npcs].map(([id, n]) => ({
+          id,
+          carrier: n.carrier,
+          model: n.model,
+        })),
+      ].map((a) => ({
+        id: a.id,
+        radius: spaRadius(a.model),
+        local: {
+          x: a.carrier.position.x - HOUSING_CENTER[0],
+          y: a.carrier.position.y,
+          z: a.carrier.position.z - HOUSING_CENTER[1],
+        },
+      }));
+      housingLife.step(game, actors, dt, time, {
+        night: !cityClock(game.jobCity).working,
+        blocked: (a) => {
+          const id = a.id,
+            n = npcs.get(id),
+            p = game.jobCity.profiles[id];
+          return (
+            draggingCat?.catId === id ||
+            now < gatherUntil ||
+            crew.workers.has(id) ||
+            p?.trip ||
+            jobs.has(id) ||
+            Date.now() < (p?.manualUntil || 0) ||
+            (id === "chichi"
+              ? operation || heroGather || game.care?.resting
+              : residentPlay.get(id) ||
+                residentPlay.friendVisit(id) ||
+                operation?.decision.friendId === id ||
+                operation?.partyIds?.has(id) ||
+                court.get(id) ||
+                spa.get(id) ||
+                chill.get(id) ||
+                mealVisits.has(id) ||
+                swimVisits.has(id) ||
+                now < (n?.manualUntil || 0))
           );
         },
       });
@@ -3537,11 +3655,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
           ?.userData.lagoons?.get("lake-water")
           ?.userData.disturb?.(v.position.x, v.position.z - 1, time, 0.35);
     }
-    function applyChillFrame(v, carrier, model) {
+    function applyChillFrame(v, carrier, model, home = false) {
+      const centre = home ? HOUSING_CENTER : chillBiome.center;
       carrier.position.set(
-        chillBiome.center[0] + v.position.x,
+        centre[0] + v.position.x,
         v.position.y,
-        chillBiome.center[1] + v.position.z,
+        centre[1] + v.position.z,
       );
       carrier.rotation.y = v.yaw;
       const resting = v.phase === "relax",
@@ -3620,6 +3739,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
             court.get(id) ||
             crew.workers.has(id) ||
             jobs.has(id) ||
+            housingLife.get(id) ||
             mealVisits.has(id) ||
             swimVisits.has(id) ||
             now < (n.manualUntil || 0) ||
@@ -3634,7 +3754,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
       const jobFrame = jobs.has(id)
         ? jobCatFrame(jobs.get(id), time, reduced)
         : null;
-      const b = byBiome(jobFrame ? "jobcity" : n.profile.biome),
+      const homeVisit = housingLife.get(id);
+      const b = byBiome(
+          homeVisit ? HOUSING_ID : jobFrame ? "jobcity" : n.profile.biome,
+        ),
         needs = game.care?.residents[id];
       updateCityCar(id, jobFrame, time);
       let x = n.carrier.position.x,
@@ -3965,6 +4088,13 @@ export function createWorld(container, initialGame, callbacks = {}) {
         direct = true;
         npcWalking = builderFrame.walking;
         npcReaction = reduced ? null : builderFrame.reaction;
+      } else if (homeVisit) {
+        applyChillFrame(homeVisit, n.carrier, n.model, true);
+        x = n.carrier.position.x;
+        z = n.carrier.position.z;
+        direct = true;
+        npcWalking = homeVisit.walking;
+        npcReaction = homeVisit.reaction;
       } else if (jobFrame) {
         applyJobFrame(jobFrame, n.carrier);
         x = n.carrier.position.x;
@@ -4241,7 +4371,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
         manualFrame?.mood ||
         ((spaVisit?.phase === "relax" &&
           ["spa-lounge", "spa-jacuzzi"].includes(spaVisit.objectId)) ||
-        chillVisit?.phase === "relax"
+        chillVisit?.phase === "relax" ||
+        homeVisit?.phase === "relax"
           ? "sleep"
           : game.social?.bestFriendId === id && game.care?.resting
             ? "sleep"
@@ -4266,7 +4397,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
           const resting =
               (spaVisit?.phase === "relax" &&
                 ["spa-lounge", "spa-jacuzzi"].includes(spaVisit.objectId)) ||
-              chillVisit?.phase === "relax",
+              chillVisit?.phase === "relax" ||
+              homeVisit?.phase === "relax",
             targetY = resting
               ? (n.model.userData.head.position.y +
                   n.model.userData.head.scale.y * 0.4) *
@@ -4817,6 +4949,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
       walking = heroJobFrame.walking;
       reaction = heroJobFrame.reaction;
     }
+    const heroHome = housingLife.get("chichi");
+    if (heroHome && !operation && !heroGather && !draggingCat && !heroBuild) {
+      applyChillFrame(heroHome, chichiCarrier, cat, true);
+      walking = heroHome.walking;
+      reaction = heroHome.reaction;
+    }
     if (!dialogOpen) {
       animateCat(
         cat,
@@ -4872,6 +5010,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
       camera.lookAt(look);
     }
     faceCamera.update(dt, look);
+    camera.updateMatrixWorld();
+    islands
+      .get(HOUSING_ID)
+      ?.userData.viewHousing?.(look, distance, camera, time);
     if (dialogOpen || !worldVisible) {
       requestAnimationFrame(loop);
       return;
@@ -5079,6 +5221,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     perform,
     followCat,
     inspectJobBusiness: inspectAttraction,
+    showCatHome,
     chooseCityDrive(id, car) {
       if (!game.jobCity?.profiles[id]?.inventory[car]) return false;
       focus("jobcity");
@@ -5156,7 +5299,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         : (desiredDistance = THREE.MathUtils.clamp(
             desiredDistance + delta,
             courtCamera ? 10 : 21,
-            viewingOverview ? 2400 : 600,
+            viewingOverview ? overviewDistanceLimit : 600,
           )),
     beginBuild,
     updateBuild: (mode) => {
@@ -5198,6 +5341,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     dispose() {
       disposed = true;
       jobs.clear();
+      housingLife.clear();
       drivePrompt.remove();
       for (const car of cityCars.values()) car.removeFromParent();
       cityCars.clear();

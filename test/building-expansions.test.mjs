@@ -29,7 +29,7 @@ const before = JSON.parse(
   now = Date.UTC(2026, 9, 18, 12);
 test("only the four requested islands expand to exactly five times the original area, with every name, palette, ID, price and level retained", () => {
   assert.deepEqual(ids.sort(), ["candy", "clouds", "nature", "rainbow"]);
-  assert.equal(BIOMES.length, before.length + 1);
+  assert.equal(BIOMES.length, before.length + 2);
   for (const original of before) {
     const b = byBiome(original.id);
     if (!ids.includes(b.id)) {

@@ -309,7 +309,7 @@ export function chillHouseModel(h) {
     }
   return g;
 }
-export function chillSign(parent) {
+export function chillSign(parent, title = "Chill Land") {
   const g = new THREE.Group();
   g.name = "Chill Land entrance";
   parent.add(g);
@@ -329,7 +329,7 @@ export function chillSign(parent) {
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.font = "bold 112px Georgia";
-    ctx.fillText("Chill Land", 512, 96);
+    ctx.fillText(title, 512, 96, 960);
     const texture = new THREE.CanvasTexture(c);
     texture.colorSpace = THREE.SRGBColorSpace;
     const label = new THREE.Mesh(

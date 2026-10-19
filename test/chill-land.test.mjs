@@ -33,7 +33,7 @@ const now = Date.UTC(2026, 9, 16),
     return g;
   };
 test("Chill Land replaces only the dream garden, with five times the playable area and the same stable unlock ID", () => {
-  assert.equal(BIOMES.length, 29);
+  assert.equal(BIOMES.length, 30);
   assert.equal(byBiome("sakura").name, "Chill Land");
   assert.ok(Math.abs(CHILL_RADIUS ** 2 / 11.65 ** 2 - 5) < 1e-12);
   assert.equal(byBiome("crystal").name, "Кристальное королевство");
@@ -223,6 +223,7 @@ test("other approved biome records remain unchanged except the later authorized 
                 "homestead",
                 "aquarium",
                 "jobcity",
+                "cat-homes",
                 "candy",
                 "nature",
                 "rainbow",

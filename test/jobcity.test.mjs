@@ -96,10 +96,10 @@ test("Cat Job City appends a separate island without changing a single establish
     ),
   );
   assert.deepEqual(
-    BIOMES.filter((b) => b.id !== "jobcity"),
+    BIOMES.filter((b) => !["jobcity", "cat-homes"].includes(b.id)),
     old,
   );
-  assert.equal(BIOMES.length, 29);
+  assert.equal(BIOMES.length, 30);
   const b = byBiome("jobcity");
   assert.deepEqual(b.center, JOB_CITY_CENTER);
   assert.equal(b.radius, JOB_CITY_RADIUS);

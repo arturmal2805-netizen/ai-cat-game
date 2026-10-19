@@ -57,9 +57,19 @@ const now = Date.UTC(2026, 9, 17),
     return unlockBiome(g, "foodcourt", now);
   };
 test("food court is an eighth-area separate island; every one of the other 24 records is identical", () => {
-  assert.equal(BIOMES.length, 29);
+  assert.equal(BIOMES.length, 30);
   assert.deepEqual(
-    BIOMES.filter((b) => !["foodcourt", "bikini", "homestead", "aquarium", "jobcity"].includes(b.id)),
+    BIOMES.filter(
+      (b) =>
+        ![
+          "foodcourt",
+          "bikini",
+          "homestead",
+          "aquarium",
+          "jobcity",
+          "cat-homes",
+        ].includes(b.id),
+    ),
     JSON.parse(
       fs.readFileSync(
         new URL("./fixtures/foodcourt-unaffected-biomes.json", import.meta.url),

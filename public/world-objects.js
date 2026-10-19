@@ -54,7 +54,10 @@ export function permanentObjects(biomes) {
   if (biomes.includes("water")) objects.push(...SPA_OBJECTS);
   for (const b of BIOMES) {
     if (!biomes.includes(b.id)) continue;
-    if (["foodcourt", "bikini", "aquarium", "jobcity"].includes(b.id)) continue;
+    if (
+      ["foodcourt", "bikini", "aquarium", "jobcity", "cat-homes"].includes(b.id)
+    )
+      continue;
     if (b.id === "autumn") {
       objects.push(...MOSA_OBJECTS);
       continue;

@@ -39,7 +39,7 @@ function* bake(parent, source) {
   });
   return baked;
 }
-function bathWater(o) {
+export function bathWater(o) {
   const g = new THREE.Group(),
     material = waterMaterial(0x59cfdb),
     surface = new THREE.Mesh(new THREE.CircleGeometry(1, 48), material);

@@ -1,3 +1,4 @@
+import { housingOffers } from "./public/housing-system.js";
 import { JOB_KINDS, JOB_CAPACITY } from "./public/jobcity-data.js";
 import { validateJobAssignments } from "./public/jobcity-system.js";
 export const JOB_AI_LIMIT = 90000;
@@ -38,6 +39,12 @@ export function validateCityAIState(s) {
       id: c.id,
       name: c.name,
       coins: c.coins,
+      ownedHomes:
+        Number.isSafeInteger(c.ownedHomes) && c.ownedHomes >= 0
+          ? c.ownedHomes
+          : 0,
+      activeHome:
+        typeof c.activeHome === "string" ? c.activeHome.slice(0, 90) : null,
       personality: String(c.personality || "").slice(0, 60),
       preferences: c.preferences,
       skills: c.skills,
@@ -49,7 +56,7 @@ export function validateCityAIState(s) {
       hasCar: !!c.hasCar,
     };
   });
-  return { day: s.day, cats };
+  return { day: s.day, cats, housingOffers: housingOffers() };
 }
 export async function requestCityPlan(state, run, timeout = 20000) {
   let timer;
@@ -57,7 +64,7 @@ export async function requestCityPlan(state, run, timeout = 20000) {
     messages: [
       {
         role: "system",
-        content: `Plan a charming cat working day. Output ONLY JSON {"assignments":[{"id":"...","profession":"bank|crypto|factory|furniture|estate|cars","job":"same profession or rest","evening":"rest|walk|drive","reason":"short Ukrainian reason"}]}. Include EACH cat exactly once. A profession is a long-term career, NEVER a daily random job. Keep every existing profession unless canChangeProfession is true; at most 3 career changes in a lifetime, with a concrete circumstance (new skill, burnout, a new goal). A null profession means choose an initial profession by personality, skills, preferences, experience and savings goals. At most ${JOB_CAPACITY} working cats per profession; others rest without losing their profession. Use drive only if hasCar. Opening hours 12:00–19:00. Jobs: ${JOB_KINDS.join(", ")}. No real money or real investment advice; this is fictional game currency.`,
+        content: `Plan a charming cat working day. Output ONLY JSON {"assignments":[{"id":"...","profession":"bank|crypto|factory|furniture|estate|cars","job":"same profession or rest","evening":"rest|walk|drive","reason":"short Ukrainian reason","house":null or {"type":"home-sage","roommate":"another cat id or null"}}]}. Include EACH cat exactly once. A profession is a long-term career, NEVER a daily random job. Keep every existing profession unless canChangeProfession is true; at most 3 career changes in a lifetime, with a concrete circumstance (new skill, burnout, a new goal). A null profession means choose an initial profession by personality, skills, preferences, experience and savings goals. At most ${JOB_CAPACITY} working cats per profession; others rest without losing their profession. Use drive only if hasCar. Opening hours 12:00–19:00. Jobs: ${JOB_KINDS.join(", ")}. Consider buying a permanent home once per day in this SAME batch, never request another AI call. Choose house:null when saving or uninterested. Otherwise choose an affordable type from housingOffers; prioritize a first home once savings allow, and occasionally another home for a new wish even when ownedHomes > 0 (there is no ownership limit). Use only the cat's private coins, reserve some savings for their wishes. Choose a roommate from the other cats whose activeHome is null, or null if none. Never relocate a cat that already has activeHome when buying another home. No real money or real investment advice; this is fictional game currency.`,
       },
       { role: "user", content: JSON.stringify(state) },
     ],
