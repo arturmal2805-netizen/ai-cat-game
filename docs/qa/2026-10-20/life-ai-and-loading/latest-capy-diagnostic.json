@@ -1,0 +1,300 @@
+[
+  {
+    "id": "summer",
+    "setup": {
+      "firstDrawMs": 856.2999999821186,
+      "shaders": {
+        "pending": 0,
+        "prepared": 493,
+        "reflected": 56,
+        "compiled": 1727,
+        "reused": 149,
+        "textures": 23
+      },
+      "staticTraversal": {
+        "omitted": 0,
+        "parents": 0
+      },
+      "pendingModels": 0,
+      "prepareAndFirstDrawMs": 58475,
+      "islandReadyMs": 14030
+    },
+    "frames": {
+      "samples": 180,
+      "median": 32.599999994039536,
+      "p95": 99.5,
+      "max": 4122.200000017881
+    },
+    "longTasks": [
+      {
+        "start": 179774.70000001788,
+        "duration": 165
+      },
+      {
+        "start": 179968.09999999404,
+        "duration": 94
+      },
+      {
+        "start": 180079.70000001788,
+        "duration": 54
+      },
+      {
+        "start": 180151.20000001788,
+        "duration": 96
+      },
+      {
+        "start": 180265,
+        "duration": 51
+      },
+      {
+        "start": 180333.40000000596,
+        "duration": 4123
+      },
+      {
+        "start": 184564.90000000596,
+        "duration": 108
+      },
+      {
+        "start": 184734.5,
+        "duration": 51
+      },
+      {
+        "start": 184809.90000000596,
+        "duration": 57
+      },
+      {
+        "start": 184884.90000000596,
+        "duration": 53
+      },
+      {
+        "start": 184992,
+        "duration": 70
+      },
+      {
+        "start": 185066.30000001192,
+        "duration": 74
+      },
+      {
+        "start": 185303,
+        "duration": 55
+      },
+      {
+        "start": 185371.30000001192,
+        "duration": 190
+      },
+      {
+        "start": 185741,
+        "duration": 67
+      },
+      {
+        "start": 185869.30000001192,
+        "duration": 56
+      },
+      {
+        "start": 186195.5,
+        "duration": 54
+      },
+      {
+        "start": 186267,
+        "duration": 51
+      },
+      {
+        "start": 186499.5,
+        "duration": 115
+      },
+      {
+        "start": 186751.09999999404,
+        "duration": 99
+      },
+      {
+        "start": 187673.70000001788,
+        "duration": 64
+      },
+      {
+        "start": 187782,
+        "duration": 68
+      },
+      {
+        "start": 187974.09999999404,
+        "duration": 95
+      },
+      {
+        "start": 188086.5,
+        "duration": 231
+      },
+      {
+        "start": 188335.20000001788,
+        "duration": 54
+      },
+      {
+        "start": 188520.5,
+        "duration": 77
+      },
+      {
+        "start": 189025.09999999404,
+        "duration": 53
+      },
+      {
+        "start": 189264.20000001788,
+        "duration": 65
+      },
+      {
+        "start": 189479.5,
+        "duration": 69
+      },
+      {
+        "start": 190212.20000001788,
+        "duration": 105
+      },
+      {
+        "start": 190334.59999999404,
+        "duration": 83
+      },
+      {
+        "start": 190434.80000001192,
+        "duration": 97
+      },
+      {
+        "start": 192252,
+        "duration": 228
+      },
+      {
+        "start": 192497.09999999404,
+        "duration": 53
+      },
+      {
+        "start": 192567.70000001788,
+        "duration": 52
+      },
+      {
+        "start": 193401.59999999404,
+        "duration": 72
+      },
+      {
+        "start": 193663.30000001192,
+        "duration": 56
+      },
+      {
+        "start": 193738,
+        "duration": 132
+      },
+      {
+        "start": 193961.5,
+        "duration": 153
+      },
+      {
+        "start": 194330.09999999404,
+        "duration": 66
+      },
+      {
+        "start": 194399.30000001192,
+        "duration": 59
+      },
+      {
+        "start": 194469.70000001788,
+        "duration": 158
+      },
+      {
+        "start": 194632.70000001788,
+        "duration": 66
+      },
+      {
+        "start": 194807.90000000596,
+        "duration": 91
+      },
+      {
+        "start": 194981.30000001192,
+        "duration": 66
+      },
+      {
+        "start": 195054,
+        "duration": 70
+      },
+      {
+        "start": 195195.80000001192,
+        "duration": 91
+      },
+      {
+        "start": 195359.5,
+        "duration": 69
+      },
+      {
+        "start": 195446.20000001788,
+        "duration": 53
+      }
+    ],
+    "draw": {
+      "frame": 196,
+      "calls": 433,
+      "triangles": 2190456,
+      "points": 320,
+      "lines": 0
+    },
+    "poses": {
+      "entries": 4952,
+      "rows": 0,
+      "bytes": 0,
+      "cats": 180,
+      "updatedCats": 2
+    },
+    "colony": {
+      "sources": 1644,
+      "batches": 13,
+      "ready": true,
+      "active": false
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "residency": {
+      "bytes": 92431762,
+      "geometries": 533,
+      "evicted": 0
+    },
+    "persistence": {
+      "samples": 12,
+      "median": 58,
+      "max": 97.09999999403954,
+      "clones": 24,
+      "writes": 48,
+      "storageMs": 357.6999998688698,
+      "outboxBytes": 737734
+    },
+    "raster": {
+      "changed": 0,
+      "native": {
+        "samples": [
+          30.600000023841858,
+          29.799999982118607,
+          25.599999994039536,
+          18.900000005960464,
+          20.400000005960464,
+          30.69999998807907
+        ],
+        "median": 27.69999998807907,
+        "min": 18.900000005960464,
+        "max": 30.69999998807907
+      },
+      "indexed": {
+        "samples": [
+          46,
+          19.299999982118607,
+          27,
+          24.599999994039536,
+          19.599999994039536,
+          17.900000005960464
+        ],
+        "median": 22.099999994039536,
+        "min": 17.900000005960464,
+        "max": 46
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2
+    }
+  }
+]

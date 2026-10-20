@@ -1,0 +1,22 @@
+{
+  "workflow": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/39432678177",
+  "actualInference": true,
+  "simulatedPrimaryQuotaFailure": true,
+  "reasoningDisabled": true,
+  "model": "dots-studio/dots-3-note-preview:free",
+  "provider": "AtlasCloud",
+  "costUSD": 0,
+  "outputTokens": 779,
+  "finish": "stop",
+  "cats": 147,
+  "professions": [
+    "bank",
+    "crypto",
+    "estate",
+    "cars",
+    "factory",
+    "furniture"
+  ],
+  "strictCityContractPassed": true,
+  "playerWorldAccessed": false
+}

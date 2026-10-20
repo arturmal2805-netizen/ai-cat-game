@@ -41,6 +41,12 @@ simulation CPU medians were variable and not consistently lower; they are not
 evidence of perfect frame rates. The final sparse-scene traversal guard follows
 these timing runs. Physical Mac/iPhone performance still needs device feedback.
 
+`latest-capy-diagnostic.json` retains a later cold visit after the sparse-scene
+guard: detail took 14,030 ms and total preparation 58,475 ms. This slower run is
+included rather than claiming a consistent cold-load improvement. Its actual
+same-pose raster comparison still matched exactly and measured 27.7 → 22.1 ms
+medians. Loading/stall variability is a remaining limitation of these diagnostics.
+
 `same-pose-raster.json` records six actual full-resolution raster samples per
 mode in three individual checks. Capybara medians were 30.25 → 21.2 ms, homestead
 58.05 → 52.75 ms and Bikini 18.25 → 16.6 ms, with identical pixels. These are
@@ -61,6 +67,8 @@ five to fifteen real inferences.
 for the full roster. Estimated neurons: 399 for initial careers once, 216 for an
 ordinary evening, 579 with every cat able to buy a house, 728 with that rich
 evening plus family review. Manual Chichi requests are additional.
+Phase-specific prompts subsequently removed unused instructions, so the retained
+neuron estimates are conservative for the smaller final prompts.
 
 An actual OpenRouter key/model call succeeded at $0:
 https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/39419618016.
@@ -72,6 +80,13 @@ model that exhausted a small answer allowance with null content; a real request
 exposed this and the reserve now uses the explicit verified model. Official free-model
 limits are 50 requests/day without purchased credits, at most 20/minute; buying
 at least $10 credits raises the daily free-model allowance to 1,000.
+
+The exact reserve router and strict city parser also passed one real batch of
+147 synthetic cats, selecting all six profession types with 779 output tokens
+and reported cost $0. Initial careers now have a dedicated compact response
+contract that excludes evening/purchase fields. Validation remains strict.
+See `openrouter-full-city-verification.json` and
+https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/39432678177.
 
 The deployed game's actual failover is checked once after publication with
 `scripts/check-ai-backup.mjs`, a fresh private ledger token and one initial
