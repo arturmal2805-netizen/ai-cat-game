@@ -1,26 +1,17 @@
-name: Verify OpenRouter reserve (one real free request)
+name: Check hosted runner availability (no AI)
 on:
   workflow_dispatch:
     inputs:
       phase:
-        description: Explicit real request to verify
         type: choice
-        options: [careers, families, evening-families]
+        options: [careers]
         default: careers
 permissions:
   contents: read
 jobs:
-  verify:
-    runs-on: ubuntu-latest
-    timeout-minutes: 2
+  runner:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 1
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - name: Verify key and make one real free inference
-        env:
-          BACKUP_AI_API_KEY: ${{ secrets.BACKUP_AI_API_KEY }}
-          CITY_QA_ROSTER: '147'
-          CITY_QA_PHASE: ${{ inputs.phase || 'careers' }}
-        run: node scripts/probe-city-backup.mjs
+      - name: Verify runner starts without using secrets or inference
+        run: node --version
