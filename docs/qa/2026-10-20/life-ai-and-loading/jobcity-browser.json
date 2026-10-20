@@ -1,0 +1,234 @@
+{
+  "workers": [
+    {
+      "id": "luna",
+      "job": "crypto",
+      "floor": 0
+    },
+    {
+      "id": "moti",
+      "job": "estate",
+      "floor": 0
+    },
+    {
+      "id": "pixel",
+      "job": "crypto",
+      "floor": 1
+    },
+    {
+      "id": "peach",
+      "job": "estate",
+      "floor": 1
+    },
+    {
+      "id": "salem",
+      "job": "crypto",
+      "floor": 2
+    },
+    {
+      "id": "jobcat-estate-1",
+      "job": "bank",
+      "floor": 0
+    },
+    {
+      "id": "jobcat-factory-1",
+      "job": "factory",
+      "floor": 0
+    },
+    {
+      "id": "adopt-toffee",
+      "job": "bank",
+      "floor": 1
+    },
+    {
+      "id": "adopt-biscuit",
+      "job": "furniture",
+      "floor": 0
+    },
+    {
+      "id": "adopt-mocha",
+      "job": "cars",
+      "floor": 0
+    },
+    {
+      "id": "jobcat-furniture-0",
+      "job": "furniture",
+      "floor": 1
+    },
+    {
+      "id": "jobcat-bank-0",
+      "job": "crypto",
+      "floor": 0
+    },
+    {
+      "id": "jobcat-furniture-1",
+      "job": "furniture",
+      "floor": 2
+    },
+    {
+      "id": "adopt-juniper",
+      "job": "cars",
+      "floor": 1
+    },
+    {
+      "id": "jobcat-crypto-1",
+      "job": "estate",
+      "floor": 2
+    },
+    {
+      "id": "adopt-mittens",
+      "job": "furniture",
+      "floor": 0
+    },
+    {
+      "id": "jobcat-estate-0",
+      "job": "cars",
+      "floor": 2
+    },
+    {
+      "id": "jobcat-crypto-0",
+      "job": "furniture",
+      "floor": 1
+    },
+    {
+      "id": "adopt-mist",
+      "job": "furniture",
+      "floor": 2
+    },
+    {
+      "id": "adopt-milo",
+      "job": "crypto",
+      "floor": 1
+    },
+    {
+      "id": "jobcat-bank-1",
+      "job": "factory",
+      "floor": 1
+    },
+    {
+      "id": "adopt-pudding",
+      "job": "crypto",
+      "floor": 2
+    },
+    {
+      "id": "adopt-starlight",
+      "job": "factory",
+      "floor": 2
+    },
+    {
+      "id": "jobcat-cars-1",
+      "job": "cars",
+      "floor": 1
+    },
+    {
+      "id": "adopt-pearl",
+      "job": "factory",
+      "floor": 0
+    },
+    {
+      "id": "adopt-sugar",
+      "job": "estate",
+      "floor": 0
+    },
+    {
+      "id": "jobcat-factory-0",
+      "job": "factory",
+      "floor": 1
+    },
+    {
+      "id": "adopt-ember",
+      "job": "cars",
+      "floor": 2
+    },
+    {
+      "id": "adopt-patch",
+      "job": "estate",
+      "floor": 1
+    }
+  ],
+  "buildings": [
+    {
+      "id": "job-bank",
+      "stats": {
+        "staticMeshes": 10,
+        "sourceMeshes": 793,
+        "floors": 3,
+        "workplaces": 6
+      }
+    },
+    {
+      "id": "job-crypto",
+      "stats": {
+        "staticMeshes": 10,
+        "sourceMeshes": 595,
+        "floors": 3,
+        "workplaces": 6
+      }
+    },
+    {
+      "id": "job-factory",
+      "stats": {
+        "staticMeshes": 10,
+        "sourceMeshes": 523,
+        "floors": 3,
+        "workplaces": 6
+      }
+    },
+    {
+      "id": "job-furniture",
+      "stats": {
+        "staticMeshes": 9,
+        "sourceMeshes": 610,
+        "floors": 3,
+        "workplaces": 6
+      }
+    },
+    {
+      "id": "job-estate",
+      "stats": {
+        "staticMeshes": 10,
+        "sourceMeshes": 769,
+        "floors": 3,
+        "workplaces": 6
+      }
+    },
+    {
+      "id": "job-cars",
+      "stats": {
+        "staticMeshes": 11,
+        "sourceMeshes": 546,
+        "floors": 3,
+        "workplaces": 6
+      }
+    }
+  ],
+  "render": {
+    "frame": 6,
+    "calls": 194,
+    "triangles": 1494867,
+    "points": 0,
+    "lines": 0
+  },
+  "memory": {
+    "geometries": 465,
+    "textures": 48
+  },
+  "dpr": 1,
+  "canvas": {
+    "w": 1402,
+    "h": 880
+  },
+  "aiCalls": 1,
+  "checks": [
+    "six real buildings",
+    "all professions actually working",
+    "safe API fallback",
+    "one batch per day",
+    "private purchase",
+    "manual road tap",
+    "car arrives and exits",
+    "SQLite/reload inventory and career",
+    "mobile layout"
+  ],
+  "errors": []
+}

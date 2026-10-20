@@ -383,7 +383,10 @@ async function localWorker() {
     );
     if (!outings.every((c) => c.progress?.done === 1)) {
       const trace = await page.evaluate(() => __familyQA.trace);
-      fs.writeFileSync(path.join(review, "leisure-debug.json"), JSON.stringify(trace, null, 2));
+      fs.writeFileSync(
+        path.join(review, "leisure-debug.json"),
+        JSON.stringify(trace, null, 2),
+      );
       console.log("LEISURE_DEBUG", JSON.stringify(trace.slice(-12)));
     }
     assert.ok(

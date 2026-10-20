@@ -32,7 +32,8 @@ export function createStaticRenderTraversal(scene, renderer) {
     prune(entries, worthwhile = true) {
       control.stats.omitted = 0;
       control.stats.parents = 0;
-      if (typeof native !== "function" || !control.enabled || !worthwhile) return;
+      if (typeof native !== "function" || !control.enabled || !worthwhile)
+        return;
       if (sources !== entries) {
         records.clear();
         sources = entries;

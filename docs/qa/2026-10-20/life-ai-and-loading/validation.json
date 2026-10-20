@@ -1,0 +1,40 @@
+{
+  "unit": {
+    "passed": 612,
+    "failed": 0,
+    "skipped": 0,
+    "durationMs": 561129.594302
+  },
+  "build": "passed",
+  "workerDryRun": "passed",
+  "allIslandGestures": {
+    "islands": 30,
+    "visits": 31,
+    "changedBytes": 0,
+    "contextLoss": 0,
+    "reuploadChangedBytes": [
+      0,
+      0,
+      0
+    ]
+  },
+  "browser": {
+    "fishGPU": "passed",
+    "threeAdoptionProfiles": "passed",
+    "nativeChichi": {
+      "passed": true,
+      "poses": 4,
+      "changedBytes": 0
+    },
+    "mobileAquariumAndFriendshipAndSharedSaves": "passed",
+    "familyAndHousing": "passed",
+    "jobcityAndPrivateWallets": "passed"
+  },
+  "privateWorldsOnly": true,
+  "productionPlayerSavesAccessed": false,
+  "notes": [
+    "Family fixture pins the intended evening before native visits; slow software-GPU preparation can cross curfew. Detailed transition diagnostics remain for failures.",
+    "Final shared family test completed both native restaurant visits, three reloads, five retried writes and concurrent older-client writes.",
+    "Full CPU/frame diagnostics contain substantial software-driver variance; no perfect hardware FPS claim."
+  ]
+}
