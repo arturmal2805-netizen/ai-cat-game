@@ -130,27 +130,32 @@ export function cityLifeInput(s) {
   };
 }
 export async function requestCityLife(s, run) {
-  const choices = cityLifeChoices(s),
-    houses = housingOffers();
-  let raw = { careers: [], evenings: [], houses: [], families: [] };
-  let provider = "none";
+  const choices = cityLifeChoices(s);
+  let answer = { response: {}, provider: "none" };
   if (
     choices.careers.length ||
     choices.evenings.length ||
     choices.buyers.length ||
     choices.family
   ) {
-    const result = await run(cityLifeInput(s));
-    provider = result?.provider || "cloudflare";
-    raw = result?.response ?? result;
-    if (typeof raw === "string")
-      raw = JSON.parse(
-        raw
-          .trim()
-          .replace(/^```(?:json)?\s*/, "")
-          .replace(/\s*```$/, ""),
-      );
+    answer = await run(cityLifeInput(s), (result) =>
+      expandCityLife(s, result),
+    );
   }
+  return expandCityLife(s, answer);
+}
+function expandCityLife(s, result) {
+  const choices = cityLifeChoices(s),
+    houses = housingOffers(),
+    provider = result?.provider || "cloudflare";
+  let raw = result?.response ?? result;
+  if (typeof raw === "string")
+    raw = JSON.parse(
+      raw
+        .trim()
+        .replace(/^```(?:json)?\s*/, "")
+        .replace(/\s*```$/, ""),
+    );
   const assignments = localJobPlan(s.cats, s.day).map((a) => {
     const p = s.cats.find((p) => p.id === a.id);
     return {

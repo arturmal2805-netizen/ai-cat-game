@@ -8,11 +8,15 @@ export function aiProviderRouter(
   if (routers.has(env)) return routers.get(env);
   let primaryBlockedUntil = 0;
   const router = {
-    async run(input) {
+    async run(input, validate) {
       let failure = Error("Primary AI unavailable");
       if (env.AI && clock() >= primaryBlockedUntil) {
         try {
-          return await env.AI.run(PRIMARY_AI_MODEL, input);
+          const answer = await env.AI.run(PRIMARY_AI_MODEL, input);
+          // A transport success with malformed/invalid choices is not a usable
+          // decision. Validate before accepting it, then try the reserve once.
+          await validate?.(answer);
+          return answer;
         } catch (error) {
           failure = error;
           primaryBlockedUntil =
@@ -54,7 +58,13 @@ export function aiProviderRouter(
         content = data?.choices?.[0]?.message?.content;
       if (typeof content !== "string" || !content.trim())
         throw Error("OpenRouter backup returned no answer");
-      return { response: content, usage: data.usage, provider: "openrouter" };
+      const answer = {
+        response: content,
+        usage: data.usage,
+        provider: "openrouter",
+      };
+      await validate?.(answer);
+      return answer;
     },
   };
   routers.set(env, router);

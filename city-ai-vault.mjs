@@ -101,8 +101,8 @@ export class CityAIRequestLedger {
       let body = await Promise.race([
         requestCityLife(
           { ...state, initialIds: reserved.initialIds },
-          (input) =>
-            this.ai.run("@cf/meta/llama-3.3-70b-instruct-fp8-fast", input),
+          (input, validate) =>
+            this.ai.run("@cf/meta/llama-3.3-70b-instruct-fp8-fast", input, validate),
         ),
         new Promise((_, reject) => {
           timer = setTimeout(() => reject(Error("AI event timeout")), 100000);

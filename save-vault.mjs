@@ -85,7 +85,7 @@ export class SaveVault {
   constructor(state, env = {}) {
     this.storage = chunkedSaveStorage(state.storage);
     this.cityAI = new CityAIRequestLedger(this.storage, {
-      run: (_model, input) => aiProviderRouter(env).run(input),
+      run: (_model, input, validate) => aiProviderRouter(env).run(input, validate),
     });
   }
   async fetch(request) {

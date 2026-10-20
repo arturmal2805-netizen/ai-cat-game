@@ -82,7 +82,7 @@ const router = aiProviderRouter(
     },
   },
 );
-const answer = await requestCityLife(s, (input) => router.run(input));
+const answer = await requestCityLife(s, (input, validate) => router.run(input, validate));
 console.log(
   "RESERVE_CITY_CONTRACT_PASSED",
   JSON.stringify({

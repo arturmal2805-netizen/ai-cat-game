@@ -128,8 +128,8 @@ export default {
             return cloudSave(internal, env);
           }
           return json(
-            await requestCityLife(state, (input) =>
-              aiProviderRouter(env).run(input),
+            await requestCityLife(state, (input, validate) =>
+              aiProviderRouter(env).run(input, validate),
             ),
           );
         }
