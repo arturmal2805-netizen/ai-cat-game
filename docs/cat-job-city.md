@@ -38,7 +38,8 @@ reserve only the six actual seats, prioritizing the oldest paid shift. Career
 choice stays with AI, while seat and schedule rules stay in the game.
 
 Cloudflare is primary. `BACKUP_AI_API_KEY`, supplied by GitHub Actions as a Worker
-secret, enables automatic OpenRouter fallback with `openrouter/free`. Neither
+secret, enables automatic OpenRouter fallback with the verified free
+`dots-studio/dots-3-note-preview:free` model and reasoning disabled. Neither
 provider key reaches the browser. A successful primary response never calls the
 reserve. Routine deployment checks exercise release and save integrity without
 AI inference; live inference requires an explicit manual verification.

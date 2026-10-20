@@ -66,7 +66,10 @@ An actual OpenRouter key/model call succeeded at $0:
 https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/39419618016.
 `openrouter-key-verification.json` contains sanitized proof. The account is a
 free tier; a key's $100 spending cap is not an account balance. Default reserve
-routing is `openrouter/free`, with Cloudflare primary. Official free-model
+routing uses `dots-studio/dots-3-note-preview:free` with reasoning disabled,
+with Cloudflare primary. The initial random free router selected a reasoning
+model that exhausted a small answer allowance with null content; a real request
+exposed this and the reserve now uses the explicit verified model. Official free-model
 limits are 50 requests/day without purchased credits, at most 20/minute; buying
 at least $10 credits raises the daily free-model allowance to 1,000.
 

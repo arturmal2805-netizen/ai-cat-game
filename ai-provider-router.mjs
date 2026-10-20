@@ -1,5 +1,5 @@
 export const PRIMARY_AI_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast";
-export const BACKUP_AI_MODEL = "openrouter/free";
+export const BACKUP_AI_MODEL = "dots-studio/dots-3-note-preview:free";
 const routers = new WeakMap();
 export function aiProviderRouter(
   env,
@@ -38,6 +38,9 @@ export function aiProviderRouter(
           body: JSON.stringify({
             ...input,
             model: env.BACKUP_AI_MODEL || BACKUP_AI_MODEL,
+            // The game budgets answer tokens, not hidden reasoning. A random
+            // free reasoner can exhaust that small budget with null content.
+            reasoning: { enabled: false },
             provider: { require_parameters: true },
           }),
           signal: AbortSignal.timeout(35000),

@@ -43,6 +43,7 @@ test("quota failure switches once to the server-only free OpenRouter model; foll
       assert.equal(options.headers.Authorization, "Bearer private-test-key");
       const body = JSON.parse(options.body);
       assert.equal(body.model, BACKUP_AI_MODEL);
+      assert.deepEqual(body.reasoning, { enabled: false });
       assert.deepEqual(body.messages, input.messages);
       assert.deepEqual(body.response_format, input.response_format);
       assert.ok(!options.body.includes("private-test-key"));
