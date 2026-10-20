@@ -1,0 +1,901 @@
+[
+  {
+    "id": "moon",
+    "repeat": false,
+    "changed": 0,
+    "reuploadChanged": null,
+    "dpr": 2,
+    "before": {
+      "frame": 15,
+      "calls": 445,
+      "triangles": 718102,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 20,
+      "calls": 429,
+      "triangles": 648166,
+      "points": 320,
+      "lines": 0
+    },
+    "shadowDepth": {
+      "bakes": 3,
+      "blits": 9,
+      "skippedDraws": 16,
+      "skippedTriangles": 69936,
+      "cachedCasters": 16,
+      "targetBytes": 8388608
+    }
+  },
+  {
+    "id": "autumn",
+    "repeat": false,
+    "changed": 0,
+    "reuploadChanged": null,
+    "dpr": 2,
+    "before": {
+      "frame": 81,
+      "calls": 122,
+      "triangles": 517100,
+      "points": 420,
+      "lines": 0
+    },
+    "after": {
+      "frame": 86,
+      "calls": 107,
+      "triangles": 434764,
+      "points": 420,
+      "lines": 0
+    },
+    "shadowDepth": {
+      "bakes": 5,
+      "blits": 39,
+      "skippedDraws": 15,
+      "skippedTriangles": 82336,
+      "cachedCasters": 15,
+      "targetBytes": 8388608
+    }
+  },
+  {
+    "id": "winter",
+    "repeat": false,
+    "changed": 0,
+    "reuploadChanged": null,
+    "dpr": 2,
+    "before": {
+      "frame": 147,
+      "calls": 530,
+      "triangles": 1029864,
+      "points": 740,
+      "lines": 0
+    },
+    "after": {
+      "frame": 152,
+      "calls": 518,
+      "triangles": 858312,
+      "points": 740,
+      "lines": 0
+    },
+    "shadowDepth": {
+      "bakes": 8,
+      "blits": 68,
+      "skippedDraws": 12,
+      "skippedTriangles": 171552,
+      "cachedCasters": 12,
+      "targetBytes": 8388608
+    }
+  },
+  {
+    "id": "beach",
+    "repeat": false,
+    "changed": 0,
+    "reuploadChanged": null,
+    "dpr": 2,
+    "before": {
+      "frame": 213,
+      "calls": 298,
+      "triangles": 607380,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 218,
+      "calls": 283,
+      "triangles": 532684,
+      "points": 320,
+      "lines": 0
+    },
+    "shadowDepth": {
+      "bakes": 10,
+      "blits": 98,
+      "skippedDraws": 16,
+      "skippedTriangles": 74696,
+      "cachedCasters": 16,
+      "targetBytes": 8388608
+    }
+  },
+  {
+    "id": "water",
+    "repeat": false,
+    "changed": 0,
+    "reuploadChanged": null,
+    "dpr": 2,
+    "before": {
+      "frame": 279,
+      "calls": 257,
+      "triangles": 905408,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 284,
+      "calls": 240,
+      "triangles": 809936,
+      "points": 320,
+      "lines": 0
+    },
+    "shadowDepth": {
+      "bakes": 39,
+      "blits": 100,
+      "skippedDraws": 18,
+      "skippedTriangles": 95472,
+      "cachedCasters": 18,
+      "targetBytes": 8388608
+    }
+  },
+  {
+    "id": "summer",
+    "repeat": false,
+    "changed": 0,
+    "reuploadChanged": null,
+    "dpr": 2,
+    "before": {
+      "frame": 345,
+      "calls": 377,
+      "triangles": 2201916,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 350,
+      "calls": 315,
+      "triangles": 1907652,
+      "points": 320,
+      "lines": 0
+    },
+    "shadowDepth": {
+      "bakes": 48,
+      "blits": 122,
+      "skippedDraws": 63,
+      "skippedTriangles": 294264,
+      "cachedCasters": 63,
+      "targetBytes": 8388608
+    }
+  },
+  {
+    "id": "nature",
+    "repeat": false,
+    "changed": 0,
+    "reuploadChanged": null,
+    "dpr": 2,
+    "before": {
+      "frame": 411,
+      "calls": 169,
+      "triangles": 392164,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 416,
+      "calls": 162,
+      "triangles": 353420,
+      "points": 320,
+      "lines": 0
+    },
+    "shadowDepth": {
+      "bakes": 50,
+      "blits": 152,
+      "skippedDraws": 7,
+      "skippedTriangles": 38744,
+      "cachedCasters": 7,
+      "targetBytes": 8388608
+    }
+  },
+  {
+    "id": "sakura",
+    "repeat": false,
+    "changed": 0,
+    "reuploadChanged": null,
+    "dpr": 2,
+    "before": {
+      "frame": 477,
+      "calls": 301,
+      "triangles": 1234112,
+      "points": 740,
+      "lines": 0
+    },
+    "after": {
+      "frame": 482,
+      "calls": 293,
+      "triangles": 947300,
+      "points": 740,
+      "lines": 0
+    },
+    "shadowDepth": {
+      "bakes": 79,
+      "blits": 154,
+      "skippedDraws": 8,
+      "skippedTriangles": 286812,
+      "cachedCasters": 8,
+      "targetBytes": 8388608
+    }
+  },
+  {
+    "id": "clouds",
+    "repeat": false,
+    "changed": 0,
+    "reuploadChanged": null,
+    "dpr": 2,
+    "before": {
+      "frame": 543,
+      "calls": 133,
+      "triangles": 312560,
+      "points": 0,
+      "lines": 0
+    },
+    "after": {
+      "frame": 548,
+      "calls": 126,
+      "triangles": 271396,
+      "points": 0,
+      "lines": 0
+    },
+    "shadowDepth": {
+      "bakes": 81,
+      "blits": 184,
+      "skippedDraws": 7,
+      "skippedTriangles": 41164,
+      "cachedCasters": 7,
+      "targetBytes": 8388608
+    }
+  },
+  {
+    "id": "desert",
+    "repeat": false,
+    "changed": 0,
+    "reuploadChanged": null,
+    "dpr": 2,
+    "before": {
+      "frame": 609,
+      "calls": 188,
+      "triangles": 385112,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 614,
+      "calls": 181,
+      "triangles": 330800,
+      "points": 320,
+      "lines": 0
+    },
+    "shadowDepth": {
+      "bakes": 108,
+      "blits": 186,
+      "skippedDraws": 7,
+      "skippedTriangles": 54312,
+      "cachedCasters": 7,
+      "targetBytes": 8388608
+    }
+  },
+  {
+    "id": "stars",
+    "repeat": false,
+    "changed": 0,
+    "reuploadChanged": null,
+    "dpr": 2,
+    "before": {
+      "frame": 675,
+      "calls": 185,
+      "triangles": 370844,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 680,
+      "calls": 175,
+      "triangles": 323636,
+      "points": 320,
+      "lines": 0
+    },
+    "shadowDepth": {
+      "bakes": 137,
+      "blits": 188,
+      "skippedDraws": 11,
+      "skippedTriangles": 47208,
+      "cachedCasters": 11,
+      "targetBytes": 8388608
+    }
+  },
+  {
+    "id": "volcano",
+    "repeat": false,
+    "changed": 0,
+    "reuploadChanged": null,
+    "dpr": 2,
+    "before": {
+      "frame": 741,
+      "calls": 563,
+      "triangles": 975328,
+      "points": 740,
+      "lines": 0
+    },
+    "after": {
+      "frame": 746,
+      "calls": 547,
+      "triangles": 799724,
+      "points": 740,
+      "lines": 0
+    },
+    "shadowDepth": {
+      "bakes": 166,
+      "blits": 190,
+      "skippedDraws": 17,
+      "skippedTriangles": 175604,
+      "cachedCasters": 17,
+      "targetBytes": 8388608
+    }
+  },
+  {
+    "id": "crystal",
+    "repeat": false,
+    "changed": 0,
+    "reuploadChanged": null,
+    "dpr": 2,
+    "before": {
+      "frame": 807,
+      "calls": 245,
+      "triangles": 410848,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 812,
+      "calls": 238,
+      "triangles": 366100,
+      "points": 320,
+      "lines": 0
+    },
+    "shadowDepth": {
+      "bakes": 169,
+      "blits": 219,
+      "skippedDraws": 7,
+      "skippedTriangles": 44748,
+      "cachedCasters": 7,
+      "targetBytes": 8388608
+    }
+  },
+  {
+    "id": "candy",
+    "repeat": false,
+    "changed": 0,
+    "reuploadChanged": null,
+    "dpr": 2,
+    "before": {
+      "frame": 873,
+      "calls": 159,
+      "triangles": 378176,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 878,
+      "calls": 152,
+      "triangles": 339840,
+      "points": 320,
+      "lines": 0
+    },
+    "shadowDepth": {
+      "bakes": 198,
+      "blits": 221,
+      "skippedDraws": 7,
+      "skippedTriangles": 38336,
+      "cachedCasters": 7,
+      "targetBytes": 8388608
+    }
+  },
+  {
+    "id": "rainbow",
+    "repeat": false,
+    "changed": 0,
+    "reuploadChanged": null,
+    "dpr": 2,
+    "before": {
+      "frame": 939,
+      "calls": 174,
+      "triangles": 385344,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 944,
+      "calls": 167,
+      "triangles": 347496,
+      "points": 320,
+      "lines": 0
+    },
+    "shadowDepth": {
+      "bakes": 227,
+      "blits": 223,
+      "skippedDraws": 7,
+      "skippedTriangles": 37848,
+      "cachedCasters": 7,
+      "targetBytes": 8388608
+    }
+  },
+  {
+    "id": "bamboo",
+    "repeat": false,
+    "changed": 0,
+    "reuploadChanged": null,
+    "dpr": 2,
+    "before": {
+      "frame": 1005,
+      "calls": 215,
+      "triangles": 434317,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1010,
+      "calls": 208,
+      "triangles": 392629,
+      "points": 320,
+      "lines": 0
+    },
+    "shadowDepth": {
+      "bakes": 237,
+      "blits": 225,
+      "skippedDraws": 7,
+      "skippedTriangles": 41688,
+      "cachedCasters": 7,
+      "targetBytes": 8388608
+    }
+  },
+  {
+    "id": "mushrooms",
+    "repeat": false,
+    "changed": 0,
+    "reuploadChanged": null,
+    "dpr": 2,
+    "before": {
+      "frame": 1071,
+      "calls": 158,
+      "triangles": 418248,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1076,
+      "calls": 151,
+      "triangles": 366092,
+      "points": 320,
+      "lines": 0
+    },
+    "shadowDepth": {
+      "bakes": 266,
+      "blits": 227,
+      "skippedDraws": 7,
+      "skippedTriangles": 52156,
+      "cachedCasters": 7,
+      "targetBytes": 8388608
+    }
+  },
+  {
+    "id": "galaxy",
+    "repeat": false,
+    "changed": 0,
+    "reuploadChanged": null,
+    "dpr": 2,
+    "before": {
+      "frame": 1137,
+      "calls": 436,
+      "triangles": 1058892,
+      "points": 740,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1142,
+      "calls": 424,
+      "triangles": 891972,
+      "points": 740,
+      "lines": 0
+    },
+    "shadowDepth": {
+      "bakes": 295,
+      "blits": 229,
+      "skippedDraws": 12,
+      "skippedTriangles": 166920,
+      "cachedCasters": 12,
+      "targetBytes": 8388608
+    }
+  },
+  {
+    "id": "coral",
+    "repeat": false,
+    "changed": 0,
+    "reuploadChanged": null,
+    "dpr": 2,
+    "before": {
+      "frame": 1203,
+      "calls": 154,
+      "triangles": 466132,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1208,
+      "calls": 147,
+      "triangles": 398388,
+      "points": 320,
+      "lines": 0
+    },
+    "shadowDepth": {
+      "bakes": 297,
+      "blits": 259,
+      "skippedDraws": 7,
+      "skippedTriangles": 67744,
+      "cachedCasters": 7,
+      "targetBytes": 8388608
+    }
+  },
+  {
+    "id": "lotus",
+    "repeat": false,
+    "changed": 0,
+    "reuploadChanged": null,
+    "dpr": 2,
+    "before": {
+      "frame": 1269,
+      "calls": 155,
+      "triangles": 436960,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1274,
+      "calls": 146,
+      "triangles": 377944,
+      "points": 320,
+      "lines": 0
+    },
+    "shadowDepth": {
+      "bakes": 326,
+      "blits": 261,
+      "skippedDraws": 9,
+      "skippedTriangles": 59016,
+      "cachedCasters": 9,
+      "targetBytes": 8388608
+    }
+  },
+  {
+    "id": "ice",
+    "repeat": false,
+    "changed": 0,
+    "reuploadChanged": null,
+    "dpr": 2,
+    "before": {
+      "frame": 1335,
+      "calls": 753,
+      "triangles": 988524,
+      "points": 740,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1340,
+      "calls": 740,
+      "triangles": 809132,
+      "points": 740,
+      "lines": 0
+    },
+    "shadowDepth": {
+      "bakes": 355,
+      "blits": 263,
+      "skippedDraws": 15,
+      "skippedTriangles": 179392,
+      "cachedCasters": 15,
+      "targetBytes": 8388608
+    }
+  },
+  {
+    "id": "clockwork",
+    "repeat": false,
+    "changed": 0,
+    "reuploadChanged": null,
+    "dpr": 2,
+    "before": {
+      "frame": 1401,
+      "calls": 787,
+      "triangles": 2475624,
+      "points": 420,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1406,
+      "calls": 708,
+      "triangles": 2091916,
+      "points": 420,
+      "lines": 0
+    },
+    "shadowDepth": {
+      "bakes": 357,
+      "blits": 293,
+      "skippedDraws": 79,
+      "skippedTriangles": 383708,
+      "cachedCasters": 79,
+      "targetBytes": 8388608
+    }
+  },
+  {
+    "id": "dusk",
+    "repeat": false,
+    "changed": 0,
+    "reuploadChanged": null,
+    "dpr": 2,
+    "before": {
+      "frame": 1467,
+      "calls": 163,
+      "triangles": 413544,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1472,
+      "calls": 156,
+      "triangles": 368796,
+      "points": 320,
+      "lines": 0
+    },
+    "shadowDepth": {
+      "bakes": 387,
+      "blits": 295,
+      "skippedDraws": 7,
+      "skippedTriangles": 44748,
+      "cachedCasters": 7,
+      "targetBytes": 8388608
+    }
+  },
+  {
+    "id": "aquapark",
+    "repeat": false,
+    "changed": 0,
+    "reuploadChanged": null,
+    "dpr": 2,
+    "before": {
+      "frame": 1533,
+      "calls": 261,
+      "triangles": 800140,
+      "points": 420,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1538,
+      "calls": 250,
+      "triangles": 682559,
+      "points": 420,
+      "lines": 0
+    },
+    "shadowDepth": {
+      "bakes": 416,
+      "blits": 297,
+      "skippedDraws": 11,
+      "skippedTriangles": 117581,
+      "cachedCasters": 11,
+      "targetBytes": 8388608
+    }
+  },
+  {
+    "id": "foodcourt",
+    "repeat": false,
+    "changed": 0,
+    "reuploadChanged": null,
+    "dpr": 2,
+    "before": {
+      "frame": 1599,
+      "calls": 132,
+      "triangles": 575267,
+      "points": 0,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1604,
+      "calls": 114,
+      "triangles": 454447,
+      "points": 0,
+      "lines": 0
+    },
+    "shadowDepth": {
+      "bakes": 422,
+      "blits": 299,
+      "skippedDraws": 18,
+      "skippedTriangles": 120820,
+      "cachedCasters": 18,
+      "targetBytes": 8388608
+    }
+  },
+  {
+    "id": "bikini",
+    "repeat": false,
+    "changed": 0,
+    "reuploadChanged": null,
+    "dpr": 2,
+    "before": {
+      "frame": 1665,
+      "calls": 175,
+      "triangles": 683668,
+      "points": 0,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1670,
+      "calls": 152,
+      "triangles": 495692,
+      "points": 0,
+      "lines": 0
+    },
+    "shadowDepth": {
+      "bakes": 451,
+      "blits": 301,
+      "skippedDraws": 23,
+      "skippedTriangles": 187976,
+      "cachedCasters": 23,
+      "targetBytes": 8388608
+    }
+  },
+  {
+    "id": "homestead",
+    "repeat": false,
+    "changed": 0,
+    "reuploadChanged": 0,
+    "dpr": 2,
+    "before": {
+      "frame": 1731,
+      "calls": 673,
+      "triangles": 2191922,
+      "points": 0,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1738,
+      "calls": 500,
+      "triangles": 1901910,
+      "points": 0,
+      "lines": 0
+    },
+    "shadowDepth": {
+      "bakes": 481,
+      "blits": 305,
+      "skippedDraws": 173,
+      "skippedTriangles": 290012,
+      "cachedCasters": 173,
+      "targetBytes": 8388608
+    }
+  },
+  {
+    "id": "aquarium",
+    "repeat": false,
+    "changed": 0,
+    "reuploadChanged": 0,
+    "dpr": 2,
+    "before": {
+      "frame": 14,
+      "calls": 205,
+      "triangles": 1777941,
+      "points": 0,
+      "lines": 0
+    },
+    "after": {
+      "frame": 21,
+      "calls": 190,
+      "triangles": 1699585,
+      "points": 0,
+      "lines": 0
+    },
+    "shadowDepth": {
+      "bakes": 3,
+      "blits": 9,
+      "skippedDraws": 15,
+      "skippedTriangles": 78356,
+      "cachedCasters": 15,
+      "targetBytes": 8388608
+    }
+  },
+  {
+    "id": "jobcity",
+    "repeat": false,
+    "changed": 0,
+    "reuploadChanged": null,
+    "dpr": 2,
+    "before": {
+      "frame": 82,
+      "calls": 113,
+      "triangles": 970838,
+      "points": 0,
+      "lines": 0
+    },
+    "after": {
+      "frame": 87,
+      "calls": 92,
+      "triangles": 802374,
+      "points": 0,
+      "lines": 0
+    },
+    "shadowDepth": {
+      "bakes": 6,
+      "blits": 38,
+      "skippedDraws": 23,
+      "skippedTriangles": 168464,
+      "cachedCasters": 23,
+      "targetBytes": 8388608
+    }
+  },
+  {
+    "id": "cat-homes",
+    "repeat": false,
+    "changed": 0,
+    "reuploadChanged": null,
+    "dpr": 2,
+    "before": {
+      "frame": 148,
+      "calls": 18,
+      "triangles": 72800,
+      "points": 0,
+      "lines": 0
+    },
+    "after": {
+      "frame": 153,
+      "calls": 15,
+      "triangles": 52736,
+      "points": 0,
+      "lines": 0
+    },
+    "shadowDepth": {
+      "bakes": 35,
+      "blits": 40,
+      "skippedDraws": 4,
+      "skippedTriangles": 20064,
+      "cachedCasters": 4,
+      "targetBytes": 8388608
+    }
+  },
+  {
+    "id": "aquarium",
+    "repeat": true,
+    "changed": 0,
+    "reuploadChanged": 0,
+    "dpr": 2,
+    "before": {
+      "frame": 214,
+      "calls": 239,
+      "triangles": 1854750,
+      "points": 0,
+      "lines": 0
+    },
+    "after": {
+      "frame": 221,
+      "calls": 224,
+      "triangles": 1776394,
+      "points": 0,
+      "lines": 0
+    },
+    "shadowDepth": {
+      "bakes": 60,
+      "blits": 44,
+      "skippedDraws": 15,
+      "skippedTriangles": 78356,
+      "cachedCasters": 15,
+      "targetBytes": 8388608
+    }
+  }
+]
