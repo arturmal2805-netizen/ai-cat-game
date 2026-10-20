@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { createRenderVisibility } from "./render-visibility.js";
 
 export const STATIC_PICK_LAYER = 30;
 const ordinaryShader = THREE.Material.prototype.onBeforeCompile;
@@ -91,6 +92,7 @@ export function createStaticDrawBatch(scene, renderer, camera = null) {
     batches = [],
     enabled = true,
     available = supported;
+  const visibility = createRenderVisibility(scene);
   const previous = scene.onBeforeRender;
   const stats = { sources: 0, batches: 0 };
   function compatible(e) {
@@ -142,30 +144,27 @@ export function createStaticDrawBatch(scene, renderer, camera = null) {
   }
   function update() {
     available = renderer.extensions.has("WEBGL_multi_draw");
+    visibility.reset();
     for (const b of batches) b.visible = false;
     for (const e of entries) {
+      // Hidden sources cannot draw or cast a shadow. Recheck their complete
+      // transform/material on wake; retain native layer restoration on fallback.
+      const shown = visibility.visible(e.mesh);
+      if (!shown && enabled && available) {
+        e.batch.setVisibleAt(e.id, false);
+        continue;
+      }
       if (!e.matrix.equals(e.mesh.matrixWorld)) {
         e.matrix.copy(e.mesh.matrixWorld);
         e.transform = supportedTransform(e.matrix);
         if (e.transform) e.batch.setMatrixAt(e.id, e.matrix);
       }
       const nativeCompatible = compatible(e);
-      let shown = nativeCompatible && e.material.visible;
-      // Preserve native ancestors, including attraction culling, storage,
-      // roof visibility, build previews and shader changes after preparation.
-      let attached = false;
-      for (let o = e.mesh; o; o = o.parent) {
-        if (!o.visible) shown = false;
-        if (o === scene) {
-          attached = true;
-          break;
-        }
-      }
       e.mesh.layers.mask = nativeCompatible
         ? (e.layers & ~1) | (1 << STATIC_PICK_LAYER)
         : e.layers;
-      e.batch.setVisibleAt(e.id, shown && attached);
-      if (shown && attached) e.batch.visible = true;
+      e.batch.setVisibleAt(e.id, shown && nativeCompatible);
+      if (shown && nativeCompatible) e.batch.visible = true;
     }
   }
   scene.onBeforeRender = function (...args) {
@@ -270,6 +269,7 @@ export function createStaticDrawBatch(scene, renderer, camera = null) {
     },
     dispose() {
       restore();
+      visibility.reset();
       scene.onBeforeRender = previous;
     },
   };

@@ -1,4 +1,5 @@
 import { cloudSaveRequest } from "./save-transport.js";
+import { serializeOutbox } from "./outbox-serialization.js";
 
 const TOKEN_KEY = "chichi-recovery-code",
   META_KEY = "chichi-cloud-save";
@@ -206,8 +207,9 @@ export class CloudBackup {
   }
   enqueue(game) {
     if (!this.token || !this.editable || this.conflict) return;
+    const snapshot = structuredClone(game);
     this.pending = {
-      game: structuredClone(game),
+      game: snapshot,
       mutationId: crypto.randomUUID(),
       ...(this.cooperative
         ? { sequence: ++this.sequence, clientId: this.clientId }
@@ -218,7 +220,7 @@ export class CloudBackup {
           }
         : {}),
     };
-    this.localGame = structuredClone(game);
+    this.localGame = snapshot;
     this.saveOutbox();
     this.metadata(true);
     this.onStatus(this.conflict ? "conflict" : "pending");
@@ -431,7 +433,7 @@ export class CloudBackup {
   saveOutbox() {
     if (!this.cooperative) return true;
     try {
-      const value = JSON.stringify({
+      const value = serializeOutbox({
         token: this.token,
         pending: this.pending,
         retryEntry: this.retryEntry,

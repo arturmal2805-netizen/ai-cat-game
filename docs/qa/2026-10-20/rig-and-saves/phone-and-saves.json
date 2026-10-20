@@ -1,0 +1,112 @@
+{
+  "scene": {
+    "legacyShopAquarium": [
+      {
+        "visible": false,
+        "fish": 12
+      }
+    ],
+    "tanks": 5,
+    "fish": 50,
+    "fishDraws": 5,
+    "roofOpacity": 0.075,
+    "stats": {
+      "fishCount": 50,
+      "buildingArea": 3332.38934211693,
+      "islandArea": 4656.625710783471,
+      "staticDraws": 5,
+      "staticMeshes": 11,
+      "sourceMeshes": 2319
+    },
+    "locals": 6,
+    "constructorMs": 10103.40000000596
+  },
+  "raycast": [
+    {
+      "instance": 0,
+      "name": "Aquarium catfish · packed articulated kittens"
+    },
+    {
+      "instance": 0,
+      "name": "Aquarium catfish · packed articulated kittens"
+    },
+    {
+      "instance": 0,
+      "name": "Aquarium catfish · packed articulated kittens"
+    }
+  ],
+  "visitors": {
+    "starts": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "paw": true,
+    "watch": true,
+    "minDistance": 0.07424873508047103,
+    "remaining": 0
+  },
+  "social": [
+    {
+      "kind": "play",
+      "a": [
+        -329.80992502363705,
+        0.41639175970685094,
+        126.84826815958836
+      ],
+      "b": [
+        -332.19007497636295,
+        0.41639175970685094,
+        125.15173184041164
+      ],
+      "seat": 0.8032799999999999
+    },
+    {
+      "kind": "piggyback",
+      "a": [
+        -329.5387624799574,
+        1.0027726060871012,
+        126.83469272112325
+      ],
+      "b": [
+        -329.38123111925114,
+        0.1994926060871013,
+        126.68040688122203
+      ],
+      "seat": 0.8032799999999999
+    }
+  ],
+  "touchDrops": [
+    {
+      "actor": "luna",
+      "target": "moti",
+      "kind": "piggyback",
+      "friend": "moti"
+    },
+    {
+      "actor": "chichi",
+      "target": "moti",
+      "kind": "piggyback",
+      "friend": "moti"
+    },
+    {
+      "actor": "luna",
+      "target": "chichi",
+      "kind": "piggyback",
+      "friend": "luna"
+    }
+  ],
+  "renderer": {
+    "draws": 252,
+    "triangles": 2784974,
+    "geometries": 476,
+    "textures": 94,
+    "frames": 22,
+    "contextLost": false
+  },
+  "errors": [],
+  "httpErrors": []
+}

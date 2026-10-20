@@ -116,3 +116,54 @@ test("budget retains the most recently used geometry and external disposal is ac
   assert.equal(f.residency.stats.bytes, 0);
   assert.equal(f.residency.stats.geometries, 0);
 });
+
+test("GPU-only eviction preserves a living cat and its pose slots across repeated returns", async () => {
+  const { createCat, disposeCat } = await import("../public/cat-model.js");
+  const { enableCatRenderBatch } = await import(
+    "../public/cat-render-batch.js"
+  );
+  const { createCatPoseAtlas } = await import("../public/cat-pose-atlas.js");
+  const scene = new THREE.Scene(),
+    atlas = createCatPoseAtlas(scene);
+  const cat = createCat("happy", { breed: "british", detail: "npc" });
+  scene.add(cat);
+  enableCatRenderBatch(cat, atlas);
+  const initial = { cats: atlas.stats.cats, entries: atlas.stats.entries };
+  assert.equal(initial.cats, 1);
+  assert.ok(initial.entries > 0);
+  const buffers = cat.userData.renderBatches.batches,
+    f = fixture();
+  const slots = cat.userData.renderBatches.palettes.map(
+    (p) => p.slot.offset.value,
+  );
+  for (let round = 0; round < 3; round++) {
+    f.time(round * 2000);
+    for (const mesh of buffers) {
+      mesh.userData.nativeBuffersResident = true;
+      f.draw(mesh.geometry);
+    }
+    f.time(round * 2000 + 11);
+    f.residency.sweep();
+    assert.equal(f.residency.stats.bytes, 0);
+    assert.equal(
+      atlas.stats.cats,
+      initial.cats,
+      "cache eviction must never unregister a living cat",
+    );
+    assert.equal(
+      atlas.stats.entries,
+      initial.entries,
+      "joint slots must not be reused by another cat",
+    );
+    assert.deepEqual(
+      cat.userData.renderBatches.palettes.map((p) => p.slot.offset.value),
+      slots,
+    );
+    assert.ok(buffers.every((m) => m.geometry.attributes.position.count > 0));
+  }
+  disposeCat(cat);
+  assert.equal(atlas.stats.cats, 0);
+  assert.equal(atlas.stats.entries, 0);
+  f.residency.dispose();
+  atlas.dispose();
+});

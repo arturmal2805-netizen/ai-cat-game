@@ -122,6 +122,18 @@ duplicating or resurrecting a building removed on the other device.
   attribute owners retire together only when all are idle. Current rendering
   always wins over the cache budget. Compare real pixels after re-upload.
 
+- GPU buffer retirement must use `retireGeometryBuffers`, not an unscoped
+  geometry disposal: native cat disposal listeners also own atlas lifetimes.
+  Check live registration AND joint-entry totals after repeated eviction/wake,
+  then check that actual model destruction still frees every slot once.
+- Hidden-leaf matrix deferral is limited to non-hero rigs. Never defer child
+  bones or generated draw batches whose visibility is decided after matrix
+  traversal. Explicit hidden skinned queries must refresh bind inverses. Test
+  visible/waking poses, tongue transitions and exact native GPU images.
+- Cloud queue performance changes must retain legacy journal bytes, synchronous
+  durable writes/read-back and immutable owned merge snapshots. Do not defer a
+  purchase save to hide a slow frame; test restart, lost ACK and cached clients.
+
 ## Permanent families and personal cat lives
 
 - Preserve released `cat-sex.js` identity assignments: changing the hash or an

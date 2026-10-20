@@ -1,0 +1,516 @@
+[
+  {
+    "id": "bikini",
+    "frames": {
+      "samples": 180,
+      "median": 21.400000005960464,
+      "p95": 59.400000005960464,
+      "max": 1106.8999999761581
+    },
+    "longTasks": [
+      {
+        "start": 60713.20000001788,
+        "duration": 82
+      },
+      {
+        "start": 60836,
+        "duration": 59
+      },
+      {
+        "start": 61187.60000002384,
+        "duration": 63
+      },
+      {
+        "start": 61369.40000000596,
+        "duration": 60
+      },
+      {
+        "start": 61526.40000000596,
+        "duration": 111
+      },
+      {
+        "start": 61708.10000002384,
+        "duration": 50
+      },
+      {
+        "start": 61775.70000001788,
+        "duration": 117
+      },
+      {
+        "start": 61971.60000002384,
+        "duration": 1107
+      },
+      {
+        "start": 63162.40000000596,
+        "duration": 122
+      },
+      {
+        "start": 63495.90000000596,
+        "duration": 50
+      },
+      {
+        "start": 63620,
+        "duration": 61
+      },
+      {
+        "start": 63784.40000000596,
+        "duration": 60
+      },
+      {
+        "start": 63924.40000000596,
+        "duration": 51
+      },
+      {
+        "start": 63992.60000002384,
+        "duration": 52
+      },
+      {
+        "start": 64163.60000002384,
+        "duration": 132
+      },
+      {
+        "start": 65177.30000001192,
+        "duration": 58
+      },
+      {
+        "start": 66223.70000001788,
+        "duration": 149
+      },
+      {
+        "start": 68294.30000001192,
+        "duration": 122
+      },
+      {
+        "start": 69806.30000001192,
+        "duration": 88
+      }
+    ],
+    "draw": {
+      "frame": 195,
+      "calls": 191,
+      "triangles": 772656,
+      "points": 0,
+      "lines": 0
+    },
+    "poses": {
+      "entries": 4952,
+      "rows": 0,
+      "bytes": 0,
+      "cats": 180,
+      "updatedCats": 2
+    },
+    "colony": {
+      "sources": 1644,
+      "batches": 13,
+      "ready": true,
+      "active": false
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "residency": {
+      "bytes": 100702226,
+      "geometries": 480,
+      "evicted": 0
+    },
+    "persistence": {
+      "samples": 12,
+      "median": 35.30000001192093,
+      "max": 54.099999994039536,
+      "clones": 24,
+      "writes": 48,
+      "storageMs": 240.99999997019768,
+      "outboxBytes": 709093
+    }
+  },
+  {
+    "id": "aquarium",
+    "frames": {
+      "samples": 180,
+      "median": 16.700000017881393,
+      "p95": 43.900000005960464,
+      "max": 2467.0999999940395
+    },
+    "longTasks": [
+      {
+        "start": 72926.20000001788,
+        "duration": 95
+      },
+      {
+        "start": 73121.20000001788,
+        "duration": 2467
+      },
+      {
+        "start": 75608.90000000596,
+        "duration": 89
+      },
+      {
+        "start": 78707.30000001192,
+        "duration": 55
+      },
+      {
+        "start": 79166,
+        "duration": 144
+      },
+      {
+        "start": 81257.90000000596,
+        "duration": 248
+      }
+    ],
+    "draw": {
+      "frame": 376,
+      "calls": 192,
+      "triangles": 1986302,
+      "points": 0,
+      "lines": 0
+    },
+    "poses": {
+      "entries": 4952,
+      "rows": 0,
+      "bytes": 0,
+      "cats": 180,
+      "updatedCats": 6
+    },
+    "colony": {
+      "sources": 1644,
+      "batches": 13,
+      "ready": true,
+      "active": false
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "residency": {
+      "bytes": 128238389,
+      "geometries": 521,
+      "evicted": 0
+    },
+    "persistence": {
+      "samples": 12,
+      "median": 36.900000005960464,
+      "max": 57.80000001192093,
+      "clones": 24,
+      "writes": 48,
+      "storageMs": 251.99999982118607,
+      "outboxBytes": 709165
+    }
+  },
+  {
+    "id": "homestead",
+    "frames": {
+      "samples": 180,
+      "median": 46.69999998807907,
+      "p95": 103.30000001192093,
+      "max": 5006.5999999940395
+    },
+    "longTasks": [
+      {
+        "start": 135548.90000000596,
+        "duration": 95
+      },
+      {
+        "start": 135661.70000001788,
+        "duration": 72
+      },
+      {
+        "start": 135750.80000001192,
+        "duration": 81
+      },
+      {
+        "start": 135848.90000000596,
+        "duration": 61
+      },
+      {
+        "start": 135931.60000002384,
+        "duration": 52
+      },
+      {
+        "start": 136000.90000000596,
+        "duration": 102
+      },
+      {
+        "start": 136120.5,
+        "duration": 59
+      },
+      {
+        "start": 136196.70000001788,
+        "duration": 55
+      },
+      {
+        "start": 136333.30000001192,
+        "duration": 5006
+      },
+      {
+        "start": 141357.90000000596,
+        "duration": 133
+      },
+      {
+        "start": 141610.90000000596,
+        "duration": 51
+      },
+      {
+        "start": 141919.40000000596,
+        "duration": 51
+      },
+      {
+        "start": 142370.90000000596,
+        "duration": 204
+      },
+      {
+        "start": 143033.20000001788,
+        "duration": 51
+      },
+      {
+        "start": 143163.80000001192,
+        "duration": 56
+      },
+      {
+        "start": 144171.40000000596,
+        "duration": 86
+      },
+      {
+        "start": 144344.20000001788,
+        "duration": 50
+      },
+      {
+        "start": 144426.40000000596,
+        "duration": 174
+      },
+      {
+        "start": 144622.90000000596,
+        "duration": 129
+      },
+      {
+        "start": 144823.90000000596,
+        "duration": 93
+      },
+      {
+        "start": 144942.20000001788,
+        "duration": 52
+      },
+      {
+        "start": 145168.90000000596,
+        "duration": 64
+      },
+      {
+        "start": 145315.10000002384,
+        "duration": 55
+      },
+      {
+        "start": 145453.80000001192,
+        "duration": 55
+      },
+      {
+        "start": 145651.10000002384,
+        "duration": 69
+      },
+      {
+        "start": 145737.60000002384,
+        "duration": 51
+      },
+      {
+        "start": 145806.30000001192,
+        "duration": 84
+      },
+      {
+        "start": 145907.80000001192,
+        "duration": 98
+      },
+      {
+        "start": 146023.80000001192,
+        "duration": 103
+      },
+      {
+        "start": 146404.20000001788,
+        "duration": 51
+      },
+      {
+        "start": 146495.5,
+        "duration": 94
+      },
+      {
+        "start": 146590.60000002384,
+        "duration": 101
+      },
+      {
+        "start": 146710.60000002384,
+        "duration": 51
+      },
+      {
+        "start": 146844.40000000596,
+        "duration": 54
+      },
+      {
+        "start": 146978.60000002384,
+        "duration": 56
+      },
+      {
+        "start": 147305.40000000596,
+        "duration": 51
+      },
+      {
+        "start": 147375,
+        "duration": 51
+      },
+      {
+        "start": 147510.20000001788,
+        "duration": 53
+      },
+      {
+        "start": 148306.20000001788,
+        "duration": 54
+      },
+      {
+        "start": 148377.5,
+        "duration": 90
+      },
+      {
+        "start": 148485,
+        "duration": 59
+      },
+      {
+        "start": 148563.60000002384,
+        "duration": 50
+      },
+      {
+        "start": 148632.80000001192,
+        "duration": 56
+      },
+      {
+        "start": 148706.70000001788,
+        "duration": 58
+      },
+      {
+        "start": 148806.20000001788,
+        "duration": 51
+      },
+      {
+        "start": 148999.40000000596,
+        "duration": 50
+      },
+      {
+        "start": 149130.10000002384,
+        "duration": 50
+      },
+      {
+        "start": 149822.30000001192,
+        "duration": 54
+      },
+      {
+        "start": 150138.80000001192,
+        "duration": 50
+      },
+      {
+        "start": 150267.40000000596,
+        "duration": 82
+      },
+      {
+        "start": 150366.90000000596,
+        "duration": 57
+      },
+      {
+        "start": 150509.40000000596,
+        "duration": 52
+      },
+      {
+        "start": 150578.70000001788,
+        "duration": 52
+      },
+      {
+        "start": 150677.5,
+        "duration": 50
+      },
+      {
+        "start": 152417.10000002384,
+        "duration": 53
+      },
+      {
+        "start": 152672.70000001788,
+        "duration": 207
+      },
+      {
+        "start": 152897.30000001192,
+        "duration": 58
+      },
+      {
+        "start": 153099.20000001788,
+        "duration": 92
+      },
+      {
+        "start": 153208.40000000596,
+        "duration": 106
+      },
+      {
+        "start": 153332.40000000596,
+        "duration": 112
+      },
+      {
+        "start": 153461.80000001192,
+        "duration": 78
+      },
+      {
+        "start": 153558.10000002384,
+        "duration": 132
+      },
+      {
+        "start": 153708.10000002384,
+        "duration": 64
+      },
+      {
+        "start": 153789.5,
+        "duration": 66
+      },
+      {
+        "start": 153873.40000000596,
+        "duration": 59
+      },
+      {
+        "start": 153950.10000002384,
+        "duration": 59
+      }
+    ],
+    "draw": {
+      "frame": 557,
+      "calls": 496,
+      "triangles": 4542604,
+      "points": 0,
+      "lines": 0
+    },
+    "poses": {
+      "entries": 4952,
+      "rows": 56,
+      "bytes": 458752,
+      "cats": 180,
+      "updatedCats": 98
+    },
+    "colony": {
+      "sources": 1644,
+      "batches": 13,
+      "ready": true,
+      "active": true
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "residency": {
+      "bytes": 200271255,
+      "geometries": 359,
+      "evicted": 341
+    },
+    "persistence": {
+      "samples": 12,
+      "median": 31.599999994039536,
+      "max": 45.29999998211861,
+      "clones": 24,
+      "writes": 48,
+      "storageMs": 220.20000004768372,
+      "outboxBytes": 719085
+    }
+  }
+]

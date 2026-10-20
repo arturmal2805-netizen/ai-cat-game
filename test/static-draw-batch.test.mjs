@@ -227,3 +227,32 @@ test("native props stay visible until parallel shader preparation finishes, incl
   assert.equal(pending.parent, null);
   assert.ok(roots.every((r) => r.children[0].layers.mask === 1));
 });
+
+test("hidden sources wake with current transforms and native fallbacks after material/geometry changes", () => {
+  const { scene, roots, runtime } = setup();
+  const batch = scene.children.find((o) => o.isBatchedMesh);
+  roots[0].visible = false;
+  scene.onBeforeRender();
+  roots[0].position.set(25, 2, 7);
+  roots[0].children[0].material.opacity = 0.4;
+  roots[1].visible = false;
+  roots[1].children[0].geometry = new T.SphereGeometry();
+  scene.updateMatrixWorld(true);
+  scene.onBeforeRender();
+  assert.equal(batch.getVisibleAt(0), false);
+  assert.equal(batch.getVisibleAt(1), false);
+  roots[0].visible = roots[1].visible = true;
+  scene.updateMatrixWorld(true);
+  scene.onBeforeRender();
+  assert.equal(roots[0].children[0].layers.mask, 1);
+  assert.equal(roots[1].children[0].layers.mask, 1);
+  assert.equal(batch.getVisibleAt(0), false);
+  assert.equal(batch.getVisibleAt(1), false);
+  roots[0].children[0].material.opacity = 1;
+  scene.onBeforeRender();
+  const matrix = new T.Matrix4();
+  batch.getMatrixAt(0, matrix);
+  assert.deepEqual(matrix.elements, roots[0].children[0].matrixWorld.elements);
+  assert.equal(batch.getVisibleAt(0), true);
+  runtime.dispose();
+});

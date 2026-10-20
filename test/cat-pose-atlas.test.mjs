@@ -234,7 +234,7 @@ test("render traversal omits CPU-only rig branches, restores original child arra
       this.info.render.frame++;
     },
   };
-  const atlas = createCatPoseAtlas(scene),
+  const atlas = createCatPoseAtlas(scene, null, { minimumCats: 7 }),
     colony = createColonyRenderBatch(scene, renderer, camera, atlas);
   enableCatRenderBatch(cat, atlas);
   const children = cat.children,

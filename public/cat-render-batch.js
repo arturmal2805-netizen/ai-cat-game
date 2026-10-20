@@ -1,4 +1,6 @@
 import * as THREE from "three";
+import { deferHiddenLeafMatrices } from "./scene-visibility.js";
+import { isGeometryBufferRetirement } from "./geometry-residency.js";
 
 // The approved rig remains the source of animation, camera anchors and picking.
 // Only its draw submission changes. No remodelling, LOD or triangle removal.
@@ -392,6 +394,7 @@ export function enableCatRenderBatch(cat, atlas = null) {
   cat.updateWorldMatrix(true, true);
   updateBounds();
   update(null, true);
+  cat.userData.renderBatches.matrixDeferral = deferHiddenLeafMatrices(cat);
   if (atlas) {
     cat.userData.renderBatches.viewId = atlas.register(cat, (renderer) => {
       update(renderer, true);
@@ -415,6 +418,10 @@ export function enableCatRenderBatch(cat, atlas = null) {
         }
       };
       mesh.geometry.addEventListener("dispose", () => {
+        if (isGeometryBufferRetirement(mesh.geometry)) {
+          mesh.userData.nativeBuffersResident = false;
+          return;
+        }
         if (releasingDrawBuffers || released) return;
         released = true;
         palettes[i].slot?.release();

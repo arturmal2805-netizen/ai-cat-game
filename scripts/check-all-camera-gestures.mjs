@@ -40,7 +40,21 @@ export async function checkAllCameraGestures(page, context, review) {
         ),
         b = new Uint8Array(a.length);
       if (q.matrixCache) q.matrixCache.enabled = false;
-      q.drawFrame();
+      const traversal = [];
+      q.poseAtlas.forEachCat((cat) => {
+        const batching = cat.userData.renderBatches;
+        traversal.push([batching, batching.renderChildren]);
+        if (batching.matrixDeferral) batching.matrixDeferral.enabled = false;
+        batching.renderChildren = () => null;
+      });
+      try {
+        q.drawFrame();
+      } finally {
+        for (const [batching, original] of traversal) {
+          batching.renderChildren = original;
+          if (batching.matrixDeferral) batching.matrixDeferral.enabled = true;
+        }
+      }
       gl.readPixels(
         0,
         0,
@@ -66,6 +80,8 @@ export async function checkAllCameraGestures(page, context, review) {
       for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) changed++;
       let reuploadChanged = null;
       if (["aquarium", "homestead"].includes(id)) {
+        const registrations = q.poseAtlas.stats.cats,
+          slots = q.poseAtlas.stats.entries;
         const geometries = new Set(),
           direct = q.renderer.renderBufferDirect;
         q.renderer.renderBufferDirect = function (...args) {
@@ -77,7 +93,12 @@ export async function checkAllCameraGestures(page, context, review) {
         } finally {
           q.renderer.renderBufferDirect = direct;
         }
-        for (const geometry of geometries) geometry.dispose();
+        for (const geometry of geometries) q.geometryResidency.retire(geometry);
+        if (
+          q.poseAtlas.stats.cats !== registrations ||
+          q.poseAtlas.stats.entries !== slots
+        )
+          throw Error("GPU retirement changed live cat/pose registrations");
         q.drawFrame();
         const restored = new Uint8Array(a.length);
         gl.readPixels(
@@ -93,7 +114,27 @@ export async function checkAllCameraGestures(page, context, review) {
         for (let i = 0; i < b.length; i++)
           if (b[i] !== restored[i]) reuploadChanged++;
       }
+      const registered = new Set();
+      let registeredEntries = 0;
+      q.poseAtlas.forEachCat((cat) => {
+        registered.add(cat);
+        for (const palette of cat.userData.renderBatches.palettes)
+          if (palette.slot) registeredEntries += palette.entries.length;
+      });
+      if (registeredEntries !== q.poseAtlas.stats.entries)
+        throw Error("Live cat joint slots were retired with GPU buffers");
+      let attachedCats = 0;
+      q.scene.traverse((object) => {
+        if (object.userData.renderBatches?.atlas !== q.poseAtlas) return;
+        attachedCats++;
+        if (!registered.has(object))
+          throw Error(
+            "A live cat lost its render registration: " + object.name,
+          );
+      });
       return {
+        attachedCats,
+        registeredCats: registered.size,
         changed,
         reuploadChanged,
         before,
@@ -110,7 +151,7 @@ export async function checkAllCameraGestures(page, context, review) {
     assert.equal(
       image.changed,
       0,
-      `${id}: matrix cache must retain the exact image`,
+      `${id}: matrix/traversal caching must retain the exact image`,
     );
     if (image.reuploadChanged !== null)
       assert.equal(
@@ -160,26 +201,42 @@ export async function checkAllCameraGestures(page, context, review) {
           const q = __lagoonQA,
             canvas = q.renderer.domElement;
           if (q.matrixCache) q.matrixCache.enabled = cached;
+          const traversal = [];
+          q.poseAtlas.forEachCat((cat) => {
+            const batching = cat.userData.renderBatches;
+            traversal.push([batching, batching.renderChildren]);
+            if (batching.matrixDeferral)
+              batching.matrixDeferral.enabled = cached;
+            if (!cached) batching.renderChildren = () => null;
+          });
           q.cpu = [];
           const frames = [],
             start = performance.now();
-          for (let i = 0; i < 30; i++) {
-            canvas.dispatchEvent(
-              new WheelEvent("wheel", {
-                deltaY: i < 15 ? -128 : 128,
-                bubbles: true,
-                cancelable: true,
-              }),
-            );
-            q.manualStepping = true;
-            const t = performance.now();
-            try {
-              q.step(t);
-            } finally {
-              q.manualStepping = false;
+          try {
+            for (let i = 0; i < 30; i++) {
+              canvas.dispatchEvent(
+                new WheelEvent("wheel", {
+                  deltaY: i < 15 ? -128 : 128,
+                  bubbles: true,
+                  cancelable: true,
+                }),
+              );
+              q.manualStepping = true;
+              const t = performance.now();
+              try {
+                q.step(t);
+              } finally {
+                q.manualStepping = false;
+              }
+              frames.push(performance.now() - t);
+              await new Promise((r) => setTimeout(r, 17));
             }
-            frames.push(performance.now() - t);
-            await new Promise((r) => setTimeout(r, 17));
+          } finally {
+            for (const [batching, original] of traversal) {
+              batching.renderChildren = original;
+              if (batching.matrixDeferral)
+                batching.matrixDeferral.enabled = true;
+            }
           }
           frames.sort((a, b) => a - b);
           return {

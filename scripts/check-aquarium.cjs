@@ -845,6 +845,13 @@ async function localWorker() {
       assert.deepEqual(httpErrors, []);
       return;
     }
+    if (process.env.CHICHI_FULL_FRAME_AUDIT) {
+      const { auditFullFrames } = await import("./full-frame-audit.mjs");
+      await auditFullFrames(page, context, review);
+      assert.deepEqual(errors, []);
+      assert.deepEqual(httpErrors, []);
+      return;
+    }
     if (process.env.CHICHI_FRAME_AUDIT) {
       const { auditWorldRender } = await import("./world-render-audit.mjs");
       await auditWorldRender(page, context, review);

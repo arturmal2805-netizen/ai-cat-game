@@ -1,0 +1,66 @@
+[
+  {
+    "appearance": {
+      "breed": "british"
+    },
+    "modes": [
+      {
+        "enabled": false,
+        "frames": 120,
+        "compose": 12600,
+        "multiplyMatrices": 22680,
+        "invert": 2160
+      },
+      {
+        "enabled": true,
+        "frames": 120,
+        "compose": 6840,
+        "multiplyMatrices": 16920,
+        "invert": 720
+      }
+    ]
+  },
+  {
+    "appearance": {
+      "breed": "sphynx"
+    },
+    "modes": [
+      {
+        "enabled": false,
+        "frames": 120,
+        "compose": 10680,
+        "multiplyMatrices": 20520,
+        "invert": 1680
+      },
+      {
+        "enabled": true,
+        "frames": 120,
+        "compose": 6600,
+        "multiplyMatrices": 16440,
+        "invert": 720
+      }
+    ]
+  },
+  {
+    "appearance": {
+      "breed": "maine",
+      "build": "giant"
+    },
+    "modes": [
+      {
+        "enabled": false,
+        "frames": 120,
+        "compose": 12960,
+        "multiplyMatrices": 23040,
+        "invert": 2160
+      },
+      {
+        "enabled": true,
+        "frames": 120,
+        "compose": 6840,
+        "multiplyMatrices": 16920,
+        "invert": 720
+      }
+    ]
+  }
+]

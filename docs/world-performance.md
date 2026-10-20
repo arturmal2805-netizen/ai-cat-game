@@ -250,3 +250,32 @@ zoom, exact frozen colour/shadow images and full DPR 2. Aquarium and crowded
 homestead additionally compare pixels after GPU geometry retirement/re-upload.
 WebGL buffer allocation counts are measured separately from CPU command-only
 samples; software-GPU timings must not be reported as Mac or iPhone FPS.
+
+## Retaining live animation state while retiring GPU buffers
+
+GPU-only geometry retirement is explicitly scoped in `geometry-residency.js`.
+The native `BufferGeometry.dispose` event also reaches cat lifecycle listeners;
+those listeners must retain live atlas registrations and joint slots on GPU
+retirement, and release them only on actual model destruction. Regression
+coverage retires/reloads all native cat buffers repeatedly and then destroys the
+model, checking both slot counts and final cleanup. The whole-map check also
+sums every registered cat's expected joint entries after each island visit.
+
+Ordinary non-hero rigs defer hidden mesh leaves during scene matrix traversal.
+Leaves with child bones and generated GPU draw batches remain native; generated
+batch visibility is decided after traversal, so sleeping those batches would
+leave a newly visible tongue on the previous carrier matrix. Explicit world
+queries refresh hidden skinned bind inverses. Visible poses, picking, waking
+parts, mood transitions, effects and Chichi's native rig remain unchanged.
+
+Quiet scenes also omit CPU-only rig branches from colour/shadow traversal after
+matrices have updated. Trees restore before the scene's after-render callback
+and on errors. Hidden/detached cat and prop ancestors are memoized per frame;
+their transform/material compatibility is fully checked when they wake.
+
+Cloud checkpoints reuse one owned clone for the queued/current snapshot and
+serialize repeated snapshot identities once within each outbox write. The
+legacy JSON journal remains byte-for-byte identical, including merge bases,
+mutation IDs, retry entries and sequence numbers. Primary/backup saves,
+synchronous outbox writes, read-back verification and cloud retry ordering
+remain intact; no persistence write is delayed to make a timing sample faster.

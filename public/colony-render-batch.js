@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { createRenderVisibility } from "./render-visibility.js";
 import { rigShader } from "./cat-render-batch.js";
 import { prepareSceneSteps } from "./scene-tasks.js";
 
@@ -149,6 +150,7 @@ export function createColonyRenderBatch(
     disposed = false,
     active = false;
   const stats = { sources: 0, batches: 0, ready: false, active: false };
+  const visibility = createRenderVisibility(scene);
   const before = scene.onBeforeRender;
   const pruned = [],
     nativeRender = renderer.render,
@@ -162,6 +164,7 @@ export function createColonyRenderBatch(
   }
   function prune(cat) {
     const b = cat.userData.renderBatches;
+    if (b.fullRenderChildren || !visibility.visible(cat)) return;
     const children = b.renderChildren();
     if (children && children.length < cat.children.length) {
       b.fullRenderChildren = cat.children;
@@ -195,6 +198,7 @@ export function createColonyRenderBatch(
   }
   function update(...args) {
     before.apply(scene, args); // Original matrices and all current poses are ready.
+    visibility.reset();
     const enabled =
       atlas.enabled &&
       atlas.stats.updatedCats >= Math.max(1, minimumCats - (active ? 1 : 0)) &&
@@ -206,13 +210,16 @@ export function createColonyRenderBatch(
         for (const b of batches) b.visible = false;
         active = false;
       }
-      if (atlas.sharing && typeof nativeRender === "function")
-        atlas.forEachCat(prune);
+      if (typeof nativeRender === "function") atlas.forEachCat(prune);
       return;
     }
     active = true;
     for (const b of batches) b.visible = false;
     for (const e of entries) {
+      if (!visibility.visible(e.cat)) {
+        e.batch.setVisibleAt(e.id, false);
+        continue;
+      }
       const compatible =
         enabled &&
         e.source.geometry === e.geometry &&
@@ -456,6 +463,7 @@ export function createColonyRenderBatch(
       disposed = true;
       generation++;
       restoreTrees();
+      visibility.reset();
       if (renderer.render === draw) renderer.render = nativeRender;
       if (scene.onAfterRender === afterRender) scene.onAfterRender = after;
       restore(entries);

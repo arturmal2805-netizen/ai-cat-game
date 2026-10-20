@@ -1,3 +1,18 @@
+// Buffer retirement is not destruction of the live model/animation owner.
+const retiring = new WeakSet();
+export function isGeometryBufferRetirement(geometry) {
+  return retiring.has(geometry);
+}
+export function retireGeometryBuffers(geometry) {
+  if (retiring.has(geometry)) return;
+  retiring.add(geometry);
+  try {
+    geometry.dispose();
+  } finally {
+    retiring.delete(geometry);
+  }
+}
+
 // Bound GPU geometry left behind while exploring the map. CPU geometry,
 // materials, poses and save objects are retained; Three uploads identical
 // attributes on the next actual draw. Colour AND shadow draws keep them alive.
@@ -60,6 +75,7 @@ export function createGeometryResidency(
   renderer.renderBufferDirect = draw;
   return {
     stats,
+    retire: retireGeometryBuffers,
     sweep(now = clock()) {
       if (disposed || now < nextSweep) return;
       nextSweep = now + 1000;
@@ -90,7 +106,7 @@ export function createGeometryResidency(
         }
         if (!safe) continue;
         for (const record of group) {
-          record.geometry.dispose();
+          retireGeometryBuffers(record.geometry);
           stats.evicted++;
         }
       }
