@@ -2,7 +2,10 @@ import { housingOffers } from "./public/housing-system.js";
 import { JOB_KINDS, JOB_CAPACITY } from "./public/jobcity-data.js";
 import { validateJobAssignments } from "./public/jobcity-system.js";
 import { catSex } from "./public/cat-sex.js";
-import { validateFamilyProposals } from "./public/family-system.js";
+import {
+  validateFamilyProposals,
+  familyReviewLimit,
+} from "./public/family-system.js";
 import { validateLeisureOffers } from "./public/leisure-data.js";
 export const JOB_AI_LIMIT = 192 * 1024;
 export function validateCityAIState(s) {
@@ -75,7 +78,13 @@ export function validateCityAIState(s) {
     leisureOffers: validateLeisureOffers(s.leisureOffers),
     familyReview: {
       due: s.familyReview?.due === true,
-      slots: Math.max(0, Math.min(2, Number(s.familyReview?.slots) || 0)),
+      slots: Math.max(
+        0,
+        Math.min(
+          familyReviewLimit(cats),
+          Math.floor(Number(s.familyReview?.slots) || 0),
+        ),
+      ),
     },
   };
 }
@@ -197,7 +206,7 @@ Include ALL ${state.cats.length} cat indices from 0 through ${state.cats.length 
 Profession is permanent, NOT a daily random job. Keep existing profession unless changeAllowed=1; at most 3 lifetime changes. If profession=-1 choose a first career using personality, skills and preferences. Give a short Ukrainian reason only for changing an established profession; omit reason for an initial or unchanged career.
 Evening: 0=rest/home,1=walk/visit friends,2=drive. Choose 2 ONLY if hasCar=1. Give cats varied free-time choices. Outings is an array of 1-3 DIFFERENT place indices for free time; [] if resting. All offered places are real and available, across all islands. Choose varied food cafes, Krusty Krab, lemonade, art, swimming, rides and rest by personality. Partners share their outings outside work; retain their separate careers. No invented indices. reason is "" for initial/unchanged careers.
 House: -1=no purchase, otherwise its index in houses. Buy only if affordable from that cat's coins; prioritize a first home when saving permits, occasionally another home (no ownership limit). Roommate: -1=none or another catIndex with hasActiveHome=0. An owner keeps their existing active home on another purchase.
-Families: ${state.familyReview?.due ? `this is the rare 14-game-day review; choose up to ${state.familyReview.slots} new mutual lifelong couples, male + female, both partner=-1. Pick compatible personalities, not everyone. Choose the male index ONLY from familyCandidates.males and female ONLY from familyCandidates.females; these lists exclude taken cats. Do NOT repeat existing pairs. Keep every existing partner forever. Total coupled cats is limited to one quarter of the population.` : "NO review today: output families:[]; never form or change a pair."}
+Families: ${state.familyReview?.due ? `this is the rare 14-game-day review; choose up to ${state.familyReview.slots} new mutual lifelong couples, male + female, both partner=-1. Pick compatible personalities gradually. Choose the male index ONLY from familyCandidates.males and female ONLY from familyCandidates.females; these lists exclude taken cats. Do NOT repeat existing pairs. Keep every existing partner forever. Every cat may eventually form a family; the limit applies ONLY to new couples in THIS review, never to the total number of families.` : "NO review today: output families:[]; never form or change a pair."}
 Input cat columns: [index,name,personality,coins,profession,changeAllowed,careerChanges,skillsByJob,preferredJobs,lastPaidDay,recentWorkedDays,hasCar,ownedHomes,hasActiveHome,wishes,sex(0male/1female),partnerIndex(-1none)]. House columns: [index,id,name,price]. Place columns: [index,typeIndex,islandIndex,action]; types and islands give their names. Keep every row compact: numbers, no repeated names or keys. One batch for the whole day, no follow-up requests.`,
       },
       {

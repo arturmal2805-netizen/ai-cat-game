@@ -16,6 +16,7 @@ import {
   familyPartners,
   applyFamilyDecisions,
   familyLimit,
+  familyReviewLimit,
 } from "../public/family-system.js";
 import { buyCatHome, ownedHomes } from "../public/housing-system.js";
 import { mergeSharedWorld } from "../shared-world.mjs";
@@ -73,7 +74,7 @@ test("the new calendar begins on day one without resetting existing work, wallet
   assert.equal(familyReview(n, 27).due, true);
   assert.deepEqual(n.jobCity, g.jobCity);
 });
-test("only real AI creates lifelong families, at most a quarter of cats, with no replayed or daily replacement", () => {
+test("AI introduces families gradually every fourteen days and can eventually pair all compatible cats beyond the first quarter", () => {
   let g = seed();
   const plan = localJobPlan(Object.values(g.jobCity.profiles), 13),
     p = choices(g);
@@ -86,15 +87,65 @@ test("only real AI creates lifelong families, at most a quarter of cats, with no
   assert.equal(Object.keys(first).length, 2);
   assert.equal(applyFamilyDecisions(g, 13, p), g);
   assert.equal(applyFamilyDecisions(g, 14, choices(g)), g);
-  for (let day = 27; day < 300; day += 14)
+  for (let day = 27; day < 1200; day += 14) {
+    const before = Object.keys(g.family.couples).length;
     g = applyFamilyDecisions(g, day, choices(g));
+    assert.ok(Object.keys(g.family.couples).length - before <= 2);
+    assert.equal(applyFamilyDecisions(g, day + 1, choices(g)), g);
+  }
   assert.equal(
     Object.keys(g.family.couples).length,
     familyLimit(Object.values(g.jobCity.profiles)),
   );
-  assert.equal(familyPartners(g).size, 36);
+  assert.ok(
+    familyPartners(g).size > Object.keys(g.jobCity.profiles).length / 4,
+  );
+  assert.equal(
+    familyPartners(g).size,
+    familyLimit(Object.values(g.jobCity.profiles)) * 2,
+  );
   for (const [id, pair] of Object.entries(first))
     assert.deepEqual(g.family.couples[id], pair);
+});
+test("a small colony can start one family and remaining singles stay eligible in future reviews", () => {
+  let g = seed();
+  const pairs = choices(g),
+    ids = pairs.flatMap((p) => [p.male, p.female]);
+  g.jobCity.profiles = Object.fromEntries(
+    ids.map((id) => [id, g.jobCity.profiles[id]]),
+  );
+  assert.equal(familyReview(g, 13).slots, 1);
+  g = applyFamilyDecisions(g, 13, [pairs[0]]);
+  assert.equal(familyReview(g, 27).slots, 1);
+  g = applyFamilyDecisions(g, 27, [pairs[1]]);
+  assert.equal(Object.keys(g.family.couples).length, 2);
+  assert.equal(familyReview(g, 41).due, false);
+});
+
+test("each AI review can introduce a quarter of the roster, and later reviews keep pairing the remaining singles", () => {
+  let g = seed();
+  const total = Object.keys(g.jobCity.profiles).length;
+  for (let day = 13; day <= 69; day += 14) {
+    const review = familyReview(g, day),
+      before = familyPartners(g).size;
+    if (!review.due) break;
+    assert.ok(review.slots <= Math.floor(total / 8));
+    assert.equal(
+      validateCityAIState(jobAIState(g, now + day * 1440000)).familyReview
+        .slots,
+      review.slots,
+    );
+    g = applyFamilyDecisions(g, day, choices(g, review.slots));
+    assert.ok(
+      familyPartners(g).size - before <=
+        familyReviewLimit(Object.values(g.jobCity.profiles)) * 2,
+    );
+    assert.equal(applyFamilyDecisions(g, day + 1, choices(g)), g);
+  }
+  assert.equal(
+    Object.keys(g.family.couples).length,
+    familyLimit(Object.values(g.jobCity.profiles)),
+  );
 });
 test("partners live in one owned house, preserve the private price and remain there after extra property purchases", () => {
   let g = seed();

@@ -1,0 +1,108 @@
+{
+  "scene": {
+    "legacyShopAquarium": [
+      {
+        "visible": false,
+        "fish": 12
+      }
+    ],
+    "tanks": 5,
+    "fish": 50,
+    "fishDraws": 5,
+    "roofOpacity": 0.075,
+    "stats": {
+      "fishCount": 50,
+      "buildingArea": 3332.38934211693,
+      "islandArea": 4656.625710783471,
+      "staticDraws": 5,
+      "staticMeshes": 11,
+      "sourceMeshes": 2319
+    },
+    "locals": 6,
+    "constructorMs": 9292.200000017881
+  },
+  "raycast": [
+    {
+      "instance": 0,
+      "name": "Aquarium catfish · packed articulated kittens"
+    },
+    {
+      "instance": 0,
+      "name": "Aquarium catfish · packed articulated kittens"
+    }
+  ],
+  "visitors": {
+    "starts": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "paw": true,
+    "watch": true,
+    "minDistance": 0.0552152115321074,
+    "remaining": 0
+  },
+  "social": [
+    {
+      "kind": "play",
+      "a": [
+        -329.8170788182553,
+        0.4175662984447959,
+        126.85804361625588
+      ],
+      "b": [
+        -332.1829211817447,
+        0.4175662984447959,
+        125.14195638374412
+      ],
+      "seat": 0.8032799999999999
+    },
+    {
+      "kind": "piggyback",
+      "a": [
+        -329.54171958985853,
+        1.0017485307061096,
+        126.8364883079988
+      ],
+      "b": [
+        -329.38364320803976,
+        0.1984685307061096,
+        126.68276092751283
+      ],
+      "seat": 0.8032799999999999
+    }
+  ],
+  "touchDrops": [
+    {
+      "actor": "luna",
+      "target": "moti",
+      "kind": "piggyback",
+      "friend": "moti"
+    },
+    {
+      "actor": "chichi",
+      "target": "moti",
+      "kind": "piggyback",
+      "friend": "moti"
+    },
+    {
+      "actor": "luna",
+      "target": "chichi",
+      "kind": "piggyback",
+      "friend": "luna"
+    }
+  ],
+  "renderer": {
+    "draws": 252,
+    "triangles": 2784974,
+    "geometries": 473,
+    "textures": 94,
+    "frames": 18,
+    "contextLost": false
+  },
+  "errors": [],
+  "httpErrors": []
+}

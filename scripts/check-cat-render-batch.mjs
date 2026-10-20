@@ -12,6 +12,8 @@ const output =
   process.env.CHICHI_CAT_BATCH_REVIEW || "/tmp/chichi-cat-batching";
 await mkdir(output, { recursive: true });
 const native = !!process.env.CHICHI_NATIVE_SKIN_CHECK;
+const atlasCheck = !!process.env.CHICHI_CAT_ATLAS_CHECK;
+const colonyCheck = !!process.env.CHICHI_COLONY_CHECK;
 let source = `
 import * as T from 'three';
 import {createCat,animateCat,reactCat,setCatMood,disposeCat} from './public/cat-model.js';
@@ -48,6 +50,52 @@ if (native)
     .replace(
       "function mode(batched){b.setEnabled(batched);}",
       "function mode(optimized){if(optimized)skipUnusedSkinJoints(cat);else for(const [m,[compile,key]] of nativeMaterials){m.onBeforeCompile=compile;m.customProgramCacheKey=key;delete m.userData.skipUnusedSkinJoints;m.needsUpdate=true;}}",
+    );
+if (atlasCheck)
+  source = source
+    .replace(
+      "import * as T from 'three';",
+      "import * as T from 'three';import {createCatPoseAtlas} from './public/cat-pose-atlas.js';",
+    )
+    .replace(
+      "const camera=",
+      "const atlas=createCatPoseAtlas(scene);const camera=",
+    )
+    .replace(
+      "enableCatRenderBatch(cat);",
+      "enableCatRenderBatch(cat,atlas);cat.userData.renderBatches.palettes.forEach(p=>p.textureMode=true);",
+    )
+    .replace(
+      "function mode(batched){b.setEnabled(batched);}",
+      "function mode(batched){atlas.setEnabled(batched);}",
+    );
+if (colonyCheck)
+  source = source
+    .replace(
+      "import * as T from 'three';",
+      "import * as T from 'three';import {createCatPoseAtlas} from './public/cat-pose-atlas.js';import {createColonyRenderBatch} from './public/colony-render-batch.js';",
+    )
+    .replace(
+      "let cat;",
+      "let cat;let crowd=[];const atlas=createCatPoseAtlas(scene),colony=createColonyRenderBatch(scene,renderer,camera,atlas,{minimumCats:1});",
+    )
+    .replace(
+      "if(cat){cat.removeFromParent();disposeCat(cat);}",
+      "for(const c of crowd){c.removeFromParent();disposeCat(c);}crowd=[];",
+    )
+    .replace(
+      "enableCatRenderBatch(cat);await renderer.compileAsync(scene,camera);",
+      `enableCatRenderBatch(cat,atlas);crowd.push(cat);cat.position.x=-1.4;
+      for(let i=1;i<3;i++){const c=createCat('happy',{...options,color:new T.Color(options.color).multiplyScalar(.7+i*.2).getHex()});c.scale.setScalar(.7);c.position.x=-1.4+i*1.4;scene.add(c);enableCatRenderBatch(c,atlas);crowd.push(c);}
+      scene.updateMatrixWorld(true);colony.sync();while(!colony.stats.ready)await new Promise(requestAnimationFrame);await renderer.compileAsync(scene,camera);`,
+    )
+    .replace(
+      "setCatMood(cat,mood,{immediate:true});animateCat(cat,time,walking);reactCat(cat,reaction);scene.updateMatrixWorld(true);cat.userData.renderBatches.update();",
+      "for(const c of crowd){setCatMood(c,mood,{immediate:true});animateCat(c,time,walking);reactCat(c,reaction);}scene.updateMatrixWorld(true);for(const c of crowd)c.userData.renderBatches.update();",
+    )
+    .replace(
+      "function mode(batched){b.setEnabled(batched);}",
+      "function mode(batched){atlas.setEnabled(batched);}",
     );
 const bundle = await build({
   stdin: { contents: source, resolveDir: process.cwd(), loader: "js" },
@@ -102,7 +150,7 @@ try {
         r.mean < 0.02 && r.large < r.pixels * 0.0002,
         JSON.stringify(r),
       );
-      if (native) assert.equal(r.current.calls, r.old.calls);
+      if (native || atlasCheck) assert.equal(r.current.calls, r.old.calls);
       else assert.ok(r.current.calls < r.old.calls, JSON.stringify(r));
     }
   }

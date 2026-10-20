@@ -4,7 +4,6 @@ import {
   familyCalendar,
   familyReview,
   familyPartner,
-  familyLimit,
 } from "./family-system.js";
 import { ownedHomes, availableRoommates } from "./housing-system.js";
 import { houseType } from "./housing-data.js";
@@ -247,9 +246,7 @@ export function createJobCityUI({
           ),
         );
     } else {
-      const review = familyReview(game, c.day),
-        available =
-          Object.keys(game.family?.couples || {}).length < familyLimit(cats);
+      const review = familyReview(game, c.day);
       content.append(
         text(
           "p",
@@ -258,9 +255,7 @@ export function createJobCityUI({
         ),
         text(
           "p",
-          available
-            ? `Сім’я буде приблизно у кожного четвертого котика. AI обирає нові пари раз на 14 ігрових днів. ${review.due ? "Сьогодні можливе нове знайомство." : "Наступний вибір: день " + familyCalendar(game, review.nextDay).number + "."}`
-            : "Сім’я є приблизно у чверті котиків. Решта люблять друзів, власні пригоди та вільний час.",
+          `Кожен котик може знайти свою сім’ю. AI знайомить котиків поступово, раз на 14 ігрових днів; створені пари залишаються разом назавжди. ${review.due ? "Сьогодні можливе нове знайомство." : "Наступний вибір: день " + familyCalendar(game, review.nextDay).number + "."}`,
           "dialog-copy",
         ),
       );

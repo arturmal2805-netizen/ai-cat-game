@@ -307,7 +307,7 @@ async function localWorker() {
                   )
                   .replace(
                     marker,
-                    `  const qa=window.__lagoonQA={staticDraws:typeof staticDraws==='undefined'?null:staticDraws,camera,look,desiredLook,renderer,islands,cat,npcs,chichiCarrier,itemGroups,THREE,scene,pickDrop,pointer,raycaster,ground,viewport,sync,perform,performResident,faceCamera,spa,chill,court,cinema,courtFoods,bikiniLife,enterCourt,exitCourt,getCourtCamera:()=>courtCamera,residentPlay,callbacks,getDragging:()=>draggingCat?.catId,reviewView:(x,z,d)=>{desiredLook.set(x,0,z);desiredDistance=d;azimuth=.15;},constructorMs:performance.now()-qaStart,focused:()=>focused,getOperation:()=>operation,isVisible:()=>worldVisible,getDistance:()=>distance,getDesiredDistance:()=>desiredDistance,frames:0,resizes:0,black:[],audit:false,measure:false,cpu:[]};
+                    `  const qa=window.__lagoonQA={colonyDraws:typeof colonyDraws==='undefined'?null:colonyDraws,animateCat,setCatMood,poseAtlas:typeof poseAtlas==='undefined'?null:poseAtlas,staticDraws:typeof staticDraws==='undefined'?null:staticDraws,camera,look,desiredLook,renderer,islands,cat,npcs,chichiCarrier,itemGroups,THREE,scene,pickDrop,pointer,raycaster,ground,viewport,sync,perform,performResident,faceCamera,spa,chill,court,cinema,courtFoods,bikiniLife,enterCourt,exitCourt,getCourtCamera:()=>courtCamera,residentPlay,callbacks,getDragging:()=>draggingCat?.catId,reviewView:(x,z,d)=>{desiredLook.set(x,0,z);desiredDistance=d;azimuth=.15;},constructorMs:performance.now()-qaStart,focused:()=>focused,getOperation:()=>operation,isVisible:()=>worldVisible,getDistance:()=>distance,getDesiredDistance:()=>desiredDistance,frames:0,resizes:0,black:[],audit:false,measure:false,cpu:[]};
   const draw=renderer.render.bind(renderer);qa.drawFrame=()=>draw(scene,camera);renderer.render=(...args)=>{if(qa.drawPaused)return;draw(...args);qa.frames++;};
   const size=renderer.setSize.bind(renderer);renderer.setSize=(...args)=>{qa.resizes++;return size(...args);};
   const audit=new MutationObserver(()=>{if(!qa.audit)return;const gl=renderer.getContext(),p=new Uint8Array(4);gl.readPixels(0,0,1,1,gl.RGBA,gl.UNSIGNED_BYTE,p);if(p[0]+p[1]+p[2]===0)qa.black.push(Array.from(p));});audit.observe(renderer.domElement,{attributes:true,attributeFilter:['width','height']});
@@ -455,7 +455,11 @@ async function localWorker() {
     assert.equal(report.scene.legacyShopAquarium[0].fish, 12);
     assert.equal(report.scene.fish, 50);
     assert.ok(report.scene.locals >= 6);
-    if (process.env.CHICHI_STATIC_PROOF || process.env.CHICHI_PROP_PROOF) {
+    if (
+      process.env.CHICHI_STATIC_PROOF ||
+      process.env.CHICHI_PROP_PROOF ||
+      process.env.CHICHI_POSE_PROOF
+    ) {
       const stress = !!process.env.CHICHI_SCENE_STRESS;
       if (stress) await page.locator('[data-biome="homestead"]').tap();
       await page.evaluate(
@@ -468,8 +472,10 @@ async function localWorker() {
           Math.abs(__lagoonQA.getDistance() - 85) < 0.1 &&
           __lagoonQA.look.distanceTo(__lagoonQA.desiredLook) < 0.01,
       );
+      if (process.env.CHICHI_POSE_PROOF)
+        await page.waitForFunction(() => __lagoonQA.colonyDraws?.stats.ready);
       const proof = await page.evaluate(
-        ({ stress, timing, diagnose, repeats, props }) => {
+        ({ stress, timing, diagnose, repeats, props, poses }) => {
           const q = __lagoonQA,
             renderer = q.renderer,
             gl = renderer.getContext(),
@@ -483,6 +489,10 @@ async function localWorker() {
           if (props) {
             states.length = 0;
             if (q.staticDraws) states.push(q.staticDraws);
+          }
+          if (poses) {
+            states.length = 0;
+            if (q.poseAtlas) states.push(q.poseAtlas);
           }
           const diagnostic = [];
           const center = stress ? [-250, -55] : [-335, 95],
@@ -602,6 +612,7 @@ async function localWorker() {
                   ? [true, false]
                   : [false, true]) {
                   states.forEach((s) => s.setEnabled(enabled));
+                  draw(enabled ? b : a); // Warm restored/native GPU buffers before timing.
                   samples[enabled ? "spatial" : "native"].push(
                     draw(enabled ? b : a),
                   );
@@ -695,7 +706,9 @@ async function localWorker() {
               max,
               large,
               mean: error / a.length,
-              ...(props ? { nativePNG: png(a), optimizedPNG: png(b) } : {}),
+              ...(props || poses
+                ? { nativePNG: png(a), optimizedPNG: png(b) }
+                : {}),
             });
           }
           return {
@@ -707,6 +720,16 @@ async function localWorker() {
               .filter((g) => g.userData.aquarium === true)
               .reduce((n, g) => n + g.userData.tank.fish, 0),
             contextLost: gl.isContextLost(),
+            ...(poses
+              ? {
+                  shaderErrors: renderer.info.programs
+                    .filter((p) => p.diagnostics?.runnable === false)
+                    .map((p) => ({
+                      key: p.cacheKey,
+                      vertex: gl.getShaderSource(p.vertexShader),
+                    })),
+                }
+              : {}),
           };
         },
         {
@@ -715,6 +738,7 @@ async function localWorker() {
           diagnose: !!process.env.CHICHI_STATIC_DIAGNOSE,
           repeats: Number(process.env.CHICHI_STATIC_TIMING_REPEATS || 1),
           props: !!process.env.CHICHI_PROP_PROOF,
+          poses: !!process.env.CHICHI_POSE_PROOF,
         },
       );
       for (const [i, row] of proof.rows.entries()) {
@@ -741,12 +765,17 @@ async function localWorker() {
             delete d[key];
           }
       console.log(JSON.stringify(proof, null, 2));
-      assert.ok(proof.meshes > (process.env.CHICHI_PROP_PROOF ? 0 : 10));
+      assert.ok(
+        proof.meshes >
+          (process.env.CHICHI_PROP_PROOF || process.env.CHICHI_POSE_PROOF
+            ? 0
+            : 10),
+      );
       for (const r of proof.rows) {
         // Instanced world transforms introduce subpixel float rounding at a
         // few antialiased edges, as with the existing exact cat palette check.
         assert.ok(
-          process.env.CHICHI_PROP_PROOF
+          process.env.CHICHI_PROP_PROOF || process.env.CHICHI_POSE_PROOF
             ? r.mean < 0.002 &&
                 r.large < proof.buffer[0] * proof.buffer[1] * 0.0001
             : r.mean < 0.00001 && r.large === 0,
@@ -781,6 +810,11 @@ async function localWorker() {
         }),
       );
       console.log(JSON.stringify(filters, null, 2));
+      return;
+    }
+    if (process.env.CHICHI_FRAME_AUDIT) {
+      const { auditWorldRender } = await import("./world-render-audit.mjs");
+      await auditWorldRender(page, context, review);
       return;
     }
     if (process.env.CHICHI_GPU_ABLATE) {
@@ -1217,6 +1251,9 @@ async function localWorker() {
             p95: a[Math.floor(a.length * 0.95)],
             draw: { ...q.renderer.info.render },
             staticProps: q.staticDraws?.stats,
+            colony: q.colonyDraws?.stats,
+            poses: q.poseAtlas?.stats,
+            memory: { ...q.renderer.info.memory },
             cats: q.npcs.size,
             dpr: q.renderer.getPixelRatio(),
             contextLost: gl.isContextLost(),

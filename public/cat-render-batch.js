@@ -3,38 +3,66 @@ import * as THREE from "three";
 // The approved rig remains the source of animation, camera anchors and picking.
 // Only its draw submission changes. No remodelling, LOD or triangle removal.
 export const CAT_PICK_LAYER = 31;
-function rigShader(material, palette) {
+export function rigShader(material, palette, atlas) {
   const before = material.onBeforeCompile,
     key = material.customProgramCacheKey(),
     n = palette.entries.length;
   material.onBeforeCompile = function (shader, ...args) {
     before.call(this, shader, ...args);
-    Object.assign(shader.uniforms, {
-      uRigMatrix: palette.positions,
-      uRigNormal: palette.normals,
-      uRigShown: palette.shown,
-    });
+    const stored = palette.textureMode && palette.slot && atlas.enabled;
+    // Three reuses a material's uniform object when returning to an already
+    // compiled program. Keep both bindings present across diagnostic/fallback
+    // switches; inactive uniforms are excluded by the linked program itself.
+    if (palette.slot)
+      Object.assign(shader.uniforms, {
+        uRigTexture: atlas.uniform,
+        uRigOffset: palette.slot.offset,
+      });
+    if (palette.positions)
+      Object.assign(shader.uniforms, {
+        uRigMatrix: palette.positions,
+        uRigNormal: palette.normals,
+        uRigShown: palette.shown,
+      });
     shader.vertexShader =
       `
       attribute vec4 aRigJoints;
       attribute vec4 aRigWeights;
-      uniform mat4 uRigMatrix[${n}];
+      ${
+        stored
+          ? `
+      uniform highp sampler2D uRigTexture;
+      uniform int uRigOffset;
+      vec4 rigTexel(int entry,int column){
+        int at=uRigOffset+entry*8+column;
+        return texelFetch(uRigTexture,ivec2(at%512,at/512),0);
+      }
+      mat4 rigMatrix(int entry){return mat4(rigTexel(entry,0),rigTexel(entry,1),rigTexel(entry,2),rigTexel(entry,3));}
+      mat3 rigNormalMatrix(int entry){return mat3(rigTexel(entry,4).xyz,rigTexel(entry,5).xyz,rigTexel(entry,6).xyz);}
+      float rigShown(int entry){return rigTexel(entry,7).x;}
+      `
+          : `uniform mat4 uRigMatrix[${n}];
       uniform mat3 uRigNormal[${n}];
       uniform float uRigShown[${n}];
+      mat4 rigMatrix(int entry){return uRigMatrix[entry];}
+      mat3 rigNormalMatrix(int entry){return uRigNormal[entry];}
+      float rigShown(int entry){return uRigShown[entry];}
+      `
+      }
       vec3 rigPosition(vec3 p){
         int a=int(aRigJoints.x);
-        if(uRigShown[a]<.5)return vec3(0.);
-        vec4 r=(uRigMatrix[a]*vec4(p,1.))*aRigWeights.x;
-        if(aRigWeights.y>0.)r+=(uRigMatrix[int(aRigJoints.y)]*vec4(p,1.))*aRigWeights.y;
-        if(aRigWeights.z>0.)r+=(uRigMatrix[int(aRigJoints.z)]*vec4(p,1.))*aRigWeights.z;
-        if(aRigWeights.w>0.)r+=(uRigMatrix[int(aRigJoints.w)]*vec4(p,1.))*aRigWeights.w;
+        if(rigShown(a)<.5)return vec3(0.);
+        vec4 r=(rigMatrix(a)*vec4(p,1.))*aRigWeights.x;
+        if(aRigWeights.y>0.)r+=(rigMatrix(int(aRigJoints.y))*vec4(p,1.))*aRigWeights.y;
+        if(aRigWeights.z>0.)r+=(rigMatrix(int(aRigJoints.z))*vec4(p,1.))*aRigWeights.z;
+        if(aRigWeights.w>0.)r+=(rigMatrix(int(aRigJoints.w))*vec4(p,1.))*aRigWeights.w;
         return r.xyz;
       }
       vec3 rigNormal(vec3 p){
-        vec3 r=(uRigNormal[int(aRigJoints.x)]*p)*aRigWeights.x;
-        if(aRigWeights.y>0.)r+=(uRigNormal[int(aRigJoints.y)]*p)*aRigWeights.y;
-        if(aRigWeights.z>0.)r+=(uRigNormal[int(aRigJoints.z)]*p)*aRigWeights.z;
-        if(aRigWeights.w>0.)r+=(uRigNormal[int(aRigJoints.w)]*p)*aRigWeights.w;
+        vec3 r=(rigNormalMatrix(int(aRigJoints.x))*p)*aRigWeights.x;
+        if(aRigWeights.y>0.)r+=(rigNormalMatrix(int(aRigJoints.y))*p)*aRigWeights.y;
+        if(aRigWeights.z>0.)r+=(rigNormalMatrix(int(aRigJoints.z))*p)*aRigWeights.z;
+        if(aRigWeights.w>0.)r+=(rigNormalMatrix(int(aRigJoints.w))*p)*aRigWeights.w;
         return r;
       }
     ` +
@@ -48,11 +76,16 @@ function rigShader(material, palette) {
           "#include <beginnormal_vertex>\nobjectNormal=rigNormal(objectNormal);",
         );
   };
-  material.customProgramCacheKey = () => key + "-exact-rig-palette-v1-" + n;
+  material.customProgramCacheKey = () =>
+    key +
+    (palette.textureMode && palette.slot && atlas.enabled
+      ? "-exact-rig-texture-v1"
+      : "-exact-rig-palette-v2-" + n);
+  atlas?.material(material);
   return material;
 }
 
-export function enableCatRenderBatch(cat) {
+export function enableCatRenderBatch(cat, atlas = null) {
   if (
     !cat?.userData.referenceFamily ||
     cat.userData.reference ||
@@ -128,6 +161,7 @@ export function enableCatRenderBatch(cat) {
           }
         p.shown.value[i] = shown ? 1 : 0;
       }
+      if (atlas?.sharing) p.slot?.write(p);
     }
   }
   for (const parts of groups.values()) {
@@ -147,6 +181,7 @@ export function enableCatRenderBatch(cat) {
       positions: { value: new Float32Array(entries.length * 16) },
       normals: { value: new Float32Array(entries.length * 9) },
       shown: { value: new Float32Array(entries.length) },
+      slot: atlas?.allocate(entries.length),
     };
     palettes.push(palette);
     const count = parts.reduce(
@@ -235,7 +270,7 @@ export function enableCatRenderBatch(cat) {
     const material = parts[0].material.clone();
     material.onBeforeCompile = parts[0].material.onBeforeCompile;
     material.customProgramCacheKey = parts[0].material.customProgramCacheKey;
-    const mesh = new THREE.Mesh(geometry, rigShader(material, palette));
+    const mesh = new THREE.Mesh(geometry, rigShader(material, palette, atlas));
     mesh.name = "Exact animated cat batch · " + parts[0].name;
     mesh.castShadow = parts[0].castShadow;
     mesh.receiveShadow = parts[0].receiveShadow;
@@ -250,13 +285,63 @@ export function enableCatRenderBatch(cat) {
         side: material.side,
       }),
       palette,
+      atlas,
     );
-    mesh.onBeforeRender = mesh.onBeforeShadow = (renderer) => update(renderer);
+    mesh.onBeforeRender = mesh.onBeforeShadow = (renderer) => {
+      mesh.userData.nativeBuffersResident = true;
+      update(renderer);
+    };
     mesh.userData.rigSources = parts;
+    mesh.userData.rigMaterialSource = parts[0].material;
     cat.add(mesh);
     batches.push(mesh);
   }
   const bound = new THREE.Sphere();
+  let branchSource = [],
+    nativeBranches = [];
+  const drawBranches = [];
+  function renderChildren() {
+    if (!cat.userData.renderBatches.enabled) return null;
+    if (
+      cat.children.length !== branchSource.length ||
+      cat.children.some((child, i) => child !== branchSource[i])
+    ) {
+      branchSource = cat.children.slice();
+      nativeBranches = [];
+      for (const child of branchSource) {
+        if (batches.includes(child)) continue;
+        const candidates = [];
+        child.traverse((o) => {
+          if (
+            (o.isMesh || o.isPoints || o.isLine || o.isLight) &&
+            o.layers.isEnabled(0)
+          )
+            candidates.push(o);
+        });
+        if (candidates.length) nativeBranches.push({ child, candidates });
+      }
+    }
+    drawBranches.length = 0;
+    for (const { child, candidates } of nativeBranches) {
+      let visible = false;
+      for (const candidate of candidates) {
+        let shown = true;
+        for (let p = candidate; p && p !== cat; p = p.parent)
+          if (!p.visible) {
+            shown = false;
+            break;
+          }
+        if (shown) {
+          visible = true;
+          break;
+        }
+      }
+      if (visible) drawBranches.push(child);
+    }
+    for (const mesh of batches)
+      if (mesh.visible && mesh.layers.isEnabled(0)) drawBranches.push(mesh);
+    return drawBranches;
+  }
   function updateBounds() {
     inverse.copy(cat.matrixWorld).invert();
     for (const mesh of batches) {
@@ -293,6 +378,9 @@ export function enableCatRenderBatch(cat) {
     batches,
     palettes,
     sources,
+    atlas,
+    renderChildren,
+    fullRenderChildren: null,
     update: () => update(null, true),
     setEnabled(value) {
       this.enabled = !!value;
@@ -304,12 +392,42 @@ export function enableCatRenderBatch(cat) {
   cat.updateWorldMatrix(true, true);
   updateBounds();
   update(null, true);
+  if (atlas) {
+    cat.userData.renderBatches.viewId = atlas.register(cat, (renderer) => {
+      update(renderer, true);
+      frame = renderer.info.render.frame + 1;
+    });
+    let remaining = batches.length;
+    for (let i = 0; i < batches.length; i++) {
+      const mesh = batches[i];
+      let releasingDrawBuffers = false,
+        released = false;
+      // Retain the exact CPU geometry for fallback/picking diagnostics without
+      // keeping an unused second copy of every live cat in GPU memory.
+      mesh.userData.releaseDrawBuffers = () => {
+        if (!mesh.userData.nativeBuffersResident) return;
+        releasingDrawBuffers = true;
+        try {
+          mesh.geometry.dispose();
+          mesh.userData.nativeBuffersResident = false;
+        } finally {
+          releasingDrawBuffers = false;
+        }
+      };
+      mesh.geometry.addEventListener("dispose", () => {
+        if (releasingDrawBuffers || released) return;
+        released = true;
+        palettes[i].slot?.release();
+        if (--remaining === 0) atlas.unregister(cat);
+      });
+    }
+  }
 }
 
-export function batchSceneCats(root) {
+export function batchSceneCats(root, atlas = null) {
   const cats = [];
   root.traverse((o) => {
     if (o.userData.referenceFamily) cats.push(o);
   });
-  for (const cat of cats) enableCatRenderBatch(cat);
+  for (const cat of cats) enableCatRenderBatch(cat, atlas);
 }

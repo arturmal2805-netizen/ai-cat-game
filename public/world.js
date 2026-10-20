@@ -38,6 +38,8 @@ import {
   batchSceneCats,
   CAT_PICK_LAYER,
 } from "./cat-render-batch.js";
+import { createCatPoseAtlas } from "./cat-pose-atlas.js";
+import { createColonyRenderBatch } from "./colony-render-batch.js";
 import { builderSpeed } from "./construction-boost.js";
 import { bikiniFriend, BIKINI_GATE } from "./bikini-data.js";
 import { createBikiniCharacter } from "./bikini-characters.js";
@@ -251,6 +253,13 @@ export function createWorld(container, initialGame, callbacks = {}) {
   const rimLight = new THREE.DirectionalLight(0xb8b7ec, 0.9);
   rimLight.position.set(20, 16, -30);
   scene.add(rimLight);
+  const poseAtlas = createCatPoseAtlas(scene, sun, { minimumCats: 7 });
+  const colonyDraws = createColonyRenderBatch(
+    scene,
+    renderer,
+    camera,
+    poseAtlas,
+  );
   const sky = new THREE.Mesh(
     new THREE.SphereGeometry(520, 24, 14),
     new THREE.ShaderMaterial({
@@ -1819,7 +1828,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
             ?.userData.disturb?.(x, z, time, force);
       scene.add(g);
       itemGroups.set(o.id, g);
-      batchSceneCats(g);
+      batchSceneCats(g, poseAtlas);
       if (g.userData.aquarium !== true)
         attractionViews.set(g, attractionVisibility(g));
     }
@@ -1941,7 +1950,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       g.userData.placementId = placement.id;
       scene.add(g);
       itemGroups.set(placement.id, g);
-      batchSceneCats(g);
+      batchSceneCats(g, poseAtlas);
       attractionViews.set(g, attractionVisibility(g));
     }
     for (const p of businessVenues(game)) {
@@ -1978,7 +1987,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
             ...catAppearance(profile),
           });
       model.scale.setScalar(0.63 * (profile.size || 1));
-      enableCatRenderBatch(model);
+      enableCatRenderBatch(model, poseAtlas);
       // Move the exact existing tiny model into the normal actor rig. The
       // cook and second visitor stay at the counter; no duplicate mesh is drawn.
       model.position.set(0, 0, 0);
@@ -2098,6 +2107,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       radius: spaRadius(a.model),
       local: { x: 0, y: 0, z: 0 },
     }));
+    colonyDraws.sync();
   }
   for (const object of HOME_OBJECTS) {
     const g =
@@ -5658,6 +5668,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
     },
     dispose() {
       disposed = true;
+      colonyDraws.dispose();
+      poseAtlas.dispose();
       staticDraws.dispose();
       jobs.clear();
       housingLife.clear();

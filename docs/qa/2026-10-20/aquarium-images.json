@@ -1,0 +1,153 @@
+{
+  "rows": [
+    {
+      "offset": [
+        30,
+        45,
+        72
+      ],
+      "before": {
+        "frame": 22,
+        "calls": 222,
+        "triangles": 1791487,
+        "points": 0,
+        "lines": 0
+      },
+      "after": {
+        "frame": 24,
+        "calls": 222,
+        "triangles": 1791487,
+        "points": 0,
+        "lines": 0
+      },
+      "beforeMs": null,
+      "afterMs": null,
+      "samples": {
+        "native": [
+          null
+        ],
+        "spatial": [
+          null
+        ]
+      },
+      "changed": 0,
+      "max": 0,
+      "large": 0,
+      "mean": 0
+    },
+    {
+      "offset": [
+        0,
+        9,
+        26
+      ],
+      "before": {
+        "frame": 26,
+        "calls": 153,
+        "triangles": 775947,
+        "points": 0,
+        "lines": 0
+      },
+      "after": {
+        "frame": 28,
+        "calls": 153,
+        "triangles": 775947,
+        "points": 0,
+        "lines": 0
+      },
+      "beforeMs": null,
+      "afterMs": null,
+      "samples": {
+        "native": [
+          null
+        ],
+        "spatial": [
+          null
+        ]
+      },
+      "changed": 0,
+      "max": 0,
+      "large": 0,
+      "mean": 0
+    },
+    {
+      "offset": [
+        25,
+        14,
+        5
+      ],
+      "before": {
+        "frame": 30,
+        "calls": 162,
+        "triangles": 1087079,
+        "points": 0,
+        "lines": 0
+      },
+      "after": {
+        "frame": 32,
+        "calls": 162,
+        "triangles": 1087079,
+        "points": 0,
+        "lines": 0
+      },
+      "beforeMs": null,
+      "afterMs": null,
+      "samples": {
+        "native": [
+          null
+        ],
+        "spatial": [
+          null
+        ]
+      },
+      "changed": 0,
+      "max": 0,
+      "large": 0,
+      "mean": 0
+    },
+    {
+      "offset": [
+        0,
+        95,
+        0.01
+      ],
+      "before": {
+        "frame": 34,
+        "calls": 237,
+        "triangles": 2032670,
+        "points": 0,
+        "lines": 0
+      },
+      "after": {
+        "frame": 36,
+        "calls": 237,
+        "triangles": 2032670,
+        "points": 0,
+        "lines": 0
+      },
+      "beforeMs": null,
+      "afterMs": null,
+      "samples": {
+        "native": [
+          null
+        ],
+        "spatial": [
+          null
+        ]
+      },
+      "changed": 0,
+      "max": 0,
+      "large": 0,
+      "mean": 0
+    }
+  ],
+  "diagnostic": [],
+  "meshes": 1,
+  "buffer": [
+    776,
+    1464
+  ],
+  "fish": 50,
+  "contextLost": false,
+  "shaderErrors": []
+}

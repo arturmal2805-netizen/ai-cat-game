@@ -1,6 +1,6 @@
 # Map and Catquarium rendering
 
-The October 2026 optimization retains the 28 existing islands, all 50 Catquarium
+The October 2026 optimization retains every existing island, all 50 Catquarium
 fish, their sizes and journeys, 120 bubbles, 55 world fireflies, water materials,
 cat meshes, shadows and mobile DPR 2. The catfish eye cap is a new convex kitten
 eye with a coloured iris, large pupil and catchlights. Approved adoption/Chichi
@@ -168,3 +168,52 @@ separate from FPS on a physical Mac/iPhone. Batched matrix multiplication may
 round a few antialiased edge samples differently; the prop proof bounds this
 below the existing cat palette image tolerance. It never permits a changed model,
 missing object, texture downgrade, reduced shadow map or lower pixel ratio.
+
+## Shared colony rendering
+
+The next pass targets whole-frame work in crowded scenes, rather than treating
+lower draw counts as proof of higher FPS. `cat-pose-atlas.js` retains the existing
+Float32 joint matrices/normals in bounded, reusable slots. Only changed rows are
+uploaded; pending rows stay bounded even while a renderer is hidden. Separate
+camera records share the exact CPU-combined model-view/normal matrices across
+materials and shadow draws. This avoids far-from-origin rounding in close views.
+
+`colony-render-batch.js` shares compatible opaque cat draws while retaining every
+Float16 vertex, byte weight, oriented triangle, coat shader, sheen, iris clearcoat
+and per-cat tint. Original articulated picking meshes remain on layer 31. Colours
+stay flat per instance and multiply the original interpolated coat colour in the
+fragment shader, in the original order. Current animated bounds and the actual
+colour/shadow camera choose submissions; no screen-size/detail reduction occurs.
+
+Quiet scenes retain the original individual uniform-palette renderer. Crowds
+share rendering once enough cats need drawing, with hysteresis around the switch.
+Native GPU draw buffers are then released without destroying CPU geometry or
+unregistering a living pose slot. Fallback draws can restore their original GPU
+buffers. Geometry/material/transform changes and unsupported renderers stay native.
+Shared geometry and shaders prepare cooperatively before replacing visible draws.
+Outfits can share paint with baked scenery; its range-only shader must retain
+native cat draws, since it intentionally disables Three's instance transforms.
+
+After complete matrix evaluation, rendering can omit CPU-only picking/bone
+branches. The original child arrays are restored before scene callbacks and
+input, including when rendering throws. Chichi keeps her original native renderer.
+No saved IDs, buildings, wallets, water, shadow-map settings or DPR are changed.
+
+Reproducible checks include:
+
+- `test/cat-pose-atlas.test.mjs`: attribute/index bytes, weighted joints, bounded
+  update ranges, slot reuse, GPU-only eviction, fallback/rebuild and exception-safe
+  restoration of the original rig hierarchy.
+- `CHICHI_COLONY_CHECK=1 node scripts/check-cat-render-batch.mjs`: actual colour
+  and shadow frames of three approved cats in each breed/pose, including sleep,
+  walking and ride reactions. `CHICHI_CAT_ATLAS_CHECK=1` isolates pose transport.
+- `CHICHI_POSE_PROOF=1 CHICHI_SCENE_STRESS=1 node scripts/check-aquarium.cjs`:
+  frozen full-resolution crowded homestead, four views, original versus shared
+  draws, with every triangle retained. Run without stress for Catquarium.
+- `CHICHI_FRAME_AUDIT=1 CHICHI_SCENE_STRESS=1 CHICHI_MAP_CHECK=1 node
+  scripts/check-aquarium.cjs`: paired same-scene renderer diagnostics on the moon,
+  homestead and aquarium, both still and with repeatable camera/gait motion.
+  Raster draws/clears are suppressed only in this QA mode, after warming/draining
+  real frames, to isolate traversal, matrix, shader, upload and command overhead.
+  It excludes game navigation and is not physical-device FPS. Full-resolution
+  rendered image checks and the complete map/phone/save integration run separately.

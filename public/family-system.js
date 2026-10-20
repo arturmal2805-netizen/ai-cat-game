@@ -84,21 +84,26 @@ export function familyPartners(game) {
 export function familyPartner(game, id) {
   return familyPartners(game).get(id) || null;
 }
+// Every cat can eventually find a family. The quarter-roster rule controls
+// the pace of NEW introductions, never the lifetime number of families.
 export const familyLimit = (profiles) =>
-  Math.floor(profiles.length / (FAMILY_SHARE * 2));
+  Math.min(
+    profiles.filter((p) => catSex(p) === "male").length,
+    profiles.filter((p) => catSex(p) === "female").length,
+  );
+export const familyReviewLimit = (profiles) =>
+  Math.max(1, Math.floor(profiles.length / (FAMILY_SHARE * 2)));
 export function familyReview(game, day) {
   const state = game.family;
   const profiles = Object.values(game.jobCity?.profiles || {});
-  const capacity = Math.max(
-    0,
-    familyLimit(profiles) - Object.keys(state?.couples || {}).length,
-  );
+  const partners = familyPartners(game);
+  const capacity = familyLimit(profiles.filter((p) => !partners.has(p.id)));
   return {
     due:
       !!state &&
       day >= state.lastReviewDay + FAMILY_REVIEW_DAYS &&
       capacity > 0,
-    slots: Math.min(2, capacity),
+    slots: Math.min(familyReviewLimit(profiles), capacity),
     nextDay: state
       ? state.lastReviewDay + FAMILY_REVIEW_DAYS
       : day + FAMILY_REVIEW_DAYS - 1,
@@ -118,7 +123,11 @@ export function familyCalendar(game, day) {
     label: `День ${number} · ${dayFormatter.format(date)}`,
   };
 }
-export function validateFamilyProposals(proposals, profiles, slots = 2) {
+export function validateFamilyProposals(
+  proposals,
+  profiles,
+  slots = familyReviewLimit(profiles),
+) {
   if (!Array.isArray(proposals) || proposals.length > slots)
     throw Error("Некоректний вибір сімей");
   const people = new Map(profiles.map((p) => [p.id, p]));
@@ -236,4 +245,27 @@ export function mergeFamily(base, current, incoming) {
   }
   next.lastReviewDay = Math.max(current.lastReviewDay, incoming.lastReviewDay);
   return next;
+}
+
+// Concurrent phones must not each spend the same introduction budget. Use a
+// rolling review interval so responses arriving on adjacent days cannot bypass
+// it. Older saved couples remain valid, even if an old client exceeded today's
+// pacing rule; only additional families can be rejected.
+export function checkFamilyPace(current, merged, profiles) {
+  if (!current) return; // Import a pre-existing world without losing its history.
+  const before = Object.values(current?.couples || {}),
+    after = Object.values(merged?.couples || {}),
+    limit = familyReviewLimit(profiles);
+  for (const pair of after) {
+    const inWindow = (p) =>
+      p.formedDay <= pair.formedDay &&
+      p.formedDay > pair.formedDay - FAMILY_REVIEW_DAYS;
+    if (
+      after.filter(inWindow).length >
+      Math.max(limit, before.filter(inWindow).length)
+    )
+      throw Error(
+        "Нові сім’ї вже обрано на іншому пристрої. Наступні знайомства — через 14 ігрових днів.",
+      );
+  }
 }

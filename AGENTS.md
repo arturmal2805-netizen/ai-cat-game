@@ -102,6 +102,17 @@ duplicating or resurrecting a building removed on the other device.
   reef sway or underwater refraction after merging: those meshes must remain
   native, including during shader precompilation. Compare actual frozen frames
   on both the aquarium and a heavily built homestead before publishing.
+- Colony-wide sharing must retain original Float16 vertices, weighted joint
+  palettes, material tints, exact CPU-combined model-view/normal matrices and
+  separate colour/shadow camera data. Bound/reuse pose slots and reclaim only
+  unused GPU draw buffers; GPU eviction must never unregister a living cat.
+  Small scenes may keep individual draws when sharing adds overhead. CPU-only
+  rig branches may be omitted from render traversal only after matrix updates;
+  restore the original child arrays before callbacks/picking and on exceptions.
+  Check same-pose images and full renderer work, not just simulation or draw
+  counts. Never translate software-GPU diagnostics into device FPS claims.
+  Outfit paint can be shared with static scenery: range-only materials that
+  undefine Three's batching shader must remain native in colony rendering.
 
 ## Permanent families and personal cat lives
 
@@ -109,7 +120,9 @@ duplicating or resurrecting a building removed on the other device.
   existing cat's override invalidates lifelong couples. Sex badges belong only
   on cards, never on the map or approved meshes.
 - Families are permanent AI choices in the existing daily batch, reviewed every
-  14 game days, with about one quarter of the roster coupled. Keep existing
+  14 game days, with a quarter-roster introduction budget per review
+  (two members per new couple). This is pacing, never a lifetime family cap: every
+  compatible single cat remains eligible in future reviews. Keep existing
   partners, the calendar origin, shared active residence, personal ownership and
   private balances. A paired venue kitten must remain available after storage.
 - Cached clients omitting `family` must not erase it. Conflicting partners and

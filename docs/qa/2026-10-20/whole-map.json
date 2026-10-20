@@ -1,0 +1,1152 @@
+{
+  "mapRows": [
+    {
+      "id": "moon",
+      "samples": 34,
+      "median": 4.199999988079071,
+      "p95": 11.099999994039536,
+      "draw": {
+        "frame": 12,
+        "calls": 420,
+        "triangles": 696074,
+        "points": 320,
+        "lines": 0
+      },
+      "staticProps": {
+        "sources": 413,
+        "batches": 46
+      },
+      "colony": {
+        "sources": 1644,
+        "batches": 13,
+        "ready": true,
+        "active": false
+      },
+      "poses": {
+        "entries": 4952,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 180,
+        "updatedCats": 6
+      },
+      "memory": {
+        "geometries": 366,
+        "textures": 32
+      },
+      "cats": 147,
+      "dpr": 2,
+      "contextLost": false,
+      "staticPicks": 3
+    },
+    {
+      "id": "autumn",
+      "samples": 46,
+      "median": 4.4000000059604645,
+      "p95": 7,
+      "draw": {
+        "frame": 13,
+        "calls": 139,
+        "triangles": 538344,
+        "points": 420,
+        "lines": 0
+      },
+      "staticProps": {
+        "sources": 413,
+        "batches": 46
+      },
+      "colony": {
+        "sources": 1644,
+        "batches": 13,
+        "ready": true,
+        "active": false
+      },
+      "poses": {
+        "entries": 4952,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 180,
+        "updatedCats": 1
+      },
+      "memory": {
+        "geometries": 424,
+        "textures": 33
+      },
+      "cats": 147,
+      "dpr": 2,
+      "contextLost": false,
+      "staticPicks": 0
+    },
+    {
+      "id": "winter",
+      "samples": 27,
+      "median": 4.299999982118607,
+      "p95": 7.799999982118607,
+      "draw": {
+        "frame": 14,
+        "calls": 520,
+        "triangles": 1096752,
+        "points": 740,
+        "lines": 0
+      },
+      "staticProps": {
+        "sources": 413,
+        "batches": 46
+      },
+      "colony": {
+        "sources": 1644,
+        "batches": 13,
+        "ready": true,
+        "active": false
+      },
+      "poses": {
+        "entries": 4952,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 180,
+        "updatedCats": 2
+      },
+      "memory": {
+        "geometries": 644,
+        "textures": 33
+      },
+      "cats": 147,
+      "dpr": 2,
+      "contextLost": false,
+      "staticPicks": 3
+    },
+    {
+      "id": "beach",
+      "samples": 45,
+      "median": 4.0999999940395355,
+      "p95": 9.400000005960464,
+      "draw": {
+        "frame": 15,
+        "calls": 379,
+        "triangles": 863457,
+        "points": 320,
+        "lines": 0
+      },
+      "staticProps": {
+        "sources": 413,
+        "batches": 46
+      },
+      "colony": {
+        "sources": 1644,
+        "batches": 13,
+        "ready": true,
+        "active": false
+      },
+      "poses": {
+        "entries": 4952,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 180,
+        "updatedCats": 6
+      },
+      "memory": {
+        "geometries": 706,
+        "textures": 35
+      },
+      "cats": 147,
+      "dpr": 2,
+      "contextLost": false,
+      "staticPicks": 0
+    },
+    {
+      "id": "water",
+      "samples": 33,
+      "median": 4.200000017881393,
+      "p95": 11.299999982118607,
+      "draw": {
+        "frame": 16,
+        "calls": 227,
+        "triangles": 867804,
+        "points": 320,
+        "lines": 0
+      },
+      "staticProps": {
+        "sources": 413,
+        "batches": 46
+      },
+      "colony": {
+        "sources": 1644,
+        "batches": 13,
+        "ready": true,
+        "active": false
+      },
+      "poses": {
+        "entries": 4952,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 180,
+        "updatedCats": 6
+      },
+      "memory": {
+        "geometries": 772,
+        "textures": 36
+      },
+      "cats": 147,
+      "dpr": 2,
+      "contextLost": false,
+      "staticPicks": 3
+    },
+    {
+      "id": "summer",
+      "samples": 48,
+      "median": 3.300000011920929,
+      "p95": 4.800000011920929,
+      "draw": {
+        "frame": 17,
+        "calls": 391,
+        "triangles": 2110435,
+        "points": 320,
+        "lines": 0
+      },
+      "staticProps": {
+        "sources": 413,
+        "batches": 46
+      },
+      "colony": {
+        "sources": 1644,
+        "batches": 13,
+        "ready": true,
+        "active": false
+      },
+      "poses": {
+        "entries": 4952,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 180,
+        "updatedCats": 2
+      },
+      "memory": {
+        "geometries": 968,
+        "textures": 36
+      },
+      "cats": 147,
+      "dpr": 2,
+      "contextLost": false,
+      "staticPicks": 3
+    },
+    {
+      "id": "nature",
+      "samples": 48,
+      "median": 3.100000023841858,
+      "p95": 4.5,
+      "draw": {
+        "frame": 18,
+        "calls": 175,
+        "triangles": 388400,
+        "points": 320,
+        "lines": 0
+      },
+      "staticProps": {
+        "sources": 413,
+        "batches": 46
+      },
+      "colony": {
+        "sources": 1644,
+        "batches": 13,
+        "ready": true,
+        "active": false
+      },
+      "poses": {
+        "entries": 4952,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 180,
+        "updatedCats": 1
+      },
+      "memory": {
+        "geometries": 1040,
+        "textures": 36
+      },
+      "cats": 147,
+      "dpr": 2,
+      "contextLost": false,
+      "staticPicks": 0
+    },
+    {
+      "id": "sakura",
+      "samples": 49,
+      "median": 3.100000023841858,
+      "p95": 4.5999999940395355,
+      "draw": {
+        "frame": 19,
+        "calls": 335,
+        "triangles": 1140202,
+        "points": 740,
+        "lines": 0
+      },
+      "staticProps": {
+        "sources": 413,
+        "batches": 46
+      },
+      "colony": {
+        "sources": 1644,
+        "batches": 13,
+        "ready": true,
+        "active": false
+      },
+      "poses": {
+        "entries": 4952,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 180,
+        "updatedCats": 2
+      },
+      "memory": {
+        "geometries": 1145,
+        "textures": 37
+      },
+      "cats": 147,
+      "dpr": 2,
+      "contextLost": false,
+      "staticPicks": 0
+    },
+    {
+      "id": "clouds",
+      "samples": 48,
+      "median": 3.699999988079071,
+      "p95": 5.800000011920929,
+      "draw": {
+        "frame": 20,
+        "calls": 210,
+        "triangles": 406876,
+        "points": 0,
+        "lines": 0
+      },
+      "staticProps": {
+        "sources": 413,
+        "batches": 46
+      },
+      "colony": {
+        "sources": 1644,
+        "batches": 13,
+        "ready": true,
+        "active": false
+      },
+      "poses": {
+        "entries": 4952,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 180,
+        "updatedCats": 1
+      },
+      "memory": {
+        "geometries": 1269,
+        "textures": 73
+      },
+      "cats": 147,
+      "dpr": 2,
+      "contextLost": false,
+      "staticPicks": 0
+    },
+    {
+      "id": "desert",
+      "samples": 35,
+      "median": 3.399999976158142,
+      "p95": 5.300000011920929,
+      "draw": {
+        "frame": 21,
+        "calls": 333,
+        "triangles": 752280,
+        "points": 320,
+        "lines": 0
+      },
+      "staticProps": {
+        "sources": 413,
+        "batches": 46
+      },
+      "colony": {
+        "sources": 1644,
+        "batches": 13,
+        "ready": true,
+        "active": false
+      },
+      "poses": {
+        "entries": 4952,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 180,
+        "updatedCats": 5
+      },
+      "memory": {
+        "geometries": 1313,
+        "textures": 73
+      },
+      "cats": 147,
+      "dpr": 2,
+      "contextLost": false,
+      "staticPicks": 0
+    },
+    {
+      "id": "stars",
+      "samples": 22,
+      "median": 3.699999988079071,
+      "p95": 7,
+      "draw": {
+        "frame": 22,
+        "calls": 205,
+        "triangles": 465496,
+        "points": 320,
+        "lines": 0
+      },
+      "staticProps": {
+        "sources": 413,
+        "batches": 46
+      },
+      "colony": {
+        "sources": 1644,
+        "batches": 13,
+        "ready": true,
+        "active": false
+      },
+      "poses": {
+        "entries": 4952,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 180,
+        "updatedCats": 3
+      },
+      "memory": {
+        "geometries": 1327,
+        "textures": 73
+      },
+      "cats": 147,
+      "dpr": 2,
+      "contextLost": false,
+      "staticPicks": 0
+    },
+    {
+      "id": "volcano",
+      "samples": 12,
+      "median": 3.9000000059604645,
+      "p95": 52.5,
+      "draw": {
+        "frame": 23,
+        "calls": 529,
+        "triangles": 952896,
+        "points": 740,
+        "lines": 0
+      },
+      "staticProps": {
+        "sources": 413,
+        "batches": 46
+      },
+      "colony": {
+        "sources": 1644,
+        "batches": 13,
+        "ready": true,
+        "active": false
+      },
+      "poses": {
+        "entries": 4952,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 180,
+        "updatedCats": 2
+      },
+      "memory": {
+        "geometries": 1411,
+        "textures": 73
+      },
+      "cats": 147,
+      "dpr": 2,
+      "contextLost": false,
+      "staticPicks": 3
+    },
+    {
+      "id": "crystal",
+      "samples": 48,
+      "median": 3.699999988079071,
+      "p95": 7.0999999940395355,
+      "draw": {
+        "frame": 24,
+        "calls": 318,
+        "triangles": 486348,
+        "points": 320,
+        "lines": 0
+      },
+      "staticProps": {
+        "sources": 413,
+        "batches": 46
+      },
+      "colony": {
+        "sources": 1644,
+        "batches": 13,
+        "ready": true,
+        "active": false
+      },
+      "poses": {
+        "entries": 4952,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 180,
+        "updatedCats": 1
+      },
+      "memory": {
+        "geometries": 1517,
+        "textures": 73
+      },
+      "cats": 147,
+      "dpr": 2,
+      "contextLost": false,
+      "staticPicks": 0
+    },
+    {
+      "id": "candy",
+      "samples": 43,
+      "median": 3.699999988079071,
+      "p95": 6.700000017881393,
+      "draw": {
+        "frame": 25,
+        "calls": 174,
+        "triangles": 397368,
+        "points": 320,
+        "lines": 0
+      },
+      "staticProps": {
+        "sources": 413,
+        "batches": 46
+      },
+      "colony": {
+        "sources": 1644,
+        "batches": 13,
+        "ready": true,
+        "active": false
+      },
+      "poses": {
+        "entries": 4952,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 180,
+        "updatedCats": 2
+      },
+      "memory": {
+        "geometries": 1593,
+        "textures": 73
+      },
+      "cats": 147,
+      "dpr": 2,
+      "contextLost": false,
+      "staticPicks": 0
+    },
+    {
+      "id": "rainbow",
+      "samples": 48,
+      "median": 3.5,
+      "p95": 4.600000023841858,
+      "draw": {
+        "frame": 26,
+        "calls": 221,
+        "triangles": 490262,
+        "points": 320,
+        "lines": 0
+      },
+      "staticProps": {
+        "sources": 413,
+        "batches": 46
+      },
+      "colony": {
+        "sources": 1644,
+        "batches": 13,
+        "ready": true,
+        "active": false
+      },
+      "poses": {
+        "entries": 4952,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 180,
+        "updatedCats": 1
+      },
+      "memory": {
+        "geometries": 1697,
+        "textures": 73
+      },
+      "cats": 147,
+      "dpr": 2,
+      "contextLost": false,
+      "staticPicks": 0
+    },
+    {
+      "id": "bamboo",
+      "samples": 48,
+      "median": 3.0999999940395355,
+      "p95": 4.799999982118607,
+      "draw": {
+        "frame": 27,
+        "calls": 395,
+        "triangles": 1900080,
+        "points": 320,
+        "lines": 0
+      },
+      "staticProps": {
+        "sources": 413,
+        "batches": 46
+      },
+      "colony": {
+        "sources": 1644,
+        "batches": 13,
+        "ready": true,
+        "active": false
+      },
+      "poses": {
+        "entries": 4952,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 180,
+        "updatedCats": 3
+      },
+      "memory": {
+        "geometries": 1750,
+        "textures": 73
+      },
+      "cats": 147,
+      "dpr": 2,
+      "contextLost": false,
+      "staticPicks": 0
+    },
+    {
+      "id": "mushrooms",
+      "samples": 40,
+      "median": 3.2000000178813934,
+      "p95": 14.699999988079071,
+      "draw": {
+        "frame": 28,
+        "calls": 398,
+        "triangles": 533260,
+        "points": 320,
+        "lines": 0
+      },
+      "staticProps": {
+        "sources": 413,
+        "batches": 46
+      },
+      "colony": {
+        "sources": 1644,
+        "batches": 13,
+        "ready": true,
+        "active": false
+      },
+      "poses": {
+        "entries": 4952,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 180,
+        "updatedCats": 2
+      },
+      "memory": {
+        "geometries": 1809,
+        "textures": 73
+      },
+      "cats": 147,
+      "dpr": 2,
+      "contextLost": false,
+      "staticPicks": 0
+    },
+    {
+      "id": "galaxy",
+      "samples": 33,
+      "median": 5,
+      "p95": 30.5,
+      "draw": {
+        "frame": 29,
+        "calls": 409,
+        "triangles": 1122640,
+        "points": 740,
+        "lines": 0
+      },
+      "staticProps": {
+        "sources": 413,
+        "batches": 46
+      },
+      "colony": {
+        "sources": 1644,
+        "batches": 13,
+        "ready": true,
+        "active": false
+      },
+      "poses": {
+        "entries": 4952,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 180,
+        "updatedCats": 3
+      },
+      "memory": {
+        "geometries": 1953,
+        "textures": 73
+      },
+      "cats": 147,
+      "dpr": 2,
+      "contextLost": false,
+      "staticPicks": 3
+    },
+    {
+      "id": "coral",
+      "samples": 43,
+      "median": 3.600000023841858,
+      "p95": 4.699999988079071,
+      "draw": {
+        "frame": 30,
+        "calls": 182,
+        "triangles": 618196,
+        "points": 320,
+        "lines": 0
+      },
+      "staticProps": {
+        "sources": 413,
+        "batches": 46
+      },
+      "colony": {
+        "sources": 1644,
+        "batches": 13,
+        "ready": true,
+        "active": false
+      },
+      "poses": {
+        "entries": 4952,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 180,
+        "updatedCats": 3
+      },
+      "memory": {
+        "geometries": 2000,
+        "textures": 73
+      },
+      "cats": 147,
+      "dpr": 2,
+      "contextLost": false,
+      "staticPicks": 0
+    },
+    {
+      "id": "lotus",
+      "samples": 44,
+      "median": 3.399999976158142,
+      "p95": 10.400000005960464,
+      "draw": {
+        "frame": 31,
+        "calls": 156,
+        "triangles": 435584,
+        "points": 320,
+        "lines": 0
+      },
+      "staticProps": {
+        "sources": 413,
+        "batches": 46
+      },
+      "colony": {
+        "sources": 1644,
+        "batches": 13,
+        "ready": true,
+        "active": false
+      },
+      "poses": {
+        "entries": 4952,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 180,
+        "updatedCats": 2
+      },
+      "memory": {
+        "geometries": 2043,
+        "textures": 73
+      },
+      "cats": 147,
+      "dpr": 2,
+      "contextLost": false,
+      "staticPicks": 0
+    },
+    {
+      "id": "ice",
+      "samples": 43,
+      "median": 3.0999999940395355,
+      "p95": 11.400000005960464,
+      "draw": {
+        "frame": 32,
+        "calls": 728,
+        "triangles": 1048244,
+        "points": 740,
+        "lines": 0
+      },
+      "staticProps": {
+        "sources": 413,
+        "batches": 46
+      },
+      "colony": {
+        "sources": 1644,
+        "batches": 13,
+        "ready": true,
+        "active": false
+      },
+      "poses": {
+        "entries": 4952,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 180,
+        "updatedCats": 2
+      },
+      "memory": {
+        "geometries": 2142,
+        "textures": 73
+      },
+      "cats": 147,
+      "dpr": 2,
+      "contextLost": false,
+      "staticPicks": 3
+    },
+    {
+      "id": "clockwork",
+      "samples": 45,
+      "median": 3.7000000178813934,
+      "p95": 6.0999999940395355,
+      "draw": {
+        "frame": 33,
+        "calls": 678,
+        "triangles": 2313564,
+        "points": 420,
+        "lines": 0
+      },
+      "staticProps": {
+        "sources": 413,
+        "batches": 46
+      },
+      "colony": {
+        "sources": 1644,
+        "batches": 13,
+        "ready": true,
+        "active": false
+      },
+      "poses": {
+        "entries": 4952,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 180,
+        "updatedCats": 1
+      },
+      "memory": {
+        "geometries": 2327,
+        "textures": 73
+      },
+      "cats": 147,
+      "dpr": 2,
+      "contextLost": false,
+      "staticPicks": 3
+    },
+    {
+      "id": "dusk",
+      "samples": 49,
+      "median": 3.5,
+      "p95": 5.5999999940395355,
+      "draw": {
+        "frame": 34,
+        "calls": 217,
+        "triangles": 500374,
+        "points": 320,
+        "lines": 0
+      },
+      "staticProps": {
+        "sources": 413,
+        "batches": 46
+      },
+      "colony": {
+        "sources": 1644,
+        "batches": 13,
+        "ready": true,
+        "active": false
+      },
+      "poses": {
+        "entries": 4952,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 180,
+        "updatedCats": 3
+      },
+      "memory": {
+        "geometries": 2366,
+        "textures": 73
+      },
+      "cats": 147,
+      "dpr": 2,
+      "contextLost": false,
+      "staticPicks": 0
+    },
+    {
+      "id": "aquapark",
+      "samples": 38,
+      "median": 3.7000000178813934,
+      "p95": 49.099999994039536,
+      "draw": {
+        "frame": 35,
+        "calls": 283,
+        "triangles": 819432,
+        "points": 420,
+        "lines": 0
+      },
+      "staticProps": {
+        "sources": 413,
+        "batches": 46
+      },
+      "colony": {
+        "sources": 1644,
+        "batches": 13,
+        "ready": true,
+        "active": false
+      },
+      "poses": {
+        "entries": 4952,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 180,
+        "updatedCats": 2
+      },
+      "memory": {
+        "geometries": 2450,
+        "textures": 73
+      },
+      "cats": 147,
+      "dpr": 2,
+      "contextLost": false,
+      "staticPicks": 3
+    },
+    {
+      "id": "foodcourt",
+      "samples": 39,
+      "median": 4.699999988079071,
+      "p95": 14.400000005960464,
+      "draw": {
+        "frame": 36,
+        "calls": 199,
+        "triangles": 719988,
+        "points": 0,
+        "lines": 0
+      },
+      "staticProps": {
+        "sources": 413,
+        "batches": 46
+      },
+      "colony": {
+        "sources": 1644,
+        "batches": 13,
+        "ready": true,
+        "active": false
+      },
+      "poses": {
+        "entries": 4952,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 180,
+        "updatedCats": 4
+      },
+      "memory": {
+        "geometries": 2521,
+        "textures": 77
+      },
+      "cats": 147,
+      "dpr": 2,
+      "contextLost": false,
+      "staticPicks": 3
+    },
+    {
+      "id": "bikini",
+      "samples": 28,
+      "median": 3.7999999821186066,
+      "p95": 55.400000005960464,
+      "draw": {
+        "frame": 37,
+        "calls": 180,
+        "triangles": 739016,
+        "points": 0,
+        "lines": 0
+      },
+      "staticProps": {
+        "sources": 413,
+        "batches": 46
+      },
+      "colony": {
+        "sources": 1644,
+        "batches": 13,
+        "ready": true,
+        "active": false
+      },
+      "poses": {
+        "entries": 4952,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 180,
+        "updatedCats": 2
+      },
+      "memory": {
+        "geometries": 2620,
+        "textures": 113
+      },
+      "cats": 147,
+      "dpr": 2,
+      "contextLost": false,
+      "staticPicks": 3
+    },
+    {
+      "id": "homestead",
+      "samples": 24,
+      "median": 8,
+      "p95": 15.800000011920929,
+      "draw": {
+        "frame": 38,
+        "calls": 447,
+        "triangles": 4270688,
+        "points": 0,
+        "lines": 0
+      },
+      "staticProps": {
+        "sources": 413,
+        "batches": 46
+      },
+      "colony": {
+        "sources": 1644,
+        "batches": 13,
+        "ready": true,
+        "active": true
+      },
+      "poses": {
+        "entries": 4952,
+        "rows": 55,
+        "bytes": 450560,
+        "cats": 180,
+        "updatedCats": 97
+      },
+      "memory": {
+        "geometries": 2798,
+        "textures": 152
+      },
+      "cats": 147,
+      "dpr": 2,
+      "contextLost": false,
+      "staticPicks": 3
+    },
+    {
+      "id": "aquarium",
+      "samples": 32,
+      "median": 4,
+      "p95": 59.19999998807907,
+      "draw": {
+        "frame": 39,
+        "calls": 161,
+        "triangles": 1452864,
+        "points": 0,
+        "lines": 0
+      },
+      "staticProps": {
+        "sources": 413,
+        "batches": 46
+      },
+      "colony": {
+        "sources": 1644,
+        "batches": 13,
+        "ready": true,
+        "active": false
+      },
+      "poses": {
+        "entries": 4952,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 180,
+        "updatedCats": 6
+      },
+      "memory": {
+        "geometries": 2856,
+        "textures": 159
+      },
+      "cats": 147,
+      "dpr": 2,
+      "contextLost": false,
+      "staticPicks": 0
+    },
+    {
+      "id": "jobcity",
+      "samples": 40,
+      "median": 5,
+      "p95": 17.900000005960464,
+      "draw": {
+        "frame": 40,
+        "calls": 118,
+        "triangles": 774946,
+        "points": 0,
+        "lines": 0
+      },
+      "staticProps": {
+        "sources": 413,
+        "batches": 46
+      },
+      "colony": {
+        "sources": 1644,
+        "batches": 13,
+        "ready": true,
+        "active": true
+      },
+      "poses": {
+        "entries": 4952,
+        "rows": 10,
+        "bytes": 81920,
+        "cats": 180,
+        "updatedCats": 10
+      },
+      "memory": {
+        "geometries": 2915,
+        "textures": 161
+      },
+      "cats": 147,
+      "dpr": 2,
+      "contextLost": false,
+      "staticPicks": 3
+    },
+    {
+      "id": "cat-homes",
+      "samples": 43,
+      "median": 3.199999988079071,
+      "p95": 4.700000017881393,
+      "draw": {
+        "frame": 41,
+        "calls": 22,
+        "triangles": 111848,
+        "points": 0,
+        "lines": 0
+      },
+      "staticProps": {
+        "sources": 413,
+        "batches": 46
+      },
+      "colony": {
+        "sources": 1644,
+        "batches": 13,
+        "ready": true,
+        "active": false
+      },
+      "poses": {
+        "entries": 4952,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 180,
+        "updatedCats": 0
+      },
+      "memory": {
+        "geometries": 2923,
+        "textures": 162
+      },
+      "cats": 147,
+      "dpr": 2,
+      "contextLost": false,
+      "staticPicks": 0
+    }
+  ],
+  "dom": {
+    "cards": 147,
+    "unchanged": true,
+    "rowsUnchanged": true,
+    "valuesUpdated": true
+  },
+  "errors": [],
+  "httpErrors": []
+}

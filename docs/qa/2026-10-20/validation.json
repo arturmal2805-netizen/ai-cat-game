@@ -1,0 +1,114 @@
+{
+  "browser": {
+    "startedAt": "2026-10-20T07:47:23.543Z",
+    "stages": [
+      {
+        "name": "profile",
+        "startedAt": "2026-10-20T07:47:23.543Z",
+        "status": "passed",
+        "exit": 0,
+        "finishedAt": "2026-10-20T07:49:23.415Z"
+      },
+      {
+        "name": "colony",
+        "startedAt": "2026-10-20T07:49:23.419Z",
+        "status": "passed",
+        "exit": 0,
+        "finishedAt": "2026-10-20T07:49:41.762Z"
+      },
+      {
+        "name": "pose",
+        "startedAt": "2026-10-20T07:49:41.763Z",
+        "status": "passed",
+        "exit": 0,
+        "finishedAt": "2026-10-20T07:49:54.322Z"
+      },
+      {
+        "name": "chichi",
+        "startedAt": "2026-10-20T07:49:54.323Z",
+        "status": "passed",
+        "exit": 0,
+        "finishedAt": "2026-10-20T07:50:06.341Z"
+      },
+      {
+        "name": "homestead",
+        "startedAt": "2026-10-20T07:50:06.341Z",
+        "status": "passed",
+        "exit": 0,
+        "finishedAt": "2026-10-20T07:53:04.719Z"
+      },
+      {
+        "name": "aquarium",
+        "startedAt": "2026-10-20T07:53:04.720Z",
+        "status": "passed",
+        "exit": 0,
+        "finishedAt": "2026-10-20T07:54:28.713Z"
+      },
+      {
+        "name": "fish",
+        "startedAt": "2026-10-20T07:54:28.714Z",
+        "status": "passed",
+        "exit": 0,
+        "finishedAt": "2026-10-20T07:54:50.621Z"
+      },
+      {
+        "name": "phone",
+        "startedAt": "2026-10-20T07:54:50.622Z",
+        "status": "passed",
+        "exit": 0,
+        "finishedAt": "2026-10-20T07:57:02.827Z"
+      },
+      {
+        "name": "map",
+        "startedAt": "2026-10-20T07:57:02.828Z",
+        "status": "passed",
+        "exit": 0,
+        "finishedAt": "2026-10-20T07:59:12.591Z"
+      },
+      {
+        "name": "family",
+        "startedAt": "2026-10-20T07:59:12.592Z",
+        "status": "passed",
+        "exit": 0,
+        "finishedAt": "2026-10-20T08:01:21.761Z"
+      }
+    ],
+    "finishedAt": "2026-10-20T08:01:21.765Z"
+  },
+  "localNodeSuite": {
+    "passed": 580,
+    "failed": 0,
+    "log": "/tmp/map2-full-tests.log",
+    "note": "Full run before the last two added regressions; final deployment CI reruns all tests."
+  },
+  "focusedNodeChecks": [
+    {
+      "passed": 32,
+      "failed": 0,
+      "log": "/tmp/map2-latest-focus.log"
+    },
+    {
+      "passed": 10,
+      "failed": 0,
+      "log": "/tmp/map2-outfit-regression.log"
+    }
+  ],
+  "build": "passed",
+  "workerDryRun": "passed",
+  "environment": "Chromium software renderer, mobile viewport/DPR 2, private temporary SQLite worlds; not physical-device FPS",
+  "commands": [
+    "npm test",
+    "npm run build",
+    "npx wrangler deploy --dry-run",
+    "CHICHI_FRAME_AUDIT=1 CHICHI_SCENE_STRESS=1 CHICHI_MAP_CHECK=1 node scripts/check-aquarium.cjs",
+    "CHICHI_COLONY_CHECK=1 node scripts/check-cat-render-batch.mjs",
+    "CHICHI_CAT_ATLAS_CHECK=1 node scripts/check-cat-render-batch.mjs",
+    "CHICHI_NATIVE_SKIN_CHECK=1 node scripts/check-cat-render-batch.mjs",
+    "CHICHI_POSE_PROOF=1 CHICHI_SCENE_STRESS=1 CHICHI_STATIC_TIMING_REPEATS=3 node scripts/check-aquarium.cjs",
+    "CHICHI_POSE_PROOF=1 CHICHI_SKIP_TIMING=1 node scripts/check-aquarium.cjs",
+    "node scripts/check-aquarium-motion.mjs",
+    "CHICHI_SCENE_STRESS=1 node scripts/check-aquarium.cjs",
+    "CHICHI_MAP_CHECK=1 CHICHI_SCENE_STRESS=1 node scripts/check-aquarium.cjs",
+    "node scripts/check-family.cjs"
+  ]
+}

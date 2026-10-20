@@ -1,0 +1,169 @@
+{
+  "rows": [
+    {
+      "offset": [
+        30,
+        45,
+        72
+      ],
+      "before": {
+        "frame": 29,
+        "calls": 1121,
+        "triangles": 2590012,
+        "points": 0,
+        "lines": 0
+      },
+      "after": {
+        "frame": 31,
+        "calls": 473,
+        "triangles": 2590012,
+        "points": 0,
+        "lines": 0
+      },
+      "beforeMs": 3124.5,
+      "afterMs": 2188,
+      "samples": {
+        "native": [
+          3124.5,
+          2317.9000000059605,
+          2303.2000000178814
+        ],
+        "spatial": [
+          2188,
+          3195.9000000059605,
+          2202.5999999940395
+        ]
+      },
+      "changed": 15,
+      "max": 21,
+      "large": 8,
+      "mean": 3.630957410850093e-05
+    },
+    {
+      "offset": [
+        0,
+        9,
+        26
+      ],
+      "before": {
+        "frame": 41,
+        "calls": 929,
+        "triangles": 2075921,
+        "points": 0,
+        "lines": 0
+      },
+      "after": {
+        "frame": 43,
+        "calls": 403,
+        "triangles": 2075921,
+        "points": 0,
+        "lines": 0
+      },
+      "beforeMs": 2158.199999988079,
+      "afterMs": 1682.199999988079,
+      "samples": {
+        "native": [
+          2158.199999988079,
+          1952.5999999940395,
+          2070.5
+        ],
+        "spatial": [
+          1682.199999988079,
+          1972.7000000178814,
+          2271.199999988079
+        ]
+      },
+      "changed": 3,
+      "max": 16,
+      "large": 3,
+      "mean": 8.58226297110022e-06
+    },
+    {
+      "offset": [
+        25,
+        14,
+        5
+      ],
+      "before": {
+        "frame": 53,
+        "calls": 706,
+        "triangles": 1724333,
+        "points": 0,
+        "lines": 0
+      },
+      "after": {
+        "frame": 55,
+        "calls": 334,
+        "triangles": 1724333,
+        "points": 0,
+        "lines": 0
+      },
+      "beforeMs": 1736.5,
+      "afterMs": 1546.7999999821186,
+      "samples": {
+        "native": [
+          1736.5,
+          1502.5,
+          1532.6000000238419
+        ],
+        "spatial": [
+          1546.7999999821186,
+          1534.9000000059605,
+          1734.5
+        ]
+      },
+      "changed": 6,
+      "max": 29,
+      "large": 6,
+      "mean": 2.6627021012900683e-05
+    },
+    {
+      "offset": [
+        0,
+        95,
+        0.01
+      ],
+      "before": {
+        "frame": 65,
+        "calls": 1140,
+        "triangles": 2677712,
+        "points": 0,
+        "lines": 0
+      },
+      "after": {
+        "frame": 67,
+        "calls": 492,
+        "triangles": 2677712,
+        "points": 0,
+        "lines": 0
+      },
+      "beforeMs": 2416.800000011921,
+      "afterMs": 2283.4000000059605,
+      "samples": {
+        "native": [
+          2416.800000011921,
+          2702.600000023842,
+          2193.9000000059605
+        ],
+        "spatial": [
+          2283.4000000059605,
+          2202.399999976158,
+          2248.2999999821186
+        ]
+      },
+      "changed": 16,
+      "max": 5,
+      "large": 0,
+      "mean": 7.702030871500197e-06
+    }
+  ],
+  "diagnostic": [],
+  "meshes": 1,
+  "buffer": [
+    776,
+    1464
+  ],
+  "fish": 50,
+  "contextLost": false,
+  "shaderErrors": []
+}

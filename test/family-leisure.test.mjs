@@ -294,7 +294,7 @@ test("a paired venue kitten remains available when its counter is stored; gender
   assert.ok(restored.jobCity.profiles[kitten.id]);
 });
 
-test("concurrent family decisions cannot exceed the quarter-population limit", () => {
+test("concurrent family decisions share one introduction budget, including responses on adjacent days", () => {
   let g = seed();
   const keep = Object.values(g.jobCity.profiles).slice(0, 16);
   g.jobCity.profiles = Object.fromEntries(keep.map((p) => [p.id, p]));
@@ -306,6 +306,17 @@ test("concurrent family decisions cannot exceed the quarter-population limit", (
   const a = applyFamilyDecisions(g, 26, [pair(0), pair(1)]),
     b = applyFamilyDecisions(g, 26, [pair(2)]);
   assert.throws(() => mergeSharedWorld(g, a, b), /сім|Сім|family/i);
+  const nextDay = applyFamilyDecisions(g, 27, [pair(2)]);
+  assert.throws(() => mergeSharedWorld(g, a, nextDay), /сім|Сім|family/i);
+  const later = applyFamilyDecisions(a, 40, [pair(2)]);
+  const merged = mergeSharedWorld(a, a, later);
+  assert.equal(Object.keys(merged.family.couples).length, 3);
+  assert.deepEqual(
+    merged.family.couples[
+      a.family.couples[Object.keys(a.family.couples)[0]].id
+    ],
+    Object.values(a.family.couples)[0],
+  );
 });
 
 test("the daily AI batch preserves chosen professions while reserving valid shifts and never spawns an unowned car", async () => {

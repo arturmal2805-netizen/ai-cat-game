@@ -1,0 +1,530 @@
+[
+  {
+    "id": "moon",
+    "motion": false,
+    "optimized": false,
+    "renderCPU": {
+      "samples": 80,
+      "median": 6.399999976158142,
+      "p95": 10.199999988079071,
+      "max": 12.599999994039536
+    },
+    "draw": {
+      "frame": 103,
+      "calls": 335,
+      "triangles": 591696,
+      "points": 320,
+      "lines": 0
+    },
+    "memory": {
+      "geometries": 344,
+      "textures": 33
+    },
+    "nodes": 22352,
+    "meshes": 16067,
+    "activeNodes": 1291,
+    "activeMeshes": 847,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "colony": {
+      "sources": 1644,
+      "batches": 13,
+      "ready": true,
+      "active": false
+    },
+    "poses": {
+      "entries": 4952,
+      "rows": 0,
+      "bytes": 0,
+      "cats": 180,
+      "updatedCats": 6
+    }
+  },
+  {
+    "id": "moon",
+    "motion": false,
+    "optimized": true,
+    "renderCPU": {
+      "samples": 80,
+      "median": 6,
+      "p95": 8.099999994039536,
+      "max": 8.599999994039536
+    },
+    "draw": {
+      "frame": 194,
+      "calls": 335,
+      "triangles": 591696,
+      "points": 320,
+      "lines": 0
+    },
+    "memory": {
+      "geometries": 344,
+      "textures": 33
+    },
+    "nodes": 22352,
+    "meshes": 16067,
+    "activeNodes": 1291,
+    "activeMeshes": 847,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "colony": {
+      "sources": 1644,
+      "batches": 13,
+      "ready": true,
+      "active": false
+    },
+    "poses": {
+      "entries": 4952,
+      "rows": 0,
+      "bytes": 0,
+      "cats": 180,
+      "updatedCats": 4
+    }
+  },
+  {
+    "id": "moon",
+    "motion": true,
+    "optimized": false,
+    "renderCPU": {
+      "samples": 80,
+      "median": 11.300000011920929,
+      "p95": 16.899999976158142,
+      "max": 814
+    },
+    "draw": {
+      "frame": 285,
+      "calls": 336,
+      "triangles": 593152,
+      "points": 320,
+      "lines": 0
+    },
+    "memory": {
+      "geometries": 346,
+      "textures": 33
+    },
+    "nodes": 22352,
+    "meshes": 16067,
+    "activeNodes": 1291,
+    "activeMeshes": 847,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "colony": {
+      "sources": 1644,
+      "batches": 13,
+      "ready": true,
+      "active": false
+    },
+    "poses": {
+      "entries": 4952,
+      "rows": 0,
+      "bytes": 0,
+      "cats": 180,
+      "updatedCats": 4
+    }
+  },
+  {
+    "id": "moon",
+    "motion": true,
+    "optimized": true,
+    "renderCPU": {
+      "samples": 80,
+      "median": 10.300000011920929,
+      "p95": 13.200000017881393,
+      "max": 14.399999976158142
+    },
+    "draw": {
+      "frame": 376,
+      "calls": 336,
+      "triangles": 593152,
+      "points": 320,
+      "lines": 0
+    },
+    "memory": {
+      "geometries": 346,
+      "textures": 33
+    },
+    "nodes": 22352,
+    "meshes": 16067,
+    "activeNodes": 1291,
+    "activeMeshes": 847,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "colony": {
+      "sources": 1644,
+      "batches": 13,
+      "ready": true,
+      "active": false
+    },
+    "poses": {
+      "entries": 4952,
+      "rows": 0,
+      "bytes": 0,
+      "cats": 180,
+      "updatedCats": 4
+    }
+  },
+  {
+    "id": "homestead",
+    "motion": false,
+    "optimized": false,
+    "renderCPU": {
+      "samples": 80,
+      "median": 63.80000001192093,
+      "p95": 83.09999999403954,
+      "max": 289.2999999821186
+    },
+    "draw": {
+      "frame": 467,
+      "calls": 2323,
+      "triangles": 5303337,
+      "points": 0,
+      "lines": 0
+    },
+    "memory": {
+      "geometries": 1533,
+      "textures": 69
+    },
+    "nodes": 22357,
+    "meshes": 16071,
+    "activeNodes": 8191,
+    "activeMeshes": 4200,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "colony": {
+      "sources": 1644,
+      "batches": 13,
+      "ready": true,
+      "active": false
+    },
+    "poses": {
+      "entries": 4952,
+      "rows": 0,
+      "bytes": 0,
+      "cats": 180,
+      "updatedCats": 4
+    }
+  },
+  {
+    "id": "homestead",
+    "motion": false,
+    "optimized": true,
+    "renderCPU": {
+      "samples": 80,
+      "median": 33.599999994039536,
+      "p95": 46.69999998807907,
+      "max": 129.10000002384186
+    },
+    "draw": {
+      "frame": 558,
+      "calls": 490,
+      "triangles": 5303337,
+      "points": 0,
+      "lines": 0
+    },
+    "memory": {
+      "geometries": 551,
+      "textures": 108
+    },
+    "nodes": 22357,
+    "meshes": 16071,
+    "activeNodes": 8203,
+    "activeMeshes": 4212,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "colony": {
+      "sources": 1644,
+      "batches": 13,
+      "ready": true,
+      "active": true
+    },
+    "poses": {
+      "entries": 4952,
+      "rows": 0,
+      "bytes": 0,
+      "cats": 180,
+      "updatedCats": 122
+    }
+  },
+  {
+    "id": "homestead",
+    "motion": true,
+    "optimized": false,
+    "renderCPU": {
+      "samples": 80,
+      "median": 67.60000002384186,
+      "p95": 91.2000000178814,
+      "max": 126.5
+    },
+    "draw": {
+      "frame": 649,
+      "calls": 2325,
+      "triangles": 5340281,
+      "points": 0,
+      "lines": 0
+    },
+    "memory": {
+      "geometries": 1553,
+      "textures": 108
+    },
+    "nodes": 22357,
+    "meshes": 16071,
+    "activeNodes": 8191,
+    "activeMeshes": 4200,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "colony": {
+      "sources": 1644,
+      "batches": 13,
+      "ready": true,
+      "active": false
+    },
+    "poses": {
+      "entries": 4952,
+      "rows": 0,
+      "bytes": 0,
+      "cats": 180,
+      "updatedCats": 122
+    }
+  },
+  {
+    "id": "homestead",
+    "motion": true,
+    "optimized": true,
+    "renderCPU": {
+      "samples": 80,
+      "median": 36.80000001192093,
+      "p95": 42.69999998807907,
+      "max": 187.5
+    },
+    "draw": {
+      "frame": 740,
+      "calls": 492,
+      "triangles": 5340281,
+      "points": 0,
+      "lines": 0
+    },
+    "memory": {
+      "geometries": 559,
+      "textures": 108
+    },
+    "nodes": 22357,
+    "meshes": 16071,
+    "activeNodes": 8203,
+    "activeMeshes": 4212,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "colony": {
+      "sources": 1644,
+      "batches": 13,
+      "ready": true,
+      "active": true
+    },
+    "poses": {
+      "entries": 4952,
+      "rows": 56,
+      "bytes": 458752,
+      "cats": 180,
+      "updatedCats": 122
+    }
+  },
+  {
+    "id": "aquarium",
+    "motion": false,
+    "optimized": false,
+    "renderCPU": {
+      "samples": 80,
+      "median": 8.800000011920929,
+      "p95": 25.099999994039536,
+      "max": 32.79999998211861
+    },
+    "draw": {
+      "frame": 831,
+      "calls": 233,
+      "triangles": 1808950,
+      "points": 0,
+      "lines": 0
+    },
+    "memory": {
+      "geometries": 614,
+      "textures": 113
+    },
+    "nodes": 22357,
+    "meshes": 16071,
+    "activeNodes": 1098,
+    "activeMeshes": 707,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "colony": {
+      "sources": 1644,
+      "batches": 13,
+      "ready": true,
+      "active": false
+    },
+    "poses": {
+      "entries": 4952,
+      "rows": 56,
+      "bytes": 458752,
+      "cats": 180,
+      "updatedCats": 122
+    }
+  },
+  {
+    "id": "aquarium",
+    "motion": false,
+    "optimized": true,
+    "renderCPU": {
+      "samples": 80,
+      "median": 5.9000000059604645,
+      "p95": 13.900000005960464,
+      "max": 106
+    },
+    "draw": {
+      "frame": 922,
+      "calls": 233,
+      "triangles": 1808950,
+      "points": 0,
+      "lines": 0
+    },
+    "memory": {
+      "geometries": 614,
+      "textures": 113
+    },
+    "nodes": 22357,
+    "meshes": 16071,
+    "activeNodes": 1098,
+    "activeMeshes": 707,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "colony": {
+      "sources": 1644,
+      "batches": 13,
+      "ready": true,
+      "active": false
+    },
+    "poses": {
+      "entries": 4952,
+      "rows": 0,
+      "bytes": 0,
+      "cats": 180,
+      "updatedCats": 6
+    }
+  },
+  {
+    "id": "aquarium",
+    "motion": true,
+    "optimized": false,
+    "renderCPU": {
+      "samples": 80,
+      "median": 12.5,
+      "p95": 16.80000001192093,
+      "max": 24
+    },
+    "draw": {
+      "frame": 1013,
+      "calls": 232,
+      "triangles": 1817314,
+      "points": 0,
+      "lines": 0
+    },
+    "memory": {
+      "geometries": 614,
+      "textures": 113
+    },
+    "nodes": 22357,
+    "meshes": 16071,
+    "activeNodes": 1098,
+    "activeMeshes": 707,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "colony": {
+      "sources": 1644,
+      "batches": 13,
+      "ready": true,
+      "active": false
+    },
+    "poses": {
+      "entries": 4952,
+      "rows": 0,
+      "bytes": 0,
+      "cats": 180,
+      "updatedCats": 6
+    }
+  },
+  {
+    "id": "aquarium",
+    "motion": true,
+    "optimized": true,
+    "renderCPU": {
+      "samples": 80,
+      "median": 12.799999982118607,
+      "p95": 27,
+      "max": 162.59999999403954
+    },
+    "draw": {
+      "frame": 1104,
+      "calls": 232,
+      "triangles": 1817314,
+      "points": 0,
+      "lines": 0
+    },
+    "memory": {
+      "geometries": 614,
+      "textures": 113
+    },
+    "nodes": 22357,
+    "meshes": 16071,
+    "activeNodes": 1098,
+    "activeMeshes": 707,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "colony": {
+      "sources": 1644,
+      "batches": 13,
+      "ready": true,
+      "active": false
+    },
+    "poses": {
+      "entries": 4952,
+      "rows": 0,
+      "bytes": 0,
+      "cats": 180,
+      "updatedCats": 6
+    }
+  }
+]

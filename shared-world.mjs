@@ -2,7 +2,7 @@ import { mergeHousing } from "./public/housing-system.js";
 import {
   mergeFamily,
   reconcileFamilyHomes,
-  familyLimit,
+  checkFamilyPace,
 } from "./public/family-system.js";
 import {
   normalizeBuilderBoosts,
@@ -683,16 +683,14 @@ export function mergeSharedWorld(base, current, incoming) {
   for (const p of result.placements)
     if (!byItem(p.item))
       throw new SharedConflict("Неизвестный предмет в сохранении.");
-  if (
-    result.family &&
-    Object.keys(result.family.couples).length >
-      Math.max(
-        Object.keys(current.family?.couples || {}).length,
-        familyLimit(Object.values(result.jobCity?.profiles || {})),
-      )
-  )
-    throw new SharedConflict(
-      "Сім'ї вже обрали на іншому пристрої. Оновіть світ.",
+  try {
+    checkFamilyPace(
+      current.family,
+      result.family,
+      Object.values(result.jobCity?.profiles || {}),
     );
+  } catch (error) {
+    throw new SharedConflict(error.message);
+  }
   return resolveConstructionBoosts(reconcileFamilyHomes(result));
 }
