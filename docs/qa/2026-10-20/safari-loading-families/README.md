@@ -58,3 +58,10 @@ https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/39465059285
 The mixed probe exposed a provider's invalid negative roommate sentinel; the
 scheduled structured response now uses nullable roommate objects while accepting
 legacy tuple responses. There are no extra in-game inference timers or retries.
+
+The mixed real request returned 17 valid pairs, plans for all 36 after-work cats
+and 18 actual outing itineraries from 92 available places. It used 929 output
+tokens and reported cost 0. Cloudflare's native Workers binding uses the schema
+directly, whereas OpenRouter needs the OpenAI name/strict/schema envelope; the
+router adapts only the primary copy and retains the reserve request unchanged.
+Reference: https://developers.cloudflare.com/workers-ai/features/json-mode/

@@ -191,3 +191,25 @@ test("public city endpoint validates primary through the durable vault and saves
     globalThis.fetch = nativeFetch;
   }
 });
+
+test("native Cloudflare and OpenRouter receive their own schema envelopes without mutating the shared request", async () => {
+  const schema = { type: "object", properties: { families: {type:"array",maxItems:1} }, required: ["families"] };
+  const request = { ...input, response_format: { type: "json_schema", json_schema: { name: "cat_life", strict: true, schema } } };
+  const before = structuredClone(request);
+  let native = 0, reserve = 0;
+  const router = aiProviderRouter({
+    AI: { run: async (_model, body) => {
+      native++;
+      assert.deepEqual(body.response_format, {type:"json_schema",json_schema:schema});
+      assert.deepEqual(body.messages, request.messages);
+      throw Error("4006 daily free allocation");
+    } }, BACKUP_AI_API_KEY:"private-test-key",
+  }, { fetcher: async (_url, options) => {
+    reserve++;
+    assert.deepEqual(JSON.parse(options.body).response_format, request.response_format);
+    return Response.json({choices:[{message:{content:'{"families":[]}'}}]});
+  } });
+  await router.run(request);
+  assert.equal(native,1); assert.equal(reserve,1);
+  assert.deepEqual(request,before);
+});

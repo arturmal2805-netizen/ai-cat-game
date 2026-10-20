@@ -12,7 +12,13 @@ export function aiProviderRouter(
       let failure = Error("Primary AI unavailable");
       if (env.AI && clock() >= primaryBlockedUntil) {
         try {
-          const answer = await env.AI.run(PRIMARY_AI_MODEL, input);
+          // The native Workers binding expects the schema itself; the
+          // OpenAI-compatible reserve expects {name, strict, schema}.
+          const format = input.response_format;
+          const primaryInput = format?.type === "json_schema" && format.json_schema?.schema
+            ? { ...input, response_format: { type: "json_schema", json_schema: format.json_schema.schema } }
+            : input;
+          const answer = await env.AI.run(PRIMARY_AI_MODEL, primaryInput);
           // A transport success with malformed/invalid choices is not a usable
           // decision. Validate before accepting it, then try the reserve once.
           await validate?.(answer);
