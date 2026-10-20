@@ -49,5 +49,11 @@
   "additionalProviderAndReserveTests": {
     "passed": 19,
     "failed": 0
-  }
+  },
+  "finalLocalFullSuite": {
+    "passed": 628,
+    "failed": 0,
+    "durationMs": 273178
+  },
+  "finalBuildPassed": true
 }
