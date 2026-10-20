@@ -80,6 +80,13 @@ function storage() {
 }
 
 test("initial careers are one saved event; established careers never appear in daily model choices over 40 days", async () => {
+  const initialInput = cityLifeInput(
+    validateCityAIState(nextCityAIEvent(seed(), epoch)),
+  );
+  assert.deepEqual(Object.keys(JSON.parse(initialInput.messages[1].content)), [
+    "day",
+    "careers",
+  ]);
   let g = await establish();
   const professions = Object.fromEntries(
     Object.values(g.jobCity.profiles).map((p) => [p.id, p.profession]),

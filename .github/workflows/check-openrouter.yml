@@ -15,4 +15,5 @@ jobs:
       - name: Verify key and make one real free inference
         env:
           BACKUP_AI_API_KEY: ${{ secrets.BACKUP_AI_API_KEY }}
+          CITY_QA_ROSTER: '147'
         run: node scripts/probe-city-backup.mjs

@@ -34,11 +34,23 @@ export function cityLifeInput(s) {
   const places = s.leisureOffers || [],
     types = [...new Set(places.map((p) => p.type))],
     islands = [...new Set(places.map((p) => p.biome))];
+  const initial = s.phase === "careers";
+  const fields = [
+    ...(c.evenings.length ? ['"evenings":[[catIndex,mode,placeIndices]]'] : []),
+    ...(c.buyers.length
+      ? ['"houses":[[catIndex,houseIndex,roommateIndex]]']
+      : []),
+    ...(c.family
+      ? ['"families":[[maleIndex,femaleIndex,"short Ukrainian reason"]]']
+      : []),
+  ];
   return {
     messages: [
       {
         role: "system",
-        content: `Choose ONLY requested fictional cat life events. JSON {"careers":[[catIndex,professionIndex]],"evenings":[[catIndex,mode,placeIndices]],"houses":[[catIndex,houseIndex,roommateIndex]],"families":[[maleIndex,femaleIndex,"short Ukrainian reason"]]}. No prose or extra rows. Careers: choose exactly once for every new cat in careers; never change an established profession. Profession indices ${JOB_KINDS.map((k, i) => i + "=" + k).join(",")}. Evening: choose for every index in evenings, mode 0=rest/home,1=walk/friends,2=owned car; 1-3 different real place indices, or [] for rest. Choose interesting varied rides, meals, water, games or peaceful rest by personality. Partners spend free time together; their jobs never change. Houses: OPTIONAL only buyers, only affordable; -1 roommate or a free cat. Existing owners may buy additional homes without moving their active residence. Families: ${c.family ? `rare 14-day review, up to ${s.familyReview.slots} compatible lifelong male+female couples from the offered singles; every cat can eventually pair.` : "none today"} Omit optional purchases/pairs when unwanted. No new work schedule, no skills or career review for established cats.`,
+        content: initial
+          ? `Choose a lifelong profession for each requested fictional cat. Return ONLY compact JSON {"careers":[[catIndex,professionIndex]]} without indentation, line breaks, prose or other keys. Exactly one numeric pair for every index provided in careers; no extra rows. Profession indices ${JOB_KINDS.map((k, i) => i + "=" + k).join(",")}. Each input row is [catIndex,personality,preferredProfessionIndices,skillPerProfession]. Choose by personality, preferences and skills. This is initial career selection only. Do not choose evening plans, purchases, houses or families.`
+          : `Choose ONLY requested fictional cat life events. Return ONLY compact JSON {${fields.join(",")}} without indentation, line breaks, prose or other keys. Never select or change professions. Evening: choose for every index in evenings, mode 0=rest/home,1=walk/friends,2=owned car; 1-3 different real place indices, or [] for rest. Choose varied rides, meals, water, games or peaceful rest by personality. Partners spend free time together. Houses: OPTIONAL only buyers, only affordable; -1 roommate or a free cat. Existing owners may buy additional homes without moving their active residence. Families: ${c.family ? `rare 14-day review, up to ${s.familyReview.slots} compatible lifelong male+female couples from the offered singles; every cat can eventually pair.` : "none today"} Omit optional purchases/pairs when unwanted. No work schedule or career review.`,
       },
       {
         role: "user",
@@ -53,43 +65,52 @@ export function cityLifeInput(s) {
               JOB_KINDS.map((k) => p.skills[k]),
             ];
           }),
-          evenings: c.evenings.map((i) => {
-            const p = s.cats[i];
-            return [
-              i,
-              p.personality,
-              p.hasCar ? 1 : 0,
-              s.cats.findIndex((q) => q.id === p.partner),
-            ];
-          }),
-          buyers: c.buyers.map((i) => [
-            i,
-            s.cats[i].coins,
-            s.cats[i].ownedHomes,
-          ]),
-          houses: c.buyers.length
-            ? houses.map((h, i) => [i, h.name, h.price])
-            : [],
-          roommates: c.buyers.length
-            ? s.cats.flatMap((p, i) => (!p.activeHome ? [[i, p.name]] : []))
-            : [],
-          singles: c.family
-            ? s.cats.flatMap((p, i) =>
-                !p.partner ? [[i, p.name, p.sex, p.personality]] : [],
-              )
-            : [],
-          types: c.evenings.length
-            ? types.map((t, i) => [i, places.find((p) => p.type === t).name])
-            : [],
-          islands: c.evenings.length ? islands : [],
-          places: c.evenings.length
-            ? places.map((p, i) => [
-                i,
-                types.indexOf(p.type),
-                islands.indexOf(p.biome),
-                p.action,
-              ])
-            : [],
+          ...(!initial
+            ? {
+                evenings: c.evenings.map((i) => {
+                  const p = s.cats[i];
+                  return [
+                    i,
+                    p.personality,
+                    p.hasCar ? 1 : 0,
+                    s.cats.findIndex((q) => q.id === p.partner),
+                  ];
+                }),
+                buyers: c.buyers.map((i) => [
+                  i,
+                  s.cats[i].coins,
+                  s.cats[i].ownedHomes,
+                ]),
+                houses: c.buyers.length
+                  ? houses.map((h, i) => [i, h.name, h.price])
+                  : [],
+                roommates: c.buyers.length
+                  ? s.cats.flatMap((p, i) =>
+                      !p.activeHome ? [[i, p.name]] : [],
+                    )
+                  : [],
+                singles: c.family
+                  ? s.cats.flatMap((p, i) =>
+                      !p.partner ? [[i, p.name, p.sex, p.personality]] : [],
+                    )
+                  : [],
+                types: c.evenings.length
+                  ? types.map((t, i) => [
+                      i,
+                      places.find((p) => p.type === t).name,
+                    ])
+                  : [],
+                islands: c.evenings.length ? islands : [],
+                places: c.evenings.length
+                  ? places.map((p, i) => [
+                      i,
+                      types.indexOf(p.type),
+                      islands.indexOf(p.biome),
+                      p.action,
+                    ])
+                  : [],
+              }
+            : {}),
         }),
       },
     ],
