@@ -62,7 +62,10 @@ export class CityAIRequestLedger {
       const initialIds = state.initialIds.filter((id) => !ledger.careers[id]);
       if (state.phase === "careers" && !initialIds.length)
         return { replay: ledger.careers };
-      if (ledger.blockedUntil > now)
+      // A quota recorded before the reserve was configured must not disable
+      // that newly available provider until midnight. The event reservation
+      // below still permits only one attempt per day and caches failed ACKs.
+      if (ledger.blockedUntil > now && !this.ai.reserveConfigured)
         return {
           cached: result(
             { code: "AI_DAILY_LIMIT", retryAt: ledger.blockedUntil },

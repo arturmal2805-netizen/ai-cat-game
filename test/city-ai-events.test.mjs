@@ -321,3 +321,22 @@ test("mixed scheduled family and house responses use nullable roommate objects w
   assert.equal(result.assignments.find(a => a.id === state.cats[i].id).house.roommate,null);
   assert.ok(result.assignments.every(a => a.profession === state.cats.find(p => p.id === a.id).profession));
 });
+
+test("a newly configured reserve can handle the next evening despite an old primary-only quota block, without replaying today's failed request", async () => {
+  const g = await establish(), state = validateCityAIState(nextCityAIEvent(g,epoch+420000)), store = storage();
+  const failed = await new CityAIRequestLedger(store,{run:async()=>{throw Error("4006 daily free allocation");}}).plan(state);
+  assert.equal(failed.status,429);
+  let calls = 0;
+  const ready = { reserveConfigured:true, run:async(_model,input)=>{
+    calls++;
+    const day = JSON.parse(input.messages[1].content).day;
+    return {response:reply({...state,day}),provider:"openrouter"};
+  } };
+  const ledger = new CityAIRequestLedger(store,ready);
+  assert.equal((await ledger.plan(state)).status,429);
+  assert.equal(calls,0,"the old event stays idempotent and cannot spend again");
+  const next = {...state,day:state.day+1};
+  assert.equal((await ledger.plan(next)).status,200);
+  assert.equal((await new CityAIRequestLedger(store,ready).plan(next)).status,200);
+  assert.equal(calls,1,"new provider capability permits one next-day batch, not a retry loop");
+});

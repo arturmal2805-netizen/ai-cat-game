@@ -65,3 +65,17 @@ tokens and reported cost 0. Cloudflare's native Workers binding uses the schema
 directly, whereas OpenRouter needs the OpenAI name/strict/schema envelope; the
 router adapts only the primary copy and retains the reserve request unchanged.
 Reference: https://developers.cloudflare.com/workers-ai/features/json-mode/
+
+Final live WebKit follow-up covers summer, sakura, bikini, aquarium, the heavily
+built homestead and a return to summer with the retained-batch implementation.
+All complete and keep rendering through gestures; repeat summer detail readiness
+is 42 ms. Cold-load timings remain variable in the software driver (sakura is
+slower in this run); these data are not evidence of uniformly faster physical
+Mac rendering. Actual fish GPU poses/normals/culling and native Chichi colour and
+shadow comparisons pass separately, without lowering details.
+
+A persistent primary-only quota flag from before reserve installation can no
+longer block a newly configured reserve until midnight. The same day's failed
+result remains cached and the next evening is reserved durably once; a restarted
+ledger reuses its saved result without another model call. Without a configured
+reserve, the original daily quota guard remains in force.

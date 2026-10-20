@@ -1,0 +1,780 @@
+[
+  {
+    "id": "summer",
+    "repeat": false,
+    "detailReadyMs": 28485,
+    "error": null,
+    "cold": {
+      "renderedFrames": 53,
+      "frameGapMedian": 418,
+      "frameGapP95": 816,
+      "frameGapMax": 1001,
+      "renderCpuMedian": 135,
+      "renderCpuMax": 802,
+      "pendingGpu": 1,
+      "shaders": {
+        "pending": 0,
+        "prepared": 18,
+        "reflected": 41,
+        "compiled": 342,
+        "reused": 38,
+        "textures": 7
+      },
+      "triangles": 2422917,
+      "calls": 624,
+      "dpr": 2,
+      "contextLost": false,
+      "visible": true,
+      "documentHidden": false,
+      "scrollY": 96,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "distance": 85,
+      "targetDistance": 85,
+      "distanceToTarget": 0
+    },
+    "still": {
+      "renderedFrames": 2,
+      "frameGapMedian": 1158,
+      "frameGapP95": 1158,
+      "frameGapMax": 1158,
+      "renderCpuMedian": 700,
+      "renderCpuMax": 700,
+      "pendingGpu": 1,
+      "shaders": {
+        "pending": 0,
+        "prepared": 18,
+        "reflected": 41,
+        "compiled": 342,
+        "reused": 38,
+        "textures": 7
+      },
+      "triangles": 2422797,
+      "calls": 623,
+      "dpr": 2,
+      "contextLost": false,
+      "visible": true,
+      "documentHidden": false,
+      "scrollY": 96,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "distance": 85,
+      "targetDistance": 85,
+      "distanceToTarget": 0
+    },
+    "zoom": {
+      "renderedFrames": 6,
+      "frameGapMedian": 1187,
+      "frameGapP95": 1328,
+      "frameGapMax": 1328,
+      "renderCpuMedian": 523,
+      "renderCpuMax": 621,
+      "pendingGpu": 1,
+      "shaders": {
+        "pending": 4,
+        "prepared": 18,
+        "reflected": 41,
+        "compiled": 344,
+        "reused": 38,
+        "textures": 7
+      },
+      "triangles": 2389369,
+      "calls": 638,
+      "dpr": 2,
+      "contextLost": false,
+      "visible": true,
+      "documentHidden": false,
+      "scrollY": 96,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "distance": 84.99993630839712,
+      "targetDistance": 85,
+      "distanceToTarget": 0
+    },
+    "orbit": {
+      "renderedFrames": 8,
+      "frameGapMedian": 895,
+      "frameGapP95": 1212,
+      "frameGapMax": 1212,
+      "renderCpuMedian": 489,
+      "renderCpuMax": 630,
+      "pendingGpu": 1,
+      "shaders": {
+        "pending": 0,
+        "prepared": 22,
+        "reflected": 43,
+        "compiled": 350,
+        "reused": 38,
+        "textures": 7
+      },
+      "triangles": 2335952,
+      "calls": 601,
+      "dpr": 2,
+      "contextLost": false,
+      "visible": true,
+      "documentHidden": false,
+      "scrollY": 96,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "distance": 85,
+      "targetDistance": 85,
+      "distanceToTarget": 0
+    }
+  },
+  {
+    "id": "sakura",
+    "repeat": false,
+    "detailReadyMs": 34897,
+    "error": null,
+    "cold": {
+      "renderedFrames": 86,
+      "frameGapMedian": 350,
+      "frameGapP95": 660,
+      "frameGapMax": 971,
+      "renderCpuMedian": 95,
+      "renderCpuMax": 780,
+      "pendingGpu": 1,
+      "shaders": {
+        "pending": 2,
+        "prepared": 39,
+        "reflected": 53,
+        "compiled": 493,
+        "reused": 156,
+        "textures": 8
+      },
+      "triangles": 1429244,
+      "calls": 466,
+      "dpr": 2,
+      "contextLost": false,
+      "visible": true,
+      "documentHidden": false,
+      "scrollY": 96,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "distance": 85,
+      "targetDistance": 85,
+      "distanceToTarget": 2.8722354051240278e-120
+    },
+    "still": {
+      "renderedFrames": 3,
+      "frameGapMedian": 912,
+      "frameGapP95": 912,
+      "frameGapMax": 912,
+      "renderCpuMedian": 346,
+      "renderCpuMax": 632,
+      "pendingGpu": 1,
+      "shaders": {
+        "pending": 0,
+        "prepared": 41,
+        "reflected": 53,
+        "compiled": 497,
+        "reused": 156,
+        "textures": 8
+      },
+      "triangles": 1429244,
+      "calls": 462,
+      "dpr": 2,
+      "contextLost": false,
+      "visible": true,
+      "documentHidden": false,
+      "scrollY": 96,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "distance": 85,
+      "targetDistance": 85,
+      "distanceToTarget": 1.7974274538842467e-129
+    },
+    "zoom": {
+      "renderedFrames": 9,
+      "frameGapMedian": 913,
+      "frameGapP95": 987,
+      "frameGapMax": 987,
+      "renderCpuMedian": 247,
+      "renderCpuMax": 484,
+      "pendingGpu": 1,
+      "shaders": {
+        "pending": 3,
+        "prepared": 41,
+        "reflected": 53,
+        "compiled": 497,
+        "reused": 156,
+        "textures": 8
+      },
+      "triangles": 1411780,
+      "calls": 454,
+      "dpr": 2,
+      "contextLost": false,
+      "visible": true,
+      "documentHidden": false,
+      "scrollY": 96,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "distance": 84.9994231606035,
+      "targetDistance": 85,
+      "distanceToTarget": 9.19572823720046e-157
+    },
+    "orbit": {
+      "renderedFrames": 11,
+      "frameGapMedian": 773,
+      "frameGapP95": 949,
+      "frameGapMax": 949,
+      "renderCpuMedian": 331,
+      "renderCpuMax": 626,
+      "pendingGpu": 1,
+      "shaders": {
+        "pending": 2,
+        "prepared": 43,
+        "reflected": 53,
+        "compiled": 503,
+        "reused": 156,
+        "textures": 8
+      },
+      "triangles": 1397636,
+      "calls": 402,
+      "dpr": 2,
+      "contextLost": false,
+      "visible": true,
+      "documentHidden": false,
+      "scrollY": 96,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "distance": 85,
+      "targetDistance": 85,
+      "distanceToTarget": 0
+    }
+  },
+  {
+    "id": "bikini",
+    "repeat": false,
+    "detailReadyMs": 7720,
+    "error": null,
+    "cold": {
+      "renderedFrames": 22,
+      "frameGapMedian": 284,
+      "frameGapP95": 639,
+      "frameGapMax": 701,
+      "renderCpuMedian": 65,
+      "renderCpuMax": 195,
+      "pendingGpu": 1,
+      "shaders": {
+        "pending": 0,
+        "prepared": 52,
+        "reflected": 61,
+        "compiled": 622,
+        "reused": 186,
+        "textures": 9
+      },
+      "triangles": 574624,
+      "calls": 172,
+      "dpr": 2,
+      "contextLost": false,
+      "visible": true,
+      "documentHidden": false,
+      "scrollY": 96,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "distance": 85,
+      "targetDistance": 85,
+      "distanceToTarget": 0
+    },
+    "still": {
+      "renderedFrames": 5,
+      "frameGapMedian": 464,
+      "frameGapP95": 527,
+      "frameGapMax": 527,
+      "renderCpuMedian": 153,
+      "renderCpuMax": 196,
+      "pendingGpu": 1,
+      "shaders": {
+        "pending": 0,
+        "prepared": 52,
+        "reflected": 61,
+        "compiled": 622,
+        "reused": 186,
+        "textures": 9
+      },
+      "triangles": 574624,
+      "calls": 172,
+      "dpr": 2,
+      "contextLost": false,
+      "visible": true,
+      "documentHidden": false,
+      "scrollY": 96,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "distance": 85,
+      "targetDistance": 85,
+      "distanceToTarget": 0
+    },
+    "zoom": {
+      "renderedFrames": 9,
+      "frameGapMedian": 479,
+      "frameGapP95": 737,
+      "frameGapMax": 737,
+      "renderCpuMedian": 129,
+      "renderCpuMax": 372,
+      "pendingGpu": 1,
+      "shaders": {
+        "pending": 0,
+        "prepared": 54,
+        "reflected": 61,
+        "compiled": 626,
+        "reused": 186,
+        "textures": 9
+      },
+      "triangles": 574624,
+      "calls": 172,
+      "dpr": 2,
+      "contextLost": false,
+      "visible": true,
+      "documentHidden": false,
+      "scrollY": 96,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "distance": 84.99949140258332,
+      "targetDistance": 85,
+      "distanceToTarget": 0
+    },
+    "orbit": {
+      "renderedFrames": 10,
+      "frameGapMedian": 495,
+      "frameGapP95": 799,
+      "frameGapMax": 799,
+      "renderCpuMedian": 142,
+      "renderCpuMax": 202,
+      "pendingGpu": 1,
+      "shaders": {
+        "pending": 0,
+        "prepared": 54,
+        "reflected": 61,
+        "compiled": 626,
+        "reused": 186,
+        "textures": 9
+      },
+      "triangles": 537762,
+      "calls": 165,
+      "dpr": 2,
+      "contextLost": false,
+      "visible": true,
+      "documentHidden": false,
+      "scrollY": 96,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "distance": 85,
+      "targetDistance": 85,
+      "distanceToTarget": 0
+    }
+  },
+  {
+    "id": "aquarium",
+    "repeat": false,
+    "detailReadyMs": 13954,
+    "error": null,
+    "cold": {
+      "renderedFrames": 21,
+      "frameGapMedian": 631,
+      "frameGapP95": 1300,
+      "frameGapMax": 1300,
+      "renderCpuMedian": 176,
+      "renderCpuMax": 621,
+      "pendingGpu": 1,
+      "shaders": {
+        "pending": 0,
+        "prepared": 60,
+        "reflected": 70,
+        "compiled": 716,
+        "reused": 186,
+        "textures": 10
+      },
+      "triangles": 2658314,
+      "calls": 191,
+      "dpr": 2,
+      "contextLost": false,
+      "visible": true,
+      "documentHidden": false,
+      "scrollY": 96,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "distance": 85,
+      "targetDistance": 85,
+      "distanceToTarget": 0
+    },
+    "still": {
+      "renderedFrames": 2,
+      "frameGapMedian": 1162,
+      "frameGapP95": 1162,
+      "frameGapMax": 1162,
+      "renderCpuMedian": 438,
+      "renderCpuMax": 438,
+      "pendingGpu": 1,
+      "shaders": {
+        "pending": 0,
+        "prepared": 60,
+        "reflected": 70,
+        "compiled": 716,
+        "reused": 186,
+        "textures": 10
+      },
+      "triangles": 2658314,
+      "calls": 191,
+      "dpr": 2,
+      "contextLost": false,
+      "visible": true,
+      "documentHidden": false,
+      "scrollY": 96,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "distance": 85,
+      "targetDistance": 85,
+      "distanceToTarget": 0
+    },
+    "zoom": {
+      "renderedFrames": 9,
+      "frameGapMedian": 806,
+      "frameGapP95": 1103,
+      "frameGapMax": 1103,
+      "renderCpuMedian": 368,
+      "renderCpuMax": 482,
+      "pendingGpu": 1,
+      "shaders": {
+        "pending": 10,
+        "prepared": 60,
+        "reflected": 70,
+        "compiled": 716,
+        "reused": 186,
+        "textures": 10
+      },
+      "triangles": 2658314,
+      "calls": 191,
+      "dpr": 2,
+      "contextLost": false,
+      "visible": true,
+      "documentHidden": false,
+      "scrollY": 96,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "distance": 84.99886529795528,
+      "targetDistance": 85,
+      "distanceToTarget": 0
+    },
+    "orbit": {
+      "renderedFrames": 8,
+      "frameGapMedian": 907,
+      "frameGapP95": 1073,
+      "frameGapMax": 1073,
+      "renderCpuMedian": 416,
+      "renderCpuMax": 606,
+      "pendingGpu": 1,
+      "shaders": {
+        "pending": 3,
+        "prepared": 62,
+        "reflected": 72,
+        "compiled": 720,
+        "reused": 186,
+        "textures": 10
+      },
+      "triangles": 2618962,
+      "calls": 174,
+      "dpr": 2,
+      "contextLost": false,
+      "visible": true,
+      "documentHidden": false,
+      "scrollY": 96,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "distance": 85,
+      "targetDistance": 85,
+      "distanceToTarget": 0
+    }
+  },
+  {
+    "id": "homestead",
+    "repeat": false,
+    "detailReadyMs": 3336,
+    "error": null,
+    "cold": {
+      "renderedFrames": 4,
+      "frameGapMedian": 905,
+      "frameGapP95": 1111,
+      "frameGapMax": 1111,
+      "renderCpuMedian": 412,
+      "renderCpuMax": 800,
+      "pendingGpu": 1,
+      "shaders": {
+        "pending": 37,
+        "prepared": 67,
+        "reflected": 76,
+        "compiled": 828,
+        "reused": 225,
+        "textures": 11
+      },
+      "triangles": 2450781,
+      "calls": 741,
+      "dpr": 2,
+      "contextLost": false,
+      "visible": true,
+      "documentHidden": false,
+      "scrollY": 96,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "distance": 85,
+      "targetDistance": 85,
+      "distanceToTarget": 5.187833237404598e-11
+    },
+    "still": {
+      "renderedFrames": 3,
+      "frameGapMedian": 907,
+      "frameGapP95": 907,
+      "frameGapMax": 907,
+      "renderCpuMedian": 491,
+      "renderCpuMax": 527,
+      "pendingGpu": 1,
+      "shaders": {
+        "pending": 36,
+        "prepared": 69,
+        "reflected": 77,
+        "compiled": 857,
+        "reused": 227,
+        "textures": 11
+      },
+      "triangles": 2441414,
+      "calls": 741,
+      "dpr": 2,
+      "contextLost": false,
+      "visible": true,
+      "documentHidden": false,
+      "scrollY": 96,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "distance": 85,
+      "targetDistance": 85,
+      "distanceToTarget": 0
+    },
+    "zoom": {
+      "renderedFrames": 9,
+      "frameGapMedian": 903,
+      "frameGapP95": 1016,
+      "frameGapMax": 1016,
+      "renderCpuMedian": 469,
+      "renderCpuMax": 647,
+      "pendingGpu": 1,
+      "shaders": {
+        "pending": 45,
+        "prepared": 69,
+        "reflected": 77,
+        "compiled": 884,
+        "reused": 229,
+        "textures": 11
+      },
+      "triangles": 2440634,
+      "calls": 740,
+      "dpr": 2,
+      "contextLost": false,
+      "visible": true,
+      "documentHidden": false,
+      "scrollY": 96,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "distance": 84.99978956417891,
+      "targetDistance": 85,
+      "distanceToTarget": 0
+    },
+    "orbit": {
+      "renderedFrames": 8,
+      "frameGapMedian": 768,
+      "frameGapP95": 896,
+      "frameGapMax": 896,
+      "renderCpuMedian": 549,
+      "renderCpuMax": 602,
+      "pendingGpu": 1,
+      "shaders": {
+        "pending": 33,
+        "prepared": 82,
+        "reflected": 82,
+        "compiled": 1553,
+        "reused": 1357,
+        "textures": 11
+      },
+      "triangles": 2439482,
+      "calls": 741,
+      "dpr": 2,
+      "contextLost": false,
+      "visible": true,
+      "documentHidden": false,
+      "scrollY": 96,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "distance": 85,
+      "targetDistance": 85,
+      "distanceToTarget": 0
+    }
+  },
+  {
+    "id": "summer",
+    "repeat": true,
+    "detailReadyMs": 42,
+    "error": null,
+    "cold": {
+      "renderedFrames": 0,
+      "frameGapMedian": null,
+      "frameGapP95": null,
+      "frameGapMax": null,
+      "renderCpuMedian": null,
+      "renderCpuMax": null,
+      "pendingGpu": 1,
+      "shaders": {
+        "pending": 16,
+        "prepared": 96,
+        "reflected": 82,
+        "compiled": 1604,
+        "reused": 1417,
+        "textures": 11
+      },
+      "dpr": 2,
+      "contextLost": false,
+      "visible": true,
+      "documentHidden": false,
+      "scrollY": 96,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "distance": 85,
+      "targetDistance": 85,
+      "distanceToTarget": 230.4886114323222
+    },
+    "still": {
+      "renderedFrames": 3,
+      "frameGapMedian": 949,
+      "frameGapP95": 949,
+      "frameGapMax": 949,
+      "renderCpuMedian": 443,
+      "renderCpuMax": 476,
+      "pendingGpu": 1,
+      "shaders": {
+        "pending": 0,
+        "prepared": 102,
+        "reflected": 82,
+        "compiled": 1615,
+        "reused": 1417,
+        "textures": 11
+      },
+      "triangles": 2297990,
+      "calls": 530,
+      "dpr": 2,
+      "contextLost": false,
+      "visible": true,
+      "documentHidden": false,
+      "scrollY": 96,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "distance": 85,
+      "targetDistance": 85,
+      "distanceToTarget": 0.0000014677226893147612
+    },
+    "zoom": {
+      "renderedFrames": 9,
+      "frameGapMedian": 909,
+      "frameGapP95": 984,
+      "frameGapMax": 984,
+      "renderCpuMedian": 344,
+      "renderCpuMax": 453,
+      "pendingGpu": 1,
+      "shaders": {
+        "pending": 0,
+        "prepared": 102,
+        "reflected": 82,
+        "compiled": 1615,
+        "reused": 1417,
+        "textures": 11
+      },
+      "triangles": 2294390,
+      "calls": 526,
+      "dpr": 2,
+      "contextLost": false,
+      "visible": true,
+      "documentHidden": false,
+      "scrollY": 96,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "distance": 84.9996604563856,
+      "targetDistance": 85,
+      "distanceToTarget": 0
+    },
+    "orbit": {
+      "renderedFrames": 10,
+      "frameGapMedian": 887,
+      "frameGapP95": 1280,
+      "frameGapMax": 1280,
+      "renderCpuMedian": 468,
+      "renderCpuMax": 632,
+      "pendingGpu": 1,
+      "shaders": {
+        "pending": 0,
+        "prepared": 102,
+        "reflected": 82,
+        "compiled": 1615,
+        "reused": 1417,
+        "textures": 11
+      },
+      "triangles": 2256924,
+      "calls": 521,
+      "dpr": 2,
+      "contextLost": false,
+      "visible": true,
+      "documentHidden": false,
+      "scrollY": 96,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "distance": 85,
+      "targetDistance": 85,
+      "distanceToTarget": 0
+    }
+  }
+]

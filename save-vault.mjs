@@ -85,6 +85,7 @@ export class SaveVault {
   constructor(state, env = {}) {
     this.storage = chunkedSaveStorage(state.storage);
     this.cityAI = new CityAIRequestLedger(this.storage, {
+      reserveConfigured: !!env.BACKUP_AI_API_KEY,
       run: (_model, input, validate) => aiProviderRouter(env).run(input, validate),
     });
   }
