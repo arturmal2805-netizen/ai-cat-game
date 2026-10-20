@@ -79,3 +79,10 @@ longer block a newly configured reserve until midnight. The same day's failed
 result remains cached and the next evening is reserved durably once; a restarted
 ledger reuses its saved result without another model call. Without a configured
 reserve, the original daily quota guard remains in force.
+
+The final all-island mobile audit passes 31 views (all 30 islands plus an
+Aquarium revisit). Every original-vs-optimized image has zero changed channels;
+wheel, orbit and two-touch pinch are exercised through the real input handlers.
+Its command-only CPU timings explicitly exclude raster work and must not be
+reported as device FPS. The separate live WebKit reports retain actual raster
+work and GPU backpressure. No production account or AI was used for either.

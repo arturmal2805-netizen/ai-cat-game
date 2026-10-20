@@ -28,12 +28,26 @@
   },
   "realMixedEveningFamilyInference": {
     "workflow": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/39465059285",
-    "strictCityContractPassed": true
+    "strictCityContractPassed": true,
+    "validPairs": 17,
+    "afterWorkCats": 36,
+    "availablePlaces": 92,
+    "catsWithOutings": 18,
+    "outputTokens": 929,
+    "reportedCostUSD": 0
   },
   "playerWorldAccessed": false,
   "graphics": {
     "all30LiveWebKitIslands": true,
     "aquariumAndHomesteadActualPixelComparisons": true,
-    "physicalMacFPSMeasured": false
+    "physicalMacFPSMeasured": false,
+    "finalAll30MobileWheelOrbitPinchAndImages": true,
+    "finalHeavyWebKitViews": 6,
+    "fishGpuPoseAndNormalProbe": true,
+    "nativeChichiExactImages": true
+  },
+  "additionalProviderAndReserveTests": {
+    "passed": 19,
+    "failed": 0
   }
 }
