@@ -1,0 +1,39 @@
+{
+  "localFullSuite": {
+    "passed": 624,
+    "failed": 0,
+    "log": "/tmp/regression-full-tests.log"
+  },
+  "additionalMixedSchemaTests": {
+    "passed": 17,
+    "failed": 0
+  },
+  "familyBrowser": {
+    "privateDay28LegacyEmptyReviews": true,
+    "aiResponse": "mocked",
+    "reloads": 3,
+    "sqliteIdenticalRetries": 5,
+    "concurrentCachedPhoneWrites": true,
+    "privateBalancesAndHomesPreserved": true,
+    "browserErrors": 0
+  },
+  "realFamilyInference": {
+    "workflow": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/39464223770",
+    "provider": "openrouter",
+    "model": "dots-studio/dots-3-note-preview:free",
+    "cats": 147,
+    "validPairs": 18,
+    "outputTokens": 369,
+    "reportedCostUSD": 0
+  },
+  "realMixedEveningFamilyInference": {
+    "workflow": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/39465059285",
+    "strictCityContractPassed": true
+  },
+  "playerWorldAccessed": false,
+  "graphics": {
+    "all30LiveWebKitIslands": true,
+    "aquariumAndHomesteadActualPixelComparisons": true,
+    "physicalMacFPSMeasured": false
+  }
+}

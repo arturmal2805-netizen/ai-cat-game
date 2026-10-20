@@ -1,0 +1,69 @@
+{
+  "aiCalls": 1,
+  "couples": {
+    "family-adopt-nimbus-chichi": {
+      "male": "adopt-nimbus",
+      "female": "chichi",
+      "reason": "Люблять затишок і пригоди",
+      "id": "family-adopt-nimbus-chichi",
+      "formedDay": 27,
+      "formedAt": 1792516696366,
+      "source": "ai"
+    },
+    "family-luna-moti": {
+      "male": "luna",
+      "female": "moti",
+      "reason": "Разом веселіше досліджувати острови",
+      "id": "family-luna-moti",
+      "formedDay": 27,
+      "formedAt": 1792516696366,
+      "source": "ai"
+    }
+  },
+  "layout": {
+    "width": 350,
+    "scroll": 350,
+    "window": 390
+  },
+  "outings": [
+    {
+      "id": "luna",
+      "progress": {
+        "day": 27,
+        "done": 1
+      }
+    },
+    {
+      "id": "moti",
+      "progress": {
+        "day": 27,
+        "done": 1
+      }
+    }
+  ],
+  "sleeping": [
+    {
+      "id": "chichi",
+      "phase": "relax",
+      "seat": {
+        "x": -28.05,
+        "z": -22.35,
+        "y": 1.12,
+        "yaw": 0.2
+      },
+      "radius": 0.5710000000000001
+    },
+    {
+      "id": "adopt-nimbus",
+      "phase": "relax",
+      "seat": {
+        "x": -25.05,
+        "z": -22.35,
+        "y": 1.12,
+        "yaw": -0.2
+      },
+      "radius": 0.521935
+    }
+  ],
+  "errors": []
+}

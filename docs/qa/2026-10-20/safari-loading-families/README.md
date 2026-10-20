@@ -39,3 +39,22 @@ oversized proposals. The successful third real probe selected 18 valid pairs for
 147 fictional cats, finished normally with 369 output tokens and reported cost 0:
 https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/39464223770
 No player balances or actual families were accessed or changed by the probe.
+
+The final prop-batch checks retain all 50 fish and DPR 2. The aquarium's four
+views are byte-identical; the built homestead reduces calls by 32–58 in the four
+views, with 6–39 channel values differing by more than 8 across 1.1 million
+pixels (ordinary native-vs-batch raster precision). No geometry was removed.
+
+The day-28 browser fixture starts with both legacy empty reviews consumed.
+One mocked response forms two real application couples. Phone cards fit; the
+partners complete their native Krusty Krab outing, reload three times with exact
+private balances/homes, and occupy separate shared-home sleep positions. Five
+identical SQLite retries and concurrent cached-phone writes preserve every pair.
+The separate actual provider test above establishes real AI selection, not the
+browser mock. A further real mixed request (36 working cats, affordable houses,
+real available leisure places and families in one response) passes the strict
+contract too:
+https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/39465059285
+The mixed probe exposed a provider's invalid negative roommate sentinel; the
+scheduled structured response now uses nullable roommate objects while accepting
+legacy tuple responses. There are no extra in-game inference timers or retries.
