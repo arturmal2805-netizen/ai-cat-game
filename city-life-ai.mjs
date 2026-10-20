@@ -41,8 +41,12 @@ function familyResponseFormat(s, choices) {
   };
   if (choices.buyers.length) properties.houses = {
     type: "array", maxItems: choices.buyers.length,
-    items: { type: "array", minItems: 3, maxItems: 3,
-      items: { type: "integer", minimum: -1 } },
+    items: { type: "object", additionalProperties: false,
+      required: ["cat", "house", "roommate"], properties: {
+        cat: { type: "integer", enum: choices.buyers },
+        house: { type: "integer", enum: housingOffers().map((_,i) => i) },
+        roommate: { type: ["integer", "null"], enum: [null, ...s.cats.flatMap((p,i) => !p.activeHome ? [i] : [])] },
+      } },
   };
   properties.families = {
     type: "array", minItems: 1, maxItems: s.familyReview.slots,
@@ -68,7 +72,7 @@ export function cityLifeInput(s) {
   const fields = [
     ...(c.evenings.length ? ['"evenings":[[catIndex,mode,placeIndices]]'] : []),
     ...(c.buyers.length
-      ? ['"houses":[[catIndex,houseIndex,roommateIndex]]']
+      ? [c.family ? '"houses":[{"cat":catIndex,"house":houseIndex,"roommate":null}]' : '"houses":[[catIndex,houseIndex,roommateIndex]]']
       : []),
     ...(c.family
       ? ['"families":[{"male":maleIndex,"female":femaleIndex,"reason":"3 Ukrainian words"}]']
@@ -80,7 +84,7 @@ export function cityLifeInput(s) {
         role: "system",
         content: initial
           ? `Choose a lifelong profession for each requested fictional cat. Return ONLY compact JSON {"careers":[[catIndex,professionIndex]]} without indentation, line breaks, prose or other keys. Exactly one numeric pair for every index provided in careers; no extra rows. Profession indices ${JOB_KINDS.map((k, i) => i + "=" + k).join(",")}. Each input row is [catIndex,personality,preferredProfessionIndices,skillPerProfession]. Choose by personality, preferences and skills. This is initial career selection only. Do not choose evening plans, purchases, houses or families.`
-          : `Choose ONLY requested fictional cat life events. Return ONLY compact JSON {${fields.join(",")}} without indentation, line breaks, prose or other keys. Never select or change professions. Evening input rows are [catIndex,personality,ownsCar,partnerIndex]; ownsCar is a permission, not the chosen activity. Place rows are [placeIndex,typeIndex,islandIndex,action]. Choose for every index in evenings, mode 0=rest/home,1=walk/friends,2=owned car; 1-3 different real place indices, or [] for rest. Choose varied rides, meals, water, games or peaceful rest by personality. Partners spend free time together. Houses: OPTIONAL only buyers, only affordable; -1 roommate or a free cat. Existing owners may buy additional homes without moving their active residence. Families: ${c.family ? `This is the scheduled 14-day introduction. Return at least 1 and AT MOST ${s.familyReview.slots} rows in families (never pair the entire singles list). Choose compatible lifelong male+female couples from the offered singles, using their personalities. Each singles row is [catIndex,name,sex,personality]; male and female indices must refer to different free cats. Do not return an empty review when compatible singles are available. Every cat can eventually pair.` : "none today"} Omit optional house purchases when unwanted. No family choices outside a scheduled review. No work schedule or career review.`,
+          : `Choose ONLY requested fictional cat life events. Return ONLY compact JSON {${fields.join(",")}} without indentation, line breaks, prose or other keys. Never select or change professions. Evening input rows are [catIndex,personality,ownsCar,partnerIndex]; ownsCar is a permission, not the chosen activity. Place rows are [placeIndex,typeIndex,islandIndex,action]. Choose for every index in evenings, mode 0=rest/home,1=walk/friends,2=owned car; 1-3 different real place indices, or [] for rest. Choose varied rides, meals, water, games or peaceful rest by personality. Partners spend free time together. Houses: OPTIONAL only buyers, only affordable; ${c.family ? "roommate=null for no roommate, otherwise a free cat index" : "-1 roommate or a free cat"}. Existing owners may buy additional homes without moving their active residence. Families: ${c.family ? `This is the scheduled 14-day introduction. Return at least 1 and AT MOST ${s.familyReview.slots} rows in families (never pair the entire singles list). Choose compatible lifelong male+female couples from the offered singles, using their personalities. Each singles row is [catIndex,name,sex,personality]; male and female indices must refer to different free cats. Do not return an empty review when compatible singles are available. Every cat can eventually pair.` : "none today"} Omit optional house purchases when unwanted. No family choices outside a scheduled review. No work schedule or career review.`,
       },
       {
         role: "user",
@@ -151,7 +155,7 @@ export function cityLifeInput(s) {
         256,
         c.careers.length * 9 +
           c.evenings.length * 18 +
-          c.buyers.length * 10 +
+          c.buyers.length * (c.family ? 20 : 10) +
           (c.family ? s.familyReview.slots * 48 : 0) +
           128,
       ),
@@ -198,9 +202,11 @@ function expandCityLife(s, result) {
   });
   const byIndex = (i) => assignments.find((a) => a.id === s.cats[i]?.id);
   const rows = (name, allowed, required = false) => {
-    const a = raw?.[name] ?? [],
-      seen = new Set();
+    let a = raw?.[name] ?? [];
+    const seen = new Set();
     if (!Array.isArray(a)) throw Error("Invalid life choices");
+    if (name === "houses") a = a.map(row => Array.isArray(row) ? row
+      : [row?.cat, row?.house, row?.roommate === null ? -1 : row?.roommate]);
     for (const row of a) {
       if (!Array.isArray(row) || !allowed.includes(row[0]) || seen.has(row[0]))
         throw Error("Unrequested AI choice");

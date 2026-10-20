@@ -308,3 +308,16 @@ test("family decoding schema bounds the real provider output and restricts each 
   assert.equal(result.families[0].male, state.cats[male].id);
   await assert.rejects(requestCityLife(state, async()=>({response:{...body,families:Array.from({length:state.familyReview.slots+1},()=>({male,female,reason}))}})),/вибір сімей/);
 });
+
+test("mixed scheduled family and house responses use nullable roommate objects without changing private prices or careers", async () => {
+  const g = await establish(), id = Object.keys(g.jobCity.profiles)[0];
+  g.jobCity.profiles[id].coins = 10000;
+  const state = validateCityAIState(nextCityAIEvent(g,epoch+(27*1440+420)*1000));
+  const c = cityLifeChoices(state), body = reply(state);
+  const i = c.buyers[0];
+  const schema = cityLifeInput(state).response_format.json_schema.schema.properties.houses.items;
+  assert.ok(schema.properties.roommate.enum.includes(null));
+  const result = await requestCityLife(state,async()=>({response:{...body,houses:[{cat:i,house:0,roommate:null}]}}));
+  assert.equal(result.assignments.find(a => a.id === state.cats[i].id).house.roommate,null);
+  assert.ok(result.assignments.every(a => a.profession === state.cats.find(p => p.id === a.id).profession));
+});
