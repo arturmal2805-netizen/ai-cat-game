@@ -442,7 +442,7 @@ async function localWorker() {
       return;
     }
 
-    await page.locator('[data-biome="aquarium"]').tap();
+    await page.locator('[data-biome="aquarium"]')[desktop ? "click" : "tap"]();
     const tankIds = [
       "aquarium-aurora",
       "aquarium-pearl",
@@ -497,7 +497,7 @@ async function localWorker() {
     ) {
       const stress = !!process.env.CHICHI_SCENE_STRESS;
       const proofBiome = process.env.CHICHI_PROOF_BIOME || (stress ? "homestead" : "aquarium");
-      if (proofBiome !== "aquarium") await page.locator(`[data-biome="${proofBiome}"]`).tap();
+      if (proofBiome !== "aquarium") await page.locator(`[data-biome="${proofBiome}"]`)[desktop ? "click" : "tap"]();
       await page.waitForFunction(id => !__lagoonQA.islands.get(id).userData.lowOnly, proofBiome);
       const proofCenter = await page.evaluate(id => {const p=__lagoonQA.islands.get(id).position;return [p.x,p.z];}, proofBiome);
       await page.evaluate(

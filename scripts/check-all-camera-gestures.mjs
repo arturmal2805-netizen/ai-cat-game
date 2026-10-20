@@ -10,8 +10,12 @@ export async function checkAllCameraGestures(page, context, review) {
     .locator("[data-biome]")
     .evaluateAll((nodes) => nodes.map((n) => n.dataset.biome));
   assert.equal(new Set(ids).size, 30);
-  const rows = [];
-  for (const id of [...ids, "aquarium"]) {
+  const previous = path.join(review, "all-camera-gestures.json");
+  const rows = process.env.CHICHI_GESTURE_RESUME && fs.existsSync(previous)
+    ? JSON.parse(fs.readFileSync(previous,"utf8")) : [];
+  const itinerary = [...ids, "aquarium"];
+  rows.forEach((row,i) => assert.equal(row.id,itinerary[i],"Resume must keep the same island order"));
+  for (const id of itinerary.slice(rows.length)) {
     await page.evaluate((id) => {
       const q = __lagoonQA;
       q.freeze = false;

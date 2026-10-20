@@ -436,3 +436,33 @@ test("a lost 19:00 plan recovers real AI activities and a house exactly once, in
   assert.deepEqual(merged.housing,next.housing);
   assert.equal(merged.jobCity.profiles[owner.id].coins,next.jobCity.profiles[owner.id].coins);
 });
+
+test("nullable/missing roommates and invalid optional house suggestions cannot discard the 19:00 plan or spend unaffordable coins", async () => {
+  for (const review of [false,true]) {
+    let g=await establish();
+    const day=review?13:1;
+    g=applyJobPlan(g,localJobPlan(Object.values(g.jobCity.profiles),day),day);
+    const owner=Object.values(g.jobCity.profiles)[0];owner.coins=1600;
+    const now=epoch+(day*1440+420)*1000, event=nextCityAIEvent(g,now), state=validateCityAIState(event), i=state.cats.findIndex(p=>p.id===owner.id);
+    for (const [house, expected, warning] of [
+      [[i,0,null],true,null],[[i,0],true,null],
+      [{cat:i,house:0,roommate:null},true,null],
+      [[i,6,-1],false,"unaffordable"],[[i,999,-1],false,"unknown_house"],
+      [[i,0,i],true,"roommate_unavailable"],[[i,0,999],true,"roommate_unavailable"],
+    ]) {
+      let calls=0;
+      const body={...reply(state),houses:[house]};
+      const result=await requestCityLife(state,async()=>{calls++;return {response:body};});
+      assert.equal(calls,1);
+      assert.equal(!!result.assignments.find(a=>a.id===owner.id).house,expected);
+      assert.equal(result.purchaseWarnings?.[0]?.reason,warning||undefined);
+      assert.ok(result.assignments.some(a=>a.outings?.length),"valid leisure must survive");
+      const next=applyCityAIEvent(reserveCityAIEvent(g,event),event,result);
+      assert.equal(Object.keys(next.housing?.homes||{}).length,expected?1:0);
+      assert.equal(next.jobCity.profiles[owner.id].coins,expected?0:1600);
+      assert.equal(next.jobCity.eveningAIAppliedDay,day);
+      assert.equal(Object.keys(next.family.couples).length,review?1:0);
+      if(expected) assert.notEqual(Object.values(next.housing.homes)[0].roommate,owner.id);
+    }
+  }
+});
