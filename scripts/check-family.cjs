@@ -128,15 +128,16 @@ async function localWorker() {
     g = ensureJobCity(g, now);
     g = applyJobPlan(
       g,
-      localJobPlan(Object.values(g.jobCity.profiles), 13),
-      13,
+      localJobPlan(Object.values(g.jobCity.profiles), 27),
+      27,
     );
     for (const p of Object.values(g.jobCity.profiles)) {
       p.coins = 10000;
       p.careerAIPending = false;
     }
     g = buyCatHome(g, "chichi", "home-sage", "buy-chichi-1");
-    g.jobCity.epoch = now - (13 * 1440 + 450) * 1000;
+    g.family.lastReviewDay = 27; // Released save consumed two empty reviews.
+    g.jobCity.epoch = now - (27 * 1440 + 450) * 1000;
     g.jobCity.plan = null;
     g.jobCity.requestedDay = -1;
     const token = crypto.randomBytes(32).toString("hex"),
@@ -184,7 +185,7 @@ async function localWorker() {
                 .readFileSync(root + "/public/app.js", "utf8")
                 .replace(
                   "persist();\nrenderGame();",
-                  `window.__familySave={getGame:()=>game,commit,world,cloud,open:()=>cityUI.open(),setClock:minute=>{const n=structuredClone(game);n.jobCity.epoch=Date.now()-(13*1440+minute-720)*1000;commit(n);}};\npersist();\nrenderGame();`,
+                  `window.__familySave={getGame:()=>game,commit,world,cloud,open:()=>cityUI.open(),setClock:minute=>{const n=structuredClone(game);n.jobCity.epoch=Date.now()-(27*1440+minute-720)*1000;commit(n);}};\npersist();\nrenderGame();`,
                 ),
             }));
           },
@@ -294,7 +295,7 @@ async function localWorker() {
       2,
     );
     assert.equal(await dialog.locator(".cat-family-heart").textContent(), "♥");
-    assert.ok((await dialog.innerText()).includes("День 14"));
+    assert.ok((await dialog.innerText()).includes("День 28"));
     assert.ok((await dialog.innerText()).includes("Наш спільний дім"));
     await dialog.getByRole("button", { name: "Сім’я", exact: true }).click();
     await page

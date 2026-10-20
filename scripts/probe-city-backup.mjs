@@ -6,18 +6,29 @@ import { JOB_KINDS } from "../public/jobcity-data.js";
 const key = process.env.BACKUP_AI_API_KEY?.trim();
 if (!key) throw Error("Missing reserve key");
 const count = process.env.CITY_QA_ROSTER === "147" ? 147 : 1;
-const family = process.env.CITY_QA_PHASE === "families";
+const mixed = process.env.CITY_QA_PHASE === "evening-families";
+const family = mixed || process.env.CITY_QA_PHASE === "families";
 const cats = Array.from({ length: count }, (_, i) => ({
   id: i === 0 ? "chichi" : "qa-cat-" + i,
   name: "QA " + i,
-  coins: 0,
+  coins: mixed && i < 2 ? 10000 : 0,
   skills: Object.fromEntries(JOB_KINDS.map((k, j) => [k, ((i + j) % 7) + 2])),
   preferences: [JOB_KINDS[i % 6], JOB_KINDS[(i + 1) % 6]],
   profession: family ? JOB_KINDS[i % 6] : null,
-  scheduleJob: "rest",
+  scheduleJob: mixed && i < 36 ? JOB_KINDS[i % 6] : "rest",
   canChangeProfession: false,
   personality: ["Calm", "Adventurous", "Sociable", "Dreamy"][i % 4],
 }));
+let offers = [];
+if (mixed) {
+  const { newGame } = await import("../public/economy.js");
+  const { BIOMES } = await import("../public/game-data.js");
+  const { leisureOffers } = await import("../public/leisure-data.js");
+  const game = newGame();
+  game.unlocked = BIOMES.map(b => b.id);
+  game.coins = 10000;
+  offers = leisureOffers(game);
+}
 const s = validateCityAIState({
   day: family ? 27 : 0,
   phase: family ? "evening" : "careers",
@@ -25,7 +36,7 @@ const s = validateCityAIState({
   minute: family ? 1140 : 720,
   initialIds: family ? [] : cats.map((c) => c.id),
   familyReview: { due: family, slots: family ? Math.max(1,Math.floor(count/8)) : 0 },
-  leisureOffers: [],
+  leisureOffers: offers,
   cats,
 });
 const router = aiProviderRouter(
@@ -93,5 +104,8 @@ console.log(
     cats: answer.assignments.length,
     professions: [...new Set(answer.assignments.map((a) => a.profession))],
     families: answer.families.length,
+    afterWorkCats: s.cats.filter(p => p.scheduleJob !== "rest").length,
+    availablePlaces: s.leisureOffers.length,
+    catsWithOutings: answer.assignments.filter(a => a.outings?.length).length,
   }),
 );

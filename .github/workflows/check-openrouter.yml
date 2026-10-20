@@ -5,7 +5,7 @@ on:
       phase:
         description: Explicit real request to verify
         type: choice
-        options: [careers, families]
+        options: [careers, families, evening-families]
         default: careers
 permissions:
   contents: read
