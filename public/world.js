@@ -145,6 +145,10 @@ import {
 } from "./interactions.js";
 import { yarnPlayFrame, applyYarnFrame, resetYarn } from "./yarn-play.js";
 import * as THREE from "three";
+import { cacheSceneAdditions } from "./matrix-cache.js";
+import { cameraBlend as blendCamera, wheelPixels } from "./camera-timing.js";
+import { createShaderWarmup } from "./shader-warmup.js";
+import { createGeometryResidency } from "./geometry-residency.js";
 import {
   createCat,
   animateCat,
@@ -208,8 +212,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
   const slideAudio = createSlideAudio(renderer.domElement);
   const gpuFrames = createGpuFrameQueue(renderer.getContext());
   configureStaticSubmissions(renderer);
+  const geometryResidency = createGeometryResidency(renderer);
   renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  // Three 0.186 already converts the removed PCFSoft type to PCF on first use.
+  // Select that same effective filter before any shader is precompiled.
+  renderer.shadowMap.type = THREE.PCFShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.0;
   renderer.setClearColor(0xb5bfdc);
@@ -219,6 +226,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     `Сказочный мир Чичи: ${BIOMES.length} биомов, коты и атттракционы`,
   );
   const scene = new THREE.Scene();
+  const matrixCache = cacheSceneAdditions(scene);
   const attractionViews = new WeakMap(),
     attractionFrustum = new THREE.Frustum(),
     attractionProjection = new THREE.Matrix4();
@@ -253,6 +261,21 @@ export function createWorld(container, initialGame, callbacks = {}) {
   const rimLight = new THREE.DirectionalLight(0xb8b7ec, 0.9);
   rimLight.position.set(20, 16, -30);
   scene.add(rimLight);
+  let lastCameraGesture = -Infinity;
+  const shaderWarmup = createShaderWarmup(
+    renderer,
+    scene,
+    camera,
+    sun.shadow.camera,
+    {
+      canRun: () =>
+        performance.now() - lastCameraGesture > 120 && !document.hidden,
+      isRelevant: (root) =>
+        root.userData.placement
+          ? root.userData.placement.biome === focused
+          : root.visible,
+    },
+  );
   const poseAtlas = createCatPoseAtlas(scene, sun, { minimumCats: 7 });
   const colonyDraws = createColonyRenderBatch(
     scene,
@@ -1157,7 +1180,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           // Compile against the real scene lighting while the old island remains
           // usable. Parallel shader compilation avoids the first-visit hitch.
           await sceneTurn();
-          if (!disposed) await renderer.compileAsync(g, camera, scene);
+          if (!disposed) await shaderWarmup.prepare(g);
           if (disposed) {
             g.userData.dispose?.();
             return;
@@ -1896,7 +1919,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
               disposeScenery(model);
               return;
             }
-            await renderer.compileAsync(model, camera, scene);
+            await shaderWarmup.prepare(model);
             if (
               disposed ||
               !game.placements.some((p) => p.id === placement.id)
@@ -2244,6 +2267,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }
     }
     ensureDetail(b.id);
+    for (const root of itemGroups.values())
+      if (root.userData.placement?.biome === b.id) shaderWarmup.enqueue(root);
     callbacks.onFocus?.(b.id, overview);
   }
   function showCatHome(id) {
@@ -3039,53 +3064,72 @@ export function createWorld(container, initialGame, callbacks = {}) {
     };
     pointerDown.multi = activePointers.size > 1;
     renderer.domElement.setPointerCapture(e.pointerId);
-    if (!faceCamera.enabled && !buildMode && !pointerDown.multi) {
-      pointer(e);
-      const bounds = renderer.domElement.getBoundingClientRect(),
-        actors = [
-          ...(!operation
-            ? [{ id: "chichi", carrier: chichiCarrier, model: cat }]
-            : []),
-          ...[...npcs]
-            .filter(([, n]) => n.carrier.visible)
-            .map(([id, n]) => ({ id, ...n })),
-        ].filter((a) => callbacks.canDragCat?.(a.id) !== false),
-        candidates = [];
-      for (const actor of actors) {
-        const head = actor.carrier.position
-            .clone()
-            .add(new THREE.Vector3(0, actor.model.scale.x * 0.9, 0))
-            .project(camera),
-          d = Math.hypot(
-            e.clientX - (bounds.left + ((head.x + 1) * bounds.width) / 2),
-            e.clientY - (bounds.top + ((1 - head.y) * bounds.height) / 2),
-          ),
-          parts = [
-            actor.model.userData.body,
-            actor.model.getObjectByName("Face"),
-            actor.model.getObjectByName("TailCoat"),
-            ...actor.model.userData.legs.map((leg) =>
-              leg.getObjectByName("Shin"),
-            ),
-          ].filter(Boolean);
-        for (const part of parts) updateCatPickingBounds(part);
-        const hit = raycaster.intersectObjects(parts, false)[0];
-        if (head.z < 1 && (hit || d < (e.pointerType === "touch" ? 22 : 11)))
-          candidates.push({ actor, score: hit ? hit.distance * 0.001 : d + 1 });
-      }
-      candidates.sort((a, b) => a.score - b.score);
-      const actor = candidates[0]?.actor;
-      if (actor) {
-        draggingCat = actor.carrier.position.clone();
-        draggingCat.catId = actor.id;
-        draggingCat.carrier = actor.carrier;
-        draggingCat.model = actor.model;
-        if (actor.id !== "chichi") cancelResident(actor.id);
-      }
-    }
+    // A second finger usually follows immediately. Do not traverse cat rigs
+    // just to begin a pinch; resolve a single touch once its intent is known.
+    if (e.pointerType === "touch")
+      pointerDown.pick = {
+        clientX: e.clientX,
+        clientY: e.clientY,
+        pointerType: e.pointerType,
+      };
+    else beginCatDrag(e);
   });
+  function beginCatDrag(e) {
+    if (!pointerDown || faceCamera.enabled || buildMode || pointerDown.multi)
+      return;
+    pointer(e);
+    const bounds = renderer.domElement.getBoundingClientRect(),
+      actors = [
+        ...(!operation
+          ? [{ id: "chichi", carrier: chichiCarrier, model: cat }]
+          : []),
+        ...[...npcs]
+          .filter(([, n]) => n.carrier.visible)
+          .map(([id, n]) => ({ id, ...n })),
+      ].filter((a) => callbacks.canDragCat?.(a.id) !== false),
+      candidates = [];
+    for (const actor of actors) {
+      const head = actor.carrier.position
+          .clone()
+          .add(new THREE.Vector3(0, actor.model.scale.x * 0.9, 0))
+          .project(camera),
+        d = Math.hypot(
+          e.clientX - (bounds.left + ((head.x + 1) * bounds.width) / 2),
+          e.clientY - (bounds.top + ((1 - head.y) * bounds.height) / 2),
+        ),
+        parts = [
+          actor.model.userData.body,
+          actor.model.getObjectByName("Face"),
+          actor.model.getObjectByName("TailCoat"),
+          ...actor.model.userData.legs.map((leg) =>
+            leg.getObjectByName("Shin"),
+          ),
+        ].filter(Boolean);
+      for (const part of parts) updateCatPickingBounds(part);
+      const hit = raycaster.intersectObjects(parts, false)[0];
+      if (head.z < 1 && (hit || d < (e.pointerType === "touch" ? 22 : 11)))
+        candidates.push({ actor, score: hit ? hit.distance * 0.001 : d + 1 });
+    }
+    candidates.sort((a, b) => a.score - b.score);
+    const actor = candidates[0]?.actor;
+    if (actor) {
+      draggingCat = actor.carrier.position.clone();
+      draggingCat.catId = actor.id;
+      draggingCat.carrier = actor.carrier;
+      draggingCat.model = actor.model;
+      if (actor.id !== "chichi") cancelResident(actor.id);
+    }
+  }
+
   renderer.domElement.addEventListener("pointermove", (e) => {
+    if (pointerDown) lastCameraGesture = performance.now();
     if (pointerDown?.multi) return;
+    if (pointerDown?.pick) {
+      if (Math.hypot(e.clientX - pointerDown.x, e.clientY - pointerDown.y) < 7)
+        return;
+      beginCatDrag(pointerDown.pick);
+      pointerDown.pick = null;
+    }
     if (draggingCat) {
       pointer(e);
       const point = new THREE.Vector3();
@@ -3123,6 +3167,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }
       if (!activePointers.size) pointerDown = null;
       return;
+    }
+    if (pointerDown?.pick) {
+      beginCatDrag(pointerDown.pick);
+      pointerDown.pick = null;
     }
     if (draggingCat) {
       pointer(e);
@@ -3423,12 +3471,17 @@ export function createWorld(container, initialGame, callbacks = {}) {
     "wheel",
     (e) => {
       e.preventDefault();
+      lastCameraGesture = performance.now();
+      const delta = wheelPixels(
+        e,
+        e.deltaMode === 2 ? container.clientHeight : 0,
+      );
       if (faceCamera.enabled) {
-        faceCamera.zoom(e.deltaY * 0.001);
+        faceCamera.zoom(delta * 0.001);
         return;
       }
       desiredDistance = THREE.MathUtils.clamp(
-        desiredDistance + e.deltaY * 0.025,
+        desiredDistance + delta * 0.025,
         courtCamera ? 10 : 21,
         viewingOverview ? overviewDistanceLimit : 600,
       );
@@ -3438,6 +3491,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   renderer.domElement.addEventListener(
     "touchmove",
     (e) => {
+      lastCameraGesture = performance.now();
       if (e.touches.length === 2) {
         const d = Math.hypot(
           e.touches[0].clientX - e.touches[1].clientX,
@@ -3542,10 +3596,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (!g) exitCourt();
       else if (courtCamera.aspect !== camera.aspect) applyAttractionCamera(g);
     }
-    const dt = Math.min((now - previousTime) / 1000, 0.1);
+    const elapsed = (now - previousTime) / 1000;
+    const dt = Math.min(elapsed, 0.1);
     previousTime = now;
     const time = now / 1000;
-    const cameraBlend = reduced ? 1 : 1 - Math.exp(-dt * 8);
+    const cameraBlend = blendCamera(elapsed, reduced);
     if (overviewElevation !== null) {
       elevation += (overviewElevation - elevation) * cameraBlend;
       if (overviewAspect !== camera.aspect) {
@@ -5337,7 +5392,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       );
       camera.lookAt(look);
     }
-    faceCamera.update(dt, look);
+    faceCamera.update(elapsed, look);
     camera.updateMatrixWorld();
     islands
       .get(HOUSING_ID)
@@ -5528,6 +5583,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     if (!dialogOpen) {
       renderer.render(scene, camera);
       gpuFrames.submitted();
+      geometryResidency.sweep(now);
       recovery.hidden = true;
     }
     requestAnimationFrame(loop);
@@ -5668,6 +5724,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
     },
     dispose() {
       disposed = true;
+      shaderWarmup.dispose();
+      geometryResidency.dispose();
       colonyDraws.dispose();
       poseAtlas.dispose();
       staticDraws.dispose();

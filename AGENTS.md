@@ -114,6 +114,14 @@ duplicating or resurrecting a building removed on the other device.
   Outfit paint can be shared with static scenery: range-only materials that
   undefine Three's batching shader must remain native in colony rendering.
 
+- Camera damping follows actual elapsed time while physics retains its capped
+  step. Pinch must not eagerly raycast/cancel a cat; retain actual single-touch
+  drag and tap selection. Test wheel, orbit and pinch on every island.
+- Bound unused GPU geometry residency without touching CPU models, attributes,
+  animation, materials or saves. Record both colour and shadow use; shared
+  attribute owners retire together only when all are idle. Current rendering
+  always wins over the cache budget. Compare real pixels after re-upload.
+
 ## Permanent families and personal cat lives
 
 - Preserve released `cat-sex.js` identity assignments: changing the hash or an

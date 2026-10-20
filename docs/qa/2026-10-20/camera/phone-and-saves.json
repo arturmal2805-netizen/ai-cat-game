@@ -1,0 +1,116 @@
+{
+  "scene": {
+    "legacyShopAquarium": [
+      {
+        "visible": false,
+        "fish": 12
+      }
+    ],
+    "tanks": 5,
+    "fish": 50,
+    "fishDraws": 5,
+    "roofOpacity": 0.075,
+    "stats": {
+      "fishCount": 50,
+      "buildingArea": 3332.38934211693,
+      "islandArea": 4656.625710783471,
+      "staticDraws": 5,
+      "staticMeshes": 11,
+      "sourceMeshes": 2319
+    },
+    "locals": 6,
+    "constructorMs": 11280
+  },
+  "raycast": [
+    {
+      "instance": 3,
+      "name": "Aquarium catfish \u00b7 packed articulated kittens"
+    },
+    {
+      "instance": 3,
+      "name": "Aquarium catfish \u00b7 packed articulated kittens"
+    },
+    {
+      "instance": 3,
+      "name": "Aquarium catfish \u00b7 packed articulated kittens"
+    },
+    {
+      "instance": 0,
+      "name": "Aquarium catfish \u00b7 packed articulated kittens"
+    }
+  ],
+  "visitors": {
+    "starts": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "paw": true,
+    "watch": true,
+    "minDistance": 0.07424873508047103,
+    "remaining": 0
+  },
+  "social": [
+    {
+      "kind": "play",
+      "a": [
+        -329.78417812611576,
+        0.4115229876818728,
+        126.81158791912377
+      ],
+      "b": [
+        -332.21582187388424,
+        0.4115229876818728,
+        125.18841208087623
+      ],
+      "seat": 0.8032799999999999
+    },
+    {
+      "kind": "piggyback",
+      "a": [
+        -329.5397716006451,
+        1.0024227393318108,
+        126.83530707986503
+      ],
+      "b": [
+        -329.38205389630303,
+        0.19914273933181087,
+        126.68121173361125
+      ],
+      "seat": 0.8032799999999999
+    }
+  ],
+  "touchDrops": [
+    {
+      "actor": "luna",
+      "target": "moti",
+      "kind": "piggyback",
+      "friend": "moti"
+    },
+    {
+      "actor": "chichi",
+      "target": "moti",
+      "kind": "piggyback",
+      "friend": "moti"
+    },
+    {
+      "actor": "luna",
+      "target": "chichi",
+      "kind": "piggyback",
+      "friend": "luna"
+    }
+  ],
+  "renderer": {
+    "draws": 252,
+    "triangles": 2784974,
+    "geometries": 477,
+    "textures": 94,
+    "frames": 26,
+    "contextLost": false
+  },
+  "errors": [],
+  "httpErrors": []
+}

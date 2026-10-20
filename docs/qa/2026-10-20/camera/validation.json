@@ -1,0 +1,37 @@
+{
+  "environment": "Chromium software WebGL; private local SQLite saves; mobile DPR 2",
+  "node": {
+    "tests": 592,
+    "passed": 592,
+    "failed": 0
+  },
+  "build": "passed",
+  "workerDryRun": "passed",
+  "browser": [
+    {
+      "command": "CHICHI_GESTURE_ALL=1 CHICHI_MAP_CHECK=1 CHICHI_SCENE_STRESS=1 node scripts/check-aquarium.cjs",
+      "status": "passed",
+      "visits": 31,
+      "unchangedPixelComparisons": 31,
+      "geometryReuploadComparisons": 3,
+      "pinchCatRaycasts": 0
+    },
+    {
+      "command": "node scripts/check-aquarium-motion.mjs",
+      "status": "passed"
+    },
+    {
+      "command": "CHICHI_NATIVE_SKIN_CHECK=1 node scripts/check-cat-render-batch.mjs",
+      "status": "passed"
+    },
+    {
+      "command": "CHICHI_SCENE_STRESS=1 node scripts/check-aquarium.cjs",
+      "status": "passed",
+      "touchDrops": 3
+    },
+    {
+      "command": "node scripts/check-family.cjs",
+      "status": "passed"
+    }
+  ]
+}

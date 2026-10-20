@@ -841,6 +841,14 @@ async function localWorker() {
         });
         assert.equal(
           await page.evaluate(() => __lagoonQA.getDragging()),
+          undefined,
+        );
+        await cdp.send("Input.dispatchTouchEvent", {
+          type: "touchMove",
+          touchPoints: [{ ...points[0], x: points[0].x + 8, id: 1 }],
+        });
+        assert.equal(
+          await page.evaluate(() => __lagoonQA.getDragging()),
           "chichi",
           "phone can pick the actual Chichi mesh",
         );

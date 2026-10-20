@@ -10,6 +10,7 @@ const { chromium } = require(
   process.env.CHICHI_PLAYWRIGHT_MODULE || "playwright",
 );
 const capture = process.env.CHICHI_MOSA_CAPTURE !== "0";
+const auditGpuBuffers = require("./gpu-buffer-audit.cjs");
 const root = path.resolve(__dirname, ".."),
   review =
     process.env.CHICHI_REVIEW_DIR ||
@@ -266,8 +267,14 @@ async function localWorker() {
               return {
                 contents: source
                   .replace(
+                    "  const gpuFrames =",
+                    "  const qaGpuBuffers=(" +
+                      auditGpuBuffers.toString() +
+                      ")(renderer);\n  const gpuFrames =",
+                  )
+                  .replace(
                     "  function loop(now) {",
-                    "  function loop(now) {\n    if(window.__lagoonQA?.cpuOnly)worldVisible=true;",
+                    "  function loop(now) {\n    if(window.__lagoonQA?.manualFrames&&!window.__lagoonQA?.manualStepping){requestAnimationFrame(loop);return;}\n    if(window.__lagoonQA?.cpuOnly)worldVisible=true;",
                   )
                   .replace(
                     "!gpuFrames.ready()",
@@ -294,6 +301,10 @@ async function localWorker() {
                     "    const qaFrameStart=performance.now();\n    const dt = Math.min((now - previousTime) / 1000, 0.1);",
                   )
                   .replace(
+                    "    const elapsed = (now - previousTime) / 1000;",
+                    "    const qaFrameStart=performance.now();\n    const elapsed = (now - previousTime) / 1000;",
+                  )
+                  .replace(
                     "    const cameraBlend =",
                     "    if(window.__lagoonQA?.orbit){const o=window.__lagoonQA.orbit;desiredLook.set(o.x+Math.sin(time*.8)*12,0,o.z+Math.cos(time*.8)*12);}\n    const cameraBlend =",
                   )
@@ -305,10 +316,14 @@ async function localWorker() {
                     "  const reduced =",
                     "  const qaStart=performance.now();\n  const reduced =",
                   )
+                  .replaceAll(
+                    "requestAnimationFrame(loop);",
+                    "if(!window.__lagoonQA?.manualStepping)requestAnimationFrame(loop);",
+                  )
                   .replace(
                     marker,
-                    `  const qa=window.__lagoonQA={colonyDraws:typeof colonyDraws==='undefined'?null:colonyDraws,animateCat,setCatMood,poseAtlas:typeof poseAtlas==='undefined'?null:poseAtlas,staticDraws:typeof staticDraws==='undefined'?null:staticDraws,camera,look,desiredLook,renderer,islands,cat,npcs,chichiCarrier,itemGroups,THREE,scene,pickDrop,pointer,raycaster,ground,viewport,sync,perform,performResident,faceCamera,spa,chill,court,cinema,courtFoods,bikiniLife,enterCourt,exitCourt,getCourtCamera:()=>courtCamera,residentPlay,callbacks,getDragging:()=>draggingCat?.catId,reviewView:(x,z,d)=>{desiredLook.set(x,0,z);desiredDistance=d;azimuth=.15;},constructorMs:performance.now()-qaStart,focused:()=>focused,getOperation:()=>operation,isVisible:()=>worldVisible,getDistance:()=>distance,getDesiredDistance:()=>desiredDistance,frames:0,resizes:0,black:[],audit:false,measure:false,cpu:[]};
-  const draw=renderer.render.bind(renderer);qa.drawFrame=()=>draw(scene,camera);renderer.render=(...args)=>{if(qa.drawPaused)return;draw(...args);qa.frames++;};
+                    `  const qa=window.__lagoonQA={step:loop,geometryResidency:typeof geometryResidency==='undefined'?null:geometryResidency,gpuBuffers:qaGpuBuffers,matrixCache:typeof matrixCache==='undefined'?null:matrixCache,shaderWarmup:typeof shaderWarmup==='undefined'?null:shaderWarmup,colonyDraws:typeof colonyDraws==='undefined'?null:colonyDraws,animateCat,setCatMood,poseAtlas:typeof poseAtlas==='undefined'?null:poseAtlas,staticDraws:typeof staticDraws==='undefined'?null:staticDraws,camera,look,desiredLook,renderer,islands,cat,npcs,chichiCarrier,itemGroups,THREE,scene,pickDrop,pointer,raycaster,ground,viewport,sync,perform,performResident,faceCamera,spa,chill,court,cinema,courtFoods,bikiniLife,enterCourt,exitCourt,getCourtCamera:()=>courtCamera,residentPlay,callbacks,getDragging:()=>draggingCat?.catId,reviewView:(x,z,d)=>{desiredLook.set(x,0,z);desiredDistance=d;azimuth=.15;},constructorMs:performance.now()-qaStart,focused:()=>focused,getOperation:()=>operation,isVisible:()=>worldVisible,getDistance:()=>distance,getDesiredDistance:()=>desiredDistance,frames:0,resizes:0,black:[],audit:false,measure:false,cpu:[]};
+  const draw=renderer.render.bind(renderer);qa.drawFrame=()=>draw(scene,camera);renderer.render=(...args)=>{if(qa.drawPaused&&!qa.commandOnly)return;draw(...args);qa.frames++;};
   const size=renderer.setSize.bind(renderer);renderer.setSize=(...args)=>{qa.resizes++;return size(...args);};
   const audit=new MutationObserver(()=>{if(!qa.audit)return;const gl=renderer.getContext(),p=new Uint8Array(4);gl.readPixels(0,0,1,1,gl.RGBA,gl.UNSIGNED_BYTE,p);if(p[0]+p[1]+p[2]===0)qa.black.push(Array.from(p));});audit.observe(renderer.domElement,{attributes:true,attributeFilter:['width','height']});
   return {\n    perform,`,
@@ -810,6 +825,24 @@ async function localWorker() {
         }),
       );
       console.log(JSON.stringify(filters, null, 2));
+      return;
+    }
+    if (process.env.CHICHI_GESTURE_AUDIT) {
+      const { auditCameraGestures } = await import(
+        "./camera-gesture-audit.mjs"
+      );
+      await auditCameraGestures(page, context, review);
+      assert.deepEqual(errors, []);
+      assert.deepEqual(httpErrors, []);
+      return;
+    }
+    if (process.env.CHICHI_GESTURE_ALL) {
+      const { checkAllCameraGestures } = await import(
+        "./check-all-camera-gestures.mjs"
+      );
+      await checkAllCameraGestures(page, context, review);
+      assert.deepEqual(errors, []);
+      assert.deepEqual(httpErrors, []);
       return;
     }
     if (process.env.CHICHI_FRAME_AUDIT) {
@@ -1577,6 +1610,14 @@ async function localWorker() {
       await cdp.send("Input.dispatchTouchEvent", {
         type: "touchStart",
         touchPoints: [{ ...points[0], id: 1 }],
+      });
+      assert.equal(
+        await page.evaluate(() => __lagoonQA.getDragging()),
+        undefined,
+      );
+      await cdp.send("Input.dispatchTouchEvent", {
+        type: "touchMove",
+        touchPoints: [{ ...points[0], x: points[0].x + 8, id: 1 }],
       });
       assert.equal(
         await page.evaluate(() => __lagoonQA.getDragging()),

@@ -1,0 +1,350 @@
+{
+  "report": [
+    {
+      "samples": 15540,
+      "maxPositionError": 9.872669252100219e-07,
+      "maxNormalError": 1.1815715707411695e-07,
+      "fish": 10,
+      "draws": 1,
+      "visibility": [
+        {
+          "eye": [
+            0,
+            16,
+            40
+          ],
+          "visible": 10,
+          "total": 10,
+          "changed": 0,
+          "maxError": 0,
+          "triangles": 349203
+        },
+        {
+          "eye": [
+            2,
+            6,
+            13
+          ],
+          "visible": 5,
+          "total": 10,
+          "changed": 0,
+          "maxError": 0,
+          "triangles": 189163
+        },
+        {
+          "eye": [
+            23,
+            6,
+            2
+          ],
+          "visible": 10,
+          "total": 10,
+          "changed": 0,
+          "maxError": 0,
+          "triangles": 349203
+        },
+        {
+          "eye": [
+            0,
+            30,
+            0
+          ],
+          "visible": 10,
+          "total": 10,
+          "changed": 0,
+          "maxError": 0,
+          "triangles": 349203
+        },
+        {
+          "eye": [
+            100,
+            6,
+            2
+          ],
+          "visible": 10,
+          "total": 10,
+          "changed": 0,
+          "maxError": 0,
+          "triangles": 1920
+        }
+      ]
+    },
+    {
+      "samples": 17094,
+      "maxPositionError": 1.1332306763989666e-06,
+      "maxNormalError": 1.1981218416935928e-07,
+      "fish": 11,
+      "draws": 1,
+      "visibility": [
+        {
+          "eye": [
+            0,
+            16,
+            40
+          ],
+          "visible": 11,
+          "total": 11,
+          "changed": 0,
+          "maxError": 0,
+          "triangles": 378414
+        },
+        {
+          "eye": [
+            2,
+            6,
+            13
+          ],
+          "visible": 3,
+          "total": 11,
+          "changed": 0,
+          "maxError": 0,
+          "triangles": 122350
+        },
+        {
+          "eye": [
+            23,
+            6,
+            2
+          ],
+          "visible": 8,
+          "total": 11,
+          "changed": 0,
+          "maxError": 0,
+          "triangles": 282390
+        },
+        {
+          "eye": [
+            0,
+            30,
+            0
+          ],
+          "visible": 6,
+          "total": 11,
+          "changed": 0,
+          "maxError": 0,
+          "triangles": 218374
+        },
+        {
+          "eye": [
+            100,
+            6,
+            2
+          ],
+          "visible": 6,
+          "total": 11,
+          "changed": 0,
+          "maxError": 0,
+          "triangles": 1920
+        }
+      ]
+    },
+    {
+      "samples": 17094,
+      "maxPositionError": 1.037097815188853e-06,
+      "maxNormalError": 1.1829296772001907e-07,
+      "fish": 11,
+      "draws": 1,
+      "visibility": [
+        {
+          "eye": [
+            0,
+            16,
+            40
+          ],
+          "visible": 11,
+          "total": 11,
+          "changed": 0,
+          "maxError": 0,
+          "triangles": 378414
+        },
+        {
+          "eye": [
+            2,
+            6,
+            13
+          ],
+          "visible": 2,
+          "total": 11,
+          "changed": 0,
+          "maxError": 0,
+          "triangles": 90342
+        },
+        {
+          "eye": [
+            23,
+            6,
+            2
+          ],
+          "visible": 5,
+          "total": 11,
+          "changed": 0,
+          "maxError": 0,
+          "triangles": 186366
+        },
+        {
+          "eye": [
+            0,
+            30,
+            0
+          ],
+          "visible": 7,
+          "total": 11,
+          "changed": 0,
+          "maxError": 0,
+          "triangles": 250382
+        },
+        {
+          "eye": [
+            100,
+            6,
+            2
+          ],
+          "visible": 7,
+          "total": 11,
+          "changed": 0,
+          "maxError": 0,
+          "triangles": 1920
+        }
+      ]
+    },
+    {
+      "samples": 13986,
+      "maxPositionError": 1.0009338996394386e-06,
+      "maxNormalError": 1.156141576556033e-07,
+      "fish": 9,
+      "draws": 1,
+      "visibility": [
+        {
+          "eye": [
+            0,
+            16,
+            40
+          ],
+          "visible": 9,
+          "total": 9,
+          "changed": 0,
+          "maxError": 0,
+          "triangles": 314398
+        },
+        {
+          "eye": [
+            2,
+            6,
+            13
+          ],
+          "visible": 2,
+          "total": 9,
+          "changed": 0,
+          "maxError": 0,
+          "triangles": 90342
+        },
+        {
+          "eye": [
+            23,
+            6,
+            2
+          ],
+          "visible": 5,
+          "total": 9,
+          "changed": 0,
+          "maxError": 0,
+          "triangles": 186366
+        },
+        {
+          "eye": [
+            0,
+            30,
+            0
+          ],
+          "visible": 5,
+          "total": 9,
+          "changed": 0,
+          "maxError": 0,
+          "triangles": 186366
+        },
+        {
+          "eye": [
+            100,
+            6,
+            2
+          ],
+          "visible": 5,
+          "total": 9,
+          "changed": 0,
+          "maxError": 0,
+          "triangles": 1920
+        }
+      ]
+    },
+    {
+      "samples": 13986,
+      "maxPositionError": 1.1000545725028341e-06,
+      "maxNormalError": 1.1801266956527944e-07,
+      "fish": 9,
+      "draws": 1,
+      "visibility": [
+        {
+          "eye": [
+            0,
+            16,
+            40
+          ],
+          "visible": 9,
+          "total": 9,
+          "changed": 0,
+          "maxError": 0,
+          "triangles": 314398
+        },
+        {
+          "eye": [
+            2,
+            6,
+            13
+          ],
+          "visible": 2,
+          "total": 9,
+          "changed": 0,
+          "maxError": 0,
+          "triangles": 90342
+        },
+        {
+          "eye": [
+            23,
+            6,
+            2
+          ],
+          "visible": 6,
+          "total": 9,
+          "changed": 0,
+          "maxError": 0,
+          "triangles": 218374
+        },
+        {
+          "eye": [
+            0,
+            30,
+            0
+          ],
+          "visible": 6,
+          "total": 9,
+          "changed": 0,
+          "maxError": 0,
+          "triangles": 218374
+        },
+        {
+          "eye": [
+            100,
+            6,
+            2
+          ],
+          "visible": 6,
+          "total": 9,
+          "changed": 0,
+          "maxError": 0,
+          "triangles": 1920
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

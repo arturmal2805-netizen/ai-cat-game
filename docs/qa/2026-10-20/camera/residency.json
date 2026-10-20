@@ -1,0 +1,2637 @@
+[
+  {
+    "id": "moon",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "before": {
+        "frame": 17,
+        "calls": 422,
+        "triangles": 700734,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 18,
+        "calls": 422,
+        "triangles": 700734,
+        "points": 320,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 54423768,
+        "peak": 54423768,
+        "buffers": 1868,
+        "reflections": 81,
+        "longestReflections": [
+          {
+            "at": 19555.20000001788,
+            "ms": 3299.399999976158,
+            "draw": {
+              "object": "Exact animated cat batch \u00b7 Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 45932.59999999404,
+            "ms": 1589,
+            "draw": null
+          },
+          {
+            "at": 32533.59999999404,
+            "ms": 1150.9000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 54316204,
+        "geometries": 386,
+        "evicted": 0
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1164.2999999821186,
+        "median": 15.800000011920929,
+        "p95": 23,
+        "max": 66.60000002384186,
+        "distance": 74.40163869381135,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 957.2999999821186,
+        "median": 13.5,
+        "p95": 21,
+        "max": 23.100000023841858,
+        "distance": 74.53978748157539,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "autumn",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "before": {
+        "frame": 79,
+        "calls": 123,
+        "triangles": 517436,
+        "points": 420,
+        "lines": 0
+      },
+      "after": {
+        "frame": 80,
+        "calls": 123,
+        "triangles": 517436,
+        "points": 420,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 74322252,
+        "peak": 74322252,
+        "buffers": 2176,
+        "reflections": 90,
+        "longestReflections": [
+          {
+            "at": 19555.20000001788,
+            "ms": 3299.399999976158,
+            "draw": {
+              "object": "Exact animated cat batch \u00b7 Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 45932.59999999404,
+            "ms": 1589,
+            "draw": null
+          },
+          {
+            "at": 32533.59999999404,
+            "ms": 1150.9000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 74154060,
+        "geometries": 447,
+        "evicted": 0
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 993.5999999940395,
+        "median": 10.5,
+        "p95": 15,
+        "max": 81.09999999403954,
+        "distance": 72.49044010201808,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 846.4000000059605,
+        "median": 10.800000011920929,
+        "p95": 13.099999994039536,
+        "max": 15.199999988079071,
+        "distance": 72.78659552311983,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "winter",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "before": {
+        "frame": 141,
+        "calls": 538,
+        "triangles": 1044944,
+        "points": 740,
+        "lines": 0
+      },
+      "after": {
+        "frame": 142,
+        "calls": 538,
+        "triangles": 1044944,
+        "points": 740,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 103400196,
+        "peak": 103400196,
+        "buffers": 3058,
+        "reflections": 93,
+        "longestReflections": [
+          {
+            "at": 19555.20000001788,
+            "ms": 3299.399999976158,
+            "draw": {
+              "object": "Exact animated cat batch \u00b7 Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 45932.59999999404,
+            "ms": 1589,
+            "draw": null
+          },
+          {
+            "at": 32533.59999999404,
+            "ms": 1150.9000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 103134148,
+        "geometries": 646,
+        "evicted": 0
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1449.300000011921,
+        "median": 26.5,
+        "p95": 38.099999994039536,
+        "max": 159.19999998807907,
+        "distance": 77.70324769108464,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1468,
+        "median": 26.30000001192093,
+        "p95": 63.10000002384186,
+        "max": 71.89999997615814,
+        "distance": 77.26874629336022,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "beach",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "before": {
+        "frame": 203,
+        "calls": 306,
+        "triangles": 624172,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 204,
+        "calls": 306,
+        "triangles": 624172,
+        "points": 320,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 114809160,
+        "peak": 114809160,
+        "buffers": 3461,
+        "reflections": 94,
+        "longestReflections": [
+          {
+            "at": 19555.20000001788,
+            "ms": 3299.399999976158,
+            "draw": {
+              "object": "Exact animated cat batch \u00b7 Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 45932.59999999404,
+            "ms": 1589,
+            "draw": null
+          },
+          {
+            "at": 32533.59999999404,
+            "ms": 1150.9000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 114455800,
+        "geometries": 730,
+        "evicted": 0
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1206.9000000059605,
+        "median": 16.899999976158142,
+        "p95": 45,
+        "max": 97.90000000596046,
+        "distance": 75.10589759135091,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1028.2999999821186,
+        "median": 15.200000017881393,
+        "p95": 19.900000005960464,
+        "max": 52.900000005960464,
+        "distance": 75.45762989126808,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "water",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "before": {
+        "frame": 265,
+        "calls": 254,
+        "triangles": 891976,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 266,
+        "calls": 254,
+        "triangles": 891976,
+        "points": 320,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 127682068,
+        "peak": 127682068,
+        "buffers": 3789,
+        "reflections": 101,
+        "longestReflections": [
+          {
+            "at": 19555.20000001788,
+            "ms": 3299.399999976158,
+            "draw": {
+              "object": "Exact animated cat batch \u00b7 Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 45932.59999999404,
+            "ms": 1589,
+            "draw": null
+          },
+          {
+            "at": 32533.59999999404,
+            "ms": 1150.9000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 127265668,
+        "geometries": 796,
+        "evicted": 0
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1017.5,
+        "median": 16.099999994039536,
+        "p95": 21.5,
+        "max": 25.599999994039536,
+        "distance": 75.16409353033534,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1117.9000000059605,
+        "median": 17.30000001192093,
+        "p95": 33.89999997615814,
+        "max": 40.099999994039536,
+        "distance": 75.40011364883307,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "summer",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "before": {
+        "frame": 327,
+        "calls": 373,
+        "triangles": 2201916,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 328,
+        "calls": 373,
+        "triangles": 2201916,
+        "points": 320,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 168585486,
+        "peak": 168585486,
+        "buffers": 4656,
+        "reflections": 106,
+        "longestReflections": [
+          {
+            "at": 19555.20000001788,
+            "ms": 3299.399999976158,
+            "draw": {
+              "object": "Exact animated cat batch \u00b7 Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 45932.59999999404,
+            "ms": 1589,
+            "draw": null
+          },
+          {
+            "at": 32533.59999999404,
+            "ms": 1150.9000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 168018570,
+        "geometries": 974,
+        "evicted": 0
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1294.4000000059605,
+        "median": 19.80000001192093,
+        "p95": 51.29999998211861,
+        "max": 72.09999999403954,
+        "distance": 75.84004386248368,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1174.7999999821186,
+        "median": 16.5,
+        "p95": 23.399999976158142,
+        "max": 61.19999998807907,
+        "distance": 75.39366805290607,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "nature",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "before": {
+        "frame": 389,
+        "calls": 169,
+        "triangles": 392164,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 390,
+        "calls": 169,
+        "triangles": 392164,
+        "points": 320,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 175837406,
+        "peak": 175837406,
+        "buffers": 4970,
+        "reflections": 106,
+        "longestReflections": [
+          {
+            "at": 19555.20000001788,
+            "ms": 3299.399999976158,
+            "draw": {
+              "object": "Exact animated cat batch \u00b7 Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 45932.59999999404,
+            "ms": 1589,
+            "draw": null
+          },
+          {
+            "at": 32533.59999999404,
+            "ms": 1150.9000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 175199786,
+        "geometries": 1036,
+        "evicted": 0
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1184,
+        "median": 12.799999982118607,
+        "p95": 45.60000002384186,
+        "max": 50.19999998807907,
+        "distance": 76.62183211764365,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 981.1999999880791,
+        "median": 11.899999976158142,
+        "p95": 38.69999998807907,
+        "max": 51,
+        "distance": 75.3259446868658,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "sakura",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "before": {
+        "frame": 451,
+        "calls": 308,
+        "triangles": 1250568,
+        "points": 740,
+        "lines": 0
+      },
+      "after": {
+        "frame": 452,
+        "calls": 308,
+        "triangles": 1250568,
+        "points": 740,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 217086618,
+        "peak": 217086618,
+        "buffers": 5485,
+        "reflections": 109,
+        "longestReflections": [
+          {
+            "at": 19555.20000001788,
+            "ms": 3299.399999976158,
+            "draw": {
+              "object": "Exact animated cat batch \u00b7 Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 45932.59999999404,
+            "ms": 1589,
+            "draw": null
+          },
+          {
+            "at": 32533.59999999404,
+            "ms": 1150.9000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 216358202,
+        "geometries": 1141,
+        "evicted": 0
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1570.5999999940395,
+        "median": 19,
+        "p95": 77,
+        "max": 147.2000000178814,
+        "distance": 77.08388049236929,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1083.5,
+        "median": 16,
+        "p95": 22.399999976158142,
+        "max": 22.899999976158142,
+        "distance": 77.44436272051608,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "clouds",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "before": {
+        "frame": 513,
+        "calls": 147,
+        "triangles": 346564,
+        "points": 0,
+        "lines": 0
+      },
+      "after": {
+        "frame": 514,
+        "calls": 147,
+        "triangles": 346564,
+        "points": 0,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 209452638,
+        "peak": 217086618,
+        "buffers": 5363,
+        "reflections": 113,
+        "longestReflections": [
+          {
+            "at": 19555.20000001788,
+            "ms": 3299.399999976158,
+            "draw": {
+              "object": "Exact animated cat batch \u00b7 Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 45932.59999999404,
+            "ms": 1589,
+            "draw": null
+          },
+          {
+            "at": 32533.59999999404,
+            "ms": 1150.9000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 208653518,
+        "geometries": 1128,
+        "evicted": 91
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 905.4000000059605,
+        "median": 11.799999982118607,
+        "p95": 15.599999994039536,
+        "max": 17,
+        "distance": 73.67114256538872,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1062.4000000059605,
+        "median": 10.400000005960464,
+        "p95": 40.29999998211861,
+        "max": 106.40000000596046,
+        "distance": 74.12118136030263,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "desert",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "before": {
+        "frame": 575,
+        "calls": 202,
+        "triangles": 417460,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 576,
+        "calls": 202,
+        "triangles": 417460,
+        "points": 320,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 208725720,
+        "peak": 217086618,
+        "buffers": 5577,
+        "reflections": 113,
+        "longestReflections": [
+          {
+            "at": 19555.20000001788,
+            "ms": 3299.399999976158,
+            "draw": {
+              "object": "Exact animated cat batch \u00b7 Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 45932.59999999404,
+            "ms": 1589,
+            "draw": null
+          },
+          {
+            "at": 32533.59999999404,
+            "ms": 1150.9000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 207879728,
+        "geometries": 1167,
+        "evicted": 102
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 952.0999999940395,
+        "median": 12.599999994039536,
+        "p95": 20.399999976158142,
+        "max": 48.80000001192093,
+        "distance": 75.65466157296476,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 965.8999999761581,
+        "median": 13.099999994039536,
+        "p95": 16,
+        "max": 21.400000005960464,
+        "distance": 74.60524864488293,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "stars",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "before": {
+        "frame": 637,
+        "calls": 259,
+        "triangles": 434900,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 638,
+        "calls": 259,
+        "triangles": 434900,
+        "points": 320,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 206830458,
+        "peak": 217086618,
+        "buffers": 5625,
+        "reflections": 113,
+        "longestReflections": [
+          {
+            "at": 19555.20000001788,
+            "ms": 3299.399999976158,
+            "draw": {
+              "object": "Exact animated cat batch \u00b7 Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 45932.59999999404,
+            "ms": 1589,
+            "draw": null
+          },
+          {
+            "at": 32533.59999999404,
+            "ms": 1150.9000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 205913762,
+        "geometries": 1166,
+        "evicted": 150
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 977,
+        "median": 12.700000017881393,
+        "p95": 19.200000017881393,
+        "max": 19.599999994039536,
+        "distance": 73.86049623180281,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1143.199999988079,
+        "median": 15.099999994039536,
+        "p95": 37.79999998211861,
+        "max": 108.19999998807907,
+        "distance": 75.04754059891663,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "volcano",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "before": {
+        "frame": 699,
+        "calls": 561,
+        "triangles": 974992,
+        "points": 740,
+        "lines": 0
+      },
+      "after": {
+        "frame": 700,
+        "calls": 561,
+        "triangles": 974992,
+        "points": 740,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 226191846,
+        "peak": 226191846,
+        "buffers": 6132,
+        "reflections": 113,
+        "longestReflections": [
+          {
+            "at": 19555.20000001788,
+            "ms": 3299.399999976158,
+            "draw": {
+              "object": "Exact animated cat batch \u00b7 Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 45932.59999999404,
+            "ms": 1589,
+            "draw": null
+          },
+          {
+            "at": 32533.59999999404,
+            "ms": 1150.9000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 225170462,
+        "geometries": 1275,
+        "evicted": 173
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1022.2999999821186,
+        "median": 16.099999994039536,
+        "p95": 21,
+        "max": 23.099999994039536,
+        "distance": 74.92201158496665,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1253,
+        "median": 18.400000005960464,
+        "p95": 66.30000001192093,
+        "max": 105.2000000178814,
+        "distance": 75.46984710609664,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "crystal",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "before": {
+        "frame": 761,
+        "calls": 240,
+        "triangles": 410848,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 762,
+        "calls": 240,
+        "triangles": 410848,
+        "points": 320,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 211574006,
+        "peak": 226191846,
+        "buffers": 5904,
+        "reflections": 114,
+        "longestReflections": [
+          {
+            "at": 19555.20000001788,
+            "ms": 3299.399999976158,
+            "draw": {
+              "object": "Exact animated cat batch \u00b7 Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 45932.59999999404,
+            "ms": 1589,
+            "draw": null
+          },
+          {
+            "at": 32533.59999999404,
+            "ms": 1150.9000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 210481918,
+        "geometries": 1215,
+        "evicted": 325
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1023.1999999880791,
+        "median": 13.5,
+        "p95": 23.400000005960464,
+        "max": 58,
+        "distance": 74.78561892222953,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1154,
+        "median": 15.5,
+        "p95": 26,
+        "max": 155.80000001192093,
+        "distance": 78.7817575843404,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "candy",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "before": {
+        "frame": 823,
+        "calls": 167,
+        "triangles": 394968,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 824,
+        "calls": 167,
+        "triangles": 394968,
+        "points": 320,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 207180610,
+        "peak": 226191846,
+        "buffers": 6245,
+        "reflections": 114,
+        "longestReflections": [
+          {
+            "at": 19555.20000001788,
+            "ms": 3299.399999976158,
+            "draw": {
+              "object": "Exact animated cat batch \u00b7 Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 45932.59999999404,
+            "ms": 1589,
+            "draw": null
+          },
+          {
+            "at": 32533.59999999404,
+            "ms": 1150.9000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 206017818,
+        "geometries": 1281,
+        "evicted": 332
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 990.5,
+        "median": 10.800000011920929,
+        "p95": 38.099999994039536,
+        "max": 120.80000001192093,
+        "distance": 73.34650036408213,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 900,
+        "median": 12,
+        "p95": 18.200000017881393,
+        "max": 18.30000001192093,
+        "distance": 74.10809876828759,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "rainbow",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "before": {
+        "frame": 885,
+        "calls": 174,
+        "triangles": 385344,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 886,
+        "calls": 174,
+        "triangles": 385344,
+        "points": 320,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 211199962,
+        "peak": 226191846,
+        "buffers": 6413,
+        "reflections": 114,
+        "longestReflections": [
+          {
+            "at": 19555.20000001788,
+            "ms": 3299.399999976158,
+            "draw": {
+              "object": "Exact animated cat batch \u00b7 Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 45932.59999999404,
+            "ms": 1589,
+            "draw": null
+          },
+          {
+            "at": 32533.59999999404,
+            "ms": 1150.9000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 209956674,
+        "geometries": 1306,
+        "evicted": 381
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 859.6999999880791,
+        "median": 10.599999994039536,
+        "p95": 17,
+        "max": 18.700000017881393,
+        "distance": 73.26651351144386,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 998,
+        "median": 11.100000023841858,
+        "p95": 24.100000023841858,
+        "max": 134.40000000596046,
+        "distance": 76.07148302078106,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "bamboo",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "before": {
+        "frame": 947,
+        "calls": 215,
+        "triangles": 434317,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 948,
+        "calls": 215,
+        "triangles": 434317,
+        "points": 320,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 207490732,
+        "peak": 226191846,
+        "buffers": 6179,
+        "reflections": 114,
+        "longestReflections": [
+          {
+            "at": 19555.20000001788,
+            "ms": 3299.399999976158,
+            "draw": {
+              "object": "Exact animated cat batch \u00b7 Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 45932.59999999404,
+            "ms": 1589,
+            "draw": null
+          },
+          {
+            "at": 32533.59999999404,
+            "ms": 1150.9000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 206176740,
+        "geometries": 1251,
+        "evicted": 479
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 975.5,
+        "median": 12.900000005960464,
+        "p95": 20,
+        "max": 47.69999998807907,
+        "distance": 74.1083733267641,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1201.199999988079,
+        "median": 15.900000005960464,
+        "p95": 42.29999998211861,
+        "max": 54.79999998211861,
+        "distance": 78.20191526226783,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "mushrooms",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "before": {
+        "frame": 1009,
+        "calls": 158,
+        "triangles": 418248,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 1010,
+        "calls": 158,
+        "triangles": 418248,
+        "points": 320,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 208586056,
+        "peak": 226191846,
+        "buffers": 6102,
+        "reflections": 114,
+        "longestReflections": [
+          {
+            "at": 19555.20000001788,
+            "ms": 3299.399999976158,
+            "draw": {
+              "object": "Exact animated cat batch \u00b7 Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 45932.59999999404,
+            "ms": 1589,
+            "draw": null
+          },
+          {
+            "at": 32533.59999999404,
+            "ms": 1150.9000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 207201360,
+        "geometries": 1230,
+        "evicted": 542
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 902.5,
+        "median": 12.299999982118607,
+        "p95": 17.700000017881393,
+        "max": 20,
+        "distance": 73.47157653070464,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1376.9000000059605,
+        "median": 14.300000011920929,
+        "p95": 85.7999999821186,
+        "max": 280.80000001192093,
+        "distance": 76.90778225609463,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "galaxy",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "before": {
+        "frame": 1071,
+        "calls": 437,
+        "triangles": 1059792,
+        "points": 740,
+        "lines": 0
+      },
+      "after": {
+        "frame": 1072,
+        "calls": 437,
+        "triangles": 1059792,
+        "points": 740,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 230155152,
+        "peak": 230155152,
+        "buffers": 6743,
+        "reflections": 114,
+        "longestReflections": [
+          {
+            "at": 19555.20000001788,
+            "ms": 3299.399999976158,
+            "draw": {
+              "object": "Exact animated cat batch \u00b7 Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 45932.59999999404,
+            "ms": 1589,
+            "draw": null
+          },
+          {
+            "at": 32533.59999999404,
+            "ms": 1150.9000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 228665480,
+        "geometries": 1373,
+        "evicted": 596
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1424.6000000238419,
+        "median": 21.5,
+        "p95": 28.799999982118607,
+        "max": 228.59999999403954,
+        "distance": 76.38648632198783,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1400.4000000059605,
+        "median": 20.900000005960464,
+        "p95": 60.20000001788139,
+        "max": 177.90000000596046,
+        "distance": 77.4307151976348,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "coral",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "before": {
+        "frame": 1133,
+        "calls": 155,
+        "triangles": 467032,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 1134,
+        "calls": 155,
+        "triangles": 467032,
+        "points": 320,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 206427462,
+        "peak": 230155152,
+        "buffers": 6617,
+        "reflections": 114,
+        "longestReflections": [
+          {
+            "at": 19555.20000001788,
+            "ms": 3299.399999976158,
+            "draw": {
+              "object": "Exact animated cat batch \u00b7 Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 45932.59999999404,
+            "ms": 1589,
+            "draw": null
+          },
+          {
+            "at": 32533.59999999404,
+            "ms": 1150.9000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 204854846,
+        "geometries": 1343,
+        "evicted": 679
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1079.800000011921,
+        "median": 12.900000005960464,
+        "p95": 18.099999994039536,
+        "max": 169.5,
+        "distance": 73.96576773363151,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1020.4000000059605,
+        "median": 12.599999994039536,
+        "p95": 52.70000001788139,
+        "max": 53.79999998211861,
+        "distance": 73.68330461039574,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "lotus",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "before": {
+        "frame": 1195,
+        "calls": 156,
+        "triangles": 437860,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 1196,
+        "calls": 156,
+        "triangles": 437860,
+        "points": 320,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 207062002,
+        "peak": 230155152,
+        "buffers": 6814,
+        "reflections": 114,
+        "longestReflections": [
+          {
+            "at": 19555.20000001788,
+            "ms": 3299.399999976158,
+            "draw": {
+              "object": "Exact animated cat batch \u00b7 Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 45932.59999999404,
+            "ms": 1589,
+            "draw": null
+          },
+          {
+            "at": 32533.59999999404,
+            "ms": 1150.9000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 205410522,
+        "geometries": 1381,
+        "evicted": 683
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 922.1999999880791,
+        "median": 11,
+        "p95": 15.5,
+        "max": 55,
+        "distance": 73.09000552327977,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1057.2999999821186,
+        "median": 12.400000005960464,
+        "p95": 17.100000023841858,
+        "max": 163.19999998807907,
+        "distance": 73.31718125532497,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "ice",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "before": {
+        "frame": 1257,
+        "calls": 739,
+        "triangles": 986988,
+        "points": 740,
+        "lines": 0
+      },
+      "after": {
+        "frame": 1258,
+        "calls": 739,
+        "triangles": 986988,
+        "points": 740,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 227452754,
+        "peak": 230155152,
+        "buffers": 7059,
+        "reflections": 114,
+        "longestReflections": [
+          {
+            "at": 19555.20000001788,
+            "ms": 3299.399999976158,
+            "draw": {
+              "object": "Exact animated cat batch \u00b7 Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 45932.59999999404,
+            "ms": 1589,
+            "draw": null
+          },
+          {
+            "at": 32533.59999999404,
+            "ms": 1150.9000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 225697402,
+        "geometries": 1430,
+        "evicted": 729
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1448,
+        "median": 22.100000023841858,
+        "p95": 93.30000001192093,
+        "max": 152,
+        "distance": 77.40966849644254,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1494.9000000059605,
+        "median": 27.700000017881393,
+        "p95": 49.29999998211861,
+        "max": 103.09999999403954,
+        "distance": 81.47187416354191,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "clockwork",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "before": {
+        "frame": 1319,
+        "calls": 780,
+        "triangles": 2502324,
+        "points": 420,
+        "lines": 0
+      },
+      "after": {
+        "frame": 1320,
+        "calls": 780,
+        "triangles": 2502324,
+        "points": 420,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 242339862,
+        "peak": 242339862,
+        "buffers": 7697,
+        "reflections": 122,
+        "longestReflections": [
+          {
+            "at": 19555.20000001788,
+            "ms": 3299.399999976158,
+            "draw": {
+              "object": "Exact animated cat batch \u00b7 Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 45932.59999999404,
+            "ms": 1589,
+            "draw": null
+          },
+          {
+            "at": 32533.59999999404,
+            "ms": 1150.9000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 240534990,
+        "geometries": 1578,
+        "evicted": 832
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1576.9000000059605,
+        "median": 24.100000023841858,
+        "p95": 69,
+        "max": 268.7000000178814,
+        "distance": 79.43956138388816,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1437.0999999940395,
+        "median": 27.30000001192093,
+        "p95": 43.79999998211861,
+        "max": 82.40000000596046,
+        "distance": 80.19806616133319,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "dusk",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "before": {
+        "frame": 1381,
+        "calls": 163,
+        "triangles": 413544,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 1382,
+        "calls": 163,
+        "triangles": 413544,
+        "points": 320,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 209192022,
+        "peak": 242727654,
+        "buffers": 6734,
+        "reflections": 122,
+        "longestReflections": [
+          {
+            "at": 19555.20000001788,
+            "ms": 3299.399999976158,
+            "draw": {
+              "object": "Exact animated cat batch \u00b7 Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 45932.59999999404,
+            "ms": 1589,
+            "draw": null
+          },
+          {
+            "at": 32533.59999999404,
+            "ms": 1150.9000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 207316446,
+        "geometries": 1374,
+        "evicted": 1086
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 989.5999999940395,
+        "median": 14,
+        "p95": 25.30000001192093,
+        "max": 31.400000005960464,
+        "distance": 74.51720490444248,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1098.5999999940395,
+        "median": 12,
+        "p95": 30.19999998807907,
+        "max": 162.80000001192093,
+        "distance": 74.20642899570784,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "aquapark",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "before": {
+        "frame": 1443,
+        "calls": 276,
+        "triangles": 833388,
+        "points": 420,
+        "lines": 0
+      },
+      "after": {
+        "frame": 1444,
+        "calls": 276,
+        "triangles": 833388,
+        "points": 420,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 223106790,
+        "peak": 242727654,
+        "buffers": 6955,
+        "reflections": 122,
+        "longestReflections": [
+          {
+            "at": 19555.20000001788,
+            "ms": 3299.399999976158,
+            "draw": {
+              "object": "Exact animated cat batch \u00b7 Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 45932.59999999404,
+            "ms": 1589,
+            "draw": null
+          },
+          {
+            "at": 32533.59999999404,
+            "ms": 1150.9000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 221128794,
+        "geometries": 1414,
+        "evicted": 1162
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1553.4000000059605,
+        "median": 18.80000001192093,
+        "p95": 83.19999998807907,
+        "max": 216.19999998807907,
+        "distance": 75.55638010681035,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1229.6000000238419,
+        "median": 17.600000023841858,
+        "p95": 64.90000000596046,
+        "max": 77.90000000596046,
+        "distance": 79.9593563142091,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "foodcourt",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "before": {
+        "frame": 1505,
+        "calls": 147,
+        "triangles": 608515,
+        "points": 0,
+        "lines": 0
+      },
+      "after": {
+        "frame": 1506,
+        "calls": 147,
+        "triangles": 608515,
+        "points": 0,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 225768288,
+        "peak": 242727654,
+        "buffers": 7180,
+        "reflections": 124,
+        "longestReflections": [
+          {
+            "at": 19555.20000001788,
+            "ms": 3299.399999976158,
+            "draw": {
+              "object": "Exact animated cat batch \u00b7 Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 45932.59999999404,
+            "ms": 1589,
+            "draw": null
+          },
+          {
+            "at": 32533.59999999404,
+            "ms": 1150.9000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 223681152,
+        "geometries": 1455,
+        "evicted": 1195
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1156.4000000059605,
+        "median": 18.400000005960464,
+        "p95": 38.900000005960464,
+        "max": 40.5,
+        "distance": 75.0187166197266,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1321.5,
+        "median": 20.799999982118607,
+        "p95": 58.5,
+        "max": 123.80000001192093,
+        "distance": 76.1532897028441,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "bikini",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "before": {
+        "frame": 1567,
+        "calls": 166,
+        "triangles": 711952,
+        "points": 0,
+        "lines": 0
+      },
+      "after": {
+        "frame": 1568,
+        "calls": 166,
+        "triangles": 711952,
+        "points": 0,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 235741752,
+        "peak": 242727654,
+        "buffers": 6389,
+        "reflections": 126,
+        "longestReflections": [
+          {
+            "at": 19555.20000001788,
+            "ms": 3299.399999976158,
+            "draw": {
+              "object": "Exact animated cat batch \u00b7 Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 45932.59999999404,
+            "ms": 1589,
+            "draw": null
+          },
+          {
+            "at": 32533.59999999404,
+            "ms": 1150.9000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 233640696,
+        "geometries": 1289,
+        "evicted": 1449
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1011.9000000059605,
+        "median": 13.299999982118607,
+        "p95": 35.19999998807907,
+        "max": 54.69999998807907,
+        "distance": 73.51095908820588,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 931.3999999761581,
+        "median": 13.5,
+        "p95": 19.399999976158142,
+        "max": 23.700000017881393,
+        "distance": 74.75864564852183,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "homestead",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "before": {
+        "frame": 1629,
+        "calls": 492,
+        "triangles": 4584966,
+        "points": 0,
+        "lines": 0
+      },
+      "after": {
+        "frame": 1630,
+        "calls": 492,
+        "triangles": 4584966,
+        "points": 0,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 358144722,
+        "peak": 358144722,
+        "buffers": 6277,
+        "reflections": 145,
+        "longestReflections": [
+          {
+            "at": 19555.20000001788,
+            "ms": 3299.399999976158,
+            "draw": {
+              "object": "Exact animated cat batch \u00b7 Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 45932.59999999404,
+            "ms": 1589,
+            "draw": null
+          },
+          {
+            "at": 32533.59999999404,
+            "ms": 1150.9000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 355929330,
+        "geometries": 1244,
+        "evicted": 1716
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1665.2000000178814,
+        "median": 33.599999994039536,
+        "p95": 46.29999998211861,
+        "max": 92,
+        "distance": 78.48759548411256,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1727.7999999821186,
+        "median": 40.69999998807907,
+        "p95": 48.400000005960464,
+        "max": 48.5,
+        "distance": 79.74748641668883,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "aquarium",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "before": {
+        "frame": 1691,
+        "calls": 161,
+        "triangles": 1395103,
+        "points": 0,
+        "lines": 0
+      },
+      "after": {
+        "frame": 1692,
+        "calls": 161,
+        "triangles": 1395103,
+        "points": 0,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 317426782,
+        "peak": 358144722,
+        "buffers": 4417,
+        "reflections": 145,
+        "longestReflections": [
+          {
+            "at": 19555.20000001788,
+            "ms": 3299.399999976158,
+            "draw": {
+              "object": "Exact animated cat batch \u00b7 Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 45932.59999999404,
+            "ms": 1589,
+            "draw": null
+          },
+          {
+            "at": 32533.59999999404,
+            "ms": 1150.9000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 315209470,
+        "geometries": 814,
+        "evicted": 2247
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 954.5,
+        "median": 12.199999988079071,
+        "p95": 16.400000005960464,
+        "max": 54.29999998211861,
+        "distance": 73.12521782143295,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 880.8999999761581,
+        "median": 11.5,
+        "p95": 16.599999994039536,
+        "max": 17.400000005960464,
+        "distance": 74.29210206003607,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "jobcity",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "before": {
+        "frame": 1753,
+        "calls": 112,
+        "triangles": 893291,
+        "points": 0,
+        "lines": 0
+      },
+      "after": {
+        "frame": 1754,
+        "calls": 112,
+        "triangles": 893291,
+        "points": 0,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 316664950,
+        "peak": 358144722,
+        "buffers": 2930,
+        "reflections": 150,
+        "longestReflections": [
+          {
+            "at": 19555.20000001788,
+            "ms": 3299.399999976158,
+            "draw": {
+              "object": "Exact animated cat batch \u00b7 Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 45932.59999999404,
+            "ms": 1589,
+            "draw": null
+          },
+          {
+            "at": 32533.59999999404,
+            "ms": 1150.9000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 314440726,
+        "geometries": 490,
+        "evicted": 2630
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1440.2000000178814,
+        "median": 24.100000023841858,
+        "p95": 45.79999998211861,
+        "max": 200.09999999403954,
+        "distance": 80.1869758852344,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1320.5999999940395,
+        "median": 22.200000017881393,
+        "p95": 50,
+        "max": 51,
+        "distance": 77.49185677745189,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "cat-homes",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "before": {
+        "frame": 1815,
+        "calls": 19,
+        "triangles": 106724,
+        "points": 0,
+        "lines": 0
+      },
+      "after": {
+        "frame": 1816,
+        "calls": 19,
+        "triangles": 106724,
+        "points": 0,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 244362038,
+        "peak": 358144722,
+        "buffers": 1708,
+        "reflections": 150,
+        "longestReflections": [
+          {
+            "at": 19555.20000001788,
+            "ms": 3299.399999976158,
+            "draw": {
+              "object": "Exact animated cat batch \u00b7 Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 45932.59999999404,
+            "ms": 1589,
+            "draw": null
+          },
+          {
+            "at": 32533.59999999404,
+            "ms": 1150.9000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 242137814,
+        "geometries": 229,
+        "evicted": 2898
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1153.699999988079,
+        "median": 8.800000011920929,
+        "p95": 42.5,
+        "max": 83.90000000596046,
+        "distance": 72.47323896901383,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 822.3000000119209,
+        "median": 8.5,
+        "p95": 9.800000011920929,
+        "max": 35.599999994039536,
+        "distance": 72.03606518909675,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "aquarium",
+    "repeat": true,
+    "image": {
+      "changed": 0,
+      "before": {
+        "frame": 1877,
+        "calls": 196,
+        "triangles": 1641191,
+        "points": 0,
+        "lines": 0
+      },
+      "after": {
+        "frame": 1878,
+        "calls": 196,
+        "triangles": 1641191,
+        "points": 0,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 244370118,
+        "peak": 358144722,
+        "buffers": 1659,
+        "reflections": 150,
+        "longestReflections": [
+          {
+            "at": 19555.20000001788,
+            "ms": 3299.399999976158,
+            "draw": {
+              "object": "Exact animated cat batch \u00b7 Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 45932.59999999404,
+            "ms": 1589,
+            "draw": null
+          },
+          {
+            "at": 32533.59999999404,
+            "ms": 1150.9000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 242145894,
+        "geometries": 213,
+        "evicted": 3037
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 891.2999999821186,
+        "median": 12.099999994039536,
+        "p95": 14.799999982118607,
+        "max": 17.5,
+        "distance": 73.82853906416597,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1110,
+        "median": 13,
+        "p95": 18.69999998807907,
+        "max": 202.40000000596046,
+        "distance": 75.38997259432341,
+        "desired": 85
+      }
+    ]
+  }
+]

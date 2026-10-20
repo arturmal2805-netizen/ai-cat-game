@@ -217,3 +217,36 @@ Reproducible checks include:
   real frames, to isolate traversal, matrix, shader, upload and command overhead.
   It excludes game navigation and is not physical-device FPS. Full-resolution
   rendered image checks and the complete map/phone/save integration run separately.
+
+## Camera gestures and GPU residency
+
+The follow-up distinguishes late camera interpolation from simulation time:
+physics still caps its time step, while orbit/face tracking catch up using real
+elapsed time. Wheel input respects pixel/line/page units. A touch does not start
+cat raycasts until it becomes a single-finger drag or a tap; two-finger zoom
+never initializes a cat drag. Exact articulated selection remains unchanged.
+World-space badges do not animate their position behind the moving camera.
+
+Stationary ordinary scene nodes cache their exact local transforms without
+changing explicit matrix/world-space query APIs. Approved cat rigs remain on
+native updates. New island shaders prepare both colour and shadow variants
+against the current lighting, cooperatively, with uniform/attribute reflection
+before reveal. The removed Three PCFSoft setting is replaced with the same PCF
+filter that Three 0.186 already selects at runtime.
+
+`geometry-residency.js` retires GPU geometry unused for at least ten seconds
+when retained geometry exceeds a 192 MiB target. The complete current colour and
+shadow workload always takes priority over that target. CPU attributes, exact
+indices, materials, animation and saves remain intact; native Three uploads the
+same data when the geometry is drawn again. Geometries sharing an attribute
+retire together, and a recently drawn owner protects the whole group. Retirement
+runs at most once a second with a cooperative work limit. Texture/shader caches
+and the native driver/framebuffer allocations are separate from this accounting.
+
+`CHICHI_GESTURE_ALL=1 CHICHI_MAP_CHECK=1 CHICHI_SCENE_STRESS=1 node
+scripts/check-aquarium.cjs` visits all 30 islands and returns to Catquarium. It
+checks real wheel, pointer orbit and two-finger touch gestures, unchanged browser
+zoom, exact frozen colour/shadow images and full DPR 2. Aquarium and crowded
+homestead additionally compare pixels after GPU geometry retirement/re-upload.
+WebGL buffer allocation counts are measured separately from CPU command-only
+samples; software-GPU timings must not be reported as Mac or iPhone FPS.

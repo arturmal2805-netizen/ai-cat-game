@@ -2248,6 +2248,7 @@ main {
   font-weight: 700;
   pointer-events: auto;
   touch-action: manipulation;
+  transition: background 0.2s;
 }
 .world-income[hidden] {
   display: none;
@@ -2457,6 +2458,7 @@ main {
   backdrop-filter: blur(8px);
   cursor: pointer;
   white-space: nowrap;
+  transition: background 0.2s;
 }
 .island-build-badge[hidden],
 .island-projects[hidden] {

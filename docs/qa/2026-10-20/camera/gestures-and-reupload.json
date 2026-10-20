@@ -1,0 +1,2544 @@
+[
+  {
+    "id": "moon",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "reuploadChanged": null,
+      "before": {
+        "frame": 17,
+        "calls": 434,
+        "triangles": 702462,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 18,
+        "calls": 434,
+        "triangles": 702462,
+        "points": 320,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 54470616,
+        "peak": 54470616,
+        "buffers": 1916,
+        "reflections": 81,
+        "longestReflections": [
+          {
+            "at": 42305.5,
+            "ms": 1466.2000000178814,
+            "draw": null
+          },
+          {
+            "at": 29504,
+            "ms": 1082.4000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 32606.5,
+            "ms": 1000.5999999940395,
+            "draw": null
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 54363052,
+        "geometries": 398,
+        "evicted": 0
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1479.800000011921,
+        "median": 20.700000017881393,
+        "p95": 33.80000001192093,
+        "max": 206.39999997615814,
+        "distance": 74.83382509930621,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1019.4000000059605,
+        "median": 13.599999994039536,
+        "p95": 38,
+        "max": 52.29999998211861,
+        "distance": 74.40925479589178,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "autumn",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "reuploadChanged": null,
+      "before": {
+        "frame": 79,
+        "calls": 123,
+        "triangles": 517436,
+        "points": 420,
+        "lines": 0
+      },
+      "after": {
+        "frame": 80,
+        "calls": 123,
+        "triangles": 517436,
+        "points": 420,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 74366040,
+        "peak": 74366040,
+        "buffers": 2219,
+        "reflections": 90,
+        "longestReflections": [
+          {
+            "at": 42305.5,
+            "ms": 1466.2000000178814,
+            "draw": null
+          },
+          {
+            "at": 29504,
+            "ms": 1082.4000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 32606.5,
+            "ms": 1000.5999999940395,
+            "draw": null
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 74199768,
+        "geometries": 458,
+        "evicted": 0
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 819.9000000059605,
+        "median": 9.699999988079071,
+        "p95": 13,
+        "max": 15.5,
+        "distance": 72.52071243514116,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 852.7999999821186,
+        "median": 10.800000011920929,
+        "p95": 16.599999994039536,
+        "max": 17.200000017881393,
+        "distance": 72.9490222776949,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "winter",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "reuploadChanged": null,
+      "before": {
+        "frame": 141,
+        "calls": 538,
+        "triangles": 1044944,
+        "points": 740,
+        "lines": 0
+      },
+      "after": {
+        "frame": 142,
+        "calls": 538,
+        "triangles": 1044944,
+        "points": 740,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 103443984,
+        "peak": 103443984,
+        "buffers": 3101,
+        "reflections": 93,
+        "longestReflections": [
+          {
+            "at": 42305.5,
+            "ms": 1466.2000000178814,
+            "draw": null
+          },
+          {
+            "at": 29504,
+            "ms": 1082.4000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 32606.5,
+            "ms": 1000.5999999940395,
+            "draw": null
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 103179856,
+        "geometries": 657,
+        "evicted": 0
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1336.5999999940395,
+        "median": 23.5,
+        "p95": 41.89999997615814,
+        "max": 63.29999998211861,
+        "distance": 77.60127355909458,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1472.7000000178814,
+        "median": 24.80000001192093,
+        "p95": 55,
+        "max": 149.90000000596046,
+        "distance": 79.54097804806408,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "beach",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "reuploadChanged": null,
+      "before": {
+        "frame": 203,
+        "calls": 298,
+        "triangles": 607380,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 204,
+        "calls": 298,
+        "triangles": 607380,
+        "points": 320,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 114852948,
+        "peak": 114852948,
+        "buffers": 3504,
+        "reflections": 94,
+        "longestReflections": [
+          {
+            "at": 42305.5,
+            "ms": 1466.2000000178814,
+            "draw": null
+          },
+          {
+            "at": 29504,
+            "ms": 1082.4000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 32606.5,
+            "ms": 1000.5999999940395,
+            "draw": null
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 114501508,
+        "geometries": 741,
+        "evicted": 0
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1026.300000011921,
+        "median": 16.599999994039536,
+        "p95": 21.200000017881393,
+        "max": 24.30000001192093,
+        "distance": 75.21450365913041,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 954,
+        "median": 13.5,
+        "p95": 20.19999998807907,
+        "max": 25.69999998807907,
+        "distance": 73.85461294512037,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "water",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "reuploadChanged": null,
+      "before": {
+        "frame": 265,
+        "calls": 253,
+        "triangles": 891096,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 266,
+        "calls": 253,
+        "triangles": 891096,
+        "points": 320,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 127679008,
+        "peak": 127679008,
+        "buffers": 3784,
+        "reflections": 101,
+        "longestReflections": [
+          {
+            "at": 42305.5,
+            "ms": 1466.2000000178814,
+            "draw": null
+          },
+          {
+            "at": 29504,
+            "ms": 1082.4000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 32606.5,
+            "ms": 1000.5999999940395,
+            "draw": null
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 127264528,
+        "geometries": 795,
+        "evicted": 0
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1255.2999999821186,
+        "median": 18,
+        "p95": 57.60000002384186,
+        "max": 106.7999999821186,
+        "distance": 74.49245529807368,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1128.199999988079,
+        "median": 16.400000005960464,
+        "p95": 31.700000017881393,
+        "max": 113.30000001192093,
+        "distance": 79.39047722859621,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "summer",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "reuploadChanged": null,
+      "before": {
+        "frame": 327,
+        "calls": 373,
+        "triangles": 2201916,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 328,
+        "calls": 373,
+        "triangles": 2201916,
+        "points": 320,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 168582426,
+        "peak": 168582426,
+        "buffers": 4651,
+        "reflections": 106,
+        "longestReflections": [
+          {
+            "at": 42305.5,
+            "ms": 1466.2000000178814,
+            "draw": null
+          },
+          {
+            "at": 29504,
+            "ms": 1082.4000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 32606.5,
+            "ms": 1000.5999999940395,
+            "draw": null
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 168017430,
+        "geometries": 973,
+        "evicted": 0
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1573.4000000059605,
+        "median": 22.700000017881393,
+        "p95": 67,
+        "max": 67.39999997615814,
+        "distance": 79.97502468494551,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1478.9000000059605,
+        "median": 23.30000001192093,
+        "p95": 40.80000001192093,
+        "max": 182.40000000596046,
+        "distance": 76.39351515460571,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "nature",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "reuploadChanged": null,
+      "before": {
+        "frame": 389,
+        "calls": 169,
+        "triangles": 392164,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 390,
+        "calls": 169,
+        "triangles": 392164,
+        "points": 320,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 175834346,
+        "peak": 175834346,
+        "buffers": 4965,
+        "reflections": 106,
+        "longestReflections": [
+          {
+            "at": 42305.5,
+            "ms": 1466.2000000178814,
+            "draw": null
+          },
+          {
+            "at": 29504,
+            "ms": 1082.4000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 32606.5,
+            "ms": 1000.5999999940395,
+            "draw": null
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 175198646,
+        "geometries": 1035,
+        "evicted": 0
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1205.9000000059605,
+        "median": 12.400000005960464,
+        "p95": 18.099999994039536,
+        "max": 69.39999997615814,
+        "distance": 77.60736277809265,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1054.300000011921,
+        "median": 14.299999982118607,
+        "p95": 27.099999994039536,
+        "max": 44.29999998211861,
+        "distance": 74.47627270734125,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "sakura",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "reuploadChanged": null,
+      "before": {
+        "frame": 451,
+        "calls": 308,
+        "triangles": 1250568,
+        "points": 740,
+        "lines": 0
+      },
+      "after": {
+        "frame": 452,
+        "calls": 308,
+        "triangles": 1250568,
+        "points": 740,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 217083558,
+        "peak": 217083558,
+        "buffers": 5480,
+        "reflections": 109,
+        "longestReflections": [
+          {
+            "at": 42305.5,
+            "ms": 1466.2000000178814,
+            "draw": null
+          },
+          {
+            "at": 29504,
+            "ms": 1082.4000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 32606.5,
+            "ms": 1000.5999999940395,
+            "draw": null
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 216357062,
+        "geometries": 1140,
+        "evicted": 0
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 982.5999999940395,
+        "median": 13.300000011920929,
+        "p95": 19.599999994039536,
+        "max": 27,
+        "distance": 74.47736716104127,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 950.3000000119209,
+        "median": 14.200000017881393,
+        "p95": 17.5,
+        "max": 18.400000005960464,
+        "distance": 74.45342460592447,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "clouds",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "reuploadChanged": null,
+      "before": {
+        "frame": 513,
+        "calls": 147,
+        "triangles": 346564,
+        "points": 0,
+        "lines": 0
+      },
+      "after": {
+        "frame": 514,
+        "calls": 147,
+        "triangles": 346564,
+        "points": 0,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 209436138,
+        "peak": 217083558,
+        "buffers": 5355,
+        "reflections": 113,
+        "longestReflections": [
+          {
+            "at": 42305.5,
+            "ms": 1466.2000000178814,
+            "draw": null
+          },
+          {
+            "at": 29504,
+            "ms": 1082.4000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 32606.5,
+            "ms": 1000.5999999940395,
+            "draw": null
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 208638938,
+        "geometries": 1126,
+        "evicted": 92
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1289.7000000178814,
+        "median": 16.30000001192093,
+        "p95": 37.30000001192093,
+        "max": 136.40000000596046,
+        "distance": 76.29449174937743,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1349.2999999821186,
+        "median": 16.099999994039536,
+        "p95": 24.5,
+        "max": 62.099999994039536,
+        "distance": 77.84852811990962,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "desert",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "reuploadChanged": null,
+      "before": {
+        "frame": 575,
+        "calls": 202,
+        "triangles": 417460,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 576,
+        "calls": 202,
+        "triangles": 417460,
+        "points": 320,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 208722660,
+        "peak": 217083558,
+        "buffers": 5572,
+        "reflections": 113,
+        "longestReflections": [
+          {
+            "at": 42305.5,
+            "ms": 1466.2000000178814,
+            "draw": null
+          },
+          {
+            "at": 29504,
+            "ms": 1082.4000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 32606.5,
+            "ms": 1000.5999999940395,
+            "draw": null
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 207878588,
+        "geometries": 1166,
+        "evicted": 102
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1160.0999999940395,
+        "median": 14.799999982118607,
+        "p95": 51.599999994039536,
+        "max": 105,
+        "distance": 74.32622160564956,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 989.5,
+        "median": 14.899999976158142,
+        "p95": 19.599999994039536,
+        "max": 29.599999994039536,
+        "distance": 74.94199154718262,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "stars",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "reuploadChanged": null,
+      "before": {
+        "frame": 637,
+        "calls": 230,
+        "triangles": 396180,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 638,
+        "calls": 230,
+        "triangles": 396180,
+        "points": 320,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 206584118,
+        "peak": 217083558,
+        "buffers": 5581,
+        "reflections": 113,
+        "longestReflections": [
+          {
+            "at": 42305.5,
+            "ms": 1466.2000000178814,
+            "draw": null
+          },
+          {
+            "at": 29504,
+            "ms": 1082.4000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 32606.5,
+            "ms": 1000.5999999940395,
+            "draw": null
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 205669342,
+        "geometries": 1159,
+        "evicted": 148
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1584.7000000178814,
+        "median": 17.399999976158142,
+        "p95": 65.5,
+        "max": 320.09999999403954,
+        "distance": 79.19020270446819,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1461.5999999940395,
+        "median": 18.30000001192093,
+        "p95": 31,
+        "max": 84.7000000178814,
+        "distance": 74.89094656692099,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "volcano",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "reuploadChanged": null,
+      "before": {
+        "frame": 699,
+        "calls": 563,
+        "triangles": 975328,
+        "points": 740,
+        "lines": 0
+      },
+      "after": {
+        "frame": 700,
+        "calls": 563,
+        "triangles": 975328,
+        "points": 740,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 225916606,
+        "peak": 225916606,
+        "buffers": 6094,
+        "reflections": 113,
+        "longestReflections": [
+          {
+            "at": 42305.5,
+            "ms": 1466.2000000178814,
+            "draw": null
+          },
+          {
+            "at": 29504,
+            "ms": 1082.4000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 32606.5,
+            "ms": 1000.5999999940395,
+            "draw": null
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 224897142,
+        "geometries": 1269,
+        "evicted": 178
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1043.3999999761581,
+        "median": 16.80000001192093,
+        "p95": 21.799999982118607,
+        "max": 29.599999994039536,
+        "distance": 75.06314480654136,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1379.5,
+        "median": 18.900000005960464,
+        "p95": 26.900000005960464,
+        "max": 301.09999999403954,
+        "distance": 75.84387999728962,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "crystal",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "reuploadChanged": null,
+      "before": {
+        "frame": 761,
+        "calls": 240,
+        "triangles": 410848,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 762,
+        "calls": 240,
+        "triangles": 410848,
+        "points": 320,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 211183322,
+        "peak": 225916606,
+        "buffers": 5821,
+        "reflections": 114,
+        "longestReflections": [
+          {
+            "at": 42305.5,
+            "ms": 1466.2000000178814,
+            "draw": null
+          },
+          {
+            "at": 29504,
+            "ms": 1082.4000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 32606.5,
+            "ms": 1000.5999999940395,
+            "draw": null
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 210093154,
+        "geometries": 1201,
+        "evicted": 338
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1394.0999999940395,
+        "median": 14.5,
+        "p95": 98.19999998807907,
+        "max": 307.69999998807907,
+        "distance": 74.08488169022938,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1012.2999999821186,
+        "median": 15.400000005960464,
+        "p95": 25.400000005960464,
+        "max": 28.100000023841858,
+        "distance": 75.43516354573701,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "candy",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "reuploadChanged": null,
+      "before": {
+        "frame": 823,
+        "calls": 167,
+        "triangles": 394968,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 824,
+        "calls": 167,
+        "triangles": 394968,
+        "points": 320,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 205937386,
+        "peak": 225916606,
+        "buffers": 6142,
+        "reflections": 114,
+        "longestReflections": [
+          {
+            "at": 42305.5,
+            "ms": 1466.2000000178814,
+            "draw": null
+          },
+          {
+            "at": 29504,
+            "ms": 1082.4000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 32606.5,
+            "ms": 1000.5999999940395,
+            "draw": null
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 204776514,
+        "geometries": 1263,
+        "evicted": 349
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1035.4000000059605,
+        "median": 12.5,
+        "p95": 28.80000001192093,
+        "max": 64.10000002384186,
+        "distance": 73.5348740868531,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1138.2999999821186,
+        "median": 14,
+        "p95": 50.099999994039536,
+        "max": 90.69999998807907,
+        "distance": 74.13568468797554,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "rainbow",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "reuploadChanged": null,
+      "before": {
+        "frame": 885,
+        "calls": 174,
+        "triangles": 385344,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 886,
+        "calls": 174,
+        "triangles": 385344,
+        "points": 320,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 211099848,
+        "peak": 225916606,
+        "buffers": 6384,
+        "reflections": 114,
+        "longestReflections": [
+          {
+            "at": 42305.5,
+            "ms": 1466.2000000178814,
+            "draw": null
+          },
+          {
+            "at": 29504,
+            "ms": 1082.4000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 32606.5,
+            "ms": 1000.5999999940395,
+            "draw": null
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 209858480,
+        "geometries": 1304,
+        "evicted": 382
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1060.7000000178814,
+        "median": 12.400000005960464,
+        "p95": 22.100000023841858,
+        "max": 143.30000001192093,
+        "distance": 73.89391104195411,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 999.7000000178814,
+        "median": 13.400000005960464,
+        "p95": 28.5,
+        "max": 52.80000001192093,
+        "distance": 76.7225348199031,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "bamboo",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "reuploadChanged": null,
+      "before": {
+        "frame": 947,
+        "calls": 215,
+        "triangles": 434317,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 948,
+        "calls": 215,
+        "triangles": 434317,
+        "points": 320,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 207693440,
+        "peak": 225916606,
+        "buffers": 6119,
+        "reflections": 114,
+        "longestReflections": [
+          {
+            "at": 42305.5,
+            "ms": 1466.2000000178814,
+            "draw": null
+          },
+          {
+            "at": 29504,
+            "ms": 1082.4000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 32606.5,
+            "ms": 1000.5999999940395,
+            "draw": null
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 206381368,
+        "geometries": 1240,
+        "evicted": 489
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 959.8999999761581,
+        "median": 14.099999994039536,
+        "p95": 19.599999994039536,
+        "max": 21.400000005960464,
+        "distance": 74.27924480269544,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1381.199999988079,
+        "median": 15.699999988079071,
+        "p95": 85,
+        "max": 230.59999999403954,
+        "distance": 75.47924835753928,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "mushrooms",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "reuploadChanged": null,
+      "before": {
+        "frame": 1009,
+        "calls": 158,
+        "triangles": 418248,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 1010,
+        "calls": 158,
+        "triangles": 418248,
+        "points": 320,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 208345932,
+        "peak": 225916606,
+        "buffers": 6077,
+        "reflections": 114,
+        "longestReflections": [
+          {
+            "at": 42305.5,
+            "ms": 1466.2000000178814,
+            "draw": null
+          },
+          {
+            "at": 29504,
+            "ms": 1082.4000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 32606.5,
+            "ms": 1000.5999999940395,
+            "draw": null
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 206963156,
+        "geometries": 1225,
+        "evicted": 546
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1357.5,
+        "median": 13.900000005960464,
+        "p95": 20.900000005960464,
+        "max": 352.19999998807907,
+        "distance": 74.23406888389076,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 879.7999999821186,
+        "median": 11.599999994039536,
+        "p95": 15.099999994039536,
+        "max": 17.399999976158142,
+        "distance": 73.39758649869823,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "galaxy",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "reuploadChanged": null,
+      "before": {
+        "frame": 1071,
+        "calls": 437,
+        "triangles": 1059792,
+        "points": 740,
+        "lines": 0
+      },
+      "after": {
+        "frame": 1072,
+        "calls": 437,
+        "triangles": 1059792,
+        "points": 740,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 229440544,
+        "peak": 229440544,
+        "buffers": 6684,
+        "reflections": 114,
+        "longestReflections": [
+          {
+            "at": 42305.5,
+            "ms": 1466.2000000178814,
+            "draw": null
+          },
+          {
+            "at": 29504,
+            "ms": 1082.4000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 32606.5,
+            "ms": 1000.5999999940395,
+            "draw": null
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 227952792,
+        "geometries": 1362,
+        "evicted": 606
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1204,
+        "median": 18.69999998807907,
+        "p95": 40.099999994039536,
+        "max": 71.09999999403954,
+        "distance": 75.39944853659422,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1072.5,
+        "median": 18.5,
+        "p95": 21,
+        "max": 21.5,
+        "distance": 75.5627601413792,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "coral",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "reuploadChanged": null,
+      "before": {
+        "frame": 1133,
+        "calls": 155,
+        "triangles": 467032,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 1134,
+        "calls": 155,
+        "triangles": 467032,
+        "points": 320,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 205712854,
+        "peak": 229440544,
+        "buffers": 6558,
+        "reflections": 114,
+        "longestReflections": [
+          {
+            "at": 42305.5,
+            "ms": 1466.2000000178814,
+            "draw": null
+          },
+          {
+            "at": 29504,
+            "ms": 1082.4000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 32606.5,
+            "ms": 1000.5999999940395,
+            "draw": null
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 204142158,
+        "geometries": 1332,
+        "evicted": 689
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1503.2000000178814,
+        "median": 23,
+        "p95": 59.5,
+        "max": 72.89999997615814,
+        "distance": 78.28543499511025,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1048.300000011921,
+        "median": 18.400000005960464,
+        "p95": 24.400000005960464,
+        "max": 25.5,
+        "distance": 73.36703620925911,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "lotus",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "reuploadChanged": null,
+      "before": {
+        "frame": 1195,
+        "calls": 155,
+        "triangles": 436960,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 1196,
+        "calls": 155,
+        "triangles": 436960,
+        "points": 320,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 207117722,
+        "peak": 229440544,
+        "buffers": 6764,
+        "reflections": 114,
+        "longestReflections": [
+          {
+            "at": 42305.5,
+            "ms": 1466.2000000178814,
+            "draw": null
+          },
+          {
+            "at": 29504,
+            "ms": 1082.4000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 32606.5,
+            "ms": 1000.5999999940395,
+            "draw": null
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 205468162,
+        "geometries": 1372,
+        "evicted": 691
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1173.9000000059605,
+        "median": 13.300000011920929,
+        "p95": 81.69999998807907,
+        "max": 82.40000000596046,
+        "distance": 74.26474873159403,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 926.2000000178814,
+        "median": 12.5,
+        "p95": 18.799999982118607,
+        "max": 22.900000005960464,
+        "distance": 74.0123861981759,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "ice",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "reuploadChanged": null,
+      "before": {
+        "frame": 1257,
+        "calls": 746,
+        "triangles": 987756,
+        "points": 740,
+        "lines": 0
+      },
+      "after": {
+        "frame": 1258,
+        "calls": 746,
+        "triangles": 987756,
+        "points": 740,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 227424410,
+        "peak": 229440544,
+        "buffers": 7010,
+        "reflections": 114,
+        "longestReflections": [
+          {
+            "at": 42305.5,
+            "ms": 1466.2000000178814,
+            "draw": null
+          },
+          {
+            "at": 29504,
+            "ms": 1082.4000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 32606.5,
+            "ms": 1000.5999999940395,
+            "draw": null
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 225669058,
+        "geometries": 1421,
+        "evicted": 738
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1558.0999999940395,
+        "median": 23.600000023841858,
+        "p95": 35.900000005960464,
+        "max": 341.2999999821186,
+        "distance": 76.4872581887093,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1361.3999999761581,
+        "median": 25.599999994039536,
+        "p95": 35.599999994039536,
+        "max": 60.5,
+        "distance": 76.68655155497495,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "clockwork",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "reuploadChanged": null,
+      "before": {
+        "frame": 1319,
+        "calls": 793,
+        "triangles": 2522400,
+        "points": 420,
+        "lines": 0
+      },
+      "after": {
+        "frame": 1320,
+        "calls": 793,
+        "triangles": 2522400,
+        "points": 420,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 241769314,
+        "peak": 241769314,
+        "buffers": 7662,
+        "reflections": 122,
+        "longestReflections": [
+          {
+            "at": 42305.5,
+            "ms": 1466.2000000178814,
+            "draw": null
+          },
+          {
+            "at": 29504,
+            "ms": 1082.4000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 32606.5,
+            "ms": 1000.5999999940395,
+            "draw": null
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 239964442,
+        "geometries": 1573,
+        "evicted": 841
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1790,
+        "median": 31.5,
+        "p95": 108.5,
+        "max": 137.80000001192093,
+        "distance": 78.6111436013387,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 2373.899999976158,
+        "median": 32.30000001192093,
+        "p95": 243.80000001192093,
+        "max": 276.39999997615814,
+        "distance": 77.86081903418118,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "dusk",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "reuploadChanged": null,
+      "before": {
+        "frame": 1381,
+        "calls": 163,
+        "triangles": 413544,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 1382,
+        "calls": 163,
+        "triangles": 413544,
+        "points": 320,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 209192106,
+        "peak": 242120050,
+        "buffers": 6737,
+        "reflections": 122,
+        "longestReflections": [
+          {
+            "at": 42305.5,
+            "ms": 1466.2000000178814,
+            "draw": null
+          },
+          {
+            "at": 29504,
+            "ms": 1082.4000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 32606.5,
+            "ms": 1000.5999999940395,
+            "draw": null
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 207316530,
+        "geometries": 1375,
+        "evicted": 1085
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 873.7000000178814,
+        "median": 11.700000017881393,
+        "p95": 14.300000011920929,
+        "max": 16.600000023841858,
+        "distance": 73.6577401060088,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 879,
+        "median": 11.899999976158142,
+        "p95": 14.900000005960464,
+        "max": 15.199999988079071,
+        "distance": 73.25379730488602,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "aquapark",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "reuploadChanged": null,
+      "before": {
+        "frame": 1443,
+        "calls": 276,
+        "triangles": 833388,
+        "points": 420,
+        "lines": 0
+      },
+      "after": {
+        "frame": 1444,
+        "calls": 276,
+        "triangles": 833388,
+        "points": 420,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 223106874,
+        "peak": 242120050,
+        "buffers": 6958,
+        "reflections": 122,
+        "longestReflections": [
+          {
+            "at": 42305.5,
+            "ms": 1466.2000000178814,
+            "draw": null
+          },
+          {
+            "at": 29504,
+            "ms": 1082.4000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 32606.5,
+            "ms": 1000.5999999940395,
+            "draw": null
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 221128878,
+        "geometries": 1415,
+        "evicted": 1161
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 980.3000000119209,
+        "median": 15,
+        "p95": 18.5,
+        "max": 21.200000017881393,
+        "distance": 74.17770695314707,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1274.4000000059605,
+        "median": 16,
+        "p95": 31.5,
+        "max": 260.40000000596046,
+        "distance": 75.39531933245085,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "foodcourt",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "reuploadChanged": null,
+      "before": {
+        "frame": 1505,
+        "calls": 147,
+        "triangles": 608515,
+        "points": 0,
+        "lines": 0
+      },
+      "after": {
+        "frame": 1506,
+        "calls": 147,
+        "triangles": 608515,
+        "points": 0,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 225768372,
+        "peak": 242120050,
+        "buffers": 7183,
+        "reflections": 124,
+        "longestReflections": [
+          {
+            "at": 42305.5,
+            "ms": 1466.2000000178814,
+            "draw": null
+          },
+          {
+            "at": 29504,
+            "ms": 1082.4000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 32606.5,
+            "ms": 1000.5999999940395,
+            "draw": null
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 223681236,
+        "geometries": 1456,
+        "evicted": 1194
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1751.800000011921,
+        "median": 23.400000005960464,
+        "p95": 91,
+        "max": 97,
+        "distance": 79.09672432698821,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1263,
+        "median": 23.599999994039536,
+        "p95": 38.099999994039536,
+        "max": 47.60000002384186,
+        "distance": 76.37497929289326,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "bikini",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "reuploadChanged": null,
+      "before": {
+        "frame": 1567,
+        "calls": 162,
+        "triangles": 707060,
+        "points": 0,
+        "lines": 0
+      },
+      "after": {
+        "frame": 1568,
+        "calls": 162,
+        "triangles": 707060,
+        "points": 0,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 235749804,
+        "peak": 242120050,
+        "buffers": 6394,
+        "reflections": 126,
+        "longestReflections": [
+          {
+            "at": 42305.5,
+            "ms": 1466.2000000178814,
+            "draw": null
+          },
+          {
+            "at": 29504,
+            "ms": 1082.4000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 32606.5,
+            "ms": 1000.5999999940395,
+            "draw": null
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 233648748,
+        "geometries": 1290,
+        "evicted": 1448
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 2292.5,
+        "median": 25.799999982118607,
+        "p95": 196.5,
+        "max": 467.19999998807907,
+        "distance": 76.93029019893113,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1406.0999999940395,
+        "median": 21,
+        "p95": 39.20000001788139,
+        "max": 242.59999999403954,
+        "distance": 78.43754088373629,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "homestead",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "reuploadChanged": 0,
+      "before": {
+        "frame": 1629,
+        "calls": 491,
+        "triangles": 4532303,
+        "points": 0,
+        "lines": 0
+      },
+      "after": {
+        "frame": 1632,
+        "calls": 491,
+        "triangles": 4532303,
+        "points": 0,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 369961898,
+        "peak": 369961898,
+        "buffers": 6564,
+        "reflections": 145,
+        "longestReflections": [
+          {
+            "at": 42305.5,
+            "ms": 1466.2000000178814,
+            "draw": null
+          },
+          {
+            "at": 29504,
+            "ms": 1082.4000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 32606.5,
+            "ms": 1000.5999999940395,
+            "draw": null
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 367746506,
+        "geometries": 1315,
+        "evicted": 1645
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 4066.4000000059605,
+        "median": 69.7000000178814,
+        "p95": 449.09999999403954,
+        "max": 452.80000001192093,
+        "distance": 82.21662093308228,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 3154.300000011921,
+        "median": 59.70000001788139,
+        "p95": 122.90000000596046,
+        "max": 677.2000000178814,
+        "distance": 80.98079042723181,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "aquarium",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "reuploadChanged": 0,
+      "before": {
+        "frame": 1693,
+        "calls": 200,
+        "triangles": 1417927,
+        "points": 0,
+        "lines": 0
+      },
+      "after": {
+        "frame": 1696,
+        "calls": 200,
+        "triangles": 1417927,
+        "points": 0,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 336385830,
+        "peak": 369961898,
+        "buffers": 5579,
+        "reflections": 145,
+        "longestReflections": [
+          {
+            "at": 42305.5,
+            "ms": 1466.2000000178814,
+            "draw": null
+          },
+          {
+            "at": 29504,
+            "ms": 1082.4000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 32606.5,
+            "ms": 1000.5999999940395,
+            "draw": null
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 334164678,
+        "geometries": 1079,
+        "evicted": 2009
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1627.5999999940395,
+        "median": 17.5,
+        "p95": 181.5,
+        "max": 236.2999999821186,
+        "distance": 76.82772001056271,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 954.7000000178814,
+        "median": 14.599999994039536,
+        "p95": 18.599999994039536,
+        "max": 23.299999982118607,
+        "distance": 75.03500804752483,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "jobcity",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "reuploadChanged": null,
+      "before": {
+        "frame": 1757,
+        "calls": 112,
+        "triangles": 893291,
+        "points": 0,
+        "lines": 0
+      },
+      "after": {
+        "frame": 1758,
+        "calls": 112,
+        "triangles": 893291,
+        "points": 0,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 371437690,
+        "peak": 371437690,
+        "buffers": 4362,
+        "reflections": 150,
+        "longestReflections": [
+          {
+            "at": 42305.5,
+            "ms": 1466.2000000178814,
+            "draw": null
+          },
+          {
+            "at": 29504,
+            "ms": 1082.4000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 32606.5,
+            "ms": 1000.5999999940395,
+            "draw": null
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 369209626,
+        "geometries": 785,
+        "evicted": 2361
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1391.800000011921,
+        "median": 23.19999998807907,
+        "p95": 56.599999994039536,
+        "max": 89.60000002384186,
+        "distance": 78.02940291120758,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1656.0999999940395,
+        "median": 26.80000001192093,
+        "p95": 44.69999998807907,
+        "max": 281.69999998807907,
+        "distance": 78.47664399334603,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "cat-homes",
+    "repeat": false,
+    "image": {
+      "changed": 0,
+      "reuploadChanged": null,
+      "before": {
+        "frame": 1819,
+        "calls": 19,
+        "triangles": 106724,
+        "points": 0,
+        "lines": 0
+      },
+      "after": {
+        "frame": 1820,
+        "calls": 19,
+        "triangles": 106724,
+        "points": 0,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 288082358,
+        "peak": 371437690,
+        "buffers": 2590,
+        "reflections": 150,
+        "longestReflections": [
+          {
+            "at": 42305.5,
+            "ms": 1466.2000000178814,
+            "draw": null
+          },
+          {
+            "at": 29504,
+            "ms": 1082.4000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 32606.5,
+            "ms": 1000.5999999940395,
+            "draw": null
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 285854294,
+        "geometries": 409,
+        "evicted": 2744
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1019.4000000059605,
+        "median": 9.900000005960464,
+        "p95": 48.80000001192093,
+        "max": 146.80000001192093,
+        "distance": 72.5480379344601,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 907.6000000238419,
+        "median": 10.400000005960464,
+        "p95": 13,
+        "max": 51.10000002384186,
+        "distance": 72.88019582341998,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "aquarium",
+    "repeat": true,
+    "image": {
+      "changed": 0,
+      "reuploadChanged": 0,
+      "before": {
+        "frame": 1881,
+        "calls": 188,
+        "triangles": 1367387,
+        "points": 0,
+        "lines": 0
+      },
+      "after": {
+        "frame": 1884,
+        "calls": 188,
+        "triangles": 1367387,
+        "points": 0,
+        "lines": 0
+      },
+      "buffer": [
+        776,
+        1464
+      ],
+      "dpr": 2,
+      "lost": false,
+      "memory": {
+        "bytes": 244342086,
+        "peak": 371437690,
+        "buffers": 1655,
+        "reflections": 150,
+        "longestReflections": [
+          {
+            "at": 42305.5,
+            "ms": 1466.2000000178814,
+            "draw": null
+          },
+          {
+            "at": 29504,
+            "ms": 1082.4000000059605,
+            "draw": {
+              "object": "Shared exact static props",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 32606.5,
+            "ms": 1000.5999999940395,
+            "draw": null
+          }
+        ]
+      },
+      "residency": {
+        "bytes": 242114022,
+        "geometries": 212,
+        "evicted": 3063
+      }
+    },
+    "phases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1124.2999999821186,
+        "median": 14.900000005960464,
+        "p95": 26.399999976158142,
+        "max": 157.5,
+        "distance": 75.35551603108817,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 992.6000000238419,
+        "median": 15.599999994039536,
+        "p95": 20.69999998807907,
+        "max": 21.700000017881393,
+        "distance": 74.68153074216343,
+        "desired": 85
+      }
+    ]
+  }
+]

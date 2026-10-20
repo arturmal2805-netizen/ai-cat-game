@@ -595,6 +595,14 @@ async function localWorker() {
         });
         assert.equal(
           await page.evaluate(() => __lagoonQA.getDragging()),
+          undefined,
+        );
+        await cdp.send("Input.dispatchTouchEvent", {
+          type: "touchMove",
+          touchPoints: [{ ...p.from, x: p.from.x + 8 }],
+        });
+        assert.equal(
+          await page.evaluate(() => __lagoonQA.getDragging()),
           id,
           "real touch picks this specific cat",
         );
