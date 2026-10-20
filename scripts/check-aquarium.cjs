@@ -328,7 +328,7 @@ async function localWorker() {
                   )
                   .replace(
                     marker,
-                    `  const qa=window.__lagoonQA={step:loop,gpuFrames,geometryResidency:typeof geometryResidency==='undefined'?null:geometryResidency,gpuBuffers:qaGpuBuffers,matrixCache:typeof matrixCache==='undefined'?null:matrixCache,shaderWarmup:typeof shaderWarmup==='undefined'?null:shaderWarmup,colonyDraws:typeof colonyDraws==='undefined'?null:colonyDraws,animateCat,setCatMood,poseAtlas:typeof poseAtlas==='undefined'?null:poseAtlas,staticDraws:typeof staticDraws==='undefined'?null:staticDraws,camera,look,desiredLook,renderer,islands,cat,npcs,chichiCarrier,itemGroups,THREE,scene,pickDrop,pointer,raycaster,ground,viewport,sync,perform,performResident,faceCamera,spa,chill,court,cinema,courtFoods,bikiniLife,enterCourt,exitCourt,getCourtCamera:()=>courtCamera,residentPlay,callbacks,getDragging:()=>draggingCat?.catId,reviewView:(x,z,d)=>{desiredLook.set(x,0,z);desiredDistance=d;azimuth=.15;},constructorMs:performance.now()-qaStart,focused:()=>focused,getOperation:()=>operation,isVisible:()=>worldVisible,getDistance:()=>distance,getDesiredDistance:()=>desiredDistance,frames:0,resizes:0,black:[],audit:false,measure:false,cpu:[]};
+                    `  const qa=window.__lagoonQA={step:loop,gpuFrames,shadowDepth:typeof shadowDepth==='undefined'?null:shadowDepth,geometryResidency:typeof geometryResidency==='undefined'?null:geometryResidency,gpuBuffers:qaGpuBuffers,matrixCache:typeof matrixCache==='undefined'?null:matrixCache,shaderWarmup:typeof shaderWarmup==='undefined'?null:shaderWarmup,colonyDraws:typeof colonyDraws==='undefined'?null:colonyDraws,animateCat,setCatMood,poseAtlas:typeof poseAtlas==='undefined'?null:poseAtlas,staticDraws:typeof staticDraws==='undefined'?null:staticDraws,camera,look,desiredLook,renderer,islands,cat,npcs,chichiCarrier,itemGroups,THREE,scene,pickDrop,pointer,raycaster,ground,viewport,sync,perform,performResident,faceCamera,spa,chill,court,cinema,courtFoods,bikiniLife,enterCourt,exitCourt,getCourtCamera:()=>courtCamera,residentPlay,callbacks,getDragging:()=>draggingCat?.catId,reviewView:(x,z,d)=>{desiredLook.set(x,0,z);desiredDistance=d;azimuth=.15;},constructorMs:performance.now()-qaStart,focused:()=>focused,getOperation:()=>operation,isVisible:()=>worldVisible,getDistance:()=>distance,getDesiredDistance:()=>desiredDistance,frames:0,resizes:0,black:[],audit:false,measure:false,cpu:[]};
   const draw=renderer.render.bind(renderer);qa.drawFrame=()=>draw(scene,camera);renderer.render=(...args)=>{if(qa.drawPaused&&!qa.commandOnly)return;const started=performance.now();draw(...args);qa.frames++;if(qa.liveFrames)qa.liveFrames.push([started,performance.now()-started,renderer.info.render.calls,renderer.info.render.triangles]);};
   const size=renderer.setSize.bind(renderer);renderer.setSize=(...args)=>{qa.resizes++;return size(...args);};
   const audit=new MutationObserver(()=>{if(!qa.audit)return;const gl=renderer.getContext(),p=new Uint8Array(4);gl.readPixels(0,0,1,1,gl.RGBA,gl.UNSIGNED_BYTE,p);if(p[0]+p[1]+p[2]===0)qa.black.push(Array.from(p));});audit.observe(renderer.domElement,{attributes:true,attributeFilter:['width','height']});
@@ -490,16 +490,19 @@ async function localWorker() {
     assert.equal(report.scene.fish, 50);
     assert.ok(report.scene.locals >= 6);
     if (
+      process.env.CHICHI_SHADOW_PROOF ||
       process.env.CHICHI_STATIC_PROOF ||
       process.env.CHICHI_PROP_PROOF ||
       process.env.CHICHI_POSE_PROOF
     ) {
       const stress = !!process.env.CHICHI_SCENE_STRESS;
-      if (stress) await page.locator('[data-biome="homestead"]').tap();
+      const proofBiome = process.env.CHICHI_PROOF_BIOME || (stress ? "homestead" : "aquarium");
+      if (proofBiome !== "aquarium") await page.locator(`[data-biome="${proofBiome}"]`).tap();
+      await page.waitForFunction(id => !__lagoonQA.islands.get(id).userData.lowOnly, proofBiome);
+      const proofCenter = await page.evaluate(id => {const p=__lagoonQA.islands.get(id).position;return [p.x,p.z];}, proofBiome);
       await page.evaluate(
-        (stress) =>
-          __lagoonQA.reviewView(stress ? -250 : -335, stress ? -55 : 95, 85),
-        stress,
+        center => __lagoonQA.reviewView(center[0], center[1], 85),
+        proofCenter,
       );
       await page.waitForFunction(
         () =>
@@ -509,7 +512,7 @@ async function localWorker() {
       if (process.env.CHICHI_POSE_PROOF)
         await page.waitForFunction(() => __lagoonQA.colonyDraws?.stats.ready);
       const proof = await page.evaluate(
-        ({ stress, timing, diagnose, repeats, props, poses }) => {
+        ({ stress, timing, diagnose, repeats, props, poses, shadows, proofCenter }) => {
           const q = __lagoonQA,
             renderer = q.renderer,
             gl = renderer.getContext(),
@@ -528,8 +531,12 @@ async function localWorker() {
             states.length = 0;
             if (q.poseAtlas) states.push(q.poseAtlas);
           }
+          if (shadows) {
+            states.length = 0;
+            if (q.shadowDepth) states.push(q.shadowDepth);
+          }
           const diagnostic = [];
-          const center = stress ? [-250, -55] : [-335, 95],
+          const center = proofCenter,
             a = new Uint8Array(
               gl.drawingBufferWidth * gl.drawingBufferHeight * 4,
             ),
@@ -623,6 +630,7 @@ async function localWorker() {
               compare("native-repeat", a, b);
             }
             states.forEach((s) => s.setEnabled(true));
+            if (shadows) for (let i=0;i<4;i++) draw(b);
             draw(b);
             const afterMs = draw(b),
               after = { ...renderer.info.render };
@@ -736,11 +744,12 @@ async function localWorker() {
               beforeMs,
               afterMs,
               samples,
+              ...(shadows ? { shadowStats: { ...q.shadowDepth.stats } } : {}),
               changed,
               max,
               large,
               mean: error / a.length,
-              ...(props || poses
+              ...(props || poses || shadows
                 ? { nativePNG: png(a), optimizedPNG: png(b) }
                 : {}),
             });
@@ -768,6 +777,8 @@ async function localWorker() {
         },
         {
           stress,
+          shadows: !!process.env.CHICHI_SHADOW_PROOF,
+          proofCenter,
           timing: process.env.CHICHI_SKIP_TIMING !== "1",
           diagnose: !!process.env.CHICHI_STATIC_DIAGNOSE,
           repeats: Number(process.env.CHICHI_STATIC_TIMING_REPEATS || 1),
@@ -801,7 +812,7 @@ async function localWorker() {
       console.log(JSON.stringify(proof, null, 2));
       assert.ok(
         proof.meshes >
-          (process.env.CHICHI_PROP_PROOF || process.env.CHICHI_POSE_PROOF
+          (process.env.CHICHI_SHADOW_PROOF || process.env.CHICHI_PROP_PROOF || process.env.CHICHI_POSE_PROOF
             ? 0
             : 10),
       );
@@ -815,6 +826,7 @@ async function localWorker() {
             : r.mean < 0.00001 && r.large === 0,
           JSON.stringify(r),
         );
+        if (process.env.CHICHI_SHADOW_PROOF) assert.equal(r.changed, 0, JSON.stringify(r));
         assert.ok(r.after.triangles <= r.before.triangles);
       }
       assert.equal(proof.contextLost, false);

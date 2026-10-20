@@ -90,6 +90,8 @@ export class SaveVault {
     });
   }
   async fetch(request) {
+    if (new URL(request.url).pathname === "/internal-city-ai-status" && request.method === "GET")
+      return json(await this.cityAI.status());
     if (
       new URL(request.url).pathname === "/internal-city-ai" &&
       request.method === "POST"

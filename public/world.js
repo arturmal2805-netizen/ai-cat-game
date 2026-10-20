@@ -1,3 +1,4 @@
+import { createShadowDepthCache } from "./shadow-depth-cache.js";
 import {
   HOUSING_ID,
   HOUSING_CENTER,
@@ -290,6 +291,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     camera,
     poseAtlas,
   );
+  const shadowDepth = createShadowDepthCache(renderer, scene, sun);
   const sky = new THREE.Mesh(
     new THREE.SphereGeometry(520, 24, 14),
     new THREE.ShaderMaterial({
@@ -5735,6 +5737,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     dispose() {
       disposed = true;
       shaderWarmup.dispose();
+      shadowDepth.dispose();
       geometryResidency.dispose();
       colonyDraws.dispose();
       poseAtlas.dispose();

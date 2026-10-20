@@ -35,6 +35,7 @@ export async function checkAllCameraGestures(page, context, review) {
       const q = __lagoonQA,
         gl = q.renderer.getContext();
       q.freeze = true;
+      q.shadowDepth?.setEnabled(false);
       // Native comparison: independent paints and unindexed flower triangles.
       // These are the same authored buffers, not a reduced-detail reference.
       const paints = [],
@@ -95,6 +96,8 @@ export async function checkAllCameraGestures(page, context, review) {
       const before = { ...q.renderer.info.render };
       if (q.matrixCache) q.matrixCache.enabled = true;
       if (q.staticDraws?.traversal) q.staticDraws.traversal.enabled = true;
+      q.shadowDepth?.setEnabled(true);
+      if(q.shadowDepth) for(let i=0;i<4;i++) q.drawFrame();
       q.drawFrame();
       gl.readPixels(
         0,
@@ -163,6 +166,7 @@ export async function checkAllCameraGestures(page, context, review) {
           );
       });
       return {
+        shadowDepth: q.shadowDepth ? { ...q.shadowDepth.stats } : null,
         attachedCats,
         registeredCats: registered.size,
         changed,
@@ -191,7 +195,7 @@ export async function checkAllCameraGestures(page, context, review) {
       );
     assert.equal(image.dpr, 2);
     assert.equal(image.lost, false);
-    assert.equal(image.before.triangles, image.after.triangles);
+    assert.ok(image.after.triangles <= image.before.triangles, id);
     await page.evaluate(() => {
       const q = __lagoonQA,
         gl = q.renderer.getContext();
@@ -230,6 +234,7 @@ export async function checkAllCameraGestures(page, context, review) {
         const phase = await page.evaluate(async (cached) => {
           const q = __lagoonQA,
             canvas = q.renderer.domElement;
+          q.shadowDepth?.setEnabled(cached);
           if (q.matrixCache) q.matrixCache.enabled = cached;
           if (q.staticDraws?.traversal)
             q.staticDraws.traversal.enabled = cached;
@@ -385,6 +390,7 @@ export async function checkAllCameraGestures(page, context, review) {
         q.measure = false;
         q.commandOnly = false;
         q.freeze = true;
+        q.shadowDepth?.setEnabled(true);
         if (q.matrixCache) q.matrixCache.enabled = true;
         if (q.staticDraws?.traversal) q.staticDraws.traversal.enabled = true;
         for (const restore of q.restoreGL) restore();

@@ -77,6 +77,10 @@ export default {
       return accountAccess(request, env);
     if (path === "/api/save" && ["GET", "PUT", "POST"].includes(request.method))
       return cloudSave(request, env);
+    if (path === "/api/jobcity/status" && request.method === "GET")
+      return cloudSave(new Request(new URL("/internal-city-ai-status", request.url), {
+        headers: { "X-Chichi-Save-Token": request.headers.get("X-Chichi-Save-Token") || "" },
+      }), env);
     if (path === "/api/jobcity/plan" && request.method === "POST") {
       if (!env.AI && !env.BACKUP_AI_API_KEY)
         return json({ error: "AI unavailable" }, 503);

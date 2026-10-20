@@ -26,6 +26,7 @@ async function localWorker() {
     path.join(root, ".generated/worker.mjs"),
     path.join(temp, "worker.mjs"),
   );
+  fs.cpSync(path.join(root, "public"), path.join(temp, "public"), { recursive: true });
   fs.writeFileSync(
     config,
     JSON.stringify({
@@ -33,7 +34,7 @@ async function localWorker() {
       main: path.join(temp, "worker.mjs"),
       compatibility_date: "2026-10-13",
       assets: {
-        directory: path.join(root, "public"),
+        directory: path.join(temp, "public"),
         binding: "ASSETS",
         run_worker_first: ["/api/*"],
       },
@@ -239,7 +240,13 @@ async function localWorker() {
         },
       }),
     );
-    let aiCalls = 0;
+    let aiCalls = 0, receiptReads = 0, receiptEvent = null;
+    const lostAck = !!process.env.CHICHI_FAMILY_LOST_ACK;
+    let allowRecovery = !lostAck;
+    await page.route("**/api/jobcity/status", r => {
+      receiptReads++;
+      return r.fulfill({ json: { epoch: receiptEvent?.epoch ?? null, events: allowRecovery && receiptEvent ? [receiptEvent] : [] } });
+    });
     await page.route("**/api/jobcity/plan", (r) => {
       aiCalls++;
       const s = JSON.parse(r.request().postData());
@@ -253,8 +260,7 @@ async function localWorker() {
         a.evening = "walk";
         a.outings = ["luna", "moti"].includes(a.id) ? ["bikini-krusty"] : [];
       }
-      return r.fulfill({
-        json: {
+      const body = {
           day: s.day,
           phase: s.phase,
           assignments,
@@ -270,10 +276,19 @@ async function localWorker() {
               reason: "Разом веселіше досліджувати острови",
             },
           ],
-        },
-      });
+        };
+      receiptEvent = { epoch:s.epoch, phase:s.phase, day:s.day, status:200, pending:false, body };
+      return lostAck ? r.abort("connectionreset") : r.fulfill({ json:body });
     });
     await page.goto(local.base);
+    if (lostAck) {
+      await page.waitForFunction(() => window.__familySave?.getGame().jobCity.eveningAIRequestedDay >= 0 && window.__familySave.cloud.editable);
+      assert.equal(aiCalls, 1);
+      assert.equal(await page.evaluate(() => Object.keys(__familySave.getGame().family.couples).length), 0);
+      await page.evaluate(() => __familySave.cloud.flush());
+      allowRecovery = true;
+      await page.reload();
+    }
     await page.waitForFunction(
       () =>
         window.__familyQA &&
@@ -283,7 +298,7 @@ async function localWorker() {
     );
     assert.equal(aiCalls, 1);
     console.log(
-      "Real app applied one mocked daily AI response, two permanent pairs and shared itinerary.",
+      lostAck ? "Reload recovered cached AI families after a lost ACK; no second inference." : "Real app applied one mocked daily AI response, two permanent pairs and shared itinerary.",
     );
     await page.evaluate(() => window.__familySave.open());
     const dialog = page.locator("#jobcity-dialog");

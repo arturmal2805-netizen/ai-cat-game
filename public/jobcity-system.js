@@ -116,6 +116,7 @@ export function normalizeJobCity(raw, game, now = Date.now()) {
       : raw.plan?.source === "ai"
         ? raw.plan.day
         : -1,
+    eveningAIAppliedDay: Number.isSafeInteger(raw.eveningAIAppliedDay) ? raw.eveningAIAppliedDay : -1,
     plan: null,
     profiles: {},
   };
@@ -302,6 +303,7 @@ export function ensureJobCity(game, now = Date.now()) {
       epoch: now,
       requestedDay: -1,
       eveningAIRequestedDay: -1,
+      eveningAIAppliedDay: -1,
       plan: null,
       profiles: {},
     };

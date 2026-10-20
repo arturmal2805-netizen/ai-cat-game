@@ -1,3 +1,4 @@
+import { cityAIFamilyMessage } from "./city-ai-schedule.js";
 import { catProfileCard } from "./cat-card-ui.js";
 import { leisureOffers } from "./leisure-data.js";
 import {
@@ -23,6 +24,7 @@ const text = (tag, value, className) => {
 };
 export function createJobCityUI({
   getGame,
+  getAIStatus = () => null,
   buy,
   drive,
   view,
@@ -112,6 +114,7 @@ export function createJobCityUI({
       state.plan?.source,
       game.housing,
       game.family,
+      getAIStatus(),
     ]);
     if (key === lastKey) return;
     lastKey = key;
@@ -247,6 +250,7 @@ export function createJobCityUI({
         );
     } else {
       const review = familyReview(game, c.day);
+      const aiMessage = cityAIFamilyMessage(game, getAIStatus());
       content.append(
         text(
           "p",
@@ -255,7 +259,7 @@ export function createJobCityUI({
         ),
         text(
           "p",
-          `Кожен котик може знайти свою сім’ю. AI знайомить котиків поступово, раз на 14 ігрових днів; створені пари залишаються разом назавжди. ${review.due ? "Вибір пари очікується в найближчому плані AI після роботи, з 19:00." : "Наступний вибір: день " + familyCalendar(game, review.nextDay).number + "."}`,
+          `Кожен котик може знайти свою сім’ю. AI знайомить котиків поступово, раз на 14 ігрових днів; створені пари залишаються разом назавжди. ${review.due ? aiMessage : "Наступний вибір: день " + familyCalendar(game, review.nextDay).number + "."}`,
           "dialog-copy",
         ),
       );

@@ -12,6 +12,9 @@ import {
   nextCityAIEvent,
   reserveCityAIEvent,
   applyCityAIEvent,
+  recoverCityAIFamilies,
+  recoverCityAIReceipt,
+  cityAIFamilyMessage,
 } from "../public/city-ai-schedule.js";
 import { validateCityAIState } from "../jobcity-ai.mjs";
 import {
@@ -66,6 +69,7 @@ function storage() {
   let queue = Promise.resolve();
   return {
     map,
+    get: async k => structuredClone(map.get(k)),
     transaction(fn) {
       const p = queue.then(async () => {
         const draft = new Map(map),
@@ -339,4 +343,96 @@ test("a newly configured reserve can handle the next evening despite an old prim
   assert.equal((await ledger.plan(next)).status,200);
   assert.equal((await new CityAIRequestLedger(store,ready).plan(next)).status,200);
   assert.equal(calls,1,"new provider capability permits one next-day batch, not a retry loop");
+});
+
+
+test("a lost family ACK recovers from the saved server receipt after reload and a later local work plan without replaying schedules or purchases", async () => {
+  let g = await establish();
+  const event = nextCityAIEvent(g, epoch+(13*1440+420)*1000);
+  const state = validateCityAIState(event), store = storage();
+  let calls = 0;
+  const ledger = new CityAIRequestLedger(store, {run:async()=>{calls++;return {response:reply(state)};}});
+  assert.equal((await ledger.plan(state)).status,200);
+  g = reload(reserveCityAIEvent(g,event)); // Browser closed before applying the ACK.
+  g = applyJobPlan(g, localJobPlan(Object.values(g.jobCity.profiles),15),15);
+  const jobs = structuredClone(g.jobCity), wallets = Object.values(g.jobCity.profiles).map(p=>p.coins);
+  const snapshot = await ledger.status();
+  const next = recoverCityAIFamilies(g,snapshot,epoch+15*1440000);
+  assert.equal(Object.keys(next.family.couples).length,1);
+  assert.equal(Object.values(next.family.couples)[0].formedDay,15);
+  assert.deepEqual(next.jobCity,jobs);
+  assert.deepEqual(Object.values(next.jobCity.profiles).map(p=>p.coins),wallets);
+  assert.equal(recoverCityAIFamilies(next,snapshot,epoch+15*1440000),next);
+  const before = structuredClone([...store.map]);
+  await new CityAIRequestLedger(store,{}).status();
+  assert.deepEqual([...store.map],before,"receipt reads never write storage or call inference");
+  assert.equal(calls,1);
+  assert.equal(recoverCityAIFamilies(g,{...snapshot,events:snapshot.events.map(e=>({...e,epoch:e.epoch+1}))},epoch+15*1440000),g);
+});
+
+test("only the persisted shared world can realign an AI ledger clock, preserving daily guards and existing career choices", async () => {
+  const g = await establish(), state = validateCityAIState(nextCityAIEvent(g,epoch+420000)), store = storage();
+  let calls = 0;
+  const ai = {run:async(_model,input)=>{calls++;return {response:reply({...state,day:JSON.parse(input.messages[1].content).day})};}};
+  const ledger = new CityAIRequestLedger(store,ai);
+  assert.equal((await ledger.plan(state)).status,200);
+  const shifted = {...state,epoch:state.epoch+60000};
+  assert.equal((await ledger.plan(shifted)).body.code,"AI_WORLD_EPOCH_MISMATCH");
+  store.map.set("current",{game:{jobCity:{epoch:shifted.epoch}}});
+  assert.equal((await ledger.plan(shifted)).body.code,"AI_EVENT_ALREADY_REQUESTED");
+  assert.equal(calls,1,"changing a confirmed clock does not reroll today's AI");
+  assert.equal((await ledger.plan({...shifted,day:shifted.day+1})).status,200);
+  assert.equal(calls,2);
+  assert.equal((await ledger.status()).epoch,shifted.epoch);
+});
+
+test("family status explains waiting for after-work and failed decisions instead of silently presenting an empty successful review", async () => {
+  const g = await establish(), now=epoch+14*1440000;
+  assert.match(cityAIFamilyMessage(g,null,now),/19:00/);
+  assert.match(cityAIFamilyMessage(g,{state:"failed"},now),/не завершився/);
+  assert.match(cityAIFamilyMessage(g,{state:"pending"},now),/відновиться/);
+});
+
+
+test("the last unapplied family receipt survives bounded daily-event eviction without retaining old work plans", async () => {
+  const g=await establish(), store=storage();
+  const state=validateCityAIState(nextCityAIEvent(g,epoch+(13*1440+420)*1000));
+  const ledger=new CityAIRequestLedger(store,{run:async(_model,input)=> {
+    const day=JSON.parse(input.messages[1].content).day;
+    return {response:reply({...state,day,familyReview:day===state.day?state.familyReview:{...state.familyReview,due:false}})};
+  }});
+  await ledger.plan(state);
+  for(let i=1;i<4;i++) await ledger.plan({...state,day:state.day+i,familyReview:{...state.familyReview,due:false}});
+  assert.equal(store.map.get("city-ai-ledger").records.length,2);
+  const receipt=(await ledger.status()).events.find(e=>e.day===state.day);
+  assert.equal(receipt.body.families.length,1);
+  assert.equal(receipt.body.assignments,undefined);
+});
+
+
+test("a lost 19:00 plan recovers real AI activities and a house exactly once, including after reload and a cached-device merge", async () => {
+  let g=await establish();
+  g=applyJobPlan(g,localJobPlan(Object.values(g.jobCity.profiles),13),13);
+  const owner=Object.values(g.jobCity.profiles)[0]; owner.coins=100000;
+  const now=epoch+(13*1440+420)*1000, event=nextCityAIEvent(g,now), state=validateCityAIState(event);
+  const body=reply(state), index=state.cats.findIndex(p=>p.id===owner.id);
+  body.houses=[{cat:index,house:0,roommate:null}];
+  const result=await requestCityLife(state,async()=>({response:body}));
+  g=reload(reserveCityAIEvent(g,event));
+  const snapshot={events:[{...event,status:200,body:result}]};
+  const next=recoverCityAIReceipt(g,snapshot,now);
+  assert.equal(next.jobCity.plan.source,"ai");
+  assert.equal(next.jobCity.eveningAIAppliedDay,event.day);
+  assert.equal(Object.keys(next.housing.homes).length,1);
+  assert.ok(next.jobCity.profiles[owner.id].coins<g.jobCity.profiles[owner.id].coins);
+  const visitor=result.assignments.find(p=>p.outings?.length);
+  assert.ok(visitor,"the fixture must contain an AI leisure choice");
+  assert.deepEqual(next.jobCity.profiles[visitor.id].schedule.outings,visitor.outings);
+  const loaded=reload(next);
+  assert.equal(recoverCityAIReceipt(loaded,snapshot,now),loaded);
+  const cached=structuredClone(g);delete cached.jobCity.eveningAIAppliedDay;cached.coins--;
+  const merged=mergeSharedWorld(g,next,cached);
+  assert.equal(merged.jobCity.eveningAIAppliedDay,event.day);
+  assert.deepEqual(merged.housing,next.housing);
+  assert.equal(merged.jobCity.profiles[owner.id].coins,next.jobCity.profiles[owner.id].coins);
 });

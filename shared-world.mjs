@@ -184,6 +184,7 @@ function merge(base, current, incoming, path = "", depth = 0) {
       current.eveningAIRequestedDay ?? -1,
       incoming.eveningAIRequestedDay ?? -1,
     );
+    result.eveningAIAppliedDay = Math.max(current.eveningAIAppliedDay ?? -1, incoming.eveningAIAppliedDay ?? -1);
     return result;
   }
   if (path === "builderBoosts") {

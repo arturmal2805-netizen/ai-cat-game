@@ -245,6 +245,7 @@ export function* staticSubmissionSteps(mesh, { force = false } = {}) {
     value: {
       chunks,
       stats,
+      isStatic: () => compatible() && mesh.customDepthMaterial === depth,
       cull,
       setEnabled(value) {
         enabled = !!value;

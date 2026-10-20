@@ -27,6 +27,23 @@ export class CityAIRequestLedger {
     this.ai = ai;
     this.inflight = new Map();
   }
+  async status() {
+    const ledger = await this.storage.get("city-ai-ledger");
+    return {
+      epoch: ledger?.epoch ?? null,
+      events: [...(ledger?.records || []), ...(ledger?.familyReceipt &&
+        !ledger.records.some(r => r.key === ledger.familyReceipt.key) ? [ledger.familyReceipt] : [])].flatMap((record) => {
+        let event;
+        try { event = JSON.parse(record.key); } catch { return []; }
+        const [epoch, phase, day] = event;
+        if (!Number.isFinite(epoch) || !Number.isSafeInteger(day) ||
+            !["careers", "evening"].includes(phase)) return [];
+        return [{ epoch, phase, day, pending: !record.result,
+          status: record.result?.status ?? 409,
+          ...(record.result ? { body: record.result.body } : {}) }];
+      }),
+    };
+  }
   async plan(state) {
     const key = JSON.stringify([
       state.epoch,
@@ -54,6 +71,20 @@ export class CityAIRequestLedger {
         epoch: state.epoch,
         blockedUntil: 0,
       };
+      if (ledger.epoch !== state.epoch) {
+        // A merged/imported shared save can legitimately retain a different
+        // clock origin. Only the already persisted world can authorize that
+        // origin; stale tabs cannot reset the ledger or reroll careers.
+        const current = await t.get("current");
+        if (current?.game?.jobCity?.epoch !== state.epoch)
+          return { cached: result({ code: "AI_WORLD_EPOCH_MISMATCH" }, 409) };
+        const shift = Math.round((ledger.epoch - state.epoch) / 1440000);
+        if (ledger.eveningDay >= 0) ledger.eveningDay = Math.max(-1, ledger.eveningDay + shift);
+        for (const id of Object.keys(ledger.careerAttempts))
+          ledger.careerAttempts[id] = Math.max(-1, ledger.careerAttempts[id] + shift);
+        ledger.epoch = state.epoch;
+        await t.put("city-ai-ledger", ledger);
+      }
       const old = ledger.records.find((r) => r.key === key);
       if (old)
         return {
@@ -72,8 +103,6 @@ export class CityAIRequestLedger {
             429,
           ),
         };
-      if (ledger.epoch !== state.epoch)
-        return { cached: result({ code: "AI_WORLD_EPOCH_MISMATCH" }, 409) };
       if (
         (state.phase === "evening" && ledger.eveningDay >= state.day) ||
         (state.phase === "careers" &&
@@ -84,7 +113,7 @@ export class CityAIRequestLedger {
         return { cached: result({ code: "AI_EVENT_ALREADY_REQUESTED" }, 409) };
       if (state.phase === "evening") ledger.eveningDay = state.day;
       for (const id of initialIds) ledger.careerAttempts[id] = state.day;
-      ledger.records = [...ledger.records, { key }].slice(-2);
+      ledger.records = [...ledger.records, { key, reservedAt: now }].slice(-2);
       await t.put("city-ai-ledger", ledger);
       return { careers: ledger.careers, initialIds };
     });
@@ -138,6 +167,8 @@ export class CityAIRequestLedger {
       const ledger = await t.get("city-ai-ledger"),
         record = ledger.records.find((r) => r.key === key);
       if (record) record.result = response;
+      if (response.status === 200 && state.phase === "evening" && response.body.families?.length)
+        ledger.familyReceipt = { key, result: result({ phase: "evening", day: state.day, families: response.body.families }) };
       if (response.status === 200 && state.phase === "careers")
         for (const a of response.body.assignments)
           if (state.initialIds.includes(a.id))

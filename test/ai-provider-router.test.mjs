@@ -213,3 +213,17 @@ test("native Cloudflare and OpenRouter receive their own schema envelopes withou
   assert.equal(native,1); assert.equal(reserve,1);
   assert.deepEqual(request,before);
 });
+
+
+test("the authenticated AI receipt endpoint is read-only and never starts a provider or creates a save", async () => {
+  const map = new Map(), storage = {get:async k=>structuredClone(map.get(k)),put:async(k,v)=>map.set(k,structuredClone(v)),transaction:async fn=>fn(storage)};
+  let calls=0;
+  const env={AI:{run:async()=>{calls++;throw Error("must not infer");}}};
+  const vault=new SaveVault({storage},env);
+  env.SAVE_VAULT={idFromName:n=>n,get:()=>vault};
+  assert.equal((await worker.fetch(new Request("https://cat.test/api/jobcity/status"),env)).status,401);
+  const response=await worker.fetch(new Request("https://cat.test/api/jobcity/status",{headers:{"X-Chichi-Save-Token":"b".repeat(64)}}),env);
+  assert.equal(response.status,200);
+  assert.deepEqual(await response.json(),{epoch:null,events:[]});
+  assert.equal(calls,0);assert.equal(map.size,0);
+});

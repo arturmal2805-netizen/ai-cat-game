@@ -6,11 +6,12 @@ import {
 import { createJobCityUI } from "./jobcity-ui.js";
 import { catSexBadge } from "./cat-card-ui.js";
 import { createFriendCards } from "./friend-cards.js";
-import { familyCalendar } from "./family-system.js";
+import { familyCalendar, familyReview } from "./family-system.js";
 import {
   nextCityAIEvent,
   reserveCityAIEvent,
   applyCityAIEvent,
+  recoverCityAIReceipt,
 } from "./city-ai-schedule.js";
 import { completeLeisure } from "./leisure-data.js";
 import {
@@ -277,8 +278,10 @@ function commit(next, syncWorld = true) {
   if ($("business-dialog").open) renderBusiness();
   cityUI?.render();
 }
+let cityAIStatus = null;
 const cityUI = createJobCityUI({
   getGame: () => game,
+  getAIStatus: () => cityAIStatus,
   onError: toast,
   buy: (id, product) => {
     const p = game.jobCity.profiles[id];
@@ -338,9 +341,49 @@ function queueAttendance(id, job, active) {
     }
   });
 }
+let receiptKey = "", receiptAttempts = 0, receiptNext = 0, receiptBusy = false;
+async function recoverDailyFamilies() {
+  if (receiptBusy || !cloud.token || !game.jobCity) return;
+  const clock = cityClock(game.jobCity);
+  if (!familyReview(game, clock.day).due &&
+      !((game.jobCity.eveningAIRequestedDay ?? -1) === clock.day &&
+        (game.jobCity.eveningAIAppliedDay ?? -1) < clock.day)) return;
+  const key = JSON.stringify([cloud.token, game.jobCity.epoch, game.jobCity.eveningAIRequestedDay]);
+  if (key !== receiptKey) {
+    receiptKey = key; receiptAttempts = 0; receiptNext = 0;
+  }
+  if (receiptAttempts >= 8 || Date.now() < receiptNext) return;
+  receiptBusy = true; receiptAttempts++;
+  const epoch = game.jobCity.epoch;
+  const token = cloud.token;
+  try {
+    const response = await fetch(api("/api/jobcity/status"), {
+      headers: { "X-Chichi-Save-Token": token }, signal: AbortSignal.timeout(15000),
+    });
+    if (!response.ok) throw Error("Receipt unavailable");
+    const snapshot = await response.json();
+    if (cloud.token !== token || game.jobCity?.epoch !== epoch || !cloud.simulationOwner) return;
+    const recovered = recoverCityAIReceipt(game, snapshot);
+    if (recovered !== game) commit(recovered, false);
+    const latest = [...(snapshot.events || [])].filter(e => e.phase === "evening" && e.epoch === epoch)
+      .sort((a,b) => b.day-a.day)[0];
+    if (snapshot.epoch !== null && snapshot.epoch !== epoch)
+      cityAIStatus = { state: "clock" };
+    else if (latest && (!cityAIStatus?.day || latest.day >= cityAIStatus.day))
+      cityAIStatus = { state: latest.pending ? "pending" : latest.status === 200 ? "ready" : "failed", day: latest.day };
+    if (latest?.pending) receiptNext = Date.now() + 15000;
+    else receiptAttempts = 8; // No polling of a completed event and no inference.
+  } catch {
+    receiptNext = Date.now() + 30000;
+  } finally {
+    receiptBusy = false;
+    cityUI.render();
+  }
+}
 async function requestDailyCareers(event) {
-  const day = event.day;
+  const day = event.day, token = cloud.token;
   cityPlanning = true;
+  cityAIStatus = { state: "pending", day };
   const controller = new AbortController(),
     timer = setTimeout(() => controller.abort(), 105000);
   try {
@@ -348,22 +391,30 @@ async function requestDailyCareers(event) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "X-Chichi-Save-Token": cloud.token || "",
+        "X-Chichi-Save-Token": token || "",
       },
       body: JSON.stringify(event),
       signal: controller.signal,
     });
-    if (!response.ok) throw Error("AI unavailable");
+    if (!response.ok) {
+      const failure = await response.json().catch(() => ({}));
+      cityAIStatus = { state: failure.code === "AI_EVENT_PENDING" ? "pending" :
+        failure.code === "AI_WORLD_EPOCH_MISMATCH" ? "clock" : "failed", day };
+      if (failure.code === "AI_EVENT_PENDING") return;
+      throw Error("AI unavailable");
+    }
     const result = await response.json();
     if (
-      result.day !== day ||
+      result.day !== day || cloud.token !== token || game.jobCity?.epoch !== event.epoch ||
       cityClock(game.jobCity).day !== day ||
       !cloud.simulationOwner
     )
       return;
     commit(applyCityAIEvent(game, event, result));
+    cityAIStatus = { state: "ready", day };
   } catch {
-    if (event.phase === "careers" && cityClock(game.jobCity).day === day) {
+    if (cityAIStatus?.state === "pending") cityAIStatus = { state: "failed", day };
+    if (event.phase === "careers" && cloud.token === token && game.jobCity?.epoch === event.epoch && cityClock(game.jobCity).day === day) {
       const next = structuredClone(game);
       for (const id of event.initialIds) {
         const p = next.jobCity.profiles[id];
@@ -378,6 +429,8 @@ async function requestDailyCareers(event) {
   } finally {
     clearTimeout(timer);
     cityPlanning = false;
+    receiptAttempts = 0; receiptNext = 0;
+    void recoverDailyFamilies();
   }
 }
 function cityTick() {
@@ -396,6 +449,7 @@ function cityTick() {
     !game.unlocked.includes("jobcity")
   )
     return;
+  void recoverDailyFamilies();
   try {
     let next = advanceCityEvening(advanceJobCity(game));
     if (next !== game) commit(next, false);
