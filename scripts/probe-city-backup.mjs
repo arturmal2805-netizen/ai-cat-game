@@ -6,23 +6,25 @@ import { JOB_KINDS } from "../public/jobcity-data.js";
 const key = process.env.BACKUP_AI_API_KEY?.trim();
 if (!key) throw Error("Missing reserve key");
 const count = process.env.CITY_QA_ROSTER === "147" ? 147 : 1;
+const family = process.env.CITY_QA_PHASE === "families";
 const cats = Array.from({ length: count }, (_, i) => ({
   id: i === 0 ? "chichi" : "qa-cat-" + i,
   name: "QA " + i,
   coins: 0,
   skills: Object.fromEntries(JOB_KINDS.map((k, j) => [k, ((i + j) % 7) + 2])),
   preferences: [JOB_KINDS[i % 6], JOB_KINDS[(i + 1) % 6]],
-  profession: null,
+  profession: family ? JOB_KINDS[i % 6] : null,
+  scheduleJob: "rest",
   canChangeProfession: false,
   personality: ["Calm", "Adventurous", "Sociable", "Dreamy"][i % 4],
 }));
 const s = validateCityAIState({
-  day: 0,
-  phase: "careers",
+  day: family ? 27 : 0,
+  phase: family ? "evening" : "careers",
   epoch: Date.now(),
-  minute: 720,
-  initialIds: cats.map((c) => c.id),
-  familyReview: { due: false, slots: 0 },
+  minute: family ? 1140 : 720,
+  initialIds: family ? [] : cats.map((c) => c.id),
+  familyReview: { due: family, slots: family ? Math.max(1,Math.floor(count/8)) : 0 },
   leisureOffers: [],
   cats,
 });
@@ -83,11 +85,13 @@ const router = aiProviderRouter(
   },
 );
 const answer = await requestCityLife(s, (input, validate) => router.run(input, validate));
+if (family && !answer.families.length) throw Error("Expected an actual AI-selected family");
 console.log(
   "RESERVE_CITY_CONTRACT_PASSED",
   JSON.stringify({
     provider: answer.provider,
     cats: answer.assignments.length,
     professions: [...new Set(answer.assignments.map((a) => a.profession))],
+    families: answer.families.length,
   }),
 );

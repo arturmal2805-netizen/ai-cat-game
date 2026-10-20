@@ -150,7 +150,17 @@ export function createStaticDrawBatch(
     batches = [];
     stats.sources = stats.batches = 0;
   }
-  function update() {
+  function prepareBatch(batch) {
+    if (batch.userData.shaderReady || batch.userData.shaderPreparing) return;
+    batch.userData.shaderPreparing = true;
+    void (prepare ? prepare(batch) : renderer.compileAsync(batch, camera, scene))
+      .then(() => {
+        if (batch.parent === scene && batches.includes(batch))
+          batch.userData.shaderReady = true;
+      })
+      .catch(() => {});
+  }
+  function update(prepareVisible = false) {
     available = renderer.extensions.has("WEBGL_multi_draw");
     visibility.reset();
     prunable = 0;
@@ -164,6 +174,8 @@ export function createStaticDrawBatch(
         e.batch.setVisibleAt(e.id, false);
         continue;
       }
+      if (shown && prepareVisible && enabled && available)
+        prepareBatch(e.batch);
       if (!e.matrix.equals(e.mesh.matrixWorld)) {
         e.matrix.copy(e.mesh.matrixWorld);
         e.transform = supportedTransform(e.matrix);
@@ -181,7 +193,7 @@ export function createStaticDrawBatch(
   }
   scene.onBeforeRender = function (...args) {
     previous.apply(this, args);
-    update(); // Three has updated the original hierarchy before this hook.
+    update(true); // Prepare only after final view culling and matrix updates.
     // Small scenes are cheaper to traverse natively than to filter parent
     // arrays. Dense owned islands benefit; sparse lagoons keep the light path.
     traversal.prune(entries, prunable >= 64);
@@ -263,20 +275,8 @@ export function createStaticDrawBatch(
             id,
           });
         }
-        if (!batch.userData.shaderReady) {
-          // Native props remain visible while the new shared shader compiles.
-          // First island visits must not trade draw savings for a shader hitch.
-          void (
-            prepare
-              ? prepare(batch)
-              : renderer.compileAsync(batch, camera, scene)
-          )
-            .then(() => {
-              if (batch.parent === scene && batches.includes(batch))
-                batch.userData.shaderReady = true;
-            })
-            .catch(() => {});
-        }
+        // Keep native props until their actually visible batch is prepared.
+        // Hundreds of remote businesses must not start parallel GPU jobs here.
       }
       stats.sources = entries.length;
       stats.batches = batches.length;

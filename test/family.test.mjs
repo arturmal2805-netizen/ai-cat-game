@@ -74,6 +74,23 @@ test("the new calendar begins on day one without resetting existing work, wallet
   assert.equal(familyReview(n, 27).due, true);
   assert.deepEqual(n.jobCity, g.jobCity);
 });
+
+test("empty AI reviews cannot postpone the first family forever, including released day-28 saves", () => {
+  let g = seed();
+  const calendar = structuredClone(g.family.calendar), jobs = structuredClone(g.jobCity);
+  assert.equal(applyFamilyDecisions(g,13,[]),g);
+  assert.equal(familyReview(g,14).due,true);
+  g.family.lastReviewDay = 27; // An older client consumed two empty reviews.
+  assert.equal(familyReview(g,28).due,true);
+  const result = applyFamilyDecisions(g,28,choices(g,1));
+  assert.equal(Object.keys(result.family.couples).length,1);
+  assert.deepEqual(result.family.calendar,calendar);
+  assert.deepEqual(result.jobCity,jobs);
+  assert.equal(familyReview(result,41).due,false);
+  assert.equal(familyReview(result,42).due,true);
+  const reload = loadGame({getItem:k=>k===SAVE_KEY?JSON.stringify(result):null},now,{advance:false});
+  assert.deepEqual(reload.family,result.family);
+});
 test("AI introduces families gradually every fourteen days and can eventually pair all compatible cats beyond the first quarter", () => {
   let g = seed();
   const plan = localJobPlan(Object.values(g.jobCity.profiles), 13),

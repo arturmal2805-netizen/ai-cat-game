@@ -3,6 +3,57 @@ import assert from "node:assert/strict";
 import * as THREE from "three";
 import { createShaderWarmup } from "../public/shader-warmup.js";
 
+test("many attached/direct background preparations share one job per root and never flood the GPU concurrently", async () => {
+  const scene = new THREE.Scene(), camera = new THREE.Camera();
+  let active = 0, maximum = 0, calls = 0;
+  const renderer = {
+    toneMapping: THREE.ACESFilmicToneMapping,
+    outputColorSpace: THREE.SRGBColorSpace,
+    shadowMap: { type: THREE.PCFShadowMap }, info: { programs: [] },
+    async compileAsync() {
+      calls++;
+      active++;
+      maximum = Math.max(maximum, active);
+      await new Promise(r => setTimeout(r, 2));
+      active--;
+    },
+  };
+  const warm = createShaderWarmup(renderer, scene, camera, camera), jobs = [];
+  for (let i = 0; i < 100; i++) {
+    const root = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial());
+    root.userData.placement = { biome: "moon" };
+    scene.add(root);
+    const one = warm.prepare(root, { background: true });
+    assert.equal(one, warm.prepare(root, { background: true }));
+    jobs.push(one);
+  }
+  await Promise.all(jobs);
+  assert.equal(maximum, 1, "100 buildings must not launch 100 parallel GPU warmups");
+  assert.equal(calls, 100, "auto attachment and explicit preparation share the same work");
+  assert.equal(warm.idle(), true);
+  warm.dispose();
+});
+
+test("a newly selected root promotes its queued preparation ahead of unrelated background roots", async () => {
+  const scene = new THREE.Scene(), camera = new THREE.Camera(), calls = [];
+  const renderer = {
+    toneMapping: THREE.ACESFilmicToneMapping,
+    outputColorSpace: THREE.SRGBColorSpace,
+    shadowMap: { type: THREE.PCFShadowMap }, info: { programs: [] },
+    async compileAsync(object) { calls.push(object.name); },
+  };
+  const warm = createShaderWarmup(renderer, scene, camera, camera);
+  const other = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial());
+  const selected = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial());
+  other.name = "other"; selected.name = "selected";
+  const background = warm.prepare(other, { background: true });
+  const selectedBackground = warm.prepare(selected, { background: true });
+  assert.equal(warm.prepare(selected), selectedBackground);
+  await Promise.all([background, selectedBackground]);
+  assert.deepEqual(calls, ["selected", "other"]);
+  warm.dispose();
+});
+
 test("preparation mirrors native colour and depth variants without changing objects or renderer state", async () => {
   const scene = new THREE.Scene(),
     camera = new THREE.PerspectiveCamera(),

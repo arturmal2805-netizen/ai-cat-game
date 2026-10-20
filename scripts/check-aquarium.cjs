@@ -6,7 +6,7 @@ const fs = require("node:fs"),
   os = require("node:os"),
   net = require("node:net"),
   { spawn } = require("node:child_process");
-const { chromium } = require(
+const { chromium, webkit } = require(
   process.env.CHICHI_PLAYWRIGHT_MODULE || "playwright",
 );
 const capture = process.env.CHICHI_MOSA_CAPTURE !== "0";
@@ -196,13 +196,16 @@ async function localWorker() {
       );
       const { BIOMES } = await import(root + "/public/game-data.js");
       g.unlocked = BIOMES.map((b) => b.id);
-      g.adoption.cats = ADOPTION_CATS.map((c) => ({
+      const roster = process.env.CHICHI_QA_ROSTER
+        ? ADOPTION_CATS.slice(0, Number(process.env.CHICHI_QA_ROSTER))
+        : ADOPTION_CATS;
+      g.adoption.cats = roster.map((c) => ({
         id: c.id,
         adoptedAt: now,
         homeBiome: "homestead",
         centerId: "",
       }));
-      for (const c of ADOPTION_CATS) g.catDestinations[c.id] = "homestead";
+      for (const c of roster) g.catDestinations[c.id] = "homestead";
       Object.assign(g, ensureJobCity(g, now));
       if (process.env.CHICHI_MAP_CHECK) {
         const { localJobPlan, applyJobPlan, cityClock } = await import(
@@ -325,8 +328,8 @@ async function localWorker() {
                   )
                   .replace(
                     marker,
-                    `  const qa=window.__lagoonQA={step:loop,geometryResidency:typeof geometryResidency==='undefined'?null:geometryResidency,gpuBuffers:qaGpuBuffers,matrixCache:typeof matrixCache==='undefined'?null:matrixCache,shaderWarmup:typeof shaderWarmup==='undefined'?null:shaderWarmup,colonyDraws:typeof colonyDraws==='undefined'?null:colonyDraws,animateCat,setCatMood,poseAtlas:typeof poseAtlas==='undefined'?null:poseAtlas,staticDraws:typeof staticDraws==='undefined'?null:staticDraws,camera,look,desiredLook,renderer,islands,cat,npcs,chichiCarrier,itemGroups,THREE,scene,pickDrop,pointer,raycaster,ground,viewport,sync,perform,performResident,faceCamera,spa,chill,court,cinema,courtFoods,bikiniLife,enterCourt,exitCourt,getCourtCamera:()=>courtCamera,residentPlay,callbacks,getDragging:()=>draggingCat?.catId,reviewView:(x,z,d)=>{desiredLook.set(x,0,z);desiredDistance=d;azimuth=.15;},constructorMs:performance.now()-qaStart,focused:()=>focused,getOperation:()=>operation,isVisible:()=>worldVisible,getDistance:()=>distance,getDesiredDistance:()=>desiredDistance,frames:0,resizes:0,black:[],audit:false,measure:false,cpu:[]};
-  const draw=renderer.render.bind(renderer);qa.drawFrame=()=>draw(scene,camera);renderer.render=(...args)=>{if(qa.drawPaused&&!qa.commandOnly)return;draw(...args);qa.frames++;};
+                    `  const qa=window.__lagoonQA={step:loop,gpuFrames,geometryResidency:typeof geometryResidency==='undefined'?null:geometryResidency,gpuBuffers:qaGpuBuffers,matrixCache:typeof matrixCache==='undefined'?null:matrixCache,shaderWarmup:typeof shaderWarmup==='undefined'?null:shaderWarmup,colonyDraws:typeof colonyDraws==='undefined'?null:colonyDraws,animateCat,setCatMood,poseAtlas:typeof poseAtlas==='undefined'?null:poseAtlas,staticDraws:typeof staticDraws==='undefined'?null:staticDraws,camera,look,desiredLook,renderer,islands,cat,npcs,chichiCarrier,itemGroups,THREE,scene,pickDrop,pointer,raycaster,ground,viewport,sync,perform,performResident,faceCamera,spa,chill,court,cinema,courtFoods,bikiniLife,enterCourt,exitCourt,getCourtCamera:()=>courtCamera,residentPlay,callbacks,getDragging:()=>draggingCat?.catId,reviewView:(x,z,d)=>{desiredLook.set(x,0,z);desiredDistance=d;azimuth=.15;},constructorMs:performance.now()-qaStart,focused:()=>focused,getOperation:()=>operation,isVisible:()=>worldVisible,getDistance:()=>distance,getDesiredDistance:()=>desiredDistance,frames:0,resizes:0,black:[],audit:false,measure:false,cpu:[]};
+  const draw=renderer.render.bind(renderer);qa.drawFrame=()=>draw(scene,camera);renderer.render=(...args)=>{if(qa.drawPaused&&!qa.commandOnly)return;const started=performance.now();draw(...args);qa.frames++;if(qa.liveFrames)qa.liveFrames.push([started,performance.now()-started,renderer.info.render.calls,renderer.info.render.triangles]);};
   const size=renderer.setSize.bind(renderer);renderer.setSize=(...args)=>{qa.resizes++;return size(...args);};
   const audit=new MutationObserver(()=>{if(!qa.audit)return;const gl=renderer.getContext(),p=new Uint8Array(4);gl.readPixels(0,0,1,1,gl.RGBA,gl.UNSIGNED_BYTE,p);if(p[0]+p[1]+p[2]===0)qa.black.push(Array.from(p));});audit.observe(renderer.domElement,{attributes:true,attributeFilter:['width','height']});
   return {\n    perform,`,
@@ -360,7 +363,9 @@ async function localWorker() {
       ],
     });
 
-    browser = await chromium.launch({
+    browser = process.env.CHICHI_BROWSER === "webkit"
+      ? await webkit.launch({ env: { ...process.env, LIBGL_ALWAYS_SOFTWARE: "1" } })
+      : await chromium.launch({
       executablePath: process.env.CHICHI_CHROMIUM || undefined,
       args: [
         "--no-sandbox",
@@ -368,11 +373,12 @@ async function localWorker() {
         "--enable-unsafe-swiftshader",
       ],
     });
+    const desktop = !!process.env.CHICHI_DESKTOP;
     const context = await browser.newContext({
-      viewport: { width: 390, height: 844 },
+      viewport: desktop ? { width: 1100, height: 800 } : { width: 390, height: 844 },
       deviceScaleFactor: 2,
-      isMobile: true,
-      hasTouch: true,
+      isMobile: !desktop,
+      hasTouch: !desktop,
     });
     const page = await context.newPage();
     page.setDefaultTimeout(120000);
@@ -425,6 +431,16 @@ async function localWorker() {
     await page.waitForFunction(
       () => window.__lagoonQA && window.__lagoonSaveQA?.cloud.editable,
     );
+
+    if (process.env.CHICHI_LIVE_FRAME_AUDIT) {
+      const { auditLiveFrames } = await import("./live-frame-audit.mjs");
+      await auditLiveFrames(page, review);
+      if (errors.length || httpErrors.length)
+        console.log("LIVE_BROWSER_ERRORS",JSON.stringify({errors,httpErrors}));
+      assert.deepEqual(errors, []);
+      assert.deepEqual(httpErrors, []);
+      return;
+    }
 
     await page.locator('[data-biome="aquarium"]').tap();
     const tankIds = [

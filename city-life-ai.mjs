@@ -1,6 +1,6 @@
 import { JOB_KINDS } from "./public/jobcity-data.js";
 import { housingOffers } from "./public/housing-system.js";
-import { validateFamilyProposals } from "./public/family-system.js";
+import { familyLimit, validateFamilyProposals } from "./public/family-system.js";
 import {
   validateJobAssignments,
   localJobPlan,
@@ -25,7 +25,8 @@ export function cityLifeChoices(s) {
             p.coins >= minimum && p.lastHousingAIDay < s.day ? [i] : [],
           )
         : [],
-    family: s.phase === "evening" && s.familyReview.due,
+    family: s.phase === "evening" && s.familyReview.due &&
+      s.familyReview.slots > 0 && familyLimit(s.cats.filter(p => !p.partner)) > 0,
   };
 }
 export function cityLifeInput(s) {
@@ -50,7 +51,7 @@ export function cityLifeInput(s) {
         role: "system",
         content: initial
           ? `Choose a lifelong profession for each requested fictional cat. Return ONLY compact JSON {"careers":[[catIndex,professionIndex]]} without indentation, line breaks, prose or other keys. Exactly one numeric pair for every index provided in careers; no extra rows. Profession indices ${JOB_KINDS.map((k, i) => i + "=" + k).join(",")}. Each input row is [catIndex,personality,preferredProfessionIndices,skillPerProfession]. Choose by personality, preferences and skills. This is initial career selection only. Do not choose evening plans, purchases, houses or families.`
-          : `Choose ONLY requested fictional cat life events. Return ONLY compact JSON {${fields.join(",")}} without indentation, line breaks, prose or other keys. Never select or change professions. Evening: choose for every index in evenings, mode 0=rest/home,1=walk/friends,2=owned car; 1-3 different real place indices, or [] for rest. Choose varied rides, meals, water, games or peaceful rest by personality. Partners spend free time together. Houses: OPTIONAL only buyers, only affordable; -1 roommate or a free cat. Existing owners may buy additional homes without moving their active residence. Families: ${c.family ? `rare 14-day review, up to ${s.familyReview.slots} compatible lifelong male+female couples from the offered singles; every cat can eventually pair.` : "none today"} Omit optional purchases/pairs when unwanted. No work schedule or career review.`,
+          : `Choose ONLY requested fictional cat life events. Return ONLY compact JSON {${fields.join(",")}} without indentation, line breaks, prose or other keys. Never select or change professions. Evening input rows are [catIndex,personality,ownsCar,partnerIndex]; ownsCar is a permission, not the chosen activity. Place rows are [placeIndex,typeIndex,islandIndex,action]. Choose for every index in evenings, mode 0=rest/home,1=walk/friends,2=owned car; 1-3 different real place indices, or [] for rest. Choose varied rides, meals, water, games or peaceful rest by personality. Partners spend free time together. Houses: OPTIONAL only buyers, only affordable; -1 roommate or a free cat. Existing owners may buy additional homes without moving their active residence. Families: ${c.family ? `This is the scheduled 14-day introduction. Choose 1 to ${s.familyReview.slots} compatible lifelong male+female couples from the offered singles, using their personalities. Each singles row is [catIndex,name,sex,personality]; male and female indices must refer to different free cats. Do not return an empty review when compatible singles are available. Every cat can eventually pair.` : "none today"} Omit optional house purchases when unwanted. No family choices outside a scheduled review. No work schedule or career review.`,
       },
       {
         role: "user",
@@ -121,7 +122,7 @@ export function cityLifeInput(s) {
         c.careers.length * 9 +
           c.evenings.length * 18 +
           c.buyers.length * 10 +
-          (c.family ? s.familyReview.slots * 24 : 0) +
+          (c.family ? s.familyReview.slots * 48 : 0) +
           128,
       ),
     ),
@@ -222,6 +223,8 @@ function expandCityLife(s, result) {
   const proposals = raw?.families ?? [];
   if (!Array.isArray(proposals) || (!choices.family && proposals.length))
     throw Error("Unrequested family review");
+  if (choices.family && !proposals.length)
+    throw Error("Missing family choice");
   const families = validateFamilyProposals(
     proposals.map(([m, f, reason]) => ({
       male: s.cats[m]?.id,

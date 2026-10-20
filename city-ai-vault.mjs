@@ -13,6 +13,7 @@ function failureReason(error) {
   const known = {
     "Unrequested AI choice": "unrequested_choice",
     "Missing AI life choices": "missing_choices",
+    "Missing family choice": "missing_family",
     "Invalid initial profession": "invalid_profession",
     "Invalid evening choice": "invalid_evening",
     "Invalid house choice": "invalid_house",

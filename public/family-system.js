@@ -98,14 +98,20 @@ export function familyReview(game, day) {
   const profiles = Object.values(game.jobCity?.profiles || {});
   const partners = familyPartners(game);
   const capacity = familyLimit(profiles.filter((p) => !partners.has(p.id)));
+  // Released clients counted an empty AI answer as a completed review. If no
+  // family ever formed, keep the original first introduction due instead of
+  // postponing it another fortnight. Calendar and permanent pairs stay intact.
+  const lastReview = state && Object.keys(state.couples).length === 0
+    ? Math.min(state.lastReviewDay, state.calendar.startDay - 1)
+    : state?.lastReviewDay;
   return {
     due:
       !!state &&
-      day >= state.lastReviewDay + FAMILY_REVIEW_DAYS &&
+      day >= lastReview + FAMILY_REVIEW_DAYS &&
       capacity > 0,
     slots: Math.min(familyReviewLimit(profiles), capacity),
     nextDay: state
-      ? state.lastReviewDay + FAMILY_REVIEW_DAYS
+      ? lastReview + FAMILY_REVIEW_DAYS
       : day + FAMILY_REVIEW_DAYS - 1,
     interval: FAMILY_REVIEW_DAYS,
   };
@@ -171,6 +177,7 @@ export function applyFamilyDecisions(
     partner: partners.get(p.id) || null,
   }));
   const valid = validateFamilyProposals(proposals, profiles, review.slots);
+  if (!valid.length) return game;
   const next = clone(game);
   next.family.lastReviewDay = day;
   for (const pair of valid) {

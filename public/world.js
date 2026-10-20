@@ -275,7 +275,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
       isRelevant: (root) =>
         root.userData.placement
           ? root.userData.placement.biome === focused
-          : root.visible,
+          : root.userData.biomeId
+            ? root.userData.biomeId === focused
+            : root.visible,
     },
   );
   const poseAtlas = createCatPoseAtlas(scene, sun, { minimumCats: 7 });

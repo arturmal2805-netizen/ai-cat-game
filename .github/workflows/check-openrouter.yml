@@ -1,6 +1,12 @@
 name: Verify OpenRouter reserve (one real free request)
 on:
   workflow_dispatch:
+    inputs:
+      phase:
+        description: Explicit real request to verify
+        type: choice
+        options: [careers, families]
+        default: careers
 permissions:
   contents: read
 jobs:
@@ -16,4 +22,5 @@ jobs:
         env:
           BACKUP_AI_API_KEY: ${{ secrets.BACKUP_AI_API_KEY }}
           CITY_QA_ROSTER: '147'
+          CITY_QA_PHASE: ${{ inputs.phase || 'careers' }}
         run: node scripts/probe-city-backup.mjs

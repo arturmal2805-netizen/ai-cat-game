@@ -211,6 +211,8 @@ test("native props stay visible until parallel shader preparation finishes, incl
   assert.ok(roots.every((r) => r.children[0].layers.mask === 1));
   const batch = scene.children.find((o) => o.isBatchedMesh);
   assert.equal(batch.visible, false);
+  assert.equal(ready, undefined, "sync must not eagerly prepare remote props");
+  scene.onBeforeRender();
   ready();
   await Promise.resolve();
   scene.onBeforeRender();
@@ -221,11 +223,33 @@ test("native props stay visible until parallel shader preparation finishes, incl
   manager.sync([]);
   manager.sync(roots);
   const pending = scene.children.find((o) => o.isBatchedMesh);
+  scene.onBeforeRender();
   manager.dispose();
   ready();
   await Promise.resolve();
   assert.equal(pending.parent, null);
   assert.ok(roots.every((r) => r.children[0].layers.mask === 1));
+});
+
+test("remote hidden businesses do not request shader preparation until their native props become visible", async () => {
+  const { scene, roots, runtime } = setup(false);
+  runtime.dispose();
+  let calls = 0;
+  const manager = createStaticDrawBatch(scene, {
+    extensions: { has: () => true }, compileAsync: async () => { calls++; },
+  }, new T.PerspectiveCamera());
+  for (const root of roots) root.visible = false;
+  manager.sync(roots);
+  scene.onBeforeRender();
+  await Promise.resolve();
+  assert.equal(calls, 0);
+  roots[0].visible = true;
+  scene.onBeforeRender();
+  await Promise.resolve();
+  assert.equal(calls, 1);
+  scene.onBeforeRender();
+  assert.equal(calls, 1, "the visible batch must share its pending preparation");
+  manager.dispose();
 });
 
 test("hidden sources wake with current transforms and native fallbacks after material/geometry changes", () => {

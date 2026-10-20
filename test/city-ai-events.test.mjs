@@ -45,7 +45,11 @@ function reply(state) {
       state.leisureOffers.length ? [0] : [],
     ]),
     houses: [],
-    families: [],
+    families: c.family ? [[
+      state.cats.findIndex(p => p.sex === "male" && !p.partner),
+      state.cats.findIndex(p => p.sex === "female" && !p.partner),
+      "Люблять гуляти разом",
+    ]] : [],
   };
 }
 async function establish() {
@@ -165,6 +169,22 @@ test("only workers get after-shift activity choices; affordable houses and 14-da
     })),
     /Unrequested/,
   );
+});
+
+test("due family introductions require a real AI-selected pair in the same evening batch; empty answers cannot reset the review", async () => {
+  const g = await establish(), event = nextCityAIEvent(g,epoch+(13*1440+420)*1000),
+    state = validateCityAIState(event);
+  assert.equal(state.familyReview.due,true);
+  const body = reply(state);
+  await assert.rejects(requestCityLife(state,async()=>({response:{...body,families:[]}})),/Missing family choice/);
+  let calls=0;
+  const result=await requestCityLife(state,async()=>{calls++;return {response:body};});
+  assert.equal(calls,1);
+  assert.equal(result.families.length,1);
+  const next=applyCityAIEvent(reserveCityAIEvent(g,event),event,result);
+  assert.equal(Object.keys(next.family.couples).length,1);
+  assert.equal(nextCityAIEvent(next,epoch+(13*1440+420)*1000),null,
+    "a successful introduction must not create another inference event");
 });
 test("released established local/AI professions do not become new initial choices; old clients cannot erase request markers", async () => {
   let base = await establish();

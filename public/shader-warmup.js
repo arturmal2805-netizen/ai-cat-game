@@ -17,7 +17,8 @@ export function createShaderWarmup(
     watched = new WeakSet(),
     retired = new WeakSet(),
     prepared = new WeakSet(),
-    queue = new Set(),
+    queue = new Map(),
+    inflight = new WeakMap(),
     compiled = new WeakMap(),
     callbacks = new WeakMap(),
     uploaded = new WeakMap(),
@@ -288,15 +289,57 @@ export function createShaderWarmup(
       stats.prepared++;
     }
   }
-  async function prepare(root, { background = false } = {}) {
+  async function run(job, background) {
+    job.active = true;
     preparing++;
     if (!background) foreground++;
     try {
-      return await prepareRoot(root, background);
+      if (job.explicit || (job.root.parent && isRelevant(job.root)))
+        await prepareRoot(job.root, background);
+      job.resolve();
+    } catch (error) {
+      job.reject(error);
     } finally {
       preparing--;
       if (!background) foreground--;
+      if (inflight.get(job.root) === job) inflight.delete(job.root);
     }
+  }
+  function schedule(root, background, explicit) {
+    let job = inflight.get(root);
+    if (job) {
+      // The same root may be attached and explicitly prepared in one turn.
+      // Share that work instead of compiling/uploading it twice. A selected
+      // root can promote its queued background job without awaiting itself.
+      job.explicit ||= explicit;
+      if (!background && !job.active) {
+        queue.delete(root);
+        stats.pending = queue.size;
+        void run(job, false);
+      }
+      return job.promise;
+    }
+    job = { root, explicit, active: false };
+    job.promise = new Promise((resolve, reject) => {
+      job.resolve = resolve;
+      job.reject = reject;
+    });
+    inflight.set(root, job);
+    if (background) {
+      queue.set(root, job);
+      stats.pending = queue.size;
+      void pump();
+    } else void run(job, false);
+    return job.promise;
+  }
+  function prepare(root, { background = false } = {}) {
+    return schedule(root, background, true);
+  }
+  function enqueue(root) {
+    if (disposed || prepared.has(root)) return;
+    void schedule(root, true, false).catch((error) => {
+      console.warn("Shader preparation kept native rendering", error);
+    });
   }
   async function pump() {
     if (running) return;
@@ -304,16 +347,11 @@ export function createShaderWarmup(
     try {
       while (!disposed && queue.size) {
         await turn(true);
-        const root = queue.values().next().value;
-        queue.delete(root);
+        const job = queue.values().next().value;
+        if (!job) continue;
+        queue.delete(job.root);
         stats.pending = queue.size;
-        if (root?.parent && isRelevant(root)) {
-          try {
-            await prepare(root, { background: true });
-          } catch (error) {
-            console.warn("Shader preparation kept native rendering", error);
-          }
-        }
+        await run(job, true);
       }
     } finally {
       running = false;
@@ -330,9 +368,7 @@ export function createShaderWarmup(
           object.isBatchedMesh ||
           object.isInstancedMesh)
       )
-        queue.add(object);
-    stats.pending = queue.size;
-    void pump();
+        enqueue(object);
     return result;
   };
   // Objects already present include the sky, lighting and distant terrain.
@@ -343,22 +379,18 @@ export function createShaderWarmup(
       root.isBatchedMesh ||
       root.isInstancedMesh
     )
-      queue.add(root);
-  stats.pending = queue.size;
-  void pump();
+      enqueue(root);
   return {
     stats,
     prepare,
-    enqueue(root) {
-      if (!disposed && !prepared.has(root)) {
-        queue.add(root);
-        stats.pending = queue.size;
-        void pump();
-      }
-    },
-    idle: () => !running && queue.size === 0 && preparing === 0,
+    enqueue,
+    idle: () => queue.size === 0 && preparing === 0,
     dispose() {
       disposed = true;
+      for (const job of queue.values()) {
+        job.resolve();
+        inflight.delete(job.root);
+      }
       queue.clear();
       scene.add = add;
       for (const depth of owned) depth.dispose();
