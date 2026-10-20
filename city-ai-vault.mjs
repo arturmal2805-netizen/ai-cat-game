@@ -3,6 +3,23 @@ import { JOB_KINDS } from "./public/jobcity-data.js";
 const quotaError = (e) =>
   /4006|daily free allocation|daily.*neurons/i.test(String(e?.message || e));
 const result = (body, status = 200) => ({ body, status });
+function failureReason(error) {
+  const message = String(error?.message || "");
+  const http = /^OpenRouter backup unavailable: HTTP (\d{3})$/.exec(message);
+  if (http) return "reserve_http_" + http[1];
+  if (message === "OpenRouter backup returned no answer")
+    return "reserve_empty";
+  if (error?.name === "SyntaxError") return "invalid_json";
+  const known = {
+    "Unrequested AI choice": "unrequested_choice",
+    "Missing AI life choices": "missing_choices",
+    "Invalid initial profession": "invalid_profession",
+    "Invalid evening choice": "invalid_evening",
+    "Invalid house choice": "invalid_house",
+    "AI event timeout": "timeout",
+  };
+  return known[message] || "provider_or_contract";
+}
 export class CityAIRequestLedger {
   constructor(storage, ai) {
     this.storage = storage;
@@ -109,7 +126,7 @@ export class CityAIRequestLedger {
             },
             429,
           )
-        : result({ code: "AI_EVENT_FAILED" }, 502);
+        : result({ code: "AI_EVENT_FAILED", reason: failureReason(e) }, 502);
     } finally {
       clearTimeout(timer);
     }

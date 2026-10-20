@@ -244,6 +244,14 @@ test("quota failures stop additional inference until reset, and a failed durable
   );
   await assert.rejects(bad.plan(s), /disk/);
   assert.equal(calls, 1);
+  const safe = await new CityAIRequestLedger(storage(), {
+    run: async () => {
+      throw Error("private provider payload must never be echoed");
+    },
+  }).plan(s);
+  assert.equal(safe.status, 502);
+  assert.equal(safe.body.reason, "provider_or_contract");
+  assert.ok(!JSON.stringify(safe).includes("private provider payload"));
 });
 
 test("night adoption waits for work opening; resuming after days offline never replays a backlog of AI days", async () => {

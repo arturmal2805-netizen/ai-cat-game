@@ -11,7 +11,7 @@ import {
 import { cloudSave, accountAccess } from "./save-vault.mjs";
 import { requestCityLife } from "./city-life-ai.mjs";
 import { localJobPlan } from "./public/jobcity-system.js";
-import { aiProviderRouter } from "./ai-provider-router.mjs";
+import { aiProviderRouter, BACKUP_AI_MODEL } from "./ai-provider-router.mjs";
 export { SaveVault } from "./save-vault.mjs";
 // Replaced by esbuild for every deployment, including Cloudflare Git builds.
 // The env fallback supports direct source execution in local tests.
@@ -65,6 +65,9 @@ export default {
         configured: !!(env.AI || env.BACKUP_AI_API_KEY),
         backupConfigured: !!env.BACKUP_AI_API_KEY,
         backupProvider: env.BACKUP_AI_API_KEY ? "openrouter" : null,
+        backupModel: env.BACKUP_AI_API_KEY
+          ? env.BACKUP_AI_MODEL || BACKUP_AI_MODEL
+          : null,
         protocol: DECISION_PROTOCOL,
         release: deployedRevision(env),
         versionId: env.CF_VERSION_METADATA?.id || null,
