@@ -29,6 +29,35 @@ export function cityLifeChoices(s) {
       s.familyReview.slots > 0 && familyLimit(s.cats.filter(p => !p.partner)) > 0,
   };
 }
+// Constrain scheduled introductions at decoding time too. Free providers may
+// otherwise enumerate the whole colony despite a prose limit and truncate JSON.
+function familyResponseFormat(s, choices) {
+  const index = { type: "integer", minimum: 0 };
+  const properties = {};
+  if (choices.evenings.length) properties.evenings = {
+    type: "array", minItems: choices.evenings.length, maxItems: choices.evenings.length,
+    items: { type: "array", minItems: 3, maxItems: 3,
+      items: { anyOf: [index, { type: "array", maxItems: 3, items: index }] } },
+  };
+  if (choices.buyers.length) properties.houses = {
+    type: "array", maxItems: choices.buyers.length,
+    items: { type: "array", minItems: 3, maxItems: 3,
+      items: { type: "integer", minimum: -1 } },
+  };
+  properties.families = {
+    type: "array", minItems: 1, maxItems: s.familyReview.slots,
+    items: {
+      type: "object", additionalProperties: false, required: ["male", "female", "reason"],
+      properties: {
+        male: { type: "integer", enum: s.cats.flatMap((p,i) => !p.partner && p.sex === "male" ? [i] : []) },
+        female: { type: "integer", enum: s.cats.flatMap((p,i) => !p.partner && p.sex === "female" ? [i] : []) },
+        reason: { type: "string", maxLength: 64 },
+      },
+    },
+  };
+  return { type: "json_schema", json_schema: { name: "cat_life", strict: true,
+    schema: { type: "object", properties, required: Object.keys(properties), additionalProperties: false } } };
+}
 export function cityLifeInput(s) {
   const c = cityLifeChoices(s),
     houses = housingOffers();
@@ -42,7 +71,7 @@ export function cityLifeInput(s) {
       ? ['"houses":[[catIndex,houseIndex,roommateIndex]]']
       : []),
     ...(c.family
-      ? ['"families":[[maleIndex,femaleIndex,"short Ukrainian reason"]]']
+      ? ['"families":[{"male":maleIndex,"female":femaleIndex,"reason":"3 Ukrainian words"}]']
       : []),
   ];
   return {
@@ -128,7 +157,7 @@ export function cityLifeInput(s) {
       ),
     ),
     temperature: 0.3,
-    response_format: { type: "json_object" },
+    response_format: c.family ? familyResponseFormat(s, c) : { type: "json_object" },
   };
 }
 export async function requestCityLife(s, run) {
@@ -227,11 +256,11 @@ function expandCityLife(s, result) {
   if (choices.family && !proposals.length)
     throw Error("Missing family choice");
   const families = validateFamilyProposals(
-    proposals.map(([m, f, reason]) => ({
-      male: s.cats[m]?.id,
-      female: s.cats[f]?.id,
-      reason,
-    })),
+    proposals.map((row) => {
+      const [m, f, reason] = Array.isArray(row)
+        ? row : [row?.male, row?.female, row?.reason];
+      return { male: s.cats[m]?.id, female: s.cats[f]?.id, reason };
+    }),
     s.cats,
     choices.family ? s.familyReview.slots : 0,
   );

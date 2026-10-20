@@ -290,3 +290,21 @@ test("night adoption waits for work opening; resuming after days offline never r
     null,
   );
 });
+
+test("family decoding schema bounds the real provider output and restricts each partner to eligible sex indices", async () => {
+  const g = await establish(), event = nextCityAIEvent(g,epoch+(27*1440+420)*1000),
+    state = validateCityAIState(event), format = cityLifeInput(state).response_format;
+  assert.equal(format.type, "json_schema");
+  const pairs = format.json_schema.schema.properties.families;
+  assert.equal(pairs.maxItems, state.familyReview.slots);
+  assert.equal(pairs.minItems, 1);
+  for (const sex of ["male", "female"]) {
+    const allowed = pairs.items.properties[sex].enum;
+    assert.ok(allowed.length);
+    assert.ok(allowed.every(i => state.cats[i].sex === sex && !state.cats[i].partner));
+  }
+  const body = reply(state), [male,female,reason] = body.families[0];
+  const result = await requestCityLife(state, async()=>({response:{...body,families:[{male,female,reason}]}}));
+  assert.equal(result.families[0].male, state.cats[male].id);
+  await assert.rejects(requestCityLife(state, async()=>({response:{...body,families:Array.from({length:state.familyReview.slots+1},()=>({male,female,reason}))}})),/вибір сімей/);
+});
