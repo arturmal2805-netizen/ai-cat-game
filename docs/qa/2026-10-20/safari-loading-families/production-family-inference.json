@@ -1,0 +1,10 @@
+{
+  "release": "fd40dd19c1989fa8ef603d5fc8db80d3bdc84826",
+  "realProductionFamilyInference": true,
+  "provider": "cloudflare",
+  "testCats": 2,
+  "validPairs": 1,
+  "exactRepeatedHttpResult": true,
+  "careersPreserved": true,
+  "playerWorldAccessed": false
+}

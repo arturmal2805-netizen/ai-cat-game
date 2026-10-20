@@ -55,5 +55,16 @@
     "failed": 0,
     "durationMs": 273178
   },
-  "finalBuildPassed": true
+  "finalBuildPassed": true,
+  "ci": {
+    "workflow": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/39466332403",
+    "passed": 628,
+    "failed": 0,
+    "test": "success",
+    "deploy": "success",
+    "pages": "success"
+  },
+  "publishedRelease": "fd40dd19c1989fa8ef603d5fc8db80d3bdc84826",
+  "actualPublishedFilesMatchTestedBuild": true,
+  "actualProductionFamilyInferencePassed": true
 }

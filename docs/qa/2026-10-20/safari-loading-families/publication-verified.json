@@ -1,0 +1,33 @@
+{
+  "release": "fd40dd19c1989fa8ef603d5fc8db80d3bdc84826",
+  "base": "https://arturmal2805-netizen.github.io/ai-cat-game/",
+  "files": [
+    {
+      "url": "./style.css?v=5b0cd1ed87f421a0",
+      "bytes": 56547,
+      "sha256": "5b0cd1ed87f421a03956a384e83c91c2ac241ada09402d33452c28ff74951c67",
+      "identical": true
+    },
+    {
+      "url": "./dist/app.js?v=2f71bfa0da960d90",
+      "bytes": 1710457,
+      "sha256": "2f71bfa0da960d90bd548f0b971a86a86e9debf4cc5059b3621df19e18070f9f",
+      "identical": true
+    }
+  ],
+  "api": {
+    "configured": true,
+    "backupConfigured": true,
+    "backupProvider": "openrouter",
+    "backupModel": "dots-studio/dots-3-note-preview:free",
+    "protocol": "living-cat-world-v4",
+    "release": "fd40dd19c1989fa8ef603d5fc8db80d3bdc84826",
+    "versionId": "87847d43-ff91-4c37-91a9-14b7554c268b",
+    "cloudSave": true
+  },
+  "config": {
+    "url": "https://arturmal2805-netizen.github.io/ai-cat-game/config.js?v=66c39c5f14bf9203",
+    "apiBase": "https://chichi-cat-world.arturmal2805.workers.dev",
+    "verified": true
+  }
+}

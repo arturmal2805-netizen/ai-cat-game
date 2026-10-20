@@ -86,3 +86,16 @@ wheel, orbit and two-touch pinch are exercised through the real input handlers.
 Its command-only CPU timings explicitly exclude raster work and must not be
 reported as device FPS. The separate live WebKit reports retain actual raster
 work and GPU backpressure. No production account or AI was used for either.
+
+Release `fd40dd19c1989fa8ef603d5fc8db80d3bdc84826` is live on both the
+Worker and GitHub Pages. CI passes all 628 tests; test/deploy/pages are green:
+https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/39466332403
+Published JS/CSS match the tested bytes and the live versioned configuration
+points to the verified Worker; AI and cloud-save readiness are true.
+
+One final real production-API request used a fresh private token and two test
+profiles at day 28. Cloudflare selected one valid pair through the native schema
+and Durable Object ledger. Repeating the identical HTTP request returned the
+exact saved response with careers unchanged. No player world was read, saved or
+modified. The separate reserve probes also passed, as recorded above. This final
+check is explicit and bounded; routine deployment still makes no model calls.
