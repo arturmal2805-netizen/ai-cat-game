@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { createRenderVisibility } from "./render-visibility.js";
+import { createStaticRenderTraversal } from "./static-render-traversal.js";
 
 export const STATIC_PICK_LAYER = 30;
 const ordinaryShader = THREE.Material.prototype.onBeforeCompile;
@@ -86,13 +87,20 @@ function key(mesh, layers = mesh.layers.mask) {
   ]);
 }
 
-export function createStaticDrawBatch(scene, renderer, camera = null) {
+export function createStaticDrawBatch(
+  scene,
+  renderer,
+  camera = null,
+  { prepare = null } = {},
+) {
   const supported = renderer.extensions.has("WEBGL_multi_draw");
   let entries = [],
     batches = [],
     enabled = true,
-    available = supported;
+    available = supported,
+    prunable = 0;
   const visibility = createRenderVisibility(scene);
+  const traversal = createStaticRenderTraversal(scene, renderer);
   const previous = scene.onBeforeRender;
   const stats = { sources: 0, batches: 0 };
   function compatible(e) {
@@ -145,8 +153,10 @@ export function createStaticDrawBatch(scene, renderer, camera = null) {
   function update() {
     available = renderer.extensions.has("WEBGL_multi_draw");
     visibility.reset();
+    prunable = 0;
     for (const b of batches) b.visible = false;
     for (const e of entries) {
+      e.prunable = false;
       // Hidden sources cannot draw or cast a shadow. Recheck their complete
       // transform/material on wake; retain native layer restoration on fallback.
       const shown = visibility.visible(e.mesh);
@@ -160,6 +170,8 @@ export function createStaticDrawBatch(scene, renderer, camera = null) {
         if (e.transform) e.batch.setMatrixAt(e.id, e.matrix);
       }
       const nativeCompatible = compatible(e);
+      e.prunable = shown && nativeCompatible;
+      if (e.prunable && !e.mesh.children.length) prunable++;
       e.mesh.layers.mask = nativeCompatible
         ? (e.layers & ~1) | (1 << STATIC_PICK_LAYER)
         : e.layers;
@@ -170,9 +182,13 @@ export function createStaticDrawBatch(scene, renderer, camera = null) {
   scene.onBeforeRender = function (...args) {
     previous.apply(this, args);
     update(); // Three has updated the original hierarchy before this hook.
+    // Small scenes are cheaper to traverse natively than to filter parent
+    // arrays. Dense owned islands benefit; sparse lagoons keep the light path.
+    traversal.prune(entries, prunable >= 64);
   };
   return {
     stats,
+    traversal,
     sync(roots) {
       if (!supported) return;
       const groups = new Map();
@@ -250,8 +266,11 @@ export function createStaticDrawBatch(scene, renderer, camera = null) {
         if (!batch.userData.shaderReady) {
           // Native props remain visible while the new shared shader compiles.
           // First island visits must not trade draw savings for a shader hitch.
-          void renderer
-            .compileAsync(batch, camera, scene)
+          void (
+            prepare
+              ? prepare(batch)
+              : renderer.compileAsync(batch, camera, scene)
+          )
             .then(() => {
               if (batch.parent === scene && batches.includes(batch))
                 batch.userData.shaderReady = true;
@@ -268,6 +287,7 @@ export function createStaticDrawBatch(scene, renderer, camera = null) {
       update();
     },
     dispose() {
+      traversal.dispose();
       restore();
       visibility.reset();
       scene.onBeforeRender = previous;

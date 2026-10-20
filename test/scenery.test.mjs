@@ -279,12 +279,24 @@ test("cached geometry remains valid after removing another instance, while fadin
     a = createSceneryModel(record),
     b = createSceneryModel(record);
   assert.equal(a.children[0].geometry, b.children[0].geometry);
-  assert.notEqual(a.children[0].material, b.children[0].material);
+  assert.equal(a.children[0].material, b.children[0].material);
   let disposed = false;
   b.children[0].geometry.addEventListener("dispose", () => (disposed = true));
   fadeScenery(a, 0.27);
+  assert.notEqual(a.children[0].material, b.children[0].material);
   assert.ok(a.children.every((m) => m.material.opacity === 0.27));
   assert.ok(b.children.every((m) => m.material.opacity === 1));
+  const privatePaint = a.children[0].material;
+  let privateDisposed = 0;
+  privatePaint.addEventListener("dispose", () => privateDisposed++);
+  assert.equal(
+    privatePaint.onBeforeCompile,
+    b.children[0].material.onBeforeCompile,
+  );
+  fadeScenery(a, 1);
+  assert.equal(privateDisposed, 1);
+  assert.equal(a.children[0].material, b.children[0].material);
+  fadeScenery(a, 0.27);
   disposeScenery(a);
   assert.equal(disposed, false);
   assert.ok(b.children[0].geometry.attributes.position.count);

@@ -2,6 +2,7 @@
 // frames are warmed first; command-only samples do not claim device GPU FPS.
 import fs from "node:fs";
 import path from "node:path";
+import { checkGroundRaster } from "./check-ground-raster.mjs";
 export async function auditFullFrames(page, context, review) {
   const cdp = await context.newCDPSession(page),
     rows = [];
@@ -10,6 +11,8 @@ export async function auditFullFrames(page, context, review) {
   for (const id of (
     process.env.CHICHI_FULL_FRAME_BIOMES || "bikini,aquarium,homestead"
   ).split(",")) {
+    const prepareStarted = Date.now();
+    if (process.env.CHICHI_LOAD_PROFILE) await cdp.send("Profiler.start");
     await page.evaluate((id) => {
       const q = __lagoonQA;
       q.freeze = false;
@@ -24,6 +27,12 @@ export async function auditFullFrames(page, context, review) {
       (id) => !__lagoonQA.islands.get(id).userData.lowOnly,
       id,
     );
+    const islandReadyMs = Date.now() - prepareStarted;
+    await page.waitForFunction(() =>
+      [...__lagoonQA.itemGroups.values()].every(
+        (g) => !g.userData.loadingReference,
+      ),
+    );
     await page.waitForFunction(
       () =>
         Math.abs(__lagoonQA.getDistance() - 85) < 0.1 &&
@@ -33,12 +42,41 @@ export async function auditFullFrames(page, context, review) {
     await page.waitForFunction(
       () => !__lagoonQA.shaderWarmup || __lagoonQA.shaderWarmup.idle(),
     );
-    await page.evaluate(() => {
+    if (process.env.CHICHI_LOAD_PROFILE) {
+      const profile = await cdp.send("Profiler.stop");
+      fs.writeFileSync(
+        path.join(review, id + "-load-profile.json"),
+        JSON.stringify(profile),
+      );
+    }
+    const setup = await page.evaluate(() => {
       const q = __lagoonQA,
         gl = q.renderer.getContext();
       q.freeze = true;
-      q.drawFrame();
+      const submissions = [],
+        direct = q.renderer.renderBufferDirect;
+      q.renderer.renderBufferDirect = function (...args) {
+        const [view, , geometry, material, object] = args;
+        const ancestry = [];
+        for (let p = object; p; p = p.parent) ancestry.push(p.name || p.type);
+        const row = {
+          ancestry: ancestry.slice(0, 7),
+          shadow: view !== q.camera,
+          indices: geometry.index?.count || geometry.attributes.position?.count,
+          vertices: geometry.attributes.position?.count,
+          material: material.type,
+        };
+        submissions.push(row);
+        return direct.apply(this, args);
+      };
+      const firstStart = performance.now();
+      try {
+        q.drawFrame();
+      } finally {
+        q.renderer.renderBufferDirect = direct;
+      }
       gl.finish();
+      const firstDrawMs = performance.now() - firstStart;
       q.restoreRaster = [];
       const suppress = (object, key) => {
         const original = object[key];
@@ -75,7 +113,18 @@ export async function auditFullFrames(page, context, review) {
         ),
       );
       q.observer.observe({ type: "longtask", buffered: false });
+      return {
+        firstDrawMs,
+        shaders: { ...q.shaderWarmup?.stats },
+        staticTraversal: { ...q.staticDraws?.traversal?.stats },
+        pendingModels: [...q.itemGroups.values()].filter(
+          (g) => g.userData.loadingReference,
+        ).length,
+        submissions,
+      };
     });
+    setup.prepareAndFirstDrawMs = Date.now() - prepareStarted;
+    setup.islandReadyMs = islandReadyMs;
     await cdp.send("Profiler.start");
     let result;
     try {
@@ -173,7 +222,10 @@ export async function auditFullFrames(page, context, review) {
         outboxBytes: localStorage.getItem("chichi-cloud-outbox").length,
       };
     });
-    rows.push({ id, ...result, persistence });
+    const raster = process.env.CHICHI_RASTER_AB
+      ? await checkGroundRaster(page)
+      : null;
+    rows.push({ id, setup, ...result, persistence, raster });
     fs.writeFileSync(
       path.join(review, "full-frames.json"),
       JSON.stringify(rows, null, 2),

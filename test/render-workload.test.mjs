@@ -1,7 +1,10 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import * as THREE from "three";
-import { optimizeGeometryCache } from "../public/geometry-cache.js";
+import {
+  optimizeGeometryCache,
+  indexExactVertices,
+} from "../public/geometry-cache.js";
 import { attractionVisibility } from "../public/attraction-visibility.js";
 import { courtVenue } from "../public/foodcourt-assets.js";
 import { AQUARIUM_TANKS } from "../public/aquarium-data.js";
@@ -15,6 +18,43 @@ function triangles(indices) {
   }
   return result.sort();
 }
+test("exact static indexing reuses identical vertices without welding UV/normal/colour seams or touching source bytes", () => {
+  const g = new THREE.SphereGeometry(1, 20, 14).toNonIndexed(),
+    attributes = Object.values(g.attributes),
+    original = attributes.map((a) => a.array.slice());
+  g.setAttribute(
+    "color",
+    new THREE.Uint8BufferAttribute(
+      new Uint8Array(g.attributes.position.count * 3).fill(127),
+      3,
+      true,
+    ),
+  );
+  const color = g.attributes.color;
+  attributes.push(color);
+  original.push(color.array.slice());
+  indexExactVertices(g);
+  assert.equal(g.index.count, g.attributes.position.count);
+  assert.ok(new Set(g.index.array).size < g.index.count * 0.5);
+  attributes.forEach((a, i) => {
+    assert.equal(Object.values(g.attributes)[i], a);
+    assert.deepEqual(a.array, original[i]);
+    const bytes = new Uint8Array(
+        a.array.buffer,
+        a.array.byteOffset,
+        a.array.byteLength,
+      ),
+      stride = a.itemSize * a.array.BYTES_PER_ELEMENT;
+    for (let v = 0; v < g.index.count; v++)
+      assert.deepEqual(
+        bytes.slice(g.index.getX(v) * stride, (g.index.getX(v) + 1) * stride),
+        bytes.slice(v * stride, (v + 1) * stride),
+      );
+  });
+  const index = g.index;
+  indexExactVertices(g);
+  assert.equal(g.index, index);
+});
 test("GPU cache ordering preserves every oriented triangle and every attribute byte, including skin weights", () => {
   const g = new THREE.SphereGeometry(2, 96, 64);
   g.setAttribute(

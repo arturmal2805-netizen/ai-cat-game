@@ -9,6 +9,9 @@ import {
   MAX_DECISION_BYTES,
 } from "./public/interactions.js";
 import { cloudSave, accountAccess } from "./save-vault.mjs";
+import { requestCityLife } from "./city-life-ai.mjs";
+import { localJobPlan } from "./public/jobcity-system.js";
+import { aiProviderRouter } from "./ai-provider-router.mjs";
 export { SaveVault } from "./save-vault.mjs";
 // Replaced by esbuild for every deployment, including Cloudflare Git builds.
 // The env fallback supports direct source execution in local tests.
@@ -59,7 +62,9 @@ export default {
     const path = new URL(request.url).pathname;
     if (path === "/api/status" && request.method === "GET")
       return json({
-        configured: !!env.AI,
+        configured: !!(env.AI || env.BACKUP_AI_API_KEY),
+        backupConfigured: !!env.BACKUP_AI_API_KEY,
+        backupProvider: env.BACKUP_AI_API_KEY ? "openrouter" : null,
         protocol: DECISION_PROTOCOL,
         release: deployedRevision(env),
         versionId: env.CF_VERSION_METADATA?.id || null,
@@ -70,7 +75,8 @@ export default {
     if (path === "/api/save" && ["GET", "PUT", "POST"].includes(request.method))
       return cloudSave(request, env);
     if (path === "/api/jobcity/plan" && request.method === "POST") {
-      if (!env.AI) return json({ error: "AI unavailable" }, 503);
+      if (!env.AI && !env.BACKUP_AI_API_KEY)
+        return json({ error: "AI unavailable" }, 503);
       if (Number(request.headers.get("content-length")) > JOB_AI_LIMIT)
         return json({ error: "Request too large" }, 413);
       let state;
@@ -102,9 +108,38 @@ export default {
         return json({ error: "Invalid work profiles" }, 400);
       }
       try {
+        if (state.phase) {
+          if (env.SAVE_VAULT) {
+            const internal = new Request(
+              new URL("/internal-city-ai", request.url),
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  "X-Chichi-Save-Token":
+                    request.headers.get("X-Chichi-Save-Token") || "",
+                },
+                body: JSON.stringify(state),
+              },
+            );
+            return cloudSave(internal, env);
+          }
+          return json(
+            await requestCityLife(state, (input) =>
+              aiProviderRouter(env).run(input),
+            ),
+          );
+        }
+        // Cached released tabs may still ask for a complete noon re-plan.
+        // Their established careers need no inference; keep the saved jobs.
+        if (state.cats.every((p) => p.profession))
+          return json({
+            day: state.day,
+            assignments: localJobPlan(state.cats, state.day),
+          });
         return json(
           await requestCityPlan(state, (input) =>
-            env.AI.run("@cf/meta/llama-3.3-70b-instruct-fp8-fast", input),
+            aiProviderRouter(env).run(input),
           ),
         );
       } catch {
@@ -115,7 +150,8 @@ export default {
       }
     }
     if (path === "/api/decide" && request.method === "POST") {
-      if (!env.AI) return json({ error: "Cloudflare AI не подключён." }, 503);
+      if (!env.AI && !env.BACKUP_AI_API_KEY)
+        return json({ error: "Cloudflare AI не подключён." }, 503);
       if (Number(request.headers.get("content-length")) > MAX_DECISION_BYTES)
         return json({ error: "Слишком большой запрос" }, 413);
       const reader = request.body?.getReader();
@@ -147,7 +183,7 @@ export default {
       try {
         return json(
           await requestDecision(state, (input) =>
-            env.AI.run("@cf/meta/llama-3.3-70b-instruct-fp8-fast", input),
+            aiProviderRouter(env).run(input),
           ),
         );
       } catch (error) {

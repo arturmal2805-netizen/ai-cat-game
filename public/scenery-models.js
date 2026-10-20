@@ -21,6 +21,44 @@ import { byScenery } from "./scenery-data.js";
 import { buildLandmark } from "./scenery-landmarks.js";
 
 const templates = new Map();
+const paints = new WeakMap(),
+  instancePaint = new WeakMap();
+function clonePaint(material) {
+  const copy = material.clone();
+  copy.onBeforeCompile = material.onBeforeCompile;
+  copy.customProgramCacheKey = material.customProgramCacheKey;
+  copy.userData.sharedScenery = false;
+  return copy;
+}
+// Template geometry already shares every authored vertex. Share its identical
+// paint/clock too; only a tree actually fading in front of the camera needs its
+// own material. All visible scenery receives the same absolute animation time.
+function sceneryPaint(source, breeze) {
+  let modes = paints.get(source);
+  if (!modes) paints.set(source, (modes = new Map()));
+  if (modes.has(breeze)) return modes.get(breeze);
+  const material = source.clone(),
+    clock = { value: 0 },
+    motion = { value: 1 };
+  material.transparent = true;
+  material.userData.sharedScenery = true;
+  if (breeze) {
+    material.onBeforeCompile = (shader) => {
+      shader.uniforms.gardenTime = clock;
+      shader.uniforms.gardenMotion = motion;
+      shader.vertexShader =
+        "uniform float gardenTime; uniform float gardenMotion;\n" +
+        shader.vertexShader.replace(
+          "#include <begin_vertex>",
+          "#include <begin_vertex>\ntransformed.x+=sin(gardenTime*.8+position.y)*smoothstep(1.8,3.8,position.y)*.025*gardenMotion;",
+        );
+    };
+    material.customProgramCacheKey = () => "volumetric-garden-breeze-v1";
+  }
+  const paint = { material, clock, motion };
+  modes.set(breeze, paint);
+  return paint;
+}
 function curvedBranch(parent, points, radius, color) {
   const mesh = new THREE.Mesh(
     new THREE.TubeGeometry(
@@ -449,8 +487,7 @@ function* sceneryTemplateSteps(record, low) {
 export function* sceneryModelSteps(record, { low = false } = {}) {
   yield;
   const group = (yield* sceneryTemplateSteps(record, low)).clone(),
-    clock = { value: 0 },
-    motion = { value: 1 };
+    animationPaints = new Set();
   yield;
   group.name = record.id;
   yield;
@@ -462,33 +499,24 @@ export function* sceneryModelSteps(record, { low = false } = {}) {
   yield;
   group.traverse((mesh) => {
     if (!mesh.isMesh) return;
-    mesh.material = mesh.material.clone();
-    mesh.material.userData.sharedScenery = false;
-    mesh.material.transparent = true;
+    const paint = sceneryPaint(
+      mesh.material,
+      byScenery(record.type).category === "tree" &&
+        mesh.material.userData.surfaceKind === "leaf" &&
+        !low,
+    );
+    mesh.material = paint.material;
+    instancePaint.set(mesh, paint);
+    animationPaints.add(paint);
     mesh.castShadow = true;
     mesh.receiveShadow = true;
-    if (
-      byScenery(record.type).category === "tree" &&
-      mesh.material.userData.surfaceKind === "leaf" &&
-      !low
-    ) {
-      mesh.material.onBeforeCompile = (shader) => {
-        shader.uniforms.gardenTime = clock;
-        shader.uniforms.gardenMotion = motion;
-        shader.vertexShader =
-          "uniform float gardenTime; uniform float gardenMotion;\n" +
-          shader.vertexShader.replace(
-            "#include <begin_vertex>",
-            "#include <begin_vertex>\ntransformed.x+=sin(gardenTime*.8+position.y)*smoothstep(1.8,3.8,position.y)*.025*gardenMotion;",
-          );
-      };
-      mesh.material.customProgramCacheKey = () => "volumetric-garden-breeze-v1";
-    }
   });
   yield;
   group.userData.update = (time, reduced) => {
-    clock.value = time;
-    motion.value = reduced ? 0 : 1;
+    for (const paint of animationPaints) {
+      paint.clock.value = time;
+      paint.motion.value = reduced ? 0 : 1;
+    }
   };
   yield;
   positionScenery(group, record);
@@ -505,6 +533,13 @@ export function fadeScenery(group, opacity) {
   group.userData.opacity = opacity;
   group.traverse((mesh) => {
     if (!mesh.isMesh) return;
+    const shared = instancePaint.get(mesh)?.material;
+    if (shared && opacity === 1 && mesh.material !== shared) {
+      mesh.material.dispose();
+      mesh.material = shared;
+    } else if (shared && opacity !== 1 && mesh.material === shared) {
+      mesh.material = clonePaint(shared);
+    }
     mesh.material.opacity = opacity;
     mesh.material.depthWrite = opacity > 0.85;
     mesh.castShadow = opacity > 0.85;

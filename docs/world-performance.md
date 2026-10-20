@@ -1,5 +1,40 @@
 # Map and Catquarium rendering
 
+The latest preparation pass supplies `compileAsync` with the exact live lights,
+environment and fog without re-traversing the entire map for every prop. An
+unchanged material/callback/program-key/geometry-layout variant is prepared once;
+replacement animation callbacks, changed material versions or light layouts
+invalidate it. Original textures are uploaded cooperatively at their original
+resolution. Depth variants and real uniform/attribute reflection still complete
+before an island is revealed.
+Selected-island preparation pre-empts cooperative background preparation and
+resumes it afterwards, including on errors. Readiness counts both direct and
+queued background tasks. Shared static batches retain native sources until both
+colour and the actual RGB-packed shadow variant are prepared/reflected.
+
+Scenery instances now share their template's identical runtime materials and
+absolute wind clock. An object fading in front of the camera gets a private
+material with the same native shader callback; its neighbours retain their paint,
+opacity and shadows. Restoring full opacity releases that private material. The
+template caches remain bounded by the authored scenery types and styles. This
+does not combine different colours or alter geometry, textures or lighting.
+
+Ground-cover flowers also use exact byte-equal vertex indices. Their original
+attribute arrays, all triangles and triangle order remain intact; UV/normal/colour
+seams are never welded by a numeric tolerance. A flower still has all 456 authored
+triangle vertices, but references 165 distinct vertices instead of recalculating
+456 independent vertices per instance. This is 64% fewer distinct flower vertex
+evaluations before hardware-cache effects, not 64% fewer flowers or triangles.
+
+After world matrices are current, static draws omit only original CPU-only mesh
+leaves already represented by identical batches. Original child arrays return
+before callbacks/picking and on rendering exceptions. Native fallbacks for
+changed shaders/materials, unsupported transforms and hidden/waking props remain
+in place. Full-resolution same-pose images, GPU re-upload, cat registration and
+wheel/orbit/pinch on all 30 islands are required checks. Timing evidence lives
+under `docs/qa/2026-10-20/life-ai-and-loading`; software-renderer timings are not
+physical Mac/iPhone frame-rate claims.
+
 The October 2026 optimization retains every existing island, all 50 Catquarium
 fish, their sizes and journeys, 120 bubbles, 55 world fireflies, water materials,
 cat meshes, shadows and mobile DPR 2. The catfish eye cap is a new convex kitten

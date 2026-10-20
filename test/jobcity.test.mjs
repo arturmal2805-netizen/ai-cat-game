@@ -329,7 +329,10 @@ test("batch AI validates every cat, capacity and persistent professions; unavail
   const request = () =>
     new Request("https://game.local/api/jobcity/plan", {
       method: "POST",
-      body: JSON.stringify(state),
+      body: JSON.stringify({
+        ...state,
+        cats: state.cats.map((p) => ({ ...p, profession: null })),
+      }),
     });
   assert.equal((await worker.fetch(request(), {})).status, 503);
   assert.equal(

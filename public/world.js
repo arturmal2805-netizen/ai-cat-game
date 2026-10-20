@@ -235,7 +235,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
   // The closest allowed orbit is 21 units. A less extreme near/far ratio gives
   // small ground decorations more depth precision without clipping that orbit.
   const camera = new THREE.PerspectiveCamera(40, 1, 0.5, 1200);
-  const staticDraws = createStaticDrawBatch(scene, renderer, camera);
+  const staticDraws = createStaticDrawBatch(scene, renderer, camera, {
+    prepare: (root) => shaderWarmup.prepare(root, { background: true }),
+  });
   const look = new THREE.Vector3(0, 0, 0),
     desiredLook = look.clone();
   let azimuth = 0.72,
@@ -1180,7 +1182,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
           // Compile against the real scene lighting while the old island remains
           // usable. Parallel shader compilation avoids the first-visit hitch.
           await sceneTurn();
-          if (!disposed) await shaderWarmup.prepare(g);
+          if (!disposed)
+            await shaderWarmup.prepare(g, { background: id !== focused });
           if (disposed) {
             g.userData.dispose?.();
             return;
@@ -1919,7 +1922,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
               disposeScenery(model);
               return;
             }
-            await shaderWarmup.prepare(model);
+            await shaderWarmup.prepare(model, {
+              background: placement.biome !== focused,
+            });
             if (
               disposed ||
               !game.placements.some((p) => p.id === placement.id)

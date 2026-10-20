@@ -3,6 +3,9 @@ import { familySnapshotValid } from "./public/family-system.js";
 import { chunkedSaveStorage } from "./chunked-save-store.mjs";
 import { mergeSharedWorld, SharedConflict } from "./shared-world.mjs";
 import { BIOMES } from "./public/game-data.js";
+import { CityAIRequestLedger } from "./city-ai-vault.mjs";
+import { JOB_AI_LIMIT, validateCityAIState } from "./jobcity-ai.mjs";
+import { aiProviderRouter } from "./ai-provider-router.mjs";
 export const SAVE_LIMIT = 8 * 1024 * 1024;
 export const EDITOR_LEASE_MS = 25000;
 const sessionValid = (value) => /^[a-zA-Z0-9-]{8,64}$/.test(value || "");
@@ -79,10 +82,27 @@ export async function readSaveBody(request) {
 // Each private recovery code maps to its own SQLite-backed Durable Object.
 // Transactions refuse an older device overwriting a newer saved revision.
 export class SaveVault {
-  constructor(state) {
+  constructor(state, env = {}) {
     this.storage = chunkedSaveStorage(state.storage);
+    this.cityAI = new CityAIRequestLedger(this.storage, {
+      run: (_model, input) => aiProviderRouter(env).run(input),
+    });
   }
   async fetch(request) {
+    if (
+      new URL(request.url).pathname === "/internal-city-ai" &&
+      request.method === "POST"
+    ) {
+      let state;
+      try {
+        state = validateCityAIState(await readJSON(request, JOB_AI_LIMIT));
+        if (!state.phase) throw Error();
+      } catch {
+        return json({ code: "INVALID_AI_EVENT" }, 400);
+      }
+      const r = await this.cityAI.plan(state);
+      return json(r.body, r.status);
+    }
     if (
       new URL(request.url).pathname === "/internal-account" &&
       request.method === "POST"

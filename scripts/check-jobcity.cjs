@@ -269,6 +269,7 @@ async function localWorker() {
       return r.fulfill({
         json: {
           day: state.day,
+          phase: state.phase,
           assignments: localJobPlan(
             state.cats.map((c) => ({ ...c, inventory: {} })),
             state.day,

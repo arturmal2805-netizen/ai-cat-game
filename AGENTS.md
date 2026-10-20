@@ -134,12 +134,17 @@ duplicating or resurrecting a building removed on the other device.
   durable writes/read-back and immutable owned merge snapshots. Do not defer a
   purchase save to hide a slow frame; test restart, lost ACK and cached clients.
 
+- Shader preparation must retain the real light/environment layout and exact
+  texture data. Reuse unchanged variants and uploads; custom animated shaders
+  must keep native dispatch. Static traversal pruning restores original child
+  arrays before callbacks, input and exception propagation.
+
 ## Permanent families and personal cat lives
 
 - Preserve released `cat-sex.js` identity assignments: changing the hash or an
   existing cat's override invalidates lifelong couples. Sex badges belong only
   on cards, never on the map or approved meshes.
-- Families are permanent AI choices in the existing daily batch, reviewed every
+- Families are permanent AI choices in the after-work batch, reviewed every
   14 game days, with a quarter-roster introduction budget per review
   (two members per new couple). This is pacing, never a lifetime family cap: every
   compatible single cat remains eligible in future reviews. Keep existing
@@ -154,3 +159,16 @@ duplicating or resurrecting a building removed on the other device.
 - Run the family/leisure, housing and shared-save tests, full suite/build and
   `scripts/check-family.cjs`. Inspect real phone cards and the loaded shared
   house, not only transient simulation positions.
+
+## Economic AI scheduling and reserve
+
+- Professions are initial AI choices, not daily choices. Preserve established
+  careers, history and wallets. Send only pending initial careers and one
+  after-work batch of actual leisure/buying/family decisions. Never replay
+  missed offline days as model calls or add per-cat inference timers.
+- Reserve events durably on the client and per-world server ledger before
+  inference. Coalesce concurrent devices, recover lost ACKs and retain initial
+  career results. Failed providers must not create an immediate retry loop.
+- Cloudflare stays primary; OpenRouter is a server-secret reserve only on
+  failure. Never expose or log credentials. Routine deploy tests must not spend
+  real AI credits; real inference checks are explicit, isolated and bounded.

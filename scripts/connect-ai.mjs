@@ -39,135 +39,144 @@ await verifyCloudSave(apiBase, expectedRelease, fetch, {
 console.log(
   "Cloud save, concurrent shared purchases, read-back and idempotent retry verified.",
 );
-let verified = false;
-for (let attempt = 0; attempt < 3; attempt++) {
-  try {
-    if (attempt > 0)
-      await waitForRelease(apiBase, expectedRelease, {
-        attempts: 4,
-        onWait: (reason) =>
-          console.log("Waiting for deployed Worker: " + reason),
-      });
-    const cases = [
-      {
-        location: "home",
-        hunger: 10,
-        energy: 5,
-        happiness: 60,
-        mood: "happy",
-        expected: "sleep",
-      },
-      {
-        location: "home",
-        hunger: 98,
-        energy: 85,
-        happiness: 20,
-        mood: "happy",
-        expected: "crazy hungry",
-      },
-      {
+if (process.env.CHICHI_VERIFY_INFERENCE === "1") {
+  let verified = false;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      if (attempt > 0)
+        await waitForRelease(apiBase, expectedRelease, {
+          attempts: 4,
+          onWait: (reason) =>
+            console.log("Waiting for deployed Worker: " + reason),
+        });
+      const cases = [
+        {
+          location: "home",
+          hunger: 10,
+          energy: 5,
+          happiness: 60,
+          mood: "happy",
+          expected: "sleep",
+        },
+        {
+          location: "home",
+          hunger: 98,
+          energy: 85,
+          happiness: 20,
+          mood: "happy",
+          expected: "crazy hungry",
+        },
+        {
+          location: "garden",
+          hunger: 5,
+          energy: 95,
+          happiness: 95,
+          mood: "happy",
+          expected: "happy",
+        },
+        {
+          location: "garden",
+          hunger: 5,
+          energy: 95,
+          happiness: 95,
+          mood: "happy",
+          expected: "happy",
+          world: {
+            biomes: ["moon"],
+            activities: [
+              { id: "welcome-yarn", type: "yarn", biome: "moon" },
+              { id: "welcome-party", type: "party", biome: "moon" },
+              {
+                id: "welcome-farm",
+                type: "farm-field",
+                biome: "moon",
+                harvestReady: 2,
+                emptyPlots: 1,
+              },
+            ],
+            friends: [{ id: "luna", closeness: 15 }],
+          },
+        },
+      ];
+      const varied = newGame();
+      varied.unlocked.push("winter");
+      varied.recentActivities = [
+        { action: "farm", activityId: "welcome-farm", source: "ai" },
+      ];
+      cases.push({
         location: "garden",
         hunger: 5,
         energy: 95,
         happiness: 95,
         mood: "happy",
         expected: "happy",
-      },
-      {
-        location: "garden",
-        hunger: 5,
-        energy: 95,
-        happiness: 95,
-        mood: "happy",
-        expected: "happy",
-        world: {
-          biomes: ["moon"],
-          activities: [
-            { id: "welcome-yarn", type: "yarn", biome: "moon" },
-            { id: "welcome-party", type: "party", biome: "moon" },
-            {
-              id: "welcome-farm",
-              type: "farm-field",
-              biome: "moon",
-              harvestReady: 2,
-              emptyPlots: 1,
-            },
-          ],
-          friends: [{ id: "luna", closeness: 15 }],
-        },
-      },
-    ];
-    const varied = newGame();
-    varied.unlocked.push("winter");
-    varied.recentActivities = [
-      { action: "farm", activityId: "welcome-farm", source: "ai" },
-    ];
-    cases.push({
-      location: "garden",
-      hunger: 5,
-      energy: 95,
-      happiness: 95,
-      mood: "happy",
-      expected: "happy",
-      world: worldSnapshot(varied),
-    });
-    for (const scenario of cases) {
-      const { expected, ...input } = scenario;
-      const state = {
-        ...input,
-        world:
-          input.world ||
-          worldSnapshot(
-            (() => {
-              const g = newGame();
-              g.farm.stock.wheat = 2;
-              return fillBowl(g, "wheat", 2);
-            })(),
-          ),
-      };
-      console.log(
-        `Checking real AI: energy=${state.energy}, hunger=${state.hunger}, happiness=${state.happiness}; expected ${expected}${state.world ? " with world activities" : ""}`,
-      );
-      const decision = await fetch(`${apiBase}/api/decide`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Origin: "https://arturmal2805-netizen.github.io",
-        },
-        body: JSON.stringify(state),
-        signal: AbortSignal.timeout(30000),
+        world: worldSnapshot(varied),
       });
-      checkReleaseResponse(decision, expectedRelease);
-      if (!decision.ok) {
-        const failure = await decision.json().catch(() => ({}));
-        throw new Error(
-          `AI decision failed: HTTP ${decision.status}; ${failure.code || "UNKNOWN"}; ${failure.error || "No details"}`,
+      for (const scenario of cases) {
+        const { expected, ...input } = scenario;
+        const state = {
+          ...input,
+          world:
+            input.world ||
+            worldSnapshot(
+              (() => {
+                const g = newGame();
+                g.farm.stock.wheat = 2;
+                return fillBowl(g, "wheat", 2);
+              })(),
+            ),
+        };
+        console.log(
+          `Checking real AI: energy=${state.energy}, hunger=${state.hunger}, happiness=${state.happiness}; expected ${expected}${state.world ? " with world activities" : ""}`,
+        );
+        const decision = await fetch(`${apiBase}/api/decide`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Origin: "https://arturmal2805-netizen.github.io",
+          },
+          body: JSON.stringify(state),
+          signal: AbortSignal.timeout(30000),
+        });
+        checkReleaseResponse(decision, expectedRelease);
+        if (!decision.ok) {
+          const failure = await decision.json().catch(() => ({}));
+          throw new Error(
+            `AI decision failed: HTTP ${decision.status}; ${failure.code || "UNKNOWN"}; ${failure.error || "No details"}`,
+          );
+        }
+        if (
+          decision.headers.get("Access-Control-Allow-Origin") !==
+          "https://arturmal2805-netizen.github.io"
+        )
+          throw new Error("GitHub Pages CORS is missing");
+        const value = parseDecision(
+          await decision.json(),
+          validateState(state),
+        );
+        if (value.mood !== expected)
+          throw new Error(
+            `AI mood scenario failed: expected ${expected}, got ${value.mood}`,
+          );
+        console.log(
+          `Real AI verified: ${value.mood}${value.action ? " / " + value.action : ""}`,
         );
       }
-      if (
-        decision.headers.get("Access-Control-Allow-Origin") !==
-        "https://arturmal2805-netizen.github.io"
-      )
-        throw new Error("GitHub Pages CORS is missing");
-      const value = parseDecision(await decision.json(), validateState(state));
-      if (value.mood !== expected)
-        throw new Error(
-          `AI mood scenario failed: expected ${expected}, got ${value.mood}`,
-        );
-      console.log(
-        `Real AI verified: ${value.mood}${value.action ? " / " + value.action : ""}`,
-      );
+      verified = true;
+      break;
+    } catch (error) {
+      if (attempt === 2) throw error;
+      await new Promise((resolve) => setTimeout(resolve, 5000));
     }
-    verified = true;
-    break;
-  } catch (error) {
-    if (attempt === 2) throw error;
-    await new Promise((resolve) => setTimeout(resolve, 5000));
   }
+  if (!verified) throw new Error("AI was not verified");
+} else {
+  console.log(
+    "AI binding/release and shared saves verified; no paid inference is made by a routine deployment.",
+  );
 }
-if (!verified) throw new Error("AI was not verified");
 await writeFile(
   "public/config.js",
   `export const apiBase = ${JSON.stringify(apiBase)};\n`,
 );
-console.log(`Cloudflare AI verified. Pages will connect to ${apiBase}`);
+console.log(`Pages will connect to verified Worker ${apiBase}`);

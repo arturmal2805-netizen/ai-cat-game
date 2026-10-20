@@ -2,6 +2,7 @@ import { RENEWED_ISLANDS } from "./renewal-data.js";
 import * as THREE from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { byItem } from "./game-data.js";
+import { indexExactVertices } from "./geometry-cache.js";
 
 export { landscapedTrees } from "./scenery-data.js";
 export function placementClearance(items = []) {
@@ -144,6 +145,9 @@ function foliageGeometry(kind) {
     geometry.setIndex(indices);
     geometry.computeVertexNormals();
   } else geometry = new THREE.SphereGeometry(1, 8, 5).scale(0.32, 0.055, 0.27);
+  // All flowers/tufts remain. Exact duplicate vertices need not run the same
+  // lighting/wind shader again for every petal triangle on every instance.
+  indexExactVertices(geometry);
   geometry.userData.sharedScenery = true;
   cached.set(kind, geometry);
   return geometry;

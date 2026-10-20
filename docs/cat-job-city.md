@@ -11,23 +11,49 @@ network, stairs, central fountain, gardens, clouds and edge waterfalls.
 The game clock starts at 12:00 when the city first opens; one real second is one
 game minute. Work runs from 12:00 to 19:00. Each cat has a permanent profession,
 individual preferences, skills, career history and private wallet. A daily plan
-chooses attendance and evening activities; it does not reset professions.
-An established career can change at most three times, with at least three game
-days between changes and a circumstance for a review. Local fallback never
-changes an established career.
+chooses attendance locally from the permanent professions. AI chooses an initial
+profession once and evening activities after work. Established careers are not
+sent for daily re-selection; existing historical career changes are preserved.
 
-The elected shared-world simulator makes one batch POST to
-`/api/jobcity/plan` per game day. The request marker and validated plan survive
-reload. The Worker uses the existing `AI` binding, validates IDs, capacities,
-professions and car ownership, and bounds inference time. No Cloudflare secret
-is sent to the client. Failed, missing or malformed AI responses leave a complete
-local plan in place. Manual commands and dragging take priority over work. The internal model request
-uses numbered rows rather than repeating every profile key: the real 147-cat
-roster fits the fast model's 24,000-token context in one request. The public
-API still returns validated objects with stable cat IDs. Initial/long-idle cats
+The elected shared-world simulator sends a `careers` event only for new cats
+still awaiting their first AI profession, from noon onward, then one `evening`
+batch after 19:00. The evening prompt contains only workers choosing leisure,
+cats able to afford a house, and singles when the 14-day family review is due.
+It does not re-submit everyone's career, skills and work schedule. No AI calls
+are replayed for days spent offline. Initial-provider failures retain a local
+provisional career and can be attempted once on a later game day.
+
+Both client markers and the server-side `CityAIRequestLedger` reserve an event
+before inference. Concurrent devices, reloads and lost acknowledgements reuse
+the stored response rather than spending another request. Initial profession
+results remain recoverable after the short response cache expires. Daily quota
+exhaustion blocks further primary attempts until the next UTC day. Old clients
+with established professions receive a complete local schedule without an AI
+call. IDs, capacities, house affordability, family proposals and owned cars are
+validated before applying a response. Failures retain the local plan; manual
+commands and dragging keep priority. Numbered compact rows keep the full 147-cat
+roster within the model context. Initial/long-idle cats
 receive available shifts in their AI-selected profession; overbooked requests
 reserve only the six actual seats, prioritizing the oldest paid shift. Career
 choice stays with AI, while seat and schedule rules stay in the game.
+
+Cloudflare is primary. `BACKUP_AI_API_KEY`, supplied by GitHub Actions as a Worker
+secret, enables automatic OpenRouter fallback with `openrouter/free`. Neither
+provider key reaches the browser. A successful primary response never calls the
+reserve. Routine deployment checks exercise release and save integrity without
+AI inference; live inference requires an explicit manual verification.
+
+At published 70B rates, the 147-cat estimates in
+`docs/qa/2026-10-20/life-ai-and-loading/ai-budget.json` are 399 neurons for first
+careers once, 216 for an ordinary evening, 579 when every cat can afford a house,
+and 728 for that rich evening plus the rare family review. These use the maximum
+output allowance, not measured billing. At 2.5 game days per active real hour,
+six rich hours cost about 8,685 neurons before initial careers and manual Chichi
+requests. The free 10,000-neuron allowance is not unlimited around-the-clock AI.
+OpenRouter's documented free-model allowance is 50 requests/day without purchased
+credits, at most 20/minute; buying at least $10 in credits raises it to 1,000/day.
+Availability and account balance still apply. A key spending cap is not a credit
+balance. See https://openrouter.ai/docs/api/reference/limits.
 
 Workers have individually reserved seats on all three floors; visitors use
 separate seats across the desks. Ground paths avoid the six footprints; authored

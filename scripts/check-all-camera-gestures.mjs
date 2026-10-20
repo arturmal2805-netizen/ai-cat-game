@@ -35,11 +35,37 @@ export async function checkAllCameraGestures(page, context, review) {
       const q = __lagoonQA,
         gl = q.renderer.getContext();
       q.freeze = true;
+      // Native comparison: independent paints and unindexed flower triangles.
+      // These are the same authored buffers, not a reduced-detail reference.
+      const paints = [],
+        geometries = new Map();
+      q.scene.traverse((o) => {
+        if (!o.isMesh) return;
+        if (o.name === "Meadow flower" && !geometries.has(o.geometry)) {
+          geometries.set(o.geometry, o.geometry.index);
+          o.geometry.setIndex(null);
+        }
+        let scenery = false;
+        for (let p = o; p; p = p.parent)
+          if (p.userData.sceneryId) {
+            scenery = true;
+            break;
+          }
+        if (scenery && !Array.isArray(o.material)) {
+          const shared = o.material,
+            copy = shared.clone();
+          copy.onBeforeCompile = shared.onBeforeCompile;
+          copy.customProgramCacheKey = shared.customProgramCacheKey;
+          paints.push([o, shared, copy]);
+          o.material = copy;
+        }
+      });
       const a = new Uint8Array(
           gl.drawingBufferWidth * gl.drawingBufferHeight * 4,
         ),
         b = new Uint8Array(a.length);
       if (q.matrixCache) q.matrixCache.enabled = false;
+      if (q.staticDraws?.traversal) q.staticDraws.traversal.enabled = false;
       const traversal = [];
       q.poseAtlas.forEachCat((cat) => {
         const batching = cat.userData.renderBatches;
@@ -50,6 +76,8 @@ export async function checkAllCameraGestures(page, context, review) {
       try {
         q.drawFrame();
       } finally {
+        for (const [geometry, index] of geometries) geometry.setIndex(index);
+        for (const [object, shared] of paints) object.material = shared;
         for (const [batching, original] of traversal) {
           batching.renderChildren = original;
           if (batching.matrixDeferral) batching.matrixDeferral.enabled = true;
@@ -66,6 +94,7 @@ export async function checkAllCameraGestures(page, context, review) {
       );
       const before = { ...q.renderer.info.render };
       if (q.matrixCache) q.matrixCache.enabled = true;
+      if (q.staticDraws?.traversal) q.staticDraws.traversal.enabled = true;
       q.drawFrame();
       gl.readPixels(
         0,
@@ -76,6 +105,7 @@ export async function checkAllCameraGestures(page, context, review) {
         gl.UNSIGNED_BYTE,
         b,
       );
+      for (const [, , copy] of paints) copy.dispose();
       let changed = 0;
       for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) changed++;
       let reuploadChanged = null;
@@ -201,6 +231,8 @@ export async function checkAllCameraGestures(page, context, review) {
           const q = __lagoonQA,
             canvas = q.renderer.domElement;
           if (q.matrixCache) q.matrixCache.enabled = cached;
+          if (q.staticDraws?.traversal)
+            q.staticDraws.traversal.enabled = cached;
           const traversal = [];
           q.poseAtlas.forEachCat((cat) => {
             const batching = cat.userData.renderBatches;
@@ -354,6 +386,7 @@ export async function checkAllCameraGestures(page, context, review) {
         q.commandOnly = false;
         q.freeze = true;
         if (q.matrixCache) q.matrixCache.enabled = true;
+        if (q.staticDraws?.traversal) q.staticDraws.traversal.enabled = true;
         for (const restore of q.restoreGL) restore();
         q.restoreGL = [];
       });

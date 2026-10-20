@@ -1,0 +1,916 @@
+[
+  {
+    "id": "summer",
+    "setup": {
+      "firstDrawMs": 263.2999999821186,
+      "shaders": {
+        "pending": 0,
+        "prepared": 493,
+        "reflected": 56,
+        "compiled": 1727,
+        "reused": 149,
+        "textures": 23
+      },
+      "staticTraversal": {
+        "omitted": 30,
+        "parents": 8
+      },
+      "pendingModels": 0,
+      "prepareAndFirstDrawMs": 14119,
+      "islandReadyMs": 6766
+    },
+    "frames": {
+      "samples": 180,
+      "median": 31.30000001192093,
+      "p95": 105.5,
+      "max": 4085
+    },
+    "longTasks": [
+      {
+        "start": 74661.40000000596,
+        "duration": 131
+      },
+      {
+        "start": 74812.09999999404,
+        "duration": 106
+      },
+      {
+        "start": 74935.59999999404,
+        "duration": 148
+      },
+      {
+        "start": 75101.19999998808,
+        "duration": 67
+      },
+      {
+        "start": 75478.59999999404,
+        "duration": 4087
+      },
+      {
+        "start": 79617.09999999404,
+        "duration": 60
+      },
+      {
+        "start": 79699.19999998808,
+        "duration": 63
+      },
+      {
+        "start": 79927,
+        "duration": 66
+      },
+      {
+        "start": 80879.69999998808,
+        "duration": 57
+      },
+      {
+        "start": 81363,
+        "duration": 81
+      },
+      {
+        "start": 81519.59999999404,
+        "duration": 286
+      },
+      {
+        "start": 81823.79999998212,
+        "duration": 66
+      },
+      {
+        "start": 82271,
+        "duration": 60
+      },
+      {
+        "start": 82408.90000000596,
+        "duration": 67
+      },
+      {
+        "start": 83738.09999999404,
+        "duration": 280
+      },
+      {
+        "start": 84181.19999998808,
+        "duration": 89
+      },
+      {
+        "start": 84516.19999998808,
+        "duration": 66
+      },
+      {
+        "start": 84696.09999999404,
+        "duration": 64
+      },
+      {
+        "start": 85360.69999998808,
+        "duration": 58
+      },
+      {
+        "start": 85977.69999998808,
+        "duration": 150
+      },
+      {
+        "start": 86248.29999998212,
+        "duration": 50
+      },
+      {
+        "start": 86377,
+        "duration": 91
+      },
+      {
+        "start": 86485.59999999404,
+        "duration": 88
+      },
+      {
+        "start": 86778,
+        "duration": 59
+      },
+      {
+        "start": 86854.90000000596,
+        "duration": 57
+      },
+      {
+        "start": 86990.5,
+        "duration": 62
+      },
+      {
+        "start": 87070.09999999404,
+        "duration": 61
+      },
+      {
+        "start": 87564.69999998808,
+        "duration": 51
+      },
+      {
+        "start": 87754.09999999404,
+        "duration": 60
+      },
+      {
+        "start": 87997,
+        "duration": 98
+      },
+      {
+        "start": 88180.79999998212,
+        "duration": 70
+      },
+      {
+        "start": 88253.59999999404,
+        "duration": 245
+      },
+      {
+        "start": 88566.40000000596,
+        "duration": 120
+      },
+      {
+        "start": 88703.79999998212,
+        "duration": 138
+      },
+      {
+        "start": 89103.29999998212,
+        "duration": 59
+      },
+      {
+        "start": 89180,
+        "duration": 72
+      },
+      {
+        "start": 89270.5,
+        "duration": 67
+      },
+      {
+        "start": 89556.40000000596,
+        "duration": 66
+      }
+    ],
+    "draw": {
+      "frame": 198,
+      "calls": 456,
+      "triangles": 2241136,
+      "points": 320,
+      "lines": 0
+    },
+    "poses": {
+      "entries": 4952,
+      "rows": 0,
+      "bytes": 0,
+      "cats": 180,
+      "updatedCats": 3
+    },
+    "colony": {
+      "sources": 1644,
+      "batches": 13,
+      "ready": true,
+      "active": false
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "residency": {
+      "bytes": 95086690,
+      "geometries": 573,
+      "evicted": 0
+    },
+    "persistence": {
+      "samples": 12,
+      "median": 34.099999994039536,
+      "max": 218,
+      "clones": 24,
+      "writes": 48,
+      "storageMs": 236.29999989271164,
+      "outboxBytes": 731371
+    },
+    "raster": null
+  },
+  {
+    "id": "homestead",
+    "setup": {
+      "firstDrawMs": 1939.4000000059605,
+      "shaders": {
+        "pending": 0,
+        "prepared": 515,
+        "reflected": 65,
+        "compiled": 2839,
+        "reused": 1712,
+        "textures": 23
+      },
+      "staticTraversal": {
+        "omitted": 176,
+        "parents": 30
+      },
+      "pendingModels": 0,
+      "prepareAndFirstDrawMs": 19450,
+      "islandReadyMs": 433
+    },
+    "frames": {
+      "samples": 180,
+      "median": 59.89999997615814,
+      "p95": 181.5,
+      "max": 8902.09999999404
+    },
+    "longTasks": [
+      {
+        "start": 110972.09999999404,
+        "duration": 117
+      },
+      {
+        "start": 111106.5,
+        "duration": 108
+      },
+      {
+        "start": 111232.29999998212,
+        "duration": 69
+      },
+      {
+        "start": 111318,
+        "duration": 136
+      },
+      {
+        "start": 111471.19999998808,
+        "duration": 73
+      },
+      {
+        "start": 111562.09999999404,
+        "duration": 62
+      },
+      {
+        "start": 111641.40000000596,
+        "duration": 76
+      },
+      {
+        "start": 111739,
+        "duration": 199
+      },
+      {
+        "start": 111982.5,
+        "duration": 75
+      },
+      {
+        "start": 112079.5,
+        "duration": 8902
+      },
+      {
+        "start": 121053.79999998212,
+        "duration": 71
+      },
+      {
+        "start": 121125.5,
+        "duration": 395
+      },
+      {
+        "start": 121587.59999999404,
+        "duration": 55
+      },
+      {
+        "start": 121642.90000000596,
+        "duration": 72
+      },
+      {
+        "start": 121735.79999998212,
+        "duration": 114
+      },
+      {
+        "start": 121880.59999999404,
+        "duration": 80
+      },
+      {
+        "start": 121978,
+        "duration": 73
+      },
+      {
+        "start": 122068.40000000596,
+        "duration": 72
+      },
+      {
+        "start": 122184.29999998212,
+        "duration": 60
+      },
+      {
+        "start": 122261.40000000596,
+        "duration": 50
+      },
+      {
+        "start": 122329.09999999404,
+        "duration": 56
+      },
+      {
+        "start": 122403.09999999404,
+        "duration": 54
+      },
+      {
+        "start": 122475,
+        "duration": 52
+      },
+      {
+        "start": 122543.90000000596,
+        "duration": 94
+      },
+      {
+        "start": 122655.19999998808,
+        "duration": 151
+      },
+      {
+        "start": 122823.90000000596,
+        "duration": 127
+      },
+      {
+        "start": 122981.19999998808,
+        "duration": 491
+      },
+      {
+        "start": 123490.69999998808,
+        "duration": 206
+      },
+      {
+        "start": 123731.29999998212,
+        "duration": 178
+      },
+      {
+        "start": 123931.5,
+        "duration": 122
+      },
+      {
+        "start": 124071.29999998212,
+        "duration": 194
+      },
+      {
+        "start": 124270.29999998212,
+        "duration": 223
+      },
+      {
+        "start": 124511.90000000596,
+        "duration": 122
+      },
+      {
+        "start": 124644.29999998212,
+        "duration": 72
+      },
+      {
+        "start": 124737.09999999404,
+        "duration": 71
+      },
+      {
+        "start": 124829.79999998212,
+        "duration": 72
+      },
+      {
+        "start": 124907,
+        "duration": 55
+      },
+      {
+        "start": 124978.90000000596,
+        "duration": 104
+      },
+      {
+        "start": 125101.29999998212,
+        "duration": 51
+      },
+      {
+        "start": 125180.5,
+        "duration": 122
+      },
+      {
+        "start": 125321.59999999404,
+        "duration": 69
+      },
+      {
+        "start": 125408.29999998212,
+        "duration": 60
+      },
+      {
+        "start": 125486.19999998808,
+        "duration": 59
+      },
+      {
+        "start": 125597.29999998212,
+        "duration": 75
+      },
+      {
+        "start": 125690.09999999404,
+        "duration": 61
+      },
+      {
+        "start": 125768.59999999404,
+        "duration": 53
+      },
+      {
+        "start": 125838.69999998808,
+        "duration": 50
+      },
+      {
+        "start": 125906.29999998212,
+        "duration": 58
+      },
+      {
+        "start": 125981.19999998808,
+        "duration": 95
+      },
+      {
+        "start": 126145.5,
+        "duration": 66
+      },
+      {
+        "start": 126251.79999998212,
+        "duration": 114
+      },
+      {
+        "start": 126444.09999999404,
+        "duration": 126
+      },
+      {
+        "start": 126588.29999998212,
+        "duration": 171
+      },
+      {
+        "start": 126768.09999999404,
+        "duration": 134
+      },
+      {
+        "start": 126981.79999998212,
+        "duration": 77
+      },
+      {
+        "start": 127086.09999999404,
+        "duration": 53
+      },
+      {
+        "start": 127156.29999998212,
+        "duration": 60
+      },
+      {
+        "start": 127278.40000000596,
+        "duration": 105
+      },
+      {
+        "start": 127401.69999998808,
+        "duration": 128
+      },
+      {
+        "start": 127547.59999999404,
+        "duration": 52
+      },
+      {
+        "start": 127682.29999998212,
+        "duration": 65
+      },
+      {
+        "start": 127765.5,
+        "duration": 61
+      },
+      {
+        "start": 127844.59999999404,
+        "duration": 53
+      },
+      {
+        "start": 127915.59999999404,
+        "duration": 91
+      },
+      {
+        "start": 128011.29999998212,
+        "duration": 58
+      },
+      {
+        "start": 128087.59999999404,
+        "duration": 54
+      },
+      {
+        "start": 128160.5,
+        "duration": 64
+      },
+      {
+        "start": 128244.19999998808,
+        "duration": 66
+      },
+      {
+        "start": 128336.59999999404,
+        "duration": 58
+      },
+      {
+        "start": 128412.09999999404,
+        "duration": 84
+      },
+      {
+        "start": 128507.19999998808,
+        "duration": 55
+      },
+      {
+        "start": 128569,
+        "duration": 53
+      },
+      {
+        "start": 128639.90000000596,
+        "duration": 98
+      },
+      {
+        "start": 128755.79999998212,
+        "duration": 50
+      },
+      {
+        "start": 128887.5,
+        "duration": 53
+      },
+      {
+        "start": 128957.79999998212,
+        "duration": 55
+      },
+      {
+        "start": 129035.19999998808,
+        "duration": 202
+      },
+      {
+        "start": 129254.29999998212,
+        "duration": 57
+      },
+      {
+        "start": 129328.69999998808,
+        "duration": 123
+      },
+      {
+        "start": 129457.29999998212,
+        "duration": 62
+      },
+      {
+        "start": 129536.79999998212,
+        "duration": 54
+      },
+      {
+        "start": 129678.90000000596,
+        "duration": 51
+      },
+      {
+        "start": 129747,
+        "duration": 66
+      },
+      {
+        "start": 129818,
+        "duration": 120
+      },
+      {
+        "start": 129957.69999998808,
+        "duration": 60
+      },
+      {
+        "start": 130292.09999999404,
+        "duration": 69
+      },
+      {
+        "start": 130378.69999998808,
+        "duration": 86
+      },
+      {
+        "start": 130482.40000000596,
+        "duration": 56
+      },
+      {
+        "start": 130556.19999998808,
+        "duration": 107
+      },
+      {
+        "start": 130680.69999998808,
+        "duration": 51
+      },
+      {
+        "start": 130815.19999998808,
+        "duration": 68
+      },
+      {
+        "start": 130901.09999999404,
+        "duration": 50
+      },
+      {
+        "start": 130968.5,
+        "duration": 80
+      },
+      {
+        "start": 131145.90000000596,
+        "duration": 124
+      },
+      {
+        "start": 131289.29999998212,
+        "duration": 52
+      },
+      {
+        "start": 131363.79999998212,
+        "duration": 53
+      },
+      {
+        "start": 131435.5,
+        "duration": 60
+      },
+      {
+        "start": 131552.59999999404,
+        "duration": 55
+      },
+      {
+        "start": 131630.29999998212,
+        "duration": 103
+      },
+      {
+        "start": 131751,
+        "duration": 68
+      },
+      {
+        "start": 131836.40000000596,
+        "duration": 98
+      },
+      {
+        "start": 131952.40000000596,
+        "duration": 96
+      },
+      {
+        "start": 132066.19999998808,
+        "duration": 62
+      },
+      {
+        "start": 132145.90000000596,
+        "duration": 97
+      },
+      {
+        "start": 132246.40000000596,
+        "duration": 73
+      },
+      {
+        "start": 132337.40000000596,
+        "duration": 50
+      },
+      {
+        "start": 132418.19999998808,
+        "duration": 63
+      },
+      {
+        "start": 132503.90000000596,
+        "duration": 64
+      },
+      {
+        "start": 132585.5,
+        "duration": 58
+      },
+      {
+        "start": 132661.5,
+        "duration": 84
+      },
+      {
+        "start": 132818.09999999404,
+        "duration": 83
+      },
+      {
+        "start": 132907.19999998808,
+        "duration": 55
+      },
+      {
+        "start": 132980.09999999404,
+        "duration": 58
+      },
+      {
+        "start": 133072.79999998212,
+        "duration": 357
+      },
+      {
+        "start": 133458,
+        "duration": 81
+      },
+      {
+        "start": 133556.19999998808,
+        "duration": 57
+      },
+      {
+        "start": 133631,
+        "duration": 142
+      },
+      {
+        "start": 133779,
+        "duration": 181
+      },
+      {
+        "start": 133987.90000000596,
+        "duration": 61
+      },
+      {
+        "start": 134050,
+        "duration": 52
+      },
+      {
+        "start": 134118.79999998212,
+        "duration": 51
+      },
+      {
+        "start": 134191.40000000596,
+        "duration": 59
+      },
+      {
+        "start": 134267.79999998212,
+        "duration": 97
+      },
+      {
+        "start": 134424.90000000596,
+        "duration": 59
+      },
+      {
+        "start": 134501.59999999404,
+        "duration": 50
+      },
+      {
+        "start": 134569.5,
+        "duration": 55
+      },
+      {
+        "start": 134641.69999998808,
+        "duration": 61
+      },
+      {
+        "start": 134720.19999998808,
+        "duration": 56
+      },
+      {
+        "start": 134793.29999998212,
+        "duration": 64
+      },
+      {
+        "start": 134874.59999999404,
+        "duration": 73
+      },
+      {
+        "start": 134965.59999999404,
+        "duration": 90
+      },
+      {
+        "start": 135073,
+        "duration": 77
+      },
+      {
+        "start": 135168.69999998808,
+        "duration": 287
+      },
+      {
+        "start": 135471.59999999404,
+        "duration": 69
+      },
+      {
+        "start": 135558,
+        "duration": 50
+      },
+      {
+        "start": 135625.19999998808,
+        "duration": 56
+      },
+      {
+        "start": 135698.29999998212,
+        "duration": 99
+      },
+      {
+        "start": 135815.19999998808,
+        "duration": 65
+      },
+      {
+        "start": 135903.69999998808,
+        "duration": 54
+      },
+      {
+        "start": 135991.19999998808,
+        "duration": 81
+      },
+      {
+        "start": 136090.09999999404,
+        "duration": 56
+      },
+      {
+        "start": 136163.79999998212,
+        "duration": 59
+      },
+      {
+        "start": 136283.69999998808,
+        "duration": 52
+      },
+      {
+        "start": 136551.69999998808,
+        "duration": 51
+      },
+      {
+        "start": 136620.40000000596,
+        "duration": 56
+      },
+      {
+        "start": 136693.59999999404,
+        "duration": 56
+      },
+      {
+        "start": 136766.59999999404,
+        "duration": 51
+      },
+      {
+        "start": 136966.90000000596,
+        "duration": 95
+      },
+      {
+        "start": 137079.09999999404,
+        "duration": 50
+      },
+      {
+        "start": 137150.69999998808,
+        "duration": 52
+      },
+      {
+        "start": 137220.29999998212,
+        "duration": 50
+      },
+      {
+        "start": 137517.90000000596,
+        "duration": 83
+      },
+      {
+        "start": 137695,
+        "duration": 56
+      },
+      {
+        "start": 137769,
+        "duration": 51
+      },
+      {
+        "start": 137825.79999998212,
+        "duration": 89
+      },
+      {
+        "start": 137986.09999999404,
+        "duration": 87
+      }
+    ],
+    "draw": {
+      "frame": 379,
+      "calls": 501,
+      "triangles": 4585850,
+      "points": 0,
+      "lines": 0
+    },
+    "poses": {
+      "entries": 4952,
+      "rows": 56,
+      "bytes": 458752,
+      "cats": 180,
+      "updatedCats": 98
+    },
+    "colony": {
+      "sources": 1644,
+      "batches": 13,
+      "ready": true,
+      "active": true
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "residency": {
+      "bytes": 200998466,
+      "geometries": 373,
+      "evicted": 452
+    },
+    "persistence": {
+      "samples": 12,
+      "median": 27.299999982118607,
+      "max": 46.099999994039536,
+      "clones": 24,
+      "writes": 48,
+      "storageMs": 157.79999992251396,
+      "outboxBytes": 734284
+    },
+    "raster": null
+  }
+]

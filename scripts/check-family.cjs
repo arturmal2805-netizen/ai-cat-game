@@ -106,7 +106,7 @@ async function localWorker() {
   try {
     const { build } = require(root + "/node_modules/esbuild");
     const { newGame } = await import(root + "/public/economy.js");
-    const { ensureJobCity, localJobPlan } = await import(
+    const { ensureJobCity, localJobPlan, applyJobPlan } = await import(
       root + "/public/jobcity-system.js"
     );
     const { buyCatHome } = await import(root + "/public/housing-system.js");
@@ -126,7 +126,15 @@ async function localWorker() {
       centerId: "",
     }));
     g = ensureJobCity(g, now);
-    for (const p of Object.values(g.jobCity.profiles)) p.coins = 10000;
+    g = applyJobPlan(
+      g,
+      localJobPlan(Object.values(g.jobCity.profiles), 13),
+      13,
+    );
+    for (const p of Object.values(g.jobCity.profiles)) {
+      p.coins = 10000;
+      p.careerAIPending = false;
+    }
     g = buyCatHome(g, "chichi", "home-sage", "buy-chichi-1");
     g.jobCity.epoch = now - (13 * 1440 + 450) * 1000;
     g.jobCity.plan = null;
@@ -165,7 +173,7 @@ async function localWorker() {
                   "  return {\n    perform,",
                   `  window.__familyQA={leisure,jobs,housingLife,court,spa,npcs,cat,chichiCarrier,itemGroups,islands,camera,scene,renderer,desiredLook,
       cancel:id=>id==='chichi'?cancelHeroActivity():cancelResident(id),
-      nativeStep:seconds=>{for(let i=0;i<seconds*30;i++){const t=performance.now()/1000+i/30;stepLeisure(1/30,t,performance.now());court.step(1/30,t);for(const[id,n]of npcs){const v=court.get(id),f=leisure.frame(id);if(v){const b=byBiome(v.biome);n.carrier.position.set(b.center[0]+v.position.x,v.position.y,b.center[1]+v.position.z);}else if(f)n.carrier.position.set(f.position.x,f.position.y,f.position.z);}}},
+      trace:[],nativeStep:seconds=>{const states=new Map();for(let i=0;i<seconds*30;i++){const t=performance.now()/1000+i/30;stepLeisure(1/30,t,performance.now());court.step(1/30,t);for(const[id,n]of npcs){const v=court.get(id),f=leisure.frame(id);if(v){const b=byBiome(v.biome);n.carrier.position.set(b.center[0]+v.position.x,v.position.y,b.center[1]+v.position.z);}else if(f)n.carrier.position.set(f.position.x,f.position.y,f.position.z);}for(const id of ['luna','moti']){const p=game.jobCity.profiles[id],v=leisure.get(id),c=court.get(id),j=jobs.get(id),key=JSON.stringify([v?.phase,c?.phase,p.leisureProgress]);if(states.get(id)!==key){states.set(id,key);window.__familyQA.trace.push({id,second:i/30,visit:v?.phase,court:c?.phase,progress:p.leisureProgress,schedule:p.schedule,clock:cityClock(game.jobCity),job:j?.phase,manual:npcs.get(id)?.manualUntil,canSimulate:callbacks.canSimulateLeisure?.(),saveState:document.getElementById('save-state')?.textContent});}}}},
       homeStep:seconds=>{for(let i=0;i<seconds*30;i++)housingLife.step(game,[{id:'chichi',radius:spaRadius(cat)},...[...npcs].map(([id,n])=>({id,radius:spaRadius(n.model)}))],1/30,i/30,{night:true});},
       capture:()=>{gpuFrames.clear();look.copy(desiredLook);distance=desiredDistance;camera.position.set(look.x+Math.sin(azimuth)*Math.cos(elevation)*distance,look.y+Math.sin(elevation)*distance,look.z+Math.cos(azimuth)*Math.cos(elevation)*distance);camera.lookAt(look);renderer.render(scene,camera);renderer.getContext().finish();}};\n  return {\n    perform,`,
                 ),
@@ -247,6 +255,7 @@ async function localWorker() {
       return r.fulfill({
         json: {
           day: s.day,
+          phase: s.phase,
           assignments,
           families: [
             {
@@ -356,7 +365,13 @@ async function localWorker() {
     await page.waitForFunction(
       () => window.__familyQA.itemGroups.get("bikini-krusty")?.userData.built,
     );
-    await page.evaluate(() => window.__familyQA.nativeStep(250));
+    // Slow software-GPU preparation and card screenshots can advance the real
+    // clock past the 22:00 curfew. Exercise the evening visit at its authored
+    // time; the separate home check below explicitly advances to 23:00.
+    await page.evaluate(() => {
+      window.__familySave.setClock(19 * 60 + 30);
+      window.__familyQA.nativeStep(250);
+    });
     const outings = await page.evaluate(() =>
       ["luna", "moti"].map((id) => ({
         id,
@@ -366,6 +381,11 @@ async function localWorker() {
         court: window.__familyQA.court.get(id)?.phase,
       })),
     );
+    if (!outings.every((c) => c.progress?.done === 1)) {
+      const trace = await page.evaluate(() => __familyQA.trace);
+      fs.writeFileSync(path.join(review, "leisure-debug.json"), JSON.stringify(trace, null, 2));
+      console.log("LEISURE_DEBUG", JSON.stringify(trace.slice(-12)));
+    }
     assert.ok(
       outings.every((c) => c.progress?.done === 1),
       JSON.stringify(outings),

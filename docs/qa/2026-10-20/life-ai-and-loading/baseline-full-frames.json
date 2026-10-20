@@ -1,0 +1,520 @@
+[
+  {
+    "id": "summer",
+    "setup": {
+      "firstDrawMs": 143.40000000596046,
+      "shaders": {
+        "pending": 0,
+        "prepared": 47,
+        "reflected": 53
+      },
+      "staticTraversal": {},
+      "pendingModels": 0,
+      "prepareAndFirstDrawMs": 15710,
+      "islandReadyMs": 9282
+    },
+    "frames": {
+      "samples": 180,
+      "median": 26.900000005960464,
+      "p95": 70,
+      "max": 4241.399999976158
+    },
+    "longTasks": [
+      {
+        "start": 68095.29999998212,
+        "duration": 60
+      },
+      {
+        "start": 68172.79999998212,
+        "duration": 71
+      },
+      {
+        "start": 68387.29999998212,
+        "duration": 147
+      },
+      {
+        "start": 68554.79999998212,
+        "duration": 52
+      },
+      {
+        "start": 68737.19999998808,
+        "duration": 4241
+      },
+      {
+        "start": 73031.29999998212,
+        "duration": 239
+      },
+      {
+        "start": 73290.09999999404,
+        "duration": 51
+      },
+      {
+        "start": 73370.5,
+        "duration": 96
+      },
+      {
+        "start": 73650,
+        "duration": 50
+      },
+      {
+        "start": 73763.5,
+        "duration": 57
+      },
+      {
+        "start": 73963.40000000596,
+        "duration": 53
+      },
+      {
+        "start": 74526.59999999404,
+        "duration": 127
+      },
+      {
+        "start": 74671.19999998808,
+        "duration": 54
+      },
+      {
+        "start": 76593.19999998808,
+        "duration": 102
+      },
+      {
+        "start": 76712,
+        "duration": 51
+      },
+      {
+        "start": 77940.09999999404,
+        "duration": 84
+      },
+      {
+        "start": 78302.09999999404,
+        "duration": 58
+      },
+      {
+        "start": 78925,
+        "duration": 66
+      },
+      {
+        "start": 80991,
+        "duration": 59
+      },
+      {
+        "start": 81382.5,
+        "duration": 114
+      },
+      {
+        "start": 81560.90000000596,
+        "duration": 69
+      },
+      {
+        "start": 81755.09999999404,
+        "duration": 60
+      },
+      {
+        "start": 81833,
+        "duration": 70
+      }
+    ],
+    "draw": {
+      "frame": 196,
+      "calls": 456,
+      "triangles": 2240496,
+      "points": 320,
+      "lines": 0
+    },
+    "poses": {
+      "entries": 4952,
+      "rows": 0,
+      "bytes": 0,
+      "cats": 180,
+      "updatedCats": 3
+    },
+    "colony": {
+      "sources": 1644,
+      "batches": 13,
+      "ready": true,
+      "active": false
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "residency": {
+      "bytes": 95068326,
+      "geometries": 573,
+      "evicted": 0
+    },
+    "persistence": {
+      "samples": 12,
+      "median": 49.20000001788139,
+      "max": 76.09999999403954,
+      "clones": 24,
+      "writes": 48,
+      "storageMs": 340.1999999284744,
+      "outboxBytes": 709093
+    },
+    "raster": null
+  },
+  {
+    "id": "homestead",
+    "setup": {
+      "firstDrawMs": 1387.9000000059605,
+      "shaders": {
+        "pending": 0,
+        "prepared": 69,
+        "reflected": 62
+      },
+      "staticTraversal": {},
+      "pendingModels": 0,
+      "prepareAndFirstDrawMs": 73352,
+      "islandReadyMs": 481
+    },
+    "frames": {
+      "samples": 180,
+      "median": 48.70000001788139,
+      "p95": 123.09999999403954,
+      "max": 5296.5
+    },
+    "longTasks": [
+      {
+        "start": 156616.90000000596,
+        "duration": 240
+      },
+      {
+        "start": 156899.5,
+        "duration": 53
+      },
+      {
+        "start": 156976.40000000596,
+        "duration": 76
+      },
+      {
+        "start": 157079.29999998212,
+        "duration": 57
+      },
+      {
+        "start": 157153.5,
+        "duration": 74
+      },
+      {
+        "start": 157245.09999999404,
+        "duration": 71
+      },
+      {
+        "start": 157352.79999998212,
+        "duration": 69
+      },
+      {
+        "start": 157439.5,
+        "duration": 59
+      },
+      {
+        "start": 157515.79999998212,
+        "duration": 57
+      },
+      {
+        "start": 157590.09999999404,
+        "duration": 59
+      },
+      {
+        "start": 157666.90000000596,
+        "duration": 5296
+      },
+      {
+        "start": 162981.40000000596,
+        "duration": 163
+      },
+      {
+        "start": 163165,
+        "duration": 68
+      },
+      {
+        "start": 163262.29999998212,
+        "duration": 68
+      },
+      {
+        "start": 163367.19999998808,
+        "duration": 148
+      },
+      {
+        "start": 163545.90000000596,
+        "duration": 95
+      },
+      {
+        "start": 163658.40000000596,
+        "duration": 60
+      },
+      {
+        "start": 163727.59999999404,
+        "duration": 62
+      },
+      {
+        "start": 163793.90000000596,
+        "duration": 54
+      },
+      {
+        "start": 163889.69999998808,
+        "duration": 50
+      },
+      {
+        "start": 164024,
+        "duration": 51
+      },
+      {
+        "start": 164123.90000000596,
+        "duration": 52
+      },
+      {
+        "start": 164258.40000000596,
+        "duration": 51
+      },
+      {
+        "start": 164327.40000000596,
+        "duration": 58
+      },
+      {
+        "start": 164402.69999998808,
+        "duration": 52
+      },
+      {
+        "start": 164471.79999998212,
+        "duration": 51
+      },
+      {
+        "start": 164866.90000000596,
+        "duration": 50
+      },
+      {
+        "start": 164935.79999998212,
+        "duration": 55
+      },
+      {
+        "start": 165073.40000000596,
+        "duration": 171
+      },
+      {
+        "start": 165262.09999999404,
+        "duration": 51
+      },
+      {
+        "start": 165395.09999999404,
+        "duration": 51
+      },
+      {
+        "start": 166115.59999999404,
+        "duration": 50
+      },
+      {
+        "start": 167129.40000000596,
+        "duration": 73
+      },
+      {
+        "start": 167219.79999998212,
+        "duration": 81
+      },
+      {
+        "start": 167453.69999998808,
+        "duration": 56
+      },
+      {
+        "start": 167688.79999998212,
+        "duration": 51
+      },
+      {
+        "start": 167757.19999998808,
+        "duration": 75
+      },
+      {
+        "start": 168172.90000000596,
+        "duration": 52
+      },
+      {
+        "start": 168497.79999998212,
+        "duration": 50
+      },
+      {
+        "start": 169146.29999998212,
+        "duration": 272
+      },
+      {
+        "start": 169435.40000000596,
+        "duration": 81
+      },
+      {
+        "start": 170182.09999999404,
+        "duration": 50
+      },
+      {
+        "start": 170313.40000000596,
+        "duration": 52
+      },
+      {
+        "start": 170571.19999998808,
+        "duration": 50
+      },
+      {
+        "start": 170833.29999998212,
+        "duration": 59
+      },
+      {
+        "start": 171098.90000000596,
+        "duration": 50
+      },
+      {
+        "start": 171411.90000000596,
+        "duration": 329
+      },
+      {
+        "start": 171758.40000000596,
+        "duration": 76
+      },
+      {
+        "start": 171851.5,
+        "duration": 55
+      },
+      {
+        "start": 171923.5,
+        "duration": 123
+      },
+      {
+        "start": 172064,
+        "duration": 66
+      },
+      {
+        "start": 172216.79999998212,
+        "duration": 54
+      },
+      {
+        "start": 172513.09999999404,
+        "duration": 50
+      },
+      {
+        "start": 172580.69999998808,
+        "duration": 50
+      },
+      {
+        "start": 173301.69999998808,
+        "duration": 50
+      },
+      {
+        "start": 173630.09999999404,
+        "duration": 372
+      },
+      {
+        "start": 174019.09999999404,
+        "duration": 53
+      },
+      {
+        "start": 174089.59999999404,
+        "duration": 55
+      },
+      {
+        "start": 174161.69999998808,
+        "duration": 55
+      },
+      {
+        "start": 174234.5,
+        "duration": 52
+      },
+      {
+        "start": 174303.90000000596,
+        "duration": 54
+      },
+      {
+        "start": 174375.29999998212,
+        "duration": 55
+      },
+      {
+        "start": 174447.90000000596,
+        "duration": 50
+      },
+      {
+        "start": 174582.5,
+        "duration": 52
+      },
+      {
+        "start": 174652,
+        "duration": 53
+      },
+      {
+        "start": 174722.69999998808,
+        "duration": 50
+      },
+      {
+        "start": 174856.29999998212,
+        "duration": 50
+      },
+      {
+        "start": 174988.79999998212,
+        "duration": 58
+      },
+      {
+        "start": 175064.40000000596,
+        "duration": 55
+      },
+      {
+        "start": 175136.5,
+        "duration": 50
+      },
+      {
+        "start": 175536.19999998808,
+        "duration": 93
+      },
+      {
+        "start": 175646.40000000596,
+        "duration": 55
+      },
+      {
+        "start": 175724.5,
+        "duration": 56
+      },
+      {
+        "start": 175803.90000000596,
+        "duration": 86
+      },
+      {
+        "start": 175908.5,
+        "duration": 270
+      }
+    ],
+    "draw": {
+      "frame": 377,
+      "calls": 508,
+      "triangles": 4583962,
+      "points": 0,
+      "lines": 0
+    },
+    "poses": {
+      "entries": 4952,
+      "rows": 56,
+      "bytes": 458752,
+      "cats": 180,
+      "updatedCats": 100
+    },
+    "colony": {
+      "sources": 1644,
+      "batches": 13,
+      "ready": true,
+      "active": true
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "residency": {
+      "bytes": 200968618,
+      "geometries": 367,
+      "evicted": 452
+    },
+    "persistence": {
+      "samples": 12,
+      "median": 31.69999998807907,
+      "max": 43.20000001788139,
+      "clones": 24,
+      "writes": 48,
+      "storageMs": 145.40000009536743,
+      "outboxBytes": 719313
+    },
+    "raster": null
+  }
+]

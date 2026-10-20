@@ -133,6 +133,10 @@ function merge(base, current, incoming, path = "", depth = 0) {
         if (changed(old[key], p[key])) {
           if (key === "lastHousingAIDay")
             profile[key] = Math.max(actual[key] ?? -1, p[key] ?? -1);
+          else if (key === "careerAIRequestedDay")
+            profile[key] = Math.max(actual[key] ?? -1, p[key] ?? -1);
+          else if (key === "careerAIPending")
+            profile[key] = actual[key] === false ? false : p[key];
           else if (key === "manualUntil")
             profile[key] = Math.max(actual[key] || 0, p[key] || 0);
           else if (key === "leisureProgress") {
@@ -175,6 +179,10 @@ function merge(base, current, incoming, path = "", depth = 0) {
     result.requestedDay = Math.max(
       current.requestedDay ?? -1,
       incoming.requestedDay ?? -1,
+    );
+    result.eveningAIRequestedDay = Math.max(
+      current.eveningAIRequestedDay ?? -1,
+      incoming.eveningAIRequestedDay ?? -1,
     );
     return result;
   }

@@ -75,6 +75,8 @@ export function newJobProfile(cat) {
     earnedTotal: 0,
     spentTotal: 0,
     profession: null,
+    careerAIPending: true,
+    careerAIRequestedDay: -1,
     professionChanges: 0,
     professionSinceDay: -1,
     professionReason: "",
@@ -109,6 +111,11 @@ export function normalizeJobCity(raw, game, now = Date.now()) {
     requestedDay: Number.isSafeInteger(raw.requestedDay)
       ? raw.requestedDay
       : -1,
+    eveningAIRequestedDay: Number.isSafeInteger(raw.eveningAIRequestedDay)
+      ? raw.eveningAIRequestedDay
+      : raw.plan?.source === "ai"
+        ? raw.plan.day
+        : -1,
     plan: null,
     profiles: {},
   };
@@ -140,6 +147,15 @@ export function normalizeJobCity(raw, game, now = Date.now()) {
       p.earnedTotal = safe(r.earnedTotal, Number.MAX_SAFE_INTEGER);
       p.spentTotal = safe(r.spentTotal, Number.MAX_SAFE_INTEGER);
       p.profession = JOB_KINDS.includes(r.profession) ? r.profession : null;
+      // Released careers stay fixed. Only genuinely new/provisional cats need
+      // an initial AI choice; loading an old local fallback is not a re-roll.
+      p.careerAIPending =
+        r.careerAIPending === undefined
+          ? !p.profession || r.professionSource === "pending"
+          : r.careerAIPending === true;
+      p.careerAIRequestedDay = Number.isSafeInteger(r.careerAIRequestedDay)
+        ? r.careerAIRequestedDay
+        : -1;
       p.professionChanges = safe(r.professionChanges, 3);
       p.professionSinceDay = Number.isSafeInteger(r.professionSinceDay)
         ? r.professionSinceDay
@@ -285,6 +301,7 @@ export function ensureJobCity(game, now = Date.now()) {
       version: 1,
       epoch: now,
       requestedDay: -1,
+      eveningAIRequestedDay: -1,
       plan: null,
       profiles: {},
     };
@@ -320,7 +337,8 @@ export function localJobPlan(profiles, day) {
         profession: p.profession || (job === "rest" ? p.preferences[0] : job),
         reason: p.professionReason || "Відповідає характеру та здібностям",
         evening:
-          Object.keys(p.inventory).some(jobCar) && hash(p.id + day) % 3 === 0
+          (p.hasCar || Object.keys(p.inventory || {}).some(jobCar)) &&
+          hash(p.id + day) % 3 === 0
             ? "drive"
             : hash(p.id + day) % 2
               ? "walk"
@@ -404,6 +422,7 @@ export function applyJobPlan(
   day,
   source = "local",
   families = [],
+  options = {},
 ) {
   const next = clone(game),
     state = next.jobCity;
@@ -457,7 +476,7 @@ export function applyJobPlan(
     if (a.outings && p.leisureProgress?.day !== day)
       p.leisureProgress = { day, done: 0 };
   }
-  if (source !== "ai") return next;
+  if (source !== "ai" || options.phase === "careers") return next;
   const planned = applyFamilyDecisions(
     applyHousingDecisions(next, day, valid),
     day,
@@ -718,6 +737,12 @@ export function jobAIState(game, now = Date.now()) {
       lastPaidDay: p.lastPaidDay,
       recentWorkedDays: p.shifts.map((s) => s.day),
       hasCar: Object.keys(p.inventory).some(jobCar),
+      scheduleJob: p.schedule?.day === clock.day ? p.schedule.job : "rest",
+      scheduleEvening:
+        p.schedule?.day === clock.day ? p.schedule.evening : "rest",
+      scheduleOutings:
+        p.schedule?.day === clock.day ? p.schedule.outings : undefined,
+      lastHousingAIDay: p.lastHousingAIDay,
     })),
   };
 }

@@ -1,0 +1,13 @@
+{
+  "date": "2026-10-20",
+  "workflow": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/39419618016",
+  "actualInference": true,
+  "model": "dots-studio/dots-3-note-preview:free",
+  "provider": "AtlasCloud",
+  "inputTokens": 28,
+  "outputTokens": 49,
+  "costUSD": 0,
+  "freeRoute": true,
+  "keyOrAccountSecretsIncluded": false,
+  "note": "This verifies the actual key/model, not yet the deployed game failover."
+}

@@ -66,6 +66,16 @@ export function validateCityAIState(s) {
         ? c.recentWorkedDays.filter(Number.isSafeInteger).slice(-5)
         : [],
       hasCar: !!c.hasCar,
+      scheduleJob: JOB_KINDS.includes(c.scheduleJob) ? c.scheduleJob : "rest",
+      scheduleEvening: ["rest", "walk", "drive"].includes(c.scheduleEvening)
+        ? c.scheduleEvening
+        : "rest",
+      scheduleOutings: Array.isArray(c.scheduleOutings)
+        ? c.scheduleOutings.filter((id) => typeof id === "string").slice(0, 3)
+        : undefined,
+      lastHousingAIDay: Number.isSafeInteger(c.lastHousingAIDay)
+        ? c.lastHousingAIDay
+        : -1,
     };
   });
   for (const cat of cats)
@@ -73,6 +83,7 @@ export function validateCityAIState(s) {
       throw Error("Invalid partner");
   return {
     day: s.day,
+    ...(s.phase !== undefined ? validateCityEvent(s, cats) : {}),
     cats,
     housingOffers: housingOffers(),
     leisureOffers: validateLeisureOffers(s.leisureOffers),
@@ -86,6 +97,29 @@ export function validateCityAIState(s) {
         ),
       ),
     },
+  };
+}
+function validateCityEvent(s, cats) {
+  if (
+    !["careers", "evening"].includes(s.phase) ||
+    !Number.isFinite(s.epoch) ||
+    s.epoch < 0 ||
+    !Number.isFinite(s.minute) ||
+    s.minute < 0 ||
+    s.minute >= 1440 ||
+    !Array.isArray(s.initialIds) ||
+    new Set(s.initialIds).size !== s.initialIds.length ||
+    s.initialIds.some(
+      (id) => !cats.some((p) => p.id === id && p.profession === null),
+    ) ||
+    (s.phase === "evening" && (s.minute < 1140 || s.initialIds.length))
+  )
+    throw Error("Invalid city AI event");
+  return {
+    phase: s.phase,
+    epoch: s.epoch,
+    minute: s.minute,
+    initialIds: s.initialIds,
   };
 }
 export async function requestCityPlan(state, run, timeout = 100000) {

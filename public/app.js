@@ -7,6 +7,11 @@ import { createJobCityUI } from "./jobcity-ui.js";
 import { catSexBadge } from "./cat-card-ui.js";
 import { createFriendCards } from "./friend-cards.js";
 import { familyCalendar } from "./family-system.js";
+import {
+  nextCityAIEvent,
+  reserveCityAIEvent,
+  applyCityAIEvent,
+} from "./city-ai-schedule.js";
 import { completeLeisure } from "./leisure-data.js";
 import {
   ensureJobCity,
@@ -15,7 +20,6 @@ import {
   localJobPlan,
   applyJobPlan,
   cityClock,
-  jobAIState,
   buyCatProduct,
   startCatDrive,
   finishCatDrive,
@@ -334,15 +338,19 @@ function queueAttendance(id, job, active) {
     }
   });
 }
-async function requestDailyCareers(day) {
+async function requestDailyCareers(event) {
+  const day = event.day;
   cityPlanning = true;
   const controller = new AbortController(),
     timer = setTimeout(() => controller.abort(), 105000);
   try {
     const response = await fetch(api("/api/jobcity/plan"), {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(jobAIState(game)),
+      headers: {
+        "Content-Type": "application/json",
+        "X-Chichi-Save-Token": cloud.token || "",
+      },
+      body: JSON.stringify(event),
       signal: controller.signal,
     });
     if (!response.ok) throw Error("AI unavailable");
@@ -353,22 +361,20 @@ async function requestDailyCareers(day) {
       !cloud.simulationOwner
     )
       return;
-    commit(
-      applyJobPlan(game, result.assignments, day, "ai", result.families || []),
-    );
+    commit(applyCityAIEvent(game, event, result));
   } catch {
-    if (
-      game.jobCity?.plan?.day === day &&
-      game.jobCity.plan.source === "pending"
-    )
-      try {
-        commit(
-          applyJobPlan(game, game.jobCity.plan.assignments, day, "local"),
-          false,
-        );
-      } catch {
-        /* A newer shared snapshot remains authoritative. */
+    if (event.phase === "careers" && cityClock(game.jobCity).day === day) {
+      const next = structuredClone(game);
+      for (const id of event.initialIds) {
+        const p = next.jobCity.profiles[id];
+        if (p?.professionSource === "pending") p.professionSource = "local";
       }
+      try {
+        commit(next, false);
+      } catch {
+        /* Retain the durable local snapshot. */
+      }
+    }
   } finally {
     clearTimeout(timer);
     cityPlanning = false;
@@ -396,22 +402,20 @@ function cityTick() {
     const state = game.jobCity,
       clock = cityClock(state);
     if (clock.minute >= 720 && state.plan?.day !== clock.day) {
-      const base = structuredClone(game),
-        request = base.jobCity.requestedDay < clock.day;
-      if (request) base.jobCity.requestedDay = clock.day;
       next = applyJobPlan(
-        base,
-        localJobPlan(Object.values(base.jobCity.profiles), clock.day),
+        game,
+        localJobPlan(Object.values(state.profiles), clock.day),
         clock.day,
-        request ? "pending" : "local",
+        "local",
       );
       commit(next, false);
-      if (request && !cityPlanning) void requestDailyCareers(clock.day);
-    } else if (state.plan?.source === "pending" && !cityPlanning) {
-      commit(
-        applyJobPlan(game, state.plan.assignments, state.plan.day, "local"),
-        false,
-      );
+    }
+    if (!cityPlanning) {
+      const event = nextCityAIEvent(game);
+      if (event) {
+        commit(reserveCityAIEvent(game, event), false);
+        void requestDailyCareers(event);
+      }
     }
   } catch (error) {
     $("save-state").textContent = error.message;

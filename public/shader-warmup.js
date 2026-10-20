@@ -18,13 +18,27 @@ export function createShaderWarmup(
     retired = new WeakSet(),
     prepared = new WeakSet(),
     queue = new Set(),
+    compiled = new WeakMap(),
+    callbacks = new WeakMap(),
+    uploaded = new WeakMap(),
     add = scene.add;
   let disposed = false,
-    running = false;
-  const stats = { pending: 0, prepared: 0, reflected: 0 };
-  async function turn() {
+    running = false,
+    callbackId = 0,
+    foreground = 0,
+    preparing = 0;
+  const stats = {
+    pending: 0,
+    prepared: 0,
+    reflected: 0,
+    compiled: 0,
+    reused: 0,
+    textures: 0,
+  };
+  async function turn(background = false) {
     await yieldSceneTask();
-    while (!disposed && !canRun()) await new Promise((r) => setTimeout(r, 40));
+    while (!disposed && (!canRun() || (background && foreground > 0)))
+      await new Promise((r) => setTimeout(r, 40));
   }
   function depthFor(object, source) {
     let map = depths.get(source);
@@ -50,7 +64,9 @@ export function createShaderWarmup(
               : THREE.DoubleSide),
       key = (base?.uuid || "native-depth") + ":" + side;
     if (map.has(key)) return map.get(key);
-    const depth = base ? base.clone() : new THREE.MeshDepthMaterial();
+    const depth = base
+      ? base.clone()
+      : new THREE.MeshDepthMaterial({ depthPacking: THREE.RGBADepthPacking });
     if (base) {
       depth.onBeforeCompile = base.onBeforeCompile;
       depth.customProgramCacheKey = base.customProgramCacheKey;
@@ -76,7 +92,55 @@ export function createShaderWarmup(
     owned.add(depth);
     return depth;
   }
-  async function compile(object, material, programs, shadow = false) {
+  async function compile(
+    object,
+    material,
+    programs,
+    lighting,
+    signature,
+    shadow = false,
+  ) {
+    // Native material instances occur on hundreds of decorative meshes. The
+    // exact same callback and program key have the same shader layout, while a
+    // builder installing/replacing an animated shader must prepare it again.
+    if (!callbacks.has(material.onBeforeCompile))
+      callbacks.set(material.onBeforeCompile, ++callbackId);
+    const geometry = object.geometry;
+    const key = JSON.stringify([
+      signature,
+      shadow,
+      material.version,
+      callbacks.get(material.onBeforeCompile),
+      material.customProgramCacheKey(),
+      material.defines,
+      object.type,
+      !!object.isInstancedMesh,
+      !!object.instanceColor,
+      !!object.morphTexture,
+      !!object.isBatchedMesh,
+      !!object.colorsTexture,
+      object.receiveShadow,
+      Object.entries(geometry?.attributes || {}).map(([n, a]) => [
+        n,
+        a.itemSize,
+        a.normalized,
+      ]),
+      Object.entries(geometry?.morphAttributes || {}).map(([n, a]) => [
+        n,
+        a.length,
+        a[0]?.itemSize,
+      ]),
+      !!geometry?.morphTargetsRelative,
+    ]);
+    let variants = compiled.get(material);
+    if (!variants) compiled.set(material, (variants = new Map()));
+    if (key && variants.has(key)) {
+      stats.reused++;
+      const cached = variants.get(key);
+      for (const program of cached.programs) programs.add(program);
+      await cached.ready;
+      return;
+    }
     const proxy = Object.create(object);
     proxy.children = [];
     proxy.parent = null;
@@ -84,7 +148,8 @@ export function createShaderWarmup(
     const tone = renderer.toneMapping,
       color = renderer.outputColorSpace;
     let ready;
-    const previous = new Set(renderer.info.programs);
+    const previous = new Set(renderer.info.programs),
+      variantPrograms = new Set();
     try {
       if (shadow) {
         renderer.toneMapping = THREE.NoToneMapping;
@@ -94,25 +159,63 @@ export function createShaderWarmup(
       ready = renderer.compileAsync(
         proxy,
         shadow ? shadowCamera : camera,
-        scene,
+        lighting,
       );
       for (const program of renderer.info.programs)
-        if (!previous.has(program)) programs.add(program);
+        if (!previous.has(program)) {
+          programs.add(program);
+          variantPrograms.add(program);
+        }
       const current = renderer.properties?.get(material)?.currentProgram;
-      if (current) programs.add(current);
+      if (current) {
+        programs.add(current);
+        variantPrograms.add(current);
+      }
     } finally {
       renderer.toneMapping = tone;
       renderer.outputColorSpace = color;
     }
-    await ready;
+    if (key) variants.set(key, { ready, programs: variantPrograms });
+    try {
+      await ready;
+      stats.compiled++;
+    } catch (e) {
+      if (key) variants.delete(key);
+      throw e;
+    }
   }
-  async function reflectReady(programs) {
+  async function uploadTextures(material, background) {
+    if (typeof renderer.initTexture !== "function") return;
+    const textures = new Set(
+      Object.values(material).filter((t) => t?.isTexture),
+    );
+    for (const u of Object.values(material.uniforms || {}))
+      if (u?.value?.isTexture) textures.add(u.value);
+    for (const texture of textures) {
+      if (disposed) return;
+      if (
+        texture.isRenderTargetTexture ||
+        texture.isVideoTexture ||
+        uploaded.get(texture) === texture.version ||
+        !texture.image ||
+        texture.image.complete === false
+      )
+        continue;
+      await turn(background);
+      if (disposed) return;
+      renderer.initTexture(texture);
+      uploaded.set(texture, texture.version);
+      stats.textures++;
+    }
+  }
+  async function reflectReady(programs, background) {
     for (const program of programs) {
       if (disposed || reflected.has(program) || !program.program) continue;
-      while (!disposed && program.program && !program.isReady()) await turn();
+      while (!disposed && program.program && !program.isReady())
+        await turn(background);
       if (disposed) return;
       if (!program.program) continue;
-      await turn();
+      await turn(background);
       if (disposed || !program.program) continue;
       program.getUniforms();
       program.getAttributes();
@@ -120,9 +223,28 @@ export function createShaderWarmup(
       stats.reflected++;
     }
   }
-  async function prepare(root) {
+  async function prepareRoot(root, background) {
+    await turn(background);
+    if (disposed) return;
     const objects = [],
       programs = new Set();
+    // compileAsync traverses its target scene for lights for EACH object.
+    // Use the same live lights/environment without revisiting world geometry.
+    const lighting = Object.create(scene),
+      lights = [];
+    scene.traverseVisible((o) => {
+      if (o.isLight) lights.push(o);
+    });
+    lighting.children = lights;
+    const signature = JSON.stringify([
+      lights.map((l) => [l.uuid, l.type, l.castShadow, l.layers.mask]),
+      scene.environment?.uuid,
+      scene.fog?.isFogExp2,
+      !!scene.fog,
+      renderer.shadowMap.type,
+      renderer.toneMapping,
+      renderer.outputColorSpace,
+    ]);
     root.traverse((o) => {
       if (
         (o.isMesh || o.isPoints || o.isLine || o.isSprite) &&
@@ -143,19 +265,37 @@ export function createShaderWarmup(
           watched.add(material);
           material.addEventListener("dispose", () => retired.add(material));
         }
-        await compile(object, material, programs);
+        await uploadTextures(material, background);
+        await compile(object, material, programs, lighting, signature);
         if (object.castShadow && shadowCamera)
-          await compile(object, depthFor(object, material), programs, true);
+          await compile(
+            object,
+            depthFor(object, material),
+            programs,
+            lighting,
+            signature,
+            true,
+          );
       }
       if (performance.now() - start > 3) {
-        await turn();
+        await turn(background);
         start = performance.now();
       }
     }
     if (!disposed) {
-      await reflectReady(programs);
+      await reflectReady(programs, background);
       prepared.add(root);
       stats.prepared++;
+    }
+  }
+  async function prepare(root, { background = false } = {}) {
+    preparing++;
+    if (!background) foreground++;
+    try {
+      return await prepareRoot(root, background);
+    } finally {
+      preparing--;
+      if (!background) foreground--;
     }
   }
   async function pump() {
@@ -163,13 +303,13 @@ export function createShaderWarmup(
     running = true;
     try {
       while (!disposed && queue.size) {
-        await turn();
+        await turn(true);
         const root = queue.values().next().value;
         queue.delete(root);
         stats.pending = queue.size;
         if (root?.parent && isRelevant(root)) {
           try {
-            await prepare(root);
+            await prepare(root, { background: true });
           } catch (error) {
             console.warn("Shader preparation kept native rendering", error);
           }
@@ -216,7 +356,7 @@ export function createShaderWarmup(
         void pump();
       }
     },
-    idle: () => !running && queue.size === 0,
+    idle: () => !running && queue.size === 0 && preparing === 0,
     dispose() {
       disposed = true;
       queue.clear();

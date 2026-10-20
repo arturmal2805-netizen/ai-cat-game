@@ -221,6 +221,9 @@ async function localWorker() {
           ),
         );
         g.jobCity.requestedDay = day;
+        g.jobCity.eveningAIRequestedDay = day;
+        for (const profile of Object.values(g.jobCity.profiles))
+          profile.careerAIPending = false;
       }
     }
     const base = local.base,

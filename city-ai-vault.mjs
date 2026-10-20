@@ -1,0 +1,129 @@
+import { requestCityLife } from "./city-life-ai.mjs";
+import { JOB_KINDS } from "./public/jobcity-data.js";
+const quotaError = (e) =>
+  /4006|daily free allocation|daily.*neurons/i.test(String(e?.message || e));
+const result = (body, status = 200) => ({ body, status });
+export class CityAIRequestLedger {
+  constructor(storage, ai) {
+    this.storage = storage;
+    this.ai = ai;
+    this.inflight = new Map();
+  }
+  async plan(state) {
+    const key = JSON.stringify([
+      state.epoch,
+      state.phase,
+      state.day,
+      [...state.initialIds].sort(),
+    ]);
+    if (this.inflight.has(key)) return this.inflight.get(key);
+    const promise = this.execute(state, key);
+    this.inflight.set(key, promise);
+    try {
+      return await promise;
+    } finally {
+      this.inflight.delete(key);
+    }
+  }
+  async execute(state, key) {
+    const now = Date.now();
+    const reserved = await this.storage.transaction(async (t) => {
+      const ledger = (await t.get("city-ai-ledger")) || {
+        records: [],
+        careers: {},
+        careerAttempts: {},
+        eveningDay: -1,
+        epoch: state.epoch,
+        blockedUntil: 0,
+      };
+      const old = ledger.records.find((r) => r.key === key);
+      if (old)
+        return {
+          cached: old.result || result({ code: "AI_EVENT_PENDING" }, 409),
+        };
+      const initialIds = state.initialIds.filter((id) => !ledger.careers[id]);
+      if (state.phase === "careers" && !initialIds.length)
+        return { replay: ledger.careers };
+      if (ledger.blockedUntil > now)
+        return {
+          cached: result(
+            { code: "AI_DAILY_LIMIT", retryAt: ledger.blockedUntil },
+            429,
+          ),
+        };
+      if (ledger.epoch !== state.epoch)
+        return { cached: result({ code: "AI_WORLD_EPOCH_MISMATCH" }, 409) };
+      if (
+        (state.phase === "evening" && ledger.eveningDay >= state.day) ||
+        (state.phase === "careers" &&
+          initialIds.some(
+            (id) => (ledger.careerAttempts[id] ?? -1) >= state.day,
+          ))
+      )
+        return { cached: result({ code: "AI_EVENT_ALREADY_REQUESTED" }, 409) };
+      if (state.phase === "evening") ledger.eveningDay = state.day;
+      for (const id of initialIds) ledger.careerAttempts[id] = state.day;
+      ledger.records = [...ledger.records, { key }].slice(-2);
+      await t.put("city-ai-ledger", ledger);
+      return { careers: ledger.careers, initialIds };
+    });
+    if (reserved.cached) return reserved.cached;
+    const replay = async (choices) =>
+      requestCityLife(state, async () => ({
+        response: {
+          careers: state.initialIds.map((id) => [
+            state.cats.findIndex((p) => p.id === id),
+            JOB_KINDS.indexOf(choices[id]),
+          ]),
+        },
+      }));
+    if (reserved.replay)
+      return result({ ...(await replay(reserved.replay)), provider: "cached" });
+    let response, timer;
+    try {
+      let body = await Promise.race([
+        requestCityLife(
+          { ...state, initialIds: reserved.initialIds },
+          (input) =>
+            this.ai.run("@cf/meta/llama-3.3-70b-instruct-fp8-fast", input),
+        ),
+        new Promise((_, reject) => {
+          timer = setTimeout(() => reject(Error("AI event timeout")), 100000);
+        }),
+      ]);
+      if (state.phase === "careers") {
+        const provider = body.provider;
+        const choices = { ...reserved.careers };
+        for (const a of body.assignments)
+          if (reserved.initialIds.includes(a.id)) choices[a.id] = a.profession;
+        body = await replay(choices);
+        body.provider = provider;
+      }
+      response = result(body);
+    } catch (e) {
+      response = quotaError(e)
+        ? result(
+            {
+              code: "AI_DAILY_LIMIT",
+              retryAt: Math.floor(now / 86400000) * 86400000 + 86400000,
+            },
+            429,
+          )
+        : result({ code: "AI_EVENT_FAILED" }, 502);
+    } finally {
+      clearTimeout(timer);
+    }
+    await this.storage.transaction(async (t) => {
+      const ledger = await t.get("city-ai-ledger"),
+        record = ledger.records.find((r) => r.key === key);
+      if (record) record.result = response;
+      if (response.status === 200 && state.phase === "careers")
+        for (const a of response.body.assignments)
+          if (state.initialIds.includes(a.id))
+            ledger.careers[a.id] = a.profession;
+      if (response.body.retryAt) ledger.blockedUntil = response.body.retryAt;
+      await t.put("city-ai-ledger", ledger);
+    });
+    return response;
+  }
+}
