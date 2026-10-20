@@ -15,4 +15,4 @@ jobs:
       - name: Verify key and make one real free inference
         env:
           BACKUP_AI_API_KEY: ${{ secrets.BACKUP_AI_API_KEY }}
-        run: node scripts/verify-openrouter-key.mjs
+        run: node scripts/probe-city-backup.mjs
