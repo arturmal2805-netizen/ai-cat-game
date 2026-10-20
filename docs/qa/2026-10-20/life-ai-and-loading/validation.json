@@ -36,5 +36,10 @@
     "Family fixture pins the intended evening before native visits; slow software-GPU preparation can cross curfew. Detailed transition diagnostics remain for failures.",
     "Final shared family test completed both native restaurant visits, three reloads, five retried writes and concurrent older-client writes.",
     "Full CPU/frame diagnostics contain substantial software-driver variance; no perfect hardware FPS claim."
-  ]
+  ],
+  "latestCI": {
+    "passed": 616,
+    "failed": 0,
+    "workflow": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/39436713153"
+  }
 }

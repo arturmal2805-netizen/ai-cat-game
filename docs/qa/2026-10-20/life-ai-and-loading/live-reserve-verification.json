@@ -1,0 +1,21 @@
+{
+  "initialCareer": {
+    "release": "79c1d8536c0bce1e77940c6ab931b67ecb237430",
+    "provider": "openrouter",
+    "configured": true,
+    "actualFallbackVerified": true,
+    "profession": "estate"
+  },
+  "afterWork": {
+    "provider": "openrouter",
+    "cats": 147,
+    "workers": 36,
+    "professionsPreserved": true,
+    "shiftsPreserved": true,
+    "oneAfterWorkBatch": true,
+    "withOutings": 0
+  },
+  "workflow": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/39436713153",
+  "privateWorldsOnly": true,
+  "playerSaveAccessed": false
+}

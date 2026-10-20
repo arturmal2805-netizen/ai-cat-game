@@ -1,0 +1,37 @@
+{
+  "retained": false,
+  "reason": "Disabling shader diagnostic queries moved driver waiting into program reflection and did not show a safe improvement. The change was reverted before publication.",
+  "runs": {
+    "diagnosticsOn": {
+      "setup": {
+        "islandReadyMs": 28756,
+        "prepareAndFirstDrawMs": 37160,
+        "firstDrawMs": 286
+      },
+      "frames": {
+        "samples": 180,
+        "median": 25.799999982118607,
+        "p95": 63.20000001788139,
+        "max": 3608.199999988079
+      },
+      "registeredCats": 148,
+      "dpr": 2
+    },
+    "diagnosticsOffAlone": {
+      "setup": {
+        "islandReadyMs": 34465,
+        "prepareAndFirstDrawMs": 48340,
+        "firstDrawMs": 323
+      },
+      "frames": {
+        "samples": 180,
+        "median": 85.40000000596046,
+        "p95": 343,
+        "max": 8812.399999976158
+      },
+      "registeredCats": 148,
+      "dpr": 2
+    }
+  },
+  "additionalFailure": "First diagnostics-off run timed out during the native aquarium tap; the isolated rerun completed but was slower."
+}

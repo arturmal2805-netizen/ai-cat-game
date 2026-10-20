@@ -47,6 +47,12 @@ included rather than claiming a consistent cold-load improvement. Its actual
 same-pose raster comparison still matched exactly and measured 27.7 → 22.1 ms
 medians. Loading/stall variability is a remaining limitation of these diagnostics.
 
+A further experiment disabled synchronous shader diagnostic log queries.
+An isolated rerun moved the driver wait into program reflection and was slower;
+another run timed out during native touch input. It was reverted before
+publication. `rejected-diagnostic-experiment.json` retains both completed runs;
+normal shader checks remain enabled.
+
 `same-pose-raster.json` records six actual full-resolution raster samples per
 mode in three individual checks. Capybara medians were 30.25 → 21.2 ms, homestead
 58.05 → 52.75 ms and Bikini 18.25 → 16.6 ms, with identical pixels. These are
@@ -91,6 +97,18 @@ https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/39432678177.
 The deployed game's actual failover is checked once after publication with
 `scripts/check-ai-backup.mjs`, a fresh private ledger token and one initial
 career. That activation probe is deliberately excluded from routine deployment.
+
+The published Durable Object path passed actual OpenRouter failover at
+`79c1d8536c0bce1e77940c6ab931b67ecb237430`: one initial career and a separate
+147-cat evening batch with 36 workers. All professions/shifts were preserved.
+The synthetic evening answer selected rest (zero outings); it verifies the
+live response contract, not diversity of model preferences. Both probes used
+fresh private tokens and never opened a player save. See
+`live-reserve-verification.json`. A malformed primary JSON/choice now also
+triggers the one reserve attempt, with the same strict validator; two invalid
+responses fail without retries or fabricated careers. The public endpoint and
+Durable Object integration test verifies that repeated requests reuse the
+saved result. The corresponding CI passed all 616 tests.
 
 ## Reproduction
 
