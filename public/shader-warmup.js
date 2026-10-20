@@ -185,7 +185,7 @@ export function createShaderWarmup(
       throw e;
     }
   }
-  async function uploadTextures(material, background) {
+  async function uploadTextures(material, background, needed) {
     if (typeof renderer.initTexture !== "function") return;
     const textures = new Set(
       Object.values(material).filter((t) => t?.isTexture),
@@ -193,7 +193,7 @@ export function createShaderWarmup(
     for (const u of Object.values(material.uniforms || {}))
       if (u?.value?.isTexture) textures.add(u.value);
     for (const texture of textures) {
-      if (disposed) return;
+      if (disposed || !needed()) return;
       if (
         texture.isRenderTargetTexture ||
         texture.isVideoTexture ||
@@ -203,30 +203,32 @@ export function createShaderWarmup(
       )
         continue;
       await turn(background);
-      if (disposed) return;
+      if (disposed || !needed()) return;
       renderer.initTexture(texture);
       uploaded.set(texture, texture.version);
       stats.textures++;
     }
   }
-  async function reflectReady(programs, background) {
+  async function reflectReady(programs, background, needed) {
     for (const program of programs) {
-      if (disposed || reflected.has(program) || !program.program) continue;
+      if (disposed || !needed()) return;
+      if (reflected.has(program) || !program.program) continue;
       while (!disposed && program.program && !program.isReady())
         await turn(background);
-      if (disposed) return;
+      if (disposed || !needed()) return;
       if (!program.program) continue;
       await turn(background);
-      if (disposed || !program.program) continue;
+      if (disposed || !needed()) return;
+      if (!program.program) continue;
       program.getUniforms();
       program.getAttributes();
       reflected.add(program);
       stats.reflected++;
     }
   }
-  async function prepareRoot(root, background) {
+  async function prepareRoot(root, background, needed) {
     await turn(background);
-    if (disposed) return;
+    if (disposed || !needed()) return;
     const objects = [],
       programs = new Set();
     // compileAsync traverses its target scene for lights for EACH object.
@@ -257,7 +259,7 @@ export function createShaderWarmup(
     });
     let start = performance.now();
     for (const object of objects) {
-      if (disposed) return;
+      if (disposed || !needed()) return;
       for (const material of Array.isArray(object.material)
         ? object.material
         : [object.material]) {
@@ -266,8 +268,10 @@ export function createShaderWarmup(
           watched.add(material);
           material.addEventListener("dispose", () => retired.add(material));
         }
-        await uploadTextures(material, background);
+        await uploadTextures(material, background, needed);
+        if (disposed || !needed()) return;
         await compile(object, material, programs, lighting, signature);
+        if (disposed || !needed()) return;
         if (object.castShadow && shadowCamera)
           await compile(
             object,
@@ -283,8 +287,9 @@ export function createShaderWarmup(
         start = performance.now();
       }
     }
-    if (!disposed) {
-      await reflectReady(programs, background);
+    if (!disposed && needed()) {
+      await reflectReady(programs, background, needed);
+      if (disposed || !needed()) return;
       prepared.add(root);
       stats.prepared++;
     }
@@ -295,7 +300,7 @@ export function createShaderWarmup(
     if (!background) foreground++;
     try {
       if (job.explicit || (job.root.parent && isRelevant(job.root)))
-        await prepareRoot(job.root, background);
+        await prepareRoot(job.root, background, job.needed);
       job.resolve();
     } catch (error) {
       job.reject(error);
@@ -305,13 +310,14 @@ export function createShaderWarmup(
       if (inflight.get(job.root) === job) inflight.delete(job.root);
     }
   }
-  function schedule(root, background, explicit) {
+  function schedule(root, background, explicit, needed = () => true) {
     let job = inflight.get(root);
     if (job) {
       // The same root may be attached and explicitly prepared in one turn.
       // Share that work instead of compiling/uploading it twice. A selected
       // root can promote its queued background job without awaiting itself.
       job.explicit ||= explicit;
+      if (explicit) job.needed = needed;
       if (!background && !job.active) {
         queue.delete(root);
         stats.pending = queue.size;
@@ -319,7 +325,7 @@ export function createShaderWarmup(
       }
       return job.promise;
     }
-    job = { root, explicit, active: false };
+    job = { root, explicit, active: false, needed };
     job.promise = new Promise((resolve, reject) => {
       job.resolve = resolve;
       job.reject = reject;
@@ -332,8 +338,8 @@ export function createShaderWarmup(
     } else void run(job, false);
     return job.promise;
   }
-  function prepare(root, { background = false } = {}) {
-    return schedule(root, background, true);
+  function prepare(root, { background = false, needed = () => true } = {}) {
+    return schedule(root, background, true, needed);
   }
   function enqueue(root) {
     if (disposed || prepared.has(root)) return;

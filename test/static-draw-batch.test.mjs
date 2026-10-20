@@ -280,3 +280,53 @@ test("hidden sources wake with current transforms and native fallbacks after mat
   assert.equal(batch.getVisibleAt(0), true);
   runtime.dispose();
 });
+
+test("loading or removing an unrelated building retains existing GPU buffers and prepared shader groups", () => {
+  const { scene, roots, runtime } = setup();
+  const first = scene.children.find(o => o.isBatchedMesh);
+  const geometry = first.geometry, paint = first.material;
+  let retired = 0;
+  geometry.addEventListener("dispose", () => retired++);
+  const extra = new T.Group();
+  for (let i = 0; i < 3; i++) {
+    const mesh = new T.Mesh(new T.BoxGeometry(), new T.MeshStandardMaterial({ color: 0xff0000 }));
+    mesh.geometry.clearGroups(); mesh.userData.staticModel = true;
+    extra.add(mesh);
+  }
+  scene.add(extra);
+  runtime.sync([...roots, extra]);
+  assert.equal(runtime.stats.batches, 2);
+  assert.equal(first.parent, scene);
+  assert.equal(first.geometry, geometry);
+  assert.equal(first.material, paint);
+  assert.equal(retired, 0);
+  const second = scene.children.find(o => o.isBatchedMesh && o !== first);
+  runtime.sync(roots);
+  assert.equal(second.parent, null);
+  assert.equal(first.parent, scene);
+  assert.equal(retired, 0);
+  roots[0].position.x = 44;
+  scene.updateMatrixWorld(true); scene.onBeforeRender();
+  const matrix = new T.Matrix4(); first.getMatrixAt(0, matrix);
+  assert.equal(matrix.elements[12], 44);
+  runtime.dispose();
+  assert.equal(retired, 1);
+});
+
+test("shared material serialization is bounded per edit, while later colour edits still regroup the affected props", () => {
+  const { scene, roots, runtime } = setup();
+  const material = roots[0].children[0].material;
+  for (const root of roots) root.children[0].material = material;
+  const serialize = material.toJSON;
+  let calls = 0;
+  material.toJSON = function(...args) { calls++; return serialize.apply(this, args); };
+  runtime.sync(roots);
+  assert.equal(calls, 1, "one shared paint is serialized once, not once per prop");
+  const batch = scene.children.find(o => o.isBatchedMesh);
+  material.color.set(0x123456); // Three does not increment material.version for a tint edit.
+  runtime.sync(roots);
+  assert.equal(calls, 2);
+  assert.equal(batch.parent, null);
+  assert.ok(scene.children.find(o => o.isBatchedMesh).material.color.equals(material.color));
+  runtime.dispose();
+});

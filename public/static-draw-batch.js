@@ -17,7 +17,7 @@ function supportedTransform(matrix) {
 
 // Only small, explicitly baked opaque props. Large range-culled meshes, water,
 // foliage shaders, articulated cats and transparent surfaces stay native.
-function key(mesh, layers = mesh.layers.mask) {
+function key(mesh, layers, paints, layouts) {
   const g = mesh.geometry,
     m = mesh.material;
   if (
@@ -63,27 +63,28 @@ function key(mesh, layers = mesh.layers.mask) {
     if (parent.isGroup && parent.renderOrder !== 0) return null;
   // Compare texture identities, not their pixels. Root Material.toJSON would
   // encode every canvas texture as a PNG during a building edit.
-  const meta = { textures: {}, images: {} };
-  for (const value of Object.values(m))
-    if (value?.isTexture) meta.textures[value.uuid] = { uuid: value.uuid };
-  const json = m.toJSON(meta);
-  delete json.uuid;
-  delete json.name;
-  delete json.metadata;
-  delete json.userData;
-  const attributes = Object.entries(g.attributes).map(([name, a]) => [
-    name,
-    a.array.constructor.name,
-    a.itemSize,
-    a.normalized,
-    a.gpuType,
-  ]);
+  let paint = paints.get(m);
+  if (!paint) {
+    const meta = { textures: {}, images: {} };
+    for (const value of Object.values(m))
+      if (value?.isTexture) meta.textures[value.uuid] = { uuid: value.uuid };
+    const json = m.toJSON(meta);
+    delete json.uuid;
+    delete json.name;
+    delete json.metadata;
+    delete json.userData;
+    paint = JSON.stringify(json);
+    paints.set(m, paint);
+  }
+  let layout = layouts.get(g);
+  if (!layout) {
+    layout = JSON.stringify(Object.entries(g.attributes).map(([name, a]) => [
+      name, a.array.constructor.name, a.itemSize, a.normalized, a.gpuType,
+    ]));
+    layouts.set(g, layout);
+  }
   return JSON.stringify([
-    json,
-    attributes,
-    mesh.castShadow,
-    mesh.receiveShadow,
-    mesh.renderOrder,
+    paint, layout, mesh.castShadow, mesh.receiveShadow, mesh.renderOrder,
   ]);
 }
 
@@ -139,13 +140,14 @@ export function createStaticDrawBatch(
       (!m.emissive || m.emissive.equals(b.emissive))
     );
   }
+  function retire(batch) {
+    batch.removeFromParent();
+    batch.dispose();
+    batch.material.dispose();
+  }
   function restore() {
     for (const e of entries) e.mesh.layers.mask = e.layers;
-    for (const b of batches) {
-      b.removeFromParent();
-      b.dispose();
-      b.material.dispose();
-    }
+    for (const b of batches) retire(b);
     entries = [];
     batches = [];
     stats.sources = stats.batches = 0;
@@ -203,7 +205,7 @@ export function createStaticDrawBatch(
     traversal,
     sync(roots) {
       if (!supported) return;
-      const groups = new Map();
+      const groups = new Map(), paints = new WeakMap(), layouts = new WeakMap();
       const layers = new Map(entries.map((e) => [e.mesh, e.layers]));
       for (const root of roots) {
         // Guest rafts clone the native moving template lazily. Keep it and
@@ -216,27 +218,32 @@ export function createStaticDrawBatch(
         root.traverse((mesh) => {
           for (let p = mesh; p && p !== root; p = p.parent)
             if (moving.has(p)) return;
-          const k = key(mesh, layers.get(mesh) ?? mesh.layers.mask);
+          const k = key(mesh, layers.get(mesh) ?? mesh.layers.mask, paints, layouts);
           if (k === null) return;
           if (!groups.has(k)) groups.set(k, []);
           groups.get(k).push(mesh);
         });
       }
-      const candidates = [...groups.values()].filter((g) => g.length >= 3);
-      const meshes = candidates.flat();
-      if (
-        meshes.length === entries.length &&
-        meshes.every(
-          (m, i) =>
-            m === entries[i].mesh &&
-            m.geometry === entries[i].geometry &&
-            m.material === entries[i].material &&
-            m.material.version === entries[i].version,
-        )
-      )
-        return;
-      restore();
-      for (const sources of candidates) {
+      const candidates = [...groups].filter(([, g]) => g.length >= 3);
+      const old = new Map(batches.map(b => [b.userData.groupKey, { batch: b, entries: [] }]));
+      for (const e of entries) {
+        e.mesh.layers.mask = e.layers;
+        old.get(e.batch.userData.groupKey).entries.push(e);
+      }
+      entries = [];
+      batches = [];
+      for (const [groupKey, sources] of candidates) {
+        const previous = old.get(groupKey);
+        if (previous && sources.length === previous.entries.length && sources.every((m, i) => {
+          const e = previous.entries[i];
+          return m === e.mesh && m.geometry === e.geometry &&
+            m.material === e.material && m.material.version === e.version;
+        })) {
+          batches.push(previous.batch);
+          entries.push(...previous.entries);
+          old.delete(groupKey);
+          continue;
+        }
         const vertices = sources.reduce(
           (s, m) => s + m.geometry.attributes.position.count,
           0,
@@ -250,6 +257,7 @@ export function createStaticDrawBatch(
           material,
         );
         batch.name = "Shared exact static props";
+        batch.userData.groupKey = groupKey;
         batch.castShadow = sources[0].castShadow;
         batch.receiveShadow = sources[0].receiveShadow;
         batch.renderOrder = sources[0].renderOrder;
@@ -278,6 +286,7 @@ export function createStaticDrawBatch(
         // Keep native props until their actually visible batch is prepared.
         // Hundreds of remote businesses must not start parallel GPU jobs here.
       }
+      for (const { batch } of old.values()) retire(batch);
       stats.sources = entries.length;
       stats.batches = batches.length;
       update();

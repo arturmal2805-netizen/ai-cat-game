@@ -236,7 +236,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
   // small ground decorations more depth precision without clipping that orbit.
   const camera = new THREE.PerspectiveCamera(40, 1, 0.5, 1200);
   const staticDraws = createStaticDrawBatch(scene, renderer, camera, {
-    prepare: (root) => shaderWarmup.prepare(root, { background: true }),
+    prepare: (root) => shaderWarmup.prepare(root, {
+      background: true,
+      needed: () => root.parent === scene,
+    }),
   });
   const look = new THREE.Vector3(0, 0, 0),
     desiredLook = look.clone();

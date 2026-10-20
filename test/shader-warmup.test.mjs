@@ -314,3 +314,28 @@ test("selected island preparation pauses cooperative background work, then resum
     warm.dispose();
   }
 });
+
+test("retired queued batches never recreate disposed GPU resources; active retirement stops at the next async boundary", async () => {
+  const scene = new THREE.Scene(), camera = new THREE.Camera();
+  let needed = true, calls = 0, uploaded = 0;
+  const renderer = {
+    toneMapping: THREE.ACESFilmicToneMapping, outputColorSpace: THREE.SRGBColorSpace,
+    shadowMap: { type: THREE.PCFShadowMap }, info: { programs: [] },
+    initTexture() { uploaded++; needed = false; },
+    async compileAsync() { calls++; },
+  };
+  const warm = createShaderWarmup(renderer, scene, camera, camera);
+  const root = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial());
+  await warm.prepare(root, { background: true, needed: () => false });
+  assert.equal(calls, 0, "retired roots are not compiled after leaving the scene");
+  root.material.map = new THREE.DataTexture(new Uint8Array(4), 1, 1);
+  await warm.prepare(root, { background: true, needed: () => needed });
+  assert.equal(uploaded, 1);
+  assert.equal(calls, 0, "retiring during an upload prevents colour and shadow preparation");
+  assert.equal(warm.stats.prepared, 0);
+  needed = true;
+  root.material.map = null;
+  await warm.prepare(root, { background: true, needed: () => needed });
+  assert.equal(calls, 1, "cancellation does not cache an unfinished root");
+  warm.dispose();
+});
