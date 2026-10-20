@@ -1,0 +1,18 @@
+name: Verify OpenRouter reserve (one real free request)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify key and make one real free inference
+        env:
+          BACKUP_AI_API_KEY: ${{ secrets.BACKUP_AI_API_KEY }}
+        run: node scripts/verify-openrouter-key.mjs
