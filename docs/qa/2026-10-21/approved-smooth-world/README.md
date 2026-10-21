@@ -48,6 +48,14 @@ is not used to claim a camera-frame improvement. Existing all-island/WebKit
 exact-image evidence remains in `../capybara-standard/` for the unchanged
 renderer.
 
+The same A/B/B/A check also passed in WebKit 26.5, the Safari browser engine
+(`CHICHI_BROWSER=webkit`; see `durable-save-webkit.json`). Warm medians were
+8–9 ms updated versus 10 ms for the baseline return; updated repeat p95 was
+14 ms versus 30 ms baseline return. First/cold tail values varied. All four
+runs kept the same 288 writes and exact journal bytes and recovered 75 homes;
+copies fell from 96 to 48. These are Linux WebKit storage measurements, not
+physical MacBook frame rates.
+
 ## Homes: observations and visibility
 
 Read-only player diagnostics found zero purchased home records, five existing
@@ -91,3 +99,10 @@ is charged once.
 Full local suite: **645 passed, zero failed**. The final housing-status follow-up
 also passed all 19 AI-event tests. Build completed successfully. Publication and
 CI evidence are recorded separately after deployment.
+
+Published source: `87ff8131e6fd138d6b629b01a29350c97256e2ca`. Workflow
+`39565807889` passed test, Worker deployment and Pages publication. Live server
+release/header match that SHA; live HTML references the verified
+`8b8a2b07ca73ccf6` client bundle. Cloud saves and AI configuration remain
+available. Routine deployment checks spent no inference credits. See
+`publication.json`.
