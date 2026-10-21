@@ -264,3 +264,14 @@ approved improvements when testing a new candidate.
   colonies may contain hundreds of small variants within the byte budget; do
   not reject their entire useful cache because of a smaller legacy count cap.
   Bound metadata, validate original bytes, and retain uncached full construction.
+
+### One home per permanent family
+
+A couple keeps its earliest purchased home (timestamp, then stable ID), shares
+its two resident seats, and cannot buy a second home manually or through AI.
+Legacy duplicates move to `housing.retiredHomes`: preserve original purchase
+receipts, balances and high-water sequence counters; never resurrect them from
+a cached device. Conflicting simultaneous spouse purchases must reject the
+second transaction atomically. Do not cap homes for unpaired cats or change
+family pacing. Retire only the duplicate house's visual instance; retain shared
+models, terrain and the surviving home.

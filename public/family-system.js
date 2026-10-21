@@ -202,32 +202,39 @@ export function applyFamilyDecisions(
   }
   return reconcileFamilyHomes(next);
 }
-// Family formation is the explicit reason to share a home. Buying extra
-// property afterwards never relocates an established couple to another home.
-export function reconcileFamilyHomes(game, preferredHome = null) {
+// A permanent couple shares its earliest purchased home. Retain removed
+// duplicates in a receipt archive so cached devices cannot resurrect them.
+function firstFamilyHome(game, members) {
+  let first = null;
+  for (const home of Object.values(game.housing?.homes || {}))
+    if (members.includes(home.owner) && (!first || home.at < first.at || (home.at === first.at && home.id < first.id))) first = home;
+  return first;
+}
+export function familyHome(game, id) {
+  const partner = familyPartner(game, id);
+  return partner ? firstFamilyHome(game,[id,partner]) : null;
+}
+export function reconcileFamilyHomes(game) {
   if (!game.family || !game.housing) return game;
+  const housing = game.housing;
   for (const pair of Object.values(game.family.couples)) {
-    const members = [pair.male, pair.female],
-      homes = game.housing.homes;
-    const active = members.map((id) => homes[game.housing.residences[id]]);
-    const preferred = homes[preferredHome];
-    const home =
-      (preferred && members.includes(preferred.owner) ? preferred : null) ||
-      active.find((h) => h && members.includes(h.owner)) ||
-      Object.values(homes).find((h) => members.includes(h.owner));
+    const members = [pair.male, pair.female], home = firstFamilyHome(game, members);
     if (!home) continue;
-    const spouse = members.find((id) => id !== home.owner);
-    if (
-      home.roommate &&
-      home.roommate !== spouse &&
-      game.housing.residences[home.roommate] === home.id
-    )
-      delete game.housing.residences[home.roommate];
-    for (const old of Object.values(homes))
-      if (old.id !== home.id && members.includes(old.roommate))
-        old.roommate = null;
+    for (const old of Object.values(housing.homes)) {
+      if (old.id === home.id) continue;
+      if (members.includes(old.owner)) {
+        housing.retiredHomes ||= {};
+        housing.retiredHomes[old.id] ||= { ...clone(old), replacedBy: home.id };
+        delete housing.homes[old.id];
+        for (const [cat, id] of Object.entries(housing.residences))
+          if (id === old.id) delete housing.residences[cat];
+      } else if (members.includes(old.roommate)) old.roommate = null;
+    }
+    const spouse = members.find(id => id !== home.owner);
+    if (home.roommate && home.roommate !== spouse && housing.residences[home.roommate] === home.id)
+      delete housing.residences[home.roommate];
     home.roommate = spouse;
-    for (const id of members) game.housing.residences[id] = home.id;
+    for (const id of members) housing.residences[id] = home.id;
   }
   return game;
 }

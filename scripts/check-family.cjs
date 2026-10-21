@@ -136,7 +136,8 @@ async function localWorker() {
       p.coins = 10000;
       p.careerAIPending = false;
     }
-    g = buyCatHome(g, "chichi", "home-sage", "buy-chichi-1");
+    g = buyCatHome(g, "chichi", "home-sage", "buy-chichi-1", {}, now);
+    g = buyCatHome(g, "adopt-nimbus", "home-lavender", "buy-adopt-nimbus-1", {}, now+1);
     g.family.lastReviewDay = 27; // Released save consumed two empty reviews.
     g.jobCity.epoch = now - (27 * 1440 + 450) * 1000;
     g.jobCity.plan = null;
@@ -298,6 +299,12 @@ async function localWorker() {
           .length === 2,
     );
     assert.equal(aiCalls, 1);
+    const retiredHouse = await page.evaluate(() => {
+      const g=__familySave.getGame();
+      return {removed:!g.housing.homes['house-adopt-nimbus-1'],replacement:g.housing.retiredHomes?.['house-adopt-nimbus-1']?.replacedBy,home:g.housing.residences['adopt-nimbus']};
+    });
+    assert.deepEqual(retiredHouse,{removed:true,replacement:'house-chichi-1',home:'house-chichi-1'});
+    console.log('Legacy second family house archived; surviving home shared by both partners.');
     console.log(
       lostAck ? "Reload recovered cached AI families after a lost ACK; no second inference." : "Real app applied one mocked daily AI response, two permanent pairs and shared itinerary.",
     );

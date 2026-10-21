@@ -300,7 +300,15 @@ export function* housingBiomeSteps(biome, { lowOnly = false } = {}) {
     }
     for (const [id, g] of houses) {
       const home = game.housing?.homes[id];
-      if (!home) continue; // Purchases are permanent; cached saves never delete them.
+      if (!home) {
+        if (game.housing?.retiredHomes?.[id]) {
+          releaseWater(g.userData.water);
+          animated.delete(g.userData.water);
+          detail.remove(g); houses.delete(id);
+          // Template geometry/materials are shared by the surviving homes.
+        }
+        continue;
+      }
       const p = housingPlot(home.plot);
       g.position.set(p.x, 0, p.z);
       const name = game.jobCity?.profiles[home.owner]?.name || home.owner;

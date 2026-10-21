@@ -9,7 +9,8 @@ import { JOB_CAPACITY } from "./public/jobcity-data.js";
 
 export function cityLifeChoices(s) {
   const houses = housingOffers(),
-    minimum = Math.min(...houses.map((h) => h.price));
+    minimum = Math.min(...houses.map((h) => h.price)),
+    byId = new Map(s.cats.map(p => [p.id,p]));
   return {
     careers:
       s.phase === "careers"
@@ -22,7 +23,8 @@ export function cityLifeChoices(s) {
     buyers:
       s.phase === "evening"
         ? s.cats.flatMap((p, i) =>
-            p.coins >= minimum && p.lastHousingAIDay < s.day ? [i] : [],
+            p.coins >= minimum && p.lastHousingAIDay < s.day &&
+            (!p.partner || !(p.ownedHomes || p.activeHome || byId.get(p.partner)?.ownedHomes || byId.get(p.partner)?.activeHome)) ? [i] : [],
           )
         : [],
     family: s.phase === "evening" && s.familyReview.due &&
@@ -97,7 +99,7 @@ export function cityLifeInput(s) {
         role: "system",
         content: initial
           ? `Choose a lifelong profession for each requested fictional cat. Return ONLY compact JSON {"careers":[[catIndex,professionIndex]]} without indentation, line breaks, prose or other keys. Exactly one numeric pair for every index provided in careers; no extra rows. Profession indices ${JOB_KINDS.map((k, i) => i + "=" + k).join(",")}. Each input row is [catIndex,personality,preferredProfessionIndices,skillPerProfession]. Choose by personality, preferences and skills. This is initial career selection only. Do not choose evening plans, purchases, houses or families.`
-          : `Choose ONLY requested fictional cat life events. Return ONLY compact JSON {${fields.join(",")}} without indentation, line breaks, prose or other keys. Never select or change professions. Evening input rows are [catIndex,personality,ownsCar,partnerIndex]; ownsCar is a permission, not the chosen activity. Place rows are [placeIndex,typeIndex,islandIndex,action]. Choose for every index in evenings, mode 0=rest/home,1=walk/friends,2=owned car; 1-3 different real place indices, or [] for rest. Choose varied rides, meals, water, games or peaceful rest by personality. Partners spend free time together. Housing input rows are [catIndex,coins,ownedHomes,hasActiveHome,partnerIndex,personality]. Make exactly one personal buy-or-wait decision for EVERY buyer. house=null means wait and spends nothing. Consider a first cozy home for financially secure homeless cats, especially partners without a shared home; choose the house by personality while keeping a sensible reserve. Buying remains voluntary, not every cat must buy. Only buyers, only affordable; roommate=null for no roommate, otherwise a different free cat index; never the buyer or a cat with an active home. Existing owners may buy additional homes without moving their active residence. Families: ${c.family ? `This is the scheduled 14-day introduction. Return at least 1 and AT MOST ${s.familyReview.slots} rows in families (never pair the entire singles list). Choose compatible lifelong male+female couples from the offered singles, using their personalities. Each singles row is [catIndex,name,sex,personality]; male and female indices must refer to different free cats. Do not return an empty review when compatible singles are available. Every cat can eventually pair.` : "none today"} Return a housing row for every buyer even when waiting; do not omit this decision. No family choices outside a scheduled review. No work schedule or career review.`,
+          : `Choose ONLY requested fictional cat life events. Return ONLY compact JSON {${fields.join(",")}} without indentation, line breaks, prose or other keys. Never select or change professions. Evening input rows are [catIndex,personality,ownsCar,partnerIndex]; ownsCar is a permission, not the chosen activity. Place rows are [placeIndex,typeIndex,islandIndex,action]. Choose for every index in evenings, mode 0=rest/home,1=walk/friends,2=owned car; 1-3 different real place indices, or [] for rest. Choose varied rides, meals, water, games or peaceful rest by personality. Partners spend free time together. Housing input rows are [catIndex,coins,ownedHomes,hasActiveHome,partnerIndex,personality]. Make exactly one personal buy-or-wait decision for EVERY buyer. house=null means wait and spends nothing. Consider a first cozy home for financially secure homeless cats, especially partners without a shared home; choose the house by personality while keeping a sensible reserve. Buying remains voluntary, not every cat must buy. Only buyers, only affordable; roommate=null for no roommate, otherwise a different free cat index; never the buyer or a cat with an active home. Single cats may buy additional homes without moving their active residence. A permanent couple keeps ONE shared home; if either partner has any home, do not buy another. If both partners are homeless, at most one of them buys in this batch. Families: ${c.family ? `This is the scheduled 14-day introduction. Return at least 1 and AT MOST ${s.familyReview.slots} rows in families (never pair the entire singles list). Choose compatible lifelong male+female couples from the offered singles, using their personalities. Each singles row is [catIndex,name,sex,personality]; male and female indices must refer to different free cats. Do not return an empty review when compatible singles are available. Every cat can eventually pair.` : "none today"} Return a housing row for every buyer even when waiting; do not omit this decision. No family choices outside a scheduled review. No work schedule or career review.`,
       },
       {
         role: "user",

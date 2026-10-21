@@ -614,3 +614,23 @@ test('house preparation coalesces view requests, caps concurrent builds and rele
   assert.equal(root.userData.houses.size,0);
   assert.equal(root.userData.templates.size,0,'late templates cannot remain after disposal');
 });
+test('retiring a duplicate family house removes its visual/picking model and navigation footprint without disposing the surviving shared template',async()=>{
+ const {applyFamilyDecisions}=await import('../public/family-system.js');
+ let g=buy(seed(),'chichi');g=buy(g,'pixel');
+ const first=g.housing.homes['house-chichi-1'],duplicate=g.housing.homes['house-pixel-1'];first.at=now;duplicate.at=now+1;
+ const b=byBiome(HOUSING_ID),root=createBiomeScene(b),camera=new T.PerspectiveCamera(40,1.5,.1,250),runtime=createHousingRuntime();
+ root.position.set(b.center[0],0,b.center[1]);root.userData.syncHousing(g);runtime.sync(g);
+ try{
+  for(const home of [first,duplicate]){
+   const p=housingPlot(home.plot),look={x:b.center[0]+p.x,z:b.center[1]+p.z};camera.position.set(look.x,12,look.z+25);camera.lookAt(look.x,2,look.z);camera.updateMatrixWorld();
+   for(let i=0;i<150&&!root.userData.houses.has(home.id);i++){root.userData.viewHousing(look,25,camera,i/10);await new Promise(r=>setTimeout(r,10));}
+   assert.ok(root.userData.houses.has(home.id));
+  }
+  const kept=root.userData.houses.get(first.id),retired=root.userData.houses.get(duplicate.id),geometry=kept.children[0].children.find(o=>o.isMesh).geometry;
+  let sharedDisposals=0,waterDisposals=0;geometry.addEventListener('dispose',()=>sharedDisposals++);retired.userData.water.children.find(o=>o.isMesh).geometry.addEventListener('dispose',()=>waterDisposals++);
+  g=applyFamilyDecisions(g,13,[{male:'pixel',female:'chichi',reason:'Разом удома'}]);root.userData.syncHousing(g);runtime.sync(g);
+  assert.equal(root.userData.houses.has(duplicate.id),false);assert.equal(retired.parent,null);assert.equal(root.userData.houses.get(first.id),kept);assert.equal(sharedDisposals,0);assert.equal(waterDisposals,1);
+  assert.equal(runtime.object(duplicate.id+'-bed'),undefined);assert.ok(runtime.object(first.id+'-bed'));
+  const p=housingPlot(duplicate.plot);assert.equal(runtime.walkable(p,.55,[]),true);
+ }finally{disposeBiome(root);}
+});
