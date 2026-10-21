@@ -250,3 +250,13 @@ approved improvements when testing a new candidate.
 - Measure HUD content dimensions on actual resize/invalidation. Do not read
   layout after badge mutations every frame, and do not replace client content
   dimensions with rounded border-box dimensions.
+
+### Persistent construction caches
+
+- Version reusable model/geometry buffers by the complete construction dependency
+  graph and pinned geometry libraries, not the whole app bundle URL or release.
+  Unrelated UI, save and island updates must retain byte-identical cached models;
+  actual producer/schema/library changes must invalidate them. Keep corruption
+  fallback, original uncached construction and all graphical detail. Verify both
+  same-app reloads and a changed app URL in the real browser. This is a loading
+  optimization; do not present construction timing as camera FPS.

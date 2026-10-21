@@ -2,7 +2,10 @@ import { kittenCacheSnapshot, installKittenCache } from "./chichi-sculpt.js";
 
 // This optional database contains reproducible graphics only. It never reads,
 // changes or deletes the account, saved world or cloud outbox.
-const version = new URL(import.meta.url).searchParams.get("v") || "development";
+// The build fingerprints the complete model-construction dependency graph.
+// An unrelated UI/island/save patch must not invalidate identical cat buffers.
+const version = typeof __CHICHI_SCULPT_VERSION__ === "string"
+  ? __CHICHI_SCULPT_VERSION__ : "development";
 let database;
 function openCache() {
   if (!globalThis.indexedDB) return Promise.resolve(null);
