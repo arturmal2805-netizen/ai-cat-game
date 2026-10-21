@@ -55,3 +55,15 @@ test('the existing evening batch excludes both members of a housed family from h
  const choices=cityLifeChoices(request),buyers=choices.buyers.map(i=>request.cats[i].id);
  assert.ok(!buyers.includes('chichi'));assert.ok(!buyers.includes('pixel'));assert.ok(buyers.includes('luna'));
 });
+
+test('new residential sections are free, use paid cat purchase receipts, never unlock other biomes, and survive reload without charging for land',async()=>{
+ const {housingSectionCount,housingSectionIndex,HOUSING_SECTION_PITCH}=await import('../public/housing-data.js');
+ let g=seed();const playerCoins=g.coins,diamonds=g.diamonds,before=g.unlocked.slice(),wallet=g.jobCity.profiles.chichi.coins;
+ for(let i=0;i<25;i++){g=buy(g,'chichi',now+i);assert.equal(housingSectionCount(g.housing),Math.floor(i/12)+1);}
+ assert.equal(g.coins,playerCoins);assert.equal(g.diamonds,diamonds);assert.equal(g.jobCity.profiles.chichi.coins,wallet-25*1600);
+ assert.deepEqual(g.unlocked,[...before,'cat-homes']);assert.equal(Object.values(g.housing.homes).every(h=>h.purchaseId.startsWith('buy-chichi-')&&h.price===1600),true);
+ assert.equal(housingSectionIndex(-HOUSING_SECTION_PITCH,g.housing),1);assert.equal(housingSectionIndex(-2*HOUSING_SECTION_PITCH,g.housing),2);
+ const snapshot=structuredClone(g.housing);for(let i=0;i<20;i++){g=reload(g);assert.deepEqual(g.housing,snapshot);assert.equal(g.coins,playerCoins);assert.equal(g.jobCity.profiles.chichi.coins,wallet-25*1600);}
+ g=applyFamilyDecisions(g,13,[pair]);assert.equal(Object.keys(g.housing.homes).length,1);assert.equal(housingSectionCount(g.housing),3,'retiring duplicate houses never removes already expanded free land');
+ assert.equal(housingSectionIndex(-2*HOUSING_SECTION_PITCH,reload(g).housing),2);
+});

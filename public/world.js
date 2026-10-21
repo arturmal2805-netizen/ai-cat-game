@@ -7,6 +7,7 @@ import {
   HOUSING_CENTER,
   HOUSING_SECTION_PITCH,
   housingPlot,
+  housingSectionIndex,
 } from "./housing-data.js";
 import { createHousingRuntime, homeRestTime } from "./housing-runtime.js";
 import { createLeisureRuntime, familyFollowTarget } from "./leisure-runtime.js";
@@ -2295,6 +2296,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (root.userData.placement?.biome === b.id) shaderWarmup.enqueue(root);
     callbacks.onFocus?.(b.id, overview);
   }
+  function focusHousingSection(localX) {
+    const section = housingSectionIndex(localX,game.housing);
+    focus(HOUSING_ID);
+    desiredLook.set(HOUSING_CENTER[0]-section*HOUSING_SECTION_PITCH,0,HOUSING_CENTER[1]);
+    return section;
+  }
   function showCatHome(id) {
     const h = game.housing?.homes[id];
     if (!h) return false;
@@ -3410,6 +3417,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
     const clickedBiome = clickedIsland
       ? byBiome(clickedIsland.userData.biomeId)
       : null;
+    if (clickedBiome?.id === HOUSING_ID) {
+      focusHousingSection(islandHit.point.x-HOUSING_CENTER[0]);
+      return;
+    }
     if (clickedBiome && (viewingOverview || clickedBiome.id !== focused)) {
       focus(clickedBiome.id);
       return;
@@ -5641,6 +5652,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     followCat,
     inspectJobBusiness: inspectAttraction,
     showCatHome,
+    focusHousingSection,
     chooseCityDrive(id, car) {
       if (!game.jobCity?.profiles[id]?.inventory[car]) return false;
       focus("jobcity");

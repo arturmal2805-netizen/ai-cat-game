@@ -37,9 +37,14 @@ export function housingSection(index) {
 }
 export function housingSectionCount(housing) {
   let count = 1;
-  for (const h of Object.values(housing?.homes || {}))
+  for (const h of [...Object.values(housing?.homes || {}), ...Object.values(housing?.retiredHomes || {})])
     count = Math.max(count, Math.floor(h.plot / HOUSING_LOTS_PER_SECTION) + 1);
   return count;
+}
+// All sections belong to the same free residential destination. A tap must
+// preserve the selected section rather than snap to the original island.
+export function housingSectionIndex(localX, housing) {
+  return Math.max(0, Math.min(housingSectionCount(housing)-1, Math.round(-(Number.isFinite(localX)?localX:0)/HOUSING_SECTION_PITCH)));
 }
 export function housingObjects(home) {
   const p = housingPlot(home.plot);
