@@ -1,0 +1,184 @@
+{
+  "rows": [
+    {
+      "offset": [
+        30,
+        45,
+        72
+      ],
+      "before": {
+        "frame": 110,
+        "calls": 806,
+        "triangles": 2507548,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 116,
+        "calls": 735,
+        "triangles": 2209576,
+        "points": 320,
+        "lines": 0
+      },
+      "beforeMs": null,
+      "afterMs": null,
+      "samples": {
+        "native": [
+          null
+        ],
+        "spatial": [
+          null
+        ]
+      },
+      "shadowStats": {
+        "bakes": 15,
+        "blits": 82,
+        "skippedDraws": 72,
+        "skippedTriangles": 297972,
+        "cachedCasters": 72,
+        "targetBytes": 8388608
+      },
+      "changed": 0,
+      "max": 0,
+      "large": 0,
+      "mean": 0
+    },
+    {
+      "offset": [
+        0,
+        9,
+        26
+      ],
+      "before": {
+        "frame": 118,
+        "calls": 646,
+        "triangles": 2252279,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 124,
+        "calls": 575,
+        "triangles": 1954307,
+        "points": 320,
+        "lines": 0
+      },
+      "beforeMs": null,
+      "afterMs": null,
+      "samples": {
+        "native": [
+          null
+        ],
+        "spatial": [
+          null
+        ]
+      },
+      "shadowStats": {
+        "bakes": 16,
+        "blits": 86,
+        "skippedDraws": 72,
+        "skippedTriangles": 297972,
+        "cachedCasters": 72,
+        "targetBytes": 8388608
+      },
+      "changed": 0,
+      "max": 0,
+      "large": 0,
+      "mean": 0
+    },
+    {
+      "offset": [
+        25,
+        14,
+        5
+      ],
+      "before": {
+        "frame": 126,
+        "calls": 484,
+        "triangles": 2386291,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 132,
+        "calls": 413,
+        "triangles": 2088319,
+        "points": 320,
+        "lines": 0
+      },
+      "beforeMs": null,
+      "afterMs": null,
+      "samples": {
+        "native": [
+          null
+        ],
+        "spatial": [
+          null
+        ]
+      },
+      "shadowStats": {
+        "bakes": 17,
+        "blits": 90,
+        "skippedDraws": 72,
+        "skippedTriangles": 297972,
+        "cachedCasters": 72,
+        "targetBytes": 8388608
+      },
+      "changed": 0,
+      "max": 0,
+      "large": 0,
+      "mean": 0
+    },
+    {
+      "offset": [
+        0,
+        95,
+        0.01
+      ],
+      "before": {
+        "frame": 134,
+        "calls": 445,
+        "triangles": 2195112,
+        "points": 320,
+        "lines": 0
+      },
+      "after": {
+        "frame": 140,
+        "calls": 374,
+        "triangles": 1897140,
+        "points": 320,
+        "lines": 0
+      },
+      "beforeMs": null,
+      "afterMs": null,
+      "samples": {
+        "native": [
+          null
+        ],
+        "spatial": [
+          null
+        ]
+      },
+      "shadowStats": {
+        "bakes": 18,
+        "blits": 94,
+        "skippedDraws": 72,
+        "skippedTriangles": 297972,
+        "cachedCasters": 72,
+        "targetBytes": 8388608
+      },
+      "changed": 0,
+      "max": 0,
+      "large": 0,
+      "mean": 0
+    }
+  ],
+  "diagnostic": [],
+  "meshes": 1,
+  "buffer": [
+    2124,
+    1360
+  ],
+  "fish": 50,
+  "contextLost": false
+}

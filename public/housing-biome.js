@@ -250,7 +250,12 @@ export function* housingBiomeSteps(biome, { lowOnly = false } = {}) {
     });
     // Like capybara scene preparation, upload textures/compile exact materials
     // before exposing a new home to the next interactive frame.
-    await root.userData.prepareModel?.(g);
+    try {
+      await root.userData.prepareModel?.(g);
+    } catch (error) {
+      releaseWater(water);
+      throw error;
+    }
     if (stopped) { releaseWater(water); return; }
     const latest = snapshot?.housing?.homes[id];
     if (!latest) { releaseWater(water); return; }
@@ -404,7 +409,11 @@ export function* housingBiomeSteps(biome, { lowOnly = false } = {}) {
         if (!geometry.userData.sharedScenery) geometry.dispose();
       for (const material of materials)
         if (!material.userData.sharedScenery) material.dispose();
-      for (const label of labels.values()) label.texture?.dispose();
+      if (!geometries.has(labelGeometry)) labelGeometry.dispose();
+      for (const label of labels.values()) {
+        if (!materials.has(label.material)) label.material.dispose();
+        label.texture?.dispose();
+      }
     },
   };
   const fall = yield* waterfallSteps(10, 38.2, 12, 3, { color: 0xb3e2f4 });

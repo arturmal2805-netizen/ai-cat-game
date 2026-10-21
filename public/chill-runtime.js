@@ -118,12 +118,11 @@ export function createChillRuntime({
               v.position.y +
               (target.y - v.position.y) * Math.min(1, Math.max(f, dt * 7)),
           };
-        const blocked = [...agents, ...external].some(
-          (a) =>
+        const intersects = (a) =>
             a.catId !== v.catId &&
             a.id !== v.catId &&
-            spaDistance(next, a.position || a) < v.radius + a.radius + 0.08,
-        );
+            spaDistance(next, a.position || a) < v.radius + a.radius + 0.08;
+        const blocked = agents.some(intersects) || external.some(intersects);
         if (!blocked) {
           v.yaw = Math.atan2(target.x - v.position.x, target.z - v.position.z);
           v.position = next;

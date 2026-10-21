@@ -1,0 +1,29 @@
+[
+  {
+    "id": "house-chichi-1",
+    "copies": 1,
+    "loaded": 9,
+    "sections": 7,
+    "templates": 7,
+    "pending": 0,
+    "ledger": 75
+  },
+  {
+    "id": "house-bagel-2",
+    "copies": 1,
+    "loaded": 11,
+    "sections": 7,
+    "templates": 7,
+    "pending": 0,
+    "ledger": 75
+  },
+  {
+    "id": "house-chichi-1",
+    "copies": 1,
+    "loaded": 13,
+    "sections": 7,
+    "templates": 7,
+    "pending": 0,
+    "ledger": 75
+  }
+]

@@ -1,0 +1,714 @@
+{
+  "baseline": [
+    {
+      "id": "summer",
+      "frames": {
+        "samples": 180,
+        "median": 18.400000005960464,
+        "p95": 33.69999998807907,
+        "max": 2688.9000000059605
+      },
+      "draw": {
+        "frame": 194,
+        "calls": 397,
+        "triangles": 1952440,
+        "points": 320,
+        "lines": 0
+      },
+      "poses": {
+        "entries": 2766,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 101,
+        "updatedCats": 2
+      },
+      "colony": {
+        "sources": 933,
+        "batches": 10,
+        "ready": true,
+        "active": false
+      },
+      "dpr": 2,
+      "buffer": [
+        776,
+        1464
+      ],
+      "residency": {
+        "bytes": 94749106,
+        "geometries": 568,
+        "evicted": 0
+      },
+      "persistence": {
+        "samples": 12,
+        "median": 20.099999994039536,
+        "max": 32.80000001192093,
+        "clones": 24,
+        "writes": 48,
+        "storageMs": 135.19999992847443,
+        "outboxBytes": 559501
+      },
+      "load": {
+        "islandReadyMs": 5556,
+        "prepareAndFirstDrawMs": 7522,
+        "firstDrawMs": 191.7000000178814
+      },
+      "proceduralSphereSelfMs": 346.439
+    },
+    {
+      "id": "aquarium",
+      "frames": {
+        "samples": 180,
+        "median": 12.799999982118607,
+        "p95": 22.69999998807907,
+        "max": 2269.600000023842
+      },
+      "draw": {
+        "frame": 375,
+        "calls": 162,
+        "triangles": 1907522,
+        "points": 0,
+        "lines": 0
+      },
+      "poses": {
+        "entries": 2766,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 101,
+        "updatedCats": 2
+      },
+      "colony": {
+        "sources": 933,
+        "batches": 10,
+        "ready": true,
+        "active": false
+      },
+      "dpr": 2,
+      "buffer": [
+        776,
+        1464
+      ],
+      "residency": {
+        "bytes": 123360875,
+        "geometries": 612,
+        "evicted": 0
+      },
+      "persistence": {
+        "samples": 12,
+        "median": 24.400000005960464,
+        "max": 35.900000005960464,
+        "clones": 24,
+        "writes": 48,
+        "storageMs": 165.50000002980232,
+        "outboxBytes": 560611
+      },
+      "load": {
+        "islandReadyMs": 355,
+        "prepareAndFirstDrawMs": 1540,
+        "firstDrawMs": 495.40000000596046
+      },
+      "proceduralSphereSelfMs": 0
+    },
+    {
+      "id": "homestead",
+      "frames": {
+        "samples": 180,
+        "median": 31.099999994039536,
+        "p95": 51.099999994039536,
+        "max": 147.09999999403954
+      },
+      "draw": {
+        "frame": 556,
+        "calls": 489,
+        "triangles": 1987046,
+        "points": 0,
+        "lines": 0
+      },
+      "poses": {
+        "entries": 2766,
+        "rows": 16,
+        "bytes": 131072,
+        "cats": 101,
+        "updatedCats": 31
+      },
+      "colony": {
+        "sources": 933,
+        "batches": 10,
+        "ready": true,
+        "active": true
+      },
+      "dpr": 2,
+      "buffer": [
+        776,
+        1464
+      ],
+      "residency": {
+        "bytes": 196441511,
+        "geometries": 594,
+        "evicted": 335
+      },
+      "persistence": {
+        "samples": 12,
+        "median": 20.5,
+        "max": 106.90000000596046,
+        "clones": 24,
+        "writes": 48,
+        "storageMs": 79.80000001192093,
+        "outboxBytes": 564349
+      },
+      "load": {
+        "islandReadyMs": 586,
+        "prepareAndFirstDrawMs": 14681,
+        "firstDrawMs": 330.5
+      },
+      "proceduralSphereSelfMs": 1.857
+    },
+    {
+      "id": "cat-homes",
+      "frames": {
+        "samples": 180,
+        "median": 9,
+        "p95": 21.099999994039536,
+        "max": 563.5999999940395
+      },
+      "draw": {
+        "frame": 737,
+        "calls": 183,
+        "triangles": 930508,
+        "points": 0,
+        "lines": 0
+      },
+      "poses": {
+        "entries": 2766,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 101,
+        "updatedCats": 0
+      },
+      "colony": {
+        "sources": 933,
+        "batches": 10,
+        "ready": true,
+        "active": false
+      },
+      "dpr": 2,
+      "buffer": [
+        776,
+        1464
+      ],
+      "residency": {
+        "bytes": 201050975,
+        "geometries": 547,
+        "evicted": 463
+      },
+      "persistence": {
+        "samples": 12,
+        "median": 14.400000005960464,
+        "max": 18,
+        "clones": 24,
+        "writes": 48,
+        "storageMs": 46.99999991059303,
+        "outboxBytes": 566911
+      },
+      "load": {
+        "islandReadyMs": 1915,
+        "prepareAndFirstDrawMs": 2421,
+        "firstDrawMs": 168.59999999403954
+      },
+      "proceduralSphereSelfMs": 266.16
+    }
+  ],
+  "after": [
+    {
+      "id": "summer",
+      "frames": {
+        "samples": 180,
+        "median": 19.200000017881393,
+        "p95": 31,
+        "max": 2135.300000011921
+      },
+      "draw": {
+        "frame": 198,
+        "calls": 389,
+        "triangles": 1935520,
+        "points": 320,
+        "lines": 0
+      },
+      "poses": {
+        "entries": 2766,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 101,
+        "updatedCats": 2
+      },
+      "colony": {
+        "sources": 933,
+        "batches": 10,
+        "ready": true,
+        "active": false
+      },
+      "dpr": 2,
+      "buffer": [
+        776,
+        1464
+      ],
+      "residency": {
+        "bytes": 95287306,
+        "geometries": 569,
+        "evicted": 0
+      },
+      "persistence": {
+        "samples": 12,
+        "median": 23.899999976158142,
+        "max": 37.599999994039536,
+        "clones": 24,
+        "writes": 48,
+        "storageMs": 176.59999999403954,
+        "outboxBytes": 559573
+      },
+      "load": {
+        "islandReadyMs": 9217,
+        "prepareAndFirstDrawMs": 11362,
+        "firstDrawMs": 262.80000001192093
+      },
+      "proceduralSphereSelfMs": 2.373
+    },
+    {
+      "id": "aquarium",
+      "frames": {
+        "samples": 180,
+        "median": 10.800000011920929,
+        "p95": 21.200000017881393,
+        "max": 2161.9000000059605
+      },
+      "draw": {
+        "frame": 379,
+        "calls": 155,
+        "triangles": 1834301,
+        "points": 0,
+        "lines": 0
+      },
+      "poses": {
+        "entries": 2766,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 101,
+        "updatedCats": 2
+      },
+      "colony": {
+        "sources": 933,
+        "batches": 10,
+        "ready": true,
+        "active": false
+      },
+      "dpr": 2,
+      "buffer": [
+        776,
+        1464
+      ],
+      "residency": {
+        "bytes": 123360875,
+        "geometries": 612,
+        "evicted": 0
+      },
+      "persistence": {
+        "samples": 12,
+        "median": 21.599999994039536,
+        "max": 30.5,
+        "clones": 24,
+        "writes": 48,
+        "storageMs": 136.50000002980232,
+        "outboxBytes": 560647
+      },
+      "load": {
+        "islandReadyMs": 325,
+        "prepareAndFirstDrawMs": 1253,
+        "firstDrawMs": 338.80000001192093
+      },
+      "proceduralSphereSelfMs": 0
+    },
+    {
+      "id": "homestead",
+      "frames": {
+        "samples": 180,
+        "median": 29.099999994039536,
+        "p95": 60.89999997615814,
+        "max": 214.60000002384186
+      },
+      "draw": {
+        "frame": 560,
+        "calls": 473,
+        "triangles": 2016586,
+        "points": 0,
+        "lines": 0
+      },
+      "poses": {
+        "entries": 2766,
+        "rows": 16,
+        "bytes": 131072,
+        "cats": 101,
+        "updatedCats": 31
+      },
+      "colony": {
+        "sources": 933,
+        "batches": 10,
+        "ready": true,
+        "active": true
+      },
+      "dpr": 2,
+      "buffer": [
+        776,
+        1464
+      ],
+      "residency": {
+        "bytes": 196062967,
+        "geometries": 581,
+        "evicted": 350
+      },
+      "persistence": {
+        "samples": 12,
+        "median": 14.200000017881393,
+        "max": 25.200000017881393,
+        "clones": 24,
+        "writes": 48,
+        "storageMs": 64.09999996423721,
+        "outboxBytes": 565492
+      },
+      "load": {
+        "islandReadyMs": 511,
+        "prepareAndFirstDrawMs": 14517,
+        "firstDrawMs": 320.59999999403954
+      },
+      "proceduralSphereSelfMs": 0
+    },
+    {
+      "id": "cat-homes",
+      "frames": {
+        "samples": 180,
+        "median": 9.900000005960464,
+        "p95": 17.80000001192093,
+        "max": 174
+      },
+      "draw": {
+        "frame": 741,
+        "calls": 136,
+        "triangles": 668404,
+        "points": 0,
+        "lines": 0
+      },
+      "poses": {
+        "entries": 2766,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 101,
+        "updatedCats": 0
+      },
+      "colony": {
+        "sources": 933,
+        "batches": 10,
+        "ready": true,
+        "active": false
+      },
+      "dpr": 2,
+      "buffer": [
+        776,
+        1464
+      ],
+      "residency": {
+        "bytes": 201188021,
+        "geometries": 572,
+        "evicted": 428
+      },
+      "persistence": {
+        "samples": 12,
+        "median": 17.900000005960464,
+        "max": 39.900000005960464,
+        "clones": 24,
+        "writes": 48,
+        "storageMs": 98.99999997019768,
+        "outboxBytes": 567640
+      },
+      "load": {
+        "islandReadyMs": 614,
+        "prepareAndFirstDrawMs": 2417,
+        "firstDrawMs": 62.099999994039536
+      },
+      "proceduralSphereSelfMs": 0
+    }
+  ],
+  "baseline-repeat": [
+    {
+      "id": "summer",
+      "frames": {
+        "samples": 180,
+        "median": 18.30000001192093,
+        "p95": 36.5,
+        "max": 2043
+      },
+      "draw": {
+        "frame": 193,
+        "calls": 389,
+        "triangles": 1935264,
+        "points": 320,
+        "lines": 0
+      },
+      "poses": {
+        "entries": 2766,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 101,
+        "updatedCats": 2
+      },
+      "colony": {
+        "sources": 933,
+        "batches": 10,
+        "ready": true,
+        "active": false
+      },
+      "dpr": 2,
+      "buffer": [
+        776,
+        1464
+      ],
+      "residency": {
+        "bytes": 94749106,
+        "geometries": 568,
+        "evicted": 0
+      },
+      "persistence": {
+        "samples": 12,
+        "median": 26,
+        "max": 189.90000000596046,
+        "clones": 24,
+        "writes": 48,
+        "storageMs": 255.49999997019768,
+        "outboxBytes": 559573
+      },
+      "load": {
+        "islandReadyMs": 5269,
+        "prepareAndFirstDrawMs": 7555,
+        "firstDrawMs": 224.40000000596046
+      },
+      "memory": {
+        "heapBytes": 738532622,
+        "objects": 14173,
+        "meshes": 10286,
+        "geometries": 9580,
+        "materials": 3605,
+        "homes": 0,
+        "houseBuilds": 0,
+        "gpuBuffers": {
+          "bytes": 95007186,
+          "peak": 95007186,
+          "buffers": 2729
+        }
+      },
+      "proceduralSphereSelfMs": 357.024
+    },
+    {
+      "id": "homestead",
+      "frames": {
+        "samples": 180,
+        "median": 27.099999994039536,
+        "p95": 38.5,
+        "max": 79.7000000178814
+      },
+      "draw": {
+        "frame": 374,
+        "calls": 498,
+        "triangles": 1970875,
+        "points": 0,
+        "lines": 0
+      },
+      "poses": {
+        "entries": 2766,
+        "rows": 16,
+        "bytes": 131072,
+        "cats": 101,
+        "updatedCats": 31
+      },
+      "colony": {
+        "sources": 933,
+        "batches": 10,
+        "ready": true,
+        "active": true
+      },
+      "dpr": 2,
+      "buffer": [
+        776,
+        1464
+      ],
+      "residency": {
+        "bytes": 200945230,
+        "geometries": 874,
+        "evicted": 13
+      },
+      "persistence": {
+        "samples": 12,
+        "median": 18.900000005960464,
+        "max": 31,
+        "clones": 24,
+        "writes": 48,
+        "storageMs": 72.60000014305115,
+        "outboxBytes": 562081
+      },
+      "load": {
+        "islandReadyMs": 872,
+        "prepareAndFirstDrawMs": 14782,
+        "firstDrawMs": 727.4000000059605
+      },
+      "memory": {
+        "heapBytes": 738961900,
+        "objects": 14182,
+        "meshes": 10293,
+        "geometries": 9580,
+        "materials": 3609,
+        "homes": 0,
+        "houseBuilds": 0,
+        "gpuBuffers": {
+          "bytes": 201319566,
+          "peak": 202129602,
+          "buffers": 4114
+        }
+      },
+      "proceduralSphereSelfMs": 1.466
+    }
+  ],
+  "after-repeat": [
+    {
+      "id": "summer",
+      "frames": {
+        "samples": 180,
+        "median": 18.5,
+        "p95": 39.60000002384186,
+        "max": 2074
+      },
+      "draw": {
+        "frame": 196,
+        "calls": 389,
+        "triangles": 1935392,
+        "points": 320,
+        "lines": 0
+      },
+      "poses": {
+        "entries": 2766,
+        "rows": 0,
+        "bytes": 0,
+        "cats": 101,
+        "updatedCats": 2
+      },
+      "colony": {
+        "sources": 933,
+        "batches": 10,
+        "ready": true,
+        "active": false
+      },
+      "dpr": 2,
+      "buffer": [
+        776,
+        1464
+      ],
+      "residency": {
+        "bytes": 94749106,
+        "geometries": 568,
+        "evicted": 0
+      },
+      "persistence": {
+        "samples": 12,
+        "median": 25.599999994039536,
+        "max": 88.40000000596046,
+        "clones": 24,
+        "writes": 48,
+        "storageMs": 218.40000009536743,
+        "outboxBytes": 559573
+      },
+      "load": {
+        "islandReadyMs": 5722,
+        "prepareAndFirstDrawMs": 8141,
+        "firstDrawMs": 196.40000000596046
+      },
+      "memory": {
+        "heapBytes": 759903960,
+        "objects": 14169,
+        "meshes": 10283,
+        "geometries": 9580,
+        "materials": 3605,
+        "homes": 0,
+        "houseBuilds": 0,
+        "gpuBuffers": {
+          "bytes": 95007186,
+          "peak": 95007186,
+          "buffers": 2729
+        }
+      },
+      "proceduralSphereSelfMs": 1.177
+    },
+    {
+      "id": "homestead",
+      "frames": {
+        "samples": 180,
+        "median": 27.599999994039536,
+        "p95": 39.19999998807907,
+        "max": 126.19999998807907
+      },
+      "draw": {
+        "frame": 377,
+        "calls": 488,
+        "triangles": 1983431,
+        "points": 0,
+        "lines": 0
+      },
+      "poses": {
+        "entries": 2766,
+        "rows": 16,
+        "bytes": 131072,
+        "cats": 101,
+        "updatedCats": 31
+      },
+      "colony": {
+        "sources": 933,
+        "batches": 10,
+        "ready": true,
+        "active": true
+      },
+      "dpr": 2,
+      "buffer": [
+        776,
+        1464
+      ],
+      "residency": {
+        "bytes": 200905362,
+        "geometries": 871,
+        "evicted": 17
+      },
+      "persistence": {
+        "samples": 12,
+        "median": 16.299999982118607,
+        "max": 21.80000001192093,
+        "clones": 24,
+        "writes": 48,
+        "storageMs": 79.19999998807907,
+        "outboxBytes": 562684
+      },
+      "load": {
+        "islandReadyMs": 578,
+        "prepareAndFirstDrawMs": 14359,
+        "firstDrawMs": 662
+      },
+      "memory": {
+        "heapBytes": 834760771,
+        "objects": 14188,
+        "meshes": 10297,
+        "geometries": 9580,
+        "materials": 3609,
+        "homes": 0,
+        "houseBuilds": 0,
+        "gpuBuffers": {
+          "bytes": 201277778,
+          "peak": 203030106,
+          "buffers": 4099
+        }
+      },
+      "proceduralSphereSelfMs": 0
+    }
+  ]
+}

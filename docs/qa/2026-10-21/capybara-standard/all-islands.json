@@ -1,0 +1,1676 @@
+[
+  {
+    "id": "moon",
+    "repeat": false,
+    "changedPixels": 0,
+    "reuploadChangedPixels": null,
+    "dpr": 2,
+    "contextLost": false,
+    "before": {
+      "frame": 18,
+      "calls": 441,
+      "triangles": 702642,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 23,
+      "calls": 425,
+      "triangles": 632706,
+      "points": 320,
+      "lines": 0
+    },
+    "gpuBuffers": {
+      "bytes": 50576852,
+      "peak": 50576852,
+      "buffers": 1912
+    },
+    "residency": {
+      "bytes": 50467368,
+      "geometries": 396,
+      "evicted": 0
+    },
+    "commandPhases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1270.9000000059605,
+        "median": 14.799999982118607,
+        "p95": 60.29999998211861,
+        "max": 215.30000001192093,
+        "distance": 74.21418709107675,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1061.5,
+        "median": 13.900000005960464,
+        "p95": 19.099999994039536,
+        "max": 79.09999999403954,
+        "distance": 74.0279214940225,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "autumn",
+    "repeat": false,
+    "changedPixels": 0,
+    "reuploadChangedPixels": null,
+    "dpr": 2,
+    "contextLost": false,
+    "before": {
+      "frame": 84,
+      "calls": 123,
+      "triangles": 517436,
+      "points": 420,
+      "lines": 0
+    },
+    "after": {
+      "frame": 89,
+      "calls": 108,
+      "triangles": 435100,
+      "points": 420,
+      "lines": 0
+    },
+    "gpuBuffers": {
+      "bytes": 74569644,
+      "peak": 74569644,
+      "buffers": 2230
+    },
+    "residency": {
+      "bytes": 74401452,
+      "geometries": 459,
+      "evicted": 0
+    },
+    "commandPhases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 879.5999999940395,
+        "median": 8.800000011920929,
+        "p95": 16.799999982118607,
+        "max": 20.80000001192093,
+        "distance": 73.0562549864094,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 813.7000000178814,
+        "median": 9.900000005960464,
+        "p95": 12.599999994039536,
+        "max": 18.700000017881393,
+        "distance": 72.97790198602482,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "winter",
+    "repeat": false,
+    "changedPixels": 0,
+    "reuploadChangedPixels": null,
+    "dpr": 2,
+    "contextLost": false,
+    "before": {
+      "frame": 150,
+      "calls": 528,
+      "triangles": 1028064,
+      "points": 740,
+      "lines": 0
+    },
+    "after": {
+      "frame": 155,
+      "calls": 516,
+      "triangles": 856512,
+      "points": 740,
+      "lines": 0
+    },
+    "gpuBuffers": {
+      "bytes": 103108988,
+      "peak": 103108988,
+      "buffers": 3056
+    },
+    "residency": {
+      "bytes": 102842940,
+      "geometries": 648,
+      "evicted": 0
+    },
+    "commandPhases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1361.4000000059605,
+        "median": 14.900000005960464,
+        "p95": 105.40000000596046,
+        "max": 137.5,
+        "distance": 81.98517644897288,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 978.6999999880791,
+        "median": 14.5,
+        "p95": 21.30000001192093,
+        "max": 23.30000001192093,
+        "distance": 75.23038967577949,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "beach",
+    "repeat": false,
+    "changedPixels": 0,
+    "reuploadChangedPixels": null,
+    "dpr": 2,
+    "contextLost": false,
+    "before": {
+      "frame": 216,
+      "calls": 306,
+      "triangles": 624172,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 221,
+      "calls": 291,
+      "triangles": 549476,
+      "points": 320,
+      "lines": 0
+    },
+    "gpuBuffers": {
+      "bytes": 113411426,
+      "peak": 113411426,
+      "buffers": 3459
+    },
+    "residency": {
+      "bytes": 113058066,
+      "geometries": 732,
+      "evicted": 0
+    },
+    "commandPhases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 942.9000000059605,
+        "median": 14,
+        "p95": 20.400000005960464,
+        "max": 21.099999994039536,
+        "distance": 72.96068267450129,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 992.6999999880791,
+        "median": 12.400000005960464,
+        "p95": 18.80000001192093,
+        "max": 88,
+        "distance": 74.03253263738385,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "water",
+    "repeat": false,
+    "changedPixels": 0,
+    "reuploadChangedPixels": null,
+    "dpr": 2,
+    "contextLost": false,
+    "before": {
+      "frame": 282,
+      "calls": 261,
+      "triangles": 891624,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 287,
+      "calls": 244,
+      "triangles": 796152,
+      "points": 320,
+      "lines": 0
+    },
+    "gpuBuffers": {
+      "bytes": 126257006,
+      "peak": 126257006,
+      "buffers": 3759
+    },
+    "residency": {
+      "bytes": 125840606,
+      "geometries": 791,
+      "evicted": 0
+    },
+    "commandPhases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1103.699999988079,
+        "median": 13.699999988079071,
+        "p95": 34.29999998211861,
+        "max": 66.69999998807907,
+        "distance": 73.26685406287766,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 993.4000000059605,
+        "median": 12,
+        "p95": 24.5,
+        "max": 107.2000000178814,
+        "distance": 73.3876632025543,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "summer",
+    "repeat": false,
+    "changedPixels": 0,
+    "reuploadChangedPixels": null,
+    "dpr": 2,
+    "contextLost": false,
+    "before": {
+      "frame": 348,
+      "calls": 377,
+      "triangles": 2201916,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 353,
+      "calls": 315,
+      "triangles": 1907652,
+      "points": 320,
+      "lines": 0
+    },
+    "gpuBuffers": {
+      "bytes": 167637352,
+      "peak": 167637352,
+      "buffers": 4636
+    },
+    "residency": {
+      "bytes": 167070436,
+      "geometries": 971,
+      "evicted": 0
+    },
+    "commandPhases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1551.0999999940395,
+        "median": 19,
+        "p95": 52.70000001788139,
+        "max": 130.80000001192093,
+        "distance": 76.48643390890767,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1140.5,
+        "median": 15.200000017881393,
+        "p95": 25.200000017881393,
+        "max": 112.5,
+        "distance": 78.29609949382498,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "nature",
+    "repeat": false,
+    "changedPixels": 0,
+    "reuploadChangedPixels": null,
+    "dpr": 2,
+    "contextLost": false,
+    "before": {
+      "frame": 414,
+      "calls": 169,
+      "triangles": 392164,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 419,
+      "calls": 162,
+      "triangles": 353420,
+      "points": 320,
+      "lines": 0
+    },
+    "gpuBuffers": {
+      "bytes": 176234262,
+      "peak": 176234262,
+      "buffers": 4955
+    },
+    "residency": {
+      "bytes": 175596642,
+      "geometries": 1034,
+      "evicted": 0
+    },
+    "commandPhases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1191.199999988079,
+        "median": 12.599999994039536,
+        "p95": 35,
+        "max": 98.2999999821186,
+        "distance": 75.96574193143634,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 931.5999999940395,
+        "median": 13,
+        "p95": 22.799999982118607,
+        "max": 25.099999994039536,
+        "distance": 74.78322518303175,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "sakura",
+    "repeat": false,
+    "changedPixels": 0,
+    "reuploadChangedPixels": null,
+    "dpr": 2,
+    "contextLost": false,
+    "before": {
+      "frame": 480,
+      "calls": 308,
+      "triangles": 1250568,
+      "points": 740,
+      "lines": 0
+    },
+    "after": {
+      "frame": 485,
+      "calls": 300,
+      "triangles": 963756,
+      "points": 740,
+      "lines": 0
+    },
+    "gpuBuffers": {
+      "bytes": 217483474,
+      "peak": 217483474,
+      "buffers": 5470
+    },
+    "residency": {
+      "bytes": 216755058,
+      "geometries": 1139,
+      "evicted": 0
+    },
+    "commandPhases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1289.0999999940395,
+        "median": 11.400000005960464,
+        "p95": 35.79999998211861,
+        "max": 368.30000001192093,
+        "distance": 73.03171871634109,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1159.5999999940395,
+        "median": 11.599999994039536,
+        "p95": 20.80000001192093,
+        "max": 40.10000002384186,
+        "distance": 80.2203369877814,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "clouds",
+    "repeat": false,
+    "changedPixels": 0,
+    "reuploadChangedPixels": null,
+    "dpr": 2,
+    "contextLost": false,
+    "before": {
+      "frame": 546,
+      "calls": 132,
+      "triangles": 311660,
+      "points": 0,
+      "lines": 0
+    },
+    "after": {
+      "frame": 551,
+      "calls": 125,
+      "triangles": 270496,
+      "points": 0,
+      "lines": 0
+    },
+    "gpuBuffers": {
+      "bytes": 207569258,
+      "peak": 217483474,
+      "buffers": 5262
+    },
+    "residency": {
+      "bytes": 206770138,
+      "geometries": 1107,
+      "evicted": 87
+    },
+    "commandPhases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 862.5,
+        "median": 8.599999994039536,
+        "p95": 13.400000005960464,
+        "max": 13.599999994039536,
+        "distance": 71.81621458766313,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 897.5999999940395,
+        "median": 8.900000005960464,
+        "p95": 13.300000011920929,
+        "max": 31.19999998807907,
+        "distance": 73.6643382907289,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "desert",
+    "repeat": false,
+    "changedPixels": 0,
+    "reuploadChangedPixels": null,
+    "dpr": 2,
+    "contextLost": false,
+    "before": {
+      "frame": 612,
+      "calls": 187,
+      "triangles": 384212,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 617,
+      "calls": 180,
+      "triangles": 329900,
+      "points": 320,
+      "lines": 0
+    },
+    "gpuBuffers": {
+      "bytes": 206432988,
+      "peak": 217483474,
+      "buffers": 5426
+    },
+    "residency": {
+      "bytes": 205586996,
+      "geometries": 1138,
+      "evicted": 98
+    },
+    "commandPhases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1287.7000000178814,
+        "median": 15.799999982118607,
+        "p95": 71.5,
+        "max": 74.69999998807907,
+        "distance": 75.26075833303956,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1292.300000011921,
+        "median": 17.700000017881393,
+        "p95": 29,
+        "max": 157.7999999821186,
+        "distance": 76.31020965408008,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "stars",
+    "repeat": false,
+    "changedPixels": 0,
+    "reuploadChangedPixels": null,
+    "dpr": 2,
+    "contextLost": false,
+    "before": {
+      "frame": 678,
+      "calls": 186,
+      "triangles": 369928,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 683,
+      "calls": 176,
+      "triangles": 322720,
+      "points": 320,
+      "lines": 0
+    },
+    "gpuBuffers": {
+      "bytes": 207852928,
+      "peak": 217483474,
+      "buffers": 5651
+    },
+    "residency": {
+      "bytes": 206936232,
+      "geometries": 1181,
+      "evicted": 102
+    },
+    "commandPhases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1330.6000000238419,
+        "median": 11.099999994039536,
+        "p95": 40.19999998807907,
+        "max": 138.2000000178814,
+        "distance": 73.17219073143667,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1060.9000000059605,
+        "median": 12.099999994039536,
+        "p95": 21.099999994039536,
+        "max": 102.80000001192093,
+        "distance": 74.17522428078709,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "volcano",
+    "repeat": false,
+    "changedPixels": 0,
+    "reuploadChangedPixels": null,
+    "dpr": 2,
+    "contextLost": false,
+    "before": {
+      "frame": 744,
+      "calls": 552,
+      "triangles": 957468,
+      "points": 740,
+      "lines": 0
+    },
+    "after": {
+      "frame": 749,
+      "calls": 536,
+      "triangles": 781864,
+      "points": 740,
+      "lines": 0
+    },
+    "gpuBuffers": {
+      "bytes": 225259998,
+      "peak": 225259998,
+      "buffers": 6010
+    },
+    "residency": {
+      "bytes": 224238614,
+      "geometries": 1253,
+      "evicted": 152
+    },
+    "commandPhases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1435.0999999940395,
+        "median": 18.299999982118607,
+        "p95": 39.20000001788139,
+        "max": 58.89999997615814,
+        "distance": 75.56902740716201,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1549,
+        "median": 18.30000001192093,
+        "p95": 62.30000001192093,
+        "max": 233.19999998807907,
+        "distance": 76.14297475864029,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "crystal",
+    "repeat": false,
+    "changedPixels": 0,
+    "reuploadChangedPixels": null,
+    "dpr": 2,
+    "contextLost": false,
+    "before": {
+      "frame": 810,
+      "calls": 250,
+      "triangles": 411748,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 815,
+      "calls": 243,
+      "triangles": 367000,
+      "points": 320,
+      "lines": 0
+    },
+    "gpuBuffers": {
+      "bytes": 211889874,
+      "peak": 225259998,
+      "buffers": 5773
+    },
+    "residency": {
+      "bytes": 210795866,
+      "geometries": 1195,
+      "evicted": 335
+    },
+    "commandPhases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1054.2000000178814,
+        "median": 14.700000017881393,
+        "p95": 32.10000002384186,
+        "max": 34.10000002384186,
+        "distance": 74.2844888706453,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1255.0999999940395,
+        "median": 12.400000005960464,
+        "p95": 21.400000005960464,
+        "max": 38,
+        "distance": 80.49002543112576,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "candy",
+    "repeat": false,
+    "changedPixels": 0,
+    "reuploadChangedPixels": null,
+    "dpr": 2,
+    "contextLost": false,
+    "before": {
+      "frame": 876,
+      "calls": 160,
+      "triangles": 379076,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 881,
+      "calls": 153,
+      "triangles": 340740,
+      "points": 320,
+      "lines": 0
+    },
+    "gpuBuffers": {
+      "bytes": 207311250,
+      "peak": 225259998,
+      "buffers": 6036
+    },
+    "residency": {
+      "bytes": 206146538,
+      "geometries": 1247,
+      "evicted": 349
+    },
+    "commandPhases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1154.199999988079,
+        "median": 11.899999976158142,
+        "p95": 51,
+        "max": 181.60000002384186,
+        "distance": 73.60472328947007,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 921.1000000238419,
+        "median": 12.199999988079071,
+        "p95": 17,
+        "max": 31,
+        "distance": 73.60565544019364,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "rainbow",
+    "repeat": false,
+    "changedPixels": 0,
+    "reuploadChangedPixels": null,
+    "dpr": 2,
+    "contextLost": false,
+    "before": {
+      "frame": 942,
+      "calls": 174,
+      "triangles": 385344,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 947,
+      "calls": 167,
+      "triangles": 347496,
+      "points": 320,
+      "lines": 0
+    },
+    "gpuBuffers": {
+      "bytes": 210477888,
+      "peak": 225259998,
+      "buffers": 6409
+    },
+    "residency": {
+      "bytes": 209232680,
+      "geometries": 1318,
+      "evicted": 352
+    },
+    "commandPhases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1706,
+        "median": 14.300000011920929,
+        "p95": 99.2000000178814,
+        "max": 211.2999999821186,
+        "distance": 73.77172731421543,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 992,
+        "median": 12.099999994039536,
+        "p95": 20.5,
+        "max": 55.19999998807907,
+        "distance": 73.19007516036677,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "bamboo",
+    "repeat": false,
+    "changedPixels": 0,
+    "reuploadChangedPixels": null,
+    "dpr": 2,
+    "contextLost": false,
+    "before": {
+      "frame": 1008,
+      "calls": 223,
+      "triangles": 451109,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1013,
+      "calls": 216,
+      "triangles": 409421,
+      "points": 320,
+      "lines": 0
+    },
+    "gpuBuffers": {
+      "bytes": 206759440,
+      "peak": 225259998,
+      "buffers": 5965
+    },
+    "residency": {
+      "bytes": 205443528,
+      "geometries": 1216,
+      "evicted": 497
+    },
+    "commandPhases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1181,
+        "median": 17.099999994039536,
+        "p95": 27.600000023841858,
+        "max": 142.7000000178814,
+        "distance": 75.35990339582156,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1014.5,
+        "median": 14.799999982118607,
+        "p95": 25.599999994039536,
+        "max": 28.899999976158142,
+        "distance": 75.39414751737488,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "mushrooms",
+    "repeat": false,
+    "changedPixels": 0,
+    "reuploadChangedPixels": null,
+    "dpr": 2,
+    "contextLost": false,
+    "before": {
+      "frame": 1074,
+      "calls": 158,
+      "triangles": 418248,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1079,
+      "calls": 151,
+      "triangles": 366092,
+      "points": 320,
+      "lines": 0
+    },
+    "gpuBuffers": {
+      "bytes": 208938768,
+      "peak": 225259998,
+      "buffers": 6104
+    },
+    "residency": {
+      "bytes": 207552152,
+      "geometries": 1241,
+      "evicted": 514
+    },
+    "commandPhases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1138.9000000059605,
+        "median": 15.400000005960464,
+        "p95": 33.099999994039536,
+        "max": 81.5,
+        "distance": 74.21824132395336,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 911.5,
+        "median": 11.900000005960464,
+        "p95": 17.399999976158142,
+        "max": 26.799999982118607,
+        "distance": 74.21835975455231,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "galaxy",
+    "repeat": false,
+    "changedPixels": 0,
+    "reuploadChangedPixels": null,
+    "dpr": 2,
+    "contextLost": false,
+    "before": {
+      "frame": 1140,
+      "calls": 436,
+      "triangles": 1058892,
+      "points": 740,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1145,
+      "calls": 424,
+      "triangles": 891972,
+      "points": 740,
+      "lines": 0
+    },
+    "gpuBuffers": {
+      "bytes": 229997276,
+      "peak": 229997276,
+      "buffers": 6574
+    },
+    "residency": {
+      "bytes": 228507604,
+      "geometries": 1348,
+      "evicted": 600
+    },
+    "commandPhases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1287.800000011921,
+        "median": 19.69999998807907,
+        "p95": 30.799999982118607,
+        "max": 70.5,
+        "distance": 76.46917997696559,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1268.3999999761581,
+        "median": 19.900000005960464,
+        "p95": 28.5,
+        "max": 160.90000000596046,
+        "distance": 75.63062247153485,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "coral",
+    "repeat": false,
+    "changedPixels": 0,
+    "reuploadChangedPixels": null,
+    "dpr": 2,
+    "contextLost": false,
+    "before": {
+      "frame": 1206,
+      "calls": 154,
+      "triangles": 466132,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1211,
+      "calls": 147,
+      "triangles": 398388,
+      "points": 320,
+      "lines": 0
+    },
+    "gpuBuffers": {
+      "bytes": 202969426,
+      "peak": 229997276,
+      "buffers": 6431
+    },
+    "residency": {
+      "bytes": 201396810,
+      "geometries": 1312,
+      "evicted": 689
+    },
+    "commandPhases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 931.6000000238419,
+        "median": 11.099999994039536,
+        "p95": 22.400000005960464,
+        "max": 53.5,
+        "distance": 73.26430069748348,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1133.300000011921,
+        "median": 15.800000011920929,
+        "p95": 34,
+        "max": 76.09999999403954,
+        "distance": 76.05963398802069,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "lotus",
+    "repeat": false,
+    "changedPixels": 0,
+    "reuploadChangedPixels": null,
+    "dpr": 2,
+    "contextLost": false,
+    "before": {
+      "frame": 1272,
+      "calls": 155,
+      "triangles": 436960,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1277,
+      "calls": 146,
+      "triangles": 377944,
+      "points": 320,
+      "lines": 0
+    },
+    "gpuBuffers": {
+      "bytes": 207569294,
+      "peak": 229997276,
+      "buffers": 6642
+    },
+    "residency": {
+      "bytes": 205917814,
+      "geometries": 1353,
+      "evicted": 690
+    },
+    "commandPhases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1073.2000000178814,
+        "median": 14.899999976158142,
+        "p95": 48.099999994039536,
+        "max": 52.400000005960464,
+        "distance": 77.10702492207835,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1050,
+        "median": 12.799999982118607,
+        "p95": 27.400000005960464,
+        "max": 129.2000000178814,
+        "distance": 75.5589834603033,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "ice",
+    "repeat": false,
+    "changedPixels": 0,
+    "reuploadChangedPixels": null,
+    "dpr": 2,
+    "contextLost": false,
+    "before": {
+      "frame": 1338,
+      "calls": 739,
+      "triangles": 986988,
+      "points": 740,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1343,
+      "calls": 726,
+      "triangles": 807596,
+      "points": 740,
+      "lines": 0
+    },
+    "gpuBuffers": {
+      "bytes": 227758550,
+      "peak": 229997276,
+      "buffers": 7055
+    },
+    "residency": {
+      "bytes": 226003198,
+      "geometries": 1442,
+      "evicted": 696
+    },
+    "commandPhases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1353.4000000059605,
+        "median": 17.69999998807907,
+        "p95": 32.400000005960464,
+        "max": 238.09999999403954,
+        "distance": 75.30491933672607,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1453.9000000059605,
+        "median": 20.400000005960464,
+        "p95": 85,
+        "max": 117.09999999403954,
+        "distance": 80.97152050776431,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "clockwork",
+    "repeat": false,
+    "changedPixels": 0,
+    "reuploadChangedPixels": null,
+    "dpr": 2,
+    "contextLost": false,
+    "before": {
+      "frame": 1404,
+      "calls": 775,
+      "triangles": 2445592,
+      "points": 420,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1409,
+      "calls": 710,
+      "triangles": 2103012,
+      "points": 420,
+      "lines": 0
+    },
+    "gpuBuffers": {
+      "bytes": 240357686,
+      "peak": 240357686,
+      "buffers": 7594
+    },
+    "residency": {
+      "bytes": 238550894,
+      "geometries": 1566,
+      "evicted": 840
+    },
+    "commandPhases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1804.699999988079,
+        "median": 25.30000001192093,
+        "p95": 146.90000000596046,
+        "max": 212.7000000178814,
+        "distance": 77.50003967313218,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1400.4000000059605,
+        "median": 23.200000017881393,
+        "p95": 44.80000001192093,
+        "max": 156.40000000596046,
+        "distance": 78.67526360162233,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "dusk",
+    "repeat": false,
+    "changedPixels": 0,
+    "reuploadChangedPixels": null,
+    "dpr": 2,
+    "contextLost": false,
+    "before": {
+      "frame": 1470,
+      "calls": 163,
+      "triangles": 413544,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1475,
+      "calls": 156,
+      "triangles": 368796,
+      "points": 320,
+      "lines": 0
+    },
+    "gpuBuffers": {
+      "bytes": 210013618,
+      "peak": 240517742,
+      "buffers": 6862
+    },
+    "residency": {
+      "bytes": 208136122,
+      "geometries": 1400,
+      "evicted": 1057
+    },
+    "commandPhases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1026.699999988079,
+        "median": 13.599999994039536,
+        "p95": 25.69999998807907,
+        "max": 32.70000001788139,
+        "distance": 74.39891234113915,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 851.1999999880791,
+        "median": 11.299999982118607,
+        "p95": 14,
+        "max": 15.900000005960464,
+        "distance": 72.76737072593178,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "aquapark",
+    "repeat": false,
+    "changedPixels": 0,
+    "reuploadChangedPixels": null,
+    "dpr": 2,
+    "contextLost": false,
+    "before": {
+      "frame": 1536,
+      "calls": 261,
+      "triangles": 800140,
+      "points": 420,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1541,
+      "calls": 250,
+      "triangles": 682559,
+      "points": 420,
+      "lines": 0
+    },
+    "gpuBuffers": {
+      "bytes": 222311982,
+      "peak": 240517742,
+      "buffers": 7030
+    },
+    "residency": {
+      "bytes": 220332066,
+      "geometries": 1431,
+      "evicted": 1134
+    },
+    "commandPhases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1262.2999999821186,
+        "median": 14.5,
+        "p95": 35,
+        "max": 106.19999998807907,
+        "distance": 74.70405625524484,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 987.9000000059605,
+        "median": 14.599999994039536,
+        "p95": 22.900000005960464,
+        "max": 38.5,
+        "distance": 74.13118468776177,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "foodcourt",
+    "repeat": false,
+    "changedPixels": 0,
+    "reuploadChangedPixels": null,
+    "dpr": 2,
+    "contextLost": false,
+    "before": {
+      "frame": 1602,
+      "calls": 144,
+      "triangles": 594367,
+      "points": 0,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1607,
+      "calls": 122,
+      "triangles": 472491,
+      "points": 0,
+      "lines": 0
+    },
+    "gpuBuffers": {
+      "bytes": 226098528,
+      "peak": 240517742,
+      "buffers": 7264
+    },
+    "residency": {
+      "bytes": 224009472,
+      "geometries": 1474,
+      "evicted": 1166
+    },
+    "commandPhases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 990.3000000119209,
+        "median": 11.699999988079071,
+        "p95": 38.5,
+        "max": 58.599999994039536,
+        "distance": 73.47004623413096,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1046.5,
+        "median": 11.699999988079071,
+        "p95": 15.600000023841858,
+        "max": 136.40000000596046,
+        "distance": 76.81620537917333,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "bikini",
+    "repeat": false,
+    "changedPixels": 0,
+    "reuploadChangedPixels": null,
+    "dpr": 2,
+    "contextLost": false,
+    "before": {
+      "frame": 1668,
+      "calls": 175,
+      "triangles": 683668,
+      "points": 0,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1673,
+      "calls": 152,
+      "triangles": 495692,
+      "points": 0,
+      "lines": 0
+    },
+    "gpuBuffers": {
+      "bytes": 235325290,
+      "peak": 240517742,
+      "buffers": 6408
+    },
+    "residency": {
+      "bytes": 233222314,
+      "geometries": 1292,
+      "evicted": 1438
+    },
+    "commandPhases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1072.2000000178814,
+        "median": 15.200000017881393,
+        "p95": 23.30000001192093,
+        "max": 72.2000000178814,
+        "distance": 74.40922186639769,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1115,
+        "median": 12.899999976158142,
+        "p95": 69.10000002384186,
+        "max": 133.10000002384186,
+        "distance": 74.05056302703133,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "homestead",
+    "repeat": false,
+    "changedPixels": 0,
+    "reuploadChangedPixels": 0,
+    "dpr": 2,
+    "contextLost": false,
+    "before": {
+      "frame": 1734,
+      "calls": 673,
+      "triangles": 2204650,
+      "points": 0,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1741,
+      "calls": 500,
+      "triangles": 1914638,
+      "points": 0,
+      "lines": 0
+    },
+    "gpuBuffers": {
+      "bytes": 314916230,
+      "peak": 314916230,
+      "buffers": 6572
+    },
+    "residency": {
+      "bytes": 312698918,
+      "geometries": 1332,
+      "evicted": 1702
+    },
+    "commandPhases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1530.800000011921,
+        "median": 29.100000023841858,
+        "p95": 54.89999997615814,
+        "max": 56.10000002384186,
+        "distance": 77.81208281446429,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1977.9000000059605,
+        "median": 43.30000001192093,
+        "p95": 93.5,
+        "max": 99.80000001192093,
+        "distance": 80.4742312196887,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "aquarium",
+    "repeat": false,
+    "changedPixels": 0,
+    "reuploadChangedPixels": 0,
+    "dpr": 2,
+    "contextLost": false,
+    "before": {
+      "frame": 1802,
+      "calls": 136,
+      "triangles": 1344975,
+      "points": 0,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1809,
+      "calls": 121,
+      "triangles": 1266491,
+      "points": 0,
+      "lines": 0
+    },
+    "gpuBuffers": {
+      "bytes": 272579302,
+      "peak": 314916230,
+      "buffers": 5101
+    },
+    "residency": {
+      "bytes": 270361990,
+      "geometries": 999,
+      "evicted": 2126
+    },
+    "commandPhases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1105.699999988079,
+        "median": 11.399999976158142,
+        "p95": 50.39999997615814,
+        "max": 129.7000000178814,
+        "distance": 74.16645835901727,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1069.800000011921,
+        "median": 18.099999994039536,
+        "p95": 24.400000005960464,
+        "max": 27.5,
+        "distance": 75.35207242950425,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "jobcity",
+    "repeat": false,
+    "changedPixels": 0,
+    "reuploadChangedPixels": null,
+    "dpr": 2,
+    "contextLost": false,
+    "before": {
+      "frame": 1870,
+      "calls": 108,
+      "triangles": 896649,
+      "points": 0,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1875,
+      "calls": 93,
+      "triangles": 732221,
+      "points": 0,
+      "lines": 0
+    },
+    "gpuBuffers": {
+      "bytes": 315130150,
+      "peak": 315130150,
+      "buffers": 4387
+    },
+    "residency": {
+      "bytes": 312905926,
+      "geometries": 825,
+      "evicted": 2358
+    },
+    "commandPhases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1393.4000000059605,
+        "median": 24,
+        "p95": 35.79999998211861,
+        "max": 62.79999998211861,
+        "distance": 77.03950219990176,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1301.4000000059605,
+        "median": 20.80000001192093,
+        "p95": 43.70000001788139,
+        "max": 131.19999998807907,
+        "distance": 77.31282004325521,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "cat-homes",
+    "repeat": false,
+    "changedPixels": 0,
+    "reuploadChangedPixels": null,
+    "dpr": 2,
+    "contextLost": false,
+    "before": {
+      "frame": 1936,
+      "calls": 61,
+      "triangles": 285386,
+      "points": 0,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1941,
+      "calls": 54,
+      "triangles": 261790,
+      "points": 0,
+      "lines": 0
+    },
+    "gpuBuffers": {
+      "bytes": 244700906,
+      "peak": 315130150,
+      "buffers": 2881
+    },
+    "residency": {
+      "bytes": 242476682,
+      "geometries": 505,
+      "evicted": 2707
+    },
+    "commandPhases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1019.3999999761581,
+        "median": 12.599999994039536,
+        "p95": 23.099999994039536,
+        "max": 142.59999999403954,
+        "distance": 72.63869042171343,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 863.5,
+        "median": 11.599999994039536,
+        "p95": 14.600000023841858,
+        "max": 18.100000023841858,
+        "distance": 73.0442798150659,
+        "desired": 85
+      }
+    ]
+  },
+  {
+    "id": "aquarium",
+    "repeat": true,
+    "changedPixels": 0,
+    "reuploadChangedPixels": 0,
+    "dpr": 2,
+    "contextLost": false,
+    "before": {
+      "frame": 2002,
+      "calls": 146,
+      "triangles": 1361727,
+      "points": 0,
+      "lines": 0
+    },
+    "after": {
+      "frame": 2009,
+      "calls": 131,
+      "triangles": 1283371,
+      "points": 0,
+      "lines": 0
+    },
+    "gpuBuffers": {
+      "bytes": 203543878,
+      "peak": 315130150,
+      "buffers": 1887
+    },
+    "residency": {
+      "bytes": 201319654,
+      "geometries": 273,
+      "evicted": 2940
+    },
+    "commandPhases": [
+      {
+        "cached": false,
+        "samples": 30,
+        "elapsed": 1540.199999988079,
+        "median": 21.80000001192093,
+        "p95": 50.79999998211861,
+        "max": 213.2000000178814,
+        "distance": 78.07339240887845,
+        "desired": 85
+      },
+      {
+        "cached": true,
+        "samples": 30,
+        "elapsed": 1192.300000011921,
+        "median": 18.200000017881393,
+        "p95": 24.5,
+        "max": 119.5,
+        "distance": 75.15778911558834,
+        "desired": 85
+      }
+    ]
+  }
+]
