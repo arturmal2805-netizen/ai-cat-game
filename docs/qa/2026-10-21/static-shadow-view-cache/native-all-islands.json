@@ -1,0 +1,3022 @@
+[
+  {
+    "id": "moon",
+    "proof": {
+      "changed": 0,
+      "max": 0,
+      "counts": [
+        {
+          "enabled": false,
+          "frustumBuilds": 30,
+          "viewHits": 0,
+          "viewCacheBytes": 336,
+          "draw": {
+            "frame": 4,
+            "calls": 401,
+            "triangles": 681548,
+            "points": 320,
+            "lines": 0
+          }
+        },
+        {
+          "enabled": true,
+          "frustumBuilds": 19,
+          "viewHits": 11,
+          "viewCacheBytes": 336,
+          "draw": {
+            "frame": 7,
+            "calls": 401,
+            "triangles": 681548,
+            "points": 320,
+            "lines": 0
+          }
+        }
+      ],
+      "dpr": 2,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "glError": 0,
+      "contextLost": false,
+      "rangeMeshes": 199
+    },
+    "samples": [
+      {
+        "enabled": false,
+        "elapsed": 11067,
+        "frames": 26,
+        "pending": 1,
+        "fps": 2.3493268275051955,
+        "completedFpsLowerBound": 2.2589681033703806,
+        "renderCpuMedian": 122,
+        "renderCpuP95": 505,
+        "cpuMedian": 7,
+        "cpuP95": 20,
+        "gapMedian": 362,
+        "gapP95": 714,
+        "orbitRange": 0.1919908285200607,
+        "zoomRange": 15.999235710005053,
+        "draw": {
+          "frame": 35,
+          "calls": 369,
+          "triangles": 602708,
+          "points": 320,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      },
+      {
+        "enabled": true,
+        "elapsed": 10549,
+        "frames": 24,
+        "pending": 1,
+        "fps": 2.2750971656081145,
+        "completedFpsLowerBound": 2.180301450374443,
+        "renderCpuMedian": 121,
+        "renderCpuP95": 154,
+        "cpuMedian": 10,
+        "cpuP95": 31,
+        "gapMedian": 374,
+        "gapP95": 657,
+        "orbitRange": 0.19184342219322295,
+        "zoomRange": 15.986951849435243,
+        "draw": {
+          "frame": 60,
+          "calls": 368,
+          "triangles": 601424,
+          "points": 320,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      }
+    ],
+    "component": {
+      "actualShadowMeshes": 13,
+      "framesPerSample": 200,
+      "samples": [
+        {
+          "enabled": false,
+          "times": [
+            15,
+            4,
+            10,
+            8,
+            6
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            1,
+            1,
+            0,
+            1,
+            1
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            5,
+            1,
+            1,
+            0,
+            3
+          ]
+        },
+        {
+          "enabled": false,
+          "times": [
+            5,
+            5,
+            5,
+            5,
+            6
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "autumn",
+    "proof": {
+      "changed": 0,
+      "max": 0,
+      "counts": [
+        {
+          "enabled": false,
+          "frustumBuilds": 73,
+          "viewHits": 0,
+          "viewCacheBytes": 352,
+          "draw": {
+            "frame": 63,
+            "calls": 402,
+            "triangles": 1645886,
+            "points": 740,
+            "lines": 0
+          }
+        },
+        {
+          "enabled": true,
+          "frustumBuilds": 59,
+          "viewHits": 14,
+          "viewCacheBytes": 1864,
+          "draw": {
+            "frame": 66,
+            "calls": 402,
+            "triangles": 1645886,
+            "points": 740,
+            "lines": 0
+          }
+        }
+      ],
+      "dpr": 2,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "glError": 0,
+      "contextLost": false,
+      "rangeMeshes": 223
+    },
+    "samples": [
+      {
+        "enabled": false,
+        "elapsed": 10028,
+        "frames": 11,
+        "pending": 2,
+        "fps": 1.0969285999202234,
+        "completedFpsLowerBound": 0.8974870362983646,
+        "renderCpuMedian": 258,
+        "renderCpuP95": 620,
+        "cpuMedian": 8,
+        "cpuP95": 55,
+        "gapMedian": 934,
+        "gapP95": 1101,
+        "orbitRange": 0.17495864316403353,
+        "zoomRange": 14.57988693033613,
+        "draw": {
+          "frame": 79,
+          "calls": 349,
+          "triangles": 1525789,
+          "points": 740,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      },
+      {
+        "enabled": true,
+        "elapsed": 11028,
+        "frames": 12,
+        "pending": 0,
+        "fps": 1.088139281828074,
+        "completedFpsLowerBound": 1.088139281828074,
+        "renderCpuMedian": 275,
+        "renderCpuP95": 554,
+        "cpuMedian": 11,
+        "cpuP95": 38,
+        "gapMedian": 924,
+        "gapP95": 1076,
+        "orbitRange": 0.18895430244547243,
+        "zoomRange": 15.746191870456045,
+        "draw": {
+          "frame": 92,
+          "calls": 381,
+          "triangles": 1600306,
+          "points": 740,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      }
+    ],
+    "component": {
+      "actualShadowMeshes": 17,
+      "framesPerSample": 200,
+      "samples": [
+        {
+          "enabled": false,
+          "times": [
+            28,
+            43,
+            23,
+            27,
+            25
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            1,
+            2,
+            1,
+            1,
+            2
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "enabled": false,
+          "times": [
+            19,
+            20,
+            22,
+            11,
+            35
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "winter",
+    "proof": {
+      "changed": 0,
+      "max": 0,
+      "counts": [
+        {
+          "enabled": false,
+          "frustumBuilds": 46,
+          "viewHits": 0,
+          "viewCacheBytes": 1888,
+          "draw": {
+            "frame": 95,
+            "calls": 700,
+            "triangles": 1717673,
+            "points": 740,
+            "lines": 0
+          }
+        },
+        {
+          "enabled": true,
+          "frustumBuilds": 36,
+          "viewHits": 10,
+          "viewCacheBytes": 1968,
+          "draw": {
+            "frame": 98,
+            "calls": 700,
+            "triangles": 1717673,
+            "points": 740,
+            "lines": 0
+          }
+        }
+      ],
+      "dpr": 2,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "glError": 0,
+      "contextLost": false,
+      "rangeMeshes": 246
+    },
+    "samples": [
+      {
+        "enabled": false,
+        "elapsed": 10811,
+        "frames": 15,
+        "pending": 1,
+        "fps": 1.3874757191749145,
+        "completedFpsLowerBound": 1.2949773378965868,
+        "renderCpuMedian": 234,
+        "renderCpuP95": 517,
+        "cpuMedian": 11,
+        "cpuP95": 44,
+        "gapMedian": 647,
+        "gapP95": 1187,
+        "orbitRange": 0.19115169801539567,
+        "zoomRange": 15.929308167949614,
+        "draw": {
+          "frame": 115,
+          "calls": 743,
+          "triangles": 1560813,
+          "points": 740,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      },
+      {
+        "enabled": true,
+        "elapsed": 10198,
+        "frames": 14,
+        "pending": 1,
+        "fps": 1.3728181996469897,
+        "completedFpsLowerBound": 1.2747597568150617,
+        "renderCpuMedian": 252,
+        "renderCpuP95": 403,
+        "cpuMedian": 6,
+        "cpuP95": 50,
+        "gapMedian": 709,
+        "gapP95": 1202,
+        "orbitRange": 0.18631739630878222,
+        "zoomRange": 15.52644969239853,
+        "draw": {
+          "frame": 130,
+          "calls": 742,
+          "triangles": 1672671,
+          "points": 740,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      }
+    ],
+    "component": {
+      "actualShadowMeshes": 15,
+      "framesPerSample": 200,
+      "samples": [
+        {
+          "enabled": false,
+          "times": [
+            9,
+            6,
+            3,
+            4,
+            4
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            1,
+            0,
+            1,
+            1,
+            0
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            0,
+            1,
+            1,
+            0,
+            1
+          ]
+        },
+        {
+          "enabled": false,
+          "times": [
+            4,
+            6,
+            5,
+            5,
+            6
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "water",
+    "proof": {
+      "changed": 0,
+      "max": 0,
+      "counts": [
+        {
+          "enabled": false,
+          "frustumBuilds": 74,
+          "viewHits": 0,
+          "viewCacheBytes": 2008,
+          "draw": {
+            "frame": 133,
+            "calls": 360,
+            "triangles": 1311200,
+            "points": 320,
+            "lines": 0
+          }
+        },
+        {
+          "enabled": true,
+          "frustumBuilds": 62,
+          "viewHits": 12,
+          "viewCacheBytes": 2160,
+          "draw": {
+            "frame": 136,
+            "calls": 360,
+            "triangles": 1311200,
+            "points": 320,
+            "lines": 0
+          }
+        }
+      ],
+      "dpr": 2,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "glError": 0,
+      "contextLost": false,
+      "rangeMeshes": 273
+    },
+    "samples": [
+      {
+        "enabled": false,
+        "elapsed": 10728,
+        "frames": 13,
+        "pending": 1,
+        "fps": 1.2117822520507084,
+        "completedFpsLowerBound": 1.1185682326621924,
+        "renderCpuMedian": 227,
+        "renderCpuP95": 325,
+        "cpuMedian": 9,
+        "cpuP95": 36,
+        "gapMedian": 741,
+        "gapP95": 1677,
+        "orbitRange": 0.19193254337113444,
+        "zoomRange": 15.994378614261208,
+        "draw": {
+          "frame": 151,
+          "calls": 331,
+          "triangles": 1205604,
+          "points": 320,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      },
+      {
+        "enabled": true,
+        "elapsed": 10237,
+        "frames": 14,
+        "pending": 1,
+        "fps": 1.367588160593924,
+        "completedFpsLowerBound": 1.2699032919800723,
+        "renderCpuMedian": 233,
+        "renderCpuP95": 456,
+        "cpuMedian": 8,
+        "cpuP95": 29,
+        "gapMedian": 663,
+        "gapP95": 885,
+        "orbitRange": 0.1861794141628818,
+        "zoomRange": 15.514951180240146,
+        "draw": {
+          "frame": 166,
+          "calls": 315,
+          "triangles": 1120982,
+          "points": 320,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      }
+    ],
+    "component": {
+      "actualShadowMeshes": 17,
+      "framesPerSample": 200,
+      "samples": [
+        {
+          "enabled": false,
+          "times": [
+            43,
+            9,
+            9,
+            11,
+            11
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            3,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            1,
+            5,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "enabled": false,
+          "times": [
+            11,
+            9,
+            21,
+            8,
+            7
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "summer",
+    "proof": {
+      "changed": 0,
+      "max": 0,
+      "counts": [
+        {
+          "enabled": false,
+          "frustumBuilds": 78,
+          "viewHits": 0,
+          "viewCacheBytes": 2200,
+          "draw": {
+            "frame": 169,
+            "calls": 638,
+            "triangles": 3194313,
+            "points": 320,
+            "lines": 0
+          }
+        },
+        {
+          "enabled": true,
+          "frustumBuilds": 65,
+          "viewHits": 13,
+          "viewCacheBytes": 2744,
+          "draw": {
+            "frame": 172,
+            "calls": 638,
+            "triangles": 3194313,
+            "points": 320,
+            "lines": 0
+          }
+        }
+      ],
+      "dpr": 2,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "glError": 0,
+      "contextLost": false,
+      "rangeMeshes": 308
+    },
+    "samples": [
+      {
+        "enabled": false,
+        "elapsed": 10283,
+        "frames": 9,
+        "pending": 1,
+        "fps": 0.875230963726539,
+        "completedFpsLowerBound": 0.7779830788680346,
+        "renderCpuMedian": 395,
+        "renderCpuP95": 645,
+        "cpuMedian": 15,
+        "cpuP95": 46,
+        "gapMedian": 1164,
+        "gapP95": 1391,
+        "orbitRange": 0.18020877905942453,
+        "zoomRange": 15.017398254952042,
+        "draw": {
+          "frame": 183,
+          "calls": 563,
+          "triangles": 2866925,
+          "points": 320,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      },
+      {
+        "enabled": true,
+        "elapsed": 11091,
+        "frames": 9,
+        "pending": 1,
+        "fps": 0.8114687584527995,
+        "completedFpsLowerBound": 0.7213055630691552,
+        "renderCpuMedian": 415,
+        "renderCpuP95": 756,
+        "cpuMedian": 14,
+        "cpuP95": 44,
+        "gapMedian": 1215,
+        "gapP95": 1586,
+        "orbitRange": 0.1878904689415248,
+        "zoomRange": 15.657539078460388,
+        "draw": {
+          "frame": 193,
+          "calls": 584,
+          "triangles": 2919285,
+          "points": 320,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      },
+      {
+        "enabled": true,
+        "elapsed": 11362,
+        "frames": 8,
+        "pending": 1,
+        "fps": 0.7041013906002465,
+        "completedFpsLowerBound": 0.6160887167752156,
+        "renderCpuMedian": 457,
+        "renderCpuP95": 1572,
+        "cpuMedian": 15,
+        "cpuP95": 49,
+        "gapMedian": 1297,
+        "gapP95": 2255,
+        "orbitRange": 0.11914404903842025,
+        "zoomRange": 9.928670753201686,
+        "draw": {
+          "frame": 202,
+          "calls": 593,
+          "triangles": 2936501,
+          "points": 320,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      },
+      {
+        "enabled": false,
+        "elapsed": 10787,
+        "frames": 8,
+        "pending": 1,
+        "fps": 0.7416334476684898,
+        "completedFpsLowerBound": 0.6489292667099286,
+        "renderCpuMedian": 491,
+        "renderCpuP95": 742,
+        "cpuMedian": 11,
+        "cpuP95": 33,
+        "gapMedian": 1327,
+        "gapP95": 1623,
+        "orbitRange": 0.18518888803478692,
+        "zoomRange": 15.672957596869594,
+        "draw": {
+          "frame": 211,
+          "calls": 575,
+          "triangles": 2888145,
+          "points": 320,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      }
+    ],
+    "component": {
+      "actualShadowMeshes": 25,
+      "framesPerSample": 200,
+      "samples": [
+        {
+          "enabled": false,
+          "times": [
+            32,
+            29,
+            25,
+            19,
+            37
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            2,
+            2,
+            2,
+            2,
+            1
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            1,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "enabled": false,
+          "times": [
+            34,
+            46,
+            21,
+            22,
+            39
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "sakura",
+    "proof": {
+      "changed": 0,
+      "max": 0,
+      "counts": [
+        {
+          "enabled": false,
+          "frustumBuilds": 74,
+          "viewHits": 0,
+          "viewCacheBytes": 2856,
+          "draw": {
+            "frame": 214,
+            "calls": 583,
+            "triangles": 2369474,
+            "points": 740,
+            "lines": 0
+          }
+        },
+        {
+          "enabled": true,
+          "frustumBuilds": 67,
+          "viewHits": 7,
+          "viewCacheBytes": 4048,
+          "draw": {
+            "frame": 217,
+            "calls": 583,
+            "triangles": 2369474,
+            "points": 740,
+            "lines": 0
+          }
+        }
+      ],
+      "dpr": 2,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "glError": 0,
+      "contextLost": false,
+      "rangeMeshes": 335
+    },
+    "samples": [
+      {
+        "enabled": false,
+        "elapsed": 10884,
+        "frames": 8,
+        "pending": 1,
+        "fps": 0.735023888276369,
+        "completedFpsLowerBound": 0.6431459022418229,
+        "renderCpuMedian": 461,
+        "renderCpuP95": 923,
+        "cpuMedian": 17,
+        "cpuP95": 58,
+        "gapMedian": 1139,
+        "gapP95": 2146,
+        "orbitRange": 0.19111292647753123,
+        "zoomRange": 15.990779574944284,
+        "draw": {
+          "frame": 227,
+          "calls": 589,
+          "triangles": 2036563,
+          "points": 740,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      },
+      {
+        "enabled": true,
+        "elapsed": 10027,
+        "frames": 8,
+        "pending": 1,
+        "fps": 0.7978458162960008,
+        "completedFpsLowerBound": 0.6981150892590007,
+        "renderCpuMedian": 349,
+        "renderCpuP95": 741,
+        "cpuMedian": 12,
+        "cpuP95": 17,
+        "gapMedian": 1160,
+        "gapP95": 1784,
+        "orbitRange": 0.19009931677059455,
+        "zoomRange": 15.879983577581442,
+        "draw": {
+          "frame": 236,
+          "calls": 509,
+          "triangles": 1941500,
+          "points": 740,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      }
+    ],
+    "component": {
+      "actualShadowMeshes": 7,
+      "framesPerSample": 200,
+      "samples": [
+        {
+          "enabled": false,
+          "times": [
+            62,
+            67,
+            63,
+            33,
+            58
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            1,
+            0,
+            1,
+            1,
+            0
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            1,
+            1,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "enabled": false,
+          "times": [
+            76,
+            41,
+            65,
+            30,
+            51
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "clouds",
+    "proof": {
+      "changed": 0,
+      "max": 0,
+      "counts": [
+        {
+          "enabled": false,
+          "frustumBuilds": 30,
+          "viewHits": 0,
+          "viewCacheBytes": 4048,
+          "draw": {
+            "frame": 239,
+            "calls": 160,
+            "triangles": 362006,
+            "points": 320,
+            "lines": 0
+          }
+        },
+        {
+          "enabled": true,
+          "frustumBuilds": 23,
+          "viewHits": 7,
+          "viewCacheBytes": 4144,
+          "draw": {
+            "frame": 242,
+            "calls": 160,
+            "triangles": 362006,
+            "points": 320,
+            "lines": 0
+          }
+        }
+      ],
+      "dpr": 2,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "glError": 0,
+      "contextLost": false,
+      "rangeMeshes": 340
+    },
+    "samples": [
+      {
+        "enabled": false,
+        "elapsed": 10202,
+        "frames": 32,
+        "pending": 1,
+        "fps": 3.136639874534405,
+        "completedFpsLowerBound": 3.0386198784552048,
+        "renderCpuMedian": 75,
+        "renderCpuP95": 134,
+        "cpuMedian": 11,
+        "cpuP95": 36,
+        "gapMedian": 282,
+        "gapP95": 427,
+        "orbitRange": 0.19103417394074668,
+        "zoomRange": 15.919514495062202,
+        "draw": {
+          "frame": 276,
+          "calls": 149,
+          "triangles": 318458,
+          "points": 320,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      },
+      {
+        "enabled": true,
+        "elapsed": 10056,
+        "frames": 35,
+        "pending": 0,
+        "fps": 3.4805091487669055,
+        "completedFpsLowerBound": 3.4805091487669055,
+        "renderCpuMedian": 60,
+        "renderCpuP95": 315,
+        "cpuMedian": 7,
+        "cpuP95": 19,
+        "gapMedian": 241,
+        "gapP95": 546,
+        "orbitRange": 0.19124909752889294,
+        "zoomRange": 15.937424794074417,
+        "draw": {
+          "frame": 312,
+          "calls": 144,
+          "triangles": 311977,
+          "points": 320,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      }
+    ],
+    "component": {
+      "actualShadowMeshes": 7,
+      "framesPerSample": 200,
+      "samples": [
+        {
+          "enabled": false,
+          "times": [
+            5,
+            5,
+            5,
+            5,
+            4
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            1,
+            1,
+            0,
+            1,
+            1
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            1,
+            0,
+            1,
+            1,
+            3
+          ]
+        },
+        {
+          "enabled": false,
+          "times": [
+            6,
+            4,
+            8,
+            7,
+            44
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "stars",
+    "proof": {
+      "changed": 0,
+      "max": 0,
+      "counts": [
+        {
+          "enabled": false,
+          "frustumBuilds": 52,
+          "viewHits": 0,
+          "viewCacheBytes": 4144,
+          "draw": {
+            "frame": 315,
+            "calls": 360,
+            "triangles": 737588,
+            "points": 320,
+            "lines": 0
+          }
+        },
+        {
+          "enabled": true,
+          "frustumBuilds": 39,
+          "viewHits": 13,
+          "viewCacheBytes": 4376,
+          "draw": {
+            "frame": 318,
+            "calls": 360,
+            "triangles": 737588,
+            "points": 320,
+            "lines": 0
+          }
+        }
+      ],
+      "dpr": 2,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "glError": 0,
+      "contextLost": false,
+      "rangeMeshes": 340
+    },
+    "samples": [
+      {
+        "enabled": false,
+        "elapsed": 10193,
+        "frames": 25,
+        "pending": 1,
+        "fps": 2.4526635926616307,
+        "completedFpsLowerBound": 2.3545570489551655,
+        "renderCpuMedian": 144,
+        "renderCpuP95": 189,
+        "cpuMedian": 6,
+        "cpuP95": 30,
+        "gapMedian": 408,
+        "gapP95": 501,
+        "orbitRange": 0.1914031714796347,
+        "zoomRange": 15.950264289969567,
+        "draw": {
+          "frame": 345,
+          "calls": 345,
+          "triangles": 677532,
+          "points": 320,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      },
+      {
+        "enabled": true,
+        "elapsed": 10337,
+        "frames": 24,
+        "pending": 1,
+        "fps": 2.3217567959756216,
+        "completedFpsLowerBound": 2.2250169294766375,
+        "renderCpuMedian": 150,
+        "renderCpuP95": 303,
+        "cpuMedian": 9,
+        "cpuP95": 40,
+        "gapMedian": 404,
+        "gapP95": 589,
+        "orbitRange": 0.19089278700769155,
+        "zoomRange": 15.907732250640962,
+        "draw": {
+          "frame": 370,
+          "calls": 346,
+          "triangles": 681900,
+          "points": 320,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      }
+    ],
+    "component": {
+      "actualShadowMeshes": 13,
+      "framesPerSample": 200,
+      "samples": [
+        {
+          "enabled": false,
+          "times": [
+            30,
+            8,
+            8,
+            7,
+            6
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            1,
+            2,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            1,
+            1,
+            1,
+            2,
+            1
+          ]
+        },
+        {
+          "enabled": false,
+          "times": [
+            6,
+            6,
+            6,
+            7,
+            9
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "volcano",
+    "proof": {
+      "changed": 0,
+      "max": 0,
+      "counts": [
+        {
+          "enabled": false,
+          "frustumBuilds": 87,
+          "viewHits": 0,
+          "viewCacheBytes": 4376,
+          "draw": {
+            "frame": 373,
+            "calls": 731,
+            "triangles": 2073248,
+            "points": 740,
+            "lines": 0
+          }
+        },
+        {
+          "enabled": true,
+          "frustumBuilds": 73,
+          "viewHits": 14,
+          "viewCacheBytes": 4456,
+          "draw": {
+            "frame": 376,
+            "calls": 731,
+            "triangles": 2073248,
+            "points": 740,
+            "lines": 0
+          }
+        }
+      ],
+      "dpr": 2,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "glError": 0,
+      "contextLost": false,
+      "rangeMeshes": 340
+    },
+    "samples": [
+      {
+        "enabled": false,
+        "elapsed": 10615,
+        "frames": 12,
+        "pending": 1,
+        "fps": 1.1304757418747056,
+        "completedFpsLowerBound": 1.0362694300518134,
+        "renderCpuMedian": 324,
+        "renderCpuP95": 777,
+        "cpuMedian": 12,
+        "cpuP95": 47,
+        "gapMedian": 833,
+        "gapP95": 1085,
+        "orbitRange": 0.18924530009595736,
+        "zoomRange": 15.78707681237448,
+        "draw": {
+          "frame": 390,
+          "calls": 691,
+          "triangles": 1798893,
+          "points": 740,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      },
+      {
+        "enabled": true,
+        "elapsed": 10224,
+        "frames": 11,
+        "pending": 1,
+        "fps": 1.0758998435054774,
+        "completedFpsLowerBound": 0.9780907668231612,
+        "renderCpuMedian": 303,
+        "renderCpuP95": 1408,
+        "cpuMedian": 11,
+        "cpuP95": 48,
+        "gapMedian": 859,
+        "gapP95": 1792,
+        "orbitRange": 0.18941131044646892,
+        "zoomRange": 15.784275870539076,
+        "draw": {
+          "frame": 402,
+          "calls": 685,
+          "triangles": 1785957,
+          "points": 740,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      }
+    ],
+    "component": {
+      "actualShadowMeshes": 21,
+      "framesPerSample": 200,
+      "samples": [
+        {
+          "enabled": false,
+          "times": [
+            20,
+            14,
+            15,
+            18,
+            19
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            20,
+            4,
+            3,
+            3,
+            2
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            2,
+            3,
+            2,
+            2,
+            3
+          ]
+        },
+        {
+          "enabled": false,
+          "times": [
+            16,
+            16,
+            16,
+            39,
+            26
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "candy",
+    "proof": {
+      "changed": 0,
+      "max": 0,
+      "counts": [
+        {
+          "enabled": false,
+          "frustumBuilds": 42,
+          "viewHits": 0,
+          "viewCacheBytes": 4512,
+          "draw": {
+            "frame": 405,
+            "calls": 282,
+            "triangles": 537768,
+            "points": 320,
+            "lines": 0
+          }
+        },
+        {
+          "enabled": true,
+          "frustumBuilds": 37,
+          "viewHits": 5,
+          "viewCacheBytes": 4608,
+          "draw": {
+            "frame": 408,
+            "calls": 282,
+            "triangles": 537768,
+            "points": 320,
+            "lines": 0
+          }
+        }
+      ],
+      "dpr": 2,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "glError": 0,
+      "contextLost": false,
+      "rangeMeshes": 344
+    },
+    "samples": [
+      {
+        "enabled": false,
+        "elapsed": 10432,
+        "frames": 29,
+        "pending": 1,
+        "fps": 2.7799079754601226,
+        "completedFpsLowerBound": 2.684049079754601,
+        "renderCpuMedian": 90,
+        "renderCpuP95": 111,
+        "cpuMedian": 6,
+        "cpuP95": 28,
+        "gapMedian": 332,
+        "gapP95": 521,
+        "orbitRange": 0.191910262229496,
+        "zoomRange": 15.992521852457998,
+        "draw": {
+          "frame": 439,
+          "calls": 273,
+          "triangles": 496240,
+          "points": 320,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      },
+      {
+        "enabled": true,
+        "elapsed": 10470,
+        "frames": 28,
+        "pending": 1,
+        "fps": 2.6743075453677174,
+        "completedFpsLowerBound": 2.5787965616045847,
+        "renderCpuMedian": 89,
+        "renderCpuP95": 169,
+        "cpuMedian": 7,
+        "cpuP95": 29,
+        "gapMedian": 327,
+        "gapP95": 684,
+        "orbitRange": 0.19116972116358255,
+        "zoomRange": 15.930810096965217,
+        "draw": {
+          "frame": 468,
+          "calls": 273,
+          "triangles": 493936,
+          "points": 320,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      }
+    ],
+    "component": {
+      "actualShadowMeshes": 5,
+      "framesPerSample": 200,
+      "samples": [
+        {
+          "enabled": false,
+          "times": [
+            4,
+            1,
+            2,
+            1,
+            2
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            0,
+            0,
+            1,
+            0,
+            1
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            0,
+            0,
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "enabled": false,
+          "times": [
+            1,
+            1,
+            2,
+            1,
+            1
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "galaxy",
+    "proof": {
+      "changed": 0,
+      "max": 0,
+      "counts": [
+        {
+          "enabled": false,
+          "frustumBuilds": 62,
+          "viewHits": 0,
+          "viewCacheBytes": 4600,
+          "draw": {
+            "frame": 471,
+            "calls": 567,
+            "triangles": 1324626,
+            "points": 740,
+            "lines": 0
+          }
+        },
+        {
+          "enabled": true,
+          "frustumBuilds": 53,
+          "viewHits": 9,
+          "viewCacheBytes": 4672,
+          "draw": {
+            "frame": 474,
+            "calls": 567,
+            "triangles": 1324626,
+            "points": 740,
+            "lines": 0
+          }
+        }
+      ],
+      "dpr": 2,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "glError": 0,
+      "contextLost": false,
+      "rangeMeshes": 361
+    },
+    "samples": [
+      {
+        "enabled": false,
+        "elapsed": 10232,
+        "frames": 19,
+        "pending": 1,
+        "fps": 1.8569194683346364,
+        "completedFpsLowerBound": 1.7591868647380766,
+        "renderCpuMedian": 229,
+        "renderCpuP95": 387,
+        "cpuMedian": 7,
+        "cpuP95": 56,
+        "gapMedian": 517,
+        "gapP95": 762,
+        "orbitRange": 0.18932141414314294,
+        "zoomRange": 15.776784511928568,
+        "draw": {
+          "frame": 495,
+          "calls": 552,
+          "triangles": 1140754,
+          "points": 740,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      },
+      {
+        "enabled": true,
+        "elapsed": 10788,
+        "frames": 19,
+        "pending": 2,
+        "fps": 1.761216166110493,
+        "completedFpsLowerBound": 1.5758249907304411,
+        "renderCpuMedian": 212,
+        "renderCpuP95": 383,
+        "cpuMedian": 6,
+        "cpuP95": 604,
+        "gapMedian": 482,
+        "gapP95": 1299,
+        "orbitRange": 0.1914159371197011,
+        "zoomRange": 15.951328093308419,
+        "draw": {
+          "frame": 515,
+          "calls": 561,
+          "triangles": 1154654,
+          "points": 740,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      }
+    ],
+    "component": {
+      "actualShadowMeshes": 16,
+      "framesPerSample": 200,
+      "samples": [
+        {
+          "enabled": false,
+          "times": [
+            22,
+            30,
+            12,
+            14,
+            16
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            2,
+            4,
+            2,
+            2,
+            1
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            2,
+            2,
+            2,
+            1,
+            2
+          ]
+        },
+        {
+          "enabled": false,
+          "times": [
+            11,
+            31,
+            12,
+            10,
+            10
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "coral",
+    "proof": {
+      "changed": 0,
+      "max": 0,
+      "counts": [
+        {
+          "enabled": false,
+          "frustumBuilds": 47,
+          "viewHits": 0,
+          "viewCacheBytes": 4728,
+          "draw": {
+            "frame": 518,
+            "calls": 393,
+            "triangles": 930262,
+            "points": 320,
+            "lines": 0
+          }
+        },
+        {
+          "enabled": true,
+          "frustumBuilds": 33,
+          "viewHits": 14,
+          "viewCacheBytes": 4984,
+          "draw": {
+            "frame": 521,
+            "calls": 393,
+            "triangles": 930262,
+            "points": 320,
+            "lines": 0
+          }
+        }
+      ],
+      "dpr": 2,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "glError": 0,
+      "contextLost": false,
+      "rangeMeshes": 361
+    },
+    "samples": [
+      {
+        "enabled": false,
+        "elapsed": 10255,
+        "frames": 21,
+        "pending": 1,
+        "fps": 2.04778156996587,
+        "completedFpsLowerBound": 1.9502681618722575,
+        "renderCpuMedian": 162,
+        "renderCpuP95": 242,
+        "cpuMedian": 8,
+        "cpuP95": 20,
+        "gapMedian": 477,
+        "gapP95": 608,
+        "orbitRange": 0.1905596412001554,
+        "zoomRange": 15.87997010001294,
+        "draw": {
+          "frame": 544,
+          "calls": 369,
+          "triangles": 808170,
+          "points": 320,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      },
+      {
+        "enabled": true,
+        "elapsed": 10534,
+        "frames": 21,
+        "pending": 1,
+        "fps": 1.9935447123599772,
+        "completedFpsLowerBound": 1.8986140117714068,
+        "renderCpuMedian": 156,
+        "renderCpuP95": 238,
+        "cpuMedian": 8,
+        "cpuP95": 29,
+        "gapMedian": 494,
+        "gapP95": 770,
+        "orbitRange": 0.18942151373959235,
+        "zoomRange": 15.785126144966029,
+        "draw": {
+          "frame": 566,
+          "calls": 377,
+          "triangles": 829650,
+          "points": 320,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      }
+    ],
+    "component": {
+      "actualShadowMeshes": 18,
+      "framesPerSample": 200,
+      "samples": [
+        {
+          "enabled": false,
+          "times": [
+            39,
+            47,
+            21,
+            24,
+            22
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            2,
+            3,
+            22,
+            1,
+            2
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            2,
+            2,
+            1,
+            2,
+            2
+          ]
+        },
+        {
+          "enabled": false,
+          "times": [
+            17,
+            16,
+            14,
+            8,
+            38
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "ice",
+    "proof": {
+      "changed": 0,
+      "max": 0,
+      "counts": [
+        {
+          "enabled": false,
+          "frustumBuilds": 123,
+          "viewHits": 0,
+          "viewCacheBytes": 5024,
+          "draw": {
+            "frame": 569,
+            "calls": 1098,
+            "triangles": 1486700,
+            "points": 420,
+            "lines": 0
+          }
+        },
+        {
+          "enabled": true,
+          "frustumBuilds": 111,
+          "viewHits": 12,
+          "viewCacheBytes": 5120,
+          "draw": {
+            "frame": 572,
+            "calls": 1098,
+            "triangles": 1486700,
+            "points": 420,
+            "lines": 0
+          }
+        }
+      ],
+      "dpr": 2,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "glError": 0,
+      "contextLost": false,
+      "rangeMeshes": 378
+    },
+    "samples": [
+      {
+        "enabled": false,
+        "elapsed": 10090,
+        "frames": 16,
+        "pending": 1,
+        "fps": 1.5857284440039643,
+        "completedFpsLowerBound": 1.4866204162537167,
+        "renderCpuMedian": 236,
+        "renderCpuP95": 451,
+        "cpuMedian": 8,
+        "cpuP95": 578,
+        "gapMedian": 564,
+        "gapP95": 1132,
+        "orbitRange": 0.18961284055455152,
+        "zoomRange": 15.801070046212615,
+        "draw": {
+          "frame": 590,
+          "calls": 1085,
+          "triangles": 1329392,
+          "points": 420,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      },
+      {
+        "enabled": true,
+        "elapsed": 10310,
+        "frames": 17,
+        "pending": 1,
+        "fps": 1.6488845780795345,
+        "completedFpsLowerBound": 1.5518913676042676,
+        "renderCpuMedian": 239,
+        "renderCpuP95": 550,
+        "cpuMedian": 9,
+        "cpuP95": 32,
+        "gapMedian": 606,
+        "gapP95": 765,
+        "orbitRange": 0.1910730878511897,
+        "zoomRange": 15.976630445077731,
+        "draw": {
+          "frame": 608,
+          "calls": 1081,
+          "triangles": 1344208,
+          "points": 420,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      }
+    ],
+    "component": {
+      "actualShadowMeshes": 19,
+      "framesPerSample": 200,
+      "samples": [
+        {
+          "enabled": false,
+          "times": [
+            14,
+            10,
+            8,
+            10,
+            8
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            3,
+            3,
+            1,
+            2,
+            4
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            1,
+            2,
+            2,
+            1,
+            2
+          ]
+        },
+        {
+          "enabled": false,
+          "times": [
+            24,
+            8,
+            7,
+            8,
+            8
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "clockwork",
+    "proof": {
+      "changed": 0,
+      "max": 0,
+      "counts": [
+        {
+          "enabled": false,
+          "frustumBuilds": 137,
+          "viewHits": 0,
+          "viewCacheBytes": 5176,
+          "draw": {
+            "frame": 611,
+            "calls": 985,
+            "triangles": 2684024,
+            "points": 420,
+            "lines": 0
+          }
+        },
+        {
+          "enabled": true,
+          "frustumBuilds": 100,
+          "viewHits": 37,
+          "viewCacheBytes": 5800,
+          "draw": {
+            "frame": 614,
+            "calls": 985,
+            "triangles": 2684024,
+            "points": 420,
+            "lines": 0
+          }
+        }
+      ],
+      "dpr": 2,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "glError": 0,
+      "contextLost": false,
+      "rangeMeshes": 389
+    },
+    "samples": [
+      {
+        "enabled": false,
+        "elapsed": 10417,
+        "frames": 13,
+        "pending": 0,
+        "fps": 1.247960065277911,
+        "completedFpsLowerBound": 1.247960065277911,
+        "renderCpuMedian": 367,
+        "renderCpuP95": 911,
+        "cpuMedian": 11,
+        "cpuP95": 31,
+        "gapMedian": 730,
+        "gapP95": 1151,
+        "orbitRange": 0.18475119542849436,
+        "zoomRange": 15.395932952374537,
+        "draw": {
+          "frame": 629,
+          "calls": 1058,
+          "triangles": 3074156,
+          "points": 420,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      },
+      {
+        "enabled": true,
+        "elapsed": 10813,
+        "frames": 14,
+        "pending": 1,
+        "fps": 1.2947378155923426,
+        "completedFpsLowerBound": 1.2022565430500323,
+        "renderCpuMedian": 374,
+        "renderCpuP95": 699,
+        "cpuMedian": 9,
+        "cpuP95": 31,
+        "gapMedian": 713,
+        "gapP95": 1119,
+        "orbitRange": 0.19014422502503558,
+        "zoomRange": 15.845352085419634,
+        "draw": {
+          "frame": 644,
+          "calls": 994,
+          "triangles": 2897408,
+          "points": 420,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      }
+    ],
+    "component": {
+      "actualShadowMeshes": 44,
+      "framesPerSample": 200,
+      "samples": [
+        {
+          "enabled": false,
+          "times": [
+            67,
+            49,
+            60,
+            61,
+            44
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            11,
+            7,
+            6,
+            6,
+            5
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            20,
+            6,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "enabled": false,
+          "times": [
+            41,
+            61,
+            28,
+            30,
+            19
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "foodcourt",
+    "proof": {
+      "changed": 0,
+      "max": 0,
+      "counts": [
+        {
+          "enabled": false,
+          "frustumBuilds": 53,
+          "viewHits": 0,
+          "viewCacheBytes": 5952,
+          "draw": {
+            "frame": 647,
+            "calls": 228,
+            "triangles": 764691,
+            "points": 320,
+            "lines": 0
+          }
+        },
+        {
+          "enabled": true,
+          "frustumBuilds": 36,
+          "viewHits": 17,
+          "viewCacheBytes": 7416,
+          "draw": {
+            "frame": 650,
+            "calls": 228,
+            "triangles": 764691,
+            "points": 320,
+            "lines": 0
+          }
+        }
+      ],
+      "dpr": 2,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "glError": 0,
+      "contextLost": false,
+      "rangeMeshes": 398
+    },
+    "samples": [
+      {
+        "enabled": false,
+        "elapsed": 10509,
+        "frames": 15,
+        "pending": 1,
+        "fps": 1.4273479874393378,
+        "completedFpsLowerBound": 1.3321914549433818,
+        "renderCpuMedian": 160,
+        "renderCpuP95": 658,
+        "cpuMedian": 9,
+        "cpuP95": 246,
+        "gapMedian": 638,
+        "gapP95": 1063,
+        "orbitRange": 0.1913434435518784,
+        "zoomRange": 15.945286962656539,
+        "draw": {
+          "frame": 667,
+          "calls": 208,
+          "triangles": 641951,
+          "points": 320,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      },
+      {
+        "enabled": true,
+        "elapsed": 10252,
+        "frames": 17,
+        "pending": 1,
+        "fps": 1.6582130316035895,
+        "completedFpsLowerBound": 1.5606710885680843,
+        "renderCpuMedian": 135,
+        "renderCpuP95": 411,
+        "cpuMedian": 7,
+        "cpuP95": 26,
+        "gapMedian": 563,
+        "gapP95": 776,
+        "orbitRange": 0.191411718913413,
+        "zoomRange": 15.95097657611774,
+        "draw": {
+          "frame": 685,
+          "calls": 206,
+          "triangles": 637143,
+          "points": 320,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      }
+    ],
+    "component": {
+      "actualShadowMeshes": 19,
+      "framesPerSample": 200,
+      "samples": [
+        {
+          "enabled": false,
+          "times": [
+            27,
+            41,
+            27,
+            28,
+            71
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            5,
+            2,
+            4,
+            2,
+            3
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            1,
+            4,
+            3,
+            4,
+            1
+          ]
+        },
+        {
+          "enabled": false,
+          "times": [
+            42,
+            21,
+            36,
+            21,
+            15
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "bikini",
+    "proof": {
+      "changed": 0,
+      "max": 0,
+      "counts": [
+        {
+          "enabled": false,
+          "frustumBuilds": 59,
+          "viewHits": 0,
+          "viewCacheBytes": 7432,
+          "draw": {
+            "frame": 688,
+            "calls": 398,
+            "triangles": 1057619,
+            "points": 320,
+            "lines": 0
+          }
+        },
+        {
+          "enabled": true,
+          "frustumBuilds": 49,
+          "viewHits": 10,
+          "viewCacheBytes": 8664,
+          "draw": {
+            "frame": 691,
+            "calls": 398,
+            "triangles": 1057619,
+            "points": 320,
+            "lines": 0
+          }
+        }
+      ],
+      "dpr": 2,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "glError": 0,
+      "contextLost": false,
+      "rangeMeshes": 407
+    },
+    "samples": [
+      {
+        "enabled": false,
+        "elapsed": 10768,
+        "frames": 15,
+        "pending": 1,
+        "fps": 1.3930163447251114,
+        "completedFpsLowerBound": 1.300148588410104,
+        "renderCpuMedian": 209,
+        "renderCpuP95": 633,
+        "cpuMedian": 11,
+        "cpuP95": 104,
+        "gapMedian": 637,
+        "gapP95": 1053,
+        "orbitRange": 0.19062120841861643,
+        "zoomRange": 15.885100701551366,
+        "draw": {
+          "frame": 708,
+          "calls": 379,
+          "triangles": 872768,
+          "points": 320,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      },
+      {
+        "enabled": true,
+        "elapsed": 10001,
+        "frames": 16,
+        "pending": 1,
+        "fps": 1.5998400159984,
+        "completedFpsLowerBound": 1.4998500149985001,
+        "renderCpuMedian": 178,
+        "renderCpuP95": 428,
+        "cpuMedian": 8,
+        "cpuP95": 48,
+        "gapMedian": 580,
+        "gapP95": 772,
+        "orbitRange": 0.1919228431979269,
+        "zoomRange": 15.993570266493919,
+        "draw": {
+          "frame": 725,
+          "calls": 360,
+          "triangles": 867128,
+          "points": 320,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      }
+    ],
+    "component": {
+      "actualShadowMeshes": 13,
+      "framesPerSample": 200,
+      "samples": [
+        {
+          "enabled": false,
+          "times": [
+            31,
+            26,
+            38,
+            33,
+            31
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            15,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            2,
+            1,
+            1,
+            1,
+            3
+          ]
+        },
+        {
+          "enabled": false,
+          "times": [
+            29,
+            29,
+            48,
+            25,
+            50
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "homestead",
+    "proof": {
+      "changed": 0,
+      "max": 0,
+      "counts": [
+        {
+          "enabled": false,
+          "frustumBuilds": 185,
+          "viewHits": 0,
+          "viewCacheBytes": 8616,
+          "draw": {
+            "frame": 728,
+            "calls": 692,
+            "triangles": 2939867,
+            "points": 0,
+            "lines": 0
+          }
+        },
+        {
+          "enabled": true,
+          "frustumBuilds": 131,
+          "viewHits": 54,
+          "viewCacheBytes": 9688,
+          "draw": {
+            "frame": 731,
+            "calls": 692,
+            "triangles": 2939867,
+            "points": 0,
+            "lines": 0
+          }
+        }
+      ],
+      "dpr": 2,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "glError": 0,
+      "contextLost": false,
+      "rangeMeshes": 407
+    },
+    "samples": [
+      {
+        "enabled": false,
+        "elapsed": 10515,
+        "frames": 12,
+        "pending": 1,
+        "fps": 1.1412268188302426,
+        "completedFpsLowerBound": 1.0461245839277222,
+        "renderCpuMedian": 547,
+        "renderCpuP95": 867,
+        "cpuMedian": 14,
+        "cpuP95": 93,
+        "gapMedian": 856,
+        "gapP95": 1191,
+        "orbitRange": 0.18788113736981957,
+        "zoomRange": 15.656761447484968,
+        "draw": {
+          "frame": 745,
+          "calls": 626,
+          "triangles": 2684664,
+          "points": 0,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      },
+      {
+        "enabled": true,
+        "elapsed": 10614,
+        "frames": 15,
+        "pending": 1,
+        "fps": 1.4132278123233466,
+        "completedFpsLowerBound": 1.3190126248351235,
+        "renderCpuMedian": 475,
+        "renderCpuP95": 601,
+        "cpuMedian": 9,
+        "cpuP95": 19,
+        "gapMedian": 703,
+        "gapP95": 790,
+        "orbitRange": 0.18574119348652912,
+        "zoomRange": 15.47843279054409,
+        "draw": {
+          "frame": 761,
+          "calls": 644,
+          "triangles": 2728944,
+          "points": 0,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      },
+      {
+        "enabled": true,
+        "elapsed": 11243,
+        "frames": 14,
+        "pending": 0,
+        "fps": 1.2452192475317976,
+        "completedFpsLowerBound": 1.2452192475317976,
+        "renderCpuMedian": 481,
+        "renderCpuP95": 751,
+        "cpuMedian": 10,
+        "cpuP95": 71,
+        "gapMedian": 759,
+        "gapP95": 1116,
+        "orbitRange": 0.1919471718577264,
+        "zoomRange": 15.995597654810524,
+        "draw": {
+          "frame": 776,
+          "calls": 616,
+          "triangles": 2685776,
+          "points": 0,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      },
+      {
+        "enabled": false,
+        "elapsed": 10095,
+        "frames": 12,
+        "pending": 1,
+        "fps": 1.188707280832095,
+        "completedFpsLowerBound": 1.0896483407627537,
+        "renderCpuMedian": 498,
+        "renderCpuP95": 867,
+        "cpuMedian": 8,
+        "cpuP95": 14,
+        "gapMedian": 810,
+        "gapP95": 1110,
+        "orbitRange": 0.1862782970203924,
+        "zoomRange": 15.52319141836604,
+        "draw": {
+          "frame": 789,
+          "calls": 625,
+          "triangles": 2655005,
+          "points": 0,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      }
+    ],
+    "component": {
+      "actualShadowMeshes": 62,
+      "framesPerSample": 200,
+      "samples": [
+        {
+          "enabled": false,
+          "times": [
+            66,
+            50,
+            62,
+            28,
+            19
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            5,
+            4,
+            5,
+            4,
+            4
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            4,
+            4,
+            5,
+            4,
+            5
+          ]
+        },
+        {
+          "enabled": false,
+          "times": [
+            19,
+            19,
+            20,
+            18,
+            18
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "aquarium",
+    "proof": {
+      "changed": 0,
+      "max": 0,
+      "counts": [
+        {
+          "enabled": false,
+          "frustumBuilds": 69,
+          "viewHits": 0,
+          "viewCacheBytes": 9864,
+          "draw": {
+            "frame": 792,
+            "calls": 323,
+            "triangles": 2804644,
+            "points": 320,
+            "lines": 0
+          }
+        },
+        {
+          "enabled": true,
+          "frustumBuilds": 53,
+          "viewHits": 16,
+          "viewCacheBytes": 11128,
+          "draw": {
+            "frame": 795,
+            "calls": 323,
+            "triangles": 2804644,
+            "points": 320,
+            "lines": 0
+          }
+        }
+      ],
+      "dpr": 2,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "glError": 0,
+      "contextLost": false,
+      "rangeMeshes": 407
+    },
+    "samples": [
+      {
+        "enabled": false,
+        "elapsed": 10850,
+        "frames": 10,
+        "pending": 1,
+        "fps": 0.9216589861751152,
+        "completedFpsLowerBound": 0.8294930875576036,
+        "renderCpuMedian": 466,
+        "renderCpuP95": 767,
+        "cpuMedian": 15,
+        "cpuP95": 45,
+        "gapMedian": 981,
+        "gapP95": 1686,
+        "orbitRange": 0.17756808105350272,
+        "zoomRange": 14.79734008779188,
+        "draw": {
+          "frame": 807,
+          "calls": 308,
+          "triangles": 2723328,
+          "points": 320,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      },
+      {
+        "enabled": true,
+        "elapsed": 10593,
+        "frames": 10,
+        "pending": 1,
+        "fps": 0.9440196356084206,
+        "completedFpsLowerBound": 0.8496176720475785,
+        "renderCpuMedian": 491,
+        "renderCpuP95": 677,
+        "cpuMedian": 12,
+        "cpuP95": 123,
+        "gapMedian": 1058,
+        "gapP95": 1224,
+        "orbitRange": 0.18334839444000783,
+        "zoomRange": 15.279032870000663,
+        "draw": {
+          "frame": 818,
+          "calls": 298,
+          "triangles": 2711218,
+          "points": 320,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      },
+      {
+        "enabled": true,
+        "elapsed": 10728,
+        "frames": 11,
+        "pending": 1,
+        "fps": 1.0253542132736764,
+        "completedFpsLowerBound": 0.9321401938851603,
+        "renderCpuMedian": 415,
+        "renderCpuP95": 739,
+        "cpuMedian": 7,
+        "cpuP95": 50,
+        "gapMedian": 954,
+        "gapP95": 1154,
+        "orbitRange": 0.18934570987249327,
+        "zoomRange": 15.825661931721754,
+        "draw": {
+          "frame": 830,
+          "calls": 308,
+          "triangles": 2723200,
+          "points": 320,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      },
+      {
+        "enabled": false,
+        "elapsed": 11000,
+        "frames": 11,
+        "pending": 1,
+        "fps": 1,
+        "completedFpsLowerBound": 0.9090909090909091,
+        "renderCpuMedian": 475,
+        "renderCpuP95": 511,
+        "cpuMedian": 8,
+        "cpuP95": 38,
+        "gapMedian": 1011,
+        "gapP95": 1327,
+        "orbitRange": 0.174386371906703,
+        "zoomRange": 14.71374161132384,
+        "draw": {
+          "frame": 842,
+          "calls": 308,
+          "triangles": 2723712,
+          "points": 320,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      }
+    ],
+    "component": {
+      "actualShadowMeshes": 16,
+      "framesPerSample": 200,
+      "samples": [
+        {
+          "enabled": false,
+          "times": [
+            26,
+            45,
+            27,
+            24,
+            26
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            2,
+            2,
+            11,
+            2,
+            1
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            2,
+            1,
+            2,
+            1,
+            1
+          ]
+        },
+        {
+          "enabled": false,
+          "times": [
+            15,
+            17,
+            15,
+            15,
+            31
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "jobcity",
+    "proof": {
+      "changed": 0,
+      "max": 0,
+      "counts": [
+        {
+          "enabled": false,
+          "frustumBuilds": 148,
+          "viewHits": 0,
+          "viewCacheBytes": 11064,
+          "draw": {
+            "frame": 845,
+            "calls": 519,
+            "triangles": 2093642,
+            "points": 320,
+            "lines": 0
+          }
+        },
+        {
+          "enabled": true,
+          "frustumBuilds": 131,
+          "viewHits": 17,
+          "viewCacheBytes": 12568,
+          "draw": {
+            "frame": 848,
+            "calls": 519,
+            "triangles": 2093642,
+            "points": 320,
+            "lines": 0
+          }
+        }
+      ],
+      "dpr": 2,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "glError": 0,
+      "contextLost": false,
+      "rangeMeshes": 413
+    },
+    "samples": [
+      {
+        "enabled": false,
+        "elapsed": 10564,
+        "frames": 11,
+        "pending": 1,
+        "fps": 1.0412722453616055,
+        "completedFpsLowerBound": 0.9466111321469141,
+        "renderCpuMedian": 435,
+        "renderCpuP95": 739,
+        "cpuMedian": 9,
+        "cpuP95": 38,
+        "gapMedian": 909,
+        "gapP95": 1155,
+        "orbitRange": 0.18834980540516513,
+        "zoomRange": 15.695817117097093,
+        "draw": {
+          "frame": 861,
+          "calls": 503,
+          "triangles": 1874802,
+          "points": 320,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      },
+      {
+        "enabled": true,
+        "elapsed": 10988,
+        "frames": 11,
+        "pending": 1,
+        "fps": 1.0010921004732436,
+        "completedFpsLowerBound": 0.9100837277029487,
+        "renderCpuMedian": 436,
+        "renderCpuP95": 634,
+        "cpuMedian": 13,
+        "cpuP95": 38,
+        "gapMedian": 980,
+        "gapP95": 1554,
+        "orbitRange": 0.17980742657272214,
+        "zoomRange": 14.983952214393511,
+        "draw": {
+          "frame": 873,
+          "calls": 506,
+          "triangles": 1904042,
+          "points": 320,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      },
+      {
+        "enabled": true,
+        "elapsed": 11005,
+        "frames": 9,
+        "pending": 1,
+        "fps": 0.817810086324398,
+        "completedFpsLowerBound": 0.7269422989550205,
+        "renderCpuMedian": 633,
+        "renderCpuP95": 1116,
+        "cpuMedian": 19,
+        "cpuP95": 62,
+        "gapMedian": 1344,
+        "gapP95": 1456,
+        "orbitRange": 0.19196286066850982,
+        "zoomRange": 15.99690505570915,
+        "draw": {
+          "frame": 883,
+          "calls": 492,
+          "triangles": 1866111,
+          "points": 320,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      },
+      {
+        "enabled": false,
+        "elapsed": 10423,
+        "frames": 11,
+        "pending": 1,
+        "fps": 1.0553583421279862,
+        "completedFpsLowerBound": 0.9594166746618056,
+        "renderCpuMedian": 435,
+        "renderCpuP95": 659,
+        "cpuMedian": 12,
+        "cpuP95": 41,
+        "gapMedian": 965,
+        "gapP95": 1071,
+        "orbitRange": 0.186212027929033,
+        "zoomRange": 15.517668994086094,
+        "draw": {
+          "frame": 895,
+          "calls": 499,
+          "triangles": 1839917,
+          "points": 320,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      }
+    ],
+    "component": {
+      "actualShadowMeshes": 19,
+      "framesPerSample": 200,
+      "samples": [
+        {
+          "enabled": false,
+          "times": [
+            73,
+            45,
+            74,
+            56,
+            39
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            2,
+            3,
+            2,
+            2,
+            3
+          ]
+        },
+        {
+          "enabled": false,
+          "times": [
+            33,
+            26,
+            18,
+            22,
+            23
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "cat-homes",
+    "proof": {
+      "changed": 0,
+      "max": 0,
+      "counts": [
+        {
+          "enabled": false,
+          "frustumBuilds": 65,
+          "viewHits": 0,
+          "viewCacheBytes": 12584,
+          "draw": {
+            "frame": 898,
+            "calls": 402,
+            "triangles": 842597,
+            "points": 0,
+            "lines": 0
+          }
+        },
+        {
+          "enabled": true,
+          "frustumBuilds": 62,
+          "viewHits": 3,
+          "viewCacheBytes": 12752,
+          "draw": {
+            "frame": 901,
+            "calls": 402,
+            "triangles": 842597,
+            "points": 0,
+            "lines": 0
+          }
+        }
+      ],
+      "dpr": 2,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "glError": 0,
+      "contextLost": false,
+      "rangeMeshes": 413
+    },
+    "samples": [
+      {
+        "enabled": false,
+        "elapsed": 10800,
+        "frames": 18,
+        "pending": 1,
+        "fps": 1.6666666666666667,
+        "completedFpsLowerBound": 1.5740740740740742,
+        "renderCpuMedian": 184,
+        "renderCpuP95": 237,
+        "cpuMedian": 7,
+        "cpuP95": 47,
+        "gapMedian": 596,
+        "gapP95": 761,
+        "orbitRange": 0.1906020494398026,
+        "zoomRange": 15.883504119983542,
+        "draw": {
+          "frame": 921,
+          "calls": 424,
+          "triangles": 1187547,
+          "points": 0,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      },
+      {
+        "enabled": true,
+        "elapsed": 11016,
+        "frames": 15,
+        "pending": 2,
+        "fps": 1.3616557734204793,
+        "completedFpsLowerBound": 1.1801016702977487,
+        "renderCpuMedian": 232,
+        "renderCpuP95": 565,
+        "cpuMedian": 8,
+        "cpuP95": 41,
+        "gapMedian": 695,
+        "gapP95": 982,
+        "orbitRange": 0.19000769906748455,
+        "zoomRange": 15.833974922290366,
+        "draw": {
+          "frame": 937,
+          "calls": 406,
+          "triangles": 1249959,
+          "points": 0,
+          "lines": 0
+        },
+        "dpr": 2,
+        "contextLost": false
+      }
+    ],
+    "component": {
+      "actualShadowMeshes": 3,
+      "framesPerSample": 200,
+      "samples": [
+        {
+          "enabled": false,
+          "times": [
+            7,
+            8,
+            6,
+            6,
+            10
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            21,
+            0,
+            1,
+            0,
+            1
+          ]
+        },
+        {
+          "enabled": true,
+          "times": [
+            0,
+            1,
+            6,
+            0,
+            1
+          ]
+        },
+        {
+          "enabled": false,
+          "times": [
+            5,
+            6,
+            5,
+            7,
+            6
+          ]
+        }
+      ]
+    }
+  }
+]

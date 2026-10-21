@@ -28,7 +28,7 @@ const before = JSON.parse(
   ids = Object.keys(BUILDING_EXPANSIONS).filter(id=>byBiome(id)),
   now = Date.UTC(2026, 9, 18, 12);
 test("surviving expanded islands retain their area and themes after the requested map consolidation", () => {
-  assert.deepEqual(ids.sort(), ["candy", "clouds"]);
+  assert.deepEqual(ids.sort(), ["candy"]);
   assert.equal(BIOMES.length, before.filter(b=>byBiome(b.id)).length + 2);
   for(const original of before.filter(b=>byBiome(b.id))){
     const b=byBiome(original.id), {radius,center,buildableAreaMultiplier,...rest}=b,
@@ -244,7 +244,7 @@ test("each expanded island accepts nine independent new businesses on the outer 
     old = [];
   for (const [item, biome] of [
     ["waterslide", "candy"],
-    ["adoption-center", "clouds"],
+    ["adoption-center", "candy"],
   ]) {
     const p = findSpace(g, item, biome);
     assert.ok(p);
@@ -280,7 +280,7 @@ test("each expanded island accepts nine independent new businesses on the outer 
     }
   const placements = structuredClone(g.placements),
     coins = g.coins,
-    position = { biome: "clouds", x: 18, z: 0 };
+    position = { biome: "candy", x: 18, z: 0 };
   g.catPosition = position;
   for (let i = 0; i < 20; i++) {
     saveGame(storage, g);

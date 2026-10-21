@@ -289,35 +289,41 @@ export function cityViewOccluders(targetId, camera) {
   const target = JOB_BUSINESSES.find((b) => b.id === targetId),
     hidden = new Set();
   if (!target) return hidden;
-  const goal = { x: target.x, y: target.h * 0.55, z: target.z },
-    delta = {
-      x: goal.x - camera.x,
-      y: goal.y - camera.y,
-      z: goal.z - camera.z,
-    };
+  const goals = [{ x: target.x, y: target.h * .55, z: target.z }];
+  // On portrait screens the camera sits farther back. A foreground roof can
+  // cover the ground-floor facade without intersecting the centre sight line.
+  for (const dx of [-target.w * .4, 0, target.w * .4])
+    goals.push({ x: target.x + dx, y: .5, z: target.z + target.d / 2 });
   for (const b of JOB_BUSINESSES) {
     if (b === target) continue;
-    let lo = 0,
-      hi = 1;
-    for (const [axis, min, max] of [
-      ["x", b.x - b.w / 2 - 0.3, b.x + b.w / 2 + 0.3],
-      ["y", 0, b.h + 2],
-      ["z", b.z - b.d / 2 - 0.3, b.z + b.d / 2 + 0.3],
-    ]) {
-      if (Math.abs(delta[axis]) < 1e-8) {
-        if (camera[axis] < min || camera[axis] > max) {
-          hi = -1;
-          break;
+    for (const goal of goals) {
+      const delta = {
+        x: goal.x - camera.x,
+        y: goal.y - camera.y,
+        z: goal.z - camera.z,
+      };
+      let lo = 0,
+        hi = 1;
+      for (const [axis, min, max] of [
+        ["x", b.x - b.w / 2 - 0.3, b.x + b.w / 2 + 0.3],
+        ["y", 0, b.h + 2],
+        ["z", b.z - b.d / 2 - 0.3, b.z + b.d / 2 + 0.3],
+      ]) {
+        if (Math.abs(delta[axis]) < 1e-8) {
+          if (camera[axis] < min || camera[axis] > max) {
+            hi = -1;
+            break;
+          }
+        } else {
+          let a = (min - camera[axis]) / delta[axis],
+            c = (max - camera[axis]) / delta[axis];
+          if (a > c) [a, c] = [c, a];
+          lo = Math.max(lo, a);
+          hi = Math.min(hi, c);
         }
-      } else {
-        let a = (min - camera[axis]) / delta[axis],
-          c = (max - camera[axis]) / delta[axis];
-        if (a > c) [a, c] = [c, a];
-        lo = Math.max(lo, a);
-        hi = Math.min(hi, c);
       }
+      if (lo <= hi && hi >= 0 && lo < 1) { hidden.add(b.id); break; }
     }
-    if (lo <= hi && hi >= 0 && lo < 1) hidden.add(b.id);
   }
   return hidden;
 }

@@ -33,12 +33,11 @@ const now = Date.UTC(2026, 9, 16),
     return g;
   };
 test("Chill Land replaces only the dream garden, with five times the playable area and the same stable unlock ID", () => {
-  assert.equal(BIOMES.length, 20);
+  assert.equal(BIOMES.length, 17);
   assert.equal(byBiome("sakura").name, "Chill Land");
   assert.ok(Math.abs(CHILL_RADIUS ** 2 / 11.65 ** 2 - 5) < 1e-12);
   assert.equal(byBiome("crystal"), undefined);
-  assert.equal(byBiome("stars").name, "Звёздная долина");
-  assert.ok(byBiome("stars").center.every(Number.isFinite));
+  assert.equal(byBiome("stars"), undefined);
   assert.equal(CHILL_HOUSES.length, 7);
   assert.equal(new Set(CHILL_HOUSES.map((h) => h.form)).size, 7);
 });
@@ -232,7 +231,7 @@ test("other approved biome records remain unchanged except the later authorized 
         ),
       )
       .digest("hex"),
-    "0e03a9cefc59311b8f2a291e389ba02521309d54dd36ef8c048f643bb2a79112",
+    "53900c501caaafde850ef194d9e55c673f0924d7949e49da41e404f2f71c5e48",
   );
 });
 test("fourteen concurrent visitors across seven mansions all finish without leaking a reservation", () => {

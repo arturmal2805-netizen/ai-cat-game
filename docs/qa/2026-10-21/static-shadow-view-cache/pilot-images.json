@@ -1,0 +1,178 @@
+[
+  {
+    "id": "summer",
+    "proof": {
+      "changed": 0,
+      "max": 0,
+      "counts": [
+        {
+          "enabled": false,
+          "frustumBuilds": 56,
+          "viewHits": 0,
+          "viewCacheBytes": 336,
+          "draw": {
+            "frame": 4,
+            "calls": 626,
+            "triangles": 3088429,
+            "points": 320,
+            "lines": 0
+          }
+        },
+        {
+          "enabled": true,
+          "frustumBuilds": 43,
+          "viewHits": 13,
+          "viewCacheBytes": 912,
+          "draw": {
+            "frame": 7,
+            "calls": 626,
+            "triangles": 3088429,
+            "points": 320,
+            "lines": 0
+          }
+        }
+      ],
+      "dpr": 2,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "glError": 0,
+      "contextLost": false,
+      "rangeMeshes": 206
+    },
+    "samples": []
+  },
+  {
+    "id": "aquarium",
+    "proof": {
+      "changed": 0,
+      "max": 0,
+      "counts": [
+        {
+          "enabled": false,
+          "frustumBuilds": 31,
+          "viewHits": 0,
+          "viewCacheBytes": 720,
+          "draw": {
+            "frame": 10,
+            "calls": 258,
+            "triangles": 942737,
+            "points": 320,
+            "lines": 0
+          }
+        },
+        {
+          "enabled": true,
+          "frustumBuilds": 25,
+          "viewHits": 6,
+          "viewCacheBytes": 1168,
+          "draw": {
+            "frame": 13,
+            "calls": 258,
+            "triangles": 942737,
+            "points": 320,
+            "lines": 0
+          }
+        }
+      ],
+      "dpr": 2,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "glError": 0,
+      "contextLost": false,
+      "rangeMeshes": 206
+    },
+    "samples": []
+  },
+  {
+    "id": "jobcity",
+    "proof": {
+      "changed": 0,
+      "max": 0,
+      "counts": [
+        {
+          "enabled": false,
+          "frustumBuilds": 89,
+          "viewHits": 0,
+          "viewCacheBytes": 1168,
+          "draw": {
+            "frame": 16,
+            "calls": 511,
+            "triangles": 1797785,
+            "points": 320,
+            "lines": 0
+          }
+        },
+        {
+          "enabled": true,
+          "frustumBuilds": 72,
+          "viewHits": 17,
+          "viewCacheBytes": 2672,
+          "draw": {
+            "frame": 19,
+            "calls": 511,
+            "triangles": 1797785,
+            "points": 320,
+            "lines": 0
+          }
+        }
+      ],
+      "dpr": 2,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "glError": 0,
+      "contextLost": false,
+      "rangeMeshes": 243
+    },
+    "samples": []
+  },
+  {
+    "id": "homestead",
+    "proof": {
+      "changed": 0,
+      "max": 0,
+      "counts": [
+        {
+          "enabled": false,
+          "frustumBuilds": 149,
+          "viewHits": 0,
+          "viewCacheBytes": 2576,
+          "draw": {
+            "frame": 22,
+            "calls": 839,
+            "triangles": 2807509,
+            "points": 0,
+            "lines": 0
+          }
+        },
+        {
+          "enabled": true,
+          "frustumBuilds": 95,
+          "viewHits": 54,
+          "viewCacheBytes": 3648,
+          "draw": {
+            "frame": 25,
+            "calls": 839,
+            "triangles": 2807509,
+            "points": 0,
+            "lines": 0
+          }
+        }
+      ],
+      "dpr": 2,
+      "buffer": [
+        2124,
+        1360
+      ],
+      "glError": 0,
+      "contextLost": false,
+      "rangeMeshes": 253
+    },
+    "samples": []
+  }
+]

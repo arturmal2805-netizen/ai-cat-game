@@ -21,9 +21,9 @@ export async function checkConsolidatedCamera(page,review){
  assert.ok(overview.far>overview.distance+300);assert.equal(overview.contextLost,false);
  rows.push({id:'world',...overview});
  await page.screenshot({path:path.join(review,'overview-world.png')});
- const retired=['lotus','crystal','mushrooms','desert','beach','aquapark','rainbow','nature','bamboo','dusk'];
+ const retired=['lotus','crystal','mushrooms','desert','beach','aquapark','rainbow','nature','bamboo','dusk','stars','coral','clouds'];
  const live=await page.evaluate(()=>({menu:[...document.querySelectorAll('[data-biome]')].map(n=>n.dataset.biome),scene:[...__lagoonQA.islands.keys()]}));
- assert.equal(live.menu.length,20);assert.equal(live.scene.length,20);
+ assert.equal(live.menu.length,17);assert.equal(live.scene.length,17);
  for(const id of retired){assert.ok(!live.menu.includes(id));assert.ok(!live.scene.includes(id));}
  fs.writeFileSync(path.join(review,'camera-and-map.json'),JSON.stringify({rows,live},null,2));
  console.log('CONSOLIDATED_CAMERA',JSON.stringify({rows,live}));

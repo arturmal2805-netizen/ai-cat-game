@@ -25,6 +25,37 @@ import {
   normalizeBusiness,
 } from "../public/business.js";
 import { pauseHiddenMatrixUpdates } from "../public/scene-visibility.js";
+import { attractionVisibility } from "../public/attraction-visibility.js";
+
+test("a visible dragon cat beyond the old 45-unit cutoff stays visible through ordinary orbit and zoom, without moving its carrier", () => {
+  const profile = ADOPTION_CATS.find(c => c.id === "adopt-magic-dragon"),
+    model = createCat("happy", { detail: "npc", ...catAppearance(profile) }),
+    carrier = new THREE.Group(),
+    camera = new THREE.PerspectiveCamera(40, 1.8, .5, 1200),
+    frustum = new THREE.Frustum(), projection = new THREE.Matrix4();
+  model.scale.setScalar(.63 * profile.size);
+  carrier.add(model);
+  carrier.position.set(48, .16, 0);
+  const visible = attractionVisibility(carrier, { padding: 2 }),
+    saved = carrier.position.clone();
+  for (const zoom of [90, 110, 140])
+    for (const azimuth of [-.1, 0, .1]) {
+      camera.position.set(Math.sin(azimuth) * zoom, zoom * .7, Math.cos(azimuth) * zoom);
+      camera.lookAt(0, 0, 0);
+      camera.updateMatrixWorld();
+      projection.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
+      frustum.setFromProjectionMatrix(projection, camera.coordinateSystem, camera.reversedDepth);
+      const head = new THREE.Vector3(48, 1, 0).project(camera);
+      if (Math.abs(head.x) < 1 && Math.abs(head.y) < 1) assert.equal(visible(frustum), true);
+      assert.deepEqual(carrier.position, saved);
+    }
+  carrier.position.set(10000, .16, 0);
+  assert.equal(visible(frustum), false, "off-camera cats may still sleep without drawing");
+  carrier.visible = false;
+  carrier.position.copy(saved);
+  assert.equal(visible(frustum), true, "hidden actors must wake when visible again");
+  disposeCat(model);
+});
 
 test("navigation radius stays constant through breathing for ordinary, tiny and giant approved cats", () => {
   const options = [

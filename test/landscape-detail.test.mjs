@@ -96,7 +96,7 @@ test("ground cover leaves water and rotated building footprints clear without to
 });
 
 test("moving a real tree preserves its model and clears vegetation at its new position", () => {
-  const root = createBiomeScene(BIOMES.find((b) => b.id === "coral"));
+  const root = createBiomeScene(BIOMES.find((b) => b.id === "winter"));
   const records = [...root.userData.sceneryObjects.values()].map(
     (g) => g.userData.sceneryRecord,
   );

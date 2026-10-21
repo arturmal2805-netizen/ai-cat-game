@@ -56,3 +56,9 @@ export function attractionCameraView(
   }
   return { target, distance: distance + 0.75, azimuth, elevation };
 }
+
+// An open-roof city inspection keeps the facade in view while looking down
+// into the upper floor. Use the same bounds fit on phones and after resizing.
+export function jobBuildingCameraView(bounds, fov, aspect, yaw = 0) {
+  return attractionCameraView(bounds, fov, aspect, yaw, 0.38);
+}

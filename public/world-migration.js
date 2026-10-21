@@ -1,6 +1,27 @@
-import { byItem, NEIGHBORS } from "./game-data.js";
+import { byItem, byBiome, NEIGHBORS } from "./game-data.js";
+import { sceneryBounds } from './scenery-data.js';
 import { isRetiredBiome, retiredDistrict } from './world-layout.js';
-export const WORLD_REVISION = 3;
+export const WORLD_REVISION = 4;
+function relocatedPlot(p, occupied) {
+  const spec=byItem(p.item),size=spec?.footprint || [2,2],
+    [w,d]=p.rotation%2?[size[1],size[0]]:size,
+    limit=byBiome('homestead').radius-.7;
+  const clear=(x,z)=>Math.hypot(Math.abs(x)+w/2,Math.abs(z)+d/2)<=limit&&
+    !occupied.some(q=>q.rx&&q.rz
+      ? (Math.max(0,Math.abs(x-q.x)-w/2)/q.rx)**2+(Math.max(0,Math.abs(z-q.z)-d/2)/q.rz)**2<1
+      : Math.abs(x-q.x)<(w+q.w)/2+.2&&Math.abs(z-q.z)<(d+q.d)/2+.2);
+  if(clear(p.x,p.z))return{x:p.x,z:p.z,w,d};
+  // Search only during this one-time migration. Existing buildings never
+  // move; deterministic rings keep shared/cached copies at the same address.
+  for(let r=4;r<=limit*2;r+=4){
+    const count=Math.ceil(Math.PI*2*r/4);
+    for(let i=0;i<count;i++){
+      const angle=i*Math.PI*2/count,x=Math.round((p.x+Math.sin(angle)*r)*1e6)/1e6,z=Math.round((p.z+Math.cos(angle)*r)*1e6)/1e6;
+      if(clear(x,z))return{x,z,w,d};
+    }
+  }
+  return null;
+}
 export function migrateRetiredIsland(raw, now = Date.now()) {
   let saved=raw.worldRevision>=2 ? raw : migrateWizard(raw);
   if(saved.worldRevision>=WORLD_REVISION &&
@@ -15,10 +36,29 @@ export function migrateRetiredIsland(raw, now = Date.now()) {
   saved.worldRevision=WORLD_REVISION;
   saved.unlocked=(saved.unlocked || []).filter(id=>!isRetiredBiome(id));
   if(needsLand&&!saved.unlocked.includes('homestead'))saved.unlocked.push('homestead');
+  const occupied=(saved.placements||[]).filter(p=>p.biome==='homestead').map(p=>{
+    const size=byItem(p.item)?.footprint||[2,2],[w,d]=p.rotation%2?[size[1],size[0]]:size;return{...p,w,d};
+  });
+  occupied.push(...(saved.scenery||[]).filter(p=>p.biome==='homestead'&&!p.stored).map(sceneryBounds));
+  const stored=new Set();
   for(const p of saved.placements || [])if(isRetiredBiome(p.biome)){
     const offset=retiredDistrict(p.biome);
     p.x+=offset.x;p.z+=offset.z;p.biome='homestead';
+    const free=relocatedPlot(p,occupied);
+    if(free){p.x=free.x;p.z=free.z;occupied.push(free);}
+    else{
+      // A fully occupied destination must not make loadGame silently reject
+      // a paid object. Retain its original receipt/timer/crops/tier in the bag.
+      saved.inventory||={};saved.builtInventory||={};saved.relocatedPurchases||=[];
+      if(!saved.relocatedPurchases.some(r=>r.id===p.id)){
+        saved.inventory[p.item]=(saved.inventory[p.item]||0)+1;
+        if(!p.readyAt||p.readyAt<=now)saved.builtInventory[p.item]=(saved.builtInventory[p.item]||0)+1;
+        saved.relocatedPurchases.push({...p,businessLevel:saved.business?.levels?.[p.id]||1,fieldCells:saved.farm?.fields?.[p.id],businessAccount:saved.business?.accounts?.[p.id]});
+      }
+      stored.add(p.id);
+    }
   }
+  if(stored.size)saved.placements=saved.placements.filter(p=>!stored.has(p.id));
   // Keep decorative belongings in the bag, not as invisible scene objects.
   for(const r of saved.scenery || [])if(isRetiredBiome(r.biome)){
     r.biome='homestead';r.stored=true;

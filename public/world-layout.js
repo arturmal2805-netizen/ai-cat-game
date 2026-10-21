@@ -37,6 +37,7 @@ export function separateIslandCenters(biomes) {
 export const RETIRED_BIOME_IDS = Object.freeze([
   'lotus', 'crystal', 'mushrooms', 'desert', 'beach', 'aquapark',
   'rainbow', 'nature', 'bamboo', 'dusk',
+  'stars', 'coral', 'clouds',
 ]);
 const retired = new Set(RETIRED_BIOME_IDS);
 export const isRetiredBiome = id => retired.has(id);
@@ -67,7 +68,11 @@ export const WORLD_CENTERS = Object.freeze({
 export function retiredDistrict(id) {
   const index=RETIRED_BIOME_IDS.indexOf(id);
   if(index<0)return null;
-  const angle=index*Math.PI*2/RETIRED_BIOME_IDS.length;
-  return {x:Math.round(Math.sin(angle)*185*1e6)/1e6,
-    z:Math.round(Math.cos(angle)*185*1e6)/1e6};
+  // Never redistribute released district addresses when retiring another
+  // island: cached devices must migrate a purchase to the same coordinates.
+  const original = index < 10,
+    angle = original ? index*Math.PI*2/10 : (index-10)*Math.PI*2/3,
+    radius = original ? 185 : 115;
+  return {x:Math.round(Math.sin(angle)*radius*1e6)/1e6,
+    z:Math.round(Math.cos(angle)*radius*1e6)/1e6};
 }

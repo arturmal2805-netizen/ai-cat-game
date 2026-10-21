@@ -52,7 +52,7 @@ test("aquarium is appended separately and every established biome is byte-identi
     BIOMES.filter((b) => !["aquarium", "jobcity", "cat-homes"].includes(b.id)),
     fixture,
   );
-  assert.equal(BIOMES.length, 20);
+  assert.equal(BIOMES.length, 17);
   const b = byBiome("aquarium");
   assert.equal(b.requiredLevel, 14);
   assert.ok(b.radius > 11.65 * 3);

@@ -1,7 +1,7 @@
 import { createShadowDepthCache } from "./shadow-depth-cache.js";
 import {worldRoads,WORLD_ROAD_WIDTH} from './world-roads.js';
 import {captureCatLocations} from './cat-locations.js';
-import {islandCameraFar} from './camera-views.js';
+import {islandCameraFar, jobBuildingCameraView} from './camera-views.js';
 import {
   HOUSING_ID,
   HOUSING_CENTER,
@@ -925,12 +925,14 @@ export function createWorld(container, initialGame, callbacks = {}) {
   }
   function applyAttractionCamera(g) {
     if (g.userData.jobBusiness) g.updateWorldMatrix(true, true);
-    const view = attractionCameraView(
+    const viewFor = g.userData.jobBusiness
+      ? jobBuildingCameraView
+      : attractionCameraView;
+    const view = viewFor(
       new THREE.Box3().setFromObject(g),
       camera.fov,
       camera.aspect,
       g.rotation.y,
-      g.userData.jobBusiness ? 0.12 : 0.53,
     );
     desiredLook.copy(view.target);
     desiredDistance = view.distance;
@@ -950,7 +952,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
       azimuth,
       elevation,
     };
-    if(g.userData.jobBusiness?.kind === "crypto" && g.userData.roof) g.userData.roof.visible = false;
+    if (g.userData.jobBusiness && g.userData.roof)
+      g.userData.roof.visible = false;
     applyAttractionCamera(g);
     courtExit.hidden = false;
     courtOrder.hidden = true;
@@ -2115,7 +2118,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
         carrier.rotation.y=savedLocation.yaw;
       }
       scene.add(carrier);
-      npcs.set(profile.id, { carrier, model, profile, index, hatRig });
+      const inView = attractionVisibility(carrier, { padding: 2 });
+      npcs.set(profile.id, { carrier, model, profile, index, hatRig, inView });
     }
     const activeIds = new Set(activeCats(game).map((c) => c.id));
     for (const [id, n] of npcs)
@@ -3673,6 +3677,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
     );
     camera.lookAt(look);
     sky.scale.setScalar(Math.max(1,(camera.position.length()+100)/520));
+    // A cat can remain inside the camera view while more than 45 world units
+    // from its target, especially on the enlarged lawn. Do not replace that
+    // visible cat with a marker at an arbitrary distance boundary.
+    camera.updateMatrixWorld();
+    attractionProjection.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
+    attractionFrustum.setFromProjectionMatrix(attractionProjection, camera.coordinateSystem, camera.reversedDepth);
     for (const b of BIOMES) {
       const island = islands.get(b.id),
         close =
@@ -4756,10 +4766,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         (faceCamera.enabled && followedCatId === id) ||
         (overviewElevation !== null && b.id === focused) ||
         (distance < Math.max(110, (b.radius || 12) * 7) &&
-          Math.hypot(
-            n.carrier.position.x - look.x,
-            n.carrier.position.z - look.z,
-          ) < 45);
+          n.inView(attractionFrustum, sun.shadow.getFrustum()));
       n.carrier.visible = near;
       npcDummy.position.copy(n.carrier.position);
       npcDummy.position.y += 0.3;

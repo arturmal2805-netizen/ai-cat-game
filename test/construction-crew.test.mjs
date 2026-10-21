@@ -182,11 +182,11 @@ test("a manual action can cancel any helper immediately without a saved side eff
 });
 
 test("helpers travelling to a different island follow its actual rebuilt road instead of running through the sky", () => {
- const roads=worldRoads(BIOMES),road=roads.find(r=>r.from==='moon'&&r.to==='stars'),
-  site={id:'away',biome:'stars',x:0,z:0,w:2,d:2,readyAt:now+100000},
+ const roads=worldRoads(BIOMES),road=roads.find(r=>r.from==='moon'),
+  site={id:'away',biome:road.to,x:0,z:0,w:2,d:2,readyAt:now+100000},
   crew=createConstructionCrew({getSites:()=>[site],bridges:roads}),seen=[];
  let p={x:4,z:0,y:.16};
- for(let i=0;i<1800;i++){
+ for(let i=0;i<6000;i++){
   const v=crew.frame('traveller',p,'moon',0,.5,1/30,i/30,now);assert.ok(v);p={...v.position};
   if(!BIOMES.some(b=>Math.hypot(p.x-b.center[0],p.z-b.center[1])<(b.radius||11.65)))seen.push(p);
  }

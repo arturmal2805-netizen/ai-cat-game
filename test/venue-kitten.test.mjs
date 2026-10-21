@@ -86,7 +86,7 @@ test("moving the helper saves his island and care through reloads, including aft
 test("unreleased kitten reloads from the real saved stand; a forged locked destination is ignored", () => {
   const g = standGame(),
     db = storage();
-  g.catDestinations[id] = "stars";
+  g.catDestinations[id] = "ice";
   saveGame(db, g);
   const loaded = loadGame(db, now, { advance: false });
   assert.equal(loaded.catDestinations[id], undefined);

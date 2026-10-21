@@ -54,7 +54,8 @@ export function createResidentPlay({
   function cancel(id) {
     const v = visits.get(id);
     if (!v) return;
-    if (v.object?.userData.deepRide || v.object?.userData.mega) {
+    if (v.phase !== "approach" &&
+        (v.object?.userData.deepRide || v.object?.userData.mega)) {
       const n = getCat(id);
       if (n) {
         n.carrier.position.copy(

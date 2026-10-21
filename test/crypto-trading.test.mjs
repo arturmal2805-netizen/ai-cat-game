@@ -5,6 +5,8 @@ import {ensureJobCity} from '../public/jobcity-system.js';
 import {reserveCryptoAttempt,applyCryptoForecast,advanceCryptoTrading,positionValue,normalizeInvestments,CRYPTO_RULES} from '../public/crypto-trading.js';
 import {CryptoAIRequestLedger} from '../crypto-ai.mjs';
 import {mergeSharedWorld} from '../shared-world.mjs';
+import {BIOMES,NEIGHBORS} from '../public/game-data.js';
+import {ADOPTION_CATS} from '../public/cat-breeds.js';
 const epoch=Date.UTC(2026,9,21,12),now=epoch+7*1440000;
 function seed(){let g=newGame(epoch);g.unlocked.push('jobcity');g=ensureJobCity(g,epoch);for(const p of Object.values(g.jobCity.profiles)){p.profession='crypto';p.professionSinceDay=0;p.professionSource='ai';p.careerAIPending=false;p.coins=5000;}return g;}
 function pending(){let g=seed();for(let i=0;i<40;i++){const r=reserveCryptoAttempt(g,now);g=r.game;if(r.request)return {g,request:r.request};}throw Error('No willing trader in test roster');}
@@ -96,4 +98,56 @@ test('large private trading wallets survive reload without a ten-million-coin tr
  const corrupt=structuredClone(opened);corrupt.jobCity.profiles[request.catId].investments.current.path[5]=null;
  const recovered=loadGame({getItem:k=>k===SAVE_KEY?JSON.stringify(corrupt):k===SAVE_KEY+':backup'?JSON.stringify(opened):null},now,{advance:false});
  assert.deepEqual(recovered.jobCity.profiles[request.catId],expected);
+});
+
+test('every existing, new, tiny and magical cat can trade when officially employed in crypto, with independent weekly receipts',async t=>{
+ let catalogue=newGame(epoch);
+ catalogue.unlocked=BIOMES.map(b=>b.id);
+ catalogue.adoption.cats=ADOPTION_CATS.map(c=>({id:c.id,adoptedAt:epoch,homeBiome:'moon',centerId:''}));
+ catalogue.catDestinations=Object.fromEntries(NEIGHBORS.map(c=>[c.id,'moon']));
+ catalogue=ensureJobCity(catalogue,epoch);
+ for(const p of Object.values(catalogue.jobCity.profiles)){
+  p.profession='bank';p.professionSinceDay=0;p.professionSource='ai';p.careerAIPending=false;p.coins=5000;
+ }
+ const ids=Object.keys(catalogue.jobCity.profiles);
+ assert.ok(ids.includes('adopt-magic-dragon')&&ids.includes('adopt-magic-dragon-tiny'));
+ for(const c of ADOPTION_CATS)assert.ok(ids.includes(c.id),c.id+': missing new cat profile');
+ let forecasts=0,skips=0;
+ for(const id of ids){
+  let game=structuredClone(catalogue),request,at;
+  game.jobCity.profiles[id].profession='crypto';
+  const original=game.jobCity.profiles[id].coins,playerCoins=game.coins;
+  // A cat is allowed to skip a cycle. It must still become eligible again;
+  // test its actual willingness decision rather than replacing it with true.
+  for(let cycle=1;cycle<=32;cycle++){
+   at=epoch+cycle*7*1440000;
+   const reserved=reserveCryptoAttempt(game,at);game=reserved.game;
+   const p=game.jobCity.profiles[id];
+   assert.equal(p.investments.lastAttemptDay,cycle*7,id);
+   assert.equal(p.investments.nextAttemptDay,cycle*7+7,id);
+   assert.equal(reserveCryptoAttempt(game,at+1000).game,game,id+': duplicate same-cycle reservation');
+   if(reserved.request){request=reserved.request;break;}
+   skips++;assert.equal(p.coins,original,id+': skipping cannot charge');
+  }
+  assert.ok(request,id+': no eligible trade after 32 independent weekly choices');
+  assert.equal(request.catId,id);
+  const storage=memory(game),ledger=new CryptoAIRequestLedger(storage,async()=>{forecasts++;return {response:{...forecast,confidence:1}};},{clock:()=>at});
+  const answer=await ledger.forecast(request);assert.equal(answer.status,200,id+': server admission');
+  const opened=applyCryptoForecast(game,request,{...forecast,confidence:1},'ai',at),trade=opened.jobCity.profiles[id].investments.current;
+  assert.equal(trade.status,'open',id);
+  assert.equal(opened.jobCity.profiles[id].coins,original-trade.margin,id);
+  assert.equal(applyCryptoForecast(opened,request,forecast,'ai',at),opened,id+': no duplicate escrow');
+  const closed=advanceCryptoTrading(opened,trade.endAt+1),p=closed.jobCity.profiles[id];
+  assert.ok(['closed','liquidated'].includes(p.investments.current.status),id);
+  assert.equal(p.coins,original+p.investments.current.pnl,id);
+  assert.equal(closed.coins,playerCoins,id+': private trading must not charge the player');
+  for(let i=0;i<3;i++){
+   const reloaded=loadGame({getItem:k=>k===SAVE_KEY?JSON.stringify(closed):null},trade.endAt+1,{advance:false});
+   assert.deepEqual(reloaded.jobCity.profiles[id].investments,p.investments,id);
+   assert.equal(reloaded.jobCity.profiles[id].coins,p.coins,id);
+  }
+  assert.equal(advanceCryptoTrading(closed,trade.endAt+999999),closed,id+': no duplicate payout');
+ }
+ assert.equal(forecasts,ids.length);
+ t.diagnostic(`${ids.length} cat profiles, ${ADOPTION_CATS.length} adoption cats, ${forecasts} mocked forecasts and ${skips} voluntary skipped cycles; zero paid requests.`);
 });

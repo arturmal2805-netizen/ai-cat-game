@@ -16,6 +16,27 @@ const cat = (index = 0) => ({
   carrier: new THREE.Group(),
   profile: { id: "luna", biome: "moon" },
 });
+test("cancelling or replacing an unstarted giant ride never teleports the approaching cat to its far-away exit", () => {
+  for(const kind of ["mega", "deepRide"]){
+    const actor = cat(), object = new THREE.Group();
+    actor.carrier.position.set(2,.16,3);
+    object.position.set(150,0,-40);
+    object.userData[kind] = true;
+    object.userData.dismount = [25,.16,20];
+    const r = createResidentPlay({getCat:()=>actor,getObject:()=>object});
+    assert.equal(r.start("luna", {action:"ride",activityId:"far-ride"},0),true);
+    const f = r.frame("luna",200,.2);
+    actor.carrier.position.copy(f.position);
+    const saved = actor.carrier.position.clone();
+    r.cancel("luna");
+    assert.deepEqual(actor.carrier.position,saved,kind);
+    assert.equal(r.visits.size,0);
+    assert.equal(r.start("luna", {action:"ride",activityId:"far-ride"},300),true);
+    assert.deepEqual(r.get("luna").from,saved,kind+": replacement continues from the actual cat");
+    r.clear();
+    assert.deepEqual(actor.carrier.position,saved);
+  }
+});
 test("all existing catalog actions work for a neighbour through the real ride/toy/swim frames and complete once", () => {
   const actor = cat();
   let finished = 0;

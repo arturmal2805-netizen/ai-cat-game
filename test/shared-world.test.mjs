@@ -611,9 +611,9 @@ test("shared level-up coins remain spendable even when an intermediate rebase ba
 
 test("two existing objects moved onto the same new plot never produce an unloadable save that drops a purchase", () => {
   let base = fresh();
-  base.unlocked.push("summer", "clouds");
+  base.unlocked.push("summer", "candy");
   base.inventory.mouse = 2;
-  for (const biome of ["moon", "clouds"]) {
+  for (const biome of ["moon", "candy"]) {
     const p = findSpace(base, "mouse", biome);
     base = placeItem(base, "mouse", biome, p.x, p.z);
   }

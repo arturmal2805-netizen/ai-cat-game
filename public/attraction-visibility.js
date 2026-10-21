@@ -4,7 +4,7 @@ import { pauseHiddenMatrixUpdates } from "./scene-visibility.js";
 // Whole off-camera attractions used to animate every worker/guest/steam plume
 // and walk their entire rigs each frame. Keep the simulation and clocks, but
 // defer visual work until either the camera OR its shadow view can see it.
-export function attractionVisibility(root) {
+export function attractionVisibility(root, { padding = 8 } = {}) {
   root.updateWorldMatrix(true, true);
   const inverse = root.matrixWorld.clone().invert(),
     box = new THREE.Box3(),
@@ -27,7 +27,7 @@ export function attractionVisibility(root) {
     }
   }
   const sphere = box.getBoundingSphere(new THREE.Sphere());
-  sphere.radius += 8; // full cat height, bubbles, fountains and staff wandering
+  sphere.radius += padding; // full motion/effects without clipping a silhouette
   pauseHiddenMatrixUpdates(root);
   return (view, shadow) => {
     root.updateWorldMatrix(true, false);

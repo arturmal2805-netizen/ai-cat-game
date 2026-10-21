@@ -247,6 +247,14 @@ async function localWorker() {
       Object.assign(g,captureCatLocations(g,g,ids.map((id,i)=>({id,
         position:{x:b.center[0]+195,y:.16,z:b.center[1]-20+i*4},yaw:i*.3})),now));
     }
+    if(process.env.CHICHI_PHONE_CAMERA_AUDIT){
+      const {ensureJobCity}=await import(root+'/public/jobcity-system.js');
+      const id='adopt-magic-dragon';
+      g.adoption.cats.push({id,adoptedAt:now,homeBiome:'homestead',centerId:''});
+      g.catDestinations[id]='homestead';
+      Object.assign(g,ensureJobCity(g,now));
+      for(const p of Object.values(g.jobCity.profiles)){p.manualUntil=now+3600000;p.careerAIPending=false;}
+    }
     const base = local.base,
       token = crypto.randomBytes(32).toString("hex"),
       headers = {
@@ -284,7 +292,7 @@ async function localWorker() {
         {
           name: "qa",
           setup(b) {
-            if (process.env.CHICHI_NATIVE_MAP_AUDIT)
+            if (process.env.CHICHI_NATIVE_MAP_AUDIT || process.env.CHICHI_PHONE_CAMERA_AUDIT)
               b.onLoad({ filter: /\/public\/jobcity-system\.js$/ }, () => ({
                 contents: readPublic("jobcity-system.js").replace(
                   "export function cityClock(state, now = Date.now()) {",
@@ -354,7 +362,7 @@ async function localWorker() {
                   )
                   .replace(
                     marker,
-                    `  const qa=window.__lagoonQA={step:loop,gpuFrames,shadowDepth:typeof shadowDepth==='undefined'?null:shadowDepth,geometryResidency:typeof geometryResidency==='undefined'?null:geometryResidency,gpuBuffers:qaGpuBuffers,matrixCache:typeof matrixCache==='undefined'?null:matrixCache,shaderWarmup:typeof shaderWarmup==='undefined'?null:shaderWarmup,colonyDraws:typeof colonyDraws==='undefined'?null:colonyDraws,animateCat,setCatMood,poseAtlas:typeof poseAtlas==='undefined'?null:poseAtlas,staticDraws:typeof staticDraws==='undefined'?null:staticDraws,camera,look,desiredLook,renderer,islands,cat,npcs,chichiCarrier,itemGroups,jobs,cityCars,updateCityCar,THREE,scene,pickDrop,pointer,raycaster,ground,viewport,sync,perform,performResident,faceCamera,spa,chill,court,cinema,courtFoods,bikiniLife,enterCourt,exitCourt,getCourtCamera:()=>courtCamera,residentPlay,callbacks,showCatHome,getDragging:()=>draggingCat?.catId,reviewView:(x,z,d)=>{desiredLook.set(x,0,z);desiredDistance=d;azimuth=.15;},constructorMs:performance.now()-qaStart,focused:()=>focused,getOperation:()=>operation,isVisible:()=>worldVisible,getDistance:()=>distance,getDesiredDistance:()=>desiredDistance,freeze:${!!process.env.CHICHI_CAT_LOCATION_AUDIT},frames:0,resizes:0,black:[],audit:false,measure:false,cpu:[]};
+                    `  const qa=window.__lagoonQA={step:loop,gpuFrames,shadowDepth:typeof shadowDepth==='undefined'?null:shadowDepth,geometryResidency:typeof geometryResidency==='undefined'?null:geometryResidency,makeGeometryResidency:options=>createGeometryResidency(renderer,options),gpuBuffers:qaGpuBuffers,matrixCache:typeof matrixCache==='undefined'?null:matrixCache,shaderWarmup:typeof shaderWarmup==='undefined'?null:shaderWarmup,colonyDraws:typeof colonyDraws==='undefined'?null:colonyDraws,animateCat,setCatMood,poseAtlas:typeof poseAtlas==='undefined'?null:poseAtlas,staticDraws:typeof staticDraws==='undefined'?null:staticDraws,camera,look,desiredLook,renderer,islands,cat,npcs,chichiCarrier,itemGroups,jobs,cityCars,updateCityCar,THREE,scene,pickDrop,pointer,raycaster,ground,viewport,sync,perform,performResident,faceCamera,spa,chill,court,cinema,courtFoods,bikiniLife,enterCourt,exitCourt,getCourtCamera:()=>courtCamera,residentPlay,callbacks,showCatHome,getDragging:()=>draggingCat?.catId,reviewView:(x,z,d)=>{desiredLook.set(x,0,z);desiredDistance=d;azimuth=.15;},constructorMs:performance.now()-qaStart,focused:()=>focused,getOperation:()=>operation,isVisible:()=>worldVisible,getDistance:()=>distance,getDesiredDistance:()=>desiredDistance,freeze:${!!process.env.CHICHI_CAT_LOCATION_AUDIT},frames:0,resizes:0,black:[],audit:false,measure:false,cpu:[]};
   const draw=renderer.render.bind(renderer);qa.drawFrame=()=>draw(scene,camera);renderer.render=(...args)=>{if(qa.drawPaused&&!qa.commandOnly)return;const started=performance.now();draw(...args);qa.frames++;if(qa.liveFrames)qa.liveFrames.push([started,performance.now()-started,renderer.info.render.calls,renderer.info.render.triangles]);};
   const size=renderer.setSize.bind(renderer);renderer.setSize=(...args)=>{qa.resizes++;return size(...args);};
   const audit=new MutationObserver(()=>{if(!qa.audit)return;const gl=renderer.getContext(),p=new Uint8Array(4);gl.readPixels(0,0,1,1,gl.RGBA,gl.UNSIGNED_BYTE,p);if(p[0]+p[1]+p[2]===0)qa.black.push(Array.from(p));});audit.observe(renderer.domElement,{attributes:true,attributeFilter:['width','height']});
@@ -461,6 +469,11 @@ async function localWorker() {
     if(process.env.CHICHI_CAT_LOCATION_AUDIT){
       const {checkCatLocations}=await import('./check-cat-locations.mjs');
       await checkCatLocations(page,review);
+      assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;
+    }
+    if(process.env.CHICHI_PHONE_CAMERA_AUDIT){
+      const {checkPhoneCameraTransitions}=await import('./check-phone-camera-transitions.mjs');
+      await checkPhoneCameraTransitions(page,review);
       assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;
     }
     if (process.env.CHICHI_CONSOLIDATED_CAMERA_AUDIT) {

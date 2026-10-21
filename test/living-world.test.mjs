@@ -356,7 +356,7 @@ test("an older open tab can still submit physical targets from retired Witch For
   );
 });
 test("renewed islands have distinct features, fish, animated waterfalls and two usable pools each", () => {
-  assert.equal(BIOMES.length, 20);
+  assert.equal(BIOMES.length, 17);
   assert.equal(byBiome("wizard"), undefined);
   const themes = new Set();
   for (const id of Object.keys(RENEWED_ISLANDS).filter(

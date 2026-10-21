@@ -128,9 +128,9 @@ test("Cat Job City appends a separate island without changing a single establish
   );
   assert.deepEqual(
     BIOMES.filter((b) => !["jobcity", "cat-homes"].includes(b.id)),
-    old,
+    old.filter(b => !["stars", "coral", "clouds"].includes(b.id)),
   );
-  assert.equal(BIOMES.length, 20);
+  assert.equal(BIOMES.length, 17);
   const b = byBiome("jobcity");
   assert.deepEqual(b.center, JOB_CITY_CENTER);
   assert.equal(b.radius, JOB_CITY_RADIUS);
@@ -658,6 +658,37 @@ test("the close dollhouse camera can see the head of a seated worker on every fl
     }
 });
 
+test("every city building fits the above-front inspection camera on phones and desktops", async () => {
+  const { jobBuildingCameraView } = await import("../public/camera-views.js");
+  for (const business of JOB_BUSINESSES) {
+    const model = jobBuilding(business.id);
+    // The selectable roof stays in the fit bounds even while hidden, so it
+    // cannot pop outside the frame when returning to the normal city view.
+    const box = new T.Box3().setFromObject(model);
+    for (const aspect of [320 / 740, 390 / 844, 844 / 390, 1280 / 900]) {
+      const view = jobBuildingCameraView(box, 40, aspect),
+        camera = new T.PerspectiveCamera(40, aspect, 0.5, 1200);
+      camera.position.copy(view.target).add(new T.Vector3(
+        Math.sin(view.azimuth) * Math.cos(view.elevation),
+        Math.sin(view.elevation),
+        Math.cos(view.azimuth) * Math.cos(view.elevation),
+      ).multiplyScalar(view.distance));
+      camera.lookAt(view.target);
+      camera.updateMatrixWorld();
+      assert.ok(camera.position.y > box.max.y, business.id + ": above the roof");
+      assert.ok(camera.position.z > box.max.z, business.id + ": in front of the facade");
+      for (let i = 0; i < 8; i++) {
+        const point = new T.Vector3(
+          i & 1 ? box.max.x : box.min.x,
+          i & 2 ? box.max.y : box.min.y,
+          i & 4 ? box.max.z : box.min.z,
+        ).project(camera);
+        assert.ok(Math.abs(point.x) < .84 && Math.abs(point.y) < .8 && point.z > 0 && point.z < 1, business.id + ": " + aspect);
+      }
+    }
+  }
+});
+
 test("interior inspection masks only foreground city buildings and restores the complete normal view", async () => {
   const { cityViewOccluders } = await import("../public/jobcity-navigation.js");
   const mask = cityViewOccluders("job-bank", { x: -25, y: 14, z: 24 });
@@ -666,6 +697,13 @@ test("interior inspection masks only foreground city buildings and restores the 
   assert.equal(mask.has("job-cars"), false);
   assert.equal(cityViewOccluders(null, { x: 0, y: 100, z: 100 }).size, 0);
   assert.equal(cityViewOccluders("job-bank", { x: -32, y: 60, z: 24 }).size, 0);
+  const {jobBuildingCameraView}=await import('../public/camera-views.js');
+  const model=jobBuilding('job-crypto'),box=new T.Box3().setFromObject(model),
+    view=jobBuildingCameraView(box,40,390/844),b=JOB_BUSINESSES.find(b=>b.id==='job-crypto');
+  const phoneCamera={x:b.x+view.target.x+Math.sin(view.azimuth)*Math.cos(view.elevation)*view.distance,
+    y:view.target.y+Math.sin(view.elevation)*view.distance,
+    z:b.z+view.target.z+Math.cos(view.azimuth)*Math.cos(view.elevation)*view.distance};
+  assert.ok(cityViewOccluders('job-crypto',phoneCamera).has('job-estate'),'foreground roof must not cover the lower floor on a phone');
 });
 
 test("every new city business gives the player both coins and XP without spending private cat wallets", () => {

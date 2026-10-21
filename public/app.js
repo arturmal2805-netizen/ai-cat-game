@@ -1424,7 +1424,7 @@ try {
     onPreview: previewChanged,
     onSelectItem: inspect,
     onSelectCourt: showCourt,
-    onSelectJobCity: (id) => cityUI.open(id),
+    onSelectJobCity: (id) => world?.inspectJobBusiness(id),
     onCityDrive: (id, car, point) => {
       try {
         commit(startCatDrive(pauseCatCareer(game, id), id, car, point));
