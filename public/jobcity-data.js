@@ -1,7 +1,8 @@
+import { WORLD_CENTERS } from './world-layout.js';
 // Appended destination: never run the established island spacing algorithm again.
 export const JOB_CITY_ID = "jobcity";
 export const JOB_CITY_RADIUS = 67;
-export const JOB_CITY_CENTER = [-440, -50];
+export const JOB_CITY_CENTER = [...WORLD_CENTERS.jobcity];
 export const JOB_MINUTE_MS = 1000;
 export const JOB_DAY_MINUTES = 1440;
 export const JOB_START = 12 * 60;

@@ -57,7 +57,7 @@ test("Bikini Bottom appends seven ordinary island areas without moving, replacin
       ),
     ),
   );
-  assert.equal(BIOMES.length, 30);
+  assert.equal(BIOMES.length, 20);
   assert.ok(Math.abs(BIKINI_RADIUS ** 2 / 11.65 ** 2 - 7) < 1e-10);
 });
 test("the sky city has actual lagoon openings, submerged bottoms, deep cliffs and animated water", () => {

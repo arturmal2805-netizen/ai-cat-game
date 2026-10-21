@@ -9,9 +9,9 @@ import { mergeSharedWorld } from '../shared-world.mjs';
 const now=1792587600000;
 function seed(){const g=newGame(now);g.unlocked.push('homestead');g.coins=8000000;g.progression.xp=xpForLevel(30);return g;}
 const restore=g=>loadGame({getItem:k=>k==='chichi-world-v2'?JSON.stringify(g):null},now,{advance:false});
-test('only Our Island changes, with four times the previous buildable area and open shores',()=>{
+test('only Our Island changes, with twelve times the original buildable area and open shores',()=>{
  assert.deepEqual(BIOMES.filter(b=>b.id!=='homestead'),JSON.parse(fs.readFileSync(new URL('./fixtures/homestead-expansion-unaffected.json',import.meta.url))));
- const b=byBiome('homestead');assert.equal((b.radius/HOMESTEAD_EXPANSION.originalRadius)**2,4);
+ const b=byBiome('homestead');assert.ok(Math.abs((b.radius/HOMESTEAD_EXPANSION.originalRadius)**2-12)<1e-10);
  for(const other of BIOMES.filter(x=>x.id!==b.id))assert.ok(Math.hypot(b.center[0]-other.center[0],b.center[1]-other.center[1])>b.radius+(other.radius||11.65)+3,other.id);
 });
 test('existing buildings retain exact coordinates and multiple giant rides fit on new land through 30 reloads',()=>{

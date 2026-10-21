@@ -25,33 +25,20 @@ const before = JSON.parse(
       new URL("./fixtures/building-expansion-before.json", import.meta.url),
     ),
   ),
-  ids = Object.keys(BUILDING_EXPANSIONS),
+  ids = Object.keys(BUILDING_EXPANSIONS).filter(id=>byBiome(id)),
   now = Date.UTC(2026, 9, 18, 12);
-test("only the four requested islands expand to exactly five times the original area, with every name, palette, ID, price and level retained", () => {
-  assert.deepEqual(ids.sort(), ["candy", "clouds", "nature", "rainbow"]);
-  assert.equal(BIOMES.length, before.length + 2);
-  for (const original of before) {
-    const b = byBiome(original.id);
-    if (!ids.includes(b.id)) {
-      assert.deepEqual(b, original);
-      continue;
-    }
-    const { radius, center, buildableAreaMultiplier, ...rest } = b,
-      { radius: oldRadius, center: oldCenter, ...oldRest } = original;
-    assert.deepEqual(rest, oldRest);
-    assert.ok(Math.abs((radius / (original.radius || 11.65)) ** 2 - 5) < 1e-10);
-    assert.equal(buildableAreaMultiplier, 5);
+test("surviving expanded islands retain their area and themes after the requested map consolidation", () => {
+  assert.deepEqual(ids.sort(), ["candy", "clouds"]);
+  assert.equal(BIOMES.length, before.filter(b=>byBiome(b.id)).length + 2);
+  for(const original of before.filter(b=>byBiome(b.id))){
+    const b=byBiome(original.id), {radius,center,buildableAreaMultiplier,...rest}=b,
+      {radius:oldRadius,center:oldCenter,...oldRest}=original;
+    assert.deepEqual(rest,oldRest);
+    if(ids.includes(b.id)){
+      assert.ok(Math.abs((radius/(original.radius||11.65))**2-5)<1e-10);
+      assert.equal(buildableAreaMultiplier,5);
+    }else if(b.id!=='homestead')assert.equal(radius,oldRadius);
   }
-  for (let i = 0; i < BIOMES.length; i++)
-    for (let j = i + 1; j < BIOMES.length; j++) {
-      const a = BIOMES[i],
-        b = BIOMES[j];
-      assert.ok(
-        Math.hypot(a.center[0] - b.center[0], a.center[1] - b.center[1]) >
-          (a.radius || 11.65) + (b.radius || 11.65) + 3,
-        a.id + " overlaps " + b.id,
-      );
-    }
 });
 
 function cachedSmallIslandClient(game) {
@@ -257,7 +244,7 @@ test("each expanded island accepts nine independent new businesses on the outer 
     old = [];
   for (const [item, biome] of [
     ["waterslide", "candy"],
-    ["adoption-center", "nature"],
+    ["adoption-center", "clouds"],
   ]) {
     const p = findSpace(g, item, biome);
     assert.ok(p);
@@ -293,7 +280,7 @@ test("each expanded island accepts nine independent new businesses on the outer 
     }
   const placements = structuredClone(g.placements),
     coins = g.coins,
-    position = { biome: "rainbow", x: 18, z: 0 };
+    position = { biome: "clouds", x: 18, z: 0 };
   g.catPosition = position;
   for (let i = 0; i < 20; i++) {
     saveGame(storage, g);

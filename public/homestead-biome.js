@@ -34,7 +34,7 @@ export function* homesteadBiomeSteps(
     trees: [],
     stats: { fishCount: 0 },
     emptyPlot: true,
-    areaMultiplier: 128,
+    areaMultiplier: 384,
   };
   const outline = new THREE.Shape();
   outline.absarc(0, 0, biome.radius, 0, Math.PI * 2, false);
@@ -150,10 +150,16 @@ export function* homesteadBiomeSteps(
       cover.add(yield* groundCoverSteps(BIOME_STYLES.homestead, biome.id, {
         preview, radius:originalRadius, density:1.6, placements:itemsToAvoid,
       }));
+      const previousRadius=HOMESTEAD_EXPANSION.originalRadius*2-.7;
       cover.add(yield* groundCoverSteps(BIOME_STYLES.homestead, biome.id, {
-        preview, seed:20261021, radius:biome.radius-.7, density:1.6*3,
+        preview, seed:20261021, radius:previousRadius, density:1.6*3,
         spatialCell:32,
         clearance:(x,z,w)=>Math.hypot(x,z)>originalRadius && clear(x,z,w),
+      }));
+      cover.add(yield* groundCoverSteps(BIOME_STYLES.homestead, biome.id, {
+        preview, seed:20261022, radius:biome.radius-.7, density:1.6*8,
+        spatialCell:32,
+        clearance:(x,z,w)=>Math.hypot(x,z)>previousRadius && clear(x,z,w),
       }));
       cover.userData.update=(time,reduced)=>{
         for(const part of cover.children) part.userData.update?.(time,reduced);

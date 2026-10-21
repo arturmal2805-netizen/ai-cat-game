@@ -32,3 +32,42 @@ export function separateIslandCenters(biomes) {
     );
   return scale;
 }
+
+// Persistent island-local addresses never depend on these world-map centres.
+export const RETIRED_BIOME_IDS = Object.freeze([
+  'lotus', 'crystal', 'mushrooms', 'desert', 'beach', 'aquapark',
+  'rainbow', 'nature', 'bamboo', 'dusk',
+]);
+const retired = new Set(RETIRED_BIOME_IDS);
+export const isRetiredBiome = id => retired.has(id);
+export const WORLD_CENTERS = Object.freeze({
+  'moon':[0,0],
+  'homestead':[0,-245],
+  'jobcity':[-92,55],
+  'cat-homes':[-210,55],
+  'aquarium':[18.3427,51.7981],
+  'foodcourt':[81.1833,8.609],
+  'bikini':[87.9955,77.1497],
+  'autumn':[-12.5837,116.6368],
+  'sakura':[46.4777,122.8444],
+  'clouds':[135.8717,-24.2511],
+  'candy':[136.9242,39.6054],
+  'clockwork':[-137.2347,-28.3119],
+  'water':[-60.0521,141.3472],
+  'summer':[14.5771,162.7468],
+  'winter':[92.9434,128.5351],
+  'volcano':[-26.5033,162.7201],
+  'galaxy':[137.7209,85.2487],
+  'ice':[-163.1679,5.485],
+  'stars':[-28.0476,-1.7155],
+  'coral':[29.298,-2.0487],
+});
+// Reserved, mutually disjoint districts outside the former homestead shore.
+// Repeated migrations use identical offsets; purchase IDs never change.
+export function retiredDistrict(id) {
+  const index=RETIRED_BIOME_IDS.indexOf(id);
+  if(index<0)return null;
+  const angle=index*Math.PI*2/RETIRED_BIOME_IDS.length;
+  return {x:Math.round(Math.sin(angle)*185*1e6)/1e6,
+    z:Math.round(Math.cos(angle)*185*1e6)/1e6};
+}

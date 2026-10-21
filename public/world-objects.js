@@ -43,6 +43,7 @@ export const PARK_RIDES = [
   },
 ];
 export function permanentObjects(biomes) {
+  biomes=biomes.filter(id=>BIOMES.some(b=>b.id===id));
   const objects = [];
   if (biomes.includes("jobcity")) objects.push(...JOB_BUSINESSES);
   if (biomes.includes("aquarium")) objects.push(...AQUARIUM_TANKS);

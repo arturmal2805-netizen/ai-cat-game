@@ -308,20 +308,20 @@ test("removing Witch Forest refunds once and keeps unfinished purchases, farm ti
   assert.ok(restored.scenery.find((r) => r.id === "decor-wizard-1").stored);
   saveGame(s, restored);
   assert.equal(loadGame(s, now).coins, restored.coins);
-  restored.unlocked.push("beach");
-  restored.scenery = restored.scenery.filter((r) => r.biome !== "beach");
-  const spot = findSpace(restored, "carousel", "beach");
+  restored.unlocked.push("homestead");
+  restored.scenery = restored.scenery.filter((r) => r.biome !== "homestead");
+  const spot = findSpace(restored, "carousel", "homestead");
   assert.ok(spot);
-  restored = placeItem(restored, "carousel", "beach", spot.x, spot.z, 0, now);
+  restored = placeItem(restored, "carousel", "homestead", spot.x, spot.z, 0, now);
   assert.equal(restored.placements.at(-1).readyAt, now + 7200000);
   const tree = restored.scenery.find((r) => r.id === "decor-wizard-1");
-  const treeSpot = findSpace(restored, tree.type, "beach", 0, tree.id);
+  const treeSpot = findSpace(restored, tree.type, "homestead", 0, tree.id);
   assert.ok(treeSpot);
-  restored = moveScenery(restored, tree.id, "beach", treeSpot.x, treeSpot.z, 0);
+  restored = moveScenery(restored, tree.id, "homestead", treeSpot.x, treeSpot.z, 0);
   saveGame(s, restored);
   const afterReload = loadGame(s, now).scenery.find((r) => r.id === tree.id);
   assert.equal(afterReload.stored, false);
-  assert.equal(afterReload.biome, "beach");
+  assert.equal(afterReload.biome, "homestead");
   assert.equal(afterReload.x, treeSpot.x);
   assert.equal(afterReload.z, treeSpot.z);
 });
@@ -356,11 +356,11 @@ test("an older open tab can still submit physical targets from retired Witch For
   );
 });
 test("renewed islands have distinct features, fish, animated waterfalls and two usable pools each", () => {
-  assert.equal(BIOMES.length, 30);
+  assert.equal(BIOMES.length, 20);
   assert.equal(byBiome("wizard"), undefined);
   const themes = new Set();
   for (const id of Object.keys(RENEWED_ISLANDS).filter(
-    (id) => id !== "autumn",
+    (id) => id !== "autumn" && byBiome(id),
   )) {
     const root = createBiomeScene(byBiome(id));
     themes.add(root.userData.renewal.hero);
@@ -374,7 +374,7 @@ test("renewed islands have distinct features, fish, animated waterfalls and two 
     assert.notDeepEqual(flyer.userData.moving.position, before);
     root.userData.dispose();
   }
-  assert.equal(themes.size, Object.keys(RENEWED_ISLANDS).length - 1);
+  assert.equal(themes.size, Object.keys(RENEWED_ISLANDS).filter(id=>id!=="autumn" && byBiome(id)).length);
 });
 test("innate rides can be chosen as physical AI targets and full adopted worlds fit the request and save limits", () => {
   let g = prepared();
@@ -395,7 +395,7 @@ test("innate rides can be chosen as physical AI targets and full adopted worlds 
   assert.doesNotThrow(() => validateState(state));
   assert.ok(new TextEncoder().encode(JSON.stringify(state)).length < 49152);
   assert.ok(JSON.stringify(g).length < 120000);
-  for (const ride of ISLAND_RIDES)
+  for (const ride of ISLAND_RIDES.filter(r=>byBiome(r.biome)))
     assert.ok(state.world.activities.some((a) => a.id === ride.id));
 });
 test("new ride rigs produce finite closed journeys and move both the creature and its rider", () => {

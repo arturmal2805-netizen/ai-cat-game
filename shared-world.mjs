@@ -1,4 +1,5 @@
 import { HOMESTEAD_EXPANSION } from "./public/homestead-expansion.js";
+import {migrateRetiredIsland} from './public/world-migration.js';
 import { mergeHousing } from "./public/housing-system.js";
 import {
   mergeFamily,
@@ -366,6 +367,9 @@ function merge(base, current, incoming, path = "", depth = 0) {
 }
 
 export function mergeSharedWorld(base, current, incoming) {
+  if(base)base=migrateRetiredIsland(base);
+  if(current)current=migrateRetiredIsland(current);
+  if(incoming)incoming=migrateRetiredIsland(incoming);
   if (!base || !current) return clone(incoming);
   // Older cached clients cannot know the appended city or its private wallets.
   if (

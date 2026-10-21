@@ -2,14 +2,14 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import * as THREE from "three";
-import { BIOMES, byItem } from "../public/game-data.js";
+import { BIOMES, RETIRED_BIOMES, byItem } from "../public/game-data.js";
 import { createBiomeScene, BIOME_STYLES } from "../public/biome-scenes.js";
 import { createLagoon, waterMaterial } from "../public/lagoon.js";
 import { makeAttraction, animateAttraction } from "../public/world-assets.js";
 
 test("every habitat has finite detailed scenery and an explicit, separate distant layer", () => {
   assert.deepEqual(
-    Object.keys(BIOME_STYLES).sort(),
+    Object.keys(BIOME_STYLES).filter(id=>BIOMES.some(b=>b.id===id)).sort(),
     BIOMES.map((b) => b.id).sort(),
   );
   for (const biome of BIOMES) {
@@ -53,7 +53,7 @@ test("every habitat has finite detailed scenery and an explicit, separate distan
 });
 
 test("the beach lagoon is a real opening in the ground, not a painted blue disk", () => {
-  const beach = BIOMES.find((b) => b.id === "beach");
+  const beach = RETIRED_BIOMES.find((b) => b.id === "beach");
   const root = createBiomeScene(beach);
   const ground = root.children[0].children[0];
   root.updateMatrixWorld(true);

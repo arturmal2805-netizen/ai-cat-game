@@ -1,4 +1,5 @@
 import { createShadowDepthCache } from "./shadow-depth-cache.js";
+import {worldRoads,WORLD_ROAD_WIDTH} from './world-roads.js';
 import {
   HOUSING_ID,
   HOUSING_CENTER,
@@ -371,7 +372,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     ),
   );
   const royalStarGeo = new THREE.BufferGeometry(),
-    royalCenter = byBiome("aquapark").center,
+    royalCenter = [0,0],
     royalStarsPositions = [];
   for (let i = 0; i < 420; i++) {
     const a = i * 2.399,
@@ -1168,7 +1169,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           old?.userData.lowOnly &&
           desiredDistance < Math.max(110, (b.radius || 12) * 7) &&
           Math.hypot(b.center[0] - desiredLook.x, b.center[1] - desiredLook.z) <
-            (b.id === "jobcity" ? b.radius + 10 : 40)
+            (["jobcity","homestead"].includes(b.id) ? b.radius + 10 : 40)
         ) {
           const snapshot = () => [
             game.placements.filter((p) => p.biome === id),
@@ -1237,54 +1238,33 @@ export function createWorld(container, initialGame, callbacks = {}) {
       .flatMap((island) => [...island.userData.sceneryObjects.values()]);
   }
   // Connect nearby shores instead of drawing long roads across other islands.
-  const constructionBridges = [];
-  const connected = new Set(["moon"]);
-  while (connected.size < BIOMES.length) {
-    let link;
-    for (const from of BIOMES.filter((b) => connected.has(b.id)))
-      for (const to of BIOMES.filter((b) => !connected.has(b.id))) {
-        const length = Math.hypot(
-          from.center[0] - to.center[0],
-          from.center[1] - to.center[1],
-        );
-        if (!link || length < link.length) link = { from, to, length };
-      }
-    connected.add(link.to.id);
+  const constructionBridges = worldRoads(BIOMES,islandHeight);
+  for (const link of constructionBridges) {
     const from = new THREE.Vector3(
-        link.from.center[0],
-        0.18,
-        link.from.center[1],
+        link.start.x,
+        link.start.y,
+        link.start.z,
       ),
-      to = new THREE.Vector3(link.to.center[0], 0.18, link.to.center[1]),
+      to = new THREE.Vector3(link.end.x, link.end.y, link.end.z),
       direction = to.clone().sub(from).normalize(),
-      side = new THREE.Vector3(direction.z, 0, -direction.x);
-    // Enter the uneven shore slightly so the longer bridge still lands on soil.
-    from.addScaledVector(direction, (link.from.radius || 11.65) - 0.7);
-    to.addScaledVector(direction, -((link.to.radius || 11.65) - 0.7));
-    constructionBridges.push({
-      from: link.from.id,
-      to: link.to.id,
-      start: { x: from.x, y: 0.18, z: from.z },
-      end: { x: to.x, y: 0.18, z: to.z },
-    });
+      side = new THREE.Vector3(direction.z, 0, -direction.x).normalize();
     const middle = from.clone().add(to).multiplyScalar(0.5);
     const bridge = box(
       scene,
       0xc6aa85,
       middle.x,
-      0.14,
+      middle.y-.04,
       middle.z,
-      1.1,
+      WORLD_ROAD_WIDTH,
       0.12,
       from.distanceTo(to),
     );
-    bridge.rotation.y = Math.atan2(direction.x, direction.z);
+    bridge.lookAt(to);
     for (const sign of [-1, 1]) {
-      const a = from.clone().addScaledVector(side, sign * 0.52),
-        c = to.clone().addScaledVector(side, sign * 0.52),
+      const a = from.clone().addScaledVector(side, sign * (WORLD_ROAD_WIDTH/2-.08)),
+        c = to.clone().addScaledVector(side, sign * (WORLD_ROAD_WIDTH/2-.08)),
         b = a.clone().add(c).multiplyScalar(0.5);
-      a.y = c.y = 0.7;
-      b.y = 0.48;
+      a.y+=.52;c.y+=.52;b.y+=.3;
       const rope = new THREE.CatmullRomCurve3([a, b, c]);
       primitive(
         scene,
@@ -2338,6 +2318,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
       camera.fov,
       camera.aspect,
     );
+    camera.far=Math.max(1200,desiredDistance+(byBiome(id).radius||11.65)+60);
+    camera.updateProjectionMatrix();
     return id;
   }
   function followCat(id) {
@@ -3657,7 +3639,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           (b.id === HOUSING_ID
             ? island.userData.near(look)
             : Math.hypot(b.center[0] - look.x, b.center[1] - look.z) <
-              (b.id === "jobcity" ? b.radius + 10 : 39));
+              (["jobcity","homestead"].includes(b.id) ? b.radius + 10 : 39));
       island.userData.detail.visible = close && !island.userData.lowOnly;
       island.userData.lowDetail.visible = !close || !!island.userData.lowOnly;
       if (close) ensureDetail(b.id);

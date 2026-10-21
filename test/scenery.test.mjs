@@ -162,8 +162,8 @@ test("old saves retain all sixty purchases, currency, friends and construction t
     legacy.placements.push({
       id: "legacy-" + i,
       item: "mouse",
-      biome: BIOMES[i % 24].id,
-      x: Math.floor(i / 24) * 4 - 4,
+      biome: BIOMES[i % BIOMES.length].id,
+      x: Math.floor(i / BIOMES.length) * 4 - 4,
       z: 0,
       rotation: i % 4,
       startedAt: 500,

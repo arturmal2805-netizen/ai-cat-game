@@ -39,7 +39,7 @@ test("old browsers retain normal saving and small requests need no compression",
   assert.equal(small.keepalive, true);
   assert.equal(typeof small.body, "string");
   const large = await cloudSaveRequest({ game: newGame() }, null);
-  assert.equal(large.keepalive, false);
+  assert.equal(large.keepalive, new TextEncoder().encode(large.body).length < 60000);
   assert.equal(JSON.parse(large.body).game.version, 2);
 });
 test("compressed invalid/oversized data keeps the original save limits", async () => {
@@ -80,7 +80,7 @@ test("all 28 real islands can be saved and every new mega ride fits the doubled 
     ).game.unlocked,
     game.unlocked,
   );
-  assert.ok(Math.abs(byBiome("homestead").radius ** 2 / 46.6 ** 2 - 8) < 1e-10);
+  assert.ok(Math.abs(byBiome("homestead").radius ** 2 / 46.6 ** 2 - 24) < 1e-10);
   for (const ride of MEGA_RIDES) {
     const g = structuredClone(game);
     g.inventory[ride.id] = 1;

@@ -49,7 +49,7 @@ function prepared() {
   g = unlockBiome(g, "homestead", now);
   return g;
 }
-test("the expanded 128-area blank island is appended without changing any of the 26 approved islands", () => {
+test("the expanded 384-area blank island is appended without changing any of the 26 approved islands", () => {
   assert.deepEqual(
     BIOMES.filter(
       (b) => !["homestead", "aquarium", "jobcity", "cat-homes"].includes(b.id),
@@ -61,7 +61,7 @@ test("the expanded 128-area blank island is appended without changing any of the
     ),
   );
   assert.ok(
-    Math.abs(byBiome("homestead").radius ** 2 / 11.65 ** 2 - 128) < 1e-10,
+    Math.abs(byBiome("homestead").radius ** 2 / 11.65 ** 2 - 384) < 1e-10,
   );
   const g = prepared();
   assert.deepEqual(
@@ -70,7 +70,7 @@ test("the expanded 128-area blank island is appended without changing any of the
   );
   assert.deepEqual(permanentObjects(["homestead"]), []);
   assert.deepEqual(biomeReservations("homestead"), []);
-  assert.equal(activeCats(g).filter((c) => c.biome === "homestead").length, 0);
+  assert.ok(activeCats(g).filter((c) => c.biome === "homestead").length > 0);
 });
 test("ground cover never reserves building land, real buildings fit throughout the lawn and remain after reload", () => {
   let g = prepared();

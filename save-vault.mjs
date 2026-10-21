@@ -3,6 +3,8 @@ import { familySnapshotValid } from "./public/family-system.js";
 import { chunkedSaveStorage } from "./chunked-save-store.mjs";
 import { mergeSharedWorld, SharedConflict } from "./shared-world.mjs";
 import { BIOMES } from "./public/game-data.js";
+import {RETIRED_BIOME_IDS} from './public/world-layout.js';
+import {migrateRetiredIsland} from './public/world-migration.js';
 import { CityAIRequestLedger } from "./city-ai-vault.mjs";
 import { JOB_AI_LIMIT, validateCityAIState } from "./jobcity-ai.mjs";
 import { aiProviderRouter } from "./ai-provider-router.mjs";
@@ -74,7 +76,8 @@ export async function readSaveBody(request) {
     !Array.isArray(value.game.placements) ||
     value.game.placements.length > 60 ||
     !Array.isArray(value.game.unlocked) ||
-    value.game.unlocked.length > BIOMES.length
+    new Set(value.game.unlocked).size !== value.game.unlocked.length ||
+    value.game.unlocked.length > BIOMES.length + RETIRED_BIOME_IDS.length
   )
     throw Error("SAVE_INVALID");
   return value;
@@ -254,7 +257,7 @@ export class SaveVault {
       }
       if (!input.cooperative && input.expectedRevision !== revision)
         return { conflict: true, revision, savedAt: current?.savedAt };
-      let game = input.game,
+      let game = migrateRetiredIsland(input.game),
         notice = null;
       if (input.cooperative && current) {
         if (

@@ -27,7 +27,7 @@ function lagoonGame() {
 
 test("Snowy Tale is replaced in place by a whale lagoon with swimming, fish and animated cascades", () => {
   const b = byBiome("winter");
-  assert.equal(BIOMES.length, 30);
+  assert.equal(BIOMES.length, 20);
   assert.equal(b.name, "Китовая лагуна звёзд");
   assert.equal(b.requiredLevel, 4);
   assert.ok(JOBS.find((j) => j.id === "fishing").biomes.includes("winter"));

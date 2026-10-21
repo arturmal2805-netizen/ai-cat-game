@@ -1,4 +1,5 @@
 import { NEIGHBORS } from "./game-data.js";
+import {isRetiredBiome} from './world-layout.js';
 export function venueCatHome(game, profile, now = Date.now()) {
   if (!profile.venue) return null;
   return (
@@ -20,7 +21,8 @@ export function catAvailable(game, profile) {
     );
   return profile.adoption
     ? (game.adoption?.cats || []).some((c) => c.id === profile.id)
-    : game.unlocked.includes(profile.biome);
+    : game.unlocked.includes(profile.biome) ||
+      (isRetiredBiome(profile.biome) && game.unlocked.includes(game.catDestinations?.[profile.id]));
 }
 export function activeCats(game) {
   return NEIGHBORS.filter((n) => catAvailable(game, n)).map((n) => {

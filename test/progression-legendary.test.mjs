@@ -22,7 +22,7 @@ import {
   adventureXP,
   visitXP,
 } from "../public/progression.js";
-import { byItem, BIOMES } from "../public/game-data.js";
+import { byItem, BIOMES, RETIRED_BIOMES } from "../public/game-data.js";
 import { permanentObjects, PARK_RIDES } from "../public/world-objects.js";
 import { makeAttraction, animateAttraction } from "../public/world-assets.js";
 import { createBiomeScene, disposeBiome } from "../public/biome-scenes.js";
@@ -41,8 +41,8 @@ test("novice cannot buy late attractions or legendary land with money alone", ()
   const g = newGame(now);
   g.coins = 999999;
   assert.throws(() => purchase(g, "coaster-comet-flight"), /уровне 18/);
-  assert.throws(() => unlockBiome(g, "aquapark"), /уровне 20/);
-  assert.match(biomeRequirement(g, "beach"), /уровне 5/);
+  assert.throws(() => unlockBiome(g, "aquapark"), /недоступен/);
+  assert.match(biomeRequirement(g, "summer"), /уровне/);
   assert.ok(purchase(g, "mouse").inventory.mouse);
 });
 test("XP is progressive and daily bounded; clock rollback and refresh cannot bypass the pace", () => {
@@ -79,28 +79,14 @@ test("only completed actual harvests and spaced adventures award XP; daily visit
   assert.equal(visitXP(g, now - 86400000).progression.visits, 1);
   assert.equal(visitXP(g, now + 86400000).progression.visits, 2);
 });
-test("legendary access requires level, farming, friends and visits, then adds actual usable routes", () => {
-  const g = newGame(now);
-  g.coins = 999999;
-  g.progression.xp = xpForLevel(20);
-  g.farm.harvests = 180;
-  g.progression.visits = 7;
-  assert.throws(() => unlockBiome(g, "aquapark"), /подружитесь/);
-  for (const id of ["luna", "moti", "pixel"])
-    Object.assign(g.social.relationships[id], {
-      points: 40,
-      meetings: 8,
-      plays: 4,
-    });
-  const opened = unlockBiome(g, "aquapark");
-  for (const r of PARK_RIDES)
-    assert.ok(worldSnapshot(opened).activities.some((a) => a.id === r.id));
-  assert.equal(
-    worldSnapshot(g).activities.some((a) => a.id === "royal-cascade"),
-    false,
-  );
-  assert.ok(opened.coins < g.coins);
+test("a retired legendary island and its innate routes cannot return even in a previously eligible world", () => {
+  const g=newGame(now);g.coins=999999;g.progression.xp=xpForLevel(30);
+  g.farm.harvests=180;g.progression.visits=7;
+  assert.throws(()=>unlockBiome(g,"aquapark"),/недоступен/);
+  g.unlocked.push("aquapark");
+  for(const r of PARK_RIDES)assert.ok(!worldSnapshot(g).activities.some(a=>a.id===r.id));
 });
+
 test("old purchased objects, inventory, deadlines, currency and unlocked land migrate without relocking", () => {
   const g = newGame(now);
   delete g.progression;
@@ -213,15 +199,15 @@ test("swimming stays inside lagoons and player splashes alter water uniforms and
 });
 test("legendary scene is genuinely larger, contains a castle and cascades and supports saved movable trees", () => {
   const g = newGame(now),
-    b = BIOMES.find((b) => b.id === "aquapark"),
+    b = RETIRED_BIOMES.find((b) => b.id === "aquapark"),
     scene = createBiomeScene(b, {
       scenery: g.scenery.filter((r) => r.biome === b.id),
     });
   assert.equal(b.radius, 19);
   assert.equal(scene.userData.stats.fishCount, 52);
   assert.ok(scene.userData.stats.sourceMeshes > 600);
-  assert.equal(scene.userData.trees.length, 5);
-  assert.equal(scene.userData.sceneryObjects.size, 9);
+  assert.equal(scene.userData.trees.length, 0);
+  assert.equal(scene.userData.sceneryObjects.size, 0);
   assert.ok([...scene.userData.lagoons.keys()].includes("lake-aquapark"));
   disposeBiome(scene);
 });

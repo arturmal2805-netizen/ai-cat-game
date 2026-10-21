@@ -4,6 +4,7 @@ import {
   reconcileHousingProfiles,
 } from "./housing-system.js";
 import { HOUSING_ID } from "./housing-data.js";
+import {isRetiredBiome} from './world-layout.js';
 import {
   normalizeJobCity,
   ensureJobCity,
@@ -487,7 +488,8 @@ export function purchase(game, id, now = Date.now()) {
 }
 export function unlockBiome(game, id, now = Date.now()) {
   const biome = byBiome(id);
-  if (!biome || game.unlocked.includes(id))
+  if (!biome)throw Error('Этот остров больше недоступен.');
+  if (game.unlocked.includes(id))
     throw Error("Этот биом уже открыт.");
   if (game.coins < biome.price)
     throw Error("Нужно ещё " + (biome.price - game.coins) + " котомонет.");
@@ -678,11 +680,11 @@ function restoreScenery(game, raw) {
   );
   game.scenery = [];
   const retired = [...saved.values()]
-    .filter((r) => r.id.startsWith("decor-wizard-") && byScenery(r.type))
+    .filter((r) => (r.id.startsWith("decor-wizard-") || isRetiredBiome(r.originBiome)) && byScenery(r.type))
     .map((r) => ({
       id: r.id,
       type: r.type,
-      originBiome: "moon",
+      originBiome: r.id.startsWith('decor-wizard-') ? 'moon' : r.originBiome,
       biome: game.unlocked.includes(r.biome) ? r.biome : "moon",
       x: Number.isFinite(r.x) ? r.x : 0,
       z: Number.isFinite(r.z) ? r.z : 0,

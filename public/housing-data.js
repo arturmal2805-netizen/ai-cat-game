@@ -1,7 +1,8 @@
 import { CHILL_HOUSES } from "./chill-data.js";
+import { WORLD_CENTERS } from './world-layout.js';
 
 export const HOUSING_ID = "cat-homes";
-export const HOUSING_CENTER = [-600, -50];
+export const HOUSING_CENTER = [...WORLD_CENTERS['cat-homes']];
 export const HOUSING_RADIUS = 43;
 export const HOUSING_SECTION_PITCH = 98;
 // Twelve spacious lots per section; sections have no final index or count cap.

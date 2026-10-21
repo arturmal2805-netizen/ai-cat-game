@@ -1,4 +1,4 @@
-import { BIOMES, byItem, biomeReservations } from "./game-data.js";
+import { BIOMES, RETIRED_BIOMES, byItem, biomeReservations } from "./game-data.js";
 
 export const SCENERY_TYPES = Object.fromEntries([
   ...[
@@ -78,7 +78,7 @@ export function sceneryBounds(record) {
 }
 export function sceneryName(record) {
   return record.type === "scenery-landmark"
-    ? "Чудо · " + BIOMES.find((b) => b.id === record.originBiome).name
+    ? "Чудо · " + [...BIOMES,...RETIRED_BIOMES].find((b) => b.id === record.originBiome)?.name
     : byScenery(record.type).name;
 }
 // Decorative objects keep stable identities separate from purchased attractions.

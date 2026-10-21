@@ -44,7 +44,7 @@ import { createChichiCamera } from "../public/chichi-camera.js";
 const now = Date.UTC(2026, 9, 17);
 test("only the butterfly garden becomes the six-area ocean; level eight unlocks it and previous ownership remains", () => {
   assert.equal(byBiome("autumn").requiredLevel, 8);
-  assert.equal(BIOMES.length, 30);
+  assert.equal(BIOMES.length, 20);
   assert.ok(Math.abs(MOSA_RADIUS ** 2 / 11.65 ** 2 - 6) < 1e-12);
   assert.deepEqual(
     BIOMES.filter(

@@ -1,3 +1,4 @@
+import { WORLD_CENTERS, isRetiredBiome } from './world-layout.js';
 import { HOMESTEAD_RADIUS, HOMESTEAD_EXPANSION } from "./homestead-expansion.js";
 import { HOUSING_ID, HOUSING_RADIUS, HOUSING_CENTER } from "./housing-data.js";
 import {
@@ -642,6 +643,7 @@ export const ACTIONS = [
   "swim",
 ];
 export function biomeReservations(id) {
+  if(isRetiredBiome(id))return [];
   if (id === JOB_CITY_ID) return jobReservations();
   if (id === "aquarium")
     return [
@@ -2287,3 +2289,14 @@ BIOMES.push({
   accent: 0xe8b5c5,
   housingOnly: true,
 });
+
+// Retired models remain source assets, never live islands or hidden colliders.
+// Repack the complete active map after all original definitions/expansions.
+export const RETIRED_BIOMES = BIOMES.filter(b=>isRetiredBiome(b.id));
+for(let i=BIOMES.length-1;i>=0;i--)if(isRetiredBiome(BIOMES[i].id))BIOMES.splice(i,1);
+for(const b of BIOMES)b.center=[...WORLD_CENTERS[b.id]];
+for(const n of NEIGHBORS)if(isRetiredBiome(n.biome)){
+  n.originBiome=n.biome;n.biome='homestead';
+}
+for(const crop of CROPS)if(isRetiredBiome(crop.biome))crop.biome='homestead';
+for(const job of JOBS)job.biomes=[...new Set(job.biomes.map(id=>isRetiredBiome(id)?'homestead':id))];

@@ -60,7 +60,7 @@ test("resource jobs unlock with biomes and cannot be collected twice", () => {
   const seed = newGame(now);
   seed.progression.xp = xpForLevel(5);
   seed.coins = 5000;
-  let game = unlockBiome(seed, "beach");
+  let game = unlockBiome(seed, "winter");
   game = gatherResource(game, "fishing", now);
   assert.equal(game.farm.stock.fish, 1);
   assert.throws(() => gatherResource(game, "fishing", now + 100));
@@ -120,7 +120,7 @@ test("expanded world retains 28 biomes and 123 established objects plus 25 new s
     123,
   );
   assert.equal(CATALOG.filter((i) => !i.islandOnly).length, 148);
-  assert.equal(BIOMES.length, 30);
+  assert.equal(BIOMES.length, 20);
   assert.equal(
     CATALOG.find((i) => i.id === "coaster-mystic").buildMinutes,
     1440,
