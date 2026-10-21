@@ -30,3 +30,26 @@ Run `CHICHI_BROWSER=webkit CHICHI_PLAYWRIGHT_MODULE=<playwright>
 node scripts/check-sculpt-cache-releases.mjs`; raw results are in
 `version-webkit.json`. The generic renderer/grass prototypes are separate and
 were not promoted based on mixed or sparse frame-rate samples.
+
+## Second independent fix: large-colony cache contract
+
+A real 40-cat construction fixture produced 600 fur entries within 21,195,669
+bytes, below the existing 24 MiB write budget. The old decoder rejected anything
+over 256 entries, so even an unchanged app URL discarded the entire valid cache.
+The decoder now accepts at most 4,096 entries per kind, still validates every
+attribute/index, and retains its 32 MiB read ceiling. The writer shares that
+entry limit and retains the original 24 MiB budget. All 600 actual variants fit;
+no RAM cache entry, live geometry, fur strand or cat is removed.
+
+The crowded WebKit check compares both old decoder/writer sources against the
+new code. Control restore fails even on an unchanged warm return; the new cache
+restores after both UI update and warm return. All seven geometry/pixel hashes
+are identical to the original five rendered approved cats. The UI-update
+restore + five-model + extra-crowd construction phases are 390+3330+1398 =
+5,118 ms control versus 272+379+1531 = 2,182 ms updated. This is a private
+construction workload, not whole-game loading time or device FPS. See
+`crowd-webkit.json`; the extra crowd remains fully constructed in both runs.
+
+The focused boundary test also uses 300 actual generated tiny-fur variants,
+checks the original hero's exact bytes after installation, and verifies that
+4,097-entry records are rejected/trimmed to the shared safe bound.

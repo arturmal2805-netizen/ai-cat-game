@@ -20,6 +20,7 @@ export const CHICHI_ANATOMY = Object.freeze({
   jawY: -0.24,
   legY: 0.48,
 });
+export const SCULPT_CACHE_MAX_ENTRIES = 4096;
 const cache = new Map();
 const furCache = new Map();
 
@@ -56,7 +57,7 @@ export function installKittenCache(snapshot) {
       [cache, snapshot.surfaces],
       [furCache, snapshot.fur],
     ]) {
-      if (entries.length > 256) throw Error("Invalid sculpt cache");
+      if (entries.length > SCULPT_CACHE_MAX_ENTRIES) throw Error("Invalid sculpt cache");
       for (const [key, record] of entries) {
         if (
           typeof key !== "string" ||

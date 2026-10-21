@@ -325,3 +325,9 @@ changes invalidate the optional graphics record. Original construction remains
 the fallback. See `qa/2026-10-21/stable-sculpt-cache/` for real IndexedDB update,
 byte/image parity and separate construction-time evidence. This adds no render
 passes, AI calls, world writes or graphical quality settings.
+
+The large-colony follow-up aligns writer/reader entry limits: hundreds of small
+fur variants can fit the unchanged 24 MiB write / 32 MiB read budgets. Both
+sides now bound each kind at 4,096 entries, keeping byte validation and original
+construction fallback. This prevents the old reader's 256-entry cap discarding
+an otherwise valid whole graphics cache; no scene geometry or cat is removed.

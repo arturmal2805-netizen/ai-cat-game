@@ -260,3 +260,7 @@ approved improvements when testing a new candidate.
   fallback, original uncached construction and all graphical detail. Verify both
   same-app reloads and a changed app URL in the real browser. This is a loading
   optimization; do not present construction timing as camera FPS.
+- Keep graphics-cache writer/decoder entry and byte limits compatible. Large
+  colonies may contain hundreds of small variants within the byte budget; do
+  not reject their entire useful cache because of a smaller legacy count cap.
+  Bound metadata, validate original bytes, and retain uncached full construction.
