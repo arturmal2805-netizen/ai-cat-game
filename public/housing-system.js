@@ -4,7 +4,7 @@ import {
   housingPlot,
   HOUSING_ID,
 } from "./housing-data.js";
-import { familyPartner, reconcileFamilyHomes } from "./family-system.js";
+import { familyPartner, familyHome, reconcileFamilyHomes } from "./family-system.js";
 const clone = (v) => structuredClone(v);
 const equal = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 const validId = (v) => typeof v === "string" && /^[\w-]{1,90}$/.test(v);
@@ -27,11 +27,12 @@ export function housingSnapshotValid(raw) {
   return (
     Object.keys(normalized.homes).length === Object.keys(raw.homes).length &&
     Object.keys(normalized.residences).length ===
-      Object.keys(raw.residences).length
+      Object.keys(raw.residences).length &&
+    Object.keys(normalized.retiredHomes || {}).length === Object.keys(raw.retiredHomes || {}).length
   );
 }
 export function reconcileHousingProfiles(game) {
-  for (const home of Object.values(game.housing?.homes || {})) {
+  for (const home of [...Object.values(game.housing?.homes || {}), ...Object.values(game.housing?.retiredHomes || {})]) {
     const p = game.jobCity?.profiles[home.owner];
     if (!p) continue;
     p.purchaseCount = Math.max(p.purchaseCount, home.sequence);
@@ -91,6 +92,15 @@ export function normalizeHousing(raw, profiles = {}) {
     if (validId(cat) && home && (home.owner === cat || home.roommate === cat))
       h.residences[cat] = id;
   }
+  if (raw.retiredHomes != null) {
+    const archived = normalizeHousing({version:1, homes:raw.retiredHomes, residences:{}});
+    h.retiredHomes = {};
+    for (const [id, home] of Object.entries(archived.homes)) {
+      const replacedBy = raw.retiredHomes[id].replacedBy;
+      if (!h.homes[id] && validId(replacedBy) && replacedBy !== id && h.homes[replacedBy])
+        h.retiredHomes[id] = {...home, replacedBy};
+    }
+  }
   return h;
 }
 export const ownedHomes = (game, id) =>
@@ -115,6 +125,7 @@ export function buyCatHome(
     );
   if (!p || !product || !validId(receipt) || !integer(sequence) || sequence < 1)
     throw Error("Будинок недоступний");
+  if (familyHome(game, owner)) return game;
   const highWater = ownedHomes(game, owner).reduce(
     (n, h) => Math.max(n, h.sequence),
     p.purchaseCount,
@@ -246,7 +257,7 @@ export function setHomeRoommate(game, homeId, cat = null) {
 }
 export function housingAIProfile(game, cat) {
   return {
-    ownedHomes: ownedHomes(game, cat).length,
+    ownedHomes: familyHome(game, cat) ? 1 : ownedHomes(game, cat).length,
     activeHome: game.housing?.residences[cat] || null,
   };
 }
@@ -262,7 +273,15 @@ export function mergeHousing(base, current, incoming) {
   if (!current) return clone(incoming);
   const result = clone(current),
     added = new Set();
+  const retired = {...clone(current.retiredHomes || {}), ...clone(incoming.retiredHomes || {})};
+  if (Object.keys(retired).length) result.retiredHomes = retired;
+  for (const id of Object.keys(retired)) delete result.homes[id];
   for (const [id, h] of Object.entries(incoming.homes || {})) {
+    if (retired[id]) {
+      if (!["id","owner","type","purchaseId","sequence","price","at"].every(k => equal(h[k],retired[id][k])))
+        throw Error("Архівна покупка будинку має інші дані");
+      continue;
+    }
     const old = base?.homes?.[id],
       actual = current.homes?.[id];
     if (!old && !actual) {
@@ -304,7 +323,7 @@ export function mergeHousing(base, current, incoming) {
         throw Error("Активний дім котика вже змінили на іншому пристрої");
       continue;
     }
-    result.residences[cat] = id;
+    if (result.homes[id]) result.residences[cat] = id;
   }
   // Explicitly removing a roommate frees their residence; omission of the
   // entire housing field by an older client is handled above, not as removal.
@@ -319,6 +338,10 @@ export function mergeHousing(base, current, incoming) {
   for (const id of added) {
     const h = result.homes[id];
     if (h.roommate && result.residences[h.roommate] !== id) h.roommate = null;
+  }
+  for (const [cat,id] of Object.entries(result.residences)) {
+    const h = result.homes[id];
+    if (!h || (h.owner !== cat && h.roommate !== cat)) delete result.residences[cat];
   }
   return result;
 }

@@ -164,7 +164,7 @@ test("each AI review can introduce a quarter of the roster, and later reviews ke
     familyLimit(Object.values(g.jobCity.profiles)),
   );
 });
-test("partners live in one owned house, preserve the private price and remain there after extra property purchases", () => {
+test("partners keep one owned house and ignore extra property purchases without another payment", () => {
   let g = seed();
   const pair = choices(g, 1)[0];
   g.jobCity.profiles[pair.male].coins = 10000;
@@ -174,10 +174,10 @@ test("partners live in one owned house, preserve the private price and remain th
   assert.equal(g.housing.residences[pair.female], home);
   assert.equal(g.housing.homes[home].roommate, pair.female);
   g = buyCatHome(g, pair.male, "home-lavender", `buy-${pair.male}-2`);
-  assert.equal(ownedHomes(g, pair.male).length, 2);
+  assert.equal(ownedHomes(g, pair.male).length, 1);
   assert.equal(g.housing.residences[pair.female], home);
   assert.equal(g.housing.residences[pair.male], home);
-  assert.equal(g.jobCity.profiles[pair.male].coins, 5800);
+  assert.equal(g.jobCity.profiles[pair.male].coins, 8400);
 });
 test("twenty reloads preserve every family, calendar, home, partner sex and private balance", () => {
   let g = seed();

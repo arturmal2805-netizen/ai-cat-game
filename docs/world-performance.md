@@ -314,3 +314,20 @@ legacy JSON journal remains byte-for-byte identical, including merge bases,
 mutation IDs, retry entries and sequence numbers. Primary/backup saves,
 synchronous outbox writes, read-back verification and cloud retry ordering
 remain intact; no persistence write is delayed to make a timing sample faster.
+
+## Persistent model cache across unrelated releases
+
+Model construction buffers use their producer dependency fingerprint, not the
+whole application cache key. The build discovers transitive local imports and
+includes the pinned external-library lock; it embeds the result in the client.
+UI/world changes keep unchanged models cached, while geometry/schema/library
+changes invalidate the optional graphics record. Original construction remains
+the fallback. See `qa/2026-10-21/stable-sculpt-cache/` for real IndexedDB update,
+byte/image parity and separate construction-time evidence. This adds no render
+passes, AI calls, world writes or graphical quality settings.
+
+The large-colony follow-up aligns writer/reader entry limits: hundreds of small
+fur variants can fit the unchanged 24 MiB write / 32 MiB read budgets. Both
+sides now bound each kind at 4,096 entries, keeping byte validation and original
+construction fallback. This prevents the old reader's 256-entry cap discarding
+an otherwise valid whole graphics cache; no scene geometry or cat is removed.

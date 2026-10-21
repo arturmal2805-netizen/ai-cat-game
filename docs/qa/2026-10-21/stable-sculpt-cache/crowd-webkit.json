@@ -1,0 +1,160 @@
+{
+  "engine": "webkit",
+  "version": "sculpt-v2-a496203fa13a037a7a10a927",
+  "rows": [
+    {
+      "mode": "control",
+      "release": "first",
+      "restored": false,
+      "restoreMs": 4,
+      "constructMs": 3074,
+      "crowdMs": 1648,
+      "storedCounts": {
+        "surfaces": 8,
+        "fur": 600
+      },
+      "geometryBytes": 25279225,
+      "triangles": 667817,
+      "geometryDigest": "155ff33fb0674170415305052b7d97cc92a144159f2959db21d9d9a9e975b78d",
+      "pixelDigest": "20d4bb16b378c681ba4e79784601f9fe8373887ae783d9216cbfc0283e05fdfc",
+      "stored": true,
+      "surfaces": 8,
+      "fur": 600,
+      "dpr": 2,
+      "error": 0,
+      "contextLost": false
+    },
+    {
+      "mode": "control",
+      "release": "ui-update",
+      "restored": false,
+      "restoreMs": 390,
+      "constructMs": 3330,
+      "crowdMs": 1398,
+      "storedCounts": {
+        "surfaces": 8,
+        "fur": 600
+      },
+      "geometryBytes": 25279225,
+      "triangles": 667817,
+      "geometryDigest": "155ff33fb0674170415305052b7d97cc92a144159f2959db21d9d9a9e975b78d",
+      "pixelDigest": "20d4bb16b378c681ba4e79784601f9fe8373887ae783d9216cbfc0283e05fdfc",
+      "stored": true,
+      "surfaces": 8,
+      "fur": 600,
+      "dpr": 2,
+      "error": 0,
+      "contextLost": false
+    },
+    {
+      "mode": "control",
+      "release": "warm-return",
+      "restored": false,
+      "restoreMs": 97,
+      "constructMs": 2210,
+      "crowdMs": 1290,
+      "storedCounts": {
+        "surfaces": 8,
+        "fur": 600
+      },
+      "geometryBytes": 25279225,
+      "triangles": 667817,
+      "geometryDigest": "155ff33fb0674170415305052b7d97cc92a144159f2959db21d9d9a9e975b78d",
+      "pixelDigest": "20d4bb16b378c681ba4e79784601f9fe8373887ae783d9216cbfc0283e05fdfc",
+      "stored": true,
+      "surfaces": 8,
+      "fur": 600,
+      "dpr": 2,
+      "error": 0,
+      "contextLost": false
+    },
+    {
+      "mode": "stable",
+      "release": "first",
+      "restored": false,
+      "restoreMs": 5,
+      "constructMs": 2711,
+      "crowdMs": 1299,
+      "storedCounts": {
+        "surfaces": 8,
+        "fur": 600
+      },
+      "geometryBytes": 25279225,
+      "triangles": 667817,
+      "geometryDigest": "155ff33fb0674170415305052b7d97cc92a144159f2959db21d9d9a9e975b78d",
+      "pixelDigest": "20d4bb16b378c681ba4e79784601f9fe8373887ae783d9216cbfc0283e05fdfc",
+      "stored": true,
+      "surfaces": 8,
+      "fur": 600,
+      "dpr": 2,
+      "error": 0,
+      "contextLost": false
+    },
+    {
+      "mode": "stable",
+      "release": "ui-update",
+      "restored": true,
+      "restoreMs": 272,
+      "constructMs": 379,
+      "crowdMs": 1531,
+      "storedCounts": {
+        "surfaces": 8,
+        "fur": 600
+      },
+      "geometryBytes": 25279225,
+      "triangles": 667817,
+      "geometryDigest": "155ff33fb0674170415305052b7d97cc92a144159f2959db21d9d9a9e975b78d",
+      "pixelDigest": "20d4bb16b378c681ba4e79784601f9fe8373887ae783d9216cbfc0283e05fdfc",
+      "stored": true,
+      "surfaces": 8,
+      "fur": 600,
+      "dpr": 2,
+      "error": 0,
+      "contextLost": false
+    },
+    {
+      "mode": "stable",
+      "release": "warm-return",
+      "restored": true,
+      "restoreMs": 292,
+      "constructMs": 392,
+      "crowdMs": 1472,
+      "storedCounts": {
+        "surfaces": 8,
+        "fur": 600
+      },
+      "geometryBytes": 25279225,
+      "triangles": 667817,
+      "geometryDigest": "155ff33fb0674170415305052b7d97cc92a144159f2959db21d9d9a9e975b78d",
+      "pixelDigest": "20d4bb16b378c681ba4e79784601f9fe8373887ae783d9216cbfc0283e05fdfc",
+      "stored": true,
+      "surfaces": 8,
+      "fur": 600,
+      "dpr": 2,
+      "error": 0,
+      "contextLost": false
+    },
+    {
+      "mode": "changed",
+      "release": "model-update",
+      "restored": false,
+      "restoreMs": 77,
+      "constructMs": 2285,
+      "crowdMs": 1344,
+      "storedCounts": {
+        "surfaces": 8,
+        "fur": 600
+      },
+      "geometryBytes": 25279225,
+      "triangles": 667817,
+      "geometryDigest": "155ff33fb0674170415305052b7d97cc92a144159f2959db21d9d9a9e975b78d",
+      "pixelDigest": "20d4bb16b378c681ba4e79784601f9fe8373887ae783d9216cbfc0283e05fdfc",
+      "stored": true,
+      "surfaces": 8,
+      "fur": 600,
+      "dpr": 2,
+      "error": 0,
+      "contextLost": false
+    }
+  ]
+}

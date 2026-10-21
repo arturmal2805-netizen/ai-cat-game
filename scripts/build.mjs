@@ -1,4 +1,5 @@
 import { build } from "esbuild";
+import { sculptCacheVersion } from "./sculpt-cache-version.mjs";
 import { mkdir, writeFile, readFile } from "node:fs/promises";
 import { GLTFExporter } from "three/addons/exporters/GLTFExporter.js";
 import { createCat, disposeCat } from "../public/cat-model.js";
@@ -27,6 +28,7 @@ await build({
   target: "es2022",
   outfile: "public/dist/app.js",
   external: ["./config.js"],
+  define: { __CHICHI_SCULPT_VERSION__: JSON.stringify(await sculptCacheVersion()) },
 });
 // The bundle is served from dist; runtime configuration stays at the site root.
 const site = versionSiteAssets({

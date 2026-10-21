@@ -1,11 +1,12 @@
 import { cityClock, jobAIState, applyJobPlan } from "./jobcity-system.js";
-import { familyReview, familyPartners, applyFamilyDecisions } from "./family-system.js";
+import { familyReview, familyPartners, applyFamilyDecisions, familyHome } from "./family-system.js";
 import { JOB_END, JOB_START } from "./jobcity-data.js";
 import { housingOffers } from "./housing-system.js";
 
 export function cityAIHousingMessage(game, id, status, now = Date.now()) {
   const state = game.jobCity, cat = state?.profiles[id];
   if (!cat) return "";
+  if (familyHome(game,id)) return "У сім'ї вже є один спільний дім. Другий не купується; монетки залишаються котику.";
   const minimum = Math.min(...housingOffers().map(h => h.price));
   if (cat.coins < minimum)
     return `До доступного будиночка потрібно ще ${minimum - cat.coins} 🐾. Котик може накопичувати монетки на роботі.`;

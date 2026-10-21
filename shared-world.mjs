@@ -711,5 +711,12 @@ export function mergeSharedWorld(base, current, incoming) {
   } catch (error) {
     throw new SharedConflict(error.message);
   }
+  // Two devices may independently buy the first house for different spouses.
+  // Reject the second payment atomically; never silently discard a paid house.
+  for (const pair of Object.values(result.family?.couples || {})) {
+    const homes = Object.values(result.housing?.homes || {}).filter(h => h.owner === pair.male || h.owner === pair.female);
+    if (homes.length > 1 && homes.some(h => !base.housing?.homes[h.id] && !current.housing?.homes[h.id]))
+      throw new SharedConflict("У цієї сім'ї вже є спільний дім. Монетки за другий будинок не списані.");
+  }
   return resolveConstructionBoosts(reconcileFamilyHomes(result));
 }

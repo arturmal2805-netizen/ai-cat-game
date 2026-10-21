@@ -250,3 +250,28 @@ approved improvements when testing a new candidate.
 - Measure HUD content dimensions on actual resize/invalidation. Do not read
   layout after badge mutations every frame, and do not replace client content
   dimensions with rounded border-box dimensions.
+
+### Persistent construction caches
+
+- Version reusable model/geometry buffers by the complete construction dependency
+  graph and pinned geometry libraries, not the whole app bundle URL or release.
+  Unrelated UI, save and island updates must retain byte-identical cached models;
+  actual producer/schema/library changes must invalidate them. Keep corruption
+  fallback, original uncached construction and all graphical detail. Verify both
+  same-app reloads and a changed app URL in the real browser. This is a loading
+  optimization; do not present construction timing as camera FPS.
+- Keep graphics-cache writer/decoder entry and byte limits compatible. Large
+  colonies may contain hundreds of small variants within the byte budget; do
+  not reject their entire useful cache because of a smaller legacy count cap.
+  Bound metadata, validate original bytes, and retain uncached full construction.
+
+### One home per permanent family
+
+A couple keeps its earliest purchased home (timestamp, then stable ID), shares
+its two resident seats, and cannot buy a second home manually or through AI.
+Legacy duplicates move to `housing.retiredHomes`: preserve original purchase
+receipts, balances and high-water sequence counters; never resurrect them from
+a cached device. Conflicting simultaneous spouse purchases must reject the
+second transaction atomically. Do not cap homes for unpaired cats or change
+family pacing. Retire only the duplicate house's visual instance; retain shared
+models, terrain and the surviving home.

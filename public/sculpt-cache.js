@@ -1,8 +1,11 @@
-import { kittenCacheSnapshot, installKittenCache } from "./chichi-sculpt.js";
+import { kittenCacheSnapshot, installKittenCache, SCULPT_CACHE_MAX_ENTRIES } from "./chichi-sculpt.js";
 
 // This optional database contains reproducible graphics only. It never reads,
 // changes or deletes the account, saved world or cloud outbox.
-const version = new URL(import.meta.url).searchParams.get("v") || "development";
+// The build fingerprints the complete model-construction dependency graph.
+// An unrelated UI/island/save patch must not invalidate identical cat buffers.
+const version = typeof __CHICHI_SCULPT_VERSION__ === "string"
+  ? __CHICHI_SCULPT_VERSION__ : "development";
 let database;
 function openCache() {
   if (!globalThis.indexedDB) return Promise.resolve(null);
@@ -51,24 +54,34 @@ export async function restoreSculptCache() {
   clearTimeout(timer);
   return !!result;
 }
+// Match the decoder's per-kind limit as well as the byte budget. A large
+// colony can have hundreds of tiny fur variants while still fitting 24 MiB;
+// the old 256-entry decoder rejected the ENTIRE graphics cache.
+export function boundedSculptSnapshot(snapshot) {
+  const result = { ...snapshot };
+  let bytes = 0;
+  for (const name of ["surfaces", "fur"]) {
+    let entries = 0;
+    result[name] = snapshot[name].filter(([, g]) => {
+      if (entries >= SCULPT_CACHE_MAX_ENTRIES) return false;
+      const size = Object.values(g.attributes).reduce(
+        (n, a) => n + a.array.byteLength, g.index?.byteLength || 0,
+      );
+      if (bytes + size > 24 * 1024 * 1024) return false;
+      bytes += size;
+      entries++;
+      return true;
+    });
+  }
+  return result;
+}
+
 export async function storeSculptCache() {
   try {
     const db = await openCache();
     if (!db) return false;
-    const snapshot = kittenCacheSnapshot();
-    let bytes = 0;
-    // Keep the most useful first-created hero buffers. Cache misses always run
-    // the original sculpt rather than substituting a cheaper model.
-    for (const name of ["surfaces", "fur"])
-      snapshot[name] = snapshot[name].filter(([, g]) => {
-        const size = Object.values(g.attributes).reduce(
-          (n, a) => n + a.array.byteLength,
-          g.index?.byteLength || 0,
-        );
-        if (bytes + size > 24 * 1024 * 1024) return false;
-        bytes += size;
-        return true;
-      });
+    // Cache misses always run the original sculpt, preserving every model.
+    const snapshot = boundedSculptSnapshot(kittenCacheSnapshot());
     return await new Promise((resolve) => {
       const transaction = db.transaction("sculpt", "readwrite");
       transaction.objectStore("sculpt").put({ version, snapshot }, "active");

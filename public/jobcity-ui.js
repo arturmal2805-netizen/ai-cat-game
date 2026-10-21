@@ -7,6 +7,7 @@ import {
   familyCalendar,
   familyReview,
   familyPartner,
+  familyHome,
 } from "./family-system.js";
 import { ownedHomes, availableRoommates } from "./housing-system.js";
 import { houseType } from "./housing-data.js";
@@ -350,7 +351,7 @@ export function createJobCityUI({
     content.append(
       text(
         "p",
-        `${homes.length} власних будинків · нова покупка не змінює активний дім`,
+        familyHome(game,p.id) ? "Один спільний дім сім'ї · залишається перший придбаний будинок" : `${homes.length} власних будинків · нова покупка не змінює активний дім`,
       ),
     );
     for (const home of homes.slice(0, propertyLimit)) {
@@ -413,7 +414,10 @@ export function createJobCityUI({
           lastKey = "";
         }),
       );
-    if (!homes.length)
+    const sharedHome = familyHome(game,p.id);
+    if (sharedHome && sharedHome.owner !== p.id)
+      content.append(action("🏡 Спільний дім з партнером · показати", () => {dialog.close();viewHome(sharedHome.id);}));
+    if (!homes.length && !sharedHome)
       content.append(
         text(
           "p",
@@ -448,7 +452,8 @@ export function createJobCityUI({
         const row = document.createElement("div");
         row.className = "jobcity-item";
         let roomChoice = null;
-        if (houseType(product.id)) {
+        const familyOwnsHome = !!houseType(product.id) && !!sharedHome;
+        if (houseType(product.id) && !familyOwnsHome) {
           roomChoice = document.createElement("select");
           roomChoice.setAttribute(
             "aria-label",
@@ -471,12 +476,12 @@ export function createJobCityUI({
             `${product.icon} ${product.name} · ${money(product.price)} 🐾`,
           ),
           action(
-            "Купити",
+            familyOwnsHome ? "Сім'я вже має дім" : "Купити",
             () =>
               houseType(product.id)
                 ? buyHome(p.id, product.id, roomChoice.value || null)
                 : buy(p.id, product.id),
-            p.coins < product.price,
+            familyOwnsHome || p.coins < product.price,
           ),
         );
         products.append(row);
