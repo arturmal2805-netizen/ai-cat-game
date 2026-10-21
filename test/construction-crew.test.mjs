@@ -1,3 +1,5 @@
+import {BIOMES} from '../public/game-data.js';
+import {worldRoads} from '../public/world-roads.js';
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import * as THREE from "three";
@@ -179,36 +181,20 @@ test("a manual action can cancel any helper immediately without a saved side eff
   assert.equal(crew.workers.size, 0);
 });
 
-test("helpers travelling to a different island follow its real bridge instead of running through the sky", () => {
-  const site = {
-      id: "away",
-      biome: "winter",
-      x: 0,
-      z: 0,
-      w: 2,
-      d: 2,
-      readyAt: now + 100000,
-    },
-    crew = createConstructionCrew({
-      getSites: () => [site],
-      bridges: [
-        {
-          from: "moon",
-          to: "winter",
-          start: { x: 10.95, z: 0, y: 0.18 },
-          end: { x: 25.9, z: 0, y: 0.18 },
-        },
-      ],
-    }),
-    seen = [];
-  let p = { x: 4, z: 0, y: 0.16 };
-  for (let i = 0; i < 1800; i++) {
-    const v = crew.frame("traveller", p, "moon", 0, 0.5, 1 / 30, i / 30, now);
-    assert.ok(v);
-    p = { ...v.position };
-    if (p.x > 11.65 && p.x < 25) seen.push({ ...p });
-  }
-  assert.ok(seen.length > 0);
-  assert.ok(seen.every((p) => Math.abs(p.z) < 0.05));
-  assert.equal(crew.workers.get("traveller").phase, "hammer");
+test("helpers travelling to a different island follow its actual rebuilt road instead of running through the sky", () => {
+ const roads=worldRoads(BIOMES),road=roads.find(r=>r.from==='moon'&&r.to==='stars'),
+  site={id:'away',biome:'stars',x:0,z:0,w:2,d:2,readyAt:now+100000},
+  crew=createConstructionCrew({getSites:()=>[site],bridges:roads}),seen=[];
+ let p={x:4,z:0,y:.16};
+ for(let i=0;i<1800;i++){
+  const v=crew.frame('traveller',p,'moon',0,.5,1/30,i/30,now);assert.ok(v);p={...v.position};
+  if(!BIOMES.some(b=>Math.hypot(p.x-b.center[0],p.z-b.center[1])<(b.radius||11.65)))seen.push(p);
+ }
+ assert.ok(seen.length>0);
+ for(const p of seen){
+  const dx=road.end.x-road.start.x,dz=road.end.z-road.start.z,
+    t=((p.x-road.start.x)*dx+(p.z-road.start.z)*dz)/(dx*dx+dz*dz);
+  assert.ok(t>=0&&t<=1);assert.ok(Math.hypot(p.x-road.start.x-dx*t,p.z-road.start.z-dz*t)<.05);
+ }
+ assert.equal(crew.workers.get('traveller').phase,'hammer');
 });

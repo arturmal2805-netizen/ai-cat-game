@@ -165,7 +165,7 @@ test("cooperative buffer merging preserves every indexed triangle and colour", a
   parts.forEach((g) => g.dispose());
 });
 test("island preparation yields to interaction and retains the exact full scenery and animations", async () => {
-  for (const id of ["nature", "clockwork", "winter"]) {
+  for (const id of ["candy", "clockwork", "winter"]) {
     let yields = 0;
     const first = createBiomeScene(byBiome(id));
     const next = await prepareSceneSteps(biomeSceneSteps(byBiome(id)), {

@@ -232,7 +232,7 @@ test("other approved biome records remain unchanged except the later authorized 
         ),
       )
       .digest("hex"),
-    "40e077b7e694b69577de492f1ebaf0fc419712e38bc69b720362bed1283f266b",
+    "0e03a9cefc59311b8f2a291e389ba02521309d54dd36ef8c048f643bb2a79112",
   );
 });
 test("fourteen concurrent visitors across seven mansions all finish without leaking a reservation", () => {

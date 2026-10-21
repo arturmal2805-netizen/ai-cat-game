@@ -1,3 +1,5 @@
+import fs from 'node:fs';
+import {migrateRetiredIsland} from '../public/world-migration.js';
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import * as THREE from "three";
@@ -149,7 +151,9 @@ test("scenery rejects collisions with purchases, permanent care objects, water, 
 test("old saves retain all sixty purchases, currency, friends and construction timers during scenery migration", () => {
   const legacy = newGame(100000);
   delete legacy.scenery;
-  legacy.unlocked = BIOMES.map((b) => b.id);
+  const legacyBiomes=JSON.parse(fs.readFileSync(new URL("./fixtures/pre-consolidation-biomes.json",import.meta.url)));
+  legacy.worldRevision=2;
+  legacy.unlocked = legacyBiomes.map((b) => b.id);
   legacy.coins = 98765;
   legacy.friendship = { luna: 45 };
   Object.assign(legacy.social.relationships.luna, {
@@ -162,8 +166,8 @@ test("old saves retain all sixty purchases, currency, friends and construction t
     legacy.placements.push({
       id: "legacy-" + i,
       item: "mouse",
-      biome: BIOMES[i % BIOMES.length].id,
-      x: Math.floor(i / BIOMES.length) * 4 - 4,
+      biome: legacyBiomes[i % 24].id,
+      x: Math.floor(i / 24) * 4 - 4,
       z: 0,
       rotation: i % 4,
       startedAt: 500,
@@ -174,7 +178,7 @@ test("old saves retain all sixty purchases, currency, friends and construction t
   const restored = loadGame(s, 100000);
   assert.deepEqual(
     restored.placements.filter((p) => p.biome !== "autumn"),
-    legacy.placements.filter((p) => p.biome !== "autumn"),
+    migrateRetiredIsland(legacy).placements.filter((p) => p.biome !== "autumn"),
   );
   for (const before of legacy.placements.filter((p) => p.biome === "autumn")) {
     const after = restored.placements.find((p) => p.id === before.id);

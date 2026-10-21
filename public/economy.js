@@ -365,8 +365,9 @@ export function loadGame(storage, now = Date.now(), { advance = true } = {}) {
     restoreScenery(game, saved.scenery);
     game.care = normalizeCare(saved.care, game, now);
     game.catLocations=normalizeCatLocations(saved.catLocations,game,now);
+    const locationRoster=new Map(activeCats(game).map(n=>[n.id,n.biome]));
     for(const [id,p] of Object.entries(game.catLocations))
-      if(id!=='chichi')game.catDestinations[id]=p.biome;
+      if(id!=='chichi'&&p.biome!==locationRoster.get(id))game.catDestinations[id]=p.biome;
     game.recentActivities = cleanRecent(
       saved.recentActivities,
       worldSnapshot(game),

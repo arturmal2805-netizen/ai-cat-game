@@ -2048,13 +2048,18 @@ window.addEventListener("offline", () => {
   cloud.simulationOwner = false;
   cloudStatusChanged("offline");
 });
+function persistCatLocationsOnExit(){
+  if(!cloud.simulationOwner||!cloud.editable||cloud.conflict)return;
+  const next=world?.snapshotCatLocations(game,game);
+  if(next&&next!==game){game=next;persist();}
+}
 window.addEventListener("pagehide", () => {
-  if(cloud.simulationOwner)persist();
+  persistCatLocationsOnExit();
   cloud.releaseEditor();
 });
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) {
-    if(cloud.simulationOwner)persist();
+    persistCatLocationsOnExit();
     cloud.releaseEditor();
   }
   else syncShared(true);

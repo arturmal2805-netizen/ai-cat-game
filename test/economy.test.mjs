@@ -146,7 +146,8 @@ test("scenery landmarks stay clear when new islands are unlocked", () => {
   const game = newGame(now);
   game.coins = 3000;
   game.progression.xp = xpForLevel(5);
-  const next = unlockBiome(game, "beach");
-  assert.equal(canPlace(next, "yarn", "beach", -6, -5).ok, false);
-  assert.ok(findSpace(next, "yarn", "beach"));
+  const next = unlockBiome(game, "winter"), obstacle=next.scenery.find(r=>r.biome==="winter"&&!r.stored);
+  assert.ok(obstacle);
+  assert.equal(canPlace(next, "yarn", "winter", obstacle.x, obstacle.z).ok, false);
+  assert.ok(findSpace(next, "yarn", "winter"));
 });

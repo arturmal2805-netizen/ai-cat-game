@@ -6,7 +6,8 @@ export function migrateRetiredIsland(raw, now = Date.now()) {
   if(saved.worldRevision>=WORLD_REVISION &&
       !saved.unlocked?.some(isRetiredBiome) &&
       !saved.placements?.some(p=>isRetiredBiome(p.biome)) &&
-      !saved.scenery?.some(p=>isRetiredBiome(p.biome)))return saved;
+      !saved.scenery?.some(p=>isRetiredBiome(p.biome)) &&
+      !Object.values(saved.catLocations||{}).some(p=>isRetiredBiome(p?.biome)))return saved;
   saved=structuredClone(saved);
   const oldUnlocked=new Set(saved.unlocked || []),
     moving=(saved.placements || []).some(p=>isRetiredBiome(p.biome)),
@@ -32,6 +33,10 @@ export function migrateRetiredIsland(raw, now = Date.now()) {
     const offset=retiredDistrict(saved.catPosition.biome);
     saved.catPosition={...saved.catPosition,biome:'homestead',
       x:saved.catPosition.x+offset.x,z:saved.catPosition.z+offset.z};
+  }
+  for(const p of Object.values(saved.catLocations||{}))if(isRetiredBiome(p?.biome)){
+    const offset=retiredDistrict(p.biome);
+    p.biome='homestead';p.x+=offset.x;p.z+=offset.z;
   }
   return saved;
 }

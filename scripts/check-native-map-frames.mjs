@@ -189,5 +189,7 @@ export async function checkNativeMapFrames(page, review) {
     rows.push({ id, repeat: rows.some(r => r.id === id), readyMs, ...row });
     fs.writeFileSync(path.join(review, "native-map-frames.json"), JSON.stringify(rows, null, 2));
     console.log("NATIVE_MAP", JSON.stringify(rows.at(-1)));
+    if(process.env.CHICHI_NATIVE_MAP_CAPTURE && !rows.slice(0,-1).some(r=>r.id===id))
+      await page.screenshot({path:path.join(review,`map-${id}.png`)});
   }
 }

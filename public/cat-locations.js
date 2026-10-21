@@ -28,7 +28,8 @@ export function normalizeCatLocations(raw,game,now=Date.now()){
 export function captureCatLocations(next,previous,actors,now=Date.now()){
   const locations=normalizeCatLocations(next.catLocations,next,now),destinations={...next.catDestinations};
   let catPosition=next.catPosition;
-  const ids=new Set(['chichi',...activeCats(next).map(n=>n.id)]);
+  const roster=activeCats(next),resolved=new Map(roster.map(n=>[n.id,n.biome])),
+    ids=new Set(['chichi',...roster.map(n=>n.id)]);
   for(const a of actors){
     if(!ids.has(a.id)||a.transient)continue;
     const commanded=a.id==='chichi'
@@ -38,12 +39,18 @@ export function captureCatLocations(next,previous,actors,now=Date.now()){
     for(const b of BIOMES){
       const p={biome:b.id,x:a.position.x-b.center[0],y:a.position.y,z:a.position.z-b.center[1],yaw:a.yaw,at:now};
       if(![p.x,p.y,p.z,p.yaw].every(Number.isFinite)||!inIsland(p,b,next))continue;
-      locations[a.id]=p;
+      const old=locations[a.id];
+      locations[a.id]=old&&['biome','x','y','z','yaw'].every(k=>old[k]===p[k])?old:p;
       if(a.id==='chichi')catPosition={biome:p.biome,x:p.x,z:p.z};
-      else destinations[a.id]=p.biome;
+      else if(p.biome!==resolved.get(a.id))destinations[a.id]=p.biome;
       break;
     }
   }
+  const sameLocations=Object.keys(locations).length===Object.keys(next.catLocations||{}).length&&
+    Object.entries(locations).every(([id,p])=>Object.keys(p).every(k=>p[k]===next.catLocations?.[id]?.[k])),
+    sameDestinations=Object.keys(destinations).length===Object.keys(next.catDestinations||{}).length&&
+      Object.entries(destinations).every(([id,b])=>next.catDestinations?.[id]===b);
+  if(sameLocations&&sameDestinations&&JSON.stringify(catPosition)===JSON.stringify(next.catPosition))return next;
   return {...next,catLocations:locations,catDestinations:destinations,catPosition};
 }
 
