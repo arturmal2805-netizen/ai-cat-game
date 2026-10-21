@@ -67,3 +67,15 @@ test('new residential sections are free, use paid cat purchase receipts, never u
  g=applyFamilyDecisions(g,13,[pair]);assert.equal(Object.keys(g.housing.homes).length,1);assert.equal(housingSectionCount(g.housing),3,'retiring duplicate houses never removes already expanded free land');
  assert.equal(housingSectionIndex(-2*HOUSING_SECTION_PITCH,reload(g).housing),2);
 });
+
+test('one AI response forming a new pair and offering both spouses houses pays for only the first home',async()=>{
+ const {localJobPlan,applyJobPlan}=await import('../public/jobcity-system.js');
+ let g=seed();const plan=localJobPlan(Object.values(g.jobCity.profiles),13);
+ for(const id of ['chichi','pixel'])plan.find(a=>a.id===id).house={type:'home-sage',roommate:null};
+ const before=Object.fromEntries(['chichi','pixel'].map(id=>[id,g.jobCity.profiles[id].coins]));g=applyJobPlan(g,plan,13,'ai',[pair]);
+ assert.equal(Object.keys(g.housing.homes).length,1);assert.equal(Object.keys(g.housing.retiredHomes||{}).length,0);
+ const home=familyHome(g,'chichi'),other=home.owner==='chichi'?'pixel':'chichi';
+ assert.equal(g.jobCity.profiles[home.owner].coins,before[home.owner]-1600);assert.equal(g.jobCity.profiles[other].coins,before[other]);
+ assert.equal(g.housing.residences.chichi,home.id);assert.equal(g.housing.residences.pixel,home.id);
+ for(let i=0;i<10;i++){g=applyJobPlan(reload(g),plan,13,'ai',[pair]);assert.equal(Object.keys(g.housing.homes).length,1);assert.equal(g.jobCity.profiles[other].coins,before[other]);}
+});

@@ -485,10 +485,10 @@ export function applyJobPlan(
       p.leisureProgress = { day, done: 0 };
   }
   if (source !== "ai" || options.phase === "careers") return next;
-  const planned = applyFamilyDecisions(
-    applyHousingDecisions(next, day, valid),
-    day,
-    families,
+  // Establish the saved pair before buying: both homeless partners may be
+  // offered a home in this one AI batch, but only the first purchase is paid.
+  const planned = applyHousingDecisions(
+    applyFamilyDecisions(next, day, families), day, valid,
   );
   // Share the AI's chosen itinerary, while each partner keeps their own shift.
   for (const pair of Object.values(planned.family?.couples || {})) {
