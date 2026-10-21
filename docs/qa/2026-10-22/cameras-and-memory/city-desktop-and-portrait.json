@@ -1,0 +1,978 @@
+{
+  "rows": [
+    {
+      "device": "desktop",
+      "id": "job-bank",
+      "state": {
+        "id": "job-bank",
+        "elevation": 0.38,
+        "azimuth": 0.16,
+        "distance": 53.06428706270097,
+        "target": [
+          -124,
+          8.779999811053276,
+          33
+        ],
+        "roofs": [
+          {
+            "id": "job-bank",
+            "visible": false
+          },
+          {
+            "id": "job-crypto",
+            "visible": true
+          },
+          {
+            "id": "job-factory",
+            "visible": true
+          },
+          {
+            "id": "job-furniture",
+            "visible": true
+          },
+          {
+            "id": "job-estate",
+            "visible": true
+          },
+          {
+            "id": "job-cars",
+            "visible": true
+          }
+        ],
+        "dpr": 2,
+        "contextLost": false
+      },
+      "restored": {
+        "elevation": 0.6,
+        "azimuth": 0.16,
+        "distance": 57,
+        "target": [
+          -92,
+          0,
+          55
+        ],
+        "roofs": [
+          {
+            "id": "job-bank",
+            "visible": true
+          },
+          {
+            "id": "job-crypto",
+            "visible": true
+          },
+          {
+            "id": "job-factory",
+            "visible": true
+          },
+          {
+            "id": "job-furniture",
+            "visible": true
+          },
+          {
+            "id": "job-estate",
+            "visible": true
+          },
+          {
+            "id": "job-cars",
+            "visible": true
+          }
+        ],
+        "dpr": 2,
+        "contextLost": false
+      }
+    },
+    {
+      "device": "desktop",
+      "id": "job-crypto",
+      "state": {
+        "id": "job-crypto",
+        "elevation": 0.38,
+        "azimuth": 0.16,
+        "distance": 53.275669219592174,
+        "target": [
+          -92,
+          8.854999620318413,
+          33
+        ],
+        "roofs": [
+          {
+            "id": "job-bank",
+            "visible": true
+          },
+          {
+            "id": "job-crypto",
+            "visible": false
+          },
+          {
+            "id": "job-factory",
+            "visible": true
+          },
+          {
+            "id": "job-furniture",
+            "visible": true
+          },
+          {
+            "id": "job-estate",
+            "visible": true
+          },
+          {
+            "id": "job-cars",
+            "visible": true
+          }
+        ],
+        "dpr": 2,
+        "contextLost": false
+      },
+      "restored": {
+        "elevation": 0.6,
+        "azimuth": 0.16,
+        "distance": 57,
+        "target": [
+          -92,
+          0,
+          55
+        ],
+        "roofs": [
+          {
+            "id": "job-bank",
+            "visible": true
+          },
+          {
+            "id": "job-crypto",
+            "visible": true
+          },
+          {
+            "id": "job-factory",
+            "visible": true
+          },
+          {
+            "id": "job-furniture",
+            "visible": true
+          },
+          {
+            "id": "job-estate",
+            "visible": true
+          },
+          {
+            "id": "job-cars",
+            "visible": true
+          }
+        ],
+        "dpr": 2,
+        "contextLost": false
+      }
+    },
+    {
+      "device": "desktop",
+      "id": "job-factory",
+      "state": {
+        "id": "job-factory",
+        "elevation": 0.38,
+        "azimuth": 0.16,
+        "distance": 53.06428706270097,
+        "target": [
+          -60,
+          8.779999811053276,
+          33
+        ],
+        "roofs": [
+          {
+            "id": "job-bank",
+            "visible": true
+          },
+          {
+            "id": "job-crypto",
+            "visible": true
+          },
+          {
+            "id": "job-factory",
+            "visible": false
+          },
+          {
+            "id": "job-furniture",
+            "visible": true
+          },
+          {
+            "id": "job-estate",
+            "visible": true
+          },
+          {
+            "id": "job-cars",
+            "visible": true
+          }
+        ],
+        "dpr": 2,
+        "contextLost": false
+      },
+      "restored": {
+        "elevation": 0.6,
+        "azimuth": 0.16,
+        "distance": 57,
+        "target": [
+          -92,
+          0,
+          55
+        ],
+        "roofs": [
+          {
+            "id": "job-bank",
+            "visible": true
+          },
+          {
+            "id": "job-crypto",
+            "visible": true
+          },
+          {
+            "id": "job-factory",
+            "visible": true
+          },
+          {
+            "id": "job-furniture",
+            "visible": true
+          },
+          {
+            "id": "job-estate",
+            "visible": true
+          },
+          {
+            "id": "job-cars",
+            "visible": true
+          }
+        ],
+        "dpr": 2,
+        "contextLost": false
+      }
+    },
+    {
+      "device": "desktop",
+      "id": "job-furniture",
+      "state": {
+        "id": "job-furniture",
+        "elevation": 0.38,
+        "azimuth": 0.16,
+        "distance": 53.06428706270097,
+        "target": [
+          -124,
+          8.779999811053276,
+          74
+        ],
+        "roofs": [
+          {
+            "id": "job-bank",
+            "visible": true
+          },
+          {
+            "id": "job-crypto",
+            "visible": true
+          },
+          {
+            "id": "job-factory",
+            "visible": true
+          },
+          {
+            "id": "job-furniture",
+            "visible": false
+          },
+          {
+            "id": "job-estate",
+            "visible": true
+          },
+          {
+            "id": "job-cars",
+            "visible": true
+          }
+        ],
+        "dpr": 2,
+        "contextLost": false
+      },
+      "restored": {
+        "elevation": 0.6,
+        "azimuth": 0.16,
+        "distance": 57,
+        "target": [
+          -92,
+          0,
+          55
+        ],
+        "roofs": [
+          {
+            "id": "job-bank",
+            "visible": true
+          },
+          {
+            "id": "job-crypto",
+            "visible": true
+          },
+          {
+            "id": "job-factory",
+            "visible": true
+          },
+          {
+            "id": "job-furniture",
+            "visible": true
+          },
+          {
+            "id": "job-estate",
+            "visible": true
+          },
+          {
+            "id": "job-cars",
+            "visible": true
+          }
+        ],
+        "dpr": 2,
+        "contextLost": false
+      }
+    },
+    {
+      "device": "desktop",
+      "id": "job-estate",
+      "state": {
+        "id": "job-estate",
+        "elevation": 0.38,
+        "azimuth": 0.16,
+        "distance": 53.06428706270097,
+        "target": [
+          -92,
+          8.779999811053276,
+          78
+        ],
+        "roofs": [
+          {
+            "id": "job-bank",
+            "visible": true
+          },
+          {
+            "id": "job-crypto",
+            "visible": true
+          },
+          {
+            "id": "job-factory",
+            "visible": true
+          },
+          {
+            "id": "job-furniture",
+            "visible": true
+          },
+          {
+            "id": "job-estate",
+            "visible": false
+          },
+          {
+            "id": "job-cars",
+            "visible": true
+          }
+        ],
+        "dpr": 2,
+        "contextLost": false
+      },
+      "restored": {
+        "elevation": 0.6,
+        "azimuth": 0.16,
+        "distance": 57,
+        "target": [
+          -92,
+          0,
+          55
+        ],
+        "roofs": [
+          {
+            "id": "job-bank",
+            "visible": true
+          },
+          {
+            "id": "job-crypto",
+            "visible": true
+          },
+          {
+            "id": "job-factory",
+            "visible": true
+          },
+          {
+            "id": "job-furniture",
+            "visible": true
+          },
+          {
+            "id": "job-estate",
+            "visible": true
+          },
+          {
+            "id": "job-cars",
+            "visible": true
+          }
+        ],
+        "dpr": 2,
+        "contextLost": false
+      }
+    },
+    {
+      "device": "desktop",
+      "id": "job-cars",
+      "state": {
+        "id": "job-cars",
+        "elevation": 0.38,
+        "azimuth": 0.16,
+        "distance": 53.06428706270097,
+        "target": [
+          -60,
+          8.779999811053276,
+          74
+        ],
+        "roofs": [
+          {
+            "id": "job-bank",
+            "visible": true
+          },
+          {
+            "id": "job-crypto",
+            "visible": true
+          },
+          {
+            "id": "job-factory",
+            "visible": true
+          },
+          {
+            "id": "job-furniture",
+            "visible": true
+          },
+          {
+            "id": "job-estate",
+            "visible": true
+          },
+          {
+            "id": "job-cars",
+            "visible": false
+          }
+        ],
+        "dpr": 2,
+        "contextLost": false
+      },
+      "restored": {
+        "elevation": 0.6,
+        "azimuth": 0.16,
+        "distance": 57,
+        "target": [
+          -92,
+          0,
+          55
+        ],
+        "roofs": [
+          {
+            "id": "job-bank",
+            "visible": true
+          },
+          {
+            "id": "job-crypto",
+            "visible": true
+          },
+          {
+            "id": "job-factory",
+            "visible": true
+          },
+          {
+            "id": "job-furniture",
+            "visible": true
+          },
+          {
+            "id": "job-estate",
+            "visible": true
+          },
+          {
+            "id": "job-cars",
+            "visible": true
+          }
+        ],
+        "dpr": 2,
+        "contextLost": false
+      }
+    },
+    {
+      "device": "phone",
+      "id": "job-bank",
+      "state": {
+        "id": "job-bank",
+        "elevation": 0.38,
+        "azimuth": 0.16,
+        "distance": 104.19872333648634,
+        "target": [
+          -124,
+          8.779999811053276,
+          33
+        ],
+        "roofs": [
+          {
+            "id": "job-bank",
+            "visible": false
+          },
+          {
+            "id": "job-crypto",
+            "visible": true
+          },
+          {
+            "id": "job-factory",
+            "visible": true
+          },
+          {
+            "id": "job-furniture",
+            "visible": true
+          },
+          {
+            "id": "job-estate",
+            "visible": true
+          },
+          {
+            "id": "job-cars",
+            "visible": true
+          }
+        ],
+        "dpr": 2,
+        "contextLost": false
+      },
+      "restored": {
+        "elevation": 0.6,
+        "azimuth": 0.16,
+        "distance": 57,
+        "target": [
+          -92,
+          0,
+          55
+        ],
+        "roofs": [
+          {
+            "id": "job-bank",
+            "visible": true
+          },
+          {
+            "id": "job-crypto",
+            "visible": true
+          },
+          {
+            "id": "job-factory",
+            "visible": true
+          },
+          {
+            "id": "job-furniture",
+            "visible": true
+          },
+          {
+            "id": "job-estate",
+            "visible": true
+          },
+          {
+            "id": "job-cars",
+            "visible": true
+          }
+        ],
+        "dpr": 2,
+        "contextLost": false
+      }
+    },
+    {
+      "device": "phone",
+      "id": "job-crypto",
+      "state": {
+        "id": "job-crypto",
+        "elevation": 0.38,
+        "azimuth": 0.16,
+        "distance": 104.22654230094484,
+        "target": [
+          -92,
+          8.854999620318413,
+          33
+        ],
+        "roofs": [
+          {
+            "id": "job-bank",
+            "visible": true
+          },
+          {
+            "id": "job-crypto",
+            "visible": false
+          },
+          {
+            "id": "job-factory",
+            "visible": true
+          },
+          {
+            "id": "job-furniture",
+            "visible": true
+          },
+          {
+            "id": "job-estate",
+            "visible": true
+          },
+          {
+            "id": "job-cars",
+            "visible": true
+          }
+        ],
+        "dpr": 2,
+        "contextLost": false
+      },
+      "restored": {
+        "elevation": 0.6,
+        "azimuth": 0.16,
+        "distance": 57,
+        "target": [
+          -92,
+          0,
+          55
+        ],
+        "roofs": [
+          {
+            "id": "job-bank",
+            "visible": true
+          },
+          {
+            "id": "job-crypto",
+            "visible": true
+          },
+          {
+            "id": "job-factory",
+            "visible": true
+          },
+          {
+            "id": "job-furniture",
+            "visible": true
+          },
+          {
+            "id": "job-estate",
+            "visible": true
+          },
+          {
+            "id": "job-cars",
+            "visible": true
+          }
+        ],
+        "dpr": 2,
+        "contextLost": false
+      }
+    },
+    {
+      "device": "phone",
+      "id": "job-factory",
+      "state": {
+        "id": "job-factory",
+        "elevation": 0.38,
+        "azimuth": 0.16,
+        "distance": 104.19872333648634,
+        "target": [
+          -60,
+          8.779999811053276,
+          33
+        ],
+        "roofs": [
+          {
+            "id": "job-bank",
+            "visible": true
+          },
+          {
+            "id": "job-crypto",
+            "visible": true
+          },
+          {
+            "id": "job-factory",
+            "visible": false
+          },
+          {
+            "id": "job-furniture",
+            "visible": true
+          },
+          {
+            "id": "job-estate",
+            "visible": true
+          },
+          {
+            "id": "job-cars",
+            "visible": true
+          }
+        ],
+        "dpr": 2,
+        "contextLost": false
+      },
+      "restored": {
+        "elevation": 0.6,
+        "azimuth": 0.16,
+        "distance": 57,
+        "target": [
+          -92,
+          0,
+          55
+        ],
+        "roofs": [
+          {
+            "id": "job-bank",
+            "visible": true
+          },
+          {
+            "id": "job-crypto",
+            "visible": true
+          },
+          {
+            "id": "job-factory",
+            "visible": true
+          },
+          {
+            "id": "job-furniture",
+            "visible": true
+          },
+          {
+            "id": "job-estate",
+            "visible": true
+          },
+          {
+            "id": "job-cars",
+            "visible": true
+          }
+        ],
+        "dpr": 2,
+        "contextLost": false
+      }
+    },
+    {
+      "device": "phone",
+      "id": "job-furniture",
+      "state": {
+        "id": "job-furniture",
+        "elevation": 0.38,
+        "azimuth": 0.16,
+        "distance": 104.19872333648634,
+        "target": [
+          -124,
+          8.779999811053276,
+          74
+        ],
+        "roofs": [
+          {
+            "id": "job-bank",
+            "visible": true
+          },
+          {
+            "id": "job-crypto",
+            "visible": true
+          },
+          {
+            "id": "job-factory",
+            "visible": true
+          },
+          {
+            "id": "job-furniture",
+            "visible": false
+          },
+          {
+            "id": "job-estate",
+            "visible": true
+          },
+          {
+            "id": "job-cars",
+            "visible": true
+          }
+        ],
+        "dpr": 2,
+        "contextLost": false
+      },
+      "restored": {
+        "elevation": 0.6,
+        "azimuth": 0.16,
+        "distance": 57,
+        "target": [
+          -92,
+          0,
+          55
+        ],
+        "roofs": [
+          {
+            "id": "job-bank",
+            "visible": true
+          },
+          {
+            "id": "job-crypto",
+            "visible": true
+          },
+          {
+            "id": "job-factory",
+            "visible": true
+          },
+          {
+            "id": "job-furniture",
+            "visible": true
+          },
+          {
+            "id": "job-estate",
+            "visible": true
+          },
+          {
+            "id": "job-cars",
+            "visible": true
+          }
+        ],
+        "dpr": 2,
+        "contextLost": false
+      }
+    },
+    {
+      "device": "phone",
+      "id": "job-estate",
+      "state": {
+        "id": "job-estate",
+        "elevation": 0.38,
+        "azimuth": 0.16,
+        "distance": 104.19872333648634,
+        "target": [
+          -92,
+          8.779999811053276,
+          78
+        ],
+        "roofs": [
+          {
+            "id": "job-bank",
+            "visible": true
+          },
+          {
+            "id": "job-crypto",
+            "visible": true
+          },
+          {
+            "id": "job-factory",
+            "visible": true
+          },
+          {
+            "id": "job-furniture",
+            "visible": true
+          },
+          {
+            "id": "job-estate",
+            "visible": false
+          },
+          {
+            "id": "job-cars",
+            "visible": true
+          }
+        ],
+        "dpr": 2,
+        "contextLost": false
+      },
+      "restored": {
+        "elevation": 0.6,
+        "azimuth": 0.16,
+        "distance": 57,
+        "target": [
+          -92,
+          0,
+          55
+        ],
+        "roofs": [
+          {
+            "id": "job-bank",
+            "visible": true
+          },
+          {
+            "id": "job-crypto",
+            "visible": true
+          },
+          {
+            "id": "job-factory",
+            "visible": true
+          },
+          {
+            "id": "job-furniture",
+            "visible": true
+          },
+          {
+            "id": "job-estate",
+            "visible": true
+          },
+          {
+            "id": "job-cars",
+            "visible": true
+          }
+        ],
+        "dpr": 2,
+        "contextLost": false
+      }
+    },
+    {
+      "device": "phone",
+      "id": "job-cars",
+      "state": {
+        "id": "job-cars",
+        "elevation": 0.38,
+        "azimuth": 0.16,
+        "distance": 104.19872333648634,
+        "target": [
+          -60,
+          8.779999811053276,
+          74
+        ],
+        "roofs": [
+          {
+            "id": "job-bank",
+            "visible": true
+          },
+          {
+            "id": "job-crypto",
+            "visible": true
+          },
+          {
+            "id": "job-factory",
+            "visible": true
+          },
+          {
+            "id": "job-furniture",
+            "visible": true
+          },
+          {
+            "id": "job-estate",
+            "visible": true
+          },
+          {
+            "id": "job-cars",
+            "visible": false
+          }
+        ],
+        "dpr": 2,
+        "contextLost": false
+      },
+      "restored": {
+        "elevation": 0.6,
+        "azimuth": 0.16,
+        "distance": 57,
+        "target": [
+          -92,
+          0,
+          55
+        ],
+        "roofs": [
+          {
+            "id": "job-bank",
+            "visible": true
+          },
+          {
+            "id": "job-crypto",
+            "visible": true
+          },
+          {
+            "id": "job-factory",
+            "visible": true
+          },
+          {
+            "id": "job-furniture",
+            "visible": true
+          },
+          {
+            "id": "job-estate",
+            "visible": true
+          },
+          {
+            "id": "job-cars",
+            "visible": true
+          }
+        ],
+        "dpr": 2,
+        "contextLost": false
+      }
+    }
+  ],
+  "switching": true,
+  "errors": []
+}

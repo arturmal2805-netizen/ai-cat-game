@@ -1,0 +1,71 @@
+{
+  "rows": [],
+  "pressure": {
+    "before": 21961600,
+    "legacy": 21961600,
+    "early": 90324,
+    "evicted": 180,
+    "changed": 0,
+    "restored": 21961600,
+    "contextLost": false
+  },
+  "dragon": {
+    "visible": true,
+    "point": [
+      0.8396954572613932,
+      -0.029340725088106177,
+      0.9974295058846253
+    ],
+    "position": [
+      48,
+      0.16,
+      -245
+    ],
+    "target": [
+      0,
+      0,
+      -244.98931315560174
+    ]
+  },
+  "guestWorldRepeats": 6,
+  "final": {
+    "contextLost": false,
+    "pixel": [
+      118,
+      191,
+      206,
+      255
+    ],
+    "dpr": 2,
+    "gpu": {
+      "bytes": 272789125,
+      "peak": 277866017
+    },
+    "residency": {
+      "bytes": 271372049,
+      "peakBytes": 276448941,
+      "geometries": 1031,
+      "evicted": 1957,
+      "clockReads": 100
+    },
+    "scenes": [
+      "moon",
+      "autumn",
+      "winter",
+      "water",
+      "summer",
+      "sakura",
+      "volcano",
+      "candy",
+      "galaxy",
+      "ice",
+      "clockwork",
+      "foodcourt",
+      "bikini",
+      "homestead",
+      "aquarium",
+      "jobcity",
+      "cat-homes"
+    ]
+  }
+}

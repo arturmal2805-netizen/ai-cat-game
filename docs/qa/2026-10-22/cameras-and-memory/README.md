@@ -51,3 +51,10 @@ button repetitions and the updated Job City camera checks are recorded separatel
 Validation: full suite 703/703 before the extra collision regression, then all
 42 shared-save/migration tests including that new case. Final CI runs the complete
 suite again before publishing. Browser records use private local SQLite only.
+
+Final native WebKit phone sequence: six real guest/world/island button cycles,
+zero JavaScript/HTTP errors, no lost context, nonblack final raster and DPR 2.
+The earlier test-local AI 503 was removed from the camera fixture by marking
+its careers settled; no paid endpoint or live user world is used. All six city
+buildings have real click/touch/roof/return checks; camera fitting and foreground
+facade masking also pass the geometry tests. Build and Wrangler dry-run pass.
