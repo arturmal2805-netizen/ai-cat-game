@@ -1,0 +1,265 @@
+{
+  "reloads": 20,
+  "expected": [
+    [
+      "adopt-dumpling",
+      12340
+    ],
+    [
+      "adopt-nimbus",
+      8750
+    ],
+    [
+      "chichi",
+      6300
+    ]
+  ],
+  "results": [
+    {
+      "engine": "webkit",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "layout": {
+        "dialogWidth": 958,
+        "scrollWidth": 958,
+        "left": 160,
+        "right": 1120,
+        "canvases": 0,
+        "cards": [
+          {
+            "width": 276.28125,
+            "height": 200.59375,
+            "left": 215.1875,
+            "right": 491.46875
+          },
+          {
+            "width": 276.28125,
+            "height": 200.59375,
+            "left": 501.859375,
+            "right": 778.140625
+          },
+          {
+            "width": 276.28125,
+            "height": 200.59375,
+            "left": 788.53125,
+            "right": 1064.8125
+          }
+        ],
+        "unchanged": true
+      },
+      "longLayout": {
+        "scroll": 958,
+        "width": 958
+      },
+      "errors": [],
+      "api": []
+    },
+    {
+      "engine": "webkit",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "layout": {
+        "dialogWidth": 350,
+        "scrollWidth": 350,
+        "left": 19,
+        "right": 371,
+        "canvases": 0,
+        "cards": [
+          {
+            "width": 91.734375,
+            "height": 158.78125,
+            "left": 51.796875,
+            "right": 143.53125
+          },
+          {
+            "width": 91.734375,
+            "height": 158.78125,
+            "left": 149.125,
+            "right": 240.859375
+          },
+          {
+            "width": 91.734375,
+            "height": 158.78125,
+            "left": 246.453125,
+            "right": 338.1875
+          }
+        ],
+        "unchanged": true
+      },
+      "longLayout": {
+        "scroll": 350,
+        "width": 350
+      },
+      "errors": [],
+      "api": []
+    },
+    {
+      "engine": "webkit",
+      "viewport": {
+        "width": 320,
+        "height": 780
+      },
+      "layout": {
+        "dialogWidth": 280,
+        "scrollWidth": 280,
+        "left": 19,
+        "right": 301,
+        "canvases": 0,
+        "cards": [
+          {
+            "width": 68.40625,
+            "height": 188.78125,
+            "left": 51.796875,
+            "right": 120.203125
+          },
+          {
+            "width": 68.40625,
+            "height": 188.78125,
+            "left": 125.796875,
+            "right": 194.203125
+          },
+          {
+            "width": 68.40625,
+            "height": 188.78125,
+            "left": 199.796875,
+            "right": 268.203125
+          }
+        ],
+        "unchanged": true
+      },
+      "longLayout": {
+        "scroll": 280,
+        "width": 280
+      },
+      "errors": [],
+      "api": []
+    },
+    {
+      "engine": "chromium",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "layout": {
+        "dialogWidth": 958,
+        "scrollWidth": 958,
+        "left": 160,
+        "right": 1120,
+        "canvases": 0,
+        "cards": [
+          {
+            "width": 276.28125,
+            "height": 201.59375,
+            "left": 215.1875,
+            "right": 491.46875
+          },
+          {
+            "width": 276.28125,
+            "height": 201.59375,
+            "left": 501.859375,
+            "right": 778.140625
+          },
+          {
+            "width": 276.28125,
+            "height": 201.59375,
+            "left": 788.53125,
+            "right": 1064.8125
+          }
+        ],
+        "unchanged": true
+      },
+      "longLayout": {
+        "scroll": 958,
+        "width": 958
+      },
+      "errors": [],
+      "api": []
+    },
+    {
+      "engine": "chromium",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "layout": {
+        "dialogWidth": 350,
+        "scrollWidth": 350,
+        "left": 19,
+        "right": 371,
+        "canvases": 0,
+        "cards": [
+          {
+            "width": 91.734375,
+            "height": 159.78125,
+            "left": 51.796875,
+            "right": 143.53125
+          },
+          {
+            "width": 91.734375,
+            "height": 159.78125,
+            "left": 149.125,
+            "right": 240.859375
+          },
+          {
+            "width": 91.75,
+            "height": 159.78125,
+            "left": 246.453125,
+            "right": 338.203125
+          }
+        ],
+        "unchanged": true
+      },
+      "longLayout": {
+        "scroll": 350,
+        "width": 350
+      },
+      "errors": [],
+      "api": []
+    },
+    {
+      "engine": "chromium",
+      "viewport": {
+        "width": 320,
+        "height": 780
+      },
+      "layout": {
+        "dialogWidth": 280,
+        "scrollWidth": 280,
+        "left": 19,
+        "right": 301,
+        "canvases": 0,
+        "cards": [
+          {
+            "width": 68.40625,
+            "height": 188.78125,
+            "left": 51.796875,
+            "right": 120.203125
+          },
+          {
+            "width": 68.40625,
+            "height": 188.78125,
+            "left": 125.796875,
+            "right": 194.203125
+          },
+          {
+            "width": 68.40625,
+            "height": 188.78125,
+            "left": 199.796875,
+            "right": 268.203125
+          }
+        ],
+        "unchanged": true
+      },
+      "longLayout": {
+        "scroll": 280,
+        "width": 280
+      },
+      "errors": [],
+      "api": []
+    }
+  ]
+}

@@ -1,3 +1,4 @@
+import { richestCats } from "./cat-wealth.js";
 import { cityAIFamilyMessage, cityAIHousingMessage } from "./city-ai-schedule.js";
 import { catProfileCard } from "./cat-card-ui.js";
 import { leisureOffers } from "./leisure-data.js";
@@ -49,6 +50,11 @@ export function createJobCityUI({
   );
   const clock = text("p", "", "dialog-copy");
   dialog.append(clock);
+  const wealth = document.createElement("section");
+  wealth.className = "cat-wealth";
+  wealth.setAttribute("aria-labelledby", "cat-wealth-title");
+  dialog.append(wealth);
+  let wealthKey = "";
   const selects = document.createElement("select");
   selects.id = "jobcity-cat";
   selects.setAttribute("aria-label", "Вибрати котика");
@@ -87,9 +93,34 @@ export function createJobCityUI({
       clock.textContent =
         "Відкрийте Cat Job City в магазині островів, щоб котики обрали професії та заробляли власні монетки.";
       selects.hidden = true;
+      wealth.hidden = true;
       return;
     }
     selects.hidden = false;
+    wealth.hidden = false;
+    const leaders = richestCats(state);
+    const ranking = JSON.stringify(leaders.map(p => [p.id, p.name, p.coins]));
+    if (ranking !== wealthKey) {
+      wealthKey = ranking;
+      const title = text("h3", "Найбагатші котики ✨");
+      title.id = "cat-wealth-title";
+      const podium = document.createElement("div");
+      podium.className = "cat-wealth-podium";
+      for (const [rank, cat] of leaders.entries()) {
+        const card = catProfileCard(cat, {
+          onSelect: id => { selected = id; lastKey = ""; render(); },
+        });
+        card.classList.add("cat-wealth-card", "cat-wealth-rank-" + rank);
+        card.dataset.catId = cat.id;
+        card.setAttribute("aria-label", `${rank + 1} місце · ${cat.name} · ${money(cat.coins)} власних монеток`);
+        const place = text("span", ["🥇", "🥈", "🥉"][rank] + ` ${rank + 1} місце`, "cat-wealth-place");
+        place.setAttribute("aria-hidden", "true");
+        card.prepend(place);
+        card.append(text("span", money(cat.coins) + " 🐾", "cat-wealth-balance"));
+        podium.append(card);
+      }
+      wealth.replaceChildren(title, text("p", "Топ-3 за власними монетками · натисни, щоб відкрити котика", "dialog-copy"), podium);
+    }
     const cats = Object.values(state.profiles);
     if (!state.profiles[selected]) selected = cats[0]?.id;
     if (selects.options.length !== cats.length) {
