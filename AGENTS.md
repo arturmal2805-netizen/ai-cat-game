@@ -227,3 +227,11 @@ do not use it to discard the subsequently approved improvements.
   depth-target copy in a production frame. Use the renderer's tracked framebuffer
   bindings and an exact depth-only GPU blit; restore READ/DRAW state on failure.
   Completion waits/readbacks belong only in isolated QA measurements.
+- Prepare the actual native shadow packing selected by the pinned renderer;
+  retain explicit custom packing. Shared GL-program identity alone does not
+  establish another material's initialization or ownership. Do not skip that
+  preparation based only on fewer compile calls; verify first-draw readiness,
+  disposal and full frame behavior before changing the per-material contract.
+- Measure HUD content dimensions on actual resize/invalidation. Do not read
+  layout after badge mutations every frame, and do not replace client content
+  dimensions with rounded border-box dimensions.

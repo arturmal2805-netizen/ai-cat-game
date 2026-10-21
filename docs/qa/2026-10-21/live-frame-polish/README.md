@@ -78,3 +78,33 @@ checks passed **15 tests**. Final full-suite, publication and private
 family/reload evidence are recorded separately when complete. No rendering
 optimization is promoted as a new FPS standard merely because correctness
 checks pass.
+
+## Final retained source and release
+
+The final three-change source is `b6e428738704b167742c44e1478dd276b0a9c615`.
+The full suite passed **649 tests, zero failures**, build and Worker dry run;
+workflow `39607484326` successfully deployed Worker and Pages. Live release
+headers and the exact client bundle match. Cloud saves, the primary AI and
+OpenRouter reserve remain configured; deployment spent no inference credits.
+See `publication.json`.
+
+`final-three-core.json` records eight clean native RAF/input samples on the
+four demanding islands (including warm returns), with the same four-thread
+software-renderer setup as the core control. Six submitted-frame samples were
+higher and two lower; the median paired ratio was 1.069. That is a directional
+software diagnostic, not a uniform improvement, a precise estimate, or a
+physical MacBook FPS claim; the reference transport caveat above still applies.
+No broad FPS-template promotion is made from it.
+
+The final working tree also passed the private family/SQLite browser test:
+two permanent pairs completed real restaurant visits; three reloads retained
+exact homes and balances, the original Chill house rendered and charged once,
+five duplicate retries and concurrent old/new clients preserved every family
+and home, separate sleeping positions stayed valid and phone cards fit.
+There were zero browser errors and one mocked inference response.
+
+The pre-patch runtime is `273d6e5`. Intermediate experiments in this feature
+history are intentionally retained for audit; reverting only the final source
+commit would reintroduce a rejected experiment. Restore the pre-patch state or
+revert the complete patch range when a full rollback is necessary. The older
+user-approved baseline branches remain intact.

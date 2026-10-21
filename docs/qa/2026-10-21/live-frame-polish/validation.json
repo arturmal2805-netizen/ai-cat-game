@@ -40,7 +40,7 @@
     "The eight-row core control finished rendering, but the final test assertion recorded one local Wrangler ProxyWorker PUT network-connection-lost/HTTP 500; not a clean transport-test pass"
   ],
   "intermediateFourChangeSource": "78ea5afdb1fd26c51dd01534151104ec625319bf",
-  "retainedRuntime": "final three-change source; see publication.json after release",
+  "retainedRuntime": "b6e428738704b167742c44e1478dd276b0a9c615",
   "intermediateUnitCi": {
     "run": 39605004782,
     "passed": 651,
@@ -54,6 +54,32 @@
     "failed": 0
   },
   "unitCi": {
-    "status": "pending final source"
-  }
+    "run": 39607484326,
+    "passed": 649,
+    "failed": 0,
+    "build": "success",
+    "workerDryRun": "success",
+    "deployment": "success",
+    "pages": "success"
+  },
+  "coreFinal": {
+    "samples": 8,
+    "nativeAuditExitCode": 0,
+    "dpr": 2,
+    "lpNumThreads": 4,
+    "fasterSamples": 6,
+    "slowerSamples": 2,
+    "medianSubmittedFpsRatio": 1.0694507840553542,
+    "precision": "directional software diagnostic only; reference transport assertion failed; not physical-device FPS or uniform improvement"
+  },
+  "familyAndSaves": {
+    "mockInferenceCalls": 1,
+    "pairs": 2,
+    "reloads": 3,
+    "duplicateWriteRetries": 5,
+    "concurrentOldClient": true,
+    "homesAndBalancesPreserved": true,
+    "browserErrors": 0
+  },
+  "published": true
 }
