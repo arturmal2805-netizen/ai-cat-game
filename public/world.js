@@ -5419,8 +5419,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
       return;
     }
     ambient.userData.update(time, look, reduced);
-    const width = container.clientWidth,
-      height = container.clientHeight;
+    const width = viewport.width,
+      height = viewport.height;
     if (Math.floor(now / 1000) !== incomeSecond) {
       incomeSecond = Math.floor(now / 1000);
       incomeCache.clear();

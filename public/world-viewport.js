@@ -6,6 +6,8 @@ export function watchWorldViewport(
 ) {
   let width = 0,
     height = 0,
+    clientWidth = 0,
+    clientHeight = 0,
     pending = null,
     invalid = true;
   const measure = () => {
@@ -13,6 +15,11 @@ export function watchWorldViewport(
       nextWidth = Math.round(rect.width),
       nextHeight = Math.round(rect.height);
     if (nextWidth <= 0 || nextHeight <= 0) return;
+    // HUD projection uses the content dimensions, not the rounded canvas rect
+    // (which can include a border). Read layout on resize, never after each
+    // frame's badge/text mutations: that would force synchronous layout.
+    clientWidth = container.clientWidth;
+    clientHeight = container.clientHeight;
     pending =
       nextWidth === width && nextHeight === height
         ? null
@@ -22,6 +29,12 @@ export function watchWorldViewport(
   observer.observe(container);
   measure();
   return {
+    get width() {
+      return clientWidth;
+    },
+    get height() {
+      return clientHeight;
+    },
     get pending() {
       return !!pending || invalid;
     },

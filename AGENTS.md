@@ -207,3 +207,23 @@ do not use it to discard the subsequently approved improvements.
   repeated save/reload, camera/return and disposal checks against this approved
   baseline. Record operation counts and actual images. Keep measured improvements
   and revert a reproducible regression before publication.
+
+### Frame-rate regression gate
+
+- The player reports a regression across the map, including capybaras. A saved
+  baseline is a rollback reference, not proof that every later optimization is
+  beneficial. Investigate common rendering changes before simplifying a biome.
+- Faster saves, fewer calls/triangles and command-only timings do not establish
+  an FPS improvement. Before promoting a rendering optimization into the common
+  template, compare identical worlds, cameras, DPR and detail using complete
+  rendered frames and the native RAF/GPU-queue path, with warm repeats. Include
+  every island and camera zoom/orbit. Report insufficient samples honestly and
+  identify the browser/renderer; software-GPU numbers are not MacBook FPS.
+- Keep exact-image and interaction/save checks alongside timing. Reject a
+  repeatable slowdown; leave a candidate out of the template when its gain is
+  unproven. Preserve previously useful independent fixes when reverting a
+  specific experiment.
+- Never query GPU pixel-unpack state or wait for GPU completion as part of a
+  depth-target copy in a production frame. Use the renderer's tracked framebuffer
+  bindings and an exact depth-only GPU blit; restore READ/DRAW state on failure.
+  Completion waits/readbacks belong only in isolated QA measurements.

@@ -56,11 +56,14 @@ export async function checkAllCameraGestures(page, context, review) {
             scenery = true;
             break;
           }
-        if (scenery && !Array.isArray(o.material)) {
+        if ((scenery || o.material?.userData.opaqueSceneryBlend) && !Array.isArray(o.material)) {
           const shared = o.material,
             copy = shared.clone();
           copy.onBeforeCompile = shared.onBeforeCompile;
           copy.customProgramCacheKey = shared.customProgramCacheKey;
+          // Compare the new alpha-one bypass with the actual released blend
+          // operation, retaining transparent sort order in both frames.
+          if (shared.userData.opaqueSceneryBlend) copy.blending = q.THREE.NormalBlending;
           paints.push([o, shared, copy]);
           o.material = copy;
         }

@@ -5,7 +5,8 @@ import { watchWorldViewport } from "../public/world-viewport.js";
 function fixture() {
   let callback,
     disconnected = false,
-    bounds = { width: 390, height: 732 };
+    bounds = { width: 390, height: 732 },
+    reads = 0;
   const sizes = [],
     camera = {
       aspect: 1,
@@ -19,7 +20,11 @@ function fixture() {
         sizes.push(args);
       },
     },
-    container = { getBoundingClientRect: () => bounds },
+    container = {
+      getBoundingClientRect: () => bounds,
+      get clientWidth() { reads++; return Math.round(bounds.width) - 2; },
+      get clientHeight() { reads++; return Math.round(bounds.height) - 2; },
+    },
     viewport = watchWorldViewport(
       container,
       class {
@@ -44,6 +49,7 @@ function fixture() {
       callback();
     },
     disconnected: () => disconnected,
+    reads: () => reads,
   };
 }
 test("layout observation never clears the canvas; resize is deferred until the rendering frame", () => {
@@ -64,6 +70,25 @@ test("layout observation never clears the canvas; resize is deferred until the r
   assert.deepEqual(f.sizes.at(-1), [390, 700, false]);
   assert.equal(f.sizes.length, 2);
   assert.equal(f.viewport.pending, false);
+});
+test("HUD uses exact content dimensions without synchronous layout reads in the draw loop", () => {
+  const f = fixture();
+  assert.equal(f.viewport.width, 388);
+  assert.equal(f.viewport.height, 730);
+  assert.equal(f.reads(), 2);
+  for (let i = 0; i < 120; i++) {
+    f.viewport.apply(f.renderer, f.camera);
+    assert.equal(f.viewport.width, 388);
+    assert.equal(f.viewport.height, 730);
+  }
+  assert.equal(f.reads(), 2, "badges never trigger frame-by-frame layout");
+  f.resize({ width: 844, height: 560 });
+  assert.equal(f.viewport.width, 842);
+  assert.equal(f.viewport.height, 558);
+  assert.equal(f.reads(), 4);
+  f.resize({ width: 0, height: 0 });
+  assert.equal(f.viewport.width, 842, "hidden layouts retain the last valid size");
+  assert.equal(f.reads(), 4);
 });
 test("subpixel scroll jitter, redundant observations and a reversed resize never reallocate the buffer", () => {
   const f = fixture();

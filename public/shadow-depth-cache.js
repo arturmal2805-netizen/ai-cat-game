@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { createRenderVisibility } from "./render-visibility.js";
+import { copyDepthTarget } from "./depth-target-copy.js";
 
 // Keep the exact PCF depth attachment of stationary opaque scenery. Animated
 // casters still render natively into the restored depth buffer on every frame.
@@ -55,12 +56,7 @@ export function createShadowDepthCache(renderer, scene, light, { minTriangles = 
     return mv.elements.every((v,i) => Math.fround(v) === r.modelView[i]);
   }
   function blit(source, destination) {
-    const current = renderer.getRenderTarget();
-    try { renderer.copyTextureToTexture(source, destination); }
-    finally {
-      // Depth copying unbinds both FBOs; native shadow draws need the target back.
-      renderer.setRenderTarget(current);
-    }
+    copyDepthTarget(renderer, source, destination);
     stats.blits++;
   }
   function draw(...args) {
@@ -77,7 +73,7 @@ export function createShadowDepthCache(renderer, scene, light, { minTriangles = 
   function clear(...args) {
     const result = nativeClear.apply(renderer, args);
     if (mode === "reuse" && renderer.getRenderTarget() === depthTarget)
-      blit(target.depthTexture, depthTarget.depthTexture);
+      blit(target, depthTarget);
     return result;
   }
   function bake() {

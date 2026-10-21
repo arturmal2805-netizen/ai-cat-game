@@ -276,6 +276,14 @@ async function localWorker() {
         {
           name: "qa",
           setup(b) {
+            if (process.env.CHICHI_NATIVE_MAP_AUDIT)
+              b.onLoad({ filter: /\/public\/jobcity-system\.js$/ }, () => ({
+                contents: readPublic("jobcity-system.js").replace(
+                  "export function cityClock(state, now = Date.now()) {",
+                  "export function cityClock(state, now = Date.now()) {\n  now = state?.epoch ?? now;",
+                ),
+                loader: "js",
+              }));
             b.onLoad({ filter: /\/public\/world\.js$/ }, () => {
               const source = readPublic("world.js"),
                 marker = "  return {\n    perform,";
@@ -442,6 +450,19 @@ async function localWorker() {
       () => window.__lagoonQA && window.__lagoonSaveQA?.cloud.editable,
     );
 
+    if (process.env.CHICHI_NATIVE_MAP_AUDIT) {
+      const { checkNativeMapFrames } = await import("./check-native-map-frames.mjs");
+      await checkNativeMapFrames(page, review);
+      assert.deepEqual(errors, []); assert.deepEqual(httpErrors, []);
+      return;
+    }
+    if (process.env.CHICHI_RENDER_REGRESSION_AUDIT) {
+      const { checkLiveRenderRegressions } = await import("./check-live-render-regressions.mjs");
+      await checkLiveRenderRegressions(page, review);
+      assert.deepEqual(errors, []);
+      assert.deepEqual(httpErrors, []);
+      return;
+    }
     if (process.env.CHICHI_LIVE_FRAME_AUDIT) {
       const { auditLiveFrames } = await import("./live-frame-audit.mjs");
       await auditLiveFrames(page, review);
