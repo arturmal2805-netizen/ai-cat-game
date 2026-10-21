@@ -167,3 +167,15 @@ test("GPU-only eviction preserves a living cat and its pose slots across repeate
   f.residency.dispose();
   atlas.dispose();
 });
+
+test("repeated colour/shadow draws read the use clock once per native render frame", () => {
+  const f = fixture(), a = new THREE.BoxGeometry();
+  f.renderer.info = { render: { frame: 1 } };
+  for(let i=0;i<1000;i++) f.draw(a);
+  assert.equal(f.residency.stats.clockReads, 1);
+  f.renderer.info.render.frame++;
+  for(let i=0;i<1000;i++) f.draw(a);
+  assert.equal(f.residency.stats.clockReads, 2);
+  assert.equal(f.calls.length, 2000, "every native draw remains intact");
+  f.residency.dispose();
+});

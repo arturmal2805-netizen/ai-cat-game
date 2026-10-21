@@ -27,9 +27,11 @@ export function createGeometryResidency(
   const records = new Map(),
     owners = new Map();
   const native = renderer.renderBufferDirect;
-  const stats = { bytes: 0, geometries: 0, evicted: 0 };
+  const stats = { bytes: 0, geometries: 0, evicted: 0, clockReads: 0 };
   let nextSweep = 0,
-    disposed = false;
+    disposed = false,
+    lastFrame = -1,
+    frameTime = 0;
   function attributes(geometry) {
     return new Set(
       [geometry.index, ...Object.values(geometry.attributes)]
@@ -66,7 +68,18 @@ export function createGeometryResidency(
       }
       stats.geometries = records.size;
     }
-    record.used = clock();
+    const frame = renderer.info?.render.frame;
+    if (Number.isFinite(frame)) {
+      if (frame !== lastFrame) {
+        lastFrame = frame;
+        frameTime = clock();
+        stats.clockReads++;
+      }
+      record.used = frameTime;
+    } else {
+      record.used = clock();
+      stats.clockReads++;
+    }
   }
   function draw(...args) {
     if (!disposed && args[2]?.isBufferGeometry) touch(args[2]);
