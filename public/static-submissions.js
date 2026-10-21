@@ -147,7 +147,13 @@ export function* staticSubmissionSteps(mesh, { force = false } = {}) {
   // there too, avoiding a redundant/wrong batched shader on the first visit.
   Object.defineProperty(mesh, "isBatchedMesh", {
     configurable: true,
-    get: () => enabled && compatible(),
+    get: () => {
+      // Shader preparation reads this before the first draw hook. Finalize a
+      // late native fallback now, so it also prepares the real native shadow
+      // material, not the range-only depth material that rendering discards.
+      if (!compatible()) fallback();
+      return enabled;
+    },
   });
   mesh._matricesTexture = mesh._indirectTexture = mesh._colorsTexture = null;
   mesh._multiDrawStarts = starts;

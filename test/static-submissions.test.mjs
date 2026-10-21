@@ -168,6 +168,9 @@ test("wind and underwater shaders installed after merging retain native renderin
         false,
         "shader precompilation must see native mode before the first render hook",
       );
+      assert.equal(mesh.customDepthMaterial, undefined,
+        "the first shader mode query must also reveal the actual native depth material");
+      assert.equal(disposed, 1);
       const renderer = { extensions: { has: () => true } };
       if (firstPass === "colour") mesh.onBeforeRender(renderer, {}, {});
       else mesh.onBeforeShadow(renderer, mesh, {}, {});

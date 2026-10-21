@@ -1,0 +1,902 @@
+[
+  {
+    "id": "jobcity",
+    "readyMs": 12174,
+    "stale": [
+      {
+        "name": "",
+        "indices": 44064
+      },
+      {
+        "name": "",
+        "indices": 9600
+      },
+      {
+        "name": "",
+        "indices": 74088
+      },
+      {
+        "name": "",
+        "indices": 19008
+      },
+      {
+        "name": "",
+        "indices": 31752
+      },
+      {
+        "name": "",
+        "indices": 38448
+      },
+      {
+        "name": "",
+        "indices": 9600
+      },
+      {
+        "name": "",
+        "indices": 72072
+      },
+      {
+        "name": "",
+        "indices": 44064
+      },
+      {
+        "name": "",
+        "indices": 9600
+      },
+      {
+        "name": "",
+        "indices": 74088
+      },
+      {
+        "name": "",
+        "indices": 44064
+      },
+      {
+        "name": "",
+        "indices": 9600
+      },
+      {
+        "name": "",
+        "indices": 74088
+      },
+      {
+        "name": "",
+        "indices": 44064
+      },
+      {
+        "name": "",
+        "indices": 9600
+      },
+      {
+        "name": "",
+        "indices": 74088
+      },
+      {
+        "name": "",
+        "indices": 24624
+      },
+      {
+        "name": "",
+        "indices": 35280
+      }
+    ],
+    "firstDrawMs": 1149,
+    "programsBefore": 71,
+    "programsAfter": 85,
+    "newPrograms": 14,
+    "logs": [
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 1
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 1
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      }
+    ],
+    "changed": 0,
+    "draw": {
+      "frame": 3,
+      "calls": 299,
+      "triangles": 845953,
+      "points": 320,
+      "lines": 0
+    },
+    "contextLost": false,
+    "error": 0,
+    "dpr": 2
+  },
+  {
+    "id": "aquarium",
+    "readyMs": 1715,
+    "stale": [
+      {
+        "name": "",
+        "indices": 44064
+      },
+      {
+        "name": "",
+        "indices": 9600
+      },
+      {
+        "name": "",
+        "indices": 74088
+      },
+      {
+        "name": "",
+        "indices": 19008
+      },
+      {
+        "name": "",
+        "indices": 31752
+      },
+      {
+        "name": "",
+        "indices": 38448
+      },
+      {
+        "name": "",
+        "indices": 9600
+      },
+      {
+        "name": "",
+        "indices": 72072
+      },
+      {
+        "name": "",
+        "indices": 44064
+      },
+      {
+        "name": "",
+        "indices": 9600
+      },
+      {
+        "name": "",
+        "indices": 74088
+      },
+      {
+        "name": "",
+        "indices": 44064
+      },
+      {
+        "name": "",
+        "indices": 9600
+      },
+      {
+        "name": "",
+        "indices": 74088
+      },
+      {
+        "name": "",
+        "indices": 44064
+      },
+      {
+        "name": "",
+        "indices": 9600
+      },
+      {
+        "name": "",
+        "indices": 74088
+      }
+    ],
+    "firstDrawMs": 1340,
+    "programsBefore": 98,
+    "programsAfter": 112,
+    "newPrograms": 14,
+    "logs": [
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 1
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      }
+    ],
+    "changed": 0,
+    "draw": {
+      "frame": 6,
+      "calls": 215,
+      "triangles": 825587,
+      "points": 320,
+      "lines": 0
+    },
+    "contextLost": false,
+    "error": 0,
+    "dpr": 2
+  },
+  {
+    "id": "summer",
+    "readyMs": 4116,
+    "stale": [
+      {
+        "name": "",
+        "indices": 44064
+      },
+      {
+        "name": "",
+        "indices": 9600
+      },
+      {
+        "name": "",
+        "indices": 74088
+      },
+      {
+        "name": "",
+        "indices": 19008
+      },
+      {
+        "name": "",
+        "indices": 31752
+      },
+      {
+        "name": "",
+        "indices": 38448
+      },
+      {
+        "name": "",
+        "indices": 9600
+      },
+      {
+        "name": "",
+        "indices": 72072
+      },
+      {
+        "name": "",
+        "indices": 44064
+      },
+      {
+        "name": "",
+        "indices": 9600
+      },
+      {
+        "name": "",
+        "indices": 74088
+      },
+      {
+        "name": "",
+        "indices": 44064
+      },
+      {
+        "name": "",
+        "indices": 9600
+      },
+      {
+        "name": "",
+        "indices": 74088
+      },
+      {
+        "name": "",
+        "indices": 44064
+      },
+      {
+        "name": "",
+        "indices": 9600
+      },
+      {
+        "name": "",
+        "indices": 74088
+      },
+      {
+        "name": "",
+        "indices": 44064
+      },
+      {
+        "name": "",
+        "indices": 9600
+      },
+      {
+        "name": "",
+        "indices": 74088
+      },
+      {
+        "name": "",
+        "indices": 31536
+      },
+      {
+        "name": "",
+        "indices": 7104
+      },
+      {
+        "name": "",
+        "indices": 52920
+      },
+      {
+        "name": "",
+        "indices": 25920
+      },
+      {
+        "name": "",
+        "indices": 7104
+      },
+      {
+        "name": "",
+        "indices": 50904
+      },
+      {
+        "name": "",
+        "indices": 31536
+      },
+      {
+        "name": "",
+        "indices": 7104
+      },
+      {
+        "name": "",
+        "indices": 52920
+      }
+    ],
+    "firstDrawMs": 1294,
+    "programsBefore": 120,
+    "programsAfter": 124,
+    "newPrograms": 4,
+    "logs": [
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 1
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      }
+    ],
+    "changed": 0,
+    "draw": {
+      "frame": 9,
+      "calls": 468,
+      "triangles": 2905185,
+      "points": 320,
+      "lines": 0
+    },
+    "contextLost": false,
+    "error": 0,
+    "dpr": 2
+  },
+  {
+    "id": "homestead",
+    "readyMs": 2286,
+    "stale": [
+      {
+        "name": "",
+        "indices": 19008
+      },
+      {
+        "name": "",
+        "indices": 31752
+      },
+      {
+        "name": "",
+        "indices": 38448
+      },
+      {
+        "name": "",
+        "indices": 9600
+      },
+      {
+        "name": "",
+        "indices": 72072
+      },
+      {
+        "name": "",
+        "indices": 44064
+      },
+      {
+        "name": "",
+        "indices": 9600
+      },
+      {
+        "name": "",
+        "indices": 74088
+      },
+      {
+        "name": "",
+        "indices": 44064
+      },
+      {
+        "name": "",
+        "indices": 9600
+      },
+      {
+        "name": "",
+        "indices": 74088
+      },
+      {
+        "name": "",
+        "indices": 44064
+      },
+      {
+        "name": "",
+        "indices": 9600
+      },
+      {
+        "name": "",
+        "indices": 74088
+      }
+    ],
+    "firstDrawMs": 1318,
+    "programsBefore": 130,
+    "programsAfter": 133,
+    "newPrograms": 3,
+    "logs": [
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 1
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getProgramInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      },
+      {
+        "key": "getShaderInfoLog",
+        "ms": 0
+      }
+    ],
+    "changed": 0,
+    "draw": {
+      "frame": 12,
+      "calls": 716,
+      "triangles": 2523105,
+      "points": 0,
+      "lines": 0
+    },
+    "contextLost": false,
+    "error": 0,
+    "dpr": 2
+  }
+]

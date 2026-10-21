@@ -468,6 +468,11 @@ async function localWorker() {
       await checkConsolidatedCamera(page,review);
       assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;
     }
+    if (process.env.CHICHI_WARMUP_MODE_AUDIT) {
+      const {checkWarmupMode}=await import('./check-warmup-mode.mjs');
+      await checkWarmupMode(page,review);
+      assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;
+    }
     if (process.env.CHICHI_CAR_INVENTORY_AUDIT) {
       const { checkCarInventory } = await import("./check-car-inventory.mjs");
       await checkCarInventory(page, review);
