@@ -1,6 +1,7 @@
 import { createShadowDepthCache } from "./shadow-depth-cache.js";
 import {worldRoads,WORLD_ROAD_WIDTH} from './world-roads.js';
 import {captureCatLocations} from './cat-locations.js';
+import {islandCameraFar} from './camera-views.js';
 import {
   HOUSING_ID,
   HOUSING_CENTER,
@@ -314,6 +315,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
     "#include",
     "\n#include",
   );
+  // The large-island overview can move outside the original sky sphere.
+  // Grow only its background shell; ordinary close views retain the exact sky.
+  sky.material.vertexShader=sky.material.vertexShader.replace(
+    "gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);",
+    "gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);gl_Position.z=min(gl_Position.z,gl_Position.w*.999999);",
+  );
   scene.add(sky);
   const cloudGeometry = new THREE.SphereGeometry(1, 12, 8),
     cloudMaterial = new THREE.MeshStandardMaterial({
@@ -451,6 +458,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
     preview = null,
     operation = null,
     disposed = false;
+  const viewDistanceLimit=()=>viewingOverview?overviewDistanceLimit:
+    Math.max(600,islandOverviewDistance(byBiome(focused)?.radius,camera.fov,camera.aspect));
   const chichiCarrier = new THREE.Group();
   chichiCarrier.position.set(-6, 0.14, -3);
   if (initialGame.catPosition) {
@@ -2330,7 +2339,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       camera.fov,
       camera.aspect,
     );
-    camera.far=Math.max(1200,desiredDistance+(byBiome(id).radius||11.65)+60);
+    camera.far=islandCameraFar(desiredDistance,byBiome(id).radius);
     camera.updateProjectionMatrix();
     return id;
   }
@@ -3497,7 +3506,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       desiredDistance = THREE.MathUtils.clamp(
         desiredDistance + delta * 0.025,
         courtCamera ? 10 : 21,
-        viewingOverview ? overviewDistanceLimit : 600,
+        viewDistanceLimit(),
       );
     },
     { passive: false },
@@ -3517,7 +3526,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           desiredDistance = THREE.MathUtils.clamp(
             desiredDistance + (pinchDistance - d) * 0.1,
             courtCamera ? 10 : 21,
-            viewingOverview ? overviewDistanceLimit : 600,
+            viewDistanceLimit(),
           );
         pinchDistance = d;
       }
@@ -3638,12 +3647,18 @@ export function createWorld(container, initialGame, callbacks = {}) {
     if (faceCamera.enabled) faceCamera.facePoint(desiredLook);
     look.lerp(desiredLook, cameraBlend);
     distance += (desiredDistance - distance) * cameraBlend;
+    const neededFar=viewingOverview ? Math.max(4000,overviewDistanceLimit*2) :
+      Math.ceil(islandCameraFar(distance,byBiome(focused)?.radius)/100)*100;
+    if(neededFar>camera.far||neededFar<camera.far-199){
+      camera.far=neededFar;camera.updateProjectionMatrix();
+    }
     camera.position.set(
       look.x + Math.sin(azimuth) * Math.cos(elevation) * distance,
       look.y + Math.sin(elevation) * distance,
       look.z + Math.cos(azimuth) * Math.cos(elevation) * distance,
     );
     camera.lookAt(look);
+    sky.scale.setScalar(Math.max(1,(camera.position.length()+100)/520));
     for (const b of BIOMES) {
       const island = islands.get(b.id),
         close =
@@ -5705,7 +5720,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         : (desiredDistance = THREE.MathUtils.clamp(
             desiredDistance + delta,
             courtCamera ? 10 : 21,
-            viewingOverview ? overviewDistanceLimit : 600,
+            viewDistanceLimit(),
           )),
     beginBuild,
     updateBuild: (mode) => {

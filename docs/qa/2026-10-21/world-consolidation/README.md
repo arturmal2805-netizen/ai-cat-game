@@ -29,14 +29,23 @@ enqueue another exit save. Venue kittens retain their original working/available
 status. Older clients omitting coordinates cannot erase them; each cat's newer
 position merges atomically.
 
-Validation so far: full 664-test suite passed; final focused migration/position
-checks passed eight tests. Private WebKit reloaded 69 cats five times with exact
+Validation: full 664-test suite passed; final focused migration/position/camera
+checks passed thirteen tests. Private WebKit reloaded 69 cats five times with exact
 coordinates. The clean reload test drains the prior save and releases the private
 lease before navigation. The first abrupt run also retained all coordinates, but
 reported WebKit unload/Blob request cancellation errors and is not counted as a
 clean transport pass. Existing durable-outbox/restart tests remain required.
 
-The complete native camera/zoom/return audit and publication are recorded after
-completion. This is a feature/compatibility verification, not a claimed physical
-MacBook FPS gain. All accepted rendering optimizations, DPR, water, lighting,
+The full private native-WebKit audit completed 24 samples across all 20 islands
+plus four returns, with real RAF, orbit/wheel input, GPU backpressure and DPR 2.
+No browser errors or context losses occurred. Raw software-renderer timings are
+in native-map-frames.json; this fixture changes the map, so these are NOT a
+before/after rendering gain or physical MacBook FPS. Final phone overview checks
+cover the large homestead, aquarium, moon, whole-world fit and the first wheel
+step, without snapping to the old 600-unit limit. The aquarium road reaches its
+positive-Z front shore, and no menu/scene node remains for a retired island.
+The distant sky shell now encloses the overview camera; the permanently buried
+rock top under the homestead lawn no longer causes radial depth stripes.
+Publication is CI-gated after the final camera/terrain build. This is a
+feature/compatibility verification, not a claimed physical MacBook FPS gain. All accepted rendering optimizations, DPR, water, lighting,
 foliage, fish/cat geometry and two-cat sleep animations are preserved.

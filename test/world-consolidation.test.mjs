@@ -26,6 +26,7 @@ test('all twenty islands have wide unobstructed shore roads, with no retired nod
  const roads=worldRoads(BIOMES),seen=new Set(['moon']);assert.equal(roads.length,19);assert.ok(WORLD_ROAD_WIDTH>=4.4);
  for(const r of roads){assert.ok(seen.has(r.from));assert.ok(!seen.has(r.to));seen.add(r.to);
   assert.ok(byBiome(r.from)&&byBiome(r.to));assert.notEqual(r.from,'aquarium');
+  if(r.to==='aquarium')assert.ok(r.end.z>byBiome('aquarium').center[1]+25,'cars arrive at the actual front gate');
   assert.ok(Math.hypot(r.start.x-r.end.x,r.start.z-r.end.z)<30);
  }
  assert.equal(seen.size,20);

@@ -463,6 +463,11 @@ async function localWorker() {
       await checkCatLocations(page,review);
       assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;
     }
+    if (process.env.CHICHI_CONSOLIDATED_CAMERA_AUDIT) {
+      const {checkConsolidatedCamera}=await import('./check-consolidated-camera.mjs');
+      await checkConsolidatedCamera(page,review);
+      assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;
+    }
     if (process.env.CHICHI_CAR_INVENTORY_AUDIT) {
       const { checkCarInventory } = await import("./check-car-inventory.mjs");
       await checkCarInventory(page, review);

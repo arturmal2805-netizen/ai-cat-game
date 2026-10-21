@@ -1,4 +1,5 @@
 import * as THREE from "three";
+export const islandCameraFar=(distance,radius)=>Math.max(1200,distance+(radius||12)+60);
 
 // The enclosing sphere fits the entire lawn at every orbit angle, including
 // portrait phones. Padding leaves room for cats and the floating controls.

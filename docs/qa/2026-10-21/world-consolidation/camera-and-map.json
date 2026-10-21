@@ -1,0 +1,98 @@
+{
+  "rows": [
+    {
+      "id": "homestead",
+      "before": {
+        "distance": 1361.5906088550826,
+        "desired": 1361.5907112021184,
+        "far": 1700,
+        "focus": "homestead",
+        "contextLost": false
+      },
+      "after": {
+        "distance": 1361.5907112021184,
+        "desired": 1361.0907112021184
+      }
+    },
+    {
+      "id": "aquarium",
+      "before": {
+        "distance": 239.4663569534559,
+        "desired": 239.45389974291393,
+        "far": 1200,
+        "focus": "aquarium",
+        "contextLost": false
+      },
+      "after": {
+        "distance": 238.9648265290234,
+        "desired": 238.95389974291393
+      }
+    },
+    {
+      "id": "moon",
+      "before": {
+        "distance": 82.80484154904424,
+        "desired": 82.77418756545173,
+        "far": 1200,
+        "focus": "moon",
+        "contextLost": false
+      },
+      "after": {
+        "distance": 82.80484154904424,
+        "desired": 82.27418756545173
+      }
+    },
+    {
+      "id": "world",
+      "distance": 2244.9966703075797,
+      "far": 6183.420029404283,
+      "contextLost": false
+    }
+  ],
+  "live": {
+    "menu": [
+      "moon",
+      "autumn",
+      "winter",
+      "water",
+      "summer",
+      "sakura",
+      "clouds",
+      "stars",
+      "volcano",
+      "candy",
+      "galaxy",
+      "coral",
+      "ice",
+      "clockwork",
+      "foodcourt",
+      "bikini",
+      "homestead",
+      "aquarium",
+      "jobcity",
+      "cat-homes"
+    ],
+    "scene": [
+      "moon",
+      "autumn",
+      "winter",
+      "water",
+      "summer",
+      "sakura",
+      "clouds",
+      "stars",
+      "volcano",
+      "candy",
+      "galaxy",
+      "coral",
+      "ice",
+      "clockwork",
+      "foodcourt",
+      "bikini",
+      "homestead",
+      "aquarium",
+      "jobcity",
+      "cat-homes"
+    ]
+  }
+}

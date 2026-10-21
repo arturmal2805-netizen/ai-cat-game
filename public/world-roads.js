@@ -12,6 +12,9 @@ export function worldRoads(biomes,heightAt=()=>0) {
           start={x:a.center[0]+ux*((a.radius||11.65)-.7),y:.18,z:a.center[1]+uz*((a.radius||11.65)-.7)},
           end={x:b.center[0]-ux*((b.radius||11.65)-.7),y:.18,z:b.center[1]-uz*((b.radius||11.65)-.7)},
           sx=end.x-start.x,sz=end.z-start.z,den=sx*sx+sz*sz;
+        // The aquarium's real visitor gate is on its positive-Z shore. Its
+        // back wall is not a drive-through entrance or a route around tanks.
+        if(b.id==='aquarium' && -dz/length<.75)continue;
         if(biomes.some(c=>{
           if(c===a||c===b)return false;
           const t=Math.max(0,Math.min(1,((c.center[0]-start.x)*sx+(c.center[1]-start.z)*sz)/den));

@@ -60,6 +60,14 @@ export function* homesteadBiomeSteps(
     new THREE.CylinderGeometry(biome.radius, biome.radius * 0.85, 8, 64),
     new THREE.MeshStandardMaterial({ color: biome.edge, roughness: 0.94 }),
   );
+  // The lawn already seals the island. The buried rock top is 1 cm below it:
+  // drawing both produces radial depth stripes in a far overview. Retain every
+  // visible side/bottom vertex and omit only that permanently covered cap.
+  const top=rock.geometry.groups[1], indices=rock.geometry.index.array;
+  rock.geometry.setIndex(new THREE.BufferAttribute(new indices.constructor([
+    ...indices.subarray(0,top.start),...indices.subarray(top.start+top.count),
+  ]),1));
+  rock.geometry.clearGroups();
   rock.position.y = -4.16;
   base.add(rock);
   const underside = new THREE.Mesh(
