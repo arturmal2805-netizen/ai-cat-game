@@ -1,5 +1,6 @@
 import { HOMESTEAD_EXPANSION } from "./public/homestead-expansion.js";
 import {migrateRetiredIsland} from './public/world-migration.js';
+import {mergeCatLocations} from './public/cat-locations.js';
 import { mergeHousing } from "./public/housing-system.js";
 import {
   mergeFamily,
@@ -62,6 +63,7 @@ const guarded = (path) =>
   );
 
 function merge(base, current, incoming, path = "", depth = 0) {
+  if(path==='catLocations')return mergeCatLocations(current,incoming);
   if (depth > 40) throw new SharedConflict("Сохранение слишком сложное.");
   if (path === "family") {
     try {

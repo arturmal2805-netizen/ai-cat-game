@@ -1,5 +1,6 @@
 import { createShadowDepthCache } from "./shadow-depth-cache.js";
 import {worldRoads,WORLD_ROAD_WIDTH} from './world-roads.js';
+import {captureCatLocations} from './cat-locations.js';
 import {
   HOUSING_ID,
   HOUSING_CENTER,
@@ -467,6 +468,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
         0.16 + islandHeight(b.id, p.x, p.z),
         b.center[1] + p.z,
       );
+  }
+  const heroLocation=initialGame.catLocations?.chichi;
+  if(heroLocation){
+    const b=byBiome(heroLocation.biome);
+    if(b){chichiCarrier.position.set(b.center[0]+heroLocation.x,heroLocation.y,b.center[1]+heroLocation.z);
+      chichiCarrier.rotation.y=heroLocation.yaw;}
   }
   let heroGather = null,
     gatherUntil = 0;
@@ -2088,6 +2095,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
         );
         if (dry)
           carrier.position.set(b.center[0] + dry.x, 0.16, b.center[1] + dry.z);
+      }
+      const savedLocation=game.catLocations?.[profile.id];
+      if(savedLocation?.biome===b.id){
+        carrier.position.set(b.center[0]+savedLocation.x,savedLocation.y,b.center[1]+savedLocation.z);
+        carrier.rotation.y=savedLocation.yaw;
       }
       scene.add(carrier);
       npcs.set(profile.id, { carrier, model, profile, index, hatRig });
@@ -5605,6 +5617,14 @@ export function createWorld(container, initialGame, callbacks = {}) {
   }
   return {
     perform,
+    snapshotCatLocations(next,previous=next){
+      const actors=[{id:'chichi',position:chichiCarrier.position,yaw:chichiCarrier.rotation.y,
+        transient:draggingCat?.catId==='chichi'||['ride','swim'].includes(operation?.decision.action)},
+        ...[...npcs].map(([id,n])=>({id,position:n.carrier.position,yaw:n.carrier.rotation.y,
+          transient:draggingCat?.catId===id||!!spa.get(id)||!!chill.get(id)||swimVisits.has(id)||
+            ['ride','swim'].includes(residentPlay.get(id)?.decision?.action)}))];
+      return captureCatLocations(next,previous,actors);
+    },
     followCat,
     inspectJobBusiness: inspectAttraction,
     showCatHome,

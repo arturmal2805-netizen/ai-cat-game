@@ -5,6 +5,7 @@ import {
 } from "./housing-system.js";
 import { HOUSING_ID } from "./housing-data.js";
 import {isRetiredBiome} from './world-layout.js';
+import {normalizeCatLocations} from './cat-locations.js';
 import {
   normalizeJobCity,
   ensureJobCity,
@@ -152,6 +153,7 @@ export function newGame(now = Date.now()) {
     business: newBusiness(),
     catDestinations: {},
     catPosition: null,
+    catLocations: {},
     recentActivities: [],
     cat: {
       location: "home",
@@ -362,6 +364,9 @@ export function loadGame(storage, now = Date.now(), { advance = true } = {}) {
     game.progression = normalizeProgression(saved.progression, game);
     restoreScenery(game, saved.scenery);
     game.care = normalizeCare(saved.care, game, now);
+    game.catLocations=normalizeCatLocations(saved.catLocations,game,now);
+    for(const [id,p] of Object.entries(game.catLocations))
+      if(id!=='chichi')game.catDestinations[id]=p.biome;
     game.recentActivities = cleanRecent(
       saved.recentActivities,
       worldSnapshot(game),

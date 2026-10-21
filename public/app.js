@@ -250,6 +250,7 @@ function toast(message) {
 }
 function persist() {
   if (!cloud.editable || cloud.conflict) return;
+  if(cloud.simulationOwner)game=world?.snapshotCatLocations(game,game)||game;
   const ok = saveGame(storage, game);
   $("save-state").textContent = ok
     ? "Прогресс сохраняется на этом устройстве"
@@ -259,6 +260,7 @@ function persist() {
 function commit(next, syncWorld = true) {
   cloud.assertEditable();
   next = resolveConstructionBoosts(next);
+  if(cloud.simulationOwner)next=world?.snapshotCatLocations(next,game)||next;
   if (!saveGame(storage, next)) {
     $("save-state").textContent =
       "Сохранение не подтверждено. Изменение отменено.";
@@ -2046,9 +2048,15 @@ window.addEventListener("offline", () => {
   cloud.simulationOwner = false;
   cloudStatusChanged("offline");
 });
-window.addEventListener("pagehide", () => cloud.releaseEditor());
+window.addEventListener("pagehide", () => {
+  if(cloud.simulationOwner)persist();
+  cloud.releaseEditor();
+});
 document.addEventListener("visibilitychange", () => {
-  if (document.hidden) cloud.releaseEditor();
+  if (document.hidden) {
+    if(cloud.simulationOwner)persist();
+    cloud.releaseEditor();
+  }
   else syncShared(true);
 });
 window.addEventListener("storage", (event) => {
