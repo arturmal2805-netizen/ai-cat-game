@@ -96,3 +96,29 @@ test("enqueue owns an isolated snapshot, keeps earlier bases and survives restar
     "synchronous write/read-back failure is still detected",
   );
 });
+
+test('owned merge bases survive successive income checkpoints and caller mutations with one new isolated snapshot per enqueue', () => {
+  const map=new Map(), options={storage:{getItem:k=>map.get(k)||null,setItem:(k,v)=>map.set(k,v)},base:'https://private.invalid',cooperative:true,delay:60000,sessionStorage:undefined};
+  const c=new CloudBackup(options), original=newGame(1700000000000);
+  c.localGame=structuredClone(original);
+  c.enqueue({...original,coins:original.coins+1});clearTimeout(c.timer);
+  const base=c.pending.baseGame;
+  const clone=globalThis.structuredClone;let copies=0;
+  globalThis.structuredClone=(...args)=>{copies++;return clone(...args);};
+  try {
+    for(let i=2;i<=20;i++) {
+      const live={...original,coins:original.coins+i,cat:{...original.cat}};
+      c.enqueue(live);clearTimeout(c.timer);
+      live.cat.happiness=0;live.coins=0;
+      assert.equal(c.pending.baseGame,base,'the original merge base is stable');
+      assert.equal(c.pending.game.coins,original.coins+i);
+      assert.equal(c.pending.game.cat.happiness,original.cat.happiness);
+    }
+  } finally {globalThis.structuredClone=clone;}
+  assert.equal(copies,19,'no second whole-world clone for an already-owned base');
+  assert.deepEqual(base,original);
+  const box=JSON.parse(map.get('chichi-cloud-outbox'));
+  assert.deepEqual(box.pending.baseGame,original);
+  const restarted=new CloudBackup(options);
+  assert.deepEqual(restarted.pending,box.pending);
+});

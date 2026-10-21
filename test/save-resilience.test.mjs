@@ -119,3 +119,28 @@ test("reload never repeats daily or hourly rewards", () => {
     g.coins,
   );
 });
+
+test('a successful durable write verifies its old generation once and keeps identical backup bytes without serializing an unused rollback', () => {
+  const s=storage(), old=newGame(now);saveGame(s,old);
+  const encoded=JSON.stringify(old), next={...old,coins:old.coins+5};
+  const parse=JSON.parse,stringify=JSON.stringify;let oldParses=0,oldEncodes=0;
+  JSON.parse=(value,...args)=>{if(value===encoded)oldParses++;return parse(value,...args);};
+  JSON.stringify=(value,...args)=>{if(value?.version===2&&value.coins===old.coins)oldEncodes++;return stringify(value,...args);};
+  try {assert.equal(saveGame(s,next),true);}finally {JSON.parse=parse;JSON.stringify=stringify;}
+  assert.equal(oldParses,1);assert.equal(oldEncodes,0);
+  assert.equal(s.getItem(SAVE_KEY+':backup'),encoded);
+  assert.equal(s.getItem(SAVE_KEY),JSON.stringify(next));
+});
+
+test('a primary changed after validation cannot become a trusted rollback or overwrite the verified backup', () => {
+  const s=storage(), old=newGame(now);saveGame(s,old);let reads=0;
+  const dropping={getItem:k=>{
+    if(k===SAVE_KEY&&++reads===2)s.setItem(k,'{invalid concurrent primary');
+    return s.getItem(k);
+  },setItem:(k,v)=>{
+    if(k!==SAVE_KEY||v===JSON.stringify(old))s.setItem(k,v);
+  }};
+  assert.equal(saveGame(dropping,{...old,coins:old.coins-5}),false);
+  assert.equal(s.getItem(SAVE_KEY),JSON.stringify(old));
+  assert.equal(loadGame(s,now).coins,old.coins);
+});

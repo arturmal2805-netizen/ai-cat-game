@@ -181,3 +181,29 @@ duplicating or resurrecting a building removed on the other device.
 - Offscreen decoration updates may sleep with their detail group; gameplay, active rides, residents, families, work, purchases and save receipts must continue. Base water/waterfalls visible at a distance must retain their original animation. Keep final-camera/shadow-frustum culling and explicit world-space queries correct.
 - Expanding housing navigation uses per-section bounds, preserving exact original footprints and independent two-cat bed seats. Unchanged cloned saves reuse navigation objects; changed plots refresh them. Never cap permanent houses, delete ledger records to save memory, alter balances, or add per-cat AI requests.
 - Compare a private, identical stress fixture against `baseline/capybara-standard` before accepting changes. Record loading, command-frame median/p95, memory/geometry/object counts and real full-resolution images. Software-renderer timings are not Mac/iPhone FPS. Run every-island camera/zoom and return checks plus housing/family/save tests. Reject a reproducible regression; do not trade graphical quality or durable writes for a benchmark number.
+
+### Approved smooth-world template: objects, houses and islands
+
+The user-approved baseline for all future content is now
+`baseline/approved-smooth-world` (released code `9735e35`, documented at
+`4e4f7e4`). Keep `baseline/capybara-standard` as the older rollback/comparison;
+do not use it to discard the subsequently approved improvements.
+
+- Every new object, venue, home and biome must follow the same resource and
+  loading contract: shared immutable geometry/material templates, cooperative
+  preparation for large builds, selected-view priority, exact shader/texture
+  warmup, bounded pending requests and explicit teardown. Preserve original
+  interaction/picking objects and coordinate/save identities. New islands are
+  not exempt because they have unique scenery or NPCs.
+- Continuous effects reuse fixed buffers and clocks; active gameplay and durable
+  state continue when decoration sleeps. Do not reduce anatomy, vegetation,
+  water, animation quality, DPR or shadow quality as a shortcut.
+- Durable saves remain synchronous with write/read-back and the released backup
+  and outbox format. Queue merge bases may reuse only internally owned immutable
+  snapshots. Always clone an incoming live game; never trust/reuse an arbitrary
+  external object or cache serialized bytes across live mutations. Prepare a
+  rollback lazily, but retain the exact verified prior state on every failure.
+- New content and performance changes must pass relevant interaction, ownership,
+  repeated save/reload, camera/return and disposal checks against this approved
+  baseline. Record operation counts and actual images. Keep measured improvements
+  and revert a reproducible regression before publication.

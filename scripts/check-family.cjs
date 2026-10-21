@@ -371,6 +371,14 @@ async function localWorker() {
       .getByRole("button", { name: "Нерухомість", exact: true })
       .click();
     await page.selectOption("#jobcity-cat", "luna");
+    await dialog.getByRole("button", { name: "Нерухомість", exact: true }).click();
+    const housingStatus = await dialog.locator(".housing-ai-status").innerText();
+    assert.match(housingStatus, /Вечірній вибір збережено/);
+    assert.match(housingStatus, /Покупка залишається добровільною/);
+    await page.locator("#cat-life-property").evaluate(el =>
+      el.scrollIntoView({ behavior: "instant", block: "start" }),
+    );
+    await page.screenshot({ path: path.join(review, "housing-status-phone.png") });
     await dialog.getByRole("button", { name: "Сім’я", exact: true }).click();
     assert.equal(
       await dialog.locator(".cat-family-couple .cat-profile-card").count(),
@@ -553,6 +561,7 @@ async function localWorker() {
           aiCalls,
           couples: before.family.couples,
           layout,
+          housingStatus,
           outings,
           sleeping,
           errors,

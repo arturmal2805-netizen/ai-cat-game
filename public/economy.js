@@ -371,10 +371,11 @@ export function loadGame(storage, now = Date.now(), { advance = true } = {}) {
     return newGame(now);
   }
 }
-export function readSavedState(storage) {
+function readSavedRecord(storage) {
   for (const key of [SAVE_KEY, SAVE_KEY + ":backup", SAVE_KEY + ":backup2"])
     try {
-      const saved = JSON.parse(storage.getItem(key) || "null");
+      const encoded = storage.getItem(key),
+        saved = JSON.parse(encoded || "null");
       if (
         saved?.version === 2 &&
         Number.isSafeInteger(saved.coins) &&
@@ -387,23 +388,25 @@ export function readSavedState(storage) {
         housingSnapshotValid(saved.housing) &&
         familySnapshotValid(saved.family)
       )
-        return saved;
+        return { game: saved, encoded };
     } catch {}
   return null;
+}
+export function readSavedState(storage) {
+  return readSavedRecord(storage)?.game || null;
 }
 export function saveGame(storage, game) {
   if (!housingSnapshotValid(game.housing) || !familySnapshotValid(game.family))
     return false;
-  let previous, rollback;
+  let previous, trusted;
   try {
-    const encoded = JSON.stringify(game),
-      trusted = readSavedState(storage);
+    const encoded = JSON.stringify(game);
+    trusted = readSavedRecord(storage);
     previous = storage.getItem(SAVE_KEY);
-    rollback = trusted ? JSON.stringify(trusted) : null;
     if (previous && previous !== encoded) {
       let valid = false;
       try {
-        const p = JSON.parse(previous);
+        const p = trusted?.encoded === previous ? trusted.game : JSON.parse(previous);
         valid =
           p?.version === 2 &&
           Number.isSafeInteger(p.coins) &&
@@ -422,9 +425,11 @@ export function saveGame(storage, game) {
     storage.setItem(SAVE_KEY, encoded);
     if (storage.getItem(SAVE_KEY) === encoded) return true;
   } catch {}
-  if (rollback)
+  if (trusted)
     try {
-      storage.setItem(SAVE_KEY, rollback);
+      // Encode the verified rollback only on failure. Successful purchases
+      // still synchronously write/read back the full game and both backups.
+      storage.setItem(SAVE_KEY, JSON.stringify(trusted.game));
     } catch {}
   return false;
 }

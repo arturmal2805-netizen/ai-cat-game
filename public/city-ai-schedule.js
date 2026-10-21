@@ -1,6 +1,28 @@
 import { cityClock, jobAIState, applyJobPlan } from "./jobcity-system.js";
 import { familyReview, familyPartners, applyFamilyDecisions } from "./family-system.js";
 import { JOB_END, JOB_START } from "./jobcity-data.js";
+import { housingOffers } from "./housing-system.js";
+
+export function cityAIHousingMessage(game, id, status, now = Date.now()) {
+  const state = game.jobCity, cat = state?.profiles[id];
+  if (!cat) return "";
+  const minimum = Math.min(...housingOffers().map(h => h.price));
+  if (cat.coins < minimum)
+    return `До доступного будиночка потрібно ще ${minimum - cat.coins} 🐾. Котик може накопичувати монетки на роботі.`;
+  const clock = cityClock(state, now);
+  if (status?.state === "pending" && status.day === clock.day &&
+      state.eveningAIRequestedDay === clock.day)
+    return "AI вирішує, придбати будиночок чи зачекати. Покупка автоматично з’явиться на острові «Котячі оселі».";
+  if (state.eveningAIAppliedDay === clock.day)
+    return "Вечірній вибір збережено. Наступне рішення про житло — після роботи наступного ігрового дня. Покупка залишається добровільною.";
+  if (state.eveningAIRequestedDay === clock.day)
+    return status?.state === "failed"
+      ? "Вечірній запит AI не завершився. Монетки не списано; наступний вибір житла — після роботи наступного дня."
+      : "Очікуємо збережену відповідь вечірнього AI. Повторної покупки чи списання не буде.";
+  return clock.minute < JOB_END
+    ? "Монеток на будиночок вистачає. AI розглядає покупку після роботи, з 19:00 ігрового часу, коли гра відкрита."
+    : "Монеток на будиночок вистачає. Вечірній вибір AI запуститься в активній грі; придбані будинки з’являться на острові «Котячі оселі».";
+}
 
 // Event markers are saved BEFORE networking. A reload/second device cannot
 // turn the one-second city clock into repeated inference requests.

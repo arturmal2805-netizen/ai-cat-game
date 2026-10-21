@@ -22,6 +22,7 @@ export class CloudBackup {
     this.cooperative = cooperative;
     this.onSnapshot = onSnapshot;
     this.onNotice = onNotice;
+    this.ownedSnapshots = new WeakSet();
     this.localGame = null;
     this.remoteGame = null;
     this.simulationOwner = false;
@@ -117,7 +118,7 @@ export class CloudBackup {
                 sequence: ++this.sequence,
                 clientId: this.clientId,
               };
-              this.localGame = structuredClone(raw);
+              this.localGame = this.captureSnapshot(raw);
               this.dirty = true;
             }
           }
@@ -194,7 +195,7 @@ export class CloudBackup {
         if (this.cooperative && deferInstall) {
           this.remoteGame = structuredClone(data.game);
           this.saveOutbox();
-        } else this.localGame = structuredClone(data.game);
+        } else this.localGame = this.captureSnapshot(data.game);
         return data.game;
       }
       return null;
@@ -205,9 +206,18 @@ export class CloudBackup {
       this.loading = false;
     }
   }
+  captureSnapshot(game) {
+    const snapshot = structuredClone(game);
+    if (snapshot && typeof snapshot === "object") this.ownedSnapshots.add(snapshot);
+    return snapshot;
+  }
   enqueue(game) {
     if (!this.token || !this.editable || this.conflict) return;
-    const snapshot = structuredClone(game);
+    const snapshot = this.captureSnapshot(game),
+      base = this.pending?.baseGame || this.localGame;
+    // These merge bases are already isolated owned copies, never the mutable
+    // live game. Reuse them across queue entries without cloning the world
+    // again on each income/attendance checkpoint.
     this.pending = {
       game: snapshot,
       mutationId: crypto.randomUUID(),
@@ -216,7 +226,7 @@ export class CloudBackup {
         : {}),
       ...(this.cooperative
         ? {
-            baseGame: structuredClone(this.pending?.baseGame || this.localGame),
+            baseGame: base && this.ownedSnapshots.has(base) ? base : this.captureSnapshot(base),
           }
         : {}),
     };
@@ -457,7 +467,7 @@ export class CloudBackup {
     if (!this.remoteGame || this.pending || this.retryEntry) return;
     try {
       if (install(this.remoteGame) === false) return;
-      this.localGame = structuredClone(this.remoteGame);
+      this.localGame = this.captureSnapshot(this.remoteGame);
       this.remoteGame = null;
       this.reconciling = false;
       this.saveOutbox();
@@ -546,7 +556,7 @@ export class CloudBackup {
     this.conflict = false;
     this.pending = null;
     this.retryEntry = null;
-    this.localGame = structuredClone(data.game);
+    this.localGame = this.captureSnapshot(data.game);
     this.remoteGame = null;
     this.reconciling = false;
     this.saveOutbox();

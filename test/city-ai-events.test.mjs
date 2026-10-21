@@ -536,3 +536,21 @@ test('every affordable buyer gets an explicit voluntary buy-or-wait schema with 
   for(const p of Object.values(next.jobCity.profiles))assert.equal(p.coins,10000);
   assert.equal(calls,1,'explicit housing decisions stay in one shared batch');
 });
+
+test('housing status explains the real schedule, affordability, pending receipt and failure without implying a purchase happened', async () => {
+  const {cityAIHousingMessage}=await import('../public/city-ai-schedule.js');
+  let g=await establish();const id=Object.keys(g.jobCity.profiles)[0];g.jobCity.profiles[id].coins=10000;
+  assert.match(cityAIHousingMessage(g,id,null,epoch),/19:00.*гра відкрита/);
+  assert.match(cityAIHousingMessage(g,id,{state:'pending',day:nextCityAIEvent(g,epoch+420000).day},epoch),/19:00.*гра відкрита/,'initial career inference does not imply a housing decision');
+  const now=epoch+420000,event=nextCityAIEvent(g,now);
+  assert.match(cityAIHousingMessage(g,id,null,now),/активній грі/);
+  g=reserveCityAIEvent(g,event);
+  assert.match(cityAIHousingMessage(g,id,{state:'pending',day:event.day},now),/вирішує/);
+  assert.match(cityAIHousingMessage(g,id,{state:'failed',day:event.day},now),/не завершився.*не списано/);
+  const result=await requestCityLife(validateCityAIState(event),async()=>({response:reply(validateCityAIState(event))}));
+  g=applyCityAIEvent(g,event,result);
+  assert.match(cityAIHousingMessage(g,id,null,now),/вибір збережено/);
+  assert.equal(Object.keys(g.housing?.homes||{}).length,0,'the message never buys a house');
+  g.jobCity.profiles[id].coins=500;
+  assert.match(cityAIHousingMessage(g,id,null,now),/ще 1100/);
+});

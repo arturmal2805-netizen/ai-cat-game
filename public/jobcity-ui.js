@@ -1,4 +1,4 @@
-import { cityAIFamilyMessage } from "./city-ai-schedule.js";
+import { cityAIFamilyMessage, cityAIHousingMessage } from "./city-ai-schedule.js";
 import { catProfileCard } from "./cat-card-ui.js";
 import { leisureOffers } from "./leisure-data.js";
 import {
@@ -106,7 +106,8 @@ export function createJobCityUI({
       option.textContent = state.profiles[option.value]?.name || option.value;
     selects.value = selected;
     const p = state.profiles[selected],
-      c = cityClock(state);
+      c = cityClock(state),
+      housingMessage = cityAIHousingMessage(game, selected, getAIStatus());
     clock.textContent = `${familyCalendar(game, c.day).label} · ${c.label} · робочі години 12:00–19:00 · план: ${state.plan?.source === "ai" ? "Cloudflare AI" : state.plan?.source === "pending" ? "місцевий, AI обирає" : "місцевий"}`;
     const key = JSON.stringify([
       selected,
@@ -115,6 +116,7 @@ export function createJobCityUI({
       game.housing,
       game.family,
       getAIStatus(),
+      housingMessage,
     ]);
     if (key === lastKey) return;
     lastKey = key;
@@ -309,6 +311,7 @@ export function createJobCityUI({
     content.append(inventory);
     content = sections.get("property");
     content.append(text("h3", "Нерухомість"));
+    content.append(text("p", housingMessage, "dialog-copy housing-ai-status"));
     const homes = ownedHomes(game, p.id);
     content.append(
       text(

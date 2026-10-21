@@ -1,0 +1,65 @@
+{
+  "baseline": "4e4f7e4",
+  "privateWorld": true,
+  "aiCalls": 0,
+  "rendering": false,
+  "order": "A/B/B/A",
+  "results": [
+    {
+      "variant": "baseline",
+      "samples": 48,
+      "medianMs": 21.100000023841858,
+      "p95Ms": 34.39999997615814,
+      "maxMs": 72.59999999403954,
+      "clones": 96,
+      "writes": 288,
+      "primaryBytes": 146317,
+      "outboxBytes": 439255,
+      "homes": 75,
+      "exactJournal": true,
+      "restart": true
+    },
+    {
+      "variant": "optimized",
+      "samples": 48,
+      "medianMs": 8.200000017881393,
+      "p95Ms": 15.200000017881393,
+      "maxMs": 17.099999994039536,
+      "clones": 48,
+      "writes": 288,
+      "primaryBytes": 146317,
+      "outboxBytes": 439255,
+      "homes": 75,
+      "exactJournal": true,
+      "restart": true
+    },
+    {
+      "variant": "optimized",
+      "samples": 48,
+      "medianMs": 8,
+      "p95Ms": 11.5,
+      "maxMs": 14.300000011920929,
+      "clones": 48,
+      "writes": 288,
+      "primaryBytes": 146317,
+      "outboxBytes": 439255,
+      "homes": 75,
+      "exactJournal": true,
+      "restart": true
+    },
+    {
+      "variant": "baseline",
+      "samples": 48,
+      "medianMs": 10.299999982118607,
+      "p95Ms": 18.80000001192093,
+      "maxMs": 20.200000017881393,
+      "clones": 96,
+      "writes": 288,
+      "primaryBytes": 146317,
+      "outboxBytes": 439255,
+      "homes": 75,
+      "exactJournal": true,
+      "restart": true
+    }
+  ]
+}
