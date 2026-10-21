@@ -1,0 +1,1298 @@
+[
+  {
+    "id": "moon",
+    "repeat": false,
+    "readyMs": 41015,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 131,
+      "calls": 427,
+      "triangles": 686150,
+      "points": 320,
+      "lines": 0
+    },
+    "native": {
+      "frame": 132,
+      "calls": 427,
+      "triangles": 686150,
+      "points": 320,
+      "lines": 0
+    },
+    "sharedPaints": 27,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "frozenCompletion": [
+      {
+        "nativeBlending": true,
+        "times": [
+          208,
+          200,
+          201
+        ],
+        "draw": {
+          "frame": 135,
+          "calls": 427,
+          "triangles": 686150,
+          "points": 320,
+          "lines": 0
+        }
+      },
+      {
+        "nativeBlending": false,
+        "times": [
+          197,
+          207,
+          202
+        ],
+        "draw": {
+          "frame": 138,
+          "calls": 427,
+          "triangles": 686150,
+          "points": 320,
+          "lines": 0
+        }
+      },
+      {
+        "nativeBlending": false,
+        "times": [
+          195,
+          204,
+          191
+        ],
+        "draw": {
+          "frame": 141,
+          "calls": 427,
+          "triangles": 686150,
+          "points": 320,
+          "lines": 0
+        }
+      },
+      {
+        "nativeBlending": true,
+        "times": [
+          286,
+          229,
+          236
+        ],
+        "draw": {
+          "frame": 144,
+          "calls": 427,
+          "triangles": 686150,
+          "points": 320,
+          "lines": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": "autumn",
+    "repeat": false,
+    "readyMs": 11483,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 203,
+      "calls": 122,
+      "triangles": 517100,
+      "points": 420,
+      "lines": 0
+    },
+    "native": {
+      "frame": 204,
+      "calls": 122,
+      "triangles": 517100,
+      "points": 420,
+      "lines": 0
+    },
+    "sharedPaints": 33,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false
+  },
+  {
+    "id": "winter",
+    "repeat": false,
+    "readyMs": 14708,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 279,
+      "calls": 543,
+      "triangles": 1036700,
+      "points": 740,
+      "lines": 0
+    },
+    "native": {
+      "frame": 280,
+      "calls": 543,
+      "triangles": 1036700,
+      "points": 740,
+      "lines": 0
+    },
+    "sharedPaints": 53,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false
+  },
+  {
+    "id": "beach",
+    "repeat": false,
+    "readyMs": 4614,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 303,
+      "calls": 321,
+      "triangles": 639190,
+      "points": 320,
+      "lines": 0
+    },
+    "native": {
+      "frame": 304,
+      "calls": 321,
+      "triangles": 639190,
+      "points": 320,
+      "lines": 0
+    },
+    "sharedPaints": 69,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false
+  },
+  {
+    "id": "water",
+    "repeat": false,
+    "readyMs": 6313,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 339,
+      "calls": 246,
+      "triangles": 878496,
+      "points": 320,
+      "lines": 0
+    },
+    "native": {
+      "frame": 340,
+      "calls": 246,
+      "triangles": 878496,
+      "points": 320,
+      "lines": 0
+    },
+    "sharedPaints": 76,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false
+  },
+  {
+    "id": "summer",
+    "repeat": false,
+    "readyMs": 14378,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 418,
+      "calls": 407,
+      "triangles": 2234256,
+      "points": 320,
+      "lines": 0
+    },
+    "native": {
+      "frame": 419,
+      "calls": 407,
+      "triangles": 2234256,
+      "points": 320,
+      "lines": 0
+    },
+    "sharedPaints": 84,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "frozenCompletion": [
+      {
+        "nativeBlending": true,
+        "times": [
+          828,
+          753,
+          703
+        ],
+        "draw": {
+          "frame": 422,
+          "calls": 407,
+          "triangles": 2234256,
+          "points": 320,
+          "lines": 0
+        }
+      },
+      {
+        "nativeBlending": false,
+        "times": [
+          711,
+          774,
+          738
+        ],
+        "draw": {
+          "frame": 425,
+          "calls": 407,
+          "triangles": 2234256,
+          "points": 320,
+          "lines": 0
+        }
+      },
+      {
+        "nativeBlending": false,
+        "times": [
+          671,
+          711,
+          730
+        ],
+        "draw": {
+          "frame": 428,
+          "calls": 407,
+          "triangles": 2234256,
+          "points": 320,
+          "lines": 0
+        }
+      },
+      {
+        "nativeBlending": true,
+        "times": [
+          609,
+          681,
+          606
+        ],
+        "draw": {
+          "frame": 431,
+          "calls": 407,
+          "triangles": 2234256,
+          "points": 320,
+          "lines": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": "nature",
+    "repeat": false,
+    "readyMs": 4145,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 453,
+      "calls": 184,
+      "triangles": 402268,
+      "points": 320,
+      "lines": 0
+    },
+    "native": {
+      "frame": 454,
+      "calls": 184,
+      "triangles": 402268,
+      "points": 320,
+      "lines": 0
+    },
+    "sharedPaints": 112,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false
+  },
+  {
+    "id": "sakura",
+    "repeat": false,
+    "readyMs": 14176,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 530,
+      "calls": 314,
+      "triangles": 1254568,
+      "points": 740,
+      "lines": 0
+    },
+    "native": {
+      "frame": 531,
+      "calls": 314,
+      "triangles": 1254568,
+      "points": 740,
+      "lines": 0
+    },
+    "sharedPaints": 138,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "frozenCompletion": [
+      {
+        "nativeBlending": true,
+        "times": [
+          472,
+          436,
+          423
+        ],
+        "draw": {
+          "frame": 534,
+          "calls": 314,
+          "triangles": 1254568,
+          "points": 740,
+          "lines": 0
+        }
+      },
+      {
+        "nativeBlending": false,
+        "times": [
+          427,
+          450,
+          416
+        ],
+        "draw": {
+          "frame": 537,
+          "calls": 314,
+          "triangles": 1254568,
+          "points": 740,
+          "lines": 0
+        }
+      },
+      {
+        "nativeBlending": false,
+        "times": [
+          418,
+          463,
+          439
+        ],
+        "draw": {
+          "frame": 540,
+          "calls": 314,
+          "triangles": 1254568,
+          "points": 740,
+          "lines": 0
+        }
+      },
+      {
+        "nativeBlending": true,
+        "times": [
+          460,
+          412,
+          419
+        ],
+        "draw": {
+          "frame": 543,
+          "calls": 314,
+          "triangles": 1254568,
+          "points": 740,
+          "lines": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": "clouds",
+    "repeat": false,
+    "readyMs": 4159,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 572,
+      "calls": 205,
+      "triangles": 383584,
+      "points": 0,
+      "lines": 0
+    },
+    "native": {
+      "frame": 573,
+      "calls": 205,
+      "triangles": 383584,
+      "points": 0,
+      "lines": 0
+    },
+    "sharedPaints": 159,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false
+  },
+  {
+    "id": "desert",
+    "repeat": false,
+    "readyMs": 2133,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 589,
+      "calls": 266,
+      "triangles": 424514,
+      "points": 320,
+      "lines": 0
+    },
+    "native": {
+      "frame": 590,
+      "calls": 266,
+      "triangles": 424514,
+      "points": 320,
+      "lines": 0
+    },
+    "sharedPaints": 175,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false
+  },
+  {
+    "id": "stars",
+    "repeat": false,
+    "readyMs": 1625,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 602,
+      "calls": 255,
+      "triangles": 392604,
+      "points": 320,
+      "lines": 0
+    },
+    "native": {
+      "frame": 603,
+      "calls": 255,
+      "triangles": 392604,
+      "points": 320,
+      "lines": 0
+    },
+    "sharedPaints": 197,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false
+  },
+  {
+    "id": "volcano",
+    "repeat": false,
+    "readyMs": 9441,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 659,
+      "calls": 553,
+      "triangles": 957500,
+      "points": 740,
+      "lines": 0
+    },
+    "native": {
+      "frame": 660,
+      "calls": 553,
+      "triangles": 957500,
+      "points": 740,
+      "lines": 0
+    },
+    "sharedPaints": 217,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false
+  },
+  {
+    "id": "crystal",
+    "repeat": false,
+    "readyMs": 1515,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 671,
+      "calls": 304,
+      "triangles": 466348,
+      "points": 320,
+      "lines": 0
+    },
+    "native": {
+      "frame": 672,
+      "calls": 304,
+      "triangles": 466348,
+      "points": 320,
+      "lines": 0
+    },
+    "sharedPaints": 239,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false
+  },
+  {
+    "id": "candy",
+    "repeat": false,
+    "readyMs": 2009,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 689,
+      "calls": 170,
+      "triangles": 387252,
+      "points": 320,
+      "lines": 0
+    },
+    "native": {
+      "frame": 690,
+      "calls": 170,
+      "triangles": 387252,
+      "points": 320,
+      "lines": 0
+    },
+    "sharedPaints": 267,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false
+  },
+  {
+    "id": "rainbow",
+    "repeat": false,
+    "readyMs": 3018,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 709,
+      "calls": 222,
+      "triangles": 487570,
+      "points": 320,
+      "lines": 0
+    },
+    "native": {
+      "frame": 710,
+      "calls": 222,
+      "triangles": 487570,
+      "points": 320,
+      "lines": 0
+    },
+    "sharedPaints": 294,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false
+  },
+  {
+    "id": "bamboo",
+    "repeat": false,
+    "readyMs": 2637,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 727,
+      "calls": 247,
+      "triangles": 476844,
+      "points": 320,
+      "lines": 0
+    },
+    "native": {
+      "frame": 728,
+      "calls": 247,
+      "triangles": 476844,
+      "points": 320,
+      "lines": 0
+    },
+    "sharedPaints": 315,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false
+  },
+  {
+    "id": "mushrooms",
+    "repeat": false,
+    "readyMs": 5857,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 757,
+      "calls": 294,
+      "triangles": 511292,
+      "points": 320,
+      "lines": 0
+    },
+    "native": {
+      "frame": 758,
+      "calls": 294,
+      "triangles": 511292,
+      "points": 320,
+      "lines": 0
+    },
+    "sharedPaints": 338,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false
+  },
+  {
+    "id": "galaxy",
+    "repeat": false,
+    "readyMs": 13188,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 821,
+      "calls": 439,
+      "triangles": 1059156,
+      "points": 740,
+      "lines": 0
+    },
+    "native": {
+      "frame": 822,
+      "calls": 439,
+      "triangles": 1059156,
+      "points": 740,
+      "lines": 0
+    },
+    "sharedPaints": 360,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false
+  },
+  {
+    "id": "coral",
+    "repeat": false,
+    "readyMs": 7021,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 840,
+      "calls": 154,
+      "triangles": 466132,
+      "points": 320,
+      "lines": 0
+    },
+    "native": {
+      "frame": 841,
+      "calls": 154,
+      "triangles": 466132,
+      "points": 320,
+      "lines": 0
+    },
+    "sharedPaints": 376,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false
+  },
+  {
+    "id": "lotus",
+    "repeat": false,
+    "readyMs": 5544,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 864,
+      "calls": 159,
+      "triangles": 438076,
+      "points": 320,
+      "lines": 0
+    },
+    "native": {
+      "frame": 865,
+      "calls": 159,
+      "triangles": 438076,
+      "points": 320,
+      "lines": 0
+    },
+    "sharedPaints": 397,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false
+  },
+  {
+    "id": "ice",
+    "repeat": false,
+    "readyMs": 8308,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 912,
+      "calls": 772,
+      "triangles": 1009592,
+      "points": 740,
+      "lines": 0
+    },
+    "native": {
+      "frame": 913,
+      "calls": 772,
+      "triangles": 1009592,
+      "points": 740,
+      "lines": 0
+    },
+    "sharedPaints": 418,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false
+  },
+  {
+    "id": "clockwork",
+    "repeat": false,
+    "readyMs": 27569,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 1014,
+      "calls": 774,
+      "triangles": 2471584,
+      "points": 420,
+      "lines": 0
+    },
+    "native": {
+      "frame": 1015,
+      "calls": 774,
+      "triangles": 2471584,
+      "points": 420,
+      "lines": 0
+    },
+    "sharedPaints": 451,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false
+  },
+  {
+    "id": "dusk",
+    "repeat": false,
+    "readyMs": 4070,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 1040,
+      "calls": 217,
+      "triangles": 475298,
+      "points": 320,
+      "lines": 0
+    },
+    "native": {
+      "frame": 1041,
+      "calls": 217,
+      "triangles": 475298,
+      "points": 320,
+      "lines": 0
+    },
+    "sharedPaints": 479,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false
+  },
+  {
+    "id": "aquapark",
+    "repeat": false,
+    "readyMs": 5892,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 1073,
+      "calls": 286,
+      "triangles": 812404,
+      "points": 420,
+      "lines": 0
+    },
+    "native": {
+      "frame": 1074,
+      "calls": 286,
+      "triangles": 812404,
+      "points": 420,
+      "lines": 0
+    },
+    "sharedPaints": 485,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false
+  },
+  {
+    "id": "foodcourt",
+    "repeat": false,
+    "readyMs": 14848,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 1123,
+      "calls": 188,
+      "triangles": 722728,
+      "points": 0,
+      "lines": 0
+    },
+    "native": {
+      "frame": 1124,
+      "calls": 188,
+      "triangles": 722728,
+      "points": 0,
+      "lines": 0
+    },
+    "sharedPaints": 491,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false
+  },
+  {
+    "id": "bikini",
+    "repeat": false,
+    "readyMs": 13035,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 1173,
+      "calls": 163,
+      "triangles": 694912,
+      "points": 0,
+      "lines": 0
+    },
+    "native": {
+      "frame": 1174,
+      "calls": 163,
+      "triangles": 694912,
+      "points": 0,
+      "lines": 0
+    },
+    "sharedPaints": 497,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false
+  },
+  {
+    "id": "homestead",
+    "repeat": false,
+    "readyMs": 14356,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 1192,
+      "calls": 465,
+      "triangles": 2176417,
+      "points": 0,
+      "lines": 0
+    },
+    "native": {
+      "frame": 1193,
+      "calls": 465,
+      "triangles": 2176417,
+      "points": 0,
+      "lines": 0
+    },
+    "sharedPaints": 497,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "frozenCompletion": [
+      {
+        "nativeBlending": true,
+        "times": [
+          991,
+          682,
+          741
+        ],
+        "draw": {
+          "frame": 1196,
+          "calls": 465,
+          "triangles": 2176417,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      {
+        "nativeBlending": false,
+        "times": [
+          837,
+          918,
+          756
+        ],
+        "draw": {
+          "frame": 1199,
+          "calls": 465,
+          "triangles": 2176417,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      {
+        "nativeBlending": false,
+        "times": [
+          633,
+          513,
+          494
+        ],
+        "draw": {
+          "frame": 1202,
+          "calls": 465,
+          "triangles": 2176417,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      {
+        "nativeBlending": true,
+        "times": [
+          552,
+          507,
+          536
+        ],
+        "draw": {
+          "frame": 1205,
+          "calls": 465,
+          "triangles": 2176417,
+          "points": 0,
+          "lines": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": "aquarium",
+    "repeat": false,
+    "readyMs": 22390,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 1243,
+      "calls": 169,
+      "triangles": 1706524,
+      "points": 0,
+      "lines": 0
+    },
+    "native": {
+      "frame": 1244,
+      "calls": 169,
+      "triangles": 1706524,
+      "points": 0,
+      "lines": 0
+    },
+    "sharedPaints": 497,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "frozenCompletion": [
+      {
+        "nativeBlending": true,
+        "times": [
+          1155,
+          1066,
+          1048
+        ],
+        "draw": {
+          "frame": 1247,
+          "calls": 169,
+          "triangles": 1706524,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      {
+        "nativeBlending": false,
+        "times": [
+          723,
+          580,
+          598
+        ],
+        "draw": {
+          "frame": 1250,
+          "calls": 169,
+          "triangles": 1706524,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      {
+        "nativeBlending": false,
+        "times": [
+          542,
+          498,
+          922
+        ],
+        "draw": {
+          "frame": 1253,
+          "calls": 169,
+          "triangles": 1706524,
+          "points": 0,
+          "lines": 0
+        }
+      },
+      {
+        "nativeBlending": true,
+        "times": [
+          661,
+          564,
+          552
+        ],
+        "draw": {
+          "frame": 1256,
+          "calls": 169,
+          "triangles": 1706524,
+          "points": 0,
+          "lines": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": "jobcity",
+    "repeat": false,
+    "readyMs": 25663,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 1294,
+      "calls": 110,
+      "triangles": 944509,
+      "points": 0,
+      "lines": 0
+    },
+    "native": {
+      "frame": 1295,
+      "calls": 110,
+      "triangles": 944509,
+      "points": 0,
+      "lines": 0
+    },
+    "sharedPaints": 497,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false
+  },
+  {
+    "id": "cat-homes",
+    "repeat": false,
+    "readyMs": 1347,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 1301,
+      "calls": 22,
+      "triangles": 113920,
+      "points": 0,
+      "lines": 0
+    },
+    "native": {
+      "frame": 1302,
+      "calls": 22,
+      "triangles": 113920,
+      "points": 0,
+      "lines": 0
+    },
+    "sharedPaints": 497,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false
+  },
+  {
+    "id": "summer",
+    "repeat": true,
+    "readyMs": 1973,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 1306,
+      "calls": 411,
+      "triangles": 2237664,
+      "points": 320,
+      "lines": 0
+    },
+    "native": {
+      "frame": 1307,
+      "calls": 411,
+      "triangles": 2237664,
+      "points": 320,
+      "lines": 0
+    },
+    "sharedPaints": 497,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false
+  },
+  {
+    "id": "aquarium",
+    "repeat": true,
+    "readyMs": 2107,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 1312,
+      "calls": 165,
+      "triangles": 1791482,
+      "points": 0,
+      "lines": 0
+    },
+    "native": {
+      "frame": 1313,
+      "calls": 165,
+      "triangles": 1791482,
+      "points": 0,
+      "lines": 0
+    },
+    "sharedPaints": 497,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false
+  },
+  {
+    "id": "homestead",
+    "repeat": true,
+    "readyMs": 1931,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 1317,
+      "calls": 465,
+      "triangles": 2180991,
+      "points": 0,
+      "lines": 0
+    },
+    "native": {
+      "frame": 1318,
+      "calls": 465,
+      "triangles": 2180991,
+      "points": 0,
+      "lines": 0
+    },
+    "sharedPaints": 497,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false
+  },
+  {
+    "id": "sakura",
+    "repeat": true,
+    "readyMs": 2257,
+    "changed": 0,
+    "max": 0,
+    "fast": {
+      "frame": 1323,
+      "calls": 307,
+      "triangles": 1237888,
+      "points": 740,
+      "lines": 0
+    },
+    "native": {
+      "frame": 1324,
+      "calls": 307,
+      "triangles": 1237888,
+      "points": 740,
+      "lines": 0
+    },
+    "sharedPaints": 497,
+    "error": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false
+  }
+]

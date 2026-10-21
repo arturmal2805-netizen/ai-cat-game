@@ -1,0 +1,59 @@
+{
+  "control": "273d6e53488d02f76af049beecbcf18ab85e99e1",
+  "fiveChangeCandidate": "69a05aa",
+  "retainedChanges": [
+    "query-free depth-only GPU copy",
+    "native BasicDepthPacking preparation",
+    "cached content dimensions for HUD projection"
+  ],
+  "rejected": [
+    "alpha-one scenery blend bypass: no stable live-frame benefit; arbitrary preview clones also change opacity outside fadeScenery",
+    "cross-material native preparation reuse: fewer preparations but no stable live-camera gain; core median submitted-FPS ratio 0.983, not promoted"
+  ],
+  "profile": {
+    "type": "isolated causal Chromium CPU profile; not a matched FPS benchmark",
+    "depthCopyGetParameterMsBefore": 2223.0,
+    "depthCopyGetParameterMsAfter": 0.0,
+    "getProgramInfoLogMsBefore": 2013.8,
+    "getProgramInfoLogMsAfter": 1981.7
+  },
+  "imageProof": {
+    "islands": 30,
+    "repeatVisits": 4,
+    "changedBytes": 0,
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "source": "five-change candidate; the blend bypass was subsequently removed"
+  },
+  "shadowDepth": {
+    "cases": 8,
+    "changedBytes": 0,
+    "glError": 0
+  },
+  "limitations": [
+    "Linux software WebKit/Chromium, not a physical MacBook/iPhone",
+    "No uniform map-wide FPS improvement established by the five-change trial",
+    "Default software-thread all-island runs and LP_NUM_THREADS=4 core runs are separate experiments; do not compare their absolute FPS",
+    "The eight-row core control finished rendering, but the final test assertion recorded one local Wrangler ProxyWorker PUT network-connection-lost/HTTP 500; not a clean transport-test pass"
+  ],
+  "intermediateFourChangeSource": "78ea5afdb1fd26c51dd01534151104ec625319bf",
+  "retainedRuntime": "final three-change source; see publication.json after release",
+  "intermediateUnitCi": {
+    "run": 39605004782,
+    "passed": 651,
+    "failed": 0,
+    "build": "passed",
+    "workerDryRun": "passed",
+    "published": false
+  },
+  "focusedFinal": {
+    "passed": 15,
+    "failed": 0
+  },
+  "unitCi": {
+    "status": "pending final source"
+  }
+}

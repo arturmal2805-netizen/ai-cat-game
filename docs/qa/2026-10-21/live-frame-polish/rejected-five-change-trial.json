@@ -1,0 +1,1634 @@
+[
+  {
+    "id": "moon",
+    "repeat": false,
+    "readyMs": 38881,
+    "elapsed": 6129,
+    "frames": 18,
+    "submittedFps": 2.9368575624082234,
+    "completedFpsLowerBound": 2.7736988089411,
+    "pending": 1,
+    "gapMedian": 311,
+    "gapP95": 512,
+    "renderCpuMedian": 165,
+    "renderCpuMax": 411,
+    "orbitRange": 0.18983490615350582,
+    "zoomRange": 15.819575512792156,
+    "draw": {
+      "frame": 139,
+      "calls": 403,
+      "triangles": 616770,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 15,
+      "reflected": 35,
+      "compiled": 90,
+      "reused": 181,
+      "shared": 83,
+      "textures": 7
+    },
+    "memory": {
+      "geometries": 292,
+      "textures": 23
+    },
+    "geometryResidency": {
+      "bytes": 26610736,
+      "geometries": 292,
+      "evicted": 0
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "autumn",
+    "repeat": false,
+    "readyMs": 14081,
+    "elapsed": 6069,
+    "frames": 21,
+    "submittedFps": 3.4602076124567476,
+    "completedFpsLowerBound": 3.4602076124567476,
+    "pending": 0,
+    "gapMedian": 271,
+    "gapP95": 462,
+    "renderCpuMedian": 99,
+    "renderCpuMax": 207,
+    "orbitRange": 0.19126543364409845,
+    "zoomRange": 15.938786137008208,
+    "draw": {
+      "frame": 218,
+      "calls": 115,
+      "triangles": 443152,
+      "points": 420,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 21,
+      "reflected": 46,
+      "compiled": 160,
+      "reused": 261,
+      "shared": 117,
+      "textures": 8
+    },
+    "memory": {
+      "geometries": 383,
+      "textures": 22
+    },
+    "geometryResidency": {
+      "bytes": 48063362,
+      "geometries": 383,
+      "evicted": 0
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "winter",
+    "repeat": false,
+    "readyMs": 11206,
+    "elapsed": 6109,
+    "frames": 17,
+    "submittedFps": 2.7827795056474054,
+    "completedFpsLowerBound": 2.619086593550499,
+    "pending": 1,
+    "gapMedian": 361,
+    "gapP95": 510,
+    "renderCpuMedian": 152,
+    "renderCpuMax": 378,
+    "orbitRange": 0.1840112672429276,
+    "zoomRange": 15.334272270243957,
+    "draw": {
+      "frame": 289,
+      "calls": 534,
+      "triangles": 868772,
+      "points": 740,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 32,
+      "reflected": 48,
+      "compiled": 256,
+      "reused": 925,
+      "shared": 365,
+      "textures": 8
+    },
+    "memory": {
+      "geometries": 608,
+      "textures": 24
+    },
+    "geometryResidency": {
+      "bytes": 78950246,
+      "geometries": 608,
+      "evicted": 0
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "beach",
+    "repeat": false,
+    "readyMs": 3148,
+    "elapsed": 6167,
+    "frames": 24,
+    "submittedFps": 3.8916815307280688,
+    "completedFpsLowerBound": 3.8916815307280688,
+    "pending": 0,
+    "gapMedian": 251,
+    "gapP95": 375,
+    "renderCpuMedian": 126,
+    "renderCpuMax": 263,
+    "orbitRange": 0.18984827351474595,
+    "zoomRange": 15.82068945956216,
+    "draw": {
+      "frame": 331,
+      "calls": 303,
+      "triangles": 559489,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 35,
+      "reflected": 48,
+      "compiled": 286,
+      "reused": 1019,
+      "shared": 423,
+      "textures": 8
+    },
+    "memory": {
+      "geometries": 674,
+      "textures": 26
+    },
+    "geometryResidency": {
+      "bytes": 89513174,
+      "geometries": 674,
+      "evicted": 0
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "water",
+    "repeat": false,
+    "readyMs": 11172,
+    "elapsed": 6101,
+    "frames": 14,
+    "submittedFps": 2.2947057859367317,
+    "completedFpsLowerBound": 2.1307982297983936,
+    "pending": 1,
+    "gapMedian": 425,
+    "gapP95": 623,
+    "renderCpuMedian": 167,
+    "renderCpuMax": 222,
+    "orbitRange": 0.19016885575583514,
+    "zoomRange": 15.847404646319603,
+    "draw": {
+      "frame": 396,
+      "calls": 246,
+      "triangles": 876371,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 40,
+      "reflected": 57,
+      "compiled": 361,
+      "reused": 1124,
+      "shared": 460,
+      "textures": 10
+    },
+    "memory": {
+      "geometries": 726,
+      "textures": 27
+    },
+    "geometryResidency": {
+      "bytes": 102237346,
+      "geometries": 726,
+      "evicted": 0
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "summer",
+    "repeat": false,
+    "readyMs": 23264,
+    "elapsed": 6599,
+    "frames": 7,
+    "submittedFps": 1.0607667828458858,
+    "completedFpsLowerBound": 0.7576905591756327,
+    "pending": 2,
+    "gapMedian": 921,
+    "gapP95": 1343,
+    "renderCpuMedian": 412,
+    "renderCpuMax": 837,
+    "orbitRange": 0.17199849980564405,
+    "zoomRange": 14.333208317136993,
+    "draw": {
+      "frame": 499,
+      "calls": 374,
+      "triangles": 1922652,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 2,
+      "prepared": 50,
+      "reflected": 64,
+      "compiled": 489,
+      "reused": 1313,
+      "shared": 611,
+      "textures": 10
+    },
+    "memory": {
+      "geometries": 937,
+      "textures": 23
+    },
+    "geometryResidency": {
+      "bytes": 141107954,
+      "geometries": 937,
+      "evicted": 0
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "nature",
+    "repeat": false,
+    "readyMs": 8668,
+    "elapsed": 6210,
+    "frames": 13,
+    "submittedFps": 2.0933977455716586,
+    "completedFpsLowerBound": 1.932367149758454,
+    "pending": 1,
+    "gapMedian": 380,
+    "gapP95": 1274,
+    "renderCpuMedian": 169,
+    "renderCpuMax": 745,
+    "orbitRange": 0.19043427646243713,
+    "zoomRange": 15.869523038536428,
+    "draw": {
+      "frame": 542,
+      "calls": 194,
+      "triangles": 409936,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 53,
+      "reflected": 64,
+      "compiled": 509,
+      "reused": 1419,
+      "shared": 687,
+      "textures": 10
+    },
+    "memory": {
+      "geometries": 1016,
+      "textures": 27
+    },
+    "geometryResidency": {
+      "bytes": 151808014,
+      "geometries": 1016,
+      "evicted": 0
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "sakura",
+    "repeat": false,
+    "readyMs": 19114,
+    "elapsed": 6472,
+    "frames": 11,
+    "submittedFps": 1.6996291718170582,
+    "completedFpsLowerBound": 1.5451174289245984,
+    "pending": 1,
+    "gapMedian": 554,
+    "gapP95": 840,
+    "renderCpuMedian": 252,
+    "renderCpuMax": 455,
+    "orbitRange": 0.19038088943802373,
+    "zoomRange": 15.865074119835313,
+    "draw": {
+      "frame": 652,
+      "calls": 302,
+      "triangles": 1243036,
+      "points": 740,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 68,
+      "reflected": 67,
+      "compiled": 572,
+      "reused": 1615,
+      "shared": 765,
+      "textures": 11
+    },
+    "memory": {
+      "geometries": 1094,
+      "textures": 28
+    },
+    "geometryResidency": {
+      "bytes": 191548746,
+      "geometries": 1094,
+      "evicted": 0
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "clouds",
+    "repeat": false,
+    "readyMs": 5238,
+    "elapsed": 6006,
+    "frames": 26,
+    "submittedFps": 4.329004329004329,
+    "completedFpsLowerBound": 4.162504162504162,
+    "pending": 1,
+    "gapMedian": 219,
+    "gapP95": 309,
+    "renderCpuMedian": 112,
+    "renderCpuMax": 152,
+    "orbitRange": 0.19122673700909842,
+    "zoomRange": 15.935561417424864,
+    "draw": {
+      "frame": 708,
+      "calls": 241,
+      "triangles": 451876,
+      "points": 0,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 91,
+      "reflected": 71,
+      "compiled": 613,
+      "reused": 1722,
+      "shared": 842,
+      "textures": 11
+    },
+    "memory": {
+      "geometries": 1418,
+      "textures": 64
+    },
+    "geometryResidency": {
+      "bytes": 200631198,
+      "geometries": 1418,
+      "evicted": 25
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "desert",
+    "repeat": false,
+    "readyMs": 3887,
+    "elapsed": 6188,
+    "frames": 22,
+    "submittedFps": 3.555268261150614,
+    "completedFpsLowerBound": 3.3936651583710407,
+    "pending": 1,
+    "gapMedian": 254,
+    "gapP95": 473,
+    "renderCpuMedian": 120,
+    "renderCpuMax": 474,
+    "orbitRange": 0.191832854320854,
+    "zoomRange": 15.986071193404499,
+    "draw": {
+      "frame": 750,
+      "calls": 281,
+      "triangles": 445086,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 93,
+      "reflected": 71,
+      "compiled": 642,
+      "reused": 1815,
+      "shared": 899,
+      "textures": 11
+    },
+    "memory": {
+      "geometries": 1366,
+      "textures": 64
+    },
+    "geometryResidency": {
+      "bytes": 200623590,
+      "geometries": 1366,
+      "evicted": 124
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "stars",
+    "repeat": false,
+    "readyMs": 3132,
+    "elapsed": 6002,
+    "frames": 24,
+    "submittedFps": 3.9986671109630123,
+    "completedFpsLowerBound": 3.9986671109630123,
+    "pending": 0,
+    "gapMedian": 210,
+    "gapP95": 402,
+    "renderCpuMedian": 90,
+    "renderCpuMax": 315,
+    "orbitRange": 0.19100901375736345,
+    "zoomRange": 15.917417813113616,
+    "draw": {
+      "frame": 789,
+      "calls": 246,
+      "triangles": 347880,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 94,
+      "reflected": 71,
+      "compiled": 659,
+      "reused": 1908,
+      "shared": 962,
+      "textures": 11
+    },
+    "memory": {
+      "geometries": 1396,
+      "textures": 64
+    },
+    "geometryResidency": {
+      "bytes": 201315762,
+      "geometries": 1396,
+      "evicted": 195
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "volcano",
+    "repeat": false,
+    "readyMs": 9854,
+    "elapsed": 6843,
+    "frames": 14,
+    "submittedFps": 2.0458863071752154,
+    "completedFpsLowerBound": 1.8997515709484145,
+    "pending": 1,
+    "gapMedian": 342,
+    "gapP95": 1047,
+    "renderCpuMedian": 211,
+    "renderCpuMax": 661,
+    "orbitRange": 0.18612551377971767,
+    "zoomRange": 15.684767854228696,
+    "draw": {
+      "frame": 863,
+      "calls": 491,
+      "triangles": 792584,
+      "points": 740,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 100,
+      "reflected": 71,
+      "compiled": 747,
+      "reused": 2237,
+      "shared": 1061,
+      "textures": 11
+    },
+    "memory": {
+      "geometries": 1315,
+      "textures": 64
+    },
+    "geometryResidency": {
+      "bytes": 190967374,
+      "geometries": 1315,
+      "evicted": 360
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "crystal",
+    "repeat": false,
+    "readyMs": 3056,
+    "elapsed": 6110,
+    "frames": 27,
+    "submittedFps": 4.4189852700491,
+    "completedFpsLowerBound": 4.25531914893617,
+    "pending": 1,
+    "gapMedian": 210,
+    "gapP95": 410,
+    "renderCpuMedian": 115,
+    "renderCpuMax": 318,
+    "orbitRange": 0.19188779423130134,
+    "zoomRange": 15.99064951927511,
+    "draw": {
+      "frame": 908,
+      "calls": 315,
+      "triangles": 471348,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 101,
+      "reflected": 71,
+      "compiled": 764,
+      "reused": 2338,
+      "shared": 1124,
+      "textures": 11
+    },
+    "memory": {
+      "geometries": 1382,
+      "textures": 64
+    },
+    "geometryResidency": {
+      "bytes": 198854298,
+      "geometries": 1382,
+      "evicted": 360
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "candy",
+    "repeat": false,
+    "readyMs": 2086,
+    "elapsed": 6006,
+    "frames": 16,
+    "submittedFps": 2.664002664002664,
+    "completedFpsLowerBound": 2.664002664002664,
+    "pending": 0,
+    "gapMedian": 293,
+    "gapP95": 884,
+    "renderCpuMedian": 141,
+    "renderCpuMax": 264,
+    "orbitRange": 0.18856935774446132,
+    "zoomRange": 15.714113145371769,
+    "draw": {
+      "frame": 936,
+      "calls": 169,
+      "triangles": 349786,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 105,
+      "reflected": 71,
+      "compiled": 782,
+      "reused": 2447,
+      "shared": 1203,
+      "textures": 11
+    },
+    "memory": {
+      "geometries": 1477,
+      "textures": 65
+    },
+    "geometryResidency": {
+      "bytes": 201097594,
+      "geometries": 1477,
+      "evicted": 368
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "rainbow",
+    "repeat": false,
+    "readyMs": 4905,
+    "elapsed": 6171,
+    "frames": 15,
+    "submittedFps": 2.430724355858046,
+    "completedFpsLowerBound": 2.430724355858046,
+    "pending": 0,
+    "gapMedian": 361,
+    "gapP95": 1003,
+    "renderCpuMedian": 158,
+    "renderCpuMax": 378,
+    "orbitRange": 0.18978326676934199,
+    "zoomRange": 15.81527223077849,
+    "draw": {
+      "frame": 968,
+      "calls": 197,
+      "triangles": 391425,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 110,
+      "reflected": 71,
+      "compiled": 801,
+      "reused": 2555,
+      "shared": 1281,
+      "textures": 11
+    },
+    "memory": {
+      "geometries": 1433,
+      "textures": 63
+    },
+    "geometryResidency": {
+      "bytes": 202901902,
+      "geometries": 1433,
+      "evicted": 523
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "bamboo",
+    "repeat": false,
+    "readyMs": 14381,
+    "elapsed": 6038,
+    "frames": 28,
+    "submittedFps": 4.637297118251077,
+    "completedFpsLowerBound": 4.471679364027824,
+    "pending": 1,
+    "gapMedian": 209,
+    "gapP95": 260,
+    "renderCpuMedian": 112,
+    "renderCpuMax": 262,
+    "orbitRange": 0.1912041277269494,
+    "zoomRange": 15.9336773105791,
+    "draw": {
+      "frame": 1032,
+      "calls": 256,
+      "triangles": 441424,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 112,
+      "reflected": 71,
+      "compiled": 820,
+      "reused": 2654,
+      "shared": 1342,
+      "textures": 11
+    },
+    "memory": {
+      "geometries": 1511,
+      "textures": 65
+    },
+    "geometryResidency": {
+      "bytes": 193667394,
+      "geometries": 1511,
+      "evicted": 548
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "mushrooms",
+    "repeat": false,
+    "readyMs": 3384,
+    "elapsed": 6179,
+    "frames": 22,
+    "submittedFps": 3.560446674219129,
+    "completedFpsLowerBound": 3.3986081890273505,
+    "pending": 1,
+    "gapMedian": 245,
+    "gapP95": 415,
+    "renderCpuMedian": 114,
+    "renderCpuMax": 453,
+    "orbitRange": 0.19084743077251515,
+    "zoomRange": 15.903952564376254,
+    "draw": {
+      "frame": 1075,
+      "calls": 515,
+      "triangles": 579888,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 113,
+      "reflected": 71,
+      "compiled": 839,
+      "reused": 2757,
+      "shared": 1405,
+      "textures": 11
+    },
+    "memory": {
+      "geometries": 1551,
+      "textures": 65
+    },
+    "geometryResidency": {
+      "bytes": 199572810,
+      "geometries": 1551,
+      "evicted": 548
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "galaxy",
+    "repeat": false,
+    "readyMs": 9944,
+    "elapsed": 6019,
+    "frames": 15,
+    "submittedFps": 2.492108323641801,
+    "completedFpsLowerBound": 2.3259677687323475,
+    "pending": 1,
+    "gapMedian": 366,
+    "gapP95": 652,
+    "renderCpuMedian": 179,
+    "renderCpuMax": 251,
+    "orbitRange": 0.18954076275960532,
+    "zoomRange": 15.795063563300431,
+    "draw": {
+      "frame": 1159,
+      "calls": 439,
+      "triangles": 1059156,
+      "points": 740,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 119,
+      "reflected": 72,
+      "compiled": 921,
+      "reused": 3044,
+      "shared": 1567,
+      "textures": 11
+    },
+    "memory": {
+      "geometries": 1531,
+      "textures": 65
+    },
+    "geometryResidency": {
+      "bytes": 201242370,
+      "geometries": 1531,
+      "evicted": 722
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "coral",
+    "repeat": false,
+    "readyMs": 3721,
+    "elapsed": 6121,
+    "frames": 31,
+    "submittedFps": 5.064531939225617,
+    "completedFpsLowerBound": 4.901159941186081,
+    "pending": 1,
+    "gapMedian": 183,
+    "gapP95": 307,
+    "renderCpuMedian": 93,
+    "renderCpuMax": 296,
+    "orbitRange": 0.19189789187768025,
+    "zoomRange": 15.991490989806692,
+    "draw": {
+      "frame": 1213,
+      "calls": 154,
+      "triangles": 466132,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 121,
+      "reflected": 72,
+      "compiled": 950,
+      "reused": 3137,
+      "shared": 1624,
+      "textures": 11
+    },
+    "memory": {
+      "geometries": 1502,
+      "textures": 65
+    },
+    "geometryResidency": {
+      "bytes": 200629602,
+      "geometries": 1502,
+      "evicted": 798
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "lotus",
+    "repeat": false,
+    "readyMs": 2216,
+    "elapsed": 6041,
+    "frames": 32,
+    "submittedFps": 5.297136235722562,
+    "completedFpsLowerBound": 5.131600728356233,
+    "pending": 1,
+    "gapMedian": 182,
+    "gapP95": 300,
+    "renderCpuMedian": 91,
+    "renderCpuMax": 229,
+    "orbitRange": 0.191076717110445,
+    "zoomRange": 15.923059759203738,
+    "draw": {
+      "frame": 1262,
+      "calls": 151,
+      "triangles": 379960,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 123,
+      "reflected": 72,
+      "compiled": 982,
+      "reused": 3229,
+      "shared": 1688,
+      "textures": 11
+    },
+    "memory": {
+      "geometries": 1514,
+      "textures": 65
+    },
+    "geometryResidency": {
+      "bytes": 201215514,
+      "geometries": 1514,
+      "evicted": 827
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "ice",
+    "repeat": false,
+    "readyMs": 7364,
+    "elapsed": 6216,
+    "frames": 18,
+    "submittedFps": 2.8957528957528957,
+    "completedFpsLowerBound": 2.7348777348777347,
+    "pending": 1,
+    "gapMedian": 317,
+    "gapP95": 496,
+    "renderCpuMedian": 202,
+    "renderCpuMax": 340,
+    "orbitRange": 0.18766229578034077,
+    "zoomRange": 15.638524648361724,
+    "draw": {
+      "frame": 1333,
+      "calls": 764,
+      "triangles": 992952,
+      "points": 740,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 129,
+      "reflected": 72,
+      "compiled": 1059,
+      "reused": 3836,
+      "shared": 1793,
+      "textures": 11
+    },
+    "memory": {
+      "geometries": 1490,
+      "textures": 65
+    },
+    "geometryResidency": {
+      "bytes": 201158058,
+      "geometries": 1490,
+      "evicted": 942
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "clockwork",
+    "repeat": false,
+    "readyMs": 32406,
+    "elapsed": 6687,
+    "frames": 7,
+    "submittedFps": 1.0468072379243307,
+    "completedFpsLowerBound": 0.8972633467922836,
+    "pending": 1,
+    "gapMedian": 888,
+    "gapP95": 1575,
+    "renderCpuMedian": 478,
+    "renderCpuMax": 1014,
+    "orbitRange": 0.18871825339341736,
+    "zoomRange": 15.726521116118107,
+    "draw": {
+      "frame": 1465,
+      "calls": 811,
+      "triangles": 2801312,
+      "points": 420,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 140,
+      "reflected": 83,
+      "compiled": 1320,
+      "reused": 4460,
+      "shared": 2011,
+      "textures": 11
+    },
+    "memory": {
+      "geometries": 1510,
+      "textures": 65
+    },
+    "geometryResidency": {
+      "bytes": 204551998,
+      "geometries": 1510,
+      "evicted": 1131
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "dusk",
+    "repeat": false,
+    "readyMs": 4733,
+    "elapsed": 6028,
+    "frames": 26,
+    "submittedFps": 4.313205043132051,
+    "completedFpsLowerBound": 4.313205043132051,
+    "pending": 0,
+    "gapMedian": 214,
+    "gapP95": 309,
+    "renderCpuMedian": 105,
+    "renderCpuMax": 193,
+    "orbitRange": 0.19143940089348274,
+    "zoomRange": 15.953283407790224,
+    "draw": {
+      "frame": 1520,
+      "calls": 240,
+      "triangles": 488438,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 141,
+      "reflected": 83,
+      "compiled": 1347,
+      "reused": 4555,
+      "shared": 2076,
+      "textures": 11
+    },
+    "memory": {
+      "geometries": 1515,
+      "textures": 65
+    },
+    "geometryResidency": {
+      "bytes": 201259622,
+      "geometries": 1515,
+      "evicted": 1270
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "aquapark",
+    "repeat": false,
+    "readyMs": 8910,
+    "elapsed": 6187,
+    "frames": 19,
+    "submittedFps": 3.07095522870535,
+    "completedFpsLowerBound": 2.9093260061419106,
+    "pending": 1,
+    "gapMedian": 321,
+    "gapP95": 567,
+    "renderCpuMedian": 143,
+    "renderCpuMax": 455,
+    "orbitRange": 0.1918543335075747,
+    "zoomRange": 15.987861125631198,
+    "draw": {
+      "frame": 1579,
+      "calls": 281,
+      "triangles": 698339,
+      "points": 420,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 147,
+      "reflected": 83,
+      "compiled": 1451,
+      "reused": 4694,
+      "shared": 2143,
+      "textures": 11
+    },
+    "memory": {
+      "geometries": 1179,
+      "textures": 65
+    },
+    "geometryResidency": {
+      "bytes": 200348020,
+      "geometries": 1179,
+      "evicted": 1837
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "foodcourt",
+    "repeat": false,
+    "readyMs": 5558,
+    "elapsed": 6385,
+    "frames": 15,
+    "submittedFps": 2.349256068911511,
+    "completedFpsLowerBound": 2.192638997650744,
+    "pending": 1,
+    "gapMedian": 410,
+    "gapP95": 511,
+    "renderCpuMedian": 158,
+    "renderCpuMax": 286,
+    "orbitRange": 0.18514718240609268,
+    "zoomRange": 15.42893186717437,
+    "draw": {
+      "frame": 1612,
+      "calls": 157,
+      "triangles": 634197,
+      "points": 0,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 156,
+      "reflected": 87,
+      "compiled": 1547,
+      "reused": 4888,
+      "shared": 2191,
+      "textures": 17
+    },
+    "memory": {
+      "geometries": 1109,
+      "textures": 76
+    },
+    "geometryResidency": {
+      "bytes": 200885020,
+      "geometries": 1109,
+      "evicted": 2219
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "bikini",
+    "repeat": false,
+    "readyMs": 25541,
+    "elapsed": 6156,
+    "frames": 9,
+    "submittedFps": 1.4619883040935673,
+    "completedFpsLowerBound": 1.299545159194282,
+    "pending": 1,
+    "gapMedian": 746,
+    "gapP95": 1127,
+    "renderCpuMedian": 432,
+    "renderCpuMax": 695,
+    "orbitRange": 0.1710756838456567,
+    "zoomRange": 14.571078431153765,
+    "draw": {
+      "frame": 1688,
+      "calls": 180,
+      "triangles": 661252,
+      "points": 0,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 181,
+      "reflected": 89,
+      "compiled": 1642,
+      "reused": 4996,
+      "shared": 2267,
+      "textures": 19
+    },
+    "memory": {
+      "geometries": 719,
+      "textures": 146
+    },
+    "geometryResidency": {
+      "bytes": 205055482,
+      "geometries": 719,
+      "evicted": 2864
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "homestead",
+    "repeat": false,
+    "readyMs": 22458,
+    "elapsed": 6601,
+    "frames": 11,
+    "submittedFps": 1.666414179669747,
+    "completedFpsLowerBound": 1.3634297833661566,
+    "pending": 2,
+    "gapMedian": 575,
+    "gapP95": 671,
+    "renderCpuMedian": 412,
+    "renderCpuMax": 721,
+    "orbitRange": 0.1857314615436632,
+    "zoomRange": 15.477621795305254,
+    "draw": {
+      "frame": 1713,
+      "calls": 411,
+      "triangles": 1962948,
+      "points": 0,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 203,
+      "reflected": 92,
+      "compiled": 2130,
+      "reused": 6822,
+      "shared": 2530,
+      "textures": 20
+    },
+    "memory": {
+      "geometries": 693,
+      "textures": 146
+    },
+    "geometryResidency": {
+      "bytes": 200510890,
+      "geometries": 693,
+      "evicted": 2946
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "aquarium",
+    "repeat": false,
+    "readyMs": 17669,
+    "elapsed": 6271,
+    "frames": 11,
+    "submittedFps": 1.754106203157391,
+    "completedFpsLowerBound": 1.5946420028703556,
+    "pending": 1,
+    "gapMedian": 581,
+    "gapP95": 630,
+    "renderCpuMedian": 308,
+    "renderCpuMax": 388,
+    "orbitRange": 0.1858145743303739,
+    "zoomRange": 15.484547860864467,
+    "draw": {
+      "frame": 1764,
+      "calls": 166,
+      "triangles": 1727774,
+      "points": 0,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 209,
+      "reflected": 101,
+      "compiled": 2200,
+      "reused": 6842,
+      "shared": 2550,
+      "textures": 21
+    },
+    "memory": {
+      "geometries": 424,
+      "textures": 153
+    },
+    "geometryResidency": {
+      "bytes": 196377253,
+      "geometries": 424,
+      "evicted": 3358
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "jobcity",
+    "repeat": false,
+    "readyMs": 21987,
+    "elapsed": 6408,
+    "frames": 10,
+    "submittedFps": 1.5605493133583022,
+    "completedFpsLowerBound": 1.404494382022472,
+    "pending": 1,
+    "gapMedian": 560,
+    "gapP95": 969,
+    "renderCpuMedian": 335,
+    "renderCpuMax": 829,
+    "orbitRange": 0.1849762110411211,
+    "zoomRange": 15.414684253426756,
+    "draw": {
+      "frame": 1813,
+      "calls": 95,
+      "triangles": 783409,
+      "points": 0,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 216,
+      "reflected": 105,
+      "compiled": 2310,
+      "reused": 6933,
+      "shared": 2585,
+      "textures": 27
+    },
+    "memory": {
+      "geometries": 235,
+      "textures": 159
+    },
+    "geometryResidency": {
+      "bytes": 206147149,
+      "geometries": 235,
+      "evicted": 3605
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "cat-homes",
+    "repeat": false,
+    "readyMs": 1361,
+    "elapsed": 6226,
+    "frames": 30,
+    "submittedFps": 4.8185030517186,
+    "completedFpsLowerBound": 4.657886283327979,
+    "pending": 1,
+    "gapMedian": 158,
+    "gapP95": 601,
+    "renderCpuMedian": 41,
+    "renderCpuMax": 435,
+    "orbitRange": 0.18993984507151862,
+    "zoomRange": 15.828320422626533,
+    "draw": {
+      "frame": 1849,
+      "calls": 19,
+      "triangles": 94112,
+      "points": 0,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 216,
+      "reflected": 105,
+      "compiled": 2310,
+      "reused": 6933,
+      "shared": 2585,
+      "textures": 27
+    },
+    "memory": {
+      "geometries": 219,
+      "textures": 160
+    },
+    "geometryResidency": {
+      "bytes": 201036091,
+      "geometries": 219,
+      "evicted": 3640
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "summer",
+    "repeat": true,
+    "readyMs": 2991,
+    "elapsed": 6763,
+    "frames": 6,
+    "submittedFps": 0.8871802454532013,
+    "completedFpsLowerBound": 0.739316871211001,
+    "pending": 1,
+    "gapMedian": 1096,
+    "gapP95": 1737,
+    "renderCpuMedian": 519,
+    "renderCpuMax": 1047,
+    "orbitRange": 0.15096696828115938,
+    "zoomRange": 13.36471983049644,
+    "draw": {
+      "frame": 1859,
+      "calls": 397,
+      "triangles": 1943184,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 216,
+      "reflected": 105,
+      "compiled": 2310,
+      "reused": 6933,
+      "shared": 2585,
+      "textures": 27
+    },
+    "memory": {
+      "geometries": 357,
+      "textures": 160
+    },
+    "geometryResidency": {
+      "bytes": 200753258,
+      "geometries": 357,
+      "evicted": 3772
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "aquarium",
+    "repeat": true,
+    "readyMs": 2401,
+    "elapsed": 7000,
+    "frames": 8,
+    "submittedFps": 1.1428571428571428,
+    "completedFpsLowerBound": 1,
+    "pending": 1,
+    "gapMedian": 764,
+    "gapP95": 1095,
+    "renderCpuMedian": 343,
+    "renderCpuMax": 658,
+    "orbitRange": 0.1916387005021043,
+    "zoomRange": 15.969891708508712,
+    "draw": {
+      "frame": 1871,
+      "calls": 161,
+      "triangles": 1760226,
+      "points": 0,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 216,
+      "reflected": 105,
+      "compiled": 2310,
+      "reused": 6933,
+      "shared": 2585,
+      "textures": 27
+    },
+    "memory": {
+      "geometries": 549,
+      "textures": 160
+    },
+    "geometryResidency": {
+      "bytes": 193993535,
+      "geometries": 549,
+      "evicted": 3806
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "homestead",
+    "repeat": true,
+    "readyMs": 2486,
+    "elapsed": 6530,
+    "frames": 9,
+    "submittedFps": 1.3782542113323124,
+    "completedFpsLowerBound": 1.225114854517611,
+    "pending": 1,
+    "gapMedian": 677,
+    "gapP95": 1217,
+    "renderCpuMedian": 467,
+    "renderCpuMax": 795,
+    "orbitRange": 0.1910037813610887,
+    "zoomRange": 15.916981780090708,
+    "draw": {
+      "frame": 1885,
+      "calls": 413,
+      "triangles": 1971557,
+      "points": 0,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 216,
+      "reflected": 105,
+      "compiled": 2310,
+      "reused": 6933,
+      "shared": 2585,
+      "textures": 27
+    },
+    "memory": {
+      "geometries": 625,
+      "textures": 160
+    },
+    "geometryResidency": {
+      "bytes": 245705735,
+      "geometries": 625,
+      "evicted": 3942
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "sakura",
+    "repeat": true,
+    "readyMs": 2051,
+    "elapsed": 6320,
+    "frames": 12,
+    "submittedFps": 1.8987341772151898,
+    "completedFpsLowerBound": 1.8987341772151898,
+    "pending": 0,
+    "gapMedian": 522,
+    "gapP95": 567,
+    "renderCpuMedian": 251,
+    "renderCpuMax": 383,
+    "orbitRange": 0.18569224738085494,
+    "zoomRange": 15.474353948404584,
+    "draw": {
+      "frame": 1901,
+      "calls": 281,
+      "triangles": 928652,
+      "points": 740,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 216,
+      "reflected": 105,
+      "compiled": 2310,
+      "reused": 6933,
+      "shared": 2585,
+      "textures": 27
+    },
+    "memory": {
+      "geometries": 570,
+      "textures": 160
+    },
+    "geometryResidency": {
+      "bytes": 235433525,
+      "geometries": 570,
+      "evicted": 4136
+    },
+    "dpr": 2,
+    "buffer": [
+      776,
+      1464
+    ],
+    "contextLost": false,
+    "visible": true
+  }
+]

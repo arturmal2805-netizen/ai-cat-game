@@ -20,8 +20,6 @@ export function createShaderWarmup(
     queue = new Map(),
     inflight = new WeakMap(),
     compiled = new WeakMap(),
-    nativeVariants = new Map(),
-    nativePaints = new WeakMap(),
     callbacks = new WeakMap(),
     uploaded = new WeakMap(),
     add = scene.add;
@@ -36,34 +34,8 @@ export function createShaderWarmup(
     reflected: 0,
     compiled: 0,
     reused: 0,
-    shared: 0,
     textures: 0,
   };
-  function nativeKey(material) {
-    if (
-      !["MeshStandardMaterial", "MeshBasicMaterial", "MeshDepthMaterial"].includes(material.type) ||
-      material.onBeforeCompile !== THREE.Material.prototype.onBeforeCompile ||
-      material.customProgramCacheKey !== THREE.Material.prototype.customProgramCacheKey ||
-      material.toJSON !== THREE.Material.prototype.toJSON ||
-      material.clippingPlanes?.length
-    ) return null;
-    let paint = nativePaints.get(material);
-    if (!paint || paint.version !== material.version) {
-      // Do not turn authored canvas textures into PNGs just to compare paint.
-      // Their identities are sufficient; originals are uploaded separately.
-      const meta = { textures: {}, images: {} };
-      for (const value of Object.values(material))
-        if (value?.isTexture) meta.textures[value.uuid] = { uuid: value.uuid };
-      const json = material.toJSON(meta);
-      delete json.uuid;
-      delete json.name;
-      delete json.metadata;
-      delete json.userData;
-      paint = { version: material.version, key: JSON.stringify(json) };
-      nativePaints.set(material, paint);
-    }
-    return paint.key;
-  }
   async function turn(background = false) {
     await yieldSceneTask();
     while (!disposed && (!canRun() || (background && foreground > 0)))
@@ -95,9 +67,8 @@ export function createShaderWarmup(
     if (map.has(key)) return map.get(key);
     const depth = base
       ? base.clone()
-      // Three's native PCF pass writes a depth texture with BasicDepthPacking.
-      // Preparing an RGB-packed colour variant leaves the real first shadow
-      // draw unprepared and can stall the driver on each newly visited island.
+      // Match Three 0.186's native PCF depth-texture pass. Preparing RGB colour
+      // packing instead leaves the actual first shadow program unprepared.
       : new THREE.MeshDepthMaterial();
     if (base) {
       depth.onBeforeCompile = base.onBeforeCompile;
@@ -167,30 +138,11 @@ export function createShaderWarmup(
     let variants = compiled.get(material);
     if (!variants) compiled.set(material, (variants = new Map()));
     if (key && variants.has(key)) {
+      stats.reused++;
       const cached = variants.get(key);
+      for (const program of cached.programs) programs.add(program);
       await cached.ready;
-      if ([...cached.programs].every((p) => p.program)) {
-        stats.reused++;
-        for (const program of cached.programs) programs.add(program);
-        return;
-      }
-      variants.delete(key);
-    }
-    const paint = nativeKey(material),
-      sharedKey = paint === null ? null : key + ":" + paint,
-      shared = nativeVariants.get(sharedKey);
-    if (shared) {
-      await shared.ready;
-      // A material disposal can destroy the underlying GL program. A cache
-      // entry is useful only while another native owner keeps it alive.
-      if (shared.programs.size && [...shared.programs].every((p) => p.program)) {
-        for (const program of shared.programs) programs.add(program);
-        variants.set(key, shared);
-        stats.reused++;
-        stats.shared++;
-        return;
-      }
-      nativeVariants.delete(sharedKey);
+      return;
     }
     const proxy = Object.create(object);
     proxy.children = [];
@@ -226,19 +178,12 @@ export function createShaderWarmup(
       renderer.toneMapping = tone;
       renderer.outputColorSpace = color;
     }
-    const variant = { ready, programs: variantPrograms };
-    if (key) variants.set(key, variant);
-    if (sharedKey && variantPrograms.size) {
-      nativeVariants.set(sharedKey, variant);
-      if (nativeVariants.size > 256)
-        nativeVariants.delete(nativeVariants.keys().next().value);
-    }
+    if (key) variants.set(key, { ready, programs: variantPrograms });
     try {
       await ready;
       stats.compiled++;
     } catch (e) {
       if (key) variants.delete(key);
-      if (nativeVariants.get(sharedKey) === variant) nativeVariants.delete(sharedKey);
       throw e;
     }
   }
@@ -455,7 +400,6 @@ export function createShaderWarmup(
         inflight.delete(job.root);
       }
       queue.clear();
-      nativeVariants.clear();
       scene.add = add;
       for (const depth of owned) depth.dispose();
       owned.clear();

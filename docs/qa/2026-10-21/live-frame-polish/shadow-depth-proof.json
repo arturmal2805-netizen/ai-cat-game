@@ -1,0 +1,222 @@
+{
+  "rows": [
+    {
+      "name": "stationary",
+      "changed": 0,
+      "max": 0,
+      "native": {
+        "frame": 6,
+        "calls": 203,
+        "triangles": 3442,
+        "points": 0,
+        "lines": 0
+      },
+      "fast": {
+        "frame": 5,
+        "calls": 103,
+        "triangles": 2242,
+        "points": 0,
+        "lines": 0
+      },
+      "stats": {
+        "bakes": 1,
+        "blits": 1,
+        "skippedDraws": 100,
+        "skippedTriangles": 1200,
+        "cachedCasters": 100,
+        "targetBytes": 8388608
+      }
+    },
+    {
+      "name": "animated caster moves",
+      "changed": 0,
+      "max": 0,
+      "native": {
+        "frame": 12,
+        "calls": 203,
+        "triangles": 3442,
+        "points": 0,
+        "lines": 0
+      },
+      "fast": {
+        "frame": 11,
+        "calls": 103,
+        "triangles": 2242,
+        "points": 0,
+        "lines": 0
+      },
+      "stats": {
+        "bakes": 2,
+        "blits": 4,
+        "skippedDraws": 100,
+        "skippedTriangles": 1200,
+        "cachedCasters": 100,
+        "targetBytes": 8388608
+      }
+    },
+    {
+      "name": "static object moved",
+      "changed": 0,
+      "max": 0,
+      "native": {
+        "frame": 18,
+        "calls": 203,
+        "triangles": 3442,
+        "points": 0,
+        "lines": 0
+      },
+      "fast": {
+        "frame": 17,
+        "calls": 302,
+        "triangles": 4630,
+        "points": 0,
+        "lines": 0
+      },
+      "stats": {
+        "bakes": 4,
+        "blits": 6,
+        "skippedDraws": 0,
+        "skippedTriangles": 0,
+        "cachedCasters": 99,
+        "targetBytes": 8388608
+      }
+    },
+    {
+      "name": "static object hidden",
+      "changed": 0,
+      "max": 0,
+      "native": {
+        "frame": 24,
+        "calls": 201,
+        "triangles": 3418,
+        "points": 0,
+        "lines": 0
+      },
+      "fast": {
+        "frame": 23,
+        "calls": 299,
+        "triangles": 4594,
+        "points": 0,
+        "lines": 0
+      },
+      "stats": {
+        "bakes": 6,
+        "blits": 8,
+        "skippedDraws": 0,
+        "skippedTriangles": 0,
+        "cachedCasters": 98,
+        "targetBytes": 8388608
+      }
+    },
+    {
+      "name": "static object removed",
+      "changed": 0,
+      "max": 0,
+      "native": {
+        "frame": 30,
+        "calls": 199,
+        "triangles": 3394,
+        "points": 0,
+        "lines": 0
+      },
+      "fast": {
+        "frame": 29,
+        "calls": 296,
+        "triangles": 4558,
+        "points": 0,
+        "lines": 0
+      },
+      "stats": {
+        "bakes": 8,
+        "blits": 10,
+        "skippedDraws": 0,
+        "skippedTriangles": 0,
+        "cachedCasters": 97,
+        "targetBytes": 8388608
+      }
+    },
+    {
+      "name": "different native depth sides",
+      "changed": 0,
+      "max": 0,
+      "native": {
+        "frame": 36,
+        "calls": 199,
+        "triangles": 3394,
+        "points": 0,
+        "lines": 0
+      },
+      "fast": {
+        "frame": 35,
+        "calls": 296,
+        "triangles": 4558,
+        "points": 0,
+        "lines": 0
+      },
+      "stats": {
+        "bakes": 10,
+        "blits": 12,
+        "skippedDraws": 0,
+        "skippedTriangles": 0,
+        "cachedCasters": 97,
+        "targetBytes": 8388608
+      }
+    },
+    {
+      "name": "camera orbit",
+      "changed": 0,
+      "max": 0,
+      "native": {
+        "frame": 42,
+        "calls": 199,
+        "triangles": 3394,
+        "points": 0,
+        "lines": 0
+      },
+      "fast": {
+        "frame": 41,
+        "calls": 102,
+        "triangles": 2230,
+        "points": 0,
+        "lines": 0
+      },
+      "stats": {
+        "bakes": 11,
+        "blits": 15,
+        "skippedDraws": 97,
+        "skippedTriangles": 1164,
+        "cachedCasters": 97,
+        "targetBytes": 8388608
+      }
+    },
+    {
+      "name": "light moved",
+      "changed": 0,
+      "max": 0,
+      "native": {
+        "frame": 48,
+        "calls": 199,
+        "triangles": 3394,
+        "points": 0,
+        "lines": 0
+      },
+      "fast": {
+        "frame": 47,
+        "calls": 199,
+        "triangles": 3394,
+        "points": 0,
+        "lines": 0
+      },
+      "stats": {
+        "bakes": 12,
+        "blits": 17,
+        "skippedDraws": 0,
+        "skippedTriangles": 0,
+        "cachedCasters": 97,
+        "targetBytes": 8388608
+      }
+    }
+  ],
+  "error": 0,
+  "errors": []
+}
