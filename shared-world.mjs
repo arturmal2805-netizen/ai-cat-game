@@ -115,7 +115,7 @@ function merge(base, current, incoming, path = "", depth = 0) {
           "professionSource",
           "career",
         ],
-        ["trip", "parkedAt", "parkedCar"],
+        ["trip", "parkedAt", "parkedCar", "worldCar"],
       ];
       for (const keys of groups) {
         const incomingChanged = keys.some((k) => changed(old[k], p[k])),

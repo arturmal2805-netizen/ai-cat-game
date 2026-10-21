@@ -49,6 +49,7 @@ export function createLeisureRuntime() {
         prepare = () => true,
         destination = (offer, a) => a.position,
         allow = true,
+        transport = () => undefined,
       } = {},
     ) {
       const profiles = game.jobCity?.profiles || {},
@@ -87,6 +88,12 @@ export function createLeisureRuntime() {
           continue;
         }
         if (v.phase === "travel") {
+          const arrived = transport(people.get(id), v);
+          if (arrived === false) { v.position = copy(people.get(id).position); continue; }
+          if (arrived === true) {
+            v.position = copy(people.get(id).position);
+            v.phase = "queue"; v.retryAt = time; v.queuedAt = time;
+          } else {
           v.elapsed += dt;
           const u = Math.min(1, v.elapsed / v.duration),
             t = u * u * (3 - 2 * u);
@@ -104,6 +111,7 @@ export function createLeisureRuntime() {
             v.queuedAt = time;
           }
         }
+          }
         if (v.phase === "queue" && time >= v.retryAt) {
           v.retryAt = time + 2;
           if (start(id, v.offer, v)) v.phase = "activity";

@@ -1,3 +1,5 @@
+import { createCatCommute, ownedCatCar } from "./cat-commute.js";
+import { createCatCarNavigation } from "./cat-car-navigation.js";
 import { createShadowDepthCache } from "./shadow-depth-cache.js";
 import {
   HOUSING_ID,
@@ -10,7 +12,7 @@ import { createLeisureRuntime, familyFollowTarget } from "./leisure-runtime.js";
 import { leisureOffers } from "./leisure-data.js";
 import { familyPartners } from "./family-system.js";
 import { cityClock } from "./jobcity-system.js";
-import { jobBusiness, JOB_CITY_CENTER } from "./jobcity-data.js";
+import { jobBusiness, JOB_CITY_CENTER, JOB_BUSINESSES } from "./jobcity-data.js";
 import { jobBuildingSteps, cityCar, animateCityCar } from "./jobcity-assets.js";
 import { createJobCityRuntime, jobCatFrame } from "./jobcity-runtime.js";
 import {
@@ -601,6 +603,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
     leisure.step(game, actors, dt, time, {
       clock,
       offers: leisureCatalogue,
+      transport: (actor, ticket) => ownedCatCar(game.jobCity?.profiles[actor.id])
+        ? commute.arrive(actor, { ...ticket.to, biome: ticket.offer.biome },
+            `leisure-${ticket.day}-${ticket.index}-${actor.id}`, wallNowForCars())
+        : undefined,
       allow: callbacks.canSimulateLeisure?.() !== false,
       blocked: (id, visit) => {
         const n = npcs.get(id),
@@ -611,6 +617,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           now < gatherUntil ||
           crew.workers.has(id) ||
           p.trip ||
+          (commute.has(id) && visit?.phase !== "travel") ||
           Date.now() < (p.manualUntil || 0) ||
           (jobs.has(id) && !(visit && jobs.get(id)?.decision?.leisure)) ||
           housingLife.get(id) ||
@@ -755,29 +762,26 @@ export function createWorld(container, initialGame, callbacks = {}) {
     carrier.rotation.y = v.yaw;
   }
   function updateCityCar(id, v, time) {
-    const profile = game.jobCity?.profiles[id],
-      trip = profile?.trip;
+    const profile = game.jobCity?.profiles[id], tripFrame = commute.frame(id),
+      parked = commute.parked(id) || profile?.worldCar?.parked,
+      worldPosition = tripFrame?.carPosition || parked;
+    const spec = worldPosition ? tripFrame?.car || commute.car(id) || profile.worldCar.car
+      : v?.carVisible ? v.car : profile?.parkedCar;
+    const position = worldPosition || (v?.carVisible ? v.carPosition : profile?.parkedAt);
+    if (!spec || !position) { const old=cityCars.get(id); if(old) old.visible=false; return; }
+    const x = position.x + (worldPosition ? 0 : JOB_CITY_CENTER[0]),
+      z = position.z + (worldPosition ? 0 : JOB_CITY_CENTER[1]),
+      shown = Math.hypot(x-look.x,z-look.z) < distance + 100;
     let car = cityCars.get(id);
-    const spec = v?.carVisible
-      ? v.car
-      : profile?.parkedCar || car?.userData.carId;
-    if (!spec) return;
+    if (!shown && !car) return; // Remote simulation does not create draw objects.
     if (!car || car.userData.carId !== spec) {
-      car?.removeFromParent();
-      car = cityCar(spec);
-      cityCars.set(id, car);
-      scene.add(car);
+      car?.removeFromParent(); car = cityCar(spec); cityCars.set(id, car); scene.add(car);
     }
-    const position = v?.carVisible ? v.carPosition : profile?.parkedAt;
-    car.visible = !!position && focused === "jobcity";
-    if (!position) return;
-    car.position.set(
-      JOB_CITY_CENTER[0] + position.x,
-      0.16,
-      JOB_CITY_CENTER[1] + position.z,
-    );
-    if (v?.carVisible) car.rotation.y = v.yaw;
-    animateCityCar(car, jobs.get(id)?.distance || 0, v?.steer || 0, reduced);
+    car.visible = shown;
+    if (!shown) return;
+    car.position.set(x, position.y ?? .16, z);
+    car.rotation.y = tripFrame?.yaw ?? (worldPosition ? position.yaw || 0 : v?.yaw || car.rotation.y);
+    animateCityCar(car, tripFrame?.distance || jobs.get(id)?.distance || 0, tripFrame?.steer || v?.steer || 0, reduced);
   }
   const courtModels = new Map(),
     courtPreparing = new Map();
@@ -1271,14 +1275,14 @@ export function createWorld(container, initialGame, callbacks = {}) {
       middle.x,
       0.14,
       middle.z,
-      1.1,
+      3.4,
       0.12,
       from.distanceTo(to),
     );
     bridge.rotation.y = Math.atan2(direction.x, direction.z);
     for (const sign of [-1, 1]) {
-      const a = from.clone().addScaledVector(side, sign * 0.52),
-        c = to.clone().addScaledVector(side, sign * 0.52),
+      const a = from.clone().addScaledVector(side, sign * 1.6),
+        c = to.clone().addScaledVector(side, sign * 1.6),
         b = a.clone().add(c).multiplyScalar(0.5);
       a.y = c.y = 0.7;
       b.y = 0.48;
@@ -1293,6 +1297,30 @@ export function createWorld(container, initialGame, callbacks = {}) {
   let buildingSites = [],
     nextSiteCheck = 0,
     builderObstacles = new Map();
+  const wallNowForCars = () => Date.now();
+  const carNavigation = createCatCarNavigation({
+    bridges: constructionBridges,
+    obstacles: b => b.id === HOUSING_ID ? [] : b.id === "jobcity"
+      ? [...JOB_BUSINESSES.map(o=>({x:o.x,z:o.z,w:o.w,d:o.d})),{x:0,z:0,radius:6}]
+      : ["foodcourt","bikini","aquarium"].includes(b.id) ? getCourtBlockers(b.id)
+      : builderObstacles.get(b.id) || [],
+    ground: (p, b, r) => {
+      if (b.id === HOUSING_ID) return housingLife.walkable({ ...p, x:p.x-(b.section||0)*HOUSING_SECTION_PITCH }, r);
+      if (["foodcourt","bikini","aquarium"].includes(b.id)) return courtWalkable(p,r,getCourtBlockers(b.id),b.id);
+      if (b.id === "water") return spaWalkable(p,r,spaObstacles);
+      if (b.id === "sakura") return chillWalkable(p,r,chillObstacles);
+      if (b.id === "summer") { const dry=capybaraDryPoint(p.x,p.z);return Math.hypot(dry.x-p.x,dry.z-p.z)<.01; }
+      if (b.id === "autumn") { const dry=mosaDryPoint(p.x,p.z);return Math.hypot(dry.x-p.x,dry.z-p.z)<.01; }
+      return true;
+    },
+  });
+  const commute = createCatCommute({
+    ...carNavigation,
+    getProfile: id => game.jobCity?.profiles[id],
+    getParked: except => Object.values(game.jobCity?.profiles || {})
+      .filter(p=>p.id!==except).map(p=>p.worldCar?.trip?.destination || p.worldCar?.parked),
+    onChange: (id, state) => callbacks.onCatCarState?.(id,state),
+  });
   const crew = createConstructionCrew({
     getSpeed: () => builderSpeed(game),
     bridges: constructionBridges,
@@ -1324,7 +1352,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     },
   });
   function cancelResident(id, keepLeisure = false) {
-    if (!keepLeisure) leisure.cancel(id);
+    if (!keepLeisure) { leisure.cancel(id); commute.cancel(id); }
     const actor = npcs.get(id);
     if (actor && !keepLeisure) actor.leisureBiome = null;
     if (actor) actor.manualWellnessId = null;
@@ -2125,6 +2153,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
         builderHammers.delete(id);
         chill.cancel(id);
         residentPlay.cancel(id);
+        commute.forget(id);
+        cityCars.get(id)?.removeFromParent(); cityCars.delete(id);
         scene.remove(n.carrier);
         disposeCat(n.model);
         npcs.delete(id);
@@ -3665,7 +3695,14 @@ export function createWorld(container, initialGame, callbacks = {}) {
         );
       if (!dialogOpen) island.userData.update?.(time, reduced);
     }
-    if (!dialogOpen) stepLeisure(dt, time, now);
+    if (!dialogOpen) {
+      commute.step(lifeActors, dt, wallNowForCars(), id =>
+        draggingCat?.catId === id || crew.workers.has(id) ||
+        !!game.jobCity?.profiles[id]?.trip ||
+        (id === "chichi" ? !!(operation && !operation.leisureTicket) || !!heroGather :
+          now < (npcs.get(id)?.manualUntil || 0) && !leisure.has(id)));
+      stepLeisure(dt, time, now);
+    }
     const wallNow = Date.now(),
       lifeClock = game.jobCity ? cityClock(game.jobCity, wallNow) : null,
       restContext = { clock: lifeClock, partners: familyLinks };
@@ -3685,8 +3722,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
             n = npcs.get(id),
             p = game.jobCity?.profiles[id],
             manualJob = jobs.get(id)?.manual;
-          return (
-            !p ||
+          const blocked = (
+            !p || commute.has(id) ||
             ((!lifeClock.working || p.schedule?.job === "rest") &&
               !p.trip &&
               !manualJob &&
@@ -3718,6 +3755,14 @@ export function createWorld(container, initialGame, callbacks = {}) {
                 swimVisits.has(id) ||
                 (now < (n?.manualUntil || 0) && !manualJob))
           );
+          if (blocked) return true;
+          if (lifeClock.working && p.schedule?.job !== "rest" && !jobs.has(id) && !p.trip &&
+              callbacks.canSimulateLeisure?.() !== false) {
+            const b=jobBusiness(p.schedule?.job);
+            if(b) return !commute.arrive(actor, { x:JOB_CITY_CENTER[0]+b.x,
+              y:.32,z:JOB_CITY_CENTER[1]+b.z+11.7,biome:"jobcity" }, `work-${lifeClock.day}-${id}`,wallNow);
+          }
+          return false;
         },
       });
     }
@@ -3729,6 +3774,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
         a.local.z = a.position.z - HOUSING_CENTER[1];
       }
       housingLife.step(game, actors, dt, time, {
+        arrive: (actor, home, entrance) => commute.arrive(actor,
+          { x:HOUSING_CENTER[0]+entrance.x,y:.16,z:HOUSING_CENTER[1]+entrance.z,biome:HOUSING_ID },
+          `home-${lifeClock.day}-${home.id}-${actor.id}`, wallNow),
         eligible: (actor) => homeRestTime(game, actor.id, wallNow, restContext),
         night: !lifeClock.working,
         blocked: (a) => {
@@ -3740,6 +3788,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
             now < gatherUntil ||
             crew.workers.has(id) ||
             p?.trip ||
+            commute.has(id) ||
             jobs.has(id) ||
             Date.now() < (p?.manualUntil || 0) ||
             (id === "chichi"
@@ -4016,6 +4065,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
             court.get(id) ||
             crew.workers.has(id) ||
             jobs.has(id) ||
+            commute.has(id) ||
             housingLife.get(id) ||
             leisure.has(id) ||
             familyLinks.has(id) ||
@@ -4039,7 +4089,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         ? jobCatFrame(jobs.get(id), time, reduced)
         : null;
       const homeVisit = housingLife.get(id);
-      const leisureFrame = leisure.frame(id);
+      const leisureFrame = commute.frame(id) || leisure.frame(id);
       const spouse = familyLinks.get(id),
         follows =
           spouse &&
@@ -5338,7 +5388,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       walking = heroHome.walking;
       reaction = heroHome.reaction;
     }
-    const heroLeisure = leisure.frame("chichi");
+    const heroLeisure = commute.frame("chichi") || leisure.frame("chichi");
     if (
       heroLeisure &&
       !operation &&
@@ -5750,6 +5800,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       jobs.clear();
       housingLife.clear();
       leisure.clear();
+      commute.clear();
       drivePrompt.remove();
       for (const car of cityCars.values()) car.removeFromParent();
       cityCars.clear();

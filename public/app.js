@@ -1,3 +1,4 @@
+import { setCatCarState } from "./cat-commute.js";
 import {
   buyCatHome,
   setActiveHome,
@@ -1400,6 +1401,17 @@ try {
     onJobAttendance: (id, job, active) => {
       if (!cloud.simulationOwner || cloud.conflict) return;
       queueAttendance(id, job, active);
+    },
+    onCatCarState: (id, state) => {
+      if (!cloud.simulationOwner || !cloud.editable || cloud.conflict) return false;
+      try {
+        const next = setCatCarState(game, id, state);
+        if (next !== game) commit(next, false);
+        return true;
+      } catch (error) {
+        $("save-state").textContent = error.message;
+        return false;
+      }
     },
     onCityTripDone: (id, trip, position) => {
       if (!cloud.simulationOwner || cloud.conflict) return;

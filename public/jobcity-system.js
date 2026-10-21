@@ -1,3 +1,4 @@
+import { normalizeCatCar } from "./cat-commute.js";
 import {
   JOB_CITY_ID,
   JOB_MINUTE_MS,
@@ -72,6 +73,7 @@ export function newJobProfile(cat) {
     manualUntil: 0,
     parkedAt: null,
     parkedCar: null,
+    worldCar: null,
     earnedTotal: 0,
     spentTotal: 0,
     profession: null,
@@ -184,6 +186,7 @@ export function normalizeJobCity(raw, game, now = Date.now()) {
           .slice(0, 80)
           .map(([k, v]) => [k, Math.min(30, v)]),
       );
+      p.worldCar = normalizeCatCar(r.worldCar, p.inventory);
       p.transactions = (Array.isArray(r.transactions) ? r.transactions : [])
         .filter(
           (t) =>
@@ -790,7 +793,8 @@ export function advanceCityEvening(game, now = Date.now()) {
         );
     }
     const live = next.jobCity.profiles[p.id];
-    if (live.schedule.evening === "drive" && !live.trip) {
+    if (live.schedule.evening === "drive" && !live.trip &&
+        !live.schedule.outings?.length && !next.housing?.residences[p.id]) {
       const car = Object.keys(live.inventory).find(jobCar);
       if (car)
         next = startCatDrive(

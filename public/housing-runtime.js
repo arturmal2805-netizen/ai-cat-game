@@ -28,7 +28,9 @@ export function homeRestTime(game, id, now = Date.now(), context = null) {
   )
     return false;
   if (clock.minute >= 19 * 60 && clock.minute < 22 * 60)
-    return p?.schedule?.evening === "rest";
+    return p?.schedule?.evening === "rest" ||
+      !!(planner?.schedule?.outings?.length && progress?.day === clock.day &&
+        progress.done >= planner.schedule.outings.length);
   return true;
 }
 export function createHousingRuntime({ reduced = false } = {}) {
@@ -117,7 +119,7 @@ export function createHousingRuntime({ reduced = false } = {}) {
       actors,
       dt,
       time,
-      { night, eligible = () => true, blocked = () => false } = {},
+      { night, eligible = () => true, blocked = () => false, arrive = () => true } = {},
     ) {
       sync(game);
       // Give each column its own approach lane. Returning every resident at
@@ -152,8 +154,9 @@ export function createHousingRuntime({ reduced = false } = {}) {
         if (!visit) {
           const key = lane(h);
           if (starts >= 2 || (arriving.get(key) || 0) >= 1) continue;
-          const p = housingPlot(h.plot),
-            cx = -p.section * HOUSING_SECTION_PITCH;
+          const p = housingPlot(h.plot);
+          if (!arrive(actor, h, { x: p.x - 2.55, z: p.z + 5.7, y: .16 })) continue;
+          const cx = -p.section * HOUSING_SECTION_PITCH;
           const origin =
             actor.local &&
             Math.hypot(actor.local.x - cx, actor.local.z) < HOUSING_RADIUS - 1
