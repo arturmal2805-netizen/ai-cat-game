@@ -53,11 +53,11 @@ function eveningResponseFormat(s, choices) {
     };
   }
   if (choices.buyers.length) properties.houses = {
-    type: "array", maxItems: choices.buyers.length,
+    type: "array", minItems: choices.buyers.length, maxItems: choices.buyers.length,
     items: { type: "object", additionalProperties: false,
       required: ["cat", "house", "roommate"], properties: {
         cat: { type: "integer", enum: choices.buyers },
-        house: { type: "integer", enum: housingOffers().map((_,i) => i) },
+        house: { type: ["integer", "null"], enum: [null, ...housingOffers().map((_,i) => i)] },
         roommate: { type: ["integer", "null"], enum: [null, ...s.cats.flatMap((p,i) => !p.activeHome ? [i] : [])] },
       } },
   };
@@ -97,7 +97,7 @@ export function cityLifeInput(s) {
         role: "system",
         content: initial
           ? `Choose a lifelong profession for each requested fictional cat. Return ONLY compact JSON {"careers":[[catIndex,professionIndex]]} without indentation, line breaks, prose or other keys. Exactly one numeric pair for every index provided in careers; no extra rows. Profession indices ${JOB_KINDS.map((k, i) => i + "=" + k).join(",")}. Each input row is [catIndex,personality,preferredProfessionIndices,skillPerProfession]. Choose by personality, preferences and skills. This is initial career selection only. Do not choose evening plans, purchases, houses or families.`
-          : `Choose ONLY requested fictional cat life events. Return ONLY compact JSON {${fields.join(",")}} without indentation, line breaks, prose or other keys. Never select or change professions. Evening input rows are [catIndex,personality,ownsCar,partnerIndex]; ownsCar is a permission, not the chosen activity. Place rows are [placeIndex,typeIndex,islandIndex,action]. Choose for every index in evenings, mode 0=rest/home,1=walk/friends,2=owned car; 1-3 different real place indices, or [] for rest. Choose varied rides, meals, water, games or peaceful rest by personality. Partners spend free time together. Houses: OPTIONAL only buyers, only affordable; roommate=null for no roommate, otherwise a different free cat index; never the buyer or a cat with an active home. Existing owners may buy additional homes without moving their active residence. Families: ${c.family ? `This is the scheduled 14-day introduction. Return at least 1 and AT MOST ${s.familyReview.slots} rows in families (never pair the entire singles list). Choose compatible lifelong male+female couples from the offered singles, using their personalities. Each singles row is [catIndex,name,sex,personality]; male and female indices must refer to different free cats. Do not return an empty review when compatible singles are available. Every cat can eventually pair.` : "none today"} Return houses:[] when no purchase is wanted. No family choices outside a scheduled review. No work schedule or career review.`,
+          : `Choose ONLY requested fictional cat life events. Return ONLY compact JSON {${fields.join(",")}} without indentation, line breaks, prose or other keys. Never select or change professions. Evening input rows are [catIndex,personality,ownsCar,partnerIndex]; ownsCar is a permission, not the chosen activity. Place rows are [placeIndex,typeIndex,islandIndex,action]. Choose for every index in evenings, mode 0=rest/home,1=walk/friends,2=owned car; 1-3 different real place indices, or [] for rest. Choose varied rides, meals, water, games or peaceful rest by personality. Partners spend free time together. Housing input rows are [catIndex,coins,ownedHomes,hasActiveHome,partnerIndex,personality]. Make exactly one personal buy-or-wait decision for EVERY buyer. house=null means wait and spends nothing. Consider a first cozy home for financially secure homeless cats, especially partners without a shared home; choose the house by personality while keeping a sensible reserve. Buying remains voluntary, not every cat must buy. Only buyers, only affordable; roommate=null for no roommate, otherwise a different free cat index; never the buyer or a cat with an active home. Existing owners may buy additional homes without moving their active residence. Families: ${c.family ? `This is the scheduled 14-day introduction. Return at least 1 and AT MOST ${s.familyReview.slots} rows in families (never pair the entire singles list). Choose compatible lifelong male+female couples from the offered singles, using their personalities. Each singles row is [catIndex,name,sex,personality]; male and female indices must refer to different free cats. Do not return an empty review when compatible singles are available. Every cat can eventually pair.` : "none today"} Return a housing row for every buyer even when waiting; do not omit this decision. No family choices outside a scheduled review. No work schedule or career review.`,
       },
       {
         role: "user",
@@ -127,6 +127,9 @@ export function cityLifeInput(s) {
                   i,
                   s.cats[i].coins,
                   s.cats[i].ownedHomes,
+                  s.cats[i].activeHome ? 1 : 0,
+                  s.cats.findIndex(p => p.id === s.cats[i].partner),
+                  s.cats[i].personality,
                 ]),
                 houses: c.buyers.length
                   ? houses.map((h, i) => [i, h.name, h.price])
@@ -168,7 +171,7 @@ export function cityLifeInput(s) {
         256,
         c.careers.length * 9 +
           c.evenings.length * 30 +
-          c.buyers.length * 20 +
+          c.buyers.length * 24 +
           (c.family ? s.familyReview.slots * 48 : 0) +
           128,
       ),
@@ -258,6 +261,9 @@ function expandCityLife(s, result) {
   }
   const purchaseWarnings = [];
   for (const [i, h, r] of rows("houses", choices.buyers)) {
+    // Waiting is a deliberate AI decision, not a malformed purchase. Keep
+    // legacy omitted purchase lists valid when replaying older saved receipts.
+    if (h === null) continue;
     const house = houses[h];
     // Buying is optional. A bad/too expensive suggestion must never discard
     // valid leisure or family decisions, nor trigger another paid AI request.

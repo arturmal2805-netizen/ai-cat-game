@@ -77,3 +77,17 @@ quality, animation rate, business rewards or save writes were reduced.
   colour/shadow pixels, no context loss. The retained exact shadow cache skips
   297,972 redundant shadow triangles per stable frame in this fixture, while
   preserving every triangle in the visible models. See `webkit.json`.
+
+## Production AI follow-up
+
+The first real post-release ordinary evening (80 cats, 36 workers, 92 venues,
+16 car owners) succeeded through OpenRouter, preserved all careers and replayed
+from its receipt exactly once. A separate real 2-cat scheduled introduction
+formed one family. Both responses omitted every optional house purchase despite
+affordable wallets. This exposed a second issue in the decision contract: the
+model could skip evaluating housing entirely. The follow-up supplies each
+buyer's personality, current residence and partner, and requests an explicit
+buy-or-wait row for every eligible buyer in the same existing batch. A nullable
+house means wait, with no charge or forced purchase. Legacy omitted lists remain
+valid for old receipts. This adds no per-cat requests and preserves the existing
+daily reservation and household economy.

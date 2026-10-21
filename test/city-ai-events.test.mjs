@@ -508,3 +508,31 @@ test('ordinary evenings constrain car permissions and real venues, accept object
     await assert.rejects(requestCityLife(state,async()=>({response:invalid})),/Invalid evening choice/);
   }
 });
+
+test('every affordable buyer gets an explicit voluntary buy-or-wait schema with housing, partner and personality context', async () => {
+  let g=await establish();
+  for(const p of Object.values(g.jobCity.profiles))p.coins=10000;
+  const event=nextCityAIEvent(g,epoch+420000), state=validateCityAIState(event), choices=cityLifeChoices(state);
+  const request=cityLifeInput(state), payload=JSON.parse(request.messages[1].content);
+  const schema=request.response_format.json_schema.schema.properties.houses;
+  assert.equal(schema.minItems,choices.buyers.length);
+  assert.equal(schema.maxItems,choices.buyers.length);
+  assert.ok(schema.items.properties.house.enum.includes(null),'waiting never forces a charge');
+  for(const [i,coins,count,active,partner,personality] of payload.buyers) {
+    assert.equal(coins,state.cats[i].coins);
+    assert.equal(count,state.cats[i].ownedHomes);
+    assert.equal(active,state.cats[i].activeHome?1:0);
+    assert.equal(partner,state.cats.findIndex(p=>p.id===state.cats[i].partner));
+    assert.equal(personality,state.cats[i].personality);
+  }
+  const body=reply(state);
+  body.houses=choices.buyers.map(cat=>({cat,house:null,roommate:null}));
+  let calls=0;
+  const result=await requestCityLife(state,async()=>{calls++;return {response:body};});
+  assert.equal(result.purchaseWarnings,undefined);
+  assert.ok(result.assignments.every(a=>!a.house));
+  const next=applyCityAIEvent(reserveCityAIEvent(g,event),event,result);
+  assert.equal(Object.keys(next.housing?.homes||{}).length,0);
+  for(const p of Object.values(next.jobCity.profiles))assert.equal(p.coins,10000);
+  assert.equal(calls,1,'explicit housing decisions stay in one shared batch');
+});
