@@ -73,6 +73,7 @@ test('cached phones cannot erase relocated outer purchases, and deliberate moves
 
 test('removing the three new islands never drops a paid purchase when its reserved migration address is already built on',()=>{
  const old=newGame(now);old.worldRevision=3;old.unlocked=['moon','homestead','stars','coral','clouds'];old.coins=50000;
+ old.scenery.push({id:'obsolete-old-decoration',type:'obsolete-type',biome:'homestead',x:0,z:0,stored:false});
  old.placements=['stars','coral','clouds'].flatMap(id=>{
   const o=retiredDistrict(id);return[
    {id:'keep-'+id,item:'adoption-center',biome:'homestead',x:o.x,z:o.z,rotation:0,readyAt:0},

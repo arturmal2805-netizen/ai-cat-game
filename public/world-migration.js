@@ -1,5 +1,5 @@
 import { byItem, byBiome, NEIGHBORS } from "./game-data.js";
-import { sceneryBounds } from './scenery-data.js';
+import { sceneryBounds, byScenery } from './scenery-data.js';
 import { isRetiredBiome, retiredDistrict } from './world-layout.js';
 export const WORLD_REVISION = 4;
 function relocatedPlot(p, occupied) {
@@ -39,7 +39,7 @@ export function migrateRetiredIsland(raw, now = Date.now()) {
   const occupied=(saved.placements||[]).filter(p=>p.biome==='homestead').map(p=>{
     const size=byItem(p.item)?.footprint||[2,2],[w,d]=p.rotation%2?[size[1],size[0]]:size;return{...p,w,d};
   });
-  occupied.push(...(saved.scenery||[]).filter(p=>p.biome==='homestead'&&!p.stored).map(sceneryBounds));
+  occupied.push(...(saved.scenery||[]).filter(p=>p?.biome==='homestead'&&!p.stored&&byScenery(p.type)).map(sceneryBounds));
   const stored=new Set();
   for(const p of saved.placements || [])if(isRetiredBiome(p.biome)){
     const offset=retiredDistrict(p.biome);
