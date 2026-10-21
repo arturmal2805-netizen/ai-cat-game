@@ -7,7 +7,7 @@ import {
   housingPlot,
   houseType,
 } from "./housing-data.js";
-import { chillHouseModel, chillSign } from "./chill-assets.js";
+import { chillHouseModelSteps, chillSign } from "./chill-assets.js";
 import { bathWater } from "./chill-biome.js";
 import {
   shape,
@@ -116,6 +116,7 @@ export function* housingBiomeSteps(biome, { lowOnly = false } = {}) {
   detail.visible = !lowOnly;
   const templates = new Map(),
     preparing = new Map(),
+    pendingHouses = new Map(),
     houses = new Map(),
     sections = new Map([[0, terrain]]),
     labels = new Map(),
@@ -165,11 +166,11 @@ export function* housingBiomeSteps(biome, { lowOnly = false } = {}) {
     if (!preparing.has(type))
       preparing.set(
         type,
-        prepareSceneSteps(
+        (root.userData.prepareHousingSteps || (steps => prepareSceneSteps(steps, { budget: 3 })))(
           (function* () {
             yield;
             const spec = houseType(type),
-              source = chillHouseModel({ ...spec, id: spec.modelId });
+              source = yield* chillHouseModelSteps({ ...spec, id: spec.modelId });
             yield;
             const result = yield* batchModelSteps(source, {
               combineColors: true,
@@ -183,13 +184,26 @@ export function* housingBiomeSteps(biome, { lowOnly = false } = {}) {
               if (o.isMesh && !o.geometry.userData.sharedScenery)
                 o.geometry.dispose();
             });
-            templates.set(type, result);
+            if (stopped) disposeScenery(result);
+            else templates.set(type, result);
             return result;
           })(),
-          { budget: 3 },
         ),
       );
     return preparing.get(type);
+  }
+  function queueHouse(id) {
+    if (pendingHouses.has(id) || stopped) return;
+    const pending = prepareHouse(id).catch(error => {
+      if (!stopped) console.warn("Housing model preparation failed", error);
+    }).finally(() => pendingHouses.delete(id));
+    pendingHouses.set(id, pending);
+  }
+  function releaseWater(water) {
+    for (const mesh of water.children) if (mesh.isMesh) {
+      mesh.geometry.dispose();
+      mesh.material.dispose();
+    }
   }
   async function prepareHouse(id) {
     const requested = snapshot?.housing?.homes[id];
@@ -234,10 +248,19 @@ export function* housingBiomeSteps(biome, { lowOnly = false } = {}) {
     g.traverse((o) => {
       o.userData.housingHouseId = id;
     });
+    // Like capybara scene preparation, upload textures/compile exact materials
+    // before exposing a new home to the next interactive frame.
+    await root.userData.prepareModel?.(g);
+    if (stopped) { releaseWater(water); return; }
+    const latest = snapshot?.housing?.homes[id];
+    if (!latest) { releaseWater(water); return; }
+    const address = housingPlot(latest.plot);
+    g.position.set(address.x, 0, address.z);
+    g.userData.plot = latest.plot;
     detail.add(g);
     houses.set(id, g);
     animated.add(water);
-    root.updateMatrixWorld(true);
+    g.updateWorldMatrix(true, true);
   }
   function syncHousing(game) {
     snapshot = game;
@@ -312,11 +335,7 @@ export function* housingBiomeSteps(biome, { lowOnly = false } = {}) {
       ) {
         // Evict only offscreen GPU objects, never the permanent home ledger.
         const water = g.userData.water;
-        for (const mesh of water.children)
-          if (mesh.isMesh) {
-            mesh.geometry.dispose();
-            mesh.material.dispose();
-          }
+        releaseWater(water);
         detail.remove(g);
         houses.delete(id);
         animated.delete(water);
@@ -324,13 +343,18 @@ export function* housingBiomeSteps(biome, { lowOnly = false } = {}) {
     }
     if (time < nextPreparation || !snapshot || stopped) return;
     nextPreparation = time + 0.2;
+    const candidates = [];
     for (const h of Object.values(snapshot.housing?.homes || {})) {
-      if (houses.has(h.id)) continue;
+      if (houses.has(h.id) || pendingHouses.has(h.id)) continue;
       const p = housingPlot(h.plot);
       sphere.center.set(biome.center[0] + p.x, 3, biome.center[1] + p.z);
       sphere.radius = 12;
-      if (frustum.intersectsSphere(sphere)) void prepareHouse(h.id);
+      if (frustum.intersectsSphere(sphere)) candidates.push({
+        id: h.id, distance: sphere.center.distanceToSquared(look),
+      });
     }
+    candidates.sort((a,b) => a.distance-b.distance);
+    for (const c of candidates.slice(0, Math.max(0, 2-pendingHouses.size))) queueHouse(c.id);
   }
   root.userData = {
     biomeId: HOUSING_ID,
@@ -345,6 +369,7 @@ export function* housingBiomeSteps(biome, { lowOnly = false } = {}) {
     houses,
     sections,
     templates,
+    pendingHouses,
     syncHousing,
     viewHousing,
     currentSection: () => viewSection,

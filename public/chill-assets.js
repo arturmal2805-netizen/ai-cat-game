@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { runSceneSteps } from "./scene-tasks.js";
 import {
   shape,
   line,
@@ -105,6 +106,9 @@ function window(g, x, y, z, radius = 0.54) {
   line(g, [x, y - radius, z + 0.08], [x, y + radius, z + 0.08], timber, 0.035);
 }
 export function chillHouseModel(h) {
+  return runSceneSteps(chillHouseModelSteps(h));
+}
+export function* chillHouseModelSteps(h) {
   const g = new THREE.Group();
   g.name = `Chill mansion ${h.id}`;
   g.userData = {
@@ -113,6 +117,7 @@ export function chillHouseModel(h) {
     bedCapacity: 2,
     bathCapacity: 1,
   };
+  yield;
   // The open front is physical empty space: no glass, invisible wall or sprite.
   shape(g, "cube", 0xc8af87, 0, 0.26, 0, 11, 0.48, 7.4);
   for (let i = 0; i < 14; i++)
@@ -127,17 +132,20 @@ export function chillHouseModel(h) {
       0.08,
       7.1,
     );
+  yield;
   // A broad continuous porch and two shallow steps work with every cat size.
   shape(g, "cube", 0xd4bc92, 0, 0.18, 4.42, 10.7, 0.18, 1.15);
   shape(g, "cube", 0xe2cda8, 0, 0.35, 3.72, 10.7, 0.18, 0.65);
   shape(g, "cube", wall, 0, 2.05, -3.4, 10.8, 3.1, 0.22).material = plaster;
   for (const x of [-5.3, 5.3]) {
+    yield;
     shape(g, "cube", wall, x, 1.65, -0.3, 0.2, 2.3, 6.25).material = plaster;
     shape(g, "pole", timber, x, 2.25, 3.15, 0.13, 3.5, 0.13);
     lantern(g, x, 2.55, 3.4, 0.55);
     pot(g, x - Math.sign(x) * 0.35, CHILL_FLOOR, 2.8, 0x6f965e, 1.25);
   }
   for (let i = 0; i < 12; i++) {
+    yield;
     const x = -5.05 + i * 0.92;
     shape(
       g,
@@ -152,13 +160,16 @@ export function chillHouseModel(h) {
     );
   }
   shape(g, "cube", timber, 0, 3.55, -3.23, 10.5, 0.14, 0.12);
+  yield;
   // Keep the roof on the rear strip and slim front fascia, exposing the rooms
+  yield;
   // from the actual elevated game camera, not only from a staged front view.
   roofStrip(g, h, -3.65, 1.8, h.roof);
   roofStrip(g, h, 3.1, 0.24, h.roof);
   roofStrip(g, h, 3.36, 0.09, 0xd8bd89);
   for (const x of [-5.55, 5.55])
     line(g, [x, 3.8, -3.6], [x, 3.8, 3.3], h.roof, 0.16);
+  yield;
   // Rear gable with a round dormer. It cannot obscure a resting cat.
   const gable = new THREE.Shape();
   gable.moveTo(-5.1, 3.5);
@@ -180,14 +191,17 @@ export function chillHouseModel(h) {
   g.add(gm);
   window(g, h.form === "asymmetric" ? 1.1 : 0, 4.45, -3.2, 0.49);
   for (const x of [-3.8, 3.8]) window(g, x, 2.65, -3.22, 0.48);
+  yield;
   // Small real flowers and trailing leaves soften the cutaway front arch.
   for (let i = 0; i < 7; i++) {
+    yield;
     const x = -4.8 + i * 1.6,
       y = roofCurve(h, x) + 0.67,
       z = 3.45;
     shape(g, "sphere", 0x7e9a5e, x, y, z, 0.34, 0.15, 0.22);
     flowerCluster(g, x, z, i % 2 ? 0xf4c1d0 : 0xffe4a1, 0.7, y + 0.04);
   }
+  yield;
   // Chimney, collar and individual terracotta caps.
   const cx = h.form === "turret" ? -3.6 : 3.6;
   shape(g, "cube", 0xc3ab8f, cx, 5.2, -2.6, 0.74, 2.2, 0.74);
@@ -200,6 +214,7 @@ export function chillHouseModel(h) {
     shape(g, "sphere", 0xd8b569, 4.35, 6.85, -2.4, 0.16, 0.22, 0.16);
     window(g, 4.35, 4.65, -1.36, 0.38);
   }
+  yield;
   // One full-width mattress, two separate sleeping spaces, no divider.
   const bed = new THREE.Group();
   bed.name = `Chill shared bed ${h.id}`;
@@ -223,8 +238,10 @@ export function chillHouseModel(h) {
     const p = shape(bed, "sphere", ivory, x, 1.22, -0.43, 0.7, 0.16, 0.35);
     p.rotation.z = x < -3 ? 0.12 : -0.12;
   }
+  yield;
   // Folded blanket hangs only over the foot of the mattress, clear of faces.
   shape(bed, "cube", 0xc0b0d3, -2.55, 1.04, 1.68, 2.6, 0.13, 0.65);
+  yield;
   // Hollow porcelain bathtub: underside, skirt and rolled elliptical rim.
   const tub = new THREE.Group();
   tub.name = `Chill bath ${h.id}`;
@@ -264,6 +281,7 @@ export function chillHouseModel(h) {
   line(tub, [1.25, 0.6, -1.2], [1.25, 1.92, -1.2], 0xc5a36a, 0.065);
   line(tub, [1.25, 1.92, -1.2], [0.75, 1.92, -1.2], 0xc5a36a, 0.065);
   shape(tub, "sphere", 0xead49d, 1.25, 1.5, -1.15, 0.14, 0.08, 0.14);
+  yield;
   // Warm lamps and shelves, towels, tea table and little personal decorations.
   for (const x of [-1.8, 1.8]) {
     line(g, [x, 4.7, -2.3], [x, 3.5, -2.3], timber, 0.025);
@@ -271,6 +289,7 @@ export function chillHouseModel(h) {
   }
   shape(g, "cube", 0xc7a272, 0.15, 1.02, -2.5, 2.6, 0.15, 0.8);
   for (let i = 0; i < 4; i++) {
+    yield;
     const x = -0.9 + i * 0.7;
     if (i % 2) pot(g, x, 1.1, -2.5, 0x81a76d, 0.8);
     else
@@ -299,9 +318,11 @@ export function chillHouseModel(h) {
       0.85,
       0.13,
     ).rotation.z = Math.PI / 2;
+  yield;
   // Climbing vines follow the outside columns, never the walkable front lanes.
   for (const side of [-1, 1])
     for (let i = 0; i < 6; i++) {
+      yield;
       const x = side * (5.55 + Math.sin(i) * 0.15),
         z = 2.8 - i * 0.75;
       shape(g, "sphere", 0x7c9b5d, x, 0.9 + i * 0.45, z, 0.35, 0.22, 0.34);

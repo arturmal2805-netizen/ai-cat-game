@@ -570,3 +570,47 @@ test("ordinary save updates cannot cancel a visible paid house while its shared 
     root.userData.dispose();
   }
 });
+
+test('unchanged cloned ledgers reuse navigation objects; a moved plot refreshes bounds and keeps distant sections independent', () => {
+  let g=buy(seed());
+  for(let i=0;i<75;i++) g=buy(g);
+  const rt=createHousingRuntime(); rt.sync(g);
+  const h=Object.values(g.housing.homes)[0], key=h.id+'-bed', bed=rt.object(key);
+  for(let i=0;i<30;i++) {
+    const next=structuredClone(g); next.jobCity.profiles.chichi.coins+=i;
+    rt.sync(next);
+    assert.equal(rt.object(key),bed,'income and save copies retain navigation objects');
+  }
+  for(let section=0;section<7;section++) {
+    const cx=-section*98;
+    for(let x=-38;x<=38;x+=2.5) for(let z=-38;z<=38;z+=2.5) {
+      const p={x:cx+x,z}, radius=.55;
+      const expected=Math.hypot(x,z)<43-radius-.55 && !Object.values(g.housing.homes).some(home=>{
+        const a=housingPlot(home.plot);
+        return Math.abs(p.x-a.x)<5.55+radius && p.z>a.z-3.65-radius && p.z<a.z+4.35+radius;
+      });
+      assert.equal(rt.walkable(p,radius),expected,'section-local search matches full ledger');
+    }
+  }
+  g=structuredClone(g);g.housing.homes[h.id].plot=1200;
+  rt.sync(g);
+  assert.notEqual(rt.object(key),bed);
+  assert.equal(rt.object(key).x,housingPlot(1200).x-2.55);
+});
+
+test('house preparation coalesces view requests, caps concurrent builds and releases an unfinished template on disposal', async () => {
+  let g=buy(seed());
+  for(let i=0;i<12;i++)g=buy(g);
+  const b=byBiome(HOUSING_ID), root=createBiomeScene(b), camera=new T.PerspectiveCamera(40,1.5,.1,300);
+  root.position.set(b.center[0],0,b.center[1]);root.userData.syncHousing(g);
+  camera.position.set(b.center[0],80,b.center[1]+75);camera.lookAt(b.center[0],0,b.center[1]);camera.updateMatrixWorld();
+  const look={x:b.center[0],y:0,z:b.center[1]};
+  for(let i=0;i<20;i++)root.userData.viewHousing(look,85,camera,i);
+  assert.equal(root.userData.pendingHouses.size,2);
+  const pending=[...root.userData.pendingHouses.values()];
+  root.userData.dispose();
+  await Promise.all(pending);
+  assert.equal(root.userData.pendingHouses.size,0);
+  assert.equal(root.userData.houses.size,0);
+  assert.equal(root.userData.templates.size,0,'late templates cannot remain after disposal');
+});

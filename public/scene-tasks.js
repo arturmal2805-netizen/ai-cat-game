@@ -41,14 +41,14 @@ export function createSceneScheduler({
     try {
       while (jobs.size) {
         await yieldTask();
-        if (!canRun()) {
-          await new Promise((resolve) => setTimeout(resolve, 50));
-          continue;
-        }
         const priority = getPriority(),
           job =
             [...jobs].find((j) => j.priority === priority) ||
             jobs.values().next().value;
+        if (!canRun(job.priority)) {
+          await new Promise((resolve) => setTimeout(resolve, 50));
+          continue;
+        }
         try {
           if (job.signal?.aborted)
             throw (

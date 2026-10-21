@@ -29,16 +29,29 @@ export function cityLifeChoices(s) {
       s.familyReview.slots > 0 && familyLimit(s.cats.filter(p => !p.partner)) > 0,
   };
 }
-// Constrain scheduled introductions at decoding time too. Free providers may
-// otherwise enumerate the whole colony despite a prose limit and truncate JSON.
-function familyResponseFormat(s, choices) {
-  const index = { type: "integer", minimum: 0 };
+// Bound every after-work response at decoding time. Loose heterogeneous tuples
+// let providers confuse ownsCar with the selected mode or output venue indices
+// outside the offered catalogue, discarding the entire evening (including homes).
+function eveningResponseFormat(s, choices) {
   const properties = {};
-  if (choices.evenings.length) properties.evenings = {
-    type: "array", minItems: choices.evenings.length, maxItems: choices.evenings.length,
-    items: { type: "array", minItems: 3, maxItems: 3,
-      items: { anyOf: [index, { type: "array", maxItems: 3, items: index }] } },
-  };
+  if (choices.evenings.length) {
+    const variants = [false, true].flatMap(hasCar => {
+      const cats = choices.evenings.filter(i => !!s.cats[i].hasCar === hasCar);
+      if (!cats.length) return [];
+      return [{ type: "object", additionalProperties: false,
+        required: ["cat", "mode", "outings"], properties: {
+          cat: { type: "integer", enum: cats },
+          mode: { type: "integer", enum: hasCar ? [0, 1, 2] : [0, 1] },
+          outings: { type: "array", maxItems: Math.min(3, s.leisureOffers.length),
+            uniqueItems: true, items: { type: "integer", minimum: 0,
+              maximum: Math.max(0, s.leisureOffers.length - 1) } },
+        } }];
+    });
+    properties.evenings = {
+      type: "array", minItems: choices.evenings.length, maxItems: choices.evenings.length,
+      items: variants.length === 1 ? variants[0] : { anyOf: variants },
+    };
+  }
   if (choices.buyers.length) properties.houses = {
     type: "array", maxItems: choices.buyers.length,
     items: { type: "object", additionalProperties: false,
@@ -48,7 +61,7 @@ function familyResponseFormat(s, choices) {
         roommate: { type: ["integer", "null"], enum: [null, ...s.cats.flatMap((p,i) => !p.activeHome ? [i] : [])] },
       } },
   };
-  properties.families = {
+  if (choices.family) properties.families = {
     type: "array", minItems: 1, maxItems: s.familyReview.slots,
     items: {
       type: "object", additionalProperties: false, required: ["male", "female", "reason"],
@@ -70,9 +83,9 @@ export function cityLifeInput(s) {
     islands = [...new Set(places.map((p) => p.biome))];
   const initial = s.phase === "careers";
   const fields = [
-    ...(c.evenings.length ? ['"evenings":[[catIndex,mode,placeIndices]]'] : []),
+    ...(c.evenings.length ? ['"evenings":[{"cat":catIndex,"mode":mode,"outings":placeIndices}]'] : []),
     ...(c.buyers.length
-      ? [c.family ? '"houses":[{"cat":catIndex,"house":houseIndex,"roommate":null}]' : '"houses":[[catIndex,houseIndex,roommateIndex]]']
+      ? ['"houses":[{"cat":catIndex,"house":houseIndex,"roommate":null}]']
       : []),
     ...(c.family
       ? ['"families":[{"male":maleIndex,"female":femaleIndex,"reason":"3 Ukrainian words"}]']
@@ -84,7 +97,7 @@ export function cityLifeInput(s) {
         role: "system",
         content: initial
           ? `Choose a lifelong profession for each requested fictional cat. Return ONLY compact JSON {"careers":[[catIndex,professionIndex]]} without indentation, line breaks, prose or other keys. Exactly one numeric pair for every index provided in careers; no extra rows. Profession indices ${JOB_KINDS.map((k, i) => i + "=" + k).join(",")}. Each input row is [catIndex,personality,preferredProfessionIndices,skillPerProfession]. Choose by personality, preferences and skills. This is initial career selection only. Do not choose evening plans, purchases, houses or families.`
-          : `Choose ONLY requested fictional cat life events. Return ONLY compact JSON {${fields.join(",")}} without indentation, line breaks, prose or other keys. Never select or change professions. Evening input rows are [catIndex,personality,ownsCar,partnerIndex]; ownsCar is a permission, not the chosen activity. Place rows are [placeIndex,typeIndex,islandIndex,action]. Choose for every index in evenings, mode 0=rest/home,1=walk/friends,2=owned car; 1-3 different real place indices, or [] for rest. Choose varied rides, meals, water, games or peaceful rest by personality. Partners spend free time together. Houses: OPTIONAL only buyers, only affordable; ${c.family ? "roommate=null for no roommate, otherwise a free cat index" : "roommate=-1 or null for no roommate, otherwise a different free cat index; never the buyer or a cat with an active home"}. Existing owners may buy additional homes without moving their active residence. Families: ${c.family ? `This is the scheduled 14-day introduction. Return at least 1 and AT MOST ${s.familyReview.slots} rows in families (never pair the entire singles list). Choose compatible lifelong male+female couples from the offered singles, using their personalities. Each singles row is [catIndex,name,sex,personality]; male and female indices must refer to different free cats. Do not return an empty review when compatible singles are available. Every cat can eventually pair.` : "none today"} Omit optional house purchases when unwanted. No family choices outside a scheduled review. No work schedule or career review.`,
+          : `Choose ONLY requested fictional cat life events. Return ONLY compact JSON {${fields.join(",")}} without indentation, line breaks, prose or other keys. Never select or change professions. Evening input rows are [catIndex,personality,ownsCar,partnerIndex]; ownsCar is a permission, not the chosen activity. Place rows are [placeIndex,typeIndex,islandIndex,action]. Choose for every index in evenings, mode 0=rest/home,1=walk/friends,2=owned car; 1-3 different real place indices, or [] for rest. Choose varied rides, meals, water, games or peaceful rest by personality. Partners spend free time together. Houses: OPTIONAL only buyers, only affordable; roommate=null for no roommate, otherwise a different free cat index; never the buyer or a cat with an active home. Existing owners may buy additional homes without moving their active residence. Families: ${c.family ? `This is the scheduled 14-day introduction. Return at least 1 and AT MOST ${s.familyReview.slots} rows in families (never pair the entire singles list). Choose compatible lifelong male+female couples from the offered singles, using their personalities. Each singles row is [catIndex,name,sex,personality]; male and female indices must refer to different free cats. Do not return an empty review when compatible singles are available. Every cat can eventually pair.` : "none today"} Return houses:[] when no purchase is wanted. No family choices outside a scheduled review. No work schedule or career review.`,
       },
       {
         role: "user",
@@ -150,18 +163,18 @@ export function cityLifeInput(s) {
       },
     ],
     max_tokens: Math.min(
-      4000,
+      8192,
       Math.max(
         256,
         c.careers.length * 9 +
-          c.evenings.length * 18 +
-          c.buyers.length * (c.family ? 20 : 10) +
+          c.evenings.length * 30 +
+          c.buyers.length * 20 +
           (c.family ? s.familyReview.slots * 48 : 0) +
           128,
       ),
     ),
     temperature: 0.3,
-    response_format: c.family ? familyResponseFormat(s, c) : { type: "json_object" },
+    response_format: initial ? { type: "json_object" } : eveningResponseFormat(s, c),
   };
 }
 export async function requestCityLife(s, run) {
@@ -205,6 +218,8 @@ function expandCityLife(s, result) {
     let a = raw?.[name] ?? [];
     const seen = new Set();
     if (!Array.isArray(a)) throw Error("Invalid life choices");
+    if (name === "evenings") a = a.map(row => Array.isArray(row)
+      ? row : [row?.cat, row?.mode, row?.outings]);
     if (name === "houses") a = a.map(row => Array.isArray(row)
       ? [row[0], row[1], row[2] ?? -1]
       : [row?.cat, row?.house, row?.roommate ?? -1]);

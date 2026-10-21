@@ -198,3 +198,19 @@ test("cached default scenery remains independent between worlds and reacts to ch
   assert.notDeepEqual(changed, expected);
   assert.deepEqual(initialScenery(), expected);
 });
+
+test('gesture pauses remote geometry while a selected island still builds; paused work resumes intact', async () => {
+  let moving=true, turns=0;
+  const seen=[], gates=[];
+  const scheduler=createSceneScheduler({
+    budget:0, getPriority:()=> 'summer',
+    canRun:priority=>{gates.push(priority); return priority==='summer'||!moving;},
+    yieldTask:async()=>{if(++turns===4)moving=false;},
+  });
+  function* build(id){for(let i=0;i<2;i++){seen.push(id+i);yield;}return id;}
+  const remote=scheduler.prepare(build('housing'),{priority:'cat-homes'});
+  const selected=scheduler.prepare(build('summer'),{priority:'summer'});
+  assert.deepEqual(await Promise.all([remote,selected]),['housing','summer']);
+  assert.deepEqual(seen,['summer0','summer1','housing0','housing1']);
+  assert.ok(gates.includes('cat-homes'));
+});

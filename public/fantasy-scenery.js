@@ -1,7 +1,7 @@
 import { runSceneSteps } from "./scene-tasks.js";
 import * as THREE from "three";
 import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
-import { mergeSceneSteps } from "./geometry-tasks.js";
+import { mergeSceneSteps, copyGeometryBuffers } from "./geometry-tasks.js";
 import { staticSubmissionSteps } from "./static-submissions.js";
 
 const geometries = {
@@ -562,7 +562,7 @@ export function* batchScenerySteps(root, { surfaceKind = null } = {}) {
   yield;
   for (const mesh of meshes) {
     yield;
-    let geometry = mesh.geometry.clone();
+    let geometry = copyGeometryBuffers(mesh.geometry);
     yield;
     if (!geometry.index)
       geometry.setIndex(

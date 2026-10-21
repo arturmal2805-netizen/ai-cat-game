@@ -32,7 +32,8 @@ export function homeRestTime(game, id, now = Date.now(), context = null) {
   return true;
 }
 export function createHousingRuntime({ reduced = false } = {}) {
-  let homes = [],
+  let homes = new Map(),
+    sections = new Map(),
     state = null,
     objects = new Map();
   const walkable = (p, radius = 0.55, obstacles = []) => {
@@ -41,7 +42,7 @@ export function createHousingRuntime({ reduced = false } = {}) {
     return (
       Math.hypot(p.x - cx, p.z) < HOUSING_RADIUS - radius - 0.55 &&
       spaClear(p, radius, obstacles) &&
-      !homes.some(
+      !(sections.get(section) || []).some(
         (h) =>
           Math.abs(p.x - h.x) < 5.55 + radius &&
           p.z > h.z - 3.65 - radius &&
@@ -85,12 +86,7 @@ export function createHousingRuntime({ reduced = false } = {}) {
         local(b),
         radius,
         obstacles.map(local),
-        (p, r, obs) =>
-          walkable(
-            { ...p, x: p.x + sectionX },
-            r,
-            obs.map((q) => ({ ...q, x: q.x + sectionX })),
-          ),
+        (p, r) => walkable({ ...p, x: p.x + sectionX }, r, obstacles),
         { extent: 76 },
       );
       return path?.map((p) => ({ ...p, x: p.x + sectionX }));
@@ -99,15 +95,17 @@ export function createHousingRuntime({ reduced = false } = {}) {
   function sync(game) {
     if (state === game.housing) return;
     state = game.housing;
-    homes = Object.values(state?.homes || {}).map((h) => ({
-      ...h,
-      ...housingPlot(h.plot),
-    }));
-    objects = new Map(
-      Object.values(state?.homes || {})
-        .flatMap(housingObjects)
-        .map((o) => [o.id, o]),
-    );
+    const records = Object.values(state?.homes || {});
+    // Care, income and saves clone the ledger even when every building stays
+    // at the same address. Reuse navigation objects and section-local bounds.
+    if (records.length === homes.size && records.every(h => homes.get(h.id)?.plot === h.plot)) return;
+    homes = new Map(records.map(h => [h.id, { id: h.id, plot: h.plot, ...housingPlot(h.plot) }]));
+    sections = new Map();
+    for (const home of homes.values()) {
+      if (!sections.has(home.section)) sections.set(home.section, []);
+      sections.get(home.section).push(home);
+    }
+    objects = new Map(records.flatMap(housingObjects).map(o => [o.id, o]));
   }
   return {
     ...runtime,

@@ -426,4 +426,32 @@ export async function checkAllCameraGestures(page, context, review) {
     );
   }
   assert.equal(rows.length, 31);
+  if (process.env.CHICHI_QA_HOMES) {
+    const homes=await page.evaluate(()=>Object.values(__lagoonSaveQA.getGame().housing.homes).sort((a,b)=>a.plot-b.plot));
+    assert.equal(homes.length,Number(process.env.CHICHI_QA_HOMES));
+    const visits=[];
+    for (const home of [homes[0],homes.at(-1),homes[0]]) {
+      await page.evaluate(id=>{
+        const q=__lagoonQA;q.manualFrames=false;q.freeze=false;q.cpuOnly=true;q.drawPaused=true;
+        q.showCatHome(id);
+      },home.id);
+      await page.waitForFunction(id=>{
+        const q=__lagoonQA;
+        return q.look.distanceTo(q.desiredLook)<.01 && q.islands.get('cat-homes').userData.houses.has(id);
+      },home.id);
+      const result=await page.evaluate(id=>{
+        const root=__lagoonQA.islands.get('cat-homes'), data=root.userData;
+        const copies=data.detail.children.filter(o=>o.userData.houseId===id);
+        return {id,copies:copies.length,loaded:data.houses.size,sections:data.sections.size,
+          templates:data.templates.size,pending:data.pendingHouses?.size||0,
+          ledger:Object.keys(__lagoonSaveQA.getGame().housing.homes).length};
+      },home.id);
+      assert.equal(result.copies,1,'one live model per permanent purchase, including after eviction/return');
+      assert.equal(result.ledger,homes.length);
+      assert.ok(result.templates<=7);
+      visits.push(result);
+    }
+    fs.writeFileSync(path.join(review,'housing-return.json'),JSON.stringify(visits,null,2));
+    console.log('HOUSING_RETURN',JSON.stringify(visits));
+  }
 }

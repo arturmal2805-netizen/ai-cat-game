@@ -151,7 +151,21 @@ export async function auditFullFrames(page, context, review) {
           await new Promise((r) => setTimeout(r, 17));
         }
         frames.sort((a, b) => a - b);
+        let objects = 0, meshes = 0;
+        const geometries = new Set(), materials = new Set();
+        q.scene.traverse(o => {
+          objects++;
+          if (!o.isMesh) return;
+          meshes++;
+          geometries.add(o.geometry);
+          for (const m of Array.isArray(o.material) ? o.material : [o.material]) materials.add(m);
+        });
         return {
+          memory: { heapBytes: performance.memory?.usedJSHeapSize ?? null,
+            objects, meshes, geometries: geometries.size, materials: materials.size,
+            gpuBuffers: q.gpuBuffers.snapshot(),
+            homes: q.islands.get('cat-homes')?.userData.houses?.size || 0,
+            houseBuilds: q.islands.get('cat-homes')?.userData.pendingHouses?.size || 0 },
           frames: {
             samples: frames.length,
             median: frames[90],

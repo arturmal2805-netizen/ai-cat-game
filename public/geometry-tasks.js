@@ -1,6 +1,15 @@
 import * as THREE from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 
+// Baking needs an independent copy of the existing buffers, not a second
+// procedural primitive. Geometry.clone() invokes its subclass constructor:
+// SphereGeometry, TorusGeometry and RoundedBoxGeometry regenerate a default
+// mesh before copy() immediately throws those newly computed arrays away.
+// Use only for buffer baking, never for an editable procedural source model.
+export function copyGeometryBuffers(source) {
+  return new THREE.BufferGeometry().copy(source);
+}
+
 // Same indexed triangles and attributes as BufferGeometryUtils.mergeGeometries,
 // but copying a large island's buffers must not monopolise one animation frame.
 export function* mergeSceneSteps(parts) {

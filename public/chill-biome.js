@@ -7,7 +7,7 @@ import {
   CHILL_WATER_Y,
   chillReservations,
 } from "./chill-data.js";
-import { chillHouseModel, chillSign } from "./chill-assets.js";
+import { chillHouseModelSteps, chillSign } from "./chill-assets.js";
 import {
   shape,
   line,
@@ -143,7 +143,7 @@ export function* chillBiomeSteps(
     shape(low, "sphere", h.roof, h.x, 3.9, h.z - 0.6, 5.7, 1.8, 3.5);
     yield;
     if (lowOnly) continue;
-    const source = chillHouseModel(h);
+    const source = yield* chillHouseModelSteps(h);
     source.position.set(h.x, 0, h.z);
     houseSources.add(source);
     const bath = CHILL_OBJECTS.find(

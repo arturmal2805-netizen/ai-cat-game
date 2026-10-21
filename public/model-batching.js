@@ -1,6 +1,6 @@
 import { runSceneSteps } from "./scene-tasks.js";
 import * as THREE from "three";
-import { mergeSceneSteps } from "./geometry-tasks.js";
+import { mergeSceneSteps, copyGeometryBuffers } from "./geometry-tasks.js";
 import { optimizeGeometryCache } from "./geometry-cache.js";
 import { staticSubmissionSteps } from "./static-submissions.js";
 
@@ -32,7 +32,7 @@ export function* batchModelSteps(root, { combineColors = false } = {}) {
     yield;
     if (hidden) continue;
     yield;
-    const geometry = mesh.geometry.clone();
+    const geometry = copyGeometryBuffers(mesh.geometry);
     if (!geometry.index)
       geometry.setIndex(
         Array.from({ length: geometry.attributes.position.count }, (_, i) => i),

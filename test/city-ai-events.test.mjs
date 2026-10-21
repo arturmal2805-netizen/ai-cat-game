@@ -466,3 +466,45 @@ test("nullable/missing roommates and invalid optional house suggestions cannot d
     }
   }
 });
+
+test('ordinary evenings constrain car permissions and real venues, accept object rows and persist an AI house without another inference', async () => {
+  let g = await establish();
+  const ids=Object.keys(g.jobCity.profiles);
+  g.jobCity.profiles[ids[0]].coins=10000;
+  const event=nextCityAIEvent(g,epoch+420000), state=validateCityAIState(event), choices=cityLifeChoices(state);
+  const buyer=choices.buyers[0];
+  state.cats[choices.evenings[0]].hasCar=true;
+  const format=cityLifeInput(state).response_format;
+  assert.equal(format.type,'json_schema');
+  const schema=format.json_schema.schema;
+  assert.equal(schema.properties.families,undefined,'no extra family reviews');
+  const variants=schema.properties.evenings.items.anyOf;
+  assert.equal(variants.length,2);
+  for(const v of variants) {
+    const car=v.properties.mode.enum.includes(2);
+    assert.ok(v.properties.cat.enum.every(i=>!!state.cats[i].hasCar===car));
+    assert.equal(v.properties.outings.uniqueItems,true);
+    assert.equal(v.properties.outings.items.maximum,Math.max(0,state.leisureOffers.length-1));
+  }
+  const body=reply(state);
+  body.evenings=body.evenings.map(([cat,mode,outings])=>({cat,mode,outings}));
+  body.houses=[{cat:buyer,house:0,roommate:null}];
+  let calls=0;
+  const result=await requestCityLife(state,async()=>{calls++;return {response:body};});
+  g=applyCityAIEvent(reserveCityAIEvent(g,event),event,result);
+  const homes=Object.values(g.housing.homes), balance=g.jobCity.profiles[state.cats[buyer].id].coins;
+  assert.equal(homes.length,1);
+  assert.equal(homes[0].owner,state.cats[buyer].id);
+  assert.ok(g.unlocked.includes('cat-homes'));
+  g=reload(g);
+  g=applyCityAIEvent(g,event,result);
+  assert.equal(Object.keys(g.housing.homes).length,1);
+  assert.equal(g.jobCity.profiles[state.cats[buyer].id].coins,balance);
+  assert.equal(calls,1);
+  for(const change of [{mode:2}, {outings:[state.leisureOffers.length]}, {outings:[0,0]}]) {
+    const noncar=body.evenings.find(v=>!state.cats[v.cat].hasCar);
+    if(!noncar)continue;
+    const invalid={...body,evenings:body.evenings.map(v=>v===noncar?{...v,...change}:v)};
+    await assert.rejects(requestCityLife(state,async()=>({response:invalid})),/Invalid evening choice/);
+  }
+});

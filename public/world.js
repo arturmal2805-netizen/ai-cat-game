@@ -1096,6 +1096,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
     islandContentKeys.set(biome.id, JSON.stringify([placements, scenery]));
     g.position.set(biome.center[0], 0, biome.center[1]);
     prepareIslandMatrices(g);
+    if (biome.id === HOUSING_ID) g.userData.prepareModel = model =>
+      shaderWarmup.prepare(model, { background: focused !== HOUSING_ID });
+    if (biome.id === HOUSING_ID) g.userData.prepareHousingSteps = steps =>
+      prepareSceneSteps(steps, { scheduler: scenePreparation, priority: HOUSING_ID });
     scene.add(g);
     islands.set(biome.id, g);
     return g;
@@ -1104,9 +1108,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
   const detailJobs = new Map(),
     scenePreparation = createSceneScheduler({
       getPriority: () => focused,
-      canRun: () =>
+      canRun: priority =>
         disposed ||
-        (!document.hidden && !document.querySelector("dialog[open]")),
+        (!document.hidden && !document.querySelector("dialog[open]") &&
+          (priority === focused || performance.now() - lastCameraGesture > 120)),
     });
   async function sceneTurn() {
     await yieldSceneTask();
@@ -1117,7 +1122,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     if (island.userData.placementSteps)
       await prepareSceneSteps(
         island.userData.placementSteps(placements, scenery),
-        { yieldTask: sceneTurn, budget: 3 },
+        { scheduler: scenePreparation, priority: island.userData.biomeId },
       );
     else island.userData.updatePlacements?.(placements, scenery);
   }

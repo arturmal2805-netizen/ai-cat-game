@@ -260,6 +260,7 @@ async function localWorker() {
         a.evening = "walk";
         a.outings = ["luna", "moti"].includes(a.id) ? ["bikini-krusty"] : [];
       }
+      assignments.find(a => a.id === "peach").house = { type: "home-sage", roommate: null };
       const body = {
           day: s.day,
           phase: s.phase,
@@ -439,6 +440,17 @@ async function localWorker() {
     const sharedHome = await page.evaluate(
       () => window.__familySave.getGame().housing.residences.chichi,
     );
+    const aiHome = await page.evaluate(() => {
+      const g=__familySave.getGame(), homes=Object.values(g.housing.homes);
+      if(homes.length!==2)throw Error('The evening purchase did not produce a second home');
+      const h=homes.find(h=>h.owner==='peach');
+      if(!h || h.source!=='ai')throw Error('Missing AI purchase receipt');
+      if(g.jobCity.profiles.peach.coins!==8400)throw Error('AI home charged more than once');
+      return h.id;
+    });
+    await page.evaluate(id=>__familySave.world.showCatHome(id),aiHome);
+    await page.waitForFunction(id=>__familyQA.islands.get('cat-homes').userData.houses.has(id),aiHome);
+    console.log('AI-purchased native Chill house rendered after three reloads, charged exactly once.');
     await page.evaluate(
       (id) => window.__familySave.world.showCatHome(id),
       sharedHome,
