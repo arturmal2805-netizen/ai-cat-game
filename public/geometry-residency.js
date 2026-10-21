@@ -21,15 +21,17 @@ export function createGeometryResidency(
   {
     budget = 192 * 1024 * 1024,
     grace = 10_000,
+    idleFrames = 3,
     clock = () => performance.now(),
   } = {},
 ) {
   const records = new Map(),
     owners = new Map();
   const native = renderer.renderBufferDirect;
-  const stats = { bytes: 0, geometries: 0, evicted: 0, clockReads: 0 };
+  const stats = { bytes: 0, peakBytes: 0, geometries: 0, evicted: 0, clockReads: 0 };
   let nextSweep = 0,
     disposed = false,
+    frameRetirement = true,
     lastFrame = -1,
     frameTime = 0;
   function attributes(geometry) {
@@ -55,7 +57,7 @@ export function createGeometryResidency(
   function touch(geometry) {
     let record = records.get(geometry);
     if (!record) {
-      record = { geometry, attributes: attributes(geometry), used: 0 };
+      record = { geometry, attributes: attributes(geometry), used: 0, frame: -1 };
       record.onDispose = () => forget(record);
       geometry.addEventListener("dispose", record.onDispose);
       records.set(geometry, record);
@@ -67,6 +69,7 @@ export function createGeometryResidency(
         owners.get(attribute).add(record);
       }
       stats.geometries = records.size;
+      stats.peakBytes = Math.max(stats.peakBytes, stats.bytes);
     }
     const frame = renderer.info?.render.frame;
     if (Number.isFinite(frame)) {
@@ -76,6 +79,7 @@ export function createGeometryResidency(
         stats.clockReads++;
       }
       record.used = frameTime;
+      record.frame = frame;
     } else {
       record.used = clock();
       stats.clockReads++;
@@ -89,13 +93,18 @@ export function createGeometryResidency(
   return {
     stats,
     retire: retireGeometryBuffers,
+    // Private comparative QA can retain the released ten-second policy.
+    setFrameRetirementEnabled(value) { frameRetirement = !!value; nextSweep = 0; },
     sweep(now = clock()) {
       if (disposed || now < nextSweep) return;
-      nextSweep = now + 1000;
       if (stats.bytes <= budget) return;
+      nextSweep = now + (frameRetirement ? 100 : 1000);
       const cutoff = now - grace,
+        frame = renderer.info?.render.frame,
+        idle = r => r.used < cutoff || (frameRetirement &&
+          Number.isFinite(frame) && r.frame >= 0 && frame - r.frame >= idleFrames),
         candidates = [...records.values()]
-          .filter((r) => r.used < cutoff)
+          .filter(idle)
           .sort((a, b) => a.used - b.used),
         considered = new Set();
       const start = clock();
@@ -110,7 +119,7 @@ export function createGeometryResidency(
         let safe = true;
         for (const record of group) {
           considered.add(record);
-          if (record.used >= cutoff) {
+          if (!idle(record)) {
             safe = false;
             break;
           }

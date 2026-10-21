@@ -168,6 +168,24 @@ test("GPU-only eviction preserves a living cat and its pose slots across repeate
   atlas.dispose();
 });
 
+test("memory pressure retires only buffers absent from three actual colour/shadow frames, without waiting ten seconds", () => {
+  const f = fixture({ budget: 0, grace: 10000 }), a = new THREE.BoxGeometry(), b = a.clone();
+  f.renderer.info = { render: { frame: 1 } };
+  f.time(1); f.draw(a); f.draw(b);
+  f.renderer.info.render.frame = 2;
+  f.time(20); f.draw(b); f.residency.sweep();
+  assert.equal(f.residency.stats.evicted, 0, "the previous camera's current buffers stay protected");
+  f.renderer.info.render.frame = 4;
+  f.time(150); f.draw(b); f.residency.sweep();
+  assert.equal(f.residency.stats.evicted, 1);
+  assert.ok(f.residency.stats.bytes > 0, "current shadow/colour geometry stays resident even above the soft budget");
+  const before = a.attributes.position.array.slice();
+  f.renderer.info.render.frame = 5;
+  f.time(200); f.draw(a);
+  assert.deepEqual(a.attributes.position.array, before, "return uploads the exact retained source");
+  f.residency.dispose();
+});
+
 test("repeated colour/shadow draws read the use clock once per native render frame", () => {
   const f = fixture(), a = new THREE.BoxGeometry();
   f.renderer.info = { render: { frame: 1 } };

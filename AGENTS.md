@@ -296,3 +296,14 @@ reset the current game clock, day count, AI reservations or weekly trades.
 The new eight-hour maximum is JOB_SHIFT_MINUTES; pay only attended time and
 settle once at 17:00. Quiet cats may return home then; other cats retain their
 chosen free-time itinerary until the existing evening curfew.
+
+### Native-frame GPU resource bookkeeping
+
+Use one timestamp for each native renderer frame, retaining both colour and
+shadow use, instead of reading the clock on every draw. Under memory pressure,
+only geometry absent from the last three native frames may retire before the
+legacy time grace. Protect every recent shared-attribute owner and current
+rendering above the soft budget. Keep cleanup bounded, original CPU source,
+cat atlas registrations and full-resolution re-upload. Never use model destruction
+as GPU retirement. Verify actual GPU bytes, exact return images and repeated
+camera transitions; resource savings do not establish a device FPS increase.

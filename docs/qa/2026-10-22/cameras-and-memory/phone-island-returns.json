@@ -1,0 +1,905 @@
+{
+  "rows": [
+    {
+      "id": "moon",
+      "proof": {
+        "changed": 0,
+        "before": {
+          "bytes": 23582868,
+          "peak": 23582868,
+          "buffers": 892
+        },
+        "retiredBytes": 92244,
+        "after": {
+          "bytes": 23392644
+        },
+        "draw": {
+          "frame": 2,
+          "calls": 353,
+          "triangles": 630496,
+          "points": 320,
+          "lines": 0
+        },
+        "afterDraw": {
+          "frame": 3,
+          "calls": 353,
+          "triangles": 630496,
+          "points": 320,
+          "lines": 0
+        },
+        "slots": {
+          "entries": 2661,
+          "rows": 0,
+          "bytes": 0,
+          "cats": 97,
+          "updatedCats": 4
+        },
+        "afterSlots": {
+          "entries": 2661,
+          "rows": 0,
+          "bytes": 0,
+          "cats": 97,
+          "updatedCats": 4
+        },
+        "residency": {
+          "bytes": 23300400,
+          "peakBytes": 23490624,
+          "geometries": 186,
+          "evicted": 0,
+          "clockReads": 3
+        },
+        "dpr": 2,
+        "glError": 0,
+        "contextLost": false
+      }
+    },
+    {
+      "id": "autumn",
+      "proof": {
+        "changed": 0,
+        "before": {
+          "bytes": 48639940,
+          "peak": 48639940,
+          "buffers": 1296
+        },
+        "retiredBytes": 150952,
+        "after": {
+          "bytes": 36467704
+        },
+        "draw": {
+          "frame": 4,
+          "calls": 182,
+          "triangles": 603912,
+          "points": 740,
+          "lines": 0
+        },
+        "afterDraw": {
+          "frame": 5,
+          "calls": 182,
+          "triangles": 603912,
+          "points": 740,
+          "lines": 0
+        },
+        "slots": {
+          "entries": 2661,
+          "rows": 0,
+          "bytes": 0,
+          "cats": 97,
+          "updatedCats": 2
+        },
+        "afterSlots": {
+          "entries": 2661,
+          "rows": 0,
+          "bytes": 0,
+          "cats": 97,
+          "updatedCats": 2
+        },
+        "residency": {
+          "bytes": 36316752,
+          "peakBytes": 48488988,
+          "geometries": 121,
+          "evicted": 0,
+          "clockReads": 5
+        },
+        "dpr": 2,
+        "glError": 0,
+        "contextLost": false
+      }
+    },
+    {
+      "id": "winter",
+      "proof": {
+        "changed": 0,
+        "before": {
+          "bytes": 65129172,
+          "peak": 65129172,
+          "buffers": 1541
+        },
+        "retiredBytes": 248808,
+        "after": {
+          "bytes": 43251056
+        },
+        "draw": {
+          "frame": 6,
+          "calls": 549,
+          "triangles": 1028128,
+          "points": 740,
+          "lines": 0
+        },
+        "afterDraw": {
+          "frame": 7,
+          "calls": 549,
+          "triangles": 1028128,
+          "points": 740,
+          "lines": 0
+        },
+        "slots": {
+          "entries": 2661,
+          "rows": 0,
+          "bytes": 0,
+          "cats": 97,
+          "updatedCats": 3
+        },
+        "afterSlots": {
+          "entries": 2661,
+          "rows": 0,
+          "bytes": 0,
+          "cats": 97,
+          "updatedCats": 3
+        },
+        "residency": {
+          "bytes": 43002248,
+          "peakBytes": 64880364,
+          "geometries": 251,
+          "evicted": 0,
+          "clockReads": 7
+        },
+        "dpr": 2,
+        "glError": 0,
+        "contextLost": false
+      }
+    },
+    {
+      "id": "water",
+      "proof": {
+        "changed": 0,
+        "before": {
+          "bytes": 152203388,
+          "peak": 152203388,
+          "buffers": 1633
+        },
+        "retiredBytes": 314664,
+        "after": {
+          "bytes": 112912416
+        },
+        "draw": {
+          "frame": 8,
+          "calls": 182,
+          "triangles": 963177,
+          "points": 320,
+          "lines": 0
+        },
+        "afterDraw": {
+          "frame": 9,
+          "calls": 182,
+          "triangles": 963177,
+          "points": 320,
+          "lines": 0
+        },
+        "slots": {
+          "entries": 2661,
+          "rows": 9,
+          "bytes": 73728,
+          "cats": 97,
+          "updatedCats": 9
+        },
+        "afterSlots": {
+          "entries": 2661,
+          "rows": 0,
+          "bytes": 0,
+          "cats": 97,
+          "updatedCats": 9
+        },
+        "residency": {
+          "bytes": 112597752,
+          "peakBytes": 151888724,
+          "geometries": 117,
+          "evicted": 0,
+          "clockReads": 9
+        },
+        "dpr": 2,
+        "glError": 0,
+        "contextLost": false
+      }
+    },
+    {
+      "id": "summer",
+      "proof": {
+        "changed": 0,
+        "before": {
+          "bytes": 190862733,
+          "peak": 190862733,
+          "buffers": 1832
+        },
+        "retiredBytes": 457500,
+        "after": {
+          "bytes": 87258657
+        },
+        "draw": {
+          "frame": 10,
+          "calls": 473,
+          "triangles": 2962225,
+          "points": 320,
+          "lines": 0
+        },
+        "afterDraw": {
+          "frame": 11,
+          "calls": 473,
+          "triangles": 2962225,
+          "points": 320,
+          "lines": 0
+        },
+        "slots": {
+          "entries": 2661,
+          "rows": 0,
+          "bytes": 0,
+          "cats": 97,
+          "updatedCats": 4
+        },
+        "afterSlots": {
+          "entries": 2661,
+          "rows": 0,
+          "bytes": 0,
+          "cats": 97,
+          "updatedCats": 4
+        },
+        "residency": {
+          "bytes": 86801157,
+          "peakBytes": 190405233,
+          "geometries": 296,
+          "evicted": 0,
+          "clockReads": 11
+        },
+        "dpr": 2,
+        "glError": 0,
+        "contextLost": false
+      }
+    },
+    {
+      "id": "sakura",
+      "proof": {
+        "changed": 0,
+        "before": {
+          "bytes": 129123217,
+          "peak": 190862733,
+          "buffers": 2183
+        },
+        "retiredBytes": 548296,
+        "after": {
+          "bytes": 81060647
+        },
+        "draw": {
+          "frame": 12,
+          "calls": 399,
+          "triangles": 1957657,
+          "points": 740,
+          "lines": 0
+        },
+        "afterDraw": {
+          "frame": 13,
+          "calls": 399,
+          "triangles": 1957657,
+          "points": 740,
+          "lines": 0
+        },
+        "slots": {
+          "entries": 2661,
+          "rows": 6,
+          "bytes": 49152,
+          "cats": 97,
+          "updatedCats": 7
+        },
+        "afterSlots": {
+          "entries": 2661,
+          "rows": 0,
+          "bytes": 0,
+          "cats": 97,
+          "updatedCats": 7
+        },
+        "residency": {
+          "bytes": 80512351,
+          "peakBytes": 190405233,
+          "geometries": 231,
+          "evicted": 0,
+          "clockReads": 13
+        },
+        "dpr": 2,
+        "glError": 0,
+        "contextLost": false
+      }
+    },
+    {
+      "id": "volcano",
+      "proof": {
+        "changed": 0,
+        "before": {
+          "bytes": 120941935,
+          "peak": 190862733,
+          "buffers": 2116
+        },
+        "retiredBytes": 652984,
+        "after": {
+          "bytes": 54316420
+        },
+        "draw": {
+          "frame": 14,
+          "calls": 541,
+          "triangles": 1127386,
+          "points": 740,
+          "lines": 0
+        },
+        "afterDraw": {
+          "frame": 15,
+          "calls": 541,
+          "triangles": 1127386,
+          "points": 740,
+          "lines": 0
+        },
+        "slots": {
+          "entries": 2661,
+          "rows": 0,
+          "bytes": 0,
+          "cats": 97,
+          "updatedCats": 3
+        },
+        "afterSlots": {
+          "entries": 2661,
+          "rows": 0,
+          "bytes": 0,
+          "cats": 97,
+          "updatedCats": 3
+        },
+        "residency": {
+          "bytes": 53663436,
+          "peakBytes": 190405233,
+          "geometries": 222,
+          "evicted": 0,
+          "clockReads": 15
+        },
+        "dpr": 2,
+        "glError": 0,
+        "contextLost": false
+      }
+    },
+    {
+      "id": "candy",
+      "proof": {
+        "changed": 0,
+        "before": {
+          "bytes": 58448844,
+          "peak": 190862733,
+          "buffers": 1563
+        },
+        "retiredBytes": 723688,
+        "after": {
+          "bytes": 10598004
+        },
+        "draw": {
+          "frame": 16,
+          "calls": 190,
+          "triangles": 388900,
+          "points": 0,
+          "lines": 0
+        },
+        "afterDraw": {
+          "frame": 17,
+          "calls": 190,
+          "triangles": 388900,
+          "points": 0,
+          "lines": 0
+        },
+        "slots": {
+          "entries": 2661,
+          "rows": 0,
+          "bytes": 0,
+          "cats": 97,
+          "updatedCats": 1
+        },
+        "afterSlots": {
+          "entries": 2661,
+          "rows": 0,
+          "bytes": 0,
+          "cats": 97,
+          "updatedCats": 1
+        },
+        "residency": {
+          "bytes": 9874316,
+          "peakBytes": 190405233,
+          "geometries": 102,
+          "evicted": 0,
+          "clockReads": 17
+        },
+        "dpr": 2,
+        "glError": 0,
+        "contextLost": false
+      }
+    },
+    {
+      "id": "galaxy",
+      "proof": {
+        "changed": 0,
+        "before": {
+          "bytes": 42086496,
+          "peak": 190862733,
+          "buffers": 1549
+        },
+        "retiredBytes": 826744,
+        "after": {
+          "bytes": 36084384
+        },
+        "draw": {
+          "frame": 18,
+          "calls": 457,
+          "triangles": 1063365,
+          "points": 740,
+          "lines": 0
+        },
+        "afterDraw": {
+          "frame": 19,
+          "calls": 457,
+          "triangles": 1063365,
+          "points": 740,
+          "lines": 0
+        },
+        "slots": {
+          "entries": 2661,
+          "rows": 0,
+          "bytes": 0,
+          "cats": 97,
+          "updatedCats": 3
+        },
+        "afterSlots": {
+          "entries": 2661,
+          "rows": 0,
+          "bytes": 0,
+          "cats": 97,
+          "updatedCats": 3
+        },
+        "residency": {
+          "bytes": 35257640,
+          "peakBytes": 190405233,
+          "geometries": 253,
+          "evicted": 0,
+          "clockReads": 19
+        },
+        "dpr": 2,
+        "glError": 0,
+        "contextLost": false
+      }
+    },
+    {
+      "id": "ice",
+      "proof": {
+        "changed": 0,
+        "before": {
+          "bytes": 73728580,
+          "peak": 190862733,
+          "buffers": 2393
+        },
+        "retiredBytes": 930616,
+        "after": {
+          "bytes": 44454540
+        },
+        "draw": {
+          "frame": 20,
+          "calls": 924,
+          "triangles": 1074711,
+          "points": 420,
+          "lines": 0
+        },
+        "afterDraw": {
+          "frame": 21,
+          "calls": 924,
+          "triangles": 1074711,
+          "points": 420,
+          "lines": 0
+        },
+        "slots": {
+          "entries": 2661,
+          "rows": 0,
+          "bytes": 0,
+          "cats": 97,
+          "updatedCats": 2
+        },
+        "afterSlots": {
+          "entries": 2661,
+          "rows": 0,
+          "bytes": 0,
+          "cats": 97,
+          "updatedCats": 2
+        },
+        "residency": {
+          "bytes": 43523924,
+          "peakBytes": 190405233,
+          "geometries": 265,
+          "evicted": 0,
+          "clockReads": 21
+        },
+        "dpr": 2,
+        "glError": 0,
+        "contextLost": false
+      }
+    },
+    {
+      "id": "clockwork",
+      "proof": {
+        "changed": 0,
+        "before": {
+          "bytes": 90572780,
+          "peak": 190862733,
+          "buffers": 2612
+        },
+        "retiredBytes": 980136,
+        "after": {
+          "bytes": 58450732
+        },
+        "draw": {
+          "frame": 22,
+          "calls": 779,
+          "triangles": 2451212,
+          "points": 420,
+          "lines": 0
+        },
+        "afterDraw": {
+          "frame": 23,
+          "calls": 779,
+          "triangles": 2451212,
+          "points": 420,
+          "lines": 0
+        },
+        "slots": {
+          "entries": 2661,
+          "rows": 0,
+          "bytes": 0,
+          "cats": 97,
+          "updatedCats": 1
+        },
+        "afterSlots": {
+          "entries": 2661,
+          "rows": 0,
+          "bytes": 0,
+          "cats": 97,
+          "updatedCats": 1
+        },
+        "residency": {
+          "bytes": 57470596,
+          "peakBytes": 190405233,
+          "geometries": 350,
+          "evicted": 0,
+          "clockReads": 23
+        },
+        "dpr": 2,
+        "glError": 0,
+        "contextLost": false
+      }
+    },
+    {
+      "id": "foodcourt",
+      "proof": {
+        "changed": 0,
+        "before": {
+          "bytes": 78917546,
+          "peak": 190862733,
+          "buffers": 2261
+        },
+        "retiredBytes": 1091196,
+        "after": {
+          "bytes": 26365174
+        },
+        "draw": {
+          "frame": 24,
+          "calls": 174,
+          "triangles": 645530,
+          "points": 320,
+          "lines": 0
+        },
+        "afterDraw": {
+          "frame": 25,
+          "calls": 174,
+          "triangles": 645530,
+          "points": 320,
+          "lines": 0
+        },
+        "slots": {
+          "entries": 2690,
+          "rows": 0,
+          "bytes": 0,
+          "cats": 98,
+          "updatedCats": 3
+        },
+        "afterSlots": {
+          "entries": 2690,
+          "rows": 0,
+          "bytes": 0,
+          "cats": 98,
+          "updatedCats": 3
+        },
+        "residency": {
+          "bytes": 25273978,
+          "peakBytes": 190405233,
+          "geometries": 107,
+          "evicted": 0,
+          "clockReads": 25
+        },
+        "dpr": 2,
+        "glError": 0,
+        "contextLost": false
+      }
+    },
+    {
+      "id": "bikini",
+      "proof": {
+        "changed": 0,
+        "before": {
+          "bytes": 64229420,
+          "peak": 190862733,
+          "buffers": 1382
+        },
+        "retiredBytes": 1105116,
+        "after": {
+          "bytes": 50954188
+        },
+        "draw": {
+          "frame": 26,
+          "calls": 253,
+          "triangles": 892504,
+          "points": 320,
+          "lines": 0
+        },
+        "afterDraw": {
+          "frame": 27,
+          "calls": 253,
+          "triangles": 892504,
+          "points": 320,
+          "lines": 0
+        },
+        "slots": {
+          "entries": 2690,
+          "rows": 0,
+          "bytes": 0,
+          "cats": 98,
+          "updatedCats": 6
+        },
+        "afterSlots": {
+          "entries": 2690,
+          "rows": 0,
+          "bytes": 0,
+          "cats": 98,
+          "updatedCats": 6
+        },
+        "residency": {
+          "bytes": 49849072,
+          "peakBytes": 190405233,
+          "geometries": 174,
+          "evicted": 0,
+          "clockReads": 27
+        },
+        "dpr": 2,
+        "glError": 0,
+        "contextLost": false
+      }
+    },
+    {
+      "id": "homestead",
+      "proof": {
+        "changed": 0,
+        "before": {
+          "bytes": 155078608,
+          "peak": 190862733,
+          "buffers": 2717
+        },
+        "retiredBytes": 1307688,
+        "after": {
+          "bytes": 111390980
+        },
+        "draw": {
+          "frame": 28,
+          "calls": 739,
+          "triangles": 2961882,
+          "points": 0,
+          "lines": 0
+        },
+        "afterDraw": {
+          "frame": 29,
+          "calls": 739,
+          "triangles": 2961882,
+          "points": 0,
+          "lines": 0
+        },
+        "slots": {
+          "entries": 2690,
+          "rows": 35,
+          "bytes": 286720,
+          "cats": 98,
+          "updatedCats": 54
+        },
+        "afterSlots": {
+          "entries": 2690,
+          "rows": 0,
+          "bytes": 0,
+          "cats": 98,
+          "updatedCats": 54
+        },
+        "residency": {
+          "bytes": 110083292,
+          "peakBytes": 190405233,
+          "geometries": 333,
+          "evicted": 0,
+          "clockReads": 29
+        },
+        "dpr": 2,
+        "glError": 0,
+        "contextLost": false
+      }
+    },
+    {
+      "id": "aquarium",
+      "proof": {
+        "changed": 0,
+        "before": {
+          "bytes": 156416769,
+          "peak": 190862733,
+          "buffers": 2679
+        },
+        "retiredBytes": 1324928,
+        "after": {
+          "bytes": 112870309
+        },
+        "draw": {
+          "frame": 30,
+          "calls": 241,
+          "triangles": 2184026,
+          "points": 320,
+          "lines": 0
+        },
+        "afterDraw": {
+          "frame": 31,
+          "calls": 241,
+          "triangles": 2184026,
+          "points": 320,
+          "lines": 0
+        },
+        "slots": {
+          "entries": 2690,
+          "rows": 5,
+          "bytes": 40960,
+          "cats": 98,
+          "updatedCats": 8
+        },
+        "afterSlots": {
+          "entries": 2690,
+          "rows": 0,
+          "bytes": 0,
+          "cats": 98,
+          "updatedCats": 8
+        },
+        "residency": {
+          "bytes": 111545381,
+          "peakBytes": 190405233,
+          "geometries": 201,
+          "evicted": 0,
+          "clockReads": 31
+        },
+        "dpr": 2,
+        "glError": 0,
+        "contextLost": false
+      }
+    },
+    {
+      "id": "jobcity",
+      "proof": {
+        "changed": 0,
+        "before": {
+          "bytes": 209798053,
+          "peak": 209798053,
+          "buffers": 2050
+        },
+        "retiredBytes": 1329536,
+        "after": {
+          "bytes": 164757520
+        },
+        "draw": {
+          "frame": 32,
+          "calls": 240,
+          "triangles": 1207413,
+          "points": 320,
+          "lines": 0
+        },
+        "afterDraw": {
+          "frame": 33,
+          "calls": 240,
+          "triangles": 1207413,
+          "points": 320,
+          "lines": 0
+        },
+        "slots": {
+          "entries": 2690,
+          "rows": 7,
+          "bytes": 57344,
+          "cats": 98,
+          "updatedCats": 13
+        },
+        "afterSlots": {
+          "entries": 2690,
+          "rows": 0,
+          "bytes": 0,
+          "cats": 98,
+          "updatedCats": 13
+        },
+        "residency": {
+          "bytes": 163427984,
+          "peakBytes": 208468517,
+          "geometries": 190,
+          "evicted": 0,
+          "clockReads": 33
+        },
+        "dpr": 2,
+        "glError": 0,
+        "contextLost": false
+      }
+    },
+    {
+      "id": "cat-homes",
+      "proof": {
+        "changed": 0,
+        "before": {
+          "bytes": 174825350,
+          "peak": 209798053,
+          "buffers": 1436
+        },
+        "retiredBytes": 1329536,
+        "after": {
+          "bytes": 18112330
+        },
+        "draw": {
+          "frame": 34,
+          "calls": 50,
+          "triangles": 204791,
+          "points": 0,
+          "lines": 0
+        },
+        "afterDraw": {
+          "frame": 35,
+          "calls": 50,
+          "triangles": 204791,
+          "points": 0,
+          "lines": 0
+        },
+        "slots": {
+          "entries": 2690,
+          "rows": 0,
+          "bytes": 0,
+          "cats": 98,
+          "updatedCats": 0
+        },
+        "afterSlots": {
+          "entries": 2690,
+          "rows": 0,
+          "bytes": 0,
+          "cats": 98,
+          "updatedCats": 0
+        },
+        "residency": {
+          "bytes": 16782794,
+          "peakBytes": 208468517,
+          "geometries": 38,
+          "evicted": 0,
+          "clockReads": 35
+        },
+        "dpr": 2,
+        "glError": 0,
+        "contextLost": false
+      }
+    }
+  ]
+}
