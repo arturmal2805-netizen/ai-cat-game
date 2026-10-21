@@ -1,3 +1,4 @@
+import {CryptoAIRequestLedger,validateCryptoRequest} from "./crypto-ai.mjs";
 import { housingSnapshotValid } from "./public/housing-system.js";
 import { familySnapshotValid } from "./public/family-system.js";
 import { chunkedSaveStorage } from "./chunked-save-store.mjs";
@@ -87,12 +88,17 @@ export async function readSaveBody(request) {
 export class SaveVault {
   constructor(state, env = {}) {
     this.storage = chunkedSaveStorage(state.storage);
+    this.cryptoAI=new CryptoAIRequestLedger(this.storage,(input,validate)=>aiProviderRouter(env).run(input,validate));
     this.cityAI = new CityAIRequestLedger(this.storage, {
       reserveConfigured: !!env.BACKUP_AI_API_KEY,
       run: (_model, input, validate) => aiProviderRouter(env).run(input, validate),
     });
   }
   async fetch(request) {
+    if(new URL(request.url).pathname==='/internal-crypto-ai'&&request.method==='POST'){
+      let input;try{input=validateCryptoRequest(await readJSON(request,2048));}catch{return json({error:'Invalid trading attempt'},400);}
+      const result=await this.cryptoAI.forecast(input);return json(result.body,result.status);
+    }
     if (new URL(request.url).pathname === "/internal-city-ai-status" && request.method === "GET")
       return json(await this.cityAI.status());
     if (

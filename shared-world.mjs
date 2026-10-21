@@ -102,6 +102,7 @@ function merge(base, current, incoming, path = "", depth = 0) {
       const groups = [
         [
           "coins",
+          "investments",
           "earnedTotal",
           "spentTotal",
           "purchaseCount",
@@ -121,7 +122,7 @@ function merge(base, current, incoming, path = "", depth = 0) {
         ["trip", "parkedAt", "parkedCar"],
       ];
       for (const keys of groups) {
-        const incomingChanged = keys.some((k) => changed(old[k], p[k])),
+        const incomingChanged = keys.some((k) => (k!=="investments" || !!p.investments) && changed(old[k], p[k])),
           currentChanged = keys.some((k) => changed(old[k], actual[k]));
         if (
           incomingChanged &&
@@ -135,6 +136,7 @@ function merge(base, current, incoming, path = "", depth = 0) {
       const profile = clone(actual);
       for (const key of Object.keys(p))
         if (changed(old[key], p[key])) {
+          if (key === "investments" && !p[key] && actual[key]) continue;
           if (key === "lastHousingAIDay")
             profile[key] = Math.max(actual[key] ?? -1, p[key] ?? -1);
           else if (key === "careerAIRequestedDay")

@@ -1,3 +1,4 @@
+import {reserveCryptoAttempt,pendingCryptoAttempt,applyCryptoForecast,advanceCryptoTrading,localCryptoForecast} from "./crypto-trading.js";
 import {
   buyCatHome,
   setActiveHome,
@@ -435,6 +436,33 @@ async function requestDailyCareers(event) {
     void recoverDailyFamilies();
   }
 }
+let cryptoBusy=false;
+async function cryptoTick(){
+  if(document.hidden||!cloud.simulationOwner||!cloud.editable||cloud.conflict)return;
+  try{const settled=advanceCryptoTrading(game);if(settled!==game)commit(settled,false);}
+  catch(error){$('save-state').textContent=error.message;return;}
+  if(cryptoBusy)return;
+  cryptoBusy=true;
+  try{
+    let request=pendingCryptoAttempt(game);
+    if(!request){const reserved=reserveCryptoAttempt(game);if(reserved.game!==game)commit(reserved.game,false);request=reserved.request;}
+    if(!request)return;
+    const token=cloud.token;let forecast=localCryptoForecast(request.attemptId),source='local';
+    try{
+      // Flush the durable reservation before requesting a paid forecast. A
+      // running save is awaited cooperatively; offline play falls back locally.
+      for(let i=0;i<160&&(cloud.running||cloud.loading);i++)await new Promise(r=>setTimeout(r,50));
+      await cloud.flush();
+      if(token&&cloud.token===token&&!cloud.pending&&!cloud.retryEntry&&!cloud.running&&!cloud.conflict){
+        const response=await fetch(api('/api/crypto/forecast'),{method:'POST',headers:{'Content-Type':'application/json','X-Chichi-Save-Token':token},body:JSON.stringify(request),signal:AbortSignal.timeout(105000)});
+        if(response.ok){const answer=await response.json();if(answer.attemptId===request.attemptId){forecast=answer.forecast;source=answer.source;}}
+      }
+    }catch{/* One saved attempt; price ticks never retry the provider. */}
+    if(cloud.token===token&&cloud.simulationOwner&&cloud.editable&&!cloud.conflict){
+      const next=applyCryptoForecast(game,request,forecast,source);if(next!==game)commit(next,false);
+    }
+  }catch(error){$('save-state').textContent=error.message;}finally{cryptoBusy=false;}
+}
 function cityTick() {
   if (game.unlocked.includes("jobcity")) {
     $("jobcity-open").hidden = false;
@@ -476,6 +504,7 @@ function cityTick() {
   } catch (error) {
     $("save-state").textContent = error.message;
   }
+  void cryptoTick();
 }
 setInterval(cityTick, 1000);
 $("care-open").onclick = () => open("care-dialog");

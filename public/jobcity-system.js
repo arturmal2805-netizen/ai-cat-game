@@ -1,3 +1,4 @@
+import {normalizeInvestments} from "./crypto-trading.js";
 import {
   JOB_CITY_ID,
   JOB_MINUTE_MS,
@@ -65,6 +66,7 @@ export function newJobProfile(cat) {
     name: cat.name,
     sex: catSex(cat),
     coins: 0,
+    investments: null,
     purchaseCount: 0,
     lastHousingAIDay: -1,
     lastEveningDay: -1,
@@ -125,6 +127,7 @@ export function normalizeJobCity(raw, game, now = Date.now()) {
       r = raw.profiles?.[cat.id];
     if (r) {
       p.coins = safe(r.coins);
+      p.investments=normalizeInvestments(r.investments);
       p.purchaseCount = safe(r.purchaseCount, Number.MAX_SAFE_INTEGER);
       p.lastHousingAIDay = Number.isSafeInteger(r.lastHousingAIDay)
         ? r.lastHousingAIDay

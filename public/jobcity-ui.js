@@ -1,3 +1,5 @@
+import {richestCats} from "./cat-wealth.js";
+import {createInvestmentsPanel} from "./crypto-ui.js";
 import { cityAIFamilyMessage, cityAIHousingMessage } from "./city-ai-schedule.js";
 import { catProfileCard } from "./cat-card-ui.js";
 import { leisureOffers } from "./leisure-data.js";
@@ -49,6 +51,10 @@ export function createJobCityUI({
   );
   const clock = text("p", "", "dialog-copy");
   dialog.append(clock);
+  const wealth=document.createElement('section');
+  wealth.className='cat-wealth';wealth.setAttribute('aria-label','Три найбагатші котики');
+  dialog.append(wealth);
+  let wealthKey='';
   const selects = document.createElement("select");
   selects.id = "jobcity-cat";
   selects.setAttribute("aria-label", "Вибрати котика");
@@ -60,7 +66,8 @@ export function createJobCityUI({
     business = null,
     productCategory = "cars",
     lastKey = "",
-    propertyLimit = 20;
+    propertyLimit = 20,
+    investmentsPanel=null;
   selects.onchange = () => {
     selected = selects.value;
     render();
@@ -87,9 +94,22 @@ export function createJobCityUI({
       clock.textContent =
         "Відкрийте Cat Job City в магазині островів, щоб котики обрали професії та заробляли власні монетки.";
       selects.hidden = true;
+      wealth.hidden=true;
       return;
     }
-    selects.hidden = false;
+    selects.hidden = false;wealth.hidden=false;
+    const leaders=richestCats(state),ranking=JSON.stringify(leaders.map(p=>[p.id,p.name,p.coins]));
+    if(ranking!==wealthKey){
+      wealthKey=ranking;
+      const podium=document.createElement('div');podium.className='cat-wealth-podium';
+      for(const [rank,cat] of leaders.entries()){
+        const card=catProfileCard(cat,{subtitle:['🥇','🥈','🥉'][rank]+' '+money(cat.coins)+' 🐾',onSelect:id=>{selected=id;lastKey='';render();}});
+        card.classList.add('cat-wealth-card','cat-wealth-rank-'+rank);
+        card.setAttribute('aria-label',`${rank+1} місце · ${cat.name} · ${money(cat.coins)} власних монеток`);
+        podium.append(card);
+      }
+      wealth.replaceChildren(text('h3','Найбагатші котики ✨'),text('p','Їхні власні зароблені монетки','dialog-copy'),podium);
+    }
     const cats = Object.values(state.profiles);
     if (!state.profiles[selected]) selected = cats[0]?.id;
     if (selects.options.length !== cats.length) {
@@ -118,7 +138,9 @@ export function createJobCityUI({
       getAIStatus(),
       housingMessage,
     ]);
-    if (key === lastKey) return;
+    if (key === lastKey) {
+      investmentsPanel?.update(p,c.day);return;
+    }
     lastKey = key;
     body.replaceChildren();
     const navigation = document.createElement("nav");
@@ -129,6 +151,7 @@ export function createJobCityUI({
       ["overview", "Огляд"],
       ["family", "Сім’я"],
       ["inventory", "Інвентар"],
+      ["investments", "Інвестиції"],
       ["property", "Нерухомість"],
       ["shopping", "Покупки"],
       ["history", "Історія"],
@@ -453,13 +476,15 @@ export function createJobCityUI({
       showProducts();
     };
     showProducts();
+    investmentsPanel=createInvestmentsPanel(sections.get('investments'),{labelDay:d=>familyCalendar(game,d).label});
+    investmentsPanel.update(p,c.day);
     content = sections.get("history");
     content.append(text("h3", "Історія доходів і витрат"));
     for (const t of [...p.transactions].reverse())
       content.append(
         text(
           "p",
-          `${t.amount > 0 ? "+" : ""}${money(t.amount)} 🐾 · ${t.kind === "wage" ? "Зміна: " + jobBusiness(t.job)?.name : catProducts(game).find((x) => x.id === t.item)?.name || "Покупка"}`,
+          `${t.amount > 0 ? "+" : ""}${money(t.amount)} 🐾 · ${t.kind === "wage" ? "Зміна: " + jobBusiness(t.job)?.name : t.kind === "crypto-margin" ? "Маржа криптоугоди" : t.kind === "crypto-close" ? "Закриття криптоугоди" : catProducts(game).find((x) => x.id === t.item)?.name || "Покупка"}`,
           "jobcity-history",
         ),
       );

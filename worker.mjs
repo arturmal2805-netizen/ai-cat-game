@@ -77,6 +77,10 @@ export default {
       return accountAccess(request, env);
     if (path === "/api/save" && ["GET", "PUT", "POST"].includes(request.method))
       return cloudSave(request, env);
+    if(path==='/api/crypto/forecast'&&request.method==='POST'){
+      if(Number(request.headers.get('content-length'))>2048)return json({error:'Request too large'},413);
+      return cloudSave(new Request(new URL('/internal-crypto-ai',request.url),request),env);
+    }
     if (path === "/api/jobcity/status" && request.method === "GET")
       return cloudSave(new Request(new URL("/internal-city-ai-status", request.url), {
         headers: { "X-Chichi-Save-Token": request.headers.get("X-Chichi-Save-Token") || "" },
