@@ -3203,14 +3203,46 @@ button.cat-profile-card {
   }
 }
 
+/* Personal wallets: reuse existing portraits without another 3D renderer. */
+.cat-wealth {
+  margin: 1.2rem 0;
+  padding: 1.2rem;
+  border: 1px solid #e6d7b9;
+  border-radius: 1.5rem;
+  background: linear-gradient(130deg, #fff7df, #f4edff 65%, #edf8f3);
+}
+.cat-wealth h3 { margin: 0 0 .3rem; color: #755b79; }
+.cat-wealth .dialog-copy { margin: .3rem 0 1rem; font-size: .85rem; }
+.cat-wealth-podium {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .65rem;
+}
+.cat-wealth-card {
+  width: 100%;
+  padding: .8rem .4rem;
+  border-radius: 1.1rem;
+  box-shadow: 0 4px 12px #77608312;
+  background: #fffcf7;
+}
+.cat-wealth-rank-0 { border: 2px solid #d8b65c; background: linear-gradient(#fffdf2, #ffefbf); }
+.cat-wealth-rank-1 { border: 1px solid #c2c5d4; background: linear-gradient(#fcfcff, #eeedf5); }
+.cat-wealth-rank-2 { border: 1px solid #d7b49f; background: linear-gradient(#fff9f2, #f6e5d8); }
+.cat-wealth-place { color: #856b53; font-size: .78rem; font-weight: 600; }
+.cat-wealth-card .cat-profile-photo { width: clamp(54px, 12vw, 96px); }
+.cat-wealth-card .cat-sex { min-width: 18px; height: 18px; margin: 0; font-size: 14px; bottom: 0; }
+.cat-wealth-card strong { font-size: clamp(.8rem, 2.5vw, 1rem); }
+.cat-wealth-balance { margin-top: auto; font-weight: 750; color: #796038; font-variant-numeric: tabular-nums; }
+.cat-wealth-card:hover { box-shadow: 0 5px 16px #77608325; }
+@media (max-width: 420px) {
+  .cat-wealth { padding: .8rem; }
+  .cat-wealth-podium { gap: .35rem; }
+  .cat-wealth-card { padding: .65rem .25rem; border-radius: .85rem; }
+  .cat-wealth-place { font-size: .65rem; }
+  .cat-wealth-balance { font-size: .78rem; }
+}
+
 .crypto-position{padding:1rem;border:1px solid #d6c7df;border-radius:1.2rem;background:linear-gradient(135deg,#faf5ff,#eef8f4)}
 .crypto-total{font-weight:700;font-size:1.15rem}.crypto-profit{color:#347c61}.crypto-loss{color:#ac5266}
 .crypto-details{display:grid;grid-template-columns:minmax(6rem,1fr) 1fr;gap:.35rem 1rem}.crypto-details dd{margin:0;font-weight:600}
 .crypto-position progress{width:100%;accent-color:#9271ba}.crypto-history{padding:.65rem 0;border-bottom:1px solid #ded7e8}.crypto-history summary{cursor:pointer}
-
-.cat-wealth{margin:1.2rem 0;padding:1.2rem;border-radius:1.5rem;background:linear-gradient(130deg,#fff7df,#f4edff 65%,#edf8f3);border:1px solid #e6d7b9}
-.cat-wealth h3{margin:0 0 .3rem}.cat-wealth .dialog-copy{margin:.3rem 0 .9rem}.cat-wealth-podium{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.65rem}
-.cat-wealth-card{min-width:0;display:flex;flex-direction:column;align-items:center;text-align:center;padding:.65rem .3rem;border-radius:1rem;box-shadow:0 4px 12px #77608312;background:#fffcf7}
-.cat-wealth-rank-0{border:2px solid #ddbb66;background:linear-gradient(#fffdf2,#ffefbf)}.cat-wealth-rank-1{border:1px solid #c2c5d4}.cat-wealth-rank-2{border:1px solid #d7b49f}
-.cat-wealth-card img{width:clamp(54px,12vw,96px);height:clamp(54px,12vw,96px);object-fit:contain}.cat-wealth-card span,.cat-wealth-card strong,.cat-wealth-card small{max-width:100%;overflow-wrap:anywhere}
-@media(max-width:420px){.cat-wealth{padding:.8rem}.cat-wealth-podium{gap:.35rem}.cat-wealth-card{font-size:.8rem}}
