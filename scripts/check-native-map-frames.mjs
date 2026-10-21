@@ -63,6 +63,37 @@ export async function checkNativeMapFrames(page, review) {
       assert.equal(image.fast.triangles, image.native.triangles);
       assert.equal(image.fast.calls, image.native.calls);
       assert.equal(image.error, 0); assert.equal(image.dpr, 2); assert.equal(image.contextLost, false);
+      if (["summer", "aquarium", "homestead", "sakura", "moon"].includes(id) && !rows.some(r => r.id === id)) {
+        image.frozenCompletion = await page.evaluate(() => {
+          const q = __lagoonQA, gl = q.renderer.getContext(), paints = new Set(), samples = [];
+          q.scene.traverse(o => {
+            for (const m of (Array.isArray(o.material) ? o.material : [o.material]))
+              if (m?.userData.opaqueSceneryBlend) paints.add(m);
+          });
+          const pixels = new Uint8Array(gl.drawingBufferWidth * gl.drawingBufferHeight * 4);
+          q.shadowDepth.setEnabled(false);
+          try {
+            for (const native of [true, false, false, true]) {
+              for (const m of paints) m.blending = native ? q.THREE.NormalBlending : q.THREE.NoBlending;
+              const times = [];
+              for (let i = 0; i < 3; i++) {
+                const start = performance.now();
+                q.drawFrame();
+                gl.readPixels(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight,
+                  gl.RGBA, gl.UNSIGNED_BYTE, pixels);
+                times.push(performance.now() - start);
+              }
+              samples.push({ nativeBlending: native, times, draw: { ...q.renderer.info.render } });
+            }
+          } finally {
+            for (const m of paints) m.blending = q.THREE.NoBlending;
+            q.shadowDepth.setEnabled(true);
+          }
+          // This includes complete GPU raster/readback, but is not native RAF
+          // or gameplay FPS. Use alongside, never instead of the live audit.
+          return samples;
+        });
+      }
       rows.push({ id, repeat: rows.some(r => r.id === id), readyMs, ...image });
       fs.writeFileSync(path.join(review, "native-map-images.json"), JSON.stringify(rows, null, 2));
       console.log("NATIVE_IMAGE", JSON.stringify(rows.at(-1)));

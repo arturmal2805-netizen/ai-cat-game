@@ -73,8 +73,6 @@ export function surfaceTexture(kind) {
   texture.generateMipmaps = true;
   texture.needsUpdate = true;
   texture.userData.sharedScenery = true;
-  // All four channels, including every generated mip, have alpha exactly one.
-  texture.userData.opaqueSurface = true;
   if (kind === "ground" || kind === "lawn") texture.repeat.set(0.14, 0.14);
   textureCache.set(kind, texture);
   return texture;

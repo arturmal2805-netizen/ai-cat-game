@@ -28,12 +28,6 @@ function clonePaint(material) {
   copy.onBeforeCompile = material.onBeforeCompile;
   copy.customProgramCacheKey = material.customProgramCacheKey;
   copy.userData.sharedScenery = false;
-  // A camera-occluding tree fades independently. Its private paint needs real
-  // alpha blending even when the ordinary fully opaque paint can bypass it.
-  if (material.userData.opaqueSceneryBlend) {
-    copy.blending = THREE.NormalBlending;
-    delete copy.userData.opaqueSceneryBlend;
-  }
   return copy;
 }
 // Template geometry already shares every authored vertex. Share its identical
@@ -47,17 +41,6 @@ function sceneryPaint(source, breeze) {
     clock = { value: 0 },
     motion = { value: 1 };
   material.transparent = true;
-  // These baked meshes have RGB (never RGBA) vertex colours. Keep their exact
-  // transparent-list order, shaders and depth writes, but avoid reading and
-  // blending the destination when authored alpha is provably one. Wind only
-  // moves vertices; genuine fading clones restore normal blending above.
-  if (
-    material.opacity === 1 && material.blending === THREE.NormalBlending &&
-    !material.alphaMap && (!material.map || material.map.userData.opaqueSurface)
-  ) {
-    material.blending = THREE.NoBlending;
-    material.userData.opaqueSceneryBlend = true;
-  }
   material.userData.sharedScenery = true;
   if (breeze) {
     material.onBeforeCompile = (shader) => {

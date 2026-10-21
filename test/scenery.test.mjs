@@ -25,7 +25,6 @@ import {
 } from "../public/scenery-models.js";
 import { createBiomeScene } from "../public/biome-scenes.js";
 import { makeAttraction } from "../public/world-assets.js";
-import { surfaceTexture } from "../public/fantasy-scenery.js";
 const storage = () => {
   const values = new Map();
   return {
@@ -281,19 +280,11 @@ test("cached geometry remains valid after removing another instance, while fadin
     b = createSceneryModel(record);
   assert.equal(a.children[0].geometry, b.children[0].geometry);
   assert.equal(a.children[0].material, b.children[0].material);
-  assert.ok(a.children.every(m => m.material.transparent));
-  assert.ok(a.children.every(m => m.material.blending === THREE.NoBlending));
-  for (const kind of ["wood", "roof", "leaf", "stone", "ground", "lawn"]) {
-    const texture = surfaceTexture(kind), rgba = texture.image.data;
-    assert.equal(texture.userData.opaqueSurface, true);
-    for (let i = 3; i < rgba.length; i += 4) assert.equal(rgba[i], 255);
-  }
   let disposed = false;
   b.children[0].geometry.addEventListener("dispose", () => (disposed = true));
   fadeScenery(a, 0.27);
   assert.notEqual(a.children[0].material, b.children[0].material);
   assert.ok(a.children.every((m) => m.material.opacity === 0.27));
-  assert.ok(a.children.every(m => m.material.blending === THREE.NormalBlending));
   assert.ok(b.children.every((m) => m.material.opacity === 1));
   const privatePaint = a.children[0].material;
   let privateDisposed = 0;
@@ -305,7 +296,6 @@ test("cached geometry remains valid after removing another instance, while fadin
   fadeScenery(a, 1);
   assert.equal(privateDisposed, 1);
   assert.equal(a.children[0].material, b.children[0].material);
-  assert.ok(a.children.every(m => m.material.blending === THREE.NoBlending));
   fadeScenery(a, 0.27);
   disposeScenery(a);
   assert.equal(disposed, false);
