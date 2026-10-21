@@ -1467,6 +1467,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   }
   function sync(next) {
     game = next;
+    itemGroups.get("job-crypto")?.userData.setCryptoState?.(game.jobCity);
     familyLinks = familyPartners(game);
     const catalogueKey = JSON.stringify([
       game.unlocked,
@@ -1863,6 +1864,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
             .get(o.biome)
             ?.userData.lagoons?.get("lake-autumn")
             ?.userData.disturb?.(x, z, time, force);
+      g.userData.setCryptoState?.(game.jobCity);
       scene.add(g);
       itemGroups.set(o.id, g);
       batchSceneCats(g, poseAtlas);
@@ -5622,6 +5624,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
   }
   return {
     perform,
+    syncCryptoState(state){
+      if(!state||game.jobCity?.epoch!==state.epoch)return;
+      if(game.jobCity!==state)game={...game,jobCity:state};
+      itemGroups.get("job-crypto")?.userData.setCryptoState?.(state);
+    },
     snapshotCatLocations(next,previous=next){
       const actors=[{id:'chichi',position:chichiCarrier.position,yaw:chichiCarrier.rotation.y,
         transient:draggingCat?.catId==='chichi'||['ride','swim'].includes(operation?.decision.action)},

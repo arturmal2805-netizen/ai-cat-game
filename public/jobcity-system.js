@@ -126,8 +126,9 @@ export function normalizeJobCity(raw, game, now = Date.now()) {
     const p = newJobProfile(cat),
       r = raw.profiles?.[cat.id];
     if (r) {
-      p.coins = safe(r.coins);
+      p.coins = safe(r.coins, Number.MAX_SAFE_INTEGER);
       p.investments=normalizeInvestments(r.investments);
+      if(r.investments!=null&&!p.investments)throw Error("Пошкоджена збережена історія інвестицій котика.");
       p.purchaseCount = safe(r.purchaseCount, Number.MAX_SAFE_INTEGER);
       p.lastHousingAIDay = Number.isSafeInteger(r.lastHousingAIDay)
         ? r.lastHousingAIDay

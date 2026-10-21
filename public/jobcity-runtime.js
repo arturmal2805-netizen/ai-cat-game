@@ -1,3 +1,4 @@
+import { positionValue } from "./crypto-trading.js";
 import {
   JOB_START,
   JOB_END,
@@ -422,6 +423,7 @@ export function createJobCityRuntime({
     }
     for (const v of states.values())
       if (v.phase === "work") {
+        v.investments = v.job === "crypto" ? game.jobCity.profiles[v.id]?.investments : null;
         v.customer = false;
         for (const peer of states.values())
           if (
@@ -480,7 +482,7 @@ export function createJobCityRuntime({
     },
   };
 }
-export function jobCatFrame(v, time, reduced = false) {
+export function jobCatFrame(v, time, reduced = false, now = Date.now()) {
   const t = reduced ? 0 : time + (seed(v.id) % 23) * 0.17,
     s = Math.sin(t * 3.5),
     phase = v.phase;
@@ -521,6 +523,24 @@ export function jobCatFrame(v, time, reduced = false) {
       f.reaction.headYaw = Math.sin(t * 1.3) * 0.12;
       f.reaction.paw = 0.25 + Math.max(0, s) * 0.4;
       f.reaction.earRelax = 0.12;
+    }
+    if (kind === "crypto" && v.investments?.current) {
+      const trade=v.investments.current,value=positionValue(trade,now);
+      if(value && trade.status==='open') {
+        f.reaction.headYaw = reduced ? 0 : Math.sin(t*.9)*.075;
+        f.reaction.paw = .17 + (reduced ? 0 : Math.max(0,Math.sin(t*6))*.2);
+        f.reaction.tailSway = .2;
+      } else if(value && now-trade.closedAt<6000 && now>=trade.closedAt) {
+        const positive=trade.pnl>Math.max(1,trade.margin*.01),negative=trade.pnl<-Math.max(1,trade.margin*.01);
+        f.cryptoOutcome=positive?'profit':negative?'loss':'calm';
+        f.reaction.headRoll=reduced?0:s*(positive?.13:.035);
+        f.reaction.headPitch=positive?-.12:negative?.12:.02;
+        f.reaction.frontLift=positive?.24:.08;
+        f.reaction.paw=positive?.34:.14;
+        f.reaction.tailSway=positive?.5:.15;
+        f.reaction.eyeClose=negative?.28:positive?.1:.2;
+        f.reaction.earRelax=negative?.2:.08;
+      }
     }
     if (kind === "furniture" || kind === "cars") {
       f.yaw = Math.sin(t * 0.7) * 0.18;

@@ -1,7 +1,7 @@
 import {JOB_START,JOB_END,JOB_MINUTE_MS,JOB_DAY_MINUTES} from './jobcity-data.js';
 
 // Fictional prices and personal cat coins only. No exchange or market feed.
-export const CRYPTO_RULES=Object.freeze({intervalDays:14,durationMs:45000,minCoins:30,maxLeverage:3,feeRate:.002,pathPoints:65});
+export const CRYPTO_RULES=Object.freeze({intervalDays:7,durationMs:45000,minCoins:30,maxLeverage:3,feeRate:.002,pathPoints:65});
 const hash=s=>[...String(s)].reduce((h,c)=>(Math.imul(h,31)+c.charCodeAt(0))>>>0,7);
 const clone=v=>structuredClone(v);
 export const cryptoClock=(state,now=Date.now())=>{
@@ -21,7 +21,7 @@ export function localCryptoForecast(id){
     strength:.02+(hash(id+'strength')%70)/1000,confidence:.45+(hash(id+'confidence')%40)/100,
     reason:'Місцевий ігровий прогноз: ринок може рухатися в обидва боки.'};
 }
-function newInvestments(profile){return {version:1,lastAttemptDay:-1,nextAttemptDay:Math.max(0,profile.professionSinceDay||0)+14,totalPNL:0,current:null,history:[]};}
+function newInvestments(profile){return {version:1,lastAttemptDay:-1,nextAttemptDay:Math.max(0,profile.professionSinceDay||0)+CRYPTO_RULES.intervalDays,totalPNL:0,current:null,history:[]};}
 const terminal=t=>['closed','liquidated','skipped'].includes(t?.status);
 function validTrade(t){
   if(!t||typeof t.id!=='string'||t.id.length>160||!Number.isSafeInteger(t.day)||t.day<0||
@@ -29,25 +29,32 @@ function validTrade(t){
   if(t.status==='waiting'||t.status==='skipped')return true;
   return ['BTC','ETH'].includes(t.asset)&&['LONG','SHORT'].includes(t.action)&&
     [t.margin,t.leverage,t.entryPrice,t.startedAt,t.endAt,t.durationMs,t.fee].every(Number.isFinite)&&
-    Number.isSafeInteger(t.margin)&&t.margin>0&&t.leverage>=1&&t.leverage<=3&&t.entryPrice>0&&
-    t.durationMs>=10000&&t.durationMs<=60000&&t.endAt>=t.startedAt&&
+    Number.isSafeInteger(t.margin)&&t.margin>0&&Number.isSafeInteger(t.fee)&&t.fee>=0&&t.fee<=t.margin&&Number.isInteger(t.leverage)&&t.leverage>=1&&t.leverage<=CRYPTO_RULES.maxLeverage&&t.entryPrice>0&&
+    t.durationMs>=10000&&t.durationMs<=60000&&t.endAt>=t.startedAt&&t.endAt<=t.startedAt+t.durationMs&&
     Array.isArray(t.path)&&t.path.length===65&&t.path.every(p=>Number.isFinite(p)&&p>0)&&
-    (t.status==='open'||[t.pnl,t.exitPrice,t.closedAt].every(Number.isFinite));
+    (t.status==='open'||(Number.isSafeInteger(t.pnl)&&t.pnl>=-t.margin&&Number.isFinite(t.exitPrice)&&t.exitPrice>0&&t.closedAt===t.endAt));
 }
-export function normalizeInvestments(raw){
+export function investmentsSnapshotValid(raw){
+  if(raw == null) return true;
   if(!raw||raw.version!==1||!Number.isSafeInteger(raw.lastAttemptDay)||raw.lastAttemptDay< -1||
     !Number.isSafeInteger(raw.nextAttemptDay)||raw.nextAttemptDay<0||!Number.isSafeInteger(raw.totalPNL)||
-    (raw.current&&!validTrade(raw.current))||!Array.isArray(raw.history))return null;
+    (raw.current&&!validTrade(raw.current))||!Array.isArray(raw.history))return false;
   const seen=new Set();
-  if(raw.history.some(t=>!validTrade(t)||!terminal(t)||seen.has(t.id)||(seen.add(t.id),false)))return null;
-  return clone(raw);
+  if(raw.history.some(t=>!validTrade(t)||!terminal(t)||seen.has(t.id)||(seen.add(t.id),false)))return false;
+  return true;
+}
+export function cryptoSnapshotValid(state){
+  return Object.values(state?.profiles || {}).every(p => investmentsSnapshotValid(p?.investments));
+}
+export function normalizeInvestments(raw){
+  return raw != null && investmentsSnapshotValid(raw) ? clone(raw) : null;
 }
 function archive(investments,t){
   if(!investments.history.some(h=>h.id===t.id))investments.history.push(clone(t));
 }
 function skipAttempt(investments,t,reason){t.status='skipped';t.action='skip';t.reason=reason;t.pnl=0;archive(investments,t);}
 // Reserve and durably save this result BEFORE networking. Skips also consume
-// the individual 14-day cycle, so one-second ticks never poll the AI again.
+// the individual seven-day cycle, so one-second ticks never poll the AI again.
 export function reserveCryptoAttempt(game,now=Date.now()){
   if(!game.jobCity||!game.unlocked.includes('jobcity'))return {game,request:null};
   const clock=cryptoClock(game.jobCity,now);

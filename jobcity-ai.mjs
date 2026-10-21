@@ -27,7 +27,7 @@ export function validateCityAIState(s) {
       c.name.length > 60 ||
       !Number.isSafeInteger(c.coins) ||
       c.coins < 0 ||
-      c.coins > 10000000 ||
+      c.coins > Number.MAX_SAFE_INTEGER ||
       !JOB_KINDS.every(
         (k) =>
           Number.isFinite(c.skills?.[k]) &&

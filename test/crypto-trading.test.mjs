@@ -5,17 +5,17 @@ import {ensureJobCity} from '../public/jobcity-system.js';
 import {reserveCryptoAttempt,applyCryptoForecast,advanceCryptoTrading,positionValue,normalizeInvestments,CRYPTO_RULES} from '../public/crypto-trading.js';
 import {CryptoAIRequestLedger} from '../crypto-ai.mjs';
 import {mergeSharedWorld} from '../shared-world.mjs';
-const epoch=Date.UTC(2026,9,21,12),now=epoch+14*1440000;
+const epoch=Date.UTC(2026,9,21,12),now=epoch+7*1440000;
 function seed(){let g=newGame(epoch);g.unlocked.push('jobcity');g=ensureJobCity(g,epoch);for(const p of Object.values(g.jobCity.profiles)){p.profession='crypto';p.professionSinceDay=0;p.professionSource='ai';p.careerAIPending=false;p.coins=5000;}return g;}
 function pending(){let g=seed();for(let i=0;i<40;i++){const r=reserveCryptoAttempt(g,now);g=r.game;if(r.request)return {g,request:r.request};}throw Error('No willing trader in test roster');}
 const forecast={asset:'BTC',direction:'up',strength:.06,confidence:1,reason:'Ігровий ринок може зростати, але ризик залишається.'};
-test('only employed crypto cats may reserve, individual skipped/poor cycles are remembered and never ask again before day 14',()=>{
+test('only employed crypto cats may reserve, individual skipped/poor cycles are remembered and never ask again before the next seven-day cycle',()=>{
  let g=seed();for(const p of Object.values(g.jobCity.profiles))p.profession='bank';assert.equal(reserveCryptoAttempt(g,now).game,g);
  const ids=Object.keys(g.jobCity.profiles).slice(0,2);for(const id of ids){g.jobCity.profiles[id].profession='crypto';g.jobCity.profiles[id].coins=0;}
  for(let i=0;i<2;i++){const r=reserveCryptoAttempt(g,now);g=r.game;assert.equal(r.request,null);}
- for(const id of ids){const p=g.jobCity.profiles[id];assert.equal(p.investments.current.status,'skipped');assert.equal(p.investments.nextAttemptDay,28);p.coins=10000;}
+ for(const id of ids){const p=g.jobCity.profiles[id];assert.equal(p.investments.current.status,'skipped');assert.equal(p.investments.nextAttemptDay,14);p.coins=10000;}
  for(let i=0;i<30;i++)assert.equal(reserveCryptoAttempt(g,now+i*1000).game,g);
- assert.notEqual(reserveCryptoAttempt(g,epoch+28*1440000).game,g);
+ assert.notEqual(reserveCryptoAttempt(g,epoch+14*1440000).game,g);
 });
 test('LONG and SHORT use directional leveraged PNL with escrow and fees, and settlement never credits twice',()=>{
  for(const [direction,delta,expected] of [['up',.1,29],['down',-.1,29],['up',-.1,-31],['down',.1,-31]]){
@@ -61,7 +61,7 @@ test('concurrent devices, lost ACKs, a restarted ledger and provider failure con
  const restart=new CryptoAIRequestLedger(storage,async()=>{calls++;throw Error();},{clock:()=>now});assert.deepEqual(await restart.forecast(request),results[0]);assert.equal(calls,1);
  const broken=memory(g),failure=new CryptoAIRequestLedger(broken,async()=>{calls++;throw Error('quota');},{clock:()=>now});
  const fallback=await failure.forecast(request);assert.equal(fallback.body.source,'local');assert.equal(fallback.status,200);await failure.forecast(request);assert.equal(calls,2);
- const uncertain=memory(g);await uncertain.put('crypto-ai:'+request.catId,{attemptId:request.attemptId,day:14,epoch});
+ const uncertain=memory(g);await uncertain.put('crypto-ai:'+request.catId,{attemptId:request.attemptId,day:7,epoch});
  await new CryptoAIRequestLedger(uncertain,async()=>{calls++;},{clock:()=>now}).forecast(request);assert.equal(calls,2);
 });
 test('unreserved/other-profession forecasts cannot spend credits and cached clients cannot erase investments or double-spend escrow',async()=>{
@@ -72,4 +72,28 @@ test('unreserved/other-profession forecasts cannot spend credits and cached clie
  assert.deepEqual(mergeSharedWorld(g,opened,cached).jobCity.profiles[request.catId].investments,opened.jobCity.profiles[request.catId].investments);
  cached.jobCity.profiles[request.catId].coins-=50;
  assert.throws(()=>mergeSharedWorld(g,opened,cached));
+});
+test('seven-day periods follow each career start and never replay offline weeks or change family pacing',()=>{
+ let g=seed();for(const p of Object.values(g.jobCity.profiles)){p.profession='bank';p.coins=0;}
+ const p=g.jobCity.profiles.chichi;p.profession='crypto';p.professionSinceDay=9;
+ assert.equal(CRYPTO_RULES.intervalDays,7);assert.equal(reserveCryptoAttempt(g,epoch+15*1440000).game,g);
+ g=reserveCryptoAttempt(g,epoch+16*1440000).game;assert.equal(g.jobCity.profiles.chichi.investments.lastAttemptDay,16);assert.equal(g.jobCity.profiles.chichi.investments.nextAttemptDay,23);
+ assert.equal(reserveCryptoAttempt(g,epoch+22*1440000).game,g);
+ const family=structuredClone(g.family);g=reserveCryptoAttempt(g,epoch+80*1440000).game;
+ assert.equal(g.jobCity.profiles.chichi.investments.history.length,2);assert.equal(g.jobCity.profiles.chichi.investments.nextAttemptDay,87);assert.deepEqual(g.family,family);
+});
+test('the server rejects an early second cycle and admits the same trader exactly seven days later',async()=>{
+ const {g,request}=pending(),storage=memory(g);let clock=now,calls=0;
+ const ledger=new CryptoAIRequestLedger(storage,async()=>{calls++;return {response:forecast};},{clock:()=>clock});
+ assert.equal((await ledger.forecast(request)).status,200);assert.equal(calls,1);
+ async function next(day){const saved=structuredClone(g),s=saved.jobCity.profiles[request.catId].investments,id=request.attemptId+'-day-'+day;s.current={...s.current,id,day,at:epoch+day*1440000};s.lastAttemptDay=day;s.nextAttemptDay=day+7;clock=epoch+day*1440000;await storage.put('current',{game:saved});return ledger.forecast({...request,attemptId:id});}
+ assert.equal((await next(13)).status,409);assert.equal(calls,1);assert.equal((await next(14)).status,200);assert.equal(calls,2);
+});
+test('large private trading wallets survive reload without a ten-million-coin truncation; corrupt escrow uses the save backup',()=>{
+ const {g,request}=pending();g.jobCity.profiles[request.catId].coins=12345678;
+ let opened=applyCryptoForecast(g,request,forecast,'ai',now);const expected=structuredClone(opened.jobCity.profiles[request.catId]);
+ for(let i=0;i<30;i++){opened=loadGame({getItem:k=>k===SAVE_KEY?JSON.stringify(opened):null},now,{advance:false});assert.deepEqual(opened.jobCity.profiles[request.catId],expected);}
+ const corrupt=structuredClone(opened);corrupt.jobCity.profiles[request.catId].investments.current.path[5]=null;
+ const recovered=loadGame({getItem:k=>k===SAVE_KEY?JSON.stringify(corrupt):k===SAVE_KEY+':backup'?JSON.stringify(opened):null},now,{advance:false});
+ assert.deepEqual(recovered.jobCity.profiles[request.catId],expected);
 });

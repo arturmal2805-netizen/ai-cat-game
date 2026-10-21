@@ -1,3 +1,4 @@
+import {cryptoSnapshotValid} from "./crypto-trading.js";
 import {
   normalizeHousing,
   housingSnapshotValid,
@@ -393,7 +394,7 @@ function readSavedRecord(storage) {
         saved.cat &&
         typeof saved.cat === "object" &&
         housingSnapshotValid(saved.housing) &&
-        familySnapshotValid(saved.family)
+        familySnapshotValid(saved.family) && cryptoSnapshotValid(saved.jobCity)
       )
         return { game: saved, encoded };
     } catch {}
@@ -403,7 +404,7 @@ export function readSavedState(storage) {
   return readSavedRecord(storage)?.game || null;
 }
 export function saveGame(storage, game) {
-  if (!housingSnapshotValid(game.housing) || !familySnapshotValid(game.family))
+  if (!housingSnapshotValid(game.housing) || !familySnapshotValid(game.family) || !cryptoSnapshotValid(game.jobCity))
     return false;
   let previous, trusted;
   try {

@@ -1,11 +1,11 @@
-import {positionValue,traderRisk} from './crypto-trading.js';
+import {positionValue,traderRisk,CRYPTO_RULES} from './crypto-trading.js';
 const money=n=>new Intl.NumberFormat('uk-UA',{maximumFractionDigits:2}).format(n||0),signed=n=>(n>=0?'+':'−')+money(Math.abs(n));
 const node=(tag,value,cls)=>{const e=document.createElement(tag);if(value!==undefined)e.textContent=value;if(cls)e.className=cls;return e;};
 const status={waiting:'Очікує прогноз',open:'Відкрита',closed:'Закрита',liquidated:'Ліквідована',skipped:'Пропуск'};
 export function createInvestmentsPanel(parent,{labelDay=d=>'День '+(d+1)}={}){
  let key='',count=10,live=null;
  function update(profile,day,now=Date.now()){
-  const s=profile.investments,t=s?.current,next=s?.nextAttemptDay??Math.max(0,profile.professionSinceDay||0)+14,
+  const s=profile.investments,t=s?.current,next=s?.nextAttemptDay??Math.max(0,profile.professionSinceDay||0)+CRYPTO_RULES.intervalDays,
     currentKey=JSON.stringify([profile.id,profile.profession,s?.totalPNL,t?.id,t?.status,s?.history.length,count,day,next]);
   if(currentKey!==key){
    key=currentKey;parent.replaceChildren(node('h3','Інвестиції'),node('p','Лише ігрові ціни та власні котячі монетки.','dialog-copy'));
@@ -26,7 +26,7 @@ export function createInvestmentsPanel(parent,{labelDay=d=>'День '+(d+1)}={}
      card.append(live.price,live.pnl,live.progress);
     }
     parent.append(card);
-   }else parent.append(node('p','Котик ще не торгував. Рішення переглядається раз на 14 ігрових днів.'));
+   }else parent.append(node('p',`Котик ще не торгував. Рішення переглядається раз на ${CRYPTO_RULES.intervalDays} ігрових днів.`));
    parent.append(node('h4','Історія угод'));
    for(const h of [...(s?.history||[])].reverse().slice(0,count)){
     const item=document.createElement('details');item.className='crypto-history';

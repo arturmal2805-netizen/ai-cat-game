@@ -40,9 +40,9 @@ export class CryptoAIRequestLedger{
         clock=cryptoClock(state,this.clock());
       if(!state||state.epoch!==input.epoch||p?.profession!=='crypto'||attempt?.id!==input.attemptId||attempt.status!=='waiting'||
         !Number.isSafeInteger(attempt.day)||attempt.day>clock.day||p.coins<CRYPTO_RULES.minCoins||
-        p.investments.lastAttemptDay!==attempt.day||p.investments.nextAttemptDay!==attempt.day+14)
+        p.investments.lastAttemptDay!==attempt.day||p.investments.nextAttemptDay!==attempt.day+CRYPTO_RULES.intervalDays)
         return {cached:response({error:'Trading attempt not reserved in the saved world'},409)};
-      if(old?.epoch===input.epoch&&attempt.day<old.day+14)return {cached:response({error:'Trading cycle already used'},409)};
+      if(old?.epoch===input.epoch&&attempt.day<old.day+CRYPTO_RULES.intervalDays)return {cached:response({error:'Trading cycle already used'},409)};
       await t.put(slot,{epoch:input.epoch,attemptId:input.attemptId,day:attempt.day,reservedAt:this.clock(),result:null});
       return {profile:p};
     });

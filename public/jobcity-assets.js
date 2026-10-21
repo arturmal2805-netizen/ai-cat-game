@@ -1,3 +1,4 @@
+import { cryptoOfficeSteps } from "./crypto-office.js";
 import * as T from "three";
 import {
   shape as sceneryShape,
@@ -261,6 +262,7 @@ function graphScreen() {
 export function* jobBuildingSteps(id) {
   const b = jobBusiness(id);
   if (!b) throw Error("Unknown city business");
+  if (b.kind === "crypto") return yield* cryptoOfficeSteps(b,{shape,line,torus,flowerCluster,lantern,pot,shelf,sofa,chair,desk,paw});
   const root = new T.Group(),
     props = new T.Group(),
     animated = [],

@@ -167,7 +167,7 @@ export function jobStations(b) {
     floor: Math.floor(i / 2),
     x: b.x + (i % 2 ? 4 : -4),
     y: 0.32 + Math.floor(i / 2) * 4.6,
-    z: b.z + 2.15,
+    z: b.z + (b.kind === "crypto" ? 4.15 : 2.15),
     yaw: 0,
   }));
 }

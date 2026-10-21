@@ -437,15 +437,19 @@ async function requestDailyCareers(event) {
   }
 }
 let cryptoBusy=false;
+function commitCrypto(next){
+  commit(next,false);
+  world?.syncCryptoState?.(next.jobCity);
+}
 async function cryptoTick(){
   if(document.hidden||!cloud.simulationOwner||!cloud.editable||cloud.conflict)return;
-  try{const settled=advanceCryptoTrading(game);if(settled!==game)commit(settled,false);}
+  try{const settled=advanceCryptoTrading(game);if(settled!==game)commitCrypto(settled);}
   catch(error){$('save-state').textContent=error.message;return;}
   if(cryptoBusy)return;
   cryptoBusy=true;
   try{
     let request=pendingCryptoAttempt(game);
-    if(!request){const reserved=reserveCryptoAttempt(game);if(reserved.game!==game)commit(reserved.game,false);request=reserved.request;}
+    if(!request){const reserved=reserveCryptoAttempt(game);if(reserved.game!==game)commitCrypto(reserved.game);request=reserved.request;}
     if(!request)return;
     const token=cloud.token;let forecast=localCryptoForecast(request.attemptId),source='local';
     try{
@@ -459,7 +463,7 @@ async function cryptoTick(){
       }
     }catch{/* One saved attempt; price ticks never retry the provider. */}
     if(cloud.token===token&&cloud.simulationOwner&&cloud.editable&&!cloud.conflict){
-      const next=applyCryptoForecast(game,request,forecast,source);if(next!==game)commit(next,false);
+      const next=applyCryptoForecast(game,request,forecast,source);if(next!==game)commitCrypto(next);
     }
   }catch(error){$('save-state').textContent=error.message;}finally{cryptoBusy=false;}
 }
