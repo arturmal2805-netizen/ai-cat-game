@@ -6,6 +6,9 @@ import path from "node:path";
 import assert from "node:assert/strict";
 
 export async function checkNativeMapFrames(page, review) {
+  const profiler = process.env.CHICHI_NATIVE_PROFILE
+    ? await page.context().newCDPSession(page) : null;
+  if (profiler) await profiler.send("Profiler.enable");
   const ids = process.env.CHICHI_LIVE_BIOMES?.split(",") ||
     await page.locator("[data-biome]").evaluateAll(ns => ns.map(n => n.dataset.biome));
   const rows = [], ms = Number(process.env.CHICHI_NATIVE_SAMPLE_MS || 8000),
@@ -124,6 +127,7 @@ export async function checkNativeMapFrames(page, review) {
       await page.mouse.up();
     }
     assert.ok(anchor, `${id}: input must reach the canvas, not an overlapping HUD button`);
+    if (profiler) await profiler.send("Profiler.start");
     const row = await page.evaluate(({ ms, anchor }) => new Promise(resolve => {
       const q = __lagoonQA, gl = q.renderer.getContext(), canvas = q.renderer.domElement;
       q.drawFrame();
@@ -176,6 +180,9 @@ export async function checkNativeMapFrames(page, review) {
           contextLost: gl.isContextLost(), visible: q.isVisible() });
       }, 100);
     }), { ms, anchor });
+    if (profiler) fs.writeFileSync(path.join(review,
+      `${id}-${rows.filter(r => r.id === id).length}-warm-profile.json`),
+      JSON.stringify(await profiler.send("Profiler.stop")));
     await page.evaluate(() => {
       const q = __lagoonQA, canvas = q.renderer.domElement;
       canvas.removeEventListener("pointerdown", q.captureProbe);
@@ -190,4 +197,5 @@ export async function checkNativeMapFrames(page, review) {
     fs.writeFileSync(path.join(review, "native-map-frames.json"), JSON.stringify(rows, null, 2));
     console.log("NATIVE_MAP", JSON.stringify(rows.at(-1)));
   }
+  await profiler?.detach();
 }
