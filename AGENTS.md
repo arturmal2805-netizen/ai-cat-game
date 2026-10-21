@@ -185,9 +185,18 @@ duplicating or resurrecting a building removed on the other device.
 ### Approved smooth-world template: objects, houses and islands
 
 The user-approved baseline for all future content is now
-`baseline/approved-smooth-world` (released code `9735e35`, documented at
-`4e4f7e4`). Keep `baseline/capybara-standard` as the older rollback/comparison;
-do not use it to discard the subsequently approved improvements.
+`baseline/approved-smooth-world` (released code `b6e4287`, explicitly approved
+again by the player on 2026-10-21). The immutable dated reference is
+`baseline/approved-smooth-world-20261021`; the preceding approval is archived at
+`baseline/approved-smooth-world-before-20261021` (`4e4f7e4`). Keep
+`baseline/capybara-standard` as the older comparison. Do not discard subsequently
+approved improvements when testing a new candidate.
+
+- Save each successful, independently verified optimization in its own commit.
+  Compare against the latest player-approved runtime, preserve its dated remote
+  reference, and revert only a failed experiment. A subjective progress estimate
+  is player feedback, not a measured FPS percentage. Never promote a combination
+  before checking its individual contributions and regressions.
 
 - Every new object, venue, home and biome must follow the same resource and
   loading contract: shared immutable geometry/material templates, cooperative
