@@ -53,3 +53,9 @@ construction workload, not whole-game loading time or device FPS. See
 The focused boundary test also uses 300 actual generated tiny-fur variants,
 checks the original hero's exact bytes after installation, and verifies that
 4,097-entry records are rejected/trimmed to the shared safe bound.
+
+## Release gate
+
+All 671 tests pass, including housing/family/shared-save and camera contracts.
+The production build and Cloudflare Worker deployment dry run pass. Two changes
+are retained as separate commits; no unproven rendering experiment is included.
