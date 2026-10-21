@@ -1,3 +1,4 @@
+import { HOMESTEAD_EXPANSION } from "./public/homestead-expansion.js";
 import { mergeHousing } from "./public/housing-system.js";
 import {
   mergeFamily,
@@ -386,7 +387,8 @@ export function mergeSharedWorld(base, current, incoming) {
     (game.inventory[item] || 0) +
     game.placements.filter((p) => p.item === item).length;
   for (const p of b.placements) {
-    const expanded = BUILDING_EXPANSIONS[p.biome],
+    const expanded = BUILDING_EXPANSIONS[p.biome] ||
+      (p.biome === "homestead" ? HOMESTEAD_EXPANSION : null),
       newSlide = !!byItem(p.item)?.referenceSlide;
     if ((!expanded && !newSlide) || n.placements.some((v) => v.id === p.id))
       continue;

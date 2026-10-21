@@ -1,6 +1,7 @@
+import { HOMESTEAD_EXPANSION } from "./homestead-expansion.js";
 import * as THREE from "three";
 import { surfaceTexture, shape } from "./fantasy-scenery.js";
-import { createGroundCover } from "./landscape-detail.js";
+import { groundCoverSteps, placementClearance } from "./landscape-detail.js";
 import { BIOME_STYLES } from "./biome-styles.js";
 import { batchModelSteps } from "./model-batching.js";
 import { runSceneSteps } from "./scene-tasks.js";
@@ -33,7 +34,7 @@ export function* homesteadBiomeSteps(
     trees: [],
     stats: { fishCount: 0 },
     emptyPlot: true,
-    areaMultiplier: 32,
+    areaMultiplier: 128,
   };
   const outline = new THREE.Shape();
   outline.absarc(0, 0, biome.radius, 0, Math.PI * 2, false);
@@ -142,15 +143,21 @@ export function* homesteadBiomeSteps(
       disposeScenery(cover);
     }
     if (!lowOnly) {
-      cover = createGroundCover(BIOME_STYLES.homestead, biome.id, {
-        preview,
-        radius: biome.radius - 0.7,
-        density: 1.6,
-        placements: [
-          ...items,
-          ...records.filter((r) => !r.stored && r.biome === biome.id),
-        ],
-      });
+      cover = new THREE.Group();
+      const itemsToAvoid = [...items,...records.filter(r=>!r.stored && r.biome===biome.id)],
+        clear = placementClearance(itemsToAvoid), originalRadius=HOMESTEAD_EXPANSION.originalRadius-.7;
+      // Exact original meadow, plus new grass of the same density outside it.
+      cover.add(yield* groundCoverSteps(BIOME_STYLES.homestead, biome.id, {
+        preview, radius:originalRadius, density:1.6, placements:itemsToAvoid,
+      }));
+      cover.add(yield* groundCoverSteps(BIOME_STYLES.homestead, biome.id, {
+        preview, seed:20261021, radius:biome.radius-.7, density:1.6*3,
+        spatialCell:32,
+        clearance:(x,z,w)=>Math.hypot(x,z)>originalRadius && clear(x,z,w),
+      }));
+      cover.userData.update=(time,reduced)=>{
+        for(const part of cover.children) part.userData.update?.(time,reduced);
+      };
       detail.add(cover);
     }
     yield;

@@ -1,3 +1,4 @@
+import { runSceneSteps } from "./scene-tasks.js";
 import { RENEWED_ISLANDS } from "./renewal-data.js";
 import * as THREE from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
@@ -152,7 +153,7 @@ function foliageGeometry(kind) {
   cached.set(kind, geometry);
   return geometry;
 }
-export function createGroundCover(
+export function* groundCoverSteps(
   style,
   id,
   {
@@ -163,6 +164,7 @@ export function createGroundCover(
     density = 1,
     heightAt,
     clearance,
+    spatialCell = 0,
   } = {},
 ) {
   const group = new THREE.Group();
@@ -182,6 +184,7 @@ export function createGroundCover(
     attempt < target * 3 && points.length < target;
     attempt++
   ) {
+    if (attempt % 32 === 0) yield;
     const angle = random() * Math.PI * 2,
       radius =
         Math.sqrt(random()) *
@@ -259,14 +262,22 @@ export function createGroundCover(
       };
       material.customProgramCacheKey = () => "meadow-breeze-v1";
     }
+    const cells = new Map();
+    if (spatialCell) for (const p of list) {
+      const key=Math.floor(p.x/spatialCell)+":"+Math.floor(p.z/spatialCell);
+      if(!cells.has(key)) cells.set(key,[]);
+      cells.get(key).push(p);
+    }
+    else cells.set("all",list);
+    for (const chunk of cells.values()) {
     const mesh = new THREE.InstancedMesh(
       foliageGeometry(kind),
       material,
-      list.length,
+      chunk.length,
     );
     mesh.name = "Meadow " + kind;
-    mesh.frustumCulled = false;
-    list.forEach((point, index) => {
+    mesh.frustumCulled = !!spatialCell;
+    chunk.forEach((point, index) => {
       dummy.position.set(
         point.x,
         0.145 +
@@ -288,7 +299,10 @@ export function createGroundCover(
           : palette[point.color];
       mesh.setColorAt(index, new THREE.Color(color));
     });
+    if(spatialCell) { mesh.computeBoundingSphere(); mesh.boundingSphere.radius+=1; }
     group.add(mesh);
+    yield;
+    }
   }
   group.userData.samples = points;
   group.userData.stats = {
@@ -303,3 +317,5 @@ export function createGroundCover(
   };
   return group;
 }
+
+export const createGroundCover = (...args) => runSceneSteps(groundCoverSteps(...args));

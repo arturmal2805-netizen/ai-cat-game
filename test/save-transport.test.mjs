@@ -80,7 +80,7 @@ test("all 28 real islands can be saved and every new mega ride fits the doubled 
     ).game.unlocked,
     game.unlocked,
   );
-  assert.ok(Math.abs(byBiome("homestead").radius ** 2 / 46.6 ** 2 - 2) < 1e-10);
+  assert.ok(Math.abs(byBiome("homestead").radius ** 2 / 46.6 ** 2 - 8) < 1e-10);
   for (const ride of MEGA_RIDES) {
     const g = structuredClone(game);
     g.inventory[ride.id] = 1;

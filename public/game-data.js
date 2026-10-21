@@ -1,3 +1,4 @@
+import { HOMESTEAD_RADIUS, HOMESTEAD_EXPANSION } from "./homestead-expansion.js";
 import { HOUSING_ID, HOUSING_RADIUS, HOUSING_CENTER } from "./housing-data.js";
 import {
   JOB_CITY_ID,
@@ -2162,8 +2163,8 @@ BIOMES.push({
   icon: "🌼",
   price: 1800,
   requiredLevel: 3,
-  radius: 46.6 * Math.SQRT2,
-  center: [-250, -55],
+  radius: HOMESTEAD_RADIUS,
+  center: [...HOMESTEAD_EXPANSION.center],
   arrival: [0, 0],
   ground: 0xabc68c,
   edge: 0x95978e,

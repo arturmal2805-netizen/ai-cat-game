@@ -49,7 +49,7 @@ function prepared() {
   g = unlockBiome(g, "homestead", now);
   return g;
 }
-test("the expanded 32-area blank island is appended without changing any of the 26 approved islands", () => {
+test("the expanded 128-area blank island is appended without changing any of the 26 approved islands", () => {
   assert.deepEqual(
     BIOMES.filter(
       (b) => !["homestead", "aquarium", "jobcity", "cat-homes"].includes(b.id),
@@ -61,7 +61,7 @@ test("the expanded 32-area blank island is appended without changing any of the 
     ),
   );
   assert.ok(
-    Math.abs(byBiome("homestead").radius ** 2 / 11.65 ** 2 - 32) < 1e-10,
+    Math.abs(byBiome("homestead").radius ** 2 / 11.65 ** 2 - 128) < 1e-10,
   );
   const g = prepared();
   assert.deepEqual(
