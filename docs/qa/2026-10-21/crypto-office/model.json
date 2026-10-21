@@ -1,0 +1,64 @@
+[
+  {
+    "viewport": {
+      "width": 1100,
+      "height": 800
+    },
+    "stats": {
+      "floors": 3,
+      "workplaces": 6,
+      "staticMeshes": 16,
+      "sourceMeshes": 1028,
+      "candlestickScreens": 8
+    },
+    "matrixStable": true,
+    "priceBufferStable": true,
+    "displayCount": 8,
+    "draw": {
+      "frame": 4,
+      "calls": 237,
+      "triangles": 438370,
+      "points": 0,
+      "lines": 0
+    },
+    "memory": {
+      "geometries": 126,
+      "textures": 37
+    },
+    "dpr": 2,
+    "contextLost": false,
+    "error": 0,
+    "errors": []
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "stats": {
+      "floors": 3,
+      "workplaces": 6,
+      "staticMeshes": 16,
+      "sourceMeshes": 1028,
+      "candlestickScreens": 8
+    },
+    "matrixStable": true,
+    "priceBufferStable": true,
+    "displayCount": 8,
+    "draw": {
+      "frame": 4,
+      "calls": 237,
+      "triangles": 438370,
+      "points": 0,
+      "lines": 0
+    },
+    "memory": {
+      "geometries": 126,
+      "textures": 37
+    },
+    "dpr": 2,
+    "contextLost": false,
+    "error": 0,
+    "errors": []
+  }
+]

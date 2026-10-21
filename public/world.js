@@ -949,6 +949,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       azimuth,
       elevation,
     };
+    if(g.userData.jobBusiness?.kind === "crypto" && g.userData.roof) g.userData.roof.visible = false;
     applyAttractionCamera(g);
     courtExit.hidden = false;
     courtOrder.hidden = true;

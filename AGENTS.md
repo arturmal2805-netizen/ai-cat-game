@@ -275,3 +275,15 @@ a cached device. Conflicting simultaneous spouse purchases must reject the
 second transaction atomically. Do not cap homes for unpaired cats or change
 family pacing. Retire only the duplicate house's visual instance; retain shared
 models, terrain and the surviving home.
+
+### Crypto office and weekly investments
+
+Use `CRYPTO_RULES.intervalDays` (seven game days) on client, server ledger and
+UI; do not change the independent fourteen-day family pacing. Official crypto
+employees only; skips/poor balances consume the cycle without AI. Reserve
+before networking and coalesce per-world requests; no per-price-tick AI calls.
+Keep escrow, signed PNL, fees, liquidation and terminal receipts durable and
+idempotent. Corrupt investment records must select a backup rather than erase
+escrow. Office screens share one fixed price array and instanced draw; preserve
+native stairs, work seats and approved cat rigs. Routine checks use private
+SQLite and mocked forecasts, never player worlds or paid inference.
