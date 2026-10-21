@@ -11,7 +11,6 @@ import {
   workplacePath,
   cityWalkPath,
   cityRoadPath,
-  cityParking,
   pathLength,
   pathFrame,
   nearestRoad,
@@ -152,8 +151,9 @@ export function createJobCityRuntime({
       }
       if (!v) {
         if (trip) {
-          const index = actors.findIndex((a) => a.id === id),
-            roadParking = nearestRoad(p.parkedAt || cityParking(index)),
+          // The last parking receipt is history, not a summons to walk back
+            // across the city: this owned car is currently in the inventory.
+          const roadParking = nearestRoad(actor.local),
             drive = cityRoadPath(roadParking, trip.destination),
             parking = drive && streetFrame(drive, 0),
             door = parking && {

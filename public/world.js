@@ -755,12 +755,15 @@ export function createWorld(container, initialGame, callbacks = {}) {
     carrier.rotation.y = v.yaw;
   }
   function updateCityCar(id, v, time) {
-    const profile = game.jobCity?.profiles[id],
-      trip = profile?.trip;
+    // The owned car returns to inventory after exit. Keep no idle draw object
+    // or parked-car stack in the scene; the next trip spawns a shared template.
+    if (!v?.carVisible) {
+      cityCars.get(id)?.removeFromParent();
+      cityCars.delete(id);
+      return;
+    }
     let car = cityCars.get(id);
-    const spec = v?.carVisible
-      ? v.car
-      : profile?.parkedCar || car?.userData.carId;
+    const spec = v.car;
     if (!spec) return;
     if (!car || car.userData.carId !== spec) {
       car?.removeFromParent();
@@ -768,7 +771,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       cityCars.set(id, car);
       scene.add(car);
     }
-    const position = v?.carVisible ? v.carPosition : profile?.parkedAt;
+    const position = v.carPosition;
     car.visible = !!position && focused === "jobcity";
     if (!position) return;
     car.position.set(
@@ -776,8 +779,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
       0.16,
       JOB_CITY_CENTER[1] + position.z,
     );
-    if (v?.carVisible) car.rotation.y = v.yaw;
-    animateCityCar(car, jobs.get(id)?.distance || 0, v?.steer || 0, reduced);
+    car.rotation.y = v.yaw;
+    animateCityCar(car, jobs.get(id)?.distance || 0, v.steer || 0, reduced);
   }
   const courtModels = new Map(),
     courtPreparing = new Map();

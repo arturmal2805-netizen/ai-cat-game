@@ -1,0 +1,10 @@
+{
+  "cycles": 20,
+  "carsPerCycle": 32,
+  "parkedViews": 0,
+  "sharedGeometry": true,
+  "saveUnchanged": true,
+  "dpr": 2,
+  "contextLost": false,
+  "glError": 0
+}
