@@ -5604,6 +5604,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
         animateAttraction(g, time);
       g.visible = visible;
     }
+    // A ready native interior must not sit inside its closed loading proxy.
+    // Inspection masking applies to both representations of a city building.
+    islands.get("jobcity")?.userData.syncBuildingProxies?.(itemGroups, cityOccluded);
     if (cityOccluded.size) {
       for (const [id, n] of npcs) {
         const state = jobs.get(id),

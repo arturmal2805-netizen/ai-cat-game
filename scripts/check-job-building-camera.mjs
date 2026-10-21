@@ -44,9 +44,9 @@ try {
       b.onLoad({ filter: /\/public\/world\.js$/ }, async () => ({ loader: "js", contents:
         (await fs.readFile(path.join(root, "public/world.js"), "utf8"))
           .replace("  return {\n    perform,", `
-  window.__cityCameraQA={itemGroups,camera,renderer,scene,shaderWarmup,
+  window.__cityCameraQA={itemGroups,islands,camera,renderer,scene,shaderWarmup,
     settled:()=>look.distanceTo(desiredLook)<.01 && Math.abs(distance-desiredDistance)<.01,
-    state:()=>({id:courtCamera?.id,elevation,azimuth,distance:desiredDistance,target:desiredLook.toArray(),roofs:[...itemGroups].filter(([,g])=>g.userData.jobBusiness).map(([id,g])=>({id,visible:g.userData.roof.visible})),dpr:renderer.getPixelRatio(),contextLost:renderer.getContext().isContextLost()}),
+    state:()=>({id:courtCamera?.id,elevation,azimuth,distance:desiredDistance,target:desiredLook.toArray(),proxyVisible:islands.get('jobcity')?.userData.buildingProxies?.get(courtCamera?.id)?.visible,roofs:[...itemGroups].filter(([,g])=>g.userData.jobBusiness).map(([id,g])=>({id,visible:g.userData.roof.visible})),dpr:renderer.getPixelRatio(),contextLost:renderer.getContext().isContextLost()}),
     prepare:id=>{focus('jobcity');const g=itemGroups.get(id);desiredLook.copy(new THREE.Box3().setFromObject(g).getCenter(new THREE.Vector3()));desiredDistance=60;azimuth=.16;elevation=.6;},
     point:id=>{const g=itemGroups.get(id),canvas=renderer.domElement,r=canvas.getBoundingClientRect();for(const x of [0,-6,6])for(const z of [0,4,-4]){const p=g.localToWorld(new THREE.Vector3(x,15,z)).project(camera),point={x:r.left+(p.x+1)*r.width/2,y:r.top+(1-p.y)*r.height/2};if(document.elementFromPoint(point.x,point.y)===canvas)return point;}throw Error('Building roof is covered by phone HUD');},
     fit:id=>{const b=new THREE.Box3().setFromObject(itemGroups.get(id));camera.updateMatrixWorld();return Array.from({length:8},(_,i)=>new THREE.Vector3(i&1?b.max.x:b.min.x,i&2?b.max.y:b.min.y,i&4?b.max.z:b.min.z).project(camera).toArray());}
@@ -90,6 +90,7 @@ try {
       const state = await page.evaluate(() => __cityCameraQA.state()),
         corners = await page.evaluate(id => __cityCameraQA.fit(id), business.id);
       assert.equal(state.elevation, .38);
+      assert.equal(state.proxyVisible, false, business.id + ": no closed loading shell over the open interior");
       assert.equal(state.dpr, 2);
       assert.equal(state.contextLost, false);
       assert.ok(state.roofs.every(r => r.visible === (r.id !== business.id)));

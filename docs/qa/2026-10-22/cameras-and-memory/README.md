@@ -58,3 +58,17 @@ The earlier test-local AI 503 was removed from the camera fixture by marking
 its careers settled; no paid endpoint or live user world is used. All six city
 buildings have real click/touch/roof/return checks; camera fitting and foreground
 facade masking also pass the geometry tests. Build and Wrangler dry-run pass.
+
+Final image inspection also caught a separate loading-shell bug: six closed
+city placeholders could overlap the already prepared native buildings while
+the island itself was still loading. Loading proxies now sleep individually
+when the corresponding full model is visible, and share foreground inspection
+masking. No native building geometry is simplified or discarded. The added
+regression checks loading fallback, ready interiors and masked neighbours.
+
+Final WebKit touch replay: all SIX buildings pass with the selected loading
+shell explicitly absent, all six roofs restored on exit, destination switching
+restored correctly and zero page errors. The final phone screenshot has an
+open Crypto interior and an unobstructed ground floor, not a closed proxy.
+The previous live release also retained the exact construction cache key
+sculpt-v2-a496203fa13a037a7a10a927 across this update.

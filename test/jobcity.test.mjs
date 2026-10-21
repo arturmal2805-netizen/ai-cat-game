@@ -706,6 +706,23 @@ test("interior inspection masks only foreground city buildings and restores the 
   assert.ok(cityViewOccluders('job-crypto',phoneCamera).has('job-estate'),'foreground roof must not cover the lower floor on a phone');
 });
 
+test("closed loading buildings never cover a ready city interior or an inspection-masked facade", () => {
+  const island=createBiomeScene(byBiome('jobcity'),{lowOnly:true}),
+    proxies=island.userData.buildingProxies,groups=new Map();
+  assert.equal(proxies.size,6);
+  for(const b of JOB_BUSINESSES)groups.set(b.id,{userData:{built:true},visible:true});
+  island.userData.syncBuildingProxies(groups,new Set());
+  assert.ok([...proxies.values()].every(p=>!p.visible));
+  groups.get('job-estate').visible=false;
+  island.userData.syncBuildingProxies(groups,new Set(['job-estate']));
+  assert.equal(proxies.get('job-estate').visible,false,'mask must not expose a second closed building');
+  groups.delete('job-crypto');
+  island.userData.syncBuildingProxies(groups,new Set());
+  assert.equal(proxies.get('job-crypto').visible,true,'unloaded buildings retain their authored distant/loading representation');
+  assert.equal(proxies.get('job-bank').visible,false);
+  disposeBiome(island);
+});
+
 test("every new city business gives the player both coins and XP without spending private cat wallets", () => {
   for (const business of JOB_BUSINESSES) {
     const g = seed(),

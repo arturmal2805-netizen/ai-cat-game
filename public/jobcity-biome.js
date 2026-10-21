@@ -42,7 +42,8 @@ export function* jobCityBiomeSteps(
     detail = new T.Group(),
     low = new T.Group(),
     props = new T.Group(),
-    animations = [];
+    animations = [],
+    buildingProxies = new Map();
   let statue = null;
   low.visible = lowOnly;
   detail.visible = !lowOnly;
@@ -59,6 +60,13 @@ export function* jobCityBiomeSteps(
     trees: [],
     stats: { fishCount: 0 },
     jobCity: { businesses: 6, buildingScale: 5 },
+    buildingProxies,
+    syncBuildingProxies(groups, hidden) {
+      for (const [id, proxy] of buildingProxies) {
+        const model = groups.get(id);
+        proxy.visible = !hidden.has(id) && !(model?.userData.built && model.visible);
+      }
+    },
   };
   const outline = new T.Shape();
   outline.absarc(0, 0, JOB_CITY_RADIUS, 0, Math.PI * 2, false);
@@ -106,8 +114,11 @@ export function* jobCityBiomeSteps(
   );
   bottom.rotation.z = Math.PI;
   for (const b of JOB_BUSINESSES) {
-    shape(low, "cube", 0xe4d2b0, b.x, 6, b.z, b.w, 12, b.d);
-    shape(low, "cube", b.color, b.x, 13, b.z, b.w + 1, 2, b.d + 1);
+    const proxy = new T.Group();
+    low.add(proxy);
+    buildingProxies.set(b.id, proxy);
+    shape(proxy, "cube", 0xe4d2b0, b.x, 6, b.z, b.w, 12, b.d);
+    shape(proxy, "cube", b.color, b.x, 13, b.z, b.w + 1, 2, b.d + 1);
     yield;
     if (preview && !lowOnly) {
       const model = yield* jobBuildingSteps(b.id);
