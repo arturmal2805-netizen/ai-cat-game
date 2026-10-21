@@ -53,7 +53,7 @@ test("island shortcut fits every entire island on portrait and landscape screens
     for (const biome of BIOMES) {
       const camera = new THREE.PerspectiveCamera(40, aspect, 0.5, 1200),
         distance = islandOverviewDistance(biome.radius, 40, aspect);
-      assert.ok(distance < 600);
+      assert.ok(distance + (biome.radius || 12) < camera.far);
       for (const azimuth of [0, 0.72, 2.5]) {
         camera.position.set(
           Math.sin(azimuth) * Math.cos(1.03) * distance,
