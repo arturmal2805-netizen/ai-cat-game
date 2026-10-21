@@ -4,6 +4,8 @@ import {
   JOB_MINUTE_MS,
   JOB_DAY_MINUTES,
   JOB_START,
+  JOB_CLOCK_ORIGIN,
+  JOB_SHIFT_MINUTES,
   JOB_END,
   JOB_KINDS,
   JOB_BUSINESSES,
@@ -43,7 +45,7 @@ export const cityCats = (game) => [
 ];
 export function cityClock(state, now = Date.now()) {
   const absolute =
-    JOB_START + Math.max(0, (now - (state?.epoch ?? now)) / JOB_MINUTE_MS);
+    JOB_CLOCK_ORIGIN + Math.max(0, (now - (state?.epoch ?? now)) / JOB_MINUTE_MS);
   const day = Math.floor(absolute / JOB_DAY_MINUTES),
     minute = absolute % JOB_DAY_MINUTES;
   return {
@@ -239,7 +241,7 @@ export function normalizeJobCity(raw, game, now = Date.now()) {
           day: r.attendance.day,
           job: r.attendance.job,
           at: r.attendance.at,
-          worked: Math.max(0, Math.min(420, r.attendance.worked)),
+          worked: Math.max(0, Math.min(JOB_SHIFT_MINUTES, r.attendance.worked)),
           active: !!r.attendance.active,
           credit: Math.max(0, Math.min(2000, Number(r.attendance.credit) || 0)),
         };
@@ -526,7 +528,7 @@ function wages(a, until) {
 }
 function worked(a, until) {
   return Math.min(
-    420,
+    JOB_SHIFT_MINUTES,
     a.worked +
       (a.active
         ? Math.max(0, Math.min(until, a.day * 1440 + JOB_END) - a.at)

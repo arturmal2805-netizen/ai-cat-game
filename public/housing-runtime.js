@@ -1,3 +1,4 @@
+import {JOB_END} from "./jobcity-data.js";
 import { cityClock } from "./jobcity-system.js";
 import { leisurePlanOwner } from "./leisure-data.js";
 import { createChillRuntime } from "./chill-runtime.js";
@@ -11,7 +12,7 @@ import {
 } from "./housing-data.js";
 
 // A walk or drive is an evening choice, not an order to go straight to bed.
-// Quiet cats can return at 19:00; other residents have free time until 22:00.
+// Quiet cats can return at 17:00; other residents have free time until 22:00.
 export function homeRestTime(game, id, now = Date.now(), context = null) {
   if (!game.housing?.residences[id] || !game.jobCity) return false;
   const clock = context?.clock || cityClock(game.jobCity, now),
@@ -27,7 +28,7 @@ export function homeRestTime(game, id, now = Date.now(), context = null) {
       (progress?.day === clock.day ? progress.done : 0)
   )
     return false;
-  if (clock.minute >= 19 * 60 && clock.minute < 22 * 60)
+  if (clock.minute >= JOB_END && clock.minute < 22 * 60)
     return p?.schedule?.evening === "rest";
   return true;
 }

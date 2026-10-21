@@ -13,6 +13,7 @@ import { ownedHomes, availableRoommates } from "./housing-system.js";
 import { houseType } from "./housing-data.js";
 import {
   JOB_BUSINESSES,
+  JOB_HOURS,
   JOB_CARS,
   jobBusiness,
   jobCar,
@@ -142,7 +143,7 @@ export function createJobCityUI({
     const p = state.profiles[selected],
       c = cityClock(state),
       housingMessage = cityAIHousingMessage(game, selected, getAIStatus());
-    clock.textContent = `${familyCalendar(game, c.day).label} · ${c.label} · робочі години 12:00–19:00 · план: ${state.plan?.source === "ai" ? "Cloudflare AI" : state.plan?.source === "pending" ? "місцевий, AI обирає" : "місцевий"}`;
+    clock.textContent = `${familyCalendar(game, c.day).label} · ${c.label} · робочі години ${JOB_HOURS} · план: ${state.plan?.source === "ai" ? "Cloudflare AI" : state.plan?.source === "pending" ? "місцевий, AI обирає" : "місцевий"}`;
     const key = JSON.stringify([
       selected,
       p,
@@ -204,7 +205,7 @@ export function createJobCityUI({
       text(
         "p",
         p.schedule?.job && p.schedule.job !== "rest"
-          ? `Сьогодні: ${jobBusiness(p.schedule.job).name} · ${jobBusiness(p.schedule.job).wage} 🐾/ігрову годину · оплата о 19:00 за фактично відпрацьований час`
+          ? `Сьогодні: ${jobBusiness(p.schedule.job).name} · ${jobBusiness(p.schedule.job).wage} 🐾/ігрову годину · оплата о 17:00 за фактично відпрацьований час`
           : "Сьогодні відпочиває; професія залишається з котиком.",
       ),
     );

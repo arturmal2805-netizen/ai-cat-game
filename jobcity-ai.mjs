@@ -1,3 +1,4 @@
+import { JOB_END, JOB_HOURS } from "./public/jobcity-data.js";
 import { housingOffers } from "./public/housing-system.js";
 import { JOB_KINDS, JOB_CAPACITY } from "./public/jobcity-data.js";
 import { validateJobAssignments } from "./public/jobcity-system.js";
@@ -112,7 +113,7 @@ function validateCityEvent(s, cats) {
     s.initialIds.some(
       (id) => !cats.some((p) => p.id === id && p.profession === null),
     ) ||
-    (s.phase === "evening" && (s.minute < 1140 || s.initialIds.length))
+    (s.phase === "evening" && (s.minute < JOB_END || s.initialIds.length))
   )
     throw Error("Invalid city AI event");
   return {
@@ -236,7 +237,7 @@ export function cityPlanInput(state) {
       {
         role: "system",
         content: `Plan ONE fictional cat day. Output ONLY compact JSON {"assignments":[[catIndex,job,profession,evening,house,roommate,reason,outings],...],"families":[[maleIndex,femaleIndex,"short Ukrainian reason"],...]}.
-Include ALL ${state.cats.length} cat indices from 0 through ${state.cats.length - 1} exactly once, including resting cats. ${state.cats.length} is NOT a cat index. Job/profession indices: ${JOB_KINDS.map((k, i) => i + "=" + k).join(", ")}. Job -1 means off work; profession must be 0..5. At most ${JOB_CAPACITY} workers per job: the rest keep their profession and take a day off. Rotate seats fairly: oldest lastPaidDay first; avoid permanently unemployed cats. Work 12:00-19:00.
+Include ALL ${state.cats.length} cat indices from 0 through ${state.cats.length - 1} exactly once, including resting cats. ${state.cats.length} is NOT a cat index. Job/profession indices: ${JOB_KINDS.map((k, i) => i + "=" + k).join(", ")}. Job -1 means off work; profession must be 0..5. At most ${JOB_CAPACITY} workers per job: the rest keep their profession and take a day off. Rotate seats fairly: oldest lastPaidDay first; avoid permanently unemployed cats. Work ${JOB_HOURS}.
 Profession is permanent, NOT a daily random job. Keep existing profession unless changeAllowed=1; at most 3 lifetime changes. If profession=-1 choose a first career using personality, skills and preferences. Give a short Ukrainian reason only for changing an established profession; omit reason for an initial or unchanged career.
 Evening: 0=rest/home,1=walk/visit friends,2=drive. Choose 2 ONLY if hasCar=1. Give cats varied free-time choices. Outings is an array of 1-3 DIFFERENT place indices for free time; [] if resting. All offered places are real and available, across all islands. Choose varied food cafes, Krusty Krab, lemonade, art, swimming, rides and rest by personality. Partners share their outings outside work; retain their separate careers. No invented indices. reason is "" for initial/unchanged careers.
 House: -1=no purchase, otherwise its index in houses. Buy only if affordable from that cat's coins; prioritize a first home when saving permits, single cats may occasionally buy another home. A permanent couple may own ONE shared home: if either partner has a home/hasActiveHome=1, choose -1 for both. Roommate: -1=none or another catIndex with hasActiveHome=0. An owner keeps their existing active home on another purchase.

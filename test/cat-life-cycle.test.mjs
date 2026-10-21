@@ -6,6 +6,7 @@ import { BIOMES } from "../public/game-data.js";
 import { ADOPTION_CATS } from "../public/cat-breeds.js";
 import {
   JOB_KINDS,
+  JOB_START, JOB_END, JOB_CLOCK_ORIGIN,
   JOB_CARS,
   JOB_CAPACITY,
   JOB_BUSINESSES,
@@ -37,7 +38,7 @@ import {
   expandCityPlan,
 } from "../jobcity-ai.mjs";
 const epoch = Date.UTC(2026, 9, 19, 12),
-  at = (day, minute) => epoch + (day * 1440 + minute - 720) * 1000;
+  at = (day, minute) => epoch + (day * 1440 + minute - JOB_CLOCK_ORIGIN) * 1000;
 function seed() {
   let g = newGame(epoch);
   g.unlocked = BIOMES.map((b) => b.id);
@@ -122,10 +123,10 @@ test("120 simulated days produce actual attended wages, different success and we
           a.id,
           a.job,
           true,
-          at(day, 750 + (p.id.length % 20)),
+          at(day, JOB_START + 30 + (p.id.length % 20)),
         );
     }
-    g = advanceCityEvening(advanceJobCity(g, at(day, 1140)), at(day, 1140));
+    g = advanceCityEvening(advanceJobCity(g, at(day, JOB_END)), at(day, JOB_END));
     for (const p of profiles()) {
       if (day <= 12 && p.earnedTotal > 0) earnedByDay12.add(p.id);
       if (JOB_CARS.some((c) => p.inventory[c.id])) carsBought.add(p.id);
@@ -172,17 +173,17 @@ test("120 simulated days produce actual attended wages, different success and we
   );
 });
 
-test("homeowners respect 12–19 work and their AI evening choice: walks and drives before 22, quiet rest earlier, and one active home overnight", () => {
+test("homeowners respect 09–17 work and their AI evening choice: walks and drives before 22, quiet rest earlier, and one active home overnight", () => {
   let g = seed();
   g.jobCity.profiles.chichi.coins = 5000;
   g = buyCatHome(g, "chichi", HOUSE_TYPES[0].id, "buy-chichi-1");
   const p = g.jobCity.profiles.chichi;
   for (const evening of ["rest", "walk", "drive"]) {
     p.schedule = { day: 0, job: "estate", evening };
-    assert.equal(homeRestTime(g, p.id, at(1, 719)), true);
+    assert.equal(homeRestTime(g, p.id, at(1, JOB_START-1)), true);
     assert.equal(homeRestTime(g, p.id, at(0, 720)), false);
-    assert.equal(homeRestTime(g, p.id, at(0, 1139)), false);
-    assert.equal(homeRestTime(g, p.id, at(0, 1140)), evening === "rest");
+    assert.equal(homeRestTime(g, p.id, at(0, JOB_END-1)), false);
+    assert.equal(homeRestTime(g, p.id, at(0, JOB_END)), evening === "rest");
     assert.equal(homeRestTime(g, p.id, at(0, 1319)), evening === "rest");
     assert.equal(homeRestTime(g, p.id, at(0, 1320)), true);
     const rt = createHousingRuntime(),

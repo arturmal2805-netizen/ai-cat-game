@@ -1,0 +1,90 @@
+{
+  "taps": [
+    {
+      "viewport": {
+        "width": 1100,
+        "height": 850
+      },
+      "section": 1,
+      "x": -308,
+      "z": 55,
+      "sections": 3
+    },
+    {
+      "viewport": {
+        "width": 1100,
+        "height": 850
+      },
+      "section": 2,
+      "x": -406,
+      "z": 55,
+      "sections": 3
+    },
+    {
+      "viewport": {
+        "width": 1100,
+        "height": 850
+      },
+      "section": 1,
+      "x": -308,
+      "z": 55,
+      "sections": 3
+    },
+    {
+      "viewport": {
+        "width": 1100,
+        "height": 850
+      },
+      "section": 0,
+      "x": -210,
+      "z": 55,
+      "sections": 3
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "section": 1,
+      "x": -308,
+      "z": 55,
+      "sections": 3
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "section": 2,
+      "x": -406,
+      "z": 55,
+      "sections": 3
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "section": 1,
+      "x": -308,
+      "z": 55,
+      "sections": 3
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "section": 0,
+      "x": -210,
+      "z": 55,
+      "sections": 3
+    }
+  ],
+  "paidHomes": 25,
+  "catHomeSpending": 40000,
+  "freeSections": 3,
+  "playerLandCharges": 0,
+  "aiCalls": 0,
+  "errors": []
+}

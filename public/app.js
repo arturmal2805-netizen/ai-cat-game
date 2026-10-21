@@ -1,3 +1,4 @@
+import {JOB_START} from "./jobcity-data.js";
 import {reserveCryptoAttempt,pendingCryptoAttempt,applyCryptoForecast,advanceCryptoTrading,localCryptoForecast} from "./crypto-trading.js";
 import {
   buyCatHome,
@@ -489,7 +490,7 @@ function cityTick() {
     if (next !== game) commit(next, false);
     const state = game.jobCity,
       clock = cityClock(state);
-    if (clock.minute >= 720 && state.plan?.day !== clock.day) {
+    if (clock.minute >= JOB_START && state.plan?.day !== clock.day) {
       next = applyJobPlan(
         game,
         localJobPlan(Object.values(state.profiles), clock.day),

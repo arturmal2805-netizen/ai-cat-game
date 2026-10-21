@@ -5,8 +5,12 @@ export const JOB_CITY_RADIUS = 67;
 export const JOB_CITY_CENTER = [...WORLD_CENTERS.jobcity];
 export const JOB_MINUTE_MS = 1000;
 export const JOB_DAY_MINUTES = 1440;
-export const JOB_START = 12 * 60;
-export const JOB_END = 19 * 60;
+// Preserve the released epoch/calendar origin when work hours change.
+export const JOB_CLOCK_ORIGIN = 12 * 60;
+export const JOB_START = 9 * 60;
+export const JOB_END = 17 * 60;
+export const JOB_SHIFT_MINUTES = JOB_END-JOB_START;
+export const JOB_HOURS = "09:00–17:00";
 export const JOB_CAPACITY = 6;
 export const JOB_BUSINESSES = [
   [

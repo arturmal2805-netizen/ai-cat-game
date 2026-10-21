@@ -139,7 +139,7 @@ test("initial careers are one saved event; established careers never appear in d
 });
 test("only workers get after-shift activity choices; affordable houses and 14-day family reviews share that batch", async () => {
   let g = await establish();
-  assert.equal(nextCityAIEvent(g, epoch + 419000), null);
+  assert.equal(nextCityAIEvent(g, epoch + 299000), null);
   const ids = Object.keys(g.jobCity.profiles);
   g.jobCity.profiles[ids[0]].coins = 100000;
   g.jobCity.profiles[ids[1]].coins = 0;
@@ -388,7 +388,7 @@ test("only the persisted shared world can realign an AI ledger clock, preserving
 
 test("family status explains waiting for after-work and failed decisions instead of silently presenting an empty successful review", async () => {
   const g = await establish(), now=epoch+14*1440000;
-  assert.match(cityAIFamilyMessage(g,null,now),/19:00/);
+  assert.match(cityAIFamilyMessage(g,null,now),/17:00/);
   assert.match(cityAIFamilyMessage(g,{state:"failed"},now),/не завершився/);
   assert.match(cityAIFamilyMessage(g,{state:"pending"},now),/відновиться/);
 });
@@ -540,8 +540,8 @@ test('every affordable buyer gets an explicit voluntary buy-or-wait schema with 
 test('housing status explains the real schedule, affordability, pending receipt and failure without implying a purchase happened', async () => {
   const {cityAIHousingMessage}=await import('../public/city-ai-schedule.js');
   let g=await establish();const id=Object.keys(g.jobCity.profiles)[0];g.jobCity.profiles[id].coins=10000;
-  assert.match(cityAIHousingMessage(g,id,null,epoch),/19:00.*гра відкрита/);
-  assert.match(cityAIHousingMessage(g,id,{state:'pending',day:nextCityAIEvent(g,epoch+420000).day},epoch),/19:00.*гра відкрита/,'initial career inference does not imply a housing decision');
+  assert.match(cityAIHousingMessage(g,id,null,epoch),/17:00.*гра відкрита/);
+  assert.match(cityAIHousingMessage(g,id,{state:'pending',day:nextCityAIEvent(g,epoch+420000).day},epoch),/17:00.*гра відкрита/,'initial career inference does not imply a housing decision');
   const now=epoch+420000,event=nextCityAIEvent(g,now);
   assert.match(cityAIHousingMessage(g,id,null,now),/активній грі/);
   g=reserveCityAIEvent(g,event);

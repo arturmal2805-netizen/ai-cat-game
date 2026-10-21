@@ -287,3 +287,12 @@ idempotent. Corrupt investment records must select a backup rather than erase
 escrow. Office screens share one fixed price array and instanced draw; preserve
 native stairs, work seats and approved cat rigs. Routine checks use private
 SQLite and mocked forecasts, never player worlds or paid inference.
+
+### Working day 09:00–17:00
+
+All work, attendance, wages and after-work AI use JOB_START/JOB_END. Preserve
+JOB_CLOCK_ORIGIN (released 12:00 epoch origin) so changing work hours does not
+reset the current game clock, day count, AI reservations or weekly trades.
+The new eight-hour maximum is JOB_SHIFT_MINUTES; pay only attended time and
+settle once at 17:00. Quiet cats may return home then; other cats retain their
+chosen free-time itinerary until the existing evening curfew.

@@ -214,7 +214,7 @@ test("initial provisional local careers can be chosen by the single AI batch wit
     ),
   );
 });
-test("12–19 clock pays only attended time, pauses retain credit and refresh never pays twice", () => {
+test("09–17 work schedule pays only attended time, pauses retain credit and refresh never pays twice", () => {
   let g = seed();
   const id = Object.keys(g.jobCity.profiles).find(
       (id) => g.jobCity.profiles[id].schedule.job !== "rest",
@@ -223,25 +223,25 @@ test("12–19 clock pays only attended time, pauses retain credit and refresh ne
     b = JOB_BUSINESSES.find((b) => b.kind === p.schedule.job),
     playerCoins = g.coins;
   assert.equal(cityClock(g.jobCity, now).label, "12:00");
-  assert.equal(cityClock(g.jobCity, now + 420000).label, "19:00");
+  assert.equal(cityClock(g.jobCity, now + 300000).label, "17:00");
   g = recordJobAttendance(g, id, b.kind, true, now + 60000);
   g = pauseCatCareer(g, id, now + 120000);
   assert.equal(g.jobCity.profiles[id].attendance.active, false);
   g = recordJobAttendance(g, id, b.kind, true, now + 180000);
-  g = advanceJobCity(g, now + 420000);
+  g = advanceJobCity(g, now + 300000);
   const p2 = g.jobCity.profiles[id];
-  assert.equal(p2.coins, b.wage * 5);
-  assert.equal(p2.earnedTotal, b.wage * 5);
-  assert.equal(p2.shifts[0].minutes, 300);
+  assert.equal(p2.coins, b.wage * 3);
+  assert.equal(p2.earnedTotal, b.wage * 3);
+  assert.equal(p2.shifts[0].minutes, 180);
   assert.equal(g.coins, playerCoins);
   for (let i = 0; i < 20; i++)
-    g = advanceJobCity(restore(g, now + 420000), now + 420000);
+    g = advanceJobCity(restore(g, now + 300000), now + 300000);
   assert.equal(g.jobCity.profiles[id].coins, p2.coins);
   assert.equal(
     g.jobCity.profiles[id].transactions.filter((t) => t.kind === "wage").length,
     1,
   );
-  const fresh = advanceJobCity(seed(), now + 420000);
+  const fresh = advanceJobCity(seed(), now + 300000);
   assert.ok(Object.values(fresh.jobCity.profiles).every((p) => p.coins === 0));
 });
 test("private purchases validate funds, survive history pruning and never spend player coins", () => {

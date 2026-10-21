@@ -1,11 +1,11 @@
-import {JOB_START,JOB_END,JOB_MINUTE_MS,JOB_DAY_MINUTES} from './jobcity-data.js';
+import {JOB_CLOCK_ORIGIN,JOB_START,JOB_END,JOB_MINUTE_MS,JOB_DAY_MINUTES} from './jobcity-data.js';
 
 // Fictional prices and personal cat coins only. No exchange or market feed.
 export const CRYPTO_RULES=Object.freeze({intervalDays:7,durationMs:45000,minCoins:30,maxLeverage:3,feeRate:.002,pathPoints:65});
 const hash=s=>[...String(s)].reduce((h,c)=>(Math.imul(h,31)+c.charCodeAt(0))>>>0,7);
 const clone=v=>structuredClone(v);
 export const cryptoClock=(state,now=Date.now())=>{
-  const absolute=JOB_START+Math.max(0,(now-(state?.epoch??now))/JOB_MINUTE_MS);
+  const absolute=JOB_CLOCK_ORIGIN+Math.max(0,(now-(state?.epoch??now))/JOB_MINUTE_MS);
   return {day:Math.floor(absolute/JOB_DAY_MINUTES),minute:absolute%JOB_DAY_MINUTES};
 };
 export function traderRisk(profile){const base={'Спокійний':.25,'Товариський':.5,'Допитливий':.65,'Винахідливий':.8}[profile.personality]??.5;return Math.max(.1,Math.min(.9,base+(hash(profile.id+'risk')%201-100)/1000));}
