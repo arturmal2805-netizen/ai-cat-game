@@ -67,7 +67,7 @@ heap or evidence of lower total RAM.
   purchases survive twenty reloads and old/concurrent-client merges.
 - Real browser/SQLite lost-ACK scenario: two permanent families, a new automatic
   AI-response house, three reloads, five duplicate writes, concurrent old-client
-  updates, one inference, one charge, visible original Chill architecture and
+  updates, one mocked AI response, one charge, visible original Chill architecture and
   separate partner sleeping positions. See `family.json`.
 
 The capybara architecture and these constraints are permanent rules in
@@ -91,3 +91,22 @@ buy-or-wait row for every eligible buyer in the same existing batch. A nullable
 house means wait, with no charge or forced purchase. Legacy omitted lists remain
 valid for old receipts. This adds no per-cat requests and preserves the existing
 daily reservation and household economy.
+
+Final server release: `9735e35133d399527925c9cb6f8f0df034373058`.
+The full follow-up CI test/deploy/Pages workflow passed: **641 tests, 641 passed, 0 failed**. Website HTML references
+the same verified client bundle (`e608270e53b210c2`) and styles
+(`5b0cd1ed87f421a0`). Rendering code is unchanged by the server-only follow-up.
+
+The final **real** ordinary-evening request used an isolated synthetic world
+with 80 cats, 36 workers, 16 car owners, 92 offered venues and one established
+family. OpenRouter returned 80 valid assignments, 30 leisure outings and
+voluntarily selected 80 affordable houses. Client receipt recovery created all
+80 permanent home records with exact private charges; the original family and
+professions stayed unchanged. A cached repeat returned identical parsed
+results and application was idempotent. This is not a write to the player's world.
+See `production-ai-housing.json`. A separate real introduction also formed one
+compatible pair (`production-ai-family.json`).
+
+The player's existing unsuccessful evening is not rerun or charged again. New
+housing decisions apply in the next normal after-work batch; purchases remain
+voluntary, with explicit `house:null` waiting supported and tested.

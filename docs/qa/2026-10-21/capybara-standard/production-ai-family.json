@@ -1,0 +1,15 @@
+{
+  "privateWorld": true,
+  "provider": "openrouter",
+  "elapsedMs": 4156,
+  "cats": 2,
+  "phase": "evening",
+  "compatiblePairs": 1,
+  "assignments": 2,
+  "leisureChoices": 1,
+  "houseChoices": 0,
+  "receiptStatus": 200,
+  "couplesAfterRecovery": 1,
+  "cachedReplayIdentical": true,
+  "appliedExactlyOnce": true
+}

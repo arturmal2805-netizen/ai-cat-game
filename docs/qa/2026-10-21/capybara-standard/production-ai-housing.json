@@ -1,0 +1,20 @@
+{
+  "privateWorld": true,
+  "provider": "openrouter",
+  "elapsedMs": 19674,
+  "cats": 80,
+  "phase": "evening",
+  "ordinaryEvening": true,
+  "existingFamilies": 1,
+  "workers": 36,
+  "offeredVenues": 92,
+  "carOwners": 16,
+  "assignments": 80,
+  "leisureChoices": 30,
+  "houseChoices": 80,
+  "housesAfterRecovery": 80,
+  "purchaseWarnings": [],
+  "unchangedProfessions": true,
+  "cachedReplayIdentical": true,
+  "appliedExactlyOnce": true
+}
