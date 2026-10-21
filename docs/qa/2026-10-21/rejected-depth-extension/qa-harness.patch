@@ -1,0 +1,109 @@
+diff --git a/scripts/check-aquarium.cjs b/scripts/check-aquarium.cjs
+index 0e19f01..9ad4b02 100644
+--- a/scripts/check-aquarium.cjs
++++ b/scripts/check-aquarium.cjs
+@@ -284,12 +284,24 @@ async function localWorker() {
+                 ),
+                 loader: "js",
+               }));
++            if (process.env.CHICHI_SHADER_STALL_AUDIT) b.onLoad({filter:/\/public\/shadow-depth-cache\.js$/},()=>({
++              contents:readPublic("shadow-depth-cache.js").replace("    stats,", "    stats, audit:()=>({valid,stable,retryFrames,records:records.length,eligible:records.filter(r=>eligible(r.object)).length,changed:records.filter(r=>!unchanged(r)).map(r=>({name:r.object.name,material:r.material.type,version:[r.version,r.material.version],matrix:r.matrix.equals(r.object.matrixWorld)}))}),"),loader:"js"
++            }));
+             b.onLoad({ filter: /\/public\/world\.js$/ }, () => {
+               const source = readPublic("world.js"),
+                 marker = "  return {\n    perform,";
+               assert.ok(source.includes(marker));
+               return {
+                 contents: source
++                  .replace("  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));",
++                    `  if (${!!process.env.CHICHI_SHADER_STALL_AUDIT}) {
++                      renderer.debug.checkShaderErrors=${!!process.env.CHICHI_SHADER_LOG_CONTROL};
++                      const gl=renderer.getContext(),stats=window.__shaderLogQA={calls:0,ms:0};
++                      for(const key of ["getProgramInfoLog","getShaderInfoLog"]) {
++                        const original=gl[key].bind(gl);gl[key]=(...args)=>{const t=performance.now();try{return original(...args);}finally{stats.calls++;stats.ms+=performance.now()-t;}};
++                      }
++                    }
++  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));`)
+                   .replace(
+                     "  const gpuFrames =",
+                     "  const qaGpuBuffers=(" +
+@@ -346,7 +358,7 @@ async function localWorker() {
+                   )
+                   .replace(
+                     marker,
+-                    `  const qa=window.__lagoonQA={step:loop,gpuFrames,shadowDepth:typeof shadowDepth==='undefined'?null:shadowDepth,geometryResidency:typeof geometryResidency==='undefined'?null:geometryResidency,gpuBuffers:qaGpuBuffers,matrixCache:typeof matrixCache==='undefined'?null:matrixCache,shaderWarmup:typeof shaderWarmup==='undefined'?null:shaderWarmup,colonyDraws:typeof colonyDraws==='undefined'?null:colonyDraws,animateCat,setCatMood,poseAtlas:typeof poseAtlas==='undefined'?null:poseAtlas,staticDraws:typeof staticDraws==='undefined'?null:staticDraws,camera,look,desiredLook,renderer,islands,cat,npcs,chichiCarrier,itemGroups,THREE,scene,pickDrop,pointer,raycaster,ground,viewport,sync,perform,performResident,faceCamera,spa,chill,court,cinema,courtFoods,bikiniLife,enterCourt,exitCourt,getCourtCamera:()=>courtCamera,residentPlay,callbacks,showCatHome,getDragging:()=>draggingCat?.catId,reviewView:(x,z,d)=>{desiredLook.set(x,0,z);desiredDistance=d;azimuth=.15;},constructorMs:performance.now()-qaStart,focused:()=>focused,getOperation:()=>operation,isVisible:()=>worldVisible,getDistance:()=>distance,getDesiredDistance:()=>desiredDistance,frames:0,resizes:0,black:[],audit:false,measure:false,cpu:[]};
++                    `  const qa=window.__lagoonQA={step:loop,gpuFrames,shadowDepth:typeof shadowDepth==='undefined'?null:shadowDepth,geometryResidency:typeof geometryResidency==='undefined'?null:geometryResidency,gpuBuffers:qaGpuBuffers,matrixCache:typeof matrixCache==='undefined'?null:matrixCache,shaderWarmup:typeof shaderWarmup==='undefined'?null:shaderWarmup,colonyDraws:typeof colonyDraws==='undefined'?null:colonyDraws,animateCat,setCatMood,poseAtlas:typeof poseAtlas==='undefined'?null:poseAtlas,staticDraws:typeof staticDraws==='undefined'?null:staticDraws,camera,look,desiredLook,renderer,islands,cat,npcs,chichiCarrier,itemGroups,jobs,cityCars,updateCityCar,THREE,scene,pickDrop,pointer,raycaster,ground,viewport,sync,perform,performResident,faceCamera,spa,chill,court,cinema,courtFoods,bikiniLife,enterCourt,exitCourt,getCourtCamera:()=>courtCamera,residentPlay,callbacks,showCatHome,getDragging:()=>draggingCat?.catId,reviewView:(x,z,d)=>{desiredLook.set(x,0,z);desiredDistance=d;azimuth=.15;},constructorMs:performance.now()-qaStart,focused:()=>focused,getOperation:()=>operation,isVisible:()=>worldVisible,getDistance:()=>distance,getDesiredDistance:()=>desiredDistance,frames:0,resizes:0,black:[],audit:false,measure:false,cpu:[]};
+   const draw=renderer.render.bind(renderer);qa.drawFrame=()=>draw(scene,camera);renderer.render=(...args)=>{if(qa.drawPaused&&!qa.commandOnly)return;const started=performance.now();draw(...args);qa.frames++;if(qa.liveFrames)qa.liveFrames.push([started,performance.now()-started,renderer.info.render.calls,renderer.info.render.triangles]);};
+   const size=renderer.setSize.bind(renderer);renderer.setSize=(...args)=>{qa.resizes++;return size(...args);};
+   const audit=new MutationObserver(()=>{if(!qa.audit)return;const gl=renderer.getContext(),p=new Uint8Array(4);gl.readPixels(0,0,1,1,gl.RGBA,gl.UNSIGNED_BYTE,p);if(p[0]+p[1]+p[2]===0)qa.black.push(Array.from(p));});audit.observe(renderer.domElement,{attributes:true,attributeFilter:['width','height']});
+@@ -450,6 +462,18 @@ async function localWorker() {
+       () => window.__lagoonQA && window.__lagoonSaveQA?.cloud.editable,
+     );
+ 
++    if (process.env.CHICHI_CAR_INVENTORY_AUDIT) {
++      const { checkCarInventory } = await import("./check-car-inventory.mjs");
++      await checkCarInventory(page, review);
++      assert.deepEqual(errors, []); assert.deepEqual(httpErrors, []);
++      return;
++    }
++    if (process.env.CHICHI_SHADER_STALL_AUDIT) {
++      const { checkShaderStalls } = await import("./check-shader-stalls.mjs");
++      await checkShaderStalls(page, review);
++      assert.deepEqual(errors, []); assert.deepEqual(httpErrors, []);
++      return;
++    }
+     if (process.env.CHICHI_NATIVE_MAP_AUDIT) {
+       const { checkNativeMapFrames } = await import("./check-native-map-frames.mjs");
+       await checkNativeMapFrames(page, review);
+diff --git a/scripts/check-native-map-frames.mjs b/scripts/check-native-map-frames.mjs
+index 8336be7..abb3b92 100644
+--- a/scripts/check-native-map-frames.mjs
++++ b/scripts/check-native-map-frames.mjs
+@@ -11,7 +11,11 @@ export async function checkNativeMapFrames(page, review) {
+   const rows = [], ms = Number(process.env.CHICHI_NATIVE_SAMPLE_MS || 8000),
+     imageOnly = !!process.env.CHICHI_NATIVE_PIXEL_PROOF,
+     repeats = process.env.CHICHI_NATIVE_REPEATS?.split(",") || ["summer", "aquarium", "homestead", "sakura"];
+-  for (const id of [...ids, ...repeats.filter(id => ids.includes(id))]) {
++  const modes=process.env.CHICHI_SHADOW_MODES?.split(","),
++    targets=modes ? ids.flatMap(id=>modes.map(mode=>({id,mode})))
++      : [...ids,...repeats.filter(id=>ids.includes(id))].map(id=>({id}));
++  for (const {id,mode} of targets) {
++    if(mode) await page.evaluate(mode=>__lagoonQA.shadowDepth.setExtended(mode==="extended"),mode);
+     const started = Date.now();
+     await page.evaluate(id => {
+       const q = __lagoonQA;
+@@ -27,6 +31,7 @@ export async function checkNativeMapFrames(page, review) {
+         q.shaderWarmup.idle();
+     }, id, { timeout: 180000 });
+     const readyMs = Date.now() - started;
++    if(mode) await page.waitForTimeout(4000);
+     if (imageOnly) {
+       const image = await page.evaluate(() => {
+         const q = __lagoonQA, gl = q.renderer.getContext(), paints = new Set();
+@@ -151,7 +156,7 @@ export async function checkNativeMapFrames(page, review) {
+           }));
+           canvas.dispatchEvent(new PointerEvent("pointermove", {
+             pointerId: q.probePointerId, pointerType: "mouse", buttons: 1,
+-            clientX: anchor.x + Math.sin(phase) * 24,
++            clientX: anchor.x + Math.sin(phase) * (q.shadowDepth.setExtended ? 48 : 24),
+             clientY: anchor.y + (Math.cos(phase) - 1) * 8,
+           }));
+           return;
+@@ -168,7 +173,7 @@ export async function checkNativeMapFrames(page, review) {
+           renderCpuMedian: cpu[Math.floor(cpu.length * .5)] ?? null,
+           renderCpuMax: cpu.at(-1) ?? null,
+           orbitRange: maxAngle - minAngle, zoomRange: maxZoom - minZoom,
+-          draw: { ...q.renderer.info.render }, shaders: { ...q.shaderWarmup.stats },
++          shadow: {...q.shadowDepth.stats},draw: { ...q.renderer.info.render }, shaders: { ...q.shaderWarmup.stats },
+           memory: { ...q.renderer.info.memory },
+           geometryResidency: { ...q.geometryResidency.stats },
+           dpr: q.renderer.getPixelRatio(),
+@@ -186,7 +191,7 @@ export async function checkNativeMapFrames(page, review) {
+     assert.ok(row.zoomRange > 6, `${id}: the actual input handler must change camera zoom`);
+     assert.ok(row.frames > 0, `${id}: real frames must complete during camera input`);
+     assert.equal(row.dpr, 2); assert.equal(row.contextLost, false); assert.equal(row.visible, true);
+-    rows.push({ id, repeat: rows.some(r => r.id === id), readyMs, ...row });
++    rows.push({ id, mode, repeat: rows.some(r => r.id === id), readyMs, ...row });
+     fs.writeFileSync(path.join(review, "native-map-frames.json"), JSON.stringify(rows, null, 2));
+     console.log("NATIVE_MAP", JSON.stringify(rows.at(-1)));
+   }

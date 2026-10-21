@@ -219,6 +219,12 @@ approved improvements when testing a new candidate.
 
 ### Frame-rate regression gate
 
+- This is a common standard for EVERY existing and future island, not an
+  aquarium-only or selected-biome option. Use the runtime BIOMES list for the
+  camera/orbit/zoom/return audit; include quiet islands and Job City as well as
+  capybaras, aquarium, housing and a heavily built homestead. Repeated stalls
+  during a single turn require frame-gap/long-task evidence, not only average
+  FPS. Keep graphics and working two-cat family sleep unchanged.
 - The player reports a regression across the map, including capybaras. A saved
   baseline is a rollback reference, not proof that every later optimization is
   beneficial. Investigate common rendering changes before simplifying a biome.

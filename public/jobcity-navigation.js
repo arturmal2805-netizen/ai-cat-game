@@ -121,6 +121,25 @@ export function cityGroundClear(a, b, radius = 0.65) {
   }
   return true;
 }
+// Only the fixed building-corner edges are reused. Current cat/goal edges are
+// always checked anew. Keep direction: sampled clearance can differ at a
+// floating-point boundary when a segment is traversed backwards.
+const walkEdges = new Map();
+export const CITY_WALK_CACHE_LIMIT = 8;
+export function cityNavigationStats() {
+  return { layouts: walkEdges.size, bytes: [...walkEdges.values()].reduce((n,a)=>n+a.byteLength,0) };
+}
+function fixedWalkEdges(radius, count) {
+  const key=JSON.stringify([radius, JOB_CITY_RADIUS,
+    JOB_BUSINESSES.map(b=>[b.x,b.z,b.w,b.d]), count]);
+  let edges=walkEdges.get(key);
+  if (!edges) {
+    edges=new Uint8Array(count*count);
+    if(walkEdges.size>=CITY_WALK_CACHE_LIMIT)walkEdges.delete(walkEdges.keys().next().value);
+    walkEdges.set(key,edges);
+  }
+  return edges;
+}
 export function cityWalkPath(from, to, radius = 0.65) {
   if (!cityPoint(to, radius)) return null;
   let origin = cityPoint(from, radius)
@@ -153,6 +172,13 @@ export function cityWalkPath(from, to, radius = 0.65) {
       z: Math.cos((k * Math.PI) / 6) * 6.3,
       y: 0.32,
     });
+  const fixedCount=nodes.length-2, edges=fixedWalkEdges(radius,fixedCount);
+  function clear(u,v) {
+    if(u<2||v<2)return cityGroundClear(nodes[u],nodes[v],radius);
+    const index=(u-2)*fixedCount+v-2;
+    if(!edges[index])edges[index]=cityGroundClear(nodes[u],nodes[v],radius)?1:2;
+    return edges[index]===1;
+  }
   const costs = new Float64Array(nodes.length).fill(Infinity),
     prev = new Int16Array(nodes.length).fill(-1),
     used = new Uint8Array(nodes.length);
@@ -167,7 +193,7 @@ export function cityWalkPath(from, to, radius = 0.65) {
       if (
         !used[v] &&
         costs[u] + d(nodes[u], nodes[v]) < costs[v] &&
-        cityGroundClear(nodes[u], nodes[v], radius)
+        clear(u,v)
       ) {
         costs[v] = costs[u] + d(nodes[u], nodes[v]);
         prev[v] = u;

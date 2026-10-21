@@ -1,0 +1,75 @@
+diff --git a/public/shadow-depth-cache.js b/public/shadow-depth-cache.js
+index 3e1172f..ff88104 100644
+--- a/public/shadow-depth-cache.js
++++ b/public/shadow-depth-cache.js
+@@ -5,7 +5,7 @@ import { copyDepthTarget } from "./depth-target-copy.js";
+ // Keep the exact PCF depth attachment of stationary opaque scenery. Animated
+ // casters still render natively into the restored depth buffer on every frame.
+ // One fixed-size GPU target; no readbacks, waits, extra reflection passes or LOD.
+-export function createShadowDepthCache(renderer, scene, light, { minTriangles = 10000 } = {}) {
++export function createShadowDepthCache(renderer, scene, light, { minTriangles = 10000, extended = true } = {}) {
+   let map = renderer.shadowMap, nativeShadow = map.render;
+   const nativeDraw = renderer.renderBufferDirect, nativeClear = renderer.clear;
+   const visibility = createRenderVisibility(scene), changing = new WeakSet();
+@@ -20,17 +20,22 @@ export function createShadowDepthCache(renderer, scene, light, { minTriangles =
+     const m = o.material;
+     if (!o.userData.staticModel || !o.isMesh || o.isSkinnedMesh ||
+         o.isInstancedMesh || changing.has(o) || Array.isArray(m) || !m?.visible ||
+-        m.transparent || m.wireframe || m.alphaToCoverage || m.alphaTest || m.alphaHash || m.displacementMap ||
++        (m.transparent && (!extended || m.opacity !== 1)) || m.wireframe || m.alphaToCoverage || m.alphaTest || m.alphaHash || m.displacementMap ||
+         m.clippingPlanes?.length || Object.keys(o.geometry.morphAttributes).length) return false;
+-    if (o.userData.staticSubmission)
+-      return o.userData.staticSubmission.isStatic();
++    if (o.userData.staticSubmission) {
++      if (o.userData.staticSubmission.isStatic()) return true;
++      if (!extended) return false;
++    }
++    // The native depth pass does not execute a colour material's shader hook
++    // or alpha-one blending. Cache that exact native depth even when the colour
++    // shader sways/refracts. Custom depth and shadow callbacks remain native.
+     return !o.isBatchedMesh && !o.customDepthMaterial &&
+-      m.onBeforeCompile === THREE.Material.prototype.onBeforeCompile &&
++      (extended || m.onBeforeCompile === THREE.Material.prototype.onBeforeCompile) &&
+       o.onBeforeShadow === THREE.Object3D.prototype.onBeforeShadow;
+   }
+   function snapshot(args) {
+     const o = args[4], g = args[2], m = o.material;
+-    return { args, object: o, geometry: g, material: m, version: m.version, side: m.side, shadowSide: m.shadowSide,
++    return { args, object: o, geometry: g, material: m, nativeDepth: extended && !o.customDepthMaterial && !o.isBatchedMesh, version: m.version, side: m.side, shadowSide: m.shadowSide,
+       depthValues: depthKeys.map(k => args[3][k]),
+       layers: o.layers.mask, range: [g.drawRange.start, g.drawRange.count],
+       groups: g.groups.map(v => [v.start, v.count, v.materialIndex]), matrix: o.matrixWorld.clone(),
+@@ -45,7 +50,7 @@ export function createShadowDepthCache(renderer, scene, light, { minTriangles =
+     if (!o.matrixWorld.equals(r.matrix)) { changing.add(o); return false; }
+     if (!eligible(o) || !visibility.visible(o) || !o.castShadow ||
+         o.layers.mask !== r.layers || o.geometry !== r.geometry ||
+-        o.material !== r.material || o.material.version !== r.version || o.material.side !== r.side || o.material.shadowSide !== r.shadowSide ||
++        o.material !== r.material || (!r.nativeDepth && o.material.version !== r.version) || o.material.side !== r.side || o.material.shadowSide !== r.shadowSide ||
+         r.attributes.some(([a,v]) => a.version !== v) ||
+         o.geometry.drawRange.start !== r.range[0] || o.geometry.drawRange.count !== r.range[1] ||
+         o.geometry.groups.length !== r.groups.length || o.geometry.groups.some((v,i) =>
+@@ -140,6 +145,7 @@ export function createShadowDepthCache(renderer, scene, light, { minTriangles =
+   renderer.domElement?.addEventListener("webglcontextrestored",restored);
+   return {
+     stats,
++    setExtended(value) { extended=!!value; valid=false;stable=0;retryFrames=0; },
+     setEnabled(value) { enabled = !!value; valid = false; stable = 0; retryFrames = 0; },
+     dispose() {
+       disposed = true; target?.dispose(); records = []; cached.clear();
+diff --git a/scripts/check-shadow-depth-cache.mjs b/scripts/check-shadow-depth-cache.mjs
+index febf79c..b1b23a2 100644
+--- a/scripts/check-shadow-depth-cache.mjs
++++ b/scripts/check-shadow-depth-cache.mjs
+@@ -12,10 +12,11 @@ const s=new T.Scene();s.background=new T.Color(0xaabbdd);s.add(new T.HemisphereL
+ const ground=new T.Mesh(new T.PlaneGeometry(45,45),new T.MeshStandardMaterial({color:0xaac58f}));ground.rotation.x=-Math.PI/2;ground.receiveShadow=true;s.add(ground);
+ const boxes=[];for(let i=0;i<100;i++){const b=new T.Mesh(new T.BoxGeometry(1,2,1),new T.MeshStandardMaterial({color:0xbbeedd,side:i%2?T.FrontSide:T.DoubleSide}));b.userData.staticModel=true;b.position.set(i%10*2-9,1,Math.floor(i/10)*2-9);b.castShadow=b.receiveShadow=true;s.add(b);boxes.push(b);}
+ const moving=new T.Mesh(new T.SphereGeometry(1,20,14),new T.MeshStandardMaterial({color:0xeebb88}));moving.position.set(0,2,0);moving.castShadow=true;s.add(moving);
++for(let i=5;i<35;i++){const m=boxes[i].material;m.transparent=true;m.onBeforeCompile=shader=>{shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','vec3 transformed=vec3(position);transformed.x+=sin(position.y)*.015;');};m.customProgramCacheKey=()=>"colour-only-wind";m.needsUpdate=true;}
+ const c=new T.PerspectiveCamera(40,390/560,.5,150);c.position.set(26,28,38);c.lookAt(0,0,0);const cache=createShadowDepthCache(r,s,l,{minTriangles:0}),gl=r.getContext();
+ window.audit=()=>{const rows=[],a=new Uint8Array(gl.drawingBufferWidth*gl.drawingBufferHeight*4),b=new Uint8Array(a.length);const read=p=>gl.readPixels(0,0,gl.drawingBufferWidth,gl.drawingBufferHeight,gl.RGBA,gl.UNSIGNED_BYTE,p);const draw=()=>r.render(s,c);const warm=()=>{cache.setEnabled(true);for(let i=0;i<4;i++)draw();};
+  const compare=name=>{draw();read(b);const fast={...r.info.render},stats={...cache.stats};cache.setEnabled(false);draw();read(a);let changed=0,max=0;for(let i=0;i<a.length;i++){const d=Math.abs(a[i]-b[i]);if(d){changed++;max=Math.max(max,d);}}rows.push({name,changed,max,native:{...r.info.render},fast,stats});warm();};
+- warm();compare('stationary');moving.position.x+=2;compare('animated caster moves');boxes[0].position.x+=3;compare('static object moved');boxes[1].visible=false;compare('static object hidden');boxes[2].removeFromParent();compare('static object removed');boxes[3].material.side=T.BackSide;compare('different native depth sides');c.position.x-=9;c.lookAt(0,0,0);compare('camera orbit');l.position.x+=1;compare('light moved');const error=gl.getError();cache.dispose();return{rows,error};};window.ready=true;
++ warm();compare('stationary');moving.position.x+=2;compare('animated caster moves');boxes[0].position.x+=3;compare('static object moved');boxes[1].visible=false;compare('static object hidden');boxes[2].removeFromParent();compare('static object removed');boxes[3].material.side=T.BackSide;compare('different native depth sides');boxes[6].material.opacity=.75;compare('tree fades');boxes[6].material.opacity=1;compare('tree returns');c.position.x-=9;c.lookAt(0,0,0);compare('camera orbit');l.position.x+=1;compare('light moved');const error=gl.getError();cache.dispose();return{rows,error};};window.ready=true;
+ ` }, bundle:true, format:"esm",write:false });
+ const server=createServer((_req,res)=>res.end('<script type="module">'+output.outputFiles[0].text+'</script>'));
+ await new Promise(r=>server.listen(0,"127.0.0.1",r));

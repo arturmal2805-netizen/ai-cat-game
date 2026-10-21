@@ -1,0 +1,46 @@
+{
+  "reference": "871a709",
+  "kind": "CPU path search only",
+  "rows": [
+    {
+      "label": "before",
+      "paths": 320,
+      "totalMs": 378.6303110000001
+    },
+    {
+      "label": "after",
+      "paths": 320,
+      "totalMs": 73.33798500000012
+    },
+    {
+      "label": "after",
+      "paths": 320,
+      "totalMs": 81.229196
+    },
+    {
+      "label": "before",
+      "paths": 320,
+      "totalMs": 380.286605
+    },
+    {
+      "label": "before",
+      "paths": 320,
+      "totalMs": 317.02476
+    },
+    {
+      "label": "after",
+      "paths": 320,
+      "totalMs": 76.22992299999987
+    },
+    {
+      "label": "after",
+      "paths": 320,
+      "totalMs": 85.068397
+    },
+    {
+      "label": "before",
+      "paths": 320,
+      "totalMs": 846.3491800000002
+    }
+  ]
+}
