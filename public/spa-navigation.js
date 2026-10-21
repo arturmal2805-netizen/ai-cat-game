@@ -97,14 +97,40 @@ export function spaPath(
   if (!a || !b) return null;
   const nodes = new Map(),
     open = [];
+  let sequence = 0;
+  // Stable priority queue: retain the exact original tie/route order without
+  // scanning/splicing a growing array for every expanded navigation cell.
+  const before = (a,b) => a.f < b.f || (a.f === b.f && a.order < b.order);
+  function push(node) {
+    node.order = sequence++;
+    let i = open.length; open.push(node);
+    while (i) {
+      const parent = (i-1)>>1;
+      if (!before(node,open[parent])) break;
+      open[i]=open[parent];i=parent;
+    }
+    open[i]=node;
+  }
+  function pop() {
+    const first=open[0],last=open.pop();
+    if(open.length) {
+      let i=0;
+      while(i*2+1<open.length) {
+        let child=i*2+1;
+        if(child+1<open.length && before(open[child+1],open[child]))child++;
+        if(!before(open[child],last))break;
+        open[i]=open[child];i=child;
+      }
+      open[i]=last;
+    }
+    return first;
+  }
   const first = { ...a, g: 0, f: distance(a, b), parent: null };
   nodes.set(key(a.x, a.z), first);
-  open.push(first);
+  push(first);
   let last = null;
   while (open.length) {
-    let bi = 0;
-    for (let i = 1; i < open.length; i++) if (open[i].f < open[bi].f) bi = i;
-    const n = open.splice(bi, 1)[0];
+    const n = pop();
     if (n.closed) continue;
     n.closed = true;
     if (n.x === b.x && n.z === b.z) {
@@ -134,7 +160,7 @@ export function spaPath(
       if (old && old.g <= g) continue;
       const v = { x, z, g, f: g + distance({ x, z }, b), parent: n };
       nodes.set(k, v);
-      open.push(v);
+      push(v);
     }
   }
   if (!last) return null;

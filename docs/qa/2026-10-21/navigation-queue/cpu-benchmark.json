@@ -1,0 +1,46 @@
+{
+  "reference": "54290c7",
+  "kind": "CPU route search only",
+  "rows": [
+    {
+      "label": "before",
+      "cases": 20,
+      "totalMs": 884.9408909999997
+    },
+    {
+      "label": "after",
+      "cases": 20,
+      "totalMs": 554.6455439999991
+    },
+    {
+      "label": "after",
+      "cases": 20,
+      "totalMs": 536.0891270000011
+    },
+    {
+      "label": "before",
+      "cases": 20,
+      "totalMs": 798.9922430000015
+    },
+    {
+      "label": "before",
+      "cases": 20,
+      "totalMs": 927.3168859999996
+    },
+    {
+      "label": "after",
+      "cases": 20,
+      "totalMs": 659.6418780000004
+    },
+    {
+      "label": "after",
+      "cases": 20,
+      "totalMs": 599.5672320000003
+    },
+    {
+      "label": "before",
+      "cases": 20,
+      "totalMs": 981.0167819999997
+    }
+  ]
+}
