@@ -113,7 +113,7 @@ import { islandObjects } from "./world-objects.js";
 import { swimFrame } from "./swimming.js";
 import { activeCats } from "./cat-roster.js";
 import { catAppearance } from "./cat-breeds.js";
-import { outsideMegaPlots } from "./mega-ride-data.js";
+import {stepCatGround} from "./cat-ground-motion.js";
 import { createRideOutings } from "./ride-outings.js";
 import { watchWorldViewport } from "./world-viewport.js";
 import { createWorldMotes } from "./world-effects.js";
@@ -4732,20 +4732,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (!direct) {
         if (direction.length() > 0.03)
           n.carrier.rotation.y = Math.atan2(direction.x, direction.z);
-        n.carrier.position.x += direction.x * dt * 0.8;
-        n.carrier.position.z += direction.z * dt * 0.8;
-        if (megaGroundPlots.length) {
-          outsideMegaPlots(
-            n.carrier.position.x,
-            n.carrier.position.z,
-            megaGroundPlots,
-            b.id,
-            spaRadius(n.model),
-            megaGroundPoint,
-          );
-          n.carrier.position.x = megaGroundPoint.x;
-          n.carrier.position.z = megaGroundPoint.z;
-        }
+        stepCatGround(n.carrier.position.x,n.carrier.position.z,x,z,dt,
+          megaGroundPlots,b.id,spaRadius(n.model),megaGroundPoint);
+        n.carrier.position.x=megaGroundPoint.x;
+        n.carrier.position.z=megaGroundPoint.z;
         npcWalking = direction.length() > 0.1;
       }
       const near =
