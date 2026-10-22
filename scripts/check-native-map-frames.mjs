@@ -6,20 +6,36 @@ import path from "node:path";
 import assert from "node:assert/strict";
 
 export async function checkNativeMapFrames(page, review) {
+  if (process.env.CHICHI_COMPARE_COLONY_CACHE) await page.evaluate(() => {
+    const q=__lagoonQA,before=q.scene.onBeforeRender;
+    q.scene.onBeforeRender=function(...args){
+      before.apply(this,args);
+      if(q.legacyColonyDeletion && q.colonyDraws.stats.active)
+        q.poseAtlas.forEachCat(cat=>{
+          if(q.poseAtlas.relevant(cat))for(const m of cat.userData.renderBatches.batches)
+            if(m.layers.isEnabled(29)&&m.visible)m.userData.releaseDrawBuffers?.();
+        });
+    };
+  });
   const ids = process.env.CHICHI_LIVE_BIOMES?.split(",") ||
     await page.locator("[data-biome]").evaluateAll(ns => ns.map(n => n.dataset.biome));
   const rows = [], ms = Number(process.env.CHICHI_NATIVE_SAMPLE_MS || 8000),
     imageOnly = !!process.env.CHICHI_NATIVE_PIXEL_PROOF,
     repeats = process.env.CHICHI_NATIVE_REPEATS?.split(",") || ["summer", "aquarium", "homestead", "sakura"];
-  for (const id of [...ids, ...repeats.filter(id => ids.includes(id))]) {
+  const views=[...ids,...repeats.filter(id=>ids.includes(id))],
+    checks=process.env.CHICHI_COMPARE_COLONY_CACHE
+      ? views.flatMap((id,i)=>(i%2?[false,true]:[true,false]).map(legacy=>({id,legacy})))
+      : views.map(id=>({id,legacy:false}));
+  for (const {id,legacy} of checks) {
     const started = Date.now();
-    await page.evaluate(id => {
+    await page.evaluate(({id,legacy}) => {
       const q = __lagoonQA;
+      q.legacyColonyDeletion=legacy;
       q.freeze = false; q.drawPaused = false; q.cpuOnly = false;
       document.querySelector(`[data-biome="${id}"]`).click();
       const b = q.islands.get(id);
       q.reviewView(b.position.x, b.position.z, 85);
-    }, id);
+    }, {id,legacy});
     await page.waitForFunction(id => {
       const q = __lagoonQA;
       return !q.islands.get(id).userData.lowOnly &&
@@ -186,7 +202,7 @@ export async function checkNativeMapFrames(page, review) {
     assert.ok(row.zoomRange > 6, `${id}: the actual input handler must change camera zoom`);
     assert.ok(row.frames > 0, `${id}: real frames must complete during camera input`);
     assert.equal(row.dpr, 2); assert.equal(row.contextLost, false); assert.equal(row.visible, true);
-    rows.push({ id, repeat: rows.some(r => r.id === id), readyMs, ...row });
+    rows.push({ id, legacy, repeat: rows.some(r => r.id === id), readyMs, ...row });
     fs.writeFileSync(path.join(review, "native-map-frames.json"), JSON.stringify(rows, null, 2));
     console.log("NATIVE_MAP", JSON.stringify(rows.at(-1)));
     if(process.env.CHICHI_NATIVE_MAP_CAPTURE && !rows.slice(0,-1).some(r=>r.id===id))

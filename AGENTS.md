@@ -307,3 +307,11 @@ rendering above the soft budget. Keep cleanup bounded, original CPU source,
 cat atlas registrations and full-resolution re-upload. Never use model destruction
 as GPU retirement. Verify actual GPU bytes, exact return images and repeated
 camera transitions; resource savings do not establish a device FPS increase.
+
+Native/colony cat draw buffers are reusable caches across camera visibility
+thresholds. Never eagerly dispose native fallback buffers on entry to a shared
+draw: a turn back can immediately need them again. Mark both representations
+with `retainGeometryForGrace` so the residency controller applies the normal
+time grace to them, while abandoned island buffers retain fast pressure
+retirement. Test repeated threshold crossings, actual WebGL upload bytes,
+colour/shadow pixels, live atlas registrations and the real RAF/GPU queue.

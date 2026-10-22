@@ -1,0 +1,4518 @@
+[
+  {
+    "mode": "early",
+    "elapsed": 16734,
+    "frames": 13,
+    "fps": 0.7768614796223258,
+    "gapMedian": 1226,
+    "gapP95": 1379,
+    "gapMax": 1498,
+    "cpuMedian": 9,
+    "cpuP95": 17,
+    "cpuMax": 27,
+    "renderMedian": 783,
+    "renderP95": 1088,
+    "detail": {
+      "sync": {
+        "calls": 14,
+        "totalMs": 21,
+        "maxMs": 4,
+        "events": []
+      },
+      "jobs": {
+        "calls": 13,
+        "totalMs": 20,
+        "maxMs": 4,
+        "events": []
+      },
+      "sweep": {
+        "calls": 13,
+        "totalMs": 1,
+        "maxMs": 1,
+        "events": [
+          [
+            203081,
+            1,
+            9
+          ]
+        ]
+      },
+      "uploads": {
+        "calls": 0,
+        "totalMs": 0,
+        "maxMs": 0,
+        "events": []
+      }
+    },
+    "uploadBytes": 0,
+    "memory": {
+      "bytes": 200784229,
+      "peak": 216794301,
+      "buffers": 1736,
+      "compiles": [
+        {
+          "at": 13386,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 13439,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 13450,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 13469,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 13486,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Body",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 13492,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Face",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 13497,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · EarShell-1",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 13515,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "ShaderMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13547,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13604,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13623,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13637,
+          "ms": 1,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13653,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13675,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13699,
+          "ms": 0,
+          "draw": {
+            "object": "Lagoon physical seabed",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13773,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13792,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13835,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13850,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13859,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13885,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13902,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13937,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14007,
+          "ms": 0,
+          "draw": {
+            "object": "Meadow grass",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14048,
+          "ms": 0,
+          "draw": {
+            "object": "Meadow flower",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14139,
+          "ms": 0,
+          "draw": {
+            "object": "Meadow moss",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14154,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14179,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14200,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14226,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14258,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14295,
+          "ms": 0,
+          "draw": {
+            "object": "Farm-grown food",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14331,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Body",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14358,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · CoatFibres",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14375,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Face",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14394,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · EarShell-1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14413,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · EyeRim-1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14430,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Pupil-1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14447,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Chin",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14495,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Chest",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14512,
+          "ms": 1,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14534,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14558,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14583,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14610,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14661,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14680,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "ShaderMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14799,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14809,
+          "ms": 0,
+          "draw": {
+            "object": "Points",
+            "material": "PointsMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14817,
+          "ms": 1,
+          "draw": {
+            "object": "Fully transparent glass dome",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 15486,
+          "ms": 0,
+          "draw": {
+            "object": "Shin",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 15502,
+          "ms": 0,
+          "draw": {
+            "object": "TailCoat",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 15508,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 15514,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Body",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 15520,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Face",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 15526,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · EarShell-1",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 16075,
+          "ms": 0,
+          "draw": {
+            "object": "UpperLid1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16098,
+          "ms": 0,
+          "draw": {
+            "object": "Shin",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16125,
+          "ms": 0,
+          "draw": {
+            "object": "Face",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16142,
+          "ms": 0,
+          "draw": {
+            "object": "UpperLidVelvet1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16230,
+          "ms": 0,
+          "draw": {
+            "object": "LegVelvet1_1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16260,
+          "ms": 0,
+          "draw": {
+            "object": "EarShell1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16278,
+          "ms": 0,
+          "draw": {
+            "object": "Nose",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16294,
+          "ms": 0,
+          "draw": {
+            "object": "Nostril-1",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16314,
+          "ms": 0,
+          "draw": {
+            "object": "Toe-1",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16333,
+          "ms": 0,
+          "draw": {
+            "object": "Pupil1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16366,
+          "ms": 0,
+          "draw": {
+            "object": "Iris1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16401,
+          "ms": 0,
+          "draw": {
+            "object": "EyeShine1",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16430,
+          "ms": 0,
+          "draw": {
+            "object": "CheekFluff",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16498,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16692,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Body",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16718,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Face",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16759,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · EarShell-1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 17160,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Batched magic · moon",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 17211,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Batched magic · fairy",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 17377,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Batched magic · dragon",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 17421,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Batched magic · aurora",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 43277,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 43346,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 45491,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 45513,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 50002,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 50868,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 50936,
+          "ms": 0,
+          "draw": {
+            "object": "Shared exact static props",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 65468,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 65481,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 70185,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 73157,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 73170,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 95375,
+          "ms": 0,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 95703,
+          "ms": 0,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 95888,
+          "ms": 0,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 95912,
+          "ms": 0,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 96060,
+          "ms": 0,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 96110,
+          "ms": 0,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 96119,
+          "ms": 0,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 96369,
+          "ms": 1,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 96633,
+          "ms": 0,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 98810,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 99002,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 99767,
+          "ms": 0,
+          "draw": {
+            "object": "Live BTC / ETH candlestick displays",
+            "material": "ShaderMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 112831,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 114134,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 114141,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 155716,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 155722,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 165120,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 165140,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 168556,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 168561,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 168593,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 200780,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 200978,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        }
+      ]
+    },
+    "residency": {
+      "bytes": 200686481,
+      "peakBytes": 216696553,
+      "geometries": 361,
+      "evicted": 41,
+      "clockReads": 186
+    },
+    "shadows": {
+      "bakes": 3,
+      "blits": 60,
+      "skippedDraws": 18,
+      "skippedTriangles": 189620,
+      "cachedCasters": 18,
+      "targetBytes": 8388608
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 38,
+      "reflected": 52,
+      "compiled": 242,
+      "reused": 84,
+      "textures": 18
+    },
+    "draw": {
+      "frame": 186,
+      "calls": 242,
+      "triangles": 4167590,
+      "points": 320,
+      "lines": 0
+    },
+    "npcCount": 113,
+    "visibleNPC": 109,
+    "colony": {
+      "sources": 1013,
+      "batches": 11,
+      "ready": true,
+      "active": true
+    },
+    "atlas": {
+      "entries": 3105,
+      "rows": 48,
+      "bytes": 393216,
+      "cats": 113,
+      "updatedCats": 108
+    },
+    "multiDraw": true,
+    "dpr": 2,
+    "contextLost": false,
+    "framesRaw": [
+      [
+        202170,
+        911,
+        242,
+        4111575
+      ],
+      [
+        203535,
+        727,
+        242,
+        4109431
+      ],
+      [
+        204914,
+        808,
+        242,
+        4116467
+      ],
+      [
+        206161,
+        704,
+        242,
+        4125192
+      ],
+      [
+        207330,
+        698,
+        242,
+        4142795
+      ],
+      [
+        208479,
+        783,
+        242,
+        4143130
+      ],
+      [
+        209839,
+        768,
+        242,
+        4138083
+      ],
+      [
+        211054,
+        916,
+        242,
+        4136943
+      ],
+      [
+        212387,
+        868,
+        242,
+        4152945
+      ],
+      [
+        213613,
+        1103,
+        242,
+        4155127
+      ],
+      [
+        215111,
+        694,
+        242,
+        4157151
+      ],
+      [
+        216239,
+        752,
+        242,
+        4155575
+      ],
+      [
+        217404,
+        1088,
+        242,
+        4167590
+      ]
+    ],
+    "tasks": []
+  },
+  {
+    "mode": "grace",
+    "elapsed": 16535,
+    "frames": 13,
+    "fps": 0.7862110674327185,
+    "gapMedian": 1295,
+    "gapP95": 1416,
+    "gapMax": 1420,
+    "cpuMedian": 12,
+    "cpuP95": 19,
+    "cpuMax": 29,
+    "renderMedian": 779,
+    "renderP95": 928,
+    "detail": {
+      "sync": {
+        "calls": 12,
+        "totalMs": 25,
+        "maxMs": 10,
+        "events": []
+      },
+      "jobs": {
+        "calls": 13,
+        "totalMs": 20,
+        "maxMs": 3,
+        "events": []
+      },
+      "sweep": {
+        "calls": 13,
+        "totalMs": 0,
+        "maxMs": 0,
+        "events": []
+      },
+      "uploads": {
+        "calls": 4,
+        "totalMs": 0,
+        "maxMs": 0,
+        "events": []
+      }
+    },
+    "uploadBytes": 30282,
+    "memory": {
+      "bytes": 200814511,
+      "peak": 216794301,
+      "buffers": 1740,
+      "compiles": [
+        {
+          "at": 13386,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 13439,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 13450,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 13469,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 13486,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Body",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 13492,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Face",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 13497,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · EarShell-1",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 13515,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "ShaderMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13547,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13604,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13623,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13637,
+          "ms": 1,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13653,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13675,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13699,
+          "ms": 0,
+          "draw": {
+            "object": "Lagoon physical seabed",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13773,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13792,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13835,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13850,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13859,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13885,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13902,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13937,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14007,
+          "ms": 0,
+          "draw": {
+            "object": "Meadow grass",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14048,
+          "ms": 0,
+          "draw": {
+            "object": "Meadow flower",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14139,
+          "ms": 0,
+          "draw": {
+            "object": "Meadow moss",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14154,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14179,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14200,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14226,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14258,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14295,
+          "ms": 0,
+          "draw": {
+            "object": "Farm-grown food",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14331,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Body",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14358,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · CoatFibres",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14375,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Face",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14394,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · EarShell-1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14413,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · EyeRim-1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14430,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Pupil-1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14447,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Chin",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14495,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Chest",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14512,
+          "ms": 1,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14534,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14558,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14583,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14610,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14661,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14680,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "ShaderMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14799,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14809,
+          "ms": 0,
+          "draw": {
+            "object": "Points",
+            "material": "PointsMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14817,
+          "ms": 1,
+          "draw": {
+            "object": "Fully transparent glass dome",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 15486,
+          "ms": 0,
+          "draw": {
+            "object": "Shin",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 15502,
+          "ms": 0,
+          "draw": {
+            "object": "TailCoat",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 15508,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 15514,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Body",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 15520,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Face",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 15526,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · EarShell-1",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 16075,
+          "ms": 0,
+          "draw": {
+            "object": "UpperLid1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16098,
+          "ms": 0,
+          "draw": {
+            "object": "Shin",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16125,
+          "ms": 0,
+          "draw": {
+            "object": "Face",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16142,
+          "ms": 0,
+          "draw": {
+            "object": "UpperLidVelvet1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16230,
+          "ms": 0,
+          "draw": {
+            "object": "LegVelvet1_1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16260,
+          "ms": 0,
+          "draw": {
+            "object": "EarShell1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16278,
+          "ms": 0,
+          "draw": {
+            "object": "Nose",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16294,
+          "ms": 0,
+          "draw": {
+            "object": "Nostril-1",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16314,
+          "ms": 0,
+          "draw": {
+            "object": "Toe-1",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16333,
+          "ms": 0,
+          "draw": {
+            "object": "Pupil1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16366,
+          "ms": 0,
+          "draw": {
+            "object": "Iris1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16401,
+          "ms": 0,
+          "draw": {
+            "object": "EyeShine1",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16430,
+          "ms": 0,
+          "draw": {
+            "object": "CheekFluff",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16498,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16692,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Body",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16718,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Face",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16759,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · EarShell-1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 17160,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Batched magic · moon",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 17211,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Batched magic · fairy",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 17377,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Batched magic · dragon",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 17421,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Batched magic · aurora",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 43277,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 43346,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 45491,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 45513,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 50002,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 50868,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 50936,
+          "ms": 0,
+          "draw": {
+            "object": "Shared exact static props",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 65468,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 65481,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 70185,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 73157,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 73170,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 95375,
+          "ms": 0,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 95703,
+          "ms": 0,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 95888,
+          "ms": 0,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 95912,
+          "ms": 0,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 96060,
+          "ms": 0,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 96110,
+          "ms": 0,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 96119,
+          "ms": 0,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 96369,
+          "ms": 1,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 96633,
+          "ms": 0,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 98810,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 99002,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 99767,
+          "ms": 0,
+          "draw": {
+            "object": "Live BTC / ETH candlestick displays",
+            "material": "ShaderMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 112831,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 114134,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 114141,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 155716,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 155722,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 165120,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 165140,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 168556,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 168561,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 168593,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 200780,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 200978,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        }
+      ]
+    },
+    "residency": {
+      "bytes": 200716763,
+      "peakBytes": 216696553,
+      "geometries": 362,
+      "evicted": 41,
+      "clockReads": 199
+    },
+    "shadows": {
+      "bakes": 3,
+      "blits": 73,
+      "skippedDraws": 18,
+      "skippedTriangles": 189620,
+      "cachedCasters": 18,
+      "targetBytes": 8388608
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 38,
+      "reflected": 52,
+      "compiled": 242,
+      "reused": 84,
+      "textures": 18
+    },
+    "draw": {
+      "frame": 199,
+      "calls": 242,
+      "triangles": 4124326,
+      "points": 320,
+      "lines": 0
+    },
+    "npcCount": 113,
+    "visibleNPC": 109,
+    "colony": {
+      "sources": 1013,
+      "batches": 11,
+      "ready": true,
+      "active": true
+    },
+    "atlas": {
+      "entries": 3105,
+      "rows": 48,
+      "bytes": 393216,
+      "cats": 113,
+      "updatedCats": 106
+    },
+    "multiDraw": true,
+    "dpr": 2,
+    "contextLost": false,
+    "framesRaw": [
+      [
+        218912,
+        854,
+        242,
+        4168452
+      ],
+      [
+        220248,
+        933,
+        243,
+        4168020
+      ],
+      [
+        221664,
+        755,
+        242,
+        4166068
+      ],
+      [
+        222884,
+        715,
+        242,
+        4171507
+      ],
+      [
+        224179,
+        720,
+        242,
+        4163691
+      ],
+      [
+        225364,
+        928,
+        242,
+        4149317
+      ],
+      [
+        226687,
+        791,
+        242,
+        4135885
+      ],
+      [
+        227991,
+        800,
+        242,
+        4135005
+      ],
+      [
+        229222,
+        779,
+        242,
+        4126470
+      ],
+      [
+        230642,
+        856,
+        242,
+        4126470
+      ],
+      [
+        231937,
+        722,
+        242,
+        4126470
+      ],
+      [
+        233164,
+        752,
+        242,
+        4126230
+      ],
+      [
+        234351,
+        703,
+        242,
+        4124326
+      ]
+    ],
+    "tasks": []
+  },
+  {
+    "mode": "legacy-cats",
+    "elapsed": 16720,
+    "frames": 13,
+    "fps": 0.777511961722488,
+    "gapMedian": 1228,
+    "gapP95": 1447,
+    "gapMax": 1490,
+    "cpuMedian": 9,
+    "cpuP95": 24,
+    "cpuMax": 52,
+    "renderMedian": 756,
+    "renderP95": 1003,
+    "detail": {
+      "sync": {
+        "calls": 12,
+        "totalMs": 14,
+        "maxMs": 5,
+        "events": []
+      },
+      "jobs": {
+        "calls": 13,
+        "totalMs": 25,
+        "maxMs": 9,
+        "events": []
+      },
+      "sweep": {
+        "calls": 13,
+        "totalMs": 2,
+        "maxMs": 2,
+        "events": []
+      },
+      "uploads": {
+        "calls": 0,
+        "totalMs": 0,
+        "maxMs": 0,
+        "events": []
+      }
+    },
+    "uploadBytes": 0,
+    "memory": {
+      "bytes": 200814511,
+      "peak": 216794301,
+      "buffers": 1740,
+      "compiles": [
+        {
+          "at": 13386,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 13439,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 13450,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 13469,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 13486,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Body",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 13492,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Face",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 13497,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · EarShell-1",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 13515,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "ShaderMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13547,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13604,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13623,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13637,
+          "ms": 1,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13653,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13675,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13699,
+          "ms": 0,
+          "draw": {
+            "object": "Lagoon physical seabed",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13773,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13792,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13835,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13850,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13859,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13885,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13902,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13937,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14007,
+          "ms": 0,
+          "draw": {
+            "object": "Meadow grass",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14048,
+          "ms": 0,
+          "draw": {
+            "object": "Meadow flower",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14139,
+          "ms": 0,
+          "draw": {
+            "object": "Meadow moss",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14154,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14179,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14200,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14226,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14258,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14295,
+          "ms": 0,
+          "draw": {
+            "object": "Farm-grown food",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14331,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Body",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14358,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · CoatFibres",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14375,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Face",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14394,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · EarShell-1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14413,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · EyeRim-1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14430,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Pupil-1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14447,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Chin",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14495,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Chest",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14512,
+          "ms": 1,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14534,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14558,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14583,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14610,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14661,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14680,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "ShaderMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14799,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14809,
+          "ms": 0,
+          "draw": {
+            "object": "Points",
+            "material": "PointsMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14817,
+          "ms": 1,
+          "draw": {
+            "object": "Fully transparent glass dome",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 15486,
+          "ms": 0,
+          "draw": {
+            "object": "Shin",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 15502,
+          "ms": 0,
+          "draw": {
+            "object": "TailCoat",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 15508,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 15514,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Body",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 15520,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Face",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 15526,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · EarShell-1",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 16075,
+          "ms": 0,
+          "draw": {
+            "object": "UpperLid1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16098,
+          "ms": 0,
+          "draw": {
+            "object": "Shin",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16125,
+          "ms": 0,
+          "draw": {
+            "object": "Face",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16142,
+          "ms": 0,
+          "draw": {
+            "object": "UpperLidVelvet1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16230,
+          "ms": 0,
+          "draw": {
+            "object": "LegVelvet1_1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16260,
+          "ms": 0,
+          "draw": {
+            "object": "EarShell1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16278,
+          "ms": 0,
+          "draw": {
+            "object": "Nose",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16294,
+          "ms": 0,
+          "draw": {
+            "object": "Nostril-1",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16314,
+          "ms": 0,
+          "draw": {
+            "object": "Toe-1",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16333,
+          "ms": 0,
+          "draw": {
+            "object": "Pupil1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16366,
+          "ms": 0,
+          "draw": {
+            "object": "Iris1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16401,
+          "ms": 0,
+          "draw": {
+            "object": "EyeShine1",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16430,
+          "ms": 0,
+          "draw": {
+            "object": "CheekFluff",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16498,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16692,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Body",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16718,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Face",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16759,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · EarShell-1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 17160,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Batched magic · moon",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 17211,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Batched magic · fairy",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 17377,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Batched magic · dragon",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 17421,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Batched magic · aurora",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 43277,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 43346,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 45491,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 45513,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 50002,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 50868,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 50936,
+          "ms": 0,
+          "draw": {
+            "object": "Shared exact static props",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 65468,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 65481,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 70185,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 73157,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 73170,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 95375,
+          "ms": 0,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 95703,
+          "ms": 0,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 95888,
+          "ms": 0,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 95912,
+          "ms": 0,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 96060,
+          "ms": 0,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 96110,
+          "ms": 0,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 96119,
+          "ms": 0,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 96369,
+          "ms": 1,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 96633,
+          "ms": 0,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 98810,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 99002,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 99767,
+          "ms": 0,
+          "draw": {
+            "object": "Live BTC / ETH candlestick displays",
+            "material": "ShaderMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 112831,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 114134,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 114141,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 155716,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 155722,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 165120,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 165140,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 168556,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 168561,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 168593,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 200780,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 200978,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        }
+      ]
+    },
+    "residency": {
+      "bytes": 200716763,
+      "peakBytes": 216696553,
+      "geometries": 362,
+      "evicted": 41,
+      "clockReads": 212
+    },
+    "shadows": {
+      "bakes": 3,
+      "blits": 86,
+      "skippedDraws": 18,
+      "skippedTriangles": 189620,
+      "cachedCasters": 18,
+      "targetBytes": 8388608
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 38,
+      "reflected": 52,
+      "compiled": 242,
+      "reused": 84,
+      "textures": 18
+    },
+    "draw": {
+      "frame": 212,
+      "calls": 242,
+      "triangles": 4017887,
+      "points": 320,
+      "lines": 0
+    },
+    "npcCount": 113,
+    "visibleNPC": 96,
+    "colony": {
+      "sources": 1013,
+      "batches": 11,
+      "ready": true,
+      "active": true
+    },
+    "atlas": {
+      "entries": 3105,
+      "rows": 47,
+      "bytes": 385024,
+      "cats": 113,
+      "updatedCats": 96
+    },
+    "multiDraw": true,
+    "dpr": 2,
+    "contextLost": false,
+    "framesRaw": [
+      [
+        235475,
+        651,
+        241,
+        3967062
+      ],
+      [
+        236554,
+        830,
+        241,
+        3967302
+      ],
+      [
+        237833,
+        721,
+        241,
+        3968182
+      ],
+      [
+        238994,
+        717,
+        241,
+        3960823
+      ],
+      [
+        240222,
+        672,
+        241,
+        3970236
+      ],
+      [
+        241408,
+        675,
+        241,
+        3972416
+      ],
+      [
+        242898,
+        884,
+        241,
+        3977227
+      ],
+      [
+        244272,
+        1003,
+        241,
+        3980727
+      ],
+      [
+        245719,
+        770,
+        241,
+        3991238
+      ],
+      [
+        246908,
+        1009,
+        241,
+        4000013
+      ],
+      [
+        248338,
+        756,
+        241,
+        4000893
+      ],
+      [
+        249754,
+        728,
+        241,
+        4018712
+      ],
+      [
+        250976,
+        884,
+        242,
+        4017887
+      ]
+    ],
+    "tasks": []
+  },
+  {
+    "mode": "current",
+    "elapsed": 16603,
+    "frames": 14,
+    "fps": 0.843221104619647,
+    "gapMedian": 1163,
+    "gapP95": 1280,
+    "gapMax": 1400,
+    "cpuMedian": 10,
+    "cpuP95": 28,
+    "cpuMax": 55,
+    "renderMedian": 735,
+    "renderP95": 801,
+    "detail": {
+      "sync": {
+        "calls": 14,
+        "totalMs": 19,
+        "maxMs": 5,
+        "events": []
+      },
+      "jobs": {
+        "calls": 14,
+        "totalMs": 21,
+        "maxMs": 6,
+        "events": []
+      },
+      "sweep": {
+        "calls": 14,
+        "totalMs": 0,
+        "maxMs": 0,
+        "events": []
+      },
+      "uploads": {
+        "calls": 0,
+        "totalMs": 0,
+        "maxMs": 0,
+        "events": []
+      }
+    },
+    "uploadBytes": 0,
+    "memory": {
+      "bytes": 200814511,
+      "peak": 216794301,
+      "buffers": 1740,
+      "compiles": [
+        {
+          "at": 13386,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 13439,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 13450,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 13469,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 13486,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Body",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 13492,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Face",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 13497,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · EarShell-1",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 13515,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "ShaderMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13547,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13604,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13623,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13637,
+          "ms": 1,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13653,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13675,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13699,
+          "ms": 0,
+          "draw": {
+            "object": "Lagoon physical seabed",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13773,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13792,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13835,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13850,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13859,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13885,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13902,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 13937,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14007,
+          "ms": 0,
+          "draw": {
+            "object": "Meadow grass",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14048,
+          "ms": 0,
+          "draw": {
+            "object": "Meadow flower",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14139,
+          "ms": 0,
+          "draw": {
+            "object": "Meadow moss",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14154,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14179,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14200,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14226,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14258,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14295,
+          "ms": 0,
+          "draw": {
+            "object": "Farm-grown food",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14331,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Body",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14358,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · CoatFibres",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14375,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Face",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14394,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · EarShell-1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14413,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · EyeRim-1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14430,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Pupil-1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14447,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Chin",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14495,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Chest",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14512,
+          "ms": 1,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14534,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14558,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14583,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14610,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14661,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14680,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "ShaderMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14799,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14809,
+          "ms": 0,
+          "draw": {
+            "object": "Points",
+            "material": "PointsMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 14817,
+          "ms": 1,
+          "draw": {
+            "object": "Fully transparent glass dome",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 15486,
+          "ms": 0,
+          "draw": {
+            "object": "Shin",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 15502,
+          "ms": 0,
+          "draw": {
+            "object": "TailCoat",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 15508,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 15514,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Body",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 15520,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Face",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 15526,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · EarShell-1",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 16075,
+          "ms": 0,
+          "draw": {
+            "object": "UpperLid1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16098,
+          "ms": 0,
+          "draw": {
+            "object": "Shin",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16125,
+          "ms": 0,
+          "draw": {
+            "object": "Face",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16142,
+          "ms": 0,
+          "draw": {
+            "object": "UpperLidVelvet1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16230,
+          "ms": 0,
+          "draw": {
+            "object": "LegVelvet1_1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16260,
+          "ms": 0,
+          "draw": {
+            "object": "EarShell1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16278,
+          "ms": 0,
+          "draw": {
+            "object": "Nose",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16294,
+          "ms": 0,
+          "draw": {
+            "object": "Nostril-1",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16314,
+          "ms": 0,
+          "draw": {
+            "object": "Toe-1",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16333,
+          "ms": 0,
+          "draw": {
+            "object": "Pupil1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16366,
+          "ms": 0,
+          "draw": {
+            "object": "Iris1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16401,
+          "ms": 0,
+          "draw": {
+            "object": "EyeShine1",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16430,
+          "ms": 0,
+          "draw": {
+            "object": "CheekFluff",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16498,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16692,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Body",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16718,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Face",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 16759,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · EarShell-1",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 17160,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Batched magic · moon",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 17211,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Batched magic · fairy",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 17377,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Batched magic · dragon",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 17421,
+          "ms": 0,
+          "draw": {
+            "object": "Exact animated cat batch · Batched magic · aurora",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 43277,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 43346,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 45491,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 45513,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 50002,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 50868,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 50936,
+          "ms": 0,
+          "draw": {
+            "object": "Shared exact static props",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 65468,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 65481,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshBasicMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 70185,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 73157,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 73170,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 95375,
+          "ms": 0,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 95703,
+          "ms": 0,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 95888,
+          "ms": 0,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 95912,
+          "ms": 0,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 96060,
+          "ms": 0,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 96110,
+          "ms": 0,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 96119,
+          "ms": 0,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 96369,
+          "ms": 1,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 96633,
+          "ms": 0,
+          "draw": {
+            "object": "Exact colony cats · shared animated material",
+            "material": "MeshPhysicalMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 98810,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 99002,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        },
+        {
+          "at": 99767,
+          "ms": 0,
+          "draw": {
+            "object": "Live BTC / ETH candlestick displays",
+            "material": "ShaderMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 112831,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 114134,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 114141,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 155716,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 155722,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 165120,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 165140,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshStandardMaterial",
+            "shadow": false
+          }
+        },
+        {
+          "at": 168556,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 168561,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 168593,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 200780,
+          "ms": 0,
+          "draw": null
+        },
+        {
+          "at": 200978,
+          "ms": 0,
+          "draw": {
+            "object": "Mesh",
+            "material": "MeshDepthMaterial",
+            "shadow": true
+          }
+        }
+      ]
+    },
+    "residency": {
+      "bytes": 200716763,
+      "peakBytes": 216696553,
+      "geometries": 362,
+      "evicted": 41,
+      "clockReads": 226
+    },
+    "shadows": {
+      "bakes": 3,
+      "blits": 100,
+      "skippedDraws": 18,
+      "skippedTriangles": 189620,
+      "cachedCasters": 18,
+      "targetBytes": 8388608
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 38,
+      "reflected": 52,
+      "compiled": 242,
+      "reused": 84,
+      "textures": 18
+    },
+    "draw": {
+      "frame": 226,
+      "calls": 244,
+      "triangles": 4179175,
+      "points": 320,
+      "lines": 0
+    },
+    "npcCount": 113,
+    "visibleNPC": 105,
+    "colony": {
+      "sources": 1013,
+      "batches": 11,
+      "ready": true,
+      "active": true
+    },
+    "atlas": {
+      "entries": 3105,
+      "rows": 47,
+      "bytes": 385024,
+      "cats": 113,
+      "updatedCats": 102
+    },
+    "multiDraw": true,
+    "dpr": 2,
+    "contextLost": false,
+    "framesRaw": [
+      [
+        252266,
+        735,
+        244,
+        4152753
+      ],
+      [
+        253666,
+        756,
+        244,
+        4165990
+      ],
+      [
+        254833,
+        779,
+        244,
+        4156108
+      ],
+      [
+        255996,
+        722,
+        244,
+        4147285
+      ],
+      [
+        257107,
+        920,
+        244,
+        4149136
+      ],
+      [
+        258387,
+        694,
+        244,
+        4149440
+      ],
+      [
+        259532,
+        749,
+        244,
+        4154558
+      ],
+      [
+        260688,
+        788,
+        244,
+        4170134
+      ],
+      [
+        261909,
+        704,
+        245,
+        4172433
+      ],
+      [
+        263101,
+        763,
+        244,
+        4172081
+      ],
+      [
+        264342,
+        732,
+        244,
+        4174225
+      ],
+      [
+        265453,
+        698,
+        244,
+        4175105
+      ],
+      [
+        266558,
+        669,
+        244,
+        4166570
+      ],
+      [
+        267613,
+        801,
+        244,
+        4179175
+      ]
+    ],
+    "tasks": []
+  }
+]

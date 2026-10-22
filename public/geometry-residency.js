@@ -1,5 +1,13 @@
 // Buffer retirement is not destruction of the live model/animation owner.
 const retiring = new WeakSet();
+const timeGrace = new WeakSet();
+// A camera can switch repeatedly between native and colony draw buffers.
+// They are reusable working caches, not abandoned islands: retain the normal
+// time grace rather than deleting them after just three intervening frames.
+export function retainGeometryForGrace(geometry) {
+  timeGrace.add(geometry);
+  return geometry;
+}
 export function isGeometryBufferRetirement(geometry) {
   return retiring.has(geometry);
 }
@@ -101,7 +109,7 @@ export function createGeometryResidency(
       nextSweep = now + (frameRetirement ? 100 : 1000);
       const cutoff = now - grace,
         frame = renderer.info?.render.frame,
-        idle = r => r.used < cutoff || (frameRetirement &&
+        idle = r => r.used < cutoff || (frameRetirement && !timeGrace.has(r.geometry) &&
           Number.isFinite(frame) && r.frame >= 0 && frame - r.frame >= idleFrames),
         candidates = [...records.values()]
           .filter(idle)

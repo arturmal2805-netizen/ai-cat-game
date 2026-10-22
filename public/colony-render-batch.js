@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { createRenderVisibility } from "./render-visibility.js";
 import { rigShader } from "./cat-render-batch.js";
 import { prepareSceneSteps } from "./scene-tasks.js";
+import { retainGeometryForGrace } from "./geometry-residency.js";
 
 // All approved non-hero rigs keep their individual anatomy, poses and picking.
 // Share only compatible opaque material draws across the colony. No LODs.
@@ -234,7 +235,9 @@ export function createColonyRenderBatch(
       const shown = compatible && atlas.relevant(e.cat) && e.source.visible;
       e.batch.setVisibleAt(e.id, shown);
       if (shown) {
-        e.source.userData.releaseDrawBuffers?.();
+        // Crossing the visibility threshold is not model destruction. The
+        // shared residency controller retires truly idle native buffers;
+        // deleting them here re-uploaded every fallback cat on each turn.
         e.batch.visible = true;
         if (!e.matrix.equals(e.source.matrixWorld)) {
           e.matrix.copy(e.source.matrixWorld);
@@ -301,6 +304,7 @@ export function createColonyRenderBatch(
             indices,
             material,
           );
+        retainGeometryForGrace(batch.geometry);
         batch.name = "Exact colony cats · shared animated material";
         batch.visible = false;
         batch.frustumCulled = false;

@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { deferHiddenLeafMatrices } from "./scene-visibility.js";
-import { isGeometryBufferRetirement } from "./geometry-residency.js";
+import { isGeometryBufferRetirement, retainGeometryForGrace } from "./geometry-residency.js";
 
 // The approved rig remains the source of animation, camera anchors and picking.
 // Only its draw submission changes. No remodelling, LOD or triangle removal.
@@ -250,7 +250,7 @@ export function enableCatRenderBatch(cat, atlas = null) {
       }
       offset += pos.count;
     }
-    const geometry = new THREE.BufferGeometry();
+    const geometry = retainGeometryForGrace(new THREE.BufferGeometry());
     const positionAttribute = new THREE.Float16BufferAttribute([], 3);
     positionAttribute.array = positions;
     positionAttribute.count = count;

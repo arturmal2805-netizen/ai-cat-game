@@ -191,6 +191,22 @@ test("colony draws preserve half-float vertices, weighted joints, material tints
     originals.every((s) => s.layers.isEnabled(0)),
     "a rebuild must restore original layer zero, never an old temporary source layer",
   );
+  let cacheDisposals = 0;
+  for (const mesh of originals)
+    mesh.geometry.addEventListener("dispose", () => cacheDisposals++);
+  for (let i = 0; i < 12; i++) {
+    atlas.setEnabled(false);
+    scene.onBeforeRender(renderer, scene, camera);
+    scene.onAfterRender(renderer, scene, camera);
+    for (const mesh of originals) mesh.userData.nativeBuffersResident = true;
+    atlas.setEnabled(true);
+    scene.onBeforeRender(renderer, scene, camera);
+    scene.onAfterRender(renderer, scene, camera);
+  }
+  assert.equal(cacheDisposals, 0, "camera mode changes must reuse native fallback buffers, not delete/re-upload them");
+  atlas.setEnabled(false);
+  scene.onBeforeRender(renderer, scene, camera);
+  scene.onAfterRender(renderer, scene, camera);
   const entries = atlas.stats.entries;
   const source = cats[0].userData.renderBatches.batches[0],
     geometry = source.geometry;

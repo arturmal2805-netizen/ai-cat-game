@@ -1,0 +1,169 @@
+{
+  "rows": [
+    {
+      "retain": false,
+      "ms": 1147,
+      "uploads": 1728,
+      "bytes": 19201248,
+      "draw": {
+        "frame": 23,
+        "calls": 14,
+        "triangles": 265986,
+        "points": 0,
+        "lines": 0
+      },
+      "memory": {
+        "geometries": 8,
+        "textures": 27
+      },
+      "residency": {
+        "bytes": 4073740,
+        "peakBytes": 7273948,
+        "geometries": 8,
+        "evicted": 0,
+        "clockReads": 23
+      },
+      "dpr": 2
+    },
+    {
+      "retain": true,
+      "ms": 573,
+      "uploads": 0,
+      "bytes": 0,
+      "draw": {
+        "frame": 37,
+        "calls": 14,
+        "triangles": 265986,
+        "points": 0,
+        "lines": 0
+      },
+      "memory": {
+        "geometries": 56,
+        "textures": 27
+      },
+      "residency": {
+        "bytes": 7273948,
+        "peakBytes": 7273948,
+        "geometries": 56,
+        "evicted": 0,
+        "clockReads": 37
+      },
+      "dpr": 2
+    },
+    {
+      "retain": true,
+      "ms": 580,
+      "uploads": 0,
+      "bytes": 0,
+      "draw": {
+        "frame": 51,
+        "calls": 14,
+        "triangles": 265986,
+        "points": 0,
+        "lines": 0
+      },
+      "memory": {
+        "geometries": 56,
+        "textures": 27
+      },
+      "residency": {
+        "bytes": 7273948,
+        "peakBytes": 7273948,
+        "geometries": 56,
+        "evicted": 0,
+        "clockReads": 51
+      },
+      "dpr": 2
+    },
+    {
+      "retain": false,
+      "ms": 743,
+      "uploads": 1728,
+      "bytes": 19201248,
+      "draw": {
+        "frame": 65,
+        "calls": 14,
+        "triangles": 265986,
+        "points": 0,
+        "lines": 0
+      },
+      "memory": {
+        "geometries": 8,
+        "textures": 27
+      },
+      "residency": {
+        "bytes": 4073740,
+        "peakBytes": 7273948,
+        "geometries": 8,
+        "evicted": 0,
+        "clockReads": 65
+      },
+      "dpr": 2
+    }
+  ],
+  "pixels": {
+    "changed": 0,
+    "error": 0,
+    "contextLost": false
+  },
+  "native": [
+    {
+      "retain": false,
+      "elapsed": 16023,
+      "frames": 194,
+      "completed": 194,
+      "uploads": 4608,
+      "bytes": 51203328,
+      "gapMedian": 76,
+      "gapP95": 115,
+      "gapMax": 489,
+      "renderMax": 445
+    },
+    {
+      "retain": true,
+      "elapsed": 16050,
+      "frames": 210,
+      "completed": 210,
+      "uploads": 0,
+      "bytes": 0,
+      "gapMedian": 74,
+      "gapP95": 106,
+      "gapMax": 280,
+      "renderMax": 229
+    },
+    {
+      "retain": true,
+      "elapsed": 16016,
+      "frames": 208,
+      "completed": 208,
+      "uploads": 0,
+      "bytes": 0,
+      "gapMedian": 75,
+      "gapP95": 99,
+      "gapMax": 119,
+      "renderMax": 78
+    },
+    {
+      "retain": false,
+      "elapsed": 16061,
+      "frames": 216,
+      "completed": 216,
+      "uploads": 4608,
+      "bytes": 51203328,
+      "gapMedian": 73,
+      "gapP95": 94,
+      "gapMax": 107,
+      "renderMax": 57
+    }
+  ],
+  "returned": {
+    "released": 56,
+    "changed": 0,
+    "catsBefore": 8,
+    "catsAfter": 8,
+    "jointsBefore": 216,
+    "jointsAfter": 216,
+    "error": 0
+  },
+  "errors": []
+}

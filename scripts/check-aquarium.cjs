@@ -239,6 +239,12 @@ async function localWorker() {
         Object.assign(g, buyCatHome(g,id,HOUSE_TYPES[i%HOUSE_TYPES.length].id,"buy-"+id+"-"+(p.purchaseCount+1)));
       }
     }
+    if (process.env.CHICHI_CITY_MINIMAL) {
+      g.unlocked = ["moon", "jobcity"];
+      g.catPosition = { biome: "jobcity", x: 0, z: 20 };
+      for (const p of g.adoption.cats) p.homeBiome = "jobcity";
+      for (const id of Object.keys(g.catDestinations)) g.catDestinations[id] = "jobcity";
+    }
     if(process.env.CHICHI_CAT_LOCATION_AUDIT){
       const {captureCatLocations}=await import(root+'/public/cat-locations.js'),
         {activeCats}=await import(root+'/public/cat-roster.js'),
@@ -461,6 +467,13 @@ async function localWorker() {
         },
       }),
     );
+    if (process.env.CHICHI_NATIVE_MAP_AUDIT) {
+      const {localCryptoForecast} = await import(root + "/public/crypto-trading.js");
+      await page.route("**/api/crypto/forecast", r => {
+        const request=r.request().postDataJSON();
+        return r.fulfill({json:{attemptId:request.attemptId,forecast:localCryptoForecast(request.attemptId),source:"local"}});
+      });
+    }
     await page.goto(base);
     await page.waitForFunction(
       () => window.__lagoonQA && window.__lagoonSaveQA?.cloud.editable,
@@ -493,6 +506,12 @@ async function localWorker() {
       return;
     }
     if (process.env.CHICHI_NATIVE_MAP_AUDIT) {
+      if (process.env.CHICHI_CITY_STALL_AUDIT) {
+        const { checkCityStalls } = await import("./check-city-stalls.mjs");
+        await checkCityStalls(page, review);
+        assert.deepEqual(errors, []); assert.deepEqual(httpErrors, []);
+        return;
+      }
       const { checkNativeMapFrames } = await import("./check-native-map-frames.mjs");
       await checkNativeMapFrames(page, review);
       assert.deepEqual(errors, []); assert.deepEqual(httpErrors, []);

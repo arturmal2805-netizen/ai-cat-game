@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import * as THREE from "three";
-import { createGeometryResidency } from "../public/geometry-residency.js";
+import { createGeometryResidency, retainGeometryForGrace } from "../public/geometry-residency.js";
 
 function fixture(options = {}) {
   let now = 0;
@@ -195,5 +195,27 @@ test("repeated colour/shadow draws read the use clock once per native render fra
   for(let i=0;i<1000;i++) f.draw(a);
   assert.equal(f.residency.stats.clockReads, 2);
   assert.equal(f.calls.length, 2000, "every native draw remains intact");
+  f.residency.dispose();
+});
+
+test("alternating render caches survive brief native/colony switches under pressure, while abandoned island buffers still retire", () => {
+  const f = fixture({budget:0,grace:1000}),
+    fallback = retainGeometryForGrace(new THREE.BoxGeometry()),
+    colony = retainGeometryForGrace(new THREE.BoxGeometry()),
+    remote = new THREE.BoxGeometry();
+  f.renderer.info={render:{frame:1}};
+  f.draw(fallback); f.draw(colony); f.draw(remote);
+  let deleted=0;
+  fallback.addEventListener("dispose",()=>deleted++);
+  colony.addEventListener("dispose",()=>deleted++);
+  for(let i=2;i<=30;i++){
+    f.renderer.info.render.frame=i; f.time(i*25);
+    f.draw(i%8<4?colony:fallback); f.residency.sweep();
+  }
+  assert.equal(deleted,0,"working render caches must not oscillate between deletion and upload");
+  assert.equal(f.residency.stats.evicted,1,"the remote island retains the fast memory-pressure policy");
+  f.renderer.info.render.frame=100; f.time(2000); f.residency.sweep();
+  assert.equal(deleted,2,"unused fallback buffers still obey the bounded time grace");
+  assert.equal(f.residency.stats.bytes,0);
   f.residency.dispose();
 });
