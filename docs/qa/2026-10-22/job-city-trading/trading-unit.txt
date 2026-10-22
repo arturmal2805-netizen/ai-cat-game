@@ -1,0 +1,22 @@
+✔ the actual crypto office is cooperative, open on three floors, and preserves six independent stair-connected work stations (588.793477ms)
+✔ all eight charts reuse one fixed GPU submission, instance matrix and price array through trading ticks and state clones (8.414716ms)
+✔ crypto typing and brief profit/loss expressions expire cleanly and freeze in reduced motion without changing other professions (1.405457ms)
+✔ only employed crypto cats may reserve, individual skipped/poor cycles are remembered and never ask again before the next seven-day cycle (151.143136ms)
+✔ LONG and SHORT use directional leveraged PNL with escrow and fees, and settlement never credits twice (26.649816ms)
+✔ saved prices, timers, escrow and terminal results survive thirty reloads without another payment (257.64019ms)
+✔ liquidation closes at the first persisted price crossing, consumes at most margin and cannot make a wallet negative (87.098147ms)
+✔ concurrent devices, lost ACKs, a restarted ledger and provider failure consume at most one forecast per reserved cycle (13.390081ms)
+✔ unreserved/other-profession forecasts cannot spend credits and cached clients cannot erase investments or double-spend escrow (29.634543ms)
+✔ seven-day periods follow each career start and never replay offline weeks or change family pacing (2.893658ms)
+✔ the server rejects an early second cycle and admits the same trader exactly seven days later (14.546974ms)
+✔ large private trading wallets survive reload without a ten-million-coin truncation; corrupt escrow uses the save backup (187.836892ms)
+✔ every existing, new, tiny and magical cat can trade when officially employed in crypto, with independent weekly receipts (5715.242641ms)
+ℹ 148 cat profiles, 95 adoption cats, 148 mocked forecasts and 71 voluntary skipped cycles; zero paid requests.
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6716.053379

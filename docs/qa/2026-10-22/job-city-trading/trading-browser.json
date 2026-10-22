@@ -1,0 +1,59 @@
+{
+  "employees": [
+    {
+      "id": "chichi",
+      "phase": "work",
+      "slot": 0
+    },
+    {
+      "id": "luna",
+      "phase": "work",
+      "slot": 2
+    },
+    {
+      "id": "moti",
+      "phase": "work",
+      "slot": 4
+    },
+    {
+      "id": "pixel",
+      "phase": "work",
+      "slot": 1
+    },
+    {
+      "id": "peach",
+      "phase": "work",
+      "slot": 3
+    },
+    {
+      "id": "bagel",
+      "phase": "work",
+      "slot": 5
+    }
+  ],
+  "layout": {
+    "width": 350,
+    "scroll": 350
+  },
+  "forecastCalls": [
+    1
+  ],
+  "intervalDays": 7,
+  "settlement": {
+    "status": "closed",
+    "pnl": 105,
+    "coins": 5105
+  },
+  "reloads": 3,
+  "errors": [],
+  "navigationErrors": [
+    {
+      "message": "/127.0.0.1:32779/api/save due to access control checks.",
+      "stack": "Fetch API cannot load http://127.0.0.1:32779/api/save due to access control checks.\n    at load (http://127.0.0.1:32779/dist/app.js?v=c22e6715b26eb64b:87544:35)\n    at sync (http://127.0.0.1:32779/dist/app.js?v=c22e6715b26eb64b:87773:36)"
+    },
+    {
+      "message": "/127.0.0.1:32779/api/save due to access control checks.",
+      "stack": "Fetch API cannot load http://127.0.0.1:32779/api/save due to access control checks.\n    at claimEditor (http://127.0.0.1:32779/dist/app.js?v=c22e6715b26eb64b:87722:35)\n    at sync (http://127.0.0.1:32779/dist/app.js?v=c22e6715b26eb64b:87789:57)"
+    }
+  ]
+}
