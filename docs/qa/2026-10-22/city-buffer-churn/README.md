@@ -1,9 +1,10 @@
 # Camera-driven cat GPU buffer churn
 
 The user reported constant Cat Job City freezes. Private native WebKit profiling
-with 113 cats ruled out the one-second city sync as the long frame source in
-that fixture: maximum sync 5–10 ms, work simulation 3–9 ms, while native rendering
-was much more expensive. The initial 32-adoption fixture also stayed below the
+with 113 cats measured the periodically called `world.sync` at 5–10 ms maximum
+and `jobs.step` at 3–9 ms, while native rendering was much more expensive.
+These instrumented portions do not measure every application timer or durable
+save callback. The initial 32-adoption fixture also stayed below the
 residency budget, with zero memory evictions. Rolling back all recent CPU or
 memory changes would not address those measured cases.
 
@@ -44,3 +45,23 @@ dry-run are checked before publication. A separate all-island camera replay is
 recorded when complete. All tests use private fixtures, never a player save or
 paid inference. The experimental pre-reveal city shader change was left out:
 its loading priority needs a separate measured check before adoption.
+
+Final common-world replay: 17/17 runtime islands, 36 native orbit/zoom samples,
+including a return to Job City, at original DPR 2. All completed without lost
+context, JavaScript errors or HTTP errors. The fixture includes four giant
+water slides and sixteen extra businesses on the homestead. Complete native
+RAF, animation, world simulation and nonblocking GPU fences stayed active.
+The old eager deletion is emulated only in the comparative QA callback.
+
+The general-view samples show mixed software cadence and few frames per sample;
+they do NOT establish a universal FPS increase. In Job City both paths submit
+nine frames on the first visit and eight on the return. The accepted change is
+the verified removal of unnecessary buffer deletion/upload around visibility
+thresholds, with exact pixels and bounded inactive retirement, rather than an
+unsupported promise that every source of MacBook lag has disappeared.
+
+Release c23986f: GitHub Actions 39736272417 test/deploy/pages all succeeded.
+Both the Worker release check and the published GitHub Pages entry return 200;
+cloud saves remain enabled. The sculpt cache keeps its previous construction
+key, sculpt-v2-a496203fa13a037a7a10a927. This final evidence update changes no
+runtime code and is kept on the working branch without another site rollout.
