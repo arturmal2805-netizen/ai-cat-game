@@ -1,0 +1,41 @@
+{
+  "verifiedAt": "2026-10-26T23:37:07.273127+00:00",
+  "commit": "1ef1ccbd5942256e227fd792c5c074e3d0e7f110",
+  "workflow": {
+    "url": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/40420326444",
+    "jobs": [
+      {
+        "name": "test",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/40420326444/job/121912860315"
+      },
+      {
+        "name": "deploy",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/40420326444/job/121914321933"
+      },
+      {
+        "name": "pages",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/40420326444/job/121914599317"
+      }
+    ]
+  },
+  "worker": {
+    "url": "https://chichi-cat-world.arturmal2805.workers.dev/api/status?release=1ef1ccb",
+    "release": "1ef1ccbd5942256e227fd792c5c074e3d0e7f110",
+    "configured": true,
+    "cloudSave": true
+  },
+  "pages": {
+    "url": "https://arturmal2805-netizen.github.io/ai-cat-game/?update=1ef1ccb",
+    "script": "./dist/app.js?v=097bbf4e32d5605d",
+    "bundleUrl": "https://arturmal2805-netizen.github.io/ai-cat-game/dist/app.js?v=097bbf4e32d5605d",
+    "remoteSha256": "097bbf4e32d5605d098f35eabf747f77b0a1ad49cf6052b3724add6e8f76cf9e",
+    "localSha256": "097bbf4e32d5605d098f35eabf747f77b0a1ad49cf6052b3724add6e8f76cf9e"
+  },
+  "physicalDevicePostPatchFPS": "Not measured; awaiting opt-in report after automatic 15-second pause."
+}
