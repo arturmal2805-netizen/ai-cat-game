@@ -1,0 +1,13 @@
+{
+  "revision": "73db649115f11b4788953b91e31ea5c2337a9c92",
+  "workflowId": 40314704387,
+  "expectedEntry": "./dist/app.js?v=5e8ebaabc2cb743f",
+  "expectedBundleSha256": "5e8ebaabc2cb743f5e50184704e533d00caffb7d6b31375c00fd079e445a0168",
+  "status": "published and verified",
+  "workflowConclusion": "success",
+  "liveWorkerRelease": "73db649115f11b4788953b91e31ea5c2337a9c92",
+  "liveEntry": "./dist/app.js?v=5e8ebaabc2cb743f",
+  "liveBundleSha256": "5e8ebaabc2cb743f5e50184704e533d00caffb7d6b31375c00fd079e445a0168",
+  "cloudSave": true,
+  "configured": true
+}
