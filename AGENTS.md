@@ -326,3 +326,15 @@ depending on vertex IDs must retain original IDs rather than use aliases.
 Do not apply this static-copy path to the approved native cat/fish rigs. The
 2026-10-26 report records a modest, varied software-frame result, not a universal
 FPS standard; every future island still needs the full native-frame gate.
+
+### Catalogue images must not rebuild the world during play
+
+Bundle the shipped preview manifest with its matching application and retain
+the original versioned PNGs. A failed metadata request or one missing preview
+must never discard valid images and synchronously rebuild every attraction
+and island in another WebGL context. Development-only capture must stop when
+the shop closes or the document hides, retain completed captures and dispose
+its temporary renderer/models. Keep the explicit authoring capture path.
+Verify the real close-and-zoom path with a failed metadata request; distinguish
+this fault recovery from ordinary island FPS. Preserve the independent native
+rendering, shader/cache versions and approved graphics.

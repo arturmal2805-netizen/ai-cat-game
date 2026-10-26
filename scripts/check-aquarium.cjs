@@ -298,6 +298,14 @@ async function localWorker() {
         {
           name: "qa",
           setup(b) {
+            if (process.env.CHICHI_PREVIEW_LOAD_AUDIT)
+              b.onLoad({ filter: /\/public\/catalog-previews\.js$/ }, () => ({
+                contents: readPublic("catalog-previews.js")
+                  .replace("keys = null", 'keys = ["bed","slide-titan-funnel","biome-summer","biome-aquarium","biome-jobcity"]')
+                  .replace("    renderer = new THREE.WebGLRenderer({", "    globalThis.__previewRendererCount=(globalThis.__previewRendererCount||0)+1;\n    renderer = new THREE.WebGLRenderer({")
+                  .replace("renderer.render(scene, camera);", "globalThis.__previewDraws=(globalThis.__previewDraws||0)+1;renderer.render(scene, camera);"),
+                loader: "js",
+              }));
             if (process.env.CHICHI_COMPARE_STATIC_REUSE)
               b.onLoad({ filter: /\/public\/static-draw-batch\.js$/ }, () => ({
                 contents: readPublic("static-draw-batch.js").replace(
@@ -493,6 +501,15 @@ async function localWorker() {
     await page.waitForFunction(
       () => window.__lagoonQA && window.__lagoonSaveQA?.cloud.editable,
     );
+
+    if (process.env.CHICHI_NATIVE_MAP_AUDIT && process.env.CHICHI_PREVIEW_LOAD_AUDIT) {
+      const { checkPreviewLoad } = await import("./check-preview-load.mjs");
+      await checkPreviewLoad(page, review);
+      fs.writeFileSync(path.join(review, "browser-errors.json"), JSON.stringify({ errors, httpErrors }, null, 2));
+      assert.deepEqual(httpErrors.filter(e => !(e.path.endsWith("/art/previews/catalog.json") && e.status === 503)), []);
+      assert.deepEqual(errors.filter(e => !/Failed to load resource: the server responded with a status of 503/.test(e)), []);
+      return;
+    }
 
     if(process.env.CHICHI_CAT_LOCATION_AUDIT){
       const {checkCatLocations}=await import('./check-cat-locations.mjs');

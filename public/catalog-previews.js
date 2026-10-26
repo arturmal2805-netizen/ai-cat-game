@@ -2,9 +2,11 @@ import * as THREE from "three";
 import { CATALOG, BIOMES } from "./game-data.js";
 import { createBiomeScene, disposeBiome } from "./biome-scenes.js";
 import { makeAttraction } from "./world-assets.js";
+import shippedPreviews from "./art/previews/catalog.json" with { type: "json" };
+const capturedPreviews = new Map();
 export async function catalogPreviews(
   onPreview,
-  { forceRender = false, keys = null } = {},
+  { forceRender = false, keys = null, canRender = () => true } = {},
 ) {
   const result = new Map();
   const selected = keys ? new Set(keys) : null,
@@ -15,40 +17,37 @@ export async function catalogPreviews(
       (item) =>
         !selected || selected.has(item.isBiome ? "biome-" + item.id : item.id),
     ),
-    expected = targets.map((item) =>
-      item.isBiome ? "biome-" + item.id : item.id,
-    );
+    available = new Set(shippedPreviews.items);
+  let pending = targets;
   if (!forceRender) {
-    try {
-      const response = await fetch(
-        new URL("./art/previews/catalog.json", document.baseURI),
-        { cache: "no-store" },
-      );
-      if (response.ok) {
-        const manifest = await response.json(),
-          available = new Set(manifest.items);
-        if (expected.every((key) => available.has(key))) {
-          for (const key of expected) {
-            const src = new URL(
-              `./art/previews/${key}.png?v=${encodeURIComponent(manifest.version)}`,
-              document.baseURI,
-            ).href;
-            result.set(key, src);
-            onPreview?.(key, src);
-          }
-          return result;
-        }
+    // Ship the exact manifest with its matching application/PNG assets. A
+    // failed metadata request must never rebuild the entire shop and every
+    // island through a second WebGL renderer while the player is playing.
+    pending = [];
+    for (const item of targets) {
+      const key = item.isBiome ? "biome-" + item.id : item.id;
+      if (capturedPreviews.has(key)) {
+        const src = capturedPreviews.get(key);
+        result.set(key, src); onPreview?.(key, src); continue;
       }
-    } catch {
-      /* Development checkouts without cached art can still render it. */
+      if (!available.has(key)) { pending.push(item); continue; }
+      const src = new URL(
+        `./art/previews/${key}.png?v=${encodeURIComponent(shippedPreviews.version)}`,
+        document.baseURI,
+      ).href;
+      result.set(key, src);
+      onPreview?.(key, src);
     }
+    if (!pending.length) return result;
   }
   let renderer;
   try {
+    if (!canRender()) return result;
     // Let the modal paint before compiling WebGL programs or reading pixels.
     await new Promise((resolve) =>
       requestAnimationFrame(() => setTimeout(resolve, 0)),
     );
+    if (!canRender()) return result;
     renderer = new THREE.WebGLRenderer({
       antialias: true,
       alpha: true,
@@ -57,7 +56,8 @@ export async function catalogPreviews(
     renderer.setSize(300, 200);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 0.95;
-    for (const item of targets) {
+    for (const item of pending) {
+      if (!canRender()) break;
       const scene = new THREE.Scene();
       scene.add(new THREE.HemisphereLight(0xfff1eb, 0xc1b3d7, 1.6));
       const light = new THREE.DirectionalLight(0xffe9df, 2.5);
@@ -116,18 +116,22 @@ export async function catalogPreviews(
           );
       }
       camera.lookAt(center);
-      await renderer.compileAsync(scene, camera);
-      renderer.render(scene, camera);
-      const key = item.isBiome ? "biome-" + item.id : item.id,
-        src = renderer.domElement.toDataURL("image/png");
-      result.set(key, src);
-      onPreview?.(key, src);
-      if (item.isBiome) disposeBiome(object);
-      else
-        object.traverse((o) => {
-          if (o.isMesh && !o.geometry.userData.sharedScenery)
-            o.geometry.dispose();
+      try {
+        await renderer.compileAsync(scene, camera);
+        if (canRender()) {
+          renderer.render(scene, camera);
+          const key = item.isBiome ? "biome-" + item.id : item.id,
+            src = renderer.domElement.toDataURL("image/png");
+          result.set(key, src);
+          capturedPreviews.set(key, src);
+          onPreview?.(key, src);
+        }
+      } finally {
+        if (item.isBiome) disposeBiome(object);
+        else object.traverse((o) => {
+          if (o.isMesh && !o.geometry.userData.sharedScenery) o.geometry.dispose();
         });
+      }
       await new Promise((r) => setTimeout(r, 0));
     }
   } catch (error) {

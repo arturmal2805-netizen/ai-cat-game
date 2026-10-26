@@ -695,7 +695,10 @@ async function showShop(category = "all", search = "") {
         }
         img.src = src;
       }
-    });
+    }, { canRender: () => $("shop-dialog").open && !document.hidden });
+    // A development-only uncaptured item may be cancelled when the shop closes.
+    // Opening it again can finish that item, retaining every ready preview.
+    previewsStarted = previews.size === CATALOG.length + BIOMES.length;
     // Each preview has already updated its current card. Rebuilding the grid
     // here would interrupt a player's scroll, focus or pending tap.
   }
