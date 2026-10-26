@@ -6,6 +6,7 @@ import { copyGeometryBuffers, mergeSceneSteps } from "../public/geometry-tasks.j
 import { indexExactVerticesSteps, optimizeGeometryCache } from "../public/geometry-cache.js";
 import { runSceneSteps } from "../public/scene-tasks.js";
 import { prepareStaticVertexReuseSteps, mergeStaticVertexReuseSteps, applyStaticVertexReuseSteps } from "../public/static-vertex-reuse.js";
+import { batchModelGeometry } from "../public/model-batching.js";
 
 function exactTriangles(source, indexed) {
   const names = Object.keys(source.attributes);
@@ -98,4 +99,20 @@ test("mixed merging and the released cache optimiser retain exact triangle order
     const index = reused.index.array.slice();
     runSceneSteps(applyStaticVertexReuseSteps(reused)); assert.deepEqual(reused.index.array, index);
   }
+});
+
+test("generated face normals keep sharp corners when a custom static source omits normals", () => {
+  const source = new T.BufferGeometry();
+  source.setAttribute("position", new T.Float32BufferAttribute([
+    0,0,0, 1,0,0, 0,1,0, 0,0,0, 0,1,0, 0,0,1,
+  ], 3));
+  source.setAttribute("uv", new T.Float32BufferAttribute(new Float32Array(12), 2));
+  const native = copyGeometryBuffers(source);
+  native.setIndex([0,1,2,3,4,5]); native.computeVertexNormals();
+  const root = new T.Group(); root.add(new T.Mesh(source, new T.MeshStandardMaterial()));
+  const result = batchModelGeometry(root).children[0].geometry;
+  exactTriangles(native, result);
+  assert.equal(result.attributes.normal.getZ(0), 1);
+  assert.equal(result.attributes.normal.getX(3), 1);
+  assert.equal(source.attributes.normal, undefined, "preserve the editable source");
 });

@@ -7,7 +7,9 @@ import { mergeSceneSteps } from "./geometry-tasks.js";
 const aliases = new WeakMap();
 
 export function* prepareStaticVertexReuseSteps(copy, source) {
-  if (copy.index) return;
+  // Missing normals are generated per triangle afterwards; aliasing before
+  // that could join sharp corners. Missing UVs only receive uniform zeroes.
+  if (copy.index || !copy.attributes.normal) return;
   yield* indexExactVerticesSteps(copy, { source });
   if (!copy.index) return;
   aliases.set(copy, copy.index.array);
