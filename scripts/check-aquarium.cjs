@@ -154,6 +154,7 @@ async function localWorker() {
       if (p.item === "coaster-lagoon") p.readyAt = now - 1000;
     if (process.env.CHICHI_SCENE_STRESS) {
       const { ADOPTION_CATS } = await import(root + "/public/cat-breeds.js");
+      const {REFERENCE_SLIDES}=await import(root+"/public/reference-slide-data.js");
       g.progression.xp = xpForLevel(30);
       g.coins = 8_000_000;
       for (const item of [
@@ -161,6 +162,7 @@ async function localWorker() {
         "slide-titan-funnel",
         "slide-sky-cannon",
         "slide-rainbow-tsunami",
+        ...(process.env.CHICHI_ALL_SLIDE_STRESS ? REFERENCE_SLIDES.map(s=>s.id) : []),
         ...Array.from({ length: 16 }, (_, i) =>
           i % 2 ? "business-hotdog" : "cat-barista",
         ),
@@ -333,6 +335,7 @@ async function localWorker() {
               assert.ok(source.includes(marker));
               return {
                 contents: source
+                  .replace("if (key === sceneKey) {", "if (key === sceneKey && !(globalThis.__legacyActorStaticSync && actorKey !== nextActorsKey)) {")
                   .replace(
                     "  const gpuFrames =",
                     "  const qaGpuBuffers=(" +
@@ -505,6 +508,12 @@ async function localWorker() {
     if (process.env.CHICHI_DEVICE_PROFILE_AUDIT) {
       const {checkFrameProfile}=await import("./check-frame-profile.mjs");
       await checkFrameProfile(page,review);
+      fs.writeFileSync(path.join(review,"browser-errors.json"),JSON.stringify({errors,httpErrors},null,2));
+      assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;
+    }
+    if (process.env.CHICHI_ACTOR_SCOPE_AUDIT) {
+      const {checkActorSyncScope}=await import("./check-actor-sync-scope.mjs");
+      await checkActorSyncScope(page,review);
       fs.writeFileSync(path.join(review,"browser-errors.json"),JSON.stringify({errors,httpErrors},null,2));
       assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;
     }

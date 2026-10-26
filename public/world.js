@@ -454,6 +454,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   scene.add(npcMarkers);
   let game = initialGame,
     sceneKey = "",
+    actorKey = "",
     focused = "moon",
     viewingOverview = false,
     overviewDistanceLimit = 2400,
@@ -1528,10 +1529,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
         old.resolve({ cancelled: true });
       }
     }
+    const nextActorsKey = JSON.stringify([game.adoption, game.catDestinations]);
     const key = JSON.stringify([
       game.unlocked,
-      game.adoption,
-      game.catDestinations,
       game.business?.levels,
       game.placements,
       game.scenery,
@@ -1546,7 +1546,14 @@ export function createWorld(container, initialGame, callbacks = {}) {
         cells.map((c) => [c.crop, c.readyAt, Date.now() >= c.readyAt]),
       ]),
     ]);
-    if (key === sceneKey) return;
+    if (key === sceneKey) {
+      if (actorKey !== nextActorsKey) {
+        nextSiteCheck = 0;
+        syncActors();
+        actorKey = nextActorsKey;
+      }
+      return;
+    }
     sceneKey = key;
     nextSiteCheck = 0;
     megaGroundPlots = game.placements
@@ -2018,6 +2025,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
         .copy(operation.attraction.position)
         .add(new THREE.Vector3(0, 0, 0.8));
     }
+    syncActors();
+    actorKey = nextActorsKey;
+  }
+  function syncActors() {
     for (const profile of activeCats(game)) {
       const venue = profile.homeVenueId && itemGroups.get(profile.homeVenueId),
         littleGuest = venue?.userData.guests?.[0];

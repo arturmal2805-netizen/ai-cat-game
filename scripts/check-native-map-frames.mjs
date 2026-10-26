@@ -6,7 +6,8 @@ import path from "node:path";
 import assert from "node:assert/strict";
 
 export async function checkNativeMapFrames(page, review) {
-  const compareReuse = !!process.env.CHICHI_COMPARE_STATIC_REUSE, proofs = [];
+  const compareReuse = !!process.env.CHICHI_COMPARE_STATIC_REUSE,
+    compareActors = !!process.env.CHICHI_COMPARE_ACTOR_SCOPE, proofs = [];
   let workSettled = false;
   if (compareReuse) await page.evaluate(() => {
     const q = __lagoonQA, before = q.scene.onBeforeRender;
@@ -53,22 +54,33 @@ export async function checkNativeMapFrames(page, review) {
     imageOnly = !!process.env.CHICHI_NATIVE_PIXEL_PROOF,
     repeats = process.env.CHICHI_NATIVE_REPEATS?.split(",") || ["summer", "aquarium", "homestead", "sakura"];
   const views=[...ids,...repeats.filter(id=>ids.includes(id))],
-    checks=compareReuse
+    checks=compareActors
+      ? views.flatMap((id,i)=>(i%2?[false,true]:[true,false]).map(actorLegacy=>({id,legacy:false,actorLegacy})))
+      : compareReuse
       ? views.flatMap((id,i)=>(i%2?[true,false]:[false,true]).map(reuse=>({id,legacy:false,reuse})))
       : process.env.CHICHI_COMPARE_COLONY_CACHE
       ? views.flatMap((id,i)=>(i%2?[false,true]:[true,false]).map(legacy=>({id,legacy})))
       : views.map(id=>({id,legacy:false}));
-  for (const {id,legacy,reuse} of checks) {
+  for (const {id,legacy,reuse,actorLegacy} of checks) {
     const started = Date.now();
-    await page.evaluate(({id,legacy,reuse}) => {
+    await page.evaluate(({id,legacy,reuse,actorLegacy,compareActors}) => {
       const q = __lagoonQA;
       q.legacyColonyDeletion=legacy;
       if (q.setStaticReuse) q.setStaticReuse(reuse);
+      if (compareActors) {
+        globalThis.__legacyActorStaticSync=actorLegacy;
+        const base=structuredClone(__lagoonSaveQA.getGame()), actor=base.adoption.cats[0].id,
+          home=base.catDestinations[actor]||"homestead", away=home==="moon"?"homestead":"moon";
+        q.actorSyncSample=i=>{
+          const next=structuredClone(base);next.catDestinations[actor]=i%2?home:away;
+          const start=performance.now();__lagoonSaveQA.getWorld().sync(next);return performance.now()-start;
+        };
+      }
       q.freeze = false; q.drawPaused = false; q.cpuOnly = false;
       document.querySelector(`[data-biome="${id}"]`).click();
       const b = q.islands.get(id);
       q.reviewView(b.position.x, b.position.z, 85);
-    }, {id,legacy,reuse});
+    }, {id,legacy,reuse,actorLegacy,compareActors});
     await page.waitForFunction(id => {
       const q = __lagoonQA;
       return !q.islands.get(id).userData.lowOnly &&
@@ -83,6 +95,15 @@ export async function checkNativeMapFrames(page, review) {
       workSettled = true;
     }
     const readyMs = Date.now() - started;
+    if (compareActors && !proofs.some(p=>p.id===id)) {
+      const {captureActorScopeImage}=await import("./check-actor-sync-scope.mjs"),proof=await captureActorScopeImage(page);
+      proofs.push({id,...proof});fs.writeFileSync(path.join(review,"actor-scope-images.json"),JSON.stringify(proofs,null,2));
+      console.log("ACTOR_SCOPE_IMAGE",JSON.stringify(proofs.at(-1)));
+      assert.equal(proof.changed,0);assert.equal(proof.newCalls,0);assert.ok(proof.oldCalls>0);assert.equal(proof.stableActors,true);
+      assert.equal(proof.oldDraw.triangles,proof.newDraw.triangles);assert.equal(proof.oldDraw.calls,proof.newDraw.calls);
+      assert.equal(proof.error,0);assert.equal(proof.dpr,2);assert.equal(proof.contextLost,false);
+      await page.evaluate(()=>__lagoonQA.freeze=false);
+    }
     if (compareReuse && !proofs.some(p => p.id === id)) {
       const proof = await page.evaluate(reuse => {
         const q = __lagoonQA, gl = q.renderer.getContext();
@@ -222,7 +243,7 @@ export async function checkNativeMapFrames(page, review) {
         gl.RGBA, gl.UNSIGNED_BYTE, pixels);
       q.gpuFrames.clear(); q.liveFrames = [];
       const start = performance.now();
-      let minAngle = Infinity, maxAngle = -Infinity, minZoom = Infinity, maxZoom = -Infinity;
+      let minAngle = Infinity, maxAngle = -Infinity, minZoom = Infinity, maxZoom = -Infinity, nextActor=500,actorTimes=[];
       q.freeze = false;
       const timer = setInterval(() => {
         const elapsed = performance.now() - start,
@@ -230,6 +251,9 @@ export async function checkNativeMapFrames(page, review) {
         minAngle = Math.min(minAngle, angle); maxAngle = Math.max(maxAngle, angle);
         minZoom = Math.min(minZoom, q.getDesiredDistance()); maxZoom = Math.max(maxZoom, q.getDesiredDistance());
         if (elapsed < ms) {
+          if(q.actorSyncSample && elapsed>=nextActor) {
+            actorTimes.push(q.actorSyncSample(actorTimes.length));nextActor=elapsed+500;
+          }
           // Equal time-based trajectories. Automation round-trips must not
           // make a slow browser spend longer at an easier camera angle.
           const phase = elapsed / ms * Math.PI * 4,
@@ -255,6 +279,7 @@ export async function checkNativeMapFrames(page, review) {
           gapP95: gaps[Math.floor(gaps.length * .95)] ?? null,
           renderCpuMedian: cpu[Math.floor(cpu.length * .5)] ?? null,
           renderCpuMax: cpu.at(-1) ?? null,
+          actorSyncTimes:actorTimes,
           orbitRange: maxAngle - minAngle, zoomRange: maxZoom - minZoom,
           draw: { ...q.renderer.info.render }, shaders: { ...q.shaderWarmup.stats },
           shadows: { ...q.shadowDepth.stats },
@@ -274,13 +299,14 @@ export async function checkNativeMapFrames(page, review) {
       const q = __lagoonQA, canvas = q.renderer.domElement;
       canvas.removeEventListener("pointerdown", q.captureProbe);
       canvas.dispatchEvent(new PointerEvent("pointercancel", { pointerId: q.probePointerId }));
+      if(q.actorSyncSample)__lagoonSaveQA.getWorld().sync(__lagoonSaveQA.getGame());
     });
     await page.mouse.up();
     assert.ok(row.orbitRange > .08, `${id}: the actual camera must rotate during sampling`);
     assert.ok(row.zoomRange > 6, `${id}: the actual input handler must change camera zoom`);
     assert.ok(row.frames > 0, `${id}: real frames must complete during camera input`);
     assert.equal(row.dpr, 2); assert.equal(row.contextLost, false); assert.equal(row.visible, true);
-    rows.push({ id, legacy, reuse, repeat: rows.some(r => r.id === id), readyMs, ...row });
+    rows.push({ id, legacy, reuse, actorLegacy, repeat: rows.some(r => r.id === id), readyMs, ...row });
     fs.writeFileSync(path.join(review, "native-map-frames.json"), JSON.stringify(rows, null, 2));
     console.log("NATIVE_MAP", JSON.stringify(rows.at(-1)));
     if(process.env.CHICHI_NATIVE_MAP_CAPTURE && !rows.slice(0,-1).some(r=>r.id===id))
