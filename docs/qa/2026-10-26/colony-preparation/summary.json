@@ -6,5 +6,16 @@
   "nativeSourceDisposals": 0,
   "testCatalogueCats": 95,
   "currentPlayerOwnedCountKnown": false,
-  "isDeviceFpsClaim": false
+  "isDeviceFpsClaim": false,
+  "nativeImageComparisons": 4,
+  "nativeImageChangedBytes": 0,
+  "nativeDrawsAndTrianglesIdentical": true,
+  "nativeDprs": [
+    2
+  ],
+  "nativeContextLosses": 0,
+  "fullTestsPassed": 716,
+  "build": "pass",
+  "workerDryRun": "pass",
+  "sculptCacheFingerprint": "sculpt-v2-a496203fa13a037a7a10a927"
 }

@@ -59,3 +59,27 @@ either the real released clones or candidate staging streams in the same
 loaded world. The final frames include native colour and shadows, at original
 resolution. Construction may run with GPU draws paused during fixture setup;
 no setup duration is reported as FPS or ordinary loading time.
+
+The completed **phone WebKit** proof has four exact full-frame comparisons:
+Job City, capybaras, aquarium and the heavily built homestead, all at DPR 2
+(776×1464 native buffer). Every frame has zero changed bytes and identical
+draw/triangle counts. The private world has all 25 reference slides, four
+legacy giant rides, sixteen additional businesses, eight homes and 24 adopted
+cats (76 mobile NPCs with residents/staff). Shared colony rendering is active
+in Job City/homestead; the sparse views keep the existing native fallback.
+No GL, context, JS or HTTP errors. Screenshots for Job City and homestead were
+inspected at `/workspace/qa-colony-preparation-final/`.
+
+The earlier rejected image attempts are retained in `unsettled-probes.json`.
+Freezing RAF did not freeze asynchronous construction: another owned slide's
+new outlet foam and a shared static batch completed between captures. The
+final test waits for **every owned placement**, pending houses, shader warmup
+and initial native draws before rebuilding and comparing. Its trace guard
+remains available on any future draw-count mismatch.
+
+Worker dry run passes and the sculpt-cache fingerprint is unchanged:
+`sculpt-v2-a496203fa13a037a7a10a927`. The full 17-island native-camera gate for
+the immediately preceding actor-sync release is recorded in the adjacent
+`actor-sync-scope` report; this additional change only alters temporary
+preparation allocation and produces identical final geometry bytes. It is
+not promoted as a new steady-FPS optimization template.
