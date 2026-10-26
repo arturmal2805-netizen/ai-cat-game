@@ -3,9 +3,9 @@ import fs from "node:fs";
 import path from "node:path";
 
 export async function checkFrameProfile(page, review) {
-  await page.waitForFunction(()=>document.querySelector("#frame-profile button"));
+  await page.waitForFunction(()=>document.querySelector("#frame-profile [data-profile-copy]"));
   await page.evaluate(()=>Object.defineProperty(navigator,"clipboard",{configurable:true,value:{writeText:async text=>globalThis.__copiedProfile=text}}));
-  const button=page.locator("#frame-profile button");
+  const button=page.locator("#frame-profile [data-profile-copy]");
   let report;
   for (let i=0;i<20;i++) {
     await page.waitForTimeout(1000);

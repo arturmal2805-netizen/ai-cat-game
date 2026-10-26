@@ -1,0 +1,68 @@
+{
+  "rows": [
+    {
+      "phase": "released-offscreen-preparation",
+      "frames": 0,
+      "workSteps": 8,
+      "compiled": 1,
+      "textures": 1,
+      "prepared": true,
+      "visible": false,
+      "hidden": false
+    },
+    {
+      "phase": "candidate-offscreen-preparation",
+      "frames": 0,
+      "workSteps": 8,
+      "compiled": 0,
+      "textures": 0,
+      "prepared": false,
+      "visible": false,
+      "hidden": false
+    },
+    {
+      "phase": "visible-return",
+      "frames": 3,
+      "preparationResumed": true
+    },
+    {
+      "phase": "menu-preparation",
+      "slept": true,
+      "resumed": true
+    },
+    {
+      "phase": "manual-profile-stop",
+      "frames": 0,
+      "workSteps": 30
+    },
+    {
+      "phase": "automatic-profile-stop",
+      "frames": 0,
+      "seconds": 5
+    }
+  ],
+  "initial": {
+    "cats": 18,
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ]
+  },
+  "returned": {
+    "cats": 18,
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "error": 0,
+    "contextLost": false,
+    "pixel": [
+      213,
+      185,
+      146,
+      255
+    ]
+  }
+}

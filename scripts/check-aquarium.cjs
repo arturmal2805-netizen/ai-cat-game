@@ -360,6 +360,10 @@ async function localWorker() {
               assert.ok(source.includes(marker));
               return {
                 contents: source
+                  .replace(
+                    "worldVisible && !document.querySelector(\"dialog[open]\") && !frameProfile?.suspended,",
+                    "(globalThis.__qaWarmupCovered || (worldVisible && !document.querySelector(\"dialog[open]\") && !frameProfile?.suspended)),",
+                  )
                   .replace("if (key === sceneKey) {", "if (key === sceneKey && !(globalThis.__legacyActorStaticSync && actorKey !== nextActorsKey)) {")
                   .replace(
                     "  const gpuFrames =",
@@ -434,6 +438,10 @@ async function localWorker() {
                 readPublic("app.js")
               )
                 .replace(
+                  "const event = nextCityAIEvent(game);",
+                  process.env.CHICHI_VISUAL_IDLE_AUDIT ? "const event = null; // Private visual fixture: no AI networking." : "const event = nextCityAIEvent(game);",
+                )
+                .replace(
                   "await restoreSculptCache();",
                   "window.__graphicsRestored=await restoreSculptCache();window.__storeGraphics=qaStoreGraphics;",
                 )
@@ -502,13 +510,14 @@ async function localWorker() {
       },
       { g: normalizedSeed.game, token },
     );
-    await page.route("**/dist/app.js?*", (r) =>
+    const routeOwner=process.env.CHICHI_VISUAL_IDLE_AUDIT ? context : page;
+    await routeOwner.route("**/dist/app.js?*", (r) =>
       r.fulfill({
         contentType: "text/javascript",
         body: output.outputFiles[0].text,
       }),
     );
-    await page.route("**/api/status", (r) =>
+    await routeOwner.route("**/api/status", (r) =>
       r.fulfill({
         json: {
           configured: true,
@@ -520,12 +529,12 @@ async function localWorker() {
     );
     if (process.env.CHICHI_NATIVE_MAP_AUDIT) {
       const {localCryptoForecast} = await import(root + "/public/crypto-trading.js");
-      await page.route("**/api/crypto/forecast", r => {
+      await routeOwner.route("**/api/crypto/forecast", r => {
         const request=r.request().postDataJSON();
         return r.fulfill({json:{attemptId:request.attemptId,forecast:localCryptoForecast(request.attemptId),source:"local"}});
       });
     }
-    await page.goto(base + (process.env.CHICHI_DEVICE_PROFILE_AUDIT ? "?profile=1" : ""));
+    await page.goto(base + (process.env.CHICHI_DEVICE_PROFILE_AUDIT || process.env.CHICHI_VISUAL_IDLE_AUDIT ? "?profile=1" : ""));
     await page.waitForFunction(
       () => window.__lagoonQA && window.__lagoonSaveQA?.cloud.editable,
     );
@@ -533,6 +542,12 @@ async function localWorker() {
     if (process.env.CHICHI_DEVICE_PROFILE_AUDIT) {
       const {checkFrameProfile}=await import("./check-frame-profile.mjs");
       await checkFrameProfile(page,review);
+      fs.writeFileSync(path.join(review,"browser-errors.json"),JSON.stringify({errors,httpErrors},null,2));
+      assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;
+    }
+    if (process.env.CHICHI_VISUAL_IDLE_AUDIT) {
+      const {checkVisualIdle}=await import("./check-visual-idle.mjs");
+      await checkVisualIdle(page,review,base);
       fs.writeFileSync(path.join(review,"browser-errors.json"),JSON.stringify({errors,httpErrors},null,2));
       assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;
     }
