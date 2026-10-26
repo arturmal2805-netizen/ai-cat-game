@@ -1,0 +1,25 @@
+{
+  "run": 40324465302,
+  "jobs": [
+    {
+      "name": "test",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "deploy",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "pages",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "release": "2a606a766ba23484767cd2d52c87be0453083b33",
+  "cloudSave": true,
+  "configured": true,
+  "entry": "./dist/app.js?v=b906d0b59f6e2825",
+  "sha256": "b906d0b59f6e28256ab1343097f795e571b0cb4e020779b2d46c57e8c15def50"
+}
