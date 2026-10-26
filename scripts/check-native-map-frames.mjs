@@ -8,7 +8,8 @@ import assert from "node:assert/strict";
 export async function checkNativeMapFrames(page, review) {
   const compareReuse = !!process.env.CHICHI_COMPARE_STATIC_REUSE,
     compareActors = !!process.env.CHICHI_COMPARE_ACTOR_SCOPE,
-    compareColony = !!process.env.CHICHI_COMPARE_COLONY_MODE, proofs = [];
+    compareColony = !!process.env.CHICHI_COMPARE_COLONY_MODE,
+    compareBlend = !!process.env.CHICHI_COMPARE_SCENERY_BLEND, proofs = [];
   let workSettled = false;
   if (compareReuse) await page.evaluate(() => {
     const q = __lagoonQA, before = q.scene.onBeforeRender;
@@ -55,7 +56,9 @@ export async function checkNativeMapFrames(page, review) {
     imageOnly = !!process.env.CHICHI_NATIVE_PIXEL_PROOF,
     repeats = process.env.CHICHI_NATIVE_REPEATS?.split(",") || ["summer", "aquarium", "homestead", "sakura"];
   const views=[...ids,...repeats.filter(id=>ids.includes(id))],
-    checks=compareColony
+    checks=compareBlend
+      ? views.flatMap((id,i)=>(i%2?[true,false]:[false,true]).map(blend=>({id,legacy:false,blend})))
+      : compareColony
       ? views.flatMap((id,i)=>(i%2?[true,false]:[false,true]).map(individual=>({id,legacy:false,individual})))
       : compareActors
       ? views.flatMap((id,i)=>(i%2?[false,true]:[true,false]).map(actorLegacy=>({id,legacy:false,actorLegacy})))
@@ -64,10 +67,17 @@ export async function checkNativeMapFrames(page, review) {
       : process.env.CHICHI_COMPARE_COLONY_CACHE
       ? views.flatMap((id,i)=>(i%2?[false,true]:[true,false]).map(legacy=>({id,legacy})))
       : views.map(id=>({id,legacy:false}));
-  for (const {id,legacy,reuse,actorLegacy,individual} of checks) {
+  for (const {id,legacy,reuse,actorLegacy,individual,blend} of checks) {
     const started = Date.now();
-    await page.evaluate(({id,legacy,reuse,actorLegacy,compareActors,individual}) => {
+    await page.evaluate(({id,legacy,reuse,actorLegacy,compareActors,individual,compareBlend,blend}) => {
       const q = __lagoonQA;
+      if (compareBlend) {
+        globalThis.__qaLegacySceneryBlend = !blend;
+        q.scene.traverse(o=>{
+          for (const m of (Array.isArray(o.material)?o.material:[o.material]))
+            if (m?.userData.opaqueSceneryBlend) m.blending=blend&&m.opacity===1?q.THREE.NoBlending:q.THREE.NormalBlending;
+        });
+      }
       globalThis.__qaIndividualCats = individual;
       q.legacyColonyDeletion=legacy;
       if (q.setStaticReuse) q.setStaticReuse(reuse);
@@ -84,7 +94,7 @@ export async function checkNativeMapFrames(page, review) {
       document.querySelector(`[data-biome="${id}"]`).click();
       const b = q.islands.get(id);
       q.reviewView(b.position.x, b.position.z, 85);
-    }, {id,legacy,reuse,actorLegacy,compareActors,individual});
+    }, {id,legacy,reuse,actorLegacy,compareActors,individual,compareBlend,blend});
     await page.waitForFunction(id => {
       const q = __lagoonQA;
       return !q.islands.get(id).userData.lowOnly &&
@@ -169,7 +179,7 @@ export async function checkNativeMapFrames(page, review) {
         q.freeze = true;
         q.scene.traverse(o => {
           for (const m of (Array.isArray(o.material) ? o.material : [o.material]))
-            if (m?.userData.opaqueSceneryBlend) paints.add(m);
+            if (m?.userData.opaqueSceneryBlend && m.opacity === 1) paints.add(m);
         });
         const fast = new Uint8Array(gl.drawingBufferWidth * gl.drawingBufferHeight * 4),
           native = new Uint8Array(fast.length),
@@ -196,6 +206,7 @@ export async function checkNativeMapFrames(page, review) {
           buffer: [gl.drawingBufferWidth, gl.drawingBufferHeight], contextLost: gl.isContextLost() };
       });
       assert.equal(image.changed, 0, `${id}: alpha-one blending must preserve every pixel`);
+      assert.ok(image.sharedPaints > 0, `${id}: do not accept an empty alpha-one comparison`);
       assert.equal(image.fast.triangles, image.native.triangles);
       assert.equal(image.fast.calls, image.native.calls);
       assert.equal(image.error, 0); assert.equal(image.dpr, 2); assert.equal(image.contextLost, false);
@@ -204,7 +215,7 @@ export async function checkNativeMapFrames(page, review) {
           const q = __lagoonQA, gl = q.renderer.getContext(), paints = new Set(), samples = [];
           q.scene.traverse(o => {
             for (const m of (Array.isArray(o.material) ? o.material : [o.material]))
-              if (m?.userData.opaqueSceneryBlend) paints.add(m);
+              if (m?.userData.opaqueSceneryBlend && m.opacity === 1) paints.add(m);
           });
           const pixels = new Uint8Array(gl.drawingBufferWidth * gl.drawingBufferHeight * 4);
           q.shadowDepth.setEnabled(false);
@@ -333,7 +344,7 @@ export async function checkNativeMapFrames(page, review) {
     assert.ok(row.zoomRange > 6, `${id}: the actual input handler must change camera zoom`);
     assert.ok(row.frames > 0, `${id}: real frames must complete during camera input`);
     assert.equal(row.dpr, 2); assert.equal(row.contextLost, false); assert.equal(row.visible, true);
-    rows.push({ id, legacy, reuse, actorLegacy, individual, repeat: rows.some(r => r.id === id), readyMs, ...row });
+    rows.push({ id, legacy, reuse, actorLegacy, individual, blend, repeat: rows.some(r => r.id === id), readyMs, ...row });
     fs.writeFileSync(path.join(review, "native-map-frames.json"), JSON.stringify(rows, null, 2));
     console.log("NATIVE_MAP", JSON.stringify(rows.at(-1)));
     if(process.env.CHICHI_NATIVE_MAP_CAPTURE && !rows.slice(0,-1).some(r=>r.id===id))

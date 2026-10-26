@@ -1,0 +1,641 @@
+[
+  {
+    "id": "summer",
+    "frames": 8,
+    "gapMedian": 1099,
+    "gapP95": 1168,
+    "renderMedian": 323,
+    "renderP95": 347,
+    "graph": {
+      "nodes": 14274,
+      "meshes": 10365,
+      "geometries": 9775,
+      "materials": 3407,
+      "textures": 16,
+      "geometryBytes": 396785793,
+      "roots": [
+        {
+          "name": "Biome-summer-capybara-lagoon",
+          "biome": "summer",
+          "bytes": 36806828,
+          "meshes": 146
+        },
+        {
+          "name": "Exact colony cats \u00b7 shared animated material",
+          "bytes": 29786728,
+          "meshes": 1
+        },
+        {
+          "name": "Exact colony cats \u00b7 shared animated material",
+          "bytes": 23251728,
+          "meshes": 1
+        },
+        {
+          "name": "",
+          "bytes": 23158941,
+          "meshes": 86
+        },
+        {
+          "name": "\u041a\u043e\u0442\u044f\u0447\u0438\u0439 \u0431\u0430\u043d\u043a",
+          "placement": "job-bank",
+          "bytes": 11614736,
+          "meshes": 10
+        },
+        {
+          "name": "\u041a\u043e\u0442\u044f\u0447\u0438\u0439 \u043e\u043a\u0435\u0430\u043d\u0430\u0440\u0438\u0443\u043c \u00b7 \u0441\u0442\u0435\u043a\u043b\u044f\u043d\u043d\u044b\u0439 \u0434\u0432\u043e\u0440\u0435\u0446",
+          "biome": "aquarium",
+          "bytes": 9195632,
+          "meshes": 20
+        },
+        {
+          "name": "Biome-moon",
+          "biome": "moon",
+          "bytes": 8926032,
+          "meshes": 86
+        },
+        {
+          "name": "Exact colony cats \u00b7 shared animated material",
+          "bytes": 6930320,
+          "meshes": 1
+        }
+      ]
+    },
+    "draw": {
+      "frame": 109,
+      "calls": 536,
+      "triangles": 2919684,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 29,
+      "reflected": 49,
+      "compiled": 363,
+      "reused": 38,
+      "textures": 7
+    },
+    "residency": {
+      "bytes": 175002019,
+      "peakBytes": 175002019,
+      "geometries": 628,
+      "evicted": 0,
+      "clockReads": 109
+    },
+    "buffers": {
+      "bytes": 175235179,
+      "peak": 175235179,
+      "buffers": 2984,
+      "recordedCompileLogs": 110
+    },
+    "npcCount": 76,
+    "dpr": 2,
+    "contextLost": false,
+    "opaqueSort": [
+      {
+        "candidate": false,
+        "ms": [
+          1112,
+          1057
+        ],
+        "changed": 0,
+        "maxDelta": 0,
+        "draw": {
+          "frame": 113,
+          "calls": 594,
+          "triangles": 3208420,
+          "points": 320,
+          "lines": 0
+        }
+      },
+      {
+        "candidate": true,
+        "ms": [
+          1210,
+          1148
+        ],
+        "changed": 1001,
+        "maxDelta": 89,
+        "draw": {
+          "frame": 116,
+          "calls": 594,
+          "triangles": 3208420,
+          "points": 320,
+          "lines": 0
+        }
+      },
+      {
+        "candidate": true,
+        "ms": [
+          1192,
+          1143
+        ],
+        "changed": 1001,
+        "maxDelta": 89,
+        "draw": {
+          "frame": 119,
+          "calls": 594,
+          "triangles": 3208420,
+          "points": 320,
+          "lines": 0
+        }
+      },
+      {
+        "candidate": false,
+        "ms": [
+          1175,
+          1125
+        ],
+        "changed": 0,
+        "maxDelta": 0,
+        "draw": {
+          "frame": 122,
+          "calls": 594,
+          "triangles": 3208420,
+          "points": 320,
+          "lines": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": "jobcity",
+    "frames": 9,
+    "gapMedian": 927,
+    "gapP95": 1146,
+    "renderMedian": 348,
+    "renderP95": 380,
+    "graph": {
+      "nodes": 14500,
+      "meshes": 10538,
+      "geometries": 9946,
+      "materials": 3523,
+      "textures": 26,
+      "geometryBytes": 484965935,
+      "roots": [
+        {
+          "name": "Biome-summer-capybara-lagoon",
+          "biome": "summer",
+          "bytes": 36806828,
+          "meshes": 146
+        },
+        {
+          "name": "Exact colony cats \u00b7 shared animated material",
+          "bytes": 29786728,
+          "meshes": 1
+        },
+        {
+          "name": "Exact colony cats \u00b7 shared animated material",
+          "bytes": 23251728,
+          "meshes": 1
+        },
+        {
+          "name": "",
+          "bytes": 23158941,
+          "meshes": 86
+        },
+        {
+          "name": "Cat Job City \u00b7 \u0448\u0456\u0441\u0442\u044c \u043f\u0440\u043e\u0444\u0435\u0441\u0456\u0439",
+          "biome": "jobcity",
+          "bytes": 20125870,
+          "meshes": 120
+        },
+        {
+          "name": "\u041a\u043e\u0442\u044f\u0447\u0456 \u0431\u0443\u0434\u0438\u043d\u043e\u0447\u043a\u0438",
+          "placement": "job-estate",
+          "bytes": 18476940,
+          "meshes": 10
+        },
+        {
+          "name": "\u041a\u0440\u0438\u043f\u0442\u043e\u043e\u0444\u0456\u0441 \u00b7 Green Paw Capital",
+          "placement": "job-crypto",
+          "bytes": 14045352,
+          "meshes": 17
+        },
+        {
+          "name": "\u041c\u0435\u0431\u043b\u0435\u0432\u0438\u0439 \u0434\u0456\u043c",
+          "placement": "job-furniture",
+          "bytes": 13860020,
+          "meshes": 9
+        }
+      ]
+    },
+    "draw": {
+      "frame": 213,
+      "calls": 373,
+      "triangles": 1737143,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 70,
+      "reflected": 62,
+      "compiled": 602,
+      "reused": 94,
+      "textures": 19
+    },
+    "residency": {
+      "bytes": 194036383,
+      "peakBytes": 219305987,
+      "geometries": 498,
+      "evicted": 484,
+      "clockReads": 213
+    },
+    "buffers": {
+      "bytes": 194276967,
+      "peak": 219546571,
+      "buffers": 2229,
+      "recordedCompileLogs": 125
+    },
+    "npcCount": 76,
+    "dpr": 2,
+    "contextLost": false,
+    "opaqueSort": [
+      {
+        "candidate": false,
+        "ms": [
+          821,
+          832
+        ],
+        "changed": 0,
+        "maxDelta": 0,
+        "draw": {
+          "frame": 217,
+          "calls": 390,
+          "triangles": 1928683,
+          "points": 320,
+          "lines": 0
+        }
+      },
+      {
+        "candidate": true,
+        "ms": [
+          796,
+          820
+        ],
+        "changed": 1144,
+        "maxDelta": 140,
+        "draw": {
+          "frame": 220,
+          "calls": 390,
+          "triangles": 1928683,
+          "points": 320,
+          "lines": 0
+        }
+      },
+      {
+        "candidate": true,
+        "ms": [
+          826,
+          899
+        ],
+        "changed": 1144,
+        "maxDelta": 140,
+        "draw": {
+          "frame": 223,
+          "calls": 390,
+          "triangles": 1928683,
+          "points": 320,
+          "lines": 0
+        }
+      },
+      {
+        "candidate": false,
+        "ms": [
+          813,
+          851
+        ],
+        "changed": 0,
+        "maxDelta": 0,
+        "draw": {
+          "frame": 226,
+          "calls": 390,
+          "triangles": 1928683,
+          "points": 320,
+          "lines": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": "aquarium",
+    "frames": 8,
+    "gapMedian": 985,
+    "gapP95": 1045,
+    "renderMedian": 456,
+    "renderP95": 553,
+    "graph": {
+      "nodes": 14564,
+      "meshes": 10585,
+      "geometries": 9989,
+      "materials": 3570,
+      "textures": 26,
+      "geometryBytes": 492013951,
+      "roots": [
+        {
+          "name": "Biome-summer-capybara-lagoon",
+          "biome": "summer",
+          "bytes": 36806828,
+          "meshes": 146
+        },
+        {
+          "name": "Exact colony cats \u00b7 shared animated material",
+          "bytes": 29786728,
+          "meshes": 1
+        },
+        {
+          "name": "Exact colony cats \u00b7 shared animated material",
+          "bytes": 23251728,
+          "meshes": 1
+        },
+        {
+          "name": "",
+          "bytes": 23158941,
+          "meshes": 86
+        },
+        {
+          "name": "Cat Job City \u00b7 \u0448\u0456\u0441\u0442\u044c \u043f\u0440\u043e\u0444\u0435\u0441\u0456\u0439",
+          "biome": "jobcity",
+          "bytes": 20125870,
+          "meshes": 120
+        },
+        {
+          "name": "\u041a\u043e\u0442\u044f\u0447\u0456 \u0431\u0443\u0434\u0438\u043d\u043e\u0447\u043a\u0438",
+          "placement": "job-estate",
+          "bytes": 18476940,
+          "meshes": 10
+        },
+        {
+          "name": "\u041a\u0440\u0438\u043f\u0442\u043e\u043e\u0444\u0456\u0441 \u00b7 Green Paw Capital",
+          "placement": "job-crypto",
+          "bytes": 14045352,
+          "meshes": 17
+        },
+        {
+          "name": "\u041c\u0435\u0431\u043b\u0435\u0432\u0438\u0439 \u0434\u0456\u043c",
+          "placement": "job-furniture",
+          "bytes": 13860020,
+          "meshes": 9
+        }
+      ]
+    },
+    "draw": {
+      "frame": 241,
+      "calls": 265,
+      "triangles": 2749440,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 76,
+      "reflected": 72,
+      "compiled": 692,
+      "reused": 94,
+      "textures": 20
+    },
+    "residency": {
+      "bytes": 199079253,
+      "peakBytes": 225907033,
+      "geometries": 412,
+      "evicted": 754,
+      "clockReads": 241
+    },
+    "buffers": {
+      "bytes": 199338997,
+      "peak": 226149153,
+      "buffers": 1862,
+      "recordedCompileLogs": 134
+    },
+    "npcCount": 76,
+    "dpr": 2,
+    "contextLost": false,
+    "opaqueSort": [
+      {
+        "candidate": false,
+        "ms": [
+          889,
+          946
+        ],
+        "changed": 0,
+        "maxDelta": 0,
+        "draw": {
+          "frame": 245,
+          "calls": 280,
+          "triangles": 2818820,
+          "points": 320,
+          "lines": 0
+        }
+      },
+      {
+        "candidate": true,
+        "ms": [
+          843,
+          972
+        ],
+        "changed": 762,
+        "maxDelta": 48,
+        "draw": {
+          "frame": 248,
+          "calls": 280,
+          "triangles": 2818820,
+          "points": 320,
+          "lines": 0
+        }
+      },
+      {
+        "candidate": true,
+        "ms": [
+          953,
+          841
+        ],
+        "changed": 762,
+        "maxDelta": 48,
+        "draw": {
+          "frame": 251,
+          "calls": 280,
+          "triangles": 2818820,
+          "points": 320,
+          "lines": 0
+        }
+      },
+      {
+        "candidate": false,
+        "ms": [
+          896,
+          798
+        ],
+        "changed": 0,
+        "maxDelta": 0,
+        "draw": {
+          "frame": 254,
+          "calls": 280,
+          "triangles": 2818820,
+          "points": 320,
+          "lines": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": "moon",
+    "frames": 21,
+    "gapMedian": 360,
+    "gapP95": 506,
+    "renderMedian": 122,
+    "renderP95": 184,
+    "graph": {
+      "nodes": 14739,
+      "meshes": 10718,
+      "geometries": 10107,
+      "materials": 3629,
+      "textures": 30,
+      "geometryBytes": 512632149,
+      "roots": [
+        {
+          "name": "Biome-summer-capybara-lagoon",
+          "biome": "summer",
+          "bytes": 36806828,
+          "meshes": 146
+        },
+        {
+          "name": "Exact colony cats \u00b7 shared animated material",
+          "bytes": 30077216,
+          "meshes": 1
+        },
+        {
+          "name": "Exact colony cats \u00b7 shared animated material",
+          "bytes": 23494392,
+          "meshes": 1
+        },
+        {
+          "name": "",
+          "bytes": 23158941,
+          "meshes": 86
+        },
+        {
+          "name": "Cat Job City \u00b7 \u0448\u0456\u0441\u0442\u044c \u043f\u0440\u043e\u0444\u0435\u0441\u0456\u0439",
+          "biome": "jobcity",
+          "bytes": 20125870,
+          "meshes": 120
+        },
+        {
+          "name": "\u041a\u043e\u0442\u044f\u0447\u0456 \u0431\u0443\u0434\u0438\u043d\u043e\u0447\u043a\u0438",
+          "placement": "job-estate",
+          "bytes": 18476940,
+          "meshes": 10
+        },
+        {
+          "name": "\u041a\u0440\u0438\u043f\u0442\u043e\u043e\u0444\u0456\u0441 \u00b7 Green Paw Capital",
+          "placement": "job-crypto",
+          "bytes": 14045352,
+          "meshes": 17
+        },
+        {
+          "name": "\u041c\u0435\u0431\u043b\u0435\u0432\u0438\u0439 \u0434\u0456\u043c",
+          "placement": "job-furniture",
+          "bytes": 13860020,
+          "meshes": 9
+        }
+      ]
+    },
+    "draw": {
+      "frame": 280,
+      "calls": 335,
+      "triangles": 571168,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 90,
+      "reflected": 74,
+      "compiled": 738,
+      "reused": 154,
+      "textures": 20
+    },
+    "residency": {
+      "bytes": 126825665,
+      "peakBytes": 225907033,
+      "geometries": 420,
+      "evicted": 846,
+      "clockReads": 280
+    },
+    "buffers": {
+      "bytes": 127085409,
+      "peak": 226149153,
+      "buffers": 1978,
+      "recordedCompileLogs": 135
+    },
+    "npcCount": 76,
+    "dpr": 2,
+    "contextLost": false,
+    "opaqueSort": [
+      {
+        "candidate": false,
+        "ms": [
+          248,
+          252
+        ],
+        "changed": 0,
+        "maxDelta": 0,
+        "draw": {
+          "frame": 284,
+          "calls": 349,
+          "triangles": 646936,
+          "points": 320,
+          "lines": 0
+        }
+      },
+      {
+        "candidate": true,
+        "ms": [
+          298,
+          270
+        ],
+        "changed": 171,
+        "maxDelta": 80,
+        "draw": {
+          "frame": 287,
+          "calls": 349,
+          "triangles": 646936,
+          "points": 320,
+          "lines": 0
+        }
+      },
+      {
+        "candidate": true,
+        "ms": [
+          316,
+          271
+        ],
+        "changed": 171,
+        "maxDelta": 80,
+        "draw": {
+          "frame": 290,
+          "calls": 349,
+          "triangles": 646936,
+          "points": 320,
+          "lines": 0
+        }
+      },
+      {
+        "candidate": false,
+        "ms": [
+          319,
+          271
+        ],
+        "changed": 0,
+        "maxDelta": 0,
+        "draw": {
+          "frame": 293,
+          "calls": 349,
+          "triangles": 646936,
+          "points": 320,
+          "lines": 0
+        }
+      }
+    ]
+  }
+]

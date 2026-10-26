@@ -42,10 +42,15 @@ module.exports = function auditGpuBuffers(renderer) {
     sizes.delete(buffer);
     return drop(buffer);
   };
-  let current = null;
+  let current = null, commandFrame=-1, commandCalls=0, commands=0, staticCommands=0;
   const direct = renderer.renderBufferDirect,
     log = gl.getProgramInfoLog.bind(gl);
   renderer.renderBufferDirect = function (...args) {
+    const frame=renderer.info.render.frame;
+    if(frame!==commandFrame){commandFrame=frame;commandCalls=commands=staticCommands=0;}
+    const object=args[4], n=object?.isBatchedMesh?object._multiDrawCount:1;
+    commandCalls++;commands+=n;
+    if(object?.userData.staticSubmission)staticCommands+=n;
     current = {
       object: args[4]?.name || args[4]?.type,
       material: args[3]?.type,
@@ -69,6 +74,7 @@ module.exports = function auditGpuBuffers(renderer) {
       bytes,
       peak,
       buffers: sizes.size,
+      commandFrame,commandCalls,commands,staticCommands,
       compiles: compiles.slice(),
     }),
   };
