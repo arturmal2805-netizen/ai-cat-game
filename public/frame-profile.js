@@ -17,6 +17,7 @@ export function createFrameSamples(limit = 300) {
         values.sort((x,y)=>x-y); return values.length ? Math.round(values[Math.floor((values.length-1)*p)]*100)/100 : null;
       };
       const gaps = a.slice(1).map((r,i)=>r.at-a[i].at), elapsed = a.length > 1 ? a.at(-1).at-a[0].at : 0;
+      const delta=key=>a.length>1&&Number.isFinite(a[0][key])&&Number.isFinite(a.at(-1)[key])?a.at(-1)[key]-a[0][key]:null;
       return { samples:size, seconds:Math.round(elapsed)/1000,
         fps:elapsed ? Math.round((size-1)*100000/elapsed)/100 : null,
         gapP95:percentile(gaps,.95),gapMax:gaps.length?Math.max(...gaps):null,
@@ -25,7 +26,9 @@ export function createFrameSamples(limit = 300) {
         gpuWaitCallbacksSinceReset:gpuPolls,contextWaitCallbacksSinceReset:contextPolls,
         queueCpuTotalSinceReset:Math.round(queueTotal*100)/100,queueCpuMaxSinceReset:Math.round(queueMax*100)/100,
         eventLoopDelayP95:percentile(delays.slice(),.95),eventLoopDelayMax:delays.length?Math.max(...delays):null,
-        geometryEvictionsDuringWindow:a.length>1&&Number.isFinite(a[0].evicted)&&Number.isFinite(a.at(-1).evicted)?a.at(-1).evicted-a[0].evicted:null,
+        geometryEvictionsDuringWindow:delta("evicted"),
+        geometryRefaultsDuringWindow:delta("refaults"),geometryRefaultBytesDuringWindow:delta("refaultBytes"),
+        geometryRapidRefaultsDuringWindow:delta("rapidRefaults"),geometryRapidRefaultBytesDuringWindow:delta("rapidRefaultBytes"),
         last:a.length?{...a.at(-1),at:undefined,cpu:undefined,render:undefined}:null };
     },
   };
@@ -116,7 +119,8 @@ export function createFrameProfile(renderer) {
       samples.frame(row);
       if(pauseControl.suspended)return;
       if(row.at<next)return;next=row.at+1000;
-      const r=samples.report();label.textContent=`${r.fps??"…"} FPS · CPU ${r.cpuMedian??0} мс · рендер ${r.renderMedian??0} мс\n${row.biome} · ${row.calls} вызовов · DPR ${row.dpr}`;
+      const r=samples.report(),loading=(row.shaderPending||0)+(row.shaderPreparing||0);
+      label.textContent=`${r.fps??"…"} FPS · CPU ${r.cpuMedian??0} мс · рендер ${r.renderMedian??0} мс\n${row.biome} · ${row.calls} вызовов · DPR ${row.dpr}${loading?` · подготовка ${loading}`:""}`;
     },
     dispose(){clearInterval(timer);uploads.dispose();panel.remove();},
   };

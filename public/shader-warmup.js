@@ -30,6 +30,7 @@ export function createShaderWarmup(
     preparing = 0;
   const stats = {
     pending: 0,
+    preparing: 0,
     prepared: 0,
     reflected: 0,
     compiled: 0,
@@ -298,7 +299,7 @@ export function createShaderWarmup(
   }
   async function run(job, background) {
     job.active = true;
-    preparing++;
+    stats.preparing = ++preparing;
     if (!background) foreground++;
     try {
       if (job.explicit || (job.root.parent && isRelevant(job.root)))
@@ -307,7 +308,7 @@ export function createShaderWarmup(
     } catch (error) {
       job.reject(error);
     } finally {
-      preparing--;
+      stats.preparing = --preparing;
       if (!background) foreground--;
       if (inflight.get(job.root) === job) inflight.delete(job.root);
     }

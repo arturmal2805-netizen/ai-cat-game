@@ -5652,7 +5652,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
         biome:focused,cats:npcs.size,calls:renderer.info.render.calls,triangles:renderer.info.render.triangles,
         geometryBytes:geometryResidency.stats.bytes,pending:gpuFrames.pending,dpr:renderer.getPixelRatio(),
         poseCats:poseAtlas.stats.updatedCats,colonyActive:colonyDraws.stats.active,
-        shaderPending:shaderWarmup.stats.pending,evicted:geometryResidency.stats.evicted,
+        shaderPending:shaderWarmup.stats.pending,shaderPreparing:shaderWarmup.stats.preparing,evicted:geometryResidency.stats.evicted,
+        refaults:geometryResidency.stats.refaults,refaultBytes:geometryResidency.stats.refaultBytes,
+        rapidRefaults:geometryResidency.stats.rapidRefaults,rapidRefaultBytes:geometryResidency.stats.rapidRefaultBytes,
         visible:worldVisible,moving:!!(cameraMoving||pointerDown||faceCamera.enabled),
         buffer:[renderer.domElement.width,renderer.domElement.height]});
       recovery.hidden = true;

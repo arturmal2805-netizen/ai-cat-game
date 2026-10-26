@@ -4,11 +4,15 @@ import {createFrameSamples, createFrameProfile, createProfilePause, trackProfile
 
 test("local frame reports separate CPU, render submission and GPU waits with a bounded window",()=>{
   const p=createFrameSamples(30);
-  for(let i=0;i<100;i++)p.frame({at:i*20,cpu:3,render:7,cats:12,biome:"moon",dpr:2});
+  for(let i=0;i<100;i++)p.frame({at:i*20,cpu:3,render:7,cats:12,biome:"moon",dpr:2,
+    evicted:i*3,refaults:i*2,refaultBytes:i*300,rapidRefaults:i,rapidRefaultBytes:i*100});
   p.blocked("gpu",2);p.blocked("gpu",3);p.queue(1);p.delay(12);p.delay(9);
   const r=p.report();assert.equal(r.samples,30);assert.equal(r.fps,50);assert.equal(r.gapP95,20);
   assert.equal(r.cpuMedian,3);assert.equal(r.renderMedian,7);assert.equal(r.gpuWaitCallbacksSinceReset,2);
   assert.equal(r.queueCpuTotalSinceReset,6);assert.equal(r.queueCpuMaxSinceReset,3);assert.equal(r.eventLoopDelayMax,12);
+  assert.equal(r.geometryEvictionsDuringWindow,87);assert.equal(r.geometryRefaultsDuringWindow,58);
+  assert.equal(r.geometryRefaultBytesDuringWindow,8700);assert.equal(r.geometryRapidRefaultsDuringWindow,29);
+  assert.equal(r.geometryRapidRefaultBytesDuringWindow,2900);
   r.last.cats=99;assert.equal(p.report().last.cats,12,"reports do not expose mutable internal rows");
   p.clear();p.frame({at:50000,cpu:2,render:5});assert.equal(p.report().gapMax,null);assert.equal(p.report().gpuWaitCallbacksSinceReset,0);
 });

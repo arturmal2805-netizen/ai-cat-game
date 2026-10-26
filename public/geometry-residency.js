@@ -30,16 +30,25 @@ export function createGeometryResidency(
     budget = 192 * 1024 * 1024,
     grace = 10_000,
     idleFrames = 3,
+    refaultGrace = 2_000,
+    refaultBudget = 64 * 1024 * 1024,
     clock = () => performance.now(),
   } = {},
 ) {
   const records = new Map(),
-    owners = new Map();
+    owners = new Map(),
+    retired = new WeakMap();
   const native = renderer.renderBufferDirect;
-  const stats = { bytes: 0, peakBytes: 0, geometries: 0, evicted: 0, clockReads: 0 };
+  const stats = { bytes: 0, peakBytes: 0, geometries: 0, evicted: 0, clockReads: 0,
+    refaults: 0, refaultBytes: 0, rapidRefaults: 0, rapidRefaultBytes: 0 };
+  // Only buffers which actually returned after a policy eviction receive this
+  // short working-set grace. Normal remote islands keep fast retirement. The
+  // extra idle residency is capped; this is not an unbounded memory-budget bump.
+  const refaultLimit = budget + Math.min(Math.max(0, refaultBudget), Math.max(0, budget / 3));
   let nextSweep = 0,
     disposed = false,
     frameRetirement = true,
+    refaultProtection = true,
     lastFrame = -1,
     frameTime = 0;
   function attributes(geometry) {
@@ -51,6 +60,7 @@ export function createGeometryResidency(
   }
   function forget(record) {
     if (!records.delete(record.geometry)) return;
+    if (!isGeometryBufferRetirement(record.geometry)) retired.delete(record.geometry);
     record.geometry.removeEventListener("dispose", record.onDispose);
     for (const attribute of record.attributes) {
       const users = owners.get(attribute);
@@ -63,9 +73,25 @@ export function createGeometryResidency(
     stats.geometries = records.size;
   }
   function touch(geometry) {
+    const frame = renderer.info?.render.frame;
+    let used;
+    if (Number.isFinite(frame)) {
+      if (frame !== lastFrame) {
+        lastFrame = frame;
+        frameTime = clock();
+        stats.clockReads++;
+      }
+      used = frameTime;
+    } else {
+      used = clock();
+      stats.clockReads++;
+    }
     let record = records.get(geometry);
     if (!record) {
-      record = { geometry, attributes: attributes(geometry), used: 0, frame: -1 };
+      const previous = retired.get(geometry), before = stats.bytes;
+      record = { geometry, attributes: attributes(geometry), used: 0, frame: -1,
+        refaulting: previous !== undefined && used - previous <= grace,
+        holdUntil: 0 };
       record.onDispose = () => forget(record);
       geometry.addEventListener("dispose", record.onDispose);
       records.set(geometry, record);
@@ -78,20 +104,16 @@ export function createGeometryResidency(
       }
       stats.geometries = records.size;
       stats.peakBytes = Math.max(stats.peakBytes, stats.bytes);
-    }
-    const frame = renderer.info?.render.frame;
-    if (Number.isFinite(frame)) {
-      if (frame !== lastFrame) {
-        lastFrame = frame;
-        frameTime = clock();
-        stats.clockReads++;
+      if (previous !== undefined) {
+        const bytes = stats.bytes - before;
+        stats.refaults++; stats.refaultBytes += bytes;
+        if (record.refaulting) { stats.rapidRefaults++; stats.rapidRefaultBytes += bytes; }
+        retired.delete(geometry);
       }
-      record.used = frameTime;
-      record.frame = frame;
-    } else {
-      record.used = clock();
-      stats.clockReads++;
     }
+    record.used = used;
+    record.frame = Number.isFinite(frame) ? frame : -1;
+    if (record.refaulting) record.holdUntil = used + refaultGrace;
   }
   function draw(...args) {
     if (!disposed && args[2]?.isBufferGeometry) touch(args[2]);
@@ -103,14 +125,17 @@ export function createGeometryResidency(
     retire: retireGeometryBuffers,
     // Private comparative QA can retain the released ten-second policy.
     setFrameRetirementEnabled(value) { frameRetirement = !!value; nextSweep = 0; },
+    setRefaultProtectionEnabled(value) { refaultProtection = !!value; nextSweep = 0; },
     sweep(now = clock()) {
       if (disposed || now < nextSweep) return;
       if (stats.bytes <= budget) return;
       nextSweep = now + (frameRetirement ? 100 : 1000);
       const cutoff = now - grace,
         frame = renderer.info?.render.frame,
-        idle = r => r.used < cutoff || (frameRetirement && !timeGrace.has(r.geometry) &&
-          Number.isFinite(frame) && r.frame >= 0 && frame - r.frame >= idleFrames),
+        idle = r => !(refaultProtection && refaultLimit > budget &&
+          stats.bytes <= refaultLimit && now < r.holdUntil) &&
+          (r.used < cutoff || (frameRetirement && !timeGrace.has(r.geometry) &&
+          Number.isFinite(frame) && r.frame >= 0 && frame - r.frame >= idleFrames)),
         candidates = [...records.values()]
           .filter(idle)
           .sort((a, b) => a.used - b.used),
@@ -136,6 +161,7 @@ export function createGeometryResidency(
         }
         if (!safe) continue;
         for (const record of group) {
+          retired.set(record.geometry, now);
           retireGeometryBuffers(record.geometry);
           stats.evicted++;
         }

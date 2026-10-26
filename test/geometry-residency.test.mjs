@@ -219,3 +219,56 @@ test("alternating render caches survive brief native/colony switches under press
   assert.equal(f.residency.stats.bytes,0);
   f.residency.dispose();
 });
+
+function cameraCycle(protection, count=4) {
+  const geometries=Array.from({length:count},()=>new THREE.BoxGeometry()),
+    bytes=[geometries[0].index,...Object.values(geometries[0].attributes)]
+      .reduce((s,a)=>s+a.array.byteLength,0),
+    f=fixture({budget:bytes*3,refaultBudget:bytes,grace:10000,refaultGrace:2000});
+  f.renderer.info={render:{frame:0}};
+  f.residency.setRefaultProtectionEnabled(protection);
+  const sizes=[],sweptSizes=[];
+  for(let frame=1;frame<=120;frame++) {
+    f.renderer.info.render.frame=frame;f.time(frame*40);
+    f.draw(geometries[(frame-1)%count]);const before=f.residency.stats.evicted;f.residency.sweep();
+    if(f.residency.stats.evicted!==before)sweptSizes.push(f.residency.stats.bytes);
+    sizes.push(f.residency.stats.bytes);
+  }
+  return {f,geometries,bytes,sizes,sweptSizes};
+}
+
+test("returning camera geometry learns a bounded working set instead of repeatedly deleting and uploading it",()=>{
+  const before=cameraCycle(false),after=cameraCycle(true);
+  assert.ok(before.f.residency.stats.rapidRefaults>=30);
+  assert.ok(after.f.residency.stats.rapidRefaults<=4);
+  assert.ok(after.f.residency.stats.evicted<before.f.residency.stats.evicted/5);
+  assert.ok(after.sizes.every(size=>size<=after.bytes*4));
+  assert.equal(after.f.residency.stats.bytes,after.bytes*4);
+  after.f.renderer.info.render.frame=1000;after.f.time(30000);after.f.residency.sweep();
+  assert.ok(after.f.residency.stats.bytes<=after.bytes*3,"abandoned learned buffers return to the original soft budget");
+  before.f.residency.dispose();after.f.residency.dispose();
+});
+
+test("refault protection yields to its memory cap when the working set cannot fit",()=>{
+  const {f,bytes,sizes,sweptSizes}=cameraCycle(true,5);
+  assert.ok(f.residency.stats.rapidRefaults>4);
+  assert.ok(sweptSizes.every(size=>size<=bytes*4),"pressure passes reclaim idle caches beyond their capped allowance");
+  assert.ok(sizes.every(size=>size<=bytes*5),"new/current-frame uploads retain the original soft-budget semantics");
+  f.residency.dispose();
+});
+
+test("refault telemetry counts restored shared streams only once and ordinary disposal stays final",()=>{
+  const f=fixture(),a=new THREE.BoxGeometry(),b=a.clone();
+  b.setAttribute("position",a.attributes.position);
+  f.draw(a);f.draw(b);const bytes=f.residency.stats.bytes;
+  f.time(20);f.residency.sweep();
+  f.time(21);f.draw(a);f.draw(b);
+  assert.equal(f.residency.stats.refaults,2);
+  assert.equal(f.residency.stats.refaultBytes,bytes);
+  assert.equal(f.residency.stats.rapidRefaults,2);
+  assert.equal(f.residency.stats.rapidRefaultBytes,bytes);
+  a.dispose();b.dispose();
+  f.time(22);f.draw(a);
+  assert.equal(f.residency.stats.refaults,2,"explicit disposal is not a cache-eviction return");
+  f.residency.dispose();
+});
