@@ -30,6 +30,8 @@ const readPublic = (name) =>
 if (process.env.CHICHI_COMPARE_SCENERY_BLEND &&
     !readPublic("scenery-models.js").includes('./scenery-blending.js'))
   throw Error("Alpha-one comparison requires experiment/alpha-one-scenery-20261027 (585b2f1); the production branch keeps the released paint.");
+if(process.env.CHICHI_COMPILE_VIEW_AUDIT && !readPublic("colony-render-batch.js").includes("createCompileLighting(scene)"))
+  throw Error("Compile-view comparison requires experiment/colony-compile-lighting-20261027; production retains its original shader preparation.");
 
 async function localWorker() {
   const temp = fs.mkdtempSync(path.join(os.tmpdir(), "chichi-aquarium-"));
@@ -347,9 +349,12 @@ async function localWorker() {
                 ),
                 loader: "js",
               }));
-            if (process.env.CHICHI_COMPARE_COLONY_MODE || process.env.CHICHI_COLONY_PREP_AUDIT)
+            if (process.env.CHICHI_COMPARE_COLONY_MODE || process.env.CHICHI_COLONY_PREP_AUDIT || process.env.CHICHI_COMPILE_VIEW_AUDIT)
               b.onLoad({ filter: /\/public\/colony-render-batch\.js$/ }, () => {
                 let contents = readPublic("colony-render-batch.js");
+                if(process.env.CHICHI_COMPILE_VIEW_AUDIT) contents=contents
+                  .replace("const lighting = createCompileLighting(scene);", "const lighting = globalThis.__qaLegacyCompileView ? scene : createCompileLighting(scene);")
+                  .replace("    stats,\n    sync() {", "    stats,\n    rebuildCompileForQA(legacy){globalThis.__qaLegacyCompileView=legacy;requested=[];this.sync();},\n    sync() {");
                 if (process.env.CHICHI_COMPARE_COLONY_MODE)
                   assert.ok(contents.includes("const enabled =\n      atlas.enabled &&"));
                 if (process.env.CHICHI_COMPARE_COLONY_MODE) contents=contents.replace(
@@ -368,7 +373,7 @@ async function localWorker() {
                 return { contents, loader: "js" };
               });
             b.onLoad({ filter: /\/public\/world\.js$/ }, () => {
-              let source = readPublic("world.js");
+              let source = 'import {trackProfileUploads as qaTrackUploads} from "./frame-profile.js";\n'+readPublic("world.js");
               const marker = "  return {\n    perform,";
               if(process.env.CHICHI_ACTOR_SCOPE_AUDIT)
                 source='import {courtPath as qaScopePath,courtNavigationStats as qaScopeStats,courtSegment as qaScopeSegment} from "./foodcourt-navigation.js";\n'+source.replace(
@@ -439,7 +444,7 @@ async function localWorker() {
                   )
                   .replace(
                     marker,
-                    `  const qa=window.__lagoonQA={step:loop,gpuFrames,shadowDepth:typeof shadowDepth==='undefined'?null:shadowDepth,geometryResidency:typeof geometryResidency==='undefined'?null:geometryResidency,makeGeometryResidency:options=>createGeometryResidency(renderer,options),gpuBuffers:qaGpuBuffers,matrixCache:typeof matrixCache==='undefined'?null:matrixCache,shaderWarmup:typeof shaderWarmup==='undefined'?null:shaderWarmup,colonyDraws:typeof colonyDraws==='undefined'?null:colonyDraws,animateCat,setCatMood,poseAtlas:typeof poseAtlas==='undefined'?null:poseAtlas,staticDraws:typeof staticDraws==='undefined'?null:staticDraws,camera,look,desiredLook,renderer,islands,cat,npcs,chichiCarrier,itemGroups,jobs,cityCars,updateCityCar,THREE,scene,pickDrop,pointer,raycaster,ground,viewport,sync,perform,performResident,faceCamera,spa,chill,court,cinema,courtFoods,bikiniLife,enterCourt,exitCourt,getCourtCamera:()=>courtCamera,residentPlay,callbacks,showCatHome,getDragging:()=>draggingCat?.catId,reviewView:(x,z,d)=>{desiredLook.set(x,0,z);desiredDistance=d;azimuth=.15;},constructorMs:performance.now()-qaStart,focused:()=>focused,getOperation:()=>operation,isVisible:()=>worldVisible,getDistance:()=>distance,getDesiredDistance:()=>desiredDistance,freeze:${!!process.env.CHICHI_CAT_LOCATION_AUDIT},frames:0,resizes:0,black:[],audit:false,measure:false,cpu:[]};
+                    `  const qa=window.__lagoonQA={step:loop,gpuFrames,trackUploads:qaTrackUploads,geometryResidencyFactory:createGeometryResidency,shadowDepth:typeof shadowDepth==='undefined'?null:shadowDepth,geometryResidency:typeof geometryResidency==='undefined'?null:geometryResidency,makeGeometryResidency:options=>createGeometryResidency(renderer,options),gpuBuffers:qaGpuBuffers,matrixCache:typeof matrixCache==='undefined'?null:matrixCache,shaderWarmup:typeof shaderWarmup==='undefined'?null:shaderWarmup,colonyDraws:typeof colonyDraws==='undefined'?null:colonyDraws,animateCat,setCatMood,poseAtlas:typeof poseAtlas==='undefined'?null:poseAtlas,staticDraws:typeof staticDraws==='undefined'?null:staticDraws,camera,look,desiredLook,renderer,islands,cat,npcs,chichiCarrier,itemGroups,jobs,cityCars,updateCityCar,THREE,scene,pickDrop,pointer,raycaster,ground,viewport,sync,perform,performResident,faceCamera,spa,chill,court,cinema,courtFoods,bikiniLife,enterCourt,exitCourt,getCourtCamera:()=>courtCamera,residentPlay,callbacks,showCatHome,getDragging:()=>draggingCat?.catId,reviewView:(x,z,d)=>{desiredLook.set(x,0,z);desiredDistance=d;azimuth=.15;},constructorMs:performance.now()-qaStart,focused:()=>focused,getOperation:()=>operation,isVisible:()=>worldVisible,getDistance:()=>distance,getDesiredDistance:()=>desiredDistance,freeze:${!!process.env.CHICHI_CAT_LOCATION_AUDIT},frames:0,resizes:0,black:[],audit:false,measure:false,cpu:[]};
   const draw=renderer.render.bind(renderer);qa.drawFrame=()=>draw(scene,camera);renderer.render=(...args)=>{if(qa.drawPaused&&!qa.commandOnly)return;const started=performance.now();draw(...args);qa.frames++;if(qa.liveFrames)qa.liveFrames.push([started,performance.now()-started,renderer.info.render.calls,renderer.info.render.triangles]);};
   qa.settleJobs=seconds=>{const actors=Object.keys(game.jobCity?.profiles||{}).map(id=>({id,local:jobs.get(id)?.position||{x:0,y:.32,z:-10.3},biome:'jobcity'}));for(let i=0;i<seconds*30;i++)jobs.step(game,actors,1/30,i/30);for(const a of actors){const v=jobs.get(a.id),carrier=a.id==='chichi'?chichiCarrier:npcs.get(a.id)?.carrier;if(v&&carrier)carrier.position.set(JOB_CITY_CENTER[0]+v.position.x,v.position.y+.8,JOB_CITY_CENTER[1]+v.position.z);}};
   const size=renderer.setSize.bind(renderer);renderer.setSize=(...args)=>{qa.resizes++;return size(...args);};
@@ -581,6 +586,12 @@ async function localWorker() {
       fs.writeFileSync(path.join(review,"browser-errors.json"),JSON.stringify({errors,httpErrors},null,2));
       assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;
     }
+    if(process.env.CHICHI_COMPILE_VIEW_AUDIT){
+      const {checkCompileView}=await import("./check-compile-view.mjs");
+      await checkCompileView(page,review);
+      fs.writeFileSync(path.join(review,"browser-errors.json"),JSON.stringify({errors,httpErrors},null,2));
+      assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;
+    }
 
     if (process.env.CHICHI_NATIVE_MAP_AUDIT && process.env.CHICHI_PREVIEW_LOAD_AUDIT) {
       const { checkPreviewLoad } = await import("./check-preview-load.mjs");
@@ -624,6 +635,10 @@ async function localWorker() {
       assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;
     }
     if (process.env.CHICHI_NATIVE_MAP_AUDIT) {
+      if(process.env.CHICHI_REFAULT_CACHE_AUDIT){
+        const {checkRefaultCache}=await import("./check-refault-cache.mjs");
+        await checkRefaultCache(page,review);
+      }
       if (process.env.CHICHI_CITY_STALL_AUDIT) {
         const { checkCityStalls } = await import("./check-city-stalls.mjs");
         await checkCityStalls(page, review);
