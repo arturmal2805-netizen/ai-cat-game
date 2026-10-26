@@ -273,7 +273,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
   const rimLight = new THREE.DirectionalLight(0xb8b7ec, 0.9);
   rimLight.position.set(20, 16, -30);
   scene.add(rimLight);
-  let lastCameraGesture = -Infinity;
+  let lastCameraGesture = -Infinity,
+    worldVisible = true;
   const shaderWarmup = createShaderWarmup(
     renderer,
     scene,
@@ -281,7 +282,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
     sun.shadow.camera,
     {
       canRun: () =>
-        performance.now() - lastCameraGesture > 120 && !document.hidden,
+        performance.now() - lastCameraGesture > 120 && !document.hidden &&
+        worldVisible && !document.querySelector("dialog[open]") && !frameProfile?.suspended,
       isRelevant: (root) =>
         root.userData.placement
           ? root.userData.placement.biome === focused
@@ -1138,7 +1140,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       getPriority: () => focused,
       canRun: priority =>
         disposed ||
-        (!document.hidden && !document.querySelector("dialog[open]") &&
+        (!document.hidden && worldVisible && !frameProfile?.suspended && !document.querySelector("dialog[open]") &&
           (priority === focused || performance.now() - lastCameraGesture > 120)),
     });
   async function sceneTurn() {
@@ -3569,7 +3571,6 @@ export function createWorld(container, initialGame, callbacks = {}) {
     () => (pinchDistance = null),
   );
   const viewport = watchWorldViewport(container);
-  let worldVisible = true;
   const visibility = globalThis.IntersectionObserver
     ? new IntersectionObserver(
         ([entry]) => {
@@ -3634,7 +3635,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     if (
       !renderDue(
         now,
-        dialogOpen || !worldVisible
+        dialogOpen || !worldVisible || frameProfile?.suspended
           ? 100
           : operation ||
               pointerDown ||
@@ -5456,7 +5457,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     islands
       .get(HOUSING_ID)
       ?.userData.viewHousing?.(look, distance, camera, time);
-    if (dialogOpen || !worldVisible) {
+    if (dialogOpen || !worldVisible || frameProfile?.suspended) {
       requestAnimationFrame(loop);
       return;
     }
