@@ -19,6 +19,7 @@ import {
 import { BIOME_STYLES } from "./biome-styles.js";
 import { byScenery } from "./scenery-data.js";
 import { buildLandmark } from "./scenery-landmarks.js";
+import { opaqueSceneryPaint, updateSceneryBlend } from "./scenery-blending.js";
 
 const templates = new Map();
 const paints = new WeakMap(),
@@ -33,15 +34,18 @@ function clonePaint(material) {
 // Template geometry already shares every authored vertex. Share its identical
 // paint/clock too; only a tree actually fading in front of the camera needs its
 // own material. All visible scenery receives the same absolute animation time.
-function sceneryPaint(source, breeze) {
+function sceneryPaint(source, breeze, geometry) {
+  const mode = `${Number(breeze)}:${geometry?.attributes.color?.itemSize || 0}`;
   let modes = paints.get(source);
   if (!modes) paints.set(source, (modes = new Map()));
-  if (modes.has(breeze)) return modes.get(breeze);
+  if (modes.has(mode)) return modes.get(mode);
   const material = source.clone(),
     clock = { value: 0 },
     motion = { value: 1 };
   material.transparent = true;
   material.userData.sharedScenery = true;
+  material.userData.opaqueSceneryBlend = opaqueSceneryPaint(material, geometry);
+  updateSceneryBlend(material);
   if (breeze) {
     material.onBeforeCompile = (shader) => {
       shader.uniforms.gardenTime = clock;
@@ -56,7 +60,7 @@ function sceneryPaint(source, breeze) {
     material.customProgramCacheKey = () => "volumetric-garden-breeze-v1";
   }
   const paint = { material, clock, motion };
-  modes.set(breeze, paint);
+  modes.set(mode, paint);
   return paint;
 }
 function curvedBranch(parent, points, radius, color) {
@@ -504,6 +508,7 @@ export function* sceneryModelSteps(record, { low = false } = {}) {
       byScenery(record.type).category === "tree" &&
         mesh.material.userData.surfaceKind === "leaf" &&
         !low,
+      mesh.geometry,
     );
     mesh.material = paint.material;
     instancePaint.set(mesh, paint);
@@ -541,6 +546,7 @@ export function fadeScenery(group, opacity) {
       mesh.material = clonePaint(shared);
     }
     mesh.material.opacity = opacity;
+    updateSceneryBlend(mesh.material, opacity);
     mesh.material.depthWrite = opacity > 0.85;
     mesh.castShadow = opacity > 0.85;
   });
