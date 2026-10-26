@@ -1,0 +1,602 @@
+[
+  {
+    "id": "moon",
+    "frames": 11,
+    "gapMedian": 1150.9000000059605,
+    "gapP95": 1316.5,
+    "renderMedian": 16.400000005960464,
+    "renderP95": 27.30000001192093,
+    "graph": {
+      "nodes": 14395,
+      "meshes": 10460,
+      "geometries": 9885,
+      "materials": 3469,
+      "textures": 30,
+      "geometryBytes": 456474499,
+      "roots": [
+        {
+          "name": "Exact colony cats \u00b7 shared animated material",
+          "bytes": 30077216,
+          "meshes": 1
+        },
+        {
+          "name": "Exact colony cats \u00b7 shared animated material",
+          "bytes": 23494392,
+          "meshes": 1
+        },
+        {
+          "name": "",
+          "bytes": 23158941,
+          "meshes": 86
+        },
+        {
+          "name": "\u041a\u043e\u0442\u044f\u0447\u0456 \u0431\u0443\u0434\u0438\u043d\u043e\u0447\u043a\u0438",
+          "placement": "job-estate",
+          "bytes": 18476940,
+          "meshes": 10
+        },
+        {
+          "name": "\u041a\u0440\u0438\u043f\u0442\u043e\u043e\u0444\u0456\u0441 \u00b7 Green Paw Capital",
+          "placement": "job-crypto",
+          "bytes": 14045352,
+          "meshes": 17
+        },
+        {
+          "name": "\u041c\u0435\u0431\u043b\u0435\u0432\u0438\u0439 \u0434\u0456\u043c",
+          "placement": "job-furniture",
+          "bytes": 13860020,
+          "meshes": 9
+        },
+        {
+          "name": "Food court \u00b7 \u041a\u0440\u0430\u0441\u0442\u0438 \u041a\u0440\u0430\u0431",
+          "placement": "bikini-krusty",
+          "bytes": 13408440,
+          "meshes": 19
+        },
+        {
+          "name": "\u041a\u043e\u0442\u044f\u0447\u0438\u0439 \u0431\u0430\u043d\u043a",
+          "placement": "job-bank",
+          "bytes": 11614736,
+          "meshes": 10
+        }
+      ]
+    },
+    "draw": {
+      "frame": 29,
+      "calls": 336,
+      "triangles": 571936,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 15,
+      "reflected": 33,
+      "compiled": 165,
+      "reused": 60,
+      "textures": 7
+    },
+    "residency": {
+      "bytes": 30282648,
+      "peakBytes": 30282648,
+      "geometries": 205,
+      "evicted": 0,
+      "clockReads": 29
+    },
+    "buffers": {
+      "bytes": 30375276,
+      "peak": 30375276,
+      "buffers": 965,
+      "recordedCompileLogs": 61
+    },
+    "npcCount": 76,
+    "dpr": 2,
+    "contextLost": false,
+    "heap": {
+      "usedSize": 105140256,
+      "totalSize": 135061504,
+      "embedderHeapUsedSize": 3518288,
+      "backingStorageSize": 536413185
+    }
+  },
+  {
+    "id": "jobcity",
+    "frames": 3,
+    "gapMedian": 3749.7999999821186,
+    "gapP95": 3749.7999999821186,
+    "renderMedian": 30.30000001192093,
+    "renderP95": 30.30000001192093,
+    "graph": {
+      "nodes": 14538,
+      "meshes": 10567,
+      "geometries": 9987,
+      "materials": 3516,
+      "textures": 30,
+      "geometryBytes": 476391257,
+      "roots": [
+        {
+          "name": "Exact colony cats \u00b7 shared animated material",
+          "bytes": 30077216,
+          "meshes": 1
+        },
+        {
+          "name": "Exact colony cats \u00b7 shared animated material",
+          "bytes": 23494392,
+          "meshes": 1
+        },
+        {
+          "name": "",
+          "bytes": 23158941,
+          "meshes": 86
+        },
+        {
+          "name": "Cat Job City \u00b7 \u0448\u0456\u0441\u0442\u044c \u043f\u0440\u043e\u0444\u0435\u0441\u0456\u0439",
+          "biome": "jobcity",
+          "bytes": 20125870,
+          "meshes": 120
+        },
+        {
+          "name": "\u041a\u043e\u0442\u044f\u0447\u0456 \u0431\u0443\u0434\u0438\u043d\u043e\u0447\u043a\u0438",
+          "placement": "job-estate",
+          "bytes": 18476940,
+          "meshes": 10
+        },
+        {
+          "name": "\u041a\u0440\u0438\u043f\u0442\u043e\u043e\u0444\u0456\u0441 \u00b7 Green Paw Capital",
+          "placement": "job-crypto",
+          "bytes": 14045352,
+          "meshes": 17
+        },
+        {
+          "name": "\u041c\u0435\u0431\u043b\u0435\u0432\u0438\u0439 \u0434\u0456\u043c",
+          "placement": "job-furniture",
+          "bytes": 13860020,
+          "meshes": 9
+        },
+        {
+          "name": "Food court \u00b7 \u041a\u0440\u0430\u0441\u0442\u0438 \u041a\u0440\u0430\u0431",
+          "placement": "bikini-krusty",
+          "bytes": 12943672,
+          "meshes": 19
+        }
+      ]
+    },
+    "draw": {
+      "frame": 46,
+      "calls": 393,
+      "triangles": 1424388,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 41,
+      "reflected": 50,
+      "compiled": 354,
+      "reused": 116,
+      "textures": 19
+    },
+    "residency": {
+      "bytes": 201172272,
+      "peakBytes": 201172272,
+      "geometries": 520,
+      "evicted": 0,
+      "clockReads": 46
+    },
+    "buffers": {
+      "bytes": 201270020,
+      "peak": 201270020,
+      "buffers": 2338,
+      "recordedCompileLogs": 95
+    },
+    "npcCount": 76,
+    "dpr": 2,
+    "contextLost": false,
+    "heap": {
+      "usedSize": 116340160,
+      "totalSize": 124821504,
+      "embedderHeapUsedSize": 4043936,
+      "backingStorageSize": 558489924
+    }
+  },
+  {
+    "id": "summer",
+    "frames": 3,
+    "gapMedian": 3278,
+    "gapP95": 3278,
+    "renderMedian": 27.69999998807907,
+    "renderP95": 27.69999998807907,
+    "graph": {
+      "nodes": 14719,
+      "meshes": 10703,
+      "geometries": 10092,
+      "materials": 3633,
+      "textures": 30,
+      "geometryBytes": 512529861,
+      "roots": [
+        {
+          "name": "Biome-summer-capybara-lagoon",
+          "biome": "summer",
+          "bytes": 36806828,
+          "meshes": 146
+        },
+        {
+          "name": "Exact colony cats \u00b7 shared animated material",
+          "bytes": 30077216,
+          "meshes": 1
+        },
+        {
+          "name": "Exact colony cats \u00b7 shared animated material",
+          "bytes": 23494392,
+          "meshes": 1
+        },
+        {
+          "name": "",
+          "bytes": 23158941,
+          "meshes": 86
+        },
+        {
+          "name": "Cat Job City \u00b7 \u0448\u0456\u0441\u0442\u044c \u043f\u0440\u043e\u0444\u0435\u0441\u0456\u0439",
+          "biome": "jobcity",
+          "bytes": 20125870,
+          "meshes": 120
+        },
+        {
+          "name": "\u041a\u043e\u0442\u044f\u0447\u0456 \u0431\u0443\u0434\u0438\u043d\u043e\u0447\u043a\u0438",
+          "placement": "job-estate",
+          "bytes": 18476940,
+          "meshes": 10
+        },
+        {
+          "name": "\u041a\u0440\u0438\u043f\u0442\u043e\u043e\u0444\u0456\u0441 \u00b7 Green Paw Capital",
+          "placement": "job-crypto",
+          "bytes": 14045352,
+          "meshes": 17
+        },
+        {
+          "name": "\u041c\u0435\u0431\u043b\u0435\u0432\u0438\u0439 \u0434\u0456\u043c",
+          "placement": "job-furniture",
+          "bytes": 13860020,
+          "meshes": 9
+        }
+      ]
+    },
+    "draw": {
+      "frame": 55,
+      "calls": 578,
+      "triangles": 2849029,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 52,
+      "reflected": 58,
+      "compiled": 643,
+      "reused": 154,
+      "textures": 19
+    },
+    "residency": {
+      "bytes": 178236509,
+      "peakBytes": 268097401,
+      "geometries": 634,
+      "evicted": 256,
+      "clockReads": 55
+    },
+    "buffers": {
+      "bytes": 178484773,
+      "peak": 268337985,
+      "buffers": 2895,
+      "recordedCompileLogs": 121
+    },
+    "npcCount": 76,
+    "dpr": 2,
+    "contextLost": false,
+    "heap": {
+      "usedSize": 125970852,
+      "totalSize": 194031616,
+      "embedderHeapUsedSize": 4170696,
+      "backingStorageSize": 595242088
+    }
+  },
+  {
+    "id": "aquarium",
+    "frames": 3,
+    "gapMedian": 3688.300000011921,
+    "gapP95": 3688.300000011921,
+    "renderMedian": 23.5,
+    "renderP95": 23.5,
+    "graph": {
+      "nodes": 14739,
+      "meshes": 10718,
+      "geometries": 10107,
+      "materials": 3648,
+      "textures": 30,
+      "geometryBytes": 512586341,
+      "roots": [
+        {
+          "name": "Biome-summer-capybara-lagoon",
+          "biome": "summer",
+          "bytes": 36806828,
+          "meshes": 146
+        },
+        {
+          "name": "Exact colony cats \u00b7 shared animated material",
+          "bytes": 30077216,
+          "meshes": 1
+        },
+        {
+          "name": "Exact colony cats \u00b7 shared animated material",
+          "bytes": 23494392,
+          "meshes": 1
+        },
+        {
+          "name": "",
+          "bytes": 23158941,
+          "meshes": 86
+        },
+        {
+          "name": "Cat Job City \u00b7 \u0448\u0456\u0441\u0442\u044c \u043f\u0440\u043e\u0444\u0435\u0441\u0456\u0439",
+          "biome": "jobcity",
+          "bytes": 20125870,
+          "meshes": 120
+        },
+        {
+          "name": "\u041a\u043e\u0442\u044f\u0447\u0456 \u0431\u0443\u0434\u0438\u043d\u043e\u0447\u043a\u0438",
+          "placement": "job-estate",
+          "bytes": 18476940,
+          "meshes": 10
+        },
+        {
+          "name": "\u041a\u0440\u0438\u043f\u0442\u043e\u043e\u0444\u0456\u0441 \u00b7 Green Paw Capital",
+          "placement": "job-crypto",
+          "bytes": 14045352,
+          "meshes": 17
+        },
+        {
+          "name": "\u041c\u0435\u0431\u043b\u0435\u0432\u0438\u0439 \u0434\u0456\u043c",
+          "placement": "job-furniture",
+          "bytes": 13860020,
+          "meshes": 9
+        }
+      ]
+    },
+    "draw": {
+      "frame": 62,
+      "calls": 266,
+      "triangles": 2908005,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 58,
+      "reflected": 68,
+      "compiled": 733,
+      "reused": 154,
+      "textures": 20
+    },
+    "residency": {
+      "bytes": 194021409,
+      "peakBytes": 268097401,
+      "geometries": 556,
+      "evicted": 467,
+      "clockReads": 62
+    },
+    "buffers": {
+      "bytes": 194286913,
+      "peak": 268337985,
+      "buffers": 2571,
+      "recordedCompileLogs": 132
+    },
+    "npcCount": 76,
+    "dpr": 2,
+    "contextLost": false,
+    "heap": {
+      "usedSize": 119557608,
+      "totalSize": 186359808,
+      "embedderHeapUsedSize": 4646936,
+      "backingStorageSize": 608497557
+    }
+  },
+  {
+    "id": "homestead",
+    "frames": 3,
+    "gapMedian": 3634,
+    "gapP95": 3634,
+    "renderMedian": 41.5,
+    "renderP95": 41.5,
+    "graph": {
+      "nodes": 15525,
+      "meshes": 11500,
+      "geometries": 10107,
+      "materials": 3660,
+      "textures": 30,
+      "geometryBytes": 513142757,
+      "roots": [
+        {
+          "name": "Biome-summer-capybara-lagoon",
+          "biome": "summer",
+          "bytes": 36806828,
+          "meshes": 146
+        },
+        {
+          "name": "Exact colony cats \u00b7 shared animated material",
+          "bytes": 30077216,
+          "meshes": 1
+        },
+        {
+          "name": "Exact colony cats \u00b7 shared animated material",
+          "bytes": 23494392,
+          "meshes": 1
+        },
+        {
+          "name": "",
+          "bytes": 23158941,
+          "meshes": 86
+        },
+        {
+          "name": "Cat Job City \u00b7 \u0448\u0456\u0441\u0442\u044c \u043f\u0440\u043e\u0444\u0435\u0441\u0456\u0439",
+          "biome": "jobcity",
+          "bytes": 20125870,
+          "meshes": 120
+        },
+        {
+          "name": "\u041a\u043e\u0442\u044f\u0447\u0456 \u0431\u0443\u0434\u0438\u043d\u043e\u0447\u043a\u0438",
+          "placement": "job-estate",
+          "bytes": 18476940,
+          "meshes": 10
+        },
+        {
+          "name": "\u041a\u0440\u0438\u043f\u0442\u043e\u043e\u0444\u0456\u0441 \u00b7 Green Paw Capital",
+          "placement": "job-crypto",
+          "bytes": 14045352,
+          "meshes": 17
+        },
+        {
+          "name": "\u041c\u0435\u0431\u043b\u0435\u0432\u0438\u0439 \u0434\u0456\u043c",
+          "placement": "job-furniture",
+          "bytes": 13860020,
+          "meshes": 9
+        }
+      ]
+    },
+    "draw": {
+      "frame": 75,
+      "calls": 563,
+      "triangles": 3352108,
+      "points": 0,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 99,
+      "reflected": 76,
+      "compiled": 1817,
+      "reused": 2487,
+      "textures": 20
+    },
+    "residency": {
+      "bytes": 197032153,
+      "peakBytes": 268097401,
+      "geometries": 706,
+      "evicted": 689,
+      "clockReads": 75
+    },
+    "buffers": {
+      "bytes": 197631861,
+      "peak": 268337985,
+      "buffers": 3392,
+      "recordedCompileLogs": 142
+    },
+    "npcCount": 76,
+    "dpr": 2,
+    "contextLost": false,
+    "heap": {
+      "usedSize": 155542488,
+      "totalSize": 197345280,
+      "embedderHeapUsedSize": 5875984,
+      "backingStorageSize": 610744936
+    }
+  },
+  {
+    "id": "moon",
+    "frames": 10,
+    "gapMedian": 1045.5,
+    "gapP95": 1148.199999988079,
+    "renderMedian": 13.799999982118607,
+    "renderP95": 20.80000001192093,
+    "graph": {
+      "nodes": 15525,
+      "meshes": 11500,
+      "geometries": 10107,
+      "materials": 3660,
+      "textures": 30,
+      "geometryBytes": 513142757,
+      "roots": [
+        {
+          "name": "Biome-summer-capybara-lagoon",
+          "biome": "summer",
+          "bytes": 36806828,
+          "meshes": 146
+        },
+        {
+          "name": "Exact colony cats \u00b7 shared animated material",
+          "bytes": 30077216,
+          "meshes": 1
+        },
+        {
+          "name": "Exact colony cats \u00b7 shared animated material",
+          "bytes": 23494392,
+          "meshes": 1
+        },
+        {
+          "name": "",
+          "bytes": 23158941,
+          "meshes": 86
+        },
+        {
+          "name": "Cat Job City \u00b7 \u0448\u0456\u0441\u0442\u044c \u043f\u0440\u043e\u0444\u0435\u0441\u0456\u0439",
+          "biome": "jobcity",
+          "bytes": 20125870,
+          "meshes": 120
+        },
+        {
+          "name": "\u041a\u043e\u0442\u044f\u0447\u0456 \u0431\u0443\u0434\u0438\u043d\u043e\u0447\u043a\u0438",
+          "placement": "job-estate",
+          "bytes": 18476940,
+          "meshes": 10
+        },
+        {
+          "name": "\u041a\u0440\u0438\u043f\u0442\u043e\u043e\u0444\u0456\u0441 \u00b7 Green Paw Capital",
+          "placement": "job-crypto",
+          "bytes": 14045352,
+          "meshes": 17
+        },
+        {
+          "name": "\u041c\u0435\u0431\u043b\u0435\u0432\u0438\u0439 \u0434\u0456\u043c",
+          "placement": "job-furniture",
+          "bytes": 13860020,
+          "meshes": 9
+        }
+      ]
+    },
+    "draw": {
+      "frame": 86,
+      "calls": 335,
+      "triangles": 573664,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 99,
+      "reflected": 76,
+      "compiled": 1817,
+      "reused": 2487,
+      "textures": 20
+    },
+    "residency": {
+      "bytes": 201228461,
+      "peakBytes": 268097401,
+      "geometries": 781,
+      "evicted": 701,
+      "clockReads": 86
+    },
+    "buffers": {
+      "bytes": 201828169,
+      "peak": 268337985,
+      "buffers": 3783,
+      "recordedCompileLogs": 142
+    },
+    "npcCount": 76,
+    "dpr": 2,
+    "contextLost": false,
+    "heap": {
+      "usedSize": 168112072,
+      "totalSize": 210591744,
+      "embedderHeapUsedSize": 6519472,
+      "backingStorageSize": 613776070
+    }
+  }
+]

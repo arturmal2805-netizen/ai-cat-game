@@ -27,6 +27,9 @@ const readPublic = (name) =>
         { cwd: root, encoding: "utf8" },
       )
     : fs.readFileSync(root + "/public/" + name, "utf8");
+if (process.env.CHICHI_COMPARE_SCENERY_BLEND &&
+    !readPublic("scenery-models.js").includes('./scenery-blending.js'))
+  throw Error("Alpha-one comparison requires experiment/alpha-one-scenery-20261027 (585b2f1); the production branch keeps the released paint.");
 
 async function localWorker() {
   const temp = fs.mkdtempSync(path.join(os.tmpdir(), "chichi-aquarium-"));
@@ -300,6 +303,21 @@ async function localWorker() {
         {
           name: "qa",
           setup(b) {
+            if (process.env.CHICHI_COMPARE_COMPACT_RANGES)
+              b.onLoad({ filter: /\/public\/static-submissions\.js$/ }, () => ({
+                contents: 'import {compactIndexRanges as qaCompactRanges} from "../scripts/compact-index-ranges.mjs";\n'+readPublic("static-submissions.js").replace(
+                  "    mesh._multiDrawCount = commands;",
+                  "    stats.originalCommands=commands;stats.extraIndices=0;\n    if(globalThis.__qaCompactRanges){commands=qaCompactRanges(starts,counts,commands,bytes);let next=0;for(let i=0;i<commands;i++)next+=counts[i];stats.extraIndices=next-submitted;submitted=next;}\n    mesh._multiDrawCount = commands;",
+                ),
+                loader: "js",
+              }));
+            if (process.env.CHICHI_COMPARE_SCENERY_BLEND)
+              b.onLoad({ filter: /\/public\/scenery-blending\.js$/ }, () => ({
+                contents: readPublic("scenery-blending.js").replace(
+                  "opacity === 1 ? THREE.NoBlending", "!globalThis.__qaLegacySceneryBlend && opacity === 1 ? THREE.NoBlending",
+                ),
+                loader: "js",
+              }));
             if (process.env.CHICHI_PREVIEW_LOAD_AUDIT)
               b.onLoad({ filter: /\/public\/catalog-previews\.js$/ }, () => ({
                 contents: readPublic("catalog-previews.js")
@@ -598,6 +616,12 @@ async function localWorker() {
       await checkCarInventory(page, review);
       assert.deepEqual(errors, []); assert.deepEqual(httpErrors, []);
       return;
+    }
+    if (process.env.CHICHI_FRAME_BOTTLENECK_AUDIT) {
+      const { checkFrameBottlenecks } = await import("./check-frame-bottlenecks.mjs");
+      await checkFrameBottlenecks(page, context, review);
+      fs.writeFileSync(path.join(review,"browser-errors.json"),JSON.stringify({errors,httpErrors},null,2));
+      assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;
     }
     if (process.env.CHICHI_NATIVE_MAP_AUDIT) {
       if (process.env.CHICHI_CITY_STALL_AUDIT) {

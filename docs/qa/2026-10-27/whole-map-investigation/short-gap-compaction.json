@@ -1,0 +1,402 @@
+[
+  {
+    "id": "jobcity",
+    "frames": 12,
+    "gapMedian": 429,
+    "gapP95": 522,
+    "renderMedian": 145,
+    "renderP95": 225,
+    "graph": {
+      "nodes": 14326,
+      "meshes": 10407,
+      "geometries": 9843,
+      "materials": 3408,
+      "textures": 26,
+      "geometryBytes": 448848759,
+      "roots": [
+        {
+          "name": "Exact colony cats \u00b7 shared animated material",
+          "bytes": 29786728,
+          "meshes": 1
+        },
+        {
+          "name": "Exact colony cats \u00b7 shared animated material",
+          "bytes": 23251728,
+          "meshes": 1
+        },
+        {
+          "name": "",
+          "bytes": 23158941,
+          "meshes": 86
+        },
+        {
+          "name": "Cat Job City \u00b7 \u0448\u0456\u0441\u0442\u044c \u043f\u0440\u043e\u0444\u0435\u0441\u0456\u0439",
+          "biome": "jobcity",
+          "bytes": 20125870,
+          "meshes": 120
+        },
+        {
+          "name": "\u041a\u043e\u0442\u044f\u0447\u0456 \u0431\u0443\u0434\u0438\u043d\u043e\u0447\u043a\u0438",
+          "placement": "job-estate",
+          "bytes": 18476940,
+          "meshes": 10
+        },
+        {
+          "name": "\u041a\u0440\u0438\u043f\u0442\u043e\u043e\u0444\u0456\u0441 \u00b7 Green Paw Capital",
+          "placement": "job-crypto",
+          "bytes": 14045352,
+          "meshes": 17
+        },
+        {
+          "name": "\u041c\u0435\u0431\u043b\u0435\u0432\u0438\u0439 \u0434\u0456\u043c",
+          "placement": "job-furniture",
+          "bytes": 13860020,
+          "meshes": 9
+        },
+        {
+          "name": "\u041a\u043e\u0442\u044f\u0447\u0438\u0439 \u0431\u0430\u043d\u043a",
+          "placement": "job-bank",
+          "bytes": 11614736,
+          "meshes": 10
+        }
+      ]
+    },
+    "draw": {
+      "frame": 293,
+      "calls": 196,
+      "triangles": 893318,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 51,
+      "reflected": 47,
+      "compiled": 263,
+      "reused": 84,
+      "textures": 18
+    },
+    "residency": {
+      "bytes": 201074536,
+      "peakBytes": 201074536,
+      "geometries": 551,
+      "evicted": 0,
+      "clockReads": 293
+    },
+    "buffers": {
+      "bytes": 201172284,
+      "peak": 201172284,
+      "buffers": 2739,
+      "commandFrame": 293,
+      "commandCalls": 225,
+      "commands": 455,
+      "staticCommands": 117,
+      "recordedCompileLogs": 97
+    },
+    "npcCount": 76,
+    "dpr": 2,
+    "contextLost": false,
+    "compactRanges": [
+      {
+        "compact": false,
+        "ms": [
+          415,
+          400
+        ],
+        "changed": 0,
+        "maxDelta": 0,
+        "draw": {
+          "frame": 297,
+          "calls": 212,
+          "triangles": 1082938,
+          "points": 320,
+          "lines": 0
+        },
+        "commands": {
+          "bytes": 201172284,
+          "peak": 201172284,
+          "buffers": 2739,
+          "commandFrame": 297,
+          "commandCalls": 243,
+          "commands": 594,
+          "staticCommands": 255
+        }
+      },
+      {
+        "compact": true,
+        "ms": [
+          407,
+          403
+        ],
+        "changed": 0,
+        "maxDelta": 0,
+        "draw": {
+          "frame": 300,
+          "calls": 212,
+          "triangles": 1085242,
+          "points": 320,
+          "lines": 0
+        },
+        "commands": {
+          "bytes": 201172284,
+          "peak": 201172284,
+          "buffers": 2739,
+          "commandFrame": 300,
+          "commandCalls": 243,
+          "commands": 576,
+          "staticCommands": 237
+        }
+      },
+      {
+        "compact": true,
+        "ms": [
+          497,
+          449
+        ],
+        "changed": 0,
+        "maxDelta": 0,
+        "draw": {
+          "frame": 303,
+          "calls": 212,
+          "triangles": 1085242,
+          "points": 320,
+          "lines": 0
+        },
+        "commands": {
+          "bytes": 201172284,
+          "peak": 201172284,
+          "buffers": 2739,
+          "commandFrame": 303,
+          "commandCalls": 243,
+          "commands": 576,
+          "staticCommands": 237
+        }
+      },
+      {
+        "compact": false,
+        "ms": [
+          393,
+          404
+        ],
+        "changed": 0,
+        "maxDelta": 0,
+        "draw": {
+          "frame": 306,
+          "calls": 212,
+          "triangles": 1082938,
+          "points": 320,
+          "lines": 0
+        },
+        "commands": {
+          "bytes": 201172284,
+          "peak": 201172284,
+          "buffers": 2739,
+          "commandFrame": 306,
+          "commandCalls": 243,
+          "commands": 594,
+          "staticCommands": 255
+        }
+      }
+    ]
+  },
+  {
+    "id": "summer",
+    "frames": 6,
+    "gapMedian": 904,
+    "gapP95": 925,
+    "renderMedian": 326,
+    "renderP95": 363,
+    "graph": {
+      "nodes": 14551,
+      "meshes": 10575,
+      "geometries": 9976,
+      "materials": 3557,
+      "textures": 26,
+      "geometryBytes": 491978899,
+      "roots": [
+        {
+          "name": "Biome-summer-capybara-lagoon",
+          "biome": "summer",
+          "bytes": 36806828,
+          "meshes": 146
+        },
+        {
+          "name": "Exact colony cats \u00b7 shared animated material",
+          "bytes": 29786728,
+          "meshes": 1
+        },
+        {
+          "name": "Exact colony cats \u00b7 shared animated material",
+          "bytes": 23251728,
+          "meshes": 1
+        },
+        {
+          "name": "",
+          "bytes": 23158941,
+          "meshes": 86
+        },
+        {
+          "name": "Cat Job City \u00b7 \u0448\u0456\u0441\u0442\u044c \u043f\u0440\u043e\u0444\u0435\u0441\u0456\u0439",
+          "biome": "jobcity",
+          "bytes": 20125870,
+          "meshes": 120
+        },
+        {
+          "name": "\u041a\u043e\u0442\u044f\u0447\u0456 \u0431\u0443\u0434\u0438\u043d\u043e\u0447\u043a\u0438",
+          "placement": "job-estate",
+          "bytes": 18476940,
+          "meshes": 10
+        },
+        {
+          "name": "\u041a\u0440\u0438\u043f\u0442\u043e\u043e\u0444\u0456\u0441 \u00b7 Green Paw Capital",
+          "placement": "job-crypto",
+          "bytes": 14045352,
+          "meshes": 17
+        },
+        {
+          "name": "\u041c\u0435\u0431\u043b\u0435\u0432\u0438\u0439 \u0434\u0456\u043c",
+          "placement": "job-furniture",
+          "bytes": 13860020,
+          "meshes": 9
+        }
+      ]
+    },
+    "draw": {
+      "frame": 423,
+      "calls": 419,
+      "triangles": 2652693,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 60,
+      "reflected": 63,
+      "compiled": 540,
+      "reused": 122,
+      "textures": 19
+    },
+    "residency": {
+      "bytes": 190288655,
+      "peakBytes": 237112083,
+      "geometries": 381,
+      "evicted": 467,
+      "clockReads": 423
+    },
+    "buffers": {
+      "bytes": 190536919,
+      "peak": 237352667,
+      "buffers": 1813,
+      "commandFrame": 423,
+      "commandCalls": 426,
+      "commands": 498,
+      "staticCommands": 108,
+      "recordedCompileLogs": 123
+    },
+    "npcCount": 76,
+    "dpr": 2,
+    "contextLost": false,
+    "compactRanges": [
+      {
+        "compact": false,
+        "ms": [
+          813,
+          829
+        ],
+        "changed": 0,
+        "maxDelta": 0,
+        "draw": {
+          "frame": 427,
+          "calls": 477,
+          "triangles": 2941429,
+          "points": 320,
+          "lines": 0
+        },
+        "commands": {
+          "bytes": 190536919,
+          "peak": 237352667,
+          "buffers": 1813,
+          "commandFrame": 427,
+          "commandCalls": 484,
+          "commands": 595,
+          "staticCommands": 160
+        }
+      },
+      {
+        "compact": true,
+        "ms": [
+          840,
+          831
+        ],
+        "changed": 0,
+        "maxDelta": 0,
+        "draw": {
+          "frame": 430,
+          "calls": 477,
+          "triangles": 2945653,
+          "points": 320,
+          "lines": 0
+        },
+        "commands": {
+          "bytes": 190536919,
+          "peak": 237352667,
+          "buffers": 1813,
+          "commandFrame": 430,
+          "commandCalls": 484,
+          "commands": 562,
+          "staticCommands": 127
+        }
+      },
+      {
+        "compact": true,
+        "ms": [
+          784,
+          768
+        ],
+        "changed": 0,
+        "maxDelta": 0,
+        "draw": {
+          "frame": 433,
+          "calls": 477,
+          "triangles": 2945653,
+          "points": 320,
+          "lines": 0
+        },
+        "commands": {
+          "bytes": 190536919,
+          "peak": 237352667,
+          "buffers": 1813,
+          "commandFrame": 433,
+          "commandCalls": 484,
+          "commands": 562,
+          "staticCommands": 127
+        }
+      },
+      {
+        "compact": false,
+        "ms": [
+          780,
+          861
+        ],
+        "changed": 0,
+        "maxDelta": 0,
+        "draw": {
+          "frame": 436,
+          "calls": 477,
+          "triangles": 2941429,
+          "points": 320,
+          "lines": 0
+        },
+        "commands": {
+          "bytes": 190536919,
+          "peak": 237352667,
+          "buffers": 1813,
+          "commandFrame": 436,
+          "commandCalls": 484,
+          "commands": 595,
+          "staticCommands": 160
+        }
+      }
+    ]
+  }
+]
