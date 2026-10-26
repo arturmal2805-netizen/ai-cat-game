@@ -1,0 +1,427 @@
+[
+  {
+    "id": "moon",
+    "changed": 0,
+    "oldCalls": 1,
+    "newCalls": 0,
+    "oldDraw": {
+      "frame": 61,
+      "calls": 348,
+      "triangles": 648172,
+      "points": 320,
+      "lines": 0
+    },
+    "newDraw": {
+      "frame": 62,
+      "calls": 348,
+      "triangles": 648172,
+      "points": 320,
+      "lines": 0
+    },
+    "npcs": 76,
+    "stableActors": true,
+    "dpr": 2,
+    "contextLost": false,
+    "error": 0
+  },
+  {
+    "id": "autumn",
+    "changed": 0,
+    "oldCalls": 1,
+    "newCalls": 0,
+    "oldDraw": {
+      "frame": 173,
+      "calls": 351,
+      "triangles": 1761890,
+      "points": 740,
+      "lines": 0
+    },
+    "newDraw": {
+      "frame": 174,
+      "calls": 351,
+      "triangles": 1761890,
+      "points": 740,
+      "lines": 0
+    },
+    "npcs": 76,
+    "stableActors": true,
+    "dpr": 2,
+    "contextLost": false,
+    "error": 0
+  },
+  {
+    "id": "winter",
+    "changed": 0,
+    "oldCalls": 1,
+    "newCalls": 0,
+    "oldDraw": {
+      "frame": 238,
+      "calls": 691,
+      "triangles": 1813861,
+      "points": 740,
+      "lines": 0
+    },
+    "newDraw": {
+      "frame": 239,
+      "calls": 691,
+      "triangles": 1813861,
+      "points": 740,
+      "lines": 0
+    },
+    "npcs": 76,
+    "stableActors": true,
+    "dpr": 2,
+    "contextLost": false,
+    "error": 0
+  },
+  {
+    "id": "water",
+    "changed": 0,
+    "oldCalls": 1,
+    "newCalls": 0,
+    "oldDraw": {
+      "frame": 296,
+      "calls": 293,
+      "triangles": 1418344,
+      "points": 320,
+      "lines": 0
+    },
+    "newDraw": {
+      "frame": 297,
+      "calls": 293,
+      "triangles": 1418344,
+      "points": 320,
+      "lines": 0
+    },
+    "npcs": 76,
+    "stableActors": true,
+    "dpr": 2,
+    "contextLost": false,
+    "error": 0
+  },
+  {
+    "id": "summer",
+    "changed": 0,
+    "oldCalls": 1,
+    "newCalls": 0,
+    "oldDraw": {
+      "frame": 387,
+      "calls": 610,
+      "triangles": 3285472,
+      "points": 320,
+      "lines": 0
+    },
+    "newDraw": {
+      "frame": 388,
+      "calls": 610,
+      "triangles": 3285472,
+      "points": 320,
+      "lines": 0
+    },
+    "npcs": 76,
+    "stableActors": true,
+    "dpr": 2,
+    "contextLost": false,
+    "error": 0
+  },
+  {
+    "id": "sakura",
+    "changed": 0,
+    "oldCalls": 1,
+    "newCalls": 0,
+    "oldDraw": {
+      "frame": 481,
+      "calls": 516,
+      "triangles": 2302791,
+      "points": 740,
+      "lines": 0
+    },
+    "newDraw": {
+      "frame": 482,
+      "calls": 516,
+      "triangles": 2302791,
+      "points": 740,
+      "lines": 0
+    },
+    "npcs": 76,
+    "stableActors": true,
+    "dpr": 2,
+    "contextLost": false,
+    "error": 0
+  },
+  {
+    "id": "volcano",
+    "changed": 0,
+    "oldCalls": 1,
+    "newCalls": 0,
+    "oldDraw": {
+      "frame": 542,
+      "calls": 687,
+      "triangles": 2263855,
+      "points": 740,
+      "lines": 0
+    },
+    "newDraw": {
+      "frame": 543,
+      "calls": 687,
+      "triangles": 2263855,
+      "points": 740,
+      "lines": 0
+    },
+    "npcs": 76,
+    "stableActors": true,
+    "dpr": 2,
+    "contextLost": false,
+    "error": 0
+  },
+  {
+    "id": "candy",
+    "changed": 0,
+    "oldCalls": 1,
+    "newCalls": 0,
+    "oldDraw": {
+      "frame": 578,
+      "calls": 251,
+      "triangles": 455814,
+      "points": 320,
+      "lines": 0
+    },
+    "newDraw": {
+      "frame": 579,
+      "calls": 251,
+      "triangles": 455814,
+      "points": 320,
+      "lines": 0
+    },
+    "npcs": 76,
+    "stableActors": true,
+    "dpr": 2,
+    "contextLost": false,
+    "error": 0
+  },
+  {
+    "id": "galaxy",
+    "changed": 0,
+    "oldCalls": 1,
+    "newCalls": 0,
+    "oldDraw": {
+      "frame": 660,
+      "calls": 547,
+      "triangles": 1279308,
+      "points": 740,
+      "lines": 0
+    },
+    "newDraw": {
+      "frame": 661,
+      "calls": 547,
+      "triangles": 1279308,
+      "points": 740,
+      "lines": 0
+    },
+    "npcs": 76,
+    "stableActors": true,
+    "dpr": 2,
+    "contextLost": false,
+    "error": 0
+  },
+  {
+    "id": "ice",
+    "changed": 0,
+    "oldCalls": 1,
+    "newCalls": 0,
+    "oldDraw": {
+      "frame": 743,
+      "calls": 1096,
+      "triangles": 1487089,
+      "points": 420,
+      "lines": 0
+    },
+    "newDraw": {
+      "frame": 744,
+      "calls": 1096,
+      "triangles": 1487089,
+      "points": 420,
+      "lines": 0
+    },
+    "npcs": 76,
+    "stableActors": true,
+    "dpr": 2,
+    "contextLost": false,
+    "error": 0
+  },
+  {
+    "id": "clockwork",
+    "changed": 0,
+    "oldCalls": 1,
+    "newCalls": 0,
+    "oldDraw": {
+      "frame": 848,
+      "calls": 958,
+      "triangles": 2606576,
+      "points": 420,
+      "lines": 0
+    },
+    "newDraw": {
+      "frame": 849,
+      "calls": 958,
+      "triangles": 2606576,
+      "points": 420,
+      "lines": 0
+    },
+    "npcs": 76,
+    "stableActors": true,
+    "dpr": 2,
+    "contextLost": false,
+    "error": 0
+  },
+  {
+    "id": "foodcourt",
+    "changed": 0,
+    "oldCalls": 1,
+    "newCalls": 0,
+    "oldDraw": {
+      "frame": 897,
+      "calls": 250,
+      "triangles": 855263,
+      "points": 320,
+      "lines": 0
+    },
+    "newDraw": {
+      "frame": 898,
+      "calls": 250,
+      "triangles": 855263,
+      "points": 320,
+      "lines": 0
+    },
+    "npcs": 76,
+    "stableActors": true,
+    "dpr": 2,
+    "contextLost": false,
+    "error": 0
+  },
+  {
+    "id": "bikini",
+    "changed": 0,
+    "oldCalls": 1,
+    "newCalls": 0,
+    "oldDraw": {
+      "frame": 951,
+      "calls": 354,
+      "triangles": 1168136,
+      "points": 320,
+      "lines": 0
+    },
+    "newDraw": {
+      "frame": 952,
+      "calls": 354,
+      "triangles": 1168136,
+      "points": 320,
+      "lines": 0
+    },
+    "npcs": 76,
+    "stableActors": true,
+    "dpr": 2,
+    "contextLost": false,
+    "error": 0
+  },
+  {
+    "id": "homestead",
+    "changed": 0,
+    "oldCalls": 1,
+    "newCalls": 0,
+    "oldDraw": {
+      "frame": 995,
+      "calls": 701,
+      "triangles": 3149040,
+      "points": 0,
+      "lines": 0
+    },
+    "newDraw": {
+      "frame": 996,
+      "calls": 701,
+      "triangles": 3149040,
+      "points": 0,
+      "lines": 0
+    },
+    "npcs": 76,
+    "stableActors": true,
+    "dpr": 2,
+    "contextLost": false,
+    "error": 0
+  },
+  {
+    "id": "aquarium",
+    "changed": 0,
+    "oldCalls": 1,
+    "newCalls": 0,
+    "oldDraw": {
+      "frame": 1043,
+      "calls": 295,
+      "triangles": 2892580,
+      "points": 320,
+      "lines": 0
+    },
+    "newDraw": {
+      "frame": 1044,
+      "calls": 295,
+      "triangles": 2892580,
+      "points": 320,
+      "lines": 0
+    },
+    "npcs": 76,
+    "stableActors": true,
+    "dpr": 2,
+    "contextLost": false,
+    "error": 0
+  },
+  {
+    "id": "jobcity",
+    "changed": 0,
+    "oldCalls": 1,
+    "newCalls": 0,
+    "oldDraw": {
+      "frame": 1098,
+      "calls": 507,
+      "triangles": 2106370,
+      "points": 320,
+      "lines": 0
+    },
+    "newDraw": {
+      "frame": 1099,
+      "calls": 507,
+      "triangles": 2106370,
+      "points": 320,
+      "lines": 0
+    },
+    "npcs": 76,
+    "stableActors": true,
+    "dpr": 2,
+    "contextLost": false,
+    "error": 0
+  },
+  {
+    "id": "cat-homes",
+    "changed": 0,
+    "oldCalls": 1,
+    "newCalls": 0,
+    "oldDraw": {
+      "frame": 1128,
+      "calls": 398,
+      "triangles": 757178,
+      "points": 0,
+      "lines": 0
+    },
+    "newDraw": {
+      "frame": 1129,
+      "calls": 398,
+      "triangles": 757178,
+      "points": 0,
+      "lines": 0
+    },
+    "npcs": 76,
+    "stableActors": true,
+    "dpr": 2,
+    "contextLost": false,
+    "error": 0
+  }
+]

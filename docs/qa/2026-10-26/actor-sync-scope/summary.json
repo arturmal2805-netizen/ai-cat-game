@@ -1,0 +1,32 @@
+{
+  "nativeSamples": 42,
+  "islands": 17,
+  "exactImages": 17,
+  "changedBytes": 0,
+  "dprs": [
+    2
+  ],
+  "contextLosses": 0,
+  "syncEvents": {
+    "releasedFullScene": {
+      "count": 213,
+      "medianMs": 23,
+      "p95Ms": 50,
+      "maxMs": 303
+    },
+    "candidateActorOnly": {
+      "count": 216,
+      "medianMs": 3.0,
+      "p95Ms": 11,
+      "maxMs": 73
+    }
+  },
+  "softwareFramePairs": {
+    "count": 21,
+    "higher": 11,
+    "lower": 10,
+    "medianRatio": 1.0105583563207459,
+    "pendingShadersAtSampleEnd": 4,
+    "limitation": "Short GPU-bound software samples with live poses and preparation are not evidence of a general device FPS increase. The accepted result is lower actor-update CPU latency with identical same-pose images."
+  }
+}

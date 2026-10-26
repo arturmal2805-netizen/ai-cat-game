@@ -330,8 +330,13 @@ async function localWorker() {
                 loader: "js",
               }));
             b.onLoad({ filter: /\/public\/world\.js$/ }, () => {
-              const source = readPublic("world.js"),
-                marker = "  return {\n    perform,";
+              let source = readPublic("world.js");
+              const marker = "  return {\n    perform,";
+              if(process.env.CHICHI_ACTOR_SCOPE_AUDIT)
+                source='import {courtPath as qaScopePath,courtNavigationStats as qaScopeStats,courtSegment as qaScopeSegment} from "./foodcourt-navigation.js";\n'+source.replace(
+                  "  function syncActors() {",
+                  "  globalThis.__actorScopeNav=()=>({builderObstacles,courtBlockers,bikiniBlockers,aquariumBlockers,spaObstacles,chillObstacles,path:qaScopePath,stats:qaScopeStats,segment:qaScopeSegment});\n  function syncActors() {",
+                );
               assert.ok(source.includes(marker));
               return {
                 contents: source

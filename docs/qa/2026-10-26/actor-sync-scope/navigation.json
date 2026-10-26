@@ -1,0 +1,28 @@
+{
+  "old": {
+    "replaced": true,
+    "before": {
+      "masks": 1,
+      "bytes": 20449
+    },
+    "cold": {
+      "masks": 0,
+      "bytes": 0
+    },
+    "valid": true,
+    "sameRoute": true
+  },
+  "fast": {
+    "reused": true,
+    "warm": {
+      "masks": 1,
+      "bytes": 20449
+    },
+    "retained": {
+      "masks": 1,
+      "bytes": 20449
+    },
+    "valid": true,
+    "sameRoute": true
+  }
+}

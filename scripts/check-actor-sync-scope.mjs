@@ -94,6 +94,28 @@ export async function checkActorSyncScope(page,review) {
   },extra.id);
   assert.deepEqual(adoption,{added:true,repeated:true,removed:true,staticRefreshes:0});
   fs.writeFileSync(path.join(review,"actor-scope-roster.json"),JSON.stringify(adoption,null,2));
+  const navigation=await page.evaluate(()=>{
+    const q=__lagoonQA,world=__lagoonSaveQA.getWorld(),g=structuredClone(__lagoonSaveQA.getGame()),next=structuredClone(g),id=g.adoption.cats[0].id,
+      get=globalThis.__actorScopeNav,start={x:0,z:33},goal={x:-20,z:22},radius=.53123,
+      keys=["builderObstacles","courtBlockers","bikiniBlockers","aquariumBlockers","spaObstacles","chillObstacles"];
+    next.catDestinations[id]=g.catDestinations[id]==="moon"?"homestead":"moon";
+    const route=n=>n.path(start,goal,radius,n.aquariumBlockers,"aquarium"),valid=(n,r)=>{
+      let from=start;return !!r?.length&&r.every(p=>{const ok=n.segment(from,p,radius,n.aquariumBlockers,"aquarium");from=p;return ok;});
+    };
+    try {
+      globalThis.__legacyActorStaticSync=true;world.sync(g);const a=get(),r=route(a),before=a.stats(a.aquariumBlockers);
+      world.sync(next);const b=get(),cold=b.stats(b.aquariumBlockers),again=route(b);
+      const old={replaced:keys.every(k=>a[k]!==b[k]),before,cold,valid:valid(b,again),sameRoute:JSON.stringify(r)===JSON.stringify(again)};
+      world.sync(g);const c=get(),warmRoute=route(c),warm=c.stats(c.aquariumBlockers);
+      globalThis.__legacyActorStaticSync=false;world.sync(next);const d=get(),retained=d.stats(d.aquariumBlockers),last=route(d);
+      return {old,fast:{reused:keys.every(k=>c[k]===d[k]),warm,retained,valid:valid(d,last),sameRoute:JSON.stringify(warmRoute)===JSON.stringify(last)}};
+    } finally {globalThis.__legacyActorStaticSync=false;world.sync(g);}
+  });
+  assert.equal(navigation.old.replaced,true);assert.ok(navigation.old.before.masks>0);assert.equal(navigation.old.cold.masks,0);
+  assert.equal(navigation.old.valid,true);assert.equal(navigation.old.sameRoute,true);
+  assert.equal(navigation.fast.reused,true);assert.ok(navigation.fast.warm.masks>0);
+  assert.deepEqual(navigation.fast.retained,navigation.fast.warm);assert.equal(navigation.fast.valid,true);assert.equal(navigation.fast.sameRoute,true);
+  fs.writeFileSync(path.join(review,"actor-scope-navigation.json"),JSON.stringify(navigation,null,2));
   const construction=await page.evaluate(()=>{
     const q=__lagoonQA,world=__lagoonSaveQA.getWorld(),g=structuredClone(__lagoonSaveQA.getGame()),next=structuredClone(g),
       p=next.placements.find(p=>p.item==="coaster-lagoon"),nativeSync=q.staticDraws.sync;

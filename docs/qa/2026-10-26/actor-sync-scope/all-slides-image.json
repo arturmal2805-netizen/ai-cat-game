@@ -1,0 +1,24 @@
+{
+  "changed": 0,
+  "oldCalls": 1,
+  "newCalls": 0,
+  "oldDraw": {
+    "frame": 26,
+    "calls": 724,
+    "triangles": 3526675,
+    "points": 96,
+    "lines": 0
+  },
+  "newDraw": {
+    "frame": 27,
+    "calls": 724,
+    "triangles": 3526675,
+    "points": 96,
+    "lines": 0
+  },
+  "npcs": 76,
+  "stableActors": true,
+  "dpr": 2,
+  "contextLost": false,
+  "error": 0
+}
