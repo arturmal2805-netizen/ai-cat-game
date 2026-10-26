@@ -1,0 +1,1218 @@
+[
+  {
+    "id": "jobcity",
+    "legacy": false,
+    "individual": false,
+    "repeat": false,
+    "readyMs": 131572,
+    "elapsed": 14829,
+    "frames": 13,
+    "submittedFps": 0.8766605974779149,
+    "completedFpsLowerBound": 0.8092251669026906,
+    "pending": 1,
+    "gapMedian": 1115,
+    "gapP95": 1903,
+    "renderCpuMedian": 405,
+    "renderCpuMax": 960,
+    "actorSyncTimes": [],
+    "orbitRange": 0.18633186709172317,
+    "zoomRange": 15.527655590976906,
+    "draw": {
+      "frame": 189,
+      "calls": 372,
+      "triangles": 1744063,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 60,
+      "reflected": 46,
+      "compiled": 279,
+      "reused": 84,
+      "textures": 18
+    },
+    "shadows": {
+      "bakes": 6,
+      "blits": 56,
+      "skippedDraws": 18,
+      "skippedTriangles": 189620,
+      "cachedCasters": 18,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 201393824,
+    "memory": {
+      "geometries": 607,
+      "textures": 101
+    },
+    "colony": {
+      "sources": 996,
+      "batches": 10,
+      "ready": true,
+      "active": true
+    },
+    "atlas": {
+      "entries": 2953,
+      "rows": 21,
+      "bytes": 172032,
+      "cats": 108,
+      "updatedCats": 34
+    },
+    "npcCount": 76,
+    "visibleNPCs": 37,
+    "geometryResidency": {
+      "bytes": 201296076,
+      "peakBytes": 219242848,
+      "geometries": 607,
+      "evicted": 274,
+      "clockReads": 189
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "jobcity",
+    "legacy": false,
+    "individual": true,
+    "repeat": true,
+    "readyMs": 1460,
+    "elapsed": 14480,
+    "frames": 15,
+    "submittedFps": 1.0359116022099448,
+    "completedFpsLowerBound": 0.9668508287292817,
+    "pending": 1,
+    "gapMedian": 926,
+    "gapP95": 1212,
+    "renderCpuMedian": 335,
+    "renderCpuMax": 618,
+    "actorSyncTimes": [],
+    "orbitRange": 0.18777474997506022,
+    "zoomRange": 15.647895831255,
+    "draw": {
+      "frame": 207,
+      "calls": 617,
+      "triangles": 1565328,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 60,
+      "reflected": 46,
+      "compiled": 279,
+      "reused": 84,
+      "textures": 18
+    },
+    "shadows": {
+      "bakes": 6,
+      "blits": 74,
+      "skippedDraws": 18,
+      "skippedTriangles": 189620,
+      "cachedCasters": 18,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 201333364,
+    "memory": {
+      "geometries": 619,
+      "textures": 101
+    },
+    "colony": {
+      "sources": 996,
+      "batches": 10,
+      "ready": true,
+      "active": false
+    },
+    "atlas": {
+      "entries": 2953,
+      "rows": 22,
+      "bytes": 180224,
+      "cats": 108,
+      "updatedCats": 33
+    },
+    "npcCount": 76,
+    "visibleNPCs": 34,
+    "geometryResidency": {
+      "bytes": 201232160,
+      "peakBytes": 219242848,
+      "geometries": 619,
+      "evicted": 278,
+      "clockReads": 207
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "summer",
+    "legacy": false,
+    "individual": true,
+    "repeat": false,
+    "readyMs": 67281,
+    "elapsed": 16308,
+    "frames": 13,
+    "submittedFps": 0.7971547706647044,
+    "completedFpsLowerBound": 0.7358351729212657,
+    "pending": 1,
+    "gapMedian": 1245,
+    "gapP95": 1530,
+    "renderCpuMedian": 401,
+    "renderCpuMax": 640,
+    "actorSyncTimes": [],
+    "orbitRange": 0.18626954347192454,
+    "zoomRange": 15.522461955993705,
+    "draw": {
+      "frame": 316,
+      "calls": 571,
+      "triangles": 2842590,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 70,
+      "reflected": 62,
+      "compiled": 558,
+      "reused": 122,
+      "textures": 19
+    },
+    "shadows": {
+      "bakes": 11,
+      "blits": 171,
+      "skippedDraws": 58,
+      "skippedTriangles": 288736,
+      "cachedCasters": 58,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 201196021,
+    "memory": {
+      "geometries": 690,
+      "textures": 109
+    },
+    "colony": {
+      "sources": 996,
+      "batches": 10,
+      "ready": true,
+      "active": false
+    },
+    "atlas": {
+      "entries": 2953,
+      "rows": 0,
+      "bytes": 0,
+      "cats": 108,
+      "updatedCats": 6
+    },
+    "npcCount": 76,
+    "visibleNPCs": 5,
+    "geometryResidency": {
+      "bytes": 200949761,
+      "peakBytes": 232840647,
+      "geometries": 690,
+      "evicted": 643,
+      "clockReads": 316
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "summer",
+    "legacy": false,
+    "individual": false,
+    "repeat": true,
+    "readyMs": 2286,
+    "elapsed": 14133,
+    "frames": 11,
+    "submittedFps": 0.778320243401967,
+    "completedFpsLowerBound": 0.7075638576381519,
+    "pending": 1,
+    "gapMedian": 1286,
+    "gapP95": 1446,
+    "renderCpuMedian": 412,
+    "renderCpuMax": 719,
+    "actorSyncTimes": [],
+    "orbitRange": 0.18648238923302762,
+    "zoomRange": 15.540199102752297,
+    "draw": {
+      "frame": 330,
+      "calls": 565,
+      "triangles": 2835496,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 70,
+      "reflected": 62,
+      "compiled": 558,
+      "reused": 122,
+      "textures": 19
+    },
+    "shadows": {
+      "bakes": 11,
+      "blits": 185,
+      "skippedDraws": 58,
+      "skippedTriangles": 288736,
+      "cachedCasters": 58,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 216453229,
+    "memory": {
+      "geometries": 438,
+      "textures": 109
+    },
+    "colony": {
+      "sources": 996,
+      "batches": 10,
+      "ready": true,
+      "active": false
+    },
+    "atlas": {
+      "entries": 2953,
+      "rows": 0,
+      "bytes": 0,
+      "cats": 108,
+      "updatedCats": 6
+    },
+    "npcCount": 76,
+    "visibleNPCs": 5,
+    "geometryResidency": {
+      "bytes": 216206969,
+      "peakBytes": 266543881,
+      "geometries": 438,
+      "evicted": 907,
+      "clockReads": 330
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "aquarium",
+    "legacy": false,
+    "individual": false,
+    "repeat": false,
+    "readyMs": 10124,
+    "elapsed": 14796,
+    "frames": 13,
+    "submittedFps": 0.8786158421194917,
+    "completedFpsLowerBound": 0.8110300081103001,
+    "pending": 1,
+    "gapMedian": 1166,
+    "gapP95": 1336,
+    "renderCpuMedian": 475,
+    "renderCpuMax": 553,
+    "actorSyncTimes": [],
+    "orbitRange": 0.18369290554138487,
+    "zoomRange": 15.521969267701635,
+    "draw": {
+      "frame": 362,
+      "calls": 263,
+      "triangles": 2738654,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 76,
+      "reflected": 72,
+      "compiled": 648,
+      "reused": 122,
+      "textures": 20
+    },
+    "shadows": {
+      "bakes": 15,
+      "blits": 204,
+      "skippedDraws": 17,
+      "skippedTriangles": 79252,
+      "cachedCasters": 17,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 197682653,
+    "memory": {
+      "geometries": 601,
+      "textures": 112
+    },
+    "colony": {
+      "sources": 996,
+      "batches": 10,
+      "ready": true,
+      "active": true
+    },
+    "atlas": {
+      "entries": 2953,
+      "rows": 5,
+      "bytes": 40960,
+      "cats": 108,
+      "updatedCats": 8
+    },
+    "npcCount": 76,
+    "visibleNPCs": 8,
+    "geometryResidency": {
+      "bytes": 197422909,
+      "peakBytes": 266543881,
+      "geometries": 601,
+      "evicted": 930,
+      "clockReads": 362
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "aquarium",
+    "legacy": false,
+    "individual": true,
+    "repeat": true,
+    "readyMs": 1575,
+    "elapsed": 14170,
+    "frames": 13,
+    "submittedFps": 0.9174311926605505,
+    "completedFpsLowerBound": 0.8468595624558928,
+    "pending": 1,
+    "gapMedian": 1085,
+    "gapP95": 1317,
+    "renderCpuMedian": 454,
+    "renderCpuMax": 727,
+    "actorSyncTimes": [],
+    "orbitRange": 0.18860523115473912,
+    "zoomRange": 15.717102596228258,
+    "draw": {
+      "frame": 378,
+      "calls": 313,
+      "triangles": 2734326,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 79,
+      "reflected": 72,
+      "compiled": 653,
+      "reused": 122,
+      "textures": 20
+    },
+    "shadows": {
+      "bakes": 15,
+      "blits": 220,
+      "skippedDraws": 17,
+      "skippedTriangles": 79252,
+      "cachedCasters": 17,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 197174805,
+    "memory": {
+      "geometries": 608,
+      "textures": 110
+    },
+    "colony": {
+      "sources": 996,
+      "batches": 10,
+      "ready": true,
+      "active": false
+    },
+    "atlas": {
+      "entries": 2953,
+      "rows": 5,
+      "bytes": 40960,
+      "cats": 108,
+      "updatedCats": 8
+    },
+    "npcCount": 76,
+    "visibleNPCs": 8,
+    "geometryResidency": {
+      "bytes": 196915061,
+      "peakBytes": 266543881,
+      "geometries": 608,
+      "evicted": 930,
+      "clockReads": 378
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "homestead",
+    "legacy": false,
+    "individual": true,
+    "repeat": false,
+    "readyMs": 50998,
+    "elapsed": 14060,
+    "frames": 16,
+    "submittedFps": 1.1379800853485065,
+    "completedFpsLowerBound": 0.9957325746799431,
+    "pending": 2,
+    "gapMedian": 883,
+    "gapP95": 1191,
+    "renderCpuMedian": 505,
+    "renderCpuMax": 786,
+    "actorSyncTimes": [],
+    "orbitRange": 0.186632127901822,
+    "zoomRange": 15.552677325151834,
+    "draw": {
+      "frame": 456,
+      "calls": 1233,
+      "triangles": 2778614,
+      "points": 0,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 3,
+      "prepared": 124,
+      "reflected": 80,
+      "compiled": 1774,
+      "reused": 2455,
+      "textures": 20
+    },
+    "shadows": {
+      "bakes": 30,
+      "blits": 275,
+      "skippedDraws": 54,
+      "skippedTriangles": 230400,
+      "cachedCasters": 54,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 136025861,
+    "memory": {
+      "geometries": 1095,
+      "textures": 124
+    },
+    "colony": {
+      "sources": 1005,
+      "batches": 10,
+      "ready": true,
+      "active": false
+    },
+    "atlas": {
+      "entries": 2982,
+      "rows": 32,
+      "bytes": 262144,
+      "cats": 109,
+      "updatedCats": 51
+    },
+    "npcCount": 76,
+    "visibleNPCs": 20,
+    "geometryResidency": {
+      "bytes": 135305921,
+      "peakBytes": 272739297,
+      "geometries": 1095,
+      "evicted": 1274,
+      "clockReads": 456
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "homestead",
+    "legacy": false,
+    "individual": false,
+    "repeat": true,
+    "readyMs": 1532,
+    "elapsed": 14874,
+    "frames": 10,
+    "submittedFps": 0.6723141051499261,
+    "completedFpsLowerBound": 0.5378512841199409,
+    "pending": 2,
+    "gapMedian": 1560,
+    "gapP95": 2309,
+    "renderCpuMedian": 812,
+    "renderCpuMax": 1530,
+    "actorSyncTimes": [],
+    "orbitRange": 0.19049148379902825,
+    "zoomRange": 15.874290316585686,
+    "draw": {
+      "frame": 469,
+      "calls": 605,
+      "triangles": 2844341,
+      "points": 0,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 124,
+      "reflected": 80,
+      "compiled": 1774,
+      "reused": 2455,
+      "textures": 20
+    },
+    "shadows": {
+      "bakes": 30,
+      "blits": 288,
+      "skippedDraws": 54,
+      "skippedTriangles": 230400,
+      "cachedCasters": 54,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 197996513,
+    "memory": {
+      "geometries": 1102,
+      "textures": 151
+    },
+    "colony": {
+      "sources": 1005,
+      "batches": 10,
+      "ready": true,
+      "active": true
+    },
+    "atlas": {
+      "entries": 2982,
+      "rows": 32,
+      "bytes": 262144,
+      "cats": 109,
+      "updatedCats": 51
+    },
+    "npcCount": 76,
+    "visibleNPCs": 20,
+    "geometryResidency": {
+      "bytes": 197256889,
+      "peakBytes": 272739297,
+      "geometries": 1102,
+      "evicted": 1276,
+      "clockReads": 469
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "jobcity",
+    "legacy": false,
+    "individual": false,
+    "repeat": true,
+    "readyMs": 2945,
+    "elapsed": 14468,
+    "frames": 12,
+    "submittedFps": 0.8294166436273155,
+    "completedFpsLowerBound": 0.7602985899917059,
+    "pending": 1,
+    "gapMedian": 1271,
+    "gapP95": 1516,
+    "renderCpuMedian": 521,
+    "renderCpuMax": 830,
+    "actorSyncTimes": [],
+    "orbitRange": 0.1834447646148845,
+    "zoomRange": 15.315924964545431,
+    "draw": {
+      "frame": 485,
+      "calls": 452,
+      "triangles": 1765710,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 125,
+      "reflected": 80,
+      "compiled": 1775,
+      "reused": 2455,
+      "textures": 20
+    },
+    "shadows": {
+      "bakes": 31,
+      "blits": 295,
+      "skippedDraws": 18,
+      "skippedTriangles": 190260,
+      "cachedCasters": 18,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 259195804,
+    "memory": {
+      "geometries": 930,
+      "textures": 153
+    },
+    "colony": {
+      "sources": 1005,
+      "batches": 10,
+      "ready": true,
+      "active": true
+    },
+    "atlas": {
+      "entries": 2982,
+      "rows": 21,
+      "bytes": 172032,
+      "cats": 109,
+      "updatedCats": 35
+    },
+    "npcCount": 76,
+    "visibleNPCs": 38,
+    "geometryResidency": {
+      "bytes": 258159096,
+      "peakBytes": 303918937,
+      "geometries": 930,
+      "evicted": 1774,
+      "clockReads": 485
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "jobcity",
+    "legacy": false,
+    "individual": true,
+    "repeat": true,
+    "readyMs": 440,
+    "elapsed": 14869,
+    "frames": 15,
+    "submittedFps": 1.0088102764140157,
+    "completedFpsLowerBound": 0.9415562579864147,
+    "pending": 1,
+    "gapMedian": 1012,
+    "gapP95": 1152,
+    "renderCpuMedian": 360,
+    "renderCpuMax": 608,
+    "actorSyncTimes": [],
+    "orbitRange": 0.1881270295833783,
+    "zoomRange": 15.677252465281526,
+    "draw": {
+      "frame": 502,
+      "calls": 788,
+      "triangles": 1817894,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 125,
+      "reflected": 80,
+      "compiled": 1775,
+      "reused": 2455,
+      "textures": 20
+    },
+    "shadows": {
+      "bakes": 31,
+      "blits": 312,
+      "skippedDraws": 18,
+      "skippedTriangles": 190260,
+      "cachedCasters": 18,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 176377860,
+    "memory": {
+      "geometries": 648,
+      "textures": 153
+    },
+    "colony": {
+      "sources": 1005,
+      "batches": 10,
+      "ready": true,
+      "active": false
+    },
+    "atlas": {
+      "entries": 2982,
+      "rows": 22,
+      "bytes": 180224,
+      "cats": 109,
+      "updatedCats": 37
+    },
+    "npcCount": 76,
+    "visibleNPCs": 38,
+    "geometryResidency": {
+      "bytes": 175341152,
+      "peakBytes": 303918937,
+      "geometries": 648,
+      "evicted": 2358,
+      "clockReads": 502
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "summer",
+    "legacy": false,
+    "individual": true,
+    "repeat": true,
+    "readyMs": 3270,
+    "elapsed": 14007,
+    "frames": 10,
+    "submittedFps": 0.7139287499107589,
+    "completedFpsLowerBound": 0.7139287499107589,
+    "pending": 0,
+    "gapMedian": 1439,
+    "gapP95": 1546,
+    "renderCpuMedian": 494,
+    "renderCpuMax": 1135,
+    "actorSyncTimes": [],
+    "orbitRange": 0.18722443271757155,
+    "zoomRange": 15.602036059797626,
+    "draw": {
+      "frame": 516,
+      "calls": 623,
+      "triangles": 2983790,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 125,
+      "reflected": 80,
+      "compiled": 1775,
+      "reused": 2455,
+      "textures": 20
+    },
+    "shadows": {
+      "bakes": 33,
+      "blits": 320,
+      "skippedDraws": 58,
+      "skippedTriangles": 288736,
+      "cachedCasters": 58,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 202328681,
+    "memory": {
+      "geometries": 717,
+      "textures": 158
+    },
+    "colony": {
+      "sources": 1005,
+      "batches": 10,
+      "ready": true,
+      "active": false
+    },
+    "atlas": {
+      "entries": 2982,
+      "rows": 31,
+      "bytes": 253952,
+      "cats": 109,
+      "updatedCats": 11
+    },
+    "npcCount": 76,
+    "visibleNPCs": 11,
+    "geometryResidency": {
+      "bytes": 201291973,
+      "peakBytes": 303918937,
+      "geometries": 717,
+      "evicted": 2858,
+      "clockReads": 516
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "summer",
+    "legacy": false,
+    "individual": false,
+    "repeat": true,
+    "readyMs": 1828,
+    "elapsed": 14701,
+    "frames": 11,
+    "submittedFps": 0.7482484184749337,
+    "completedFpsLowerBound": 0.6802258349772125,
+    "pending": 1,
+    "gapMedian": 1352,
+    "gapP95": 1447,
+    "renderCpuMedian": 495,
+    "renderCpuMax": 821,
+    "actorSyncTimes": [],
+    "orbitRange": 0.18761031243947418,
+    "zoomRange": 15.634192703289514,
+    "draw": {
+      "frame": 530,
+      "calls": 554,
+      "triangles": 2997415,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 125,
+      "reflected": 80,
+      "compiled": 1775,
+      "reused": 2455,
+      "textures": 20
+    },
+    "shadows": {
+      "bakes": 33,
+      "blits": 334,
+      "skippedDraws": 58,
+      "skippedTriangles": 288736,
+      "cachedCasters": 58,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 239038325,
+    "memory": {
+      "geometries": 436,
+      "textures": 158
+    },
+    "colony": {
+      "sources": 1005,
+      "batches": 10,
+      "ready": true,
+      "active": true
+    },
+    "atlas": {
+      "entries": 2982,
+      "rows": 14,
+      "bytes": 114688,
+      "cats": 109,
+      "updatedCats": 11
+    },
+    "npcCount": 76,
+    "visibleNPCs": 10,
+    "geometryResidency": {
+      "bytes": 238001617,
+      "peakBytes": 303918937,
+      "geometries": 436,
+      "evicted": 3229,
+      "clockReads": 530
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "aquarium",
+    "legacy": false,
+    "individual": false,
+    "repeat": true,
+    "readyMs": 996,
+    "elapsed": 14230,
+    "frames": 12,
+    "submittedFps": 0.8432888264230499,
+    "completedFpsLowerBound": 0.8432888264230499,
+    "pending": 0,
+    "gapMedian": 1151,
+    "gapP95": 1409,
+    "renderCpuMedian": 541,
+    "renderCpuMax": 819,
+    "actorSyncTimes": [],
+    "orbitRange": 0.17490809679566827,
+    "zoomRange": 14.785115516184433,
+    "draw": {
+      "frame": 544,
+      "calls": 259,
+      "triangles": 2752998,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 125,
+      "reflected": 80,
+      "compiled": 1775,
+      "reused": 2455,
+      "textures": 20
+    },
+    "shadows": {
+      "bakes": 34,
+      "blits": 341,
+      "skippedDraws": 17,
+      "skippedTriangles": 80276,
+      "cachedCasters": 17,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 197411751,
+    "memory": {
+      "geometries": 520,
+      "textures": 159
+    },
+    "colony": {
+      "sources": 1005,
+      "batches": 10,
+      "ready": true,
+      "active": true
+    },
+    "atlas": {
+      "entries": 2982,
+      "rows": 5,
+      "bytes": 40960,
+      "cats": 109,
+      "updatedCats": 8
+    },
+    "npcCount": 76,
+    "visibleNPCs": 8,
+    "geometryResidency": {
+      "bytes": 196375043,
+      "peakBytes": 303918937,
+      "geometries": 520,
+      "evicted": 3275,
+      "clockReads": 544
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "aquarium",
+    "legacy": false,
+    "individual": true,
+    "repeat": true,
+    "readyMs": 644,
+    "elapsed": 15140,
+    "frames": 12,
+    "submittedFps": 0.7926023778071334,
+    "completedFpsLowerBound": 0.7926023778071334,
+    "pending": 0,
+    "gapMedian": 1276,
+    "gapP95": 1450,
+    "renderCpuMedian": 521,
+    "renderCpuMax": 880,
+    "actorSyncTimes": [],
+    "orbitRange": 0.1912079185901673,
+    "zoomRange": 15.93399321584728,
+    "draw": {
+      "frame": 558,
+      "calls": 327,
+      "triangles": 2766564,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 125,
+      "reflected": 80,
+      "compiled": 1775,
+      "reused": 2455,
+      "textures": 20
+    },
+    "shadows": {
+      "bakes": 34,
+      "blits": 355,
+      "skippedDraws": 17,
+      "skippedTriangles": 80276,
+      "cachedCasters": 17,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 202301435,
+    "memory": {
+      "geometries": 596,
+      "textures": 159
+    },
+    "colony": {
+      "sources": 1005,
+      "batches": 10,
+      "ready": true,
+      "active": false
+    },
+    "atlas": {
+      "entries": 2982,
+      "rows": 5,
+      "bytes": 40960,
+      "cats": 109,
+      "updatedCats": 8
+    },
+    "npcCount": 76,
+    "visibleNPCs": 8,
+    "geometryResidency": {
+      "bytes": 201264727,
+      "peakBytes": 303918937,
+      "geometries": 596,
+      "evicted": 3281,
+      "clockReads": 558
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "homestead",
+    "legacy": false,
+    "individual": true,
+    "repeat": true,
+    "readyMs": 1353,
+    "elapsed": 14215,
+    "frames": 14,
+    "submittedFps": 0.9848751319029194,
+    "completedFpsLowerBound": 0.914526908195568,
+    "pending": 1,
+    "gapMedian": 996,
+    "gapP95": 1203,
+    "renderCpuMedian": 597,
+    "renderCpuMax": 849,
+    "actorSyncTimes": [],
+    "orbitRange": 0.19167711695762632,
+    "zoomRange": 15.973093079802211,
+    "draw": {
+      "frame": 574,
+      "calls": 1281,
+      "triangles": 2852166,
+      "points": 0,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 125,
+      "reflected": 80,
+      "compiled": 1775,
+      "reused": 2455,
+      "textures": 20
+    },
+    "shadows": {
+      "bakes": 36,
+      "blits": 365,
+      "skippedDraws": 54,
+      "skippedTriangles": 230400,
+      "cachedCasters": 54,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 187015745,
+    "memory": {
+      "geometries": 992,
+      "textures": 159
+    },
+    "colony": {
+      "sources": 1005,
+      "batches": 10,
+      "ready": true,
+      "active": false
+    },
+    "atlas": {
+      "entries": 2982,
+      "rows": 35,
+      "bytes": 286720,
+      "cats": 109,
+      "updatedCats": 51
+    },
+    "npcCount": 76,
+    "visibleNPCs": 20,
+    "geometryResidency": {
+      "bytes": 185943621,
+      "peakBytes": 303918937,
+      "geometries": 992,
+      "evicted": 3540,
+      "clockReads": 574
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "homestead",
+    "legacy": false,
+    "individual": false,
+    "repeat": true,
+    "readyMs": 876,
+    "elapsed": 14802,
+    "frames": 17,
+    "submittedFps": 1.1484934468315093,
+    "completedFpsLowerBound": 1.1484934468315093,
+    "pending": 0,
+    "gapMedian": 857,
+    "gapP95": 1082,
+    "renderCpuMedian": 553,
+    "renderCpuMax": 740,
+    "actorSyncTimes": [],
+    "orbitRange": 0.19195320910707067,
+    "zoomRange": 15.996100758922566,
+    "draw": {
+      "frame": 593,
+      "calls": 633,
+      "triangles": 2863881,
+      "points": 0,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 125,
+      "reflected": 80,
+      "compiled": 1775,
+      "reused": 2455,
+      "textures": 20
+    },
+    "shadows": {
+      "bakes": 36,
+      "blits": 384,
+      "skippedDraws": 54,
+      "skippedTriangles": 230400,
+      "cachedCasters": 54,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 199541701,
+    "memory": {
+      "geometries": 946,
+      "textures": 159
+    },
+    "colony": {
+      "sources": 1005,
+      "batches": 10,
+      "ready": true,
+      "active": true
+    },
+    "atlas": {
+      "entries": 2982,
+      "rows": 32,
+      "bytes": 262144,
+      "cats": 109,
+      "updatedCats": 51
+    },
+    "npcCount": 76,
+    "visibleNPCs": 20,
+    "geometryResidency": {
+      "bytes": 198462413,
+      "peakBytes": 303918937,
+      "geometries": 946,
+      "evicted": 3594,
+      "clockReads": 593
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  }
+]

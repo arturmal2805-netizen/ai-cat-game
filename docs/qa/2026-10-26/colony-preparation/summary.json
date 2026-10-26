@@ -1,0 +1,10 @@
+{
+  "temporaryAllocationBytesAvoidedPerFullCatalogueRebuild": 52702126,
+  "temporaryMiBAvoided": 50.260663986206055,
+  "finalGeometryBytes": 59080564,
+  "finalBufferHashesIdentical": true,
+  "nativeSourceDisposals": 0,
+  "testCatalogueCats": 95,
+  "currentPlayerOwnedCountKnown": false,
+  "isDeviceFpsClaim": false
+}

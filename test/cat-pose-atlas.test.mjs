@@ -109,8 +109,42 @@ test("colony draws preserve half-float vertices, weighted joints, material tints
   }
   for (const color of [0xaabbcc, 0xeabb87, 0xbbccaa]) add(color);
   scene.updateMatrixWorld(true);
+  const originalData = cats
+    .flatMap(c => c.userData.renderBatches.batches)
+    .map(mesh => {
+      const g = mesh.geometry;
+      return {
+        g, index: g.index, attributes: { ...g.attributes },
+        bytes: [g.index, ...Object.values(g.attributes)].map(a =>
+          new Uint8Array(a.array.buffer, a.array.byteOffset, a.array.byteLength).slice(),
+        ),
+      };
+    });
+  let stagingClones = 0, sourceDisposals = 0;
+  for (const { g } of originalData) {
+    const clone = g.clone;
+    g.clone = function (...args) {
+      stagingClones++;
+      return clone.apply(this, args);
+    };
+    g.addEventListener("dispose", () => sourceDisposals++);
+  }
   colony.sync();
   await settle(() => colony.stats.ready);
+  assert.equal(stagingClones, 0, "preparation must not allocate temporary copies of every native cat buffer");
+  assert.equal(sourceDisposals, 0, "disposing an unrendered staging wrapper must not dispose the native owner");
+  for (const { g, index, attributes, bytes } of originalData) {
+    assert.equal(g.index, index);
+    for (const [name, a] of Object.entries(attributes))
+      assert.equal(g.attributes[name], a);
+    [g.index, ...Object.values(g.attributes)].forEach((a, i) =>
+      assert.deepEqual(
+        new Uint8Array(a.array.buffer, a.array.byteOffset, a.array.byteLength),
+        bytes[i],
+        "preparation must not mutate native indices, positions, normals, weights or joints",
+      ),
+    );
+  }
   scene.updateMatrixWorld(true);
   scene.onBeforeRender(renderer, scene, camera);
   const groups = scene.children.filter((o) =>
@@ -156,6 +190,7 @@ test("colony draws preserve half-float vertices, weighted joints, material tints
           a.array,
           name,
         );
+        assert.notEqual(s.array.buffer, a.array.buffer, "the final batch must own independent attribute storage");
       }
       assert.deepEqual(
         Array.from(

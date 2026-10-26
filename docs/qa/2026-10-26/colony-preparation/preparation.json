@@ -1,0 +1,51 @@
+{
+  "rows": [
+    {
+      "name": "released",
+      "cats": 95,
+      "sourceGeometries": 876,
+      "batches": 11,
+      "ms": 670.0049980000003,
+      "clones": 851,
+      "temporaryBytes": 52702126,
+      "outputBytes": 59080564,
+      "outputHash": "9dc5386d2e72e1a74935be463348fa7238627c712e2a423629fd27796a378c89"
+    },
+    {
+      "name": "candidate",
+      "cats": 95,
+      "sourceGeometries": 876,
+      "batches": 11,
+      "ms": 754.5641699999996,
+      "clones": 0,
+      "temporaryBytes": 0,
+      "outputBytes": 59080564,
+      "outputHash": "9dc5386d2e72e1a74935be463348fa7238627c712e2a423629fd27796a378c89"
+    },
+    {
+      "name": "candidate",
+      "cats": 95,
+      "sourceGeometries": 876,
+      "batches": 11,
+      "ms": 383.968339,
+      "clones": 0,
+      "temporaryBytes": 0,
+      "outputBytes": 59080564,
+      "outputHash": "9dc5386d2e72e1a74935be463348fa7238627c712e2a423629fd27796a378c89"
+    },
+    {
+      "name": "released",
+      "cats": 95,
+      "sourceGeometries": 876,
+      "batches": 11,
+      "ms": 780.9134269999995,
+      "clones": 851,
+      "temporaryBytes": 52702126,
+      "outputBytes": 59080564,
+      "outputHash": "9dc5386d2e72e1a74935be463348fa7238627c712e2a423629fd27796a378c89"
+    }
+  ],
+  "originalHash": "50d9f6596b8ccb6ecd0e688b3d987567f2bffc2e286c3fbc4ce3fc12d0aaf19f",
+  "sourceDisposals": 0,
+  "limitation": "Node preparation/allocation component only; not gameplay FPS or physical-device timings."
+}

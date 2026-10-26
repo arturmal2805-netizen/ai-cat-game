@@ -7,7 +7,8 @@ import assert from "node:assert/strict";
 
 export async function checkNativeMapFrames(page, review) {
   const compareReuse = !!process.env.CHICHI_COMPARE_STATIC_REUSE,
-    compareActors = !!process.env.CHICHI_COMPARE_ACTOR_SCOPE, proofs = [];
+    compareActors = !!process.env.CHICHI_COMPARE_ACTOR_SCOPE,
+    compareColony = !!process.env.CHICHI_COMPARE_COLONY_MODE, proofs = [];
   let workSettled = false;
   if (compareReuse) await page.evaluate(() => {
     const q = __lagoonQA, before = q.scene.onBeforeRender;
@@ -54,17 +55,20 @@ export async function checkNativeMapFrames(page, review) {
     imageOnly = !!process.env.CHICHI_NATIVE_PIXEL_PROOF,
     repeats = process.env.CHICHI_NATIVE_REPEATS?.split(",") || ["summer", "aquarium", "homestead", "sakura"];
   const views=[...ids,...repeats.filter(id=>ids.includes(id))],
-    checks=compareActors
+    checks=compareColony
+      ? views.flatMap((id,i)=>(i%2?[true,false]:[false,true]).map(individual=>({id,legacy:false,individual})))
+      : compareActors
       ? views.flatMap((id,i)=>(i%2?[false,true]:[true,false]).map(actorLegacy=>({id,legacy:false,actorLegacy})))
       : compareReuse
       ? views.flatMap((id,i)=>(i%2?[true,false]:[false,true]).map(reuse=>({id,legacy:false,reuse})))
       : process.env.CHICHI_COMPARE_COLONY_CACHE
       ? views.flatMap((id,i)=>(i%2?[false,true]:[true,false]).map(legacy=>({id,legacy})))
       : views.map(id=>({id,legacy:false}));
-  for (const {id,legacy,reuse,actorLegacy} of checks) {
+  for (const {id,legacy,reuse,actorLegacy,individual} of checks) {
     const started = Date.now();
-    await page.evaluate(({id,legacy,reuse,actorLegacy,compareActors}) => {
+    await page.evaluate(({id,legacy,reuse,actorLegacy,compareActors,individual}) => {
       const q = __lagoonQA;
+      globalThis.__qaIndividualCats = individual;
       q.legacyColonyDeletion=legacy;
       if (q.setStaticReuse) q.setStaticReuse(reuse);
       if (compareActors) {
@@ -80,7 +84,7 @@ export async function checkNativeMapFrames(page, review) {
       document.querySelector(`[data-biome="${id}"]`).click();
       const b = q.islands.get(id);
       q.reviewView(b.position.x, b.position.z, 85);
-    }, {id,legacy,reuse,actorLegacy,compareActors});
+    }, {id,legacy,reuse,actorLegacy,compareActors,individual});
     await page.waitForFunction(id => {
       const q = __lagoonQA;
       return !q.islands.get(id).userData.lowOnly &&
@@ -95,6 +99,29 @@ export async function checkNativeMapFrames(page, review) {
       workSettled = true;
     }
     const readyMs = Date.now() - started;
+    if (compareColony && !proofs.some(p=>p.id===id)) {
+      const proof=await page.evaluate(individual=>{
+        const q=__lagoonQA,gl=q.renderer.getContext(),a=new Uint8Array(gl.drawingBufferWidth*gl.drawingBufferHeight*4),b=new Uint8Array(a.length);
+        q.freeze=true;q.shadowDepth.setEnabled(false);
+        let shared,native;
+        try {
+          globalThis.__qaIndividualCats=false;q.drawFrame();shared={...q.renderer.info.render};
+          gl.readPixels(0,0,gl.drawingBufferWidth,gl.drawingBufferHeight,gl.RGBA,gl.UNSIGNED_BYTE,a);
+          globalThis.__qaIndividualCats=true;q.drawFrame();native={...q.renderer.info.render};
+          gl.readPixels(0,0,gl.drawingBufferWidth,gl.drawingBufferHeight,gl.RGBA,gl.UNSIGNED_BYTE,b);
+        } finally {
+          globalThis.__qaIndividualCats=individual;q.shadowDepth.setEnabled(true);q.gpuFrames.clear();
+        }
+        let changed=0,large=0,max=0,total=0;
+        for(let i=0;i<a.length;i++){const d=Math.abs(a[i]-b[i]);if(d){changed++;total+=d;max=Math.max(max,d);if(d>8)large++;}}
+        return {changed,large,max,mean:total/a.length,shared,native,error:gl.getError(),contextLost:gl.isContextLost(),dpr:q.renderer.getPixelRatio(),buffer:[gl.drawingBufferWidth,gl.drawingBufferHeight]};
+      },individual);
+      proofs.push({id,...proof});fs.writeFileSync(path.join(review,"colony-mode-images.json"),JSON.stringify(proofs,null,2));
+      console.log("COLONY_MODE_IMAGE",JSON.stringify(proofs.at(-1)));
+      assert.equal(proof.error,0);assert.equal(proof.contextLost,false);assert.equal(proof.dpr,2);
+      assert.ok(proof.mean<.02 && proof.large<proof.buffer[0]*proof.buffer[1]*.0002);
+      await page.evaluate(()=>__lagoonQA.freeze=false);
+    }
     if (compareActors && !proofs.some(p=>p.id===id)) {
       const {captureActorScopeImage}=await import("./check-actor-sync-scope.mjs"),proof=await captureActorScopeImage(page);
       proofs.push({id,...proof});fs.writeFileSync(path.join(review,"actor-scope-images.json"),JSON.stringify(proofs,null,2));
@@ -306,7 +333,7 @@ export async function checkNativeMapFrames(page, review) {
     assert.ok(row.zoomRange > 6, `${id}: the actual input handler must change camera zoom`);
     assert.ok(row.frames > 0, `${id}: real frames must complete during camera input`);
     assert.equal(row.dpr, 2); assert.equal(row.contextLost, false); assert.equal(row.visible, true);
-    rows.push({ id, legacy, reuse, actorLegacy, repeat: rows.some(r => r.id === id), readyMs, ...row });
+    rows.push({ id, legacy, reuse, actorLegacy, individual, repeat: rows.some(r => r.id === id), readyMs, ...row });
     fs.writeFileSync(path.join(review, "native-map-frames.json"), JSON.stringify(rows, null, 2));
     console.log("NATIVE_MAP", JSON.stringify(rows.at(-1)));
     if(process.env.CHICHI_NATIVE_MAP_CAPTURE && !rows.slice(0,-1).some(r=>r.id===id))

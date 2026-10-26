@@ -325,8 +325,19 @@ export function createColonyRenderBatch(
         for (const record of group) {
           if (disposed || revision !== generation) return;
           const { cat, source, palette } = record,
-            g = source.geometry.clone(),
-            joints = g.attributes.aRigJoints,
+            g = new THREE.BufferGeometry(),
+            sourceGeometry = source.geometry;
+          // addGeometry copies these streams into the batch's own buffers.
+          // Borrow them only for this unrendered staging wrapper instead of
+          // first allocating another complete cat. The two remapped attributes
+          // below belong to the wrapper; the native geometry stays untouched.
+          g.setIndex(sourceGeometry.index);
+          for (const [name, attribute] of Object.entries(
+            sourceGeometry.attributes,
+          ))
+            g.setAttribute(name, attribute);
+          g.boundingBox = sourceGeometry.boundingBox;
+          const joints = g.attributes.aRigJoints,
             globalJoints = new Uint16Array(joints.count * 4),
             offset = palette.slot.offset.value / 8;
           for (let i = 0; i < globalJoints.length; i++)

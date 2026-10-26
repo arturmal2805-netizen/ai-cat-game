@@ -329,6 +329,26 @@ async function localWorker() {
                 ),
                 loader: "js",
               }));
+            if (process.env.CHICHI_COMPARE_COLONY_MODE || process.env.CHICHI_COLONY_PREP_AUDIT)
+              b.onLoad({ filter: /\/public\/colony-render-batch\.js$/ }, () => {
+                let contents = readPublic("colony-render-batch.js");
+                if (process.env.CHICHI_COMPARE_COLONY_MODE)
+                  assert.ok(contents.includes("const enabled =\n      atlas.enabled &&"));
+                if (process.env.CHICHI_COMPARE_COLONY_MODE) contents=contents.replace(
+                  "const enabled =\n      atlas.enabled &&",
+                  "const enabled =\n      !globalThis.__qaIndividualCats && atlas.enabled &&",
+                );
+                if (process.env.CHICHI_COLONY_PREP_AUDIT) {
+                  assert.ok(contents.includes("g = new THREE.BufferGeometry(),"));
+                  assert.ok(contents.includes("    stats,\n    sync() {"));
+                  contents=contents
+                  .replace("g = new THREE.BufferGeometry(),", "g = globalThis.__qaCloneStaging ? source.geometry.clone() : new THREE.BufferGeometry(),")
+                  .replace("          g.setIndex(sourceGeometry.index);", "          if (!globalThis.__qaCloneStaging) {\n          g.setIndex(sourceGeometry.index);")
+                  .replace("          g.boundingBox = sourceGeometry.boundingBox;", "          g.boundingBox = sourceGeometry.boundingBox;\n          }")
+                  .replace("    stats,\n    sync() {", "    stats,\n    rebuildForQA(legacy) { globalThis.__qaCloneStaging=legacy;requested=[];this.sync(); },\n    sync() {");
+                }
+                return { contents, loader: "js" };
+              });
             b.onLoad({ filter: /\/public\/world\.js$/ }, () => {
               let source = readPublic("world.js");
               const marker = "  return {\n    perform,";
@@ -519,6 +539,12 @@ async function localWorker() {
     if (process.env.CHICHI_ACTOR_SCOPE_AUDIT) {
       const {checkActorSyncScope}=await import("./check-actor-sync-scope.mjs");
       await checkActorSyncScope(page,review);
+      fs.writeFileSync(path.join(review,"browser-errors.json"),JSON.stringify({errors,httpErrors},null,2));
+      assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;
+    }
+    if (process.env.CHICHI_COLONY_PREP_AUDIT) {
+      const {checkColonyPreparationImages}=await import("./check-colony-preparation-images.mjs");
+      await checkColonyPreparationImages(page,review);
       fs.writeFileSync(path.join(review,"browser-errors.json"),JSON.stringify({errors,httpErrors},null,2));
       assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;
     }
