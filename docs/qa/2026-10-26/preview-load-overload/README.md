@@ -54,6 +54,26 @@ All **714 tests pass**, including failed/offline metadata, closed-shop handling,
 partial-manifest preservation and cancellation before graphics allocation.
 Build, Worker dry run and syntax/diff checks pass. The broader suite retains
 career, trading, family, housing and repeated/shared-save checks.
-Large-colony and phone browser results are recorded alongside this report when
-complete. The prior release and its independent successful optimizations remain
-preserved at `baseline/released-static-reuse-20261026`.
+The extra large-colony fixture adopted all 95 catalogue cats, for 147 mobile
+NPCs including the existing residents, plus eight purchased homes, four giant
+water rides and sixteen additional businesses. Six native orbit/zoom samples
+cover Job City, capybaras, aquarium, built homestead, Bikini Bottom and return to
+Job City. Every sample retains DPR 2, the exact original details, completed
+frames and no context loss; all six keep 147 NPCs without duplication.
+`large-colony.json` records the software timings and resource counts, not device
+FPS. It is a capacity/stability check rather than an old/new performance proof.
+The user clarified that the 5×20 table was the catalogue, not an owned roster.
+Browser JS/HTTP errors: zero. The Job City, aquarium and homestead screenshots
+were inspected in `/workspace/qa-95-cats/`.
+
+The phone WebKit viewport checks the same injected failure and real shop-close
+path, then six real touch taps alternating world/island camera buttons. No
+second preview renderer, context loss, JS/HTTP errors or DPR reduction occurs;
+see `phone.json`. Routine CI test/deploy/pages and exact live bundle checks are
+recorded in `publication.json`. The prior release and its independent successful
+optimizations remain preserved at `baseline/released-static-reuse-20261026`.
+
+The player reports continuing severe lag after this release. This patch fixes
+the reproduced preview failure only. It must not be presented as resolution of
+the underlying steady-render performance problem; further native profiling is
+required.

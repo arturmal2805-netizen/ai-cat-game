@@ -58,6 +58,26 @@ export async function checkPreviewLoad(page, review) {
     assert.equal(result.previewContexts, 0); assert.equal(result.previewDrawsAfterClose, 0);
     assert.equal(failedMetadata, 0, "normal preview loading no longer depends on this network request");
     assert.ok(result.readyPNGs > 0);
+    if (page.viewportSize().width < 500) {
+      await page.evaluate(() => __lagoonQA.freeze = false);
+      const cycles = [];
+      for (let i = 0; i < 3; i++) {
+        for (const button of ["#camera-all", "#camera-island"]) {
+          await page.locator(button).tap();
+          await page.waitForFunction(() => Math.abs(__lagoonQA.getDistance() - __lagoonQA.getDesiredDistance()) < .1);
+          const state = await page.evaluate(() => ({ frames: __lagoonQA.frames,
+            previewContexts: globalThis.__previewRendererCount || 0,
+            contextLost: __lagoonQA.renderer.getContext().isContextLost(),
+            dpr: __lagoonQA.renderer.getPixelRatio() }));
+          assert.equal(state.contextLost, false); assert.equal(state.dpr, 2); assert.equal(state.previewContexts, 0);
+          cycles.push({ button, ...state });
+        }
+      }
+      result.phoneCameraButtons = cycles;
+      fs.writeFileSync(path.join(review, "preview-load.json"), JSON.stringify(result, null, 2));
+      console.log("PREVIEW_PHONE_CAMERAS", JSON.stringify(cycles));
+      await page.evaluate(() => __lagoonQA.freeze = true);
+    }
     await page.screenshot({ path: path.join(review, "after-shop-close.png") });
   }
 }

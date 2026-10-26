@@ -1,0 +1,67 @@
+{
+  "elapsed": 12401,
+  "frames": 32,
+  "submittedFps": 2.580437061527296,
+  "gapMedian": 369,
+  "gapP95": 513,
+  "gapMax": 523,
+  "timerTicks": 31,
+  "zoomRange": 15.949525919776107,
+  "pending": 0,
+  "previewContexts": 0,
+  "previewDraws": 0,
+  "dpr": 2,
+  "contextLost": false,
+  "shopOpen": false,
+  "readyPNGs": 2,
+  "failedMetadata": 0,
+  "previewDrawsAfterClose": 0,
+  "before": {
+    "frames": 269,
+    "previewContexts": 0
+  },
+  "phoneCameraButtons": [
+    {
+      "button": "#camera-all",
+      "frames": 316,
+      "previewContexts": 0,
+      "contextLost": false,
+      "dpr": 2
+    },
+    {
+      "button": "#camera-island",
+      "frames": 324,
+      "previewContexts": 0,
+      "contextLost": false,
+      "dpr": 2
+    },
+    {
+      "button": "#camera-all",
+      "frames": 333,
+      "previewContexts": 0,
+      "contextLost": false,
+      "dpr": 2
+    },
+    {
+      "button": "#camera-island",
+      "frames": 342,
+      "previewContexts": 0,
+      "contextLost": false,
+      "dpr": 2
+    },
+    {
+      "button": "#camera-all",
+      "frames": 351,
+      "previewContexts": 0,
+      "contextLost": false,
+      "dpr": 2
+    },
+    {
+      "button": "#camera-island",
+      "frames": 360,
+      "previewContexts": 0,
+      "contextLost": false,
+      "dpr": 2
+    }
+  ]
+}
