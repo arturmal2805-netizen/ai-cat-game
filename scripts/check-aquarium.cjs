@@ -108,7 +108,7 @@ async function localWorker() {
   for (let i = 0; i < 150; i++) {
     try {
       if ((await fetch(base + "/api/status")).ok)
-        return { base, stop, logPath: path.join(temp, "worker.log") };
+        return { base, stop, env: localEnv, logPath: path.join(temp, "worker.log") };
     } catch {}
     await new Promise((r) => setTimeout(r, 200));
   }
@@ -383,6 +383,7 @@ async function localWorker() {
                     marker,
                     `  const qa=window.__lagoonQA={step:loop,gpuFrames,shadowDepth:typeof shadowDepth==='undefined'?null:shadowDepth,geometryResidency:typeof geometryResidency==='undefined'?null:geometryResidency,makeGeometryResidency:options=>createGeometryResidency(renderer,options),gpuBuffers:qaGpuBuffers,matrixCache:typeof matrixCache==='undefined'?null:matrixCache,shaderWarmup:typeof shaderWarmup==='undefined'?null:shaderWarmup,colonyDraws:typeof colonyDraws==='undefined'?null:colonyDraws,animateCat,setCatMood,poseAtlas:typeof poseAtlas==='undefined'?null:poseAtlas,staticDraws:typeof staticDraws==='undefined'?null:staticDraws,camera,look,desiredLook,renderer,islands,cat,npcs,chichiCarrier,itemGroups,jobs,cityCars,updateCityCar,THREE,scene,pickDrop,pointer,raycaster,ground,viewport,sync,perform,performResident,faceCamera,spa,chill,court,cinema,courtFoods,bikiniLife,enterCourt,exitCourt,getCourtCamera:()=>courtCamera,residentPlay,callbacks,showCatHome,getDragging:()=>draggingCat?.catId,reviewView:(x,z,d)=>{desiredLook.set(x,0,z);desiredDistance=d;azimuth=.15;},constructorMs:performance.now()-qaStart,focused:()=>focused,getOperation:()=>operation,isVisible:()=>worldVisible,getDistance:()=>distance,getDesiredDistance:()=>desiredDistance,freeze:${!!process.env.CHICHI_CAT_LOCATION_AUDIT},frames:0,resizes:0,black:[],audit:false,measure:false,cpu:[]};
   const draw=renderer.render.bind(renderer);qa.drawFrame=()=>draw(scene,camera);renderer.render=(...args)=>{if(qa.drawPaused&&!qa.commandOnly)return;const started=performance.now();draw(...args);qa.frames++;if(qa.liveFrames)qa.liveFrames.push([started,performance.now()-started,renderer.info.render.calls,renderer.info.render.triangles]);};
+  qa.settleJobs=seconds=>{const actors=Object.keys(game.jobCity?.profiles||{}).map(id=>({id,local:jobs.get(id)?.position||{x:0,y:.32,z:-10.3},biome:'jobcity'}));for(let i=0;i<seconds*30;i++)jobs.step(game,actors,1/30,i/30);for(const a of actors){const v=jobs.get(a.id),carrier=a.id==='chichi'?chichiCarrier:npcs.get(a.id)?.carrier;if(v&&carrier)carrier.position.set(JOB_CITY_CENTER[0]+v.position.x,v.position.y+.8,JOB_CITY_CENTER[1]+v.position.z);}};
   const size=renderer.setSize.bind(renderer);renderer.setSize=(...args)=>{qa.resizes++;return size(...args);};
   const audit=new MutationObserver(()=>{if(!qa.audit)return;const gl=renderer.getContext(),p=new Uint8Array(4);gl.readPixels(0,0,1,1,gl.RGBA,gl.UNSIGNED_BYTE,p);if(p[0]+p[1]+p[2]===0)qa.black.push(Array.from(p));});audit.observe(renderer.domElement,{attributes:true,attributeFilter:['width','height']});
   return {\n    perform,`,
@@ -417,8 +418,9 @@ async function localWorker() {
     });
 
     browser = process.env.CHICHI_BROWSER === "webkit"
-      ? await webkit.launch({ env: { ...process.env, LIBGL_ALWAYS_SOFTWARE: "1" } })
+      ? await webkit.launch({ env: { ...local.env, LIBGL_ALWAYS_SOFTWARE: "1" } })
       : await chromium.launch({
+      env: local.env,
       executablePath: process.env.CHICHI_CHROMIUM || undefined,
       args: [
         "--no-sandbox",
@@ -527,6 +529,7 @@ async function localWorker() {
       }
       const { checkNativeMapFrames } = await import("./check-native-map-frames.mjs");
       await checkNativeMapFrames(page, review);
+      fs.writeFileSync(path.join(review, "browser-errors.json"), JSON.stringify({ errors, httpErrors }, null, 2));
       assert.deepEqual(errors, []); assert.deepEqual(httpErrors, []);
       return;
     }

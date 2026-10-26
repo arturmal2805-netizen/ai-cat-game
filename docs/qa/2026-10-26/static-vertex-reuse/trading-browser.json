@@ -1,0 +1,71 @@
+{
+  "employees": [
+    {
+      "id": "chichi",
+      "phase": "work",
+      "slot": 0
+    },
+    {
+      "id": "luna",
+      "phase": "work",
+      "slot": 2
+    },
+    {
+      "id": "moti",
+      "phase": "work",
+      "slot": 4
+    },
+    {
+      "id": "pixel",
+      "phase": "work",
+      "slot": 1
+    },
+    {
+      "id": "peach",
+      "phase": "work",
+      "slot": 3
+    },
+    {
+      "id": "bagel",
+      "phase": "work",
+      "slot": 5
+    }
+  ],
+  "layout": {
+    "width": 350,
+    "scroll": 350
+  },
+  "forecastCalls": [
+    1
+  ],
+  "intervalDays": 7,
+  "settlement": {
+    "status": "closed",
+    "pnl": 23,
+    "coins": 5023
+  },
+  "reloads": 3,
+  "errors": [],
+  "navigationErrors": [
+    {
+      "message": "ttp://127.0.0.1:43759/53e865ec-b61c-4672-bcc6-8c5325f8061c due to access control checks.",
+      "stack": "Cannot load blob:http://127.0.0.1:43759/53e865ec-b61c-4672-bcc6-8c5325f8061c due to access control checks.\n    at cloudSaveRequest (http://127.0.0.1:43759/dist/app.js?v=5e8ebaabc2cb743f:87420:46)\n    at flush (http://127.0.0.1:43759/dist/app.js?v=5e8ebaabc2cb743f:87696:51)\n    at releaseEditor (http://127.0.0.1:43759/dist/app.js?v=5e8ebaabc2cb743f:87810:21)\n    at unknown (http://127.0.0.1:43759/dist/app.js?v=5e8ebaabc2cb743f:89657:22)"
+    },
+    {
+      "message": "/127.0.0.1:43759/api/save due to access control checks.",
+      "stack": "Fetch API cannot load http://127.0.0.1:43759/api/save due to access control checks.\n    at flush (http://127.0.0.1:43759/dist/app.js?v=5e8ebaabc2cb743f:87702:40)"
+    },
+    {
+      "message": "/127.0.0.1:43759/api/save due to access control checks.",
+      "stack": "Fetch API cannot load http://127.0.0.1:43759/api/save due to access control checks.\n    at flush (http://127.0.0.1:43759/dist/app.js?v=5e8ebaabc2cb743f:87702:40)"
+    },
+    {
+      "message": "ttp://127.0.0.1:43759/2c18bd1f-231d-4154-93b5-d65c38231d1f due to access control checks.",
+      "stack": "Cannot load blob:http://127.0.0.1:43759/2c18bd1f-231d-4154-93b5-d65c38231d1f due to access control checks.\n    at cloudSaveRequest (http://127.0.0.1:43759/dist/app.js?v=5e8ebaabc2cb743f:87420:46)\n    at flush (http://127.0.0.1:43759/dist/app.js?v=5e8ebaabc2cb743f:87696:51)\n    at releaseEditor (http://127.0.0.1:43759/dist/app.js?v=5e8ebaabc2cb743f:87810:21)\n    at unknown (http://127.0.0.1:43759/dist/app.js?v=5e8ebaabc2cb743f:89657:22)"
+    },
+    {
+      "message": "/127.0.0.1:43759/api/save due to access control checks.",
+      "stack": "Fetch API cannot load http://127.0.0.1:43759/api/save due to access control checks.\n    at flush (http://127.0.0.1:43759/dist/app.js?v=5e8ebaabc2cb743f:87702:40)"
+    }
+  ]
+}

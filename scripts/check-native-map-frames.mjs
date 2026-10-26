@@ -7,6 +7,7 @@ import assert from "node:assert/strict";
 
 export async function checkNativeMapFrames(page, review) {
   const compareReuse = !!process.env.CHICHI_COMPARE_STATIC_REUSE, proofs = [];
+  let workSettled = false;
   if (compareReuse) await page.evaluate(() => {
     const q = __lagoonQA, before = q.scene.onBeforeRender;
     q.staticReuseEnabled = true;
@@ -74,6 +75,13 @@ export async function checkNativeMapFrames(page, review) {
         q.look.distanceTo(q.desiredLook) < .01 && Math.abs(q.getDistance() - 85) < .01 &&
         q.shaderWarmup.idle();
     }, id, { timeout: 180000 });
+    if (process.env.CHICHI_NATIVE_SETTLE_JOBS && id === "jobcity" && !workSettled) {
+      // Private fixture preparation only. The timed run still uses the native
+      // RAF, full animation/simulation and original nonblocking GPU queue.
+      const at = await page.evaluate(() => { __lagoonQA.settleJobs(180); return __lagoonQA.frames; });
+      await page.waitForFunction(at => __lagoonQA.frames >= at + 3 && __lagoonQA.shaderWarmup.idle(), at);
+      workSettled = true;
+    }
     const readyMs = Date.now() - started;
     if (compareReuse && !proofs.some(p => p.id === id)) {
       const proof = await page.evaluate(reuse => {
@@ -249,6 +257,8 @@ export async function checkNativeMapFrames(page, review) {
           renderCpuMax: cpu.at(-1) ?? null,
           orbitRange: maxAngle - minAngle, zoomRange: maxZoom - minZoom,
           draw: { ...q.renderer.info.render }, shaders: { ...q.shaderWarmup.stats },
+          shadows: { ...q.shadowDepth.stats },
+          gpuBufferBytes: q.gpuBuffers.snapshot().bytes,
           memory: { ...q.renderer.info.memory },
           geometryResidency: { ...q.geometryResidency.stats },
           dpr: q.renderer.getPixelRatio(),

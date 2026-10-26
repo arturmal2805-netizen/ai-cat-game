@@ -1,0 +1,362 @@
+[
+  {
+    "id": "jobcity",
+    "legacy": false,
+    "reuse": false,
+    "repeat": false,
+    "readyMs": 95228,
+    "elapsed": 25884,
+    "frames": 22,
+    "submittedFps": 0.8499459125328388,
+    "completedFpsLowerBound": 0.8113120074177098,
+    "pending": 1,
+    "gapMedian": 1152,
+    "gapP95": 1284,
+    "renderCpuMedian": 576,
+    "renderCpuMax": 746,
+    "orbitRange": 0.1916113145104636,
+    "zoomRange": 15.967609542538625,
+    "draw": {
+      "frame": 176,
+      "calls": 460,
+      "triangles": 2907606,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 51,
+      "reflected": 46,
+      "compiled": 262,
+      "reused": 84,
+      "textures": 18
+    },
+    "shadows": {
+      "bakes": 3,
+      "blits": 42,
+      "skippedDraws": 18,
+      "skippedTriangles": 189620,
+      "cachedCasters": 18,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 201004683,
+    "memory": {
+      "geometries": 347,
+      "textures": 105
+    },
+    "geometryResidency": {
+      "bytes": 200905399,
+      "peakBytes": 224699533,
+      "geometries": 347,
+      "evicted": 434,
+      "clockReads": 176
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "jobcity",
+    "legacy": false,
+    "reuse": true,
+    "repeat": true,
+    "readyMs": 1637,
+    "elapsed": 26285,
+    "frames": 22,
+    "submittedFps": 0.8369792657409169,
+    "completedFpsLowerBound": 0.7989347536617842,
+    "pending": 1,
+    "gapMedian": 1175,
+    "gapP95": 1365,
+    "renderCpuMedian": 544,
+    "renderCpuMax": 728,
+    "orbitRange": 0.191295165834059,
+    "zoomRange": 15.941263819504911,
+    "draw": {
+      "frame": 201,
+      "calls": 460,
+      "triangles": 2909884,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 51,
+      "reflected": 46,
+      "compiled": 262,
+      "reused": 84,
+      "textures": 18
+    },
+    "shadows": {
+      "bakes": 4,
+      "blits": 66,
+      "skippedDraws": 18,
+      "skippedTriangles": 189620,
+      "cachedCasters": 18,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 201253709,
+    "memory": {
+      "geometries": 353,
+      "textures": 105
+    },
+    "geometryResidency": {
+      "bytes": 201152889,
+      "peakBytes": 224699533,
+      "geometries": 353,
+      "evicted": 497,
+      "clockReads": 201
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "jobcity",
+    "legacy": false,
+    "reuse": true,
+    "repeat": true,
+    "readyMs": 1194,
+    "elapsed": 25309,
+    "frames": 21,
+    "submittedFps": 0.8297443597139358,
+    "completedFpsLowerBound": 0.7902327235370816,
+    "pending": 1,
+    "gapMedian": 1176,
+    "gapP95": 1388,
+    "renderCpuMedian": 471,
+    "renderCpuMax": 626,
+    "orbitRange": 0.1899743470260441,
+    "zoomRange": 15.831195585503664,
+    "draw": {
+      "frame": 224,
+      "calls": 441,
+      "triangles": 2793804,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 51,
+      "reflected": 46,
+      "compiled": 262,
+      "reused": 84,
+      "textures": 18
+    },
+    "shadows": {
+      "bakes": 4,
+      "blits": 89,
+      "skippedDraws": 18,
+      "skippedTriangles": 189620,
+      "cachedCasters": 18,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 201116145,
+    "memory": {
+      "geometries": 348,
+      "textures": 105
+    },
+    "geometryResidency": {
+      "bytes": 201015325,
+      "peakBytes": 224699533,
+      "geometries": 348,
+      "evicted": 548,
+      "clockReads": 224
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "jobcity",
+    "legacy": false,
+    "reuse": false,
+    "repeat": true,
+    "readyMs": 1352,
+    "elapsed": 26004,
+    "frames": 21,
+    "submittedFps": 0.8075680664513152,
+    "completedFpsLowerBound": 0.7691124442393478,
+    "pending": 1,
+    "gapMedian": 1274,
+    "gapP95": 1438,
+    "renderCpuMedian": 578,
+    "renderCpuMax": 794,
+    "orbitRange": 0.18904498780645893,
+    "zoomRange": 15.753748983871574,
+    "draw": {
+      "frame": 247,
+      "calls": 461,
+      "triangles": 2849638,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 51,
+      "reflected": 46,
+      "compiled": 262,
+      "reused": 84,
+      "textures": 18
+    },
+    "shadows": {
+      "bakes": 5,
+      "blits": 111,
+      "skippedDraws": 18,
+      "skippedTriangles": 189620,
+      "cachedCasters": 18,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 200780737,
+    "memory": {
+      "geometries": 339,
+      "textures": 105
+    },
+    "geometryResidency": {
+      "bytes": 200678381,
+      "peakBytes": 224699533,
+      "geometries": 339,
+      "evicted": 619,
+      "clockReads": 247
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "jobcity",
+    "legacy": false,
+    "reuse": false,
+    "repeat": true,
+    "readyMs": 1843,
+    "elapsed": 25071,
+    "frames": 22,
+    "submittedFps": 0.8775078776275378,
+    "completedFpsLowerBound": 0.8376211559171952,
+    "pending": 1,
+    "gapMedian": 1153,
+    "gapP95": 1287,
+    "renderCpuMedian": 538,
+    "renderCpuMax": 782,
+    "orbitRange": 0.19013780317557402,
+    "zoomRange": 15.844816931297828,
+    "draw": {
+      "frame": 272,
+      "calls": 421,
+      "triangles": 2693616,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 51,
+      "reflected": 46,
+      "compiled": 262,
+      "reused": 84,
+      "textures": 18
+    },
+    "shadows": {
+      "bakes": 5,
+      "blits": 136,
+      "skippedDraws": 18,
+      "skippedTriangles": 189620,
+      "cachedCasters": 18,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 201092033,
+    "memory": {
+      "geometries": 350,
+      "textures": 105
+    },
+    "geometryResidency": {
+      "bytes": 200988141,
+      "peakBytes": 224699533,
+      "geometries": 350,
+      "evicted": 674,
+      "clockReads": 272
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "jobcity",
+    "legacy": false,
+    "reuse": true,
+    "repeat": true,
+    "readyMs": 653,
+    "elapsed": 25592,
+    "frames": 24,
+    "submittedFps": 0.9377930603313536,
+    "completedFpsLowerBound": 0.8987183494842138,
+    "pending": 1,
+    "gapMedian": 1060,
+    "gapP95": 1200,
+    "renderCpuMedian": 460,
+    "renderCpuMax": 626,
+    "orbitRange": 0.19199696807061467,
+    "zoomRange": 15.999747339217905,
+    "draw": {
+      "frame": 298,
+      "calls": 435,
+      "triangles": 2746213,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "prepared": 51,
+      "reflected": 46,
+      "compiled": 262,
+      "reused": 84,
+      "textures": 18
+    },
+    "shadows": {
+      "bakes": 6,
+      "blits": 161,
+      "skippedDraws": 18,
+      "skippedTriangles": 189620,
+      "cachedCasters": 18,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 200663201,
+    "memory": {
+      "geometries": 331,
+      "textures": 105
+    },
+    "geometryResidency": {
+      "bytes": 200557773,
+      "peakBytes": 224699533,
+      "geometries": 331,
+      "evicted": 747,
+      "clockReads": 298
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  }
+]

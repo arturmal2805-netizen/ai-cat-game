@@ -331,3 +331,17 @@ fur variants can fit the unchanged 24 MiB write / 32 MiB read budgets. Both
 sides now bound each kind at 4,096 entries, keeping byte validation and original
 construction fallback. This prevents the old reader's 256-entry cap discarding
 an otherwise valid whole graphics cache; no scene geometry or cat is removed.
+
+## Exact static vertex reuse
+
+Static model/scenery copies now share the GPU result of byte-identical triangle
+corners, including normals, UVs and colours. Keep all original vertices and
+triangle order; apply aliases after the existing cache ordering. Hashing yields
+cooperatively, immutable primitive tables are weakly cached, and missing normals
+retain the native construction path. Animated approved cat/fish rigs are unchanged.
+
+The [Job City and whole-map report](qa/2026-10-26/static-vertex-reuse/README.md)
+contains 17 exact colour/shadow comparisons, 44 native camera samples, the slower
+results and the separate clean Job City retry. Gains are modest and varied;
+software timing is not device FPS. The approved baseline and the full-frame
+regression gate remain in force.

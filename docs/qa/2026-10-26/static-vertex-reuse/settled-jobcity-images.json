@@ -1,0 +1,28 @@
+[
+  {
+    "id": "jobcity",
+    "changed": 0,
+    "native": {
+      "frame": 152,
+      "calls": 480,
+      "triangles": 3101996,
+      "points": 320,
+      "lines": 0
+    },
+    "fast": {
+      "frame": 153,
+      "calls": 480,
+      "triangles": 3101996,
+      "points": 320,
+      "lines": 0
+    },
+    "corners": 2418348,
+    "geometries": 335,
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "error": 0
+  }
+]

@@ -1,0 +1,444 @@
+[
+  {
+    "id": "jobcity",
+    "changed": 0,
+    "native": {
+      "frame": 166,
+      "calls": 391,
+      "triangles": 1961092,
+      "points": 320,
+      "lines": 0
+    },
+    "fast": {
+      "frame": 167,
+      "calls": 391,
+      "triangles": 1961092,
+      "points": 320,
+      "lines": 0
+    },
+    "corners": 2410212,
+    "geometries": 334,
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "error": 0
+  },
+  {
+    "id": "moon",
+    "changed": 0,
+    "native": {
+      "frame": 200,
+      "calls": 349,
+      "triangles": 646936,
+      "points": 320,
+      "lines": 0
+    },
+    "fast": {
+      "frame": 201,
+      "calls": 349,
+      "triangles": 646936,
+      "points": 320,
+      "lines": 0
+    },
+    "corners": 2442756,
+    "geometries": 338,
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "error": 0
+  },
+  {
+    "id": "autumn",
+    "changed": 0,
+    "native": {
+      "frame": 324,
+      "calls": 369,
+      "triangles": 1896752,
+      "points": 740,
+      "lines": 0
+    },
+    "fast": {
+      "frame": 325,
+      "calls": 369,
+      "triangles": 1896752,
+      "points": 740,
+      "lines": 0
+    },
+    "corners": 2568648,
+    "geometries": 352,
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "error": 0
+  },
+  {
+    "id": "winter",
+    "changed": 0,
+    "native": {
+      "frame": 410,
+      "calls": 748,
+      "triangles": 1919463,
+      "points": 740,
+      "lines": 0
+    },
+    "fast": {
+      "frame": 411,
+      "calls": 748,
+      "triangles": 1919463,
+      "points": 740,
+      "lines": 0
+    },
+    "corners": 2817493,
+    "geometries": 376,
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "error": 0
+  },
+  {
+    "id": "water",
+    "changed": 0,
+    "native": {
+      "frame": 486,
+      "calls": 293,
+      "triangles": 1566620,
+      "points": 320,
+      "lines": 0
+    },
+    "fast": {
+      "frame": 487,
+      "calls": 293,
+      "triangles": 1566620,
+      "points": 320,
+      "lines": 0
+    },
+    "corners": 2926195,
+    "geometries": 390,
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "error": 0
+  },
+  {
+    "id": "summer",
+    "changed": 0,
+    "native": {
+      "frame": 584,
+      "calls": 614,
+      "triangles": 3316472,
+      "points": 320,
+      "lines": 0
+    },
+    "fast": {
+      "frame": 585,
+      "calls": 614,
+      "triangles": 3316472,
+      "points": 320,
+      "lines": 0
+    },
+    "corners": 3308815,
+    "geometries": 413,
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "error": 0
+  },
+  {
+    "id": "sakura",
+    "changed": 0,
+    "native": {
+      "frame": 666,
+      "calls": 609,
+      "triangles": 2429305,
+      "points": 740,
+      "lines": 0
+    },
+    "fast": {
+      "frame": 667,
+      "calls": 609,
+      "triangles": 2429305,
+      "points": 740,
+      "lines": 0
+    },
+    "corners": 3683131,
+    "geometries": 432,
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "error": 0
+  },
+  {
+    "id": "volcano",
+    "changed": 0,
+    "native": {
+      "frame": 733,
+      "calls": 680,
+      "triangles": 2174445,
+      "points": 740,
+      "lines": 0
+    },
+    "fast": {
+      "frame": 734,
+      "calls": 680,
+      "triangles": 2174445,
+      "points": 740,
+      "lines": 0
+    },
+    "corners": 3874889,
+    "geometries": 451,
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "error": 0
+  },
+  {
+    "id": "candy",
+    "changed": 0,
+    "native": {
+      "frame": 769,
+      "calls": 288,
+      "triangles": 568276,
+      "points": 320,
+      "lines": 0
+    },
+    "fast": {
+      "frame": 770,
+      "calls": 288,
+      "triangles": 568276,
+      "points": 320,
+      "lines": 0
+    },
+    "corners": 3917265,
+    "geometries": 469,
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "error": 0
+  },
+  {
+    "id": "galaxy",
+    "changed": 0,
+    "native": {
+      "frame": 849,
+      "calls": 578,
+      "triangles": 1375642,
+      "points": 740,
+      "lines": 0
+    },
+    "fast": {
+      "frame": 850,
+      "calls": 578,
+      "triangles": 1375642,
+      "points": 740,
+      "lines": 0
+    },
+    "corners": 4125884,
+    "geometries": 490,
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "error": 0
+  },
+  {
+    "id": "ice",
+    "changed": 0,
+    "native": {
+      "frame": 932,
+      "calls": 1124,
+      "triangles": 1582908,
+      "points": 420,
+      "lines": 0
+    },
+    "fast": {
+      "frame": 933,
+      "calls": 1124,
+      "triangles": 1582908,
+      "points": 420,
+      "lines": 0
+    },
+    "corners": 4322049,
+    "geometries": 509,
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "error": 0
+  },
+  {
+    "id": "clockwork",
+    "changed": 0,
+    "native": {
+      "frame": 1037,
+      "calls": 954,
+      "triangles": 2615964,
+      "points": 420,
+      "lines": 0
+    },
+    "fast": {
+      "frame": 1038,
+      "calls": 954,
+      "triangles": 2615964,
+      "points": 420,
+      "lines": 0
+    },
+    "corners": 4613933,
+    "geometries": 542,
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "error": 0
+  },
+  {
+    "id": "foodcourt",
+    "changed": 0,
+    "native": {
+      "frame": 1085,
+      "calls": 246,
+      "triangles": 839575,
+      "points": 320,
+      "lines": 0
+    },
+    "fast": {
+      "frame": 1086,
+      "calls": 246,
+      "triangles": 839575,
+      "points": 320,
+      "lines": 0
+    },
+    "corners": 4698514,
+    "geometries": 548,
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "error": 0
+  },
+  {
+    "id": "bikini",
+    "changed": 0,
+    "native": {
+      "frame": 1150,
+      "calls": 347,
+      "triangles": 1172556,
+      "points": 320,
+      "lines": 0
+    },
+    "fast": {
+      "frame": 1151,
+      "calls": 347,
+      "triangles": 1172556,
+      "points": 320,
+      "lines": 0
+    },
+    "corners": 4758059,
+    "geometries": 555,
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "error": 0
+  },
+  {
+    "id": "homestead",
+    "changed": 0,
+    "native": {
+      "frame": 1209,
+      "calls": 671,
+      "triangles": 3113513,
+      "points": 0,
+      "lines": 0
+    },
+    "fast": {
+      "frame": 1210,
+      "calls": 671,
+      "triangles": 3113513,
+      "points": 0,
+      "lines": 0
+    },
+    "corners": 4774331,
+    "geometries": 556,
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "error": 0
+  },
+  {
+    "id": "aquarium",
+    "changed": 0,
+    "native": {
+      "frame": 1263,
+      "calls": 294,
+      "triangles": 2905392,
+      "points": 320,
+      "lines": 0
+    },
+    "fast": {
+      "frame": 1264,
+      "calls": 294,
+      "triangles": 2905392,
+      "points": 320,
+      "lines": 0
+    },
+    "corners": 4823876,
+    "geometries": 559,
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "error": 0
+  },
+  {
+    "id": "cat-homes",
+    "changed": 0,
+    "native": {
+      "frame": 1292,
+      "calls": 354,
+      "triangles": 791378,
+      "points": 0,
+      "lines": 0
+    },
+    "fast": {
+      "frame": 1293,
+      "calls": 354,
+      "triangles": 791378,
+      "points": 0,
+      "lines": 0
+    },
+    "corners": 4859921,
+    "geometries": 563,
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "error": 0
+  }
+]

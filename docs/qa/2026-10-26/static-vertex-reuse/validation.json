@@ -1,0 +1,13 @@
+{
+  "unit": {
+    "tests": 711,
+    "pass": 711,
+    "fail": 0
+  },
+  "build": "passed",
+  "workerDryRun": "passed",
+  "sculptCacheFingerprint": "sculpt-v2-a496203fa13a037a7a10a927",
+  "phoneCameraCycles": 6,
+  "livePlayerWrites": 0,
+  "paidInferenceCalls": 0
+}

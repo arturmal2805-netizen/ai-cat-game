@@ -315,3 +315,14 @@ with `retainGeometryForGrace` so the residency controller applies the normal
 time grace to them, while abandoned island buffers retain fast pressure
 retirement. Test repeated threshold crossings, actual WebGL upload bytes,
 colour/shadow pixels, live atlas registrations and the real RAF/GPU queue.
+
+### Static vertex reuse in the shared builders
+
+Keep byte-identical attribute comparisons, independent copied indices, the
+released triangle/cache order and cooperative preparation. Cache only immutable
+shared primitive sources; consume temporary alias maps without serializing them.
+Corners whose normals are generated later must retain the native path. A shader
+depending on vertex IDs must retain original IDs rather than use aliases.
+Do not apply this static-copy path to the approved native cat/fish rigs. The
+2026-10-26 report records a modest, varied software-frame result, not a universal
+FPS standard; every future island still needs the full native-frame gate.

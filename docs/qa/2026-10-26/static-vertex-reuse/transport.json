@@ -1,0 +1,23 @@
+{
+  "allIslandRun": {
+    "renderInputSamples": 44,
+    "exactIslandImages": 17,
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+    ],
+    "workerLog": {
+      "component": "Wrangler ProxyWorker",
+      "method": "PUT",
+      "path": "/api/save",
+      "message": "Network connection lost",
+      "subsequentPutStatus": 200
+    },
+    "overallAssertion": "failed; retained as diagnostic evidence"
+  },
+  "focusedRetry": {
+    "samples": 6,
+    "errors": [],
+    "httpErrors": [],
+    "overallAssertion": "passed"
+  }
+}
