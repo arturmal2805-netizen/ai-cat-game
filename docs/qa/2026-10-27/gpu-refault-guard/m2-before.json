@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+  "suspended": false,
+  "automaticPauseSeconds": 15,
+  "app": "./dist/app.js?v=74f8a978bfeb04b5",
+  "bufferTransfersSinceReset": {"dataCalls":158,"dataBytes":20134980,"subCalls":262,"subBytes":153024},
+  "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+  "viewport": [855,691],
+  "samples": 11,
+  "seconds": 2.817,
+  "fps": 3.55,
+  "gapP95": 400.9,
+  "gapMax": 1432.4000000000015,
+  "cpuMedian": 9.4,
+  "cpuP95": 124.6,
+  "renderMedian": 27.3,
+  "renderP95": 128.8,
+  "gpuWaitCallbacksSinceReset": 8,
+  "contextWaitCallbacksSinceReset": 0,
+  "queueCpuTotalSinceReset": 5.4,
+  "queueCpuMaxSinceReset": 2.7,
+  "eventLoopDelayP95": 461.2,
+  "eventLoopDelayMax": 1414.3999999910593,
+  "geometryEvictionsDuringWindow": 119,
+  "last": {
+    "biome":"jobcity","cats":64,"calls":519,"triangles":2711462,
+    "geometryBytes":249049459,"pending":1,"dpr":2,"poseCats":38,
+    "colonyActive":true,"shaderPending":101,"evicted":315,
+    "visible":true,"moving":false,"buffer":[1634,1142]
+  }
+}

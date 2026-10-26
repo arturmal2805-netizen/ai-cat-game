@@ -316,6 +316,17 @@ time grace to them, while abandoned island buffers retain fast pressure
 retirement. Test repeated threshold crossings, actual WebGL upload bytes,
 colour/shadow pixels, live atlas registrations and the real RAF/GPU queue.
 
+Rapid policy-eviction returns must retain a bounded working-set grace, using
+weak history rather than a second owning model cache. Keep the original fast
+retirement for cold remote geometry, shared-stream ownership and one clock read
+per native frame. The current learned grace is two seconds of last use, with
+at most 64 MiB / one third of the soft budget as an idle-cache allowance; current
+rendering still wins and the existing sweep cadence is not a hard memory cap.
+Check real bufferData transfers, over-cap reclamation, eventual idle release,
+live cat registrations and exact return frames. Resource savings alone do not
+establish physical-device FPS. Opt-in reports distinguish fresh transfers from
+policy refaults and expose preparation state without player records or keys.
+
 ### Static vertex reuse in the shared builders
 
 Keep byte-identical attribute comparisons, independent copied indices, the

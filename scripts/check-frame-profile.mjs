@@ -17,6 +17,10 @@ export async function checkFrameProfile(page, review) {
   assert.equal(typeof report.gpu,"string");
   assert.ok(report.fps>0);assert.equal(report.last.dpr,2);
   assert.ok(report.cpuP95>=0);assert.ok(report.renderP95>=0);
+  for(const field of ["refaults","refaultBytes","rapidRefaults","rapidRefaultBytes","shaderPreparing"])
+    assert.equal(typeof report.last[field],"number",field);
+  assert.equal(typeof report.geometryRefaultsDuringWindow,"number");
+  assert.equal(typeof report.geometryRapidRefaultBytesDuringWindow,"number");
   assert.ok(report.last.pending<=2);
   const privacy=await page.evaluate(()=>({
     token:__lagoonSaveQA.cloud.token,

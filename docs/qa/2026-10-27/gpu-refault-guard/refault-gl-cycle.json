@@ -1,0 +1,51 @@
+{
+  "rows": [
+    {
+      "protection": false,
+      "changed": 0,
+      "uploads": {
+        "dataCalls": 172,
+        "dataBytes": 36120,
+        "subCalls": 0,
+        "subBytes": 0
+      },
+      "cache": {
+        "bytes": 3360,
+        "peakBytes": 3360,
+        "geometries": 4,
+        "evicted": 39,
+        "clockReads": 120,
+        "refaults": 39,
+        "refaultBytes": 32760,
+        "rapidRefaults": 39,
+        "rapidRefaultBytes": 32760
+      },
+      "bytesPerGeometry": 840
+    },
+    {
+      "protection": true,
+      "changed": 0,
+      "uploads": {
+        "dataCalls": 32,
+        "dataBytes": 6720,
+        "subCalls": 0,
+        "subBytes": 0
+      },
+      "cache": {
+        "bytes": 3360,
+        "peakBytes": 3360,
+        "geometries": 4,
+        "evicted": 4,
+        "clockReads": 120,
+        "refaults": 4,
+        "refaultBytes": 3360,
+        "rapidRefaults": 4,
+        "rapidRefaultBytes": 3360
+      },
+      "bytesPerGeometry": 840
+    }
+  ],
+  "error": 0,
+  "contextLost": false,
+  "gameDpr": 2
+}

@@ -1,0 +1,62 @@
+{
+  "version": 2,
+  "gpu": "Apple GPU",
+  "suspended": false,
+  "automaticPauseSeconds": 0,
+  "app": "./dist/app.js?v=097bbf4e32d5605d",
+  "bufferTransfersSinceReset": {
+    "dataCalls": 860,
+    "dataBytes": 21961600,
+    "subCalls": 144,
+    "subBytes": 200448
+  },
+  "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5 Safari/605.1.15",
+  "viewport": [
+    390,
+    844
+  ],
+  "samples": 13,
+  "seconds": 5.558,
+  "fps": 2.16,
+  "gapP95": 548,
+  "gapMax": 2396,
+  "cpuMedian": 3,
+  "cpuP95": 23,
+  "renderMedian": 80,
+  "renderP95": 279,
+  "gpuWaitCallbacksSinceReset": 2,
+  "contextWaitCallbacksSinceReset": 0,
+  "queueCpuTotalSinceReset": 2,
+  "queueCpuMaxSinceReset": 1,
+  "eventLoopDelayP95": 815,
+  "eventLoopDelayMax": 9039,
+  "geometryEvictionsDuringWindow": 0,
+  "geometryRefaultsDuringWindow": 0,
+  "geometryRefaultBytesDuringWindow": 0,
+  "geometryRapidRefaultsDuringWindow": 0,
+  "geometryRapidRefaultBytesDuringWindow": 0,
+  "last": {
+    "biome": "moon",
+    "cats": 22,
+    "calls": 285,
+    "triangles": 442440,
+    "geometryBytes": 21871276,
+    "pending": 1,
+    "dpr": 2,
+    "poseCats": 2,
+    "colonyActive": false,
+    "shaderPending": 24,
+    "shaderPreparing": 1,
+    "evicted": 0,
+    "refaults": 0,
+    "refaultBytes": 0,
+    "rapidRefaults": 0,
+    "rapidRefaultBytes": 0,
+    "visible": true,
+    "moving": false,
+    "buffer": [
+      776,
+      1464
+    ]
+  }
+}
