@@ -151,6 +151,7 @@ import {
 import { yarnPlayFrame, applyYarnFrame, resetYarn } from "./yarn-play.js";
 import * as THREE from "three";
 import { cacheSceneAdditions } from "./matrix-cache.js";
+import { createFrameProfile } from "./frame-profile.js";
 import { cameraBlend as blendCamera, wheelPixels } from "./camera-timing.js";
 import { createShaderWarmup } from "./shader-warmup.js";
 import { createGeometryResidency } from "./geometry-residency.js";
@@ -216,6 +217,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
   const slideAudio = createSlideAudio(renderer.domElement);
   const gpuFrames = createGpuFrameQueue(renderer.getContext());
+  const frameProfile = createFrameProfile(renderer);
   configureStaticSubmissions(renderer);
   const geometryResidency = createGeometryResidency(renderer);
   renderer.shadowMap.enabled = true;
@@ -3586,6 +3588,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     viewport.invalidate();
   };
   const resume = () => {
+    frameProfile?.pause();
     if (document.hidden) cinema.pause();
     if (!document.hidden) viewport.invalidate();
   };
@@ -3603,16 +3606,20 @@ export function createWorld(container, initialGame, callbacks = {}) {
   const renderDue = createRenderPacer();
   function loop(now) {
     if (disposed) return;
+    const profileQueue = frameProfile ? performance.now() : 0;
     if (contextLost || document.hidden || !gpuFrames.ready()) {
+      frameProfile?.blocked(contextLost ? "context" : document.hidden ? "hidden" : "gpu",performance.now()-profileQueue);
       requestAnimationFrame(loop);
       return;
     }
+    if (frameProfile) frameProfile.queue(performance.now()-profileQueue);
     const cameraMoving =
       look.distanceToSquared(desiredLook) > 0.0001 ||
       Math.abs(distance - desiredDistance) > 0.01 ||
       (overviewElevation !== null &&
         Math.abs(elevation - overviewElevation) > 0.001);
     const dialogOpen = !!document.querySelector("dialog[open]");
+    if (dialogOpen || !worldVisible) frameProfile?.pause();
     if (
       !renderDue(
         now,
@@ -3632,6 +3639,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       return;
     }
     if (!dialogOpen && worldVisible) viewport.apply(renderer, camera);
+    const profileStart = frameProfile ? performance.now() : 0;
     if (courtCamera?.attraction) {
       const g = itemGroups.get(courtCamera.id);
       if (!g) exitCourt();
@@ -5624,9 +5632,17 @@ export function createWorld(container, initialGame, callbacks = {}) {
     // The opaque shop covers the map. Keep the simulation running, but avoid
     // competing GPU draws while its miniature scenes are being rendered.
     if (!dialogOpen) {
+      const profileRender = frameProfile ? performance.now() : 0;
       renderer.render(scene, camera);
       gpuFrames.submitted();
       geometryResidency.sweep(now);
+      if (frameProfile) frameProfile.frame({at:now,cpu:profileRender-profileStart,render:performance.now()-profileRender,
+        biome:focused,cats:npcs.size,calls:renderer.info.render.calls,triangles:renderer.info.render.triangles,
+        geometryBytes:geometryResidency.stats.bytes,pending:gpuFrames.pending,dpr:renderer.getPixelRatio(),
+        poseCats:poseAtlas.stats.updatedCats,colonyActive:colonyDraws.stats.active,
+        shaderPending:shaderWarmup.stats.pending,evicted:geometryResidency.stats.evicted,
+        visible:worldVisible,moving:!!(cameraMoving||pointerDown||faceCamera.enabled),
+        buffer:[renderer.domElement.width,renderer.domElement.height]});
       recovery.hidden = true;
     }
     requestAnimationFrame(loop);
@@ -5781,6 +5797,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     },
     dispose() {
       disposed = true;
+      frameProfile?.dispose();
       shaderWarmup.dispose();
       shadowDepth.dispose();
       geometryResidency.dispose();

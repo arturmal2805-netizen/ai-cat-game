@@ -497,10 +497,17 @@ async function localWorker() {
         return r.fulfill({json:{attemptId:request.attemptId,forecast:localCryptoForecast(request.attemptId),source:"local"}});
       });
     }
-    await page.goto(base);
+    await page.goto(base + (process.env.CHICHI_DEVICE_PROFILE_AUDIT ? "?profile=1" : ""));
     await page.waitForFunction(
       () => window.__lagoonQA && window.__lagoonSaveQA?.cloud.editable,
     );
+
+    if (process.env.CHICHI_DEVICE_PROFILE_AUDIT) {
+      const {checkFrameProfile}=await import("./check-frame-profile.mjs");
+      await checkFrameProfile(page,review);
+      fs.writeFileSync(path.join(review,"browser-errors.json"),JSON.stringify({errors,httpErrors},null,2));
+      assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;
+    }
 
     if (process.env.CHICHI_NATIVE_MAP_AUDIT && process.env.CHICHI_PREVIEW_LOAD_AUDIT) {
       const { checkPreviewLoad } = await import("./check-preview-load.mjs");

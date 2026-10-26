@@ -1,0 +1,71 @@
+[
+  {
+    "id": "jobcity",
+    "changed": 0,
+    "native": {
+      "frame": 167,
+      "calls": 493,
+      "triangles": 3160351,
+      "points": 320,
+      "lines": 0
+    },
+    "fast": {
+      "frame": 168,
+      "calls": 493,
+      "triangles": 3160351,
+      "points": 320,
+      "lines": 0
+    },
+    "nativeMultiplications": 9569,
+    "cachedMultiplications": 9569,
+    "dpr": 2,
+    "error": 0,
+    "contextLost": false
+  },
+  {
+    "id": "summer",
+    "changed": 0,
+    "native": {
+      "frame": 250,
+      "calls": 580,
+      "triangles": 2521478,
+      "points": 320,
+      "lines": 0
+    },
+    "fast": {
+      "frame": 251,
+      "calls": 580,
+      "triangles": 2521478,
+      "points": 320,
+      "lines": 0
+    },
+    "nativeMultiplications": 1937,
+    "cachedMultiplications": 1937,
+    "dpr": 2,
+    "error": 0,
+    "contextLost": false
+  },
+  {
+    "id": "aquarium",
+    "changed": 0,
+    "native": {
+      "frame": 297,
+      "calls": 246,
+      "triangles": 2134493,
+      "points": 320,
+      "lines": 0
+    },
+    "fast": {
+      "frame": 298,
+      "calls": 246,
+      "triangles": 2134493,
+      "points": 320,
+      "lines": 0
+    },
+    "nativeMultiplications": 849,
+    "cachedMultiplications": 849,
+    "dpr": 2,
+    "error": 0,
+    "contextLost": false
+  }
+]
