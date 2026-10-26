@@ -4,7 +4,10 @@ import { BufferAttribute } from "three";
 // Repeated triangle vertices in authored non-indexed static props can reuse the
 // exact same GPU vertex result. Keep ALL source attribute buffers and compare
 // bytes, including normals/UVs/colours: this is not a tolerance-based weld.
-export function indexExactVertices(geometry) {
+const sharedIndices = new WeakMap();
+// Only the static copy builders pass immutable sharedScenery primitives.
+// Each copy owns its index; edits/reordering cannot poison the template.
+export function* indexExactVerticesSteps(geometry, { source = null } = {}) {
   if (geometry.index || Object.keys(geometry.morphAttributes).length)
     return geometry;
   const attributes = Object.values(geometry.attributes);
@@ -15,6 +18,15 @@ export function indexExactVertices(geometry) {
     return geometry;
   const count = geometry.attributes.position?.count;
   if (!count || attributes.some((a) => a.count !== count)) return geometry;
+  const shared = source?.userData.sharedScenery && !source.index,
+    originals = shared ? Object.entries(source.attributes) : null,
+    known = shared ? sharedIndices.get(source) : null;
+  if (known && originals.length === known.attributes.length &&
+      originals.every(([name,a], i) => name === known.attributes[i][0] &&
+        a === known.attributes[i][1] && a.version === known.attributes[i][2])) {
+    geometry.setIndex(known.index.clone());
+    return geometry;
+  }
   const streams = attributes.map((a) => ({
     bytes: new Uint8Array(
       a.array.buffer,
@@ -33,6 +45,7 @@ export function indexExactVertices(geometry) {
       return true;
     });
   for (let vertex = 0; vertex < count; vertex++) {
+    if ((vertex & 255) === 0) yield;
     let hash = 2166136261;
     for (const { bytes, stride } of streams)
       for (let i = vertex * stride; i < (vertex + 1) * stride; i++)
@@ -47,7 +60,18 @@ export function indexExactVertices(geometry) {
     } else indices[vertex] = same;
   }
   geometry.setIndex(new BufferAttribute(indices, 1));
+  if (shared) sharedIndices.set(source, {
+    index: geometry.index.clone(),
+    attributes: originals.map(([name,a]) => [name,a,a.version]),
+  });
   return geometry;
+}
+
+export function indexExactVertices(geometry) {
+  const steps = indexExactVerticesSteps(geometry);
+  let result;
+  do { result = steps.next(); } while (!result.done);
+  return result.value;
 }
 
 // Triangle order only: every vertex, strand, attribute, winding and triangle

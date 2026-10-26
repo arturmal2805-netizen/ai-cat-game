@@ -1,8 +1,9 @@
 import { runSceneSteps } from "./scene-tasks.js";
 import * as THREE from "three";
 import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
-import { mergeSceneSteps, copyGeometryBuffers } from "./geometry-tasks.js";
+import { copyGeometryBuffers } from "./geometry-tasks.js";
 import { staticSubmissionSteps } from "./static-submissions.js";
+import { prepareStaticVertexReuseSteps, mergeStaticVertexReuseSteps, applyStaticVertexReuseSteps } from "./static-vertex-reuse.js";
 
 const geometries = {
   sphere: new THREE.SphereGeometry(1, 12, 8),
@@ -564,6 +565,8 @@ export function* batchScenerySteps(root, { surfaceKind = null } = {}) {
     yield;
     let geometry = copyGeometryBuffers(mesh.geometry);
     yield;
+    yield* prepareStaticVertexReuseSteps(geometry, mesh.geometry);
+    yield;
     if (!geometry.index)
       geometry.setIndex(
         Array.from(
@@ -621,7 +624,8 @@ export function* batchScenerySteps(root, { surfaceKind = null } = {}) {
     yield;
     if (!pieces.length) continue;
     yield;
-    const geometry = yield* mergeSceneSteps(pieces);
+    const geometry = yield* mergeStaticVertexReuseSteps(pieces);
+    if (geometry) yield* applyStaticVertexReuseSteps(geometry);
     yield;
     pieces.forEach((g) => g.dispose());
     yield;

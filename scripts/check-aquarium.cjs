@@ -298,6 +298,19 @@ async function localWorker() {
         {
           name: "qa",
           setup(b) {
+            if (process.env.CHICHI_COMPARE_STATIC_REUSE)
+              b.onLoad({ filter: /\/public\/static-draw-batch\.js$/ }, () => ({
+                contents: readPublic("static-draw-batch.js").replace(
+                  "  return {\n    stats,", "  return {\n    qaEntries: () => entries,\n    stats,"),
+                loader: "js",
+              }));
+            if (process.env.CHICHI_COMPARE_STATIC_REUSE)
+              b.onLoad({ filter: /\/public\/static-vertex-reuse\.js$/ }, () => ({
+                contents: readPublic("static-vertex-reuse.js")
+                  .replace("  const index = geometry.index.array;", "  const index = geometry.index.array, qaOriginal = index.slice();")
+                  .replace("  aliases.delete(geometry);", "  (globalThis.__qaStaticIndices ||= new Map()).set(geometry, {native:qaOriginal, fast:index.slice(), current:true});\n  aliases.delete(geometry);"),
+                loader: "js",
+              }));
             if (process.env.CHICHI_NATIVE_MAP_AUDIT || process.env.CHICHI_PHONE_CAMERA_AUDIT)
               b.onLoad({ filter: /\/public\/jobcity-system\.js$/ }, () => ({
                 contents: readPublic("jobcity-system.js").replace(

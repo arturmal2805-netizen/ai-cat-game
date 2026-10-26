@@ -1,7 +1,8 @@
 import { runSceneSteps } from "./scene-tasks.js";
 import * as THREE from "three";
-import { mergeSceneSteps, copyGeometryBuffers } from "./geometry-tasks.js";
+import { copyGeometryBuffers } from "./geometry-tasks.js";
 import { optimizeGeometryCache } from "./geometry-cache.js";
+import { prepareStaticVertexReuseSteps, mergeStaticVertexReuseSteps, applyStaticVertexReuseSteps } from "./static-vertex-reuse.js";
 import { staticSubmissionSteps } from "./static-submissions.js";
 
 // Reduce static draws without replacing the authored material: illuminated
@@ -33,6 +34,7 @@ export function* batchModelSteps(root, { combineColors = false } = {}) {
     if (hidden) continue;
     yield;
     const geometry = copyGeometryBuffers(mesh.geometry);
+    yield* prepareStaticVertexReuseSteps(geometry, mesh.geometry);
     if (!geometry.index)
       geometry.setIndex(
         Array.from({ length: geometry.attributes.position.count }, (_, i) => i),
@@ -123,13 +125,14 @@ export function* batchModelSteps(root, { combineColors = false } = {}) {
   yield;
   for (const [material, parts] of buckets) {
     yield;
-    const geometry = yield* mergeSceneSteps(parts.map((p) => p.geometry));
+    const geometry = yield* mergeStaticVertexReuseSteps(parts.map((p) => p.geometry));
     yield;
     parts.forEach((p) => p.geometry.dispose());
     yield;
     if (!geometry) throw Error("Incompatible static model geometry");
     yield;
     if (!material.transparent) optimizeGeometryCache(geometry);
+    yield* applyStaticVertexReuseSteps(geometry);
     yield;
     const mesh = new THREE.Mesh(geometry, material);
     mesh.userData.staticModel = true;

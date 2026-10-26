@@ -6,6 +6,32 @@ import path from "node:path";
 import assert from "node:assert/strict";
 
 export async function checkNativeMapFrames(page, review) {
+  const compareReuse = !!process.env.CHICHI_COMPARE_STATIC_REUSE, proofs = [];
+  if (compareReuse) await page.evaluate(() => {
+    const q = __lagoonQA, before = q.scene.onBeforeRender;
+    q.staticReuseEnabled = true;
+    q.setStaticReuse = enabled => {
+      q.staticReuseEnabled = enabled;
+      const changed = new Set();
+      for (const [g, r] of globalThis.__qaStaticIndices || []) {
+        if (r.current === enabled) continue;
+        g.index.array.set(enabled ? r.fast : r.native);
+        g.index.needsUpdate = true; r.current = enabled;
+        changed.add(g);
+      }
+      // Small scenery has already been copied into a BatchedMesh. Switch its
+      // exact index data too, without rebuilding materials or shader variants.
+      for (const e of q.staticDraws.qaEntries())
+        if (changed.has(e.geometry))
+          e.batch.setGeometryAt(e.batch.getGeometryIdAt(e.id), e.geometry);
+    };
+    let known = -1;
+    q.scene.onBeforeRender = function (...args) {
+      const count = globalThis.__qaStaticIndices?.size || 0;
+      if (count !== known) { q.setStaticReuse(q.staticReuseEnabled); known = count; }
+      return before.apply(this, args);
+    };
+  });
   if (process.env.CHICHI_COMPARE_COLONY_CACHE) await page.evaluate(() => {
     const q=__lagoonQA,before=q.scene.onBeforeRender;
     q.scene.onBeforeRender=function(...args){
@@ -19,23 +45,29 @@ export async function checkNativeMapFrames(page, review) {
   });
   const ids = process.env.CHICHI_LIVE_BIOMES?.split(",") ||
     await page.locator("[data-biome]").evaluateAll(ns => ns.map(n => n.dataset.biome));
+  if (compareReuse && ids.includes("jobcity")) {
+    ids.splice(ids.indexOf("jobcity"), 1); ids.unshift("jobcity");
+  }
   const rows = [], ms = Number(process.env.CHICHI_NATIVE_SAMPLE_MS || 8000),
     imageOnly = !!process.env.CHICHI_NATIVE_PIXEL_PROOF,
     repeats = process.env.CHICHI_NATIVE_REPEATS?.split(",") || ["summer", "aquarium", "homestead", "sakura"];
   const views=[...ids,...repeats.filter(id=>ids.includes(id))],
-    checks=process.env.CHICHI_COMPARE_COLONY_CACHE
+    checks=compareReuse
+      ? views.flatMap((id,i)=>(i%2?[true,false]:[false,true]).map(reuse=>({id,legacy:false,reuse})))
+      : process.env.CHICHI_COMPARE_COLONY_CACHE
       ? views.flatMap((id,i)=>(i%2?[false,true]:[true,false]).map(legacy=>({id,legacy})))
       : views.map(id=>({id,legacy:false}));
-  for (const {id,legacy} of checks) {
+  for (const {id,legacy,reuse} of checks) {
     const started = Date.now();
-    await page.evaluate(({id,legacy}) => {
+    await page.evaluate(({id,legacy,reuse}) => {
       const q = __lagoonQA;
       q.legacyColonyDeletion=legacy;
+      if (q.setStaticReuse) q.setStaticReuse(reuse);
       q.freeze = false; q.drawPaused = false; q.cpuOnly = false;
       document.querySelector(`[data-biome="${id}"]`).click();
       const b = q.islands.get(id);
       q.reviewView(b.position.x, b.position.z, 85);
-    }, {id,legacy});
+    }, {id,legacy,reuse});
     await page.waitForFunction(id => {
       const q = __lagoonQA;
       return !q.islands.get(id).userData.lowOnly &&
@@ -43,6 +75,38 @@ export async function checkNativeMapFrames(page, review) {
         q.shaderWarmup.idle();
     }, id, { timeout: 180000 });
     const readyMs = Date.now() - started;
+    if (compareReuse && !proofs.some(p => p.id === id)) {
+      const proof = await page.evaluate(reuse => {
+        const q = __lagoonQA, gl = q.renderer.getContext();
+        q.freeze = true; q.shadowDepth.setEnabled(false);
+        const a = new Uint8Array(gl.drawingBufferWidth * gl.drawingBufferHeight * 4), b = new Uint8Array(a.length);
+        let native, fast;
+        try {
+          q.setStaticReuse(false); q.drawFrame(); native = { ...q.renderer.info.render };
+          gl.readPixels(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight, gl.RGBA, gl.UNSIGNED_BYTE, a);
+          q.setStaticReuse(true); q.drawFrame(); fast = { ...q.renderer.info.render };
+          gl.readPixels(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight, gl.RGBA, gl.UNSIGNED_BYTE, b);
+        } finally {
+          q.setStaticReuse(reuse); q.shadowDepth.setEnabled(true); q.gpuFrames.clear();
+        }
+        let changed = 0, corners = 0, geometries = 0;
+        for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) changed++;
+        for (const r of globalThis.__qaStaticIndices.values()) {
+          geometries++; for (let i = 0; i < r.fast.length; i++) if (r.native[i] !== r.fast[i]) corners++;
+        }
+        return { changed, native, fast, corners, geometries, dpr: q.renderer.getPixelRatio(),
+          buffer: [gl.drawingBufferWidth, gl.drawingBufferHeight], error: gl.getError() };
+      }, reuse);
+      proofs.push({ id, ...proof });
+      fs.writeFileSync(path.join(review, "static-reuse-images.json"), JSON.stringify(proofs, null, 2));
+      console.log("STATIC_REUSE_IMAGE", JSON.stringify(proofs.at(-1)));
+      assert.equal(proof.changed, 0, `${id}: preserve exact native colour and shadow pixels`);
+      assert.equal(proof.native.triangles, proof.fast.triangles);
+      assert.equal(proof.native.calls, proof.fast.calls);
+      assert.equal(proof.error, 0); assert.equal(proof.dpr, 2);
+      assert.ok(proof.corners > 0);
+      await page.evaluate(() => __lagoonQA.freeze = false);
+    }
     if (imageOnly) {
       const image = await page.evaluate(() => {
         const q = __lagoonQA, gl = q.renderer.getContext(), paints = new Set();
@@ -202,7 +266,7 @@ export async function checkNativeMapFrames(page, review) {
     assert.ok(row.zoomRange > 6, `${id}: the actual input handler must change camera zoom`);
     assert.ok(row.frames > 0, `${id}: real frames must complete during camera input`);
     assert.equal(row.dpr, 2); assert.equal(row.contextLost, false); assert.equal(row.visible, true);
-    rows.push({ id, legacy, repeat: rows.some(r => r.id === id), readyMs, ...row });
+    rows.push({ id, legacy, reuse, repeat: rows.some(r => r.id === id), readyMs, ...row });
     fs.writeFileSync(path.join(review, "native-map-frames.json"), JSON.stringify(rows, null, 2));
     console.log("NATIVE_MAP", JSON.stringify(rows.at(-1)));
     if(process.env.CHICHI_NATIVE_MAP_CAPTURE && !rows.slice(0,-1).some(r=>r.id===id))
