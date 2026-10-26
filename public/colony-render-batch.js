@@ -3,6 +3,7 @@ import { createRenderVisibility } from "./render-visibility.js";
 import { rigShader } from "./cat-render-batch.js";
 import { prepareSceneSteps } from "./scene-tasks.js";
 import { retainGeometryForGrace } from "./geometry-residency.js";
+import { createCompileLighting } from "./compile-lighting.js";
 
 // All approved non-hero rigs keep their individual anatomy, poses and picking.
 // Share only compatible opaque material draws across the colony. No LODs.
@@ -418,9 +419,10 @@ export function createColonyRenderBatch(
     }
     try {
       await prepareSceneSteps(steps(), { budget: 3 });
+      const lighting = createCompileLighting(scene);
       for (const batch of next) {
         if (disposed || revision !== generation) break;
-        await renderer.compileAsync(batch, camera, scene);
+        await renderer.compileAsync(batch, camera, lighting);
       }
       if (disposed || revision !== generation) {
         discard(next);

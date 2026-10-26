@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { yieldSceneTask } from "./scene-tasks.js";
+import { createCompileLighting } from "./compile-lighting.js";
 
 // Colour-only compileAsync does not prepare the actual depth pass or the first
 // uniform/attribute reflection. Do that cooperatively before a newly loaded
@@ -236,12 +237,8 @@ export function createShaderWarmup(
       programs = new Set();
     // compileAsync traverses its target scene for lights for EACH object.
     // Use the same live lights/environment without revisiting world geometry.
-    const lighting = Object.create(scene),
-      lights = [];
-    scene.traverseVisible((o) => {
-      if (o.isLight) lights.push(o);
-    });
-    lighting.children = lights;
+    const lighting = createCompileLighting(scene),
+      lights = lighting.children;
     const signature = JSON.stringify([
       lights.map((l) => [l.uuid, l.type, l.castShadow, l.layers.mask]),
       scene.environment?.uuid,
