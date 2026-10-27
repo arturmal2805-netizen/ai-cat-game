@@ -721,7 +721,7 @@ function renderShop() {
   shopViewKey = viewKey;
   $("shop-coins").textContent = money(game.coins);
   $("shop-tabs").replaceChildren();
-  for (const category of [...CATEGORIES, {id:"atoll-water",name:"Водні світи · 20",icon:"🌊"}]) {
+  for (const category of CATEGORIES.flatMap(c=>c.id==='rides'?[c,{id:"atoll-water",name:"Водні світи · 20",icon:"🌊"}]:[c])) {
     const button = document.createElement("button");
     button.setAttribute("role", "tab");
     button.setAttribute(
@@ -836,7 +836,7 @@ function renderShop() {
         : "Открыть · " + money(entry.price) + " ✦"
       : shopCategory === "bag"
         ? "Разместить"
-        : "Купить · " + money(entry.price) + " ✦";
+        : (acquired ? "Купить ещё · " : "Купить · ") + money(entry.price) + " ✦";
     button.setAttribute("aria-label", button.textContent + " " + entry.name);
     if (!land && shopCategory !== "bag") {
       const locked = levelRequirement(game, entry.requiredLevel);

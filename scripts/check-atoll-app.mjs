@@ -55,7 +55,10 @@ export async function checkAtollApp(page,review){
   await page.waitForFunction(id=>__lagoonQA.residentPlay.get(id)?.phase==='activity',id);
   await page.evaluate(({id,time})=>{(__lagoonQA.atollPinnedResidents||=[]).push({id,time});},{id,time:elapsed+(i+1)*2});
  }
- await page.waitForTimeout(1000);
+ // Seeking is applied at the next actual world frame. A fixed one-second
+ // delay can sample the preceding boarding frame on the software GPU.
+ await page.waitForFunction(()=> (__lagoonQA.atollPinnedResidents||[]).length===2&&
+  __lagoonQA.atollPinnedResidents.every(p=>Math.abs((__lagoonQA.residentPlay.get(p.id)?.elapsed??-1)-p.time)<.001));
  const riding=await page.evaluate(({target,elapsed,residents})=>{
   const q=__lagoonQA,g=q.itemGroups.get(target),T=q.THREE;
   const rows=residents.map(id=>{const v=q.residentPlay.get(id),n=q.npcs.get(id),f=g.userData.rideFrame(v.elapsed,false,v.rider.lane),expected=g.localToWorld(new T.Vector3(...f.position));return{id,error:n.carrier.position.distanceTo(expected),sit:g.userData.rideReaction(v.elapsed,false,v.rider.lane).rideSit,phase:f.phase};});

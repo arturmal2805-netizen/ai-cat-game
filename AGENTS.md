@@ -384,3 +384,29 @@ its temporary renderer/models. Keep the explicit authoring capture path.
 Verify the real close-and-zoom path with a failed metadata request; distinguish
 this fault recovery from ordinary island FPS. Preserve the independent native
 rendering, shader/cache versions and approved graphics.
+
+### Approved M2 baseline and giant water worlds
+
+Keep `performance/approved-m2-60fps-2026-10-27` as the immutable reference for
+the player's approved native rendering. Its moving homestead report records
+59.99 FPS, 64 cats and DPR 2 over 4.984 seconds; this is a measured window,
+not a guarantee for every scene. Diagnostics must never pause the game:
+the FPS panel has only a copy-report button, including with legacy pause links.
+
+- Author a distinct physical route and measured-speed/height/turn choreography
+  for every slide. Keep inversion through the complete last loop, true hollow
+  cave/arch clearance, bowl exit openings and separate race-lane finishes.
+  Verify real animated paw vertices for the largest approved cat, cancellation
+  and reduced motion. Ride-only joint adjustments belong outside sculpt/cache
+  producers; unrelated content must retain the approved cat cache version.
+- Giant purchased complexes prepare cooperatively near the selected view,
+  with bounded requests and no work during camera gestures. An overview must
+  not initialize every owned complex. Once prepared, occupied offscreen rides
+  retain their simulation and restore their full visuals on return.
+- Bundle real model previews. Preserve every released island centre, road and
+  placement ID when appending a park; protect unlocks and purchases against
+  cached clients. Keep unpaid premium income in the existing register when
+  the established wallet is full, rather than invalidating the save.
+- Validate the complete collection in normal, grazing, phone and seated-rider
+  views. Retain exact old-attraction image comparisons, fixed water buffers,
+  and real private-SQLite shop/camera/rider/reload checks before publication.

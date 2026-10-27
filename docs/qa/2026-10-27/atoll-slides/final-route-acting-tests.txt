@@ -1,0 +1,35 @@
+✔ large waterpark streaming starts only one nearby visible complex, never the whole map or while gesturing (2.100643ms)
+✔ approaches take the dry perimeter, use the existing A* for interior obstacles and keep a bounded cache (172.936583ms)
+✔ the annex is a new leaf road and every released road keeps its exact endpoints (100.88627ms)
+✔ all twenty complexes remain placeable and reloadable alongside sixty existing purchases (582.554307ms)
+✔ exactly twenty new row-major premium mini-biomes cost at least eight times the old shop maximum (1.281142ms)
+✔ all twenty full-size plots fit, retain wide aisles and pay/save/build once without changing any old object (288.666065ms)
+✔ new land is separate and disconnected purchases or insufficient funds cannot charge or create a building (11.966403ms)
+✔ all routes and choreography are unique, continuous, finite, bounded and finish in their own lagoon (703.20873ms)
+✔ all real models have the declared channels, bounded static batches, empty hidden rafts and complete footprint clearance (10237.20616ms)
+✔ each purchased mini-biome pays existing coins and XP and can be stored and reloaded without a second payment (239.510573ms)
+✔ large premium registers never overflow the established wallet or discard the unpaid balance on reload (117.536795ms)
+✔ the largest approved cat keeps its real animated paw vertices above every authored flume floor (3721.57482ms)
+✔ real speed, drop height and slope produce different grips, wind, eyes and flight reactions (12.54013ms)
+✔ left and right real turns cause opposite leaning and gaze without inventing a seat offset (1.378789ms)
+✔ landing is a brief blink, compression and damped shake followed by recovery (3.215306ms)
+✔ all water slides and mega coasters have finite, continuous, bounded choreography with shared fixed tables (34321.558071ms)
+✔ runtime sampling happens only once, never while an active rider animates (8.364579ms)
+✔ Chichi, tiny and giant cats animate through their approved rigs and return exactly to their ordinary pose (3446.849604ms)
+✔ resident runtime receives the same complete speed/height/turn reaction as Chichi (156.297588ms)
+✔ every shop and permanent island water ride declares and implements the shared water contract, including all three/six lanes (18394.405629ms)
+✔ water spans the real three-dimensional route, with smooth finite normals and monotonic metre-based flow instead of a flat plane (13219.794083ms)
+✔ every outlet starts at its wet channel and lands inside the actual catch basin under real downward gravity (15400.537249ms)
+✔ idle running water splashes at its outlets; an empty diving tower never emits a phantom rider splash (14569.976534ms)
+✔ a real rider impact creates one strong burst and basin waves, remains idempotent in the same frame, and cancellation rearms safely (15278.795051ms)
+✔ continuous droplets and foam use fixed GPU instance buffers, bounded burst slots and no new textures or per-frame geometry work (15138.022812ms)
+✔ resident riders use the same physical water route and trigger the same basin impact as the main cat (11359.729115ms)
+✔ water rendering leaves existing purchases, balances, XP and shared-save payloads unchanged through reload (13515.082617ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 121659.745816
