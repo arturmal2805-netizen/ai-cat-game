@@ -27,3 +27,14 @@ test("ordinary play retains original functions and opt-in wrappers use only thei
     assert.equal(p.report().phases.work.calls,1);
   } finally {if(old)Object.defineProperty(globalThis,'location',old);else delete globalThis.location;}
 });
+
+test('frame section observations separate a slow render from submission and retain their original start time',()=>{
+ let now=1000;const p=createWorkSamples({clock:()=>now});
+ p.record('frame.visibility',4,1000);p.record('frame.renderer',408,1004);
+ p.record('frame.gpuSubmit',.2,1412);p.record('frame.residency',.1,1412.2);
+ const r=p.report();assert.equal(r.phases['frame.renderer'].maxMs,408);
+ assert.equal(r.phases['frame.gpuSubmit'].maxMs,.2);
+ assert.deepEqual(r.longest,[{label:'frame.renderer',atMs:4,durationMs:408}]);
+ p.clear();now=2000;p.record('frame.viewport',60,2000);
+ assert.deepEqual(p.report().longest,[{label:'frame.viewport',atMs:1000,durationMs:60}]);
+});

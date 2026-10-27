@@ -31,6 +31,18 @@ test("ordinary play never allocates a diagnostic panel or reads browser resource
   finally { if(previous)Object.defineProperty(globalThis,"location",previous);else delete globalThis.location; }
 });
 
+test('callback cadence is separate from submitted-frame FPS and own pacing skips, and reset discards old phases',()=>{
+ const p=createFrameSamples();
+ for(let i=0;i<600;i++){
+  p.raf(i*1000/60);
+  if(i%2)p.notDue();else p.frame({at:i*1000/60,cpu:1,render:3});
+ }
+ const r=p.report();assert.equal(r.rafCallbacksSinceReset,600);assert.equal(r.rafFpsSinceReset,60);
+ assert.equal(r.pacerSkipsSinceReset,300);assert.equal(r.fps,30);
+ p.clear();p.raf(50000);assert.equal(p.report().rafFpsSinceReset,null);
+ assert.equal(p.report().pacerSkipsSinceReset,0);assert.equal(p.report().rafCallbacksSinceReset,1);
+});
+
 test("a bounded local profile pauses despite late callbacks, preserves one stop event and can resume",()=>{
   let now=1000;const events=[];
   const p=createProfilePause({seconds:15,clock:()=>now,onChange:s=>events.push(s)});
@@ -58,17 +70,20 @@ test("local upload counters preserve GL arguments, account for typed offsets and
 test("opt-in native GL timings include texture/multi-draw/reflection stalls without queries or retained arguments",()=>{
   let now=0;const argument={private:"never record GL arguments"},receivers=[];
   const gl={texSubImage2D(a){assert.equal(a,argument);receivers.push(this);now+=72;return 8;},
+    fenceSync(a){assert.equal(a,argument);now+=104;return argument;},
     getUniformLocation(){now+=2;throw Error("native failure");},
     getParameter(){assert.fail("diagnostics must not add a driver query");}},
     ext={multiDrawElementsWEBGL(){receivers.push(this);now+=123;}},
     native=gl.texSubImage2D, nativeMulti=ext.multiDrawElementsWEBGL,
     p=trackProfileGlCalls(gl,{clock:()=>now,multiDraw:ext});
   assert.equal(gl.texSubImage2D(argument),8);ext.multiDrawElementsWEBGL();
+  assert.equal(gl.fenceSync(argument),argument);
   assert.throws(()=>gl.getUniformLocation(),/native failure/);
   assert.deepEqual(receivers,[gl,ext]);
   const report=p.snapshot();assert.equal(JSON.stringify(report).includes(argument.private),false);
   assert.deepEqual(report.texSubImage2D,{calls:1,totalMs:72,maxMs:72,over50ms:1});
   assert.equal(report.multiDrawElementsWEBGL.maxMs,123);assert.equal(report.getUniformLocation.maxMs,2);
+  assert.equal(report.fenceSync.maxMs,104);assert.equal(report.fenceSync.over50ms,1);
   report.texSubImage2D.calls=99;assert.equal(p.snapshot().texSubImage2D.calls,1);
   p.clear();assert.deepEqual(p.snapshot(),{});p.dispose();
   assert.equal(gl.texSubImage2D,native);assert.equal(ext.multiDrawElementsWEBGL,nativeMulti);

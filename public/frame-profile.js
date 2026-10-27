@@ -4,15 +4,19 @@ import { catDrawMode } from "./cat-draw-policy.js";
 // Local, opt-in diagnostics. No networking, player records or graphics changes.
 export function createFrameSamples(limit = 300) {
   const rows = new Array(limit), delays = [];
-  let head = 0, size = 0, gpuPolls = 0, contextPolls = 0, queueTotal = 0, queueMax = 0;
+  let head = 0, size = 0, gpuPolls = 0, contextPolls = 0, queueTotal = 0, queueMax = 0,
+    rafCallbacks = 0, pacingSkips = 0, firstRaf = null, lastRaf = null;
   return {
+    raf(at) { if(firstRaf===null)firstRaf=at;lastRaf=at;rafCallbacks++; },
+    notDue() { pacingSkips++; },
     blocked(reason, ms = 0) {
       if (reason === "gpu") { gpuPolls++;this.queue(ms); }
       if (reason === "context") contextPolls++;
     },
     queue(ms) { queueTotal+=ms;queueMax=Math.max(queueMax,ms); },
     delay(ms) { delays.push(ms);if(delays.length>limit)delays.shift(); },
-    clear() { head = size = gpuPolls = contextPolls = queueTotal = queueMax = 0;delays.length=0; },
+    clear() { head = size = gpuPolls = contextPolls = queueTotal = queueMax = rafCallbacks = pacingSkips = 0;
+      firstRaf=lastRaf=null;delays.length=0; },
     frame(row) { rows[head] = { ...row }; head = (head + 1) % limit; size = Math.min(size + 1, limit); },
     report() {
       const a = Array.from({length:size},(_,i)=>rows[(head-size+i+limit)%limit]);
@@ -21,7 +25,11 @@ export function createFrameSamples(limit = 300) {
       };
       const gaps = a.slice(1).map((r,i)=>r.at-a[i].at), elapsed = a.length > 1 ? a.at(-1).at-a[0].at : 0;
       const delta=key=>a.length>1&&Number.isFinite(a[0][key])&&Number.isFinite(a.at(-1)[key])?a.at(-1)[key]-a[0][key]:null;
+      const rafElapsed=rafCallbacks>1?lastRaf-firstRaf:0;
       return { samples:size, seconds:Math.round(elapsed)/1000,
+        rafCallbacksSinceReset:rafCallbacks,pacerSkipsSinceReset:pacingSkips,
+        rafSecondsSinceReset:Math.round(rafElapsed)/1000,
+        rafFpsSinceReset:rafElapsed?Math.round((rafCallbacks-1)*100000/rafElapsed)/100:null,
         fps:elapsed ? Math.round((size-1)*100000/elapsed)/100 : null,
         gapP95:percentile(gaps,.95),gapMax:gaps.length?Math.max(...gaps):null,
         cpuMedian:percentile(a.map(r=>r.cpu),.5),cpuP95:percentile(a.map(r=>r.cpu),.95),
@@ -81,6 +89,7 @@ export function trackProfileGlCalls(gl, { clock = () => performance.now(), multi
     } catch { /* Some browsers expose a non-writable extension method. */ }
   }
   for (const name of ["bufferData", "bufferSubData", "texImage2D", "texSubImage2D", "texStorage2D",
+    "createShader", "shaderSource", "createProgram", "attachShader", "getExtension", "fenceSync",
     "compileShader", "linkProgram", "getProgramParameter", "getShaderParameter", "getProgramInfoLog",
     "getShaderInfoLog", "getActiveUniform", "getActiveAttrib", "getUniformLocation", "getAttribLocation",
     "getParameter", "pixelStorei", "bindTexture", "texParameteri", "clear", "finish", "readPixels",
@@ -132,6 +141,7 @@ export function createFrameProfile(renderer) {
     multiDraw:renderer.getContext().getExtension("WEBGL_multi_draw"),
   });
   const work=createWorkSamples(),deactivateWork=activateWorkSamples(work),gpuTimer=createGpuProfile(renderer.getContext());
+  let sectionStart=0;
   let taskStart=performance.now(),longTasks=[];
   const taskObserver=globalThis.PerformanceObserver?.supportedEntryTypes?.includes("longtask")
     ? new PerformanceObserver(list=>{
@@ -192,6 +202,11 @@ export function createFrameProfile(renderer) {
   },200);
   return {
     catRenderer:catDrawMode(location.search),
+    raf:at=>{if(!pauseControl.suspended)samples.raf(at);},
+    notDue:()=>{if(!pauseControl.suspended)samples.notDue();},
+    beginFrame:()=>{sectionStart=performance.now();},
+    section(label){const now=performance.now();work.record("frame."+label,now-sectionStart,sectionStart);sectionStart=now;},
+    run:(label,fn,receiver,args)=>work.run(label,fn,receiver,args),
     beginRender:()=>gpuTimer.begin(),endRender:()=>gpuTimer.end(),
     contextLost:()=>gpuTimer.clear(),
     get suspended(){return pauseControl.suspended;},
@@ -203,7 +218,7 @@ export function createFrameProfile(renderer) {
       if(pauseControl.suspended)return;
       if(row.at<next)return;next=row.at+1000;
       const r=samples.report(),loading=(row.shaderPending||0)+(row.shaderPreparing||0);
-      label.textContent=`${r.fps??"…"} FPS · CPU ${r.cpuMedian??0} мс · рендер ${r.renderMedian??0} мс\n${row.biome} · ${row.calls} вызовов · DPR ${row.dpr}${loading?` · подготовка ${loading}`:""}`;
+      label.textContent=`${r.fps??"…"} FPS${row.targetFps?` / цель ${row.targetFps}`:""} · CPU ${r.cpuMedian??0} мс · рендер ${r.renderMedian??0} мс\n${row.biome} · ${row.calls} вызовов · DPR ${row.dpr}${loading?` · подготовка ${loading}`:""}`;
     },
     dispose(){clearInterval(timer);taskObserver?.disconnect();frameObserver?.disconnect();deactivateWork();gpuTimer.dispose();glCalls.dispose();uploads.dispose();panel.remove();},
   };

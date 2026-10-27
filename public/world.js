@@ -3624,6 +3624,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   const renderDue = createRenderPacer();
   function loop(now) {
     if (disposed) return;
+    frameProfile?.raf(now);
     const profileQueue = frameProfile ? performance.now() : 0;
     if (contextLost || document.hidden || !gpuFrames.ready()) {
       frameProfile?.blocked(contextLost ? "context" : document.hidden ? "hidden" : "gpu",performance.now()-profileQueue);
@@ -3646,10 +3647,13 @@ export function createWorld(container, initialGame, callbacks = {}) {
         viewport.pending && !dialogOpen && worldVisible,
       )
     ) {
+      frameProfile?.notDue();
       requestAnimationFrame(loop);
       return;
     }
+    frameProfile?.beginFrame();
     if (!dialogOpen && worldVisible) viewport.apply(renderer, camera);
+    frameProfile?.section("viewport");
     const profileStart = frameProfile ? performance.now() : 0;
     if (courtCamera?.attraction) {
       const g = itemGroups.get(courtCamera.id);
@@ -3720,6 +3724,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         );
       if (!dialogOpen) island.userData.update?.(time, reduced);
     }
+    frameProfile?.section("cameraAndIslands");
     if (!dialogOpen) stepLeisure(dt, time, now);
     const wallNow = Date.now(),
       lifeClock = game.jobCity ? cityClock(game.jobCity, wallNow) : null,
@@ -3813,6 +3818,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         },
       });
     }
+    frameProfile?.section("jobsAndHomes");
     const spaBarGroup = itemGroups.get("spa-bar");
     if (spaBarGroup) {
       let servingVisit = null;
@@ -4089,6 +4095,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       familyFree = (who) =>
         !familyClock?.working ||
         game.jobCity?.profiles[who]?.schedule?.job === "rest";
+    frameProfile?.section("venues");
     for (const [id, n] of npcs) {
       const jobFrame = jobs.has(id)
         ? jobCatFrame(jobs.get(id), time, reduced)
@@ -4841,6 +4848,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     chichiCarrier.rotation.z = 0;
     let walking = false,
       reaction = null;
+    frameProfile?.section("residents");
     if (heroGather && !operation && !draggingCat) {
       const t = Math.min(1, (now - heroGather.start) / heroGather.duration);
       chichiCarrier.position.lerpVectors(
@@ -5451,6 +5459,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       );
       camera.lookAt(look);
     }
+    frameProfile?.section("chichi");
     faceCamera.update(elapsed, look);
     camera.updateMatrixWorld();
     islands
@@ -5460,6 +5469,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       requestAnimationFrame(loop);
       return;
     }
+    frameProfile?.section("cameraAndHousingView");
     ambient.userData.update(time, look, reduced);
     const width = viewport.width,
       height = viewport.height;
@@ -5585,6 +5595,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           ((1 - p.y) * height) / 2,
         );
       }
+    frameProfile?.section("ambientAndBadges");
     sun.position.set(look.x - 14, 35, look.z + 20);
     sun.target.position.copy(look);
     sun.updateWorldMatrix(true, false);
@@ -5643,13 +5654,20 @@ export function createWorld(container, initialGame, callbacks = {}) {
     // The opaque shop covers the map. Keep the simulation running, but avoid
     // competing GPU draws while its miniature scenes are being rendered.
     if (!dialogOpen) {
+      frameProfile?.section("visibility");
       const profileRender = frameProfile ? performance.now() : 0;
       frameProfile?.beginRender();
       try {
-        renderer.render(scene, camera);
+        if (frameProfile) frameProfile.run("frame.renderer", renderer.render, renderer, [scene, camera]);
+        else renderer.render(scene, camera);
       } finally { frameProfile?.endRender(); }
-      gpuFrames.submitted();
-      geometryResidency.sweep(now);
+      if(frameProfile){
+        frameProfile.run("frame.gpuSubmit",gpuFrames.submitted,gpuFrames,[]);
+        frameProfile.run("frame.residency",geometryResidency.sweep,geometryResidency,[now]);
+      }else{
+        gpuFrames.submitted();
+        geometryResidency.sweep(now);
+      }
       if (frameProfile) frameProfile.frame({at:now,cpu:profileRender-profileStart,render:performance.now()-profileRender,
         biome:focused,cats:npcs.size,calls:renderer.info.render.calls,triangles:renderer.info.render.triangles,
         geometryBytes:geometryResidency.stats.bytes,pending:gpuFrames.pending,dpr:renderer.getPixelRatio(),
@@ -5657,6 +5675,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         shaderPending:shaderWarmup.stats.pending,shaderPreparing:shaderWarmup.stats.preparing,evicted:geometryResidency.stats.evicted,
         refaults:geometryResidency.stats.refaults,refaultBytes:geometryResidency.stats.refaultBytes,
         rapidRefaults:geometryResidency.stats.rapidRefaults,rapidRefaultBytes:geometryResidency.stats.rapidRefaultBytes,
+        targetFps:Math.round(1000/renderInterval),programs:renderer.info.programs?.length||0,
         visible:worldVisible,moving:!!(cameraMoving||pointerDown||faceCamera.enabled),
         buffer:[renderer.domElement.width,renderer.domElement.height]});
       recovery.hidden = true;

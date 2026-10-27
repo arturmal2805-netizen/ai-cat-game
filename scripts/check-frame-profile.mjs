@@ -28,6 +28,11 @@ export async function checkFrameProfile(page, review) {
   assert.equal(typeof report.gpuRender.supported,"boolean");
   assert.equal(typeof report.appWorkSinceReset.phases,"object");
   assert.equal(typeof report.cpuMax,"number");assert.equal(typeof report.renderMax,"number");
+  assert.equal(report.last.targetFps,60);
+  assert.ok(report.rafCallbacksSinceReset>=report.samples);assert.ok(report.rafFpsSinceReset>0);
+  assert.equal(typeof report.pacerSkipsSinceReset,'number');
+  for(const label of ['frame.viewport','frame.renderer','frame.gpuSubmit','frame.residency'])
+    assert.ok(report.appWorkSinceReset.phases[label]?.calls>0,label);
   assert.ok(Array.isArray(report.longestAnimationFrames));
   if(process.env.CHICHI_PROFILE_QUERY?.includes("catDraw=native")){
     assert.equal(report.catRenderer,"individual");assert.equal(report.last.colonyActive,false);

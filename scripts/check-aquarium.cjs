@@ -382,6 +382,12 @@ async function localWorker() {
               }
               if(process.env.CHICHI_POSE_UPLOAD_AUDIT) source='import {uploadPoseTextureRows as qaUploadPoseRows} from "./pose-texture-upload.js";\n'+source;
               const marker = "  return {\n    perform,";
+              // Observe CPU work at the shared render boundary, including the
+              // opt-in profiled renderer path. Keep older baseline support.
+              const cpuBoundary=source.includes('      const profileRender =')
+                ? '      const profileRender =' : '      renderer.render(scene, camera);';
+              source=source.replace(cpuBoundary,
+                '      if(window.__lagoonQA?.measure)window.__lagoonQA.cpu.push(performance.now()-qaFrameStart);\n'+cpuBoundary);
               if(process.env.CHICHI_ACTOR_SCOPE_AUDIT)
                 source='import {courtPath as qaScopePath,courtNavigationStats as qaScopeStats,courtSegment as qaScopeSegment} from "./foodcourt-navigation.js";\n'+source.replace(
                   "  function syncActors() {",
@@ -436,10 +442,6 @@ async function localWorker() {
                   .replace(
                     "    const cameraBlend =",
                     "    if(window.__lagoonQA?.orbit){const o=window.__lagoonQA.orbit;desiredLook.set(o.x+Math.sin(time*.8)*12,0,o.z+Math.cos(time*.8)*12);}\n    const cameraBlend =",
-                  )
-                  .replace(
-                    "      renderer.render(scene, camera);",
-                    "      if(window.__lagoonQA?.measure)window.__lagoonQA.cpu.push(performance.now()-qaFrameStart);\n      renderer.render(scene, camera);",
                   )
                   .replace(
                     "  const reduced =",
