@@ -1,0 +1,85 @@
+{
+  "rows": [
+    {
+      "mode": "legacy-idle",
+      "clockStressMs": 0,
+      "target": 30,
+      "callbacks": 176,
+      "frames": 91,
+      "blocked": 2,
+      "maxPending": 2,
+      "elapsed": 3016.5000000000005,
+      "submittedFps": 30.001000033334442,
+      "changed": 0,
+      "draw": {
+        "frame": 92,
+        "calls": 1,
+        "triangles": 12,
+        "points": 0,
+        "lines": 0
+      }
+    },
+    {
+      "mode": "current-idle",
+      "clockStressMs": 0,
+      "target": 60,
+      "callbacks": 181,
+      "frames": 180,
+      "blocked": 1,
+      "maxPending": 2,
+      "elapsed": 3016.5999999999995,
+      "submittedFps": 59.338327918849046,
+      "changed": 0,
+      "draw": {
+        "frame": 272,
+        "calls": 1,
+        "triangles": 12,
+        "points": 0,
+        "lines": 0
+      }
+    },
+    {
+      "mode": "legacy-jitter",
+      "clockStressMs": 1.5,
+      "target": 60,
+      "callbacks": 182,
+      "frames": 170,
+      "blocked": 1,
+      "maxPending": 2,
+      "elapsed": 3016.5,
+      "submittedFps": 56.02519476214155,
+      "changed": 0,
+      "draw": {
+        "frame": 442,
+        "calls": 1,
+        "triangles": 12,
+        "points": 0,
+        "lines": 0
+      }
+    },
+    {
+      "mode": "current-jitter",
+      "clockStressMs": 1.5,
+      "target": 60,
+      "callbacks": 182,
+      "frames": 174,
+      "blocked": 8,
+      "maxPending": 2,
+      "elapsed": 3016.5,
+      "submittedFps": 57.35123487485497,
+      "changed": 0,
+      "draw": {
+        "frame": 616,
+        "calls": 1,
+        "triangles": 12,
+        "points": 0,
+        "lines": 0
+      }
+    }
+  ],
+  "dpr": 2,
+  "error": 0,
+  "contextLost": false,
+  "gpu": "WebKit WebGL",
+  "errors": []
+}

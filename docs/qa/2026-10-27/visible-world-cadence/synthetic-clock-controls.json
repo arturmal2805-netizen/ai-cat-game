@@ -1,0 +1,242 @@
+[
+  {
+    "rafHz": 60,
+    "target": 10,
+    "phase": 0,
+    "seconds": 10,
+    "legacyFrames": 100,
+    "currentFrames": 100
+  },
+  {
+    "rafHz": 60,
+    "target": 10,
+    "phase": 1,
+    "seconds": 10,
+    "legacyFrames": 100,
+    "currentFrames": 100
+  },
+  {
+    "rafHz": 60,
+    "target": 30,
+    "phase": 0,
+    "seconds": 10,
+    "legacyFrames": 300,
+    "currentFrames": 300
+  },
+  {
+    "rafHz": 60,
+    "target": 30,
+    "phase": 1,
+    "seconds": 10,
+    "legacyFrames": 300,
+    "currentFrames": 300
+  },
+  {
+    "rafHz": 60,
+    "target": 60,
+    "phase": 0,
+    "seconds": 10,
+    "legacyFrames": 324,
+    "currentFrames": 600
+  },
+  {
+    "rafHz": 60,
+    "target": 60,
+    "phase": 1,
+    "seconds": 10,
+    "legacyFrames": 600,
+    "currentFrames": 600
+  },
+  {
+    "rafHz": 90,
+    "target": 10,
+    "phase": 0,
+    "seconds": 10,
+    "legacyFrames": 100,
+    "currentFrames": 100
+  },
+  {
+    "rafHz": 90,
+    "target": 10,
+    "phase": 1,
+    "seconds": 10,
+    "legacyFrames": 100,
+    "currentFrames": 100
+  },
+  {
+    "rafHz": 90,
+    "target": 30,
+    "phase": 0,
+    "seconds": 10,
+    "legacyFrames": 300,
+    "currentFrames": 300
+  },
+  {
+    "rafHz": 90,
+    "target": 30,
+    "phase": 1,
+    "seconds": 10,
+    "legacyFrames": 300,
+    "currentFrames": 300
+  },
+  {
+    "rafHz": 90,
+    "target": 60,
+    "phase": 0,
+    "seconds": 10,
+    "legacyFrames": 600,
+    "currentFrames": 600
+  },
+  {
+    "rafHz": 90,
+    "target": 60,
+    "phase": 1,
+    "seconds": 10,
+    "legacyFrames": 600,
+    "currentFrames": 600
+  },
+  {
+    "rafHz": 120,
+    "target": 10,
+    "phase": 0,
+    "seconds": 10,
+    "legacyFrames": 100,
+    "currentFrames": 100
+  },
+  {
+    "rafHz": 120,
+    "target": 10,
+    "phase": 1,
+    "seconds": 10,
+    "legacyFrames": 100,
+    "currentFrames": 100
+  },
+  {
+    "rafHz": 120,
+    "target": 30,
+    "phase": 0,
+    "seconds": 10,
+    "legacyFrames": 300,
+    "currentFrames": 300
+  },
+  {
+    "rafHz": 120,
+    "target": 30,
+    "phase": 1,
+    "seconds": 10,
+    "legacyFrames": 300,
+    "currentFrames": 300
+  },
+  {
+    "rafHz": 120,
+    "target": 60,
+    "phase": 0,
+    "seconds": 10,
+    "legacyFrames": 600,
+    "currentFrames": 600
+  },
+  {
+    "rafHz": 120,
+    "target": 60,
+    "phase": 1,
+    "seconds": 10,
+    "legacyFrames": 600,
+    "currentFrames": 600
+  },
+  {
+    "rafHz": 144,
+    "target": 10,
+    "phase": 0,
+    "seconds": 10,
+    "legacyFrames": 100,
+    "currentFrames": 100
+  },
+  {
+    "rafHz": 144,
+    "target": 10,
+    "phase": 1,
+    "seconds": 10,
+    "legacyFrames": 100,
+    "currentFrames": 101
+  },
+  {
+    "rafHz": 144,
+    "target": 30,
+    "phase": 0,
+    "seconds": 10,
+    "legacyFrames": 300,
+    "currentFrames": 300
+  },
+  {
+    "rafHz": 144,
+    "target": 30,
+    "phase": 1,
+    "seconds": 10,
+    "legacyFrames": 300,
+    "currentFrames": 301
+  },
+  {
+    "rafHz": 144,
+    "target": 60,
+    "phase": 0,
+    "seconds": 10,
+    "legacyFrames": 600,
+    "currentFrames": 600
+  },
+  {
+    "rafHz": 144,
+    "target": 60,
+    "phase": 1,
+    "seconds": 10,
+    "legacyFrames": 600,
+    "currentFrames": 601
+  },
+  {
+    "rafHz": 240,
+    "target": 10,
+    "phase": 0,
+    "seconds": 10,
+    "legacyFrames": 100,
+    "currentFrames": 100
+  },
+  {
+    "rafHz": 240,
+    "target": 10,
+    "phase": 1,
+    "seconds": 10,
+    "legacyFrames": 100,
+    "currentFrames": 101
+  },
+  {
+    "rafHz": 240,
+    "target": 30,
+    "phase": 0,
+    "seconds": 10,
+    "legacyFrames": 300,
+    "currentFrames": 300
+  },
+  {
+    "rafHz": 240,
+    "target": 30,
+    "phase": 1,
+    "seconds": 10,
+    "legacyFrames": 300,
+    "currentFrames": 301
+  },
+  {
+    "rafHz": 240,
+    "target": 60,
+    "phase": 0,
+    "seconds": 10,
+    "legacyFrames": 600,
+    "currentFrames": 600
+  },
+  {
+    "rafHz": 240,
+    "target": 60,
+    "phase": 1,
+    "seconds": 10,
+    "legacyFrames": 600,
+    "currentFrames": 601
+  }
+]

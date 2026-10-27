@@ -1,0 +1,9 @@
+{
+  "completedUniqueViews": 17,
+  "failedReturn": "summer",
+  "assertion": "the actual camera must rotate during sampling",
+  "windowMs": 5000,
+  "failedIntervalRecorded": false,
+  "classification": "Unassigned cause; not a passing complete return audit.",
+  "nextAudit": "8-second native input windows with unchanged orbit/zoom thresholds and saved failure intervals."
+}

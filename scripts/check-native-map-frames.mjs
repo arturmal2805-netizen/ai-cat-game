@@ -379,7 +379,8 @@ export async function checkNativeMapFrames(page, review) {
           glTimings:q.nativeGlTimings.snapshot(),
           dpr: q.renderer.getPixelRatio(),
           buffer: [canvas.width, canvas.height],
-          contextLost: gl.isContextLost(), visible: q.isVisible() });
+          contextLost: gl.isContextLost(), visible: q.isVisible(),
+          inputState:{faceTracking:q.faceCamera.enabled,draggingCat:q.getDragging()||null,pointerId:q.probePointerId} });
       }, 100);
     }), { ms, anchor });
     await page.evaluate(() => {
@@ -389,6 +390,8 @@ export async function checkNativeMapFrames(page, review) {
       if(q.actorSyncSample)__lagoonSaveQA.getWorld().sync(__lagoonSaveQA.getGame());
     });
     await page.mouse.up();
+    if(!(row.orbitRange>.08&&row.zoomRange>6&&row.frames>0))
+      fs.writeFileSync(path.join(review,'failed-native-camera.json'),JSON.stringify({id,anchor,...row},null,2));
     assert.ok(row.orbitRange > .08, `${id}: the actual camera must rotate during sampling`);
     assert.ok(row.zoomRange > 6, `${id}: the actual input handler must change camera zoom`);
     assert.ok(row.frames > 0, `${id}: real frames must complete during camera input`);

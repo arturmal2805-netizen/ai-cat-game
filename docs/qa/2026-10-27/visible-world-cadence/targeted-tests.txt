@@ -1,0 +1,21 @@
+✔ local frame reports separate CPU, render submission and GPU waits with a bounded window (3.567522ms)
+✔ ordinary play never allocates a diagnostic panel or reads browser resources (0.663005ms)
+✔ callback cadence is separate from submitted-frame FPS and own pacing skips, and reset discards old phases (0.731938ms)
+✔ a bounded local profile pauses despite late callbacks, preserves one stop event and can resume (1.016915ms)
+✔ local upload counters preserve GL arguments, account for typed offsets and release their hooks (0.601232ms)
+✔ opt-in native GL timings include texture/multi-draw/reflection stalls without queries or retained arguments (1.279149ms)
+✔ jittered 60 Hz callbacks retain 30 target frames per second without restarting the interval after each delay (8.787002ms)
+✔ camera, offscreen and viewport transitions draw immediately while a long pause never creates a GPU catch-up burst (0.401512ms)
+✔ 60 FPS survives every starting phase of a jittered 60 Hz display without alternate-frame drops (8.816776ms)
+✔ the jitter allowance retains 60/30/10 Hz limits on faster displays and never emits a catch-up burst (7.919441ms)
+✔ task timings preserve receivers, results and exceptions and keep a bounded non-private trace (4.630386ms)
+✔ ordinary play retains original functions and opt-in wrappers use only their active diagnostic owner (0.458558ms)
+✔ frame section observations separate a slow render from submission and retain their original start time (1.603921ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 246.465977

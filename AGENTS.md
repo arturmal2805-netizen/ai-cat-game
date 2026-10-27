@@ -88,6 +88,12 @@ duplicating or resurrecting a building removed on the other device.
   close, overhead and phone views; never cull by apparent size or simplify fish.
 - Preserve render deadlines through RAF jitter; do not restart the idle-frame
   interval from each late callback or replay missed GPU frames in a burst.
+  Visible play, including a stationary camera, targets 60 FPS. Covered/offscreen
+  simulation retains its slower cadence and hidden documents submit no frames.
+  Test every initial phase of +/-2 ms jitter on 60 Hz RAF and 90–240 Hz displays.
+  Bound the early allowance and consume that same deadline when advancing;
+  duplicate callbacks and late recovery must not emit catch-up submissions.
+  This cadence contract does not establish a physical-device rendering rate.
   Browser/SQLite checks must snapshot `.generated/worker.mjs` to their own temp
   directory: `npm test` rebuilds that file and otherwise hot-reloads QA servers.
 - Keep GPU submissions bounded with nonblocking fences. Never wait for GPU
@@ -97,6 +103,12 @@ duplicating or resurrecting a building removed on the other device.
 - Camera gestures must not initialize picking bounds by skinning every vertex
   of every cat. Use conservative current-joint bounds before exact raycasts;
   preserve hit positions/faces and test actual articulated mesh vertices.
+- Native sphere calculation may reuse bone-matrix products within that single
+  synchronous calculation. Preserve Three's vertex order, exact sphere centre
+  and radius, native sorting and all custom vertex/skin callbacks. Restore a
+  temporary method override even on errors; never cache transforms across
+  animated poses or replace sorting spheres with conservative approximations.
+  Verify exact posed spheres and actual colour/shadow pixels.
 - Static range submissions must retain original index order and attribute
   buffers, and use the actual colour/shadow camera. Builders can install wind,
   reef sway or underwater refraction after merging: those meshes must remain
