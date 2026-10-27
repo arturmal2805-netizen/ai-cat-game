@@ -103,6 +103,19 @@ test('all routes and choreography are unique, continuous, finite, bounded and fi
 test('all real models have the declared channels, bounded static batches, empty hidden rafts and complete footprint clearance',()=>{
  for(const s of ATOLL_SLIDES){const g=makeAttraction(s.id);g.updateMatrixWorld(true);const d=g.userData,w=d.slideWater,b=new T.Box3().setFromObject(g);
   assert.equal(w.channels.length+d.route.bowls.length,s.channels);assert.ok(d.stats.staticMeshes<=16);assert.equal(d.moving.visible,false);
+  if(['crystal-cavern','coral-arch'].includes(s.kind)){
+    assert.equal(d.landmarkPortals.length,1);
+    for(const portal of d.landmarkPortals){
+      const inverse=new T.Quaternion(...portal.quaternion).invert();let crossings=0;
+      for(const part of d.route.geometry)for(const sample of part.samples){const p=sample.p.clone().sub(new T.Vector3(...portal.center)).applyQuaternion(inverse);
+        if(Math.abs(p.z)>portal.depth/2+2.8||p.y< -6.8||p.y>portal.outer+2.8||Math.abs(p.x)>portal.outer+2.8)continue;
+        const radius=Math.hypot(p.x,Math.max(0,p.y));
+        if(radius>portal.outer+2.8)continue;
+        assert.ok(radius<portal.inner-2.8,s.kind+' must clear the real hollow arch');crossings++;
+      }assert.ok(crossings>10);
+    }
+  }
+  if(s.kind==='cloud-islets'){assert.ok(d.floatingIslets.length>=4);assert.ok(d.floatingIslets.every(p=>p.bottom>7));}
   assert.ok(b.min.x>=-s.footprint[0]/2&&b.max.x<=s.footprint[0]/2,s.kind+' x');assert.ok(b.min.z>=-s.footprint[1]/2&&b.max.z<=s.footprint[1]/2,s.kind+' z');
   const geometries=new Set();g.traverse(o=>{if(o.geometry)geometries.add(o.geometry);});const count=geometries.size;
   for(let i=0;i<3;i++)d.update(i*.2);const after=new Set();g.traverse(o=>{if(o.geometry)after.add(o.geometry);});assert.equal(after.size,count);

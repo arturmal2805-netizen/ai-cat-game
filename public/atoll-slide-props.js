@@ -28,7 +28,7 @@ export function* atollProps(props, root, spec, route, poolFactory) {
   const h=spec.height, red=spec.kind==="red-canyon", crystal=spec.kind==="crystal-cavern",
     pink=spec.kind==="flower-lagoon", green=spec.kind==="emerald-canyon" || spec.kind==="green-valley",
     rockColor=red?0xd58b70:crystal?0xa1b0cf:green?0xb4bd94:0xc5bea5,
-    grassColor=red?0xadd57f:0x75c880, falls=[], terracePools=[],groundObstacles=[],portals=[];
+    grassColor=red?0xadd57f:0x75c880, falls=[], terracePools=[],groundObstacles=[],portals=[],floatingIslets=[];
   const safeShape=(kind,color,x,y,z,sx,sy,sz)=>{
     if(!clearance(route,x,y,z,sx,sy,sz))return null;
     const m=shape(props,kind,color,x,y,z,sx,sy,sz); m.userData.atollSolid=true;
@@ -77,20 +77,24 @@ export function* atollProps(props, root, spec, route, poolFactory) {
     const forward=new THREE.Vector3(0,0,1).applyQuaternion(sample.q),right=new THREE.Vector3(forward.z,0,-forward.x).normalize(),up=new THREE.Vector3().crossVectors(forward,right).normalize();
     sample={...sample,q:new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().makeBasis(right,up,forward))};
     const outline=new THREE.Shape();outline.moveTo(-outer,-4);outline.lineTo(-outer,0);
-    for(let i=0;i<=48;i++){const a=Math.PI-i*Math.PI/48;outline.lineTo(Math.cos(a)*outer,Math.sin(a)*outer);}
+    for(let i=0;i<=48;i++){const a=Math.PI-i*Math.PI/48,r=outer*(1+.035*Math.sin(a*5)+.02*Math.cos(a*11));outline.lineTo(Math.cos(a)*r,Math.sin(a)*r);}
     outline.lineTo(outer,-4);outline.lineTo(inner,-4);outline.lineTo(inner,0);
     for(let i=0;i<=48;i++){const a=i*Math.PI/48;outline.lineTo(Math.cos(a)*inner,Math.sin(a)*inner);}
     outline.lineTo(-inner,-4);outline.closePath();
     const geo=new THREE.ExtrudeGeometry(outline,{depth,steps:1,bevelEnabled:true,bevelSize:.35,bevelThickness:.35,bevelSegments:2});geo.translate(0,0,-depth/2);
     const g=new THREE.Group();g.position.copy(sample.p);g.quaternion.copy(sample.q);props.add(g);
     const mesh=new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:rockColor,roughness:.82}));mesh.name=crystal?'Open crystal cavern · real hollow roof and two portals':'Giant natural coral arch';g.add(mesh);
+    for(const face of [-1,1])for(let i=0;i<=8;i++){
+      const a=i*Math.PI/8,m=shape(g,'stone',rockColor,Math.cos(a)*outer,Math.sin(a)*outer,face*depth/2,1.5+(i%3)*.2,1.35,1.3);m.rotation.z=a;
+    }
+    for(const side of [-1,1])for(let i=0;i<7;i++)shape(g,'petal',i%2?0x77b872:0xa4d781,side*(inner+outer)/2+.2*Math.sin(i),4-i*.75,depth/2+1,.3,.65,.2);
     for(const side of [-1,1]){
       const p=new THREE.Vector3(side*(inner+outer)/2,-2,0).applyQuaternion(sample.q).add(sample.p);
       cliff(p.x,p.z,p.y,Math.max(1.6,(outer-inner)/2),side+1);
     }
     const gemMaterials=crystal?[0xa9a1fc,0x86e7f8].map(color=>new THREE.MeshStandardMaterial({color,emissive:color,emissiveIntensity:.18,roughness:.3,metalness:.16})):[];
     if(crystal)for(const side of [-1,1])for(let i=0;i<8;i++){
-      const crystalMesh=shape(g,'crystal',i%2?0xa9a1fc:0x86e7f8,side*(inner+1.9+(i%2)),2+(i%3),-depth/2+(i%4)*depth/3,3.7,8+(i%4)*2,3.7);
+      const crystalMesh=shape(g,'crystal',i%2?0xa9a1fc:0x86e7f8,side*(inner+1.9+(i%2)),2+(i%3),(i<4?-1:1)*(depth/2+1.3)+(i%2)*.5,3.7,8+(i%4)*2,3.7);
       crystalMesh.rotation.z=-side*(.15+(i%3)*.08);
       crystalMesh.material=gemMaterials[i%2];
     }
@@ -149,7 +153,7 @@ export function* atollProps(props, root, spec, route, poolFactory) {
   }
   teaPavilion(props,-46,route.height-1.7,-28.6,0xffd085,1.35);
   // A distinct authored rock plan for every cell, clear of its real route.
-  const helixKinds=["rock-arch","sky-serpent","double-serpent","root-valley","flower-lagoon"];
+  const helixKinds=["rock-arch","sky-serpent","double-serpent","flower-lagoon"];
   if(helixKinds.includes(spec.kind))cliff(0,-9,h-8,spec.kind==="root-valley"?8:11,1);
   // A continuous terraced mountain, not a bare plate with an isolated pipe.
   // The rear ridge leaves a real three-metre safety corridor behind the flumes.
@@ -173,6 +177,7 @@ export function* atollProps(props, root, spec, route, poolFactory) {
       safeShape('sphere',grassColor,p.x,top+.1,p.z,4.3,.35,3.8);
       const underside=shape(props,'cone',0xb5bca9,p.x,top-8.6,p.z,4.5,4,4.1);underside.rotation.z=Math.PI;
       shape(props,'sphere',0xf0f5fc,p.x,top-10.8,p.z,5.3,1.1,3.2);
+      floatingIslets.push({x:p.x,z:p.z,top,bottom:top-10.6});
       tree(p.x,top+.5,p.z,.65,i%3===0);
       falls.push({x:p.x+1.5,y:top,z:p.z+3.8,width:2.1,height:9,angle:0});
       continue;
@@ -236,6 +241,8 @@ export function* atollProps(props, root, spec, route, poolFactory) {
     }
   }
   if(pink) {
+    safeShape('pole',0x69ad72,0,h-2.5,-9,1,11,1);
+    for(const side of [-1,1]){const leaf=safeShape('petal',0x89c981,side*2.4,h-4,-9,3,1,7);if(leaf)leaf.rotation.z=side*.35;}
     const flower=new THREE.Group();flower.position.set(0,h+3,-9);props.add(flower);
     shape(flower,"sphere",0xffdb86,0,1.4,0,4,2,4);
     for(let i=0;i<12;i++) {
@@ -244,6 +251,7 @@ export function* atollProps(props, root, spec, route, poolFactory) {
     }
     for(const x of [-34,34])for(const z of [-22,20])tree(x,0,z,1.25,true);
   }
+  if(spec.kind==='green-valley')for(const x of [-23,23])for(const z of [-14,14])safeShape('sphere',grassColor,x,2,z,8,3.7,7);
   if(spec.kind==="coral-arch")for(let i=0;i<12;i++) {
     const x=-31+i*5.7,z=25+(i%2)*4;
     if(Math.abs(x)<22)continue;
@@ -252,6 +260,11 @@ export function* atollProps(props, root, spec, route, poolFactory) {
     }
   }
   for(const b of route.bowls) {
+    if(spec.kind==='blue-whirlpool')for(let i=0;i<24;i++){
+      const a=i*Math.PI/12,r=b.radius+1,minRadius=r-2.1,
+        top=b.base+b.depth*(minRadius/b.radius)**1.7-.4;
+      shape(props,'stone',rockColor,b.x+Math.cos(a)*r,top-2.6,b.z+Math.sin(a)*r,2.1,2.6,2.1).rotation.y=a;
+    }
     if(spec.kind==="blue-whirlpool") for(let i=0;i<22;i++) {
       yield;
       const a=i*Math.PI*2/22;
@@ -314,5 +327,5 @@ export function* atollProps(props, root, spec, route, poolFactory) {
   }
   let catchMaterial;
   if(catchWater.length){const geometry=mergeGeometries(catchWater);catchWater.forEach(g=>g.dispose());catchMaterial=waterMaterial(0x23cbdc,.88);const pools=new THREE.Mesh(geometry,catchMaterial);pools.name='Batched clear waterfall catch pools';root.add(pools);}
-  return {update(time,reduced){if(fallMaterial)advanceWater(fallMaterial,time,reduced);if(catchMaterial)advanceWater(catchMaterial,time,reduced);if(foamMaterial)foamMaterial.uniforms.uTime.value=reduced?0:time;for(const pool of terracePools)pool.userData.update(time,reduced);},falls,terracePools,groundObstacles,portals,surfaceDraws:(fallMaterial?1:0)+(catchMaterial?1:0)};
+  return {update(time,reduced){if(fallMaterial)advanceWater(fallMaterial,time,reduced);if(catchMaterial)advanceWater(catchMaterial,time,reduced);if(foamMaterial)foamMaterial.uniforms.uTime.value=reduced?0:time;for(const pool of terracePools)pool.userData.update(time,reduced);},falls,terracePools,groundObstacles,portals,floatingIslets,surfaceDraws:(fallMaterial?1:0)+(catchMaterial?1:0)};
 }

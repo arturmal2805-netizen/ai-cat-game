@@ -522,6 +522,7 @@ export function* referenceSlideSteps(id) {
     referenceSlide: true,
     premiumWater: !!spec.premiumWater,
     ...(scenic?.portals?.length?{landmarkPortals:scenic.portals}:{}),
+    ...(scenic?.floatingIslets?.length?{floatingIslets:scenic.floatingIslets}:{}),
     mega: true,
     handpainted: true,
     moving,
