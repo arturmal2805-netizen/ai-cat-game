@@ -1,0 +1,85 @@
+{
+  "changed": 0,
+  "counts": [
+    {
+      "cycle": 0,
+      "native": {
+        "calls": 7,
+        "rectangleBytes": 7168,
+        "viewBytes": 114688
+      },
+      "coalesced": {
+        "calls": 3,
+        "rectangleBytes": 7168,
+        "viewBytes": 7168
+      }
+    },
+    {
+      "cycle": 1,
+      "native": {
+        "calls": 7,
+        "rectangleBytes": 7168,
+        "viewBytes": 114688
+      },
+      "coalesced": {
+        "calls": 3,
+        "rectangleBytes": 7168,
+        "viewBytes": 7168
+      }
+    },
+    {
+      "cycle": 2,
+      "native": {
+        "calls": 7,
+        "rectangleBytes": 7168,
+        "viewBytes": 114688
+      },
+      "coalesced": {
+        "calls": 3,
+        "rectangleBytes": 7168,
+        "viewBytes": 7168
+      }
+    },
+    {
+      "cycle": 3,
+      "native": {
+        "calls": 7,
+        "rectangleBytes": 7168,
+        "viewBytes": 114688
+      },
+      "coalesced": {
+        "calls": 3,
+        "rectangleBytes": 7168,
+        "viewBytes": 7168
+      }
+    },
+    {
+      "cycle": 4,
+      "native": {
+        "calls": 7,
+        "rectangleBytes": 7168,
+        "viewBytes": 114688
+      },
+      "coalesced": {
+        "calls": 3,
+        "rectangleBytes": 7168,
+        "viewBytes": 7168
+      }
+    },
+    {
+      "cycle": 5,
+      "native": {
+        "calls": 7,
+        "rectangleBytes": 7168,
+        "viewBytes": 114688
+      },
+      "coalesced": {
+        "calls": 3,
+        "rectangleBytes": 7168,
+        "viewBytes": 7168
+      }
+    }
+  ],
+  "error": 0,
+  "contextLost": false
+}

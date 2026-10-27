@@ -1,0 +1,218 @@
+{
+  "version": 2,
+  "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "suspended": false,
+  "automaticPauseSeconds": 0,
+  "app": "./dist/app.js?v=f30fcdc285ca9b68",
+  "bufferTransfersSinceReset": {
+    "dataCalls": 860,
+    "dataBytes": 21961600,
+    "subCalls": 84,
+    "subBytes": 116928
+  },
+  "nativeGlCallsSinceReset": {
+    "bufferData": {
+      "calls": 860,
+      "totalMs": 51,
+      "maxMs": 3.7,
+      "over50ms": 0
+    },
+    "bindTexture": {
+      "calls": 1132,
+      "totalMs": 1.2,
+      "maxMs": 0.3,
+      "over50ms": 0
+    },
+    "texParameteri": {
+      "calls": 56,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "texImage2D": {
+      "calls": 2,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "pixelStorei": {
+      "calls": 6,
+      "totalMs": 0.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "texStorage2D": {
+      "calls": 11,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "clear": {
+      "calls": 17,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "compileShader": {
+      "calls": 120,
+      "totalMs": 0.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "linkProgram": {
+      "calls": 60,
+      "totalMs": 0.4,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "getProgramParameter": {
+      "calls": 108,
+      "totalMs": 4076.3,
+      "maxMs": 936.8,
+      "over50ms": 16
+    },
+    "getActiveUniform": {
+      "calls": 1268,
+      "totalMs": 3.6,
+      "maxMs": 0.4,
+      "over50ms": 0
+    },
+    "getUniformLocation": {
+      "calls": 1268,
+      "totalMs": 2.3,
+      "maxMs": 0.2,
+      "over50ms": 0
+    },
+    "getActiveAttrib": {
+      "calls": 163,
+      "totalMs": 0.4,
+      "maxMs": 0.2,
+      "over50ms": 0
+    },
+    "getAttribLocation": {
+      "calls": 163,
+      "totalMs": 0.2,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "useProgram": {
+      "calls": 1061,
+      "totalMs": 1.8,
+      "maxMs": 0.3,
+      "over50ms": 0
+    },
+    "texSubImage2D": {
+      "calls": 9,
+      "totalMs": 0.5,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "drawArrays": {
+      "calls": 144,
+      "totalMs": 0.5,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "drawElements": {
+      "calls": 2066,
+      "totalMs": 3.3,
+      "maxMs": 0.3,
+      "over50ms": 0
+    },
+    "multiDrawElementsWEBGL": {
+      "calls": 159,
+      "totalMs": 1.1,
+      "maxMs": 0.5,
+      "over50ms": 0
+    },
+    "drawElementsInstanced": {
+      "calls": 128,
+      "totalMs": 0.2,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "flush": {
+      "calls": 8,
+      "totalMs": 0.3,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "clientWaitSync": {
+      "calls": 17,
+      "totalMs": 0.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "bufferSubData": {
+      "calls": 84,
+      "totalMs": 0.9,
+      "maxMs": 0.2,
+      "over50ms": 0
+    },
+    "blitFramebuffer": {
+      "calls": 4,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    }
+  },
+  "mainThreadLongTasksSupported": true,
+  "longestMainThreadTasksMs": [
+    2189,
+    938,
+    902,
+    485,
+    154,
+    139,
+    63
+  ],
+  "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+  "viewport": [
+    390,
+    844
+  ],
+  "samples": 8,
+  "seconds": 17.599,
+  "fps": 0.4,
+  "gapP95": 5416.4,
+  "gapMax": 7816.299999999999,
+  "cpuMedian": 5.7,
+  "cpuP95": 23.2,
+  "renderMedian": 16.4,
+  "renderP95": 20.3,
+  "gpuWaitCallbacksSinceReset": 6,
+  "contextWaitCallbacksSinceReset": 0,
+  "queueCpuTotalSinceReset": 0.8,
+  "queueCpuMaxSinceReset": 0.2,
+  "eventLoopDelayP95": 2361,
+  "eventLoopDelayMax": 12397.300000011921,
+  "geometryEvictionsDuringWindow": 0,
+  "geometryRefaultsDuringWindow": 0,
+  "geometryRefaultBytesDuringWindow": 0,
+  "geometryRapidRefaultsDuringWindow": 0,
+  "geometryRapidRefaultBytesDuringWindow": 0,
+  "last": {
+    "biome": "moon",
+    "cats": 24,
+    "calls": 315,
+    "triangles": 508936,
+    "geometryBytes": 21871276,
+    "pending": 2,
+    "dpr": 2,
+    "poseCats": 4,
+    "colonyActive": false,
+    "shaderPending": 24,
+    "shaderPreparing": 1,
+    "evicted": 0,
+    "refaults": 0,
+    "refaultBytes": 0,
+    "rapidRefaults": 0,
+    "rapidRefaultBytes": 0,
+    "visible": true,
+    "moving": false,
+    "buffer": [
+      776,
+      1464
+    ]
+  }
+}

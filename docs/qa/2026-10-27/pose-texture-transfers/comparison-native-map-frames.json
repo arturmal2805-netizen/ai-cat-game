@@ -1,0 +1,3326 @@
+[
+  {
+    "id": "jobcity",
+    "legacy": false,
+    "poseRows": false,
+    "repeat": false,
+    "readyMs": 101262,
+    "elapsed": 10078,
+    "frames": 8,
+    "submittedFps": 0.7938082952966858,
+    "completedFpsLowerBound": 0.7938082952966858,
+    "pending": 0,
+    "gapMedian": 1288,
+    "gapP95": 1428,
+    "renderCpuMedian": 541,
+    "renderCpuMax": 582,
+    "actorSyncTimes": [],
+    "orbitRange": 0.1804595747069071,
+    "zoomRange": 15.038297892242255,
+    "draw": {
+      "frame": 165,
+      "calls": 390,
+      "triangles": 2555980,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "preparing": 0,
+      "prepared": 55,
+      "reflected": 47,
+      "compiled": 269,
+      "reused": 84,
+      "textures": 18
+    },
+    "shadows": {
+      "bakes": 3,
+      "blits": 33,
+      "skippedDraws": 18,
+      "skippedTriangles": 189620,
+      "cachedCasters": 18,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 200243249,
+    "memory": {
+      "geometries": 720,
+      "textures": 105
+    },
+    "colony": {
+      "sources": 580,
+      "batches": 9,
+      "ready": true,
+      "active": true
+    },
+    "atlas": {
+      "entries": 1734,
+      "rows": 26,
+      "bytes": 212992,
+      "cats": 64,
+      "updatedCats": 49
+    },
+    "npcCount": 63,
+    "visibleNPCs": 53,
+    "geometryResidency": {
+      "bytes": 200142045,
+      "peakBytes": 204030393,
+      "geometries": 720,
+      "evicted": 32,
+      "clockReads": 165,
+      "refaults": 0,
+      "refaultBytes": 0,
+      "rapidRefaults": 0,
+      "rapidRefaultBytes": 0
+    },
+    "refaultDelta": {
+      "evicted": 15,
+      "refaults": 0,
+      "refaultBytes": 0,
+      "rapidRefaults": 0,
+      "rapidRefaultBytes": 0
+    },
+    "uploads": {
+      "dataCalls": 130,
+      "dataBytes": 3318480,
+      "subCalls": 112,
+      "subBytes": 121344
+    },
+    "glTimings": {
+      "bufferSubData": {
+        "calls": 112,
+        "totalMs": 2,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "blitFramebuffer": {
+        "calls": 8,
+        "totalMs": 15,
+        "maxMs": 3,
+        "over50ms": 0
+      },
+      "useProgram": {
+        "calls": 1596,
+        "totalMs": 8,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "drawElements": {
+        "calls": 2442,
+        "totalMs": 950,
+        "maxMs": 32,
+        "over50ms": 0
+      },
+      "drawArrays": {
+        "calls": 366,
+        "totalMs": 120,
+        "maxMs": 18,
+        "over50ms": 0
+      },
+      "texSubImage2D": {
+        "calls": 849,
+        "totalMs": 13,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "multiDrawElementsWEBGL": {
+        "calls": 745,
+        "totalMs": 2217,
+        "maxMs": 105,
+        "over50ms": 11
+      },
+      "drawElementsInstanced": {
+        "calls": 128,
+        "totalMs": 235,
+        "maxMs": 34,
+        "over50ms": 0
+      },
+      "flush": {
+        "calls": 8,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "clientWaitSync": {
+        "calls": 9,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "bufferData": {
+        "calls": 130,
+        "totalMs": 3,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "compileShader": {
+        "calls": 2,
+        "totalMs": 3,
+        "maxMs": 2,
+        "over50ms": 0
+      },
+      "linkProgram": {
+        "calls": 1,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "getProgramInfoLog": {
+        "calls": 1,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "getShaderInfoLog": {
+        "calls": 2,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "getProgramParameter": {
+        "calls": 3,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "getActiveUniform": {
+        "calls": 8,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "getUniformLocation": {
+        "calls": 8,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "getActiveAttrib": {
+        "calls": 1,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "getAttribLocation": {
+        "calls": 1,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      }
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "jobcity",
+    "legacy": false,
+    "poseRows": true,
+    "repeat": true,
+    "readyMs": 3152,
+    "elapsed": 10277,
+    "frames": 9,
+    "submittedFps": 0.875741948039311,
+    "completedFpsLowerBound": 0.7784372871460543,
+    "pending": 1,
+    "gapMedian": 1169,
+    "gapP95": 1307,
+    "renderCpuMedian": 466,
+    "renderCpuMax": 650,
+    "actorSyncTimes": [],
+    "orbitRange": 0.18437950081541554,
+    "zoomRange": 15.364958401284639,
+    "draw": {
+      "frame": 178,
+      "calls": 417,
+      "triangles": 2580379,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "preparing": 0,
+      "prepared": 55,
+      "reflected": 47,
+      "compiled": 269,
+      "reused": 84,
+      "textures": 18
+    },
+    "shadows": {
+      "bakes": 3,
+      "blits": 46,
+      "skippedDraws": 18,
+      "skippedTriangles": 189620,
+      "cachedCasters": 18,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 200723417,
+    "memory": {
+      "geometries": 726,
+      "textures": 105
+    },
+    "colony": {
+      "sources": 580,
+      "batches": 9,
+      "ready": true,
+      "active": true
+    },
+    "atlas": {
+      "entries": 1734,
+      "rows": 26,
+      "bytes": 212992,
+      "cats": 64,
+      "updatedCats": 51
+    },
+    "npcCount": 63,
+    "visibleNPCs": 55,
+    "geometryResidency": {
+      "bytes": 200622213,
+      "peakBytes": 204030393,
+      "geometries": 726,
+      "evicted": 32,
+      "clockReads": 178,
+      "refaults": 0,
+      "refaultBytes": 0,
+      "rapidRefaults": 0,
+      "rapidRefaultBytes": 0
+    },
+    "refaultDelta": {
+      "evicted": 0,
+      "refaults": 0,
+      "refaultBytes": 0,
+      "rapidRefaults": 0,
+      "rapidRefaultBytes": 0
+    },
+    "uploads": {
+      "dataCalls": 30,
+      "dataBytes": 480168,
+      "subCalls": 126,
+      "subBytes": 136512
+    },
+    "glTimings": {
+      "texSubImage2D": {
+        "calls": 728,
+        "totalMs": 22,
+        "maxMs": 3,
+        "over50ms": 0
+      },
+      "bufferSubData": {
+        "calls": 126,
+        "totalMs": 1,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "blitFramebuffer": {
+        "calls": 9,
+        "totalMs": 19,
+        "maxMs": 5,
+        "over50ms": 0
+      },
+      "useProgram": {
+        "calls": 1807,
+        "totalMs": 17,
+        "maxMs": 2,
+        "over50ms": 0
+      },
+      "drawElements": {
+        "calls": 2854,
+        "totalMs": 976,
+        "maxMs": 40,
+        "over50ms": 0
+      },
+      "drawArrays": {
+        "calls": 409,
+        "totalMs": 98,
+        "maxMs": 4,
+        "over50ms": 0
+      },
+      "multiDrawElementsWEBGL": {
+        "calls": 865,
+        "totalMs": 2480,
+        "maxMs": 102,
+        "over50ms": 13
+      },
+      "drawElementsInstanced": {
+        "calls": 144,
+        "totalMs": 235,
+        "maxMs": 26,
+        "over50ms": 0
+      },
+      "flush": {
+        "calls": 9,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "clientWaitSync": {
+        "calls": 9,
+        "totalMs": 1,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "bufferData": {
+        "calls": 30,
+        "totalMs": 1,
+        "maxMs": 1,
+        "over50ms": 0
+      }
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "summer",
+    "legacy": false,
+    "poseRows": true,
+    "repeat": false,
+    "readyMs": 29117,
+    "elapsed": 10903,
+    "frames": 11,
+    "submittedFps": 1.0088966339539576,
+    "completedFpsLowerBound": 0.9171787581399615,
+    "pending": 1,
+    "gapMedian": 995,
+    "gapP95": 1143,
+    "renderCpuMedian": 356,
+    "renderCpuMax": 630,
+    "actorSyncTimes": [],
+    "orbitRange": 0.18150147751978424,
+    "zoomRange": 15.125123126648674,
+    "draw": {
+      "frame": 262,
+      "calls": 504,
+      "triangles": 2204956,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "preparing": 0,
+      "prepared": 65,
+      "reflected": 63,
+      "compiled": 566,
+      "reused": 122,
+      "textures": 19
+    },
+    "shadows": {
+      "bakes": 11,
+      "blits": 113,
+      "skippedDraws": 58,
+      "skippedTriangles": 288736,
+      "cachedCasters": 58,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 201572543,
+    "memory": {
+      "geometries": 471,
+      "textures": 109
+    },
+    "colony": {
+      "sources": 580,
+      "batches": 9,
+      "ready": true,
+      "active": false
+    },
+    "atlas": {
+      "entries": 1734,
+      "rows": 0,
+      "bytes": 0,
+      "cats": 64,
+      "updatedCats": 5
+    },
+    "npcCount": 63,
+    "visibleNPCs": 8,
+    "geometryResidency": {
+      "bytes": 201320823,
+      "peakBytes": 237370773,
+      "geometries": 471,
+      "evicted": 650,
+      "clockReads": 262,
+      "refaults": 11,
+      "refaultBytes": 45518596,
+      "rapidRefaults": 7,
+      "rapidRefaultBytes": 45491476
+    },
+    "refaultDelta": {
+      "evicted": 188,
+      "refaults": 7,
+      "refaultBytes": 45491476,
+      "rapidRefaults": 7,
+      "rapidRefaultBytes": 45491476
+    },
+    "uploads": {
+      "dataCalls": 226,
+      "dataBytes": 48117446,
+      "subCalls": 385,
+      "subBytes": 629376
+    },
+    "glTimings": {
+      "bufferSubData": {
+        "calls": 385,
+        "totalMs": 6,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "bufferData": {
+        "calls": 226,
+        "totalMs": 37,
+        "maxMs": 6,
+        "over50ms": 0
+      },
+      "blitFramebuffer": {
+        "calls": 11,
+        "totalMs": 23,
+        "maxMs": 6,
+        "over50ms": 0
+      },
+      "useProgram": {
+        "calls": 2924,
+        "totalMs": 9,
+        "maxMs": 2,
+        "over50ms": 0
+      },
+      "drawElements": {
+        "calls": 3919,
+        "totalMs": 1342,
+        "maxMs": 24,
+        "over50ms": 0
+      },
+      "drawArrays": {
+        "calls": 644,
+        "totalMs": 110,
+        "maxMs": 12,
+        "over50ms": 0
+      },
+      "texSubImage2D": {
+        "calls": 219,
+        "totalMs": 8,
+        "maxMs": 2,
+        "over50ms": 0
+      },
+      "multiDrawElementsWEBGL": {
+        "calls": 545,
+        "totalMs": 935,
+        "maxMs": 83,
+        "over50ms": 1
+      },
+      "drawElementsInstanced": {
+        "calls": 501,
+        "totalMs": 939,
+        "maxMs": 43,
+        "over50ms": 0
+      },
+      "flush": {
+        "calls": 11,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "clientWaitSync": {
+        "calls": 12,
+        "totalMs": 3,
+        "maxMs": 1,
+        "over50ms": 0
+      }
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "summer",
+    "legacy": false,
+    "poseRows": false,
+    "repeat": true,
+    "readyMs": 1214,
+    "elapsed": 10016,
+    "frames": 11,
+    "submittedFps": 1.0982428115015974,
+    "completedFpsLowerBound": 0.9984025559105432,
+    "pending": 1,
+    "gapMedian": 888,
+    "gapP95": 967,
+    "renderCpuMedian": 331,
+    "renderCpuMax": 392,
+    "actorSyncTimes": [],
+    "orbitRange": 0.189680925618131,
+    "zoomRange": 15.806743801510919,
+    "draw": {
+      "frame": 276,
+      "calls": 482,
+      "triangles": 2147306,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "preparing": 0,
+      "prepared": 65,
+      "reflected": 63,
+      "compiled": 566,
+      "reused": 122,
+      "textures": 19
+    },
+    "shadows": {
+      "bakes": 11,
+      "blits": 127,
+      "skippedDraws": 58,
+      "skippedTriangles": 288736,
+      "cachedCasters": 58,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 201053471,
+    "memory": {
+      "geometries": 479,
+      "textures": 109
+    },
+    "colony": {
+      "sources": 580,
+      "batches": 9,
+      "ready": true,
+      "active": false
+    },
+    "atlas": {
+      "entries": 1734,
+      "rows": 0,
+      "bytes": 0,
+      "cats": 64,
+      "updatedCats": 6
+    },
+    "npcCount": 63,
+    "visibleNPCs": 5,
+    "geometryResidency": {
+      "bytes": 200801751,
+      "peakBytes": 237370773,
+      "geometries": 479,
+      "evicted": 670,
+      "clockReads": 276,
+      "refaults": 22,
+      "refaultBytes": 46859192,
+      "rapidRefaults": 8,
+      "rapidRefaultBytes": 46062148
+    },
+    "refaultDelta": {
+      "evicted": 18,
+      "refaults": 11,
+      "refaultBytes": 1340596,
+      "rapidRefaults": 1,
+      "rapidRefaultBytes": 570672
+    },
+    "uploads": {
+      "dataCalls": 132,
+      "dataBytes": 2127760,
+      "subCalls": 409,
+      "subBytes": 675456
+    },
+    "glTimings": {
+      "bufferSubData": {
+        "calls": 409,
+        "totalMs": 6,
+        "maxMs": 2,
+        "over50ms": 0
+      },
+      "blitFramebuffer": {
+        "calls": 11,
+        "totalMs": 19,
+        "maxMs": 3,
+        "over50ms": 0
+      },
+      "useProgram": {
+        "calls": 2894,
+        "totalMs": 19,
+        "maxMs": 5,
+        "over50ms": 0
+      },
+      "drawElements": {
+        "calls": 3813,
+        "totalMs": 1130,
+        "maxMs": 27,
+        "over50ms": 0
+      },
+      "drawArrays": {
+        "calls": 645,
+        "totalMs": 80,
+        "maxMs": 3,
+        "over50ms": 0
+      },
+      "texSubImage2D": {
+        "calls": 322,
+        "totalMs": 5,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "multiDrawElementsWEBGL": {
+        "calls": 568,
+        "totalMs": 797,
+        "maxMs": 24,
+        "over50ms": 0
+      },
+      "drawElementsInstanced": {
+        "calls": 523,
+        "totalMs": 1051,
+        "maxMs": 56,
+        "over50ms": 1
+      },
+      "flush": {
+        "calls": 11,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "clientWaitSync": {
+        "calls": 11,
+        "totalMs": 1,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "bufferData": {
+        "calls": 132,
+        "totalMs": 4,
+        "maxMs": 1,
+        "over50ms": 0
+      }
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "aquarium",
+    "legacy": false,
+    "poseRows": false,
+    "repeat": false,
+    "readyMs": 6246,
+    "elapsed": 10640,
+    "frames": 14,
+    "submittedFps": 1.3157894736842106,
+    "completedFpsLowerBound": 1.2218045112781954,
+    "pending": 1,
+    "gapMedian": 776,
+    "gapP95": 838,
+    "renderCpuMedian": 319,
+    "renderCpuMax": 411,
+    "actorSyncTimes": [],
+    "orbitRange": 0.19046356198149758,
+    "zoomRange": 15.871963498458129,
+    "draw": {
+      "frame": 308,
+      "calls": 218,
+      "triangles": 2155601,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "preparing": 0,
+      "prepared": 75,
+      "reflected": 73,
+      "compiled": 662,
+      "reused": 122,
+      "textures": 20
+    },
+    "shadows": {
+      "bakes": 15,
+      "blits": 142,
+      "skippedDraws": 17,
+      "skippedTriangles": 79252,
+      "cachedCasters": 17,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 192690137,
+    "memory": {
+      "geometries": 533,
+      "textures": 112
+    },
+    "colony": {
+      "sources": 580,
+      "batches": 9,
+      "ready": true,
+      "active": false
+    },
+    "atlas": {
+      "entries": 1734,
+      "rows": 0,
+      "bytes": 0,
+      "cats": 64,
+      "updatedCats": 1
+    },
+    "npcCount": 63,
+    "visibleNPCs": 1,
+    "geometryResidency": {
+      "bytes": 192422713,
+      "peakBytes": 237370773,
+      "geometries": 533,
+      "evicted": 768,
+      "clockReads": 308,
+      "refaults": 116,
+      "refaultBytes": 58947393,
+      "rapidRefaults": 11,
+      "rapidRefaultBytes": 51528751
+    },
+    "refaultDelta": {
+      "evicted": 19,
+      "refaults": 3,
+      "refaultBytes": 642132,
+      "rapidRefaults": 1,
+      "rapidRefaultBytes": 479208
+    },
+    "uploads": {
+      "dataCalls": 34,
+      "dataBytes": 3313464,
+      "subCalls": 154,
+      "subBytes": 228480
+    },
+    "glTimings": {
+      "bufferSubData": {
+        "calls": 154,
+        "totalMs": 2,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "blitFramebuffer": {
+        "calls": 14,
+        "totalMs": 22,
+        "maxMs": 4,
+        "over50ms": 0
+      },
+      "useProgram": {
+        "calls": 1620,
+        "totalMs": 11,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "texSubImage2D": {
+        "calls": 173,
+        "totalMs": 4,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "drawElements": {
+        "calls": 1688,
+        "totalMs": 402,
+        "maxMs": 13,
+        "over50ms": 0
+      },
+      "drawArrays": {
+        "calls": 615,
+        "totalMs": 60,
+        "maxMs": 2,
+        "over50ms": 0
+      },
+      "drawElementsInstanced": {
+        "calls": 336,
+        "totalMs": 3241,
+        "maxMs": 146,
+        "over50ms": 17
+      },
+      "multiDrawElementsWEBGL": {
+        "calls": 435,
+        "totalMs": 480,
+        "maxMs": 18,
+        "over50ms": 0
+      },
+      "flush": {
+        "calls": 14,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "clientWaitSync": {
+        "calls": 14,
+        "totalMs": 1,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "bufferData": {
+        "calls": 34,
+        "totalMs": 3,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "texStorage2D": {
+        "calls": 6,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      }
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "aquarium",
+    "legacy": false,
+    "poseRows": true,
+    "repeat": true,
+    "readyMs": 355,
+    "elapsed": 10149,
+    "frames": 13,
+    "submittedFps": 1.2809143758005714,
+    "completedFpsLowerBound": 1.182382500738989,
+    "pending": 1,
+    "gapMedian": 786,
+    "gapP95": 949,
+    "renderCpuMedian": 324,
+    "renderCpuMax": 522,
+    "actorSyncTimes": [],
+    "orbitRange": 0.19049877233667545,
+    "zoomRange": 15.874897694722947,
+    "draw": {
+      "frame": 323,
+      "calls": 209,
+      "triangles": 2149463,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "preparing": 0,
+      "prepared": 75,
+      "reflected": 73,
+      "compiled": 662,
+      "reused": 122,
+      "textures": 20
+    },
+    "shadows": {
+      "bakes": 15,
+      "blits": 157,
+      "skippedDraws": 17,
+      "skippedTriangles": 79252,
+      "cachedCasters": 17,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 192690137,
+    "memory": {
+      "geometries": 533,
+      "textures": 112
+    },
+    "colony": {
+      "sources": 580,
+      "batches": 9,
+      "ready": true,
+      "active": false
+    },
+    "atlas": {
+      "entries": 1734,
+      "rows": 0,
+      "bytes": 0,
+      "cats": 64,
+      "updatedCats": 1
+    },
+    "npcCount": 63,
+    "visibleNPCs": 1,
+    "geometryResidency": {
+      "bytes": 192422713,
+      "peakBytes": 237370773,
+      "geometries": 533,
+      "evicted": 768,
+      "clockReads": 323,
+      "refaults": 116,
+      "refaultBytes": 58947393,
+      "rapidRefaults": 11,
+      "rapidRefaultBytes": 51528751
+    },
+    "refaultDelta": {
+      "evicted": 0,
+      "refaults": 0,
+      "refaultBytes": 0,
+      "rapidRefaults": 0,
+      "rapidRefaultBytes": 0
+    },
+    "uploads": {
+      "dataCalls": 0,
+      "dataBytes": 0,
+      "subCalls": 143,
+      "subBytes": 212160
+    },
+    "glTimings": {
+      "bufferSubData": {
+        "calls": 143,
+        "totalMs": 2,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "blitFramebuffer": {
+        "calls": 13,
+        "totalMs": 36,
+        "maxMs": 7,
+        "over50ms": 0
+      },
+      "useProgram": {
+        "calls": 1481,
+        "totalMs": 6,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "texSubImage2D": {
+        "calls": 182,
+        "totalMs": 9,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "drawElements": {
+        "calls": 1527,
+        "totalMs": 324,
+        "maxMs": 17,
+        "over50ms": 0
+      },
+      "drawArrays": {
+        "calls": 570,
+        "totalMs": 71,
+        "maxMs": 9,
+        "over50ms": 0
+      },
+      "drawElementsInstanced": {
+        "calls": 312,
+        "totalMs": 3188,
+        "maxMs": 122,
+        "over50ms": 21
+      },
+      "multiDrawElementsWEBGL": {
+        "calls": 410,
+        "totalMs": 568,
+        "maxMs": 20,
+        "over50ms": 0
+      },
+      "flush": {
+        "calls": 13,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "clientWaitSync": {
+        "calls": 13,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      }
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "homestead",
+    "legacy": false,
+    "poseRows": true,
+    "repeat": false,
+    "readyMs": 2039,
+    "elapsed": 10111,
+    "frames": 39,
+    "submittedFps": 3.857185243793888,
+    "completedFpsLowerBound": 3.758283058055583,
+    "pending": 1,
+    "gapMedian": 238,
+    "gapP95": 444,
+    "renderCpuMedian": 98,
+    "renderCpuMax": 341,
+    "actorSyncTimes": [],
+    "orbitRange": 0.1911080703079999,
+    "zoomRange": 15.925672525666656,
+    "draw": {
+      "frame": 373,
+      "calls": 236,
+      "triangles": 503336,
+      "points": 0,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "preparing": 0,
+      "prepared": 77,
+      "reflected": 73,
+      "compiled": 723,
+      "reused": 926,
+      "textures": 20
+    },
+    "shadows": {
+      "bakes": 24,
+      "blits": 188,
+      "skippedDraws": 7,
+      "skippedTriangles": 40828,
+      "cachedCasters": 7,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 200132709,
+    "memory": {
+      "geometries": 609,
+      "textures": 112
+    },
+    "colony": {
+      "sources": 580,
+      "batches": 9,
+      "ready": true,
+      "active": false
+    },
+    "atlas": {
+      "entries": 1734,
+      "rows": 0,
+      "bytes": 0,
+      "cats": 64,
+      "updatedCats": 0
+    },
+    "npcCount": 63,
+    "visibleNPCs": 0,
+    "geometryResidency": {
+      "bytes": 199399449,
+      "peakBytes": 237370773,
+      "geometries": 609,
+      "evicted": 780,
+      "clockReads": 373,
+      "refaults": 167,
+      "refaultBytes": 67324113,
+      "rapidRefaults": 11,
+      "rapidRefaultBytes": 51528751
+    },
+    "refaultDelta": {
+      "evicted": 0,
+      "refaults": 0,
+      "refaultBytes": 0,
+      "rapidRefaults": 0,
+      "rapidRefaultBytes": 0
+    },
+    "uploads": {
+      "dataCalls": 94,
+      "dataBytes": 78660,
+      "subCalls": 390,
+      "subBytes": 591552
+    },
+    "glTimings": {
+      "bufferSubData": {
+        "calls": 390,
+        "totalMs": 1,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "useProgram": {
+        "calls": 1826,
+        "totalMs": 12,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "drawArrays": {
+        "calls": 195,
+        "totalMs": 61,
+        "maxMs": 6,
+        "over50ms": 0
+      },
+      "drawElements": {
+        "calls": 1989,
+        "totalMs": 329,
+        "maxMs": 37,
+        "over50ms": 0
+      },
+      "multiDrawElementsWEBGL": {
+        "calls": 697,
+        "totalMs": 376,
+        "maxMs": 19,
+        "over50ms": 0
+      },
+      "texSubImage2D": {
+        "calls": 273,
+        "totalMs": 13,
+        "maxMs": 4,
+        "over50ms": 0
+      },
+      "drawElementsInstanced": {
+        "calls": 6924,
+        "totalMs": 2623,
+        "maxMs": 53,
+        "over50ms": 1
+      },
+      "flush": {
+        "calls": 39,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "clientWaitSync": {
+        "calls": 40,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "bufferData": {
+        "calls": 94,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "blitFramebuffer": {
+        "calls": 31,
+        "totalMs": 84,
+        "maxMs": 8,
+        "over50ms": 0
+      }
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "homestead",
+    "legacy": false,
+    "poseRows": false,
+    "repeat": true,
+    "readyMs": 1187,
+    "elapsed": 10130,
+    "frames": 38,
+    "submittedFps": 3.751233958538993,
+    "completedFpsLowerBound": 3.652517275419546,
+    "pending": 1,
+    "gapMedian": 260,
+    "gapP95": 375,
+    "renderCpuMedian": 102,
+    "renderCpuMax": 179,
+    "actorSyncTimes": [],
+    "orbitRange": 0.19063340241726792,
+    "zoomRange": 15.88611686810566,
+    "draw": {
+      "frame": 416,
+      "calls": 235,
+      "triangles": 502856,
+      "points": 0,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "preparing": 0,
+      "prepared": 80,
+      "reflected": 73,
+      "compiled": 729,
+      "reused": 926,
+      "textures": 20
+    },
+    "shadows": {
+      "bakes": 24,
+      "blits": 231,
+      "skippedDraws": 7,
+      "skippedTriangles": 40828,
+      "cachedCasters": 7,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 163418753,
+    "memory": {
+      "geometries": 604,
+      "textures": 84
+    },
+    "colony": {
+      "sources": 589,
+      "batches": 9,
+      "ready": true,
+      "active": false
+    },
+    "atlas": {
+      "entries": 1763,
+      "rows": 0,
+      "bytes": 0,
+      "cats": 65,
+      "updatedCats": 0
+    },
+    "npcCount": 63,
+    "visibleNPCs": 0,
+    "geometryResidency": {
+      "bytes": 162685493,
+      "peakBytes": 237370773,
+      "geometries": 604,
+      "evicted": 780,
+      "clockReads": 416,
+      "refaults": 167,
+      "refaultBytes": 67324113,
+      "rapidRefaults": 11,
+      "rapidRefaultBytes": 51528751
+    },
+    "refaultDelta": {
+      "evicted": 0,
+      "refaults": 0,
+      "refaultBytes": 0,
+      "rapidRefaults": 0,
+      "rapidRefaultBytes": 0
+    },
+    "uploads": {
+      "dataCalls": 5,
+      "dataBytes": 739996,
+      "subCalls": 380,
+      "subBytes": 576384
+    },
+    "glTimings": {
+      "bufferSubData": {
+        "calls": 380,
+        "totalMs": 2,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "blitFramebuffer": {
+        "calls": 38,
+        "totalMs": 112,
+        "maxMs": 11,
+        "over50ms": 0
+      },
+      "useProgram": {
+        "calls": 1792,
+        "totalMs": 10,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "drawArrays": {
+        "calls": 190,
+        "totalMs": 57,
+        "maxMs": 9,
+        "over50ms": 0
+      },
+      "drawElements": {
+        "calls": 1950,
+        "totalMs": 237,
+        "maxMs": 7,
+        "over50ms": 0
+      },
+      "texSubImage2D": {
+        "calls": 261,
+        "totalMs": 6,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "multiDrawElementsWEBGL": {
+        "calls": 564,
+        "totalMs": 249,
+        "maxMs": 8,
+        "over50ms": 0
+      },
+      "drawElementsInstanced": {
+        "calls": 6710,
+        "totalMs": 2675,
+        "maxMs": 61,
+        "over50ms": 1
+      },
+      "flush": {
+        "calls": 38,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "clientWaitSync": {
+        "calls": 38,
+        "totalMs": 2,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "bufferData": {
+        "calls": 5,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "texStorage2D": {
+        "calls": 2,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      }
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "moon",
+    "legacy": false,
+    "poseRows": false,
+    "repeat": false,
+    "readyMs": 1543,
+    "elapsed": 10247,
+    "frames": 32,
+    "submittedFps": 3.1228652288474676,
+    "completedFpsLowerBound": 3.025275690445984,
+    "pending": 1,
+    "gapMedian": 308,
+    "gapP95": 414,
+    "renderCpuMedian": 104,
+    "renderCpuMax": 152,
+    "actorSyncTimes": [],
+    "orbitRange": 0.19141008629171188,
+    "zoomRange": 15.950840524309328,
+    "draw": {
+      "frame": 457,
+      "calls": 284,
+      "triangles": 473376,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "preparing": 0,
+      "prepared": 88,
+      "reflected": 75,
+      "compiled": 764,
+      "reused": 986,
+      "textures": 20
+    },
+    "shadows": {
+      "bakes": 25,
+      "blits": 253,
+      "skippedDraws": 14,
+      "skippedTriangles": 77240,
+      "cachedCasters": 14,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 165654569,
+    "memory": {
+      "geometries": 610,
+      "textures": 88
+    },
+    "colony": {
+      "sources": 589,
+      "batches": 9,
+      "ready": true,
+      "active": false
+    },
+    "atlas": {
+      "entries": 1763,
+      "rows": 0,
+      "bytes": 0,
+      "cats": 65,
+      "updatedCats": 1
+    },
+    "npcCount": 63,
+    "visibleNPCs": 1,
+    "geometryResidency": {
+      "bytes": 164623009,
+      "peakBytes": 237370773,
+      "geometries": 610,
+      "evicted": 780,
+      "clockReads": 457,
+      "refaults": 167,
+      "refaultBytes": 67324113,
+      "rapidRefaults": 11,
+      "rapidRefaultBytes": 51528751
+    },
+    "refaultDelta": {
+      "evicted": 0,
+      "refaults": 0,
+      "refaultBytes": 0,
+      "rapidRefaults": 0,
+      "rapidRefaultBytes": 0
+    },
+    "uploads": {
+      "dataCalls": 0,
+      "dataBytes": 0,
+      "subCalls": 384,
+      "subBytes": 534528
+    },
+    "glTimings": {
+      "bufferSubData": {
+        "calls": 384,
+        "totalMs": 4,
+        "maxMs": 2,
+        "over50ms": 0
+      },
+      "useProgram": {
+        "calls": 3228,
+        "totalMs": 4,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "drawArrays": {
+        "calls": 704,
+        "totalMs": 100,
+        "maxMs": 4,
+        "over50ms": 0
+      },
+      "drawElements": {
+        "calls": 7119,
+        "totalMs": 922,
+        "maxMs": 8,
+        "over50ms": 0
+      },
+      "multiDrawElementsWEBGL": {
+        "calls": 793,
+        "totalMs": 498,
+        "maxMs": 7,
+        "over50ms": 0
+      },
+      "texSubImage2D": {
+        "calls": 284,
+        "totalMs": 7,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "drawElementsInstanced": {
+        "calls": 572,
+        "totalMs": 1104,
+        "maxMs": 32,
+        "over50ms": 0
+      },
+      "flush": {
+        "calls": 32,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "clientWaitSync": {
+        "calls": 32,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "blitFramebuffer": {
+        "calls": 22,
+        "totalMs": 64,
+        "maxMs": 8,
+        "over50ms": 0
+      }
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "moon",
+    "legacy": false,
+    "poseRows": true,
+    "repeat": true,
+    "readyMs": 432,
+    "elapsed": 10099,
+    "frames": 32,
+    "submittedFps": 3.1686305574809386,
+    "completedFpsLowerBound": 3.0696108525596593,
+    "pending": 1,
+    "gapMedian": 300,
+    "gapP95": 403,
+    "renderCpuMedian": 96,
+    "renderCpuMax": 269,
+    "actorSyncTimes": [],
+    "orbitRange": 0.19138600362367258,
+    "zoomRange": 15.948833635306059,
+    "draw": {
+      "frame": 492,
+      "calls": 283,
+      "triangles": 472996,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "preparing": 0,
+      "prepared": 88,
+      "reflected": 75,
+      "compiled": 764,
+      "reused": 986,
+      "textures": 20
+    },
+    "shadows": {
+      "bakes": 25,
+      "blits": 288,
+      "skippedDraws": 14,
+      "skippedTriangles": 77240,
+      "cachedCasters": 14,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 165654569,
+    "memory": {
+      "geometries": 610,
+      "textures": 88
+    },
+    "colony": {
+      "sources": 589,
+      "batches": 9,
+      "ready": true,
+      "active": false
+    },
+    "atlas": {
+      "entries": 1763,
+      "rows": 0,
+      "bytes": 0,
+      "cats": 65,
+      "updatedCats": 1
+    },
+    "npcCount": 63,
+    "visibleNPCs": 1,
+    "geometryResidency": {
+      "bytes": 164623009,
+      "peakBytes": 237370773,
+      "geometries": 610,
+      "evicted": 780,
+      "clockReads": 492,
+      "refaults": 167,
+      "refaultBytes": 67324113,
+      "rapidRefaults": 11,
+      "rapidRefaultBytes": 51528751
+    },
+    "refaultDelta": {
+      "evicted": 0,
+      "refaults": 0,
+      "refaultBytes": 0,
+      "rapidRefaults": 0,
+      "rapidRefaultBytes": 0
+    },
+    "uploads": {
+      "dataCalls": 0,
+      "dataBytes": 0,
+      "subCalls": 384,
+      "subBytes": 534528
+    },
+    "glTimings": {
+      "bufferSubData": {
+        "calls": 384,
+        "totalMs": 5,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "blitFramebuffer": {
+        "calls": 32,
+        "totalMs": 80,
+        "maxMs": 7,
+        "over50ms": 0
+      },
+      "useProgram": {
+        "calls": 3132,
+        "totalMs": 16,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "drawArrays": {
+        "calls": 703,
+        "totalMs": 110,
+        "maxMs": 11,
+        "over50ms": 0
+      },
+      "drawElements": {
+        "calls": 7084,
+        "totalMs": 911,
+        "maxMs": 9,
+        "over50ms": 0
+      },
+      "texSubImage2D": {
+        "calls": 290,
+        "totalMs": 12,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "multiDrawElementsWEBGL": {
+        "calls": 672,
+        "totalMs": 465,
+        "maxMs": 13,
+        "over50ms": 0
+      },
+      "drawElementsInstanced": {
+        "calls": 578,
+        "totalMs": 1130,
+        "maxMs": 64,
+        "over50ms": 2
+      },
+      "flush": {
+        "calls": 32,
+        "totalMs": 1,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "clientWaitSync": {
+        "calls": 32,
+        "totalMs": 3,
+        "maxMs": 1,
+        "over50ms": 0
+      }
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "jobcity",
+    "legacy": false,
+    "poseRows": true,
+    "repeat": true,
+    "readyMs": 2879,
+    "elapsed": 10103,
+    "frames": 9,
+    "submittedFps": 0.8908245075720083,
+    "completedFpsLowerBound": 0.8908245075720083,
+    "pending": 0,
+    "gapMedian": 1154,
+    "gapP95": 1203,
+    "renderCpuMedian": 493,
+    "renderCpuMax": 536,
+    "actorSyncTimes": [],
+    "orbitRange": 0.1902199769053681,
+    "zoomRange": 15.851664742114025,
+    "draw": {
+      "frame": 505,
+      "calls": 446,
+      "triangles": 2629663,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "preparing": 0,
+      "prepared": 88,
+      "reflected": 75,
+      "compiled": 764,
+      "reused": 986,
+      "textures": 20
+    },
+    "shadows": {
+      "bakes": 26,
+      "blits": 294,
+      "skippedDraws": 18,
+      "skippedTriangles": 190260,
+      "cachedCasters": 18,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 201962323,
+    "memory": {
+      "geometries": 584,
+      "textures": 112
+    },
+    "colony": {
+      "sources": 589,
+      "batches": 9,
+      "ready": true,
+      "active": true
+    },
+    "atlas": {
+      "entries": 1763,
+      "rows": 27,
+      "bytes": 221184,
+      "cats": 65,
+      "updatedCats": 51
+    },
+    "npcCount": 63,
+    "visibleNPCs": 57,
+    "geometryResidency": {
+      "bytes": 200930763,
+      "peakBytes": 264217325,
+      "geometries": 584,
+      "evicted": 1110,
+      "clockReads": 505,
+      "refaults": 455,
+      "refaultBytes": 146231909,
+      "rapidRefaults": 19,
+      "rapidRefaultBytes": 70043431
+    },
+    "refaultDelta": {
+      "evicted": 284,
+      "refaults": 13,
+      "refaultBytes": 763772,
+      "rapidRefaults": 0,
+      "rapidRefaultBytes": 0
+    },
+    "uploads": {
+      "dataCalls": 93,
+      "dataBytes": 1271280,
+      "subCalls": 126,
+      "subBytes": 136512
+    },
+    "glTimings": {
+      "texSubImage2D": {
+        "calls": 729,
+        "totalMs": 13,
+        "maxMs": 2,
+        "over50ms": 0
+      },
+      "bufferSubData": {
+        "calls": 126,
+        "totalMs": 1,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "useProgram": {
+        "calls": 1949,
+        "totalMs": 7,
+        "maxMs": 2,
+        "over50ms": 0
+      },
+      "drawElements": {
+        "calls": 3101,
+        "totalMs": 838,
+        "maxMs": 27,
+        "over50ms": 0
+      },
+      "drawArrays": {
+        "calls": 425,
+        "totalMs": 80,
+        "maxMs": 2,
+        "over50ms": 0
+      },
+      "multiDrawElementsWEBGL": {
+        "calls": 958,
+        "totalMs": 2578,
+        "maxMs": 110,
+        "over50ms": 16
+      },
+      "drawElementsInstanced": {
+        "calls": 144,
+        "totalMs": 210,
+        "maxMs": 33,
+        "over50ms": 0
+      },
+      "flush": {
+        "calls": 9,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "clientWaitSync": {
+        "calls": 9,
+        "totalMs": 1,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "bufferData": {
+        "calls": 93,
+        "totalMs": 3,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "blitFramebuffer": {
+        "calls": 6,
+        "totalMs": 9,
+        "maxMs": 2,
+        "over50ms": 0
+      }
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "jobcity",
+    "legacy": false,
+    "poseRows": false,
+    "repeat": true,
+    "readyMs": 527,
+    "elapsed": 11002,
+    "frames": 9,
+    "submittedFps": 0.8180330848936557,
+    "completedFpsLowerBound": 0.7271405199054717,
+    "pending": 1,
+    "gapMedian": 1232,
+    "gapP95": 1380,
+    "renderCpuMedian": 490,
+    "renderCpuMax": 663,
+    "actorSyncTimes": [],
+    "orbitRange": 0.19181735895041627,
+    "zoomRange": 15.984779912534677,
+    "draw": {
+      "frame": 516,
+      "calls": 499,
+      "triangles": 2846835,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "preparing": 0,
+      "prepared": 88,
+      "reflected": 75,
+      "compiled": 764,
+      "reused": 986,
+      "textures": 20
+    },
+    "shadows": {
+      "bakes": 26,
+      "blits": 305,
+      "skippedDraws": 18,
+      "skippedTriangles": 190260,
+      "cachedCasters": 18,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 202330939,
+    "memory": {
+      "geometries": 570,
+      "textures": 112
+    },
+    "colony": {
+      "sources": 589,
+      "batches": 9,
+      "ready": true,
+      "active": true
+    },
+    "atlas": {
+      "entries": 1763,
+      "rows": 28,
+      "bytes": 229376,
+      "cats": 65,
+      "updatedCats": 59
+    },
+    "npcCount": 63,
+    "visibleNPCs": 61,
+    "geometryResidency": {
+      "bytes": 201299379,
+      "peakBytes": 264217325,
+      "geometries": 570,
+      "evicted": 1151,
+      "clockReads": 516,
+      "refaults": 456,
+      "refaultBytes": 146311937,
+      "rapidRefaults": 19,
+      "rapidRefaultBytes": 70043431
+    },
+    "refaultDelta": {
+      "evicted": 41,
+      "refaults": 1,
+      "refaultBytes": 80028,
+      "rapidRefaults": 0,
+      "rapidRefaultBytes": 0
+    },
+    "uploads": {
+      "dataCalls": 124,
+      "dataBytes": 2639428,
+      "subCalls": 126,
+      "subBytes": 136512
+    },
+    "glTimings": {
+      "bufferSubData": {
+        "calls": 126,
+        "totalMs": 1,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "blitFramebuffer": {
+        "calls": 9,
+        "totalMs": 19,
+        "maxMs": 6,
+        "over50ms": 0
+      },
+      "useProgram": {
+        "calls": 1952,
+        "totalMs": 8,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "texSubImage2D": {
+        "calls": 970,
+        "totalMs": 12,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "drawElements": {
+        "calls": 3200,
+        "totalMs": 975,
+        "maxMs": 30,
+        "over50ms": 0
+      },
+      "drawArrays": {
+        "calls": 433,
+        "totalMs": 78,
+        "maxMs": 2,
+        "over50ms": 0
+      },
+      "multiDrawElementsWEBGL": {
+        "calls": 926,
+        "totalMs": 2707,
+        "maxMs": 122,
+        "over50ms": 17
+      },
+      "drawElementsInstanced": {
+        "calls": 144,
+        "totalMs": 247,
+        "maxMs": 32,
+        "over50ms": 0
+      },
+      "flush": {
+        "calls": 9,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "clientWaitSync": {
+        "calls": 9,
+        "totalMs": 1,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "bufferData": {
+        "calls": 124,
+        "totalMs": 6,
+        "maxMs": 1,
+        "over50ms": 0
+      }
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "summer",
+    "legacy": false,
+    "poseRows": false,
+    "repeat": true,
+    "readyMs": 1576,
+    "elapsed": 10612,
+    "frames": 11,
+    "submittedFps": 1.0365623822088201,
+    "completedFpsLowerBound": 0.9423294383716547,
+    "pending": 1,
+    "gapMedian": 990,
+    "gapP95": 1042,
+    "renderCpuMedian": 367,
+    "renderCpuMax": 789,
+    "actorSyncTimes": [],
+    "orbitRange": 0.18420136349511018,
+    "zoomRange": 15.35011362459251,
+    "draw": {
+      "frame": 530,
+      "calls": 489,
+      "triangles": 2272956,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "preparing": 0,
+      "prepared": 88,
+      "reflected": 75,
+      "compiled": 764,
+      "reused": 986,
+      "textures": 20
+    },
+    "shadows": {
+      "bakes": 29,
+      "blits": 313,
+      "skippedDraws": 58,
+      "skippedTriangles": 288736,
+      "cachedCasters": 58,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 202240992,
+    "memory": {
+      "geometries": 521,
+      "textures": 116
+    },
+    "colony": {
+      "sources": 589,
+      "batches": 9,
+      "ready": true,
+      "active": true
+    },
+    "atlas": {
+      "entries": 1763,
+      "rows": 11,
+      "bytes": 90112,
+      "cats": 65,
+      "updatedCats": 9
+    },
+    "npcCount": 63,
+    "visibleNPCs": 12,
+    "geometryResidency": {
+      "bytes": 201209432,
+      "peakBytes": 264217325,
+      "geometries": 521,
+      "evicted": 1507,
+      "clockReads": 530,
+      "refaults": 741,
+      "refaultBytes": 211581841,
+      "rapidRefaults": 23,
+      "rapidRefaultBytes": 82974983
+    },
+    "refaultDelta": {
+      "evicted": 239,
+      "refaults": 24,
+      "refaultBytes": 14563876,
+      "rapidRefaults": 4,
+      "rapidRefaultBytes": 12931552
+    },
+    "uploads": {
+      "dataCalls": 182,
+      "dataBytes": 28711812,
+      "subCalls": 385,
+      "subBytes": 629376
+    },
+    "glTimings": {
+      "bufferSubData": {
+        "calls": 385,
+        "totalMs": 1,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "useProgram": {
+        "calls": 3010,
+        "totalMs": 13,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "multiDrawElementsWEBGL": {
+        "calls": 760,
+        "totalMs": 1393,
+        "maxMs": 42,
+        "over50ms": 0
+      },
+      "drawElements": {
+        "calls": 3980,
+        "totalMs": 1159,
+        "maxMs": 24,
+        "over50ms": 0
+      },
+      "drawArrays": {
+        "calls": 672,
+        "totalMs": 86,
+        "maxMs": 2,
+        "over50ms": 0
+      },
+      "texSubImage2D": {
+        "calls": 556,
+        "totalMs": 425,
+        "maxMs": 266,
+        "over50ms": 2
+      },
+      "drawElementsInstanced": {
+        "calls": 501,
+        "totalMs": 859,
+        "maxMs": 30,
+        "over50ms": 0
+      },
+      "flush": {
+        "calls": 11,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "clientWaitSync": {
+        "calls": 11,
+        "totalMs": 1,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "bufferData": {
+        "calls": 182,
+        "totalMs": 12,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "compileShader": {
+        "calls": 8,
+        "totalMs": 33,
+        "maxMs": 7,
+        "over50ms": 0
+      },
+      "linkProgram": {
+        "calls": 4,
+        "totalMs": 12,
+        "maxMs": 3,
+        "over50ms": 0
+      },
+      "getProgramInfoLog": {
+        "calls": 4,
+        "totalMs": 1,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "getShaderInfoLog": {
+        "calls": 8,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "getProgramParameter": {
+        "calls": 12,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "getActiveUniform": {
+        "calls": 131,
+        "totalMs": 1,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "getUniformLocation": {
+        "calls": 131,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "getActiveAttrib": {
+        "calls": 12,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "getAttribLocation": {
+        "calls": 12,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "texStorage2D": {
+        "calls": 2,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "blitFramebuffer": {
+        "calls": 8,
+        "totalMs": 10,
+        "maxMs": 3,
+        "over50ms": 0
+      }
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "summer",
+    "legacy": false,
+    "poseRows": true,
+    "repeat": true,
+    "readyMs": 417,
+    "elapsed": 10596,
+    "frames": 11,
+    "submittedFps": 1.0381275953189883,
+    "completedFpsLowerBound": 0.9437523593808984,
+    "pending": 1,
+    "gapMedian": 959,
+    "gapP95": 1115,
+    "renderCpuMedian": 362,
+    "renderCpuMax": 463,
+    "actorSyncTimes": [],
+    "orbitRange": 0.17838182576694633,
+    "zoomRange": 14.865152147245524,
+    "draw": {
+      "frame": 543,
+      "calls": 489,
+      "triangles": 2254430,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "preparing": 0,
+      "prepared": 88,
+      "reflected": 75,
+      "compiled": 764,
+      "reused": 986,
+      "textures": 20
+    },
+    "shadows": {
+      "bakes": 29,
+      "blits": 326,
+      "skippedDraws": 58,
+      "skippedTriangles": 288736,
+      "cachedCasters": 58,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 202249950,
+    "memory": {
+      "geometries": 528,
+      "textures": 116
+    },
+    "colony": {
+      "sources": 589,
+      "batches": 9,
+      "ready": true,
+      "active": true
+    },
+    "atlas": {
+      "entries": 1763,
+      "rows": 8,
+      "bytes": 65536,
+      "cats": 65,
+      "updatedCats": 7
+    },
+    "npcCount": 63,
+    "visibleNPCs": 12,
+    "geometryResidency": {
+      "bytes": 201218390,
+      "peakBytes": 264217325,
+      "geometries": 528,
+      "evicted": 1509,
+      "clockReads": 543,
+      "refaults": 749,
+      "refaultBytes": 211953665,
+      "rapidRefaults": 23,
+      "rapidRefaultBytes": 82974983
+    },
+    "refaultDelta": {
+      "evicted": 2,
+      "refaults": 4,
+      "refaultBytes": 367264,
+      "rapidRefaults": 0,
+      "rapidRefaultBytes": 0
+    },
+    "uploads": {
+      "dataCalls": 21,
+      "dataBytes": 408664,
+      "subCalls": 393,
+      "subBytes": 644736
+    },
+    "glTimings": {
+      "texSubImage2D": {
+        "calls": 508,
+        "totalMs": 21,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "bufferSubData": {
+        "calls": 393,
+        "totalMs": 1,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "blitFramebuffer": {
+        "calls": 11,
+        "totalMs": 18,
+        "maxMs": 3,
+        "over50ms": 0
+      },
+      "useProgram": {
+        "calls": 2950,
+        "totalMs": 8,
+        "maxMs": 3,
+        "over50ms": 0
+      },
+      "drawElements": {
+        "calls": 3733,
+        "totalMs": 1118,
+        "maxMs": 23,
+        "over50ms": 0
+      },
+      "drawArrays": {
+        "calls": 673,
+        "totalMs": 88,
+        "maxMs": 3,
+        "over50ms": 0
+      },
+      "drawElementsInstanced": {
+        "calls": 509,
+        "totalMs": 884,
+        "maxMs": 36,
+        "over50ms": 0
+      },
+      "multiDrawElementsWEBGL": {
+        "calls": 691,
+        "totalMs": 1182,
+        "maxMs": 30,
+        "over50ms": 0
+      },
+      "flush": {
+        "calls": 11,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "clientWaitSync": {
+        "calls": 12,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "bufferData": {
+        "calls": 21,
+        "totalMs": 1,
+        "maxMs": 1,
+        "over50ms": 0
+      }
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "aquarium",
+    "legacy": false,
+    "poseRows": true,
+    "repeat": true,
+    "readyMs": 2327,
+    "elapsed": 10280,
+    "frames": 14,
+    "submittedFps": 1.3618677042801557,
+    "completedFpsLowerBound": 1.264591439688716,
+    "pending": 1,
+    "gapMedian": 740,
+    "gapP95": 859,
+    "renderCpuMedian": 319,
+    "renderCpuMax": 381,
+    "actorSyncTimes": [],
+    "orbitRange": 0.19010689662574165,
+    "zoomRange": 15.853508029992327,
+    "draw": {
+      "frame": 561,
+      "calls": 210,
+      "triangles": 2020459,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "preparing": 0,
+      "prepared": 88,
+      "reflected": 75,
+      "compiled": 764,
+      "reused": 986,
+      "textures": 20
+    },
+    "shadows": {
+      "bakes": 30,
+      "blits": 334,
+      "skippedDraws": 17,
+      "skippedTriangles": 80276,
+      "cachedCasters": 17,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 201362724,
+    "memory": {
+      "geometries": 522,
+      "textures": 118
+    },
+    "colony": {
+      "sources": 589,
+      "batches": 9,
+      "ready": true,
+      "active": false
+    },
+    "atlas": {
+      "entries": 1763,
+      "rows": 0,
+      "bytes": 0,
+      "cats": 65,
+      "updatedCats": 2
+    },
+    "npcCount": 63,
+    "visibleNPCs": 2,
+    "geometryResidency": {
+      "bytes": 200331164,
+      "peakBytes": 264217325,
+      "geometries": 522,
+      "evicted": 1664,
+      "clockReads": 561,
+      "refaults": 882,
+      "refaultBytes": 226976709,
+      "rapidRefaults": 23,
+      "rapidRefaultBytes": 82974983
+    },
+    "refaultDelta": {
+      "evicted": 54,
+      "refaults": 3,
+      "refaultBytes": 129904,
+      "rapidRefaults": 0,
+      "rapidRefaultBytes": 0
+    },
+    "uploads": {
+      "dataCalls": 84,
+      "dataBytes": 2960876,
+      "subCalls": 154,
+      "subBytes": 228480
+    },
+    "glTimings": {
+      "bufferSubData": {
+        "calls": 154,
+        "totalMs": 1,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "useProgram": {
+        "calls": 1766,
+        "totalMs": 7,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "drawElements": {
+        "calls": 1553,
+        "totalMs": 115,
+        "maxMs": 9,
+        "over50ms": 0
+      },
+      "multiDrawElementsWEBGL": {
+        "calls": 604,
+        "totalMs": 615,
+        "maxMs": 25,
+        "over50ms": 0
+      },
+      "texSubImage2D": {
+        "calls": 140,
+        "totalMs": 6,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "drawElementsInstanced": {
+        "calls": 336,
+        "totalMs": 3327,
+        "maxMs": 113,
+        "over50ms": 19
+      },
+      "drawArrays": {
+        "calls": 504,
+        "totalMs": 54,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "flush": {
+        "calls": 14,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "clientWaitSync": {
+        "calls": 14,
+        "totalMs": 2,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "bufferData": {
+        "calls": 84,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "blitFramebuffer": {
+        "calls": 8,
+        "totalMs": 9,
+        "maxMs": 2,
+        "over50ms": 0
+      }
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "aquarium",
+    "legacy": false,
+    "poseRows": false,
+    "repeat": true,
+    "readyMs": 1126,
+    "elapsed": 10236,
+    "frames": 12,
+    "submittedFps": 1.1723329425556859,
+    "completedFpsLowerBound": 1.0746385306760453,
+    "pending": 1,
+    "gapMedian": 855,
+    "gapP95": 981,
+    "renderCpuMedian": 363,
+    "renderCpuMax": 471,
+    "actorSyncTimes": [],
+    "orbitRange": 0.1881323570384732,
+    "zoomRange": 15.677696419872774,
+    "draw": {
+      "frame": 576,
+      "calls": 195,
+      "triangles": 1999799,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "preparing": 0,
+      "prepared": 88,
+      "reflected": 75,
+      "compiled": 764,
+      "reused": 986,
+      "textures": 20
+    },
+    "shadows": {
+      "bakes": 30,
+      "blits": 349,
+      "skippedDraws": 17,
+      "skippedTriangles": 80276,
+      "cachedCasters": 17,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 201362724,
+    "memory": {
+      "geometries": 522,
+      "textures": 118
+    },
+    "colony": {
+      "sources": 589,
+      "batches": 9,
+      "ready": true,
+      "active": false
+    },
+    "atlas": {
+      "entries": 1763,
+      "rows": 0,
+      "bytes": 0,
+      "cats": 65,
+      "updatedCats": 2
+    },
+    "npcCount": 63,
+    "visibleNPCs": 2,
+    "geometryResidency": {
+      "bytes": 200331164,
+      "peakBytes": 264217325,
+      "geometries": 522,
+      "evicted": 1664,
+      "clockReads": 576,
+      "refaults": 882,
+      "refaultBytes": 226976709,
+      "rapidRefaults": 23,
+      "rapidRefaultBytes": 82974983
+    },
+    "refaultDelta": {
+      "evicted": 0,
+      "refaults": 0,
+      "refaultBytes": 0,
+      "rapidRefaults": 0,
+      "rapidRefaultBytes": 0
+    },
+    "uploads": {
+      "dataCalls": 0,
+      "dataBytes": 0,
+      "subCalls": 132,
+      "subBytes": 195840
+    },
+    "glTimings": {
+      "bufferSubData": {
+        "calls": 132,
+        "totalMs": 1,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "blitFramebuffer": {
+        "calls": 12,
+        "totalMs": 24,
+        "maxMs": 5,
+        "over50ms": 0
+      },
+      "useProgram": {
+        "calls": 1430,
+        "totalMs": 5,
+        "maxMs": 2,
+        "over50ms": 0
+      },
+      "drawElements": {
+        "calls": 1327,
+        "totalMs": 133,
+        "maxMs": 13,
+        "over50ms": 0
+      },
+      "texSubImage2D": {
+        "calls": 120,
+        "totalMs": 7,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "drawElementsInstanced": {
+        "calls": 288,
+        "totalMs": 3185,
+        "maxMs": 143,
+        "over50ms": 24
+      },
+      "multiDrawElementsWEBGL": {
+        "calls": 420,
+        "totalMs": 602,
+        "maxMs": 22,
+        "over50ms": 0
+      },
+      "drawArrays": {
+        "calls": 430,
+        "totalMs": 58,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "flush": {
+        "calls": 12,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "clientWaitSync": {
+        "calls": 12,
+        "totalMs": 1,
+        "maxMs": 1,
+        "over50ms": 0
+      }
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "homestead",
+    "legacy": false,
+    "poseRows": false,
+    "repeat": true,
+    "readyMs": 691,
+    "elapsed": 10223,
+    "frames": 41,
+    "submittedFps": 4.010564413577228,
+    "completedFpsLowerBound": 3.912745769343637,
+    "pending": 1,
+    "gapMedian": 240,
+    "gapP95": 318,
+    "renderCpuMedian": 98,
+    "renderCpuMax": 281,
+    "actorSyncTimes": [],
+    "orbitRange": 0.19147609429346857,
+    "zoomRange": 15.956341191122391,
+    "draw": {
+      "frame": 621,
+      "calls": 253,
+      "triangles": 524760,
+      "points": 0,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "preparing": 0,
+      "prepared": 88,
+      "reflected": 75,
+      "compiled": 764,
+      "reused": 986,
+      "textures": 20
+    },
+    "shadows": {
+      "bakes": 39,
+      "blits": 376,
+      "skippedDraws": 7,
+      "skippedTriangles": 40828,
+      "cachedCasters": 7,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 191538448,
+    "memory": {
+      "geometries": 540,
+      "textures": 118
+    },
+    "colony": {
+      "sources": 589,
+      "batches": 9,
+      "ready": true,
+      "active": false
+    },
+    "atlas": {
+      "entries": 1763,
+      "rows": 0,
+      "bytes": 0,
+      "cats": 65,
+      "updatedCats": 0
+    },
+    "npcCount": 63,
+    "visibleNPCs": 0,
+    "geometryResidency": {
+      "bytes": 190476260,
+      "peakBytes": 264217325,
+      "geometries": 540,
+      "evicted": 1683,
+      "clockReads": 621,
+      "refaults": 919,
+      "refaultBytes": 231951949,
+      "rapidRefaults": 23,
+      "rapidRefaultBytes": 82974983
+    },
+    "refaultDelta": {
+      "evicted": 0,
+      "refaults": 0,
+      "refaultBytes": 0,
+      "rapidRefaults": 0,
+      "rapidRefaultBytes": 0
+    },
+    "uploads": {
+      "dataCalls": 40,
+      "dataBytes": 30628,
+      "subCalls": 410,
+      "subBytes": 621888
+    },
+    "glTimings": {
+      "bufferSubData": {
+        "calls": 410,
+        "totalMs": 5,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "useProgram": {
+        "calls": 2006,
+        "totalMs": 13,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "drawArrays": {
+        "calls": 205,
+        "totalMs": 77,
+        "maxMs": 8,
+        "over50ms": 0
+      },
+      "drawElements": {
+        "calls": 2091,
+        "totalMs": 273,
+        "maxMs": 19,
+        "over50ms": 0
+      },
+      "multiDrawElementsWEBGL": {
+        "calls": 776,
+        "totalMs": 365,
+        "maxMs": 25,
+        "over50ms": 0
+      },
+      "texSubImage2D": {
+        "calls": 287,
+        "totalMs": 12,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "drawElementsInstanced": {
+        "calls": 7853,
+        "totalMs": 2689,
+        "maxMs": 45,
+        "over50ms": 0
+      },
+      "flush": {
+        "calls": 41,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "clientWaitSync": {
+        "calls": 41,
+        "totalMs": 2,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "bufferData": {
+        "calls": 40,
+        "totalMs": 5,
+        "maxMs": 4,
+        "over50ms": 0
+      },
+      "blitFramebuffer": {
+        "calls": 27,
+        "totalMs": 68,
+        "maxMs": 7,
+        "over50ms": 0
+      }
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "homestead",
+    "legacy": false,
+    "poseRows": true,
+    "repeat": true,
+    "readyMs": 566,
+    "elapsed": 10039,
+    "frames": 40,
+    "submittedFps": 3.9844606036457813,
+    "completedFpsLowerBound": 3.884849088554637,
+    "pending": 1,
+    "gapMedian": 236,
+    "gapP95": 393,
+    "renderCpuMedian": 97,
+    "renderCpuMax": 267,
+    "actorSyncTimes": [],
+    "orbitRange": 0.19190708593054812,
+    "zoomRange": 15.992257160879007,
+    "draw": {
+      "frame": 665,
+      "calls": 243,
+      "triangles": 514352,
+      "points": 0,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "preparing": 0,
+      "prepared": 88,
+      "reflected": 75,
+      "compiled": 764,
+      "reused": 986,
+      "textures": 20
+    },
+    "shadows": {
+      "bakes": 39,
+      "blits": 420,
+      "skippedDraws": 7,
+      "skippedTriangles": 40828,
+      "cachedCasters": 7,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 191538448,
+    "memory": {
+      "geometries": 540,
+      "textures": 118
+    },
+    "colony": {
+      "sources": 589,
+      "batches": 9,
+      "ready": true,
+      "active": false
+    },
+    "atlas": {
+      "entries": 1763,
+      "rows": 0,
+      "bytes": 0,
+      "cats": 65,
+      "updatedCats": 0
+    },
+    "npcCount": 63,
+    "visibleNPCs": 0,
+    "geometryResidency": {
+      "bytes": 190476260,
+      "peakBytes": 264217325,
+      "geometries": 540,
+      "evicted": 1683,
+      "clockReads": 665,
+      "refaults": 919,
+      "refaultBytes": 231951949,
+      "rapidRefaults": 23,
+      "rapidRefaultBytes": 82974983
+    },
+    "refaultDelta": {
+      "evicted": 0,
+      "refaults": 0,
+      "refaultBytes": 0,
+      "rapidRefaults": 0,
+      "rapidRefaultBytes": 0
+    },
+    "uploads": {
+      "dataCalls": 0,
+      "dataBytes": 0,
+      "subCalls": 400,
+      "subBytes": 606720
+    },
+    "glTimings": {
+      "bufferSubData": {
+        "calls": 400,
+        "totalMs": 5,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "blitFramebuffer": {
+        "calls": 40,
+        "totalMs": 86,
+        "maxMs": 8,
+        "over50ms": 0
+      },
+      "useProgram": {
+        "calls": 1880,
+        "totalMs": 16,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "drawArrays": {
+        "calls": 200,
+        "totalMs": 144,
+        "maxMs": 54,
+        "over50ms": 1
+      },
+      "drawElements": {
+        "calls": 2040,
+        "totalMs": 304,
+        "maxMs": 8,
+        "over50ms": 0
+      },
+      "texSubImage2D": {
+        "calls": 280,
+        "totalMs": 18,
+        "maxMs": 3,
+        "over50ms": 0
+      },
+      "multiDrawElementsWEBGL": {
+        "calls": 600,
+        "totalMs": 360,
+        "maxMs": 70,
+        "over50ms": 1
+      },
+      "drawElementsInstanced": {
+        "calls": 7660,
+        "totalMs": 2767,
+        "maxMs": 61,
+        "over50ms": 1
+      },
+      "flush": {
+        "calls": 40,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "clientWaitSync": {
+        "calls": 40,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      }
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "moon",
+    "legacy": false,
+    "poseRows": true,
+    "repeat": true,
+    "readyMs": 1385,
+    "elapsed": 10323,
+    "frames": 31,
+    "submittedFps": 3.003003003003003,
+    "completedFpsLowerBound": 2.906131938390003,
+    "pending": 1,
+    "gapMedian": 320,
+    "gapP95": 422,
+    "renderCpuMedian": 111,
+    "renderCpuMax": 232,
+    "actorSyncTimes": [],
+    "orbitRange": 0.19150288631789228,
+    "zoomRange": 15.958573859824341,
+    "draw": {
+      "frame": 702,
+      "calls": 284,
+      "triangles": 473504,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "preparing": 0,
+      "prepared": 88,
+      "reflected": 75,
+      "compiled": 764,
+      "reused": 986,
+      "textures": 20
+    },
+    "shadows": {
+      "bakes": 40,
+      "blits": 438,
+      "skippedDraws": 14,
+      "skippedTriangles": 77240,
+      "cachedCasters": 14,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 199957576,
+    "memory": {
+      "geometries": 591,
+      "textures": 118
+    },
+    "colony": {
+      "sources": 589,
+      "batches": 9,
+      "ready": true,
+      "active": false
+    },
+    "atlas": {
+      "entries": 1763,
+      "rows": 0,
+      "bytes": 0,
+      "cats": 65,
+      "updatedCats": 1
+    },
+    "npcCount": 63,
+    "visibleNPCs": 1,
+    "geometryResidency": {
+      "bytes": 198852980,
+      "peakBytes": 264217325,
+      "geometries": 591,
+      "evicted": 1683,
+      "clockReads": 702,
+      "refaults": 970,
+      "refaultBytes": 240328669,
+      "rapidRefaults": 23,
+      "rapidRefaultBytes": 82974983
+    },
+    "refaultDelta": {
+      "evicted": 0,
+      "refaults": 0,
+      "refaultBytes": 0,
+      "rapidRefaults": 0,
+      "rapidRefaultBytes": 0
+    },
+    "uploads": {
+      "dataCalls": 0,
+      "dataBytes": 0,
+      "subCalls": 372,
+      "subBytes": 517824
+    },
+    "glTimings": {
+      "bufferSubData": {
+        "calls": 372,
+        "totalMs": 4,
+        "maxMs": 3,
+        "over50ms": 0
+      },
+      "useProgram": {
+        "calls": 3166,
+        "totalMs": 13,
+        "maxMs": 3,
+        "over50ms": 0
+      },
+      "drawArrays": {
+        "calls": 685,
+        "totalMs": 86,
+        "maxMs": 4,
+        "over50ms": 0
+      },
+      "drawElements": {
+        "calls": 6906,
+        "totalMs": 977,
+        "maxMs": 29,
+        "over50ms": 0
+      },
+      "multiDrawElementsWEBGL": {
+        "calls": 805,
+        "totalMs": 564,
+        "maxMs": 12,
+        "over50ms": 0
+      },
+      "texSubImage2D": {
+        "calls": 277,
+        "totalMs": 21,
+        "maxMs": 3,
+        "over50ms": 0
+      },
+      "drawElementsInstanced": {
+        "calls": 556,
+        "totalMs": 1056,
+        "maxMs": 29,
+        "over50ms": 0
+      },
+      "flush": {
+        "calls": 31,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "clientWaitSync": {
+        "calls": 32,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "blitFramebuffer": {
+        "calls": 18,
+        "totalMs": 48,
+        "maxMs": 6,
+        "over50ms": 0
+      }
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  },
+  {
+    "id": "moon",
+    "legacy": false,
+    "poseRows": false,
+    "repeat": true,
+    "readyMs": 739,
+    "elapsed": 10221,
+    "frames": 28,
+    "submittedFps": 2.739457978671363,
+    "completedFpsLowerBound": 2.6416201937188144,
+    "pending": 1,
+    "gapMedian": 328,
+    "gapP95": 595,
+    "renderCpuMedian": 108,
+    "renderCpuMax": 467,
+    "actorSyncTimes": [],
+    "orbitRange": 0.1918122929185731,
+    "zoomRange": 15.984357743214417,
+    "draw": {
+      "frame": 734,
+      "calls": 284,
+      "triangles": 473504,
+      "points": 320,
+      "lines": 0
+    },
+    "shaders": {
+      "pending": 0,
+      "preparing": 0,
+      "prepared": 88,
+      "reflected": 75,
+      "compiled": 764,
+      "reused": 986,
+      "textures": 20
+    },
+    "shadows": {
+      "bakes": 40,
+      "blits": 470,
+      "skippedDraws": 14,
+      "skippedTriangles": 77240,
+      "cachedCasters": 14,
+      "targetBytes": 8388608
+    },
+    "gpuBufferBytes": 199957576,
+    "memory": {
+      "geometries": 591,
+      "textures": 118
+    },
+    "colony": {
+      "sources": 589,
+      "batches": 9,
+      "ready": true,
+      "active": false
+    },
+    "atlas": {
+      "entries": 1763,
+      "rows": 0,
+      "bytes": 0,
+      "cats": 65,
+      "updatedCats": 1
+    },
+    "npcCount": 63,
+    "visibleNPCs": 1,
+    "geometryResidency": {
+      "bytes": 198852980,
+      "peakBytes": 264217325,
+      "geometries": 591,
+      "evicted": 1683,
+      "clockReads": 734,
+      "refaults": 970,
+      "refaultBytes": 240328669,
+      "rapidRefaults": 23,
+      "rapidRefaultBytes": 82974983
+    },
+    "refaultDelta": {
+      "evicted": 0,
+      "refaults": 0,
+      "refaultBytes": 0,
+      "rapidRefaults": 0,
+      "rapidRefaultBytes": 0
+    },
+    "uploads": {
+      "dataCalls": 0,
+      "dataBytes": 0,
+      "subCalls": 336,
+      "subBytes": 467712
+    },
+    "glTimings": {
+      "bufferSubData": {
+        "calls": 336,
+        "totalMs": 1,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "blitFramebuffer": {
+        "calls": 28,
+        "totalMs": 98,
+        "maxMs": 31,
+        "over50ms": 0
+      },
+      "useProgram": {
+        "calls": 2741,
+        "totalMs": 6,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "drawArrays": {
+        "calls": 621,
+        "totalMs": 116,
+        "maxMs": 8,
+        "over50ms": 0
+      },
+      "drawElements": {
+        "calls": 6198,
+        "totalMs": 1276,
+        "maxMs": 68,
+        "over50ms": 1
+      },
+      "texSubImage2D": {
+        "calls": 253,
+        "totalMs": 10,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "multiDrawElementsWEBGL": {
+        "calls": 588,
+        "totalMs": 502,
+        "maxMs": 21,
+        "over50ms": 0
+      },
+      "drawElementsInstanced": {
+        "calls": 505,
+        "totalMs": 1041,
+        "maxMs": 38,
+        "over50ms": 0
+      },
+      "flush": {
+        "calls": 28,
+        "totalMs": 0,
+        "maxMs": 0,
+        "over50ms": 0
+      },
+      "clientWaitSync": {
+        "calls": 28,
+        "totalMs": 1,
+        "maxMs": 1,
+        "over50ms": 0
+      }
+    },
+    "dpr": 2,
+    "buffer": [
+      2124,
+      1360
+    ],
+    "contextLost": false,
+    "visible": true
+  }
+]

@@ -1,0 +1,117 @@
+[
+  {
+    "id": "jobcity",
+    "changed": 0,
+    "before": {
+      "frame": 154,
+      "calls": 478,
+      "triangles": 3071845,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 155,
+      "calls": 478,
+      "triangles": 3071845,
+      "points": 320,
+      "lines": 0
+    },
+    "cats": 64,
+    "slots": 1734,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "summer",
+    "changed": 0,
+    "before": {
+      "frame": 248,
+      "calls": 565,
+      "triangles": 2487402,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 249,
+      "calls": 565,
+      "triangles": 2487402,
+      "points": 320,
+      "lines": 0
+    },
+    "cats": 64,
+    "slots": 1734,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "aquarium",
+    "changed": 0,
+    "before": {
+      "frame": 291,
+      "calls": 251,
+      "triangles": 2625200,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 292,
+      "calls": 251,
+      "triangles": 2625200,
+      "points": 320,
+      "lines": 0
+    },
+    "cats": 64,
+    "slots": 1734,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "homestead",
+    "changed": 0,
+    "before": {
+      "frame": 330,
+      "calls": 247,
+      "triangles": 547052,
+      "points": 0,
+      "lines": 0
+    },
+    "after": {
+      "frame": 331,
+      "calls": 247,
+      "triangles": 547052,
+      "points": 0,
+      "lines": 0
+    },
+    "cats": 64,
+    "slots": 1734,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "moon",
+    "changed": 0,
+    "before": {
+      "frame": 422,
+      "calls": 298,
+      "triangles": 550744,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 423,
+      "calls": 298,
+      "triangles": 550744,
+      "points": 320,
+      "lines": 0
+    },
+    "cats": 65,
+    "slots": 1763,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  }
+]

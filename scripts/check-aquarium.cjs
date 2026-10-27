@@ -373,7 +373,8 @@ async function localWorker() {
                 return { contents, loader: "js" };
               });
             b.onLoad({ filter: /\/public\/world\.js$/ }, () => {
-              let source = 'import {trackProfileUploads as qaTrackUploads} from "./frame-profile.js";\n'+readPublic("world.js");
+              let source = 'import {trackProfileUploads as qaTrackUploads,trackProfileGlCalls as qaTrackGl} from "./frame-profile.js";\n'+readPublic("world.js");
+              if(process.env.CHICHI_POSE_UPLOAD_AUDIT) source='import {uploadPoseTextureRows as qaUploadPoseRows} from "./pose-texture-upload.js";\n'+source;
               const marker = "  return {\n    perform,";
               if(process.env.CHICHI_ACTOR_SCOPE_AUDIT)
                 source='import {courtPath as qaScopePath,courtNavigationStats as qaScopeStats,courtSegment as qaScopeSegment} from "./foodcourt-navigation.js";\n'+source.replace(
@@ -450,10 +451,14 @@ async function localWorker() {
   const size=renderer.setSize.bind(renderer);renderer.setSize=(...args)=>{qa.resizes++;return size(...args);};
   const audit=new MutationObserver(()=>{if(!qa.audit)return;const gl=renderer.getContext(),p=new Uint8Array(4);gl.readPixels(0,0,1,1,gl.RGBA,gl.UNSIGNED_BYTE,p);if(p[0]+p[1]+p[2]===0)qa.black.push(Array.from(p));});audit.observe(renderer.domElement,{attributes:true,attributeFilter:['width','height']});
   return {\n    perform,`,
-                  ),
+                  ).replace("step:loop,gpuFrames,",process.env.CHICHI_POSE_UPLOAD_AUDIT?"uploadPoseRows:qaUploadPoseRows,trackGl:qaTrackGl,step:loop,gpuFrames,":"trackGl:qaTrackGl,step:loop,gpuFrames,"),
                 loader: "js",
               };
             });
+            if(process.env.CHICHI_POSE_UPLOAD_AUDIT || process.env.CHICHI_COMPARE_POSE_UPLOADS)
+              b.onLoad({filter:/\/public\/cat-pose-atlas\.js$/},()=>({
+                contents:readPublic("cat-pose-atlas.js").replace("    flush,","    flush,\n    dirtyRowsForQA(){dirty.fill(1);},"),loader:"js",
+              }));
             b.onLoad({ filter: /\/public\/app\.js$/ }, () => ({
               contents: (
                 "import {placeItem as qaPlace,findSpace as qaSpace} from './economy.js'; window.__diamondQA={placeItem:qaPlace,findSpace:qaSpace};\n" +
@@ -563,6 +568,10 @@ async function localWorker() {
     );
 
     if (process.env.CHICHI_DEVICE_PROFILE_AUDIT) {
+      if(process.env.CHICHI_POSE_UPLOAD_AUDIT){
+        const {checkPoseTextureUpload}=await import("./check-pose-texture-upload.mjs");
+        await checkPoseTextureUpload(page,review);
+      }
       const {checkFrameProfile}=await import("./check-frame-profile.mjs");
       await checkFrameProfile(page,review);
       fs.writeFileSync(path.join(review,"browser-errors.json"),JSON.stringify({errors,httpErrors},null,2));
@@ -635,6 +644,10 @@ async function localWorker() {
       assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;
     }
     if (process.env.CHICHI_NATIVE_MAP_AUDIT) {
+      if(process.env.CHICHI_POSE_UPLOAD_AUDIT){
+        const {checkPoseTextureUpload}=await import("./check-pose-texture-upload.mjs");
+        await checkPoseTextureUpload(page,review);
+      }
       if(process.env.CHICHI_REFAULT_CACHE_AUDIT){
         const {checkRefaultCache}=await import("./check-refault-cache.mjs");
         await checkRefaultCache(page,review);

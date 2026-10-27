@@ -1,0 +1,95 @@
+{
+  "renderer": "Linux software WebKit; not physical M2 FPS",
+  "islands": {
+    "jobcity": {
+      "nativeRows": {
+        "samples": 2,
+        "totalFrames": 17,
+        "medianSubmittedFps": 0.8059206900951708,
+        "medianGapP95": 1404.0,
+        "medianTexSubCallsPerFrame": 106.95138888888889,
+        "sharingActiveSamples": 2
+      },
+      "coalesced": {
+        "samples": 2,
+        "totalFrames": 18,
+        "medianSubmittedFps": 0.8832832278056597,
+        "medianGapP95": 1255.0,
+        "medianTexSubCallsPerFrame": 80.94444444444444,
+        "sharingActiveSamples": 2
+      }
+    },
+    "summer": {
+      "nativeRows": {
+        "samples": 2,
+        "totalFrames": 22,
+        "medianSubmittedFps": 1.0674025968552088,
+        "medianGapP95": 1004.5,
+        "medianTexSubCallsPerFrame": 39.90909090909091,
+        "sharingActiveSamples": 1
+      },
+      "coalesced": {
+        "samples": 2,
+        "totalFrames": 22,
+        "medianSubmittedFps": 1.023512114636473,
+        "medianGapP95": 1129.0,
+        "medianTexSubCallsPerFrame": 33.04545454545455,
+        "sharingActiveSamples": 1
+      }
+    },
+    "aquarium": {
+      "nativeRows": {
+        "samples": 2,
+        "totalFrames": 26,
+        "medianSubmittedFps": 1.2440612081199482,
+        "medianGapP95": 909.5,
+        "medianTexSubCallsPerFrame": 11.178571428571429,
+        "sharingActiveSamples": 0
+      },
+      "coalesced": {
+        "samples": 2,
+        "totalFrames": 27,
+        "medianSubmittedFps": 1.3213910400403637,
+        "medianGapP95": 904.0,
+        "medianTexSubCallsPerFrame": 12.0,
+        "sharingActiveSamples": 0
+      }
+    },
+    "homestead": {
+      "nativeRows": {
+        "samples": 2,
+        "totalFrames": 79,
+        "medianSubmittedFps": 3.8808991860581106,
+        "medianGapP95": 346.5,
+        "medianTexSubCallsPerFrame": 6.934210526315789,
+        "sharingActiveSamples": 0
+      },
+      "coalesced": {
+        "samples": 2,
+        "totalFrames": 79,
+        "medianSubmittedFps": 3.9208229237198347,
+        "medianGapP95": 418.5,
+        "medianTexSubCallsPerFrame": 7.0,
+        "sharingActiveSamples": 0
+      }
+    },
+    "moon": {
+      "nativeRows": {
+        "samples": 2,
+        "totalFrames": 60,
+        "medianSubmittedFps": 2.9311616037594153,
+        "medianGapP95": 504.5,
+        "medianTexSubCallsPerFrame": 8.955357142857142,
+        "sharingActiveSamples": 0
+      },
+      "coalesced": {
+        "samples": 2,
+        "totalFrames": 63,
+        "medianSubmittedFps": 3.085816780241971,
+        "medianGapP95": 412.5,
+        "medianTexSubCallsPerFrame": 8.998991935483872,
+        "sharingActiveSamples": 0
+      }
+    }
+  }
+}

@@ -21,6 +21,11 @@ export async function checkFrameProfile(page, review) {
     assert.equal(typeof report.last[field],"number",field);
   assert.equal(typeof report.geometryRefaultsDuringWindow,"number");
   assert.equal(typeof report.geometryRapidRefaultBytesDuringWindow,"number");
+  assert.equal(typeof report.nativeGlCallsSinceReset,"object");
+  assert.ok(report.nativeGlCallsSinceReset.texSubImage2D?.calls>0);
+  assert.ok(Array.isArray(report.longestMainThreadTasksMs));
+  assert.equal(typeof report.mainThreadLongTasksSupported,"boolean");
+  assert.ok(report.longestMainThreadTasksMs.length<=20);
   assert.ok(report.last.pending<=2);
   const privacy=await page.evaluate(()=>({
     token:__lagoonSaveQA.cloud.token,
