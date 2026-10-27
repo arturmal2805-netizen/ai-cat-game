@@ -1,0 +1,41 @@
+{
+  "verifiedAt": "2026-10-27T12:48:07.303954+00:00",
+  "commit": "fdcae799d6a203cebe336744b2e76d2af4f90cb6",
+  "workflow": {
+    "url": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/40506022556",
+    "jobs": [
+      {
+        "name": "test",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/40506022556/job/122195421155"
+      },
+      {
+        "name": "deploy",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/40506022556/job/122196824449"
+      },
+      {
+        "name": "pages",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/40506022556/job/122197205367"
+      }
+    ]
+  },
+  "worker": {
+    "url": "https://chichi-cat-world.arturmal2805.workers.dev/api/status?release=fdcae79",
+    "release": "fdcae799d6a203cebe336744b2e76d2af4f90cb6",
+    "configured": true,
+    "cloudSave": true
+  },
+  "pages": {
+    "url": "https://arturmal2805-netizen.github.io/ai-cat-game/?update=fdcae79",
+    "script": "./dist/app.js?v=dd8a71705ddfa88f",
+    "sha256": "dd8a71705ddfa88fcdc9f27fb71049238a2071e03d46bbc4a26b3d0a25b206c5",
+    "matchesLocalBundle": true
+  },
+  "inferenceChecks": "Routine deployment; no paid inference checks requested.",
+  "performanceStatus": "Player-reported 42.61/44.11 FPS on the prior individual-cat probe. New changes need a physical follow-up; stable 60 FPS is not asserted."
+}
