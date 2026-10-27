@@ -1,4 +1,5 @@
 import {cryptoSnapshotValid} from "./public/crypto-trading.js";
+import {orchardSnapshotValid} from './public/magic-farm-state.js';
 import {PLACEMENT_LIMIT} from './public/economy.js';
 import {CryptoAIRequestLedger,validateCryptoRequest} from "./crypto-ai.mjs";
 import { housingSnapshotValid } from "./public/housing-system.js";
@@ -69,6 +70,7 @@ export async function readSaveBody(request) {
     !housingSnapshotValid(value.game.housing) ||
     !familySnapshotValid(value.game.family) ||
     !cryptoSnapshotValid(value.game.jobCity) ||
+    !orchardSnapshotValid(value.game.farm?.orchards) ||
     value.game.version !== 2 ||
     !Number.isSafeInteger(value.game.coins) ||
     value.game.coins < 0 ||

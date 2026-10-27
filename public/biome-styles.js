@@ -1,4 +1,5 @@
 import { RENEWED_ISLANDS } from "./renewal-data.js";
+import {MAGIC_FARMS,magicFarmLayout} from './magic-farms-data.js';
 export const BIOME_STYLES = {
   "atoll-park": {ground:0x99cdb4,leaf:0x74bb83,flower:0xf5b7d5,roof:0xe8cf98,kind:"palm",hero:"waterpark"},
   "cat-homes": {
@@ -265,3 +266,4 @@ BIOME_STYLES.homestead = {
   kind: "oak",
   hero: "meadow",
 };
+for(const f of MAGIC_FARMS)BIOME_STYLES[f.id]={ground:f.ground,leaf:f.foliage,flower:f.accent,roof:f.edge,kind:f.kind==='crystal'?'crystal':'oak',hero:'magic-farm',water:magicFarmLayout(f.id).pond};

@@ -1,4 +1,7 @@
 import {JOB_START} from "./jobcity-data.js";
+import {MAGIC_FARMS,farmActivity} from './magic-farms-data.js';
+import {harvestOrchard,orchardCounts} from './magic-farm-state.js';
+import {renderMagicFarmCards} from './magic-farm-ui.js';
 import {reserveCryptoAttempt,pendingCryptoAttempt,applyCryptoForecast,advanceCryptoTrading,localCryptoForecast} from "./crypto-trading.js";
 import {
   buyCatHome,
@@ -721,7 +724,7 @@ function renderShop() {
   shopViewKey = viewKey;
   $("shop-coins").textContent = money(game.coins);
   $("shop-tabs").replaceChildren();
-  for (const category of CATEGORIES.flatMap(c=>c.id==='rides'?[c,{id:"atoll-water",name:"Водні світи · 20",icon:"🌊"}]:[c])) {
+  for (const category of CATEGORIES.flatMap(c=>c.id==='rides'?[c,{id:"atoll-water",name:"Водні світи · 20",icon:"🌊"}]:c.id==='farm'?[c,{id:'magic-farms',name:'Магічні ферми',icon:'✨'}]:[c])) {
     const button = document.createElement("button");
     button.setAttribute("role", "tab");
     button.setAttribute(
@@ -742,8 +745,8 @@ function renderShop() {
   }
   const query = $("shop-search").value.toLocaleLowerCase("ru");
   let collection =
-    shopCategory === "lands"
-      ? BIOMES.filter((b) => b.id !== "moon")
+    shopCategory === "lands" || shopCategory==='magic-farms'
+      ? BIOMES.filter((b) => b.id !== "moon" && (shopCategory!=='magic-farms'||b.magicFarm))
       : CATALOG.filter(
           (i) =>
             !i.islandOnly &&
@@ -760,13 +763,13 @@ function renderShop() {
   $("shop-count").textContent = collection.length + " чудес";
   $("shop-grid").replaceChildren();
   for (const entry of collection) {
-    const land = shopCategory === "lands",
+    const land = shopCategory === "lands" || shopCategory==='magic-farms',
       owned = land
         ? game.unlocked.includes(entry.id)
         : game.inventory[entry.id] || 0;
     const acquired = !land && entry.premiumWater && (owned || game.placements.some(p=>p.item===entry.id));
     const card = document.createElement("article");
-    card.className = "shop-card";
+    card.className = "shop-card"+(entry.magicFarm?' magic-farm-shop':'');
     card.dataset.product = entry.id;
     const art = document.createElement("div");
     art.className = "shop-art";
@@ -810,9 +813,10 @@ function renderShop() {
     if (owned || acquired) {
       const badge = document.createElement("span");
       badge.className = "owned";
-      badge.textContent = land ? "Открыт" : acquired ? "Придбано" : "В сумке: " + owned;
+      badge.textContent = land ? entry.magicFarm?'Придбана':"Открыт" : acquired ? "Придбано" : "В сумке: " + owned;
       art.append(badge);
     }
+    if(land&&entry.magicFarm&&!owned){const badge=document.createElement('span');badge.className='owned';badge.textContent=biomeRequirement(game,entry.id)?'Закрита':'Доступна';art.append(badge);}
     const info = document.createElement("div");
     info.className = "shop-info";
     const title = document.createElement("h3"),
@@ -854,6 +858,7 @@ function renderShop() {
         text.textContent += " · " + requirement;
         button.disabled = true;
       }
+      if(entry.magicFarm&&game.coins<entry.price)button.disabled=true;
     }
     button.setAttribute("aria-label", button.textContent + " " + entry.name);
     button.onclick = () => {
@@ -1502,10 +1507,10 @@ try {
         return false;
       }
     },
-    onResidentAction: (id, decision) => {
+    onResidentAction: (id, decision, result) => {
       if (!cloud.editable || cloud.conflict) return;
       try {
-        commit(completeResidentAction(game, id, decision));
+        commit(completeResidentAction(game, id, decision, Date.now(), result));
       } catch (error) {
         toast(error.message);
       }
@@ -1777,7 +1782,10 @@ function effects(decision, source = "ai", result = {}) {
   let next = structuredClone(game),
     message = null;
   const action = decision.action || "explore";
-  if (action === "farm") {
+  if(action==='farm'&&result.magicHarvest){
+    if(farmActivity(decision.activityId)?.id!==result.magicHarvest.farm)throw Error('Невідповідна ферма.');
+    const harvested=harvestOrchard(next,result.magicHarvest);next=harvested.game;message='До сховища додано: '+CROPS.find(c=>c.id===harvested.fruit).name+' ✨';
+  }else if (action === "farm") {
     const cells = next.farm.fields[decision.activityId] || [];
     if (cells.some((c) => c.crop && Date.now() >= c.readyAt)) {
       const harvested = harvestField(next, decision.activityId);
@@ -2168,6 +2176,8 @@ function renderFarm() {
     cells.map((c) => [c.crop, c.readyAt, c.crop && Date.now() >= c.readyAt]),
     game.coins,
     game.farm.stock,
+    MAGIC_FARMS.map(f=>[f.id,orchardCounts(game,f.id)]),
+    busy,
     Object.entries(game.farm.jobs).map(([id, time]) => [
       id,
       Date.now() >= time,
@@ -2177,6 +2187,7 @@ function renderFarm() {
   ]);
   if (key === farmViewKey) return;
   farmViewKey = key;
+  renderMagicFarmCards($('magic-farm-owned'),game,{busy,onVisit:id=>{$('farm-dialog').close();world?.focus(id);},onHarvest:id=>{$('farm-dialog').close();manualActivity({activityId:id});},onShop:id=>{$('farm-dialog').close();showShop('magic-farms',BIOMES.find(b=>b.id===id).name);}});
   $("farm-field").replaceChildren();
   for (const p of farms) {
     const option = document.createElement("option");

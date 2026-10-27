@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import {catNavigationRadius} from './cat-navigation-size.js';
 import { yarnPlayFrame, applyYarnFrame, resetYarn } from "./yarn-play.js";
 import { swimFrame } from "./swimming.js";
 import {
@@ -75,6 +76,7 @@ export function createResidentPlay({
           a.carrier.position.y = groundY(a.carrier.position, a.profile.biome);
     }
     if (v.object) {
+      v.object.userData.releaseHarvest?.(id);
       v.object.userData.releasePlay?.(getCat(id)?.carrier);
       resetYarn(v.object);
       v.object.userData.playing = false;
@@ -101,11 +103,13 @@ export function createResidentPlay({
         !(
           concurrentSlides &&
           decision.action === "ride" &&
-          hasSlideRoom(object)
+          hasSlideRoom(object) || decision.action==='farm'&&object?.userData.harvests?.available()
         ))
     )
       return false;
     cancel(id);
+    const harvester=decision.action==='farm'&&object?.userData.magicFarm?object.userData.reserveHarvest(id,catNavigationRadius(n.model)):null;
+    if(object?.userData.magicFarm&&decision.action==='farm'&&!harvester)return false;
     const rider =
       concurrentSlides &&
       decision.action === "ride" &&
@@ -148,6 +152,7 @@ export function createResidentPlay({
       );
     if (rider)
       destination.copy(object.localToWorld(new THREE.Vector3(...rider.queue)));
+    if(harvester)destination.copy(object.localToWorld(new THREE.Vector3(harvester.entry.x,harvester.entry.y,harvester.entry.z)));
     if (!object?.userData.approachFrame)
       destination.y =
         decision.action === "swim"
@@ -159,6 +164,7 @@ export function createResidentPlay({
     const v = {
       id,
       rider,
+      harvester,
       social,
       socialKind: friend && social.ride ? "piggyback" : "play",
       decision,
@@ -255,7 +261,9 @@ export function createResidentPlay({
     v.elapsed = elapsed;
     let local = point.set(0, 0.16, 0),
       world = false;
-    if (d.action === "ride" && g) {
+    if(d.action==='farm'&&v.harvester){
+      const f=v.harvester.frame(elapsed,reduced);local.set(...f.position);result.yaw=g.rotation.y+f.yaw;result.walking=f.walking;result.reaction=f.reaction;g.userData.showHarvest(v.harvester,f);
+    }else if (d.action === "ride" && g) {
       if (g.userData.rideFrame) {
         g.userData.rideElapsed = elapsed;
         if (v.rider) v.rider.elapsed = elapsed;
@@ -387,7 +395,7 @@ export function createResidentPlay({
         : d.action === "swim"
           ? 12
           : g?.userData.duration || 10;
-    if (elapsed > duration) {
+    if (v.harvester?v.harvester.finished:elapsed > duration) {
       if (d.action !== "meet")
         result.position.copy(
           g?.userData.deepRide
@@ -402,7 +410,7 @@ export function createResidentPlay({
       cancel(id);
       if (g?.userData.bikiniFriend && d.characterAction === "carry")
         result.position.copy(n.carrier.position);
-      onComplete(id, d);
+      onComplete(id, d, v.harvester?{magicHarvest:v.harvester.receipt}:{});
       result.completed = true;
     }
     return result;
@@ -414,7 +422,7 @@ export function createResidentPlay({
     frame,
     get: (id) => visits.get(id),
     reserved: (id) =>
-      locks.has(id) && !(concurrentSlides && hasSlideRoom(getObject(id))),
+      locks.has(id) && !(concurrentSlides && hasSlideRoom(getObject(id))) && !getObject(id)?.userData.harvests?.available(),
     friendVisit: (id) =>
       [...visits.values()].find((v) => v.decision.friendId === id),
     clear() {

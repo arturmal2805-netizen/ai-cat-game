@@ -100,6 +100,7 @@ export function initialScenery(placements = []) {
 function buildInitialScenery(placements) {
   const result = [];
   for (const biome of BIOMES) {
+    if(biome.magicFarm)continue;
     if(biome.waterpark){
       for(const [i,c] of [{type:'scenery-tree-palm',x:-340,z:90,scale:1.1},{type:'scenery-tree-palm',x:335,z:-70,scale:.95},{type:'scenery-boulder',x:-338,z:105,scale:1.2},{type:'scenery-boulder',x:330,z:-85,scale:1.3}].entries())
         result.push({id:'decor-atoll-park-'+i,originBiome:biome.id,biome:biome.id,...c,rotation:0});

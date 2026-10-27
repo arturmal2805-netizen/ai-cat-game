@@ -1,4 +1,6 @@
 import {cryptoSnapshotValid} from "./crypto-trading.js";
+import {magicFarm} from './magic-farms-data.js';
+import {normalizeOrchards,newOrchard,orchardSnapshotValid,orchardCounts} from './magic-farm-state.js';
 import { ATOLL_PARK_ID, ATOLL_SLIDES, atollPlot } from "./atoll-slide-data.js";
 export const PLACEMENT_LIMIT = 80;
 import {
@@ -112,6 +114,7 @@ export function newGame(now = Date.now()) {
     inventory: {},
     builtInventory: {},
     farm: {
+      orchards: {},
       fields: {
         "welcome-farm": [
           { crop: "wheat", readyAt: now - 1 },
@@ -396,7 +399,7 @@ function readSavedRecord(storage) {
         saved.cat &&
         typeof saved.cat === "object" &&
         housingSnapshotValid(saved.housing) &&
-        familySnapshotValid(saved.family) && cryptoSnapshotValid(saved.jobCity)
+        familySnapshotValid(saved.family) && cryptoSnapshotValid(saved.jobCity) && orchardSnapshotValid(saved.farm?.orchards)
       )
         return { game: saved, encoded };
     } catch {}
@@ -406,7 +409,7 @@ export function readSavedState(storage) {
   return readSavedRecord(storage)?.game || null;
 }
 export function saveGame(storage, game) {
-  if (!housingSnapshotValid(game.housing) || !familySnapshotValid(game.family) || !cryptoSnapshotValid(game.jobCity))
+  if (!housingSnapshotValid(game.housing) || !familySnapshotValid(game.family) || !cryptoSnapshotValid(game.jobCity) || !orchardSnapshotValid(game.farm?.orchards))
     return false;
   let previous, trusted;
   try {
@@ -509,6 +512,7 @@ export function unlockBiome(game, id, now = Date.now()) {
   const next = copy(game);
   next.coins -= biome.price;
   next.unlocked.push(id);
+  if(magicFarm(id)) (next.farm.orchards ||= {})[id]=newOrchard(id,now);
   if (["water", "foodcourt", "bikini", "jobcity"].includes(id))
     next.business = normalizeBusiness(next.business, next, now);
   return addXP(
@@ -854,7 +858,7 @@ export function worldSnapshot(game, now = Date.now()) {
         ...(o.id === "chichi-food" ? { foodPortions: bowlPortions(game) } : {}),
       })),
       ...islandObjects(game, { now })
-        .map(({ id, type, biome, name }) => ({ id, type, biome, name }))
+        .map(({ id, type, biome, name, magicFarm: orchard }) => ({ id, type, biome, name, ...(orchard?{harvestReady:orchardCounts(game,orchard,now).ready,emptyPlots:0,seedAffordable:false}:{}) }))
         .map((o) =>
           courtObject(o.id) && COURT_MENU[courtObject(o.id).kind]
             ? {
@@ -982,6 +986,7 @@ export function normalizeFarm(raw, game, now) {
       : 0;
   return {
     fields,
+    orchards: normalizeOrchards(raw.orchards,game.unlocked,now),
     stock,
     jobs,
     harvests: Math.max(0, Math.floor(raw.harvests) || 0),

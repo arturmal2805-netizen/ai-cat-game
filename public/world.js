@@ -87,6 +87,9 @@ import { createSlideAudio } from "./slide-audio.js";
 import { referenceSlideSteps } from "./reference-slide-assets.js";
 import { atollPreparationNeeded } from "./atoll-streaming.js";
 import {applyAtollSit} from './atoll-slide-acting.js';
+import {magicFarmTarget} from './magic-farm-target.js';
+import {magicFarm,farmActivity} from './magic-farms-data.js';
+import {farmWalkable} from './magic-farm-harvest.js';
 import { decorateBusiness } from "./business-decor.js";
 import {
   attachBuilderHammer,
@@ -1218,7 +1221,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           old?.userData.lowOnly &&
           desiredDistance < Math.max(110, (b.radius || 12) * 7) &&
           Math.hypot(b.center[0] - desiredLook.x, b.center[1] - desiredLook.z) <
-            (["jobcity","homestead"].includes(b.id) || b.waterpark ? b.radius + 10 : 40)
+            (["jobcity","homestead"].includes(b.id) || b.waterpark || b.magicFarm ? b.radius + 10 : 40) && (!b.magicFarm||focused===b.id)
         ) {
           const snapshot = () => [
             game.placements.filter((p) => p.biome === id),
@@ -1242,6 +1245,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           let latest = snapshot();
           showWhalePreview(g, id);
           g.position.copy(old.position);
+          g.userData.syncOrchard?.(game.farm?.orchards?.[id]);
           prepareIslandMatrices(g);
           g.updateMatrixWorld(true);
           // Compile against the real scene lighting while the old island remains
@@ -1331,6 +1335,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     getSites: () => buildingSites,
     getObstacles: (id) => builderObstacles.get(id) || [],
   });
+  let nextMagicFarmAttempt=0;
   const residentPlay = createResidentPlay({
     concurrentSlides: true,
     getCat: (id) => npcs.get(id),
@@ -1350,8 +1355,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
           ?.userData.lagoons?.get(g.userData.placementId);
       lagoon?.userData.disturb?.(f.x, f.z, time, 0.4);
     },
-    onComplete: (id, decision) => {
-      callbacks.onResidentAction?.(id, decision);
+    onComplete: (id, decision, result) => {
+      callbacks.onResidentAction?.(id, decision, result);
       if (decision.leisure) finishLeisure(id);
     },
   });
@@ -1380,12 +1385,13 @@ export function createWorld(container, initialGame, callbacks = {}) {
         (!object?.userData.built ||
           (operation?.decision.activityId === decision.activityId &&
             !hasSlideRoom(object) &&
+            !object?.userData.harvests?.available() &&
             !chillObject(decision.activityId) &&
             !spaObject(decision.activityId) &&
             !courtObject(decision.activityId))))
     )
       return false;
-    if (!autonomous && !object?.userData.slideWater)
+    if (!autonomous && !object?.userData.slideWater && !object?.userData.magicFarm)
       for (const [other, v] of residentPlay.visits)
         if (
           other !== id &&
@@ -1476,6 +1482,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     if (started && autonomous) residentPlay.get(id).autonomous = true;
     if (!started && bikiniFriend(decision.activityId))
       object.userData.playing = false;
+    if(started&&autonomous&&object?.userData.magicFarm)n.manualUntil=performance.now()+5000;
     return started;
   }
   const builderHammers = new Map();
@@ -1500,6 +1507,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   }
   function sync(next) {
     game = next;
+    for(const [id,state]of Object.entries(game.farm?.orchards||{}))islands.get(id)?.userData.syncOrchard?.(state);
     itemGroups.get("job-crypto")?.userData.setCryptoState?.(game.jobCity);
     familyLinks = familyPartners(game);
     const catalogueKey = JSON.stringify([
@@ -1805,7 +1813,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
         itemGroups.delete(o.id);
       }
       let g;
-      if (jobBusiness(o.id)) {
+      if(o.magicFarm){
+        g=magicFarmTarget(o.magicFarm,{getState:()=>game.farm?.orchards?.[o.magicFarm],onPick:(id,yes)=>islands.get(o.magicFarm)?.userData.setPlantPicked?.(id,yes),getActors:id=>[...g.userData.harvests.visits.values()].filter(v=>v.catId!==id).map(v=>({...v.last,radius:v.radius}))});
+      }else if (jobBusiness(o.id)) {
         g = courtModels.get(o.id);
         courtModels.delete(o.id);
       } else if (courtObject(o.id)) {
@@ -1872,7 +1882,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       const b = byBiome(o.biome);
       g.position.set(
         b.center[0] + o.x,
-        o.type === "swim-lagoon"
+        o.magicFarm ? 0 : o.type === "swim-lagoon"
           ? o.surfaceY
           : 0.16 + islandHeight(o.biome, o.x, o.z),
         b.center[1] + o.z,
@@ -2407,6 +2417,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       chill.cancel("chichi");
       resetYarn(operation.attraction);
       if (operation.attraction) {
+        operation.attraction.userData.releaseHarvest?.('chichi');
         operation.attraction.userData.releasePlay?.(chichiCarrier);
         operation.attraction.userData.playing = false;
         delete operation.attraction.userData.heroPlayPos;
@@ -2501,7 +2512,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     }
     if (
       decision.activityId &&
-      !itemGroups.get(decision.activityId)?.userData.slideWater
+      !itemGroups.get(decision.activityId)?.userData.slideWater && !itemGroups.get(decision.activityId)?.userData.magicFarm
     )
       for (const [id, v] of residentPlay.visits)
         if (v.decision.activityId === decision.activityId)
@@ -2509,6 +2520,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
     const attraction = decision.activityId
       ? itemGroups.get(decision.activityId)
       : null;
+    const harvester=decision.action==='farm'&&attraction?.userData.magicFarm?attraction.userData.reserveHarvest('chichi',spaRadius(cat)):null;
+    if(attraction?.userData.magicFarm&&decision.action==='farm'&&!harvester)return Promise.reject(Error('Зараз усі стиглі рослини зайняті або врожай ще росте.'));
     const rider =
       decision.action === "ride" && attraction?.userData.slideWater
         ? reserveSlide(attraction, "chichi")
@@ -2620,6 +2633,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         attraction.localToWorld(new THREE.Vector3(...rider.queue)),
       );
     const courtTarget = courtObject(decision.activityId);
+    if(harvester)destination.copy(attraction.localToWorld(new THREE.Vector3(harvester.entry.x,harvester.entry.y,harvester.entry.z)));
     const targetCourtBiome = courtTarget
       ? byBiome(courtTarget.biome)
       : courtBiome;
@@ -2651,6 +2665,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         decision,
         attraction,
         rider,
+        harvester,
         neighbor,
         partyIds:
           decision.action === "party"
@@ -3695,7 +3710,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           (b.id === HOUSING_ID
             ? island.userData.near(look)
             : Math.hypot(b.center[0] - look.x, b.center[1] - look.z) <
-              (["jobcity","homestead"].includes(b.id) || b.waterpark ? b.radius + 10 : 39));
+              (["jobcity","homestead"].includes(b.id) || b.waterpark || b.magicFarm ? b.radius + 10 : 39)) && (!b.magicFarm||focused===b.id);
       island.userData.detail.visible = close && !island.userData.lowOnly;
       island.userData.lowDetail.visible = !close || !!island.userData.lowOnly;
       if (close) ensureDetail(b.id);
@@ -4077,6 +4092,15 @@ export function createWorld(container, initialGame, callbacks = {}) {
       familyFree = (who) =>
         !familyClock?.working ||
         game.jobCity?.profiles[who]?.schedule?.job === "rest";
+    if(!dialogOpen&&!reduced&&now>=nextMagicFarmAttempt&&magicFarm(focused)&&!islands.get(focused)?.userData.lowOnly){
+      nextMagicFarmAttempt=now+1400;
+      const activity='orchard-'+focused,g=itemGroups.get(activity);
+      if(g?.userData.harvests?.available())for(const [id,n]of npcs){
+        const needs=game.care?.residents[id];
+        if(n.profile.biome!==focused||residentPlay.get(id)||jobs.has(id)||leisure.has(id)||familyLinks.has(id)||crew.workers.has(id)||draggingCat?.catId===id||operation?.decision.friendId===id||now<(n.manualUntil||0)||needs?.hunger>80||needs?.energy<20||Math.hypot(n.carrier.position.x-byBiome(focused).center[0],n.carrier.position.z-byBiome(focused).center[1])>byBiome(focused).radius)continue;
+        if(performResident(id,{action:'farm',activityId:activity,mood:'happy',thought:'Зберу стиглі чарівні плоди!'},{autonomous:true}))break;
+      }
+    }
     frameProfile?.section("venues");
     for (const [id, n] of npcs) {
       const jobFrame = jobs.has(id)
@@ -4735,6 +4759,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         const wanderRadius = b.arrival ? 11.8 : 6;
         x = b.center[0] + Math.sin(time * 0.07 + n.index * 2.4) * wanderRadius;
         z = b.center[1] + Math.cos(time * 0.07 + n.index * 2.4) * wanderRadius;
+        if(b.magicFarm)z=b.center[1]+b.radius-20+Math.cos(time*.07+n.index*2.4)*2;
         if (b.id === "autumn") {
           const dry = mosaDryPoint(x - b.center[0], z - b.center[1]);
           x = b.center[0] + dry.x;
@@ -4762,6 +4787,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         .set(x, n.carrier.position.y, z)
         .sub(n.carrier.position);
       if (!direct) {
+        if(b.magicFarm&&!farmWalkable(b.id,{x:x-b.center[0],z:z-b.center[1]},spaRadius(n.model))){x=n.carrier.position.x;z=n.carrier.position.z;}
         if (direction.length() > 0.03)
           n.carrier.rotation.y = Math.atan2(direction.x, direction.z);
         stepCatGround(n.carrier.position.x,n.carrier.position.z,x,z,dt,
@@ -5146,6 +5172,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
               "Плюх! Лапки гребут, рыбки щекочут носик 🫧",
             );
           }
+        } else if(action==='farm'&&op.harvester){
+          const f=op.harvester.frame(elapsed,reduced);chichiCarrier.position.copy(g.localToWorld(framePoint.set(...f.position)));chichiCarrier.rotation.y=g.rotation.y+f.yaw;walking=f.walking;reaction=f.reaction;g.userData.showHarvest(op.harvester,f);
         } else if (action === "farm" && g) {
           chichiCarrier.position.copy(
             g.localToWorld(
@@ -5296,7 +5324,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           );
         }
         if (
-          elapsed >
+          op.harvester ? op.harvester.finished : elapsed >
           (reduced
             ? 0.2
             : action === "meet"
@@ -5311,6 +5339,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           if (action !== "meet" && action !== "swim")
             chichiCarrier.position.copy(op.dismount || op.destination);
           g?.userData.releasePlay?.(chichiCarrier);
+          g?.userData.releaseHarvest?.('chichi');
           releaseSlide(g, "chichi");
           if (g && !g.userData.slideRiders?.size) delete g.userData.rideElapsed;
           if (
@@ -5326,6 +5355,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           operation = null;
           op.resolve({
             completed: true,
+            ...(op.harvester?{magicHarvest:op.harvester.receipt}:{}),
             ...(g?.userData.bikiniFriend
               ? {
                   spaVisit: {

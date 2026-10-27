@@ -1,5 +1,6 @@
 import { HOMESTEAD_EXPANSION } from "./public/homestead-expansion.js";
 import {ATOLL_PARK_ID} from './public/atoll-slide-data.js';
+import {MAGIC_FARMS,MAGIC_FRUITS} from './public/magic-farms-data.js';
 import {migrateRetiredIsland} from './public/world-migration.js';
 import {mergeCatLocations} from './public/cat-locations.js';
 import { mergeHousing } from "./public/housing-system.js";
@@ -60,11 +61,12 @@ const transient = (path) =>
     path,
   );
 const guarded = (path) =>
-  /^(lastVisit|lastHourly|lastAttention|farm\.fields\.[\w-]+\.\d+|business\.(?:accounts|levels)\.[\w-]+|social\.relationships\.[\w-]+)$/.test(
+  /^(lastVisit|lastHourly|lastAttention|farm\.fields\.[\w-]+\.\d+|farm\.orchards\.[\w-]+\.plants\.[\w-]+|business\.(?:accounts|levels)\.[\w-]+|social\.relationships\.[\w-]+)$/.test(
     path,
   );
 
 function merge(base, current, incoming, path = "", depth = 0) {
+  if(path==='farm.orchards'&&incoming===undefined)return clone(current);
   if(path==='catLocations')return mergeCatLocations(current,incoming);
   if (depth > 40) throw new SharedConflict("Сохранение слишком сложное.");
   if (path === "family") {
@@ -388,6 +390,11 @@ export function mergeSharedWorld(base, current, incoming) {
     incoming = { ...incoming, unlocked: [...incoming.unlocked, "cat-homes"] };
   if(current.unlocked?.includes(ATOLL_PARK_ID)&&!incoming.unlocked.includes(ATOLL_PARK_ID))
     incoming={...incoming,unlocked:[...incoming.unlocked,ATOLL_PARK_ID]};
+  for(const f of MAGIC_FARMS)if(base.unlocked?.includes(f.id)&&current.unlocked?.includes(f.id)&&!incoming.unlocked.includes(f.id))incoming={...incoming,unlocked:[...incoming.unlocked,f.id]};
+  if(current.farm?.orchards&&!incoming.farm?.orchards){
+    const stock={...incoming.farm.stock};for(const f of MAGIC_FRUITS)if(!(f.id in stock))stock[f.id]=base.farm?.stock?.[f.id]||0;
+    incoming={...incoming,farm:{...incoming.farm,stock}};
+  }
   // XP is an earned delta. Recalculate shared daily caps and level rewards once,
   // so two purchases cannot award the same level-up coins twice.
   const b = clone(base),

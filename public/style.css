@@ -1457,6 +1457,11 @@ dialog::backdrop {
   width: min(850px, 94vw);
   max-height: 90dvh;
 }
+.magic-farm-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:14px;margin:18px 0 24px}
+.magic-farm-card{display:flex;flex-direction:column;gap:10px;padding:18px;border-radius:22px;background:linear-gradient(140deg,#fff6e9,#ece8fa);border:1px solid #d9cbed}
+.magic-farm-card h3,.magic-farm-card p{margin:0}.magic-farm-card small{line-height:1.6}.magic-farm-card button{margin-top:auto}
+.shop-card.magic-farm-shop{grid-column:span 2}.magic-farm-shop .shop-art{min-height:220px}
+@media(max-width:600px){.shop-card.magic-farm-shop{grid-column:span 1}}
 .farm-content {
   padding: 0 30px 25px;
 }

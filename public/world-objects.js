@@ -19,6 +19,7 @@ import { COTTON_OBJECTS, COTTON_POOLS } from "./cotton-data.js";
 import { BIOMES } from "./game-data.js";
 import { BIOME_STYLES } from "./biome-styles.js";
 import { SPA_OBJECTS } from "./spa-data.js";
+import { MAGIC_FARM_OBJECTS } from './magic-farms-data.js';
 export const PARK_RIDES = [
   {
     id: "royal-rainbow",
@@ -45,6 +46,7 @@ export const PARK_RIDES = [
 export function permanentObjects(biomes) {
   biomes=biomes.filter(id=>BIOMES.some(b=>b.id===id));
   const objects = [];
+  objects.push(...MAGIC_FARM_OBJECTS.filter(o=>biomes.includes(o.biome)));
   if (biomes.includes("jobcity")) objects.push(...JOB_BUSINESSES);
   if (biomes.includes("aquarium")) objects.push(...AQUARIUM_TANKS);
   if (biomes.includes("bikini"))
