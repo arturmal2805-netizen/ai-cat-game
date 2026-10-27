@@ -80,6 +80,7 @@ import {
 import { apiBase } from "./config.js";
 import { createWorld } from "./world.js";
 import { restoreSculptCache, scheduleSculptCache } from "./sculpt-cache.js";
+import { setText } from "./dom-text.js";
 import {
   BIOMES,
   CATALOG,
@@ -254,9 +255,9 @@ function persist() {
   if (!cloud.editable || cloud.conflict) return;
   if(cloud.simulationOwner)game=world?.snapshotCatLocations(game,game)||game;
   const ok = saveGame(storage, game);
-  $("save-state").textContent = ok
+  setText($("save-state"), ok
     ? "Прогресс сохраняется на этом устройстве"
-    : "Сохранение недоступно. Прогресс сохранится только до закрытия страницы.";
+    : "Сохранение недоступно. Прогресс сохранится только до закрытия страницы.");
   if (ok) cloud.enqueue(game);
 }
 function commit(next, syncWorld = true) {
@@ -272,8 +273,7 @@ function commit(next, syncWorld = true) {
   }
   game = next;
   cloud.enqueue(game);
-  $("save-state").textContent =
-    "Сохранено на этом устройстве · резервная копия включена";
+  setText($("save-state"), "Сохранено на этом устройстве · резервная копия включена");
   if (syncWorld) world?.sync(game);
   renderGame();
   if ($("shop-dialog").open) renderShop();
@@ -536,57 +536,55 @@ for (const dialog of document.querySelectorAll("dialog"))
   });
 function renderGame() {
   const lvl = levelStatus(game);
-  $("level-number").textContent = lvl.level;
+  setText($("level-number"), lvl.level);
   $("level-xp").value = lvl.progress;
   $("level-big-xp").value = lvl.progress;
-  $("level-title").textContent = "Уровень " + lvl.level;
-  $("level-detail").textContent =
-    `${lvl.xp} XP · до следующего уровня: ${lvl.needed} XP · занятия сегодня: ${game.progression.dailyXP}/${DAILY_XP_LIMIT} XP · опыт бизнеса без дневного лимита`;
-  $("level-guide").textContent =
-    "Быстрый старт: урожайная лавочка доступна с уровня 1, кофейня — с уровня 2. Собранная грядка даёт 18 XP, визит — 40 XP, приключение — 16 XP раз в 3 минуты. Прибыль каждого бизнеса и аттракциона приносит XP без дневного лимита до максимального уровня 30. Киты и китовая лагуна открываются на уровне 4.";
+  setText($("level-title"), "Уровень " + lvl.level);
+  setText($("level-detail"), `${lvl.xp} XP · до следующего уровня: ${lvl.needed} XP · занятия сегодня: ${game.progression.dailyXP}/${DAILY_XP_LIMIT} XP · опыт бизнеса без дневного лимита`);
+  setText($("level-guide"), "Быстрый старт: урожайная лавочка доступна с уровня 1, кофейня — с уровня 2. Собранная грядка даёт 18 XP, визит — 40 XP, приключение — 16 XP раз в 3 минуты. Прибыль каждого бизнеса и аттракциона приносит XP без дневного лимита до максимального уровня 30. Киты и китовая лагуна открываются на уровне 4.");
   const upcoming = [...CATALOG, ...BIOMES, ...ADOPTION_CATS]
     .filter((i) => i.requiredLevel === lvl.level + 1)
     .map((i) => i.name);
-  $("level-next").textContent = upcoming.length
+  setText($("level-next"), upcoming.length
     ? "Следующие открытия: " + upcoming.join(", ")
     : lvl.level >= 20
       ? "Коллекция доступна по уровню. Для легендарного острова также нужны достижения и накопления."
-      : "Следующий уровень принесёт награду и приблизит новые открытия.";
+      : "Следующий уровень принесёт награду и приблизит новые открытия.");
   for (const key of ["energy", "happiness"]) {
     $(key).value = game.cat[key];
-    $(key + "-text").textContent = Math.round(game.cat[key]) + "%";
+    setText($(key + "-text"), Math.round(game.cat[key]) + "%");
   }
   $("food").value = game.cat.hunger;
-  $("food-text").textContent = Math.round(game.cat.hunger) + "%";
-  $("coins").textContent = money(game.coins);
+  setText($("food-text"), Math.round(game.cat.hunger) + "%");
+  setText($("coins"), money(game.coins));
   renderBuilderBoost();
-  $("shop-coins").textContent = money(game.coins);
-  $("bag-count").textContent = Object.values(game.inventory).reduce(
+  setText($("shop-coins"), money(game.coins));
+  setText($("bag-count"), Object.values(game.inventory).reduce(
     (a, b) => a + b,
     0,
-  );
-  $("friend-count").textContent = Object.entries(
+  ));
+  setText($("friend-count"), Object.entries(
     game.social.relationships,
   ).filter(([id, r]) =>
     ["friend", "close", "best"].includes(
       relationshipStage(r, id === game.social.bestFriendId),
     ),
-  ).length;
+  ).length);
   for (const node of document.querySelectorAll("[data-mood]"))
     node.classList.toggle(
       "active",
       node.dataset.mood === (game.care.resting ? "sleep" : game.cat.mood),
     );
   const colony = colonyNeeds(game);
-  $("colony-count").textContent = colony.count;
+  setText($("colony-count"), colony.count);
   $("colony-hunger").value = colony.hunger;
-  $("colony-hunger-text").textContent = Math.round(colony.hunger) + "%";
+  setText($("colony-hunger-text"), Math.round(colony.hunger) + "%");
   $("colony-happiness").value = colony.happiness;
-  $("colony-happiness-text").textContent = Math.round(colony.happiness) + "%";
-  $("bowl-count").textContent = bowlPortions(game);
-  $("rest-hint").textContent = game.care.resting
+  setText($("colony-happiness-text"), Math.round(colony.happiness) + "%");
+  setText($("bowl-count"), bowlPortions(game));
+  setText($("rest-hint"), game.care.resting
     ? "Чичи спит: энергия восстанавливается. Перетащите её к другому предмету, чтобы разбудить."
-    : "Перетащите Чичи на подушку, чтобы уложить спать. К игрушке — чтобы поиграть.";
+    : "Перетащите Чичи на подушку, чтобы уложить спать. К игрушке — чтобы поиграть.");
   for (const [id, value, negative] of [
     ["energy", game.cat.energy, false],
     ["food", game.cat.hunger, true],
@@ -658,19 +656,18 @@ function renderNeighbors() {
 
 function renderRewards() {
   const until = Math.max(0, game.lastHourly + HOUR - Date.now());
-  $("hourly-reward").textContent =
-    "Следующая через " +
+  setText($("hourly-reward"), "Следующая через " +
     Math.floor(until / 60000) +
     " мин " +
     Math.floor((until / 1000) % 60) +
-    " с";
+    " с");
   const attention = Math.max(
     0,
     game.lastAttention + ATTENTION_COOLDOWN - Date.now(),
   );
-  $("attention-reward").textContent = attention
+  setText($("attention-reward"), attention
     ? "Следующая через " + Math.ceil(attention / 60000) + " мин"
-    : "За заботу или завершённое приключение";
+    : "За заботу или завершённое приключение");
 }
 async function showShop(category = "all", search = "") {
   if (category === "cats") return showAdoption();
@@ -2340,14 +2337,14 @@ function manualFarm(id = null) {
 function updateTimers() {
   if ($("island-dialog").open) renderIslandProjects();
   for (const node of document.querySelectorAll("[data-until]"))
-    node.textContent = countdown(Number(node.dataset.until));
+    setText(node, countdown(Number(node.dataset.until)));
   if ($("farm-dialog").open) renderFarm();
   if ($("item-dialog").open && !selectedScenery) {
     const p = game.placements.find((p) => p.id === selectedItem);
     if (p) {
-      $("item-construction").textContent = isBuilt(p)
+      setText($("item-construction"), isBuilt(p)
         ? byItem(p.item).rarity + " · Постройка готова"
-        : "Строится · осталось " + countdown(p.readyAt);
+        : "Строится · осталось " + countdown(p.readyAt));
       $("item-store").disabled = !isBuilt(p);
     }
   }
@@ -2639,14 +2636,14 @@ $("island-gather").onclick = () => {
   }
 };
 function renderBuilderBoost() {
-  $("diamonds").textContent = money(game.diamonds || 0);
+  setText($("diamonds"), money(game.diamonds || 0));
   const until = builderBoostUntil(game);
-  $("builder-boost-status").textContent = until
+  setText($("builder-boost-status"), until
     ? "Котики-строители ×10 · осталось " + countdown(until)
-    : "8 💎: котики строят и бегают в 10 раз быстрее целый час";
-  $("builder-boost-buy").textContent = until
+    : "8 💎: котики строят и бегают в 10 раз быстрее целый час");
+  setText($("builder-boost-buy"), until
     ? "Ускорение уже действует"
-    : "Ускорить стройки ×10 · 1 час · " + BUILDER_BOOST_COST + " 💎";
+    : "Ускорить стройки ×10 · 1 час · " + BUILDER_BOOST_COST + " 💎");
   $("builder-boost-buy").disabled =
     !!until ||
     (game.diamonds || 0) < BUILDER_BOOST_COST ||
@@ -2654,9 +2651,9 @@ function renderBuilderBoost() {
     !!cloud.conflict;
   $("diamonds-open").classList.toggle("boost-active", !!until);
   $("builder-boost-hud").hidden = !until;
-  $("builder-boost-hud").textContent = until
+  setText($("builder-boost-hud"), until
     ? "💎 Строители ×10 · " + countdown(until)
-    : "";
+    : "");
 }
 $("diamonds-open").onclick = () => {
   renderBusiness();
