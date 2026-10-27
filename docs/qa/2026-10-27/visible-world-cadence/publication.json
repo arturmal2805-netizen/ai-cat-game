@@ -1,0 +1,41 @@
+{
+  "verifiedAt": "2026-10-27T15:52:53.704375+00:00",
+  "commit": "96dd9a3248df40c4cac3cbe2f7a3ae1e4a883948",
+  "workflow": {
+    "url": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/40534419622",
+    "jobs": [
+      {
+        "name": "test",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/40534419622/job/122295656520"
+      },
+      {
+        "name": "deploy",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/40534419622/job/122298029436"
+      },
+      {
+        "name": "pages",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/40534419622/job/122298538155"
+      }
+    ]
+  },
+  "worker": {
+    "url": "https://chichi-cat-world.arturmal2805.workers.dev/api/status?release=96dd9a3",
+    "release": "96dd9a3248df40c4cac3cbe2f7a3ae1e4a883948",
+    "configured": true,
+    "cloudSave": true
+  },
+  "pages": {
+    "url": "https://arturmal2805-netizen.github.io/ai-cat-game/?update=96dd9a3",
+    "script": "./dist/app.js?v=0fef7db1295474d0",
+    "sha256": "0fef7db1295474d0c6368a4025d7e538d1d8cba4b2bc817bea9e22589e86b7a8",
+    "matchesLocalBundle": true
+  },
+  "inference": "Routine deployment; no paid inference verification requested.",
+  "physicalPerformance": "The prior Moon report is 33.18 FPS. Two cadence defects and duplicate native bounds work are corrected; physical 60 FPS and the full 1333.3 ms hitch resolution require a fresh device report."
+}
