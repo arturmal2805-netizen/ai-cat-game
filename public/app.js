@@ -80,6 +80,7 @@ import {
 import { apiBase } from "./config.js";
 import { createWorld } from "./world.js";
 import { restoreSculptCache, scheduleSculptCache } from "./sculpt-cache.js";
+import { profileFunction } from "./work-profile.js";
 import { setText } from "./dom-text.js";
 import {
   BIOMES,
@@ -283,6 +284,9 @@ function commit(next, syncWorld = true) {
   cityUI?.render();
 }
 let cityAIStatus = null;
+persist = profileFunction("app.persist", persist);
+commit = profileFunction("app.commit", commit);
+renderGame = profileFunction("app.renderGame", renderGame);
 const cityUI = createJobCityUI({
   getGame: () => game,
   getAIStatus: () => cityAIStatus,
@@ -511,6 +515,7 @@ function cityTick() {
   }
   void cryptoTick();
 }
+cityTick = profileFunction("app.cityTick", cityTick);
 setInterval(cityTick, 1000);
 $("care-open").onclick = () => open("care-dialog");
 $("level-open").onclick = () => open("level-dialog");

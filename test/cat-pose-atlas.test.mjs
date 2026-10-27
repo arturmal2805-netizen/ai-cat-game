@@ -153,6 +153,17 @@ test("colony draws preserve half-float vertices, weighted joints, material tints
   assert.ok(groups.length > 3 && groups.length < cats.length * 8);
   const originals = cats.flatMap((c) => c.userData.renderBatches.batches);
   assert.ok(originals.every((s) => !s.layers.isEnabled(0)));
+  const registered = atlas.stats.cats, entriesBefore = atlas.stats.entries;
+  colony.setEnabled(false);
+  scene.onBeforeRender(renderer, scene, camera);
+  assert.equal(colony.stats.active,false);
+  assert.equal(atlas.enabled,true,"the diagnostic draw switch must retain live pose ownership");
+  assert.ok(originals.every(s=>s.layers.isEnabled(0)));
+  assert.ok(groups.every(g=>!g.visible));
+  assert.equal(atlas.stats.cats,registered);assert.equal(atlas.stats.entries,entriesBefore);
+  colony.setEnabled(true);
+  scene.onBeforeRender(renderer, scene, camera);
+  assert.ok(originals.every(s=>!s.layers.isEnabled(0)));
   for (const cat of cats) {
     const b = cat.userData.renderBatches;
     for (let i = 0; i < b.batches.length; i++) {

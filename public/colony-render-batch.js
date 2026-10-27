@@ -149,6 +149,7 @@ export function createColonyRenderBatch(
     requested = [],
     generation = 0,
     disposed = false,
+    sharingEnabled = true,
     active = false;
   const stats = { sources: 0, batches: 0, ready: false, active: false };
   const visibility = createRenderVisibility(scene);
@@ -201,7 +202,7 @@ export function createColonyRenderBatch(
     before.apply(scene, args); // Original matrices and all current poses are ready.
     visibility.reset();
     const enabled =
-      atlas.enabled &&
+      sharingEnabled && atlas.enabled &&
       atlas.stats.updatedCats >= Math.max(1, minimumCats - (active ? 1 : 0)) &&
       renderer.extensions.has("WEBGL_multi_draw");
     stats.active = enabled;
@@ -474,6 +475,7 @@ export function createColonyRenderBatch(
       stats.ready = false;
       void build(sources, ++generation);
     },
+    setEnabled(value) { sharingEnabled = !!value; },
     dispose() {
       disposed = true;
       generation++;

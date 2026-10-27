@@ -9,6 +9,7 @@ test("local frame reports separate CPU, render submission and GPU waits with a b
   p.blocked("gpu",2);p.blocked("gpu",3);p.queue(1);p.delay(12);p.delay(9);
   const r=p.report();assert.equal(r.samples,30);assert.equal(r.fps,50);assert.equal(r.gapP95,20);
   assert.equal(r.cpuMedian,3);assert.equal(r.renderMedian,7);assert.equal(r.gpuWaitCallbacksSinceReset,2);
+  assert.equal(r.cpuMax,3);assert.equal(r.renderMax,7);assert.equal(r.cpuTotalMs,90);assert.equal(r.renderTotalMs,210);
   assert.equal(r.queueCpuTotalSinceReset,6);assert.equal(r.queueCpuMaxSinceReset,3);assert.equal(r.eventLoopDelayMax,12);
   assert.equal(r.geometryEvictionsDuringWindow,87);assert.equal(r.geometryRefaultsDuringWindow,58);
   assert.equal(r.geometryRefaultBytesDuringWindow,8700);assert.equal(r.geometryRapidRefaultsDuringWindow,29);
@@ -24,6 +25,8 @@ test("ordinary play never allocates a diagnostic panel or reads browser resource
     assert.equal(createFrameProfile(),null);
     globalThis.location.search="?pauseAfter=5";
     assert.equal(createFrameProfile(),null,"a diagnostic deadline must never enable itself in ordinary play");
+    globalThis.location.search="?catDraw=native";
+    assert.equal(createFrameProfile(),null,"diagnostic draw selection requires explicit profiling");
   }
   finally { if(previous)Object.defineProperty(globalThis,"location",previous);else delete globalThis.location; }
 });

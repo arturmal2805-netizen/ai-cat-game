@@ -1,4 +1,5 @@
 import { createShadowDepthCache } from "./shadow-depth-cache.js";
+import { profileFunction } from "./work-profile.js";
 import {worldRoads,WORLD_ROAD_WIDTH} from './world-roads.js';
 import {captureCatLocations} from './cat-locations.js';
 import {islandCameraFar, jobBuildingCameraView} from './camera-views.js';
@@ -299,6 +300,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     camera,
     poseAtlas,
   );
+  if(frameProfile?.catRenderer === "individual")colonyDraws.setEnabled(false);
   const shadowDepth = createShadowDepthCache(renderer, scene, sun);
   const sky = new THREE.Mesh(
     new THREE.SphereGeometry(520, 24, 14),
@@ -2190,6 +2192,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     scene.add(g);
     itemGroups.set(object.id, g);
   }
+  sync = profileFunction("world.sync", sync);
   sync(initialGame);
   function focus(id, overview = false, keepFollow = false) {
     exitCourt(false);
@@ -3592,6 +3595,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   const loseContext = (event) => {
     event.preventDefault();
     contextLost = true;
+    frameProfile?.contextLost();
     gpuFrames.clear();
     recovery.hidden = false;
   };
@@ -5645,7 +5649,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
     // competing GPU draws while its miniature scenes are being rendered.
     if (!dialogOpen) {
       const profileRender = frameProfile ? performance.now() : 0;
-      renderer.render(scene, camera);
+      frameProfile?.beginRender();
+      try {
+        renderer.render(scene, camera);
+      } finally { frameProfile?.endRender(); }
       gpuFrames.submitted();
       geometryResidency.sweep(now);
       if (frameProfile) frameProfile.frame({at:now,cpu:profileRender-profileStart,render:performance.now()-profileRender,
