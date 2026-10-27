@@ -113,20 +113,6 @@ export function trackProfileGlCalls(gl, { clock = () => performance.now(), multi
   };
 }
 
-// A bounded diagnostic can release the GPU even if its RAF/interval is late.
-// This controller never participates in ordinary play.
-export function createProfilePause({ seconds = 0, clock = () => performance.now(), onChange = () => {} } = {}) {
-  const duration = Number.isFinite(seconds) && seconds >= 5 && seconds <= 60 ? seconds * 1000 : 0;
-  let paused = false, deadline = duration ? clock() + duration : Infinity;
-  const stop = () => { if (!paused) { paused = true; onChange(true); } };
-  return {
-    seconds: duration / 1000,
-    get suspended() { if (!paused && clock() >= deadline) stop(); return paused; },
-    stop,
-    resume() { paused = false; deadline = duration ? clock() + duration : Infinity; onChange(false); },
-  };
-}
-
 export function createFrameProfile(renderer) {
   const query = new URLSearchParams(location.search);
   if (query.get("profile") !== "1") return null;
@@ -164,7 +150,6 @@ export function createFrameProfile(renderer) {
   const clearResources=()=>{uploads.clear();glCalls.clear();work.clear();gpuTimer.clear();longTasks=[];longFrames=[];taskStart=performance.now();taskObserver?.takeRecords();frameObserver?.takeRecords();};
   const samples = createFrameSamples(), panel = document.createElement("aside"),
     label = document.createElement("div"), copy = document.createElement("button"),
-    toggle = document.createElement("button"),
     output = document.createElement("textarea");
   panel.id = "frame-profile";
   panel.style.cssText = "position:fixed;left:12px;bottom:12px;z-index:10000;max-width:calc(100vw - 24px);background:#25283bef;color:white;padding:10px;border-radius:12px;font:12px/1.5 system-ui;box-shadow:0 2px 12px #0003";
@@ -172,15 +157,8 @@ export function createFrameProfile(renderer) {
   label.style.whiteSpace = "pre-line";
   copy.textContent = "Скопировать отчёт";copy.type="button";copy.style.cssText="margin-top:6px;padding:5px 12px;border-radius:8px";
   copy.dataset.profileCopy="";
-  toggle.textContent="Приостановить 3D";toggle.type="button";toggle.dataset.profilePause="";
-  toggle.style.cssText="margin:6px 0 0 6px;padding:5px 12px;border-radius:8px";
   output.hidden = true;output.readOnly=true;output.style.cssText="width:100%;height:110px";
-  const pauseControl=createProfilePause({seconds:Number(query.get("pauseAfter")),onChange:paused=>{
-    toggle.textContent=paused?"Продолжить 3D":"Приостановить 3D";
-    label.textContent=paused?"3D на паузе · скопируй отчёт и закрой вкладку диагностики":"Диагностика: покрути и приблизь камеру";
-  }});
-  if(pauseControl.seconds)label.textContent+=` · 3D остановится через ${pauseControl.seconds} с`;
-  const report = () => ({version:2,gpu,suspended:pauseControl.suspended,automaticPauseSeconds:pauseControl.seconds,
+  const report = () => ({version:2,gpu,suspended:false,automaticPauseSeconds:0,
     catRenderer:catDrawMode(location.search),gpuRender:gpuTimer.report(),
     appWorkSinceReset:work.report(),longAnimationFramesSupported:!!frameObserver,longestAnimationFrames:longFrames.slice(),
     app:document.querySelector('script[src*="dist/app.js"]')?.getAttribute("src"),bufferTransfersSinceReset:uploads.snapshot(),
@@ -192,30 +170,26 @@ export function createFrameProfile(renderer) {
     try { await navigator.clipboard.writeText(text); copy.textContent="Отчёт скопирован"; }
     catch { output.value=text;output.hidden=false;output.focus();output.select();copy.textContent="Выделено — скопируй текст"; }
   };
-  toggle.onclick=()=>{if(pauseControl.suspended){samples.clear();clearResources();lastTimer=performance.now();pauseControl.resume();}else pauseControl.stop();};
-  panel.append(label,copy,toggle,output);document.body.append(panel);
+  panel.append(label,copy,output);document.body.append(panel);
   let next = 0, lastTimer = performance.now();
   const timer = setInterval(()=>{
-    // Refresh the deadline label even when no further frame is submitted.
-    void pauseControl.suspended;
     const now=performance.now();samples.delay(Math.max(0,now-lastTimer-200));lastTimer=now;
   },200);
   return {
     catRenderer:catDrawMode(location.search),
-    raf:at=>{if(!pauseControl.suspended)samples.raf(at);},
-    notDue:()=>{if(!pauseControl.suspended)samples.notDue();},
+    raf:at=>samples.raf(at),
+    notDue:()=>samples.notDue(),
     beginFrame:()=>{sectionStart=performance.now();},
     section(label){const now=performance.now();work.record("frame."+label,now-sectionStart,sectionStart);sectionStart=now;},
     run:(label,fn,receiver,args)=>work.run(label,fn,receiver,args),
     beginRender:()=>gpuTimer.begin(),endRender:()=>gpuTimer.end(),
     contextLost:()=>gpuTimer.clear(),
-    get suspended(){return pauseControl.suspended;},
+    get suspended(){return false;},
     blocked:(reason,ms)=>samples.blocked(reason,ms),
     queue:ms=>samples.queue(ms),
     pause:()=>{samples.clear();clearResources();lastTimer=performance.now();},
     frame(row){
       samples.frame(row);
-      if(pauseControl.suspended)return;
       if(row.at<next)return;next=row.at+1000;
       const r=samples.report(),loading=(row.shaderPending||0)+(row.shaderPreparing||0);
       label.textContent=`${r.fps??"…"} FPS${row.targetFps?` / цель ${row.targetFps}`:""} · CPU ${r.cpuMedian??0} мс · рендер ${r.renderMedian??0} мс\n${row.biome} · ${row.calls} вызовов · DPR ${row.dpr}${loading?` · подготовка ${loading}`:""}`;

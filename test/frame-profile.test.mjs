@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {createFrameSamples, createFrameProfile, createProfilePause, trackProfileUploads, trackProfileGlCalls} from "../public/frame-profile.js";
+import {createFrameSamples, createFrameProfile, trackProfileUploads, trackProfileGlCalls} from "../public/frame-profile.js";
 
 test("local frame reports separate CPU, render submission and GPU waits with a bounded window",()=>{
   const p=createFrameSamples(30);
@@ -41,19 +41,6 @@ test('callback cadence is separate from submitted-frame FPS and own pacing skips
  assert.equal(r.pacerSkipsSinceReset,300);assert.equal(r.fps,30);
  p.clear();p.raf(50000);assert.equal(p.report().rafFpsSinceReset,null);
  assert.equal(p.report().pacerSkipsSinceReset,0);assert.equal(p.report().rafCallbacksSinceReset,1);
-});
-
-test("a bounded local profile pauses despite late callbacks, preserves one stop event and can resume",()=>{
-  let now=1000;const events=[];
-  const p=createProfilePause({seconds:15,clock:()=>now,onChange:s=>events.push(s)});
-  now=15999;assert.equal(p.suspended,false);
-  now=31000;assert.equal(p.suspended,true,"checking the deadline must not need a timely RAF or timer callback");
-  p.stop();assert.equal(p.suspended,true);assert.deepEqual(events,[true]);
-  p.resume();assert.equal(p.suspended,false);assert.deepEqual(events,[true,false]);
-  now=46000;assert.equal(p.suspended,true);assert.deepEqual(events,[true,false,true]);
-  const normal=createProfilePause({clock:()=>now});now=1e12;
-  assert.equal(normal.suspended,false,"no automatic pause without the explicit diagnostic deadline");
-  normal.stop();assert.equal(normal.suspended,true);normal.resume();assert.equal(normal.suspended,false);
 });
 
 test("local upload counters preserve GL arguments, account for typed offsets and release their hooks",()=>{
