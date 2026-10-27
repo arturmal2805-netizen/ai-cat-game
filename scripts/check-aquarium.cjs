@@ -164,6 +164,11 @@ async function localWorker() {
       for(const s of ATOLL_SLIDES.slice(0,19)){g.coins=10000000;Object.assign(g,purchase(g,s.id,now));const p=findSpace(g,s.id,ATOLL_PARK_ID);Object.assign(g,placeItem(g,s.id,ATOLL_PARK_ID,p.x,p.z,0,now));g.placements.at(-1).readyAt=0;}
       g.coins=8000000;g.catPosition={biome:ATOLL_PARK_ID,x:-305,z:0};g.catDestinations={};
     }
+    if(process.env.CHICHI_ATOLL_LOADING_AUDIT){
+      g.unlocked=['moon','homestead'];g.placements=g.placements.filter(p=>p.id.startsWith('welcome-'));g.progression.xp=xpForLevel(30);g.coins=800000;
+      g.placements.push({id:'mega-cold',item:'slide-atoll-mega-loops',biome:'homestead',x:-90,z:-90,rotation:0,readyAt:0},{id:'mega-finishes',item:'slide-atoll-mega-loops',biome:'homestead',x:90,z:90,rotation:0,startedAt:now,readyAt:now+3600000},{id:'mega-cold-ride',item:'slide-atoll-mega-loops',biome:'homestead',x:-90,z:90,rotation:0,readyAt:0});
+      g.catPosition={biome:'homestead',x:100,z:100};g.catDestinations={luna:'homestead',moti:'homestead'};
+    }
     if (process.env.CHICHI_SCENE_STRESS) {
       const { ADOPTION_CATS } = await import(root + "/public/cat-breeds.js");
       const {REFERENCE_SLIDES}=await import(root+"/public/reference-slide-data.js");
@@ -601,6 +606,10 @@ async function localWorker() {
       const {checkAtollApp}=await import('./check-atoll-app.mjs');await checkAtollApp(page,review);
       fs.writeFileSync(path.join(review,'browser-errors.json'),JSON.stringify({errors,httpErrors},null,2));
       assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;
+    }
+    if(process.env.CHICHI_ATOLL_LOADING_AUDIT){
+      const {checkAtollLoading}=await import('./check-atoll-loading.mjs');await checkAtollLoading(page,review);
+      fs.writeFileSync(path.join(review,'browser-errors.json'),JSON.stringify({errors,httpErrors},null,2));assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;
     }
     if(process.env.CHICHI_HUD_TEXT_AUDIT){
       const {checkHudText}=await import("./check-hud-text.mjs");

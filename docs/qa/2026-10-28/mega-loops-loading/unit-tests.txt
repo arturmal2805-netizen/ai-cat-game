@@ -1,0 +1,30 @@
+✔ large waterpark streaming starts only one nearby visible complex, never the whole map or while gesturing (2.180244ms)
+✔ approaches take the dry perimeter, use the existing A* for interior obstacles and keep a bounded cache (86.130978ms)
+✔ the annex is a new leaf road and every released road keeps its exact endpoints (18.457769ms)
+✔ all twenty complexes remain placeable and reloadable alongside sixty existing purchases (481.97103ms)
+✔ exactly twenty new row-major premium mini-biomes progress from 80000 to a maximum of 250000 coins (1.099261ms)
+✔ all twenty full-size plots fit, retain wide aisles and pay/save/build once without changing any old object (244.350007ms)
+✔ new land is separate and disconnected purchases or insufficient funds cannot charge or create a building (2.679785ms)
+✔ all routes and choreography are unique, continuous, finite, bounded and finish in their own lagoon (377.994434ms)
+✔ all real models have the declared channels, bounded static batches, empty hidden rafts and complete footprint clearance (6752.479416ms)
+✔ each purchased mini-biome pays existing coins and XP and can be stored and reloaded without a second payment (160.354205ms)
+✔ large premium registers never overflow the established wallet or discard the unpaid balance on reload (97.49694ms)
+✔ construction helpers use existing future deadlines for purchases and permanent park projects (2.321286ms)
+✔ all available workers reach distinct build stations, swing hammers and stop at the saved deadline without changing the game (263.607688ms)
+✔ hammer is a temporary shared prop attached to the existing front paw; the approved cat shape stays unchanged (536.577516ms)
+✔ a manual action can cancel any helper immediately without a saved side effect (0.848144ms)
+✔ helpers travelling to a different island follow its actual rebuilt road instead of running through the sky (38.032135ms)
+✔ cancelling or replacing an unstarted giant ride never teleports the approaching cat to its far-away exit (8.360941ms)
+✔ all existing catalog actions work for a neighbour through the real ride/toy/swim frames and complete once (19680.486866ms)
+✔ one moving seat or ball cannot be claimed by two neighbours at the same time (3.482192ms)
+✔ moving any resident saves only their island and leaves Chichi, models and other residents unchanged across reloads (87.741235ms)
+✔ a neighbour eating consumes one real portion and never changes Chichi hunger; games improve only the selected resident (7.101535ms)
+✔ a manually assigned neighbour harvests a real farm into the existing stock without changing Chichi (3.810556ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 20261.904509
