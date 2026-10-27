@@ -1,4 +1,5 @@
 import { createInvestmentsPanel } from "./crypto-ui.js";
+import { setText } from "./dom-text.js";
 import { richestCats } from "./cat-wealth.js";
 import { cityAIFamilyMessage, cityAIHousingMessage } from "./city-ai-schedule.js";
 import { catProfileCard } from "./cat-card-ui.js";
@@ -137,8 +138,13 @@ export function createJobCityUI({
         }),
       );
     }
-    for (const option of selects.options)
-      option.textContent = state.profiles[option.value]?.name || option.value;
+    for (const option of selects.options) {
+      const profile = state.profiles[option.value], name = profile?.name || option.value,
+        trading = profile?.investments?.current?.status === "open";
+      setText(option, name + (trading ? " 📈" : ""));
+      const label = name + (trading ? " · Відкрита криптоугода" : "");
+      if (option.getAttribute("aria-label") !== label) option.setAttribute("aria-label", label);
+    }
     selects.value = selected;
     const p = state.profiles[selected],
       c = cityClock(state),
