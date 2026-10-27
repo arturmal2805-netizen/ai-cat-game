@@ -52,6 +52,48 @@ export function trackProfileUploads(gl) {
     dispose(){for(const name of Object.keys(originals))if(gl[name]===wrappers[name])gl[name]=originals[name];}};
 }
 
+// Time native entry points only in the explicit diagnostic. Keep aggregate
+// numbers, never arguments, shader text, textures, player data or GL queries.
+export function trackProfileGlCalls(gl, { clock = () => performance.now(), multiDraw = null } = {}) {
+  const tracked = [], rows = new Map();
+  function track(target, name) {
+    if (typeof target?.[name] !== "function") return;
+    const native = target[name];
+    function timed(...args) {
+      const at = clock();
+      try { return native.apply(this, args); }
+      finally {
+        const ms = clock() - at;
+        let row = rows.get(name);
+        if (!row) rows.set(name, row = { calls: 0, totalMs: 0, maxMs: 0, over50ms: 0 });
+        row.calls++; row.totalMs += ms; row.maxMs = Math.max(row.maxMs, ms);
+        if (ms >= 50) row.over50ms++;
+      }
+    }
+    try {
+      target[name] = timed;
+      if (target[name] === timed) tracked.push({ target, name, native, timed });
+    } catch { /* Some browsers expose a non-writable extension method. */ }
+  }
+  for (const name of ["bufferData", "bufferSubData", "texImage2D", "texSubImage2D", "texStorage2D",
+    "compileShader", "linkProgram", "getProgramParameter", "getShaderParameter", "getProgramInfoLog",
+    "getShaderInfoLog", "getActiveUniform", "getActiveAttrib", "getUniformLocation", "getAttribLocation",
+    "getParameter", "pixelStorei", "bindTexture", "texParameteri", "clear", "finish", "readPixels",
+    "useProgram", "drawElements", "drawArrays", "drawElementsInstanced", "drawArraysInstanced",
+    "blitFramebuffer", "clientWaitSync", "flush"])
+    track(gl, name);
+  for (const name of ["multiDrawElementsWEBGL", "multiDrawArraysWEBGL",
+    "multiDrawElementsInstancedWEBGL", "multiDrawArraysInstancedWEBGL"])
+    track(multiDraw, name);
+  return {
+    snapshot: () => Object.fromEntries([...rows].map(([name, row]) => [name, {
+      ...row, totalMs: Math.round(row.totalMs * 100) / 100, maxMs: Math.round(row.maxMs * 100) / 100,
+    }])),
+    clear: () => rows.clear(),
+    dispose() { for (const { target, name, native, timed } of tracked) if (target[name] === timed) target[name] = native; },
+  };
+}
+
 // A bounded diagnostic can release the GPU even if its RAF/interval is late.
 // This controller never participates in ordinary play.
 export function createProfilePause({ seconds = 0, clock = () => performance.now(), onChange = () => {} } = {}) {
@@ -76,6 +118,17 @@ export function createFrameProfile(renderer) {
     gpu=gl.getParameter(info?.UNMASKED_RENDERER_WEBGL ?? gl.RENDERER);
   } catch {}
   const uploads=trackProfileUploads(renderer.getContext());
+  const glCalls=trackProfileGlCalls(renderer.getContext(), {
+    multiDraw:renderer.getContext().getExtension("WEBGL_multi_draw"),
+  });
+  let taskStart=performance.now(),longTasks=[];
+  const taskObserver=globalThis.PerformanceObserver?.supportedEntryTypes?.includes("longtask")
+    ? new PerformanceObserver(list=>{
+      for(const entry of list.getEntries()) if(entry.startTime>=taskStart)longTasks.push(entry.duration);
+      longTasks.sort((a,b)=>b-a);longTasks.length=Math.min(longTasks.length,20);
+    }) : null;
+  taskObserver?.observe({type:"longtask"});
+  const clearResources=()=>{uploads.clear();glCalls.clear();longTasks=[];taskStart=performance.now();taskObserver?.takeRecords();};
   const samples = createFrameSamples(), panel = document.createElement("aside"),
     label = document.createElement("div"), copy = document.createElement("button"),
     toggle = document.createElement("button"),
@@ -96,13 +149,15 @@ export function createFrameProfile(renderer) {
   if(pauseControl.seconds)label.textContent+=` · 3D остановится через ${pauseControl.seconds} с`;
   const report = () => ({version:2,gpu,suspended:pauseControl.suspended,automaticPauseSeconds:pauseControl.seconds,
     app:document.querySelector('script[src*="dist/app.js"]')?.getAttribute("src"),bufferTransfersSinceReset:uploads.snapshot(),
+    nativeGlCallsSinceReset:glCalls.snapshot(),mainThreadLongTasksSupported:!!taskObserver,
+    longestMainThreadTasksMs:longTasks.slice(),
     browser:navigator.userAgent,viewport:[innerWidth,innerHeight],...samples.report()});
   copy.onclick=async()=>{
     const text=JSON.stringify(report(),null,2);
     try { await navigator.clipboard.writeText(text); copy.textContent="Отчёт скопирован"; }
     catch { output.value=text;output.hidden=false;output.focus();output.select();copy.textContent="Выделено — скопируй текст"; }
   };
-  toggle.onclick=()=>{if(pauseControl.suspended){samples.clear();uploads.clear();lastTimer=performance.now();pauseControl.resume();}else pauseControl.stop();};
+  toggle.onclick=()=>{if(pauseControl.suspended){samples.clear();clearResources();lastTimer=performance.now();pauseControl.resume();}else pauseControl.stop();};
   panel.append(label,copy,toggle,output);document.body.append(panel);
   let next = 0, lastTimer = performance.now();
   const timer = setInterval(()=>{
@@ -114,7 +169,7 @@ export function createFrameProfile(renderer) {
     get suspended(){return pauseControl.suspended;},
     blocked:(reason,ms)=>samples.blocked(reason,ms),
     queue:ms=>samples.queue(ms),
-    pause:()=>{samples.clear();uploads.clear();lastTimer=performance.now();},
+    pause:()=>{samples.clear();clearResources();lastTimer=performance.now();},
     frame(row){
       samples.frame(row);
       if(pauseControl.suspended)return;
@@ -122,6 +177,6 @@ export function createFrameProfile(renderer) {
       const r=samples.report(),loading=(row.shaderPending||0)+(row.shaderPreparing||0);
       label.textContent=`${r.fps??"…"} FPS · CPU ${r.cpuMedian??0} мс · рендер ${r.renderMedian??0} мс\n${row.biome} · ${row.calls} вызовов · DPR ${row.dpr}${loading?` · подготовка ${loading}`:""}`;
     },
-    dispose(){clearInterval(timer);uploads.dispose();panel.remove();},
+    dispose(){clearInterval(timer);taskObserver?.disconnect();glCalls.dispose();uploads.dispose();panel.remove();},
   };
 }

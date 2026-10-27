@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {createFrameSamples, createFrameProfile, createProfilePause, trackProfileUploads} from "../public/frame-profile.js";
+import {createFrameSamples, createFrameProfile, createProfilePause, trackProfileUploads, trackProfileGlCalls} from "../public/frame-profile.js";
 
 test("local frame reports separate CPU, render submission and GPU waits with a bounded window",()=>{
   const p=createFrameSamples(30);
@@ -50,4 +50,26 @@ test("local upload counters preserve GL arguments, account for typed offsets and
   assert.equal(calls[1][1],a);assert.deepEqual(calls[1],[1,a,2,2,3]);
   const copy=p.snapshot();copy.dataBytes=0;assert.equal(p.snapshot().dataBytes,136);
   p.clear();assert.equal(p.snapshot().dataCalls,0);p.dispose();assert.equal(gl.bufferData,original);
+});
+
+test("opt-in native GL timings include texture/multi-draw/reflection stalls without queries or retained arguments",()=>{
+  let now=0;const argument={private:"never record GL arguments"},receivers=[];
+  const gl={texSubImage2D(a){assert.equal(a,argument);receivers.push(this);now+=72;return 8;},
+    getUniformLocation(){now+=2;throw Error("native failure");},
+    getParameter(){assert.fail("diagnostics must not add a driver query");}},
+    ext={multiDrawElementsWEBGL(){receivers.push(this);now+=123;}},
+    native=gl.texSubImage2D, nativeMulti=ext.multiDrawElementsWEBGL,
+    p=trackProfileGlCalls(gl,{clock:()=>now,multiDraw:ext});
+  assert.equal(gl.texSubImage2D(argument),8);ext.multiDrawElementsWEBGL();
+  assert.throws(()=>gl.getUniformLocation(),/native failure/);
+  assert.deepEqual(receivers,[gl,ext]);
+  const report=p.snapshot();assert.equal(JSON.stringify(report).includes(argument.private),false);
+  assert.deepEqual(report.texSubImage2D,{calls:1,totalMs:72,maxMs:72,over50ms:1});
+  assert.equal(report.multiDrawElementsWEBGL.maxMs,123);assert.equal(report.getUniformLocation.maxMs,2);
+  report.texSubImage2D.calls=99;assert.equal(p.snapshot().texSubImage2D.calls,1);
+  p.clear();assert.deepEqual(p.snapshot(),{});p.dispose();
+  assert.equal(gl.texSubImage2D,native);assert.equal(ext.multiDrawElementsWEBGL,nativeMulti);
+  const frozen=Object.freeze({multiDrawElementsWEBGL(){return 11;}}),
+    fallback=trackProfileGlCalls({}, {multiDraw:frozen});
+  assert.equal(frozen.multiDrawElementsWEBGL(),11);fallback.dispose();
 });
