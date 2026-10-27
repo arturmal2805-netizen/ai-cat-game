@@ -1,0 +1,41 @@
+{
+  "verifiedAt": "2026-10-27T09:34:12.328585+00:00",
+  "commit": "edd3edfc42592354d2c82f0b35b07a68bedaf9d9",
+  "workflow": {
+    "url": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/40480984582",
+    "jobs": [
+      {
+        "name": "test",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/40480984582/job/122110930409"
+      },
+      {
+        "name": "deploy",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/40480984582/job/122112275766"
+      },
+      {
+        "name": "pages",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/40480984582/job/122112609108"
+      }
+    ]
+  },
+  "worker": {
+    "url": "https://chichi-cat-world.arturmal2805.workers.dev/api/status?release=edd3edf",
+    "release": "edd3edfc42592354d2c82f0b35b07a68bedaf9d9",
+    "configured": true,
+    "cloudSave": true
+  },
+  "pages": {
+    "url": "https://arturmal2805-netizen.github.io/ai-cat-game/?update=edd3edf",
+    "script": "./dist/app.js?v=b50008f357899598",
+    "bundleUrl": "https://arturmal2805-netizen.github.io/ai-cat-game/dist/app.js?v=b50008f357899598",
+    "remoteSha256": "b50008f357899598e25aca8519182dd05f6dc6b11e24dcc9b000a3fc8e42f3e3",
+    "localSha256": "b50008f357899598e25aca8519182dd05f6dc6b11e24dcc9b000a3fc8e42f3e3"
+  },
+  "physicalDeviceResult": "The ready-scene M2 stall is not yet attributed or resolved. The individual-cat path is an explicit diagnostic, not a promoted default; it still needs a physical-device report."
+}
