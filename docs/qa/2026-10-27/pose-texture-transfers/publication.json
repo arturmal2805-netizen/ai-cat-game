@@ -1,0 +1,41 @@
+{
+  "verifiedAt": "2026-10-27T08:19:06.126430+00:00",
+  "commit": "c79fb87071cd701b99600620589c713f6454d31f",
+  "workflow": {
+    "url": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/40471973496",
+    "jobs": [
+      {
+        "name": "test",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/40471973496/job/122080992210"
+      },
+      {
+        "name": "deploy",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/40471973496/job/122082533770"
+      },
+      {
+        "name": "pages",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/40471973496/job/122082819612"
+      }
+    ]
+  },
+  "worker": {
+    "url": "https://chichi-cat-world.arturmal2805.workers.dev/api/status?release=c79fb87",
+    "release": "c79fb87071cd701b99600620589c713f6454d31f",
+    "configured": true,
+    "cloudSave": true
+  },
+  "pages": {
+    "url": "https://arturmal2805-netizen.github.io/ai-cat-game/?update=c79fb87",
+    "script": "./dist/app.js?v=f30fcdc285ca9b68",
+    "bundleUrl": "https://arturmal2805-netizen.github.io/ai-cat-game/dist/app.js?v=f30fcdc285ca9b68",
+    "remoteSha256": "f30fcdc285ca9b68ee11aa2b0ed72b1ee4a9eea79e507a4082ee6c12dfa6e64d",
+    "localSha256": "f30fcdc285ca9b68ee11aa2b0ed72b1ee4a9eea79e507a4082ee6c12dfa6e64d"
+  },
+  "physicalDeviceResult": "The physical M2 Job City stall is not yet resolved or attributed. Awaiting a fresh native-GL/task report, preferably after one resumed warm diagnostic window."
+}
