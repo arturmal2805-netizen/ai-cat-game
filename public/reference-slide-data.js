@@ -1,3 +1,4 @@
+import { ATOLL_SLIDES } from "./atoll-slide-data.js";
 // Image cells are numbered row-major, left to right, from the supplied 5×5.
 // Each entry is a separate purchasable complex, never an island replacement.
 export const REFERENCE_SLIDES = [
@@ -289,4 +290,4 @@ export const REFERENCE_SLIDES = [
   pool: [3, 12, 7.2, 4.5],
   surfaceY: 1.45,
 }));
-export const referenceSlide = (id) => REFERENCE_SLIDES.find((s) => s.id === id);
+export const referenceSlide = (id) => REFERENCE_SLIDES.find((s) => s.id === id) || ATOLL_SLIDES.find(s => s.id === id);

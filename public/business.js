@@ -4,6 +4,9 @@ import { courtType, courtBusinessVenues } from "./foodcourt-data.js";
 import { byItem } from "./game-data.js";
 import { BUSINESSES } from "./business-data.js";
 import { addXP, addBusinessXP } from "./progression.js";
+import {premiumCollectible} from './premium-income.js';
+import {ATOLL_SLIDES} from './atoll-slide-data.js';
+const premiumIncomeIDs=new Set(ATOLL_SLIDES.map(s=>s.id));
 export const BUSINESS_CAP_HOURS = 8;
 export const BUSINESS_LEVELS = [
   {
@@ -171,7 +174,8 @@ export function incomeForVenue(game, p, now = Date.now()) {
     BUSINESS_CAP_HOURS,
     Math.max(0, now - start) / 3600000,
   );
-  return Math.floor(hours * rate + 1e-9);
+  const due=Math.floor(hours * rate + 1e-9);
+  return premiumIncomeIDs.has(p.item) ? premiumCollectible(game,due,rate,businessXP(p.item,businessLevel(game,p.id)),game.business.accounts[p.id]?.xpRemainder||0) : due;
 }
 export function collectIncome(game, id, now = Date.now()) {
   const amount = incomeFor(game, id, now);

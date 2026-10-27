@@ -1,4 +1,6 @@
 import {cryptoSnapshotValid} from "./crypto-trading.js";
+import { ATOLL_PARK_ID, ATOLL_SLIDES, atollPlot } from "./atoll-slide-data.js";
+export const PLACEMENT_LIMIT = 80;
 import {
   normalizeHousing,
   housingSnapshotValid,
@@ -245,7 +247,7 @@ export function loadGame(storage, now = Date.now(), { advance = true } = {}) {
     for (const p of (Array.isArray(saved.placements)
       ? saved.placements
       : []
-    ).slice(0, 60)) {
+    ).slice(0, PLACEMENT_LIMIT)) {
       if (
         typeof p.id === "string" &&
         /^[\w-]{1,40}$/.test(p.id) &&
@@ -491,6 +493,8 @@ export function purchase(game, id, now = Date.now()) {
   const next = copy(game);
   next.coins -= item.price;
   next.inventory[id] = (next.inventory[id] || 0) + 1;
+  // Park land is included in the first premium ticket, never a second charge.
+  if(item.premiumWater && !next.unlocked.includes(ATOLL_PARK_ID))next.unlocked.push(ATOLL_PARK_ID);
   return purchaseXP(next, id, item.price, now);
 }
 export function unlockBiome(game, id, now = Date.now()) {
@@ -592,6 +596,12 @@ export function findSpace(
   ignoreId = null,
   options = {},
 ) {
+  if (biome === ATOLL_PARK_ID) {
+    const preferred = ATOLL_SLIDES.findIndex(s=>s.id===item),
+      slots = Array.from({length:20},(_,i)=>(i+Math.max(0,preferred))%20);
+    for(const index of slots){const p=atollPlot(index);if(canPlace(game,item,biome,p.x,p.z,rotation,ignoreId,options).ok)return p;}
+    return null;
+  }
   for (
     let radius = 0;
     radius <=
@@ -620,7 +630,8 @@ export function placeItem(
   now = Date.now(),
 ) {
   if (!(game.inventory[item] > 0)) throw Error("Сначала купите предмет.");
-  if (game.placements.length >= 60)
+  if (game.placements.length >= PLACEMENT_LIMIT ||
+      (!byItem(item)?.premiumWater && game.placements.filter(p=>!byItem(p.item)?.premiumWater).length>=60))
     throw Error("В мире уже 60 предметов. Уберите один в сумку.");
   const check = canPlace(game, item, biome, x, z, rotation);
   if (!check.ok) throw Error(check.reason);

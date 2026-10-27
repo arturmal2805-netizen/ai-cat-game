@@ -10,7 +10,7 @@ const now=1792587600000;
 function seed(){const g=newGame(now);g.unlocked.push('homestead');g.coins=8000000;g.progression.xp=xpForLevel(30);return g;}
 const restore=g=>loadGame({getItem:k=>k==='chichi-world-v2'?JSON.stringify(g):null},now,{advance:false});
 test('only Our Island changes, with twelve times the original buildable area and open shores',()=>{
- assert.deepEqual(BIOMES.filter(b=>b.id!=='homestead'),JSON.parse(fs.readFileSync(new URL('./fixtures/homestead-expansion-unaffected.json',import.meta.url))));
+ assert.deepEqual(BIOMES.filter(b=>b.id!=='homestead'&&b.id!=='atoll-park'),JSON.parse(fs.readFileSync(new URL('./fixtures/homestead-expansion-unaffected.json',import.meta.url))));
  const b=byBiome('homestead');assert.ok(Math.abs((b.radius/HOMESTEAD_EXPANSION.originalRadius)**2-12)<1e-10);
  for(const other of BIOMES.filter(x=>x.id!==b.id))assert.ok(Math.hypot(b.center[0]-other.center[0],b.center[1]-other.center[1])>b.radius+(other.radius||11.65)+3,other.id);
 });

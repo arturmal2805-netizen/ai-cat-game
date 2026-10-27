@@ -142,3 +142,50 @@ check accepts `CHICHI_REFERENCE_SLIDES=1 CHICHI_CAMERA_CHECKS=1` and exercises
 hero, tiny and giant cats, independent concurrent riders, both cameras and
 shared SQLite save/reload. `reference-slide-clearance.test.mjs` measures actual
 animated giant paw vertices against the curved flume floor in every new lane.
+
+## Twenty giant water worlds (4 × 5 collection)
+
+`atoll-slide-data.js` declares twenty new `slide-atoll-*` products, leaving the
+twenty-five released `slide-dream-*` records and every old island unchanged.
+The reference's final-cell ambiguity was resolved with the user in favour of
+Mega Loops. Recipes, route normals, water, rafts and reactions share the same
+authored path. Six-lane racing, intertwined routes, terrace basins, wide wave/
+halfpipe surfaces, a natural rock vortex and genuinely inverted loops are
+separate experiences. Colours, landmark cliffs, roots, crystals, coral and
+blossoms belong to the purchased model, not a flat reference image.
+
+The most expensive released slide costs 240,000; new prices are at least
+eight times that amount, with higher prices for the giant wave and Mega Loops.
+The existing shop supports multiple copies. Its new twenty-item tab shows
+prices before purchase and a persistent «Придбано» badge for bag/placed copies.
+The first purchase includes the new waterpark annex. Twenty full-size plots
+and wide roads fit without moving any released island, road or paid object.
+Sixty existing placements plus twenty premium placements survive restoration.
+Premium registers retain unpaid income when the established wallet is full;
+XP still respects the existing maximum level.
+
+Use these implementation rules for future large complexes:
+
+1. Reuse the capybara scene scheduler and cooperative generators. Prepare one
+   nearby visible premium plot at a time, after gestures settle. A far world
+   view must not allocate and warm the entire park.
+2. Batch the complete static geometry with its authored colours/materials;
+   reuse the shared water fields and lightweight acrylic. Preserve detail,
+   lighting and mobile DPR. Do not add scene-copy reflections or render targets.
+3. Waterfalls/crest foam have fixed GPU buffers. Only visible or occupied
+   complexes update; simulation and rider clocks continue off camera through
+   the existing runtime. No particle/matrix-buffer regeneration each frame.
+4. Cache the measured reaction tables per type/lane. Put temporary sitting and
+   emotion changes in runtime animation, outside the sculpt producers, so
+   approved cached cat geometry is retained. Reduced motion/cancellation must
+   reset the normal rig.
+5. Cache at most eight approach plans, using existing A* and path sampling.
+   Use dry perimeter paths and separate queue/return corridors. At most four
+   rafts share geometry, with the existing 5.2-second launch headway.
+
+`atoll-slides.test.mjs` covers prices, terrain/road preservation, all eighty
+placements, route continuity, inversion, separate animations, queue capacity,
+income and repeat restoration. The clearance test includes actual animated
+giant paw vertices with the new seated pose. `CHICHI_ATOLL_AUDIT=1` runs the
+real phone shop, purchased construction, hero/tiny/giant rides, both camera
+buttons and private SQLite reloads through `check-aquarium.cjs`.

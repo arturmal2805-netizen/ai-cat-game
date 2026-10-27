@@ -40,7 +40,7 @@ test("the residential island is appended without changing any existing island, i
     ),
   );
   assert.deepEqual(
-    BIOMES.filter((b) => b.id !== HOUSING_ID),
+    BIOMES.filter((b) => b.id !== HOUSING_ID && b.id !== 'atoll-park'),
     original,
   );
   assert.deepEqual(byBiome(HOUSING_ID).center, HOUSING_CENTER);

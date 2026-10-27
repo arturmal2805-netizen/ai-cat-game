@@ -17,7 +17,7 @@ const waterID = (id) =>
   /^(slide-|water-)/.test(id) ||
   ["waterslide", "ride-crystal-slide", "dive-triple-sky"].includes(id);
 test("every shop and permanent island water ride declares and implements the shared water contract, including all three/six lanes", () => {
-  assert.equal(WATER_RIDES.length, 40);
+  assert.equal(WATER_RIDES.length, 60);
   assert.deepEqual(
     CATALOG.filter((i) => waterID(i.id))
       .map((i) => i.id)
@@ -222,9 +222,10 @@ test("resident riders use the same physical water route and trigger the same bas
         onComplete: () => {},
       });
     assert.ok(play.start("tiny", { action: "ride", activityId: "test" }, 0));
-    play.frame("tiny", 10000, 10);
+    const arrival=Math.max(10000,Math.ceil(play.get('tiny').travel)+1);
+    play.frame("tiny", arrival, arrival/1000);
     const elapsed = w.events[0].time + 0.01,
-      frame = play.frame("tiny", 10000 + elapsed * 1000, 10 + elapsed),
+      frame = play.frame("tiny", arrival + elapsed * 1000, arrival/1000 + elapsed),
       expected = g.localToWorld(
         new THREE.Vector3(...g.userData.rideFrame(elapsed).position),
       );

@@ -2,6 +2,7 @@ import * as T from "three";
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { REFERENCE_SLIDES } from "../public/reference-slide-data.js";
+import { ATOLL_SLIDES } from "../public/atoll-slide-data.js";
 import {
   createReferenceRoute,
   DREAM_RADIUS,
@@ -13,6 +14,8 @@ import {
   disposeCat,
 } from "../public/cat-model.js";
 import { ADOPTION_CATS, catAppearance } from "../public/cat-breeds.js";
+import {sampleRideActing,rideActingFrame} from '../public/ride-acting.js';
+import {atollRideReaction,applyAtollSit} from '../public/atoll-slide-acting.js';
 test("the largest approved cat keeps its real animated paw vertices above every authored flume floor", () => {
   const prof = ADOPTION_CATS.find((p) => p.id === "adopt-marshmallow"),
     cat = createCat("happy", catAppearance(prof)),
@@ -27,7 +30,7 @@ test("the largest approved cat keeps its real animated paw vertices above every 
   let worst = -Infinity,
     checked = 0,
     bad = [];
-  for (const spec of REFERENCE_SLIDES) {
+  for (const spec of [...REFERENCE_SLIDES,...ATOLL_SLIDES]) {
     const route = createReferenceRoute(spec);
     for (const [laneId, lane] of route.lanes.entries())
       for (const leg of lane.legs.filter((l) =>
@@ -43,7 +46,9 @@ test("the largest approved cat keeps its real animated paw vertices above every 
           carrier.position.set(...f.position);
           carrier.quaternion.fromArray(f.quaternion);
           animateCat(cat, t, false);
-          reactCat(cat, { paw: 0.8, surprise: 0.8 });
+          const reaction=spec.premiumWater ? atollRideReaction(spec,lane,t,
+            rideActingFrame(sampleRideActing(lane.frame,lane.duration,lane.impacts),t),false) : { paw: 0.8, surprise: 0.8 };
+          reactCat(cat,reaction);applyAtollSit(cat,reaction);
           carrier.updateMatrixWorld(true);
           const target = new T.Vector3(...f.position);
           let center = 0,

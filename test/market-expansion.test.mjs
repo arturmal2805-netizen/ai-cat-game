@@ -192,7 +192,7 @@ test("eight city attractions have distinct continuous closed journeys, animated 
   assert.equal(CITY_RIDES.length, 8);
   assert.equal(BUSINESSES.length, 14);
   assert.equal(CATALOG.filter(i => !i.islandOnly && !i.referenceSlide).length, 123);
-  assert.equal(CATALOG.filter(i => i.referenceSlide).length, 25);
+  assert.equal(CATALOG.filter(i => i.referenceSlide).length, 45);
   const paths = [];
   for (const spec of CITY_RIDES) {
     const g = makeAttraction(spec.id),

@@ -71,7 +71,7 @@ export function normalizeProgression(raw, game) {
         (id) => typeof id === "string" && /^[\w-]{1,40}$/.test(id),
       ),
     ),
-  ].slice(0, 200);
+  ].slice(0, 1000);
   return p;
 }
 export function addXP(game, amount, now = Date.now()) {

@@ -18,12 +18,17 @@ import {
 } from "./water-shading.js";
 import { installSlideWater } from "./slide-water.js";
 import { sampleRideActing, rideActingFrame } from "./ride-acting.js";
+import { atollProps } from "./atoll-slide-props.js";
+import { atollRideReaction } from "./atoll-slide-acting.js";
+import { slideRibbon } from "./slide-water.js";
+import {atollApproach} from './atoll-slide-navigation.js';
+const atollActingCache=new Map();
 
 function receivingPool(spec) {
   const g = new THREE.Group(),
     star = spec.kind === "cloud-star",
-    rx = star ? 8 : 7.2,
-    rz = star ? 6.5 : 4.5,
+    rx = spec.premiumWater ? spec.pool[2] : star ? 8 : 7.2,
+    rz = spec.premiumWater ? spec.pool[3] : star ? 6.5 : 4.5,
     outline = new THREE.Shape(),
     points = [];
   for (let i = 0; i <= 100; i++) {
@@ -36,7 +41,7 @@ function receivingPool(spec) {
     points.push(new THREE.Vector3(x, 0.24, -z));
   }
   outline.closePath();
-  g.position.set(3, spec.surfaceY - 0.155, 12);
+  g.position.set(spec.premiumWater ? spec.pool[0] : 3, spec.surfaceY - 0.155, spec.premiumWater ? spec.pool[1] : 12);
   g.name = star
     ? "Deep star-shaped receiving pool"
     : "Deep pearl receiving pool";
@@ -74,7 +79,7 @@ function receivingPool(spec) {
   const bed = new THREE.Mesh(
     bedGeo,
     applyUnderwaterLighting(
-      new THREE.MeshStandardMaterial({ color: 0x80d7df, roughness: 0.75 }),
+      new THREE.MeshStandardMaterial({ color: spec.premiumWater ? 0x289dab : 0x80d7df, roughness: 0.75 }),
       clock,
       0x22bed8,
     ),
@@ -82,7 +87,7 @@ function receivingPool(spec) {
   bed.position.y = -1.035;
   bed.name = "Real receiving pool floor";
   g.add(bed);
-  const material = waterMaterial(0x2bbfdc, 0.8),
+  const material = waterMaterial(spec.premiumWater ? 0x09c5df : 0x2bbfdc, spec.premiumWater ? .92 : 0.8),
     waterGeo = new THREE.ShapeGeometry(outline, 32);
   waterGeo.rotateX(-Math.PI / 2);
   const water = new THREE.Mesh(waterGeo, material);
@@ -134,14 +139,15 @@ function receivingPool(spec) {
 }
 function vortexBowl(b, spec, props, root) {
   const profile = Array.from({ length: 33 }, (_, i) => {
-      const r = (b.radius * i) / 32;
+      const inner = spec.premiumWater ? 6 : 0,
+        r = inner + ((b.radius - inner) * i) / 32;
       return new THREE.Vector2(r, bowlHeight(b, r));
     }),
     floorGeo = new THREE.LatheGeometry(profile, 72),
     floor = new THREE.Mesh(
       floorGeo,
       new THREE.MeshStandardMaterial({
-        color: spec.accent,
+        color: spec.kind === "blue-whirlpool" ? 0x8bb5ac : spec.accent,
         roughness: 0.32,
         metalness: 0.12,
         side: THREE.DoubleSide,
@@ -150,15 +156,13 @@ function vortexBowl(b, spec, props, root) {
   floor.position.set(b.x, 0, b.z);
   props.add(floor);
   const surfaceGeo = floorGeo.clone();
-  surfaceGeo.translate(0, 0.07, 0);
+  surfaceGeo.translate(0, spec.premiumWater ? .12 : 0.07, 0);
   const uv = surfaceGeo.attributes.uv,
     pos = surfaceGeo.attributes.position;
   for (let i = 0; i < uv.count; i++)
-    uv.setXY(
-      i,
-      0.5 + pos.getX(i) / (b.radius * 2),
-      0.5 + pos.getZ(i) / (b.radius * 2),
-    );
+    uv.setXY(i,
+      spec.premiumWater ? Math.atan2(pos.getZ(i),pos.getX(i))/(Math.PI*2)+.5 : 0.5 + pos.getX(i) / (b.radius * 2),
+      spec.premiumWater ? Math.hypot(pos.getX(i),pos.getZ(i))/b.radius : 0.5 + pos.getZ(i) / (b.radius * 2));
   const material = waterMaterial(0x3cbde5, 0.85, {
       flow: {
         speed: 6,
@@ -176,7 +180,7 @@ function vortexBowl(b, spec, props, root) {
     props,
     spec.color,
     b.radius,
-    0.2,
+    spec.kind === "blue-whirlpool" ? 0.09 : 0.2,
     b.x,
     b.base + b.depth + 0.16,
     b.z,
@@ -185,7 +189,7 @@ function vortexBowl(b, spec, props, root) {
   );
   rim.rotation.x = Math.PI / 2;
   rim.rotation.z = 0.5;
-  for (const side of [-1, 1])
+  for (const side of spec.premiumWater ? [] : [-1, 1])
     shape(
       props,
       "pole",
@@ -322,12 +326,16 @@ export function* referenceSlideSteps(id) {
   const raft = yield* batchModelSteps(moving, { combineColors: true });
   moving.clear();
   moving.add(raft);
-  yield* referenceProps(props, spec, route);
+  const scenic = spec.premiumWater
+    ? yield* atollProps(props, root, spec, route, receivingPool)
+    : (yield* referenceProps(props, spec, route), null);
   for (const [i, data] of route.geometry.entries()) {
     yield;
+    if(spec.premiumWater)data.flumeSteps=360;
     data.openEnd = !!data.receiver;
     data.openStart = !!route.bowls.length;
-    const color = [spec.color, spec.accent, 0xbcb4f7][i % 3],
+    const laneColors = spec.kind === "rainbow-race" ? [0xff809a,0xffb66b,0xffdf68,0x8ceaa0,0x71c9fc,0xc6a0fa] : [spec.color,spec.accent],
+      color = data.laneColor !== undefined ? laneColors[data.laneColor % laneColors.length] : [spec.color, spec.accent, 0xbcb4f7][i % 3],
       key = data.full ? "glass" : "open";
     if (!shells.has(key + color))
       shells.set(
@@ -342,7 +350,7 @@ export function* referenceSlideSteps(id) {
             }),
       );
     const track = new THREE.Mesh(
-      flume(data, DREAM_RADIUS, { full: data.full }),
+      data.wave || data.halfpipe ? slideRibbon({samples:data.samples,width:data.wave?8:5,offset:-2.5,shellDepth:1.8,steps:360,colors:[color]}) : flume(data, DREAM_RADIUS, { full: data.full }),
       shells.get(key + color),
     );
     track.name = "Authored wet flume " + (i + 1);
@@ -363,18 +371,23 @@ export function* referenceSlideSteps(id) {
     for (const side of [-1, 1]) {
       const edge = data.samples
         .filter((_, j) => j % 3 === 0)
-        .map((s) => s.p.clone().addScaledVector(s.right, side * DREAM_RADIUS));
+        .map((s) => s.p.clone().addScaledVector(s.right, side * (data.wave?8:data.halfpipe?5:DREAM_RADIUS)));
       const geometry = new THREE.TubeGeometry(
         new THREE.CatmullRomCurve3(edge),
-        160,
+        spec.premiumWater ? 320 : 160,
         0.055,
         5,
         false,
       );
+      if(data.coloredLoops){
+        const uv=geometry.attributes.uv,colors=new Float32Array(uv.count*3),palette=[0x79deff,0xf2a1d7,0xc39ff8,0xffd18a].map(c=>new THREE.Color(c));
+        for(let j=0;j<uv.count;j++){const c=palette[Math.min(3,Math.floor(uv.getX(j)*4))];colors.set([c.r,c.g,c.b],j*3);}
+        geometry.setAttribute('color',new THREE.BufferAttribute(colors,3));
+      }
       props.add(
         new THREE.Mesh(
           geometry,
-          new THREE.MeshStandardMaterial({
+          spec.premiumWater ? new THREE.MeshBasicMaterial({color:data.coloredLoops?0xffffff:color,vertexColors:!!data.coloredLoops}) : new THREE.MeshStandardMaterial({
             color: i % 2 ? spec.accent : 0xffdc93,
             metalness: 0.22,
             roughness: 0.38,
@@ -448,9 +461,9 @@ export function* referenceSlideSteps(id) {
           : null;
     channels.push({
       samples: data.samples,
-      width: 1.4,
+      width: data.wave ? 7.6 : data.halfpipe ? 4.6 : 1.4,
       offset: DREAM_WATER,
-      steps: 180,
+      steps: spec.premiumWater ? 360 : 180,
       colors: [0x88ecf7, 0x45cae4],
       outlet:
         lastOfPiece &&
@@ -491,9 +504,9 @@ export function* referenceSlideSteps(id) {
       props,
       "cube",
       0xffe3b6,
-      3,
+      spec.premiumWater ? spec.pool[0] : 3,
       1.45 - i * 0.19,
-      16.7 + i * 0.36,
+      (spec.premiumWater ? spec.pool[1] + spec.pool[3] : 16.7) + i * 0.36,
       3.8,
       0.22,
       0.48,
@@ -507,6 +520,8 @@ export function* referenceSlideSteps(id) {
   root.userData = {
     id,
     referenceSlide: true,
+    premiumWater: !!spec.premiumWater,
+    ...(scenic?.portals?.length?{landmarkPortals:scenic.portals}:{}),
     mega: true,
     handpainted: true,
     moving,
@@ -521,11 +536,12 @@ export function* referenceSlideSteps(id) {
     stats: {
       sourceMeshes: staticModel.userData.sourceMeshes,
       staticMeshes: staticModel.children.length,
-      waterDraws: 1 + water.length,
+      waterDraws: 1 + water.length + (scenic?.surfaceDraws||0),
     },
   };
   root.userData.update = (time, reduced = false) => {
     pool.userData.update(time, reduced);
+    scenic?.update(time, reduced);
     for (const m of water) advanceWater(m, time, reduced);
     if (galleryWater) advanceWater(galleryWater, time, reduced);
     if (bubbleFX) {
@@ -540,6 +556,7 @@ export function* referenceSlideSteps(id) {
       else moving.rotation.set(0, f.yaw || 0, 0);
     }
   };
+  if(spec.premiumWater){const approach=atollApproach(spec,scenic.groundObstacles);root.userData.approachFrame=approach.frame;root.userData.approachDuration=approach.duration;root.userData.approachYaw=approach.yaw;}
   installSlideWater(root, {
     channels,
     pool,
@@ -548,17 +565,20 @@ export function* referenceSlideSteps(id) {
     speed: 7,
   });
   yield;
-  const profiles = route.lanes.map((l) =>
+  const profiles = (spec.premiumWater && atollActingCache.get(spec.id)) || route.lanes.map((l) =>
       sampleRideActing(l.frame, route.duration, l.impacts),
     ),
     scratch = profiles.map(() => ({}));
-  root.userData.rideReaction = (time, reduced = false, lane = 0) =>
-    rideActingFrame(
+  if(spec.premiumWater)atollActingCache.set(spec.id,profiles);
+  root.userData.rideReaction = (time, reduced = false, lane = 0) => {
+    const reaction = rideActingFrame(
       profiles[lane % profiles.length],
       time,
       reduced,
       scratch[lane % scratch.length],
     );
+    return spec.premiumWater ? atollRideReaction(spec,route.lanes[lane % route.lanes.length],time,reaction,reduced) : reaction;
+  };
   root.userData.update(0, true);
   return root;
 }

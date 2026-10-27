@@ -63,7 +63,7 @@ test("every income-producing catalogue item pays its advertised XP at every tier
       const paid = collectIncome(g, "xp-register-0", now + hour);
       assert.equal(
         paid.xp,
-        businessXP(item.id, level),
+        Math.min(businessXP(item.id, level),xpForLevel(MAX_LEVEL)-g.progression.xp),
         item.id + " tier " + level,
       );
       assert.equal(paid.amount, revenueRate(item.id, level), item.id);

@@ -19,6 +19,7 @@ import {
 import { DIAMOND_MINE } from "./diamond-data.js";
 import { waterRideSpec } from "./water-ride-data.js";
 import { REFERENCE_SLIDES } from "./reference-slide-data.js";
+import { ATOLL_SLIDES, ATOLL_PARK } from "./atoll-slide-data.js";
 import {
   BUILDING_EXPANSIONS,
   expandedBuildingRadius,
@@ -1552,7 +1553,7 @@ for (const biome of BIOMES) {
     biome.price =
       Math.round((biome.price * (1 + biome.requiredLevel * 0.7)) / 10) * 10;
 }
-CATALOG.push(...REFERENCE_SLIDES);
+CATALOG.push(...REFERENCE_SLIDES, ...ATOLL_SLIDES);
 for (const product of CATALOG) {
   product.requiredLevel ||=
     levelOverrides[product.id] ||
@@ -2295,6 +2296,9 @@ BIOMES.push({
 export const RETIRED_BIOMES = BIOMES.filter(b=>isRetiredBiome(b.id));
 for(let i=BIOMES.length-1;i>=0;i--)if(isRetiredBiome(BIOMES[i].id))BIOMES.splice(i,1);
 for(const b of BIOMES)b.center=[...WORLD_CENTERS[b.id]];
+// An annex beyond the existing waterpark shore; all released island records,
+// local building addresses and centres above remain unchanged.
+BIOMES.push({...ATOLL_PARK, center:[...ATOLL_PARK.center]});
 for(const n of NEIGHBORS)if(isRetiredBiome(n.biome)){
   n.originBiome=n.biome;n.biome='homestead';
 }

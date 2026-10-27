@@ -85,6 +85,8 @@ import {
 } from "./slide-riders.js";
 import { createSlideAudio } from "./slide-audio.js";
 import { referenceSlideSteps } from "./reference-slide-assets.js";
+import { atollPreparationNeeded } from "./atoll-streaming.js";
+import {applyAtollSit} from './atoll-slide-acting.js';
 import { decorateBusiness } from "./business-decor.js";
 import {
   attachBuilderHammer,
@@ -815,6 +817,20 @@ export function createWorld(container, initialGame, callbacks = {}) {
     courtPreparing = new Map();
   const referenceModels = new Map(),
     referencePreparing = new Map();
+  function prepareReference(placement) {
+    if(referencePreparing.has(placement.id))return;
+    const task=prepareSceneSteps(referenceSlideSteps(placement.item),{scheduler:scenePreparation,priority:placement.biome});
+    referencePreparing.set(placement.id,task);
+    task.then(async model=>{
+      const current=()=>game.placements.find(p=>p.id===placement.id&&p.item===placement.item);
+      if(disposed||!current()||!isBuilt(current())){referencePreparing.delete(placement.id);disposeScenery(model);return;}
+      await shaderWarmup.prepare(model,{background:placement.biome!==focused});
+      if(disposed||!current()||!isBuilt(current())){referencePreparing.delete(placement.id);disposeScenery(model);return;}
+      const old=itemGroups.get(placement.id);
+      if(old){scene.remove(old);disposeScenery(old);itemGroups.delete(placement.id);}
+      referenceModels.set(placement.id,model);referencePreparing.delete(placement.id);sceneKey="";sync(game);
+    }).catch(error=>{referencePreparing.delete(placement.id);console.warn("Water attraction preparation failed",error);});
+  }
   let previewGeneration = 0;
   const courtBiome = byBiome("foodcourt"),
     courtFoods = new Map(),
@@ -944,6 +960,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       camera.fov,
       camera.aspect,
       g.rotation.y,
+      g.userData.premiumWater ? 1.02 : undefined,
     );
     desiredLook.copy(view.target);
     desiredDistance = view.distance;
@@ -1201,7 +1218,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           old?.userData.lowOnly &&
           desiredDistance < Math.max(110, (b.radius || 12) * 7) &&
           Math.hypot(b.center[0] - desiredLook.x, b.center[1] - desiredLook.z) <
-            (["jobcity","homestead"].includes(b.id) ? b.radius + 10 : 40)
+            (["jobcity","homestead"].includes(b.id) || b.waterpark ? b.radius + 10 : 40)
         ) {
           const snapshot = () => [
             game.placements.filter((p) => p.biome === id),
@@ -1941,47 +1958,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
         reference = !!byItem(placement.item)?.referenceSlide,
         prepared = referenceModels.get(placement.id),
         loadingReference = reference && built && !prepared;
-      if (loadingReference && !referencePreparing.has(placement.id)) {
-        const task = prepareSceneSteps(referenceSlideSteps(placement.item), {
-          scheduler: scenePreparation,
-          priority: placement.biome,
-        });
-        referencePreparing.set(placement.id, task);
-        task
-          .then(async (model) => {
-            referencePreparing.delete(placement.id);
-            const current = game.placements.find(
-              (p) => p.id === placement.id && p.item === placement.item,
-            );
-            if (disposed || !current || !isBuilt(current)) {
-              disposeScenery(model);
-              return;
-            }
-            await shaderWarmup.prepare(model, {
-              background: placement.biome !== focused,
-            });
-            if (
-              disposed ||
-              !game.placements.some((p) => p.id === placement.id)
-            ) {
-              disposeScenery(model);
-              return;
-            }
-            const old = itemGroups.get(placement.id);
-            if (old) {
-              scene.remove(old);
-              disposeScenery(old);
-              itemGroups.delete(placement.id);
-            }
-            referenceModels.set(placement.id, model);
-            sceneKey = "";
-            sync(game);
-          })
-          .catch((error) => {
-            referencePreparing.delete(placement.id);
-            console.warn("Water attraction preparation failed", error);
-          });
-      }
+      if (loadingReference && !byItem(placement.item)?.premiumWater)
+        prepareReference(placement);
       const g =
           built && !loadingReference
             ? prepared ||
@@ -2704,6 +2682,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
         start: performance.now(),
         duration: reduced
           ? 50
+          : attraction?.userData.approachDuration
+          ? attraction.userData.approachDuration(attraction.worldToLocal(chichiCarrier.position.clone()).toArray(),attraction.worldToLocal(destination.clone()).toArray())
           : Math.min(
               4800,
               1800 + chichiCarrier.position.distanceTo(destination) * 90,
@@ -3715,7 +3695,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           (b.id === HOUSING_ID
             ? island.userData.near(look)
             : Math.hypot(b.center[0] - look.x, b.center[1] - look.z) <
-              (["jobcity","homestead"].includes(b.id) ? b.radius + 10 : 39));
+              (["jobcity","homestead"].includes(b.id) || b.waterpark ? b.radius + 10 : 39));
       island.userData.detail.visible = close && !island.userData.lowOnly;
       island.userData.lowDetail.visible = !close || !!island.userData.lowOnly;
       if (close) ensureDetail(b.id);
@@ -4826,7 +4806,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           npcWalking,
           reduced,
         );
-        if (npcReaction) reactCat(n.model, npcReaction, reduced);
+        if (npcReaction) {reactCat(n.model, npcReaction, reduced);if(npcReaction.rideSit)applyAtollSit(n.model,npcReaction,reduced);}
         if (n.hatRig) {
           const resting =
               (spaVisit?.phase === "relax" &&
@@ -5010,6 +4990,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           );
         const d = travelDirection.copy(op.destination).sub(op.from);
         chichiCarrier.rotation.y = Math.atan2(d.x, d.z);
+        if(op.attraction?.userData.approachYaw){const g=op.attraction;chichiCarrier.rotation.y=g.rotation.y+g.userData.approachYaw(g.worldToLocal(op.from.clone()).toArray(),g.worldToLocal(op.destination.clone()).toArray(),p);}
         walking = p < 1;
         if (p === 1) {
           choiceExpression(op.decision);
@@ -5417,7 +5398,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         walking,
         reduced,
       );
-      if (reaction) reactCat(cat, reaction, reduced);
+      if (reaction) {reactCat(cat, reaction, reduced);if(reaction.rideSit)applyAtollSit(cat,reaction,reduced);}
     }
     const spongeFriend = itemGroups.get("bikini-sponge");
     if (spongeFriend?.userData.playing && spongeFriend.userData.pose) {
@@ -5635,6 +5616,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
       )
         animateAttraction(g, time);
       g.visible = visible;
+      const placement=g.userData.placement;
+      if(g.userData.loadingReference && byItem(placement?.item)?.premiumWater &&
+        atollPreparationNeeded(placement,byBiome(placement.biome),{
+          focused,look:desiredLook,distance,visible,moving:cameraMoving||!!pointerDown,pending:referencePreparing.size,
+        }))prepareReference(placement);
     }
     // A ready native interior must not sit inside its closed loading proxy.
     // Inspection masking applies to both representations of a city building.

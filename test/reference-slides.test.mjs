@@ -63,7 +63,7 @@ test("exactly 25 independent reference cards map the 5 by 5 grid and preserve ev
       CATALOG: CATALOG.filter(
         (s) => !s.referenceSlide && !s.id.startsWith("job-"),
       ),
-      BIOMES: BIOMES.filter((b) => !["jobcity", "cat-homes"].includes(b.id)),
+      BIOMES: BIOMES.filter((b) => !["jobcity", "cat-homes", "atoll-park"].includes(b.id)),
     }),
     "8a7fac96a66984cd80fb41ae3fd8995e9ff591b0b3fd2000867e0d50e3fdecf8",
   );

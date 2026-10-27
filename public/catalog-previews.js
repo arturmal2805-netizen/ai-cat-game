@@ -71,7 +71,7 @@ export async function catalogPreviews(
         size = bounds.getSize(new THREE.Vector3()),
         center = bounds.getCenter(new THREE.Vector3());
       const radius = Math.max(size.x, size.y, size.z, 1.4);
-      const camera = new THREE.PerspectiveCamera(34, 1.5, 0.1, 180);
+      const camera = new THREE.PerspectiveCamera(34, 1.5, item.premiumWater || item.waterpark ? .5 : 0.1, item.premiumWater || item.waterpark ? 2200 : 180);
       camera.position
         .copy(center)
         .add(

@@ -49,10 +49,10 @@ test("aquarium is appended separately and every established biome is byte-identi
     ),
   );
   assert.deepEqual(
-    BIOMES.filter((b) => !["aquarium", "jobcity", "cat-homes"].includes(b.id)),
+    BIOMES.filter((b) => !["aquarium", "jobcity", "cat-homes", "atoll-park"].includes(b.id)),
     fixture,
   );
-  assert.equal(BIOMES.length, 17);
+  assert.equal(BIOMES.length, 18);
   const b = byBiome("aquarium");
   assert.equal(b.requiredLevel, 14);
   assert.ok(b.radius > 11.65 * 3);

@@ -1,10 +1,11 @@
 import {cryptoSnapshotValid} from "./public/crypto-trading.js";
+import {PLACEMENT_LIMIT} from './public/economy.js';
 import {CryptoAIRequestLedger,validateCryptoRequest} from "./crypto-ai.mjs";
 import { housingSnapshotValid } from "./public/housing-system.js";
 import { familySnapshotValid } from "./public/family-system.js";
 import { chunkedSaveStorage } from "./chunked-save-store.mjs";
 import { mergeSharedWorld, SharedConflict } from "./shared-world.mjs";
-import { BIOMES } from "./public/game-data.js";
+import { BIOMES,byItem } from "./public/game-data.js";
 import {RETIRED_BIOME_IDS} from './public/world-layout.js';
 import {migrateRetiredIsland} from './public/world-migration.js';
 import { CityAIRequestLedger } from "./city-ai-vault.mjs";
@@ -77,7 +78,8 @@ export async function readSaveBody(request) {
         value.game.diamonds < 0 ||
         value.game.diamonds > 1000000)) ||
     !Array.isArray(value.game.placements) ||
-    value.game.placements.length > 60 ||
+    value.game.placements.length > PLACEMENT_LIMIT ||
+    value.game.placements.filter(p=>!byItem(p?.item)?.premiumWater).length>60 ||
     !Array.isArray(value.game.unlocked) ||
     new Set(value.game.unlocked).size !== value.game.unlocked.length ||
     value.game.unlocked.length > BIOMES.length + RETIRED_BIOME_IDS.length

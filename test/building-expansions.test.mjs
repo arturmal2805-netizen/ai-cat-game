@@ -29,7 +29,7 @@ const before = JSON.parse(
   now = Date.UTC(2026, 9, 18, 12);
 test("surviving expanded islands retain their area and themes after the requested map consolidation", () => {
   assert.deepEqual(ids.sort(), ["candy"]);
-  assert.equal(BIOMES.length, before.filter(b=>byBiome(b.id)).length + 2);
+  assert.equal(BIOMES.length, before.filter(b=>byBiome(b.id)).length + 3);
   for(const original of before.filter(b=>byBiome(b.id))){
     const b=byBiome(original.id), {radius,center,buildableAreaMultiplier,...rest}=b,
       {radius:oldRadius,center:oldCenter,...oldRest}=original;

@@ -57,7 +57,7 @@ const now = Date.UTC(2026, 9, 17),
     return unlockBiome(g, "foodcourt", now);
   };
 test("food court is an eighth-area separate island; every one of the other 24 records is identical", () => {
-  assert.equal(BIOMES.length, 17);
+  assert.equal(BIOMES.length, 18);
   assert.deepEqual(
     BIOMES.filter(
       (b) =>
@@ -68,6 +68,7 @@ test("food court is an eighth-area separate island; every one of the other 24 re
           "aquarium",
           "jobcity",
           "cat-homes",
+          "atoll-park",
         ].includes(b.id),
     ),
     JSON.parse(

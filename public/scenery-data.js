@@ -100,7 +100,12 @@ export function initialScenery(placements = []) {
 function buildInitialScenery(placements) {
   const result = [];
   for (const biome of BIOMES) {
-    if (["homestead", "aquarium", "jobcity", "cat-homes"].includes(biome.id))
+    if(biome.waterpark){
+      for(const [i,c] of [{type:'scenery-tree-palm',x:-340,z:90,scale:1.1},{type:'scenery-tree-palm',x:335,z:-70,scale:.95},{type:'scenery-boulder',x:-338,z:105,scale:1.2},{type:'scenery-boulder',x:330,z:-85,scale:1.3}].entries())
+        result.push({id:'decor-atoll-park-'+i,originBiome:biome.id,biome:biome.id,...c,rotation:0});
+      continue;
+    }
+    if (["homestead", "aquarium", "jobcity", "cat-homes", "atoll-park"].includes(biome.id))
       continue;
     const candidates = [
       { type: "scenery-landmark", x: -6, z: -6, scale: 0.88 },
@@ -408,6 +413,7 @@ function buildInitialScenery(placements) {
 
 // Authored arrangements rather than a uniform ring of repeated trees.
 const layouts = {
+  "atoll-park": [[-340,90,"palm",1.1],[335,-70,"palm",.95]],
   aquapark: [
     [-14, 0, "palm", 1.15],
     [-7, 14, "palm", 1.23],

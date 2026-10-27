@@ -119,8 +119,8 @@ test("expanded world retains 28 biomes and 123 established objects plus 25 new s
     CATALOG.filter((i) => !i.islandOnly && !i.referenceSlide).length,
     123,
   );
-  assert.equal(CATALOG.filter((i) => !i.islandOnly).length, 148);
-  assert.equal(BIOMES.length, 17);
+  assert.equal(CATALOG.filter((i) => !i.islandOnly).length, 168);
+  assert.equal(BIOMES.length, 18);
   assert.equal(
     CATALOG.find((i) => i.id === "coaster-mystic").buildMinutes,
     1440,
@@ -134,7 +134,7 @@ test("every biome unlocks a unique crop and every catalog object fits on an isla
   game.placements = [];
   game.scenery = []; // All movable objects can be stored to clear a ride site.
   for (const biome of BIOMES.filter(
-    (b) => !["aquarium", "jobcity", "cat-homes"].includes(b.id),
+    (b) => !["aquarium", "jobcity", "cat-homes", "atoll-park"].includes(b.id),
   ))
     assert.ok(
       CROPS.some((c) => c.biome === biome.id),

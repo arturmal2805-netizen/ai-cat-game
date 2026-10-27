@@ -37,7 +37,7 @@ function cottonGame() {
 
 test("cotton candy replaces Clockwork in place, has four times the land and room between neighbors", () => {
   const b = byBiome("clockwork");
-  assert.equal(BIOMES.length, 17);
+  assert.equal(BIOMES.length, 18);
   assert.equal(b.name, "Остров сладкой ваты");
   assert.equal(b.legendary, true);
   assert.ok((b.radius / 11.65) ** 2 > 3.8);

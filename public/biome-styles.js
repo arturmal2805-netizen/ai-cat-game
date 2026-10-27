@@ -1,5 +1,6 @@
 import { RENEWED_ISLANDS } from "./renewal-data.js";
 export const BIOME_STYLES = {
+  "atoll-park": {ground:0x99cdb4,leaf:0x74bb83,flower:0xf5b7d5,roof:0xe8cf98,kind:"palm",hero:"waterpark"},
   "cat-homes": {
     ground: 0xa7bd8a,
     leaf: 0x83a56e,

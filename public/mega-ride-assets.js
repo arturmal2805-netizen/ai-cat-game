@@ -25,7 +25,7 @@ export function flume(data, radius, { full = false, offset = 0, flat = 1 } = {})
     normals = [],
     uv = [],
     indices = [],
-    steps = 180,
+    steps = data.flumeSteps || 180,
     sides = full ? 18 : 14;
   for (let i = 0; i <= steps; i++) {
     const s = data.samples[Math.round((i / steps) * 600)];

@@ -15,7 +15,9 @@ export function reserveSlide(g, id) {
   while (used.has(slot)) slot++;
   const entry = d.approachOffset || d.rideFrame(0, true).position,
     w = d.footprint?.[0] || d.placement?.footprint?.[0] || 12,
-    queue = slot
+    queue = slot && d.premiumWater
+      ? [entry[0]+Math.cos((slot-1)*Math.PI/4)*8,entry[1],entry[2]+Math.sin((slot-1)*Math.PI/4)*8]
+      : slot
       ? [Math.min(entry[0], -w / 2 + 2), entry[1], entry[2] + slot * 4.1]
       : [...entry],
     ticket = {

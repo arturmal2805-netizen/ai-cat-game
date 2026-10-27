@@ -1,4 +1,5 @@
 import { HOMESTEAD_EXPANSION } from "./public/homestead-expansion.js";
+import {ATOLL_PARK_ID} from './public/atoll-slide-data.js';
 import {migrateRetiredIsland} from './public/world-migration.js';
 import {mergeCatLocations} from './public/cat-locations.js';
 import { mergeHousing } from "./public/housing-system.js";
@@ -20,6 +21,7 @@ import {
   ATTENTION_COINS,
   ATTENTION_COOLDOWN,
   footprint,
+  PLACEMENT_LIMIT,
 } from "./public/economy.js";
 import { BUILDING_EXPANSIONS } from "./public/building-expansions.js";
 import { BIOMES, byItem } from "./public/game-data.js";
@@ -384,6 +386,8 @@ export function mergeSharedWorld(base, current, incoming) {
     incoming = { ...incoming, unlocked: [...incoming.unlocked, "jobcity"] };
   if (current.housing && !incoming.unlocked.includes("cat-homes"))
     incoming = { ...incoming, unlocked: [...incoming.unlocked, "cat-homes"] };
+  if(current.unlocked?.includes(ATOLL_PARK_ID)&&!incoming.unlocked.includes(ATOLL_PARK_ID))
+    incoming={...incoming,unlocked:[...incoming.unlocked,ATOLL_PARK_ID]};
   // XP is an earned delta. Recalculate shared daily caps and level rewards once,
   // so two purchases cannot award the same level-up coins twice.
   const b = clone(base),
@@ -690,7 +694,8 @@ export function mergeSharedWorld(base, current, incoming) {
       );
   }
   if (
-    result.placements.length > 60 ||
+    result.placements.length > PLACEMENT_LIMIT ||
+    result.placements.filter(p=>!byItem(p.item)?.premiumWater).length > 60 ||
     result.unlocked.length > BIOMES.length ||
     result.coins > 10000000 ||
     result.coins < 0 ||

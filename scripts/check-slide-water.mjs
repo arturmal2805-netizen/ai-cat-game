@@ -22,12 +22,21 @@ const roots = [
 ];
 const source = `
 import * as T from 'three';import {makeAttraction,animateAttraction} from './public/world-assets.js';import {disposeScenery} from './public/scenery-models.js';
+import {createCat,animateCat,reactCat} from './public/cat-model.js';
+import {applyAtollSit} from './public/atoll-slide-acting.js';
 const renderer=new T.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.toneMapping=T.ACESFilmicToneMapping;renderer.setSize(720,600);document.body.style='margin:0';document.body.append(renderer.domElement);
 const scene=new T.Scene();scene.background=new T.Color(0xc4d9e3);scene.add(new T.HemisphereLight(0xe7f1ff,0x81856c,1.5));const sun=new T.DirectionalLight(0xffeed9,2.3);sun.position.set(-8,14,7);scene.add(sun);
-const camera=new T.PerspectiveCamera(35,1.2,.1,600);let model,extent,center;
-window.loadRide=async(id)=>{if(model){model.removeFromParent();disposeScenery(model);}model=makeAttraction(id);scene.add(model);const box=new T.Box3().setFromObject(model);center=box.getCenter(new T.Vector3());extent=box.getSize(new T.Vector3()).length();camera.position.copy(center).add(new T.Vector3(.6,.48,.85).multiplyScalar(extent*1.25));camera.lookAt(center);await renderer.compileAsync(scene,camera);window.model=model;draw(5);};
+const camera=new T.PerspectiveCamera(35,1.2,.5,600);let model,extent,center,guest,carrier;
+window.loadRide=async(id)=>{camera.up.set(0,1,0);carrier?.removeFromParent();if(model){model.removeFromParent();disposeScenery(model);}model=makeAttraction(id);scene.add(model);const box=new T.Box3().setFromObject(model);center=box.getCenter(new T.Vector3());extent=box.getSize(new T.Vector3()).length();camera.position.copy(center).add(new T.Vector3(.6,.48,.85).multiplyScalar(extent*1.25));camera.lookAt(center);await renderer.compileAsync(scene,camera);window.model=model;draw(5);};
+window.reviewRider=async(u)=>{if(!guest){guest=createCat('happy');guest.scale.setScalar(.63);carrier=new T.Group();carrier.add(guest);}
+ const route=model.userData.route,lane=route.lanes[0],legs=lane.legs.filter(l=>['ride','vortex'].includes(l.phase)),leg=legs[Math.floor((legs.length-1)*u)],t=leg.start+leg.duration*(.2+u*.6),f=lane.frame(t);
+ model.add(carrier);carrier.visible=true;carrier.position.set(...f.position);if(f.quaternion)carrier.quaternion.fromArray(f.quaternion);else carrier.rotation.set(f.pitch||0,f.yaw||0,f.roll||0);
+ animateCat(guest,t,false);const reaction=model.userData.rideReaction(t,false,0);reactCat(guest,reaction);applyAtollSit(guest,reaction);model.userData.rideElapsed=t;model.userData.update(t,false);
+ const p=new T.Vector3(...f.position),right=new T.Vector3(1,0,0).applyQuaternion(carrier.quaternion),up=new T.Vector3(0,1,0).applyQuaternion(carrier.quaternion),forward=new T.Vector3(0,0,1).applyQuaternion(carrier.quaternion);camera.up.copy(up);camera.position.copy(p).addScaledVector(right,4.5).addScaledVector(up,3.6).addScaledVector(forward,6);camera.lookAt(p.clone().addScaledVector(up,1));await renderer.compileAsync(scene,camera);renderer.render(scene,camera);
+ return {phase:f.phase,elapsed:t,position:f.position,reaction:{...reaction},seat:[...carrier.position],finite:f.position.every(Number.isFinite)};};
+window.hideRider=()=>{carrier?.removeFromParent();delete model.userData.rideElapsed;reviewAngle();draw(63);};
 window.draw=(time,reduced=false)=>{if(model.userData.update)model.userData.update(time,reduced);else animateAttraction(model,reduced?0:time);model.userData.moving.visible=false;for(const vehicle of model.userData.vehicles||[])vehicle.visible=false;renderer.render(scene,camera);};
-window.reviewAngle=(grazing=false)=>{camera.position.copy(center).add(new T.Vector3(grazing?.85:.6,grazing?.12:.48,grazing?.85:.85).multiplyScalar(extent*1.25));camera.lookAt(center);};
+window.reviewAngle=(grazing=false)=>{camera.up.set(0,1,0);camera.position.copy(center).add(new T.Vector3(grazing?.85:.6,grazing?.12:.48,grazing?.85:.85).multiplyScalar(extent*1.25));camera.lookAt(center);};
 window.check={renderer,scene,camera};window.ready=true;`;
 const staticAudit = `
 import {configureStaticSubmissions} from './public/static-submissions.js';
@@ -50,7 +59,7 @@ for (const root of roots) {
               "renderer.toneMapping=",
               "configureStaticSubmissions(renderer);renderer.toneMapping=",
             )
-          : source,
+          : source.replace("import {applyAtollSit} from './public/atoll-slide-acting.js';", "const applyAtollSit=()=>{};"),
       resolveDir: root.path,
       loader: "js",
     },
@@ -100,6 +109,7 @@ try {
         !process.env.CHICHI_SLIDE_FILTER ||
         process.env.CHICHI_SLIDE_FILTER.split(",").includes(r.id),
     )) {
+      if(root.name==='before' && spec.id.startsWith('slide-atoll-'))continue;
       await page.evaluate((id) => loadRide(id), spec.id);
       const stats = await page.evaluate(
         async (timedFrames) => {
@@ -188,6 +198,14 @@ try {
       await page.screenshot({
         path: resolve(folder, root.name + "-" + spec.id + ".png"),
       });
+      if(root.name==='after' && spec.id.startsWith('slide-atoll-') && process.env.CHICHI_ATOLL_RIDER_AUDIT){
+        stats.riderFrames=[];
+        for(const [i,u] of [.12,.5,.9].entries()){
+          const frame=await page.evaluate(u=>reviewRider(u),u);assert.equal(frame.finite,true);
+          await page.screenshot({path:resolve(folder,root.name+'-'+spec.id+'-rider-'+i+'.png')});stats.riderFrames.push(frame);
+        }
+        await page.evaluate(()=>hideRider());
+      }
       if (root.name === "after")
         for (const view of ["flow", "outlet"]) {
           const exists = await page.evaluate(
@@ -231,7 +249,7 @@ try {
           "slide-rainbow-tsunami",
         ]
           .concat(
-            WATER_RIDES.filter((r) => r.id.startsWith("slide-dream-")).map(
+            WATER_RIDES.filter((r) => /slide-(dream|atoll)-/.test(r.id)).map(
               (r) => r.id,
             ),
           )
@@ -258,11 +276,12 @@ try {
       "slide-rainbow-tsunami",
       ...WATER_RIDES.filter(
         (r) =>
-          r.id.startsWith("slide-dream-") &&
+          /slide-(dream|atoll)-/.test(r.id) &&
           (!process.env.CHICHI_SLIDE_FILTER ||
             process.env.CHICHI_SLIDE_FILTER.split(",").includes(r.id)),
       ).map((r) => r.id),
     ]) {
+      if(root.name==='before' && id.startsWith('slide-atoll-'))continue;
       await page.evaluate(async (id) => {
         const { renderer: r, camera: c } = check;
         r.setPixelRatio(2);

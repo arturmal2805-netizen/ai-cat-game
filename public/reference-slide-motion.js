@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { sampleMegaCurve } from "./mega-ride-motion.js";
+import { atollRecipe, atollStair } from "./atoll-slide-recipes.js";
 
 export const DREAM_SEAT = -1.6,
   DREAM_WATER = -1.95,
@@ -375,11 +376,13 @@ function runData(part) {
   for (let i = 0; i < samples.length; i++) {
     const s = samples[i],
       forward = new THREE.Vector3(0, 0, 1).applyQuaternion(s.q);
+    let insideLoop = false;
     if (part.loops) {
       const knot =
           data.curve.getUtoTmapping(i / 600) * (part.points.length - 1),
         range = part.loops.find(([a, b]) => knot >= a && knot <= b);
       if (range) {
+        insideLoop = true;
         const right = new THREE.Vector3(0, 0, -1)
             .addScaledVector(forward, forward.z)
             .normalize(),
@@ -403,7 +406,7 @@ function runData(part) {
       s.up.copy(up);
       s.right.copy(right);
       s.q.setFromRotationMatrix(m.makeBasis(right, up, forward));
-    } else if (i >= 450) {
+    } else if (i >= 450 && !(part.keepInversion && insideLoop)) {
       const right = new THREE.Vector3(forward.z, 0, -forward.x).normalize();
       if (right.lengthSq() < 0.5) continue;
       const up = new THREE.Vector3().crossVectors(forward, right).normalize(),
@@ -444,7 +447,7 @@ function anchor(data, target, end) {
 }
 
 function makeLane(spec, lane) {
-  const authored = recipe(spec, lane),
+  const authored = spec.premiumWater ? atollRecipe(spec, lane) : recipe(spec, lane),
     legs = [],
     geometry = [],
     impacts = [],
@@ -469,14 +472,15 @@ function makeLane(spec, lane) {
   };
   const first = authored.parts[0].points[0],
     height = first[1],
-    entry = dreamStair(height, 0),
-    top = dreamStair(height, 1),
+    stair = spec.premiumWater ? atollStair : dreamStair,
+    entry = stair(height, 0),
+    top = stair(height, 1),
     board = datasets.get(authored.parts[0]).at(0).position;
   leg(1, "board", () => ({ position: entry, walking: false }));
   leg(Math.max(1, height * 0.25), "climb", (u) => ({
-    position: dreamStair(height, u),
+    position: stair(height, u),
     walking: true,
-    yaw: -u * TAU * Math.round(height / 8),
+    yaw: spec.premiumWater ? Math.PI / 2 + u * TAU * Math.round(height / 9) : -u * TAU * Math.round(height / 8),
   }));
   leg(Math.max(1.2, V(top).distanceTo(V(board)) / 3.5), "board", (u) => ({
     position: top.map((x, i) => x + (board[i] - x) * u),
@@ -496,7 +500,7 @@ function makeLane(spec, lane) {
               Math.sqrt(Math.max(20, 64 + 2 * 9.81 * (spec.height - p.y))) *
                 0.77,
               4.5,
-              28,
+              spec.premiumWater ? 40 : 28,
             );
       total += p.distanceTo(samples[i - 1].p) / speed;
       times[i] = total;
@@ -532,6 +536,10 @@ function makeLane(spec, lane) {
           samples: section,
           full: !!part.full,
           rainbow: part.rainbow,
+          wave: part.wave,
+          halfpipe: part.halfpipe,
+          laneColor: part.laneColor,
+          coloredLoops: part.coloredLoops,
           lift: part.lift,
           receiver: part.receiver,
           stage,
@@ -605,7 +613,7 @@ function makeLane(spec, lane) {
     }
   }
   const end = last.position,
-    hit = [3, 1.67, 12];
+    hit = spec.premiumWater ? [end[0], 1.67, spec.pool[1]] : [3, 1.67, 12];
   if (V(end).distanceTo(V(hit)) > 0.01)
     leg(0.65, "drain", (u) => ({
       position: end.map((x, i) => x + (hit[i] - x) * u),
@@ -613,11 +621,14 @@ function makeLane(spec, lane) {
     }));
   impacts.push({ time: clock, point: hit, power: 2.4 });
   leg(1.5, "splash", (u) => ({
-    position: [3, 1.67 - Math.sin(u * Math.PI) * 0.3, 12],
+    position: [hit[0], 1.67 - Math.sin(u * Math.PI) * 0.3, hit[2]],
     paw: 0.2,
     surprise: (1 - u) * 0.8,
   }));
-  const back = [
+  const back = spec.premiumWater ? [hit,
+      [hit[0], 1.67, spec.pool[1] + spec.pool[3]],
+      [hit[0], .16, 49], [-53, .16, 49], [-53, .16, entry[2]], entry,
+    ] : [
       hit,
       [3, 1.67, 17],
       [3, 0.16, 20],
@@ -672,12 +683,12 @@ function makeLane(spec, lane) {
 }
 export function createReferenceRoute(spec) {
   if (cache.has(spec.id)) return cache.get(spec.id);
-  const n =
-      spec.kind === "ribbon-tower"
+  const n = spec.lanes ||
+      (spec.kind === "ribbon-tower"
         ? 3
         : ["canyon-twins", "twin-flights"].includes(spec.kind)
           ? 2
-          : 1,
+          : 1),
     lanes = Array.from({ length: n }, (_, i) => makeLane(spec, i)),
     first = lanes[0],
     route = {

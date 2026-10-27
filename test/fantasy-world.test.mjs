@@ -19,7 +19,7 @@ test("every habitat has finite detailed scenery and an explicit, separate distan
     assert.equal(root.userData.lowDetail.visible, false);
     assert.ok(
       root.userData.stats.staticMeshes <=
-        (["aquarium", "jobcity", "cat-homes"].includes(biome.id)
+        (["aquarium", "jobcity", "cat-homes", "atoll-park"].includes(biome.id)
           ? 12
           : ["sakura", "autumn"].includes(biome.id)
             ? 10
@@ -29,7 +29,7 @@ test("every habitat has finite detailed scenery and an explicit, separate distan
       `${biome.id}: static meshes must stay within its distinct material buckets`,
     );
     assert.ok(
-      root.userData.stats.sourceMeshes > (biome.id === "homestead" ? 50 : 200),
+      root.userData.stats.sourceMeshes > (biome.id === "homestead" || biome.waterpark ? 50 : 200),
     );
     root.traverse((object) => {
       if (!object.isMesh) return;

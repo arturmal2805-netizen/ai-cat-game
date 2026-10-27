@@ -721,7 +721,7 @@ function renderShop() {
   shopViewKey = viewKey;
   $("shop-coins").textContent = money(game.coins);
   $("shop-tabs").replaceChildren();
-  for (const category of CATEGORIES) {
+  for (const category of [...CATEGORIES, {id:"atoll-water",name:"Водні світи · 20",icon:"🌊"}]) {
     const button = document.createElement("button");
     button.setAttribute("role", "tab");
     button.setAttribute(
@@ -748,11 +748,12 @@ function renderShop() {
           (i) =>
             !i.islandOnly &&
             (shopCategory === "all" ||
+              (shopCategory === "atoll-water" && i.premiumWater) ||
               (shopCategory === "bag" && game.inventory[i.id] > 0) ||
               i.category === shopCategory),
         );
   collection = collection.filter((i) =>
-    (i.name + " " + (i.description || i.subtitle || ""))
+    (i.name + " " + (i.description || i.subtitle || "") + " " + (i.collection || ""))
       .toLocaleLowerCase("ru")
       .includes(query),
   );
@@ -763,6 +764,7 @@ function renderShop() {
       owned = land
         ? game.unlocked.includes(entry.id)
         : game.inventory[entry.id] || 0;
+    const acquired = !land && entry.premiumWater && (owned || game.placements.some(p=>p.item===entry.id));
     const card = document.createElement("article");
     card.className = "shop-card";
     card.dataset.product = entry.id;
@@ -805,10 +807,10 @@ function renderShop() {
         (entry.rarity === "Легендарное" ? "♔ " : "✦ ") + entry.rarity;
       art.append(tier);
     }
-    if (owned) {
+    if (owned || acquired) {
       const badge = document.createElement("span");
       badge.className = "owned";
-      badge.textContent = land ? "Открыт" : "В сумке: " + owned;
+      badge.textContent = land ? "Открыт" : acquired ? "Придбано" : "В сумке: " + owned;
       art.append(badge);
     }
     const info = document.createElement("div");
@@ -945,6 +947,7 @@ function beginPlacement(item, ignoreId = null, scenery = false) {
     (p) => p.id === ignoreId,
   );
   if (old) biome = old.biome;
+  else if(byItem(item)?.premiumWater && game.unlocked.includes("atoll-park"))biome="atoll-park";
   const space =
     (old && !old.stored ? old : null) ||
     findSpace(game, item, biome, 0, ignoreId);

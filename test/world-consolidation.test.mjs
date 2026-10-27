@@ -10,7 +10,7 @@ import {activeCats} from '../public/cat-roster.js';
 import {mergeSharedWorld} from '../shared-world.mjs';
 const before=JSON.parse(fs.readFileSync(new URL('./fixtures/pre-consolidation-biomes.json',import.meta.url))),now=Date.UTC(2026,9,21,12);
 test('exactly the thirteen requested islands disappear and every remaining theme/property stays intact',()=>{
- assert.equal(BIOMES.length,17);
+ assert.equal(BIOMES.length,18);
  assert.deepEqual(before.filter(b=>!byBiome(b.id)).map(b=>b.id).sort(),[...RETIRED_BIOME_IDS].sort());
  for(const old of before.filter(b=>!isRetiredBiome(b.id))){
   const {center:oc,radius:or,...oldTheme}=old,{center:nc,radius:nr,...newTheme}=byBiome(old.id);
@@ -23,13 +23,13 @@ test('exactly the thirteen requested islands disappear and every remaining theme
  }
 });
 test('all seventeen islands have wide unobstructed shore roads, with no retired nodes or aquarium transit',()=>{
- const roads=worldRoads(BIOMES),seen=new Set(['moon']);assert.equal(roads.length,16);assert.ok(WORLD_ROAD_WIDTH>=4.4);
+ const roads=worldRoads(BIOMES),seen=new Set(['moon']);assert.equal(roads.length,17);assert.ok(WORLD_ROAD_WIDTH>=4.4);
  for(const r of roads){assert.ok(seen.has(r.from));assert.ok(!seen.has(r.to));seen.add(r.to);
   assert.ok(byBiome(r.from)&&byBiome(r.to));assert.notEqual(r.from,'aquarium');
   if(r.to==='aquarium')assert.ok(r.end.z>byBiome('aquarium').center[1]+25,'cars arrive at the actual front gate');
-  assert.ok(Math.hypot(r.start.x-r.end.x,r.start.z-r.end.z)<30);
+  assert.ok(Math.hypot(r.start.x-r.end.x,r.start.z-r.end.z)<(r.to==='atoll-park'?70:30));
  }
- assert.equal(seen.size,17);
+ assert.equal(seen.size,18);
 });
 
 test('new removals keep all ten previously released migration districts at their exact addresses',()=>{

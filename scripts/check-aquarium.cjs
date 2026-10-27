@@ -157,6 +157,13 @@ async function localWorker() {
     );
     for (const p of g.placements)
       if (p.item === "coaster-lagoon") p.readyAt = now - 1000;
+    if(process.env.CHICHI_ATOLL_AUDIT){
+      const {ATOLL_SLIDES,ATOLL_PARK_ID}=await import(root+'/public/atoll-slide-data.js');
+      g.unlocked=['moon',ATOLL_PARK_ID];g.placements=g.placements.filter(p=>p.id.startsWith('welcome-'));
+      g.progression.xp=xpForLevel(30);g.adoption.cats=[{id:'adopt-crumb',homeBiome:ATOLL_PARK_ID},{id:'adopt-marshmallow',homeBiome:ATOLL_PARK_ID}];
+      for(const s of ATOLL_SLIDES.slice(0,19)){g.coins=10000000;Object.assign(g,purchase(g,s.id,now));const p=findSpace(g,s.id,ATOLL_PARK_ID);Object.assign(g,placeItem(g,s.id,ATOLL_PARK_ID,p.x,p.z,0,now));g.placements.at(-1).readyAt=0;}
+      g.coins=8000000;g.catPosition={biome:ATOLL_PARK_ID,x:-305,z:0};g.catDestinations={};
+    }
     if (process.env.CHICHI_SCENE_STRESS) {
       const { ADOPTION_CATS } = await import(root + "/public/cat-breeds.js");
       const {REFERENCE_SLIDES}=await import(root+"/public/reference-slide-data.js");
@@ -429,7 +436,7 @@ async function localWorker() {
                   )
                   .replace(
                     "    const time = now / 1000;",
-                    "    if(window.__lagoonQA?.freeze){requestAnimationFrame(loop);return;}\n    if(window.__lagoonQA?.pinnedRide !== undefined && operation?.stage === 'activity') operation.activityStart=now-window.__lagoonQA.pinnedRide*1000;\n    if(window.__lagoonQA?.pinnedSocial){const p=window.__lagoonQA.pinnedSocial,v=p.heroMeeting?operation:residentPlay.get(p.actorId);if(v)v.activityStart=now-p.time*1000;}\n    const time = now / 1000;",
+                    "    if(window.__lagoonQA?.freeze){requestAnimationFrame(loop);return;}\n    if(window.__lagoonQA?.pinnedRide !== undefined && operation?.stage === 'activity') operation.activityStart=now-window.__lagoonQA.pinnedRide*1000;\n    for(const p of window.__lagoonQA?.atollPinnedResidents||[]){const v=residentPlay.get(p.id);if(v?.phase==='activity')v.activityStart=now-p.time*1000;}\n    if(window.__lagoonQA?.pinnedSocial){const p=window.__lagoonQA.pinnedSocial,v=p.heroMeeting?operation:residentPlay.get(p.actorId);if(v)v.activityStart=now-p.time*1000;}\n    const time = now / 1000;",
                   )
                   .replace(
                     "    const dt = Math.min((now - previousTime) / 1000, 0.1);",
@@ -588,6 +595,11 @@ async function localWorker() {
       const {checkFrameProfile}=await import("./check-frame-profile.mjs");
       await checkFrameProfile(page,review);
       fs.writeFileSync(path.join(review,"browser-errors.json"),JSON.stringify({errors,httpErrors},null,2));
+      assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;
+    }
+    if(process.env.CHICHI_ATOLL_AUDIT){
+      const {checkAtollApp}=await import('./check-atoll-app.mjs');await checkAtollApp(page,review);
+      fs.writeFileSync(path.join(review,'browser-errors.json'),JSON.stringify({errors,httpErrors},null,2));
       assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;
     }
     if(process.env.CHICHI_HUD_TEXT_AUDIT){

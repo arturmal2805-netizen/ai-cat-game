@@ -3,6 +3,7 @@ import { jobCityBiomeSteps } from "./jobcity-biome.js";
 import { aquariumBiomeSteps } from "./aquarium-biome.js";
 import { bikiniBiomeSteps } from "./bikini-biome.js";
 import { homesteadBiomeSteps } from "./homestead-biome.js";
+import { atollParkSteps } from "./atoll-park-biome.js";
 import { foodcourtBiomeSteps } from "./foodcourt-biome.js";
 import { mosasaurBiomeSteps } from "./mosasaur-biome.js";
 import { chillBiomeSteps } from "./chill-biome.js";
@@ -175,6 +176,7 @@ export function* biomeSceneSteps(
   { preview = false, placements = [], scenery = null, lowOnly = false } = {},
 ) {
   yield;
+  if (biome.waterpark) return yield* atollParkSteps(biome, {lowOnly,scenery:scenery??[]});
   if (biome.id === "cat-homes")
     return yield* housingBiomeSteps(biome, { lowOnly });
   if (biome.id === "jobcity")

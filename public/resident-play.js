@@ -171,7 +171,9 @@ export function createResidentPlay({
           ? object.worldToLocal(destination.clone())
           : null,
       started: now,
-      travel: Math.min(
+      travel: object?.userData.approachDuration
+        ? object.userData.approachDuration(object.worldToLocal(n.carrier.position.clone()).toArray(),object.worldToLocal(destination.clone()).toArray())
+        : Math.min(
         6500,
         Math.max(900, n.carrier.position.distanceTo(destination) * 160),
       ),
@@ -225,6 +227,7 @@ export function createResidentPlay({
         v.destination.x - v.from.x,
         v.destination.z - v.from.z,
       );
+      if(g?.userData.approachYaw)result.yaw=g.rotation.y+g.userData.approachYaw(g.worldToLocal(v.from.clone()).toArray(),g.worldToLocal(v.destination.clone()).toArray(),t);
       result.walking = t < 1;
       result.mood = "happy";
       if (t >= 1) {
