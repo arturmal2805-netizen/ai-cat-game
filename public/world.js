@@ -40,6 +40,7 @@ import {
   updateCatPickingBounds,
 } from "./cat-picking-bounds.js";
 import { skipUnusedSkinJoints } from "./native-skinning.js";
+import { cacheNativeSkinBounds } from "./native-skin-bounds.js";
 import {
   enableCatRenderBatch,
   batchSceneCats,
@@ -502,6 +503,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   const incomeCache = new Map();
   let cat = createCat(initialGame.cat.mood);
   skipUnusedSkinJoints(cat);
+  cacheNativeSkinBounds(cat);
   chichiCarrier.add(cat);
   scene.add(chichiCarrier);
   const heroVisibility = attractionVisibility(chichiCarrier);

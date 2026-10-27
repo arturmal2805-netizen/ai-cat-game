@@ -12,6 +12,7 @@ const output =
   process.env.CHICHI_CAT_BATCH_REVIEW || "/tmp/chichi-cat-batching";
 await mkdir(output, { recursive: true });
 const native = !!process.env.CHICHI_NATIVE_SKIN_CHECK;
+const boundsCheck = !!process.env.CHICHI_NATIVE_BOUNDS_CHECK;
 const atlasCheck = !!process.env.CHICHI_CAT_ATLAS_CHECK;
 const colonyCheck = !!process.env.CHICHI_COLONY_CHECK;
 let source = `
@@ -33,7 +34,7 @@ window.compare=(mood,time,walking,reaction)=>{
  let changed=0,large=0,error=0,max=0;for(let i=0;i<before.length;i++){const d=Math.abs(before[i]-after[i]);if(d){changed++;error+=d;max=Math.max(max,d);if(d>8)large++;}}
  return {mood,time,walking,old,current,changed,large,max,mean:error/before.length,pixels:before.length/4};
 };window.ready=true;`;
-if (native)
+if (native && !boundsCheck)
   source = source
     .replace(
       "import * as T from 'three';",
@@ -51,6 +52,12 @@ if (native)
       "function mode(batched){b.setEnabled(batched);}",
       "function mode(optimized){if(optimized)skipUnusedSkinJoints(cat);else for(const [m,[compile,key]] of nativeMaterials){m.onBeforeCompile=compile;m.customProgramCacheKey=key;delete m.userData.skipUnusedSkinJoints;m.needsUpdate=true;}}",
     );
+if(boundsCheck)source=source
+ .replace("import * as T from 'three';", "import * as T from 'three';import{cacheNativeSkinBounds}from'./public/native-skin-bounds.js';import{skipUnusedSkinJoints}from'./public/native-skinning.js';")
+ .replace('let cat;', 'let cat,boundMethods;')
+ .replace('enableCatRenderBatch(cat);', "skipUnusedSkinJoints(cat);cacheNativeSkinBounds(cat);boundMethods=new Map();cat.traverse(m=>{if(m.isSkinnedMesh)boundMethods.set(m,m.computeBoundingSphere);});")
+ .replace('cat.userData.renderBatches.update();', 'cat.userData.renderBatches?.update();')
+ .replace('function mode(batched){b.setEnabled(batched);}', 'function mode(optimized){for(const[m,fast]of boundMethods){m.boundingSphere=null;m.computeBoundingSphere=optimized?fast:T.SkinnedMesh.prototype.computeBoundingSphere;}}');
 if (atlasCheck)
   source = source
     .replace(
@@ -126,7 +133,7 @@ try {
   });
   await page.goto("http://127.0.0.1:" + server.address().port);
   await page.waitForFunction(() => window.ready);
-  for (const [name, options] of native
+  for (const [name, options] of native || boundsCheck
     ? [["chichi", {}]]
     : [
         ["plush", { breed: "british", color: 0xa9adb7, build: "plush" }],
@@ -150,7 +157,8 @@ try {
         r.mean < 0.02 && r.large < r.pixels * 0.0002,
         JSON.stringify(r),
       );
-      if (native || atlasCheck) assert.equal(r.current.calls, r.old.calls);
+      if(boundsCheck){assert.equal(r.changed,0);assert.equal(r.current.triangles,r.old.triangles);}
+      if (native || atlasCheck || boundsCheck) assert.equal(r.current.calls, r.old.calls);
       else assert.ok(r.current.calls < r.old.calls, JSON.stringify(r));
     }
   }
