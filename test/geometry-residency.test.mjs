@@ -272,3 +272,20 @@ test("refault telemetry counts restored shared streams only once and ordinary di
   assert.equal(f.residency.stats.refaults,2,"explicit disposal is not a cache-eviction return");
   f.residency.dispose();
 });
+
+test("temporary memory overflow reclaims cold scenery before the oldest protected returning camera buffers",()=>{
+ const a=new THREE.BoxGeometry(),bytes=[a.index,...Object.values(a.attributes)].reduce((n,x)=>n+x.array.byteLength,0),
+   f=fixture({budget:bytes*3,refaultBudget:bytes,grace:10000}),others=Array.from({length:4},()=>a.clone());
+ f.renderer.info={render:{frame:1}};f.time(0);f.draw(a);others.slice(0,3).forEach(g=>f.draw(g));
+ f.renderer.info.render.frame=4;f.time(200);others.slice(0,3).forEach(g=>f.draw(g));f.residency.sweep();
+ assert.equal(f.residency.stats.evicted,1);
+ // Return a, then cross the allowance with a cold upload. a is oldest by
+ // timestamp, but deleting a newer cold buffer can satisfy the entire budget.
+ f.renderer.info.render.frame=5;f.time(240);f.draw(a);assert.equal(f.residency.stats.rapidRefaults,1);
+ f.renderer.info.render.frame=6;f.time(280);others.forEach(g=>f.draw(g));
+ f.renderer.info.render.frame=9;f.time(400);f.residency.sweep();
+ assert.ok(f.residency.stats.bytes<=bytes*3);
+ const refaults=f.residency.stats.refaults;f.draw(a);
+ assert.equal(f.residency.stats.refaults,refaults,'the learned hot buffer must survive temporary overflow');
+ f.residency.dispose();
+});

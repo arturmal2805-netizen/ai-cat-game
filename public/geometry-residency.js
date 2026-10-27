@@ -132,38 +132,40 @@ export function createGeometryResidency(
       nextSweep = now + (frameRetirement ? 100 : 1000);
       const cutoff = now - grace,
         frame = renderer.info?.render.frame,
-        idle = r => !(refaultProtection && refaultLimit > budget &&
-          stats.bytes <= refaultLimit && now < r.holdUntil) &&
-          (r.used < cutoff || (frameRetirement && !timeGrace.has(r.geometry) &&
-          Number.isFinite(frame) && r.frame >= 0 && frame - r.frame >= idleFrames)),
-        candidates = [...records.values()]
-          .filter(idle)
-          .sort((a, b) => a.used - b.used),
-        considered = new Set();
+        idle = r => r.used < cutoff || (frameRetirement && !timeGrace.has(r.geometry) &&
+          Number.isFinite(frame) && r.frame >= 0 && frame - r.frame >= idleFrames),
+        held = r => refaultProtection && refaultLimit > budget && now < r.holdUntil,
+        candidates = [...records.values()].filter(idle).sort((a, b) => a.used - b.used);
       const start = clock();
-      for (const candidate of candidates) {
-        if (stats.bytes <= budget || clock() - start > 2) break;
-        if (considered.has(candidate) || !records.has(candidate.geometry))
-          continue;
-        // Three deletes shared attribute buffers when ANY owning geometry is
-        // disposed. Retire the whole connected component, or leave it intact
-        // when even one owner has recently been rendered.
-        const group = new Set([candidate]);
-        let safe = true;
-        for (const record of group) {
-          considered.add(record);
-          if (!idle(record)) {
-            safe = false;
-            break;
+      // Reclaim cold scenery BEFORE breaking a learned camera working set.
+      // Testing the total inside idle() used to sacrifice the oldest returning
+      // buffer merely because an unrelated cold upload temporarily crossed the
+      // allowance. Both passes share the original 2 ms cleanup budget.
+      for (const pressure of [false, true]) {
+        if (pressure && stats.bytes <= refaultLimit) break;
+        const considered = new Set(), target = pressure ? refaultLimit : budget;
+        for (const candidate of candidates) {
+          if (stats.bytes <= target || clock() - start > 2) break;
+          if (considered.has(candidate) || !records.has(candidate.geometry)) continue;
+          // Three deletes shared attribute buffers when ANY owning geometry is
+          // disposed. Retire the whole connected component only when safe.
+          const group = new Set([candidate]);
+          let safe = true;
+          for (const record of group) {
+            considered.add(record);
+            if (!idle(record) || (!pressure && held(record))) {
+              safe = false;
+              break;
+            }
+            for (const attribute of record.attributes)
+              for (const owner of owners.get(attribute) || []) group.add(owner);
           }
-          for (const attribute of record.attributes)
-            for (const owner of owners.get(attribute) || []) group.add(owner);
-        }
-        if (!safe) continue;
-        for (const record of group) {
-          retired.set(record.geometry, now);
-          retireGeometryBuffers(record.geometry);
-          stats.evicted++;
+          if (!safe) continue;
+          for (const record of group) {
+            retired.set(record.geometry, now);
+            retireGeometryBuffers(record.geometry);
+            stats.evicted++;
+          }
         }
       }
     },
