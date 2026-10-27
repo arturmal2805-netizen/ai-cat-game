@@ -11,7 +11,7 @@ export async function checkNativeMapFrames(page, review) {
     compareColony = !!process.env.CHICHI_COMPARE_COLONY_MODE,
     compareBlend = !!process.env.CHICHI_COMPARE_SCENERY_BLEND,
     compareRefault = !!process.env.CHICHI_COMPARE_REFAULT_CACHE,
-    comparePose = !!process.env.CHICHI_COMPARE_POSE_UPLOADS, proofs = [];
+    comparePose = !!process.env.CHICHI_COMPARE_POSE_UPLOADS, proofs = [], nativeProofs = [];
   let workSettled = false;
   if (compareReuse) await page.evaluate(() => {
     const q = __lagoonQA, before = q.scene.onBeforeRender;
@@ -118,6 +118,15 @@ export async function checkNativeMapFrames(page, review) {
       workSettled = true;
     }
     const readyMs = Date.now() - started;
+    if(process.env.CHICHI_NATIVE_CAT_RESOURCES && !nativeProofs.some(p=>p.id===id)){
+      const {captureNativeCatResources}=await import('./check-native-cat-resources.mjs'),proof=await captureNativeCatResources(page);
+      nativeProofs.push({id,...proof});fs.writeFileSync(path.join(review,'native-cat-resources.json'),JSON.stringify(nativeProofs,null,2));
+      assert.equal(proof.changed,0);assert.equal(proof.error,0);assert.equal(proof.contextLost,false);assert.equal(proof.dpr,2);
+      assert.deepEqual(proof.before,proof.after);assert.equal(proof.colony.active,false);assert.equal(proof.colony.batches,0);
+      assert.equal(proof.modes[0].calls,proof.modes[1].calls);assert.equal(proof.modes[0].triangles,proof.modes[1].triangles);
+      assert.equal(proof.modes[1].poseBytes,0);
+      console.log('NATIVE_CAT_RESOURCES',JSON.stringify(nativeProofs.at(-1)));
+    }
     if(process.env.CHICHI_POSE_UPLOAD_AUDIT && !proofs.some(p=>p.id===id)) {
       const {capturePoseUploadFrame}=await import("./check-pose-texture-upload.mjs"),proof=await capturePoseUploadFrame(page);
       proofs.push({id,...proof});fs.writeFileSync(path.join(review,"pose-upload-images.json"),JSON.stringify(proofs,null,2));

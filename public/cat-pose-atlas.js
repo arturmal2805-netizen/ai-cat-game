@@ -10,7 +10,7 @@ const WIDTH = 512,
 export function createCatPoseAtlas(
   scene,
   sun = null,
-  { minimumCats = 1 } = {},
+  { minimumCats = 1, sharingEnabled = true } = {},
 ) {
   const data = new Float32Array(WIDTH * HEIGHT * 4),
     texture = new THREE.DataTexture(
@@ -170,7 +170,7 @@ export function createCatPoseAtlas(
       )
         relevant.delete(cat);
     stats.updatedCats = relevant.size;
-    sharing = relevant.size >= minimumCats;
+    sharing = sharingEnabled && relevant.size >= minimumCats;
     if (sharing) {
       for (const cat of relevant) cats.get(cat).update(renderer);
       flush(renderer);
@@ -262,6 +262,7 @@ export function createCatPoseAtlas(
     },
     flush,
     setRowUploadEnabled(value) { rowUploadEnabled = !!value; },
+    setSharingEnabled(value) { sharingEnabled = !!value; if (!sharingEnabled) sharing = false; },
     setEnabled(value) {
       if (enabled === !!value) return;
       enabled = !!value;

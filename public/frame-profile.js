@@ -1,5 +1,6 @@
 import { createWorkSamples, activateWorkSamples } from "./work-profile.js";
 import { createGpuProfile } from "./gpu-profile.js";
+import { catDrawMode } from "./cat-draw-policy.js";
 // Local, opt-in diagnostics. No networking, player records or graphics changes.
 export function createFrameSamples(limit = 300) {
   const rows = new Array(limit), delays = [];
@@ -170,7 +171,7 @@ export function createFrameProfile(renderer) {
   }});
   if(pauseControl.seconds)label.textContent+=` · 3D остановится через ${pauseControl.seconds} с`;
   const report = () => ({version:2,gpu,suspended:pauseControl.suspended,automaticPauseSeconds:pauseControl.seconds,
-    catRenderer:query.get("catDraw")==="native"?"individual":"automatic",gpuRender:gpuTimer.report(),
+    catRenderer:catDrawMode(location.search),gpuRender:gpuTimer.report(),
     appWorkSinceReset:work.report(),longAnimationFramesSupported:!!frameObserver,longestAnimationFrames:longFrames.slice(),
     app:document.querySelector('script[src*="dist/app.js"]')?.getAttribute("src"),bufferTransfersSinceReset:uploads.snapshot(),
     nativeGlCallsSinceReset:glCalls.snapshot(),mainThreadLongTasksSupported:!!taskObserver,
@@ -190,7 +191,7 @@ export function createFrameProfile(renderer) {
     const now=performance.now();samples.delay(Math.max(0,now-lastTimer-200));lastTimer=now;
   },200);
   return {
-    catRenderer:query.get("catDraw")==="native"?"individual":"automatic",
+    catRenderer:catDrawMode(location.search),
     beginRender:()=>gpuTimer.begin(),endRender:()=>gpuTimer.end(),
     contextLost:()=>gpuTimer.clear(),
     get suspended(){return pauseControl.suspended;},

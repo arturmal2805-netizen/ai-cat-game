@@ -1,5 +1,6 @@
 import { createShadowDepthCache } from "./shadow-depth-cache.js";
 import { profileFunction } from "./work-profile.js";
+import { catDrawMode } from "./cat-draw-policy.js";
 import {worldRoads,WORLD_ROAD_WIDTH} from './world-roads.js';
 import {captureCatLocations} from './cat-locations.js';
 import {islandCameraFar, jobBuildingCameraView} from './camera-views.js';
@@ -293,14 +294,15 @@ export function createWorld(container, initialGame, callbacks = {}) {
             : root.visible,
     },
   );
-  const poseAtlas = createCatPoseAtlas(scene, sun, { minimumCats: 7 });
+  const sharedCats = catDrawMode() === "automatic";
+  const poseAtlas = createCatPoseAtlas(scene, sun, { minimumCats: 7, sharingEnabled: sharedCats });
   const colonyDraws = createColonyRenderBatch(
     scene,
     renderer,
     camera,
     poseAtlas,
+    { enabled: sharedCats },
   );
-  if(frameProfile?.catRenderer === "individual")colonyDraws.setEnabled(false);
   const shadowDepth = createShadowDepthCache(renderer, scene, sun);
   const sky = new THREE.Mesh(
     new THREE.SphereGeometry(520, 24, 14),

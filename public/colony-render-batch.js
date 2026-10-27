@@ -141,7 +141,7 @@ export function createColonyRenderBatch(
   renderer,
   camera,
   atlas,
-  { minimumCats = 8 } = {},
+  { minimumCats = 8, enabled: initialEnabled = true } = {},
 ) {
   const supported = renderer.extensions.has("WEBGL_multi_draw");
   let entries = [],
@@ -149,7 +149,7 @@ export function createColonyRenderBatch(
     requested = [],
     generation = 0,
     disposed = false,
-    sharingEnabled = true,
+    sharingEnabled = initialEnabled,
     active = false;
   const stats = { sources: 0, batches: 0, ready: false, active: false };
   const visibility = createRenderVisibility(scene);
@@ -444,6 +444,9 @@ export function createColonyRenderBatch(
     stats,
     sync() {
       if (!supported || disposed) return;
+      // Native draws do not consume a colony mesh. Avoid copying every cat
+      // into unused BatchedMeshes or compiling their shaders in the background.
+      if (!sharingEnabled) { stats.ready = true; return; }
       const sources = [];
       const nativeLayers = new Map(entries.map((e) => [e.source, e.layers]));
       atlas.forEachCat((cat) => {

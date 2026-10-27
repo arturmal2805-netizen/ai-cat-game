@@ -375,6 +375,11 @@ async function localWorker() {
               });
             b.onLoad({ filter: /\/public\/world\.js$/ }, () => {
               let source = 'import {trackProfileUploads as qaTrackUploads,trackProfileGlCalls as qaTrackGl} from "./frame-profile.js";\n'+readPublic("world.js");
+              if(process.env.CHICHI_FORCE_INDIVIDUAL_CATS){
+                const marker='if(frameProfile?.catRenderer === "individual")colonyDraws.setEnabled(false);';
+                assert.ok(source.includes(marker),'Expected released diagnostic draw switch in the comparison checkout');
+                source=source.replace(marker,'colonyDraws.setEnabled(false);');
+              }
               if(process.env.CHICHI_POSE_UPLOAD_AUDIT) source='import {uploadPoseTextureRows as qaUploadPoseRows} from "./pose-texture-upload.js";\n'+source;
               const marker = "  return {\n    perform,";
               if(process.env.CHICHI_ACTOR_SCOPE_AUDIT)

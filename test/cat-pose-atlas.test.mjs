@@ -11,6 +11,25 @@ import {
   disposeCat,
 } from "../public/cat-model.js";
 
+test('individual colony mode keeps live cat slots but prepares no unused batch meshes, shaders or pose uploads',async()=>{
+ const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(),
+   renderer={extensions:{has:()=>true},compileAsync:async()=>{assert.fail('individual mode must not compile an unused colony shader');},info:{render:{frame:1}}},
+   atlas=createCatPoseAtlas(scene,null,{sharingEnabled:false}),
+   colony=createColonyRenderBatch(scene,renderer,camera,atlas,{enabled:false}),cats=[];
+ for(let i=0;i<3;i++){
+  const cat=createCat('happy',{breed:'british',detail:'npc'});scene.add(cat);enableCatRenderBatch(cat,atlas);cats.push(cat);
+ }
+ const slots=atlas.stats.entries,textureVersion=atlas.uniform.value.version;
+ for(let i=0;i<4;i++){
+  renderer.info.render.frame++;colony.sync();scene.updateMatrixWorld(true);scene.onBeforeRender(renderer,scene,camera);scene.onAfterRender(renderer,scene,camera);
+  assert.equal(colony.stats.ready,true);assert.equal(colony.stats.batches,0);assert.equal(colony.stats.active,false);
+  assert.equal(atlas.stats.entries,slots);assert.equal(atlas.stats.cats,3);assert.equal(atlas.stats.bytes,0);
+  assert.equal(atlas.uniform.value.version,textureVersion);assert.equal(atlas.sharing,false);
+ }
+ assert.ok(cats.flatMap(c=>c.userData.renderBatches.batches).every(m=>m.layers.isEnabled(0)));
+ colony.dispose();for(const cat of cats)disposeCat(cat);assert.equal(atlas.stats.entries,0);assert.equal(atlas.stats.cats,0);atlas.dispose();
+});
+
 test("pose storage preserves all Float32 matrix/normal bytes, uploads only changed rows and reuses released ranges", () => {
   const scene = new THREE.Scene(),
     atlas = createCatPoseAtlas(scene),
