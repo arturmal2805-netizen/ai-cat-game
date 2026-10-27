@@ -819,20 +819,28 @@ export function createWorld(container, initialGame, callbacks = {}) {
   const courtModels = new Map(),
     courtPreparing = new Map();
   const referenceModels = new Map(),
-    referencePreparing = new Map();
+    referencePreparing = new Map(),
+    // Recover the latest finished build after an offline completion, without
+    // preparing the whole purchased park at startup.
+    referenceRequested = new Set(initialGame.placements.filter(p=>byItem(p.item)?.premiumWater&&p.readyAt>0&&isBuilt(p)).sort((a,b)=>b.readyAt-a.readyAt).slice(0,1).map(p=>p.id)),
+    knownReferencePlacements = new Set(initialGame.placements.map(p=>p.id));
   function prepareReference(placement) {
-    if(referencePreparing.has(placement.id))return;
+    if(referencePreparing.has(placement.id))return referencePreparing.get(placement.id);
     const task=prepareSceneSteps(referenceSlideSteps(placement.item),{scheduler:scenePreparation,priority:placement.biome});
-    referencePreparing.set(placement.id,task);
-    task.then(async model=>{
+    let staged=null,attached=false;
+    const ready=task.then(async model=>{
+      staged=model;
       const current=()=>game.placements.find(p=>p.id===placement.id&&p.item===placement.item);
-      if(disposed||!current()||!isBuilt(current())){referencePreparing.delete(placement.id);disposeScenery(model);return;}
+      if(disposed||!current()||!isBuilt(current())){referencePreparing.delete(placement.id);disposeScenery(model);return false;}
       await shaderWarmup.prepare(model,{background:placement.biome!==focused});
-      if(disposed||!current()||!isBuilt(current())){referencePreparing.delete(placement.id);disposeScenery(model);return;}
+      if(disposed||!current()||!isBuilt(current())){referencePreparing.delete(placement.id);disposeScenery(model);return false;}
       const old=itemGroups.get(placement.id);
       if(old){scene.remove(old);disposeScenery(old);itemGroups.delete(placement.id);}
-      referenceModels.set(placement.id,model);referencePreparing.delete(placement.id);sceneKey="";sync(game);
-    }).catch(error=>{referencePreparing.delete(placement.id);console.warn("Water attraction preparation failed",error);});
+      referenceModels.set(placement.id,model);attached=true;referencePreparing.delete(placement.id);referenceRequested.delete(placement.id);sceneKey="";sync(game);
+      if(courtCamera?.attraction&&courtCamera.id===placement.id)applyAttractionCamera(itemGroups.get(placement.id));
+      return true;
+    }).catch(error=>{referencePreparing.delete(placement.id);if(staged&&!attached)disposeScenery(staged);console.warn("Water attraction preparation failed",error);return false;});
+    referencePreparing.set(placement.id,ready);return ready;
   }
   let previewGeneration = 0;
   const courtBiome = byBiome("foodcourt"),
@@ -958,12 +966,17 @@ export function createWorld(container, initialGame, callbacks = {}) {
     const viewFor = g.userData.jobBusiness
       ? jobBuildingCameraView
       : attractionCameraView;
+    let bounds=new THREE.Box3().setFromObject(g);
+    if(g.userData.loadingReference){
+      const item=byItem(g.userData.placement.item),[w,d]=item.footprint;g.updateWorldMatrix(true,false);
+      bounds=new THREE.Box3(new THREE.Vector3(-w/2,0,-d/2),new THREE.Vector3(w/2,item.height+5,d/2)).applyMatrix4(g.matrixWorld);
+    }
     const view = viewFor(
-      new THREE.Box3().setFromObject(g),
+      bounds,
       camera.fov,
       camera.aspect,
       g.rotation.y,
-      g.userData.premiumWater ? 1.02 : undefined,
+      (g.userData.premiumWater||byItem(g.userData.placement?.item)?.premiumWater) ? 1.02 : undefined,
     );
     desiredLook.copy(view.target);
     desiredDistance = view.distance;
@@ -973,7 +986,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   }
   function inspectAttraction(id) {
     const g = itemGroups.get(id);
-    if (!g?.userData.built) return false;
+    if (!g?.userData.built&&!(g?.userData.loadingReference&&isBuilt(g.userData.placement))) return false;
     focus(g.userData.placement.biome);
     courtCamera = {
       id,
@@ -986,6 +999,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     if (g.userData.jobBusiness && g.userData.roof)
       g.userData.roof.visible = false;
     applyAttractionCamera(g);
+    if(g.userData.loadingReference){referenceRequested.add(id);prepareReference(g.userData.placement);}
     courtExit.hidden = false;
     courtOrder.hidden = true;
     return true;
@@ -1363,6 +1377,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   function cancelResident(id, keepLeisure = false) {
     if (!keepLeisure) leisure.cancel(id);
     const actor = npcs.get(id);
+    if(actor)actor.pendingReference=null;
     if (actor && !keepLeisure) actor.leisureBiome = null;
     if (actor) actor.manualWellnessId = null;
     const greeting = residentPlay.friendVisit(id);
@@ -1379,6 +1394,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
   function performResident(id, decision, { autonomous = false } = {}) {
     const n = npcs.get(id),
       object = itemGroups.get(decision.activityId);
+    if(n&&object?.userData.loadingReference&&isBuilt(object.userData.placement)){
+      cancelResident(id,!!decision.leisure);const token={id:decision.activityId};n.pendingReference=token;referenceRequested.add(token.id);
+      prepareReference(object.userData.placement).then(ok=>{if(n.pendingReference!==token)return;n.pendingReference=null;if(ok)performResident(id,decision,{autonomous});});return true;
+    }
     if (
       !n ||
       (decision.activityId &&
@@ -1923,6 +1942,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
     for (const [id, g] of itemGroups) {
       if (g.userData.homeObject) continue;
       const retained = game.placements.find((p) => p.id === id);
+      if(retained&&byItem(retained.item)?.premiumWater&&isBuilt(retained)&&
+        (!g.userData.built&&!g.userData.loadingReference||JSON.stringify(retained)!==JSON.stringify(g.userData.placement)))referenceRequested.add(id);
+      if(!retained){knownReferencePlacements.delete(id);referenceRequested.delete(id);}
       if (
         retained &&
         byItem(retained.item)?.referenceSlide &&
@@ -1963,6 +1985,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
       itemGroups.delete(id);
     }
     for (const placement of game.placements) {
+      if(!knownReferencePlacements.has(placement.id)){
+        knownReferencePlacements.add(placement.id);
+        if(byItem(placement.item)?.premiumWater&&isBuilt(placement))referenceRequested.add(placement.id);
+      }
       if (itemGroups.has(placement.id)) continue;
       const built = isBuilt(placement),
         reference = !!byItem(placement.item)?.referenceSlide,
@@ -2459,6 +2485,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
     decision,
     { manualFriendDrop = false, leisureTicket = null, background = false } = {},
   ) {
+    const pending=decision.activityId&&itemGroups.get(decision.activityId);
+    if(pending?.userData.loadingReference&&isBuilt(pending.userData.placement)){
+      if(!background)focus(pending.userData.placement.biome,false,true);
+      referenceRequested.add(decision.activityId);
+      return prepareReference(pending.userData.placement).then(ok=>ok?perform(decision,{manualFriendDrop,leisureTicket,background}):{cancelled:true});
+    }
     if (
       bikiniFriend(decision.activityId) &&
       !bikiniLife.reserve(decision.activityId, decision.characterAction, {
@@ -5649,7 +5681,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       const placement=g.userData.placement;
       if(g.userData.loadingReference && byItem(placement?.item)?.premiumWater &&
         atollPreparationNeeded(placement,byBiome(placement.biome),{
-          focused,look:desiredLook,distance,visible,moving:cameraMoving||!!pointerDown,pending:referencePreparing.size,
+          focused,look:desiredLook,distance,visible,moving:cameraMoving||!!pointerDown,pending:referencePreparing.size,requested:referenceRequested.has(placement.id),
         }))prepareReference(placement);
     }
     // A ready native interior must not sit inside its closed loading proxy.
@@ -5795,6 +5827,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
     isFollowingChichi: () => faceCamera.enabled && followedCatId === "chichi",
     followRandomCat,
     inspectAttraction,
+    isAttractionLoading:id=>!!itemGroups.get(id)?.userData.loadingReference,
+    prepareAttraction(id){const g=itemGroups.get(id);if(!g?.userData.loadingReference||!isBuilt(g.userData.placement))return Promise.resolve(!!g?.userData.built);referenceRequested.add(id);return prepareReference(g.userData.placement);},
     rideGuests: (id) => rideGuests(id, operation, residentPlay.visits),
     followRideGuest(id) {
       const guests = rideGuests(id, operation, residentPlay.visits);

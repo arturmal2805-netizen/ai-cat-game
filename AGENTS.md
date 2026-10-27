@@ -410,3 +410,12 @@ the FPS panel has only a copy-report button, including with legacy pause links.
 - Validate the complete collection in normal, grazing, phone and seated-rider
   views. Retain exact old-attraction image comparisons, fixed water buffers,
   and real private-SQLite shop/camera/rider/reload checks before publication.
+- A finished or re-placed paid attraction must request its model even at the
+  ordinary distant island camera. Opening its card/camera or requesting a ride
+  must also prepare a cold model; inspection cannot require a model that only
+  inspection would load. Await the coalesced geometry AND shader-warmup promise
+  before assigning riders. Preserve cancellation and leisure tickets.
+- Distinguish a finished asset being prepared from actual timed construction.
+  Keep passive overview preparation bounded and gesture-aware, and test a real
+  completion at distance 900, cold camera/manual requests and phone bag
+  replacement without a second payment or construction deadline.

@@ -24,6 +24,8 @@ test('large waterpark streaming starts only one nearby visible complex, never th
  const b=BIOMES.find(b=>b.id===ATOLL_PARK_ID),p={biome:b.id,x:0,z:0},state={focused:b.id,look:{x:b.center[0],z:b.center[1]},distance:220,visible:true};
  assert.equal(atollPreparationNeeded(p,b,state),true);
  for(const changed of [{focused:'moon'},{visible:false},{moving:true},{pending:1},{distance:900},{look:{x:0,z:0}}])assert.equal(atollPreparationNeeded(p,b,{...state,...changed}),false);
+ assert.equal(atollPreparationNeeded(p,b,{...state,distance:1500,look:{x:0,z:0},requested:true}),true,'a completed or moved slide must prepare even in the ordinary large-island view');
+ for(const changed of [{focused:'moon'},{visible:false},{moving:true},{pending:1}])assert.equal(atollPreparationNeeded(p,b,{...state,distance:1500,requested:true,...changed}),false,'explicit readiness must retain gesture/offscreen/concurrency bounds');
 });
 test('approaches take the dry perimeter, use the existing A* for interior obstacles and keep a bounded cache',()=>{
  const s=ATOLL_SLIDES[0],entry=createReferenceRoute(s).entry,nav=atollApproach(s,[{x:0,z:0,radius:12}]);

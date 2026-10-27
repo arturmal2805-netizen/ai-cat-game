@@ -1257,6 +1257,7 @@ function inspect(id, manage = false) {
   const placement = game.placements.find((p) => p.id === id);
   if (!placement) return;
   const item = byItem(placement.item);
+  if(item.referenceSlide&&isBuilt(placement))world?.prepareAttraction(id);
   if (item.id === "adoption-center" && isBuilt(placement) && !manage) {
     showAdoption(placement.id);
     return;
@@ -1264,9 +1265,7 @@ function inspect(id, manage = false) {
   $("item-icon").textContent = item.icon;
   $("item-name").textContent = item.name;
   $("item-description").textContent = item.description;
-  $("item-construction").textContent = isBuilt(placement)
-    ? item.rarity + " · Постройка готова"
-    : "Строится · осталось " + countdown(placement.readyAt);
+  $("item-construction").textContent = itemBuildStatus(placement);
   $("item-store").disabled = busy || !isBuilt(placement);
   $("item-move").disabled = busy;
   $("item-store").hidden = false;
@@ -1287,6 +1286,7 @@ function updateGuestCamera() {
   const p =
       !selectedScenery && game.placements.find((p) => p.id === selectedItem),
     button = $("item-guest-camera");
+  if(p)setText($("item-construction"),itemBuildStatus(p));
   button.hidden = !p || !byItem(p.item)?.actions.includes("ride");
   $("item-attraction-camera").hidden = button.hidden;
   $("item-attraction-camera").disabled = !p || !isBuilt(p);
@@ -1296,6 +1296,9 @@ function updateGuestCamera() {
   button.textContent = guests.length
     ? "📷 Камера гостя · " + guests.length
     : "📷 Камера гостя · ждёт котика";
+}
+function itemBuildStatus(p){
+  return !isBuilt(p)?"Строится · осталось "+countdown(p.readyAt):world?.isAttractionLoading(p.id)?"Постройка готова · подготавливаем аттракцион…":byItem(p.item).rarity+" · Постройка готова";
 }
 $("item-guest-camera").onclick = () => {
   if (!world?.followRideGuest(selectedItem)) {
@@ -2361,9 +2364,7 @@ function updateTimers() {
   if ($("item-dialog").open && !selectedScenery) {
     const p = game.placements.find((p) => p.id === selectedItem);
     if (p) {
-      setText($("item-construction"), isBuilt(p)
-        ? byItem(p.item).rarity + " · Постройка готова"
-        : "Строится · осталось " + countdown(p.readyAt));
+      setText($("item-construction"),itemBuildStatus(p));
       $("item-store").disabled = !isBuilt(p);
     }
   }
