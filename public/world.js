@@ -3638,18 +3638,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
         Math.abs(elevation - overviewElevation) > 0.001);
     const dialogOpen = !!document.querySelector("dialog[open]");
     if (dialogOpen || !worldVisible) frameProfile?.pause();
+    const renderInterval = dialogOpen || !worldVisible || frameProfile?.suspended ? 100 : 1000 / 60;
     if (
       !renderDue(
         now,
-        dialogOpen || !worldVisible || frameProfile?.suspended
-          ? 100
-          : operation ||
-              pointerDown ||
-              heroGather ||
-              cameraMoving ||
-              faceCamera.enabled
-            ? 1000 / 60
-            : 1000 / 30,
+        renderInterval,
         viewport.pending && !dialogOpen && worldVisible,
       )
     ) {
