@@ -1,0 +1,490 @@
+{
+  "version": 2,
+  "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "suspended": false,
+  "automaticPauseSeconds": 0,
+  "catRenderer": "individual",
+  "gpuRender": {
+    "supported": true,
+    "disjoint": false,
+    "samples": 5,
+    "pending": 2,
+    "medianMs": 1084.94,
+    "p95Ms": 2048.12,
+    "maxMs": 3839.07
+  },
+  "appWorkSinceReset": {
+    "phases": {
+      "world.sync": {
+        "calls": 11,
+        "totalMs": 1366.3,
+        "maxMs": 1349.8,
+        "over50ms": 1
+      },
+      "app.persist": {
+        "calls": 1,
+        "totalMs": 8.5,
+        "maxMs": 8.5,
+        "over50ms": 0
+      },
+      "app.renderGame": {
+        "calls": 2,
+        "totalMs": 20.9,
+        "maxMs": 15.3,
+        "over50ms": 0
+      },
+      "app.cityTick": {
+        "calls": 3,
+        "totalMs": 1.3,
+        "maxMs": 1.2,
+        "over50ms": 0
+      }
+    },
+    "longest": [
+      {
+        "label": "world.sync",
+        "atMs": 3887,
+        "durationMs": 1349.8
+      }
+    ]
+  },
+  "longAnimationFramesSupported": true,
+  "longestAnimationFrames": [
+    {
+      "durationMs": 3074.7,
+      "blockingMs": 1313.4,
+      "afterStyleStartMs": 0.6,
+      "scripts": [
+        {
+          "function": "",
+          "type": "resolve-promise",
+          "durationMs": 1321.7,
+          "layoutMs": 0,
+          "position": 2372714
+        },
+        {
+          "function": "loop2",
+          "type": "user-callback",
+          "durationMs": 39.9,
+          "layoutMs": 0,
+          "position": 3427603
+        },
+        {
+          "function": "",
+          "type": "resolve-promise",
+          "durationMs": 22.6,
+          "layoutMs": 0,
+          "position": 3529621
+        }
+      ]
+    },
+    {
+      "durationMs": 3002.8,
+      "blockingMs": 0,
+      "afterStyleStartMs": 0.2,
+      "scripts": [
+        {
+          "function": "",
+          "type": "resolve-promise",
+          "durationMs": 34.3,
+          "layoutMs": 0,
+          "position": 2372714
+        },
+        {
+          "function": "",
+          "type": "resolve-promise",
+          "durationMs": 23.4,
+          "layoutMs": 0,
+          "position": 2372714
+        },
+        {
+          "function": "",
+          "type": "resolve-promise",
+          "durationMs": 6.3,
+          "layoutMs": 0,
+          "position": 2372714
+        }
+      ]
+    },
+    {
+      "durationMs": 1083.4,
+      "blockingMs": 1032.9,
+      "afterStyleStartMs": 0.2,
+      "scripts": [
+        {
+          "function": "",
+          "type": "resolve-promise",
+          "durationMs": 1062.2,
+          "layoutMs": 0,
+          "position": 2372714
+        },
+        {
+          "function": "loop2",
+          "type": "user-callback",
+          "durationMs": 18.3,
+          "layoutMs": 0,
+          "position": 3427603
+        }
+      ]
+    },
+    {
+      "durationMs": 880.9,
+      "blockingMs": 829.9,
+      "afterStyleStartMs": 0,
+      "scripts": [
+        {
+          "function": "",
+          "type": "resolve-promise",
+          "durationMs": 879.6,
+          "layoutMs": 0,
+          "position": 2372714
+        }
+      ]
+    },
+    {
+      "durationMs": 252.7,
+      "blockingMs": 179.1,
+      "afterStyleStartMs": 1.1,
+      "scripts": [
+        {
+          "function": "save",
+          "type": "user-callback",
+          "durationMs": 198.9,
+          "layoutMs": 0,
+          "position": 2196702
+        },
+        {
+          "function": "loop2",
+          "type": "user-callback",
+          "durationMs": 28.9,
+          "layoutMs": 0,
+          "position": 3427603
+        },
+        {
+          "function": "",
+          "type": "user-callback",
+          "durationMs": 9.4,
+          "layoutMs": 0,
+          "position": 3526852
+        }
+      ]
+    }
+  ],
+  "app": "./dist/app.js?v=f30fcdc285ca9b68",
+  "bufferTransfersSinceReset": {
+    "dataCalls": 860,
+    "dataBytes": 21961600,
+    "subCalls": 72,
+    "subBytes": 100224
+  },
+  "nativeGlCallsSinceReset": {
+    "beginQuery": {
+      "calls": 7,
+      "totalMs": 0.2,
+      "maxMs": 0.2,
+      "over50ms": 0
+    },
+    "bindBuffer": {
+      "calls": 2098,
+      "totalMs": 3,
+      "maxMs": 0.2,
+      "over50ms": 0
+    },
+    "bufferData": {
+      "calls": 860,
+      "totalMs": 57.4,
+      "maxMs": 2.2,
+      "over50ms": 0
+    },
+    "bindTexture": {
+      "calls": 1002,
+      "totalMs": 0.5,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "texParameteri": {
+      "calls": 56,
+      "totalMs": 0.2,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "texImage2D": {
+      "calls": 2,
+      "totalMs": 0.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "bindFramebuffer": {
+      "calls": 36,
+      "totalMs": 0.2,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "pixelStorei": {
+      "calls": 6,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "texStorage2D": {
+      "calls": 11,
+      "totalMs": 0.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "clear": {
+      "calls": 15,
+      "totalMs": 0.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "compileShader": {
+      "calls": 120,
+      "totalMs": 0.6,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "linkProgram": {
+      "calls": 60,
+      "totalMs": 0.2,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "getProgramInfoLog": {
+      "calls": 54,
+      "totalMs": 1729.5,
+      "maxMs": 231.7,
+      "over50ms": 8
+    },
+    "getShaderInfoLog": {
+      "calls": 108,
+      "totalMs": 3067.9,
+      "maxMs": 1088.1,
+      "over50ms": 3
+    },
+    "getProgramParameter": {
+      "calls": 162,
+      "totalMs": 16.6,
+      "maxMs": 0.8,
+      "over50ms": 0
+    },
+    "getActiveUniform": {
+      "calls": 1268,
+      "totalMs": 2.3,
+      "maxMs": 0.3,
+      "over50ms": 0
+    },
+    "getUniformLocation": {
+      "calls": 1268,
+      "totalMs": 2.8,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "getActiveAttrib": {
+      "calls": 163,
+      "totalMs": 0.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "getAttribLocation": {
+      "calls": 163,
+      "totalMs": 0.3,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "useProgram": {
+      "calls": 942,
+      "totalMs": 1.6,
+      "maxMs": 0.7,
+      "over50ms": 0
+    },
+    "uniformMatrix4fv": {
+      "calls": 4058,
+      "totalMs": 3.6,
+      "maxMs": 0.4,
+      "over50ms": 0
+    },
+    "uniformMatrix3fv": {
+      "calls": 845,
+      "totalMs": 11.6,
+      "maxMs": 11.2,
+      "over50ms": 0
+    },
+    "texSubImage2D": {
+      "calls": 9,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "generateMipmap": {
+      "calls": 8,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "bindVertexArray": {
+      "calls": 2249,
+      "totalMs": 3.3,
+      "maxMs": 0.2,
+      "over50ms": 0
+    },
+    "vertexAttribPointer": {
+      "calls": 931,
+      "totalMs": 0.5,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "drawArrays": {
+      "calls": 126,
+      "totalMs": 1.7,
+      "maxMs": 1.4,
+      "over50ms": 0
+    },
+    "drawElements": {
+      "calls": 1844,
+      "totalMs": 2.3,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "multiDrawElementsWEBGL": {
+      "calls": 146,
+      "totalMs": 0.5,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniform1fv": {
+      "calls": 434,
+      "totalMs": 0.5,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniform1iv": {
+      "calls": 32,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "uniform3fv": {
+      "calls": 32,
+      "totalMs": 0.3,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "drawElementsInstanced": {
+      "calls": 112,
+      "totalMs": 0.2,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniform4fv": {
+      "calls": 14,
+      "totalMs": 0.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "endQuery": {
+      "calls": 7,
+      "totalMs": 0.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "flush": {
+      "calls": 7,
+      "totalMs": 0.2,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "clientWaitSync": {
+      "calls": 12,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "getQueryParameter": {
+      "calls": 15,
+      "totalMs": 0.2,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "bufferSubData": {
+      "calls": 72,
+      "totalMs": 0.6,
+      "maxMs": 0.2,
+      "over50ms": 0
+    },
+    "blitFramebuffer": {
+      "calls": 3,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "getParameter": {
+      "calls": 1,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    }
+  },
+  "mainThreadLongTasksSupported": true,
+  "longestMainThreadTasksMs": [
+    1929,
+    1321,
+    1062,
+    879,
+    199,
+    70
+  ],
+  "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+  "viewport": [
+    390,
+    844
+  ],
+  "samples": 7,
+  "seconds": 16.016,
+  "fps": 0.37,
+  "gapP95": 3183.2,
+  "gapMax": 7516.3,
+  "cpuMedian": 6.7,
+  "cpuP95": 12.7,
+  "cpuMax": 33.70000001788139,
+  "cpuTotalMs": 74,
+  "renderMedian": 16.5,
+  "renderP95": 33.9,
+  "renderMax": 1868.199999988079,
+  "renderTotalMs": 1997.4,
+  "gpuWaitCallbacksSinceReset": 3,
+  "contextWaitCallbacksSinceReset": 0,
+  "queueCpuTotalSinceReset": 0.2,
+  "queueCpuMaxSinceReset": 0.1,
+  "eventLoopDelayP95": 3268.3,
+  "eventLoopDelayMax": 10177.799999982119,
+  "geometryEvictionsDuringWindow": 0,
+  "geometryRefaultsDuringWindow": 0,
+  "geometryRefaultBytesDuringWindow": 0,
+  "geometryRapidRefaultsDuringWindow": 0,
+  "geometryRapidRefaultBytesDuringWindow": 0,
+  "last": {
+    "biome": "moon",
+    "cats": 24,
+    "calls": 315,
+    "triangles": 508936,
+    "geometryBytes": 21871276,
+    "pending": 2,
+    "dpr": 2,
+    "poseCats": 4,
+    "colonyActive": false,
+    "shaderPending": 24,
+    "shaderPreparing": 1,
+    "evicted": 0,
+    "refaults": 0,
+    "refaultBytes": 0,
+    "rapidRefaults": 0,
+    "rapidRefaultBytes": 0,
+    "visible": true,
+    "moving": false,
+    "buffer": [
+      776,
+      1464
+    ]
+  }
+}

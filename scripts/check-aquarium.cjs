@@ -355,12 +355,13 @@ async function localWorker() {
                 if(process.env.CHICHI_COMPILE_VIEW_AUDIT) contents=contents
                   .replace("const lighting = createCompileLighting(scene);", "const lighting = globalThis.__qaLegacyCompileView ? scene : createCompileLighting(scene);")
                   .replace("    stats,\n    sync() {", "    stats,\n    rebuildCompileForQA(legacy){globalThis.__qaLegacyCompileView=legacy;requested=[];this.sync();},\n    sync() {");
-                if (process.env.CHICHI_COMPARE_COLONY_MODE)
-                  assert.ok(contents.includes("const enabled =\n      atlas.enabled &&"));
-                if (process.env.CHICHI_COMPARE_COLONY_MODE) contents=contents.replace(
-                  "const enabled =\n      atlas.enabled &&",
-                  "const enabled =\n      !globalThis.__qaIndividualCats && atlas.enabled &&",
-                );
+                if (process.env.CHICHI_COMPARE_COLONY_MODE) {
+                  const marker=contents.includes("sharingEnabled && atlas.enabled")
+                    ? "const enabled =\n      sharingEnabled && atlas.enabled &&"
+                    : "const enabled =\n      atlas.enabled &&";
+                  assert.ok(contents.includes(marker));
+                  contents=contents.replace(marker,marker.replace("atlas.enabled", "!globalThis.__qaIndividualCats && atlas.enabled"));
+                }
                 if (process.env.CHICHI_COLONY_PREP_AUDIT) {
                   assert.ok(contents.includes("g = new THREE.BufferGeometry(),"));
                   assert.ok(contents.includes("    stats,\n    sync() {"));
@@ -459,6 +460,10 @@ async function localWorker() {
               b.onLoad({filter:/\/public\/cat-pose-atlas\.js$/},()=>({
                 contents:readPublic("cat-pose-atlas.js").replace("    flush,","    flush,\n    dirtyRowsForQA(){dirty.fill(1);},"),loader:"js",
               }));
+            if(process.env.CHICHI_HUD_TEXT_AUDIT)
+              b.onLoad({filter:/\/public\/dom-text\.js$/},()=>({
+                contents:readPublic("dom-text.js").replace("if (node.textContent === text &&", "if (!globalThis.__qaLegacyTextWrites && node.textContent === text &&"),loader:"js",
+              }));
             b.onLoad({ filter: /\/public\/app\.js$/ }, () => ({
               contents: (
                 "import {placeItem as qaPlace,findSpace as qaSpace} from './economy.js'; window.__diamondQA={placeItem:qaPlace,findSpace:qaSpace};\n" +
@@ -475,7 +480,7 @@ async function localWorker() {
                 )
                 .replace(
                   "persist();\nrenderGame();",
-                  "window.__lagoonSaveQA={cloud,getGame:()=>game,getWorld:()=>world,commit};\npersist();\nrenderGame();",
+                  "window.__lagoonSaveQA={cloud,getGame:()=>game,getWorld:()=>world,commit,renderHUD:renderGame};\npersist();\nrenderGame();",
                 ),
               loader: "js",
             }));
@@ -502,7 +507,8 @@ async function localWorker() {
     });
     const desktop = !!process.env.CHICHI_DESKTOP;
     const context = await browser.newContext({
-      viewport: desktop ? { width: 1100, height: 800 } : { width: 390, height: 844 },
+      viewport: process.env.CHICHI_QA_WIDTH ? {width:Number(process.env.CHICHI_QA_WIDTH),height:Number(process.env.CHICHI_QA_HEIGHT||812)}
+        : desktop ? { width: 1100, height: 800 } : { width: 390, height: 844 },
       deviceScaleFactor: 2,
       isMobile: !desktop,
       hasTouch: !desktop,
@@ -562,7 +568,7 @@ async function localWorker() {
         return r.fulfill({json:{attemptId:request.attemptId,forecast:localCryptoForecast(request.attemptId),source:"local"}});
       });
     }
-    await page.goto(base + (process.env.CHICHI_DEVICE_PROFILE_AUDIT || process.env.CHICHI_VISUAL_IDLE_AUDIT ? "?profile=1" : ""));
+    await page.goto(base + (process.env.CHICHI_PROFILE_QUERY ? "?"+process.env.CHICHI_PROFILE_QUERY : process.env.CHICHI_DEVICE_PROFILE_AUDIT || process.env.CHICHI_VISUAL_IDLE_AUDIT ? "?profile=1" : ""));
     await page.waitForFunction(
       () => window.__lagoonQA && window.__lagoonSaveQA?.cloud.editable,
     );
@@ -574,6 +580,12 @@ async function localWorker() {
       }
       const {checkFrameProfile}=await import("./check-frame-profile.mjs");
       await checkFrameProfile(page,review);
+      fs.writeFileSync(path.join(review,"browser-errors.json"),JSON.stringify({errors,httpErrors},null,2));
+      assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;
+    }
+    if(process.env.CHICHI_HUD_TEXT_AUDIT){
+      const {checkHudText}=await import("./check-hud-text.mjs");
+      await checkHudText(page,review);
       fs.writeFileSync(path.join(review,"browser-errors.json"),JSON.stringify({errors,httpErrors},null,2));
       assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;
     }

@@ -25,6 +25,13 @@ export async function checkFrameProfile(page, review) {
   assert.ok(report.nativeGlCallsSinceReset.texSubImage2D?.calls>0);
   assert.ok(Array.isArray(report.longestMainThreadTasksMs));
   assert.equal(typeof report.mainThreadLongTasksSupported,"boolean");
+  assert.equal(typeof report.gpuRender.supported,"boolean");
+  assert.equal(typeof report.appWorkSinceReset.phases,"object");
+  assert.equal(typeof report.cpuMax,"number");assert.equal(typeof report.renderMax,"number");
+  assert.ok(Array.isArray(report.longestAnimationFrames));
+  if(process.env.CHICHI_PROFILE_QUERY?.includes("catDraw=native")){
+    assert.equal(report.catRenderer,"individual");assert.equal(report.last.colonyActive,false);
+  }
   assert.ok(report.longestMainThreadTasksMs.length<=20);
   assert.ok(report.last.pending<=2);
   const privacy=await page.evaluate(()=>({

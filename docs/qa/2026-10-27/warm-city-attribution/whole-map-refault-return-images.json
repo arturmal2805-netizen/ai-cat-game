@@ -1,0 +1,478 @@
+[
+  {
+    "id": "moon",
+    "changed": 0,
+    "before": {
+      "frame": 137,
+      "calls": 341,
+      "triangles": 630496,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 138,
+      "calls": 341,
+      "triangles": 630496,
+      "points": 320,
+      "lines": 0
+    },
+    "gpuBefore": 27155728,
+    "retiredBytes": 915892,
+    "gpuAfter": 27155728,
+    "cats": 96,
+    "slots": 2630,
+    "afterCats": 96,
+    "afterSlots": 2630,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "autumn",
+    "changed": 0,
+    "before": {
+      "frame": 255,
+      "calls": 204,
+      "triangles": 652480,
+      "points": 740,
+      "lines": 0
+    },
+    "after": {
+      "frame": 256,
+      "calls": 204,
+      "triangles": 652480,
+      "points": 740,
+      "lines": 0
+    },
+    "gpuBefore": 59371168,
+    "retiredBytes": 13477020,
+    "gpuAfter": 59371168,
+    "cats": 96,
+    "slots": 2630,
+    "afterCats": 96,
+    "afterSlots": 2630,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "winter",
+    "changed": 0,
+    "before": {
+      "frame": 372,
+      "calls": 531,
+      "triangles": 1015464,
+      "points": 740,
+      "lines": 0
+    },
+    "after": {
+      "frame": 373,
+      "calls": 531,
+      "triangles": 1015464,
+      "points": 740,
+      "lines": 0
+    },
+    "gpuBefore": 116310175,
+    "retiredBytes": 71269255,
+    "gpuAfter": 116310175,
+    "cats": 96,
+    "slots": 2630,
+    "afterCats": 96,
+    "afterSlots": 2630,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "water",
+    "changed": 0,
+    "before": {
+      "frame": 462,
+      "calls": 181,
+      "triangles": 1034034,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 463,
+      "calls": 181,
+      "triangles": 1034034,
+      "points": 320,
+      "lines": 0
+    },
+    "gpuBefore": 201059181,
+    "retiredBytes": 68339789,
+    "gpuAfter": 201059181,
+    "cats": 96,
+    "slots": 2630,
+    "afterCats": 96,
+    "afterSlots": 2630,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "summer",
+    "changed": 0,
+    "before": {
+      "frame": 602,
+      "calls": 485,
+      "triangles": 2994214,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 603,
+      "calls": 485,
+      "triangles": 2994214,
+      "points": 320,
+      "lines": 0
+    },
+    "gpuBefore": 187703193,
+    "retiredBytes": 99070170,
+    "gpuAfter": 187703193,
+    "cats": 96,
+    "slots": 2630,
+    "afterCats": 96,
+    "afterSlots": 2630,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "sakura",
+    "changed": 0,
+    "before": {
+      "frame": 734,
+      "calls": 365,
+      "triangles": 1880225,
+      "points": 740,
+      "lines": 0
+    },
+    "after": {
+      "frame": 735,
+      "calls": 365,
+      "triangles": 1880225,
+      "points": 740,
+      "lines": 0
+    },
+    "gpuBefore": 200073505,
+    "retiredBytes": 118645352,
+    "gpuAfter": 200073505,
+    "cats": 96,
+    "slots": 2630,
+    "afterCats": 96,
+    "afterSlots": 2630,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "volcano",
+    "changed": 0,
+    "before": {
+      "frame": 820,
+      "calls": 553,
+      "triangles": 1171382,
+      "points": 740,
+      "lines": 0
+    },
+    "after": {
+      "frame": 821,
+      "calls": 553,
+      "triangles": 1171382,
+      "points": 740,
+      "lines": 0
+    },
+    "gpuBefore": 201202719,
+    "retiredBytes": 131718947,
+    "gpuAfter": 201202719,
+    "cats": 96,
+    "slots": 2630,
+    "afterCats": 96,
+    "afterSlots": 2630,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "candy",
+    "changed": 0,
+    "before": {
+      "frame": 857,
+      "calls": 194,
+      "triangles": 390036,
+      "points": 0,
+      "lines": 0
+    },
+    "after": {
+      "frame": 858,
+      "calls": 194,
+      "triangles": 390036,
+      "points": 0,
+      "lines": 0
+    },
+    "gpuBefore": 194366749,
+    "retiredBytes": 180665377,
+    "gpuAfter": 194366749,
+    "cats": 96,
+    "slots": 2630,
+    "afterCats": 96,
+    "afterSlots": 2630,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "galaxy",
+    "changed": 0,
+    "before": {
+      "frame": 960,
+      "calls": 454,
+      "triangles": 1054166,
+      "points": 740,
+      "lines": 0
+    },
+    "after": {
+      "frame": 961,
+      "calls": 454,
+      "triangles": 1054166,
+      "points": 740,
+      "lines": 0
+    },
+    "gpuBefore": 209946555,
+    "retiredBytes": 174869567,
+    "gpuAfter": 209946555,
+    "cats": 96,
+    "slots": 2630,
+    "afterCats": 96,
+    "afterSlots": 2630,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "ice",
+    "changed": 0,
+    "before": {
+      "frame": 1053,
+      "calls": 901,
+      "triangles": 1084036,
+      "points": 420,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1054,
+      "calls": 901,
+      "triangles": 1084036,
+      "points": 420,
+      "lines": 0
+    },
+    "gpuBefore": 197184241,
+    "retiredBytes": 151575021,
+    "gpuAfter": 197184241,
+    "cats": 96,
+    "slots": 2630,
+    "afterCats": 96,
+    "afterSlots": 2630,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "clockwork",
+    "changed": 0,
+    "before": {
+      "frame": 1215,
+      "calls": 773,
+      "triangles": 2451832,
+      "points": 420,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1216,
+      "calls": 773,
+      "triangles": 2451832,
+      "points": 420,
+      "lines": 0
+    },
+    "gpuBefore": 202231997,
+    "retiredBytes": 140662917,
+    "gpuAfter": 202231997,
+    "cats": 97,
+    "slots": 2659,
+    "afterCats": 97,
+    "afterSlots": 2659,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "foodcourt",
+    "changed": 0,
+    "before": {
+      "frame": 1265,
+      "calls": 144,
+      "triangles": 595410,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1266,
+      "calls": 144,
+      "triangles": 595410,
+      "points": 320,
+      "lines": 0
+    },
+    "gpuBefore": 201837324,
+    "retiredBytes": 172476766,
+    "gpuAfter": 201837324,
+    "cats": 97,
+    "slots": 2659,
+    "afterCats": 97,
+    "afterSlots": 2659,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "bikini",
+    "changed": 0,
+    "before": {
+      "frame": 1308,
+      "calls": 227,
+      "triangles": 827476,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1309,
+      "calls": 227,
+      "triangles": 827476,
+      "points": 320,
+      "lines": 0
+    },
+    "gpuBefore": 217904568,
+    "retiredBytes": 170178160,
+    "gpuAfter": 217904568,
+    "cats": 97,
+    "slots": 2659,
+    "afterCats": 97,
+    "afterSlots": 2659,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "homestead",
+    "changed": 0,
+    "before": {
+      "frame": 1359,
+      "calls": 525,
+      "triangles": 2414783,
+      "points": 0,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1360,
+      "calls": 525,
+      "triangles": 2414783,
+      "points": 0,
+      "lines": 0
+    },
+    "gpuBefore": 202652196,
+    "retiredBytes": 91809176,
+    "gpuAfter": 202652196,
+    "cats": 97,
+    "slots": 2659,
+    "afterCats": 97,
+    "afterSlots": 2659,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "aquarium",
+    "changed": 0,
+    "before": {
+      "frame": 1412,
+      "calls": 267,
+      "triangles": 1803917,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1413,
+      "calls": 267,
+      "triangles": 1803917,
+      "points": 320,
+      "lines": 0
+    },
+    "gpuBefore": 209769239,
+    "retiredBytes": 155319516,
+    "gpuAfter": 209769239,
+    "cats": 97,
+    "slots": 2659,
+    "afterCats": 97,
+    "afterSlots": 2659,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "jobcity",
+    "changed": 0,
+    "before": {
+      "frame": 1474,
+      "calls": 318,
+      "triangles": 1708701,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1475,
+      "calls": 318,
+      "triangles": 1708701,
+      "points": 320,
+      "lines": 0
+    },
+    "gpuBefore": 200707313,
+    "retiredBytes": 27067551,
+    "gpuAfter": 200707313,
+    "cats": 97,
+    "slots": 2659,
+    "afterCats": 97,
+    "afterSlots": 2659,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "cat-homes",
+    "changed": 0,
+    "before": {
+      "frame": 1493,
+      "calls": 29,
+      "triangles": 117388,
+      "points": 0,
+      "lines": 0
+    },
+    "after": {
+      "frame": 1494,
+      "calls": 29,
+      "triangles": 117388,
+      "points": 0,
+      "lines": 0
+    },
+    "gpuBefore": 202717746,
+    "retiredBytes": 189598918,
+    "gpuAfter": 202717746,
+    "cats": 97,
+    "slots": 2659,
+    "afterCats": 97,
+    "afterSlots": 2659,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  }
+]

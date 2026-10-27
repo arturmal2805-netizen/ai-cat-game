@@ -1,0 +1,30 @@
+[
+  {
+    "id": "jobcity",
+    "changed": 24,
+    "large": 15,
+    "max": 40,
+    "mean": 0.00002029254244555672,
+    "shared": {
+      "frame": 25,
+      "calls": 469,
+      "triangles": 3086353,
+      "points": 320,
+      "lines": 0
+    },
+    "native": {
+      "frame": 26,
+      "calls": 1024,
+      "triangles": 3086353,
+      "points": 320,
+      "lines": 0
+    },
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2,
+    "buffer": [
+      2804,
+      1384
+    ]
+  }
+]

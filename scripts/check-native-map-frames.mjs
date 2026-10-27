@@ -77,6 +77,7 @@ export async function checkNativeMapFrames(page, review) {
     const started = Date.now();
     await page.evaluate(({id,legacy,reuse,actorLegacy,compareActors,individual,compareBlend,blend,compareRefault,refault,comparePose,poseRows}) => {
       const q = __lagoonQA;
+      if(individual!==undefined)q.colonyDraws.setEnabled?.(!individual);
       if(comparePose)q.poseAtlas.setRowUploadEnabled(poseRows);
       if(compareRefault)q.geometryResidency.setRefaultProtectionEnabled(refault);
       if (compareBlend) {
@@ -112,7 +113,7 @@ export async function checkNativeMapFrames(page, review) {
     if (process.env.CHICHI_NATIVE_SETTLE_JOBS && id === "jobcity" && !workSettled) {
       // Private fixture preparation only. The timed run still uses the native
       // RAF, full animation/simulation and original nonblocking GPU queue.
-      const at = await page.evaluate(() => { __lagoonQA.settleJobs(180); return __lagoonQA.frames; });
+      const at = await page.evaluate(seconds => { __lagoonQA.settleJobs(seconds); return __lagoonQA.frames; },Number(process.env.CHICHI_SETTLE_JOB_SECONDS||180));
       await page.waitForFunction(at => __lagoonQA.frames >= at + 3 && __lagoonQA.shaderWarmup.idle(), at);
       workSettled = true;
     }
@@ -140,12 +141,12 @@ export async function checkNativeMapFrames(page, review) {
         q.freeze=true;q.shadowDepth.setEnabled(false);
         let shared,native;
         try {
-          globalThis.__qaIndividualCats=false;q.drawFrame();shared={...q.renderer.info.render};
+          globalThis.__qaIndividualCats=false;q.colonyDraws.setEnabled?.(true);q.drawFrame();shared={...q.renderer.info.render};
           gl.readPixels(0,0,gl.drawingBufferWidth,gl.drawingBufferHeight,gl.RGBA,gl.UNSIGNED_BYTE,a);
-          globalThis.__qaIndividualCats=true;q.drawFrame();native={...q.renderer.info.render};
+          globalThis.__qaIndividualCats=true;q.colonyDraws.setEnabled?.(false);q.drawFrame();native={...q.renderer.info.render};
           gl.readPixels(0,0,gl.drawingBufferWidth,gl.drawingBufferHeight,gl.RGBA,gl.UNSIGNED_BYTE,b);
         } finally {
-          globalThis.__qaIndividualCats=individual;q.shadowDepth.setEnabled(true);q.gpuFrames.clear();
+          globalThis.__qaIndividualCats=individual;q.colonyDraws.setEnabled?.(!individual);q.shadowDepth.setEnabled(true);q.gpuFrames.clear();
         }
         let changed=0,large=0,max=0,total=0;
         for(let i=0;i<a.length;i++){const d=Math.abs(a[i]-b[i]);if(d){changed++;total+=d;max=Math.max(max,d);if(d>8)large++;}}

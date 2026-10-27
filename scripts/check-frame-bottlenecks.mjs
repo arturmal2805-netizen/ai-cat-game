@@ -25,7 +25,25 @@ export async function checkFrameBottlenecks(page, context, review) {
         q.look.distanceTo(q.desiredLook) < .01 && Math.abs(q.getDistance()-85) < .01;
     }, id, { timeout: 240000 });
     await page.waitForTimeout(1000);
-    await page.evaluate(() => { __lagoonQA.liveFrames = []; });
+    if(process.env.CHICHI_NATIVE_SETTLE_JOBS && id==='jobcity'){
+      const frame=await page.evaluate(()=>{__lagoonQA.settleJobs(180);return __lagoonQA.frames;});
+      await page.waitForFunction(frame=>__lagoonQA.frames>=frame+3&&__lagoonQA.shaderWarmup.idle(),frame);
+    }
+    await page.evaluate(() => {
+      const q=__lagoonQA;q.liveFrames=[];q.cpu=[];q.measure=true;q.longFrames=[];
+      q.mainGlTimings ||=q.trackGl(q.renderer.getContext(),{multiDraw:q.renderer.getContext().getExtension('WEBGL_multi_draw')});
+      q.mainGlTimings.clear();
+      q.longFrameObserver?.disconnect();
+      if(PerformanceObserver.supportedEntryTypes.includes('long-animation-frame')){
+        q.longFrameObserver=new PerformanceObserver(list=>{
+          q.longFrames.push(...list.getEntries().map(e=>({duration:e.duration,blocking:e.blockingDuration,
+            afterStyleStart:e.styleAndLayoutStart?e.startTime+e.duration-e.styleAndLayoutStart:0,
+            scripts:e.scripts.map(s=>({name:s.sourceFunctionName,invokerType:s.invokerType,duration:s.duration,
+              forcedStyleAndLayout:s.forcedStyleAndLayoutDuration,position:s.sourceCharPosition})).sort((a,b)=>b.duration-a.duration).slice(0,3)})));
+          q.longFrames.sort((a,b)=>b.duration-a.duration);q.longFrames.length=Math.min(q.longFrames.length,8);
+        });q.longFrameObserver.observe({type:'long-animation-frame'});
+      }
+    });
     if (cdp) await cdp.send("Profiler.start");
     await page.waitForTimeout(Number(process.env.CHICHI_NATIVE_SAMPLE_MS || 15000));
     if (cdp) {
@@ -65,7 +83,9 @@ export async function checkFrameBottlenecks(page, context, review) {
       const frames = q.liveFrames, gaps=frames.slice(1).map((f,i)=>f[0]-frames[i][0]),
         pct=(v,p)=>v.slice().sort((a,b)=>a-b)[Math.floor((v.length-1)*p)]??null;
       return {id,frames:frames.length,gapMedian:pct(gaps,.5),gapP95:pct(gaps,.95),
+        cpuMedian:pct(q.cpu,.5),cpuMax:Math.max(0,...q.cpu),
         renderMedian:pct(frames.map(f=>f[1]),.5),renderP95:pct(frames.map(f=>f[1]),.95),
+        renderMax:Math.max(0,...frames.map(f=>f[1])),longFrames:q.longFrames,glTimings:q.mainGlTimings.snapshot(),
         graph:{nodes,meshes,geometries:geometries.size,materials:materials.size,textures:textures.size,
           geometryBytes:roots.reduce((s,r)=>s+r.bytes,0),roots:roots.sort((a,b)=>b.bytes-a.bytes)},
         draw:{...q.renderer.info.render},shaders:{...q.shaderWarmup.stats},residency:{...q.geometryResidency.stats},

@@ -1,0 +1,134 @@
+{
+  "rows": [
+    {
+      "legacy": true,
+      "ms": 20.900000005960464,
+      "mutations": 880,
+      "markupIdentical": true,
+      "text": [
+        [
+          "level-number",
+          "14"
+        ],
+        [
+          "coins",
+          "13 835"
+        ],
+        [
+          "diamonds",
+          "0"
+        ],
+        [
+          "food-text",
+          "5%"
+        ],
+        [
+          "bowl-count",
+          "0"
+        ],
+        [
+          "level-title",
+          "Уровень 14"
+        ]
+      ]
+    },
+    {
+      "legacy": false,
+      "ms": 17.400000005960464,
+      "mutations": 0,
+      "markupIdentical": true,
+      "text": [
+        [
+          "level-number",
+          "14"
+        ],
+        [
+          "coins",
+          "13 835"
+        ],
+        [
+          "diamonds",
+          "0"
+        ],
+        [
+          "food-text",
+          "5%"
+        ],
+        [
+          "bowl-count",
+          "0"
+        ],
+        [
+          "level-title",
+          "Уровень 14"
+        ]
+      ]
+    },
+    {
+      "legacy": false,
+      "ms": 31.80000001192093,
+      "mutations": 0,
+      "markupIdentical": true,
+      "text": [
+        [
+          "level-number",
+          "14"
+        ],
+        [
+          "coins",
+          "13 835"
+        ],
+        [
+          "diamonds",
+          "0"
+        ],
+        [
+          "food-text",
+          "5%"
+        ],
+        [
+          "bowl-count",
+          "0"
+        ],
+        [
+          "level-title",
+          "Уровень 14"
+        ]
+      ]
+    },
+    {
+      "legacy": true,
+      "ms": 61.400000005960464,
+      "mutations": 880,
+      "markupIdentical": true,
+      "text": [
+        [
+          "level-number",
+          "14"
+        ],
+        [
+          "coins",
+          "13 835"
+        ],
+        [
+          "diamonds",
+          "0"
+        ],
+        [
+          "food-text",
+          "5%"
+        ],
+        [
+          "bowl-count",
+          "0"
+        ],
+        [
+          "level-title",
+          "Уровень 14"
+        ]
+      ]
+    }
+  ],
+  "dpr": 2,
+  "contextLost": false
+}

@@ -1,0 +1,42 @@
+{
+  "upperBoundOnly": true,
+  "cats": 115,
+  "geometries": 1056,
+  "bytes": 65746406,
+  "uniqueBytes": 43346498,
+  "savedFraction": 0.3407016347022832,
+  "duplicates": [
+    {
+      "bytes": 221772,
+      "uses": 20
+    },
+    {
+      "bytes": 182494,
+      "uses": 20
+    },
+    {
+      "bytes": 23404,
+      "uses": 115
+    },
+    {
+      "bytes": 3728,
+      "uses": 346
+    },
+    {
+      "bytes": 56180,
+      "uses": 20
+    },
+    {
+      "bytes": 18592,
+      "uses": 36
+    },
+    {
+      "bytes": 23470,
+      "uses": 20
+    },
+    {
+      "bytes": 31872,
+      "uses": 14
+    }
+  ]
+}
