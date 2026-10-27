@@ -1,0 +1,32 @@
+{
+  "release": "8c067a0da054de5ae6797c852f65e51bbc247e22",
+  "workflow": 40543938855,
+  "jobs": [
+    {
+      "name": "test",
+      "status": "success"
+    },
+    {
+      "name": "deploy",
+      "status": "success"
+    },
+    {
+      "name": "pages",
+      "status": "success"
+    }
+  ],
+  "worker": {
+    "configured": true,
+    "backupConfigured": true,
+    "backupProvider": "openrouter",
+    "backupModel": "dots-studio/dots-3-note-preview:free",
+    "protocol": "living-cat-world-v4",
+    "release": "8c067a0da054de5ae6797c852f65e51bbc247e22",
+    "versionId": "b05c2c8f-e8c1-4f16-9c3f-6294c54ec155",
+    "cloudSave": true
+  },
+  "pageScript": "./dist/app.js?v=57f32c1a11e2a7a1",
+  "localSHA256": "57f32c1a11e2a7a1bd427cda2889626812b1d8a506099a33002d148ce1c987af",
+  "liveSHA256": "57f32c1a11e2a7a1bd427cda2889626812b1d8a506099a33002d148ce1c987af",
+  "approvedPerformanceTag": "performance/approved-m2-60fps-2026-10-27"
+}
