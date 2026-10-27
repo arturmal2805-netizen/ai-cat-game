@@ -1,5 +1,10 @@
 # Twenty giant playable water worlds
 
+Published release: `1e54a861b4129f3be19c23b5afe1e425ccca6dd1`.
+`publication.json` verifies successful test/deploy/pages jobs, the live Worker
+release, the exact deployed app SHA-256 and all twenty shipped preview PNGs.
+Play: https://arturmal2805-netizen.github.io/ai-cat-game/?update=1e54a86
+
 This adds a separate collection, retaining the released twenty-five dream
 slides and every previous island/road/placement identity. `ATOLL_SLIDES` has
 exactly twenty authored entries in the requested row-major order; the final

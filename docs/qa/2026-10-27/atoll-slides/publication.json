@@ -1,0 +1,138 @@
+{
+  "checkedAt": "2026-10-27T19:35:43.299472+00:00",
+  "commit": "1e54a861b4129f3be19c23b5afe1e425ccca6dd1",
+  "site": "https://arturmal2805-netizen.github.io/ai-cat-game/?update=1e54a86",
+  "worker": "https://chichi-cat-world.arturmal2805.workers.dev",
+  "app": "./dist/app.js?v=005b9b20c29ea9cd",
+  "appSHA256": "005b9b20c29ea9cd47c59a07a02d3815ffc4b10a87f18400911c4ecb744bed5f",
+  "localAppSHA256": "005b9b20c29ea9cd47c59a07a02d3815ffc4b10a87f18400911c4ecb744bed5f",
+  "previewVersion": "4d09500844ca",
+  "previews": [
+    {
+      "id": "slide-atoll-abyss-bridge",
+      "sha256": "af412c8a9eb2bcad6894e9f4e2cd6f88f550afa5b1ff77c00ad9eff96e6f8f8a",
+      "bytes": 59041
+    },
+    {
+      "id": "slide-atoll-blue-halfpipe",
+      "sha256": "e77fae40ee5451b2ca5c2876ff94a7e70804815adab774396e29cea0a3a9efe4",
+      "bytes": 50771
+    },
+    {
+      "id": "slide-atoll-blue-whirlpool",
+      "sha256": "54ab0a169e8d513e125032c4f2afb224ddd521dcae2daf9f635188ea6cd6b3ec",
+      "bytes": 53763
+    },
+    {
+      "id": "slide-atoll-cloud-islets",
+      "sha256": "3854d3eab8120947b617c7769ee8d5e3294c328e915d1c98b4943d57e5fcc75c",
+      "bytes": 46969
+    },
+    {
+      "id": "slide-atoll-coral-arch",
+      "sha256": "4e4598c011163ee084c90afe06ef7e8e00e669f6883a7083ae80512ee6a68e16",
+      "bytes": 52695
+    },
+    {
+      "id": "slide-atoll-crystal-cavern",
+      "sha256": "87e5d330a4445fa731e2dd2762e0ead1d56df4481a08a55a21228125e651c1bb",
+      "bytes": 53816
+    },
+    {
+      "id": "slide-atoll-double-serpent",
+      "sha256": "9a68278b02323aa1263d5e156d8ae411dd2bdb9608c31662a64b549f0c10398a",
+      "bytes": 57520
+    },
+    {
+      "id": "slide-atoll-emerald-canyon",
+      "sha256": "6f2f23cc371ae8cf75995532e6c15c0e5aca608f88d6ef6daaf4cd4ecf3ac94d",
+      "bytes": 58703
+    },
+    {
+      "id": "slide-atoll-flower-lagoon",
+      "sha256": "3a7d747744b200d29f32c8741112e8b66bf26e4edf2030d6912176579532bdc6",
+      "bytes": 54633
+    },
+    {
+      "id": "slide-atoll-giant-wave",
+      "sha256": "4307123cf7be5b9cdb14b8440b134d4d0ba0dfc49cfb41ccdf632c06cc235e21",
+      "bytes": 51711
+    },
+    {
+      "id": "slide-atoll-green-valley",
+      "sha256": "bda2013e82969347fe93338b0f5a44d65740f23a987132f876e14f6eb51eefa8",
+      "bytes": 59412
+    },
+    {
+      "id": "slide-atoll-lagoon-loop",
+      "sha256": "9e549ce10f6fbdbb99478cddff89e0a11cf7e27ae1d9b85112ac2d948fe6e8c2",
+      "bytes": 51415
+    },
+    {
+      "id": "slide-atoll-mega-loops",
+      "sha256": "16fe5dff303491aa999cc31d2924776c80c1deab84177823c930dba1e0b5a55e",
+      "bytes": 53011
+    },
+    {
+      "id": "slide-atoll-purple-vortex",
+      "sha256": "4ae3ad4932f20067ff890b8028df07c65dd08f0b78bfab342a00871fcca67a85",
+      "bytes": 49912
+    },
+    {
+      "id": "slide-atoll-rainbow-race",
+      "sha256": "940f2cd7c33065f333c045895c6d3dde5877b170e62371c81521191c989641a4",
+      "bytes": 57007
+    },
+    {
+      "id": "slide-atoll-red-canyon",
+      "sha256": "d651bd37d26c1f8fc58d62dec5aa3be6b475cbaed4f3e807ba343697f41d96f4",
+      "bytes": 58414
+    },
+    {
+      "id": "slide-atoll-rock-arch",
+      "sha256": "3adaac35e55fff438113493799023cf259a139a458ce1611d914f7ffe50309c1",
+      "bytes": 51383
+    },
+    {
+      "id": "slide-atoll-root-valley",
+      "sha256": "743b96b42267a9600648bbb13c3a0234119c2f4779cd0afbaaf0b7d51330009c",
+      "bytes": 56134
+    },
+    {
+      "id": "slide-atoll-sky-serpent",
+      "sha256": "74ec6817fe946b2b015a59b7d28be600950168bff2e7ab592336f0bd3163e131",
+      "bytes": 52211
+    },
+    {
+      "id": "slide-atoll-waterfall-cascade",
+      "sha256": "8bf56f6646dd8006c7e9a0eaa444ea68de5513cfc620d365bf91b0a14bdead90",
+      "bytes": 59635
+    }
+  ],
+  "server": {
+    "release": "1e54a861b4129f3be19c23b5afe1e425ccca6dd1",
+    "configured": true,
+    "cloudSave": true,
+    "backupConfigured": true
+  },
+  "ci": {
+    "url": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/40569520622",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "name": "test",
+        "conclusion": "success"
+      },
+      {
+        "name": "deploy",
+        "conclusion": "success"
+      },
+      {
+        "name": "pages",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "physicalFPSClaim": false,
+  "approvedSculptCache": "sculpt-v2-a496203fa13a037a7a10a927"
+}
