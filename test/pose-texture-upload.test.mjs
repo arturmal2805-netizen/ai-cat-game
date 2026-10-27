@@ -57,6 +57,8 @@ test("unsupported or non-row texture updates stay on the native path untouched",
     t=>{t.addUpdateRange(32,32);t.addUpdateRange(0,32);},
     t=>{t.addUpdateRange(0,32);t.flipY=true;},
     t=>{t.addUpdateRange(0,32);t.premultiplyAlpha=true;},
+    t=>{t.addUpdateRange(0,32);t.onUpdate=()=>{};},
+    t=>{t.addUpdateRange(0,32);t.source.dataReady=false;},
     t=>{t.addUpdateRange(0,32);t.colorSpace=THREE.SRGBColorSpace;}]) {
     const f=fixture();update(f.texture);
     const ranges=structuredClone(f.texture.updateRanges);

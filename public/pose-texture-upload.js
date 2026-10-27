@@ -14,6 +14,7 @@ export function uploadPoseTextureRows(renderer, texture) {
       !texture.isDataTexture || texture.type !== THREE.FloatType ||
       texture.format !== THREE.RGBAFormat || texture.flipY ||
       texture.premultiplyAlpha || texture.generateMipmaps ||
+      texture.onUpdate || texture.source.dataReady === false ||
       texture.colorSpace !== THREE.NoColorSpace ||
       !(image?.data instanceof Float32Array) ||
       image.data.length !== image.width * image.height * 4 || !ranges.length)
