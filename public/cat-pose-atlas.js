@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { uploadPoseTextureRows } from "./pose-texture-upload.js";
 
 // A single Float32 pose store shared by the colony's colour and shadow draws.
 // The sculpt/weights stay unchanged. Upload only rows whose joint poses changed,
@@ -36,6 +37,7 @@ export function createCatPoseAtlas(
   const uniform = { value: texture };
   const viewUniform = { value: null };
   let enabled = true,
+    rowUploadEnabled = true,
     disposed = false,
     sharing = false;
   const stats = { entries: 0, rows: 0, bytes: 0, cats: 0, updatedCats: 0 },
@@ -96,7 +98,7 @@ export function createCatPoseAtlas(
       },
     };
   }
-  function flush() {
+  function flush(renderer) {
     if (!dirty.some(Boolean)) {
       stats.rows = stats.bytes = 0;
       return;
@@ -115,7 +117,8 @@ export function createCatPoseAtlas(
       }
     stats.rows = rows;
     stats.bytes = rows * WIDTH * 4 * 4;
-    if (rows) texture.needsUpdate = true;
+    if (rows && !(rowUploadEnabled && renderer && uploadPoseTextureRows(renderer, texture)))
+      texture.needsUpdate = true;
   }
   function attachedVisible(cat) {
     for (let p = cat; p; p = p.parent) {
@@ -170,7 +173,7 @@ export function createCatPoseAtlas(
     sharing = relevant.size >= minimumCats;
     if (sharing) {
       for (const cat of relevant) cats.get(cat).update(renderer);
-      flush();
+      flush(renderer);
     } else stats.rows = stats.bytes = 0;
   }
   scene.onBeforeRender = prepare;
@@ -258,6 +261,7 @@ export function createCatPoseAtlas(
       m.addEventListener("dispose", () => materials.delete(m));
     },
     flush,
+    setRowUploadEnabled(value) { rowUploadEnabled = !!value; },
     setEnabled(value) {
       if (enabled === !!value) return;
       enabled = !!value;
