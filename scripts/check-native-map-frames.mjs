@@ -77,7 +77,10 @@ export async function checkNativeMapFrames(page, review) {
     const started = Date.now();
     await page.evaluate(({id,legacy,reuse,actorLegacy,compareActors,individual,compareBlend,blend,compareRefault,refault,comparePose,poseRows}) => {
       const q = __lagoonQA;
-      if(individual!==undefined)q.colonyDraws.setEnabled?.(!individual);
+      if(individual!==undefined){
+        q.poseAtlas.setSharingEnabled?.(true);
+        q.colonyDraws.setEnabled?.(true);q.colonyDraws.sync();
+      }
       if(comparePose)q.poseAtlas.setRowUploadEnabled(poseRows);
       if(compareRefault)q.geometryResidency.setRefaultProtectionEnabled(refault);
       if (compareBlend) {
@@ -110,6 +113,10 @@ export async function checkNativeMapFrames(page, review) {
         q.look.distanceTo(q.desiredLook) < .01 && Math.abs(q.getDistance() - 85) < .01 &&
         q.shaderWarmup.idle();
     }, id, { timeout: 180000 });
+    if(compareColony){
+      await page.waitForFunction(()=>__lagoonQA.colonyDraws.stats.ready);
+      await page.evaluate(individual=>__lagoonQA.colonyDraws.setEnabled(!individual),individual);
+    }
     if (process.env.CHICHI_NATIVE_SETTLE_JOBS && id === "jobcity" && !workSettled) {
       // Private fixture preparation only. The timed run still uses the native
       // RAF, full animation/simulation and original nonblocking GPU queue.

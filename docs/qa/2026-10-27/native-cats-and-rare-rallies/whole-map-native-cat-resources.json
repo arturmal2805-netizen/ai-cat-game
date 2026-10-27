@@ -1,0 +1,937 @@
+[
+  {
+    "id": "moon",
+    "changed": 0,
+    "modes": [
+      {
+        "sharing": true,
+        "frame": 114,
+        "calls": 341,
+        "triangles": 630496,
+        "points": 320,
+        "lines": 0,
+        "poseBytes": 0,
+        "poseRows": 0,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      },
+      {
+        "sharing": false,
+        "frame": 115,
+        "calls": 341,
+        "triangles": 630496,
+        "points": 320,
+        "lines": 0,
+        "poseBytes": 0,
+        "poseRows": 0,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      }
+    ],
+    "before": {
+      "cats": 96,
+      "slots": 2630
+    },
+    "after": {
+      "cats": 96,
+      "slots": 2630
+    },
+    "colony": {
+      "sources": 0,
+      "batches": 0,
+      "ready": true,
+      "active": false
+    },
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "autumn",
+    "changed": 0,
+    "modes": [
+      {
+        "sharing": true,
+        "frame": 205,
+        "calls": 188,
+        "triangles": 616232,
+        "points": 740,
+        "lines": 0,
+        "poseBytes": 0,
+        "poseRows": 0,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      },
+      {
+        "sharing": false,
+        "frame": 206,
+        "calls": 188,
+        "triangles": 616232,
+        "points": 740,
+        "lines": 0,
+        "poseBytes": 0,
+        "poseRows": 0,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      }
+    ],
+    "before": {
+      "cats": 96,
+      "slots": 2630
+    },
+    "after": {
+      "cats": 96,
+      "slots": 2630
+    },
+    "colony": {
+      "sources": 0,
+      "batches": 0,
+      "ready": true,
+      "active": false
+    },
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "winter",
+    "changed": 0,
+    "modes": [
+      {
+        "sharing": true,
+        "frame": 305,
+        "calls": 587,
+        "triangles": 1027368,
+        "points": 740,
+        "lines": 0,
+        "poseBytes": 0,
+        "poseRows": 0,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      },
+      {
+        "sharing": false,
+        "frame": 306,
+        "calls": 587,
+        "triangles": 1027368,
+        "points": 740,
+        "lines": 0,
+        "poseBytes": 0,
+        "poseRows": 0,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      }
+    ],
+    "before": {
+      "cats": 96,
+      "slots": 2630
+    },
+    "after": {
+      "cats": 96,
+      "slots": 2630
+    },
+    "colony": {
+      "sources": 0,
+      "batches": 0,
+      "ready": true,
+      "active": false
+    },
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "water",
+    "changed": 0,
+    "modes": [
+      {
+        "sharing": true,
+        "frame": 376,
+        "calls": 255,
+        "triangles": 972011,
+        "points": 320,
+        "lines": 0,
+        "poseBytes": 90112,
+        "poseRows": 11,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      },
+      {
+        "sharing": false,
+        "frame": 377,
+        "calls": 255,
+        "triangles": 972011,
+        "points": 320,
+        "lines": 0,
+        "poseBytes": 0,
+        "poseRows": 0,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      }
+    ],
+    "before": {
+      "cats": 96,
+      "slots": 2630
+    },
+    "after": {
+      "cats": 96,
+      "slots": 2630
+    },
+    "colony": {
+      "sources": 0,
+      "batches": 0,
+      "ready": true,
+      "active": false
+    },
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "summer",
+    "changed": 0,
+    "modes": [
+      {
+        "sharing": true,
+        "frame": 531,
+        "calls": 499,
+        "triangles": 3016313,
+        "points": 320,
+        "lines": 0,
+        "poseBytes": 0,
+        "poseRows": 0,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      },
+      {
+        "sharing": false,
+        "frame": 532,
+        "calls": 499,
+        "triangles": 3016313,
+        "points": 320,
+        "lines": 0,
+        "poseBytes": 0,
+        "poseRows": 0,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      }
+    ],
+    "before": {
+      "cats": 96,
+      "slots": 2630
+    },
+    "after": {
+      "cats": 96,
+      "slots": 2630
+    },
+    "colony": {
+      "sources": 0,
+      "batches": 0,
+      "ready": true,
+      "active": false
+    },
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "sakura",
+    "changed": 0,
+    "modes": [
+      {
+        "sharing": true,
+        "frame": 630,
+        "calls": 362,
+        "triangles": 1868623,
+        "points": 740,
+        "lines": 0,
+        "poseBytes": 0,
+        "poseRows": 0,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      },
+      {
+        "sharing": false,
+        "frame": 631,
+        "calls": 362,
+        "triangles": 1868623,
+        "points": 740,
+        "lines": 0,
+        "poseBytes": 0,
+        "poseRows": 0,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      }
+    ],
+    "before": {
+      "cats": 96,
+      "slots": 2630
+    },
+    "after": {
+      "cats": 96,
+      "slots": 2630
+    },
+    "colony": {
+      "sources": 0,
+      "batches": 0,
+      "ready": true,
+      "active": false
+    },
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "volcano",
+    "changed": 0,
+    "modes": [
+      {
+        "sharing": true,
+        "frame": 719,
+        "calls": 559,
+        "triangles": 1193414,
+        "points": 740,
+        "lines": 0,
+        "poseBytes": 0,
+        "poseRows": 0,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      },
+      {
+        "sharing": false,
+        "frame": 720,
+        "calls": 559,
+        "triangles": 1193414,
+        "points": 740,
+        "lines": 0,
+        "poseBytes": 0,
+        "poseRows": 0,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      }
+    ],
+    "before": {
+      "cats": 96,
+      "slots": 2630
+    },
+    "after": {
+      "cats": 96,
+      "slots": 2630
+    },
+    "colony": {
+      "sources": 0,
+      "batches": 0,
+      "ready": true,
+      "active": false
+    },
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "candy",
+    "changed": 0,
+    "modes": [
+      {
+        "sharing": true,
+        "frame": 749,
+        "calls": 197,
+        "triangles": 391340,
+        "points": 0,
+        "lines": 0,
+        "poseBytes": 0,
+        "poseRows": 0,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      },
+      {
+        "sharing": false,
+        "frame": 750,
+        "calls": 197,
+        "triangles": 391340,
+        "points": 0,
+        "lines": 0,
+        "poseBytes": 0,
+        "poseRows": 0,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      }
+    ],
+    "before": {
+      "cats": 96,
+      "slots": 2630
+    },
+    "after": {
+      "cats": 96,
+      "slots": 2630
+    },
+    "colony": {
+      "sources": 0,
+      "batches": 0,
+      "ready": true,
+      "active": false
+    },
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "galaxy",
+    "changed": 0,
+    "modes": [
+      {
+        "sharing": true,
+        "frame": 808,
+        "calls": 454,
+        "triangles": 1054422,
+        "points": 740,
+        "lines": 0,
+        "poseBytes": 0,
+        "poseRows": 0,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      },
+      {
+        "sharing": false,
+        "frame": 809,
+        "calls": 454,
+        "triangles": 1054422,
+        "points": 740,
+        "lines": 0,
+        "poseBytes": 0,
+        "poseRows": 0,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      }
+    ],
+    "before": {
+      "cats": 96,
+      "slots": 2630
+    },
+    "after": {
+      "cats": 96,
+      "slots": 2630
+    },
+    "colony": {
+      "sources": 0,
+      "batches": 0,
+      "ready": true,
+      "active": false
+    },
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "ice",
+    "changed": 0,
+    "modes": [
+      {
+        "sharing": true,
+        "frame": 897,
+        "calls": 899,
+        "triangles": 1083264,
+        "points": 420,
+        "lines": 0,
+        "poseBytes": 0,
+        "poseRows": 0,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      },
+      {
+        "sharing": false,
+        "frame": 898,
+        "calls": 899,
+        "triangles": 1083264,
+        "points": 420,
+        "lines": 0,
+        "poseBytes": 0,
+        "poseRows": 0,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      }
+    ],
+    "before": {
+      "cats": 96,
+      "slots": 2630
+    },
+    "after": {
+      "cats": 96,
+      "slots": 2630
+    },
+    "colony": {
+      "sources": 0,
+      "batches": 0,
+      "ready": true,
+      "active": false
+    },
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "clockwork",
+    "changed": 0,
+    "modes": [
+      {
+        "sharing": true,
+        "frame": 1036,
+        "calls": 795,
+        "triangles": 2469748,
+        "points": 420,
+        "lines": 0,
+        "poseBytes": 0,
+        "poseRows": 0,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      },
+      {
+        "sharing": false,
+        "frame": 1037,
+        "calls": 795,
+        "triangles": 2469748,
+        "points": 420,
+        "lines": 0,
+        "poseBytes": 0,
+        "poseRows": 0,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      }
+    ],
+    "before": {
+      "cats": 96,
+      "slots": 2630
+    },
+    "after": {
+      "cats": 96,
+      "slots": 2630
+    },
+    "colony": {
+      "sources": 0,
+      "batches": 0,
+      "ready": true,
+      "active": false
+    },
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "foodcourt",
+    "changed": 0,
+    "modes": [
+      {
+        "sharing": true,
+        "frame": 1082,
+        "calls": 144,
+        "triangles": 595410,
+        "points": 320,
+        "lines": 0,
+        "poseBytes": 0,
+        "poseRows": 0,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      },
+      {
+        "sharing": false,
+        "frame": 1083,
+        "calls": 144,
+        "triangles": 595410,
+        "points": 320,
+        "lines": 0,
+        "poseBytes": 0,
+        "poseRows": 0,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      }
+    ],
+    "before": {
+      "cats": 97,
+      "slots": 2659
+    },
+    "after": {
+      "cats": 97,
+      "slots": 2659
+    },
+    "colony": {
+      "sources": 0,
+      "batches": 0,
+      "ready": true,
+      "active": false
+    },
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "bikini",
+    "changed": 0,
+    "modes": [
+      {
+        "sharing": true,
+        "frame": 1135,
+        "calls": 218,
+        "triangles": 821392,
+        "points": 320,
+        "lines": 0,
+        "poseBytes": 0,
+        "poseRows": 0,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      },
+      {
+        "sharing": false,
+        "frame": 1136,
+        "calls": 218,
+        "triangles": 821392,
+        "points": 320,
+        "lines": 0,
+        "poseBytes": 0,
+        "poseRows": 0,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      }
+    ],
+    "before": {
+      "cats": 97,
+      "slots": 2659
+    },
+    "after": {
+      "cats": 97,
+      "slots": 2659
+    },
+    "colony": {
+      "sources": 0,
+      "batches": 0,
+      "ready": true,
+      "active": false
+    },
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "homestead",
+    "changed": 0,
+    "modes": [
+      {
+        "sharing": true,
+        "frame": 1216,
+        "calls": 1072,
+        "triangles": 2438425,
+        "points": 0,
+        "lines": 0,
+        "poseBytes": 180224,
+        "poseRows": 22,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      },
+      {
+        "sharing": false,
+        "frame": 1217,
+        "calls": 1072,
+        "triangles": 2438425,
+        "points": 0,
+        "lines": 0,
+        "poseBytes": 0,
+        "poseRows": 0,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      }
+    ],
+    "before": {
+      "cats": 97,
+      "slots": 2659
+    },
+    "after": {
+      "cats": 97,
+      "slots": 2659
+    },
+    "colony": {
+      "sources": 0,
+      "batches": 0,
+      "ready": true,
+      "active": false
+    },
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "aquarium",
+    "changed": 0,
+    "modes": [
+      {
+        "sharing": true,
+        "frame": 1282,
+        "calls": 290,
+        "triangles": 2008590,
+        "points": 320,
+        "lines": 0,
+        "poseBytes": 0,
+        "poseRows": 0,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      },
+      {
+        "sharing": false,
+        "frame": 1283,
+        "calls": 290,
+        "triangles": 2008590,
+        "points": 320,
+        "lines": 0,
+        "poseBytes": 0,
+        "poseRows": 0,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      }
+    ],
+    "before": {
+      "cats": 97,
+      "slots": 2659
+    },
+    "after": {
+      "cats": 97,
+      "slots": 2659
+    },
+    "colony": {
+      "sources": 0,
+      "batches": 0,
+      "ready": true,
+      "active": false
+    },
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "jobcity",
+    "changed": 0,
+    "modes": [
+      {
+        "sharing": true,
+        "frame": 1346,
+        "calls": 428,
+        "triangles": 1254617,
+        "points": 320,
+        "lines": 0,
+        "poseBytes": 98304,
+        "poseRows": 12,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      },
+      {
+        "sharing": false,
+        "frame": 1347,
+        "calls": 428,
+        "triangles": 1254617,
+        "points": 320,
+        "lines": 0,
+        "poseBytes": 0,
+        "poseRows": 0,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      }
+    ],
+    "before": {
+      "cats": 97,
+      "slots": 2659
+    },
+    "after": {
+      "cats": 97,
+      "slots": 2659
+    },
+    "colony": {
+      "sources": 0,
+      "batches": 0,
+      "ready": true,
+      "active": false
+    },
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "cat-homes",
+    "changed": 0,
+    "modes": [
+      {
+        "sharing": true,
+        "frame": 1369,
+        "calls": 29,
+        "triangles": 117772,
+        "points": 0,
+        "lines": 0,
+        "poseBytes": 0,
+        "poseRows": 0,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      },
+      {
+        "sharing": false,
+        "frame": 1370,
+        "calls": 29,
+        "triangles": 117772,
+        "points": 0,
+        "lines": 0,
+        "poseBytes": 0,
+        "poseRows": 0,
+        "uploads": {
+          "dataCalls": 0,
+          "dataBytes": 0,
+          "subCalls": 0,
+          "subBytes": 0
+        }
+      }
+    ],
+    "before": {
+      "cats": 97,
+      "slots": 2659
+    },
+    "after": {
+      "cats": 97,
+      "slots": 2659
+    },
+    "colony": {
+      "sources": 0,
+      "batches": 0,
+      "ready": true,
+      "active": false
+    },
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  }
+]

@@ -1,0 +1,45 @@
+✔ ordinary play and existing native diagnostic links use the player-verified individual renderer (1.997857ms)
+✔ individual colony mode keeps live cat slots but prepares no unused batch meshes, shaders or pose uploads (1905.164993ms)
+✔ pose storage preserves all Float32 matrix/normal bytes, uploads only changed rows and reuses released ranges (7.210397ms)
+✔ colony draws preserve half-float vertices, weighted joints, material tints, current bounds and original picking through rebuilds (639.548053ms)
+✔ render traversal omits CPU-only rig branches, restores original child arrays after draws and exceptions, and retains added effects (84.020867ms)
+✔ an animated apron sharing a range-only static material stays on its native rig without breaking colony shader helpers (481.734458ms)
+✔ rare rallies are deterministic five-percent events, with independent strengths between eight and twenty-five times (259.76588ms)
+✔ a rare winning rally visibly rises, makes the trader much richer and settles exactly once across restart and concurrent saves (742.953588ms)
+✔ shorting a soaring coin still liquidates at its first crossing and loses only the escrowed margin (13.43863ms)
+✔ opening the new version never changes an already persisted legacy price path (48.201868ms)
+✔ only employed crypto cats may reserve, individual skipped/poor cycles are remembered and never ask again before the next seven-day cycle (13.210818ms)
+✔ LONG and SHORT use directional leveraged PNL with escrow and fees, and settlement never credits twice (66.034229ms)
+✔ saved prices, timers, escrow and terminal results survive thirty reloads without another payment (581.804506ms)
+✔ liquidation closes at the first persisted price crossing, consumes at most margin and cannot make a wallet negative (161.380299ms)
+✔ concurrent devices, lost ACKs, a restarted ledger and provider failure consume at most one forecast per reserved cycle (22.050027ms)
+✔ unreserved/other-profession forecasts cannot spend credits and cached clients cannot erase investments or double-spend escrow (29.287395ms)
+✔ seven-day periods follow each career start and never replay offline weeks or change family pacing (3.024598ms)
+✔ the server rejects an early second cycle and admits the same trader exactly seven days later (22.975936ms)
+✔ large private trading wallets survive reload without a ten-million-coin truncation; corrupt escrow uses the save backup (205.119774ms)
+✔ every existing, new, tiny and magical cat can trade when officially employed in crypto, with independent weekly receipts (8740.00417ms)
+ℹ 148 cat profiles, 95 adoption cats, 148 mocked forecasts and 71 voluntary skipped cycles; zero paid requests.
+✔ local frame reports separate CPU, render submission and GPU waits with a bounded window (6.921293ms)
+✔ ordinary play never allocates a diagnostic panel or reads browser resources (1.119579ms)
+✔ a bounded local profile pauses despite late callbacks, preserves one stop event and can resume (2.211528ms)
+✔ local upload counters preserve GL arguments, account for typed offsets and release their hooks (1.51345ms)
+✔ opt-in native GL timings include texture/multi-draw/reflection stalls without queries or retained arguments (3.574172ms)
+✔ old GPU geometry is retired without altering CPU vertices and can be drawn again (7.353781ms)
+✔ recent shadow/colour owners protect every shared-attribute geometry (4.502364ms)
+✔ budget retains the most recently used geometry and external disposal is accounted once (1.931438ms)
+✔ GPU-only eviction preserves a living cat and its pose slots across repeated returns (1510.135983ms)
+✔ memory pressure retires only buffers absent from three actual colour/shadow frames, without waiting ten seconds (5.529925ms)
+✔ repeated colour/shadow draws read the use clock once per native render frame (2.876535ms)
+✔ alternating render caches survive brief native/colony switches under pressure, while abandoned island buffers still retire (5.714392ms)
+✔ returning camera geometry learns a bounded working set instead of repeatedly deleting and uploading it (7.382185ms)
+✔ refault protection yields to its memory cap when the working set cannot fit (7.867501ms)
+✔ refault telemetry counts restored shared streams only once and ordinary disposal stays final (6.217037ms)
+✔ temporary memory overflow reclaims cold scenery before the oldest protected returning camera buffers (2.457817ms)
+ℹ tests 36
+ℹ suites 0
+ℹ pass 36
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11498.670466

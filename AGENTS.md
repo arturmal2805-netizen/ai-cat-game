@@ -288,6 +288,13 @@ escrow. Office screens share one fixed price array and instanced draw; preserve
 native stairs, work seats and approved cat rigs. Routine checks use private
 SQLite and mocked forecasts, never player worlds or paid inference.
 
+Rare moonshot events are local deterministic draws per newly opened durable
+attempt (5%, price 8–25x), not per-price-tick rolls or extra AI calls. Persist
+the entire path and event once; never regenerate an existing/legacy position.
+Show a rally only after its saved start time. Keep LONG/SHORT risk, first-crossing
+liquidation, escrow and once-only settlement; verify reload and simultaneous
+settlement cannot create a second payout.
+
 ### Working day 09:00–17:00
 
 All work, attendance, wages and after-work AI use JOB_START/JOB_END. Preserve
@@ -298,6 +305,16 @@ settle once at 17:00. Quiet cats may return home then; other cats retain their
 chosen free-time itinerary until the existing evening curfew.
 
 ### Native-frame GPU resource bookkeeping
+
+Player-verified individual cat rendering is the ordinary world path as of
+2026-10-27 (physical Safari Job City 44.11 FPS and Chrome/Metal M2 attractions
+42.61 FPS, both DPR 2; different views/browsers are not a controlled multiplier).
+Keep the approved native per-cat palettes and Chichi renderer. Do not prepare
+unused colony BatchedMeshes, shaders or shared pose uploads in this mode.
+Retain live registrations, native picking and material/pose data. Colony sharing
+is an explicit `profile=1&catDraw=shared` comparison, never a silent return based
+only on fewer draw calls. Preserve the earlier immutable baseline references.
+These reports approve the rendering choice, not a claim of universal 60 FPS.
 
 Use one timestamp for each native renderer frame, retaining both colour and
 shadow use, instead of reading the clock on every draw. Under memory pressure,
@@ -326,6 +343,12 @@ Check real bufferData transfers, over-cap reclamation, eventual idle release,
 live cat registrations and exact return frames. Resource savings alone do not
 establish physical-device FPS. Opt-in reports distinguish fresh transfers from
 policy refaults and expose preparation state without player records or keys.
+
+Trim cold idle geometry before breaking a learned returning-camera working set,
+even when a new upload temporarily exceeds its allowance. If cold reclamation
+cannot satisfy the allowance, pressure may retire idle protected buffers in a
+second pass. Both passes share the same 2 ms cleanup budget; retain shared-owner
+safety, current-frame precedence and the original memory limits.
 
 ### Static vertex reuse in the shared builders
 

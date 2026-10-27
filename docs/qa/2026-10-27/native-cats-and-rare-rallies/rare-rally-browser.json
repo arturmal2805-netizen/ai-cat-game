@@ -1,0 +1,60 @@
+{
+  "employees": [
+    {
+      "id": "chichi",
+      "phase": "work",
+      "slot": 0
+    },
+    {
+      "id": "luna",
+      "phase": "work",
+      "slot": 2
+    },
+    {
+      "id": "moti",
+      "phase": "work",
+      "slot": 4
+    },
+    {
+      "id": "pixel",
+      "phase": "work",
+      "slot": 1
+    },
+    {
+      "id": "peach",
+      "phase": "work",
+      "slot": 3
+    },
+    {
+      "id": "bagel",
+      "phase": "work",
+      "slot": 5
+    }
+  ],
+  "layout": {
+    "width": 350,
+    "scroll": 350
+  },
+  "forecastCalls": [
+    1
+  ],
+  "intervalDays": 7,
+  "activeTradeBadge": {
+    "onlyOpenTrader": true,
+    "retainedAcrossSelection": true,
+    "removedAfterSettlement": true
+  },
+  "settlement": {
+    "status": "closed",
+    "pnl": 24092,
+    "coins": 29092,
+    "marketEvent": {
+      "kind": "moonshot",
+      "multiplier": 17,
+      "startsAt": 0.2524036196060479
+    }
+  },
+  "reloads": 3,
+  "errors": [],
+  "navigationErrors": []
+}

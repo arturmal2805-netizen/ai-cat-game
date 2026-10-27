@@ -1,0 +1,383 @@
+{
+  "rows": [
+    {
+      "legacy": true,
+      "returnBytes": 8400,
+      "returnCalls": 40,
+      "changed": 0,
+      "rows": [
+        {
+          "returnBytes": 840,
+          "returnCalls": 4,
+          "changed": 0,
+          "afterPressure": 2520,
+          "budget": 2520,
+          "stats": {
+            "bytes": 3360,
+            "peakBytes": 4200,
+            "geometries": 4,
+            "evicted": 3,
+            "clockReads": 7,
+            "refaults": 2,
+            "refaultBytes": 1680,
+            "rapidRefaults": 2,
+            "rapidRefaultBytes": 1680
+          }
+        },
+        {
+          "returnBytes": 840,
+          "returnCalls": 4,
+          "changed": 0,
+          "afterPressure": 2520,
+          "budget": 2520,
+          "stats": {
+            "bytes": 3360,
+            "peakBytes": 4200,
+            "geometries": 4,
+            "evicted": 3,
+            "clockReads": 7,
+            "refaults": 2,
+            "refaultBytes": 1680,
+            "rapidRefaults": 2,
+            "rapidRefaultBytes": 1680
+          }
+        },
+        {
+          "returnBytes": 840,
+          "returnCalls": 4,
+          "changed": 0,
+          "afterPressure": 2520,
+          "budget": 2520,
+          "stats": {
+            "bytes": 3360,
+            "peakBytes": 4200,
+            "geometries": 4,
+            "evicted": 3,
+            "clockReads": 7,
+            "refaults": 2,
+            "refaultBytes": 1680,
+            "rapidRefaults": 2,
+            "rapidRefaultBytes": 1680
+          }
+        },
+        {
+          "returnBytes": 840,
+          "returnCalls": 4,
+          "changed": 0,
+          "afterPressure": 2520,
+          "budget": 2520,
+          "stats": {
+            "bytes": 3360,
+            "peakBytes": 4200,
+            "geometries": 4,
+            "evicted": 3,
+            "clockReads": 7,
+            "refaults": 2,
+            "refaultBytes": 1680,
+            "rapidRefaults": 2,
+            "rapidRefaultBytes": 1680
+          }
+        },
+        {
+          "returnBytes": 840,
+          "returnCalls": 4,
+          "changed": 0,
+          "afterPressure": 2520,
+          "budget": 2520,
+          "stats": {
+            "bytes": 3360,
+            "peakBytes": 4200,
+            "geometries": 4,
+            "evicted": 3,
+            "clockReads": 7,
+            "refaults": 2,
+            "refaultBytes": 1680,
+            "rapidRefaults": 2,
+            "rapidRefaultBytes": 1680
+          }
+        },
+        {
+          "returnBytes": 840,
+          "returnCalls": 4,
+          "changed": 0,
+          "afterPressure": 2520,
+          "budget": 2520,
+          "stats": {
+            "bytes": 3360,
+            "peakBytes": 4200,
+            "geometries": 4,
+            "evicted": 3,
+            "clockReads": 7,
+            "refaults": 2,
+            "refaultBytes": 1680,
+            "rapidRefaults": 2,
+            "rapidRefaultBytes": 1680
+          }
+        },
+        {
+          "returnBytes": 840,
+          "returnCalls": 4,
+          "changed": 0,
+          "afterPressure": 2520,
+          "budget": 2520,
+          "stats": {
+            "bytes": 3360,
+            "peakBytes": 4200,
+            "geometries": 4,
+            "evicted": 3,
+            "clockReads": 7,
+            "refaults": 2,
+            "refaultBytes": 1680,
+            "rapidRefaults": 2,
+            "rapidRefaultBytes": 1680
+          }
+        },
+        {
+          "returnBytes": 840,
+          "returnCalls": 4,
+          "changed": 0,
+          "afterPressure": 2520,
+          "budget": 2520,
+          "stats": {
+            "bytes": 3360,
+            "peakBytes": 4200,
+            "geometries": 4,
+            "evicted": 3,
+            "clockReads": 7,
+            "refaults": 2,
+            "refaultBytes": 1680,
+            "rapidRefaults": 2,
+            "rapidRefaultBytes": 1680
+          }
+        },
+        {
+          "returnBytes": 840,
+          "returnCalls": 4,
+          "changed": 0,
+          "afterPressure": 2520,
+          "budget": 2520,
+          "stats": {
+            "bytes": 3360,
+            "peakBytes": 4200,
+            "geometries": 4,
+            "evicted": 3,
+            "clockReads": 7,
+            "refaults": 2,
+            "refaultBytes": 1680,
+            "rapidRefaults": 2,
+            "rapidRefaultBytes": 1680
+          }
+        },
+        {
+          "returnBytes": 840,
+          "returnCalls": 4,
+          "changed": 0,
+          "afterPressure": 2520,
+          "budget": 2520,
+          "stats": {
+            "bytes": 3360,
+            "peakBytes": 4200,
+            "geometries": 4,
+            "evicted": 3,
+            "clockReads": 7,
+            "refaults": 2,
+            "refaultBytes": 1680,
+            "rapidRefaults": 2,
+            "rapidRefaultBytes": 1680
+          }
+        }
+      ]
+    },
+    {
+      "legacy": false,
+      "returnBytes": 0,
+      "returnCalls": 0,
+      "changed": 0,
+      "rows": [
+        {
+          "returnBytes": 0,
+          "returnCalls": 0,
+          "changed": 0,
+          "afterPressure": 2520,
+          "budget": 2520,
+          "stats": {
+            "bytes": 2520,
+            "peakBytes": 4200,
+            "geometries": 3,
+            "evicted": 3,
+            "clockReads": 7,
+            "refaults": 1,
+            "refaultBytes": 840,
+            "rapidRefaults": 1,
+            "rapidRefaultBytes": 840
+          }
+        },
+        {
+          "returnBytes": 0,
+          "returnCalls": 0,
+          "changed": 0,
+          "afterPressure": 2520,
+          "budget": 2520,
+          "stats": {
+            "bytes": 2520,
+            "peakBytes": 4200,
+            "geometries": 3,
+            "evicted": 3,
+            "clockReads": 7,
+            "refaults": 1,
+            "refaultBytes": 840,
+            "rapidRefaults": 1,
+            "rapidRefaultBytes": 840
+          }
+        },
+        {
+          "returnBytes": 0,
+          "returnCalls": 0,
+          "changed": 0,
+          "afterPressure": 2520,
+          "budget": 2520,
+          "stats": {
+            "bytes": 2520,
+            "peakBytes": 4200,
+            "geometries": 3,
+            "evicted": 3,
+            "clockReads": 7,
+            "refaults": 1,
+            "refaultBytes": 840,
+            "rapidRefaults": 1,
+            "rapidRefaultBytes": 840
+          }
+        },
+        {
+          "returnBytes": 0,
+          "returnCalls": 0,
+          "changed": 0,
+          "afterPressure": 2520,
+          "budget": 2520,
+          "stats": {
+            "bytes": 2520,
+            "peakBytes": 4200,
+            "geometries": 3,
+            "evicted": 3,
+            "clockReads": 7,
+            "refaults": 1,
+            "refaultBytes": 840,
+            "rapidRefaults": 1,
+            "rapidRefaultBytes": 840
+          }
+        },
+        {
+          "returnBytes": 0,
+          "returnCalls": 0,
+          "changed": 0,
+          "afterPressure": 2520,
+          "budget": 2520,
+          "stats": {
+            "bytes": 2520,
+            "peakBytes": 4200,
+            "geometries": 3,
+            "evicted": 3,
+            "clockReads": 7,
+            "refaults": 1,
+            "refaultBytes": 840,
+            "rapidRefaults": 1,
+            "rapidRefaultBytes": 840
+          }
+        },
+        {
+          "returnBytes": 0,
+          "returnCalls": 0,
+          "changed": 0,
+          "afterPressure": 2520,
+          "budget": 2520,
+          "stats": {
+            "bytes": 2520,
+            "peakBytes": 4200,
+            "geometries": 3,
+            "evicted": 3,
+            "clockReads": 7,
+            "refaults": 1,
+            "refaultBytes": 840,
+            "rapidRefaults": 1,
+            "rapidRefaultBytes": 840
+          }
+        },
+        {
+          "returnBytes": 0,
+          "returnCalls": 0,
+          "changed": 0,
+          "afterPressure": 2520,
+          "budget": 2520,
+          "stats": {
+            "bytes": 2520,
+            "peakBytes": 4200,
+            "geometries": 3,
+            "evicted": 3,
+            "clockReads": 7,
+            "refaults": 1,
+            "refaultBytes": 840,
+            "rapidRefaults": 1,
+            "rapidRefaultBytes": 840
+          }
+        },
+        {
+          "returnBytes": 0,
+          "returnCalls": 0,
+          "changed": 0,
+          "afterPressure": 2520,
+          "budget": 2520,
+          "stats": {
+            "bytes": 2520,
+            "peakBytes": 4200,
+            "geometries": 3,
+            "evicted": 3,
+            "clockReads": 7,
+            "refaults": 1,
+            "refaultBytes": 840,
+            "rapidRefaults": 1,
+            "rapidRefaultBytes": 840
+          }
+        },
+        {
+          "returnBytes": 0,
+          "returnCalls": 0,
+          "changed": 0,
+          "afterPressure": 2520,
+          "budget": 2520,
+          "stats": {
+            "bytes": 2520,
+            "peakBytes": 4200,
+            "geometries": 3,
+            "evicted": 3,
+            "clockReads": 7,
+            "refaults": 1,
+            "refaultBytes": 840,
+            "rapidRefaults": 1,
+            "rapidRefaultBytes": 840
+          }
+        },
+        {
+          "returnBytes": 0,
+          "returnCalls": 0,
+          "changed": 0,
+          "afterPressure": 2520,
+          "budget": 2520,
+          "stats": {
+            "bytes": 2520,
+            "peakBytes": 4200,
+            "geometries": 3,
+            "evicted": 3,
+            "clockReads": 7,
+            "refaults": 1,
+            "refaultBytes": 840,
+            "rapidRefaults": 1,
+            "rapidRefaultBytes": 840
+          }
+        }
+      ]
+    }
+  ],
+  "error": 0,
+  "contextLost": false,
+  "errors": []
+}
