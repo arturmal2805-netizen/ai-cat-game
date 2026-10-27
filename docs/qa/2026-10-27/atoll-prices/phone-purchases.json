@@ -1,0 +1,133 @@
+{
+  "initial": {
+    "prepared": 0,
+    "cats": [
+      "luna",
+      "moti",
+      "pixel",
+      "peach",
+      "bagel",
+      "salem",
+      "adopt-marshmallow",
+      "adopt-crumb"
+    ],
+    "dpr": 2
+  },
+  "shopCards": 20,
+  "boughtBadges": 20,
+  "price": 250000,
+  "paidConstruction": {
+    "id": "p-2083da51-4c9f-4228-8c84-1a23b89b16cd",
+    "item": "slide-atoll-mega-loops",
+    "biome": "atoll-park",
+    "x": 248,
+    "z": 180,
+    "rotation": 0,
+    "startedAt": 1793131447033,
+    "readyAt": 1793152687033
+  },
+  "riding": {
+    "heroError": 0,
+    "residents": [
+      {
+        "id": "adopt-crumb",
+        "error": 0,
+        "sit": 1,
+        "phase": "ride"
+      },
+      {
+        "id": "adopt-marshmallow",
+        "error": 0,
+        "sit": 1,
+        "phase": "ride"
+      }
+    ],
+    "riders": 3,
+    "rafts": 3,
+    "contextLost": false
+  },
+  "reloads": 2,
+  "purchases": [
+    {
+      "id": "p-1f697636-90d0-47f9-ad6b-da0971209320",
+      "item": "slide-atoll-giant-wave"
+    },
+    {
+      "id": "p-52e7fdb2-a059-4861-8467-ccc6bbc9d7d8",
+      "item": "slide-atoll-rock-arch"
+    },
+    {
+      "id": "p-511637e2-532e-4113-8970-4c02f7dce09d",
+      "item": "slide-atoll-rainbow-race"
+    },
+    {
+      "id": "p-187801cb-8831-48f9-82a3-296f87231e24",
+      "item": "slide-atoll-sky-serpent"
+    },
+    {
+      "id": "p-69b9fc0d-b6ca-497d-a4df-e6a434c32210",
+      "item": "slide-atoll-blue-whirlpool"
+    },
+    {
+      "id": "p-b15c559d-bccc-4c3e-97bb-dab336284f60",
+      "item": "slide-atoll-double-serpent"
+    },
+    {
+      "id": "p-d48ff64e-80e1-4014-ac83-e1e1b98db860",
+      "item": "slide-atoll-waterfall-cascade"
+    },
+    {
+      "id": "p-3edec539-b9dd-4341-8892-b07f8ab79528",
+      "item": "slide-atoll-emerald-canyon"
+    },
+    {
+      "id": "p-5c5125c2-ce8a-4211-abae-df9767202ef6",
+      "item": "slide-atoll-crystal-cavern"
+    },
+    {
+      "id": "p-6bd2cda8-3e22-4b0f-962c-98e0b93abdc9",
+      "item": "slide-atoll-root-valley"
+    },
+    {
+      "id": "p-13bc35b2-b2d7-4f05-a509-7db9090cddf7",
+      "item": "slide-atoll-blue-halfpipe"
+    },
+    {
+      "id": "p-c9e84aab-a563-48d0-a9c6-edd911a6f19f",
+      "item": "slide-atoll-lagoon-loop"
+    },
+    {
+      "id": "p-0b1300c2-8ba3-4738-861c-932f13a2a2c4",
+      "item": "slide-atoll-coral-arch"
+    },
+    {
+      "id": "p-6fc49fc0-259c-4e0b-a63c-d401c80e114c",
+      "item": "slide-atoll-cloud-islets"
+    },
+    {
+      "id": "p-acaad60d-c79f-49b4-9a78-41f5010db152",
+      "item": "slide-atoll-flower-lagoon"
+    },
+    {
+      "id": "p-47ebbde6-17ec-4e3e-a3d6-5da746f436db",
+      "item": "slide-atoll-red-canyon"
+    },
+    {
+      "id": "p-d11f2565-f32c-4f00-b1eb-fd8f21f854f0",
+      "item": "slide-atoll-abyss-bridge"
+    },
+    {
+      "id": "p-1f7ec606-997b-42a0-8dc9-996d26347c31",
+      "item": "slide-atoll-green-valley"
+    },
+    {
+      "id": "p-d0f8f872-8735-4fc9-9033-134c3d3b79df",
+      "item": "slide-atoll-purple-vortex"
+    },
+    {
+      "id": "p-2083da51-4c9f-4228-8c84-1a23b89b16cd",
+      "item": "slide-atoll-mega-loops"
+    }
+  ],
+  "dpr": 2
+}
