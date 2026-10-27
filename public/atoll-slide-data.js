@@ -1,5 +1,7 @@
 // A separate 4 × 5 collection. Released dream-slide IDs/recipes never change.
-export const ATOLL_PRICE_BASE = 240000 * 8;
+export const ATOLL_PRICE_BASE = 80000, ATOLL_PRICE_MAX = 250000;
+// Repricing changes purchase costs only; keep the released income rates.
+const ATOLL_INCOME_BASE = 240000 * 8;
 export const ATOLL_PARK_ID = "atoll-park";
 export const ATOLL_PARK = {
   id: ATOLL_PARK_ID, name: "Великий аквапарк", icon: "🌊", price: 0,
@@ -35,8 +37,8 @@ export const ATOLL_SLIDES = specs.map(([kind, name, icon, height, lanes, channel
   referenceCell: {index: i + 1, row: Math.floor(i / 5) + 1, column: i % 5 + 1},
   collection: "Велетенські водні світи · 20 гірок", premiumWater: true, referenceSlide: true,
   category: "rides", actions: ["ride"], rarity: "Легендарное", mega: true, fixedPrice: true,
-  price: Math.round(ATOLL_PRICE_BASE * multiplier / 1000) * 1000,
-  incomePerHour: Math.round(ATOLL_PRICE_BASE * multiplier / 30 / 100) * 100,
+  price: Math.round((ATOLL_PRICE_BASE + (ATOLL_PRICE_MAX - ATOLL_PRICE_BASE) * i / (specs.length - 1)) / 1000) * 1000,
+  incomePerHour: Math.round(ATOLL_INCOME_BASE * multiplier / 30 / 100) * 100,
   requiredLevel: 20, buildMinutes: 240 + i * 6, footprint: [112, 108],
   pool: [0, 33, 19, 12], surfaceY: 1.45, speedScale: 1.05,
 }));

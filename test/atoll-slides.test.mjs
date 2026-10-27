@@ -46,15 +46,15 @@ test('all twenty complexes remain placeable and reloadable alongside sixty exist
  assert.equal(g.placements.length,80);const restored=reload(g);assert.deepEqual(restored.placements,g.placements);assert.deepEqual(restored.placements.slice(0,60),old);
  assert.deepEqual(mergeSharedWorld(restored,restored,structuredClone(restored)).placements,restored.placements);
 });
-test('exactly twenty new row-major premium mini-biomes cost at least eight times the old shop maximum',()=>{
+test('exactly twenty new row-major premium mini-biomes progress from 80000 to a maximum of 250000 coins',()=>{
  assert.equal(ATOLL_SLIDES.length,20);assert.equal(new Set(ATOLL_SLIDES.map(s=>s.id)).size,20);
  const max=Math.max(...CATALOG.filter(s=>s.waterRide&&!s.premiumWater).map(s=>s.price));assert.equal(max,240000);
  for(const [i,s] of ATOLL_SLIDES.entries()){
   assert.ok(CATALOG.includes(s));assert.deepEqual(s.referenceCell,{index:i+1,row:Math.floor(i/5)+1,column:i%5+1});
-  assert.ok(s.price>=max*8);assert.ok(s.height>=60);assert.ok(s.footprint[0]*s.footprint[1]>54*52*4);
+  assert.ok(s.price>=80000&&s.price<=250000);if(i)assert.ok(s.price>ATOLL_SLIDES[i-1].price);assert.ok(s.height>=60);assert.ok(s.footprint[0]*s.footprint[1]>54*52*4);
   assert.deepEqual(s.actions,['ride']);assert.ok(revenueRate(s.id)>0);assert.ok(businessXP(s.id)>0);
  }
- assert.ok(ATOLL_SLIDES[0].price>ATOLL_SLIDES[1].price);assert.ok(ATOLL_SLIDES[19].price>ATOLL_SLIDES[18].price);
+ assert.equal(ATOLL_SLIDES[0].price,80000);assert.equal(ATOLL_SLIDES[19].price,250000);
  assert.equal(ATOLL_SLIDES[19].kind,'mega-loops');
 });
 test('all twenty full-size plots fit, retain wide aisles and pay/save/build once without changing any old object',()=>{
@@ -128,7 +128,7 @@ test('all real models have the declared channels, bounded static batches, empty 
 });
 test('each purchased mini-biome pays existing coins and XP and can be stored and reloaded without a second payment',()=>{
  for(const s of ATOLL_SLIDES){let g=purchase(seed(),s.id,now),p=findSpace(g,s.id,ATOLL_PARK_ID);g=placeItem(g,s.id,ATOLL_PARK_ID,p.x,p.z,0,now);
-  g.progression.xp=xpForLevel(20);
+  g.progression.xp=xpForLevel(20);g.coins=1000000;
   const building=g.placements.at(-1),t=building.readyAt+3600000,result=collectIncome(g,building.id,t);assert.equal(result.amount,revenueRate(s.id));assert.ok(result.xp>0&&result.xp<=businessXP(s.id));
   g=storeItem(result.game,building.id,t);const coins=g.coins;g=reload(g);assert.equal(g.coins,coins);assert.equal(g.inventory[s.id],1);assert.equal(g.builtInventory[s.id],1);
  }

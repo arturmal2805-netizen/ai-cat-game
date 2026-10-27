@@ -1,0 +1,122 @@
+[
+  {
+    "id": "slide-atoll-giant-wave",
+    "name": "Велетенська хвиля",
+    "price": 80000,
+    "incomePerHour": 153600
+  },
+  {
+    "id": "slide-atoll-rock-arch",
+    "name": "Скеляста арка",
+    "price": 89000,
+    "incomePerHour": 80000
+  },
+  {
+    "id": "slide-atoll-rainbow-race",
+    "name": "Веселковий спуск",
+    "price": 98000,
+    "incomePerHour": 89600
+  },
+  {
+    "id": "slide-atoll-sky-serpent",
+    "name": "Небесний серпантин",
+    "price": 107000,
+    "incomePerHour": 99200
+  },
+  {
+    "id": "slide-atoll-blue-whirlpool",
+    "name": "Блакитний вир",
+    "price": 116000,
+    "incomePerHour": 83200
+  },
+  {
+    "id": "slide-atoll-double-serpent",
+    "name": "Подвійний серпантин",
+    "price": 125000,
+    "incomePerHour": 105600
+  },
+  {
+    "id": "slide-atoll-waterfall-cascade",
+    "name": "Каскад водоспадів",
+    "price": 134000,
+    "incomePerHour": 102400
+  },
+  {
+    "id": "slide-atoll-emerald-canyon",
+    "name": "Смарагдовий каньйон",
+    "price": 143000,
+    "incomePerHour": 76800
+  },
+  {
+    "id": "slide-atoll-crystal-cavern",
+    "name": "Кристальна печера",
+    "price": 152000,
+    "incomePerHour": 96000
+  },
+  {
+    "id": "slide-atoll-root-valley",
+    "name": "Долина коріння",
+    "price": 161000,
+    "incomePerHour": 108800
+  },
+  {
+    "id": "slide-atoll-blue-halfpipe",
+    "name": "Блакитна півтруба",
+    "price": 169000,
+    "incomePerHour": 86400
+  },
+  {
+    "id": "slide-atoll-lagoon-loop",
+    "name": "Кільце лагуни",
+    "price": 178000,
+    "incomePerHour": 118400
+  },
+  {
+    "id": "slide-atoll-coral-arch",
+    "name": "Коралова арка",
+    "price": 187000,
+    "incomePerHour": 92800
+  },
+  {
+    "id": "slide-atoll-cloud-islets",
+    "name": "Хмарні острови",
+    "price": 196000,
+    "incomePerHour": 124800
+  },
+  {
+    "id": "slide-atoll-flower-lagoon",
+    "name": "Квіткова лагуна",
+    "price": 205000,
+    "incomePerHour": 102400
+  },
+  {
+    "id": "slide-atoll-red-canyon",
+    "name": "Червоний каньйон",
+    "price": 214000,
+    "incomePerHour": 99200
+  },
+  {
+    "id": "slide-atoll-abyss-bridge",
+    "name": "Міст над безоднею",
+    "price": 223000,
+    "incomePerHour": 115200
+  },
+  {
+    "id": "slide-atoll-green-valley",
+    "name": "Зелена долина",
+    "price": 232000,
+    "incomePerHour": 70400
+  },
+  {
+    "id": "slide-atoll-purple-vortex",
+    "name": "Фіолетова воронка",
+    "price": 241000,
+    "incomePerHour": 121600
+  },
+  {
+    "id": "slide-atoll-mega-loops",
+    "name": "Мега-петлі",
+    "price": 250000,
+    "incomePerHour": 179200
+  }
+]
