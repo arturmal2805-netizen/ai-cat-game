@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {newGame,loadGame,SAVE_KEY} from '../public/economy.js';
 import {ensureJobCity} from '../public/jobcity-system.js';
-import {reserveCryptoAttempt,applyCryptoForecast,advanceCryptoTrading,positionValue,normalizeInvestments,CRYPTO_RULES} from '../public/crypto-trading.js';
+import {reserveCryptoAttempt,applyCryptoForecast,advanceCryptoTrading,positionValue,normalizeInvestments,CRYPTO_RULES,cryptoMarketEvent} from '../public/crypto-trading.js';
 import {CryptoAIRequestLedger} from '../crypto-ai.mjs';
 import {mergeSharedWorld} from '../shared-world.mjs';
 import {BIOMES,NEIGHBORS} from '../public/game-data.js';
@@ -11,6 +11,64 @@ const epoch=Date.UTC(2026,9,21,12),now=epoch+7*1440000;
 function seed(){let g=newGame(epoch);g.unlocked.push('jobcity');g=ensureJobCity(g,epoch);for(const p of Object.values(g.jobCity.profiles)){p.profession='crypto';p.professionSinceDay=0;p.professionSource='ai';p.careerAIPending=false;p.coins=5000;}return g;}
 function pending(){let g=seed();for(let i=0;i<40;i++){const r=reserveCryptoAttempt(g,now);g=r.game;if(r.request)return {g,request:r.request};}throw Error('No willing trader in test roster');}
 const forecast={asset:'BTC',direction:'up',strength:.06,confidence:1,reason:'Ігровий ринок може зростати, але ризик залишається.'};
+function moonshot(direction='up'){
+ const {g,request}=pending();
+ for(let i=0;i<10000;i++){
+  const id='rare-rally-'+i;if(!cryptoMarketEvent(id))continue;
+  const next=structuredClone(g),r={...request,attemptId:id};next.jobCity.profiles[r.catId].investments.current.id=id;
+  const opened=applyCryptoForecast(next,r,{...forecast,direction},'local',now);
+  if(direction==='down'||!opened.jobCity.profiles[r.catId].investments.current.liquidation)return {base:next,opened,request:r};
+ }
+ throw Error('No rare rally fixture');
+}
+test('rare rallies are deterministic five-percent events, with independent strengths between eight and twenty-five times',()=>{
+ let rallies=0;const strengths=new Set();
+ for(let i=0;i<20000;i++){
+  const id='crypto-weekly-event-'+i,e=cryptoMarketEvent(id);assert.deepEqual(cryptoMarketEvent(id),e);
+  if(!e)continue;rallies++;strengths.add(e.multiplier);
+  assert.equal(e.kind,'moonshot');assert.ok(e.multiplier>=8&&e.multiplier<=25);assert.ok(e.startsAt>=.2&&e.startsAt<=.4);
+ }
+ assert.ok(rallies>900&&rallies<1100,`${rallies}/20000 rallies`);
+ assert.equal(strengths.size,18);
+});
+test('a rare winning rally visibly rises, makes the trader much richer and settles exactly once across restart and concurrent saves',()=>{
+ const {base,opened,request}=moonshot(),p=opened.jobCity.profiles[request.catId],t=p.investments.current,old=base.jobCity.profiles[p.id].coins;
+ const repeated=applyCryptoForecast(base,request,forecast,'local',now);
+ assert.deepEqual(repeated.jobCity.profiles[p.id].investments.current,t,'the attempt cannot reroll its saved event or path');
+ assert.equal(t.path.length,65);assert.equal(t.path[0],t.entryPrice);
+ assert.ok(Math.abs(t.path.at(-1)/t.entryPrice-t.marketEvent.multiplier)<1e-10);
+ assert.ok(t.path[45]>t.path[30]&&t.path[60]>t.path[45],'rally is animated across the path');
+ assert.equal(p.coins,old-t.margin,'no credit until settlement');
+ const current=loadGame({getItem:k=>k===SAVE_KEY?JSON.stringify(opened):null},now+10000,{advance:false});
+ assert.deepEqual(current.jobCity.profiles[p.id].investments.current,t);
+ const closed=advanceCryptoTrading(current,t.endAt+1),rich=closed.jobCity.profiles[p.id];
+ assert.ok(rich.coins>=old*1.5,`${old} -> ${rich.coins}`);
+ assert.equal(rich.coins,old+rich.investments.current.pnl);assert.equal(rich.earnedTotal,base.jobCity.profiles[p.id].earnedTotal+rich.investments.current.pnl);
+ assert.equal(closed.coins,base.coins,'the player wallet is independent');
+ const merged=mergeSharedWorld(opened,closed,advanceCryptoTrading(structuredClone(opened),t.endAt+1));
+ assert.deepEqual(merged.jobCity.profiles[p.id],rich,'simultaneous settlement merges cannot double pay');
+ for(let i=0;i<10;i++){
+  const reloaded=loadGame({getItem:k=>k===SAVE_KEY?JSON.stringify(merged):null},t.endAt+1,{advance:false});
+  assert.equal(advanceCryptoTrading(reloaded,t.endAt+99999),reloaded);assert.deepEqual(reloaded.jobCity.profiles[p.id],rich);
+ }
+ const broken=structuredClone(opened);broken.jobCity.profiles[p.id].investments.current.marketEvent.multiplier=Infinity;
+ const recovered=loadGame({getItem:k=>k===SAVE_KEY?JSON.stringify(broken):k===SAVE_KEY+':backup'?JSON.stringify(opened):null},now,{advance:false});
+ assert.deepEqual(recovered.jobCity.profiles[p.id],p,'invalid event metadata uses the verified escrow backup');
+});
+test('shorting a soaring coin still liquidates at its first crossing and loses only the escrowed margin',()=>{
+ const {base,opened,request}=moonshot('down'),p=opened.jobCity.profiles[request.catId],t=p.investments.current;
+ assert.equal(t.liquidation,true);assert.ok(t.endAt<now+t.durationMs);
+ const closed=advanceCryptoTrading(opened,t.endAt+1),n=closed.jobCity.profiles[p.id];
+ assert.equal(n.investments.current.status,'liquidated');assert.equal(n.coins,base.jobCity.profiles[p.id].coins-t.margin);
+ assert.equal(n.investments.current.pnl,-t.margin);assert.equal(advanceCryptoTrading(closed,t.endAt+1000),closed);
+});
+test('opening the new version never changes an already persisted legacy price path',()=>{
+ const {g,request}=pending(),opened=applyCryptoForecast(g,request,forecast,'ai',now),t=opened.jobCity.profiles[request.catId].investments.current;
+ delete t.marketEvent;const path=t.path.slice();
+ const loaded=loadGame({getItem:k=>k===SAVE_KEY?JSON.stringify(opened):null},now,{advance:false});
+ assert.deepEqual(loaded.jobCity.profiles[request.catId].investments.current.path,path);
+ assert.equal(loaded.jobCity.profiles[request.catId].investments.current.marketEvent,undefined);
+});
 test('only employed crypto cats may reserve, individual skipped/poor cycles are remembered and never ask again before the next seven-day cycle',()=>{
  let g=seed();for(const p of Object.values(g.jobCity.profiles))p.profession='bank';assert.equal(reserveCryptoAttempt(g,now).game,g);
  const ids=Object.keys(g.jobCity.profiles).slice(0,2);for(const id of ids){g.jobCity.profiles[id].profession='crypto';g.jobCity.profiles[id].coins=0;}

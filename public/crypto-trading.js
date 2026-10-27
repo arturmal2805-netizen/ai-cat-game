@@ -1,8 +1,17 @@
 import {JOB_CLOCK_ORIGIN,JOB_START,JOB_END,JOB_MINUTE_MS,JOB_DAY_MINUTES} from './jobcity-data.js';
 
 // Fictional prices and personal cat coins only. No exchange or market feed.
-export const CRYPTO_RULES=Object.freeze({intervalDays:7,durationMs:45000,minCoins:30,maxLeverage:3,feeRate:.002,pathPoints:65});
+export const CRYPTO_RULES=Object.freeze({intervalDays:7,durationMs:45000,minCoins:30,maxLeverage:3,feeRate:.002,pathPoints:65,
+  moonshotChance:.05,moonshotMin:8,moonshotMax:25});
 const hash=s=>[...String(s)].reduce((h,c)=>(Math.imul(h,31)+c.charCodeAt(0))>>>0,7);
+// Independent, deterministic draws per durable attempt, not a per-tick reroll
+// or another AI request. Avalanche the ID hash to avoid adjacent-ID patterns.
+const eventDraw=id=>{let h=hash(id);h=Math.imul(h^(h>>>16),0x21f0aaad);h=Math.imul(h^(h>>>15),0x735a2d97);return ((h^(h>>>15))>>>0)/4294967296;};
+export function cryptoMarketEvent(attemptId){
+  if(eventDraw(attemptId+':moonshot-v1')>=CRYPTO_RULES.moonshotChance)return null;
+  return {kind:'moonshot',multiplier:CRYPTO_RULES.moonshotMin+Math.floor(eventDraw(attemptId+':moonshot-size-v1')*(CRYPTO_RULES.moonshotMax-CRYPTO_RULES.moonshotMin+1)),
+    startsAt:.2+eventDraw(attemptId+':moonshot-time-v1')*.2};
+}
 const clone=v=>structuredClone(v);
 export const cryptoClock=(state,now=Date.now())=>{
   const absolute=JOB_CLOCK_ORIGIN+Math.max(0,(now-(state?.epoch??now))/JOB_MINUTE_MS);
@@ -27,6 +36,9 @@ function validTrade(t){
   if(!t||typeof t.id!=='string'||t.id.length>160||!Number.isSafeInteger(t.day)||t.day<0||
     !['waiting','open','closed','liquidated','skipped'].includes(t.status)||!Number.isFinite(t.at)||t.at<0)return false;
   if(t.status==='waiting'||t.status==='skipped')return true;
+  if(t.marketEvent!=null&&(!t.marketEvent||t.marketEvent.kind!=='moonshot'||
+    !Number.isInteger(t.marketEvent.multiplier)||t.marketEvent.multiplier<CRYPTO_RULES.moonshotMin||t.marketEvent.multiplier>CRYPTO_RULES.moonshotMax||
+    !Number.isFinite(t.marketEvent.startsAt)||t.marketEvent.startsAt<.2||t.marketEvent.startsAt>.4))return false;
   return ['BTC','ETH'].includes(t.asset)&&['LONG','SHORT'].includes(t.action)&&
     [t.margin,t.leverage,t.entryPrice,t.startedAt,t.endAt,t.durationMs,t.fee].every(Number.isFinite)&&
     Number.isSafeInteger(t.margin)&&t.margin>0&&Number.isSafeInteger(t.fee)&&t.fee>=0&&t.fee<=t.margin&&Number.isInteger(t.leverage)&&t.leverage>=1&&t.leverage<=CRYPTO_RULES.maxLeverage&&t.entryPrice>0&&
@@ -86,7 +98,14 @@ function simulatedPath(t,forecast){
   for(let i=0;i<CRYPTO_RULES.pathPoints;i++){
     const u=i/(CRYPTO_RULES.pathPoints-1),noise=Math.sin(u*Math.PI)*wave*
       (Math.sin(u*23+phase)+.45*Math.sin(u*51+phase*.7));
-    values.push(t.entryPrice*Math.max(.05,1+drift*u+noise));
+    if(t.marketEvent){
+      const ramp=Math.max(0,(u-t.marketEvent.startsAt)/(1-t.marketEvent.startsAt)),
+        surge=ramp*ramp*(3-2*ramp),
+        // A visible rising curve with modest waves, not an instant payout or
+        // one giant discontinuity. Ordinary pre-surge risk remains intact.
+        multiplier=1+drift*u*(1-surge)+noise+(t.marketEvent.multiplier-1)*surge;
+      values.push(t.entryPrice*Math.max(.05,multiplier));
+    }else values.push(t.entryPrice*Math.max(.05,1+drift*u+noise));
   }
   values[0]=t.entryPrice;return values;
 }
@@ -114,6 +133,7 @@ export function applyCryptoForecast(game,request,value,source='ai',now=Date.now(
   t.margin=Math.min(n.coins,Math.max(10,Math.floor(n.coins*(.04+risk*.08))));t.leverage=Math.min(3,1+Math.floor(risk*3));
   t.entryPrice=(t.asset==='BTC'?42000:2400)*(.9+(hash(t.id+'entry')%2000)/10000);
   t.startedAt=now;t.durationMs=Number.isFinite(durationMs)?Math.max(10000,Math.min(60000,durationMs)):CRYPTO_RULES.durationMs;t.endAt=now+t.durationMs;
+  const marketEvent=cryptoMarketEvent(t.id);if(marketEvent)t.marketEvent=marketEvent;
   t.fee=Math.min(t.margin,Math.max(1,Math.ceil(t.margin*t.leverage*CRYPTO_RULES.feeRate)));t.path=simulatedPath(t,forecast);
   // Locate the first margin wipeout on the persisted, piecewise-linear path.
   const sign=t.action==='LONG'?1:-1,equity=price=>t.margin+t.margin*t.leverage*(price/t.entryPrice-1)*sign-t.fee;
