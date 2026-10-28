@@ -1,3 +1,4 @@
+import {applySlideBasinOptics} from './slide-basin-optics.js';
 import * as THREE from "three";
 import { referenceSlide } from "./reference-slide-data.js";
 import {
@@ -27,7 +28,7 @@ const atollActingCache=new Map();
 function receivingPool(spec) {
   const g = new THREE.Group(),
     star = spec.kind === "cloud-star",
-    rx = spec.premiumWater ? spec.pool[2] : star ? 8 : 7.2,
+    rx = spec.premiumWater ? spec.pool[2] : spec.kind==="ribbon-tower" ? 11.5 : star ? 8 : 7.2,
     rz = spec.premiumWater ? spec.pool[3] : star ? 6.5 : 4.5,
     outline = new THREE.Shape(),
     points = [];
@@ -135,7 +136,7 @@ function receivingPool(spec) {
       advanceWater(material, time, reduced);
     },
   };
-  return g;
+  return applySlideBasinOptics(g);
 }
 function vortexBowl(b, spec, props, root) {
   const profile = Array.from({ length: 33 }, (_, i) => {

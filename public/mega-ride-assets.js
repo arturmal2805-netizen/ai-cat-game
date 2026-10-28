@@ -1,3 +1,4 @@
+import {applySlideBasinOptics} from './slide-basin-optics.js';
 import * as THREE from "three";
 import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
 import { megaRide } from "./mega-ride-data.js";
@@ -711,6 +712,7 @@ export function megaAttraction(id) {
         fishCount: 0,
         color: 0x4ad2c7,
       });
+      applySlideBasinOptics(upper);
       upper.position.y = 9.1;
       g.add(upper);
       animations.push(upper);

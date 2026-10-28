@@ -361,7 +361,8 @@ export function* referenceProps(props, spec, route) {
     yield;
     const a = -1.2 + i * 0.205,
       x = Math.sin(a) * 17,
-      z = 4 + Math.cos(a) * 14.5;
+      initialZ = 4 + Math.cos(a) * 14.5,
+      z = kind==="ribbon-tower"&&Math.abs(x-3)<13?Math.max(initialZ,12+6*Math.sqrt(Math.max(0,1-((x-3)/13)**2))):initialZ;
     // The pool stairs and dry left-hand return route remain unobstructed.
     if (Math.abs(x - 3) < 4.5) continue;
     shape(props, "sphere", 0x7daf66, x, 0.35, z, 1.1, 0.4, 0.75);

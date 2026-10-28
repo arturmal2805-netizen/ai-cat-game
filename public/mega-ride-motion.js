@@ -1,3 +1,4 @@
+import {paceWaterRoute,WATER_SLIDE_SPEED} from './water-ride-pace.js';
 import * as THREE from "three";
 const clamp = THREE.MathUtils.clamp,
   V = (p) => new THREE.Vector3(...p),
@@ -36,7 +37,7 @@ export const stairPoint = (tower, height, t) => {
 // same bases build rail ties, place the cart and carry the cat through loops.
 export function sampleMegaCurve(
   points,
-  { seat = 0, coaster = false, orientation = null, terminalUpright = true } = {},
+  { seat = 0, coaster = false, orientation = null, terminalUpright = true, water = false } = {},
 ) {
   const curve = new THREE.CatmullRomCurve3(points.map(V), false, "centripetal");
   curve.arcLengthDivisions = 1200;
@@ -99,7 +100,7 @@ export function sampleMegaCurve(
         ? a.up.clone().lerp(b.up, f).normalize()
         : new THREE.Vector3(0, 1, 0);
     p.addScaledVector(normal, seat);
-    const t = curve.getTangentAt(clamp(u, 0, 1));
+    const t = water ? new THREE.Vector3(0,0,1).applyQuaternion(q) : curve.getTangentAt(clamp(u, 0, 1));
     return {
       position: p.toArray(),
       yaw: Math.atan2(t.x, t.z),
@@ -115,7 +116,7 @@ export function sampleMegaCurve(
   return { curve, samples, at, seat, coaster };
 }
 
-export function createMegaRoute(spec) {
+export function createMegaRoute(spec,{speed=WATER_SLIDE_SPEED}={}) {
   const coaster = spec.id.startsWith("coaster"),
     seat = coaster ? MEGA_SEAT.coaster : MEGA_SEAT.slide,
     tower = spec.tower,
@@ -501,16 +502,9 @@ export function createMegaRoute(spec) {
     settle(hit);
     returnTo(hit, entry);
   }
-  return {
-    duration: clock,
-    legs,
-    geometry,
-    impacts,
-    entry,
-    coaster,
-    seat,
-    frame,
-  };
+  return paceWaterRoute({
+    duration: clock,legs,geometry,impacts,entry,coaster,seat,frame,
+  },speed);
   function frame(elapsed, reduced = false) {
     if (reduced)
       return {

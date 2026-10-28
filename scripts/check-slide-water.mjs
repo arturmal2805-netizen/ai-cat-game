@@ -3,7 +3,7 @@
 import { build } from "esbuild";
 import { createServer } from "node:http";
 import { createRequire } from "node:module";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, writeFile, readFile, access } from "node:fs/promises";
 import { resolve } from "node:path";
 import assert from "node:assert/strict";
 import { WATER_RIDES } from "../public/water-ride-data.js";
@@ -20,6 +20,7 @@ const roots = [
     : []),
   { name: "after", path: resolve(".") },
 ];
+const selectedRides=WATER_RIDES.filter(r=>!process.env.CHICHI_SLIDE_FILTER||process.env.CHICHI_SLIDE_FILTER.split(",").includes(r.id));
 const source = `
 import * as T from 'three';import {makeAttraction,animateAttraction} from './public/world-assets.js';import {disposeScenery} from './public/scenery-models.js';
 import {createCat,animateCat,reactCat} from './public/cat-model.js';
@@ -29,9 +30,9 @@ const scene=new T.Scene();scene.background=new T.Color(0xc4d9e3);scene.add(new T
 const camera=new T.PerspectiveCamera(35,1.2,.5,600);let model,extent,center,guest,carrier;
 window.loadRide=async(id)=>{camera.up.set(0,1,0);carrier?.removeFromParent();if(model){model.removeFromParent();disposeScenery(model);}model=makeAttraction(id);scene.add(model);const box=new T.Box3().setFromObject(model);center=box.getCenter(new T.Vector3());extent=box.getSize(new T.Vector3()).length();camera.position.copy(center).add(new T.Vector3(.6,.48,.85).multiplyScalar(extent*1.25));camera.lookAt(center);await renderer.compileAsync(scene,camera);window.model=model;draw(5);};
 window.reviewRider=async(u)=>{if(!guest){guest=createCat('happy');guest.scale.setScalar(.63);carrier=new T.Group();carrier.add(guest);}
- const route=model.userData.route,lane=route.lanes[0],legs=lane.legs.filter(l=>['ride','vortex'].includes(l.phase)),leg=legs[Math.floor((legs.length-1)*u)],t=leg.start+leg.duration*(.2+u*.6),f=lane.frame(t);
+ const d=model.userData,route=d.route,lane=route?.lanes?.[0]||route||{frame:d.rideFrame,duration:d.duration},wet=lane.legs?.filter(l=>['ride','vortex','slide'].includes(l.phase)),legs=wet?.length?wet:lane.legs?.filter(l=>l.phase==='flight')||[{start:0,duration:lane.duration}],leg=legs[Math.floor((legs.length-1)*u)],t=u===1?(d.slideWater.events.at(-1)?.time||lane.duration*.9)+.12:leg.start+leg.duration*(.2+u*.6),f=lane.frame(t);
  model.add(carrier);carrier.visible=true;carrier.position.set(...f.position);if(f.quaternion)carrier.quaternion.fromArray(f.quaternion);else carrier.rotation.set(f.pitch||0,f.yaw||0,f.roll||0);
- animateCat(guest,t,false);const reaction=model.userData.rideReaction(t,false,0);reactCat(guest,reaction);applyAtollSit(guest,reaction);model.userData.rideElapsed=t;model.userData.update(t,false);
+ animateCat(guest,t,false,false);const reaction=model.userData.rideReaction?.(t,false,0)||{};reactCat(guest,reaction);applyAtollSit(guest,reaction);model.userData.rideElapsed=t;model.userData.update(t,false);
  const p=new T.Vector3(...f.position),right=new T.Vector3(1,0,0).applyQuaternion(carrier.quaternion),up=new T.Vector3(0,1,0).applyQuaternion(carrier.quaternion),forward=new T.Vector3(0,0,1).applyQuaternion(carrier.quaternion);camera.up.copy(up);camera.position.copy(p).addScaledVector(right,4.5).addScaledVector(up,3.6).addScaledVector(forward,6);camera.lookAt(p.clone().addScaledVector(up,1));await renderer.compileAsync(scene,camera);renderer.render(scene,camera);
  return {phase:f.phase,elapsed:t,position:f.position,reaction:{...reaction},seat:[...carrier.position],finite:f.position.every(Number.isFinite)};};
 window.hideRider=()=>{carrier?.removeFromParent();delete model.userData.rideElapsed;reviewAngle();draw(63);};
@@ -50,6 +51,7 @@ window.staticAudit=()=>{
 };`;
 const bundles = new Map();
 for (const root of roots) {
+  const hasSit=await access(resolve(root.path,'public/atoll-slide-acting.js')).then(()=>true,()=>false);
   const r = await build({
     stdin: {
       contents:
@@ -59,7 +61,7 @@ for (const root of roots) {
               "renderer.toneMapping=",
               "configureStaticSubmissions(renderer);renderer.toneMapping=",
             )
-          : source.replace("import {applyAtollSit} from './public/atoll-slide-acting.js';", "const applyAtollSit=()=>{};"),
+          : hasSit?source:source.replace("import {applyAtollSit} from './public/atoll-slide-acting.js';", "const applyAtollSit=()=>{};"),
       resolveDir: root.path,
       loader: "js",
     },
@@ -81,7 +83,7 @@ const server = createServer((req, res) => {
 });
 await new Promise((r) => server.listen(0, "127.0.0.1", r));
 let browser;
-const report = [];
+const report = process.env.CHICHI_SLIDE_RESUME?await readFile(resolve(folder,"report.json"),"utf8").then(JSON.parse,()=>[]):[];
 try {
   browser = await chromium.launch({
     executablePath: process.env.CHICHI_CHROMIUM,
@@ -104,12 +106,17 @@ try {
       "http://127.0.0.1:" + server.address().port + "/" + root.name,
     );
     await page.waitForFunction(() => window.ready);
-    for (const spec of WATER_RIDES.filter(
-      (r) =>
-        !process.env.CHICHI_SLIDE_FILTER ||
-        process.env.CHICHI_SLIDE_FILTER.split(",").includes(r.id),
-    )) {
-      if(root.name==='before' && spec.id.startsWith('slide-atoll-'))continue;
+    for (const spec of selectedRides) {
+      const completed=report.find(r=>r.version===root.name&&r.id===spec.id);
+      if(completed&&process.env.CHICHI_SLIDE_RIDERS_ONLY){
+        await page.evaluate(id=>loadRide(id),spec.id);completed.riderFrames=[];
+        for(const [i,u] of [.12,.5,.9,1].entries()){
+          const frame=await page.evaluate(u=>reviewRider(u),u);assert.equal(frame.finite,true);
+          await page.screenshot({path:resolve(folder,root.name+'-'+spec.id+'-rider-'+i+'.png')});completed.riderFrames.push(frame);
+        }
+        await page.evaluate(()=>hideRider());await writeFile(resolve(folder,'report.json'),JSON.stringify(report,null,2));console.log('Seated native pose',spec.id);continue;
+      }
+      if(completed)continue;
       await page.evaluate((id) => loadRide(id), spec.id);
       const stats = await page.evaluate(
         async (timedFrames) => {
@@ -198,19 +205,22 @@ try {
       await page.screenshot({
         path: resolve(folder, root.name + "-" + spec.id + ".png"),
       });
-      if(root.name==='after' && spec.id.startsWith('slide-atoll-') && process.env.CHICHI_ATOLL_RIDER_AUDIT){
+      if(root.name==='after' && (process.env.CHICHI_SLIDE_RIDER_AUDIT||spec.id.startsWith('slide-atoll-') && process.env.CHICHI_ATOLL_RIDER_AUDIT)){
         stats.riderFrames=[];
-        for(const [i,u] of [.12,.5,.9].entries()){
+        for(const [i,u] of [.12,.5,.9,1].entries()){
           const frame=await page.evaluate(u=>reviewRider(u),u);assert.equal(frame.finite,true);
           await page.screenshot({path:resolve(folder,root.name+'-'+spec.id+'-rider-'+i+'.png')});stats.riderFrames.push(frame);
         }
         await page.evaluate(()=>hideRider());
       }
       if (root.name === "after")
-        for (const view of ["flow", "outlet"]) {
+        for (const view of ["flow", "outlet", "basin", "basin-grazing"]) {
           const exists = await page.evaluate(
             ({ view, id }) => {
               const w = model.userData.slideWater;
+              check.camera.up.set(0,1,0);
+              if(view.startsWith('basin')){const pool=w.pool,p=pool.localToWorld(check.camera.position.clone().set(0,.155,0)),rx=pool.userData.rx,rz=pool.userData.rz,r=Math.max(rx,rz);
+                check.camera.position.copy(p).add(check.camera.position.clone().set(.25,view==='basin'?1.7:.55,1.9).multiplyScalar(r));check.camera.lookAt(p);draw(63);return true;}
               let p =
                 view === "flow"
                   ? w.channels[0]?.geometry.userData.flowFrames[
@@ -239,22 +249,7 @@ try {
               ),
             });
         }
-      if (
-        root.name === "after" &&
-        [
-          "slide-glass-corkscrew",
-          "slide-titan-funnel",
-          "slide-marshmallow",
-          "waterslide",
-          "slide-rainbow-tsunami",
-        ]
-          .concat(
-            WATER_RIDES.filter((r) => /slide-(dream|atoll)-/.test(r.id)).map(
-              (r) => r.id,
-            ),
-          )
-          .includes(spec.id)
-      ) {
+      if (root.name === "after") {
         await page.evaluate(() => {
           reviewAngle(true);
           draw(63);
@@ -267,21 +262,11 @@ try {
         assert.equal(frame.changed, 0, spec.id + " grazing pixels");
       }
       report.push({ version: root.name, id: spec.id, ...stats });
+      await writeFile(resolve(folder,"report.json"),JSON.stringify(report,null,2));
       console.log(root.name, spec.id, JSON.stringify(stats));
     }
     await page.setViewportSize({ width: 390, height: 560 });
-    for (const id of [
-      "slide-marshmallow",
-      "slide-glass-corkscrew",
-      "slide-rainbow-tsunami",
-      ...WATER_RIDES.filter(
-        (r) =>
-          /slide-(dream|atoll)-/.test(r.id) &&
-          (!process.env.CHICHI_SLIDE_FILTER ||
-            process.env.CHICHI_SLIDE_FILTER.split(",").includes(r.id)),
-      ).map((r) => r.id),
-    ]) {
-      if(root.name==='before' && id.startsWith('slide-atoll-'))continue;
+    for (const {id} of process.env.CHICHI_SLIDE_RIDERS_ONLY?[]:selectedRides) {
       await page.evaluate(async (id) => {
         const { renderer: r, camera: c } = check;
         r.setPixelRatio(2);

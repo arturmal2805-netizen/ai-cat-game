@@ -6,6 +6,7 @@ import { ATOLL_SLIDES } from "../public/atoll-slide-data.js";
 import {
   createReferenceRoute,
   DREAM_RADIUS,
+  bowlHeight,
 } from "../public/reference-slide-motion.js";
 import {
   createCat,
@@ -104,4 +105,27 @@ test("the largest approved cat keeps its real animated paw vertices above every 
   assert.ok(checked > 90000);
   assert.equal(bad.length, 0, JSON.stringify(bad.slice(0, 8)));
   assert.ok(worst < DREAM_RADIUS);
+});
+
+// Check actual skinned vertices against the concave floor, not the centreline.
+test('large-cat paws clear every vortex floor throughout the accelerated spiral',()=>{
+ const profile=ADOPTION_CATS.find(p=>p.id==='adopt-marshmallow'),cat=createCat('happy',catAppearance(profile)),carrier=new T.Group(),p=new T.Vector3();
+ cat.scale.setScalar(.63*profile.size);carrier.add(cat);let minimum=Infinity,checked=0;
+ try{
+  for(const spec of [...REFERENCE_SLIDES,...ATOLL_SLIDES])for(const lane of createReferenceRoute(spec).lanes){
+   const acting=sampleRideActing(lane.frame,lane.duration,lane.impacts);let index=0;
+   for(const leg of lane.legs.filter(l=>l.phase==='vortex')){
+    const bowl=lane.bowls[index++];
+    for(const u of [.05,.2,.5,.8,.95]){
+     const t=leg.start+leg.duration*u,f=lane.frame(t);carrier.position.set(...f.position);carrier.quaternion.fromArray(f.quaternion);animateCat(cat,t,false,false);
+     let reaction=rideActingFrame(acting,t);if(spec.premiumWater)reaction=atollRideReaction(spec,lane,t,reaction,false);reactCat(cat,reaction);applyAtollSit(cat,reaction);carrier.updateMatrixWorld(true);
+     for(const leg of cat.userData.legs){const shin=leg.getObjectByName('Shin');for(let i=0;i<shin.geometry.attributes.position.count;i+=4){
+      shin.getVertexPosition(i,p).applyMatrix4(shin.matrixWorld);const r=Math.hypot(p.x-bowl.x,p.z-bowl.z);if(r>bowl.radius||(spec.premiumWater&&r<6))continue;
+      minimum=Math.min(minimum,p.y-bowlHeight(bowl,r));checked++;
+     }}
+    }
+   }
+  }
+ }finally{disposeCat(cat);}
+ assert.ok(checked>37000);assert.ok(minimum>0,'paw penetrates real bowl: '+minimum);
 });

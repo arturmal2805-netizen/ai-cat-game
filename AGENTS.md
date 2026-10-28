@@ -52,6 +52,23 @@ phone/SQLite path whenever changing normalization, storage or shared merges.
   to test a model. When benchmarking, compare checkouts sequentially and separate
   software-browser diagnostics from claims about physical-phone FPS.
 
+The water-slide polish keeps one accelerated public clock (`water-ride-pace.js`):
+wet phases run at 1.33 speed, while walking, true 9.81-gravity flights and landing
+recovery retain their authored time. Rafts, reactions, impact events and every
+resident must use that same clock. Never time-warp real ballistic gravity.
+Construction-time path/frame fairing must retain complete inversions, exact
+seam/return positions, real paw clearance and the fixed sample count. Compute
+Gaussian weights and angular thresholds once, rather than in frame updates.
+
+All receiving pools use `slide-basin-optics.js`: normalize metre-based
+ShapeGeometry UVs to the lake shader's unit domain once, retain the actual lit
+floor and shared reflection/wave textures, and isolate their clear-blue optics
+with `SLIDE_CATCH_POOL`. Other island water stays on its original shader branch.
+Do not add per-pool render targets, scene copies or continuous buffer uploads.
+The complete water audit includes EVERY registered type in normal, grazing,
+full-DPR phone and seated-rider views, plus explicit basin close-ups. Preserve
+separate race-lane finishes and the runtime's bounded reservation/headway rules.
+
 ## Expanding buildable islands
 
 Enlarge the terrain/usable area, rather than scaling the houses and decorations.

@@ -1,3 +1,5 @@
+import {smoothWaterSamples,smoothWaterFrames} from './water-route-smoothing.js';
+import {paceWaterRoute,WATER_SLIDE_SPEED} from './water-ride-pace.js';
 import * as THREE from "three";
 import { sampleMegaCurve } from "./mega-ride-motion.js";
 import { atollRecipe, atollStair } from "./atoll-slide-recipes.js";
@@ -37,9 +39,9 @@ function helix(h, low, radius, turns = 2, phase = 0, z = -3, shrink = 0) {
     return [Math.sin(a) * r, h + (low - h) * u, z + Math.cos(a) * r];
   });
 }
-function loop(cx, cy, z, radius, drift = 6) {
+function loop(cx, cy, z, radius, drift = 6, phase = 0) {
   return Array.from({ length: 73 }, (_, i) => {
-    const a = (i / 72) * TAU;
+    const a = (i / 72) * TAU+phase;
     return [
       cx + Math.sin(a) * radius,
       cy - Math.cos(a) * radius,
@@ -55,7 +57,7 @@ function recipe(spec, lane = 0) {
     bowls = [],
     rings = [];
   const path = (points, options = {}) => {
-      const s = { points, ...options };
+      const s = { points, keepInversion:!!options.loops, ...options };
       parts.push(s);
       return s;
     },
@@ -68,7 +70,7 @@ function recipe(spec, lane = 0) {
       const points = Array.from({ length: 145 }, (_, i) => {
         const u = i / 144,
           a = b.angle + u * TAU * 2.3,
-          r = b.radius * (0.96 - 0.82 * u),
+          r = b.radius * .96 + (Math.max(b.radius<6?2.8:4,b.radius*.14)-b.radius*.96)*u,
           x = b.x + Math.cos(a) * r,
           z = b.z + Math.sin(a) * r;
         return V([x, bowlHeight(b, r), z])
@@ -100,10 +102,10 @@ function recipe(spec, lane = 0) {
         first = bs.points[0];
       const start = previous || [-9, h, -14];
       const approach = previous
-        ? [start, [start[0], start[1] - 1.5, start[2] + 1.2], first]
+        ? [start, [start[0], start[1] - 1.5, start[2] + 1.2], [first[0],first[1]+1,first[2]-2], first]
         : kind === "orbital-shell" || kind === "luminous-vortex"
           ? [
-              [-9, h, -14],
+              [8, h, -14],
               ...helix(h - 0.3, first[1] + 2, 11, 1.05, Math.PI, -3).slice(
                 0,
                 110,
@@ -127,11 +129,12 @@ function recipe(spec, lane = 0) {
   } else if (kind === "crystal-loops") {
     finish(
       [
-        [-10, h, -16],
-        [-10, h, -14],
+        [-18, h, -23],
+        [-18, h, -21],
         ...loop(-6, 21, -14, 6),
         ...loop(5, 15, -6, 5),
-        ...loop(-4, 9, 2, 4),
+        ...loop(16, 9, 2, 4, 6, Math.PI*1.5),
+        [12,5,12],
         [3, 3.45, 12],
       ],
       {
@@ -167,7 +170,7 @@ function recipe(spec, lane = 0) {
       [3, 3.45, 12],
     ]);
   } else if (kind === "canyon-twins") {
-    finish([...helix(h, 4.2, 10, 1.5, lane * Math.PI, -3), [3, 3.45, 12]], {
+    finish([...helix(h, 4.2, 10, 1.5, lane * Math.PI, -3), ...(lane?[[10,3.8,12],[6.4,3.45,12]]:[[-14,3.8,-4],[-14,3.6,8],[-1.2,3.45,12]])], {
       full: true,
     });
   } else if (kind === "ocean-tunnel") {
@@ -220,7 +223,7 @@ function recipe(spec, lane = 0) {
     });
     finish([...p, [3, 3.45, 12]], { full: true });
   } else if (kind === "ribbon-tower") {
-    finish([...helix(h, 4, 10, 1.6, (lane * TAU) / 3, -3), [3, 3.45, 12]], {
+    finish([...helix(h, 4, 10, 1.6, (lane * TAU) / 3, -3), ...(lane===0?[[-15,3.8,-5],[-15,3.6,10],[-5,3.45,12]]:lane===2?[[16,3.8,-10],[18,3.6,9],[11,3.45,12]]:[[3,3.45,12]])], {
       full: true,
     });
   } else if (kind === "tidal-wave") {
@@ -305,7 +308,7 @@ function recipe(spec, lane = 0) {
       ],
       { full: true },
     );
-    flight(pool, 2.6);
+    flight([3+(lane?3.4:-3.4),pool[1],pool[2]], 2.6);
   } else if (kind === "lighthouse") {
     finish([...helix(h, 4.1, 8.5, 2, 0, -3), [3, 3.45, 12]], { full: true });
   } else if (kind === "twin-shell") {
@@ -338,7 +341,7 @@ function recipe(spec, lane = 0) {
       { pieces: 4 },
     );
   } else if (kind === "cloud-star") {
-    finish([...helix(h, 3.45, 12, 2.25, 0.4, -3, 0.65), [3, 3.45, 12]], {
+    finish([...helix(h, 3.45, 12, 2.25, 0.4, -3, 0.65), [14,3.45,4], [3, 3.45, 12]], {
       full: true,
     });
   } else throw Error("Missing authored slide recipe: " + kind);
@@ -366,84 +369,44 @@ function recipe(spec, lane = 0) {
 }
 
 function runData(part) {
-  const data = sampleMegaCurve(part.points, {
-      seat: DREAM_SEAT,
-      coaster: true,
-      terminalUpright: false,
-    }),
-    samples = data.samples,
-    m = new THREE.Matrix4();
-  for (let i = 0; i < samples.length; i++) {
-    const s = samples[i],
-      forward = new THREE.Vector3(0, 0, 1).applyQuaternion(s.q);
-    let insideLoop = false;
-    if (part.loops) {
-      const knot =
-          data.curve.getUtoTmapping(i / 600) * (part.points.length - 1),
-        range = part.loops.find(([a, b]) => knot >= a && knot <= b);
-      if (range) {
-        insideLoop = true;
-        const right = new THREE.Vector3(0, 0, -1)
-            .addScaledVector(forward, forward.z)
-            .normalize(),
-          up = new THREE.Vector3().crossVectors(forward, right).normalize(),
-          q = new THREE.Quaternion().setFromRotationMatrix(
-            m.makeBasis(right, up, forward),
-          ),
-          alpha = Math.min(
-            THREE.MathUtils.smoothstep(knot, range[0], range[0] + 4),
-            THREE.MathUtils.smoothstep(range[1] - knot, 0, 4),
-          );
-        s.q.slerp(q, alpha);
-        s.up.set(0, 1, 0).applyQuaternion(s.q);
-        s.right.set(1, 0, 0).applyQuaternion(s.q);
-      }
-    }
-    if (part.bowl) {
-      const up = bowlNormal(part.bowl, s.p.x, s.p.z);
-      forward.addScaledVector(up, -forward.dot(up)).normalize();
-      const right = new THREE.Vector3().crossVectors(up, forward).normalize();
-      s.up.copy(up);
-      s.right.copy(right);
-      s.q.setFromRotationMatrix(m.makeBasis(right, up, forward));
-    } else if (i >= 450 && !(part.keepInversion && insideLoop)) {
-      const right = new THREE.Vector3(forward.z, 0, -forward.x).normalize();
-      if (right.lengthSq() < 0.5) continue;
-      const up = new THREE.Vector3().crossVectors(forward, right).normalize(),
-        q = new THREE.Quaternion().setFromRotationMatrix(
-          m.makeBasis(right, up, forward),
-        );
-      s.q.slerp(q, THREE.MathUtils.smoothstep(i, 450, 600));
-      s.up.set(0, 1, 0).applyQuaternion(s.q);
-      s.right.set(1, 0, 0).applyQuaternion(s.q);
+  const data=sampleMegaCurve(part.points,{seat:DREAM_SEAT,coaster:true,terminalUpright:false,water:true}),samples=data.samples,m=new THREE.Matrix4();
+  smoothWaterSamples(data,{surface:!!part.bowl});
+  let terminalStart=450;
+  if(part.keepInversion&&part.loops?.length){const last=Math.max(...part.loops.map(r=>r[1]));terminalStart=600;for(let i=450;i<samples.length;i++)if(data.curve.getUtoTmapping(i/600)*(part.points.length-1)>last){terminalStart=i;break;}}
+  const previousForward=new THREE.Vector3(),transportedUp=new THREE.Vector3(),rotation=new THREE.Quaternion();
+  for(let i=0;i<samples.length;i++){
+    const sample=samples[i],forward=new THREE.Vector3(0,0,1).applyQuaternion(sample.q);
+    let up;
+    if(part.bowl){up=bowlNormal(part.bowl,sample.p.x,sample.p.z);forward.addScaledVector(up,-forward.dot(up)).normalize();}
+    else{if(i===0)transportedUp.copy(sample.up);else transportedUp.applyQuaternion(rotation.setFromUnitVectors(previousForward,forward));up=transportedUp.clone();}
+    const right=new THREE.Vector3().crossVectors(up,forward).normalize();up.crossVectors(forward,right).normalize();
+    sample.q.setFromRotationMatrix(m.makeBasis(right,up,forward));
+    if(part.loops){const knot=data.curve.getUtoTmapping(i/600)*(part.points.length-1),range=part.loops.find(([a,b])=>knot>=a&&knot<=b);if(range){
+      const loopRight=new THREE.Vector3(0,0,-1).addScaledVector(forward,forward.z).normalize(),loopUp=new THREE.Vector3().crossVectors(forward,loopRight).normalize(),target=new THREE.Quaternion().setFromRotationMatrix(m.makeBasis(loopRight,loopUp,forward));
+      // Continue transporting the attained loop pose; fading must never snap
+      // back to an unrelated pre-loop roll near its last quarter.
+      const alpha=Math.min(THREE.MathUtils.smoothstep(knot,range[0],range[0]+4),THREE.MathUtils.smoothstep(range[1]-knot,0,4));sample.q.slerp(target,alpha);
+    }}
+    sample.up.set(0,1,0).applyQuaternion(sample.q);sample.right.set(1,0,0).applyQuaternion(sample.q);transportedUp.copy(sample.up);previousForward.copy(forward);
+  }
+  if(!part.bowl){
+    const end=samples.at(-1),forward=new THREE.Vector3(0,0,1).applyQuaternion(end.q),desired=new THREE.Vector3(0,1,0).addScaledVector(forward,-forward.y);
+    if(desired.lengthSq()>.001){desired.normalize();const angle=Math.atan2(forward.dot(new THREE.Vector3().crossVectors(end.up,desired)),end.up.dot(desired));
+      for(let i=terminalStart;i<samples.length;i++){const sample=samples[i],axis=new THREE.Vector3(0,0,1).applyQuaternion(sample.q),weight=THREE.MathUtils.smoothstep(i,terminalStart,600);sample.q.premultiply(rotation.setFromAxisAngle(axis,angle*weight));sample.up.set(0,1,0).applyQuaternion(sample.q);sample.right.set(1,0,0).applyQuaternion(sample.q);}
     }
   }
   return data;
 }
-function anchor(data, target, end) {
-  const count = 120,
-    m = new THREE.Matrix4();
-  for (let j = 0; j <= count; j++) {
-    const i = end ? 600 - count + j : j,
-      s = data.samples[i],
-      forward = new THREE.Vector3(0, 0, 1).applyQuaternion(s.q),
-      up = target.up
-        .clone()
-        .addScaledVector(forward, -target.up.dot(forward))
-        .normalize(),
-      right = new THREE.Vector3().crossVectors(up, forward).normalize(),
-      q = new THREE.Quaternion().setFromRotationMatrix(
-        m.makeBasis(right, up, forward),
-      ),
-      w = THREE.MathUtils.smoothstep(end ? j : count - j, 0, count);
-    q.slerp(
-      target.q,
-      THREE.MathUtils.smoothstep(end ? j : count - j, count - 25, count),
-    );
-    s.q.slerp(q, w);
-    s.up.set(0, 1, 0).applyQuaternion(s.q);
-    s.right.set(1, 0, 0).applyQuaternion(s.q);
-  }
+function anchor(data,target,end){
+ const count=120,m=new THREE.Matrix4(),previousForward=new THREE.Vector3(0,0,1).applyQuaternion(target.q),up=target.up.clone(),rotation=new THREE.Quaternion();
+ // Transport the seam's up vector along the path instead of projecting one
+ // fixed normal: the latter flips 180 degrees when a drain points through it.
+ for(let j=0;j<=count;j++){
+  const sample=data.samples[end?600-j:j],forward=new THREE.Vector3(0,0,1).applyQuaternion(sample.q);up.applyQuaternion(rotation.setFromUnitVectors(previousForward,forward));
+  const right=new THREE.Vector3().crossVectors(up,forward).normalize();up.crossVectors(forward,right).normalize();
+  const q=new THREE.Quaternion().setFromRotationMatrix(m.makeBasis(right,up,forward));if(j===0)q.copy(target.q);
+  sample.q.slerp(q,1-THREE.MathUtils.smoothstep(j,0,count));sample.up.set(0,1,0).applyQuaternion(sample.q);sample.right.set(1,0,0).applyQuaternion(sample.q);previousForward.copy(forward);
+ }
 }
 
 function makeLane(spec, lane) {
@@ -462,6 +425,7 @@ function makeLane(spec, lane) {
     if (b.bowl) anchor(datasets.get(a), datasets.get(b).samples[0], true);
     else anchor(datasets.get(b), datasets.get(a).samples.at(-1), false);
   }
+  for(const [part,data] of datasets)if(!part.bowl)smoothWaterFrames(data);
   let clock = 0,
     last;
   const leg = (duration, phase, fn) => {
@@ -613,7 +577,7 @@ function makeLane(spec, lane) {
     }
   }
   const end = last.position,
-    hit = spec.premiumWater ? [end[0], 1.67, spec.pool[1]] : [3, 1.67, 12];
+    hit = [end[0], 1.67, spec.premiumWater ? spec.pool[1] : 12];
   if (V(end).distanceTo(V(hit)) > 0.01)
     leg(0.65, "drain", (u) => ({
       position: end.map((x, i) => x + (hit[i] - x) * u),
@@ -681,8 +645,9 @@ function makeLane(spec, lane) {
     frame,
   };
 }
-export function createReferenceRoute(spec) {
-  if (cache.has(spec.id)) return cache.get(spec.id);
+export function createReferenceRoute(spec,{speed=WATER_SLIDE_SPEED}={}) {
+  const key=spec.id+":"+speed;
+  if (cache.has(key)) return cache.get(key);
   const n = spec.lanes ||
       (spec.kind === "ribbon-tower"
         ? 3
@@ -700,6 +665,7 @@ export function createReferenceRoute(spec) {
       frame: (elapsed, reduced = false, lane = 0) =>
         lanes[lane % lanes.length].frame(elapsed, reduced),
     };
-  cache.set(spec.id, route);
-  return route;
+  const paced=paceWaterRoute(route,speed);
+  cache.set(key, paced);
+  return paced;
 }

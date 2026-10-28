@@ -264,6 +264,11 @@ void main(){
  vec3 deep=uColor*vec3(.24,.53,.69);
  vec3 shore=mix(uColor,uShoreColor,.3);
  vec3 body=mix(uColor*.7,mix(deep,shore,transmission),uLake);
+ #ifdef SLIDE_CATCH_POOL
+ // Bright, clear blue over the real lit floor. Keep the same shared sky
+ // reflection and wave fields; no transmission render target or scene copy.
+ body=mix(uColor*vec3(.72,.94,1.0),uShoreColor,.08+shallow*.18);
+ #endif
  float caustic=min(1.5,fieldA.b*.7+fieldB.b*.55+fieldA.b*fieldB.b);
  vec3 color=mix(body,sky,clamp(.035+fresnel*.91,0.0,.96));
  vec3 lightTint=mix(vec3(.08,.21,.20),vec3(.22,.13,.18),smoothstep(.15,.55,uColor.r-uColor.g));
@@ -285,6 +290,9 @@ void main(){
  color=mix(color,vec3(.88,1.0,.96),foam);
  color+=vec3(.035,.065,.07)*abs(wake);
  float alpha=clamp(uOpacity*(.55+depth*.23)+fresnel*.42-shallow*.07+foam*.16,.16,.94);
+ #ifdef SLIDE_CATCH_POOL
+ alpha=clamp(uOpacity*(.38+depth*.17)+fresnel*.48+foam*.12,.24,.94);
+ #endif
  if(uFlowing>.5)alpha=max(alpha,.62+fresnel*.22);
  gl_FragColor=vec4(max(color,vec3(0.0)),alpha);
  #include <tonemapping_fragment>

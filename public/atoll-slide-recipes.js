@@ -27,7 +27,7 @@ export function atollRecipe(spec, lane = 0) {
     case "rock-arch": path([...spiral(h,8,23,1.5,.5),end],{full:true}); break;
     case "rainbow-race": {
       const x=(lane-2.5)*6.2;
-      path([[x,h,-30],[x,h,-27],[x,h-5,-23],[x,18,-6],[x,7,12],[x,3.45,25],[x*.62,3.45,33]],{laneColor:lane}); break;
+      path([[x,h,-30],[x,h,-27],[x,h-5,-23],[x,18,-6],[x,7,12],[x,3.45,25],[x,3.45,33]],{laneColor:lane}); break;
     }
     case "sky-serpent": path([...spiral(h,7,23,2.3,.35),end],{full:true}); break;
     case "blue-whirlpool": case "purple-vortex": {
@@ -61,7 +61,7 @@ export function atollRecipe(spec, lane = 0) {
     }
     case "emerald-canyon": path([...serpentine(20,h,5,1.6),end]); break;
     case "crystal-cavern": path([...spiral(h,6,21,1.9,.3),end],{full:true}); break;
-    case "root-valley": path([...spiral(h,7,24,2.1,.1),end],{full:true}); break;
+    case "root-valley": {const p=spiral(h,7,24,2.1,.1),last=p.at(-1),before=p.at(-2),t=new THREE.Vector3(...last).sub(new THREE.Vector3(...before)).normalize();path([...p,[last[0]+t.x*12,6,last[2]+t.z*12],[26,4.5,24],end],{full:true});break;}
     case "blue-halfpipe":
       path([[-28,h,-17],[-28,h,-14],[-26,28,-8],[-20,9,-2],[-8,5,2],[9,10,4],[24,35,6],[27,52,10],[24,33,15],[12,10,20],[0,4,25],end],{halfpipe:true}); break;
     case "lagoon-loop": path([[-30,h,-28],[-30,h,-25],[-26,20,-20],[-10,7,-14],...loop(0,32,-10,25,12),[20,5,17],end],{full:true,loops:[[4,100]]}); break;
@@ -75,7 +75,7 @@ export function atollRecipe(spec, lane = 0) {
     case "abyss-bridge": path([[-30,h,-29],[-30,h,-26],[-10,h-1,-26],[23,h-2,-26],[25,h-6,-21],[25,17,-4],[16,5,18],end]);break;
     case "green-valley": path([...serpentine(23,h,5,2.4),end],{full:true}); break;
     case "mega-loops": {
-      const p=[[-32,h,-33],[-32,h,-30],[-28,43,-28],...loop(-6,43,-23,20,10),...loop(8,29,-9,15,10),...loop(-3,17,5,10,10),[10,4,23],end];
+      const p=[[-32,h,-33],[-32,h,-30],[-28,43,-28],...loop(-6,43,-23,20,10),...loop(8,29,-9,15,10),...loop(-3,17,12,10,10),[10,4,27],end];
       path(p,{full:true,loops:[[3,99],[100,196],[197,293]],coloredLoops:true});break;
     }
     default: throw Error("Missing atoll recipe: "+spec.kind);

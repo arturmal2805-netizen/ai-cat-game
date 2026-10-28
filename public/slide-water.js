@@ -1,3 +1,5 @@
+import {paceLegacyWaterRide} from './water-ride-pace.js';
+import {applySlideBasinOptics} from './slide-basin-optics.js';
 import * as THREE from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { waterMaterial, advanceWater } from "./water-shading.js";
@@ -162,6 +164,7 @@ export function slideBasin({
   const point = new THREE.Vector3();
   g.userData = {
     water,
+    bed:floor,
     rx,
     rz,
     surfaceY,
@@ -403,6 +406,7 @@ export function installSlideWater(
   root.add(group);
   const basin = pool?.isObject3D ? pool : slideBasin({ ...pool, color });
   if (!basin.parent) root.add(basin);
+  applySlideBasinOptics(basin);
   const clock = { value: 0 },
     wet = [],
     shells = [],
@@ -479,6 +483,7 @@ export function installSlideWater(
     };
     impacts = [{ time: duration * 0.88, point: landing.toArray(), power: 1.1 }];
   }
+  impacts=paceLegacyWaterRide(root,impacts||root.userData.route?.impacts||[]);
   const effects = impactEffects(outlets, clock);
   group.add(effects.spray, effects.foam);
   const previous = root.userData.update;

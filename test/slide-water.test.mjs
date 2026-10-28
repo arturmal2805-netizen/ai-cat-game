@@ -10,6 +10,7 @@ import { makeAttraction } from "../public/world-assets.js";
 import { permanentObjects } from "../public/world-objects.js";
 import { disposeScenery } from "../public/scenery-models.js";
 import { waterFieldTexture } from "../public/water-shading.js";
+import {SLIDE_BASIN_BLUE,applySlideBasinOptics} from '../public/slide-basin-optics.js';
 import { createResidentPlay } from "../public/resident-play.js";
 import { newGame, saveGame, loadGame } from "../public/economy.js";
 
@@ -44,6 +45,19 @@ test("every shop and permanent island water ride declares and implements the sha
       spec.id,
     );
     assert.ok(w.pool.userData.water.isShaderMaterial);
+    const basin=w.pool.userData,water=basin.water;
+    assert.equal(water.defines.SLIDE_CATCH_POOL,1,spec.id);
+    assert.equal(water.uniforms.uColor.value.getHex(),SLIDE_BASIN_BLUE,spec.id);
+    assert.equal(water.uniforms.uWaterField.value,waterFieldTexture());
+    assert.ok(basin.bed?.material.userData.waterLight,spec.id+' lit real floor');
+    assert.ok(basin.slideBasinOptics.surfaces.length>0);
+    for(const surface of basin.slideBasinOptics.surfaces){
+      const uv=surface.geometry.attributes.uv;
+      for(let i=0;i<uv.count;i++)assert.ok(uv.getX(i)>=-1e-6&&uv.getY(i)>=-1e-6&&uv.getX(i)<=1.000001&&uv.getY(i)<=1.000001,spec.id+' unit basin UV');
+    }
+    const update=basin.update,profile=basin.slideBasinOptics;
+    assert.equal(applySlideBasinOptics(w.pool),w.pool);
+    assert.equal(basin.update,update);assert.equal(basin.slideBasinOptics,profile);
     assert.ok(w.pool.userData.rx > 0 && w.pool.userData.rz > 0);
     assert.equal(
       w.materials.length,

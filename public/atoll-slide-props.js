@@ -1,3 +1,4 @@
+import {slideBasinWater} from './slide-basin-optics.js';
 import * as THREE from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { shape, line, torus, flowerCluster, teaPavilion, lantern } from "./fantasy-scenery.js";
@@ -326,6 +327,6 @@ export function* atollProps(props, root, spec, route, poolFactory) {
     const foam=new THREE.Points(geometry,foamMaterial);foam.name="Living wave crest · fixed GPU foam";foam.raycast=()=>{};root.add(foam);
   }
   let catchMaterial;
-  if(catchWater.length){const geometry=mergeGeometries(catchWater);catchWater.forEach(g=>g.dispose());catchMaterial=waterMaterial(0x23cbdc,.88);const pools=new THREE.Mesh(geometry,catchMaterial);pools.name='Batched clear waterfall catch pools';root.add(pools);}
+  if(catchWater.length){const geometry=mergeGeometries(catchWater);catchWater.forEach(g=>g.dispose());catchMaterial=slideBasinWater(waterMaterial(0x23cbdc,.88));const pools=new THREE.Mesh(geometry,catchMaterial);pools.name='Batched clear waterfall catch pools';root.add(pools);}
   return {update(time,reduced){if(fallMaterial)advanceWater(fallMaterial,time,reduced);if(catchMaterial)advanceWater(catchMaterial,time,reduced);if(foamMaterial)foamMaterial.uniforms.uTime.value=reduced?0:time;for(const pool of terracePools)pool.userData.update(time,reduced);},falls,terracePools,groundObstacles,portals,floatingIslets,surfaceDraws:(fallMaterial?1:0)+(catchMaterial?1:0)};
 }

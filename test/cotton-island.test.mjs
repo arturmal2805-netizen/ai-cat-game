@@ -94,7 +94,9 @@ test("each physical ride follows its actual animated seat on a finite closed rou
   for (const s of COTTON_RIDES) {
     const g = makeAttraction(s.id),
       { rideFrame: frame, duration } = g.userData;
-    assert.ok(duration >= 16);
+    // The requested +33% water-slide pace shortens the marshmallow ride;
+    // unrelated cotton attractions retain their original duration floor.
+    assert.ok(duration >= (s.id==='slide-marshmallow' ? 16/1.33 : 16));
     assert.ok(
       new THREE.Vector3(...frame(0).position).distanceTo(
         new THREE.Vector3(...frame(duration).position),

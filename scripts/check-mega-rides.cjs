@@ -106,10 +106,12 @@ async function localWorker() {
   try {
     const { build } = require(root + "/node_modules/esbuild"),
       { newGame, loadGame } = await import(root + "/public/economy.js"),
+      { BIOMES } = await import(root + "/public/game-data.js"),
       { xpForLevel, gameDay } = await import(root + "/public/progression.js");
     const now = Date.now(),
       g = newGame(now);
-    g.unlocked.push("homestead", "candy", "nature", "rainbow", "clouds");
+    const expandedBiomes=["candy","nature","rainbow","clouds"].filter(id=>BIOMES.some(b=>b.id===id));
+    assert.ok(expandedBiomes.length>0);g.unlocked.push("homestead", ...expandedBiomes);
     g.adoption.cats = [
       { id: "adopt-crumb", homeBiome: "homestead" },
       { id: "adopt-doughnut", homeBiome: "homestead" },
@@ -705,6 +707,10 @@ async function localWorker() {
             const v = __lagoonQA.residentPlay.get(kitten);
             v.activityStart = performance.now() - t * 1000;
             __lagoonQA.pinnedResident = { id: kitten, time: t };
+            // A seat can keep simulating offscreen while its native rig sleeps.
+            // Inspect the actual visible pinned pose before reading its joints.
+            const q=__lagoonQA,g=v.object,f=g.userData.rideFrame(t,false,v.rider?.lane||0),p=g.localToWorld(new q.THREE.Vector3(...f.position));
+            q.reviewView(p.x,p.z,16);q.desiredLook.y=p.y+1;
           },
           { kitten, t: times.sample },
         );
@@ -713,7 +719,7 @@ async function localWorker() {
             const q = __lagoonQA,
               v = q.residentPlay.get(kitten),
               g = q.itemGroups.get(id);
-            if (!v || v.elapsed < t - 0.01) return false;
+            if (!v || Math.abs(v.elapsed-t)>.001 || !q.npcs.get(kitten).carrier.visible || q.look.distanceTo(q.desiredLook)>.03 || Math.abs(q.getDistance()-16)>.1) return false;
             const p = g.localToWorld(
               new q.THREE.Vector3(
                 ...g.userData.rideFrame(v.elapsed, false, v.rider?.lane || 0)
@@ -1074,7 +1080,7 @@ async function localWorker() {
         );
       }
     }
-    for (const biome of ["candy", "nature", "rainbow", "clouds"]) {
+    for (const biome of expandedBiomes) {
       const building = await page.evaluate((biome) => {
         const s = __lagoonSaveQA,
           a = __expansionActions;
@@ -1126,18 +1132,18 @@ async function localWorker() {
     assert.deepEqual(remote.game.placements, current.placements);
     assert.deepEqual(remote.game.inventory, current.inventory);
     // Reproduce a second phone still using the old, smaller shoreline. Its
-    // normalized snapshot loses the four new outer plots without storing them.
+    // normalized snapshot loses the surviving expanded outer plots without storing them.
     const oldPhone = structuredClone(remote.game),
       outerIds = new Set(
         oldPhone.placements
           .filter(
             (p) =>
-              ["candy", "nature", "rainbow", "clouds"].includes(p.biome) &&
+              expandedBiomes.includes(p.biome) &&
               p.x === 18,
           )
           .map((p) => p.id),
       );
-    assert.equal(outerIds.size, 4);
+    assert.equal(outerIds.size, expandedBiomes.length);
     oldPhone.placements = oldPhone.placements.filter(
       (p) => !outerIds.has(p.id),
     );
@@ -1171,7 +1177,7 @@ async function localWorker() {
     );
     assert.equal(protectedSave.game.coins, current.coins);
     console.log(
-      "Cached old phone snapshot preserved all four outer-land businesses in the real SQLite Worker.",
+      "Cached old phone snapshot preserved all surviving outer-land businesses in the real SQLite Worker.",
     );
     await page.reload();
     await page.waitForFunction(
@@ -1188,7 +1194,7 @@ async function localWorker() {
     assert.deepEqual(restored.inventory, current.inventory);
     assert.deepEqual(restored.placements, current.placements);
     console.log(
-      `PASS: ${selected.length} selected models render on mobile; hero/tiny/giant seats and choreography match; ${selected.some((r) => r.kind === "funnel") ? "Titan autonomy and actual touch drag work; " : ""}water impacts fire; four expanded islands accept outer businesses; purchases/coins/XP survive cloud reload.`,
+      `PASS: ${selected.length} selected models render on mobile; hero/tiny/giant seats and choreography match; ${selected.some((r) => r.kind === "funnel") ? "Titan autonomy and actual touch drag work; " : ""}water impacts fire; surviving expanded islands accept outer businesses; purchases/coins/XP survive cloud reload.`,
     );
     const transport = fs.readFileSync(local.logPath, "utf8"),
       recovered = httpErrors.filter(
