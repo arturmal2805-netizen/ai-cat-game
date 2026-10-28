@@ -1,0 +1,100 @@
+{
+  "purchases": [
+    {
+      "id": "farm-starlight",
+      "price": 120000,
+      "coins": 880000,
+      "owned": true,
+      "plants": 18
+    },
+    {
+      "id": "farm-sugarcloud",
+      "price": 155000,
+      "coins": 725000,
+      "owned": true,
+      "plants": 18
+    },
+    {
+      "id": "farm-crystal",
+      "price": 195000,
+      "coins": 530000,
+      "owned": true,
+      "plants": 18
+    },
+    {
+      "id": "farm-moonpumpkin",
+      "price": 240000,
+      "coins": 290000,
+      "owned": true,
+      "plants": 18
+    }
+  ],
+  "visible": 1,
+  "rendered": {
+    "calls": 67,
+    "triangles": 311600,
+    "dpr": 2,
+    "farms": [
+      {
+        "id": "farm-starlight",
+        "lowOnly": false,
+        "visible": true,
+        "stats": {
+          "staticMeshes": 10,
+          "sourceMeshes": 2287,
+          "fishCount": 8
+        }
+      },
+      {
+        "id": "farm-sugarcloud",
+        "lowOnly": true,
+        "visible": false,
+        "stats": {
+          "staticMeshes": 4,
+          "sourceMeshes": 20,
+          "fishCount": 0
+        }
+      },
+      {
+        "id": "farm-crystal",
+        "lowOnly": true,
+        "visible": false,
+        "stats": {
+          "staticMeshes": 4,
+          "sourceMeshes": 20,
+          "fishCount": 0
+        }
+      },
+      {
+        "id": "farm-moonpumpkin",
+        "lowOnly": true,
+        "visible": false,
+        "stats": {
+          "staticMeshes": 4,
+          "sourceMeshes": 20,
+          "fishCount": 0
+        }
+      }
+    ]
+  },
+  "harvesting": {
+    "plant": "plant-17",
+    "fruit": "starberry",
+    "clock": 11.199999999999992,
+    "duration": 23.990778487539778,
+    "carrying": 1,
+    "position": [
+      -622.929788223799,
+      0.16,
+      -298.35527784691027
+    ]
+  },
+  "residentPlants": [
+    "plant-0",
+    "plant-1"
+  ],
+  "harvests": 3,
+  "reloads": 2,
+  "dpr": 2,
+  "contextLost": false
+}

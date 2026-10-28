@@ -46,3 +46,16 @@ plants are reachable by a large cat, and four simultaneous visitors complete
 without deadlock. The approved cat producer cache remains
 `sculpt-v2-a496203fa13a037a7a10a927`. Existing island snapshots retain their
 released bytes; new farms have independent geometry/navigation/save coverage.
+
+Final real phone audit passed with no browser/HTTP errors or context loss:
+all four actual shop purchases (710,000 total), one visible detailed farm,
+Chichi picking/carrying/depositing, simultaneous tiny/giant approved visitors,
+three native stock deposits, and two exact shared-SQLite reloads. DPR stayed 2;
+the captured selected farm frame submitted 67 draws / 311,984 triangles.
+
+Two earlier long probes hit Wrangler development ProxyWorker upstream
+connection losses. The native durable retry journal retained every purchase
+and deposit through both drops. The final audit uses the same actual bundled
+Worker, workerd, asset router and private SQLite directly through Miniflare,
+without Wrangler's extra development proxy. Production client/server save
+behavior is unchanged; `browser-errors.json` records the final clean run.
