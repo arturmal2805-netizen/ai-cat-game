@@ -536,3 +536,13 @@ anchors, using native cancellation. Preserve work/builders, existing sleep,
 care, permanent families, professions and money. Scope a recall's short runtime
 pause to its actual participants. Test the live menu button with stale evening
 activities, multiple moving residents and state-based work/sleep exclusions.
+
+Manual recall on giant islands must have a finite completed transfer for every
+invited resident, ending near the authored arrival rather than walking to the
+island centre. Reserve clear, distinct landings by rest-anatomy radius. Mark
+ongoing hero AND resident transfers transient when capturing durable locations:
+an autosave over the departing shore must not undo the target island. Verify
+actual arrival with the native menu button and a save DURING transit; a changed
+destination or a small amount of movement is not an arrival test. Recalling may
+request at most two nearest already-paid cold rides, using native cooperative
+preparation, without changing island scenery or purchase state.

@@ -1,4 +1,4 @@
-import {gatherCandidates as selectGatherCats,releaseGatherOverrides} from './gather-system.js';
+import {gatherCandidates as selectGatherCats,releaseGatherOverrides,gatherTrip,gatherFrame,gatherLanding} from './gather-system.js';
 import {ZOO_ID,ZOO_EXHIBITS,zooObstacles} from './zoo-data.js';
 import {zooPhotoCamera} from './zoo-gate.js';
 import {applyMagicBedReach} from './magic-bed-pose.js';
@@ -153,7 +153,7 @@ import {
   SPA_DRINKS,
   SPA_JACUZZI,
 } from "./spa-data.js";
-import { spaWalkable, nearestSpaGround } from "./spa-navigation.js";
+import { spaClear, spaWalkable, nearestSpaGround } from "./spa-navigation.js";
 import { createSpaRuntime } from "./spa-runtime.js";
 import { spaLounge, spaBar, spaCup } from "./spa-assets.js";
 import { sceneryFootprint } from "./scenery-data.js";
@@ -651,7 +651,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         return (
           !p ||
           draggingCat?.catId === id ||
-          (now < gatherUntil && gatherParticipants.has(id)) ||
+          (gatherParticipants.has(id) && (now < gatherUntil || now < (n?.gatheredUntil || 0))) ||
           crew.workers.has(id) ||
           p.trip ||
           Date.now() < (p.manualUntil || 0) ||
@@ -1392,7 +1392,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   function cancelResident(id, keepLeisure = false) {
     if (!keepLeisure) leisure.cancel(id);
     const actor = npcs.get(id);
-    if(actor)actor.pendingReference=null;
+    if(actor){actor.pendingReference=null;actor.gatherTrip=null;actor.gatheredUntil=0;}
     if (actor && !keepLeisure) actor.leisureBiome = null;
     if (actor) actor.manualWellnessId = null;
     const greeting = residentPlay.friendVisit(id);
@@ -4157,8 +4157,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
             jobs.has(id) ||
             housingLife.get(id) ||
             leisure.has(id) ||
-            familyLinks.has(id) ||
-            !!game.jobCity?.profiles[id]?.schedule?.outings?.length ||
+            (now >= (n.gatheredUntil || 0) && (familyLinks.has(id) ||
+            !!game.jobCity?.profiles[id]?.schedule?.outings?.length)) ||
             mealVisits.has(id) ||
             swimVisits.has(id) ||
             now < (n.manualUntil || 0) ||
@@ -4189,6 +4189,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       const jobFrame = jobs.has(id)
         ? jobCatFrame(jobs.get(id), time, reduced)
         : null;
+      const gathering = n.gatherTrip ? gatherFrame(n.gatherTrip,now) : null;
       const homeVisit = housingLife.get(id);
       const leisureFrame = leisure.frame(id);
       const spouse = familyLinks.get(id),
@@ -4547,7 +4548,13 @@ export function createWorld(container, initialGame, callbacks = {}) {
           if (peer) emoteCat(peer.model, "delighted", { crowd: true });
         }
       }
-      if (leisureFrame && !draggingThis) {
+      if (gathering && !draggingThis && !manualFrame && !jobFrame && !homeVisit) {
+        n.carrier.position.set(gathering.position.x,gathering.position.y,gathering.position.z);
+        n.carrier.rotation.y=gathering.yaw;
+        x=gathering.position.x;z=gathering.position.z;direct=true;
+        npcWalking=gathering.walking;npcReaction=gathering.reaction;
+        if(gathering.done){n.manualAnchor={x,z};n.gatherTrip=null;}
+      } else if (leisureFrame && !draggingThis) {
         n.carrier.position.set(
           leisureFrame.position.x,
           leisureFrame.position.y,
@@ -4941,18 +4948,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
       reaction = null;
     frameProfile?.section("residents");
     if (heroGather && !operation && !draggingCat) {
-      const t = Math.min(1, (now - heroGather.start) / heroGather.duration);
-      chichiCarrier.position.lerpVectors(
-        heroGather.from,
-        heroGather.to,
-        t * t * (3 - 2 * t),
-      );
-      chichiCarrier.rotation.y = Math.atan2(
-        heroGather.to.x - heroGather.from.x,
-        heroGather.to.z - heroGather.from.z,
-      );
-      walking = t < 1;
-      if (t === 1) heroGather = null;
+      const frame=gatherFrame(heroGather,now);
+      chichiCarrier.position.set(frame.position.x,frame.position.y,frame.position.z);
+      chichiCarrier.rotation.y=frame.yaw;
+      walking=frame.walking;reaction=frame.reaction;
+      if(frame.done)heroGather=null;
     }
     const heroCanBuild =
       !operation &&
@@ -5806,9 +5806,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
     },
     snapshotCatLocations(next,previous=next){
       const actors=[{id:'chichi',position:chichiCarrier.position,yaw:chichiCarrier.rotation.y,
-        transient:draggingCat?.catId==='chichi'||['ride','swim'].includes(operation?.decision.action)},
+        transient:!!heroGather||draggingCat?.catId==='chichi'||['ride','swim'].includes(operation?.decision.action)},
         ...[...npcs].map(([id,n])=>({id,position:n.carrier.position,yaw:n.carrier.rotation.y,
-          transient:draggingCat?.catId===id||!!spa.get(id)||!!chill.get(id)||swimVisits.has(id)||
+          transient:!!n.gatherTrip||draggingCat?.catId===id||!!spa.get(id)||!!chill.get(id)||swimVisits.has(id)||
             ['ride','swim'].includes(residentPlay.get(id)?.decision?.action)}))];
       return captureCatLocations(next,previous,actors);
     },
@@ -5916,17 +5916,44 @@ export function createWorld(container, initialGame, callbacks = {}) {
         );
       gatherParticipants.clear();for(const id of ids)gatherParticipants.add(id);
       const now=performance.now();gatherUntil=now+20000;
-      for(const [id,n]of npcs)if(gatherParticipants.has(id)){cancelResident(id);releaseGatherOverrides(n,now+90000);}
-      if(gatherParticipants.has('chichi')){spa.cancel('chichi');crew.cancel('chichi');chill.cancel('chichi');court.cancel('chichi');residentPlay.cancel('chichi');}
-      heroGather = gatherParticipants.has('chichi') ? {
-        from: chichiCarrier.position.clone(),
-        to,
-        start: performance.now(),
-        duration: Math.max(
-          1800,
-          Math.min(18000, chichiCarrier.position.distanceTo(to) * 180),
-        ),
-      } : null;
+      const reserved=[],arrivalPoint={x:arrival[0],z:arrival[1]},
+        obstacles=game.placements.filter(p=>p.biome===biome).map(p=>{
+          const d=byItem(p.item),f=d?.footprint||[1,1],swap=(p.rotation||0)%2;
+          return {x:p.x,z:p.z,w:f[swap?1:0],d:f[swap?0:1]};
+        }),
+        clear=(p,r)=>{
+          if(Math.hypot(p.x,p.z)>(b.radius||11.65)-r-.3)return false;
+          if(!spaClear(p,r,obstacles))return false;
+          if(['foodcourt','bikini','aquarium',ZOO_ID].includes(biome))return courtWalkable(p,r,getCourtBlockers(biome),biome);
+          if(biome==='water')return spaWalkable(p,r,spaObstacles);
+          if(biome==='sakura')return chillWalkable(p,r,chillObstacles);
+          if(biome==='autumn'){const q=mosaDryPoint(p.x,p.z);return Math.hypot(q.x-p.x,q.z-p.z)<.01;}
+          if(biome==='summer'){const q=capybaraDryPoint(p.x,p.z);return Math.hypot(q.x-p.x,q.z-p.z)<.01;}
+          return true;
+        },
+        members=ids.filter(id=>id==='chichi'||npcs.has(id)).map(id=>({id,n:id==='chichi'?null:npcs.get(id),
+          radius:spaRadius(id==='chichi'?cat:npcs.get(id)?.model)}))
+          .filter(a=>a.id==='chichi'||a.n).sort((a,b)=>b.radius-a.radius);
+      for(const {id,n,radius}of members){
+        const landing=gatherLanding(arrivalPoint,radius,reserved,clear,Math.min(b.radius*2,50));
+        if(!landing)continue;
+        reserved.push(landing);
+        const goal={x:b.center[0]+landing.x,z:b.center[1]+landing.z,
+          y:.16+islandHeight(biome,landing.x,landing.z)};
+        if(id==='chichi'){
+          spa.cancel(id);crew.cancel(id);chill.cancel(id);court.cancel(id);residentPlay.cancel(id);
+          heroGather=gatherTrip(chichiCarrier.position,goal,now);
+        }else{
+          cancelResident(id);releaseGatherOverrides(n,now+20000);
+          n.gatherTrip=gatherTrip(n.carrier.position,goal,now);
+          n.manualUntil=now+n.gatherTrip.duration+1500;n.gatheredUntil=now+90000;
+        }
+      }
+      // Prepare only the nearest two cold paid rides. A recall must not build
+      // twenty giant complexes during an overview or leave every ride cold.
+      if(b.waterpark)game.placements.filter(p=>p.biome===biome&&byItem(p.item)?.referenceSlide&&isBuilt(p))
+        .sort((a,b)=>Math.hypot(a.x-arrival[0],a.z-arrival[1])-Math.hypot(b.x-arrival[0],b.z-arrival[1]))
+        .slice(0,2).forEach(p=>{referenceRequested.add(p.id);prepareReference(p);});
       for (const id of ids) {
         mealVisits.delete(id);
         swimVisits.delete(id);
