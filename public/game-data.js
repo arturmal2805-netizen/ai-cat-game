@@ -21,6 +21,7 @@ import { waterRideSpec } from "./water-ride-data.js";
 import { REFERENCE_SLIDES } from "./reference-slide-data.js";
 import { ATOLL_SLIDES, ATOLL_PARK } from "./atoll-slide-data.js";
 import { MAGIC_FARMS, MAGIC_FRUITS, magicFarmLayout } from './magic-farms-data.js';
+import {MAGIC_BED,MAGIC_BED_CROPS,MAGIC_BED_SEEDS} from './magic-bed-data.js';
 import {
   BUILDING_EXPANSIONS,
   expandedBuildingRadius,
@@ -1555,7 +1556,8 @@ for (const biome of BIOMES) {
     biome.price =
       Math.round((biome.price * (1 + biome.requiredLevel * 0.7)) / 10) * 10;
 }
-CATALOG.push(...REFERENCE_SLIDES, ...ATOLL_SLIDES);
+CATALOG.push(...REFERENCE_SLIDES, ...ATOLL_SLIDES,MAGIC_BED,...MAGIC_BED_SEEDS);
+CATEGORIES.splice(CATEGORIES.findIndex(c=>c.id==='lands'),0,{id:'seeds',name:'Насіння',icon:'🌰'});
 for (const product of CATALOG) {
   product.requiredLevel ||=
     levelOverrides[product.id] ||
@@ -2305,6 +2307,7 @@ BIOMES.push({...ATOLL_PARK, center:[...ATOLL_PARK.center]});
 // but never register the four farm islands or their roads in the active world.
 RETIRED_BIOMES.push(...MAGIC_FARMS.map(f=>({...f,center:[...f.center]})));
 CROPS.push(...MAGIC_FRUITS);
+CROPS.push(...MAGIC_BED_CROPS);
 for(const n of NEIGHBORS)if(isRetiredBiome(n.biome)){
   n.originBiome=n.biome;n.biome='homestead';
 }

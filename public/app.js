@@ -1,3 +1,5 @@
+import {MAGIC_BED_ID,MAGIC_BED_CROPS,MAGIC_BED_SEEDS,magicGrowth} from './magic-bed-data.js';
+import {plantMagicSeed,harvestMagicFruit} from './magic-bed-state.js';
 import {JOB_START} from "./jobcity-data.js";
 import {MAGIC_FARMS,farmActivity} from './magic-farms-data.js';
 import {harvestOrchard,orchardCounts} from './magic-farm-state.js';
@@ -235,6 +237,7 @@ let game = loadGame(
   toastTimer,
   farmSelected = null,
   farmCrop = "wheat",
+  farmSelectedSeed = "magic-seed-cotton",
   farmViewKey = "",
   adoptionViewKey = "",
   shopViewKey = "";
@@ -768,7 +771,7 @@ function renderShop() {
         : game.inventory[entry.id] || 0;
     const acquired = !land && entry.premiumWater && (owned || game.placements.some(p=>p.item===entry.id));
     const card = document.createElement("article");
-    card.className = "shop-card"+(entry.magicFarm?' magic-farm-shop':'');
+    card.className = "shop-card"+(entry.magicFarm||entry.magicBed?' magic-farm-shop':'');
     card.dataset.product = entry.id;
     const art = document.createElement("div");
     art.className = "shop-art";
@@ -831,14 +834,13 @@ function renderShop() {
         ? " · Открывает: " + biomeFeature(entry.id)
         : " · " +
           entry.rarity +
-          " · Стройка " +
-          buildTimeLabel(entry.buildMinutes));
+          (entry.seed ? " · Пакет насіння" : " · Стройка " + buildTimeLabel(entry.buildMinutes)));
     button.textContent = land
       ? owned
         ? "Посмотреть остров"
         : "Открыть · " + money(entry.price) + " ✦"
       : shopCategory === "bag"
-        ? "Разместить"
+        ? entry.seed ? "Посадити" : "Разместить"
         : (acquired ? "Купить ещё · " : "Купить · ") + money(entry.price) + " ✦";
     button.setAttribute("aria-label", button.textContent + " " + entry.name);
     if (!land && shopCategory !== "bag") {
@@ -879,8 +881,9 @@ function renderShop() {
             commit(purchase(game, entry.id));
             toast(entry.name + " добавлен в сумку.");
           }
-          $("shop-dialog").close();
-          beginPlacement(entry.id);
+          if(entry.seed){
+            if(shopCategory === "bag"){ $("shop-dialog").close();farmSelectedSeed=entry.id;const bed=game.placements.find(p=>p.item===MAGIC_BED_ID&&isBuilt(p));if(bed)showFarm(bed.id);else toast("Спочатку розмістіть і побудуйте магічну грядку. Насіння залишається в сумці."); }
+          } else {$("shop-dialog").close();beginPlacement(entry.id);}
         }
       } catch (error) {
         toast(error.message);
@@ -1513,7 +1516,9 @@ try {
     onResidentAction: (id, decision, result) => {
       if (!cloud.editable || cloud.conflict) return;
       try {
+        const crop=result?.bedHarvest&&CROPS.find(c=>c.id===game.farm.fields[result.bedHarvest.field]?.[result.bedHarvest.index]?.crop);
         commit(completeResidentAction(game, id, decision, Date.now(), result));
+        if(crop)toast("До сховища: "+crop.name+" ×"+crop.yield+" ✨");
       } catch (error) {
         toast(error.message);
       }
@@ -1785,7 +1790,10 @@ function effects(decision, source = "ai", result = {}) {
   let next = structuredClone(game),
     message = null;
   const action = decision.action || "explore";
-  if(action==='farm'&&result.magicHarvest){
+  if(action==='farm'&&result.bedHarvest){
+    if(result.bedHarvest.field!==decision.activityId)throw Error('Невідповідна грядка.');
+    const harvested=harvestMagicFruit(next,result.bedHarvest);next=harvested.game;message='До сховища: '+CROPS.find(c=>c.id===harvested.crop).name+' ×'+harvested.count+' ✨';
+  }else if(action==='farm'&&result.magicHarvest){
     if(farmActivity(decision.activityId)?.id!==result.magicHarvest.farm)throw Error('Невідповідна ферма.');
     const harvested=harvestOrchard(next,result.magicHarvest);next=harvested.game;message='До сховища додано: '+CROPS.find(c=>c.id===harvested.fruit).name+' ✨';
   }else if (action === "farm") {
@@ -2185,7 +2193,8 @@ function renderFarm() {
       Date.now() >= time,
     ]),
     game.unlocked,
-    farmSelected,
+    farmSelected, farmSelectedSeed, MAGIC_BED_SEEDS.map(s=>game.inventory[s.id]||0),
+    chosen?.item===MAGIC_BED_ID ? Math.floor(Date.now()/1000) : 0,
   ]);
   if (key === farmViewKey) return;
   farmViewKey = key;
@@ -2202,7 +2211,7 @@ function renderFarm() {
   }
   $("farm-field").value = farmSelected || "";
   $("farm-crop").replaceChildren();
-  for (const crop of CROPS.filter((c) => game.unlocked.includes(c.biome))) {
+  for (const crop of CROPS.filter((c) => !c.magicBedOnly && game.unlocked.includes(c.biome))) {
     const option = document.createElement("option");
     option.value = crop.id;
     option.textContent =
@@ -2219,7 +2228,10 @@ function renderFarm() {
   if (!CROPS.some((c) => c.id === farmCrop && game.unlocked.includes(c.biome)))
     farmCrop = "wheat";
   $("farm-crop").value = farmCrop;
-  $("farm-command").disabled = busy || !chosen || !isBuilt(chosen);
+  $("farm-crop").closest("label").hidden=chosen?.item===MAGIC_BED_ID;
+  $("farm-seed-label").hidden=chosen?.item!==MAGIC_BED_ID;
+  if(chosen?.item===MAGIC_BED_ID){$("farm-seed").replaceChildren();for(const seed of MAGIC_BED_SEEDS){const option=document.createElement("option");option.value=seed.id;option.textContent=seed.icon+" "+seed.name+" · у сумці "+(game.inventory[seed.id]||0);$("farm-seed").append(option);}$("farm-seed").value=farmSelectedSeed;}
+  $("farm-command").disabled = busy || !chosen || !isBuilt(chosen) || chosen.item===MAGIC_BED_ID&&!cells.some(c=>c.crop&&c.readyAt<=Date.now());
   $("farm-plots").replaceChildren();
   if (!chosen) {
     const empty = document.createElement("p");
@@ -2232,6 +2244,21 @@ function renderFarm() {
     empty.dataset.until = chosen.readyAt;
     empty.textContent = "Ферма строится · " + countdown(chosen.readyAt);
     $("farm-plots").append(empty);
+  } else if(chosen.item===MAGIC_BED_ID){
+    for(const crop of MAGIC_BED_CROPS){
+      const row=document.createElement("article");row.className="farm-plot magic-bed-row";row.dataset.row=crop.row;
+      const title=document.createElement("h3");title.textContent=(crop.row+1)+" · "+crop.icon+" "+crop.name;row.append(title);
+      for(let side=0;side<2;side++){
+        const index=crop.row*2+side,cell=cells[index],growth=magicGrowth(cell),box=document.createElement("div"),text=document.createElement("p"),button=document.createElement("button");box.className="magic-bed-cell";box.dataset.cell=index;
+        text.textContent=cell.crop?growth.ready?"Стиглі плоди · +2 у сховище":["Насінина","Паросток","Молода рослина","Бутони","Наливається","Дозріває"][growth.stage]+" · "+countdown(cell.readyAt):"Вільна ділянка";
+        const bar=document.createElement("progress");bar.max=1;bar.value=growth.progress;bar.setAttribute("aria-label","Ріст: "+Math.round(growth.progress*100)+"%");bar.hidden=!cell.crop;
+        const seed=MAGIC_BED_SEEDS[crop.row],selected=farmSelectedSeed===seed.id,owned=game.inventory[seed.id]||0;
+        button.textContent=cell.crop?growth.ready?"Чичі, зібрати!":"Росте…":!selected?"Оберіть насіння рядка "+(crop.row+1):owned?"Посадити · 1 насінина":"Купити насіння · "+seed.price+" ✦";
+        button.disabled=busy||!!cell.crop&&!growth.ready||!cell.crop&&!selected;
+        button.onclick=()=>{try{if(growth.ready)manualFarm(farmSelected,index);else if(owned){commit(plantMagicSeed(game,farmSelected,index,seed.id));toast("Посаджено: "+crop.name);}else{commit(purchase(game,seed.id));toast("Насіння в сумці. Натисніть «Посадити» у цьому рядку.");}}catch(e){toast(e.message);}};
+        box.append(text,bar,button);row.append(box);
+      }$("farm-plots").append(row);
+    }
   } else
     for (let index = 0; index < 3; index++) {
       const cell = cells[index] || { crop: null, readyAt: 0 },
@@ -2342,7 +2369,7 @@ function manualActivity(selection) {
     return false;
   }
 }
-function manualFarm(id = null) {
+function manualFarm(id = null, bedCell = undefined) {
   const farm = game.placements.find(
     (p) =>
       (id ? p.id === id : byItem(p.item).category === "farm") && isBuilt(p),
@@ -2351,7 +2378,7 @@ function manualFarm(id = null) {
     toast("Нужна готовая ферма.");
     return;
   }
-  manualActivity({ activityId: farm.id });
+  manualActivity({ activityId: farm.id, ...(bedCell===undefined?{}:{bedCell}) });
 }
 
 function updateTimers() {
@@ -2378,6 +2405,7 @@ $("farm-crop").onchange = (e) => {
   farmViewKey = "";
   renderFarm();
 };
+$("farm-seed").onchange=e=>{farmSelectedSeed=e.target.value;farmViewKey="";renderFarm();};
 $("farm-command").onclick = () => manualFarm(farmSelected);
 $("farm-sell").onclick = () => {
   if (busy) {

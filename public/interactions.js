@@ -92,6 +92,7 @@ export function resolveInteraction(world, value, { historical = false } = {}) {
     action,
     activityId: object.id,
     target: activityLocation(action, object.type),
+    ...(action==="farm"&&object.type==="farm-magic-fruits"&&Number.isInteger(value.bedCell)&&value.bedCell>=0&&value.bedCell<12?{bedCell:value.bedCell}:{}),
     ...(character && value.characterAction
       ? { characterAction: value.characterAction }
       : {}),
@@ -134,6 +135,7 @@ export function manualInteraction(world, selection, mood) {
     ...resolveInteraction(world, {
       action,
       activityId: object.id,
+      ...(selection.bedCell===undefined?{}:{bedCell:selection.bedCell}),
       ...(selection.characterAction
         ? { characterAction: selection.characterAction }
         : {}),

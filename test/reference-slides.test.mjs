@@ -63,7 +63,7 @@ test("exactly 25 independent reference cards map the 5 by 5 grid and preserve ev
   assert.equal(
     hash({
       CATALOG: CATALOG.filter(
-        (s) => !s.referenceSlide && !s.id.startsWith("job-"),
+        (s) => !s.referenceSlide && !s.magicBed && !s.seed && !s.id.startsWith("job-"),
       ),
       BIOMES: BIOMES.filter((b) => !["jobcity", "cat-homes", "atoll-park"].includes(b.id)),
     }),

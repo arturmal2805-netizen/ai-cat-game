@@ -1,0 +1,671 @@
+{
+  "islands": 18,
+  "dpr": 2,
+  "field": "p-0e1b6813-764c-443b-ae24-1a96ac96575a",
+  "versions": [
+    {
+      "name": "Рослина foliage",
+      "version": 12,
+      "matrix": 0
+    },
+    {
+      "name": "Рослина foliage",
+      "version": 12,
+      "matrix": 0
+    },
+    {
+      "name": "Рослина foliage",
+      "version": 12,
+      "matrix": 0
+    },
+    {
+      "name": "Рослина foliage",
+      "version": 12,
+      "matrix": 0
+    },
+    {
+      "name": "Рослина foliage",
+      "version": 12,
+      "matrix": 0
+    },
+    {
+      "name": "Цукрова хмаринка fruit",
+      "version": 2,
+      "matrix": 0
+    },
+    {
+      "name": "Цукрова хмаринка fruit",
+      "version": 2,
+      "matrix": 0
+    },
+    {
+      "name": "Цукрова хмаринка fruit",
+      "version": 2,
+      "matrix": 0
+    },
+    {
+      "name": "Цукрова хмаринка fruit",
+      "version": 2,
+      "matrix": 0
+    },
+    {
+      "name": "Цукрова хмаринка seed",
+      "version": 2,
+      "matrix": 0
+    },
+    {
+      "name": "Помаранчевий ліхтарик fruit",
+      "version": 2,
+      "matrix": 0
+    },
+    {
+      "name": "Помаранчевий ліхтарик fruit",
+      "version": 2,
+      "matrix": 0
+    },
+    {
+      "name": "Помаранчевий ліхтарик fruit",
+      "version": 2,
+      "matrix": 0
+    },
+    {
+      "name": "Помаранчевий ліхтарик seed",
+      "version": 2,
+      "matrix": 0
+    },
+    {
+      "name": "Персикове сердечко fruit",
+      "version": 2,
+      "matrix": 0
+    },
+    {
+      "name": "Персикове сердечко fruit",
+      "version": 2,
+      "matrix": 0
+    },
+    {
+      "name": "Персикове сердечко seed",
+      "version": 2,
+      "matrix": 0
+    },
+    {
+      "name": "Водяна крапля fruit",
+      "version": 2,
+      "matrix": 0
+    },
+    {
+      "name": "Водяна крапля fruit",
+      "version": 2,
+      "matrix": 0
+    },
+    {
+      "name": "Водяна крапля fruit",
+      "version": 2,
+      "matrix": 0
+    },
+    {
+      "name": "Водяна крапля seed",
+      "version": 2,
+      "matrix": 0
+    },
+    {
+      "name": "Смарагдовий плід fruit",
+      "version": 2,
+      "matrix": 0
+    },
+    {
+      "name": "Смарагдовий плід fruit",
+      "version": 2,
+      "matrix": 0
+    },
+    {
+      "name": "Смарагдовий плід fruit",
+      "version": 2,
+      "matrix": 0
+    },
+    {
+      "name": "Смарагдовий плід seed",
+      "version": 2,
+      "matrix": 0
+    },
+    {
+      "name": "Золотий завиток fruit",
+      "version": 2,
+      "matrix": 0
+    },
+    {
+      "name": "Золотий завиток fruit",
+      "version": 2,
+      "matrix": 0
+    },
+    {
+      "name": "Золотий завиток fruit",
+      "version": 2,
+      "matrix": 0
+    },
+    {
+      "name": "Золотий завиток seed",
+      "version": 2,
+      "matrix": 0
+    }
+  ],
+  "stageStats": [
+    {
+      "progress": 0,
+      "draws": 393,
+      "triangles": 1346724,
+      "parts": [
+        "Рослина foliage",
+        "Рослина foliage",
+        "Рослина foliage",
+        "Рослина foliage",
+        "Рослина foliage",
+        "Цукрова хмаринка seed",
+        "Помаранчевий ліхтарик seed",
+        "Персикове сердечко seed",
+        "Водяна крапля seed",
+        "Смарагдовий плід seed",
+        "Золотий завиток seed"
+      ]
+    },
+    {
+      "progress": 0.12,
+      "draws": 384,
+      "triangles": 1336544,
+      "parts": [
+        "Рослина foliage",
+        "Рослина foliage",
+        "Рослина foliage",
+        "Рослина foliage",
+        "Рослина foliage",
+        "Цукрова хмаринка seed",
+        "Помаранчевий ліхтарик seed",
+        "Персикове сердечко seed",
+        "Водяна крапля seed",
+        "Смарагдовий плід seed",
+        "Золотий завиток seed"
+      ]
+    },
+    {
+      "progress": 0.3,
+      "draws": 355,
+      "triangles": 1298539,
+      "parts": [
+        "Рослина foliage",
+        "Рослина foliage",
+        "Рослина foliage",
+        "Рослина foliage",
+        "Рослина foliage"
+      ]
+    },
+    {
+      "progress": 0.5,
+      "draws": 370,
+      "triangles": 1509308,
+      "parts": [
+        "Рослина foliage",
+        "Рослина foliage",
+        "Рослина foliage",
+        "Рослина foliage",
+        "Рослина foliage",
+        "Цукрова хмаринка fruit",
+        "Цукрова хмаринка fruit",
+        "Цукрова хмаринка fruit",
+        "Цукрова хмаринка fruit",
+        "Помаранчевий ліхтарик fruit",
+        "Помаранчевий ліхтарик fruit",
+        "Помаранчевий ліхтарик fruit",
+        "Персикове сердечко fruit",
+        "Персикове сердечко fruit",
+        "Водяна крапля fruit",
+        "Водяна крапля fruit",
+        "Водяна крапля fruit",
+        "Смарагдовий плід fruit",
+        "Смарагдовий плід fruit",
+        "Смарагдовий плід fruit",
+        "Золотий завиток fruit",
+        "Золотий завиток fruit",
+        "Золотий завиток fruit"
+      ]
+    },
+    {
+      "progress": 0.75,
+      "draws": 359,
+      "triangles": 1498771,
+      "parts": [
+        "Рослина foliage",
+        "Рослина foliage",
+        "Рослина foliage",
+        "Рослина foliage",
+        "Рослина foliage",
+        "Цукрова хмаринка fruit",
+        "Цукрова хмаринка fruit",
+        "Цукрова хмаринка fruit",
+        "Цукрова хмаринка fruit",
+        "Помаранчевий ліхтарик fruit",
+        "Помаранчевий ліхтарик fruit",
+        "Помаранчевий ліхтарик fruit",
+        "Персикове сердечко fruit",
+        "Персикове сердечко fruit",
+        "Водяна крапля fruit",
+        "Водяна крапля fruit",
+        "Водяна крапля fruit",
+        "Смарагдовий плід fruit",
+        "Смарагдовий плід fruit",
+        "Смарагдовий плід fruit",
+        "Золотий завиток fruit",
+        "Золотий завиток fruit",
+        "Золотий завиток fruit"
+      ]
+    },
+    {
+      "progress": 1,
+      "draws": 335,
+      "triangles": 1456642,
+      "parts": [
+        "Рослина foliage",
+        "Рослина foliage",
+        "Рослина foliage",
+        "Рослина foliage",
+        "Рослина foliage",
+        "Цукрова хмаринка fruit",
+        "Цукрова хмаринка fruit",
+        "Цукрова хмаринка fruit",
+        "Цукрова хмаринка fruit",
+        "Помаранчевий ліхтарик fruit",
+        "Помаранчевий ліхтарик fruit",
+        "Помаранчевий ліхтарик fruit",
+        "Персикове сердечко fruit",
+        "Персикове сердечко fruit",
+        "Водяна крапля fruit",
+        "Водяна крапля fruit",
+        "Водяна крапля fruit",
+        "Смарагдовий плід fruit",
+        "Смарагдовий плід fruit",
+        "Смарагдовий плід fruit",
+        "Золотий завиток fruit",
+        "Золотий завиток fruit",
+        "Золотий завиток fruit"
+      ]
+    }
+  ],
+  "plans": [
+    {
+      "cat": "adopt-crumb",
+      "radius": 0.48,
+      "entry": {
+        "x": -0.73,
+        "y": 0.16,
+        "z": 3.1799999999999997
+      },
+      "slot": {
+        "index": 4,
+        "row": 2,
+        "side": 1,
+        "x": -0.73,
+        "z": 1.08,
+        "fruitZ": 1.93,
+        "fruitY": 1.35,
+        "crop": "magic-fruit-heart"
+      }
+    },
+    {
+      "cat": "adopt-marshmallow",
+      "radius": 1.632428125,
+      "entry": {
+        "x": 3.65,
+        "y": 0.16,
+        "z": 4.332428125
+      },
+      "slot": {
+        "index": 10,
+        "row": 5,
+        "side": 1,
+        "x": 3.65,
+        "z": 1.08,
+        "fruitZ": 1.93,
+        "fruitY": 1.55,
+        "crop": "magic-fruit-golden"
+      }
+    }
+  ],
+  "saved": {
+    "coins": 992400,
+    "inventory": {
+      "yarn": 0,
+      "mouse": 0,
+      "feather": 0,
+      "tunnel": 0,
+      "scratch": 0,
+      "trampoline": 0,
+      "swing": 0,
+      "carousel": 0,
+      "coaster": 0,
+      "waterslide": 0,
+      "ferris": 0,
+      "teacup": 0,
+      "train": 0,
+      "boat": 0,
+      "balloon": 0,
+      "broom": 0,
+      "scooter": 0,
+      "party": 0,
+      "cafe": 0,
+      "picnic": 0,
+      "stage": 0,
+      "fountain": 0,
+      "mushroom": 0,
+      "crystal": 0,
+      "lantern": 0,
+      "flowers": 0,
+      "bed": 0,
+      "pond": 0,
+      "farm-field": 0,
+      "greenhouse": 0,
+      "barn": 0,
+      "orchard": 0,
+      "coaster-epic": 0,
+      "coaster-legendary": 0,
+      "coaster-mystic": 0,
+      "coaster-dragon": 0,
+      "water-river": 0,
+      "water-whirlpool": 0,
+      "water-extreme": 0,
+      "zipline": 0,
+      "drop-tower": 0,
+      "bumpercars": 0,
+      "rocket": 0,
+      "ufo": 0,
+      "airship": 0,
+      "skate": 0,
+      "catbus": 0,
+      "maze": 0,
+      "laser": 0,
+      "fireflies": 0,
+      "toy-fish": 0,
+      "library": 0,
+      "observatory": 0,
+      "spa": 0,
+      "festival": 0,
+      "portal": 0,
+      "coaster-lagoon": 0,
+      "coaster-sakura": 0,
+      "coaster-moon": 0,
+      "coaster-mushroom": 0,
+      "coaster-cloud": 0,
+      "coaster-clockwork": 0,
+      "coaster-rainbow-launch": 0,
+      "slide-royal-cascade": 0,
+      "slide-vortex-bowl": 0,
+      "coaster-comet-flight": 0,
+      "ride-jellyfish": 0,
+      "ride-dragon-cloud": 0,
+      "toy-bubble-garden": 0,
+      "toy-magic-fish": 0,
+      "cat-barista": 0,
+      "swim-lagoon": 0,
+      "adoption-center": 0,
+      "business-coffee": 0,
+      "business-hotdog": 0,
+      "business-bakery": 0,
+      "business-gelato": 0,
+      "business-florist": 0,
+      "business-artist": 0,
+      "business-farmstand": 0,
+      "business-lemonade": 0,
+      "business-fishmarket": 0,
+      "business-pizza": 0,
+      "business-boba": 0,
+      "business-honeytea": 0,
+      "business-candy": 0,
+      "business-toymaker": 0,
+      "ride-butterfly": 0,
+      "ride-lotus": 0,
+      "ride-dragonfly": 0,
+      "ride-dinosaur": 0,
+      "ride-whale": 0,
+      "ride-whale-aurora": 0,
+      "ride-dream-balloon": 0,
+      "ride-paris-wheel": 0,
+      "ride-venice-gondola": 0,
+      "ride-tokyo-train": 0,
+      "ride-cloud-tram": 0,
+      "ride-star-carousel": 0,
+      "coaster-candy-city": 0,
+      "ride-crystal-slide": 0,
+      "ride-cupcake-wheel": 0,
+      "coaster-piglet-express": 0,
+      "ride-sugar-teacups": 0,
+      "slide-marshmallow": 0,
+      "ride-pig-rose": 0,
+      "ride-pig-peach": 0,
+      "ride-pig-lilac": 0,
+      "ride-capybara-mango": 0,
+      "ride-capybara-boba": 0,
+      "ride-capybara-coconut": 0,
+      "ride-capybara-float": 0,
+      "slide-dream-crystal-loops": 0,
+      "slide-dream-pearl-funnel": 0,
+      "slide-dream-rainbow-launch": 0,
+      "slide-dream-waterfall-arch": 0,
+      "slide-dream-canyon-twins": 0,
+      "slide-dream-ocean-tunnel": 0,
+      "slide-dream-blossom-tree": 0,
+      "slide-dream-ice-tunnel": 0,
+      "slide-dream-orbital-shell": 0,
+      "slide-dream-terrace-cascades": 0,
+      "slide-dream-canyon-eight": 0,
+      "slide-dream-luminous-vortex": 0,
+      "slide-dream-ring-launch": 0,
+      "slide-dream-ribbon-tower": 0,
+      "slide-dream-tidal-wave": 0,
+      "slide-dream-water-lift": 0,
+      "slide-dream-dragon-tail": 0,
+      "slide-dream-four-funnels": 0,
+      "slide-dream-sky-bridge": 0,
+      "slide-dream-cave-loop": 0,
+      "slide-dream-twin-flights": 0,
+      "slide-dream-lighthouse": 0,
+      "slide-dream-twin-shell": 0,
+      "slide-dream-royal-aqueduct": 0,
+      "slide-dream-cloud-star": 0,
+      "slide-atoll-giant-wave": 0,
+      "slide-atoll-rock-arch": 0,
+      "slide-atoll-rainbow-race": 0,
+      "slide-atoll-sky-serpent": 0,
+      "slide-atoll-blue-whirlpool": 0,
+      "slide-atoll-double-serpent": 0,
+      "slide-atoll-waterfall-cascade": 0,
+      "slide-atoll-emerald-canyon": 0,
+      "slide-atoll-crystal-cavern": 0,
+      "slide-atoll-root-valley": 0,
+      "slide-atoll-blue-halfpipe": 0,
+      "slide-atoll-lagoon-loop": 0,
+      "slide-atoll-coral-arch": 0,
+      "slide-atoll-cloud-islets": 0,
+      "slide-atoll-flower-lagoon": 0,
+      "slide-atoll-red-canyon": 0,
+      "slide-atoll-abyss-bridge": 0,
+      "slide-atoll-green-valley": 0,
+      "slide-atoll-purple-vortex": 0,
+      "slide-atoll-mega-loops": 0,
+      "farm-magic-fruits": 0,
+      "magic-seed-cotton": 0,
+      "magic-seed-lantern": 0,
+      "magic-seed-heart": 0,
+      "magic-seed-aqua": 0,
+      "magic-seed-emerald": 0,
+      "magic-seed-golden": 0,
+      "ride-mosasaur": 0,
+      "court-burger": 0,
+      "court-boba": 0,
+      "court-coffee": 0,
+      "court-bakery": 0,
+      "court-cinema": 0,
+      "bikini-krusty": 0,
+      "bikini-sponge": 0,
+      "bikini-patrick": 0,
+      "slide-glass-corkscrew": 0,
+      "slide-sky-cannon": 0,
+      "slide-titan-funnel": 0,
+      "slide-jungle-titan": 0,
+      "slide-rainbow-tsunami": 0,
+      "slide-abyss-capsule": 0,
+      "dive-triple-sky": 0,
+      "coaster-thunder-loop": 0,
+      "coaster-aurora-rift": 0,
+      "coaster-dragon-titan": 0,
+      "diamond-mine": 0,
+      "aquarium-aurora": 0,
+      "aquarium-pearl": 0,
+      "aquarium-coral": 0,
+      "aquarium-lilac": 0,
+      "aquarium-sunrise": 0,
+      "job-bank": 0,
+      "job-crypto": 0,
+      "job-factory": 0,
+      "job-furniture": 0,
+      "job-estate": 0,
+      "job-cars": 0
+    },
+    "stock": {
+      "wheat": 0,
+      "mint": 0,
+      "pumpkin": 0,
+      "berry": 0,
+      "lavender": 0,
+      "strawberry": 0,
+      "lotus-seed": 0,
+      "tea": 0,
+      "cactus": 0,
+      "candy-cane": 0,
+      "star-melon": 0,
+      "crystal-fruit": 0,
+      "cloud-cotton": 0,
+      "ember": 0,
+      "bamboo": 0,
+      "glow-mushroom": 0,
+      "pearl-coconut": 0,
+      "prism-beet": 0,
+      "galaxy-grape": 0,
+      "coral-pear": 0,
+      "lotus-blossom": 0,
+      "ice-peach": 0,
+      "clock-pumpkin": 0,
+      "night-flower": 0,
+      "rainbow-mango": 0,
+      "court-strawberry": 0,
+      "bikini-sea-grape": 0,
+      "homestead-strawberry": 0,
+      "starberry": 0,
+      "moonpear": 0,
+      "sunstar": 0,
+      "cloudberry": 0,
+      "sugarpeach": 0,
+      "rainbowfloss": 0,
+      "crystalapple": 0,
+      "amethystplum": 0,
+      "aurorafruit": 0,
+      "moonpumpkin": 0,
+      "silverpear": 0,
+      "lunapumpkin": 0,
+      "magic-fruit-cotton": 4,
+      "magic-fruit-lantern": 0,
+      "magic-fruit-heart": 2,
+      "magic-fruit-aqua": 0,
+      "magic-fruit-emerald": 0,
+      "magic-fruit-golden": 2,
+      "fish": 0,
+      "mushrooms": 0,
+      "gems": 0,
+      "honey": 0
+    },
+    "harvests": 8,
+    "field": [
+      {
+        "crop": null,
+        "plantedAt": 0,
+        "readyAt": 0,
+        "cycle": 1
+      },
+      {
+        "crop": null,
+        "plantedAt": 0,
+        "readyAt": 0,
+        "cycle": 1
+      },
+      {
+        "crop": "magic-fruit-lantern",
+        "plantedAt": 1793183826478,
+        "readyAt": 1793184426478,
+        "cycle": 0
+      },
+      {
+        "crop": "magic-fruit-lantern",
+        "plantedAt": 1793183826478,
+        "readyAt": 1793184426478,
+        "cycle": 0
+      },
+      {
+        "crop": null,
+        "plantedAt": 0,
+        "readyAt": 0,
+        "cycle": 1
+      },
+      {
+        "crop": "magic-fruit-heart",
+        "plantedAt": 1793183826478,
+        "readyAt": 1793184426478,
+        "cycle": 0
+      },
+      {
+        "crop": "magic-fruit-aqua",
+        "plantedAt": 1793183826478,
+        "readyAt": 1793184426478,
+        "cycle": 0
+      },
+      {
+        "crop": "magic-fruit-aqua",
+        "plantedAt": 1793183826478,
+        "readyAt": 1793184426478,
+        "cycle": 0
+      },
+      {
+        "crop": "magic-fruit-emerald",
+        "plantedAt": 1793183826478,
+        "readyAt": 1793184426478,
+        "cycle": 0
+      },
+      {
+        "crop": "magic-fruit-emerald",
+        "plantedAt": 1793183826478,
+        "readyAt": 1793184426478,
+        "cycle": 0
+      },
+      {
+        "crop": null,
+        "plantedAt": 0,
+        "readyAt": 0,
+        "cycle": 1
+      },
+      {
+        "crop": "magic-fruit-golden",
+        "plantedAt": 1793183826478,
+        "readyAt": 1793184426478,
+        "cycle": 0
+      }
+    ],
+    "placement": {
+      "id": "p-0e1b6813-764c-443b-ae24-1a96ac96575a",
+      "item": "farm-magic-fruits",
+      "biome": "homestead",
+      "x": 0,
+      "z": 0,
+      "rotation": 1,
+      "startedAt": 1793184384694,
+      "readyAt": 0
+    }
+  },
+  "reloads": 2,
+  "renderer": "Chromium SwiftShader; UI and correctness, not physical device FPS"
+}

@@ -19,7 +19,7 @@ test("the shipped preview manifest covers every shop item and biome with a compl
     const png = await readFile(new URL(key + ".png", base));
     revision.update(key).update(png);
     assert.equal(png.subarray(1, 4).toString(), "PNG", key);
-    const farm=BIOMES.some(b=>b.magicFarm&&'biome-'+b.id===key);
+    const farm=key==='farm-magic-fruits'||BIOMES.some(b=>b.magicFarm&&'biome-'+b.id===key);
     assert.equal(png.readUInt32BE(16), farm?480:300, key);
     assert.equal(png.readUInt32BE(20), farm?320:200, key);
     assert.equal(png.subarray(-8, -4).toString(), "IEND", key);

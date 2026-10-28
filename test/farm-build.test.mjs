@@ -116,10 +116,10 @@ test("farm saves restore crops, inventory and construction timestamps", () => {
 });
 test("expanded world retains 28 biomes and 123 established objects plus 25 new slide complexes", () => {
   assert.equal(
-    CATALOG.filter((i) => !i.islandOnly && !i.referenceSlide).length,
+    CATALOG.filter((i) => !i.islandOnly && !i.referenceSlide && !i.magicBed && !i.seed).length,
     123,
   );
-  assert.equal(CATALOG.filter((i) => !i.islandOnly).length, 168);
+  assert.equal(CATALOG.filter((i) => !i.islandOnly).length, 175);
   assert.equal(BIOMES.filter(b=>!b.magicFarm).length, 18);
   assert.equal(
     CATALOG.find((i) => i.id === "coaster-mystic").buildMinutes,
@@ -140,7 +140,7 @@ test("every biome unlocks a unique crop and every catalog object fits on an isla
       CROPS.some((c) => c.biome === biome.id),
       biome.id,
     );
-  for (const item of CATALOG.filter((item) => !item.islandOnly))
+  for (const item of CATALOG.filter((item) => !item.islandOnly && !item.seed))
     assert.ok(
       BIOMES.some((b) => findSpace(game, item.id, b.id)),
       item.id + " must be placeable",

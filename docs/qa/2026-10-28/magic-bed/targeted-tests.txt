@@ -1,0 +1,35 @@
+✔ one placeable bed has four native bed areas, six distinct seeds/crops and no new islands (160.93914ms)
+✔ each purchased seed plants only its row and passes all six persisted growth stages before an exact harvest (225.786509ms)
+✔ moving, rotating and storing a growing bed preserves seed cycles, deadlines and stock over ten restarts (118.40113ms)
+✔ shared cached clients retain beds, seeds and stock while real planting consumes one seed (35.947074ms)
+✔ a completed fruit credits the stock once through the actual hero/resident receipt; shared repeats conflict (29.645248ms)
+✔ malformed growth chooses the last valid backup without erasing paid seeds or harvest stock (21.948287ms)
+✔ three workers reserve distinct rows, blockers deny a stand, interruption has no receipt payout (130.739601ms)
+✔ grown, empty and picked plants keep immutable shared templates and fixed growth buffers (382.863417ms)
+✔ the picking paw reaches toward the actual fruit for Chichi, a tiny kitten and a giant, then returns to its native pose (3447.297497ms)
+✔ preempting cooperative bed builds retain one immutable template owner instead of overwriting live buffers (254.093778ms)
+✔ a paid placement rejected by shore, locked land or collisions goes to the bag with its original timer instead of vanishing (345.853899ms)
+✔ forty store/replace/restart cycles preserve one finished Mega Loops, balance, XP and ownership receipt (792.328326ms)
+✔ legacy purchase proof recovers a missing attraction once without a charge or granting an unbought slide (130.658599ms)
+✔ durable receipts recover the exact owned and completed-copy counts after a filtered snapshot (54.015565ms)
+✔ two phones buying the same attraction retain two copies and exact once-only payments (17.42608ms)
+✔ a cached client dropping a placed slide keeps its original identity and cannot erase paid completion receipts (35.975993ms)
+✔ an unchanged healthy world is returned by identity and ownership bookkeeping never touches native graphics (4.650148ms)
+✔ matching-world backups retain completed construction, while another accounts backup cannot invent ownership (17.808775ms)
+✔ a visible dragon cat beyond the old 45-unit cutoff stays visible through ordinary orbit and zoom, without moving its carrier (558.681031ms)
+✔ navigation radius stays constant through breathing for ordinary, tiny and giant approved cats (3460.975026ms)
+✔ hidden scene branches skip all descendant matrix work and refresh correctly after movement or explicit camera queries (1.166741ms)
+✔ navigation cache is bounded even when many different actor sizes request routes (724.584209ms)
+✔ all 50 fish and 120 bubbles keep geometry and GPU instance buffers stable during swimming and reduced motion (372.279765ms)
+✔ 55 fireflies retain their exact sphere detail and three colours without per-frame matrix uploads (1.048183ms)
+✔ cooperative geometry bounds match Three exactly and preserve half-float data without a duplicate buffer (4.175086ms)
+✔ idle reward polls reuse the world and cached Kyiv dates respect midnight and DST (72.482777ms)
+✔ linear bulk register reads preserve coins, diamonds and XP timers for a large world (65.006943ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5678.803007

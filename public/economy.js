@@ -1,5 +1,7 @@
 import {cryptoSnapshotValid} from "./crypto-trading.js";
 import {preserveReferenceOwnership,missingReferenceOwnership} from './purchase-preservation.js';
+import {MAGIC_BED_ID,emptyMagicBed} from './magic-bed-data.js';
+import {normalizeMagicBed,magicBedSnapshotValid} from './magic-bed-state.js';
 import {magicFarm} from './magic-farms-data.js';
 import {normalizeOrchards,newOrchard,orchardSnapshotValid,orchardCounts} from './magic-farm-state.js';
 import { ATOLL_PARK_ID, ATOLL_SLIDES, atollPlot } from "./atoll-slide-data.js";
@@ -415,7 +417,7 @@ function readSavedRecord(storage) {
         saved.cat &&
         typeof saved.cat === "object" &&
         housingSnapshotValid(saved.housing) &&
-        familySnapshotValid(saved.family) && cryptoSnapshotValid(saved.jobCity) && orchardSnapshotValid(saved.farm?.orchards)
+        familySnapshotValid(saved.family) && cryptoSnapshotValid(saved.jobCity) && orchardSnapshotValid(saved.farm?.orchards) && magicBedSnapshotValid(saved)
       )
         return { game: saved, encoded };
     } catch {}
@@ -425,7 +427,7 @@ export function readSavedState(storage) {
   return readSavedRecord(storage)?.game || null;
 }
 export function saveGame(storage, game) {
-  if (!housingSnapshotValid(game.housing) || !familySnapshotValid(game.family) || !cryptoSnapshotValid(game.jobCity) || !orchardSnapshotValid(game.farm?.orchards))
+  if (!housingSnapshotValid(game.housing) || !familySnapshotValid(game.family) || !cryptoSnapshotValid(game.jobCity) || !orchardSnapshotValid(game.farm?.orchards) || !magicBedSnapshotValid(game))
     return false;
   let previous, trusted;
   try {
@@ -552,6 +554,7 @@ export function canPlace(
   ignoreId = null,
   { allowLocked = false, ignoreTerrain = false } = {},
 ) {
+  if(byItem(item)?.seed)return {ok:false,reason:'Виберіть насіння в сумці та посадіть його у відповідний рядок магічної грядки.'};
   if (biome === HOUSING_ID)
     return {
       ok: false,
@@ -695,7 +698,7 @@ export function placeItem(
   if (byItem(item).category === "farm")
     next.farm.fields[next.placements.at(-1).id] =
       relocated?.fieldCells ||
-      Array.from({ length: 3 }, () => ({ crop: null, readyAt: 0 }));
+      (item===MAGIC_BED_ID?emptyMagicBed():Array.from({ length: 3 }, () => ({ crop: null, readyAt: 0 })));
   return resolveConstructionBoosts(next);
 }
 export function moveItem(game, id, biome, x, z, rotation = 0) {
@@ -836,7 +839,7 @@ export function storeItem(game, id, now = Date.now()) {
     throw Error(
       "Стройка ещё идёт. Дождитесь завершения, чтобы убрать предмет.",
     );
-  if (game.farm.fields[id]?.some((p) => p.crop))
+  if (found.item!==MAGIC_BED_ID&&game.farm.fields[id]?.some((p) => p.crop))
     throw Error("Сначала соберите урожай с этих грядок.");
   const next =
     incomeFor(game, id, now) > 0
@@ -844,11 +847,12 @@ export function storeItem(game, id, now = Date.now()) {
       : copy(game);
   delete next.business.accounts[id];
   const level = businessLevel(next, id);
-  if (level > 1)
+  if (level > 1 || found.item===MAGIC_BED_ID)
     next.relocatedPurchases.push({
       item: found.item,
       readyAt: 0,
       businessLevel: level,
+      ...(found.item===MAGIC_BED_ID?{fieldCells:structuredClone(next.farm.fields[id])}:{}),
     });
   delete next.business.levels[id];
   next.placements = next.placements.filter((p) => p.id !== id);
@@ -912,12 +916,12 @@ export function worldSnapshot(game, now = Date.now()) {
           ...(byItem(p.item).category === "farm"
             ? {
                 harvestReady: (game.farm.fields[p.id] || []).filter(
-                  (c) => c.crop && Date.now() >= c.readyAt,
+                  (c) => c.crop && now >= c.readyAt,
                 ).length,
-                emptyPlots: (game.farm.fields[p.id] || []).filter(
+                emptyPlots: p.item===MAGIC_BED_ID?0:(game.farm.fields[p.id] || []).filter(
                   (c) => !c.crop,
                 ).length,
-                seedAffordable: CROPS.some(
+                seedAffordable: p.item!==MAGIC_BED_ID&&CROPS.some(
                   (c) =>
                     game.unlocked.includes(c.biome) && c.seed <= game.coins,
                 ),
@@ -983,6 +987,7 @@ export function normalizeFarm(raw, game, now) {
   for (const p of game.placements.filter(
     (p) => byItem(p.item).category === "farm",
   )) {
+    if(p.item===MAGIC_BED_ID){fields[p.id]=normalizeMagicBed(raw.fields?.[p.id]);continue;}
     fields[p.id] = Array.from({ length: 3 }, (_, i) => {
       const cell = raw.fields?.[p.id]?.[i];
       return cell &&
@@ -1028,6 +1033,7 @@ export function plantCrop(game, field, index, cropId, now = Date.now()) {
     throw Error("Грядки пока строятся.");
   if (!crop || !game.unlocked.includes(crop.biome))
     throw Error("Эта культура откроется в новом биоме.");
+  if(placement.item===MAGIC_BED_ID||crop.magicBedOnly)throw Error('Для магічної грядки потрібне її унікальне насіння та відповідний рядок.');
   if (!Number.isInteger(index) || index < 0 || index > 2)
     throw Error("Неизвестная грядка.");
   if (game.farm.fields[field]?.[index]?.crop)
@@ -1047,6 +1053,7 @@ export function plantCrop(game, field, index, cropId, now = Date.now()) {
 }
 export function harvestField(game, field, now = Date.now()) {
   const placement = game.placements.find((p) => p.id === field);
+  if(placement?.item===MAGIC_BED_ID)throw Error("Котик має спочатку завершити збирання конкретного плода.");
   if (!placement || !isBuilt(placement, now))
     throw Error("Ферма пока недоступна.");
   const next = copy(game);

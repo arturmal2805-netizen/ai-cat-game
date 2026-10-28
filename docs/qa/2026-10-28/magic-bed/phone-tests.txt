@@ -1,0 +1,9 @@
+MAGIC_BED: actual shop purchase, bag, rotated placement on existing island
+MAGIC_BED: buy all six seed types separately, choose from bag, plant correct rows
+MAGIC_BED: six growth stages, fixed buffers and full-resolution images
+MAGIC_BED: hero sniff/reach/pluck/basket, immediate +2 stock
+MAGIC_BED: tiny/giant cats collect separate rows without stealing one fruit
+MAGIC_BED: interruption keeps ripe fruit and stock; restart keeps exact cells/deadlines
+MAGIC_BED: autonomous nearby cat chooses a ripe plant without an AI request
+MAGIC_BED: autonomous harvest started
+MAGIC_BED: purchase, bag, rotation, 12 plants, growth, hero/tiny/giant, interruption, stock and two SQLite reloads passed.

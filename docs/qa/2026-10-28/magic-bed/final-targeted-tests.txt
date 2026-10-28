@@ -1,0 +1,27 @@
+✔ one placeable bed has four native bed areas, six distinct seeds/crops and no new islands (186.965787ms)
+✔ each purchased seed plants only its row and passes all six persisted growth stages before an exact harvest (309.932803ms)
+✔ moving, rotating and storing a growing bed preserves seed cycles, deadlines and stock over ten restarts (196.189459ms)
+✔ shared cached clients retain beds, seeds and stock while real planting consumes one seed (40.126997ms)
+✔ a completed fruit credits the stock once through the actual hero/resident receipt; shared repeats conflict (28.604436ms)
+✔ malformed growth chooses the last valid backup without erasing paid seeds or harvest stock (11.066687ms)
+✔ three workers reserve distinct rows, blockers deny a stand, interruption has no receipt payout (168.086675ms)
+✔ grown, empty and picked plants keep immutable shared templates and fixed growth buffers (737.495153ms)
+✔ the picking paw reaches toward the actual fruit for Chichi, a tiny kitten and a giant, then returns to its native pose (8441.42261ms)
+✔ preempting cooperative bed builds retain one immutable template owner instead of overwriting live buffers (1143.147511ms)
+✔ a visible dragon cat beyond the old 45-unit cutoff stays visible through ordinary orbit and zoom, without moving its carrier (909.311075ms)
+✔ navigation radius stays constant through breathing for ordinary, tiny and giant approved cats (7391.887651ms)
+✔ hidden scene branches skip all descendant matrix work and refresh correctly after movement or explicit camera queries (15.784167ms)
+✔ navigation cache is bounded even when many different actor sizes request routes (3266.792466ms)
+✔ all 50 fish and 120 bubbles keep geometry and GPU instance buffers stable during swimming and reduced motion (948.223671ms)
+✔ 55 fireflies retain their exact sphere detail and three colours without per-frame matrix uploads (1.49955ms)
+✔ cooperative geometry bounds match Three exactly and preserve half-float data without a duplicate buffer (9.521919ms)
+✔ idle reward polls reuse the world and cached Kyiv dates respect midnight and DST (188.324377ms)
+✔ linear bulk register reads preserve coins, diamonds and XP timers for a large world (180.641634ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13965.29877

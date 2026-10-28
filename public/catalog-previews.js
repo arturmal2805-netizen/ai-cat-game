@@ -2,6 +2,8 @@ import * as THREE from "three";
 import { CATALOG, BIOMES } from "./game-data.js";
 import { createBiomeScene, disposeBiome } from "./biome-scenes.js";
 import { makeAttraction } from "./world-assets.js";
+import {MAGIC_BED_ID} from './magic-bed-data.js';
+import {magicBedPreview} from './magic-bed-models.js';
 import shippedPreviews from "./art/previews/catalog.json" with { type: "json" };
 const capturedPreviews = new Map();
 export async function catalogPreviews(
@@ -65,13 +67,13 @@ export async function catalogPreviews(
       scene.add(light);
       const object = item.isBiome
         ? createBiomeScene(item, { preview: true })
-        : makeAttraction(item.id);
+        : makeAttraction(item.id,item.id===MAGIC_BED_ID?magicBedPreview():[]);
       scene.add(object);
       const bounds = new THREE.Box3().setFromObject(object),
         size = bounds.getSize(new THREE.Vector3()),
         center = bounds.getCenter(new THREE.Vector3());
       const radius = Math.max(size.x, size.y, size.z, 1.4);
-      renderer.setSize(item.magicFarm?480:300,item.magicFarm?320:200);
+      renderer.setSize(item.magicFarm||item.magicBed?480:300,item.magicFarm||item.magicBed?320:200);
       const camera = new THREE.PerspectiveCamera(34, 1.5, item.premiumWater || item.waterpark || item.magicFarm ? .5 : 0.1, item.premiumWater || item.waterpark || item.magicFarm ? 2200 : 180);
       camera.position
         .copy(center)
@@ -116,6 +118,7 @@ export async function catalogPreviews(
               .multiplyScalar(radius * 1.8),
           );
       }
+      if(item.magicBed)camera.position.copy(center).add(new THREE.Vector3(.25,1,1.1).normalize().multiplyScalar(radius*1.45));
       camera.lookAt(center);
       try {
         await renderer.compileAsync(scene, camera);

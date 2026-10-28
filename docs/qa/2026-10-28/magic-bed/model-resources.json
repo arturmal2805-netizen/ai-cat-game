@@ -1,0 +1,10 @@
+{
+  "model": "farm-magic-fruits",
+  "nodes": 36,
+  "meshes": 34,
+  "triangles": 269396,
+  "geometryBytes": 2835888,
+  "growth": "fixed instance buffers, one shared clock; no matrix uploads while growing",
+  "graphics": "native renderer, cat detail and DPR retained",
+  "catCache": "sculpt-v2-a496203fa13a037a7a10a927"
+}

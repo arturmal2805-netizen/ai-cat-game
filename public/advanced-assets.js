@@ -274,7 +274,7 @@ export function advancedAttraction(id, fields = [], now = Date.now()) {
           rod(g, 0x9aba7b, x, 0.3, z, 0.025, ready ? 0.45 : 0.15);
           ball(
             g,
-            ready ? byBiome(crop.biome).accent : 0xb1c691,
+            ready ? (crop.color||byBiome(crop.biome)?.accent||0xffd58b) : 0xb1c691,
             x,
             ready ? 0.6 : 0.3,
             z,

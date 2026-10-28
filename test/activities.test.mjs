@@ -83,7 +83,7 @@ test("all catalog objects have finite, visible 3D geometry and usable action typ
     const size = box.getSize(new THREE.Vector3());
     assert.ok(size.length() > 0, item.id);
     assert.ok(Number.isFinite(size.x + size.y + size.z), item.id);
-    assert.ok(item.actions.length > 0);
+    if(item.seed){assert.equal(item.category,"seeds");assert.ok(item.seedCrop);assert.equal(item.actions.length,0);}else assert.ok(item.actions.length > 0);
   }
 });
 test("world decisions require an explicit activity without changing the base mood contract", () => {

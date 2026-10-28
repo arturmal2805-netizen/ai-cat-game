@@ -1,4 +1,6 @@
 import { jobBusiness } from "./jobcity-data.js";
+import {MAGIC_BED_ID,magicBedSeed} from './magic-bed-data.js';
+import {magicBedModel,magicSeedModel} from './magic-bed-models.js';
 import { jobBuilding } from "./jobcity-assets.js";
 import { diamondMine } from "./diamond-mine.js";
 import { referenceSlideAttraction } from "./reference-slide-assets.js";
@@ -201,6 +203,8 @@ function vehicle(parent, kind, color = 0xc9a3cf) {
   return g;
 }
 export function makeAttraction(id, fields = [], now = Date.now()) {
+  if(id===MAGIC_BED_ID)return magicBedModel(fields);
+  if(magicBedSeed(id))return magicSeedModel(id);
   if (jobBusiness(id)) return jobBuilding(id);
   const reference = referenceSlideAttraction(id);
   if (reference) return reference;
@@ -704,6 +708,7 @@ export function makeAttraction(id, fields = [], now = Date.now()) {
   return dressAttraction(group, byItem(id));
 }
 export function animateAttraction(group, time) {
+  if(group.userData.magicBed){group.userData.update?.(time);return;}
   if (group.userData.jobBusiness) {
     group.userData.update?.(time);
     return;

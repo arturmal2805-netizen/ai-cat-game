@@ -3251,3 +3251,5 @@ button.cat-profile-card {
 .crypto-total{font-weight:700;font-size:1.15rem}.crypto-profit{color:#347c61}.crypto-loss{color:#ac5266}
 .crypto-details{display:grid;grid-template-columns:minmax(6rem,1fr) 1fr;gap:.35rem 1rem}.crypto-details dd{margin:0;font-weight:600}
 .crypto-position progress{width:100%;accent-color:#9271ba}.crypto-history{padding:.65rem 0;border-bottom:1px solid #ded7e8}.crypto-history summary{cursor:pointer}
+
+.farm-toolbar label[hidden]{display:none}.magic-bed-row{text-align:left}.magic-bed-row h3{font-size:13px;line-height:1.6}.magic-bed-cell+ .magic-bed-cell{margin-top:12px;border-top:1px solid #e5dbea;padding-top:10px}.magic-bed-cell p{margin:4px 0;min-height:28px}.magic-bed-cell progress{width:100%;height:8px;accent-color:#b390c6;margin-bottom:8px}.magic-bed-cell button{font-size:11px;min-height:42px}.magic-bed-cell button:disabled{opacity:.58}

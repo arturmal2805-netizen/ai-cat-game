@@ -40,7 +40,8 @@ test("cancelling or replacing an unstarted giant ride never teleports the approa
 test("all existing catalog actions work for a neighbour through the real ride/toy/swim frames and complete once", () => {
   const actor = cat();
   let finished = 0;
-  for (const spec of CATALOG) {
+  // The planted bed has its own multi-row/cycle/real-rig tests and phone audit.
+  for (const spec of CATALOG.filter(s=>!s.magicBed)) {
     const object = makeAttraction(spec.id);
     object.position.set(3, 0, 2);
     object.userData.placement = { biome: "moon" };

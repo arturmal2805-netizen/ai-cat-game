@@ -1,5 +1,5 @@
 {
-  "version": "4d09500844ca",
+  "version": "69ba3f1cc2a7",
   "items": [
     "adoption-center",
     "airship",
@@ -81,6 +81,7 @@
     "dive-triple-sky",
     "drop-tower",
     "farm-field",
+    "farm-magic-fruits",
     "feather",
     "ferris",
     "festival",
@@ -97,6 +98,12 @@
     "lantern",
     "laser",
     "library",
+    "magic-seed-aqua",
+    "magic-seed-cotton",
+    "magic-seed-emerald",
+    "magic-seed-golden",
+    "magic-seed-heart",
+    "magic-seed-lantern",
     "maze",
     "mouse",
     "mushroom",

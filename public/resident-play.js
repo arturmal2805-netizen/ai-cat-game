@@ -76,6 +76,7 @@ export function createResidentPlay({
           a.carrier.position.y = groundY(a.carrier.position, a.profile.biome);
     }
     if (v.object) {
+      if(v.harvester&&v.phase==='activity'&&v.object.userData.magicBed){const n=getCat(id);if(n)n.carrier.position.copy(v.object.localToWorld(new THREE.Vector3(v.harvester.entry.x,.16,v.harvester.entry.z)));}
       v.object.userData.releaseHarvest?.(id);
       v.object.userData.releasePlay?.(getCat(id)?.carrier);
       resetYarn(v.object);
@@ -108,8 +109,8 @@ export function createResidentPlay({
     )
       return false;
     cancel(id);
-    const harvester=decision.action==='farm'&&object?.userData.magicFarm?object.userData.reserveHarvest(id,catNavigationRadius(n.model)):null;
-    if(object?.userData.magicFarm&&decision.action==='farm'&&!harvester)return false;
+    const harvester=decision.action==='farm'&&(object?.userData.magicFarm||object?.userData.magicBed)?object.userData.reserveHarvest(id,catNavigationRadius(n.model),decision.bedCell):null;
+    if((object?.userData.magicFarm||object?.userData.magicBed)&&decision.action==='farm'&&!harvester)return false;
     const rider =
       concurrentSlides &&
       decision.action === "ride" &&
@@ -410,7 +411,7 @@ export function createResidentPlay({
       cancel(id);
       if (g?.userData.bikiniFriend && d.characterAction === "carry")
         result.position.copy(n.carrier.position);
-      onComplete(id, d, v.harvester?{magicHarvest:v.harvester.receipt}:{});
+      onComplete(id, d, v.harvester?(g?.userData.magicBed?{bedHarvest:v.harvester.receipt}:{magicHarvest:v.harvester.receipt}):{});
       result.completed = true;
     }
     return result;

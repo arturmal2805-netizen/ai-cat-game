@@ -53,7 +53,7 @@ async function localWorker() {
   // connection during long harvest probes (POST/PUT are not retried by that
   // proxy). Use the same real workerd/SQLite/asset router directly for this
   // audit; keep the production Worker and browser save client unmodified.
-  if(process.env.CHICHI_MAGIC_FARM_AUDIT||process.env.CHICHI_FARM_WITHDRAWAL_AUDIT||process.env.CHICHI_OWNERSHIP_AUDIT){
+  if(process.env.CHICHI_MAGIC_BED_AUDIT||process.env.CHICHI_MAGIC_FARM_AUDIT||process.env.CHICHI_FARM_WITHDRAWAL_AUDIT||process.env.CHICHI_OWNERSHIP_AUDIT){
     const {Miniflare,Log,LogLevel,convertV4MiniflareOptions}=require(root+'/node_modules/miniflare');
     const mf=new Miniflare(convertV4MiniflareOptions({name:'chichi-farm-local',rootPath:temp,host:'127.0.0.1',port,modules:true,
       scriptPath:path.join(temp,'worker.mjs'),compatibilityDate:'2026-10-13',
@@ -190,6 +190,9 @@ async function localWorker() {
     if(process.env.CHICHI_MAGIC_FARM_AUDIT){
       g.unlocked=['moon'];g.placements=g.placements.filter(p=>p.id.startsWith('welcome-'));g.progression.xp=xpForLevel(30);g.coins=1000000;g.catPosition={biome:'moon',x:0,z:0};g.catDestinations={};
       g.adoption.cats=[{id:'adopt-crumb',homeBiome:'moon'},{id:'adopt-marshmallow',homeBiome:'moon'}];
+    }
+    if(process.env.CHICHI_MAGIC_BED_AUDIT){
+      g.unlocked=['moon','homestead'];g.placements=g.placements.filter(p=>p.id.startsWith('welcome-'));g.progression.xp=xpForLevel(30);g.coins=1000000;g.catPosition={biome:'homestead',x:0,z:15};g.catDestinations={luna:'homestead',moti:'homestead'};g.adoption.cats=[{id:'adopt-crumb',homeBiome:'homestead'},{id:'adopt-marshmallow',homeBiome:'homestead'}];
     }
     if(process.env.CHICHI_FARM_WITHDRAWAL_AUDIT){
       const {MAGIC_FARMS}=await import(root+'/public/magic-farms-data.js'),{newOrchard}=await import(root+'/public/magic-farm-state.js');
@@ -470,6 +473,7 @@ async function localWorker() {
                     "const residentPlay = createResidentPlay({",
                     "const residentPlay = createResidentPlay({random:()=>window.__lagoonQA?.socialRoll ?? Math.random(),",
                   )
+                  .replace("const harvesters=[...itemGroups.values()]", "const harvesters=(window.__lagoonQA?.pauseHarvestAutonomy?[]:[...itemGroups.values()])")
                   .replace(
                     "    const time = now / 1000;",
                     "    if(window.__lagoonQA?.freeze){requestAnimationFrame(loop);return;}\n    if(window.__lagoonQA?.pinnedRide !== undefined && operation?.stage === 'activity') operation.activityStart=now-window.__lagoonQA.pinnedRide*1000;\n    for(const p of window.__lagoonQA?.atollPinnedResidents||[]){const v=residentPlay.get(p.id);if(v?.phase==='activity')v.activityStart=now-p.time*1000;}\n    if(window.__lagoonQA?.pinnedSocial){const p=window.__lagoonQA.pinnedSocial,v=p.heroMeeting?operation:residentPlay.get(p.actorId);if(v)v.activityStart=now-p.time*1000;}\n    const time = now / 1000;",
@@ -496,7 +500,7 @@ async function localWorker() {
                   )
                   .replace(
                     marker,
-                    `  const qa=window.__lagoonQA={step:loop,gpuFrames,trackUploads:qaTrackUploads,geometryResidencyFactory:createGeometryResidency,shadowDepth:typeof shadowDepth==='undefined'?null:shadowDepth,geometryResidency:typeof geometryResidency==='undefined'?null:geometryResidency,makeGeometryResidency:options=>createGeometryResidency(renderer,options),gpuBuffers:qaGpuBuffers,matrixCache:typeof matrixCache==='undefined'?null:matrixCache,shaderWarmup:typeof shaderWarmup==='undefined'?null:shaderWarmup,colonyDraws:typeof colonyDraws==='undefined'?null:colonyDraws,animateCat,setCatMood,poseAtlas:typeof poseAtlas==='undefined'?null:poseAtlas,staticDraws:typeof staticDraws==='undefined'?null:staticDraws,camera,look,desiredLook,renderer,islands,cat,npcs,chichiCarrier,itemGroups,jobs,cityCars,updateCityCar,THREE,scene,pickDrop,pointer,raycaster,ground,viewport,sync,perform,performResident,faceCamera,spa,chill,court,cinema,courtFoods,bikiniLife,enterCourt,exitCourt,getCourtCamera:()=>courtCamera,residentPlay,callbacks,showCatHome,getDragging:()=>draggingCat?.catId,reviewView:(x,z,d)=>{desiredLook.set(x,0,z);desiredDistance=d;azimuth=.15;},constructorMs:performance.now()-qaStart,focused:()=>focused,getOperation:()=>operation,isVisible:()=>worldVisible,getDistance:()=>distance,getDesiredDistance:()=>desiredDistance,freeze:${!!process.env.CHICHI_CAT_LOCATION_AUDIT},frames:0,resizes:0,black:[],audit:false,measure:false,cpu:[]};
+                    `  const qa=window.__lagoonQA={step:loop,gpuFrames,trackUploads:qaTrackUploads,geometryResidencyFactory:createGeometryResidency,shadowDepth:typeof shadowDepth==='undefined'?null:shadowDepth,geometryResidency:typeof geometryResidency==='undefined'?null:geometryResidency,makeGeometryResidency:options=>createGeometryResidency(renderer,options),gpuBuffers:qaGpuBuffers,matrixCache:typeof matrixCache==='undefined'?null:matrixCache,shaderWarmup:typeof shaderWarmup==='undefined'?null:shaderWarmup,colonyDraws:typeof colonyDraws==='undefined'?null:colonyDraws,animateCat,setCatMood,poseAtlas:typeof poseAtlas==='undefined'?null:poseAtlas,staticDraws:typeof staticDraws==='undefined'?null:staticDraws,camera,look,desiredLook,renderer,islands,cat,npcs,chichiCarrier,itemGroups,jobs,cityCars,updateCityCar,THREE,scene,pickDrop,pointer,raycaster,ground,viewport,sync,perform,performResident,faceCamera,spa,chill,court,cinema,courtFoods,bikiniLife,enterCourt,exitCourt,getCourtCamera:()=>courtCamera,residentPlay,callbacks,showCatHome,getDragging:()=>draggingCat?.catId,reviewView:(x,z,d)=>{desiredLook.set(x,0,z);desiredDistance=d;azimuth=.15;},pauseHarvestAutonomy:${!!process.env.CHICHI_MAGIC_BED_AUDIT},constructorMs:performance.now()-qaStart,focused:()=>focused,getOperation:()=>operation,isVisible:()=>worldVisible,getDistance:()=>distance,getDesiredDistance:()=>desiredDistance,freeze:${!!process.env.CHICHI_CAT_LOCATION_AUDIT},frames:0,resizes:0,black:[],audit:false,measure:false,cpu:[]};
   const draw=renderer.render.bind(renderer);qa.drawFrame=()=>draw(scene,camera);renderer.render=(...args)=>{if(qa.drawPaused&&!qa.commandOnly)return;const started=performance.now();draw(...args);qa.frames++;if(qa.liveFrames)qa.liveFrames.push([started,performance.now()-started,renderer.info.render.calls,renderer.info.render.triangles]);};
   qa.settleJobs=seconds=>{const actors=Object.keys(game.jobCity?.profiles||{}).map(id=>({id,local:jobs.get(id)?.position||{x:0,y:.32,z:-10.3},biome:'jobcity'}));for(let i=0;i<seconds*30;i++)jobs.step(game,actors,1/30,i/30);for(const a of actors){const v=jobs.get(a.id),carrier=a.id==='chichi'?chichiCarrier:npcs.get(a.id)?.carrier;if(v&&carrier)carrier.position.set(JOB_CITY_CENTER[0]+v.position.x,v.position.y+.8,JOB_CITY_CENTER[1]+v.position.z);}};
   const size=renderer.setSize.bind(renderer);renderer.setSize=(...args)=>{qa.resizes++;return size(...args);};
@@ -640,6 +644,10 @@ async function localWorker() {
     }
     if(process.env.CHICHI_ATOLL_LOADING_AUDIT){
       const {checkAtollLoading}=await import('./check-atoll-loading.mjs');await checkAtollLoading(page,review);
+      fs.writeFileSync(path.join(review,'browser-errors.json'),JSON.stringify({errors,httpErrors},null,2));assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;
+    }
+    if(process.env.CHICHI_MAGIC_BED_AUDIT){
+      const {checkMagicBed}=await import('./check-magic-bed.mjs');await checkMagicBed(page,review);
       fs.writeFileSync(path.join(review,'browser-errors.json'),JSON.stringify({errors,httpErrors},null,2));assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;
     }
     if(process.env.CHICHI_MAGIC_FARM_AUDIT){

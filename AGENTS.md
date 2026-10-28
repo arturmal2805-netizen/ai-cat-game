@@ -453,3 +453,32 @@ register their biomes, roads or shop cards again without a new request.
   repeated reloads. Run `CHICHI_MAGIC_FARM_AUDIT=1` with the existing private
   phone/SQLite browser harness and inspect actual island and harvest images.
   Preserve approved cat cache bytes, graphics, DPR and renderer cadence.
+
+### Placeable magical fruit bed
+
+The revised 2026-10-28 request adds ONE shop object (`farm-magic-fruits`),
+not a farm island. Its 10 × 4.8 footprint has four native bed areas, six unique
+seed types and twelve persistent planting cells. Keep the four withdrawn farm
+biomes retired. Preserve all previous island centres and approved cat cache bytes.
+
+- Buy seeds into the normal bag, plant only their matching row, and preserve
+  planted/ready timestamps and cycle IDs when rotating, moving or storing a bed.
+  Malformed growth must select a valid backup, never silently erase plants.
+  Cached clients omitting the new product/seeds/stock cannot delete ownership.
+- Growth uses shared immutable templates, fixed instance attributes and one
+  clock for both colour and shadow shaders. Only planting/picking/state changes
+  upload plant data; continuous growth must not rebuild models or instance
+  matrices. Both placed and placement-preview models prepare cooperatively.
+- Reserve distinct reachable rows using native rest-anatomy radii. Sniff/reach,
+  tiny-kitten rim hops, plucking and baskets use the approved rig; the temporary
+  planar paw reach must reset exactly on the next native pose and reduced motion.
+  Cancel approaching cats in place; only a perched picker returns to its rim gate.
+- Credit the existing harvest stock once at completed animation using the exact
+  field/cell/cycle receipt. No ground pickup, fruit item in the ordinary bag,
+  extra AI request or payment on restart. Autonomous harvesting has work/care/
+  manual priorities and a bounded local visitor budget.
+- Run `test/magic-bed.test.mjs`, the full suite/build, and the private
+  `CHICHI_MAGIC_BED_AUDIT=1` phone/SQLite path. Inspect real growth, ripe crops,
+  tiny/giant picking, stock and two reloads. Keep the ownership audit too when
+  touching normalization, storage or shared merges. Software-browser correctness
+  and operation counts are not physical-phone FPS measurements.

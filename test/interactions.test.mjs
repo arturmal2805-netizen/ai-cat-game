@@ -131,7 +131,7 @@ test("sleep and food always refer to concrete permanent objects without adding p
   );
 });
 test("manual commands support every shop item and neighbours without changing mood", () => {
-  for (const item of CATALOG) {
+  for (const item of CATALOG.filter(i=>!i.seed)) {
     const snapshot = {
       activities: [{ id: "object", type: item.id }],
       friends: world.friends,

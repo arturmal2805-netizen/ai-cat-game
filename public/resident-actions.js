@@ -1,3 +1,4 @@
+import {harvestMagicFruit} from './magic-bed-state.js';
 import { activeCats } from "./cat-roster.js";
 import { byBiome, CROPS } from "./game-data.js";
 import { worldSnapshot, harvestField, plantCrop } from "./economy.js";
@@ -24,7 +25,8 @@ export function completeResidentAction(game, id, decision, now = Date.now(), res
   if (d.action === "eat") return eatFromBowl(game, id, now).game;
   if (d.action === "swim") return residentSwam(game, id, now);
   let next = structuredClone(game);
-  if(d.action==='farm'&&result.magicHarvest){if(farmActivity(d.activityId)?.id!==result.magicHarvest.farm)throw Error('Невідповідна ферма.');next=harvestOrchard(next,result.magicHarvest,now).game;}
+  if(d.action==='farm'&&result.bedHarvest){if(d.activityId!==result.bedHarvest.field)throw Error('Невідповідна грядка.');next=harvestMagicFruit(next,result.bedHarvest,now).game;}
+  else if(d.action==='farm'&&result.magicHarvest){if(farmActivity(d.activityId)?.id!==result.magicHarvest.farm)throw Error('Невідповідна ферма.');next=harvestOrchard(next,result.magicHarvest,now).game;}
   else if (d.action === "farm") {
     const cells = next.farm.fields[d.activityId] || [];
     if (cells.some((c) => c.crop && c.readyAt <= now))

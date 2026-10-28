@@ -191,7 +191,7 @@ test("both purchased whales and their lagoon require exactly level four, while s
 test("eight city attractions have distinct continuous closed journeys, animated rigs and luminous model detail", () => {
   assert.equal(CITY_RIDES.length, 8);
   assert.equal(BUSINESSES.length, 14);
-  assert.equal(CATALOG.filter(i => !i.islandOnly && !i.referenceSlide).length, 123);
+  assert.equal(CATALOG.filter(i => !i.islandOnly && !i.referenceSlide && !i.magicBed && !i.seed).length, 123);
   assert.equal(CATALOG.filter(i => i.referenceSlide).length, 45);
   const paths = [];
   for (const spec of CITY_RIDES) {

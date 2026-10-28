@@ -1,6 +1,7 @@
 import { HOMESTEAD_EXPANSION } from "./public/homestead-expansion.js";
 import {ATOLL_PARK_ID} from './public/atoll-slide-data.js';
 import {preserveReferenceOwnership} from './public/purchase-preservation.js';
+import {MAGIC_BED_ID,MAGIC_BED_CROPS,MAGIC_BED_SEEDS} from './public/magic-bed-data.js';
 import {MAGIC_FARMS,MAGIC_FRUITS} from './public/magic-farms-data.js';
 import {migrateRetiredIsland} from './public/world-migration.js';
 import {mergeCatLocations} from './public/cat-locations.js';
@@ -390,6 +391,10 @@ export function mergeSharedWorld(base, current, incoming) {
     if(receipts!==incoming.referenceOwnership)incoming={...incoming,referenceOwnership:receipts};
   }
   if (!base || !current) return clone(incoming);
+  // Old catalogues omit unknown seed/stock keys. An explicit zero is a real
+  // consumption; an absent key must retain the merge base and current delta.
+  for(const seed of MAGIC_BED_SEEDS)if(base.inventory?.[seed.id]!==undefined&&!(seed.id in incoming.inventory))incoming={...incoming,inventory:{...incoming.inventory,[seed.id]:base.inventory[seed.id]}};
+  for(const crop of MAGIC_BED_CROPS)if(base.farm?.stock?.[crop.id]!==undefined&&!(crop.id in incoming.farm.stock))incoming={...incoming,farm:{...incoming.farm,stock:{...incoming.farm.stock,[crop.id]:base.farm.stock[crop.id]}}};
   if(current.withdrawnMagicFarms){
     incoming={...incoming,withdrawnMagicFarms:[...new Set([...current.withdrawnMagicFarms,...(incoming.withdrawnMagicFarms||[])])]};
     for(const id of current.withdrawnMagicFarms)if(current.farm?.orchards?.[id]&&!incoming.farm?.orchards?.[id])incoming={...incoming,farm:{...incoming.farm,orchards:{...incoming.farm?.orchards,[id]:base.farm?.orchards?.[id]||current.farm.orchards[id]}}};
@@ -423,7 +428,7 @@ export function mergeSharedWorld(base, current, incoming) {
   for (const p of b.placements) {
     const expanded = BUILDING_EXPANSIONS[p.biome] ||
       (p.biome === "homestead" ? HOMESTEAD_EXPANSION : null),
-      newSlide = !!byItem(p.item)?.referenceSlide;
+      newSlide = !!byItem(p.item)?.referenceSlide || p.item===MAGIC_BED_ID;
     if ((!expanded && !newSlide) || n.placements.some((v) => v.id === p.id))
       continue;
     const [w, d] = footprint(p.item, p.rotation);
@@ -447,7 +452,7 @@ export function mergeSharedWorld(base, current, incoming) {
   // bag. Attractions cannot be sold: moving one into/out of the bag preserves
   // ownership, so only an unexplained loss is restored here.
   for (const [item, count] of Object.entries(b.inventory)) {
-    if (!byItem(item)?.referenceSlide) continue;
+    if (!byItem(item)?.referenceSlide&&item!==MAGIC_BED_ID) continue;
     const missing = owned(b, item) - owned(n, item);
     if (missing <= 0) continue;
     n.inventory[item] = (n.inventory[item] || 0) + missing;
@@ -683,7 +688,7 @@ export function mergeSharedWorld(base, current, incoming) {
           businessLevel: result.business.levels?.[p.id] || 1,
           fieldCells: result.farm.fields[p.id],
         },
-      ].slice(-60);
+      ];
       delete result.farm.fields[p.id];
       delete result.business.accounts[p.id];
       delete result.business.levels?.[p.id];
