@@ -51,7 +51,7 @@ Final real phone audit passed with no browser/HTTP errors or context loss:
 all four actual shop purchases (710,000 total), one visible detailed farm,
 Chichi picking/carrying/depositing, simultaneous tiny/giant approved visitors,
 three native stock deposits, and two exact shared-SQLite reloads. DPR stayed 2;
-the captured selected farm frame submitted 67 draws / 311,984 triangles.
+the captured selected farm frame submitted 67 draws / 311,600 triangles.
 
 Two earlier long probes hit Wrangler development ProxyWorker upstream
 connection losses. The native durable retry journal retained every purchase
@@ -59,3 +59,21 @@ and deposit through both drops. The final audit uses the same actual bundled
 Worker, workerd, asset router and private SQLite directly through Miniflare,
 without Wrangler's extra development proxy. Production client/server save
 behavior is unchanged; `browser-errors.json` records the final clean run.
+
+Published source: `d68b5e40f1d457b775f5fa1cbc337709fd7e354f`. GitHub Actions
+run `40651425362` passed test, Cloudflare deploy and Pages publication. The
+actual Worker status and Pages bundle/preview/source hashes match the checked
+checkout; see `publication.json`. No paid inference or player saves were used.
+
+Primary changed files:
+
+- `public/magic-farms-data.js`, `magic-farm-biome.js`, `magic-fruit-models.js`:
+  farm identities, distinct landscapes, plants, fruit and cooperative geometry.
+- `public/magic-farm-harvest.js`, `magic-farm-target.js`, `world.js`,
+  `resident-play.js`: reservations, navigation, rig reactions and delivery.
+- `public/magic-farm-state.js`, `economy.js`, `shared-world.mjs`, `save-vault.mjs`:
+  native inventory, saved growth cycles, once-only receipts and cached clients.
+- `public/app.js`, `magic-farm-ui.js`, `index.html`, `style.css`, catalogue
+  previews: four shop cards, ownership, counters and manual harvest controls.
+- `test/magic-farms.test.mjs`, `scripts/check-magic-farms.mjs` and existing
+  phone harness: functional, geometry, shared-save and real browser coverage.
