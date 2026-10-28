@@ -50,7 +50,7 @@ test("all islands start with independently identified trees, houses, rocks and a
       r.id,
     );
   for (const b of BIOMES.filter(
-    (b) => !["homestead", "aquarium", "jobcity", "cat-homes"].includes(b.id),
+    (b) => !b.magicFarm && !["homestead", "aquarium", "jobcity", "cat-homes"].includes(b.id),
   ))
     for (const kind of ["aquapark", "autumn", "foodcourt", "bikini", "atoll-park"].includes(
       b.id,

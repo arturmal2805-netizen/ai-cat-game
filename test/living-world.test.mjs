@@ -33,7 +33,9 @@ import {
   advanceCare,
 } from "../public/care-system.js";
 import { xpForLevel, DAILY_XP_LIMIT, addXP } from "../public/progression.js";
-import { BIOMES, byBiome, byItem } from "../public/game-data.js";
+import { BIOMES as REGISTERED_BIOMES, byBiome, byItem } from "../public/game-data.js";
+// Preserve the released-island snapshot; new magical farms have independent coverage.
+const BIOMES = REGISTERED_BIOMES.filter(b => !b.magicFarm);
 import { RENEWED_ISLANDS, ISLAND_RIDES } from "../public/renewal-data.js";
 import { createCat, animateCat, disposeCat } from "../public/cat-model.js";
 import { createBiomeScene } from "../public/biome-scenes.js";

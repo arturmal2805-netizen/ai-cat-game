@@ -419,3 +419,25 @@ the FPS panel has only a copy-report button, including with legacy pause links.
   Keep passive overview preparation bounded and gesture-aware, and test a real
   completion at distance 900, cold camera/manual requests and phone bag
   replacement without a second payment or construction deadline.
+
+### Magical farm islands
+
+- Append new biome centres and plant IDs without moving released islands or
+  changing old scenery/save identities. Reuse the native land shop, crop stock,
+  feeding, sale and shared-save journal; farms do not add currency or AI calls.
+- Persist each plant's ripening cycle and deadline. Reserve plants and deposit
+  bays transiently using actual rest-anatomy clearance. Award stock only after
+  delivery with a validated farm/plant/cycle receipt; cancellation and reload
+  must not duplicate a fruit. Cached clients omitting orchards must retain them.
+- Build distinct fields cooperatively using the selected-view scheduler and
+  native water/vegetation. Keep remote proxies cheap, static material batches
+  immutable and ambient animation in fixed buffers. Update fruit instance
+  matrices only when a saved growth stage or reservation appearance changes.
+- Keep every plant reachable by large cats and retain room for simultaneous
+  visitors. Bound local A* work to reservation, use live actor clearance while
+  walking, and align real fruit branches, paws and carried baskets. Give work,
+  care and manual control priority over local autonomous harvests.
+- Verify all farms' purchase/regrowth/feeding/cancellation/shared saves and
+  repeated reloads. Run `CHICHI_MAGIC_FARM_AUDIT=1` with the existing private
+  phone/SQLite browser harness and inspect actual island and harvest images.
+  Preserve approved cat cache bytes, graphics, DPR and renderer cadence.

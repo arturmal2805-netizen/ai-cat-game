@@ -1,0 +1,86 @@
+[
+  {
+    "id": "farm-starlight",
+    "proxy": {
+      "slices": 651,
+      "meshes": 8,
+      "triangles": 4552,
+      "geometryBytes": 391712,
+      "staticMeshes": 4,
+      "sourceMeshes": 20,
+      "fishCount": 0
+    },
+    "detail": {
+      "slices": 67421,
+      "meshes": 49,
+      "triangles": 248464,
+      "geometryBytes": 9878548,
+      "staticMeshes": 10,
+      "sourceMeshes": 2287,
+      "fishCount": 8
+    }
+  },
+  {
+    "id": "farm-sugarcloud",
+    "proxy": {
+      "slices": 649,
+      "meshes": 8,
+      "triangles": 4552,
+      "geometryBytes": 391712,
+      "staticMeshes": 4,
+      "sourceMeshes": 20,
+      "fishCount": 0
+    },
+    "detail": {
+      "slices": 66904,
+      "meshes": 47,
+      "triangles": 262388,
+      "geometryBytes": 9203620,
+      "staticMeshes": 8,
+      "sourceMeshes": 2271,
+      "fishCount": 8
+    }
+  },
+  {
+    "id": "farm-crystal",
+    "proxy": {
+      "slices": 649,
+      "meshes": 8,
+      "triangles": 4120,
+      "geometryBytes": 388384,
+      "staticMeshes": 4,
+      "sourceMeshes": 20,
+      "fishCount": 0
+    },
+    "detail": {
+      "slices": 63661,
+      "meshes": 48,
+      "triangles": 219868,
+      "geometryBytes": 7775668,
+      "staticMeshes": 9,
+      "sourceMeshes": 2149,
+      "fishCount": 8
+    }
+  },
+  {
+    "id": "farm-moonpumpkin",
+    "proxy": {
+      "slices": 649,
+      "meshes": 8,
+      "triangles": 4552,
+      "geometryBytes": 391712,
+      "staticMeshes": 4,
+      "sourceMeshes": 20,
+      "fishCount": 0
+    },
+    "detail": {
+      "slices": 68466,
+      "meshes": 49,
+      "triangles": 307972,
+      "geometryBytes": 11590192,
+      "staticMeshes": 10,
+      "sourceMeshes": 2328,
+      "fishCount": 8
+    }
+  }
+]

@@ -27,7 +27,7 @@ test("every island has authored trees with varied positions and silhouettes", ()
     assert.ok(
       trees.length >= 2 &&
         trees.length <=
-          (biome.id === "aquapark" || RENEWED_ISLANDS[biome.id] ? 5 : 3),
+          (biome.magicFarm ? 18 : biome.id === "aquapark" || RENEWED_ISLANDS[biome.id] ? 5 : 3),
       biome.id,
     );
     assert.equal(new Set(trees.map((t) => t.id)).size, trees.length);
@@ -51,7 +51,7 @@ test("every meadow is deterministic, diverse and rendered in at most four draw c
     const root = createGroundCover(
       BIOME_STYLES[biome.id],
       biome.id,
-      biome.id === "autumn" ? { radius: biome.radius } : {},
+      biome.id === "autumn" || biome.magicFarm ? { radius: biome.radius } : {},
     );
     assert.ok(root.children.length <= 4);
     assert.ok(

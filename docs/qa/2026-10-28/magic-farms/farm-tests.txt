@@ -1,0 +1,24 @@
+✔ construction deadlines block usage until done, then appear in AI snapshot (439.235278ms)
+✔ completed objects returned to bag do not require another construction wait (10.655901ms)
+✔ harvest and sale pay once; seed growth respects saved deadlines (36.303039ms)
+✔ resource jobs unlock with biomes and cannot be collected twice (10.720939ms)
+✔ save is verified, previous save is retained, corrupt primary restores backup (27.087239ms)
+✔ farm saves restore crops, inventory and construction timestamps (29.335012ms)
+✔ expanded world retains 28 biomes and 123 established objects plus 25 new slide complexes (0.790006ms)
+✔ every biome unlocks a unique crop and every catalog object fits on an island (6141.549363ms)
+✔ four separate large farm islands have distinct layouts, twelve fruits and unchanged old roads (23.692815ms)
+✔ each paid unlock charges once, creates ready fields and survives five restarts without changing legacy crops (414.451486ms)
+✔ ripe fruit is deposited once, stays in native stock after reload, regrows on its saved timer and feeds cats (594.181215ms)
+✔ two devices retain independent harvests, reject duplicate cycles and keep farms omitted by a cached client (71.359578ms)
+✔ invalid orchard records use a durable backup rather than erase harvested inventory (18.184999ms)
+✔ four cats reserve different plants, follow dry routes, carry baskets and release every reservation (2410.041851ms)
+✔ real farm geometry is cooperative and distinct; hidden farms retain a tiny proxy and fixed animation buffers (2125.494031ms)
+✔ the shipped preview manifest covers every shop item and biome with a complete PNG (306.439526ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6994.710073

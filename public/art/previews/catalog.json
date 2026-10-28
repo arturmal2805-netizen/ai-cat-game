@@ -1,5 +1,5 @@
 {
-  "version": "4d09500844ca",
+  "version": "cd1634e9c73f",
   "items": [
     "adoption-center",
     "airship",
@@ -21,6 +21,10 @@
     "biome-candy",
     "biome-cat-homes",
     "biome-clockwork",
+    "biome-farm-crystal",
+    "biome-farm-moonpumpkin",
+    "biome-farm-starlight",
+    "biome-farm-sugarcloud",
     "biome-foodcourt",
     "biome-galaxy",
     "biome-homestead",

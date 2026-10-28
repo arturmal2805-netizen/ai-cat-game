@@ -53,6 +53,7 @@ test('four cats reserve different plants, follow dry routes, carry baskets and r
   const plans=Array.from({length:4},(_,i)=>r.reserve('cat-'+i,i===0?1.8:.6,now));assert.ok(plans.every(Boolean),f.id+' four accessible plants');assert.equal(new Set(plans.map(p=>p.plant.id)).size,4);assert.equal(r.reserve('full',.6,now),null);
   const phases=new Set();for(let t=0;t<700&&plans.some(p=>!p.finished);t+=.1)for(const p of plans.filter(p=>!p.finished)){const frame=p.frame(t);phases.add(frame.phase);assert.ok(frame.position.every(Number.isFinite));assert.ok(farmWalkable(f.id,{x:frame.position[0],z:frame.position[2]},p.radius),f.id+' dry path');}
   assert.ok(plans.every(p=>p.finished),f.id+' no deadlocked visitors');assert.ok(phases.has('pick')&&phases.has('carry')&&phases.has('deposit'));assert.ok(picks.some(x=>x[1]));for(const p of plans)r.release(p.catId);assert.equal(r.visits.size,0);assert.equal(picks.filter(x=>!x[1]).length,4);
+  for(const target of magicFarmLayout(f.id).plants){const one=newOrchard(f.id,now);for(const [id,s]of Object.entries(one.plants))s.readyAt=id===target.id?now:now+100000;const run=createFarmHarvests(f.id,{getState:()=>one}),visit=run.reserve('large-cat',2.5,now);assert.ok(visit,f.id+' '+target.id+' remains reachable for a large cat');assert.equal(visit.plant.id,target.id);assert.ok(farmWalkable(f.id,visit.stand,2.5));run.release('large-cat');}
  }
 });
 test('real farm geometry is cooperative and distinct; hidden farms retain a tiny proxy and fixed animation buffers',()=>{

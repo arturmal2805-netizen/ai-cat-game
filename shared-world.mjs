@@ -392,8 +392,8 @@ export function mergeSharedWorld(base, current, incoming) {
     incoming={...incoming,unlocked:[...incoming.unlocked,ATOLL_PARK_ID]};
   for(const f of MAGIC_FARMS)if(base.unlocked?.includes(f.id)&&current.unlocked?.includes(f.id)&&!incoming.unlocked.includes(f.id))incoming={...incoming,unlocked:[...incoming.unlocked,f.id]};
   if(current.farm?.orchards&&!incoming.farm?.orchards){
-    const stock={...incoming.farm.stock};for(const f of MAGIC_FRUITS)if(!(f.id in stock))stock[f.id]=base.farm?.stock?.[f.id]||0;
-    incoming={...incoming,farm:{...incoming.farm,stock}};
+    const stock={...incoming.farm.stock};for(const f of MAGIC_FRUITS)if(!(f.id in stock)&&base.farm?.stock?.[f.id]!==undefined)stock[f.id]=base.farm.stock[f.id];
+    incoming={...incoming,farm:{...incoming.farm,orchards:base.farm?.orchards||{},stock}};
   }
   // XP is an earned delta. Recalculate shared daily caps and level rewards once,
   // so two purchases cannot award the same level-up coins twice.

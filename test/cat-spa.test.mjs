@@ -1,7 +1,9 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import * as THREE from "three";
-import { BIOMES, byBiome } from "../public/game-data.js";
+import { BIOMES as REGISTERED_BIOMES, byBiome } from "../public/game-data.js";
+// Preserve the released-island snapshot; new magical farms have independent coverage.
+const BIOMES = REGISTERED_BIOMES.filter(b => !b.magicFarm);
 import {
   SPA_RADIUS,
   SPA_POOL,

@@ -2,11 +2,13 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import * as THREE from "three";
 import {
-  BIOMES,
+  BIOMES as REGISTERED_BIOMES,
   byBiome,
   byItem,
   biomeReservations,
 } from "../public/game-data.js";
+// Preserve the released-island snapshot; new magical farms have independent coverage.
+const BIOMES = REGISTERED_BIOMES.filter(b => !b.magicFarm);
 import {
   CAPYBARA_POOLS,
   CAPYBARA_OBJECTS,

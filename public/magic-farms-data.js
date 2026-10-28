@@ -27,7 +27,9 @@ export function magicFarmLayout(id){
   else if(farm.kind==='crystal'){const side=i%2?1:-1;x=side*(32+Math.sin(i*.9)*13);z=Math.floor(i/2)*14-62;}
   else {const a=i*Math.PI*2/18;x=Math.sin(a)*(i%2?60:43);z=Math.cos(a)*(i%2?50:34)-4;}
   const fruit=fruits[i===5||i===14?2:i%3===1?1:0];
-  plants.push({id:'plant-'+i,x,z,fruit:fruit.id,kind:farm.kind==='moon'&&i%3!==1?'pumpkin':farm.kind==='crystal'?'crystal':'tree',radius:farm.kind==='moon'&&i%3!==1?3.2:2.2,height:5.5+(i%3)*.9});
+  const kind=farm.kind==='moon'&&i%3!==1?'pumpkin':farm.kind==='crystal'?'crystal':'tree',hero=i===(farm.kind==='cloud'?1:9);
+  const a=Math.atan2(x,z),reach=kind==='pumpkin'?(hero?6:3):hero?7.7:4.8;
+  plants.push({id:'plant-'+i,x,z,fruit:fruit.id,kind,hero,radius:kind==='pumpkin'?(hero?7.3:4.4):hero?9.2:6.3,height:hero?21:8+(i%3)*1.2,fruitX:x+Math.sin(a)*reach,fruitZ:z+Math.cos(a)*reach,fruitY:kind==='pumpkin'?1.25:3.3});
  }
  const pond=farm.kind==='star'?[0,-7,18,15]:farm.kind==='cloud'?[20,-4,12,10]:farm.kind==='crystal'?[0,-32,14,24]:[0,-5,20,16];
  const result={plants,pond,storage:{x:0,z:67},gate:{x:0,z:farm.radius-11},bounds:farm.radius-5};layouts.set(id,result);return result;

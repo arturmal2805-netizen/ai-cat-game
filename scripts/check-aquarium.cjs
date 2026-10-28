@@ -49,6 +49,24 @@ async function localWorker() {
   // watcher from reloading this private test server halfway through a probe.
   const assets = path.join(temp, "assets");
   fs.cpSync(path.join(root, "public"), assets, { recursive: true });
+  // Wrangler's extra development ProxyWorker intermittently loses its upstream
+  // connection during long harvest probes (POST/PUT are not retried by that
+  // proxy). Use the same real workerd/SQLite/asset router directly for this
+  // audit; keep the production Worker and browser save client unmodified.
+  if(process.env.CHICHI_MAGIC_FARM_AUDIT){
+    const {Miniflare,Log,LogLevel,convertV4MiniflareOptions}=require(root+'/node_modules/miniflare');
+    const mf=new Miniflare(convertV4MiniflareOptions({name:'chichi-farm-local',rootPath:temp,host:'127.0.0.1',port,modules:true,
+      scriptPath:path.join(temp,'worker.mjs'),compatibilityDate:'2026-10-13',
+      bindings:{GAME_RELEASE:'development'},durableObjects:{SAVE_VAULT:{className:'SaveVault',useSQLite:true}},
+      durableObjectsPersist:path.join(temp,'sqlite'),
+      assets:{directory:assets,binding:'ASSETS',run_worker_first:['/api/*'],routerConfig:{has_user_worker:true}},log:new Log(LogLevel.ERROR)}));
+    try{
+      const url=await mf.ready;
+      const check=await fetch(new URL('/api/save',url),{headers:{'X-Chichi-Save-Token':'0'.repeat(64)}});
+      if(!check.ok)throw Error('Direct local Worker startup: '+check.status+' '+(await check.text()).slice(0,700));
+      return {base:url.origin,stop:()=>{fs.closeSync(log);return mf.dispose();},env:process.env,logPath:path.join(temp,'worker.log')};
+    }catch(error){await mf.dispose();fs.closeSync(log);throw error;}
+  }
   fs.writeFileSync(
     config,
     JSON.stringify({
@@ -168,6 +186,10 @@ async function localWorker() {
       g.unlocked=['moon','homestead'];g.placements=g.placements.filter(p=>p.id.startsWith('welcome-'));g.progression.xp=xpForLevel(30);g.coins=800000;
       g.placements.push({id:'mega-cold',item:'slide-atoll-mega-loops',biome:'homestead',x:-90,z:-90,rotation:0,readyAt:0},{id:'mega-finishes',item:'slide-atoll-mega-loops',biome:'homestead',x:90,z:90,rotation:0,startedAt:now,readyAt:now+3600000},{id:'mega-cold-ride',item:'slide-atoll-mega-loops',biome:'homestead',x:-90,z:90,rotation:0,readyAt:0});
       g.catPosition={biome:'homestead',x:100,z:100};g.catDestinations={luna:'homestead',moti:'homestead'};
+    }
+    if(process.env.CHICHI_MAGIC_FARM_AUDIT){
+      g.unlocked=['moon'];g.placements=g.placements.filter(p=>p.id.startsWith('welcome-'));g.progression.xp=xpForLevel(30);g.coins=1000000;g.catPosition={biome:'moon',x:0,z:0};g.catDestinations={};
+      g.adoption.cats=[{id:'adopt-crumb',homeBiome:'moon'},{id:'adopt-marshmallow',homeBiome:'moon'}];
     }
     if (process.env.CHICHI_SCENE_STRESS) {
       const { ADOPTION_CATS } = await import(root + "/public/cat-breeds.js");
@@ -609,6 +631,10 @@ async function localWorker() {
     }
     if(process.env.CHICHI_ATOLL_LOADING_AUDIT){
       const {checkAtollLoading}=await import('./check-atoll-loading.mjs');await checkAtollLoading(page,review);
+      fs.writeFileSync(path.join(review,'browser-errors.json'),JSON.stringify({errors,httpErrors},null,2));assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;
+    }
+    if(process.env.CHICHI_MAGIC_FARM_AUDIT){
+      const {checkMagicFarms}=await import('./check-magic-farms.mjs');await checkMagicFarms(page,review);
       fs.writeFileSync(path.join(review,'browser-errors.json'),JSON.stringify({errors,httpErrors},null,2));assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;
     }
     if(process.env.CHICHI_HUD_TEXT_AUDIT){
@@ -2091,7 +2117,7 @@ async function localWorker() {
     );
   } finally {
     await browser?.close();
-    local.stop();
+    await local.stop();
   }
 })().catch((error) => {
   console.error(error);

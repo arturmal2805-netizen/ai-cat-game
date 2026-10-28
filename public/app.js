@@ -1251,6 +1251,7 @@ function inspect(id, manage = false) {
   $("spa-bar-actions").hidden = true;
   $("item-move").hidden = false;
   if (id === "spa-bar") return showSpaBar();
+  if(farmActivity(id))return showFarm();
   if (buildMode) return;
   selectedItem = id;
   selectedScenery = false;
@@ -2179,7 +2180,7 @@ function renderFarm() {
     cells.map((c) => [c.crop, c.readyAt, c.crop && Date.now() >= c.readyAt]),
     game.coins,
     game.farm.stock,
-    MAGIC_FARMS.map(f=>[f.id,orchardCounts(game,f.id)]),
+    MAGIC_FARMS.map(f=>[f.id,orchardCounts(game,f.id),world?.farmBusyCount(f.id)]),
     busy,
     Object.entries(game.farm.jobs).map(([id, time]) => [
       id,
@@ -2190,7 +2191,7 @@ function renderFarm() {
   ]);
   if (key === farmViewKey) return;
   farmViewKey = key;
-  renderMagicFarmCards($('magic-farm-owned'),game,{busy,onVisit:id=>{$('farm-dialog').close();world?.focus(id);},onHarvest:id=>{$('farm-dialog').close();manualActivity({activityId:id});},onShop:id=>{$('farm-dialog').close();showShop('magic-farms',BIOMES.find(b=>b.id===id).name);}});
+  renderMagicFarmCards($('magic-farm-owned'),game,{busy,busyCount:id=>world?.farmBusyCount(id)||0,onVisit:id=>{$('farm-dialog').close();world?.focus(id);},onHarvest:id=>{$('farm-dialog').close();manualActivity({activityId:id});},onShop:id=>{$('farm-dialog').close();showShop('magic-farms',BIOMES.find(b=>b.id===id).name);}});
   $("farm-field").replaceChildren();
   for (const p of farms) {
     const option = document.createElement("option");

@@ -3,7 +3,9 @@ import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import * as THREE from "three";
 import { REFERENCE_SLIDES } from "../public/reference-slide-data.js";
-import { CATALOG, BIOMES } from "../public/game-data.js";
+import { CATALOG, BIOMES as REGISTERED_BIOMES } from "../public/game-data.js";
+// Preserve the released-island snapshot; new magical farms have independent coverage.
+const BIOMES = REGISTERED_BIOMES.filter(b => !b.magicFarm);
 import {
   createReferenceRoute,
   DREAM_WATER,

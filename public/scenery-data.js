@@ -1,4 +1,5 @@
 import { BIOMES, RETIRED_BIOMES, byItem, biomeReservations } from "./game-data.js";
+import {magicFarm,magicFarmLayout} from './magic-farms-data.js';
 
 export const SCENERY_TYPES = Object.fromEntries([
   ...[
@@ -583,6 +584,7 @@ Object.assign(layouts, {
   ],
 });
 export function landscapedTrees(id) {
+  const farm=magicFarm(id);if(farm)return magicFarmLayout(id).plants.filter(p=>p.kind!=='pumpkin').map((p,i)=>({id:'tree-'+id+'-'+p.id,kind:farm.kind==='crystal'?'crystal':farm.kind==='cloud'?'sakura':farm.kind==='moon'?'willow':'enchanted',x:p.x,z:p.z,scale:p.hero?1.65:1,cell:i%6}));
   return (layouts[id] || []).map(([x, z, kind, scale], index) => {
     const [trees, cell, fallback] = artKinds[kind];
     return {

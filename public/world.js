@@ -89,7 +89,7 @@ import { atollPreparationNeeded } from "./atoll-streaming.js";
 import {applyAtollSit} from './atoll-slide-acting.js';
 import {magicFarmTarget} from './magic-farm-target.js';
 import {magicFarm,farmActivity} from './magic-farms-data.js';
-import {farmWalkable} from './magic-farm-harvest.js';
+import {farmWalkable,nearestFarmGround} from './magic-farm-harvest.js';
 import { decorateBusiness } from "./business-decor.js";
 import {
   attachBuilderHammer,
@@ -1233,7 +1233,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       try {
         if (
           old?.userData.lowOnly &&
-          desiredDistance < Math.max(110, (b.radius || 12) * 7) &&
+          desiredDistance < Math.max(110, (b.radius || 12) * 7,b.magicFarm?islandOverviewDistance(b.radius,camera.fov,camera.aspect)*1.1:0) &&
           Math.hypot(b.center[0] - desiredLook.x, b.center[1] - desiredLook.z) <
             (["jobcity","homestead"].includes(b.id) || b.waterpark || b.magicFarm ? b.radius + 10 : 40) && (!b.magicFarm||focused===b.id)
         ) {
@@ -1833,7 +1833,14 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }
       let g;
       if(o.magicFarm){
-        g=magicFarmTarget(o.magicFarm,{getState:()=>game.farm?.orchards?.[o.magicFarm],onPick:(id,yes)=>islands.get(o.magicFarm)?.userData.setPlantPicked?.(id,yes),getActors:id=>[...g.userData.harvests.visits.values()].filter(v=>v.catId!==id).map(v=>({...v.last,radius:v.radius}))});
+        const actors=[],actorCache=new Map(),farm=byBiome(o.magicFarm);
+        const actor=(id,p,radius)=>{let a=actorCache.get(id);if(!a){a={x:0,z:0,radius};actorCache.set(id,a);}a.x=p.x-farm.center[0];a.z=p.z-farm.center[1];a.radius=radius;actors.push(a);};
+        g=magicFarmTarget(o.magicFarm,{getState:()=>game.farm?.orchards?.[o.magicFarm],onPick:(id,yes)=>islands.get(o.magicFarm)?.userData.setPlantPicked?.(id,yes),getActors:id=>{
+          actors.length=0;
+          for(const [catId,n]of npcs)if(catId!==id&&(n.profile.biome===farm.id||g.userData.harvests.visits.has(catId)))actor(catId,n.carrier.position,spaRadius(n.model));
+          if(id!=='chichi'&&Math.hypot(chichiCarrier.position.x-farm.center[0],chichiCarrier.position.z-farm.center[1])<farm.radius)actor('chichi',chichiCarrier.position,spaRadius(cat));
+          return actors;
+        }});
       }else if (jobBusiness(o.id)) {
         g = courtModels.get(o.id);
         courtModels.delete(o.id);
@@ -2040,7 +2047,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       operation?.decision.activityId &&
       !operation.spa &&
       !operation.court &&
-      !operation.jobCity
+      !operation.jobCity && !operation.harvester
     ) {
       operation.attraction = itemGroups.get(operation.decision.activityId);
       operation.destination
@@ -2106,6 +2113,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         0.16,
         b.center[1] + Math.cos(index * 2.4) * wanderRadius,
       );
+      if(b.magicFarm)carrier.position.z=b.center[1]+b.radius-20+Math.cos(index*2.4)*2;
       if (b.id === "autumn") {
         const dry = mosaDryPoint(
           carrier.position.x - b.center[0],
@@ -2274,6 +2282,13 @@ export function createWorld(container, initialGame, callbacks = {}) {
           (Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) *
             Math.min(1, camera.aspect)),
       );
+    if(b.magicFarm&&!overview){
+      overviewElevation=1.03;
+      overviewAspect=camera.aspect;
+      desiredDistance=islandOverviewDistance(b.radius,camera.fov,camera.aspect);
+      camera.far=islandCameraFar(desiredDistance,b.radius);
+      camera.updateProjectionMatrix();
+    }
     if (overview) {
       const bounds = new THREE.Box3();
       const targets = [...BIOMES];
@@ -3738,7 +3753,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     for (const b of BIOMES) {
       const island = islands.get(b.id),
         close =
-          distance < Math.max(110, (b.radius || 12) * 7) &&
+          distance < Math.max(110, (b.radius || 12) * 7,b.magicFarm?islandOverviewDistance(b.radius,camera.fov,camera.aspect)*1.1:0) &&
           (b.id === HOUSING_ID
             ? island.userData.near(look)
             : Math.hypot(b.center[0] - look.x, b.center[1] - look.z) <
@@ -4129,7 +4144,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       const activity='orchard-'+focused,g=itemGroups.get(activity);
       if(g?.userData.harvests?.available())for(const [id,n]of npcs){
         const needs=game.care?.residents[id];
-        if(n.profile.biome!==focused||residentPlay.get(id)||jobs.has(id)||leisure.has(id)||familyLinks.has(id)||crew.workers.has(id)||draggingCat?.catId===id||operation?.decision.friendId===id||now<(n.manualUntil||0)||needs?.hunger>80||needs?.energy<20||Math.hypot(n.carrier.position.x-byBiome(focused).center[0],n.carrier.position.z-byBiome(focused).center[1])>byBiome(focused).radius)continue;
+        if(n.profile.biome!==focused||residentPlay.get(id)||jobs.has(id)||leisure.has(id)||crew.workers.has(id)||draggingCat?.catId===id||operation?.decision.friendId===id||now<(n.manualUntil||0)||needs?.hunger>80||needs?.energy<20||Math.hypot(n.carrier.position.x-byBiome(focused).center[0],n.carrier.position.z-byBiome(focused).center[1])>byBiome(focused).radius)continue;
         if(performResident(id,{action:'farm',activityId:activity,mood:'happy',thought:'Зберу стиглі чарівні плоди!'},{autonomous:true}))break;
       }
     }
@@ -5747,6 +5762,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   }
   return {
     perform,
+    farmBusyCount(id){return itemGroups.get('orchard-'+id)?.userData.harvests?.visits.size||0;},
     syncCryptoState(state){
       if(!state||game.jobCity?.epoch!==state.epoch)return;
       if(game.jobCity!==state)game={...game,jobCity:state};
@@ -5792,6 +5808,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         y: 0.16,
       };
       if (biome === "jobcity") p = nearestCityGround(p, spaRadius(n.model));
+      else if(b.magicFarm)p=nearestFarmGround(biome,p,spaRadius(n.model));
       else if (["foodcourt", "bikini", "aquarium"].includes(biome))
         p = nearestCourtGround(
           p,

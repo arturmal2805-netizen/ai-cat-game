@@ -19,6 +19,7 @@ export function attractionVisibility(root, { padding = 8 } = {}) {
     box.union(partBox);
   });
   // Cover the complete rider itinerary, including ballistic leaps and dives.
+  if(root.userData.activityBounds?.isBox3)box.union(root.userData.activityBounds);
   if (root.userData.rideFrame) {
     const duration = root.userData.duration || 30;
     for (let i = 0; i <= 256; i++) {

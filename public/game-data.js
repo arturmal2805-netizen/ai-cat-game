@@ -645,7 +645,7 @@ export const ACTIONS = [
   "swim",
 ];
 export function biomeReservations(id) {
-  const farm=magicFarmLayout(id);if(farm){const [x,z,rx,rz]=farm.pond;return [...farm.plants.map(p=>({x:p.x,z:p.z,w:15,d:15})),{x,z,w:rx*2+4,d:rz*2+4},{x:0,z:71,w:78,d:14}];}
+  const farm=magicFarmLayout(id);if(farm){const [x,z,rx,rz]=farm.pond;return [...farm.plants.map(p=>({x:p.x,z:p.z,w:p.radius*2+1.5,d:p.radius*2+1.5})),{x,z,w:rx*2+4,d:rz*2+4},{x:0,z:71,w:78,d:14}];}
   if(isRetiredBiome(id))return [];
   if (id === JOB_CITY_ID) return jobReservations();
   if (id === "aquarium")
