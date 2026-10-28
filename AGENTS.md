@@ -5,6 +5,14 @@ buildings, inventory, balances and shared-world synchronization unless the user
 explicitly requests a change. Use the existing rendering, interaction and save
 systems. Do not replace the game with a separate mockup.
 
+Rejected saved placements must return their paid object and original deadline
+to storage, never disappear. Preserve reference-attraction ownership/completion
+receipts across cached saves; moving/storing cannot reduce total ownership.
+Recover only from purchase proof or matching-world backups, without another
+payment, extra XP, duplicate copies or invented completed construction. Verify
+`test/purchase-preservation.test.mjs` and the private `CHICHI_OWNERSHIP_AUDIT=1`
+phone/SQLite path whenever changing normalization, storage or shared merges.
+
 ## Every water slide, including island attractions
 
 - Register each water slide/channel in `public/water-ride-data.js`. Its catalogue

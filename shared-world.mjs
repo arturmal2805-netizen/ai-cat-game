@@ -1,5 +1,6 @@
 import { HOMESTEAD_EXPANSION } from "./public/homestead-expansion.js";
 import {ATOLL_PARK_ID} from './public/atoll-slide-data.js';
+import {preserveReferenceOwnership} from './public/purchase-preservation.js';
 import {MAGIC_FARMS,MAGIC_FRUITS} from './public/magic-farms-data.js';
 import {migrateRetiredIsland} from './public/world-migration.js';
 import {mergeCatLocations} from './public/cat-locations.js';
@@ -53,7 +54,7 @@ const levelCoins = (before, after) => {
   return total;
 };
 const additive = (path) =>
-  /^(coins|diamonds|totalEarned|inventory\.[\w-]+|builtInventory\.[\w-]+|farm\.stock\.[\w-]+|farm\.harvests|business\.(?:totalCollected|totalDiamonds)|care\.mealId)$/.test(
+  /^(coins|diamonds|totalEarned|inventory\.[\w-]+|builtInventory\.[\w-]+|referenceOwnership\.[\w-]+\.count|farm\.stock\.[\w-]+|farm\.harvests|business\.(?:totalCollected|totalDiamonds)|care\.mealId)$/.test(
     path,
   );
 const transient = (path) =>
@@ -66,6 +67,7 @@ const guarded = (path) =>
   );
 
 function merge(base, current, incoming, path = "", depth = 0) {
+  if(/^referenceOwnership\.[\w-]+\.built$/.test(path))return Math.max(current||0,incoming||0);
   if(path==='withdrawnMagicFarms')return [...new Set([...(current||[]),...(incoming||[])])];
   if(path==='farm.orchards'&&incoming===undefined)return clone(current);
   if(path==='catLocations')return mergeCatLocations(current,incoming);
@@ -265,7 +267,7 @@ function merge(base, current, incoming, path = "", depth = 0) {
       const added = incoming.filter((x) => !base.includes(x));
       if (
         path === "unlocked" &&
-        added.some((x) => x !== "cat-homes" && current.includes(x))
+        added.some((x) => x !== "cat-homes" && x !== ATOLL_PARK_ID && current.includes(x))
       )
         throw new SharedConflict(
           "Это открытие уже сделано на другом телефоне.",
@@ -379,6 +381,14 @@ export function mergeSharedWorld(base, current, incoming) {
   if(base)base=migrateRetiredIsland(base);
   if(current)current=migrateRetiredIsland(current);
   if(incoming)incoming=migrateRetiredIsland(incoming);
+  if(base)base=preserveReferenceOwnership(base,Date.now(),{repair:false});
+  if(current)current=preserveReferenceOwnership(current,Date.now(),{repair:false});
+  if(incoming)incoming=preserveReferenceOwnership(incoming,Date.now(),{repair:false});
+  if(base&&incoming){
+    let receipts=incoming.referenceOwnership;
+    for(const [id,v]of Object.entries(base.referenceOwnership||{}))if((receipts?.[id]?.count||0)<v.count||(receipts?.[id]?.built||0)<v.built)receipts={...receipts,[id]:{count:Math.max(v.count,receipts?.[id]?.count||0),built:Math.max(v.built,receipts?.[id]?.built||0)}};
+    if(receipts!==incoming.referenceOwnership)incoming={...incoming,referenceOwnership:receipts};
+  }
   if (!base || !current) return clone(incoming);
   if(current.withdrawnMagicFarms){
     incoming={...incoming,withdrawnMagicFarms:[...new Set([...current.withdrawnMagicFarms,...(incoming.withdrawnMagicFarms||[])])]};
@@ -735,5 +745,5 @@ export function mergeSharedWorld(base, current, incoming) {
     if (homes.length > 1 && homes.some(h => !base.housing?.homes[h.id] && !current.housing?.homes[h.id]))
       throw new SharedConflict("У цієї сім'ї вже є спільний дім. Монетки за другий будинок не списані.");
   }
-  return resolveConstructionBoosts(reconcileFamilyHomes(result));
+  return preserveReferenceOwnership(resolveConstructionBoosts(reconcileFamilyHomes(result)));
 }

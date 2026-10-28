@@ -1,4 +1,5 @@
 import {cryptoSnapshotValid} from "./public/crypto-trading.js";
+import {preserveReferenceOwnership} from './public/purchase-preservation.js';
 import {orchardSnapshotValid} from './public/magic-farm-state.js';
 import {PLACEMENT_LIMIT} from './public/economy.js';
 import {CryptoAIRequestLedger,validateCryptoRequest} from "./crypto-ai.mjs";
@@ -307,6 +308,7 @@ export class SaveVault {
           };
         }
       }
+      game=preserveReferenceOwnership(game);
       const save = {
         revision: revision + 1,
         savedAt: Date.now(),

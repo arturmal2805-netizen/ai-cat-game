@@ -1,4 +1,5 @@
 import {cryptoSnapshotValid} from "./crypto-trading.js";
+import {preserveReferenceOwnership,missingReferenceOwnership} from './purchase-preservation.js';
 import {magicFarm} from './magic-farms-data.js';
 import {normalizeOrchards,newOrchard,orchardSnapshotValid,orchardCounts} from './magic-farm-state.js';
 import { ATOLL_PARK_ID, ATOLL_SLIDES, atollPlot } from "./atoll-slide-data.js";
@@ -199,8 +200,8 @@ export function loadGame(storage, now = Date.now(), { advance = true } = {}) {
     game.relocatedPurchases = (
       Array.isArray(saved.relocatedPurchases) ? saved.relocatedPurchases : []
     )
-      .slice(0, 60)
       .filter((p) => byItem(p?.item));
+    game.referenceOwnership = saved.referenceOwnership || {};
     game.coins = saved.coins;
     game.diamonds = Number.isSafeInteger(saved.diamonds)
       ? Math.max(0, Math.min(1000000, saved.diamonds))
@@ -229,7 +230,7 @@ export function loadGame(storage, now = Date.now(), { advance = true } = {}) {
     game.inventory = Object.fromEntries(
       CATALOG.map((x) => [
         x.id,
-        Math.max(0, Math.min(100, Math.floor(saved.inventory?.[x.id] || 0))),
+        Math.max(0, Math.min(100000, Math.floor(saved.inventory?.[x.id] || 0))),
       ]),
     );
     game.builtInventory = Object.fromEntries(
@@ -251,17 +252,29 @@ export function loadGame(storage, now = Date.now(), { advance = true } = {}) {
     for (const p of (Array.isArray(saved.placements)
       ? saved.placements
       : []
-    ).slice(0, PLACEMENT_LIMIT)) {
+    )) {
       if (
-        typeof p.id === "string" &&
+        typeof p?.id === "string" &&
         /^[\w-]{1,40}$/.test(p.id) &&
         byItem(p.item) &&
+        game.placements.length < PLACEMENT_LIMIT &&
         canPlace(game, p.item, p.biome, p.x, p.z, p.rotation, null, {
           ignoreTerrain: true,
         }).ok &&
         !game.placements.some((x) => x.id === p.id)
       )
         game.placements.push(p);
+    }
+    // A changed shore, old collision or unavailable location may reject a
+    // saved placement. Return its paid object and construction receipt to the
+    // bag instead of silently deleting it. Duplicate IDs never mint copies.
+    const retainedIds=new Set(game.placements.map(p=>p.id));
+    for(const p of Array.isArray(saved.placements)?saved.placements:[]){
+      if(!/^[\w-]{1,40}$/.test(p?.id||'')||!byItem(p.item)||byItem(p.item).islandOnly||retainedIds.has(p.id))continue;
+      retainedIds.add(p.id);if(game.relocatedPurchases.some(r=>r.id===p.id))continue;
+      game.inventory[p.item]=(game.inventory[p.item]||0)+1;
+      if(!p.readyAt||p.readyAt<=now)game.builtInventory[p.item]=(game.builtInventory[p.item]||0)+1;
+      game.relocatedPurchases.push({...p,businessLevel:saved.business?.levels?.[p.id]||1,fieldCells:saved.farm?.fields?.[p.id],businessAccount:saved.business?.accounts?.[p.id]});
     }
     // A replaced biome must not swallow paid buildings in its new sea.
     // Move only conflicting autumn plots; keep IDs, timers, crops and tiers.
@@ -379,7 +392,9 @@ export function loadGame(storage, now = Date.now(), { advance = true } = {}) {
       saved.recentActivities,
       worldSnapshot(game),
     );
-    const resolved = resolveConstructionBoosts(game);
+    const evidence=[];
+    if(game.jobCity?.epoch&&missingReferenceOwnership(game,now))for(const key of [SAVE_KEY+':backup',SAVE_KEY+':backup2'])try{const record=JSON.parse(storage.getItem(key)||'null');if(record?.jobCity?.epoch===game.jobCity.epoch)evidence.push(record);}catch{}
+    const resolved = preserveReferenceOwnership(resolveConstructionBoosts(game),now,{sources:evidence});
     return advance ? advanceCare(resolved, now, { offline: true }) : resolved;
   } catch {
     return newGame(now);
@@ -484,6 +499,7 @@ export function attentionReward(game, now = Date.now(), meaningful = true) {
   return { game: next, amount: ATTENTION_COINS };
 }
 export function purchase(game, id, now = Date.now()) {
+  game=preserveReferenceOwnership(game,now);
   const item = byItem(id);
   if (!item) throw Error("Такого предмета нет.");
   if (item.islandOnly)
@@ -499,7 +515,7 @@ export function purchase(game, id, now = Date.now()) {
   next.inventory[id] = (next.inventory[id] || 0) + 1;
   // Park land is included in the first premium ticket, never a second charge.
   if(item.premiumWater && !next.unlocked.includes(ATOLL_PARK_ID))next.unlocked.push(ATOLL_PARK_ID);
-  return purchaseXP(next, id, item.price, now);
+  return preserveReferenceOwnership(purchaseXP(next, id, item.price, now),now);
 }
 export function unlockBiome(game, id, now = Date.now()) {
   const biome = byBiome(id);

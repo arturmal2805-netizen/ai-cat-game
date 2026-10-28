@@ -53,7 +53,7 @@ async function localWorker() {
   // connection during long harvest probes (POST/PUT are not retried by that
   // proxy). Use the same real workerd/SQLite/asset router directly for this
   // audit; keep the production Worker and browser save client unmodified.
-  if(process.env.CHICHI_MAGIC_FARM_AUDIT||process.env.CHICHI_FARM_WITHDRAWAL_AUDIT){
+  if(process.env.CHICHI_MAGIC_FARM_AUDIT||process.env.CHICHI_FARM_WITHDRAWAL_AUDIT||process.env.CHICHI_OWNERSHIP_AUDIT){
     const {Miniflare,Log,LogLevel,convertV4MiniflareOptions}=require(root+'/node_modules/miniflare');
     const mf=new Miniflare(convertV4MiniflareOptions({name:'chichi-farm-local',rootPath:temp,host:'127.0.0.1',port,modules:true,
       scriptPath:path.join(temp,'worker.mjs'),compatibilityDate:'2026-10-13',
@@ -195,6 +195,10 @@ async function localWorker() {
       const {MAGIC_FARMS}=await import(root+'/public/magic-farms-data.js'),{newOrchard}=await import(root+'/public/magic-farm-state.js');
       g.worldRevision=4;g.unlocked=['moon','homestead',...MAGIC_FARMS.map(f=>f.id)];g.coins=290000;g.placements=g.placements.filter(p=>p.id.startsWith('welcome-'));g.catPosition={biome:'moon',x:0,z:0};g.catDestinations={luna:MAGIC_FARMS[1].id};g.farm.stock.starberry=7;g.farm.orchards=Object.fromEntries(MAGIC_FARMS.map(f=>[f.id,newOrchard(f.id,now)]));
       g.placements.push({id:'paid-farm-mouse',item:'mouse',biome:MAGIC_FARMS[0].id,x:2,z:3,rotation:0,readyAt:0},{id:'owned-mega-loops',item:'slide-atoll-mega-loops',biome:'homestead',x:-90,z:-90,rotation:0,readyAt:0});
+    }
+    if(process.env.CHICHI_OWNERSHIP_AUDIT){
+      g.unlocked=['moon','homestead'];g.coins=750000;g.progression.xp=xpForLevel(30);g.progression.discoveries.push('slide-atoll-mega-loops');g.catPosition={biome:'moon',x:0,z:0};g.catDestinations={luna:'moon',moti:'moon'};g.placements=g.placements.filter(p=>p.id.startsWith('welcome-'));
+      g.placements.push({id:'paid-legacy-mega',item:'slide-atoll-mega-loops',biome:'homestead',x:1000,z:0,rotation:0,readyAt:0});
     }
     if (process.env.CHICHI_SCENE_STRESS) {
       const { ADOPTION_CATS } = await import(root + "/public/cat-breeds.js");
@@ -648,6 +652,15 @@ async function localWorker() {
       await page.locator('#shop-open').tap();assert.equal(await page.getByRole('tab',{name:/Магічні ферми/}).count(),0);await page.getByRole('tab',{name:/Биомы/}).tap();assert.equal(await page.locator('[data-product^="farm-"]').count(),0);await page.screenshot({path:path.join(review,'withdrawn-farms-shop.png')});await page.locator('[data-close="shop-dialog"]').tap();
       for(let i=0;i<2;i++){await page.evaluate(()=>__lagoonSaveQA.cloud.releaseEditor());await page.reload();await page.waitForFunction(()=>window.__lagoonQA&&__lagoonSaveQA.cloud.editable);assert.deepEqual(await snapshot(),initial);}
       fs.writeFileSync(path.join(review,'withdrawal.json'),JSON.stringify({initial,reloads:2,errors,httpErrors},null,2));assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);console.log('Four farm islands and shop removed; paid objects, Mega Loops, crops, coins and two SQLite reloads retained.');return;
+    }
+    if(process.env.CHICHI_OWNERSHIP_AUDIT){
+      const summary=()=>page.evaluate(()=>{const g=__lagoonSaveQA.getGame(),id='slide-atoll-mega-loops';return {coins:g.coins,bag:g.inventory[id]||0,built:g.builtInventory[id]||0,receipt:g.referenceOwnership[id],placements:g.placements.filter(p=>p.item===id)};});
+      const recovered=await summary();assert.equal(recovered.bag,1);assert.equal(recovered.built,1);assert.equal(recovered.coins,750000);
+      await page.locator('#shop-open').tap();await page.getByRole('tab',{name:/сумка/i}).tap();await page.locator('[data-product="slide-atoll-mega-loops"]').getByRole('button',{name:/^Разместить/}).tap();await page.locator('#build-biome').selectOption('homestead');await page.locator('#build-confirm').tap();
+      const placed=await summary();assert.equal(placed.coins,recovered.coins);assert.equal(placed.bag,0);assert.equal(placed.placements.length,1);assert.equal(placed.placements[0].readyAt,0);assert.equal(placed.receipt.count,1);assert.equal(placed.receipt.built,1);
+      await page.waitForFunction(id=>__lagoonQA.itemGroups.get(id)?.userData.built,placed.placements[0].id,{timeout:240000});await page.screenshot({path:path.join(review,'restored-mega-loops.png')});await page.evaluate(()=>__lagoonSaveQA.cloud.flush());await page.waitForFunction(()=>!__lagoonSaveQA.cloud.pending&&!__lagoonSaveQA.cloud.retryEntry&&!__lagoonSaveQA.cloud.dirty);
+      for(let i=0;i<2;i++){await page.evaluate(()=>__lagoonSaveQA.cloud.releaseEditor());await page.reload();await page.waitForFunction(()=>window.__lagoonQA&&__lagoonSaveQA.cloud.editable);assert.deepEqual(await summary(),placed);}
+      fs.writeFileSync(path.join(review,'ownership.json'),JSON.stringify({recovered,placed,reloads:2,errors,httpErrors},null,2));assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);console.log('Mega Loops recovered to bag, re-placed fully built for zero charge, real model prepared and two SQLite reloads retained exactly one copy.');return;
     }
     if(process.env.CHICHI_HUD_TEXT_AUDIT){
       const {checkHudText}=await import("./check-hud-text.mjs");

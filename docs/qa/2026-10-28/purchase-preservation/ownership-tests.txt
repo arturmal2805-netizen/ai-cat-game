@@ -1,0 +1,16 @@
+✔ a paid placement rejected by shore, locked land or collisions goes to the bag with its original timer instead of vanishing (280.954732ms)
+✔ forty store/replace/restart cycles preserve one finished Mega Loops, balance, XP and ownership receipt (524.155314ms)
+✔ legacy purchase proof recovers a missing attraction once without a charge or granting an unbought slide (114.365045ms)
+✔ durable receipts recover the exact owned and completed-copy counts after a filtered snapshot (31.171296ms)
+✔ two phones buying the same attraction retain two copies and exact once-only payments (16.185591ms)
+✔ a cached client dropping a placed slide keeps its original identity and cannot erase paid completion receipts (16.861329ms)
+✔ an unchanged healthy world is returned by identity and ownership bookkeeping never touches native graphics (5.546714ms)
+✔ matching-world backups retain completed construction, while another accounts backup cannot invent ownership (29.401866ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1291.976394

@@ -1,0 +1,10 @@
+✔ paw reactions keep the AI mood and reset on the next regular animation frame (2701.014992ms)
+✔ reduced motion freezes the hunt and avoids jumps or paw motions (162.06689ms)
+ℹ tests 767
+ℹ suites 0
+ℹ pass 767
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 316431.218172
