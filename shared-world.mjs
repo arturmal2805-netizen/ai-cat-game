@@ -6,7 +6,7 @@ import {preserveReferenceOwnership} from './public/purchase-preservation.js';
 import {MAGIC_BED_ID,MAGIC_BED_CROPS,MAGIC_BED_SEEDS} from './public/magic-bed-data.js';
 import {MAGIC_FARMS,MAGIC_FRUITS} from './public/magic-farms-data.js';
 import {migrateRetiredIsland} from './public/world-migration.js';
-import {mergeCatLocations} from './public/cat-locations.js';
+import {mergeCatLocations,reconcileMergedCatLocations} from './public/cat-locations.js';
 import { mergeHousing } from "./public/housing-system.js";
 import {
   mergeFamily,
@@ -628,7 +628,7 @@ export function mergeSharedWorld(base, current, incoming) {
   // These fields are reconstructed below, not merged as competing whole snapshots.
   for (const field of ["xp", "businessXP", "dailyXP", "xpDay"])
     n.progression[field] = b.progression[field];
-  const result = merge(b, c, n);
+  const result = reconcileMergedCatLocations(b,n,merge(b, c, n));
   result.islandConstruction = mergeIslandConstruction(
     b.islandConstruction,
     c.islandConstruction,

@@ -1,7 +1,7 @@
 import * as T from 'three';
 import {ZOO_ID,ZOO_RADIUS as R,ZOO_EXHIBITS,zooFacing,zooViewGate} from './zoo-data.js';
 import {zooIsOpen} from './zoo-system.js';
-import {zooAnimals,zooAnimalPoint} from './zoo-animals.js';
+import {zooAnimalSteps,zooAnimalPoint} from './zoo-animals.js';
 import {zooWaterlife,zooWaterfallSteps} from './zoo-waterlife.js';
 import {shape,line,flowerCluster,lantern,fluffyTree,teaPavilion,surfaceTexture} from './fantasy-scenery.js';
 import {junglePlant,jungleFlowers} from './jungle-props.js';
@@ -72,7 +72,9 @@ function* habitat(props,e,detail,effects,lagoons){
   const bZ=e.z-3.45,bX=e.x+(e.species==='tiger'?1:0),height=e.species==='polar'?2.55:2.1;
   for(let i=0;i<7;i++){const x=bX+(i-3)*.62;shape(props,'stone',snow?0xc8e7f3:e.species==='tiger'?0x9898b9:0x929a86,x,height*.4,bZ,.5,height*.55+(i%2)*.2,.48);if(snow)shape(props,'cube',0xecfbff,x,height+.02,bZ,.55,.15,.5);else junglePlant(props,x,height+.1,bZ,.6,i);yield;}
   for(const offset of [-.62,.62]){const fall=yield*zooWaterfallSteps(bX+offset,bZ+.45,.5,height,{color:0x7edfee});fall.position.y+=height;detail.add(fall);effects.push(fall);}
-  if(e.species==='otter')for(const [x,z]of [[0,1.65],[-2.4,.2],[2.4,-.1]])shape(props,'stone',0xa5aa95,e.x+x,.17,e.z+z,.63,.35,.5);
+  if(e.species==='otter')for(const [x,z]of [[0,1.65],[-2.4,.2],[2.4,-.1]])shape(props,'stone',0xa5aa95,e.x+x,.17,e.z+z,.9,.35,.6);
+  if(snow)for(const [x,z,rx,rz]of [[-.2,-.9,1.3,1.05],[2.25,-.9,1.1,.9],[.52,.95,.8,.65]]){const ice=new T.Mesh(new T.CylinderGeometry(1,1.04,.2,8),new T.MeshStandardMaterial({color:0xeafaff,roughness:.42}));ice.scale.set(rx,1,rz);ice.position.set(e.x+x,.07,e.z+z);ice.rotation.y=.23;ice.receiveShadow=true;props.add(ice);}
+
   if(e.species==='gorilla'){
    for(const x of [-3.2,3.2]){line(props,[e.x+x,.15,e.z-.85],[e.x+x,4.5,e.z-1.1],0x986b45,.16);shape(props,'cube',0xc99a64,e.x+x,2.6,e.z-1.1,1.5,.15,1.5);}
    line(props,[e.x-3.4,4.6,e.z-1.1],[e.x+3.4,4.6,e.z-1.1],0xb88b51,.16);
@@ -101,7 +103,7 @@ export function* zooBiomeSteps(biome,{lowOnly=false,preview=false}={}){
   const arch=new T.Mesh(new T.TorusGeometry(3.45,.18,8,48,Math.PI),new T.MeshStandardMaterial({color:0xedc48b,roughness:.55}));arch.position.set(0,3.3,19.8);props.add(arch);
   const title=courtLabel('Чарівний зоопарк',6.1,.8);title.material?.addEventListener('dispose',()=>title.material?.map?.dispose());title.position.set(0,3.38,20.1);detail.add(title);
   for(const side of [-1,1])teaPavilion(props,side*9.5,.2,16.7,0xd29b67,.55);
-  for(const e of ZOO_EXHIBITS){yield;const group=new T.Group();group.position.set(e.x,.16,e.z);detail.add(group);const animals=zooAnimals(e);group.add(animals);actors.set(e.id,animals);zones.set(e.id,{open:preview||!e.index,start:null,greet:-100,greetElapsed:0});}
+  for(const e of ZOO_EXHIBITS){yield;const group=new T.Group();group.position.set(e.x,.16,e.z);detail.add(group);const animals=yield*zooAnimalSteps(e);group.add(animals);actors.set(e.id,animals);zones.set(e.id,{open:preview||!e.index,start:null,greet:-100,greetElapsed:0});}
  }
  const baked=yield*batchModelSteps(props,{combineColors:true});detail.add(baked);props.traverse(o=>{if(o.isMesh&&!o.geometry.userData.sharedScenery)o.geometry.dispose();});
  root.userData={biomeId:ZOO_ID,navigationSurface:base,detail,lowDetail:low,lowOnly,style:BIOME_STYLES[ZOO_ID],sceneryObjects:new Map(),lagoons,trees:[],stats:{fishCount:lowOnly?0:14,species:6,animals:[...actors.values()].reduce((n,a)=>n+a.count,0),staticMeshes:baked.children.length,sourceMeshes:baked.userData.sourceMeshes},zoo:{actors,zones},setZooState(state){for(const e of ZOO_EXHIBITS){const z=zones.get(e.id);if(z){const open=!e.index||!!state?.receipts?.[e.id];if(open!==z.open){z.open=open;z.start=null;}}}},greet(id,time){const z=zones.get(id);if(z?.open)z.greet=time;},animalPoint(id,i,time,out=new T.Vector3()){const a=actors.get(id),e=ZOO_EXHIBITS.find(e=>e.id===id);if(!a)return out;zooAnimalPoint(a,i,a.userData.uniforms.uZooTime.value,out);out.x+=e.x;out.y+=.16+(e.species==='axolotl'?.45:1);out.z+=e.z;return out;},update(time,reduced=false){for(const g of edgeEffects)g.userData.update?.(time,reduced);if(!detail.visible)return;for(const g of effects)g.userData.update?.(time,reduced);for(const [id,a]of actors){const z=zones.get(id);if(z.start===null)z.start=time;const elapsed=time-z.greet,greet=elapsed>=0&&elapsed<6?Math.sin(Math.PI*elapsed/6)**2:0;a.userData.update(z.open?time-z.start:0,reduced,greet,Math.min(6,Math.max(0,elapsed)));}},placementSteps:function*(){yield;},updatePlacements(){},updateScenery(){},dispose(){for(const a of actors.values())a.userData.dispose();}};

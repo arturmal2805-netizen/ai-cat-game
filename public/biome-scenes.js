@@ -1,3 +1,4 @@
+import {prepareZooAnimalTemplates} from './zoo-model-cache.js';
 import {zooBiomeSteps} from './zoo-biome.js';
 import { housingBiomeSteps } from "./housing-biome.js";
 import { jobCityBiomeSteps } from "./jobcity-biome.js";
@@ -927,6 +928,7 @@ export function createBiomeScene(...args) {
   return runSceneSteps(biomeSceneSteps(...args));
 }
 
-export function prepareBiomeScene(biome, options, scheduling) {
+export async function prepareBiomeScene(biome, options, scheduling) {
+  if(biome.zoo&&!options?.lowOnly)await prepareZooAnimalTemplates();
   return prepareSceneSteps(biomeSceneSteps(biome, options), scheduling);
 }

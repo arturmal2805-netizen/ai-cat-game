@@ -27,3 +27,10 @@ Validation:
 
 The private probe uses simulated player data and no paid AI. Software-browser
 correctness and bounded object counts do not establish physical-device FPS.
+
+Follow-up: location snapshots now invalidate old coordinates BEFORE the transient
+ride check. Shared merges also reconcile resurrected cached coordinates with the
+actual merged destination; otherwise server normalization could undo the recall.
+A single completion save preserves real landing positions. Regression tests
+cover old active rides, stale/omitted cached positions, cloud ACKs and repeated
+restoration of completed arrivals, without changing balances or ownership.

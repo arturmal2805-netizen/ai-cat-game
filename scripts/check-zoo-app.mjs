@@ -6,6 +6,7 @@ export async function checkZooApp(page,dir){
  await page.evaluate(()=>__lagoonSaveQA.getWorld().focus('magic-zoo'));
  console.log('ZOO: waiting for cooperative island geometry');try{await page.waitForFunction(()=>__lagoonQA.islands.get('magic-zoo')?.userData.zoo?.actors?.size===6,undefined,{timeout:180000});}catch(error){console.log(await page.evaluate(()=>({focused:__lagoonQA.focused(),distance:__lagoonQA.getDesiredDistance(),open:[...document.querySelectorAll('dialog[open]')].map(d=>d.id),zoo:__lagoonQA.islands.get('magic-zoo')?.userData.stats})));throw error;}
  const first=await page.evaluate(()=>{const g=__lagoonSaveQA.getGame(),q=__lagoonQA;return {coins:g.coins,zoo:g.zoo,actors:q.islands.get('magic-zoo').userData.stats,oldIslands:[...q.islands.keys()].filter(id=>id!=='magic-zoo')};});assert.equal(first.coins,296400);assert.deepEqual(first.zoo.receipts,{});assert.equal(first.actors.animals,24);
+ const baked=await page.evaluate(()=>[...__lagoonQA.islands.get('magic-zoo').userData.zoo.actors.values()].map(m=>({species:m.userData.zooSpecies,baked:!!m.userData.poseData.prebaked})));assert.ok(baked.every(m=>m.baked),JSON.stringify(baked));
  await page.screenshot({path:dir+'/zoo-arrival-phone.png',timeout:180000});
  const beforeGather=await page.evaluate(()=>{const q=__lagoonQA;const out={};for(const [id,n]of q.npcs){n.leisureBiome='moon';n.manualAnchor={x:n.carrier.position.x,z:n.carrier.position.z};out[id]={x:n.carrier.position.x,z:n.carrier.position.z};}return out;});
  await page.locator('#island-open').tap();await page.locator('#island-gather').tap();
@@ -34,6 +35,6 @@ export async function checkZooApp(page,dir){
  await page.evaluate(()=>{__lagoonQA.freeze=true;__lagoonQA.court.step=window.zooOriginalStep;delete window.zooOriginalStep;__lagoonQA.court.clear();});
  await page.evaluate(()=>__lagoonSaveQA.cloud.flush());await page.waitForFunction(()=>!__lagoonSaveQA.cloud.pending&&!__lagoonSaveQA.cloud.retryEntry&&!__lagoonSaveQA.cloud.dirty);
  for(let i=0;i<2;i++){await page.evaluate(()=>__lagoonSaveQA.cloud.releaseEditor());await page.reload();await page.waitForFunction(()=>window.__lagoonQA&&__lagoonSaveQA.cloud.editable);assert.deepEqual(await snapshot(),paid);}
- await fs.writeFile(dir+'/zoo-app.json',JSON.stringify({first,paid,visits,manual,gathering,reloads:2},null,2));
+ await fs.writeFile(dir+'/zoo-app.json',JSON.stringify({first,baked,paid,visits,manual,gathering,reloads:2},null,2));
  console.log('Zoo: native island purchase, five paid gates, close camera, six visitor actions and two durable SQLite reloads.');
 }

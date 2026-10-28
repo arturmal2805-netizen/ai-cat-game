@@ -510,6 +510,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   let heroGather = null,
     gatherUntil = 0;
   const gatherParticipants=new Set();
+  let gatherSavePending=false;
   function availableGatherCats(){return selectGatherCats(game,Date.now(),id=>({working:!!jobs.get(id)?.job||crew.workers.has(id),sleeping:id==='chichi'?!!game.care?.resting:npcs.get(id)?.model.userData.mood==='sleep'}));}
   const incomeButtons = new Map(),
     projectBadges = new Map();
@@ -3872,7 +3873,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
             p = game.jobCity.profiles[id];
           return (
             draggingCat?.catId === id ||
-            (now < gatherUntil && gatherParticipants.has(id)) ||
+            (gatherParticipants.has(id) && (now < gatherUntil || now < (n?.gatheredUntil||0))) ||
             crew.workers.has(id) ||
             p?.trip ||
             jobs.has(id) ||
@@ -4435,6 +4436,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         !mealVisits.has(id) &&
         !swimVisits.has(id) &&
         mealVisits.size < 2 &&
+        (now >= Math.max(n.manualUntil||0,n.gatheredUntil||0) || needs?.hunger>=85) &&
         needs?.hunger >= 45 &&
         bowlPortions(game) > 0
       ) {
@@ -4500,6 +4502,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         !mealVisits.has(id) &&
         !swimVisits.has(id) &&
         swimVisits.size < 2 &&
+        now >= (n.gatheredUntil||0) &&
         needs?.hunger < 45 &&
         needs?.happiness < 85 &&
         Date.now() - (needs.lastSwimAt || 0) > 180000 &&
@@ -4953,6 +4956,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
       chichiCarrier.rotation.y=frame.yaw;
       walking=frame.walking;reaction=frame.reaction;
       if(frame.done)heroGather=null;
+    }
+    if(gatherSavePending&&!heroGather&&![...npcs.values()].some(n=>n.gatherTrip)){
+      gatherSavePending=false;callbacks.onGatherComplete?.();
     }
     const heroCanBuild =
       !operation &&
@@ -5915,7 +5921,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           b.center[1] + arrival[1],
         );
       gatherParticipants.clear();for(const id of ids)gatherParticipants.add(id);
-      const now=performance.now();gatherUntil=now+20000;
+      const now=performance.now();gatherUntil=now+20000;gatherSavePending=true;
       const reserved=[],arrivalPoint={x:arrival[0],z:arrival[1]},
         obstacles=game.placements.filter(p=>p.biome===biome).map(p=>{
           const d=byItem(p.item),f=d?.footprint||[1,1],swap=(p.rotation||0)%2;

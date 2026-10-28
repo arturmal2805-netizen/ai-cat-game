@@ -1426,6 +1426,7 @@ $("item-store").onclick = () => {
 try {
   await restoreSculptCache();
   world = createWorld($("map"), game, {
+    onGatherComplete: persist,
     canSimulateLeisure: () =>
       cloud.simulationOwner && cloud.editable && !cloud.conflict,
     isHeroBusy: () => busy || !!buildMode,

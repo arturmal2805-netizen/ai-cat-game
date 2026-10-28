@@ -31,11 +31,12 @@ export function captureCatLocations(next,previous,actors,now=Date.now()){
   const roster=activeCats(next),resolved=new Map(roster.map(n=>[n.id,n.biome])),
     ids=new Set(['chichi',...roster.map(n=>n.id)]);
   for(const a of actors){
-    if(!ids.has(a.id)||a.transient)continue;
+    if(!ids.has(a.id))continue;
     const commanded=a.id==='chichi'
       ? JSON.stringify(next.catPosition)!==JSON.stringify(previous.catPosition)
       : next.catDestinations?.[a.id]!==previous.catDestinations?.[a.id];
     if(commanded){delete locations[a.id];continue;}
+    if(a.transient)continue;
     for(const b of BIOMES){
       const p={biome:b.id,x:a.position.x-b.center[0],y:a.position.y,z:a.position.z-b.center[1],yaw:a.yaw,at:now};
       if(![p.x,p.y,p.z,p.yaw].every(Number.isFinite)||!inIsland(p,b,next))continue;
@@ -59,4 +60,17 @@ export function mergeCatLocations(current,incoming){
   for(const [id,p] of Object.entries(incoming||{}))
     if(p&&Number.isFinite(p.at)&&(!result[id]||p.at>=result[id].at))result[id]=structuredClone(p);
   return result;
+}
+
+// Cached clients may omit location records, so ordinary omission preserves
+// them. An explicit new island command is different: its old-shore location
+// must not be resurrected by that compatibility merge and undo the command.
+export function reconcileMergedCatLocations(base,incoming,result){
+ for(const [id,p]of Object.entries(result.catLocations||{})){
+  if(id==='chichi'){
+   if(p.biome!==result.catPosition?.biome||
+    JSON.stringify(base.catPosition)!==JSON.stringify(incoming.catPosition)&&!incoming.catLocations?.chichi)delete result.catLocations[id];
+  }else if(result.catDestinations?.[id]&&p.biome!==result.catDestinations[id])delete result.catLocations[id];
+ }
+ return result;
 }

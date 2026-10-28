@@ -1,0 +1,26 @@
+{
+  "commit": "24b37d3",
+  "run": 40784913178,
+  "jobs": "test/deploy/pages success",
+  "live": {
+    "pages": {
+      "status": 200,
+      "entry": [
+        "./dist/app.js?v=1fcc1e8b7526ae36"
+      ]
+    },
+    "worker": {
+      "status": 200,
+      "data": {
+        "configured": true,
+        "backupConfigured": true,
+        "backupProvider": "openrouter",
+        "backupModel": "dots-studio/dots-3-note-preview:free",
+        "protocol": "living-cat-world-v4",
+        "release": "24b37d3b1c9319e5154553683b3ecdbe84754594",
+        "versionId": "a3929976-9560-4b0a-9548-b6f759feebc3",
+        "cloudSave": true
+      }
+    }
+  }
+}

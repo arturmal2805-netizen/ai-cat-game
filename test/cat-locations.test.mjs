@@ -47,3 +47,31 @@ test('saving a venue kitten in the same island does not mark it released or deta
  assert.equal(restored.catDestinations[helper.id],undefined);
  assert.ok(activeCats(restored).find(n=>n.id===helper.id).venueHome);
 });
+
+test('a manual island command clears the previous saved shore even when the old actor is still on a transient ride',()=>{
+ const g=seed(),id=activeCats(g)[0].id,base=captureCatLocations(g,g,[{id,position:{x:1,y:.16,z:2},yaw:0}],now),next=structuredClone(base);
+ next.catDestinations[id]='homestead';const moved=captureCatLocations(next,base,[{id,position:{x:1,y:5,z:2},yaw:0,transient:true}],now+1);
+ assert.equal(moved.catDestinations[id],'homestead');assert.equal(moved.catLocations[id],undefined);
+ const hero=structuredClone(base);hero.catPosition={biome:'homestead',x:0,z:5};hero.catLocations.chichi={biome:'moon',x:0,y:.16,z:0,yaw:0,at:now};
+ const invited=captureCatLocations(hero,base,[{id:'chichi',position:{x:0,y:4,z:0},yaw:0,transient:true}],now+1);assert.equal(invited.catLocations.chichi,undefined);assert.deepEqual(invited.catPosition,hero.catPosition);
+});
+
+test('cloud merging cannot resurrect an old shore after recall or from a cached client omitting new locations',()=>{
+ const g=seed(),id=activeCats(g)[0].id,base=captureCatLocations(g,g,[{id,position:{x:1,y:.16,z:2},yaw:0},{id:'chichi',position:{x:0,y:.16,z:0},yaw:0}],now),command=structuredClone(base);
+ command.catDestinations[id]='atoll-park';command.catPosition={biome:'atoll-park',x:0,z:375};delete command.catLocations[id];delete command.catLocations.chichi;
+ const first=mergeSharedWorld(base,base,command);assert.equal(first.catDestinations[id],'atoll-park');assert.equal(first.catLocations[id],undefined);assert.equal(first.catLocations.chichi,undefined);
+ const restored=loadGame({getItem:k=>k===SAVE_KEY?JSON.stringify(first):null},now,{advance:false});assert.equal(restored.catDestinations[id],'atoll-park');assert.equal(restored.catPosition.biome,'atoll-park');
+ const stale=structuredClone(base);delete stale.catLocations;
+ const second=mergeSharedWorld(base,first,stale);assert.equal(second.catDestinations[id],'atoll-park');assert.equal(second.catLocations[id],undefined);
+ const cached=mergeSharedWorld(base,first,base);assert.equal(cached.catDestinations[id],'atoll-park');assert.equal(cached.catLocations[id],undefined);
+});
+
+test('recall stays on the requested island through cloud acknowledgements, completed-position saves and reloads',async()=>{
+ const {gatherCats}=await import('../public/adoption.js');const original=seed(),id=activeCats(original)[0].id,b=byBiome('atoll-park');
+ const base=captureCatLocations(original,original,[{id,position:{x:1,y:.16,z:2},yaw:0}],now);
+ const command=captureCatLocations(gatherCats(base,b.id,{ids:[id],now}),base,[{id,position:{x:1,y:5,z:2},yaw:0,transient:true}],now+1);
+ let server=mergeSharedWorld(base,base,command),client=loadGame({getItem:k=>k===SAVE_KEY?JSON.stringify(server):null},now+2,{advance:false});assert.equal(client.catDestinations[id],b.id);
+ const incoming=captureCatLocations(client,client,[{id,position:{x:1,y:80,z:-100},yaw:0,transient:true}],now+1000);server=mergeSharedWorld(server,server,incoming);assert.equal(server.catDestinations[id],b.id);
+ const arrived=captureCatLocations(server,server,[{id,position:{x:b.center[0]+2,y:.16,z:b.center[1]+375},yaw:.5}],now+20000);
+ server=mergeSharedWorld(server,server,arrived);for(let i=0;i<5;i++)server=loadGame({getItem:k=>k===SAVE_KEY?JSON.stringify(server):null},now+20000+i,{advance:false});assert.equal(server.catDestinations[id],b.id);assert.equal(server.catLocations[id].x,2);assert.equal(server.catLocations[id].z,375);
+});

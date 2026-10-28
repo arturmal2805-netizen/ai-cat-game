@@ -546,3 +546,23 @@ actual arrival with the native menu button and a save DURING transit; a changed
 destination or a small amount of movement is not an arrival test. Recalling may
 request at most two nearest already-paid cold rides, using native cooperative
 preparation, without changing island scenery or purchase state.
+
+Zoo animals use continuous, blended skin at the neck, shoulders and paws,
+with separate fine coat/skin relief and authored species motion. Do not revert
+them to intersecting visible primitives. `npm run build` emits immutable exact
+model/pose buffers through `build-zoo-models.mjs`; only detailed zoo preparation
+fetches these six models (gzip where supported, SHA-256 checked). Preserve
+byte-identical source/cache geometry and poses, the cooperative source fallback,
+and the approved native cat cache version. Keep one animal batch per species,
+shared filtered coat data and fixed animation buffers; no per-frame skin builds
+or texture uploads. Check real land-paw contacts and fully framed action views,
+not only root positions. The RDR 2 reference guides anatomy/material work; these
+remain original stylized mobile models, not imported Rockstar assets or a claim
+of equivalent AAA visual fidelity.
+
+Explicit manual destinations invalidate the old saved position even when the
+actor is still in a transient ride. Shared cached-location compatibility must
+not resurrect a position on another island and undo the resulting destination.
+Preserve genuinely omitted locations, but reconcile them with explicit merged
+commands. On completion of a recall, save the actual arrivals once so reloads
+restore the entrance positions rather than the centre of a giant island.
