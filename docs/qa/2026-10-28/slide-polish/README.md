@@ -101,3 +101,10 @@ cached-client protection through the real SQLite Worker/reload. No browser or
 shader errors remained. This last run used the corrected visible-pose and
 runtime-island fixture. All 240 seated screenshots were also repeated with the
 native non-walking animation call before finalizing this report.
+
+Published release `bd53f20d72059309156b123dbe2d0fbed65fe1cc` passed GitHub
+Actions run `40709379449`, attempt 1: test, deploy and Pages all succeeded.
+The live Pages and Worker bundles both match the local SHA-256
+`a9c23d9fb8fec7952076b6b3ff995a792a7cdca3155b2aeafcd952fe73404523`.
+The Worker reports that exact release, and the live manifest plus all 60 water
+preview PNGs match the checked-in bytes. See `publication.json`.

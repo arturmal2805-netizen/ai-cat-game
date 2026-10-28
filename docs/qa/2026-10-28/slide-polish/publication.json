@@ -1,0 +1,41 @@
+{
+  "commit": "bd53f20d72059309156b123dbe2d0fbed65fe1cc",
+  "checkedAt": "2026-10-28T17:37:36.366456+00:00",
+  "site": "https://arturmal2805-netizen.github.io/ai-cat-game/?update=bd53f20",
+  "apps": [
+    {
+      "site": "https://arturmal2805-netizen.github.io/ai-cat-game/",
+      "app": "./dist/app.js?v=a9c23d9fb8fec795",
+      "sha256": "a9c23d9fb8fec7952076b6b3ff995a792a7cdca3155b2aeafcd952fe73404523"
+    },
+    {
+      "site": "https://chichi-cat-world.arturmal2805.workers.dev/",
+      "app": "./dist/app.js?v=a9c23d9fb8fec795",
+      "sha256": "a9c23d9fb8fec7952076b6b3ff995a792a7cdca3155b2aeafcd952fe73404523"
+    }
+  ],
+  "sourceMatches": true,
+  "serverRelease": "bd53f20d72059309156b123dbe2d0fbed65fe1cc",
+  "ciRun": 40709379449,
+  "ciAttempt": 1,
+  "jobs": [
+    {
+      "name": "test",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "deploy",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "pages",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "previewFilesVerified": 60,
+  "previewVersion": "6d8344413814",
+  "catCache": "sculpt-v2-a496203fa13a037a7a10a927"
+}
