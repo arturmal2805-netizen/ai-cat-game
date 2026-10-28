@@ -1,0 +1,9 @@
+{
+  "commit": "a04c1e7133d4d72f9518451dce2feffc737be863",
+  "checkedAt": "2026-10-28T08:54:49.732201+00:00",
+  "site": "https://arturmal2805-netizen.github.io/ai-cat-game/?update=a04c1e7",
+  "app": "./dist/app.js?v=4958f04edcfff216",
+  "appSHA256": "4958f04edcfff216cfc85f2441c0e029b3756980e614190788ba8ec8bea8bf45",
+  "farmsRemoved": true,
+  "serverRelease": "a04c1e7133d4d72f9518451dce2feffc737be863"
+}
