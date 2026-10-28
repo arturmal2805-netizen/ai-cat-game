@@ -1,7 +1,6 @@
 import {JOB_START} from "./jobcity-data.js";
 import {MAGIC_FARMS,farmActivity} from './magic-farms-data.js';
 import {harvestOrchard,orchardCounts} from './magic-farm-state.js';
-import {renderMagicFarmCards} from './magic-farm-ui.js';
 import {reserveCryptoAttempt,pendingCryptoAttempt,applyCryptoForecast,advanceCryptoTrading,localCryptoForecast} from "./crypto-trading.js";
 import {
   buyCatHome,
@@ -724,7 +723,7 @@ function renderShop() {
   shopViewKey = viewKey;
   $("shop-coins").textContent = money(game.coins);
   $("shop-tabs").replaceChildren();
-  for (const category of CATEGORIES.flatMap(c=>c.id==='rides'?[c,{id:"atoll-water",name:"Водні світи · 20",icon:"🌊"}]:c.id==='farm'?[c,{id:'magic-farms',name:'Магічні ферми',icon:'✨'}]:[c])) {
+  for (const category of CATEGORIES.flatMap(c=>c.id==='rides'?[c,{id:"atoll-water",name:"Водні світи · 20",icon:"🌊"}]:[c])) {
     const button = document.createElement("button");
     button.setAttribute("role", "tab");
     button.setAttribute(
@@ -2180,7 +2179,6 @@ function renderFarm() {
     cells.map((c) => [c.crop, c.readyAt, c.crop && Date.now() >= c.readyAt]),
     game.coins,
     game.farm.stock,
-    MAGIC_FARMS.map(f=>[f.id,orchardCounts(game,f.id),world?.farmBusyCount(f.id)]),
     busy,
     Object.entries(game.farm.jobs).map(([id, time]) => [
       id,
@@ -2191,7 +2189,6 @@ function renderFarm() {
   ]);
   if (key === farmViewKey) return;
   farmViewKey = key;
-  renderMagicFarmCards($('magic-farm-owned'),game,{busy,busyCount:id=>world?.farmBusyCount(id)||0,onVisit:id=>{$('farm-dialog').close();world?.focus(id);},onHarvest:id=>{$('farm-dialog').close();manualActivity({activityId:id});},onShop:id=>{$('farm-dialog').close();showShop('magic-farms',BIOMES.find(b=>b.id===id).name);}});
   $("farm-field").replaceChildren();
   for (const p of farms) {
     const option = document.createElement("option");

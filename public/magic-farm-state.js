@@ -1,7 +1,7 @@
 import {MAGIC_FARMS,MAGIC_FRUITS,magicFarm,magicFarmLayout} from './magic-farms-data.js';
 export function newOrchard(id,now){return {openedAt:now,plants:Object.fromEntries(magicFarmLayout(id).plants.map(p=>[p.id,{cycle:0,readyAt:now}]))};}
 export function normalizeOrchards(raw,unlocked,now){
- const result={};for(const f of MAGIC_FARMS)if(unlocked.includes(f.id)){
+ const result={};for(const f of MAGIC_FARMS)if(unlocked.includes(f.id)||raw?.[f.id]){
   const old=raw?.[f.id],next=newOrchard(f.id,now);next.openedAt=Number.isFinite(old?.openedAt)?Math.max(0,old.openedAt):now;
   for(const p of magicFarmLayout(f.id).plants){const s=old?.plants?.[p.id];if(s&&Number.isSafeInteger(s.cycle)&&s.cycle>=0&&Number.isFinite(s.readyAt)&&s.readyAt>=0)next.plants[p.id]={cycle:s.cycle,readyAt:s.readyAt};}
   result[f.id]=next;

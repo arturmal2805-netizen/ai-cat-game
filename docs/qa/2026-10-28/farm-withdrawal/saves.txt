@@ -1,0 +1,17 @@
+✔ all four withdrawn farm islands, shops, colliders and connecting roads are absent (16.311935ms)
+✔ withdrawal retains paid objects, coins, fruit, ownership and growth records through thirty restarts (493.101133ms)
+✔ cached devices cannot reopen retired farm islands or erase retained crops and ownership (32.677331ms)
+✔ every purchase, placement, move, storage and crop deadline survives a separate reload (1502.758078ms)
+✔ corrupt JSON and semantically invalid primary saves recover from two verified generations (19.827727ms)
+✔ write failure and failed read-back cannot acknowledge a purchase or destroy the prior world (16.134573ms)
+✔ reload never repeats daily or hourly rewards (129.802341ms)
+✔ a successful durable write verifies its old generation once and keeps identical backup bytes without serializing an unused rollback (1.948354ms)
+✔ a primary changed after validation cannot become a trusted rollback or overwrite the verified backup (5.112002ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1932.8874

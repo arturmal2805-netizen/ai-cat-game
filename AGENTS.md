@@ -422,6 +422,10 @@ the FPS panel has only a copy-report button, including with legacy pause links.
 
 ### Magical farm islands
 
+The player withdrew all four large farm islands on 2026-10-28 pending revised
+instructions. Keep their historical crop/ownership save records, but do not
+register their biomes, roads or shop cards again without a new request.
+
 - Append new biome centres and plant IDs without moving released islands or
   changing old scenery/save identities. Reuse the native land shop, crop stock,
   feeding, sale and shared-save journal; farms do not add currency or AI calls.

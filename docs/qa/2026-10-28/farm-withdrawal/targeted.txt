@@ -1,0 +1,21 @@
+✔ enlarged islands leave open space between every pair, including all four starter bridges (2.262395ms)
+✔ the old moon/whale and dinosaur/lotus overlaps are resolved without changing sizes or save coordinates (156.126975ms)
+✔ real navigation meshes including bevels and cliff lips stay inside the reserved shoreline (1100.57436ms)
+✔ all four withdrawn farm islands, shops, colliders and connecting roads are absent (10.334959ms)
+✔ withdrawal retains paid objects, coins, fruit, ownership and growth records through thirty restarts (370.08753ms)
+✔ cached devices cannot reopen retired farm islands or erase retained crops and ownership (27.609589ms)
+✔ the shipped preview manifest covers every shop item and biome with a complete PNG (147.639376ms)
+✔ exactly the thirteen requested islands disappear and every remaining theme/property stays intact (3.414214ms)
+✔ all seventeen islands have wide unobstructed shore roads, with no retired nodes or aquarium transit (8.049751ms)
+✔ new removals keep all ten previously released migration districts at their exact addresses (0.42677ms)
+✔ old purchases and residents migrate once, without charges, duplicates or movement of existing homestead purchases (402.391873ms)
+✔ cached phones cannot erase relocated outer purchases, and deliberate moves still merge (28.669705ms)
+✔ removing the three new islands never drops a paid purchase when its reserved migration address is already built on (225.839597ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1774.421661

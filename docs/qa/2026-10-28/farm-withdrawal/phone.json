@@ -1,0 +1,390 @@
+{
+  "initial": {
+    "coins": 290000,
+    "islands": [
+      "moon",
+      "autumn",
+      "winter",
+      "water",
+      "summer",
+      "sakura",
+      "volcano",
+      "candy",
+      "galaxy",
+      "ice",
+      "clockwork",
+      "foodcourt",
+      "bikini",
+      "homestead",
+      "aquarium",
+      "jobcity",
+      "cat-homes",
+      "atoll-park"
+    ],
+    "owned": [
+      "farm-starlight",
+      "farm-sugarcloud",
+      "farm-crystal",
+      "farm-moonpumpkin"
+    ],
+    "stock": 7,
+    "orchards": {
+      "farm-starlight": {
+        "openedAt": 1793177102540,
+        "plants": {
+          "plant-0": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-1": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-2": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-3": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-4": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-5": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-6": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-7": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-8": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-9": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-10": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-11": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-12": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-13": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-14": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-15": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-16": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-17": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          }
+        }
+      },
+      "farm-sugarcloud": {
+        "openedAt": 1793177102540,
+        "plants": {
+          "plant-0": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-1": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-2": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-3": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-4": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-5": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-6": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-7": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-8": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-9": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-10": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-11": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-12": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-13": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-14": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-15": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-16": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-17": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          }
+        }
+      },
+      "farm-crystal": {
+        "openedAt": 1793177102540,
+        "plants": {
+          "plant-0": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-1": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-2": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-3": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-4": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-5": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-6": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-7": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-8": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-9": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-10": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-11": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-12": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-13": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-14": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-15": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-16": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-17": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          }
+        }
+      },
+      "farm-moonpumpkin": {
+        "openedAt": 1793177102540,
+        "plants": {
+          "plant-0": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-1": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-2": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-3": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-4": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-5": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-6": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-7": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-8": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-9": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-10": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-11": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-12": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-13": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-14": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-15": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-16": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          },
+          "plant-17": {
+            "cycle": 0,
+            "readyAt": 1793177102540
+          }
+        }
+      }
+    },
+    "placements": [
+      {
+        "id": "welcome-yarn",
+        "item": "yarn",
+        "biome": "moon",
+        "x": -5,
+        "z": 2,
+        "rotation": 0
+      },
+      {
+        "id": "welcome-party",
+        "item": "party",
+        "biome": "moon",
+        "x": 4,
+        "z": 0,
+        "rotation": 0
+      },
+      {
+        "id": "welcome-farm",
+        "item": "farm-field",
+        "biome": "moon",
+        "x": -6,
+        "z": -1,
+        "rotation": 0,
+        "readyAt": 0
+      },
+      {
+        "id": "paid-farm-mouse",
+        "item": "mouse",
+        "biome": "homestead",
+        "x": 68.201118,
+        "z": 159.580369,
+        "rotation": 0,
+        "readyAt": 0
+      },
+      {
+        "id": "owned-mega-loops",
+        "item": "slide-atoll-mega-loops",
+        "biome": "homestead",
+        "x": -90,
+        "z": -90,
+        "rotation": 0,
+        "readyAt": 0
+      }
+    ]
+  },
+  "reloads": 2,
+  "errors": [],
+  "httpErrors": []
+}

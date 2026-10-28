@@ -13,7 +13,7 @@ import {mergeSharedWorld} from '../shared-world.mjs';
 const before=JSON.parse(fs.readFileSync(new URL('./fixtures/pre-consolidation-biomes.json',import.meta.url))),now=Date.UTC(2026,9,21,12);
 test('exactly the thirteen requested islands disappear and every remaining theme/property stays intact',()=>{
  assert.equal(BIOMES.length,18);
- assert.deepEqual(before.filter(b=>!byBiome(b.id)).map(b=>b.id).sort(),[...RETIRED_BIOME_IDS].sort());
+ assert.deepEqual(before.filter(b=>!byBiome(b.id)).map(b=>b.id).sort(),RETIRED_BIOME_IDS.filter(id=>!id.startsWith('farm-')).sort());
  for(const old of before.filter(b=>!isRetiredBiome(b.id))){
   const {center:oc,radius:or,...oldTheme}=old,{center:nc,radius:nr,...newTheme}=byBiome(old.id);
   assert.deepEqual(newTheme,oldTheme);

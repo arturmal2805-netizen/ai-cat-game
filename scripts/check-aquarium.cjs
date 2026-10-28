@@ -53,7 +53,7 @@ async function localWorker() {
   // connection during long harvest probes (POST/PUT are not retried by that
   // proxy). Use the same real workerd/SQLite/asset router directly for this
   // audit; keep the production Worker and browser save client unmodified.
-  if(process.env.CHICHI_MAGIC_FARM_AUDIT){
+  if(process.env.CHICHI_MAGIC_FARM_AUDIT||process.env.CHICHI_FARM_WITHDRAWAL_AUDIT){
     const {Miniflare,Log,LogLevel,convertV4MiniflareOptions}=require(root+'/node_modules/miniflare');
     const mf=new Miniflare(convertV4MiniflareOptions({name:'chichi-farm-local',rootPath:temp,host:'127.0.0.1',port,modules:true,
       scriptPath:path.join(temp,'worker.mjs'),compatibilityDate:'2026-10-13',
@@ -190,6 +190,11 @@ async function localWorker() {
     if(process.env.CHICHI_MAGIC_FARM_AUDIT){
       g.unlocked=['moon'];g.placements=g.placements.filter(p=>p.id.startsWith('welcome-'));g.progression.xp=xpForLevel(30);g.coins=1000000;g.catPosition={biome:'moon',x:0,z:0};g.catDestinations={};
       g.adoption.cats=[{id:'adopt-crumb',homeBiome:'moon'},{id:'adopt-marshmallow',homeBiome:'moon'}];
+    }
+    if(process.env.CHICHI_FARM_WITHDRAWAL_AUDIT){
+      const {MAGIC_FARMS}=await import(root+'/public/magic-farms-data.js'),{newOrchard}=await import(root+'/public/magic-farm-state.js');
+      g.worldRevision=4;g.unlocked=['moon','homestead',...MAGIC_FARMS.map(f=>f.id)];g.coins=290000;g.placements=g.placements.filter(p=>p.id.startsWith('welcome-'));g.catPosition={biome:'moon',x:0,z:0};g.catDestinations={luna:MAGIC_FARMS[1].id};g.farm.stock.starberry=7;g.farm.orchards=Object.fromEntries(MAGIC_FARMS.map(f=>[f.id,newOrchard(f.id,now)]));
+      g.placements.push({id:'paid-farm-mouse',item:'mouse',biome:MAGIC_FARMS[0].id,x:2,z:3,rotation:0,readyAt:0},{id:'owned-mega-loops',item:'slide-atoll-mega-loops',biome:'homestead',x:-90,z:-90,rotation:0,readyAt:0});
     }
     if (process.env.CHICHI_SCENE_STRESS) {
       const { ADOPTION_CATS } = await import(root + "/public/cat-breeds.js");
@@ -636,6 +641,13 @@ async function localWorker() {
     if(process.env.CHICHI_MAGIC_FARM_AUDIT){
       const {checkMagicFarms}=await import('./check-magic-farms.mjs');await checkMagicFarms(page,review);
       fs.writeFileSync(path.join(review,'browser-errors.json'),JSON.stringify({errors,httpErrors},null,2));assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;
+    }
+    if(process.env.CHICHI_FARM_WITHDRAWAL_AUDIT){
+      const snapshot=()=>page.evaluate(()=>{const g=__lagoonSaveQA.getGame();return {coins:g.coins,islands:[...__lagoonQA.islands.keys()],owned:g.withdrawnMagicFarms,stock:g.farm.stock.starberry,orchards:g.farm.orchards,placements:g.placements};});
+      const initial=await snapshot();assert.equal(initial.islands.length,18);assert.ok(initial.islands.every(id=>!id.startsWith('farm-')));assert.equal(initial.owned.length,4);assert.equal(initial.stock,7);assert.equal(initial.coins,290000);assert.equal(initial.placements.find(p=>p.id==='paid-farm-mouse').biome,'homestead');assert.ok(initial.placements.some(p=>p.id==='owned-mega-loops'));
+      await page.locator('#shop-open').tap();assert.equal(await page.getByRole('tab',{name:/Магічні ферми/}).count(),0);await page.getByRole('tab',{name:/Биомы/}).tap();assert.equal(await page.locator('[data-product^="farm-"]').count(),0);await page.screenshot({path:path.join(review,'withdrawn-farms-shop.png')});await page.locator('[data-close="shop-dialog"]').tap();
+      for(let i=0;i<2;i++){await page.evaluate(()=>__lagoonSaveQA.cloud.releaseEditor());await page.reload();await page.waitForFunction(()=>window.__lagoonQA&&__lagoonSaveQA.cloud.editable);assert.deepEqual(await snapshot(),initial);}
+      fs.writeFileSync(path.join(review,'withdrawal.json'),JSON.stringify({initial,reloads:2,errors,httpErrors},null,2));assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);console.log('Four farm islands and shop removed; paid objects, Mega Loops, crops, coins and two SQLite reloads retained.');return;
     }
     if(process.env.CHICHI_HUD_TEXT_AUDIT){
       const {checkHudText}=await import("./check-hud-text.mjs");

@@ -17,7 +17,7 @@ import {
 } from "../public/economy.js";
 
 test("enlarged islands leave open space between every pair, including all four starter bridges", () => {
-  assert.equal(BIOMES.length, 22);
+  assert.equal(BIOMES.length, 18);
   assert.deepEqual(BIOMES.find((b) => b.id === "moon").center, [0, 0]);
   for (let i = 0; i < BIOMES.length; i++)
     for (let j = i + 1; j < BIOMES.length; j++) {

@@ -645,8 +645,8 @@ export const ACTIONS = [
   "swim",
 ];
 export function biomeReservations(id) {
+  if (isRetiredBiome(id)) return [];
   const farm=magicFarmLayout(id);if(farm){const [x,z,rx,rz]=farm.pond;return [...farm.plants.map(p=>({x:p.x,z:p.z,w:p.radius*2+1.5,d:p.radius*2+1.5})),{x,z,w:rx*2+4,d:rz*2+4},{x:0,z:71,w:78,d:14}];}
-  if(isRetiredBiome(id))return [];
   if (id === JOB_CITY_ID) return jobReservations();
   if (id === "aquarium")
     return [
@@ -2301,7 +2301,9 @@ for(const b of BIOMES)b.center=[...WORLD_CENTERS[b.id]];
 // An annex beyond the existing waterpark shore; all released island records,
 // local building addresses and centres above remain unchanged.
 BIOMES.push({...ATOLL_PARK, center:[...ATOLL_PARK.center]});
-BIOMES.push(...MAGIC_FARMS.map(f=>({...f,center:[...f.center]})));
+// Withdrawn at the player's request. Keep historical crop/ownership metadata,
+// but never register the four farm islands or their roads in the active world.
+RETIRED_BIOMES.push(...MAGIC_FARMS.map(f=>({...f,center:[...f.center]})));
 CROPS.push(...MAGIC_FRUITS);
 for(const n of NEIGHBORS)if(isRetiredBiome(n.biome)){
   n.originBiome=n.biome;n.biome='homestead';

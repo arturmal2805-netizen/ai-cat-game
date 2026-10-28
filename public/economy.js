@@ -195,6 +195,7 @@ export function loadGame(storage, now = Date.now(), { advance = true } = {}) {
     saved = migrateRetiredIsland(saved, now);
     const game = newGame(now);
     game.retiredIslandRefund = saved.retiredIslandRefund || 0;
+    if(Array.isArray(saved.withdrawnMagicFarms))game.withdrawnMagicFarms=[...new Set(saved.withdrawnMagicFarms.filter(id=>magicFarm(id)))];
     game.relocatedPurchases = (
       Array.isArray(saved.relocatedPurchases) ? saved.relocatedPurchases : []
     )

@@ -66,6 +66,7 @@ const guarded = (path) =>
   );
 
 function merge(base, current, incoming, path = "", depth = 0) {
+  if(path==='withdrawnMagicFarms')return [...new Set([...(current||[]),...(incoming||[])])];
   if(path==='farm.orchards'&&incoming===undefined)return clone(current);
   if(path==='catLocations')return mergeCatLocations(current,incoming);
   if (depth > 40) throw new SharedConflict("Сохранение слишком сложное.");
@@ -379,6 +380,10 @@ export function mergeSharedWorld(base, current, incoming) {
   if(current)current=migrateRetiredIsland(current);
   if(incoming)incoming=migrateRetiredIsland(incoming);
   if (!base || !current) return clone(incoming);
+  if(current.withdrawnMagicFarms){
+    incoming={...incoming,withdrawnMagicFarms:[...new Set([...current.withdrawnMagicFarms,...(incoming.withdrawnMagicFarms||[])])]};
+    for(const id of current.withdrawnMagicFarms)if(current.farm?.orchards?.[id]&&!incoming.farm?.orchards?.[id])incoming={...incoming,farm:{...incoming.farm,orchards:{...incoming.farm?.orchards,[id]:base.farm?.orchards?.[id]||current.farm.orchards[id]}}};
+  }
   // Older cached clients cannot know the appended city or its private wallets.
   if (
     current.jobCity &&
