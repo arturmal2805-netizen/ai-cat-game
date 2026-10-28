@@ -1,0 +1,116 @@
+{
+  "commit": "c5f265dcd37fe214859b6638222e9270ce5aa8eb",
+  "run": 40789971462,
+  "sites": {
+    "pages": {
+      "status": 200,
+      "entry": "./dist/app.js?v=f180b7f1f62d0329",
+      "scriptStatus": 200,
+      "scriptSHA256": "f180b7f1f62d0329fdd2f8034fc72571f2667c8a8f9b456b4f4770664310d8d3",
+      "models": [
+        {
+          "species": "elephant",
+          "status": 200,
+          "gzipBytes": 751598,
+          "rawBytes": 2556368,
+          "hash": "7bfc0e55999bf593"
+        },
+        {
+          "species": "axolotl",
+          "status": 200,
+          "gzipBytes": 497442,
+          "rawBytes": 1792868,
+          "hash": "1a51a6c3b766550f"
+        },
+        {
+          "species": "otter",
+          "status": 200,
+          "gzipBytes": 493355,
+          "rawBytes": 1655000,
+          "hash": "240e3a359d130187"
+        },
+        {
+          "species": "tiger",
+          "status": 200,
+          "gzipBytes": 605831,
+          "rawBytes": 2102040,
+          "hash": "e2c7e5bf49e9ba61"
+        },
+        {
+          "species": "polar",
+          "status": 200,
+          "gzipBytes": 587103,
+          "rawBytes": 1981228,
+          "hash": "c49f903d41af61b2"
+        },
+        {
+          "species": "gorilla",
+          "status": 200,
+          "gzipBytes": 556478,
+          "rawBytes": 1784428,
+          "hash": "20393faa8fe59ef2"
+        }
+      ]
+    },
+    "worker": {
+      "status": 200,
+      "entry": "./dist/app.js?v=f180b7f1f62d0329",
+      "scriptStatus": 200,
+      "scriptSHA256": "f180b7f1f62d0329fdd2f8034fc72571f2667c8a8f9b456b4f4770664310d8d3",
+      "models": [
+        {
+          "species": "elephant",
+          "status": 200,
+          "gzipBytes": 751598,
+          "rawBytes": 2556368,
+          "hash": "7bfc0e55999bf593"
+        },
+        {
+          "species": "axolotl",
+          "status": 200,
+          "gzipBytes": 497442,
+          "rawBytes": 1792868,
+          "hash": "1a51a6c3b766550f"
+        },
+        {
+          "species": "otter",
+          "status": 200,
+          "gzipBytes": 493355,
+          "rawBytes": 1655000,
+          "hash": "240e3a359d130187"
+        },
+        {
+          "species": "tiger",
+          "status": 200,
+          "gzipBytes": 605831,
+          "rawBytes": 2102040,
+          "hash": "e2c7e5bf49e9ba61"
+        },
+        {
+          "species": "polar",
+          "status": 200,
+          "gzipBytes": 587103,
+          "rawBytes": 1981228,
+          "hash": "c49f903d41af61b2"
+        },
+        {
+          "species": "gorilla",
+          "status": 200,
+          "gzipBytes": 556478,
+          "rawBytes": 1784428,
+          "hash": "20393faa8fe59ef2"
+        }
+      ]
+    }
+  },
+  "workerStatus": {
+    "configured": true,
+    "backupConfigured": true,
+    "backupProvider": "openrouter",
+    "backupModel": "dots-studio/dots-3-note-preview:free",
+    "protocol": "living-cat-world-v4",
+    "release": "c5f265dcd37fe214859b6638222e9270ce5aa8eb",
+    "versionId": "02bf58ab-2be0-4755-8154-51ac01444aaf",
+    "cloudSave": true
+  }
+}
