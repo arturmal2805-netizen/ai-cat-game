@@ -1,0 +1,722 @@
+[
+  {
+    "id": "waterslide",
+    "duration": 6.015037593984962,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "water-river",
+    "duration": 7.518796992481203,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "water-whirlpool",
+    "duration": 7.518796992481203,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "water-extreme",
+    "duration": 7.518796992481203,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-royal-cascade",
+    "duration": 8.270676691729323,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-vortex-bowl",
+    "duration": 9.022556390977444,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "ride-crystal-slide",
+    "duration": 13.533834586466165,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-marshmallow",
+    "duration": 13.533834586466165,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-glass-corkscrew",
+    "duration": 16.333157894736843,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-sky-cannon",
+    "duration": 17.728646616541354,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-titan-funnel",
+    "duration": 18.422481203007518,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-jungle-titan",
+    "duration": 16.091654135338345,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-rainbow-tsunami",
+    "duration": 16.473458646616542,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-abyss-capsule",
+    "duration": 16.119022556390977,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "dive-triple-sky",
+    "duration": 44.9601611221722,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-dream-crystal-loops",
+    "duration": 39.765049119858986,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-dream-pearl-funnel",
+    "duration": 35.398213287311286,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-dream-rainbow-launch",
+    "duration": 35.83776453517406,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-dream-waterfall-arch",
+    "duration": 35.93684685058612,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-dream-canyon-twins",
+    "duration": 42.755307634801895,
+    "lanes": 2,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-dream-ocean-tunnel",
+    "duration": 34.08396743620003,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-dream-blossom-tree",
+    "duration": 43.049093127962145,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-dream-ice-tunnel",
+    "duration": 34.1668071677487,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-dream-orbital-shell",
+    "duration": 45.790746771214884,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-dream-terrace-cascades",
+    "duration": 35.51194354899252,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-dream-canyon-eight",
+    "duration": 38.66989526079142,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-dream-luminous-vortex",
+    "duration": 45.87187695437811,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-dream-ring-launch",
+    "duration": 37.18748501652733,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-dream-ribbon-tower",
+    "duration": 44.23026407782723,
+    "lanes": 3,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-dream-tidal-wave",
+    "duration": 35.40095491660603,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-dream-water-lift",
+    "duration": 33.04391358091919,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-dream-dragon-tail",
+    "duration": 43.397460073164964,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-dream-four-funnels",
+    "duration": 43.97139333152995,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-dream-sky-bridge",
+    "duration": 35.569258574168416,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-dream-cave-loop",
+    "duration": 35.57127643552001,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-dream-twin-flights",
+    "duration": 40.52500951537769,
+    "lanes": 2,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-dream-lighthouse",
+    "duration": 41.83923395173447,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-dream-twin-shell",
+    "duration": 35.289204357591586,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-dream-royal-aqueduct",
+    "duration": 37.385707543960564,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-dream-cloud-star",
+    "duration": 46.291479840776276,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-atoll-giant-wave",
+    "duration": 74.63538660308771,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-atoll-rock-arch",
+    "duration": 89.19962693712037,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-atoll-rainbow-race",
+    "duration": 83.57910930875045,
+    "lanes": 6,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-atoll-sky-serpent",
+    "duration": 95.23699417926107,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-atoll-blue-whirlpool",
+    "duration": 73.55309839975969,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-atoll-double-serpent",
+    "duration": 86.94595146504003,
+    "lanes": 2,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-atoll-waterfall-cascade",
+    "duration": 73.14084273030343,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-atoll-emerald-canyon",
+    "duration": 77.96450247004111,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-atoll-crystal-cavern",
+    "duration": 89.19958815719482,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-atoll-root-valley",
+    "duration": 94.38028278611004,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-atoll-blue-halfpipe",
+    "duration": 72.17069478350855,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-atoll-lagoon-loop",
+    "duration": 75.69222668605738,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-atoll-coral-arch",
+    "duration": 69.68348021878046,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-atoll-cloud-islets",
+    "duration": 82.3936047348765,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-atoll-flower-lagoon",
+    "duration": 91.98900046087724,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-atoll-red-canyon",
+    "duration": 83.0810831028318,
+    "lanes": 2,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-atoll-abyss-bridge",
+    "duration": 76.55970508075163,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-atoll-green-valley",
+    "duration": 81.20874143186175,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-atoll-purple-vortex",
+    "duration": 76.7149922428126,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "id": "slide-atoll-mega-loops",
+    "duration": 80.49386105301824,
+    "lanes": 1,
+    "seams": [],
+    "uv": [
+      [
+        0,
+        1
+      ]
+    ]
+  }
+]

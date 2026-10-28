@@ -1,0 +1,38 @@
+{
+  "initial": {
+    "cold": true,
+    "building": false,
+    "distance": 900
+  },
+  "finished": {
+    "built": true,
+    "loading": false,
+    "lanes": 1,
+    "geometry": 1,
+    "distance": 900
+  },
+  "manual": {
+    "built": true,
+    "riders": 2,
+    "hero": true,
+    "resident": true
+  },
+  "placed": {
+    "id": "p-65e7119d-3395-4ac4-8068-d43013dc3f64",
+    "item": "slide-atoll-mega-loops",
+    "biome": "homestead",
+    "x": -19,
+    "z": -19,
+    "rotation": 0,
+    "startedAt": 1793197542254,
+    "readyAt": 0
+  },
+  "final": {
+    "built": true,
+    "loading": false,
+    "route": true,
+    "distance": 900,
+    "contextLost": false
+  },
+  "balance": 803630
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "id": "coaster-thunder-loop",
+    "before": "91da5ff90dc5cd2116a3b4474df44a0d7b2fab4bdda04c79e5d0bc6901bcdc91",
+    "after": "91da5ff90dc5cd2116a3b4474df44a0d7b2fab4bdda04c79e5d0bc6901bcdc91",
+    "identical": true
+  },
+  {
+    "id": "coaster-aurora-rift",
+    "before": "3f8a7591963e4895f89d86da1b10818c6a8625c3af1d05d99ffa8199e94cb6d6",
+    "after": "3f8a7591963e4895f89d86da1b10818c6a8625c3af1d05d99ffa8199e94cb6d6",
+    "identical": true
+  },
+  {
+    "id": "coaster-dragon-titan",
+    "before": "ec399a99ed8de6e5a61cf70f0fb1bbb436ca345419dfdb155267e1c68685d59a",
+    "after": "ec399a99ed8de6e5a61cf70f0fb1bbb436ca345419dfdb155267e1c68685d59a",
+    "identical": true
+  }
+]

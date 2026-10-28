@@ -1,0 +1,13 @@
+{
+  "registered": 60,
+  "nativeBatchedExactFrames": 180,
+  "occupiedFrames": 240,
+  "phoneDPR": 2,
+  "phoneBuffer": [
+    780,
+    1120
+  ],
+  "tests": 783,
+  "renderer": "Chromium SwiftShader (correctness only)",
+  "catCache": "sculpt-v2-a496203fa13a037a7a10a927"
+}
