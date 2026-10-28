@@ -4,8 +4,8 @@ import { createHash } from "node:crypto";
 import * as THREE from "three";
 import { REFERENCE_SLIDES } from "../public/reference-slide-data.js";
 import { CATALOG, BIOMES as REGISTERED_BIOMES } from "../public/game-data.js";
-// Preserve the released-island snapshot; new magical farms have independent coverage.
-const BIOMES = REGISTERED_BIOMES.filter(b => !b.magicFarm);
+// Preserve the released-island snapshot; new destinations have independent coverage.
+const BIOMES = REGISTERED_BIOMES.filter(b => !b.magicFarm && !b.zoo);
 import {
   createReferenceRoute,
   DREAM_WATER,
@@ -63,7 +63,7 @@ test("exactly 25 independent reference cards map the 5 by 5 grid and preserve ev
   assert.equal(
     hash({
       CATALOG: CATALOG.filter(
-        (s) => !s.referenceSlide && !s.magicBed && !s.seed && !s.id.startsWith("job-"),
+        (s) => !s.zoo && !s.referenceSlide && !s.magicBed && !s.seed && !s.id.startsWith("job-"),
       ),
       BIOMES: BIOMES.filter((b) => !["jobcity", "cat-homes", "atoll-park"].includes(b.id)),
     }),

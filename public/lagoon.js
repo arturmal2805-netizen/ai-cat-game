@@ -20,6 +20,7 @@ export function* lagoonSteps({
   rx = 3,
   rz = 2,
   fishCount = 24,
+  ambientOnly = false,
   color = 0x08b5d0,
   seed = 1,
   bedColor = 0x83ccc1,
@@ -332,7 +333,7 @@ export function* lagoonSteps({
         );
       }
     }
-    for (const mesh of [body, tail, eyes, fins])
+    if(!ambientOnly)for (const mesh of [body, tail, eyes, fins])
       mesh.instanceMatrix.needsUpdate = true;
   }
   yield;

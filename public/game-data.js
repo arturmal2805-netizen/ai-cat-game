@@ -1,3 +1,4 @@
+import {ZOO_BIOME,ZOO_EXHIBITS,ZOO_RADIUS} from './zoo-data.js';
 import { WORLD_CENTERS, isRetiredBiome } from './world-layout.js';
 import { HOMESTEAD_RADIUS, HOMESTEAD_EXPANSION } from "./homestead-expansion.js";
 import { HOUSING_ID, HOUSING_RADIUS, HOUSING_CENTER } from "./housing-data.js";
@@ -646,6 +647,7 @@ export const ACTIONS = [
   "swim",
 ];
 export function biomeReservations(id) {
+  if(id===ZOO_BIOME.id)return[{x:0,z:0,w:ZOO_RADIUS*2,d:ZOO_RADIUS*2}];
   if (isRetiredBiome(id)) return [];
   const farm=magicFarmLayout(id);if(farm){const [x,z,rx,rz]=farm.pond;return [...farm.plants.map(p=>({x:p.x,z:p.z,w:p.radius*2+1.5,d:p.radius*2+1.5})),{x,z,w:rx*2+4,d:rz*2+4},{x:0,z:71,w:78,d:14}];}
   if (id === JOB_CITY_ID) return jobReservations();
@@ -1908,6 +1910,7 @@ export const buildTimeLabel = (minutes) =>
       ? Math.round((minutes / 60) * 10) / 10 + " ч"
       : minutes + " мин";
 export const biomeFeature = (b) =>
+  b === "magic-zoo" ? "Шість вольєрів, тварини й прогулянки котиків" :
   (b === "sakura"
     ? "Сім відкритих особняків, 14 місць на спільних лежанках та 7 теплих ванн"
     : b === "water"
@@ -2313,3 +2316,7 @@ for(const n of NEIGHBORS)if(isRetiredBiome(n.biome)){
 }
 for(const crop of CROPS)if(isRetiredBiome(crop.biome))crop.biome='homestead';
 for(const job of JOBS)job.biomes=[...new Set(job.biomes.map(id=>isRetiredBiome(id)?'homestead':id))];
+
+// Append without recalculating a single released centre or waterpark record.
+BIOMES.push({...ZOO_BIOME,center:[...ZOO_BIOME.center]});
+CATALOG.push(...ZOO_EXHIBITS.map(e=>({...e,category:'social',requiredLevel:8,islandOnly:true,rarity:'Чарівний зоопарк',actions:['explore']})));

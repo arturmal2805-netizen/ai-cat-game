@@ -107,7 +107,7 @@ function buildInitialScenery(placements) {
         result.push({id:'decor-atoll-park-'+i,originBiome:biome.id,biome:biome.id,...c,rotation:0});
       continue;
     }
-    if (["homestead", "aquarium", "jobcity", "cat-homes", "atoll-park"].includes(biome.id))
+    if (["homestead", "aquarium", "jobcity", "cat-homes", "atoll-park", "magic-zoo"].includes(biome.id))
       continue;
     const candidates = [
       { type: "scenery-landmark", x: -6, z: -6, scale: 0.88 },

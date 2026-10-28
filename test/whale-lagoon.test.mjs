@@ -9,8 +9,8 @@ import {
   canPlace,
 } from "../public/economy.js";
 import { BIOMES as REGISTERED_BIOMES, byBiome, JOBS } from "../public/game-data.js";
-// Preserve the released-island snapshot; new magical farms have independent coverage.
-const BIOMES = REGISTERED_BIOMES.filter(b => !b.magicFarm);
+// Preserve the released-island snapshot; new destinations have independent coverage.
+const BIOMES = REGISTERED_BIOMES.filter(b => !b.magicFarm && !b.zoo);
 import { ISLAND_RIDES } from "../public/renewal-data.js";
 import { makeAttraction, animateAttraction } from "../public/world-assets.js";
 import { createBiomeScene } from "../public/biome-scenes.js";

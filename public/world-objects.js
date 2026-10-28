@@ -1,3 +1,4 @@
+import {ZOO_ID,ZOO_EXHIBITS} from './zoo-data.js';
 import { JOB_BUSINESSES } from "./jobcity-data.js";
 import { AQUARIUM_TANKS } from "./aquarium-data.js";
 import {
@@ -46,6 +47,7 @@ export const PARK_RIDES = [
 export function permanentObjects(biomes) {
   biomes=biomes.filter(id=>BIOMES.some(b=>b.id===id));
   const objects = [];
+  if(biomes.includes(ZOO_ID))objects.push(...ZOO_EXHIBITS);
   objects.push(...MAGIC_FARM_OBJECTS.filter(o=>biomes.includes(o.biome)));
   if (biomes.includes("jobcity")) objects.push(...JOB_BUSINESSES);
   if (biomes.includes("aquarium")) objects.push(...AQUARIUM_TANKS);
@@ -58,7 +60,7 @@ export function permanentObjects(biomes) {
   for (const b of BIOMES) {
     if (!biomes.includes(b.id)) continue;
     if (
-      ["foodcourt", "bikini", "aquarium", "jobcity", "cat-homes"].includes(b.id)
+      ["foodcourt", "bikini", "aquarium", "jobcity", "cat-homes",ZOO_ID].includes(b.id)
     )
       continue;
     if (b.id === "autumn") {

@@ -1,6 +1,7 @@
 import { RENEWED_ISLANDS } from "./renewal-data.js";
 import {MAGIC_FARMS,magicFarmLayout} from './magic-farms-data.js';
 export const BIOME_STYLES = {
+  'magic-zoo':{ground:0xa6c67b,leaf:0x65a74c,flower:0xffbed7,roof:0xe8b475,kind:'oak',hero:'zoo'},
   "atoll-park": {ground:0x99cdb4,leaf:0x74bb83,flower:0xf5b7d5,roof:0xe8cf98,kind:"palm",hero:"waterpark"},
   "cat-homes": {
     ground: 0xa7bd8a,

@@ -7,7 +7,7 @@ const now=Date.now(),seed=()=>{const g=newGame(now);g.coins=1000000;g.progressio
 function reload(g){const m=new Map(),s={getItem:k=>m.get(k)||null,setItem:(k,v)=>m.set(k,v)};assert.equal(saveGame(s,g),true);return loadGame(s,now,{advance:false});}
 function bed(){let g=purchase(seed(),MAGIC_BED_ID,now);const p=findSpace(g,MAGIC_BED_ID,'homestead');g=placeItem(g,MAGIC_BED_ID,'homestead',p.x,p.z,0,now);g.placements.at(-1).readyAt=0;return g;}
 test('one placeable bed has four native bed areas, six distinct seeds/crops and no new islands',()=>{
- assert.equal(BIOMES.length,18);assert.equal(MAGIC_BED.footprint[0]*MAGIC_BED.footprint[1],byItem('farm-field').footprint.reduce((a,b)=>a*b)*4);assert.equal(MAGIC_BED_CROPS.length,6);assert.equal(MAGIC_BED_SEEDS.length,6);assert.equal(new Set(MAGIC_BED_SEEDS.map(s=>s.seedCrop)).size,6);assert.equal(MAGIC_BED_SLOTS.length,12);
+ assert.equal(BIOMES.filter(b=>!b.zoo).length,18);assert.equal(MAGIC_BED.footprint[0]*MAGIC_BED.footprint[1],byItem('farm-field').footprint.reduce((a,b)=>a*b)*4);assert.equal(MAGIC_BED_CROPS.length,6);assert.equal(MAGIC_BED_SEEDS.length,6);assert.equal(new Set(MAGIC_BED_SEEDS.map(s=>s.seedCrop)).size,6);assert.equal(MAGIC_BED_SLOTS.length,12);
  const g=bed();for(const s of MAGIC_BED_SEEDS)assert.equal(canPlace(g,s.id,'homestead',30,30).ok,false);
 });
 test('each purchased seed plants only its row and passes all six persisted growth stages before an exact harvest',()=>{

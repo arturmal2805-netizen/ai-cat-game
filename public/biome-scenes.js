@@ -1,3 +1,4 @@
+import {zooBiomeSteps} from './zoo-biome.js';
 import { housingBiomeSteps } from "./housing-biome.js";
 import { jobCityBiomeSteps } from "./jobcity-biome.js";
 import { aquariumBiomeSteps } from "./aquarium-biome.js";
@@ -177,6 +178,7 @@ export function* biomeSceneSteps(
   { preview = false, placements = [], scenery = null, lowOnly = false } = {},
 ) {
   yield;
+  if(biome.zoo)return yield*zooBiomeSteps(biome,{preview,lowOnly});
   if(biome.magicFarm)return yield*magicFarmBiomeSteps(biome,{lowOnly,scenery:scenery??[]});
   if (biome.waterpark) return yield* atollParkSteps(biome, {lowOnly,scenery:scenery??[]});
   if (biome.id === "cat-homes")

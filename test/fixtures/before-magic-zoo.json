@@ -1,0 +1,5779 @@
+{
+  "biomes": [
+    {
+      "id": "moon",
+      "name": "Лунный сад",
+      "subtitle": "Дом Чичи · звёзды и мягкий мох",
+      "icon": "☾",
+      "price": 0,
+      "center": [
+        0,
+        0
+      ],
+      "ground": 5401448,
+      "edge": 3161428,
+      "foliage": 8428945,
+      "accent": 15255441,
+      "requiredLevel": 1
+    },
+    {
+      "id": "autumn",
+      "name": "Небесное море мозазавра",
+      "subtitle": "Глубокий океан, парящие скалы и большой добрый морской великан",
+      "icon": "🦕",
+      "price": 740,
+      "center": [
+        -12.5837,
+        116.6368
+      ],
+      "ground": 11061642,
+      "edge": 5325656,
+      "foliage": 6203770,
+      "accent": 16761540,
+      "requiredLevel": 8,
+      "radius": 28.536555503424022,
+      "arrival": [
+        0,
+        23
+      ]
+    },
+    {
+      "id": "winter",
+      "name": "Китовая лагуна звёзд",
+      "subtitle": "Небесные киты, жемчужные ракушки и сияющие водопады",
+      "icon": "🐋",
+      "price": 1440,
+      "center": [
+        92.9434,
+        128.5351
+      ],
+      "ground": 10202312,
+      "edge": 5399675,
+      "foliage": 10402525,
+      "accent": 15709421,
+      "requiredLevel": 4,
+      "radius": 16,
+      "arrival": [
+        0,
+        13
+      ]
+    },
+    {
+      "id": "water",
+      "name": "Cat SPA",
+      "subtitle": "Басейн, тепле джакузі, спільний лежак і котячий бар",
+      "radius": 20.17839190817742,
+      "arrival": [
+        0,
+        15.6
+      ],
+      "icon": "🪷",
+      "price": 2480,
+      "center": [
+        -60.0521,
+        141.3472
+      ],
+      "ground": 7382947,
+      "edge": 3955054,
+      "foliage": 10206128,
+      "accent": 10479317,
+      "requiredLevel": 7
+    },
+    {
+      "id": "summer",
+      "name": "Блакитна лагуна капібар",
+      "subtitle": "Блакитні каскади, соковиті джунглі й пухкенькі капібари",
+      "radius": 20.17839190817742,
+      "arrival": [
+        -11,
+        10
+      ],
+      "icon": "🌴",
+      "price": 1290,
+      "center": [
+        14.5771,
+        162.7468
+      ],
+      "ground": 8436045,
+      "edge": 5463893,
+      "foliage": 6928953,
+      "accent": 15979676,
+      "requiredLevel": 4
+    },
+    {
+      "id": "sakura",
+      "name": "Chill Land",
+      "subtitle": "Затишні особняки, спільні сни та теплі ванни серед квітів",
+      "icon": "🏡",
+      "price": 4230,
+      "center": [
+        46.4777,
+        122.8444
+      ],
+      "ground": 10993034,
+      "edge": 8749963,
+      "foliage": 8166237,
+      "accent": 16767406,
+      "requiredLevel": 9,
+      "radius": 26.05019193787255,
+      "arrival": [
+        0,
+        21.8
+      ]
+    },
+    {
+      "id": "volcano",
+      "name": "Долина маленьких динозавров",
+      "subtitle": "Пышные папоротники, добрые динозавры и тёплые лагуны",
+      "icon": "🦕",
+      "price": 10980,
+      "center": [
+        -26.5033,
+        162.7201
+      ],
+      "ground": 10273910,
+      "edge": 3878988,
+      "foliage": 7451499,
+      "accent": 16038524,
+      "quest": {
+        "harvests": 6
+      },
+      "requiredLevel": 16,
+      "radius": 14.8
+    },
+    {
+      "id": "candy",
+      "name": "Сладкая страна",
+      "subtitle": "Мармеладные деревья и сахарные облака",
+      "icon": "🍭",
+      "price": 5570,
+      "center": [
+        136.9242,
+        39.6054
+      ],
+      "ground": 12886712,
+      "edge": 9528452,
+      "foliage": 15515097,
+      "accent": 16769200,
+      "requiredLevel": 11,
+      "radius": 26.05019193787255,
+      "buildableAreaMultiplier": 5
+    },
+    {
+      "id": "galaxy",
+      "name": "Лунный залив медуз",
+      "subtitle": "Лавандовая ива, светящиеся медузы и ночные водопады",
+      "icon": "🪼",
+      "price": 17160,
+      "center": [
+        137.7209,
+        85.2487
+      ],
+      "ground": 6389157,
+      "edge": 3486297,
+      "foliage": 11115471,
+      "accent": 13739764,
+      "quest": {
+        "friends": 1
+      },
+      "requiredLevel": 19,
+      "radius": 14.8
+    },
+    {
+      "id": "ice",
+      "name": "Кристальные лотосы",
+      "subtitle": "Гигантские цветы, кристаллы, бирюзовая вода и стрекозы",
+      "icon": "🪷",
+      "price": 13600,
+      "center": [
+        -163.1679,
+        5.485
+      ],
+      "ground": 9618857,
+      "edge": 6519978,
+      "foliage": 9025709,
+      "accent": 16102619,
+      "quest": {
+        "harvests": 10
+      },
+      "requiredLevel": 18,
+      "radius": 14.8
+    },
+    {
+      "id": "clockwork",
+      "name": "Остров сладкой ваты",
+      "subtitle": "Легендарный парк хрюшек · розовые водопады и сахарные горки",
+      "icon": "🍭",
+      "radius": 23,
+      "legendary": true,
+      "arrival": [
+        0,
+        9
+      ],
+      "price": 14960,
+      "center": [
+        -137.2347,
+        -28.3119
+      ],
+      "ground": 16767688,
+      "edge": 12938135,
+      "foliage": 16099539,
+      "accent": 16769186,
+      "quest": {
+        "friends": 2
+      },
+      "requiredLevel": 18
+    },
+    {
+      "id": "foodcourt",
+      "name": "Котячий фуд-корт",
+      "subtitle": "Бургеры, бабл-ти, котячье печенье и кино под облаками",
+      "icon": "🍔",
+      "price": 2800,
+      "requiredLevel": 6,
+      "radius": 32.95117600329312,
+      "center": [
+        81.1833,
+        8.609
+      ],
+      "arrival": [
+        0,
+        29
+      ],
+      "ground": 11125899,
+      "edge": 8293778,
+      "foliage": 7776888,
+      "accent": 16043167
+    },
+    {
+      "id": "bikini",
+      "name": "Бикини-Боттом",
+      "subtitle": "Губка Боб, Патрик, крабсбургеры и мыльные пузыри над облаками",
+      "icon": "🧽",
+      "price": 2400,
+      "requiredLevel": 5,
+      "radius": 30.823002773902484,
+      "center": [
+        87.9955,
+        77.1497
+      ],
+      "arrival": [
+        0,
+        27
+      ],
+      "ground": 15324579,
+      "edge": 9343903,
+      "foliage": 9549972,
+      "accent": 6474713
+    },
+    {
+      "id": "homestead",
+      "name": "Наш остров",
+      "subtitle": "Огромный цветущий луг — всё остальное построите вы",
+      "icon": "🌼",
+      "price": 1800,
+      "requiredLevel": 3,
+      "radius": 228.29244402739224,
+      "center": [
+        0,
+        -245
+      ],
+      "arrival": [
+        0,
+        0
+      ],
+      "ground": 11257484,
+      "edge": 9803662,
+      "foliage": 10599812,
+      "accent": 15979450
+    },
+    {
+      "id": "aquarium",
+      "name": "Котячий океанариум",
+      "subtitle": "Стеклянный дворец, огромные рыбки-котики и нежные встречи у воды",
+      "icon": "🐠",
+      "price": 3200,
+      "requiredLevel": 14,
+      "radius": 38.5,
+      "center": [
+        18.3427,
+        51.7981
+      ],
+      "arrival": [
+        0,
+        33
+      ],
+      "ground": 13360294,
+      "edge": 11182517,
+      "foliage": 11061638,
+      "accent": 10805231
+    },
+    {
+      "id": "jobcity",
+      "name": "Cat Job City",
+      "subtitle": "Місто професій, власних монеток та котячих машин",
+      "icon": "🏙️",
+      "price": 6500,
+      "requiredLevel": 8,
+      "radius": 67,
+      "center": [
+        -92,
+        55
+      ],
+      "arrival": [
+        0,
+        59
+      ],
+      "ground": 12175764,
+      "edge": 9803661,
+      "foliage": 8563822,
+      "accent": 15319946
+    },
+    {
+      "id": "cat-homes",
+      "name": "Котячі оселі",
+      "subtitle": "Власні будиночки котиків · нові квартали з кожною покупкою",
+      "icon": "🏡",
+      "price": 0,
+      "requiredLevel": 8,
+      "radius": 43,
+      "center": [
+        -210,
+        55
+      ],
+      "arrival": [
+        0,
+        37
+      ],
+      "ground": 10993034,
+      "edge": 10394514,
+      "foliage": 8627566,
+      "accent": 15250885,
+      "housingOnly": true
+    },
+    {
+      "id": "atoll-park",
+      "name": "Великий аквапарк",
+      "icon": "🌊",
+      "price": 0,
+      "subtitle": "20 велетенських водних мінібіомів · просторі алеї",
+      "radius": 390,
+      "center": [
+        0,
+        -925
+      ],
+      "arrival": [
+        0,
+        375
+      ],
+      "requiredLevel": 20,
+      "ground": 10079668,
+      "edge": 8822428,
+      "foliage": 7650179,
+      "accent": 6020589,
+      "waterpark": true
+    }
+  ],
+  "catalog": [
+    {
+      "id": "yarn",
+      "name": "Клубочек луны",
+      "category": "toys",
+      "price": 35,
+      "icon": "🧶",
+      "description": "Чичи гоняется за мягким сияющим клубком.",
+      "footprint": [
+        2,
+        2
+      ],
+      "actions": [
+        "play"
+      ],
+      "requiredLevel": 1,
+      "buildMinutes": 30,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "mouse",
+      "name": "Мышка с секретом",
+      "category": "toys",
+      "price": 45,
+      "icon": "🐭",
+      "description": "Маленькая заводная мышь для большой охоты.",
+      "footprint": [
+        2,
+        2
+      ],
+      "actions": [
+        "play"
+      ],
+      "requiredLevel": 1,
+      "buildMinutes": 30,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "feather",
+      "name": "Перо феникса",
+      "category": "toys",
+      "price": 85,
+      "icon": "🪶",
+      "description": "Прыгнуть, поймать, отпустить и снова поймать.",
+      "footprint": [
+        2,
+        2
+      ],
+      "actions": [
+        "play"
+      ],
+      "requiredLevel": 2,
+      "buildMinutes": 30,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "tunnel",
+      "name": "Туннель приключений",
+      "category": "toys",
+      "price": 140,
+      "icon": "🌀",
+      "description": "Нырнуть в один конец и выскочить с другого.",
+      "footprint": [
+        3,
+        2
+      ],
+      "actions": [
+        "play"
+      ],
+      "requiredLevel": 3,
+      "buildMinutes": 30,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "scratch",
+      "name": "Башня коготков",
+      "category": "toys",
+      "price": 100,
+      "icon": "🐾",
+      "description": "Уютная башенка: забраться и осмотреть владения.",
+      "footprint": [
+        2,
+        2
+      ],
+      "actions": [
+        "play"
+      ],
+      "requiredLevel": 2,
+      "buildMinutes": 30,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "trampoline",
+      "name": "Облачный батут",
+      "category": "rides",
+      "price": 210,
+      "icon": "☁",
+      "description": "Мягкие прыжки почти до звёзд.",
+      "footprint": [
+        3,
+        3
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 3,
+      "buildMinutes": 120,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "swing",
+      "name": "Лунные качели",
+      "category": "rides",
+      "price": 155,
+      "icon": "☾",
+      "description": "Плавно качаться на арке из лунного дерева.",
+      "footprint": [
+        3,
+        3
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 2,
+      "buildMinutes": 120,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "carousel",
+      "name": "Карусель созвездий",
+      "category": "rides",
+      "price": 430,
+      "icon": "🎠",
+      "description": "Крутиться среди золотых звёзд и друзей.",
+      "footprint": [
+        4,
+        4
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 5,
+      "buildMinutes": 120,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "coaster",
+      "name": "Американские горки",
+      "category": "rides",
+      "price": 695,
+      "icon": "🎢",
+      "description": "Настоящий извилистый путь с маленькой вагонеткой.",
+      "footprint": [
+        6,
+        5
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 6,
+      "buildMinutes": 240,
+      "rarity": "Редкое"
+    },
+    {
+      "id": "waterslide",
+      "name": "Горка русалочки",
+      "category": "rides",
+      "price": 530,
+      "icon": "🛝",
+      "description": "Взобраться на башню и скользнуть в мягкий бассейн.",
+      "footprint": [
+        5,
+        5
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 5,
+      "buildMinutes": 180,
+      "rarity": "Уютное",
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "ferris",
+      "name": "Колесо желаний",
+      "category": "rides",
+      "price": 710,
+      "icon": "🎡",
+      "description": "Подняться в кабинке и посмотреть на весь мир.",
+      "footprint": [
+        4,
+        4
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 7,
+      "buildMinutes": 240,
+      "rarity": "Редкое"
+    },
+    {
+      "id": "teacup",
+      "name": "Чайная чашечка",
+      "category": "rides",
+      "price": 285,
+      "icon": "🫖",
+      "description": "Кружиться в огромной волшебной чашке.",
+      "footprint": [
+        3,
+        3
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 4,
+      "buildMinutes": 120,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "train",
+      "name": "Котопоезд",
+      "category": "transport",
+      "price": 565,
+      "icon": "🚂",
+      "description": "Ехать по круговой железной дороге.",
+      "footprint": [
+        5,
+        5
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 6,
+      "buildMinutes": 120,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "boat",
+      "name": "Лодочка-листик",
+      "category": "transport",
+      "price": 220,
+      "icon": "🍃",
+      "description": "Плавать в собственном прудике под светлячками.",
+      "footprint": [
+        4,
+        3
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 3,
+      "buildMinutes": 120,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "balloon",
+      "name": "Воздушный шар",
+      "category": "transport",
+      "price": 480,
+      "icon": "🎈",
+      "description": "Подняться над островом в уютной корзине.",
+      "footprint": [
+        3,
+        3
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 5,
+      "buildMinutes": 120,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "broom",
+      "name": "Метла котоведьмы",
+      "category": "transport",
+      "price": 320,
+      "icon": "🧹",
+      "description": "Полёт по кругу: Чичи теперь немного волшебница.",
+      "footprint": [
+        4,
+        4
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 4,
+      "buildMinutes": 120,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "scooter",
+      "name": "Мур-скутер",
+      "category": "transport",
+      "price": 140,
+      "icon": "🛴",
+      "description": "Кататься по маленькой дорожке вокруг флажка.",
+      "footprint": [
+        3,
+        3
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 2,
+      "buildMinutes": 120,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "party",
+      "name": "Площадка вечеринок",
+      "category": "social",
+      "price": 295,
+      "icon": "🪩",
+      "description": "Танцы, гирлянда и целая компания котиков.",
+      "footprint": [
+        4,
+        4
+      ],
+      "actions": [
+        "party"
+      ],
+      "requiredLevel": 3,
+      "buildMinutes": 90,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "cafe",
+      "name": "Котокафе",
+      "category": "social",
+      "price": 320,
+      "icon": "☕",
+      "description": "Посидеть с друзьями за чашечкой тёплого молока.",
+      "footprint": [
+        4,
+        3
+      ],
+      "actions": [
+        "party",
+        "eat"
+      ],
+      "requiredLevel": 4,
+      "buildMinutes": 90,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "picnic",
+      "name": "Пикник друзей",
+      "category": "social",
+      "price": 150,
+      "icon": "🧺",
+      "description": "Вкусный перекус и тихие разговоры на пледе.",
+      "footprint": [
+        3,
+        3
+      ],
+      "actions": [
+        "party",
+        "eat"
+      ],
+      "requiredLevel": 2,
+      "buildMinutes": 90,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "stage",
+      "name": "Сцена мур-концертов",
+      "category": "social",
+      "price": 455,
+      "icon": "🎶",
+      "description": "Кошачий концерт под луной.",
+      "footprint": [
+        4,
+        3
+      ],
+      "actions": [
+        "party"
+      ],
+      "requiredLevel": 5,
+      "buildMinutes": 90,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "fountain",
+      "name": "Фонтан желаний",
+      "category": "decor",
+      "price": 125,
+      "icon": "⛲",
+      "description": "Журчание воды и серебристые искры.",
+      "footprint": [
+        3,
+        3
+      ],
+      "actions": [
+        "explore"
+      ],
+      "requiredLevel": 2,
+      "buildMinutes": 30,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "mushroom",
+      "name": "Грибной домик",
+      "category": "decor",
+      "price": 155,
+      "icon": "🍄",
+      "description": "Крошечный дом с тёплыми окошками.",
+      "footprint": [
+        3,
+        3
+      ],
+      "actions": [
+        "rest"
+      ],
+      "requiredLevel": 3,
+      "buildMinutes": 30,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "crystal",
+      "name": "Кристальный сад",
+      "category": "decor",
+      "price": 130,
+      "icon": "💎",
+      "description": "Сияющие кристаллы и место для мечтаний.",
+      "footprint": [
+        2,
+        2
+      ],
+      "actions": [
+        "explore"
+      ],
+      "requiredLevel": 3,
+      "buildMinutes": 30,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "lantern",
+      "name": "Фонарики светлячков",
+      "category": "decor",
+      "price": 40,
+      "icon": "🏮",
+      "description": "Мягкий свет и немного волшебства.",
+      "footprint": [
+        2,
+        2
+      ],
+      "actions": [
+        "explore"
+      ],
+      "requiredLevel": 1,
+      "buildMinutes": 30,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "flowers",
+      "name": "Лунная клумба",
+      "category": "decor",
+      "price": 50,
+      "icon": "🌸",
+      "description": "Цветы, которые раскрываются только для котиков.",
+      "footprint": [
+        2,
+        2
+      ],
+      "actions": [
+        "explore"
+      ],
+      "requiredLevel": 1,
+      "buildMinutes": 30,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "bed",
+      "name": "Ложе облаков",
+      "category": "decor",
+      "price": 60,
+      "icon": "🛏",
+      "description": "Круглая подушка для самых сладких снов.",
+      "footprint": [
+        2,
+        2
+      ],
+      "actions": [
+        "rest"
+      ],
+      "requiredLevel": 1,
+      "buildMinutes": 30,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "pond",
+      "name": "Пруд с лилиями",
+      "category": "decor",
+      "price": 140,
+      "icon": "🪷",
+      "description": "Наблюдать за рыбками и слушать тихий плеск.",
+      "footprint": [
+        3,
+        3
+      ],
+      "actions": [
+        "explore"
+      ],
+      "requiredLevel": 2,
+      "buildMinutes": 30,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "farm-field",
+      "name": "Фермерские грядки",
+      "category": "farm",
+      "price": 125,
+      "icon": "🌱",
+      "description": "Посадить, дождаться урожая и продать его за котомонеты.",
+      "footprint": [
+        4,
+        3
+      ],
+      "actions": [
+        "farm"
+      ],
+      "requiredLevel": 2,
+      "buildMinutes": 30,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "greenhouse",
+      "name": "Звёздная теплица",
+      "category": "farm",
+      "price": 625,
+      "icon": "🏡",
+      "description": "Выращивать волшебные культуры под стеклянной крышей.",
+      "footprint": [
+        5,
+        4
+      ],
+      "actions": [
+        "farm"
+      ],
+      "requiredLevel": 5,
+      "buildMinutes": 240,
+      "rarity": "Редкое"
+    },
+    {
+      "id": "barn",
+      "name": "Амбар урожая",
+      "category": "farm",
+      "price": 295,
+      "icon": "🌾",
+      "description": "Тёплое фермерское местечко для работы Чичи.",
+      "footprint": [
+        4,
+        3
+      ],
+      "actions": [
+        "farm"
+      ],
+      "requiredLevel": 3,
+      "buildMinutes": 120,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "orchard",
+      "name": "Сад лунных яблок",
+      "category": "farm",
+      "price": 380,
+      "icon": "🍎",
+      "description": "Маленький фруктовый сад с собственными грядками.",
+      "footprint": [
+        4,
+        4
+      ],
+      "actions": [
+        "farm"
+      ],
+      "requiredLevel": 4,
+      "buildMinutes": 120,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "coaster-epic",
+      "name": "Эпические небесные горки",
+      "category": "rides",
+      "price": 2365,
+      "icon": "🎢",
+      "description": "Высокие подъёмы, спирали и эффектный полёт.",
+      "footprint": [
+        9,
+        8
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 11,
+      "buildMinutes": 480,
+      "rarity": "Эпическое"
+    },
+    {
+      "id": "coaster-legendary",
+      "name": "Легендарные драконьи горки",
+      "category": "rides",
+      "price": 9665,
+      "icon": "🐉",
+      "description": "Огромный маршрут над всем островом. Стройка — сутки.",
+      "footprint": [
+        15,
+        14
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 18,
+      "buildMinutes": 1440,
+      "rarity": "Легендарное"
+    },
+    {
+      "id": "coaster-mystic",
+      "name": "Мистический полёт",
+      "category": "rides",
+      "price": 7585,
+      "icon": "🔮",
+      "description": "Полёт над светящимися порталами и головокружительное падение.",
+      "footprint": [
+        14,
+        13
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 19,
+      "buildMinutes": 1440,
+      "rarity": "Легендарное"
+    },
+    {
+      "id": "coaster-dragon",
+      "name": "Огненная спираль",
+      "category": "rides",
+      "price": 4675,
+      "icon": "🔥",
+      "description": "Сверкающая спираль вокруг драконьей башни.",
+      "footprint": [
+        12,
+        10
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 14,
+      "buildMinutes": 720,
+      "rarity": "Эпическое"
+    },
+    {
+      "id": "water-river",
+      "name": "Ленивая волшебная река",
+      "category": "rides",
+      "price": 1830,
+      "icon": "🌊",
+      "description": "Плыть по извилистому каналу в маленькой лодке.",
+      "footprint": [
+        8,
+        7
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 12,
+      "buildMinutes": 240,
+      "rarity": "Редкое",
+      "waterRide": {
+        "version": 1,
+        "kind": "channel",
+        "channels": 1
+      }
+    },
+    {
+      "id": "water-whirlpool",
+      "name": "Радужный водоворот",
+      "category": "rides",
+      "price": 3270,
+      "icon": "🌀",
+      "description": "Вода закручивается в огромную мягкую воронку.",
+      "footprint": [
+        10,
+        9
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 12,
+      "buildMinutes": 720,
+      "rarity": "Эпическое",
+      "waterRide": {
+        "version": 1,
+        "kind": "vortex",
+        "channels": 1
+      }
+    },
+    {
+      "id": "water-extreme",
+      "name": "Водная горка титанов",
+      "category": "rides",
+      "price": 4795,
+      "icon": "💦",
+      "description": "Взобраться на высоченную башню и пролететь к бассейну.",
+      "footprint": [
+        12,
+        10
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 12,
+      "buildMinutes": 1440,
+      "rarity": "Легендарное",
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "zipline",
+      "name": "Звёздный зиплайн",
+      "category": "rides",
+      "price": 1100,
+      "icon": "🌠",
+      "description": "Промчаться по воздушному канату между двумя башнями.",
+      "footprint": [
+        7,
+        4
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 8,
+      "buildMinutes": 120,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "drop-tower",
+      "name": "Башня комет",
+      "category": "rides",
+      "price": 2270,
+      "icon": "☄",
+      "description": "Подняться в небо и мягко упасть на облачную подушку.",
+      "footprint": [
+        4,
+        4
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 8,
+      "buildMinutes": 480,
+      "rarity": "Эпическое"
+    },
+    {
+      "id": "bumpercars",
+      "name": "Мур-автодром",
+      "category": "rides",
+      "price": 1035,
+      "icon": "🚗",
+      "description": "Весёлые машинки кружатся на освещённой площадке.",
+      "footprint": [
+        6,
+        5
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 8,
+      "buildMinutes": 120,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "rocket",
+      "name": "Лунная ракета",
+      "category": "transport",
+      "price": 2105,
+      "icon": "🚀",
+      "description": "Облететь остров на маленькой пушистой ракете.",
+      "footprint": [
+        5,
+        5
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 8,
+      "buildMinutes": 480,
+      "rarity": "Эпическое"
+    },
+    {
+      "id": "ufo",
+      "name": "Летающая мур-тарелка",
+      "category": "transport",
+      "price": 1685,
+      "icon": "🛸",
+      "description": "Парить среди звёзд в сияющем кораблике.",
+      "footprint": [
+        5,
+        5
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 8,
+      "buildMinutes": 360,
+      "rarity": "Редкое"
+    },
+    {
+      "id": "airship",
+      "name": "Небесный котодирижабль",
+      "category": "transport",
+      "price": 1555,
+      "icon": "🎈",
+      "description": "Плавный полёт над садами и игрушками.",
+      "footprint": [
+        6,
+        5
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 8,
+      "buildMinutes": 240,
+      "rarity": "Редкое"
+    },
+    {
+      "id": "skate",
+      "name": "Радужный скейт",
+      "category": "transport",
+      "price": 520,
+      "icon": "🛹",
+      "description": "Кататься и совершать маленькие прыжки.",
+      "footprint": [
+        4,
+        4
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 8,
+      "buildMinutes": 120,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "catbus",
+      "name": "Сказочный котобус",
+      "category": "transport",
+      "price": 1360,
+      "icon": "🚌",
+      "description": "Путешествовать по кольцевой дороге.",
+      "footprint": [
+        6,
+        5
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 8,
+      "buildMinutes": 120,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "maze",
+      "name": "Лабиринт любопытства",
+      "category": "toys",
+      "price": 780,
+      "icon": "🌳",
+      "description": "Искать дорогу среди мягких зелёных стен.",
+      "footprint": [
+        5,
+        5
+      ],
+      "actions": [
+        "play"
+      ],
+      "requiredLevel": 8,
+      "buildMinutes": 30,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "laser",
+      "name": "Звёздный огонёк",
+      "category": "toys",
+      "price": 355,
+      "icon": "✦",
+      "description": "Поймать убегающую искорку.",
+      "footprint": [
+        3,
+        3
+      ],
+      "actions": [
+        "play"
+      ],
+      "requiredLevel": 8,
+      "buildMinutes": 30,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "fireflies",
+      "name": "Баночка светлячков",
+      "category": "toys",
+      "price": 310,
+      "icon": "🫙",
+      "description": "Следить за волшебными огоньками и играть с ними.",
+      "footprint": [
+        2,
+        2
+      ],
+      "actions": [
+        "play"
+      ],
+      "requiredLevel": 8,
+      "buildMinutes": 30,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "toy-fish",
+      "name": "Рыбка-попрыгунья",
+      "category": "toys",
+      "price": 290,
+      "icon": "🐟",
+      "description": "Ловить подпрыгивающую мягкую рыбку.",
+      "footprint": [
+        2,
+        2
+      ],
+      "actions": [
+        "play"
+      ],
+      "requiredLevel": 8,
+      "buildMinutes": 30,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "library",
+      "name": "Дом сказок",
+      "category": "social",
+      "price": 780,
+      "icon": "📖",
+      "description": "Встречи друзей и чтение волшебных историй.",
+      "footprint": [
+        4,
+        4
+      ],
+      "actions": [
+        "party",
+        "rest"
+      ],
+      "requiredLevel": 8,
+      "buildMinutes": 90,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "observatory",
+      "name": "Обсерватория желаний",
+      "category": "social",
+      "price": 1230,
+      "icon": "🔭",
+      "description": "Наблюдать за звёздами в компании котиков.",
+      "footprint": [
+        5,
+        4
+      ],
+      "actions": [
+        "party",
+        "explore"
+      ],
+      "requiredLevel": 8,
+      "buildMinutes": 90,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "spa",
+      "name": "Лунные термы",
+      "category": "social",
+      "price": 940,
+      "icon": "🫧",
+      "description": "Отдохнуть в тёплом бассейне среди цветов.",
+      "footprint": [
+        4,
+        4
+      ],
+      "actions": [
+        "rest"
+      ],
+      "requiredLevel": 8,
+      "buildMinutes": 90,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "festival",
+      "name": "Фестиваль созвездий",
+      "category": "social",
+      "price": 1945,
+      "icon": "🎆",
+      "description": "Музыка, сияющие гирлянды и большая вечеринка.",
+      "footprint": [
+        6,
+        5
+      ],
+      "actions": [
+        "party"
+      ],
+      "requiredLevel": 8,
+      "buildMinutes": 480,
+      "rarity": "Эпическое"
+    },
+    {
+      "id": "portal",
+      "name": "Портал чудес",
+      "category": "decor",
+      "price": 1070,
+      "icon": "🪄",
+      "description": "Сверкающий круг для маленького магического приключения.",
+      "footprint": [
+        4,
+        3
+      ],
+      "actions": [
+        "play"
+      ],
+      "requiredLevel": 8,
+      "buildMinutes": 30,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "coaster-lagoon",
+      "name": "Небесная лагуна",
+      "category": "rides",
+      "price": 5165,
+      "icon": "🐠",
+      "description": "Бирюзовые горки, рыбки в аквариуме, пальмы и тёплые фонарики.",
+      "footprint": [
+        12,
+        10
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 14,
+      "buildMinutes": 720,
+      "rarity": "Эпическое"
+    },
+    {
+      "id": "coaster-sakura",
+      "name": "Петля цветущих снов",
+      "category": "rides",
+      "price": 4330,
+      "icon": "🌸",
+      "description": "Розовый маршрут среди цветущих деревьев и светящихся лепестков.",
+      "footprint": [
+        11,
+        10
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 14,
+      "buildMinutes": 480,
+      "rarity": "Эпическое"
+    },
+    {
+      "id": "coaster-moon",
+      "name": "Лунный экспресс",
+      "category": "rides",
+      "price": 5660,
+      "icon": "☾",
+      "description": "Золотые арки, грибная станция и сказочный полёт над островом.",
+      "footprint": [
+        13,
+        11
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 14,
+      "buildMinutes": 960,
+      "rarity": "Эпическое"
+    },
+    {
+      "id": "coaster-mushroom",
+      "name": "Грибной серпантин",
+      "category": "rides",
+      "price": 3740,
+      "icon": "🍄",
+      "description": "Уютная деревянная горка среди сказочных грибов и цветочных садов.",
+      "footprint": [
+        10,
+        9
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 14,
+      "buildMinutes": 360,
+      "rarity": "Редкое"
+    },
+    {
+      "id": "coaster-cloud",
+      "name": "Облачная корона",
+      "category": "rides",
+      "price": 8610,
+      "icon": "☁",
+      "description": "Легендарный маршрут с белыми облаками, золотыми поручнями и высоким дворцом.",
+      "footprint": [
+        15,
+        14
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 14,
+      "buildMinutes": 1440,
+      "rarity": "Легендарное"
+    },
+    {
+      "id": "coaster-clockwork",
+      "name": "Золотая карусель времени",
+      "category": "rides",
+      "price": 6150,
+      "icon": "⚙",
+      "description": "Медные рельсы, заводная станция и фонари города часовщика.",
+      "footprint": [
+        12,
+        11
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 14,
+      "buildMinutes": 960,
+      "rarity": "Эпическое"
+    },
+    {
+      "id": "coaster-rainbow-launch",
+      "name": "Радужная катапульта",
+      "category": "rides",
+      "price": 4800,
+      "icon": "🌈",
+      "description": "Цветные рельсы, облачная арка и смешной полёт Чичи над лагуной.",
+      "footprint": [
+        10,
+        8
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 12,
+      "buildMinutes": 720,
+      "rarity": "Эпическое"
+    },
+    {
+      "id": "slide-royal-cascade",
+      "name": "Королевский каскад",
+      "category": "rides",
+      "price": 5600,
+      "icon": "🏰",
+      "description": "Золотая башня, длинный голубой спуск и искрящийся водный финиш.",
+      "footprint": [
+        10,
+        9
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 14,
+      "buildMinutes": 960,
+      "rarity": "Эпическое",
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "slide-vortex-bowl",
+      "name": "Чаша водоворота",
+      "category": "rides",
+      "price": 4100,
+      "icon": "🌀",
+      "description": "Обойти радужную чашу по спирали, провалиться в центр и мягко приводниться.",
+      "footprint": [
+        9,
+        8
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 11,
+      "buildMinutes": 480,
+      "rarity": "Эпическое",
+      "waterRide": {
+        "version": 1,
+        "kind": "vortex",
+        "channels": 1
+      }
+    },
+    {
+      "id": "coaster-comet-flight",
+      "name": "Комета Чичи",
+      "category": "rides",
+      "price": 7600,
+      "icon": "☄️",
+      "description": "Космическая петля и огромный полёт с растопыренными лапками.",
+      "footprint": [
+        12,
+        10
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 18,
+      "buildMinutes": 1440,
+      "rarity": "Легендарное"
+    },
+    {
+      "id": "ride-jellyfish",
+      "name": "Медузья карусель",
+      "category": "rides",
+      "price": 2900,
+      "icon": "🪼",
+      "description": "Прозрачный купол, светящиеся щупальца и покачивающиеся корзинки.",
+      "footprint": [
+        6,
+        6
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 9,
+      "buildMinutes": 360,
+      "rarity": "Редкое"
+    },
+    {
+      "id": "ride-dragon-cloud",
+      "name": "Облачный дракон",
+      "category": "rides",
+      "price": 5200,
+      "icon": "🐉",
+      "description": "Кружить верхом на смешном драконе между цветными облаками.",
+      "footprint": [
+        8,
+        7
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 15,
+      "buildMinutes": 960,
+      "rarity": "Эпическое"
+    },
+    {
+      "id": "toy-bubble-garden",
+      "name": "Сад мыльных пузырей",
+      "category": "toys",
+      "price": 620,
+      "icon": "🫧",
+      "description": "Пузырьки разных размеров и прыжки за радужными бликами.",
+      "footprint": [
+        3,
+        3
+      ],
+      "actions": [
+        "play"
+      ],
+      "requiredLevel": 4,
+      "buildMinutes": 30,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "toy-magic-fish",
+      "name": "Летающая рыбка",
+      "category": "toys",
+      "price": 820,
+      "icon": "🐠",
+      "description": "Рыбка летит над цветами, Чичи ловит её лапками и смешно подпрыгивает.",
+      "footprint": [
+        3,
+        3
+      ],
+      "actions": [
+        "play"
+      ],
+      "requiredLevel": 6,
+      "buildMinutes": 30,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "cat-barista",
+      "name": "Мур-бариста",
+      "category": "social",
+      "price": 1800,
+      "icon": "☕",
+      "description": "Объёмное кафе с котиком-бариста, паром над чашечками и настоящими гостями. Перекусы расходуют еду из общей миски.",
+      "footprint": [
+        5,
+        4
+      ],
+      "actions": [
+        "eat",
+        "party"
+      ],
+      "requiredLevel": 5,
+      "buildMinutes": 240,
+      "rarity": "Редкое"
+    },
+    {
+      "id": "swim-lagoon",
+      "name": "Лагуна для плавания",
+      "category": "decor",
+      "price": 450,
+      "icon": "💦",
+      "description": "Прозрачная вода, разноцветные рыбки и круги от кошачьих лапок.",
+      "footprint": [
+        4,
+        4
+      ],
+      "actions": [
+        "swim",
+        "explore"
+      ],
+      "requiredLevel": 3,
+      "buildMinutes": 90,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "adoption-center",
+      "name": "Cat Adoption Center",
+      "category": "social",
+      "price": 320,
+      "icon": "🐾",
+      "description": "Постройте уютный дом знакомства: усыновляйте котиков разных пород, размеров и окрасов.",
+      "footprint": [
+        5,
+        5
+      ],
+      "actions": [
+        "explore"
+      ],
+      "requiredLevel": 2,
+      "buildMinutes": 20,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "business-coffee",
+      "footprint": [
+        4,
+        4
+      ],
+      "name": "Мур-кофейня",
+      "icon": "☕",
+      "price": 460,
+      "requiredLevel": 2,
+      "buildMinutes": 20,
+      "rate": 260,
+      "color": 9225914,
+      "description": "Кот-бариста варит кофе, гости отдыхают за столиками. Чистая прибыль 260 ✦/ч.",
+      "category": "business",
+      "actions": [
+        "eat",
+        "party"
+      ],
+      "rarity": "Уютное"
+    },
+    {
+      "id": "business-hotdog",
+      "name": "Хот-доги у Бублика",
+      "icon": "🌭",
+      "price": 720,
+      "requiredLevel": 3,
+      "buildMinutes": 30,
+      "rate": 360,
+      "color": 15510138,
+      "description": "Кот-повар жарит хот-доги на гриле. Чистая прибыль 360 ✦/ч.",
+      "category": "business",
+      "footprint": [
+        5,
+        5
+      ],
+      "actions": [
+        "eat",
+        "party"
+      ],
+      "rarity": "Уютное"
+    },
+    {
+      "id": "business-bakery",
+      "name": "Пекарня мягких булочек",
+      "icon": "🥐",
+      "price": 1200,
+      "requiredLevel": 4,
+      "buildMinutes": 60,
+      "rate": 480,
+      "color": 15054798,
+      "description": "Свежие булочки, маленькая печь и пушистый пекарь. Чистая прибыль 480 ✦/ч.",
+      "category": "business",
+      "footprint": [
+        5,
+        5
+      ],
+      "actions": [
+        "eat",
+        "party"
+      ],
+      "rarity": "Уютное"
+    },
+    {
+      "id": "business-gelato",
+      "name": "Лунное мороженое",
+      "icon": "🍦",
+      "price": 1850,
+      "requiredLevel": 5,
+      "buildMinutes": 90,
+      "rate": 620,
+      "color": 12038364,
+      "description": "Цветные рожки и прохладные десерты. Чистая прибыль 620 ✦/ч.",
+      "category": "business",
+      "footprint": [
+        5,
+        5
+      ],
+      "actions": [
+        "eat",
+        "party"
+      ],
+      "rarity": "Уютное"
+    },
+    {
+      "id": "business-florist",
+      "name": "Цветочная лавка Флоры",
+      "icon": "💐",
+      "price": 2450,
+      "requiredLevel": 6,
+      "buildMinutes": 120,
+      "rate": 760,
+      "color": 11061122,
+      "description": "Кот-флорист собирает волшебные букеты. Чистая прибыль 760 ✦/ч.",
+      "category": "business",
+      "footprint": [
+        5,
+        5
+      ],
+      "actions": [
+        "explore",
+        "party"
+      ],
+      "rarity": "Уютное"
+    },
+    {
+      "id": "business-artist",
+      "name": "Ателье кота-художника",
+      "icon": "🎨",
+      "price": 3300,
+      "requiredLevel": 8,
+      "buildMinutes": 180,
+      "rate": 940,
+      "color": 8633296,
+      "description": "Кот-художник пишет миниатюры и продаёт их гостям. Чистая прибыль 940 ✦/ч.",
+      "category": "business",
+      "footprint": [
+        5,
+        5
+      ],
+      "actions": [
+        "explore",
+        "party"
+      ],
+      "rarity": "Уютное"
+    },
+    {
+      "id": "business-farmstand",
+      "footprint": [
+        3,
+        3
+      ],
+      "name": "Урожайная лавочка",
+      "icon": "🥕",
+      "price": 180,
+      "requiredLevel": 1,
+      "buildMinutes": 5,
+      "rate": 160,
+      "color": 9554053,
+      "style": "stall",
+      "goods": "produce",
+      "description": "Первое дело с уровня 1: корзинки овощей, кот-продавец и 160 ✦/ч чистого дохода.",
+      "category": "business",
+      "actions": [
+        "explore",
+        "party"
+      ],
+      "rarity": "Уютное"
+    },
+    {
+      "id": "business-lemonade",
+      "footprint": [
+        3,
+        3
+      ],
+      "name": "Лимонад у Лимончика",
+      "icon": "🍋",
+      "price": 260,
+      "requiredLevel": 2,
+      "buildMinutes": 10,
+      "rate": 210,
+      "color": 15979629,
+      "style": "stall",
+      "goods": "lemonade",
+      "description": "Свежий лимонад, стеклянные кувшины и яркий полосатый навес. Доход 210 ✦/ч.",
+      "category": "business",
+      "actions": [
+        "eat",
+        "party"
+      ],
+      "rarity": "Уютное"
+    },
+    {
+      "id": "business-fishmarket",
+      "footprint": [
+        4,
+        4
+      ],
+      "name": "Жемчужная рыбная лавка",
+      "icon": "🐟",
+      "price": 430,
+      "requiredLevel": 3,
+      "buildMinutes": 20,
+      "rate": 290,
+      "color": 7915740,
+      "style": "stall",
+      "goods": "fish",
+      "description": "Морские фонарики, витрина с рыбками и кот-торговец. Доход 290 ✦/ч.",
+      "category": "business",
+      "actions": [
+        "explore",
+        "party"
+      ],
+      "rarity": "Уютное"
+    },
+    {
+      "id": "business-pizza",
+      "name": "Пиццерия Мур-Неаполь",
+      "icon": "🍕",
+      "price": 900,
+      "requiredLevel": 4,
+      "buildMinutes": 45,
+      "rate": 420,
+      "color": 15306870,
+      "goods": "pizza",
+      "description": "Дровяная печь, базилик и кот-пиццайоло. Доход 420 ✦/ч.",
+      "category": "business",
+      "footprint": [
+        5,
+        5
+      ],
+      "actions": [
+        "eat",
+        "party"
+      ],
+      "rarity": "Уютное"
+    },
+    {
+      "id": "business-boba",
+      "name": "Облачный бабл-ти",
+      "icon": "🧋",
+      "price": 1300,
+      "requiredLevel": 5,
+      "buildMinutes": 60,
+      "rate": 520,
+      "color": 12229598,
+      "goods": "boba",
+      "description": "Стаканчики с жемчужинами, цветные трубочки и спокойные гости. Доход 520 ✦/ч.",
+      "category": "business",
+      "footprint": [
+        5,
+        5
+      ],
+      "actions": [
+        "eat",
+        "party"
+      ],
+      "rarity": "Уютное"
+    },
+    {
+      "id": "business-honeytea",
+      "name": "Медовая чайная",
+      "icon": "🍯",
+      "price": 1850,
+      "requiredLevel": 6,
+      "buildMinutes": 90,
+      "rate": 650,
+      "color": 14137457,
+      "goods": "honey",
+      "description": "Самовар, баночки мёда и тёплый свет в окошках. Доход 650 ✦/ч.",
+      "category": "business",
+      "footprint": [
+        5,
+        5
+      ],
+      "actions": [
+        "eat",
+        "party"
+      ],
+      "rarity": "Уютное"
+    },
+    {
+      "id": "business-candy",
+      "name": "Карамельная кондитерская",
+      "icon": "🍬",
+      "price": 2800,
+      "requiredLevel": 8,
+      "buildMinutes": 120,
+      "rate": 860,
+      "color": 15308739,
+      "goods": "candy",
+      "description": "Леденцы, конфеты и сладкая витрина со своим котиком. Доход 860 ✦/ч.",
+      "category": "business",
+      "footprint": [
+        5,
+        5
+      ],
+      "actions": [
+        "eat",
+        "party"
+      ],
+      "rarity": "Уютное"
+    },
+    {
+      "id": "business-toymaker",
+      "name": "Мастерская смешных игрушек",
+      "icon": "🧸",
+      "price": 4000,
+      "requiredLevel": 10,
+      "buildMinutes": 180,
+      "rate": 1050,
+      "color": 8437701,
+      "goods": "toys",
+      "description": "Кот-мастер шьёт мышек и мотает клубки. Доход 1050 ✦/ч.",
+      "category": "business",
+      "footprint": [
+        5,
+        5
+      ],
+      "actions": [
+        "explore",
+        "party"
+      ],
+      "rarity": "Уютное"
+    },
+    {
+      "id": "ride-butterfly",
+      "name": "Бабочка цветущих снов",
+      "category": "rides",
+      "price": 3215,
+      "icon": "🦋",
+      "description": "Настоящие взмахи крыльев, седло и плавный полёт над островом.",
+      "footprint": [
+        4,
+        4
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 6,
+      "buildMinutes": 120,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "ride-lotus",
+      "name": "Парусный лотос",
+      "category": "rides",
+      "price": 6120,
+      "icon": "🪷",
+      "description": "Гигантский раскрывающийся цветок несёт Чичи над водой.",
+      "footprint": [
+        4,
+        4
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 11,
+      "buildMinutes": 120,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "ride-dragonfly",
+      "name": "Стрекоза кристальной лагуны",
+      "category": "rides",
+      "price": 4180,
+      "icon": "✨",
+      "description": "Четыре переливчатых крыла и длинный голубой хвост несут Чичи над цветами.",
+      "footprint": [
+        4,
+        4
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 10,
+      "buildMinutes": 120,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "ride-dinosaur",
+      "name": "Добрый динозавр",
+      "category": "rides",
+      "price": 7850,
+      "icon": "🦕",
+      "description": "Небольшой динозавр шагает с Чичи на спине и кивает друзьям.",
+      "footprint": [
+        4,
+        4
+      ],
+      "actions": [
+        "ride"
+      ],
+      "requiredLevel": 12,
+      "buildMinutes": 120,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "ride-whale",
+      "name": "Небесный синий кит",
+      "category": "rides",
+      "price": 1200,
+      "icon": "🐋",
+      "description": "Живой звёздный кит несёт Чичи над лагуной, машет плавниками и выпускает фонтанчики.",
+      "footprint": [
+        5,
+        5
+      ],
+      "actions": [
+        "ride"
+      ],
+      "buildMinutes": 45,
+      "fixedPrice": true,
+      "requiredLevel": 4,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "ride-whale-aurora",
+      "name": "Кит лилового сияния",
+      "category": "rides",
+      "price": 1650,
+      "icon": "✨",
+      "description": "Перламутровый кит с созвездиями и светящимся хвостом пролетает над островом по своему маршруту.",
+      "footprint": [
+        5,
+        5
+      ],
+      "actions": [
+        "ride"
+      ],
+      "buildMinutes": 60,
+      "fixedPrice": true,
+      "requiredLevel": 4,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "ride-dream-balloon",
+      "name": "Воздушный шар города снов",
+      "icon": "🎈",
+      "price": 340,
+      "requiredLevel": 2,
+      "buildMinutes": 15,
+      "footprint": [
+        5,
+        5
+      ],
+      "color": 15311821,
+      "accent": 9820129,
+      "description": "Полосатый шар, мягкая корзинка и плавный полёт над цветами.",
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "fixedPrice": true,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "ride-paris-wheel",
+      "name": "Парижское колесо мурчания",
+      "icon": "🎡",
+      "price": 680,
+      "requiredLevel": 3,
+      "buildMinutes": 30,
+      "footprint": [
+        7,
+        5
+      ],
+      "color": 13083368,
+      "accent": 16764536,
+      "description": "Золотые спицы, цветные кабинки и маленькая башня с огоньками.",
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "fixedPrice": true,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "ride-venice-gondola",
+      "name": "Венецианская гондола",
+      "icon": "🛶",
+      "price": 1100,
+      "requiredLevel": 4,
+      "buildMinutes": 45,
+      "footprint": [
+        7,
+        7
+      ],
+      "color": 7391699,
+      "accent": 15840140,
+      "description": "Бирюзовый канал с рыбками, арочный мост и уютная гондола.",
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "fixedPrice": true,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "ride-tokyo-train",
+      "name": "Сакура-экспресс",
+      "icon": "🚂",
+      "price": 1550,
+      "requiredLevel": 5,
+      "buildMinutes": 60,
+      "footprint": [
+        8,
+        7
+      ],
+      "color": 14915517,
+      "accent": 8899775,
+      "description": "Котопоезд в городе сакуры: пагода, лепестки и извилистый путь.",
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "fixedPrice": true,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "ride-cloud-tram",
+      "name": "Трамвай облачного города",
+      "icon": "🚋",
+      "price": 2100,
+      "requiredLevel": 6,
+      "buildMinutes": 90,
+      "footprint": [
+        8,
+        7
+      ],
+      "color": 9029350,
+      "accent": 14135280,
+      "description": "Летающий трамвай с фонариками, небесными воротами и мягкими облаками.",
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "fixedPrice": true,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "ride-star-carousel",
+      "name": "Карусель города созвездий",
+      "icon": "🌟",
+      "price": 2750,
+      "requiredLevel": 7,
+      "buildMinutes": 120,
+      "footprint": [
+        7,
+        7
+      ],
+      "color": 8887527,
+      "accent": 16043901,
+      "description": "Полумесяцы вместо кресел, золотые цепочки и вращающийся звёздный купол.",
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "fixedPrice": true,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "coaster-candy-city",
+      "name": "Карамельный серпантин",
+      "icon": "🍭",
+      "price": 3500,
+      "requiredLevel": 8,
+      "buildMinutes": 180,
+      "footprint": [
+        9,
+        8
+      ],
+      "color": 15701176,
+      "accent": 8574662,
+      "description": "Горка через пряничный город: разноцветные рельсы, леденцовые арки и весёлые виражи.",
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "fixedPrice": true,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "ride-crystal-slide",
+      "name": "Тюбинг кристального города",
+      "icon": "💎",
+      "price": 4400,
+      "requiredLevel": 9,
+      "buildMinutes": 240,
+      "footprint": [
+        8,
+        8
+      ],
+      "color": 9162217,
+      "accent": 12952044,
+      "description": "Сияющая башня, подъёмник и спиральный водный спуск на мягком круге.",
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "fixedPrice": true,
+      "rarity": "Редкое",
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "ride-cupcake-wheel",
+      "name": "Колесо сахарных кексов",
+      "icon": "🎡",
+      "footprint": [
+        10,
+        6
+      ],
+      "price": 2600,
+      "requiredLevel": 8,
+      "buildMinutes": 180,
+      "description": "Золотая звезда, десять кексов-кабинок и розовые огоньки над сладким островом.",
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "fixedPrice": true,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "coaster-piglet-express",
+      "name": "Хрю-экспресс сладкой ваты",
+      "icon": "🎢",
+      "footprint": [
+        16,
+        9
+      ],
+      "price": 4800,
+      "requiredLevel": 12,
+      "buildMinutes": 360,
+      "description": "Поезд-хрюшка мчится по трём большим волнам карамельных рельсов.",
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "fixedPrice": true,
+      "rarity": "Редкое"
+    },
+    {
+      "id": "ride-sugar-teacups",
+      "name": "Чайные чашечки сердечек",
+      "icon": "☕",
+      "footprint": [
+        7,
+        7
+      ],
+      "price": 1800,
+      "requiredLevel": 6,
+      "buildMinutes": 90,
+      "description": "Пастельные чашечки кружатся на сахарном блюдце — каждая со своей улыбчивой хрюшкой.",
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "fixedPrice": true,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "slide-marshmallow",
+      "name": "Зефирный водный серпантин",
+      "icon": "🌈",
+      "footprint": [
+        8,
+        10
+      ],
+      "price": 3200,
+      "requiredLevel": 9,
+      "buildMinutes": 240,
+      "description": "Три жемчужные дорожки, брызги розовой воды и мягкий прыжок внизу.",
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "fixedPrice": true,
+      "rarity": "Редкое",
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 3
+      }
+    },
+    {
+      "id": "ride-pig-rose",
+      "name": "Розочка · сахарная хрюшка",
+      "icon": "🐷",
+      "footprint": [
+        5,
+        5
+      ],
+      "price": 1100,
+      "requiredLevel": 5,
+      "buildMinutes": 60,
+      "description": "Живая добрая хрюшка: топает копытцами, шевелит ушками и катает Чичи на своей спинке.",
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "fixedPrice": true,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "ride-pig-peach",
+      "name": "Персик · пятнистая хрюшка",
+      "icon": "🐽",
+      "footprint": [
+        5,
+        5
+      ],
+      "price": 1100,
+      "requiredLevel": 5,
+      "buildMinutes": 60,
+      "description": "Живая добрая хрюшка: топает копытцами, шевелит ушками и катает Чичи на своей спинке.",
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "fixedPrice": true,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "ride-pig-lilac",
+      "name": "Зефирка · лиловая хрюшка",
+      "icon": "💜",
+      "footprint": [
+        5,
+        5
+      ],
+      "price": 1100,
+      "requiredLevel": 5,
+      "buildMinutes": 60,
+      "description": "Живая добрая хрюшка: топает копытцами, шевелит ушками и катает Чичи на своей спинке.",
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "fixedPrice": true,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "ride-capybara-mango",
+      "name": "Манго · велика капібара",
+      "color": 12157770,
+      "scale": 1.16,
+      "icon": "🥭",
+      "price": 850,
+      "requiredLevel": 4,
+      "buildMinutes": 30,
+      "footprint": [
+        6,
+        6
+      ],
+      "description": "Пухкенька добродушна капібара смішно перевалюється й катає Чичі серед тропічних квітів.",
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "fixedPrice": true,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "ride-capybara-boba",
+      "name": "Боба · карамельна капібара",
+      "color": 11103549,
+      "scale": 1.04,
+      "icon": "🧋",
+      "price": 1000,
+      "requiredLevel": 4,
+      "buildMinutes": 45,
+      "footprint": [
+        6,
+        6
+      ],
+      "description": "Кругленький дослідник джунглів: коротенькі лапки, сонна усмішка та м'яка прогулянка верхи.",
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "fixedPrice": true,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "ride-capybara-coconut",
+      "name": "Кокос · кремова капібара",
+      "color": 14005891,
+      "scale": 1.08,
+      "icon": "🥥",
+      "price": 1200,
+      "requiredLevel": 5,
+      "buildMinutes": 45,
+      "footprint": [
+        6,
+        6
+      ],
+      "description": "Світла товстенька капібара з квіткою за вушком. Любить повільні прогулянки й обійми.",
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "fixedPrice": true,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "ride-capybara-float",
+      "name": "Булочка · лагунний велетень",
+      "color": 12420939,
+      "scale": 1.3,
+      "icon": "💦",
+      "price": 1450,
+      "requiredLevel": 5,
+      "buildMinutes": 60,
+      "footprint": [
+        7,
+        5
+      ],
+      "swimming": true,
+      "description": "Велика кумедна капібара плаває у власній блакитній купальні, а Чичі сидить на її спинці.",
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "fixedPrice": true,
+      "rarity": "Уютное"
+    },
+    {
+      "id": "slide-dream-crystal-loops",
+      "kind": "crystal-loops",
+      "name": "Кришталеві три петлі",
+      "icon": "💎",
+      "height": 29,
+      "channels": 1,
+      "color": 7987199,
+      "accent": 13870586,
+      "description": "Три великі прозорі петлі серед сяючих кристалів і золотих павільйонів.",
+      "referenceCell": {
+        "index": 1,
+        "row": 1,
+        "column": 1
+      },
+      "collection": "Аквапарк мрії · 25 гірок",
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Уютное",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 96000,
+      "incomePerHour": 3200,
+      "requiredLevel": 6,
+      "buildMinutes": 110,
+      "footprint": [
+        54,
+        48
+      ],
+      "pool": [
+        3,
+        12,
+        7.2,
+        4.5
+      ],
+      "surfaceY": 1.45,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "slide-dream-pearl-funnel",
+      "kind": "pearl-funnel",
+      "name": "Перлинна мушля-воронка",
+      "icon": "🐚",
+      "height": 25,
+      "channels": 3,
+      "color": 16232407,
+      "accent": 16766348,
+      "description": "Перламутрова мушля, спіраль по справжній чаші та вихід крізь її горловину.",
+      "referenceCell": {
+        "index": 2,
+        "row": 1,
+        "column": 2
+      },
+      "collection": "Аквапарк мрії · 25 гірок",
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Уютное",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 42000,
+      "incomePerHour": 1500,
+      "requiredLevel": 6,
+      "buildMinutes": 118,
+      "footprint": [
+        54,
+        48
+      ],
+      "pool": [
+        3,
+        12,
+        7.2,
+        4.5
+      ],
+      "surfaceY": 1.45,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 3
+      }
+    },
+    {
+      "id": "slide-dream-rainbow-launch",
+      "kind": "rainbow-launch",
+      "name": "Веселковий політ",
+      "icon": "🌈",
+      "height": 30,
+      "channels": 1,
+      "color": 16227021,
+      "accent": 16765560,
+      "description": "Веселковий розгін, високе підкидання та справжній політ у великий басейн.",
+      "referenceCell": {
+        "index": 3,
+        "row": 1,
+        "column": 3
+      },
+      "collection": "Аквапарк мрії · 25 гірок",
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Уютное",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 48000,
+      "incomePerHour": 1700,
+      "requiredLevel": 6,
+      "buildMinutes": 126,
+      "footprint": [
+        54,
+        48
+      ],
+      "pool": [
+        3,
+        12,
+        7.2,
+        4.5
+      ],
+      "surfaceY": 1.45,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "slide-dream-waterfall-arch",
+      "kind": "waterfall-arch",
+      "name": "Брама блакитного водоспаду",
+      "icon": "🏛️",
+      "height": 34,
+      "channels": 1,
+      "color": 7265522,
+      "accent": 15848869,
+      "description": "Стрімка водяна стіна у високій кам’яній брамі, з відкритим оглядом котика.",
+      "referenceCell": {
+        "index": 4,
+        "row": 1,
+        "column": 4
+      },
+      "collection": "Аквапарк мрії · 25 гірок",
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Уютное",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 28000,
+      "incomePerHour": 1000,
+      "requiredLevel": 7,
+      "buildMinutes": 134,
+      "footprint": [
+        54,
+        48
+      ],
+      "pool": [
+        3,
+        12,
+        7.2,
+        4.5
+      ],
+      "surfaceY": 1.45,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "slide-dream-canyon-twins",
+      "kind": "canyon-twins",
+      "name": "Два серпантини каньйону",
+      "icon": "🏞️",
+      "height": 28,
+      "channels": 2,
+      "color": 16491709,
+      "accent": 7256824,
+      "description": "Два окремі переплетені скляні спуски над каньйоном; заїзди чергують доріжки.",
+      "referenceCell": {
+        "index": 5,
+        "row": 1,
+        "column": 5
+      },
+      "collection": "Аквапарк мрії · 25 гірок",
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Уютное",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 78000,
+      "incomePerHour": 2700,
+      "requiredLevel": 7,
+      "buildMinutes": 142,
+      "footprint": [
+        54,
+        48
+      ],
+      "pool": [
+        3,
+        12,
+        7.2,
+        4.5
+      ],
+      "surfaceY": 1.45,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 2
+      }
+    },
+    {
+      "id": "slide-dream-ocean-tunnel",
+      "kind": "ocean-tunnel",
+      "name": "Океанський акватунель",
+      "icon": "🐠",
+      "height": 25,
+      "channels": 1,
+      "color": 7067118,
+      "accent": 13152755,
+      "description": "Панорамний тунель у прозорій товщі води, рибки, бульбашки та вихід фонтаном.",
+      "referenceCell": {
+        "index": 6,
+        "row": 2,
+        "column": 1
+      },
+      "collection": "Аквапарк мрії · 25 гірок",
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Уютное",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 66000,
+      "incomePerHour": 2300,
+      "requiredLevel": 7,
+      "buildMinutes": 150,
+      "footprint": [
+        54,
+        48
+      ],
+      "pool": [
+        3,
+        12,
+        7.2,
+        4.5
+      ],
+      "surfaceY": 1.45,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "slide-dream-blossom-tree",
+      "kind": "blossom-tree",
+      "name": "Серпантин квітучого дерева",
+      "icon": "🌸",
+      "height": 27,
+      "channels": 1,
+      "color": 7267280,
+      "accent": 16755157,
+      "description": "Водяні витки навколо величезного квітучого дерева з будиночками на гілках.",
+      "referenceCell": {
+        "index": 7,
+        "row": 2,
+        "column": 2
+      },
+      "collection": "Аквапарк мрії · 25 гірок",
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Уютное",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 54000,
+      "incomePerHour": 1900,
+      "requiredLevel": 8,
+      "buildMinutes": 158,
+      "footprint": [
+        54,
+        48
+      ],
+      "pool": [
+        3,
+        12,
+        7.2,
+        4.5
+      ],
+      "surfaceY": 1.45,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "slide-dream-ice-tunnel",
+      "kind": "ice-tunnel",
+      "name": "Крижана брама",
+      "icon": "❄️",
+      "height": 29,
+      "channels": 1,
+      "color": 10608119,
+      "accent": 14800639,
+      "description": "Синій лід, засніжені ялини й великий прозорий тунель у крижаній скелі.",
+      "referenceCell": {
+        "index": 8,
+        "row": 2,
+        "column": 3
+      },
+      "collection": "Аквапарк мрії · 25 гірок",
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Уютное",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 46000,
+      "incomePerHour": 1600,
+      "requiredLevel": 8,
+      "buildMinutes": 166,
+      "footprint": [
+        54,
+        48
+      ],
+      "pool": [
+        3,
+        12,
+        7.2,
+        4.5
+      ],
+      "surfaceY": 1.45,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "slide-dream-orbital-shell",
+      "kind": "orbital-shell",
+      "name": "Орбіта місячної мушлі",
+      "icon": "🪐",
+      "height": 29,
+      "channels": 3,
+      "color": 14002161,
+      "accent": 16174041,
+      "description": "Довгий орбітальний заїзд навколо мушлі, закручування у вир і водяний вихід.",
+      "referenceCell": {
+        "index": 9,
+        "row": 2,
+        "column": 4
+      },
+      "collection": "Аквапарк мрії · 25 гірок",
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Уютное",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 68000,
+      "incomePerHour": 2400,
+      "requiredLevel": 8,
+      "buildMinutes": 174,
+      "footprint": [
+        54,
+        48
+      ],
+      "pool": [
+        3,
+        12,
+        7.2,
+        4.5
+      ],
+      "surfaceY": 1.45,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 3
+      }
+    },
+    {
+      "id": "slide-dream-terrace-cascades",
+      "kind": "terrace-cascades",
+      "name": "Сади семи каскадів",
+      "icon": "🏝️",
+      "height": 29,
+      "channels": 4,
+      "color": 7134175,
+      "accent": 15912585,
+      "description": "Чотири окремі тераси траси, з’єднані справжніми водяними каскадами.",
+      "referenceCell": {
+        "index": 10,
+        "row": 2,
+        "column": 5
+      },
+      "collection": "Аквапарк мрії · 25 гірок",
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Уютное",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 72000,
+      "incomePerHour": 2500,
+      "requiredLevel": 9,
+      "buildMinutes": 182,
+      "footprint": [
+        54,
+        48
+      ],
+      "pool": [
+        3,
+        12,
+        7.2,
+        4.5
+      ],
+      "surfaceY": 1.45,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 4
+      }
+    },
+    {
+      "id": "slide-dream-canyon-eight",
+      "kind": "canyon-eight",
+      "name": "Нескінченність двох скель",
+      "icon": "♾️",
+      "height": 28,
+      "channels": 1,
+      "color": 15702488,
+      "accent": 8443898,
+      "description": "Просторова вісімка з різними висотами перетину навколо двох скель.",
+      "referenceCell": {
+        "index": 11,
+        "row": 3,
+        "column": 1
+      },
+      "collection": "Аквапарк мрії · 25 гірок",
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Уютное",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 94000,
+      "incomePerHour": 3200,
+      "requiredLevel": 9,
+      "buildMinutes": 190,
+      "footprint": [
+        54,
+        48
+      ],
+      "pool": [
+        3,
+        12,
+        7.2,
+        4.5
+      ],
+      "surfaceY": 1.45,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "slide-dream-luminous-vortex",
+      "kind": "luminous-vortex",
+      "name": "Спіраль зоряного виру",
+      "icon": "🔮",
+      "height": 30,
+      "channels": 3,
+      "color": 9806847,
+      "accent": 6678765,
+      "description": "Підсвічена кришталева спіраль у печері та глибока чаша сяючого виру.",
+      "referenceCell": {
+        "index": 12,
+        "row": 3,
+        "column": 2
+      },
+      "collection": "Аквапарк мрії · 25 гірок",
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Уютное",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 88000,
+      "incomePerHour": 3000,
+      "requiredLevel": 9,
+      "buildMinutes": 198,
+      "footprint": [
+        54,
+        48
+      ],
+      "pool": [
+        3,
+        12,
+        7.2,
+        4.5
+      ],
+      "surfaceY": 1.45,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 3
+      }
+    },
+    {
+      "id": "slide-dream-ring-launch",
+      "kind": "ring-launch",
+      "name": "Комета золотих кілець",
+      "icon": "💫",
+      "height": 33,
+      "channels": 1,
+      "color": 16166091,
+      "accent": 16765806,
+      "description": "Крутий розгін і баллістичний політ точно крізь три золоті кільця.",
+      "referenceCell": {
+        "index": 13,
+        "row": 3,
+        "column": 3
+      },
+      "collection": "Аквапарк мрії · 25 гірок",
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Уютное",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 116000,
+      "incomePerHour": 3900,
+      "requiredLevel": 10,
+      "buildMinutes": 206,
+      "footprint": [
+        54,
+        48
+      ],
+      "pool": [
+        3,
+        12,
+        7.2,
+        4.5
+      ],
+      "surfaceY": 1.45,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "slide-dream-ribbon-tower",
+      "kind": "ribbon-tower",
+      "name": "Башта кольорових витків",
+      "icon": "🎀",
+      "height": 32,
+      "channels": 3,
+      "color": 7785724,
+      "accent": 16765557,
+      "description": "Три різнокольорові переплетені доріжки навколо високої башти.",
+      "referenceCell": {
+        "index": 14,
+        "row": 3,
+        "column": 4
+      },
+      "collection": "Аквапарк мрії · 25 гірок",
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Уютное",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 132000,
+      "incomePerHour": 4400,
+      "requiredLevel": 10,
+      "buildMinutes": 214,
+      "footprint": [
+        54,
+        48
+      ],
+      "pool": [
+        3,
+        12,
+        7.2,
+        4.5
+      ],
+      "surfaceY": 1.45,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 3
+      }
+    },
+    {
+      "id": "slide-dream-tidal-wave",
+      "kind": "tidal-wave",
+      "name": "Приборкувач великої хвилі",
+      "icon": "🌊",
+      "height": 26,
+      "channels": 3,
+      "color": 6542072,
+      "accent": 10808557,
+      "description": "Висока хвиля, два короткі баллістичні підскоки та м’яке приводнення.",
+      "referenceCell": {
+        "index": 15,
+        "row": 3,
+        "column": 5
+      },
+      "collection": "Аквапарк мрії · 25 гірок",
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Уютное",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 86000,
+      "incomePerHour": 2900,
+      "requiredLevel": 10,
+      "buildMinutes": 222,
+      "footprint": [
+        54,
+        48
+      ],
+      "pool": [
+        3,
+        12,
+        7.2,
+        4.5
+      ],
+      "surfaceY": 1.45,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 3
+      }
+    },
+    {
+      "id": "slide-dream-water-lift",
+      "kind": "water-lift",
+      "name": "Підйомник небесної води",
+      "icon": "🛗",
+      "height": 35,
+      "channels": 2,
+      "color": 8248817,
+      "accent": 16768145,
+      "description": "Прозора водяна шахта піднімає котика перед різким спуском уздовж башти.",
+      "referenceCell": {
+        "index": 16,
+        "row": 4,
+        "column": 1
+      },
+      "collection": "Аквапарк мрії · 25 гірок",
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Уютное",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 72000,
+      "incomePerHour": 2500,
+      "requiredLevel": 11,
+      "buildMinutes": 230,
+      "footprint": [
+        54,
+        48
+      ],
+      "pool": [
+        3,
+        12,
+        7.2,
+        4.5
+      ],
+      "surfaceY": 1.45,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 2
+      }
+    },
+    {
+      "id": "slide-dream-dragon-tail",
+      "kind": "dragon-tail",
+      "name": "Хвіст бірюзового дракона",
+      "icon": "🐉",
+      "height": 32,
+      "channels": 1,
+      "color": 15962539,
+      "accent": 16765043,
+      "description": "Довгий драконячий хвіст-серпантин, величезна дружня голова та золоті гребінці.",
+      "referenceCell": {
+        "index": 17,
+        "row": 4,
+        "column": 2
+      },
+      "collection": "Аквапарк мрії · 25 гірок",
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Уютное",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 104000,
+      "incomePerHour": 3500,
+      "requiredLevel": 11,
+      "buildMinutes": 238,
+      "footprint": [
+        54,
+        48
+      ],
+      "pool": [
+        3,
+        12,
+        7.2,
+        4.5
+      ],
+      "surfaceY": 1.45,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "slide-dream-four-funnels",
+      "kind": "four-funnels",
+      "name": "Королівські чотири воронки",
+      "icon": "👑",
+      "height": 43,
+      "channels": 9,
+      "color": 15772633,
+      "accent": 7594734,
+      "description": "Чотири великі чаші одна під одною, зі спіралями й безперервними водяними переходами.",
+      "referenceCell": {
+        "index": 18,
+        "row": 4,
+        "column": 3
+      },
+      "collection": "Аквапарк мрії · 25 гірок",
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Редкое",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 240000,
+      "incomePerHour": 8000,
+      "requiredLevel": 11,
+      "buildMinutes": 246,
+      "footprint": [
+        54,
+        52
+      ],
+      "pool": [
+        3,
+        12,
+        7.2,
+        4.5
+      ],
+      "surfaceY": 1.45,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 9
+      }
+    },
+    {
+      "id": "slide-dream-sky-bridge",
+      "kind": "sky-bridge",
+      "name": "Міст у блакитну безодню",
+      "icon": "🌉",
+      "height": 32,
+      "channels": 1,
+      "color": 9165043,
+      "accent": 16046251,
+      "description": "Довгий акведук на арках, швидке падіння й скляний тунель біля басейну.",
+      "referenceCell": {
+        "index": 19,
+        "row": 4,
+        "column": 4
+      },
+      "collection": "Аквапарк мрії · 25 гірок",
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Редкое",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 78000,
+      "incomePerHour": 2700,
+      "requiredLevel": 12,
+      "buildMinutes": 254,
+      "footprint": [
+        54,
+        48
+      ],
+      "pool": [
+        3,
+        12,
+        7.2,
+        4.5
+      ],
+      "surfaceY": 1.45,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "slide-dream-cave-loop",
+      "kind": "cave-loop",
+      "name": "Петля кришталевої печери",
+      "icon": "🌌",
+      "height": 28,
+      "channels": 1,
+      "color": 10198527,
+      "accent": 7859444,
+      "description": "Велика справжня петля серед сталактитів, кристалів і світної води.",
+      "referenceCell": {
+        "index": 20,
+        "row": 4,
+        "column": 5
+      },
+      "collection": "Аквапарк мрії · 25 гірок",
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Редкое",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 112000,
+      "incomePerHour": 3800,
+      "requiredLevel": 12,
+      "buildMinutes": 262,
+      "footprint": [
+        54,
+        48
+      ],
+      "pool": [
+        3,
+        12,
+        7.2,
+        4.5
+      ],
+      "surfaceY": 1.45,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "slide-dream-twin-flights",
+      "kind": "twin-flights",
+      "name": "Зустріч двох водяних комет",
+      "icon": "☄️",
+      "height": 29,
+      "channels": 2,
+      "color": 16163017,
+      "accent": 8247543,
+      "description": "Дві розгінні траси, що сходяться в повітрі; різні доріжки для послідовних заїздів.",
+      "referenceCell": {
+        "index": 21,
+        "row": 5,
+        "column": 1
+      },
+      "collection": "Аквапарк мрії · 25 гірок",
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Редкое",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 96000,
+      "incomePerHour": 3200,
+      "requiredLevel": 12,
+      "buildMinutes": 270,
+      "footprint": [
+        54,
+        48
+      ],
+      "pool": [
+        3,
+        12,
+        7.2,
+        4.5
+      ],
+      "surfaceY": 1.45,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 2
+      }
+    },
+    {
+      "id": "slide-dream-lighthouse",
+      "kind": "lighthouse",
+      "name": "Серпантин перлинного маяка",
+      "icon": "🗼",
+      "height": 31,
+      "channels": 1,
+      "color": 7134184,
+      "accent": 16757183,
+      "description": "Три широкі водяні витки навколо червоно-білого маяка та морський басейн.",
+      "referenceCell": {
+        "index": 22,
+        "row": 5,
+        "column": 2
+      },
+      "collection": "Аквапарк мрії · 25 гірок",
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Редкое",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 36000,
+      "incomePerHour": 1300,
+      "requiredLevel": 13,
+      "buildMinutes": 278,
+      "footprint": [
+        54,
+        48
+      ],
+      "pool": [
+        3,
+        12,
+        7.2,
+        4.5
+      ],
+      "surfaceY": 1.45,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "slide-dream-twin-shell",
+      "kind": "twin-shell",
+      "name": "Два серця великої мушлі",
+      "icon": "💗",
+      "height": 30,
+      "channels": 2,
+      "color": 15970523,
+      "accent": 16767633,
+      "description": "Дві послідовні хвилі-спуски з перлинної мушлі в спільну лагуну.",
+      "referenceCell": {
+        "index": 23,
+        "row": 5,
+        "column": 3
+      },
+      "collection": "Аквапарк мрії · 25 гірок",
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Редкое",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 98000,
+      "incomePerHour": 3400,
+      "requiredLevel": 13,
+      "buildMinutes": 286,
+      "footprint": [
+        54,
+        48
+      ],
+      "pool": [
+        3,
+        12,
+        7.2,
+        4.5
+      ],
+      "surfaceY": 1.45,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 2
+      }
+    },
+    {
+      "id": "slide-dream-royal-aqueduct",
+      "kind": "royal-aqueduct",
+      "name": "Акведук чотирьох поворотів",
+      "icon": "🏰",
+      "height": 34,
+      "channels": 4,
+      "color": 7789289,
+      "accent": 16111523,
+      "description": "Чотири довгі каскадні повороти над високими кам’яними арками.",
+      "referenceCell": {
+        "index": 24,
+        "row": 5,
+        "column": 4
+      },
+      "collection": "Аквапарк мрії · 25 гірок",
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Редкое",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 124000,
+      "incomePerHour": 4200,
+      "requiredLevel": 13,
+      "buildMinutes": 294,
+      "footprint": [
+        54,
+        48
+      ],
+      "pool": [
+        3,
+        12,
+        7.2,
+        4.5
+      ],
+      "surfaceY": 1.45,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 4
+      }
+    },
+    {
+      "id": "slide-dream-cloud-star",
+      "kind": "cloud-star",
+      "name": "Хмарна корона й зоряний басейн",
+      "icon": "⭐",
+      "height": 38,
+      "channels": 1,
+      "color": 8641009,
+      "accent": 16766063,
+      "description": "Спуск із золотого хмарного кільця крізь довгу спіраль у великий басейн-зірку.",
+      "referenceCell": {
+        "index": 25,
+        "row": 5,
+        "column": 5
+      },
+      "collection": "Аквапарк мрії · 25 гірок",
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Редкое",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 168000,
+      "incomePerHour": 5600,
+      "requiredLevel": 14,
+      "buildMinutes": 302,
+      "footprint": [
+        54,
+        48
+      ],
+      "pool": [
+        3,
+        12,
+        7.2,
+        4.5
+      ],
+      "surfaceY": 1.45,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "slide-atoll-giant-wave",
+      "kind": "giant-wave",
+      "name": "Велетенська хвиля",
+      "icon": "🌊",
+      "height": 70,
+      "lanes": 1,
+      "channels": 1,
+      "color": 3659239,
+      "accent": 10155250,
+      "description": "Величезний бірюзовий завиток, проїзд крізь хвилю та простора лагуна.",
+      "referenceCell": {
+        "index": 1,
+        "row": 1,
+        "column": 1
+      },
+      "collection": "Велетенські водні світи · 20 гірок",
+      "premiumWater": true,
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Редкое",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 80000,
+      "incomePerHour": 153600,
+      "requiredLevel": 20,
+      "buildMinutes": 240,
+      "footprint": [
+        112,
+        108
+      ],
+      "pool": [
+        0,
+        33,
+        19,
+        12
+      ],
+      "surfaceY": 1.45,
+      "speedScale": 1.05,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "slide-atoll-rock-arch",
+      "kind": "rock-arch",
+      "name": "Скеляста арка",
+      "icon": "🏞️",
+      "height": 63,
+      "lanes": 1,
+      "channels": 1,
+      "color": 7527670,
+      "accent": 15914913,
+      "description": "Серпантин навколо високої скелі, природна арка та водоспадна завіса.",
+      "referenceCell": {
+        "index": 2,
+        "row": 1,
+        "column": 2
+      },
+      "collection": "Велетенські водні світи · 20 гірок",
+      "premiumWater": true,
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Редкое",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 89000,
+      "incomePerHour": 80000,
+      "requiredLevel": 20,
+      "buildMinutes": 246,
+      "footprint": [
+        112,
+        108
+      ],
+      "pool": [
+        0,
+        33,
+        19,
+        12
+      ],
+      "surfaceY": 1.45,
+      "speedScale": 1.05,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "slide-atoll-rainbow-race",
+      "kind": "rainbow-race",
+      "name": "Веселковий спуск",
+      "icon": "🌈",
+      "height": 66,
+      "lanes": 6,
+      "channels": 6,
+      "color": 9101299,
+      "accent": 16364509,
+      "description": "Шість справжніх кольорових доріжок, одночасні заїзди й велика лагуна.",
+      "referenceCell": {
+        "index": 3,
+        "row": 1,
+        "column": 3
+      },
+      "collection": "Велетенські водні світи · 20 гірок",
+      "premiumWater": true,
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Редкое",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 98000,
+      "incomePerHour": 89600,
+      "requiredLevel": 20,
+      "buildMinutes": 252,
+      "footprint": [
+        112,
+        108
+      ],
+      "pool": [
+        0,
+        33,
+        19,
+        12
+      ],
+      "surfaceY": 1.45,
+      "speedScale": 1.05,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 6
+      }
+    },
+    {
+      "id": "slide-atoll-sky-serpent",
+      "kind": "sky-serpent",
+      "name": "Небесний серпантин",
+      "icon": "🌀",
+      "height": 73,
+      "lanes": 1,
+      "channels": 1,
+      "color": 7986421,
+      "accent": 12971770,
+      "description": "Прозорий водний тунель навколо шпиля, крізь скельну арку.",
+      "referenceCell": {
+        "index": 4,
+        "row": 1,
+        "column": 4
+      },
+      "collection": "Велетенські водні світи · 20 гірок",
+      "premiumWater": true,
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Редкое",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 107000,
+      "incomePerHour": 99200,
+      "requiredLevel": 20,
+      "buildMinutes": 258,
+      "footprint": [
+        112,
+        108
+      ],
+      "pool": [
+        0,
+        33,
+        19,
+        12
+      ],
+      "surfaceY": 1.45,
+      "speedScale": 1.05,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "slide-atoll-blue-whirlpool",
+      "kind": "blue-whirlpool",
+      "name": "Блакитний вир",
+      "icon": "💧",
+      "height": 61,
+      "lanes": 1,
+      "channels": 3,
+      "color": 3789281,
+      "accent": 10473146,
+      "description": "Велика природна скельна чаша, глибокий вир і окремий вихід до басейну.",
+      "referenceCell": {
+        "index": 5,
+        "row": 1,
+        "column": 5
+      },
+      "collection": "Велетенські водні світи · 20 гірок",
+      "premiumWater": true,
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Редкое",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 116000,
+      "incomePerHour": 83200,
+      "requiredLevel": 20,
+      "buildMinutes": 264,
+      "footprint": [
+        112,
+        108
+      ],
+      "pool": [
+        0,
+        33,
+        19,
+        12
+      ],
+      "surfaceY": 1.45,
+      "speedScale": 1.05,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 3
+      }
+    },
+    {
+      "id": "slide-atoll-double-serpent",
+      "kind": "double-serpent",
+      "name": "Подвійний серпантин",
+      "icon": "🎀",
+      "height": 69,
+      "lanes": 2,
+      "channels": 2,
+      "color": 16288723,
+      "accent": 5823719,
+      "description": "Дві переплетені траси — рожева й бірюзова — з окремими водними фінішами.",
+      "referenceCell": {
+        "index": 6,
+        "row": 2,
+        "column": 1
+      },
+      "collection": "Велетенські водні світи · 20 гірок",
+      "premiumWater": true,
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Редкое",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 125000,
+      "incomePerHour": 105600,
+      "requiredLevel": 20,
+      "buildMinutes": 270,
+      "footprint": [
+        112,
+        108
+      ],
+      "pool": [
+        0,
+        33,
+        19,
+        12
+      ],
+      "surfaceY": 1.45,
+      "speedScale": 1.05,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 2
+      }
+    },
+    {
+      "id": "slide-atoll-waterfall-cascade",
+      "kind": "waterfall-cascade",
+      "name": "Каскад водоспадів",
+      "icon": "🏝️",
+      "height": 66,
+      "lanes": 1,
+      "channels": 4,
+      "color": 8054510,
+      "accent": 14997421,
+      "description": "Чотири великі тераси-басейни, водоспади й послідовні водні спуски.",
+      "referenceCell": {
+        "index": 7,
+        "row": 2,
+        "column": 2
+      },
+      "collection": "Велетенські водні світи · 20 гірок",
+      "premiumWater": true,
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Редкое",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 134000,
+      "incomePerHour": 102400,
+      "requiredLevel": 20,
+      "buildMinutes": 276,
+      "footprint": [
+        112,
+        108
+      ],
+      "pool": [
+        0,
+        33,
+        19,
+        12
+      ],
+      "surfaceY": 1.45,
+      "speedScale": 1.05,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 4
+      }
+    },
+    {
+      "id": "slide-atoll-emerald-canyon",
+      "kind": "emerald-canyon",
+      "name": "Смарагдовий каньйон",
+      "icon": "🌿",
+      "height": 64,
+      "lanes": 1,
+      "channels": 1,
+      "color": 8056485,
+      "accent": 13103770,
+      "description": "Зелена стрічка між високими скелями, містками й озерцями.",
+      "referenceCell": {
+        "index": 8,
+        "row": 2,
+        "column": 3
+      },
+      "collection": "Велетенські водні світи · 20 гірок",
+      "premiumWater": true,
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Редкое",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 143000,
+      "incomePerHour": 76800,
+      "requiredLevel": 20,
+      "buildMinutes": 282,
+      "footprint": [
+        112,
+        108
+      ],
+      "pool": [
+        0,
+        33,
+        19,
+        12
+      ],
+      "surfaceY": 1.45,
+      "speedScale": 1.05,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "slide-atoll-crystal-cavern",
+      "kind": "crystal-cavern",
+      "name": "Кристальна печера",
+      "icon": "💎",
+      "height": 68,
+      "lanes": 1,
+      "channels": 1,
+      "color": 8835071,
+      "accent": 11967476,
+      "description": "Відкрита печера, високі сяючі кристали та блакитний водний маршрут.",
+      "referenceCell": {
+        "index": 9,
+        "row": 2,
+        "column": 4
+      },
+      "collection": "Велетенські водні світи · 20 гірок",
+      "premiumWater": true,
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Редкое",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 152000,
+      "incomePerHour": 96000,
+      "requiredLevel": 20,
+      "buildMinutes": 288,
+      "footprint": [
+        112,
+        108
+      ],
+      "pool": [
+        0,
+        33,
+        19,
+        12
+      ],
+      "surfaceY": 1.45,
+      "speedScale": 1.05,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "slide-atoll-root-valley",
+      "kind": "root-valley",
+      "name": "Долина коріння",
+      "icon": "🌳",
+      "height": 76,
+      "lanes": 1,
+      "channels": 1,
+      "color": 7987184,
+      "accent": 11984009,
+      "description": "Велетенське дерево, живе коріння, звивистий спуск і водоспади.",
+      "referenceCell": {
+        "index": 10,
+        "row": 2,
+        "column": 5
+      },
+      "collection": "Велетенські водні світи · 20 гірок",
+      "premiumWater": true,
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Редкое",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 161000,
+      "incomePerHour": 108800,
+      "requiredLevel": 20,
+      "buildMinutes": 294,
+      "footprint": [
+        112,
+        108
+      ],
+      "pool": [
+        0,
+        33,
+        19,
+        12
+      ],
+      "surfaceY": 1.45,
+      "speedScale": 1.05,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "slide-atoll-blue-halfpipe",
+      "kind": "blue-halfpipe",
+      "name": "Блакитна півтруба",
+      "icon": "🩵",
+      "height": 67,
+      "lanes": 1,
+      "channels": 1,
+      "color": 6346735,
+      "accent": 11660791,
+      "description": "Висока U-подібна півтруба: розгін, зліт угору й бризки внизу.",
+      "referenceCell": {
+        "index": 11,
+        "row": 3,
+        "column": 1
+      },
+      "collection": "Велетенські водні світи · 20 гірок",
+      "premiumWater": true,
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Редкое",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 169000,
+      "incomePerHour": 86400,
+      "requiredLevel": 20,
+      "buildMinutes": 300,
+      "footprint": [
+        112,
+        108
+      ],
+      "pool": [
+        0,
+        33,
+        19,
+        12
+      ],
+      "surfaceY": 1.45,
+      "speedScale": 1.05,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "slide-atoll-lagoon-loop",
+      "kind": "lagoon-loop",
+      "name": "Кільце лагуни",
+      "icon": "⭕",
+      "height": 77,
+      "lanes": 1,
+      "channels": 1,
+      "color": 6670076,
+      "accent": 13872122,
+      "description": "Величезна вертикальна петля над лагуною та власний водний фініш.",
+      "referenceCell": {
+        "index": 12,
+        "row": 3,
+        "column": 2
+      },
+      "collection": "Велетенські водні світи · 20 гірок",
+      "premiumWater": true,
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Редкое",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 178000,
+      "incomePerHour": 118400,
+      "requiredLevel": 20,
+      "buildMinutes": 306,
+      "footprint": [
+        112,
+        108
+      ],
+      "pool": [
+        0,
+        33,
+        19,
+        12
+      ],
+      "surfaceY": 1.45,
+      "speedScale": 1.05,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "slide-atoll-coral-arch",
+      "kind": "coral-arch",
+      "name": "Коралова арка",
+      "icon": "🪸",
+      "height": 65,
+      "lanes": 1,
+      "channels": 1,
+      "color": 7724782,
+      "accent": 16038320,
+      "description": "Природна кам’яна арка, коралові сади та широкий вигнутий спуск.",
+      "referenceCell": {
+        "index": 13,
+        "row": 3,
+        "column": 3
+      },
+      "collection": "Велетенські водні світи · 20 гірок",
+      "premiumWater": true,
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Редкое",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 187000,
+      "incomePerHour": 92800,
+      "requiredLevel": 20,
+      "buildMinutes": 312,
+      "footprint": [
+        112,
+        108
+      ],
+      "pool": [
+        0,
+        33,
+        19,
+        12
+      ],
+      "surfaceY": 1.45,
+      "speedScale": 1.05,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "slide-atoll-cloud-islets",
+      "kind": "cloud-islets",
+      "name": "Хмарні острови",
+      "icon": "☁️",
+      "height": 79,
+      "lanes": 1,
+      "channels": 1,
+      "color": 8642289,
+      "accent": 14866939,
+      "description": "Підвісні зелені острівці, скельні шпилі та легкі водоспади над хмарами.",
+      "referenceCell": {
+        "index": 14,
+        "row": 3,
+        "column": 4
+      },
+      "collection": "Велетенські водні світи · 20 гірок",
+      "premiumWater": true,
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Редкое",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 196000,
+      "incomePerHour": 124800,
+      "requiredLevel": 20,
+      "buildMinutes": 318,
+      "footprint": [
+        112,
+        108
+      ],
+      "pool": [
+        0,
+        33,
+        19,
+        12
+      ],
+      "surfaceY": 1.45,
+      "speedScale": 1.05,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "slide-atoll-flower-lagoon",
+      "kind": "flower-lagoon",
+      "name": "Квіткова лагуна",
+      "icon": "🌸",
+      "height": 70,
+      "lanes": 1,
+      "channels": 1,
+      "color": 12622331,
+      "accent": 16360919,
+      "description": "Фіолетово-рожевий маршрут, квітучі дерева й величезна квітка над лагуною.",
+      "referenceCell": {
+        "index": 15,
+        "row": 3,
+        "column": 5
+      },
+      "collection": "Велетенські водні світи · 20 гірок",
+      "premiumWater": true,
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Редкое",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 205000,
+      "incomePerHour": 102400,
+      "requiredLevel": 20,
+      "buildMinutes": 324,
+      "footprint": [
+        112,
+        108
+      ],
+      "pool": [
+        0,
+        33,
+        19,
+        12
+      ],
+      "surfaceY": 1.45,
+      "speedScale": 1.05,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "slide-atoll-red-canyon",
+      "kind": "red-canyon",
+      "name": "Червоний каньйон",
+      "icon": "🏜️",
+      "height": 72,
+      "lanes": 2,
+      "channels": 2,
+      "color": 16755338,
+      "accent": 7853567,
+      "description": "Два стрімкі гоночні спуски між теплими теракотовими скелями.",
+      "referenceCell": {
+        "index": 16,
+        "row": 4,
+        "column": 1
+      },
+      "collection": "Велетенські водні світи · 20 гірок",
+      "premiumWater": true,
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Редкое",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 214000,
+      "incomePerHour": 99200,
+      "requiredLevel": 20,
+      "buildMinutes": 330,
+      "footprint": [
+        112,
+        108
+      ],
+      "pool": [
+        0,
+        33,
+        19,
+        12
+      ],
+      "surfaceY": 1.45,
+      "speedScale": 1.05,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 2
+      }
+    },
+    {
+      "id": "slide-atoll-abyss-bridge",
+      "kind": "abyss-bridge",
+      "name": "Міст над безоднею",
+      "icon": "🌉",
+      "height": 81,
+      "lanes": 1,
+      "channels": 1,
+      "color": 7593460,
+      "accent": 15585170,
+      "description": "Високий прогулянковий міст і майже вертикальний водний спуск у басейн.",
+      "referenceCell": {
+        "index": 17,
+        "row": 4,
+        "column": 2
+      },
+      "collection": "Велетенські водні світи · 20 гірок",
+      "premiumWater": true,
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Редкое",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 223000,
+      "incomePerHour": 115200,
+      "requiredLevel": 20,
+      "buildMinutes": 336,
+      "footprint": [
+        112,
+        108
+      ],
+      "pool": [
+        0,
+        33,
+        19,
+        12
+      ],
+      "surfaceY": 1.45,
+      "speedScale": 1.05,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "slide-atoll-green-valley",
+      "kind": "green-valley",
+      "name": "Зелена долина",
+      "icon": "🌴",
+      "height": 62,
+      "lanes": 1,
+      "channels": 1,
+      "color": 8185307,
+      "accent": 11787412,
+      "description": "Довгий плавний спуск між зеленими пагорбами, деревами й каскадами.",
+      "referenceCell": {
+        "index": 18,
+        "row": 4,
+        "column": 3
+      },
+      "collection": "Велетенські водні світи · 20 гірок",
+      "premiumWater": true,
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Редкое",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 232000,
+      "incomePerHour": 70400,
+      "requiredLevel": 20,
+      "buildMinutes": 342,
+      "footprint": [
+        112,
+        108
+      ],
+      "pool": [
+        0,
+        33,
+        19,
+        12
+      ],
+      "surfaceY": 1.45,
+      "speedScale": 1.05,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "slide-atoll-purple-vortex",
+      "kind": "purple-vortex",
+      "name": "Фіолетова воронка",
+      "icon": "💜",
+      "height": 78,
+      "lanes": 1,
+      "channels": 3,
+      "color": 12163830,
+      "accent": 16040331,
+      "description": "Високий розгін у величезну фіолетову чашу, обертання й окремий вихідний канал.",
+      "referenceCell": {
+        "index": 19,
+        "row": 4,
+        "column": 4
+      },
+      "collection": "Велетенські водні світи · 20 гірок",
+      "premiumWater": true,
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Редкое",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 241000,
+      "incomePerHour": 121600,
+      "requiredLevel": 20,
+      "buildMinutes": 348,
+      "footprint": [
+        112,
+        108
+      ],
+      "pool": [
+        0,
+        33,
+        19,
+        12
+      ],
+      "surfaceY": 1.45,
+      "speedScale": 1.05,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 3
+      }
+    },
+    {
+      "id": "slide-atoll-mega-loops",
+      "kind": "mega-loops",
+      "name": "Мега-петлі",
+      "icon": "🎢",
+      "height": 86,
+      "lanes": 1,
+      "channels": 1,
+      "color": 8772346,
+      "accent": 16030674,
+      "description": "Три великі кольорові петлі, швидкі повороти й просторий фінішний басейн.",
+      "referenceCell": {
+        "index": 20,
+        "row": 4,
+        "column": 5
+      },
+      "collection": "Велетенські водні світи · 20 гірок",
+      "premiumWater": true,
+      "referenceSlide": true,
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Редкое",
+      "mega": true,
+      "fixedPrice": true,
+      "price": 250000,
+      "incomePerHour": 179200,
+      "requiredLevel": 20,
+      "buildMinutes": 354,
+      "footprint": [
+        112,
+        108
+      ],
+      "pool": [
+        0,
+        33,
+        19,
+        12
+      ],
+      "surfaceY": 1.45,
+      "speedScale": 1.05,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "farm-magic-fruits",
+      "name": "Велика магічна грядка",
+      "icon": "🌱",
+      "category": "farm",
+      "price": 6400,
+      "footprint": [
+        10,
+        4.8
+      ],
+      "actions": [
+        "farm"
+      ],
+      "requiredLevel": 6,
+      "buildMinutes": 4,
+      "rarity": "Уютное",
+      "fixedPrice": true,
+      "magicBed": true,
+      "description": "Шість рядів чарівних культур: пухнаста вата, ліхтарики, сердечка, водяні краплі, смарагди й золоті завитки. Розміщується на наявному острові."
+    },
+    {
+      "id": "magic-seed-cotton",
+      "name": "Насіння рожевої вати",
+      "icon": "☁️",
+      "category": "seeds",
+      "price": 45,
+      "seedCrop": "magic-fruit-cotton",
+      "seedRow": 0,
+      "seed": true,
+      "footprint": [
+        0.8,
+        0.8
+      ],
+      "actions": [],
+      "requiredLevel": 6,
+      "buildMinutes": 30,
+      "rarity": "Уютное",
+      "fixedPrice": true,
+      "description": "Рядок 1 · Цукрова хмаринка · ріст 90 ігрових хвилин."
+    },
+    {
+      "id": "magic-seed-lantern",
+      "name": "Насіння плодів-ліхтариків",
+      "icon": "🏮",
+      "category": "seeds",
+      "price": 65,
+      "seedCrop": "magic-fruit-lantern",
+      "seedRow": 1,
+      "seed": true,
+      "footprint": [
+        0.8,
+        0.8
+      ],
+      "actions": [],
+      "requiredLevel": 6,
+      "buildMinutes": 30,
+      "rarity": "Уютное",
+      "fixedPrice": true,
+      "description": "Рядок 2 · Помаранчевий ліхтарик · ріст 120 ігрових хвилин."
+    },
+    {
+      "id": "magic-seed-heart",
+      "name": "Насіння персикових сердечок",
+      "icon": "🍑",
+      "category": "seeds",
+      "price": 80,
+      "seedCrop": "magic-fruit-heart",
+      "seedRow": 2,
+      "seed": true,
+      "footprint": [
+        0.8,
+        0.8
+      ],
+      "actions": [],
+      "requiredLevel": 6,
+      "buildMinutes": 30,
+      "rarity": "Уютное",
+      "fixedPrice": true,
+      "description": "Рядок 3 · Персикове сердечко · ріст 150 ігрових хвилин."
+    },
+    {
+      "id": "magic-seed-aqua",
+      "name": "Насіння блакитних крапель",
+      "icon": "💧",
+      "category": "seeds",
+      "price": 105,
+      "seedCrop": "magic-fruit-aqua",
+      "seedRow": 3,
+      "seed": true,
+      "footprint": [
+        0.8,
+        0.8
+      ],
+      "actions": [],
+      "requiredLevel": 6,
+      "buildMinutes": 30,
+      "rarity": "Уютное",
+      "fixedPrice": true,
+      "description": "Рядок 4 · Водяна крапля · ріст 180 ігрових хвилин."
+    },
+    {
+      "id": "magic-seed-emerald",
+      "name": "Насіння смарагдових спіралей",
+      "icon": "💚",
+      "category": "seeds",
+      "price": 140,
+      "seedCrop": "magic-fruit-emerald",
+      "seedRow": 4,
+      "seed": true,
+      "footprint": [
+        0.8,
+        0.8
+      ],
+      "actions": [],
+      "requiredLevel": 6,
+      "buildMinutes": 30,
+      "rarity": "Уютное",
+      "fixedPrice": true,
+      "description": "Рядок 5 · Смарагдовий плід · ріст 240 ігрових хвилин."
+    },
+    {
+      "id": "magic-seed-golden",
+      "name": "Насіння золотих завитків",
+      "icon": "✨",
+      "category": "seeds",
+      "price": 170,
+      "seedCrop": "magic-fruit-golden",
+      "seedRow": 5,
+      "seed": true,
+      "footprint": [
+        0.8,
+        0.8
+      ],
+      "actions": [],
+      "requiredLevel": 6,
+      "buildMinutes": 30,
+      "rarity": "Уютное",
+      "fixedPrice": true,
+      "description": "Рядок 6 · Золотий завиток · ріст 300 ігрових хвилин."
+    },
+    {
+      "id": "ride-mosasaur",
+      "name": "Марин · морской великан",
+      "icon": "🦕",
+      "category": "rides",
+      "islandOnly": true,
+      "requiredLevel": 8,
+      "price": 0,
+      "buildMinutes": 0,
+      "footprint": [
+        5,
+        5
+      ],
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Легендарное",
+      "description": "Друг небесного моря: ныряет глубоко и взлетает над волнами вместе с котиком."
+    },
+    {
+      "id": "court-burger",
+      "name": "Котячий McDonald’s",
+      "description": "Котики жарят бургеры, подают картофель фри и угощают гостей за столиками.",
+      "category": "business",
+      "icon": "🍔",
+      "price": 950,
+      "buildMinutes": 40,
+      "requiredLevel": 6,
+      "islandOnly": true,
+      "rarity": "Островной бизнес",
+      "footprint": [
+        12,
+        10
+      ],
+      "actions": [
+        "eat",
+        "explore"
+      ]
+    },
+    {
+      "id": "court-boba",
+      "name": "Boba Cloud · жемчужное кафе",
+      "description": "Яркие напитки, настоящие маленькие жемчужины и котики с большими стаканчиками.",
+      "category": "business",
+      "icon": "🧋",
+      "price": 1200,
+      "buildMinutes": 70,
+      "requiredLevel": 6,
+      "islandOnly": true,
+      "rarity": "Островной бизнес",
+      "footprint": [
+        11,
+        10
+      ],
+      "actions": [
+        "eat",
+        "explore"
+      ]
+    },
+    {
+      "id": "court-coffee",
+      "name": "Murrbucks · котячья кофейня",
+      "description": "Уже открыта: бариста мелет зёрна, варит котячий кофе и подаёт его гостям.",
+      "category": "business",
+      "icon": "☕",
+      "price": 0,
+      "buildMinutes": 0,
+      "requiredLevel": 6,
+      "islandOnly": true,
+      "rarity": "Островной бизнес",
+      "footprint": [
+        12,
+        10
+      ],
+      "actions": [
+        "eat",
+        "explore"
+      ]
+    },
+    {
+      "id": "court-bakery",
+      "name": "Пекарня Кото-Печенька",
+      "description": "Печенье с ушками, тёплая печь, прозрачные витрины и пушистый пекарь.",
+      "category": "business",
+      "icon": "🍪",
+      "price": 1450,
+      "buildMinutes": 100,
+      "requiredLevel": 6,
+      "islandOnly": true,
+      "rarity": "Островной бизнес",
+      "footprint": [
+        11,
+        10
+      ],
+      "actions": [
+        "eat",
+        "explore"
+      ]
+    },
+    {
+      "id": "court-cinema",
+      "name": "Котокино под облаками",
+      "description": "Настоящий видеоплеер на большом экране и шесть огромных мягких пуфов для друзей.",
+      "category": "business",
+      "icon": "🎬",
+      "price": 0,
+      "buildMinutes": 0,
+      "requiredLevel": 6,
+      "islandOnly": true,
+      "rarity": "Островной бизнес",
+      "footprint": [
+        18,
+        18
+      ],
+      "actions": [
+        "rest",
+        "explore"
+      ]
+    },
+    {
+      "id": "bikini-krusty",
+      "name": "Красти Краб",
+      "description": "Губка Боб жарит крабсбургеры, котики заказывают и едят за столиками. Открытый интерьер, монеты и XP.",
+      "category": "business",
+      "icon": "🍔",
+      "price": 0,
+      "buildMinutes": 0,
+      "requiredLevel": 5,
+      "islandOnly": true,
+      "rarity": "Бикини-Боттом",
+      "footprint": [
+        12,
+        10
+      ],
+      "actions": [
+        "eat",
+        "explore"
+      ]
+    },
+    {
+      "id": "bikini-sponge",
+      "name": "Губка Боб",
+      "description": "Живой друг: приветствия, игры и объятия с котиками",
+      "category": "toys",
+      "icon": "🧽",
+      "price": 0,
+      "buildMinutes": 0,
+      "requiredLevel": 5,
+      "islandOnly": true,
+      "rarity": "Друг Бикини-Боттом",
+      "footprint": [
+        3,
+        3
+      ],
+      "actions": [
+        "play"
+      ]
+    },
+    {
+      "id": "bikini-patrick",
+      "name": "Патрик",
+      "description": "Живой друг: приветствия, игры и объятия с котиками",
+      "category": "toys",
+      "icon": "⭐",
+      "price": 0,
+      "buildMinutes": 0,
+      "requiredLevel": 5,
+      "islandOnly": true,
+      "rarity": "Друг Бикини-Боттом",
+      "footprint": [
+        3,
+        3
+      ],
+      "actions": [
+        "play"
+      ]
+    },
+    {
+      "id": "slide-glass-corkscrew",
+      "kind": "glass",
+      "name": "Хрустальный шторм",
+      "icon": "🌀",
+      "price": 6800,
+      "requiredLevel": 6,
+      "buildMinutes": 150,
+      "footprint": [
+        22,
+        24
+      ],
+      "height": 16,
+      "color": 6934499,
+      "accent": 13148395,
+      "pool": [
+        3,
+        7,
+        4.6,
+        3.7
+      ],
+      "tower": [
+        -6,
+        -7
+      ],
+      "description": "Огромная прозрачная труба: два стремительных витка, видимая вода, мягкий круг и бирюзовый бассейн.",
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Легендарное",
+      "fixedPrice": true,
+      "mega": true,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "slide-sky-cannon",
+      "kind": "launch",
+      "name": "Небесная водная пушка",
+      "icon": "🚀",
+      "price": 9200,
+      "requiredLevel": 7,
+      "buildMinutes": 180,
+      "footprint": [
+        26,
+        30
+      ],
+      "height": 21,
+      "color": 15897028,
+      "accent": 8313817,
+      "pool": [
+        3,
+        8,
+        6,
+        5
+      ],
+      "tower": [
+        -8,
+        -9
+      ],
+      "description": "Разгон с 21-метровой башни, прозрачный вираж и настоящий баллистический вылет над бассейном с большим всплеском.",
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Легендарное",
+      "fixedPrice": true,
+      "mega": true,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "slide-titan-funnel",
+      "kind": "funnel",
+      "name": "Титаническая воронка",
+      "icon": "🌪️",
+      "price": 11500,
+      "requiredLevel": 8,
+      "buildMinutes": 210,
+      "footprint": [
+        26,
+        28
+      ],
+      "height": 19,
+      "color": 11837673,
+      "accent": 16766592,
+      "pool": [
+        0,
+        9,
+        5.7,
+        3.6
+      ],
+      "tower": [
+        -9,
+        -8
+      ],
+      "description": "Та самая гигантская чаша-воронка: быстрые круги по настоящему склону, закручивание в горловину и выход через прозрачный тоннель.",
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Легендарное",
+      "fixedPrice": true,
+      "mega": true,
+      "waterRide": {
+        "version": 1,
+        "kind": "vortex",
+        "channels": 3
+      }
+    },
+    {
+      "id": "slide-jungle-titan",
+      "kind": "jungle",
+      "name": "Изумрудный водопад титанов",
+      "icon": "🏝️",
+      "price": 13800,
+      "requiredLevel": 9,
+      "buildMinutes": 240,
+      "footprint": [
+        28,
+        28
+      ],
+      "height": 19,
+      "color": 6867374,
+      "accent": 15978126,
+      "pool": [
+        3,
+        8,
+        7,
+        4.5
+      ],
+      "tower": [
+        -8,
+        -8
+      ],
+      "description": "Целый тропический комплекс: скала, пальмы, каскадный водопад, изумрудный серпантин и большой пруд внизу.",
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Легендарное",
+      "fixedPrice": true,
+      "mega": true,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "slide-rainbow-tsunami",
+      "kind": "racer",
+      "name": "Радужное цунами",
+      "icon": "🌈",
+      "price": 15200,
+      "requiredLevel": 10,
+      "buildMinutes": 270,
+      "footprint": [
+        26,
+        32
+      ],
+      "height": 22,
+      "color": 15835598,
+      "accent": 9560016,
+      "pool": [
+        1,
+        10,
+        8,
+        4
+      ],
+      "tower": [
+        -7,
+        -11
+      ],
+      "description": "Шесть ярких волнистых дорожек с вершины огромной башни, резкие ускорения и весёлый прыжок на последней волне.",
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Легендарное",
+      "fixedPrice": true,
+      "mega": true,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 6
+      }
+    },
+    {
+      "id": "slide-abyss-capsule",
+      "kind": "drop",
+      "name": "Прозрачная бездна",
+      "icon": "💎",
+      "price": 17800,
+      "requiredLevel": 11,
+      "buildMinutes": 300,
+      "footprint": [
+        24,
+        28
+      ],
+      "height": 28,
+      "color": 9619180,
+      "accent": 15971796,
+      "pool": [
+        3,
+        8,
+        6.5,
+        4.4
+      ],
+      "tower": [
+        -7,
+        -8
+      ],
+      "description": "Панорамная стартовая капсула на высоте 28 метров, почти вертикальное падение и скоростной стеклянный вираж.",
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Легендарное",
+      "fixedPrice": true,
+      "mega": true,
+      "waterRide": {
+        "version": 1,
+        "kind": "flume",
+        "channels": 1
+      }
+    },
+    {
+      "id": "dive-triple-sky",
+      "kind": "dive",
+      "name": "Вышка трёх небес · 10 / 20 / 30 м",
+      "icon": "🪂",
+      "price": 12400,
+      "requiredLevel": 8,
+      "buildMinutes": 210,
+      "footprint": [
+        26,
+        28
+      ],
+      "height": 30,
+      "color": 9353957,
+      "accent": 16766346,
+      "pool": [
+        3,
+        7,
+        6.8,
+        5.7
+      ],
+      "tower": [
+        -7,
+        -7
+      ],
+      "description": "Одна настоящая 30-метровая вышка с тремя площадками: котик поднимается и по очереди прыгает с 10, 20 и 30 метров. Брызги, удивлённые глазки и безопасный выход.",
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Легендарное",
+      "fixedPrice": true,
+      "mega": true,
+      "waterRide": {
+        "version": 1,
+        "kind": "dive",
+        "channels": 0
+      }
+    },
+    {
+      "id": "coaster-thunder-loop",
+      "kind": "loop",
+      "name": "Громовая петля",
+      "icon": "🎢",
+      "price": 16500,
+      "requiredLevel": 10,
+      "buildMinutes": 270,
+      "footprint": [
+        30,
+        28
+      ],
+      "height": 25,
+      "color": 6473950,
+      "accent": 16764793,
+      "description": "Высокий цепной подъём, отвесный разгон и большая настоящая мёртвая петля. Котик и вагончик вместе переворачиваются на рельсах.",
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Легендарное",
+      "fixedPrice": true,
+      "mega": true
+    },
+    {
+      "id": "coaster-aurora-rift",
+      "kind": "corkscrew",
+      "name": "Разлом северного сияния",
+      "icon": "🌌",
+      "price": 20500,
+      "requiredLevel": 12,
+      "buildMinutes": 330,
+      "footprint": [
+        32,
+        28
+      ],
+      "height": 27,
+      "color": 10201580,
+      "accent": 9363915,
+      "description": "Сияющие двойные рельсы, кристальные арки, быстрые виражи и двойной пространственный штопор с точной посадкой в вагончике.",
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Легендарное",
+      "fixedPrice": true,
+      "mega": true
+    },
+    {
+      "id": "coaster-dragon-titan",
+      "kind": "dragon",
+      "name": "Драконий титан",
+      "icon": "🐉",
+      "price": 24800,
+      "requiredLevel": 14,
+      "buildMinutes": 360,
+      "footprint": [
+        34,
+        30
+      ],
+      "height": 30,
+      "color": 15180217,
+      "accent": 16764558,
+      "description": "Тридцатиметровая вершина, огромный золотой дракон, пикирование в пасть скалы и скоростная воздушная петля в драконьем вагончике.",
+      "category": "rides",
+      "actions": [
+        "ride"
+      ],
+      "rarity": "Легендарное",
+      "fixedPrice": true,
+      "mega": true
+    },
+    {
+      "id": "diamond-mine",
+      "name": "Алмазная шахта Мур-копа",
+      "category": "business",
+      "icon": "💎",
+      "price": 2200,
+      "requiredLevel": 4,
+      "buildMinutes": 20,
+      "footprint": [
+        4,
+        4
+      ],
+      "rate": 2,
+      "currency": "diamonds",
+      "rarity": "Редкая",
+      "color": 12231139,
+      "actions": [
+        "explore"
+      ],
+      "description": "Котик-майнер добывает полупрозрачные сиреневые алмазы: 2 💎 в час, запас до 8 часов. За 8 💎 ускорьте котиков-строителей в 10 раз на целый час."
+    },
+    {
+      "id": "aquarium-aurora",
+      "name": "Сердце океанариума · Аврора",
+      "description": "Большие ласковые рыбки-котики, прозрачное стекло и свободные места для любопытных пушистых посетителей.",
+      "category": "toys",
+      "icon": "🐠",
+      "price": 0,
+      "buildMinutes": 0,
+      "requiredLevel": 6,
+      "islandOnly": true,
+      "rarity": "Океанариум",
+      "footprint": [
+        13,
+        13
+      ],
+      "actions": [
+        "play",
+        "explore"
+      ]
+    },
+    {
+      "id": "aquarium-pearl",
+      "name": "Жемчужный зал",
+      "description": "Большие ласковые рыбки-котики, прозрачное стекло и свободные места для любопытных пушистых посетителей.",
+      "category": "toys",
+      "icon": "🐠",
+      "price": 0,
+      "buildMinutes": 0,
+      "requiredLevel": 6,
+      "islandOnly": true,
+      "rarity": "Океанариум",
+      "footprint": [
+        21,
+        20
+      ],
+      "actions": [
+        "play",
+        "explore"
+      ]
+    },
+    {
+      "id": "aquarium-coral",
+      "name": "Коралловый зал",
+      "description": "Большие ласковые рыбки-котики, прозрачное стекло и свободные места для любопытных пушистых посетителей.",
+      "category": "toys",
+      "icon": "🐠",
+      "price": 0,
+      "buildMinutes": 0,
+      "requiredLevel": 6,
+      "islandOnly": true,
+      "rarity": "Океанариум",
+      "footprint": [
+        21,
+        20
+      ],
+      "actions": [
+        "play",
+        "explore"
+      ]
+    },
+    {
+      "id": "aquarium-lilac",
+      "name": "Лавандовая глубина",
+      "description": "Большие ласковые рыбки-котики, прозрачное стекло и свободные места для любопытных пушистых посетителей.",
+      "category": "toys",
+      "icon": "🐠",
+      "price": 0,
+      "buildMinutes": 0,
+      "requiredLevel": 6,
+      "islandOnly": true,
+      "rarity": "Океанариум",
+      "footprint": [
+        21,
+        18
+      ],
+      "actions": [
+        "play",
+        "explore"
+      ]
+    },
+    {
+      "id": "aquarium-sunrise",
+      "name": "Солнечная лагуна",
+      "description": "Большие ласковые рыбки-котики, прозрачное стекло и свободные места для любопытных пушистых посетителей.",
+      "category": "toys",
+      "icon": "🐠",
+      "price": 0,
+      "buildMinutes": 0,
+      "requiredLevel": 6,
+      "islandOnly": true,
+      "rarity": "Океанариум",
+      "footprint": [
+        21,
+        18
+      ],
+      "actions": [
+        "play",
+        "explore"
+      ]
+    },
+    {
+      "id": "job-bank",
+      "name": "Котячий банк",
+      "description": "Каси, рахунки та затишне сховище",
+      "category": "business",
+      "icon": "🏦",
+      "price": 0,
+      "buildMinutes": 0,
+      "requiredLevel": 8,
+      "islandOnly": true,
+      "rarity": "Cat Job City",
+      "footprint": [
+        25,
+        20
+      ],
+      "actions": [
+        "explore"
+      ]
+    },
+    {
+      "id": "job-crypto",
+      "name": "Криптоофіс",
+      "description": "Комп’ютери, графіки та командні обговорення",
+      "category": "business",
+      "icon": "📈",
+      "price": 0,
+      "buildMinutes": 0,
+      "requiredLevel": 8,
+      "islandOnly": true,
+      "rarity": "Cat Job City",
+      "footprint": [
+        25,
+        20
+      ],
+      "actions": [
+        "explore"
+      ]
+    },
+    {
+      "id": "job-factory",
+      "name": "Котяче виробництво",
+      "description": "Конвеєри, роботизовані лапки та майстерня",
+      "category": "business",
+      "icon": "⚙️",
+      "price": 0,
+      "buildMinutes": 0,
+      "requiredLevel": 8,
+      "islandOnly": true,
+      "rarity": "Cat Job City",
+      "footprint": [
+        25,
+        20
+      ],
+      "actions": [
+        "explore"
+      ]
+    },
+    {
+      "id": "job-furniture",
+      "name": "Меблевий дім",
+      "description": "Дивани, ліжечка та допомога покупцям",
+      "category": "business",
+      "icon": "🛋️",
+      "price": 0,
+      "buildMinutes": 0,
+      "requiredLevel": 8,
+      "islandOnly": true,
+      "rarity": "Cat Job City",
+      "footprint": [
+        25,
+        20
+      ],
+      "actions": [
+        "explore"
+      ]
+    },
+    {
+      "id": "job-estate",
+      "name": "Котячі будиночки",
+      "description": "Макет міста, плани й нові оселі",
+      "category": "business",
+      "icon": "🏡",
+      "price": 0,
+      "buildMinutes": 0,
+      "requiredLevel": 8,
+      "islandOnly": true,
+      "rarity": "Cat Job City",
+      "footprint": [
+        25,
+        20
+      ],
+      "actions": [
+        "explore"
+      ]
+    },
+    {
+      "id": "job-cars",
+      "name": "Мур-Моторс",
+      "description": "Автосалон, тестові поїздки та парковка",
+      "category": "business",
+      "icon": "🚗",
+      "price": 0,
+      "buildMinutes": 0,
+      "requiredLevel": 8,
+      "islandOnly": true,
+      "rarity": "Cat Job City",
+      "footprint": [
+        25,
+        20
+      ],
+      "actions": [
+        "explore"
+      ]
+    }
+  ],
+  "roads": [
+    {
+      "from": "moon",
+      "to": "homestead",
+      "start": {
+        "x": 0,
+        "y": 0.18,
+        "z": -10.950000000000001
+      },
+      "end": {
+        "x": 0,
+        "y": 0.18,
+        "z": -17.407555972607753
+      },
+      "gap": 5.057555972607759
+    },
+    {
+      "from": "homestead",
+      "to": "foodcourt",
+      "start": {
+        "x": 69.3866863026516,
+        "y": 0.18,
+        "z": -28.242512603833944
+      },
+      "end": {
+        "x": 71.35080208120807,
+        "y": 0.18,
+        "z": -22.106799489388877
+      },
+      "gap": 5.042416178294268
+    },
+    {
+      "from": "foodcourt",
+      "to": "candy",
+      "start": {
+        "x": 109.36962238801168,
+        "y": 0.18,
+        "z": 24.28285031938424
+      },
+      "end": {
+        "x": 114.76907974993873,
+        "y": 0.18,
+        "z": 27.285380600977028
+      },
+      "gap": 4.778133042849571
+    },
+    {
+      "from": "candy",
+      "to": "galaxy",
+      "start": {
+        "x": 137.36661809739158,
+        "y": 0.18,
+        "z": 64.95173104640747
+      },
+      "end": {
+        "x": 137.47482315811615,
+        "y": 0.18,
+        "z": 71.15084746183346
+      },
+      "gap": 4.800060698668247
+    },
+    {
+      "from": "galaxy",
+      "to": "bikini",
+      "start": {
+        "x": 123.80428250778462,
+        "y": 0.18,
+        "z": 82.98203778975227
+      },
+      "end": {
+        "x": 117.72672746959884,
+        "y": 0.18,
+        "z": 81.99215901041079
+      },
+      "gap": 4.757640395473576
+    },
+    {
+      "from": "bikini",
+      "to": "winter",
+      "start": {
+        "x": 90.88269005003505,
+        "y": 0.18,
+        "z": 107.13401973101134
+      },
+      "end": {
+        "x": 91.47694567281695,
+        "y": 0.18,
+        "z": 113.30553954323415
+      },
+      "gap": 4.800064236591961
+    },
+    {
+      "from": "winter",
+      "to": "sakura",
+      "start": {
+        "x": 77.75686857086923,
+        "y": 0.18,
+        "z": 126.67519055273557
+      },
+      "end": {
+        "x": 71.63988866660124,
+        "y": 0.18,
+        "z": 125.92603800491605
+      },
+      "gap": 4.762683886840453
+    },
+    {
+      "from": "sakura",
+      "to": "autumn",
+      "start": {
+        "x": 21.266378920414734,
+        "y": 0.18,
+        "z": 120.19458477832164
+      },
+      "end": {
+        "x": 15.100364099650985,
+        "y": 0.18,
+        "z": 119.5465108484559
+      },
+      "gap": 4.799978918387541
+    },
+    {
+      "from": "autumn",
+      "to": "summer",
+      "start": {
+        "x": 1.5443944363425288,
+        "y": 0.18,
+        "z": 140.62160289460377
+      },
+      "end": {
+        "x": 4.6910866132873075,
+        "y": 0.18,
+        "z": 145.9636390746472
+      },
+      "gap": 4.799921145090359
+    },
+    {
+      "from": "autumn",
+      "to": "water",
+      "start": {
+        "x": -37.27504439509558,
+        "y": 0.18,
+        "z": 129.49025612113678
+      },
+      "end": {
+        "x": -42.77454269560245,
+        "y": 0.18,
+        "z": 132.353103885225
+      },
+      "gap": 4.800030554571727
+    },
+    {
+      "from": "water",
+      "to": "volcano",
+      "start": {
+        "x": -43.62418139686462,
+        "y": 0.18,
+        "z": 151.81291744780594
+      },
+      "end": {
+        "x": -38.395126255275436,
+        "y": 0.18,
+        "z": 155.1441863049833
+      },
+      "gap": 4.8000298283621134
+    },
+    {
+      "from": "autumn",
+      "to": "aquarium",
+      "start": {
+        "x": -0.5997771524382358,
+        "y": 0.18,
+        "z": 91.51192357286322
+      },
+      "end": {
+        "x": 2.069412035829483,
+        "y": 0.18,
+        "z": 85.91583877083859
+      },
+      "gap": 4.800059357313941
+    },
+    {
+      "from": "water",
+      "to": "jobcity",
+      "start": {
+        "x": -66.81117004045488,
+        "y": 0.18,
+        "z": 123.07912063962996
+      },
+      "end": {
+        "x": -68.9936683790603,
+        "y": 0.18,
+        "z": 117.18037234809188
+      },
+      "gap": 4.8895572503109435
+    },
+    {
+      "from": "jobcity",
+      "to": "clockwork",
+      "start": {
+        "x": -123.63564149465654,
+        "y": 0.18,
+        "z": -3.2655660508122466
+      },
+      "end": {
+        "x": -126.59405436906727,
+        "y": 0.18,
+        "z": -8.71428125289422
+      },
+      "gap": 4.800056781101148
+    },
+    {
+      "from": "clockwork",
+      "to": "ice",
+      "start": {
+        "x": -150.8100556567185,
+        "y": 0.18,
+        "z": -10.620101934410364
+      },
+      "end": {
+        "x": -154.58437915875646,
+        "y": 0.18,
+        "z": -5.70129384416206
+      },
+      "gap": 4.800015397297688
+    },
+    {
+      "from": "jobcity",
+      "to": "cat-homes",
+      "start": {
+        "x": -158.3,
+        "y": 0.18,
+        "z": 55
+      },
+      "end": {
+        "x": -167.7,
+        "y": 0.18,
+        "z": 55
+      },
+      "gap": 8
+    },
+    {
+      "from": "homestead",
+      "to": "atoll-park",
+      "start": {
+        "x": 0,
+        "y": 0.18,
+        "z": -472.5924440273923
+      },
+      "end": {
+        "x": 0,
+        "y": 0.18,
+        "z": -535.7
+      },
+      "gap": 61.70755597260779
+    }
+  ]
+}

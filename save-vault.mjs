@@ -1,3 +1,4 @@
+import {zooSnapshotValid} from './public/zoo-system.js';
 import {cryptoSnapshotValid} from "./public/crypto-trading.js";
 import {preserveReferenceOwnership} from './public/purchase-preservation.js';
 import {magicBedSnapshotValid} from './public/magic-bed-state.js';
@@ -74,6 +75,7 @@ export async function readSaveBody(request) {
     !cryptoSnapshotValid(value.game.jobCity) ||
     !orchardSnapshotValid(value.game.farm?.orchards) ||
     !magicBedSnapshotValid(value.game) ||
+    !zooSnapshotValid(value.game.zoo) ||
     value.game.version !== 2 ||
     !Number.isSafeInteger(value.game.coins) ||
     value.game.coins < 0 ||

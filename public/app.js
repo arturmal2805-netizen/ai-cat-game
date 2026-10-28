@@ -1,3 +1,5 @@
+import {ZOO_ID} from './zoo-data.js';
+import {openZooExhibit} from './zoo-system.js';
 import {MAGIC_BED_ID,MAGIC_BED_CROPS,MAGIC_BED_SEEDS,magicGrowth} from './magic-bed-data.js';
 import {plantMagicSeed,harvestMagicFruit} from './magic-bed-state.js';
 import {JOB_START} from "./jobcity-data.js";
@@ -1208,6 +1210,22 @@ function showCourt(id, fishIndex) {
   const o = courtObject(id),
     p = courtProject(game, id);
   if (!o || !p) return;
+  if(o.kind === "zoo"){
+    selectedItem=id;selectedScenery=false;
+    $("item-icon").textContent=o.icon;$("item-name").textContent=o.name;
+    $("item-description").textContent=o.description;
+    $("item-construction").textContent=p.built?"Вольєр відкрито":money(p.price)+" ✦ · постійне відкриття";
+    $("item-note").textContent=p.built?"Гуляйте до оглядового майданчика, привітайте тварин і зробіть фото.":p.previousOpen?"Одна покупка назавжди. Відкриття зберігається між пристроями.":"Спочатку відкрийте попередній вольєр у списку острова.";
+    for(const key of ["item-move","item-store","item-guest-camera","item-attraction-camera"])$(key).hidden=true;
+    const actions=$("spa-bar-actions");actions.hidden=false;actions.replaceChildren();
+    const button=document.createElement("button");button.className="primary";
+    button.textContent=p.built?"Роздивитися тварин":"Відкрити · "+money(p.price)+" ✦";
+    button.disabled=!p.built&&(!p.previousOpen||game.coins<p.price);
+    button.onclick=()=>{try{if(!p.built)commit(openZooExhibit(game,id));$("item-dialog").close();world?.enterCourt(id);toast(p.built?o.name:"Ворота відчиняються · "+o.name);}catch(error){toast(error.message);}};
+    actions.append(button);
+    if(p.built&&o.species==='axolotl'){const close=document.createElement('button');close.className='soft';close.textContent='Аксолотль зблизька';close.onclick=()=>{$('item-dialog').close();world?.enterCourt(id,0);};actions.append(close);}
+    open("item-dialog");return;
+  }
   if (p.built) {
     world?.enterCourt(id, fishIndex);
     return;
@@ -2602,6 +2620,7 @@ function showIsland(id) {
     $("island-summary").textContent = owned
       ? "Кофейня и кинотеатр уже открыты. Нажмите на свободную площадку, чтобы построить бургерную, бабл-ти или пекарню. В работающем заведении можно заглянуть внутрь и позвать Чичи."
       : "Большой котячий фуд-корт: пять заведений, террасы, кино под открытым небом. Откроется с 6 уровня.";
+  if(id===ZOO_ID)$("island-summary").textContent="Шість великих мінібіомів, центральна площа й просторі доріжки. Слонова долина відкрита відразу; решта вольєрів відкриваються послідовно за монети.";
   renderIslandProjects();
   $("island-gather").disabled = !owned || busy || !!buildMode;
   open("island-dialog");
@@ -2640,6 +2659,12 @@ function renderIslandProjects() {
   }
   for (const p of projects) {
     const row = container.querySelector('[data-project="' + p.id + '"]');
+    if(courtObject(p.id)?.kind === "zoo"){
+      row.querySelector(".project-status").textContent=p.built?"Відкрито":money(p.price)+" ✦ · "+(p.previousOpen?"Доступне відкриття":"Після попереднього вольєра");
+      row.querySelector("progress").hidden=true;
+      const button=row.querySelector("button");button.textContent=p.built?"Тварини й камера":"Відкрити";button.disabled=busy||!!buildMode;
+      continue;
+    }
     if (courtObject(p.id)) {
       row.querySelector(".project-status").textContent = p.unstarted
         ? "Площадка · " + money(p.price) + " ✦"
@@ -2673,10 +2698,11 @@ $("island-open").onclick = () => showIsland(world?.getFocused() || "moon");
 $("island-gather").onclick = () => {
   if (busy || buildMode) return;
   try {
-    commit(gatherCats(game, selectedIsland));
-    world?.gather(selectedIsland);
+    const ids=world?.gatherCandidates?.();
+    commit(gatherCats(game, selectedIsland,{ids}));
+    world?.gather(selectedIsland,ids);
     $("island-dialog").close();
-    toast("Все котики отправляются в " + byBiome(selectedIsland).name + " 🐾");
+    toast(ids?.length===0?"Котики зараз працюють або сплять — покличте їх пізніше.":"Вільні котики вирушають у " + byBiome(selectedIsland).name + " 🐾");
   } catch (e) {
     toast(e.message);
   }

@@ -3,8 +3,8 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import * as THREE from "three";
 import { BIOMES as REGISTERED_BIOMES, byBiome, NEIGHBORS } from "../public/game-data.js";
-// Preserve the released-island snapshot; new magical farms have independent coverage.
-const BIOMES = REGISTERED_BIOMES.filter(b => !b.magicFarm);
+// Preserve the released-island snapshot; new destinations have independent coverage.
+const BIOMES = REGISTERED_BIOMES.filter(b => !b.magicFarm && !b.zoo);
 import {
   MOSA_RADIUS,
   MOSA_SEA,

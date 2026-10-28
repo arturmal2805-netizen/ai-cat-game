@@ -1,5 +1,5 @@
 {
-  "version": "6d8344413814",
+  "version": "e34d7489cbf0",
   "items": [
     "adoption-center",
     "airship",
@@ -26,6 +26,7 @@
     "biome-homestead",
     "biome-ice",
     "biome-jobcity",
+    "biome-magic-zoo",
     "biome-moon",
     "biome-sakura",
     "biome-summer",
@@ -213,6 +214,12 @@
     "water-whirlpool",
     "waterslide",
     "yarn",
-    "zipline"
+    "zipline",
+    "zoo-axolotl",
+    "zoo-elephant",
+    "zoo-gorilla",
+    "zoo-otter",
+    "zoo-polar",
+    "zoo-tiger"
   ]
 }

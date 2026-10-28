@@ -1,0 +1,24 @@
+{
+  "fullSuite": {
+    "tests": 799,
+    "passed": 799,
+    "failed": 0
+  },
+  "zooTests": 12,
+  "gatherTests": 4,
+  "nativePhone": {
+    "dpr": 2,
+    "enclosurePurchases": 5,
+    "visitorSpecies": 6,
+    "tinyAndGiantVisitors": true,
+    "reloads": 2,
+    "recallMultipleResidentsMoved": true,
+    "browserErrors": 0,
+    "httpErrors": 0
+  },
+  "oldIslandAndCatalogueFixture": "test/fixtures/before-magic-zoo.json",
+  "oldWaterparkChanged": false,
+  "continuousInstanceBufferUploads": 0,
+  "sculptCache": "sculpt-v2-a496203fa13a037a7a10a927",
+  "physicalDeviceFpsMeasured": false
+}

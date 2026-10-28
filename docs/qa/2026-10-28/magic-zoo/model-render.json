@@ -1,0 +1,34 @@
+{
+  "renderer": "Chromium software WebGL; operation counts only, not physical-device FPS",
+  "results": {
+    "island": {
+      "calls": 153,
+      "triangles": 2346652
+    },
+    "axolotl": {
+      "calls": 2,
+      "triangles": 73168
+    },
+    "elephant": {
+      "calls": 2,
+      "triangles": 49152
+    },
+    "otter": {
+      "calls": 2,
+      "triangles": 37664
+    },
+    "tiger": {
+      "calls": 2,
+      "triangles": 56832
+    },
+    "polar": {
+      "calls": 2,
+      "triangles": 46016
+    },
+    "gorilla": {
+      "calls": 2,
+      "triangles": 58544
+    }
+  },
+  "errors": []
+}

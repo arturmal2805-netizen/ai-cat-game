@@ -1,3 +1,4 @@
+import {newZoo,normalizeZoo,zooSnapshotValid} from './zoo-system.js';
 import {cryptoSnapshotValid} from "./crypto-trading.js";
 import {preserveReferenceOwnership,missingReferenceOwnership} from './purchase-preservation.js';
 import {MAGIC_BED_ID,emptyMagicBed} from './magic-bed-data.js';
@@ -111,6 +112,7 @@ export function newGame(now = Date.now()) {
     builderBoosts: [],
     unlocked: ["moon"],
     islandConstruction: {},
+    zoo:newZoo(),
     jobCity: null,
     housing: null,
     family: null,
@@ -217,6 +219,7 @@ export function loadGame(storage, now = Date.now(), { advance = true } = {}) {
     );
     game.adoption = normalizeAdoption(saved.adoption, game);
     game.spa = normalizeSpa(saved.spa);
+    game.zoo=normalizeZoo(saved.zoo);
     if (
       game.unlocked.includes(saved.catPosition?.biome) &&
       Number.isFinite(saved.catPosition.x) &&
@@ -417,7 +420,7 @@ function readSavedRecord(storage) {
         saved.cat &&
         typeof saved.cat === "object" &&
         housingSnapshotValid(saved.housing) &&
-        familySnapshotValid(saved.family) && cryptoSnapshotValid(saved.jobCity) && orchardSnapshotValid(saved.farm?.orchards) && magicBedSnapshotValid(saved)
+        familySnapshotValid(saved.family) && cryptoSnapshotValid(saved.jobCity) && orchardSnapshotValid(saved.farm?.orchards) && magicBedSnapshotValid(saved) && zooSnapshotValid(saved.zoo)
       )
         return { game: saved, encoded };
     } catch {}
@@ -427,7 +430,7 @@ export function readSavedState(storage) {
   return readSavedRecord(storage)?.game || null;
 }
 export function saveGame(storage, game) {
-  if (!housingSnapshotValid(game.housing) || !familySnapshotValid(game.family) || !cryptoSnapshotValid(game.jobCity) || !orchardSnapshotValid(game.farm?.orchards) || !magicBedSnapshotValid(game))
+  if (!housingSnapshotValid(game.housing) || !familySnapshotValid(game.family) || !cryptoSnapshotValid(game.jobCity) || !orchardSnapshotValid(game.farm?.orchards) || !magicBedSnapshotValid(game) || !zooSnapshotValid(game.zoo))
     return false;
   let previous, trusted;
   try {

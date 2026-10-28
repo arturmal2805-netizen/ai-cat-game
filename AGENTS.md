@@ -499,3 +499,40 @@ biomes retired. Preserve all previous island centres and approved cat cache byte
   tiny/giant picking, stock and two reloads. Keep the ownership audit too when
   touching normalization, storage or shared merges. Software-browser correctness
   and operation counts are not physical-phone FPS measurements.
+
+### Magical zoo: six habitats, native visitors
+
+`magic-zoo` is an appended leaf island, with three ordinary island areas and six
+primary species. Keep every older biome, road and catalogue entry byte-identical;
+`test/fixtures/before-magic-zoo.json` enforces this independently. Decorative reef
+fish are aquarium ambience, not a seventh exhibit or AI population.
+
+- Build the authored landscape cooperatively. Reuse immutable animal templates,
+  indexed geometry and shared baked pose textures. Animate position AND normals
+  with the same colour/depth clock. Never upload animal/ambient instance matrices
+  each frame, replace the native cat rig, change DPR or add reflection targets.
+  Resource teardown must release pose references through actual instance disposal,
+  with idempotent cleanup; GPU buffer retirement must not destroy those references.
+- Keep axolotls tiny, chubby and unmistakable: raised rounded heads, short feet,
+  protruding glossy eyes, small smiles and six soft pink external gills. Preserve
+  elephant/gorilla scale, closed trunk surfaces, tiger stripes and per-species
+  gait, dive, roll, stretch, climbing, chest-beat and visitor greeting choreography.
+  Do not count six differently recoloured idle loops as finished behaviour.
+- Cats watch from reachable public seats outside private enclosures. Use the
+  native court reservations, collision radii, camera, emotions and photo prop.
+  Work/manual actions retain priority; the zoo introduces no AI API polling.
+- The first enclosure is included; five sequential paid openings have permanent
+  immutable receipts. Save before showing success. Preserve receipts from cached
+  clients, reject racing double purchases atomically and select valid backups on
+  corruption. Never represent an unopened zoo gate as timed pink construction.
+- Run `test/magic-zoo.test.mjs`, purchase preservation, full suite/build/Worker
+  dry-run, `scripts/check-zoo.mjs` and `CHICHI_ZOO_AUDIT=1` in the private native
+  phone/SQLite harness. Inspect all six real animal close-ups/action frames, tank
+  clarity, visitor photos, mobile cameras and two reloads. Resource operation
+  counts/software-browser images are not physical iPhone/M2 FPS measurements.
+
+Manual island recall must clear invited cats' transient leisure island and idle
+anchors, using native cancellation. Preserve work/builders, existing sleep,
+care, permanent families, professions and money. Scope a recall's short runtime
+pause to its actual participants. Test the live menu button with stale evening
+activities, multiple moving residents and state-based work/sleep exclusions.

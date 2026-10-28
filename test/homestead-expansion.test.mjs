@@ -2,8 +2,8 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { BIOMES as REGISTERED_BIOMES, byBiome } from "../public/game-data.js";
-// Preserve the released-island snapshot; new magical farms have independent coverage.
-const BIOMES = REGISTERED_BIOMES.filter(b => !b.magicFarm);
+// Preserve the released-island snapshot; new destinations have independent coverage.
+const BIOMES = REGISTERED_BIOMES.filter(b => !b.magicFarm && !b.zoo);
 import { HOMESTEAD_EXPANSION } from '../public/homestead-expansion.js';
 import { newGame, purchase, placeItem, saveGame, loadGame, canPlace, storeItem } from '../public/economy.js';
 import { xpForLevel } from '../public/progression.js';

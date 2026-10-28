@@ -1,3 +1,4 @@
+import {zooGate} from './zoo-gate.js';
 import { aquariumTankSteps } from "./aquarium-assets.js";
 import * as THREE from "three";
 import {
@@ -228,6 +229,7 @@ export function courtVenue(o, options) {
   return runSceneSteps(courtVenueSteps(o, options));
 }
 export function* courtVenueSteps(o, { staff = true } = {}) {
+  if(o.kind==='zoo'){yield;return zooGate(o,{opened:true});}
   if (o.kind === "aquarium") return yield* aquariumTankSteps(o);
   yield;
   const g = new THREE.Group(),
@@ -1015,6 +1017,7 @@ export function* courtVenueSteps(o, { staff = true } = {}) {
   return g;
 }
 export function courtBlueprint(o, project) {
+  if(o.kind==='zoo')return zooGate(o,{opened:false});
   const g = new THREE.Group();
   g.name = `Construction · ${o.name}`;
   shape(g, "cube", 0xc9b08a, 0, 0.05, 0, o.w, 0.12, o.d);

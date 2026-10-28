@@ -1,3 +1,4 @@
+import {ZOO_ID,zooObstacles} from './zoo-data.js';
 import { aquariumObstacles } from "./aquarium-data.js";
 import {
   COURT_RADIUS,
@@ -8,6 +9,7 @@ import {
 } from "./foodcourt-data.js";
 import { spaClear, spaDistance } from "./spa-navigation.js";
 export function courtObstacles(extra = [], biome = "foodcourt") {
+  if(biome===ZOO_ID)return zooObstacles(extra);
   if (biome === "aquarium") return aquariumObstacles(extra);
   const layout = courtLayout(biome);
   const r = [
@@ -80,7 +82,7 @@ export function nearestCourtIdleGround(p, radius, obstacles, biome) {
     layouts.set(biome, [
       ...obstacles,
       ...courtLayout(biome)
-        .venues.filter((o) => !["cinema", "aquarium"].includes(o.kind))
+        .venues.filter((o) => !["cinema", "aquarium", "zoo"].includes(o.kind))
         .map((o) => ({ x: o.x, z: o.z + o.d / 2 - 0.4, w: 5.4, d: 5.6 })),
     ]);
   return nearestCourtGround(p, radius, layouts.get(biome), biome);
@@ -312,7 +314,7 @@ export function courtPath(
       // Both orthogonal neighbours above exclude every rectangular corner.
       // Only a circle can still intersect the chord between two valid cells.
       if (
-        biome === "aquarium" &&
+        (biome === "aquarium" || biome === ZOO_ID) &&
         expanded.some((o) => {
           if (!o.r2) return false;
           const ax = n.x * cell - o.x,

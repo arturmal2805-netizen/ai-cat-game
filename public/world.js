@@ -1,3 +1,6 @@
+import {gatherCandidates as selectGatherCats,releaseGatherOverrides} from './gather-system.js';
+import {ZOO_ID,ZOO_EXHIBITS,zooObstacles} from './zoo-data.js';
+import {zooPhotoCamera} from './zoo-gate.js';
 import {applyMagicBedReach} from './magic-bed-pose.js';
 import {magicBedModelSteps} from './magic-bed-models.js';
 import {MAGIC_BED_ID} from './magic-bed-data.js';
@@ -506,6 +509,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
   }
   let heroGather = null,
     gatherUntil = 0;
+  const gatherParticipants=new Set();
+  function availableGatherCats(){return selectGatherCats(game,Date.now(),id=>({working:!!jobs.get(id)?.job||crew.workers.has(id),sleeping:id==='chichi'?!!game.care?.resting:npcs.get(id)?.model.userData.mood==='sleep'}));}
   const incomeButtons = new Map(),
     projectBadges = new Map();
   let incomeSecond = -1;
@@ -646,7 +651,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         return (
           !p ||
           draggingCat?.catId === id ||
-          now < gatherUntil ||
+          (now < gatherUntil && gatherParticipants.has(id)) ||
           crew.workers.has(id) ||
           p.trip ||
           Date.now() < (p.manualUntil || 0) ||
@@ -709,7 +714,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           z: arrival[1] - 3,
           y: 0.16,
         };
-        if (["foodcourt", "bikini", "aquarium"].includes(b.id))
+        if (["foodcourt", "bikini", "aquarium", ZOO_ID].includes(b.id))
           p = nearestCourtGround(p, a.radius, getCourtBlockers(b.id), b.id);
         else if (b.id === "sakura")
           p = nearestChillGround(p, a.radius, chillObstacles);
@@ -854,10 +859,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
     courtBlockers = courtObstacles(),
     bikiniBlockers = courtObstacles([], "bikini"),
     aquariumBlockers = courtObstacles([], "aquarium"),
+    zooBlockers=zooObstacles(),
     nextCourtStart = 0,
     courtCamera = null;
   const getCourtBlockers = (biome = "foodcourt") =>
-    biome === "aquarium"
+    biome === ZOO_ID ? zooBlockers : biome === "aquarium"
       ? aquariumBlockers
       : biome === "bikini"
         ? bikiniBlockers
@@ -899,7 +905,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   function enterCourt(id, fishIndex) {
     const o = courtObject(id),
       g = itemGroups.get(id);
-    if (!o || !g?.userData.built) return false;
+    if (!o || !(g?.userData.built || o.kind === "zoo" && courtProject(game,id)?.built)) return false;
     exitCourt();
     faceCamera.setEnabled(false, look);
     focused = o.biome;
@@ -912,11 +918,12 @@ export function createWorld(container, initialGame, callbacks = {}) {
       distance: desiredDistance,
       azimuth,
       elevation,
+      ...(o.kind === "zoo" && Number.isInteger(fishIndex)?{zooAnimal:fishIndex}:{}),
       ...(o.kind === "aquarium" && Number.isInteger(fishIndex)
         ? { fishIndex }
         : {}),
     };
-    if (g.userData.roof) g.userData.roof.visible = false;
+    if (g?.userData.roof) g.userData.roof.visible = false;
     desiredLook.set(
       venueBiome.center[0] + o.x,
       1.8,
@@ -948,8 +955,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
       ensureDetail("aquarium");
     }
     azimuth = 0.06;
+    if(o.kind === "zoo"){
+      ensureDetail(ZOO_ID);desiredLook.y=o.species === "axolotl"?1.8:1.3;desiredDistance=Number.isInteger(fishIndex)?(mobileRender?6:4.8):mobileRender?17:14;azimuth=Math.atan2(-o.x,-o.z);
+    }
     elevation =
-      o.kind === "aquarium"
+      o.kind === "zoo" ? Number.isInteger(fishIndex) ? .2 : .48 : o.kind === "aquarium"
         ? Number.isInteger(fishIndex)
           ? 0.32
           : 0.58
@@ -957,7 +967,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     courtExit.hidden = false;
     courtOrder.hidden = false;
     courtOrder.textContent =
-      o.kind === "aquarium"
+      o.kind === "zoo" ? "📸 Покликати Чічі до тварин" : o.kind === "aquarium"
         ? "🐠 Позвать Чичи смотреть рыбок"
         : o.kind === "cinema"
           ? "Позвать Чичи смотреть кино"
@@ -1016,6 +1026,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       (id !== "bikini-krusty" ||
         !itemGroups.get("bikini-sponge")?.userData.playing),
     getCinema: () => cinema.playback,
+    onGreet:(id,time)=>islands.get(ZOO_ID)?.userData.greet?.(id,time),
     onComplete: (receipt) => {
       if (receipt.catId === "bikini-patrick-guest") return;
       if (receipt.catId === "chichi" && operation?.court)
@@ -1763,7 +1774,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
           };
         }),
     ];
-    for (const [id, island] of islands) showWhalePreview(island, id);
+    for (const [id, island] of islands) {showWhalePreview(island, id);if(id===ZOO_ID)island.userData.setZooState?.(game.zoo);}
+    for(const e of ZOO_EXHIBITS)itemGroups.get(e.id)?.userData.setZooState?.(game.zoo);
     // Keep unchanged vegetation and scenery buffers when income, adoption or
     // herd destinations change. Only an edited island needs new geometry.
     for (const [id, island] of islands) {
@@ -1807,7 +1819,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
                 }),
             {
               scheduler: scenePreparation,
-              priority: jobBusiness(o.id) ? "jobcity" : "foodcourt",
+              priority: jobBusiness(o.id) ? "jobcity" : courtObject(o.id)?.kind === "zoo" ? ZOO_ID : "foodcourt",
             },
           );
           courtPreparing.set(o.id, task);
@@ -2142,7 +2154,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         );
         carrier.position.y = venue.position.y;
       }
-      if (["foodcourt", "bikini", "aquarium"].includes(b.id)) {
+      if (["foodcourt", "bikini", "aquarium", ZOO_ID].includes(b.id)) {
         const dry = nearestCourtIdleGround(
           courtLocal(carrier.position, b.id),
           spaRadius(model),
@@ -3511,6 +3523,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       focus(clickedBiome.id);
       return;
     }
+    if(clickedBiome?.id===ZOO_ID && islandHit?.object.userData.zooExhibit){callbacks.onSelectCourt?.(islandHit.object.userData.zooExhibit);return;}
     if (
       clickedBiome?.id === "aquarium" &&
       islandHit?.object.userData.aquariumBuilding
@@ -3822,7 +3835,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
               !manualJob) ||
             (Date.now() < (p.manualUntil || 0) && !p.trip && !manualJob) ||
             draggingCat?.catId === id ||
-            now < gatherUntil ||
+            (now < gatherUntil && gatherParticipants.has(id)) ||
             (id === "chichi"
               ? (!!operation && !operation.jobCity) ||
                 !!heroGather ||
@@ -3859,7 +3872,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
             p = game.jobCity.profiles[id];
           return (
             draggingCat?.catId === id ||
-            now < gatherUntil ||
+            (now < gatherUntil && gatherParticipants.has(id)) ||
             crew.workers.has(id) ||
             p?.trip ||
             jobs.has(id) ||
@@ -3910,6 +3923,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           ),
         );
     }
+    if(courtCamera?.zooAnimal!==undefined){const zoo=islands.get(ZOO_ID);if(zoo?.userData.animalPoint){zoo.userData.animalPoint(courtCamera.id,courtCamera.zooAnimal,time,desiredLook);desiredLook.x+=byBiome(ZOO_ID).center[0];desiredLook.z+=byBiome(ZOO_ID).center[1];}}
     const occupiedAttractions = new Set(
       [...residentPlay.visits.values()].map((v) => v.object),
     );
@@ -3935,7 +3949,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       const courtIdle = [];
       for (const [id, n] of npcs)
         if (
-          ["foodcourt", "bikini", "aquarium"].includes(n.profile.biome) &&
+          ["foodcourt", "bikini", "aquarium", ZOO_ID].includes(n.profile.biome) &&
           !court.get(id) &&
           draggingCat?.catId !== id
         )
@@ -4092,6 +4106,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
         disposeScenery(food);
         courtFoods.delete(id);
       }
+    islands.get(ZOO_ID)?.userData.setZooState?.(game.zoo);
+    for(const e of ZOO_EXHIBITS)itemGroups.get(e.id)?.userData.setZooState?.(game.zoo);
     function applyCourtFrame(v, carrier, model) {
       const venueBiome = byBiome(v.biome || "foodcourt");
       carrier.position.set(
@@ -4110,7 +4126,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (v.holding) {
         let food = courtFoods.get(v.catId);
         if (!food) {
-          food = courtFood(v.kind);
+          food = v.kind === "zoo" ? zooPhotoCamera() : courtFood(v.kind);
           scene.add(food);
           courtFoods.set(v.catId, food);
         }
@@ -4344,11 +4360,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (
         busyWithChichi ||
         draggingThis ||
-        !["foodcourt", "bikini", "aquarium"].includes(b.id)
+        !["foodcourt", "bikini", "aquarium", ZOO_ID].includes(b.id)
       )
         court.cancel(id);
       if (
-        ["foodcourt", "bikini", "aquarium"].includes(b.id) &&
+        ["foodcourt", "bikini", "aquarium", ZOO_ID].includes(b.id) &&
         !plannedFreeTime &&
         !busyWithChichi &&
         !draggingThis &&
@@ -4409,7 +4425,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (
         b.id !== "water" &&
         b.id !== "sakura" &&
-        !["foodcourt", "bikini", "aquarium"].includes(b.id) &&
+        !["foodcourt", "bikini", "aquarium", ZOO_ID].includes(b.id) &&
         !builderFrame &&
         !jobFrame &&
         !busyWithChichi &&
@@ -4473,7 +4489,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       if (
         b.id !== "water" &&
         b.id !== "sakura" &&
-        !["foodcourt", "bikini", "aquarium"].includes(b.id) &&
+        !["foodcourt", "bikini", "aquarium", ZOO_ID].includes(b.id) &&
         now > (n.manualUntil || 0) &&
         !builderFrame &&
         !jobFrame &&
@@ -4757,7 +4773,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
             chichiCarrier.position.z - z,
           );
       } else if (
-        ["foodcourt", "bikini", "aquarium"].includes(b.id) &&
+        ["foodcourt", "bikini", "aquarium", ZOO_ID].includes(b.id) &&
         !plannedFreeTime &&
         !busyWithChichi &&
         now >= gatherUntil
@@ -4789,7 +4805,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           z: point.z - b.center[1],
           y: 0.16,
         };
-        if (["foodcourt", "bikini", "aquarium"].includes(b.id))
+        if (["foodcourt", "bikini", "aquarium", ZOO_ID].includes(b.id))
           target = nearestCourtGround(
             target,
             spaRadius(n.model),
@@ -5645,7 +5661,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         p.y += 2;
         p.project(camera);
         const text = g.userData.unstarted
-          ? byItem(place.item).icon + " Построить"
+          ? byItem(place.item).icon + (g.userData.zooExhibit?" Відкрити":" Построить")
           : "⏳ " +
             Math.floor(progress) +
             "% · " +
@@ -5829,7 +5845,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       };
       if (biome === "jobcity") p = nearestCityGround(p, spaRadius(n.model));
       else if(b.magicFarm)p=nearestFarmGround(biome,p,spaRadius(n.model));
-      else if (["foodcourt", "bikini", "aquarium"].includes(biome))
+      else if (["foodcourt", "bikini", "aquarium", ZOO_ID].includes(biome))
         p = nearestCourtGround(
           p,
           spaRadius(n.model),
@@ -5888,7 +5904,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
       updatePreview();
     },
     getFocused: () => focused,
-    gather(biome) {
+    gatherCandidates:availableGatherCats,
+    gather(biome,ids=availableGatherCats()) {
       const b = byBiome(biome);
       if (!b || operation) return false;
       const arrival = b.arrival || [0, 0],
@@ -5897,13 +5914,11 @@ export function createWorld(container, initialGame, callbacks = {}) {
           0.16 + islandHeight(b.id, arrival[0], arrival[1]),
           b.center[1] + arrival[1],
         );
-      spa.clear();
-      crew.clear();
-      chill.clear();
-      court.clear();
-      residentPlay.clear();
-      gatherUntil = performance.now() + 20000;
-      heroGather = {
+      gatherParticipants.clear();for(const id of ids)gatherParticipants.add(id);
+      const now=performance.now();gatherUntil=now+20000;
+      for(const [id,n]of npcs)if(gatherParticipants.has(id)){cancelResident(id);releaseGatherOverrides(n,now+90000);}
+      if(gatherParticipants.has('chichi')){spa.cancel('chichi');crew.cancel('chichi');chill.cancel('chichi');court.cancel('chichi');residentPlay.cancel('chichi');}
+      heroGather = gatherParticipants.has('chichi') ? {
         from: chichiCarrier.position.clone(),
         to,
         start: performance.now(),
@@ -5911,8 +5926,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
           1800,
           Math.min(18000, chichiCarrier.position.distanceTo(to) * 180),
         ),
-      };
-      for (const id of npcs.keys()) {
+      } : null;
+      for (const id of ids) {
         mealVisits.delete(id);
         swimVisits.delete(id);
       }

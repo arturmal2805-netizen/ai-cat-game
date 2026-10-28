@@ -1,3 +1,5 @@
+import {zooExit} from './zoo-data.js';
+import {zooWatchReaction} from './zoo-animal-motion.js';
 import { aquariumFishFrame, aquariumExit } from "./aquarium-data.js";
 import { courtObject, courtSeats, courtGroundY } from "./foodcourt-data.js";
 import {
@@ -14,6 +16,7 @@ export function createCourtRuntime({
   canPrepare = () => true,
   isReady = () => true,
   onComplete = () => {},
+  onGreet = () => {},
   getCinema = () => ({ playing: true, time: 0 }),
 } = {}) {
   const visits = new Map(),
@@ -66,7 +69,7 @@ export function createCourtRuntime({
         v.objectId === o.id &&
         ["approach", "queue", "order", "prepare", "serve"].includes(v.phase),
     );
-    if (!["cinema", "aquarium"].includes(o.kind) && orders.length >= 2)
+    if (!["cinema", "aquarium", "zoo"].includes(o.kind) && orders.length >= 2)
       return null;
     const origin = nearestCourtGround(
       position,
@@ -97,7 +100,7 @@ export function createCourtRuntime({
       slot: orders.length,
       watched: 0,
     };
-    const goal = ["cinema", "aquarium"].includes(o.kind)
+    const goal = ["cinema", "aquarium", "zoo"].includes(o.kind)
       ? { ...v.seat, y: o.kind === "aquarium" ? 0.2 : 0.16 }
       : { x: o.x - 1.5 + v.slot * 3, z: o.z + 13.2, y: 0.16 };
     if (!path(v, goal, "approach")) return null;
@@ -198,6 +201,23 @@ export function createCourtRuntime({
         continue;
       }
       const o = courtObject(v.objectId);
+      if (v.kind === "zoo") {
+        if(v.phase === "approach"){v.phase="watch";v.elapsed=0;onGreet(o.id,time);}
+        if(v.phase === "watch"){
+          const desired=Math.atan2(o.x-v.position.x,o.z-v.position.z);
+          v.yaw+=Math.atan2(Math.sin(desired-v.yaw),Math.cos(desired-v.yaw))*Math.min(1,dt*3.5);
+          v.reaction=zooWatchReaction(o.species,v.elapsed,v.seatIndex);
+          v.holding=v.reaction.photo;
+          if(v.elapsed>23+v.seatIndex*1.4){
+            const goal=zooExit(o,v.seatIndex);
+            if(courtWalkable(goal,v.radius,getObstacles(v.biome),v.biome))path(v,goal,"leave");
+          }
+        }else if(v.phase === "leave"){
+          const receipt={id:v.id,catId:v.catId,objectId:v.objectId,position:{x:v.position.x,z:v.position.z}};
+          cancel(v.catId);onComplete(receipt);
+        }
+        continue;
+      }
       if (v.kind === "aquarium") {
         if (v.phase === "approach") {
           v.phase = "watch";

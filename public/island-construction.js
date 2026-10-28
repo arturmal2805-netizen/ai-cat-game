@@ -3,6 +3,7 @@ import { COURT_VENUES, courtObject, courtProject } from "./foodcourt-data.js";
 import { purchaseXP } from "./progression.js";
 import { COTTON_OBJECTS, COTTON_RIDES } from "./cotton-data.js";
 
+import {ZOO_EXHIBITS,ZOO_ID} from "./zoo-data.js";
 const projects = COTTON_OBJECTS.filter((o) => !o.type.startsWith("ride-pig-"));
 // A single, write-once opening timestamp keeps every deadline identical on
 // both phones. Finished rides need no background job or recurring save write.
@@ -81,7 +82,7 @@ export function islandProject(game, id, now = Date.now()) {
   };
 }
 export function islandProjects(game, biome, now = Date.now()) {
-  return (biome === "foodcourt" ? COURT_VENUES : projects)
+  return (biome === ZOO_ID ? ZOO_EXHIBITS : biome === "foodcourt" ? COURT_VENUES : projects)
     .filter((o) => o.biome === biome)
     .map((o) => islandProject(game, o.id, now))
     .filter(Boolean)

@@ -1,3 +1,5 @@
+import {mergeZoo} from './public/zoo-system.js';
+import {ZOO_ID} from './public/zoo-data.js';
 import { HOMESTEAD_EXPANSION } from "./public/homestead-expansion.js";
 import {ATOLL_PARK_ID} from './public/atoll-slide-data.js';
 import {preserveReferenceOwnership} from './public/purchase-preservation.js';
@@ -68,6 +70,7 @@ const guarded = (path) =>
   );
 
 function merge(base, current, incoming, path = "", depth = 0) {
+  if(path==='zoo'){try{return mergeZoo(base,current,incoming);}catch(e){throw new SharedConflict(e.message);}}
   if(/^referenceOwnership\.[\w-]+\.built$/.test(path))return Math.max(current||0,incoming||0);
   if(path==='withdrawnMagicFarms')return [...new Set([...(current||[]),...(incoming||[])])];
   if(path==='farm.orchards'&&incoming===undefined)return clone(current);
@@ -391,6 +394,8 @@ export function mergeSharedWorld(base, current, incoming) {
     if(receipts!==incoming.referenceOwnership)incoming={...incoming,referenceOwnership:receipts};
   }
   if (!base || !current) return clone(incoming);
+  if(current.unlocked.includes(ZOO_ID)&&!incoming.unlocked.includes(ZOO_ID))incoming={...incoming,unlocked:[...incoming.unlocked,ZOO_ID]};
+  let permanentZoo;try{permanentZoo=mergeZoo(base.zoo,current.zoo,incoming.zoo);}catch(error){throw new SharedConflict(error.message);}
   // Old catalogues omit unknown seed/stock keys. An explicit zero is a real
   // consumption; an absent key must retain the merge base and current delta.
   for(const seed of MAGIC_BED_SEEDS)if(base.inventory?.[seed.id]!==undefined&&!(seed.id in incoming.inventory))incoming={...incoming,inventory:{...incoming.inventory,[seed.id]:base.inventory[seed.id]}};
@@ -750,5 +755,6 @@ export function mergeSharedWorld(base, current, incoming) {
     if (homes.length > 1 && homes.some(h => !base.housing?.homes[h.id] && !current.housing?.homes[h.id]))
       throw new SharedConflict("У цієї сім'ї вже є спільний дім. Монетки за другий будинок не списані.");
   }
+  result.zoo=permanentZoo;
   return preserveReferenceOwnership(resolveConstructionBoosts(reconcileFamilyHomes(result)));
 }

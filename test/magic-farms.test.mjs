@@ -12,7 +12,7 @@ const now=Date.UTC(2026,9,28,9),ids=MAGIC_FARMS.map(f=>f.id);
 const restore=g=>loadGame({getItem:k=>k===SAVE_KEY?JSON.stringify(g):null},now,{advance:false});
 function legacy(){const g=newGame(now);g.worldRevision=4;g.unlocked.push(...ids);g.coins=290000;g.farm.orchards=Object.fromEntries(ids.map(id=>[id,newOrchard(id,now)]));g.farm.stock.starberry=7;g.placements.push({id:'paid-farm-mouse',item:'mouse',biome:ids[0],x:2,z:3,rotation:0,readyAt:0});g.catPosition={biome:ids[0],x:0,z:0};g.catDestinations.luna=ids[1];return g;}
 test('all four withdrawn farm islands, shops, colliders and connecting roads are absent',()=>{
- assert.equal(BIOMES.length,18);for(const id of ids){assert.equal(byBiome(id),undefined);assert.deepEqual(biomeReservations(id),[]);}assert.ok(worldRoads(BIOMES).every(r=>!ids.includes(r.to)&&!ids.includes(r.from)));
+ assert.equal(BIOMES.filter(b=>!b.zoo).length,18);for(const id of ids){assert.equal(byBiome(id),undefined);assert.deepEqual(biomeReservations(id),[]);}assert.ok(worldRoads(BIOMES).every(r=>!ids.includes(r.to)&&!ids.includes(r.from)));
  const app=fs.readFileSync(new URL('../public/app.js',import.meta.url),'utf8'),html=fs.readFileSync(new URL('../public/index.html',import.meta.url),'utf8');assert.ok(!app.includes("name:'Магічні ферми'"));assert.ok(!html.includes('id="magic-farm-owned"'));
 });
 test('withdrawal retains paid objects, coins, fruit, ownership and growth records through thirty restarts',()=>{

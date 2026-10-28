@@ -1,3 +1,4 @@
+import {zooAnimalPreview} from './zoo-animals.js';
 import * as THREE from "three";
 import { CATALOG, BIOMES } from "./game-data.js";
 import { createBiomeScene, disposeBiome } from "./biome-scenes.js";
@@ -67,7 +68,7 @@ export async function catalogPreviews(
       scene.add(light);
       const object = item.isBiome
         ? createBiomeScene(item, { preview: true })
-        : makeAttraction(item.id,item.id===MAGIC_BED_ID?magicBedPreview():[]);
+        : item.zoo?zooAnimalPreview(item):makeAttraction(item.id,item.id===MAGIC_BED_ID?magicBedPreview():[]);
       scene.add(object);
       const bounds = new THREE.Box3().setFromObject(object),
         size = bounds.getSize(new THREE.Vector3()),
@@ -131,7 +132,8 @@ export async function catalogPreviews(
           onPreview?.(key, src);
         }
       } finally {
-        if (item.isBiome) disposeBiome(object);
+        if(item.zoo&&!item.isBiome)object.userData.disposeStaff?.();
+        else if (item.isBiome) disposeBiome(object);
         else object.traverse((o) => {
           if (o.isMesh && !o.geometry.userData.sharedScenery) o.geometry.dispose();
         });

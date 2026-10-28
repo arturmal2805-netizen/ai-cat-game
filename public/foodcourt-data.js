@@ -1,3 +1,5 @@
+import {ZOO_EXHIBITS,ZOO_ID,ZOO_RADIUS,ZOO_GATE,zooSeats} from './zoo-data.js';
+import {zooProject} from './zoo-system.js';
 import {
   AQUARIUM_TANKS,
   AQUARIUM_GATE,
@@ -158,6 +160,7 @@ export const ALL_COURT_VENUES = [
   ...COURT_VENUES,
   BIKINI_RESTAURANT,
   ...AQUARIUM_TANKS,
+  ...ZOO_EXHIBITS,
 ];
 export const courtObject = (id) => ALL_COURT_VENUES.find((o) => o.id === id);
 export const courtType = (id) => ALL_COURT_VENUES.find((o) => o.type === id);
@@ -174,6 +177,7 @@ export const COURT_FOUNTAIN = {
   shoreY: 0.16,
 };
 export function courtProject(game, id, now = Date.now()) {
+  if(id.startsWith('zoo-'))return zooProject(game,id);
   const o = courtObject(id);
   if (!o || !game.unlocked.includes(o.biome)) return null;
   const startedAt = Number.isSafeInteger(game.islandConstruction?.[id])
@@ -202,7 +206,7 @@ export function courtProject(game, id, now = Date.now()) {
 }
 export function courtBusinessVenues(game) {
   return ALL_COURT_VENUES.map((o) => courtProject(game, o.id))
-    .filter((o) => o && !o.unstarted)
+    .filter((o) => o && !o.unstarted && o.kind!=='zoo')
     .map((o) => ({
       id: o.id,
       item: o.type,
@@ -229,6 +233,7 @@ export function courtReservations() {
   ];
 }
 export function courtSeats(o) {
+  if(o.kind==='zoo')return zooSeats(o);
   if (o.kind === "aquarium") return aquariumSeats(o);
   if (o.kind === "cinema")
     return [-1, 0, 1].flatMap((s, i) =>
@@ -292,6 +297,7 @@ export function courtGroundY(p, biome = "foodcourt") {
 }
 
 export function courtLayout(biome = "foodcourt") {
+  if(biome===ZOO_ID)return{id:biome,radius:ZOO_RADIUS,gate:ZOO_GATE,venues:ZOO_EXHIBITS,pools:[],houses:[]};
   if (biome === "aquarium")
     return {
       id: biome,

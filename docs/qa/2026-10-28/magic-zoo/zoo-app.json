@@ -1,0 +1,209 @@
+{
+  "first": {
+    "coins": 296400,
+    "zoo": {
+      "version": 1,
+      "receipts": {}
+    },
+    "actors": {
+      "fishCount": 14,
+      "species": 6,
+      "animals": 24,
+      "staticMeshes": 10,
+      "sourceMeshes": 6011
+    },
+    "oldIslands": [
+      "moon",
+      "autumn",
+      "winter",
+      "water",
+      "summer",
+      "sakura",
+      "volcano",
+      "candy",
+      "galaxy",
+      "ice",
+      "clockwork",
+      "foodcourt",
+      "bikini",
+      "homestead",
+      "aquarium",
+      "jobcity",
+      "cat-homes",
+      "atoll-park"
+    ]
+  },
+  "paid": {
+    "coins": 187900,
+    "zoo": {
+      "version": 1,
+      "receipts": {
+        "zoo-axolotl": {
+          "id": "opened-zoo-axolotl",
+          "price": 6500,
+          "openedAt": 1793215896723
+        },
+        "zoo-otter": {
+          "id": "opened-zoo-otter",
+          "price": 11000,
+          "openedAt": 1793215905173
+        },
+        "zoo-tiger": {
+          "id": "opened-zoo-tiger",
+          "price": 18000,
+          "openedAt": 1793215917263
+        },
+        "zoo-polar": {
+          "id": "opened-zoo-polar",
+          "price": 29000,
+          "openedAt": 1793215930687
+        },
+        "zoo-gorilla": {
+          "id": "opened-zoo-gorilla",
+          "price": 44000,
+          "openedAt": 1793215942070
+        }
+      }
+    },
+    "unlocked": [
+      "moon",
+      "magic-zoo"
+    ],
+    "placements": [
+      {
+        "id": "welcome-yarn",
+        "item": "yarn",
+        "biome": "moon",
+        "x": -5,
+        "z": 2,
+        "rotation": 0
+      },
+      {
+        "id": "welcome-party",
+        "item": "party",
+        "biome": "moon",
+        "x": 4,
+        "z": 0,
+        "rotation": 0
+      },
+      {
+        "id": "welcome-farm",
+        "item": "farm-field",
+        "biome": "moon",
+        "x": -6,
+        "z": -1,
+        "rotation": 0,
+        "readyAt": 0
+      }
+    ]
+  },
+  "visits": [
+    {
+      "id": "zoo-elephant",
+      "finished": true,
+      "photo": true,
+      "wave": true
+    },
+    {
+      "id": "zoo-axolotl",
+      "finished": true,
+      "photo": true,
+      "wave": true
+    },
+    {
+      "id": "zoo-otter",
+      "finished": true,
+      "photo": true,
+      "wave": true
+    },
+    {
+      "id": "zoo-tiger",
+      "finished": true,
+      "photo": true,
+      "wave": true
+    },
+    {
+      "id": "zoo-polar",
+      "finished": true,
+      "photo": true,
+      "wave": true
+    },
+    {
+      "id": "zoo-gorilla",
+      "finished": true,
+      "photo": true,
+      "wave": true
+    }
+  ],
+  "manual": [
+    {
+      "id": "adopt-crumb",
+      "moved": true,
+      "started": true
+    },
+    {
+      "id": "adopt-marshmallow",
+      "moved": true,
+      "started": true
+    }
+  ],
+  "gathering": [
+    {
+      "id": "luna",
+      "biome": "magic-zoo",
+      "stale": null,
+      "anchor": null,
+      "invited": true
+    },
+    {
+      "id": "moti",
+      "biome": "magic-zoo",
+      "stale": null,
+      "anchor": null,
+      "invited": true
+    },
+    {
+      "id": "pixel",
+      "biome": "magic-zoo",
+      "stale": null,
+      "anchor": null,
+      "invited": true
+    },
+    {
+      "id": "peach",
+      "biome": "magic-zoo",
+      "stale": null,
+      "anchor": null,
+      "invited": true
+    },
+    {
+      "id": "bagel",
+      "biome": "magic-zoo",
+      "stale": null,
+      "anchor": null,
+      "invited": true
+    },
+    {
+      "id": "salem",
+      "biome": "magic-zoo",
+      "stale": null,
+      "anchor": null,
+      "invited": true
+    },
+    {
+      "id": "adopt-marshmallow",
+      "biome": "magic-zoo",
+      "stale": null,
+      "anchor": null,
+      "invited": true
+    },
+    {
+      "id": "adopt-crumb",
+      "biome": "magic-zoo",
+      "stale": null,
+      "anchor": null,
+      "invited": true
+    }
+  ],
+  "reloads": 2
+}

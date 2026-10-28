@@ -8,8 +8,8 @@ import {
   byBiome,
   biomeReservations,
 } from "../public/game-data.js";
-// Preserve the released-island snapshot; new magical farms have independent coverage.
-const BIOMES = REGISTERED_BIOMES.filter(b => !b.magicFarm);
+// Preserve the released-island snapshot; new destinations have independent coverage.
+const BIOMES = REGISTERED_BIOMES.filter(b => !b.magicFarm && !b.zoo);
 import { ADOPTION_CATS, BREEDS, catAppearance } from "../public/cat-breeds.js";
 import {
   EXTRA_CATS,

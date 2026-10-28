@@ -34,8 +34,8 @@ import {
 } from "../public/care-system.js";
 import { xpForLevel, DAILY_XP_LIMIT, addXP } from "../public/progression.js";
 import { BIOMES as REGISTERED_BIOMES, byBiome, byItem } from "../public/game-data.js";
-// Preserve the released-island snapshot; new magical farms have independent coverage.
-const BIOMES = REGISTERED_BIOMES.filter(b => !b.magicFarm);
+// Preserve the released-island snapshot; new destinations have independent coverage.
+const BIOMES = REGISTERED_BIOMES.filter(b => !b.magicFarm && !b.zoo);
 import { RENEWED_ISLANDS, ISLAND_RIDES } from "../public/renewal-data.js";
 import { createCat, animateCat, disposeCat } from "../public/cat-model.js";
 import { createBiomeScene } from "../public/biome-scenes.js";
@@ -358,7 +358,7 @@ test("an older open tab can still submit physical targets from retired Witch For
   );
 });
 test("renewed islands have distinct features, fish, animated waterfalls and two usable pools each", () => {
-  assert.equal(BIOMES.length, 18);
+  assert.equal(BIOMES.filter(b=>!b.zoo).length, 18);
   assert.equal(byBiome("wizard"), undefined);
   const themes = new Set();
   for (const id of Object.keys(RENEWED_ISLANDS).filter(

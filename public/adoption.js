@@ -1,3 +1,4 @@
+import {gatherCandidates} from './gather-system.js';
 import { ADOPTION_CATS } from "./cat-breeds.js";
 import { activeCats } from "./cat-roster.js";
 import { byBiome } from "./game-data.js";
@@ -60,14 +61,14 @@ export function adoptCat(game, catId, centerId, now = Date.now()) {
   };
   return addXP(next, 45, now);
 }
-export function gatherCats(game, biome) {
+export function gatherCats(game, biome, {ids=null,now=Date.now()}={}) {
   if (!byBiome(biome) || !game.unlocked.includes(biome))
     throw Error("Сначала откройте остров.");
   const next = structuredClone(game);
-  for (const cat of activeCats(game)) next.catDestinations[cat.id] = biome;
+  const selected=new Set(ids||gatherCandidates(game,now));
+  for (const cat of activeCats(game)) if(selected.has(cat.id))next.catDestinations[cat.id] = biome;
   const arrival = byBiome(biome).arrival || [0, 0];
-  next.catPosition = { biome, x: arrival[0], z: arrival[1] };
-  next.care.resting = null;
+  if(selected.has("chichi")){next.catPosition = { biome, x: arrival[0], z: arrival[1] };next.care.resting = null;}
   return next;
 }
 export function normalizeDestinations(raw, game) {
