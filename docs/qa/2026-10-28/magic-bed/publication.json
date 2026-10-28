@@ -1,0 +1,18 @@
+{
+  "commit": "773bcdcbc747e5e40da929de11b03eaed74846f7",
+  "checkedAt": "2026-10-28T12:41:12.807861+00:00",
+  "site": "https://arturmal2805-netizen.github.io/ai-cat-game/?update=773bcdc",
+  "app": "./dist/app.js?v=f41fa6f2e4ce8c3d",
+  "appSHA256": "f41fa6f2e4ce8c3dea970f7e4e1d468ed1514f33b45ddba853c9f15abe58a958",
+  "sourceMatches": true,
+  "serverRelease": "773bcdcbc747e5e40da929de11b03eaed74846f7",
+  "ciRun": 40688783164,
+  "ciAttempt": 1,
+  "jobs": [
+    "test: success",
+    "deploy: success",
+    "pages: success"
+  ],
+  "previewFilesVerified": 7,
+  "catCache": "sculpt-v2-a496203fa13a037a7a10a927"
+}
