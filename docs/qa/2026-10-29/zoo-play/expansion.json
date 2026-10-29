@@ -1,0 +1,84 @@
+{
+  "radius": 40.35678381635484,
+  "areaMultiplier": 4,
+  "exhibits": [
+    {
+      "id": "zoo-elephant",
+      "radius": 9,
+      "price": 0
+    },
+    {
+      "id": "zoo-axolotl",
+      "radius": 9,
+      "price": 6500
+    },
+    {
+      "id": "zoo-otter",
+      "radius": 11.5,
+      "price": 11000
+    },
+    {
+      "id": "zoo-polar",
+      "radius": 11.5,
+      "price": 29000
+    },
+    {
+      "id": "zoo-gorilla",
+      "radius": 9,
+      "price": 44000
+    }
+  ],
+  "animals": [
+    {
+      "id": "elephant",
+      "count": 3,
+      "scales": [
+        1.15,
+        1.02,
+        0.52
+      ]
+    },
+    {
+      "id": "axolotl",
+      "count": 8,
+      "scales": [
+        0.72,
+        0.63,
+        0.6,
+        0.52,
+        0.48,
+        0.58,
+        0.55,
+        0.45
+      ]
+    },
+    {
+      "id": "otter",
+      "count": 4,
+      "scales": [
+        0.8,
+        0.72,
+        0.76,
+        0.6
+      ]
+    },
+    {
+      "id": "polar",
+      "count": 3,
+      "scales": [
+        0.95,
+        0.8,
+        0.52
+      ]
+    },
+    {
+      "id": "gorilla",
+      "count": 3,
+      "scales": [
+        1,
+        0.9,
+        0.6
+      ]
+    }
+  ]
+}

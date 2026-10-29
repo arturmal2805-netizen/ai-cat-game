@@ -1,0 +1,102 @@
+{
+  "note": "Real source buffers; no physical-device FPS claim. Tiger removed by explicit request; all other animals retain their geometry counts.",
+  "models": {
+    "axolotl": {
+      "before": {
+        "vertices": 22370,
+        "triangles": 38928,
+        "geometryBytes": 2291608,
+        "poseBytes": 460800,
+        "rawBytes": 2754892
+      },
+      "after": {
+        "vertices": 22370,
+        "triangles": 38928,
+        "geometryBytes": 2291608,
+        "poseBytes": 460800,
+        "rawBytes": 2754892,
+        "poseFrames": 400,
+        "revision": null
+      },
+      "sameFile": true
+    },
+    "elephant": {
+      "before": {
+        "vertices": 24027,
+        "triangles": 44604,
+        "geometryBytes": 2478108,
+        "poseBytes": 998400,
+        "rawBytes": 3480332
+      },
+      "after": {
+        "vertices": 24027,
+        "triangles": 44604,
+        "geometryBytes": 2478108,
+        "poseBytes": 998400,
+        "rawBytes": 3480332,
+        "poseFrames": 400,
+        "revision": null
+      },
+      "sameFile": true
+    },
+    "gorilla": {
+      "before": {
+        "vertices": 39888,
+        "triangles": 51868,
+        "geometryBytes": 3980904,
+        "poseBytes": 332800,
+        "rawBytes": 4315872
+      },
+      "after": {
+        "vertices": 39888,
+        "triangles": 51868,
+        "geometryBytes": 3980904,
+        "poseBytes": 412672,
+        "rawBytes": 4395800,
+        "poseFrames": 496,
+        "revision": "gorilla-play-swing-v2"
+      },
+      "sameFile": false
+    },
+    "otter": {
+      "before": {
+        "vertices": 26429,
+        "triangles": 34384,
+        "geometryBytes": 2637772,
+        "poseBytes": 588800,
+        "rawBytes": 3229440
+      },
+      "after": {
+        "vertices": 26429,
+        "triangles": 34384,
+        "geometryBytes": 2637772,
+        "poseBytes": 588800,
+        "rawBytes": 3229440,
+        "poseFrames": 400,
+        "revision": null
+      },
+      "sameFile": true
+    },
+    "polar": {
+      "before": {
+        "vertices": 42137,
+        "triangles": 53136,
+        "geometryBytes": 4195420,
+        "poseBytes": 588800,
+        "rawBytes": 4787116,
+        "detailRevision": "polar-v5"
+      },
+      "after": {
+        "vertices": 42137,
+        "triangles": 53136,
+        "geometryBytes": 4195420,
+        "poseBytes": 588800,
+        "rawBytes": 4787116,
+        "poseFrames": 400,
+        "revision": "polar-v5"
+      },
+      "sameFile": false
+    }
+  },
+  "retired": "tiger"
+}

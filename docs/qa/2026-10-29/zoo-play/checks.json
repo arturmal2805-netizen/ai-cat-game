@@ -1,0 +1,30 @@
+{
+  "source": "eea035dd4795007572f4ed1c5e34e6b6c1559cb2",
+  "fullSuite": {
+    "tests": 838,
+    "passed": 838,
+    "failed": 0
+  },
+  "latestTargeted": {
+    "tests": 22,
+    "passed": 22
+  },
+  "guestCandidates": {
+    "tests": 2,
+    "passed": 2
+  },
+  "native": {
+    "continuousPrecedingCandidate": "continuous-native.json",
+    "finalFixedDraws": "native.json",
+    "browserErrors": [],
+    "httpErrors": [],
+    "allHabitats": 5,
+    "durableReloads": 2
+  },
+  "ownership": {
+    "file": "ownership.json",
+    "reloads": 2
+  },
+  "approvedCatCache": "sculpt-v2-a496203fa13a037a7a10a927",
+  "hardwareFPSMeasured": false
+}

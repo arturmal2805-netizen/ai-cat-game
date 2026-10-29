@@ -1,0 +1,31 @@
+{
+  "results": {
+    "island": {
+      "calls": 131,
+      "triangles": 2774579,
+      "geometries": 117,
+      "textures": 20,
+      "stats": {
+        "fishCount": 14,
+        "species": 5,
+        "animals": 21,
+        "staticMeshes": 10,
+        "sourceMeshes": 5170
+      }
+    },
+    "branches": {
+      "calls": 67,
+      "triangles": 1864599,
+      "geometries": 69,
+      "textures": 19,
+      "stats": {
+        "fishCount": 14,
+        "species": 5,
+        "animals": 21,
+        "staticMeshes": 10,
+        "sourceMeshes": 5170
+      }
+    }
+  },
+  "errors": []
+}
