@@ -134,9 +134,8 @@ export function buildZooAnatomy(species,{joint,add,curve,eye,socket=()=>{}}){
    const leg='LegBack'+sideName(side);joint(leg,[side*.37,.8,-.18],'body');skin(fur,[side*.39,.57,-.25],[.29,.44,.3],leg);skin(fur,[side*.4,.26,-.02],[.22,.25,.27],leg);skin(skinCol,[side*.4,.12,.17],[.27,.12,.37],leg);
    for(let k=0;k<4;k++)skin(skinCol,[side*.4+(k-1.5)*.105,.075,.41],[.052,.075,.15],leg);
   }
-  for(const side of [-1,1])add(0x171a19,[side*.087,2.075,1.299],[.038,.025,.012],'head',{gloss:.25});
   for(const side of [-1,1])socket({pos:[side*.087,2.075,1.310],size:[.047,.033,.079]});
-  socket({pos:[0,1.892,1.22],size:[.205,.021,.076]});add(0x372f2b,[0,1.89,1.185],[.20,.018,.028],'head',{gloss:.15});
+  socket({pos:[0,1.892,1.22],size:[.205,.021,.076]});
   for(const side of [-1,1]){
    curve([[side*.48,2.26,.34],[side*.50,2.23,.38],[side*.50,2.14,.4],[side*.49,2.04,.34],[side*.47,2.04,.25],[side*.46,2.12,.23],[side*.47,2.23,.25]],.012,0x62675e);
    add(0x343d37,[side*.485,2.15,.32],[.018,.075,.055],'head',{micro:true});
@@ -162,4 +161,15 @@ export function buildZooAnatomy(species,{joint,add,curve,eye,socket=()=>{}}){
   curve([[-.13,.31,.753],[0,.29,.77],[.13,.31,.753]],.004,0x9d667e);
   for(let k=0;k<18;k++){const a=k*2.399;add(0xc894ad,[Math.sin(a)*.27,.54+Math.cos(a)*.06,.55-Math.abs(Math.sin(a))*.05],[.006,.006,.004],'head');}
  }
+}
+
+// Pigment belongs to the carved inner skin. Separate dark mouth/nostril
+// backings protruded through curved lips and looked like glued-on flat pieces.
+const oralPigment=new T.Color(0x292421),nasalPigment=new T.Color(0x1a1e1c);
+export function paintGorillaFace(p,color){
+ const [x,y,z]=p;if(z<1.02||y<1.85||y>2.12)return;
+ const smooth=T.MathUtils.smoothstep;
+ const mouth=(1-smooth(Math.abs(x),.16,.205))*(1-smooth(Math.abs(y-1.892),.008,.021))*(1-smooth(z,1.17,1.205));
+ const nostril=(1-smooth(Math.hypot((Math.abs(x)-.087)/.047,(y-2.075)/.033),.65,1.05))*(1-smooth(z,1.295,1.32))*smooth(z,1.17,1.21);
+ color.lerp(oralPigment,mouth*.96);color.lerp(nasalPigment,nostril*.97);
 }

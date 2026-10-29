@@ -682,3 +682,8 @@ all five geometry budgets, coat coalescing/failure, actual behavior/contact and
 source/cache equality. Run real habitat mouse/touch selection and private native
 phone/SQLite reload checks before publishing. Authoring improvements and smaller
 asset downloads do not establish physical-device FPS gains.
+
+Dark gorilla oral/nasal cavities are pigmented on the continuous inner skin
+during authoring. Do not reintroduce separate glossy dark backings: in profile
+they protrude through curved lips and nostril rims. Check the untextured sculpt
+and retain the matte-cavity regression test.

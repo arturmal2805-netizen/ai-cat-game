@@ -5,7 +5,7 @@ import {optimizeGeometryCache} from './geometry-cache.js';
 import {ZOO_ANATOMY_REVISION,POLAR_DETAIL_REVISION} from './zoo-anatomy-data.js';
 import {zooTigerCoat,zooTigerCoatSteps} from './zoo-coat-pattern.js';
 import {zooFurSteps,zooFurTexture,zooBearFurTexture} from './zoo-fur.js';
-import {buildZooAnatomy} from './zoo-anatomy.js';
+import {buildZooAnatomy,paintGorillaFace} from './zoo-anatomy.js';
 import {zooEyeCap} from './zoo-eyes.js';
 import {runSceneSteps} from './scene-tasks.js';
 import {sculptZooAnimalSteps} from './zoo-sculpt.js';
@@ -68,7 +68,7 @@ function* buildTemplateSteps(species){
   add(skin,point(0,0,r*.49),[r*1.07,r*h,r*.09],lid,{aim:normal});
  };
  buildZooAnatomy(species,{joint,add,curve,eye,socket:s=>sockets.push(s)});
- const sculpt=yield*sculptZooAnimalSteps(volumes,{resolution:species==='gorilla'||species==='elephant'?112:96,soft:species==='axolotl'?.04:.09,sockets,targetTriangles:{elephant:28000,axolotl:16500,otter:15000,polar:26000,gorilla:27000}[species]}),sculptStats={volumes:volumes.length,vertices:sculpt.attributes.position.count,triangles:sculpt.index.count/3,weighted:0};for(let i=0;i<sculpt.attributes.position.count;i++)if(sculpt.attributes.aSculptWeights.getY(i)>.001)sculptStats.weighted++;add(0xffffff,[0,0,0],[1,1,1],'body',{geometry:sculpt,sculpt:true,gloss:species==='otter'?.36:species==='elephant'?.08:undefined});const fur=yield*zooFurSteps(sculpt,species);sculptStats.furCards=fur?.userData.furCards||0;if(fur){add(0xffffff,[0,0,0],[1,1,1],'body',{geometry:fur,sculpt:true,fur:true,gloss:species==='otter'?.36:0});fur.dispose();}sculpt.dispose();
+ const sculpt=yield*sculptZooAnimalSteps(volumes,{resolution:species==='gorilla'||species==='elephant'?112:96,soft:species==='axolotl'?.04:.09,sockets,pigment:species==='gorilla'?paintGorillaFace:undefined,targetTriangles:{elephant:28000,axolotl:16500,otter:15000,polar:26000,gorilla:27000}[species]}),sculptStats={volumes:volumes.length,vertices:sculpt.attributes.position.count,triangles:sculpt.index.count/3,weighted:0};for(let i=0;i<sculpt.attributes.position.count;i++)if(sculpt.attributes.aSculptWeights.getY(i)>.001)sculptStats.weighted++;add(0xffffff,[0,0,0],[1,1,1],'body',{geometry:sculpt,sculpt:true,gloss:species==='otter'?.36:species==='elephant'?.08:undefined});const fur=yield*zooFurSteps(sculpt,species);sculptStats.furCards=fur?.userData.furCards||0;if(fur){add(0xffffff,[0,0,0],[1,1,1],'body',{geometry:fur,sculpt:true,fur:true,gloss:species==='otter'?.36:0});fur.dispose();}sculpt.dispose();
  for(let i=0;i<pendingParts.length;i++){bakePart(...pendingParts[i]);if(i%3===0)yield;}
  const geometry=mergeGeometries(parts,false);parts.forEach(g=>g.dispose());optimizeGeometryCache(geometry);geometry.computeBoundingSphere();geometry.userData.sharedScenery=true;
  const frameCount=zooModelFrames(species),n=joints.length,values=new Float32Array(n*4*frameCount*4),rest=joints.map((j,i)=>new T.Matrix4().makeTranslation(...j.pivot.toArray())),inverse=rest.map(m=>m.clone().invert()),animated=[];

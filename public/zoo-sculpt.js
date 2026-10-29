@@ -5,7 +5,7 @@ import {mergeVertices} from 'three/addons/utils/BufferGeometryUtils.js';
 // A closed, continuous animal surface. The authored volumes are sculpting
 // controls, not separate visible balls. Skin weights and colour blend through
 // necks, shoulders and ankles; the shared baked palette animates the result.
-export function* sculptZooAnimalSteps(volumes,{resolution=48,soft=.11,sockets=[],targetTriangles=0}={}){
+export function* sculptZooAnimalSteps(volumes,{resolution=48,soft=.11,sockets=[],targetTriangles=0,pigment}={}){
  const low=[Infinity,Infinity,Infinity],high=[-Infinity,-Infinity,-Infinity];
  for(const v of volumes)for(let k=0;k<3;k++){const relief=k===2?(v.relief||[]).reduce((n,r)=>n+Math.abs(r[2]),0):0;low[k]=Math.min(low[k],v.pos[k]-v.size[k]-.22);high[k]=Math.max(high[k],v.pos[k]+v.size[k]+relief+.22);}
  volumes=volumes.map(v=>({...v,inv:v.size.map(n=>1/n),minimum:Math.min(...v.size)}));
@@ -57,7 +57,7 @@ export function* sculptZooAnimalSteps(volumes,{resolution=48,soft=.11,sockets=[]
   second||=first;if(p[1]<.12){const foot=first.role?.startsWith('Foot')?first:second.role?.startsWith('Foot')?second:null;if(foot){first=second=foot;db=da;}}const w=T.MathUtils.clamp(.5+(db-da)/(2*soft),.5,1);a.set(first.color);b.set(second.color);a.lerp(b,1-w);
   // Broad soft coat variation is baked once; fine fibres/pores use a shared
   // mipmapped material texture and never allocate/update per animal frame.
-  const shade=.98+.018*Math.sin(p[0]*2.4+p[2]*1.5)*Math.sin(p[1]*2.1-p[2]);a.multiplyScalar(shade);
+  const shade=.98+.018*Math.sin(p[0]*2.4+p[2]*1.5)*Math.sin(p[1]*2.1-p[2]);a.multiplyScalar(shade);pigment?.(p,a);
   if(i%512===0)yield;
   colors.push(a.r,a.g,a.b);ids.push(first.id,second.id);weights.push(w,1-w);stripes.push((first.stripes||0)*w+(second.stripes||0)*(1-w));
  }

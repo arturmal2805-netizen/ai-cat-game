@@ -46,3 +46,9 @@ test('an unavailable coat retains the stable fallback without an unbounded retry
  try{globalThis.window={};globalThis.createImageBitmap=async()=>{};globalThis.fetch=async()=>{requests++;throw Error('offline');};const {prepareZooCoat,zooCoatUniforms}=await import('../public/zoo-coat-atlas.js?qa=failure');assert.equal(await prepareZooCoat(),false);assert.equal(await prepareZooCoat(),false);assert.equal(requests,1);assert.equal(zooCoatUniforms.uZooCoatReady.value,0);assert.equal(zooCoatUniforms.uZooCoatAtlas.value.image.width,1);
  }finally{globalThis.window=old.window;globalThis.fetch=old.fetch;globalThis.createImageBitmap=old.bitmap;}
 });
+
+test('gorilla mouth and nostrils are painted into continuous matte skin, without protruding glossy backing parts',()=>{
+ const m=zooAnimals(ZOO_EXHIBITS.find(e=>e.species==='gorilla')),g=m.geometry;let dark=0,skin=0;
+ for(let i=0;i<g.attributes.position.count;i++){const p=new T.Vector3().fromBufferAttribute(g.attributes.position,i);if(p.z<1.04||Math.abs(p.x)>.22||p.y<1.86||p.y>2.12)continue;assert.equal(g.attributes.aGloss.getX(i),0,'separate face backing');assert.equal(g.attributes.aGloss.getY(i),0,'hair inside oral/nasal cavity');skin++;if(g.attributes.color.getX(i)<.035)dark++;}
+ assert.ok(skin>50);assert.ok(dark>10,'carved cavities lost their inner pigment');m.dispose();g.dispose();m.material.dispose();
+});
