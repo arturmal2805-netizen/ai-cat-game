@@ -1223,7 +1223,7 @@ function showCourt(id, fishIndex) {
     button.disabled=!p.built&&(!p.previousOpen||game.coins<p.price);
     button.onclick=()=>{try{if(!p.built)commit(openZooExhibit(game,id));$("item-dialog").close();world?.enterCourt(id);toast(p.built?o.name:"Ворота відчиняються · "+o.name);}catch(error){toast(error.message);}};
     actions.append(button);
-    if(p.built&&o.species==='axolotl'){const close=document.createElement('button');close.className='soft';close.textContent='Аксолотль зблизька';close.onclick=()=>{$('item-dialog').close();world?.enterCourt(id,0);};actions.append(close);}
+    if(p.built){const close=document.createElement('button');close.className='soft';close.textContent=o.species==='axolotl'?'Аксолотль зблизька':'Тварина зблизька';close.onclick=()=>{$('item-dialog').close();world?.enterCourt(id,0);};actions.append(close);}
     open("item-dialog");return;
   }
   if (p.built) {

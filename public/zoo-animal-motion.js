@@ -1,6 +1,7 @@
+import {zooLegPose} from './zoo-anatomy-motion.js';
 // Closed, smooth 32-second choreography. Used only while preparing immutable
 // pose tables; the browser animation uploads clocks, never new bone buffers.
-export const ZOO_CYCLE=32,ZOO_POSE_FRAMES=160;
+export const ZOO_CYCLE=32,ZOO_POSE_FRAMES=400;
 const TAU=Math.PI*2,clamp=x=>Math.max(0,Math.min(1,x)),smooth=x=>{x=clamp(x);return x*x*(3-2*x);};
 const window=(u,a,b)=>Math.sin(Math.PI*clamp((u-a)/(b-a)))**2;
 export function zooAnimalPose(species,time,role){
@@ -24,6 +25,7 @@ export function zooAnimalPose(species,time,role){
   else{const q=smooth(u/.4),s=q*TAU;p.x=Math.sin(s)*.55;p.z=(Math.cos(s)-1)*.36;p.ry=Math.sin(s)*.24;p.y=-window(u,.68,.93)*.04;}
   return p;
  }
+ const limb=zooLegPose(species,t,role,/^(Leg|Knee|Foot)/.test(role)?zooAnimalPose(species,t,'root'):null,/^(Leg|Knee|Foot)/.test(role)?zooAnimalPose(species,t,'body'):null);if(limb)return {...p,...limb};
  if(role==='head'){p.ry=Math.sin(a*4)*.07+(species==='tiger'?window(u,.72,.97)*Math.sin(a*8)*.25:0);p.rx=species==='tiger'?window(u,.23,.43)*.16+window(u,.35,.48)*.2:species==='gorilla'?window(u,.65,.95)*.08:Math.sin(a*4)*.035;}
  if(role.startsWith('ear'))p.ry=side*Math.sin(a*11)*(species==='elephant'?.34:species==='axolotl'?.13:.045);
  if(role.startsWith('gill')){p.rz=side*Math.sin(a*16+Number(role.at(-1)))*.15;p.ry=Math.sin(a*12)*.13;}

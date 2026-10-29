@@ -1,0 +1,113 @@
+{
+  "note": "Simulated post-transform LRU reuse, not physical-device FPS. No mesh simplification.",
+  "species": {
+    "elephant": {
+      "triangles": 44604,
+      "vertices": 24027,
+      "lrU16": {
+        "before": 47832,
+        "after": 30212
+      },
+      "lrU32": {
+        "before": 39738,
+        "after": 28694
+      },
+      "releasedV3": {
+        "lru16": 44135,
+        "lru32": 37414
+      }
+    },
+    "axolotl": {
+      "triangles": 38928,
+      "vertices": 22370,
+      "lrU16": {
+        "before": 38616,
+        "after": 26355
+      },
+      "lrU32": {
+        "before": 32055,
+        "after": 25262
+      },
+      "releasedV3": {
+        "lru16": 28540,
+        "lru32": 24853
+      }
+    },
+    "otter": {
+      "triangles": 34384,
+      "vertices": 26429,
+      "lrU16": {
+        "before": 39196,
+        "after": 29766
+      },
+      "lrU32": {
+        "before": 34119,
+        "after": 28861
+      },
+      "releasedV3": {
+        "lru16": 27300,
+        "lru32": 24039
+      }
+    },
+    "tiger": {
+      "triangles": 52280,
+      "vertices": 39937,
+      "lrU16": {
+        "before": 61460,
+        "after": 45436
+      },
+      "lrU32": {
+        "before": 53746,
+        "after": 44040
+      },
+      "releasedV3": {
+        "lru16": 36274,
+        "lru32": 31687
+      }
+    },
+    "polar": {
+      "triangles": 53176,
+      "vertices": 43026,
+      "lrU16": {
+        "before": 63840,
+        "after": 48589
+      },
+      "lrU32": {
+        "before": 57778,
+        "after": 47236
+      },
+      "releasedV3": {
+        "lru16": 35337,
+        "lru32": 30700
+      }
+    },
+    "gorilla": {
+      "triangles": 51868,
+      "vertices": 39888,
+      "lrU16": {
+        "before": 65034,
+        "after": 45441
+      },
+      "lrU32": {
+        "before": 57065,
+        "after": 43980
+      },
+      "releasedV3": {
+        "lru16": 33249,
+        "lru32": 28592
+      }
+    }
+  },
+  "totals": {
+    "geometryBytes": 19653724,
+    "poseBytes": 3558400,
+    "rawModelBytes": 23229236,
+    "gzipModelBytes": 6517879
+  },
+  "releasedComparison": {
+    "oldV3Lru16": 784505,
+    "newV4Lru16": 838938,
+    "oldV3Lru32": 680159,
+    "newV4Lru32": 809390
+  }
+}

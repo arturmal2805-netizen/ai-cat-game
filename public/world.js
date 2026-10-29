@@ -883,6 +883,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     if (!courtCamera) return;
     const old = courtCamera;
     courtCamera = null;
+    itemGroups.get(old.id)?.userData.setZooInspection?.(false);
     const roof = itemGroups.get(old.id)?.userData.roof;
     if (roof) roof.visible = true;
     courtExit.hidden = true;
@@ -925,6 +926,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         : {}),
     };
     if (g?.userData.roof) g.userData.roof.visible = false;
+    if(o.kind==='zoo'&&Number.isInteger(fishIndex))g?.userData.setZooInspection?.(true);
     desiredLook.set(
       venueBiome.center[0] + o.x,
       1.8,
@@ -957,10 +959,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
     }
     azimuth = 0.06;
     if(o.kind === "zoo"){
-      ensureDetail(ZOO_ID);desiredLook.y=o.species === "axolotl"?1.8:1.3;desiredDistance=Number.isInteger(fishIndex)?(mobileRender?6:4.8):mobileRender?17:14;azimuth=Math.atan2(-o.x,-o.z);
+      ensureDetail(ZOO_ID);desiredLook.y=o.species === "axolotl"?1.8:1.3;desiredDistance=Number.isInteger(fishIndex)?({elephant:mobileRender?8.8:7.2,gorilla:mobileRender?6.5:5.2,tiger:mobileRender?6:4.8,polar:mobileRender?4.4:3.6,otter:mobileRender?3.4:2.8,axolotl:mobileRender?4.4:3.4}[o.species]):mobileRender?17:14;azimuth=Math.atan2(-o.x,-o.z);
     }
     elevation =
-      o.kind === "zoo" ? Number.isInteger(fishIndex) ? .2 : .48 : o.kind === "aquarium"
+      o.kind === "zoo" ? Number.isInteger(fishIndex) ? (["polar","otter"].includes(o.species)?.34:.2) : .48 : o.kind === "aquarium"
         ? Number.isInteger(fishIndex)
           ? 0.32
           : 0.58
@@ -3924,7 +3926,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           ),
         );
     }
-    if(courtCamera?.zooAnimal!==undefined){const zoo=islands.get(ZOO_ID);if(zoo?.userData.animalPoint){zoo.userData.animalPoint(courtCamera.id,courtCamera.zooAnimal,time,desiredLook);desiredLook.x+=byBiome(ZOO_ID).center[0];desiredLook.z+=byBiome(ZOO_ID).center[1];}}
+    if(courtCamera?.zooAnimal!==undefined){const zoo=islands.get(ZOO_ID);if(zoo?.userData.animalPoint){zoo.userData.animalPoint(courtCamera.id,courtCamera.zooAnimal,time,desiredLook);desiredLook.x+=byBiome(ZOO_ID).center[0];desiredLook.z+=byBiome(ZOO_ID).center[1];const heading=zoo.userData.animalHeading(courtCamera.id,courtCamera.zooAnimal);if(courtCamera.zooHeading===undefined)azimuth=heading;else azimuth+=Math.atan2(Math.sin(heading-courtCamera.zooHeading),Math.cos(heading-courtCamera.zooHeading));courtCamera.zooHeading=heading;}}
     const occupiedAttractions = new Set(
       [...residentPlay.visits.values()].map((v) => v.object),
     );

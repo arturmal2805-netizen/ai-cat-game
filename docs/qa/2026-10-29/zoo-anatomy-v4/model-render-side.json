@@ -1,0 +1,41 @@
+{
+  "results": {
+    "elephant": {
+      "calls": 2,
+      "triangles": 89208,
+      "geometries": 1,
+      "textures": 7
+    },
+    "tiger": {
+      "calls": 2,
+      "triangles": 104560,
+      "geometries": 1,
+      "textures": 7
+    },
+    "axolotl": {
+      "calls": 2,
+      "triangles": 77856,
+      "geometries": 1,
+      "textures": 7
+    },
+    "otter": {
+      "calls": 2,
+      "triangles": 68768,
+      "geometries": 1,
+      "textures": 7
+    },
+    "polar": {
+      "calls": 2,
+      "triangles": 106352,
+      "geometries": 1,
+      "textures": 7
+    },
+    "gorilla": {
+      "calls": 2,
+      "triangles": 103736,
+      "geometries": 1,
+      "textures": 7
+    }
+  },
+  "errors": []
+}

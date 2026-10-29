@@ -566,3 +566,31 @@ not resurrect a position on another island and undo the resulting destination.
 Preserve genuinely omitted locations, but reconcile them with explicit merged
 commands. On completion of a recall, save the actual arrivals once so reloads
 restore the entrance positions rather than the centre of a giant island.
+
+### Zoo anatomical detail and independent mobile animation
+
+Keep the natural mammal proportions, inset corneal caps, articulated knees and
+feet, continuous trunk/forehead sculpt, painted branching tiger coat and static
+cutout fur. Axolotls retain large cute eyes, four tiny limbs and six feathered
+external gills. Judge actual front/side and phone close images, not just counts.
+
+Animal detail is selected-island work. Keep one fixed batch per species,
+shared mipmapped textures, immutable downloaded geometry and baked pose atlases.
+Pack the fur flag into the existing gloss attribute: the native WebGL2 path has
+a sixteen-slot attribute limit. Animation updates only eight scalar frame
+uniforms per species, with the original two pose samples per vertex; no live
+skin baking, instance-matrix uploads, extra reflection passes or AI requests.
+
+Every animal independently chooses from a local five-action shuffle bag.
+Author closed clip endpoints offline so changing actions cannot jump, while
+CPU picking/contact/camera queries use the identical sampled frame. Animate all
+six species even behind unpaid gates; gates restrict visitor access, not life.
+Opening a gate must not reset the animal clock or create a second animal.
+Close inspection follows the actual head direction, preserves player orbit,
+temporarily hides only its obstructing gate and restores it on exit.
+
+Run anatomy, behavior, sculpt, codec and zoo tests, real all-species renders,
+and the native private phone/SQLite audit. Check motion behind unpaid gates,
+all six close cameras, purchase receipts and repeated reloads. Refresh only zoo
+catalogue previews. Record memory/geometry costs honestly: more visual detail
+is not an FPS gain, and software diagnostics do not establish phone FPS.

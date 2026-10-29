@@ -10,7 +10,7 @@ test('all six species have continuous weighted sculpts prepared in small coopera
  }
 });
 test('fur, elephant skin and wet axolotl surface share one immutable filtered texture, without per-frame updates',()=>{
- const texture=zooSurfaceTexture(),version=texture.version;assert.equal(texture.image.width,256);assert.equal(texture.generateMipmaps,true);
+ const texture=zooSurfaceTexture(),version=texture.version;assert.equal(texture.image.width,512);assert.equal(texture.generateMipmaps,true);
  for(const e of ZOO_EXHIBITS){const a=zooAnimals(e);assert.equal(a.userData.uniforms.uZooSurface.value,texture);assert.equal(a.userData.uniforms.uZooSkin.value,['elephant','axolotl'].includes(e.species)?1:0);for(let i=0;i<100;i++)a.userData.update(i*.15);a.dispose();a.geometry.dispose();a.material.dispose();}
  assert.equal(zooSurfaceTexture(),texture);assert.equal(texture.version,version);
 });

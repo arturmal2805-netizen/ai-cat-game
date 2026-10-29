@@ -4,7 +4,7 @@ import {mergeVertices} from 'three/addons/utils/BufferGeometryUtils.js';
 // A closed, continuous animal surface. The authored volumes are sculpting
 // controls, not separate visible balls. Skin weights and colour blend through
 // necks, shoulders and ankles; the shared baked palette animates the result.
-export function* sculptZooAnimalSteps(volumes,{resolution=48,soft=.11}={}){
+export function* sculptZooAnimalSteps(volumes,{resolution=48,soft=.11,sockets=[]}={}){
  const low=[Infinity,Infinity,Infinity],high=[-Infinity,-Infinity,-Infinity];
  for(const v of volumes)for(let k=0;k<3;k++){low[k]=Math.min(low[k],v.pos[k]-v.size[k]-.22);high[k]=Math.max(high[k],v.pos[k]+v.size[k]+.22);}
  volumes=volumes.map(v=>({...v,inv:v.size.map(n=>1/n),minimum:Math.min(...v.size)}));
@@ -14,6 +14,7 @@ export function* sculptZooAnimalSteps(volumes,{resolution=48,soft=.11}={}){
  for(let z=0;z<resolution;z++){for(let y=0;y<resolution;y++)for(let x=0;x<resolution;x++){
   p[0]=low[0]+x/resolution*span[0];p[1]=low[1]+y/resolution*span[1];p[2]=low[2]+z/resolution*span[2];let d=10;
   for(const v of volumes){const q=distance(p,v),h=Math.max(soft-Math.abs(d-q),0)/soft;d=Math.min(d,q)-h*h*soft*.25;}
+  for(const socket of sockets){const q=(Math.hypot((p[0]-socket.pos[0])/socket.size[0],(p[1]-socket.pos[1])/socket.size[1],(p[2]-socket.pos[2])/socket.size[2])-1)*Math.min(...socket.size),h=Math.max(.018-Math.abs(d+q),0)/.018;d=Math.max(d,-q)+h*h*.018*.25;}
   clay.field[x+y*resolution+z*resolution*resolution]=-d;
  }yield;}
  clay.update();const surface=new T.BufferGeometry();surface.setAttribute('position',new T.Float32BufferAttribute(clay.geometry.attributes.position.array.slice(0,clay.count*3),3));

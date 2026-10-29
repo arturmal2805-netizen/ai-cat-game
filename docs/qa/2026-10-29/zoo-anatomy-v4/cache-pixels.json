@@ -1,0 +1,194 @@
+[
+  {
+    "species": "elephant",
+    "view": "front",
+    "action": false,
+    "changedPixels": 0,
+    "totalPixels": 1140000,
+    "maxChannelDifference": 0
+  },
+  {
+    "species": "elephant",
+    "view": "front",
+    "action": true,
+    "changedPixels": 0,
+    "totalPixels": 1140000,
+    "maxChannelDifference": 0
+  },
+  {
+    "species": "tiger",
+    "view": "front",
+    "action": false,
+    "changedPixels": 0,
+    "totalPixels": 1140000,
+    "maxChannelDifference": 0
+  },
+  {
+    "species": "tiger",
+    "view": "front",
+    "action": true,
+    "changedPixels": 0,
+    "totalPixels": 1140000,
+    "maxChannelDifference": 0
+  },
+  {
+    "species": "axolotl",
+    "view": "front",
+    "action": false,
+    "changedPixels": 0,
+    "totalPixels": 1140000,
+    "maxChannelDifference": 0
+  },
+  {
+    "species": "axolotl",
+    "view": "front",
+    "action": true,
+    "changedPixels": 0,
+    "totalPixels": 1140000,
+    "maxChannelDifference": 0
+  },
+  {
+    "species": "otter",
+    "view": "front",
+    "action": false,
+    "changedPixels": 0,
+    "totalPixels": 1140000,
+    "maxChannelDifference": 0
+  },
+  {
+    "species": "otter",
+    "view": "front",
+    "action": true,
+    "changedPixels": 0,
+    "totalPixels": 1140000,
+    "maxChannelDifference": 0
+  },
+  {
+    "species": "polar",
+    "view": "front",
+    "action": false,
+    "changedPixels": 0,
+    "totalPixels": 1140000,
+    "maxChannelDifference": 0
+  },
+  {
+    "species": "polar",
+    "view": "front",
+    "action": true,
+    "changedPixels": 0,
+    "totalPixels": 1140000,
+    "maxChannelDifference": 0
+  },
+  {
+    "species": "gorilla",
+    "view": "front",
+    "action": false,
+    "changedPixels": 0,
+    "totalPixels": 1140000,
+    "maxChannelDifference": 0
+  },
+  {
+    "species": "gorilla",
+    "view": "front",
+    "action": true,
+    "changedPixels": 0,
+    "totalPixels": 1140000,
+    "maxChannelDifference": 0
+  },
+  {
+    "species": "elephant",
+    "view": "side",
+    "action": false,
+    "changedPixels": 0,
+    "totalPixels": 1140000,
+    "maxChannelDifference": 0
+  },
+  {
+    "species": "elephant",
+    "view": "side",
+    "action": true,
+    "changedPixels": 0,
+    "totalPixels": 1140000,
+    "maxChannelDifference": 0
+  },
+  {
+    "species": "tiger",
+    "view": "side",
+    "action": false,
+    "changedPixels": 0,
+    "totalPixels": 1140000,
+    "maxChannelDifference": 0
+  },
+  {
+    "species": "tiger",
+    "view": "side",
+    "action": true,
+    "changedPixels": 0,
+    "totalPixels": 1140000,
+    "maxChannelDifference": 0
+  },
+  {
+    "species": "axolotl",
+    "view": "side",
+    "action": false,
+    "changedPixels": 0,
+    "totalPixels": 1140000,
+    "maxChannelDifference": 0
+  },
+  {
+    "species": "axolotl",
+    "view": "side",
+    "action": true,
+    "changedPixels": 0,
+    "totalPixels": 1140000,
+    "maxChannelDifference": 0
+  },
+  {
+    "species": "otter",
+    "view": "side",
+    "action": false,
+    "changedPixels": 0,
+    "totalPixels": 1140000,
+    "maxChannelDifference": 0
+  },
+  {
+    "species": "otter",
+    "view": "side",
+    "action": true,
+    "changedPixels": 0,
+    "totalPixels": 1140000,
+    "maxChannelDifference": 0
+  },
+  {
+    "species": "polar",
+    "view": "side",
+    "action": false,
+    "changedPixels": 0,
+    "totalPixels": 1140000,
+    "maxChannelDifference": 0
+  },
+  {
+    "species": "polar",
+    "view": "side",
+    "action": true,
+    "changedPixels": 0,
+    "totalPixels": 1140000,
+    "maxChannelDifference": 0
+  },
+  {
+    "species": "gorilla",
+    "view": "side",
+    "action": false,
+    "changedPixels": 0,
+    "totalPixels": 1140000,
+    "maxChannelDifference": 0
+  },
+  {
+    "species": "gorilla",
+    "view": "side",
+    "action": true,
+    "changedPixels": 0,
+    "totalPixels": 1140000,
+    "maxChannelDifference": 0
+  }
+]
