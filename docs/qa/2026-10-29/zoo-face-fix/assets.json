@@ -1,0 +1,32 @@
+{
+  "elephant": {
+    "unchanged": true,
+    "vertices": 23179,
+    "triangles": 42856,
+    "faceRevision": null
+  },
+  "axolotl": {
+    "unchanged": false,
+    "vertices": 21098,
+    "triangles": 36596,
+    "faceRevision": "axolotl-eyes-v2"
+  },
+  "otter": {
+    "unchanged": true,
+    "vertices": 25920,
+    "triangles": 33316,
+    "faceRevision": null
+  },
+  "polar": {
+    "unchanged": true,
+    "vertices": 41663,
+    "triangles": 51568,
+    "faceRevision": null
+  },
+  "gorilla": {
+    "unchanged": false,
+    "vertices": 38240,
+    "triangles": 48568,
+    "faceRevision": "gorilla-face-v2"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "localTests": 851,
+  "passed": 851,
+  "failed": 0,
+  "build": true,
+  "workerDryRun": true,
+  "overheadElevationRadians": 1.05,
+  "actualNativeBlinkFrames": [
+    {
+      "frame": 0,
+      "elevation": 1.0500000000000027,
+      "cached": true
+    },
+    {
+      "frame": 11.5,
+      "elevation": 1.05,
+      "cached": true
+    },
+    {
+      "frame": 12,
+      "elevation": 1.0500000000000014,
+      "cached": true
+    },
+    {
+      "frame": 12.5,
+      "elevation": 1.050000000000001,
+      "cached": true
+    },
+    {
+      "frame": 13,
+      "elevation": 1.049999999999997,
+      "cached": true
+    },
+    {
+      "frame": 14,
+      "elevation": 1.0500000000000014,
+      "cached": true
+    }
+  ],
+  "nativeReloads": 2,
+  "unaffectedModels": [
+    "elephant",
+    "otter",
+    "polar"
+  ],
+  "faceRevisions": {
+    "axolotl": "axolotl-eyes-v2",
+    "gorilla": "gorilla-face-v2"
+  },
+  "hardwareFPSMeasured": false
+}

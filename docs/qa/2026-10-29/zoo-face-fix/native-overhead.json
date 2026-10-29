@@ -1,0 +1,329 @@
+{
+  "first": {
+    "coins": 296400,
+    "zoo": {
+      "version": 1,
+      "receipts": {}
+    },
+    "actors": {
+      "fishCount": 14,
+      "species": 5,
+      "animals": 21,
+      "staticMeshes": 10,
+      "sourceMeshes": 5274
+    },
+    "oldIslands": [
+      "moon",
+      "autumn",
+      "winter",
+      "water",
+      "summer",
+      "sakura",
+      "volcano",
+      "candy",
+      "galaxy",
+      "ice",
+      "clockwork",
+      "foodcourt",
+      "bikini",
+      "homestead",
+      "aquarium",
+      "jobcity",
+      "cat-homes",
+      "atoll-park"
+    ]
+  },
+  "baked": [
+    {
+      "species": "elephant",
+      "baked": true,
+      "revision": "wildlife-v5",
+      "coatReady": 1,
+      "coatWidth": 1254,
+      "coatHeight": 1254,
+      "coatId": "f98f9e20-89c1-4e67-9900-dd4b861f85a7"
+    },
+    {
+      "species": "axolotl",
+      "baked": true,
+      "revision": "wildlife-v5",
+      "faceRevision": "axolotl-eyes-v2",
+      "coatReady": 1,
+      "coatWidth": 1254,
+      "coatHeight": 1254,
+      "coatId": "f98f9e20-89c1-4e67-9900-dd4b861f85a7"
+    },
+    {
+      "species": "otter",
+      "baked": true,
+      "revision": "wildlife-v5",
+      "coatReady": 1,
+      "coatWidth": 1254,
+      "coatHeight": 1254,
+      "coatId": "f98f9e20-89c1-4e67-9900-dd4b861f85a7"
+    },
+    {
+      "species": "polar",
+      "baked": true,
+      "revision": "wildlife-v5",
+      "detailRevision": "grizzly-v6",
+      "coatReady": 1,
+      "coatWidth": 1254,
+      "coatHeight": 1254,
+      "coatId": "f98f9e20-89c1-4e67-9900-dd4b861f85a7"
+    },
+    {
+      "species": "gorilla",
+      "baked": true,
+      "revision": "wildlife-v5",
+      "detailRevision": "gorilla-play-swing-v2",
+      "faceRevision": "gorilla-face-v2",
+      "coatReady": 1,
+      "coatWidth": 1254,
+      "coatHeight": 1254,
+      "coatId": "f98f9e20-89c1-4e67-9900-dd4b861f85a7"
+    }
+  ],
+  "liveClocks": {
+    "zoo-elephant": [
+      160.21922302246094,
+      177.0462188720703,
+      273.87322998046875,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "zoo-axolotl": [
+      320.1644287109375,
+      96.99141693115234,
+      353.81842041015625,
+      290.6454162597656,
+      67.47241973876953,
+      245.29942321777344,
+      182.1264190673828,
+      198.9534149169922
+    ],
+    "zoo-otter": [
+      240.109619140625,
+      16.936613082885742,
+      273.76361083984375,
+      290.5906066894531,
+      0,
+      0,
+      0,
+      0
+    ],
+    "zoo-polar": [
+      320.2023620605469,
+      204.01327514648438,
+      332.81805419921875,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "zoo-gorilla": [
+      160.21922302246094,
+      17.04622459411621,
+      193.87322998046875,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "paid": {
+    "coins": 205900,
+    "zoo": {
+      "version": 1,
+      "receipts": {
+        "zoo-axolotl": {
+          "id": "opened-zoo-axolotl",
+          "price": 6500,
+          "openedAt": 1793307842225
+        },
+        "zoo-otter": {
+          "id": "opened-zoo-otter",
+          "price": 11000,
+          "openedAt": 1793307842510
+        },
+        "zoo-polar": {
+          "id": "opened-zoo-polar",
+          "price": 29000,
+          "openedAt": 1793307843111
+        },
+        "zoo-gorilla": {
+          "id": "opened-zoo-gorilla",
+          "price": 44000,
+          "openedAt": 1793307843394
+        }
+      }
+    },
+    "unlocked": [
+      "moon",
+      "magic-zoo"
+    ],
+    "placements": [
+      {
+        "id": "welcome-yarn",
+        "item": "yarn",
+        "biome": "moon",
+        "x": -5,
+        "z": 2,
+        "rotation": 0
+      },
+      {
+        "id": "welcome-party",
+        "item": "party",
+        "biome": "moon",
+        "x": 4,
+        "z": 0,
+        "rotation": 0
+      },
+      {
+        "id": "welcome-farm",
+        "item": "farm-field",
+        "biome": "moon",
+        "x": -6,
+        "z": -1,
+        "rotation": 0,
+        "readyAt": 0
+      }
+    ]
+  },
+  "closeViews": [
+    {
+      "id": "zoo-elephant",
+      "distance": 8.800000000965776,
+      "look": [
+        204.683465655915,
+        3.138264000091328,
+        110.54385900213391
+      ]
+    },
+    {
+      "id": "zoo-axolotl",
+      "distance": 4.4,
+      "look": [
+        178.91319704393564,
+        1.6659098472349982,
+        146.39718831223297
+      ]
+    },
+    {
+      "id": "zoo-otter",
+      "distance": 3.4000010955358695,
+      "look": [
+        215.87114037395162,
+        0.09989868826116077,
+        159.344444448836
+      ]
+    },
+    {
+      "id": "zoo-polar",
+      "distance": 5.000000000000292,
+      "look": [
+        230.875446275509,
+        1.704752908186157,
+        130.5445430086587
+      ]
+    },
+    {
+      "id": "zoo-gorilla",
+      "distance": 6.500000000017581,
+      "look": [
+        180.00470925245526,
+        5.145865103996039,
+        122.13000001192093
+      ]
+    }
+  ],
+  "enclosureViews": [
+    {
+      "id": "zoo-elephant",
+      "distance": 75.0921743477201,
+      "aspect": 0.5300546448087432,
+      "look": [
+        207,
+        2.3,
+        110.4
+      ]
+    },
+    {
+      "id": "zoo-axolotl",
+      "distance": 85.19215323136905,
+      "aspect": 0.5300546448087432,
+      "look": [
+        182.8,
+        2.05,
+        148.2
+      ]
+    },
+    {
+      "id": "zoo-otter",
+      "distance": 105.6194022503025,
+      "aspect": 0.5300546448087432,
+      "look": [
+        215,
+        2.05,
+        159.5
+      ]
+    },
+    {
+      "id": "zoo-polar",
+      "distance": 101.13572512653649,
+      "aspect": 0.5300546448087432,
+      "look": [
+        231.5,
+        2.05,
+        132
+      ]
+    },
+    {
+      "id": "zoo-gorilla",
+      "distance": 81.95479596476709,
+      "aspect": 0.5300546448087432,
+      "look": [
+        184,
+        3.3,
+        123.2
+      ]
+    }
+  ],
+  "overheadViews": [
+    {
+      "frame": 0,
+      "elevation": 1.0500000000000027,
+      "cached": true
+    },
+    {
+      "frame": 11.5,
+      "elevation": 1.05,
+      "cached": true
+    },
+    {
+      "frame": 12,
+      "elevation": 1.0500000000000014,
+      "cached": true
+    },
+    {
+      "frame": 12.5,
+      "elevation": 1.050000000000001,
+      "cached": true
+    },
+    {
+      "frame": 13,
+      "elevation": 1.049999999999997,
+      "cached": true
+    },
+    {
+      "frame": 14,
+      "elevation": 1.0500000000000014,
+      "cached": true
+    }
+  ]
+}
