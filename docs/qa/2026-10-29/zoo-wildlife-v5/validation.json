@@ -30,5 +30,12 @@
   "physicalDeviceFPSMeasured": false,
   "finalCavityRegressionTests": 8,
   "finalCavityRegressionPassed": 8,
-  "finalNativeReloads": 2
+  "finalNativeReloads": 2,
+  "ciFullSuite": {
+    "tests": 847,
+    "pass": 847,
+    "fail": 0,
+    "run": 40948528980,
+    "release": "36c2009841ed068ee310827a621ffa81dec944b7"
+  }
 }

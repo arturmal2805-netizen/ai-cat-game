@@ -65,3 +65,10 @@ Validation:
 
 Only six zoo previews were refreshed. Source and publication verification are
 recorded separately so a source commit is not mistaken for a finished deployment.
+
+Published release `36c2009841ed068ee310827a621ffa81dec944b7`: final CI
+**847 tests passed, zero failed**; test/deploy/Pages jobs all succeeded.
+Both sites serve the identical `3dcfc36797326799` app and exact matching five
+model buffers, lossless coat and six refreshed previews. Worker shared saves
+report available. `publication.json` records complete hashes and release checks.
+The final 25 action frames and their inventory use the published cavity source.

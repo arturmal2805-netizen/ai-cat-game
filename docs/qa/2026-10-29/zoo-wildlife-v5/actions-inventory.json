@@ -1,0 +1,32 @@
+{
+  "checkedPNGs": [
+    "elephant-ears.png",
+    "elephant-rest.png",
+    "elephant-spray.png",
+    "elephant-trunk-curl.png",
+    "elephant-walk.png",
+    "axolotl-bubble-peek.png",
+    "axolotl-gill-fan.png",
+    "axolotl-glide.png",
+    "axolotl-look-at-glass.png",
+    "axolotl-swim.png",
+    "otter-backstroke.png",
+    "otter-dive.png",
+    "otter-rock-rest.png",
+    "otter-shore-peek.png",
+    "otter-swim.png",
+    "polar-look-around.png",
+    "polar-rest.png",
+    "polar-shore-walk.png",
+    "polar-snow-play.png",
+    "polar-swim-dive.png",
+    "gorilla-branch-swing.png",
+    "gorilla-chest-beat.png",
+    "gorilla-look-around.png",
+    "gorilla-sit.png",
+    "gorilla-wave.png"
+  ],
+  "count": 25,
+  "source": "final published-source render",
+  "errors": []
+}
