@@ -1,0 +1,11 @@
+{
+  "sourceRelease": "36c2009841ed068ee310827a621ffa81dec944b7",
+  "body": {
+    "vertices": 15819,
+    "triangles": 27097,
+    "verticesSHA256": "28c415bc95110eb7a752e3e18b5134bb6370da0a3992cb4a2239cdbc757df95e",
+    "trianglesSHA256": "bb241f56ebe35274942627ae17782ad0374cab1df3bfea9303024a5321caddbb"
+  },
+  "axolotlPosesSHA256": "81bb8a9514ae2daf04332d82137b27ea90a150e1e60b600fe7582deaf1062627",
+  "ordinaryGorillaPosesSHA256": "8d782d1fccc8bf152d28e88a18ee7447a3d3f19dc0921fa6a8bd1b3eaa8d7cc8"
+}

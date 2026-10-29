@@ -117,15 +117,15 @@ export function buildZooAnatomy(species,{joint,add,curve,eye,socket=()=>{}}){
   face(fur,[0,2.15,.32],[.47,.43,.46],.14);face(fur,[0,2.37,.28],[.4,.22,.39],.14);
   // One deformable facial surface: broad muzzle, nasal bridge and curved
   // orbital ridge are smooth relief, never intersecting ellipsoid patches.
-  skin(skinCol,[0,2.055,.66],[.355,.345,.24],'head',{blend:.10,relief:[
+  skin(skinCol,[0,2.055,.61],[.355,.345,.156],'head',{blend:.10,relief:[
    [0,2.16,.11,.115,.16],[0,2.085,.22,.20,.075],[0,1.955,.22,.275,.125],
-   [-.17,2.255,.16,.18,.085],[.17,2.255,.16,.18,.085],
+   [-.17,2.255,.18,.18,.085],[.17,2.255,.18,.18,.085],
    [-.175,2.16,-.035,.08,.05],[.175,2.16,-.035,.08,.05],
    [-.26,2.065,.03,.105,.17],[.26,2.065,.03,.105,.17],
    [0,1.845,.06,.23,.07],[0,1.935,.055,.23,.037],[0,1.84,.04,.23,.045]
-  ]});
+  ].map(([x,y,a,sx,sy])=>[x,y,a*.65,sx,sy])});
   for(const side of [-1,1]){
-   eye(side*.175,2.16,1.077,.059,'head',false,[side*.09,0,1]);
+   eye(side*.175,2.16,.855,.05,'head',false,[side*.09,0,1]);
    add(0x454948,[side*.43,2.15,.26],[.11,.15,.065],'head');add(0x6b6861,[side*.43,2.15,.318],[.06,.095,.016],'head');
    const arm='Arm'+sideName(side),elbow='Elbow'+sideName(side);joint(arm,[side*.69,1.87,.03],'body');joint(elbow,[side*1.08,1.03,.14],arm);
    skin(fur,[side*.82,1.76,.015],[.37,.51,.36],arm);skin(fur,[side*.99,1.37,.12],[.31,.5,.32],arm);skin(fur,[side*1.05,1.2,.13],[.285,.31,.29],arm);skin(fur,[side*1.12,.77,.23],[.29,.43,.285],elbow);skin(skinCol,[side*1.12,.38,.32],[.26,.24,.25],elbow);
@@ -134,8 +134,8 @@ export function buildZooAnatomy(species,{joint,add,curve,eye,socket=()=>{}}){
    const leg='LegBack'+sideName(side);joint(leg,[side*.37,.8,-.18],'body');skin(fur,[side*.39,.57,-.25],[.29,.44,.3],leg);skin(fur,[side*.4,.26,-.02],[.22,.25,.27],leg);skin(skinCol,[side*.4,.12,.17],[.27,.12,.37],leg);
    for(let k=0;k<4;k++)skin(skinCol,[side*.4+(k-1.5)*.105,.075,.41],[.052,.075,.15],leg);
   }
-  for(const side of [-1,1])socket({pos:[side*.087,2.075,1.310],size:[.047,.033,.079]});
-  socket({pos:[0,1.892,1.22],size:[.205,.021,.076]});
+  for(const side of [-1,1])socket({pos:[side*.087,2.075,1.0325],size:[.047,.033,.05135]});
+  socket({pos:[0,1.892,.974],size:[.205,.021,.0494]});
   for(const side of [-1,1]){
    curve([[side*.48,2.26,.34],[side*.50,2.23,.38],[side*.50,2.14,.4],[side*.49,2.04,.34],[side*.47,2.04,.25],[side*.46,2.12,.23],[side*.47,2.23,.25]],.012,0x62675e);
    add(0x343d37,[side*.485,2.15,.32],[.018,.075,.055],'head',{micro:true});
@@ -165,10 +165,12 @@ export function buildZooAnatomy(species,{joint,add,curve,eye,socket=()=>{}}){
 
 // Pigment belongs to the carved inner skin. Separate dark mouth/nostril
 // backings protruded through curved lips and looked like glued-on flat pieces.
-const oralPigment=new T.Color(0x292421),nasalPigment=new T.Color(0x1a1e1c);
+const oralPigment=new T.Color(0x292421),nasalPigment=new T.Color(0x1a1e1c),foreheadFur=new T.Color(0x383a36),nasalSkin=new T.Color(0x3d403b);
 export function paintGorillaFace(p,color){
- const [x,y,z]=p;if(z<1.02||y<1.85||y>2.12)return;
- const smooth=T.MathUtils.smoothstep;
+ const [x,y]=p,z=.66+(p[2]-.61)/.65,smooth=T.MathUtils.smoothstep;
+ if(y>2.255&&p[2]>.6)color.lerp(foreheadFur,smooth(y,2.255,2.33));
+ if(z<1.02||y<1.85||y>2.2)return;
+ const nose=(1-smooth(Math.abs(x),.12,.19))*smooth(y,2.015,2.055)*(1-smooth(y,2.145,2.2))*smooth(z,1.15,1.23);color.lerp(nasalSkin,nose*.62);
  const mouth=(1-smooth(Math.abs(x),.16,.205))*(1-smooth(Math.abs(y-1.892),.008,.021))*(1-smooth(z,1.17,1.205));
  const nostril=(1-smooth(Math.hypot((Math.abs(x)-.087)/.047,(y-2.075)/.033),.65,1.05))*(1-smooth(z,1.295,1.32))*smooth(z,1.17,1.21);
  color.lerp(oralPigment,mouth*.96);color.lerp(nasalPigment,nostril*.97);

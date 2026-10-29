@@ -1,4 +1,4 @@
-import {ZOO_ANATOMY_REVISION,POLAR_DETAIL_REVISION} from '../public/zoo-anatomy-data.js';
+import {ZOO_ANATOMY_REVISION,POLAR_DETAIL_REVISION,ZOO_FACE_REVISIONS} from '../public/zoo-anatomy-data.js';
 import assert from 'node:assert/strict';import fs from 'node:fs/promises';import {ZOO_GATE,ZOO_BIOME,ZOO_LINEAR_SCALE,ZOO_EXHIBITS,zooSeats} from '../public/zoo-data.js';
 export async function checkZooApp(page,dir){
  page.setDefaultTimeout(180000);
@@ -10,7 +10,7 @@ export async function checkZooApp(page,dir){
  await page.evaluate(()=>__lagoonSaveQA.getWorld().focus('magic-zoo'));
  console.log('ZOO: waiting for cooperative island geometry');try{await page.waitForFunction(()=>__lagoonQA.islands.get('magic-zoo')?.userData.zoo?.actors?.size===5,undefined,{timeout:180000});}catch(error){console.log(await page.evaluate(()=>({focused:__lagoonQA.focused(),distance:__lagoonQA.getDesiredDistance(),open:[...document.querySelectorAll('dialog[open]')].map(d=>d.id),zoo:__lagoonQA.islands.get('magic-zoo')?.userData.stats})));throw error;}
  const first=await page.evaluate(()=>{const g=__lagoonSaveQA.getGame(),q=__lagoonQA;return {coins:g.coins,zoo:g.zoo,actors:q.islands.get('magic-zoo').userData.stats,oldIslands:[...q.islands.keys()].filter(id=>id!=='magic-zoo')};});assert.equal(first.coins,296400);assert.deepEqual(first.zoo.receipts,{});assert.equal(first.actors.animals,21);
- const baked=await page.evaluate(()=>[...__lagoonQA.islands.get('magic-zoo').userData.zoo.actors.values()].map(m=>({species:m.userData.zooSpecies,baked:!!m.userData.poseData.prebaked,revision:m.userData.poseData.anatomyRevision,detailRevision:m.userData.poseData.detailRevision,coatReady:m.userData.uniforms.uZooCoatReady.value,coatWidth:m.userData.uniforms.uZooCoatAtlas.value.image.width,coatHeight:m.userData.uniforms.uZooCoatAtlas.value.image.height,coatId:m.userData.uniforms.uZooCoatAtlas.value.uuid})));assert.ok(baked.every(m=>m.baked&&m.revision===ZOO_ANATOMY_REVISION),JSON.stringify(baked));assert.equal(baked.find(m=>m.species==='polar').detailRevision,POLAR_DETAIL_REVISION);assert.ok(baked.every(m=>m.coatReady===1&&m.coatWidth===1254&&m.coatHeight===1254),'native zoo did not load actual detailed coat');assert.equal(new Set(baked.map(m=>m.coatId)).size,1,'coat duplicated per species');
+ const baked=await page.evaluate(()=>[...__lagoonQA.islands.get('magic-zoo').userData.zoo.actors.values()].map(m=>({species:m.userData.zooSpecies,baked:!!m.userData.poseData.prebaked,revision:m.userData.poseData.anatomyRevision,detailRevision:m.userData.poseData.detailRevision,faceRevision:m.userData.poseData.faceRevision,coatReady:m.userData.uniforms.uZooCoatReady.value,coatWidth:m.userData.uniforms.uZooCoatAtlas.value.image.width,coatHeight:m.userData.uniforms.uZooCoatAtlas.value.image.height,coatId:m.userData.uniforms.uZooCoatAtlas.value.uuid})));assert.ok(baked.every(m=>m.baked&&m.revision===ZOO_ANATOMY_REVISION),JSON.stringify(baked));assert.equal(baked.find(m=>m.species==='polar').detailRevision,POLAR_DETAIL_REVISION);assert.ok(baked.every(m=>!ZOO_FACE_REVISIONS[m.species]||m.faceRevision===ZOO_FACE_REVISIONS[m.species]));assert.ok(baked.every(m=>m.coatReady===1&&m.coatWidth===1254&&m.coatHeight===1254),'native zoo did not load actual detailed coat');assert.equal(new Set(baked.map(m=>m.coatId)).size,1,'coat duplicated per species');
  const liveClocks=await page.evaluate(()=>Object.fromEntries([...__lagoonQA.islands.get('magic-zoo').userData.zoo.actors].map(([id,m])=>[id,[...m.userData.uniforms.uZooFrameAt.value]])));
  await page.waitForFunction(before=>[...__lagoonQA.islands.get('magic-zoo').userData.zoo.actors].every(([id,m])=>m.userData.uniforms.uZooFrameAt.value.some((v,i)=>Math.abs(v-before[id][i])>.1)),liveClocks);
  assert.deepEqual((await page.evaluate(()=>__lagoonSaveQA.getGame().zoo)).receipts,{},'animation silently opened unpaid gates');
@@ -40,9 +40,24 @@ export async function checkZooApp(page,dir){
   await page.waitForFunction(id=>__lagoonQA.getCourtCamera()?.id===id&&__lagoonQA.getCourtCamera()?.zooEnclosure&&Math.abs(__lagoonQA.getDistance()-__lagoonQA.getDesiredDistance())<.2,id);
   enclosureViews.push(await page.evaluate(()=>({id:__lagoonQA.getCourtCamera().id,distance:__lagoonQA.getDistance(),aspect:__lagoonQA.camera.aspect,look:__lagoonQA.desiredLook.toArray()})));await capture({path:dir+'/'+id+'-enclosure-phone.png',timeout:180000});await page.locator('.court-camera-exit').filter({hasText:/Вернуться/}).tap();
  }
- const closeViews=[];for(const id of ids){await page.evaluate(id=>__lagoonQA.callbacks.onSelectCourt(id),id);await page.getByRole('button',{name:id==='zoo-axolotl'?'Аксолотль зблизька':'Тварина зблизька',exact:true}).tap();await page.waitForFunction(id=>__lagoonQA.getCourtCamera()?.id===id&&__lagoonQA.getCourtCamera()?.zooAnimal===0&&Math.abs(__lagoonQA.getDistance()-__lagoonQA.getDesiredDistance())<.15,id);await capture({path:dir+'/'+id+'-close-phone.png',timeout:180000});closeViews.push(await page.evaluate(()=>({id:__lagoonQA.getCourtCamera().id,distance:__lagoonQA.getDistance(),look:__lagoonQA.desiredLook.toArray()})));await page.locator('.court-camera-exit').filter({hasText:/Вернуться/}).tap();}
+ const closeViews=[],overheadViews=[];for(const id of ids){
+  await page.evaluate(id=>__lagoonQA.callbacks.onSelectCourt(id),id);await page.getByRole('button',{name:id==='zoo-axolotl'?'Аксолотль зблизька':'Тварина зблизька',exact:true}).tap();
+  await page.waitForFunction(id=>__lagoonQA.getCourtCamera()?.id===id&&__lagoonQA.getCourtCamera()?.zooAnimal===0&&Math.abs(__lagoonQA.getDistance()-__lagoonQA.getDesiredDistance())<.15,id);
+  await capture({path:dir+'/'+id+'-close-phone.png',timeout:180000});
+  if(id==='zoo-axolotl'){
+   const orbit=await page.evaluate(()=>__lagoonQA.getOrbit()),e=ZOO_EXHIBITS.find(e=>e.id===id),heading=Math.atan2(-e.x,-e.z)+.3;
+   for(const frame of [0,11.5,12,12.5,13,14]){
+    await page.evaluate(({id,frame,heading})=>{const q=__lagoonQA,m=q.islands.get('magic-zoo').userData.zoo.actors.get(id);m.userData.setActorPlay(0,{frame,mix:1});q.reviewOrbit(heading,1.05);},{id,frame,heading});
+    await page.waitForFunction(()=>{const q=__lagoonQA,d=q.camera.position.clone().sub(q.look);return Math.abs(Math.atan2(d.y,Math.hypot(d.x,d.z))-1.05)<.03&&q.look.distanceTo(q.desiredLook)<.08;});
+    await capture({path:dir+'/axolotl-overhead-frame-'+frame+'.png',timeout:180000});
+    overheadViews.push(await page.evaluate(frame=>{const q=__lagoonQA,d=q.camera.position.clone().sub(q.look);return {frame,elevation:Math.atan2(d.y,Math.hypot(d.x,d.z)),cached:!!q.islands.get('magic-zoo').userData.zoo.actors.get('zoo-axolotl').userData.poseData.prebaked};},frame));
+   }
+   await page.evaluate(({id,orbit})=>{const q=__lagoonQA;q.islands.get('magic-zoo').userData.zoo.actors.get(id).userData.setActorPlay(0,null);q.reviewOrbit(orbit.azimuth,orbit.elevation);},{id,orbit});
+  }
+  closeViews.push(await page.evaluate(()=>({id:__lagoonQA.getCourtCamera().id,distance:__lagoonQA.getDistance(),look:__lagoonQA.desiredLook.toArray()})));await page.locator('.court-camera-exit').filter({hasText:/Вернуться/}).tap();
+ }
 
- if(process.env.CHICHI_ZOO_VISUAL_ONLY){await fs.writeFile(dir+'/zoo-visual.json',JSON.stringify({first,baked,liveClocks,paid,closeViews,enclosureViews},null,2));console.log('ZOO: final model assets, independent motion and all five native phone close cameras passed.');return;}
+ if(process.env.CHICHI_ZOO_VISUAL_ONLY){await fs.writeFile(dir+'/zoo-visual.json',JSON.stringify({first,baked,liveClocks,paid,closeViews,enclosureViews,overheadViews},null,2));console.log('ZOO: final model assets, independent motion and all five native phone close cameras passed.');return;}
 
  await page.evaluate(()=>__lagoonQA.callbacks.onSelectCourt('zoo-axolotl'));await page.getByRole('button',{name:'Аксолотль зблизька'}).tap();
  await page.waitForFunction(()=>__lagoonQA.getCourtCamera()?.zooAnimal===0&&__lagoonQA.getDistance()<6.2);await capture({path:dir+'/zoo-axolotl-phone.png',timeout:180000});await page.locator('.court-camera-exit').filter({hasText:/Вернуться/}).tap();
@@ -70,6 +85,6 @@ export async function checkZooApp(page,dir){
  }
  await page.evaluate(()=>__lagoonSaveQA.cloud.flush());await page.waitForFunction(()=>!__lagoonSaveQA.cloud.pending&&!__lagoonSaveQA.cloud.retryEntry&&!__lagoonSaveQA.cloud.dirty);
  for(let i=0;i<2;i++){await page.evaluate(()=>__lagoonSaveQA.cloud.releaseEditor());await page.reload();await page.waitForFunction(()=>window.__lagoonQA&&__lagoonSaveQA.cloud.editable);assert.deepEqual(await snapshot(),paid);}
- await fs.writeFile(dir+'/zoo-app.json',JSON.stringify({first,baked,liveClocks,paid,visits,manual,gathering,closeViews,enclosureViews,taps,carries,reloads:2},null,2));
+ await fs.writeFile(dir+'/zoo-app.json',JSON.stringify({first,baked,liveClocks,paid,visits,manual,gathering,closeViews,enclosureViews,overheadViews,taps,carries,reloads:2},null,2));
  console.log('Zoo: native island purchase, four paid gates, close camera, five visitor actions and two durable SQLite reloads.');
 }

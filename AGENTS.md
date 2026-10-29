@@ -687,3 +687,22 @@ Dark gorilla oral/nasal cavities are pigmented on the continuous inner skin
 during authoring. Do not reintroduce separate glossy dark backings: in profile
 they protrude through curved lips and nostril rims. Check the untextured sculpt
 and retain the matte-cavity regression test.
+
+### Approved axolotl skin and compact gorilla face
+
+The player explicitly approved the axolotl's glossy pink skin and anatomy.
+Eye-only fixes must preserve its nonocular positions/normals/colours/topology
+and all 400 baked pose rows. The golden fixture records the approved release;
+do not regenerate it from a changed candidate. Check the actual overhead view
+through open/partial/closed blinks: separate opaque lid/backing plates and the
+pale corneal rim previously appeared as overlapping bars from above. Preserve
+the large turquoise/black eyes, highlights and native blink movement.
+
+The gorilla's old projected muzzle was explicitly rejected as too long. Keep
+its facial relief compact relative to the skull, with inset narrower eyes and
+anatomical nose/lips, preserving the approved body and all nonocular pose bytes,
+branch/palm anchors and mobile geometry budget. Denser source authoring stays
+cooperative and is simplified only offline; ship immutable model buffers.
+Species-specific face revisions must reject old axolotl/gorilla geometry while
+leaving elephant/otter/grizzly caches byte-identical. Validate source/cache
+identity, real overhead phone frames, close front/profile views and native saves.

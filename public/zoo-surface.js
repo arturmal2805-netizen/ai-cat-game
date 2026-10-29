@@ -24,7 +24,7 @@ export function* zooSurfaceTextureSteps(){
 // Rest-space triplanar coat coordinates stay attached to the sculpted skin.
 // One shared immutable texture, no fur shells, scene copies or frame uploads.
 export const zooSurfaceDeclarations=`uniform sampler2D uZooSurface;uniform sampler2D uZooCoatAtlas;uniform float uZooCoatReady;float zooAtlasTone=1.;float zooAtlasActive=0.;uniform float uZooSkin;uniform float uZooWrinkles;uniform float uZooSpecies;varying vec3 vZooRestNormal;
-float zooGorillaSkin(vec3 p){float face=smoothstep(.55,.7,p.z)*(1.-smoothstep(.90,1.15,length(vec2(p.x/.35,(p.y-2.045)/.30))));float hand=smoothstep(.85,1.,abs(p.x))*(1.-smoothstep(.42,.62,p.y));return max(face,hand);}
+float zooGorillaSkin(vec3 p){float face=smoothstep(.45,.6,p.z)*(1.-smoothstep(.90,1.15,length(vec2(p.x/.35,(p.y-2.045)/.30))))*(1.-smoothstep(2.255,2.33,p.y));float hand=smoothstep(.85,1.,abs(p.x))*(1.-smoothstep(.42,.62,p.y));return max(face,hand);}
 vec2 zooAtlasUV(vec2 uv,vec2 tile){uv+=vec2(.371,.217);uv=abs(fract(uv*.5)*2.-1.);return tile*.5+mix(vec2(.006),vec2(.494),uv);}
 vec4 zooCoatTex(vec3 p){vec3 w=pow(abs(vZooRestNormal),vec3(4.));w/=max(dot(w,vec3(1.)),.0001);
  if(uZooCoatReady>.5&&uZooSpecies<5.5){
