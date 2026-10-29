@@ -73,10 +73,10 @@ view is nearer and slightly higher to avoid their foreground scenery.
 
 ## Validation
 
-819 full-suite checks passed before the last cooperative material/cache work;
-all 28 affected anatomy, behavior, surface, geometry, codec and zoo tests passed
-again on the final source. Production build and Worker dry-run passed.
-Publication CI reruns the complete suite, including the two added checks.
+All 821 tests passed in publication CI, including the final anatomy, behavior,
+cooperative texture preparation and exact model codec checks. The 28 affected
+checks also passed locally on the final source. Production build and Worker
+dry-run passed. `ci-test-result.txt` records the successful complete run.
 
 The real private phone/SQLite audit purchased the zoo and five gates, observed
 motion behind unpaid gates, checked all six close cameras, actual tiny/giant cat
@@ -90,3 +90,18 @@ Changed source: `zoo-anatomy*.js`, `zoo-behavior.js`, `zoo-eyes.js`, `zoo-fur.js
 codec/manifest, zoo gate/biome, native world camera and the existing court card.
 Only the seven zoo catalogue images were refreshed. Checks and the reusable
 animal/mobile standard are recorded alongside these changes in `AGENTS.md`.
+
+## Verified publication
+
+Source `dd25508f73547ade8dba57602af621224432d137`;
+[CI 40849137036](https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/40849137036)
+passed test, deploy and Pages. Both public sites serve
+`./dist/app.js?v=169b8aefb5ea1191`, verified against its actual SHA-256. All six
+gzip model hashes, schema 2/anatomy revision, 400-frame pose palettes and seven
+new preview images match the built files on both sites. Worker release matches
+the source commit and cloud-save readiness remains true. See `publication.json`.
+
+`native-final-models.json` records a second final-asset native phone-viewport
+check: all six downloaded templates, movement behind unpaid gates and six close
+cameras passed without browser or HTTP errors. The full save/visitor audit is
+in `native-phone.json`; these browser checks do not measure physical-phone FPS.

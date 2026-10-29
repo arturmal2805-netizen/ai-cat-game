@@ -1,0 +1,214 @@
+{
+  "commit": "dd25508f73547ade8dba57602af621224432d137",
+  "run": 40849137036,
+  "sites": {
+    "pages": {
+      "status": 200,
+      "entry": "./dist/app.js?v=169b8aefb5ea1191",
+      "scriptStatus": 200,
+      "scriptSHA256": "169b8aefb5ea119107d9d3b69d6080f5010c0de955ab0bc4eca4f7ca9a6c342c",
+      "models": [
+        {
+          "species": "elephant",
+          "status": 200,
+          "gzipBytes": 1160045,
+          "rawBytes": 3480332,
+          "hash": "ab1b3da3a0cbecf1",
+          "anatomyRevision": "wildlife-v4",
+          "poseFrames": 400
+        },
+        {
+          "species": "axolotl",
+          "status": 200,
+          "gzipBytes": 926533,
+          "rawBytes": 2754892,
+          "hash": "3671193f813c5024",
+          "anatomyRevision": "wildlife-v4",
+          "poseFrames": 400
+        },
+        {
+          "species": "otter",
+          "status": 200,
+          "gzipBytes": 870033,
+          "rawBytes": 3229440,
+          "hash": "d4b924ad70bd9b40",
+          "anatomyRevision": "wildlife-v4",
+          "poseFrames": 400
+        },
+        {
+          "species": "tiger",
+          "status": 200,
+          "gzipBytes": 1220110,
+          "rawBytes": 4579600,
+          "hash": "49711ea7a895a970",
+          "anatomyRevision": "wildlife-v4",
+          "poseFrames": 400
+        },
+        {
+          "species": "polar",
+          "status": 200,
+          "gzipBytes": 1190357,
+          "rawBytes": 4869100,
+          "hash": "1a22690d34e66d02",
+          "anatomyRevision": "wildlife-v4",
+          "poseFrames": 400
+        },
+        {
+          "species": "gorilla",
+          "status": 200,
+          "gzipBytes": 1150801,
+          "rawBytes": 4315872,
+          "hash": "6d4c5ba612853e00",
+          "anatomyRevision": "wildlife-v4",
+          "poseFrames": 400
+        }
+      ],
+      "previews": [
+        {
+          "name": "zoo-elephant",
+          "status": 200,
+          "sha256": "6130a963e918f14ce14e245113e70b62bdb8da9a40073b00bca88f58625f5846"
+        },
+        {
+          "name": "zoo-tiger",
+          "status": 200,
+          "sha256": "b36cdab8c0a3651b4daef782f2cce758d1a421f35f237ffcd5f487fce3ee7d1d"
+        },
+        {
+          "name": "zoo-polar",
+          "status": 200,
+          "sha256": "5bce4b62d190527de38c7a8af31369ecc56fe23205f5e5746bcf6cb4b2533b20"
+        },
+        {
+          "name": "zoo-otter",
+          "status": 200,
+          "sha256": "8ceee9663a51cf17385ae26ada0a7fc9408062b5384afd013aede329a3c4c869"
+        },
+        {
+          "name": "zoo-gorilla",
+          "status": 200,
+          "sha256": "5f363744ae8728dae146b2a2c541b97ac9653bfb24e6adec6b6adf222ecfc31a"
+        },
+        {
+          "name": "zoo-axolotl",
+          "status": 200,
+          "sha256": "c832e37406e6335509579ed892a56e197af1292e9470f55ca0605d9dd767b299"
+        },
+        {
+          "name": "biome-magic-zoo",
+          "status": 200,
+          "sha256": "b5bb4a0806e0bdc35525662f4a6e900f2db174f6c6d5926c911865ac974ef5f6"
+        }
+      ]
+    },
+    "worker": {
+      "status": 200,
+      "entry": "./dist/app.js?v=169b8aefb5ea1191",
+      "scriptStatus": 200,
+      "scriptSHA256": "169b8aefb5ea119107d9d3b69d6080f5010c0de955ab0bc4eca4f7ca9a6c342c",
+      "models": [
+        {
+          "species": "elephant",
+          "status": 200,
+          "gzipBytes": 1160045,
+          "rawBytes": 3480332,
+          "hash": "ab1b3da3a0cbecf1",
+          "anatomyRevision": "wildlife-v4",
+          "poseFrames": 400
+        },
+        {
+          "species": "axolotl",
+          "status": 200,
+          "gzipBytes": 926533,
+          "rawBytes": 2754892,
+          "hash": "3671193f813c5024",
+          "anatomyRevision": "wildlife-v4",
+          "poseFrames": 400
+        },
+        {
+          "species": "otter",
+          "status": 200,
+          "gzipBytes": 870033,
+          "rawBytes": 3229440,
+          "hash": "d4b924ad70bd9b40",
+          "anatomyRevision": "wildlife-v4",
+          "poseFrames": 400
+        },
+        {
+          "species": "tiger",
+          "status": 200,
+          "gzipBytes": 1220110,
+          "rawBytes": 4579600,
+          "hash": "49711ea7a895a970",
+          "anatomyRevision": "wildlife-v4",
+          "poseFrames": 400
+        },
+        {
+          "species": "polar",
+          "status": 200,
+          "gzipBytes": 1190357,
+          "rawBytes": 4869100,
+          "hash": "1a22690d34e66d02",
+          "anatomyRevision": "wildlife-v4",
+          "poseFrames": 400
+        },
+        {
+          "species": "gorilla",
+          "status": 200,
+          "gzipBytes": 1150801,
+          "rawBytes": 4315872,
+          "hash": "6d4c5ba612853e00",
+          "anatomyRevision": "wildlife-v4",
+          "poseFrames": 400
+        }
+      ],
+      "previews": [
+        {
+          "name": "zoo-elephant",
+          "status": 200,
+          "sha256": "6130a963e918f14ce14e245113e70b62bdb8da9a40073b00bca88f58625f5846"
+        },
+        {
+          "name": "zoo-tiger",
+          "status": 200,
+          "sha256": "b36cdab8c0a3651b4daef782f2cce758d1a421f35f237ffcd5f487fce3ee7d1d"
+        },
+        {
+          "name": "zoo-polar",
+          "status": 200,
+          "sha256": "5bce4b62d190527de38c7a8af31369ecc56fe23205f5e5746bcf6cb4b2533b20"
+        },
+        {
+          "name": "zoo-otter",
+          "status": 200,
+          "sha256": "8ceee9663a51cf17385ae26ada0a7fc9408062b5384afd013aede329a3c4c869"
+        },
+        {
+          "name": "zoo-gorilla",
+          "status": 200,
+          "sha256": "5f363744ae8728dae146b2a2c541b97ac9653bfb24e6adec6b6adf222ecfc31a"
+        },
+        {
+          "name": "zoo-axolotl",
+          "status": 200,
+          "sha256": "c832e37406e6335509579ed892a56e197af1292e9470f55ca0605d9dd767b299"
+        },
+        {
+          "name": "biome-magic-zoo",
+          "status": 200,
+          "sha256": "b5bb4a0806e0bdc35525662f4a6e900f2db174f6c6d5926c911865ac974ef5f6"
+        }
+      ]
+    }
+  },
+  "workerStatus": {
+    "configured": true,
+    "backupConfigured": true,
+    "backupProvider": "openrouter",
+    "backupModel": "dots-studio/dots-3-note-preview:free",
+    "protocol": "living-cat-world-v4",
+    "release": "dd25508f73547ade8dba57602af621224432d137",
+    "versionId": "88b25e04-db17-455e-8236-88704adb8115",
+    "cloudSave": true
+  }
+}
