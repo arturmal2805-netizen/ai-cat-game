@@ -6,7 +6,7 @@ const row=[
  ['elephant','Слонова долина','🐘',0,0,-12.8,0x9bbf70,0xffd0ab,'Добрі велетні, слоненя, хоботи-фонтани та каскад.'],
  ['axolotl','Риф аксолотлів','🫧',6500,-12.1,6.1,0x8ce6ee,0xffb3d6,'Крихітні пухкі аксолотлі з пелюстковими зябрами у великому прозорому акваріумі.'],
  ['otter','Лагуна видр','🦦',11000,0,11.35,0x74c9b3,0xf2cb83,'Пірнання, веселі перевороти й відпочинок на теплих камінцях.'],
- ['polar','Полярна казка','🐻‍❄️',29000,11.5,-6.4,0xc6edf5,0xa5c9ef,'Білі ведмеді, крижані скелі, ялинки й чиста льодова вода.'],
+ ['polar','Кедровий гай грізлі','🐻',29000,11.5,-6.4,0xa1bc83,0xdcb587,'Пухкенькі бурі грізлі, кедрові дерева, гірська лагуна й ігри з шишками.'],
  ['gorilla','Джунглі горил','🦍',44000,-11.5,-6.4,0x5a9c64,0xf1cf8f,'Могутні добрі горили, ліани, дерев’яні конструкції та зелень.'],
 ];
 export const ZOO_EXHIBITS=row.map(([species,name,icon,price,x,z,ground,accent,description],index)=>({id:'zoo-'+species,type:'zoo-'+species,biome:ZOO_ID,kind:'zoo',zoo:true,species,index,name,icon,price,x:species==='polar'?24.5:species==='otter'?8:x*ZOO_LINEAR_SCALE,z:species==='polar'?-4:species==='otter'?23.5:z*ZOO_LINEAR_SCALE,ground,accent,description,radius:['polar','otter'].includes(species)?11.5:9,w:['polar','otter'].includes(species)?23:18,d:['polar','otter'].includes(species)?23:18,h:species==='axolotl'?4.4:4,buildMinutes:0,rate:0,footprint:['polar','otter'].includes(species)?[23,23]:[18,18]}));

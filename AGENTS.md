@@ -655,3 +655,30 @@ buildings behind its grass or a low decorative collider. Keep native cat drag,
 multitouch and other island selection priorities. Verify real mouse clicks AND
 phone taps on every habitat in the native browser harness; invoking the menu
 callback directly does not test world picking.
+
+### Continuous wildlife surfaces and grizzly update (2026-10-29)
+
+The user requested ordinary brown grizzlies in the existing bear enclosure.
+Keep `zoo-polar` / `polar` ownership addresses and historical receipts/prices;
+visible cedar scenery, bear coat and labels now describe grizzlies. The five
+habitats, 21 animals and existing play/branch/cat choreography stay intact.
+
+Dense offline skin authoring projects vertices onto the continuous field and
+uses its analytic gradient for normals. Facial relief belongs to that same skin,
+including its gradient; never hide primitive seams with fur or sharper lighting.
+Inspect bare clay as well as actual front/side/phone materials. Preserve the
+approved bodies and original joint/contact anchors when refining faces.
+
+Use the shared, selected-only lossless wildlife coat sheet and immutable baked
+pose buffers. Coalesce image fetch/decode, keep a stable offline fallback, and
+warm the real materials before revealing animals. The denser authoring mesh
+must simplify within each released runtime vertex/triangle/pose budget; retain
+inset eyes, continuous normals and the sixteen-attribute limit. Do not enable
+alpha-to-coverage for these opaque fur cutouts: it produces pale card patches.
+The generated material is original artwork, not an imported Rockstar asset.
+
+Verify smooth field normals, closed skin joins, eye proportions, neutral trunk,
+all five geometry budgets, coat coalescing/failure, actual behavior/contact and
+source/cache equality. Run real habitat mouse/touch selection and private native
+phone/SQLite reload checks before publishing. Authoring improvements and smaller
+asset downloads do not establish physical-device FPS gains.

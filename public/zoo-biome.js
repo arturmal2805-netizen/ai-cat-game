@@ -18,7 +18,7 @@ import {runSceneSteps} from './scene-tasks.js';
 import {disposeScenery} from './scenery-models.js';
 import {BIOME_STYLES} from './biome-styles.js';
 const TAU=Math.PI*2;
-const pools=ZOO_EXHIBITS.filter(e=>e.species!=='axolotl').map(e=>({id:'zoo-water-'+e.species,x:e.x,z:e.z+(e.species==='elephant'?-2.55:e.species==='tiger'?-2.2:e.species==='gorilla'?-2.8:.1)*S,rx:(e.species==='otter'?3.6:e.species==='polar'?3.5:e.species==='gorilla'?2:2.7)*(e.radius/4.5),rz:(e.species==='otter'?3.25:e.species==='polar'?2.9:1.2)*(e.radius/4.5),color:e.species==='polar'?0x37c9ee:0x1ac6e3,fishCount:0,depth:e.species==='polar'?2.85:e.species==='otter'?1.55:1.2}));
+const pools=ZOO_EXHIBITS.filter(e=>e.species!=='axolotl').map(e=>({id:'zoo-water-'+e.species,x:e.x,z:e.z+(e.species==='elephant'?-2.55:e.species==='tiger'?-2.2:e.species==='gorilla'?-2.8:.1)*S,rx:(e.species==='otter'?3.6:e.species==='polar'?3.5:e.species==='gorilla'?2:2.7)*(e.radius/4.5),rz:(e.species==='otter'?3.25:e.species==='polar'?2.9:1.2)*(e.radius/4.5),color:e.species==='polar'?0x27bdd5:0x1ac6e3,fishCount:0,depth:e.species==='polar'?2.85:e.species==='otter'?1.55:1.2}));
 function platform(base){
  const outline=new T.Shape();outline.absarc(0,0,R,0,TAU,false);
  for(const p of pools){const hole=new T.Path();hole.absellipse(p.x,-p.z,p.rx,p.rz,0,TAU,true);outline.holes.push(hole);}
@@ -46,17 +46,17 @@ function* habitat(props,e,detail,effects,lagoons){
  }
  for(let k=0;k<9;k++){
   const a=zooFacing(e)+Math.PI+(k-4)*.18,x=e.x+Math.sin(a)*3.8*S,z=e.z+Math.cos(a)*3.8*S;
-  shape(props,'stone',e.species==='polar'?0xc9eaf7:e.species==='tiger'?0xa4a2c6:0x9aa28b,x,.7+(k%3)*.3,z,.65,1+(k%3)*.4,.65);
+  shape(props,'stone',e.species==='polar'?0x8d9c86:e.species==='tiger'?0xa4a2c6:0x9aa28b,x,.7+(k%3)*.3,z,.65,1+(k%3)*.4,.65);
   if(e.species!=='polar'){jungleFlowers(props,x,1.55+(k%3)*.45,z,.9,k%2?0xff91c0:0xfbd989);if(k%3===0)tree(props,x,1.45,z,e.species==='tiger'||e.species==='axolotl',.7);}
   yield;
  }
- const back=zooFacing(e)+Math.PI;teaPavilion(props,e.x+Math.sin(back)*3.75*S,1.2,e.z+Math.cos(back)*3.75*S,e.species==='polar'?0x83b7d7:0xe2ac72,.35);
- const snow=e.species==='polar';
+ const back=zooFacing(e)+Math.PI;teaPavilion(props,e.x+Math.sin(back)*3.75*S,1.2,e.z+Math.cos(back)*3.75*S,e.species==='polar'?0xbba174:0xe2ac72,.35);
+ const snow=false,grizzly=e.species==='polar';
  for(let i=0;i<10;i++){
   const a=i/10*TAU,x=e.x+Math.sin(a)*4*S,z=e.z+Math.cos(a)*4*S,front=Math.cos(a-zooFacing(e));
   if(front>.62)continue;
   shape(props,'stone',snow?0xcceefa:e.species==='tiger'?0xb2b4c9:0x929c81,x,.35+(i%3)*.15,z,.48,.58+(i%3)*.24,.46);
-  if(snow){for(let k=0;k<3;k++)shape(props,'cone',k===2?0xe5f5f3:0x75a6a7,x,.75+k*.3,z,.55-k*.1,1-k*.13,.55-k*.1);shape(props,'pole',0x9e9d93,x,.42,z,.08,.8,.08);}
+  if(snow||grizzly){for(let k=0;k<3;k++)shape(props,'cone',snow&&k===2?0xe5f5f3:0x5f9464,x,.75+k*.3,z,.55-k*.1,1-k*.13,.55-k*.1);shape(props,'pole',0x9e9d93,x,.42,z,.08,.8,.08);}
   else if(e.species==='tiger'){tree(props,x,.2,z,true,.65);jungleFlowers(props,x+.25,.25,z,.5,0xb98ae5);}
   else if(i%2===0)tree(props,x,.18,z,e.species==='axolotl',e.species==='gorilla'?.95:.7);
   else junglePlant(props,x,.2,z,.8,i);
@@ -77,7 +77,7 @@ function* habitat(props,e,detail,effects,lagoons){
   for(let i=0;i<7;i++){const x=bX+(i-3)*.62*S;shape(props,'stone',snow?0xc8e7f3:e.species==='tiger'?0x9898b9:0x929a86,x,height*.4,bZ,.5,height*.55+(i%2)*.2,.48);if(snow)shape(props,'cube',0xecfbff,x,height+.02,bZ,.55,.15,.5);else junglePlant(props,x,height+.1,bZ,.6,i);yield;}
   for(const offset of [-.62,.62]){const fall=yield*zooWaterfallSteps(bX+offset*S,bZ+.45*S,.5,height,{color:0x7edfee});fall.position.y+=height;detail.add(fall);effects.push(fall);}
   if(e.species==='otter')for(const [x,z]of [[0,1.65],[-2.4,.2],[2.4,-.1]])shape(props,'stone',0xa5aa95,e.x+x*S,.17,e.z+z*S,.9,.35,.6);
-  if(snow)for(const [x,z,rx,rz]of [[-.2,-.9,1.3,1.05],[2.25,-.9,1.1,.9],[.52,.95,.8,.65]]){const ice=new T.Mesh(new T.CylinderGeometry(1,1.04,.2,8),new T.MeshStandardMaterial({color:0xeafaff,roughness:.42}));ice.scale.set(rx*S,1,rz*S);ice.position.set(e.x+x*S,.07,e.z+z*S);ice.rotation.y=.23;ice.receiveShadow=true;props.add(ice);}
+  if(grizzly)for(const [x,z,rx,rz]of [[-.2,-.9,1.3,1.05],[2.25,-.9,1.1,.9],[.52,.95,.8,.65]]){const ice=new T.Mesh(new T.CylinderGeometry(1,1.04,.2,8),new T.MeshStandardMaterial({color:0x9aa68a,roughness:.84}));ice.scale.set(rx*S,1,rz*S);ice.position.set(e.x+x*S,.07,e.z+z*S);ice.rotation.y=.23;ice.receiveShadow=true;props.add(ice);}
 
   if(e.species==='gorilla'){
    // Branches coincide with the baked palms of every actual instance, including

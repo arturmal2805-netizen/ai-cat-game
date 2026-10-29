@@ -1,3 +1,4 @@
+import {prepareZooCoat} from './zoo-coat-atlas.js';
 import {zooAnimalPreview} from './zoo-animals.js';
 import * as THREE from "three";
 import { CATALOG, BIOMES } from "./game-data.js";
@@ -46,6 +47,7 @@ export async function catalogPreviews(
   let renderer;
   try {
     if (!canRender()) return result;
+    if(pending.some(item=>item.zoo))await prepareZooCoat();
     // Let the modal paint before compiling WebGL programs or reading pixels.
     await new Promise((resolve) =>
       requestAnimationFrame(() => setTimeout(resolve, 0)),

@@ -3,7 +3,7 @@ import {zooAnimals,zooAnimalVertex,zooJointPoint} from '../public/zoo-animals.js
 const exhibit=ZOO_EXHIBITS.find(e=>e.species==='polar'),done=m=>{m.dispose();m.geometry.dispose();m.material.dispose();};
 test('refined bear stays inside the released mobile geometry/pose budget and rejects the old bear cache',()=>{
  const m=zooAnimals(exhibit),d=m.userData.poseData,g=m.geometry;assert.equal(d.detailRevision,POLAR_DETAIL_REVISION);assert.ok(g.attributes.position.count<=43026);assert.ok(g.index.count/3<=53176);assert.equal(d.values.byteLength,588800);
- const b=encodeZooTemplate(d),length=new DataView(b).getUint32(4,true),text=new TextDecoder().decode(new Uint8Array(b,8,length)).replace('polar-v5','polar-v4');new Uint8Array(b,8,length).set(new TextEncoder().encode(text));assert.throws(()=>decodeZooTemplate(b,'polar'),/Old polar anatomy/);done(m);
+ const b=encodeZooTemplate(d),length=new DataView(b).getUint32(4,true),text=new TextDecoder().decode(new Uint8Array(b,8,length)).replace(POLAR_DETAIL_REVISION,'grizzly-v5');new Uint8Array(b,8,length).set(new TextEncoder().encode(text));assert.throws(()=>decodeZooTemplate(b,'polar'),/Old polar anatomy/);done(m);
 });
 test('bear actions use their own durations instead of stretching every short action across twenty-six seconds',()=>{
  const bag=zooBehaviorBag('polar',0,0);assert.equal(bag.find(s=>s.name==='swim-dive').seconds,26);assert.equal(bag.find(s=>s.name==='shore-walk').seconds,10);assert.equal(bag.find(s=>s.name==='snow-play').seconds,9);assert.equal(bag.length,5);assert.equal(bag.at(-1).end-bag[0].start,65);

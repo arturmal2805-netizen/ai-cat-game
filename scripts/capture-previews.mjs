@@ -1,3 +1,4 @@
+import {ZOO_COAT_ASSET} from '../public/zoo-coat-atlas.js';
 import { build } from "esbuild";
 import { createServer } from "node:http";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
@@ -30,13 +31,14 @@ for (const name of ["fantasy-atlas", "tree-varieties"])
     `/art/${name}.png`,
     await readFile(resolve(root, `public/art/${name}.png`)),
   );
+assets.set(ZOO_COAT_ASSET.slice(1),await readFile(resolve(root,'public',ZOO_COAT_ASSET)));
 const server = createServer((request, response) => {
   const path = new URL(request.url, "http://localhost").pathname;
   if (path === "/favicon.ico") {
     response.writeHead(204);
     response.end();
   } else if (assets.has(path)) {
-    response.writeHead(200, { "Content-Type": "image/png" });
+    response.writeHead(200, { "Content-Type": request.url?.endsWith(".webp") ? "image/webp" : "image/png" });
     response.end(assets.get(path));
   } else if (path === "/preview.js") {
     response.writeHead(200, { "Content-Type": "text/javascript" });

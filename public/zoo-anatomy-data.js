@@ -1,4 +1,4 @@
-export const ZOO_ANATOMY_REVISION='wildlife-v4';
+export const ZOO_ANATOMY_REVISION='wildlife-v5';
 // Shared rest landmarks for the sculpt and offline two-bone foot choreography.
 export const ZOO_LEGS={
  elephant:{x:.62,front:.88,rear:-.96,hip:1.99,sy:.6,rx:.31,foot:.33},
@@ -7,5 +7,5 @@ export const ZOO_LEGS={
  otter:{x:.25,front:.43,rear:-.53,hip:.44,sy:.16,rx:.1,foot:.115,kind:'otter'},
 };
 
-export const POLAR_DETAIL_REVISION='polar-v5';
-export const POLAR_INSPECTION_POINT=[0,1.52,1.83];
+export const POLAR_DETAIL_REVISION='grizzly-v6';
+export const POLAR_INSPECTION_POINT=[0,1.65,1.76];

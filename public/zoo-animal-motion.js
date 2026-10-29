@@ -31,7 +31,7 @@ export function zooAnimalPose(species,time,role){
  if(role.startsWith('gill')){p.rz=side*Math.sin(a*16+Number(role.at(-1)))*.15;p.ry=Math.sin(a*12)*.13;}
  if(role==='tail'){p.ry=Math.sin(a*(species==='axolotl'?15:9))*(species==='axolotl'?.26:.18);p.rz=Math.sin(a*5)*.08;}
  if(role.startsWith('spray')){const i=Number(role.slice(5)),age=(t+i*.067)%.9,live=window(u,.43,.67);p.x=Math.sin(i*2.399)*age*.65*live;p.y=(2.4*age-4.905*age*age)*live;p.z=age*1.6*live;p.sx=p.sy=p.sz=live>.15&&age<.72?1:.001;return p;}
- if(role.startsWith('trunk')){const i=Number(role.at(-1)),wave=window(u,.43,.67);p.rx=-.06-wave*(.28+i*.025)+Math.sin(a*9-i*.5)*.1;p.rz=Math.sin(a*6-i*.4)*.09;}
+ if(role.startsWith('trunk')){const i=Number(role.at(-1)),wave=window(u,.43,.67);p.rx=-wave*(.28+i*.025)+(Math.sin(a*9-i*.5)-Math.sin(-i*.5))*.055;p.rz=(Math.sin(a*6-i*.4)-Math.sin(-i*.4))*.045;}
  if(leg){
   if(species==='elephant')p.rx=Math.sin(a*18+(front?0:Math.PI)+side*Math.PI/2)*.28*window(u,0,.4);
   else if(species==='axolotl')p.rx=Math.sin(a*15+side+(front?0:Math.PI))*.22;
