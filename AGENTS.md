@@ -649,3 +649,9 @@ never create portrait renders or another camera/render loop. Guest candidates
 are living ordinary cats physically on this island, including walking visitors. Empty
 lists disable the button; changing destinations must not follow a stale NPC.
 The shared half-second item-dialog refresh must retain these zoo controls.
+
+A focused zoo tap must resolve its authored habitat volume before unrelated
+buildings behind its grass or a low decorative collider. Keep native cat drag,
+multitouch and other island selection priorities. Verify real mouse clicks AND
+phone taps on every habitat in the native browser harness; invoking the menu
+callback directly does not test world picking.

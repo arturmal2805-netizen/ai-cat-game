@@ -1,3 +1,4 @@
+import {pickZooExhibit} from './zoo-picking.js';
 import {zooEnclosureCameraView,randomZooCameraGuest,zooCameraGuests} from './zoo-camera.js';
 import {relaxCarriedCat} from './bikini-carry.js';
 import {safeZooRestoredPosition} from './zoo-navigation.js';
@@ -3456,6 +3457,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
         showCatHome(hit.object.userData.housingHouseId);
         return;
       }
+    }
+    if(focused===ZOO_ID&&!viewingOverview&&game.unlocked.includes(ZOO_ID)){
+      const exhibit=pickZooExhibit(raycaster.ray);
+      if(exhibit){callbacks.onSelectCourt?.(exhibit.id);return;}
     }
     const hits = raycaster.intersectObjects(
       [

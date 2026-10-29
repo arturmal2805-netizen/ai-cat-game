@@ -22,6 +22,13 @@ export async function checkZooApp(page,dir){
  console.log('ZOO: native recall clears stale leisure islands and multiple free residents actually move');}
  const gathering=await page.evaluate(()=>[...__lagoonQA.npcs].map(([id,n])=>({id,biome:n.profile.biome,stale:n.leisureBiome,anchor:n.manualAnchor,invited:n.manualUntil>performance.now()})));
 
+ const taps=[];
+ for(const e of ZOO_EXHIBITS){
+  await page.evaluate(e=>{const q=__lagoonQA;q.exitCourt();q.reviewView(207+e.x,136+e.z,46);},e);await page.waitForFunction(e=>Math.abs(__lagoonQA.getDistance()-46)<.2&&Math.hypot(__lagoonQA.look.x-207-e.x,__lagoonQA.look.z-136-e.z)<.05,e);
+  const point=await page.evaluate(e=>{const q=__lagoonQA,p=new q.THREE.Vector3(207+e.x,1,136+e.z).project(q.camera),r=q.renderer.domElement.getBoundingClientRect();return{x:r.x+(p.x+1)*r.width/2,y:r.y+(1-p.y)*r.height/2};},e);
+  console.log('ZOO_REAL_TAP',e.id,point,await page.evaluate(p=>{const q=__lagoonQA,t=document.elementFromPoint(p.x,p.y);return {state:q.getTapState(),element:t?.tagName,id:t?.id,classes:t?.className};},point));await page.mouse.click(point.x,point.y);await page.waitForTimeout(200);if(!await page.locator('#item-dialog').evaluate(d=>d.open)){console.log('TAP_STATE',await page.evaluate(()=>__lagoonQA.getTapState()));await capture({path:dir+'/failed-tap.png'});}await page.waitForFunction(()=>document.querySelector('#item-dialog').open,undefined,{timeout:5000});assert.equal(await page.locator('#item-name').textContent(),e.name);await page.locator('#item-dialog [data-close="item-dialog"]').tap();
+  await page.touchscreen.tap(point.x,point.y);await page.waitForFunction(()=>document.querySelector('#item-dialog').open);assert.equal(await page.locator('#item-name').textContent(),e.name);await page.locator('#item-dialog [data-close="item-dialog"]').tap();taps.push(e.id);
+ }
  for(const id of ids.slice(1)){
   await page.evaluate(id=>__lagoonQA.callbacks.onSelectCourt(id),id);await page.locator('#item-dialog').getByRole('button',{name:/^Відкрити/}).tap();await page.locator('.court-camera-exit').filter({hasText:/Вернуться/}).tap();
  }
@@ -62,6 +69,6 @@ export async function checkZooApp(page,dir){
  }
  await page.evaluate(()=>__lagoonSaveQA.cloud.flush());await page.waitForFunction(()=>!__lagoonSaveQA.cloud.pending&&!__lagoonSaveQA.cloud.retryEntry&&!__lagoonSaveQA.cloud.dirty);
  for(let i=0;i<2;i++){await page.evaluate(()=>__lagoonSaveQA.cloud.releaseEditor());await page.reload();await page.waitForFunction(()=>window.__lagoonQA&&__lagoonSaveQA.cloud.editable);assert.deepEqual(await snapshot(),paid);}
- await fs.writeFile(dir+'/zoo-app.json',JSON.stringify({first,baked,liveClocks,paid,visits,manual,gathering,closeViews,enclosureViews,carries,reloads:2},null,2));
+ await fs.writeFile(dir+'/zoo-app.json',JSON.stringify({first,baked,liveClocks,paid,visits,manual,gathering,closeViews,enclosureViews,taps,carries,reloads:2},null,2));
  console.log('Zoo: native island purchase, four paid gates, close camera, five visitor actions and two durable SQLite reloads.');
 }
