@@ -1,5 +1,5 @@
 {
-  "version": "445e7ff0e1e3",
+  "version": "1736ef9888c5",
   "items": [
     "adoption-center",
     "airship",
@@ -219,7 +219,6 @@
     "zoo-elephant",
     "zoo-gorilla",
     "zoo-otter",
-    "zoo-polar",
-    "zoo-tiger"
+    "zoo-polar"
   ]
 }

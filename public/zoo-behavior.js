@@ -1,3 +1,4 @@
+import {gorillaSwingPose} from './zoo-gorilla-swing.js';
 import {zooBearClipPose} from './zoo-bear-motion.js';
 // Five independent action clips per species, all baked once. The per-animal
 // shuffle bag is local: no AI requests, timers, new instances or saved animals.
@@ -9,7 +10,7 @@ export const ZOO_CLIPS={
  otter:[{name:'swim',from:0,to:32},{name:'backstroke',from:11.2,to:21.76},{name:'rock-rest',from:24.96,to:32},{name:'dive',from:3.84,to:10.88},{name:'shore-peek',from:0,to:16,still:true}],
  tiger:[{name:'walk',from:0,to:6.4},{name:'stretch',from:6.4,to:11.2},{name:'groom',from:11.2,to:15.36},{name:'play',from:23.04,to:31.04},{name:'lie-down',from:14.4,to:22.4}],
  polar:[{name:'swim-dive',from:0,to:32},{name:'snow-play',from:24,to:32},{name:'shore-walk',from:0,to:3.2,pingpong:true},{name:'look-around',from:0,to:12,still:true},{name:'rest',from:24,to:32,still:true,dry:true}],
- gorilla:[{name:'chest-beat',from:0,to:6.4},{name:'climb',from:6.4,to:19.2},{name:'sit',from:20.48,to:30.4},{name:'look-around',from:0,to:12,still:true},{name:'wave',from:0,to:6.4,still:true,wave:true}]
+ gorilla:[{name:'chest-beat',from:0,to:6.4},{name:'branch-swing',from:6.4,to:19.2},{name:'sit',from:20.48,to:30.4},{name:'look-around',from:0,to:12,still:true},{name:'wave',from:0,to:6.4,still:true,wave:true}]
 };
 export const POLAR_ACTION_SECONDS=[26,9,10,7,13];
 export const POLAR_ACTION_PERIOD=POLAR_ACTION_SECONDS.reduce((a,b)=>a+b,0);
@@ -35,6 +36,7 @@ const smooth=x=>{x=Math.max(0,Math.min(1,x));return x*x*(3-2*x);};
 // Blend both ends into the same rest pose offline. Clip changes require exactly
 // the original two matrix samples on the GPU, with no live crossfade atlas.
 export function zooClipPose(species,clip,u,role,pose){
+ if(species==='gorilla'&&clip===1)return gorillaSwingPose(u,role);
  const c=ZOO_CLIPS[species][clip],q=c.pingpong?1-Math.abs(2*u-1):u,t=c.from+(c.to-c.from)*q,
   base=pose(species,0,role),target=pose(species,t,role),w=smooth(u/.12)*smooth((1-u)/.12);
  if(species==='polar'){const bear=zooBearClipPose(c.name,u,role);if(bear)return {...base,...bear};}

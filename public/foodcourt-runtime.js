@@ -17,6 +17,8 @@ export function createCourtRuntime({
   isReady = () => true,
   onComplete = () => {},
   onGreet = () => {},
+  getZooFrame = () => null,
+  onZooCancel = () => {},
   getCinema = () => ({ playing: true, time: 0 }),
 } = {}) {
   const visits = new Map(),
@@ -24,6 +26,7 @@ export function createCourtRuntime({
   let serial = 0;
   function cancel(id) {
     const v = visits.get(id);
+    if(v?.kind==="zoo")onZooCancel(v);
     if (v && locks.get(v.objectId) === id) locks.delete(v.objectId);
     visits.delete(id);
   }
@@ -202,13 +205,19 @@ export function createCourtRuntime({
       }
       const o = courtObject(v.objectId);
       if (v.kind === "zoo") {
-        if(v.phase === "approach"){v.phase="watch";v.elapsed=0;onGreet(o.id,time);}
+        if(v.phase === "approach"){v.phase="watch";v.elapsed=0;onGreet(o.id,time,v);}
         if(v.phase === "watch"){
           const desired=Math.atan2(o.x-v.position.x,o.z-v.position.z);
           v.yaw+=Math.atan2(Math.sin(desired-v.yaw),Math.cos(desired-v.yaw))*Math.min(1,dt*3.5);
-          v.reaction=zooWatchReaction(o.species,v.elapsed,v.seatIndex);
+          const play=getZooFrame(v,time);
+          v.zooCarry=play?.carry||0;
+          if(play?.position){v.position={...play.position};v.yaw=play.yaw;}
+          v.reaction=zooWatchReaction(o.species,v.elapsed,v.seatIndex,play);
+          if(!play&&v.elapsed<6){const hop=o.species==='axolotl'?.09:o.species==='otter'?.16:o.species==='elephant'?.1:0;v.position.y=v.seat.y+hop*Math.max(0,Math.sin(v.elapsed*5))**2;}
+          else if(!play)v.position.y=v.seat.y;
           v.holding=v.reaction.photo;
-          if(v.elapsed>23+v.seatIndex*1.4){
+          if(play?play.done:v.elapsed>23+v.seatIndex*1.4){
+            v.position={...v.seat};v.zooCarry=0;
             const goal=zooExit(o,v.seatIndex);
             if(courtWalkable(goal,v.radius,getObstacles(v.biome),v.biome))path(v,goal,"leave");
           }

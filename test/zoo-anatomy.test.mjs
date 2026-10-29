@@ -25,7 +25,7 @@ test('static fibre ribbons have fixed buffers and remain within the WebGL2 sixte
  assert.equal(texture.version,version);
 });
 test('actual articulated sole vertices retain ground clearance through walking and lying instead of moving rigid poles',()=>{
- for(const [species,end] of [['tiger',6.4],['elephant',12.8],['polar',3]]){
+ for(const [species,end] of [['elephant',12.8],['polar',3]]){
   const m=zooAnimals(ZOO_EXHIBITS.find(e=>e.species===species)),g=m.geometry,d=m.userData.poseData,indices=[];
   for(const role of d.joints.filter(j=>j.role.startsWith('Foot'))){const id=d.joints.indexOf(role),vertices=[];for(let i=0;i<g.attributes.position.count;i++)if(g.attributes.aJoints.getX(i)===id&&g.attributes.aWeights.getX(i)>.95)vertices.push(i);vertices.sort((a,b)=>g.attributes.position.getY(a)-g.attributes.position.getY(b));indices.push(...vertices.slice(0,20));}
   for(let t=0;t<end;t+=.2)for(const i of indices){const p=zooAnimalVertex(m,i,0,t);assert.ok(p.y>-.075,`${species} ${t.toFixed(2)} sole ${p.y}`);}
@@ -37,6 +37,6 @@ test('land-to-swim limb transitions remain smooth on either side of the old abru
  for(const role of ['LegFrontLeft','KneeFrontLeft','FootFrontLeft'])for(const t of [3.2,3.84,7.04,25.6,28.16,29.44]){const a=zooAnimalPose('polar',t-.001,role),b=zooAnimalPose('polar',t+.001,role);assert.ok(Math.abs(a.rx-b.rx)<.02,role+' at '+t);}
 });
 test('a source/cached model cannot silently revert to the old cartoon material layout or preview framing',()=>{
- const e=ZOO_EXHIBITS.find(e=>e.species==='tiger'),m=zooAnimals(e),buffer=encodeZooTemplate(m.userData.poseData),legacy=buffer.slice(0),view=new DataView(legacy),length=view.getUint32(4,true),header=new TextDecoder().decode(new Uint8Array(legacy,8,length)).replace('"schema":2','"schema":1');new Uint8Array(legacy,8,length).set(new TextEncoder().encode(header));assert.throws(()=>decodeZooTemplate(legacy,e.species));done(m);
+ const e=ZOO_EXHIBITS.find(e=>e.species==='gorilla'),m=zooAnimals(e),buffer=encodeZooTemplate(m.userData.poseData),legacy=buffer.slice(0),view=new DataView(legacy),length=view.getUint32(4,true),header=new TextDecoder().decode(new Uint8Array(legacy,8,length)).replace('"schema":2','"schema":1');new Uint8Array(legacy,8,length).set(new TextEncoder().encode(header));assert.throws(()=>decodeZooTemplate(legacy,e.species));done(m);
  const preview=zooAnimalPreview(e),box=new T.Box3().setFromObject(preview);assert.ok(box.getSize(new T.Vector3()).length()<7,'preview used the nine-unit gameplay culling volume');preview.userData.disposeStaff();
 });

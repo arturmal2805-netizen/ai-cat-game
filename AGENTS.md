@@ -612,3 +612,40 @@ dark rectangular patches. Keep the bear's eight padded tufts in one 256² R8
 atlas with the same 1,800 static cards, shared materials and frame buffers.
 The refined bear fits within the released 43,026-vertex / 53,176-triangle and
 588,800-byte pose budget; resource limits do not establish physical-phone FPS.
+
+### Enlarged zoo and visitor play (2026-10-29)
+
+The zoo now has four times its previous land area. The user explicitly retired
+white tigers: five active habitats and 21 animals remain. Otter/polar habitats
+occupy the released space; do not recreate a tiger model, gate, activity or
+invisible obstacle. Keep historical tiger payments in saved receipts and reject
+new purchases from cached clients without charging again. All other biome and
+owned-placement coordinates remain unchanged.
+
+Gorilla visitor play uses native public seat reservation, a bounded performance
+and the visitor's simulation clock. Chest beating/dancing precedes pickup; both
+palms support the native cat during gravity-based shared jumps. Return the cat to
+its reserved ground before goodbye. Work/manual cancellation must release the
+carry, model override and reservation; midair positions are transient in saves.
+Use the same baked pose/override/root transform in colour, depth and CPU joint
+queries, including palms and close cameras. Do not upload instance matrices per
+frame. Only gorillas add two 48-row interaction clips; other pose atlases keep
+400 rows. Spray/splash effects use fixed buffers and sleep outside interactions.
+
+Run zoo expansion/play, legacy payment/shared-save tests, full suite/build and
+the native phone/SQLite zoo and ownership audits. Inspect real tiny and giant
+cats during pickup, shared jumps and putdown, plus all five animal/habitat views.
+
+Gorilla branch swings pin a real baked palm to each authored branch. Match
+per-instance branch height/spacing to the actual animal scale. Align grip and
+release keys with pose-atlas rows; the transfer is a gravity arc and both clip
+ends return to the same neutral ground pose. Check transformed palm contacts,
+not only a swinging root or an arm passing near a tree.
+
+Every opened zoo habitat exposes its fitted elevated front camera and the native
+random visitor face camera. Fit real habitat/tank/branch-jump bounds on portrait
+and landscape screens. Reuse the attraction fit and native cat head tracking;
+never create portrait renders or another camera/render loop. Guest candidates
+are living ordinary cats physically on this island, including walking visitors. Empty
+lists disable the button; changing destinations must not follow a stale NPC.
+The shared half-second item-dialog refresh must retain these zoo controls.

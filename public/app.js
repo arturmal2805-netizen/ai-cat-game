@@ -1219,12 +1219,12 @@ function showCourt(id, fishIndex) {
     for(const key of ["item-move","item-store","item-guest-camera","item-attraction-camera"])$(key).hidden=true;
     const actions=$("spa-bar-actions");actions.hidden=false;actions.replaceChildren();
     const button=document.createElement("button");button.className="primary";
-    button.textContent=p.built?"Роздивитися тварин":"Відкрити · "+money(p.price)+" ✦";
+    button.textContent=p.built?"📷 Камера вольєра":"Відкрити · "+money(p.price)+" ✦";
     button.disabled=!p.built&&(!p.previousOpen||game.coins<p.price);
     button.onclick=()=>{try{if(!p.built)commit(openZooExhibit(game,id));$("item-dialog").close();world?.enterCourt(id);toast(p.built?o.name:"Ворота відчиняються · "+o.name);}catch(error){toast(error.message);}};
     actions.append(button);
     if(p.built){const close=document.createElement('button');close.className='soft';close.textContent=o.species==='axolotl'?'Аксолотль зблизька':'Тварина зблизька';close.onclick=()=>{$('item-dialog').close();world?.enterCourt(id,0);};actions.append(close);}
-    open("item-dialog");return;
+    updateGuestCamera();open("item-dialog");return;
   }
   if (p.built) {
     world?.enterCourt(id, fishIndex);
@@ -1304,6 +1304,12 @@ function inspect(id, manage = false) {
   open("item-dialog");
 }
 function updateGuestCamera() {
+  const zoo=courtObject(selectedItem);
+  if(!selectedScenery&&zoo?.kind==='zoo'){
+    const button=$('item-guest-camera'),built=courtProject(game,selectedItem)?.built,guests=world?.zooGuests()||[];
+    $('item-attraction-camera').hidden=true;button.hidden=!built;button.disabled=!guests.length;
+    button.textContent=guests.length?'📷 Камера гостя · '+guests.length:'📷 Камера гостя · чекаємо відвідувачів';return;
+  }
   const p =
       !selectedScenery && game.placements.find((p) => p.id === selectedItem),
     button = $("item-guest-camera");
@@ -1322,7 +1328,7 @@ function itemBuildStatus(p){
   return !isBuilt(p)?"Строится · осталось "+countdown(p.readyAt):world?.isAttractionLoading(p.id)?"Постройка готова · подготавливаем аттракцион…":byItem(p.item).rarity+" · Постройка готова";
 }
 $("item-guest-camera").onclick = () => {
-  if (!world?.followRideGuest(selectedItem)) {
+  if (!(courtObject(selectedItem)?.kind==='zoo'?world?.followZooGuest():world?.followRideGuest(selectedItem))) {
     updateGuestCamera();
     return;
   }

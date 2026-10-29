@@ -1,5 +1,8 @@
+import {zooEnclosureCameraView,randomZooCameraGuest,zooCameraGuests} from './zoo-camera.js';
+import {relaxCarriedCat} from './bikini-carry.js';
+import {safeZooRestoredPosition} from './zoo-navigation.js';
 import {gatherCandidates as selectGatherCats,releaseGatherOverrides,gatherTrip,gatherFrame,gatherLanding} from './gather-system.js';
-import {ZOO_ID,ZOO_EXHIBITS,zooObstacles} from './zoo-data.js';
+import {ZOO_ID,ZOO_LINEAR_SCALE,ZOO_EXHIBITS,zooObstacles} from './zoo-data.js';
 import {zooPhotoCamera} from './zoo-gate.js';
 import {applyMagicBedReach} from './magic-bed-pose.js';
 import {magicBedModelSteps} from './magic-bed-models.js';
@@ -519,6 +522,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
   let cat = createCat(initialGame.cat.mood);
   skipUnusedSkinJoints(cat);
   cacheNativeSkinBounds(cat);
+  if((heroLocation?.biome||initialGame.catPosition?.biome)===ZOO_ID){const b=byBiome(ZOO_ID),p=safeZooRestoredPosition({x:chichiCarrier.position.x-b.center[0],y:chichiCarrier.position.y,z:chichiCarrier.position.z-b.center[1]},catNavigationRadius(cat));chichiCarrier.position.set(b.center[0]+p.x,p.y,b.center[1]+p.z);}
   chichiCarrier.add(cat);
   scene.add(chichiCarrier);
   const heroVisibility = attractionVisibility(chichiCarrier);
@@ -920,7 +924,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       distance: desiredDistance,
       azimuth,
       elevation,
-      ...(o.kind === "zoo" && Number.isInteger(fishIndex)?{zooAnimal:fishIndex}:{}),
+      ...(o.kind === "zoo" ? Number.isInteger(fishIndex)?{zooAnimal:fishIndex}:{zooEnclosure:true,aspect:camera.aspect}:{}),
       ...(o.kind === "aquarium" && Number.isInteger(fishIndex)
         ? { fishIndex }
         : {}),
@@ -959,10 +963,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
     }
     azimuth = 0.06;
     if(o.kind === "zoo"){
-      ensureDetail(ZOO_ID);desiredLook.y=o.species === "axolotl"?1.8:1.3;desiredDistance=Number.isInteger(fishIndex)?({elephant:mobileRender?8.8:7.2,gorilla:mobileRender?6.5:5.2,tiger:mobileRender?6:4.8,polar:mobileRender?5:4.3,otter:mobileRender?3.4:2.8,axolotl:mobileRender?4.4:3.4}[o.species]):mobileRender?17:14;azimuth=Math.atan2(-o.x,-o.z);
+      ensureDetail(ZOO_ID);desiredLook.y=o.species === "axolotl"?1.8:1.3;desiredDistance=Number.isInteger(fishIndex)?({elephant:mobileRender?8.8:7.2,gorilla:mobileRender?6.5:5.2,tiger:mobileRender?6:4.8,polar:mobileRender?5:4.3,otter:mobileRender?3.4:2.8,axolotl:mobileRender?4.4:3.4}[o.species]):(mobileRender?17:14)*ZOO_LINEAR_SCALE;azimuth=Math.atan2(-o.x,-o.z);if(!Number.isInteger(fishIndex)){const view=zooEnclosureCameraView(o,camera.fov,camera.aspect);desiredLook.copy(view.target);desiredDistance=view.distance;azimuth=view.azimuth;}
     }
     elevation =
-      o.kind === "zoo" ? Number.isInteger(fishIndex) ? (o.species==='polar'?.4:o.species==='otter'?.34:.2) : .48 : o.kind === "aquarium"
+      o.kind === "zoo" ? Number.isInteger(fishIndex) ? (o.species==='polar'?.4:o.species==='otter'?.34:.2) : .72 : o.kind === "aquarium"
         ? Number.isInteger(fishIndex)
           ? 0.32
           : 0.58
@@ -1029,7 +1033,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
       (id !== "bikini-krusty" ||
         !itemGroups.get("bikini-sponge")?.userData.playing),
     getCinema: () => cinema.playback,
-    onGreet:(id,time)=>islands.get(ZOO_ID)?.userData.greet?.(id,time),
+    onGreet:(id,time,v)=>islands.get(ZOO_ID)?.userData.greet?.(id,time,v,v.catId==='chichi'?cat:npcs.get(v.catId)?.model),
+    getZooFrame:v=>islands.get(ZOO_ID)?.userData.visitorFrame?.(v,reduced),
+    onZooCancel:v=>{const held=v.zooCarry;islands.get(ZOO_ID)?.userData.cancelVisit?.(v);if(held){const carrier=v.catId==='chichi'?chichiCarrier:npcs.get(v.catId)?.carrier;if(carrier)carrier.position.set(byBiome(ZOO_ID).center[0]+v.seat.x,v.seat.y,byBiome(ZOO_ID).center[1]+v.seat.z);}},
     onComplete: (receipt) => {
       if (receipt.catId === "bikini-patrick-guest") return;
       if (receipt.catId === "chichi" && operation?.court)
@@ -2190,6 +2196,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
         carrier.position.set(b.center[0]+savedLocation.x,savedLocation.y,b.center[1]+savedLocation.z);
         carrier.rotation.y=savedLocation.yaw;
       }
+      if(b.id===ZOO_ID){const p=safeZooRestoredPosition({x:carrier.position.x-b.center[0],y:carrier.position.y,z:carrier.position.z-b.center[1]},spaRadius(model));carrier.position.set(b.center[0]+p.x,p.y,b.center[1]+p.z);}
       scene.add(carrier);
       const inView = attractionVisibility(carrier, { padding: 2 });
       npcs.set(profile.id, { carrier, model, profile, index, hatRig, inView });
@@ -2438,6 +2445,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     camera.updateProjectionMatrix();
     return id;
   }
+  const zooVisitorActors=()=>[{id:'chichi',position:chichiCarrier.position},...[...npcs].filter(([,n])=>n.carrier.parent).map(([id,n])=>({id,position:n.carrier.position}))];
   function followCat(id) {
     const model = id === "chichi" ? cat : npcs.get(id)?.model;
     if (!model) return false;
@@ -3743,6 +3751,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     previousTime = now;
     const time = now / 1000;
     const cameraBlend = blendCamera(elapsed, reduced);
+    if(courtCamera?.zooEnclosure&&courtCamera.aspect!==camera.aspect){desiredDistance=zooEnclosureCameraView(courtObject(courtCamera.id),camera.fov,camera.aspect).distance;courtCamera.aspect=camera.aspect;}
     if (overviewElevation !== null) {
       elevation += (overviewElevation - elevation) * cameraBlend;
       if (overviewAspect !== camera.aspect) {
@@ -4003,6 +4012,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           radius: spaRadius(cat),
         });
       courtIdle.push(...bikiniLife.actors());
+      const zooPerformer=islands.get(ZOO_ID)?.userData.publicPlayBlocker?.();if(zooPerformer)courtIdle.push(zooPerformer);
       court.step(dt, time, courtIdle);
       for (const o of ALL_COURT_VENUES) {
         const g = itemGroups.get(o.id);
@@ -4928,6 +4938,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
           reduced,
         );
         if (npcReaction) {reactCat(n.model, npcReaction, reduced);if(npcReaction.rideSit)applyAtollSit(n.model,npcReaction,reduced);if(manualVisit?.object?.userData.magicBed)applyMagicBedReach(n.model,manualVisit.object,manualVisit.harvester,reduced);}
+        if(courtVisit?.zooCarry)relaxCarriedCat(n.model,courtVisit.zooCarry,time,reduced);
         if (n.hatRig) {
           const resting =
               (spaVisit?.phase === "relax" &&
@@ -5521,6 +5532,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       );
       if (reaction) {reactCat(cat, reaction, reduced);if(reaction.rideSit)applyAtollSit(cat,reaction,reduced);if(operation?.attraction?.userData.magicBed)applyMagicBedReach(cat,operation.attraction,operation.harvester,reduced);}
     }
+    if(court.get('chichi')?.zooCarry&&!dialogOpen)relaxCarriedCat(cat,court.get('chichi').zooCarry,time,reduced);
     const spongeFriend = itemGroups.get("bikini-sponge");
     if (spongeFriend?.userData.playing && spongeFriend.userData.pose) {
       const visitor =
@@ -5814,9 +5826,9 @@ export function createWorld(container, initialGame, callbacks = {}) {
     },
     snapshotCatLocations(next,previous=next){
       const actors=[{id:'chichi',position:chichiCarrier.position,yaw:chichiCarrier.rotation.y,
-        transient:!!heroGather||draggingCat?.catId==='chichi'||['ride','swim'].includes(operation?.decision.action)},
+        transient:!!court.get('chichi')?.zooCarry||!!heroGather||draggingCat?.catId==='chichi'||['ride','swim'].includes(operation?.decision.action)},
         ...[...npcs].map(([id,n])=>({id,position:n.carrier.position,yaw:n.carrier.rotation.y,
-          transient:!!n.gatherTrip||draggingCat?.catId===id||!!spa.get(id)||!!chill.get(id)||swimVisits.has(id)||
+          transient:!!court.get(id)?.zooCarry||!!n.gatherTrip||draggingCat?.catId===id||!!spa.get(id)||!!chill.get(id)||swimVisits.has(id)||
             ['ride','swim'].includes(residentPlay.get(id)?.decision?.action)}))];
       return captureCatLocations(next,previous,actors);
     },
@@ -5890,6 +5902,8 @@ export function createWorld(container, initialGame, callbacks = {}) {
     inspectAttraction,
     isAttractionLoading:id=>!!itemGroups.get(id)?.userData.loadingReference,
     prepareAttraction(id){const g=itemGroups.get(id);if(!g?.userData.loadingReference||!isBuilt(g.userData.placement))return Promise.resolve(!!g?.userData.built);referenceRequested.add(id);return prepareReference(g.userData.placement);},
+    zooGuests:()=>zooCameraGuests(zooVisitorActors()).map(a=>a.id),
+    followZooGuest(){const id=randomZooCameraGuest(zooVisitorActors(),faceCamera.enabled?followedCatId:null);if(!id)return null;focused=ZOO_ID;viewingOverview=false;overviewElevation=null;desiredDistance=Math.min(desiredDistance,34);distance=Math.min(distance,34);ensureDetail(ZOO_ID);return followCat(id)?id:null;},
     rideGuests: (id) => rideGuests(id, operation, residentPlay.visits),
     followRideGuest(id) {
       const guests = rideGuests(id, operation, residentPlay.visits);

@@ -1910,7 +1910,7 @@ export const buildTimeLabel = (minutes) =>
       ? Math.round((minutes / 60) * 10) / 10 + " ч"
       : minutes + " мин";
 export const biomeFeature = (b) =>
-  b === "magic-zoo" ? "Шість вольєрів, тварини й прогулянки котиків" :
+  b === "magic-zoo" ? "П’ять просторих вольєрів, тварини й прогулянки котиків" :
   (b === "sakura"
     ? "Сім відкритих особняків, 14 місць на спільних лежанках та 7 теплих ванн"
     : b === "water"

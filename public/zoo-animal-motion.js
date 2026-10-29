@@ -44,4 +44,7 @@ export function zooAnimalPose(species,time,role){
  if(role==='toy'){const visible=species==='tiger'?window(u,.72,.97):species==='otter'?window(u,.35,.68):window(u,.75,.98);p.sx=p.sy=p.sz=Math.max(.001,visible);p.y=species==='otter'?0:Math.abs(Math.sin(a*20))*.2;}
  return p;
 }
-export function zooWatchReaction(species,elapsed,seat=0){const photo=elapsed>7&&elapsed<11,wave=Math.max(0,Math.sin(elapsed*2+seat));return{paw:photo?.5:.15+wave*.4,headPitch:species==='elephant'||species==='gorilla'?-.16:species==='axolotl'?-.08:.06,headRoll:Math.sin(elapsed*1.6)*.055,surprise:photo?.25:.08,tailSway:Math.sin(elapsed*2)*.12,cue:photo?'zoo-photo':'zoo-wave',emotion:photo?'delighted':'curious',photo};}
+export function zooWatchReaction(species,elapsed,seat=0,play=null){
+ const photo=play?play.photo:elapsed>7&&elapsed<11,wave=Math.max(0,Math.sin(elapsed*(species==='axolotl'?5:2)+seat)),carried=(play?.carry||0)>0,water=species==='elephant'&&elapsed>1.5&&elapsed<5,amazed=species==='gorilla'&&elapsed<4;
+ return {paw:photo?.5:carried?.15:species==='polar'?.2+wave*.3:.15+wave*.4,headPitch:species==='elephant'||species==='gorilla'?-.16:species==='axolotl'?-.08:.06,headRoll:Math.sin(elapsed*(water?5:1.6))*(water?.14:.055),crouch:water?wave*.14:0,surprise:carried?.55:amazed?.8:photo?.25:.15,tailSway:Math.sin(elapsed*2)*.12,cue:photo?'zoo-photo':carried?'zoo-carried':water?'zoo-water':amazed?'zoo-wow':'zoo-wave',emotion:photo||carried||water?'delighted':'curious',photo};
+}

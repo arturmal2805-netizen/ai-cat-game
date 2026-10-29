@@ -1,0 +1,250 @@
+{
+  "biome": {
+    "id": "magic-zoo",
+    "name": "Чарівний зоопарк",
+    "subtitle": "Шість великих вольєрів · маленькі дива й добрі велетні",
+    "icon": "🐘",
+    "price": 3600,
+    "requiredLevel": 8,
+    "radius": 20.17839190817742,
+    "center": [
+      207,
+      136
+    ],
+    "arrival": [
+      0,
+      17.9
+    ],
+    "ground": 10929787,
+    "edge": 9608072,
+    "foliage": 6661964,
+    "accent": 16763356,
+    "zoo": true
+  },
+  "exhibits": [
+    {
+      "id": "zoo-elephant",
+      "type": "zoo-elephant",
+      "biome": "magic-zoo",
+      "kind": "zoo",
+      "zoo": true,
+      "species": "elephant",
+      "index": 0,
+      "name": "Слонова долина",
+      "icon": "🐘",
+      "price": 0,
+      "x": 0,
+      "z": -12.8,
+      "ground": 10207088,
+      "accent": 16765099,
+      "description": "Добрі велетні, слоненя, хоботи-фонтани та каскад.",
+      "radius": 4.5,
+      "w": 9,
+      "d": 9,
+      "h": 4,
+      "buildMinutes": 0,
+      "rate": 0,
+      "footprint": [
+        9,
+        9
+      ]
+    },
+    {
+      "id": "zoo-axolotl",
+      "type": "zoo-axolotl",
+      "biome": "magic-zoo",
+      "kind": "zoo",
+      "zoo": true,
+      "species": "axolotl",
+      "index": 1,
+      "name": "Риф аксолотлів",
+      "icon": "🫧",
+      "price": 6500,
+      "x": -12.1,
+      "z": 6.1,
+      "ground": 9234158,
+      "accent": 16757718,
+      "description": "Крихітні пухкі аксолотлі з пелюстковими зябрами у великому прозорому акваріумі.",
+      "radius": 4.5,
+      "w": 9,
+      "d": 9,
+      "h": 4.4,
+      "buildMinutes": 0,
+      "rate": 0,
+      "footprint": [
+        9,
+        9
+      ]
+    },
+    {
+      "id": "zoo-otter",
+      "type": "zoo-otter",
+      "biome": "magic-zoo",
+      "kind": "zoo",
+      "zoo": true,
+      "species": "otter",
+      "index": 2,
+      "name": "Лагуна видр",
+      "icon": "🦦",
+      "price": 11000,
+      "x": 0,
+      "z": 11.35,
+      "ground": 7653811,
+      "accent": 15911811,
+      "description": "Пірнання, веселі перевороти й відпочинок на теплих камінцях.",
+      "radius": 4.5,
+      "w": 9,
+      "d": 9,
+      "h": 4,
+      "buildMinutes": 0,
+      "rate": 0,
+      "footprint": [
+        9,
+        9
+      ]
+    },
+    {
+      "id": "zoo-tiger",
+      "type": "zoo-tiger",
+      "biome": "magic-zoo",
+      "kind": "zoo",
+      "zoo": true,
+      "species": "tiger",
+      "index": 3,
+      "name": "Бузкові водоспади",
+      "icon": "🐯",
+      "price": 18000,
+      "x": 12.1,
+      "z": 6.1,
+      "ground": 11054537,
+      "accent": 13211888,
+      "description": "Білі тигри, прохолодні каскади, бузкові квіти та іграшки.",
+      "radius": 4.5,
+      "w": 9,
+      "d": 9,
+      "h": 4,
+      "buildMinutes": 0,
+      "rate": 0,
+      "footprint": [
+        9,
+        9
+      ]
+    },
+    {
+      "id": "zoo-polar",
+      "type": "zoo-polar",
+      "biome": "magic-zoo",
+      "kind": "zoo",
+      "zoo": true,
+      "species": "polar",
+      "index": 4,
+      "name": "Полярна казка",
+      "icon": "🐻‍❄️",
+      "price": 29000,
+      "x": 11.5,
+      "z": -6.4,
+      "ground": 13037045,
+      "accent": 10865135,
+      "description": "Білі ведмеді, крижані скелі, ялинки й чиста льодова вода.",
+      "radius": 4.5,
+      "w": 9,
+      "d": 9,
+      "h": 4,
+      "buildMinutes": 0,
+      "rate": 0,
+      "footprint": [
+        9,
+        9
+      ]
+    },
+    {
+      "id": "zoo-gorilla",
+      "type": "zoo-gorilla",
+      "biome": "magic-zoo",
+      "kind": "zoo",
+      "zoo": true,
+      "species": "gorilla",
+      "index": 5,
+      "name": "Джунглі горил",
+      "icon": "🦍",
+      "price": 44000,
+      "x": -11.5,
+      "z": -6.4,
+      "ground": 5938276,
+      "accent": 15847311,
+      "description": "Могутні добрі горили, ліани, дерев’яні конструкції та зелень.",
+      "radius": 4.5,
+      "w": 9,
+      "d": 9,
+      "h": 4,
+      "buildMinutes": 0,
+      "rate": 0,
+      "footprint": [
+        9,
+        9
+      ]
+    }
+  ],
+  "animals": {
+    "elephant": {
+      "count": 3,
+      "scale": [
+        1.15,
+        1.02,
+        0.52
+      ],
+      "height": 3.6
+    },
+    "axolotl": {
+      "count": 8,
+      "scale": [
+        0.72,
+        0.63,
+        0.6,
+        0.52,
+        0.48,
+        0.58,
+        0.55,
+        0.45
+      ],
+      "height": 0.62
+    },
+    "otter": {
+      "count": 4,
+      "scale": [
+        0.8,
+        0.72,
+        0.76,
+        0.6
+      ],
+      "height": 0.85
+    },
+    "tiger": {
+      "count": 3,
+      "scale": [
+        0.87,
+        0.8,
+        0.58
+      ],
+      "height": 1.65
+    },
+    "polar": {
+      "count": 3,
+      "scale": [
+        0.95,
+        0.8,
+        0.52
+      ],
+      "height": 2.15
+    },
+    "gorilla": {
+      "count": 3,
+      "scale": [
+        1,
+        0.9,
+        0.6
+      ],
+      "height": 2.65
+    }
+  }
+}
