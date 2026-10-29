@@ -47,5 +47,12 @@
     "axolotl": "axolotl-eyes-v2",
     "gorilla": "gorilla-face-v2"
   },
-  "hardwareFPSMeasured": false
+  "hardwareFPSMeasured": false,
+  "ciFullSuite": {
+    "tests": 851,
+    "pass": 851,
+    "fail": 0,
+    "run": 40955036253
+  },
+  "publishedRelease": "3577e780a3cc4f2e4b0519367f60aeed09fbb09a"
 }

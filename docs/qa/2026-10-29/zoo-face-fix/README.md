@@ -49,3 +49,10 @@ Validation:
 
 `assets.json`, approved fixture, native reports and images record the checks;
 publication hashes are recorded separately after live deployment succeeds.
+
+Published release `3577e780a3cc4f2e4b0519367f60aeed09fbb09a`: CI run
+`40955036253` passes **851 tests**, deploy and Pages. Both live sites serve exact
+app `eeb8296ae85c2970`, five matching model buffers (including both new face
+revisions), unchanged shared coat and matching previews; shared saves are
+available. Three other animal hashes match the prior published release exactly.
+See `publication.json` for full hashes and release verification.
