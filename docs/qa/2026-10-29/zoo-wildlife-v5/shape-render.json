@@ -1,0 +1,17 @@
+{
+  "results": {
+    "gorilla": {
+      "calls": 2,
+      "triangles": 101456,
+      "geometries": 1,
+      "textures": 8
+    },
+    "elephant": {
+      "calls": 2,
+      "triangles": 85712,
+      "geometries": 1,
+      "textures": 8
+    }
+  },
+  "errors": []
+}

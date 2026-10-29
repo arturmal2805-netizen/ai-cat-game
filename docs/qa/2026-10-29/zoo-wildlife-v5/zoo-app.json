@@ -1,0 +1,443 @@
+{
+  "first": {
+    "coins": 296400,
+    "zoo": {
+      "version": 1,
+      "receipts": {}
+    },
+    "actors": {
+      "fishCount": 14,
+      "species": 5,
+      "animals": 21,
+      "staticMeshes": 10,
+      "sourceMeshes": 5274
+    },
+    "oldIslands": [
+      "moon",
+      "autumn",
+      "winter",
+      "water",
+      "summer",
+      "sakura",
+      "volcano",
+      "candy",
+      "galaxy",
+      "ice",
+      "clockwork",
+      "foodcourt",
+      "bikini",
+      "homestead",
+      "aquarium",
+      "jobcity",
+      "cat-homes",
+      "atoll-park"
+    ]
+  },
+  "baked": [
+    {
+      "species": "elephant",
+      "baked": true,
+      "revision": "wildlife-v5",
+      "coatReady": 1,
+      "coatWidth": 1254,
+      "coatHeight": 1254,
+      "coatId": "6e773172-6864-4e14-b7c2-f1598b2a53f9"
+    },
+    {
+      "species": "axolotl",
+      "baked": true,
+      "revision": "wildlife-v5",
+      "coatReady": 1,
+      "coatWidth": 1254,
+      "coatHeight": 1254,
+      "coatId": "6e773172-6864-4e14-b7c2-f1598b2a53f9"
+    },
+    {
+      "species": "otter",
+      "baked": true,
+      "revision": "wildlife-v5",
+      "coatReady": 1,
+      "coatWidth": 1254,
+      "coatHeight": 1254,
+      "coatId": "6e773172-6864-4e14-b7c2-f1598b2a53f9"
+    },
+    {
+      "species": "polar",
+      "baked": true,
+      "revision": "wildlife-v5",
+      "detailRevision": "grizzly-v6",
+      "coatReady": 1,
+      "coatWidth": 1254,
+      "coatHeight": 1254,
+      "coatId": "6e773172-6864-4e14-b7c2-f1598b2a53f9"
+    },
+    {
+      "species": "gorilla",
+      "baked": true,
+      "revision": "wildlife-v5",
+      "detailRevision": "gorilla-play-swing-v2",
+      "coatReady": 1,
+      "coatWidth": 1254,
+      "coatHeight": 1254,
+      "coatId": "6e773172-6864-4e14-b7c2-f1598b2a53f9"
+    }
+  ],
+  "liveClocks": {
+    "zoo-elephant": [
+      160.54905700683594,
+      177.3760528564453,
+      274.20306396484375,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "zoo-axolotl": [
+      320.4117736816406,
+      97.23878479003906,
+      354.0657958984375,
+      290.8927917480469,
+      67.71978759765625,
+      245.54678344726562,
+      182.37379455566406,
+      199.20079040527344
+    ],
+    "zoo-otter": [
+      240.27452087402344,
+      17.101524353027344,
+      273.92852783203125,
+      290.7555236816406,
+      0,
+      0,
+      0,
+      0
+    ],
+    "zoo-polar": [
+      320.5068054199219,
+      204.4090576171875,
+      333.12249755859375,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "zoo-gorilla": [
+      160.54905700683594,
+      17.37605094909668,
+      194.2030487060547,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "paid": {
+    "coins": 205900,
+    "zoo": {
+      "version": 1,
+      "receipts": {
+        "zoo-axolotl": {
+          "id": "opened-zoo-axolotl",
+          "price": 6500,
+          "openedAt": 1793304685370
+        },
+        "zoo-otter": {
+          "id": "opened-zoo-otter",
+          "price": 11000,
+          "openedAt": 1793304685770
+        },
+        "zoo-polar": {
+          "id": "opened-zoo-polar",
+          "price": 29000,
+          "openedAt": 1793304686107
+        },
+        "zoo-gorilla": {
+          "id": "opened-zoo-gorilla",
+          "price": 44000,
+          "openedAt": 1793304686387
+        }
+      }
+    },
+    "unlocked": [
+      "moon",
+      "magic-zoo"
+    ],
+    "placements": [
+      {
+        "id": "welcome-yarn",
+        "item": "yarn",
+        "biome": "moon",
+        "x": -5,
+        "z": 2,
+        "rotation": 0
+      },
+      {
+        "id": "welcome-party",
+        "item": "party",
+        "biome": "moon",
+        "x": 4,
+        "z": 0,
+        "rotation": 0
+      },
+      {
+        "id": "welcome-farm",
+        "item": "farm-field",
+        "biome": "moon",
+        "x": -6,
+        "z": -1,
+        "rotation": 0,
+        "readyAt": 0
+      }
+    ]
+  },
+  "visits": [
+    {
+      "id": "zoo-elephant",
+      "finished": true,
+      "photo": true,
+      "wave": true
+    },
+    {
+      "id": "zoo-axolotl",
+      "finished": true,
+      "photo": true,
+      "wave": true
+    },
+    {
+      "id": "zoo-otter",
+      "finished": true,
+      "photo": true,
+      "wave": true
+    },
+    {
+      "id": "zoo-polar",
+      "finished": true,
+      "photo": true,
+      "wave": true
+    },
+    {
+      "id": "zoo-gorilla",
+      "finished": true,
+      "photo": true,
+      "wave": true
+    }
+  ],
+  "manual": [
+    {
+      "id": "adopt-crumb",
+      "moved": true,
+      "started": true
+    },
+    {
+      "id": "adopt-marshmallow",
+      "moved": true,
+      "started": true
+    }
+  ],
+  "gathering": [
+    {
+      "id": "luna",
+      "biome": "magic-zoo",
+      "stale": null,
+      "anchor": null,
+      "invited": true
+    },
+    {
+      "id": "moti",
+      "biome": "magic-zoo",
+      "stale": null,
+      "anchor": null,
+      "invited": true
+    },
+    {
+      "id": "pixel",
+      "biome": "magic-zoo",
+      "stale": null,
+      "anchor": null,
+      "invited": true
+    },
+    {
+      "id": "peach",
+      "biome": "magic-zoo",
+      "stale": null,
+      "anchor": null,
+      "invited": true
+    },
+    {
+      "id": "bagel",
+      "biome": "magic-zoo",
+      "stale": null,
+      "anchor": null,
+      "invited": true
+    },
+    {
+      "id": "salem",
+      "biome": "magic-zoo",
+      "stale": null,
+      "anchor": null,
+      "invited": true
+    },
+    {
+      "id": "adopt-marshmallow",
+      "biome": "magic-zoo",
+      "stale": null,
+      "anchor": null,
+      "invited": true
+    },
+    {
+      "id": "adopt-crumb",
+      "biome": "magic-zoo",
+      "stale": null,
+      "anchor": null,
+      "invited": true
+    }
+  ],
+  "closeViews": [
+    {
+      "id": "zoo-elephant",
+      "distance": 8.80000000528086,
+      "look": [
+        203.80000000661946,
+        3.137746471977837,
+        110.90750000548292
+      ]
+    },
+    {
+      "id": "zoo-axolotl",
+      "distance": 4.40000000000058,
+      "look": [
+        179.3336247556191,
+        1.7499408364385023,
+        146.33098256114081
+      ]
+    },
+    {
+      "id": "zoo-otter",
+      "distance": 3.400000000013387,
+      "look": [
+        213.57015800153528,
+        0.5882539351955292,
+        158.4892861023022
+      ]
+    },
+    {
+      "id": "zoo-polar",
+      "distance": 5.00000000001361,
+      "look": [
+        225.7363041439036,
+        1.6685956550848584,
+        131.7620218132466
+      ]
+    },
+    {
+      "id": "zoo-gorilla",
+      "distance": 6.5000000000040075,
+      "look": [
+        180.26753475778457,
+        2.174325314369554,
+        122.82978975993132
+      ]
+    }
+  ],
+  "enclosureViews": [
+    {
+      "id": "zoo-elephant",
+      "distance": 75.07998533562169,
+      "aspect": 0.5300546448087432,
+      "look": [
+        207,
+        2.3,
+        110.4
+      ]
+    },
+    {
+      "id": "zoo-axolotl",
+      "distance": 85.2817320480919,
+      "aspect": 0.5300546448087432,
+      "look": [
+        182.8,
+        2.05,
+        148.2
+      ]
+    },
+    {
+      "id": "zoo-otter",
+      "distance": 105.61380072016148,
+      "aspect": 0.5300546448087432,
+      "look": [
+        215,
+        2.05,
+        159.5
+      ]
+    },
+    {
+      "id": "zoo-polar",
+      "distance": 101.13326188261516,
+      "aspect": 0.5300546448087432,
+      "look": [
+        231.5,
+        2.05,
+        132
+      ]
+    },
+    {
+      "id": "zoo-gorilla",
+      "distance": 81.96115773955869,
+      "aspect": 0.5300546448087432,
+      "look": [
+        184,
+        3.3,
+        123.2
+      ]
+    }
+  ],
+  "taps": [
+    "zoo-elephant",
+    "zoo-axolotl",
+    "zoo-otter",
+    "zoo-polar",
+    "zoo-gorilla"
+  ],
+  "carries": [
+    {
+      "id": "adopt-crumb",
+      "moved": true,
+      "started": true,
+      "carry": 1,
+      "position": {
+        "x": -13.27598092143364,
+        "z": -7.388371991058722,
+        "y": 2.695828739198778
+      },
+      "seat": {
+        "x": -13.300835205946278,
+        "z": -7.402203940700538,
+        "y": 0.16,
+        "index": 0
+      },
+      "cameraGuest": "adopt-marshmallow"
+    },
+    {
+      "id": "adopt-marshmallow",
+      "moved": true,
+      "started": true,
+      "carry": 1,
+      "position": {
+        "x": -12.643364683834713,
+        "z": -7.036307302308016,
+        "y": 2.468706471430752
+      },
+      "seat": {
+        "x": -13.300835205946278,
+        "z": -7.402203940700538,
+        "y": 0.16,
+        "index": 0
+      },
+      "cameraGuest": "moti"
+    }
+  ],
+  "reloads": 2
+}

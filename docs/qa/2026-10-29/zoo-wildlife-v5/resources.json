@@ -1,0 +1,107 @@
+{
+  "elephant": {
+    "before": {
+      "vertices": 24027,
+      "triangles": 44604,
+      "poseBytes": 998400,
+      "anatomyRevision": "wildlife-v4",
+      "detailRevision": null,
+      "rawBytes": 3480332,
+      "standardRecompressedGzipBytes": 1106325
+    },
+    "after": {
+      "vertices": 23179,
+      "triangles": 42856,
+      "poseBytes": 998400,
+      "anatomyRevision": "wildlife-v5",
+      "detailRevision": null,
+      "rawBytes": 3391832,
+      "standardRecompressedGzipBytes": 1087769,
+      "servedGzipBytes": 1140432
+    }
+  },
+  "axolotl": {
+    "before": {
+      "vertices": 22370,
+      "triangles": 38928,
+      "poseBytes": 460800,
+      "anatomyRevision": "wildlife-v4",
+      "detailRevision": null,
+      "rawBytes": 2754892,
+      "standardRecompressedGzipBytes": 878835
+    },
+    "after": {
+      "vertices": 22154,
+      "triangles": 38228,
+      "poseBytes": 460800,
+      "anatomyRevision": "wildlife-v5",
+      "detailRevision": null,
+      "rawBytes": 2730820,
+      "standardRecompressedGzipBytes": 846433,
+      "servedGzipBytes": 894568
+    }
+  },
+  "otter": {
+    "before": {
+      "vertices": 26429,
+      "triangles": 34384,
+      "poseBytes": 588800,
+      "anatomyRevision": "wildlife-v4",
+      "detailRevision": null,
+      "rawBytes": 3229440,
+      "standardRecompressedGzipBytes": 819745
+    },
+    "after": {
+      "vertices": 25920,
+      "triangles": 33316,
+      "poseBytes": 588800,
+      "anatomyRevision": "wildlife-v5",
+      "detailRevision": null,
+      "rawBytes": 3176192,
+      "standardRecompressedGzipBytes": 818016,
+      "servedGzipBytes": 864427
+    }
+  },
+  "polar": {
+    "before": {
+      "vertices": 42137,
+      "triangles": 53136,
+      "poseBytes": 588800,
+      "anatomyRevision": "wildlife-v4",
+      "detailRevision": "polar-v5",
+      "rawBytes": 4787116,
+      "standardRecompressedGzipBytes": 1139905
+    },
+    "after": {
+      "vertices": 41663,
+      "triangles": 51568,
+      "poseBytes": 588800,
+      "anatomyRevision": "wildlife-v5",
+      "detailRevision": "grizzly-v6",
+      "rawBytes": 4734108,
+      "standardRecompressedGzipBytes": 1152122,
+      "servedGzipBytes": 1224245
+    }
+  },
+  "gorilla": {
+    "before": {
+      "vertices": 39888,
+      "triangles": 51868,
+      "poseBytes": 412672,
+      "anatomyRevision": "wildlife-v4",
+      "detailRevision": "gorilla-play-swing-v2",
+      "rawBytes": 4395800,
+      "standardRecompressedGzipBytes": 1073344
+    },
+    "after": {
+      "vertices": 39513,
+      "triangles": 50728,
+      "poseBytes": 412672,
+      "anatomyRevision": "wildlife-v5",
+      "detailRevision": "gorilla-play-swing-v2",
+      "rawBytes": 4354464,
+      "standardRecompressedGzipBytes": 1080492,
+      "servedGzipBytes": 1144895
+    }
+  }
+}

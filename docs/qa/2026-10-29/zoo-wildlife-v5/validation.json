@@ -1,0 +1,31 @@
+{
+  "tests": 846,
+  "passed": 846,
+  "failed": 0,
+  "build": true,
+  "workerDryRun": true,
+  "nativeBrowserErrors": {
+    "errors": [],
+    "httpErrors": []
+  },
+  "nativeZoo": {
+    "mouseAndTouchHabitats": 5,
+    "animalCameras": 5,
+    "enclosureCameras": 5,
+    "ordinaryAndGiantCatCarries": 2,
+    "durableSQLiteReloads": 2
+  },
+  "coat": {
+    "asset": "zoo-coat-ce439863dc570346.webp",
+    "bytes": 2360034,
+    "originalPNGBytes": 4001064,
+    "losslessRGBAEqual": true,
+    "pixels": [
+      1254,
+      1254
+    ],
+    "sharedInstances": 1,
+    "newGPUDecodedBytesWithMipmapsApprox": 8386752
+  },
+  "physicalDeviceFPSMeasured": false
+}

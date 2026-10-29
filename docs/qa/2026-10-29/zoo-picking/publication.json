@@ -1,0 +1,13 @@
+{
+  "pages": {
+    "entry": "./dist/app.js?v=b239029a179a5b68",
+    "sha256": "b239029a179a5b688cf3c7f731c1226247a08e6d654865f91f4adcab124fbfe5"
+  },
+  "worker": {
+    "entry": "./dist/app.js?v=b239029a179a5b68",
+    "sha256": "b239029a179a5b688cf3c7f731c1226247a08e6d654865f91f4adcab124fbfe5"
+  },
+  "release": "61b96e5c5d60ed2ff59d928e79507890415e4829",
+  "cloudSave": true,
+  "run": 40898276861
+}
