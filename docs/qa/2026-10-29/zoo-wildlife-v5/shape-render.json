@@ -2,7 +2,7 @@
   "results": {
     "gorilla": {
       "calls": 2,
-      "triangles": 101456,
+      "triangles": 97136,
       "geometries": 1,
       "textures": 8
     },

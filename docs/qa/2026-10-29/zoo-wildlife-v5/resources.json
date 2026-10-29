@@ -94,14 +94,14 @@
       "standardRecompressedGzipBytes": 1073344
     },
     "after": {
-      "vertices": 39513,
-      "triangles": 50728,
+      "vertices": 38238,
+      "triangles": 48568,
       "poseBytes": 412672,
       "anatomyRevision": "wildlife-v5",
       "detailRevision": "gorilla-play-swing-v2",
-      "rawBytes": 4354464,
-      "standardRecompressedGzipBytes": 1080492,
-      "servedGzipBytes": 1144895
+      "rawBytes": 4224204,
+      "standardRecompressedGzipBytes": 1064616,
+      "servedGzipBytes": 1125558
     }
   }
 }

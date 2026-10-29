@@ -5,7 +5,9 @@ on a single continuous skin. The final pass rounds the brow in profile and
 recesses the eyes, instead of layering visible primitive shapes. Dense offline
 sculpts receive analytic skin normals and are simplified inside the released
 runtime budgets. Head relief derivatives are tested against the actual field.
-The elephant has more continuous temples/cheeks, clearer eyes and a symmetric
+The last cavity pass removes separate dark oral/nasal backing meshes entirely:
+inner pigment is baked onto the carved skin, so no flat insert can protrude
+through the lips in profile. The elephant has more continuous temples/cheeks, clearer eyes and a symmetric
 neutral trunk. Body proportions and the original contact/branch/palm anchors
 remain compatible with the native visitor choreography.
 
@@ -35,7 +37,7 @@ photograph. The realism references guide form; this is not AAA/1:1 fidelity.
 | Axolotl | 38,928 | 38,228 | 22,370 | 22,154 |
 | Otter | 34,384 | 33,316 | 26,429 | 25,920 |
 | Grizzly | 53,136 | 51,568 | 42,137 | 41,663 |
-| Gorilla | 51,868 | 50,728 | 39,888 | 39,513 |
+| Gorilla | 51,868 | 48,568 | 39,888 | 38,238 |
 
 `resources.json` records exact buffers and unchanged pose bytes. Standard gzip
 recompression is separated from actual served gzip bytes. Geometry budgets are
@@ -46,7 +48,8 @@ other species 400. The approved native cat cache identity is unchanged.
 Validation:
 
 - Full suite: **846 passed, zero failed**; production build and Worker dry-run
-  passed. New checks cover continuous normals, facial-relief derivatives, closed
+  passed. The final cavity correction also passes eight targeted detail checks
+  and a second full native phone/SQLite run. New checks cover continuous normals, facial-relief derivatives, closed
   skin seams, all five runtime budgets, neutral trunk and shared coat success /
   failure / coalescing. Existing geometry/pose codec equality, sole contacts,
   animation transitions, branch grips, carry, navigation and save tests passed.

@@ -27,5 +27,8 @@
     "sharedInstances": 1,
     "newGPUDecodedBytesWithMipmapsApprox": 8386752
   },
-  "physicalDeviceFPSMeasured": false
+  "physicalDeviceFPSMeasured": false,
+  "finalCavityRegressionTests": 8,
+  "finalCavityRegressionPassed": 8,
+  "finalNativeReloads": 2
 }
