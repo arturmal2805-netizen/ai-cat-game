@@ -1,5 +1,5 @@
 import * as T from 'three';
-let furMap;
+let furMap,bearFurMap;
 const random=n=>{let h=Math.imul(n^0x68bc21eb,0x85ebca6b);h=Math.imul(h^(h>>>13),0xc2b2ae35);return ((h^(h>>>16))>>>0)/4294967295;};
 // Filtered individual hair fibres, shared by every static fur ribbon.
 export function zooFurTexture(){
@@ -10,6 +10,18 @@ export function zooFurTexture(){
   for(let px=Math.floor(x-width-1);px<=Math.ceil(x+width+1);px++)if(px>=0&&px<size){const v=Math.max(0,1-Math.abs(px-x)/(width+.7))*fade;data[y*size+px]=Math.max(data[y*size+px],Math.round(v*255));}
  }
  furMap=new T.DataTexture(data,size,size,T.RedFormat,T.UnsignedByteType);furMap.magFilter=T.LinearFilter;furMap.minFilter=T.LinearMipmapLinearFilter;furMap.generateMipmaps=true;furMap.needsUpdate=true;furMap.userData.sharedScenery=true;return furMap;
+}
+// Eight groomed tufts in one tiny atlas. Distinct lengths/curves avoid the
+// repeated dotted rectangular patches visible on the old white bear coat.
+export function zooBearFurTexture(){
+ if(bearFurMap)return bearFurMap;const size=256,data=new Uint8Array(size*size);
+ for(let cell=0;cell<8;cell++)for(let strand=0;strand<11;strand++)for(let y=0;y<128;y++){
+  const t=y/127,seed=cell*31+strand,root=4+(strand+.2+random(seed)*.45)/11*56,
+   end=.68+random(seed+270)*.3,bend=(random(seed+91)-.5)*5*t*t,
+   x=root+bend,width=(.5+random(seed+42)*.35)*(1-t*.65),fade=Math.min(1,t*18)*(1-T.MathUtils.smoothstep(t,end-.13,end));
+  for(let px=Math.floor(x-width-1);px<=Math.ceil(x+width+1);px++)if(px>=0&&px<64){const v=Math.max(0,1-Math.abs(px-x)/(width+.65))*fade,at=(Math.floor(cell/4)*128+y)*size+(cell%4)*64+px;data[at]=Math.max(data[at],Math.round(v*255));}
+ }
+ bearFurMap=new T.DataTexture(data,size,size,T.RedFormat,T.UnsignedByteType);bearFurMap.magFilter=T.LinearFilter;bearFurMap.minFilter=T.LinearMipmapLinearFilter;bearFurMap.generateMipmaps=true;bearFurMap.needsUpdate=true;bearFurMap.userData.sharedScenery=true;return bearFurMap;
 }
 export function* zooFurSteps(sculpt,species){
  const counts={tiger:1400,polar:1800,gorilla:1600,otter:850},count=counts[species];if(!count)return null;
@@ -30,7 +42,9 @@ export function* zooFurSteps(sculpt,species){
   // animal draw batches; colour AND depth use the same fibre cutout.
   for(const back of [false,true])for(let row=0;row<3;row++)for(const side of [-1,1]){
    const t=row/2;at.copy(root).addScaledVector(n,.005+length*t).addScaledVector(flow,length*t*t*.32).addScaledVector(right,side*width*(1-t*.3));positions.push(at.x,at.y,at.z);
-   normals.push(n.x*(back?-1:1),n.y*(back?-1:1),n.z*(back?-1:1));uv.push(side<0?0:1,t);colors.push(color.r,color.g,color.b);ids.push(bones[0][0],bones[1][0]);ws.push(bones[0][1]/total,bones[1][1]/total);stripes.push(st);
+   // Both sides of a hair card use the outward groom normal. Reversing it
+   // made back-facing white fibres look like dark square patches.
+   normals.push(n.x,n.y,n.z);const cell=Math.floor(random(attempt+301)*7.999);uv.push(species==='polar'?((cell%4)*64+(side<0?2:62))/256:side<0?0:1,species==='polar'?(Math.floor(cell/4)*128+1+t*126)/256:t);colors.push(color.r,color.g,color.b);ids.push(bones[0][0],bones[1][0]);ws.push(bones[0][1]/total,bones[1][1]/total);stripes.push(st);
   }
   for(const back of [false,true])for(let row=0;row<2;row++){const k=base+(back?6:0)+row*2,quad=[k,k+1,k+2,k+1,k+3,k+2];if(back)quad.reverse();indices.push(...quad);}made++;if(made%80===0)yield;
  }

@@ -1,8 +1,8 @@
 import {ZOO_CLIP_FRAMES,zooBehaviorFrame,zooClipPose} from './zoo-behavior.js';
 import {optimizeGeometryCache} from './geometry-cache.js';
-import {ZOO_ANATOMY_REVISION} from './zoo-anatomy-data.js';
+import {ZOO_ANATOMY_REVISION,POLAR_DETAIL_REVISION} from './zoo-anatomy-data.js';
 import {zooTigerCoat,zooTigerCoatSteps} from './zoo-coat-pattern.js';
-import {zooFurSteps,zooFurTexture} from './zoo-fur.js';
+import {zooFurSteps,zooFurTexture,zooBearFurTexture} from './zoo-fur.js';
 import {buildZooAnatomy} from './zoo-anatomy.js';
 import {zooEyeCap} from './zoo-eyes.js';
 import {runSceneSteps} from './scene-tasks.js';
@@ -52,16 +52,16 @@ function* buildTemplateSteps(species){
  const eye=(x,y,z,r,parent='head',blue=false,normal=[0,0,1])=>{
   const name='eye'+(x<0?'Left':'Right'),lid='lid'+(x<0?'Left':'Right'),q=new T.Quaternion().setFromUnitVectors(v(0,0,1),v(...normal).normalize()),
    point=(px,py,pz)=>v(px,py,pz).applyQuaternion(q).add(v(x,y,z)).toArray(),
-   skin={axolotl:0xf5c6d6,elephant:0x606867,gorilla:0x514d46,tiger:0x716f67,polar:0x797c70,otter:0x41342b}[species];
+   skin={axolotl:0xf5c6d6,elephant:0x606867,gorilla:0x514d46,tiger:0x716f67,polar:0xded8c9,otter:0x41342b}[species];
   joint(name,[x,y,z],parent);joint(lid,[x,y,z],parent);
   sockets.push({pos:[x,y+(species==='axolotl'?.12:0),z],size:[r*1.4,r*(species==='axolotl'?1.05:.95),r*(species==='axolotl'?1.0:1.55)]});
   add(skin,point(0,0,-r*.3),[r*1.38,r*(species==='axolotl'?1:.83),r*.22],parent,{aim:normal});
   add(0xffffff,[x,y,z],[1,1,1],name,{geometryFactory:()=>zooEyeCap(r,{blue,axolotl:species==='axolotl'}),gloss:1,painted:true,aim:normal});
   add(0xfff9e9,point(-r*.22,r*.25,r*(species==='axolotl'?.67:.445)),[r*.1,r*.09,r*.035],name,{gloss:1,micro:true,aim:normal});
   add(0xc1d4d5,point(r*.2,-r*.12,r*(species==='axolotl'?.68:.45)),[r*.036,r*.035,r*.02],name,{gloss:1,micro:true,aim:normal});
-  const h=species==='axolotl'?.86:.67;
-  curve([point(-r*1.08,0,r*.04),point(-r*.55,r*h*.83,r*.39),point(0,r*h,r*.47),point(r*.55,r*h*.8,r*.39),point(r*1.08,0,r*.04)],r*(species==='axolotl'?.11:.065),skin,parent);
-  curve([point(-r*1.08,0,r*.03),point(0,-r*h*.85,r*.44),point(r*1.08,0,r*.03)],r*(species==='axolotl'?.065:.035),skin,parent);
+  const h=species==='axolotl'?.86:.67,rim=species==='polar'?0x65675d:skin;
+  curve([point(-r*1.08,0,r*.04),point(-r*.55,r*h*.83,r*.39),point(0,r*h,r*.47),point(r*.55,r*h*.8,r*.39),point(r*1.08,0,r*.04)],r*(species==='axolotl'?.11:.065),rim,parent);
+  curve([point(-r*1.08,0,r*.03),point(0,-r*h*.85,r*.44),point(r*1.08,0,r*.03)],r*(species==='axolotl'?.065:.035),rim,parent);
   add(skin,point(0,0,r*.49),[r*1.07,r*h,r*.09],lid,{aim:normal});
  };
  buildZooAnatomy(species,{joint,add,curve,eye});
@@ -74,7 +74,7 @@ function* buildTemplateSteps(species){
   animated[i]=j.parent===null?m:animated[j.parent].clone().multiply(m);const skin=animated[i].clone().multiply(inverse[i]);values.set(skin.elements,(f*n+i)*16);
  }if(f%8===0)yield;}
  const texture=new T.DataTexture(values,n*4,ZOO_POSE_FRAMES,T.RGBAFormat,T.FloatType);texture.minFilter=texture.magFilter=T.NearestFilter;texture.needsUpdate=true;texture.userData.sharedScenery=true;
- return {species,geometry,texture,joints,values,width:n*4,refs:0,sculptStats,anatomyRevision:ZOO_ANATOMY_REVISION};
+ return {species,geometry,texture,joints,values,width:n*4,refs:0,sculptStats,anatomyRevision:ZOO_ANATOMY_REVISION,detailRevision:species==='polar'?POLAR_DETAIL_REVISION:undefined};
 }
 const declarations=`attribute float aGreetWeight;varying vec3 vZooRestNormal;attribute vec2 aJoints;attribute vec2 aWeights;attribute vec2 aGloss;varying float vZooFur;varying vec2 vZooFurUV;attribute float aStripe;varying float vZooStripe;varying vec3 vZooRest;attribute float aZooPhase;varying float vZooGloss;uniform sampler2D uZooPose;uniform float uZooFrameAt[8];uniform float uZooTime;uniform float uZooFrames;uniform float uZooCycle;uniform float uZooGreet;uniform float uZooApproach;uniform float uZooAngle;uniform vec3 uZooAxis;attribute float aGreetId;attribute vec3 aGreetPivot;
 vec3 zooRotate(vec3 p){float a=uZooAngle*aGreetWeight;return p*cos(a)+cross(uZooAxis,p)*sin(a)+uZooAxis*dot(uZooAxis,p)*(1.-cos(a));}
@@ -98,7 +98,7 @@ export function zooAnimals(exhibit){return runSceneSteps(zooAnimalSteps(exhibit)
 export function* zooAnimalSteps(exhibit){
  yield*zooSurfaceTextureSteps();yield*zooTigerCoatSteps();
  let template=cache.get(exhibit.species);if(!template){template=yield*buildTemplateSteps(exhibit.species);cache.set(exhibit.species,template);}if(!template.refs++)template.texture.needsUpdate=true;
- const spec=ZOO_ANIMALS[exhibit.species],uniforms={uZooFrameAt:{value:new Float32Array(8)},uZooSpecies:{value:{elephant:1,gorilla:2,tiger:3,polar:4,otter:5,axolotl:6}[exhibit.species]},uZooTigerCoat:{value:zooTigerCoat()},uZooFurMap:{value:zooFurTexture()},uZooWrinkles:{value:exhibit.species==='elephant'?1:0},uZooSurface:{value:zooSurfaceTexture()},uZooSkin:{value:['elephant','axolotl'].includes(exhibit.species)?1:0},uZooPose:{value:template.texture},uZooTime:{value:0},uZooFrames:{value:ZOO_POSE_FRAMES},uZooCycle:{value:ZOO_CYCLE},uZooGreet:{value:0},uZooApproach:{value:exhibit.species==='axolotl'?.8:0},uZooAngle:{value:0},uZooAxis:{value:exhibit.species==='otter'||exhibit.species==='elephant'?v(0,0,1):exhibit.species==='axolotl'||exhibit.species==='tiger'?v(0,1,0):v(1,0,0)}},geometry=copyGeometryBuffers(template.geometry),phases=new Float32Array(spec.count),dummy=new T.Object3D();
+ const spec=ZOO_ANIMALS[exhibit.species],uniforms={uZooFrameAt:{value:new Float32Array(8)},uZooSpecies:{value:{elephant:1,gorilla:2,tiger:3,polar:4,otter:5,axolotl:6}[exhibit.species]},uZooTigerCoat:{value:zooTigerCoat()},uZooFurMap:{value:exhibit.species==='polar'?zooBearFurTexture():zooFurTexture()},uZooWrinkles:{value:exhibit.species==='elephant'?1:0},uZooSurface:{value:zooSurfaceTexture()},uZooSkin:{value:['elephant','axolotl'].includes(exhibit.species)?1:0},uZooPose:{value:template.texture},uZooTime:{value:0},uZooFrames:{value:ZOO_POSE_FRAMES},uZooCycle:{value:ZOO_CYCLE},uZooGreet:{value:0},uZooApproach:{value:exhibit.species==='axolotl'?.8:0},uZooAngle:{value:0},uZooAxis:{value:exhibit.species==='otter'||exhibit.species==='elephant'?v(0,0,1):exhibit.species==='axolotl'||exhibit.species==='tiger'?v(0,1,0):v(1,0,0)}},geometry=copyGeometryBuffers(template.geometry),phases=new Float32Array(spec.count),dummy=new T.Object3D();
  const material=motion(new T.MeshStandardMaterial({vertexColors:true,roughness:.76}),uniforms),mesh=new T.InstancedMesh(geometry,material,spec.count);mesh.name='Zoo animals · '+exhibit.species;mesh.boundingSphere=new T.Sphere(v(0,1,0),9);mesh.boundingBox=new T.Box3(v(-9,-4,-9),v(9,8,9));mesh.frustumCulled=true;mesh.raycast=()=>{};geometry.userData.sharedScenery=false;mesh.castShadow=true;mesh.receiveShadow=true;mesh.customDepthMaterial=motion(new T.MeshDepthMaterial({depthPacking:T.RGBADepthPacking}),uniforms);mesh.customDistanceMaterial=motion(new T.MeshDistanceMaterial(),uniforms);
  const anchors=spec.count===8?[[-2,1.2,-.8],[0,2.3,-1],[1.8,1.4,-.2],[-1.5,2.6,1.2],[.6,1.1,1.8],[2.1,2.7,1],[-2.4,1.7,1],[0,2.5,2.2]]:spec.count===4?[[-.2,0,0],[.1,0,0],[0,0,0],[0,0,0]]:exhibit.species==='polar'?[[-1.2,0,-.35],[1.25,0,-.45],[0,0,1.25]]:exhibit.species==='tiger'?[[-1.2,0,-.45],[1.3,0,-.55],[-.3,0,1.2]]:exhibit.species==='gorilla'?[[-1.9,0,-.35],[1.85,0,-.45],[.4,0,-.65]]:[[-1.6,0,-.35],[1.7,0,-.45],[-.6,0,1.45]];
  const actorData=[];
@@ -128,11 +128,11 @@ export function zooAnimalVertex(mesh,vertex,index,time,out=new T.Vector3()){
  out.z+=d.uniforms.uZooGreet.value*d.uniforms.uZooApproach.value;return out.applyMatrix4(a.matrix);
 }
 // Explicit skeleton queries support real contact/choreography validation.
-export function zooJointPoint(mesh,role,index,time,out=new T.Vector3()){
+export function zooJointPoint(mesh,role,index,time,out=new T.Vector3(),restPoint){
  const data=mesh.userData.poseData,a=mesh.userData.actors[index],id=data.joints.findIndex(j=>j.role===role);if(id<0)throw Error('Unknown zoo joint '+role);
  const f=zooBehaviorFrame(mesh.userData.zooSpecies,index,time),lo=Math.floor(f),hi=(lo+1)%ZOO_POSE_FRAMES,t=f-lo,n=data.joints.length,m=new T.Matrix4();
  for(let k=0;k<16;k++)m.elements[k]=data.values[(lo*n+id)*16+k]*(1-t)+data.values[(hi*n+id)*16+k]*t;
- out.copy(data.joints[id].pivot).applyMatrix4(m);out.z+=mesh.userData.uniforms.uZooGreet.value*mesh.userData.uniforms.uZooApproach.value;return out.applyMatrix4(a.matrix);
+ out.copy(restPoint||data.joints[id].pivot).applyMatrix4(m);out.z+=mesh.userData.uniforms.uZooGreet.value*mesh.userData.uniforms.uZooApproach.value;return out.applyMatrix4(a.matrix);
 }
 export function zooJointDirection(mesh,role,index,time,out=new T.Vector3()){
  const data=mesh.userData.poseData,a=mesh.userData.actors[index],id=data.joints.findIndex(j=>j.role===role);if(id<0)throw Error('Unknown zoo joint '+role);

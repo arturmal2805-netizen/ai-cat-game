@@ -1,20 +1,20 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';import * as T from 'three';
-import {zooBehaviorSample,zooBehaviorFrame,ZOO_ACTION_SECONDS,ZOO_CLIPS} from '../public/zoo-behavior.js';
+import {zooBehaviorSample,zooBehaviorFrame,zooBehaviorBag,ZOO_ACTION_SECONDS,ZOO_CLIPS} from '../public/zoo-behavior.js';
 import {ZOO_EXHIBITS,ZOO_ANIMALS} from '../public/zoo-data.js';import {zooAnimals,zooAnimalVertex} from '../public/zoo-animals.js';
 import {createBiomeScene,disposeBiome} from '../public/biome-scenes.js';import {byBiome} from '../public/game-data.js';
 const done=m=>{m.dispose();m.geometry.dispose();m.material.dispose();};
 test('every animal gets an independent deterministic shuffle of five actions, without daily AI or synchronized fixed loops',()=>{
  for(const {species} of ZOO_EXHIBITS){const duration=ZOO_ACTION_SECONDS[species];assert.equal(ZOO_CLIPS[species].length,5);
   for(let actor=0;actor<ZOO_ANIMALS[species].count;actor++)for(let group=1;group<20;group++){
-   const actions=new Set();for(let step=0;step<5;step++){const t=(group*5+step+.4-actor*.213)*duration,a=zooBehaviorSample(species,actor,t);actions.add(a.name);assert.equal(zooBehaviorFrame(species,actor,t),a.frame);assert.ok(Number.isFinite(a.frame)&&a.frame>=0&&a.frame<400);}assert.equal(actions.size,5,species+' omitted an action');
+   const actions=new Set();for(const span of zooBehaviorBag(species,actor,group)){const t=span.start+span.seconds*.4,a=zooBehaviorSample(species,actor,t);actions.add(a.name);assert.equal(zooBehaviorFrame(species,actor,t),a.frame);assert.ok(Number.isFinite(a.frame)&&a.frame>=0&&a.frame<400);}assert.equal(actions.size,5,species+' omitted an action');
   }
   assert.notDeepEqual(Array.from({length:20},(_,i)=>zooBehaviorSample(species,0,i*duration).frame),Array.from({length:20},(_,i)=>zooBehaviorSample(species,1,i*duration).frame));
  }
 });
 test('actual skinned vertices remain continuous at randomized action boundaries for every species and resident',()=>{
  for(const e of ZOO_EXHIBITS){const m=zooAnimals(e),duration=ZOO_ACTION_SECONDS[e.species],count=m.geometry.attributes.position.count,a=new T.Vector3(),b=new T.Vector3();
-  for(let actor=0;actor<m.count;actor++)for(let step=2;step<12;step++){
-   const t=(step-actor*.213)*duration;for(let i=0;i<count;i+=Math.max(1,Math.floor(count/24))){zooAnimalVertex(m,i,actor,t-.001,a);zooAnimalVertex(m,i,actor,t+.001,b);assert.ok(a.distanceTo(b)<.004,e.species+' jumped across an action boundary');}
+  for(let actor=0;actor<m.count;actor++)for(const span of [...zooBehaviorBag(e.species,actor,1),...zooBehaviorBag(e.species,actor,2)]){
+   const t=span.start;for(let i=0;i<count;i+=Math.max(1,Math.floor(count/24))){zooAnimalVertex(m,i,actor,t-.001,a);zooAnimalVertex(m,i,actor,t+.001,b);assert.ok(a.distanceTo(b)<.004,e.species+' jumped across an action boundary');}
   }done(m);
  }
 });

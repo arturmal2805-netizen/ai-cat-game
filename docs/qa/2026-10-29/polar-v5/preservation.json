@@ -1,0 +1,114 @@
+{
+  "note": "Real template buffers and resource counts; not device FPS.",
+  "models": {
+    "elephant": {
+      "before": {
+        "vertices": 24027,
+        "triangles": 44604,
+        "geometryBytes": 2478108,
+        "poseBytes": 998400,
+        "rawBytes": 3480332
+      },
+      "after": {
+        "vertices": 24027,
+        "triangles": 44604,
+        "geometryBytes": 2478108,
+        "poseBytes": 998400,
+        "rawBytes": 3480332
+      },
+      "sameFile": true,
+      "hash": "ab1b3da3a0cbecf1fa1bd824b6d4ecc3d6b3364ebe41b0f3b2b8f182642d979d"
+    },
+    "axolotl": {
+      "before": {
+        "vertices": 22370,
+        "triangles": 38928,
+        "geometryBytes": 2291608,
+        "poseBytes": 460800,
+        "rawBytes": 2754892
+      },
+      "after": {
+        "vertices": 22370,
+        "triangles": 38928,
+        "geometryBytes": 2291608,
+        "poseBytes": 460800,
+        "rawBytes": 2754892
+      },
+      "sameFile": true,
+      "hash": "3671193f813c50240dbc64fa1ad56a7f2016e7e54e5155271d3af1d957724e4f"
+    },
+    "otter": {
+      "before": {
+        "vertices": 26429,
+        "triangles": 34384,
+        "geometryBytes": 2637772,
+        "poseBytes": 588800,
+        "rawBytes": 3229440
+      },
+      "after": {
+        "vertices": 26429,
+        "triangles": 34384,
+        "geometryBytes": 2637772,
+        "poseBytes": 588800,
+        "rawBytes": 3229440
+      },
+      "sameFile": false,
+      "hash": "0ff1a55fb46e053d5cb9f477c3f8eb04f4a66d6247ffdc57fffc78f6f21d7050"
+    },
+    "tiger": {
+      "before": {
+        "vertices": 39937,
+        "triangles": 52280,
+        "geometryBytes": 3987884,
+        "poseBytes": 588800,
+        "rawBytes": 4579600
+      },
+      "after": {
+        "vertices": 39937,
+        "triangles": 52280,
+        "geometryBytes": 3987884,
+        "poseBytes": 588800,
+        "rawBytes": 4579600
+      },
+      "sameFile": false,
+      "hash": "935a8ea4720a8e94489ac7aaa6f9acc197c052b0bed0e4e1b98377f902da1542"
+    },
+    "polar": {
+      "before": {
+        "vertices": 43026,
+        "triangles": 53176,
+        "geometryBytes": 4277448,
+        "poseBytes": 588800,
+        "rawBytes": 4869100
+      },
+      "after": {
+        "vertices": 42137,
+        "triangles": 53136,
+        "geometryBytes": 4195420,
+        "poseBytes": 588800,
+        "rawBytes": 4787116,
+        "detailRevision": "polar-v5"
+      },
+      "sameFile": false,
+      "hash": "8a9c02c90f4f33fd5d1f4f6ed963ae0e8b867fde4eea0a813f9bc0861cf52466"
+    },
+    "gorilla": {
+      "before": {
+        "vertices": 39888,
+        "triangles": 51868,
+        "geometryBytes": 3980904,
+        "poseBytes": 332800,
+        "rawBytes": 4315872
+      },
+      "after": {
+        "vertices": 39888,
+        "triangles": 51868,
+        "geometryBytes": 3980904,
+        "poseBytes": 332800,
+        "rawBytes": 4315872
+      },
+      "sameFile": false,
+      "hash": "33d52af544029365dce083b59d743f1afd73ad05c67b981080fe1283497c9ddd"
+    }
+  }
+}

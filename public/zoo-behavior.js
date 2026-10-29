@@ -1,3 +1,4 @@
+import {zooBearClipPose} from './zoo-bear-motion.js';
 // Five independent action clips per species, all baked once. The per-animal
 // shuffle bag is local: no AI requests, timers, new instances or saved animals.
 export const ZOO_CLIP_FRAMES=80,ZOO_CLIP_COUNT=5;
@@ -10,9 +11,12 @@ export const ZOO_CLIPS={
  polar:[{name:'swim-dive',from:0,to:32},{name:'snow-play',from:24,to:32},{name:'shore-walk',from:0,to:3.2,pingpong:true},{name:'look-around',from:0,to:12,still:true},{name:'rest',from:24,to:32,still:true,dry:true}],
  gorilla:[{name:'chest-beat',from:0,to:6.4},{name:'climb',from:6.4,to:19.2},{name:'sit',from:20.48,to:30.4},{name:'look-around',from:0,to:12,still:true},{name:'wave',from:0,to:6.4,still:true,wave:true}]
 };
+export const POLAR_ACTION_SECONDS=[26,9,10,7,13];
+export const POLAR_ACTION_PERIOD=POLAR_ACTION_SECONDS.reduce((a,b)=>a+b,0);
 const ids={elephant:1,gorilla:2,tiger:3,polar:4,otter:5,axolotl:6};
 function hash(n){n=Math.imul(n^(n>>>16),0x7feb352d);n=Math.imul(n^(n>>>15),0x846ca68b);return (n^(n>>>16))>>>0;}
 export function zooBehaviorFrame(species,actor,time){
+ if(species==='polar'){const seconds=POLAR_ACTION_PERIOD,t=Math.max(0,time)+actor*ZOO_ACTION_SECONDS.polar*.213,bag=Math.floor(t/seconds),h=hash(bag+ids.polar*97+actor*131);let remaining=t-bag*seconds;for(let j=0;j<5;j++){const clip=((h%5)+j*(1+(h>>>2)%4))%5,d=POLAR_ACTION_SECONDS[clip];if(remaining<d||j===4)return Math.fround(clip*ZOO_CLIP_FRAMES+remaining/d*(ZOO_CLIP_FRAMES-1));remaining-=d;}}
  const tick=Math.max(0,time)/ZOO_ACTION_SECONDS[species]+actor*.213,block=Math.floor(tick),h=hash(Math.floor(block/5)+ids[species]*97+actor*131),
   clip=((h%5)+(block%5)*(1+(h>>>2)%4))%5,u=tick-block;
  return Math.fround(clip*ZOO_CLIP_FRAMES+u*(ZOO_CLIP_FRAMES-1));
@@ -21,12 +25,19 @@ export function zooBehaviorSample(species,actor,time){
  const frame=zooBehaviorFrame(species,actor,time),clip=Math.floor(frame/ZOO_CLIP_FRAMES),u=(frame-clip*ZOO_CLIP_FRAMES)/(ZOO_CLIP_FRAMES-1);
  return {clip,u,frame,name:ZOO_CLIPS[species][clip].name};
 }
+// Descriptive schedule for UI/QA; the frame loop uses the allocation-free
+// sampler above. Each shuffled bag includes every action exactly once.
+export function zooBehaviorBag(species,actor,bag){
+ const durations=species==='polar'?POLAR_ACTION_SECONDS:Array(5).fill(ZOO_ACTION_SECONDS[species]),total=durations.reduce((a,b)=>a+b,0),h=hash(bag+ids[species]*97+actor*131),out=[];let start=bag*total-actor*ZOO_ACTION_SECONDS[species]*.213;
+ for(let j=0;j<5;j++){const clip=((h%5)+j*(1+(h>>>2)%4))%5,seconds=durations[clip];out.push({clip,name:ZOO_CLIPS[species][clip].name,start,end:start+seconds,seconds});start+=seconds;}return out;
+}
 const smooth=x=>{x=Math.max(0,Math.min(1,x));return x*x*(3-2*x);};
 // Blend both ends into the same rest pose offline. Clip changes require exactly
 // the original two matrix samples on the GPU, with no live crossfade atlas.
 export function zooClipPose(species,clip,u,role,pose){
  const c=ZOO_CLIPS[species][clip],q=c.pingpong?1-Math.abs(2*u-1):u,t=c.from+(c.to-c.from)*q,
   base=pose(species,0,role),target=pose(species,t,role),w=smooth(u/.12)*smooth((1-u)/.12);
+ if(species==='polar'){const bear=zooBearClipPose(c.name,u,role);if(bear)return {...base,...bear};}
  if(c.still&&role==='root')return base;
  if(c.still&&/^(Leg|Knee|Foot)/.test(role))return base;
  const out={};for(const k of Object.keys(base)){

@@ -594,3 +594,21 @@ and the native private phone/SQLite audit. Check motion behind unpaid gates,
 all six close cameras, purchase receipts and repeated reloads. Refresh only zoo
 catalogue previews. Record memory/geometry costs honestly: more visual detail
 is not an FPS gain, and software diagnostics do not establish phone FPS.
+
+Polar refinements use `polar-v5` as a species-specific cache revision; retain
+the unchanged elephant/axolotl asset bytes. Keep the long low skull/neck,
+smaller ears/eyes, convex nose, five toes and short curved claws. Do not restore
+the oversized spherical shoulder or let the lower-leg sculpt extend through
+the soles when folding the knees.
+
+Bear swim/play/walk/look/rest actions have their own 26/9/10/7/13-second timing.
+Use the same deterministic bag schedule for GPU frames, CPU queries and QA.
+Do not stretch every short action to the dive duration or reverse an old idle
+clip to claim a walk. Bake actual world-planted feet, visible swings, snowball
+contact and folded resting legs; check real sole vertices and clip boundaries.
+
+Hair-card backs share the outward groom normal so white coats do not acquire
+dark rectangular patches. Keep the bear's eight padded tufts in one 256² R8
+atlas with the same 1,800 static cards, shared materials and frame buffers.
+The refined bear fits within the released 43,026-vertex / 53,176-triangle and
+588,800-byte pose budget; resource limits do not establish physical-phone FPS.

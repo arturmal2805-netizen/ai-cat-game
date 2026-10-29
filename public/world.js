@@ -959,10 +959,10 @@ export function createWorld(container, initialGame, callbacks = {}) {
     }
     azimuth = 0.06;
     if(o.kind === "zoo"){
-      ensureDetail(ZOO_ID);desiredLook.y=o.species === "axolotl"?1.8:1.3;desiredDistance=Number.isInteger(fishIndex)?({elephant:mobileRender?8.8:7.2,gorilla:mobileRender?6.5:5.2,tiger:mobileRender?6:4.8,polar:mobileRender?4.4:3.6,otter:mobileRender?3.4:2.8,axolotl:mobileRender?4.4:3.4}[o.species]):mobileRender?17:14;azimuth=Math.atan2(-o.x,-o.z);
+      ensureDetail(ZOO_ID);desiredLook.y=o.species === "axolotl"?1.8:1.3;desiredDistance=Number.isInteger(fishIndex)?({elephant:mobileRender?8.8:7.2,gorilla:mobileRender?6.5:5.2,tiger:mobileRender?6:4.8,polar:mobileRender?5:4.3,otter:mobileRender?3.4:2.8,axolotl:mobileRender?4.4:3.4}[o.species]):mobileRender?17:14;azimuth=Math.atan2(-o.x,-o.z);
     }
     elevation =
-      o.kind === "zoo" ? Number.isInteger(fishIndex) ? (["polar","otter"].includes(o.species)?.34:.2) : .48 : o.kind === "aquarium"
+      o.kind === "zoo" ? Number.isInteger(fishIndex) ? (o.species==='polar'?.4:o.species==='otter'?.34:.2) : .48 : o.kind === "aquarium"
         ? Number.isInteger(fishIndex)
           ? 0.32
           : 0.58

@@ -13,9 +13,11 @@ export function buildZooAnatomy(species,{joint,add,curve,eye}){
   for(let i=0;i<p.count;i++){const t=Math.floor(i/(sides+1))/segments,c=path.getPointAt(t),f=(r1/r0+(1-r1/r0)*(1-t)**.7)*(options.trunk?1-.012*Math.sin(t*95)**6:1);p.setXYZ(i,c.x+(p.getX(i)-c.x)*f,c.y+(p.getY(i)-c.y)*f,c.z+(p.getZ(i)-c.z)*f);}g.computeVertexNormals();
   add(color,[0,0,0],[1,1,1],role,{geometry:g,...options});g.dispose();return path;
  };
- const nose=(p,w,h,d,color=0x282b30,role='head')=>{
+ const nose=(p,w,h,d,color=0x282b30,role='head',broad=false)=>{
   const outline=new T.Shape();outline.moveTo(-w,h*.3);outline.bezierCurveTo(-w*1.05,h*.8,w*1.05,h*.8,w,h*.3);outline.bezierCurveTo(w*.8,-h*.05,w*.25,-h*.65,0,-h*.7);outline.bezierCurveTo(-w*.25,-h*.65,-w*.8,-h*.05,-w,h*.3);
-  const raw=new T.ExtrudeGeometry(outline,{depth:d,bevelEnabled:true,bevelThickness:d*.35,bevelSize:h*.12,bevelSegments:3,curveSegments:12}),g=mergeVertices(raw);raw.dispose();
+  if(broad){outline.curves.length=0;outline.moveTo(-w,h*.1);outline.bezierCurveTo(-w*1.05,h*.85,w*1.05,h*.85,w,h*.1);outline.bezierCurveTo(w*.9,-h*.6,w*.4,-h*.6,0,-h*.45);outline.bezierCurveTo(-w*.4,-h*.6,-w*.9,-h*.6,-w,h*.1);}
+  let g;if(broad){const points=outline.getPoints(8),sides=points.length-1,rings=6,positions=[],indices=[];for(let row=0;row<=rings;row++)for(let j=0;j<=sides;j++){const r=row/rings,q=points[j%sides];positions.push(q.x*r,q.y*r,d*Math.sqrt(Math.max(0,1-r*r)));if(row<rings&&j<sides){const k=row*(sides+1)+j;indices.push(k,k+1,k+sides+1,k+1,k+sides+2,k+sides+1);}}g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(positions,3));g.setAttribute('uv',new T.Float32BufferAttribute(new Float32Array(positions.length/3*2),2));g.setIndex(indices);g.computeVertexNormals();}
+  else {const raw=new T.ExtrudeGeometry(outline,{depth:d,bevelEnabled:true,bevelThickness:d*.35,bevelSize:h*.12,bevelSegments:3,curveSegments:12});g=mergeVertices(raw);raw.dispose();}
   add(color,p,[1,1,1],role,{geometry:g,gloss:.85});g.dispose();
  };
  const whiskers=(x,y,z,spread=.38,role='head',col=0xe4dfd2)=>{for(const side of [-1,1])for(let k=0;k<4;k++){
@@ -29,14 +31,15 @@ export function buildZooAnatomy(species,{joint,add,curve,eye}){
     kneeZ=z+(frontLeg?.02:kind==='elephant'?-.02:-.22),ankleZ=z+(frontLeg?.09:kind==='elephant'?.08:.03),pawZ=ankleZ+foot*.53;
    joint(role,pivot,'body');joint(lower,[side*x,kneeY,kneeZ],role);joint(paw,[side*x,foot*.53,pawZ],lower);
    skin(col,[side*x,(hip+kneeY)*.5,z+(frontLeg?0:-.08)],[rx,sy,rx*(frontLeg?1:1.22)],role,{stripes:kind==='tiger'?3:0});
-   skin(col,[side*x,kneeY*.56,(kneeZ+ankleZ)*.5],[rx*.64,kneeY*.56,rx*.68],lower,{stripes:kind==='tiger'?3:0});
+   skin(col,[side*x,kind==='polar'?(kneeY+foot*.53)*.5:kneeY*.56,(kneeZ+ankleZ)*.5],[rx*(kind==='polar'?.82:.64),kind==='polar'?(kneeY-foot*.53)*.58:kneeY*.56,rx*(kind==='polar'?.84:.68)],lower,{stripes:kind==='tiger'?3:0});
    skin(col,[side*x,foot*.46,pawZ],[foot*.76,foot*.46,foot],paw,{stripes:kind==='tiger'?3:0});
    if(kind!=='elephant')add(kind==='tiger'?0x746469:kind==='polar'?0x77746e:0x4b3c32,[side*x,foot*.035,pawZ],[foot*.45,foot*.035,foot*.65],paw,{micro:true});
-   const digits=kind==='elephant'?5:kind==='otter'?5:4;
+   const digits=['elephant','otter','polar'].includes(kind)?5:4;
    for(let k=0;k<digits;k++){
     const px=side*x+(k-(digits-1)/2)*foot*.31;
     if(kind!=='elephant')skin(col,[px,foot*.27,pawZ+foot*.6],[foot*.23,foot*.27,foot*.47],paw);
-    add(kind==='elephant'?0xbcb8ab:kind==='tiger'?0xc0aeb0:kind==='polar'?0x77736d:0x3e3530,[px,foot*.23,pawZ+(kind==='elephant'?foot*.8*Math.sqrt(Math.max(.05,.75-((k-(digits-1)/2)*.31/.76)**2)):foot*.96)],[foot*.08,foot*.12,foot*.08],paw,{micro:true});
+    if(kind==='polar')tube([[px,foot*.31,pawZ+foot*.86],[px,foot*.26,pawZ+foot*1.14],[px,foot*.08,pawZ+foot*1.27]],foot*.052,foot*.01,0x56564d,paw,{micro:true});
+    else add(kind==='elephant'?0xbcb8ab:kind==='tiger'?0xc0aeb0:kind==='polar'?0x77736d:0x3e3530,[px,foot*.23,pawZ+(kind==='elephant'?foot*.8*Math.sqrt(Math.max(.05,.75-((k-(digits-1)/2)*.31/.76)**2)):foot*.96)],[foot*.08,foot*.12,foot*.08],paw,{micro:true});
    }
   }
  }
@@ -84,11 +87,17 @@ export function buildZooAnatomy(species,{joint,add,curve,eye}){
   tube([[0,1.08,-1.3],[.04,1.02,-1.95],[.25,1.1,-2.56],[.4,1.37,-2.85]],.095,.047,col,'tail',{stripes:4});
   joint('toy',[.7,.23,1.5]);add(0xa4b6c8,[.7,.23,1.5],[.23,.23,.23],'toy');
  }else if(species==='polar'){
-  const col=0xe8e5d9;joint('head',[0,1.68,.98],'body');joint('tail',[0,1.12,-1.52],'body');
-  skin(col,[0,1.31,-.25],[.72,.82,1.46]);skin(col,[0,1.62,.55],[.69,.78,.88]);skin(col,[0,1.4,-1.14],[.65,.73,.65]);skin(col,[0,1.65,1.01],[.43,.52,.67],'head');skin(col,[0,1.76,1.29],[.35,.39,.46],'head');skin(0xe1dac9,[0,1.52,1.67],[.255,.22,.47],'head');skin(col,[0,1.35,1.56],[.245,.14,.42],'head');
-  for(const side of [-1,1]){joint('ear'+side,[side*.3,2.02,1.03],'head');add(col,[side*.33,2.15,1.04],[.118,.135,.075],'ear'+side);add(0xa8a092,[side*.33,2.15,1.103],[.075,.084,.014],'ear'+side);eye(side*.237,1.79,1.6,.061,'head',false,[side*.37,0,.93]);}
-  nose([0,1.575,2.046],.142,.097,.028,0x252b30);for(const side of [-1,1]){add(0x121b22,[side*.09,1.605,2.07],[.025,.016,.008],'head');curve([[0,1.43,2.04],[side*.15,1.4,1.99],[side*.25,1.42,1.83]],.0055,0x797b77);}
-  quadruped(col,ZOO_LEGS.polar);add(col,[0,1.13,-1.72],[.14,.17,.24],'tail');joint('toy',[.8,.25,1.1]);add(0xe7f9ff,[.8,.25,1.1],[.24,.24,.24],'toy');
+  const col=0xeeeadd;joint('head',[0,1.47,1.14],'body');joint('tail',[0,1.18,-1.76],'body');
+  // A long low skull/neck, sloping shoulders and substantial plantigrade feet.
+  // The previous high spherical shoulder swallowed most of the neck/head.
+  skin(col,[0,1.32,-.5],[.62,.67,1.3]);skin(col,[0,1.42,.48],[.56,.64,.69]);skin(col,[0,1.39,-1.23],[.64,.67,.6]);
+  skin(col,[0,1.49,1.01],[.37,.37,.74],'head');skin(col,[0,1.58,1.54],[.29,.29,.43],'head');
+  for(const side of [-1,1])skin(col,[side*.18,1.43,1.59],[.14,.22,.3],'head');
+  skin(0xe7dfcb,[0,1.395,1.94],[.19,.15,.43],'head');skin(col,[0,1.275,1.87],[.205,.095,.42],'head');
+  for(const side of [-1,1]){joint('ear'+side,[side*.21,1.78,1.30],'head');add(col,[side*.235,1.83,1.34],[.095,.112,.057],'ear'+side);add(0xcac0ae,[side*.235,1.835,1.391],[.043,.052,.011],'ear'+side);eye(side*.205,1.62,1.79,.047,'head',false,[side*.5,.01,.866]);}
+  nose([0,1.425,2.36],.138,.09,.04,0x252b30,'head',true);
+  for(const side of [-1,1]){add(0x121b22,[side*.082,1.445,2.392],[.023,.013,.003],'head');curve([[0,1.31,2.35],[side*.11,1.3,2.31],[side*.18,1.29,2.15]],.0035,0x76766a);}
+  quadruped(col,ZOO_LEGS.polar);add(col,[0,1.18,-1.83],[.11,.13,.18],'tail');joint('toy',[.8,.25,1.1]);add(0xe7f9ff,[.8,.25,1.1],[.24,.24,.24],'toy');
  }else if(species==='gorilla'){
   const fur=0x3d4142,skinCol=0x6c6765;joint('head',[0,1.99,.33],'body');
   skin(fur,[0,1.35,-.07],[.69,.99,.59]);skin(0x6c6f6e,[0,1.54,-.34],[.68,.77,.35]);skin(fur,[0,1.94,.04],[.6,.55,.46]);skin(0x464a48,[0,1.35,.39],[.54,.69,.23]);
