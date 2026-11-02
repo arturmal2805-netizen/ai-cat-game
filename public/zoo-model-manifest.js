@@ -4,5 +4,5 @@ export const ZOO_MODELS={
   "axolotl": "./models/zoo/axolotl-c2262a989f8b2113.bin",
   "otter": "./models/zoo/otter-c96ca902a235f593.bin",
   "polar": "./models/zoo/polar-35301efaef99904d.bin",
-  "gorilla": "./models/zoo/gorilla-1290f9a59e4b98cc.bin"
+  "gorilla": "./models/zoo/gorilla-7a81149a541ca78d.bin"
 };

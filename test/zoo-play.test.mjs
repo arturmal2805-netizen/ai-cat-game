@@ -1,10 +1,20 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';import * as T from 'three';
+import {GORILLA_CARRY_JUMPS,gorillaCarryJump} from '../public/zoo-play.js';
 import {ZOO_EXHIBITS,ZOO_ANIMALS,ZOO_GATE,zooSeats,zooObstacles} from '../public/zoo-data.js';import {zooAnimals,zooJointPoint} from '../public/zoo-animals.js';import {createGorillaPlay,zooJump,ZOO_PLAY_SECONDS} from '../public/zoo-play.js';import {createCat,disposeCat,animateCat} from '../public/cat-model.js';import {ADOPTION_CATS,catAppearance} from '../public/cat-breeds.js';import {createCourtRuntime} from '../public/foodcourt-runtime.js';import {createBiomeScene,disposeBiome} from '../public/biome-scenes.js';import {byBiome} from '../public/game-data.js';import {zooPlayWater} from '../public/zoo-play-water.js';import {zooSnapshotValid,normalizeZoo,mergeZoo,openZooExhibit} from '../public/zoo-system.js';import {newGame,saveGame,loadGame} from '../public/economy.js';import {courtWalkable} from '../public/foodcourt-navigation.js';
 const gorilla=ZOO_EXHIBITS.find(e=>e.species==='gorilla'),makeCat=id=>{const p=ADOPTION_CATS.find(p=>p.id===id),c=createCat('happy',{detail:'npc',...catAppearance(p)});c.scale.setScalar(.63*p.size);return c;},destroy=m=>{m.dispose();m.geometry.dispose();m.material.dispose();};
 test('gorilla performance really lifts every native tiny/giant cat, jumps together, returns to exactly the reserved public ground, and keeps buffers immutable',()=>{
  for(const id of ['adopt-crumb','adopt-marshmallow']){const cat=makeCat(id),a=zooAnimals(gorilla),seat=zooSeats(gorilla)[0],visit={seat,yaw:0};a.userData.update(0);const p=createGorillaPlay(a,gorilla,visit,cat),versions=Object.values(a.geometry.attributes).map(v=>v.version),matrix=a.instanceMatrix.version;let last=seat,maxStep=0,raised=false,phases=new Set(),peak=0;
  for(let t=0;t<=ZOO_PLAY_SECONDS+.05;t+=.01){a.userData.update(t);const f=p.frame(t);phases.add(f.phase);maxStep=Math.max(maxStep,new T.Vector3(f.position.x,f.position.y,f.position.z).distanceTo(new T.Vector3(last.x,last.y,last.z)));last=f.position;raised||=f.carry>.99&&f.position.y>1.4;peak=Math.max(peak,f.jump||0);if(f.carry>.99){const hands=f.handLeft.clone().add(f.handRight).multiplyScalar(.5),catY=f.position.y;assert.ok(catY>hands.y-1.3&&catY<hands.y+.5,'cat detached from hands');assert.ok(courtWalkable(f.position,id==='adopt-marshmallow'?1.633:.48,zooObstacles(),'magic-zoo'));}}
- assert.ok(raised);assert.ok(peak>.81);assert.ok(maxStep<.045,'discontinuous pickup/landing '+maxStep);assert.deepEqual(last,seat);assert.deepEqual([...phases],['surprise','approach','pickup','carry','putdown','return','goodbye']);assert.deepEqual(Object.values(a.geometry.attributes).map(v=>v.version),versions);assert.equal(a.instanceMatrix.version,matrix);assert.equal(a.userData.poseData.frameCount,496);p.cancel();disposeCat(cat);destroy(a);}
+ assert.ok(raised);assert.ok(peak>4.19);assert.ok(maxStep<.10,'step exceeds the 9.81-gravity launch velocity at 10 ms: '+maxStep);assert.deepEqual(last,seat);assert.deepEqual([...phases],['surprise','approach','pickup','carry','putdown','return','goodbye']);assert.deepEqual(Object.values(a.geometry.attributes).map(v=>v.version),versions);assert.equal(a.instanceMatrix.version,matrix);assert.equal(a.userData.poseData.frameCount,496);p.cancel();disposeCat(cat);destroy(a);}
+});
+test('each high shared jump has its exact apex, separate ground interval, true gravity and a safe finish before putdown',()=>{
+ let landed=10.8;
+ for(const j of GORILLA_CARRY_JUMPS){const half=Math.sqrt(2*j.height/9.81),at=j.start+half;
+  assert.ok(j.start>landed);assert.ok(j.height>=2.6);assert.ok(Math.abs(gorillaCarryJump(at)-j.height)<1e-10);
+  const dt=.001,acceleration=(gorillaCarryJump(at+dt)-2*gorillaCarryJump(at)+gorillaCarryJump(at-dt))/(dt*dt);assert.ok(Math.abs(acceleration+9.81)<1e-7);
+  assert.equal(gorillaCarryJump(j.start),0);landed=j.start+half*2;assert.equal(gorillaCarryJump(landed+.001),0);
+ }
+ assert.ok(landed<18);assert.equal(gorillaCarryJump(18),0);
 });
 test('jump is a true gravity arc, while reduced motion keeps the hands supporting the cat without high hops',()=>{
  const h=.82,half=Math.sqrt(2*h/9.81);assert.ok(Math.abs(zooJump(half,h)-h)<1e-12);assert.equal(zooJump(half*2+.01,h),0);

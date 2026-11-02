@@ -9,7 +9,7 @@ export function* sculptZooAnimalSteps(volumes,{resolution=48,soft=.11,sockets=[]
  const low=[Infinity,Infinity,Infinity],high=[-Infinity,-Infinity,-Infinity];
  for(const v of volumes)for(let k=0;k<3;k++){const relief=k===2?(v.relief||[]).reduce((n,r)=>n+Math.abs(r[2]),0):0;low[k]=Math.min(low[k],v.pos[k]-v.size[k]-.22);high[k]=Math.max(high[k],v.pos[k]+v.size[k]+relief+.22);}
  volumes=volumes.map(v=>({...v,inv:v.size.map(n=>1/n),minimum:Math.min(...v.size)}));
- const span=high.map((n,k)=>n-low[k]),clay=new MarchingCubes(resolution,new T.MeshBasicMaterial(),false,false,180000);clay.isolation=0;
+ const span=high.map((n,k)=>n-low[k]),capacity=Math.ceil(180000*Math.max(1,(resolution/160)**2)),clay=new MarchingCubes(resolution,new T.MeshBasicMaterial(),false,false,capacity);clay.isolation=0;
  // Local Gaussian relief sculpts facial anatomy directly into a single skin.
  // Its exact derivatives keep normals continuous through nose/cheek/brow joins.
  let relief=0,reliefX=0,reliefY=0;
@@ -21,15 +21,24 @@ export function* sculptZooAnimalSteps(volumes,{resolution=48,soft=.11,sockets=[]
   for(const v of volumes){facialRelief(p,v);const x=(p[0]-v.pos[0])*v.inv[0],y=(p[1]-v.pos[1])*v.inv[1],z=(p[2]-v.pos[2]-relief)*v.inv[2],r=Math.max(1e-9,Math.sqrt(x*x+y*y+z*z)),q=(r-1)*v.minimum,k=v.blend??Math.min(soft,v.minimum*.7),h=Math.max(0,Math.min(1,.5+.5*(q-d)/k));
    if(out){const w=(1-h)*v.minimum/r;gx=gx*h+(x*v.inv[0]-z*v.inv[2]*reliefX)*w;gy=gy*h+(y*v.inv[1]-z*v.inv[2]*reliefY)*w;gz=gz*h+z*v.inv[2]*w;}d=q*(1-h)+d*h-k*h*(1-h);
   }
-  for(const s of sockets){const x=(p[0]-s.pos[0])/s.size[0],y=(p[1]-s.pos[1])/s.size[1],z=(p[2]-s.pos[2])/s.size[2],r=Math.max(1e-9,Math.sqrt(x*x+y*y+z*z)),m=Math.min(...s.size),q=-(r-1)*m,k=.018,h=Math.max(0,Math.min(1,.5+.5*(d-q)/k));
-   if(out){const w=-(1-h)*m/r;gx=gx*h+x/s.size[0]*w;gy=gy*h+y/s.size[1]*w;gz=gz*h+z/s.size[2]*w;}d=q*(1-h)+d*h+k*h*(1-h);
+  for(const s of sockets){
+   // Only the gorilla's nasal slits/lip line use the optional transform. Keep
+   // the released arithmetic untouched for all other animal surfaces.
+   const dx=p[0]-s.pos[0],dy=p[1]-s.pos[1]-(s.curveY||0)*dx*dx,c=s.rotationXY?Math.cos(s.rotationXY):1,sn=s.rotationXY?Math.sin(s.rotationXY):0,
+    x=(s.rotationXY?dx*c+dy*sn:dx)/s.size[0],y=(s.rotationXY?-dx*sn+dy*c:dy)/s.size[1],z=(p[2]-s.pos[2])/s.size[2],r=Math.max(1e-9,Math.sqrt(x*x+y*y+z*z)),m=Math.min(...s.size),q=-(r-1)*m,k=.018,h=Math.max(0,Math.min(1,.5+.5*(d-q)/k));
+   if(out){const w=-(1-h)*m/r,tx=x/s.size[0],ty=y/s.size[1],rx=s.rotationXY?tx*c-ty*sn:tx,ry=s.rotationXY?tx*sn+ty*c:ty;gx=gx*h+(s.curveY?rx-2*s.curveY*dx*ry:rx)*w;gy=gy*h+ry*w;gz=gz*h+z/s.size[2]*w;}d=q*(1-h)+d*h+k*h*(1-h);
   }
   if(out){out[0]=gx;out[1]=gy;out[2]=gz;}return d;
  };
  for(let z=0;z<resolution;z++){for(let y=0;y<resolution;y++){for(let x=0;x<resolution;x++){
   p[0]=low[0]+x/resolution*span[0];p[1]=low[1]+y/resolution*span[1];p[2]=low[2]+z/resolution*span[2];clay.field[x+y*resolution+z*resolution*resolution]=-field(p);
  }if(y%4===0)yield;}yield;}
- clay.update();const surface=new T.BufferGeometry();surface.setAttribute('position',new T.Float32BufferAttribute(clay.geometry.attributes.position.array.slice(0,clay.count*3),3));
+ clay.update();
+ // Higher authoring density needs proportional temporary capacity. Refuse a
+ // truncated surface instead of silently shipping a hollow, partially missing
+ // animal. Offline simplification still emits the original mobile budget.
+ if(clay.count>clay.geometry.attributes.position.count){clay.geometry.dispose();clay.material.dispose();throw Error('Zoo sculpt exceeds authoring capacity');}
+ const surface=new T.BufferGeometry();surface.setAttribute('position',new T.Float32BufferAttribute(clay.geometry.attributes.position.array.slice(0,clay.count*3),3));
  surface.scale(span[0]/2,span[1]/2,span[2]/2);surface.translate(low[0]+span[0]/2,low[1]+span[1]/2,low[2]+span[2]/2);
  const g=mergeVertices(surface,.00005);surface.dispose();clay.geometry.dispose();clay.material.dispose();// Taubin fairing removes voxel ripples without shrinking the authored
  // silhouette. It runs only during cooperative template preparation.

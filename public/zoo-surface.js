@@ -23,19 +23,36 @@ export function* zooSurfaceTextureSteps(){
 }
 // Rest-space triplanar coat coordinates stay attached to the sculpted skin.
 // One shared immutable texture, no fur shells, scene copies or frame uploads.
-export const zooSurfaceDeclarations=`uniform sampler2D uZooSurface;uniform sampler2D uZooCoatAtlas;uniform float uZooCoatReady;float zooAtlasTone=1.;float zooAtlasActive=0.;uniform float uZooSkin;uniform float uZooWrinkles;uniform float uZooSpecies;varying vec3 vZooRestNormal;
+export const zooSurfaceDeclarations=`uniform sampler2D uZooSurface;uniform sampler2D uZooCoatAtlas;uniform float uZooCoatReady;uniform sampler2D uZooFace;uniform float uZooFaceReady;float zooFaceWeight=0.;float zooFaceTone=1.;float zooAtlasTone=1.;float zooAtlasActive=0.;uniform float uZooSkin;uniform float uZooWrinkles;uniform float uZooSpecies;varying vec3 vZooRestNormal;
 float zooGorillaSkin(vec3 p){float face=smoothstep(.45,.6,p.z)*(1.-smoothstep(.90,1.15,length(vec2(p.x/.35,(p.y-2.045)/.30))))*(1.-smoothstep(2.255,2.33,p.y));float hand=smoothstep(.85,1.,abs(p.x))*(1.-smoothstep(.42,.62,p.y));return max(face,hand);}
+vec2 zooFaceUV(vec3 p){
+ float nasal=smoothstep(2.,2.035,p.y)*(1.-smoothstep(2.095,2.14,p.y));
+ float y=p.y>=2.17?mix(.29,0.,(p.y-2.17)/.23):p.y>=2.055?mix(.54,.29,(p.y-2.055)/.115):p.y>=1.89?mix(.78,.54,(p.y-1.89)/.165):mix(1.,.78,(p.y-1.72)/.17);
+ return clamp(vec2(p.x/mix(.76,1.05,nasal)+.5,y),vec2(.004),vec2(.996));
+}
 vec2 zooAtlasUV(vec2 uv,vec2 tile){uv+=vec2(.371,.217);uv=abs(fract(uv*.5)*2.-1.);return tile*.5+mix(vec2(.006),vec2(.494),uv);}
-vec4 zooCoatTex(vec3 p){vec3 w=pow(abs(vZooRestNormal),vec3(4.));w/=max(dot(w,vec3(1.)),.0001);
+vec4 zooCoatTex(vec3 p){
+ float faceHeight=.5;
+ if(uZooFaceReady>.5&&uZooSpecies>1.5&&uZooSpecies<2.5&&p.y>1.7){
+  zooFaceWeight=zooGorillaSkin(p);
+  if(zooFaceWeight>.001){
+   vec3 face=texture2D(uZooFace,zooFaceUV(p)).rgb;float light=dot(face,vec3(.2126,.7152,.0722));
+   zooFaceTone=clamp(light/.0941634,.38,1.8);faceHeight=clamp(.5+(sqrt(max(.01,light/.0941634))-1.)*.32,.12,.88);
+   // Fully exposed facial skin needs one planar fetch rather than three
+   // triplanar coat samples. Only the narrow skin/fur transition samples both.
+   if(zooFaceWeight>.999)return vec4(faceHeight);
+  }
+ }
+ vec3 w=pow(abs(vZooRestNormal),vec3(4.));w/=max(dot(w,vec3(1.)),.0001);
  if(uZooCoatReady>.5&&uZooSpecies<5.5){
   vec2 tile=uZooSpecies<1.5?vec2(1.,1.):uZooSpecies<2.5?vec2(1.,0.):uZooSpecies<4.5?vec2(0.,0.):vec2(0.,1.);
   float mean=uZooSpecies<1.5?.12227:uZooSpecies<2.5?.02627:uZooSpecies<4.5?.05854:.03692;
   float bare=uZooSpecies>1.5&&uZooSpecies<2.5?zooGorillaSkin(p):0.;if(bare>.5){tile=vec2(1.,1.);mean=.12227;}
   float fine=uZooSpecies>3.5&&uZooSpecies<4.5?1.+smoothstep(1.4,1.9,p.z):1.+bare*2.;
   vec3 coat=texture2D(uZooCoatAtlas,zooAtlasUV(vec2(p.z*1.25,-p.y*1.3+p.z*.16)*fine,tile)).rgb*w.x+texture2D(uZooCoatAtlas,zooAtlasUV(vec2(p.x*1.6,-p.z*1.25)*fine,tile)).rgb*w.y+texture2D(uZooCoatAtlas,zooAtlasUV(vec2(p.x*1.6,-p.y*1.3)*fine,tile)).rgb*w.z;
-  float light=dot(coat,vec3(.2126,.7152,.0722));zooAtlasTone=clamp(light/mean,.24,2.2);zooAtlasActive=1.;float height=clamp(.5+(sqrt(max(.01,light/mean))-1.)*.4,.08,.92);return vec4(height);
+  float light=dot(coat,vec3(.2126,.7152,.0722));zooAtlasTone=clamp(light/mean,.24,2.2);zooAtlasActive=1.;float height=clamp(.5+(sqrt(max(.01,light/mean))-1.)*.4,.08,.92);return mix(vec4(height),vec4(faceHeight),zooFaceWeight);
  }
- return texture2D(uZooSurface,vec2(p.z*2.1,-p.y*1.8+p.z*.25))*w.x+texture2D(uZooSurface,vec2(p.x*2.8,-p.z*1.8))*w.y+texture2D(uZooSurface,vec2(p.x*2.8,-p.y*2.))*w.z;}
+ return mix(texture2D(uZooSurface,vec2(p.z*2.1,-p.y*1.8+p.z*.25))*w.x+texture2D(uZooSurface,vec2(p.x*2.8,-p.z*1.8))*w.y+texture2D(uZooSurface,vec2(p.x*2.8,-p.y*2.))*w.z,vec4(faceHeight),zooFaceWeight);}
 
 `;
 export const zooSurfaceColor=`
@@ -66,6 +83,7 @@ if(uZooSpecies<1.5){
 float zooCoatTone=(zooGrain.a-.5)*.16+(zooGrain.r-.5)*.12;
 float zooBareFace=uZooSpecies>1.5&&uZooSpecies<2.5?zooGorillaSkin(vZooRest):0.;
 diffuseColor.rgb*=mix(1.,zooAtlasTone,zooAtlasActive*zooDetail*(1.-zooBareFace)*(uZooSpecies<1.5?.34:uZooSpecies<2.5?.48:.68));
+diffuseColor.rgb*=mix(1.,zooFaceTone,zooFaceWeight*zooDetail*.64);
 diffuseColor.rgb*=1.+zooDetail*((zooHeight-.5)*mix(.07,.24,zooFur)+zooCoatTone*zooFur);
 if(uZooSpecies>3.5&&uZooSpecies<4.5){float mane=smoothstep(.6,1.6,vZooRest.y)*(1.-smoothstep(.6,1.1,abs(vZooRest.x)));diffuseColor.rgb*=1.+mane*(zooGrain.g-.4)*.13;}
 

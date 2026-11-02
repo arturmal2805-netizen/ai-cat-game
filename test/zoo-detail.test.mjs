@@ -19,6 +19,13 @@ test('facial relief normals follow the deformed skin analytically, including the
  for(let i=0;i<g.attributes.position.count;i+=5){const p=new T.Vector3().fromBufferAttribute(g.attributes.position,i),e=.0001,derivative=new T.Vector3((distance(p.x+e,p.y,p.z)-distance(p.x-e,p.y,p.z))/(2*e),(distance(p.x,p.y+e,p.z)-distance(p.x,p.y-e,p.z))/(2*e),(distance(p.x,p.y,p.z+e)-distance(p.x,p.y,p.z-e))/(2*e)).normalize();assert.ok(Math.abs(distance(p.x,p.y,p.z))<.002);assert.ok(derivative.dot(new T.Vector3().fromBufferAttribute(g.attributes.normal,i))>.9999);}
  g.dispose();
 });
+test('angled nostrils and gently curved lips retain exact continuous surface normals',()=>{
+ const socket={pos:[.08,.06,.47],size:[.18,.055,.14],rotationXY:.45,curveY:.2},g=finish(sculptZooAnimalSteps([{pos:[0,0,0],size:[.5,.5,.5],color:0x777777,id:0}],{resolution:40,sockets:[socket],targetTriangles:2400}));
+ const distance=p=>{const dx=p.x-socket.pos[0],dy=p.y-socket.pos[1]-socket.curveY*dx*dx,c=Math.cos(socket.rotationXY),s=Math.sin(socket.rotationXY),a=p.length()-.5,b=-(Math.hypot((dx*c+dy*s)/socket.size[0],(-dx*s+dy*c)/socket.size[1],(p.z-socket.pos[2])/socket.size[2])-1)*.055,h=Math.max(.018-Math.abs(a-b),0)/.018;return Math.max(a,b)+h*h*.018*.25;};
+ let cavity=0;const e=.00005;
+ for(let i=0;i<g.attributes.position.count;i++){const p=new T.Vector3().fromBufferAttribute(g.attributes.position,i),n=new T.Vector3().fromBufferAttribute(g.attributes.normal,i),d=new T.Vector3();for(let k=0;k<3;k++){const a=p.clone(),b=p.clone();a.setComponent(k,a.getComponent(k)+e);b.setComponent(k,b.getComponent(k)-e);d.setComponent(k,(distance(a)-distance(b))/(2*e));}assert.ok(d.normalize().dot(n)>.9999,'incorrect transformed cavity gradient');if(p.z>.3&&p.length()<.48)cavity++;}
+ assert.ok(cavity>5,'the actual cavity must be present');g.dispose();
+});
 test('soft facial joins remain one continuous surface with normalized smooth normals',()=>{
  const volumes=[{pos:[0,0,0],size:[.5,.5,.4],blend:.14},{pos:[.21,.1,.27],size:[.25,.22,.2],blend:.14}].map(v=>({...v,color:0x777777,id:0}));
  const g=finish(sculptZooAnimalSteps(volumes,{resolution:36,targetTriangles:2500})),edges=new Map(),index=g.index.array;
@@ -26,6 +33,13 @@ test('soft facial joins remain one continuous surface with normalized smooth nor
  for(const count of edges.values())assert.equal(count,2,'open seam in blended face');
  for(let i=0;i<g.attributes.normal.count;i++)assert.ok(Math.abs(new T.Vector3().fromBufferAttribute(g.attributes.normal,i).length()-1)<1e-5);
  g.dispose();
+});
+test('dense 192-cell authoring retains the complete closed skin before mobile simplification',()=>{
+ const g=finish(sculptZooAnimalSteps([{pos:[0,0,0],size:[1,1,1],color:0x777777,id:0}],{resolution:192,targetTriangles:8000})),p=g.attributes.position,edges=new Map(),idx=g.index.array;
+ for(let i=0;i<p.count;i++)assert.ok(Math.abs(new T.Vector3().fromBufferAttribute(p,i).length()-1)<.002,'truncated/nonfinite dense surface');
+ for(let i=0;i<idx.length;i+=3)for(let k=0;k<3;k++){const a=idx[i+k],b=idx[i+(k+1)%3],key=Math.min(a,b)+','+Math.max(a,b);edges.set(key,(edges.get(key)||0)+1);}
+ for(const count of edges.values())assert.equal(count,2,'dense authoring opened a skin seam');
+ assert.ok(g.index.count/3<=8000);g.dispose();
 });
 test('denser offline animal sculpt retains released runtime vertex, triangle and pose budgets',()=>{
  const limits={elephant:[24027,44604,998400],axolotl:[22370,38928,460800],otter:[26429,34384,588800],polar:[43026,53176,588800],gorilla:[39888,51868,412672]};
@@ -44,6 +58,13 @@ test('photographic coat loads only on demand, coalesces and reuses one filtered 
 test('an unavailable coat retains the stable fallback without an unbounded retry loop',async()=>{
  const old={window:globalThis.window,fetch:globalThis.fetch,bitmap:globalThis.createImageBitmap};let requests=0;
  try{globalThis.window={};globalThis.createImageBitmap=async()=>{};globalThis.fetch=async()=>{requests++;throw Error('offline');};const {prepareZooCoat,zooCoatUniforms}=await import('../public/zoo-coat-atlas.js?qa=failure');assert.equal(await prepareZooCoat(),false);assert.equal(await prepareZooCoat(),false);assert.equal(requests,1);assert.equal(zooCoatUniforms.uZooCoatReady.value,0);assert.equal(zooCoatUniforms.uZooCoatAtlas.value.image.width,1);
+ }finally{globalThis.window=old.window;globalThis.fetch=old.fetch;globalThis.createImageBitmap=old.bitmap;}
+});
+test('gorilla facial skin loads once only on demand, shares one immutable filtered texture and safely stays offline',async()=>{
+ const old={window:globalThis.window,fetch:globalThis.fetch,bitmap:globalThis.createImageBitmap};let requests=0,decodes=0;
+ try{globalThis.window={};globalThis.fetch=async()=>{requests++;return {ok:true,blob:async()=>new Blob()};};globalThis.createImageBitmap=async()=>{decodes++;return {width:1254,height:1254};};
+  const {prepareGorillaFace,gorillaFaceUniforms}=await import('../public/zoo-gorilla-face.js?qa=success');assert.equal(requests,0);assert.equal(gorillaFaceUniforms.uZooFaceReady.value,0);const a=prepareGorillaFace();assert.equal(a,prepareGorillaFace());assert.equal(await a,true);assert.equal(requests,1);assert.equal(decodes,1);const t=gorillaFaceUniforms.uZooFace.value,version=t.version;assert.equal(t.colorSpace,T.SRGBColorSpace);assert.equal(t.flipY,false);assert.equal(t.generateMipmaps,true);assert.equal(await prepareGorillaFace(),true);assert.equal(t.version,version);assert.equal(requests,1);
+  globalThis.fetch=async()=>{requests++;throw Error('offline');};const offline=await import('../public/zoo-gorilla-face.js?qa=failure');assert.equal(await offline.prepareGorillaFace(),false);assert.equal(await offline.prepareGorillaFace(),false);assert.equal(requests,2);assert.equal(offline.gorillaFaceUniforms.uZooFaceReady.value,0);
  }finally{globalThis.window=old.window;globalThis.fetch=old.fetch;globalThis.createImageBitmap=old.bitmap;}
 });
 

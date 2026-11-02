@@ -7,6 +7,13 @@ export const ZOO_PLAY_SECONDS=31;
 export const smooth=x=>{x=Math.max(0,Math.min(1,x));return x*x*(3-2*x);};
 const lerp=(a,b,w)=>a+(b-a)*w,angle=(a,b,w)=>a+Math.atan2(Math.sin(b-a),Math.cos(b-a))*w;
 export function zooJump(t,height){const duration=2*Math.sqrt(2*height/9.81);return t>0&&t<duration?Math.sqrt(2*9.81*height)*t-4.905*t*t:0;}
+// Three distinct, high shared jumps fit inside the existing carry interval.
+// These are world-space metres; the native hands and the carried visitor use
+// this same root displacement, never a second independent cat animation.
+export const GORILLA_CARRY_JUMPS=Object.freeze([
+ Object.freeze({start:11.6,height:2.6}),Object.freeze({start:13.5,height:4.2}),Object.freeze({start:15.6,height:3.2}),
+]);
+export const gorillaCarryJump=t=>GORILLA_CARRY_JUMPS.reduce((y,j)=>y+zooJump(t-j.start,j.height),0);
 // Single bounded performance, owned by the native reserved public visitor seat.
 // Its clock is simulation time, so a modal pause cannot detach the cat.
 export function createGorillaPlay(mesh,exhibit,visit,model){
@@ -21,7 +28,7 @@ export function createGorillaPlay(mesh,exhibit,visit,model){
   if(t<2.8){phase='surprise';mix=smooth(t/.42);y=origin.y*(1-smooth(t/1.2));if(!reduced)y+=zooJump(t-.65,.35)+zooJump(t-1.5,.58);frame=Math.min(79,t/2.8*79);}
   else if(t<7.6){phase='approach';const q=(t-2.8)/4.8,w=smooth(q);x=lerp(origin.x,target.x,w);z=lerp(origin.z,target.z,w);turn=angle(0,Math.atan2(target.x-origin.x,target.z-origin.z),smooth(q/.18));turn=angle(turn,yaw,smooth((q-.8)/.2));frame=WALK+((t-2.8)%1.6)/1.6*47;}
   else if(t<10.8){phase='pickup';pick=(t-7.6)/3.2;weight=smooth((pick-.65)/.35);frame=HOLD+.3*pick*47;x=target.x;z=target.z;turn=yaw;}
-  else if(t<18){phase='carry';pick=weight=1;frame=HOLD+.5*47;x=target.x;z=target.z;turn=yaw;if(!reduced)y=zooJump(t-11.6,.48)+zooJump(t-13.5,.82)+zooJump(t-15.6,.58);}
+  else if(t<18){phase='carry';pick=weight=1;frame=HOLD+.5*47;x=target.x;z=target.z;turn=yaw;if(!reduced)y=gorillaCarryJump(t);}
   else if(t<21.2){phase='putdown';pick=1-(t-18)/3.2;weight=smooth((pick-.65)/.35);frame=HOLD+(.7+.3*(1-pick))*47;x=target.x;z=target.z;turn=yaw;}
   else if(t<26){phase='return';const q=(t-21.2)/4.8,w=smooth(q);x=lerp(target.x,anchor[0],w);z=lerp(target.z,anchor[2],w);const back=Math.atan2(anchor[0]-target.x,anchor[2]-target.z);turn=angle(yaw,back,smooth(q/.18));turn=angle(turn,0,smooth((q-.82)/.18));frame=WALK+((t-21.2)%1.6)/1.6*47;}
   else {phase='goodbye';x=anchor[0];z=anchor[2];frame=0;}

@@ -1,0 +1,42 @@
+[
+  {
+    "species": "elephant",
+    "sha256": "6c9388cd3da7b0529c7318dde39b19426b2f513db2d3bc46ee1960e74fb36447",
+    "vertices": 23179,
+    "triangles": 42856,
+    "poseBytes": 998400,
+    "faceRevision": null
+  },
+  {
+    "species": "axolotl",
+    "sha256": "c2262a989f8b2113e309c31e2c18a161fb9e4974d610e81eb0e5c79ec7809b00",
+    "vertices": 21098,
+    "triangles": 36596,
+    "poseBytes": 460800,
+    "faceRevision": "axolotl-eyes-v2"
+  },
+  {
+    "species": "otter",
+    "sha256": "c96ca902a235f593b7a8ecf47370fab3d12b845b65a947175214a97fbb9117d3",
+    "vertices": 25920,
+    "triangles": 33316,
+    "poseBytes": 588800,
+    "faceRevision": null
+  },
+  {
+    "species": "polar",
+    "sha256": "35301efaef99904d0643aa9e1e31c8f27a28c11279ab6dfb671d5627cf2bdd63",
+    "vertices": 41663,
+    "triangles": 51568,
+    "poseBytes": 588800,
+    "faceRevision": null
+  },
+  {
+    "species": "gorilla",
+    "sha256": "7a81149a541ca78d5f7dee4f10497c77b20848595f1177cb2681c18e5ed299db",
+    "vertices": 38240,
+    "triangles": 48568,
+    "poseBytes": 412672,
+    "faceRevision": "gorilla-face-v3"
+  }
+]

@@ -1,9 +1,15 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';import * as T from 'three';
-import {ZOO_EXHIBITS,ZOO_BIOME} from '../public/zoo-data.js';import {zooEnclosureCameraView,zooCameraGuests,randomZooCameraGuest} from '../public/zoo-camera.js';
+import {ZOO_EXHIBITS,ZOO_BIOME,zooSeats} from '../public/zoo-data.js';import {zooEnclosureCameraView,zooCameraGuests,randomZooCameraGuest} from '../public/zoo-camera.js';
 test('every habitat fits an elevated front camera on portrait, landscape and desktop without cropping its tank or branch jump',()=>{
  for(const e of ZOO_EXHIBITS)for(const aspect of [.46,.6,.82,1.5,2.15]){
   const view=zooEnclosureCameraView(e,45,aspect),camera=new T.PerspectiveCamera(45,aspect,.1,1200),[cx,cz]=ZOO_BIOME.center;assert.equal(view.elevation,.72);camera.position.copy(view.target).add(new T.Vector3(Math.sin(view.azimuth)*Math.cos(view.elevation),Math.sin(view.elevation),Math.cos(view.azimuth)*Math.cos(view.elevation)).multiplyScalar(view.distance));camera.lookAt(view.target);camera.updateMatrixWorld();
   for(const x of [-e.radius,e.radius])for(const z of [-e.radius,e.radius])for(const y of [-.4,e.species==='gorilla'?7:5]){const p=new T.Vector3(cx+e.x+x,y,cz+e.z+z).project(camera);assert.ok(Math.abs(p.x)<.92&&Math.abs(p.y)<.93&&p.z<1,e.id+' camera crops '+p.toArray());}
+ }
+});
+test('the habitat camera also retains the high carried-cat jump above its public visitor seat',()=>{
+ const e=ZOO_EXHIBITS.find(e=>e.species==='gorilla'),seat=zooSeats(e)[0],[cx,cz]=ZOO_BIOME.center;
+ for(const aspect of [.46,.6,.82,1.5,2.15]){const view=zooEnclosureCameraView(e,45,aspect),camera=new T.PerspectiveCamera(45,aspect,.1,1200);camera.position.copy(view.target).addScaledVector(new T.Vector3(Math.sin(view.azimuth)*Math.cos(view.elevation),Math.sin(view.elevation),Math.cos(view.azimuth)*Math.cos(view.elevation)),view.distance);camera.lookAt(view.target);camera.updateMatrixWorld();
+  for(const y of [4.2,6.85,9.2])for(const side of [-1.6,1.6]){const p=new T.Vector3(cx+seat.x+side,y,cz+seat.z).project(camera);assert.ok(Math.abs(p.x)<.92&&Math.abs(p.y)<.93&&p.z<1,'airborne pair cropped on '+aspect);}
  }
 });
 test('random guest camera accepts actual current zoo visitors, includes walking cats and excludes remote cats and nonvisitor staff',()=>{

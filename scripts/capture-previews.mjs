@@ -1,3 +1,4 @@
+import {GORILLA_FACE_ASSET} from '../public/zoo-gorilla-face.js';
 import {ZOO_COAT_ASSET} from '../public/zoo-coat-atlas.js';
 import { build } from "esbuild";
 import { createServer } from "node:http";
@@ -32,6 +33,7 @@ for (const name of ["fantasy-atlas", "tree-varieties"])
     await readFile(resolve(root, `public/art/${name}.png`)),
   );
 assets.set(ZOO_COAT_ASSET.slice(1),await readFile(resolve(root,'public',ZOO_COAT_ASSET)));
+assets.set(GORILLA_FACE_ASSET.slice(1),await readFile(resolve(root,'public',GORILLA_FACE_ASSET)));
 const server = createServer((request, response) => {
   const path = new URL(request.url, "http://localhost").pathname;
   if (path === "/favicon.ico") {

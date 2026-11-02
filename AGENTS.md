@@ -713,3 +713,28 @@ not enlarge the idle-cache allowance or pin unused island data. Keep the legacy
 soft budget, two-second learned return grace, shared-owner safety and bounded
 cleanup. Verify exact GL pixels, cyclic upload bytes, finite abandoned uploads
 and eventual reclamation. This resource contract is not a hardware FPS claim.
+
+### Gorilla facial skin and high shared jumps
+
+The adult gorilla face uses a compact continuous brow/nose/lip sculpt, small
+inset eyes, angled nasal cavities and a gently curved open mouth. Facial pigment
+belongs to the actual inner skin; do not restore protruding backing disks.
+The original shared facial material adds fine creases in rest coordinates,
+loads/coalesces only with selected zoo preparation, and retains a stable offline
+fallback. Fully bare face skin uses one planar sample; the transition to fur
+retains the original coat. Preserve the approved body controls, all nonocular
+pose bytes and the byte-identical elephant/axolotl/otter/grizzly assets.
+
+Dense offline authoring must provision proportional temporary marching-cube
+capacity and reject truncated surfaces. Simplify within the released runtime
+geometry/pose limits; test watertight dense authoring and real front/profile
+clay and native phone images. A new texture costs memory: record it explicitly
+rather than presenting detail work as an FPS improvement.
+
+The carried-cat jumps peak at 2.6, 4.2 and 3.2 world metres. Keep true 9.81 gravity,
+separate ground intervals, the unchanged 31-second performance, actual paired
+palm support and full landing before putdown. Both actor and visitor use one
+root displacement. Reduced motion keeps the original supported stationary
+carry; cancellation returns the visitor safely and saves remain transient in
+midair. Check tiny/giant cats, actual apex views, all camera aspects and native
+visitor/world return with two durable reloads.
