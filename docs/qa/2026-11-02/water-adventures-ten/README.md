@@ -48,6 +48,12 @@ audit; 120 before/after normal and full-DPR phone images have identical pixels.
 The final new collection is checked in full, grazing, phone, occupied-rider,
 flow, outlet and receiving-pool views. Native phone/SQLite checks cover real shop
 buttons, individual prices/previews, placement, both cameras and restarts.
+The final native phone run includes three actual passengers on one shared raft
+and three SQLite reloads with no browser/HTTP errors. The previous Mega Loops
+recovery/store/replacement path also retains exactly one paid, completed copy
+over two reloads without another charge. All nineteen islands and two return
+visits pass native RAF, actual orbit/zoom, at least six submitted frames and DPR
+2 without context loss; the stress fixture contains 115 NPCs.
 
 Rendering checks use the local software WebGL implementation. Resource and
 pixel results do not establish a physical M2/iPhone frame rate. The isolated

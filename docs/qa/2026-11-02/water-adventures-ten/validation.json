@@ -23,5 +23,41 @@
   "rayTracing": false,
   "additionalReflectionTargets": 0,
   "sourceModelBudgetsOrDPRReduced": false,
-  "physicalDeviceFPSMeasured": false
+  "physicalDeviceFPSMeasured": false,
+  "nativePhone": {
+    "purchases": 10,
+    "rides": 10,
+    "reloads": 3,
+    "maxSeatError": 1.1718571004216928e-13,
+    "groupedRaftPassengers": 3,
+    "groupedRaftBoats": 1,
+    "errors": {
+      "errors": [],
+      "httpErrors": []
+    }
+  },
+  "ownershipRegression": {
+    "reloads": 2,
+    "copies": 1,
+    "secondPayment": false
+  },
+  "finalFocusedTests": {
+    "tests": 18,
+    "pass": 18,
+    "fail": 0,
+    "occupiedBoardingBoatVisible": true
+  },
+  "nativeWorld": {
+    "islands": 19,
+    "views": 21,
+    "minimumFrames": 6,
+    "DPR": 2,
+    "contextLosses": 0,
+    "movementAssertionsPassed": true,
+    "errors": {
+      "errors": [],
+      "httpErrors": []
+    },
+    "softwareRenderer": true
+  }
 }

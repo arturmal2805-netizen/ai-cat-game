@@ -1,0 +1,36 @@
+{
+  "recovered": {
+    "coins": 750000,
+    "bag": 1,
+    "built": 1,
+    "receipt": {
+      "count": 1,
+      "built": 1
+    },
+    "placements": []
+  },
+  "placed": {
+    "coins": 750000,
+    "bag": 0,
+    "built": 0,
+    "receipt": {
+      "count": 1,
+      "built": 1
+    },
+    "placements": [
+      {
+        "id": "p-ed1e26ae-f4a2-4d16-9f33-8c440dfe4f64",
+        "item": "slide-atoll-mega-loops",
+        "biome": "homestead",
+        "x": 0,
+        "z": 0,
+        "rotation": 0,
+        "startedAt": 1793654010051,
+        "readyAt": 0
+      }
+    ]
+  },
+  "reloads": 2,
+  "errors": [],
+  "httpErrors": []
+}
