@@ -1,0 +1,23 @@
+{
+  "ciTests": 858,
+  "ciPass": 858,
+  "ciFail": 0,
+  "fullLocalBeforeFinalBrow": 857,
+  "finalZooTests": 62,
+  "additionalCameraTests": 3,
+  "actualCameraAspects": [
+    0.46,
+    0.6,
+    0.82,
+    1.5,
+    2.15
+  ],
+  "nativeTinyGiantApexFrames": 16,
+  "nativeDurableReloads": 2,
+  "nativeBrowserErrors": 0,
+  "nativeHttpErrors": 0,
+  "renderingQualityReduced": false,
+  "physicalDeviceFpsAfter": "not yet measured",
+  "approvedAppearanceReference": "baseline/approved-gorilla-face-20261102",
+  "nativeCatCacheVersion": "sculpt-v2-a496203fa13a037a7a10a927"
+}

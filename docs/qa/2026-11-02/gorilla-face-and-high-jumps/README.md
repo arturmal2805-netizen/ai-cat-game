@@ -53,3 +53,12 @@ All sixteen final tiny/giant carry frames, including the three actual jump
 apexes, pass with no WebGL errors. `high-jump-frames.json` records their native
 hand/visitor positions and fixed resource counts. Only zoo/gorilla shop previews
 are refreshed. Publication hashes and the final complete CI count follow.
+
+Final release `11461937da21e6bf43cbd276bbf23a0d66c9dbf7` is published on both
+sites. CI run `41410400381` passes **858 tests, zero failed**, Worker deployment
+and Pages. Both sites serve exact app `d03a36ae3eaa1cd9`, final gorilla model
+`7a81149a541ca78d`, matching new facial material and previews, plus four unchanged
+animal models. Worker shared saves remain enabled and its release matches.
+`publication.json` records exact served hashes and all three successful jobs.
+The player-approved gorilla reference is preserved on GitHub independently.
+Stable 60 FPS on the player's Mac/iPhone still requires a fresh device report.

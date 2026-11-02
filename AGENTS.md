@@ -716,6 +716,10 @@ and eventual reclamation. This resource contract is not a hardware FPS claim.
 
 ### Gorilla facial skin and high shared jumps
 
+The player explicitly approved this final face on 2026-11-02. Keep immutable
+reference `baseline/approved-gorilla-face-20261102` (`1146193`) and preserve its
+appearance, model and original facial material when optimizing further.
+
 The adult gorilla face uses a compact continuous brow/nose/lip sculpt, small
 inset eyes, angled nasal cavities and a gently curved open mouth. Facial pigment
 belongs to the actual inner skin; do not restore protruding backing disks.
