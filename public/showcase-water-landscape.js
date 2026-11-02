@@ -81,6 +81,7 @@ export function sandstoneColumn(parent,x,z,height,radius,color=0xc5aa83) {
 }
 
 export function* tropicalShore(parent,spec,canPlace,obstacles) {
+  const cascades=[];
   // Irregular scalloped sandstone, warm sand, plant banks and a clear entrance.
   const outline=islandOutline(spec.kind),plate=new T.Shape(outline.map(p=>new T.Vector2(p.x,-p.y))),cap=new T.Mesh(new T.ShapeGeometry(plate),stonePaint(0xe7d3a6));cap.rotation.x=-Math.PI/2;cap.position.y=.02;cap.receiveShadow=true;parent.add(cap);
   const cliff=new T.Mesh(islandCliffGeometry(spec.kind),stonePaint(spec.kind==='canyon-rafting'?0xbf8f72:0xc4b195));cliff.castShadow=cliff.receiveShadow=true;parent.add(cliff);
@@ -97,6 +98,11 @@ export function* tropicalShore(parent,spec,canPlace,obstacles) {
     const h=rawHeight*heightScale;
     if(!canPlace(x,h/2,z,r,h/2,r))continue;
     sandstoneColumn(parent,x,z,h,r,spec.kind==='canyon-rafting'?0xbd8061:0xc5aa83);
+    const length=Math.hypot(x,z),nx=-x/length,nz=-z/length,fx=x+nx*r*1.12,fz=z+nz*r*1.12;
+    if(cascades.length<2&&canPlace(fx,.4,fz,4.2,1,3.4)){
+     const ledge=shape(parent,'stone',0xd4c1a3,x+nx*r*.2,h-.5,z+nz*r*.2,r,.5,r*.9);ledge.geometry=boulderGeometry(i);ledge.material=stonePaint(0xd4c1a3);
+     cascades.push({x:fx,z:fz,y:h,width:r*.72,angle:Math.atan2(nx,nz),spring:[x+nx*r*.35,z+nz*r*.35],radius:r*.8});
+    }
     obstacles.push({x,z,radius:r*1.16});
     if(garden)tropicalTree(parent,x,h+.5,z,12+(i%2)*2,true);else tropicalPalm(parent,x,h+.5,z,12+(i%2)*3,i);
     flowerBank(parent,x+1,h+.5,z+1,spec.accent,.6);
@@ -115,4 +121,5 @@ export function* tropicalShore(parent,spec,canPlace,obstacles) {
     if(canPlace(x,1,z,5,3,5))flowerBank(parent,x,.3,z,0xffa1c8,1.1);
     if(canPlace(x,4,z,1,4,1))lantern(parent,x,1,z,2.3,0xffd982);
   }
+  return cascades;
 }
