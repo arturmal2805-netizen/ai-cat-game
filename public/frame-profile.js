@@ -5,7 +5,8 @@ import { catDrawMode } from "./cat-draw-policy.js";
 export function createFrameSamples(limit = 300) {
   const rows = new Array(limit), delays = [];
   let head = 0, size = 0, gpuPolls = 0, contextPolls = 0, queueTotal = 0, queueMax = 0,
-    rafCallbacks = 0, pacingSkips = 0, firstRaf = null, lastRaf = null;
+    rafCallbacks = 0, pacingSkips = 0, firstRaf = null, lastRaf = null,
+    gapMaxSinceReset = null, stuttersSinceReset = 0, severeStuttersSinceReset = 0;
   return {
     raf(at) { if(firstRaf===null)firstRaf=at;lastRaf=at;rafCallbacks++; },
     notDue() { pacingSkips++; },
@@ -15,15 +16,21 @@ export function createFrameSamples(limit = 300) {
     },
     queue(ms) { queueTotal+=ms;queueMax=Math.max(queueMax,ms); },
     delay(ms) { delays.push(ms);if(delays.length>limit)delays.shift(); },
-    clear() { head = size = gpuPolls = contextPolls = queueTotal = queueMax = rafCallbacks = pacingSkips = 0;
-      firstRaf=lastRaf=null;delays.length=0; },
-    frame(row) { rows[head] = { ...row }; head = (head + 1) % limit; size = Math.min(size + 1, limit); },
+    clear({keepJank=false}={}) { head = size = gpuPolls = contextPolls = queueTotal = queueMax = rafCallbacks = pacingSkips = 0;
+      firstRaf=lastRaf=null;if(!keepJank){gapMaxSinceReset=null;stuttersSinceReset=severeStuttersSinceReset=0;}delays.length=0; },
+    frame(row) {
+      if(size){const gap=row.at-rows[(head-1+limit)%limit].at;
+        if(Number.isFinite(gap)&&gap>=0){gapMaxSinceReset=Math.max(gapMaxSinceReset??0,gap);if(gap>50)stuttersSinceReset++;if(gap>100)severeStuttersSinceReset++;}}
+      rows[head] = { ...row }; head = (head + 1) % limit; size = Math.min(size + 1, limit);
+    },
     report() {
       const a = Array.from({length:size},(_,i)=>rows[(head-size+i+limit)%limit]);
       const percentile = (values,p) => {
         values.sort((x,y)=>x-y); return values.length ? Math.round(values[Math.floor((values.length-1)*p)]*100)/100 : null;
       };
       const gaps = a.slice(1).map((r,i)=>r.at-a[i].at), elapsed = a.length > 1 ? a.at(-1).at-a[0].at : 0;
+      const slowest=gaps.slice().sort((x,y)=>y-x).slice(0,Math.max(1,Math.ceil(gaps.length*.01)));
+      const slowestTotal=slowest.reduce((n,x)=>n+x,0);
       const delta=key=>a.length>1&&Number.isFinite(a[0][key])&&Number.isFinite(a.at(-1)[key])?a.at(-1)[key]-a[0][key]:null;
       const rafElapsed=rafCallbacks>1?lastRaf-firstRaf:0;
       return { samples:size, seconds:Math.round(elapsed)/1000,
@@ -31,7 +38,10 @@ export function createFrameSamples(limit = 300) {
         rafSecondsSinceReset:Math.round(rafElapsed)/1000,
         rafFpsSinceReset:rafElapsed?Math.round((rafCallbacks-1)*100000/rafElapsed)/100:null,
         fps:elapsed ? Math.round((size-1)*100000/elapsed)/100 : null,
-        gapP95:percentile(gaps,.95),gapMax:gaps.length?Math.max(...gaps):null,
+        gapP95:percentile(gaps,.95),gapP99:percentile(gaps,.99),gapMax:gaps.length?Math.max(...gaps):null,
+        onePercentLowFps:gaps.length>=100&&slowestTotal>0?Math.round(slowest.length*100000/slowestTotal)/100:null,
+        stuttersOver50Ms:gaps.filter(x=>x>50).length,severeStuttersOver100Ms:gaps.filter(x=>x>100).length,
+        stuttersOver50MsSinceStart:stuttersSinceReset,severeStuttersOver100MsSinceStart:severeStuttersSinceReset,gapMaxSinceStart:gapMaxSinceReset,
         cpuMedian:percentile(a.map(r=>r.cpu),.5),cpuP95:percentile(a.map(r=>r.cpu),.95),
         cpuMax:a.length?Math.max(...a.map(r=>r.cpu)):null,cpuTotalMs:Math.round(a.reduce((n,r)=>n+r.cpu,0)*100)/100,
         renderMedian:percentile(a.map(r=>r.render),.5),renderP95:percentile(a.map(r=>r.render),.95),
@@ -129,6 +139,7 @@ export function createFrameProfile(renderer) {
   const work=createWorkSamples(),deactivateWork=activateWorkSamples(work),gpuTimer=createGpuProfile(renderer.getContext());
   let sectionStart=0;
   let taskStart=performance.now(),longTasks=[];
+  const startupStart=taskStart;let startupFirstFrameMs=null,startupResidentPreparation=null;
   const taskObserver=globalThis.PerformanceObserver?.supportedEntryTypes?.includes("longtask")
     ? new PerformanceObserver(list=>{
       for(const entry of list.getEntries()) if(entry.startTime>=taskStart)longTasks.push(entry.duration);
@@ -158,7 +169,7 @@ export function createFrameProfile(renderer) {
   copy.textContent = "Скопировать отчёт";copy.type="button";copy.style.cssText="margin-top:6px;padding:5px 12px;border-radius:8px";
   copy.dataset.profileCopy="";
   output.hidden = true;output.readOnly=true;output.style.cssText="width:100%;height:110px";
-  const report = () => ({version:2,gpu,suspended:false,automaticPauseSeconds:0,
+  const report = () => ({version:2,gpu,suspended:false,automaticPauseSeconds:0,startupFirstFrameMs,startupResidentPreparation,
     catRenderer:catDrawMode(location.search),gpuRender:gpuTimer.report(),
     appWorkSinceReset:work.report(),longAnimationFramesSupported:!!frameObserver,longestAnimationFrames:longFrames.slice(),
     app:document.querySelector('script[src*="dist/app.js"]')?.getAttribute("src"),bufferTransfersSinceReset:uploads.snapshot(),
@@ -176,6 +187,7 @@ export function createFrameProfile(renderer) {
     const now=performance.now();samples.delay(Math.max(0,now-lastTimer-200));lastTimer=now;
   },200);
   return {
+    startupPreparation(stats){startupResidentPreparation=stats?{...stats}:null;},
     catRenderer:catDrawMode(location.search),
     raf:at=>samples.raf(at),
     notDue:()=>samples.notDue(),
@@ -187,12 +199,13 @@ export function createFrameProfile(renderer) {
     get suspended(){return false;},
     blocked:(reason,ms)=>samples.blocked(reason,ms),
     queue:ms=>samples.queue(ms),
-    pause:()=>{samples.clear();clearResources();lastTimer=performance.now();},
+    pause:()=>{samples.clear({keepJank:true});clearResources();lastTimer=performance.now();},
     frame(row){
+      if(startupFirstFrameMs===null)startupFirstFrameMs=Math.round((performance.now()-startupStart)*100)/100;
       samples.frame(row);
       if(row.at<next)return;next=row.at+1000;
       const r=samples.report(),loading=(row.shaderPending||0)+(row.shaderPreparing||0);
-      label.textContent=`${r.fps??"…"} FPS${row.targetFps?` / цель ${row.targetFps}`:""} · CPU ${r.cpuMedian??0} мс · рендер ${r.renderMedian??0} мс\n${row.biome} · ${row.calls} вызовов · DPR ${row.dpr}${loading?` · подготовка ${loading}`:""}`;
+      label.textContent=`Средний FPS: ${r.fps??"…"}${row.targetFps?` / цель ${row.targetFps}`:""} · 1% худших: ${r.onePercentLowFps??"мало кадров"}\nПаузы >50 мс за сеанс: ${r.stuttersOver50MsSinceStart} · худшая: ${Math.round(r.gapMaxSinceStart??0)} мс\nCPU ${r.cpuMedian??0} мс · рендер ${r.renderMedian??0} мс · ${row.biome} · DPR ${row.dpr}${loading?` · подготовка ${loading}`:""}`;
     },
     dispose(){clearInterval(timer);taskObserver?.disconnect();frameObserver?.disconnect();deactivateWork();gpuTimer.dispose();glCalls.dispose();uploads.dispose();panel.remove();},
   };

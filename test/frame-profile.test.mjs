@@ -42,6 +42,18 @@ test('callback cadence is separate from submitted-frame FPS and own pacing skips
  p.clear();p.raf(50000);assert.equal(p.report().rafFpsSinceReset,null);
  assert.equal(p.report().pacerSkipsSinceReset,0);assert.equal(p.report().rafCallbacksSinceReset,1);
 });
+test('near-60 average FPS cannot hide a single freeze, including after it leaves the rolling window',()=>{
+ const p=createFrameSamples(300);let at=0;
+ p.frame({at,cpu:1,render:2});
+ for(let i=1;i<=300;i++){at+=i===1?250:1000/60;p.frame({at,cpu:1,render:2});}
+ let r=p.report();assert.ok(r.fps>59.9,'the slow frame has left the rolling window');assert.ok(r.onePercentLowFps>59.9);assert.equal(r.stuttersOver50Ms,0);assert.equal(r.stuttersOver50MsSinceStart,1);assert.equal(r.severeStuttersOver100MsSinceStart,1);assert.equal(r.gapMaxSinceStart,250);
+ at+=250;p.frame({at,cpu:1,render:2});r=p.report();assert.ok(r.fps>57&&r.fps<58);assert.ok(r.onePercentLowFps<11);assert.equal(r.stuttersOver50Ms,1);assert.equal(r.stuttersOver50MsSinceStart,2);assert.equal(r.gapMax,250);
+ p.clear();p.frame({at:100000,cpu:1,render:2});r=p.report();assert.equal(r.gapMaxSinceStart,null);assert.equal(r.stuttersOver50MsSinceStart,0);assert.equal(r.onePercentLowFps,null,'short startup samples must not claim a stable tail rate');
+});
+test('hidden/menu intervals cannot invent a freeze or erase an earlier real visible-play freeze',()=>{
+ const p=createFrameSamples();p.frame({at:0,cpu:1,render:1});p.frame({at:200,cpu:1,render:1});
+ p.clear({keepJank:true});p.frame({at:60000,cpu:1,render:1});p.frame({at:60016.7,cpu:1,render:1});const r=p.report();assert.ok(r.fps>59);assert.equal(r.gapMaxSinceStart,200);assert.equal(r.stuttersOver50MsSinceStart,1);assert.ok(Math.abs(r.gapMax-16.7)<1e-8);
+});
 
 test("local upload counters preserve GL arguments, account for typed offsets and release their hooks",()=>{
   const calls=[],gl={bufferData(...a){calls.push(a);return 7;},bufferSubData(...a){calls.push(a);}};

@@ -72,5 +72,19 @@ The previously published approved baseline `1146193` reproduces the same issue:
 The strict zero-difference assertion was not relaxed, and this investigation is
 not labelled a passing zoo pixel-return proof. The approved face is unchanged.
 
-Final whole-map camera, native skinning, HUD integration, full-suite and
-publication evidence is recorded alongside this report when completed.
+## Final validation
+
+The full suite passed **865 / 865**, with zero failures. Build and Worker dry-run
+passed. Native skinning retained four exact same-pose images (zero differences).
+The real HUD/copy/fallback integration passed with 66 prepared residents, one
+copy button, full DPR 2 and no browser/HTTP errors. This cold automated run still
+had a 249.5 ms maximum preparation slice and a 977.6 ms maximum first `world.sync`;
+those remaining cold costs are retained in `device-profile.json`, not hidden by
+the smaller warm A/B figure.
+
+The full native RAF/GPU-queue camera test covered **all 19 current islands**,
+then returned to moon and zoo (21 samples). Every view completed real orbit and
+zoom, at least six submitted frames, unchanged DPR 2, at most two pending frames,
+and no context loss or browser/HTTP error. This software-GPU run is camera and
+resource coverage, not a physical-device frame-rate comparison. Publication
+verification is recorded separately after deployment.

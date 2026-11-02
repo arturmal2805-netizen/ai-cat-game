@@ -1,0 +1,101 @@
+[
+  {
+    "id": "magic-zoo",
+    "changed": 23,
+    "controlChanged": 35,
+    "maxDelta": 2,
+    "diffBounds": [
+      17,
+      965,
+      26,
+      974
+    ],
+    "hits": [
+      {
+        "chain": [
+          "Mesh",
+          "Group",
+          "Чарівний зоопарк · п’ять просторих мінібіомів",
+          "Scene"
+        ],
+        "material": "",
+        "distance": 99.54130028882152
+      },
+      {
+        "chain": [
+          "Mesh",
+          "Group",
+          "Group",
+          "Чарівний зоопарк · п’ять просторих мінібіомів",
+          "Scene"
+        ],
+        "material": "",
+        "distance": 101.9240702817003
+      },
+      {
+        "chain": [
+          "Mesh",
+          "Group",
+          "Чарівний зоопарк · п’ять просторих мінібіомів",
+          "Scene"
+        ],
+        "material": "",
+        "distance": 101.96281450157592
+      },
+      {
+        "chain": [
+          "Mesh",
+          "Lagoon",
+          "Group",
+          "Чарівний зоопарк · п’ять просторих мінібіомів",
+          "Scene"
+        ],
+        "material": "",
+        "distance": 102.5561855594922
+      },
+      {
+        "chain": [
+          "Lagoon physical seabed",
+          "Lagoon",
+          "Group",
+          "Чарівний зоопарк · п’ять просторих мінібіомів",
+          "Scene"
+        ],
+        "material": "",
+        "distance": 104.27778213363166
+      },
+      {
+        "chain": [
+          "Mesh",
+          "Scene"
+        ],
+        "material": "",
+        "distance": 746.8707439337787
+      }
+    ],
+    "before": {
+      "frame": 24,
+      "calls": 425,
+      "triangles": 1984419,
+      "points": 0,
+      "lines": 0
+    },
+    "after": {
+      "frame": 25,
+      "calls": 425,
+      "triangles": 1984419,
+      "points": 0,
+      "lines": 0
+    },
+    "gpuBefore": 78594926,
+    "retiredBytes": 23084388,
+    "gpuAfter": 78594926,
+    "cats": 68,
+    "slots": 1844,
+    "afterCats": 68,
+    "afterSlots": 1844,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  }
+]

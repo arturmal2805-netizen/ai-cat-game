@@ -17,6 +17,11 @@ export async function checkFrameProfile(page, review) {
   assert.equal(typeof report.gpu,"string");
   assert.ok(report.fps>0);assert.equal(report.last.dpr,2);
   assert.ok(report.cpuP95>=0);assert.ok(report.renderP95>=0);
+  assert.equal(typeof report.gapMaxSinceStart,'number');assert.equal(typeof report.stuttersOver50MsSinceStart,'number');
+  assert.equal(typeof report.severeStuttersOver100MsSinceStart,'number');assert.equal(typeof report.startupFirstFrameMs,'number');
+  assert.ok(report.startupResidentPreparation?.models>0);assert.ok(report.startupResidentPreparation.maxTaskMs>=0);
+  const controls=await page.locator('#frame-profile button').allTextContents();assert.equal(controls.length,1);assert.match(controls[0],/скопирован|Скопировать/);
+  assert.match(await page.locator('#frame-profile').innerText(),/Паузы >50 мс/);
   for(const field of ["refaults","refaultBytes","rapidRefaults","rapidRefaultBytes","shaderPreparing"])
     assert.equal(typeof report.last[field],"number",field);
   assert.equal(typeof report.geometryRefaultsDuringWindow,"number");
