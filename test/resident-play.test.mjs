@@ -57,18 +57,20 @@ test("all existing catalog actions work for a neighbour through the real ride/to
         true,
         spec.id + " " + action,
       );
-      runtime.frame("luna", 10000, 10, false);
+      const arrival=Math.max(10000,(runtime.get('luna')?.travel||0)+1);
+      runtime.frame("luna", arrival, arrival/1000, false);
       for (const t of [0.1, 1, 2.5, 4.6]) {
-        const f = runtime.frame("luna", 10000 + t * 1000, 10 + t, false);
+        const f = runtime.frame("luna", arrival + t * 1000, arrival/1000 + t, false);
         if (f) {
           assert.ok(f.position.toArray().every(Number.isFinite), spec.id);
           assert.ok(Number.isFinite(f.yaw), spec.id);
         }
       }
-      runtime.frame("luna", 200000, 200, false);
+      const finish=arrival+Math.max(200000,(object.userData.duration||10)*1000+1000);
+      runtime.frame("luna", finish, finish/1000, false);
       assert.equal(finished, before + 1, spec.id);
       assert.equal(runtime.get("luna"), undefined);
-      runtime.frame("luna", 300000, 300, false);
+      runtime.frame("luna", finish+100000, finish/1000+100, false);
       assert.equal(finished, before + 1);
     }
   }

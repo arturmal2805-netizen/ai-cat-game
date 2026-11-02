@@ -4,7 +4,7 @@ export const SLIDE_CAPACITY = 4,
   SLIDE_HEADWAY_MS = 5200;
 export const hasSlideRoom = (g) =>
   !!g?.userData.slideWater &&
-  (g.userData.slideRiders?.size || 0) < SLIDE_CAPACITY;
+  (g.userData.slideRiders?.size || 0) < (g.userData.groupSeats||SLIDE_CAPACITY);
 export function reserveSlide(g, id) {
   if (!hasSlideRoom(g)) return null;
   const d = g.userData,
@@ -13,7 +13,7 @@ export function reserveSlide(g, id) {
   const used = new Set([...riders.values()].map((r) => r.slot));
   let slot = 0;
   while (used.has(slot)) slot++;
-  const entry = d.approachOffset || d.rideFrame(0, true).position,
+  const entry = d.entryForSlot?.(slot) || d.approachOffset || d.rideFrame(0, true).position,
     w = d.footprint?.[0] || d.placement?.footprint?.[0] || 12,
     queue = slot && d.premiumWater
       ? [entry[0]+Math.cos((slot-1)*Math.PI/4)*8,entry[1],entry[2]+Math.sin((slot-1)*Math.PI/4)*8]
@@ -23,7 +23,7 @@ export function reserveSlide(g, id) {
     ticket = {
       id,
       slot,
-      lane:
+      lane:d.groupSeats?slot:
         (d.nextSlideLane = (d.nextSlideLane ?? -1) + 1) %
         (d.route?.lanes?.length || 1),
       queue,
@@ -37,6 +37,11 @@ export function reserveSlide(g, id) {
 }
 export function launchSlide(g, ticket, now) {
   if (ticket.launchAt !== null) return ticket.launchAt;
+  if(g.userData.groupSeats){
+    const d=g.userData;
+    if(!d.waterGroup||now>d.waterGroup.launchAt){d.waterGroup={launchAt:Math.max(now+12000,(d.waterGroup?.launchAt??-Infinity)+d.duration*1000+1500)};}
+    ticket.launchAt=d.waterGroup.launchAt;d.lastSlideLaunch=ticket.launchAt;return ticket.launchAt;
+  }
   ticket.launchAt = Math.max(
     now,
     (g.userData.lastSlideLaunch ?? -Infinity) + SLIDE_HEADWAY_MS,
@@ -47,12 +52,14 @@ export function launchSlide(g, ticket, now) {
 export function releaseSlide(g, id) {
   const ticket = g?.userData.slideRiders?.get(id);
   if (!ticket) return;
-  if (g.userData.slideVehicles?.[ticket.slot])
+  if (g.userData.slideVehicles?.[ticket.slot]&&!g.userData.sharedVehicle)
     g.userData.slideVehicles[ticket.slot].visible = false;
   g.userData.slideRiders.delete(id);
+  if(g.userData.sharedVehicle)updateSlideVehicles(g,g.userData.vehicleReduced||false);
   if (!g.userData.slideRiders.size) {
     delete g.userData.rideElapsed;
     delete g.userData.lastSlideLaunch;
+    delete g.userData.waterGroup;
   } else
     g.userData.lastSlideLaunch = Math.max(
       -Infinity,
@@ -66,20 +73,23 @@ export function releaseSlide(g, id) {
 export function updateSlideVehicles(g, reduced) {
   const d = g.userData;
   if (!d.slideRiders || !d.moving) return;
+  d.vehicleReduced=reduced;
   const vehicles = (d.slideVehicles ||= [d.moving]);
   // A later slot may reach the slide before its earlier queue neighbours.
   // Clones are allocated lazily, so the bounded array can have empty slots.
   for (const v of vehicles) if (v) v.visible = false;
   for (const r of d.slideRiders.values()) {
     if (!Number.isFinite(r.elapsed)) continue;
-    let v = vehicles[r.slot];
+    const slot=d.sharedVehicle?0:r.slot;
+    let v = vehicles[slot];
+    if(d.sharedVehicle&&v?.visible)continue;
     if (!v) {
       v = d.moving.clone(true);
       v.name = "Guest raft " + (r.slot + 1);
       d.moving.parent.add(v);
-      vehicles[r.slot] = v;
+      vehicles[slot] = v;
     }
-    const f = d.rideFrame(r.elapsed, reduced, r.lane);
+    const f = d.sharedVehicle?d.vehicleFrame(r.elapsed,reduced):d.vehicleFrameForLane?d.vehicleFrameForLane(r.elapsed,reduced,r.lane):d.rideFrame(r.elapsed, reduced, r.lane);
     v.visible =
       !["board", "climb", "return", "anticipation", "exit", "done"].includes(
         f.phase,

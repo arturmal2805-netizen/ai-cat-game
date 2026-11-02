@@ -1,0 +1,10 @@
+{
+  "compared": 120,
+  "changedPixels": 0,
+  "channels": "RGBA",
+  "views": [
+    "normal",
+    "DPR2 phone"
+  ],
+  "baseline": "bfb50ba55f6264af76686ada46da57aca72af7fe"
+}

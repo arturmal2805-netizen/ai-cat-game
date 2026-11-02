@@ -16,7 +16,7 @@ export function atollApproach(spec,obstacles=[]) {
     const key=a.join(',')+'>'+b.join(',');if(cache.has(key))return cache.get(key);
     const from={x:a[0],y:a[1],z:a[2]},to={x:b[0],y:b[1],z:b[2]};let path;
     if(Math.abs(from.x)<hx&&Math.abs(from.z)<hz)
-      path=spaPath(from,to,2,obstacles,clear,{extent:48,cell:1.25});
+      path=spaPath(from,to,2,obstacles,clear,{extent:spec.showcaseWater?Math.ceil(Math.max(hx,hz)+2):48,cell:1.25});
     if(path)path.unshift(from);
     else{
       const projection={x:Math.max(-hx,Math.min(hx,from.x)),z:Math.max(-hz,Math.min(hz,from.z)),y:.16};

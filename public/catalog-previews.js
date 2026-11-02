@@ -5,6 +5,8 @@ import * as THREE from "three";
 import { CATALOG, BIOMES } from "./game-data.js";
 import { createBiomeScene, disposeBiome } from "./biome-scenes.js";
 import { makeAttraction } from "./world-assets.js";
+import {reserveSlide,launchSlide} from './slide-riders.js';
+import {disposeScenery} from './scenery-models.js';
 import {MAGIC_BED_ID} from './magic-bed-data.js';
 import {magicBedPreview} from './magic-bed-models.js';
 import shippedPreviews from "./art/previews/catalog.json" with { type: "json" };
@@ -73,12 +75,20 @@ export async function catalogPreviews(
       const object = item.isBiome
         ? createBiomeScene(item, { preview: true })
         : item.zoo?zooAnimalPreview(item):makeAttraction(item.id,item.id===MAGIC_BED_ID?magicBedPreview():[]);
+      if(item.showcaseWater){
+        // Capture the real occupied equipment at its own authored ride phase,
+        // including the swinging ship and all four carousel boats. The PNG is
+        // shipped: opening the normal shop never starts these preview rides.
+        const d=object.userData,leg=d.route.legs.find(l=>['ride','vortex','rafting','drop','flight','surf','float','carousel','swing'].includes(l.phase)),time=leg.start+leg.duration*.35;
+        for(let i=0;i<(d.groupSeats||1);i++){const ticket=reserveSlide(object,'preview-'+i);launchSlide(object,ticket,0);ticket.elapsed=time;}
+        d.update(time,false);
+      }
       scene.add(object);
       const bounds = new THREE.Box3().setFromObject(object),
         size = bounds.getSize(new THREE.Vector3()),
         center = bounds.getCenter(new THREE.Vector3());
       const radius = Math.max(size.x, size.y, size.z, 1.4);
-      renderer.setSize(item.magicFarm||item.magicBed?480:300,item.magicFarm||item.magicBed?320:200);
+      renderer.setSize(item.magicFarm||item.magicBed||item.showcaseWater?480:300,item.magicFarm||item.magicBed||item.showcaseWater?320:200);
       const camera = new THREE.PerspectiveCamera(34, 1.5, item.premiumWater || item.waterpark || item.magicFarm ? .5 : 0.1, item.premiumWater || item.waterpark || item.magicFarm ? 2200 : 180);
       camera.position
         .copy(center)
@@ -136,7 +146,8 @@ export async function catalogPreviews(
           onPreview?.(key, src);
         }
       } finally {
-        if(item.zoo&&!item.isBiome)object.userData.disposeStaff?.();
+        if(item.showcaseWater)disposeScenery(object);
+        else if(item.zoo&&!item.isBiome)object.userData.disposeStaff?.();
         else if (item.isBiome) disposeBiome(object);
         else object.traverse((o) => {
           if (o.isMesh && !o.geometry.userData.sharedScenery) o.geometry.dispose();

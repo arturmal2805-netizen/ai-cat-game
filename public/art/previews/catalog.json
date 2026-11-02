@@ -1,5 +1,5 @@
 {
-  "version": "8143a0634330",
+  "version": "de1ed65efcc5",
   "items": [
     "adoption-center",
     "airship",
@@ -137,6 +137,16 @@
     "ride-sugar-teacups",
     "ride-tokyo-train",
     "ride-venice-gondola",
+    "ride-water-barrel-wave",
+    "ride-water-canyon-rafting",
+    "ride-water-crystal-vortex",
+    "ride-water-fountain-carousel",
+    "ride-water-glass-drop",
+    "ride-water-jungle-coaster",
+    "ride-water-lagoon-launch",
+    "ride-water-lazy-river",
+    "ride-water-pool-pendulum",
+    "ride-water-surf-halfpipe",
     "ride-whale",
     "ride-whale-aurora",
     "rocket",

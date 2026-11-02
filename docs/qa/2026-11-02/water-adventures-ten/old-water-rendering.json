@@ -1,0 +1,2942 @@
+[
+  {
+    "version": "before",
+    "id": "waterslide",
+    "draws": 23,
+    "triangles": 16832,
+    "textures": 6,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "water-river",
+    "draws": 13,
+    "triangles": 14476,
+    "textures": 6,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "water-whirlpool",
+    "draws": 13,
+    "triangles": 15052,
+    "textures": 6,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "water-extreme",
+    "draws": 13,
+    "triangles": 14508,
+    "textures": 6,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-royal-cascade",
+    "draws": 23,
+    "triangles": 56945,
+    "textures": 7,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-vortex-bowl",
+    "draws": 23,
+    "triangles": 48468,
+    "textures": 7,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "ride-crystal-slide",
+    "draws": 20,
+    "triangles": 13116,
+    "textures": 7,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-marshmallow",
+    "draws": 25,
+    "triangles": 27468,
+    "textures": 7,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 3,
+    "outlets": 3,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-glass-corkscrew",
+    "draws": 15,
+    "triangles": 84080,
+    "textures": 7,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-sky-cannon",
+    "draws": 15,
+    "triangles": 89552,
+    "textures": 7,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-titan-funnel",
+    "draws": 18,
+    "triangles": 117136,
+    "textures": 7,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 3,
+    "outlets": 2,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-jungle-titan",
+    "draws": 25,
+    "triangles": 105544,
+    "textures": 7,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-rainbow-tsunami",
+    "draws": 15,
+    "triangles": 127612,
+    "textures": 7,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 6,
+    "outlets": 6,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-abyss-capsule",
+    "draws": 16,
+    "triangles": 94576,
+    "textures": 7,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "dive-triple-sky",
+    "draws": 15,
+    "triangles": 79474,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": false,
+    "impact": true,
+    "channels": 0,
+    "outlets": 0,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-dream-crystal-loops",
+    "draws": 17,
+    "triangles": 187654,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-dream-pearl-funnel",
+    "draws": 20,
+    "triangles": 216290,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 3,
+    "outlets": 2,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-dream-rainbow-launch",
+    "draws": 17,
+    "triangles": 193642,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-dream-waterfall-arch",
+    "draws": 16,
+    "triangles": 195550,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-dream-canyon-twins",
+    "draws": 18,
+    "triangles": 208914,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 2,
+    "outlets": 2,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-dream-ocean-tunnel",
+    "draws": 21,
+    "triangles": 194220,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-dream-blossom-tree",
+    "draws": 17,
+    "triangles": 197846,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-dream-ice-tunnel",
+    "draws": 17,
+    "triangles": 189630,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-dream-orbital-shell",
+    "draws": 20,
+    "triangles": 220790,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 3,
+    "outlets": 2,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-dream-terrace-cascades",
+    "draws": 16,
+    "triangles": 216438,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 4,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-dream-canyon-eight",
+    "draws": 17,
+    "triangles": 187366,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-dream-luminous-vortex",
+    "draws": 20,
+    "triangles": 219642,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 3,
+    "outlets": 2,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-dream-ring-launch",
+    "draws": 17,
+    "triangles": 198238,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-dream-ribbon-tower",
+    "draws": 19,
+    "triangles": 233222,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 3,
+    "outlets": 3,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-dream-tidal-wave",
+    "draws": 16,
+    "triangles": 197682,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 3,
+    "outlets": 3,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-dream-water-lift",
+    "draws": 19,
+    "triangles": 192978,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 2,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-dream-dragon-tail",
+    "draws": 17,
+    "triangles": 192230,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-dream-four-funnels",
+    "draws": 24,
+    "triangles": 353966,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 9,
+    "outlets": 5,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-dream-sky-bridge",
+    "draws": 17,
+    "triangles": 191614,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-dream-cave-loop",
+    "draws": 17,
+    "triangles": 186646,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-dream-twin-flights",
+    "draws": 18,
+    "triangles": 208674,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 2,
+    "outlets": 2,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-dream-lighthouse",
+    "draws": 17,
+    "triangles": 190718,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-dream-twin-shell",
+    "draws": 16,
+    "triangles": 192410,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 2,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-dream-royal-aqueduct",
+    "draws": 16,
+    "triangles": 221838,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 4,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-dream-cloud-star",
+    "draws": 17,
+    "triangles": 203914,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-atoll-giant-wave",
+    "draws": 19,
+    "triangles": 217819,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-atoll-rock-arch",
+    "draws": 19,
+    "triangles": 235675,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-atoll-rainbow-race",
+    "draws": 18,
+    "triangles": 335573,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 6,
+    "outlets": 6,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-atoll-sky-serpent",
+    "draws": 19,
+    "triangles": 242275,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-atoll-blue-whirlpool",
+    "draws": 22,
+    "triangles": 291901,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 3,
+    "outlets": 2,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-atoll-double-serpent",
+    "draws": 20,
+    "triangles": 278807,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 2,
+    "outlets": 2,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-atoll-waterfall-cascade",
+    "draws": 31,
+    "triangles": 328611,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 4,
+    "outlets": 4,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-atoll-emerald-canyon",
+    "draws": 18,
+    "triangles": 245409,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-atoll-crystal-cavern",
+    "draws": 22,
+    "triangles": 246075,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-atoll-root-valley",
+    "draws": 19,
+    "triangles": 250849,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-atoll-blue-halfpipe",
+    "draws": 19,
+    "triangles": 221571,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-atoll-lagoon-loop",
+    "draws": 19,
+    "triangles": 245323,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-atoll-coral-arch",
+    "draws": 20,
+    "triangles": 255229,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-atoll-cloud-islets",
+    "draws": 19,
+    "triangles": 238489,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-atoll-flower-lagoon",
+    "draws": 19,
+    "triangles": 247807,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-atoll-red-canyon",
+    "draws": 18,
+    "triangles": 275451,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 2,
+    "outlets": 2,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-atoll-abyss-bridge",
+    "draws": 18,
+    "triangles": 261395,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-atoll-green-valley",
+    "draws": 19,
+    "triangles": 257475,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-atoll-purple-vortex",
+    "draws": 22,
+    "triangles": 296525,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 3,
+    "outlets": 2,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "slide-atoll-mega-loops",
+    "draws": 19,
+    "triangles": 261387,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false
+  },
+  {
+    "version": "after",
+    "id": "waterslide",
+    "draws": 23,
+    "triangles": 16832,
+    "textures": 6,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 2
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 2
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 2
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "water-river",
+    "draws": 13,
+    "triangles": 14476,
+    "textures": 6,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 2
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 2
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 2
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "water-whirlpool",
+    "draws": 13,
+    "triangles": 15052,
+    "textures": 6,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 2
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 2
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 2
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "water-extreme",
+    "draws": 13,
+    "triangles": 14508,
+    "textures": 6,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 2
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 2
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 2
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-royal-cascade",
+    "draws": 23,
+    "triangles": 56945,
+    "textures": 7,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 6
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-vortex-bowl",
+    "draws": 23,
+    "triangles": 48468,
+    "textures": 7,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 5
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 5
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 5
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "ride-crystal-slide",
+    "draws": 20,
+    "triangles": 13116,
+    "textures": 7,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 0
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 0
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 0
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-marshmallow",
+    "draws": 25,
+    "triangles": 27468,
+    "textures": 7,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 3,
+    "outlets": 3,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 3
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 3
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 3
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-glass-corkscrew",
+    "draws": 15,
+    "triangles": 83696,
+    "textures": 7,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 5
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 5
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 5
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-sky-cannon",
+    "draws": 15,
+    "triangles": 89040,
+    "textures": 7,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 5
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 5
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 5
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-titan-funnel",
+    "draws": 18,
+    "triangles": 116496,
+    "textures": 7,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 3,
+    "outlets": 2,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 5
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 5
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 5
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-jungle-titan",
+    "draws": 25,
+    "triangles": 105544,
+    "textures": 7,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 8
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 8
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 8
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-rainbow-tsunami",
+    "draws": 15,
+    "triangles": 126972,
+    "textures": 7,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 6,
+    "outlets": 6,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 6
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-abyss-capsule",
+    "draws": 16,
+    "triangles": 93552,
+    "textures": 7,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 5
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 5
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 5
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "dive-triple-sky",
+    "draws": 15,
+    "triangles": 78834,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": false,
+    "impact": true,
+    "channels": 0,
+    "outlets": 0,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 5
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 5
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 5
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-dream-crystal-loops",
+    "draws": 17,
+    "triangles": 187654,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 7
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-dream-pearl-funnel",
+    "draws": 20,
+    "triangles": 216290,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 3,
+    "outlets": 2,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 8
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 8
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 8
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-dream-rainbow-launch",
+    "draws": 17,
+    "triangles": 193642,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 7
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-dream-waterfall-arch",
+    "draws": 16,
+    "triangles": 195550,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 6
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-dream-canyon-twins",
+    "draws": 18,
+    "triangles": 208914,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 2,
+    "outlets": 2,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 7
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-dream-ocean-tunnel",
+    "draws": 21,
+    "triangles": 194220,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 8
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 8
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 8
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-dream-blossom-tree",
+    "draws": 17,
+    "triangles": 197846,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 7
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-dream-ice-tunnel",
+    "draws": 17,
+    "triangles": 189630,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 8
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 8
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 8
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-dream-orbital-shell",
+    "draws": 20,
+    "triangles": 220790,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 3,
+    "outlets": 2,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 8
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 8
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 8
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-dream-terrace-cascades",
+    "draws": 16,
+    "triangles": 216438,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 4,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 7
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-dream-canyon-eight",
+    "draws": 17,
+    "triangles": 187366,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 7
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-dream-luminous-vortex",
+    "draws": 20,
+    "triangles": 219642,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 3,
+    "outlets": 2,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 8
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 8
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 8
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-dream-ring-launch",
+    "draws": 17,
+    "triangles": 198238,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 7
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-dream-ribbon-tower",
+    "draws": 19,
+    "triangles": 233222,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 3,
+    "outlets": 3,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 7
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-dream-tidal-wave",
+    "draws": 16,
+    "triangles": 197682,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 3,
+    "outlets": 3,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 6
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-dream-water-lift",
+    "draws": 19,
+    "triangles": 192978,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 2,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 7
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-dream-dragon-tail",
+    "draws": 17,
+    "triangles": 192230,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 7
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-dream-four-funnels",
+    "draws": 24,
+    "triangles": 353966,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 9,
+    "outlets": 5,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 8
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 8
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 8
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-dream-sky-bridge",
+    "draws": 17,
+    "triangles": 191614,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 7
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-dream-cave-loop",
+    "draws": 17,
+    "triangles": 186646,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 7
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-dream-twin-flights",
+    "draws": 18,
+    "triangles": 208674,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 2,
+    "outlets": 2,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 7
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-dream-lighthouse",
+    "draws": 17,
+    "triangles": 190718,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 7
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-dream-twin-shell",
+    "draws": 16,
+    "triangles": 192410,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 2,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 6
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-dream-royal-aqueduct",
+    "draws": 16,
+    "triangles": 221838,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 4,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 7
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-dream-cloud-star",
+    "draws": 17,
+    "triangles": 203914,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 7
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-atoll-giant-wave",
+    "draws": 19,
+    "triangles": 217819,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 6
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-atoll-rock-arch",
+    "draws": 19,
+    "triangles": 235675,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 6
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-atoll-rainbow-race",
+    "draws": 18,
+    "triangles": 335573,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 6,
+    "outlets": 6,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 6
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-atoll-sky-serpent",
+    "draws": 19,
+    "triangles": 242275,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 6
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-atoll-blue-whirlpool",
+    "draws": 22,
+    "triangles": 291901,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 3,
+    "outlets": 2,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 7
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-atoll-double-serpent",
+    "draws": 20,
+    "triangles": 278807,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 2,
+    "outlets": 2,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 6
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-atoll-waterfall-cascade",
+    "draws": 31,
+    "triangles": 328611,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 4,
+    "outlets": 4,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 6
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-atoll-emerald-canyon",
+    "draws": 18,
+    "triangles": 245409,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 6
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-atoll-crystal-cavern",
+    "draws": 22,
+    "triangles": 246075,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 6
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-atoll-root-valley",
+    "draws": 19,
+    "triangles": 250849,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 6
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-atoll-blue-halfpipe",
+    "draws": 19,
+    "triangles": 221571,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 6
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-atoll-lagoon-loop",
+    "draws": 19,
+    "triangles": 245323,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 6
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-atoll-coral-arch",
+    "draws": 20,
+    "triangles": 255229,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 6
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-atoll-cloud-islets",
+    "draws": 19,
+    "triangles": 238489,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 6
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-atoll-flower-lagoon",
+    "draws": 19,
+    "triangles": 247807,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 6
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-atoll-red-canyon",
+    "draws": 18,
+    "triangles": 275451,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 2,
+    "outlets": 2,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 6
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-atoll-abyss-bridge",
+    "draws": 18,
+    "triangles": 261395,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 6
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-atoll-green-valley",
+    "draws": 19,
+    "triangles": 257475,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 6
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-atoll-purple-vortex",
+    "draws": 22,
+    "triangles": 296525,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 3,
+    "outlets": 2,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 7
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "slide-atoll-mega-loops",
+    "draws": 19,
+    "triangles": 261387,
+    "textures": 10,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 6
+      }
+    ]
+  }
+]

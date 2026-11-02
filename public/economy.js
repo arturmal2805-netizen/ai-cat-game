@@ -624,6 +624,15 @@ export function findSpace(
   options = {},
 ) {
   if (biome === ATOLL_PARK_ID) {
+    // New wider mini-biomes get a layout that fits their complete bounds. Do
+    // not squeeze them into the released 112 × 108 plots, move old purchases,
+    // enlarge another island or erase a paid object when the park is full.
+    if(byItem(item)?.showcaseWater){
+      for(let i=0;i<12;i++){
+        const p={x:(i%4-1.5)*134,z:(Math.floor(i/4)-1)*134};
+        if(canPlace(game,item,biome,p.x,p.z,rotation,ignoreId,options).ok)return p;
+      }
+    }
     const preferred = ATOLL_SLIDES.findIndex(s=>s.id===item),
       slots = Array.from({length:20},(_,i)=>(i+Math.max(0,preferred))%20);
     for(const index of slots){const p=atollPlot(index);if(canPlace(game,item,biome,p.x,p.z,rotation,ignoreId,options).ok)return p;}

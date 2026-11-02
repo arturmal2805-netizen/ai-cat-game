@@ -1,3 +1,4 @@
+import {SHOWCASE_WATER_RIDES} from './showcase-water-data.js';
 import {ZOO_BIOME,ZOO_EXHIBITS,ZOO_RADIUS} from './zoo-data.js';
 import { WORLD_CENTERS, isRetiredBiome } from './world-layout.js';
 import { HOMESTEAD_RADIUS, HOMESTEAD_EXPANSION } from "./homestead-expansion.js";
@@ -1558,7 +1559,7 @@ for (const biome of BIOMES) {
     biome.price =
       Math.round((biome.price * (1 + biome.requiredLevel * 0.7)) / 10) * 10;
 }
-CATALOG.push(...REFERENCE_SLIDES, ...ATOLL_SLIDES,MAGIC_BED,...MAGIC_BED_SEEDS);
+CATALOG.push(...REFERENCE_SLIDES, ...ATOLL_SLIDES,...SHOWCASE_WATER_RIDES,MAGIC_BED,...MAGIC_BED_SEEDS);
 CATEGORIES.splice(CATEGORIES.findIndex(c=>c.id==='lands'),0,{id:'seeds',name:'Насіння',icon:'🌰'});
 for (const product of CATALOG) {
   product.requiredLevel ||=

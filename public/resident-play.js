@@ -254,7 +254,7 @@ export function createResidentPlay({
       localQueue(result, g, v.rider, u);
       if (u >= 1) {
         v.phase = "activity";
-        v.activityStart = now;
+        v.activityStart = g?.userData.groupSeats ? launch + 1100 : now;
       }
       return result;
     }

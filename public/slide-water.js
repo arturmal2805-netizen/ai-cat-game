@@ -518,9 +518,10 @@ export function installSlideWater(
       moving.rotation.y = frame.yaw;
     }
     updateSlideVehicles(root, reduced);
-    const clocks = root.userData.slideRiders
+    let clocks = root.userData.slideRiders
       ? [...root.userData.slideRiders.values()]
       : [{ elapsed, waterElapsed: lastElapsed }];
+    if(root.userData.sharedVehicle){const seen=new Set();clocks=clocks.filter(r=>{const key=r.launchAt;if(seen.has(key))return false;seen.add(key);return true;});}
     for (const rider of clocks)
       if (Number.isFinite(rider.elapsed) && !reduced) {
         const elapsed = rider.elapsed;
@@ -564,6 +565,7 @@ export function installSlideWater(
           }
         rider.waterElapsed = elapsed;
       }
+    if(root.userData.sharedVehicle)for(const r of root.userData.slideRiders?.values()||[])if(Number.isFinite(r.elapsed))r.waterElapsed=r.elapsed;
     const activeBurst = effects.points.some(
       (p) => time - p.w >= 0 && time - p.w < 1.8,
     );

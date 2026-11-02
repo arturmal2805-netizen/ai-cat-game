@@ -40,6 +40,8 @@ const turn=out=>clamp(out.turnForce,-1,1);
 // Runtime-only joint pose. Keep this outside the sculpt producers so new ride
 // animation never invalidates the approved persistent cat geometry cache.
 export function applyAtollSit(cat,reaction,reduced=false){
+  if(!reduced&&reaction?.waterProne){const d=cat.userData,w=clamp(reaction.waterProne);d.body.position.y-=w*.27;d.body.rotation.x-=w*.10;d.chest.position.y-=w*.28;d.head.position.y-=w*.31;for(const [i,leg]of d.legs.entries()){leg.rotation.x+=w*(leg.position.z>0?-.75:.70);leg.position.y+=w*.14;const j=d.legJoints?.[i];if(j){j.knee.rotation.x+=w*.35;j.ankle.rotation.x-=w*.18;}}return;}
+  if(!reduced&&reaction?.waterSurf){const d=cat.userData,w=clamp(reaction.waterSurf);d.body.rotation.x-=w*.48;d.chest.position.y+=w*.12;d.head.position.y+=w*.24;for(const [i,leg]of d.legs.entries()){if(leg.position.z>0){leg.rotation.x-=w*.55;leg.position.y+=w*.28;}else{const j=d.legJoints?.[i];if(j){j.knee.rotation.x+=w*.25;j.ankle.rotation.x-=w*.2;}}}return;}
   const sit=reduced?0:clamp(reaction?.rideSit||0),d=cat.userData;if(!sit)return;
   d.body.position.y-=sit*.17;d.chest.position.y-=sit*.18;d.head.position.y-=sit*.18;
   for(const [i,leg] of d.legs.entries()){

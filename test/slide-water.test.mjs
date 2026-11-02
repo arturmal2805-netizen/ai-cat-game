@@ -15,10 +15,10 @@ import { createResidentPlay } from "../public/resident-play.js";
 import { newGame, saveGame, loadGame } from "../public/economy.js";
 
 const waterID = (id) =>
-  /^(slide-|water-)/.test(id) ||
+  /^(slide-|water-|ride-water-)/.test(id) ||
   ["waterslide", "ride-crystal-slide", "dive-triple-sky"].includes(id);
 test("every shop and permanent island water ride declares and implements the shared water contract, including all three/six lanes", () => {
-  assert.equal(WATER_RIDES.length, 60);
+  assert.equal(WATER_RIDES.length, 70);
   assert.deepEqual(
     CATALOG.filter((i) => waterID(i.id))
       .map((i) => i.id)
@@ -65,7 +65,7 @@ test("every shop and permanent island water ride declares and implements the sha
         ? 0
         : spec.id === "slide-titan-funnel"
           ? 2
-          : 1 + (g.userData.route?.bowls?.length || 0),
+          : 1 + (g.userData.route?.bowls?.length || 0) + (spec.id==='ride-water-barrel-wave'?1:0),
     );
     disposeScenery(g);
   }
@@ -86,7 +86,9 @@ test("water spans the real three-dimensional route, with smooth finite normals a
       const middle = Math.floor(frames.length / 2),
         p = new THREE.Vector3().fromBufferAttribute(pos, middle * 9 + 4);
       assert.ok(p.distanceTo(frames[middle].p) < 1e-5, spec.id);
-      if (spec.kind !== "channel" && spec.id !== "water-whirlpool") {
+      if(spec.id.startsWith('ride-water-')&&c.samples){
+        for(let i=0;i<frames.length;i++){const sample=c.samples[Math.round(i/(frames.length-1)*(c.samples.length-1))],expected=sample.p.clone().addScaledVector(sample.up,c.offset);assert.ok(frames[i].p.distanceTo(expected)<1e-5,spec.id+' actual three-dimensional wet surface');}
+      }else if (spec.kind !== "channel" && spec.id !== "water-whirlpool") {
         const y = frames.map((f) => f.p.y);
         assert.ok(
           Math.max(...y) - Math.min(...y) > 1,
@@ -238,8 +240,12 @@ test("resident riders use the same physical water route and trigger the same bas
     assert.ok(play.start("tiny", { action: "ride", activityId: "test" }, 0));
     const arrival=Math.max(10000,Math.ceil(play.get('tiny').travel)+1);
     play.frame("tiny", arrival, arrival/1000);
+    if(play.get('tiny').phase==='queue'){
+      const at=play.get('tiny').rider.launchAt+1101;play.frame('tiny',at,at/1000);
+    }
+    const started=play.get('tiny').activityStart;
     const elapsed = w.events[0].time + 0.01,
-      frame = play.frame("tiny", arrival + elapsed * 1000, arrival/1000 + elapsed),
+      frame = play.frame("tiny", started + elapsed * 1000, started/1000 + elapsed),
       expected = g.localToWorld(
         new THREE.Vector3(...g.userData.rideFrame(elapsed).position),
       );

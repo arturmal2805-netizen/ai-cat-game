@@ -1,0 +1,1992 @@
+[
+  {
+    "version": "after",
+    "id": "ride-water-barrel-wave",
+    "draws": 35,
+    "triangles": 507758,
+    "textures": 16,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 8
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 8
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 8
+      }
+    ],
+    "riderFrames": [
+      {
+        "phase": "ride",
+        "elapsed": 33.8896,
+        "position": [
+          -9.392700867275364,
+          53.76858366329922,
+          -21.834082951695635
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 8.5221116619681,
+          "height": 53.59777561995064,
+          "turnForce": -0.13392460780512794,
+          "crouch": 0.16603779647055775,
+          "paw": 0,
+          "pawSpread": 0.053392460780512796,
+          "grip": 0.7567598738094375,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": -0.07173820288021594,
+          "headRoll": 0.018749445092717913,
+          "headYaw": -0.017410199014666634,
+          "bodyLean": 0.012053214702461514,
+          "bodyPitch": -0.00020795011092817153,
+          "earRelax": -0.037771733573200995,
+          "tailSway": -0.25264608178316134,
+          "tailTrail": -0.05980524482423491,
+          "eyeClose": 0.034624089108767575,
+          "surprise": 0.039459725642872506,
+          "rideSit": 0,
+          "waterSurf": 0,
+          "waterProne": 1
+        },
+        "seat": [
+          -9.392700867275364,
+          53.76858366329922,
+          -21.834082951695635
+        ],
+        "finite": true
+      },
+      {
+        "phase": "ride",
+        "elapsed": 36.580000000000005,
+        "position": [
+          -12.842393354918933,
+          47.03476474463288,
+          -15.551983539111163
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 11.138085767735319,
+          "height": 46.8042110321627,
+          "turnForce": 0.06337120086792919,
+          "crouch": 0.21318787296886113,
+          "paw": 0,
+          "pawSpread": 0.04633712008679292,
+          "grip": 1,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": 0.041752608690173165,
+          "headRoll": -0.008871968121510088,
+          "headYaw": 0.008238256112830794,
+          "bodyLean": -0.005703408078113627,
+          "bodyPitch": 0.038197917493279644,
+          "earRelax": -0.07422535510580909,
+          "tailSway": 0.2133352692189408,
+          "tailTrail": -0.11752347891753107,
+          "eyeClose": 0.06803990884699167,
+          "surprise": 0.27598671996359786,
+          "rideSit": 0,
+          "waterSurf": 0,
+          "waterProne": 1
+        },
+        "seat": [
+          -12.842393354918933,
+          47.03476474463288,
+          -15.551983539111163
+        ],
+        "finite": true
+      },
+      {
+        "phase": "ride",
+        "elapsed": 39.412000000000006,
+        "position": [
+          -4.917698531027065,
+          10.542088187280518,
+          -11.847013827870473
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 25.932465987895732,
+          "height": 10.534261749806616,
+          "turnForce": -0.8282243741318216,
+          "crouch": 0.22443455847198074,
+          "paw": 0,
+          "pawSpread": 0.12282243741318216,
+          "grip": 1,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": -0.08638899975157807,
+          "headRoll": 0.11595141237845503,
+          "headYaw": -0.10766916863713681,
+          "bodyLean": 0.07454019367186394,
+          "bodyPitch": -0.011700335276163983,
+          "earRelax": -0.24,
+          "tailSway": -0.4289854094425883,
+          "tailTrail": -0.38,
+          "eyeClose": 0.22,
+          "surprise": 0.0608133898339668,
+          "rideSit": 0,
+          "waterSurf": 0,
+          "waterProne": 1
+        },
+        "seat": [
+          -4.917698531027065,
+          10.542088187280518,
+          -11.847013827870473
+        ],
+        "finite": true
+      },
+      {
+        "phase": "splash",
+        "elapsed": 42.6,
+        "position": [
+          0.12706217202656217,
+          2.045202916376962,
+          30.87482019999982
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 7.18730162075681,
+          "height": 1.9048319051804186,
+          "turnForce": 0.07659562224943603,
+          "crouch": 0.20195547293119337,
+          "paw": 0.6059619021336843,
+          "pawSpread": 0.04765956222494361,
+          "grip": 0.5976814187705248,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": -0.0378501583140382,
+          "headRoll": -0.04200334276235699,
+          "headYaw": 0.009957430892426684,
+          "bodyLean": -0.006893606002449242,
+          "bodyPitch": 0.07696259143114301,
+          "earRelax": -0.030593270611055608,
+          "tailSway": 0.01950963685552794,
+          "tailTrail": -0.03605769602372799,
+          "eyeClose": 0.98,
+          "surprise": 0.0007851628061526919,
+          "rideSit": 0,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          0.12706217202656217,
+          2.045202916376962,
+          30.87482019999982
+        ],
+        "finite": true
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "ride-water-jungle-coaster",
+    "draws": 41,
+    "triangles": 470542,
+    "textures": 20,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 10
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 10
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 10
+      }
+    ],
+    "riderFrames": [
+      {
+        "phase": "ride",
+        "elapsed": 29.8888,
+        "position": [
+          -19.59177843355571,
+          14.516746055702592,
+          -19.862177087947885
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 28.64485007995728,
+          "height": 14.796340820077505,
+          "turnForce": 0.8475101320790411,
+          "crouch": 0.12482625577660891,
+          "paw": 0,
+          "pawSpread": 0.3047510132079041,
+          "grip": 1,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": 0.12624398062989672,
+          "headRoll": -0.029144761264418464,
+          "headYaw": 0.11017631717027535,
+          "bodyLean": -0.0762759118871137,
+          "bodyPitch": 0.03280957909580031,
+          "earRelax": -0.24,
+          "tailSway": 0.08061817625718197,
+          "tailTrail": -0.38,
+          "eyeClose": 0.22,
+          "surprise": 0.21488659416817124,
+          "rideSit": 1,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          -19.59177843355571,
+          14.516746055702592,
+          -19.862177087947885
+        ],
+        "finite": true
+      },
+      {
+        "phase": "ride",
+        "elapsed": 33.4,
+        "position": [
+          21.813501624851586,
+          55.54842962296289,
+          -6.438463995172903
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 17.222501554804285,
+          "height": 55.297021809666695,
+          "turnForce": -0.10190156006587613,
+          "crouch": 0.07137298204296946,
+          "paw": 0,
+          "pawSpread": 0.2301901560065876,
+          "grip": 0.9516282602728139,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": 0.04134426189887527,
+          "headRoll": 0.09221125950758788,
+          "headYaw": -0.013247202808563898,
+          "bodyLean": 0.00917114040592885,
+          "bodyPitch": 0.011344261898875276,
+          "earRelax": -0.1712233183125026,
+          "tailSway": -0.004091272854744563,
+          "tailTrail": -0.2711035873281291,
+          "eyeClose": 0.1569547084531274,
+          "surprise": 0,
+          "rideSit": 1,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          21.813501624851586,
+          55.54842962296289,
+          -6.438463995172903
+        ],
+        "finite": true
+      },
+      {
+        "phase": "ride",
+        "elapsed": 37.096000000000004,
+        "position": [
+          -21.613535893846954,
+          34.776296537951666,
+          -0.6385254872374838
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 23.41817545288982,
+          "height": 34.580326509499926,
+          "turnForce": 1,
+          "crouch": 0.13904021735651162,
+          "paw": 0,
+          "pawSpread": 0.32,
+          "grip": 1,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": 0.17697723689278025,
+          "headRoll": -0.062053636721670274,
+          "headYaw": 0.13,
+          "bodyLean": -0.09,
+          "bodyPitch": 0.04686077305798765,
+          "earRelax": -0.23645618716250438,
+          "tailSway": 0.1462105633445221,
+          "tailTrail": -0.3743889630072986,
+          "eyeClose": 0.21675150489896236,
+          "surprise": 0.32,
+          "rideSit": 1,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          -21.613535893846954,
+          34.776296537951666,
+          -0.6385254872374838
+        ],
+        "finite": true
+      },
+      {
+        "phase": "splash",
+        "elapsed": 41.22,
+        "position": [
+          -0.8489249709433814,
+          2.3589246441423146,
+          33.195067431868125
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 7.448314210735121,
+          "height": 2.256901093803102,
+          "turnForce": -0.004154137261619002,
+          "crouch": 0.11731368614382486,
+          "paw": 0.047762831537935306,
+          "pawSpread": 0.15862227573467347,
+          "grip": 0.5187034435777964,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": 0.04717702912145656,
+          "headRoll": 0.004554062191438481,
+          "headYaw": -0.0005400378440104703,
+          "bodyLean": 0.00037387235354571015,
+          "bodyPitch": 0.07539103990650539,
+          "earRelax": -0.03328804885475146,
+          "tailSway": 0.01362047828637086,
+          "tailTrail": -0.04032442824291309,
+          "eyeClose": 0.98,
+          "surprise": 0.002319058304189663,
+          "rideSit": 1,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          -0.8489249709433814,
+          2.3589246441423146,
+          33.195067431868125
+        ],
+        "finite": true
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "ride-water-crystal-vortex",
+    "draws": 38,
+    "triangles": 469910,
+    "textures": 20,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 3,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 11
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 11
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 11
+      }
+    ],
+    "riderFrames": [
+      {
+        "phase": "ride",
+        "elapsed": 31.033600000000003,
+        "position": [
+          -36.85613662008001,
+          54.19953663438278,
+          -35.589188435791634
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 8.033744481837738,
+          "height": 53.884746288333815,
+          "turnForce": 0.737297410422064,
+          "crouch": 0.08363485518021044,
+          "paw": 0,
+          "pawSpread": 0.1137297410422064,
+          "grip": 1,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": 0.1334035247351217,
+          "headRoll": -0.10322163745908897,
+          "headYaw": 0.3658486633548683,
+          "bodyLean": 0.08080766716161988,
+          "bodyPitch": 0.03911688332018944,
+          "earRelax": -0.031944040609996914,
+          "tailSway": 0.051908025606987915,
+          "tailTrail": -0.050578064299161785,
+          "eyeClose": 0.029282037225830507,
+          "surprise": 0.2809440225142035,
+          "rideSit": 1,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          -36.85613662008001,
+          54.19953663438278,
+          -35.589188435791634
+        ],
+        "finite": true
+      },
+      {
+        "phase": "ride",
+        "elapsed": 41.2,
+        "position": [
+          -20.892616620742483,
+          26.911542155550546,
+          -4.892910057034461
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 17.632595335434626,
+          "height": 26.75073474997007,
+          "turnForce": -1,
+          "crouch": 0.07301377233523881,
+          "paw": 0,
+          "pawSpread": 0.14,
+          "grip": 1,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": 0.04288757671181864,
+          "headRoll": 0.14,
+          "headYaw": 0.14,
+          "bodyLean": 0.1796448653881173,
+          "bodyPitch": -0.0009756071339354767,
+          "earRelax": -0.17728162093011257,
+          "tailSway": -0.05187926116711669,
+          "tailTrail": -0.28069589980601156,
+          "eyeClose": 0.16250815251926987,
+          "surprise": 0.01806068515764426,
+          "rideSit": 1,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          -20.892616620742483,
+          26.911542155550546,
+          -4.892910057034461
+        ],
+        "finite": true
+      },
+      {
+        "phase": "ride",
+        "elapsed": 44.752,
+        "position": [
+          15.034010166757044,
+          22.948083838112172,
+          -2.890017352575002
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 20.066663476440986,
+          "height": 22.786626671637112,
+          "turnForce": -1,
+          "crouch": 0.08166035468880128,
+          "paw": 0,
+          "pawSpread": 0.14,
+          "grip": 1,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": 0.04732257582193067,
+          "headRoll": 0.14,
+          "headYaw": 0.14,
+          "bodyLean": -0.048474301118126645,
+          "bodyPitch": -0.0008959584597087043,
+          "earRelax": -0.20920746346634322,
+          "tailSway": -0.2808668516217366,
+          "tailTrail": -0.33124515048837677,
+          "eyeClose": 0.1917735081774813,
+          "surprise": 0.023445136696830748,
+          "rideSit": 1,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          15.034010166757044,
+          22.948083838112172,
+          -2.890017352575002
+        ],
+        "finite": true
+      },
+      {
+        "phase": "splash",
+        "elapsed": 52.720000000000006,
+        "position": [
+          -1.593965195471106,
+          2.323216336318069,
+          33.91866743627501
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 4.247359461101125,
+          "height": 2.280513587061373,
+          "turnForce": 0.04553952647747454,
+          "crouch": 0.11101925473559555,
+          "paw": 0.047762831537935306,
+          "pawSpread": 0.044553952647747454,
+          "grip": 0.42886025934809685,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": 0.044082136485868464,
+          "headRoll": -0.03765548935428238,
+          "headYaw": 0.18323043145483905,
+          "bodyLean": -0.08602500988381527,
+          "bodyPitch": 0.07039788439896971,
+          "earRelax": -0.010047071347443282,
+          "tailSway": -0.00020651013613738264,
+          "tailTrail": -0.0035262138563418024,
+          "eyeClose": 0.98,
+          "surprise": 0.004691886894124142,
+          "rideSit": 1,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          -1.593965195471106,
+          2.323216336318069,
+          33.91866743627501
+        ],
+        "finite": true
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "ride-water-canyon-rafting",
+    "draws": 33,
+    "triangles": 446014,
+    "textures": 20,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 9
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 9
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 9
+      }
+    ],
+    "riderFrames": [
+      {
+        "phase": "ride",
+        "elapsed": 35.52515198473988,
+        "position": [
+          9.220818378678647,
+          24.55416482968996,
+          -17.70906250639625
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 9.629736982931183,
+          "height": 24.39719777577184,
+          "turnForce": 0.3060467815292513,
+          "crouch": 0.09097935175413875,
+          "paw": 0,
+          "pawSpread": 0.07060467815292513,
+          "grip": 0.8095869673748546,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": 0.03870916193763094,
+          "headRoll": -0.042846549414095186,
+          "headYaw": -0.21886188983193663,
+          "bodyLean": -0.027544210337632616,
+          "bodyPitch": -0.0019858374053359946,
+          "earRelax": -0.052249273349794685,
+          "tailSway": 0.0030478257758304525,
+          "tailTrail": -0.08272801613717493,
+          "eyeClose": 0.0478951672373118,
+          "surprise": 0.014858127232710655,
+          "rideSit": 1,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          9.220818378678647,
+          24.55416482968996,
+          -17.70906250639625
+        ],
+        "finite": true
+      },
+      {
+        "phase": "ride",
+        "elapsed": 40.99715198473988,
+        "position": [
+          2.032064647996251,
+          15.811969426496479,
+          0.36735239146380233
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 9.718464519214503,
+          "height": 15.657258316521244,
+          "turnForce": -0.3866028411840676,
+          "crouch": 0.10719355970963884,
+          "paw": 0,
+          "pawSpread": 0.07866028411840677,
+          "grip": 0.834906175877055,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": 0.0471213046736087,
+          "headRoll": 0.05412439776576947,
+          "headYaw": 0.20968778468316518,
+          "bodyLean": 0.034794255706566087,
+          "bodyPitch": 0.0022357297845561896,
+          "earRelax": -0.05347662443598942,
+          "tailSway": -0.12031484695041106,
+          "tailTrail": -0.08467132202364992,
+          "eyeClose": 0.049020239066323634,
+          "surprise": 0.018853270488892033,
+          "rideSit": 1,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          2.032064647996251,
+          15.811969426496479,
+          0.36735239146380233
+        ],
+        "finite": true
+      },
+      {
+        "phase": "ride",
+        "elapsed": 46.75715198473988,
+        "position": [
+          -19.561730575440908,
+          7.55396618946523,
+          14.251982023393378
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 8.588469778719242,
+          "height": 7.407367325597194,
+          "turnForce": 0.37937630753332224,
+          "crouch": 0.0611811253262337,
+          "paw": 0,
+          "pawSpread": 0.07793763075333224,
+          "grip": 0.8168698344673037,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": 0.0543592298936981,
+          "headRoll": -0.05311268305466512,
+          "headYaw": -0.1951958572420695,
+          "bodyLean": -0.034143867677999,
+          "bodyPitch": 0.002863581588880469,
+          "earRelax": -0.038591555913938425,
+          "tailSway": -0.11002559217855701,
+          "tailTrail": -0.06110329686373585,
+          "eyeClose": 0.03537559292111023,
+          "surprise": 0.03551937509219108,
+          "rideSit": 1,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          -19.561730575440908,
+          7.55396618946523,
+          14.251982023393378
+        ],
+        "finite": true
+      },
+      {
+        "phase": "splash",
+        "elapsed": 53.11715198473988,
+        "position": [
+          0.4881414717541699,
+          2.4493936137065115,
+          31.375730528436247
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 2.603399007594672,
+          "height": 2.3038982126700107,
+          "turnForce": 0.21684193510232722,
+          "crouch": 0.16679619334487475,
+          "paw": 0.44178570489964053,
+          "pawSpread": 0.06168419351023272,
+          "grip": 0.5606258305132952,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": 0.04270376565122629,
+          "headRoll": -0.061637826561761755,
+          "headYaw": 0.00043159476022907456,
+          "bodyLean": -0.019515774159209447,
+          "bodyPitch": 0.07230887999437723,
+          "earRelax": -0.007819988911858986,
+          "tailSway": 0.009382657873938771,
+          "tailTrail": 0,
+          "eyeClose": 0.98,
+          "surprise": 0.0005801788565620333,
+          "rideSit": 1,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          0.4881414717541699,
+          2.4493936137065115,
+          31.375730528436247
+        ],
+        "finite": true
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "ride-water-glass-drop",
+    "draws": 43,
+    "triangles": 557950,
+    "textures": 20,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 10
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 10
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 10
+      }
+    ],
+    "riderFrames": [
+      {
+        "phase": "ride",
+        "elapsed": 28.7336,
+        "position": [
+          7.099984660063746,
+          68.37727320013263,
+          -8.449468983266746
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 18.878445660693824,
+          "height": 68.12080050813306,
+          "turnForce": 8.034056516648114e-05,
+          "crouch": 0.12770289508613486,
+          "paw": 0,
+          "pawSpread": 0.04000803405651665,
+          "grip": 0.829205071168572,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": 0.15590232583332592,
+          "headRoll": -1.124767912330736e-05,
+          "headYaw": 1.0444273471642548e-05,
+          "bodyLean": -7.2306508649833025e-06,
+          "bodyPitch": 0.0336889536458287,
+          "earRelax": -0.19459530493342098,
+          "tailSway": -0.02898485590623651,
+          "tailTrail": -0.3081092328112499,
+          "eyeClose": 0.17837902952230256,
+          "surprise": 0.32,
+          "rideSit": 1,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          7.099984660063746,
+          68.37727320013263,
+          -8.449468983266746
+        ],
+        "finite": true
+      },
+      {
+        "phase": "ride",
+        "elapsed": 29.599999999999998,
+        "position": [
+          7.09948253835789,
+          46.965805309521144,
+          -9.699824125300266
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 30.310186641518605,
+          "height": 46.72598858382107,
+          "turnForce": 0.009761147492055063,
+          "crouch": 0.14,
+          "paw": 0,
+          "pawSpread": 0.040976114749205504,
+          "grip": 0.9217570065485698,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": 0.16086543646626517,
+          "headRoll": -0.001366560648887709,
+          "headYaw": 0.0012689491739671583,
+          "bodyLean": -0.0008785032742849556,
+          "bodyPitch": 0.03679089779141573,
+          "earRelax": -0.24,
+          "tailSway": 0.08434074617212052,
+          "tailTrail": -0.38,
+          "eyeClose": 0.22,
+          "surprise": 0.32,
+          "rideSit": 1,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          7.09948253835789,
+          46.965805309521144,
+          -9.699824125300266
+        ],
+        "finite": true
+      },
+      {
+        "phase": "ride",
+        "elapsed": 30.512,
+        "position": [
+          7.251424622841083,
+          13.281332653399511,
+          -5.5431342391635425
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 46.70048660873845,
+          "height": 13.26203654049527,
+          "turnForce": -0.5241614168698523,
+          "crouch": 0.1399162003719252,
+          "paw": 0,
+          "pawSpread": 0.09241614168698523,
+          "grip": 1,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": 0.14405839936441558,
+          "headRoll": 0.07338259836177932,
+          "headYaw": -0.0681409841930808,
+          "bodyLean": 0.047174527518286706,
+          "bodyPitch": 0.03210547869085417,
+          "earRelax": -0.24,
+          "tailSway": -0.1327502682689375,
+          "tailTrail": -0.38,
+          "eyeClose": 0.22,
+          "surprise": 0.30797656353466707,
+          "rideSit": 1,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          7.251424622841083,
+          13.281332653399511,
+          -5.5431342391635425
+        ],
+        "finite": true
+      },
+      {
+        "phase": "splash",
+        "elapsed": 31.62,
+        "position": [
+          -1.6774140522275256,
+          2.315795219641931,
+          34.083388698681496
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 7.851529548511744,
+          "height": 2.184743506871741,
+          "turnForce": -0.027657871799948747,
+          "crouch": 0.11850494943557309,
+          "paw": 0.04776283153793615,
+          "pawSpread": 0.04276578717999487,
+          "grip": 0.14569844306413673,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": 0.03934672136759871,
+          "headRoll": -0.02740785359545191,
+          "headYaw": -0.003595523333993337,
+          "bodyLean": 0.002489208461995387,
+          "bodyPitch": 0.06848963433788205,
+          "earRelax": -0.03768655947044334,
+          "tailSway": -0.06782090765923726,
+          "tailTrail": -0.04728873671775508,
+          "eyeClose": 1,
+          "surprise": 0.0011579305726507557,
+          "rideSit": 1,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          -1.6774140522275256,
+          2.315795219641931,
+          34.083388698681496
+        ],
+        "finite": true
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "ride-water-lagoon-launch",
+    "draws": 36,
+    "triangles": 401302,
+    "textures": 20,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 3,
+    "outlets": 2,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 10
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 10
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 10
+      }
+    ],
+    "riderFrames": [
+      {
+        "phase": "ride",
+        "elapsed": 34.01988756109316,
+        "position": [
+          -9.899948898292934,
+          5.661879599657219,
+          -33.84291534466082
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 9.862593558612776,
+          "height": 5.423287834116483,
+          "turnForce": -0.0429922536473349,
+          "crouch": 0.04638704654545775,
+          "paw": 0,
+          "pawSpread": 0.04429922536473349,
+          "grip": 0.1746735701569878,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": 0.06526692181813676,
+          "headRoll": 0.006018915510626887,
+          "headYaw": -0.0055889929741535374,
+          "bodyLean": 0.003869302828260141,
+          "bodyPitch": -0.005300756756028469,
+          "earRelax": -0.05548968286841915,
+          "tailSway": 0.05961824664804415,
+          "tailTrail": -0.08785866454166365,
+          "eyeClose": 0.05086554262938422,
+          "surprise": 0.08393468332026134,
+          "rideSit": 1,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          -9.899948898292934,
+          5.661879599657219,
+          -33.84291534466082
+        ],
+        "finite": true
+      },
+      {
+        "phase": "flight",
+        "elapsed": 38.26268756109316,
+        "position": [
+          -1.5848660684249527,
+          31.388950554582042,
+          6.288904814077151
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 8.963247257529929,
+          "height": 31.110496998497634,
+          "turnForce": -7.9603760418626e-18,
+          "crouch": 0.011021411094073022,
+          "paw": 1,
+          "pawSpread": 0.29,
+          "grip": 0,
+          "frontLift": 1.07,
+          "hindTuck": 0.35,
+          "headPitch": -0.05443669440470112,
+          "headRoll": 1.114452645860764e-18,
+          "headYaw": -1.034848885442138e-18,
+          "bodyLean": 7.164338437676339e-19,
+          "bodyPitch": -0.0006147794801586845,
+          "earRelax": 0.016659555765255143,
+          "tailSway": 0.07229660183760067,
+          "tailTrail": 0.05137762996165397,
+          "eyeClose": 0,
+          "surprise": 1,
+          "rideSit": 1,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          -1.5848660684249527,
+          31.388950554582042,
+          6.288904814077151
+        ],
+        "finite": true
+      },
+      {
+        "phase": "flight",
+        "elapsed": 39.39068756109316,
+        "position": [
+          -1.7377925215114407,
+          24.53452313793021,
+          16.07177059401539
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 14.427512444401604,
+          "height": 24.25980845836012,
+          "turnForce": 1.2443743206088152e-06,
+          "crouch": 0.03262661499492777,
+          "paw": 1,
+          "pawSpread": 0.29000012443743206,
+          "grip": 0,
+          "frontLift": 1.0610195609299435,
+          "hindTuck": 0.35,
+          "headPitch": 0.03296111180109585,
+          "headRoll": -1.7421240488523414e-07,
+          "headYaw": 1.6176866167914597e-07,
+          "bodyLean": -1.1199368885479337e-07,
+          "bodyPitch": 0.043648542692584155,
+          "earRelax": -0.06699213593679182,
+          "tailSway": -0.24791009240475848,
+          "tailTrail": -0.0810708818999204,
+          "eyeClose": 0,
+          "surprise": 1,
+          "rideSit": 1,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          -1.7377925215114407,
+          24.53452313793021,
+          16.07177059401539
+        ],
+        "finite": true
+      },
+      {
+        "phase": "splash",
+        "elapsed": 43.532687561093155,
+        "position": [
+          -1.9,
+          2.4024390243905054,
+          30.168048780486632
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 0.22144140605403703,
+          "height": 2.2486964265644964,
+          "turnForce": 0,
+          "crouch": 0.11041608657595814,
+          "paw": 0.047762831537935306,
+          "pawSpread": 0.04,
+          "grip": 0.022922318620088034,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": 0.0224915675550282,
+          "headRoll": -0.03127995564743594,
+          "headYaw": 0,
+          "bodyLean": 0,
+          "bodyPitch": 0.052360588114856624,
+          "earRelax": -0.007819988911858986,
+          "tailSway": -0.07722004850231179,
+          "tailTrail": 0,
+          "eyeClose": 0.98,
+          "surprise": 0.00025029608571518143,
+          "rideSit": 1,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          -1.9,
+          2.4024390243905054,
+          30.168048780486632
+        ],
+        "finite": true
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "ride-water-surf-halfpipe",
+    "draws": 37,
+    "triangles": 486582,
+    "textures": 20,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 2,
+    "outlets": 2,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 9
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 9
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 9
+      }
+    ],
+    "riderFrames": [
+      {
+        "phase": "surf",
+        "elapsed": 32.756,
+        "position": [
+          -29.30453521494504,
+          18.624380913377106,
+          -1
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 10.31936623692655,
+          "height": 18.176470602004812,
+          "turnForce": 0,
+          "crouch": 0.25153202566295574,
+          "paw": 0,
+          "pawSpread": 0.5900000000000001,
+          "grip": 0.5627481273059138,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": 0.14541456061815816,
+          "headRoll": 0,
+          "headYaw": 0.18544286610456,
+          "bodyLean": 0.14518839945308729,
+          "bodyPitch": 0.030232646383000807,
+          "earRelax": -0.06201916131290796,
+          "tailSway": -0.030472735271626146,
+          "tailTrail": -0.09819700541210427,
+          "eyeClose": 0.05685089787016563,
+          "surprise": 0.8088504132350602,
+          "rideSit": 0,
+          "waterSurf": 1,
+          "waterProne": 0
+        },
+        "seat": [
+          -29.30453521494504,
+          18.624380913377106,
+          -1
+        ],
+        "finite": true
+      },
+      {
+        "phase": "surf",
+        "elapsed": 38,
+        "position": [
+          1.6532290915641576e-14,
+          2.0399999999999996,
+          -1
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 36.24812290895976,
+          "height": 2.4013605224155543,
+          "turnForce": 0,
+          "crouch": 0.1273733583733282,
+          "paw": 0,
+          "pawSpread": 0.5900000000000001,
+          "grip": 0.48,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": 0.03304193601049154,
+          "headRoll": 0,
+          "headYaw": -0.11462142515520174,
+          "bodyLean": 0.21683206573393926,
+          "bodyPitch": -1.2917189064273229e-06,
+          "earRelax": -0.24,
+          "tailSway": 0.017201843213077703,
+          "tailTrail": -0.38,
+          "eyeClose": 0.22,
+          "surprise": 0.06929665406226057,
+          "rideSit": 0,
+          "waterSurf": 1,
+          "waterProne": 0
+        },
+        "seat": [
+          1.6532290915641576e-14,
+          2.0399999999999996,
+          -1
+        ],
+        "finite": true
+      },
+      {
+        "phase": "surf",
+        "elapsed": 43.519999999999996,
+        "position": [
+          30.220196199868468,
+          20.25775141804246,
+          -1
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 4.295343424810078,
+          "height": 19.786579267272565,
+          "turnForce": 0,
+          "crouch": 0.03612554976183438,
+          "paw": 0,
+          "pawSpread": 0.5900000000000001,
+          "grip": 0.09783215657174783,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": 0.10146584912111607,
+          "headRoll": 0,
+          "headYaw": -0.2894446871345084,
+          "bodyLean": 0.21308081550044766,
+          "bodyPitch": 0.02584332492345677,
+          "earRelax": -0.002398093423651738,
+          "tailSway": 0.041814378648304174,
+          "tailTrail": -0.003796981254115252,
+          "eyeClose": 0.002198252305014093,
+          "surprise": 0.5966621352635986,
+          "rideSit": 0,
+          "waterSurf": 1,
+          "waterProne": 0
+        },
+        "seat": [
+          30.220196199868468,
+          20.25775141804246,
+          -1
+        ],
+        "finite": true
+      },
+      {
+        "phase": "surf",
+        "elapsed": 45.78666666666667,
+        "position": [
+          -2.966381297598242,
+          2.1686240510755432,
+          -1
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 23.87329520753765,
+          "height": 2.2576578678153227,
+          "turnForce": 0,
+          "crouch": 0.285,
+          "paw": 0.047762831537935306,
+          "pawSpread": 0.5900000000000001,
+          "grip": 0.5610009191133806,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": 0.03981927027545097,
+          "headRoll": -0.03127995564743594,
+          "headYaw": 0.28679566799893796,
+          "bodyLean": 0.08542456800804882,
+          "bodyPitch": 0.06950685578488539,
+          "earRelax": -0.24599600735245347,
+          "tailSway": -0.050532985312128714,
+          "tailTrail": -0.37711202919760795,
+          "eyeClose": 0.98,
+          "surprise": 0.06204957720276195,
+          "rideSit": 0,
+          "waterSurf": 1,
+          "waterProne": 0
+        },
+        "seat": [
+          -2.966381297598242,
+          2.1686240510755432,
+          -1
+        ],
+        "finite": true
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "ride-water-lazy-river",
+    "draws": 36,
+    "triangles": 379578,
+    "textures": 16,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 7
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 7
+      }
+    ],
+    "riderFrames": [
+      {
+        "phase": "ride",
+        "elapsed": 23.924,
+        "position": [
+          29.952560113438572,
+          4.1254938517953725,
+          -6.380992168735129
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 4.578098442757812,
+          "height": 3.9644714164124775,
+          "turnForce": 0.03042313790269088,
+          "crouch": 0.02595537958330084,
+          "paw": 0,
+          "pawSpread": 0.04304231379026909,
+          "grip": 0.31253127559147514,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": 0.03957006450403456,
+          "headRoll": -0.004259239306376723,
+          "headYaw": -0.07211866496840565,
+          "bodyLean": -0.002738082411242179,
+          "bodyPitch": -5.8526333577936e-05,
+          "earRelax": -0.1635275553844954,
+          "tailSway": 0.08831584520255806,
+          "tailTrail": -0.005585296025451059,
+          "eyeClose": 0.003233592435787455,
+          "surprise": 0.012079633297199075,
+          "rideSit": 1,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          29.952560113438572,
+          4.1254938517953725,
+          -6.380992168735129
+        ],
+        "finite": true
+      },
+      {
+        "phase": "ride",
+        "elapsed": 33.5,
+        "position": [
+          -1.5192761352370026,
+          4.51375038323201,
+          -30.05943452411631
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 4.544176898136676,
+          "height": 4.354018987542826,
+          "turnForce": -0.011877951458029782,
+          "crouch": 0.02591573637440741,
+          "paw": 0,
+          "pawSpread": 0.04118779514580298,
+          "grip": 0.3091263086175282,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": 0.030062754565661664,
+          "headRoll": 0.0016629132041241696,
+          "headYaw": -0.22867649430103956,
+          "bodyLean": 0.0010690156312226802,
+          "bodyPitch": 6.275456566166657e-05,
+          "earRelax": -0.16338118045935043,
+          "tailSway": -0.24391530947213547,
+          "tailTrail": -0.005353535727304847,
+          "eyeClose": 0.0030994154210712273,
+          "surprise": 0,
+          "rideSit": 1,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          -1.5192761352370026,
+          4.51375038323201,
+          -30.05943452411631
+        ],
+        "finite": true
+      },
+      {
+        "phase": "ride",
+        "elapsed": 43.58,
+        "position": [
+          -35.58626541534134,
+          4.520058682193464,
+          -5.343511851916248
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 4.458120794974759,
+          "height": 4.361345007004769,
+          "turnForce": 0.09948660825445388,
+          "crouch": 0.025818747301142062,
+          "paw": 0,
+          "pawSpread": 0.04994866082544539,
+          "grip": 0.3242734110640155,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": 0.03723817458998906,
+          "headRoll": -0.013928125155623545,
+          "headYaw": 0.27200106066648916,
+          "bodyLean": -0.00895379474290085,
+          "bodyPitch": 8.880212835773516e-05,
+          "earRelax": -0.16302306695806298,
+          "tailSway": 0.18451422294142247,
+          "tailTrail": -0.0047865226835997355,
+          "eyeClose": 0.0027711447115577417,
+          "surprise": 0.008936715577039166,
+          "rideSit": 1,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          -35.58626541534134,
+          4.520058682193464,
+          -5.343511851916248
+        ],
+        "finite": true
+      },
+      {
+        "phase": "ride",
+        "elapsed": 50.839999999999996,
+        "position": [
+          -15.39303759948245,
+          3.3720953849315953,
+          18.471297269429208
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 4.61852440277844,
+          "height": 3.213012790769171,
+          "turnForce": 0.027246395434560162,
+          "crouch": 0.11141974786558628,
+          "paw": 0.047762831537935306,
+          "pawSpread": 0.04272463954345602,
+          "grip": 0.2572908372618076,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": 0.015960839773181662,
+          "headRoll": -0.035094451008274366,
+          "headYaw": 0.2067001177098212,
+          "bodyLean": -0.0024521755891104145,
+          "bodyPitch": 0.04603009720158222,
+          "earRelax": -0.14210836569253416,
+          "tailSway": 0.14266948433562782,
+          "tailTrail": -0.005867558308595269,
+          "eyeClose": 0.98,
+          "surprise": 0,
+          "rideSit": 1,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          -15.39303759948245,
+          3.3720953849315953,
+          18.471297269429208
+        ],
+        "finite": true
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "ride-water-fountain-carousel",
+    "draws": 47,
+    "triangles": 518670,
+    "textures": 20,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 2,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 5
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 5
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 5
+      }
+    ],
+    "riderFrames": [
+      {
+        "phase": "carousel",
+        "elapsed": 20.116,
+        "position": [
+          4.226557847423465,
+          2.31,
+          -15.431662540451795
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 16.302048120590424,
+          "height": 2.1500000953674316,
+          "turnForce": 1,
+          "crouch": 0.06755331626307488,
+          "paw": 0.6260491335706413,
+          "pawSpread": 0.39,
+          "grip": 0.49423987394270674,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": 0.022959732136163688,
+          "headRoll": -0.057185259928807616,
+          "headYaw": 0.13,
+          "bodyLean": -0.09,
+          "bodyPitch": -0.004400167414897695,
+          "earRelax": -0.15711993697135337,
+          "tailSway": 0.5314832823894273,
+          "tailTrail": -0.2487732335379762,
+          "eyeClose": 0.14402660889040728,
+          "surprise": 0,
+          "rideSit": 1,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          4.226557847423465,
+          2.31,
+          -15.431662540451795
+        ],
+        "finite": true
+      },
+      {
+        "phase": "carousel",
+        "elapsed": 26.5,
+        "position": [
+          -7.83773951454306e-15,
+          2.31,
+          16
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 28.513971824268655,
+          "height": 2.1500000953674316,
+          "turnForce": 1,
+          "crouch": 0.09,
+          "paw": 0.35,
+          "pawSpread": 0.39,
+          "grip": 0.6599999999999999,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": 0.029999998946550113,
+          "headRoll": -0.19499905453901192,
+          "headYaw": 0.13,
+          "bodyLean": -0.09,
+          "bodyPitch": -6.584061785223005e-10,
+          "earRelax": -0.24,
+          "tailSway": 0.5762213221108932,
+          "tailTrail": -0.38,
+          "eyeClose": 0.22,
+          "surprise": 0,
+          "rideSit": 1,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          -7.83773951454306e-15,
+          2.31,
+          16
+        ],
+        "finite": true
+      },
+      {
+        "phase": "carousel",
+        "elapsed": 33.22,
+        "position": [
+          -9.023538613637767,
+          2.31,
+          -13.212711715926757
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 15.232421991800237,
+          "height": 2.1500000953674316,
+          "turnForce": 0.9919606607347837,
+          "crouch": 0.06293901664322135,
+          "paw": 0.7387401574069963,
+          "pawSpread": 0.38919606607347834,
+          "grip": 0.49067000644811914,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": 0.03887556709309628,
+          "headRoll": -0.02225244528077086,
+          "headYaw": 0.1289548858955219,
+          "bodyLean": -0.08927645946613053,
+          "bodyPitch": 0.008875567093096278,
+          "earRelax": -0.14008252299035576,
+          "tailSway": 0.37210806688836545,
+          "tailTrail": -0.2217973280680633,
+          "eyeClose": 0.1284089794078261,
+          "surprise": 0,
+          "rideSit": 1,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          -9.023538613637767,
+          2.31,
+          -13.212711715926757
+        ],
+        "finite": true
+      },
+      {
+        "phase": "carousel",
+        "elapsed": 26.62,
+        "position": [
+          3.419975025649699,
+          2.31,
+          15.630219794485692
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 28.508742263985624,
+          "height": 2.1500000953674316,
+          "turnForce": 1,
+          "crouch": 0.1754160865759571,
+          "paw": 0.3977628315379361,
+          "pawSpread": 0.39,
+          "grip": 0.6608489340231982,
+          "frontLift": 0,
+          "hindTuck": 0,
+          "headPitch": 0.016159834965093836,
+          "headRoll": -0.26408209693495266,
+          "headYaw": 0.13,
+          "bodyLean": -0.09,
+          "bodyPitch": 0.04622909239349779,
+          "earRelax": -0.2478199889118612,
+          "tailSway": 0.5376333346884036,
+          "tailTrail": -0.38,
+          "eyeClose": 0.98,
+          "surprise": 0,
+          "rideSit": 1,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          3.419975025649699,
+          2.31,
+          15.630219794485692
+        ],
+        "finite": true
+      }
+    ]
+  },
+  {
+    "version": "after",
+    "id": "ride-water-pool-pendulum",
+    "draws": 35,
+    "triangles": 482486,
+    "textures": 20,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": false,
+    "impact": true,
+    "channels": 0,
+    "outlets": 0,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 6
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 6
+      }
+    ],
+    "riderFrames": [
+      {
+        "phase": "swing",
+        "elapsed": 22.836,
+        "position": [
+          -2.65,
+          11.206362006911704,
+          -26.432789395104002
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 29.322964978577716,
+          "height": 11.166027953849762,
+          "turnForce": 0,
+          "crouch": 0.09696943702574883,
+          "paw": 0.041293366068738555,
+          "pawSpread": 0.04,
+          "grip": 1,
+          "frontLift": 0,
+          "hindTuck": 0.24,
+          "headPitch": 0.04998297321089945,
+          "headRoll": -0.006886747670018816,
+          "headYaw": 0,
+          "bodyLean": 0,
+          "bodyPitch": 0.02683478344550344,
+          "earRelax": -0.2417216869175047,
+          "tailSway": 0.10356130104575874,
+          "tailTrail": -0.38,
+          "eyeClose": 0.25303469285499086,
+          "surprise": 0.200044145074883,
+          "rideSit": 1,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          -2.65,
+          11.206362006911704,
+          -26.432789395104002
+        ],
+        "finite": true
+      },
+      {
+        "phase": "swing",
+        "elapsed": 31.5,
+        "position": [
+          -2.65,
+          2.3599999999999985,
+          -2.19999999999997
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 40.97062144335951,
+          "height": 2.579590061653005,
+          "turnForce": 0,
+          "crouch": 0.09,
+          "paw": 0,
+          "pawSpread": 0.04,
+          "grip": 1,
+          "frontLift": 0,
+          "hindTuck": 0.24,
+          "headPitch": 0.029999645809995812,
+          "headRoll": 0,
+          "headYaw": 0,
+          "bodyLean": 0,
+          "bodyPitch": -2.2136875261590926e-07,
+          "earRelax": -0.24,
+          "tailSway": 0.09686732439246365,
+          "tailTrail": -0.38,
+          "eyeClose": 0.22,
+          "surprise": 0,
+          "rideSit": 1,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          -2.65,
+          2.3599999999999985,
+          -2.19999999999997
+        ],
+        "finite": true
+      },
+      {
+        "phase": "swing",
+        "elapsed": 40.620000000000005,
+        "position": [
+          -2.65,
+          3.4136828758984286,
+          9.78239202881653
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 31.560329962423587,
+          "height": 3.506048213615838,
+          "turnForce": 0,
+          "crouch": 0.09264726808834867,
+          "paw": 0,
+          "pawSpread": 0.04,
+          "grip": 1,
+          "frontLift": 0,
+          "hindTuck": 0.24,
+          "headPitch": 0.05821777705360431,
+          "headRoll": 0,
+          "headYaw": 0,
+          "bodyLean": 0,
+          "bodyPitch": 0.0008245347494187493,
+          "earRelax": -0.24,
+          "tailSway": -0.10456295251642235,
+          "tailTrail": -0.38,
+          "eyeClose": 0.22,
+          "surprise": 0.06581607653577942,
+          "rideSit": 1,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          -2.65,
+          3.4136828758984286,
+          9.78239202881653
+        ],
+        "finite": true
+      },
+      {
+        "phase": "swing",
+        "elapsed": 45.87,
+        "position": [
+          -2.65,
+          2.304612647807303,
+          0.05219331219797202
+        ],
+        "reaction": {
+          "ride": true,
+          "weight": 1,
+          "speed": 18.25169938055838,
+          "height": 2.21649679972014,
+          "turnForce": 0,
+          "crouch": 0.16082049929734304,
+          "paw": 0.047762831537935306,
+          "pawSpread": 0.04,
+          "grip": 1,
+          "frontLift": 0,
+          "hindTuck": 0.24,
+          "headPitch": 0.03565335892882052,
+          "headRoll": -0.03127995564743594,
+          "headYaw": 0,
+          "bodyLean": 0,
+          "bodyPitch": 0.06562409175573872,
+          "earRelax": -0.19392858972928012,
+          "tailSway": 0.08089069920433034,
+          "tailTrail": -0.29467195129425017,
+          "eyeClose": 0.98,
+          "surprise": 0.00012315575185295612,
+          "rideSit": 1,
+          "waterSurf": 0,
+          "waterProne": 0
+        },
+        "seat": [
+          -2.65,
+          2.304612647807303,
+          0.05219331219797202
+        ],
+        "finite": true
+      }
+    ]
+  }
+]

@@ -1,0 +1,27 @@
+{
+  "fullTests": {
+    "tests": 892,
+    "pass": 892,
+    "fail": 0
+  },
+  "nativeModels": 10,
+  "oldModelsCompared": 60,
+  "oldExactRGBAFrames": 120,
+  "newModelViews": [
+    "normal",
+    "grazing",
+    "DPR2 phone",
+    "native occupied rider",
+    "flow",
+    "outlet",
+    "basin",
+    "grazing basin"
+  ],
+  "phoneDPR": 2,
+  "sharedMicrotextures": 6,
+  "sharedMicrotextureEdge": 128,
+  "rayTracing": false,
+  "additionalReflectionTargets": 0,
+  "sourceModelBudgetsOrDPRReduced": false,
+  "physicalDeviceFPSMeasured": false
+}

@@ -20,7 +20,7 @@ const roots = [
     : []),
   { name: "after", path: resolve(".") },
 ];
-const selectedRides=WATER_RIDES.filter(r=>!process.env.CHICHI_SLIDE_FILTER||process.env.CHICHI_SLIDE_FILTER.split(",").includes(r.id));
+const selectedRides=WATER_RIDES.filter(r=>(!process.env.CHICHI_SLIDE_OLD_ONLY||!r.id.startsWith('ride-water-'))&&(!process.env.CHICHI_SLIDE_FILTER||process.env.CHICHI_SLIDE_FILTER.split(",").includes(r.id)));
 const source = `
 import * as T from 'three';import {makeAttraction,animateAttraction} from './public/world-assets.js';import {disposeScenery} from './public/scenery-models.js';
 import {createCat,animateCat,reactCat} from './public/cat-model.js';
@@ -30,7 +30,7 @@ const scene=new T.Scene();scene.background=new T.Color(0xc4d9e3);scene.add(new T
 const camera=new T.PerspectiveCamera(35,1.2,.5,600);let model,extent,center,guest,carrier;
 window.loadRide=async(id)=>{camera.up.set(0,1,0);carrier?.removeFromParent();if(model){model.removeFromParent();disposeScenery(model);}model=makeAttraction(id);scene.add(model);const box=new T.Box3().setFromObject(model);center=box.getCenter(new T.Vector3());extent=box.getSize(new T.Vector3()).length();camera.position.copy(center).add(new T.Vector3(.6,.48,.85).multiplyScalar(extent*1.25));camera.lookAt(center);await renderer.compileAsync(scene,camera);window.model=model;draw(5);};
 window.reviewRider=async(u)=>{if(!guest){guest=createCat('happy');guest.scale.setScalar(.63);carrier=new T.Group();carrier.add(guest);}
- const d=model.userData,route=d.route,lane=route?.lanes?.[0]||route||{frame:d.rideFrame,duration:d.duration},wet=lane.legs?.filter(l=>['ride','vortex','slide'].includes(l.phase)),legs=wet?.length?wet:lane.legs?.filter(l=>l.phase==='flight')||[{start:0,duration:lane.duration}],leg=legs[Math.floor((legs.length-1)*u)],t=u===1?(d.slideWater.events.at(-1)?.time||lane.duration*.9)+.12:leg.start+leg.duration*(.2+u*.6),f=lane.frame(t);
+ const d=model.userData,route=d.route,lane=route?.lanes?.[0]||route||{frame:d.rideFrame,duration:d.duration},wet=lane.legs?.filter(l=>['ride','vortex','slide','rafting','drop','boost','flight','skim','surf','float','carousel','swing'].includes(l.phase)),legs=wet?.length?wet:lane.legs?.filter(l=>l.phase==='flight')||[{start:0,duration:lane.duration}],leg=legs[Math.floor((legs.length-1)*u)],t=u===1?(d.slideWater.events.at(-1)?.time||lane.duration*.9)+.12:leg.start+leg.duration*(.2+u*.6),f=lane.frame(t);
  model.add(carrier);carrier.visible=true;carrier.position.set(...f.position);if(f.quaternion)carrier.quaternion.fromArray(f.quaternion);else carrier.rotation.set(f.pitch||0,f.yaw||0,f.roll||0);
  animateCat(guest,t,false,false);const reaction=model.userData.rideReaction?.(t,false,0)||{};reactCat(guest,reaction);applyAtollSit(guest,reaction);model.userData.rideElapsed=t;model.userData.update(t,false);
  const p=new T.Vector3(...f.position),right=new T.Vector3(1,0,0).applyQuaternion(carrier.quaternion),up=new T.Vector3(0,1,0).applyQuaternion(carrier.quaternion),forward=new T.Vector3(0,0,1).applyQuaternion(carrier.quaternion);camera.up.copy(up);camera.position.copy(p).addScaledVector(right,4.5).addScaledVector(up,3.6).addScaledVector(forward,6);camera.lookAt(p.clone().addScaledVector(up,1));await renderer.compileAsync(scene,camera);renderer.render(scene,camera);
@@ -57,7 +57,7 @@ for (const root of roots) {
       contents:
         root.name === "after"
           ? staticAudit +
-            source.replace(
+            (process.env.CHICHI_SLIDE_BEAUTY?source.replace('scene.add(sun);','scene.add(sun); renderer.shadowMap.enabled=true; renderer.shadowMap.type=T.PCFShadowMap; sun.color.set(0xffd8b7);sun.intensity=2.2;sun.position.set(-70,175,100);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);Object.assign(sun.shadow.camera,{left:-85,right:85,top:85,bottom:-85,near:1,far:400});sun.shadow.bias=-.0005;const rim=new T.DirectionalLight(0xb8b7ec,.9);rim.position.set(20,16,-30);scene.add(rim);'):source).replace(
               "renderer.toneMapping=",
               "configureStaticSubmissions(renderer);renderer.toneMapping=",
             )

@@ -1,0 +1,72 @@
+// Actual production UI/runtime, isolated local SQLite, native phone renderer.
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import {SHOWCASE_WATER_RIDES} from '../public/showcase-water-data.js';
+
+export async function checkShowcaseWaterApp(page,review){
+ const report={purchases:[],rides:[],reloads:0};
+ await page.waitForFunction(()=>__lagoonSaveQA.cloud.editable&&__lagoonQA.npcs.has('adopt-crumb'));
+ assert.equal(await page.evaluate(()=>__lagoonQA.renderer.getPixelRatio()),2);
+ const snapshot=()=>page.evaluate(()=>{const g=__lagoonSaveQA.getGame();return{coins:g.coins,placements:g.placements.filter(p=>p.item.startsWith('ride-water-')),inventory:Object.fromEntries(Object.entries(g.inventory).filter(([id])=>id.startsWith('ride-water-'))),receipts:Object.fromEntries(Object.entries(g.referenceOwnership).filter(([id])=>id.startsWith('ride-water-')))};});
+ for(const spec of SHOWCASE_WATER_RIDES){
+  const before=await page.evaluate(()=>__lagoonSaveQA.getGame().coins);
+  await page.locator('#shop-open').tap();await page.getByRole('tab',{name:/Водні пригоди/}).tap();
+  assert.equal(await page.locator('#shop-grid [data-product]').count(),10);
+  const card=page.locator('[data-product="'+spec.id+'"]');
+  assert.match(await card.innerText(),new RegExp(spec.name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')));
+  const image=card.locator('img');await image.evaluate(img=>img.decode());
+  await card.locator('button').tap();
+  assert.equal(await page.evaluate(()=>__lagoonSaveQA.getGame().coins),before-spec.price);
+  await page.locator('#build-confirm').tap();
+  const p=await page.evaluate(id=>__lagoonSaveQA.getGame().placements.find(p=>p.item===id),spec.id);
+  assert.ok(p&&p.readyAt>Date.now());report.purchases.push({id:spec.id,price:spec.price,placement:p});
+ }
+ const bought=await snapshot();assert.equal(bought.placements.length,10);
+ await page.evaluate(()=>__lagoonSaveQA.cloud.flush());await page.waitForFunction(()=>!__lagoonSaveQA.cloud.pending&&!__lagoonSaveQA.cloud.dirty&&!__lagoonSaveQA.cloud.retryEntry);
+ for(let i=0;i<2;i++){
+  await page.evaluate(()=>__lagoonSaveQA.cloud.releaseEditor());await page.reload();await page.waitForFunction(()=>window.__lagoonQA&&__lagoonSaveQA.cloud.editable);
+  assert.deepEqual(await snapshot(),bought);report.reloads++;
+ }
+ // Finish construction only in this private fixture. No live world is opened.
+ await page.evaluate(()=>{const g=structuredClone(__lagoonSaveQA.getGame());for(const p of g.placements)if(p.item.startsWith('ride-water-'))p.readyAt=0;__lagoonSaveQA.commit(g,false);for(const n of __lagoonQA.npcs.values())n.manualUntil=performance.now()+1e8;});
+ for(const spec of SHOWCASE_WATER_RIDES){
+  console.log('WATER_TEN_APP: real ride '+spec.kind);
+  const target=await page.evaluate(item=>{const q=__lagoonQA,p=__lagoonSaveQA.getGame().placements.find(p=>p.item===item),b=q.islands.get(p.biome);__lagoonSaveQA.getWorld().focus(p.biome);q.reviewView(b.position.x+p.x,b.position.z+p.z,160);return p.id;},spec.id);
+  await page.waitForFunction(id=>__lagoonQA.itemGroups.get(id)?.userData.built,target,{timeout:240000});
+  await page.evaluate(target=>{const q=__lagoonQA;q.pinnedRide=undefined;window.__waterHero=q.perform({mood:'happy',action:'ride',activityId:target,thought:'Екстримальна водна пригода!'});},target);
+  await page.waitForFunction(()=>__lagoonQA.getOperation()?.stage==='travel');
+  await page.evaluate(()=>{const op=__lagoonQA.getOperation();op.start=performance.now()-op.duration-20;});
+  await page.waitForFunction(()=>__lagoonQA.getOperation()?.stage==='queue');
+  await page.evaluate(()=>{__lagoonQA.getOperation().rider.launchAt=performance.now()-2000;});
+  await page.waitForFunction(()=>__lagoonQA.getOperation()?.stage==='activity');
+  const sample=await page.evaluate(target=>{const q=__lagoonQA,d=q.itemGroups.get(target).userData,leg=d.route.legs.find(l=>['ride','rafting','drop','flight','surf','float','carousel','swing','vortex'].includes(l.phase));return leg.start+leg.duration*.46;},target);
+  await page.evaluate(t=>{__lagoonQA.pinnedRide=t;},sample);
+  await page.waitForFunction(t=>{const op=__lagoonQA.getOperation();return op?.stage==='activity'&&Math.abs((performance.now()-op.activityStart)/1000-t)<1;},sample);
+  await page.evaluate(()=>__lagoonQA.drawFrame());
+  if(spec.kind==='canyon-rafting'){
+   for(const id of ['adopt-crumb','adopt-marshmallow']){
+    assert.equal(await page.evaluate(({id,target})=>__lagoonQA.performResident(id,{action:'ride',activityId:target,mood:'happy',thought:'Рафтинг разом!'}),{id,target}),true);
+    await page.waitForFunction(id=>__lagoonQA.residentPlay.get(id),id);
+    await page.evaluate(id=>{const v=__lagoonQA.residentPlay.get(id);v.started=performance.now()-v.travel-20;},id);
+    await page.waitForFunction(id=>__lagoonQA.residentPlay.get(id)?.phase==='queue',id);
+    await page.evaluate(id=>{__lagoonQA.residentPlay.get(id).rider.launchAt=__lagoonQA.getOperation().rider.launchAt;},id);
+    await page.waitForFunction(id=>__lagoonQA.residentPlay.get(id)?.phase==='activity',id);
+    await page.evaluate(({id,time})=>(__lagoonQA.atollPinnedResidents||=[]).push({id,time}),{id,time:sample});
+   }
+   await page.waitForFunction(()=>__lagoonQA.residentPlay.visits.size===2);
+  }
+  const actual=await page.evaluate(({target,t})=>{const q=__lagoonQA,g=q.itemGroups.get(target),f=g.userData.rideFrame(t,false,0),expected=g.localToWorld(new q.THREE.Vector3(...f.position));return{phase:f.phase,error:q.chichiCarrier.position.distanceTo(expected),reaction:g.userData.rideReaction(t,false,0),riders:g.userData.slideRiders.size,boats:g.userData.slideVehicles.filter(v=>v.visible).length,contextLost:q.renderer.getContext().isContextLost()};},{target,t:sample});
+  assert.ok(actual.error<.03,spec.kind+' actual carrier/seat mismatch '+actual.error);assert.equal(actual.contextLost,false);assert.ok(actual.reaction.weight>.9);assert.equal(actual.boats,1);if(spec.kind==='canyon-rafting')assert.equal(actual.riders,3);
+  await page.evaluate(id=>__lagoonQA.callbacks.onSelectItem(id),target);assert.equal(await page.locator('#item-guest-camera').isDisabled(),false);await page.locator('#item-guest-camera').tap();
+  await page.waitForFunction(()=>__lagoonQA.faceCamera.enabled);await page.screenshot({path:path.join(review,spec.kind+'-guest-phone.png')});
+  await page.evaluate(id=>__lagoonQA.callbacks.onSelectItem(id),target);await page.locator('#item-attraction-camera').tap();
+  await page.evaluate(()=>{const q=__lagoonQA;delete q.pinnedRide;q.atollPinnedResidents=[];const op=q.getOperation();op.activityStart=performance.now()-op.attraction.userData.duration*1000-100;for(const v of q.residentPlay.visits.values())v.activityStart=performance.now()-v.object.userData.duration*1000-100;});
+  await page.waitForFunction(()=>!__lagoonQA.getOperation()&&!__lagoonQA.residentPlay.visits.size);report.rides.push({id:spec.id,...actual});
+ }
+ const after=await snapshot();assert.equal(after.placements.length,10);assert.equal(after.coins,bought.coins);
+ await page.evaluate(()=>__lagoonSaveQA.cloud.flush());await page.waitForFunction(()=>!__lagoonSaveQA.cloud.pending&&!__lagoonSaveQA.cloud.dirty&&!__lagoonSaveQA.cloud.retryEntry);
+ await page.evaluate(()=>__lagoonSaveQA.cloud.releaseEditor());await page.reload();await page.waitForFunction(()=>window.__lagoonQA&&__lagoonSaveQA.cloud.editable);assert.deepEqual(await snapshot(),after);report.reloads++;
+ fs.writeFileSync(path.join(review,'showcase-water-app.json'),JSON.stringify(report,null,2));
+ console.log('WATER_TEN_APP: ten phone purchases, prices/previews/placement, native rides, both cameras and three SQLite reloads passed.');
+}

@@ -1,3 +1,4 @@
+import {createShowcaseRoute} from './showcase-water-motion.js';
 import {smoothWaterSamples,smoothWaterFrames} from './water-route-smoothing.js';
 import {paceWaterRoute,WATER_SLIDE_SPEED} from './water-ride-pace.js';
 import * as THREE from "three";
@@ -368,8 +369,8 @@ function recipe(spec, lane = 0) {
   return { parts, bowls, rings };
 }
 
-function runData(part) {
-  const data=sampleMegaCurve(part.points,{seat:DREAM_SEAT,coaster:true,terminalUpright:false,water:true}),samples=data.samples,m=new THREE.Matrix4();
+export function runData(part,seat=DREAM_SEAT) {
+  const data=sampleMegaCurve(part.points,{seat,coaster:true,terminalUpright:false,water:true}),samples=data.samples,m=new THREE.Matrix4();
   smoothWaterSamples(data,{surface:!!part.bowl});
   let terminalStart=450;
   if(part.keepInversion&&part.loops?.length){const last=Math.max(...part.loops.map(r=>r[1]));terminalStart=600;for(let i=450;i<samples.length;i++)if(data.curve.getUtoTmapping(i/600)*(part.points.length-1)>last){terminalStart=i;break;}}
@@ -646,6 +647,7 @@ function makeLane(spec, lane) {
   };
 }
 export function createReferenceRoute(spec,{speed=WATER_SLIDE_SPEED}={}) {
+  if(spec.showcaseWater)return createShowcaseRoute(spec);
   const key=spec.id+":"+speed;
   if (cache.has(key)) return cache.get(key);
   const n = spec.lanes ||

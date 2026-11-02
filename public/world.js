@@ -4981,7 +4981,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
           npcWalking,
           reduced,
         );
-        if (npcReaction) {reactCat(n.model, npcReaction, reduced);if(npcReaction.rideSit)applyAtollSit(n.model,npcReaction,reduced);if(manualVisit?.object?.userData.magicBed)applyMagicBedReach(n.model,manualVisit.object,manualVisit.harvester,reduced);}
+        if (npcReaction) {reactCat(n.model, npcReaction, reduced);if(npcReaction.rideSit||npcReaction.waterSurf||npcReaction.waterProne)applyAtollSit(n.model,npcReaction,reduced);if(manualVisit?.object?.userData.magicBed)applyMagicBedReach(n.model,manualVisit.object,manualVisit.harvester,reduced);}
         if(courtVisit?.zooCarry)relaxCarriedCat(n.model,courtVisit.zooCarry,time,reduced);
         if (n.hatRig) {
           const resting =
@@ -5139,7 +5139,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
         walking = u > 0 && u < 1;
         if (u >= 1) {
           op.stage = "activity";
-          op.activityStart = now;
+          op.activityStart = op.attraction.userData.groupSeats ? op.rider.launchAt + 1100 : now;
         }
       } else if (op.stage === "travel") {
         const p = Math.min((now - op.start) / op.duration, 1);
@@ -5574,7 +5574,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
         walking,
         reduced,
       );
-      if (reaction) {reactCat(cat, reaction, reduced);if(reaction.rideSit)applyAtollSit(cat,reaction,reduced);if(operation?.attraction?.userData.magicBed)applyMagicBedReach(cat,operation.attraction,operation.harvester,reduced);}
+      if (reaction) {reactCat(cat, reaction, reduced);if(reaction.rideSit||reaction.waterSurf||reaction.waterProne)applyAtollSit(cat,reaction,reduced);if(operation?.attraction?.userData.magicBed)applyMagicBedReach(cat,operation.attraction,operation.harvester,reduced);}
     }
     if(court.get('chichi')?.zooCarry&&!dialogOpen)relaxCarriedCat(cat,court.get('chichi').zooCarry,time,reduced);
     const spongeFriend = itemGroups.get("bikini-sponge");

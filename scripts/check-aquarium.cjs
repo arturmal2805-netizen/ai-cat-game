@@ -53,7 +53,7 @@ async function localWorker() {
   // connection during long harvest probes (POST/PUT are not retried by that
   // proxy). Use the same real workerd/SQLite/asset router directly for this
   // audit; keep the production Worker and browser save client unmodified.
-  if(process.env.CHICHI_GATHER_AUDIT||process.env.CHICHI_ZOO_GUEST_AUDIT||process.env.CHICHI_ZOO_AUDIT||process.env.CHICHI_MAGIC_BED_AUDIT||process.env.CHICHI_MAGIC_FARM_AUDIT||process.env.CHICHI_FARM_WITHDRAWAL_AUDIT||process.env.CHICHI_OWNERSHIP_AUDIT){
+  if(process.env.CHICHI_WATER_TEN_AUDIT||process.env.CHICHI_GATHER_AUDIT||process.env.CHICHI_ZOO_GUEST_AUDIT||process.env.CHICHI_ZOO_AUDIT||process.env.CHICHI_MAGIC_BED_AUDIT||process.env.CHICHI_MAGIC_FARM_AUDIT||process.env.CHICHI_FARM_WITHDRAWAL_AUDIT||process.env.CHICHI_OWNERSHIP_AUDIT){
     const {Miniflare,Log,LogLevel,convertV4MiniflareOptions}=require(root+'/node_modules/miniflare');
     const mf=new Miniflare(convertV4MiniflareOptions({name:'chichi-farm-local',rootPath:temp,host:'127.0.0.1',port,modules:true,
       scriptPath:path.join(temp,'worker.mjs'),compatibilityDate:'2026-10-13',
@@ -181,6 +181,9 @@ async function localWorker() {
       g.progression.xp=xpForLevel(30);g.adoption.cats=[{id:'adopt-crumb',homeBiome:ATOLL_PARK_ID},{id:'adopt-marshmallow',homeBiome:ATOLL_PARK_ID}];
       for(const s of ATOLL_SLIDES.slice(0,19)){g.coins=10000000;Object.assign(g,purchase(g,s.id,now));const p=findSpace(g,s.id,ATOLL_PARK_ID);Object.assign(g,placeItem(g,s.id,ATOLL_PARK_ID,p.x,p.z,0,now));g.placements.at(-1).readyAt=0;}
       g.coins=8000000;g.catPosition={biome:ATOLL_PARK_ID,x:-305,z:0};g.catDestinations={};
+    }
+    if(process.env.CHICHI_WATER_TEN_AUDIT){
+      g.unlocked=['moon','homestead','atoll-park'];g.placements=g.placements.filter(p=>p.id.startsWith('welcome-'));g.coins=8000000;g.progression.xp=xpForLevel(30);g.catPosition={biome:'moon',x:0,z:0};g.catDestinations={luna:'atoll-park',moti:'atoll-park'};g.adoption.cats=[{id:'adopt-crumb',homeBiome:'atoll-park'},{id:'adopt-marshmallow',homeBiome:'atoll-park'}];
     }
     if(process.env.CHICHI_ATOLL_LOADING_AUDIT){
       g.unlocked=['moon','homestead'];g.placements=g.placements.filter(p=>p.id.startsWith('welcome-'));g.progression.xp=xpForLevel(30);g.coins=800000;
@@ -656,6 +659,10 @@ async function localWorker() {
       const {checkAtollApp}=await import('./check-atoll-app.mjs');await checkAtollApp(page,review);
       fs.writeFileSync(path.join(review,'browser-errors.json'),JSON.stringify({errors,httpErrors},null,2));
       assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;
+    }
+    if(process.env.CHICHI_WATER_TEN_AUDIT){
+      const {checkShowcaseWaterApp}=await import('./check-showcase-water-app.mjs');await checkShowcaseWaterApp(page,review);
+      fs.writeFileSync(path.join(review,'browser-errors.json'),JSON.stringify({errors,httpErrors},null,2));assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;
     }
     if(process.env.CHICHI_ATOLL_LOADING_AUDIT){
       const {checkAtollLoading}=await import('./check-atoll-loading.mjs');await checkAtollLoading(page,review);

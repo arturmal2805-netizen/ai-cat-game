@@ -119,7 +119,7 @@ test("expanded world retains 28 biomes and 123 established objects plus 25 new s
     CATALOG.filter((i) => !i.islandOnly && !i.referenceSlide && !i.magicBed && !i.seed).length,
     123,
   );
-  assert.equal(CATALOG.filter((i) => !i.islandOnly).length, 175);
+  assert.equal(CATALOG.filter((i) => !i.islandOnly&&!i.showcaseWater).length, 175);
   assert.equal(BIOMES.filter(b=>!b.magicFarm&&!b.zoo).length, 18);
   assert.equal(
     CATALOG.find((i) => i.id === "coaster-mystic").buildMinutes,

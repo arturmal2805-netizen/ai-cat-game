@@ -1,3 +1,4 @@
+import {SHOWCASE_WATER_RIDES} from './showcase-water-data.js';
 // Every water attraction must declare its water contract here. Geometry is
 // authored beside its real rider route; this list is checked against CATALOG.
 import { REFERENCE_SLIDES } from "./reference-slide-data.js";
@@ -21,6 +22,7 @@ export const WATER_RIDES = [
   ["dive-triple-sky", "dive", 0],
   ...REFERENCE_SLIDES.map((s) => [s.id, "flume", s.channels]),
   ...ATOLL_SLIDES.map(s => [s.id, "flume", s.channels]),
+  ...SHOWCASE_WATER_RIDES.map(s=>[s.id,s.channels?"flume":"dive",s.channels]),
 ].map(([id, kind, channels]) => ({
   id,
   kind,

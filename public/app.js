@@ -732,7 +732,7 @@ function renderShop() {
   shopViewKey = viewKey;
   $("shop-coins").textContent = money(game.coins);
   $("shop-tabs").replaceChildren();
-  for (const category of CATEGORIES.flatMap(c=>c.id==='rides'?[c,{id:"atoll-water",name:"Водні світи · 20",icon:"🌊"}]:[c])) {
+  for (const category of CATEGORIES.flatMap(c=>c.id==='rides'?[c,{id:"atoll-water",name:"Водні світи · 20",icon:"🌊"},{id:"showcase-water",name:"Водні пригоди · 10",icon:"🎢"}]:[c])) {
     const button = document.createElement("button");
     button.setAttribute("role", "tab");
     button.setAttribute(
@@ -759,7 +759,8 @@ function renderShop() {
           (i) =>
             !i.islandOnly &&
             (shopCategory === "all" ||
-              (shopCategory === "atoll-water" && i.premiumWater) ||
+              (shopCategory === "atoll-water" && i.premiumWater&&!i.showcaseWater) ||
+              (shopCategory === "showcase-water" && i.showcaseWater) ||
               (shopCategory === "bag" && game.inventory[i.id] > 0) ||
               i.category === shopCategory),
         );
@@ -848,6 +849,7 @@ function renderShop() {
       : shopCategory === "bag"
         ? entry.seed ? "Посадити" : "Разместить"
         : (acquired ? "Купить ещё · " : "Купить · ") + money(entry.price) + " ✦";
+    if(entry.showcaseWater)text.textContent+=" · Розмір "+entry.footprint.join(" × ");
     button.setAttribute("aria-label", button.textContent + " " + entry.name);
     if (!land && shopCategory !== "bag") {
       const locked = levelRequirement(game, entry.requiredLevel);
@@ -868,7 +870,10 @@ function renderShop() {
       if(entry.magicFarm&&game.coins<entry.price)button.disabled=true;
     }
     button.setAttribute("aria-label", button.textContent + " " + entry.name);
+    let purchasingWater=false;
     button.onclick = () => {
+      if(entry.showcaseWater&&purchasingWater)return;
+      if(entry.showcaseWater&&shopCategory!=="bag")purchasingWater=true;
       try {
         if (land) {
           if (!owned) {
@@ -892,7 +897,7 @@ function renderShop() {
           } else {$("shop-dialog").close();beginPlacement(entry.id);}
         }
       } catch (error) {
-        toast(error.message);
+        purchasingWater=false;toast(error.message);
       }
     };
     info.append(title, text, button);

@@ -1,3 +1,4 @@
+import {showcaseWaterSteps} from './showcase-water-assets.js';
 import {applySlideBasinOptics} from './slide-basin-optics.js';
 import * as THREE from "three";
 import { referenceSlide } from "./reference-slide-data.js";
@@ -25,7 +26,7 @@ import { slideRibbon } from "./slide-water.js";
 import {atollApproach} from './atoll-slide-navigation.js';
 const atollActingCache=new Map();
 
-function receivingPool(spec) {
+export function receivingPool(spec) {
   const g = new THREE.Group(),
     star = spec.kind === "cloud-star",
     rx = spec.premiumWater ? spec.pool[2] : spec.kind==="ribbon-tower" ? 11.5 : star ? 8 : 7.2,
@@ -138,7 +139,7 @@ function receivingPool(spec) {
   };
   return applySlideBasinOptics(g);
 }
-function vortexBowl(b, spec, props, root) {
+export function vortexBowl(b, spec, props, root) {
   const profile = Array.from({ length: 33 }, (_, i) => {
       const inner = spec.premiumWater ? 6 : 0,
         r = inner + ((b.radius - inner) * i) / 32;
@@ -301,6 +302,7 @@ export function referenceSlideAttraction(id) {
 export function* referenceSlideSteps(id) {
   const spec = referenceSlide(id);
   if (!spec) return null;
+  if(spec.showcaseWater)return yield*showcaseWaterSteps(id);
   const root = new THREE.Group(),
     props = new THREE.Group(),
     moving = new THREE.Group(),
