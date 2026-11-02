@@ -798,3 +798,27 @@ Keep `ride-water-*` as ten separately purchased mini-biomes in their own existin
 The player's later direction asks for extreme rides, including stronger river currents. Author acceleration from the actual 3D route, true 9.81-gravity launch arcs, a fixed pendulum pivot, standing surf balance and distinct group/solo reactions. Include every new activity phase in measured choreography; an unrecognized `rafting`/`swing` phase must not silently disable poses. Shared boats use one absolute departure clock across hero/resident RAF timing, a finite boarding window and one vehicle/impact per cohort. Late guests wait for the next whole ride. Cancellation retains remaining passengers and restores native cat joints.
 
 Warm wet moss, rock, bark and leaf micro-detail uses six shared immutable normal/roughness maps and the existing sun/water light probe. Do not introduce ray tracing, extra reflection render targets, per-frame texture generation or lower phone DPR. This is an art/resource contract, not a hardware FPS claim. Compare actual native full/close/phone/rider images against each individual reference cell; ship previews from those real moving models, never use reference art to hide unfinished geometry. Recheck the real shop, both cameras, all ten rides, grouped passengers and repeated isolated SQLite saves.
+
+The subsequent visual revision adds three original shared albedo maps (nine
+128² maps total, approximately 768 KiB including mipmaps). Keep the continuous
+eroded cliff forms, irregular island contours, connected foamy wave lip,
+open-drain crystal-bowl cradle, faceted crystals and flower arcades. New-ride
+optics retain the native reflection probe and wave field; do not restore the
+dense regular water grating. These remain original stylized game models, not
+pixel-identical reproductions of the reference illustration.
+
+Shared water boats wait 15 real seconds from the first actual seated frame.
+Each passenger walks the existing dry approach/stairs/deck before mounting;
+reservation alone cannot start this countdown. One absolute cohort clock drives
+every seat and the original wet route. A passenger unable to finish mounting
+before departure waits for the boat's return. Cancellation releases the next
+boarding safely and preserves remaining passengers. Seated waiting guests are
+valid camera targets. Single-person rides retain their independent headway.
+
+Automatic fillers are free ordinary cats physically on the same island. Retain
+work, sleep, care, housing, trips, families' activities and manual-control
+priorities; never teleport, request AI or run a per-cat timer. Bound global path
+planning to two candidates per half-second and release the active-object set on
+disposal. Test first seating, the fixed 15-second deadline, late arrival,
+cancellation, route continuity, common raft motion and real automatic boarding
+in the private native phone/SQLite harness.

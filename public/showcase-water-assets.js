@@ -10,8 +10,11 @@ import {waterMaterial,advanceWater} from './water-shading.js';
 import {rideActingFrame} from './ride-acting.js';
 import {showcaseWaterfallSteps as waterfallSteps} from './showcase-waterfalls.js';
 import {atollApproach} from './atoll-slide-navigation.js';
+import {groupApproach} from './group-boarding.js';
 import {showcaseRideReaction,sampleShowcaseActing} from './showcase-water-acting.js';
 import {applyShowcaseSurfaceDetails} from './showcase-surface-details.js';
+import {boulderGeometry} from './showcase-geology.js';
+import {polishShowcaseWater} from './showcase-water-optics.js';
 const profiles=new Map();
 // Wide flat-bottom channels really support a raft; a broad flat raft cannot
 // sit at the bottom of a narrow circular pipe without intersecting its walls.
@@ -61,15 +64,17 @@ function waveBody(props,root,spec,extra){
  wet.fragmentShader=wet.fragmentShader.replace('gl_FragColor=vec4(max(color,vec3(0.0)),alpha);','color=mix(color,uColor*.82,.28);\n gl_FragColor=vec4(max(color,vec3(0.0)),.96);');
  geometry.computeBoundingBox();geometry.boundingBox.expandByScalar(.7);geometry.boundingSphere=geometry.boundingBox.getBoundingSphere(new T.Sphere());
  const sheet=new T.Mesh(geometry,wet);sheet.name='Curling blue barrel with a moving foamy lip';root.add(sheet);extra.push(wet);
- // Irregular, overlapping froth, rather than evenly spaced decorative beads.
- for(let i=0;i<60;i++){
-  const a=Math.PI*.52+(range-Math.PI*.52)*i/59,p=point(a,1),foam=.85+Math.sin(i*1.7)**2*1.6;
-  shape(props,'sphere',i%3?0xedffff:0xc2f6ff,p.x,p.y,p.z,foam,foam*.77,foam*.85);
- }
- for(let j=0;j<43;j++){
-  const p=point(range-.06*Math.sin(j*.7),j/42),foam=1.7+Math.sin(j*2.2)**2*1.3;
-  shape(props,'sphere',j%4?0xf1ffff:0xc9faff,p.x,p.y,p.z,foam,foam*.8,foam*.85);
-  if(j%2===0)shape(props,'sphere',0xf5ffff,p.x+.4,p.y+foam*.7,p.z+.6,1.1,1.3,1.1);
+ // A continuous aerated lip, instead of a necklace of large white balls.
+ const froth=(points,radius,color)=>{
+  const curve=new T.CatmullRomCurve3(points),g=new T.TubeGeometry(curve,120,radius,8,false),p=g.attributes.position,centres=Array.from({length:121},(_,i)=>curve.getPointAt(i/120));
+  for(let i=0;i<p.count;i++){const row=Math.floor(i/9),c=centres[row],v=new T.Vector3().fromBufferAttribute(p,i).sub(c),s=1+.16*Math.sin(row*.29)+.09*Math.sin(row*.73+i%9*1.7);v.multiplyScalar(s).add(c);p.setXYZ(i,v.x,v.y,v.z);}
+  g.computeVertexNormals();props.add(new T.Mesh(g,new T.MeshStandardMaterial({color,roughness:.38})));
+ };
+ froth(Array.from({length:65},(_,i)=>point(Math.PI*.52+(range-Math.PI*.52)*i/64,1)),1.45,0xd9fcff);
+ froth(Array.from({length:65},(_,i)=>point(range-.018*Math.sin(i*.43),i/64)),1.75,0xf2ffff);
+ for(let j=0;j<18;j++){
+  const p=point(range-.07,j/17),size=.3+Math.sin(j*1.73)**2*.5;
+  shape(props,'sphere',0xe5ffff,p.x+Math.sin(j*2.3)*.7,p.y+2.1+Math.sin(j*.7)**2*1.6,p.z,size,size*1.5,size);
  }
  for(let k=0;k<5;k++){
   const points=Array.from({length:40},(_,i)=>point(Math.PI*.08+i/39*Math.PI*1.11,.08+k*.2).add(new T.Vector3(0,.09,0)));
@@ -95,7 +100,7 @@ export function* showcaseWaterSteps(id){
   if(!carousel&&!data.barrel){const shell=trough(data,width,depth),floor=new T.Mesh(shell.floor,new T.MeshStandardMaterial({color:river?0x75bbb0:spec.color,roughness:.3,metalness:.1,side:T.DoubleSide}));props.add(floor);
    if(data.rapids||river){
     for(const geometry of shell.walls)geometry.dispose();
-    for(let i=0;i<data.samples.length;i+=12){const s=data.samples[i];for(const side of [-1,1]){const p=s.p.clone().addScaledVector(s.right,side*(width+1.3)).addScaledVector(s.up,-depth+.8);shape(props,'stone',river?0xb7be98:i%3?0xd3a27b:0xbc8664,...p.toArray(),2.5,2.5,2.4);if(i%36===0){shape(props,'stone',0xb58562,p.x,p.y*.5,p.z,3.1,Math.max(2,p.y*.5),3.0);}}}
+    for(let i=0;i<data.samples.length;i+=10){const s=data.samples[i];for(const side of [-1,1]){const p=s.p.clone().addScaledVector(s.right,side*(width+2.5)).addScaledVector(s.up,-depth+.4),rock=shape(props,'stone',river?0xb7be98:i%3?0xd3b28b:0xbba084,...p.toArray(),3.4,2+(i%3)*.4,2.8);rock.geometry=boulderGeometry(i+side);rock.rotation.y=i*.71;if(i%30===0){const foot=shape(props,'stone',river?0xb6b497:0xc2a485,p.x,p.y*.5,p.z,3.3,Math.max(2,p.y*.5),3.1);foot.geometry=boulderGeometry(i);}}}
     if(data.rapids)for(const k of [110,220,330,450,520]){const s=data.samples[k],points=Array.from({length:17},(_,j)=>s.p.clone().addScaledVector(s.right,(j/16*2-1)*(width-.8)).addScaledVector(s.up,-depth+.22+Math.sin(j*1.3)*.07));props.add(new T.Mesh(new T.TubeGeometry(new T.CatmullRomCurve3(points),24,.12,4,false),new T.MeshStandardMaterial({color:0xdafaff,roughness:.4})));}
    }else{
     for(const geometry of shell.walls)props.add(new T.Mesh(geometry,new T.MeshStandardMaterial({color:0xa2e7f4,transparent:true,opacity:.24,depthWrite:false,roughness:.2,side:T.DoubleSide})));
@@ -127,10 +132,11 @@ export function* showcaseWaterSteps(id){
  if(spec.kind==='pool-pendulum'){/* Airborne swing only touches its real basin; no fake dry flume. */}
  const staticModel=yield*batchModelSteps(props,{combineColors:true});applyShowcaseSurfaceDetails(staticModel);root.add(staticModel);props.traverse(o=>{if(o.isMesh&&!o.geometry.userData.sharedScenery)o.geometry.dispose();});
  const boat=yield*batchModelSteps(moving,{combineColors:true});applyShowcaseSurfaceDetails(boat);moving.clear();moving.add(boat);moving.visible=false;
- const approach=atollApproach(actual,scenery.groundObstacles);
+ const groundApproach=atollApproach(actual,scenery.groundObstacles),approach=spec.seats>1?groupApproach(route,groundApproach,spec.seats):groundApproach;
  root.userData={id,referenceSlide:true,showcaseWater:true,premiumWater:true,mega:true,handpainted:true,moving,pool,route,footprint:spec.footprint,duration:route.duration,rideFrame:route.frame,seatHeight:0,approachOffset:route.entry,dismount:route.entry,approachFrame:approach.frame,approachDuration:approach.duration,approachYaw:approach.yaw,
   groupSeats:spec.seats>1?spec.seats:0,sharedVehicle:spec.seats>1&&spec.kind!=='fountain-carousel',vehicleFrame:route.vehicleFrame,vehicleFrameForLane:route.boatFrame,hollowPassages:scenery.hollowPassages,
   entryForSlot:i=>route.frame(0,false,i).position,
+  queueForSlot:spec.seats>1?i=>approach.queues[i]:null,
   stats:{sourceMeshes:staticModel.userData.sourceMeshes,staticMeshes:staticModel.children.length,waterDraws:channels.length+extra.length+1},
   update(time,reduced=false){pool.userData.update(time,reduced);scenery.update(time,reduced);for(const m of extra)advanceWater(m,time,reduced);
    const riders=[...(root.userData.slideRiders?.values()||[])],at=riders.find(r=>Number.isFinite(r.elapsed))?.elapsed??root.userData.rideElapsed;
@@ -141,5 +147,6 @@ export function* showcaseWaterSteps(id){
  if(!profiles.has(id))profiles.set(id,route.lanes.map(l=>sampleShowcaseActing(l,route.duration)));
  const acting=profiles.get(id),scratch=acting.map(()=>({}));root.userData.rideActing=acting[0];root.userData.rideReaction=(time,reduced=false,lane=0)=>showcaseRideReaction(spec,route,time,rideActingFrame(acting[lane%acting.length],time,reduced,scratch[lane%acting.length]),reduced);
  installSlideWater(root,{channels,pool,color:0x20cce9,speed:spec.kind==='lazy-river'?4.5:8,extraSurfaces:extra});
+ for(const material of root.userData.slideWater.materials)polishShowcaseWater(material);
  root.userData.update(0,true);return root;
 }

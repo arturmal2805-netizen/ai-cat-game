@@ -1,12 +1,13 @@
 import * as T from 'three';
 import {shape, line, flowerCluster, lantern,surfaceTexture} from './fantasy-scenery.js';
+import {cliffGeometry,boulderGeometry,islandOutline,islandCliffGeometry} from './showcase-geology.js';
 
 // Original, static tropical scenery. These meshes are merged with the rest of
 // the purchased prefab once; foliage never adds a runtime animation/upload loop.
 const frondGeometry = (() => {
   const positions = [], uvs = [], indices = [];
-  for (let i = 0; i <= 12; i++) {
-    const t = i / 12, width = Math.sin(Math.PI * t) ** .65 * .17;
+  for (let i = 0; i <= 24; i++) {
+    const t = i / 24, width = Math.sin(Math.PI * t) ** .65 * .17*(i%2?.76:1);
     for (const side of [-1, 0, 1]) {
       positions.push(side * width, Math.sin(t * Math.PI) * .2 - t * t * .27 + (side === 0 ? .025 : 0), t);
       uvs.push(side * .5 + .5, t);
@@ -53,7 +54,8 @@ export function tropicalTree(parent,x,y,z,height=22,pink=false) {
   for(let j=0;j<7;j++) {
     const a=j*Math.PI*2/7,dx=Math.sin(a)*height*.22,dz=Math.cos(a)*height*.22;
     line(parent,[x,y+height*.4,z],[x+dx,y+height*.78,z+dz],0x936d4d,height*.023);
-    shape(parent,'sphere',pink?[0xf79fc4,0xffc3dc,0xee83b5][j%3]:[0x2c9857,0x4cad59,0x7ac965][j%3],x+dx,y+height*(.79+j%2*.08),z+dz,height*.29,height*.16,height*.27);
+    const crown=shape(parent,'sphere',pink?[0xf79fc4,0xffc3dc,0xee83b5][j%3]:[0x2c9857,0x4cad59,0x7ac965][j%3],x+dx,y+height*(.79+j%2*.08),z+dz,height*.26,height*.19,height*.25);crown.geometry=boulderGeometry(j);
+    for(let k=0;k<4;k++){const a=k*Math.PI/2+j,leaf=shape(parent,'sphere',pink?[0xffc2dd,0xf89ac7,0xe786bc][k%3]:[0x73be68,0x47ac59,0x329c51][k%3],x+dx+Math.sin(a)*height*.19,y+height*(.82+j%2*.08)+Math.sin(k*2.3)*height*.05,z+dz+Math.cos(a)*height*.16,height*.13,height*.11,height*.14);leaf.geometry=boulderGeometry(k+j);}
   }
   shape(parent,'sphere',pink?0xf6b1d2:0x69bd5c,x,y+height,z,height*.28,height*.17,height*.26);
   return trunk;
@@ -68,30 +70,24 @@ export function flowerBank(parent,x,y,z,color=0xf29cce,scale=1) {
 }
 
 export function sandstoneColumn(parent,x,z,height,radius,color=0xc5aa83) {
-  for(let tier=0;tier<4;tier++) {
-    const top=height*(tier+1)/4,rx=radius*(1-.07*tier),offset=Math.sin(tier*1.9)*radius*.16;
-    const boulder=shape(parent,'cube',tier%2?0xdac39e:color,x+offset,top-height/8,z,rx*2,height/4+.5,rx*1.7);
-    boulder.material=stonePaint(tier%2?0xdac39e:color);
-    boulder.rotation.y=Math.sin(tier*2.2)*.14;
-    // Cream ledges and turf stop a tall rock becoming a plain extruded pillar.
-    shape(parent,'stone',0xead8b8,x+offset,top+.1,z,rx*1.04,.8,rx*.91);
-    if(tier>0)for(let j=0;j<5;j++){
-      const a=j*1.256+tier*.7,moss=shape(parent,'sphere',0x47a358,x+offset+Math.sin(a)*rx*.78,top+.50,z+Math.cos(a)*rx*.66,rx*.42,.48,rx*.29);
-      moss.material=mossPaint;
-    }
+  const seed=x*.3+z*.7,rock=new T.Mesh(cliffGeometry(height,radius,seed),stonePaint(color));rock.position.set(x,0,z);rock.castShadow=rock.receiveShadow=true;parent.add(rock);
+  const turf=shape(parent,'stone',0x67b868,x,height+.15,z,radius*.92,.44,radius*.76);turf.geometry=boulderGeometry(Math.floor(seed));turf.material=mossPaint;
+  for(let j=0;j<5;j++){
+   const a=j*Math.PI*2/5+.4,dx=Math.sin(a)*radius*.8,dz=Math.cos(a)*radius*.69,length=Math.min(height*.4,5+j%3);
+   const curve=new T.CatmullRomCurve3([new T.Vector3(x+dx,height+.2,z+dz),new T.Vector3(x+dx*1.1,height-length*.5,z+dz*1.1),new T.Vector3(x+dx*1.05,height-length,z+dz*1.05)]);
+   parent.add(new T.Mesh(new T.TubeGeometry(curve,8,.09,4,false),mossPaint));
+   for(let k=0;k<4;k++){const p=curve.getPoint(k/4),leaf=shape(parent,'petal',0x4ca86b,p.x,p.y,p.z,.5,.20,.75);leaf.rotation.z=(j%2?1:-1)*.4;}
   }
-  shape(parent,'sphere',0x67b868,x,height+.5,z,radius,.8,radius*.85).material=mossPaint;
 }
 
 export function* tropicalShore(parent,spec,canPlace,obstacles) {
   // Irregular scalloped sandstone, warm sand, plant banks and a clear entrance.
-  shape(parent,'pole',0xb7a383,0,-2.6,0,55,4.8,53).material=stonePaint(0xb7a383);
-  shape(parent,'pole',0xe7d3a6,0,-.04,0,54,.45,52).material=stonePaint(0xe7d3a6);
-  shape(parent,'pole',0x8fc57f,0,.06,spec.kind==='barrel-wave'?-14:-3,spec.kind==='barrel-wave'?43:48,.28,spec.kind==='barrel-wave'?34:43).material=groundPaint;
+  const outline=islandOutline(spec.kind),plate=new T.Shape(outline.map(p=>new T.Vector2(p.x,-p.y))),cap=new T.Mesh(new T.ShapeGeometry(plate),stonePaint(0xe7d3a6));cap.rotation.x=-Math.PI/2;cap.position.y=.02;cap.receiveShadow=true;parent.add(cap);
+  const cliff=new T.Mesh(islandCliffGeometry(spec.kind),stonePaint(spec.kind==='canyon-rafting'?0xbf8f72:0xc4b195));cliff.castShadow=cliff.receiveShadow=true;parent.add(cliff);
+  const lawn=new T.Mesh(new T.ShapeGeometry(new T.Shape(outline.map(p=>new T.Vector2(p.x*.91,-p.y*.91)))),groundPaint);lawn.rotation.x=-Math.PI/2;lawn.position.y=.05;parent.add(lawn);
   for(let i=0;i<38;i++) {
     const a=i*Math.PI*2/38,x=Math.sin(a)*52,z=Math.cos(a)*49,r=3.2+(i%3)*.7;
-    const shore=shape(parent,'cube',i%3===0?0xe8d4ae:0xc7af8a,x,-1.6,z,r*2,3.8+(i%4),r*1.6);shore.rotation.y=-a;shore.material=stonePaint(i%3===0?0xe8d4ae:0xc7af8a);
-    shape(parent,'stone',0xeedcba,x,.08,z,r*1.12,.75,r*.95);
+    const shore=shape(parent,'stone',i%3===0?0xe8d4ae:0xc7af8a,x,-1.6,z,r,2.8+(i%4)*.6,r*.8);shore.geometry=boulderGeometry(i);shore.rotation.y=-a;shore.material=stonePaint(i%3===0?0xe8d4ae:0xc7af8a);
     if(i%3===0 && canPlace(x,.8,z,3,2,3)) flowerBank(parent,x,.2,z,i%2?0xffb3d7:0xe1a5ed,.8);
     if(i%6===0)yield;
   }

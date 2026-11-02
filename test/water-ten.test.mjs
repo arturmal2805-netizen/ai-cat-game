@@ -75,9 +75,9 @@ test('all ten actual wet mechanics activate measured-speed reactions and distinc
 
 test('surface micro-detail reuses immutable textures and does not add shader callbacks or runtime transfers',()=>{
  const maps=new Set(),versions=[];for(const spec of SHOWCASE_WATER_RIDES.slice(0,2)){
-  const model=referenceSlideAttraction(spec.id);model.traverse(o=>{if(o.isMesh&&o.material.userData.showcaseSurface){for(const t of [o.material.normalMap,o.material.roughnessMap]){assert.equal(t.userData.sharedScenery,true);maps.add(t);versions.push([t,t.version]);}assert.ok(o.material.isMeshStandardMaterial);}});
+  const model=referenceSlideAttraction(spec.id);model.traverse(o=>{if(o.isMesh&&o.material.userData.showcaseSurface){for(const t of [o.material.map,o.material.normalMap,o.material.roughnessMap]){assert.equal(t.userData.sharedScenery,true);maps.add(t);versions.push([t,t.version]);}assert.ok(o.material.isMeshStandardMaterial);}});
   for(let i=0;i<100;i++)model.userData.update(i/60,false);disposeScenery(model);
- }assert.equal(maps.size,6);for(const [texture,version]of versions)assert.equal(texture.version,version);
+ }assert.equal(maps.size,9);for(const [texture,version]of versions)assert.equal(texture.version,version);
 });
 
 test('staggered real resident frames share one departure and one raft; cancellation keeps the remaining passenger aboard',()=>{
@@ -86,10 +86,11 @@ test('staggered real resident frames share one departure and one raft; cancellat
  for(const id of actors.keys())assert.equal(runtime.start(id,{action:'ride',activityId:'raft'},0),true);
  const arrival=Math.max(...[...actors.keys()].map(id=>runtime.get(id).travel))+1;
  runtime.frame('one',arrival,arrival/1000);runtime.frame('two',arrival+300,(arrival+300)/1000);
- const departure=runtime.get('one').rider.launchAt;assert.equal(runtime.get('two').rider.launchAt,departure);
- runtime.frame('one',departure+1130,(departure+1130)/1000);runtime.frame('two',departure+1210,(departure+1210)/1000);
+ runtime.frame('one',arrival+1100,(arrival+1100)/1000);runtime.frame('two',arrival+1400,(arrival+1400)/1000);
+ const departure=runtime.get('one').rider.launchAt;assert.equal(departure,arrival+1100+15000);assert.equal(runtime.get('two').rider.launchAt,departure);
+ runtime.frame('one',departure+30,(departure+30)/1000);runtime.frame('two',departure+110,(departure+110)/1000);
  assert.equal(runtime.get('one').activityStart,runtime.get('two').activityStart);
- const now=departure+1100+(d.route.rideStart+4)*1000;
+ const now=departure+(d.route.rideStart-d.route.boardingEnd+4)*1000;
  for(const id of actors.keys()){const f=runtime.frame(id,now,now/1000),v=runtime.get(id),expected=new T.Vector3(...d.rideFrame(v.elapsed,false,v.rider.lane).position);assert.ok(f.position.distanceTo(expected)<1e-7);}
  d.update(now/1000,false);assert.equal(d.slideVehicles.filter(v=>v?.visible).length,1);
  runtime.cancel('one');assert.equal(d.slideRiders.size,1);assert.equal(d.slideVehicles.filter(v=>v?.visible).length,1);

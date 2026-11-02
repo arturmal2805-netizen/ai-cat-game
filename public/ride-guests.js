@@ -3,14 +3,14 @@
 export function rideGuests(activityId, operation, visits) {
   const guests = [];
   if (
-    operation?.stage === "activity" &&
+    (operation?.stage === "activity" || operation?.stage === "queue" && operation.rider?.seated) &&
     operation.decision?.action === "ride" &&
     operation.decision.activityId === activityId
   )
     guests.push("chichi");
   for (const [id, visit] of visits || [])
     if (
-      visit.phase === "activity" &&
+      (visit.phase === "activity" || visit.phase === "queue" && visit.rider?.seated) &&
       visit.decision?.action === "ride" &&
       visit.decision.activityId === activityId
     )

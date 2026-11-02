@@ -1,0 +1,18 @@
+{
+  "fullNodeSuite": {
+    "passed": 897,
+    "failed": 0,
+    "log": "water-sculpted-full-tests.log"
+  },
+  "focusedFinalSuite": {
+    "passed": 22,
+    "failed": 0,
+    "log": "water-sculpted-core-final.log"
+  },
+  "referenceFidelity": "Original stylized models; not a pixel-identical match to painted reference",
+  "sharedBoatCountdownMs": 15000,
+  "globalRecruitmentPathBudget": 2,
+  "recruitmentIntervalMs": 500,
+  "materialTextureBytesWithMipmaps": 786432,
+  "physicalDeviceFPS": "not measured by software browser"
+}

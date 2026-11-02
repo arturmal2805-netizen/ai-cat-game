@@ -4,6 +4,7 @@ import {showcaseWaterfallSteps as waterfallSteps} from './showcase-waterfalls.js
 import {tropicalPalm,tropicalTree,flowerBank,sandstoneColumn,tropicalShore} from './showcase-water-landscape.js';
 const plankGeometry=new T.BoxGeometry(1,1,1);plankGeometry.userData.sharedScenery=true;
 const steel=new T.MeshStandardMaterial({color:0x789295,roughness:.35,metalness:.24});steel.userData.sharedScenery=true;
+const crystalGeometry=new T.LatheGeometry([new T.Vector2(.72,-.5),new T.Vector2(1,-.35),new T.Vector2(.92,.18),new T.Vector2(0,.5)],6);crystalGeometry.userData.sharedScenery=true;
 // Distinct landscapes, authored against the actual route clearance. All helpers
 // build once into the existing material batch; waterfall buffers stay fixed.
 export function* showcaseProps(props,root,spec,route){
@@ -18,7 +19,7 @@ export function* showcaseProps(props,root,spec,route){
   tropicalTree(props,x,y,z,h,pink);if(y<2)obstacles.push({x,z,radius:h*.055+1});
  };
  const bridge=(x,y,z,length=18,alongX=true)=>{const group=new T.Group();group.position.set(x,y,z);if(!alongX)group.rotation.y=Math.PI/2;props.add(group);shape(group,'cube',0xbf9766,0,0,0,length,.5,4.3);for(const side of [-1,1]){for(let i=0;i<=8;i++)shape(group,'pole',0xc79d65,-length/2+i*length/8,1,side*2,.15,2.4,.15);line(group,[-length/2,1.9,side*2],[length/2,1.9,side*2],0xd6b277,.14);}return group;};
- const crystal=(x,y,z,h,color)=>{const m=solid('cone',color,x,y+h/2,z,h*.19,h,h*.19);if(m){m.rotation.z=(x%3-1)*.16;shape(props,'cone',0xc9a9f7,x+1.3,y+h*.25,z+.3,h*.10,h*.5,h*.1);}};
+ const crystal=(x,y,z,h,color)=>{const m=solid('cone',color,x,y+h/2,z,h*.19,h,h*.19);if(m){m.geometry=crystalGeometry;m.material=new T.MeshStandardMaterial({color,roughness:.18,metalness:.12,flatShading:true});m.rotation.z=(x%3-1)*.13;const small=shape(props,'cone',0xbba0f5,x+1.3,y+h*.25,z+.3,h*.10,h*.5,h*.1);small.geometry=crystalGeometry;small.material=m.material;}};
  const fall=function*(x,y,z,width,height){const f=yield*waterfallSteps(x,z,width,height,{color:0x3bd4ed});f.position.y+=y-.12;root.add(f);falls.push(f);};
  yield*tropicalShore(props,spec,clear,obstacles);
  for(const [x,z,h,r]of [[-43,-34,18,8],[44,-34,24,8],[-47,10,14,6],[46,16,17,7]]){if(cliff(x,z,h,r)){palm(x,h,z,1.2);yield*fall(x,h,z+r*.85,3.4,h-1.45);}yield;}
@@ -37,7 +38,13 @@ export function* showcaseProps(props,root,spec,route){
    for(const x of [-6,6]){const arch=new T.Mesh(new T.TorusGeometry(12,3,8,40,Math.PI),paint);arch.rotation.y=Math.PI/2;arch.position.set(x,4,-30);arch.castShadow=true;props.add(arch);for(const z of [-42,-18]){shape(props,'stone',0xb7aa8e,x,1.5,z,3.3,3.5,3.2);obstacles.push({x,z,radius:3.5});}}
    shape(props,'stone',0xc9b99a,0,16.7,-30,9,2.5,5);flowerBank(props,0,18.7,-30,0xe5b2d5,.9);passages.push({axis:'x',min:-9,max:9,y:4,z:-30,innerRadius:9});
   },
-  'fountain-carousel':function*(){tree(0,14,0,1.5,true);for(const [x,z]of [[-36,-28],[36,-28],[-38,25],[38,25]])tree(x,0,z,1.6,true);for(let i=0;i<12;i++){const a=i*Math.PI/6;shape(props,'pole',0xf0daae,Math.sin(a)*30,3,Math.cos(a)*30,.45,6,.45);line(props,[Math.sin(a)*30,6,Math.cos(a)*30],[Math.sin(a+.52)*30,6,Math.cos(a+.52)*30],0xf2b7d5,.25);}teaPavilion(props,-33,7,-31,0xf0c37a,1.4);},
+  'fountain-carousel':function*(){tree(0,14,0,1.5,true);for(const [x,z]of [[-36,-28],[36,-28],[-38,25],[38,25]])tree(x,0,z,1.6,true);for(let i=0;i<12;i++){const a=i*Math.PI/6;shape(props,'pole',0xf0daae,Math.sin(a)*30,3,Math.cos(a)*30,.45,6,.45);line(props,[Math.sin(a)*30,6,Math.cos(a)*30],[Math.sin(a+.52)*30,6,Math.cos(a+.52)*30],0xf2b7d5,.25);}
+   for(const x of [-26,0,26]){
+    for(const side of [-1,1]){shape(props,'pole',0xffedcf,x+side*8,4.5,-32,.7,9,.7);shape(props,'pole',0xf0cf8c,x+side*8,.5,-32,1.1,1,1.1);}
+    const arch=torus(props,0xffedcf,8,.75,x,9,-32,false,Math.PI);arch.receiveShadow=true;
+    for(let j=0;j<5;j++){const a=j*Math.PI/4;flowerBank(props,x+Math.cos(a)*8,9+Math.sin(a)*8,-32,0xf798c6,.65);}
+    yield;
+   }teaPavilion(props,-33,7,-31,0xf0c37a,1.4);},
   'pool-pendulum':function*(){for(const x of [-17,17])for(const z of [-28,28])line(props,[x,1,z],[x,46,0],0xc8a06b,1.5);line(props,[-20,46,0],[20,46,0],0xe4be77,1.8);const sign=torus(props,0xf1ca77,5,.8,0,49,0);shape(props,'sphere',0xd4b1ec,0,49,.5,3,.7,2);bridge(-1,39,-36,58);for(const x of [-35,35])palm(x,0,35,1.8);},
  };
  yield*builders[spec.kind]();
@@ -57,9 +64,20 @@ export function* showcaseProps(props,root,spec,route){
   for(const side of [-1,1]){const a=leg.fn(0).position,b=leg.fn(1).position;line(props,[a[0]+side*(spec.radius+1),a[1]-.6,a[2]],[b[0]+side*(spec.radius+1),b[1]-.6,b[2]],0x607f87,.5);}
   if(spec.kind==='jungle-coaster'){const a=leg.fn(0).position,b=leg.fn(1).position;for(let i=0;i<13;i++){const u=i/12,p=a.map((v,j)=>v+(b[j]-v)*u);line(props,[p[0]-spec.radius-1,p[1]-.75,p[2]],[p[0]+spec.radius+1,p[1]-.75,p[2]],0xb5a382,.22);if(i%3===0)line(props,[p[0],0,p[2]],[p[0],p[1]-1,p[2]],0x789295,.6);}}
  }
- for(const b of route.bowls)for(let i=0;i<12;i++){
-  const a=i*Math.PI/6,x=b.x+Math.sin(a)*(b.radius-1),z=b.z+Math.cos(a)*(b.radius-1),top=b.base+b.depth-2;
-  line(props,[x,0,z],[x,top,z],0xd1b58b,1.3);if(i%2===0)flowerBank(props,x,top-1,z,0xd39aec,.6);yield;
+ for(const b of route.bowls){
+  // A substantial rock/crystal cradle, with an open drain below. The bowl is
+  // no longer a thin blue plate standing on twelve bare wooden sticks.
+  const profile=[new T.Vector2(8,b.base-3),new T.Vector2(18,b.base-1),new T.Vector2(27,b.base+8),new T.Vector2(b.radius+3,b.base+b.depth-2),new T.Vector2(b.radius,b.base+b.depth-.5)],
+   mantle=new T.Mesh(new T.LatheGeometry(profile,72),new T.MeshStandardMaterial({color:0xcbb5d7,roughness:.69,map:surfaceTexture('stone'),side:T.DoubleSide}));
+  mantle.material.userData.surfaceKind='stone';mantle.position.set(b.x,0,b.z);mantle.castShadow=mantle.receiveShadow=true;props.add(mantle);
+  for(const a of [-1.3,-.6,0,.6,1.3]){const x=b.x+Math.sin(a)*29,z=b.z-Math.cos(a)*29;sandstoneColumn(props,x,z,18,5.5,0xb4a8b5);}
+  const rail=torus(props,0xf1ce79,b.radius+4,.23,b.x,b.base+b.depth+1.5,b.z,false,Math.PI*1.6);rail.rotation.x=Math.PI/2;rail.rotation.z=-Math.PI*.8;
+  for(let i=0;i<28;i++){const a=-Math.PI*.8+i/27*Math.PI*1.6,x=b.x+Math.cos(a)*(b.radius+4),z=b.z+Math.sin(a)*(b.radius+4);
+   if(x<b.x-28)continue;
+   line(props,[x,b.base+b.depth-.5,z],[x,b.base+b.depth+1.5,z],0xf1ce79,.13);
+   if(i%2===0){flowerBank(props,x,b.base+b.depth-.8,z,i%4?0xf59ccf:0xd69ee9,.7);for(let j=0;j<3;j++)line(props,[x+j*.4,b.base+b.depth-1,z],[x+j*.4,b.base+b.depth-4-j,z+.8],0x629c6e,.15);}
+   yield;
+  }
  }
  // Every walked step and overhead boarding bridge uses the authored path.
  for(const leg of route.legs){
