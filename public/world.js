@@ -41,6 +41,7 @@ import {
 import { aquariumTank } from "./aquarium-data.js";
 import { attractionVisibility } from "./attraction-visibility.js";
 import { rideGuests } from "./ride-guests.js";
+import {groupBoardingFrame,boardingCandidates} from './group-boarding.js';
 import { createRenderPacer } from "./render-pacer.js";
 import { createGpuFrameQueue } from "./gpu-frame-queue.js";
 import { configureStaticSubmissions } from "./static-submissions.js";
@@ -1383,8 +1384,10 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     getObstacles: (id) => builderObstacles.get(id) || [],
   });
   let nextMagicFarmAttempt=0;
+  const boardingGroups=new Set();let nextBoardingRecruit=0;
   const residentPlay = createResidentPlay({
     concurrentSlides: true,
+    onGroupReserved:g=>boardingGroups.add(g),
     getCat: (id) => npcs.get(id),
     getObject: (id) => itemGroups.get(id),
     groundY: (point, biome) => {
@@ -2628,6 +2631,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       return Promise.reject(
         new Error("Горка занята: дождитесь свободного места."),
       );
+    if(rider&&attraction.userData.groupSeats)boardingGroups.add(attraction);
     const neighbor = decision.friendId ? npcs.get(decision.friendId) : null;
     if (neighbor) {
       const cv = chill.get(decision.friendId);
@@ -4230,6 +4234,32 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       familyFree = (who) =>
         !familyClock?.working ||
         game.jobCity?.profiles[who]?.schedule?.job === "rest";
+    if(!dialogOpen&&callbacks.canSimulateLeisure?.()!==false&&now>=nextBoardingRecruit){
+      nextBoardingRecruit=now+500;
+      let pathBudget=2;
+      for(const g of boardingGroups){
+        const d=g.userData;
+        if(!d.slideRiders?.size||itemGroups.get(d.placementId)!==g){boardingGroups.delete(g);continue;}
+        const seats=d.groupSeats-d.slideRiders.size,departureAt=d.waterGroup?.departureAt??null;
+        if(!seats||departureAt!==null&&now>=departureAt)continue;
+        const slot=[...Array(d.groupSeats).keys()].find(i=>![...d.slideRiders.values()].some(r=>r.slot===i)),target=d.queueForSlot(slot),
+          candidates=[];
+        // Filter cheap existing state first. Path planning is bounded to the
+        // nearest free cats, with two path plans total per half-second.
+        const free=[...npcs].filter(([id,n])=>{
+          const p=game.jobCity?.profiles[id],needs=game.care?.residents[id];
+          return n.profile.biome===d.placement.biome&&(!p?.schedule?.job||familyFree(id))&&!p?.trip&&Date.now()>=(p?.manualUntil||0)&&
+            !residentPlay.get(id)&&!residentPlay.friendVisit(id)&&!jobs.has(id)&&!crew.workers.has(id)&&!housingLife.get(id)&&!leisure.has(id)&&
+            !spa.get(id)&&!chill.get(id)&&!court.get(id)&&!mealVisits.has(id)&&!swimVisits.has(id)&&!n.gatherTrip&&!n.pendingReference&&
+            !gatherParticipants.has(id)&&draggingCat?.catId!==id&&operation?.decision.friendId!==id&&!operation?.partyIds?.has(id)&&
+            now>=(n.manualUntil||0)&&n.model.userData.mood!=='sleep'&&(needs?.hunger??0)<=65&&(needs?.energy??100)>=25;
+        }).sort((a,b)=>a[1].carrier.position.distanceToSquared(g.position)-b[1].carrier.position.distanceToSquared(g.position)).slice(0,pathBudget);
+        for(const [id,n]of free){pathBudget--;candidates.push({id,sameIsland:true,travelMs:d.approachDuration(g.worldToLocal(n.carrier.position.clone()).toArray(),target)});}
+        const next=boardingCandidates(candidates,{seats:1,now,departureAt})[0];
+        if(next)performResident(next.id,{action:'ride',activityId:d.placementId,mood:'happy',thought:'Доєднаюся до друзів у човнику!'},{autonomous:true});
+        if(!pathBudget){boardingGroups.delete(g);boardingGroups.add(g);break;}
+      }
+    }
     if(!dialogOpen&&callbacks.canSimulateLeisure?.()!==false&&now>=nextMagicFarmAttempt&&!islands.get(focused)?.userData.lowOnly){
       nextMagicFarmAttempt=now+1400;
       const harvesters=[...itemGroups.values()].filter(g=>(g.userData.magicBed&&g.userData.placement.biome===focused||g.userData.magicFarm&&g.userData.placementId==='orchard-'+focused)&&g.userData.harvests?.available());
@@ -5129,6 +5159,13 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
           );
         }
       } else if (op.stage === "queue") {
+        if(op.attraction.userData.groupSeats){
+          const f=groupBoardingFrame(op.attraction,op.rider,now,reduced);
+          chichiCarrier.position.copy(op.attraction.localToWorld(framePoint.fromArray(f.position)));
+          chichiCarrier.quaternion.copy(op.attraction.quaternion).multiply(new THREE.Quaternion().fromArray(f.quaternion));
+          walking=f.walking;reaction=f.reaction;
+          if(f.departed){op.stage='activity';op.activityStart=op.rider.launchAt;}
+        }else{
         const u = reduced
           ? 1
           : THREE.MathUtils.clamp((now - op.rider.launchAt) / 1100, 0, 1);
@@ -5140,6 +5177,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
         if (u >= 1) {
           op.stage = "activity";
           op.activityStart = op.attraction.userData.groupSeats ? op.rider.launchAt + 1100 : now;
+        }
         }
       } else if (op.stage === "travel") {
         const p = Math.min((now - op.start) / op.duration, 1);
@@ -5194,7 +5232,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
             op.attraction.userData.playing = true;
         }
       } else {
-        const elapsed = (now - op.activityStart) / 1000,
+        const elapsed = (now - op.activityStart) / 1000 + (op.rider?.routeOffset||0),
           g = op.attraction,
           id = g?.userData.id,
           action = op.decision.action;
@@ -6030,6 +6068,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     },
     dispose() {
       disposed = true;
+      boardingGroups.clear();
       frameProfile?.dispose();
       shaderWarmup.dispose();
       shadowDepth.dispose();

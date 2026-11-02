@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import {groupBoardingFrame} from './group-boarding.js';
 import {catNavigationRadius} from './cat-navigation-size.js';
 import { yarnPlayFrame, applyYarnFrame, resetYarn } from "./yarn-play.js";
 import { swimFrame } from "./swimming.js";
@@ -48,6 +49,7 @@ export function createResidentPlay({
   onComplete = () => {},
   random = Math.random,
   concurrentSlides = false,
+  onGroupReserved = () => {},
 }) {
   const visits = new Map(),
     locks = new Map(),
@@ -189,6 +191,7 @@ export function createResidentPlay({
       origin: friend?.carrier.position.clone(),
     };
     visits.set(id, v);
+    if(rider&&object.userData.groupSeats)onGroupReserved(object);
     locks.set(decision.activityId || "friend:" + decision.friendId, id);
     return true;
   }
@@ -249,6 +252,14 @@ export function createResidentPlay({
       return result;
     }
     if (v.phase === "queue") {
+      if(g.userData.groupSeats){
+        const f=groupBoardingFrame(g,v.rider,now,reduced);
+        result.position.copy(g.localToWorld(new THREE.Vector3(...f.position)));
+        result.quaternion=g.quaternion.clone().multiply(new THREE.Quaternion().fromArray(f.quaternion));
+        result.walking=f.walking;result.reaction=f.reaction;
+        if(f.departed){v.phase='activity';v.activityStart=v.rider.launchAt;}
+        return result;
+      }
       const launch = v.rider.launchAt,
         u = Math.min(1, Math.max(0, (now - launch) / 1100));
       localQueue(result, g, v.rider, u);
@@ -258,7 +269,7 @@ export function createResidentPlay({
       }
       return result;
     }
-    const elapsed = (now - v.activityStart) / 1000;
+    const elapsed = (now - v.activityStart) / 1000 + (v.rider?.routeOffset||0);
     v.elapsed = elapsed;
     let local = point.set(0, 0.16, 0),
       world = false;

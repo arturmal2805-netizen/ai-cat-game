@@ -494,7 +494,7 @@ async function localWorker() {
                   .replace("const harvesters=[...itemGroups.values()]", "const harvesters=(window.__lagoonQA?.pauseHarvestAutonomy?[]:[...itemGroups.values()])")
                   .replace(
                     "    const time = now / 1000;",
-                    "    if(window.__lagoonQA?.freeze){requestAnimationFrame(loop);return;}\n    if(window.__lagoonQA?.pinnedRide !== undefined && operation?.stage === 'activity') operation.activityStart=now-window.__lagoonQA.pinnedRide*1000;\n    for(const p of window.__lagoonQA?.atollPinnedResidents||[]){const v=residentPlay.get(p.id);if(v?.phase==='activity')v.activityStart=now-p.time*1000;}\n    if(window.__lagoonQA?.pinnedSocial){const p=window.__lagoonQA.pinnedSocial,v=p.heroMeeting?operation:residentPlay.get(p.actorId);if(v)v.activityStart=now-p.time*1000;}\n    const time = now / 1000;",
+                    "    if(window.__lagoonQA?.freeze){requestAnimationFrame(loop);return;}\n    if(window.__lagoonQA?.pinnedRide !== undefined && operation?.stage === 'activity') operation.activityStart=now-(window.__lagoonQA.pinnedRide-(operation.rider?.routeOffset||0))*1000;\n    for(const p of window.__lagoonQA?.atollPinnedResidents||[]){const v=residentPlay.get(p.id);if(v?.phase==='activity')v.activityStart=now-(p.time-(v.rider?.routeOffset||0))*1000;}\n    if(window.__lagoonQA?.pinnedSocial){const p=window.__lagoonQA.pinnedSocial,v=p.heroMeeting?operation:residentPlay.get(p.actorId);if(v)v.activityStart=now-(p.time-(v.rider?.routeOffset||0))*1000;}\n    const time = now / 1000;",
                   )
                   .replace(
                     "    const dt = Math.min((now - previousTime) / 1000, 0.1);",

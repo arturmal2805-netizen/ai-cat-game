@@ -35,26 +35,32 @@ export async function checkShowcaseWaterApp(page,review){
   console.log('WATER_TEN_APP: real ride '+spec.kind);
   const target=await page.evaluate(item=>{const q=__lagoonQA,p=__lagoonSaveQA.getGame().placements.find(p=>p.item===item),b=q.islands.get(p.biome);__lagoonSaveQA.getWorld().focus(p.biome);q.reviewView(b.position.x+p.x,b.position.z+p.z,160);return p.id;},spec.id);
   await page.waitForFunction(id=>__lagoonQA.itemGroups.get(id)?.userData.built,target,{timeout:240000});
-  await page.evaluate(target=>{const q=__lagoonQA;q.pinnedRide=undefined;window.__waterHero=q.perform({mood:'happy',action:'ride',activityId:target,thought:'Екстримальна водна пригода!'});},target);
+  await page.evaluate(({target,groupTest})=>{const q=__lagoonQA;q.pinnedRide=undefined;
+   if(groupTest){const g=q.itemGroups.get(target),game=__lagoonSaveQA.getGame();for(const id of ['adopt-crumb','adopt-marshmallow']){const n=q.npcs.get(id),p=game.jobCity.profiles[id];p.manualUntil=0;p.trip=null;p.schedule={...p.schedule,job:'rest',outings:[]};n.manualUntil=0;n.manualAnchor=null;n.profile.biome=g.userData.placement.biome;n.carrier.position.copy(g.localToWorld(new q.THREE.Vector3(...g.userData.route.entry)));q.setCatMood(n.model,'happy',{immediate:true});if(game.care?.residents[id])Object.assign(game.care.residents[id],{hunger:0,energy:100});}}
+   window.__waterHero=q.perform({mood:'happy',action:'ride',activityId:target,thought:'Екстримальна водна пригода!'});
+  },{target,groupTest:spec.kind==='canyon-rafting'});
+  if(spec.kind==='canyon-rafting'){
+   await page.waitForFunction(()=>['adopt-crumb','adopt-marshmallow'].every(id=>__lagoonQA.residentPlay.get(id)?.autonomous),null,{timeout:30000});
+   await page.evaluate(()=>{for(const id of ['adopt-crumb','adopt-marshmallow']){const v=__lagoonQA.residentPlay.get(id);v.started=performance.now()-v.travel-20;__lagoonQA.npcs.get(id).manualUntil=performance.now()+1e8;}});
+  }
   await page.waitForFunction(()=>__lagoonQA.getOperation()?.stage==='travel');
   await page.evaluate(()=>{const op=__lagoonQA.getOperation();op.start=performance.now()-op.duration-20;});
   await page.waitForFunction(()=>__lagoonQA.getOperation()?.stage==='queue');
-  await page.evaluate(()=>{__lagoonQA.getOperation().rider.launchAt=performance.now()-2000;});
+  if(spec.seats>1){
+   await page.waitForFunction(()=>__lagoonQA.getOperation()?.rider.seated);
+   const clock=await page.evaluate(()=>{const op=__lagoonQA.getOperation();return{seatedAt:op.rider.group.seatedAt,departureAt:op.rider.group.departureAt,stage:op.stage};});
+   assert.equal(clock.departureAt-clock.seatedAt,15000);assert.equal(clock.stage,'queue');
+   if(spec.kind==='canyon-rafting')await page.waitForFunction(()=>['adopt-crumb','adopt-marshmallow'].every(id=>__lagoonQA.residentPlay.get(id)?.rider.seated));
+   await page.evaluate(()=>{const d=__lagoonQA.getOperation().attraction.userData,group=__lagoonQA.getOperation().rider.group;group.departureAt=performance.now()-20;for(const r of d.slideRiders.values())if(r.group===group)r.launchAt=group.departureAt;});
+  }else await page.evaluate(()=>{__lagoonQA.getOperation().rider.launchAt=performance.now()-2000;});
   await page.waitForFunction(()=>__lagoonQA.getOperation()?.stage==='activity');
   const sample=await page.evaluate(target=>{const q=__lagoonQA,d=q.itemGroups.get(target).userData,leg=d.route.legs.find(l=>['ride','rafting','drop','flight','surf','float','carousel','swing','vortex'].includes(l.phase));return leg.start+leg.duration*.46;},target);
   await page.evaluate(t=>{__lagoonQA.pinnedRide=t;},sample);
   await page.waitForFunction(t=>{const op=__lagoonQA.getOperation();return op?.stage==='activity'&&Math.abs((op.rider?.elapsed??-1)-t)<.001;},sample);
   await page.evaluate(()=>__lagoonQA.drawFrame());
   if(spec.kind==='canyon-rafting'){
-   for(const id of ['adopt-crumb','adopt-marshmallow']){
-    assert.equal(await page.evaluate(({id,target})=>__lagoonQA.performResident(id,{action:'ride',activityId:target,mood:'happy',thought:'Рафтинг разом!'}),{id,target}),true);
-    await page.waitForFunction(id=>__lagoonQA.residentPlay.get(id),id);
-    await page.evaluate(id=>{const v=__lagoonQA.residentPlay.get(id);v.started=performance.now()-v.travel-20;__lagoonQA.npcs.get(id).manualUntil=performance.now()+1e8;},id);
-    await page.waitForFunction(id=>__lagoonQA.residentPlay.get(id)?.phase==='queue',id);
-    await page.evaluate(id=>{__lagoonQA.residentPlay.get(id).rider.launchAt=__lagoonQA.getOperation().rider.launchAt;},id);
-    await page.waitForFunction(id=>__lagoonQA.residentPlay.get(id)?.phase==='activity',id);
-    await page.evaluate(({id,time})=>(__lagoonQA.atollPinnedResidents||=[]).push({id,time}),{id,time:sample});
-   }
+   await page.waitForFunction(()=>['adopt-crumb','adopt-marshmallow'].every(id=>__lagoonQA.residentPlay.get(id)?.phase==='activity'));
+   await page.evaluate(time=>{__lagoonQA.atollPinnedResidents=['adopt-crumb','adopt-marshmallow'].map(id=>({id,time}));},sample);
    await page.waitForFunction(()=>__lagoonQA.residentPlay.visits.size===2);
   }
   const actual=await page.evaluate(({target,t})=>{const q=__lagoonQA,g=q.itemGroups.get(target),f=g.userData.rideFrame(t,false,0),expected=g.localToWorld(new q.THREE.Vector3(...f.position));return{phase:f.phase,error:q.chichiCarrier.position.distanceTo(expected),reaction:g.userData.rideReaction(t,false,0),riders:g.userData.slideRiders.size,boats:g.userData.slideVehicles.filter(v=>v.visible).length,contextLost:q.renderer.getContext().isContextLost()};},{target,t:sample});

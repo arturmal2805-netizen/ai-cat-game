@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import {beginGroupBoarding} from './group-boarding.js';
 
 export const SLIDE_CAPACITY = 4,
   SLIDE_HEADWAY_MS = 5200;
@@ -15,11 +16,11 @@ export function reserveSlide(g, id) {
   while (used.has(slot)) slot++;
   const entry = d.entryForSlot?.(slot) || d.approachOffset || d.rideFrame(0, true).position,
     w = d.footprint?.[0] || d.placement?.footprint?.[0] || 12,
-    queue = slot && d.premiumWater
+    queue = d.queueForSlot?.(slot) || (slot && d.premiumWater
       ? [entry[0]+Math.cos((slot-1)*Math.PI/4)*8,entry[1],entry[2]+Math.sin((slot-1)*Math.PI/4)*8]
       : slot
       ? [Math.min(entry[0], -w / 2 + 2), entry[1], entry[2] + slot * 4.1]
-      : [...entry],
+      : [...entry]),
     ticket = {
       id,
       slot,
@@ -38,9 +39,7 @@ export function reserveSlide(g, id) {
 export function launchSlide(g, ticket, now) {
   if (ticket.launchAt !== null) return ticket.launchAt;
   if(g.userData.groupSeats){
-    const d=g.userData;
-    if(!d.waterGroup||now>d.waterGroup.launchAt){d.waterGroup={launchAt:Math.max(now+12000,(d.waterGroup?.launchAt??-Infinity)+d.duration*1000+1500)};}
-    ticket.launchAt=d.waterGroup.launchAt;d.lastSlideLaunch=ticket.launchAt;return ticket.launchAt;
+    return beginGroupBoarding(g,ticket,now);
   }
   ticket.launchAt = Math.max(
     now,
@@ -49,12 +48,18 @@ export function launchSlide(g, ticket, now) {
   g.userData.lastSlideLaunch = ticket.launchAt;
   return ticket.launchAt;
 }
-export function releaseSlide(g, id) {
+export function releaseSlide(g, id, now=performance.now()) {
   const ticket = g?.userData.slideRiders?.get(id);
   if (!ticket) return;
   if (g.userData.slideVehicles?.[ticket.slot]&&!g.userData.sharedVehicle)
     g.userData.slideVehicles[ticket.slot].visible = false;
   g.userData.slideRiders.delete(id);
+  const next=g.userData.waterGroup;
+  if(next?.seatedAt===null&&next.availableAt>now&&
+    [...g.userData.slideRiders.values()].every(r=>!r.group||r.group===next)){
+    next.availableAt=now;
+    for(const r of g.userData.slideRiders.values())if(r.group===next)r.boardAt=Math.min(r.boardAt,now);
+  }
   if(g.userData.sharedVehicle)updateSlideVehicles(g,g.userData.vehicleReduced||false);
   if (!g.userData.slideRiders.size) {
     delete g.userData.rideElapsed;
