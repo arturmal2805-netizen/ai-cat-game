@@ -782,3 +782,11 @@ Share immutable attributes only when the complete structural cohort is byte-iden
 On shared VBO retirement or actual model destruction, invalidate every resident peer VAO through `retireGeometryBuffers`; preserve living rig/atlas registrations and dispose each final owner once. Require actual GL colour/shadow parity, pressure-return uploads, destruction/recreation and every-island native RAF camera coverage. Lower cache bytes are a resource improvement, not a physical-device FPS guarantee.
 
 Elephant skin refinements preserve `baseline/approved-elephant-animation-20261102` motion bytes, 43 joint identities and the golden animation fixture. Keep the slight wet sheen, original opaque groom pass and species-specific skin revision; do not alter the approved family, leg, trunk or visitor choreography for visual polish.
+
+### Individual animal house guests
+
+All 21 original zoo identities can visit inhabited personal houses for half a game day (720,000 ms at the current clock). Keep optional `zoo.guestVisits` backward compatible, bounded by original animal IDs, idempotent across retry/reload and shared merges, with absolute expiry and durable cancellation. No duplicate animal, purchase/payment or AI call is created. Removed homes/residences and elapsed offline time restore the original enclosure actor.
+
+The player chose temporary shrinking inside homes with every model detail preserved. Use the existing house, two reserved cat bed seats, clear front aisle and actual bath. Wait for physical hosts, preserve work/manual priority, ease activity transitions and serialize bath use per household. Native animal touch dragging must restore its matrix on failed drops, cancellation, pinch and disposal; a phone house selector is also required.
+
+Guest views share the same immutable species render geometry and baked pose texture, with independent scalar uniforms and one static instance matrix. Hide/restore original membership only on changes, preserve logical indices in GPU/CPU picking, and free shared buffers only after the last owner. Coalesce selected-only preparation and invalidate late completion/retry loops. Check all-species actual renders, native animal touch drag/tap, two-cat home state, repeated private SQLite saves, offline expiry, purchase preservation and every-island cameras before publishing.
