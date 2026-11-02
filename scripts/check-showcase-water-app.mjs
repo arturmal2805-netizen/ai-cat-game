@@ -36,7 +36,7 @@ export async function checkShowcaseWaterApp(page,review){
   const target=await page.evaluate(item=>{const q=__lagoonQA,p=__lagoonSaveQA.getGame().placements.find(p=>p.item===item),b=q.islands.get(p.biome);__lagoonSaveQA.getWorld().focus(p.biome);q.reviewView(b.position.x+p.x,b.position.z+p.z,160);return p.id;},spec.id);
   await page.waitForFunction(id=>__lagoonQA.itemGroups.get(id)?.userData.built,target,{timeout:240000});
   await page.evaluate(({target,groupTest})=>{const q=__lagoonQA;q.pinnedRide=undefined;
-   if(groupTest){const g=q.itemGroups.get(target),game=__lagoonSaveQA.getGame();for(const id of ['adopt-crumb','adopt-marshmallow']){const n=q.npcs.get(id),p=game.jobCity.profiles[id];p.manualUntil=0;p.trip=null;p.schedule={...p.schedule,job:'rest',outings:[]};n.manualUntil=0;n.manualAnchor=null;n.profile.biome=g.userData.placement.biome;n.carrier.position.copy(g.localToWorld(new q.THREE.Vector3(...g.userData.route.entry)));q.setCatMood(n.model,'happy',{immediate:true});if(game.care?.residents[id])Object.assign(game.care.residents[id],{hunger:0,energy:100});}}
+   if(groupTest){const g=q.itemGroups.get(target),game=__lagoonSaveQA.getGame();for(const id of ['adopt-crumb','adopt-marshmallow']){const n=q.npcs.get(id),p=game.jobCity?.profiles[id];if(p){p.manualUntil=0;p.trip=null;p.schedule={...p.schedule,job:'rest',outings:[]};}n.manualUntil=0;n.manualAnchor=null;n.profile.biome=g.userData.placement.biome;n.carrier.position.copy(g.localToWorld(new q.THREE.Vector3(...g.userData.route.entry)));q.setCatMood(n.model,'happy',{immediate:true});if(game.care?.residents[id])Object.assign(game.care.residents[id],{hunger:0,energy:100});}}
    window.__waterHero=q.perform({mood:'happy',action:'ride',activityId:target,thought:'Екстримальна водна пригода!'});
   },{target,groupTest:spec.kind==='canyon-rafting'});
   if(spec.kind==='canyon-rafting'){
@@ -49,7 +49,7 @@ export async function checkShowcaseWaterApp(page,review){
   if(spec.seats>1){
    await page.waitForFunction(()=>__lagoonQA.getOperation()?.rider.seated);
    const clock=await page.evaluate(()=>{const op=__lagoonQA.getOperation();return{seatedAt:op.rider.group.seatedAt,departureAt:op.rider.group.departureAt,stage:op.stage};});
-   assert.equal(clock.departureAt-clock.seatedAt,15000);assert.equal(clock.stage,'queue');
+   assert.ok(Math.abs(clock.departureAt-clock.seatedAt-15000)<1e-6,'15 seconds from actual first seating');assert.equal(clock.stage,'queue');
    if(spec.kind==='canyon-rafting')await page.waitForFunction(()=>['adopt-crumb','adopt-marshmallow'].every(id=>__lagoonQA.residentPlay.get(id)?.rider.seated));
    await page.evaluate(()=>{const d=__lagoonQA.getOperation().attraction.userData,group=__lagoonQA.getOperation().rider.group;group.departureAt=performance.now()-20;for(const r of d.slideRiders.values())if(r.group===group)r.launchAt=group.departureAt;});
   }else await page.evaluate(()=>{__lagoonQA.getOperation().rider.launchAt=performance.now()-2000;});

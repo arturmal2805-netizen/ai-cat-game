@@ -21,7 +21,7 @@ test('15 seconds begin only after actual seating, stay fixed for later passenger
  launchSlide(g,b,13000);groupBoardingFrame(g,b,14100);assert.equal(b.group,a.group);assert.equal(b.launchAt,a.launchAt);
  const before=groupBoardingFrame(g,a,a.launchAt-1);assert.equal(before.departed,false);assert.equal(before.walking,false);
  for(const r of [a,b]){assert.equal(groupBoardingFrame(g,r,a.launchAt).departed,true);assert.equal(r.routeOffset,route.boardingEnd);}
- for(const r of [a,b])groupBoardingFrame(g,r,a.launchAt+3456);
+ for(const r of [a,b]){const f=groupBoardingFrame(g,r,a.launchAt+3456);assert.ok(distance(f.position,route.frame(r.elapsed,false,r.lane).position)<1e-7,'even a late departure callback must put the cat on its moving boat in this same frame');}
  assert.equal(a.elapsed,b.elapsed);assert.equal(a.elapsed,route.boardingEnd+3.456);
  assert.ok(distance(before.position,route.frame(route.boardingEnd,false,a.lane).position)<1e-6);
 });

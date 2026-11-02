@@ -48,9 +48,11 @@ export function groupBoardingFrame(g,ticket,now,reduced=false) {
   const departed=ticket.seated&&group.departureAt!==null&&now>=group.departureAt;
   if(departed){ticket.routeOffset=route.boardingEnd;ticket.launchAt=group.departureAt;}
   ticket.elapsed=now<ticket.boardAt?null:departed?route.boardingEnd+(now-group.departureAt)/1000:seatTime;
-  const reaction={...(d.rideReaction?.(seatTime,reduced,ticket.lane)||{}),rideSit:reduced?0:smooth(u),weight:reduced?0:smooth(u)};
+  const current=departed?route.frame(ticket.elapsed,false,ticket.lane):seat,
+    reaction={...(d.rideReaction?.(ticket.elapsed??seatTime,reduced,ticket.lane)||{})};
+  if(!departed){reaction.rideSit=reduced?0:smooth(u);reaction.weight=reduced?0:smooth(u);}
   d.update?.(now/1000,reduced);
-  return {...seat,position,walking:u>0&&u<1,departed,reaction};
+  return {...current,position:departed?current.position:position,walking:departed?current.walking:u>0&&u<1,departed,reaction};
 }
 
 // Pure bounded selection: the world supplies its existing work/care/manual

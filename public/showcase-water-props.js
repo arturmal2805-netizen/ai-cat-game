@@ -1,6 +1,8 @@
 import * as T from 'three';
 import {shape,line,torus,flowerCluster,teaPavilion,lantern,surfaceTexture} from './fantasy-scenery.js';
 import {showcaseWaterfallSteps as waterfallSteps} from './showcase-waterfalls.js';
+import {slideBasin} from './slide-water.js';
+import {slideBasinWater} from './slide-basin-optics.js';
 import {tropicalPalm,tropicalTree,flowerBank,sandstoneColumn,tropicalShore} from './showcase-water-landscape.js';
 const plankGeometry=new T.BoxGeometry(1,1,1);plankGeometry.userData.sharedScenery=true;
 const steel=new T.MeshStandardMaterial({color:0x789295,roughness:.35,metalness:.24});steel.userData.sharedScenery=true;
@@ -8,7 +10,7 @@ const crystalGeometry=new T.LatheGeometry([new T.Vector2(.72,-.5),new T.Vector2(
 // Distinct landscapes, authored against the actual route clearance. All helpers
 // build once into the existing material batch; waterfall buffers stay fixed.
 export function* showcaseProps(props,root,spec,route){
- const falls=[],obstacles=[],passages=[],margin=spec.radius+2.4,dry=[];for(const leg of route.legs)if(['board','climb'].includes(leg.phase))for(let i=0;i<=24;i++)dry.push(leg.fn(i/24).position);
+ const falls=[],springs=[],obstacles=[],passages=[],margin=spec.radius+2.4,dry=[];for(const leg of route.legs)if(['board','climb'].includes(leg.phase))for(let i=0;i<=24;i++)dry.push(leg.fn(i/24).position);
  const clear=(x,y,z,rx,ry,rz)=>!dry.some(p=>Math.abs(p[0]-x)<rx+4&&Math.abs(p[2]-z)<rz+4&&Math.abs(p[1]-y)<ry+3)&&!route.geometry.some(g=>g.samples.some((s,i)=>i%4===0&&Math.abs(s.p.x-x)<rx+margin&&Math.abs(s.p.z-z)<rz+margin&&Math.abs(s.p.y-spec.radius/2-y)<ry+margin));
  const solid=(kind,color,x,y,z,sx,sy,sz)=>{if(!clear(x,y,z,sx,sy,sz))return null;const m=shape(props,kind,color,x,y,z,sx,sy,sz);if(y-sy/2<1)obstacles.push({x,z,radius:Math.max(sx,sz)});return m;};
  const cliff=(x,z,h,r,color=0xc5aa83)=>{if(!clear(x,h/2,z,r,h/2,r))return false;sandstoneColumn(props,x,z,h,r,color);obstacles.push({x,z,radius:r*1.16});return true;};
@@ -21,7 +23,16 @@ export function* showcaseProps(props,root,spec,route){
  const bridge=(x,y,z,length=18,alongX=true)=>{const group=new T.Group();group.position.set(x,y,z);if(!alongX)group.rotation.y=Math.PI/2;props.add(group);shape(group,'cube',0xbf9766,0,0,0,length,.5,4.3);for(const side of [-1,1]){for(let i=0;i<=8;i++)shape(group,'pole',0xc79d65,-length/2+i*length/8,1,side*2,.15,2.4,.15);line(group,[-length/2,1.9,side*2],[length/2,1.9,side*2],0xd6b277,.14);}return group;};
  const crystal=(x,y,z,h,color)=>{const m=solid('cone',color,x,y+h/2,z,h*.19,h,h*.19);if(m){m.geometry=crystalGeometry;m.material=new T.MeshStandardMaterial({color,roughness:.18,metalness:.12,flatShading:true});m.rotation.z=(x%3-1)*.13;const small=shape(props,'cone',0xbba0f5,x+1.3,y+h*.25,z+.3,h*.10,h*.5,h*.1);small.geometry=crystalGeometry;small.material=m.material;}};
  const fall=function*(x,y,z,width,height){const f=yield*waterfallSteps(x,z,width,height,{color:0x3bd4ed});f.position.y+=y-.12;root.add(f);falls.push(f);};
- yield*tropicalShore(props,spec,clear,obstacles);
+ const cascades=yield*tropicalShore(props,spec,clear,obstacles);
+ for(const c of cascades){
+  for(const [x,z,rx,rz,surfaceY]of [[c.x,c.z,c.width*.78,3.1,.22],[...c.spring,c.radius,c.radius*.86,c.y+.16]]){
+   const pond=slideBasin({x,z,rx,rz,surfaceY,color:0x16c9ed});slideBasinWater(pond.userData.water);pond.userData.bed.material.color.setHex(0x8ad8f3);
+   pond.updateMatrix();for(const child of [...pond.children])if(child.material!==pond.userData.water){child.applyMatrix4(pond.matrix);props.add(child);}
+   root.add(pond);springs.push(pond);
+  }
+  yield*fall(c.x,c.y,c.z,c.width,c.y-.22);falls.at(-1).rotation.y=c.angle;
+  obstacles.push({x:c.x,z:c.z,radius:Math.max(c.width*.78,3.1)+.8});
+ }
  for(const [x,z,h,r]of [[-43,-34,18,8],[44,-34,24,8],[-47,10,14,6],[46,16,17,7]]){if(cliff(x,z,h,r)){palm(x,h,z,1.2);yield*fall(x,h,z+r*.85,3.4,h-1.45);}yield;}
  const builders={
   'barrel-wave':function*(){for(const [x,z]of [[-43,-5],[41,-5],[-34,25],[35,25]])palm(x,1,z,1.5);for(const [x,z]of [[-35,26],[36,28],[-25,-42],[30,-36]])if(clear(x,1,z,5,3,5))flowerBank(props,x,.3,z,0xf59bc8,1.1);for(const [x,z,h]of [[-36,-19,22],[35,-21,30]])if(cliff(x,z,h,6.2)){palm(x,h,z,1.25);teaPavilion(props,x,h+.7,z+1,0xe8bc64,2.0);yield*fall(x,h,z+5.3,4,h-1.45);}},
@@ -93,5 +104,5 @@ export function* showcaseProps(props,root,spec,route){
  // Independent dry queues and wide exits remain outside the water and scenery.
  for(let i=0;i<7;i++){shape(props,'cube',0xe9d7b3,-54,.25,28+i*2.1,9,.2,1.6);for(const side of [-1,1])shape(props,'pole',0xc2a16e,-54+side*4.8,1.2,28+i*2.1,.1,2.1,.1);}
  for(let i=0;i<8;i++)shape(props,'cube',0xdac5a2,route.pool[0]+route.pool[2]-2+i*.65,1.45-i*.17,route.pool[1],1.1,.23,4.8);
- return {groundObstacles:obstacles,waterfalls:falls,hollowPassages:passages,update(time,reduced){for(const f of falls)f.userData.update?.(time,reduced);}};
+ return {groundObstacles:obstacles,waterfalls:falls,springs,hollowPassages:passages,update(time,reduced){for(const f of falls)f.userData.update?.(time,reduced);for(const p of springs)p.userData.update(time,reduced);}};
 }
