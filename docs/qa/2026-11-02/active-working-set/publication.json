@@ -1,0 +1,199 @@
+{
+  "release": "f452da68b22048de9df7b1e3a264495ab1a26800",
+  "run": 41408165780,
+  "sites": {
+    "pages": {
+      "entry": "./dist/app.js?v=a42cd4572a376001",
+      "scriptSHA256": "a42cd4572a376001424b7cbf080fdd620698ffa4c99d993c9a01b081f1e25af0",
+      "assets": [
+        {
+          "name": "art/zoo-coat-ce439863dc570346.webp",
+          "bytes": 2360034,
+          "sha256": "ce439863dc570346d2872f85bf4dddf137c3429e0ed4cca5403355c211f33209"
+        },
+        {
+          "name": "art/previews/catalog.json",
+          "bytes": 5043,
+          "sha256": "5b121df3c3622ec4f425afdf3076960f5e1b82ae4e8b7e6b962d1b33fb6b3bd7"
+        },
+        {
+          "name": "art/previews/zoo-elephant.png",
+          "bytes": 37700,
+          "sha256": "49b53caaea10ba0cfe93a85bc2eb7851f283c9dde5dda305ef8477c557c9fefc"
+        },
+        {
+          "name": "art/previews/zoo-polar.png",
+          "bytes": 26232,
+          "sha256": "48ff62a6a0a424d39214ce34565e9461179b7387ffa66cb79cadb33429b3a861"
+        },
+        {
+          "name": "art/previews/zoo-otter.png",
+          "bytes": 19663,
+          "sha256": "c6e6c3ace39a99d0bdace841d5aded1c6797ce07e47c46765eaba5a54c422906"
+        },
+        {
+          "name": "art/previews/zoo-gorilla.png",
+          "bytes": 48412,
+          "sha256": "f85ca1a62210ec9683ae085f4f48cc6e6617124431d7be9601820551b58bf882"
+        },
+        {
+          "name": "art/previews/zoo-axolotl.png",
+          "bytes": 26046,
+          "sha256": "db3361717649d280f700c43fec1b2fc225f3798400240aaba7965759008f6852"
+        },
+        {
+          "name": "art/previews/biome-magic-zoo.png",
+          "bytes": 51294,
+          "sha256": "19aa803bd8fee1a48ca77da46be8c3207663d3d43958d6074cc9f30df0742c14"
+        }
+      ],
+      "models": [
+        {
+          "species": "elephant",
+          "bytes": 3391832,
+          "sha256": "6c9388cd3da7b0529c7318dde39b19426b2f513db2d3bc46ee1960e74fb36447",
+          "faceRevision": null,
+          "poseFrames": 400
+        },
+        {
+          "species": "axolotl",
+          "bytes": 2623908,
+          "sha256": "c2262a989f8b2113e309c31e2c18a161fb9e4974d610e81eb0e5c79ec7809b00",
+          "faceRevision": "axolotl-eyes-v2",
+          "poseFrames": 400
+        },
+        {
+          "species": "otter",
+          "bytes": 3176192,
+          "sha256": "c96ca902a235f593b7a8ecf47370fab3d12b845b65a947175214a97fbb9117d3",
+          "faceRevision": null,
+          "poseFrames": 400
+        },
+        {
+          "species": "polar",
+          "bytes": 4734108,
+          "sha256": "35301efaef99904d0643aa9e1e31c8f27a28c11279ab6dfb671d5627cf2bdd63",
+          "faceRevision": null,
+          "poseFrames": 400
+        },
+        {
+          "species": "gorilla",
+          "bytes": 4224424,
+          "sha256": "1290f9a59e4b98cc2c6887d7d47cb94fcc9a2265503e378449e8531f81ffe70d",
+          "faceRevision": "gorilla-face-v2",
+          "poseFrames": 496
+        }
+      ]
+    },
+    "worker": {
+      "entry": "./dist/app.js?v=a42cd4572a376001",
+      "scriptSHA256": "a42cd4572a376001424b7cbf080fdd620698ffa4c99d993c9a01b081f1e25af0",
+      "assets": [
+        {
+          "name": "art/zoo-coat-ce439863dc570346.webp",
+          "bytes": 2360034,
+          "sha256": "ce439863dc570346d2872f85bf4dddf137c3429e0ed4cca5403355c211f33209"
+        },
+        {
+          "name": "art/previews/catalog.json",
+          "bytes": 5043,
+          "sha256": "5b121df3c3622ec4f425afdf3076960f5e1b82ae4e8b7e6b962d1b33fb6b3bd7"
+        },
+        {
+          "name": "art/previews/zoo-elephant.png",
+          "bytes": 37700,
+          "sha256": "49b53caaea10ba0cfe93a85bc2eb7851f283c9dde5dda305ef8477c557c9fefc"
+        },
+        {
+          "name": "art/previews/zoo-polar.png",
+          "bytes": 26232,
+          "sha256": "48ff62a6a0a424d39214ce34565e9461179b7387ffa66cb79cadb33429b3a861"
+        },
+        {
+          "name": "art/previews/zoo-otter.png",
+          "bytes": 19663,
+          "sha256": "c6e6c3ace39a99d0bdace841d5aded1c6797ce07e47c46765eaba5a54c422906"
+        },
+        {
+          "name": "art/previews/zoo-gorilla.png",
+          "bytes": 48412,
+          "sha256": "f85ca1a62210ec9683ae085f4f48cc6e6617124431d7be9601820551b58bf882"
+        },
+        {
+          "name": "art/previews/zoo-axolotl.png",
+          "bytes": 26046,
+          "sha256": "db3361717649d280f700c43fec1b2fc225f3798400240aaba7965759008f6852"
+        },
+        {
+          "name": "art/previews/biome-magic-zoo.png",
+          "bytes": 51294,
+          "sha256": "19aa803bd8fee1a48ca77da46be8c3207663d3d43958d6074cc9f30df0742c14"
+        }
+      ],
+      "models": [
+        {
+          "species": "elephant",
+          "bytes": 3391832,
+          "sha256": "6c9388cd3da7b0529c7318dde39b19426b2f513db2d3bc46ee1960e74fb36447",
+          "faceRevision": null,
+          "poseFrames": 400
+        },
+        {
+          "species": "axolotl",
+          "bytes": 2623908,
+          "sha256": "c2262a989f8b2113e309c31e2c18a161fb9e4974d610e81eb0e5c79ec7809b00",
+          "faceRevision": "axolotl-eyes-v2",
+          "poseFrames": 400
+        },
+        {
+          "species": "otter",
+          "bytes": 3176192,
+          "sha256": "c96ca902a235f593b7a8ecf47370fab3d12b845b65a947175214a97fbb9117d3",
+          "faceRevision": null,
+          "poseFrames": 400
+        },
+        {
+          "species": "polar",
+          "bytes": 4734108,
+          "sha256": "35301efaef99904d0643aa9e1e31c8f27a28c11279ab6dfb671d5627cf2bdd63",
+          "faceRevision": null,
+          "poseFrames": 400
+        },
+        {
+          "species": "gorilla",
+          "bytes": 4224424,
+          "sha256": "1290f9a59e4b98cc2c6887d7d47cb94fcc9a2265503e378449e8531f81ffe70d",
+          "faceRevision": "gorilla-face-v2",
+          "poseFrames": 496
+        }
+      ]
+    }
+  },
+  "workerStatus": {
+    "configured": true,
+    "backupConfigured": true,
+    "backupProvider": "openrouter",
+    "backupModel": "dots-studio/dots-3-note-preview:free",
+    "protocol": "living-cat-world-v4",
+    "release": "f452da68b22048de9df7b1e3a264495ab1a26800",
+    "versionId": "d0a1b8e4-ccb2-4e1f-8118-568a7518bdc7",
+    "cloudSave": true
+  },
+  "jobs": [
+    {
+      "name": "test",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "deploy",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "pages",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ]
+}

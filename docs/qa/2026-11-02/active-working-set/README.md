@@ -39,3 +39,9 @@ checks. Twenty-one native orbit/zoom samples include return visits to water and
 zoo. Every accepted sample moves the real camera; no GL context loss or browser/
 HTTP errors in the completed run. Geometry peak during the completed sequence
 is 351.39 MiB; abandoned buffers are still reclaimed under the unchanged policy.
+
+Published `f452da68b22048de9df7b1e3a264495ab1a26800` through CI run
+`41408165780`: test, deploy and Pages all pass. Both live sites serve exact app
+`a42cd4572a376001`, the unchanged five animal buffers/previews/coat, and the
+matching Worker release with shared saves enabled. See `publication.json`.
+A fresh M2/phone report is still required to measure the device FPS result.
