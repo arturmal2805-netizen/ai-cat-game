@@ -1,0 +1,46 @@
+{
+  "browser": "Chromium, CPU-only preparation and UI RAF; not game/device FPS",
+  "order": "A/B/B/A",
+  "rows": [
+    {
+      "cooperative": false,
+      "models": 66,
+      "elapsedMs": 1538.2000000029802,
+      "maxTaskMs": 1538.2000000029802,
+      "workMs": 1538.2000000029802,
+      "rafCallbacks": 3,
+      "maxUiGapMs": 1533.2000000000003,
+      "exactGeometry": true
+    },
+    {
+      "cooperative": true,
+      "models": 66,
+      "elapsedMs": 1562.2000000029802,
+      "maxTaskMs": 33.1000000089407,
+      "workMs": 1544.5999999642372,
+      "rafCallbacks": 16,
+      "maxUiGapMs": 133.30000000000018,
+      "exactGeometry": true
+    },
+    {
+      "cooperative": true,
+      "models": 66,
+      "elapsedMs": 1383.4000000059605,
+      "maxTaskMs": 29.5,
+      "workMs": 1369.7999999076128,
+      "rafCallbacks": 15,
+      "maxUiGapMs": 116.80000000000109,
+      "exactGeometry": true
+    },
+    {
+      "cooperative": false,
+      "models": 66,
+      "elapsedMs": 1542.5999999940395,
+      "maxTaskMs": 1542.5999999940395,
+      "workMs": 1542.5999999940395,
+      "rafCallbacks": 3,
+      "maxUiGapMs": 1533.2999999999993,
+      "exactGeometry": true
+    }
+  ]
+}

@@ -104,6 +104,16 @@ if (colonyCheck)
       "function mode(batched){b.setEnabled(batched);}",
       "function mode(batched){atlas.setEnabled(batched);}",
     );
+if(process.env.CHICHI_DEFERRED_CAT_BATCH){
+  if(!atlasCheck){
+    assert.ok(!native&&!boundsCheck&&!colonyCheck);
+    source=source.replace("import * as T from 'three';","import * as T from 'three';import {createCatPoseAtlas} from './public/cat-pose-atlas.js';")
+      .replace('const camera=','const atlas=createCatPoseAtlas(scene);const camera=')
+      .replace('enableCatRenderBatch(cat);await renderer.compileAsync(scene,camera);','enableCatRenderBatch(cat,atlas);await renderer.compileAsync(scene,camera);');
+  }
+  source=source.replace('cat.scale.setScalar(.7);scene.add(cat);enableCatRenderBatch(cat,atlas);',
+    'enableCatRenderBatch(cat);cat.scale.setScalar(.7);scene.add(cat);enableCatRenderBatch(cat,atlas);');
+}
 const bundle = await build({
   stdin: { contents: source, resolveDir: process.cwd(), loader: "js" },
   bundle: true,

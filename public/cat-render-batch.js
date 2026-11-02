@@ -88,12 +88,23 @@ export function rigShader(material, palette, atlas) {
 }
 
 export function enableCatRenderBatch(cat, atlas = null) {
+  if (cat?.userData.renderBatches) {
+    if (atlas) cat.userData.renderBatches.attachAtlas?.(atlas);
+    return;
+  }
   if (
     !cat?.userData.referenceFamily ||
-    cat.userData.reference ||
-    cat.userData.renderBatches
+    cat.userData.reference
   )
     return;
+  const initialAtlas = atlas;
+  // Pre-world loading can build the exact native buffers in a separate task.
+  // Bind the real atlas only when the existing world consumes this rig.
+  const shaderAtlas = atlas || {
+    get enabled() { return !!atlas?.enabled; },
+    get uniform() { return atlas?.uniform; },
+    material() {},
+  };
   cat.updateWorldMatrix(true, true);
   const groups = new Map(),
     sources = [];
@@ -272,7 +283,7 @@ export function enableCatRenderBatch(cat, atlas = null) {
     const material = parts[0].material.clone();
     material.onBeforeCompile = parts[0].material.onBeforeCompile;
     material.customProgramCacheKey = parts[0].material.customProgramCacheKey;
-    const mesh = new THREE.Mesh(geometry, rigShader(material, palette, atlas));
+    const mesh = new THREE.Mesh(geometry, rigShader(material, palette, shaderAtlas));
     mesh.name = "Exact animated cat batch · " + parts[0].name;
     mesh.castShadow = parts[0].castShadow;
     mesh.receiveShadow = parts[0].receiveShadow;
@@ -287,7 +298,7 @@ export function enableCatRenderBatch(cat, atlas = null) {
         side: material.side,
       }),
       palette,
-      atlas,
+      shaderAtlas,
     );
     mesh.onBeforeRender = mesh.onBeforeShadow = (renderer) => {
       mesh.userData.nativeBuffersResident = true;
@@ -381,6 +392,7 @@ export function enableCatRenderBatch(cat, atlas = null) {
     palettes,
     sources,
     atlas,
+    attachAtlas,
     renderChildren,
     fullRenderChildren: null,
     update: () => update(null, true),
@@ -395,7 +407,18 @@ export function enableCatRenderBatch(cat, atlas = null) {
   updateBounds();
   update(null, true);
   cat.userData.renderBatches.matrixDeferral = deferHiddenLeafMatrices(cat);
-  if (atlas) {
+  let attached = false;
+  function attachAtlas(target) {
+    if (attached || !target) return;
+    attached = true; atlas = target;
+    cat.userData.renderBatches.atlas = target;
+    if (!initialAtlas) {
+      for (const palette of palettes) palette.slot = target.allocate(palette.entries.length);
+      for (const mesh of batches) {
+        target.material(mesh.material);
+        target.material(mesh.customDepthMaterial);
+      }
+    }
     cat.userData.renderBatches.viewId = atlas.register(cat, (renderer) => {
       update(renderer, true);
       frame = renderer.info.render.frame + 1;
@@ -429,6 +452,7 @@ export function enableCatRenderBatch(cat, atlas = null) {
       });
     }
   }
+  if (atlas) attachAtlas(atlas);
 }
 
 export function batchSceneCats(root, atlas = null) {

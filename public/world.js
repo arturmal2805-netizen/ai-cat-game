@@ -224,19 +224,23 @@ import {
   makeAttraction,
   animateAttraction,
 } from "./world-assets.js";
-export function createWorld(container, initialGame, callbacks = {}) {
-  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const mobileRender =
-    container.clientWidth < 700 || matchMedia("(pointer: coarse)").matches;
-  const renderer = new THREE.WebGLRenderer({
+export function createWorldRenderer() {
+  return new THREE.WebGLRenderer({
     antialias: true,
     alpha: false,
     powerPreference: "high-performance",
   });
+}
+export function createWorld(container, initialGame, callbacks = {}, {residentModels=null,preparedRenderer=null} = {}) {
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const mobileRender =
+    container.clientWidth < 700 || matchMedia("(pointer: coarse)").matches;
+  const renderer = preparedRenderer || createWorldRenderer();
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
   const slideAudio = createSlideAudio(renderer.domElement);
   const gpuFrames = createGpuFrameQueue(renderer.getContext());
   const frameProfile = createFrameProfile(renderer);
+  frameProfile?.startupPreparation?.(residentModels?.stats);
   configureStaticSubmissions(renderer);
   const geometryResidency = createGeometryResidency(renderer);
   renderer.shadowMap.enabled = true;
@@ -2107,6 +2111,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       const carrier = new THREE.Group(),
         model =
           littleGuest ||
+          residentModels?.take(profile) ||
           createCat("happy", {
             detail: "npc",
             ...catAppearance(profile),
@@ -2257,6 +2262,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
     itemGroups.set(object.id, g);
   }
   sync = profileFunction("world.sync", sync);
+  syncActors = profileFunction("world.syncActors", syncActors);
   sync(initialGame);
   function focus(id, overview = false, keepFollow = false) {
     exitCourt(false);

@@ -244,6 +244,12 @@ approved improvements when testing a new candidate.
 - Continuous effects reuse fixed buffers and clocks; active gameplay and durable
   state continue when decoration sleeps. Do not reduce anatomy, vegetation,
   water, animation quality, DPR or shadow quality as a shortcut.
+- Initial colony loading prepares each original resident rig and its exact draw
+  buffers in a separate browser task before opening the world. Bind the real
+  pose atlas once when consuming the rig; retain native scale, picking surfaces,
+  matrix/buffer bytes and disposal ownership. Pause remaining preparation in a
+  hidden document, dispose unused rigs, and fall back to native construction
+  when a profile changed. Loading responsiveness is separate from gameplay FPS.
 - Durable saves remain synchronous with write/read-back and the released backup
   and outbox format. Queue merge bases may reuse only internally owned immutable
   snapshots. Always clone an incoming live game; never trust/reuse an arbitrary

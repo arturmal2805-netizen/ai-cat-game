@@ -84,7 +84,8 @@ import {
   HOME_OBJECTS,
 } from "./interactions.js";
 import { apiBase } from "./config.js";
-import { createWorld } from "./world.js";
+import { createWorld, createWorldRenderer } from "./world.js";
+import { prepareResidentModels } from './resident-preparation.js';
 import { restoreSculptCache, scheduleSculptCache } from "./sculpt-cache.js";
 import { profileFunction } from "./work-profile.js";
 import { setText } from "./dom-text.js";
@@ -1429,8 +1430,13 @@ $("item-store").onclick = () => {
     toast(error.message);
   }
 };
+let preparedResidents,preparedRenderer;
 try {
   await restoreSculptCache();
+  preparedRenderer=createWorldRenderer();
+  preparedResidents=await prepareResidentModels(game,{onProgress:(done,total)=>{
+    $("world-loading").textContent=`Котики просыпаются… ${done} / ${total}`;
+  }});
   world = createWorld($("map"), game, {
     onGatherComplete: persist,
     canSimulateLeisure: () =>
@@ -1604,7 +1610,7 @@ try {
         : byBiome(id).name;
       renderBiomes();
     },
-  });
+  },{residentModels:preparedResidents,preparedRenderer});
   $("world-loading").remove();
   scheduleSculptCache();
 } catch (error) {
@@ -1616,6 +1622,9 @@ try {
   fallback.id = "fallback-cat";
   fallback.textContent = "🐈";
   $("map").append(fallback);
+} finally {
+  preparedResidents?.dispose();
+  if(!world)preparedRenderer?.dispose();
 }
 $("camera-home").onclick = () => world?.focus("moon");
 $("camera-all").onclick = () => world?.overview();

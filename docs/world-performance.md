@@ -345,3 +345,22 @@ contains 17 exact colour/shadow comparisons, 44 native camera samples, the slowe
 results and the separate clean Job City retry. Gains are modest and varied;
 software timing is not device FPS. The approved baseline and the full-frame
 regression gate remain in force.
+
+## Cooperative initial colony preparation
+
+The startup path now prepares each original resident model and its exact native
+draw buffers in a separate browser task. The world consumes each prepared rig
+once and binds its real pose atlas without rebuilding geometry. Changed profiles
+fall back to the original constructor, unused/cancelled rigs are disposed, and
+background-tab preparation pauses. No cat, vertex, water effect or save is removed.
+
+In a warm A/B/B/A test of 66 exact rigs, the longest construction task changed
+from 1,538–1,543 ms to 29.5–33.1 ms. Total construction remained comparable.
+This improves responsiveness during loading, not established Mac/iPhone gameplay
+FPS. See [the evidence and limitations](qa/2026-11-02/frame-hitches/README.md).
+
+The opt-in FPS panel also reports the worst visible-play frame gap, cumulative
+pauses above 50 ms and the slowest 1% of frame gaps. A rolling average near
+60 FPS can coexist with an isolated long pause. Hidden/menu time is excluded;
+earlier real pauses survive a rolling-window/menu reset. The panel retains only
+its copy-report button and does not pause the game.
