@@ -49,7 +49,7 @@ export function buildZooAnatomy(species,{joint,add,curve,eye,socket=()=>{}}){
  function pinna(side,pivot,color){
   // Folded Asian elephant pinna: a sloping rim, broad lobe and thin rolled edge.
   // The rear fold hugs the neck instead of forming a flat circular fan.
-  const outline=new T.CatmullRomCurve3([[.01,.32,0],[.25,.40,0],[.68,.34,0],[.86,.12,0],[.78,-.25,0],[.57,-.66,0],[.31,-.84,0],[.08,-.62,0],[-.04,-.16,0]].map(V),true),positions=[],colors=[],uv=[],indices=[],rings=10,segments=64,base=new T.Color(color),inner=new T.Color(0x9b8d7d),normal=new T.Color();
+  const outline=new T.CatmullRomCurve3([[.01,.32,0],[.25,.40,0],[.68,.34,0],[.86,.12,0],[.78,-.25,0],[.57,-.66,0],[.31,-.84,0],[.08,-.62,0],[-.04,-.16,0]].map(V),true),positions=[],colors=[],uv=[],indices=[],rings=10,segments=64,base=new T.Color(color),inner=new T.Color(0xb09d8e),normal=new T.Color();
   for(const back of [false,true])for(let ring=0;ring<=rings;ring++)for(let j=0;j<=segments;j++){
    const t=ring/rings,a=j/segments,o=outline.getPoint(a%1),cx=.28,cy=-.12,
     x=cx+(o.x-cx)*t,y=cy+(o.y-cy)*t,
@@ -68,11 +68,11 @@ export function buildZooAnatomy(species,{joint,add,curve,eye,socket=()=>{}}){
   skin(col,[0,2.72,1.12],[.64,.64,.61],'head');
   skin(col,[-.22,3.02,1.12],[.31,.32,.38],'head');skin(col,[.22,3.02,1.12],[.31,.32,.38],'head');
   skin(col,[0,2.29,1.30],[.56,.40,.44],'head');skin(col,[0,2.65,1.58],[.31,.47,.27],'head');
-  for(const side of [-1,1]){skin(col,[side*.43,2.46,1.38],[.245,.36,.27],'head');skin(col,[side*.40,2.80,1.44],[.24,.12,.19],'head',{blend:.09});}
+  for(const side of [-1,1]){skin(col,[side*.43,2.46,1.38],[.245,.36,.27],'head');skin(col,[side*.40,2.80,1.44],[.22,.10,.17],'head',{blend:.09});}
   quadruped(col,ZOO_LEGS.elephant);
   for(const side of [-1,1]){
    joint('ear'+side,[side*.49,2.72,.91],'head');pinna(side,[side*.49,2.72,.91],col);
-   eye(side*.52,2.73,1.54,.073,'head',false,[side*.74,-.03,.67]);
+   eye(side*.52,2.73,1.54,.083,'head',false,[side*.74,-.03,.67]);
    // Small juvenile tusks tuck beneath the cheeks, without cartoon hooks.
    tube([[side*.34,2.19,1.52],[side*.37,2.01,1.76],[side*.38,1.98,1.96]],.061,.006,0xd0c3a5,'head',{gloss:.10});
   }

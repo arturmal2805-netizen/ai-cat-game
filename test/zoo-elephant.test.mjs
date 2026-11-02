@@ -39,8 +39,8 @@ test('two differently sized adult elephants actually meet trunk tips, retain bod
   mesh.userData.familyVisitorHost=2;mesh.userData.elephantFamilySkippedCycle=null;
   mesh.userData.update(time(.5),false,1);assert.ok(mesh.userData.uniforms.uZooOverrideMix.value[0]>.99);assert.equal(mesh.userData.uniforms.uZooOverrideMix.value[2],0);
   const encoded=encodeZooTemplate(mesh.userData.poseData),decoded=decodeZooTemplate(encoded,'elephant');
-  const stale=encoded.slice(0),length=new DataView(stale).getUint32(4,true),header=new TextDecoder().decode(new Uint8Array(stale,8,length)).replace('elephant-family-v1','elephant-family-v0');new Uint8Array(stale,8,length).set(new TextEncoder().encode(header));assert.throws(()=>decodeZooTemplate(stale,'elephant'),/Old zoo face/);
-  assert.equal(decoded.faceRevision,'elephant-family-v1');assert.equal(decoded.frameCount,592);assert.deepEqual(decoded.values,mesh.userData.poseData.values);
+  const stale=encoded.slice(0),length=new DataView(stale).getUint32(4,true),header=new TextDecoder().decode(new Uint8Array(stale,8,length)).replace('elephant-skin-v2','elephant-skin-v1');new Uint8Array(stale,8,length).set(new TextEncoder().encode(header));assert.throws(()=>decodeZooTemplate(stale,'elephant'),/Old zoo face/);
+  assert.equal(decoded.faceRevision,'elephant-skin-v2');assert.equal(decoded.frameCount,592);assert.deepEqual(decoded.values,mesh.userData.poseData.values);
   decoded.geometry.dispose();decoded.texture.dispose();
  }finally{mesh.dispose();mesh.geometry.dispose();mesh.material.dispose();}
 });

@@ -1,0 +1,180 @@
+{
+  "release": "2d8ff26902f29544435fceb8a93ec050195ca4b3",
+  "poseSHA256": "a47c3c0de615b074d73275b4cc4f08581cb4ba2d71f0a9efc7ab487f8a183d9e",
+  "poseBytes": 1629184,
+  "frames": 592,
+  "joints": [
+    {
+      "role": "root",
+      "parent": null
+    },
+    {
+      "role": "body",
+      "parent": 0
+    },
+    {
+      "role": "head",
+      "parent": 1
+    },
+    {
+      "role": "tail",
+      "parent": 1
+    },
+    {
+      "role": "LegFrontLeft",
+      "parent": 1
+    },
+    {
+      "role": "KneeFrontLeft",
+      "parent": 4
+    },
+    {
+      "role": "FootFrontLeft",
+      "parent": 5
+    },
+    {
+      "role": "LegFrontRight",
+      "parent": 1
+    },
+    {
+      "role": "KneeFrontRight",
+      "parent": 7
+    },
+    {
+      "role": "FootFrontRight",
+      "parent": 8
+    },
+    {
+      "role": "LegBackLeft",
+      "parent": 1
+    },
+    {
+      "role": "KneeBackLeft",
+      "parent": 10
+    },
+    {
+      "role": "FootBackLeft",
+      "parent": 11
+    },
+    {
+      "role": "LegBackRight",
+      "parent": 1
+    },
+    {
+      "role": "KneeBackRight",
+      "parent": 13
+    },
+    {
+      "role": "FootBackRight",
+      "parent": 14
+    },
+    {
+      "role": "ear-1",
+      "parent": 2
+    },
+    {
+      "role": "eyeLeft",
+      "parent": 2
+    },
+    {
+      "role": "lidLeft",
+      "parent": 2
+    },
+    {
+      "role": "ear1",
+      "parent": 2
+    },
+    {
+      "role": "eyeRight",
+      "parent": 2
+    },
+    {
+      "role": "lidRight",
+      "parent": 2
+    },
+    {
+      "role": "trunk0",
+      "parent": 2
+    },
+    {
+      "role": "trunk0b",
+      "parent": 22
+    },
+    {
+      "role": "trunk1",
+      "parent": 23
+    },
+    {
+      "role": "trunk1b",
+      "parent": 24
+    },
+    {
+      "role": "trunk2",
+      "parent": 25
+    },
+    {
+      "role": "trunk2b",
+      "parent": 26
+    },
+    {
+      "role": "trunk3",
+      "parent": 27
+    },
+    {
+      "role": "trunk3b",
+      "parent": 28
+    },
+    {
+      "role": "trunk4",
+      "parent": 29
+    },
+    {
+      "role": "spray0",
+      "parent": 30
+    },
+    {
+      "role": "spray1",
+      "parent": 30
+    },
+    {
+      "role": "spray2",
+      "parent": 30
+    },
+    {
+      "role": "spray3",
+      "parent": 30
+    },
+    {
+      "role": "spray4",
+      "parent": 30
+    },
+    {
+      "role": "spray5",
+      "parent": 30
+    },
+    {
+      "role": "spray6",
+      "parent": 30
+    },
+    {
+      "role": "spray7",
+      "parent": 30
+    },
+    {
+      "role": "spray8",
+      "parent": 30
+    },
+    {
+      "role": "spray9",
+      "parent": 30
+    },
+    {
+      "role": "spray10",
+      "parent": 30
+    },
+    {
+      "role": "spray11",
+      "parent": 30
+    }
+  ]
+}

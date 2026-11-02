@@ -1,5 +1,5 @@
 export const ZOO_ANATOMY_REVISION='wildlife-v5';
-export const ZOO_FACE_REVISIONS={elephant:'elephant-family-v1',axolotl:'axolotl-eyes-v2',gorilla:'gorilla-face-v3'};
+export const ZOO_FACE_REVISIONS={elephant:'elephant-skin-v2',axolotl:'axolotl-eyes-v2',gorilla:'gorilla-face-v3'};
 // Shared rest landmarks for the sculpt and offline two-bone foot choreography.
 export const ZOO_LEGS={
  elephant:{x:.62,front:.88,rear:-.96,hip:1.81,sy:.56,rx:.33,foot:.35},

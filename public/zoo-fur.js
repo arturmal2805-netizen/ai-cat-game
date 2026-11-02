@@ -24,18 +24,19 @@ export function zooBearFurTexture(){
  bearFurMap=new T.DataTexture(data,size,size,T.RedFormat,T.UnsignedByteType);bearFurMap.magFilter=T.LinearFilter;bearFurMap.minFilter=T.LinearMipmapLinearFilter;bearFurMap.generateMipmaps=true;bearFurMap.needsUpdate=true;bearFurMap.userData.sharedScenery=true;return bearFurMap;
 }
 export function* zooFurSteps(sculpt,species){
- const counts={tiger:1400,polar:1800,gorilla:1600,otter:850},count=counts[species];if(!count)return null;
+ const counts={elephant:46,tiger:1400,polar:1800,gorilla:1600,otter:850},count=counts[species];if(!count)return null;
  const pos=sculpt.attributes.position,norm=sculpt.attributes.normal,col=sculpt.attributes.color,joints=sculpt.attributes.aSculptJoints,weights=sculpt.attributes.aSculptWeights,stripe=sculpt.attributes.aSculptStripe,idx=sculpt.index.array,cumulative=[];
  const a=new T.Vector3(),b=new T.Vector3(),c=new T.Vector3(),n=new T.Vector3(),root=new T.Vector3(),flow=new T.Vector3(),right=new T.Vector3(),at=new T.Vector3();let area=0;
  for(let i=0;i<idx.length;i+=3){a.fromBufferAttribute(pos,idx[i]);b.fromBufferAttribute(pos,idx[i+1]).sub(a);c.fromBufferAttribute(pos,idx[i+2]).sub(a);area+=b.cross(c).length()*.5;cumulative.push(area);if(i%6000===0)yield;}
  const positions=[],normals=[],uv=[],colors=[],ids=[],ws=[],stripes=[],indices=[];let made=0;
- for(let attempt=0;made<count&&attempt<count*5;attempt++){
+ for(let attempt=0;made<count&&attempt<count*(species==='elephant'?80:5);attempt++){
   const r=random(attempt*19+11)*area;let lo=0,hi=cumulative.length-1;while(lo<hi){const mid=(lo+hi)>>1;if(cumulative[mid]<r)lo=mid+1;else hi=mid;}
   const vi=[idx[lo*3],idx[lo*3+1],idx[lo*3+2]],s=Math.sqrt(random(attempt*19+12)),q=random(attempt*19+13),bary=[1-s,s*(1-q),s*q];root.set(0,0,0);n.set(0,0,0);const color=new T.Color(0,0,0),bone=new Map();let st=0;
   for(let k=0;k<3;k++){const i=vi[k],w=bary[k];a.fromBufferAttribute(pos,i);root.addScaledVector(a,w);a.fromBufferAttribute(norm,i);n.addScaledVector(a,w);color.r+=col.getX(i)*w;color.g+=col.getY(i)*w;color.b+=col.getZ(i)*w;st+=stripe.getX(i)*w;bone.set(joints.getX(i),(bone.get(joints.getX(i))||0)+weights.getX(i)*w);bone.set(joints.getY(i),(bone.get(joints.getY(i))||0)+weights.getY(i)*w);}
-  n.normalize();if(root.y<.11||species==='gorilla'&&root.z>.50&&root.y<2.29&&Math.hypot(root.x/.34,(root.y-2.045)/.29)<1||species==='gorilla'&&root.y<.5&&Math.abs(root.x)>.85)continue;
+  n.normalize();if(species==='elephant'&&!((root.y>2.98&&Math.abs(root.x)<.54&&root.z>.55)||(root.y>2.88&&root.z<.5&&Math.abs(root.x)<.36)))continue;
+  if(root.y<.11||species==='gorilla'&&root.z>.50&&root.y<2.29&&Math.hypot(root.x/.34,(root.y-2.045)/.29)<1||species==='gorilla'&&root.y<.5&&Math.abs(root.x)>.85)continue;
   const face=species==='tiger'&&root.z>1.2||species==='polar'&&root.z>1.5||species==='otter'&&root.z>.8,
-   length=({tiger:.041,polar:.112,gorilla:.095,otter:.039}[species])*(.7+random(attempt+170)*.6)*(face?.35:1),width=length*(species==='polar'?.58:.48);
+   length=({elephant:.028,tiger:.041,polar:.112,gorilla:.095,otter:.039}[species])*(.7+random(attempt+170)*.6)*(face?.35:1),width=length*(species==='elephant'?.12:species==='polar'?.58:.48);
   flow.set(root.x*.08,-.65,-.8);flow.addScaledVector(n,-flow.dot(n));if(flow.lengthSq()<.01)flow.set(1,0,0);flow.normalize();right.crossVectors(n,flow).normalize();const angle=(random(attempt+230)-.5)*.6;right.applyAxisAngle(n,angle);flow.crossVectors(right,n).normalize();
   const bones=[...bone].sort((a,b)=>b[1]-a[1]).slice(0,2);if(bones.length===1)bones.push([bones[0][0],0]);const total=bones[0][1]+bones[1][1],base=positions.length/3;
   // Two-sided two-segment ribbons. No transparent sorting, shells or extra

@@ -66,7 +66,7 @@ function* buildTemplateSteps(species){
  const eye=(x,y,z,r,parent='head',blue=false,normal=[0,0,1])=>{
   const name='eye'+(x<0?'Left':'Right'),lid='lid'+(x<0?'Left':'Right'),q=new T.Quaternion().setFromUnitVectors(v(0,0,1),v(...normal).normalize()),
    point=(px,py,pz)=>v(px,py,pz).applyQuaternion(q).add(v(x,y,z)).toArray(),
-   skin={axolotl:0xf5c6d6,elephant:0x82796d,gorilla:0x69706f,tiger:0x716f67,polar:0x6a4934,otter:0x41342b}[species];
+   skin={axolotl:0xf5c6d6,elephant:0x8a8175,gorilla:0x69706f,tiger:0x716f67,polar:0x6a4934,otter:0x41342b}[species];
   joint(name,[x,y,z],parent);joint(lid,[x,y,z],parent);
   sockets.push({pos:[x,y+(species==='axolotl'?.12:0),z],size:[r*1.4,r*(species==='axolotl'?1.05:['gorilla','elephant'].includes(species)?.86:.95),r*(species==='axolotl'?1.0:1.55)]});
   if(species!=='axolotl')add(skin,point(0,0,-r*.3),[r*1.38,r*.83,r*.22],parent,{aim:normal});
@@ -118,7 +118,7 @@ if(vZooStripe>.1){
  else if(vZooStripe>2.5)mask=texture2D(uZooTigerCoat,vec2(fract(vZooRest.z*.6+abs(vZooRest.x)),clamp(vZooRest.y/1.55,0.,1.))).g;
  else if(vZooStripe>1.5)mask=texture2D(uZooTigerCoat,vec2(vZooRest.x+.5,clamp((vZooRest.y-1.1)/.9,0.,1.))).b;
  else {float angle=atan(vZooRest.x/.55,(vZooRest.y-1.2)/.65)/6.2831853;mask=texture2D(uZooTigerCoat,vec2((vZooRest.z+1.6)/3.2,fract(angle+1.))).r;}
- diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.022,.027,.03),mask*min(1.,vZooStripe));}`).replace('void main() {',`void main() {\nif(vZooFur>.5&&texture2D(uZooFurMap,vZooFurUV).r<.24)discard;`).replace('#include <normal_fragment_begin>','#include <normal_fragment_begin>\n'+zooSurfaceNormal).replace('#include <roughnessmap_fragment>','#include <roughnessmap_fragment>\nroughnessFactor=clamp(mix(.78,.065,vZooGloss)+zooMicroRoughness,.065,.95);');
+ diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.022,.027,.03),mask*min(1.,vZooStripe));}`).replace('void main() {',`void main() {\nif(vZooFur>.5&&texture2D(uZooFurMap,vZooFurUV).r<.24)discard;`).replace('#include <normal_fragment_begin>','#include <normal_fragment_begin>\n'+zooSurfaceNormal).replace('#include <roughnessmap_fragment>','#include <roughnessmap_fragment>\nfloat zooRough=uZooSpecies<1.5?mix(.61,.34,clamp(.20+zooTrunk*.52+smoothstep(2.4,3.,vZooRest.y)*.12,0.,1.)):.78;roughnessFactor=clamp(mix(zooRough,.065,vZooGloss)+zooMicroRoughness,.065,.95);');
  };material.customProgramCacheKey=()=> 'zoo-groomed-skin-v6';return material;}
 export function zooAnimals(exhibit){return runSceneSteps(zooAnimalSteps(exhibit));}
 export function* zooAnimalSteps(exhibit){

@@ -20,7 +20,7 @@ test('static fibre ribbons have fixed buffers and remain within the WebGL2 sixte
  const texture=zooFurTexture(),version=texture.version;assert.ok(texture.image.data.some(v=>v===0));assert.ok(texture.image.data.some(v=>v>128));
  for(const e of ZOO_EXHIBITS){const m=zooAnimals(e),g=m.geometry,attrs=Object.values(g.attributes),versions=attrs.map(a=>a.version);assert.equal(g.attributes.aGloss.itemSize,2);assert.ok(Object.keys(g.attributes).length+4<=16);
   const furVertices=Array.from({length:g.attributes.aGloss.count},(_,i)=>g.attributes.aGloss.getY(i)).filter(v=>v>.5).length;
-  assert.equal(furVertices>0,['tiger','polar','gorilla','otter'].includes(e.species));for(let i=0;i<120;i++)m.userData.update(i/20);assert.deepEqual(attrs.map(a=>a.version),versions);done(m);
+  assert.equal(furVertices>0,['elephant','tiger','polar','gorilla','otter'].includes(e.species));for(let i=0;i<120;i++)m.userData.update(i/20);assert.deepEqual(attrs.map(a=>a.version),versions);done(m);
  }
  assert.equal(texture.version,version);
 });
