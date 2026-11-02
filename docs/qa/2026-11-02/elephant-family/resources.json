@@ -3,8 +3,8 @@
   "models": [
     {
       "species": "elephant",
-      "path": "./models/zoo/elephant-a96744747e6d091e.bin",
-      "sha256": "a96744747e6d091e77725b72ff7d287a4f9ac237def5e5b4fe4ce64d8ce02657",
+      "path": "./models/zoo/elephant-ddbef27260f73b04.bin",
+      "sha256": "ddbef27260f73b040ebf04537bb2e16ba4c80260fd6126812931c759f5b23c34",
       "sameAsReleasedPath": false,
       "vertices": 23315,
       "triangles": 43464,
@@ -62,5 +62,6 @@
       "faceRevision": "gorilla-face-v3"
     }
   ],
-  "nativeCatCache": "sculpt-v2-a496203fa13a037a7a10a927"
+  "nativeCatCache": "sculpt-v2-a496203fa13a037a7a10a927",
+  "buildRuntime": "Node 22, matching production CI"
 }

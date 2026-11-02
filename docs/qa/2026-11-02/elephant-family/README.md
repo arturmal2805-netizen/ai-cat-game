@@ -77,3 +77,10 @@ a zoo return, with real orbit/zoom, six or more frames per view, full DPR 2 and
 bounded pending frames. Software-GPU numbers are coverage evidence, not a Mac
 or iPhone FPS claim. The previous independent startup release retains its full
 19-island camera audit. Publication hashes are added after deployment.
+
+The final live verification uses the CI-pinned Node 22 build. Node 24 encoded
+a few trunk-pivot metadata doubles differently at the final decimal place;
+all geometry and Float32 pose arrays were byte-identical. The Node 22 rebuild
+matched both served bundles and every model/material/preview byte exactly.
+`publication.json` records both sites, shared saves and the three successful
+CI jobs; the published elephant asset is `elephant-ddbef27260f73b04.bin`.
