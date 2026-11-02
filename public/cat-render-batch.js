@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { deferHiddenLeafMatrices } from "./scene-visibility.js";
-import { isGeometryBufferRetirement, retainGeometryForGrace } from "./geometry-residency.js";
+import { isGeometryBufferRetirement, retainGeometryForGrace, retireGeometryBuffers } from "./geometry-residency.js";
+import {nativeCatBufferPool} from './cat-buffer-pool.js';
 
 // The approved rig remains the source of animation, camera anchors and picking.
 // Only its draw submission changes. No remodelling, LOD or triangle removal.
@@ -284,6 +285,7 @@ export function enableCatRenderBatch(cat, atlas = null) {
     material.onBeforeCompile = parts[0].material.onBeforeCompile;
     material.customProgramCacheKey = parts[0].material.customProgramCacheKey;
     const mesh = new THREE.Mesh(geometry, rigShader(material, palette, shaderAtlas));
+    nativeCatBufferPool.intern(geometry,mesh);
     mesh.name = "Exact animated cat batch · " + parts[0].name;
     mesh.castShadow = parts[0].castShadow;
     mesh.receiveShadow = parts[0].receiveShadow;
@@ -434,7 +436,7 @@ export function enableCatRenderBatch(cat, atlas = null) {
         if (!mesh.userData.nativeBuffersResident) return;
         releasingDrawBuffers = true;
         try {
-          mesh.geometry.dispose();
+          retireGeometryBuffers(mesh.geometry);
           mesh.userData.nativeBuffersResident = false;
         } finally {
           releasingDrawBuffers = false;
