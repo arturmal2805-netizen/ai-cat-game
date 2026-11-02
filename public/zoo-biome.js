@@ -1,3 +1,4 @@
+import {ELEPHANT_TRUNK_TIP} from './zoo-elephant-data.js';
 import {GORILLA_BRANCH_HEIGHT,GORILLA_BRANCH_X,GORILLA_BRANCH_Z} from './zoo-gorilla-swing.js';
 import {createGorillaPlay,zooJump,smooth} from './zoo-play.js';
 import {zooPlayWater} from './zoo-play-water.js';
@@ -125,7 +126,7 @@ export function* zooBiomeSteps(biome,{lowOnly=false,preview=false}={}){
  if(e.species==='otter')for(let i=0;i<a.count;i++)a.userData.setActorPlay(i,greet>0?{y:reduced?0:zooJump(elapsed-1-i*.2,.25)}:null);
  if(water&&greet>0&&!reduced){
   const end=new T.Vector3(e.x, .28,e.z),start=new T.Vector3();
-  if(e.species==='elephant'){zooJointPoint(a,'trunk4',0,a.userData.uniforms.uZooTime.value,start,new T.Vector3(0,.31,2.56));start.x+=e.x;start.y+=.16;start.z+=e.z;const seat=z.visitor?.seat||zooViewGate(e);end.set(seat.x,.45,seat.z);water.userData.play(start,end,elapsed,greet,0);}
+  if(e.species==='elephant'){zooJointPoint(a,'trunk4',0,a.userData.uniforms.uZooTime.value,start,new T.Vector3(...ELEPHANT_TRUNK_TIP));start.x+=e.x;start.y+=.16;start.z+=e.z;const seat=z.visitor?.seat||zooViewGate(e);end.set(seat.x,.45,seat.z);water.userData.play(start,end,elapsed,greet,0);}
   else {const p=zooJointPoint(a,'head',0,a.userData.uniforms.uZooTime.value);end.set(e.x+p.x,e.species==='axolotl'?4.09:.25,e.z+p.z);water.userData.play(end,end,elapsed,greet,1);}
  }}},placementSteps:function*(){yield;},updatePlacements(){},updateScenery(){},dispose(){for(const p of plays.values())p.cancel();plays.clear();for(const a of actors.values())a.userData.dispose();}};
  // Large, accurate click volumes also cover tiny axolotls behind their glass.

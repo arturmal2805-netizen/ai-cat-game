@@ -1,14 +1,16 @@
-// Two interaction clips for the gorilla, baked alongside the unchanged five
-// ambient actions. Other species retain their released 400-row pose assets.
+import {elephantFamilyPose} from './zoo-elephant-family.js';
+import {ELEPHANT_FAMILY_FIRST,ELEPHANT_FAMILY_FRAMES} from './zoo-elephant-data.js';
+// Interaction rows share the native immutable palette with ambient actions.
 export {GORILLA_SWING_REVISION as GORILLA_PLAY_REVISION} from './zoo-gorilla-swing.js';
 export const GORILLA_WALK_FIRST=400,GORILLA_HOLD_FIRST=448,GORILLA_PLAY_FRAMES=48;
-export const zooModelFrames=species=>species==='gorilla'?496:400;
+export const zooModelFrames=species=>species==='gorilla'?496:species==='elephant'?ELEPHANT_FAMILY_FIRST+2*ELEPHANT_FAMILY_FRAMES:400;
 const smooth=x=>{x=Math.max(0,Math.min(1,x));return x*x*(3-2*x);};
 export function gorillaPickupPose(progress){
  const p=Math.max(0,Math.min(1,progress)),a=smooth(p/.65),b=smooth((p-.65)/.35);
  return {bodyPitch:.55*a*(1-b),armPitch:p<=.65?-.75*a:-.75-.45*b,reach:.25*a*(1-b)};
 }
 export function zooInteractionPose(species,frame,role){
+ if(species==='elephant'&&frame>=ELEPHANT_FAMILY_FIRST){const at=frame-ELEPHANT_FAMILY_FIRST,who=Math.floor(at/ELEPHANT_FAMILY_FRAMES);return elephantFamilyPose(who,(at%ELEPHANT_FAMILY_FRAMES)/(ELEPHANT_FAMILY_FRAMES-1),role);}
  if(species!=='gorilla'||frame<400)return null;
  const hold=frame>=448,u=(frame-(hold?448:400))/47,p={x:0,y:0,z:0,rx:0,ry:0,rz:0,sx:1,sy:1,sz:1},left=role.includes('Left');
  if(!hold){const a=u*Math.PI*2;

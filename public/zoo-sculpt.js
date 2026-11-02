@@ -5,11 +5,11 @@ import {mergeVertices} from 'three/addons/utils/BufferGeometryUtils.js';
 // A closed, continuous animal surface. The authored volumes are sculpting
 // controls, not separate visible balls. Skin weights and colour blend through
 // necks, shoulders and ankles; the shared baked palette animates the result.
-export function* sculptZooAnimalSteps(volumes,{resolution=48,soft=.11,sockets=[],targetTriangles=0,pigment}={}){
+export function* sculptZooAnimalSteps(volumes,{resolution=48,soft=.11,sockets=[],targetTriangles=0,pigment,authoringCapacity=0,solePlane=null}={}){
  const low=[Infinity,Infinity,Infinity],high=[-Infinity,-Infinity,-Infinity];
  for(const v of volumes)for(let k=0;k<3;k++){const relief=k===2?(v.relief||[]).reduce((n,r)=>n+Math.abs(r[2]),0):0;low[k]=Math.min(low[k],v.pos[k]-v.size[k]-.22);high[k]=Math.max(high[k],v.pos[k]+v.size[k]+relief+.22);}
  volumes=volumes.map(v=>({...v,inv:v.size.map(n=>1/n),minimum:Math.min(...v.size)}));
- const span=high.map((n,k)=>n-low[k]),capacity=Math.ceil(180000*Math.max(1,(resolution/160)**2)),clay=new MarchingCubes(resolution,new T.MeshBasicMaterial(),false,false,capacity);clay.isolation=0;
+ const span=high.map((n,k)=>n-low[k]),capacity=Math.max(authoringCapacity,Math.ceil(180000*Math.max(1,(resolution/160)**2))),clay=new MarchingCubes(resolution,new T.MeshBasicMaterial(),false,false,capacity);clay.isolation=0;
  // Local Gaussian relief sculpts facial anatomy directly into a single skin.
  // Its exact derivatives keep normals continuous through nose/cheek/brow joins.
  let relief=0,reliefX=0,reliefY=0;
@@ -28,6 +28,7 @@ export function* sculptZooAnimalSteps(volumes,{resolution=48,soft=.11,sockets=[]
     x=(s.rotationXY?dx*c+dy*sn:dx)/s.size[0],y=(s.rotationXY?-dx*sn+dy*c:dy)/s.size[1],z=(p[2]-s.pos[2])/s.size[2],r=Math.max(1e-9,Math.sqrt(x*x+y*y+z*z)),m=Math.min(...s.size),q=-(r-1)*m,k=.018,h=Math.max(0,Math.min(1,.5+.5*(d-q)/k));
    if(out){const w=-(1-h)*m/r,tx=x/s.size[0],ty=y/s.size[1],rx=s.rotationXY?tx*c-ty*sn:tx,ry=s.rotationXY?tx*sn+ty*c:ty;gx=gx*h+(s.curveY?rx-2*s.curveY*dx*ry:rx)*w;gy=gy*h+ry*w;gz=gz*h+z/s.size[2]*w;}d=q*(1-h)+d*h+k*h*(1-h);
   }
+  if(solePlane!==null&&solePlane-p[1]>d){d=solePlane-p[1];gx=0;gy=-1;gz=0;}
   if(out){out[0]=gx;out[1]=gy;out[2]=gz;}return d;
  };
  for(let z=0;z<resolution;z++){for(let y=0;y<resolution;y++){for(let x=0;x<resolution;x++){

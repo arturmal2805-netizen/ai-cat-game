@@ -1,5 +1,6 @@
 import {mergeVertices} from 'three/addons/utils/BufferGeometryUtils.js';
 import {ZOO_LEGS} from './zoo-anatomy-data.js';
+import {ELEPHANT_TRUNK_POINTS,ELEPHANT_TRUNK_TIP,ELEPHANT_TRUNK_ROLES} from './zoo-elephant-data.js';
 import * as T from 'three';
 const V=p=>new T.Vector3(...p);
 const sideName=s=>s<0?'Left':'Right';
@@ -33,49 +34,55 @@ export function buildZooAnatomy(species,{joint,add,curve,eye,socket=()=>{}}){
     kneeZ=z+(frontLeg?.02:kind==='elephant'?-.02:-.22),ankleZ=z+(frontLeg?.09:kind==='elephant'?.08:.03),pawZ=ankleZ+foot*.53;
    joint(role,pivot,'body');joint(lower,[side*x,kneeY,kneeZ],role);joint(paw,[side*x,foot*.53,pawZ],lower);
    skin(col,[side*x,(hip+kneeY)*.5,z+(frontLeg?0:-.08)],[rx,sy,rx*(frontLeg?1:1.22)],role,{stripes:kind==='tiger'?3:0});
-   skin(col,[side*x,kind==='polar'?(kneeY+foot*.53)*.5:kneeY*.56,(kneeZ+ankleZ)*.5],[rx*(kind==='polar'?.82:.64),kind==='polar'?(kneeY-foot*.53)*.58:kneeY*.56,rx*(kind==='polar'?.84:.68)],lower,{stripes:kind==='tiger'?3:0});
-   skin(col,[side*x,foot*.46,pawZ],[foot*.76,foot*.46,foot],paw,{stripes:kind==='tiger'?3:0});
+   skin(col,[side*x,kind==='polar'?(kneeY+foot*.53)*.5:kneeY*.56,(kneeZ+ankleZ)*.5],[rx*(kind==='polar'?.82:kind==='elephant'?.88:.64),kind==='polar'?(kneeY-foot*.53)*.58:kneeY*.56,rx*(kind==='polar'?.84:kind==='elephant'?.9:.68)],lower,{stripes:kind==='tiger'?3:0});
+   skin(col,[side*x,foot*.46,pawZ],[foot*(kind==='elephant'?.90:.76),foot*.46,foot],paw,{stripes:kind==='tiger'?3:0});
    if(kind!=='elephant')add(kind==='tiger'?0x746469:kind==='polar'?0x77746e:0x4b3c32,[side*x,foot*.035,pawZ],[foot*.45,foot*.035,foot*.65],paw,{micro:true});
-   const digits=['elephant','otter','polar'].includes(kind)?5:4;
+   const digits=kind==='elephant'?(frontLeg?4:3):['otter','polar'].includes(kind)?5:4;
    for(let k=0;k<digits;k++){
     const px=side*x+(k-(digits-1)/2)*foot*.31;
     if(kind!=='elephant')skin(col,[px,foot*.27,pawZ+foot*.6],[foot*.23,foot*.27,foot*.47],paw);
     if(kind==='polar')tube([[px,foot*.31,pawZ+foot*.86],[px,foot*.26,pawZ+foot*1.02],[px,foot*.08,pawZ+foot*1.1]],foot*.052,foot*.01,0x56564d,paw,{micro:true});
-    else add(kind==='elephant'?0xbcb8ab:kind==='tiger'?0xc0aeb0:kind==='polar'?0x77736d:0x3e3530,[px,foot*.23,pawZ+(kind==='elephant'?foot*.8*Math.sqrt(Math.max(.05,.75-((k-(digits-1)/2)*.31/.76)**2)):foot*.96)],[foot*.08,foot*.12,foot*.08],paw,{micro:true});
+    else add(kind==='elephant'?0xbcb8ab:kind==='tiger'?0xc0aeb0:kind==='polar'?0x77736d:0x3e3530,[px,foot*.23,pawZ+(kind==='elephant'?foot*.8*Math.sqrt(Math.max(.05,.75-((k-(digits-1)/2)*.31/.76)**2)):foot*.96)],[foot*(kind==='elephant'?.14:.08),foot*(kind==='elephant'?.16:.12),foot*(kind==='elephant'?.045:.08)],paw,{micro:true});
    }
   }
  }
  function pinna(side,pivot,color){
-  const outline=new T.CatmullRomCurve3([[.02,.57,0],[.42,.75,0],[.95,.55,0],[1.1,.12,0],[.91,-.52,0],[.57,-.89,0],[.21,-.75,0],[-.04,-.23,0]].map(V),true),positions=[],colors=[],uv=[],indices=[],rings=8,segments=56,base=new T.Color(color),inner=new T.Color(0xad9898),normal=new T.Color();
+  // Folded Asian elephant pinna: a sloping rim, broad lobe and thin rolled edge.
+  // The rear fold hugs the neck instead of forming a flat circular fan.
+  const outline=new T.CatmullRomCurve3([[.01,.32,0],[.25,.40,0],[.68,.34,0],[.86,.12,0],[.78,-.25,0],[.57,-.66,0],[.31,-.84,0],[.08,-.62,0],[-.04,-.16,0]].map(V),true),positions=[],colors=[],uv=[],indices=[],rings=10,segments=64,base=new T.Color(color),inner=new T.Color(0x9b8d7d),normal=new T.Color();
   for(const back of [false,true])for(let ring=0;ring<=rings;ring++)for(let j=0;j<=segments;j++){
-   const t=ring/rings,a=j/segments,o=outline.getPoint(a%1),cx=.46,cy=-.03,
-    x=cx+(o.x-cx)*t,y=cy+(o.y-cy)*t,z=(back?-.024:.024)+.075*Math.sin(t*Math.PI)*Math.sin(a*Math.PI*4)+.06*(1-t)**2;
-   positions.push(pivot[0]+side*x,pivot[1]+y,pivot[2]+z);normal.copy(base).lerp(inner,back?0:(1-t)*.38);colors.push(normal.r,normal.g,normal.b);uv.push(a,t);
+   const t=ring/rings,a=j/segments,o=outline.getPoint(a%1),cx=.28,cy=-.12,
+    x=cx+(o.x-cx)*t,y=cy+(o.y-cy)*t,
+    fold=.19*(x/.86)**2-.13*Math.sin(t*Math.PI)+.028*Math.sin(a*Math.PI*8)*t*t,
+    z=(back?-.018:.018)+fold-.12*x;
+   const angle=.47;positions.push(pivot[0]+side*(x*Math.cos(angle)+z*Math.sin(angle)),pivot[1]+y,pivot[2]+z*Math.cos(angle)-x*Math.sin(angle));normal.copy(base).lerp(inner,back?.02:.14*(1-t));normal.multiplyScalar(.97+.035*Math.cos(t*3.7+a*8));colors.push(normal.r,normal.g,normal.b);uv.push(a,t);
    if(ring<rings&&j<segments){const k=(back?1:0)*(rings+1)*(segments+1)+ring*(segments+1)+j,quad=[k,k+segments+1,k+1,k+1,k+segments+1,k+segments+2];if((side<0)!==back)quad.reverse();indices.push(...quad);}
   }
-  // Closed rim between front and back surfaces.
   const row=rings*(segments+1),offset=(rings+1)*(segments+1);for(let j=0;j<segments;j++){const a=row+j,b=a+offset;indices.push(a,a+1,b,b,a+1,b+1);}
   const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(positions,3));g.setAttribute('color',new T.Float32BufferAttribute(colors,3));g.setAttribute('uv',new T.Float32BufferAttribute(uv,2));g.setIndex(indices);g.computeVertexNormals();add(color,[0,0,0],[1,1,1],'ear'+side,{geometry:g,painted:true});g.dispose();
  }
  if(species==='elephant'){
-  const col=0x8c9697;joint('head',[0,2.58,1.05],'body');joint('tail',[0,1.98,-1.5],'body');
-  skin(col,[0,1.91,-.06],[.94,1.01,1.55]);skin(col,[0,2.19,.74],[.8,.91,.92]);skin(0x8f9694,[0,2.44,-.1],[.78,.62,1.15]);skin(col,[0,2.05,-1.02],[.86,.94,.85]);
-  skin(col,[0,2.83,1.08],[.65,.7,.67],'head');for(const side of [-1,1]){skin(col,[side*.39,2.91,1.51],[.2,.23,.21],'head');}skin(col,[-.24,3.17,1.2],[.32,.39,.42],'head');skin(col,[.24,3.17,1.2],[.32,.39,.42],'head');skin(col,[0,2.4,1.32],[.58,.47,.49],'head');skin(col,[0,2.8,1.58],[.36,.5,.31],'head');
+  const col=0x948d82;joint('head',[0,2.48,1.04],'body');joint('tail',[0,1.98,-1.5],'body');
+  // A broad ribcage, high shoulder and soft flank form one continuous skin.
+  skin(col,[0,1.79,-.12],[1.01,1.08,1.57]);skin(col,[0,2.05,.72],[.84,.96,.96]);skin(0x989084,[0,2.39,-.14],[.81,.65,1.2]);skin(col,[0,1.92,-1.04],[.92,.96,.83]);
+  skin(col,[0,2.72,1.12],[.64,.64,.61],'head');
+  skin(col,[-.22,3.02,1.12],[.31,.32,.38],'head');skin(col,[.22,3.02,1.12],[.31,.32,.38],'head');
+  skin(col,[0,2.29,1.30],[.56,.40,.44],'head');skin(col,[0,2.65,1.58],[.31,.47,.27],'head');
+  for(const side of [-1,1]){skin(col,[side*.43,2.46,1.38],[.245,.36,.27],'head');skin(col,[side*.40,2.80,1.44],[.24,.12,.19],'head',{blend:.09});}
   quadruped(col,ZOO_LEGS.elephant);
-  for(const side of [-1,1]){joint('ear'+side,[side*.48,2.89,.91],'head');pinna(side,[side*.48,2.89,.91],col);eye(side*.405,2.91,1.69,.09,'head',false,[side*.38,0,.925]);
-   tube([[side*.35,2.34,1.55],[side*.4,1.92,1.98],[side*.42,1.92,2.33]],.092,.007,0xd8d0b7,'head',{gloss:.12});
-   curve([[side*.4,3.06,1.45],[side*.51,3.08,1.4],[side*.58,3.02,1.33]],.01,0x7e8584);
+  for(const side of [-1,1]){
+   joint('ear'+side,[side*.49,2.72,.91],'head');pinna(side,[side*.49,2.72,.91],col);
+   eye(side*.52,2.73,1.54,.073,'head',false,[side*.74,-.03,.67]);
+   // Small juvenile tusks tuck beneath the cheeks, without cartoon hooks.
+   tube([[side*.34,2.19,1.52],[side*.37,2.01,1.76],[side*.38,1.98,1.96]],.061,.006,0xd0c3a5,'head',{gloss:.10});
   }
-  const trunkPoints=[[0,2.91,1.35],[0,2.35,1.87],[0,1.45,2.02],[0,.55,2.16],[0,.31,2.52]],trunkCurve=new T.CatmullRomCurve3(trunkPoints.map(V));
-  for(let i=0;i<5;i++)joint('trunk'+i,trunkCurve.getPointAt(i/4).toArray(),i?'trunk'+(i-1):'head');
-  // Sculpt the trunk into the forehead itself. An intersecting tube left a
-  // visible cut edge above the trunk, especially in the phone close camera.
-  for(let i=0;i<=26;i++){const t=i/26,p=trunkCurve.getPointAt(t),r=.075+(.285-.075)*(1-t)**.7;skin(col,p.toArray(),[r,r,r],i?'trunk'+Math.min(4,Math.round(t*4)):'head');}
-  for(const side of [-1,1]){skin(col,[side*.045,.33,2.515],[.052,.055,.08],'trunk4');}
-  for(const side of [-1,1])add(0x515d60,[side*.029,.31,2.56],[.018,.023,.007],'trunk4');
-  for(let i=0;i<12;i++){joint('spray'+i,[0,.31,2.57],'trunk4');add(0x9ce9ff,[0,.31,2.57],[.035,.05,.035],'spray'+i);}
-  curve([[-.31,2.2,1.6],[0,2.15,1.69],[.31,2.2,1.6]],.009,0x666d6d);
-  tube([[0,1.98,-1.46],[.03,1.37,-1.7],[.04,.91,-1.66]],.065,.018,col,'tail');add(0x535657,[.04,.86,-1.66],[.065,.13,.055],'tail');
+  const trunkCurve=new T.CatmullRomCurve3(ELEPHANT_TRUNK_POINTS.map(V));
+  for(let i=0;i<ELEPHANT_TRUNK_ROLES.length;i++)joint(ELEPHANT_TRUNK_ROLES[i],trunkCurve.getPointAt(i/(ELEPHANT_TRUNK_ROLES.length-1)).toArray(),i?ELEPHANT_TRUNK_ROLES[i-1]:'head');
+  for(let i=0;i<=34;i++){const t=i/34,p=trunkCurve.getPointAt(t),r=.088+(.285-.088)*(1-t)**.78;skin(col,p.toArray(),[r,r*.97,r],i?ELEPHANT_TRUNK_ROLES[Math.min(8,Math.round(t*8))]:'head',{blend:.065});}
+  for(const side of [-1,1]){skin(col,[side*.047,.32,2.17],[.052,.048,.084],'trunk4');add(0x504a41,[side*.031,.32,2.235],[.019,.021,.008],'trunk4');}
+  for(let i=0;i<12;i++){joint('spray'+i,ELEPHANT_TRUNK_TIP,'trunk4');add(0x9ce9ff,ELEPHANT_TRUNK_TIP,[.035,.05,.035],'spray'+i);}
+  curve([[-.28,2.18,1.56],[0,2.13,1.64],[.28,2.18,1.56]],.006,0x665b4d);
+  tube([[0,1.98,-1.46],[.03,1.37,-1.7],[.04,.91,-1.66]],.065,.018,col,'tail');add(0x53504a,[.04,.86,-1.66],[.065,.13,.055],'tail');
  }else if(species==='tiger'){
   const col=0xe9e8df;joint('head',[0,1.34,1.04],'body');joint('tail',[0,1.08,-1.36],'body');
   skin(col,[0,1.23,-.14],[.52,.49,1.29],'body',{stripes:1});skin(col,[0,1.27,.67],[.49,.5,.68],'body',{stripes:1});skin(col,[0,1.17,-.98],[.51,.54,.65],'body',{stripes:1});skin(0xf4f0e6,[0,.94,.14],[.4,.28,.93]);

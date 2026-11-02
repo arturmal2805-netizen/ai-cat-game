@@ -23,7 +23,7 @@ export function* zooSurfaceTextureSteps(){
 }
 // Rest-space triplanar coat coordinates stay attached to the sculpted skin.
 // One shared immutable texture, no fur shells, scene copies or frame uploads.
-export const zooSurfaceDeclarations=`uniform sampler2D uZooSurface;uniform sampler2D uZooCoatAtlas;uniform float uZooCoatReady;uniform sampler2D uZooFace;uniform float uZooFaceReady;float zooFaceWeight=0.;float zooFaceTone=1.;float zooAtlasTone=1.;float zooAtlasActive=0.;uniform float uZooSkin;uniform float uZooWrinkles;uniform float uZooSpecies;varying vec3 vZooRestNormal;
+export const zooSurfaceDeclarations=`uniform sampler2D uZooSurface;uniform sampler2D uZooCoatAtlas;uniform float uZooCoatReady;uniform sampler2D uZooFace;uniform float uZooFaceReady;float zooElephantFolds=0.;float zooFaceWeight=0.;float zooFaceTone=1.;float zooAtlasTone=1.;float zooAtlasActive=0.;uniform float uZooSkin;uniform float uZooWrinkles;uniform float uZooSpecies;varying vec3 vZooRestNormal;
 float zooGorillaSkin(vec3 p){float face=smoothstep(.45,.6,p.z)*(1.-smoothstep(.90,1.15,length(vec2(p.x/.35,(p.y-2.045)/.30))))*(1.-smoothstep(2.255,2.33,p.y));float hand=smoothstep(.85,1.,abs(p.x))*(1.-smoothstep(.42,.62,p.y));return max(face,hand);}
 vec2 zooFaceUV(vec3 p){
  float nasal=smoothstep(2.,2.035,p.y)*(1.-smoothstep(2.095,2.14,p.y));
@@ -67,11 +67,23 @@ if(uZooSpecies<1.5){
  float knee=(1.-smoothstep(.24,.43,abs(abs(vZooRest.x)-.62)))*(1.-smoothstep(.28,.48,min(abs(vZooRest.z-.9),abs(vZooRest.z+.96))))*exp(-pow((vZooRest.y-1.02)/.28,2.));
  float ear=smoothstep(.7,.95,abs(vZooRest.x))*(1.-smoothstep(.1,.28,abs(vZooRest.z-.91)))*smoothstep(1.9,2.2,vZooRest.y);
  float earR=length(vec2((abs(vZooRest.x)-.52)*.8,vZooRest.y-2.85));
- float folds=pow(abs(sin(vZooRest.y*27.+vZooRest.z*8.+sin(vZooRest.z*12.)*.7+(zooGrain.r-.5)*1.2)),18.)*zooTrunk*.16;
+ float folds=pow(abs(sin(vZooRest.y*33.+vZooRest.z*7.+sin(vZooRest.z*11.)*.42+(zooGrain.r-.5)*.75)),18.)*zooTrunk*.19;
  folds+=knee*pow(abs(sin(vZooRest.y*45.+sin(vZooRest.x*11.)*.4)),14.)*.1;
  folds+=ear*pow(abs(sin(earR*24.+sin(vZooRest.y*3.)*1.1+(zooGrain.a-.5)*2.)),12.)*.012;
- zooHeight-=folds;
- diffuseColor.rgb*=1.-folds*.28;
+ // Directional forehead/temple creases and shoulder folds follow anatomy,
+ // rather than covering the skin with equally sized engraving everywhere.
+ float forehead=smoothstep(1.45,1.65,vZooRest.z)*(1.-smoothstep(.25,.48,abs(vZooRest.x)))*smoothstep(2.35,2.58,vZooRest.y);
+ float browWave=vZooRest.y*38.+abs(vZooRest.x)*9.+sin(vZooRest.x*13.)*.30+(zooGrain.r-.5)*.5;
+ folds+=forehead*pow(abs(sin(browWave)),18.)*.085;
+ float neck=exp(-pow((vZooRest.z-.70)/.32,2.))*smoothstep(.52,.79,abs(vZooRest.x));
+ folds+=neck*pow(abs(sin(vZooRest.z*30.+vZooRest.y*7.+sin(vZooRest.y*6.)*.45)),14.)*.065;
+ float temple=exp(-pow((abs(vZooRest.x)-.53)/.17,2.)-pow((vZooRest.y-2.73)/.17,2.))*smoothstep(1.35,1.51,vZooRest.z);
+ folds+=temple*pow(abs(sin(atan(vZooRest.y-2.73,abs(vZooRest.x)-.51)*8.+vZooRest.z*10.)),14.)*.055;
+ zooElephantFolds=folds;zooHeight-=folds;
+ diffuseColor.rgb*=1.-folds*.34;
+ // Slight earth pigment along thin ears and the lower trunk stays on the
+ // continuous skin. The shared immutable pore/coat maps remain unchanged.
+ diffuseColor.rgb*=mix(vec3(1.),vec3(1.045,.995,.93),ear*.18+zooTrunk*.08);
 }else if(uZooSpecies<2.5){
  // Exposed gorilla face/knuckles have fine skin instead of coat fibres.
  float skin=zooGorillaSkin(vZooRest);zooHeight=mix(zooHeight,zooGrain.b,skin);zooMicroRoughness=mix(zooMicroRoughness,(zooGrain.b-.5)*.1,skin);
@@ -94,7 +106,9 @@ export const zooSurfaceNormal=`
 vec3 zooDx=dFdx(-vViewPosition),zooDy=dFdy(-vViewPosition);
 vec3 zooR1=cross(zooDy,normal),zooR2=cross(normal,zooDx);
 float zooDet=dot(zooDx,zooR1),zooBump=(uZooSpecies>5.5?.00065:mix(.0028,.0032,1.-uZooSkin))*(1.-vZooGloss);
-if(abs(zooDet)>.0000000001)normal=normalize(abs(zooDet)*normal-sign(zooDet)*zooBump*(dFdx(zooHeight)*zooR1+dFdy(zooHeight)*zooR2));
+vec2 zooRelief=vec2(dFdx(zooHeight),dFdy(zooHeight));
+if(uZooSpecies<1.5)zooRelief-=4.*vec2(dFdx(zooElephantFolds),dFdy(zooElephantFolds));
+if(abs(zooDet)>.0000000001)normal=normalize(abs(zooDet)*normal-sign(zooDet)*zooBump*(zooRelief.x*zooR1+zooRelief.y*zooR2));
 `;
 
 export function zooSurfaceTexture(){return runSceneSteps(zooSurfaceTextureSteps());}
