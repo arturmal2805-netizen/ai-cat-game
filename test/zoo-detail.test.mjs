@@ -41,8 +41,8 @@ test('dense 192-cell authoring retains the complete closed skin before mobile si
  for(const count of edges.values())assert.equal(count,2,'dense authoring opened a skin seam');
  assert.ok(g.index.count/3<=8000);g.dispose();
 });
-test('denser offline animal sculpt retains released runtime vertex, triangle and pose budgets',()=>{
- const limits={elephant:[24027,44604,998400],axolotl:[22370,38928,460800],otter:[26429,34384,588800],polar:[43026,53176,588800],gorilla:[39888,51868,412672]};
+test('denser animal sculpt retains geometry ceilings and a bounded palette including paired elephant interaction rows',()=>{
+ const limits={elephant:[24027,44604,1629184],axolotl:[22370,38928,460800],otter:[26429,34384,588800],polar:[43026,53176,588800],gorilla:[39888,51868,412672]};
  for(const e of ZOO_EXHIBITS){const m=zooAnimals(e),g=m.geometry,[vertices,triangles,bytes]=limits[e.species];assert.ok(g.attributes.position.count<=vertices,e.species+' vertices');assert.ok(g.index.count/3<=triangles,e.species+' triangles');assert.equal(m.userData.poseData.values.byteLength,bytes);assert.equal(m.material.alphaToCoverage,false);m.dispose();g.dispose();m.material.dispose();}
 });
 test('elephant neutral trunk has no accumulated sideways bend and retains smooth closed motion',()=>{

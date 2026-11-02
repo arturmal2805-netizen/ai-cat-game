@@ -34,6 +34,10 @@ test('two differently sized adult elephants actually meet trunk tips, retain bod
   mesh.userData.update(time(.5)+.7,false,1);assert.equal(mesh.userData.uniforms.uZooOverrideMix.value[0],0);
   mesh.userData.update(time(.63),false,0);assert.equal(mesh.userData.uniforms.uZooOverrideMix.value[0],0,'cancelled pair cannot jump back into the middle of its old greeting');
   mesh.userData.update(time(.5),true);assert.equal(mesh.userData.uniforms.uZooOverrideMix.value[0],0);
+  // In the real habitat the calf hosts visitors during the adults' family
+  // greeting, so repeated visitor waves cannot starve the family animation.
+  mesh.userData.familyVisitorHost=2;mesh.userData.elephantFamilySkippedCycle=null;
+  mesh.userData.update(time(.5),false,1);assert.ok(mesh.userData.uniforms.uZooOverrideMix.value[0]>.99);assert.equal(mesh.userData.uniforms.uZooOverrideMix.value[2],0);
   const encoded=encodeZooTemplate(mesh.userData.poseData),decoded=decodeZooTemplate(encoded,'elephant');
   const stale=encoded.slice(0),length=new DataView(stale).getUint32(4,true),header=new TextDecoder().decode(new Uint8Array(stale,8,length)).replace('elephant-family-v1','elephant-family-v0');new Uint8Array(stale,8,length).set(new TextEncoder().encode(header));assert.throws(()=>decodeZooTemplate(stale,'elephant'),/Old zoo face/);
   assert.equal(decoded.faceRevision,'elephant-family-v1');assert.equal(decoded.frameCount,592);assert.deepEqual(decoded.values,mesh.userData.poseData.values);

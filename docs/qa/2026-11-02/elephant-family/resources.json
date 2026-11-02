@@ -1,0 +1,66 @@
+{
+  "beforeRelease": "7511536700f9c1729c3fe85bda8aed4176f2490d",
+  "models": [
+    {
+      "species": "elephant",
+      "path": "./models/zoo/elephant-a96744747e6d091e.bin",
+      "sha256": "a96744747e6d091e77725b72ff7d287a4f9ac237def5e5b4fe4ce64d8ce02657",
+      "sameAsReleasedPath": false,
+      "vertices": 23315,
+      "triangles": 43464,
+      "poseBytes": 1629184,
+      "joints": 43,
+      "frames": 592,
+      "faceRevision": "elephant-family-v1"
+    },
+    {
+      "species": "axolotl",
+      "path": "./models/zoo/axolotl-c2262a989f8b2113.bin",
+      "sha256": "c2262a989f8b2113e309c31e2c18a161fb9e4974d610e81eb0e5c79ec7809b00",
+      "sameAsReleasedPath": true,
+      "vertices": 21098,
+      "triangles": 36596,
+      "poseBytes": 460800,
+      "joints": 18,
+      "frames": 400,
+      "faceRevision": "axolotl-eyes-v2"
+    },
+    {
+      "species": "otter",
+      "path": "./models/zoo/otter-c96ca902a235f593.bin",
+      "sha256": "c96ca902a235f593b7a8ecf47370fab3d12b845b65a947175214a97fbb9117d3",
+      "sameAsReleasedPath": true,
+      "vertices": 25920,
+      "triangles": 33316,
+      "poseBytes": 588800,
+      "joints": 23,
+      "frames": 400,
+      "faceRevision": null
+    },
+    {
+      "species": "polar",
+      "path": "./models/zoo/polar-35301efaef99904d.bin",
+      "sha256": "35301efaef99904d0643aa9e1e31c8f27a28c11279ab6dfb671d5627cf2bdd63",
+      "sameAsReleasedPath": true,
+      "vertices": 41663,
+      "triangles": 51568,
+      "poseBytes": 588800,
+      "joints": 23,
+      "frames": 400,
+      "faceRevision": null
+    },
+    {
+      "species": "gorilla",
+      "path": "./models/zoo/gorilla-7a81149a541ca78d.bin",
+      "sha256": "7a81149a541ca78d5f7dee4f10497c77b20848595f1177cb2681c18e5ed299db",
+      "sameAsReleasedPath": true,
+      "vertices": 38240,
+      "triangles": 48568,
+      "poseBytes": 412672,
+      "joints": 13,
+      "frames": 496,
+      "faceRevision": "gorilla-face-v3"
+    }
+  ],
+  "nativeCatCache": "sculpt-v2-a496203fa13a037a7a10a927"
+}

@@ -733,13 +733,39 @@ The original shared facial material adds fine creases in rest coordinates,
 loads/coalesces only with selected zoo preparation, and retains a stable offline
 fallback. Fully bare face skin uses one planar sample; the transition to fur
 retains the original coat. Preserve the approved body controls, all nonocular
-pose bytes and the byte-identical elephant/axolotl/otter/grizzly assets.
+pose bytes and the byte-identical axolotl/otter/grizzly assets. The separately
+requested elephant revision below supersedes only its old elephant asset.
 
 Dense offline authoring must provision proportional temporary marching-cube
 capacity and reject truncated surfaces. Simplify within the released runtime
 geometry/pose limits; test watertight dense authoring and real front/profile
 clay and native phone images. A new texture costs memory: record it explicitly
 rather than presenting detail work as an FPS improvement.
+
+### Elephant anatomy and paired trunk contact (2026-11-02)
+
+Elephants use folded Asian-style ears, small inset eyes, a continuous warm-grey
+sculpt, thick columnar legs/flat soles, short juvenile tusks and directional skin
+folds. Keep the released 24,027-vertex / 44,604-triangle ceilings and all three
+original animal identities/scales. Offline 160-cell authoring may use its own
+320,000 temporary capacity; it must still reject truncated surfaces.
+
+The nine-link trunk retains the public `trunk4` tip role. Continuous arc-length
+weights and length-preserving smooth-curve IK are authored once, into the
+592-row shared palette (1,629,184 bytes), not solved/uploaded during play. This
+explicit additional interaction palette is not an FPS improvement. Two adults
+turn, lift and touch actual tips; their differently scaled tips must meet at a
+shared height without body intersections. The calf keeps independent motion.
+
+Keep smooth starts, releases and visitor cancellation. Never restart the ambient
+clock after the family animation: doing so caused a visible 0.46-metre tip jump.
+In the actual habitat the calf hosts water play while parents greet each other;
+continuous visitors must not starve paired animation. Emit water from the actual
+current host's articulated tip. Preserve fixed buffers, reduced motion, picking,
+camera bounds, paid receipts and selected-only loading. Check real vertices at
+60 Hz, contacts/body clearance, busy visitor flow, native phone cameras and
+repeated SQLite restores. Other four zoo model bytes and approved gorilla face
+remain unchanged.
 
 The carried-cat jumps peak at 2.6, 4.2 and 3.2 world metres. Keep true 9.81 gravity,
 separate ground intervals, the unchanged 31-second performance, actual paired

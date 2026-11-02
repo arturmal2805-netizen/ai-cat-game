@@ -1,5 +1,6 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';import * as T from 'three';
 import {GORILLA_CARRY_JUMPS,gorillaCarryJump} from '../public/zoo-play.js';
+import {ELEPHANT_TRUNK_TIP} from '../public/zoo-elephant-data.js';
 import {ZOO_EXHIBITS,ZOO_ANIMALS,ZOO_GATE,zooSeats,zooObstacles} from '../public/zoo-data.js';import {zooAnimals,zooJointPoint} from '../public/zoo-animals.js';import {createGorillaPlay,zooJump,ZOO_PLAY_SECONDS} from '../public/zoo-play.js';import {createCat,disposeCat,animateCat} from '../public/cat-model.js';import {ADOPTION_CATS,catAppearance} from '../public/cat-breeds.js';import {createCourtRuntime} from '../public/foodcourt-runtime.js';import {createBiomeScene,disposeBiome} from '../public/biome-scenes.js';import {byBiome} from '../public/game-data.js';import {zooPlayWater} from '../public/zoo-play-water.js';import {zooSnapshotValid,normalizeZoo,mergeZoo,openZooExhibit} from '../public/zoo-system.js';import {newGame,saveGame,loadGame} from '../public/economy.js';import {courtWalkable} from '../public/foodcourt-navigation.js';
 const gorilla=ZOO_EXHIBITS.find(e=>e.species==='gorilla'),makeCat=id=>{const p=ADOPTION_CATS.find(p=>p.id===id),c=createCat('happy',{detail:'npc',...catAppearance(p)});c.scale.setScalar(.63*p.size);return c;},destroy=m=>{m.dispose();m.geometry.dispose();m.material.dispose();};
 test('gorilla performance really lifts every native tiny/giant cat, jumps together, returns to exactly the reserved public ground, and keeps buffers immutable',()=>{
@@ -43,4 +44,22 @@ test('actual baked gorilla palms stay attached to both authored branches, transf
  const {gorillaSwingState,GORILLA_BRANCH_X:X,GORILLA_BRANCH_HEIGHT:H,GORILLA_BRANCH_Z:Z}=await import('../public/zoo-gorilla-swing.js'),a=zooAnimals(gorilla),time=0;
  for(let u=.13;u<.72;u+=.007){const state=gorillaSwingState(u);a.userData.setActorPlay(0,{frame:80+u*79,mix:1});if(state.grip){const hand=zooJointPoint(a,'Elbow'+state.grip,0,time,new T.Vector3(),new T.Vector3(state.grip==='Left'?-1.12:1.12,.4,.56)),anchor=a.userData.actors[0].anchor;assert.ok(hand.distanceTo(new T.Vector3(anchor[0]+(state.grip==='Left'?-X:X),H,anchor[2]+Z))<.012,'palm slid off '+state.grip+' branch: '+hand.toArray());}}
  const middle=gorillaSwingState(.42),edge=gorillaSwingState(.38);assert.equal(middle.phase,'transfer');assert.ok(middle.y>edge.y+1.1);assert.ok(gorillaSwingState(0).y===0&&gorillaSwingState(1).y===0);destroy(a);
+});
+
+test('a busy real elephant habitat keeps family greetings while its calf actually supplies the visitor water jet',()=>{
+ const root=createBiomeScene(byBiome('magic-zoo'),{preview:true}),e=ZOO_EXHIBITS.find(e=>e.species==='elephant'),a=root.userData.zoo.actors.get(e.id),drops=[];
+ root.traverse(o=>{if(o.name==='Zoo · playful water (fixed 128 drops)')drops.push(o);});
+ const versions=drops.map(o=>Object.values(o.geometry.attributes).map(v=>v.version));let family=0,calfSprays=0,adultSprays=0;
+ try{
+  root.userData.update(0);
+  for(let step=1;step<=800;step++){
+   const t=step/10;if(step%60===1)root.userData.greet(e.id,t,{seat:zooSeats(e)[0]});root.userData.update(t);
+   const busy=!!a.userData.elephantFamilyActive;if(busy)family++;
+   const water=drops.find(o=>o.visible);if(!water)continue;
+   const actual=water.material.uniforms.uStart.value,host=busy?2:0,expected=zooJointPoint(a,'trunk4',host,a.userData.uniforms.uZooTime.value,new T.Vector3(),new T.Vector3(...ELEPHANT_TRUNK_TIP));expected.x+=e.x;expected.y+=.16;expected.z+=e.z;
+   assert.ok(actual.distanceTo(expected)<1e-7,'visible water must come from the actual host trunk');if(busy)calfSprays++;else adultSprays++;
+  }
+  assert.ok(family>200,'repeated visitors must not starve the paired animation');assert.ok(calfSprays>30);assert.ok(adultSprays>30);assert.equal(a.count,3);
+  assert.deepEqual(drops.map(o=>Object.values(o.geometry.attributes).map(v=>v.version)),versions);
+ }finally{disposeBiome(root);}
 });
