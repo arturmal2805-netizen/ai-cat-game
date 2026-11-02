@@ -355,8 +355,8 @@ These reports approve the rendering choice, not a claim of universal 60 FPS.
 
 Use one timestamp for each native renderer frame, retaining both colour and
 shadow use, instead of reading the clock on every draw. Under memory pressure,
-only geometry absent from the last three native frames may retire before the
-legacy time grace. Protect every recent shared-attribute owner and current
+only geometry absent from the last three native frames AND unused for at least
+250 real milliseconds may retire before the legacy time grace. Protect every recent shared-attribute owner and current
 rendering above the soft budget. Keep cleanup bounded, original CPU source,
 cat atlas registrations and full-resolution re-upload. Never use model destruction
 as GPU retirement. Verify actual GPU bytes, exact return images and repeated
@@ -706,3 +706,10 @@ cooperative and is simplified only offline; ship immutable model buffers.
 Species-specific face revisions must reject old axolotl/gorilla geometry while
 leaving elephant/otter/grizzly caches byte-identical. Validate source/cache
 identity, real overhead phone frames, close front/profile views and native saves.
+
+A three-frame gap can still belong to the active camera/animation working set.
+The 250 ms active-use window also applies during pressure reclamation; it does
+not enlarge the idle-cache allowance or pin unused island data. Keep the legacy
+soft budget, two-second learned return grace, shared-owner safety and bounded
+cleanup. Verify exact GL pixels, cyclic upload bytes, finite abandoned uploads
+and eventual reclamation. This resource contract is not a hardware FPS claim.

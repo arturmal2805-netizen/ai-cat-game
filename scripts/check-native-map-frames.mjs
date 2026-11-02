@@ -313,7 +313,7 @@ export async function checkNativeMapFrames(page, review) {
       await page.mouse.up();
     }
     assert.ok(anchor, `${id}: input must reach the canvas, not an overlapping HUD button`);
-    const row = await page.evaluate(({ ms, anchor }) => new Promise(resolve => {
+    const row = await page.evaluate(({ ms, anchor, minimumFrames }) => new Promise(resolve => {
       const q = __lagoonQA, gl = q.renderer.getContext(), canvas = q.renderer.domElement;
       q.drawFrame();
       // finish() alone is not a reliable GPU completion boundary on all
@@ -334,7 +334,12 @@ export async function checkNativeMapFrames(page, review) {
           angle = Math.atan2(q.camera.position.x - q.look.x, q.camera.position.z - q.look.z);
         minAngle = Math.min(minAngle, angle); maxAngle = Math.max(maxAngle, angle);
         minZoom = Math.min(minZoom, q.getDesiredDistance()); maxZoom = Math.max(maxZoom, q.getDesiredDistance());
-        if (elapsed < ms) {
+        // Opt-in software-renderer coverage may need longer than a short timed
+        // window to submit a handful of complete frames. Keep the same input
+        // trajectory and all movement assertions; never label two queued
+        // frames as a completed camera test or as device FPS evidence.
+        const coveragePending=minimumFrames>0&&(q.liveFrames.length<minimumFrames||maxAngle-minAngle<=.08||maxZoom-minZoom<=6);
+        if (elapsed < ms || (coveragePending && elapsed < ms+120000)) {
           if(q.actorSyncSample && elapsed>=nextActor) {
             actorTimes.push(q.actorSyncSample(actorTimes.length));nextActor=elapsed+500;
           }
@@ -382,7 +387,7 @@ export async function checkNativeMapFrames(page, review) {
           contextLost: gl.isContextLost(), visible: q.isVisible(),
           inputState:{faceTracking:q.faceCamera.enabled,draggingCat:q.getDragging()||null,pointerId:q.probePointerId} });
       }, 100);
-    }), { ms, anchor });
+    }), { ms, anchor, minimumFrames:Number(process.env.CHICHI_NATIVE_MIN_FRAMES||0) });
     await page.evaluate(() => {
       const q = __lagoonQA, canvas = q.renderer.domElement;
       canvas.removeEventListener("pointerdown", q.captureProbe);

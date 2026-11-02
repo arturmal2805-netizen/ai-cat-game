@@ -1,0 +1,534 @@
+[
+  {
+    "id": "moon",
+    "changed": 0,
+    "before": {
+      "frame": 20,
+      "calls": 348,
+      "triangles": 633196,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 21,
+      "calls": 348,
+      "triangles": 633196,
+      "points": 320,
+      "lines": 0
+    },
+    "gpuBefore": 27025288,
+    "retiredBytes": 918580,
+    "gpuAfter": 27025288,
+    "cats": 117,
+    "slots": 3164,
+    "afterCats": 117,
+    "afterSlots": 3164,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "autumn",
+    "changed": 0,
+    "before": {
+      "frame": 44,
+      "calls": 194,
+      "triangles": 618208,
+      "points": 740,
+      "lines": 0
+    },
+    "after": {
+      "frame": 45,
+      "calls": 194,
+      "triangles": 618208,
+      "points": 740,
+      "lines": 0
+    },
+    "gpuBefore": 69930732,
+    "retiredBytes": 16744916,
+    "gpuAfter": 69930732,
+    "cats": 117,
+    "slots": 3164,
+    "afterCats": 117,
+    "afterSlots": 3164,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "winter",
+    "changed": 0,
+    "before": {
+      "frame": 64,
+      "calls": 562,
+      "triangles": 1152128,
+      "points": 740,
+      "lines": 0
+    },
+    "after": {
+      "frame": 65,
+      "calls": 562,
+      "triangles": 1152128,
+      "points": 740,
+      "lines": 0
+    },
+    "gpuBefore": 120457208,
+    "retiredBytes": 59824828,
+    "gpuAfter": 120457208,
+    "cats": 117,
+    "slots": 3164,
+    "afterCats": 117,
+    "afterSlots": 3164,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "water",
+    "changed": 0,
+    "before": {
+      "frame": 319,
+      "calls": 610,
+      "triangles": 1893965,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 320,
+      "calls": 610,
+      "triangles": 1893965,
+      "points": 320,
+      "lines": 0
+    },
+    "gpuBefore": 331469137,
+    "retiredBytes": 215750267,
+    "gpuAfter": 331469137,
+    "cats": 117,
+    "slots": 3164,
+    "afterCats": 117,
+    "afterSlots": 3164,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "summer",
+    "changed": 0,
+    "before": {
+      "frame": 18,
+      "calls": 488,
+      "triangles": 2939457,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 19,
+      "calls": 488,
+      "triangles": 2939457,
+      "points": 320,
+      "lines": 0
+    },
+    "gpuBefore": 99401265,
+    "retiredBytes": 14332964,
+    "gpuAfter": 99401265,
+    "cats": 117,
+    "slots": 3164,
+    "afterCats": 117,
+    "afterSlots": 3164,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "sakura",
+    "changed": 0,
+    "before": {
+      "frame": 35,
+      "calls": 414,
+      "triangles": 1937511,
+      "points": 740,
+      "lines": 0
+    },
+    "after": {
+      "frame": 36,
+      "calls": 414,
+      "triangles": 1937511,
+      "points": 740,
+      "lines": 0
+    },
+    "gpuBefore": 146661795,
+    "retiredBytes": 60711182,
+    "gpuAfter": 146661795,
+    "cats": 117,
+    "slots": 3164,
+    "afterCats": 117,
+    "afterSlots": 3164,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "volcano",
+    "changed": 0,
+    "before": {
+      "frame": 50,
+      "calls": 540,
+      "triangles": 1100138,
+      "points": 740,
+      "lines": 0
+    },
+    "after": {
+      "frame": 51,
+      "calls": 540,
+      "triangles": 1100138,
+      "points": 740,
+      "lines": 0
+    },
+    "gpuBefore": 200575715,
+    "retiredBytes": 121308659,
+    "gpuAfter": 200575715,
+    "cats": 117,
+    "slots": 3164,
+    "afterCats": 117,
+    "afterSlots": 3164,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "candy",
+    "changed": 0,
+    "before": {
+      "frame": 71,
+      "calls": 208,
+      "triangles": 355092,
+      "points": 0,
+      "lines": 0
+    },
+    "after": {
+      "frame": 72,
+      "calls": 208,
+      "triangles": 355092,
+      "points": 0,
+      "lines": 0
+    },
+    "gpuBefore": 205855785,
+    "retiredBytes": 189649909,
+    "gpuAfter": 205855785,
+    "cats": 117,
+    "slots": 3164,
+    "afterCats": 117,
+    "afterSlots": 3164,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "galaxy",
+    "changed": 0,
+    "before": {
+      "frame": 101,
+      "calls": 497,
+      "triangles": 1092869,
+      "points": 740,
+      "lines": 0
+    },
+    "after": {
+      "frame": 102,
+      "calls": 497,
+      "triangles": 1092869,
+      "points": 740,
+      "lines": 0
+    },
+    "gpuBefore": 201486753,
+    "retiredBytes": 161026971,
+    "gpuAfter": 201486753,
+    "cats": 117,
+    "slots": 3164,
+    "afterCats": 117,
+    "afterSlots": 3164,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "ice",
+    "changed": 0,
+    "before": {
+      "frame": 122,
+      "calls": 897,
+      "triangles": 1032744,
+      "points": 420,
+      "lines": 0
+    },
+    "after": {
+      "frame": 123,
+      "calls": 897,
+      "triangles": 1032744,
+      "points": 420,
+      "lines": 0
+    },
+    "gpuBefore": 201605990,
+    "retiredBytes": 156451674,
+    "gpuAfter": 201605990,
+    "cats": 117,
+    "slots": 3164,
+    "afterCats": 117,
+    "afterSlots": 3164,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "clockwork",
+    "changed": 0,
+    "before": {
+      "frame": 145,
+      "calls": 813,
+      "triangles": 2491780,
+      "points": 420,
+      "lines": 0
+    },
+    "after": {
+      "frame": 146,
+      "calls": 813,
+      "triangles": 2491780,
+      "points": 420,
+      "lines": 0
+    },
+    "gpuBefore": 199984696,
+    "retiredBytes": 139478064,
+    "gpuAfter": 199984696,
+    "cats": 117,
+    "slots": 3164,
+    "afterCats": 117,
+    "afterSlots": 3164,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "foodcourt",
+    "changed": 0,
+    "before": {
+      "frame": 160,
+      "calls": 196,
+      "triangles": 662938,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 161,
+      "calls": 196,
+      "triangles": 662938,
+      "points": 320,
+      "lines": 0
+    },
+    "gpuBefore": 200638580,
+    "retiredBytes": 170251038,
+    "gpuAfter": 200638580,
+    "cats": 117,
+    "slots": 3164,
+    "afterCats": 117,
+    "afterSlots": 3164,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "bikini",
+    "changed": 0,
+    "before": {
+      "frame": 178,
+      "calls": 256,
+      "triangles": 842932,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 179,
+      "calls": 256,
+      "triangles": 842932,
+      "points": 320,
+      "lines": 0
+    },
+    "gpuBefore": 195892412,
+    "retiredBytes": 147934516,
+    "gpuAfter": 195892412,
+    "cats": 117,
+    "slots": 3164,
+    "afterCats": 117,
+    "afterSlots": 3164,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "homestead",
+    "changed": 0,
+    "before": {
+      "frame": 193,
+      "calls": 1011,
+      "triangles": 2257458,
+      "points": 0,
+      "lines": 0
+    },
+    "after": {
+      "frame": 194,
+      "calls": 1011,
+      "triangles": 2257458,
+      "points": 0,
+      "lines": 0
+    },
+    "gpuBefore": 200825354,
+    "retiredBytes": 160109664,
+    "gpuAfter": 200825354,
+    "cats": 117,
+    "slots": 3164,
+    "afterCats": 117,
+    "afterSlots": 3164,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "aquarium",
+    "changed": 0,
+    "before": {
+      "frame": 208,
+      "calls": 346,
+      "triangles": 1869482,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 209,
+      "calls": 346,
+      "triangles": 1869482,
+      "points": 320,
+      "lines": 0
+    },
+    "gpuBefore": 202390699,
+    "retiredBytes": 147249186,
+    "gpuAfter": 202390699,
+    "cats": 117,
+    "slots": 3164,
+    "afterCats": 117,
+    "afterSlots": 3164,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "jobcity",
+    "changed": 0,
+    "before": {
+      "frame": 224,
+      "calls": 384,
+      "triangles": 1100515,
+      "points": 320,
+      "lines": 0
+    },
+    "after": {
+      "frame": 225,
+      "calls": 384,
+      "triangles": 1100515,
+      "points": 320,
+      "lines": 0
+    },
+    "gpuBefore": 207576051,
+    "retiredBytes": 92285665,
+    "gpuAfter": 207576051,
+    "cats": 117,
+    "slots": 3164,
+    "afterCats": 117,
+    "afterSlots": 3164,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "cat-homes",
+    "changed": 0,
+    "before": {
+      "frame": 237,
+      "calls": 33,
+      "triangles": 84860,
+      "points": 0,
+      "lines": 0
+    },
+    "after": {
+      "frame": 238,
+      "calls": 33,
+      "triangles": 84860,
+      "points": 0,
+      "lines": 0
+    },
+    "gpuBefore": 211210761,
+    "retiredBytes": 198722261,
+    "gpuAfter": 211210761,
+    "cats": 117,
+    "slots": 3164,
+    "afterCats": 117,
+    "afterSlots": 3164,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "atoll-park",
+    "changed": 0,
+    "before": {
+      "frame": 263,
+      "calls": 21,
+      "triangles": 30540,
+      "points": 0,
+      "lines": 0
+    },
+    "after": {
+      "frame": 264,
+      "calls": 21,
+      "triangles": 30540,
+      "points": 0,
+      "lines": 0
+    },
+    "gpuBefore": 202606827,
+    "retiredBytes": 191850599,
+    "gpuAfter": 202606827,
+    "cats": 117,
+    "slots": 3164,
+    "afterCats": 117,
+    "afterSlots": 3164,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  },
+  {
+    "id": "magic-zoo",
+    "changed": 0,
+    "before": {
+      "frame": 305,
+      "calls": 428,
+      "triangles": 2006063,
+      "points": 0,
+      "lines": 0
+    },
+    "after": {
+      "frame": 306,
+      "calls": 428,
+      "triangles": 2006063,
+      "points": 0,
+      "lines": 0
+    },
+    "gpuBefore": 230816069,
+    "retiredBytes": 168968251,
+    "gpuAfter": 230816069,
+    "cats": 117,
+    "slots": 3164,
+    "afterCats": 117,
+    "afterSlots": 3164,
+    "error": 0,
+    "contextLost": false,
+    "dpr": 2
+  }
+]

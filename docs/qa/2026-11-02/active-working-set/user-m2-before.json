@@ -1,0 +1,670 @@
+{
+  "version": 2,
+  "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+  "suspended": false,
+  "automaticPauseSeconds": 0,
+  "catRenderer": "individual",
+  "gpuRender": {
+    "supported": true,
+    "disjoint": false,
+    "samples": 300,
+    "pending": 2,
+    "medianMs": 10.01,
+    "p95Ms": 13.97,
+    "maxMs": 15.67
+  },
+  "appWorkSinceReset": {
+    "phases": {
+      "world.sync": {
+        "calls": 104,
+        "totalMs": 64.8,
+        "maxMs": 2.6,
+        "over50ms": 0
+      },
+      "app.renderGame": {
+        "calls": 45,
+        "totalMs": 28.9,
+        "maxMs": 1.1,
+        "over50ms": 0
+      },
+      "frame.viewport": {
+        "calls": 3584,
+        "totalMs": 3.4,
+        "maxMs": 0.1,
+        "over50ms": 0
+      },
+      "frame.cameraAndIslands": {
+        "calls": 3584,
+        "totalMs": 436.4,
+        "maxMs": 1.3,
+        "over50ms": 0
+      },
+      "frame.jobsAndHomes": {
+        "calls": 3584,
+        "totalMs": 895,
+        "maxMs": 24.1,
+        "over50ms": 0
+      },
+      "frame.venues": {
+        "calls": 3584,
+        "totalMs": 826.2,
+        "maxMs": 7.9,
+        "over50ms": 0
+      },
+      "frame.residents": {
+        "calls": 3584,
+        "totalMs": 2071.3,
+        "maxMs": 56.6,
+        "over50ms": 3
+      },
+      "frame.chichi": {
+        "calls": 3584,
+        "totalMs": 77.8,
+        "maxMs": 0.4,
+        "over50ms": 0
+      },
+      "frame.cameraAndHousingView": {
+        "calls": 3584,
+        "totalMs": 75.6,
+        "maxMs": 0.2,
+        "over50ms": 0
+      },
+      "frame.ambientAndBadges": {
+        "calls": 3584,
+        "totalMs": 222.6,
+        "maxMs": 1.1,
+        "over50ms": 0
+      },
+      "frame.visibility": {
+        "calls": 3584,
+        "totalMs": 301.8,
+        "maxMs": 0.7,
+        "over50ms": 0
+      },
+      "frame.renderer": {
+        "calls": 3584,
+        "totalMs": 31272.6,
+        "maxMs": 161.6,
+        "over50ms": 4
+      },
+      "frame.gpuSubmit": {
+        "calls": 3584,
+        "totalMs": 32.4,
+        "maxMs": 0.1,
+        "over50ms": 0
+      },
+      "frame.residency": {
+        "calls": 3584,
+        "totalMs": 192.3,
+        "maxMs": 2.7,
+        "over50ms": 0
+      },
+      "app.cityTick": {
+        "calls": 65,
+        "totalMs": 20.9,
+        "maxMs": 1.4,
+        "over50ms": 0
+      },
+      "app.commit": {
+        "calls": 31,
+        "totalMs": 590.9,
+        "maxMs": 28.6,
+        "over50ms": 0
+      }
+    },
+    "longest": [
+      {
+        "label": "frame.renderer",
+        "atMs": 17315,
+        "durationMs": 161.6
+      },
+      {
+        "label": "frame.renderer",
+        "atMs": 32021,
+        "durationMs": 65.1
+      },
+      {
+        "label": "frame.renderer",
+        "atMs": 25422,
+        "durationMs": 62.1
+      },
+      {
+        "label": "frame.residents",
+        "atMs": 33717,
+        "durationMs": 56.6
+      },
+      {
+        "label": "frame.renderer",
+        "atMs": 32093,
+        "durationMs": 55.6
+      },
+      {
+        "label": "frame.residents",
+        "atMs": 19717,
+        "durationMs": 54.1
+      },
+      {
+        "label": "frame.residents",
+        "atMs": 34484,
+        "durationMs": 50.8
+      }
+    ]
+  },
+  "longAnimationFramesSupported": true,
+  "longestAnimationFrames": [
+    {
+      "durationMs": 217.3,
+      "blockingMs": 125.7,
+      "afterStyleStartMs": 0.9,
+      "scripts": [
+        {
+          "function": "Qh",
+          "type": "user-callback",
+          "durationMs": 167.5,
+          "layoutMs": 0,
+          "position": 1889479
+        },
+        {
+          "function": "",
+          "type": "resolve-promise",
+          "durationMs": 7.1,
+          "layoutMs": 0,
+          "position": 1093390
+        }
+      ]
+    },
+    {
+      "durationMs": 142.5,
+      "blockingMs": 20.2,
+      "afterStyleStartMs": 1,
+      "scripts": [
+        {
+          "function": "Qh",
+          "type": "user-callback",
+          "durationMs": 37.6,
+          "layoutMs": 0,
+          "position": 1889479
+        },
+        {
+          "function": "",
+          "type": "resolve-promise",
+          "durationMs": 31.6,
+          "layoutMs": 0,
+          "position": 1093390
+        }
+      ]
+    },
+    {
+      "durationMs": 131.2,
+      "blockingMs": 0,
+      "afterStyleStartMs": 0.7,
+      "scripts": [
+        {
+          "function": "Qh",
+          "type": "user-callback",
+          "durationMs": 27.2,
+          "layoutMs": 0,
+          "position": 1889479
+        },
+        {
+          "function": "",
+          "type": "resolve-promise",
+          "durationMs": 5.8,
+          "layoutMs": 0,
+          "position": 1093390
+        },
+        {
+          "function": "",
+          "type": "resolve-promise",
+          "durationMs": 5.6,
+          "layoutMs": 0,
+          "position": 1093390
+        }
+      ]
+    },
+    {
+      "durationMs": 126.1,
+      "blockingMs": 0,
+      "afterStyleStartMs": 0.6,
+      "scripts": [
+        {
+          "function": "Qh",
+          "type": "user-callback",
+          "durationMs": 21.3,
+          "layoutMs": 0,
+          "position": 1889479
+        },
+        {
+          "function": "",
+          "type": "resolve-promise",
+          "durationMs": 5.3,
+          "layoutMs": 0,
+          "position": 1093390
+        }
+      ]
+    },
+    {
+      "durationMs": 117.9,
+      "blockingMs": 0,
+      "afterStyleStartMs": 0.8,
+      "scripts": [
+        {
+          "function": "Qh",
+          "type": "user-callback",
+          "durationMs": 16.4,
+          "layoutMs": 0,
+          "position": 1889479
+        },
+        {
+          "function": "",
+          "type": "resolve-promise",
+          "durationMs": 5.4,
+          "layoutMs": 0,
+          "position": 1093390
+        }
+      ]
+    }
+  ],
+  "app": "./dist/app.js?v=eeb8296ae85c2970",
+  "bufferTransfersSinceReset": {
+    "dataCalls": 31763,
+    "dataBytes": 1476912011,
+    "subCalls": 48132,
+    "subBytes": 48188928
+  },
+  "nativeGlCallsSinceReset": {
+    "beginQuery": {
+      "calls": 3584,
+      "totalMs": 6.3,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "bindBuffer": {
+      "calls": 120927,
+      "totalMs": 41.5,
+      "maxMs": 1.4,
+      "over50ms": 0
+    },
+    "bufferSubData": {
+      "calls": 48132,
+      "totalMs": 38.2,
+      "maxMs": 0.2,
+      "over50ms": 0
+    },
+    "bufferData": {
+      "calls": 31763,
+      "totalMs": 701.5,
+      "maxMs": 146.9,
+      "over50ms": 1
+    },
+    "bindFramebuffer": {
+      "calls": 10234,
+      "totalMs": 8.9,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "clear": {
+      "calls": 7417,
+      "totalMs": 10.4,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "useProgram": {
+      "calls": 1220958,
+      "totalMs": 231.5,
+      "maxMs": 0.2,
+      "over50ms": 0
+    },
+    "bindTexture": {
+      "calls": 1158383,
+      "totalMs": 211.5,
+      "maxMs": 0.2,
+      "over50ms": 0
+    },
+    "uniformMatrix4fv": {
+      "calls": 5623429,
+      "totalMs": 1022.5,
+      "maxMs": 0.3,
+      "over50ms": 0
+    },
+    "bindVertexArray": {
+      "calls": 2254657,
+      "totalMs": 1048,
+      "maxMs": 0.2,
+      "over50ms": 0
+    },
+    "drawElements": {
+      "calls": 1729494,
+      "totalMs": 282,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "drawArrays": {
+      "calls": 199408,
+      "totalMs": 34.6,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "texParameteri": {
+      "calls": 504068,
+      "totalMs": 88.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "texSubImage2D": {
+      "calls": 126017,
+      "totalMs": 143,
+      "maxMs": 0.2,
+      "over50ms": 0
+    },
+    "vertexAttribPointer": {
+      "calls": 39256,
+      "totalMs": 8.3,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniform1fv": {
+      "calls": 632040,
+      "totalMs": 112.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniform3fv": {
+      "calls": 7297,
+      "totalMs": 2.4,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniform2fv": {
+      "calls": 4280,
+      "totalMs": 2,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniform1f": {
+      "calls": 607433,
+      "totalMs": 92.3,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniform3f": {
+      "calls": 1172184,
+      "totalMs": 191.1,
+      "maxMs": 0.8,
+      "over50ms": 0
+    },
+    "drawElementsInstanced": {
+      "calls": 265342,
+      "totalMs": 57.2,
+      "maxMs": 0.2,
+      "over50ms": 0
+    },
+    "multiDrawElementsWEBGL": {
+      "calls": 293456,
+      "totalMs": 159.9,
+      "maxMs": 0.3,
+      "over50ms": 0
+    },
+    "uniformMatrix3fv": {
+      "calls": 1468883,
+      "totalMs": 273,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniform1i": {
+      "calls": 65955,
+      "totalMs": 17,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniform2f": {
+      "calls": 27336,
+      "totalMs": 7.8,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniform4fv": {
+      "calls": 50441,
+      "totalMs": 14.5,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "endQuery": {
+      "calls": 3584,
+      "totalMs": 10.2,
+      "maxMs": 0.2,
+      "over50ms": 0
+    },
+    "fenceSync": {
+      "calls": 3584,
+      "totalMs": 15.7,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "flush": {
+      "calls": 3584,
+      "totalMs": 12.9,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "deleteBuffer": {
+      "calls": 30281,
+      "totalMs": 11.7,
+      "maxMs": 0.2,
+      "over50ms": 0
+    },
+    "clientWaitSync": {
+      "calls": 6119,
+      "totalMs": 16.8,
+      "maxMs": 0.2,
+      "over50ms": 0
+    },
+    "getQueryParameter": {
+      "calls": 9396,
+      "totalMs": 19.6,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "deleteSync": {
+      "calls": 3582,
+      "totalMs": 7.9,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "pixelStorei": {
+      "calls": 56,
+      "totalMs": 0.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "texStorage2D": {
+      "calls": 18,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "generateMipmap": {
+      "calls": 16,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "createProgram": {
+      "calls": 14,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "createShader": {
+      "calls": 28,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "shaderSource": {
+      "calls": 28,
+      "totalMs": 2.9,
+      "maxMs": 0.3,
+      "over50ms": 0
+    },
+    "compileShader": {
+      "calls": 28,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "attachShader": {
+      "calls": 28,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "linkProgram": {
+      "calls": 14,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "getProgramInfoLog": {
+      "calls": 14,
+      "totalMs": 67.1,
+      "maxMs": 18.3,
+      "over50ms": 0
+    },
+    "getShaderInfoLog": {
+      "calls": 28,
+      "totalMs": 17.3,
+      "maxMs": 10.1,
+      "over50ms": 0
+    },
+    "getProgramParameter": {
+      "calls": 91,
+      "totalMs": 1.8,
+      "maxMs": 0.3,
+      "over50ms": 0
+    },
+    "getActiveUniform": {
+      "calls": 290,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "getUniformLocation": {
+      "calls": 290,
+      "totalMs": 0.3,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "getActiveAttrib": {
+      "calls": 47,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "getAttribLocation": {
+      "calls": 47,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "uniform1iv": {
+      "calls": 3017,
+      "totalMs": 1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "drawArraysInstanced": {
+      "calls": 840,
+      "totalMs": 1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "blitFramebuffer": {
+      "calls": 642,
+      "totalMs": 1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "getParameter": {
+      "calls": 1,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    }
+  },
+  "mainThreadLongTasksSupported": true,
+  "longestMainThreadTasksMs": [
+    169,
+    69,
+    68,
+    67,
+    65,
+    64,
+    64,
+    62,
+    61,
+    60,
+    58,
+    57,
+    55
+  ],
+  "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
+  "viewport": [
+    1047,
+    691
+  ],
+  "samples": 300,
+  "seconds": 5.5,
+  "rafCallbacksSinceReset": 3682,
+  "pacerSkipsSinceReset": 1,
+  "rafSecondsSinceReset": 65.1,
+  "rafFpsSinceReset": 56.54,
+  "fps": 54.36,
+  "gapP95": 33.3,
+  "gapMax": 116.69999999999709,
+  "cpuMedian": 1.2,
+  "cpuP95": 1.9,
+  "cpuMax": 5.699999988079071,
+  "cpuTotalMs": 396.9,
+  "renderMedian": 7.7,
+  "renderP95": 18.5,
+  "renderMax": 24,
+  "renderTotalMs": 3017,
+  "gpuWaitCallbacksSinceReset": 98,
+  "contextWaitCallbacksSinceReset": 0,
+  "queueCpuTotalSinceReset": 39.6,
+  "queueCpuMaxSinceReset": 0.3,
+  "eventLoopDelayP95": 23.8,
+  "eventLoopDelayMax": 184.30000001192093,
+  "geometryEvictionsDuringWindow": 305,
+  "geometryRefaultsDuringWindow": 240,
+  "geometryRefaultBytesDuringWindow": 49747587,
+  "geometryRapidRefaultsDuringWindow": 215,
+  "geometryRapidRefaultBytesDuringWindow": 48646051,
+  "last": {
+    "biome": "water",
+    "cats": 68,
+    "calls": 505,
+    "triangles": 1647911,
+    "geometryBytes": 199346386,
+    "pending": 2,
+    "dpr": 2,
+    "poseCats": 25,
+    "colonyActive": false,
+    "shaderPending": 0,
+    "shaderPreparing": 0,
+    "evicted": 7112,
+    "refaults": 5997,
+    "refaultBytes": 1358549899,
+    "rapidRefaults": 5242,
+    "rapidRefaultBytes": 1232646801,
+    "targetFps": 60,
+    "programs": 159,
+    "visible": true,
+    "moving": false,
+    "buffer": [
+      2018,
+      1142
+    ]
+  }
+}

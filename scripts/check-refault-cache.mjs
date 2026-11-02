@@ -12,13 +12,13 @@ export async function checkRefaultCache(page,review) {
     const scene=new T.Scene(),camera=new T.PerspectiveCamera(40,1,.1,30);
     camera.position.set(0,0,6);camera.lookAt(0,0,0);
     const gl=renderer.getContext(),uploads=q.trackUploads(gl),pixels=new Uint8Array(64*64*4),
-      reference=Array.from({length:4},()=>new Uint8Array(pixels.length)),rows=[];
+      reference=Array.from({length:4},()=>new Uint8Array(pixels.length)),rows=[],workingRows=[];
     try {
       for(const protection of [false,true]) {
         let time=0;
         const meshes=Array.from({length:4},(_,i)=>new T.Mesh(new T.BoxGeometry(),new T.MeshBasicMaterial({color:[0xe4b3dc,0xa2d8ce,0xc4b2e7,0xf3dc9d][i]}))),
           g=meshes[0].geometry,bytes=[g.index,...Object.values(g.attributes)].reduce((n,a)=>n+a.array.byteLength,0),
-          cache=q.geometryResidencyFactory(renderer,{budget:bytes*3,refaultBudget:bytes,clock:()=>time});
+          cache=q.geometryResidencyFactory(renderer,{budget:bytes*3,refaultBudget:bytes,activeGrace:0,clock:()=>time});
         cache.setRefaultProtectionEnabled(protection);
         scene.add(...meshes);uploads.clear();let changed=0;
         for(let frame=1;frame<=120;frame++){
@@ -33,7 +33,28 @@ export async function checkRefaultCache(page,review) {
         cache.dispose();
         for(const mesh of meshes){mesh.removeFromParent();mesh.geometry.dispose();mesh.material.dispose();}
       }
-      return {rows,error:gl.getError(),contextLost:gl.isContextLost(),gameDpr:q.renderer.getPixelRatio()};
+      // Five recurring buffers exceed the old idle allowance. They are still
+      // actively used every 200 ms, exactly the boundary the three-frame rule
+      // misclassified as abandoned. The default short window must avoid their
+      // repeated upload without changing pixels or raising the peak footprint.
+      const workingReference=Array.from({length:5},()=>new Uint8Array(pixels.length));
+      for(const activeGrace of [0,250]){
+        let time=0;
+        const meshes=Array.from({length:5},(_,i)=>new T.Mesh(new T.BoxGeometry(),new T.MeshBasicMaterial({color:[0xe4b3dc,0xa2d8ce,0xc4b2e7,0xf3dc9d,0x8dc9e1][i]}))),g=meshes[0].geometry,
+          bytes=[g.index,...Object.values(g.attributes)].reduce((n,a)=>n+a.array.byteLength,0),
+          cache=q.geometryResidencyFactory(renderer,{budget:bytes*3,refaultBudget:bytes,activeGrace,clock:()=>time});
+        scene.add(...meshes);uploads.clear();let changed=0;
+        for(let frame=1;frame<=180;frame++){
+          time=frame*40;const active=(frame-1)%5;meshes.forEach((m,i)=>m.visible=i===active);renderer.render(scene,camera);cache.sweep(time);
+          gl.readPixels(0,0,64,64,gl.RGBA,gl.UNSIGNED_BYTE,pixels);
+          if(!activeGrace&&frame<=5)workingReference[active].set(pixels);
+          else for(let i=0;i<pixels.length;i++)if(pixels[i]!==workingReference[active][i])changed++;
+        }
+        const transfers=uploads.snapshot(),resident={...cache.stats};time=30000;cache.sweep(time);
+        workingRows.push({activeGrace,changed,uploads:transfers,cache:resident,afterAbandon:cache.stats.bytes,bytesPerGeometry:bytes});cache.dispose();
+        for(const mesh of meshes){mesh.removeFromParent();mesh.geometry.dispose();mesh.material.dispose();}
+      }
+      return {rows,workingRows,error:gl.getError(),contextLost:gl.isContextLost(),gameDpr:q.renderer.getPixelRatio()};
     } finally {uploads.dispose();renderer.dispose();q.freeze=false;q.gpuFrames.clear();}
   });
   fs.writeFileSync(path.join(review,"refault-gl-cycle.json"),JSON.stringify(result,null,2));
@@ -43,6 +64,12 @@ export async function checkRefaultCache(page,review) {
   assert.ok(after.uploads.dataBytes<before.uploads.dataBytes/5);
   assert.ok(after.cache.evicted<before.cache.evicted/5);
   assert.ok(after.cache.bytes<=after.bytesPerGeometry*4);
+  const [oldWorking,newWorking]=result.workingRows;
+  assert.equal(oldWorking.changed,0);assert.equal(newWorking.changed,0);
+  assert.equal(newWorking.cache.rapidRefaults,0);assert.ok(oldWorking.cache.rapidRefaults>=50);
+  assert.ok(newWorking.uploads.dataBytes<oldWorking.uploads.dataBytes/10);
+  assert.equal(newWorking.cache.peakBytes,oldWorking.cache.peakBytes);
+  assert.ok(newWorking.afterAbandon<=newWorking.bytesPerGeometry*3);
   console.log("REFAULT_GL_CYCLE",JSON.stringify(result));
 }
 

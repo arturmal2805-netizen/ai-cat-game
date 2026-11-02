@@ -5796,7 +5796,7 @@ export function createWorld(container, initialGame, callbacks = {}) {
       }
       if (frameProfile) frameProfile.frame({at:now,cpu:profileRender-profileStart,render:performance.now()-profileRender,
         biome:focused,cats:npcs.size,calls:renderer.info.render.calls,triangles:renderer.info.render.triangles,
-        geometryBytes:geometryResidency.stats.bytes,pending:gpuFrames.pending,dpr:renderer.getPixelRatio(),
+        geometryBytes:geometryResidency.stats.bytes,geometryPeakBytes:geometryResidency.stats.peakBytes,geometryActiveGraceMs:geometryResidency.stats.activeGraceMs,pending:gpuFrames.pending,dpr:renderer.getPixelRatio(),
         poseCats:poseAtlas.stats.updatedCats,colonyActive:colonyDraws.stats.active,
         shaderPending:shaderWarmup.stats.pending,shaderPreparing:shaderWarmup.stats.preparing,evicted:geometryResidency.stats.evicted,
         refaults:geometryResidency.stats.refaults,refaultBytes:geometryResidency.stats.refaultBytes,

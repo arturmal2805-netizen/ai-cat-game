@@ -168,7 +168,7 @@ test("GPU-only eviction preserves a living cat and its pose slots across repeate
   atlas.dispose();
 });
 
-test("memory pressure retires only buffers absent from three actual colour/shadow frames, without waiting ten seconds", () => {
+test("memory pressure retires buffers absent from three colour/shadow frames and the short active window, without waiting ten seconds", () => {
   const f = fixture({ budget: 0, grace: 10000 }), a = new THREE.BoxGeometry(), b = a.clone();
   f.renderer.info = { render: { frame: 1 } };
   f.time(1); f.draw(a); f.draw(b);
@@ -176,12 +176,12 @@ test("memory pressure retires only buffers absent from three actual colour/shado
   f.time(20); f.draw(b); f.residency.sweep();
   assert.equal(f.residency.stats.evicted, 0, "the previous camera's current buffers stay protected");
   f.renderer.info.render.frame = 4;
-  f.time(150); f.draw(b); f.residency.sweep();
+  f.time(400); f.draw(b); f.residency.sweep();
   assert.equal(f.residency.stats.evicted, 1);
   assert.ok(f.residency.stats.bytes > 0, "current shadow/colour geometry stays resident even above the soft budget");
   const before = a.attributes.position.array.slice();
   f.renderer.info.render.frame = 5;
-  f.time(200); f.draw(a);
+  f.time(450); f.draw(a);
   assert.deepEqual(a.attributes.position.array, before, "return uploads the exact retained source");
   f.residency.dispose();
 });
@@ -224,7 +224,7 @@ function cameraCycle(protection, count=4) {
   const geometries=Array.from({length:count},()=>new THREE.BoxGeometry()),
     bytes=[geometries[0].index,...Object.values(geometries[0].attributes)]
       .reduce((s,a)=>s+a.array.byteLength,0),
-    f=fixture({budget:bytes*3,refaultBudget:bytes,grace:10000,refaultGrace:2000});
+    f=fixture({budget:bytes*3,refaultBudget:bytes,grace:10000,refaultGrace:2000,activeGrace:0});
   f.renderer.info={render:{frame:0}};
   f.residency.setRefaultProtectionEnabled(protection);
   const sizes=[],sweptSizes=[];
@@ -277,15 +277,28 @@ test("temporary memory overflow reclaims cold scenery before the oldest protecte
  const a=new THREE.BoxGeometry(),bytes=[a.index,...Object.values(a.attributes)].reduce((n,x)=>n+x.array.byteLength,0),
    f=fixture({budget:bytes*3,refaultBudget:bytes,grace:10000}),others=Array.from({length:4},()=>a.clone());
  f.renderer.info={render:{frame:1}};f.time(0);f.draw(a);others.slice(0,3).forEach(g=>f.draw(g));
- f.renderer.info.render.frame=4;f.time(200);others.slice(0,3).forEach(g=>f.draw(g));f.residency.sweep();
+ f.renderer.info.render.frame=4;f.time(400);others.slice(0,3).forEach(g=>f.draw(g));f.residency.sweep();
  assert.equal(f.residency.stats.evicted,1);
  // Return a, then cross the allowance with a cold upload. a is oldest by
  // timestamp, but deleting a newer cold buffer can satisfy the entire budget.
- f.renderer.info.render.frame=5;f.time(240);f.draw(a);assert.equal(f.residency.stats.rapidRefaults,1);
- f.renderer.info.render.frame=6;f.time(280);others.forEach(g=>f.draw(g));
- f.renderer.info.render.frame=9;f.time(400);f.residency.sweep();
+ f.renderer.info.render.frame=5;f.time(450);f.draw(a);assert.equal(f.residency.stats.rapidRefaults,1);
+ f.renderer.info.render.frame=6;f.time(500);others.forEach(g=>f.draw(g));
+ f.renderer.info.render.frame=9;f.time(800);f.residency.sweep();
  assert.ok(f.residency.stats.bytes<=bytes*3);
  const refaults=f.residency.stats.refaults;f.draw(a);
  assert.equal(f.residency.stats.refaults,refaults,'the learned hot buffer must survive temporary overflow');
  f.residency.dispose();
+});
+
+test('recent animation/camera geometry survives pressure when its actual working set exceeds the idle-cache allowance',()=>{
+ function run(activeGrace){const geometry=new THREE.BoxGeometry(),bytes=[geometry.index,...Object.values(geometry.attributes)].reduce((s,a)=>s+a.array.byteLength,0),f=fixture({budget:bytes*3,refaultBudget:bytes,activeGrace,grace:10000}),g=Array.from({length:5},()=>geometry.clone());f.renderer.info={render:{frame:0}};
+  for(let frame=1;frame<=180;frame++){f.renderer.info.render.frame=frame;f.time(frame*40);f.draw(g[(frame-1)%5]);f.residency.sweep();}
+  const result={...f.residency.stats};f.renderer.info.render.frame=1000;f.time(30000);f.residency.sweep();assert.ok(f.residency.stats.bytes<=bytes*3,'abandoned working set must return to original budget');f.residency.dispose();return {result,bytes};}
+ const before=run(0),after=run(250);assert.ok(before.result.rapidRefaults>=50);assert.equal(after.result.rapidRefaults,0);assert.equal(after.result.evicted,0);assert.equal(after.result.bytes,after.bytes*5);assert.equal(after.result.activeGraceMs,250);
+});
+test('the short active window does not retain an endless stream of abandoned geometries or destroy shared active owners',()=>{
+ const g=new THREE.BoxGeometry(),bytes=[g.index,...Object.values(g.attributes)].reduce((s,a)=>s+a.array.byteLength,0),f=fixture({budget:bytes*3,refaultBudget:bytes,activeGrace:250,grace:10000});f.renderer.info={render:{frame:0}};
+ for(let frame=1;frame<=180;frame++){f.renderer.info.render.frame=frame;f.time(frame*40);f.draw(g.clone());f.residency.sweep();assert.ok(f.residency.stats.bytes<=bytes*10,'cold uploads must not accumulate beyond active window plus sweep cadence');}
+ f.time(30000);f.renderer.info.render.frame=1000;f.residency.sweep();assert.ok(f.residency.stats.bytes<=bytes*3);f.residency.dispose();
+ const shared=fixture({budget:0,activeGrace:250,grace:10000}),a=g.clone(),b=g.clone();b.setAttribute('position',a.attributes.position);shared.renderer.info={render:{frame:1}};shared.draw(a);shared.draw(b);shared.time(300);shared.renderer.info.render.frame=8;shared.draw(b);shared.residency.sweep();assert.equal(shared.residency.stats.evicted,0);shared.residency.dispose();
 });

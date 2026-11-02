@@ -32,6 +32,7 @@ export function createGeometryResidency(
     idleFrames = 3,
     refaultGrace = 2_000,
     refaultBudget = 64 * 1024 * 1024,
+    activeGrace = 250,
     clock = () => performance.now(),
   } = {},
 ) {
@@ -39,7 +40,8 @@ export function createGeometryResidency(
     owners = new Map(),
     retired = new WeakMap();
   const native = renderer.renderBufferDirect;
-  const stats = { bytes: 0, peakBytes: 0, geometries: 0, evicted: 0, clockReads: 0,
+  const activeWindow = Math.min(grace, Math.max(0, activeGrace));
+  const stats = { bytes: 0, peakBytes: 0, geometries: 0, evicted: 0, clockReads: 0, activeGraceMs: activeWindow,
     refaults: 0, refaultBytes: 0, rapidRefaults: 0, rapidRefaultBytes: 0 };
   // Only buffers which actually returned after a policy eviction receive this
   // short working-set grace. Normal remote islands keep fast retirement. The
@@ -132,7 +134,10 @@ export function createGeometryResidency(
       nextSweep = now + (frameRetirement ? 100 : 1000);
       const cutoff = now - grace,
         frame = renderer.info?.render.frame,
-        idle = r => r.used < cutoff || (frameRetirement && !timeGrace.has(r.geometry) &&
+        // A few absent render submissions do not make a live animation/camera
+        // working set cold. Even pressure cannot retire a buffer used within
+        // this short window; abandoned scenery still takes the fast path.
+        idle = r => r.used < cutoff || (frameRetirement && !timeGrace.has(r.geometry) && now - r.used >= activeWindow &&
           Number.isFinite(frame) && r.frame >= 0 && frame - r.frame >= idleFrames),
         held = r => refaultProtection && refaultLimit > budget && now < r.holdUntil,
         candidates = [...records.values()].filter(idle).sort((a, b) => a.used - b.used);
