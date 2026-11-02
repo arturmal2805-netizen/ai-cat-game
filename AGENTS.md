@@ -774,3 +774,11 @@ root displacement. Reduced motion keeps the original supported stationary
 carry; cancellation returns the visitor safely and saves remain transient in
 midair. Check tiny/giant cats, actual apex views, all camera aspects and native
 visitor/world return with two durable reloads.
+
+### Exact native cat buffer cohorts (2026-11-02)
+
+Share immutable attributes only when the complete structural cohort is byte-identical, including Float16 representation, layout, GPU type, normalization and usage. Keep colour comparisons exact and bounded weak metadata. Never merge unrelated shapes through universal index/weight streams: that pins unrelated residency owners. Each cat retains independent native geometry, picking bounds, palettes and original draw submissions.
+
+On shared VBO retirement or actual model destruction, invalidate every resident peer VAO through `retireGeometryBuffers`; preserve living rig/atlas registrations and dispose each final owner once. Require actual GL colour/shadow parity, pressure-return uploads, destruction/recreation and every-island native RAF camera coverage. Lower cache bytes are a resource improvement, not a physical-device FPS guarantee.
+
+Elephant skin refinements preserve `baseline/approved-elephant-animation-20261102` motion bytes, 43 joint identities and the golden animation fixture. Keep the slight wet sheen, original opaque groom pass and species-specific skin revision; do not alter the approved family, leg, trunk or visitor choreography for visual polish.

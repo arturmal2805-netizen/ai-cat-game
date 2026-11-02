@@ -1,0 +1,2314 @@
+{
+  "kind": "Native GL resource/colour/shadow/lifetime proof; not device FPS",
+  "rows": [
+    {
+      "pooled": false,
+      "stages": [],
+      "models": 66,
+      "parity": 0,
+      "returnChanged": 0,
+      "hiddenChanged": 0,
+      "images": [
+        {
+          "time": 3,
+          "calls": 999,
+          "triangles": 2218910
+        },
+        {
+          "time": 12,
+          "calls": 999,
+          "triangles": 2218910
+        }
+      ],
+      "resident": {
+        "bytes": 35926244,
+        "peak": 35926244,
+        "buffers": 3196,
+        "commandFrame": 2,
+        "commandCalls": 999,
+        "commands": 999,
+        "staticCommands": 0,
+        "compiles": [
+          {
+            "at": 3072.5,
+            "ms": 7.800000011920929,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 3083.2000000029802,
+            "ms": 11.700000002980232,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 3096.300000011921,
+            "ms": 6,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 3140.800000011921,
+            "ms": 12.299999997019768,
+            "draw": {
+              "object": "Mesh",
+              "material": "MeshStandardMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3156.5,
+            "ms": 26.80000001192093,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3186.5,
+            "ms": 39.400000005960464,
+            "draw": {
+              "object": "Exact animated cat batch · CoatFibres",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3228.6000000089407,
+            "ms": 36.5,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3267.7000000029802,
+            "ms": 30.5,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3300.9000000059605,
+            "ms": 43.900000005960464,
+            "draw": {
+              "object": "Exact animated cat batch · EyeRim-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3347.4000000059605,
+            "ms": 36.20000000298023,
+            "draw": {
+              "object": "Exact animated cat batch · Pupil-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3386.7000000029802,
+            "ms": 26.299999997019768,
+            "draw": {
+              "object": "Exact animated cat batch · Chin",
+              "material": "MeshStandardMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3422.6000000089407,
+            "ms": 54.5,
+            "draw": {
+              "object": "Exact animated cat batch · Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          }
+        ]
+      },
+      "retired": 140,
+      "afterReturn": {
+        "bytes": 35926244,
+        "peak": 35926244,
+        "buffers": 3196,
+        "commandFrame": 3,
+        "commandCalls": 999,
+        "commands": 999,
+        "staticCommands": 0,
+        "compiles": [
+          {
+            "at": 3072.5,
+            "ms": 7.800000011920929,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 3083.2000000029802,
+            "ms": 11.700000002980232,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 3096.300000011921,
+            "ms": 6,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 3140.800000011921,
+            "ms": 12.299999997019768,
+            "draw": {
+              "object": "Mesh",
+              "material": "MeshStandardMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3156.5,
+            "ms": 26.80000001192093,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3186.5,
+            "ms": 39.400000005960464,
+            "draw": {
+              "object": "Exact animated cat batch · CoatFibres",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3228.6000000089407,
+            "ms": 36.5,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3267.7000000029802,
+            "ms": 30.5,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3300.9000000059605,
+            "ms": 43.900000005960464,
+            "draw": {
+              "object": "Exact animated cat batch · EyeRim-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3347.4000000059605,
+            "ms": 36.20000000298023,
+            "draw": {
+              "object": "Exact animated cat batch · Pupil-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3386.7000000029802,
+            "ms": 26.299999997019768,
+            "draw": {
+              "object": "Exact animated cat batch · Chin",
+              "material": "MeshStandardMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3422.6000000089407,
+            "ms": 54.5,
+            "draw": {
+              "object": "Exact animated cat batch · Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          }
+        ]
+      },
+      "registered": {
+        "cats": 66,
+        "entries": 1786
+      },
+      "afterDestroy": {
+        "cats": 65,
+        "entries": 1759
+      },
+      "clean": {
+        "cats": 0,
+        "entries": 0,
+        "bytes": 140
+      },
+      "error": 0,
+      "contextLost": false,
+      "dpr": 2,
+      "pool": {
+        "lookups": 0,
+        "cohorts": 0,
+        "sharedBytes": 0
+      }
+    },
+    {
+      "pooled": true,
+      "stages": [],
+      "models": 66,
+      "parity": 0,
+      "returnChanged": 0,
+      "hiddenChanged": 0,
+      "images": [
+        {
+          "time": 3,
+          "calls": 999,
+          "triangles": 2218910
+        },
+        {
+          "time": 12,
+          "calls": 999,
+          "triangles": 2218910
+        }
+      ],
+      "resident": {
+        "bytes": 5628940,
+        "peak": 35926244,
+        "buffers": 335,
+        "commandFrame": 7,
+        "commandCalls": 999,
+        "commands": 999,
+        "staticCommands": 0,
+        "compiles": [
+          {
+            "at": 3072.5,
+            "ms": 7.800000011920929,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 3083.2000000029802,
+            "ms": 11.700000002980232,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 3096.300000011921,
+            "ms": 6,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 3140.800000011921,
+            "ms": 12.299999997019768,
+            "draw": {
+              "object": "Mesh",
+              "material": "MeshStandardMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3156.5,
+            "ms": 26.80000001192093,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3186.5,
+            "ms": 39.400000005960464,
+            "draw": {
+              "object": "Exact animated cat batch · CoatFibres",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3228.6000000089407,
+            "ms": 36.5,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3267.7000000029802,
+            "ms": 30.5,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3300.9000000059605,
+            "ms": 43.900000005960464,
+            "draw": {
+              "object": "Exact animated cat batch · EyeRim-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3347.4000000059605,
+            "ms": 36.20000000298023,
+            "draw": {
+              "object": "Exact animated cat batch · Pupil-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3386.7000000029802,
+            "ms": 26.299999997019768,
+            "draw": {
+              "object": "Exact animated cat batch · Chin",
+              "material": "MeshStandardMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3422.6000000089407,
+            "ms": 54.5,
+            "draw": {
+              "object": "Exact animated cat batch · Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14347.300000011921,
+            "ms": 0.8999999910593033,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 14349.60000000894,
+            "ms": 9.599999994039536,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 14360.70000000298,
+            "ms": 8.200000002980232,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 14392.20000000298,
+            "ms": 3.4000000059604645,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14396.90000000596,
+            "ms": 41.099999994039536,
+            "draw": {
+              "object": "Exact animated cat batch · CoatFibres",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14440,
+            "ms": 40.20000000298023,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14481.800000011921,
+            "ms": 35.79999999701977,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14518.800000011921,
+            "ms": 31.399999991059303,
+            "draw": {
+              "object": "Exact animated cat batch · EyeRim-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14551.40000000596,
+            "ms": 30.299999997019768,
+            "draw": {
+              "object": "Exact animated cat batch · Pupil-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14585.20000000298,
+            "ms": 38.5,
+            "draw": {
+              "object": "Exact animated cat batch · Chin",
+              "material": "MeshStandardMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14630.90000000596,
+            "ms": 43.099999994039536,
+            "draw": {
+              "object": "Exact animated cat batch · Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          }
+        ]
+      },
+      "retired": 140,
+      "afterReturn": {
+        "bytes": 5628940,
+        "peak": 35926244,
+        "buffers": 335,
+        "commandFrame": 8,
+        "commandCalls": 999,
+        "commands": 999,
+        "staticCommands": 0,
+        "compiles": [
+          {
+            "at": 3072.5,
+            "ms": 7.800000011920929,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 3083.2000000029802,
+            "ms": 11.700000002980232,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 3096.300000011921,
+            "ms": 6,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 3140.800000011921,
+            "ms": 12.299999997019768,
+            "draw": {
+              "object": "Mesh",
+              "material": "MeshStandardMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3156.5,
+            "ms": 26.80000001192093,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3186.5,
+            "ms": 39.400000005960464,
+            "draw": {
+              "object": "Exact animated cat batch · CoatFibres",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3228.6000000089407,
+            "ms": 36.5,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3267.7000000029802,
+            "ms": 30.5,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3300.9000000059605,
+            "ms": 43.900000005960464,
+            "draw": {
+              "object": "Exact animated cat batch · EyeRim-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3347.4000000059605,
+            "ms": 36.20000000298023,
+            "draw": {
+              "object": "Exact animated cat batch · Pupil-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3386.7000000029802,
+            "ms": 26.299999997019768,
+            "draw": {
+              "object": "Exact animated cat batch · Chin",
+              "material": "MeshStandardMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3422.6000000089407,
+            "ms": 54.5,
+            "draw": {
+              "object": "Exact animated cat batch · Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14347.300000011921,
+            "ms": 0.8999999910593033,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 14349.60000000894,
+            "ms": 9.599999994039536,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 14360.70000000298,
+            "ms": 8.200000002980232,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 14392.20000000298,
+            "ms": 3.4000000059604645,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14396.90000000596,
+            "ms": 41.099999994039536,
+            "draw": {
+              "object": "Exact animated cat batch · CoatFibres",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14440,
+            "ms": 40.20000000298023,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14481.800000011921,
+            "ms": 35.79999999701977,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14518.800000011921,
+            "ms": 31.399999991059303,
+            "draw": {
+              "object": "Exact animated cat batch · EyeRim-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14551.40000000596,
+            "ms": 30.299999997019768,
+            "draw": {
+              "object": "Exact animated cat batch · Pupil-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14585.20000000298,
+            "ms": 38.5,
+            "draw": {
+              "object": "Exact animated cat batch · Chin",
+              "material": "MeshStandardMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14630.90000000596,
+            "ms": 43.099999994039536,
+            "draw": {
+              "object": "Exact animated cat batch · Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          }
+        ]
+      },
+      "registered": {
+        "cats": 66,
+        "entries": 1786
+      },
+      "afterDestroy": {
+        "cats": 65,
+        "entries": 1759
+      },
+      "clean": {
+        "cats": 0,
+        "entries": 0,
+        "bytes": 140
+      },
+      "error": 0,
+      "contextLost": false,
+      "dpr": 2,
+      "pool": {
+        "lookups": 598,
+        "cohorts": 16,
+        "sharedBytes": 30543352
+      }
+    },
+    {
+      "pooled": true,
+      "stages": [],
+      "models": 66,
+      "parity": 0,
+      "returnChanged": 0,
+      "hiddenChanged": 0,
+      "images": [
+        {
+          "time": 3,
+          "calls": 999,
+          "triangles": 2218910
+        },
+        {
+          "time": 12,
+          "calls": 999,
+          "triangles": 2218910
+        }
+      ],
+      "resident": {
+        "bytes": 5628940,
+        "peak": 35926244,
+        "buffers": 335,
+        "commandFrame": 12,
+        "commandCalls": 999,
+        "commands": 999,
+        "staticCommands": 0,
+        "compiles": [
+          {
+            "at": 3072.5,
+            "ms": 7.800000011920929,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 3083.2000000029802,
+            "ms": 11.700000002980232,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 3096.300000011921,
+            "ms": 6,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 3140.800000011921,
+            "ms": 12.299999997019768,
+            "draw": {
+              "object": "Mesh",
+              "material": "MeshStandardMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3156.5,
+            "ms": 26.80000001192093,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3186.5,
+            "ms": 39.400000005960464,
+            "draw": {
+              "object": "Exact animated cat batch · CoatFibres",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3228.6000000089407,
+            "ms": 36.5,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3267.7000000029802,
+            "ms": 30.5,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3300.9000000059605,
+            "ms": 43.900000005960464,
+            "draw": {
+              "object": "Exact animated cat batch · EyeRim-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3347.4000000059605,
+            "ms": 36.20000000298023,
+            "draw": {
+              "object": "Exact animated cat batch · Pupil-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3386.7000000029802,
+            "ms": 26.299999997019768,
+            "draw": {
+              "object": "Exact animated cat batch · Chin",
+              "material": "MeshStandardMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3422.6000000089407,
+            "ms": 54.5,
+            "draw": {
+              "object": "Exact animated cat batch · Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14347.300000011921,
+            "ms": 0.8999999910593033,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 14349.60000000894,
+            "ms": 9.599999994039536,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 14360.70000000298,
+            "ms": 8.200000002980232,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 14392.20000000298,
+            "ms": 3.4000000059604645,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14396.90000000596,
+            "ms": 41.099999994039536,
+            "draw": {
+              "object": "Exact animated cat batch · CoatFibres",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14440,
+            "ms": 40.20000000298023,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14481.800000011921,
+            "ms": 35.79999999701977,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14518.800000011921,
+            "ms": 31.399999991059303,
+            "draw": {
+              "object": "Exact animated cat batch · EyeRim-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14551.40000000596,
+            "ms": 30.299999997019768,
+            "draw": {
+              "object": "Exact animated cat batch · Pupil-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14585.20000000298,
+            "ms": 38.5,
+            "draw": {
+              "object": "Exact animated cat batch · Chin",
+              "material": "MeshStandardMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14630.90000000596,
+            "ms": 43.099999994039536,
+            "draw": {
+              "object": "Exact animated cat batch · Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 25523.90000000596,
+            "ms": 0.7000000029802322,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 25525.70000000298,
+            "ms": 7.9000000059604645,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 25534.60000000894,
+            "ms": 7.399999991059303,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 25557.80000001192,
+            "ms": 2.3999999910593033,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 25560.90000000596,
+            "ms": 33.900000005960464,
+            "draw": {
+              "object": "Exact animated cat batch · CoatFibres",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 25595.70000000298,
+            "ms": 29.900000005960464,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 25626.70000000298,
+            "ms": 32.79999999701977,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 25660.70000000298,
+            "ms": 33.20000000298023,
+            "draw": {
+              "object": "Exact animated cat batch · EyeRim-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 25695.30000001192,
+            "ms": 27.299999997019768,
+            "draw": {
+              "object": "Exact animated cat batch · Pupil-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 25723.90000000596,
+            "ms": 27.799999997019768,
+            "draw": {
+              "object": "Exact animated cat batch · Chin",
+              "material": "MeshStandardMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 25754.20000000298,
+            "ms": 23,
+            "draw": {
+              "object": "Exact animated cat batch · Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          }
+        ]
+      },
+      "retired": 140,
+      "afterReturn": {
+        "bytes": 5628940,
+        "peak": 35926244,
+        "buffers": 335,
+        "commandFrame": 13,
+        "commandCalls": 999,
+        "commands": 999,
+        "staticCommands": 0,
+        "compiles": [
+          {
+            "at": 3072.5,
+            "ms": 7.800000011920929,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 3083.2000000029802,
+            "ms": 11.700000002980232,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 3096.300000011921,
+            "ms": 6,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 3140.800000011921,
+            "ms": 12.299999997019768,
+            "draw": {
+              "object": "Mesh",
+              "material": "MeshStandardMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3156.5,
+            "ms": 26.80000001192093,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3186.5,
+            "ms": 39.400000005960464,
+            "draw": {
+              "object": "Exact animated cat batch · CoatFibres",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3228.6000000089407,
+            "ms": 36.5,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3267.7000000029802,
+            "ms": 30.5,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3300.9000000059605,
+            "ms": 43.900000005960464,
+            "draw": {
+              "object": "Exact animated cat batch · EyeRim-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3347.4000000059605,
+            "ms": 36.20000000298023,
+            "draw": {
+              "object": "Exact animated cat batch · Pupil-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3386.7000000029802,
+            "ms": 26.299999997019768,
+            "draw": {
+              "object": "Exact animated cat batch · Chin",
+              "material": "MeshStandardMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3422.6000000089407,
+            "ms": 54.5,
+            "draw": {
+              "object": "Exact animated cat batch · Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14347.300000011921,
+            "ms": 0.8999999910593033,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 14349.60000000894,
+            "ms": 9.599999994039536,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 14360.70000000298,
+            "ms": 8.200000002980232,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 14392.20000000298,
+            "ms": 3.4000000059604645,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14396.90000000596,
+            "ms": 41.099999994039536,
+            "draw": {
+              "object": "Exact animated cat batch · CoatFibres",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14440,
+            "ms": 40.20000000298023,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14481.800000011921,
+            "ms": 35.79999999701977,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14518.800000011921,
+            "ms": 31.399999991059303,
+            "draw": {
+              "object": "Exact animated cat batch · EyeRim-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14551.40000000596,
+            "ms": 30.299999997019768,
+            "draw": {
+              "object": "Exact animated cat batch · Pupil-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14585.20000000298,
+            "ms": 38.5,
+            "draw": {
+              "object": "Exact animated cat batch · Chin",
+              "material": "MeshStandardMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14630.90000000596,
+            "ms": 43.099999994039536,
+            "draw": {
+              "object": "Exact animated cat batch · Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 25523.90000000596,
+            "ms": 0.7000000029802322,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 25525.70000000298,
+            "ms": 7.9000000059604645,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 25534.60000000894,
+            "ms": 7.399999991059303,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 25557.80000001192,
+            "ms": 2.3999999910593033,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 25560.90000000596,
+            "ms": 33.900000005960464,
+            "draw": {
+              "object": "Exact animated cat batch · CoatFibres",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 25595.70000000298,
+            "ms": 29.900000005960464,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 25626.70000000298,
+            "ms": 32.79999999701977,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 25660.70000000298,
+            "ms": 33.20000000298023,
+            "draw": {
+              "object": "Exact animated cat batch · EyeRim-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 25695.30000001192,
+            "ms": 27.299999997019768,
+            "draw": {
+              "object": "Exact animated cat batch · Pupil-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 25723.90000000596,
+            "ms": 27.799999997019768,
+            "draw": {
+              "object": "Exact animated cat batch · Chin",
+              "material": "MeshStandardMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 25754.20000000298,
+            "ms": 23,
+            "draw": {
+              "object": "Exact animated cat batch · Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          }
+        ]
+      },
+      "registered": {
+        "cats": 66,
+        "entries": 1786
+      },
+      "afterDestroy": {
+        "cats": 65,
+        "entries": 1759
+      },
+      "clean": {
+        "cats": 0,
+        "entries": 0,
+        "bytes": 140
+      },
+      "error": 0,
+      "contextLost": false,
+      "dpr": 2,
+      "pool": {
+        "lookups": 1196,
+        "cohorts": 16,
+        "sharedBytes": 66715504
+      }
+    },
+    {
+      "pooled": false,
+      "stages": [],
+      "models": 66,
+      "parity": 0,
+      "returnChanged": 0,
+      "hiddenChanged": 0,
+      "images": [
+        {
+          "time": 3,
+          "calls": 999,
+          "triangles": 2218910
+        },
+        {
+          "time": 12,
+          "calls": 999,
+          "triangles": 2218910
+        }
+      ],
+      "resident": {
+        "bytes": 35926244,
+        "peak": 35926244,
+        "buffers": 3196,
+        "commandFrame": 17,
+        "commandCalls": 999,
+        "commands": 999,
+        "staticCommands": 0,
+        "compiles": [
+          {
+            "at": 3072.5,
+            "ms": 7.800000011920929,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 3083.2000000029802,
+            "ms": 11.700000002980232,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 3096.300000011921,
+            "ms": 6,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 3140.800000011921,
+            "ms": 12.299999997019768,
+            "draw": {
+              "object": "Mesh",
+              "material": "MeshStandardMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3156.5,
+            "ms": 26.80000001192093,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3186.5,
+            "ms": 39.400000005960464,
+            "draw": {
+              "object": "Exact animated cat batch · CoatFibres",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3228.6000000089407,
+            "ms": 36.5,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3267.7000000029802,
+            "ms": 30.5,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3300.9000000059605,
+            "ms": 43.900000005960464,
+            "draw": {
+              "object": "Exact animated cat batch · EyeRim-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3347.4000000059605,
+            "ms": 36.20000000298023,
+            "draw": {
+              "object": "Exact animated cat batch · Pupil-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3386.7000000029802,
+            "ms": 26.299999997019768,
+            "draw": {
+              "object": "Exact animated cat batch · Chin",
+              "material": "MeshStandardMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3422.6000000089407,
+            "ms": 54.5,
+            "draw": {
+              "object": "Exact animated cat batch · Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14347.300000011921,
+            "ms": 0.8999999910593033,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 14349.60000000894,
+            "ms": 9.599999994039536,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 14360.70000000298,
+            "ms": 8.200000002980232,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 14392.20000000298,
+            "ms": 3.4000000059604645,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14396.90000000596,
+            "ms": 41.099999994039536,
+            "draw": {
+              "object": "Exact animated cat batch · CoatFibres",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14440,
+            "ms": 40.20000000298023,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14481.800000011921,
+            "ms": 35.79999999701977,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14518.800000011921,
+            "ms": 31.399999991059303,
+            "draw": {
+              "object": "Exact animated cat batch · EyeRim-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14551.40000000596,
+            "ms": 30.299999997019768,
+            "draw": {
+              "object": "Exact animated cat batch · Pupil-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14585.20000000298,
+            "ms": 38.5,
+            "draw": {
+              "object": "Exact animated cat batch · Chin",
+              "material": "MeshStandardMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14630.90000000596,
+            "ms": 43.099999994039536,
+            "draw": {
+              "object": "Exact animated cat batch · Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 25523.90000000596,
+            "ms": 0.7000000029802322,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 25525.70000000298,
+            "ms": 7.9000000059604645,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 25534.60000000894,
+            "ms": 7.399999991059303,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 25557.80000001192,
+            "ms": 2.3999999910593033,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 25560.90000000596,
+            "ms": 33.900000005960464,
+            "draw": {
+              "object": "Exact animated cat batch · CoatFibres",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 25595.70000000298,
+            "ms": 29.900000005960464,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 25626.70000000298,
+            "ms": 32.79999999701977,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 25660.70000000298,
+            "ms": 33.20000000298023,
+            "draw": {
+              "object": "Exact animated cat batch · EyeRim-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 25695.30000001192,
+            "ms": 27.299999997019768,
+            "draw": {
+              "object": "Exact animated cat batch · Pupil-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 25723.90000000596,
+            "ms": 27.799999997019768,
+            "draw": {
+              "object": "Exact animated cat batch · Chin",
+              "material": "MeshStandardMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 25754.20000000298,
+            "ms": 23,
+            "draw": {
+              "object": "Exact animated cat batch · Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 36183.80000001192,
+            "ms": 2.5999999940395355,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 36187.70000000298,
+            "ms": 7.600000008940697,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 36196.30000001192,
+            "ms": 7.199999988079071,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 36229.10000000894,
+            "ms": 1.5999999940395355,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 36231.60000000894,
+            "ms": 30.899999991059303,
+            "draw": {
+              "object": "Exact animated cat batch · CoatFibres",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 36263.60000000894,
+            "ms": 26.700000002980232,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 36291.30000001192,
+            "ms": 33.099999994039536,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 36325.30000001192,
+            "ms": 28.19999998807907,
+            "draw": {
+              "object": "Exact animated cat batch · EyeRim-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 36354.90000000596,
+            "ms": 28.299999997019768,
+            "draw": {
+              "object": "Exact animated cat batch · Pupil-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 36384.40000000596,
+            "ms": 27.799999997019768,
+            "draw": {
+              "object": "Exact animated cat batch · Chin",
+              "material": "MeshStandardMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 36416.80000001192,
+            "ms": 24,
+            "draw": {
+              "object": "Exact animated cat batch · Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          }
+        ]
+      },
+      "retired": 140,
+      "afterReturn": {
+        "bytes": 35926244,
+        "peak": 35926244,
+        "buffers": 3196,
+        "commandFrame": 18,
+        "commandCalls": 999,
+        "commands": 999,
+        "staticCommands": 0,
+        "compiles": [
+          {
+            "at": 3072.5,
+            "ms": 7.800000011920929,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 3083.2000000029802,
+            "ms": 11.700000002980232,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 3096.300000011921,
+            "ms": 6,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 3140.800000011921,
+            "ms": 12.299999997019768,
+            "draw": {
+              "object": "Mesh",
+              "material": "MeshStandardMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3156.5,
+            "ms": 26.80000001192093,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3186.5,
+            "ms": 39.400000005960464,
+            "draw": {
+              "object": "Exact animated cat batch · CoatFibres",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3228.6000000089407,
+            "ms": 36.5,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3267.7000000029802,
+            "ms": 30.5,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3300.9000000059605,
+            "ms": 43.900000005960464,
+            "draw": {
+              "object": "Exact animated cat batch · EyeRim-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3347.4000000059605,
+            "ms": 36.20000000298023,
+            "draw": {
+              "object": "Exact animated cat batch · Pupil-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3386.7000000029802,
+            "ms": 26.299999997019768,
+            "draw": {
+              "object": "Exact animated cat batch · Chin",
+              "material": "MeshStandardMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 3422.6000000089407,
+            "ms": 54.5,
+            "draw": {
+              "object": "Exact animated cat batch · Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14347.300000011921,
+            "ms": 0.8999999910593033,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 14349.60000000894,
+            "ms": 9.599999994039536,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 14360.70000000298,
+            "ms": 8.200000002980232,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 14392.20000000298,
+            "ms": 3.4000000059604645,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14396.90000000596,
+            "ms": 41.099999994039536,
+            "draw": {
+              "object": "Exact animated cat batch · CoatFibres",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14440,
+            "ms": 40.20000000298023,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14481.800000011921,
+            "ms": 35.79999999701977,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14518.800000011921,
+            "ms": 31.399999991059303,
+            "draw": {
+              "object": "Exact animated cat batch · EyeRim-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14551.40000000596,
+            "ms": 30.299999997019768,
+            "draw": {
+              "object": "Exact animated cat batch · Pupil-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14585.20000000298,
+            "ms": 38.5,
+            "draw": {
+              "object": "Exact animated cat batch · Chin",
+              "material": "MeshStandardMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 14630.90000000596,
+            "ms": 43.099999994039536,
+            "draw": {
+              "object": "Exact animated cat batch · Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 25523.90000000596,
+            "ms": 0.7000000029802322,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 25525.70000000298,
+            "ms": 7.9000000059604645,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 25534.60000000894,
+            "ms": 7.399999991059303,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 25557.80000001192,
+            "ms": 2.3999999910593033,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 25560.90000000596,
+            "ms": 33.900000005960464,
+            "draw": {
+              "object": "Exact animated cat batch · CoatFibres",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 25595.70000000298,
+            "ms": 29.900000005960464,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 25626.70000000298,
+            "ms": 32.79999999701977,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 25660.70000000298,
+            "ms": 33.20000000298023,
+            "draw": {
+              "object": "Exact animated cat batch · EyeRim-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 25695.30000001192,
+            "ms": 27.299999997019768,
+            "draw": {
+              "object": "Exact animated cat batch · Pupil-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 25723.90000000596,
+            "ms": 27.799999997019768,
+            "draw": {
+              "object": "Exact animated cat batch · Chin",
+              "material": "MeshStandardMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 25754.20000000298,
+            "ms": 23,
+            "draw": {
+              "object": "Exact animated cat batch · Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 36183.80000001192,
+            "ms": 2.5999999940395355,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 36187.70000000298,
+            "ms": 7.600000008940697,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 36196.30000001192,
+            "ms": 7.199999988079071,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshDepthMaterial",
+              "shadow": true
+            }
+          },
+          {
+            "at": 36229.10000000894,
+            "ms": 1.5999999940395355,
+            "draw": {
+              "object": "Exact animated cat batch · Body",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 36231.60000000894,
+            "ms": 30.899999991059303,
+            "draw": {
+              "object": "Exact animated cat batch · CoatFibres",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 36263.60000000894,
+            "ms": 26.700000002980232,
+            "draw": {
+              "object": "Exact animated cat batch · Face",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 36291.30000001192,
+            "ms": 33.099999994039536,
+            "draw": {
+              "object": "Exact animated cat batch · EarShell-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 36325.30000001192,
+            "ms": 28.19999998807907,
+            "draw": {
+              "object": "Exact animated cat batch · EyeRim-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 36354.90000000596,
+            "ms": 28.299999997019768,
+            "draw": {
+              "object": "Exact animated cat batch · Pupil-1",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 36384.40000000596,
+            "ms": 27.799999997019768,
+            "draw": {
+              "object": "Exact animated cat batch · Chin",
+              "material": "MeshStandardMaterial",
+              "shadow": false
+            }
+          },
+          {
+            "at": 36416.80000001192,
+            "ms": 24,
+            "draw": {
+              "object": "Exact animated cat batch · Chest",
+              "material": "MeshPhysicalMaterial",
+              "shadow": false
+            }
+          }
+        ]
+      },
+      "registered": {
+        "cats": 66,
+        "entries": 1786
+      },
+      "afterDestroy": {
+        "cats": 65,
+        "entries": 1759
+      },
+      "clean": {
+        "cats": 0,
+        "entries": 0,
+        "bytes": 140
+      },
+      "error": 0,
+      "contextLost": false,
+      "dpr": 2,
+      "pool": {
+        "lookups": 1196,
+        "cohorts": 16,
+        "sharedBytes": 66715504
+      }
+    }
+  ],
+  "errors": []
+}

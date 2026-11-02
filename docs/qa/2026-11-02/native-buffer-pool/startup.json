@@ -1,0 +1,85 @@
+{
+  "kind": "CPU/UI preparation; first run cold, subsequent warm alternating runs. Not gameplay FPS.",
+  "rows": [
+    {
+      "pooled": false,
+      "models": 66,
+      "workMs": 2878.0000000298023,
+      "maxTaskMs": 342.29999999701977,
+      "elapsedMs": 2892.9000000059605,
+      "uniqueBytes": 36172152
+    },
+    {
+      "pooled": true,
+      "models": 66,
+      "workMs": 1831.5999999195337,
+      "maxTaskMs": 42.599999994039536,
+      "elapsedMs": 1841.800000011921,
+      "uniqueBytes": 5628800
+    },
+    {
+      "pooled": true,
+      "models": 66,
+      "workMs": 1957.10000012815,
+      "maxTaskMs": 61.3999999910593,
+      "elapsedMs": 1969.2000000029802,
+      "uniqueBytes": 5628800
+    },
+    {
+      "pooled": false,
+      "models": 66,
+      "workMs": 1673.8999999910593,
+      "maxTaskMs": 44.70000000298023,
+      "elapsedMs": 1685.2999999970198,
+      "uniqueBytes": 36172152
+    },
+    {
+      "pooled": true,
+      "models": 66,
+      "workMs": 1692.4000000059605,
+      "maxTaskMs": 37.5,
+      "elapsedMs": 1703.7999999970198,
+      "uniqueBytes": 5628800
+    },
+    {
+      "pooled": false,
+      "models": 66,
+      "workMs": 1557.7000000327826,
+      "maxTaskMs": 71.70000000298023,
+      "elapsedMs": 1570.5,
+      "uniqueBytes": 36172152
+    },
+    {
+      "pooled": false,
+      "models": 66,
+      "workMs": 1416.2000000029802,
+      "maxTaskMs": 54.79999999701977,
+      "elapsedMs": 1427,
+      "uniqueBytes": 36172152
+    },
+    {
+      "pooled": true,
+      "models": 66,
+      "workMs": 1536.9999999403954,
+      "maxTaskMs": 35.8999999910593,
+      "elapsedMs": 1549.300000011921,
+      "uniqueBytes": 5628800
+    },
+    {
+      "pooled": true,
+      "models": 66,
+      "workMs": 1383.9999999552965,
+      "maxTaskMs": 25.5,
+      "elapsedMs": 1394.199999988079,
+      "uniqueBytes": 5628800
+    },
+    {
+      "pooled": false,
+      "models": 66,
+      "workMs": 1553.599999934435,
+      "maxTaskMs": 92.70000000298023,
+      "elapsedMs": 1564.2999999970198,
+      "uniqueBytes": 36172152
+    }
+  ]
+}
