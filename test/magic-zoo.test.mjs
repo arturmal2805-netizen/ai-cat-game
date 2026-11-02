@@ -33,3 +33,17 @@ test('the actual largest approved adoption rig fits the same observation routes 
  const road=worldRoads(BIOMES).find(r=>r.to===ZOO_ID),b=byBiome(ZOO_ID),arrival={x:road.end.x-b.center[0],z:road.end.z-b.center[1]};
  for(const e of ZOO_EXHIBITS)for(const seat of zooSeats(e))assert.ok(courtPath(arrival,seat,radius,zooObstacles(),ZOO_ID),e.id);disposeCat(cat);
 });
+
+test('all 21 guest views retain their logical animal and share exact native geometry/pose buffers with safe last-owner disposal',async()=>{
+ const {zooAnimalSteps}=await import('../public/zoo-animals.js'),{runSceneSteps}=await import('../public/scene-tasks.js');
+ for(const e of ZOO_EXHIBITS){
+  const source=zooAnimals(e),data=source.userData.poseData,guests=[];let geometryDisposals=0,poseDisposals=0;source.geometry.addEventListener('dispose',()=>geometryDisposals++);data.texture.addEventListener('dispose',()=>poseDisposals++);
+  for(let i=0;i<ZOO_ANIMALS[e.species].count;i++){const g=runSceneSteps(zooAnimalSteps(e,{guestIndex:i}));guests.push(g);assert.equal(g.geometry,source.geometry);assert.equal(g.userData.poseTexture,source.userData.poseTexture);assert.equal(g.count,1);assert.equal(g.userData.uniforms.uZooActorOffset.value,i);source.userData.setActorAway(i,true);}
+  const versions=guests.map(g=>g.instanceMatrix.version),attributes=Object.values(source.geometry.attributes).map(a=>a.version);
+  for(let tick=0;tick<120;tick++)for(const g of guests){g.userData.update(tick/60);const i=g.userData.guestIndex;g.userData.setActorPlay(i,{frame:160+tick/10,mix:1});assert.ok(zooJointPoint(g,'head',i,tick/60).toArray().every(Number.isFinite));}
+  assert.deepEqual(guests.map(g=>g.instanceMatrix.version),versions);assert.deepEqual(Object.values(source.geometry.attributes).map(a=>a.version),attributes);
+  const v=source.instanceMatrix.version;for(let i=0;i<guests.length;i++)source.userData.setActorAway(i,true);assert.equal(source.instanceMatrix.version,v);
+  source.dispose();source.material.dispose();assert.equal(geometryDisposals,0);assert.equal(poseDisposals,0);assert.equal(data.refs,guests.length);
+  for(const g of guests){g.dispose();g.userData.dispose();g.material.dispose();}assert.equal(data.refs,0);assert.equal(geometryDisposals,1);assert.equal(poseDisposals,1);
+ }
+});

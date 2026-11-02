@@ -1,0 +1,11 @@
+# Zoo guests in personally owned homes
+
+Every original individual can be selected or dragged. A native touch drag of the second elephant and an actual first-elephant phone tap are recorded. The existing dialog offers an inhabited house selector, close view, next animal and early return. Closed habitats cannot bypass payment.
+
+A visit lasts 720,000 real milliseconds (half a current game day), including offline elapsed time. Its durable unique event links the original animal to the existing home. A bounded latest-event ledger covers 21 animals; legacy cached clients cannot erase it, retries cannot renew it, conflicting concurrent starts reject and cancellation survives old ACKs. No coins, inventory purchases, models, API calls or animals are invented.
+
+Inside, creatures temporarily shrink without a model/detail substitution, as the user requested. They wait for the real resident seats, play on a clear front aisle, share the middle of the original two-cat bed, and take turns in the existing bathtub. Position and pose transitions are eased. Source enclosure membership changes only when necessary; return/expiry/removed residence restores the original actor. Group guests receive separate spaces and a household-wide bath turn.
+
+All views of one species reuse the same immutable geometry and pose texture. Each guest has one instance matrix and independent scalar animation uniforms. No animation rewrites instance/vertex buffers. Template references and GPU disposal are tested for all 21 originals; the last view frees shared resources exactly once. Preparation is cooperative, coalesced, selected-view only and late completions are cancelled. Failed preparation retries are bounded.
+
+Validation: 880 full-suite tests passed, followed by 9 guest motion/persistence tests and 13 real-model zoo tests including lifetime coverage. Native phone/SQLite: six visits, two actual cats at home, all five species, actual touch drag, two durable reloads, early return and offline expiry; no browser/HTTP errors. Paid Mega Loops ownership audit retained one complete copy and balances through two reloads. The original five-habitat phone audit retained four payments, all close cameras/actions and two reloads. These are functional/resource checks, not phone FPS measurements.

@@ -1,0 +1,163 @@
+{
+  "actualAnimalPhoneTap": {
+    "x": 194.63854418461298,
+    "y": 527.1937396375488
+  },
+  "actualTouchDrag": {
+    "start": {
+      "x": 285.0593409871034,
+      "y": 542.8904795458036
+    },
+    "end": {
+      "x": 105.14062639258051,
+      "y": 511.1448036077462
+    }
+  },
+  "paidHouse": {
+    "version": 1,
+    "homes": {
+      "house-chichi-1": {
+        "id": "house-chichi-1",
+        "owner": "chichi",
+        "type": "home-sage",
+        "purchaseId": "guest-house-1",
+        "sequence": 1,
+        "price": 1600,
+        "at": 1793643597057,
+        "plot": 0,
+        "source": "manual",
+        "aiDay": null,
+        "roommate": "luna"
+      }
+    },
+    "residences": {
+      "chichi": "house-chichi-1",
+      "luna": "house-chichi-1"
+    }
+  },
+  "actualHosts": [
+    {
+      "id": "chichi",
+      "phase": "relax",
+      "position": {
+        "x": -28.05,
+        "z": -22.35,
+        "y": 1.123112146196121,
+        "yaw": 0.2
+      }
+    },
+    {
+      "id": "luna",
+      "phase": "relax",
+      "position": {
+        "x": -25.05,
+        "z": -22.35,
+        "y": 1.12,
+        "yaw": -0.2
+      }
+    }
+  ],
+  "onceOnlyBalances": true,
+  "reloads": 2,
+  "records": {
+    "zoo-elephant-0": {
+      "id": "4a2f1bc5-cff9-45fa-91a2-9984b10cd2ef",
+      "animalId": "zoo-elephant-0",
+      "houseId": "house-chichi-1",
+      "startedAt": 1793643628576,
+      "endsAt": 1793644348576
+    },
+    "zoo-axolotl-0": {
+      "id": "f7913a71-00e8-444e-8d13-e8281958b1b5",
+      "animalId": "zoo-axolotl-0",
+      "houseId": "house-chichi-1",
+      "startedAt": 1793643687929,
+      "endsAt": 1793644407929
+    },
+    "zoo-otter-0": {
+      "id": "cac9ee84-22ac-4dc9-b848-3dd3548666ec",
+      "animalId": "zoo-otter-0",
+      "houseId": "house-chichi-1",
+      "startedAt": 1793643688429,
+      "endsAt": 1793644408429
+    },
+    "zoo-polar-0": {
+      "id": "42ed5967-2226-4016-9bdc-041e70bc38f1",
+      "animalId": "zoo-polar-0",
+      "houseId": "house-chichi-1",
+      "startedAt": 1793643689352,
+      "endsAt": 1793644409352
+    },
+    "zoo-gorilla-0": {
+      "id": "eb014e4b-7c62-4846-ab74-6a4558d0a5ff",
+      "animalId": "zoo-gorilla-0",
+      "houseId": "house-chichi-1",
+      "startedAt": 1793643689992,
+      "endsAt": 1793644409992
+    },
+    "zoo-elephant-1": {
+      "id": "a3935070-8508-45bf-a6db-9e2c18eea701",
+      "animalId": "zoo-elephant-1",
+      "houseId": "house-chichi-1",
+      "startedAt": 1793643690462,
+      "endsAt": 1793644410462
+    }
+  },
+  "sharedResources": [
+    {
+      "id": "zoo-elephant-0",
+      "geometry": "78e581b5-112a-4ffb-91ce-ad810891947c",
+      "sourceGeometry": "78e581b5-112a-4ffb-91ce-ad810891947c",
+      "instances": 1,
+      "scale": 0.11086964221898399,
+      "poseBytes": 1629184,
+      "activity": "sleep"
+    },
+    {
+      "id": "zoo-axolotl-0",
+      "geometry": "d5d67d3b-659b-42a4-bea4-3afeddcc10ab",
+      "sourceGeometry": "d5d67d3b-659b-42a4-bea4-3afeddcc10ab",
+      "instances": 1,
+      "scale": 0.19581031094681134,
+      "poseBytes": 460800,
+      "activity": "play"
+    },
+    {
+      "id": "zoo-otter-0",
+      "geometry": "689d0889-bc83-4c45-9153-81303c6924cd",
+      "sourceGeometry": "689d0889-bc83-4c45-9153-81303c6924cd",
+      "instances": 1,
+      "scale": 0.14174988320567136,
+      "poseBytes": 588800,
+      "activity": "play"
+    },
+    {
+      "id": "zoo-polar-0",
+      "geometry": "a790efa6-0683-4408-abd2-76adf2ce1426",
+      "sourceGeometry": "a790efa6-0683-4408-abd2-76adf2ce1426",
+      "instances": 1,
+      "scale": 0.10749414567922438,
+      "poseBytes": 588800,
+      "activity": "play"
+    },
+    {
+      "id": "zoo-gorilla-0",
+      "geometry": "7f495517-bafa-46db-bc16-8a841567a782",
+      "sourceGeometry": "7f495517-bafa-46db-bc16-8a841567a782",
+      "instances": 1,
+      "scale": 0.13600054699661665,
+      "poseBytes": 412672,
+      "activity": "play"
+    },
+    {
+      "id": "zoo-elephant-1",
+      "geometry": "78e581b5-112a-4ffb-91ce-ad810891947c",
+      "sourceGeometry": "78e581b5-112a-4ffb-91ce-ad810891947c",
+      "instances": 1,
+      "scale": 0.11086964221898399,
+      "poseBytes": 1629184,
+      "activity": "play"
+    }
+  ],
+  "expiredViews": 0
+}

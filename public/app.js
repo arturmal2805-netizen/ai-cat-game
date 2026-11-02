@@ -1,3 +1,6 @@
+import {startZooGuest,endZooGuest,zooGuestResidents,activeZooGuests} from './zoo-guest-visits.js';
+import {zooGuestAnimal,zooAnimalId} from './zoo-guest-data.js';
+import {ZOO_ANIMALS} from './zoo-data.js';
 import {ZOO_ID} from './zoo-data.js';
 import {openZooExhibit} from './zoo-system.js';
 import {MAGIC_BED_ID,MAGIC_BED_CROPS,MAGIC_BED_SEEDS,magicGrowth} from './magic-bed-data.js';
@@ -1207,6 +1210,27 @@ function showBikiniFriend(id, catId = "chichi") {
   actions.append(other);
   open("item-dialog");
 }
+function showZooAnimal(animalId){
+ const animal=zooGuestAnimal(animalId);if(!animal)return;
+ showCourt(animal.exhibit.id);
+ const actions=$('spa-bar-actions');
+ $('item-name').textContent=animal.exhibit.name+' · '+(animal.index+1);
+ $('item-note').textContent='Перетягни тваринку на особистий дім або обери його тут. Візит триває пів ігрового дня; всередині велетні чарівно зменшуються.';
+ const inspect=document.createElement('button');inspect.className='soft';inspect.textContent='Роздивитися цю тваринку';inspect.onclick=()=>{$('item-dialog').close();world?.enterCourt(animal.exhibit.id,animal.index);};actions.append(inspect);
+ const active=activeZooGuests(game).find(v=>v.animalId===animalId);
+ if(active){const back=document.createElement('button');back.className='soft';back.textContent='Повернути у вольєр';back.onclick=()=>{try{commit(endZooGuest(game,animalId));$('item-dialog').close();}catch(e){toast(e.message);}};actions.append(back);return;}
+ const homes=Object.values(game.housing?.homes||{}).filter(h=>zooGuestResidents(game,h.id).length),select=document.createElement('select');select.id='zoo-guest-house';select.setAttribute('aria-label','Будинок для гостьового візиту');
+ for(const h of homes){const option=document.createElement('option');option.value=h.id;option.textContent='🏡 '+(h.owner==='chichi'?'Чічі':ADOPTION_CATS.find(c=>c.id===h.owner)?.name||h.owner)+' · '+(h.plot+1);select.append(option);}
+ const go=document.createElement('button');go.id='zoo-guest-start';go.className='primary';go.textContent=homes.length?'🏡 У гості на пів дня':'Спочатку потрібен заселений будиночок';go.disabled=!homes.length;
+ go.onclick=()=>visitZooHome(animalId,select.value);
+ actions.append(select,go);
+ const next=document.createElement('button');next.className='soft';next.textContent='Наступна тваринка →';next.onclick=()=>showZooAnimal(zooAnimalId(animal.species,(animal.index+1)%ZOO_ANIMALS[animal.species].count));actions.append(next);
+}
+function visitZooHome(animalId,home){
+ try{if(!cloud.editable||cloud.conflict)throw Error('Дочекайтеся підключення збереження.');
+  commit(startZooGuest(game,animalId,home,crypto.randomUUID()));$('item-dialog').close();world?.showZooGuestHome(home);toast('Тваринка гостює пів ігрового дня 🏡');
+ }catch(error){toast(error.message);}
+}
 function showCourt(id, fishIndex) {
   const o = courtObject(id),
     p = courtProject(game, id);
@@ -1224,7 +1248,7 @@ function showCourt(id, fishIndex) {
     button.disabled=!p.built&&(!p.previousOpen||game.coins<p.price);
     button.onclick=()=>{try{if(!p.built)commit(openZooExhibit(game,id));$("item-dialog").close();world?.enterCourt(id);toast(p.built?o.name:"Ворота відчиняються · "+o.name);}catch(error){toast(error.message);}};
     actions.append(button);
-    if(p.built){const close=document.createElement('button');close.className='soft';close.textContent=o.species==='axolotl'?'Аксолотль зблизька':'Тварина зблизька';close.onclick=()=>{$('item-dialog').close();world?.enterCourt(id,0);};actions.append(close);}
+    if(p.built){const guest=document.createElement('button');guest.className='soft';guest.textContent='🏡 Запросити тваринку в гості';guest.onclick=()=>showZooAnimal(zooAnimalId(o.species,0));actions.append(guest);const close=document.createElement('button');close.className='soft';close.textContent=o.species==='axolotl'?'Аксолотль зблизька':'Тварина зблизька';close.onclick=()=>{$('item-dialog').close();world?.enterCourt(id,0);};actions.append(close);}
     updateGuestCamera();open("item-dialog");return;
   }
   if (p.built) {
@@ -1439,6 +1463,10 @@ try {
   }});
   world = createWorld($("map"), game, {
     onGatherComplete: persist,
+    canDragZooAnimal:()=>cloud.editable&&!cloud.conflict,
+    onSelectZooAnimal:showZooAnimal,
+    onZooGuestDrop:visitZooHome,
+    onZooGuestHint:()=>toast("Відпусти тваринку над заселеним особистим будинком або вибери дім у її меню."),
     canSimulateLeisure: () =>
       cloud.simulationOwner && cloud.editable && !cloud.conflict,
     isHeroBusy: () => busy || !!buildMode,

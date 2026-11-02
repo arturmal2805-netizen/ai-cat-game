@@ -1,3 +1,5 @@
+import {activeZooGuests} from './zoo-guest-visits.js';
+import {zooHostPlayFrame} from './zoo-guest-motion.js';
 import {JOB_END} from "./jobcity-data.js";
 import { cityClock } from "./jobcity-system.js";
 import { leisurePlanOwner } from "./leisure-data.js";
@@ -18,6 +20,7 @@ export function homeRestTime(game, id, now = Date.now(), context = null) {
   const clock = context?.clock || cityClock(game.jobCity, now),
     p = game.jobCity.profiles[id];
   if (clock.working) return false;
+  if(context?.guestHomes?context.guestHomes.has(game.housing.residences[id]):activeZooGuests(game,now).some(v=>v.houseId===game.housing.residences[id]))return true;
   const planner =
       game.jobCity.profiles[leisurePlanOwner(game, id, context?.partners)],
     progress = p?.leisureProgress;
@@ -118,7 +121,7 @@ export function createHousingRuntime({ reduced = false } = {}) {
       actors,
       dt,
       time,
-      { night, eligible = () => true, blocked = () => false } = {},
+      { night, eligible = () => true, blocked = () => false, guests = activeZooGuests(game) } = {},
     ) {
       sync(game);
       // Give each column its own approach lane. Returning every resident at
@@ -178,6 +181,7 @@ export function createHousingRuntime({ reduced = false } = {}) {
         }
       }
       runtime.step(dt, time);
+      for(const v of runtime.visits.values()){v.guestPlaying=false;const home=state?.homes[objects.get(v.objectId)?.houseId],guest=guests.find(g=>g.houseId===home?.id);if(!home||!guest||!night)continue;const frame=zooHostPlayFrame(v,home.plot,Date.now(),guest);if(frame){Object.assign(v,frame);v.guestPlaying=frame.playing;}else v.guestPlaying=false;}
     },
   };
 }

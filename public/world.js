@@ -1,4 +1,6 @@
-import {pickZooExhibit} from './zoo-picking.js';
+import {zooGuestResidents} from './zoo-guest-visits.js';
+import {createZooGuestWorld} from './zoo-guest-world.js';
+import {pickZooExhibit,pickZooAnimal,pickZooGuestHouse} from './zoo-picking.js';
 import {zooEnclosureCameraView,randomZooCameraGuest,zooCameraGuests} from './zoo-camera.js';
 import {relaxCarriedCat} from './bikini-carry.js';
 import {safeZooRestoredPosition} from './zoo-navigation.js';
@@ -1203,6 +1205,8 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     islands.set(biome.id, g);
     return g;
   }
+  let zooAwayKey=null,zooAwayTarget=null;
+  const animalGuests=createZooGuestWorld({scene,reduced,prepare:(steps,priority)=>prepareSceneSteps(steps,{scheduler:scenePreparation,priority}),prepareModel:model=>shaderWarmup.prepare(model,{background:focused!==HOUSING_ID}),working:(g,record)=>zooGuestResidents(g,record.houseId).every(id=>housingLife.get(id)?.phase!=='relax')});
   const islandRefreshes = new Map();
   const detailJobs = new Map(),
     scenePreparation = createSceneScheduler({
@@ -1573,6 +1577,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     }
     islands.get(HOUSING_ID)?.userData.syncHousing?.(game);
     housingLife.sync(game);
+    animalGuests.sync(game);
     incomeSecond = -1;
     const venues = new Set(businessVenues(game).map((p) => p.id));
     for (const [id, button] of incomeButtons)
@@ -3180,6 +3185,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
   let pointerDown = null,
     pinchDistance = null,
     draggingCat = null,
+    draggingAnimal = null,
     pendingTap = false;
   let pendingBikiniCat = null;
   let pendingAquariumCat = null;
@@ -3212,6 +3218,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       lastY: e.clientY,
     };
     pointerDown.multi = activePointers.size > 1;
+    if(pointerDown.multi)releaseAnimalDrag();
     renderer.domElement.setPointerCapture(e.pointerId);
     // A second finger usually follows immediately. Do not traverse cat rigs
     // just to begin a pinch; resolve a single touch once its intent is known.
@@ -3227,6 +3234,10 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     if (!pointerDown || faceCamera.enabled || buildMode || pointerDown.multi)
       return;
     pointer(e);
+    if(focused===ZOO_ID&&callbacks.canDragZooAnimal?.()!==false){
+      const animal=pickZooAnimal(raycaster.ray,islands.get(ZOO_ID)?.userData.zoo?.actors);
+      if(animal&&courtProject(game,animal.exhibitId)?.built){draggingAnimal=animal;return;}
+    }
     const bounds = renderer.domElement.getBoundingClientRect(),
       actors = [
         ...(!operation
@@ -3279,6 +3290,14 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       beginCatDrag(pointerDown.pick);
       pointerDown.pick = null;
     }
+    if(draggingAnimal){
+      pointer(e);const point=new THREE.Vector3();
+      if(raycaster.ray.intersectPlane(ground,point)){
+        const home=pickZooGuestHouse(point,game),d=draggingAnimal,local=d.mesh.worldToLocal(point.clone()),matrix=d.mesh.userData.actors[d.index].matrix.clone();
+        matrix.setPosition(local.x,Math.max(.7,local.y)+.4,local.z);if(home)matrix.scale(new THREE.Vector3(.28,.28,.28));d.mesh.setMatrixAt(d.index,matrix);d.mesh.instanceMatrix.needsUpdate=true;d.houseId=home;
+        dropHint.hidden=false;dropHint.textContent=home?'Відпусти: гості на пів ігрового дня 🏡':'Перенеси в особистий будиночок котиків';
+      }return;
+    }
     if (draggingCat) {
       pointer(e);
       const point = new THREE.Vector3();
@@ -3306,9 +3325,11 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     pointerDown.lastX = e.clientX;
     pointerDown.lastY = e.clientY;
   });
+  function releaseAnimalDrag(){const d=draggingAnimal;if(d){d.mesh.setMatrixAt(d.index,d.mesh.userData.actors[d.index].matrix);d.mesh.instanceMatrix.needsUpdate=true;draggingAnimal=null;}hideDrop();return d;}
   renderer.domElement.addEventListener("pointerup", (e) => {
     activePointers.delete(e.pointerId);
     if (pointerDown?.multi) {
+      releaseAnimalDrag();
       if (draggingCat) {
         draggingCat.carrier.position.copy(draggingCat);
         draggingCat = null;
@@ -3320,6 +3341,12 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     if (pointerDown?.pick) {
       beginCatDrag(pointerDown.pick);
       pointerDown.pick = null;
+    }
+    if(draggingAnimal){
+      const moved=pointerDown&&Math.hypot(e.clientX-pointerDown.x,e.clientY-pointerDown.y)>=7;pointer(e);const point=new THREE.Vector3();raycaster.ray.intersectPlane(ground,point);const d=releaseAnimalDrag();pointerDown=null;
+      if(moved){const home=pickZooGuestHouse(point,game);if(home)callbacks.onZooGuestDrop?.(d.animalId,home);else callbacks.onZooGuestHint?.();}
+      else callbacks.onSelectZooAnimal?.(d.animalId);
+      return;
     }
     if (draggingCat) {
       pointer(e);
@@ -3619,6 +3646,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     activePointers.delete(e.pointerId);
     pointerDown = null;
     pendingTap = false;
+    releaseAnimalDrag();
     hideDrop();
     if (draggingCat) {
       draggingCat.carrier.position.copy(draggingCat);
@@ -3824,9 +3852,10 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     }
     frameProfile?.section("cameraAndIslands");
     if (!dialogOpen) stepLeisure(dt, time, now);
-    const wallNow = Date.now(),
+    const wallNow = Date.now();animalGuests.sync(game,wallNow);
+    const
       lifeClock = game.jobCity ? cityClock(game.jobCity, wallNow) : null,
-      restContext = { clock: lifeClock, partners: familyLinks };
+      restContext = { clock: lifeClock, partners: familyLinks,guestHomes:new Set(animalGuests.active.map(v=>v.houseId)) };
     if (!dialogOpen && game.jobCity && game.unlocked.includes("jobcity")) {
       const actors = lifeActors;
       for (const a of actors) {
@@ -3887,6 +3916,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
         a.local.z = a.position.z - HOUSING_CENTER[1];
       }
       housingLife.step(game, actors, dt, time, {
+        guests:animalGuests.active,
         eligible: (actor) => homeRestTime(game, actor.id, wallNow, restContext),
         night: !lifeClock.working,
         blocked: (a) => {
@@ -3916,6 +3946,9 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
         },
       });
     }
+    animalGuests.update(game,wallNow,time,focused===HOUSING_ID&&!islands.get(HOUSING_ID)?.userData.lowOnly);
+    const awayIds=animalGuests.active.map(v=>v.animalId),awayKey=awayIds.join('|'),awayTarget=islands.get(ZOO_ID);
+    if(awayKey!==zooAwayKey||awayTarget!==zooAwayTarget){zooAwayKey=awayKey;zooAwayTarget=awayTarget;awayTarget?.userData.setZooGuests?.(new Set(awayIds));}
     frameProfile?.section("jobsAndHomes");
     const spaBarGroup = itemGroups.get("spa-bar");
     if (spaBarGroup) {
@@ -4101,7 +4134,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
         centre[1] + v.position.z,
       );
       carrier.rotation.y = v.yaw;
-      const resting = v.phase === "relax",
+      const resting = v.phase === "relax"&&!v.guestPlaying,
         mood = resting ? "sleep" : "happy",
         d = model.userData,
         head =
@@ -4928,7 +4961,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
         ((spaVisit?.phase === "relax" &&
           ["spa-lounge", "spa-jacuzzi"].includes(spaVisit.objectId)) ||
         chillVisit?.phase === "relax" ||
-        homeVisit?.phase === "relax"
+        homeVisit?.phase === "relax"&&!homeVisit.guestPlaying
           ? "sleep"
           : game.social?.bestFriendId === id && game.care?.resting
             ? "sleep"
@@ -5846,6 +5879,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     followCat,
     inspectJobBusiness: inspectAttraction,
     showCatHome,
+    showZooGuestHome(id){if(!showCatHome(id))return false;elevation=.85;desiredDistance=mobileRender?29:23;return true;},
     focusHousingSection,
     chooseCityDrive(id, car) {
       if (!game.jobCity?.profiles[id]?.inventory[car]) return false;
@@ -6005,6 +6039,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       staticDraws.dispose();
       jobs.clear();
       housingLife.clear();
+      releaseAnimalDrag();animalGuests.dispose();
       leisure.clear();
       drivePrompt.remove();
       for (const car of cityCars.values()) car.removeFromParent();
