@@ -15,7 +15,7 @@ export function showcaseRideReaction(spec,route,time,out,reduced){
  const f=route.vehicleFrame(time),weight=out.weight||0,t=time-route.rideStart;
  if(f.walking||['board','climb','exit','done'].includes(f.phase))return out;
  const leg=route.legs.find(l=>time>=l.start&&time<=l.start+l.duration)||route.legs[0],u=clamp((time-leg.start)/leg.duration),gate=smooth(u/.09)*(1-smooth((u-.88)/.12)),w=weight*gate;
- const pulse=Math.sin(t*3.4),edge=smooth(Math.min(Math.max(0,t),route.duration-time)/.6),seat=f.seatBlend||0;out.rideSit=['surf-halfpipe','barrel-wave'].includes(spec.kind)?0:weight*seat;
+ const pulse=Math.sin(t*3.4),edge=smooth(Math.min(Math.max(0,t),route.duration-time)/.6),seat=f.seatBlend||0;out.rideSit=['surf-halfpipe','barrel-wave'].includes(spec.kind)?0:seat;
  switch(spec.kind){
  case 'barrel-wave':out.waterProne=f.phase==='ride'?weight*edge*gate*seat:0;out.crouch+=w*.13;out.grip+=w*.65;out.headPitch-=w*.13;out.paw+=f.phase==='splash'?w*.85:0;out.tailSway+=pulse*w*.17;break;
  case 'jungle-coaster':out.headRoll+=pulse*w*.09;out.grip+=f.phase==='lift'?w*.2:w*.55;out.surprise+=f.phase==='hold'?w*.8:0;out.pawSpread+=w*.18;break;

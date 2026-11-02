@@ -135,7 +135,7 @@ export function* showcaseWaterSteps(id){
   update(time,reduced=false){pool.userData.update(time,reduced);scenery.update(time,reduced);for(const m of extra)advanceWater(m,time,reduced);
    const riders=[...(root.userData.slideRiders?.values()||[])],at=riders.find(r=>Number.isFinite(r.elapsed))?.elapsed??root.userData.rideElapsed;
    if(spec.kind==='fountain-carousel')hub.rotation.y=Number.isFinite(at)?route.vehicleFrame(at,reduced).carouselAngle||0:0;
-   if(!riders.length){const f=Number.isFinite(at)?route.vehicleFrame(at,reduced):null;moving.visible=!!f&&!['board','climb','anticipation','exit','done'].includes(f.phase);if(f){moving.position.set(...f.position);moving.quaternion.fromArray(f.quaternion||[0,0,0,1]);}}
+   if(!riders.length){const f=Number.isFinite(at)?route.vehicleFrame(at,reduced):null;moving.visible=!!f&&!['board','climb','exit','done'].includes(f.phase);if(f){moving.position.set(...f.position);moving.quaternion.fromArray(f.quaternion||[0,0,0,1]);}}
 },
  };
  if(!profiles.has(id))profiles.set(id,route.lanes.map(l=>sampleShowcaseActing(l,route.duration)));

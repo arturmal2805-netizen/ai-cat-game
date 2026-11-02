@@ -90,7 +90,7 @@ export function updateSlideVehicles(g, reduced) {
       vehicles[slot] = v;
     }
     const f = d.sharedVehicle?d.vehicleFrame(r.elapsed,reduced):d.vehicleFrameForLane?d.vehicleFrameForLane(r.elapsed,reduced,r.lane):d.rideFrame(r.elapsed, reduced, r.lane);
-    v.visible =
+    v.visible = (d.showcaseWater && f.phase === "anticipation") ||
       !["board", "climb", "return", "anticipation", "exit", "done"].includes(
         f.phase,
       ) && d.id !== "dive-triple-sky";

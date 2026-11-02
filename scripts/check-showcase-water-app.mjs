@@ -6,6 +6,7 @@ import {SHOWCASE_WATER_RIDES} from '../public/showcase-water-data.js';
 
 export async function checkShowcaseWaterApp(page,review){
  const report={purchases:[],rides:[],reloads:0};
+ const checkpoint=()=>fs.writeFileSync(path.join(review,'showcase-water-progress.json'),JSON.stringify(report,null,2));
  await page.waitForFunction(()=>__lagoonSaveQA.cloud.editable&&__lagoonQA.npcs.has('adopt-crumb'));
  assert.equal(await page.evaluate(()=>__lagoonQA.renderer.getPixelRatio()),2);
  const snapshot=()=>page.evaluate(()=>{const g=__lagoonSaveQA.getGame();return{coins:g.coins,placements:g.placements.filter(p=>p.item.startsWith('ride-water-')),inventory:Object.fromEntries(Object.entries(g.inventory).filter(([id])=>id.startsWith('ride-water-'))),receipts:Object.fromEntries(Object.entries(g.referenceOwnership).filter(([id])=>id.startsWith('ride-water-')))};});
@@ -20,13 +21,13 @@ export async function checkShowcaseWaterApp(page,review){
   assert.equal(await page.evaluate(()=>__lagoonSaveQA.getGame().coins),before-spec.price);
   await page.locator('#build-confirm').tap();
   const p=await page.evaluate(id=>__lagoonSaveQA.getGame().placements.find(p=>p.item===id),spec.id);
-  assert.ok(p&&p.readyAt>Date.now());report.purchases.push({id:spec.id,price:spec.price,placement:p});
+  assert.ok(p&&p.readyAt>Date.now());report.purchases.push({id:spec.id,price:spec.price,placement:p});checkpoint();
  }
  const bought=await snapshot();assert.equal(bought.placements.length,10);
  await page.evaluate(()=>__lagoonSaveQA.cloud.flush());await page.waitForFunction(()=>!__lagoonSaveQA.cloud.pending&&!__lagoonSaveQA.cloud.dirty&&!__lagoonSaveQA.cloud.retryEntry);
  for(let i=0;i<2;i++){
   await page.evaluate(()=>__lagoonSaveQA.cloud.releaseEditor());await page.reload();await page.waitForFunction(()=>window.__lagoonQA&&__lagoonSaveQA.cloud.editable);
-  assert.deepEqual(await snapshot(),bought);report.reloads++;
+  assert.deepEqual(await snapshot(),bought);report.reloads++;checkpoint();
  }
  // Finish construction only in this private fixture. No live world is opened.
  await page.evaluate(()=>{const g=structuredClone(__lagoonSaveQA.getGame());for(const p of g.placements)if(p.item.startsWith('ride-water-'))p.readyAt=0;__lagoonSaveQA.commit(g,false);for(const n of __lagoonQA.npcs.values())n.manualUntil=performance.now()+1e8;});
@@ -42,13 +43,13 @@ export async function checkShowcaseWaterApp(page,review){
   await page.waitForFunction(()=>__lagoonQA.getOperation()?.stage==='activity');
   const sample=await page.evaluate(target=>{const q=__lagoonQA,d=q.itemGroups.get(target).userData,leg=d.route.legs.find(l=>['ride','rafting','drop','flight','surf','float','carousel','swing','vortex'].includes(l.phase));return leg.start+leg.duration*.46;},target);
   await page.evaluate(t=>{__lagoonQA.pinnedRide=t;},sample);
-  await page.waitForFunction(t=>{const op=__lagoonQA.getOperation();return op?.stage==='activity'&&Math.abs((performance.now()-op.activityStart)/1000-t)<1;},sample);
+  await page.waitForFunction(t=>{const op=__lagoonQA.getOperation();return op?.stage==='activity'&&Math.abs((op.rider?.elapsed??-1)-t)<.001;},sample);
   await page.evaluate(()=>__lagoonQA.drawFrame());
   if(spec.kind==='canyon-rafting'){
    for(const id of ['adopt-crumb','adopt-marshmallow']){
     assert.equal(await page.evaluate(({id,target})=>__lagoonQA.performResident(id,{action:'ride',activityId:target,mood:'happy',thought:'Рафтинг разом!'}),{id,target}),true);
     await page.waitForFunction(id=>__lagoonQA.residentPlay.get(id),id);
-    await page.evaluate(id=>{const v=__lagoonQA.residentPlay.get(id);v.started=performance.now()-v.travel-20;},id);
+    await page.evaluate(id=>{const v=__lagoonQA.residentPlay.get(id);v.started=performance.now()-v.travel-20;__lagoonQA.npcs.get(id).manualUntil=performance.now()+1e8;},id);
     await page.waitForFunction(id=>__lagoonQA.residentPlay.get(id)?.phase==='queue',id);
     await page.evaluate(id=>{__lagoonQA.residentPlay.get(id).rider.launchAt=__lagoonQA.getOperation().rider.launchAt;},id);
     await page.waitForFunction(id=>__lagoonQA.residentPlay.get(id)?.phase==='activity',id);
@@ -62,7 +63,7 @@ export async function checkShowcaseWaterApp(page,review){
   await page.waitForFunction(()=>__lagoonQA.faceCamera.enabled);await page.screenshot({path:path.join(review,spec.kind+'-guest-phone.png')});
   await page.evaluate(id=>__lagoonQA.callbacks.onSelectItem(id),target);await page.locator('#item-attraction-camera').tap();
   await page.evaluate(()=>{const q=__lagoonQA;delete q.pinnedRide;q.atollPinnedResidents=[];const op=q.getOperation();op.activityStart=performance.now()-op.attraction.userData.duration*1000-100;for(const v of q.residentPlay.visits.values())v.activityStart=performance.now()-v.object.userData.duration*1000-100;});
-  await page.waitForFunction(()=>!__lagoonQA.getOperation()&&!__lagoonQA.residentPlay.visits.size);report.rides.push({id:spec.id,...actual});
+  await page.waitForFunction(()=>!__lagoonQA.getOperation()&&!__lagoonQA.residentPlay.visits.size);report.rides.push({id:spec.id,...actual});checkpoint();
  }
  const after=await snapshot();assert.equal(after.placements.length,10);assert.equal(after.coins,bought.coins);
  await page.evaluate(()=>__lagoonSaveQA.cloud.flush());await page.waitForFunction(()=>!__lagoonSaveQA.cloud.pending&&!__lagoonSaveQA.cloud.dirty&&!__lagoonSaveQA.cloud.retryEntry);
