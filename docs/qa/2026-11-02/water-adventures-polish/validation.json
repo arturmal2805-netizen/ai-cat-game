@@ -14,5 +14,29 @@
   "globalRecruitmentPathBudget": 2,
   "recruitmentIntervalMs": 500,
   "materialTextureBytesWithMipmaps": 786432,
-  "physicalDeviceFPS": "not measured by software browser"
+  "physicalDeviceFPS": "not measured by software browser",
+  "nativePhone": {
+    "purchases": 10,
+    "rides": 10,
+    "reloads": 3,
+    "automaticRaftGuests": 3,
+    "sharedRaftVehicles": 1,
+    "seatError": 0,
+    "browserErrors": 0,
+    "httpErrors": 0,
+    "DPR": 2
+  },
+  "currentNativeRendering": {
+    "models": 10,
+    "normalGrazingPhoneRiderFlowOutletsBasins": true,
+    "fixedBuffers": true,
+    "contextLoss": false
+  },
+  "nativeWorld": {
+    "uniqueIslands": 19,
+    "viewsIncludingReturns": 21,
+    "DPR": 2,
+    "cameraOrbitAndZoom": true,
+    "contextLoss": false
+  }
 }
