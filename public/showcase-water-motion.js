@@ -4,12 +4,10 @@ import {smoothWaterFrames} from './water-route-smoothing.js';
 import {runSceneSteps} from './scene-tasks.js';
 const cache=new Map(),TAU=Math.PI*2,smooth=x=>{x=T.MathUtils.clamp(x,0,1);return x*x*(3-2*x);},V=p=>new T.Vector3(...p),lerp=(a,b,u)=>a.map((v,i)=>v+(b[i]-v)*u);
 const spiral=(top,low,r,turns,cx=0,cz=-8)=>Array.from({length:145},(_,i)=>{const u=i/144,a=u*TAU*turns+.3;return[cx+Math.sin(a)*r,top+(low-top)*u,cz+Math.cos(a)*r];});
-const loop=(x,y,z,r,drift=12)=>Array.from({length:97},(_,i)=>{const a=i/96*TAU;return[x+Math.sin(a)*r,y-Math.cos(a)*r,z+drift*i/96];});
 export function showcaseRecipe(spec){
  const h=spec.height,r=spec.radius,parts=[],bowl=[],pool=[...spec.pool],end=[pool[0],spec.surfaceY+r-.15,pool[1]],path=(points,options={})=>parts.push({points,...options});
  switch(spec.kind){
  case 'barrel-wave':path([[-30,h-5,-31],[-30,h-5,-27],[-10,57,-22],...Array.from({length:121},(_,i)=>{const u=i/120,a=Math.PI*1.02*(1-u);return[-Math.sin(a)*23,31-Math.cos(a)*23,-15+u*6];}),[-15,8,4],[12,6.2,18],end],{barrel:true});break;
- case 'jungle-coaster':path([[-34,h,-34],[-34,h,-28],[-29,48,-22],[-18,17,-17],...loop(4,37,-14,22,15),[29,13,10],[13,9,23],end],{loop:true,keepInversion:true,loops:[[4,100]]});break;
  case 'crystal-vortex':{
   const b={x:0,z:-8,radius:32,base:15,depth:20,hole:8};bowl.push(b);
   const p=Array.from({length:241},(_,i)=>{const u=i/240,a=-Math.PI/2+u*TAU*2.6,rad=30-22*u,normal=new T.Vector3(-Math.cos(a)*.9,1,-Math.sin(a)*.9).normalize();return new T.Vector3(b.x+Math.cos(a)*rad,b.base+b.depth*(rad/b.radius)**1.7,b.z+Math.sin(a)*rad).addScaledVector(normal,r+.5).toArray();});
@@ -52,15 +50,14 @@ export function* showcaseRouteSteps(spec){
    const total=times.at(-1);add(duration,phase,u=>{const t=u*total;let lo=0,hi=times.length-1;while(hi-lo>1){const m=(lo+hi)>>1;if(times[m]<t)lo=m;else hi=m;}return data.at((lo+(t-times[lo])/Math.max(1e-9,times[hi]-times[lo]))/(times.length-1));});
   },bottom=spec.kind==='surf-halfpipe'?[0,spec.surfaceY+.5,-1]:authored.parts[0]?geometry[0].at(0).position:[0,2,0],bottomQ=['surf-halfpipe','fountain-carousel','pool-pendulum'].includes(spec.kind)?[0,0,0,1]:geometry[0].at(0).quaternion;
 
- const motor=['jungle-coaster','glass-drop'].includes(spec.kind),surface=['lazy-river','fountain-carousel','pool-pendulum','surf-halfpipe'].includes(spec.kind);
+ const motor=spec.kind==='glass-drop',surface=['lazy-river','fountain-carousel','pool-pendulum','surf-halfpipe'].includes(spec.kind);
  add(1.5,'board',()=>frame(entry));
- if(motor){const boarding=spec.kind==='glass-drop'?[bottom[0],1.95,bottom[2]]:[-35,1.4,30];walk(entry,boarding,8);hold(2,'anticipation');const fromQ=legs.at(-1).fn(1).quaternion;add(13,'lift',u=>frame(lerp(boarding,bottom,smooth(u)),new T.Quaternion().fromArray(fromQ).slerp(new T.Quaternion().fromArray(bottomQ),smooth(u)).toArray(),{lift:true}));hold(spec.kind==='glass-drop'?3.2:1.2,'hold');}
+ if(motor){const boarding=[bottom[0],1.95,bottom[2]];walk(entry,boarding,8);hold(2,'anticipation');const fromQ=legs.at(-1).fn(1).quaternion;add(13,'lift',u=>frame(lerp(boarding,bottom,smooth(u)),new T.Quaternion().fromArray(fromQ).slerp(new T.Quaternion().fromArray(bottomQ),smooth(u)).toArray(),{lift:true}));hold(3.2,'hold');}
  else if(!surface){const top=[-44,spec.kind==='lagoon-launch'?10:spec.height-r+.65,-30],base=[-44,.16,-30];walk(entry,base,Math.max(3,V(entry).distanceTo(V(base))/4.8));const climbQ=legs.at(-1).fn(1).quaternion;add(Math.max(9,spec.height*.17),'climb',u=>{const a=u*TAU*Math.ceil(spec.height/12);return frame([-44+Math.sin(a)*7,.16+(top[1]-.16)*u,-37+Math.cos(a)*7],new T.Quaternion().fromArray(climbQ).slerp(new T.Quaternion().setFromAxisAngle(new T.Vector3(0,1,0),Math.PI/2+a),smooth(u/.12)).toArray(),{walking:true,yaw:Math.PI/2+a});});walk(top,bottom,Math.max(3,V(top).distanceTo(V(bottom))/5),'board',bottomQ);hold(1.3,'anticipation');}
  else {if(spec.kind==='surf-halfpipe'){walk(entry,[-50,.16,-20],10);walk([-50,.16,-20],[0,1.95,-20],9);walk([0,1.95,-20],bottom,4,'board',bottomQ);}else walk(entry,spec.kind==='pool-pendulum'?[0,2,0]:bottom,9,'board',bottomQ);hold(2,'anticipation');}
  const rideStart=clock;
  switch(spec.kind){
  case 'barrel-wave':run(geometry[0],11.8);break;
- case 'jungle-coaster':run(geometry[0],15.4);break;
  case 'crystal-vortex':run(geometry[0],3.8);run(geometry[1],14.8,'vortex');run(geometry[2],4,'drop');break;
  case 'canyon-rafting':add(24,'rafting',u=>{const f=geometry[0].at(u),q=new T.Quaternion().fromArray(f.quaternion),spin=Math.sin(u*TAU*3)*1.1+u*TAU;q.multiply(new T.Quaternion().setFromAxisAngle(new T.Vector3(0,1,0),spin));f.quaternion=q.toArray();f.position[1]+=Math.sin(u*Math.PI*22)*.38*Math.sin(Math.PI*u)**2;return f;});break;
  case 'glass-drop':run(geometry[0],3.8,'drop');break;

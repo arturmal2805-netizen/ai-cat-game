@@ -27,14 +27,6 @@ export function* showcaseVignettes(props,spec,route,{canPlace,groundObstacles}){
  case 'barrel-wave':
   coral(-28,.3,17,1.3);coral(28,.3,17,1.2);for(const x of [-39,39])flower(x,.4,30,1.1);
   break;
- case 'jungle-coaster':{
-  const x=28,z=-42,base=33;
-  if(safe(x,base+13,z,6,5,5)){
-   shape(props,'cube',0xd9b276,x,base+12,z,12,.6,10);for(const dx of [-5,5])line(props,[x+dx,base+12,z-4],[x+dx,base+17,z-4],0xc2975c,.25);
-   teaPavilion(props,x,base+12.5,z,0xd9b369,2.7);
-   for(let j=0;j<5;j++)branch(props,[[x+Math.sin(j)*4,base+23,z+Math.cos(j)*4],[x+Math.sin(j)*7,base+17,z+Math.cos(j)*6],[x+Math.sin(j)*6,base+11,z+Math.cos(j)*5]],.15,0x4c8b53);
-  }break;
- }
  case 'crystal-vortex':
   for(const x of [-23,23])flower(x,1,-46,1.5);break;
  case 'canyon-rafting':

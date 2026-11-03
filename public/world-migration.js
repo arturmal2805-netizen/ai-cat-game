@@ -1,6 +1,7 @@
 import { byItem, byBiome, NEIGHBORS } from "./game-data.js";
 import { sceneryBounds, byScenery } from './scenery-data.js';
 import { isRetiredBiome, retiredDistrict } from './world-layout.js';
+import {migrateRetiredAttractions} from './retired-attractions.js';
 export const WORLD_REVISION = 5;
 function relocatedPlot(p, occupied) {
   const spec=byItem(p.item),size=spec?.footprint || [2,2],
@@ -23,6 +24,7 @@ function relocatedPlot(p, occupied) {
   return null;
 }
 export function migrateRetiredIsland(raw, now = Date.now()) {
+  raw=migrateRetiredAttractions(raw);
   let saved=raw.worldRevision>=2 ? raw : migrateWizard(raw);
   if(saved.worldRevision>=WORLD_REVISION &&
       !saved.unlocked?.some(isRetiredBiome) &&

@@ -1,0 +1,55 @@
+{
+  "baseline": "76026e9",
+  "removed": "ride-water-jungle-coaster",
+  "retainedProducts": 209,
+  "retainedAdventureCount": 9,
+  "unchangedIslands": 19,
+  "otherProductDescriptorsUnchanged": true,
+  "routes": [
+    {
+      "id": "ride-water-barrel-wave",
+      "routeSHA256": "85749d91c0eb699fa27fb63fd8b491094c1b65e7154cb99f5075c0460ce418f2",
+      "unchanged": true
+    },
+    {
+      "id": "ride-water-crystal-vortex",
+      "routeSHA256": "4b6946dd6645ae844bbafae4dde44b26570a4f521cd534c854f08fcc1995615b",
+      "unchanged": true
+    },
+    {
+      "id": "ride-water-canyon-rafting",
+      "routeSHA256": "35435c95296ed44abcc658774b03b87ee09bbdbb55eb419d4ac280977c8b8bf1",
+      "unchanged": true
+    },
+    {
+      "id": "ride-water-glass-drop",
+      "routeSHA256": "943532c5f20b625c53331229c44027379c98d98436739e863d9d1d5248ef91a0",
+      "unchanged": true
+    },
+    {
+      "id": "ride-water-lagoon-launch",
+      "routeSHA256": "005ec97500cb24c8e767fd78ddcf0af2459587329d742d7e1e6e6bbbfb18b616",
+      "unchanged": true
+    },
+    {
+      "id": "ride-water-surf-halfpipe",
+      "routeSHA256": "c2c54580a616cee003813009a755e7d43ce050a6f145a3c0aa40a25a508be9f0",
+      "unchanged": true
+    },
+    {
+      "id": "ride-water-lazy-river",
+      "routeSHA256": "9d553292e1c9f5fd1904f6ca965dd6a1a5e8f03cc12214eea06f0f2a43c597e0",
+      "unchanged": true
+    },
+    {
+      "id": "ride-water-fountain-carousel",
+      "routeSHA256": "3cee1c89e8c590b49b277c7242cbf3f84ed29863b298960740e96f9259d5480b",
+      "unchanged": true
+    },
+    {
+      "id": "ride-water-pool-pendulum",
+      "routeSHA256": "a20770e99fb781d12da00b004ed29caa37365f3b52c01d2521f52bb17f57be19",
+      "unchanged": true
+    }
+  ]
+}

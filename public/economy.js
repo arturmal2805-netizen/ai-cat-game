@@ -1,4 +1,5 @@
 import {newZoo,normalizeZoo,zooSnapshotValid} from './zoo-system.js';
+import {retirementSnapshotValid} from './retired-attractions.js';
 import {cryptoSnapshotValid} from "./crypto-trading.js";
 import {preserveReferenceOwnership,missingReferenceOwnership} from './purchase-preservation.js';
 import {MAGIC_BED_ID,emptyMagicBed} from './magic-bed-data.js';
@@ -200,6 +201,7 @@ export function loadGame(storage, now = Date.now(), { advance = true } = {}) {
     saved = migrateRetiredIsland(saved, now);
     const game = newGame(now);
     game.retiredIslandRefund = saved.retiredIslandRefund || 0;
+    if(saved.retiredAttractions)game.retiredAttractions=structuredClone(saved.retiredAttractions);
     if(Array.isArray(saved.withdrawnMagicFarms))game.withdrawnMagicFarms=[...new Set(saved.withdrawnMagicFarms.filter(id=>magicFarm(id)))];
     game.relocatedPurchases = (
       Array.isArray(saved.relocatedPurchases) ? saved.relocatedPurchases : []
@@ -420,7 +422,7 @@ function readSavedRecord(storage) {
         saved.cat &&
         typeof saved.cat === "object" &&
         housingSnapshotValid(saved.housing) &&
-        familySnapshotValid(saved.family) && cryptoSnapshotValid(saved.jobCity) && orchardSnapshotValid(saved.farm?.orchards) && magicBedSnapshotValid(saved) && zooSnapshotValid(saved.zoo)
+        familySnapshotValid(saved.family) && cryptoSnapshotValid(saved.jobCity) && orchardSnapshotValid(saved.farm?.orchards) && magicBedSnapshotValid(saved) && zooSnapshotValid(saved.zoo) && retirementSnapshotValid(saved.retiredAttractions)
       )
         return { game: saved, encoded };
     } catch {}
@@ -430,6 +432,7 @@ export function readSavedState(storage) {
   return readSavedRecord(storage)?.game || null;
 }
 export function saveGame(storage, game) {
+  if(!retirementSnapshotValid(game.retiredAttractions))return false;
   if (!housingSnapshotValid(game.housing) || !familySnapshotValid(game.family) || !cryptoSnapshotValid(game.jobCity) || !orchardSnapshotValid(game.farm?.orchards) || !magicBedSnapshotValid(game) || !zooSnapshotValid(game.zoo))
     return false;
   let previous, trusted;

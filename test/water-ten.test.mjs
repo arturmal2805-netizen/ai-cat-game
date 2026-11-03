@@ -15,8 +15,8 @@ import {createHash} from 'node:crypto';
 import {createResidentPlay} from '../public/resident-play.js';
 import {ADOPTION_CATS,catAppearance} from '../public/cat-breeds.js';
 
-test('exactly ten original reference products append while the released 25/20 collections and islands stay intact',()=>{
- assert.equal(SHOWCASE_WATER_RIDES.length,10);assert.equal(REFERENCE_SLIDES.length,25);assert.equal(ATOLL_SLIDES.length,20);assert.equal(new Set(SHOWCASE_WATER_RIDES.map(s=>s.id)).size,10);assert.equal(BIOMES.length,19);
+test('nine retained reference products remain while the released 25/20 collections and islands stay intact',()=>{
+ assert.equal(SHOWCASE_WATER_RIDES.length,9);assert.equal(REFERENCE_SLIDES.length,25);assert.equal(ATOLL_SLIDES.length,20);assert.equal(new Set(SHOWCASE_WATER_RIDES.map(s=>s.id)).size,9);assert.equal(BIOMES.length,19);
  for(const s of SHOWCASE_WATER_RIDES){assert.equal(CATALOG.find(x=>x.id===s.id),s);assert.equal(WATER_RIDES.filter(x=>x.id===s.id).length,1);assert.ok(s.price>=80000&&s.price<=250000);assert.ok(s.footprint[0]>=100&&s.footprint[1]>=100);}
 });
 test('every authored state boundary is continuous for each actual passenger seat and stays within the complete placement',()=>{
@@ -39,7 +39,7 @@ test('launch uses 9.81 gravity; the river, standing halfpipe and fixed suspensio
  if(s.kind==='pool-pendulum'){const leg=r.legs.find(l=>l.phase==='swing');for(let u=0;u<=1;u+=.01){const f=r.vehicleFrame(leg.start+u*leg.duration),q=new T.Quaternion().fromArray(f.quaternion),top=new T.Vector3(0,44,0).applyQuaternion(q).add(new T.Vector3(...f.position));assert.ok(top.distanceTo(new T.Vector3(0,46,0))<1e-6);}}
  }
 });
-test('all ten complete prefabs have continuous registered water, bounded live boats and immutable animation buffers',()=>{
+test('all nine complete prefabs have continuous registered water, bounded live boats and immutable animation buffers',()=>{
  for(const s of SHOWCASE_WATER_RIDES){const g=referenceSlideAttraction(s.id),d=g.userData;assert.equal(d.slideWater.channels.length+d.slideWater.materials.filter(m=>m.uniforms.uFlowing.value===2).length,s.channels,s.kind);assert.equal(d.route.waterRideSpeed,1);if(s.kind==='lazy-river'){assert.equal(d.hollowPassages.length,1);const tunnel=d.hollowPassages[0],leg=d.route.legs.find(l=>l.phase==='float');let crossed=0;for(let u=.4;u<.6;u+=.002){const p=d.route.frame(leg.start+u*leg.duration).position;if(Math.abs(p[0])>9)continue;assert.ok(Math.hypot(p[1]-tunnel.y,p[2]-tunnel.z)<tunnel.innerRadius-3.4,'the actual ring clears the hollow tunnel');crossed++;}assert.ok(crossed>10);}const matrices=[];g.traverse(o=>{if(o.isInstancedMesh)matrices.push([o,o.instanceMatrix.version]);});const tickets=[];for(let i=0;i<(s.seats>1?s.seats:4);i++){const v=reserveSlide(g,'cat-'+i);assert.ok(v);tickets.push(v);launchSlide(g,v,1000+i*200);}assert.equal(hasSlideRoom(g),false);if(s.seats>1)assert.equal(new Set(tickets.map(v=>v.launchAt)).size,1);
  const boarding=d.route.legs.find(l=>l.phase==='anticipation').start+.8;for(const v of tickets)v.elapsed=boarding;d.update(boarding,false);assert.ok(d.slideVehicles.some(v=>v?.visible),s.kind+' occupied boat must be visible during boarding/anticipation');
  for(let tick=0;tick<120;tick++){const t=d.route.rideStart+tick*.05;for(const v of tickets)v.elapsed=t;d.update(t,false);}for(const [o,version]of matrices)assert.equal(o.instanceMatrix.version,version,s.kind+' animated GPU matrix upload');
@@ -77,7 +77,7 @@ test('all ten actual wet mechanics activate measured-speed reactions and distinc
   const wet=r.legs.filter(l=>!['board','climb','anticipation','hold','lift','exit','splash','unload'].includes(l.phase));assert.ok(wet.length);
   for(const leg of wet)for(const u of [.2,.4,.6,.8]){const a=model.userData.rideReaction(leg.start+u*leg.duration);assert.ok(a.weight>.9,spec.kind+' inactive '+leg.phase);assert.ok(a.speed>0,spec.kind+' unmeasured speed');assert.ok(Object.values(a).every(v=>typeof v!=='number'||Number.isFinite(v)));frames.push({...a});}
   signatures.add(createHash('sha256').update(JSON.stringify(frames)).digest('hex'));disposeScenery(model);
- }assert.equal(signatures.size,10);
+ }assert.equal(signatures.size,9);
 });
 
 test('surface micro-detail reuses immutable textures and does not add shader callbacks or runtime transfers',()=>{

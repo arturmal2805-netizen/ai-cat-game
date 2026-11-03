@@ -18,7 +18,6 @@ export function showcaseRideReaction(spec,route,time,out,reduced){
  const pulse=Math.sin(t*3.4),edge=smooth(Math.min(Math.max(0,t),route.duration-time)/.6),seat=f.seatBlend||0;out.rideSit=['surf-halfpipe','barrel-wave'].includes(spec.kind)?0:seat;
  switch(spec.kind){
  case 'barrel-wave':out.waterProne=f.phase==='ride'?weight*edge*gate*seat:0;out.crouch+=w*.13;out.grip+=w*.65;out.headPitch-=w*.13;out.paw+=f.phase==='splash'?w*.85:0;out.tailSway+=pulse*w*.17;break;
- case 'jungle-coaster':out.headRoll+=pulse*w*.09;out.grip+=f.phase==='lift'?w*.2:w*.55;out.surprise+=f.phase==='hold'?w*.8:0;out.pawSpread+=w*.18;break;
  case 'crystal-vortex':out.bodyLean+=Math.sin(t*.8)*w*.2;out.headYaw+=w*.27;out.grip+=w*.5;out.surprise+=f.phase==='drop'?w*.7:0;break;
  case 'canyon-rafting':out.crouch+=w*.13*(.5+.5*pulse);out.grip+=w*.65;out.tailSway+=pulse*w*.23;out.headYaw+=w*Math.sin(t*1.7)*.26;out.paw+=f.phase==='splash'?w*.6:0;break;
  case 'glass-drop':out.surprise+=f.phase==='hold'?w*.95:0;out.headPitch+=f.phase==='hold'?w*.2:0;out.paw+=f.phase==='drop'?w*.75:0;out.eyeClose+=f.phase==='splash'?w*.85:0;out.hindTuck+=f.phase==='drop'?w*.25:0;break;
