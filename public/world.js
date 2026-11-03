@@ -99,6 +99,9 @@ import {
 } from "./slide-riders.js";
 import { createSlideAudio } from "./slide-audio.js";
 import { referenceSlideSteps } from "./reference-slide-assets.js";
+import {showcaseWaterRide} from './showcase-water-data.js';
+import {prepareShowcaseSurfaces} from './showcase-surface-details.js';
+import {prepareShowcaseWaterProbe} from './showcase-water-probes.js';
 import { atollPreparationNeeded } from "./atoll-streaming.js";
 import {applyAtollSit} from './atoll-slide-acting.js';
 import {magicFarmTarget} from './magic-farm-target.js';
@@ -848,7 +851,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     knownReferencePlacements = new Set(initialGame.placements.map(p=>p.id));
   function prepareReference(placement) {
     if(referencePreparing.has(placement.id))return referencePreparing.get(placement.id);
-    const task=prepareSceneSteps(placement.item===MAGIC_BED_ID?magicBedModelSteps(game.farm.fields[placement.id]):referenceSlideSteps(placement.item),{scheduler:scenePreparation,priority:placement.biome});
+    const build=()=>prepareSceneSteps(placement.item===MAGIC_BED_ID?magicBedModelSteps(game.farm.fields[placement.id]):referenceSlideSteps(placement.item),{scheduler:scenePreparation,priority:placement.biome}),task=showcaseWaterRide(placement.item)?Promise.all([prepareShowcaseSurfaces(),prepareShowcaseWaterProbe(placement.item)]).then(build):build();
     let staged=null,attached=false;
     const ready=task.then(async model=>{
       staged=model;
@@ -2855,10 +2858,10 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
         ? constructionModel(mode.item)
         : makeAttraction(mode.item);
     if (reference)
-      prepareSceneSteps(mode.item===MAGIC_BED_ID?magicBedModelSteps(game.farm.fields[mode.ignoreId]):referenceSlideSteps(mode.item), {
+      (showcaseWaterRide(mode.item)?Promise.all([prepareShowcaseSurfaces(),prepareShowcaseWaterProbe(mode.item)]):Promise.resolve()).then(()=>prepareSceneSteps(mode.item===MAGIC_BED_ID?magicBedModelSteps(game.farm.fields[mode.ignoreId]):referenceSlideSteps(mode.item), {
         scheduler: scenePreparation,
         priority: mode.biome,
-      })
+      }))
         .then(async (model) => {
           if (disposed || previewId !== previewGeneration || !buildMode) {
             disposeScenery(model);

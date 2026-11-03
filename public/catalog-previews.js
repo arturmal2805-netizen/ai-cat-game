@@ -1,5 +1,7 @@
 import {prepareZooCoat} from './zoo-coat-atlas.js';
 import {prepareGorillaFace} from './zoo-gorilla-face.js';
+import {prepareShowcaseSurfaces} from './showcase-surface-details.js';
+import {prepareShowcaseWaterProbe} from './showcase-water-probes.js';
 import {zooAnimalPreview} from './zoo-animals.js';
 import * as THREE from "three";
 import { CATALOG, BIOMES } from "./game-data.js";
@@ -52,6 +54,7 @@ export async function catalogPreviews(
     if (!canRender()) return result;
     if(pending.some(item=>item.zoo||(item.isBiome&&item.id==='magic-zoo')))await prepareZooCoat();
     if(pending.some(item=>item.id==='zoo-gorilla'||(item.isBiome&&item.id==='magic-zoo')))await prepareGorillaFace();
+    if(pending.some(item=>item.showcaseWater))await prepareShowcaseSurfaces();
     // Let the modal paint before compiling WebGL programs or reading pixels.
     await new Promise((resolve) =>
       requestAnimationFrame(() => setTimeout(resolve, 0)),
@@ -67,11 +70,20 @@ export async function catalogPreviews(
     renderer.toneMappingExposure = 0.95;
     for (const item of pending) {
       if (!canRender()) break;
+      if(item.showcaseWater)await prepareShowcaseWaterProbe(item.id);
       const scene = new THREE.Scene();
       scene.add(new THREE.HemisphereLight(0xfff1eb, 0xc1b3d7, 1.6));
       const light = new THREE.DirectionalLight(0xffe9df, 2.5);
       light.position.set(-3, 7, 5);
       scene.add(light);
+      // Only these new previews use the actual game's key/rim/shadow layout.
+      // Other shipped product images remain untouched.
+      if(item.showcaseWater){
+        renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFShadowMap;
+        scene.children[0].color.set(0xffe9db);scene.children[0].groundColor.set(0x8b9e85);scene.children[0].intensity=1.2;
+        light.color.set(0xffd8b7);light.intensity=2.2;light.position.set(-70,175,100);light.castShadow=true;light.shadow.mapSize.set(1024,1024);Object.assign(light.shadow.camera,{left:-85,right:85,top:100,bottom:-85,near:1,far:400});light.shadow.bias=-.0005;
+        const rim=new THREE.DirectionalLight(0xb8b7ec,.9);rim.position.set(20,16,-30);scene.add(rim);
+      }else renderer.shadowMap.enabled=false;
       const object = item.isBiome
         ? createBiomeScene(item, { preview: true })
         : item.zoo?zooAnimalPreview(item):makeAttraction(item.id,item.id===MAGIC_BED_ID?magicBedPreview():[]);

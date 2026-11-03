@@ -2,18 +2,19 @@ import * as T from 'three';
 
 // Authored once, then merged into the ordinary static scenery batches. Broad
 // planes, eroded seams and irregular silhouettes replace stacked rounded boxes.
-export function cliffGeometry(height,radius,seed=0,segments=18,levels=12){
- const p=[],uv=[],idx=[],rings=levels+1;
+export function cliffGeometry(height,radius,seed=0,segments=24,levels=12){
+ const p=[],uv=[],idx=[],colors=[],rings=levels+1;
  for(let y=0;y<=levels;y++)for(let i=0;i<=segments;i++){
   const u=i/segments,a=u*Math.PI*2,t=y/levels,
    ledge=1+.065*Math.sin(y*2.7+seed)+.045*Math.sin(y*1.3),
    erosion=1+.09*Math.sin(a*3+seed)+.045*Math.cos(a*7-seed*.7)+.035*Math.sin(a*5+y*.7),
    taper=.84+.16*Math.sin(Math.PI*t*.75),r=radius*ledge*erosion*taper;
   p.push(Math.sin(a)*r,height*t,Math.cos(a)*r*.86);uv.push(u*radius*.8,t*height*.13);
+  const shade=.83+.13*t+.055*Math.sin(y*2.7+seed)+.025*Math.cos(a*7);colors.push(shade,shade*.985,shade*.94);
   if(y&&i){const k=y*(segments+1)+i;idx.push(k-1,k-segments-2,k,k,k-segments-2,k-segments-1);}
  }
- for(const [ring,reverse]of [[0,true],[levels,false]]){const c=p.length/3;p.push(0,ring?height:0,0);uv.push(.5,.5);for(let i=0;i<segments;i++){const a=ring*(segments+1)+i;idx.push(c,reverse?a+1:a,reverse?a:a+1);}}
- const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(p,3));g.setAttribute('uv',new T.Float32BufferAttribute(uv,2));g.setIndex(idx);g.computeVertexNormals();return g;
+ for(const [ring,reverse]of [[0,true],[levels,false]]){const c=p.length/3;p.push(0,ring?height:0,0);uv.push(.5,.5);colors.push(1,1,1);for(let i=0;i<segments;i++){const a=ring*(segments+1)+i;idx.push(c,reverse?a+1:a,reverse?a:a+1);}}
+ const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(p,3));g.setAttribute('uv',new T.Float32BufferAttribute(uv,2));g.setAttribute('color',new T.Float32BufferAttribute(colors,3));g.setIndex(idx);g.computeVertexNormals();return g;
 }
 
 const boulders=new Map();

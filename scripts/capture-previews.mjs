@@ -1,5 +1,7 @@
 import {GORILLA_FACE_ASSET} from '../public/zoo-gorilla-face.js';
 import {ZOO_COAT_ASSET} from '../public/zoo-coat-atlas.js';
+import {SHOWCASE_SURFACE_ASSETS} from '../public/showcase-surface-assets.js';
+import {SHOWCASE_WATER_PROBES} from '../public/showcase-probe-assets.js';
 import { build } from "esbuild";
 import { createServer } from "node:http";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
@@ -34,6 +36,8 @@ for (const name of ["fantasy-atlas", "tree-varieties"])
   );
 assets.set(ZOO_COAT_ASSET.slice(1),await readFile(resolve(root,'public',ZOO_COAT_ASSET)));
 assets.set(GORILLA_FACE_ASSET.slice(1),await readFile(resolve(root,'public',GORILLA_FACE_ASSET)));
+for(const roles of Object.values(SHOWCASE_SURFACE_ASSETS))for(const url of Object.values(roles))assets.set(url.slice(1),await readFile(resolve(root,'public',url)));
+for(const url of Object.values(SHOWCASE_WATER_PROBES))assets.set(url.slice(1),await readFile(resolve(root,'public',url)));
 const server = createServer((request, response) => {
   const path = new URL(request.url, "http://localhost").pathname;
   if (path === "/favicon.ico") {

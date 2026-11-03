@@ -1,10 +1,10 @@
 import * as T from 'three';
-import {shape,line,torus} from './fantasy-scenery.js';
+import {shape,line,torus,flowerCluster} from './fantasy-scenery.js';
 import {batchModelSteps} from './model-batching.js';
 import {showcaseWaterRide} from './showcase-water-data.js';
 import {showcaseRouteSteps} from './showcase-water-motion.js';
 import {showcaseProps} from './showcase-water-props.js';
-import {receivingPool,vortexBowl} from './reference-slide-assets.js';
+import {receivingPool} from './reference-slide-assets.js';
 import {installSlideWater,slideRibbon} from './slide-water.js';
 import {waterMaterial,advanceWater} from './water-shading.js';
 import {rideActingFrame} from './ride-acting.js';
@@ -12,11 +12,12 @@ import {showcaseWaterfallSteps as waterfallSteps} from './showcase-waterfalls.js
 import {atollApproach} from './atoll-slide-navigation.js';
 import {groupApproach} from './group-boarding.js';
 import {showcaseRideReaction,sampleShowcaseActing} from './showcase-water-acting.js';
-import {applyShowcaseSurfaceDetails} from './showcase-surface-details.js';
+import {applyShowcaseSurfaceDetails,showcaseSurfaceUVSteps,showcaseMaterialSteps} from './showcase-surface-details.js';
 import {boulderGeometry} from './showcase-geology.js';
-import {polishShowcaseWater} from './showcase-water-optics.js';
+import {polishShowcaseWater,submergeReceivingFloor,submergeReceivingWalls,receivingBankEnd,detailShowcaseBasin,receivingRailPoint} from './showcase-water-optics.js';
 import {naturalBank} from './showcase-bank.js';
 import {cliffGeometry} from './showcase-geology.js';
+import {fern,gardenFlowerCluster,gardenBlossom} from './showcase-botany.js';
 const profiles=new Map();
 const boatRoundGeometry=new T.SphereGeometry(1,24,14);boatRoundGeometry.userData.sharedScenery=true;
 const bankPaint=new Map();
@@ -44,7 +45,7 @@ function vehicle(props,spec){
   if(large){for(const x of [-7.5,7.5])line(g,[x,0,0],[x,44,0],0xd6b077,.9);line(g,[-8,44,0],[8,44,0],0xf4cf84,1.0);}
   if(large){
    const outline=new T.Shape();outline.moveTo(-9,2);outline.quadraticCurveTo(-8,-.9,-4,-1.2);outline.quadraticCurveTo(0,-1.6,4,-1.2);outline.quadraticCurveTo(8,-.9,9,2);outline.lineTo(6,1);outline.quadraticCurveTo(0,-.1,-6,1);outline.closePath();
-   for(const x of [-5.7,5.7]){const geometry=new T.ExtrudeGeometry(outline,{depth:.45,bevelEnabled:true,bevelSegments:2,steps:1,bevelSize:.18,bevelThickness:.18});geometry.rotateY(Math.PI/2);const hull=new T.Mesh(geometry,new T.MeshStandardMaterial({color:0xb67b43,roughness:.4,metalness:.08}));hull.position.x=x;g.add(hull);line(g,[x,1.0,-6],[x,1.0,6],0xf4d58a,.22);}
+   for(const x of [-5.7,5.7]){const geometry=new T.ExtrudeGeometry(outline,{depth:.45,bevelEnabled:true,bevelSegments:2,steps:1,bevelSize:.18,bevelThickness:.18});geometry.rotateY(Math.PI/2);const hull=new T.Mesh(geometry,new T.MeshStandardMaterial({color:0xb67b43,roughness:.4,metalness:.08}));hull.material.userData.surfaceKind='wood';hull.position.x=x;g.add(hull);line(g,[x,1.0,-6],[x,1.0,6],0xf4d58a,.22);}
    for(const z of [-8,8]){shape(g,'sphere',0xf4cf77,0,1.55,z,4.4,.35,1.2);shape(g,'sphere',0xe8a54f,0,2.3,z,1.2,.9,.6);}
   }
  }
@@ -67,7 +68,9 @@ function vehicle(props,spec){
   shape(g,'sphere',0x6acde5,0,-.02,.6,.72,.045,1.55);
   for(const x of [-.7,.7])line(g,[x,.04,-.8],[x,.04,1.7],0xffefc0,.07);
  }
- g.traverse(o=>{if(o.isMesh&&o.geometry.type==='SphereGeometry')o.geometry=boatRoundGeometry;});
+ g.traverse(o=>{if(!o.isMesh)return;if(o.geometry.type==='SphereGeometry')o.geometry=boatRoundGeometry;
+  if(o.material.userData.surfaceKind==='leaf'||o.geometry.type==='TorusGeometry'){const material=o.material.clone();material.userData.sharedScenery=false;material.userData.surfaceKind='rubber';material.map=material.bumpMap=material.normalMap=material.roughnessMap=null;material.roughness=.55;material.metalness=0;o.material=material;}
+ });
  return g;
 }
 function waveBody(props,root,spec,extra){
@@ -109,10 +112,11 @@ function waveBody(props,root,spec,extra){
 export function* showcaseWaterSteps(id){
  const spec=showcaseWaterRide(id);if(!spec)return null;
  const root=new T.Group(),props=new T.Group(),route=yield*showcaseRouteSteps(spec),actual={...spec,pool:route.pool},moving=vehicle(props,spec),channels=[],extra=[],materials=[];root.name=spec.name;root.add(moving);
- const scenery=yield*showcaseProps(props,root,actual,route),pool=receivingPool(actual),hub=new T.Group();root.add(pool);
+ const scenery=yield*showcaseProps(props,root,actual,route),pool=detailShowcaseBasin(receivingPool(actual)),hub=new T.Group(),bankGardens=[];root.add(pool);
  if(spec.kind==='fountain-carousel'){
   for(const [y,radius]of [[2.3,8],[8,5.5],[14,3.5]]){shape(props,'pole',0xeed4a6,0,y,0,radius,.5,radius);const jet=yield*waterfallSteps(0,0,radius*1.8,5.2,{color:0x47d8ed});jet.position.y+=y+5.2-.12;root.add(jet);scenery.waterfalls.push(jet);}
   shape(props,'pole',0xf0d2a0,0,8,0,1.5,16,1.5);
+  gardenBlossom(props,0,15.2,0,0xf2a2d2,30,0);gardenBlossom(props,0,15.6,0,0xffc5de,21,Math.PI/5);
   for(let i=0;i<4;i++){const a=i*Math.PI/2,x=Math.sin(a)*16,z=Math.cos(a)*16;line(hub,[0,1.25,0],[x,1.25,z],0xf0c482,.45);shape(hub,'pole',0xeed3a3,x,1.5,z,3.4,.3,3.4);}
   const batchedHub=yield*batchModelSteps(hub,{combineColors:true});hub.clear();hub.add(batchedHub);root.add(hub);
  }
@@ -122,19 +126,23 @@ export function* showcaseWaterSteps(id){
   yield;
   if(data.bowl)continue;
   const surf=!!data.surf,river=!!data.river,carousel=!!data.carousel,width=surf?15:spec.radius,depth=spec.radius;
-  if(!carousel&&!data.barrel){const shell=trough(data,width,depth),floor=new T.Mesh(shell.floor,new T.MeshStandardMaterial({color:river?0x75bbb0:spec.color,roughness:.3,metalness:.1,side:T.DoubleSide}));props.add(floor);
+  if(!carousel&&!data.barrel){const shell=trough(data,width,depth);if(!data.closed&&!surf)submergeReceivingFloor(shell.floor,route.pool,spec.surfaceY);const floor=new T.Mesh(shell.floor,new T.MeshStandardMaterial({color:0x4baaf2,roughness:.42,metalness:0,side:T.DoubleSide}));props.add(floor);
    if(data.rapids||river){
     for(const geometry of shell.walls)geometry.dispose();
-    for(const side of [-1,1]){const material=new T.MeshStandardMaterial({color:river?0xb4b99a:0xc4a17f,roughness:.72,side:T.DoubleSide,vertexColors:true});material.userData.surfaceKind='stone';const bank=new T.Mesh(naturalBank(data,width,depth,side),material);bank.castShadow=bank.receiveShadow=true;props.add(bank);}
-    for(let i=36;i<data.samples.length-30;i+=60){const s=data.samples[i];for(const side of [-1,1]){const p=s.p.clone().addScaledVector(s.right,side*(width+3.8)).addScaledVector(s.up,-depth+.6),rock=shape(props,'stone',river?0xaebba0:0xddb58a,...p.toArray(),2.7,1.5,2.3);rock.geometry=boulderGeometry(i+side);rock.rotation.y=i*.71;
+    const bankEnd=receivingBankEnd(data,depth,route.pool,spec.surfaceY);
+    for(const side of [-1,1]){const material=new T.MeshStandardMaterial({color:river?0xb4b99a:0xc4a17f,roughness:.72,side:T.DoubleSide,vertexColors:true});material.userData.surfaceKind='stone';const bank=new T.Mesh(naturalBank(data,width,depth,side,{end:bankEnd}),material);bank.castShadow=bank.receiveShadow=true;props.add(bank);}
+    for(let i=36;i<Math.min(data.samples.length-30,(bankEnd-.015)*(data.samples.length-1));i+=60){const s=data.samples[i];for(const side of [-1,1]){const p=s.p.clone().addScaledVector(s.right,side*(width+3.8)).addScaledVector(s.up,-depth+.6),rock=shape(props,'stone',river?0xaebba0:0xddb58a,...p.toArray(),2.7,1.5,2.3);rock.geometry=boulderGeometry(i+side);rock.rotation.y=i*.71;
      const moss=s.p.clone().addScaledVector(s.right,side*(width+3.8)).addScaledVector(s.up,-depth+1.9);shape(props,'sphere',i%120?0x76b76e:0x9bc575,...moss.toArray(),1.8,.2,1.1);
+     const bankRow=(i/(data.samples.length-1)-.045)/(bankEnd-.045)*160,irregular=Math.sin(bankRow*.61+side)*.36+Math.sin(bankRow*.17)*.3,across=(4.6-1.8)/(5.2-1.8),soil=1.4+across*.4+(Math.sin(bankRow*.31+1)*(1-across)+Math.sin(bankRow*.31+2)*across)*.16;
+     const plant=s.p.clone().addScaledVector(s.right,side*(width+4.6+irregular)).addScaledVector(s.up,-depth+soil+.08);
+     if(scenery.canPlant(plant.x,plant.y+.7,plant.z,2.6)){fern(props,...plant.toArray(),1.7,i*.23);bankGardens.push({position:plant.toArray(),radius:2.6});if(i%120===36)gardenFlowerCluster(props,plant.x,plant.z,river?0xf499cf:0xffc0b0,3.4,plant.y+.2);}
      const foot=s.p.clone().addScaledVector(s.right,side*(width+7)).addScaledVector(s.up,-depth-1);
      if(foot.y>6&&scenery.canPlace(foot.x,foot.y/2,foot.z,3.8,foot.y/2,3.8)){const column=new T.Mesh(cliffGeometry(foot.y,3.8,i),materialForBank(river));column.position.set(foot.x,0,foot.z);column.castShadow=column.receiveShadow=true;props.add(column);}
     }}
-    if(data.rapids)for(const k of [110,220,330,450,520]){const s=data.samples[k],points=Array.from({length:17},(_,j)=>s.p.clone().addScaledVector(s.right,(j/16*2-1)*(width-.8)).addScaledVector(s.up,-depth+.22+Math.sin(j*1.3)*.07));props.add(new T.Mesh(new T.TubeGeometry(new T.CatmullRomCurve3(points),24,.12,4,false),new T.MeshStandardMaterial({color:0xdafaff,roughness:.4})));}
+    if(data.rapids)for(const k of [110,220,330,450,520].filter(i=>i/(data.samples.length-1)<bankEnd-.02)){const s=data.samples[k],points=Array.from({length:17},(_,j)=>s.p.clone().addScaledVector(s.right,(j/16*2-1)*(width-.8)).addScaledVector(s.up,-depth+.22+Math.sin(j*1.3)*.07));props.add(new T.Mesh(new T.TubeGeometry(new T.CatmullRomCurve3(points),24,.12,4,false),new T.MeshStandardMaterial({color:0xdafaff,roughness:.4})));}
    }else{
-    for(const geometry of shell.walls)props.add(new T.Mesh(geometry,new T.MeshStandardMaterial({color:0xa2e7f4,transparent:true,opacity:.24,depthWrite:false,roughness:.2,side:T.DoubleSide})));
-    for(const side of [-1,1]){const points=data.samples.filter((_,i)=>i%3===0).map(s=>s.p.clone().addScaledVector(s.right,side*width).addScaledVector(s.up,-depth+2.5));const rail=new T.TubeGeometry(new T.CatmullRomCurve3(points),240,.13,5,false);props.add(new T.Mesh(rail,new T.MeshStandardMaterial({color:spec.accent,roughness:.3,metalness:.3})));}
+    for(const geometry of shell.walls){if(!data.closed&&!surf)submergeReceivingWalls(geometry,route.pool,spec.surfaceY);props.add(new T.Mesh(geometry,new T.MeshStandardMaterial({color:0xa2e7f4,transparent:true,opacity:.24,depthWrite:false,roughness:.2,side:T.DoubleSide})));}
+    for(const side of [-1,1]){const points=data.samples.filter((_,i)=>i%3===0).map(s=>!data.closed&&!surf?receivingRailPoint(s,side,width,depth,route.pool,spec.surfaceY):s.p.clone().addScaledVector(s.right,side*width).addScaledVector(s.up,-depth+2.5));const rail=new T.TubeGeometry(new T.CatmullRomCurve3(points),240,.13,5,false);props.add(new T.Mesh(rail,new T.MeshStandardMaterial({color:spec.accent,roughness:.3,metalness:.3})));}
    }
   }
   const channel=(samples,options={})=>channels.push({samples,width:width-.12,offset:-depth+.15,steps:360,colors:[0x9af0fc,0x2acced],outlet:(!data.closed&&!surf&&route.geometry.indexOf(data)===route.geometry.length-1)||!!data.launch||!!data.river,...options});
@@ -145,29 +153,25 @@ export function* showcaseWaterSteps(id){
    for(const x of [-1,1]){const pane=new T.Mesh(new T.BoxGeometry(.08,spec.height,17),new T.MeshStandardMaterial({color:0x9be3f5,transparent:true,opacity:.12,depthWrite:false,roughness:.12}));pane.position.set(9+x*9,spec.height/2,-7);root.add(pane);}
   }
  }
- // The annular vortex is a flowing section; a second spiral overlay would z-fight.
  if(spec.kind==='fountain-carousel')channels.push({curve:new T.CatmullRomCurve3([new T.Vector3(0,15,0),new T.Vector3(0,8,1),new T.Vector3(0,spec.surfaceY,2)]),width:2,offset:0,steps:100,outlet:true,outletPoint:new T.Vector3(0,spec.surfaceY,2)});
- for(const b of route.bowls){yield;
-  const wet=vortexBowl(b,{...actual,accent:0x16a9cf},props,root);wet.uniforms.uColor.value.setHex(0x00b8ef);wet.fragmentShader=wet.fragmentShader.replace('gl_FragColor=vec4(max(color,vec3(0.0)),alpha);','color=mix(color,uColor*.85,.25);gl_FragColor=vec4(max(color,vec3(0.0)),.95);');extra.push(wet);
-  for(let stream=0;stream<5;stream++){
-   const points=Array.from({length:145},(_,i)=>{const u=i/144,a=stream*Math.PI*2/5+u*Math.PI*2*1.6,radius=30-u*22;return new T.Vector3(b.x+Math.cos(a)*radius,b.base+b.depth*(radius/b.radius)**1.7+.28,b.z+Math.sin(a)*radius);});
-   props.add(new T.Mesh(new T.TubeGeometry(new T.CatmullRomCurve3(points),180,.10,4,false),new T.MeshStandardMaterial({color:0xc8faff,roughness:.35})));
-  }
- }
  if(spec.kind==='lagoon-launch'){
   const flight=route.flights[0],leg=route.legs.find(l=>l.phase==='flight'),samples=Array.from({length:601},(_,i)=>{const f=leg.fn(i/600),q=new T.Quaternion().fromArray(f.quaternion);return{p:new T.Vector3(...f.position),q,up:new T.Vector3(0,1,0).applyQuaternion(q),right:new T.Vector3(1,0,0).applyQuaternion(q)};});
   channels.push({samples,width:5.2,offset:-.65,steps:240,outlet:false,colors:[0xd0fcff,0x13ceee]});
   for(const side of [-1,1]){const points=samples.filter((_,i)=>i%6===0).map(s=>s.p.clone().addScaledVector(s.right,side*4.9).addScaledVector(s.up,-.6));props.add(new T.Mesh(new T.TubeGeometry(new T.CatmullRomCurve3(points),120,.12,4,false),new T.MeshStandardMaterial({color:0xe2fdff,roughness:.4})));}
  }
  if(spec.kind==='pool-pendulum'){/* Airborne swing only touches its real basin; no fake dry flume. */}
+ yield*showcaseSurfaceUVSteps(props);
+ yield*showcaseMaterialSteps(props);
  const staticModel=yield*batchModelSteps(props,{combineColors:true});applyShowcaseSurfaceDetails(staticModel);root.add(staticModel);props.traverse(o=>{if(o.isMesh&&!o.geometry.userData.sharedScenery)o.geometry.dispose();});
+ yield*showcaseSurfaceUVSteps(moving);
+ yield*showcaseMaterialSteps(moving);
  const boat=yield*batchModelSteps(moving,{combineColors:true});applyShowcaseSurfaceDetails(boat);moving.clear();moving.add(boat);moving.visible=false;
  const groundApproach=atollApproach(actual,scenery.groundObstacles),approach=spec.seats>1?groupApproach(route,groundApproach,spec.seats):groundApproach;
  root.userData={id,referenceSlide:true,showcaseWater:true,premiumWater:true,mega:true,handpainted:true,moving,pool,route,footprint:spec.footprint,duration:route.duration,rideFrame:route.frame,seatHeight:0,approachOffset:route.entry,dismount:route.entry,approachFrame:approach.frame,approachDuration:approach.duration,approachYaw:approach.yaw,
   groupSeats:spec.seats>1?spec.seats:0,sharedVehicle:spec.seats>1&&spec.kind!=='fountain-carousel',vehicleFrame:route.vehicleFrame,vehicleFrameForLane:route.boatFrame,hollowPassages:scenery.hollowPassages,
   entryForSlot:i=>route.frame(0,false,i).position,
   queueForSlot:spec.seats>1?i=>approach.queues[i]:i=>[route.entry[0]-(i%2)*3.2,route.entry[1],route.entry[2]+Math.floor(i/2)*4.5],
-  stats:{sourceMeshes:staticModel.userData.sourceMeshes,staticMeshes:staticModel.children.length,waterDraws:channels.length+extra.length+1},
+  gardenPatches:scenery.gardenPatches,bankGardens,promenadeGardens:scenery.promenadeGardens,stats:{sourceMeshes:staticModel.userData.sourceMeshes,staticMeshes:staticModel.children.length,waterDraws:channels.length+extra.length+1},
   update(time,reduced=false){pool.userData.update(time,reduced);scenery.update(time,reduced);for(const m of extra)advanceWater(m,time,reduced);
    const riders=[...(root.userData.slideRiders?.values()||[])],at=riders.find(r=>Number.isFinite(r.elapsed))?.elapsed??root.userData.rideElapsed;
    if(spec.kind==='fountain-carousel')hub.rotation.y=Number.isFinite(at)?route.vehicleFrame(at,reduced).carouselAngle||0:0;
@@ -177,6 +181,6 @@ export function* showcaseWaterSteps(id){
  if(!profiles.has(id))profiles.set(id,route.lanes.map(l=>sampleShowcaseActing(l,route.duration)));
  const acting=profiles.get(id),scratch=acting.map(()=>({}));root.userData.rideActing=acting[0];root.userData.rideReaction=(time,reduced=false,lane=0)=>showcaseRideReaction(spec,route,time,rideActingFrame(acting[lane%acting.length],time,reduced,scratch[lane%acting.length]),reduced);
  installSlideWater(root,{channels,pool,color:0x20cce9,speed:spec.kind==='lazy-river'?4.5:8,extraSurfaces:extra});
- for(const material of root.userData.slideWater.materials)polishShowcaseWater(material);
+ root.traverse(o=>{if(o.isMesh&&o.material.uniforms?.uWaterField)polishShowcaseWater(o.material,actual);});
  root.userData.update(0,true);return root;
 }

@@ -732,7 +732,7 @@ function renderShop() {
   shopViewKey = viewKey;
   $("shop-coins").textContent = money(game.coins);
   $("shop-tabs").replaceChildren();
-  for (const category of CATEGORIES.flatMap(c=>c.id==='rides'?[c,{id:"atoll-water",name:"Водні світи · 20",icon:"🌊"},{id:"showcase-water",name:"Водні пригоди · 9",icon:"🎢"}]:[c])) {
+  for (const category of CATEGORIES.flatMap(c=>c.id==='rides'?[c,{id:"atoll-water",name:"Водні світи · 20",icon:"🌊"},{id:"showcase-water",name:"Водні пригоди · 8",icon:"🎢"}]:[c])) {
     const button = document.createElement("button");
     button.setAttribute("role", "tab");
     button.setAttribute(

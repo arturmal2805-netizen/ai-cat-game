@@ -1,6 +1,28 @@
 import * as T from 'three';
+import {SHOWCASE_SURFACE_ASSETS} from './showcase-surface-assets.js';
+import {copyGeometryBuffers} from './geometry-tasks.js';
 
-// Nine tiny immutable maps are shared by the whole collection. Ordinary PBR
+// Selected-only, shared image decoding. No scene/render target or procedural
+// texture authoring runs in an animation frame. Failed loads retain the small
+// original offline fallback and do not trigger an automatic request loop.
+let preparing;
+export function prepareShowcaseSurfaces(){
+ if(typeof window==='undefined'||typeof createImageBitmap!=='function')return Promise.resolve(false);
+ return preparing||=(async()=>{
+  const staged=new Map(),queue=Object.entries(SHOWCASE_SURFACE_ASSETS).flatMap(([kind,roles])=>Object.entries(roles).map(([role,url])=>({kind,role,url}))),created=[];
+  try{
+   const decoded=await Promise.allSettled(Array.from({length:3},async()=>{while(queue.length){const {kind,role,url}=queue.shift(),response=await fetch(url,typeof AbortSignal?.timeout==='function'?{signal:AbortSignal.timeout(8000)}:{});if(!response.ok)throw Error('Water surface unavailable');
+    const bitmap=await createImageBitmap(await response.blob(),{imageOrientation:'none',colorSpaceConversion:'none',premultiplyAlpha:'none'}),t=new T.Texture(bitmap);
+    t.name='Shared water garden '+kind+' '+role;t.flipY=false;t.wrapS=t.wrapT=T.RepeatWrapping;t.colorSpace=role==='color'?T.SRGBColorSpace:T.NoColorSpace;
+    t.magFilter=T.LinearFilter;t.minFilter=T.LinearMipmapLinearFilter;t.generateMipmaps=true;t.anisotropy=4;t.userData.sharedScenery=true;t.needsUpdate=true;created.push(t);
+    const set=staged.get(kind)||{};set[role]=t;staged.set(kind,set);
+   }}));if(decoded.some(r=>r.status==='rejected'))throw Error('Incomplete water surfaces');
+   for(const [kind,set]of staged)textures.set(kind,set);return true;
+  }catch{for(const t of created){t.dispose();t.image?.close?.();}return false;}
+ })();
+}
+
+// The small offline fallback remains available without a DOM/network. PBR
 // normals/roughness catch the existing sun; there is no ray tracing, render
 // target, scene-copy reflection, fur pass, alpha grass or per-frame upload.
 const textures=new Map(),size=128;
@@ -25,14 +47,45 @@ function maps(kind){
  }
  const texture=(bytes,label)=>{const t=new T.DataTexture(bytes,size,size,T.RGBAFormat);t.name='Shared water-adventure '+kind+' '+label;t.wrapS=t.wrapT=T.RepeatWrapping;t.magFilter=T.LinearFilter;t.minFilter=T.LinearMipmapLinearFilter;t.generateMipmaps=true;t.colorSpace=T.NoColorSpace;t.userData.sharedScenery=true;t.needsUpdate=true;return t;};
  const color=texture(albedo,'original painted surface');color.colorSpace=T.SRGBColorSpace;
- const result={normal:texture(normal,'micro-normal'),roughness:texture(rough,'wet roughness'),color};textures.set(kind,result);return result;
+ const result=kind==='lawn'?{color}:{normal:texture(normal,'micro-normal'),roughness:texture(rough,'wet roughness'),color};textures.set(kind,result);return result;
 }
 export function applyShowcaseSurfaceDetails(root){
  const seen=new Set();root.traverse(o=>{if(!o.isMesh)return;for(const m of Array.isArray(o.material)?o.material:[o.material]){
-  if(!m.isMeshStandardMaterial||m.userData.sharedScenery||seen.has(m)||!m.userData.surfaceKind||m.userData.surfaceKind==='lawn')continue;
-  seen.add(m);const moss=m.userData.surfaceKind==='moss',kind=moss?'leaf':['wood','leaf'].includes(m.userData.surfaceKind)?m.userData.surfaceKind:'stone',set=maps(kind);
-  m.map=set.color;m.normalMap=set.normal;m.normalScale.setScalar(kind==='leaf'?.27:.38);m.bumpMap=null;m.roughnessMap=set.roughness;
-  m.roughness=moss?.24:kind==='leaf'?.33:kind==='wood'?.52:.71;m.metalness=0;
+  if(!m.isMeshStandardMaterial||m.userData.sharedScenery||seen.has(m)||!['stone','moss','wood','leaf','lawn'].includes(m.userData.surfaceKind))continue;
+  seen.add(m);const kind=m.userData.surfaceKind,set=maps(kind);
+  m.map=set.color;m.normalMap=set.normal||null;m.normalScale.setScalar(kind==='moss'?.82:kind==='leaf'?.24:kind==='wood'?.38:.65);m.bumpMap=null;m.roughnessMap=set.roughness||null;
+  m.roughness=kind==='moss'?.86:kind==='leaf'?.78:kind==='wood'?.85:kind==='lawn'?.98:.90;m.metalness=0;
   m.userData.showcaseSurface={kind,immutable:true,sharedMaps:true};m.needsUpdate=true;
  }});return root;
+}
+
+export function* showcaseMaterialSteps(root){
+ const meshes=[],copies=new Map();root.traverse(o=>{if(o.isMesh&&o.material?.isMeshStandardMaterial&&['wood','stone','leaf','moss','lawn'].includes(o.material.userData.surfaceKind))meshes.push(o);});
+ for(const mesh of meshes){yield;const source=mesh.material;if(!copies.has(source)){const own=source.clone();own.userData.sharedScenery=false;copies.set(source,own);}mesh.material=copies.get(source);}
+ // Install shared maps BEFORE tint batching, so equivalent leaf/wood surfaces
+ // become one native material family rather than separate historical paints.
+ applyShowcaseSurfaceDetails(root);
+}
+
+// Physical texture density is authored before batching; shared primitive UVs
+// must never be changed. Long beams retain grain along their actual long axis.
+export function* showcaseSurfaceUVSteps(root){
+ const meshes=[];root.traverse(o=>{if(o.isMesh&&!o.geometry.userData.showcaseSurfaceUV&&['wood','stone','moss','lawn'].includes(o.material?.userData.surfaceKind)&&o.geometry.attributes.uv)meshes.push(o);});
+ for(const mesh of meshes){
+  yield;const source=mesh.geometry,g=copyGeometryBuffers(source),uv=g.attributes.uv,p=g.attributes.position,n=g.attributes.normal,kind=mesh.material.userData.surfaceKind;
+  g.userData.sharedScenery=false;g.userData.showcaseSurfaceUV=true;mesh.geometry=g;
+  if(kind==='wood'){
+   source.computeBoundingBox();const box=source.boundingBox,size=box.getSize(new T.Vector3()).multiply(mesh.scale),dims=[Math.abs(size.x),Math.abs(size.y),Math.abs(size.z)],axis=dims.indexOf(Math.max(...dims));
+   for(let i=0;i<uv.count;i++){
+    if((i&1023)===0)yield;
+    if(source.type==='TubeGeometry'){uv.setXY(i,uv.getY(i)*Math.max(dims[0],dims[2])*.8,uv.getX(i)*Math.max(...dims)/4);continue;}
+    if(source.type==='CylinderGeometry'){uv.setXY(i,uv.getX(i)*Math.max(dims[0],dims[2])*Math.PI/1.5,uv.getY(i)*dims[1]/4);continue;}
+    const coords=[p.getX(i)*mesh.scale.x,p.getY(i)*mesh.scale.y,p.getZ(i)*mesh.scale.z],normal=n?[Math.abs(n.getX(i)),Math.abs(n.getY(i)),Math.abs(n.getZ(i))]:[0,1,0],face=normal.indexOf(Math.max(...normal)),long=face===axis?(axis+1)%3:axis,cross=[0,1,2].find(a=>a!==face&&a!==long);
+    uv.setXY(i,coords[cross??(long+1)%3]/1.5,coords[long]/4);
+   }
+  }else if(kind==='lawn'){
+   for(let i=0;i<uv.count;i++){if((i&1023)===0)yield;uv.setXY(i,p.getX(i)/12,p.getY(i)/12);}
+  }else for(let i=0;i<uv.count;i++){if((i&1023)===0)yield;uv.setXY(i,uv.getX(i)*2.4,uv.getY(i)*2.4);}
+  if(!source.userData.sharedScenery)source.dispose();
+ }
 }
