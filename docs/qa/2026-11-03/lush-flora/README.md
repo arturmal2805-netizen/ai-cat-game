@@ -26,7 +26,7 @@ Final matching-frame gallery: all eight models, 32 native seated/landing poses,
 16 phone images and 24 static/native colour comparisons (zero changed bytes).
 No browser, shader or context errors. All eight shop images have been re-rendered
 at 960×640. Nineteen focused geometry, optics, chart and load-failure tests passed.
-The 928-test flora suite passed. The real phone/SQLite audit completed eight purchases, all eight native rides and return walks, both cameras, grouped boarding and three durable reloads. The combined cat-visibility build and all 930 tests passed. Every-island coverage follows before release. Software-renderer resource data
+The 928-test flora suite passed. The real phone/SQLite audit completed eight purchases, all eight native rides and return walks, both cameras, grouped boarding and three durable reloads. The combined cat-visibility build and all 930 tests passed. All 19 islands passed native RAF camera orbit/zoom coverage, with 115 NPCs and repeat returns to Moon Garden and the zoo (21 views total), original DPR 2, no browser/HTTP/context errors. Software-renderer resource data
 must not be represented as physical M2/iPhone FPS gains.
 
 The final detail pass adds raised midribs to larger curved leaves, continuous

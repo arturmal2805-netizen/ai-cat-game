@@ -15,5 +15,4 @@ large island overview naturally shows small cats. It is not an FPS benchmark.
 Remote island wake limits and actual frustum checks remain enabled.
 
 Focused tests: 16 passed. Combined production build and full suite: 930 passed,
-zero failures. All-island native camera coverage is recorded alongside the
-water-garden release after it completes.
+zero failures. All 19 islands plus two return views passed native orbit/zoom coverage; the full report is recorded alongside the water-garden release.
