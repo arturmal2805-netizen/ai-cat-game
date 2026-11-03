@@ -45,3 +45,14 @@ rapids banks/foam stop at its shore. Closed rivers and halfpipes retain full pat
 
 - Final native map audit: all 19 islands, 21 orbit/zoom/return views with 115
   NPCs and DPR 2; no context loss, browser or HTTP errors (`native-islands.json`).
+
+## Published release
+
+`e3fe835f472836afd02af7e7cfafff9dbb543ce9`, application
+`e4d967740e8b7000`; GitHub Actions run `41646030361`: test, deploy and pages
+all succeeded. Post-publication checks matched the exact application, eight
+shop previews, approved zoo models/materials and all 21 surface/probe files on
+both Pages and Cloudflare. Both retired preview URLs return 404. The Worker
+reports this release and cloud-save availability. Routine deployment did not
+request paid AI inference. See `publication.json` and
+`published-water-assets.json` for byte hashes and server results.
