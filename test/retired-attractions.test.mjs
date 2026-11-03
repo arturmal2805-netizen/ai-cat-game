@@ -24,12 +24,12 @@ function absent(g){
  assert.ok(g.relocatedPurchases.every(p=>p.item!==id));
  assert.equal(g.business.accounts['old-coaster'],undefined);assert.equal(g.business.levels['old-coaster'],undefined);
 }
-test('Jungle Coaster is absent from the catalogue/water registry and cannot be bought; nine released products retain their cells/deadlines',()=>{
+test('Jungle Coaster is absent from the catalogue/water registry and cannot be bought; eight released products retain their cells/deadlines',()=>{
  const g=newGame(now),snapshot=structuredClone(g);
  assert.equal(CATALOG.some(s=>s.id===id),false);assert.equal(WATER_RIDES.some(s=>s.id===id),false);
  assert.throws(()=>purchase(g,id,now),/предмета нет/);assert.deepEqual(g,snapshot);
- assert.deepEqual(SHOWCASE_WATER_RIDES.map(s=>s.referenceCell.index),[1,3,4,5,6,7,8,9,10]);
- assert.deepEqual(SHOWCASE_WATER_RIDES.map(s=>s.buildMinutes),[60,70,75,80,85,90,95,100,105]);
+ assert.deepEqual(SHOWCASE_WATER_RIDES.map(s=>s.referenceCell.index),[1,4,5,6,7,8,9,10]);
+ assert.deepEqual(SHOWCASE_WATER_RIDES.map(s=>s.buildMinutes),[60,75,80,85,90,95,100,105]);
 });
 test('legacy bag and construction are removed, paid quantity is refunded once and unrelated progress stays exact through twenty reloads',()=>{
  const old=legacy(),snapshot=structuredClone(old),expected=reload(newGame(now));let g=reload(old);
@@ -89,4 +89,24 @@ test('legacy noncooperative cloud writes retain the current refund archive and l
  await send(cached,1,'retirement-next');
  const after=await vault.fetch(new Request('https://local.invalid/internal-save')).then(r=>r.json());
  assert.equal(after.game.coins,original.coins+price*2-100);assert.deepEqual(after.game.retiredAttractions,stored.game.retiredAttractions);absent(after.game);
+});
+test('the photographed Crystal Vortex is retired independently; both original prices survive mixed ownership and twenty reloads',()=>{
+ const vortex='ride-water-crystal-vortex',g=legacy();g.inventory[vortex]=1;g.referenceOwnership[vortex]={count:1,built:0};
+ assert.equal(CATALOG.some(s=>s.id===vortex),false);assert.equal(WATER_RIDES.some(s=>s.id===vortex),false);assert.throws(()=>purchase(g,vortex,now),/предмета нет/);
+ let loaded=reload(g);assert.equal(loaded.coins,1385000);assert.equal(loaded.inventory[vortex],undefined);assert.deepEqual(loaded.retiredAttractions[vortex],{count:1,credited:185000});
+ for(let i=0;i<20;i++){loaded=reload(loaded);assert.equal(loaded.coins,1385000);assert.equal(loaded.retiredAttractions[vortex].credited,185000);absent(loaded);}
+});
+test('cached clients cannot buy a retired attraction underneath an already credited archive, including direct cloud saves',async()=>{
+ for(const retired of [id,'ride-water-crystal-vortex']){
+  const old=newGame(now);old.coins=750000;old.inventory[retired]=1;const base=reload(old),incoming=structuredClone(base);incoming.inventory[retired]=1;incoming.coins-=retired===id?225000:185000;
+  assert.throws(()=>mergeSharedWorld(base,base,incoming),SharedConflict);
+  const data=new Map(),get=async k=>structuredClone(data.get(k)),put=async(k,v)=>data.set(k,structuredClone(v)),vault=new SaveVault({storage:{get,transaction:fn=>fn({get,put})}}),send=(game,revision,mutationId)=>vault.fetch(new Request('https://local.invalid/internal-save',{method:'PUT',body:JSON.stringify({game,expectedRevision:revision,mutationId})})).then(r=>r.json());
+  await send(base,0,'retired-current');const rejected=await send(incoming,1,'retired-stale-purchase');assert.equal(rejected.conflict,true);assert.equal(rejected.revision,1);assert.equal(rejected.game.coins,base.coins);
+  const stored=await vault.fetch(new Request('https://local.invalid/internal-save')).then(r=>r.json());assert.equal(stored.revision,1);assert.equal(stored.game.coins,base.coins);assert.equal(stored.game.inventory[retired],undefined);
+ }
+});
+test('two retirement ledgers preserve deferred mixed-price refunds across capped concurrent wallets',()=>{
+ const g=legacy();g.coins=10000000;g.inventory['ride-water-crystal-vortex']=1;
+ const base=reload(g),one=structuredClone(base),two=structuredClone(base);one.coins-=500000;two.coins-=500000;
+ const merged=mergeSharedWorld(base,reload(one),reload(two));assert.equal(merged.coins,9550000);assert.equal(merged.retiredAttractions[id].credited,450000);assert.equal(merged.retiredAttractions['ride-water-crystal-vortex'].credited,100000);const restored=reload(merged);assert.equal(restored.coins,9635000);assert.equal(restored.retiredAttractions['ride-water-crystal-vortex'].credited,185000);assert.equal(reload(restored).coins,9635000);
 });

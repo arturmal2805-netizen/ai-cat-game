@@ -8,11 +8,6 @@ export function showcaseRecipe(spec){
  const h=spec.height,r=spec.radius,parts=[],bowl=[],pool=[...spec.pool],end=[pool[0],spec.surfaceY+r-.15,pool[1]],path=(points,options={})=>parts.push({points,...options});
  switch(spec.kind){
  case 'barrel-wave':path([[-30,h-5,-31],[-30,h-5,-27],[-10,57,-22],...Array.from({length:121},(_,i)=>{const u=i/120,a=Math.PI*1.02*(1-u);return[-Math.sin(a)*23,31-Math.cos(a)*23,-15+u*6];}),[-15,8,4],[12,6.2,18],end],{barrel:true});break;
- case 'crystal-vortex':{
-  const b={x:0,z:-8,radius:32,base:15,depth:20,hole:8};bowl.push(b);
-  const p=Array.from({length:241},(_,i)=>{const u=i/240,a=-Math.PI/2+u*TAU*2.6,rad=30-22*u,normal=new T.Vector3(-Math.cos(a)*.9,1,-Math.sin(a)*.9).normalize();return new T.Vector3(b.x+Math.cos(a)*rad,b.base+b.depth*(rad/b.radius)**1.7,b.z+Math.sin(a)*rad).addScaledVector(normal,r+.5).toArray();});
-  path([[-36,h,-40],[-36,h,-35],[-28,48,-32],p[0]]);path(p,{bowl:b});path([p.at(-1),[0,24,-8],[0,18,-8],[0,9,-8],[9,8,14],end]);break;
- }
  case 'canyon-rafting':path([[-30,h,-38],[-30,h,-33],[-21,36,-24],[20,29,-15],[24,25,-6],[-19,19,5],[-25,14,14],[14,9,24],end],{rapids:true});break;
  case 'glass-drop':path([[9,h,-10],[9,h,-7],[9,h-6,-5],[9,22,-5],[9,8,4],[6,7,20],end],{drop:true});break;
  case 'lagoon-launch':path([[-8,10,-40],[-8,10,-35],[-8,8,-29],[-8,7,-21],[0,9,-14]],{launch:true});path([[0,7,27],end],{landing:true});break;
@@ -58,7 +53,6 @@ export function* showcaseRouteSteps(spec){
  const rideStart=clock;
  switch(spec.kind){
  case 'barrel-wave':run(geometry[0],11.8);break;
- case 'crystal-vortex':run(geometry[0],3.8);run(geometry[1],14.8,'vortex');run(geometry[2],4,'drop');break;
  case 'canyon-rafting':add(24,'rafting',u=>{const f=geometry[0].at(u),q=new T.Quaternion().fromArray(f.quaternion),spin=Math.sin(u*TAU*3)*1.1+u*TAU;q.multiply(new T.Quaternion().setFromAxisAngle(new T.Vector3(0,1,0),spin));f.quaternion=q.toArray();f.position[1]+=Math.sin(u*Math.PI*22)*.38*Math.sin(Math.PI*u)**2;return f;});break;
  case 'glass-drop':run(geometry[0],3.8,'drop');break;
  case 'lagoon-launch':{

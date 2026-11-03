@@ -1,10 +1,14 @@
 // Historical ownership stays durable, but retired objects never enter the
 // active catalogue/scene again. Prices are the original fixed purchase prices.
-export const RETIRED_ATTRACTIONS={'ride-water-jungle-coaster':225000};
+export const RETIRED_ATTRACTIONS={'ride-water-jungle-coaster':225000,'ride-water-crystal-vortex':185000};
 const quantity=v=>Number.isSafeInteger(v)&&v>=0&&v<=100000?v:0;
 export function retiredCount(game,id){
  const placed=new Set((game?.placements||[]).filter(p=>p.item===id).map(p=>p.id)).size;
  return Math.max(quantity(game?.retiredAttractions?.[id]?.count),quantity(game?.referenceOwnership?.[id]?.count),quantity(game?.inventory?.[id])+placed,game?.progression?.discoveries?.includes(id)?1:0);
+}
+export function retirementPurchaseAdvanced(base,incoming){
+ const live=(g,id)=>Math.max(quantity(g?.referenceOwnership?.[id]?.count),quantity(g?.inventory?.[id])+new Set((g?.placements||[]).filter(p=>p.item===id).map(p=>p.id)).size);
+ return Object.keys(RETIRED_ATTRACTIONS).some(id=>live(incoming,id)>live(base,id)||retiredCount(incoming,id)>retiredCount(base,id));
 }
 export function retirementSnapshotValid(raw){
  return raw==null||!Array.isArray(raw)&&typeof raw==='object'&&Object.entries(raw).every(([id,r])=>RETIRED_ATTRACTIONS[id]&&r&&quantity(r.count)===r.count&&r.count>0&&Number.isSafeInteger(r.credited)&&r.credited>=0&&r.credited<=r.count*RETIRED_ATTRACTIONS[id]);

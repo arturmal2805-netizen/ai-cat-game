@@ -793,16 +793,16 @@ Guest views share the same immutable species render geometry and baked pose text
 
 ### Original water adventures
 
-Keep the nine retained `ride-water-*` mini-biomes in their own existing-shop tab. The player explicitly removed Jungle Coaster on 2026-11-03: do not restore its product, routes, models, preview or activity. Retire proven legacy ownership with the durable once-only original-price credit ledger; preserve unpaid credit when the wallet is full. Test repeated reloads and concurrent cached clients, including the private `CHICHI_OWNERSHIP_AUDIT=1 CHICHI_RETIREMENT_AUDIT=1` phone/SQLite path. Preserve the previous 25 reference slides, 20 atoll slides, all island coordinates/roads and old purchase prices. Full placement bounds include the shore, route, airborne jet, stairs and boat. Wider products use verified free park anchors; never shrink a paid model or move another placement to make it fit. A full park must offer another available island or retain the object in the bag.
+Keep the eight retained `ride-water-*` mini-biomes in their own existing-shop tab. The player explicitly removed Jungle Coaster and Crystal Vortex on 2026-11-03: do not restore its product, routes, models, preview or activity. Retire proven legacy ownership with the durable once-only original-price credit ledger; preserve unpaid credit when the wallet is full. Test repeated reloads and concurrent cached clients, including the private `CHICHI_OWNERSHIP_AUDIT=1 CHICHI_RETIREMENT_AUDIT=1` phone/SQLite path. Preserve the previous 25 reference slides, 20 atoll slides, all island coordinates/roads and old purchase prices. Full placement bounds include the shore, route, airborne jet, stairs and boat. Wider products use verified free park anchors; never shrink a paid model or move another placement to make it fit. A full park must offer another available island or retain the object in the bag.
 
 The player's later direction asks for extreme rides, including stronger river currents. Author acceleration from the actual 3D route, true 9.81-gravity launch arcs, a fixed pendulum pivot, standing surf balance and distinct group/solo reactions. Include every new activity phase in measured choreography; an unrecognized `rafting`/`swing` phase must not silently disable poses. Shared boats use one absolute departure clock across hero/resident RAF timing, a finite boarding window and one vehicle/impact per cohort. Late guests wait for the next whole ride. Cancellation retains remaining passengers and restores native cat joints.
 
-Warm wet moss, rock, bark and leaf micro-detail uses six shared immutable normal/roughness maps and the existing sun/water light probe. Do not introduce ray tracing, extra reflection render targets, per-frame texture generation or lower phone DPR. This is an art/resource contract, not a hardware FPS claim. Compare actual native full/close/phone/rider images against each individual reference cell; ship previews from those real moving models, never use reference art to hide unfinished geometry. Recheck the real shop, both cameras, all nine rides, grouped passengers and repeated isolated SQLite saves.
+Warm wet moss, rock, bark and leaf micro-detail uses six shared immutable normal/roughness maps and the existing sun/water light probe. Do not introduce ray tracing, extra reflection render targets, per-frame texture generation or lower phone DPR. This is an art/resource contract, not a hardware FPS claim. Compare actual native full/close/phone/rider images against each individual reference cell; ship previews from those real moving models, never use reference art to hide unfinished geometry. Recheck the real shop, both cameras, all eight rides, grouped passengers and repeated isolated SQLite saves.
 
 The subsequent visual revision adds three original shared albedo maps (nine
 128² maps total, approximately 768 KiB including mipmaps). Keep the continuous
 eroded cliff forms, irregular island contours, connected foamy wave lip,
-open-drain crystal-bowl cradle, faceted crystals and flower arcades. New-ride
+faceted crystals and flower arcades. New-ride
 optics retain the native reflection probe and wave field; do not restore the
 dense regular water grating. These remain original stylized game models, not
 pixel-identical reproductions of the reference illustration.
@@ -832,3 +832,51 @@ Validate every route boundary, real native return-walk frames and physical
 placement bounds. Launch pumps belong outside the occupied flume, measured from
 its actual -8 X centre. Natural banks have distinct rock faces/ledges with open
 boarding mouths; retain immutable buffers and shared material/vehicle geometry.
+
+### Dense water gardens and crystal-blue receiving water
+
+The eight retained adventures use thirteen original offline surface charts
+(512-square colour, 256 normals, 128 roughness; lawn needs colour only).
+They total 1,884,229 download bytes / 8,738,142 mipmapped RGBA GPU bytes,
+shared across the collection. Decode only for a requested adventure, coalesce
+callers and bound decoding to three workers. Retain the offline fallback.
+Clone source UVs/materials before metre-scale wood grain and tint batching;
+shared primitive sources and every older island/attraction remain unchanged.
+
+Opaque curved foliage, flowering edges, cliff moss and promenade flowerboxes
+are static material batches. Keep their actual bank/soil anchors and complete
+walking/vehicle clearance. Ground palms must stay outside receiving basins;
+elevated cliff vegetation remains available. Hidden/unseated boats must not
+reserve a ghost collision volume on a walking path. Preserve dry return decks,
+native cat joints, original ride clocks and exact purchase/placement addresses.
+
+New water uses the existing two wave samples and one environment lookup.
+Its blue transmission, sparse foam and local basin blend retain the original
+impact/wave buffers. Receiving floors and glass walls descend into the real
+basin bed, while banks and rails stop at the actual receiving shore. Closed
+rivers and standing halfpipes keep their complete paths. Reflection orientation
+follows the placement's yaw, including scaled/rotated pool surface meshes.
+
+Each mini-biome has a 256-square offline octahedral capture of its actual static
+scenery. Runtime coalesces only the selected type's probe and shares it across
+matching copies; all eight consume about 2.67 MiB mipmapped GPU storage. The same
+single sampler replaces the generic light probe. Authoring creates cube targets
+only in `scripts/bake-water-reflections.mjs`; gameplay keeps its native renderer.
+The baker verifies its input snapshot before publishing the manifest. Re-bake
+after changing `scripts/showcase-probe-inputs.mjs` sources; source/hash tests
+reject stale reflection assets. Preserve phone DPR, native shadows and lighting.
+
+Validate all eight actual normal/grazing/phone/rider/basin views, with identical
+lighting, renderer configuration and framing for comparisons. Keep the private
+phone/SQLite purchase, group boarding, both cameras, return and reload audit,
+plus every-island native camera coverage. Counts, bytes and software-renderer
+timings do not establish physical M2/iPhone FPS.
+
+Crystal Vortex was explicitly retired on 2026-11-03 as a duplicate: keep only
+eight new water adventures. Both retired products retain their own original-price
+credit record; cached clients cannot buy another copy underneath an archived
+receipt. Validate mixed-price capped refunds and direct/cloud cached writes.
+New receiving pools keep the exact 100-sided shore on a 16-ring ripple grid,
+with fixed submerged instanced pebbles using the native underwater clock/level.
+Finite flows blend down into the real receiving surface; do not flatten closed
+river circuits or standing halfpipes. No per-frame mesh/instance uploads.

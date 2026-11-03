@@ -1,5 +1,5 @@
 import {zooSnapshotValid} from './public/zoo-system.js';
-import {RETIRED_ATTRACTIONS,retirementSnapshotValid,inheritRetirement} from './public/retired-attractions.js';
+import {RETIRED_ATTRACTIONS,retirementSnapshotValid,inheritRetirement,retirementPurchaseAdvanced} from './public/retired-attractions.js';
 import {cryptoSnapshotValid} from "./public/crypto-trading.js";
 import {preserveReferenceOwnership} from './public/purchase-preservation.js';
 import {magicBedSnapshotValid} from './public/magic-bed-state.js';
@@ -276,6 +276,7 @@ export class SaveVault {
       }
       if (!input.cooperative && input.expectedRevision !== revision)
         return { conflict: true, revision, savedAt: current?.savedAt };
+      if(!input.cooperative&&current&&retirementPurchaseAdvanced(current.game,input.game))return {conflict:true,revision,savedAt:current.savedAt,game:current.game,error:'Цей атракціон прибрано з гри. Оновіть сторінку; нова покупка не списана.'};
       let game = migrateRetiredIsland(input.cooperative?input.game:inheritRetirement(current?.game,input.game)),
         notice = null;
       if (input.cooperative && current) {

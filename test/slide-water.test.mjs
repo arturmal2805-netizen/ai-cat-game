@@ -18,7 +18,7 @@ const waterID = (id) =>
   /^(slide-|water-|ride-water-)/.test(id) ||
   ["waterslide", "ride-crystal-slide", "dive-triple-sky"].includes(id);
 test("every shop and permanent island water ride declares and implements the shared water contract, including all three/six lanes", () => {
-  assert.equal(WATER_RIDES.length, 69);
+  assert.equal(WATER_RIDES.length, 68);
   assert.deepEqual(
     CATALOG.filter((i) => waterID(i.id))
       .map((i) => i.id)

@@ -7,6 +7,8 @@ import { mkdir, writeFile, readFile, access } from "node:fs/promises";
 import { resolve } from "node:path";
 import assert from "node:assert/strict";
 import { WATER_RIDES } from "../public/water-ride-data.js";
+import {SHOWCASE_SURFACE_ASSETS} from '../public/showcase-surface-assets.js';
+import {SHOWCASE_WATER_PROBES} from '../public/showcase-probe-assets.js';
 const { chromium } = createRequire(import.meta.url)(
   process.env.CHICHI_PLAYWRIGHT_MODULE || "playwright",
 );
@@ -25,10 +27,12 @@ const source = `
 import * as T from 'three';import {makeAttraction,animateAttraction} from './public/world-assets.js';import {disposeScenery} from './public/scenery-models.js';
 import {createCat,animateCat,reactCat} from './public/cat-model.js';
 import {applyAtollSit} from './public/atoll-slide-acting.js';
+import {prepareShowcaseSurfaces} from './public/showcase-surface-details.js';
+import {prepareShowcaseWaterProbe} from './public/showcase-water-probes.js';
 const renderer=new T.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.toneMapping=T.ACESFilmicToneMapping;renderer.setSize(720,600);document.body.style='margin:0';document.body.append(renderer.domElement);
 const scene=new T.Scene();scene.background=new T.Color(0xc4d9e3);scene.add(new T.HemisphereLight(0xe7f1ff,0x81856c,1.5));const sun=new T.DirectionalLight(0xffeed9,2.3);sun.position.set(-8,14,7);scene.add(sun);
 const camera=new T.PerspectiveCamera(35,1.2,.5,600);let model,extent,center,guest,carrier;
-window.loadRide=async(id)=>{camera.up.set(0,1,0);carrier?.removeFromParent();if(model){model.removeFromParent();disposeScenery(model);}model=makeAttraction(id);scene.add(model);const box=new T.Box3().setFromObject(model);center=box.getCenter(new T.Vector3());extent=box.getSize(new T.Vector3()).length();camera.position.copy(center).add(new T.Vector3(.6,.48,.85).multiplyScalar(extent*1.25));camera.lookAt(center);await renderer.compileAsync(scene,camera);window.model=model;draw(5);};
+window.loadRide=async(id)=>{if(id.startsWith('ride-water-'))await Promise.all([prepareShowcaseSurfaces(),prepareShowcaseWaterProbe(id)]);camera.up.set(0,1,0);carrier?.removeFromParent();if(model){model.removeFromParent();disposeScenery(model);}model=makeAttraction(id);scene.add(model);const box=new T.Box3().setFromObject(model);center=box.getCenter(new T.Vector3());extent=box.getSize(new T.Vector3()).length();camera.position.copy(center).add(new T.Vector3(.6,.48,.85).multiplyScalar(extent*1.25));camera.lookAt(center);await renderer.compileAsync(scene,camera);window.model=model;draw(5);};
 window.reviewRider=async(u)=>{if(!guest){guest=createCat('happy');guest.scale.setScalar(.63);carrier=new T.Group();carrier.add(guest);}
  const d=model.userData,route=d.route,lane=route?.lanes?.[0]||route||{frame:d.rideFrame,duration:d.duration},wet=lane.legs?.filter(l=>['ride','vortex','slide','rafting','drop','boost','flight','skim','surf','float','carousel','swing'].includes(l.phase)),legs=wet?.length?wet:lane.legs?.filter(l=>l.phase==='flight')||[{start:0,duration:lane.duration}],leg=legs[Math.floor((legs.length-1)*u)],t=u===1?(d.slideWater.events.at(-1)?.time||lane.duration*.9)+.12:leg.start+leg.duration*(.2+u*.6),f=lane.frame(t);
  model.add(carrier);carrier.visible=true;carrier.position.set(...f.position);if(f.quaternion)carrier.quaternion.fromArray(f.quaternion);else carrier.rotation.set(f.pitch||0,f.yaw||0,f.roll||0);
@@ -38,6 +42,7 @@ window.reviewRider=async(u)=>{if(!guest){guest=createCat('happy');guest.scale.se
 window.hideRider=()=>{carrier?.removeFromParent();delete model.userData.rideElapsed;reviewAngle();draw(63);};
 window.draw=(time,reduced=false)=>{if(model.userData.update)model.userData.update(time,reduced);else animateAttraction(model,reduced?0:time);model.userData.moving.visible=false;for(const vehicle of model.userData.vehicles||[])vehicle.visible=false;renderer.render(scene,camera);};
 window.reviewAngle=(grazing=false)=>{camera.up.set(0,1,0);camera.position.copy(center).add(new T.Vector3(grazing?.85:.6,grazing?.12:.48,grazing?.85:.85).multiplyScalar(extent*1.25));camera.lookAt(center);};
+window.viewFrame=frame=>{if(frame){center.fromArray(frame.center);extent=frame.extent;reviewAngle();draw(5);}return {center:center.toArray(),extent};};
 window.check={renderer,scene,camera};window.ready=true;`;
 const staticAudit = `
 import {configureStaticSubmissions} from './public/static-submissions.js';
@@ -52,16 +57,21 @@ window.staticAudit=()=>{
 const bundles = new Map();
 for (const root of roots) {
   const hasSit=await access(resolve(root.path,'public/atoll-slide-acting.js')).then(()=>true,()=>false);
+  const hasSurfaces=(await readFile(resolve(root.path,'public/showcase-surface-details.js'),'utf8').catch(()=>'' )).includes('export function prepareShowcaseSurfaces');
+  let rootSource=hasSurfaces?source:source.replace("import {prepareShowcaseSurfaces} from './public/showcase-surface-details.js';","const prepareShowcaseSurfaces=()=>Promise.resolve(false);");
+  if(!await access(resolve(root.path,'public/showcase-water-probes.js')).then(()=>true,()=>false))rootSource=rootSource.replace("import {prepareShowcaseWaterProbe} from './public/showcase-water-probes.js';","const prepareShowcaseWaterProbe=()=>Promise.resolve(false);");
+  if(process.env.CHICHI_SLIDE_BEAUTY)rootSource=rootSource.replace('scene.add(sun);','scene.add(sun); scene.children[0].color.set(0xffe9db);scene.children[0].groundColor.set(0x8b9e85);scene.children[0].intensity=1.2;renderer.shadowMap.enabled=true; renderer.shadowMap.type=T.PCFShadowMap; sun.color.set(0xffd8b7);sun.intensity=2.2;sun.position.set(-70,175,100);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);Object.assign(sun.shadow.camera,{left:-85,right:85,top:85,bottom:-85,near:1,far:400});sun.shadow.bias=-.0005;const rim=new T.DirectionalLight(0xb8b7ec,.9);rim.position.set(20,16,-30);scene.add(rim);');
+  const hasStatic=await access(resolve(root.path,'public/static-submissions.js')).then(()=>true,()=>false),beforeSource=hasStatic?"import {configureStaticSubmissions} from './public/static-submissions.js';\n"+rootSource.replace('renderer.toneMapping=','configureStaticSubmissions(renderer);renderer.toneMapping='):rootSource;
   const r = await build({
     stdin: {
       contents:
         root.name === "after"
           ? staticAudit +
-            (process.env.CHICHI_SLIDE_BEAUTY?source.replace('scene.add(sun);','scene.add(sun); renderer.shadowMap.enabled=true; renderer.shadowMap.type=T.PCFShadowMap; sun.color.set(0xffd8b7);sun.intensity=2.2;sun.position.set(-70,175,100);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);Object.assign(sun.shadow.camera,{left:-85,right:85,top:85,bottom:-85,near:1,far:400});sun.shadow.bias=-.0005;const rim=new T.DirectionalLight(0xb8b7ec,.9);rim.position.set(20,16,-30);scene.add(rim);'):source).replace(
+            rootSource.replace(
               "renderer.toneMapping=",
               "configureStaticSubmissions(renderer);renderer.toneMapping=",
             )
-          : hasSit?source:source.replace("import {applyAtollSit} from './public/atoll-slide-acting.js';", "const applyAtollSit=()=>{};"),
+          : hasSit?beforeSource:beforeSource.replace("import {applyAtollSit} from './public/atoll-slide-acting.js';", "const applyAtollSit=()=>{};"),
       resolveDir: root.path,
       loader: "js",
     },
@@ -71,7 +81,10 @@ for (const root of roots) {
   });
   bundles.set("/" + root.name, r.outputFiles[0].text);
 }
+const surfaceAssets=new Map();for(const roles of Object.values(SHOWCASE_SURFACE_ASSETS))for(const url of Object.values(roles))surfaceAssets.set(url.slice(1),await readFile(resolve('public',url)));
+for(const url of Object.values(SHOWCASE_WATER_PROBES))surfaceAssets.set(url.slice(1),await readFile(resolve('public',url)));
 const server = createServer((req, res) => {
+  if(surfaceAssets.has(req.url)){res.writeHead(200,{'Content-Type':'image/png'});res.end(surfaceAssets.get(req.url));return;}
   if (req.url === "/favicon.ico") {
     res.writeHead(204);
     res.end();
@@ -84,6 +97,7 @@ const server = createServer((req, res) => {
 await new Promise((r) => server.listen(0, "127.0.0.1", r));
 let browser;
 const report = process.env.CHICHI_SLIDE_RESUME?await readFile(resolve(folder,"report.json"),"utf8").then(JSON.parse,()=>[]):[];
+const comparisonFrames=new Map();
 try {
   browser = await chromium.launch({
     executablePath: process.env.CHICHI_CHROMIUM,
@@ -98,6 +112,7 @@ try {
         viewport: { width: 720, height: 600 },
       }),
       errors = [];
+    page.setDefaultTimeout(120000);
     page.on("pageerror", (e) => errors.push(e.message));
     page.on("console", (m) => {
       if (m.type() === "error") errors.push(m.text());
@@ -116,8 +131,10 @@ try {
         }
         await page.evaluate(()=>hideRider());await writeFile(resolve(folder,'report.json'),JSON.stringify(report,null,2));console.log('Seated native pose',spec.id);continue;
       }
-      if(completed)continue;
+      if(completed){if(root.name==='before'){await page.evaluate(id=>loadRide(id),spec.id);comparisonFrames.set(spec.id,await page.evaluate(()=>viewFrame()));}continue;}
       await page.evaluate((id) => loadRide(id), spec.id);
+      if(root.name==='before')comparisonFrames.set(spec.id,await page.evaluate(()=>viewFrame()));
+      else if(comparisonFrames.has(spec.id))await page.evaluate(frame=>viewFrame(frame),comparisonFrames.get(spec.id));
       const stats = await page.evaluate(
         async (timedFrames) => {
           const { renderer: r } = check,
@@ -163,6 +180,7 @@ try {
           }
           times.sort((a, b) => a - b);
           return {
+            waterProbes:(()=>{const names=new Set();model.traverse(o=>{if(o.isMesh&&o.material.uniforms?.uWaterEnvironment)names.add(o.material.uniforms.uWaterEnvironment.value.name);});return [...names];})(),
             draws: r.info.render.calls,
             triangles: r.info.render.triangles,
             textures: r.info.memory.textures,

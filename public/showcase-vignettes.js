@@ -27,8 +27,6 @@ export function* showcaseVignettes(props,spec,route,{canPlace,groundObstacles}){
  case 'barrel-wave':
   coral(-28,.3,17,1.3);coral(28,.3,17,1.2);for(const x of [-39,39])flower(x,.4,30,1.1);
   break;
- case 'crystal-vortex':
-  for(const x of [-23,23])flower(x,1,-46,1.5);break;
  case 'canyon-rafting':
   for(const [x,z]of [[-40,20],[41,10],[-38,-15]])flower(x,1,z,1.3);break;
  case 'glass-drop':{

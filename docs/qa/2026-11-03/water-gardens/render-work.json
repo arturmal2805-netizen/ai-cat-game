@@ -1,0 +1,93 @@
+{
+  "caveat": "Construction/GL draw diagnostics from software Chromium, not device FPS. Earlier production baseline; all new final model views tested separately.",
+  "rides": [
+    {
+      "id": "ride-water-barrel-wave",
+      "before": {
+        "draws": 50,
+        "triangles": 364800
+      },
+      "after": {
+        "draws": 54,
+        "triangles": 359569
+      }
+    },
+    {
+      "id": "ride-water-canyon-rafting",
+      "before": {
+        "draws": 48,
+        "triangles": 357568
+      },
+      "after": {
+        "draws": 50,
+        "triangles": 351281
+      }
+    },
+    {
+      "id": "ride-water-glass-drop",
+      "before": {
+        "draws": 51,
+        "triangles": 464128
+      },
+      "after": {
+        "draws": 55,
+        "triangles": 429529
+      }
+    },
+    {
+      "id": "ride-water-lagoon-launch",
+      "before": {
+        "draws": 48,
+        "triangles": 316384
+      },
+      "after": {
+        "draws": 52,
+        "triangles": 309769
+      }
+    },
+    {
+      "id": "ride-water-surf-halfpipe",
+      "before": {
+        "draws": 51,
+        "triangles": 459024
+      },
+      "after": {
+        "draws": 55,
+        "triangles": 398265
+      }
+    },
+    {
+      "id": "ride-water-lazy-river",
+      "before": {
+        "draws": 40,
+        "triangles": 374760
+      },
+      "after": {
+        "draws": 42,
+        "triangles": 314729
+      }
+    },
+    {
+      "id": "ride-water-fountain-carousel",
+      "before": {
+        "draws": 56,
+        "triangles": 995552
+      },
+      "after": {
+        "draws": 60,
+        "triangles": 699633
+      }
+    },
+    {
+      "id": "ride-water-pool-pendulum",
+      "before": {
+        "draws": 42,
+        "triangles": 459608
+      },
+      "after": {
+        "draws": 48,
+        "triangles": 398257
+      }
+    }
+  ]
+}
