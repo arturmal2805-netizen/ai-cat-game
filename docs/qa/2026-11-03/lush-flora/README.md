@@ -1,4 +1,4 @@
-# Layered tropical flora — checkpoint
+# Layered tropical flora
 
 The player approved the clearer water and requested substantially richer visible
 vegetation across the retained eight water adventures. Reference runtime:
@@ -22,6 +22,14 @@ conversion. The source budget is fourteen shared charts: 2,130,408 download byte
 Shop images are rendered from these actual models at 960×640; other products
 retain their released dimensions. Runtime still loads shipped lazy PNGs.
 
-Final publication is pending the complete gallery, native UI/reload checks,
-full suite/build and every-island camera audit. Software-renderer resource data
+Final matching-frame gallery: all eight models, 32 native seated/landing poses,
+16 phone images and 24 static/native colour comparisons (zero changed bytes).
+No browser, shader or context errors. All eight shop images have been re-rendered
+at 960×640. Nineteen focused geometry, optics, chart and load-failure tests passed.
+Native UI/reload checks, full suite and every-island audit follow before release. Software-renderer resource data
 must not be represented as physical M2/iPhone FPS gains.
+
+The final detail pass adds raised midribs to larger curved leaves, continuous
+fern stems, closed flower buds and small three-dimensional moss tufts. It keeps
+the same shared material families and immutable buffers; no live foliage timers,
+additional reflection cameras or render targets are introduced.

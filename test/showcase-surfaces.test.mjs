@@ -30,7 +30,7 @@ test('physical beam grain and owned surface changes never mutate a shared primit
 });
 test('curved foliage reuses bounded opaque geometry and moss has a real hanging surface with a matte response',()=>{
  const root=new T.Group(),a=fern(root,0,0,0),b=fern(root,3,0,0),c=rosette(root,0,0,3);leafyCanopy(root,0,0,0,20);const moss=mossMantle(root,8,0,12,5,1);
- assert.equal(a.geometry,b.geometry);assert.equal(a.material,b.material);assert.ok(a.geometry.index.count/3<=160);assert.ok(c.geometry.index.count/3<=40);
+ assert.equal(a.geometry,b.geometry);assert.equal(a.material,b.material);assert.ok(a.geometry.index.count/3<=220);assert.ok(c.geometry.index.count/3<=40);
  assert.equal(a.material.transparent,false);assert.equal(a.material.alphaTest,0);assert.ok(moss.geometry.attributes.position.count>200);
  runSceneSteps(showcaseMaterialSteps(root));assert.equal(moss.material.userData.showcaseSurface.kind,'moss');assert.ok(moss.material.roughness>=.8);assert.equal(moss.material.metalness,0);
  for(const mesh of root.children)assert.equal(mesh.material.onBeforeCompile,T.Material.prototype.onBeforeCompile);

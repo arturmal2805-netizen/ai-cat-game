@@ -105,7 +105,7 @@ const server = createServer((req, res) => {
 await new Promise((r) => server.listen(0, "127.0.0.1", r));
 let browser;
 const report = process.env.CHICHI_SLIDE_RESUME?await readFile(resolve(folder,"report.json"),"utf8").then(JSON.parse,()=>[]):[];
-const comparisonFrames=new Map();
+const comparisonFrames=new Map(process.env.CHICHI_SLIDE_FRAME_FILE?Object.entries(JSON.parse(await readFile(resolve(process.env.CHICHI_SLIDE_FRAME_FILE),'utf8'))):[]);
 try {
   browser = await chromium.launch({
     executablePath: process.env.CHICHI_CHROMIUM,

@@ -26,7 +26,7 @@ function roundedLeaf(b,origin,axis,width,length,roll=0,tint=1){
  vertex(0,-length*.035,length,.5,1,1.04);
  for(const k of [0,1,2,0,2,3,1,4,2,2,4,5,2,5,3,3,5,6,4,7,5,5,7,8,5,8,6,6,8,9,7,10,8,8,10,9])b.index.push(start+k);
 }
-function broadBlade(b,origin,axis,width,length,roll=0,tint=1){
+function broadBlade(b,origin,axis,width,length,roll=0,tint=1,vein=true){
  const q=new T.Quaternion().setFromUnitVectors(new T.Vector3(0,0,1),axis.clone().normalize()).multiply(new T.Quaternion().setFromAxisAngle(new T.Vector3(0,0,1),roll)),start=b.p.length/3;
  const vertex=(x,y,z,u,v,shade)=>{b.p.push(...new T.Vector3(x,y,z).applyQuaternion(q).add(origin).toArray());b.uv.push(u,v);b.color.push(shade*tint,shade*tint,shade*tint*.97);};
  vertex(0,0,0,.5,0,.80);
@@ -37,6 +37,7 @@ function broadBlade(b,origin,axis,width,length,roll=0,tint=1){
  for(const i of [0,1,2,0,2,3])b.index.push(start+i);
  for(let row=0;row<6;row++){const a=start+1+row*3;for(const i of [0,3,1,1,3,4,1,4,2,2,4,5])b.index.push(a+i);}
  for(const i of [19,22,20,20,22,21])b.index.push(start+i);
+ if(vein){const at=b.p.length/3;for(let row=0;row<=8;row++){const t=row/8,w=length*.006*Math.sin(Math.PI*t);for(const side of [-1,1])vertex(side*w,Math.sin(Math.PI*t)*length*.139-length*t*t*.035,length*t,.5+side*.006,t,1.22);if(row){const a=at+(row-1)*2;for(const i of [0,2,1,1,2,3])b.index.push(a+i);}}}
 }
 function geometry(b){const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(b.p,3));g.setAttribute('uv',new T.Float32BufferAttribute(b.uv,2));g.setAttribute('color',new T.Float32BufferAttribute(b.color,3));g.setIndex(b.index);g.computeVertexNormals();g.userData.sharedScenery=true;return g;}
 function template(kind){
@@ -58,10 +59,13 @@ function template(kind){
  }else if(kind==='shrub'){
   for(let j=0;j<32;j++){const a=j*2.39996323+Math.sin(j*7.1)*.3,up=-.6+(j+.5)/32*1.55,r=Math.sqrt(1-up*up),origin=new T.Vector3(Math.sin(a)*r*.6,.65+up*.43,Math.cos(a)*r*.6);roundedLeaf(b,origin,new T.Vector3(Math.sin(a),.24+up*.12,Math.cos(a)),.24+(j%4)*.035,.40+(j%5)*.04,j*.17,.82+(j%4)*.06);}
  }else if(kind==='broadleaf'){
-  for(let j=0;j<8;j++){const a=j*2.39996323,origin=new T.Vector3(Math.sin(a)*.08,.05,Math.cos(a)*.08);broadBlade(b,origin,new T.Vector3(Math.sin(a)*.8,.8+(j%3)*.18,Math.cos(a)*.8),.65+(j%3)*.1,1.4+(j%4)*.15,j*.035,.83+(j%4)*.07);}
+  for(let j=0;j<8;j++){const a=j*2.39996323,origin=new T.Vector3(Math.sin(a)*.08,.05,Math.cos(a)*.08);broadBlade(b,origin,new T.Vector3(Math.sin(a)*.8,.8+(j%3)*.18,Math.cos(a)*.8),.65+(j%3)*.1,1.4+(j%4)*.15,j*.035,.83+(j%4)*.07,j%2===0);}
  }else if(kind==='grass'){
   for(let j=0;j<32;j++){const a=j*2.39996323,r=Math.sqrt((j+.5)/32)*.9,origin=new T.Vector3(Math.sin(a)*r,0,Math.cos(a)*r),h=.25+(j%7)*.062;leaf(b,origin,new T.Vector3(Math.sin(a)*.35,1,Math.cos(a)*.35),.055,h,a*.1,.78+(j%5)*.065);}
  }else if(kind==='fern'){
+  for(let j=0;j<3;j++){const a=j*Math.PI*2/3+.3,start=b.p.length/3;
+   for(let k=0;k<=8;k++){const t=k/8,p=new T.Vector3(Math.sin(a)*t*.85,Math.sin(t*Math.PI*.8)*.78,Math.cos(a)*t*.85),w=.016*(1-t*.7);for(const side of [-1,1]){b.p.push(p.x+Math.cos(a)*side*w,p.y+.012,p.z-Math.sin(a)*side*w);b.uv.push(.49+side*.01,t);b.color.push(1,1,.86);}if(k){const at=start+(k-1)*2;for(const q of [0,2,1,1,2,3])b.index.push(at+q);}}
+  }
   for(let j=0;j<3;j++)for(let k=1;k<=6;k++)for(const side of [-1,1]){
    const a=j*Math.PI*2/3+.3,t=k/7,length=(1-t*.75)*.64,origin=new T.Vector3(Math.sin(a)*t*.85,Math.sin(t*Math.PI*.8)*.78,Math.cos(a)*t*.85),angle=a+side*1.05;
    leaf(b,origin,new T.Vector3(Math.sin(angle),.10-t*.2,Math.cos(angle)),length*.26,length,side*.24,.75+t*.22);
@@ -85,15 +89,21 @@ export function tropicalShrub(parent,x,y,z,scale=1,turn=0){
 export function broadleaf(parent,x,y,z,scale=1,turn=0){return plant(parent,'broadleaf',x,y,z,scale,0x80c55b,turn);}
 export const palmFrondGeometry=()=>template('palm-frond');
 
-let pollenGeometry,stemGeometry;
+let pollenGeometry,stemGeometry,budGeometry;
 export function gardenBlossom(parent,x,y,z,color=0xf3a7cf,scale=1,turn=0){
  const head=new T.Mesh(template('blossom'),paint('blossom',color));head.position.set(x,y,z);head.scale.setScalar(scale);head.rotation.y=turn;head.castShadow=head.receiveShadow=true;parent.add(head);
  pollenGeometry??=new T.IcosahedronGeometry(1,0);pollenGeometry.userData.sharedScenery=true;
  const heart=new T.Mesh(pollenGeometry,paint('blossom',0xffd779));heart.position.set(x,y+.022*scale,z);heart.scale.set(.047*scale,.025*scale,.047*scale);heart.castShadow=true;parent.add(heart);return head;
 }
+function closedBud(parent,x,y,z,color,scale){
+ budGeometry??=new T.LatheGeometry([new T.Vector2(0,0),new T.Vector2(.055,.025),new T.Vector2(.087,.10),new T.Vector2(.065,.19),new T.Vector2(0,.25)],10);budGeometry.userData.sharedScenery=true;
+ const bud=new T.Mesh(budGeometry,paint('blossom',color));bud.position.set(x,y+.28*scale,z);bud.scale.setScalar(scale);bud.castShadow=bud.receiveShadow=true;parent.add(bud);
+ const stem=new T.Mesh(stemGeometry,paint('blossom',0x648b58));stem.position.set(x,y+.14*scale,z);stem.scale.set(.015*scale,.28*scale,.015*scale);stem.castShadow=stem.receiveShadow=true;parent.add(stem);
+}
 export function gardenFlowerCluster(parent,x,z,color,scale=1,y=0){
  stemGeometry??=new T.CylinderGeometry(1,1,1,5);stemGeometry.userData.sharedScenery=true;
  for(let f=0;f<3;f++){const px=x+Math.sin(f*2.4)*.22*scale,pz=z+Math.cos(f*2.4)*.22*scale,h=(.28+f*.06)*scale,stem=new T.Mesh(stemGeometry,paint('blossom',0x648b58));stem.position.set(px,y+h/2,pz);stem.scale.set(.025*scale,h,.025*scale);stem.castShadow=stem.receiveShadow=true;parent.add(stem);gardenBlossom(parent,px,y+h,pz,color,scale,f*.6);}
+ closedBud(parent,x-.22*scale,y,z+.08*scale,color,scale*.8);
 }
 
 export function* floweringShore(parent,outline){
@@ -140,6 +150,7 @@ export function mossMantle(parent,x,z,height,radius,seed=0){
   for(const k of [0,1,2,1,3,2,2,3,4,3,5,4])b.index.push(start+k);
   if(i%2===0)leaf(b,points[i].clone(),new T.Vector3(Math.sin(i),1,Math.cos(i)),.16,.32+(i%4)*.08,i*.91,.95);
  }
+ for(let j=0;j<24;j++){const a=j*2.39996323+seed,r=.25+.58*((j%7)/6),p=cliffSurfacePoint(height,radius,seed,a,1);p.x*=r;p.z*=r;p.y+=.11;for(let k=0;k<3;k++){const angle=a+k*2.2;leaf(b,p,new T.Vector3(Math.sin(angle)*.4,1,Math.cos(angle)*.4),.12,.27+(j%4)*.06,angle*.2,.95+(k%2)*.08);}}
  const g=geometry(b);g.userData.sharedScenery=false;const m=new T.Mesh(g,paint('moss',0x79b34b));m.position.set(x,0,z);m.castShadow=m.receiveShadow=true;m.userData.gardenMoss=true;parent.add(m);return m;
 }
 

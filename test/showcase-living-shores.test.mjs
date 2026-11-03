@@ -67,7 +67,7 @@ test('large shrubs and broadleaf ground beds replace tiny filler plants while re
  assert.equal(runSceneSteps(gardenUnderstory(root,spec,()=>true,obstacles,()=>false)).length,0);
  const beds=runSceneSteps(gardenUnderstory(root,spec,()=>true,obstacles,()=>true));assert.equal(beds.length,24);assert.equal(obstacles.length,24);
  const shrub=root.children.filter(o=>o.userData.gardenPlant==='shrub'),wide=root.children.filter(o=>o.userData.gardenPlant==='broadleaf');assert.equal(shrub.length,24);assert.equal(wide.length,24);
- assert.ok(shrub.every(o=>o.geometry===shrub[0].geometry&&!o.material.transparent&&o.geometry.index.count/3<=400));assert.ok(wide.every(o=>o.geometry===wide[0].geometry&&!o.material.transparent&&o.geometry.index.count/3<=256));
+ assert.ok(shrub.every(o=>o.geometry===shrub[0].geometry&&!o.material.transparent&&o.geometry.index.count/3<=400));assert.ok(wide.every(o=>o.geometry===wide[0].geometry&&!o.material.transparent&&o.geometry.index.count/3<=320));
  for(const o of [...shrub,...wide])assert.ok([...o.geometry.attributes.position.array,...o.geometry.attributes.normal.array].every(Number.isFinite));
  const vine=cliffVine(root,8,2,24,7,3,.8,8),q=cliffSurfacePoint(24,7,3,.8,1),p=new T.Vector3(...vine.userData.cliffVine.root);assert.ok(Math.abs(p.x-q.x*1.035)<1e-6&&Math.abs(p.z-q.z*1.035)<1e-6);assert.ok(p.y>q.y&&p.y-q.y<.1);
 });
