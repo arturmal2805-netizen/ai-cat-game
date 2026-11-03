@@ -33,3 +33,11 @@ The final detail pass adds raised midribs to larger curved leaves, continuous
 fern stems, closed flower buds and small three-dimensional moss tufts. It keeps
 the same shared material families and immutable buffers; no live foliage timers,
 additional reflection cameras or render targets are introduced.
+
+Published release: `72dc8ec4abda930f09df69b7d51611d860e6b917`, app
+`993d4d2f74a480b0`, GitHub Actions run `41687579380` (test, deploy and
+Pages succeeded; CI also reports 930/930 tests). Both public sites serve the
+exact tested app, all eight 960×640 previews, original zoo models/materials
+and all 22 surface/probe files. Both removed adventure previews return 404.
+The Worker reports this exact release and available cloud saving.
+`publication.json` and `published-charts-probes.json` contain byte-level proof.
