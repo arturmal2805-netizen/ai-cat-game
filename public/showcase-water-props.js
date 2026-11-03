@@ -38,7 +38,6 @@ export function* showcaseProps(props,root,spec,route){
  for(const [x,z,h,r]of [[-43,-34,18,8],[44,-34,24,8],[-47,10,14,6],[46,16,17,7]]){if(cliff(x,z,h,r)){palm(x,h,z,1.2);yield*fall(x,h,z+r*.85,3.4,h-1.45);}yield;}
  const builders={
   'barrel-wave':function*(){for(const [x,z]of [[-43,-5],[41,-5],[-34,25],[35,25]])palm(x,1,z,1.5);for(const [x,z]of [[-35,26],[36,28],[-25,-42],[30,-36]])if(clear(x,1,z,5,3,5))flowerBank(props,x,.3,z,0xf59bc8,1.1);for(const [x,z,h]of [[-36,-19,22],[35,-21,30]])if(cliff(x,z,h,6.2)){palm(x,h,z,1.25);teaPavilion(props,x,h+.7,z+1,0xe8bc64,2.0);yield*fall(x,h,z+5.3,4,h-1.45);}},
-  'jungle-coaster':function*(){for(const [x,z]of [[-31,-7],[33,-16],[-34,20],[37,22]])tree(x,0,z,2.0);for(const [x,h]of [[-43,18],[44,24]])teaPavilion(props,x,h+.3,-34,0xe4bb72,1.7);for(let j=0;j<6;j++){const a=j*Math.PI/3;line(props,[-31+Math.sin(a)*5,23,-7+Math.cos(a)*5],[-31+Math.sin(a)*13,12,-7+Math.cos(a)*13],0x6ca562,.2);}},
   'crystal-vortex':function*(){for(let j=0;j<14;j++){const a=j*Math.PI*2/14;crystal(Math.sin(a)*43,0,-8+Math.cos(a)*35,12+j%4*3,j%2?0xc28bed:0x9ee0f6);yield;}for(const x of [-42,42])if(cliff(x,-6,35,5.5)){crystal(x,35,-6,17,0xd29af4);crystal(x+3.3,35,-3,11,0x8ddbf3);crystal(x-2.5,35,-8,10,0xae8de8);}},
   'canyon-rafting':function*(){for(let j=0;j<9;j++){const x=j%2?-40:40,z=-34+j*8;cliff(x,z,12+(8-j)*3,7.5,j%2?0xc58a6b:0xd99a72);yield;}bridge(-1,39,-24,54);bridge(1,21,6,60);teaPavilion(props,-36,45,-35,0xd7ad66,1.4);},
   'glass-drop':function*(){for(const x of [-4,23]){shape(props,'pole',0xeadfc3,x,spec.height/2,-13,3.2,spec.height,3.2);for(const y of [18,39,60,79]){shape(props,'pole',0xe0bb68,x,y,-13,4.2,.8,4.2);teaPavilion(props,x,y+1,-13,0x73b8d8,1.5);lantern(props,x,y+1,-9.5,1.4);}}teaPavilion(props,9,spec.height,-12,0xf1cc74,4.3);const badge=torus(props,0xf5cd6d,3.9,.65,9,spec.height+8,-9);shape(props,'sphere',0xf6d476,9,spec.height+7.9,-8.5,1.5,.9,.6);for(const [x,y]of [[7.2,91],[9,92],[10.8,91],[12,89.5]])shape(props,'sphere',0xf6d476,x,y,-8.5,.6,.8,.5);for(const x of [-31,34])tree(x,0,12,1.7,true);},
@@ -76,7 +75,6 @@ export function* showcaseProps(props,root,spec,route){
  }
  for(const leg of route.legs.filter(l=>l.phase==='lift')){
   for(const side of [-1,1]){const a=leg.fn(0).position,b=leg.fn(1).position;line(props,[a[0]+side*(spec.radius+1),a[1]-.6,a[2]],[b[0]+side*(spec.radius+1),b[1]-.6,b[2]],0x607f87,.5);}
-  if(spec.kind==='jungle-coaster'){const a=leg.fn(0).position,b=leg.fn(1).position;for(let i=0;i<13;i++){const u=i/12,p=a.map((v,j)=>v+(b[j]-v)*u);line(props,[p[0]-spec.radius-1,p[1]-.75,p[2]],[p[0]+spec.radius+1,p[1]-.75,p[2]],0xb5a382,.22);if(i%3===0)line(props,[p[0],0,p[2]],[p[0],p[1]-1,p[2]],0x789295,.6);}}
  }
  for(const b of route.bowls){
   // A substantial rock/crystal cradle, with an open drain below. The bowl is

@@ -1,4 +1,5 @@
 import {mergeZoo} from './public/zoo-system.js';
+import {RETIRED_ATTRACTIONS,retiredCount,mergeRetirement,retirementSnapshotValid,inheritRetirement} from './public/retired-attractions.js';
 import {ZOO_ID} from './public/zoo-data.js';
 import { HOMESTEAD_EXPANSION } from "./public/homestead-expansion.js";
 import {ATOLL_PARK_ID} from './public/atoll-slide-data.js';
@@ -70,6 +71,7 @@ const guarded = (path) =>
   );
 
 function merge(base, current, incoming, path = "", depth = 0) {
+  if(path==='retiredAttractions')return clone(current||incoming||base);
   if(path==='zoo'){try{return mergeZoo(base,current,incoming);}catch(e){throw new SharedConflict(e.message);}}
   if(/^referenceOwnership\.[\w-]+\.built$/.test(path))return Math.max(current||0,incoming||0);
   if(path==='withdrawnMagicFarms')return [...new Set([...(current||[]),...(incoming||[])])];
@@ -382,6 +384,9 @@ function merge(base, current, incoming, path = "", depth = 0) {
 }
 
 export function mergeSharedWorld(base, current, incoming) {
+  for(const game of [base,current,incoming])if(!retirementSnapshotValid(game?.retiredAttractions))throw new SharedConflict('Пошкоджений запис повернення покупки. Завантажте збережений світ.');
+  if(base&&incoming)for(const id of Object.keys(RETIRED_ATTRACTIONS))if(retiredCount(incoming,id)>retiredCount(base,id))throw new SharedConflict('Цей атракціон прибрано з гри. Оновіть сторінку; нова покупка не списана.');
+  if(base&&incoming)incoming=inheritRetirement(base,incoming);
   if(base)base=migrateRetiredIsland(base);
   if(current)current=migrateRetiredIsland(current);
   if(incoming)incoming=migrateRetiredIsland(incoming);
@@ -628,7 +633,7 @@ export function mergeSharedWorld(base, current, incoming) {
   // These fields are reconstructed below, not merged as competing whole snapshots.
   for (const field of ["xp", "businessXP", "dailyXP", "xpDay"])
     n.progression[field] = b.progression[field];
-  const result = reconcileMergedCatLocations(b,n,merge(b, c, n));
+  const result = mergeRetirement(b,c,n,reconcileMergedCatLocations(b,n,merge(b, c, n)));
   result.islandConstruction = mergeIslandConstruction(
     b.islandConstruction,
     c.islandConstruction,

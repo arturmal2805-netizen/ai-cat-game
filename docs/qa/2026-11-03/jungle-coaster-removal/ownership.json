@@ -1,0 +1,52 @@
+{
+  "recovered": {
+    "coins": 1200000,
+    "bag": 1,
+    "built": 1,
+    "receipt": {
+      "count": 1,
+      "built": 1
+    },
+    "placements": [],
+    "retirement": {
+      "ride-water-jungle-coaster": {
+        "count": 2,
+        "credited": 450000
+      }
+    },
+    "retiredOnMap": false,
+    "retiredInBag": false
+  },
+  "placed": {
+    "coins": 1200000,
+    "bag": 0,
+    "built": 0,
+    "receipt": {
+      "count": 1,
+      "built": 1
+    },
+    "placements": [
+      {
+        "id": "p-1c522a97-168c-43cf-abc9-9dfb926ed050",
+        "item": "slide-atoll-mega-loops",
+        "biome": "homestead",
+        "x": 0,
+        "z": 0,
+        "rotation": 0,
+        "startedAt": 1793696161952,
+        "readyAt": 0
+      }
+    ],
+    "retirement": {
+      "ride-water-jungle-coaster": {
+        "count": 2,
+        "credited": 450000
+      }
+    },
+    "retiredOnMap": false,
+    "retiredInBag": false
+  },
+  "reloads": 2,
+  "errors": [],
+  "httpErrors": []
+}

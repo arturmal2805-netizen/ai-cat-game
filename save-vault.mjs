@@ -1,4 +1,5 @@
 import {zooSnapshotValid} from './public/zoo-system.js';
+import {RETIRED_ATTRACTIONS,retirementSnapshotValid,inheritRetirement} from './public/retired-attractions.js';
 import {cryptoSnapshotValid} from "./public/crypto-trading.js";
 import {preserveReferenceOwnership} from './public/purchase-preservation.js';
 import {magicBedSnapshotValid} from './public/magic-bed-state.js';
@@ -76,6 +77,7 @@ export async function readSaveBody(request) {
     !orchardSnapshotValid(value.game.farm?.orchards) ||
     !magicBedSnapshotValid(value.game) ||
     !zooSnapshotValid(value.game.zoo) ||
+    !retirementSnapshotValid(value.game.retiredAttractions) ||
     value.game.version !== 2 ||
     !Number.isSafeInteger(value.game.coins) ||
     value.game.coins < 0 ||
@@ -86,7 +88,7 @@ export async function readSaveBody(request) {
         value.game.diamonds > 1000000)) ||
     !Array.isArray(value.game.placements) ||
     value.game.placements.length > PLACEMENT_LIMIT ||
-    value.game.placements.filter(p=>!byItem(p?.item)?.premiumWater).length>60 ||
+    value.game.placements.filter(p=>!byItem(p?.item)?.premiumWater&&!RETIRED_ATTRACTIONS[p?.item]).length>60 ||
     !Array.isArray(value.game.unlocked) ||
     new Set(value.game.unlocked).size !== value.game.unlocked.length ||
     value.game.unlocked.length > BIOMES.length + RETIRED_BIOME_IDS.length
@@ -274,7 +276,7 @@ export class SaveVault {
       }
       if (!input.cooperative && input.expectedRevision !== revision)
         return { conflict: true, revision, savedAt: current?.savedAt };
-      let game = migrateRetiredIsland(input.game),
+      let game = migrateRetiredIsland(input.cooperative?input.game:inheritRetirement(current?.game,input.game)),
         notice = null;
       if (input.cooperative && current) {
         if (

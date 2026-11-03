@@ -14,7 +14,7 @@ export async function checkShowcaseWaterApp(page,review){
  for(const spec of SHOWCASE_WATER_RIDES){
   const before=await page.evaluate(()=>__lagoonSaveQA.getGame().coins);
   await page.locator('#shop-open').tap();await page.getByRole('tab',{name:/Водні пригоди/}).tap();
-  assert.equal(await page.locator('#shop-grid [data-product]').count(),10);
+  assert.equal(await page.locator('#shop-grid [data-product]').count(),SHOWCASE_WATER_RIDES.length);
   const card=page.locator('[data-product="'+spec.id+'"]');
   assert.match(await card.innerText(),new RegExp(spec.name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')));
   const image=card.locator('img');await image.evaluate(img=>img.decode());
@@ -24,7 +24,7 @@ export async function checkShowcaseWaterApp(page,review){
   const p=await page.evaluate(id=>__lagoonSaveQA.getGame().placements.find(p=>p.item===id),spec.id);
   assert.ok(p&&p.readyAt>Date.now());report.purchases.push({id:spec.id,price:spec.price,placement:p});checkpoint();
  }
- const bought=await snapshot();assert.equal(bought.placements.length,10);
+ const bought=await snapshot();assert.equal(bought.placements.length,SHOWCASE_WATER_RIDES.length);
  await page.evaluate(()=>__lagoonSaveQA.cloud.flush());await page.waitForFunction(()=>!__lagoonSaveQA.cloud.pending&&!__lagoonSaveQA.cloud.dirty&&!__lagoonSaveQA.cloud.retryEntry);
  for(let i=0;i<2;i++){
   await page.evaluate(()=>__lagoonSaveQA.cloud.releaseEditor());await page.reload();await page.waitForFunction(()=>window.__lagoonQA&&__lagoonSaveQA.cloud.editable);
@@ -80,7 +80,7 @@ export async function checkShowcaseWaterApp(page,review){
   await page.evaluate(()=>{const q=__lagoonQA;delete q.pinnedRide;q.atollPinnedResidents=[];const op=q.getOperation();op.activityStart=performance.now()-op.attraction.userData.duration*1000-100;for(const v of q.residentPlay.visits.values())v.activityStart=performance.now()-v.object.userData.duration*1000-100;});
   await page.waitForFunction(()=>!__lagoonQA.getOperation()&&!__lagoonQA.residentPlay.visits.size);report.rides.push({id:spec.id,...actual});checkpoint();
  }
- const after=await snapshot();assert.equal(after.placements.length,10);assert.equal(after.coins,bought.coins);
+ const after=await snapshot();assert.equal(after.placements.length,SHOWCASE_WATER_RIDES.length);assert.equal(after.coins,bought.coins);
  await page.evaluate(()=>__lagoonSaveQA.cloud.flush());await page.waitForFunction(()=>!__lagoonSaveQA.cloud.pending&&!__lagoonSaveQA.cloud.dirty&&!__lagoonSaveQA.cloud.retryEntry);
  await page.evaluate(()=>__lagoonSaveQA.cloud.releaseEditor());await page.reload();await page.waitForFunction(()=>window.__lagoonQA&&__lagoonSaveQA.cloud.editable);assert.deepEqual(await snapshot(),after);report.reloads++;
  fs.writeFileSync(path.join(review,'showcase-water-app.json'),JSON.stringify(report,null,2));
