@@ -30,8 +30,18 @@ rapids banks/foam stop at its shore. Closed rivers and halfpipes retain full pat
 - 24 colour comparisons with static submissions enabled/disabled: zero changed
   bytes. Ambient animation, landing spray, reduced motion and immutable buffers
   pass for all eight (`render-audit.json`).
+- Full Node 22 suite: 921/921 passed; build passed.
 - 18 focused reflection, water, retirement and cached-save checks passed.
+- Native phone/SQLite ownership audit: both retired products absent from shop,
+  bag and scene; mixed 635,000-coin credit paid once; old Mega Loops recovered
+  and re-placed without charge; two durable reloads, no browser/HTTP errors.
+- Native phone UI: eight purchases, eight complete rides/returns, actual
+  three-cat raft boarding, both cameras and three SQLite reloads passed.
+  Cat/seat position error remains below 0.03 world metres (`native-rides.json`).
 - `render-work.json` records triangle/draw diagnostics against an earlier
   production capture. These are software-renderer resource measurements, not
   physical M2/iPhone FPS claims. Native UI/SQLite and full-suite results are
   recorded with the final release evidence.
+
+- Final native map audit: all 19 islands, 21 orbit/zoom/return views with 115
+  NPCs and DPR 2; no context loss, browser or HTTP errors (`native-islands.json`).

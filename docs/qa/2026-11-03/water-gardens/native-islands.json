@@ -1,0 +1,408 @@
+{
+  "renderer": "Headless Chromium software GPU; no physical-device FPS claim",
+  "errors": {
+    "errors": [],
+    "httpErrors": []
+  },
+  "views": [
+    {
+      "id": "moon",
+      "repeat": false,
+      "frames": 12,
+      "dpr": 2,
+      "contextLost": false,
+      "npcCount": 115,
+      "visibleNPCs": 4,
+      "orbitRange": 0.19082043376609092,
+      "zoomRange": 15.999999210431668,
+      "draw": {
+        "frame": 30,
+        "calls": 333,
+        "triangles": 556280,
+        "points": 320,
+        "lines": 0
+      },
+      "gpuBufferBytes": 25847476
+    },
+    {
+      "id": "autumn",
+      "repeat": false,
+      "frames": 8,
+      "dpr": 2,
+      "contextLost": false,
+      "npcCount": 115,
+      "visibleNPCs": 0,
+      "orbitRange": 0.1863174629645619,
+      "zoomRange": 15.999998716951453,
+      "draw": {
+        "frame": 49,
+        "calls": 159,
+        "triangles": 483396,
+        "points": 740,
+        "lines": 0
+      },
+      "gpuBufferBytes": 65733160
+    },
+    {
+      "id": "winter",
+      "repeat": false,
+      "frames": 8,
+      "dpr": 2,
+      "contextLost": false,
+      "npcCount": 115,
+      "visibleNPCs": 3,
+      "orbitRange": 0.1872869620872415,
+      "zoomRange": 15.999997532598968,
+      "draw": {
+        "frame": 66,
+        "calls": 598,
+        "triangles": 944694,
+        "points": 740,
+        "lines": 0
+      },
+      "gpuBufferBytes": 111097600
+    },
+    {
+      "id": "water",
+      "repeat": false,
+      "frames": 7,
+      "dpr": 2,
+      "contextLost": false,
+      "npcCount": 115,
+      "visibleNPCs": 22,
+      "orbitRange": 0.16292032113633728,
+      "zoomRange": 15.999998223471238,
+      "draw": {
+        "frame": 82,
+        "calls": 290,
+        "triangles": 1106234,
+        "points": 320,
+        "lines": 0
+      },
+      "gpuBufferBytes": 170522258
+    },
+    {
+      "id": "summer",
+      "repeat": false,
+      "frames": 6,
+      "dpr": 2,
+      "contextLost": false,
+      "npcCount": 115,
+      "visibleNPCs": 6,
+      "orbitRange": 0.17381602479058783,
+      "zoomRange": 15.999997532598968,
+      "draw": {
+        "frame": 97,
+        "calls": 432,
+        "triangles": 2699257,
+        "points": 320,
+        "lines": 0
+      },
+      "gpuBufferBytes": 205396363
+    },
+    {
+      "id": "sakura",
+      "repeat": false,
+      "frames": 6,
+      "dpr": 2,
+      "contextLost": false,
+      "npcCount": 115,
+      "visibleNPCs": 7,
+      "orbitRange": 0.17681503139628107,
+      "zoomRange": 15.999996644334644,
+      "draw": {
+        "frame": 109,
+        "calls": 397,
+        "triangles": 1664613,
+        "points": 740,
+        "lines": 0
+      },
+      "gpuBufferBytes": 201715507
+    },
+    {
+      "id": "volcano",
+      "repeat": false,
+      "frames": 8,
+      "dpr": 2,
+      "contextLost": false,
+      "npcCount": 115,
+      "visibleNPCs": 5,
+      "orbitRange": 0.1638608791695937,
+      "zoomRange": 15.999996052158508,
+      "draw": {
+        "frame": 121,
+        "calls": 540,
+        "triangles": 976914,
+        "points": 740,
+        "lines": 0
+      },
+      "gpuBufferBytes": 231266455
+    },
+    {
+      "id": "candy",
+      "repeat": false,
+      "frames": 21,
+      "dpr": 2,
+      "contextLost": false,
+      "npcCount": 115,
+      "visibleNPCs": 1,
+      "orbitRange": 0.18270970245802987,
+      "zoomRange": 15.999864490711971,
+      "draw": {
+        "frame": 145,
+        "calls": 197,
+        "triangles": 356884,
+        "points": 0,
+        "lines": 0
+      },
+      "gpuBufferBytes": 212866469
+    },
+    {
+      "id": "galaxy",
+      "repeat": false,
+      "frames": 10,
+      "dpr": 2,
+      "contextLost": false,
+      "npcCount": 115,
+      "visibleNPCs": 3,
+      "orbitRange": 0.18622822669825748,
+      "zoomRange": 15.999999506519785,
+      "draw": {
+        "frame": 167,
+        "calls": 498,
+        "triangles": 1111783,
+        "points": 740,
+        "lines": 0
+      },
+      "gpuBufferBytes": 202067061
+    },
+    {
+      "id": "ice",
+      "repeat": false,
+      "frames": 10,
+      "dpr": 2,
+      "contextLost": false,
+      "npcCount": 115,
+      "visibleNPCs": 1,
+      "orbitRange": 0.18042887309270556,
+      "zoomRange": 15.999999210431668,
+      "draw": {
+        "frame": 188,
+        "calls": 832,
+        "triangles": 851840,
+        "points": 420,
+        "lines": 0
+      },
+      "gpuBufferBytes": 199912616
+    },
+    {
+      "id": "clockwork",
+      "repeat": false,
+      "frames": 6,
+      "dpr": 2,
+      "contextLost": false,
+      "npcCount": 115,
+      "visibleNPCs": 1,
+      "orbitRange": 0.18617743611205248,
+      "zoomRange": 15.999999210431668,
+      "draw": {
+        "frame": 208,
+        "calls": 847,
+        "triangles": 2878292,
+        "points": 420,
+        "lines": 0
+      },
+      "gpuBufferBytes": 198116868
+    },
+    {
+      "id": "foodcourt",
+      "repeat": false,
+      "frames": 8,
+      "dpr": 2,
+      "contextLost": false,
+      "npcCount": 115,
+      "visibleNPCs": 3,
+      "orbitRange": 0.1861030945669353,
+      "zoomRange": 15.999999210431668,
+      "draw": {
+        "frame": 219,
+        "calls": 163,
+        "triangles": 537527,
+        "points": 320,
+        "lines": 0
+      },
+      "gpuBufferBytes": 189543314
+    },
+    {
+      "id": "bikini",
+      "repeat": false,
+      "frames": 7,
+      "dpr": 2,
+      "contextLost": false,
+      "npcCount": 115,
+      "visibleNPCs": 5,
+      "orbitRange": 0.18039699887964566,
+      "zoomRange": 15.999998223471238,
+      "draw": {
+        "frame": 231,
+        "calls": 230,
+        "triangles": 647456,
+        "points": 320,
+        "lines": 0
+      },
+      "gpuBufferBytes": 224701458
+    },
+    {
+      "id": "homestead",
+      "repeat": false,
+      "frames": 7,
+      "dpr": 2,
+      "contextLost": false,
+      "npcCount": 115,
+      "visibleNPCs": 54,
+      "orbitRange": 0.17247304753945095,
+      "zoomRange": 15.999999210431668,
+      "draw": {
+        "frame": 242,
+        "calls": 975,
+        "triangles": 2213434,
+        "points": 0,
+        "lines": 0
+      },
+      "gpuBufferBytes": 209286796
+    },
+    {
+      "id": "aquarium",
+      "repeat": false,
+      "frames": 6,
+      "dpr": 2,
+      "contextLost": false,
+      "npcCount": 115,
+      "visibleNPCs": 9,
+      "orbitRange": 0.1419137089598979,
+      "zoomRange": 15.999998716951453,
+      "draw": {
+        "frame": 252,
+        "calls": 324,
+        "triangles": 1763746,
+        "points": 320,
+        "lines": 0
+      },
+      "gpuBufferBytes": 240362673
+    },
+    {
+      "id": "jobcity",
+      "repeat": false,
+      "frames": 6,
+      "dpr": 2,
+      "contextLost": false,
+      "npcCount": 115,
+      "visibleNPCs": 19,
+      "orbitRange": 0.18155713592069248,
+      "zoomRange": 15.999997532598968,
+      "draw": {
+        "frame": 262,
+        "calls": 409,
+        "triangles": 1013686,
+        "points": 320,
+        "lines": 0
+      },
+      "gpuBufferBytes": 303177425
+    },
+    {
+      "id": "cat-homes",
+      "repeat": false,
+      "frames": 17,
+      "dpr": 2,
+      "contextLost": false,
+      "npcCount": 115,
+      "visibleNPCs": 0,
+      "orbitRange": 0.19079434435935336,
+      "zoomRange": 15.999940683745024,
+      "draw": {
+        "frame": 281,
+        "calls": 32,
+        "triangles": 97628,
+        "points": 0,
+        "lines": 0
+      },
+      "gpuBufferBytes": 299397055
+    },
+    {
+      "id": "atoll-park",
+      "repeat": false,
+      "frames": 32,
+      "dpr": 2,
+      "contextLost": false,
+      "npcCount": 115,
+      "visibleNPCs": 0,
+      "orbitRange": 0.19199999052517974,
+      "zoomRange": 15.999999210431668,
+      "draw": {
+        "frame": 318,
+        "calls": 24,
+        "triangles": 67052,
+        "points": 0,
+        "lines": 0
+      },
+      "gpuBufferBytes": 198236079
+    },
+    {
+      "id": "magic-zoo",
+      "repeat": false,
+      "frames": 6,
+      "dpr": 2,
+      "contextLost": false,
+      "npcCount": 115,
+      "visibleNPCs": 0,
+      "orbitRange": 0.12426390386464752,
+      "zoomRange": 15.999998223471238,
+      "draw": {
+        "frame": 342,
+        "calls": 424,
+        "triangles": 1881877,
+        "points": 0,
+        "lines": 0
+      },
+      "gpuBufferBytes": 201357759
+    },
+    {
+      "id": "moon",
+      "repeat": true,
+      "frames": 13,
+      "dpr": 2,
+      "contextLost": false,
+      "npcCount": 115,
+      "visibleNPCs": 4,
+      "orbitRange": 0.18264474374166972,
+      "zoomRange": 15.99999901303957,
+      "draw": {
+        "frame": 358,
+        "calls": 337,
+        "triangles": 598728,
+        "points": 320,
+        "lines": 0
+      },
+      "gpuBufferBytes": 198735277
+    },
+    {
+      "id": "magic-zoo",
+      "repeat": true,
+      "frames": 6,
+      "dpr": 2,
+      "contextLost": false,
+      "npcCount": 115,
+      "visibleNPCs": 0,
+      "orbitRange": 0.12427610564133428,
+      "zoomRange": 15.99999901303957,
+      "draw": {
+        "frame": 367,
+        "calls": 419,
+        "triangles": 1828117,
+        "points": 0,
+        "lines": 0
+      },
+      "gpuBufferBytes": 198735277
+    }
+  ]
+}
