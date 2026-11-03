@@ -1,5 +1,10 @@
 import * as T from 'three';
 
+export function naturalBankPoint(data,width,depth,side,u,across,end=.955){
+ const row=(u-.045)/(end-.045)*160,s=data.samples[Math.round(u*(data.samples.length-1))],irregular=Math.sin(row*.61+side)*.36+Math.sin(row*.17)*.3,blend=T.MathUtils.clamp((across-1.8)/3.4,0,1),soil=T.MathUtils.lerp(1.4+Math.sin(row*.31+1)*.16,1.8+Math.sin(row*.31+2)*.16,blend);
+ return s.p.clone().addScaledVector(s.right,side*(width+across+irregular)).addScaledVector(s.up,-depth+soil);
+}
+
 // Broad eroded faces and ledges, smooth along the route but split at each rock
 // stratum. Boarding/unloading mouths remain open. All buffers are static.
 export function naturalBank(data,width,depth,side,{end=.955}={}){

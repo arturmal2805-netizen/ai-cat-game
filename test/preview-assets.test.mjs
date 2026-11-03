@@ -21,8 +21,8 @@ test("the shipped preview manifest covers every shop item and biome with a compl
     revision.update(key).update(png);
     assert.equal(png.subarray(1, 4).toString(), "PNG", key);
     const large=key==='farm-magic-fruits'||BIOMES.some(b=>b.magicFarm&&'biome-'+b.id===key)||SHOWCASE_WATER_RIDES.some(r=>r.id===key);
-    assert.equal(png.readUInt32BE(16), large?480:300, key);
-    assert.equal(png.readUInt32BE(20), large?320:200, key);
+    assert.equal(png.readUInt32BE(16), CATALOG.find(s=>s.id===key)?.showcaseWater?960:large?480:300, key);
+    assert.equal(png.readUInt32BE(20), CATALOG.find(s=>s.id===key)?.showcaseWater?640:large?320:200, key);
     assert.equal(png.subarray(-8, -4).toString(), "IEND", key);
     assert.ok(png.length > 500, key);
   }

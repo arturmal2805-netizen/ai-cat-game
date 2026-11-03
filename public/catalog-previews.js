@@ -100,12 +100,12 @@ export async function catalogPreviews(
         size = bounds.getSize(new THREE.Vector3()),
         center = bounds.getCenter(new THREE.Vector3());
       const radius = Math.max(size.x, size.y, size.z, 1.4);
-      renderer.setSize(item.magicFarm||item.magicBed||item.showcaseWater?480:300,item.magicFarm||item.magicBed||item.showcaseWater?320:200);
+      renderer.setSize(item.showcaseWater?960:item.magicFarm||item.magicBed?480:300,item.showcaseWater?640:item.magicFarm||item.magicBed?320:200);
       const camera = new THREE.PerspectiveCamera(34, 1.5, item.premiumWater || item.waterpark || item.magicFarm ? .5 : 0.1, item.premiumWater || item.waterpark || item.magicFarm ? 2200 : 180);
       camera.position
         .copy(center)
         .add(
-          new THREE.Vector3(0.95, 0.65, 1.25)
+          new THREE.Vector3(0.95, item.showcaseWater ? 0.95 : 0.65, 1.25)
             .normalize()
             .multiplyScalar(radius * (item.isBiome ? 1.45 : 1.75)),
         );

@@ -1,5 +1,6 @@
 import * as T from 'three';
 import {applyUnderwaterLighting} from './water-shading.js';
+import {showcaseSurfaceMap} from './showcase-surface-details.js';
 import {showcaseWaterProbe} from './showcase-water-probes.js';
 
 // The same two wave samples and one shared probe as native lagoon water.
@@ -17,26 +18,37 @@ export function polishShowcaseWater(material,{id,pool=[0,35,22,15],surfaceY=1.45
  material.uniforms.uShowcaseBasin={value:new T.Vector4(...pool)};
  material.uniforms.uShowcaseBasinY={value:surfaceY};
  material.uniforms.uShowcaseReceiving={value:!['lazy-river','surf-halfpipe','fountain-carousel','pool-pendulum'].some(kind=>id?.endsWith(kind))?1:0};
- material.vertexShader=material.vertexShader.replace('float wave=sin(p.x*1.3+uTime*.8)*.004+cos(p.y*1.7-uTime*.6)*.003;',`float wave=sin(p.x*.68+p.z*.44+uTime*.8)*.035+cos(p.z*.79-p.x*.23-uTime*.6)*.028;
+ material.uniforms.uShowcaseNormalisedFlow={value:material.userData.showcaseNormalisedFlow?1:0};
+ material.vertexShader=material.vertexShader.replace('float wave=sin(p.x*1.3+uTime*.8)*.004+cos(p.y*1.7-uTime*.6)*.003;',`float phaseA=p.x*.68+p.z*.44+uTime*.8,phaseB=p.z*.79-p.x*.23-uTime*.6;
+ float wave=sin(phaseA)*.035+cos(phaseB)*.028;
+ vec3 waveGradient=vec3(cos(phaseA)*.0238+sin(phaseB)*.00644,0.,cos(phaseA)*.0154-sin(phaseB)*.02212);
+ float waveGain=1.0+uFall*3.0+step(.5,uFlowing)*.5;
  #ifdef SLIDE_CATCH_POOL
- wave*=1.-smoothstep(.78,1.,length((uv-.5)*2.));
- #endif`);
+ float edge=length((uv-.5)*2.),t=clamp((edge-.78)/.22,0.,1.),fade=1.-smoothstep(.78,1.,edge);
+ vec3 edgeGradient=vec3(4.*(uv.x-.5)/uScale.x,0.,-4.*(uv.y-.5)/uScale.y)/max(edge,.001);
+ waveGradient=waveGradient*fade-wave*(6.*t*(1.-t)/.22)*edgeGradient;wave*=fade;
+ #endif
+ vec3 waterShadingNormal=normalize(normal-(waveGradient-normal*dot(normal,waveGradient))*waveGain);`);
+ material.vertexShader=material.vertexShader.replace('p+=normal*wave*(1.0+uFall*3.0+step(.5,uFlowing)*2.0);','p+=normal*wave*waveGain;');
+ material.vertexShader=material.vertexShader.replace('normalMatrix*normal','normalMatrix*waterShadingNormal');
  material.vertexShader=material.vertexShader.replace('vec4 world=modelMatrix*vec4(p,1.0);',`if(uShowcaseReceiving>.5&&uFlowing>.5&&uFlowing<1.5){
  float r=length((p.xz-uShowcaseBasin.xy)/uShowcaseBasin.zw);
  float merge=(1.-smoothstep(.62,1.,r))*(1.-smoothstep(uShowcaseBasinY+.6,uShowcaseBasinY+2.,p.y));
  p.y=mix(p.y,min(p.y,uShowcaseBasinY-.10),merge);
  }
  vec4 world=modelMatrix*vec4(p,1.0);`);
- material.vertexShader='uniform vec4 uShowcaseBasin;uniform float uShowcaseBasinY;uniform float uShowcaseReceiving;varying vec3 vShowcaseLocal;varying vec3 vShowcaseProbeX;\n'+material.vertexShader.replace('vWaterUv=uv;','vWaterUv=uv;vShowcaseLocal=p;vShowcaseProbeX=normalize(modelMatrix[0].xyz);');
- material.fragmentShader='varying vec3 vShowcaseLocal;varying vec3 vShowcaseProbeX;uniform vec4 uShowcaseBasin;uniform float uShowcaseBasinY;\n'+material.fragmentShader
+ material.vertexShader='uniform vec2 uScale;uniform vec4 uShowcaseBasin;uniform float uShowcaseBasinY;uniform float uShowcaseReceiving;varying vec3 vShowcaseLocal;varying vec3 vShowcaseProbeX;\n'+material.vertexShader.replace('vWaterUv=uv;','vWaterUv=uv;vShowcaseLocal=p;vShowcaseProbeX=normalize(modelMatrix[0].xyz);');
+ material.fragmentShader='uniform float uShowcaseNormalisedFlow;varying vec3 vShowcaseLocal;varying vec3 vShowcaseProbeX;uniform vec4 uShowcaseBasin;uniform float uShowcaseBasinY;\n'+material.fragmentShader
+  .replace('p=vWaterUv*uFlowScale;','p=vec2(vWaterUv.x*uFlowScale.x,vWaterUv.y*mix(1.,uFlowScale.y,uShowcaseNormalisedFlow));')
   .replace('p*.10+flow','p*.075+flow*.75')
-  .replace('p.yx*.157-flow*.71','p.yx*.119-flow*.53')
-  .replace('vec2 slope=(fieldA.rg+fieldB.gr-1.0)*.19;','vec2 slope=(fieldA.rg+fieldB.gr-1.0)*.095;')
-  .replace('float fresnel=.025+.975*pow(1.0-facing,5.0);','float fresnel=.035+.965*pow(1.0-facing,4.0);')
+  .replace('p.yx*.157-flow*.71','p.yx*.53-flow*.53')
+  .replace('vec2 slope=(fieldA.rg+fieldB.gr-1.0)*.19;','vec2 slope=(fieldA.rg-.5)*.065+(fieldB.gr-.5)*.115;')
+  .replace('float fresnel=.025+.975*pow(1.0-facing,5.0);','float fresnel=.0204+.9796*pow(1.0-facing,5.0);')
   .replace('environmentUv(reflected),.7','environmentUv(vec3(dot(reflected,vShowcaseProbeX),reflected.y,dot(reflected,cross(vShowcaseProbeX,vec3(0.,1.,0.))))),.35')
   .replace('float roughness=.085+min(.12,length(fwidth(slope))*.65);','float roughness=.065+min(.10,length(fwidth(slope))*.5);')
   .replace('))*.014*(.4+fieldB.a*.6)', '))*.025*(.4+fieldB.a*.6)')
-  .replace('vec3 body=mix(uColor*.7,mix(deep,shore,transmission),uLake);','vec3 body=mix(uColor*.82,mix(deep,shore,transmission),uLake);')
+  .replace('vec3 body=mix(uColor*.7,mix(deep,shore,transmission),uLake);','vec3 body=mix(vec3(.006,.25,.63),vec3(.008,.39,.66),shallow*.6);')
+  .replace('body=mix(uColor*vec3(.72,.94,1.0),uShoreColor,.08+shallow*.18);','body=mix(vec3(.003,.21,.55),vec3(.015,.43,.65),shallow*.65);')
   .replace('clamp(.035+fresnel*.91,0.0,.96)','clamp(.075+fresnel*.91,0.0,.96)')
   .replace('color+=lightTint*caustic*(.3+shallow*.2);','color+=vec3(.045,.13,.19)*caustic*(.16+shallow*.09);')
   .replace(/if\(uFlowing>\.5\)\{\n  float across=[\s\S]*?\n \}/,flowingFoam)
@@ -47,10 +59,10 @@ export function polishShowcaseWater(material,{id,pool=[0,35,22,15],surfaceY=1.45
   float basinMix=(1.-smoothstep(.70,.98,basinRadius))*(1.-smoothstep(uShowcaseBasinY+.02,uShowcaseBasinY+.65,vShowcaseLocal.y));
   alpha*=1.-basinMix;
  }`)
-  .replace('uOpacity*(.38+depth*.17)','uOpacity*(.55+depth*.20)')
+  .replace('uOpacity*(.38+depth*.17)','uOpacity*(.35+depth*.19)')
   .replace('vec4(max(color,vec3(0.0)),.96)','vec4(max(color,vec3(0.0)),.90)')
   .replace('vec4(max(color,vec3(0.0)),.95)','vec4(max(color,vec3(0.0)),.84)');
- material.userData.showcaseOptics='crystal-v3';material.needsUpdate=true;return material;
+ material.userData.showcaseOptics='lagoon-v4';material.needsUpdate=true;return material;
 }
 
 export function submergeReceivingFloor(geometry,pool,surfaceY){
@@ -96,17 +108,25 @@ export function showcaseBasinGrid(rx,rz){
  }
  const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(p,3));g.setAttribute('uv',new T.Float32BufferAttribute(uv,2));g.setIndex(idx);g.computeVertexNormals();g.computeBoundingBox();g.boundingBox.expandByScalar(.064);g.boundingSphere=g.boundingBox.getBoundingSphere(new T.Sphere());return g;
 }
+export const showcaseBedHeight=r=>-1.035+T.MathUtils.smoothstep(r,.55,1)*.79;
 let pebbleGeometry;
 export function detailShowcaseBasin(pool){
  if(pool.userData.showcaseBasin)return pool;
- const {rx,rz,water,bed,slideBasinOptics}=pool.userData;bed.material.color.setHex(0x67bee8);
+ const {rx,rz,water,bed,slideBasinOptics}=pool.userData;
+ const bedGeometry=showcaseBasinGrid(rx,rz),position=bedGeometry.attributes.position,uv=bedGeometry.attributes.uv,colors=[],sand=new T.Color(0xc3e9df),deep=new T.Color(0x119fdf),c=new T.Color();
+ for(let i=0;i<position.count;i++){
+  const r=Math.hypot(position.getX(i)/rx,position.getZ(i)/rz);position.setY(i,showcaseBedHeight(r));
+  c.copy(deep).lerp(sand,T.MathUtils.smoothstep(r,.45,1));colors.push(c.r,c.g,c.b);uv.setXY(i,position.getX(i)/8,position.getZ(i)/8);
+ }
+ bedGeometry.setAttribute('color',new T.Float32BufferAttribute(colors,3));bedGeometry.computeVertexNormals();bedGeometry.computeBoundingBox();bedGeometry.computeBoundingSphere();const oldBed=bed.geometry;bed.geometry=bedGeometry;if(!oldBed.userData.sharedScenery)oldBed.dispose();
+ bed.position.y=0;bed.material.color.setHex(0xffffff);bed.material.vertexColors=true;bed.material.map=showcaseSurfaceMap('sand');bed.material.needsUpdate=true;
  for(const mesh of slideBasinOptics.surfaces){const old=mesh.geometry;mesh.geometry=showcaseBasinGrid(rx,rz);if(!old.userData.sharedScenery)old.dispose();}
  pebbleGeometry??=new T.IcosahedronGeometry(1,1);pebbleGeometry.userData.sharedScenery=true;
  const material=applyUnderwaterLighting(new T.MeshStandardMaterial({color:0xffffff,roughness:.84}),water.uniforms.uTime,0x24b9ff,{level:bed.material.userData.waterLight.level});
  const stones=new T.InstancedMesh(pebbleGeometry,material,24),pose=new T.Object3D(),color=new T.Color();stones.name='Submerged lagoon pebbles';stones.receiveShadow=true;
  for(let i=0;i<24;i++){
   const a=i*2.399963229728653,r=.23+.61*Math.sqrt((i+.5)/24),s=.38+(i%5)*.12;
-  pose.position.set(Math.sin(a)*rx*r,bed.position.y+.08,Math.cos(a)*rz*r);pose.rotation.y=a;pose.scale.set(s,.13+(i%3)*.05,s*.73);pose.updateMatrix();stones.setMatrixAt(i,pose.matrix);
+  pose.position.set(Math.sin(a)*rx*r,showcaseBedHeight(r)+.08,Math.cos(a)*rz*r);pose.rotation.y=a;pose.scale.set(s,.13+(i%3)*.05,s*.73);pose.updateMatrix();stones.setMatrixAt(i,pose.matrix);
   color.setHex([0xb4d9de,0x89b6c5,0xc2e4e6,0x92bfc7][i%4]);stones.setColorAt(i,color);
  }
  stones.instanceMatrix.needsUpdate=true;stones.instanceColor.needsUpdate=true;stones.computeBoundingSphere();pool.add(stones);pool.userData.showcaseBasin={stones};return pool;

@@ -1,4 +1,4 @@
-// Offline original surface charts; shared by all nine adventures.
+// Offline original surface charts; shared by all eight adventures.
 export const SHOWCASE_SURFACE_ASSETS={
   "wood": {
     "color": "./art/water-garden/wood-color-3b43075373a9.png",
@@ -13,7 +13,7 @@ export const SHOWCASE_SURFACE_ASSETS={
   "moss": {
     "color": "./art/water-garden/moss-color-8239c6169e12.png",
     "normal": "./art/water-garden/moss-normal-6fef4b57663e.png",
-    "roughness": "./art/water-garden/moss-roughness-b0cbfa98a942.png"
+    "roughness": "./art/water-garden/moss-roughness-6f36748ff869.png"
   },
   "leaf": {
     "color": "./art/water-garden/leaf-color-bfcb3ff644f0.png",
@@ -22,6 +22,9 @@ export const SHOWCASE_SURFACE_ASSETS={
   },
   "lawn": {
     "color": "./art/water-garden/lawn-color-34b5c3ee1516.png"
+  },
+  "sand": {
+    "color": "./art/water-garden/sand-color-f5b1be25dedf.png"
   }
 };
-export const SHOWCASE_SURFACE_BYTES={"download":1884229,"gpuMipmapped":8738142};
+export const SHOWCASE_SURFACE_BYTES={"download":2130408,"gpuMipmapped":10136244};

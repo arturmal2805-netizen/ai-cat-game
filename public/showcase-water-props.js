@@ -5,7 +5,7 @@ import {slideBasin} from './slide-water.js';
 import {slideBasinWater} from './slide-basin-optics.js';
 import {tropicalPalm,tropicalTree,flowerBank,sandstoneColumn,tropicalShore,dryPlantRoot} from './showcase-water-landscape.js';
 import {showcaseVignettes} from './showcase-vignettes.js';
-import {gardenUnderstory,promenadePlanter} from './showcase-botany.js';
+import {gardenUnderstory,promenadePlanter,gardenGroundCoverSteps} from './showcase-botany.js';
 import {gardenClearanceSteps} from './showcase-garden-clearance.js';
 const plankGeometry=new T.BoxGeometry(1,1,1);plankGeometry.userData.sharedScenery=true;
 const pathStone=new T.CylinderGeometry(1,1,1,7);pathStone.userData.sharedScenery=true;
@@ -18,7 +18,7 @@ export function* showcaseProps(props,root,spec,route){
  const canPlant=yield*gardenClearanceSteps(route,spec),promenadeGardens=[];
  const clear=(x,y,z,rx,ry,rz)=>!dry.some(p=>Math.abs(p[0]-x)<rx+4&&Math.abs(p[2]-z)<rz+4&&Math.abs(p[1]-y)<ry+3)&&!route.geometry.some(g=>g.samples.some((s,i)=>i%4===0&&Math.abs(s.p.x-x)<rx+margin&&Math.abs(s.p.z-z)<rz+margin&&Math.abs(s.p.y-spec.radius/2-y)<ry+margin));
  const solid=(kind,color,x,y,z,sx,sy,sz)=>{if(!clear(x,y,z,sx,sy,sz))return null;const m=shape(props,kind,color,x,y,z,sx,sy,sz);if(y-sy/2<1)obstacles.push({x,z,radius:Math.max(sx,sz)});return m;};
- const cliff=(x,z,h,r,color=0xc5aa83)=>{if(!clear(x,h/2,z,r,h/2,r))return false;sandstoneColumn(props,x,z,h,r,color);obstacles.push({x,z,radius:r*1.16});return true;};
+ const cliff=(x,z,h,r,color=0xc5aa83)=>{if(!clear(x,h/2,z,r,h/2,r))return false;sandstoneColumn(props,x,z,h,r,color);obstacles.push({x,z,radius:r*1.27});return true;};
  const palm=(x,y,z,s=1)=>{if(!dryPlantRoot(spec,x,y,z)||!clear(x,y+6*s,z,3*s,6*s,3*s))return;tropicalPalm(props,x,y,z,12*s,(x+z)*.3);if(y<2)obstacles.push({x,z,radius:1.6});};
  const tree=(x,y,z,s=1,pink=false)=>{
   if(!dryPlantRoot(spec,x,y,z))return;
@@ -110,6 +110,7 @@ export function* showcaseProps(props,root,spec,route){
    promenadePlanter(props,root,out,canPlant);promenadeGardens.push(root.toArray());yield;
   }
  }
- const gardenPatches=yield*gardenUnderstory(props,spec,clear,obstacles);
- return {canPlace:clear,canPlant,groundObstacles:obstacles,gardenPatches,promenadeGardens,waterfalls:falls,springs,hollowPassages:passages,update(time,reduced){for(const f of falls)f.userData.update?.(time,reduced);for(const p of springs)p.userData.update(time,reduced);}};
+ const gardenPatches=yield*gardenUnderstory(props,spec,clear,obstacles,canPlant);
+ const groundCover=yield*gardenGroundCoverSteps(props,spec,clear,canPlant,obstacles);
+ return {canPlace:clear,canPlant,groundObstacles:obstacles,gardenPatches,groundCover,promenadeGardens,waterfalls:falls,springs,hollowPassages:passages,update(time,reduced){for(const f of falls)f.userData.update?.(time,reduced);for(const p of springs)p.userData.update(time,reduced);}};
 }

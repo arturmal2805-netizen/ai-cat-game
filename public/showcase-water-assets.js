@@ -6,26 +6,26 @@ import {showcaseRouteSteps} from './showcase-water-motion.js';
 import {showcaseProps} from './showcase-water-props.js';
 import {receivingPool} from './reference-slide-assets.js';
 import {installSlideWater,slideRibbon} from './slide-water.js';
-import {waterMaterial,advanceWater} from './water-shading.js';
+import {waterMaterial,advanceWater,applyUnderwaterLighting} from './water-shading.js';
 import {rideActingFrame} from './ride-acting.js';
 import {showcaseWaterfallSteps as waterfallSteps} from './showcase-waterfalls.js';
 import {atollApproach} from './atoll-slide-navigation.js';
 import {groupApproach} from './group-boarding.js';
 import {showcaseRideReaction,sampleShowcaseActing} from './showcase-water-acting.js';
-import {applyShowcaseSurfaceDetails,showcaseSurfaceUVSteps,showcaseMaterialSteps} from './showcase-surface-details.js';
+import {applyShowcaseSurfaceDetails,showcaseSurfaceUVSteps,showcaseMaterialSteps,showcaseSurfaceMap} from './showcase-surface-details.js';
 import {boulderGeometry} from './showcase-geology.js';
 import {polishShowcaseWater,submergeReceivingFloor,submergeReceivingWalls,receivingBankEnd,detailShowcaseBasin,receivingRailPoint} from './showcase-water-optics.js';
 import {naturalBank} from './showcase-bank.js';
 import {cliffGeometry} from './showcase-geology.js';
-import {fern,gardenFlowerCluster,gardenBlossom} from './showcase-botany.js';
+import {fern,gardenFlowerCluster,gardenBlossom,bankGardenSteps} from './showcase-botany.js';
 const profiles=new Map();
 const boatRoundGeometry=new T.SphereGeometry(1,24,14);boatRoundGeometry.userData.sharedScenery=true;
 const bankPaint=new Map();
 function materialForBank(river){const key=river?'river':'canyon';if(!bankPaint.has(key)){const m=new T.MeshStandardMaterial({color:river?0xaeb39a:0xc4a17f,roughness:.72});m.userData.sharedScenery=true;m.userData.surfaceKind='stone';bankPaint.set(key,m);}return bankPaint.get(key);}
 // Wide flat-bottom channels really support a raft; a broad flat raft cannot
 // sit at the bottom of a narrow circular pipe without intersecting its walls.
-function trough(data,width,depth){
- const g=slideRibbon({samples:data.samples,width,offset:-depth-.08,shellDepth:.55,steps:360,colors:[0xffffff]});
+export function showcaseTrough(data,width,depth){
+ const g=slideRibbon({samples:data.samples,width,offset:-depth-.08,shellDepth:.08,steps:360,colors:[0xffffff]});
  const walls=[];for(const side of [-1,1]){const p=[],index=[];for(let i=0;i<=240;i++){const s=data.samples[Math.round(i/240*600)];for(const y of [-depth-.1,-depth+2.5])p.push(...s.p.clone().addScaledVector(s.right,side*width).addScaledVector(s.up,y).toArray());if(i){const a=(i-1)*2;index.push(a,a+1,a+2,a+1,a+3,a+2);}}const w=new T.BufferGeometry();w.setAttribute('position',new T.Float32BufferAttribute(p,3));w.setIndex(index);w.computeVertexNormals();walls.push(w);}return {floor:g,walls};
 }
 function vehicle(props,spec){
@@ -85,11 +85,11 @@ function waveBody(props,root,spec,extra){
   if(i&&j){const k=i*(across+1)+j;index.push(k,k-1,k-across-1,k-1,k-across-2,k-across-1);}
  }}
  const geometry=new T.BufferGeometry();geometry.setAttribute('position',new T.Float32BufferAttribute(positions,3));geometry.setAttribute('uv',new T.Float32BufferAttribute(uv,2));geometry.setIndex(index);geometry.computeVertexNormals();
- const wet=waterMaterial(0x00baf2,.94,{flow:{speed:13,width:34,length:r*range}});
+ const wet=waterMaterial(0x00baf2,.94,{flow:{speed:13,width:34,length:r*range}});wet.userData.showcaseNormalisedFlow=true;
  // The curling lip moves on the GPU, not by replacing its buffers. The rider's
  // deep centre corridor stays clear; only the distant crest can breathe.
  wet.vertexShader=wet.vertexShader.replace('vec4 world=modelMatrix*vec4(p,1.0);','p+=normal*sin(p.z*.24+uTime*1.8)*smoothstep(39.,59.,p.y)*.65;\n vec4 world=modelMatrix*vec4(p,1.0);');
- wet.fragmentShader=wet.fragmentShader.replace('gl_FragColor=vec4(max(color,vec3(0.0)),alpha);','color=mix(color,uColor*.82,.28);\n gl_FragColor=vec4(max(color,vec3(0.0)),.96);');
+ wet.fragmentShader=wet.fragmentShader.replace('gl_FragColor=vec4(max(color,vec3(0.0)),alpha);','gl_FragColor=vec4(max(color,vec3(0.0)),max(alpha,.68));');
  geometry.computeBoundingBox();geometry.boundingBox.expandByScalar(.7);geometry.boundingSphere=geometry.boundingBox.getBoundingSphere(new T.Sphere());
  const sheet=new T.Mesh(geometry,wet);sheet.name='Curling blue barrel with a moving foamy lip';root.add(sheet);extra.push(wet);
  // A continuous aerated lip, instead of a necklace of large white balls.
@@ -126,11 +126,15 @@ export function* showcaseWaterSteps(id){
   yield;
   if(data.bowl)continue;
   const surf=!!data.surf,river=!!data.river,carousel=!!data.carousel,width=surf?15:spec.radius,depth=spec.radius;
-  if(!carousel&&!data.barrel){const shell=trough(data,width,depth);if(!data.closed&&!surf)submergeReceivingFloor(shell.floor,route.pool,spec.surfaceY);const floor=new T.Mesh(shell.floor,new T.MeshStandardMaterial({color:0x4baaf2,roughness:.42,metalness:0,side:T.DoubleSide}));props.add(floor);
+  if(!carousel&&!data.barrel){const shell=showcaseTrough(data,width,depth);if(!data.closed&&!surf)submergeReceivingFloor(shell.floor,route.pool,spec.surfaceY);const floor=new T.Mesh(shell.floor,new T.MeshStandardMaterial({color:0x4baaf2,roughness:.42,metalness:0,side:T.DoubleSide}));
+   if(data.rapids||river){
+    floor.material.color.setHex(0x169fd4);floor.material.map=showcaseSurfaceMap('sand');floor.material.roughness=.86;floor.material.userData.showcaseRiverBed=true;
+    const uv=shell.floor.attributes.uv;for(let i=0;i<uv.count;i++)uv.setXY(i,uv.getX(i)*width/4,uv.getY(i)/8);
+   }props.add(floor);
    if(data.rapids||river){
     for(const geometry of shell.walls)geometry.dispose();
     const bankEnd=receivingBankEnd(data,depth,route.pool,spec.surfaceY);
-    for(const side of [-1,1]){const material=new T.MeshStandardMaterial({color:river?0xb4b99a:0xc4a17f,roughness:.72,side:T.DoubleSide,vertexColors:true});material.userData.surfaceKind='stone';const bank=new T.Mesh(naturalBank(data,width,depth,side,{end:bankEnd}),material);bank.castShadow=bank.receiveShadow=true;props.add(bank);}
+    for(const side of [-1,1]){bankGardens.push(...(yield*bankGardenSteps(props,data,width,depth,side,bankEnd,scenery.canPlant)).map(position=>({position,radius:2})));const material=new T.MeshStandardMaterial({color:river?0xb4b99a:0xc4a17f,roughness:.72,side:T.DoubleSide,vertexColors:true});material.userData.surfaceKind='stone';const bank=new T.Mesh(naturalBank(data,width,depth,side,{end:bankEnd}),material);bank.castShadow=bank.receiveShadow=true;props.add(bank);}
     for(let i=36;i<Math.min(data.samples.length-30,(bankEnd-.015)*(data.samples.length-1));i+=60){const s=data.samples[i];for(const side of [-1,1]){const p=s.p.clone().addScaledVector(s.right,side*(width+3.8)).addScaledVector(s.up,-depth+.6),rock=shape(props,'stone',river?0xaebba0:0xddb58a,...p.toArray(),2.7,1.5,2.3);rock.geometry=boulderGeometry(i+side);rock.rotation.y=i*.71;
      const moss=s.p.clone().addScaledVector(s.right,side*(width+3.8)).addScaledVector(s.up,-depth+1.9);shape(props,'sphere',i%120?0x76b76e:0x9bc575,...moss.toArray(),1.8,.2,1.1);
      const bankRow=(i/(data.samples.length-1)-.045)/(bankEnd-.045)*160,irregular=Math.sin(bankRow*.61+side)*.36+Math.sin(bankRow*.17)*.3,across=(4.6-1.8)/(5.2-1.8),soil=1.4+across*.4+(Math.sin(bankRow*.31+1)*(1-across)+Math.sin(bankRow*.31+2)*across)*.16;
@@ -162,7 +166,7 @@ export function* showcaseWaterSteps(id){
  if(spec.kind==='pool-pendulum'){/* Airborne swing only touches its real basin; no fake dry flume. */}
  yield*showcaseSurfaceUVSteps(props);
  yield*showcaseMaterialSteps(props);
- const staticModel=yield*batchModelSteps(props,{combineColors:true});applyShowcaseSurfaceDetails(staticModel);root.add(staticModel);props.traverse(o=>{if(o.isMesh&&!o.geometry.userData.sharedScenery)o.geometry.dispose();});
+ const staticModel=yield*batchModelSteps(props,{combineColors:true});applyShowcaseSurfaceDetails(staticModel);staticModel.traverse(o=>{if(o.isMesh&&o.material.userData.showcaseRiverBed)applyUnderwaterLighting(o.material,pool.userData.water.uniforms.uTime,0x24b9ff,{refract:false});});root.add(staticModel);props.traverse(o=>{if(o.isMesh&&!o.geometry.userData.sharedScenery)o.geometry.dispose();});
  yield*showcaseSurfaceUVSteps(moving);
  yield*showcaseMaterialSteps(moving);
  const boat=yield*batchModelSteps(moving,{combineColors:true});applyShowcaseSurfaceDetails(boat);moving.clear();moving.add(boat);moving.visible=false;
@@ -171,7 +175,7 @@ export function* showcaseWaterSteps(id){
   groupSeats:spec.seats>1?spec.seats:0,sharedVehicle:spec.seats>1&&spec.kind!=='fountain-carousel',vehicleFrame:route.vehicleFrame,vehicleFrameForLane:route.boatFrame,hollowPassages:scenery.hollowPassages,
   entryForSlot:i=>route.frame(0,false,i).position,
   queueForSlot:spec.seats>1?i=>approach.queues[i]:i=>[route.entry[0]-(i%2)*3.2,route.entry[1],route.entry[2]+Math.floor(i/2)*4.5],
-  gardenPatches:scenery.gardenPatches,bankGardens,promenadeGardens:scenery.promenadeGardens,stats:{sourceMeshes:staticModel.userData.sourceMeshes,staticMeshes:staticModel.children.length,waterDraws:channels.length+extra.length+1},
+  gardenPatches:scenery.gardenPatches,groundCover:scenery.groundCover,bankGardens,promenadeGardens:scenery.promenadeGardens,stats:{sourceMeshes:staticModel.userData.sourceMeshes,staticMeshes:staticModel.children.length,waterDraws:channels.length+extra.length+1},
   update(time,reduced=false){pool.userData.update(time,reduced);scenery.update(time,reduced);for(const m of extra)advanceWater(m,time,reduced);
    const riders=[...(root.userData.slideRiders?.values()||[])],at=riders.find(r=>Number.isFinite(r.elapsed))?.elapsed??root.userData.rideElapsed;
    if(spec.kind==='fountain-carousel')hub.rotation.y=Number.isFinite(at)?route.vehicleFrame(at,reduced).carouselAngle||0:0;

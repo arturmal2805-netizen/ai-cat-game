@@ -83,6 +83,14 @@ for (const root of roots) {
 }
 const surfaceAssets=new Map();for(const roles of Object.values(SHOWCASE_SURFACE_ASSETS))for(const url of Object.values(roles))surfaceAssets.set(url.slice(1),await readFile(resolve('public',url)));
 for(const url of Object.values(SHOWCASE_WATER_PROBES))surfaceAssets.set(url.slice(1),await readFile(resolve('public',url)));
+// Serve each checkout's own content-hashed charts/probes. A baseline must not
+// silently fall back to old procedural maps after the candidate replaces a PNG.
+for(const root of roots){
+ const chartText=await readFile(resolve(root.path,'public/showcase-surface-assets.js'),'utf8').catch(()=>''),probeText=await readFile(resolve(root.path,'public/showcase-probe-assets.js'),'utf8').catch(()=>'');
+ const charts=JSON.parse(chartText.match(/SHOWCASE_SURFACE_ASSETS=(\{[\s\S]*?\});/)?.[1]||'{}'),probes=JSON.parse(probeText.match(/SHOWCASE_WATER_PROBES=(\{[\s\S]*?\});/)?.[1]||'{}');
+ for(const url of [...Object.values(charts).flatMap(Object.values),...Object.values(probes)])surfaceAssets.set(url.slice(1),await readFile(resolve(root.path,'public',url)));
+}
+
 const server = createServer((req, res) => {
   if(surfaceAssets.has(req.url)){res.writeHead(200,{'Content-Type':'image/png'});res.end(surfaceAssets.get(req.url));return;}
   if (req.url === "/favicon.ico") {
@@ -231,12 +239,12 @@ try {
         }
         await page.evaluate(()=>hideRider());
       }
-      if (root.name === "after")
-        for (const view of ["flow", "outlet", "basin", "basin-grazing"]) {
+      for (const view of ["flow", "outlet", "basin", "basin-grazing", "garden"]) {
           const exists = await page.evaluate(
             ({ view, id }) => {
               const w = model.userData.slideWater;
               check.camera.up.set(0,1,0);
+              if(view==='garden'){const beds=model.userData.gardenPatches;if(!beds?.length)return false;const p=[...beds].sort((a,b)=>(b.z+.15*b.x)-(a.z+.15*a.x))[0];check.camera.position.set(p.x+8,6.5,p.z+10);check.camera.lookAt(p.x,1.2,p.z);draw(63);return true;}
               if(view.startsWith('basin')){const pool=w.pool,p=pool.localToWorld(check.camera.position.clone().set(0,.155,0)),rx=pool.userData.rx,rz=pool.userData.rz,r=Math.max(rx,rz);
                 check.camera.position.copy(p).add(check.camera.position.clone().set(.25,view==='basin'?1.7:.55,1.9).multiplyScalar(r));check.camera.lookAt(p);draw(63);return true;}
               let p =
@@ -285,15 +293,15 @@ try {
     }
     await page.setViewportSize({ width: 390, height: 560 });
     for (const {id} of process.env.CHICHI_SLIDE_RIDERS_ONLY?[]:selectedRides) {
-      await page.evaluate(async (id) => {
+      await page.evaluate(async ({id,framing}) => {
         const { renderer: r, camera: c } = check;
         r.setPixelRatio(2);
         r.setSize(390, 560);
         c.aspect = 390 / 560;
         c.updateProjectionMatrix();
-        await loadRide(id);
+        await loadRide(id);if(framing)viewFrame(framing);
         draw(7);
-      }, id);
+      }, {id,framing:root.name==='after'?comparisonFrames.get(id):null});
       const canvas = await page.evaluate(() => [
         check.renderer.domElement.width,
         check.renderer.domElement.height,

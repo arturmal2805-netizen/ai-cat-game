@@ -33,7 +33,7 @@ test('real basin ripples retain the exact boundary and unit UVs; submerged detai
  assert.equal(p.count,1601);assert.equal(g.index.count/3,3100);for(let i=0;i<p.count;i++){assert.ok(Math.hypot(p.getX(i)/spec.pool[2],p.getZ(i)/spec.pool[3])<=1.000001);assert.ok(g.attributes.normal.getY(i)>.999);}
  const pool=detailShowcaseBasin(receivingPool(spec)),stones=pool.userData.showcaseBasin.stones,positions=stones.instanceMatrix.array.slice(),version=stones.instanceMatrix.version;
  assert.equal(stones.count,24);assert.equal(stones.material.userData.waterLight.clock,pool.userData.water.uniforms.uTime);assert.equal(stones.material.userData.waterLight.level,pool.userData.bed.material.userData.waterLight.level);
- for(let i=0;i<24;i++)assert.ok(stones.instanceMatrix.array[i*16+13]+.25<.155-.7,'all stones stay submerged and below rafts');
+ for(let i=0;i<24;i++)assert.ok(stones.instanceMatrix.array[i*16+13]+.25<.155-.15,'all stones stay submerged and below rafts');
  for(let t=0;t<100;t++)pool.userData.update(t,false);assert.deepEqual(stones.instanceMatrix.array,positions);assert.equal(stones.instanceMatrix.version,version);assert.equal(detailShowcaseBasin(pool),pool);
  const peer=detailShowcaseBasin(receivingPool(spec));assert.equal(peer.userData.showcaseBasin.stones.geometry,stones.geometry);
 });

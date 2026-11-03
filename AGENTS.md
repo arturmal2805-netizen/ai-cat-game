@@ -880,3 +880,17 @@ New receiving pools keep the exact 100-sided shore on a 16-ring ripple grid,
 with fixed submerged instanced pebbles using the native underwater clock/level.
 Finite flows blend down into the real receiving surface; do not flatten closed
 river circuits or standing halfpipes. No per-frame mesh/instance uploads.
+
+The denser tropical-flora pass keeps layered shrubs, curved broad leaves,
+flowering river margins and surface-anchored cliff vines in the same immutable
+opaque batches. Protect the full 3D walking/seat/vehicle sweep before adding
+large plants. A cap-vine guessed from a cylinder radius may disappear inside
+an eroded rock; use `cliffSurfacePoint` and the real `naturalBankPoint`.
+The fourteen shared charts now include granular sand (2,130,408 download bytes,
+10,136,244 mipmapped GPU bytes). Keep selected-only coalesced preparation.
+Large water-adventure previews use actual 960×640 offline renders; ordinary shop
+assets retain their previous dimensions. Never substitute reference artwork.
+The wet trough floor must stay below every water vertex through the full .0945-m
+flow ripple envelope and both edges. Retain basin/waterfall motion and all native
+cat/raft clearance. Geometry detail changes are art work, not evidence of an FPS
+optimization; require the existing rendered/native QA before publication.

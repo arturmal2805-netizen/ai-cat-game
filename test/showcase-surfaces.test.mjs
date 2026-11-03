@@ -8,7 +8,7 @@ import {showcaseSurfaceUVSteps,showcaseMaterialSteps} from '../public/showcase-s
 import {runSceneSteps} from '../public/scene-tasks.js';
 import {fern,rosette,leafyCanopy,mossMantle} from '../public/showcase-botany.js';
 
-test('original versioned charts have bounded shared storage, full colour detail and separate moss/wood/rock/leaf surfaces',async()=>{
+test('original versioned charts and granular sand have bounded shared storage, full colour detail and separate moss/wood/rock/leaf surfaces',async()=>{
  let bytes=0,gpu=0,count=0;
  for(const [kind,roles]of Object.entries(SHOWCASE_SURFACE_ASSETS))for(const [role,url]of Object.entries(roles)){
   const png=await readFile(new URL('../public/'+url,import.meta.url)),size=role==='color'?512:role==='normal'?256:128;
@@ -16,8 +16,8 @@ test('original versioned charts have bounded shared storage, full colour detail 
   assert.ok(url.includes(createHash('sha256').update(png).digest('hex').slice(0,12)),kind+' '+role);
   bytes+=png.length;gpu+=Math.ceil(size*size*4*4/3);count++;
  }
- assert.equal(count,13);assert.equal(bytes,SHOWCASE_SURFACE_BYTES.download);assert.equal(gpu,SHOWCASE_SURFACE_BYTES.gpuMipmapped);
- assert.ok(bytes<2100000);assert.ok(gpu<9*1024*1024);
+ assert.equal(count,14);assert.equal(bytes,SHOWCASE_SURFACE_BYTES.download);assert.equal(gpu,SHOWCASE_SURFACE_BYTES.gpuMipmapped);
+ assert.ok(bytes<2400000);assert.ok(gpu<10*1024*1024);
  assert.notEqual(SHOWCASE_SURFACE_ASSETS.moss.color,SHOWCASE_SURFACE_ASSETS.leaf.color);
 });
 test('physical beam grain and owned surface changes never mutate a shared primitive/material or its transformed vertices',()=>{
@@ -41,7 +41,7 @@ for(const fail of [false,true])test('selected surface decoding '+(fail?'fails at
   globalThis.window={};globalThis.fetch=async url=>{requests++;active++;peak=Math.max(peak,active);await new Promise(r=>setTimeout(r,2));active--;if(fail&&url.includes('moss-normal'))throw Error('offline');return {ok:true,blob:async()=>({url})};};
   globalThis.createImageBitmap=async()=>{decoded++;return {width:512,height:512,close(){closed++;}};};
   const module=await import('../public/showcase-surface-details.js?surface-test='+fail),one=module.prepareShowcaseSurfaces(),two=module.prepareShowcaseSurfaces();assert.equal(one,two);assert.equal(await one,!fail);assert.equal(await module.prepareShowcaseSurfaces(),!fail);
-  assert.equal(requests,13);assert.ok(peak<=3);assert.equal(closed,fail?decoded:0);
+  assert.equal(requests,14);assert.ok(peak<=3);assert.equal(closed,fail?decoded:0);
   if(!fail){const material=new T.MeshStandardMaterial();material.userData.surfaceKind='moss';const root=new T.Group();root.add(new T.Mesh(new T.PlaneGeometry(),material));module.applyShowcaseSurfaceDetails(root);assert.match(material.map.name,/water garden moss color/);assert.equal(material.map.colorSpace,T.SRGBColorSpace);assert.equal(material.normalMap.colorSpace,T.NoColorSpace);}
  }finally{for(const [key,value]of Object.entries(originals)){if(value===undefined)delete globalThis[key];else globalThis[key]=value;}}
 });

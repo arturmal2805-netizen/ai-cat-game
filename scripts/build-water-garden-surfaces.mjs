@@ -29,13 +29,15 @@ function surface(kind,u,v){
   const tuft=noise(u,v,40),tips=Math.pow(noise(u+.018,v+.013,192),3),fibre=Math.sin((u+Math.sin(v*TAU*3)*.012)*TAU*107)*.5+.5;
   height=.25+tuft*.34+tips*.22+fibre*.05+mid*.06;
   tone=.49+tuft*.34+tips*.26+fibre*.045+mid*.08;
-  tint=[.94,1,.76];rough=.88+fine*.12;
+  tint=[.94,1,.76];rough=.74+tuft*.19+fine*.06;
  }else if(kind==='leaf'){
   const centre=Math.exp(-Math.abs(u-.5)*110),sides=Math.abs(u-.5),phase=v*12-sides*7,
    veins=Math.exp(-Math.abs(Math.sin(phase*Math.PI))*24)*(1-smooth((sides-.39)*12));
   height=.30+Math.sin(u*Math.PI)*.12+centre*.13+veins*.07+fine*.012;
   tone=.77+Math.sin(u*Math.PI)*.15+centre*.13+veins*.075+mid*.065;
   tint=[1,1,1];rough=.76+fine*.16;
+ }else if(kind==='sand'){
+  height=.5;tone=.79+mid*.08+fine*.12+broad*.035;tint=[1,.995,.94];rough=.98;
  }else{
   height=.5;tone=.68+broad*.23+mid*.11+fine*.055;tint=[.94,1,.80];rough=.98;
  }
@@ -45,9 +47,9 @@ const crcTable=Array.from({length:256},(_,i)=>{let n=i;for(let k=0;k<8;k++)n=n&1
 function chunk(type,bytes){const t=Buffer.from(type),size=Buffer.alloc(4);size.writeUInt32BE(bytes.length);let crc=0xffffffff;for(const x of Buffer.concat([t,bytes]))crc=crcTable[(crc^x)&255]^(crc>>>8);const end=Buffer.alloc(4);end.writeUInt32BE((crc^0xffffffff)>>>0);return Buffer.concat([size,t,bytes,end]);}
 function png(bytes,size){const header=Buffer.alloc(13);header.writeUInt32BE(size,0);header.writeUInt32BE(size,4);header[8]=8;header[9]=6;const rows=Buffer.alloc((size*4+1)*size);for(let y=0;y<size;y++)rows.set(bytes.subarray(y*size*4,(y+1)*size*4),y*(size*4+1)+1);return Buffer.concat([Buffer.from([137,80,78,71,13,10,26,10]),chunk('IHDR',header),chunk('IDAT',deflateSync(rows,{level:9})),chunk('IEND',Buffer.alloc(0))]);}
 const manifest={};let bytes=0,gpu=0;
-for(const kind of ['wood','stone','moss','leaf','lawn']){
+for(const kind of ['wood','stone','moss','leaf','lawn','sand']){
  manifest[kind]={};
- for(const role of kind==='lawn'?['color']:['color','normal','roughness']){
+ for(const role of ['lawn','sand'].includes(kind)?['color']:['color','normal','roughness']){
   const size=role==='color'?512:role==='normal'?256:128,data=new Uint8Array(size*size*4);
   for(let y=0;y<size;y++)for(let x=0;x<size;x++){
    const u=x/size,v=y/size,s=surface(kind,u,v),at=(y*size+x)*4;
@@ -60,5 +62,5 @@ for(const kind of ['wood','stone','moss','leaf','lawn']){
  }
 }
 fs.writeFileSync(new URL('../public/showcase-surface-assets.js',import.meta.url),'// Offline original surface charts; shared by all eight adventures.\nexport const SHOWCASE_SURFACE_ASSETS='+JSON.stringify(manifest,null,2)+';\nexport const SHOWCASE_SURFACE_BYTES='+JSON.stringify({download:bytes,gpuMipmapped:gpu})+';\n');
-const keep=new Set(Object.values(manifest).flatMap(roles=>Object.values(roles).map(url=>url.split('/').at(-1))));for(const file of fs.readdirSync(folder))if(/^(wood|stone|moss|leaf|lawn)-(color|normal|roughness)-[a-f0-9]{12}\.png$/.test(file)&&!keep.has(file))fs.unlinkSync(new URL(file,folder));
-console.log(JSON.stringify({maps:13,downloadBytes:bytes,gpuMipmappedBytes:gpu}));
+const keep=new Set(Object.values(manifest).flatMap(roles=>Object.values(roles).map(url=>url.split('/').at(-1))));for(const file of fs.readdirSync(folder))if(/^(wood|stone|moss|leaf|lawn|sand)-(color|normal|roughness)-[a-f0-9]{12}\.png$/.test(file)&&!keep.has(file))fs.unlinkSync(new URL(file,folder));
+console.log(JSON.stringify({maps:14,downloadBytes:bytes,gpuMipmappedBytes:gpu}));

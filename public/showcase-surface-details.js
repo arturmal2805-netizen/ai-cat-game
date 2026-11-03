@@ -47,14 +47,15 @@ function maps(kind){
  }
  const texture=(bytes,label)=>{const t=new T.DataTexture(bytes,size,size,T.RGBAFormat);t.name='Shared water-adventure '+kind+' '+label;t.wrapS=t.wrapT=T.RepeatWrapping;t.magFilter=T.LinearFilter;t.minFilter=T.LinearMipmapLinearFilter;t.generateMipmaps=true;t.colorSpace=T.NoColorSpace;t.userData.sharedScenery=true;t.needsUpdate=true;return t;};
  const color=texture(albedo,'original painted surface');color.colorSpace=T.SRGBColorSpace;
- const result=kind==='lawn'?{color}:{normal:texture(normal,'micro-normal'),roughness:texture(rough,'wet roughness'),color};textures.set(kind,result);return result;
+ const result=['lawn','sand'].includes(kind)?{color}:{normal:texture(normal,'micro-normal'),roughness:texture(rough,'wet roughness'),color};textures.set(kind,result);return result;
 }
+export const showcaseSurfaceMap=kind=>maps(kind).color;
 export function applyShowcaseSurfaceDetails(root){
  const seen=new Set();root.traverse(o=>{if(!o.isMesh)return;for(const m of Array.isArray(o.material)?o.material:[o.material]){
   if(!m.isMeshStandardMaterial||m.userData.sharedScenery||seen.has(m)||!['stone','moss','wood','leaf','lawn'].includes(m.userData.surfaceKind))continue;
   seen.add(m);const kind=m.userData.surfaceKind,set=maps(kind);
-  m.map=set.color;m.normalMap=set.normal||null;m.normalScale.setScalar(kind==='moss'?.82:kind==='leaf'?.24:kind==='wood'?.38:.65);m.bumpMap=null;m.roughnessMap=set.roughness||null;
-  m.roughness=kind==='moss'?.86:kind==='leaf'?.78:kind==='wood'?.85:kind==='lawn'?.98:.90;m.metalness=0;
+  m.map=set.color;m.normalMap=set.normal||null;m.normalScale.setScalar(kind==='moss'?.82:kind==='leaf'?.34:kind==='wood'?.38:.65);m.bumpMap=null;m.roughnessMap=set.roughness||null;
+  m.roughness=kind==='moss'?.82:kind==='leaf'?.66:kind==='wood'?.85:kind==='lawn'?.98:.90;m.metalness=0;
   m.userData.showcaseSurface={kind,immutable:true,sharedMaps:true};m.needsUpdate=true;
  }});return root;
 }
