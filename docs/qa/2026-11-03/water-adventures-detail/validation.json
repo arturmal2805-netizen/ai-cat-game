@@ -41,5 +41,16 @@
     "reloads": 3,
     "browserErrors": 0,
     "httpErrors": 0
+  },
+  "releaseCITest": {
+    "tests": 898,
+    "pass": 898,
+    "fail": 0,
+    "run": 41600400526,
+    "release": "9f345439f7c79ddd3af2e9ddbc89a65ff2e55552"
+  },
+  "node22Focused": {
+    "passed": 24,
+    "failed": 0
   }
 }
