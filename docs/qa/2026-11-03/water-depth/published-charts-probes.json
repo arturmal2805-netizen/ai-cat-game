@@ -1,0 +1,241 @@
+{
+  "release": "d6fa8056f18d2d738890cc9b477334e4cda81523",
+  "sites": {
+    "pages": {
+      "assets": [
+        {
+          "name": "art/water-garden/wood-color-3b43075373a9.png",
+          "bytes": 366400,
+          "sha256": "3b43075373a9c06189ca75ee0f458ba169306c690ba931ba46472fed320d2a67"
+        },
+        {
+          "name": "art/water-garden/wood-normal-1c51d5dcacf5.png",
+          "bytes": 146987,
+          "sha256": "1c51d5dcacf53be5f0e9fb19b32460ed31f0b8d8c46052555e684ada166f721b"
+        },
+        {
+          "name": "art/water-garden/wood-roughness-5f6c77c0feff.png",
+          "bytes": 12778,
+          "sha256": "5f6c77c0feff2484c1db651e9e5f657d9b4f2aeccf4c59e7f50f3cca9d42a2ba"
+        },
+        {
+          "name": "art/water-garden/stone-color-70bf896a56a3.png",
+          "bytes": 279399,
+          "sha256": "70bf896a56a32d16d9705cd4c529b52468b38c984397612531e812f81a04c7a8"
+        },
+        {
+          "name": "art/water-garden/stone-normal-6812d207a0ac.png",
+          "bytes": 128915,
+          "sha256": "6812d207a0ac4ab2edfc7818a5420405e51bc6f8ad9845f9c6b511746943e924"
+        },
+        {
+          "name": "art/water-garden/stone-roughness-4aa2830fa994.png",
+          "bytes": 8726,
+          "sha256": "4aa2830fa994e206d99f4592c20ec3d2dbf28e4d67a4793dc95b94f470b95692"
+        },
+        {
+          "name": "art/water-garden/moss-color-8239c6169e12.png",
+          "bytes": 380941,
+          "sha256": "8239c6169e12bcb10e2996de26270cce9fd92207069dde555b32b18981aaffbe"
+        },
+        {
+          "name": "art/water-garden/moss-normal-6fef4b57663e.png",
+          "bytes": 174222,
+          "sha256": "6fef4b57663ec305af0e1baa7fd4695b0e7764f6bf8d042d45520d389e8e64d1"
+        },
+        {
+          "name": "art/water-garden/moss-roughness-6f36748ff869.png",
+          "bytes": 16252,
+          "sha256": "6f36748ff869015c4be1208fa42e910cfeb79dc29fff44f3c936e053b4f93bd1"
+        },
+        {
+          "name": "art/water-garden/leaf-color-bfcb3ff644f0.png",
+          "bytes": 69618,
+          "sha256": "bfcb3ff644f05815df4cc4a772336a7172367dde9ddb5768a0b281581ca80ef6"
+        },
+        {
+          "name": "art/water-garden/leaf-normal-1f2bca702f45.png",
+          "bytes": 71751,
+          "sha256": "1f2bca702f4524f90816074d7b848fe28a6d53dffb4057cd2349331e4a689c5b"
+        },
+        {
+          "name": "art/water-garden/leaf-roughness-ac0e4105f4fb.png",
+          "bytes": 16373,
+          "sha256": "ac0e4105f4fbc4a863c1092a6cac4532e4b5c72531a4675c3172373080e1db7c"
+        },
+        {
+          "name": "art/water-garden/lawn-color-34b5c3ee1516.png",
+          "bytes": 212932,
+          "sha256": "34b5c3ee1516bcf2209e1e7f1e583108be82bb2a076e74c940b260742abfdfb4"
+        },
+        {
+          "name": "art/water-garden/sand-color-f5b1be25dedf.png",
+          "bytes": 245114,
+          "sha256": "f5b1be25dedff4196f4b7d0753d1964a9b52826cb975d016f58cfe99d118e1c9"
+        },
+        {
+          "name": "art/water-reflections/barrel-wave-bb54179de2a8.png",
+          "bytes": 120419,
+          "sha256": "bb54179de2a82ea374b70091b55363f277f35fd020d7e4a3bf5c56efb2d96621"
+        },
+        {
+          "name": "art/water-reflections/canyon-rafting-53755871ac1a.png",
+          "bytes": 123067,
+          "sha256": "53755871ac1a414458a61445fda944f8f271f98a4f69d9d380c0af71da5681e5"
+        },
+        {
+          "name": "art/water-reflections/glass-drop-2d36424db6a7.png",
+          "bytes": 126447,
+          "sha256": "2d36424db6a79170ca509125a91e4ef7f0c9239f9954f1d23dfc5cd7c0d9060d"
+        },
+        {
+          "name": "art/water-reflections/lagoon-launch-791fab4a816d.png",
+          "bytes": 113754,
+          "sha256": "791fab4a816d55ca3b8c728316a756d2ce70c8c63331292b9ae01794783d16fd"
+        },
+        {
+          "name": "art/water-reflections/surf-halfpipe-131656ce9a31.png",
+          "bytes": 110417,
+          "sha256": "131656ce9a31948280dc144d8a5b6e95d286c3125a2f5e53541b245e4f28d6f1"
+        },
+        {
+          "name": "art/water-reflections/lazy-river-1da850775c2b.png",
+          "bytes": 113888,
+          "sha256": "1da850775c2b591d2f683ad2a21ecd0fd9318354dd0742491bff17fb763d0327"
+        },
+        {
+          "name": "art/water-reflections/fountain-carousel-ca60ffde6d8e.png",
+          "bytes": 71467,
+          "sha256": "ca60ffde6d8e02e36b3483e74f28dddd1bad63bfb78ec365ad7ea90fdf71e7c1"
+        },
+        {
+          "name": "art/water-reflections/pool-pendulum-bc16495f4983.png",
+          "bytes": 107298,
+          "sha256": "bc16495f4983a4daed1ff7b41d718bbab96af7aecfff9fb9967fdfb43b089a21"
+        }
+      ],
+      "retiredPreviews": {
+        "ride-water-crystal-vortex": 404,
+        "ride-water-jungle-coaster": 404
+      }
+    },
+    "worker": {
+      "assets": [
+        {
+          "name": "art/water-garden/wood-color-3b43075373a9.png",
+          "bytes": 366400,
+          "sha256": "3b43075373a9c06189ca75ee0f458ba169306c690ba931ba46472fed320d2a67"
+        },
+        {
+          "name": "art/water-garden/wood-normal-1c51d5dcacf5.png",
+          "bytes": 146987,
+          "sha256": "1c51d5dcacf53be5f0e9fb19b32460ed31f0b8d8c46052555e684ada166f721b"
+        },
+        {
+          "name": "art/water-garden/wood-roughness-5f6c77c0feff.png",
+          "bytes": 12778,
+          "sha256": "5f6c77c0feff2484c1db651e9e5f657d9b4f2aeccf4c59e7f50f3cca9d42a2ba"
+        },
+        {
+          "name": "art/water-garden/stone-color-70bf896a56a3.png",
+          "bytes": 279399,
+          "sha256": "70bf896a56a32d16d9705cd4c529b52468b38c984397612531e812f81a04c7a8"
+        },
+        {
+          "name": "art/water-garden/stone-normal-6812d207a0ac.png",
+          "bytes": 128915,
+          "sha256": "6812d207a0ac4ab2edfc7818a5420405e51bc6f8ad9845f9c6b511746943e924"
+        },
+        {
+          "name": "art/water-garden/stone-roughness-4aa2830fa994.png",
+          "bytes": 8726,
+          "sha256": "4aa2830fa994e206d99f4592c20ec3d2dbf28e4d67a4793dc95b94f470b95692"
+        },
+        {
+          "name": "art/water-garden/moss-color-8239c6169e12.png",
+          "bytes": 380941,
+          "sha256": "8239c6169e12bcb10e2996de26270cce9fd92207069dde555b32b18981aaffbe"
+        },
+        {
+          "name": "art/water-garden/moss-normal-6fef4b57663e.png",
+          "bytes": 174222,
+          "sha256": "6fef4b57663ec305af0e1baa7fd4695b0e7764f6bf8d042d45520d389e8e64d1"
+        },
+        {
+          "name": "art/water-garden/moss-roughness-6f36748ff869.png",
+          "bytes": 16252,
+          "sha256": "6f36748ff869015c4be1208fa42e910cfeb79dc29fff44f3c936e053b4f93bd1"
+        },
+        {
+          "name": "art/water-garden/leaf-color-bfcb3ff644f0.png",
+          "bytes": 69618,
+          "sha256": "bfcb3ff644f05815df4cc4a772336a7172367dde9ddb5768a0b281581ca80ef6"
+        },
+        {
+          "name": "art/water-garden/leaf-normal-1f2bca702f45.png",
+          "bytes": 71751,
+          "sha256": "1f2bca702f4524f90816074d7b848fe28a6d53dffb4057cd2349331e4a689c5b"
+        },
+        {
+          "name": "art/water-garden/leaf-roughness-ac0e4105f4fb.png",
+          "bytes": 16373,
+          "sha256": "ac0e4105f4fbc4a863c1092a6cac4532e4b5c72531a4675c3172373080e1db7c"
+        },
+        {
+          "name": "art/water-garden/lawn-color-34b5c3ee1516.png",
+          "bytes": 212932,
+          "sha256": "34b5c3ee1516bcf2209e1e7f1e583108be82bb2a076e74c940b260742abfdfb4"
+        },
+        {
+          "name": "art/water-garden/sand-color-f5b1be25dedf.png",
+          "bytes": 245114,
+          "sha256": "f5b1be25dedff4196f4b7d0753d1964a9b52826cb975d016f58cfe99d118e1c9"
+        },
+        {
+          "name": "art/water-reflections/barrel-wave-bb54179de2a8.png",
+          "bytes": 120419,
+          "sha256": "bb54179de2a82ea374b70091b55363f277f35fd020d7e4a3bf5c56efb2d96621"
+        },
+        {
+          "name": "art/water-reflections/canyon-rafting-53755871ac1a.png",
+          "bytes": 123067,
+          "sha256": "53755871ac1a414458a61445fda944f8f271f98a4f69d9d380c0af71da5681e5"
+        },
+        {
+          "name": "art/water-reflections/glass-drop-2d36424db6a7.png",
+          "bytes": 126447,
+          "sha256": "2d36424db6a79170ca509125a91e4ef7f0c9239f9954f1d23dfc5cd7c0d9060d"
+        },
+        {
+          "name": "art/water-reflections/lagoon-launch-791fab4a816d.png",
+          "bytes": 113754,
+          "sha256": "791fab4a816d55ca3b8c728316a756d2ce70c8c63331292b9ae01794783d16fd"
+        },
+        {
+          "name": "art/water-reflections/surf-halfpipe-131656ce9a31.png",
+          "bytes": 110417,
+          "sha256": "131656ce9a31948280dc144d8a5b6e95d286c3125a2f5e53541b245e4f28d6f1"
+        },
+        {
+          "name": "art/water-reflections/lazy-river-1da850775c2b.png",
+          "bytes": 113888,
+          "sha256": "1da850775c2b591d2f683ad2a21ecd0fd9318354dd0742491bff17fb763d0327"
+        },
+        {
+          "name": "art/water-reflections/fountain-carousel-ca60ffde6d8e.png",
+          "bytes": 71467,
+          "sha256": "ca60ffde6d8e02e36b3483e74f28dddd1bad63bfb78ec365ad7ea90fdf71e7c1"
+        },
+        {
+          "name": "art/water-reflections/pool-pendulum-bc16495f4983.png",
+          "bytes": 107298,
+          "sha256": "bc16495f4983a4daed1ff7b41d718bbab96af7aecfff9fb9967fdfb43b089a21"
+        }
+      ],
+      "retiredPreviews": {
+        "ride-water-crystal-vortex": 404,
+        "ride-water-jungle-coaster": 404
+      }
+    }
+  }
+}

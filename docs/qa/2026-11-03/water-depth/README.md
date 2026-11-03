@@ -29,3 +29,13 @@ texture totals include four retained cat textures, so these totals are not a
 like-for-like water-texture measurement. The focused shader/composition tests
 verify the original three water/two bottom samples and existing field/clock
 identities; all eight scenery probes retain their original dimensions/count.
+
+Published release: `d6fa8056f18d2d738890cc9b477334e4cda81523`, app
+`d215e0ce2c193214`, GitHub Actions run `41708830379`. Test, deploy and
+Pages succeeded; CI also reports 933 passed / zero failed tests. Both public
+sites serve the exact tested app, all eight actual 960×640 previews, original
+zoo/cat model assets and all 22 surface/probe files. Both retired adventure
+previews return 404. The Worker reports the exact release and available cloud
+saving. Byte-level evidence is in `publication.json` and
+`published-charts-probes.json`. The preceding pending run `41706660141` was
+intentionally cancelled after the environment reconnect, before deployment.
