@@ -104,7 +104,7 @@ export function* tropicalShore(parent,spec,canPlace,obstacles) {
      cascades.push({x:fx,z:fz,y:h,width:r*.72,angle:Math.atan2(nx,nz),spring:[x+nx*r*.35,z+nz*r*.35],radius:r*.8});
     }
     obstacles.push({x,z,radius:r*1.16});
-    if(garden)tropicalTree(parent,x,h+.5,z,12+(i%2)*2,true);else tropicalPalm(parent,x,h+.5,z,12+(i%2)*3,i);
+    if(garden)tropicalTree(parent,x,h+.5,z,12+(i%2)*2,true);else if(spec.kind==='jungle-coaster'&&i===2)tropicalTree(parent,x,h+.5,z,26,false);else tropicalPalm(parent,x,h+.5,z,12+(i%2)*3,i);
     flowerBank(parent,x+1,h+.5,z+1,spec.accent,.6);
     yield;
   }

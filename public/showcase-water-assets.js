@@ -15,7 +15,12 @@ import {showcaseRideReaction,sampleShowcaseActing} from './showcase-water-acting
 import {applyShowcaseSurfaceDetails} from './showcase-surface-details.js';
 import {boulderGeometry} from './showcase-geology.js';
 import {polishShowcaseWater} from './showcase-water-optics.js';
+import {naturalBank} from './showcase-bank.js';
+import {cliffGeometry} from './showcase-geology.js';
 const profiles=new Map();
+const boatRoundGeometry=new T.SphereGeometry(1,24,14);boatRoundGeometry.userData.sharedScenery=true;
+const bankPaint=new Map();
+function materialForBank(river){const key=river?'river':'canyon';if(!bankPaint.has(key)){const m=new T.MeshStandardMaterial({color:river?0xaeb39a:0xc4a17f,roughness:.72});m.userData.sharedScenery=true;m.userData.surfaceKind='stone';bankPaint.set(key,m);}return bankPaint.get(key);}
 // Wide flat-bottom channels really support a raft; a broad flat raft cannot
 // sit at the bottom of a narrow circular pipe without intersecting its walls.
 function trough(data,width,depth){
@@ -43,6 +48,26 @@ function vehicle(props,spec){
    for(const z of [-8,8]){shape(g,'sphere',0xf4cf77,0,1.55,z,4.4,.35,1.2);shape(g,'sphere',0xe8a54f,0,2.3,z,1.2,.9,.6);}
   }
  }
+ // The close guest camera sees real curved hulls, deck seams and edge ropes.
+ // These details are baked once into the same bounded vehicle batch.
+ if(kind==='canyon-rafting'){
+  torus(g,0xffefbf,5.9,.13,0,.48,0).rotation.x=Math.PI/2;
+  for(let i=-4;i<=4;i++){const width=Math.sqrt(Math.max(0,5.2**2-i*i))*2;shape(g,'cube',i%2?0xe7bd7e:0xf1cf95,0,-.18,i,width,.12,.88);}
+  for(let i=0;i<12;i++){const a=i*Math.PI/6;shape(g,'sphere',0xe9b35d,Math.sin(a)*5.95,.05,Math.cos(a)*5.95,.16,.3,.16);}
+ }else if(!['barrel-wave','surf-halfpipe','lazy-river','fountain-carousel'].includes(kind)){
+  const large=kind==='pool-pendulum',w=large?10.2:7,d=large?8:5.8;
+  for(let i=0;i<7;i++)shape(g,'cube',i%2?0xedc78d:0xf7dfa9,0,-.10,-d/2+i*d/6,w,.08,.09);
+  for(const side of [-1,1])for(let j=0;j<7;j++)shape(g,'sphere',0xffe6a7,side*(large?5.95:3.8),.06,-d/2+j*d/6,.13,.13,.13);
+  shape(g,'sphere',0xf7e7b3,0,.15,large?7.8:3.0,.65,.13,.55);
+  for(const x of [-.55,-.18,.22,.55])shape(g,'sphere',0xf7e7b3,x,.16,large?8.45:3.55,.17,.12,.20);
+ }else if(['lazy-river','fountain-carousel'].includes(kind)){
+  const rim=torus(g,0xffedb4,2.2,.10,0,.38,0);rim.rotation.x=Math.PI/2;
+  for(let j=0;j<8;j++){const a=j*Math.PI/4;shape(g,'sphere',0xe4a156,Math.sin(a)*2.25,-.1,Math.cos(a)*2.25,.18,.32,.18);}
+ }else{
+  shape(g,'sphere',0x6acde5,0,-.02,.6,.72,.045,1.55);
+  for(const x of [-.7,.7])line(g,[x,.04,-.8],[x,.04,1.7],0xffefc0,.07);
+ }
+ g.traverse(o=>{if(o.isMesh&&o.geometry.type==='SphereGeometry')o.geometry=boatRoundGeometry;});
  return g;
 }
 function waveBody(props,root,spec,extra){
@@ -100,7 +125,12 @@ export function* showcaseWaterSteps(id){
   if(!carousel&&!data.barrel){const shell=trough(data,width,depth),floor=new T.Mesh(shell.floor,new T.MeshStandardMaterial({color:river?0x75bbb0:spec.color,roughness:.3,metalness:.1,side:T.DoubleSide}));props.add(floor);
    if(data.rapids||river){
     for(const geometry of shell.walls)geometry.dispose();
-    for(let i=0;i<data.samples.length;i+=10){const s=data.samples[i];for(const side of [-1,1]){const p=s.p.clone().addScaledVector(s.right,side*(width+2.5)).addScaledVector(s.up,-depth+.4),rock=shape(props,'stone',river?0xb7be98:i%3?0xd3b28b:0xbba084,...p.toArray(),3.4,2+(i%3)*.4,2.8);rock.geometry=boulderGeometry(i+side);rock.rotation.y=i*.71;if(i%30===0){const foot=shape(props,'stone',river?0xb6b497:0xc2a485,p.x,p.y*.5,p.z,3.3,Math.max(2,p.y*.5),3.1);foot.geometry=boulderGeometry(i);}}}
+    for(const side of [-1,1]){const material=new T.MeshStandardMaterial({color:river?0xb4b99a:0xc4a17f,roughness:.72,side:T.DoubleSide,vertexColors:true});material.userData.surfaceKind='stone';const bank=new T.Mesh(naturalBank(data,width,depth,side),material);bank.castShadow=bank.receiveShadow=true;props.add(bank);}
+    for(let i=36;i<data.samples.length-30;i+=60){const s=data.samples[i];for(const side of [-1,1]){const p=s.p.clone().addScaledVector(s.right,side*(width+3.8)).addScaledVector(s.up,-depth+.6),rock=shape(props,'stone',river?0xaebba0:0xddb58a,...p.toArray(),2.7,1.5,2.3);rock.geometry=boulderGeometry(i+side);rock.rotation.y=i*.71;
+     const moss=s.p.clone().addScaledVector(s.right,side*(width+3.8)).addScaledVector(s.up,-depth+1.9);shape(props,'sphere',i%120?0x76b76e:0x9bc575,...moss.toArray(),1.8,.2,1.1);
+     const foot=s.p.clone().addScaledVector(s.right,side*(width+7)).addScaledVector(s.up,-depth-1);
+     if(foot.y>6&&scenery.canPlace(foot.x,foot.y/2,foot.z,3.8,foot.y/2,3.8)){const column=new T.Mesh(cliffGeometry(foot.y,3.8,i),materialForBank(river));column.position.set(foot.x,0,foot.z);column.castShadow=column.receiveShadow=true;props.add(column);}
+    }}
     if(data.rapids)for(const k of [110,220,330,450,520]){const s=data.samples[k],points=Array.from({length:17},(_,j)=>s.p.clone().addScaledVector(s.right,(j/16*2-1)*(width-.8)).addScaledVector(s.up,-depth+.22+Math.sin(j*1.3)*.07));props.add(new T.Mesh(new T.TubeGeometry(new T.CatmullRomCurve3(points),24,.12,4,false),new T.MeshStandardMaterial({color:0xdafaff,roughness:.4})));}
    }else{
     for(const geometry of shell.walls)props.add(new T.Mesh(geometry,new T.MeshStandardMaterial({color:0xa2e7f4,transparent:true,opacity:.24,depthWrite:false,roughness:.2,side:T.DoubleSide})));
@@ -136,7 +166,7 @@ export function* showcaseWaterSteps(id){
  root.userData={id,referenceSlide:true,showcaseWater:true,premiumWater:true,mega:true,handpainted:true,moving,pool,route,footprint:spec.footprint,duration:route.duration,rideFrame:route.frame,seatHeight:0,approachOffset:route.entry,dismount:route.entry,approachFrame:approach.frame,approachDuration:approach.duration,approachYaw:approach.yaw,
   groupSeats:spec.seats>1?spec.seats:0,sharedVehicle:spec.seats>1&&spec.kind!=='fountain-carousel',vehicleFrame:route.vehicleFrame,vehicleFrameForLane:route.boatFrame,hollowPassages:scenery.hollowPassages,
   entryForSlot:i=>route.frame(0,false,i).position,
-  queueForSlot:spec.seats>1?i=>approach.queues[i]:null,
+  queueForSlot:spec.seats>1?i=>approach.queues[i]:i=>[route.entry[0]-(i%2)*3.2,route.entry[1],route.entry[2]+Math.floor(i/2)*4.5],
   stats:{sourceMeshes:staticModel.userData.sourceMeshes,staticMeshes:staticModel.children.length,waterDraws:channels.length+extra.length+1},
   update(time,reduced=false){pool.userData.update(time,reduced);scenery.update(time,reduced);for(const m of extra)advanceWater(m,time,reduced);
    const riders=[...(root.userData.slideRiders?.values()||[])],at=riders.find(r=>Number.isFinite(r.elapsed))?.elapsed??root.userData.rideElapsed;

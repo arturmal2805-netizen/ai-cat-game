@@ -34,7 +34,7 @@ function seatOffset(spec,i){
 }
 export function* showcaseRouteSteps(spec){
  if(cache.has(spec.id))return cache.get(spec.id);
- const authored=showcaseRecipe(spec),geometry=[],legs=[],impacts=[],flights=[],r=spec.radius,entry=[-54,.16,42];let clock=0;
+ const authored=showcaseRecipe(spec),geometry=[],legs=[],impacts=[],flights=[],r=spec.radius,entry=[-46,.16,10];let clock=0;
  for(const part of authored.parts){yield;const data=runData(part,-r+.65);smoothWaterFrames(data);Object.assign(data,part);data.flumeSteps=360;geometry.push(data);}
  for(let k=1;k<geometry.length;k++){
   if(spec.kind==='lagoon-launch')continue;
@@ -55,7 +55,7 @@ export function* showcaseRouteSteps(spec){
  const motor=['jungle-coaster','glass-drop'].includes(spec.kind),surface=['lazy-river','fountain-carousel','pool-pendulum','surf-halfpipe'].includes(spec.kind);
  add(1.5,'board',()=>frame(entry));
  if(motor){const boarding=spec.kind==='glass-drop'?[bottom[0],1.95,bottom[2]]:[-35,1.4,30];walk(entry,boarding,8);hold(2,'anticipation');const fromQ=legs.at(-1).fn(1).quaternion;add(13,'lift',u=>frame(lerp(boarding,bottom,smooth(u)),new T.Quaternion().fromArray(fromQ).slerp(new T.Quaternion().fromArray(bottomQ),smooth(u)).toArray(),{lift:true}));hold(spec.kind==='glass-drop'?3.2:1.2,'hold');}
- else if(!surface){const top=[-44,spec.kind==='lagoon-launch'?10:spec.height-r+.65,-30],base=[-44,.16,-30];walk(entry,base,14);const climbQ=legs.at(-1).fn(1).quaternion;add(Math.max(9,spec.height*.17),'climb',u=>{const a=u*TAU*Math.ceil(spec.height/12);return frame([-44+Math.sin(a)*7,.16+(top[1]-.16)*u,-37+Math.cos(a)*7],new T.Quaternion().fromArray(climbQ).slerp(new T.Quaternion().setFromAxisAngle(new T.Vector3(0,1,0),Math.PI/2+a),smooth(u/.12)).toArray(),{walking:true,yaw:Math.PI/2+a});});walk(top,bottom,Math.max(3,V(top).distanceTo(V(bottom))/5),'board',bottomQ);hold(1.3,'anticipation');}
+ else if(!surface){const top=[-44,spec.kind==='lagoon-launch'?10:spec.height-r+.65,-30],base=[-44,.16,-30];walk(entry,base,Math.max(3,V(entry).distanceTo(V(base))/4.8));const climbQ=legs.at(-1).fn(1).quaternion;add(Math.max(9,spec.height*.17),'climb',u=>{const a=u*TAU*Math.ceil(spec.height/12);return frame([-44+Math.sin(a)*7,.16+(top[1]-.16)*u,-37+Math.cos(a)*7],new T.Quaternion().fromArray(climbQ).slerp(new T.Quaternion().setFromAxisAngle(new T.Vector3(0,1,0),Math.PI/2+a),smooth(u/.12)).toArray(),{walking:true,yaw:Math.PI/2+a});});walk(top,bottom,Math.max(3,V(top).distanceTo(V(bottom))/5),'board',bottomQ);hold(1.3,'anticipation');}
  else {if(spec.kind==='surf-halfpipe'){walk(entry,[-50,.16,-20],10);walk([-50,.16,-20],[0,1.95,-20],9);walk([0,1.95,-20],bottom,4,'board',bottomQ);}else walk(entry,spec.kind==='pool-pendulum'?[0,2,0]:bottom,9,'board',bottomQ);hold(2,'anticipation');}
  const rideStart=clock;
  switch(spec.kind){
@@ -81,8 +81,10 @@ export function* showcaseRouteSteps(spec){
  add(2.2,'splash',u=>frame(finish.position,finish.quaternion,{splash:true,paw:smooth(u)}));
  let departure=finish.position,departureQ=finish.quaternion;
  if(!surface){const dock=[authored.pool[0]+authored.pool[2]-3,spec.surfaceY+.5,authored.pool[1]],q=new T.Quaternion().fromArray(finish.quaternion||[0,0,0,1]),target=new T.Quaternion().setFromAxisAngle(new T.Vector3(0,1,0),Math.PI/2);add(3,'unload',u=>frame(lerp(finish.position,dock,smooth(u)),q.clone().slerp(target,smooth(u)).toArray()));departure=dock;departureQ=target.toArray();}
- const dismount=surface?bottom:[authored.pool[0]+authored.pool[2]+3,.16,authored.pool[1]];
- walk(departure,dismount,6,'exit');if(spec.kind==='surf-halfpipe'){walk(dismount,[0,1.95,-20],4,'exit');walk([0,1.95,-20],[-50,.16,-20],9,'exit');walk([-50,.16,-20],entry,10,'exit');}else walk(dismount,entry,Math.max(5,V(dismount).distanceTo(V(entry))/6),'exit');
+ const dismount=surface?bottom:[authored.pool[0]+authored.pool[2]+2.5,2.3,authored.pool[1]];
+ if(V(departure).distanceTo(V(dismount))<.1)add(.8,'splash',u=>frame(lerp(departure,dismount,smooth(u)),departureQ));else walk(departure,dismount,6,'exit');if(spec.kind==='surf-halfpipe'){walk(dismount,[0,1.95,-20],4,'exit');walk([0,1.95,-20],[-50,.16,-20],9,'exit');walk([-50,.16,-20],entry,10,'exit');}else if(!surface){
+  let from=dismount;for(let i=1;i<=8;i++){const a=i/8*Math.PI,to=[authored.pool[0]+Math.cos(a)*(authored.pool[2]+2.5),2.3,authored.pool[1]+Math.sin(a)*(authored.pool[3]+2.5)];walk(from,to,Math.max(.5,V(from).distanceTo(V(to))/4.8),'exit');from=to;}walk(from,entry,Math.max(3,V(from).distanceTo(V(entry))/4.8),'exit');
+ }else walk(dismount,entry,Math.max(5,V(dismount).distanceTo(V(entry))/6),'exit');
  const seatStart=legs.find(l=>l.phase==='anticipation').start,seatEnd=legs.find(l=>l.phase==='exit').start,seatHeight=['barrel-wave','surf-halfpipe'].includes(spec.kind) ? .09 : .36;
  const seated=f=>{if(!f.seatBlend)return f;const lift=new T.Vector3(0,seatHeight*f.seatBlend,0).applyQuaternion(new T.Quaternion().fromArray(f.quaternion));return{...f,position:V(f.position).add(lift).toArray()};};
 
