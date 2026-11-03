@@ -5,7 +5,7 @@ vegetation across the retained eight water adventures. Reference runtime:
 `e3fe835` (kept unchanged in a separate checkout). No economy, save, route, career,
 animal/cat model, island coordinates or paid placement IDs are changed.
 
-This draft increases ground beds from twelve to a maximum of twenty-four where
+This revision increases ground beds from twelve to a maximum of twenty-four where
 physical space permits; combines shrubs, broad leaves, flowers and ferns; fills
 cliff tops and river margins; and anchors hanging vines/moss to the actual rock
 surface. Large leaves use curved 28-triangle blades, shared opaque geometry and
@@ -26,7 +26,7 @@ Final matching-frame gallery: all eight models, 32 native seated/landing poses,
 16 phone images and 24 static/native colour comparisons (zero changed bytes).
 No browser, shader or context errors. All eight shop images have been re-rendered
 at 960×640. Nineteen focused geometry, optics, chart and load-failure tests passed.
-Native UI/reload checks, full suite and every-island audit follow before release. Software-renderer resource data
+The 928-test flora suite passed. The real phone/SQLite audit completed eight purchases, all eight native rides and return walks, both cameras, grouped boarding and three durable reloads. The combined cat-visibility build and all 930 tests passed. Every-island coverage follows before release. Software-renderer resource data
 must not be represented as physical M2/iPhone FPS gains.
 
 The final detail pass adds raised midribs to larger curved leaves, continuous

@@ -646,6 +646,12 @@ async function localWorker() {
       () => window.__lagoonQA && window.__lagoonSaveQA?.cloud.editable,
     );
 
+    if (process.env.CHICHI_CAT_VIEW_AUDIT) {
+      const {checkCatView}=await import('./check-cat-view.mjs');
+      await checkCatView(page,review);
+      fs.writeFileSync(path.join(review,'browser-errors.json'),JSON.stringify({errors,httpErrors},null,2));
+      assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;
+    }
     if (process.env.CHICHI_DEVICE_PROFILE_AUDIT) {
       if(process.env.CHICHI_POSE_UPLOAD_AUDIT){
         const {checkPoseTextureUpload}=await import("./check-pose-texture-upload.mjs");
