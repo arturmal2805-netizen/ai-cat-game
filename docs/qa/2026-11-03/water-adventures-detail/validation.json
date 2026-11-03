@@ -18,7 +18,28 @@
     "returnWalkError": 0,
     "boatsAfterDisembarking": 0
   },
-  "commonWorldGate": "../2026-11-02/water-adventures-polish: all 19 islands and 2 returns, DPR2, 115 NPCs; common world source is unchanged by this detail-only revision",
+  "commonWorldGate": "../../2026-11-02/water-adventures-polish: all 19 islands and 2 returns at DPR2 with 115 NPCs; common world source is unchanged by this detail-only revision",
   "physicalDeviceFPS": "Not measured by software browser",
-  "phoneFinalCollection": "pending final run"
+  "phoneFinalCollection": {
+    "purchases": 10,
+    "rides": 10,
+    "actualWalkingReturns": 10,
+    "reloads": 3,
+    "maxSeatError": 2.3439834540122723e-13,
+    "maxReturnError": 1.1368683772161603e-13,
+    "boatsAfterWalking": 0,
+    "automaticRaftPassengers": 3,
+    "sharedRaftBoats": 1,
+    "browserErrors": 0,
+    "httpErrors": 0,
+    "DPR": 2
+  },
+  "guestCameraRecheck": {
+    "selectedRide": "canyon-rafting",
+    "faceProjectsToScreenCentre": true,
+    "automaticGuests": 3,
+    "reloads": 3,
+    "browserErrors": 0,
+    "httpErrors": 0
+  }
 }

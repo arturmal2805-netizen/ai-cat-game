@@ -822,3 +822,13 @@ planning to two candidates per half-second and release the active-object set on
 disposal. Test first seating, the fixed 15-second deadline, late arrival,
 cancellation, route continuity, common raft motion and real automatic boarding
 in the private native phone/SQLite harness.
+
+The detailed water-adventure pass keeps the entry and all four solo waiting
+places on dry land. Protect exit and lift paths as well as boarding when placing
+scenery. Returning cats use the actual 9/11.6-metre plank promenade, handrails and
+supports; a path through the catch pool or under its descending flume is invalid.
+Closed rides settle to their exact exit point without walking in place.
+Validate every route boundary, real native return-walk frames and physical
+placement bounds. Launch pumps belong outside the occupied flume, measured from
+its actual -8 X centre. Natural banks have distinct rock faces/ledges with open
+boarding mouths; retain immutable buffers and shared material/vehicle geometry.
