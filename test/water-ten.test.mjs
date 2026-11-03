@@ -26,6 +26,13 @@ test('every authored state boundary is continuous for each actual passenger seat
   assert.equal(r.frame(r.duration+.1,false,i).phase,'done');
  }}
 });
+test('waiting areas stay on the island and finished riders walk around their catch pool rather than through it',()=>{
+ for(const s of SHOWCASE_WATER_RIDES){const r=createShowcaseRoute(s);
+  for(let i=0;i<4;i++){const p=[r.entry[0]-(i%2)*3.2,r.entry[2]+Math.floor(i/2)*4.5];assert.ok((p[0]/53)**2+(p[1]/50)**2<1,s.kind+' dry waiting area');}
+  if(['surf-halfpipe','lazy-river','fountain-carousel','pool-pendulum'].includes(s.kind))continue;
+  for(const leg of r.legs.filter(l=>l.phase==='exit').slice(1))for(let i=0;i<=20;i++){const p=leg.fn(i/20).position,outside=((p[0]-r.pool[0])/(r.pool[2]+2.5))**2+((p[2]-r.pool[1])/(r.pool[3]+2.5))**2>=1;assert.ok(outside||p[1]>=s.surfaceY+.35,s.kind+' dry return beside the pool or on its elevated promenade');}
+ }
+});
 test('launch uses 9.81 gravity; the river, standing halfpipe and fixed suspension have their own mechanics',()=>{
  for(const s of SHOWCASE_WATER_RIDES){const r=createShowcaseRoute(s);assert.ok(r.legs.some(l=>l.phase==='exit'));if(s.kind==='lagoon-launch'){const f=r.flights[0];assert.equal(f.gravity,9.81);for(const u of [.2,.5,.8]){const p=r.vehicleFrame(f.start+u*f.duration).position,t=u*f.duration;assert.ok(Math.abs(p[1]-(f.from[1]+f.vy*t-.5*9.81*t*t))<1e-7);}}
  if(s.kind==='lazy-river')assert.ok(r.legs.find(l=>l.phase==='float').duration>=40&&r.legs.find(l=>l.phase==='float').duration<=48);

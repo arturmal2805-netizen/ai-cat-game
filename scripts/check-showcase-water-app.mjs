@@ -31,7 +31,7 @@ export async function checkShowcaseWaterApp(page,review){
  }
  // Finish construction only in this private fixture. No live world is opened.
  await page.evaluate(()=>{const g=structuredClone(__lagoonSaveQA.getGame());for(const p of g.placements)if(p.item.startsWith('ride-water-'))p.readyAt=0;__lagoonSaveQA.commit(g,false);for(const n of __lagoonQA.npcs.values())n.manualUntil=performance.now()+1e8;});
- for(const spec of SHOWCASE_WATER_RIDES){
+ for(const spec of SHOWCASE_WATER_RIDES.filter(s=>!process.env.CHICHI_WATER_TEN_ONLY||process.env.CHICHI_WATER_TEN_ONLY.split(',').includes(s.kind))){
   console.log('WATER_TEN_APP: real ride '+spec.kind);
   const target=await page.evaluate(item=>{const q=__lagoonQA,p=__lagoonSaveQA.getGame().placements.find(p=>p.item===item),b=q.islands.get(p.biome);__lagoonSaveQA.getWorld().focus(p.biome);q.reviewView(b.position.x+p.x,b.position.z+p.z,160);return p.id;},spec.id);
   await page.waitForFunction(id=>__lagoonQA.itemGroups.get(id)?.userData.built,target,{timeout:240000});
@@ -68,6 +68,13 @@ export async function checkShowcaseWaterApp(page,review){
   await page.evaluate(id=>__lagoonQA.callbacks.onSelectItem(id),target);assert.equal(await page.locator('#item-guest-camera').isDisabled(),false);await page.locator('#item-guest-camera').tap();
   await page.waitForFunction(()=>__lagoonQA.faceCamera.enabled);await page.screenshot({path:path.join(review,spec.kind+'-guest-phone.png')});
   await page.evaluate(id=>__lagoonQA.callbacks.onSelectItem(id),target);await page.locator('#item-attraction-camera').tap();
+  const walking=await page.evaluate(target=>{const d=__lagoonQA.itemGroups.get(target).userData,legs=d.route.legs.filter(l=>l.phase==='exit'&&l.fn(.5).walking),leg=legs[Math.floor(legs.length/2)];return leg.start+leg.duration*.5;},target);
+  await page.evaluate(t=>{__lagoonQA.pinnedRide=t;for(const p of __lagoonQA.atollPinnedResidents||[])p.time=t;},walking);
+  await page.waitForFunction(t=>Math.abs((__lagoonQA.getOperation()?.rider.elapsed??-1)-t)<.001,walking);
+  actual.returnWalk=await page.evaluate(({target,t})=>{const q=__lagoonQA,g=q.itemGroups.get(target),f=g.userData.rideFrame(t,false,0);return{walking:f.walking,error:q.chichiCarrier.position.distanceTo(g.localToWorld(new q.THREE.Vector3(...f.position))),boats:g.userData.slideVehicles.filter(v=>v.visible).length,phase:f.phase};},{target,t:walking});
+  assert.equal(actual.returnWalk.walking,true);assert.ok(actual.returnWalk.error<.03);assert.equal(actual.returnWalk.boats,0);
+  await page.evaluate(id=>__lagoonQA.callbacks.onSelectItem(id),target);await page.locator('#item-guest-camera').tap();
+  await page.screenshot({path:path.join(review,spec.kind+'-return-phone.png')});
   await page.evaluate(()=>{const q=__lagoonQA;delete q.pinnedRide;q.atollPinnedResidents=[];const op=q.getOperation();op.activityStart=performance.now()-op.attraction.userData.duration*1000-100;for(const v of q.residentPlay.visits.values())v.activityStart=performance.now()-v.object.userData.duration*1000-100;});
   await page.waitForFunction(()=>!__lagoonQA.getOperation()&&!__lagoonQA.residentPlay.visits.size);report.rides.push({id:spec.id,...actual});checkpoint();
  }
@@ -75,5 +82,5 @@ export async function checkShowcaseWaterApp(page,review){
  await page.evaluate(()=>__lagoonSaveQA.cloud.flush());await page.waitForFunction(()=>!__lagoonSaveQA.cloud.pending&&!__lagoonSaveQA.cloud.dirty&&!__lagoonSaveQA.cloud.retryEntry);
  await page.evaluate(()=>__lagoonSaveQA.cloud.releaseEditor());await page.reload();await page.waitForFunction(()=>window.__lagoonQA&&__lagoonSaveQA.cloud.editable);assert.deepEqual(await snapshot(),after);report.reloads++;
  fs.writeFileSync(path.join(review,'showcase-water-app.json'),JSON.stringify(report,null,2));
- console.log('WATER_TEN_APP: ten phone purchases, prices/previews/placement, native rides, both cameras and three SQLite reloads passed.');
+ console.log(`WATER_TEN_APP: ${report.purchases.length} phone purchases, ${report.rides.length} native rides/returns, both cameras and ${report.reloads} SQLite reloads passed.`);
 }

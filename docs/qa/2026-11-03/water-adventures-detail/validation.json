@@ -1,0 +1,24 @@
+{
+  "nativeRenderedModels": 10,
+  "normalGrazingPhoneRiderFlowOutletsBasins": true,
+  "fixedBuffers": true,
+  "contextLoss": false,
+  "precedingFullNodeSuite": {
+    "passed": 898,
+    "failed": 0
+  },
+  "latestFocusedNodeSuite": {
+    "passed": 24,
+    "failed": 0
+  },
+  "targetedFinalRiver": {
+    "purchases": 10,
+    "rides": 1,
+    "reloads": 3,
+    "returnWalkError": 0,
+    "boatsAfterDisembarking": 0
+  },
+  "commonWorldGate": "../2026-11-02/water-adventures-polish: all 19 islands and 2 returns, DPR2, 115 NPCs; common world source is unchanged by this detail-only revision",
+  "physicalDeviceFPS": "Not measured by software browser",
+  "phoneFinalCollection": "pending final run"
+}
