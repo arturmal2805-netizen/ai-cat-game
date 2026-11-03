@@ -101,6 +101,12 @@ duplicating or resurrecting a building removed on the other device.
 - Whole-attraction culling must use the FINAL camera after face tracking and
   retain shadow casters and complete airborne/underwater rider bounds. Hidden
   active rides must continue simulation. Refresh matrices when shown again.
+- Ordinary zoom must not replace a focused island's visible native cats with
+  tiny marker spheres at the old 110-metre threshold. Retain final colour/shadow
+  frustum checks, native anatomy/scale, picking and the remote-island wake bound.
+  Close fog stays unchanged; ease zoom transitions and bound target-depth fog
+  so coats remain readable on large island overviews. Verify native zoom views
+  on small and large islands at phone DPR, without adding per-cat shader passes.
 - Keep Chichi's approved native renderer. Other live cat rigs may batch draw
   submissions per original material, retaining all vertices, Float16 data,
   weighted bone transforms, coat coordinates and depth/shadow shaders. Original

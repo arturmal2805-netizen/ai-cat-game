@@ -26,6 +26,7 @@ import {
 } from "../public/business.js";
 import { pauseHiddenMatrixUpdates } from "../public/scene-visibility.js";
 import { attractionVisibility } from "../public/attraction-visibility.js";
+import { nativeCatView } from "../public/cat-view-policy.js";
 
 test("a visible dragon cat beyond the old 45-unit cutoff stays visible through ordinary orbit and zoom, without moving its carrier", () => {
   const profile = ADOPTION_CATS.find(c => c.id === "adopt-magic-dragon"),
@@ -46,7 +47,8 @@ test("a visible dragon cat beyond the old 45-unit cutoff stays visible through o
       projection.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
       frustum.setFromProjectionMatrix(projection, camera.coordinateSystem, camera.reversedDepth);
       const head = new THREE.Vector3(48, 1, 0).project(camera);
-      if (Math.abs(head.x) < 1 && Math.abs(head.y) < 1) assert.equal(visible(frustum), true);
+      if (Math.abs(head.x) < 1 && Math.abs(head.y) < 1)
+        assert.equal(nativeCatView(zoom, 12, true) && visible(frustum), true);
       assert.deepEqual(carrier.position, saved);
     }
   carrier.position.set(10000, .16, 0);

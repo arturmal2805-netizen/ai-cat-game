@@ -17,6 +17,7 @@ import { catDrawMode } from "./cat-draw-policy.js";
 import {worldRoads,WORLD_ROAD_WIDTH} from './world-roads.js';
 import {captureCatLocations} from './cat-locations.js';
 import {islandCameraFar, jobBuildingCameraView} from './camera-views.js';
+import {nativeCatView, worldFogDensity} from './cat-view-policy.js';
 import {
   HOUSING_ID,
   HOUSING_CENTER,
@@ -4981,7 +4982,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       const near =
         (faceCamera.enabled && followedCatId === id) ||
         (overviewElevation !== null && b.id === focused) ||
-        (distance < Math.max(110, (b.radius || 12) * 7) &&
+        (nativeCatView(distance, b.radius, b.id === focused) &&
           n.inView(attractionFrustum, sun.shadow.getFrustum()));
       n.carrier.visible = near;
       npcDummy.position.copy(n.carrier.position);
@@ -5855,7 +5856,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       if (business && cityOccluded.has(business.id))
         chichiCarrier.visible = false;
     }
-    scene.fog.density = distance > 90 ? 0.0007 : 0.0035;
+    scene.fog.density = worldFogDensity(distance);
     updateOcclusion(now, dt);
     // The opaque shop covers the map. Keep the simulation running, but avoid
     // competing GPU draws while its miniature scenes are being rendered.
