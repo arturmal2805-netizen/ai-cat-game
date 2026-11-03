@@ -2,13 +2,15 @@ import * as T from 'three';
 import {applyUnderwaterLighting} from './water-shading.js';
 import {showcaseSurfaceMap} from './showcase-surface-details.js';
 import {showcaseWaterProbe} from './showcase-water-probes.js';
+import {polishShowcaseBottom} from './showcase-bottom-light.js';
 
 // The same two wave samples and one shared probe as native lagoon water.
 // Physical metre UVs, impact rings and the original motion clock stay put.
 const flowingFoam=`if(uFlowing>.5){
   float across=abs(vWaterUv.x-.5)*2.;
   float rim=smoothstep(.89,.995,across)*(.025+fieldA.a*.12);
-  float aeration=smoothstep(.72,.96,fieldA.a)*smoothstep(.55,.9,fieldB.a)*.045;
+  float turbulence=clamp(1.-abs(vWaterNormal.y),0.,1.);
+  float aeration=smoothstep(.76,.96,fieldA.a)*smoothstep(.55,.9,fieldB.a)*(.05+turbulence*.15);
   foam=clamp(foam+rim+aeration,0.,.34);
  }`;
 export function polishShowcaseWater(material,{id,pool=[0,35,22,15],surfaceY=1.45}={}){
@@ -41,28 +43,34 @@ export function polishShowcaseWater(material,{id,pool=[0,35,22,15],surfaceY=1.45
  material.fragmentShader='uniform float uShowcaseNormalisedFlow;varying vec3 vShowcaseLocal;varying vec3 vShowcaseProbeX;uniform vec4 uShowcaseBasin;uniform float uShowcaseBasinY;\n'+material.fragmentShader
   .replace('p=vWaterUv*uFlowScale;','p=vec2(vWaterUv.x*uFlowScale.x,vWaterUv.y*mix(1.,uFlowScale.y,uShowcaseNormalisedFlow));')
   .replace('p*.10+flow','p*.075+flow*.75')
-  .replace('p.yx*.157-flow*.71','p.yx*.53-flow*.53')
+  .replace('p.yx*.157-flow*.71+(fieldA.rg-.5)*.045','p.yx*.137-flow*.53+(fieldA.rg-.5)*.12')
   .replace('vec2 slope=(fieldA.rg+fieldB.gr-1.0)*.19;','vec2 slope=(fieldA.rg-.5)*.065+(fieldB.gr-.5)*.115;')
   .replace('float fresnel=.025+.975*pow(1.0-facing,5.0);','float fresnel=.0204+.9796*pow(1.0-facing,5.0);')
-  .replace('environmentUv(reflected),.7','environmentUv(vec3(dot(reflected,vShowcaseProbeX),reflected.y,dot(reflected,cross(vShowcaseProbeX,vec3(0.,1.,0.))))),.35')
-  .replace('float roughness=.085+min(.12,length(fwidth(slope))*.65);','float roughness=.065+min(.10,length(fwidth(slope))*.5);')
+  .replace('normalize(vec3(-.44,.85,-.50))','normalize(vec3(-14.,35.,20.))')
+  .replace('vec3 sky=texture2D', 'vec2 footprint=fwidth(slope);float roughness=sqrt(.005625+min(.04,dot(footprint,footprint)*.75));\n vec3 sky=texture2D')
+  .replace('environmentUv(reflected),.7','environmentUv(vec3(dot(reflected,vShowcaseProbeX),reflected.y,dot(reflected,cross(vShowcaseProbeX,vec3(0.,1.,0.))))),.6+roughness*4.')
+  .replace('float roughness=.085+min(.12,length(fwidth(slope))*.65);','')
   .replace('))*.014*(.4+fieldB.a*.6)', '))*.025*(.4+fieldB.a*.6)')
-  .replace('vec3 body=mix(uColor*.7,mix(deep,shore,transmission),uLake);','vec3 body=mix(vec3(.006,.25,.63),vec3(.008,.39,.66),shallow*.6);')
-  .replace('body=mix(uColor*vec3(.72,.94,1.0),uShoreColor,.08+shallow*.18);','body=mix(vec3(.003,.21,.55),vec3(.015,.43,.65),shallow*.65);')
-  .replace('clamp(.035+fresnel*.91,0.0,.96)','clamp(.075+fresnel*.91,0.0,.96)')
-  .replace('color+=lightTint*caustic*(.3+shallow*.2);','color+=vec3(.045,.13,.19)*caustic*(.16+shallow*.09);')
+  .replace('float opticalDepth=(.12+depth*.88)/max(facing,.3);',`float waterDepth=mix(.23,1.19-.79*smoothstep(.55,1.,edge),uLake);
+ float opticalDepth=waterDepth/max(facing,.22);`)
+  .replace('vec3 body=mix(uColor*.7,mix(deep,shore,transmission),uLake);','vec3 body=mix(vec3(.004,.24,.54),vec3(.008,.47,.64),shallow*.7);')
+  .replace('body=mix(uColor*vec3(.72,.94,1.0),uShoreColor,.08+shallow*.18);','body=mix(vec3(.004,.27,.58),vec3(.012,.53,.64),shallow*.8);')
+  .replace('clamp(.035+fresnel*.91,0.0,.96)','clamp(.02+fresnel*.96,0.0,.98)')
+  .replace('color+=lightTint*caustic*(.3+shallow*.2);','color+=vec3(.008,.026,.042)*caustic*(.12+shallow*.08);')
+  .replace('color=mix(color,uColor*(.62+fieldB.a*.3),.2);','color=mix(color,vec3(.006,.36,.64),.035+fieldB.a*.035);')
+  .replace('color+=mix(vec3(.10,.22,.25),vec3(.24,.12,.20),pink)*(fieldA.b*.7+fieldB.b*.4);','color+=vec3(.006,.025,.045)*max(fieldA.b,fieldB.b)*.13;')
   .replace(/if\(uFlowing>\.5\)\{\n  float across=[\s\S]*?\n \}/,flowingFoam)
   .replace('vec3(.88,1.0,.96),foam','vec3(.93,.985,1.0),foam')
-  .replace('if(uFlowing>.5)alpha=max(alpha,.62+fresnel*.22);',`if(uFlowing>.5)alpha=max(alpha,.44+fresnel*.35);
+  .replace('if(uFlowing>.5)alpha=max(alpha,.62+fresnel*.22);',`if(uFlowing>.5)alpha=max(alpha,.32+fresnel*.55);
  if(uFlowing>.5&&uFlowing<1.5){
   float basinRadius=length((vShowcaseLocal.xz-uShowcaseBasin.xy)/uShowcaseBasin.zw);
   float basinMix=(1.-smoothstep(.70,.98,basinRadius))*(1.-smoothstep(uShowcaseBasinY+.02,uShowcaseBasinY+.65,vShowcaseLocal.y));
   alpha*=1.-basinMix;
  }`)
-  .replace('uOpacity*(.38+depth*.17)','uOpacity*(.35+depth*.19)')
+  .replace('alpha=clamp(uOpacity*(.38+depth*.17)+fresnel*.48+foam*.12,.24,.94);','alpha=clamp(1.-exp(-opticalDepth*.34)+fresnel*.85+foam*.4,.10,.96);')
   .replace('vec4(max(color,vec3(0.0)),.96)','vec4(max(color,vec3(0.0)),.90)')
   .replace('vec4(max(color,vec3(0.0)),.95)','vec4(max(color,vec3(0.0)),.84)');
- material.userData.showcaseOptics='lagoon-v4';material.needsUpdate=true;return material;
+ material.userData.showcaseOptics='lagoon-v5';material.needsUpdate=true;return material;
 }
 
 export function submergeReceivingFloor(geometry,pool,surfaceY){
@@ -113,16 +121,17 @@ let pebbleGeometry;
 export function detailShowcaseBasin(pool){
  if(pool.userData.showcaseBasin)return pool;
  const {rx,rz,water,bed,slideBasinOptics}=pool.userData;
- const bedGeometry=showcaseBasinGrid(rx,rz),position=bedGeometry.attributes.position,uv=bedGeometry.attributes.uv,colors=[],sand=new T.Color(0xc3e9df),deep=new T.Color(0x119fdf),c=new T.Color();
+ const bedGeometry=showcaseBasinGrid(rx,rz),position=bedGeometry.attributes.position,uv=bedGeometry.attributes.uv,colors=[],sand=new T.Color(0xf3ead6),deep=new T.Color(0x189fda),c=new T.Color();
  for(let i=0;i<position.count;i++){
   const r=Math.hypot(position.getX(i)/rx,position.getZ(i)/rz);position.setY(i,showcaseBedHeight(r));
   c.copy(deep).lerp(sand,T.MathUtils.smoothstep(r,.45,1));colors.push(c.r,c.g,c.b);uv.setXY(i,position.getX(i)/8,position.getZ(i)/8);
  }
  bedGeometry.setAttribute('color',new T.Float32BufferAttribute(colors,3));bedGeometry.computeVertexNormals();bedGeometry.computeBoundingBox();bedGeometry.computeBoundingSphere();const oldBed=bed.geometry;bed.geometry=bedGeometry;if(!oldBed.userData.sharedScenery)oldBed.dispose();
  bed.position.y=0;bed.material.color.setHex(0xffffff);bed.material.vertexColors=true;bed.material.map=showcaseSurfaceMap('sand');bed.material.needsUpdate=true;
+ polishShowcaseBottom(bed.material);
  for(const mesh of slideBasinOptics.surfaces){const old=mesh.geometry;mesh.geometry=showcaseBasinGrid(rx,rz);if(!old.userData.sharedScenery)old.dispose();}
  pebbleGeometry??=new T.IcosahedronGeometry(1,1);pebbleGeometry.userData.sharedScenery=true;
- const material=applyUnderwaterLighting(new T.MeshStandardMaterial({color:0xffffff,roughness:.84}),water.uniforms.uTime,0x24b9ff,{level:bed.material.userData.waterLight.level});
+ const material=polishShowcaseBottom(applyUnderwaterLighting(new T.MeshStandardMaterial({color:0xffffff,roughness:.84}),water.uniforms.uTime,0x24b9ff,{level:bed.material.userData.waterLight.level}));
  const stones=new T.InstancedMesh(pebbleGeometry,material,24),pose=new T.Object3D(),color=new T.Color();stones.name='Submerged lagoon pebbles';stones.receiveShadow=true;
  for(let i=0;i<24;i++){
   const a=i*2.399963229728653,r=.23+.61*Math.sqrt((i+.5)/24),s=.38+(i%5)*.12;

@@ -43,7 +43,7 @@ window.hideRider=()=>{carrier?.removeFromParent();delete model.userData.rideElap
 window.draw=(time,reduced=false)=>{if(model.userData.update)model.userData.update(time,reduced);else animateAttraction(model,reduced?0:time);model.userData.moving.visible=false;for(const vehicle of model.userData.vehicles||[])vehicle.visible=false;renderer.render(scene,camera);};
 window.reviewAngle=(grazing=false)=>{camera.up.set(0,1,0);camera.position.copy(center).add(new T.Vector3(grazing?.85:.6,grazing?.12:.48,grazing?.85:.85).multiplyScalar(extent*1.25));camera.lookAt(center);};
 window.viewFrame=frame=>{if(frame){center.fromArray(frame.center);extent=frame.extent;reviewAngle();draw(5);}return {center:center.toArray(),extent};};
-window.check={renderer,scene,camera};window.ready=true;`;
+window.check={renderer,scene,camera,THREE:T};window.ready=true;`;
 const staticAudit = `
 import {configureStaticSubmissions} from './public/static-submissions.js';
 window.staticAudit=()=>{
@@ -239,14 +239,15 @@ try {
         }
         await page.evaluate(()=>hideRider());
       }
-      for (const view of ["flow", "outlet", "basin", "basin-grazing", "garden"]) {
+      for (const view of ["flow", "outlet", "basin", "basin-grazing", ...(process.env.CHICHI_SLIDE_OPTICS_AUDIT?["basin-sun"]:[]), "garden"]) {
           const exists = await page.evaluate(
             ({ view, id }) => {
               const w = model.userData.slideWater;
               check.camera.up.set(0,1,0);
               if(view==='garden'){const beds=model.userData.gardenPatches;if(!beds?.length)return false;const p=[...beds].sort((a,b)=>(b.z+.15*b.x)-(a.z+.15*a.x))[0];check.camera.position.set(p.x+8,6.5,p.z+10);check.camera.lookAt(p.x,1.2,p.z);draw(63);return true;}
               if(view.startsWith('basin')){const pool=w.pool,p=pool.localToWorld(check.camera.position.clone().set(0,.155,0)),rx=pool.userData.rx,rz=pool.userData.rz,r=Math.max(rx,rz);
-                check.camera.position.copy(p).add(check.camera.position.clone().set(.25,view==='basin'?1.7:.55,1.9).multiplyScalar(r));check.camera.lookAt(p);draw(63);return true;}
+                const direction=view==='basin-sun'?new check.THREE.Vector3(14,35,-20).normalize().multiplyScalar(2.5):new check.THREE.Vector3(.25,view==='basin'?1.7:.55,1.9);
+                check.camera.position.copy(p).add(direction.multiplyScalar(r));check.camera.lookAt(p);draw(63);return true;}
               let p =
                 view === "flow"
                   ? w.channels[0]?.geometry.userData.flowFrames[
@@ -275,6 +276,19 @@ try {
               ),
             });
         }
+      if(process.env.CHICHI_SLIDE_OPTICS_AUDIT){
+        for(const mode of ['isolated','bed-only']){
+          await page.evaluate(mode=>{
+            const pool=model.userData.slideWater.pool,{rx,rz}=pool.userData,r=Math.max(rx,rz),p=pool.localToWorld(new check.THREE.Vector3(0,.155,0));
+            window.savedOpticsVisibility=[];model.traverse(o=>{savedOpticsVisibility.push([o,o.visible]);});
+            for(const c of model.children)if(c!==pool)c.visible=false;
+            if(mode==='bed-only')for(const s of pool.userData.slideBasinOptics?.surfaces||[])s.visible=false;
+            check.camera.up.set(0,1,0);check.camera.position.copy(p).add(new check.THREE.Vector3(.25,.55,1.9).multiplyScalar(r));check.camera.lookAt(p);draw(63);
+          },mode);
+          await page.screenshot({path:resolve(folder,root.name+'-'+spec.id+'-basin-'+mode+'.png')});
+          await page.evaluate(()=>{for(const [o,visible]of savedOpticsVisibility)o.visible=visible;delete window.savedOpticsVisibility;});
+        }
+      }
       if (root.name === "after") {
         await page.evaluate(() => {
           reviewAngle(true);

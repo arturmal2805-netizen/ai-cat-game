@@ -900,3 +900,14 @@ The wet trough floor must stay below every water vertex through the full .0945-m
 flow ripple envelope and both edges. Retain basin/waterfall motion and all native
 cat/raft clearance. Geometry detail changes are art work, not evidence of an FPS
 optimization; require the existing rendered/native QA before publication.
+
+The next optical pass keeps warm shallow sand, blue depth contrast and
+receiving-pool opacity derived from the actual sloping bed. Its sun direction
+matches the native world light. Filter the specular lobe and scenery lookup
+from the existing wave footprint; do not restore the .53-frequency reflective
+bands or superimpose a strong caustic net on both water and bed. Local bottom
+lighting composes with `applyUnderwaterLighting`, preserving its uniforms,
+projection, native submission path and two original field samples. Water keeps
+two field samples plus one scenery lookup. Verify explicit sun-facing and
+isolated-bed views alongside normal, grazing, phone and native rider captures.
+These optical changes establish appearance/resource parity, not device FPS.

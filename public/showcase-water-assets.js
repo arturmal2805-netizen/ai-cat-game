@@ -7,6 +7,7 @@ import {showcaseProps} from './showcase-water-props.js';
 import {receivingPool} from './reference-slide-assets.js';
 import {installSlideWater,slideRibbon} from './slide-water.js';
 import {waterMaterial,advanceWater,applyUnderwaterLighting} from './water-shading.js';
+import {polishShowcaseBottom} from './showcase-bottom-light.js';
 import {rideActingFrame} from './ride-acting.js';
 import {showcaseWaterfallSteps as waterfallSteps} from './showcase-waterfalls.js';
 import {atollApproach} from './atoll-slide-navigation.js';
@@ -128,7 +129,7 @@ export function* showcaseWaterSteps(id){
   const surf=!!data.surf,river=!!data.river,carousel=!!data.carousel,width=surf?15:spec.radius,depth=spec.radius;
   if(!carousel&&!data.barrel){const shell=showcaseTrough(data,width,depth);if(!data.closed&&!surf)submergeReceivingFloor(shell.floor,route.pool,spec.surfaceY);const floor=new T.Mesh(shell.floor,new T.MeshStandardMaterial({color:0x4baaf2,roughness:.42,metalness:0,side:T.DoubleSide}));
    if(data.rapids||river){
-    floor.material.color.setHex(0x169fd4);floor.material.map=showcaseSurfaceMap('sand');floor.material.roughness=.86;floor.material.userData.showcaseRiverBed=true;
+    floor.material.color.setHex(0x42b6d1);floor.material.map=showcaseSurfaceMap('sand');floor.material.roughness=.86;floor.material.userData.showcaseRiverBed=true;
     const uv=shell.floor.attributes.uv;for(let i=0;i<uv.count;i++)uv.setXY(i,uv.getX(i)*width/4,uv.getY(i)/8);
    }props.add(floor);
    if(data.rapids||river){
@@ -166,7 +167,7 @@ export function* showcaseWaterSteps(id){
  if(spec.kind==='pool-pendulum'){/* Airborne swing only touches its real basin; no fake dry flume. */}
  yield*showcaseSurfaceUVSteps(props);
  yield*showcaseMaterialSteps(props);
- const staticModel=yield*batchModelSteps(props,{combineColors:true});applyShowcaseSurfaceDetails(staticModel);staticModel.traverse(o=>{if(o.isMesh&&o.material.userData.showcaseRiverBed)applyUnderwaterLighting(o.material,pool.userData.water.uniforms.uTime,0x24b9ff,{refract:false});});root.add(staticModel);props.traverse(o=>{if(o.isMesh&&!o.geometry.userData.sharedScenery)o.geometry.dispose();});
+ const staticModel=yield*batchModelSteps(props,{combineColors:true});applyShowcaseSurfaceDetails(staticModel);staticModel.traverse(o=>{if(o.isMesh&&o.material.userData.showcaseRiverBed)polishShowcaseBottom(applyUnderwaterLighting(o.material,pool.userData.water.uniforms.uTime,0x24b9ff,{refract:false}));});root.add(staticModel);props.traverse(o=>{if(o.isMesh&&!o.geometry.userData.sharedScenery)o.geometry.dispose();});
  yield*showcaseSurfaceUVSteps(moving);
  yield*showcaseMaterialSteps(moving);
  const boat=yield*batchModelSteps(moving,{combineColors:true});applyShowcaseSurfaceDetails(boat);moving.clear();moving.add(boat);moving.visible=false;
