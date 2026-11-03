@@ -21,6 +21,11 @@ use 886,757 download bytes and the same 2.67 MiB mipmapped GPU allocation.
 
 Twenty-two focused tests passed. Actual pilot normal/grazing/phone and opposing
 sun views have no GLSL/browser/context errors and exact native/static colour
-parity. The complete eight-model gallery, real phone/SQLite rides, all-island
-cameras and full build/suite follow before publication. Software-renderer data
+parity. The complete eight-model gallery passed: 32 seated/landing poses, 16 phone images, sun-facing and isolated-bottom views, 24 exact native/static comparisons (zero changed bytes), unchanged draw/triangle/channel/outlet counts. All eight 960×640 shop previews were regenerated. The production build passed. Real phone/SQLite rides, all-island cameras and the full suite follow before publication. Software-renderer data
 must not be represented as physical Mac/iPhone FPS gains.
+
+The gallery captures native riders only on the candidate. Its later whole-renderer
+texture totals include four retained cat textures, so these totals are not a
+like-for-like water-texture measurement. The focused shader/composition tests
+verify the original three water/two bottom samples and existing field/clock
+identities; all eight scenery probes retain their original dimensions/count.
