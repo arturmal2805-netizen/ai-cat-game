@@ -1,0 +1,82 @@
+[
+  {
+    "id": "ride-water-surf-halfpipe",
+    "sameWetSeatPositions": true,
+    "nativeJointRmsRadians": 0.12267740266304877,
+    "nativePoseFrames": 9,
+    "drawsBefore": 45,
+    "drawsAfter": 45,
+    "trianglesBefore": 317056,
+    "trianglesAfter": 317056
+  },
+  {
+    "id": "ride-water-fountain-carousel",
+    "sameWetSeatPositions": true,
+    "nativeJointRmsRadians": 0.08571700899113405,
+    "nativePoseFrames": 9,
+    "drawsBefore": 50,
+    "drawsAfter": 50,
+    "trianglesBefore": 458112,
+    "trianglesAfter": 458112
+  },
+  {
+    "id": "ride-water-pool-pendulum",
+    "sameWetSeatPositions": true,
+    "nativeJointRmsRadians": 0.037041001502952316,
+    "nativePoseFrames": 9,
+    "drawsBefore": 39,
+    "drawsAfter": 39,
+    "trianglesBefore": 321060,
+    "trianglesAfter": 321060
+  },
+  {
+    "id": "ride-water-lazy-river",
+    "sameWetSeatPositions": true,
+    "nativeJointRmsRadians": 0.1431260484729459,
+    "nativePoseFrames": 9,
+    "drawsBefore": 31,
+    "drawsAfter": 31,
+    "trianglesBefore": 295512,
+    "trianglesAfter": 295512
+  },
+  {
+    "id": "ride-water-barrel-wave",
+    "sameWetSeatPositions": true,
+    "nativeJointRmsRadians": 0.10990241768440578,
+    "nativePoseFrames": 9,
+    "drawsBefore": 44,
+    "drawsAfter": 44,
+    "trianglesBefore": 298020,
+    "trianglesAfter": 297876
+  },
+  {
+    "id": "ride-water-canyon-rafting",
+    "sameWetSeatPositions": true,
+    "nativeJointRmsRadians": 0.11066304233681394,
+    "nativePoseFrames": 9,
+    "drawsBefore": 40,
+    "drawsAfter": 40,
+    "trianglesBefore": 332980,
+    "trianglesAfter": 332204
+  },
+  {
+    "id": "ride-water-glass-drop",
+    "sameWetSeatPositions": true,
+    "nativeJointRmsRadians": 0.34309105467885515,
+    "nativePoseFrames": 9,
+    "drawsBefore": 46,
+    "drawsAfter": 46,
+    "trianglesBefore": 342084,
+    "trianglesAfter": 341396
+  },
+  {
+    "id": "ride-water-lagoon-launch",
+    "sameWetSeatPositions": true,
+    "nativeJointRmsRadians": 0.0860338456998416,
+    "nativePoseFrames": 9,
+    "drawsBefore": 42,
+    "drawsAfter": 42,
+    "trianglesBefore": 267432,
+    "trianglesAfter": 266896
+  }
+]

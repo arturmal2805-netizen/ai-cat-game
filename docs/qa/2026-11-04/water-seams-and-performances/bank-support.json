@@ -1,0 +1,30 @@
+{
+  "before": [
+    {
+      "id": "ride-water-canyon-rafting",
+      "tested": 2222,
+      "gaps": 1228,
+      "bedTriangles": 5760
+    },
+    {
+      "id": "ride-water-lazy-river",
+      "tested": 2500,
+      "gaps": 1597,
+      "bedTriangles": 5760
+    }
+  ],
+  "after": [
+    {
+      "id": "ride-water-canyon-rafting",
+      "tested": 2222,
+      "gaps": 0,
+      "bedTriangles": 5760
+    },
+    {
+      "id": "ride-water-lazy-river",
+      "tested": 2500,
+      "gaps": 0,
+      "bedTriangles": 5760
+    }
+  ]
+}

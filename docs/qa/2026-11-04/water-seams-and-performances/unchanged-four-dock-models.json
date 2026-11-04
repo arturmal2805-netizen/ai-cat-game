@@ -1,0 +1,57 @@
+{
+  "baseline": "ccc6f90 supported poses before landing-gate clearance",
+  "unchanged": {
+    "ride-water-surf-halfpipe": {
+      "digest": "5cdb0b09dae742c4c9a4074bdf34bba9fb874e51370473a6cd2edf7eabdec54b",
+      "meshes": 46,
+      "bytes": 17971556,
+      "frame": {
+        "center": [
+          0.9821510314941406,
+          14.378333568572998,
+          -1.7663345336914062
+        ],
+        "extent": 166.74947075652798
+      }
+    },
+    "ride-water-lazy-river": {
+      "digest": "3d8ed67ca5fd03f7d64702db4a751cb493c2e0d4f5d4ce6dd5f06bf64985f945",
+      "meshes": 32,
+      "bytes": 16644408,
+      "frame": {
+        "center": [
+          -0.9339370727539062,
+          15.179336071014404,
+          -0.18545150756835938
+        ],
+        "extent": 169.22076892345513
+      }
+    },
+    "ride-water-fountain-carousel": {
+      "digest": "a2d54e32ae5a5ced4336531d01d73bff8eba99a2fa117c25101fc68221c0447f",
+      "meshes": 51,
+      "bytes": 25271172,
+      "frame": {
+        "center": [
+          1.0727806091308594,
+          14.378333568572998,
+          -1.2187328338623047
+        ],
+        "extent": 165.2466904450533
+      }
+    },
+    "ride-water-pool-pendulum": {
+      "digest": "af6dfc503c97cbf28a30958547c9edd2b9e80a36226bb3369259d5375ec271c8",
+      "meshes": 42,
+      "bytes": 19113908,
+      "frame": {
+        "center": [
+          1.2312679290771484,
+          21.710059642791748,
+          -1.7663345336914062
+        ],
+        "extent": 171.09303719094532
+      }
+    }
+  }
+}

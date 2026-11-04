@@ -1,0 +1,106 @@
+[
+  {
+    "id": "ride-water-barrel-wave",
+    "poses": 156,
+    "animatedPawVertices": 65520,
+    "minDeckClearance": -0.004134795097917365,
+    "failures": 0,
+    "phases": {
+      "anticipation": 0.06380611437521823,
+      "ride": 0.03400228986538423,
+      "splash": 0.005181343581589726,
+      "unload": -0.004134795097917365
+    }
+  },
+  {
+    "id": "ride-water-canyon-rafting",
+    "poses": 624,
+    "animatedPawVertices": 262080,
+    "minDeckClearance": -0.01406016615718286,
+    "failures": 0,
+    "phases": {
+      "anticipation": 0.08554324406130576,
+      "rafting": -0.01406016615718286,
+      "splash": 0.08542085926949028,
+      "unload": 0.030832786569058968
+    }
+  },
+  {
+    "id": "ride-water-glass-drop",
+    "poses": 468,
+    "animatedPawVertices": 196560,
+    "minDeckClearance": 0.04445833120081755,
+    "failures": 0,
+    "phases": {
+      "anticipation": 0.08445409249466795,
+      "lift": 0.08445544749176204,
+      "hold": 0.08494042716822037,
+      "drop": 0.04445833120081755,
+      "splash": 0.08445409249466351,
+      "unload": 0.08450388029313015
+    }
+  },
+  {
+    "id": "ride-water-lagoon-launch",
+    "poses": 468,
+    "animatedPawVertices": 196560,
+    "minDeckClearance": 0.05253564223059115,
+    "failures": 0,
+    "phases": {
+      "anticipation": 0.08445409249466529,
+      "boost": 0.05253564223059115,
+      "flight": 0.13330270346090956,
+      "skim": 0.08473004697682107,
+      "splash": 0.08445409249466707,
+      "unload": 0.08456585209302858
+    }
+  },
+  {
+    "id": "ride-water-surf-halfpipe",
+    "poses": 156,
+    "animatedPawVertices": 65520,
+    "minDeckClearance": 0.057788096924322074,
+    "failures": 0,
+    "phases": {
+      "anticipation": 0.057788096924322074,
+      "surf": 0.08230843340536609,
+      "splash": 0.07075556281054829
+    }
+  },
+  {
+    "id": "ride-water-lazy-river",
+    "poses": 156,
+    "animatedPawVertices": 65520,
+    "minDeckClearance": 0.08486918071039451,
+    "failures": 0,
+    "phases": {
+      "anticipation": 0.08486918071039451,
+      "float": 0.08503124517238891,
+      "splash": 0.08569169078708505
+    }
+  },
+  {
+    "id": "ride-water-fountain-carousel",
+    "poses": 624,
+    "animatedPawVertices": 262080,
+    "minDeckClearance": 0.08445409249466573,
+    "failures": 0,
+    "phases": {
+      "anticipation": 0.08445409249466573,
+      "carousel": 0.08445444680889924,
+      "splash": 0.08445409249466618
+    }
+  },
+  {
+    "id": "ride-water-pool-pendulum",
+    "poses": 624,
+    "animatedPawVertices": 262080,
+    "minDeckClearance": 0.04948282141762306,
+    "failures": 0,
+    "phases": {
+      "anticipation": 0.08681877702100138,
+      "swing": 0.04948282141762306,
+      "splash": 0.09662852911583553
+    }
+  }
+]

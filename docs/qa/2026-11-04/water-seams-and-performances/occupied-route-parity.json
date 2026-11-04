@@ -1,0 +1,82 @@
+[
+  {
+    "id": "ride-water-barrel-wave",
+    "vehicleFramesCompared": 2195,
+    "vehiclePositionAndOrientationUnchanged": true,
+    "unchangedSeatFrames": 2123,
+    "correctedBoardingOrExitSupportFrames": 72,
+    "maxSupportAdjustment": 0.08993176123012314,
+    "seconds": 73.165243460308,
+    "poseTableBytes": 49248
+  },
+  {
+    "id": "ride-water-canyon-rafting",
+    "vehicleFramesCompared": 9504,
+    "vehiclePositionAndOrientationUnchanged": true,
+    "unchangedSeatFrames": 9216,
+    "correctedBoardingOrExitSupportFrames": 288,
+    "maxSupportAdjustment": 0.3598298832016534,
+    "seconds": 79.17614563194924,
+    "poseTableBytes": 196992
+  },
+  {
+    "id": "ride-water-glass-drop",
+    "vehicleFramesCompared": 3802,
+    "vehiclePositionAndOrientationUnchanged": true,
+    "unchangedSeatFrames": 3662,
+    "correctedBoardingOrExitSupportFrames": 140,
+    "maxSupportAdjustment": 0.3600000000000001,
+    "seconds": 63.335250149500695,
+    "poseTableBytes": 98496
+  },
+  {
+    "id": "ride-water-lagoon-launch",
+    "vehicleFramesCompared": 4446,
+    "vehiclePositionAndOrientationUnchanged": true,
+    "unchangedSeatFrames": 4302,
+    "correctedBoardingOrExitSupportFrames": 144,
+    "maxSupportAdjustment": 0.3596892715308049,
+    "seconds": 74.09793102140115,
+    "poseTableBytes": 98496
+  },
+  {
+    "id": "ride-water-surf-halfpipe",
+    "vehicleFramesCompared": 2266,
+    "vehiclePositionAndOrientationUnchanged": true,
+    "unchangedSeatFrames": 2196,
+    "correctedBoardingOrExitSupportFrames": 70,
+    "maxSupportAdjustment": 0.09000000000000008,
+    "seconds": 75.5,
+    "poseTableBytes": 49248
+  },
+  {
+    "id": "ride-water-lazy-river",
+    "vehicleFramesCompared": 1968,
+    "vehiclePositionAndOrientationUnchanged": true,
+    "unchangedSeatFrames": 1898,
+    "correctedBoardingOrExitSupportFrames": 70,
+    "maxSupportAdjustment": 0.3599999999999998,
+    "seconds": 65.58561980382959,
+    "poseTableBytes": 49248
+  },
+  {
+    "id": "ride-water-fountain-carousel",
+    "vehicleFramesCompared": 6152,
+    "vehiclePositionAndOrientationUnchanged": true,
+    "unchangedSeatFrames": 5872,
+    "correctedBoardingOrExitSupportFrames": 280,
+    "maxSupportAdjustment": 0.3599999999999999,
+    "seconds": 51.237362635650186,
+    "poseTableBytes": 196992
+  },
+  {
+    "id": "ride-water-pool-pendulum",
+    "vehicleFramesCompared": 7364,
+    "vehiclePositionAndOrientationUnchanged": true,
+    "unchangedSeatFrames": 7084,
+    "correctedBoardingOrExitSupportFrames": 280,
+    "maxSupportAdjustment": 0.3599999999999999,
+    "seconds": 61.351725924916124,
+    "poseTableBytes": 196992
+  }
+]
