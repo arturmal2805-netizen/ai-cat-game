@@ -67,7 +67,12 @@ export async function checkShowcaseWaterApp(page,review){
   const actual=await page.evaluate(({target,t})=>{const q=__lagoonQA,g=q.itemGroups.get(target),f=g.userData.rideFrame(t,false,0),expected=g.localToWorld(new q.THREE.Vector3(...f.position));return{phase:f.phase,error:q.chichiCarrier.position.distanceTo(expected),reaction:g.userData.rideReaction(t,false,0),riders:g.userData.slideRiders.size,boats:g.userData.slideVehicles.filter(v=>v.visible).length,contextLost:q.renderer.getContext().isContextLost()};},{target,t:sample});
   assert.ok(actual.error<.03,spec.kind+' actual carrier/seat mismatch '+actual.error);assert.equal(actual.contextLost,false);assert.ok(actual.reaction.weight>.9);assert.equal(actual.boats,1);if(spec.kind==='canyon-rafting')assert.equal(actual.riders,3);
   await page.evaluate(id=>__lagoonQA.callbacks.onSelectItem(id),target);assert.equal(await page.locator('#item-guest-camera').isDisabled(),false);await page.locator('#item-guest-camera').tap();
-  await settleGuest();await page.screenshot({path:path.join(review,spec.kind+'-guest-phone.png')});
+  await settleGuest();
+  if(process.env.CHICHI_SURF_VISIBILITY_AUDIT&&spec.kind==='surf-halfpipe'){
+   actual.guestVisibility=await page.evaluate(()=>{const q=__lagoonQA;q.drawFrame();const gl=q.renderer.getContext(),pixels=new Uint8Array(60*60*4);gl.readPixels(Math.floor(gl.drawingBufferWidth/2)-30,Math.floor(gl.drawingBufferHeight/2)-30,60,60,gl.RGBA,gl.UNSIGNED_BYTE,pixels);let facePixels=0;for(let i=0;i<pixels.length;i+=4)if(pixels[i]>pixels[i+2]*.5&&pixels[i+2]>10)facePixels++;return {pixels:3600,facePixels};});
+   assert.ok(actual.guestVisibility.facePixels>100,'surf guest camera must show the cat instead of an opaque blue water wall');
+  }
+  await page.screenshot({path:path.join(review,spec.kind+'-guest-phone.png')});
   await page.evaluate(id=>__lagoonQA.callbacks.onSelectItem(id),target);await page.locator('#item-attraction-camera').tap();
   const walking=await page.evaluate(target=>{const d=__lagoonQA.itemGroups.get(target).userData,legs=d.route.legs.filter(l=>l.phase==='exit'&&l.fn(.5).walking),leg=legs[Math.floor(legs.length/2)];return leg.start+leg.duration*.5;},target);
   await page.evaluate(t=>{__lagoonQA.pinnedRide=t;for(const p of __lagoonQA.atollPinnedResidents||[])p.time=t;},walking);

@@ -1,0 +1,15 @@
+{
+  "fullTests": 948,
+  "fullPass": 948,
+  "fullFail": 0,
+  "animationFocusedTests": 27,
+  "cameraFocusedTests": 17,
+  "registeredRides": 68,
+  "seatedAndLandingImages": 272,
+  "performanceImages": 72,
+  "dismountImages": 8,
+  "staticColourComparisons": 136,
+  "nativePoseChecks": 3276,
+  "nativeSkinVertexChecks": 1375920,
+  "app": "./dist/app.js?v=64eb9cc33bd161c6"
+}

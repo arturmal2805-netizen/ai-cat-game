@@ -3,7 +3,7 @@ import * as THREE from "three";
 export function createChichiCamera(
   camera,
   head,
-  { reduced = false, onChange = () => {} } = {},
+  { reduced = false, onChange = () => {}, getViewLift = () => 0 } = {},
 ) {
   const face = new THREE.Vector3(),
     eye = new THREE.Vector3(),
@@ -18,7 +18,7 @@ export function createChichiCamera(
     scale = new THREE.Vector3();
   let enabled = false,
     transition = 1,
-    zoom = 1;
+    zoom = 1, viewLift = 0;
   function setEnabled(value, look) {
     if (enabled === value) return enabled;
     fromEye.copy(camera.position);
@@ -62,7 +62,9 @@ export function createChichiCamera(
       if (enabled) {
         this.facePoint(face);
         head.getWorldQuaternion(desiredRotation);
-        rotation.slerp(desiredRotation, reduced ? 1 : 1 - Math.exp(-dt * 9));
+        const followBlend = reduced ? 1 : 1 - Math.exp(-dt * 9);
+        rotation.slerp(desiredRotation, followBlend);
+        viewLift += (THREE.MathUtils.clamp(getViewLift(),0,2)-viewLift)*(reduced ? 1 : 1-Math.exp(-dt*5));
         head.getWorldScale(scale);
         const faceScale = Math.max(scale.x, scale.y, scale.z);
         const distance =
@@ -75,7 +77,7 @@ export function createChichiCamera(
           ) *
           faceScale *
           zoom;
-        offset.set(0.13, 0.06, 1).normalize().applyQuaternion(rotation);
+        offset.set(0.13, 0.06 + viewLift, 1).normalize().applyQuaternion(rotation);
         eye.copy(face).addScaledVector(offset, distance);
         camera.position.lerpVectors(fromEye, eye, blend);
         lastLook.lerpVectors(fromLook, face, blend);

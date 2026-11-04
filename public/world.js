@@ -542,6 +542,8 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     lastRandomCatId = null;
   const faceCamera = createChichiCamera(camera, cat.userData.head, {
     reduced,
+    // Face gestures must remain visible above the tall open halfpipe.
+    getViewLift: () => (followedCatId === "chichi" ? operation?.attraction : residentPlay.get(followedCatId)?.object)?.userData.id === "ride-water-surf-halfpipe" ? 1.35 : 0,
     onChange: (enabled) =>
       callbacks.onCameraMode?.(
         enabled,

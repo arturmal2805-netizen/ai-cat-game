@@ -1,0 +1,11 @@
+{
+  "purchases": 24,
+  "rideChecks": 9,
+  "uniqueRides": 8,
+  "sqliteReloads": 9,
+  "maxSeatErrorMetres": 2.4045862203106645e-13,
+  "surfFramebuffer": {
+    "pixels": 3600,
+    "facePixels": 3600
+  }
+}

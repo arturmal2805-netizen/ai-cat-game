@@ -947,7 +947,8 @@ geometry and close guest views. This is access clearance, not an FPS shortcut.
 All 68 registered water attractions install `water-ride-performance.js` after
 finishing their original reaction authoring, including cooperative construction.
 Keep explicit registry coverage, cached phase-aware tables of at most 512
-intervals and independent passenger scratch objects. Playing/seeking interpolates
+intervals and independent passenger scratch objects. Background construction yields
+between lanes and publishes only complete cached tables. Playing/seeking interpolates
 these tables without evaluating routes or allocating scene objects. Preserve
 actual seat/carrier transforms, fixed boat clocks, 15-second group boarding,
 landing recovery, walking and true 9.81 flight gravity.
@@ -961,3 +962,9 @@ motion, cancellation, intermediate native skinned paw vertices, every water ride
 phone/normal/grazing/rider views and the real group-raft/private SQLite path.
 The canyon rafting run is 24/1.30 seconds and the river run is 42/1.25 seconds;
 their impact events and all seats retain the same public route clock.
+
+Expressive head turns must not put the surf guest camera under the water sheet.
+Its opt-in `getViewLift` eases an elevated frontal orbit in/out; ordinary cat
+cameras retain zero lift. Keep the camera/loading/timing tests and the private
+`CHICHI_SURF_VISIBILITY_AUDIT=1` native framebuffer/phone-image check: correct
+face projection and working buttons alone cannot detect an occluded kitten.
