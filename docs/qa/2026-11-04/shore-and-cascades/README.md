@@ -13,8 +13,8 @@ zero. Instance matrices, geometry and phase buffers remain fixed. Nothing was
 removed to achieve this result.
 
 Shore foam uses irregular moving coverage from the same two original wave
-samples. Waterfall sheets have fewer regular narrow stripes, footprint-filtered
-ribbons and clearer gaps. Actual bottom depth attenuates caustic light using
+samples. Two curtain-pattern trials were rejected on close review; the approved thin
+waterfall-sheet pattern and palette are retained. Actual bottom depth attenuates caustic light using
 one additional scalar varying; native projection/refraction stay unchanged.
 Elevated river sheets use their actual .23-metre trough thickness rather than
 an unrelated world sea level.
@@ -26,3 +26,10 @@ per-frame matrix upload or reflection pass is introduced. The refreshed eight
 mipmapped allocation. Twenty-four focused tests passed. Full gallery, native
 phone/SQLite rides, every-island cameras and the complete suite follow before
 publication.
+
+All eight complete geometry/index/attribute/instance buffers and model framing
+match the approved release byte-for-byte. The retained original baseline
+images use that same framing; native browser bounds are checked against it
+before each new render. The final waterfall material image matches the
+retained authored-pattern diagnostic exactly. The broad/fine curtain trials
+are excluded from the release; the reset fade, depth light and shore foam remain.

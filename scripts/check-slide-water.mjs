@@ -32,7 +32,7 @@ import {prepareShowcaseWaterProbe} from './public/showcase-water-probes.js';
 const renderer=new T.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.toneMapping=T.ACESFilmicToneMapping;renderer.setSize(720,600);document.body.style='margin:0';document.body.append(renderer.domElement);
 const scene=new T.Scene();scene.background=new T.Color(0xc4d9e3);scene.add(new T.HemisphereLight(0xe7f1ff,0x81856c,1.5));const sun=new T.DirectionalLight(0xffeed9,2.3);sun.position.set(-8,14,7);scene.add(sun);
 const camera=new T.PerspectiveCamera(35,1.2,.5,600);let model,extent,center,guest,carrier;
-window.loadRide=async(id)=>{if(id.startsWith('ride-water-'))await Promise.all([prepareShowcaseSurfaces(),prepareShowcaseWaterProbe(id)]);camera.up.set(0,1,0);carrier?.removeFromParent();if(model){model.removeFromParent();disposeScenery(model);}model=makeAttraction(id);scene.add(model);const box=new T.Box3().setFromObject(model);center=box.getCenter(new T.Vector3());extent=box.getSize(new T.Vector3()).length();camera.position.copy(center).add(new T.Vector3(.6,.48,.85).multiplyScalar(extent*1.25));camera.lookAt(center);await renderer.compileAsync(scene,camera);window.model=model;draw(5);};
+window.loadRide=async(id)=>{if(id.startsWith('ride-water-'))await Promise.all([prepareShowcaseSurfaces(),prepareShowcaseWaterProbe(id)]);camera.up.set(0,1,0);carrier?.removeFromParent();if(model){model.removeFromParent();disposeScenery(model);}model=makeAttraction(id);scene.add(model);const box=new T.Box3().setFromObject(model);center=box.getCenter(new T.Vector3());extent=box.getSize(new T.Vector3()).length();window.nativeFrame={center:center.toArray(),extent};camera.position.copy(center).add(new T.Vector3(.6,.48,.85).multiplyScalar(extent*1.25));camera.lookAt(center);await renderer.compileAsync(scene,camera);window.model=model;draw(5);};
 window.reviewRider=async(u)=>{if(!guest){guest=createCat('happy');guest.scale.setScalar(.63);carrier=new T.Group();carrier.add(guest);}
  const d=model.userData,route=d.route,lane=route?.lanes?.[0]||route||{frame:d.rideFrame,duration:d.duration},wet=lane.legs?.filter(l=>['ride','vortex','slide','rafting','drop','boost','flight','skim','surf','float','carousel','swing'].includes(l.phase)),legs=wet?.length?wet:lane.legs?.filter(l=>l.phase==='flight')||[{start:0,duration:lane.duration}],leg=legs[Math.floor((legs.length-1)*u)],t=u===1?(d.slideWater.events.at(-1)?.time||lane.duration*.9)+.12:leg.start+leg.duration*(.2+u*.6),f=lane.frame(t);
  model.add(carrier);carrier.visible=true;carrier.position.set(...f.position);if(f.quaternion)carrier.quaternion.fromArray(f.quaternion);else carrier.rotation.set(f.pitch||0,f.yaw||0,f.roll||0);
@@ -43,6 +43,7 @@ window.hideRider=()=>{carrier?.removeFromParent();delete model.userData.rideElap
 window.draw=(time,reduced=false)=>{if(model.userData.update)model.userData.update(time,reduced);else animateAttraction(model,reduced?0:time);model.userData.moving.visible=false;for(const vehicle of model.userData.vehicles||[])vehicle.visible=false;renderer.render(scene,camera);};
 window.reviewAngle=(grazing=false)=>{camera.up.set(0,1,0);camera.position.copy(center).add(new T.Vector3(grazing?.85:.6,grazing?.12:.48,grazing?.85:.85).multiplyScalar(extent*1.25));camera.lookAt(center);};
 window.viewFrame=frame=>{if(frame){center.fromArray(frame.center);extent=frame.extent;reviewAngle();draw(5);}return {center:center.toArray(),extent};};
+window.reviewCascade=()=>{let chosen,height=0;model.traverse(o=>{if(!o.children.some(c=>c.geometry?.attributes?.aFallPhase))return;const sheet=o.children.find(c=>c.material?.uniforms?.uFall?.value===1),h=sheet?.material.uniforms.uScale.value.y||0;if(h>height){chosen=sheet;height=h;}});if(!chosen)return null;const box=new T.Box3().setFromObject(chosen),p=box.getCenter(new T.Vector3()),size=box.getSize(new T.Vector3()),q=chosen.getWorldQuaternion(new T.Quaternion()),direction=new T.Vector3(.18,.03,1).normalize().applyQuaternion(q);camera.up.set(0,1,0);camera.position.copy(p).addScaledVector(direction,Math.max(size.x,size.y)*1.9);camera.lookAt(p);draw(63);return {height,position:p.toArray(),size:size.toArray()};};
 window.check={renderer,scene,camera,THREE:T};window.ready=true;`;
 const staticAudit = `
 import {configureStaticSubmissions} from './public/static-submissions.js';
@@ -131,6 +132,11 @@ try {
     await page.waitForFunction(() => window.ready);
     for (const spec of selectedRides) {
       const completed=report.find(r=>r.version===root.name&&r.id===spec.id);
+      if(completed&&process.env.CHICHI_SLIDE_CASCADES_ONLY){
+        await page.evaluate(id=>loadRide(id),spec.id);completed.cascade=await page.evaluate(()=>reviewCascade());
+        if(completed.cascade)await page.screenshot({path:resolve(folder,root.name+'-'+spec.id+'-cascade-close.png')});
+        await writeFile(resolve(folder,'report.json'),JSON.stringify(report,null,2));continue;
+      }
       if(completed&&process.env.CHICHI_SLIDE_RIDERS_ONLY){
         await page.evaluate(id=>loadRide(id),spec.id);completed.riderFrames=[];
         for(const [i,u] of [.12,.5,.9,1].entries()){
@@ -141,6 +147,12 @@ try {
       }
       if(completed){if(root.name==='before'){await page.evaluate(id=>loadRide(id),spec.id);comparisonFrames.set(spec.id,await page.evaluate(()=>viewFrame()));}continue;}
       await page.evaluate((id) => loadRide(id), spec.id);
+      const nativeFrame=await page.evaluate(()=>window.nativeFrame);
+      if(process.env.CHICHI_SLIDE_FRAME_FILE&&comparisonFrames.has(spec.id)){
+        const expected=comparisonFrames.get(spec.id);
+        assert.ok(Math.abs(nativeFrame.extent-expected.extent)<.0001,spec.id+' comparison extent');
+        assert.ok(nativeFrame.center.every((v,i)=>Math.abs(v-expected.center[i])<.0001),spec.id+' comparison centre');
+      }
       if(root.name==='before')comparisonFrames.set(spec.id,await page.evaluate(()=>viewFrame()));
       else if(comparisonFrames.has(spec.id))await page.evaluate(frame=>viewFrame(frame),comparisonFrames.get(spec.id));
       const stats = await page.evaluate(
@@ -244,11 +256,7 @@ try {
             ({ view, id }) => {
               const w = model.userData.slideWater;
               check.camera.up.set(0,1,0);
-              if(view==='cascade'){
-                let fall;model.traverse(o=>{if(!fall&&o.children.some(c=>c.geometry?.attributes?.aFallPhase))fall=o;});if(!fall)return false;
-                const T=check.THREE,box=new T.Box3().setFromObject(fall),p=box.getCenter(new T.Vector3()),size=box.getSize(new T.Vector3()).length(),q=fall.getWorldQuaternion(new T.Quaternion()),offset=new T.Vector3(.32,.10,1).normalize().applyQuaternion(q);
-                check.camera.position.copy(p).addScaledVector(offset,size*1.4);check.camera.lookAt(p);draw(63);return true;
-              }
+              if(view==='cascade')return !!reviewCascade();
               if(view==='garden'){const beds=model.userData.gardenPatches;if(!beds?.length)return false;const p=[...beds].sort((a,b)=>(b.z+.15*b.x)-(a.z+.15*a.x))[0];check.camera.position.set(p.x+8,6.5,p.z+10);check.camera.lookAt(p.x,1.2,p.z);draw(63);return true;}
               if(view.startsWith('basin')){const pool=w.pool,p=pool.localToWorld(check.camera.position.clone().set(0,.155,0)),rx=pool.userData.rx,rz=pool.userData.rz,r=Math.max(rx,rz);
                 const direction=view==='basin-sun'?new check.THREE.Vector3(14,35,-20).normalize().multiplyScalar(2.5):new check.THREE.Vector3(.25,view==='basin'?1.7:.55,1.9);
@@ -306,12 +314,12 @@ try {
         stats.staticFrames.push({ view: "grazing", ...frame });
         assert.equal(frame.changed, 0, spec.id + " grazing pixels");
       }
-      report.push({ version: root.name, id: spec.id, ...stats });
+      report.push({ version: root.name, id: spec.id, nativeFrame, ...stats });
       await writeFile(resolve(folder,"report.json"),JSON.stringify(report,null,2));
       console.log(root.name, spec.id, JSON.stringify(stats));
     }
     await page.setViewportSize({ width: 390, height: 560 });
-    for (const {id} of process.env.CHICHI_SLIDE_RIDERS_ONLY?[]:selectedRides) {
+    for (const {id} of process.env.CHICHI_SLIDE_RIDERS_ONLY||process.env.CHICHI_SLIDE_CASCADES_ONLY?[]:selectedRides) {
       await page.evaluate(async ({id,framing}) => {
         const { renderer: r, camera: c } = check;
         r.setPixelRatio(2);

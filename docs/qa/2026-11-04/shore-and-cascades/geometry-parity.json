@@ -1,0 +1,110 @@
+{
+  "baseline": "d6fa805",
+  "identical": true,
+  "models": {
+    "ride-water-barrel-wave": {
+      "digest": "9f17b0ec600da38eeeaa8af9da177e14bab52b79184292d524ffc02fd372e061",
+      "meshes": 46,
+      "bytes": 15829824,
+      "frame": {
+        "center": [
+          1.3236064910888672,
+          29.30505895614624,
+          2.158143997192383
+        ],
+        "extent": 182.04005995588557
+      }
+    },
+    "ride-water-canyon-rafting": {
+      "digest": "2d984733535db1c91cd66de471d2164bfbf798299c5b8017d5508973b3359851",
+      "meshes": 42,
+      "bytes": 19009436,
+      "frame": {
+        "center": [
+          -0.9623947143554688,
+          21.26451063156128,
+          2.0439929962158203
+        ],
+        "extent": 176.36840840355742
+      }
+    },
+    "ride-water-glass-drop": {
+      "digest": "3d09b2fffa3421312738f03a3f8dfc9a0f232318b48c8754cd57eb54a07ca1a4",
+      "meshes": 47,
+      "bytes": 20933608,
+      "frame": {
+        "center": [
+          -0.8436698913574219,
+          41.7170615196228,
+          0.5002021789550781
+        ],
+        "extent": 193.28162368418174
+      }
+    },
+    "ride-water-lagoon-launch": {
+      "digest": "38860f6e5ed273f2ae6e1a206a528aaff3ba98df37a5120a9a50eb67d74492e9",
+      "meshes": 43,
+      "bytes": 14689112,
+      "frame": {
+        "center": [
+          1.4800586700439453,
+          14.378333568572998,
+          1.4573287963867188
+        ],
+        "extent": 168.67324122510138
+      }
+    },
+    "ride-water-surf-halfpipe": {
+      "digest": "5cdb0b09dae742c4c9a4074bdf34bba9fb874e51370473a6cd2edf7eabdec54b",
+      "meshes": 46,
+      "bytes": 17971556,
+      "frame": {
+        "center": [
+          0.9821510314941406,
+          14.378333568572998,
+          -1.7663345336914062
+        ],
+        "extent": 166.74947075652798
+      }
+    },
+    "ride-water-lazy-river": {
+      "digest": "9fce71f85595be79b2aa0421944ef5883d53db3cefb75109ebef6585dcc754cb",
+      "meshes": 32,
+      "bytes": 16644408,
+      "frame": {
+        "center": [
+          -0.9339370727539062,
+          15.179336071014404,
+          -0.18545150756835938
+        ],
+        "extent": 169.22076892345513
+      }
+    },
+    "ride-water-fountain-carousel": {
+      "digest": "a2d54e32ae5a5ced4336531d01d73bff8eba99a2fa117c25101fc68221c0447f",
+      "meshes": 51,
+      "bytes": 25271172,
+      "frame": {
+        "center": [
+          1.0727806091308594,
+          14.378333568572998,
+          -1.2187328338623047
+        ],
+        "extent": 165.2466904450533
+      }
+    },
+    "ride-water-pool-pendulum": {
+      "digest": "af6dfc503c97cbf28a30958547c9edd2b9e80a36226bb3369259d5375ec271c8",
+      "meshes": 42,
+      "bytes": 19113908,
+      "frame": {
+        "center": [
+          1.2312679290771484,
+          21.710059642791748,
+          -1.7663345336914062
+        ],
+        "extent": 171.09303719094532
+      }
+    }
+  }
+}

@@ -59,11 +59,6 @@ export function polishShowcaseWater(material,{id,pool=[0,35,22,15],surfaceY=1.45
   .replace('color+=lightTint*caustic*(.3+shallow*.2);','color+=vec3(.008,.026,.042)*caustic*(.12+shallow*.08);')
   .replace('float shoreFoam=smoothstep(.945,.995,edge)*(.15+.4*fieldA.a)*uLake;',`float shoreLace=smoothstep(.54,.91,fieldA.a*.45+fieldB.a*.55);
  float shoreFoam=smoothstep(.925,.997,edge)*shoreLace*(.10+.32*fieldB.b)*uLake;`)
-  .replace('float streak=1.0-smoothstep(.02,.17,abs(fract(vWaterUv.x*uScale.x*7.0+fieldA.r*.5)-.5));',`float ribbon=vWaterUv.x*uScale.x*2.3+(fieldA.r-.5)*1.2+(fieldB.g-.5)*.65;
- float ribbonWidth=.08+fwidth(ribbon);
- float streak=1.-smoothstep(ribbonWidth,ribbonWidth+.22,abs(fract(ribbon)-.5));`)
-  .replace('float lace=streak*(.22+.34*fieldB.a);','float lace=streak*(.18+.40*fieldB.a)*(.55+.45*fieldA.a);')
-  .replace('float alpha=clamp(uOpacity*.83+lace*.26,.28,.86)*edgeFade;','float alpha=clamp(uOpacity*(.50+.22*fieldA.a)+lace*.34+foot*.12,.22,.84)*edgeFade;')
   .replace('color=mix(color,uColor*(.62+fieldB.a*.3),.2);','color=mix(color,vec3(.006,.36,.64),.035+fieldB.a*.035);')
   .replace('color+=mix(vec3(.10,.22,.25),vec3(.24,.12,.20),pink)*(fieldA.b*.7+fieldB.b*.4);','color+=vec3(.006,.025,.045)*max(fieldA.b,fieldB.b)*.13;')
   .replace(/if\(uFlowing>\.5\)\{\n  float across=[\s\S]*?\n \}/,flowingFoam)
