@@ -30,7 +30,7 @@ rendered again after opening their landing gates.
 The focused bank/rig checks passed 22 tests and the dock checks passed 2 tests.
 The final full suite passed 941 tests. The final gallery passed 144 native
 performance frames, 32 seated/landing frames, 8 dismount close-ups, 16 mobile
-views and 24 exact native/static colour comparisons. The real app passed all eight native rides/returns and both camera modes in two independently completed local SQLite worlds: 16 test purchases and 6 durable reloads, with no browser/HTTP errors. Every-island camera QA follows.
+views and 24 exact native/static colour comparisons. The real app passed all eight native rides/returns and both camera modes in two independently completed local SQLite worlds: 16 test purchases and 6 durable reloads, with no browser/HTTP errors. All 19 islands passed 21 native orbit/zoom views across two completed batches, including repeated returns to the start island and zoo, with 115 NPCs, original DPR 2 and no browser/HTTP/context-loss errors.
 Software-renderer images and resource parity do not establish device FPS.
 
 Dense native skin/deck inspection passed all 19 passenger seats through 3,276

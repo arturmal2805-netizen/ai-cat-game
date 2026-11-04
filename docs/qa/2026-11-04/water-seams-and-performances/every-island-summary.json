@@ -1,0 +1,31 @@
+{
+  "views": 21,
+  "islands": 19,
+  "npcCount": 115,
+  "dpr": 2,
+  "errors": 0,
+  "contextLosses": 0,
+  "viewIds": [
+    "moon",
+    "autumn",
+    "winter",
+    "water",
+    "summer",
+    "sakura",
+    "volcano",
+    "candy",
+    "galaxy",
+    "ice",
+    "moon",
+    "clockwork",
+    "foodcourt",
+    "bikini",
+    "homestead",
+    "aquarium",
+    "jobcity",
+    "cat-homes",
+    "atoll-park",
+    "magic-zoo",
+    "magic-zoo"
+  ]
+}
