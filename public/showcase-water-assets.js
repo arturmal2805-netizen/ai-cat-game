@@ -8,11 +8,10 @@ import {receivingPool} from './reference-slide-assets.js';
 import {installSlideWater,slideRibbon} from './slide-water.js';
 import {waterMaterial,advanceWater,applyUnderwaterLighting} from './water-shading.js';
 import {polishShowcaseBottom} from './showcase-bottom-light.js';
-import {rideActingFrame} from './ride-acting.js';
 import {showcaseWaterfallSteps as waterfallSteps} from './showcase-waterfalls.js';
 import {atollApproach} from './atoll-slide-navigation.js';
 import {groupApproach} from './group-boarding.js';
-import {showcaseRideReaction,sampleShowcaseActing} from './showcase-water-acting.js';
+import {showcaseActingFrame,sampleShowcaseActing} from './showcase-water-acting.js';
 import {applyShowcaseSurfaceDetails,showcaseSurfaceUVSteps,showcaseMaterialSteps,showcaseSurfaceMap} from './showcase-surface-details.js';
 import {boulderGeometry} from './showcase-geology.js';
 import {polishShowcaseWater,submergeReceivingFloor,submergeReceivingWalls,receivingBankEnd,detailShowcaseBasin,receivingRailPoint} from './showcase-water-optics.js';
@@ -26,7 +25,9 @@ function materialForBank(river){const key=river?'river':'canyon';if(!bankPaint.h
 // Wide flat-bottom channels really support a raft; a broad flat raft cannot
 // sit at the bottom of a narrow circular pipe without intersecting its walls.
 export function showcaseTrough(data,width,depth){
- const g=slideRibbon({samples:data.samples,width,offset:-depth-.08,shellDepth:.08,steps:360,colors:[0xffffff]});
+ // Natural banks have eroded, independently sampled edges. Extend their real
+ // solid bed underneath them; the original wet width and buffers stay fixed.
+ const g=slideRibbon({samples:data.samples,width:width+(data.rapids||data.river?1.4:0),offset:-depth-.08,shellDepth:.08,steps:360,colors:[0xffffff]});
  const walls=[];for(const side of [-1,1]){const p=[],index=[];for(let i=0;i<=240;i++){const s=data.samples[Math.round(i/240*600)];for(const y of [-depth-.1,-depth+2.5])p.push(...s.p.clone().addScaledVector(s.right,side*width).addScaledVector(s.up,y).toArray());if(i){const a=(i-1)*2;index.push(a,a+1,a+2,a+1,a+3,a+2);}}const w=new T.BufferGeometry();w.setAttribute('position',new T.Float32BufferAttribute(p,3));w.setIndex(index);w.computeVertexNormals();walls.push(w);}return {floor:g,walls};
 }
 function vehicle(props,spec){
@@ -183,8 +184,8 @@ export function* showcaseWaterSteps(id){
    if(!riders.length){const f=Number.isFinite(at)?route.vehicleFrame(at,reduced):null;moving.visible=!!f&&!['board','climb','exit','done'].includes(f.phase);if(f){moving.position.set(...f.position);moving.quaternion.fromArray(f.quaternion||[0,0,0,1]);}}
 },
  };
- if(!profiles.has(id))profiles.set(id,route.lanes.map(l=>sampleShowcaseActing(l,route.duration)));
- const acting=profiles.get(id),scratch=acting.map(()=>({}));root.userData.rideActing=acting[0];root.userData.rideReaction=(time,reduced=false,lane=0)=>showcaseRideReaction(spec,route,time,rideActingFrame(acting[lane%acting.length],time,reduced,scratch[lane%acting.length]),reduced);
+ if(!profiles.has(id))profiles.set(id,route.lanes.map((l,i)=>sampleShowcaseActing(l,route.duration,spec,route,i)));
+ const acting=profiles.get(id),scratch=acting.map(()=>({}));root.userData.rideActing=acting[0];root.userData.rideReaction=(time,reduced=false,lane=0)=>showcaseActingFrame(acting[lane%acting.length],time,reduced,scratch[lane%acting.length]);
  installSlideWater(root,{channels,pool,color:0x20cce9,speed:spec.kind==='lazy-river'?4.5:8,extraSurfaces:extra});
  root.traverse(o=>{if(o.isMesh&&o.material.uniforms?.uWaterField)polishShowcaseWater(o.material,actual);});
  root.userData.update(0,true);return root;

@@ -33,17 +33,18 @@ const renderer=new T.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});
 const scene=new T.Scene();scene.background=new T.Color(0xc4d9e3);scene.add(new T.HemisphereLight(0xe7f1ff,0x81856c,1.5));const sun=new T.DirectionalLight(0xffeed9,2.3);sun.position.set(-8,14,7);scene.add(sun);
 const camera=new T.PerspectiveCamera(35,1.2,.5,600);let model,extent,center,guest,carrier;
 window.loadRide=async(id)=>{if(id.startsWith('ride-water-'))await Promise.all([prepareShowcaseSurfaces(),prepareShowcaseWaterProbe(id)]);camera.up.set(0,1,0);carrier?.removeFromParent();if(model){model.removeFromParent();disposeScenery(model);}model=makeAttraction(id);scene.add(model);const box=new T.Box3().setFromObject(model);center=box.getCenter(new T.Vector3());extent=box.getSize(new T.Vector3()).length();window.nativeFrame={center:center.toArray(),extent};camera.position.copy(center).add(new T.Vector3(.6,.48,.85).multiplyScalar(extent*1.25));camera.lookAt(center);await renderer.compileAsync(scene,camera);window.model=model;draw(5);};
-window.reviewRider=async(u)=>{if(!guest){guest=createCat('happy');guest.scale.setScalar(.63);carrier=new T.Group();carrier.add(guest);}
- const d=model.userData,route=d.route,lane=route?.lanes?.[0]||route||{frame:d.rideFrame,duration:d.duration},wet=lane.legs?.filter(l=>['ride','vortex','slide','rafting','drop','boost','flight','skim','surf','float','carousel','swing'].includes(l.phase)),legs=wet?.length?wet:lane.legs?.filter(l=>l.phase==='flight')||[{start:0,duration:lane.duration}],leg=legs[Math.floor((legs.length-1)*u)],t=u===1?(d.slideWater.events.at(-1)?.time||lane.duration*.9)+.12:leg.start+leg.duration*(.2+u*.6),f=lane.frame(t);
+window.reviewRider=async(input)=>{const u=typeof input==='number'?input:input.u??.5,laneIndex=input?.lane||0;if(!guest){guest=createCat('happy');guest.scale.setScalar(.63);carrier=new T.Group();carrier.add(guest);}
+ const d=model.userData,route=d.route,lane=route?.lanes?.[laneIndex]||route||{frame:d.rideFrame,duration:d.duration},wet=lane.legs?.filter(l=>['ride','vortex','slide','rafting','drop','boost','flight','skim','surf','float','carousel','swing'].includes(l.phase)),legs=wet?.length?wet:lane.legs?.filter(l=>l.phase==='flight')||[{start:0,duration:lane.duration}],leg=legs[Math.floor((legs.length-1)*u)],t=Number.isFinite(input?.time)?input.time:u===1?(d.slideWater.events.at(-1)?.time||lane.duration*.9)+.12:leg.start+leg.duration*(.2+u*.6),f=lane.frame(t);
  model.add(carrier);carrier.visible=true;carrier.position.set(...f.position);if(f.quaternion)carrier.quaternion.fromArray(f.quaternion);else carrier.rotation.set(f.pitch||0,f.yaw||0,f.roll||0);
- animateCat(guest,t,false,false);const reaction=model.userData.rideReaction?.(t,false,0)||{};reactCat(guest,reaction);applyAtollSit(guest,reaction);model.userData.rideElapsed=t;model.userData.update(t,false);
+ animateCat(guest,t,false,false);const reaction=model.userData.rideReaction?.(t,false,laneIndex)||{};reactCat(guest,reaction);applyAtollSit(guest,reaction);model.userData.rideElapsed=t;model.userData.update(t,false);
  const p=new T.Vector3(...f.position),right=new T.Vector3(1,0,0).applyQuaternion(carrier.quaternion),up=new T.Vector3(0,1,0).applyQuaternion(carrier.quaternion),forward=new T.Vector3(0,0,1).applyQuaternion(carrier.quaternion);camera.up.copy(up);camera.position.copy(p).addScaledVector(right,4.5).addScaledVector(up,3.6).addScaledVector(forward,6);camera.lookAt(p.clone().addScaledVector(up,1));await renderer.compileAsync(scene,camera);renderer.render(scene,camera);
- return {phase:f.phase,elapsed:t,position:f.position,reaction:{...reaction},seat:[...carrier.position],finite:f.position.every(Number.isFinite)};};
+ return {phase:f.phase,elapsed:t,position:f.position,reaction:{...reaction},seat:[...carrier.position],nativeJoints:{head:guest.userData.head.rotation.toArray().slice(0,3),paws:guest.userData.legs.map(l=>l.rotation.toArray().slice(0,3))},finite:f.position.every(Number.isFinite)};};
 window.hideRider=()=>{carrier?.removeFromParent();delete model.userData.rideElapsed;reviewAngle();draw(63);};
 window.draw=(time,reduced=false)=>{if(model.userData.update)model.userData.update(time,reduced);else animateAttraction(model,reduced?0:time);model.userData.moving.visible=false;for(const vehicle of model.userData.vehicles||[])vehicle.visible=false;renderer.render(scene,camera);};
 window.reviewAngle=(grazing=false)=>{camera.up.set(0,1,0);camera.position.copy(center).add(new T.Vector3(grazing?.85:.6,grazing?.12:.48,grazing?.85:.85).multiplyScalar(extent*1.25));camera.lookAt(center);};
 window.viewFrame=frame=>{if(frame){center.fromArray(frame.center);extent=frame.extent;reviewAngle();draw(5);}return {center:center.toArray(),extent};};
 window.reviewCascade=()=>{let chosen,height=0;model.traverse(o=>{if(!o.children.some(c=>c.geometry?.attributes?.aFallPhase))return;const sheet=o.children.find(c=>c.material?.uniforms?.uFall?.value===1),h=sheet?.material.uniforms.uScale.value.y||0;if(h>height){chosen=sheet;height=h;}});if(!chosen)return null;const box=new T.Box3().setFromObject(chosen),p=box.getCenter(new T.Vector3()),size=box.getSize(new T.Vector3()),q=chosen.getWorldQuaternion(new T.Quaternion()),direction=new T.Vector3(.18,.03,1).normalize().applyQuaternion(q);camera.up.set(0,1,0);camera.position.copy(p).addScaledVector(direction,Math.max(size.x,size.y)*1.9);camera.lookAt(p);draw(63);return {height,position:p.toArray(),size:size.toArray()};};
+window.reviewBanks=()=>{const r=model.userData.route;if(!['canyon-rafting','lazy-river'].includes(model.userData.id?.replace('ride-water-','')))return false;const river=r.geometry[0].river,p=new T.Vector3(0,river?8:22,river?-3:-5);camera.up.set(0,1,0);camera.position.copy(p).add(new T.Vector3(river?60:40,river?100:65,river?95:65));camera.lookAt(p);draw(63);return true;};
 window.check={renderer,scene,camera,THREE:T};window.ready=true;`;
 const staticAudit = `
 import {configureStaticSubmissions} from './public/static-submissions.js';
@@ -132,6 +133,11 @@ try {
     await page.waitForFunction(() => window.ready);
     for (const spec of selectedRides) {
       const completed=report.find(r=>r.version===root.name&&r.id===spec.id);
+      if(completed&&process.env.CHICHI_SLIDE_SEAMS_ONLY){
+        await page.evaluate(id=>loadRide(id),spec.id);completed.banks=await page.evaluate(()=>reviewBanks());
+        if(completed.banks)await page.screenshot({path:resolve(folder,root.name+'-'+spec.id+'-banks.png')});
+        await writeFile(resolve(folder,'report.json'),JSON.stringify(report,null,2));continue;
+      }
       if(completed&&process.env.CHICHI_SLIDE_CASCADES_ONLY){
         await page.evaluate(id=>loadRide(id),spec.id);completed.cascade=await page.evaluate(()=>reviewCascade());
         if(completed.cascade)await page.screenshot({path:resolve(folder,root.name+'-'+spec.id+'-cascade-close.png')});
@@ -251,6 +257,15 @@ try {
         }
         await page.evaluate(()=>hideRider());
       }
+      if(process.env.CHICHI_SLIDE_PERFORMANCE_AUDIT && spec.id.startsWith('ride-water-')){
+        const times=await page.evaluate(()=>{const r=model.userData.route,leg=r.legs.filter(l=>['ride','rafting','drop','flight','surf','float','carousel','swing'].includes(l.phase)).sort((a,b)=>b.duration-a.duration)[0];return [.08,.13,.27,.40,.52,.65,.73,.86,.94].map(u=>leg.start+leg.duration*u);});
+        stats.performanceFrames=[];
+        for(const [i,time]of times.entries()){
+          const frame=await page.evaluate(time=>reviewRider({time}),time);assert.equal(frame.finite,true);
+          await page.screenshot({path:resolve(folder,root.name+'-'+spec.id+'-performance-'+String(i).padStart(2,'0')+'.png')});stats.performanceFrames.push(frame);
+        }
+        await page.evaluate(()=>hideRider());
+      }
       for (const view of ["flow", "outlet", "basin", "basin-grazing", ...(process.env.CHICHI_SLIDE_OPTICS_AUDIT?["basin-sun","cascade"]:[]), "garden"]) {
           const exists = await page.evaluate(
             ({ view, id }) => {
@@ -319,7 +334,7 @@ try {
       console.log(root.name, spec.id, JSON.stringify(stats));
     }
     await page.setViewportSize({ width: 390, height: 560 });
-    for (const {id} of process.env.CHICHI_SLIDE_RIDERS_ONLY||process.env.CHICHI_SLIDE_CASCADES_ONLY?[]:selectedRides) {
+    for (const {id} of process.env.CHICHI_SLIDE_RIDERS_ONLY||process.env.CHICHI_SLIDE_CASCADES_ONLY||process.env.CHICHI_SLIDE_SEAMS_ONLY?[]:selectedRides) {
       await page.evaluate(async ({id,framing}) => {
         const { renderer: r, camera: c } = check;
         r.setPixelRatio(2);
