@@ -1,0 +1,283 @@
+{
+  "purchases": [
+    {
+      "id": "ride-water-barrel-wave",
+      "price": 210000,
+      "placement": {
+        "id": "p-32a38617-2914-4864-a666-4635c862d7f7",
+        "item": "ride-water-barrel-wave",
+        "biome": "atoll-park",
+        "x": -201,
+        "z": -134,
+        "rotation": 0,
+        "startedAt": 1793795803530,
+        "readyAt": 1793799403530
+      }
+    },
+    {
+      "id": "ride-water-canyon-rafting",
+      "price": 160000,
+      "placement": {
+        "id": "p-9272a361-4357-4887-ad6e-4824b8c91520",
+        "item": "ride-water-canyon-rafting",
+        "biome": "atoll-park",
+        "x": -67,
+        "z": -134,
+        "rotation": 0,
+        "startedAt": 1793795809545,
+        "readyAt": 1793800309545
+      }
+    },
+    {
+      "id": "ride-water-glass-drop",
+      "price": 250000,
+      "placement": {
+        "id": "p-a8782e04-1986-40ec-a93e-e393a56776a4",
+        "item": "ride-water-glass-drop",
+        "biome": "atoll-park",
+        "x": 67,
+        "z": -134,
+        "rotation": 0,
+        "startedAt": 1793795814913,
+        "readyAt": 1793800614913
+      }
+    },
+    {
+      "id": "ride-water-lagoon-launch",
+      "price": 220000,
+      "placement": {
+        "id": "p-b64b269f-d728-41f2-bb8f-877534cfba06",
+        "item": "ride-water-lagoon-launch",
+        "biome": "atoll-park",
+        "x": 201,
+        "z": -134,
+        "rotation": 0,
+        "startedAt": 1793795821712,
+        "readyAt": 1793800921712
+      }
+    },
+    {
+      "id": "ride-water-surf-halfpipe",
+      "price": 175000,
+      "placement": {
+        "id": "p-f11a1e57-a57f-4ece-bd03-673c862aa06b",
+        "item": "ride-water-surf-halfpipe",
+        "biome": "atoll-park",
+        "x": -201,
+        "z": 0,
+        "rotation": 0,
+        "startedAt": 1793795827492,
+        "readyAt": 1793801227492
+      }
+    },
+    {
+      "id": "ride-water-lazy-river",
+      "price": 110000,
+      "placement": {
+        "id": "p-3b15f935-a41e-48e5-9fb8-a5cadaa07c05",
+        "item": "ride-water-lazy-river",
+        "biome": "atoll-park",
+        "x": -67,
+        "z": 0,
+        "rotation": 0,
+        "startedAt": 1793795833138,
+        "readyAt": 1793801533138
+      }
+    },
+    {
+      "id": "ride-water-fountain-carousel",
+      "price": 145000,
+      "placement": {
+        "id": "p-b5ea3c67-fb0f-47fe-b19e-473a5e4ec3a7",
+        "item": "ride-water-fountain-carousel",
+        "biome": "atoll-park",
+        "x": 67,
+        "z": 0,
+        "rotation": 0,
+        "startedAt": 1793795837727,
+        "readyAt": 1793801837727
+      }
+    },
+    {
+      "id": "ride-water-pool-pendulum",
+      "price": 230000,
+      "placement": {
+        "id": "p-0bcf457a-5898-4b43-9b79-7b0cf65dd121",
+        "item": "ride-water-pool-pendulum",
+        "biome": "atoll-park",
+        "x": 201,
+        "z": 0,
+        "rotation": 0,
+        "startedAt": 1793795842761,
+        "readyAt": 1793802142761
+      }
+    }
+  ],
+  "rides": [
+    {
+      "id": "ride-water-surf-halfpipe",
+      "phase": "surf",
+      "error": 0,
+      "reaction": {
+        "ride": true,
+        "weight": 1,
+        "speed": 26.02510208331986,
+        "height": 14.65359770339056,
+        "turnForce": 0,
+        "crouch": 0.20496333656721558,
+        "paw": 0.2831932378802078,
+        "pawSpread": 0.5899999737739563,
+        "grip": 0.9010622608424812,
+        "frontLift": 0,
+        "hindTuck": 0,
+        "headPitch": 0.10538029878739491,
+        "headRoll": 0,
+        "headYaw": 0.23301198846062285,
+        "bodyLean": -0.2105619300872285,
+        "bodyPitch": 0.02809460244628767,
+        "earRelax": -0.23988076387256974,
+        "tailSway": -0.0036276604284512584,
+        "tailTrail": -0.3798112185901364,
+        "eyeClose": 0.21989070664178456,
+        "surprise": 0.7145437887172825,
+        "rideSit": 0,
+        "waterSurf": 1,
+        "waterProne": 0,
+        "waterPawLift": 0
+      },
+      "riders": 1,
+      "boats": 1,
+      "contextLost": false,
+      "returnWalk": {
+        "walking": true,
+        "error": 0,
+        "boats": 0,
+        "phase": "exit"
+      }
+    },
+    {
+      "id": "ride-water-lazy-river",
+      "phase": "float",
+      "error": 0,
+      "reaction": {
+        "ride": true,
+        "weight": 1,
+        "speed": 4.585812177501114,
+        "height": 3.967723924644358,
+        "turnForce": -0.011036121942311907,
+        "crouch": 0.027448795060119317,
+        "paw": 0.2548018659006636,
+        "pawSpread": 0.04110361196265336,
+        "grip": 0.30936081305184926,
+        "frontLift": 0,
+        "hindTuck": 0,
+        "headPitch": 0.029949215787363863,
+        "headRoll": 0.0012767694459443202,
+        "headYaw": -0.41216992243701195,
+        "bodyLean": 0.00220722443502851,
+        "bodyPitch": 0.0008691768153463581,
+        "earRelax": -0.16362833181987388,
+        "tailSway": 0.13783889245070413,
+        "tailTrail": -0.005638652039404843,
+        "eyeClose": 0.08187046022254868,
+        "surprise": 0.0027590304855779767,
+        "rideSit": 1,
+        "waterSurf": 0,
+        "waterProne": 0,
+        "waterPawLift": 0
+      },
+      "riders": 1,
+      "boats": 1,
+      "contextLost": false,
+      "returnWalk": {
+        "walking": true,
+        "error": 0,
+        "boats": 0,
+        "phase": "exit"
+      }
+    },
+    {
+      "id": "ride-water-fountain-carousel",
+      "phase": "carousel",
+      "error": 0,
+      "reaction": {
+        "ride": true,
+        "weight": 1,
+        "speed": 28.11940670304355,
+        "height": 2.1500000953674316,
+        "turnForce": 1,
+        "crouch": 0.09000000357627869,
+        "paw": 0.3499999940395355,
+        "pawSpread": 0.38999998569488525,
+        "grip": 0.6600000262260437,
+        "frontLift": 0,
+        "hindTuck": 0,
+        "headPitch": 0.028247560673028273,
+        "headRoll": -0.16234586167354292,
+        "headYaw": -0.25000649736249586,
+        "bodyLean": -0.20999999344348907,
+        "bodyPitch": -0.0010952746975104169,
+        "earRelax": -0.23999999463558197,
+        "tailSway": 0.5303925614530869,
+        "tailTrail": -0.3799999952316284,
+        "eyeClose": 0.2199999988079071,
+        "surprise": 0,
+        "rideSit": 1,
+        "waterSurf": 0,
+        "waterProne": 0,
+        "waterPawLift": 0
+      },
+      "riders": 1,
+      "boats": 1,
+      "contextLost": false,
+      "returnWalk": {
+        "walking": true,
+        "error": 6.394884621840902e-14,
+        "boats": 0,
+        "phase": "exit"
+      }
+    },
+    {
+      "id": "ride-water-pool-pendulum",
+      "phase": "swing",
+      "error": 0,
+      "reaction": {
+        "ride": true,
+        "weight": 1,
+        "speed": 21.45219114458597,
+        "height": 27.826670548461273,
+        "turnForce": 0,
+        "crouch": 0.13512444959130696,
+        "paw": 0.6050424852880769,
+        "pawSpread": 0.1673773655779037,
+        "grip": 1,
+        "frontLift": 0.10027051854172638,
+        "hindTuck": 0.23999999463558197,
+        "headPitch": 0.1527267900105868,
+        "headRoll": 0,
+        "headYaw": -0.2038037947212699,
+        "bodyLean": 0,
+        "bodyPitch": 0.029999999329447746,
+        "earRelax": -0.22199796617667442,
+        "tailSway": 0.06596140785541901,
+        "tailTrail": -0.3514967996032364,
+        "eyeClose": 0.20349813962665192,
+        "surprise": 1,
+        "rideSit": 1,
+        "waterSurf": 0,
+        "waterProne": 0,
+        "waterPawLift": 0
+      },
+      "riders": 1,
+      "boats": 1,
+      "contextLost": false,
+      "returnWalk": {
+        "walking": true,
+        "error": 1.4210854715202004e-13,
+        "boats": 0,
+        "phase": "exit"
+      }
+    }
+  ],
+  "reloads": 3
+}

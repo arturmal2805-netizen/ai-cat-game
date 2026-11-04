@@ -30,7 +30,7 @@ rendered again after opening their landing gates.
 The focused bank/rig checks passed 22 tests and the dock checks passed 2 tests.
 The final full suite passed 941 tests. The final gallery passed 144 native
 performance frames, 32 seated/landing frames, 8 dismount close-ups, 16 mobile
-views and 24 exact native/static colour comparisons. Native save audits follow.
+views and 24 exact native/static colour comparisons. The real app passed all eight native rides/returns and both camera modes in two independently completed local SQLite worlds: 16 test purchases and 6 durable reloads, with no browser/HTTP errors. Every-island camera QA follows.
 Software-renderer images and resource parity do not establish device FPS.
 
 Dense native skin/deck inspection passed all 19 passenger seats through 3,276
@@ -47,3 +47,8 @@ while retaining their original dock paths and surrounding fences. Ordinary
 railings keep their exact original 24-segment geometry; tests inspect actual
 post/handrail vertices against real hulls. This is an access fix, not an FPS
 claim. Static image/framing checks cover the resulting scenery.
+
+Reproduce the dense native rig probe with Node 22:
+`node scripts/check-rider-deck-clearance.mjs CHECKOUT OUTPUT.json --strict`.
+The script inspects actual transformed shin vertices across all seats and
+seated phases; it uses no live player world or external API.

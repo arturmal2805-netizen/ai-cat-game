@@ -1,0 +1,38 @@
+{
+  "batches": [
+    {
+      "batch": "a",
+      "purchases": 8,
+      "rides": 4,
+      "reloads": 3,
+      "errors": {
+        "errors": [],
+        "httpErrors": []
+      }
+    },
+    {
+      "batch": "b",
+      "purchases": 8,
+      "rides": 4,
+      "reloads": 3,
+      "errors": {
+        "errors": [],
+        "httpErrors": []
+      }
+    }
+  ],
+  "purchases": 16,
+  "rides": 8,
+  "reloads": 6,
+  "uniqueRideIds": [
+    "ride-water-barrel-wave",
+    "ride-water-canyon-rafting",
+    "ride-water-glass-drop",
+    "ride-water-lagoon-launch",
+    "ride-water-surf-halfpipe",
+    "ride-water-lazy-river",
+    "ride-water-fountain-carousel",
+    "ride-water-pool-pendulum"
+  ],
+  "testedApp": "70a58e19ee1ca9d6"
+}
