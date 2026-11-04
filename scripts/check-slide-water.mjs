@@ -149,6 +149,10 @@ try {
           const frame=await page.evaluate(u=>reviewRider(u),u);assert.equal(frame.finite,true);
           await page.screenshot({path:resolve(folder,root.name+'-'+spec.id+'-rider-'+i+'.png')});completed.riderFrames.push(frame);
         }
+        if(process.env.CHICHI_SLIDE_PERFORMANCE_AUDIT){
+          const times=await page.evaluate(()=>{const r=model.userData.route,leg=r.legs.filter(l=>['ride','rafting','drop','flight','surf','float','carousel','swing'].includes(l.phase)).sort((a,b)=>b.duration-a.duration)[0];return [.08,.13,.27,.40,.52,.65,.73,.86,.94].map(u=>leg.start+leg.duration*u);});completed.performanceFrames=[];
+          for(const [i,time]of times.entries()){const frame=await page.evaluate(time=>reviewRider({time}),time);assert.equal(frame.finite,true);await page.screenshot({path:resolve(folder,root.name+'-'+spec.id+'-performance-'+String(i).padStart(2,'0')+'.png')});completed.performanceFrames.push(frame);}
+        }
         await page.evaluate(()=>hideRider());await writeFile(resolve(folder,'report.json'),JSON.stringify(report,null,2));console.log('Seated native pose',spec.id);continue;
       }
       if(completed){if(root.name==='before'){await page.evaluate(id=>loadRide(id),spec.id);comparisonFrames.set(spec.id,await page.evaluate(()=>viewFrame()));}continue;}

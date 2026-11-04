@@ -932,3 +932,7 @@ Water-adventure performances use shared immutable tables (at most 512 intervals)
 sampled from native measured motion; playing, pausing and seeking only interpolate
 them, without route reevaluation or per-rider timers. Retain individual passenger
 gestures, common boat motion, native paw/deck clearance and reduced-motion reset.
+Seat support stays at full height through the landing; fade it during the actual
+exit walk, never while passengers are still seated. Landing crouches compress
+the body/knees while retaining the supporting forepaws. Check intermediate
+splash frames for all seats, not only the fast middle of a ride.

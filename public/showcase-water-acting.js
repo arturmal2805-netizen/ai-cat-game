@@ -3,7 +3,7 @@ import {sampleRideActing,rideActingFrame} from './ride-acting.js';
 const clamp=x=>Math.max(0,Math.min(1,x)),smooth=x=>{const u=clamp(x);return u*u*(3-2*u);};
 const beat=(u,at,width)=>1-smooth(Math.abs(u-at)/width);
 const wetPhases=new Set(['rafting','drop','boost','skim','surf','float','carousel','swing','unload']);
-export const SHOWCASE_POSE_KEYS=['weight','speed','height','turnForce','crouch','paw','pawSpread','grip','frontLift','hindTuck','headPitch','headRoll','headYaw','bodyLean','bodyPitch','earRelax','tailSway','tailTrail','eyeClose','surprise','rideSit','waterSurf','waterProne'];
+export const SHOWCASE_POSE_KEYS=['weight','speed','height','turnForce','crouch','paw','pawSpread','grip','frontLift','hindTuck','headPitch','headRoll','headYaw','bodyLean','bodyPitch','earRelax','tailSway','tailTrail','eyeClose','surprise','rideSit','waterSurf','waterProne','waterPawLift'];
 export function sampleShowcaseActing(lane,duration,spec,route,passenger=0){
  const direction=new T.Vector3(),q=new T.Quaternion();
  const profile=sampleRideActing(t=>{
@@ -33,7 +33,7 @@ export function showcaseActingFrame(profile,time,reduced=false,out={}){
  return out;
 }
 export function showcaseRideReaction(spec,route,time,out,reduced,passenger=0){
- out.rideSit=0;out.waterSurf=0;out.waterProne=0;if(reduced)return out;
+ out.rideSit=0;out.waterSurf=0;out.waterProne=0;out.waterPawLift=0;if(reduced)return out;
  const f=route.vehicleFrame(time),weight=out.weight||0,t=time-route.rideStart;
  if(f.walking||['board','climb','exit','done'].includes(f.phase))return out;
  const leg=route.legs.find(l=>time>=l.start&&time<=l.start+l.duration)||route.legs[0],u=clamp((time-leg.start)/leg.duration),gate=smooth(u/.09)*(1-smooth((u-.88)/.12)),w=weight*gate;
@@ -110,5 +110,6 @@ export function showcaseRideReaction(spec,route,time,out,reduced,passenger=0){
  }
  for(const key of ['grip','paw','surprise','eyeClose'])out[key]=clamp(out[key]);
  out.crouch=Math.min(.285,Math.max(0,out.crouch));
+ out.waterPawLift=f.phase==='splash'?out.crouch*.3:0;
  return out;
 }
