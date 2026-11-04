@@ -193,16 +193,17 @@ test("the island has real pink swimming openings, animated falls, an instanced p
       0xed83ba,
     );
   }
-  const f = s.userData.cotton.waterfalls[0];
+  const f = s.userData.cotton.waterfalls[0], spray=f.children.find(c=>c.isInstancedMesh);
+  const shader={uniforms:{},vertexShader:'#include <begin_vertex>',fragmentShader:'#include <color_fragment>'};
+  spray.material.onBeforeCompile(shader);
   s.userData.update(4);
-  const before = [
-    ...f.children.find((c) => c.isInstancedMesh).instanceMatrix.array,
-  ];
+  const before=[...spray.instanceMatrix.array],version=spray.instanceMatrix.version;
+  assert.equal(shader.uniforms.uFallTime.value,4);
   s.userData.update(5);
-  assert.notDeepEqual(
-    [...f.children.find((c) => c.isInstancedMesh).instanceMatrix.array],
-    before,
-  );
+  assert.equal(shader.uniforms.uFallTime.value,5);
+  assert.deepEqual([...spray.instanceMatrix.array],before);
+  assert.equal(spray.instanceMatrix.version,version);
+  assert.ok(shader.vertexShader.includes('uFallTime*2.1+aFallPhase'));
   disposeBiome(s);
   const distant = createBiomeScene(byBiome("clockwork"), { lowOnly: true });
   assert.equal(distant.userData.detail.visible, false);
