@@ -1,0 +1,116 @@
+[
+  {
+    "version": "before",
+    "mode": "desktop",
+    "frameMedian": 89.40000000596046,
+    "frameP95": 97.79999999701977,
+    "submitMedian": 1,
+    "updateMedian": 0.10000000894069672,
+    "draws": 28,
+    "triangles": 80912,
+    "textures": 6,
+    "canvas": [
+      900,
+      700
+    ],
+    "paletteContrast": [
+      96.6,
+      73.6
+    ]
+  },
+  {
+    "version": "before",
+    "mode": "phone",
+    "frameMedian": 120,
+    "frameP95": 149.40000000596046,
+    "submitMedian": 0.9000000059604645,
+    "updateMedian": 0.10000000894069672,
+    "draws": 28,
+    "triangles": 80912,
+    "textures": 6,
+    "canvas": [
+      780,
+      1120
+    ],
+    "paletteContrast": [
+      98.88,
+      73
+    ]
+  },
+  {
+    "version": "before",
+    "mode": "swimming",
+    "frameMedian": 127.29999999701977,
+    "frameP95": 226.3999999910593,
+    "submitMedian": 0.9000000059604645,
+    "updateMedian": 0.19999998807907104,
+    "draws": 30,
+    "triangles": 82712,
+    "textures": 6,
+    "canvas": [
+      780,
+      1120
+    ],
+    "paletteContrast": [
+      94.76,
+      68.52
+    ]
+  },
+  {
+    "version": "after",
+    "mode": "desktop",
+    "frameMedian": 94.5,
+    "frameP95": 102.09999999403954,
+    "submitMedian": 1.2000000029802322,
+    "updateMedian": 0.09999999403953552,
+    "draws": 28,
+    "triangles": 80912,
+    "textures": 7,
+    "canvas": [
+      900,
+      700
+    ],
+    "paletteContrast": [
+      80.68,
+      66.24
+    ]
+  },
+  {
+    "version": "after",
+    "mode": "phone",
+    "frameMedian": 119.09999999403954,
+    "frameP95": 136.40000000596046,
+    "submitMedian": 0.7999999970197678,
+    "updateMedian": 0.10000000894069672,
+    "draws": 28,
+    "triangles": 80912,
+    "textures": 7,
+    "canvas": [
+      780,
+      1120
+    ],
+    "paletteContrast": [
+      83.52,
+      65.72
+    ]
+  },
+  {
+    "version": "after",
+    "mode": "swimming",
+    "frameMedian": 167.8999999910593,
+    "frameP95": 573.5,
+    "submitMedian": 0.7999999970197678,
+    "updateMedian": 0.10000000894069672,
+    "draws": 30,
+    "triangles": 82712,
+    "textures": 7,
+    "canvas": [
+      780,
+      1120
+    ],
+    "paletteContrast": [
+      83.8,
+      63
+    ]
+  }
+]

@@ -1,0 +1,724 @@
+[
+  {
+    "version": "before",
+    "id": "autumn",
+    "waterSurfaces": 1,
+    "waterPoint": [
+      -12.5837,
+      0.155,
+      116.6368
+    ],
+    "waterRadius": 21,
+    "draws": 123,
+    "triangles": 638544,
+    "textures": 11,
+    "vertices": 386841,
+    "geometryBytes": 19380460,
+    "waterMaterials": 6,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "moon",
+    "waterSurfaces": 1,
+    "waterPoint": [
+      5,
+      0.155,
+      4
+    ],
+    "waterRadius": 1.7000000000000002,
+    "draws": 103,
+    "triangles": 339976,
+    "textures": 11,
+    "vertices": 200699,
+    "geometryBytes": 9727248,
+    "waterMaterials": 3,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "summer",
+    "waterSurfaces": 16,
+    "waterPoint": [
+      14.577100000000002,
+      0.155,
+      167.8468
+    ],
+    "waterRadius": 10.5,
+    "draws": 173,
+    "triangles": 1729540,
+    "textures": 11,
+    "vertices": 754806,
+    "geometryBytes": 36833948,
+    "waterMaterials": 26,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "candy",
+    "waterSurfaces": 0,
+    "waterPoint": [
+      136.9242,
+      0,
+      39.6054
+    ],
+    "waterRadius": 26.05019193787255,
+    "draws": 114,
+    "triangles": 272972,
+    "textures": 11,
+    "vertices": 133158,
+    "geometryBytes": 6455840,
+    "waterMaterials": 2,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "aquarium",
+    "waterSurfaces": 5,
+    "waterPoint": [
+      -1.6572999999999993,
+      9.33,
+      61.798100000000005
+    ],
+    "waterRadius": 10.420000076293945,
+    "draws": 55,
+    "triangles": 941250,
+    "textures": 11,
+    "vertices": 399509,
+    "geometryBytes": 19642808,
+    "waterMaterials": 10,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "magic-zoo",
+    "waterSurfaces": 10,
+    "waterPoint": [
+      215,
+      0.155,
+      159.7
+    ],
+    "waterRadius": 9.199999999999989,
+    "draws": 96,
+    "triangles": 1945793,
+    "textures": 23,
+    "vertices": 844264,
+    "geometryBytes": 50079378,
+    "waterMaterials": 22,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "water",
+    "waterSurfaces": 2,
+    "waterPoint": [
+      -60.052099999999996,
+      0.155,
+      142.3472
+    ],
+    "waterRadius": 6.4999999999999964,
+    "draws": 70,
+    "triangles": 502900,
+    "textures": 18,
+    "vertices": 264135,
+    "geometryBytes": 12676748,
+    "waterMaterials": 3,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "winter",
+    "waterSurfaces": 2,
+    "waterPoint": [
+      92.9434,
+      0.155,
+      128.0351
+    ],
+    "waterRadius": 8.5,
+    "draws": 227,
+    "triangles": 648760,
+    "textures": 18,
+    "vertices": 539104,
+    "geometryBytes": 25628008,
+    "waterMaterials": 9,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "sakura",
+    "waterSurfaces": 7,
+    "waterPoint": [
+      36.527699999999996,
+      1.35,
+      109.4944
+    ],
+    "waterRadius": 1.490000000000002,
+    "draws": 126,
+    "triangles": 693778,
+    "textures": 18,
+    "vertices": 800699,
+    "geometryBytes": 39826644,
+    "waterMaterials": 10,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "volcano",
+    "waterSurfaces": 3,
+    "waterPoint": [
+      -30.5033,
+      0.155,
+      159.7201
+    ],
+    "waterRadius": 4.800000000000001,
+    "draws": 190,
+    "triangles": 607484,
+    "textures": 18,
+    "vertices": 489872,
+    "geometryBytes": 23842020,
+    "waterMaterials": 9,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "galaxy",
+    "waterSurfaces": 3,
+    "waterPoint": [
+      133.7209,
+      0.155,
+      82.2487
+    ],
+    "waterRadius": 4.800000000000011,
+    "draws": 135,
+    "triangles": 651800,
+    "textures": 18,
+    "vertices": 523298,
+    "geometryBytes": 25533504,
+    "waterMaterials": 9,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "ice",
+    "waterSurfaces": 3,
+    "waterPoint": [
+      -167.1679,
+      0.155,
+      2.4850000000000003
+    ],
+    "waterRadius": 4.800000000000011,
+    "draws": 305,
+    "triangles": 637156,
+    "textures": 18,
+    "vertices": 518953,
+    "geometryBytes": 25162852,
+    "waterMaterials": 9,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "clockwork",
+    "waterSurfaces": 8,
+    "waterPoint": [
+      -137.7347,
+      0.155,
+      -12.311900000000001
+    ],
+    "waterRadius": 8,
+    "draws": 325,
+    "triangles": 1702764,
+    "textures": 18,
+    "vertices": 828313,
+    "geometryBytes": 41006504,
+    "waterMaterials": 16,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "foodcourt",
+    "waterSurfaces": 1,
+    "waterPoint": [
+      81.1833,
+      0.155,
+      11.609
+    ],
+    "waterRadius": 3,
+    "draws": 91,
+    "triangles": 373468,
+    "textures": 18,
+    "vertices": 270381,
+    "geometryBytes": 13307996,
+    "waterMaterials": 5,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "bikini",
+    "waterSurfaces": 2,
+    "waterPoint": [
+      87.9955,
+      0.155,
+      71.1497
+    ],
+    "waterRadius": 5,
+    "draws": 41,
+    "triangles": 344300,
+    "textures": 18,
+    "vertices": 318926,
+    "geometryBytes": 16404904,
+    "waterMaterials": 7,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "homestead",
+    "waterSurfaces": 0,
+    "waterPoint": [
+      0,
+      0,
+      -245
+    ],
+    "waterRadius": 30,
+    "draws": 105,
+    "triangles": 297532,
+    "textures": 19,
+    "vertices": 25143,
+    "geometryBytes": 1136312,
+    "waterMaterials": 0,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "cat-homes",
+    "waterSurfaces": 0,
+    "waterPoint": [
+      -210,
+      0,
+      55
+    ],
+    "waterRadius": 30,
+    "draws": 15,
+    "triangles": 127804,
+    "textures": 20,
+    "vertices": 133679,
+    "geometryBytes": 6360904,
+    "waterMaterials": 1,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "atoll-park",
+    "waterSurfaces": 0,
+    "waterPoint": [
+      0,
+      0,
+      -925
+    ],
+    "waterRadius": 30,
+    "draws": 10,
+    "triangles": 19200,
+    "textures": 20,
+    "vertices": 142844,
+    "geometryBytes": 6735256,
+    "waterMaterials": 0,
+    "animated": false,
+    "contextLost": false
+  },
+  {
+    "version": "before",
+    "id": "jobcity",
+    "waterSurfaces": 1,
+    "waterPoint": [
+      -92,
+      0.155,
+      55
+    ],
+    "waterRadius": 3,
+    "draws": 44,
+    "triangles": 237056,
+    "textures": 20,
+    "vertices": 430131,
+    "geometryBytes": 20158862,
+    "waterMaterials": 5,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "after",
+    "id": "autumn",
+    "waterSurfaces": 1,
+    "waterPoint": [
+      -12.5837,
+      0.155,
+      116.6368
+    ],
+    "waterRadius": 21,
+    "draws": 123,
+    "triangles": 638544,
+    "textures": 12,
+    "vertices": 386841,
+    "geometryBytes": 19380820,
+    "waterMaterials": 6,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "after",
+    "id": "moon",
+    "waterSurfaces": 1,
+    "waterPoint": [
+      5,
+      0.155,
+      4
+    ],
+    "waterRadius": 1.7000000000000002,
+    "draws": 103,
+    "triangles": 339976,
+    "textures": 12,
+    "vertices": 200699,
+    "geometryBytes": 9727392,
+    "waterMaterials": 3,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "after",
+    "id": "summer",
+    "waterSurfaces": 16,
+    "waterPoint": [
+      14.577100000000002,
+      0.155,
+      167.8468
+    ],
+    "waterRadius": 10.5,
+    "draws": 173,
+    "triangles": 1729540,
+    "textures": 12,
+    "vertices": 754806,
+    "geometryBytes": 36834668,
+    "waterMaterials": 26,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "after",
+    "id": "candy",
+    "waterSurfaces": 0,
+    "waterPoint": [
+      136.9242,
+      0,
+      39.6054
+    ],
+    "waterRadius": 26.05019193787255,
+    "draws": 114,
+    "triangles": 272972,
+    "textures": 12,
+    "vertices": 133158,
+    "geometryBytes": 6455984,
+    "waterMaterials": 2,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "after",
+    "id": "aquarium",
+    "waterSurfaces": 5,
+    "waterPoint": [
+      -1.6572999999999993,
+      9.33,
+      61.798100000000005
+    ],
+    "waterRadius": 10.420000076293945,
+    "draws": 55,
+    "triangles": 941250,
+    "textures": 12,
+    "vertices": 399509,
+    "geometryBytes": 19643168,
+    "waterMaterials": 10,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "after",
+    "id": "magic-zoo",
+    "waterSurfaces": 10,
+    "waterPoint": [
+      215,
+      0.155,
+      159.7
+    ],
+    "waterRadius": 9.199999999999989,
+    "draws": 96,
+    "triangles": 1945793,
+    "textures": 24,
+    "vertices": 844264,
+    "geometryBytes": 50080242,
+    "waterMaterials": 22,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "after",
+    "id": "water",
+    "waterSurfaces": 2,
+    "waterPoint": [
+      -60.052099999999996,
+      0.155,
+      142.3472
+    ],
+    "waterRadius": 6.4999999999999964,
+    "draws": 70,
+    "triangles": 502900,
+    "textures": 19,
+    "vertices": 264135,
+    "geometryBytes": 12676820,
+    "waterMaterials": 3,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "after",
+    "id": "winter",
+    "waterSurfaces": 2,
+    "waterPoint": [
+      92.9434,
+      0.155,
+      128.0351
+    ],
+    "waterRadius": 8.5,
+    "draws": 227,
+    "triangles": 648760,
+    "textures": 19,
+    "vertices": 539104,
+    "geometryBytes": 25628512,
+    "waterMaterials": 9,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "after",
+    "id": "sakura",
+    "waterSurfaces": 7,
+    "waterPoint": [
+      36.527699999999996,
+      1.35,
+      109.4944
+    ],
+    "waterRadius": 1.490000000000002,
+    "draws": 126,
+    "triangles": 693778,
+    "textures": 19,
+    "vertices": 800699,
+    "geometryBytes": 39826860,
+    "waterMaterials": 10,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "after",
+    "id": "volcano",
+    "waterSurfaces": 3,
+    "waterPoint": [
+      -30.5033,
+      0.155,
+      159.7201
+    ],
+    "waterRadius": 4.800000000000001,
+    "draws": 190,
+    "triangles": 607484,
+    "textures": 19,
+    "vertices": 489872,
+    "geometryBytes": 23842452,
+    "waterMaterials": 9,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "after",
+    "id": "galaxy",
+    "waterSurfaces": 3,
+    "waterPoint": [
+      133.7209,
+      0.155,
+      82.2487
+    ],
+    "waterRadius": 4.800000000000011,
+    "draws": 135,
+    "triangles": 651800,
+    "textures": 19,
+    "vertices": 523298,
+    "geometryBytes": 25533936,
+    "waterMaterials": 9,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "after",
+    "id": "ice",
+    "waterSurfaces": 3,
+    "waterPoint": [
+      -167.1679,
+      0.155,
+      2.4850000000000003
+    ],
+    "waterRadius": 4.800000000000011,
+    "draws": 305,
+    "triangles": 637156,
+    "textures": 19,
+    "vertices": 518953,
+    "geometryBytes": 25163284,
+    "waterMaterials": 9,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "after",
+    "id": "clockwork",
+    "waterSurfaces": 8,
+    "waterPoint": [
+      -137.7347,
+      0.155,
+      -12.311900000000001
+    ],
+    "waterRadius": 8,
+    "draws": 325,
+    "triangles": 1702764,
+    "textures": 19,
+    "vertices": 828313,
+    "geometryBytes": 41007080,
+    "waterMaterials": 16,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "after",
+    "id": "foodcourt",
+    "waterSurfaces": 1,
+    "waterPoint": [
+      81.1833,
+      0.155,
+      11.609
+    ],
+    "waterRadius": 3,
+    "draws": 91,
+    "triangles": 373468,
+    "textures": 19,
+    "vertices": 270381,
+    "geometryBytes": 13308284,
+    "waterMaterials": 5,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "after",
+    "id": "bikini",
+    "waterSurfaces": 2,
+    "waterPoint": [
+      87.9955,
+      0.155,
+      71.1497
+    ],
+    "waterRadius": 5,
+    "draws": 41,
+    "triangles": 344300,
+    "textures": 19,
+    "vertices": 318926,
+    "geometryBytes": 16405264,
+    "waterMaterials": 7,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "after",
+    "id": "homestead",
+    "waterSurfaces": 0,
+    "waterPoint": [
+      0,
+      0,
+      -245
+    ],
+    "waterRadius": 30,
+    "draws": 105,
+    "triangles": 297532,
+    "textures": 20,
+    "vertices": 25143,
+    "geometryBytes": 1136312,
+    "waterMaterials": 0,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "after",
+    "id": "cat-homes",
+    "waterSurfaces": 0,
+    "waterPoint": [
+      -210,
+      0,
+      55
+    ],
+    "waterRadius": 30,
+    "draws": 15,
+    "triangles": 127804,
+    "textures": 21,
+    "vertices": 133679,
+    "geometryBytes": 6360976,
+    "waterMaterials": 1,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "after",
+    "id": "atoll-park",
+    "waterSurfaces": 0,
+    "waterPoint": [
+      0,
+      0,
+      -925
+    ],
+    "waterRadius": 30,
+    "draws": 10,
+    "triangles": 19200,
+    "textures": 21,
+    "vertices": 142844,
+    "geometryBytes": 6735256,
+    "waterMaterials": 0,
+    "animated": false,
+    "contextLost": false
+  },
+  {
+    "version": "after",
+    "id": "jobcity",
+    "waterSurfaces": 1,
+    "waterPoint": [
+      -92,
+      0.155,
+      55
+    ],
+    "waterRadius": 3,
+    "draws": 44,
+    "triangles": 237056,
+    "textures": 21,
+    "vertices": 430131,
+    "geometryBytes": 20159150,
+    "waterMaterials": 5,
+    "animated": true,
+    "contextLost": false
+  }
+]

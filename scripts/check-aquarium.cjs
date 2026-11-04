@@ -53,7 +53,7 @@ async function localWorker() {
   // connection during long harvest probes (POST/PUT are not retried by that
   // proxy). Use the same real workerd/SQLite/asset router directly for this
   // audit; keep the production Worker and browser save client unmodified.
-  if(process.env.CHICHI_WATER_TEN_AUDIT||process.env.CHICHI_GATHER_AUDIT||process.env.CHICHI_ZOO_GUEST_AUDIT||process.env.CHICHI_ZOO_AUDIT||process.env.CHICHI_MAGIC_BED_AUDIT||process.env.CHICHI_MAGIC_FARM_AUDIT||process.env.CHICHI_FARM_WITHDRAWAL_AUDIT||process.env.CHICHI_OWNERSHIP_AUDIT){
+  if(process.env.CHICHI_NATIVE_MAP_AUDIT||process.env.CHICHI_WATER_TEN_AUDIT||process.env.CHICHI_GATHER_AUDIT||process.env.CHICHI_ZOO_GUEST_AUDIT||process.env.CHICHI_ZOO_AUDIT||process.env.CHICHI_MAGIC_BED_AUDIT||process.env.CHICHI_MAGIC_FARM_AUDIT||process.env.CHICHI_FARM_WITHDRAWAL_AUDIT||process.env.CHICHI_OWNERSHIP_AUDIT){
     const {Miniflare,Log,LogLevel,convertV4MiniflareOptions}=require(root+'/node_modules/miniflare');
     const mf=new Miniflare(convertV4MiniflareOptions({name:'chichi-farm-local',rootPath:temp,host:'127.0.0.1',port,modules:true,
       scriptPath:path.join(temp,'worker.mjs'),compatibilityDate:'2026-10-13',

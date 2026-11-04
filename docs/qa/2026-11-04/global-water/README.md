@@ -1,31 +1,31 @@
-# Global water clarity and staged marine improvements
+# Global clear-water pass
 
-Player reference: the water in the 2026 Assassin's Creed Black Flag remake.
-This is an art target for transmission, blue depth, wave reflections, foam and
-seabed lighting; do not claim 1:1 game-engine fidelity without evidence.
+Preserves the approved native creatures, models, wave field, six wake slots,
+DPR and original single-pass optics. Adds softer irregular caustics, filtered
+highlights, blue transmission and view-path absorption; retains special pink
+palettes. One immutable 128-square sand map adds approximately 85 KiB mipmapped
+GPU storage. All eighteen native waterfall streaks now use fixed matrices and a
+shader clock with a transparent wrap, rather than eighteen matrix writes per fall
+per frame. No runtime reflection targets, scene copies or additional field reads.
 
-Preserved production baseline: `a1161c5` (animations, original native models,
-water/ride IDs, prices, existing saves, native DPR and rendering cadence).
+Validation: 953/953 tests. All 68 water attractions rendered in normal, grazing,
+phone and seated-rider views, including intermediate landings and native static
+submission pixel comparisons. 38 actual-island captures cover the released 19
+islands before/after (four camera angles each); native triangles/draw counts are
+unchanged. The 360-byte geometry increment on the mosasaur island is five fixed
+18-float waterfall phase attributes. Actual aquarium pose/normal/picking probes
+passed. Eight real 256-square reflection captures regenerated; all 68 real shop
+previews refreshed. The private phone path bought eight attractions, exercised
+rafting and surf native guests/both cameras and passed three SQLite reloads.
 
-The first stage upgrades shared water, caustics, depth-aware underwater colour,
-all native waterfall streaks, actual aquarium top UVs/volume clarity, zoo glass
-and the eight scenery-probe water adventures. A single immutable 128² sand map
-adds 65,536 base bytes (about 85 KiB with mipmaps), shared across actual seabeds.
-Water surfaces retain two field samples plus one environment lookup. Depth-only
-walls use no extra field reads. Eighteen waterfall streaks retain their original
-modulo paths in fixed instance buffers with an opacity fade at wraps.
+The optional software-renderer timings are diagnostics, not phone/M2 FPS claims.
+The 24-sample underwater timing had a noisy tail; native submission/update
+medians remain bounded. A 400-ms input-test window aliased its own orbit period;
+that run failed and is not counted. The final native map run uses 5-second windows.
+The remaining ocean remake, expansion, coral world, fish and submarine are separate
+stages and are not claimed as implemented by this release.
 
-Initial review rejected a flat cyan seabed after excessive caustic suppression;
-the candidate adds restrained irregular sand grain, view-path absorption and
-soft depth-dependent caustics rather than a dense repeating net. Blue/pink and
-real-island comparison captures use identical lighting, native models and camera
-poses. Software-renderer diagnostics do not establish physical M2/iPhone FPS.
-
-Required publication order (all requested tasks remain active):
-1. Publish the verified global water stage.
-2. Expand the mosasaur water surface to four times its current area, with dry
-   access, old paid placements, map spacing and stable saving preserved.
-3. Add varied detailed coral reefs at real depths.
-4. Improve the pond fish's detail, cute faces and varied swimming behavior.
-
-Final reports and publication proof are appended after their checks complete.
+Final actual native map run: all 19 islands plus a return to Moon Garden passed
+orbit, zoom, completed-frame, full DPR and live-context checks. No browser or
+HTTP errors. Uses direct workerd/SQLite after Wrangler ProxyWorker transiently
+lost a save connection in the earlier run; no production save code changed.
