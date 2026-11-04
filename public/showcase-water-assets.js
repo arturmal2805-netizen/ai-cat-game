@@ -24,10 +24,17 @@ const bankPaint=new Map();
 function materialForBank(river){const key=river?'river':'canyon';if(!bankPaint.has(key)){const m=new T.MeshStandardMaterial({color:river?0xaeb39a:0xc4a17f,roughness:.72});m.userData.sharedScenery=true;m.userData.surfaceKind='stone';bankPaint.set(key,m);}return bankPaint.get(key);}
 // Wide flat-bottom channels really support a raft; a broad flat raft cannot
 // sit at the bottom of a narrow circular pipe without intersecting its walls.
-export function showcaseTrough(data,width,depth){
+export function showcaseTrough(data,width,depth,bankEnd=.955){
  // Natural banks have eroded, independently sampled edges. Extend their real
  // solid bed underneath them; the original wet width and buffers stay fixed.
- const g=slideRibbon({samples:data.samples,width:width+(data.rapids||data.river?1.4:0),offset:-depth-.08,shellDepth:.08,steps:360,colors:[0xffffff]});
+ const g=slideRibbon({samples:data.samples,width,offset:-depth-.08,shellDepth:.08,steps:360,colors:[0xffffff]});
+ if(data.rapids||data.river){
+  const p=g.attributes.position;
+  for(let row=0;row<=360;row++){
+   const u=row/360,extra=1.4*T.MathUtils.smoothstep(u,.025,.05)*(1-T.MathUtils.smoothstep(u,bankEnd-.035,bankEnd)),right=g.userData.flowFrames[row].right;
+   for(let j=0;j<=8;j++){const k=row*9+j,d=(j/4-1)*extra;p.setXYZ(k,p.getX(k)+right.x*d,p.getY(k)+right.y*d,p.getZ(k)+right.z*d);}
+  }g.computeVertexNormals();
+ }
  const walls=[];for(const side of [-1,1]){const p=[],index=[];for(let i=0;i<=240;i++){const s=data.samples[Math.round(i/240*600)];for(const y of [-depth-.1,-depth+2.5])p.push(...s.p.clone().addScaledVector(s.right,side*width).addScaledVector(s.up,y).toArray());if(i){const a=(i-1)*2;index.push(a,a+1,a+2,a+1,a+3,a+2);}}const w=new T.BufferGeometry();w.setAttribute('position',new T.Float32BufferAttribute(p,3));w.setIndex(index);w.computeVertexNormals();walls.push(w);}return {floor:g,walls};
 }
 function vehicle(props,spec){
@@ -128,14 +135,13 @@ export function* showcaseWaterSteps(id){
   yield;
   if(data.bowl)continue;
   const surf=!!data.surf,river=!!data.river,carousel=!!data.carousel,width=surf?15:spec.radius,depth=spec.radius;
-  if(!carousel&&!data.barrel){const shell=showcaseTrough(data,width,depth);if(!data.closed&&!surf)submergeReceivingFloor(shell.floor,route.pool,spec.surfaceY);const floor=new T.Mesh(shell.floor,new T.MeshStandardMaterial({color:0x4baaf2,roughness:.42,metalness:0,side:T.DoubleSide}));
+  if(!carousel&&!data.barrel){const bankEnd=receivingBankEnd(data,depth,route.pool,spec.surfaceY),shell=showcaseTrough(data,width,depth,bankEnd);if(!data.closed&&!surf)submergeReceivingFloor(shell.floor,route.pool,spec.surfaceY);const floor=new T.Mesh(shell.floor,new T.MeshStandardMaterial({color:0x4baaf2,roughness:.42,metalness:0,side:T.DoubleSide}));
    if(data.rapids||river){
     floor.material.color.setHex(0x42b6d1);floor.material.map=showcaseSurfaceMap('sand');floor.material.roughness=.86;floor.material.userData.showcaseRiverBed=true;
     const uv=shell.floor.attributes.uv;for(let i=0;i<uv.count;i++)uv.setXY(i,uv.getX(i)*width/4,uv.getY(i)/8);
    }props.add(floor);
    if(data.rapids||river){
     for(const geometry of shell.walls)geometry.dispose();
-    const bankEnd=receivingBankEnd(data,depth,route.pool,spec.surfaceY);
     for(const side of [-1,1]){bankGardens.push(...(yield*bankGardenSteps(props,data,width,depth,side,bankEnd,scenery.canPlant)).map(position=>({position,radius:2})));const material=new T.MeshStandardMaterial({color:river?0xb4b99a:0xc4a17f,roughness:.72,side:T.DoubleSide,vertexColors:true});material.userData.surfaceKind='stone';const bank=new T.Mesh(naturalBank(data,width,depth,side,{end:bankEnd}),material);bank.castShadow=bank.receiveShadow=true;props.add(bank);}
     for(let i=36;i<Math.min(data.samples.length-30,(bankEnd-.015)*(data.samples.length-1));i+=60){const s=data.samples[i];for(const side of [-1,1]){const p=s.p.clone().addScaledVector(s.right,side*(width+3.8)).addScaledVector(s.up,-depth+.6),rock=shape(props,'stone',river?0xaebba0:0xddb58a,...p.toArray(),2.7,1.5,2.3);rock.geometry=boulderGeometry(i+side);rock.rotation.y=i*.71;
      const moss=s.p.clone().addScaledVector(s.right,side*(width+3.8)).addScaledVector(s.up,-depth+1.9);shape(props,'sphere',i%120?0x76b76e:0x9bc575,...moss.toArray(),1.8,.2,1.1);

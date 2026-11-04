@@ -266,6 +266,9 @@ try {
         }
         await page.evaluate(()=>hideRider());
       }
+      if(process.env.CHICHI_SLIDE_BANK_VIEWS && await page.evaluate(()=>reviewBanks())){
+        stats.banks=true;await page.screenshot({path:resolve(folder,root.name+'-'+spec.id+'-banks.png')});
+      }
       for (const view of ["flow", "outlet", "basin", "basin-grazing", ...(process.env.CHICHI_SLIDE_OPTICS_AUDIT?["basin-sun","cascade"]:[]), "garden"]) {
           const exists = await page.evaluate(
             ({ view, id }) => {

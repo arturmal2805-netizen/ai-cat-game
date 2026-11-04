@@ -16,12 +16,12 @@ test('both real banks and their solid bed meet continuously across the wet edge 
  for(const spec of SHOWCASE_WATER_RIDES){const route=createShowcaseRoute(spec);
   for(const data of route.geometry.filter(g=>g.rapids||g.river)){
    const end=receivingBankEnd(data,spec.radius,route.pool,spec.surfaceY),water=slideRibbon({samples:data.samples,width:spec.radius-.12,offset:-spec.radius+.15,steps:360});
-   const shell=showcaseTrough(data,spec.radius,spec.radius);
+   const shell=showcaseTrough(data,spec.radius,spec.radius,end);
    for(const side of [-1,1]){
     const geometry=naturalBank(data,spec.radius,spec.radius,side,{end}),material=new T.MeshBasicMaterial({side:T.DoubleSide}),bank=new T.Group();bank.add(new T.Mesh(geometry,material),new T.Mesh(shell.floor,material));bank.updateMatrixWorld(true);
     for(let row=Math.ceil(.045*360)+3;row<Math.floor(end*360)-3;row++){
      const wet=new T.Vector3().fromBufferAttribute(water.attributes.position,row*9+(side===1?8:0)),up=data.samples[Math.round(row/360*600)].up;
-     for(const across of [0,.35,.7,1]){
+     for(const across of row/360<end-.04?[0,.35,.7,1]:[0]){
       const target=wet.clone().addScaledVector(data.samples[Math.round(row/360*600)].right,side*across);
       const hits=new T.Raycaster(target.addScaledVector(up,2),up.clone().negate(),0,4).intersectObject(bank);
       assert.ok(hits.some(h=>h.distance>2.0945),spec.kind+' open bank/bed seam at '+side+':'+row+':'+across);
@@ -29,7 +29,14 @@ test('both real banks and their solid bed meet continuously across the wet edge 
      checked++;
     }
     geometry.dispose();material.dispose();
-   }water.dispose();shell.floor.dispose();shell.walls.forEach(g=>g.dispose());
+   }
+   // The under-bank overlap must end with the bank, not become an exposed
+   // rectangular apron in the receiving pool or across the open entrance.
+   for(const row of [0,360])for(const side of [-1,1]){
+    const p=new T.Vector3().fromBufferAttribute(shell.floor.attributes.position,row*9+(side===1?8:0)),s=data.samples[Math.round(row/360*600)];
+    assert.ok(Math.abs(p.clone().sub(s.p).dot(s.right)-side*spec.radius)<1e-4,spec.kind+' protruding bed at open mouth');
+   }
+   water.dispose();shell.floor.dispose();shell.walls.forEach(g=>g.dispose());
   }
  }assert.ok(checked>1000);
 });
