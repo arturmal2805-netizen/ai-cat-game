@@ -7,6 +7,7 @@ import {tropicalPalm,tropicalTree,flowerBank,sandstoneColumn,tropicalShore,dryPl
 import {showcaseVignettes} from './showcase-vignettes.js';
 import {gardenUnderstory,promenadePlanter,gardenGroundCoverSteps} from './showcase-botany.js';
 import {gardenClearanceSteps} from './showcase-garden-clearance.js';
+import {showcaseMooring,dockFenceBlocked,dockFenceRuns} from './showcase-dock.js';
 const plankGeometry=new T.BoxGeometry(1,1,1);plankGeometry.userData.sharedScenery=true;
 const pathStone=new T.CylinderGeometry(1,1,1,7);pathStone.userData.sharedScenery=true;
 const steel=new T.MeshStandardMaterial({color:0x789295,roughness:.35,metalness:.24});steel.userData.sharedScenery=true;
@@ -14,6 +15,10 @@ const crystalGeometry=new T.LatheGeometry([new T.Vector2(.72,-.5),new T.Vector2(
 // Distinct landscapes, authored against the actual route clearance. All helpers
 // build once into the existing material batch; waterfall buffers stay fixed.
 export function* showcaseProps(props,root,spec,route){
+ const mooring=showcaseMooring(spec,route),dockPost=p=>{
+  const center=p.clone().add(new T.Vector3(0,1.1,0));if(dockFenceBlocked(center,mooring))return;
+  const m=shape(props,'pole',0xbe914e,center.x,center.y,center.z,.13,2.3,.13);m.userData.showcaseDockFence=true;
+ };
  const falls=[],springs=[],obstacles=[],passages=[],margin=spec.radius+2.4,dry=[];for(const leg of route.legs)if(['board','climb','exit','lift'].includes(leg.phase))for(let i=0;i<=24;i++)dry.push(leg.fn(i/24).position);
  const canPlant=yield*gardenClearanceSteps(route,spec),promenadeGardens=[];
  const clear=(x,y,z,rx,ry,rz)=>!dry.some(p=>Math.abs(p[0]-x)<rx+4&&Math.abs(p[2]-z)<rz+4&&Math.abs(p[1]-y)<ry+3)&&!route.geometry.some(g=>g.samples.some((s,i)=>i%4===0&&Math.abs(s.p.x-x)<rx+margin&&Math.abs(s.p.z-z)<rz+margin&&Math.abs(s.p.y-spec.radius/2-y)<ry+margin));
@@ -87,8 +92,11 @@ export function* showcaseProps(props,root,spec,route){
    teaPavilion(props,-44,top+.2,-37,0xe7b953,3.0);
    for(let i=0;i<=n;i++){const f=leg.fn(i/n),step=shape(props,'cube',0xe9d4a5,...f.position,spec.seats===4?11.6:9,.25,1.2);step.geometry=plankGeometry;step.position.y-=.14;step.rotation.y=f.yaw||0;if(i%4===0){const a=i/n*Math.PI*2*Math.ceil(spec.height/12),p=[-44+Math.sin(a)*11.5,f.position[1]+1.25,-37+Math.cos(a)*11.5];shape(props,'pole',0xc49350,...p,.15,2.6,.15);}if(i%12===0)yield;}
   }else if(['board','exit'].includes(leg.phase)&&leg.fn(0).walking&&leg.fn(.5).position[1]>.5){
-   const n=Math.max(8,Math.ceil(new T.Vector3(...leg.fn(0).position).distanceTo(new T.Vector3(...leg.fn(1).position))*2.3));for(let i=0;i<=n;i++){const f=leg.fn(i/n),deck=shape(props,'cube',0xe7cc97,...f.position,spec.seats===4?11.6:9,.3,1.1);deck.geometry=plankGeometry;deck.position.y-=.16;deck.rotation.y=f.yaw||0;if(i%8===0){const side=new T.Vector3(1,0,0).applyAxisAngle(new T.Vector3(0,1,0),f.yaw||0);for(const s of [-1,1]){const p=new T.Vector3(...f.position).addScaledVector(side,s*(spec.seats===4?5.7:4.4));shape(props,'pole',0xbe914e,p.x,p.y+1.1,p.z,.13,2.3,.13);}}if(i%16===0)yield;}
-   for(const s of [-1,1]){const points=Array.from({length:17},(_,i)=>{const f=leg.fn(i/16),right=new T.Vector3(1,0,0).applyAxisAngle(new T.Vector3(0,1,0),f.yaw||0);return new T.Vector3(...f.position).addScaledVector(right,s*(spec.seats===4?5.7:4.4)).add(new T.Vector3(0,1.9,0));});props.add(new T.Mesh(new T.TubeGeometry(new T.CatmullRomCurve3(points),24,.12,4,false),steel));}
+   const n=Math.max(8,Math.ceil(new T.Vector3(...leg.fn(0).position).distanceTo(new T.Vector3(...leg.fn(1).position))*2.3));for(let i=0;i<=n;i++){const f=leg.fn(i/n),deck=shape(props,'cube',0xe7cc97,...f.position,spec.seats===4?11.6:9,.3,1.1);deck.geometry=plankGeometry;deck.position.y-=.16;deck.rotation.y=f.yaw||0;if(i%8===0){const side=new T.Vector3(1,0,0).applyAxisAngle(new T.Vector3(0,1,0),f.yaw||0);for(const s of [-1,1])dockPost(new T.Vector3(...f.position).addScaledVector(side,s*(spec.seats===4?5.7:4.4)));}if(i%16===0)yield;}
+   for(const s of [-1,1]){const points=Array.from({length:17},(_,i)=>{const f=leg.fn(i/16),right=new T.Vector3(1,0,0).applyAxisAngle(new T.Vector3(0,1,0),f.yaw||0);return new T.Vector3(...f.position).addScaledVector(right,s*(spec.seats===4?5.7:4.4)).add(new T.Vector3(0,1.9,0));}),{runs,ends}=dockFenceRuns(points,mooring),length=new T.CatmullRomCurve3(points).getLength();
+    for(const run of runs){const curve=new T.CatmullRomCurve3(run),m=new T.Mesh(new T.TubeGeometry(curve,run===points?24:Math.max(2,Math.ceil(24*curve.getLength()/length)),.12,4,false),steel);m.userData.showcaseDockFence=true;props.add(m);}
+    for(const end of ends)dockPost(end.clone().add(new T.Vector3(0,-1.9,0)));
+   }
    for(let i=0;i<=n;i+=16){const f=leg.fn(i/n),right=new T.Vector3(1,0,0).applyAxisAngle(new T.Vector3(0,1,0),f.yaw||0),half=spec.seats===4?5:3.7;
     for(const s of [-1,1]){const p=new T.Vector3(...f.position).addScaledVector(right,s*half);if((p.x/54)**2+(p.z/51)**2<1)line(props,[p.x,-3,p.z],[p.x,p.y-.35,p.z],0xb98d58,.3);else{const anchor=new T.Vector3(...f.position).addScaledVector(right,-s*half);line(props,[anchor.x,-2.5,anchor.z],[p.x,p.y-.4,p.z],0xba925e,.28);}}
    }

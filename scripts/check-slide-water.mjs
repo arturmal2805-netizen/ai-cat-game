@@ -276,6 +276,9 @@ try {
       if(process.env.CHICHI_SLIDE_BANK_VIEWS && await page.evaluate(()=>reviewBanks())){
         stats.banks=true;await page.screenshot({path:resolve(folder,root.name+'-'+spec.id+'-banks.png')});
       }
+      if(process.env.CHICHI_SLIDE_LANDING_AUDIT && root.name==='after' && spec.id.startsWith('ride-water-')){
+        const time=await page.evaluate(()=>model.userData.route.legs.find(l=>l.phase==='exit').start-.08);stats.dismountFrame=await page.evaluate(time=>reviewRider({time}),time);assert.equal(stats.dismountFrame.finite,true);await page.screenshot({path:resolve(folder,root.name+'-'+spec.id+'-dismount-support.png')});await page.evaluate(()=>hideRider());
+      }
       for (const view of ["flow", "outlet", "basin", "basin-grazing", ...(process.env.CHICHI_SLIDE_OPTICS_AUDIT?["basin-sun","cascade"]:[]), "garden"]) {
           const exists = await page.evaluate(
             ({ view, id }) => {

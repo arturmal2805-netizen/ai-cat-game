@@ -936,3 +936,7 @@ Seat support stays at full height through the landing; fade it during the actual
 exit walk, never while passengers are still seated. Landing crouches compress
 the body/knees while retaining the supporting forepaws. Check intermediate
 splash frames for all seats, not only the fast middle of a ride.
+Landing gates must clear the complete moored hull and passengers. Retain the
+dry dock/path and surrounding fence; clip only obstructing fence runs and finish
+each opening with posts. Check actual post/handrail vertices against real boat
+geometry and close guest views. This is access clearance, not an FPS shortcut.
