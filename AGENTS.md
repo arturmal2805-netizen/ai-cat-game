@@ -982,3 +982,16 @@ Use shared bounded fields/probes and native passes, without runtime scene-copy
 reflections or per-frame geometry/texture generation. Compare actual equal-view
 images and resource counts; don't claim physical-device FPS or 1:1 fidelity
 without evidence. Preserve the previously approved water/animation baseline.
+
+### Mosasaur ocean master specification (player, 2026-11-04)
+
+See `docs/specifications/mosasaur-ocean-master-2026-11-04.md`. The latest scope
+supersedes the earlier four-area request: expand the currently released Mosasaur
+Ocean approximately five times in horizontal dimensions; retain the same biome
+ID, unlock, original pier/ride and all saved ownership. Add real navigable deep
+terrain/caves/ruins, varied coral ecosystems, a reworked mosasaur with smoothly
+blended ambient behavior and a controllable submarine with two camera modes.
+Preserve the approved native cat, global water performance, other islands and
+shared saves. Publish the verified shared-water update first, then separate
+working increments. The uploaded specification ends midway through section 9;
+implement its actual supplied controls and use the existing mobile conventions.
