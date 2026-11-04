@@ -23,8 +23,11 @@ test('local bottom light composes with native underwater uniforms and callbacks 
   assert.equal(after.uniforms.uWaterField.value,field);assert.equal(base.userData.waterLight,light);
   assert.equal((after.fragmentShader.match(/texture2D\(/g)||[]).length,2);
   assert.equal((before.fragmentShader.match(/texture2D\(/g)||[]).length,2);
-  assert.equal(after.vertexShader,before.vertexShader,'native projection/refraction and picking stay unchanged');
-  assert.equal(base.customProgramCacheKey(),key+'-showcase-bottom-v1');
+  const projection=after.vertexShader.replace('varying float vShowcaseImmersion;\n','').replace('vShowcaseImmersion=max(0.,uWaterLevel-waterPoint.y);','');
+  assert.equal(projection,before.vertexShader,'native projection/refraction and picking stay unchanged');
+  assert.ok(after.vertexShader.indexOf('waterPoint=modelMatrix*waterPoint')<after.vertexShader.indexOf('vShowcaseImmersion=max'));
+  assert.ok(after.vertexShader.indexOf('waterPoint=instanceMatrix*waterPoint')<after.vertexShader.indexOf('vShowcaseImmersion=max'));
+  assert.equal(base.customProgramCacheKey(),key+'-showcase-bottom-v2');
   assert.equal(polishShowcaseBottom(base),base);assert.equal(base.onBeforeCompile,once);
   assert.equal(original.userData.showcaseBottomLight,undefined);
 });
@@ -37,6 +40,14 @@ test('clear water keeps its original sampler, ripple, wave and geometry contract
   assert.equal((m.fragmentShader.match(/float roughness=/g)||[]).length,1);
   assert.ok(!m.fragmentShader.includes('p.yx*.53'),'old high-frequency surface must not form narrow reflective bands');
   assert.equal(m.transparent,true);assert.equal(m.depthWrite,false);assert.equal(m.forceSinglePass,true);
+});
+
+test('elevated shallow river sheets use their real trough thickness rather than a world sea level',()=>{
+  const clock={value:7},m=new T.MeshStandardMaterial();m.userData.showcaseRiverBed=true;
+  applyUnderwaterLighting(m,clock,0x24b9ff,{refract:false});const before=m.customProgramCacheKey();polishShowcaseBottom(m);
+  const shader=compile(m);assert.match(shader.vertexShader,/vShowcaseImmersion=\.23;/);
+  assert.equal(shader.uniforms.uWaterLightTime,clock);assert.equal(m.customProgramCacheKey(),before+'-showcase-bottom-v2-sheet');
+  assert.equal((shader.fragmentShader.match(/texture2D\(/g)||[]).length,2);
 });
 
 test('receiving-floor colour follows the actual sloping bed while optical polish retains its durable meshes and clocks',()=>{

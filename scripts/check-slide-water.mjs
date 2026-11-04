@@ -239,11 +239,16 @@ try {
         }
         await page.evaluate(()=>hideRider());
       }
-      for (const view of ["flow", "outlet", "basin", "basin-grazing", ...(process.env.CHICHI_SLIDE_OPTICS_AUDIT?["basin-sun"]:[]), "garden"]) {
+      for (const view of ["flow", "outlet", "basin", "basin-grazing", ...(process.env.CHICHI_SLIDE_OPTICS_AUDIT?["basin-sun","cascade"]:[]), "garden"]) {
           const exists = await page.evaluate(
             ({ view, id }) => {
               const w = model.userData.slideWater;
               check.camera.up.set(0,1,0);
+              if(view==='cascade'){
+                let fall;model.traverse(o=>{if(!fall&&o.children.some(c=>c.geometry?.attributes?.aFallPhase))fall=o;});if(!fall)return false;
+                const T=check.THREE,box=new T.Box3().setFromObject(fall),p=box.getCenter(new T.Vector3()),size=box.getSize(new T.Vector3()).length(),q=fall.getWorldQuaternion(new T.Quaternion()),offset=new T.Vector3(.32,.10,1).normalize().applyQuaternion(q);
+                check.camera.position.copy(p).addScaledVector(offset,size*1.4);check.camera.lookAt(p);draw(63);return true;
+              }
               if(view==='garden'){const beds=model.userData.gardenPatches;if(!beds?.length)return false;const p=[...beds].sort((a,b)=>(b.z+.15*b.x)-(a.z+.15*a.x))[0];check.camera.position.set(p.x+8,6.5,p.z+10);check.camera.lookAt(p.x,1.2,p.z);draw(63);return true;}
               if(view.startsWith('basin')){const pool=w.pool,p=pool.localToWorld(check.camera.position.clone().set(0,.155,0)),rx=pool.userData.rx,rz=pool.userData.rz,r=Math.max(rx,rz);
                 const direction=view==='basin-sun'?new check.THREE.Vector3(14,35,-20).normalize().multiplyScalar(2.5):new check.THREE.Vector3(.25,view==='basin'?1.7:.55,1.9);

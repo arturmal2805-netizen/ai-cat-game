@@ -1,0 +1,78 @@
+[
+  {
+    "version": "before",
+    "rows": [
+      {
+        "index": 0,
+        "changed": 100,
+        "max": 250,
+        "matrixStable": true,
+        "geometryStable": true,
+        "contextLost": false
+      },
+      {
+        "index": 5,
+        "changed": 95,
+        "max": 250,
+        "matrixStable": true,
+        "geometryStable": true,
+        "contextLost": false
+      },
+      {
+        "index": 12,
+        "changed": 85,
+        "max": 250,
+        "matrixStable": true,
+        "geometryStable": true,
+        "contextLost": false
+      },
+      {
+        "index": 17,
+        "changed": 90,
+        "max": 250,
+        "matrixStable": true,
+        "geometryStable": true,
+        "contextLost": false
+      }
+    ],
+    "errors": []
+  },
+  {
+    "version": "after",
+    "rows": [
+      {
+        "index": 0,
+        "changed": 0,
+        "max": 0,
+        "matrixStable": true,
+        "geometryStable": true,
+        "contextLost": false
+      },
+      {
+        "index": 5,
+        "changed": 0,
+        "max": 0,
+        "matrixStable": true,
+        "geometryStable": true,
+        "contextLost": false
+      },
+      {
+        "index": 12,
+        "changed": 0,
+        "max": 0,
+        "matrixStable": true,
+        "geometryStable": true,
+        "contextLost": false
+      },
+      {
+        "index": 17,
+        "changed": 0,
+        "max": 0,
+        "matrixStable": true,
+        "geometryStable": true,
+        "contextLost": false
+      }
+    ],
+    "errors": []
+  }
+]

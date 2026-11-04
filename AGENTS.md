@@ -911,3 +911,13 @@ projection, native submission path and two original field samples. Water keeps
 two field samples plus one scenery lookup. Verify explicit sun-facing and
 isolated-bed views alongside normal, grazing, phone and native rider captures.
 These optical changes establish appearance/resource parity, not device FPS.
+
+The player approved this clear-water stage on 2026-11-04; preserve immutable
+`baseline/approved-clear-water-20261104` (`d6fa805`) when testing successors.
+Cascade streaks retain all eighteen original instances and modulo positions,
+with opacity fading to zero at recycling boundaries and transparent depth
+writes disabled. Check the actual native GL reset, not only shader text.
+Bottom caustics may attenuate with physical immersion, while raised river
+sheets use their .23-metre trough layer rather than a global sea level. Keep
+the native projection/refraction, fixed buffers, original field counts and
+the approved blue depth. Shore foam must not become a uniform bright ring.
