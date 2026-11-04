@@ -52,3 +52,11 @@ Reproduce the dense native rig probe with Node 22:
 `node scripts/check-rider-deck-clearance.mjs CHECKOUT OUTPUT.json --strict`.
 The script inspects actual transformed shin vertices across all seats and
 seated phases; it uses no live player world or external API.
+
+Published `9e0577c1acc14ecde560720da6561a7a8836d573` in GitHub Actions run
+[41833775739](https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/41833775739).
+CI passed 941/941 tests, and test/deploy/Pages all succeeded. Both live sites
+serve the exact tested app (`70a58e19ee1ca9d6`), original zoo models/materials,
+all eight real previews and all 22 shared surface/probe files. The deployed
+Worker reports the same release with cloud saves enabled; both retired previews
+remain 404. Post-publication evidence is recorded on feature branches only.
