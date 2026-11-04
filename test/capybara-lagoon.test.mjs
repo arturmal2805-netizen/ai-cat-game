@@ -224,10 +224,16 @@ test("the real island has four open swimming basins, ten moving waterfalls and a
   }
   const fall = s.userData.capybara.waterfalls[0],
     spray = fall.children.find((c) => c.isInstancedMesh);
+  const shader={uniforms:{},vertexShader:'#include <begin_vertex>',fragmentShader:'#include <color_fragment>'};
+  spray.material.onBeforeCompile(shader);
   s.userData.update(1);
-  const matrix = [...spray.instanceMatrix.array];
+  const matrix = [...spray.instanceMatrix.array],version=spray.instanceMatrix.version;
+  assert.equal(shader.uniforms.uFallTime.value,1);
   s.userData.update(2);
-  assert.notDeepEqual([...spray.instanceMatrix.array], matrix);
+  assert.equal(shader.uniforms.uFallTime.value,2);
+  assert.deepEqual([...spray.instanceMatrix.array], matrix);
+  assert.equal(spray.instanceMatrix.version,version);
+  assert.ok(shader.vertexShader.includes('uFallTime*2.1+aFallPhase'));
   disposeBiome(s);
   const low = createBiomeScene(byBiome("summer"), { lowOnly: true });
   assert.equal(low.userData.detail.visible, false);
