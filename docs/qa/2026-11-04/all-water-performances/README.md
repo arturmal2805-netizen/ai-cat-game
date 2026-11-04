@@ -21,7 +21,7 @@ them. Forepaw lifts are bounded and move outward from the face. The original
 sculpt producers and model payloads are unchanged.
 
 The full local suite passed 945 tests; focused animation/route/save checks passed
-26 tests. Dense native clearance passed 3,276 seated poses and 1,375,920 transformed
+27 tests. Dense native clearance passed 3,276 seated poses and 1,375,920 transformed
 skin-vertex checks across all 19 seats (existing .03-metre tolerance). The eight
 full model/buffer/framing snapshots are exact before/after matches. Re-baked
 reflection files retain all eight original image hashes and 881,700 download
@@ -29,3 +29,16 @@ bytes / 2.67 MiB shared mipmapped GPU maximum; only their source-revision manife
 changes. Software-browser checks do not establish physical M2/iPhone FPS.
 
 Full renderer and private app/SQLite results are recorded after completion.
+
+
+The final renderer review completed all 68 rides: 272 seated/landing views,
+72 additional performance views, 8 dismount close-ups, normal/grazing/phone
+views and 136 exact original/static colour comparisons, with stable water
+buffers and no context loss. The complete compact report is `render-audit.json`.
+The original cat GLBs and all five zoo model payloads remain byte-identical.
+
+A measured six-lane preparation initially occupied approximately 25 ms on this
+runner (four-seat rafting approximately 15 ms). The background builder now yields
+between lane tables, with no partial cache exposed; synchronous factories use
+the same generator. This is a bounded construction improvement, not a physical
+hardware FPS claim. Reflection images remain exact after the factory change.

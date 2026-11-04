@@ -1,0 +1,32 @@
+[
+  {
+    "species": "elephant",
+    "url": "./models/zoo/elephant-aabb9c6f828dc85e.bin",
+    "bytes": 4092060,
+    "sha256": "aabb9c6f828dc85ee2cfcab9f32e686500812932223743620f690b959339a4e0"
+  },
+  {
+    "species": "axolotl",
+    "url": "./models/zoo/axolotl-c2262a989f8b2113.bin",
+    "bytes": 2623908,
+    "sha256": "c2262a989f8b2113e309c31e2c18a161fb9e4974d610e81eb0e5c79ec7809b00"
+  },
+  {
+    "species": "otter",
+    "url": "./models/zoo/otter-c96ca902a235f593.bin",
+    "bytes": 3176192,
+    "sha256": "c96ca902a235f593b7a8ecf47370fab3d12b845b65a947175214a97fbb9117d3"
+  },
+  {
+    "species": "polar",
+    "url": "./models/zoo/polar-35301efaef99904d.bin",
+    "bytes": 4734108,
+    "sha256": "35301efaef99904d0643aa9e1e31c8f27a28c11279ab6dfb671d5627cf2bdd63"
+  },
+  {
+    "species": "gorilla",
+    "url": "./models/zoo/gorilla-7a81149a541ca78d.bin",
+    "bytes": 4224412,
+    "sha256": "7a81149a541ca78d5f7dee4f10497c77b20848595f1177cb2681c18e5ed299db"
+  }
+]

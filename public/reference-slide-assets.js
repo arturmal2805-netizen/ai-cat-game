@@ -1,4 +1,4 @@
-import {installWaterPerformance} from './water-ride-performance.js';
+import {installWaterPerformanceSteps} from './water-ride-performance.js';
 import {showcaseWaterSteps} from './showcase-water-assets.js';
 import {applySlideBasinOptics} from './slide-basin-optics.js';
 import * as THREE from "three";
@@ -585,6 +585,6 @@ export function* referenceSlideSteps(id) {
     return spec.premiumWater ? atollRideReaction(spec,route.lanes[lane % route.lanes.length],time,reaction,reduced) : reaction;
   };
   root.userData.update(0, true);
-  return installWaterPerformance(root);
+  return yield*installWaterPerformanceSteps(root);
 }
 const V = (a) => new THREE.Vector3(...a);

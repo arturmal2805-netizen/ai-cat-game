@@ -2,7 +2,7 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import * as T from 'three';
 import {WATER_RIDES} from '../public/water-ride-data.js';
-import {WATER_PERFORMANCES,WATER_GESTURE_KEYS,sampleWaterPerformance,waterPerformanceFrame} from '../public/water-ride-performance.js';
+import {WATER_PERFORMANCES,WATER_GESTURE_KEYS,sampleWaterPerformance,waterPerformanceFrame,installWaterPerformanceSteps} from '../public/water-ride-performance.js';
 import {makeAttraction} from '../public/world-assets.js';
 import {referenceSlideAttraction,referenceSlideSteps} from '../public/reference-slide-assets.js';
 import {runSceneSteps} from '../public/scene-tasks.js';
@@ -67,4 +67,12 @@ test('faster rafting and river use a single native clock without changing true g
   }
  }
  const launch=createShowcaseRoute(SHOWCASE_WATER_RIDES.find(s=>s.kind==='lagoon-launch'));assert.equal(launch.flights[0].gravity,9.81);assert.equal(launch.flights[0].duration,4.7);
+});
+
+
+test('background performance preparation yields between lanes and never exposes a partial cached table',()=>{
+ let calls=0;const make=()=>({userData:{id:'slide-atoll-rainbow-race',duration:12.12345,route:{lanes:Array.from({length:6},()=>({legs:[{start:0,duration:12.12345,phase:'ride'}]}))},rideFrame:t=>{calls++;return {phase:'ride',position:[0,3,t]};},rideReaction:()=>({ride:true,weight:1,speed:12,height:3,turnForce:0,crouch:0,paw:0,headYaw:0,headRoll:0,headPitch:0,eyeClose:0,surprise:0,tailSway:0})}}),root=make(),iterator=installWaterPerformanceSteps(root);
+ for(let i=0;i<6;i++){const step=iterator.next();assert.equal(step.done,false);assert.equal(root.userData.waterPerformance,undefined);assert.ok(calls<=(i+1)*513);}
+ assert.equal(iterator.next().value,root);assert.equal(root.userData.waterPerformance.length,6);
+ const count=calls,same=make(),cached=installWaterPerformanceSteps(same);assert.equal(cached.next().done,true);assert.equal(calls,count);assert.equal(same.userData.waterPerformance,root.userData.waterPerformance);
 });

@@ -1,6 +1,7 @@
 // Authored gestures sampled once from each real seat. Playing/pausing/seeking
 // only interpolates immutable tables; no timers, meshes or route queries.
 import { WATER_RIDES } from './water-ride-data.js';
+import {runSceneSteps} from './scene-tasks.js';
 const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
 const smooth=x=>{const u=clamp(x);return u*u*(3-2*u);};
 const beat=(u,at,width)=>1-smooth(Math.abs(u-at)/width);
@@ -115,10 +116,15 @@ export function waterPerformanceFrame(profile,elapsed,reduced=false,out={}){
  for(let j=0;j<stride;j++){const key=WATER_PERFORMANCE_KEYS[j];out[key]=reduced&&!['speed','height','turnForce'].includes(key)?0:profile.rows[lo*stride+j]*(1-u)+profile.rows[hi*stride+j]*u;}
  return out;
 }
-export function installWaterPerformance(root){
+export const installWaterPerformance=root=>runSceneSteps(installWaterPerformanceSteps(root));
+export function* installWaterPerformanceSteps(root){
  const d=root.userData,recipe=recipes.get(d.id);if(!recipe||!d.rideReaction||!d.rideFrame||d.waterPerformance)return root;
  const key=d.id+':'+d.duration,n=d.route?.lanes?.length||1;
- if(!cache.has(key))cache.set(key,Array.from({length:n},(_,i)=>sampleWaterPerformance(d,recipe,i)));
+ if(!cache.has(key)){
+  const pending=[];
+  for(let i=0;i<n;i++){pending.push(sampleWaterPerformance(d,recipe,i));yield;}
+  cache.set(key,pending);
+ }
  const profiles=cache.get(key),scratch=profiles.map(()=>({}));d.waterPerformance=profiles;
  d.rideReaction=(t,reduced=false,lane=0)=>{const i=lane%profiles.length;return waterPerformanceFrame(profiles[i],t,reduced,scratch[i]);};return root;
 }
