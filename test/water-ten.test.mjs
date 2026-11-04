@@ -35,7 +35,7 @@ test('waiting areas stay on the island and finished riders walk around their cat
 });
 test('launch uses 9.81 gravity; the river, standing halfpipe and fixed suspension have their own mechanics',()=>{
  for(const s of SHOWCASE_WATER_RIDES){const r=createShowcaseRoute(s);assert.ok(r.legs.some(l=>l.phase==='exit'));if(s.kind==='lagoon-launch'){const f=r.flights[0];assert.equal(f.gravity,9.81);for(const u of [.2,.5,.8]){const p=r.vehicleFrame(f.start+u*f.duration).position,t=u*f.duration;assert.ok(Math.abs(p[1]-(f.from[1]+f.vy*t-.5*9.81*t*t))<1e-7);}}
- if(s.kind==='lazy-river')assert.ok(r.legs.find(l=>l.phase==='float').duration>=40&&r.legs.find(l=>l.phase==='float').duration<=48);
+ if(s.kind==='lazy-river')assert.ok(r.legs.find(l=>l.phase==='float').duration>=32&&r.legs.find(l=>l.phase==='float').duration<=35);
  if(s.kind==='pool-pendulum'){const leg=r.legs.find(l=>l.phase==='swing');for(let u=0;u<=1;u+=.01){const f=r.vehicleFrame(leg.start+u*leg.duration),q=new T.Quaternion().fromArray(f.quaternion),top=new T.Vector3(0,44,0).applyQuaternion(q).add(new T.Vector3(...f.position));assert.ok(top.distanceTo(new T.Vector3(0,46,0))<1e-6);}}
  }
 });

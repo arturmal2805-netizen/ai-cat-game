@@ -940,3 +940,24 @@ Landing gates must clear the complete moored hull and passengers. Retain the
 dry dock/path and surrounding fence; clip only obstructing fence runs and finish
 each opening with posts. Check actual post/handrail vertices against real boat
 geometry and close guest views. This is access clearance, not an FPS shortcut.
+
+
+### Shared expressive performances on every water ride
+
+All 68 registered water attractions install `water-ride-performance.js` after
+finishing their original reaction authoring, including cooperative construction.
+Keep explicit registry coverage, cached phase-aware tables of at most 512
+intervals and independent passenger scratch objects. Playing/seeking interpolates
+these tables without evaluating routes or allocating scene objects. Preserve
+actual seat/carrier transforms, fixed boat clocks, 15-second group boarding,
+landing recovery, walking and true 9.81 flight gravity.
+
+Independent front-paw gestures use the native shoulder and elbow X rotations,
+shoulder Z rotation and ear Z rotation, which `animateCat` resets. Do not add
+shoulder Y or ankle Z offsets without restoring them: they otherwise survive
+cancellation. Retain visible but bounded shoulder lifts and outward clearance
+from the face, plus the existing seat/prone/surf support. Verify normal/reduced
+motion, cancellation, intermediate native skinned paw vertices, every water ride's
+phone/normal/grazing/rider views and the real group-raft/private SQLite path.
+The canyon rafting run is 24/1.30 seconds and the river run is 42/1.25 seconds;
+their impact events and all seats retain the same public route clock.

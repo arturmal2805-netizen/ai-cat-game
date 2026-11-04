@@ -1,3 +1,4 @@
+import {installWaterPerformance} from './water-ride-performance.js';
 import * as T from 'three';
 import {shape,line,torus,flowerCluster} from './fantasy-scenery.js';
 import {batchModelSteps} from './model-batching.js';
@@ -194,5 +195,5 @@ export function* showcaseWaterSteps(id){
  const acting=profiles.get(id),scratch=acting.map(()=>({}));root.userData.rideActing=acting[0];root.userData.rideReaction=(time,reduced=false,lane=0)=>showcaseActingFrame(acting[lane%acting.length],time,reduced,scratch[lane%acting.length]);
  installSlideWater(root,{channels,pool,color:0x20cce9,speed:spec.kind==='lazy-river'?4.5:8,extraSurfaces:extra});
  root.traverse(o=>{if(o.isMesh&&o.material.uniforms?.uWaterField)polishShowcaseWater(o.material,actual);});
- root.userData.update(0,true);return root;
+ root.userData.update(0,true);return installWaterPerformance(root);
 }

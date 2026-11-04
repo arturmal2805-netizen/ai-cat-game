@@ -1,5 +1,5 @@
 // Offline captures of the actual original static mini-biomes.
-export const SHOWCASE_PROBE_REVISION="24c750b70c3430ba";
+export const SHOWCASE_PROBE_REVISION="d867a1b95753a847";
 export const SHOWCASE_WATER_PROBES={
   "ride-water-barrel-wave": "./art/water-reflections/barrel-wave-35457f94dc39.png",
   "ride-water-canyon-rafting": "./art/water-reflections/canyon-rafting-3e11c5bcb6e6.png",

@@ -5015,7 +5015,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
           npcWalking,
           reduced,
         );
-        if (npcReaction) {reactCat(n.model, npcReaction, reduced);if(npcReaction.rideSit||npcReaction.waterSurf||npcReaction.waterProne||npcReaction.waterPawLift)applyAtollSit(n.model,npcReaction,reduced);if(manualVisit?.object?.userData.magicBed)applyMagicBedReach(n.model,manualVisit.object,manualVisit.harvester,reduced);}
+        if (npcReaction) {reactCat(n.model, npcReaction, reduced);if(npcReaction.waterGesture||npcReaction.rideSit||npcReaction.waterSurf||npcReaction.waterProne||npcReaction.waterPawLift)applyAtollSit(n.model,npcReaction,reduced);if(manualVisit?.object?.userData.magicBed)applyMagicBedReach(n.model,manualVisit.object,manualVisit.harvester,reduced);}
         if(courtVisit?.zooCarry)relaxCarriedCat(n.model,courtVisit.zooCarry,time,reduced);
         if (n.hatRig) {
           const resting =
@@ -5616,7 +5616,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
         walking,
         reduced,
       );
-      if (reaction) {reactCat(cat, reaction, reduced);if(reaction.rideSit||reaction.waterSurf||reaction.waterProne||reaction.waterPawLift)applyAtollSit(cat,reaction,reduced);if(operation?.attraction?.userData.magicBed)applyMagicBedReach(cat,operation.attraction,operation.harvester,reduced);}
+      if (reaction) {reactCat(cat, reaction, reduced);if(reaction.waterGesture||reaction.rideSit||reaction.waterSurf||reaction.waterProne||reaction.waterPawLift)applyAtollSit(cat,reaction,reduced);if(operation?.attraction?.userData.magicBed)applyMagicBedReach(cat,operation.attraction,operation.harvester,reduced);}
     }
     if(court.get('chichi')?.zooCarry&&!dialogOpen)relaxCarriedCat(cat,court.get('chichi').zooCarry,time,reduced);
     const spongeFriend = itemGroups.get("bikini-sponge");

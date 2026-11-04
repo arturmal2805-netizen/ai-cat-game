@@ -1,3 +1,4 @@
+import {installWaterPerformance} from './water-ride-performance.js';
 import { jobBusiness } from "./jobcity-data.js";
 import {MAGIC_BED_ID,magicBedSeed} from './magic-bed-data.js';
 import {magicBedModel,magicSeedModel} from './magic-bed-models.js';
@@ -203,6 +204,9 @@ function vehicle(parent, kind, color = 0xc9a3cf) {
   return g;
 }
 export function makeAttraction(id, fields = [], now = Date.now()) {
+  return installWaterPerformance(buildAttraction(id,fields,now));
+}
+function buildAttraction(id, fields = [], now = Date.now()) {
   if(id===MAGIC_BED_ID)return magicBedModel(fields);
   if(magicBedSeed(id))return magicSeedModel(id);
   if (jobBusiness(id)) return jobBuilding(id);

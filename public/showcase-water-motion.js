@@ -53,7 +53,7 @@ export function* showcaseRouteSteps(spec){
  const rideStart=clock;
  switch(spec.kind){
  case 'barrel-wave':run(geometry[0],11.8);break;
- case 'canyon-rafting':add(24,'rafting',u=>{const f=geometry[0].at(u),q=new T.Quaternion().fromArray(f.quaternion),spin=Math.sin(u*TAU*3)*1.1+u*TAU;q.multiply(new T.Quaternion().setFromAxisAngle(new T.Vector3(0,1,0),spin));f.quaternion=q.toArray();f.position[1]+=Math.sin(u*Math.PI*22)*.38*Math.sin(Math.PI*u)**2;return f;});break;
+ case 'canyon-rafting':add(24/1.3,'rafting',u=>{const f=geometry[0].at(u),q=new T.Quaternion().fromArray(f.quaternion),spin=Math.sin(u*TAU*3)*1.1+u*TAU;q.multiply(new T.Quaternion().setFromAxisAngle(new T.Vector3(0,1,0),spin));f.quaternion=q.toArray();f.position[1]+=Math.sin(u*Math.PI*22)*.38*Math.sin(Math.PI*u)**2;return f;});break;
  case 'glass-drop':run(geometry[0],3.8,'drop');break;
  case 'lagoon-launch':{
   run(geometry[0],2.6,'boost');const from=geometry[0].at(1).position,to=geometry[1].at(0).position,duration=4.7,gravity=9.81,vx=(to[0]-from[0])/duration,vz=(to[2]-from[2])/duration,vy=(to[1]-from[1]+.5*gravity*duration**2)/duration;
@@ -62,7 +62,7 @@ export function* showcaseRouteSteps(spec){
  case 'surf-halfpipe':{
   const length=23;for(let j=1;j<6;j++)impacts.push({time:rideStart+j*length/6,strength:1.1,position:[0,spec.surfaceY,-1]});add(length,'surf',u=>{const a=Math.sin(u*TAU*3)*1.32*Math.sin(Math.PI*u)**.55,x=Math.sin(a)*34,y=(spec.radius+spec.surfaceY-.15)+34*(1-Math.cos(a))-r+.65,q=new T.Quaternion().setFromAxisAngle(new T.Vector3(0,0,1),-a);return frame([x,y,-1],q.toArray(),{surf:true});});break;
  }
- case 'lazy-river':for(const u of [.21,.43,.67,.91])impacts.push({time:rideStart+42*u,strength:.8,position:geometry[0].at(u).position,basin:false});add(42,'float',u=>{const f=geometry[0].at(u),q=new T.Quaternion().fromArray(f.quaternion),surge=Math.sin(Math.PI*u)**2;f.position[1]+=Math.sin(u*TAU*9)*surge*.18;q.multiply(new T.Quaternion().setFromAxisAngle(new T.Vector3(0,1,0),Math.sin(u*TAU*3)*surge*.35));f.quaternion=q.toArray();return f;});break;
+ case 'lazy-river':for(const u of [.21,.43,.67,.91])impacts.push({time:rideStart+42/1.25*u,strength:.8,position:geometry[0].at(u).position,basin:false});add(42/1.25,'float',u=>{const f=geometry[0].at(u),q=new T.Quaternion().fromArray(f.quaternion),surge=Math.sin(Math.PI*u)**2;f.position[1]+=Math.sin(u*TAU*9)*surge*.18;q.multiply(new T.Quaternion().setFromAxisAngle(new T.Vector3(0,1,0),Math.sin(u*TAU*3)*surge*.35));f.quaternion=q.toArray();return f;});break;
  case 'fountain-carousel':impacts.push({time:rideStart+14,strength:1.1,position:[0,spec.surfaceY,16]});add(28,'carousel',u=>{const a=TAU*4*(u-Math.sin(TAU*u)/TAU),q=new T.Quaternion().setFromAxisAngle(new T.Vector3(0,1,0),a);return frame([Math.sin(a)*16,1.95,Math.cos(a)*16],q.toArray(),{carouselAngle:a});});break;
  case 'pool-pendulum':{
   const L=44,pivot=46,seconds=38;add(seconds,'swing',u=>{const angle=Math.sin(u*TAU*4)*1.43*Math.sin(Math.PI*u)**.8,q=new T.Quaternion().setFromAxisAngle(new T.Vector3(1,0,0),angle);return frame([0,pivot-L*Math.cos(angle),-L*Math.sin(angle)],q.toArray(),{swingAngle:angle,pivot:[0,pivot,0]});});for(let j=1;j<8;j++)impacts.push({time:rideStart+j*seconds/8,strength:1.6,position:[0,1.45,0]});break;
