@@ -1,3 +1,4 @@
+import {mosaCoralSteps} from './mosasaur-corals.js';
 import * as THREE from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { applyUnderwaterLighting } from "./water-shading.js";
@@ -95,6 +96,7 @@ export function* deepOceanSteps() {
     if (o.isMesh && !o.geometry.userData.sharedScenery) o.geometry.dispose();
   });
   yield;
+  const coralGardens=yield* mosaCoralSteps();root.add(coralGardens);
   const positions = [],
     uv = [],
     indices = [];
@@ -145,9 +147,11 @@ export function* deepOceanSteps() {
   rays.name = "Soft underwater sunlight without a render target";
   rays.renderOrder = 1;
   root.add(rays);
-  root.userData.drawCalls = 3 + baked.children.length + 1;
+  root.userData.drawCalls = 3 + baked.children.length + 1 + coralGardens.children.length;
+  root.userData.coralGardens=coralGardens;
   root.userData.update = (time, reduced = false) => {
     clock.value = reduced ? 0 : time;
+    coralGardens.userData.update(time,reduced);
     for (const g of schools)
       g.rotation.y = reduced ? 0 : time * 0.055 * g.userData.sign;
   };
