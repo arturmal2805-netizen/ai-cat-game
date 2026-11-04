@@ -1,4 +1,5 @@
 import {mosaTerrainSteps} from './mosasaur-terrain.js';
+import {createMosaFish} from './mosasaur-fish.js';
 import {retainedMosaLand} from './mosasaur-retained-land.js';
 import { deepOceanSteps } from "./mosasaur-ocean.js";
 import { createGroundCover, placementClearance } from "./landscape-detail.js";
@@ -181,7 +182,7 @@ export function* mosasaurBiomeSteps(
     rz: MOSA_SEA.rz,
     depth: MOSA_DEPTH,
     bedHeight:mosaBedY,
-    fishCount: lowOnly ? 0 : 48,
+    fishCount: 0,
     color: 0x12bed8,
     bedColor: 0x69b8d5,
     wallColor: 0x69adbf,
@@ -195,6 +196,7 @@ export function* mosasaurBiomeSteps(
   animations.push(sea);
   if (!lowOnly) {
     const terrain=yield* mosaTerrainSteps();detail.add(terrain);animations.push(terrain);root.userData.ocean.terrain=terrain;
+    const fish=createMosaFish();sea.add(fish);animations.push(fish);sea.userData.fishCount=48;sea.userData.tropicalFish=fish;const disturb=sea.userData.disturb;sea.userData.disturb=(...args)=>{disturb(...args);fish.userData.disturb(...args);};
     const depths = yield* deepOceanSteps();
     detail.add(depths);
     animations.push(depths);
