@@ -107,6 +107,7 @@ export function* reefSteps({
   seed = 1,
   count = 14,
   waterLevel,
+  bedHeight=null,
 } = {}) {
   yield;
   const source = new THREE.Group();
@@ -122,7 +123,7 @@ export function* reefSteps({
       Math.sin(a) * rz * r,
       0.63 + (i % 3) * 0.09,
       i,
-      -0.61,
+      bedHeight ? bedHeight(Math.cos(a)*rx*r,Math.sin(a)*rz*r)+.08 : -.61,
     );
     yield;
     for (let leaf = 0; leaf < 3; leaf++) {
@@ -132,7 +133,7 @@ export function* reefSteps({
         "sphere",
         leaf % 2 ? 0x79baa3 : 0xb2cc88,
         Math.cos(a) * rx * r + 0.15 + leaf * 0.045,
-        -0.43 + leaf * 0.025,
+        (bedHeight ? bedHeight(Math.cos(a)*rx*r,Math.sin(a)*rz*r)+.26 : -.43) + leaf * .025,
         Math.sin(a) * rz * r,
         0.023,
         0.16 + leaf * 0.02,

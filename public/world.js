@@ -1,3 +1,4 @@
+import {retainedMosaLand} from './mosasaur-retained-land.js';
 import {zooGuestResidents} from './zoo-guest-visits.js';
 import {createZooGuestWorld} from './zoo-guest-world.js';
 import {pickZooExhibit,pickZooAnimal,pickZooGuestHouse} from './zoo-picking.js';
@@ -90,7 +91,7 @@ import {
 import { createCourtRuntime } from "./foodcourt-runtime.js";
 import { createCourtCinema } from "./foodcourt-cinema.js";
 import { placeCourtFood } from "./court-food-pose.js";
-import { mosaDryPoint } from "./mosasaur-data.js";
+import { mosaDryPoint as projectMosaDryPoint } from "./mosasaur-data.js";
 import { createResidentPlay } from "./resident-play.js";
 import {
   reserveSlide,
@@ -447,6 +448,8 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
   const islands = new Map(),
     itemGroups = new Map(),
     npcs = new Map();
+  const initialMosaLand=retainedMosaLand(initialGame.placements,initialGame.scenery);
+  function mosaDryPoint(x,z,margin){return projectMosaDryPoint(x,z,margin,islands.get('autumn')?.userData.retainedDryZones||initialMosaLand);}
   let megaGroundPlots = [];
   const megaGroundPoint = { x: 0, z: 0 };
   const rideOutings = createRideOutings();

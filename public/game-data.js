@@ -43,7 +43,7 @@ import {
   COURT_LOCALS,
   courtReservations,
 } from "./foodcourt-data.js";
-import { MOSA_RADIUS, mosaReservations } from "./mosasaur-data.js";
+import { MOSA_RADIUS, MOSA_SHORE_GATE, mosaReservations } from "./mosasaur-data.js";
 import { CHILL_RADIUS, CHILL_GATE, chillReservations } from "./chill-data.js";
 import {
   CAPYBARA_RADIUS,
@@ -2044,7 +2044,7 @@ Object.assign(
   {
     radius: MOSA_RADIUS,
     center: [-150, -42],
-    arrival: [0, 23],
+    arrival: [MOSA_SHORE_GATE.x, MOSA_SHORE_GATE.z],
     requiredLevel: 8,
   },
 );

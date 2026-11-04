@@ -28,6 +28,7 @@ export function* lagoonSteps({
   wallColor = 0xadc8b5,
   shoreColor = 0xb3ecff,
   depth = LEGACY_SEA_DEPTH,
+  bedHeight = null,
 } = {}) {
   yield;
   const group = new THREE.Group();
@@ -47,16 +48,18 @@ export function* lagoonSteps({
   yield;
   // A colored basin gives the clear water depth without a depth texture or
   // another render pass. Keep the authored sand/pink palette at the shore.
-  const bedGeometry = new THREE.CircleGeometry(1, 64),
+  const bedGeometry = bedHeight ? new THREE.RingGeometry(0,1,96,24) : new THREE.CircleGeometry(1, 64),
     bedPositions = bedGeometry.getAttribute("position"),
     bedColors = new Float32Array(bedPositions.count * 3),
     sand = new THREE.Color(bedColor),
     depthColor = new THREE.Color(color).lerp(sand, 0.24);
   for (let i = 0; i < bedPositions.count; i++) {
     const radius = Math.hypot(bedPositions.getX(i), bedPositions.getY(i));
+    if(bedHeight)bedPositions.setZ(i,bedHeight(bedPositions.getX(i)*rx,-bedPositions.getY(i)*rz)-(LAGOON_SURFACE_Y-depth));
     const shade = depthColor.clone().lerp(sand, radius * radius);
     shade.toArray(bedColors, i * 3);
   }
+  if(bedHeight)bedGeometry.computeVertexNormals();
   bedGeometry.setAttribute("color", new THREE.BufferAttribute(bedColors, 3));
   bedMaterial.color.set(0xffffff);
   bedMaterial.vertexColors = true;
@@ -112,6 +115,7 @@ export function* lagoonSteps({
     seed,
     count: Math.min(18, Math.max(8, Math.round(rx * rz))),
     waterLevel,
+    bedHeight,
   });
   yield;
   group.add(reef);

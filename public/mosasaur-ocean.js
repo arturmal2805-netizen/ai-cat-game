@@ -3,7 +3,7 @@ import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { applyUnderwaterLighting } from "./water-shading.js";
 import { shape } from "./fantasy-scenery.js";
 import { batchModelSteps } from "./model-batching.js";
-import { MOSA_SEA } from "./mosasaur-data.js";
+import { MOSA_SEA, mosaBedY } from "./mosasaur-data.js";
 // Everything is procedural and shared: three fish schools, one ray mesh and
 // two batched seabed material families. No extra textures or scene render pass.
 export function* deepOceanSteps() {
@@ -68,7 +68,7 @@ export function* deepOceanSteps() {
       "stone",
       [0x3f7991, 0x578a98, 0x547689][i % 3],
       x,
-      MOSA_SEA.bedY + 0.6,
+      mosaBedY(x,z) + 0.6,
       z,
       0.7 + (i % 3) * 0.3,
       0.7,
@@ -80,7 +80,7 @@ export function* deepOceanSteps() {
         "petal",
         [0x76c2bd, 0xa98cc4, 0x6cabc2][i % 3],
         x + (j - 1) * 0.2,
-        MOSA_SEA.bedY + 1.1,
+        mosaBedY(x,z) + 1.1,
         z,
         0.13,
         0.6 + j * 0.08,

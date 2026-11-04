@@ -9,6 +9,7 @@ import {
   MOSA_RADIUS,
   MOSA_SEA,
   MOSA_DEPTH,
+  mosaBedY,
   mosaDryPoint,
 } from "../public/mosasaur-data.js";
 import {
@@ -44,10 +45,10 @@ import {
 } from "../public/cat-model.js";
 import { createChichiCamera } from "../public/chichi-camera.js";
 const now = Date.UTC(2026, 9, 17);
-test("only the butterfly garden becomes the six-area ocean; level eight unlocks it and previous ownership remains", () => {
+test("only the mosasaur pond expands to four times its previous water area; level eight unlocks it and previous ownership remains", () => {
   assert.equal(byBiome("autumn").requiredLevel, 8);
   assert.equal(BIOMES.length, 18);
-  assert.ok(Math.abs(MOSA_RADIUS ** 2 / 11.65 ** 2 - 6) < 1e-12);
+  assert.equal(MOSA_SEA.rx*MOSA_SEA.rz/(21*20),4);
   assert.deepEqual(
     BIOMES.filter(
       (b) =>
@@ -150,7 +151,7 @@ test("all moving geometry clears the real seabed and shores; the seat follows th
     assert.ok(expected.distanceTo(new THREE.Vector3(...f.position)) < 1e-10);
     for (const v of points) {
       p.copy(v).applyQuaternion(q).add(origin);
-      assert.ok(p.y > MOSA_SEA.bedY + 1, "no mesh penetrates the bottom");
+      assert.ok(p.y > mosaBedY(p.x,p.z) + 1, "no mesh penetrates the bottom");
       if (p.y < 0.155)
         assert.ok(
           (p.x / 21) ** 2 + (p.z / 20) ** 2 < 0.9,
@@ -374,11 +375,11 @@ test("close Chichi camera stays aimed at her face, above the real bottom, throug
 test("shore walking stays dry and migrated paid plots preserve every ID, deadline, crop and business tier", () => {
   for (let i = 0; i < 60; i++) {
     const p = mosaDryPoint(Math.sin(i) * 10, Math.cos(i) * 10);
-    assert.ok((p.x / 21) ** 2 + (p.z / 20) ** 2 >= 1);
+    assert.ok((p.x/MOSA_SEA.rx)**2+(p.z/MOSA_SEA.rz)**2>=1 || (Math.abs(p.x)<=1.1&&p.z>=9.8));
   }
   for (let i = 0; i <= 100; i++) {
-    const p = mosasaurApproach([24, 0, 0], mosasaurFrame(0).position, i / 100);
-    if (i < 72) assert.ok((p[0] / 21) ** 2 + (p[2] / 20) ** 2 >= 1);
+    const p = mosasaurApproach([45, 0, 0], mosasaurFrame(0).position, i / 100);
+    if(i<85)assert.ok((p[0]/MOSA_SEA.rx)**2+(p[2]/MOSA_SEA.rz)**2>=1 || (Math.abs(p[0])<=1.1&&p[2]>=9.8));
   }
   const g = newGame(now);
   g.unlocked.push("autumn");

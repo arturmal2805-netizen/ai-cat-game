@@ -1,3 +1,4 @@
+import {retainedMosaLand} from './mosasaur-retained-land.js';
 import { deepOceanSteps } from "./mosasaur-ocean.js";
 import { createGroundCover, placementClearance } from "./landscape-detail.js";
 import { mosasaurRideSteps } from "./mosasaur-assets.js";
@@ -6,6 +7,8 @@ import {
   MOSA_RADIUS,
   MOSA_SEA,
   MOSA_DEPTH,
+  MOSA_SHORE_GATE,
+  mosaBedY,
   mosaReservations,
 } from "./mosasaur-data.js";
 import { lagoonSteps, waterfallSteps } from "./lagoon.js";
@@ -71,7 +74,7 @@ export function* mosasaurBiomeSteps(
     sceneryObjects,
     style: BIOME_STYLES.autumn,
     stats: { fishCount: lowOnly ? 0 : 48, staticMeshes: 0, sourceMeshes: 0 },
-    ocean: { depth: MOSA_DEPTH, areaMultiplier: 6 },
+    ocean: { depth: MOSA_DEPTH, areaMultiplier: 4, waterArea: Math.PI*MOSA_SEA.rx*MOSA_SEA.rz },
   };
   const shore = new THREE.Mesh(
     shoreGeometry(),
@@ -81,14 +84,15 @@ export function* mosasaurBiomeSteps(
       map: surfaceTexture("ground"),
     }),
   );
-  root.userData.navigationSurface = shore;
+  const navigation = new THREE.Group();navigation.name='Dry shore, original pier and retained owned plots';
+  base.add(navigation);root.userData.navigationSurface=navigation;
   shore.name = "Wide dry beaches and walkable island ring";
   shore.receiveShadow = true;
-  base.add(shore);
+  navigation.add(shore);
   const beachOutline = new THREE.Shape();
-  beachOutline.absellipse(0, 0, 23, 22, 0, Math.PI * 2, false);
+  beachOutline.absellipse(0, 0, MOSA_SEA.rx+2, MOSA_SEA.rz+2, 0, Math.PI * 2, false);
   const beachHole = new THREE.Path();
-  beachHole.absellipse(0, 0, 21, 20, 0, Math.PI * 2, true);
+  beachHole.absellipse(0, 0, MOSA_SEA.rx, MOSA_SEA.rz, 0, Math.PI * 2, true);
   beachOutline.holes.push(beachHole);
   const sandGeometry = new THREE.ShapeGeometry(beachOutline, 64);
   sandGeometry.rotateX(-Math.PI / 2);
@@ -103,6 +107,12 @@ export function* mosasaurBiomeSteps(
   sand.position.y = 0.15;
   sand.receiveShadow = true;
   base.add(sand);
+  const pier=new THREE.Mesh(new THREE.BoxGeometry(2.2,.17,MOSA_SHORE_GATE.z-23+1),new THREE.MeshStandardMaterial({color:0xc39860,map:surfaceTexture('wood'),roughness:.72}));
+  pier.position.set(0,.19,(23+MOSA_SHORE_GATE.z+1)/2);pier.name='Extended dry approach to the original pickup pier';pier.receiveShadow=true;navigation.add(pier);
+  const rail=new THREE.Group();
+  for(let z=24;z<=MOSA_SHORE_GATE.z;z+=2.5)for(const x of [-1.1,1.1])shape(rail,'pole',0x9a7648,x,.65,z,.055,.9,.055);
+  for(const x of [-1.1,1.1])shape(rail,'cube',0xc7a16a,x,1.04,(23+MOSA_SHORE_GATE.z)/2,.055,.055,MOSA_SHORE_GATE.z-23);
+  yield* bake(rail,base);
 
   const cliff = new THREE.Mesh(
     new THREE.CylinderGeometry(
@@ -169,6 +179,7 @@ export function* mosasaurBiomeSteps(
     rx: MOSA_SEA.rx,
     rz: MOSA_SEA.rz,
     depth: MOSA_DEPTH,
+    bedHeight:mosaBedY,
     fishCount: lowOnly ? 0 : 48,
     color: 0x12bed8,
     bedColor: 0x69b8d5,
@@ -233,8 +244,8 @@ export function* mosasaurBiomeSteps(
         );
     // Soft vegetation is concentrated on outer shores, leaving the sea open.
     if (!lowOnly && i % 3 === 0) {
-      const px = x * 25,
-        pz = z * 25;
+      const px = x * (MOSA_SEA.rx+4),
+        pz = z * (MOSA_SEA.rz+4);
       jungleFlowers(
         props,
         px,
@@ -256,9 +267,9 @@ export function* mosasaurBiomeSteps(
         gardens,
         "sphere",
         0x8eb47a,
-        Math.sin(a) * 25.1,
+        Math.sin(a) * (MOSA_SEA.rx+4.1),
         0.12,
-        Math.cos(a) * 25.1,
+        Math.cos(a) * (MOSA_SEA.rz+4.1),
         3.5,
         0.055,
         2.1,
@@ -268,7 +279,7 @@ export function* mosasaurBiomeSteps(
     for (let i = 0; i < 6; i++) {
       const a = 0.6 + i * 1.05,
         g = new THREE.Group();
-      g.position.set(Math.sin(a) * 26, 0, Math.cos(a) * 26);
+      g.position.set(Math.sin(a) * (MOSA_SEA.rx+5), 0, Math.cos(a) * (MOSA_SEA.rz+5));
       g.rotation.y = a;
       yield* junglePalmSteps(gardens, false, i % 3);
       const palm = gardens.children.at(-1);
@@ -279,7 +290,7 @@ export function* mosasaurBiomeSteps(
     for (let i = 0; i < 100; i++) {
       yield;
       const a = i * 2.399,
-        r = 23.2 + (i % 7) * 0.55,
+        r = MOSA_SEA.rx+2.2 + (i % 7) * 0.55,
         x = Math.sin(a) * r,
         z = Math.cos(a) * r;
       if (Math.abs(x) < 2 && z > 19) continue;
@@ -290,9 +301,9 @@ export function* mosasaurBiomeSteps(
           gardens,
           "stone",
           0xf3e8ce,
-          Math.sin(a) * 23.2,
+          Math.sin(a) * (MOSA_SEA.rx+2.2),
           0.16,
-          Math.cos(a) * 23.2,
+          Math.cos(a) * (MOSA_SEA.rz+2.2),
           0.52,
           0.04,
           0.42,
@@ -367,12 +378,16 @@ export function* mosasaurBiomeSteps(
   root.userData.updateScenery = (...args) =>
     runSceneSteps(root.userData.scenerySteps(...args));
   let cover = null,
-    coverKey = "";
+    coverKey = "", retained=null;
   root.userData.placementSteps = function* (items = [], records = []) {
     yield* root.userData.scenerySteps(records);
     const key = JSON.stringify([items, records]);
     if (lowOnly || key === coverKey) return;
     coverKey = key;
+    if(retained){navigation.remove(retained);disposeScenery(retained);}
+    const zones=retainedMosaLand(items,records),source=new THREE.Group();
+    for(const p of zones){const mesh=shape(source,'cube',p.kind==='pad'?0xd8d5bc:0xbf985e,p.x,.055,p.z,p.w,.17,p.d);mesh.rotation.y=p.yaw;}
+    retained=yield* bake(source,navigation);retained.name='Dry land supporting existing owned shoreline addresses';root.userData.retainedDryZones=zones;
     yield;
     if (cover) {
       detail.remove(cover);
@@ -389,7 +404,7 @@ export function* mosasaurBiomeSteps(
       density: 0.8,
       clearance: (x, z, w, d) =>
         clear(x, z, w, d) &&
-        Math.hypot(x / 23.3, z / 22.3) > 1 &&
+        Math.hypot(x / (MOSA_SEA.rx+2.3), z / (MOSA_SEA.rz+2.3)) > 1 &&
         !(Math.abs(x) < 2 && z > 18),
     });
     detail.add(cover);

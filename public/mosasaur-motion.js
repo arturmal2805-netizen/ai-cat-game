@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { MOSA_SEA, MOSA_DOCK } from "./mosasaur-data.js";
+import { MOSA_SEA, MOSA_DOCK, MOSA_SHORE_GATE } from "./mosasaur-data.js";
 export const MOSA_DURATION = 30;
 export const MOSA_SCALE = 1.25;
 export const MOSA_SEAT = [0, 1.44, 0.6];
@@ -172,22 +172,15 @@ export function mosasaurFrame(elapsed, reduced = false) {
 }
 // Follow the dry shore to the jetty; only the final small hop boards the saddle.
 // Local coordinates allow the identical path for the hero and every resident.
-export function mosasaurApproach(from, to, t) {
-  const start = new THREE.Vector3(...from),
-    end = new THREE.Vector3(...to);
-  const a0 = Math.atan2(start.x, start.z),
-    da = Math.atan2(Math.sin(-a0), Math.cos(-a0));
-  const q = smooth(clamp(t / 0.72, 0, 1)),
-    a = a0 + da * q;
-  const onIsland = Math.hypot(start.x, start.z) < 32;
-  if (t < 0.72) {
-    if (!onIsland)
-      return start.lerp(new THREE.Vector3(0, 0, MOSA_DOCK.z), q).toArray();
-    const r0 = Math.hypot(start.x, start.z),
-      r = THREE.MathUtils.lerp(Math.max(22.7, r0), 23, q);
-    return [Math.sin(a) * r, 0, Math.cos(a) * r];
-  }
-  return new THREE.Vector3(0, 0, MOSA_DOCK.z)
-    .lerp(end, smooth((t - 0.72) / 0.28))
-    .toArray();
+export function mosasaurApproach(from,to,t){
+ const start=new THREE.Vector3(...from),end=new THREE.Vector3(...to),dock=new THREE.Vector3(0,0,MOSA_DOCK.z);
+ const gate=new THREE.Vector3(0,0,MOSA_SHORE_GATE.z),a0=Math.atan2(start.x,start.z),da=Math.atan2(Math.sin(-a0),Math.cos(-a0));
+ if(t<.55){const u=smooth(clamp(t/.55,0,1));
+  if(Math.abs(start.x)<=1.11&&start.z>=9.8&&start.z<=MOSA_SHORE_GATE.z+1)return start.lerp(dock,u).toArray();
+  const angle=t<.18?a0:a0+da*smooth((t-.18)/.37),shore=1/Math.hypot(Math.sin(angle)/(MOSA_SEA.rx+3),Math.cos(angle)/(MOSA_SEA.rz+3));
+  const r0=Math.hypot(start.x,start.z),r=t<.18?THREE.MathUtils.lerp(r0,shore,smooth(t/.18)):shore;
+  return [Math.sin(angle)*r,0,Math.cos(angle)*r];
+ }
+ if(t<.85){if(Math.abs(start.x)<=1.11&&start.z>=9.8&&start.z<=MOSA_SHORE_GATE.z+1)return dock.toArray();return gate.lerp(dock,smooth((t-.55)/.3)).toArray();}
+ return dock.lerp(end,smooth((t-.85)/.15)).toArray();
 }

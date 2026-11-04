@@ -1,3 +1,4 @@
+import {wasMosaShore} from './mosasaur-retained-land.js';
 import {newZoo,normalizeZoo,zooSnapshotValid} from './zoo-system.js';
 import {retirementSnapshotValid} from './retired-attractions.js';
 import {cryptoSnapshotValid} from "./crypto-trading.js";
@@ -599,7 +600,8 @@ export function canPlace(
       const [w, d] = footprint(p.item, p.rotation);
       return { ...p, w, d };
     });
-  if (!ignoreTerrain) rectangles.push(...biomeReservations(biome));
+  const retained=biome==='autumn' && ignoreId && [...game.placements,...(game.scenery||[])].some(p=>p.id===ignoreId&&(p.item||p.type)===item&&p.x===x&&p.z===z&&(p.rotation||0)===rotation&&wasMosaShore(x,z));
+  if (!ignoreTerrain && !retained) rectangles.push(...biomeReservations(biome));
   rectangles.push(
     ...(game.scenery || [])
       .filter((p) => !p.stored && p.biome === biome && p.id !== ignoreId)
@@ -791,7 +793,7 @@ function restoreScenery(game, raw) {
       seed.id,
       {
         allowLocked: true,
-        ignoreTerrain: !!old && ["summer", "water"].includes(candidate.biome),
+        ignoreTerrain: !!old && (["summer", "water"].includes(candidate.biome) || (candidate.biome==='autumn'&&wasMosaShore(candidate.x,candidate.z))),
       },
     ).ok
       ? candidate

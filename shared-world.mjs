@@ -1,3 +1,4 @@
+import {MOSA_OLD_RADIUS} from './public/mosasaur-data.js';
 import {mergeZoo} from './public/zoo-system.js';
 import {mergeRetirement,retirementSnapshotValid,inheritRetirement,retirementPurchaseAdvanced} from './public/retired-attractions.js';
 import {ZOO_ID} from './public/zoo-data.js';
@@ -437,7 +438,7 @@ export function mergeSharedWorld(base, current, incoming) {
     game.placements.filter((p) => p.item === item).length;
   for (const p of b.placements) {
     const expanded = BUILDING_EXPANSIONS[p.biome] ||
-      (p.biome === "homestead" ? HOMESTEAD_EXPANSION : null),
+      (p.biome === "homestead" ? HOMESTEAD_EXPANSION : p.biome==='autumn'?{originalRadius:MOSA_OLD_RADIUS}:null),
       newSlide = !!byItem(p.item)?.referenceSlide || p.item===MAGIC_BED_ID;
     if ((!expanded && !newSlide) || n.placements.some((v) => v.id === p.id))
       continue;
