@@ -27,7 +27,7 @@ test('local bottom light composes with native underwater uniforms and callbacks 
   assert.equal(projection,before.vertexShader,'native projection/refraction and picking stay unchanged');
   assert.ok(after.vertexShader.indexOf('waterPoint=modelMatrix*waterPoint')<after.vertexShader.indexOf('vShowcaseImmersion=max'));
   assert.ok(after.vertexShader.indexOf('waterPoint=instanceMatrix*waterPoint')<after.vertexShader.indexOf('vShowcaseImmersion=max'));
-  assert.equal(base.customProgramCacheKey(),key+'-showcase-bottom-v2');
+  assert.equal(base.customProgramCacheKey(),key+'-showcase-bottom-v3');
   assert.equal(polishShowcaseBottom(base),base);assert.equal(base.onBeforeCompile,once);
   assert.equal(original.userData.showcaseBottomLight,undefined);
 });
@@ -46,7 +46,7 @@ test('elevated shallow river sheets use their real trough thickness rather than 
   const clock={value:7},m=new T.MeshStandardMaterial();m.userData.showcaseRiverBed=true;
   applyUnderwaterLighting(m,clock,0x24b9ff,{refract:false});const before=m.customProgramCacheKey();polishShowcaseBottom(m);
   const shader=compile(m);assert.match(shader.vertexShader,/vShowcaseImmersion=\.23;/);
-  assert.equal(shader.uniforms.uWaterLightTime,clock);assert.equal(m.customProgramCacheKey(),before+'-showcase-bottom-v2-sheet');
+  assert.equal(shader.uniforms.uWaterLightTime,clock);assert.equal(m.customProgramCacheKey(),before+'-showcase-bottom-v3-sheet');
   assert.equal((shader.fragmentShader.match(/texture2D\(/g)||[]).length,2);
 });
 

@@ -15,6 +15,7 @@ const flowingFoam=`if(uFlowing>.5){
  }`;
 export function polishShowcaseWater(material,{id,pool=[0,35,22,15],surfaceY=1.45}={}){
  if(material.userData.showcaseOptics)return material;
+ material.defines={...material.defines,SHOWCASE_WATER:1};
  if(!material.defines?.SLIDE_CATCH_POOL){material.uniforms.uColor.value.setHex(0x1499fa);material.uniforms.uShoreColor.value.setHex(0xb1efff);}
  material.uniforms.uWaterEnvironment.value=showcaseWaterProbe(id);
  material.uniforms.uShowcaseBasin={value:new T.Vector4(...pool)};
@@ -53,8 +54,8 @@ export function polishShowcaseWater(material,{id,pool=[0,35,22,15],surfaceY=1.45
   .replace('))*.014*(.4+fieldB.a*.6)', '))*.025*(.4+fieldB.a*.6)')
   .replace('float opticalDepth=(.12+depth*.88)/max(facing,.3);',`float waterDepth=mix(.23,1.19-.79*smoothstep(.55,1.,edge),uLake);
  float opticalDepth=waterDepth/max(facing,.22);`)
-  .replace('vec3 body=mix(uColor*.7,mix(deep,shore,transmission),uLake);','vec3 body=mix(vec3(.004,.24,.54),vec3(.008,.47,.64),shallow*.7);')
-  .replace('body=mix(uColor*vec3(.72,.94,1.0),uShoreColor,.08+shallow*.18);','body=mix(vec3(.004,.27,.58),vec3(.012,.53,.64),shallow*.8);')
+  .replace('vec3 body=mix(uColor*.7,mix(deep,shore,transmission),uLake);','vec3 body=mix(vec3(.004,.30,.62),vec3(.008,.52,.70),shallow*.7);')
+  .replace('body=mix(uColor*vec3(.72,.94,1.0),uShoreColor,.08+shallow*.18);','body=mix(vec3(.004,.32,.66),vec3(.012,.57,.70),shallow*.8);')
   .replace('clamp(.035+fresnel*.91,0.0,.96)','clamp(.02+fresnel*.96,0.0,.98)')
   .replace('color+=lightTint*caustic*(.3+shallow*.2);','color+=vec3(.008,.026,.042)*caustic*(.12+shallow*.08);')
   .replace('float shoreFoam=smoothstep(.945,.995,edge)*(.15+.4*fieldA.a)*uLake;',`float shoreLace=smoothstep(.54,.91,fieldA.a*.45+fieldB.a*.55);
@@ -69,10 +70,10 @@ export function polishShowcaseWater(material,{id,pool=[0,35,22,15],surfaceY=1.45
   float basinMix=(1.-smoothstep(.70,.98,basinRadius))*(1.-smoothstep(uShowcaseBasinY+.02,uShowcaseBasinY+.65,vShowcaseLocal.y));
   alpha*=1.-basinMix;
  }`)
-  .replace('alpha=clamp(uOpacity*(.38+depth*.17)+fresnel*.48+foam*.12,.24,.94);','alpha=clamp(1.-exp(-opticalDepth*.34)+fresnel*.85+foam*.4,.10,.96);')
+  .replace('alpha=clamp(uOpacity*(.38+depth*.17)+fresnel*.48+foam*.12,.24,.94);','alpha=clamp(1.-exp(-opticalDepth*.28)+fresnel*.85+foam*.4,.10,.96);')
   .replace('vec4(max(color,vec3(0.0)),.96)','vec4(max(color,vec3(0.0)),.90)')
   .replace('vec4(max(color,vec3(0.0)),.95)','vec4(max(color,vec3(0.0)),.84)');
- material.userData.showcaseOptics='lagoon-v6';material.needsUpdate=true;return material;
+ material.userData.showcaseOptics='lagoon-v7-crystal';material.needsUpdate=true;return material;
 }
 
 export function submergeReceivingFloor(geometry,pool,surfaceY){

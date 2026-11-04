@@ -171,9 +171,9 @@ export function* mosasaurBiomeSteps(
     depth: MOSA_DEPTH,
     fishCount: lowOnly ? 0 : 48,
     color: 0x12bed8,
-    bedColor: 0x235f8a,
-    wallColor: 0x3d8299,
-    shoreColor: 0xa7edda,
+    bedColor: 0x69b8d5,
+    wallColor: 0x69adbf,
+    shoreColor: 0xb8efff,
   });
   sea.name = "Deep ocean · 40 times the previous sea depth";
   sea.userData.water.uniforms.uOpacity.value = 0.46;

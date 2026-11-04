@@ -77,9 +77,20 @@ export function waterFieldTexture() {
 
 const causticCode = `
 float waterLight(vec2 p,float time){
+ #ifndef SHOWCASE_BOTTOM
+ p=mat2(.91,.414,-.414,.91)*p*.62;
+ #endif
  vec4 a=texture2D(uWaterField,p*.115+vec2(time*.009,-time*.006));
+ #ifndef SHOWCASE_BOTTOM
+ p+=(a.rg-.5)*2.4;
+ #endif
  vec4 b=texture2D(uWaterField,p.yx*.147+vec2(-time*.007,time*.011)+(a.rg-.5)*.045);
+ #ifdef SHOWCASE_BOTTOM
  return min(1.5,a.b*.7+b.b*.55+a.b*b.b);
+ #else
+ float ridge=max(a.b,b.b*.82);
+ return smoothstep(.28,.88,ridge)*(.58+.42*a.a);
+ #endif
 }
 `;
 
@@ -88,7 +99,7 @@ export function applyUnderwaterLighting(
   material,
   clock,
   tint = 0x73d6db,
-  { level = { value: 0.155 }, refract = true, light = true } = {},
+  { level = { value: 0.155 }, refract = true, light = true, depthFog = light } = {},
 ) {
   const previous = material.onBeforeCompile,
     key = material.customProgramCacheKey();
@@ -100,8 +111,9 @@ export function applyUnderwaterLighting(
     shader.uniforms.uWaterLightTime = clock;
     shader.uniforms.uUnderwaterTint = { value: color };
     shader.uniforms.uWaterLevel = level;
+    shader.uniforms.uWaterScatterTint={value:new THREE.Color(tint).multiplyScalar(.38)};
     shader.vertexShader =
-      "varying vec2 vWaterLightPoint;uniform sampler2D uWaterField;uniform float uWaterLightTime;uniform float uWaterLevel;\n" +
+      "varying float vClearWaterImmersion;varying vec2 vWaterLightPoint;uniform sampler2D uWaterField;uniform float uWaterLightTime;uniform float uWaterLevel;\n" +
       shader.vertexShader.replace(
         "#include <project_vertex>",
         `#include <project_vertex>
@@ -110,7 +122,7 @@ export function applyUnderwaterLighting(
       waterPoint=instanceMatrix*waterPoint;
       #endif
       waterPoint=modelMatrix*waterPoint;
-      vWaterLightPoint=waterPoint.xz;
+      vWaterLightPoint=waterPoint.xz;vClearWaterImmersion=max(0.,uWaterLevel-waterPoint.y);
       ${
         refract
           ? `
@@ -122,21 +134,35 @@ export function applyUnderwaterLighting(
           : ""
       }`,
       );
-    if (!light) return;
+    if (!light && !depthFog) return;
     shader.fragmentShader =
-      "uniform sampler2D uWaterField;uniform float uWaterLightTime;uniform vec3 uUnderwaterTint;varying vec2 vWaterLightPoint;\n" +
-      causticCode +
+      "uniform sampler2D uWaterField;uniform float uWaterLightTime;uniform vec3 uUnderwaterTint;uniform vec3 uWaterScatterTint;uniform float uWaterLevel;varying vec2 vWaterLightPoint;varying float vClearWaterImmersion;\n" +
+      (light?causticCode:"") +
       shader.fragmentShader.replace(
         "#include <color_fragment>",
         `#include <color_fragment>
-      float waterCaustic=waterLight(vWaterLightPoint,uWaterLightTime);
+      ${light?`float waterCaustic=waterLight(vWaterLightPoint,uWaterLightTime);
+      #ifdef SHOWCASE_BOTTOM
       diffuseColor.rgb*=uUnderwaterTint*(.88+waterCaustic*.24);
-      diffuseColor.rgb+=vec3(.035,.07,.06)*waterCaustic;`,
+      diffuseColor.rgb+=vec3(.035,.07,.06)*waterCaustic;
+      #else
+      waterCaustic*=.12+.88*exp2(-min(vClearWaterImmersion,40.)*.07);
+      diffuseColor.rgb*=uUnderwaterTint*(.98+waterCaustic*.20);
+      diffuseColor.rgb+=vec3(.012,.029,.043)*waterCaustic*waterCaustic;
+      #endif`:''}
+      ${depthFog?`
+      #ifndef SHOWCASE_BOTTOM
+      vec3 submergedPoint=vec3(vWaterLightPoint.x,uWaterLevel-vClearWaterImmersion,vWaterLightPoint.y);
+      float opticalPath=length(cameraPosition-submergedPoint)*clamp(vClearWaterImmersion/max(cameraPosition.y-submergedPoint.y,.01),0.,1.);
+      vec3 clearTransmission=exp2(-vec3(.065,.018,.007)*min(opticalPath,60.));
+      diffuseColor.rgb*=clearTransmission;
+      diffuseColor.rgb=mix(diffuseColor.rgb,uWaterScatterTint,(1.-exp2(-opticalPath*.035))*.55);
+      #endif`:''}`,
       );
   };
   material.customProgramCacheKey = () =>
-    key + "-underwater-optics-v2-" + refract + "-" + light;
-  material.userData.waterLight = { clock, texture, level, refract, light };
+    key + "-underwater-optics-v3-clear-" + refract + "-" + light+"-"+depthFog;
+  material.userData.waterLight = { clock, texture, level, refract, light, depthFog };
   return material;
 }
 
@@ -197,24 +223,40 @@ void main(){
   }
  }
  if(uFall>.5){p=vWaterUv*uScale;flow=vec2(uTime*.005,uTime*.28);}
+ #ifndef SHOWCASE_WATER
+ if(uFlowing<.5&&uFall<.5)p=mat2(.91,.414,-.414,.91)*p;
+ p*=.80;flow*=.80;
+ #endif
  vec4 fieldA=texture2D(uWaterField,p*.10+flow);
+ #ifndef SHOWCASE_WATER
+ p+=(fieldA.rg-.5)*.75;
+ #endif
  vec4 fieldB=texture2D(uWaterField,p.yx*.157-flow*.71+(fieldA.rg-.5)*.045);
  // Cascades need flowing ribbons, not the lake reflection/wake calculations.
  if(uFall>.5){
   float streak=1.0-smoothstep(.02,.17,abs(fract(vWaterUv.x*uScale.x*7.0+fieldA.r*.5)-.5));
   float lace=streak*(.22+.34*fieldB.a);
   vec3 color=mix(uColor*.42,vec3(.75,.97,1.0),.06+lace*.52);
-  color+=vec3(.05,.13,.14)*fieldA.b;
+  #ifndef SHOWCASE_WATER
+  color=mix(uColor*.78,vec3(.90,.985,1.),.08+lace*.48);
+  #endif
+  color+=vec3(.025,.075,.10)*fieldA.b;
   float edgeFade=smoothstep(0.0,.045,vWaterUv.x)*(1.0-smoothstep(.955,1.0,vWaterUv.x));
   float foot=(1.0-smoothstep(0.0,.15,vWaterUv.y))*(.14+fieldB.a*.16);
   color=mix(color,vec3(.82,.98,1.0),foot);
   float alpha=clamp(uOpacity*.83+lace*.26,.28,.86)*edgeFade;
+  #ifndef SHOWCASE_WATER
+  alpha=clamp(uOpacity*.46+lace*.24+foot*.12,.18,.82)*edgeFade;
+  #endif
   gl_FragColor=vec4(color,alpha);
   #include <tonemapping_fragment>
   #include <colorspace_fragment>
   return;
  }
  vec2 slope=(fieldA.rg+fieldB.gr-1.0)*.19;
+ #ifndef SHOWCASE_WATER
+ slope=(fieldA.rg-.5)*.075+(fieldB.gr-.5)*.115;
+ #endif
  float wake=0.0;
  float wakeFoam=0.0;
  // Most surfaces are idle: skip all six disturbances until a swimmer arrives.
@@ -248,9 +290,12 @@ void main(){
  float fresnel=.025+.975*pow(1.0-facing,5.0);
  vec3 reflected=reflect(-view,n);
  vec3 sky=texture2D(uWaterEnvironment,environmentUv(reflected),.7).rgb;
- vec3 halfSun=normalize(view+normalize(vec3(-.44,.85,-.50)));
+ vec3 halfSun=normalize(view+normalize(vec3(-14.,35.,20.)));
  float gloss=max(dot(n,halfSun),0.0);
  float roughness=.085+min(.12,length(fwidth(slope))*.65);
+ #ifndef SHOWCASE_WATER
+ roughness=sqrt(.0064+min(.04,dot(fwidth(slope),fwidth(slope))*.75));
+ #endif
  float a2=roughness*roughness;
  float denominator=gloss*gloss*(a2-1.0)+1.0;
  float glint=(a2/(3.14159*denominator*denominator))*.014*(.4+fieldB.a*.6);
@@ -269,13 +314,31 @@ void main(){
  // reflection and wave fields; no transmission render target or scene copy.
  body=mix(uColor*vec3(.72,.94,1.0),uShoreColor,.08+shallow*.18);
  #endif
+ #ifndef SHOWCASE_WATER
+ vec3 clearTint=mix(uColor*vec3(.58,.98,1.24),uColor*vec3(1.05,.90,1.06),pink);
+ body=mix(clearTint,uShoreColor,.05+shallow*.12);
+ #endif
  float caustic=min(1.5,fieldA.b*.7+fieldB.b*.55+fieldA.b*fieldB.b);
  vec3 color=mix(body,sky,clamp(.035+fresnel*.91,0.0,.96));
+ #ifndef SHOWCASE_WATER
+ color=mix(body*(.93+fieldA.a*.14),sky,clamp(.075+fresnel*.92,0.,.98));
+ #endif
  vec3 lightTint=mix(vec3(.08,.21,.20),vec3(.22,.13,.18),smoothstep(.15,.55,uColor.r-uColor.g));
+ #ifdef SHOWCASE_WATER
  color+=lightTint*caustic*(.3+shallow*.2);
+ #else
+ color+=mix(vec3(.008,.026,.045),vec3(.03,.012,.025),pink)*caustic*.16;
+ #endif
  color+=vec3(1.0,.95,.83)*min(.55,glint);
+ #ifndef SHOWCASE_WATER
+ color+=vec3(.84,.95,1.)*pow(gloss,48.)*.035;
+ #endif
  float shoreFoam=smoothstep(.945,.995,edge)*(.15+.4*fieldA.a)*uLake;
+ #ifndef SHOWCASE_WATER
+ shoreFoam=smoothstep(.935,.997,edge)*smoothstep(.60,.92,fieldA.a*.45+fieldB.a*.55)*(.10+.22*fieldB.b)*uLake;
+ #endif
  float foam=clamp(shoreFoam+wakeFoam,0.0,.64);
+ #ifdef SHOWCASE_WATER
  if(uFlowing>.5){
   float across=abs(vWaterUv.x-.5)*2.;
   float rim=smoothstep(.66,.99,across)*(.09+fieldA.a*.12);
@@ -287,6 +350,14 @@ void main(){
   color=mix(color,uColor*(.62+fieldB.a*.3),.2);
   color+=mix(vec3(.10,.22,.25),vec3(.24,.12,.20),pink)*(fieldA.b*.7+fieldB.b*.4);
  }
+ #else
+ if(uFlowing>.5){
+  float across=abs(vWaterUv.x-.5)*2.;
+  float edgeLace=smoothstep(.84,.995,across)*(.025+fieldA.a*.11);
+  float aeration=smoothstep(.75,.97,fieldA.a)*smoothstep(.55,.90,fieldB.a)*(.04+clamp(1.-abs(vWaterNormal.y),0.,1.)*.15);
+  foam=clamp(foam+edgeLace+aeration,0.,.36);
+ }
+ #endif
  color=mix(color,vec3(.88,1.0,.96),foam);
  color+=vec3(.035,.065,.07)*abs(wake);
  float alpha=clamp(uOpacity*(.55+depth*.23)+fresnel*.42-shallow*.07+foam*.16,.16,.94);
@@ -294,6 +365,10 @@ void main(){
  alpha=clamp(uOpacity*(.38+depth*.17)+fresnel*.48+foam*.12,.24,.94);
  #endif
  if(uFlowing>.5)alpha=max(alpha,.62+fresnel*.22);
+ #ifndef SHOWCASE_WATER
+ alpha=clamp(uOpacity*(.42+depth*.06)+fresnel*.68-shallow*.035+foam*.15,.10,.96);
+ if(uFlowing>.5)alpha=max(alpha,.34+fresnel*.55);
+ #endif
  gl_FragColor=vec4(max(color,vec3(0.0)),alpha);
  #include <tonemapping_fragment>
  #include <colorspace_fragment>
@@ -315,7 +390,7 @@ export function waterMaterial(
       uColor: { value: new THREE.Color(color) },
       uOpacity: { value: opacity },
       uLake: { value: 0 },
-      uShoreColor: { value: new THREE.Color(0x73e4c5) },
+      uShoreColor: { value: new THREE.Color(0xb3ecff) },
       uFall: { value: waterfall ? 1 : 0 },
       uFlowing: { value: flow ? (flow.vortex ? 2 : 1) : 0 },
       uFlowSpeed: { value: flow?.speed ?? 5 },
@@ -341,7 +416,7 @@ export function waterMaterial(
     // doubles shading work and is unnecessary for the authored surfaces.
     forceSinglePass: true,
   });
-  material.userData.waterVersion = "lagoon-optics-v3-slide-flow";
+  material.userData.waterVersion = "lagoon-optics-v4-crystal-water";
   return material;
 }
 

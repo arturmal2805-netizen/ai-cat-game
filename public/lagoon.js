@@ -1,3 +1,4 @@
+import {waterSandTexture} from './water-sand.js';
 import {
   LAGOON_BED_Y,
   LAGOON_SURFACE_Y,
@@ -23,9 +24,9 @@ export function* lagoonSteps({
   ambientOnly = false,
   color = 0x08b5d0,
   seed = 1,
-  bedColor = 0x83ccc1,
+  bedColor = 0xb1dce6,
   wallColor = 0xadc8b5,
-  shoreColor = 0x73e4c5,
+  shoreColor = 0xb3ecff,
   depth = LEGACY_SEA_DEPTH,
 } = {}) {
   yield;
@@ -38,7 +39,7 @@ export function* lagoonSteps({
   const waterClock = { value: 0 },
     waterLevel = { value: LAGOON_SURFACE_Y };
   const bedMaterial = applyUnderwaterLighting(
-    new THREE.MeshStandardMaterial({ color: bedColor, roughness: 0.82 }),
+    new THREE.MeshStandardMaterial({ color: bedColor, roughness: 0.82,map:waterSandTexture() }),
     waterClock,
     color,
     { level: waterLevel, refract: false },
@@ -74,11 +75,11 @@ export function* lagoonSteps({
   yield;
   const wall = new THREE.Mesh(
     new THREE.CylinderGeometry(1, 1, depth - 0.025, 64, 1, true),
-    new THREE.MeshStandardMaterial({
+    applyUnderwaterLighting(new THREE.MeshStandardMaterial({
       color: wallColor,
       roughness: 0.95,
       side: THREE.DoubleSide,
-    }),
+    }),waterClock,color,{level:waterLevel,refract:false,light:false,depthFog:true}),
   );
   yield;
   wall.scale.set(rx, 1, rz);
@@ -406,22 +407,24 @@ export function* waterfallSteps(
   yield;
   group.add(mist);
   yield;
-  group.userData.update = (time, reduced = false) => {
-    const t = reduced ? 0 : time;
-    advanceWater(mat, t, reduced);
-    for (let i = 0; i < 18; i++) {
-      dummy.position.set(
-        Math.sin(i * 2.4) * width * 0.4,
-        height / 2 - ((t * 2.1 + i * 0.24) % height),
-        0.025,
-      );
-      dummy.rotation.set(0, 0, 0);
-      dummy.scale.set(1, 1, 1);
-      dummy.updateMatrix();
-      lines.setMatrixAt(i, dummy.matrix);
-    }
-    lines.instanceMatrix.needsUpdate = true;
+  const fallClock={value:0};
+  lines.geometry.setAttribute('aFallPhase',new THREE.InstancedBufferAttribute(Float32Array.from({length:18},(_,i)=>i*.24),1));
+  lines.material.depthWrite=false;
+  lines.material.onBeforeCompile=shader=>{
+    shader.uniforms.uFallTime=fallClock;shader.uniforms.uFallHeight={value:height};
+    shader.vertexShader='attribute float aFallPhase;uniform float uFallTime,uFallHeight;varying float vFallOpacity;\n'+shader.vertexShader.replace('#include <begin_vertex>',`#include <begin_vertex>
+      float fallDistance=mod(uFallTime*2.1+aFallPhase,uFallHeight),progress=fallDistance/max(uFallHeight,.001);
+      transformed.y+=mod(aFallPhase,uFallHeight)-fallDistance;
+      vFallOpacity=smoothstep(0.,.12,progress)*(1.-smoothstep(.82,1.,progress));`);
+    shader.fragmentShader='varying float vFallOpacity;\n'+shader.fragmentShader.replace('#include <color_fragment>','#include <color_fragment>\ndiffuseColor.a*=vFallOpacity;');
   };
+  lines.material.customProgramCacheKey=()=> 'native-waterfall-fixed-v1';
+  for(let i=0;i<18;i++){
+    dummy.position.set(Math.sin(i*2.4)*width*.4,height/2-(i*.24)%height,.025);
+    dummy.rotation.set(0,0,0);dummy.scale.set(1,1,1);dummy.updateMatrix();lines.setMatrixAt(i,dummy.matrix);
+  }
+  lines.instanceMatrix.needsUpdate=true;
+  group.userData.update=(time,reduced=false)=>{fallClock.value=reduced?0:time;advanceWater(mat,time,reduced);};
   yield;
   group.userData.update(0);
   yield;

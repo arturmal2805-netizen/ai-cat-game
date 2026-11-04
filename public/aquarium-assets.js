@@ -1,3 +1,5 @@
+import {waterSandTexture} from './water-sand.js';
+import {normalizeBasinUV} from './slide-basin-optics.js';
 import * as THREE from "three";
 import { aquariumOutline } from "./aquarium-data.js";
 import { part } from "./bikini-scenery.js";
@@ -76,7 +78,7 @@ export function* aquariumTankSteps(o) {
     new THREE.MeshBasicMaterial({
       vertexColors: true,
       transparent: true,
-      opacity: 0.37,
+      opacity: 0.18,
       side: THREE.BackSide,
       depthWrite: false,
     }),
@@ -101,7 +103,7 @@ export function* aquariumTankSteps(o) {
   const bed = new THREE.Mesh(
     aquariumPrism(o.w - 0.12, o.d - 0.12, o.r, 0.16, o.circular),
     applyUnderwaterLighting(
-      new THREE.MeshStandardMaterial({ color: 0x6fcad5, roughness: 0.8 }),
+      new THREE.MeshStandardMaterial({ color: 0x93d0e8, roughness: 0.8,map:waterSandTexture() }),
       clock,
       o.color,
       { refract: false },
@@ -120,6 +122,7 @@ export function* aquariumTankSteps(o) {
       ),
       water,
     );
+  normalizeBasinUV(surface.geometry);
   surface.rotation.x = -Math.PI / 2;
   surface.position.y = o.h - 0.13;
   surface.renderOrder = 6;

@@ -1,3 +1,4 @@
+import {waterSandTexture} from './water-sand.js';
 import {zooAnimalId} from './zoo-guest-data.js';
 import {ELEPHANT_TRUNK_TIP} from './zoo-elephant-data.js';
 import {GORILLA_BRANCH_HEIGHT,GORILLA_BRANCH_X,GORILLA_BRANCH_Z} from './zoo-gorilla-swing.js';
@@ -66,10 +67,10 @@ function* habitat(props,e,detail,effects,lagoons){
  }
  if(e.species==='axolotl'){
   const rx=3.8*S,rz=3.25*S,base=.42,h=3.65;
-  const clock={value:0},level={value:base+h},floorMat=applyUnderwaterLighting(new T.MeshStandardMaterial({color:0x55d5e6,roughness:.55}),clock,0x39cced,{level,refract:false});
+  const clock={value:0},level={value:base+h},floorMat=applyUnderwaterLighting(new T.MeshStandardMaterial({color:0x9bd9ed,roughness:.55,map:waterSandTexture()}),clock,0x39cced,{level,refract:false});
   const tankFloor=new T.Mesh(new T.CylinderGeometry(1,1,.18,144),floorMat);tankFloor.scale.set(rx,1,rz);tankFloor.position.set(e.x,base-.08,e.z);tankFloor.receiveShadow=true;detail.add(tankFloor);effects.push({userData:{update:(t,r)=>{clock.value=r?0:t;}}});
-  const glass=new T.Mesh(new T.CylinderGeometry(1,1,h,144,1,true),new T.MeshPhysicalMaterial({color:0x23d4eb,roughness:.15,metalness:.02,transparent:true,opacity:.21,depthWrite:false,side:T.DoubleSide}));glass.scale.set(rx,1,rz);glass.position.set(e.x,base+h/2,e.z);glass.renderOrder=4;detail.add(glass);
-  const surfaceMat=waterMaterial(0x13c4e9,.32),surface=new T.Mesh(new T.CircleGeometry(1,144),surfaceMat);surface.rotation.x=-Math.PI/2;surface.scale.set(rx,rz,1);surface.position.set(e.x,base+h,e.z);surface.renderOrder=4;detail.add(surface);effects.push({userData:{update:(t,r)=>advanceWater(surfaceMat,t,r)}});
+  const glass=new T.Mesh(new T.CylinderGeometry(1,1,h,144,1,true),new T.MeshPhysicalMaterial({color:0x82dff8,roughness:.12,metalness:.02,transparent:true,opacity:.13,depthWrite:false,side:T.DoubleSide}));glass.scale.set(rx,1,rz);glass.position.set(e.x,base+h/2,e.z);glass.renderOrder=4;detail.add(glass);
+  const surfaceMat=waterMaterial(0x13c4e9,.32),surface=new T.Mesh(new T.CircleGeometry(1,144),surfaceMat);surface.rotation.x=-Math.PI/2;surface.scale.set(rx,rz,1);surface.position.set(e.x,base+h,e.z);surfaceMat.uniforms.uLake.value=1;surfaceMat.uniforms.uScale.value.set(rx*2,rz*2);surface.renderOrder=4;detail.add(surface);effects.push({userData:{update:(t,r)=>advanceWater(surfaceMat,t,r)}});
   for(let i=0;i<24;i++){const a=i*2.399,r=(1+(i%5)*.5)*S,x=e.x+Math.sin(a)*r,z=e.z+Math.cos(a)*r;coralCluster(props,x,z,.65+(i%3)*.22,i,base+.05);yield;}
   const life=zooWaterlife(S);life.position.set(e.x,base,e.z);detail.add(life);effects.push(life);
   for(const height of [base,base+h]){const rim=new T.Mesh(new T.TorusGeometry(1,.027,6,144),new T.MeshStandardMaterial({color:0xf2d4a7,metalness:.3,roughness:.4}));rim.rotation.x=Math.PI/2;rim.scale.set(rx,rz,1);rim.position.set(e.x,height,e.z);detail.add(rim);}

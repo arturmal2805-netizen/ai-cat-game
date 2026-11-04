@@ -25,9 +25,9 @@ export function waterEnvironmentTexture() {
         dz = z / length,
         angle = Math.atan2(dz, dx);
       const horizon = Math.pow(1 - Math.max(0, height), 3);
-      let r = 0.105 + horizon * 0.56,
-        g = 0.235 + horizon * 0.48,
-        b = 0.47 + horizon * 0.3;
+      let r = 0.20 + horizon * 0.48,
+        g = 0.43 + horizon * 0.35,
+        b = 0.74 + horizon * 0.18;
       const cloudNoise =
         Math.sin(dx * 9 + dz * 6) * 0.4 +
         Math.cos(dz * 13 - dx * 7) * 0.25 +
@@ -46,9 +46,9 @@ export function waterEnvironmentTexture() {
         Math.max(0, Math.sin(angle * 7 + 0.6)) * 0.1 +
         Math.max(0, Math.cos(angle * 17)) * 0.055;
       const foliage = Math.max(0, Math.min(1, (bank - height) * 85));
-      r += (0.025 - r) * foliage;
-      g += (0.09 - g) * foliage;
-      b += (0.075 - b) * foliage;
+      r += (0.035 - r) * foliage;
+      g += (0.10 - g) * foliage;
+      b += (0.14 - b) * foliage;
       if (height < -0.18) {
         r = 0.14;
         g = 0.16;

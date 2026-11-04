@@ -968,3 +968,17 @@ Its opt-in `getViewLift` eases an elevated frontal orbit in/out; ordinary cat
 cameras retain zero lift. Keep the camera/loading/timing tests and the private
 `CHICHI_SURF_VISIBILITY_AUDIT=1` native framebuffer/phone-image check: correct
 face projection and working buttons alone cannot detect an occluded kitten.
+
+
+### Global water art reference (player, 2026-11-04)
+
+The player explicitly chose the water in the 2026 Assassin's Creed Black Flag
+remake as the visual comparison target across ALL game water, not only slides.
+Review crystal-blue transmission, natural deep/shallow transitions, coherent
+reflections, visible waves and irregular foam. A flat cyan sheet or dense
+repeating caustic grid fails the target. Retain the game's authored pink/special
+palettes, native creatures/physics, existing optical clocks and mobile DPR.
+Use shared bounded fields/probes and native passes, without runtime scene-copy
+reflections or per-frame geometry/texture generation. Compare actual equal-view
+images and resource counts; don't claim physical-device FPS or 1:1 fidelity
+without evidence. Preserve the previously approved water/animation baseline.

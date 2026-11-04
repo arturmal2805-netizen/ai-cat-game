@@ -5,7 +5,7 @@ import { build } from "esbuild";
 import assert from "node:assert/strict";
 import { createServer } from "node:http";
 import { createRequire } from "node:module";
-import { mkdir } from "node:fs/promises";
+import { mkdir,writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 const { chromium } = createRequire(import.meta.url)(
   process.env.CHICHI_PLAYWRIGHT_MODULE || "playwright",
@@ -60,7 +60,7 @@ const folder = resolve(
   process.env.CHICHI_WATER_REVIEW || "/tmp/chichi-water-review",
 );
 await mkdir(folder, { recursive: true });
-let browser;
+let browser;const results=[];
 try {
   browser = await chromium.launch({
     executablePath: process.env.CHICHI_CHROMIUM || undefined,
@@ -98,7 +98,7 @@ try {
           updates = [],
           submits = [];
         let last = performance.now();
-        for (let i = 0; i < 72; i++) {
+        for (let i = 0; i < mode.samples; i++) {
           await new Promise(requestAnimationFrame);
           const now = performance.now(),
             t = 5 + i / 30;
@@ -182,7 +182,7 @@ try {
           return contrast / count;
         });
         return stats;
-      }, mode);
+      }, {...mode,samples:Number(process.env.CHICHI_WATER_SAMPLES||72)});
       assert.deepEqual(result.canvas, [
         mode.width * mode.dpr,
         mode.height * mode.dpr,
@@ -194,6 +194,8 @@ try {
           "Pink lagoon lost its palette",
         );
       }
+      results.push({version:root.name,mode:mode.name,...result});
+      await writeFile(resolve(folder,"report.json"),JSON.stringify(results,null,2));
       console.log(root.name, mode.name, JSON.stringify(result));
       await page.screenshot({
         path: resolve(folder, `${root.name}-${mode.name}.png`),

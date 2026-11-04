@@ -15,9 +15,5 @@ export function zooWaterlife(scale=1){
 
 // Native waterfall appearance and all eighteen streaks; only a uniform changes.
 export function* zooWaterfallSteps(...args){
- const g=yield*waterfallSteps(...args),clock={value:0},height=args[3]||4;
- const lines=g.children.find(c=>c.isInstancedMesh),sheet=g.children.find(c=>c.isMesh&&!c.isInstancedMesh&&c.geometry.type==='PlaneGeometry');
- lines.material.onBeforeCompile=s=>{s.uniforms.uZooFallTime=clock;s.vertexShader='uniform float uZooFallTime;\n'+s.vertexShader.replace('#include <project_vertex>',`vec4 point=instanceMatrix*vec4(transformed,1.);point.y=${height/2}-mod(${height/2}-point.y+uZooFallTime*2.1,${height.toFixed(4)});vec4 mvPosition=modelViewMatrix*point;gl_Position=projectionMatrix*mvPosition;`);};
- lines.material.customProgramCacheKey=()=> 'zoo-fall-fixed-'+height;
- g.userData.update=(t,reduced=false)=>{clock.value=reduced?0:t;advanceWater(sheet.material,t,reduced);};return g;
+ return yield*waterfallSteps(...args);
 }
