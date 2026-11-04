@@ -1278,7 +1278,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
           old?.userData.lowOnly &&
           desiredDistance < Math.max(110, (b.radius || 12) * 7,b.magicFarm?islandOverviewDistance(b.radius,camera.fov,camera.aspect)*1.1:0) &&
           Math.hypot(b.center[0] - desiredLook.x, b.center[1] - desiredLook.z) <
-            (["jobcity","homestead"].includes(b.id) || b.waterpark || b.magicFarm ? b.radius + 10 : 40) && (!b.magicFarm||focused===b.id)
+            (["jobcity","homestead","autumn"].includes(b.id) || b.waterpark || b.magicFarm ? b.radius + 10 : 40) && (!b.magicFarm||focused===b.id)
         ) {
           const snapshot = () => [
             game.placements.filter((p) => p.biome === id),
@@ -3852,7 +3852,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
           (b.id === HOUSING_ID
             ? island.userData.near(look)
             : Math.hypot(b.center[0] - look.x, b.center[1] - look.z) <
-              (["jobcity","homestead"].includes(b.id) || b.waterpark || b.magicFarm ? b.radius + 10 : 39)) && (!b.magicFarm||focused===b.id);
+              (["jobcity","homestead","autumn"].includes(b.id) || b.waterpark || b.magicFarm ? b.radius + 10 : 39)) && (!b.magicFarm||focused===b.id);
       island.userData.detail.visible = close && !island.userData.lowOnly;
       island.userData.lowDetail.visible = !close || !!island.userData.lowOnly;
       if (close) ensureDetail(b.id);
