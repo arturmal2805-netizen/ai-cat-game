@@ -23,7 +23,7 @@ Water still uses two field samples plus one scenery lookup; bottom lighting
 still uses two original field samples. No new texture/render target, geometry,
 per-frame matrix upload or reflection pass is introduced. The refreshed eight
 256-square probes total 882,441 download bytes and retain the original 2.67 MiB
-mipmapped allocation. Twenty-four focused tests passed. The final eight-model gallery passed 32 native seated/landing poses, 16 phone views and 24 exact native/static colour comparisons (zero changed bytes). Draw/triangle/channel/outlet counts are unchanged. All eight 960×640 shop previews and the production build were regenerated. Native phone/SQLite rides, every-island cameras and the complete suite follow before publication.
+mipmapped allocation. Twenty-four focused tests passed. The final eight-model gallery passed 32 native seated/landing poses, 16 phone views and 24 exact native/static colour comparisons (zero changed bytes). Draw/triangle/channel/outlet counts are unchanged. All eight 960×640 shop previews and the production build were regenerated. The final full suite passed 935/935 tests. The real phone/SQLite app audit passed eight purchases, eight native rides and returns, both camera modes and three saved-world reloads, with no browser or HTTP errors. All 19 islands passed 21 native orbit/zoom views, including returns to Moon Garden and the zoo, with 115 NPCs and original DPR 2. No browser, HTTP or context-loss errors occurred. These software-renderer diagnostics do not establish M2/iPhone FPS.
 
 All eight complete geometry/index/attribute/instance buffers and model framing
 match the approved release byte-for-byte. The retained original baseline
@@ -37,3 +37,8 @@ retained cat textures: they are not a comparable water-only memory metric.
 The field/sampler identities are checked directly by focused tests. Geometry
 proof can be reproduced with Node 22 and
 `scripts/snapshot-showcase-buffers.mjs CHECKOUT OUTPUT.json`.
+
+Node 22 production output matches the tested app/entry/model manifest exactly
+(`542e41f4cec9b545` app digest); the Node 22 Wrangler dry run passed.
+All five zoo model payloads match the approved published hashes, and all three
+native cat model payloads match the tested checkout byte-for-byte.
