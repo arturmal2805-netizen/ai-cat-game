@@ -48,7 +48,7 @@ export function* lagoonSteps({
   yield;
   // A colored basin gives the clear water depth without a depth texture or
   // another render pass. Keep the authored sand/pink palette at the shore.
-  const bedGeometry = bedHeight ? new THREE.RingGeometry(0,1,96,24) : new THREE.CircleGeometry(1, 64),
+  const bedGeometry = bedHeight ? new THREE.RingGeometry(0,1,192,96) : new THREE.CircleGeometry(1, 64),
     bedPositions = bedGeometry.getAttribute("position"),
     bedColors = new Float32Array(bedPositions.count * 3),
     sand = new THREE.Color(bedColor),

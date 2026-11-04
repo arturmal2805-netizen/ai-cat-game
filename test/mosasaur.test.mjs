@@ -45,10 +45,10 @@ import {
 } from "../public/cat-model.js";
 import { createChichiCamera } from "../public/chichi-camera.js";
 const now = Date.UTC(2026, 9, 17);
-test("only the mosasaur pond expands to four times its previous water area; level eight unlocks it and previous ownership remains", () => {
+test("only the mosasaur pond expands to five times its released horizontal dimensions; level eight unlocks it and previous ownership remains", () => {
   assert.equal(byBiome("autumn").requiredLevel, 8);
   assert.equal(BIOMES.length, 18);
-  assert.equal(MOSA_SEA.rx*MOSA_SEA.rz/(21*20),4);
+  assert.equal(MOSA_SEA.rx*MOSA_SEA.rz/(21*20),25);
   assert.deepEqual(
     BIOMES.filter(
       (b) =>
@@ -378,7 +378,7 @@ test("shore walking stays dry and migrated paid plots preserve every ID, deadlin
     assert.ok((p.x/MOSA_SEA.rx)**2+(p.z/MOSA_SEA.rz)**2>=1 || (Math.abs(p.x)<=1.1&&p.z>=9.8));
   }
   for (let i = 0; i <= 100; i++) {
-    const p = mosasaurApproach([45, 0, 0], mosasaurFrame(0).position, i / 100);
+    const p = mosasaurApproach([108, 0, 0], mosasaurFrame(0).position, i / 100);
     if(i<85)assert.ok((p[0]/MOSA_SEA.rx)**2+(p[2]/MOSA_SEA.rz)**2>=1 || (Math.abs(p[0])<=1.1&&p[2]>=9.8));
   }
   const g = newGame(now);

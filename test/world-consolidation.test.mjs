@@ -16,8 +16,10 @@ test('exactly the thirteen requested islands disappear and every remaining theme
  assert.deepEqual(before.filter(b=>!byBiome(b.id)).map(b=>b.id).sort(),RETIRED_BIOME_IDS.filter(id=>!id.startsWith('farm-')).sort());
  for(const old of before.filter(b=>!isRetiredBiome(b.id))){
   const {center:oc,radius:or,...oldTheme}=old,{center:nc,radius:nr,...newTheme}=byBiome(old.id);
-  assert.deepEqual(newTheme,oldTheme);
+  if(old.id==='autumn'){const {arrival:oa,...ot}=oldTheme,{arrival:na,...nt}=newTheme;assert.deepEqual(nt,ot);assert.deepEqual(na,[0,103]);}
+  else assert.deepEqual(newTheme,oldTheme);
   if(old.id==='homestead')assert.ok(Math.abs(nr*nr/(or*or)-3)<1e-12);
+  else if(old.id==='autumn')assert.ok(Math.abs(nr/or-5)<1e-12);
   else assert.equal(nr,or);
  }
  for(let i=0;i<BIOMES.length;i++)for(const b of BIOMES.slice(i+1)){
@@ -29,7 +31,7 @@ test('all seventeen islands have wide unobstructed shore roads, with no retired 
  for(const r of roads){assert.ok(seen.has(r.from));assert.ok(!seen.has(r.to));seen.add(r.to);
   assert.ok(byBiome(r.from)&&byBiome(r.to));assert.notEqual(r.from,'aquarium');
   if(r.to==='aquarium')assert.ok(r.end.z>byBiome('aquarium').center[1]+25,'cars arrive at the actual front gate');
-  assert.ok(Math.hypot(r.start.x-r.end.x,r.start.z-r.end.z)<(r.to==='atoll-park'?70:30));
+  assert.ok(Math.hypot(r.start.x-r.end.x,r.start.z-r.end.z)<(r.to==='atoll-park'?70:r.to==='autumn'?140:45));
  }
  assert.equal(seen.size,18);
 });

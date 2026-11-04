@@ -1,3 +1,4 @@
+import {MOSA_RADIUS} from './mosasaur-data.js';
 import { BIOMES, RETIRED_BIOMES, byItem, biomeReservations } from "./game-data.js";
 import {magicFarm,magicFarmLayout} from './magic-farms-data.js';
 
@@ -313,8 +314,8 @@ function buildInitialScenery(placements) {
         candidates.length,
         ...Array.from({ length: 8 }, (_, i) => ({
           type: i % 3 === 0 ? "scenery-boulder" : "scenery-tree-palm",
-          x: Math.sin(0.45 + i * 0.78) * 25,
-          z: Math.cos(0.45 + i * 0.78) * 25,
+          x: Math.sin(0.45 + i * 0.78) * (MOSA_RADIUS-4),
+          z: Math.cos(0.45 + i * 0.78) * (MOSA_RADIUS-4),
           scale: 0.8 + (i % 3) * 0.14,
         })),
       );

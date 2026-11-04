@@ -1,3 +1,4 @@
+import {mosaTerrainSteps} from './mosasaur-terrain.js';
 import {retainedMosaLand} from './mosasaur-retained-land.js';
 import { deepOceanSteps } from "./mosasaur-ocean.js";
 import { createGroundCover, placementClearance } from "./landscape-detail.js";
@@ -74,7 +75,7 @@ export function* mosasaurBiomeSteps(
     sceneryObjects,
     style: BIOME_STYLES.autumn,
     stats: { fishCount: lowOnly ? 0 : 48, staticMeshes: 0, sourceMeshes: 0 },
-    ocean: { depth: MOSA_DEPTH, areaMultiplier: 4, waterArea: Math.PI*MOSA_SEA.rx*MOSA_SEA.rz },
+    ocean: { depth: MOSA_DEPTH, areaMultiplier: 25, waterArea: Math.PI*MOSA_SEA.rx*MOSA_SEA.rz },
   };
   const shore = new THREE.Mesh(
     shoreGeometry(),
@@ -118,7 +119,7 @@ export function* mosasaurBiomeSteps(
     new THREE.CylinderGeometry(
       MOSA_RADIUS - 0.1,
       MOSA_RADIUS - 3,
-      34,
+      MOSA_DEPTH+3,
       48,
       6,
       true,
@@ -137,7 +138,7 @@ export function* mosasaurBiomeSteps(
       y = cliffPositions.getY(i),
       z = cliffPositions.getZ(i),
       a = Math.atan2(x, z),
-      t = (17 - y) / 34;
+      t = ((MOSA_DEPTH+3)/2 - y) / (MOSA_DEPTH+3);
     const noise =
       (Math.sin(a * 7 + t * 3) + Math.cos(a * 11 - t * 5)) *
       0.055 *
@@ -158,17 +159,17 @@ export function* mosasaurBiomeSteps(
   cliff.material.color.set(0xffffff);
   cliff.material.vertexColors = true;
   cliff.material.flatShading = true;
-  cliff.position.y = -17.15;
+  cliff.position.y = -(MOSA_DEPTH+3)/2-.15;
   base.add(cliff);
   const bottom = shape(
     base,
     "cone",
     0x828c99,
     0,
-    -43.5,
+    -MOSA_DEPTH-12,
     0,
     MOSA_RADIUS - 3,
-    20,
+    24,
     MOSA_RADIUS - 3,
   );
   bottom.rotation.z = Math.PI;
@@ -193,6 +194,7 @@ export function* mosasaurBiomeSteps(
   base.add(sea);
   animations.push(sea);
   if (!lowOnly) {
+    const terrain=yield* mosaTerrainSteps();detail.add(terrain);animations.push(terrain);root.userData.ocean.terrain=terrain;
     const depths = yield* deepOceanSteps();
     detail.add(depths);
     animations.push(depths);
@@ -276,8 +278,8 @@ export function* mosasaurBiomeSteps(
       );
       patch.rotation.y = a;
     }
-    for (let i = 0; i < 6; i++) {
-      const a = 0.6 + i * 1.05,
+    for (let i = 0; i < 30; i++) {
+      const a = .6+i*Math.PI*2/30,
         g = new THREE.Group();
       g.position.set(Math.sin(a) * (MOSA_SEA.rx+5), 0, Math.cos(a) * (MOSA_SEA.rz+5));
       g.rotation.y = a;
@@ -342,9 +344,9 @@ export function* mosasaurBiomeSteps(
       clouds,
       "sphere",
       0xe1e7f6,
-      Math.sin(a) * 24,
-      -49 - (i % 4) * 1.4,
-      Math.cos(a) * 24,
+      Math.sin(a) * (MOSA_RADIUS*.8),
+      -MOSA_DEPTH-26 - (i % 4) * 1.4,
+      Math.cos(a) * (MOSA_RADIUS*.8),
       7 + (i % 3),
       1.4,
       4.8,

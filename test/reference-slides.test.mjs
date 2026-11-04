@@ -67,7 +67,7 @@ test("exactly 25 independent reference cards map the 5 by 5 grid and preserve ev
       ),
       BIOMES: BIOMES.filter((b) => !["jobcity", "cat-homes", "atoll-park"].includes(b.id)),
     }),
-    "8a7fac96a66984cd80fb41ae3fd8995e9ff591b0b3fd2000867e0d50e3fdecf8",
+    "176911320fa0321fb9735abb1d2bd4e53540265eb1f50ea86279bad3d2b0e716",
   );
   for (const [i, s] of REFERENCE_SLIDES.entries()) {
     assert.deepEqual(s.referenceCell, {
