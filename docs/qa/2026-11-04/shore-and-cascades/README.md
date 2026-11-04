@@ -42,3 +42,11 @@ Node 22 production output matches the tested app/entry/model manifest exactly
 (`542e41f4cec9b545` app digest); the Node 22 Wrangler dry run passed.
 All five zoo model payloads match the approved published hashes, and all three
 native cat model payloads match the tested checkout byte-for-byte.
+
+Published `6a74662b4a6037663c818b1f586c829ce7992fb6` in GitHub Actions run
+[41800385102](https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/41800385102):
+test, Cloudflare deployment and Pages all succeeded. Both public sites serve
+the exact tested app, zoo models/materials and all eight actual 960×640 water
+previews. All 22 surface/probe files match local bytes, retired preview URLs
+return 404, and the deployed Worker reports the same release with cloud saves
+enabled. Post-publication evidence is recorded on the feature branch only.
