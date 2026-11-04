@@ -34,6 +34,7 @@ export function fishLocalVertex(position,part,frame,out=new T.Vector3()){
  if(angle){const x=out.x-px,z=out.z-pz,c=Math.cos(angle),s=Math.sin(angle);out.x=x*c+z*s+px;out.z=-x*s+z*c+pz;}
  out.applyAxisAngle(new T.Vector3(0,0,1),frame.roll).applyAxisAngle(new T.Vector3(0,1,0),frame.yaw).multiplyScalar(frame.scale);out.x+=frame.x;out.y+=frame.y;out.z+=frame.z;return out;
 }
+export function fishLocalNormal(normal,part,frame,out=new T.Vector3()){const angle=part===1?frame.tail:part===2?-frame.fin:part===3?frame.fin:0;return out.copy(normal).applyAxisAngle(new T.Vector3(0,1,0),angle).applyAxisAngle(new T.Vector3(0,0,1),frame.roll).applyAxisAngle(new T.Vector3(0,1,0),frame.yaw).normalize();}
 export function createMosaFish({deep=false}={}){
  const root=new T.Group(),hits={value:Array.from({length:6},()=>new T.Vector4())},hitCount={value:0},states=mosaFishStates(deep),geometry=fishGeometry(),clock={value:0},motion={value:1},mesh=new T.InstancedMesh(geometry,new T.MeshStandardMaterial({color:0xffffff,vertexColors:true,roughness:.38,side:T.DoubleSide}),states.length),params=[],orbit=[],tints=[];
  root.name=deep?'Detailed deep tropical fish schools':'Cute tropical lagoon fish';
@@ -53,7 +54,7 @@ export function createMosaFish({deep=false}={}){
    .replace('#include <begin_vertex>',`#include <begin_vertex>
     transformed=fishRotation*(position-pivot)+turnFish(yaw)*rollFish(roll)*pivot;
     transformed*=aFishParams.w;vec3 fishCentre=vec3(cos(a)*aFishOrbit.x*aFishParams.y,aFishOrbit.z+sin(a*2.)*.025,sin(a)*aFishOrbit.y*aFishParams.y);transformed+=fishCentre;
-    for(int h=0;h<6;h++){if(h>=uFishHitCount)break;float age=uMosaFishTime-uFishHits[h].z;vec2 delta=fishCentre.xz-uFishHits[h].xy;float dist=length(delta);if(age>=0.&&age<2.&&dist<1.1){vec2 push=delta/max(dist,.001)*(1.1-dist)*.22*(1.-age/2.)*uMosaFishMotion;transformed.xz+=push;fishCentre.xz+=push;}}
+    for(int h=0;h<6;h++){if(h>=uFishHitCount)break;float age=uMosaFishTime-uFishHits[h].z;vec2 delta=fishCentre.xz-uFishHits[h].xy;float dist=length(delta);if(age>=0.&&age<2.&&dist<1.1){vec2 push=delta/(dist>0.?dist:1.)*(1.1-dist)*.22*(1.-age/2.)*uMosaFishMotion;transformed.xz+=push;fishCentre.xz+=push;}}
     vFishTint=aFishTint;vFishLocal=position;vFishCoat=aFishCoat;vFishGloss=aFishGloss;vFishPattern=aFishOrbit.w;`);
   shader.fragmentShader='varying vec3 vFishTint;varying vec3 vFishLocal;varying float vFishCoat;varying float vFishGloss;varying float vFishPattern;\n'+shader.fragmentShader.replace('#include <color_fragment>',`#include <color_fragment>
    float bands=smoothstep(.30,.48,abs(sin(vFishLocal.z*38.)));
