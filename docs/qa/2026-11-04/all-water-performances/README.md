@@ -66,3 +66,12 @@ checks (8 unique rides) and 9 SQLite reloads across three private worlds.
 Final source freeze: 948/948 local tests pass; animation/route/save checks pass
 27 tests and camera/loading/timing checks pass 17 tests. The exact tested app
 entry is `./dist/app.js?v=64eb9cc33bd161c6`.
+
+
+Published `a1161c5d23106a58009e3d3d61385445c09c9ba0` in
+[Actions run 41872130836](https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/41872130836).
+All three jobs passed. Both live sites serve the exact tested app
+`64eb9cc33bd161c6`, original native zoo payloads/materials, all eight previews
+and 22 shared surface/probe files. The Worker reports the same release with
+cloud saves enabled; retired previews remain 404. Post-publication evidence is
+stored only on the feature branch, without another production deployment.
