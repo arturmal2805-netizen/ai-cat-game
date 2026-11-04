@@ -921,3 +921,14 @@ Bottom caustics may attenuate with physical immersion, while raised river
 sheets use their .23-metre trough layer rather than a global sea level. Keep
 the native projection/refraction, fixed buffers, original field counts and
 the approved blue depth. Shore foam must not become a uniform bright ring.
+
+River/canyon troughs keep a solid bed overlapping the eroded bank toes. Never
+apply exposed-ledge erosion to that submerged inner seam. Validate actual wet
+edge rays and the full strip to the bank on both sides, including switchbacks;
+preserve the original wet width, route, buffer counts and occupied clearance.
+The authored activity phase must override a spline sample's generic `ride`
+label, otherwise rafting/drop/boost/float choreography is silently disabled.
+Water-adventure performances use shared immutable tables (at most 512 intervals)
+sampled from native measured motion; playing, pausing and seeking only interpolate
+them, without route reevaluation or per-rider timers. Retain individual passenger
+gestures, common boat motion, native paw/deck clearance and reduced-motion reset.
