@@ -212,6 +212,8 @@ import {
   yieldSceneTask,
 } from "./scene-tasks.js";
 import { createBiomeScene, prepareBiomeScene } from "./biome-scenes.js";
+import {prepareMosasaurModels} from './mosasaur-model-cache.js';
+import {mosasaurRideSteps} from './mosasaur-assets.js';
 import { createBowlModel } from "./care-model.js";
 import { bowlPortions } from "./care-system.js";
 import { encounterKind } from "./social-system.js";
@@ -1836,23 +1838,23 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       )
         continue;
       if (
-        (courtObject(o.id) || jobBusiness(o.id)) &&
+        (courtObject(o.id) || jobBusiness(o.id) || o.type==='ride-mosasaur') &&
         built &&
         !courtModels.has(o.id) &&
         !existing?.userData.built
       ) {
         if (!courtPreparing.has(o.id)) {
-          const task = prepareSceneSteps(
-            jobBusiness(o.id)
+          const task = (o.type==='ride-mosasaur'?prepareMosasaurModels():Promise.resolve()).then(()=>prepareSceneSteps(
+            o.type==='ride-mosasaur'?mosasaurRideSteps(o.type):jobBusiness(o.id)
               ? jobBuildingSteps(o.id)
               : courtVenueSteps(courtObject(o.id), {
                   staff: !courtObject(o.id).nautical,
                 }),
             {
               scheduler: scenePreparation,
-              priority: jobBusiness(o.id) ? "jobcity" : courtObject(o.id)?.kind === "zoo" ? ZOO_ID : "foodcourt",
+              priority: o.type==='ride-mosasaur'?'autumn':jobBusiness(o.id) ? "jobcity" : courtObject(o.id)?.kind === "zoo" ? ZOO_ID : "foodcourt",
             },
-          );
+          ));
           courtPreparing.set(o.id, task);
           task
             .then((g) => {
@@ -1889,7 +1891,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
           if(id!=='chichi'&&Math.hypot(chichiCarrier.position.x-farm.center[0],chichiCarrier.position.z-farm.center[1])<farm.radius)actor('chichi',chichiCarrier.position,spaRadius(cat));
           return actors;
         }});
-      }else if (jobBusiness(o.id)) {
+      }else if (jobBusiness(o.id)||o.type==='ride-mosasaur') {
         g = courtModels.get(o.id);
         courtModels.delete(o.id);
       } else if (courtObject(o.id)) {
@@ -2525,7 +2527,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
         operation.attraction.userData.releasePlay?.(chichiCarrier);
         operation.attraction.userData.playing = false;
         delete operation.attraction.userData.heroPlayPos;
-        releaseSlide(operation.attraction, "chichi");
+        releaseSlide(operation.attraction, "chichi");operation.attraction.userData.releaseRide?.("chichi");
         if (!operation.attraction.userData.slideRiders?.size)
           delete operation.attraction.userData.rideElapsed;
         if (
@@ -2769,6 +2771,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
         chillBiome.center[1] + CHILL_GATE.z,
       );
     return new Promise((resolve) => {
+      if(decision.action==='ride')attraction?.userData.prepareRide?.("chichi");
       operation = {
         court: courtTarget,
         chill: chillTarget,
@@ -3081,7 +3084,14 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     for (const actor of friendActors)
       if (actor.carrier.visible && actor.profile.id !== draggingCat?.catId)
         prepareCatPicking(actor.model || cat);
-    const hit = raycaster.intersectObjects([...targets.keys()], true)[0];
+    const hits = raycaster.intersectObjects([...targets.keys()], true);
+    let hit=hits[0];
+    const hitRoot=h=>{let node=h?.object;while(node&&!targets.has(node))node=node.parent;return node;};
+    // The lagoon's invisible interaction plane must not cover an animal that
+    // is actually visible through its clear water. Opaque objects retain their
+    // ordinary nearest-hit selection.
+    const firstRoot=hitRoot(hit);
+    if(firstRoot?.userData.id==='swim-lagoon')hit=hits.find(h=>hitRoot(h)?.userData.deepRide)||hit;
     let meshSelection = null;
     if (hit) {
       let node = hit.object;
@@ -3433,7 +3443,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
         pendingTap = true;
       }
       if (moved) {
-        if (selection && !selection.unavailable) {
+        if (selection && !selection.unavailable&&!itemGroups.get(selection.activityId)?.userData.deepRide) {
           point.y = 0.16;
           chichiCarrier.position.copy(point);
         }
@@ -5533,7 +5543,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
             chichiCarrier.position.copy(op.dismount || op.destination);
           g?.userData.releasePlay?.(chichiCarrier);
           g?.userData.releaseHarvest?.('chichi');
-          releaseSlide(g, "chichi");
+          releaseSlide(g, "chichi");g?.userData.releaseRide?.("chichi");
           if (g && !g.userData.slideRiders?.size) delete g.userData.rideElapsed;
           if (
             g?.userData.deepRide &&

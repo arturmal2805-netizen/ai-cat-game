@@ -1,5 +1,6 @@
 import {createMosaFish} from './mosasaur-fish.js';
 import {mosaCoralSteps} from './mosasaur-corals.js';
+import {mosaMarineLifeSteps} from './mosasaur-marine-life.js';
 import * as THREE from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { applyUnderwaterLighting } from "./water-shading.js";
@@ -54,6 +55,7 @@ export function* deepOceanSteps() {
   });
   yield;
   const coralGardens=yield* mosaCoralSteps();root.add(coralGardens);
+  const marineLife=yield* mosaMarineLifeSteps();root.add(marineLife);
   const positions = [],
     uv = [],
     indices = [];
@@ -109,6 +111,7 @@ export function* deepOceanSteps() {
   root.userData.update = (time, reduced = false) => {
     clock.value = reduced ? 0 : time;
     coralGardens.userData.update(time,reduced);
+    marineLife.userData.update(time,reduced);
     fish.userData.update(time,reduced);
   };
   return root;

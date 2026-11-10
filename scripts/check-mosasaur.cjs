@@ -209,11 +209,12 @@ async function localWorker() {
         n.manualAnchor = n.carrier.position.clone();
         n.manualUntil = performance.now() + 1e7;
       }
-      const b=q.islands.get('autumn');q.reviewView(b.position.x,b.position.z+14,48);
+      const b=q.islands.get('autumn');q.reviewView(b.position.x,b.position.z+10,100);
     });
     await page.waitForFunction(
-      () => Math.abs(__lagoonQA.getDistance() - 48) < 0.2,
+      () => Math.abs(__lagoonQA.getDistance() - 100) < 0.2,
     );
+    assert.equal(await page.evaluate(()=>__lagoonQA.itemGroups.get('island-mosasaur').userData.body.geometry.userData.marinePrebaked),true,'the actual phone loads the packed sculpt instead of reconstructing it');
     console.log(
       "Mobile world initialized with a level-eight island and private cloud save.",
     );
@@ -243,6 +244,7 @@ async function localWorker() {
       };
     });
     console.log("Touch points", points);
+    await page.evaluate(()=>{const q=__lagoonQA;q.pointer({clientX:0,clientY:0});});
     await cdp.send("Input.dispatchTouchEvent", {
       type: "touchStart",
       touchPoints: [points.from],
@@ -258,6 +260,7 @@ async function localWorker() {
         ],
       });
     assert.equal(await page.evaluate(() => __lagoonQA.getDragging()), "chichi");
+    console.log('Native drop target',await page.evaluate(p=>{const q=__lagoonQA,e={clientX:p.x,clientY:p.y,pointerType:'touch'};q.pointer(e);const point=new q.THREE.Vector3();q.raycaster.ray.intersectPlane(q.ground,point);return q.pickDrop(e,point);},points.to));
     await cdp.send("Input.dispatchTouchEvent", {
       type: "touchEnd",
       touchPoints: [],
@@ -266,7 +269,7 @@ async function localWorker() {
       () =>
         __lagoonQA.getOperation()?.decision.activityId === "island-mosasaur",
     );
-    await page.evaluate(() => (__lagoonQA.getOperation().start -= 20000));
+    await page.evaluate(() => (__lagoonQA.getOperation().start -= __lagoonQA.getOperation().duration+50));
     await page.waitForFunction(
       () => __lagoonQA.getOperation()?.stage === "activity",
     );
@@ -392,7 +395,7 @@ async function localWorker() {
     );
     await page.waitForFunction((id) => __lagoonQA.residentPlay.get(id), npcId);
     await page.evaluate(
-      (id) => (__lagoonQA.residentPlay.get(id).started -= 20000),
+      (id) => (__lagoonQA.residentPlay.get(id).started -= __lagoonQA.residentPlay.get(id).travel+50),
       npcId,
     );
     await page.waitForFunction(
@@ -426,12 +429,13 @@ async function localWorker() {
       { id: npcId, capture },
     );
     await page.waitForFunction(
-      () =>
-        __lagoonQA.itemGroups.get("island-mosasaur").userData.phase ===
-        "boarding",
+      () => {
+        const m=__lagoonQA.itemGroups.get('island-mosasaur');
+        return m.userData.rideElapsed===undefined&&!!m.userData.poseFrame?.state;
+      },
     );
     await page.waitForFunction(
-      () => Math.abs(__lagoonQA.getDistance() - 160) < 0.2,
+      () => Math.abs(__lagoonQA.getDistance() - __lagoonQA.getDesiredDistance()) < 0.2,
     );
     if (capture)
       await page.screenshot({

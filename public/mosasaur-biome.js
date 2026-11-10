@@ -1,3 +1,4 @@
+import {mosaCoastGardenSteps} from './mosasaur-coast-garden.js';
 import {mosaTerrainSteps} from './mosasaur-terrain.js';
 import {createMosaFish} from './mosasaur-fish.js';
 import {retainedMosaLand} from './mosasaur-retained-land.js';
@@ -11,6 +12,8 @@ import {
   MOSA_DEPTH,
   MOSA_SHORE_GATE,
   mosaBedY,
+  mosaCoastFactor,
+  mosaWaterRadius,
   mosaReservations,
 } from "./mosasaur-data.js";
 import { lagoonSteps, waterfallSteps } from "./lagoon.js";
@@ -29,11 +32,12 @@ import {
 } from "./scenery-models.js";
 import { BIOME_STYLES } from "./biome-styles.js";
 import { junglePalmSteps, jungleFlowers } from "./jungle-props.js";
+function coastPath(path,margin=0){for(let i=0;i<=192;i++){const a=i*Math.PI*2/192,f=mosaCoastFactor(a),x=Math.cos(a)*(MOSA_SEA.rx*f+margin),y=-Math.sin(a)*(MOSA_SEA.rz*f+margin);if(i===0)path.moveTo(x,y);else path.lineTo(x,y);}path.closePath();return path;}
 function shoreGeometry() {
   const shape = new THREE.Shape();
   shape.absarc(0, 0, MOSA_RADIUS, 0, Math.PI * 2, false);
   const hole = new THREE.Path();
-  hole.absellipse(0, 0, MOSA_SEA.rx, MOSA_SEA.rz, 0, Math.PI * 2, true);
+  coastPath(hole);
   shape.holes.push(hole);
   const geo = new THREE.ExtrudeGeometry(shape, {
     depth: 0.3,
@@ -83,7 +87,7 @@ export function* mosasaurBiomeSteps(
     new THREE.MeshStandardMaterial({
       color: 0xa4bf80,
       roughness: 0.92,
-      map: surfaceTexture("ground"),
+      map: surfaceTexture("lawn"),
     }),
   );
   const navigation = new THREE.Group();navigation.name='Dry shore, original pier and retained owned plots';
@@ -92,9 +96,9 @@ export function* mosasaurBiomeSteps(
   shore.receiveShadow = true;
   navigation.add(shore);
   const beachOutline = new THREE.Shape();
-  beachOutline.absellipse(0, 0, MOSA_SEA.rx+2, MOSA_SEA.rz+2, 0, Math.PI * 2, false);
+  coastPath(beachOutline,3.7);
   const beachHole = new THREE.Path();
-  beachHole.absellipse(0, 0, MOSA_SEA.rx, MOSA_SEA.rz, 0, Math.PI * 2, true);
+  coastPath(beachHole);
   beachOutline.holes.push(beachHole);
   const sandGeometry = new THREE.ShapeGeometry(beachOutline, 64);
   sandGeometry.rotateX(-Math.PI / 2);
@@ -182,9 +186,11 @@ export function* mosasaurBiomeSteps(
     rz: MOSA_SEA.rz,
     depth: MOSA_DEPTH,
     bedHeight:mosaBedY,
+    bedResolution:lowOnly?[96,48]:[256,160],
+    coastFactor:mosaCoastFactor,
     fishCount: 0,
     color: 0x12bed8,
-    bedColor: 0x69b8d5,
+    bedColor: 0xc8d5bb,
     wallColor: 0x69adbf,
     shoreColor: 0xb8efff,
   });
@@ -195,6 +201,7 @@ export function* mosasaurBiomeSteps(
   base.add(sea);
   animations.push(sea);
   if (!lowOnly) {
+    const coastline=yield* mosaCoastGardenSteps(placements);detail.add(coastline);animations.push(coastline);root.userData.ocean.coastline=coastline;
     const terrain=yield* mosaTerrainSteps();detail.add(terrain);animations.push(terrain);root.userData.ocean.terrain=terrain;
     const fish=createMosaFish();sea.add(fish);animations.push(fish);sea.userData.fishCount=48;sea.userData.tropicalFish=fish;const disturb=sea.userData.disturb;sea.userData.disturb=(...args)=>{disturb(...args);fish.userData.disturb(...args);};
     const depths = yield* deepOceanSteps();
@@ -279,17 +286,6 @@ export function* mosasaurBiomeSteps(
         2.1,
       );
       patch.rotation.y = a;
-    }
-    for (let i = 0; i < 30; i++) {
-      const a = .6+i*Math.PI*2/30,
-        g = new THREE.Group();
-      g.position.set(Math.sin(a) * (MOSA_SEA.rx+5), 0, Math.cos(a) * (MOSA_SEA.rz+5));
-      g.rotation.y = a;
-      yield* junglePalmSteps(gardens, false, i % 3);
-      const palm = gardens.children.at(-1);
-      palm.position.copy(g.position);
-      palm.rotation.y = a;
-      yield;
     }
     for (let i = 0; i < 100; i++) {
       yield;
@@ -408,7 +404,7 @@ export function* mosasaurBiomeSteps(
       density: 0.8,
       clearance: (x, z, w, d) =>
         clear(x, z, w, d) &&
-        Math.hypot(x / (MOSA_SEA.rx+2.3), z / (MOSA_SEA.rz+2.3)) > 1 &&
+        mosaWaterRadius(x,z)>1.045 &&
         !(Math.abs(x) < 2 && z > 18),
     });
     detail.add(cover);

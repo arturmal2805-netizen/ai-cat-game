@@ -84,7 +84,7 @@ export function createResidentPlay({
       resetYarn(v.object);
       v.object.userData.playing = false;
       delete v.object.userData.heroPlayPos;
-      releaseSlide(v.object, id);
+      releaseSlide(v.object, id);v.object.userData.releaseRide?.(id);
       if (!v.object.userData.slideRiders?.size)
         delete v.object.userData.rideElapsed;
     }
@@ -164,6 +164,7 @@ export function createResidentPlay({
               destination,
               object?.userData.placement?.biome || n.profile.biome,
             );
+    if(decision.action==='ride')object?.userData.prepareRide?.(id);
     const v = {
       id,
       rider,

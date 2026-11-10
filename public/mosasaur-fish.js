@@ -41,20 +41,25 @@ export function createMosaFish({deep=false}={}){
  const colors=[0xffbf54,0x5adce8,0xf39fcb,0x96dfb1,0xaaa1ec,0xffedb1];
  states.forEach((p,i)=>{mesh.setMatrixAt(i,new T.Matrix4());params.push(p.phase,p.radius,p.speed,p.scale);orbit.push(p.rx,p.rz,p.depth,i%3);const c=new T.Color(colors[i%colors.length]);tints.push(c.r,c.g,c.b);});
  geometry.setAttribute('aFishParams',new T.InstancedBufferAttribute(new Float32Array(params),4));geometry.setAttribute('aFishOrbit',new T.InstancedBufferAttribute(new Float32Array(orbit),4));geometry.setAttribute('aFishTint',new T.InstancedBufferAttribute(new Float32Array(tints),3));mesh.instanceMatrix.needsUpdate=true;
- const declarations=`uniform float uMosaFishTime;uniform float uMosaFishMotion;uniform vec4 uFishHits[6];uniform int uFishHitCount;attribute vec4 aFishParams;attribute vec4 aFishOrbit;attribute vec3 aFishTint;attribute float aFishPart;attribute float aFishCoat;attribute float aFishGloss;varying vec3 vFishTint;varying vec3 vFishLocal;varying float vFishCoat;varying float vFishGloss;varying float vFishPattern;
+ const poseRows={value:new Float32Array(states.length*4)},headingRows={value:new Float32Array(states.length*4)},limbRows={value:new Float32Array(states.length*4)},frames=states.map(()=>({}));
+ function populate(){for(let i=0;i<states.length;i++){const f=mosaFishFrame(states[i],clock.value,!motion.value,frames[i]);for(let h=0;h<hitCount.value;h++){const p=hits.value[h],age=clock.value-p.z,dx=f.x-p.x,dz=f.z-p.y,dist=Math.hypot(dx,dz);if(age>=0&&age<2&&dist<1.1&&motion.value){const push=(1.1-dist)*.22*(1-age/2);f.x+=dx/(dist||1)*push;f.z+=dz/(dist||1)*push;}}const k=i*4;const p=poseRows.value,h=headingRows.value,l=limbRows.value;p[k]=f.x;p[k+1]=f.y;p[k+2]=f.z;p[k+3]=f.scale;h[k]=Math.cos(f.yaw);h[k+1]=Math.sin(f.yaw);h[k+2]=Math.cos(f.roll);h[k+3]=Math.sin(f.roll);l[k]=Math.cos(f.tail);l[k+1]=Math.sin(f.tail);l[k+2]=Math.cos(f.fin);l[k+3]=Math.sin(f.fin);}}
+ geometry.setAttribute('aFishId',new T.InstancedBufferAttribute(Float32Array.from({length:states.length},(_,i)=>i),1));
+ const declarations=`uniform vec4 uFishPlace[${states.length}];uniform vec4 uFishHeading[${states.length}];uniform vec4 uFishLimbs[${states.length}];attribute float aFishId;uniform float uMosaFishTime;uniform float uMosaFishMotion;uniform vec4 uFishHits[6];uniform int uFishHitCount;attribute vec4 aFishParams;attribute vec4 aFishOrbit;attribute vec3 aFishTint;attribute float aFishPart;attribute float aFishCoat;attribute float aFishGloss;varying vec3 vFishTint;varying vec3 vFishLocal;varying float vFishCoat;varying float vFishGloss;varying float vFishPattern;
  mat3 turnFish(float a){float c=cos(a),s=sin(a);return mat3(c,0.,-s,0.,1.,0.,s,0.,c);}mat3 rollFish(float a){float c=cos(a),s=sin(a);return mat3(c,s,0.,-s,c,0.,0.,0.,1.);}`;
  mesh.material.onBeforeCompile=shader=>{
-  shader.uniforms.uMosaFishTime=clock;shader.uniforms.uMosaFishMotion=motion;shader.uniforms.uFishHits=hits;shader.uniforms.uFishHitCount=hitCount;
-  shader.vertexShader=declarations+shader.vertexShader.replace('#include <beginnormal_vertex>',`#include <beginnormal_vertex>
-   float a=aFishParams.x+uMosaFishTime*aFishParams.z;float yaw=atan(-sin(a)*aFishOrbit.x,cos(a)*aFishOrbit.y);
-   float roll=sin(uMosaFishTime*.7+aFishParams.x)*.045*uMosaFishMotion;float limb=0.;vec3 pivot=vec3(0.);
-   if(aFishPart>.5&&aFishPart<1.5){limb=sin(uMosaFishTime*6.+aFishParams.x)*.35*uMosaFishMotion;pivot.z=-.23;}
-   else if(aFishPart>1.5){limb=sin(uMosaFishTime*7.+aFishParams.x)*.22*uMosaFishMotion*(aFishPart<2.5?-1.:1.);pivot=vec3(aFishPart<2.5?-.07:.07,0.,-.01);}
-   mat3 fishRotation=turnFish(yaw)*rollFish(roll)*turnFish(limb);objectNormal=fishRotation*objectNormal;`)
+  shader.uniforms.uFishPlace=poseRows;shader.uniforms.uFishHeading=headingRows;shader.uniforms.uFishLimbs=limbRows;shader.uniforms.uMosaFishTime=clock;shader.uniforms.uMosaFishMotion=motion;shader.uniforms.uFishHits=hits;shader.uniforms.uFishHitCount=hitCount;
+  shader.vertexShader=declarations+'\n'+shader.vertexShader.replace('#include <beginnormal_vertex>',`#include <beginnormal_vertex>
+   int id=int(aFishId+.5);vec4 place=uFishPlace[id],heading=uFishHeading[id],limbs=uFishLimbs[id];
+   vec2 limb=vec2(1.,0.);vec3 pivot=vec3(0.);
+   if(aFishPart>.5&&aFishPart<1.5){limb=limbs.xy;pivot.z=-.23;}
+   else if(aFishPart>1.5){limb=vec2(limbs.z,limbs.w*(aFishPart<2.5?-1.:1.));pivot=vec3(aFishPart<2.5?-.07:.07,0.,-.01);}
+   mat3 yawMatrix=mat3(heading.x,0.,-heading.y,0.,1.,0.,heading.y,0.,heading.x);
+   mat3 rollMatrix=mat3(heading.z,heading.w,0.,-heading.w,heading.z,0.,0.,0.,1.);
+   mat3 limbMatrix=mat3(limb.x,0.,-limb.y,0.,1.,0.,limb.y,0.,limb.x);
+   mat3 fishRotation=yawMatrix*rollMatrix*limbMatrix;objectNormal=fishRotation*objectNormal;`)
    .replace('#include <begin_vertex>',`#include <begin_vertex>
-    transformed=fishRotation*(position-pivot)+turnFish(yaw)*rollFish(roll)*pivot;
-    transformed*=aFishParams.w;vec3 fishCentre=vec3(cos(a)*aFishOrbit.x*aFishParams.y,aFishOrbit.z+sin(a*2.)*.025,sin(a)*aFishOrbit.y*aFishParams.y);transformed+=fishCentre;
-    for(int h=0;h<6;h++){if(h>=uFishHitCount)break;float age=uMosaFishTime-uFishHits[h].z;vec2 delta=fishCentre.xz-uFishHits[h].xy;float dist=length(delta);if(age>=0.&&age<2.&&dist<1.1){vec2 push=delta/(dist>0.?dist:1.)*(1.1-dist)*.22*(1.-age/2.)*uMosaFishMotion;transformed.xz+=push;fishCentre.xz+=push;}}
+    transformed=fishRotation*(position-pivot)+yawMatrix*rollMatrix*pivot;
+    transformed=transformed*place.w+place.xyz;
     vFishTint=aFishTint;vFishLocal=position;vFishCoat=aFishCoat;vFishGloss=aFishGloss;vFishPattern=aFishOrbit.w;`);
   shader.fragmentShader='varying vec3 vFishTint;varying vec3 vFishLocal;varying float vFishCoat;varying float vFishGloss;varying float vFishPattern;\n'+shader.fragmentShader.replace('#include <color_fragment>',`#include <color_fragment>
    float bands=smoothstep(.30,.48,abs(sin(vFishLocal.z*38.)));
@@ -62,9 +67,9 @@ export function createMosaFish({deep=false}={}){
    vec3 coat=vFishTint;if(vFishPattern<.5)coat=mix(vFishTint,vec3(.94,.98,1.),bands*.65);else if(vFishPattern>1.5)coat*=1.-freckles*.32;
    diffuseColor.rgb*=mix(vec3(1.),coat,vFishCoat);`).replace('#include <roughnessmap_fragment>','#include <roughnessmap_fragment>\nroughnessFactor=mix(roughnessFactor,.12,vFishGloss);');
  };
- mesh.material.customProgramCacheKey=()=> 'mosa-cute-fish-fixed-v1';applyUnderwaterLighting(mesh.material,clock,0x51d8f0,{level:{value:MOSA_SEA.surfaceY}});
+ mesh.material.customProgramCacheKey=()=> 'mosa-cute-fish-palette-v2-'+states.length;applyUnderwaterLighting(mesh.material,clock,0x51d8f0,{level:{value:MOSA_SEA.surfaceY}});
  const r=deep?14:Math.max(MOSA_SEA.rx,MOSA_SEA.rz)*.81+1;mesh.boundingSphere=new T.Sphere(new T.Vector3(0,deep?-15:0,0),deep?23:r);mesh.boundingBox=new T.Box3(new T.Vector3(-r,deep?-26:-1,-r),new T.Vector3(r,1,r));root.add(mesh);
- root.userData.fishCount=states.length;root.userData.mesh=mesh;root.userData.states=states;root.userData.frameAt=(i,out)=>{const frame=mosaFishFrame(states[i],clock.value,!motion.value,out);for(let h=0;h<hitCount.value;h++){const p=hits.value[h],age=clock.value-p.z,dx=frame.x-p.x,dz=frame.z-p.y,dist=Math.hypot(dx,dz);if(age>=0&&age<2&&dist<1.1&&motion.value){const push=(1.1-dist)*.22*(1-age/2);frame.x+=dx/(dist||1)*push;frame.z+=dz/(dist||1)*push;}}return frame;};
- let hitIndex=0;root.userData.disturb=(x,z,time)=>{hits.value[hitIndex++%6].set(x,z,time,1);hitCount.value=Math.min(6,hitCount.value+1);};
- root.userData.update=(t,reduced=false)=>{clock.value=reduced?0:t;motion.value=reduced?0:1;if(reduced){hitCount.value=0;hitIndex=0;}};return root;
+ root.userData.fishCount=states.length;root.userData.mesh=mesh;root.userData.states=states;root.userData.frameAt=(i,out={})=>Object.assign(out,frames[i]);root.userData.palette={poseRows,headingRows,limbRows};
+ let hitIndex=0;root.userData.disturb=(x,z,time)=>{hits.value[hitIndex++%6].set(x,z,time,1);hitCount.value=Math.min(6,hitCount.value+1);populate();};
+ root.userData.update=(t,reduced=false)=>{clock.value=reduced?0:t;motion.value=reduced?0:1;if(reduced){hitCount.value=0;hitIndex=0;}populate();};populate();return root;
 }

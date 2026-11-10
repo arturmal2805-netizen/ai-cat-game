@@ -24,7 +24,7 @@ test('existing paid shoreline objects keep IDs, addresses, tiers, deadlines and 
  assert.ok(hit.some(h=>h.point.y>-.1));assert.ok(!canPlace(seed(),'business-hotdog','autumn',24,0).ok);island.userData.dispose();
 });
 test('new outer land survives cached-client merge; genuine storage remains effective',()=>{
- let g=seed();g=placeItem(purchase(g,'business-hotdog',now),'business-hotdog','autumn',125,0,0,now);const p=g.placements.at(-1);
+ let g=seed();g=placeItem(purchase(g,'business-hotdog',now),'business-hotdog','autumn',0,130,0,now);const p=g.placements.at(-1);
  assert.deepEqual(restore(g).placements,g.placements);const dropped=structuredClone(g);dropped.placements=dropped.placements.filter(x=>x.id!==p.id);
  assert.ok(mergeSharedWorld(g,g,dropped).placements.some(x=>x.id===p.id));
  assert.ok(!mergeSharedWorld(g,g,storeItem(g,p.id)).placements.some(x=>x.id===p.id));

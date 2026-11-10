@@ -1,4 +1,5 @@
 import {waterSandTexture} from './water-sand.js';
+import {applyMosasaurBedOptics} from './mosasaur-bed-optics.js';
 import {
   LAGOON_BED_Y,
   LAGOON_SURFACE_Y,
@@ -29,6 +30,8 @@ export function* lagoonSteps({
   shoreColor = 0xb3ecff,
   depth = LEGACY_SEA_DEPTH,
   bedHeight = null,
+  coastFactor = null,
+  bedResolution = [256,160],
 } = {}) {
   yield;
   const group = new THREE.Group();
@@ -45,18 +48,21 @@ export function* lagoonSteps({
     color,
     { level: waterLevel, refract: false },
   );
+  if(bedHeight)applyMosasaurBedOptics(bedMaterial);
   yield;
   // A colored basin gives the clear water depth without a depth texture or
   // another render pass. Keep the authored sand/pink palette at the shore.
-  const bedGeometry = bedHeight ? new THREE.RingGeometry(0,1,192,96) : new THREE.CircleGeometry(1, 64),
+  const bedGeometry = bedHeight ? new THREE.RingGeometry(0,1,...bedResolution) : new THREE.CircleGeometry(1, 64),
     bedPositions = bedGeometry.getAttribute("position"),
     bedColors = new Float32Array(bedPositions.count * 3),
     sand = new THREE.Color(bedColor),
     depthColor = new THREE.Color(color).lerp(sand, 0.24);
   for (let i = 0; i < bedPositions.count; i++) {
     const radius = Math.hypot(bedPositions.getX(i), bedPositions.getY(i));
-    if(bedHeight)bedPositions.setZ(i,bedHeight(bedPositions.getX(i)*rx,-bedPositions.getY(i)*rz)-(LAGOON_SURFACE_Y-depth));
-    const shade = depthColor.clone().lerp(sand, radius * radius);
+    if(coastFactor){const factor=coastFactor(Math.atan2(-bedPositions.getY(i),bedPositions.getX(i)));bedPositions.setXY(i,bedPositions.getX(i)*factor,bedPositions.getY(i)*factor);}
+    const physicalBedY=bedHeight?bedHeight(bedPositions.getX(i)*rx,-bedPositions.getY(i)*rz):0;
+    if(bedHeight)bedPositions.setZ(i,physicalBedY-(LAGOON_SURFACE_Y-depth));
+    const shade = bedHeight ? sand.clone().lerp(depthColor,Math.min(.76,Math.max(0,(LAGOON_SURFACE_Y-physicalBedY)/100))) : depthColor.clone().lerp(sand, radius * radius);
     shade.toArray(bedColors, i * 3);
   }
   if(bedHeight)bedGeometry.computeVertexNormals();
@@ -85,6 +91,7 @@ export function* lagoonSteps({
     }),waterClock,color,{level:waterLevel,refract:false,light:false,depthFog:true}),
   );
   yield;
+  if(coastFactor){const p=wall.geometry.attributes.position;for(let i=0;i<p.count;i++){const f=coastFactor(Math.atan2(p.getZ(i),p.getX(i)));p.setXYZ(i,p.getX(i)*f,p.getY(i),p.getZ(i)*f);}wall.geometry.computeVertexNormals();}
   wall.scale.set(rx, 1, rz);
   yield;
   wall.position.y = LAGOON_SURFACE_Y - depth / 2 - 0.0125;
@@ -92,8 +99,19 @@ export function* lagoonSteps({
   group.add(wall);
   yield;
   const material = waterMaterial(color),
-    surface = new THREE.Mesh(new THREE.CircleGeometry(1, 64), material);
+    surface = new THREE.Mesh(bedHeight?new THREE.RingGeometry(0,1,128,96):new THREE.CircleGeometry(1, 64), material);
   yield;
+  if(coastFactor){const p=surface.geometry.attributes.position;for(let i=1;i<p.count;i++){const f=coastFactor(Math.atan2(-p.getY(i),p.getX(i)));p.setXY(i,p.getX(i)*f,p.getY(i)*f);}}
+  if(bedHeight){
+    const p=surface.geometry.attributes.position,physicalDepth=new Float32Array(p.count);
+    for(let i=0;i<p.count;i++)physicalDepth[i]=Math.max(0,LAGOON_SURFACE_Y-bedHeight(p.getX(i)*rx,-p.getY(i)*rz));
+    surface.geometry.setAttribute('aPhysicalBedDepth',new THREE.BufferAttribute(physicalDepth,1));
+    material.onBeforeCompile=shader=>{
+      shader.vertexShader='attribute float aPhysicalBedDepth;varying float vPhysicalBedDepth;\n'+shader.vertexShader.replace('vec3 p=position;','vPhysicalBedDepth=aPhysicalBedDepth;vec3 p=position;');
+      shader.fragmentShader='varying float vPhysicalBedDepth;\n'+shader.fragmentShader.replace('float shallow=(1.0-depth)*uLake;','depth=1.-exp2(-max(0.,vPhysicalBedDepth)*.07);float shallow=(1.0-depth)*uLake;').replace('gl_FragColor=vec4(max(color,vec3(0.0)),alpha);','alpha*=mix(.67,1.,depth);gl_FragColor=vec4(max(color,vec3(0.0)),alpha);');
+    };
+    material.customProgramCacheKey=()=> 'physical-ocean-bed-optics-v1';
+  }
   surface.rotation.x = -Math.PI / 2;
   yield;
   surface.scale.set(rx, rz, 1);

@@ -15,6 +15,6 @@ export function decodeMosasaurModels(buffer){
   const row=h.models?.[kind];if(!row)throw Error('Missing marine surface');const g=new T.BufferGeometry();for(const name of ['position','normal','uv','color']){const m=row.attributes[name];if(!m||m.itemSize!==(name==='uv'?2:3))throw Error('Invalid marine attribute');g.setAttribute(name,new T.BufferAttribute(array(m),m.itemSize));}
   const count=g.attributes.position.count;if(count>60000||Object.values(g.attributes).some(a=>a.count!==count))throw Error('Invalid marine vertices');g.setIndex(new T.BufferAttribute(array(row.index),1));
   if(!Array.isArray(row.anchors)||row.anchors.length!==(kind==='body'?80:72)||row.anchors.some(a=>!Array.isArray(a.point)||a.point.length!==3||a.point.some(n=>!Number.isFinite(n))))throw Error('Invalid marine teeth');
-  g.userData.dentalAnchors=row.anchors;g.userData.sharedScenery=true;g.computeBoundingSphere();g.computeBoundingBox();models[kind]=g;
+  g.userData.dentalAnchors=row.anchors;g.userData.sharedScenery=true;g.userData.marinePrebaked=true;g.computeBoundingSphere();g.computeBoundingBox();models[kind]=g;
  }return models;
 }

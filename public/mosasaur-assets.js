@@ -120,6 +120,7 @@ export function* mosasaurRideSteps(id) {
   float shear=(tailD*sin(uMosaClock+position.z*.65)+tailW*.65*cos(uMosaClock+position.z*.65))*uMosaDrive;objectNormal.z-=shear*objectNormal.x;objectNormal=normalize(objectNormal);`);};
   bodyMat.customProgramCacheKey = () => "mosa-muscular-tail-normal-v3";
   const body = new THREE.Mesh(yield* mosasaurGeometrySteps("body"), bodyMat);
+  for(const [key,material]of [['customDepthMaterial',new THREE.MeshDepthMaterial({depthPacking:THREE.RGBADepthPacking})],['customDistanceMaterial',new THREE.MeshDistanceMaterial()]]){material.onBeforeCompile=bodyMat.onBeforeCompile;material.customProgramCacheKey=bodyMat.customProgramCacheKey;body[key]=material;}
   body.name = "Continuous muscular trunk and powerful tapered tail";
   body.castShadow = body.receiveShadow = true;
   moving.add(body);
@@ -147,7 +148,7 @@ export function* mosasaurRideSteps(id) {
     soft(eye,0xb99d64,0,.005,.082,.112,.115,.026);
     soft(eye,0x0c1b22,0,.006,.108,.044,.085,.012);
     soft(eye,0xf4fbff,-.035,.045,.12,.017,.019,.006,true);
-    soft(props,0x273d43,side*.42,.71,8.4,.10,.023,.17);
+    soft(props,0x273d43,side*.42,.79,8.4,.10,.023,.17);
     const front = new THREE.Group(),
       rear = new THREE.Group();
     front.position.set(side * 1.42, -0.45, 1.75);

@@ -197,8 +197,8 @@ export function* mosasaurGeometrySteps(kind) {
       const z=-8.6+j*.35+(Math.abs(row)%2)*.17,x=row*.36*(z< -3?Math.max(.25,1+(z+3)*.12):1);
       ray.set(new THREE.Vector3(x,5,z),new THREE.Vector3(0,-1,0));const hit=ray.intersectObject(probe,false)[0];if(!hit||hit.point.y<.15&&z>3)continue;
       const n=hit.face.normal.clone(),center=hit.point.clone().addScaledVector(n,-.018),q=new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0,1,0),n),vertices=[],uv=[],colors=[],indices=[],tint=new THREE.Color((j+row)%3?0x527987:0x6b9097),size=z>5?.115:.16,height=(row===0?.14:.065)*(z>5?.7:1);
-      for(let k=0;k<7;k++){const a=k*Math.PI/3,v=k===6?new THREE.Vector3(0,height,-.035):new THREE.Vector3(Math.cos(a)*size,0,Math.sin(a)*size*1.3);v.applyQuaternion(q).add(center);vertices.push(v.x,v.y,v.z);uv.push(k%2,z*.32);colors.push(tint.r,tint.g,tint.b);if(k<6)indices.push(k,(k+1)%6,6);}
-      const plate=new THREE.BufferGeometry();plate.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));plate.setAttribute('normal',new THREE.Float32BufferAttribute(Array(7).fill(n.toArray()).flat(),3));plate.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2));plate.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));plate.setIndex(indices);parts.push(plate);
+      for(let k=0;k<13;k++){const a=(k%6)*Math.PI/3,r=k<6?size:size*.48,v=k===12?new THREE.Vector3(0,height,-.025):new THREE.Vector3(Math.cos(a)*r,k<6?0:height,Math.sin(a)*r*1.3);v.applyQuaternion(q).add(center);vertices.push(v.x,v.y,v.z);uv.push(k%2,z*.32);const shade=k<6?.84:1.06;colors.push(tint.r*shade,tint.g*shade,tint.b*shade);if(k<6){const next=(k+1)%6;indices.push(k,k+6,next,next,k+6,next+6,k+6,12,next+6);}}
+      const plate=new THREE.BufferGeometry();plate.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));plate.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2));plate.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));plate.setIndex(indices);plate.computeVertexNormals();parts.push(plate);
     }
     probe.material.dispose();
     g=mergeGeometries(parts);for(const p of parts)p.dispose();
@@ -214,7 +214,7 @@ export function mosasaurToothGeometry(){
  for(let j=0;j<=7;j++)for(let k=0;k<=12;k++){
   const t=j/7,a=k/12*Math.PI*2,r=Math.pow(1-t,.85),bend=.23*t*t,tint=new THREE.Color(0xf6e8c5).lerp(new THREE.Color(0xb7a87f),Math.pow(1-t,5)*.42);
   p.push(Math.cos(a)*r,bend+Math.sin(a)*r*.9,t-.5);uv.push(k/12,t);colors.push(tint.r,tint.g,tint.b);
-  if(j<7&&k<12){const q=j*13+k;indices.push(q,q+13,q+1,q+1,q+13,q+14);}
+  if(j<7&&k<12){const q=j*13+k;indices.push(q,q+1,q+13,q+1,q+14,q+13);}
  }
  tooth=new THREE.BufferGeometry();tooth.setAttribute('position',new THREE.Float32BufferAttribute(p,3));tooth.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2));tooth.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));tooth.setIndex(indices);tooth.rotateX(-Math.PI/2);tooth.computeVertexNormals();tooth.userData.sharedScenery=true;return tooth;
 }

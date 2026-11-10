@@ -24,3 +24,9 @@ test('offline marine assets preserve every skin attribute, tooth root and closed
  const bad=bytes.slice(0);new DataView(bad).setUint32(0,0,true);assert.throws(()=>decodeMosasaurModels(bad),/Invalid marine model/);
  assert.ok(MOSA_ANATOMY_REVISION.includes('continuous'));
 });
+test('all ambient patrol/dive/breach boundaries keep position, orientation and mouth motion continuous',async()=>{
+ const {mosasaurAmbientFrame}=await import('../public/mosasaur-motion.js');
+ for(const t of [18,31,54,69,83,90,108,121,144,159,173,180]){
+  const a=mosasaurAmbientFrame(t-.0001),b=mosasaurAmbientFrame(t+.0001);assert.ok(new T.Vector3(...a.bodyPosition).distanceTo(new T.Vector3(...b.bodyPosition))<.003,'position at '+t);assert.ok(new T.Quaternion(...a.quaternion).angleTo(new T.Quaternion(...b.quaternion))<.001,'turn at '+t);assert.ok(Math.abs(a.jaw-b.jaw)<.001,'jaw at '+t);
+ }
+});

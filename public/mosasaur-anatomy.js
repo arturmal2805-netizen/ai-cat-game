@@ -9,14 +9,14 @@ const bodyVolumes=[
  [[0,-.20,-8.2],[.48,.44,1.35],0x214955],[[0,-.15,-9.6],[.24,.26,1.1],0x224a55]
 ];
 const jawVolumes=[[[0,-.12,2.8],[1.48,.34,2.75],0x849995],[[0,-.10,5.1],[.99,.32,.80],0x849995],[[1.15,-.14,.65],[.58,.48,1.0],0x527783],[[-1.15,-.14,.65],[.58,.48,1.0],0x527783]];
-export const MOSA_ANATOMY_REVISION='marine-predator-continuous-v3';
+export const MOSA_ANATOMY_REVISION='marine-predator-continuous-v5';
 export function* sculptMosasaurSteps(kind){
  const bellyTint=new T.Color(0x81978d);
  const jaw=kind==='jaw',volumes=(jaw?jawVolumes:bodyVolumes).map(([pos,size,color])=>({pos,size,color,id:0,role:'body',blend:jaw?.16:.20}));
  const sockets=jaw?[{pos:[0,.45,3.2],size:[1.24,.31,2.65]}]:[
   {pos:[0,-1.15,6.6],size:[3.6,1.0,3.2]},
   ...[-1,1].map(s=>({pos:[s*1.55,.58,4.85],size:[.26,.22,.32]})),
-  ...[-1,1].map(s=>({pos:[s*.42,.71,8.4],size:[.13,.09,.23]}))
+  ...[-1,1].map(s=>({pos:[s*.42,.90,8.4],size:[.15,.18,.26]}))
  ];
  const g=yield* sculptZooAnimalSteps(volumes,{resolution:jaw?72:112,boundsMargin:.65,soft:jaw?.14:.20,sockets,targetTriangles:jaw?5000:14500,pigment(p,c){
   if(!jaw){c.lerp(new T.Color(0x6d929c),.27);const belly=T.MathUtils.smoothstep(-p[1],.20,1.4);c.lerp(bellyTint,belly*.7);const mottles=Math.sin(p[0]*9+p[2]*4)*Math.cos(p[2]*5-p[1]*12);c.multiplyScalar(.88+Math.max(0,mottles)*.24);}
