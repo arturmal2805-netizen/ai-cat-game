@@ -1,15 +1,20 @@
 import { LEGACY_SEA_DEPTH, LAGOON_SURFACE_Y } from "./water-depths.js";
 export const MOSA_OLD_RADIUS = 11.65 * Math.sqrt(6);
-// Five times the released horizontal dimensions, with the native animal/ride kept at its real scale.
-export const MOSA_RADIUS = MOSA_OLD_RADIUS * 5;
-export const MOSA_SHORE_GATE = { x: 0, z: 103 };
+// The master ocean first grew five times in each horizontal dimension. The
+// player's next expansion adds exactly five times that area, without scaling
+// animals, owned buildings, the original pickup pier or submarine controls.
+export const MOSA_AREA_EXPANSION = 5;
+export const MOSA_HORIZONTAL_EXPANSION = Math.sqrt(MOSA_AREA_EXPANSION);
+export const MOSA_PREVIOUS_RADIUS = MOSA_OLD_RADIUS * 5;
+export const MOSA_RADIUS = MOSA_PREVIOUS_RADIUS * MOSA_HORIZONTAL_EXPANSION;
+export const MOSA_SHORE_GATE = { x: 0, z: 103 * MOSA_HORIZONTAL_EXPANSION };
 export const MOSA_DEPTH = 200;
 export const MOSA_SEA = {
   id: "lake-autumn",
   x: 0,
   z: 0,
-  rx: 105,
-  rz: 100,
+  rx: 105 * MOSA_HORIZONTAL_EXPANSION,
+  rz: 100 * MOSA_HORIZONTAL_EXPANSION,
   surfaceY: LAGOON_SURFACE_Y,
   bedY: LAGOON_SURFACE_Y - MOSA_DEPTH,
 };
@@ -34,16 +39,16 @@ export const MOSA_OBJECTS = [
 ];
 export function mosaReservations() {
   return [
-    { x: 0, z: 0, rx: 111.5, rz: 106.5, w: 223, d: 213 },
-    { x: 0, z: 57, w: 3.4, d: 98 },
+    { x: 0, z: 0, rx: 111.5*MOSA_HORIZONTAL_EXPANSION, rz: 106.5*MOSA_HORIZONTAL_EXPANSION, w: 223*MOSA_HORIZONTAL_EXPANSION, d: 213*MOSA_HORIZONTAL_EXPANSION },
+    { x: 0, z: (8+MOSA_SHORE_GATE.z+3)/2, w: 3.4, d: MOSA_SHORE_GATE.z+3-8 },
     ...MOSA_HEADLANDS.map(p=>({x:p.x,z:p.z,rx:p.radius+2,rz:p.radius+2,w:(p.radius+2)*2,d:(p.radius+2)*2})),
   ];
 }
 export const mosaCoastFactor=a=>1+.035*Math.sin(a*3+.5)+.018*Math.cos(a*7);
 export function mosaWaterRadius(x,z){const a=Math.atan2(z/MOSA_SEA.rz,x/MOSA_SEA.rx);return Math.hypot(x/MOSA_SEA.rx,z/MOSA_SEA.rz)/mosaCoastFactor(a);}
-export const MOSA_HEADLANDS=[.08,.45,.86,1.95,2.4,2.85,3.35,3.9,4.45,4.95,5.55,6.0].map((angle,i)=>({angle,x:Math.cos(angle)*MOSA_SEA.rx*mosaCoastFactor(angle)*1.04,z:Math.sin(angle)*MOSA_SEA.rz*mosaCoastFactor(angle)*1.04,radius:i%3?11+i%3*2:17,height:i%3?10+i%4*3:24+i%2*4}));
+export const MOSA_HEADLANDS=[.08,.45,.86,1.95,2.4,2.85,3.35,3.9,4.45,4.95,5.55,6.0].map((angle,i)=>({angle,x:Math.cos(angle)*MOSA_SEA.rx*mosaCoastFactor(angle)*1.04,z:Math.sin(angle)*MOSA_SEA.rz*mosaCoastFactor(angle)*1.04,radius:(i%3?11+i%3*2:17)*MOSA_HORIZONTAL_EXPANSION,height:i%3?10+i%4*3:24+i%2*4}));
 export const MOSA_CAVE_LAYOUT=[{id:"violet-grotto",x:-25,z:-18,radius:8,depth:20,color:0x9774dc},{id:"amber-cavern",x:20,z:15,radius:7,depth:17,color:0xeab66c}];
-export const MOSA_REEF_TERRACES=Array.from({length:12},(_,i)=>{const angle=.24+i*Math.PI/6,q=i%2?.82:.67,f=mosaCoastFactor(angle);return {id:'reef-terrace-'+i,x:Math.cos(angle)*MOSA_SEA.rx*f*q,z:Math.sin(angle)*MOSA_SEA.rz*f*q,radius:i%2?14:11.5,depth:7+i%4*4,angle};});
+export const MOSA_REEF_TERRACES=Array.from({length:12},(_,i)=>{const angle=.24+i*Math.PI/6,q=i%2?.82:.67,f=mosaCoastFactor(angle);return {id:'reef-terrace-'+i,x:Math.cos(angle)*MOSA_SEA.rx*f*q,z:Math.sin(angle)*MOSA_SEA.rz*f*q,radius:(i%2?14:11.5)*MOSA_HORIZONTAL_EXPANSION,depth:7+i%4*4,angle};});
 export function mosaTerraceRadius(c,angle){return c.radius*(1+.12*Math.sin(angle*3+c.angle)+.065*Math.cos(angle*7-c.angle));}
 const TERRACE_LEVELS=[[1.06,0,.25],[1.48,13,.22],[1.89,37,.21],[2.22,65,.28]];
 export function mosaTerraceY(c,x,z,natural=mosaNaturalBedY(x,z)){

@@ -50,7 +50,7 @@ export const WORLD_CENTERS = Object.freeze({
   'aquarium':[18.3427,51.7981],
   'foodcourt':[81.1833,8.609],
   'bikini':[87.9955,77.1497],
-  'autumn':[-450,250],
+  'autumn':[-580,250],
   'sakura':[46.4777,122.8444],
   'clouds':[135.8717,-24.2511],
   'candy':[136.9242,39.6054],

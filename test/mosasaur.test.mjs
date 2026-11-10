@@ -9,6 +9,8 @@ import {
   MOSA_RADIUS,
   MOSA_SEA,
   MOSA_DEPTH,
+  MOSA_AREA_EXPANSION,
+  mosaCoastFactor,
   mosaBedY,
   mosaWaterRadius,
   mosaDryPoint,
@@ -47,10 +49,10 @@ import {
 } from "../public/cat-model.js";
 import { createChichiCamera } from "../public/chichi-camera.js";
 const now = Date.UTC(2026, 9, 17);
-test("only the mosasaur pond expands to five times its released horizontal dimensions; level eight unlocks it and previous ownership remains", () => {
+test("only the mosasaur ocean gains the requested extra area; level eight unlocks it and previous ownership remains", () => {
   assert.equal(byBiome("autumn").requiredLevel, 8);
   assert.equal(BIOMES.length, 18);
-  assert.equal(MOSA_SEA.rx*MOSA_SEA.rz/(21*20),25);
+  assert.ok(Math.abs(MOSA_SEA.rx*MOSA_SEA.rz/(21*20)-25*MOSA_AREA_EXPANSION)<1e-10);
   assert.deepEqual(
     BIOMES.filter(
       (b) =>
@@ -380,7 +382,7 @@ test("shore walking stays dry and migrated paid plots preserve every ID, deadlin
     assert.ok(mosaWaterRadius(p.x,p.z)>=1 || (Math.abs(p.x)<=1.1&&p.z>=9.8));
   }
   for (let i = 0; i <= 100; i++) {
-    const p = mosasaurApproach([113, 0, 0], mosasaurFrame(0).position, i / 100);
+    const p = mosasaurApproach([MOSA_SEA.rx*mosaCoastFactor(0)+8, 0, 0], mosasaurFrame(0).position, i / 100);
     if(i<85)assert.ok(mosaWaterRadius(p[0],p[2])>=1 || Math.abs(p[0])<=1.1);
   }
   const g = newGame(now);

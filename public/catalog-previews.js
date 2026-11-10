@@ -117,7 +117,7 @@ export async function catalogPreviews(
         );
       if (item.isBiome && item.id === "autumn") {
         bounds.min.y=Math.max(bounds.min.y,-35);bounds.getCenter(center);
-        camera.far = 1800;
+        camera.far = Math.max(1800,radius*5);
         camera.updateProjectionMatrix();
         const direction = new THREE.Vector3(0.85, 1.1, 1.1).normalize();
         let fit = radius * 1.55;

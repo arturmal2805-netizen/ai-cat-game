@@ -1,4 +1,4 @@
-import {MOSA_SEA,MOSA_REEF_TERRACES,mosaNaturalBedY,mosaBedY,mosaTerraceY} from './mosasaur-data.js';
+import {MOSA_SEA,MOSA_REEF_TERRACES,MOSA_HORIZONTAL_EXPANSION,mosaNaturalBedY,mosaBedY,mosaTerraceY} from './mosasaur-data.js';
 const forms=[
  {volumes:[[-1,7,0,18,12,15],[-2,22,-1,12,23,11],[1,36,-1,10,5.5,9],[-7,25,5,10,6,9],[9,16,-5,7,18,7]],caves:[[6,17,10,7,5.3,12]]},
  {volumes:[[-2,6,1,17,12,17],[-5,21,-2,10,21,11],[-6,36,-2,8,6,9],[7,25,1,8,15,9],[9,37,2,6,4.5,7],[-7,15,10,10,7,7]],caves:[[0,20,0,4.5,5.5,22]]},
@@ -43,7 +43,7 @@ export function reefWallSite(c,angle,level){
   r-=Math.min(2,Math.max(.02,d*.45));
  }return null;
 }
-export const MOSA_OPTICAL_GRID_SIZE=128,MOSA_OPTICAL_GRID_EXTENT=116;
+export const MOSA_OPTICAL_GRID_SIZE=128,MOSA_OPTICAL_GRID_EXTENT=116*MOSA_HORIZONTAL_EXPANSION;
 let opticalGrid=null;
 let coralSites=null;
 const schoolStates=new Map();

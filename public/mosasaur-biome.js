@@ -12,6 +12,7 @@ import {
   MOSA_RADIUS,
   MOSA_SEA,
   MOSA_DEPTH,
+  MOSA_AREA_EXPANSION,
   MOSA_SHORE_GATE,
   mosaBedY,
   mosaCoastFactor,
@@ -82,7 +83,7 @@ export function* mosasaurBiomeSteps(
     sceneryObjects,
     style: BIOME_STYLES.autumn,
     stats: { fishCount: lowOnly ? 0 : 48, staticMeshes: 0, sourceMeshes: 0 },
-    ocean: { depth: MOSA_DEPTH, areaMultiplier: 25, waterArea: Math.PI*MOSA_SEA.rx*MOSA_SEA.rz },
+    ocean: { depth: MOSA_DEPTH, areaMultiplier: 25*MOSA_AREA_EXPANSION, waterArea: Math.PI*MOSA_SEA.rx*MOSA_SEA.rz },
   };
   const shore = new THREE.Mesh(
     shoreGeometry(),
