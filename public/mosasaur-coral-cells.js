@@ -17,7 +17,8 @@ export function coralCellMesh(source,geometry,indices,ids,reuse=null){
 }
 export function installCoralCellCulling(lod){
  const update=lod.update,frustum=new T.Frustum(),projection=new T.Matrix4(),sphere=new T.Sphere();
- lod.update=function(camera){update.call(this,camera);projection.multiplyMatrices(camera.projectionMatrix,camera.matrixWorldInverse);frustum.setFromProjectionMatrix(projection,camera.coordinateSystem,camera.reversedDepth);
-  for(const level of this.levels){if(!level.object.visible)continue;for(const mesh of level.object.children){const bound=mesh.userData.coralCullSphere;if(bound)mesh.visible=frustum.intersectsSphere(sphere.copy(bound).applyMatrix4(mesh.matrixWorld));}}
+ lod.update=function(camera){update.call(this,camera);const group=this.levels[this.getCurrentLevel()]?.object;if(!group?.userData.coralCells)return;
+  projection.multiplyMatrices(camera.projectionMatrix,camera.matrixWorldInverse);frustum.setFromProjectionMatrix(projection,camera.coordinateSystem,camera.reversedDepth);
+  for(const mesh of group.children){const bound=mesh.userData.coralCullSphere;if(bound)mesh.visible=frustum.intersectsSphere(sphere.copy(bound).applyMatrix4(mesh.matrixWorld));}
  };
 }

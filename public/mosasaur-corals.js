@@ -75,7 +75,7 @@ export function* mosaCoralSteps({spatialCells=true}={}){
     if(!level){for(let i=0;i<batch.length;i++){const p=batch[i];dummy.position.set(p.x-center.x,p.y-center.y,p.z-center.z);dummy.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),new T.Vector3(p.nx||0,p.ny??1,p.nz||0)).multiply(new T.Quaternion().setFromAxisAngle(new T.Vector3(0,1,0),p.yaw));dummy.scale.setScalar(p.scale);dummy.updateMatrix();mesh.setMatrixAt(i,dummy.matrix);mesh.setColorAt(i,new T.Color([0xffffff,0xffe7f5,0xe4faff,0xfff2ce][i%4]));}mesh.instanceMatrix.needsUpdate=true;mesh.computeBoundingBox();mesh.computeBoundingSphere();original=mesh;}
     else{mesh.instanceMatrix=original.instanceMatrix;mesh.instanceColor=original.instanceColor;mesh.boundingBox=original.boundingBox.clone();mesh.boundingSphere=original.boundingSphere.clone();}
     mesh.userData.colonyIds=ids;
-    if(spatialCells&&level<2&&cells.length>1&&batch.length>=6){for(const [cell,indices]of cells.entries()){yield;const sub=coralCellMesh(original,templates.get(form)[level],indices,ids,level?nearCells[cell]:null);if(!level)nearCells.push(sub);groups[level].add(sub);}mesh.dispose();}
+    if(spatialCells&&level<2&&cells.length>1&&batch.length>=6){groups[level].userData.coralCells=true;for(const [cell,indices]of cells.entries()){yield;const sub=coralCellMesh(original,templates.get(form)[level],indices,ids,level?nearCells[cell]:null);if(!level)nearCells.push(sub);groups[level].add(sub);}mesh.dispose();}
     else groups[level].add(mesh);
    }
   }

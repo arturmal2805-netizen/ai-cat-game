@@ -1,0 +1,375 @@
+{
+  "renderer": "Chromium SwiftShader; timings are not physical-device FPS",
+  "initial": [
+    {
+      "name": "near",
+      "rows": [
+        {
+          "spatialCells": false,
+          "calls": 29,
+          "triangles": 2953580,
+          "renderMs": 156.30000001192093
+        },
+        {
+          "spatialCells": true,
+          "calls": 22,
+          "triangles": 765422,
+          "renderMs": 7.800000011920929
+        }
+      ],
+      "changedPixels": 0,
+      "maxDelta": 0,
+      "contextLost": false,
+      "timings": [
+        {
+          "spatialCells": false,
+          "cpuMs": {
+            "median": 2.199999988079071,
+            "p95": 8.099999994039536
+          },
+          "completedMs": {
+            "median": 1419,
+            "p95": 1695.199999988079
+          }
+        },
+        {
+          "spatialCells": true,
+          "cpuMs": {
+            "median": 2.5,
+            "p95": 8.100000023841858
+          },
+          "completedMs": {
+            "median": 460,
+            "p95": 535
+          }
+        }
+      ]
+    },
+    {
+      "name": "away",
+      "rows": [
+        {
+          "spatialCells": false,
+          "calls": 80,
+          "triangles": 3317560,
+          "renderMs": 3.800000011920929
+        },
+        {
+          "spatialCells": true,
+          "calls": 64,
+          "triangles": 1071767,
+          "renderMs": 3.9000000059604645
+        }
+      ],
+      "changedPixels": 0,
+      "maxDelta": 0,
+      "contextLost": false,
+      "timings": [
+        {
+          "spatialCells": false,
+          "cpuMs": {
+            "median": 3.800000011920929,
+            "p95": 5.300000011920929
+          },
+          "completedMs": {
+            "median": 1583.0999999940395,
+            "p95": 1647.9000000059605
+          }
+        },
+        {
+          "spatialCells": true,
+          "cpuMs": {
+            "median": 2,
+            "p95": 2.800000011920929
+          },
+          "completedMs": {
+            "median": 609,
+            "p95": 956.9000000059605
+          }
+        }
+      ]
+    },
+    {
+      "name": "surface",
+      "rows": [
+        {
+          "spatialCells": false,
+          "calls": 52,
+          "triangles": 818443,
+          "renderMs": 1.7000000178813934
+        },
+        {
+          "spatialCells": true,
+          "calls": 52,
+          "triangles": 818443,
+          "renderMs": 2.699999988079071
+        }
+      ],
+      "changedPixels": 0,
+      "maxDelta": 0,
+      "contextLost": false,
+      "timings": [
+        {
+          "spatialCells": false,
+          "cpuMs": {
+            "median": 1.7999999821186066,
+            "p95": 4.100000023841858
+          },
+          "completedMs": {
+            "median": 1082.5,
+            "p95": 1131.5
+          }
+        },
+        {
+          "spatialCells": true,
+          "cpuMs": {
+            "median": 2.0999999940395355,
+            "p95": 178.69999998807907
+          },
+          "completedMs": {
+            "median": 1096.800000011921,
+            "p95": 1939
+          }
+        }
+      ]
+    },
+    {
+      "name": "overview",
+      "rows": [
+        {
+          "spatialCells": false,
+          "calls": 175,
+          "triangles": 2713098,
+          "renderMs": 3.800000011920929
+        },
+        {
+          "spatialCells": true,
+          "calls": 175,
+          "triangles": 2713098,
+          "renderMs": 4.0999999940395355
+        }
+      ],
+      "changedPixels": 0,
+      "maxDelta": 0,
+      "contextLost": false,
+      "timings": [
+        {
+          "spatialCells": false,
+          "cpuMs": {
+            "median": 3.0999999940395355,
+            "p95": 4.800000011920929
+          },
+          "completedMs": {
+            "median": 5041.4000000059605,
+            "p95": 5720.800000011921
+          }
+        },
+        {
+          "spatialCells": true,
+          "cpuMs": {
+            "median": 3.9000000059604645,
+            "p95": 12.5
+          },
+          "completedMs": {
+            "median": 5129.699999988079,
+            "p95": 17795.30000001192
+          }
+        }
+      ]
+    },
+    {
+      "name": "phone",
+      "rows": [
+        {
+          "spatialCells": false,
+          "calls": 29,
+          "triangles": 3091861,
+          "renderMs": 1.4000000059604645
+        },
+        {
+          "spatialCells": true,
+          "calls": 14,
+          "triangles": 728605,
+          "renderMs": 1.2999999821186066
+        }
+      ],
+      "changedPixels": 0,
+      "maxDelta": 0,
+      "contextLost": false,
+      "timings": [
+        {
+          "spatialCells": false,
+          "cpuMs": {
+            "median": 1.5,
+            "p95": 5.300000011920929
+          },
+          "completedMs": {
+            "median": 1412.5,
+            "p95": 1613.5
+          }
+        },
+        {
+          "spatialCells": true,
+          "cpuMs": {
+            "median": 1.800000011920929,
+            "p95": 2.699999988079071
+          },
+          "completedMs": {
+            "median": 455.80000001192093,
+            "p95": 606.0999999940395
+          }
+        }
+      ]
+    }
+  ],
+  "repeat": [
+    {
+      "name": "near",
+      "rows": [
+        {
+          "spatialCells": false,
+          "calls": 29,
+          "triangles": 2953580,
+          "renderMs": 131.7999999821186
+        },
+        {
+          "spatialCells": true,
+          "calls": 22,
+          "triangles": 765422,
+          "renderMs": 4.5
+        }
+      ],
+      "changedPixels": 0,
+      "maxDelta": 0,
+      "contextLost": false
+    },
+    {
+      "name": "away",
+      "rows": [
+        {
+          "spatialCells": false,
+          "calls": 80,
+          "triangles": 3317560,
+          "renderMs": 6.700000017881393
+        },
+        {
+          "spatialCells": true,
+          "calls": 64,
+          "triangles": 1071767,
+          "renderMs": 5.600000023841858
+        }
+      ],
+      "changedPixels": 0,
+      "maxDelta": 0,
+      "contextLost": false
+    },
+    {
+      "name": "surface",
+      "rows": [
+        {
+          "spatialCells": false,
+          "calls": 52,
+          "triangles": 818443,
+          "renderMs": 2.0999999940395355
+        },
+        {
+          "spatialCells": true,
+          "calls": 52,
+          "triangles": 818443,
+          "renderMs": 2.5
+        }
+      ],
+      "changedPixels": 0,
+      "maxDelta": 0,
+      "contextLost": false,
+      "timings": [
+        {
+          "spatialCells": false,
+          "cpuMs": {
+            "median": 2.699999988079071,
+            "p95": 12.900000005960464
+          },
+          "completedMs": {
+            "median": 1108.199999988079,
+            "p95": 1935.5
+          }
+        },
+        {
+          "spatialCells": true,
+          "cpuMs": {
+            "median": 2.9000000059604645,
+            "p95": 3.4000000059604645
+          },
+          "completedMs": {
+            "median": 1177.0999999940395,
+            "p95": 1474.5999999940395
+          }
+        }
+      ]
+    },
+    {
+      "name": "overview",
+      "rows": [
+        {
+          "spatialCells": false,
+          "calls": 175,
+          "triangles": 2713098,
+          "renderMs": 2.9000000059604645
+        },
+        {
+          "spatialCells": true,
+          "calls": 175,
+          "triangles": 2713098,
+          "renderMs": 3.199999988079071
+        }
+      ],
+      "changedPixels": 0,
+      "maxDelta": 0,
+      "contextLost": false,
+      "timings": [
+        {
+          "spatialCells": false,
+          "cpuMs": {
+            "median": 3.800000011920929,
+            "p95": 7.800000011920929
+          },
+          "completedMs": {
+            "median": 5010.0999999940395,
+            "p95": 25392
+          }
+        },
+        {
+          "spatialCells": true,
+          "cpuMs": {
+            "median": 8.599999994039536,
+            "p95": 20.19999998807907
+          },
+          "completedMs": {
+            "median": 5266.700000017881,
+            "p95": 7817.9000000059605
+          }
+        }
+      ]
+    },
+    {
+      "name": "phone",
+      "rows": [
+        {
+          "spatialCells": false,
+          "calls": 29,
+          "triangles": 3091861,
+          "renderMs": 2
+        },
+        {
+          "spatialCells": true,
+          "calls": 14,
+          "triangles": 728605,
+          "renderMs": 1.2999999821186066
+        }
+      ],
+      "changedPixels": 0,
+      "maxDelta": 0,
+      "contextLost": false
+    }
+  ]
+}
