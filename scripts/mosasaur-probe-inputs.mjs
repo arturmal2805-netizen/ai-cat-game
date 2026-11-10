@@ -1,0 +1,2 @@
+// Exact producers of the static coast captured by the offline reflection baker.
+export const MOSA_PROBE_INPUTS=['mosasaur-biome.js','mosasaur-coast-garden.js','mosasaur-data.js','mosasaur-retained-land.js','showcase-water-landscape.js','showcase-botany.js','showcase-geology.js','showcase-surface-details.js','showcase-surface-assets.js','fantasy-scenery.js','geometry-tasks.js','model-batching.js','static-vertex-reuse.js','scenery-detail-levels.js','jungle-props.js','landscape-detail.js','lagoon.js','reef.js','water-shading.js','water-environment.js','water-sand.js'];

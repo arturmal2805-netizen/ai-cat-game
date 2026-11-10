@@ -50,6 +50,7 @@ function maps(kind){
  const result=['lawn','sand'].includes(kind)?{color}:{normal:texture(normal,'micro-normal'),roughness:texture(rough,'wet roughness'),color};textures.set(kind,result);return result;
 }
 export const showcaseSurfaceMap=kind=>maps(kind).color;
+export const showcaseSurfaceSet=kind=>maps(kind);
 export function applyShowcaseSurfaceDetails(root){
  const seen=new Set();root.traverse(o=>{if(!o.isMesh)return;for(const m of Array.isArray(o.material)?o.material:[o.material]){
   if(!m.isMeshStandardMaterial||m.userData.sharedScenery||seen.has(m)||!['stone','moss','wood','leaf','lawn'].includes(m.userData.surfaceKind))continue;

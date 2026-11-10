@@ -38,7 +38,7 @@ assets.set(ZOO_COAT_ASSET.slice(1),await readFile(resolve(root,'public',ZOO_COAT
 assets.set(GORILLA_FACE_ASSET.slice(1),await readFile(resolve(root,'public',GORILLA_FACE_ASSET)));
 for(const roles of Object.values(SHOWCASE_SURFACE_ASSETS))for(const url of Object.values(roles))assets.set(url.slice(1),await readFile(resolve(root,'public',url)));
 for(const url of Object.values(SHOWCASE_WATER_PROBES))assets.set(url.slice(1),await readFile(resolve(root,'public',url)));
-const server = createServer((request, response) => {
+const server = createServer(async(request, response) => {
   const path = new URL(request.url, "http://localhost").pathname;
   if (path === "/favicon.ico") {
     response.writeHead(204);
@@ -56,6 +56,8 @@ const server = createServer((request, response) => {
         JSON.stringify(selected) +
         "}).then(map=>window.previews=Object.fromEntries(map)).catch(error=>window.captureError=error.message);</script>",
     );
+  } else if(path.startsWith('/models/')||path.startsWith('/art/ocean-rock/')||path.startsWith('/art/ocean-reflections/')||path.startsWith('/art/ocean-water/')) {
+    try{const file=resolve(root,'public','.'+path);if(!file.startsWith(resolve(root,'public')+'/'))throw Error('path');const data=await readFile(file);response.writeHead(200,{'Content-Type':path.endsWith('.png')?'image/png':path.endsWith('.jpg')?'image/jpeg':'application/octet-stream'});response.end(data);}catch{response.writeHead(404);response.end();}
   } else {
     response.writeHead(404);
     response.end();

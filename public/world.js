@@ -273,6 +273,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     attractionProjection = new THREE.Matrix4();
   scene.matrixAutoUpdate = false;
   scene.fog = new THREE.FogExp2(0xc0bfd7, 0.0035);
+  const focusFogColor=new THREE.Color(0xc0bfd7),oceanViewColor=new THREE.Color(0x1286ad);
   // The closest allowed orbit is 21 units. A less extreme near/far ratio gives
   // small ground decorations more depth precision without clipping that orbit.
   const camera = new THREE.PerspectiveCamera(40, 1, 0.5, 1200);
@@ -342,11 +343,12 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       uniforms: {
         top: { value: new THREE.Color(0x788ab9) },
         bottom: { value: new THREE.Color(0xb2b8d5) },
+        uOceanUnderwater:{value:0},
       },
       vertexShader:
         "varying vec3 direction;void main(){direction=position;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}",
       fragmentShader:
-        "uniform vec3 top;uniform vec3 bottom;varying vec3 direction;void main(){float h=normalize(direction).y;vec3 c=mix(bottom,top,smoothstep(-.12,.75,h));gl_FragColor=vec4(c,1.0);#include <colorspace_fragment>}",
+        "uniform vec3 top;uniform vec3 bottom;uniform float uOceanUnderwater;varying vec3 direction;void main(){float h=normalize(direction).y;vec3 c=mix(bottom,top,smoothstep(-.12,.75,h));c=mix(c,mix(vec3(.008,.12,.23),vec3(.025,.45,.59),smoothstep(-.9,.4,h)),uOceanUnderwater);gl_FragColor=vec4(c,1.0);#include <colorspace_fragment>}",
       side: THREE.BackSide,
       depthWrite: false,
       toneMapped: false,
@@ -2326,9 +2328,10 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       0,
       enchanted ? b.center[1] - royalCenter[1] : 0,
     );
-    scene.fog.color.set(
+    focusFogColor.set(
       b.legendary || b.id === "aquapark" ? 0x162f52 : 0xc0bfd7,
     );
+    scene.fog.color.copy(focusFogColor);
     desiredLook.set(b.center[0], 0, overview ? 0 : b.center[1]);
     desiredDistance = b.radius
       ? mobileRender
@@ -5607,7 +5610,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       walking = heroHome.walking;
       reaction = heroHome.reaction;
     }
-    const heroLeisure = leisure.frame("chichi");
+    const heroLeisure = !submarine?.active && leisure.frame("chichi");
     if (
       heroLeisure &&
       !operation &&
@@ -5877,8 +5880,10 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       if (business && cityOccluded.has(business.id))
         chichiCarrier.visible = false;
     }
-    scene.fog.density = worldFogDensity(distance);
-    submarine?.applyFog(scene.fog);
+    const oceanImmersion=focused==='autumn'?THREE.MathUtils.clamp((.155-camera.position.y)/2,0,1):0;
+    sky.material.uniforms.uOceanUnderwater.value=oceanImmersion;
+    scene.fog.color.copy(focusFogColor).lerp(oceanViewColor,oceanImmersion);
+    scene.fog.density = THREE.MathUtils.lerp(worldFogDensity(distance),.0045,oceanImmersion);
     updateOcclusion(now, dt);
     // The opaque shop covers the map. Keep the simulation running, but avoid
     // competing GPU draws while its miniature scenes are being rendered.
@@ -5911,7 +5916,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     }
     requestAnimationFrame(loop);
   }
-  submarine=createSubmarineRuntime({container,canvas:renderer.domElement,camera,look,actor:chichiCarrier,getModel:()=>cat,getIsland:()=>islands.get('autumn'),getGame:()=>game,getFocused:()=>focused,cancelHero:()=>{cancelHeroActivity();jobs.delete('chichi');housingLife.cancel?.('chichi');faceCamera.setEnabled(false,look);},focus});
+  submarine=createSubmarineRuntime({scene,container,canvas:renderer.domElement,camera,look,actor:chichiCarrier,getModel:()=>cat,getIsland:()=>islands.get('autumn'),getGame:()=>game,getFocused:()=>focused,canPilot:()=>callbacks.canDragCat?.('chichi')!==false,cancelHero:()=>{cancelHeroActivity();heroGather=null;jobs.cancel('chichi');crew.cancel('chichi');leisure.cancel('chichi');spa.cancel('chichi');chill.cancel('chichi');court.cancel('chichi');faceCamera.setEnabled(false,look);},approachDock:point=>{heroGather=gatherTrip(chichiCarrier.position,{x:point.x,y:point.y,z:point.z},performance.now());return true;},focus});
   if(initialGame.mosasaurSubmarine?.active&&game.unlocked.includes('autumn'))focus('autumn',false,true);
   requestAnimationFrame(loop);
   for (const mood of moodNames) {

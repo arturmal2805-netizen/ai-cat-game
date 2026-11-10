@@ -1,3 +1,8 @@
+import {prepareMosaWaterField} from './mosasaur-water-field.js';
+import {prepareMosaWaterReflection} from './mosasaur-water-probe.js';
+import {prepareMosaReefs} from './mosasaur-reef-cache.js';
+import {prepareMosasaurModels} from './mosasaur-model-cache.js';
+import {prepareMosaRockSurfaces} from './mosasaur-rock-surfaces.js';
 import {prepareZooCoat} from './zoo-coat-atlas.js';
 import {prepareGorillaFace} from './zoo-gorilla-face.js';
 import {prepareShowcaseSurfaces} from './showcase-surface-details.js';
@@ -55,6 +60,7 @@ export async function catalogPreviews(
     if(pending.some(item=>item.zoo||(item.isBiome&&item.id==='magic-zoo')))await prepareZooCoat();
     if(pending.some(item=>item.id==='zoo-gorilla'||(item.isBiome&&item.id==='magic-zoo')))await prepareGorillaFace();
     if(pending.some(item=>item.showcaseWater))await prepareShowcaseSurfaces();
+    if(pending.some(item=>item.id==='ride-mosasaur'||item.isBiome&&item.id==='autumn'))await Promise.all([prepareMosaReefs(),prepareMosasaurModels(),prepareMosaRockSurfaces(),prepareMosaWaterReflection(),prepareMosaWaterField(),prepareShowcaseSurfaces()]);
     // Let the modal paint before compiling WebGL programs or reading pixels.
     await new Promise((resolve) =>
       requestAnimationFrame(() => setTimeout(resolve, 0)),
@@ -110,8 +116,8 @@ export async function catalogPreviews(
             .multiplyScalar(radius * (item.isBiome ? 1.45 : 1.75)),
         );
       if (item.isBiome && item.id === "autumn") {
-        center.set(0, -17, 0);
-        camera.far = 800;
+        bounds.min.y=Math.max(bounds.min.y,-35);bounds.getCenter(center);
+        camera.far = 1800;
         camera.updateProjectionMatrix();
         const direction = new THREE.Vector3(0.85, 1.1, 1.1).normalize();
         let fit = radius * 1.55;

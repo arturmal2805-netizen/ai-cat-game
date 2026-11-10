@@ -1,5 +1,6 @@
 import {waterSandTexture} from './water-sand.js';
 import {applyMosasaurBedOptics} from './mosasaur-bed-optics.js';
+import {installMosasaurWaterOptics} from './mosasaur-water-optics.js';
 import {
   LAGOON_BED_Y,
   LAGOON_SURFACE_Y,
@@ -30,6 +31,7 @@ export function* lagoonSteps({
   shoreColor = 0xb3ecff,
   depth = LEGACY_SEA_DEPTH,
   bedHeight = null,
+  opticalBedHeight = null,
   coastFactor = null,
   bedResolution = [256,160],
 } = {}) {
@@ -104,13 +106,9 @@ export function* lagoonSteps({
   if(coastFactor){const p=surface.geometry.attributes.position;for(let i=1;i<p.count;i++){const f=coastFactor(Math.atan2(-p.getY(i),p.getX(i)));p.setXY(i,p.getX(i)*f,p.getY(i)*f);}}
   if(bedHeight){
     const p=surface.geometry.attributes.position,physicalDepth=new Float32Array(p.count);
-    for(let i=0;i<p.count;i++)physicalDepth[i]=Math.max(0,LAGOON_SURFACE_Y-bedHeight(p.getX(i)*rx,-p.getY(i)*rz));
+    for(let i=0;i<p.count;i++)physicalDepth[i]=Math.max(0,LAGOON_SURFACE_Y-(opticalBedHeight||bedHeight)(p.getX(i)*rx,-p.getY(i)*rz));
     surface.geometry.setAttribute('aPhysicalBedDepth',new THREE.BufferAttribute(physicalDepth,1));
-    material.onBeforeCompile=shader=>{
-      shader.vertexShader='attribute float aPhysicalBedDepth;varying float vPhysicalBedDepth;\n'+shader.vertexShader.replace('vec3 p=position;','vPhysicalBedDepth=aPhysicalBedDepth;vec3 p=position;');
-      shader.fragmentShader='varying float vPhysicalBedDepth;\n'+shader.fragmentShader.replace('float shallow=(1.0-depth)*uLake;','depth=1.-exp2(-max(0.,vPhysicalBedDepth)*.07);float shallow=(1.0-depth)*uLake;').replace('gl_FragColor=vec4(max(color,vec3(0.0)),alpha);','alpha*=mix(.67,1.,depth);gl_FragColor=vec4(max(color,vec3(0.0)),alpha);');
-    };
-    material.customProgramCacheKey=()=> 'physical-ocean-bed-optics-v1';
+    installMosasaurWaterOptics(material);
   }
   surface.rotation.x = -Math.PI / 2;
   yield;

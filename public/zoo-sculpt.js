@@ -5,7 +5,7 @@ import {mergeVertices} from 'three/addons/utils/BufferGeometryUtils.js';
 // A closed, continuous animal surface. The authored volumes are sculpting
 // controls, not separate visible balls. Skin weights and colour blend through
 // necks, shoulders and ankles; the shared baked palette animates the result.
-export function* sculptZooAnimalSteps(volumes,{resolution=48,soft=.11,sockets=[],targetTriangles=0,pigment,authoringCapacity=0,solePlane=null,boundsMargin=.22}={}){
+export function* sculptZooAnimalSteps(volumes,{resolution=48,soft=.11,sockets=[],targetTriangles=0,pigment,authoringCapacity=0,solePlane=null,boundsMargin=.22,customField=null}={}){
  const low=[Infinity,Infinity,Infinity],high=[-Infinity,-Infinity,-Infinity];
  for(const v of volumes)for(let k=0;k<3;k++){const relief=k===2?(v.relief||[]).reduce((n,r)=>n+Math.abs(r[2]),0):0;low[k]=Math.min(low[k],v.pos[k]-v.size[k]-boundsMargin);high[k]=Math.max(high[k],v.pos[k]+v.size[k]+relief+boundsMargin);}
  volumes=volumes.map(v=>({...v,inv:v.size.map(n=>1/n),minimum:Math.min(...v.size)}));
@@ -17,6 +17,7 @@ export function* sculptZooAnimalSteps(volumes,{resolution=48,soft=.11,sockets=[]
  const distance=(p,v)=>{facialRelief(p,v);return (Math.sqrt(((p[0]-v.pos[0])*v.inv[0])**2+((p[1]-v.pos[1])*v.inv[1])**2+((p[2]-v.pos[2]-relief)*v.inv[2])**2)-1)*v.minimum;};
  const p=[0,0,0],gradient=[0,0,0];
  const field=(p,out)=>{
+  if(customField)return customField(p,out);
   let d=10,gx=0,gy=0,gz=0;
   for(const v of volumes){facialRelief(p,v);const x=(p[0]-v.pos[0])*v.inv[0],y=(p[1]-v.pos[1])*v.inv[1],z=(p[2]-v.pos[2]-relief)*v.inv[2],r=Math.max(1e-9,Math.sqrt(x*x+y*y+z*z)),q=(r-1)*v.minimum,k=v.blend??Math.min(soft,v.minimum*.7),h=Math.max(0,Math.min(1,.5+.5*(q-d)/k));
    if(out){const w=(1-h)*v.minimum/r;gx=gx*h+(x*v.inv[0]-z*v.inv[2]*reliefX)*w;gy=gy*h+(y*v.inv[1]-z*v.inv[2]*reliefY)*w;gz=gz*h+z*v.inv[2]*w;}d=q*(1-h)+d*h-k*h*(1-h);

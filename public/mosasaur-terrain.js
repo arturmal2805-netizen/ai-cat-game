@@ -1,4 +1,5 @@
 import * as T from 'three';
+import {applyMosasaurBedOptics} from './mosasaur-bed-optics.js';
 import {shape,line,surfaceTexture} from './fantasy-scenery.js';
 import {batchModelSteps} from './model-batching.js';
 import {applyUnderwaterLighting} from './water-shading.js';
@@ -22,14 +23,6 @@ function caveShell(c){
 }
 export function* mosaTerrainSteps(){
  const root=new T.Group(),source=new T.Group(),clock={value:0};root.name='Explorable ocean caves, coral terraces and ancient ruins';
- // Broad eroded ledges and broken columns follow the physical seabed. Their
- // collars overlap the bed; no suspended caps or cylindrical pillar islands.
- for(const [i,c]of MOSA_REEF_TERRACES.entries()){
-  yield;for(let j=0;j<9;j++){
-   const a=j*2.399+i,r=c.radius*(.65+(j%3)*.12),x=c.x+Math.cos(a)*r,z=c.z+Math.sin(a)*r,y=mosaBedY(x,z),h=1.1+j%3*.6;
-   const rock=new T.Mesh(cliffGeometry(h+1,1.5+j%3*.55,i+j*.8,20,8),new T.MeshStandardMaterial({color:[0x789f9b,0x9fb2a0,0x6d919b][j%3],vertexColors:true,map:surfaceTexture('stone'),roughness:.85}));rock.position.set(x,y-.7,z);source.add(rock);
-  }
- }
  for(const c of MOSA_CAVES){
   source.add(new T.Mesh(caveShell(c),new T.MeshStandardMaterial({color:0xffffff,vertexColors:true,map:surfaceTexture('stone'),roughness:.88,side:T.DoubleSide})));
   for(let row=0;row<4;row++){yield;const z=c.z-row*4;
@@ -52,6 +45,6 @@ export function* mosaTerrainSteps(){
  }
  const baked=yield* batchModelSteps(source,{combineColors:true});root.add(baked);
  source.traverse(o=>{if(o.isMesh){if(!o.geometry.userData.sharedScenery)o.geometry.dispose();if(!o.material.userData.sharedScenery)o.material.dispose();}});
- baked.traverse(m=>{if(m.isMesh)applyUnderwaterLighting(m.material,clock,0x3fd0ed,{level:{value:MOSA_SEA.surfaceY},refract:true});});
+ baked.traverse(m=>{if(m.isMesh){applyUnderwaterLighting(m.material,clock,0x3fd0ed,{level:{value:MOSA_SEA.surfaceY},refract:false});applyMosasaurBedOptics(m.material,{stoneNormals:true,reefRock:true});}});
  root.userData.obstacles=mosaTerrainObstacles();root.userData.caves=MOSA_CAVES;root.userData.ruins=MOSA_RUINS;root.userData.reefArches=MOSA_REEF_ARCHES;root.userData.update=(time,reduced=false)=>{clock.value=reduced?0:time;};return root;
 }

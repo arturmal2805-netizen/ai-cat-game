@@ -2,6 +2,7 @@ import * as T from 'three';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 import {shape,line} from './fantasy-scenery.js';
 import {mosaBedY,MOSA_REEF_TERRACES,MOSA_SEA} from './mosasaur-data.js';
+import {mosaReefSurfaceY} from './mosasaur-reef-data.js';
 import {applyUnderwaterLighting} from './water-shading.js';
 function anatomy(kind){
  const g=new T.Group();
@@ -45,8 +46,8 @@ export function* mosaMarineLifeSteps(){
   yield;const mesh=new T.InstancedMesh(anatomy(kind),mat,count);mesh.name=['Gentle spotted rays','Luminous little jellyfish','Reef shore crabs'][kind];
   for(let i=0;i<count;i++){
    const c=MOSA_REEF_TERRACES[(i*3+kind)%12],a=i*2.399,x=c.x+Math.cos(a)*c.radius*.35,z=c.z+Math.sin(a)*c.radius*.35;
-   let floor=mosaBedY(x,z);for(let j=0;j<8;j++)floor=Math.max(floor,mosaBedY(x+Math.cos(j*Math.PI/4)*4,z+Math.sin(j*Math.PI/4)*4));
-   dummy.position.set(x,kind===2?mosaBedY(x,z)+.05:Math.max(floor+3,-18),z);dummy.rotation.set(0,a,0);dummy.scale.setScalar(scale);dummy.updateMatrix();mesh.setMatrixAt(i,dummy.matrix);
+   let floor=mosaReefSurfaceY(x,z);for(let j=0;j<8;j++)floor=Math.max(floor,mosaReefSurfaceY(x+Math.cos(j*Math.PI/4)*4,z+Math.sin(j*Math.PI/4)*4));
+   dummy.position.set(x,kind===2?mosaReefSurfaceY(x,z)+.05:Math.max(floor+3,-18),z);dummy.rotation.set(0,a,0);dummy.scale.setScalar(scale);dummy.updateMatrix();mesh.setMatrixAt(i,dummy.matrix);
   }
   mesh.instanceMatrix.needsUpdate=true;mesh.computeBoundingSphere();mesh.boundingSphere.radius+=2;root.add(mesh);
  }

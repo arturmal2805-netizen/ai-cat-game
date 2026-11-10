@@ -1,4 +1,6 @@
 import {mosaCoastGardenSteps} from './mosasaur-coast-garden.js';
+import {mosaRockReefSteps} from './mosasaur-rock-reefs.js';
+import {mosaOpticalBedY} from './mosasaur-reef-data.js';
 import {mosaTerrainSteps} from './mosasaur-terrain.js';
 import {createMosaFish} from './mosasaur-fish.js';
 import {retainedMosaLand} from './mosasaur-retained-land.js';
@@ -116,8 +118,12 @@ export function* mosasaurBiomeSteps(
   const pier=new THREE.Mesh(new THREE.BoxGeometry(2.2,.17,MOSA_SHORE_GATE.z-23+1),new THREE.MeshStandardMaterial({color:0xc39860,map:surfaceTexture('wood'),roughness:.72}));
   pier.position.set(0,.19,(23+MOSA_SHORE_GATE.z+1)/2);pier.name='Extended dry approach to the original pickup pier';pier.receiveShadow=true;navigation.add(pier);
   const rail=new THREE.Group();
-  for(let z=24;z<=MOSA_SHORE_GATE.z;z+=2.5)for(const x of [-1.1,1.1])shape(rail,'pole',0x9a7648,x,.65,z,.055,.9,.055);
-  for(const x of [-1.1,1.1])shape(rail,'cube',0xc7a16a,x,1.04,(23+MOSA_SHORE_GATE.z)/2,.055,.055,MOSA_SHORE_GATE.z-23);
+  for(let z=24;z<=MOSA_SHORE_GATE.z;z+=2.5)for(const x of [-1.1,1.1])if(x>0||z<92||z>99)shape(rail,'pole',0x9a7648,x,.65,z,.055,.9,.055);
+  for(const [x,a,b]of [[1.1,23,MOSA_SHORE_GATE.z],[-1.1,23,92],[-1.1,99,MOSA_SHORE_GATE.z]])shape(rail,'cube',0xc7a16a,x,1.04,(a+b)/2,.055,.055,b-a);
+  // A real side gangplank reaches the submarine's hatch. The original pickup
+  // pier remains at its released coordinates; the boarding walk stays dry.
+  const gangplank=new THREE.Mesh(new THREE.BoxGeometry(1.65,.17,Math.hypot(3.8,2.5)),pier.material);
+  gangplank.position.set(-1.9,.19,94.75);gangplank.rotation.y=Math.atan2(3.8,2.5);gangplank.name='Submarine side gangplank';gangplank.receiveShadow=true;navigation.add(gangplank);
   yield* bake(rail,base);
 
   const cliff = new THREE.Mesh(
@@ -186,6 +192,7 @@ export function* mosasaurBiomeSteps(
     rz: MOSA_SEA.rz,
     depth: MOSA_DEPTH,
     bedHeight:mosaBedY,
+    opticalBedHeight:mosaOpticalBedY,
     bedResolution:lowOnly?[96,48]:[256,160],
     coastFactor:mosaCoastFactor,
     fishCount: 0,
@@ -201,6 +208,7 @@ export function* mosasaurBiomeSteps(
   base.add(sea);
   animations.push(sea);
   if (!lowOnly) {
+    const reefs=yield* mosaRockReefSteps();detail.add(reefs);animations.push(reefs);root.userData.ocean.reefs=reefs;
     const coastline=yield* mosaCoastGardenSteps(placements);detail.add(coastline);animations.push(coastline);root.userData.ocean.coastline=coastline;
     const terrain=yield* mosaTerrainSteps();detail.add(terrain);animations.push(terrain);root.userData.ocean.terrain=terrain;
     const fish=createMosaFish();sea.add(fish);animations.push(fish);sea.userData.fishCount=48;sea.userData.tropicalFish=fish;const disturb=sea.userData.disturb;sea.userData.disturb=(...args)=>{disturb(...args);fish.userData.disturb(...args);};

@@ -1,0 +1,51 @@
+[
+  {
+    "asset": "rock_face_03",
+    "role": "color",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/rock_face_03/rock_face_03_diff_2k.jpg",
+    "md5": "657add9e8a8dffaeed19bdfc58078b59",
+    "sha256": "644ee79df7ffbf5f6afc330b64dd3f33794bab8820915fe61ffe0c88ecfd7ece"
+  },
+  {
+    "asset": "rock_face_03",
+    "role": "normal",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/rock_face_03/rock_face_03_nor_gl_1k.png",
+    "md5": "17a4feb957478ce571e1146c1e278e31",
+    "sha256": "69cb133b4c6e7d046820bf5d1642dde3bbbaa56e5d4c889992ba251db8cf5218"
+  },
+  {
+    "asset": "rock_face_03",
+    "role": "rough",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/rock_face_03/rock_face_03_rough_1k.png",
+    "md5": "f0882d41a7a4158c95efb93ce353b0b1",
+    "sha256": "2c16f7644044eddb090113f7ac549e8ac8ab44b5b963437ae702075f617ad3dd"
+  },
+  {
+    "asset": "coral_ground_02",
+    "role": "reef",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/coral_ground_02/coral_ground_02_diff_1k.jpg",
+    "md5": "3719bc1f7806d18f83d6c2d7b81e0513",
+    "sha256": "83b51ff02b9b3b45a1eeb5676ab406b77e31c172e029e1e3e4280640fe197656"
+  },
+  {
+    "asset": "coral_ground_02",
+    "role": "coralNormal",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/coral_ground_02/coral_ground_02_nor_gl_1k.png",
+    "md5": "08e02b7db7a54055abcd6e8c7fc1c70d",
+    "sha256": "10f7f10f887c4720a88c8dfe771b36fb52f1432ab4aa08218e092bdc694e7b70"
+  },
+  {
+    "asset": "coral_ground_02",
+    "role": "coralRough",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/coral_ground_02/coral_ground_02_rough_1k.png",
+    "md5": "01ba200d69977e80f6f2c49f514837f7",
+    "sha256": "947e50b5edf8b53870c50eb7d92a72add0623bbc400b50b275e43ddc62b2a1f3"
+  },
+  {
+    "asset": "coast_sand_01",
+    "role": "sand",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/coast_sand_01/coast_sand_01_diff_1k.jpg",
+    "md5": "a1e243fc8635806381505c7dc44b192a",
+    "sha256": "58af2e40100f7f405703a86d593af64379f822c4786850def23ecfc921450d54"
+  }
+]

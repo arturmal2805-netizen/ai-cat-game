@@ -1,6 +1,8 @@
 import {createMosaFish} from './mosasaur-fish.js';
 import {mosaCoralSteps} from './mosasaur-corals.js';
 import {mosaMarineLifeSteps} from './mosasaur-marine-life.js';
+import {MOSA_REEF_INSTANCES,mosaReefSurfaceY} from './mosasaur-reef-data.js';
+import {createReefFishSchools} from './mosasaur-reef-fish.js';
 import * as THREE from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { applyUnderwaterLighting } from "./water-shading.js";
@@ -56,14 +58,16 @@ export function* deepOceanSteps() {
   yield;
   const coralGardens=yield* mosaCoralSteps();root.add(coralGardens);
   const marineLife=yield* mosaMarineLifeSteps();root.add(marineLife);
+  const reefFish=createReefFishSchools();root.add(reefFish);root.userData.additionalFishCount=reefFish.userData.fishCount;
   const positions = [],
     uv = [],
     indices = [];
-  for (let i = 0; i < 7; i++) {
+  for (let i = 0; i < 16; i++) {
     const a = i * 2.4,
-      r = 11,
-      x = Math.sin(a) * r,
-      z = Math.cos(a) * r,
+      c=MOSA_REEF_INSTANCES[i%12],
+      x=c.x+Math.sin(a)*c.radius*.6,
+      z=c.z+Math.cos(a)*c.radius*.6,
+      depth=Math.max(3,Math.min(32,-mosaReefSurfaceY(x,z)-2)),
       n = positions.length / 3;
     positions.push(
       x - 0.2,
@@ -72,12 +76,12 @@ export function* deepOceanSteps() {
       x + 0.2,
       0,
       z,
-      x + 3,
-      MOSA_SEA.bedY + 1,
-      z - 2,
-      x - 3,
-      MOSA_SEA.bedY + 1,
-      z - 2,
+      x+depth*.4+1.6,
+      -depth,
+      z-depth*.57,
+      x+depth*.4-1.6,
+      -depth,
+      z-depth*.57,
     );
     uv.push(0, 0, 1, 0, 1, 1, 0, 1);
     indices.push(n, n + 1, n + 2, n, n + 2, n + 3);
@@ -100,7 +104,7 @@ export function* deepOceanSteps() {
       vertexShader:
         "varying vec2 vUv; void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}",
       fragmentShader:
-        "varying vec2 vUv;uniform float uTime;void main(){float edge=pow(sin(vUv.x*3.14159),2.);float a=edge*(1.-vUv.y)*(.027+.008*sin(uTime*.5+vUv.y*9.));gl_FragColor=vec4(.2,.65,.85,a);}",
+        "varying vec2 vUv;uniform float uTime;void main(){float edge=pow(sin(vUv.x*3.14159),2.);float a=edge*pow(sin(vUv.y*3.14159),.75)*(.012+.004*sin(uTime*.5+vUv.y*9.));gl_FragColor=vec4(.2,.65,.85,a);}",
     }),
   );
   rays.name = "Soft underwater sunlight without a render target";
@@ -112,6 +116,7 @@ export function* deepOceanSteps() {
     clock.value = reduced ? 0 : time;
     coralGardens.userData.update(time,reduced);
     marineLife.userData.update(time,reduced);
+    reefFish.userData.update(time,reduced);
     fish.userData.update(time,reduced);
   };
   return root;

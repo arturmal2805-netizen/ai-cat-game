@@ -930,6 +930,6 @@ export function createBiomeScene(...args) {
 
 export async function prepareBiomeScene(biome, options, scheduling) {
   if(biome.zoo&&!options?.lowOnly)await prepareZooAnimalTemplates();
-  if(biome.id==='autumn'&&!options?.lowOnly)await Promise.all([(await import('./mosasaur-model-cache.js')).prepareMosasaurModels(),(await import('./showcase-surface-details.js')).prepareShowcaseSurfaces()]);
+  if(biome.id==='autumn'&&!options?.lowOnly)await Promise.all([(await import('./mosasaur-model-cache.js')).prepareMosasaurModels(),(await import('./mosasaur-reef-cache.js')).prepareMosaReefs(),(await import('./mosasaur-water-probe.js')).prepareMosaWaterReflection(),(await import('./mosasaur-water-field.js')).prepareMosaWaterField(),(await import('./mosasaur-rock-surfaces.js')).prepareMosaRockSurfaces(),(await import('./showcase-surface-details.js')).prepareShowcaseSurfaces()]);
   return prepareSceneSteps(biomeSceneSteps(biome, options), scheduling);
 }

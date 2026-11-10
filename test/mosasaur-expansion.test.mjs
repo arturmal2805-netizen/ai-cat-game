@@ -1,5 +1,5 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';import * as T from 'three';
-import {BIOMES,byBiome} from '../public/game-data.js';import {MOSA_RADIUS,MOSA_SEA,mosaBedY,mosaDryPoint} from '../public/mosasaur-data.js';
+import {BIOMES,byBiome} from '../public/game-data.js';import {MOSA_RADIUS,MOSA_SEA,mosaBedY,mosaCoastFactor,mosaDryPoint} from '../public/mosasaur-data.js';
 import {retainedMosaLand} from '../public/mosasaur-retained-land.js';import {createBiomeScene} from '../public/biome-scenes.js';
 import {newGame,loadGame,purchase,placeItem,canPlace,storeItem} from '../public/economy.js';import {xpForLevel} from '../public/progression.js';import {mergeSharedWorld} from '../shared-world.mjs';
 const now=Date.UTC(2026,10,4),restore=g=>loadGame({getItem:k=>k==='chichi-world-v2'?JSON.stringify(g):null},now,{advance:false});
@@ -12,7 +12,7 @@ test('five times the dimensions and twenty-five times the water area has a slopi
   const hits=new T.Raycaster(new T.Vector3(x,5,z),new T.Vector3(0,-1,0)).intersectObject(bed);
   assert.ok(hits.length);assert.ok(Math.abs(hits[0].point.y-mosaBedY(x,z))<.15);
  }
- assert.ok(mosaBedY(100,0)>mosaBedY(0,0)+180);island.userData.dispose();
+ assert.ok(mosaBedY(MOSA_SEA.rx*mosaCoastFactor(0)*.99,0)>mosaBedY(0,0)+198);island.userData.dispose();
 });
 test('existing paid shoreline objects keep IDs, addresses, tiers, deadlines and dry platforms through reloads',()=>{
  let g=seed();g.placements.push({id:'paid-shore',item:'business-hotdog',biome:'autumn',x:24,z:0,rotation:0,readyAt:now+400000});g.business.levels['paid-shore']=3;

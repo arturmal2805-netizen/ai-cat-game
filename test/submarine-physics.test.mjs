@@ -1,7 +1,7 @@
 import {test}from'node:test';import assert from'node:assert/strict';import{createSubmarinePhysics,normalizeSubmarine,SUBMARINE_MAX_SPEED,SUBMARINE_DOCK}from'../public/submarine-physics.js';import{mosaBedY,MOSA_SEA}from'../public/mosasaur-data.js';
 test('submarine accelerates, reverses, steers, dives, brakes and switches no currencies or NPC state',()=>{
- const p=createSubmarinePhysics();p.state.active=true;
- for(let i=0;i<300;i++)p.step(1/60,{forward:1});assert.ok(p.state.speed>20);assert.ok(p.state.speed<=SUBMARINE_MAX_SPEED);
+ const p=createSubmarinePhysics({x:0,y:-6,z:0,yaw:0,active:true});
+ for(let i=0;i<120;i++)p.step(1/60,{forward:1});assert.ok(p.state.speed>20);assert.ok(p.state.speed<=SUBMARINE_MAX_SPEED);
  const old=p.state.yaw;for(let i=0;i<90;i++)p.step(1/60,{turn:1,vertical:-1});assert.notEqual(p.state.yaw,old);assert.ok(p.state.y<-5);
  for(let i=0;i<240;i++)p.step(1/60,{});assert.ok(Math.abs(p.state.speed)<.01);
  for(let i=0;i<180;i++)p.step(1/60,{forward:-1});assert.ok(p.state.speed<-6);
@@ -15,7 +15,7 @@ test('safe entry/exit remains at the dedicated pier and invalid saved coordinate
  p.state.active=true;p.state.mode='cockpit';for(let i=0;i<100;i++)p.step(1/60,{forward:1});const q=createSubmarinePhysics(p.snapshot());assert.equal(q.state.active,true);assert.equal(q.state.mode,'cockpit');assert.equal(q.state.x,p.state.x);assert.equal(q.atDock(),false);
 });
 test('space gives a real ballistic water breach and shift descends again',()=>{
- const p=createSubmarinePhysics();p.state.active=true;p.step(1/60,{boost:true});let peak=p.state.y;for(let i=0;i<160;i++){p.step(1/60,{});peak=Math.max(peak,p.state.y);}assert.ok(peak>2);
+ const p=createSubmarinePhysics({x:0,y:-.85,z:0,yaw:0,active:true});p.step(1/60,{boost:true});let peak=p.state.y;for(let i=0;i<160;i++){p.step(1/60,{});peak=Math.max(peak,p.state.y);}assert.ok(peak>2);
  for(let i=0;i<180;i++)p.step(1/60,{vertical:-1});assert.ok(p.state.y<-5);
 });
 test('real save/load and cached shared clients retain the pilot pose without losing purchases or wallet',async()=>{
@@ -23,4 +23,9 @@ test('real save/load and cached shared clients retain the pilot pose without los
  const restore=x=>loadGame({getItem:k=>k==='chichi-world-v2'?JSON.stringify(x):null},now,{advance:false});const loaded=restore(g);assert.deepEqual(loaded.mosasaurSubmarine,g.mosasaurSubmarine);assert.equal(loaded.coins,g.coins);assert.deepEqual(loaded.placements,g.placements);
  const cached=structuredClone(g);delete cached.mosasaurSubmarine;assert.deepEqual(mergeSharedWorld(g,g,cached).mosasaurSubmarine,g.mosasaurSubmarine);
  const docked=structuredClone(g);docked.mosasaurSubmarine={...SUBMARINE_DOCK,active:false,mode:'chase'};assert.equal(mergeSharedWorld(g,g,docked).mosasaurSubmarine.active,false);
+});
+test('a steep reef wall brakes a fast boat rather than lifting it onto the ledge',()=>{
+ const p=createSubmarinePhysics({x:0,y:-45,z:16,yaw:Math.PI/2,active:true});let collision=false;
+ for(let i=0;i<300;i++){const oldY=p.state.y,oldX=p.state.x;p.step(.1,{forward:1});assert.ok(Math.abs(p.state.y-oldY)<.36,'no vertical teleport');if(p.state.speed<1&&i>30)collision=true;assert.ok(p.state.x-oldX<2.5);}
+ assert.ok(collision,'the swept hull meets the actual reef');
 });
