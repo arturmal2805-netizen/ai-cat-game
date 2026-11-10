@@ -35,3 +35,30 @@ recapture the two ocean previews, and repeat native submarine, camera,
 interaction, save/ownership and other-island regression checks before publishing.
 Deep-cave submarine return navigation is not fully verified. The current HTML
 bundle reference has intentionally not been included in this source checkpoint.
+
+## Separate coral-culling candidate
+
+Near/middle coral instances are partitioned in their original contiguous order.
+Their Float32 transforms, colours, geometry, animation clock and native sorting
+sphere are preserved. Tight visibility bounds are checked from the final camera
+by the owning LOD. Far views retain the original combined draws. No instance
+buffers are rewritten during animation.
+
+`ocean-coral-cells-v2` compares the actual prebaked coral geometry, native PBR
+materials and lighting with/without partitioning. Every view below produced
+**zero changed colour pixels**, with no lost context:
+
+| View | Original triangles | Candidate triangles | Original / candidate draws |
+| --- | ---: | ---: | ---: |
+| Near | 3,250,075 | 944,809 | 30 / 32 |
+| Away | 7,403,120 | 3,557,563 | 86 / 140 |
+| Surface | 7,687,627 | 3,336,103 | 85 / 142 |
+| Overview | 2,713,098 | 2,713,098 | 175 / 175 |
+| Phone DPR 2 | 3,144,860 | 982,196 | 29 / 29 |
+
+The earlier v1 changed 30 pixels and was rejected. `ocean-targeted-v12` passed
+five tests, including exact colony matrices/colours, fixed-buffer updates,
+surface optics and texture warmup. These checks establish image preservation
+and less invisible geometry, **not an FPS gain**. Higher draw counts in some
+views still require representative frame-time checks before this candidate can
+become an approved performance standard or be published.
