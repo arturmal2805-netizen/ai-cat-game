@@ -14,8 +14,8 @@ export async function auditSubmarine({page,context,base,headers,review,errors,ht
  const button=page.locator('[data-sub-key="KeyW"]'),bounds=await button.boundingBox();assert.ok(bounds);const cdp=await context.newCDPSession(page),point={x:bounds.x+bounds.width/2,y:bounds.y+bounds.height/2};
  await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[point]});await page.waitForFunction(()=>__lagoonQA.submarine().physics.state.speed>2);await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
  await page.keyboard.press('c');const driven=await pose();assert.equal(driven.active,true);assert.ok(driven.y< -5);console.log('WASD, reverse, dive, two cameras and real touch throttle passed',driven);
- await page.waitForFunction(()=>{const s=__lagoonQA.submarine().physics.state;return Math.abs(s.speed)<.01&&Math.abs(s.vertical)<.01;});await page.evaluate(()=>__lagoonSaveQA.cloud.flush());
- await page.waitForFunction(()=>!__lagoonSaveQA.cloud.dirty&&!__lagoonSaveQA.cloud.pending&&!__lagoonSaveQA.cloud.retryEntry);
+ await page.waitForFunction(()=>{const s=__lagoonQA.submarine().physics.state;return Math.abs(s.speed)<.01&&Math.abs(s.vertical)<.01;});await page.evaluate(()=>window.dispatchEvent(new Event('pagehide')));
+ await page.waitForFunction(()=>!__lagoonSaveQA.cloud.simulationOwner&&!__lagoonSaveQA.cloud.dirty&&!__lagoonSaveQA.cloud.pending&&!__lagoonSaveQA.cloud.retryEntry);
  const remote=await(await fetch(base+'/api/save',{headers})).json();assert.equal(remote.game.mosasaurSubmarine.active,true);
  await page.reload();await page.waitForFunction(()=>window.__lagoonQA?.submarine()?.phase==='piloting'&&window.__lagoonSaveQA?.cloud.editable);await page.evaluate(()=>__lagoonQA.drawPaused=true);const restored=await pose();
  console.log('Stopped saved/restored vehicle',remote.game.mosasaurSubmarine,restored);assert.equal(restored.mode,remote.game.mosasaurSubmarine.mode);assert.ok(Math.hypot(restored.x-remote.game.mosasaurSubmarine.x,restored.z-remote.game.mosasaurSubmarine.z)<.1);assert.equal(restored.active,true);console.log('SQLite reload restored the actual pilot and vehicle',restored);
