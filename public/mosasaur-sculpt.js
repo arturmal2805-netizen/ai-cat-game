@@ -1,3 +1,6 @@
+import {sculptMosasaurSteps} from './mosasaur-anatomy.js';
+import {runSceneSteps} from './scene-tasks.js';
+import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 import * as THREE from "three";
 
 // Cross-sections of a muscular marine reptile. Width, dorsal and ventral
@@ -23,8 +26,10 @@ const SKULL = [
   [6.5, 1.03, 0.87, 0.03],
   [8, 0.83, 0.73, 0.15],
   [9, 0.67, 0.68, 0.22],
-  [9.4, 0.48, 0.62, 0.26],
-  [9.65, 0.035, 0.48, 0.4],
+  [9.4,.76,.68,.22],
+  [9.7,.62,.65,.26],
+  [9.9,.20,.55,.34],
+  [10,.02,.48,.4],
 ];
 // Jaw coordinates are relative to the actual hinge at z=3.35, y=-.32.
 const JAW = [
@@ -32,9 +37,12 @@ const JAW = [
   [0.7, 1.23, 0.15, -0.46],
   [2, 1.15, 0.25, -0.48],
   [3.8, 0.9, 0.34, -0.25],
-  [5.1, 0.58, 0.43, -0.02],
-  [5.95, 0.035, 0.39, 0.32],
+  [5.1,.72,.43,-.02],
+  [5.8,.58,.43,.10],
+  [6.25,.035,.39,.32],
 ];
+for(const row of SKULL){row[1]*=1.32;row[2]*=1.16;row[3]*=1.10;}
+for(const row of JAW){row[1]*=1.32;row[2]*=1.16;row[3]*=1.10;}
 const cache = new Map();
 function slope(a, b) {
   return a * b <= 0 ? 0 : (2 * a * b) / (a + b);
@@ -69,9 +77,9 @@ function surface(
     colors = [],
     uv = [],
     indices = [],
-    blue = new THREE.Color(jaw ? 0xbad8db : 0x286b94),
-    light = new THREE.Color(0xdce7dc),
-    dark = new THREE.Color(0x184b74),
+    blue = new THREE.Color(jaw ? 0x637e7c : 0x28505d),
+    light = new THREE.Color(0x93aba3),
+    dark = new THREE.Color(0x112d3b),
     color = new THREE.Color();
   for (let i = 0; i <= rings; i++) {
     const z = THREE.MathUtils.lerp(rows[0][0], rows.at(-1)[0], i / rings),
@@ -96,7 +104,8 @@ function surface(
         .lerp(dark, Math.max(0, sn) * 0.24 + speckle * (1 - belly));
       color.lerp(light, jaw ? 0.32 + belly * 0.6 : belly * 0.96);
       color.multiplyScalar(0.96 + Math.sin(z * 17 + a * 21) * 0.025);
-      positions.push(x, y, z);
+      const relief=skull? .012*Math.sin(z*17+a*4)*Math.cos(a*27)+.008*Math.sin(z*31-a*19):.006*Math.sin(z*12+a*13);
+      positions.push(x+cs*relief,y+sn*relief,z);
       colors.push(color.r, color.g, color.b);
       uv.push((j / sides) * 3, z * 0.24);
       if (i < rings && j < sides) {
@@ -170,20 +179,63 @@ function paddle() {
   g.computeVertexNormals();
   return g;
 }
-export function mosasaurGeometry(kind) {
+export function* mosasaurGeometrySteps(kind) {
   if (cache.has(kind)) return cache.get(kind);
   let g;
-  if (kind === "body") g = surface(BODY);
-  else if (kind === "skull") g = surface(SKULL, { rings: 72, skull: true });
+  if (kind === "body") g = yield* sculptMosasaurSteps("body");
+  else if (kind === "skull") g = yield* sculptMosasaurSteps("body");
   else if (kind === "jaw")
-    g = surface(JAW, { rings: 60, sides: 28, skull: true, jaw: true });
+    g = yield* sculptMosasaurSteps("jaw");
   else if (kind === "paddle") g = paddle();
   else throw new RangeError("Unknown mosasaur surface");
+  if(kind==='body'){
+    const parts=[g];
+    const ray=new THREE.Raycaster(),probe=new THREE.Mesh(g,new THREE.MeshBasicMaterial({side:THREE.DoubleSide}));
+    // Real overlapping osteoderms, anchored to the continuous skin. They share
+    // its material and tail deformation instead of becoming separate objects.
+    for(let row=-3;row<=3;row++)for(let j=0;j<49;j++){
+      const z=-8.6+j*.35+(Math.abs(row)%2)*.17,x=row*.36*(z< -3?Math.max(.25,1+(z+3)*.12):1);
+      ray.set(new THREE.Vector3(x,5,z),new THREE.Vector3(0,-1,0));const hit=ray.intersectObject(probe,false)[0];if(!hit||hit.point.y<.15&&z>3)continue;
+      const n=hit.face.normal.clone(),center=hit.point.clone().addScaledVector(n,-.018),q=new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0,1,0),n),vertices=[],uv=[],colors=[],indices=[],tint=new THREE.Color((j+row)%3?0x527987:0x6b9097),size=z>5?.115:.16,height=(row===0?.14:.065)*(z>5?.7:1);
+      for(let k=0;k<7;k++){const a=k*Math.PI/3,v=k===6?new THREE.Vector3(0,height,-.035):new THREE.Vector3(Math.cos(a)*size,0,Math.sin(a)*size*1.3);v.applyQuaternion(q).add(center);vertices.push(v.x,v.y,v.z);uv.push(k%2,z*.32);colors.push(tint.r,tint.g,tint.b);if(k<6)indices.push(k,(k+1)%6,6);}
+      const plate=new THREE.BufferGeometry();plate.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));plate.setAttribute('normal',new THREE.Float32BufferAttribute(Array(7).fill(n.toArray()).flat(),3));plate.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2));plate.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));plate.setIndex(indices);parts.push(plate);
+    }
+    probe.material.dispose();
+    g=mergeGeometries(parts);for(const p of parts)p.dispose();
+  }
   g.userData.sharedScenery = true;
   cache.set(kind, g);
   return g;
 }
+export function mosasaurGeometry(kind){return runSceneSteps(mosasaurGeometrySteps(kind));}
+let tooth;
+export function mosasaurToothGeometry(){
+ if(tooth)return tooth;const p=[],n=[],uv=[],colors=[],indices=[];
+ for(let j=0;j<=7;j++)for(let k=0;k<=12;k++){
+  const t=j/7,a=k/12*Math.PI*2,r=Math.pow(1-t,.85),bend=.23*t*t,tint=new THREE.Color(0xf6e8c5).lerp(new THREE.Color(0xb7a87f),Math.pow(1-t,5)*.42);
+  p.push(Math.cos(a)*r,bend+Math.sin(a)*r*.9,t-.5);uv.push(k/12,t);colors.push(tint.r,tint.g,tint.b);
+  if(j<7&&k<12){const q=j*13+k;indices.push(q,q+13,q+1,q+1,q+13,q+14);}
+ }
+ tooth=new THREE.BufferGeometry();tooth.setAttribute('position',new THREE.Float32BufferAttribute(p,3));tooth.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2));tooth.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));tooth.setIndex(indices);tooth.rotateX(-Math.PI/2);tooth.computeVertexNormals();tooth.userData.sharedScenery=true;return tooth;
+}
+export function installMosasaurGeometry(kind,geometry){geometry.userData.sharedScenery=true;cache.set(kind,geometry);}
+export function mosasaurDentalAnchors(kind,geometry=mosasaurGeometry(kind)){
+ if(geometry.userData.dentalAnchors)return geometry.userData.dentalAnchors;
+ const upper=kind==='body',probe=new THREE.Mesh(geometry,new THREE.MeshBasicMaterial({side:THREE.DoubleSide})),ray=new THREE.Raycaster(),p=geometry.attributes.position,anchors=[];
+ const count=upper?20:18,start=upper?4.5:1.05,step=upper?.226:.263;
+ for(const side of [-1,1])for(let j=0;j<count;j++){
+  const z=start+j*step;let width=0;
+  for(let k=0;k<p.count;k++)if(Math.abs(p.getZ(k)-z)<.18)width=Math.max(width,Math.abs(p.getX(k)));
+  for(const row of [0,1]){
+   const x=side*width*(row?.62:.86);ray.set(new THREE.Vector3(x,upper?-5:4,z),new THREE.Vector3(0,upper?1:-1,0));
+   const hit=ray.intersectObject(probe,false)[0];if(hit)anchors.push({side,j,row,point:hit.point.toArray()});
+  }
+ }
+ probe.material.dispose();geometry.userData.dentalAnchors=anchors;return anchors;
+}
 let scales;
+export const mosasaurSkullWidth=z=>section(SKULL,z,1);
+export const mosasaurJawWidth=z=>section(JAW,z,1);
 export function mosasaurScales() {
   if (scales) return scales;
   const n = 256,
@@ -203,6 +255,7 @@ export function mosasaurScales() {
   scales = new THREE.DataTexture(data, n, n, THREE.RGBAFormat);
   scales.name = "Shared small reptile scale relief";
   scales.wrapS = scales.wrapT = THREE.RepeatWrapping;
+  scales.repeat.set(2,2);
   scales.generateMipmaps = true;
   scales.minFilter = THREE.LinearMipmapLinearFilter;
   scales.magFilter = THREE.LinearFilter;

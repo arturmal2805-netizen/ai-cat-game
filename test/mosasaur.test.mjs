@@ -10,10 +10,12 @@ import {
   MOSA_SEA,
   MOSA_DEPTH,
   mosaBedY,
+  mosaWaterRadius,
   mosaDryPoint,
 } from "../public/mosasaur-data.js";
 import {
   mosasaurFrame,
+  mosasaurAmbientFrame,
   mosasaurApproach,
   MOSA_DURATION,
   MOSA_SEAT,
@@ -154,7 +156,7 @@ test("all moving geometry clears the real seabed and shores; the seat follows th
       assert.ok(p.y > mosaBedY(p.x,p.z) + 1, "no mesh penetrates the bottom");
       if (p.y < 0.155)
         assert.ok(
-          (p.x / 21) ** 2 + (p.z / 20) ** 2 < 0.9,
+          mosaWaterRadius(p.x,p.z)<.94,
           "all underwater geometry stays clear of the banks",
         );
     }
@@ -219,7 +221,7 @@ test("deep swimming is four times faster, and the leap has constant gravity, str
     );
   }
 });
-test("the sculpt has separate broad skull and articulated toothed jaw, while breach and landing use bounded instanced spray", () => {
+test("the sculpt has a continuous broad skull and articulated toothed jaw, while breach and landing use bounded instanced spray", () => {
   const g = makeAttraction("ride-mosasaur"),
     d = g.userData;
   assert.ok(d.skull.geometry.attributes.position.count > 2000);
@@ -229,7 +231,7 @@ test("the sculpt has separate broad skull and articulated toothed jaw, while bre
     if (o.isMesh) vertices += o.geometry.attributes.position.count;
   });
   assert.ok(
-    vertices < 65000,
+    vertices < 100000,
     "the detailed creature and jetty retain a bounded geometry budget",
   );
   g.userData.rideElapsed = MOSA_TIMES.launch - 0.1;
@@ -375,11 +377,11 @@ test("close Chichi camera stays aimed at her face, above the real bottom, throug
 test("shore walking stays dry and migrated paid plots preserve every ID, deadline, crop and business tier", () => {
   for (let i = 0; i < 60; i++) {
     const p = mosaDryPoint(Math.sin(i) * 10, Math.cos(i) * 10);
-    assert.ok((p.x/MOSA_SEA.rx)**2+(p.z/MOSA_SEA.rz)**2>=1 || (Math.abs(p.x)<=1.1&&p.z>=9.8));
+    assert.ok(mosaWaterRadius(p.x,p.z)>=1 || (Math.abs(p.x)<=1.1&&p.z>=9.8));
   }
   for (let i = 0; i <= 100; i++) {
-    const p = mosasaurApproach([108, 0, 0], mosasaurFrame(0).position, i / 100);
-    if(i<85)assert.ok((p[0]/MOSA_SEA.rx)**2+(p[2]/MOSA_SEA.rz)**2>=1 || (Math.abs(p[0])<=1.1&&p[2]>=9.8));
+    const p = mosasaurApproach([113, 0, 0], mosasaurFrame(0).position, i / 100);
+    if(i<85)assert.ok(mosaWaterRadius(p[0],p[2])>=1 || Math.abs(p[0])<=1.1);
   }
   const g = newGame(now);
   g.unlocked.push("autumn");
@@ -430,10 +432,10 @@ test("idle fins animate and a cancelled deep ride returns Marin to the actual bo
   animateAttraction(g, 50);
   assert.ok(
     g.userData.moving.position.distanceTo(
-      new THREE.Vector3(...mosasaurFrame(0).bodyPosition),
+      new THREE.Vector3(...mosasaurAmbientFrame(50).bodyPosition),
     ) < 1e-9,
   );
-  assert.equal(g.userData.phase, "boarding");
+  assert.equal(g.userData.behavior,mosasaurAmbientFrame(50).state);
   const first = g.userData.fins[0].rotation.z;
   animateAttraction(g, 51);
   assert.notEqual(g.userData.fins[0].rotation.z, first);

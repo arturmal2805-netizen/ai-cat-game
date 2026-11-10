@@ -1,11 +1,13 @@
 import * as THREE from "three";
 import { shape, line, batchScenery } from "./fantasy-scenery.js";
 import { batchModelSteps } from "./model-batching.js";
-import { mosasaurGeometry, mosasaurScales } from "./mosasaur-sculpt.js";
+import { mosasaurGeometry, mosasaurGeometrySteps, mosasaurScales, mosasaurSkullWidth, mosasaurJawWidth, mosasaurDentalAnchors,mosasaurToothGeometry } from "./mosasaur-sculpt.js";
 import { MOSA_SEA } from "./mosasaur-data.js";
 import {
   mosasaurFrame,
   mosasaurApproach,
+  mosasaurApproachDuration,
+  mosasaurAmbientFrame,
   MOSA_DURATION,
   MOSA_SEAT,
   MOSA_SCALE,
@@ -61,6 +63,7 @@ export function* mosasaurRideSteps(id) {
   root.name = "Marin · powerful blue mosasaur";
   root.add(moving);
   moving.scale.setScalar(MOSA_SCALE);
+  const boardingHolds=new Set();let lastTime=0,holdSince=-Infinity,holdFrom=null,lastFrame=null,ambientResume=-Infinity,resumeFrom=null;
   const clock = { value: 0 },
     drive = { value: 1 };
   function mat(color, glow = false) {
@@ -90,12 +93,13 @@ export function* mosasaurRideSteps(id) {
   }
   const skin = new THREE.MeshPhysicalMaterial({
     vertexColors: true,
-    roughness: 0.4,
+    roughness: 0.66,
     metalness: 0.025,
-    clearcoat: 0.48,
-    clearcoatRoughness: 0.3,
+    clearcoat: 0.38,
+    clearcoatRoughness: 0.36,
     bumpMap: mosasaurScales(),
-    bumpScale: 0.035,
+    bumpScale: 0.065,
+    roughnessMap:mosasaurScales(),
   });
   const bodyMat = skin.clone();
   bodyMat.onBeforeCompile = (shader) => {
@@ -110,86 +114,40 @@ export function* mosasaurRideSteps(id) {
       transformed.x+=w*sin(uMosaClock+position.z*.65)*uMosaDrive;`,
       );
   };
-  bodyMat.customProgramCacheKey = () => "mosa-muscular-tail-v2";
-  const body = new THREE.Mesh(mosasaurGeometry("body"), bodyMat);
+  const bodyCompile=bodyMat.onBeforeCompile;
+  bodyMat.onBeforeCompile=shader=>{bodyCompile(shader);shader.vertexShader=shader.vertexShader.replace('#include <beginnormal_vertex>',`#include <beginnormal_vertex>
+  float tailT=clamp((-position.z-2.)/8.5,0.,1.),tailW=pow(tailT,1.7),tailD=tailT>0.&&tailT<1.?-1.7/8.5*pow(tailT,.7):0.;
+  float shear=(tailD*sin(uMosaClock+position.z*.65)+tailW*.65*cos(uMosaClock+position.z*.65))*uMosaDrive;objectNormal.z-=shear*objectNormal.x;objectNormal=normalize(objectNormal);`);};
+  bodyMat.customProgramCacheKey = () => "mosa-muscular-tail-normal-v3";
+  const body = new THREE.Mesh(yield* mosasaurGeometrySteps("body"), bodyMat);
   body.name = "Continuous muscular trunk and powerful tapered tail";
   body.castShadow = body.receiveShadow = true;
   moving.add(body);
-  const skull = new THREE.Mesh(mosasaurGeometry("skull"), skin);
-  skull.name = "Broad reptile skull and long rounded snout";
-  skull.castShadow = skull.receiveShadow = true;
-  moving.add(skull);
+  const skull=body;
+  skull.name="Continuous predatory skull, muscular shoulders and tail";
   yield;
-  // Palate, gums, nostrils, cheeks and inset amber eyes form one static head batch.
-  soft(props, 0x955b69, 0, -0.07, 6.45, 1, 0.09, 2.55);
-  soft(props, 0xc0818c, 0, -0.095, 7.35, 0.72, 0.04, 1.35);
-  for (const side of [-1, 1]) {
-    const eye = new THREE.Group();
-    eye.position.set(side * 1.38, 0.77, 4.2);
-    eye.rotation.y = side * 0.98;
-    props.add(eye);
-    soft(eye, 0x326b87, 0, 0, -0.03, 0.35, 0.36, 0.22);
-    soft(eye, 0xe1c780, 0, 0.015, 0.17, 0.27, 0.28, 0.085);
-    soft(eye, 0x142d3a, 0, 0.02, 0.246, 0.15, 0.19, 0.045);
-    soft(eye, 0xffffff, -0.065, 0.1, 0.286, 0.055, 0.055, 0.018, true);
-    soft(eye, 0xc6f0ee, 0.065, -0.06, 0.283, 0.024, 0.025, 0.012, true);
-    const brow = new THREE.CatmullRomCurve3(
-      [
-        [side * 0.85, 1.1, 3.93],
-        [side * 1.16, 1.03, 4.15],
-        [side * 1.4, 0.94, 4.43],
-      ].map((p) => new THREE.Vector3(...p)),
-    );
-    props.add(
-      new THREE.Mesh(
-        new THREE.TubeGeometry(brow, 18, 0.1, 8, false),
-        mat(0x28658b),
-      ),
-    );
-    const nostril = soft(
-      props,
-      0x174760,
-      side * 0.4,
-      0.64,
-      8.35,
-      0.14,
-      0.035,
-      0.19,
-    );
-    nostril.rotation.y = side * 0.18;
-    soft(props, 0x4784a0, side * 0.38, 0.67, 8.23, 0.17, 0.035, 0.12);
-    // A restrained cheek fold accentuates the jaw joint, without eye stalks.
-    const fold = new THREE.CatmullRomCurve3(
-      [
-        [side * 1.18, 0.7, 3.45],
-        [side * 1.36, 0.44, 3.9],
-        [side * 1.3, 0.08, 4.35],
-      ].map((p) => new THREE.Vector3(...p)),
-    );
-    props.add(
-      new THREE.Mesh(
-        new THREE.TubeGeometry(fold, 18, 0.035, 5, false),
-        mat(0x205b7a),
-      ),
-    );
-    for (let j = 0; j < 17; j++) {
-      const z = 4.45 + j * 0.267,
-        w = 1.25 - (z - 4.45) * 0.145,
-        length = 0.23 + Math.sin((j / 16) * Math.PI) * 0.17,
-        tooth = detail(
-          props,
-          "cone",
-          0xfff4d7,
-          side * w,
-          -0.13 + (z - 4.45) * 0.07 - length / 2,
-          z,
-          0.065,
-          length,
-          0.065,
-        );
-      tooth.rotation.z = Math.PI + side * 0.13;
-      tooth.rotation.x = 0.15;
+  // Roots are measured on the final sculpt, including its carved mouth.
+  // Analytic widths from the old model put teeth outside the new jaw.
+  const toothAnchors=[];
+  const enamel=new THREE.MeshStandardMaterial({color:0xffffff,vertexColors:true,roughness:.37});
+  function dentalRow(geometry,parent,upper){
+    const count=upper?20:18;
+    for(const anchor of mosasaurDentalAnchors(upper?'body':'jaw',geometry)){
+      const {side,j,row,point}=anchor,length=(.26+Math.sin(j/(count-1)*Math.PI)*.28)*(row?.57:1),axis=new THREE.Vector3(-side*.12,upper?-1:1,upper?-.14:.08).normalize();
+      const tooth=new THREE.Mesh(mosasaurToothGeometry(),enamel);parent.add(tooth);tooth.scale.set(.075,length,.075);tooth.castShadow=true;tooth.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),axis);
+      tooth.position.fromArray(point).addScaledVector(axis,length*.46);
+      toothAnchors.push({upper,row,point,root:tooth.position.clone().addScaledVector(axis,-length*.5).toArray()});
     }
+  }
+  soft(props,0x75515c,0,.025,6.6,.87,.045,2.0);
+  dentalRow(body.geometry,props,true);
+  for(const side of [-1,1]){
+    const eye=new THREE.Group();eye.position.set(side*1.55,.58,4.85);eye.rotation.y=side*1.24;props.add(eye);
+    soft(eye,0x172d34,0,0,.015,.20,.16,.075);
+    soft(eye,0xb99d64,0,.005,.082,.112,.115,.026);
+    soft(eye,0x0c1b22,0,.006,.108,.044,.085,.012);
+    soft(eye,0xf4fbff,-.035,.045,.12,.017,.019,.006,true);
+    soft(props,0x273d43,side*.42,.71,8.4,.10,.023,.17);
     const front = new THREE.Group(),
       rear = new THREE.Group();
     front.position.set(side * 1.42, -0.45, 1.75);
@@ -211,30 +169,12 @@ export function* mosasaurRideSteps(id) {
   jaw.name = "Articulated lower jaw";
   jaw.position.set(0, -0.32, 3.35);
   moving.add(jaw);
-  const jawSkin = new THREE.Mesh(mosasaurGeometry("jaw"), skin);
+  const jawSkin = new THREE.Mesh(yield* mosasaurGeometrySteps("jaw"), skin);
   jawSkin.castShadow = true;
   jaw.add(jawSkin);
-  soft(jawProps, 0xb87a86, 0, 0.23, 3, 1, 0.07, 2.5);
-  soft(jawProps, 0xd99b9e, 0, 0.32, 3.8, 0.55, 0.09, 1.3);
-  for (const side of [-1, 1])
-    for (let j = 0; j < 16; j++) {
-      const z = 1.05 + j * 0.295,
-        w = 1.17 - Math.max(0, z - 1) * 0.143,
-        height = 0.18 + Math.sin((j / 15) * Math.PI) * 0.15,
-        tooth = detail(
-          jawProps,
-          "cone",
-          0xfff4d7,
-          side * w,
-          0.18 + z * 0.04 + height / 2,
-          z,
-          0.055,
-          height,
-          0.055,
-        );
-      tooth.rotation.z = -side * 0.1;
-      tooth.rotation.x = -0.12;
-    }
+  soft(jawProps,0x895b68,0,.16,2.95,1.08,.055,2.1);
+  soft(jawProps,0xa7737f,0,.20,3.6,.47,.065,1.2);
+  dentalRow(jawSkin.geometry,jawProps,false);
   yield* bake(jaw, jawProps);
   // A deep crescent tail stands vertically, with a larger upper lobe.
   const tail = new THREE.Group();
@@ -262,6 +202,7 @@ export function* mosasaurRideSteps(id) {
   tail.add(fluke);
   moving.add(tail);
   yield;
+
   // Leather girth, navy saddlecloth, stitched gold edging and a low handrail.
   const strapPoints = [];
   for (let j = 0; j <= 48; j++) {
@@ -411,11 +352,15 @@ export function* mosasaurRideSteps(id) {
     dismount: [0, 0, 23],
     rideFrame: mosasaurFrame,
     approachFrame: mosasaurApproach,
+    approachDuration:mosasaurApproachDuration,
+    prepareRide(id){if(!boardingHolds.size){holdSince=lastTime;holdFrom=lastFrame;}boardingHolds.add(id);},
+    releaseRide(id){boardingHolds.delete(id);if(!boardingHolds.size){ambientResume=lastTime;resumeFrom=lastFrame;}},
     saddleLocal: new THREE.Vector3(...MOSA_SEAT),
     deepRide: true,
     update(time, reduced = false) {
       const elapsed = root.userData.rideElapsed ?? 0,
-        f = mosasaurFrame(elapsed, reduced),
+        riding=root.userData.rideElapsed!==undefined,
+        f = riding || boardingHolds.size ? mosasaurFrame(elapsed,reduced) : mosasaurAmbientFrame(time,reduced),
         air = f.phase === "flight";
       if (!reduced)
         for (const burst of bursts)
@@ -427,6 +372,9 @@ export function* mosasaurRideSteps(id) {
               burst.power * 1.8,
             );
       previousElapsed = elapsed;
+      if(!riding&&boardingHolds.size&&holdFrom&&time-holdSince<4){const t=THREE.MathUtils.smoothstep(time-holdSince,0,4);f.bodyPosition=new THREE.Vector3(...holdFrom.bodyPosition).lerp(new THREE.Vector3(...f.bodyPosition),t).toArray();f.quaternion=new THREE.Quaternion().fromArray(holdFrom.quaternion).slerp(new THREE.Quaternion().fromArray(f.quaternion),t).toArray();}
+      if(!riding&&!boardingHolds.size&&resumeFrom&&time-ambientResume<4){const t=THREE.MathUtils.smoothstep(time-ambientResume,0,4);f.bodyPosition=new THREE.Vector3(...resumeFrom.bodyPosition).lerp(new THREE.Vector3(...f.bodyPosition),t).toArray();f.quaternion=new THREE.Quaternion().fromArray(resumeFrom.quaternion).slerp(new THREE.Quaternion().fromArray(f.quaternion),t).toArray();}
+      lastTime=time;lastFrame=f;root.userData.behavior=f.state||f.phase;root.userData.poseFrame=f;
       moving.position.set(...f.bodyPosition);
       q.fromArray(f.quaternion);
       moving.quaternion.copy(q);
@@ -438,7 +386,7 @@ export function* mosasaurRideSteps(id) {
       tail.rotation.y = reduced ? 0 : Math.cos(wave) * 0.5 * drive.value;
       jaw.rotation.x = reduced
         ? 0.18
-        : (air ? 0.46 : f.phase === "ascent" ? 0.36 : 0.17) +
+        : (f.jaw??(air ? .68 : f.phase === "ascent" ? .60 : .28)) +
           Math.sin(time * 1.8) * 0.025;
       for (let i = 0; i < fins.length; i++) {
         fins[i].rotation.z = reduced
@@ -531,6 +479,7 @@ export function* mosasaurRideSteps(id) {
       root.userData.phase = f.phase;
     },
   };
+  root.userData.toothCount=toothAnchors.length;root.userData.toothAnchors=toothAnchors;
   root.userData.update(0, true);
   return root;
 }

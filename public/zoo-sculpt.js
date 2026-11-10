@@ -5,9 +5,9 @@ import {mergeVertices} from 'three/addons/utils/BufferGeometryUtils.js';
 // A closed, continuous animal surface. The authored volumes are sculpting
 // controls, not separate visible balls. Skin weights and colour blend through
 // necks, shoulders and ankles; the shared baked palette animates the result.
-export function* sculptZooAnimalSteps(volumes,{resolution=48,soft=.11,sockets=[],targetTriangles=0,pigment,authoringCapacity=0,solePlane=null}={}){
+export function* sculptZooAnimalSteps(volumes,{resolution=48,soft=.11,sockets=[],targetTriangles=0,pigment,authoringCapacity=0,solePlane=null,boundsMargin=.22}={}){
  const low=[Infinity,Infinity,Infinity],high=[-Infinity,-Infinity,-Infinity];
- for(const v of volumes)for(let k=0;k<3;k++){const relief=k===2?(v.relief||[]).reduce((n,r)=>n+Math.abs(r[2]),0):0;low[k]=Math.min(low[k],v.pos[k]-v.size[k]-.22);high[k]=Math.max(high[k],v.pos[k]+v.size[k]+relief+.22);}
+ for(const v of volumes)for(let k=0;k<3;k++){const relief=k===2?(v.relief||[]).reduce((n,r)=>n+Math.abs(r[2]),0):0;low[k]=Math.min(low[k],v.pos[k]-v.size[k]-boundsMargin);high[k]=Math.max(high[k],v.pos[k]+v.size[k]+relief+boundsMargin);}
  volumes=volumes.map(v=>({...v,inv:v.size.map(n=>1/n),minimum:Math.min(...v.size)}));
  const span=high.map((n,k)=>n-low[k]),capacity=Math.max(authoringCapacity,Math.ceil(180000*Math.max(1,(resolution/160)**2))),clay=new MarchingCubes(resolution,new T.MeshBasicMaterial(),false,false,capacity);clay.isolation=0;
  // Local Gaussian relief sculpts facial anatomy directly into a single skin.

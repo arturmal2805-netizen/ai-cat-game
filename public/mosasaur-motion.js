@@ -1,7 +1,7 @@
 import * as THREE from "three";
-import { MOSA_SEA, MOSA_DOCK, MOSA_SHORE_GATE } from "./mosasaur-data.js";
+import { MOSA_SEA, MOSA_DOCK, MOSA_SHORE_GATE, mosaCoastFactor, mosaDryPoint } from "./mosasaur-data.js";
 export const MOSA_DURATION = 30;
-export const MOSA_SCALE = 1.25;
+export const MOSA_SCALE = 3.25;
 export const MOSA_SEAT = [0, 1.44, 0.6];
 export const MOSA_TIMES = Object.freeze({
   board: 2,
@@ -147,7 +147,7 @@ export function mosasaurFrame(elapsed, reduced = false) {
     q = new THREE.Quaternion().setFromEuler(
       new THREE.Euler(pitch, yaw, roll, "YXZ"),
     ),
-    p = new THREE.Vector3(x, y, z),
+    p = new THREE.Vector3(x, y, z-6),
     seat = new THREE.Vector3(...MOSA_SEAT)
       .multiplyScalar(MOSA_SCALE)
       .applyQuaternion(q)
@@ -172,15 +172,29 @@ export function mosasaurFrame(elapsed, reduced = false) {
 }
 // Follow the dry shore to the jetty; only the final small hop boards the saddle.
 // Local coordinates allow the identical path for the hero and every resident.
-export function mosasaurApproach(from,to,t){
- const start=new THREE.Vector3(...from),end=new THREE.Vector3(...to),dock=new THREE.Vector3(0,0,MOSA_DOCK.z);
- const gate=new THREE.Vector3(0,0,MOSA_SHORE_GATE.z),a0=Math.atan2(start.x,start.z),da=Math.atan2(Math.sin(-a0),Math.cos(-a0));
- if(t<.55){const u=smooth(clamp(t/.55,0,1));
-  if(Math.abs(start.x)<=1.11&&start.z>=9.8&&start.z<=MOSA_SHORE_GATE.z+1)return start.lerp(dock,u).toArray();
-  const angle=t<.18?a0:a0+da*smooth((t-.18)/.37),shore=1/Math.hypot(Math.sin(angle)/(MOSA_SEA.rx+3),Math.cos(angle)/(MOSA_SEA.rz+3));
-  const r0=Math.hypot(start.x,start.z),r=t<.18?THREE.MathUtils.lerp(r0,shore,smooth(t/.18)):shore;
-  return [Math.sin(angle)*r,0,Math.cos(angle)*r];
+const approachCache=new Map();
+function approachPath(from,to,t){
+ const start=new THREE.Vector3(...from),end=new THREE.Vector3(...to),boarding=new THREE.Vector3(0,0,9.8),gate=new THREE.Vector3(0,0,MOSA_SHORE_GATE.z),onPier=Math.abs(start.x)<1.12&&start.z>=9.8&&start.z<=MOSA_SHORE_GATE.z+1;
+ if(onPier){if(t<.78)return start.lerp(boarding,smooth(t/.78));return boarding.lerp(end,smooth((t-.78)/.22));}
+ if(t<.55){const u=t/.55,a0=Math.atan2(start.x,start.z),da=Math.atan2(Math.sin(-a0),Math.cos(-a0)),a=a0+da*smooth(Math.max(0,(u-.25)/.75));
+  const f=mosaCoastFactor(Math.atan2(Math.cos(a)/MOSA_SEA.rz,Math.sin(a)/MOSA_SEA.rx)),r=f/Math.hypot(Math.sin(a)/MOSA_SEA.rx,Math.cos(a)/MOSA_SEA.rz)+8,shore=mosaDryPoint(Math.sin(a)*r,Math.cos(a)*r,3);
+  if(u<.25)return start.lerp(new THREE.Vector3(shore.x,0,shore.z),smooth(u/.25));return new THREE.Vector3(shore.x,0,shore.z);
  }
- if(t<.85){if(Math.abs(start.x)<=1.11&&start.z>=9.8&&start.z<=MOSA_SHORE_GATE.z+1)return dock.toArray();return gate.lerp(dock,smooth((t-.55)/.3)).toArray();}
- return dock.lerp(end,smooth((t-.85)/.15)).toArray();
+ if(t<.90)return gate.lerp(boarding,smooth((t-.55)/.35));return boarding.lerp(end,smooth((t-.90)/.10));
+}
+function approachTable(from,to){const key=[...from,...to].map(n=>n.toFixed(4)).join(',');if(approachCache.has(key))return approachCache.get(key);const points=[],distances=[0];for(let i=0;i<=256;i++){points.push(approachPath(from,to,i/256));if(i)distances.push(distances.at(-1)+points[i].distanceTo(points[i-1]));}const result={points,distances,length:distances.at(-1)};if(approachCache.size>=32)approachCache.delete(approachCache.keys().next().value);approachCache.set(key,result);return result;}
+export function mosasaurApproachDuration(from,to){return Math.ceil(Math.max(4200,approachTable(from,to).length/2.4*1000));}
+export function mosasaurApproach(from,to,t){const table=approachTable(from,to),d=THREE.MathUtils.clamp(t,0,1)*table.length;let lo=0,hi=table.distances.length-1;while(lo+1<hi){const mid=(lo+hi)>>1;if(table.distances[mid]<d)lo=mid;else hi=mid;}return table.points[lo].clone().lerp(table.points[hi],(d-table.distances[lo])/(table.distances[hi]-table.distances[lo]||1)).toArray();}
+export function mosasaurAmbientFrame(time,reduced=false){
+ if(reduced)return {...mosasaurFrame(0,true),state:'patrol',jaw:.32};
+ const cycle=((time%90)+90)%90,a=time*.065,patrol=new THREE.Vector3(Math.cos(a)*18,-3.5-Math.sin(a*.7)**2*3,Math.sin(a)*16-8);
+ const envelope=(start,end)=>{const t=(cycle-start)/(end-start);return t<=0||t>=1?0:Math.sin(t*Math.PI)**2;};
+ let state='patrol',jaw=.22,pitch=0;
+ if(cycle>18&&cycle<31){state='curious';const w=envelope(18,31);patrol.y+=( -1.8-patrol.y)*w;jaw+=w*.38;}
+ else if(cycle>=31&&cycle<54){state='deep-dive';const w=envelope(31,54);patrol.y-=w*42;pitch=Math.sin((cycle-31)/23*Math.PI*2)*.18;}
+ else if(cycle>=54&&cycle<69){state='surface-inspection';const w=envelope(54,69);patrol.y+=(1-patrol.y)*w;jaw+=w*.20;}
+ else if(cycle>=69&&cycle<83){state='fast-swim';jaw+=envelope(69,83)*.09;}
+ else if(cycle>=83){state='cinematic-breach';const w=envelope(83,90);patrol.y+=w*10;jaw+=w*.55;pitch=-Math.sin((cycle-83)/7*Math.PI*2)*.24;}
+ const yaw=Math.atan2(-Math.sin(a),Math.cos(a)),q=new THREE.Quaternion().setFromEuler(new THREE.Euler(pitch,yaw,0,'YXZ'));
+ return {bodyPosition:patrol.toArray(),quaternion:q.toArray(),position:new THREE.Vector3(...MOSA_SEAT).multiplyScalar(MOSA_SCALE).applyQuaternion(q).add(patrol).toArray(),phase:state==='deep-dive'?'deep':state==='cinematic-breach'?'ascent':'idle',state,jaw};
 }

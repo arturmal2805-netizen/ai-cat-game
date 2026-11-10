@@ -1,4 +1,5 @@
 import {buildZooModels} from './build-zoo-models.mjs';
+import {buildMosasaurModels} from './build-mosasaur-models.mjs';
 import { build } from "esbuild";
 import { sculptCacheVersion } from "./sculpt-cache-version.mjs";
 import { mkdir, writeFile, readFile } from "node:fs/promises";
@@ -20,6 +21,7 @@ globalThis.FileReader = class {
   }
 };
 await buildZooModels();
+await buildMosasaurModels();
 await mkdir("public/dist", { recursive: true });
 await mkdir("public/models", { recursive: true });
 await build({
