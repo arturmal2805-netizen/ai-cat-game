@@ -1,0 +1,303 @@
+{
+  "release": "6a5a5d9d406ba48f3fdb725d486205d1b82a33bc",
+  "run": 41902798241,
+  "sites": {
+    "pages": {
+      "entry": "./dist/app.js?v=5920ee5e6ebdb53a",
+      "scriptSHA256": "5920ee5e6ebdb53a2e90c9d04e59ef9ad44a58fc6cc907afbe662529fdcec27e",
+      "assets": [
+        {
+          "name": "art/zoo-coat-ce439863dc570346.webp",
+          "bytes": 2360034,
+          "sha256": "ce439863dc570346d2872f85bf4dddf137c3429e0ed4cca5403355c211f33209"
+        },
+        {
+          "name": "art/previews/catalog.json",
+          "bytes": 5296,
+          "sha256": "08ed1cadbb5733303e17d4ebc2ea1bb1f6910354f9c153071adea6cf155c5ab8"
+        },
+        {
+          "name": "art/previews/zoo-elephant.png",
+          "bytes": 41408,
+          "sha256": "d00858747af8eb5f76a2519e0170b7bd84c8530673e12c3afb8925905109de05"
+        },
+        {
+          "name": "art/previews/zoo-polar.png",
+          "bytes": 26232,
+          "sha256": "48ff62a6a0a424d39214ce34565e9461179b7387ffa66cb79cadb33429b3a861"
+        },
+        {
+          "name": "art/previews/zoo-otter.png",
+          "bytes": 19663,
+          "sha256": "c6e6c3ace39a99d0bdace841d5aded1c6797ce07e47c46765eaba5a54c422906"
+        },
+        {
+          "name": "art/previews/zoo-gorilla.png",
+          "bytes": 50762,
+          "sha256": "0681cf86bd73494ddc7d75a37e7247e23b595c8594d560a4fd9cc53dfa1e3f4c"
+        },
+        {
+          "name": "art/previews/zoo-axolotl.png",
+          "bytes": 26046,
+          "sha256": "db3361717649d280f700c43fec1b2fc225f3798400240aaba7965759008f6852"
+        },
+        {
+          "name": "art/previews/biome-magic-zoo.png",
+          "bytes": 51311,
+          "sha256": "9def0b8dae61388f987f80f63abb652ca3c7fde4d1123fd919bc093994814aa3"
+        },
+        {
+          "name": "art/gorilla-face-fbe5e60c2d080eee.webp",
+          "bytes": 2411740,
+          "sha256": "fbe5e60c2d080eeef5e37dab66f2d3454fd91ee88ab4788124a14841086774f7"
+        },
+        {
+          "name": "art/previews/ride-water-barrel-wave.png",
+          "bytes": 579383,
+          "sha256": "13c447122c9630d0077acaf5ed3ef8dd12791afbab9d457b1c6b25c27062db3d"
+        },
+        {
+          "name": "art/previews/ride-water-canyon-rafting.png",
+          "bytes": 568493,
+          "sha256": "aff07657cda49552e00a2da907de3fc7e67f1dee579ede916702f758005ea4e0"
+        },
+        {
+          "name": "art/previews/ride-water-fountain-carousel.png",
+          "bytes": 561248,
+          "sha256": "d1cc65d2eb071404a2ddd0c8fbd2c76df5e548027c4664e04b23ccb9535b2d5c"
+        },
+        {
+          "name": "art/previews/ride-water-glass-drop.png",
+          "bytes": 528998,
+          "sha256": "ac8bacaaaec2d4f8f1cbe9b40d27fe38fb9b69965cd3b356f4be6bbc01f80184"
+        },
+        {
+          "name": "art/previews/ride-water-lagoon-launch.png",
+          "bytes": 483852,
+          "sha256": "e400ec30fa5b31f70a5f54f0041a0bbf25a1de9012a25cf93afc3cd0214b75b1"
+        },
+        {
+          "name": "art/previews/ride-water-lazy-river.png",
+          "bytes": 535349,
+          "sha256": "35c47b7b9fa2353050c6ce2d84b6d2ea112e2355f44fea6a4697e025632d85c4"
+        },
+        {
+          "name": "art/previews/ride-water-pool-pendulum.png",
+          "bytes": 583593,
+          "sha256": "777d743e31e30bd54f5f0fea4a154ab7faeb05985994ec4b55bbbe33ce8d86ef"
+        },
+        {
+          "name": "art/previews/ride-water-surf-halfpipe.png",
+          "bytes": 514647,
+          "sha256": "ada704f447fc893774913320747f590cc462b26cd269e315e503f996797ebf16"
+        }
+      ],
+      "models": [
+        {
+          "species": "elephant",
+          "bytes": 4092060,
+          "sha256": "aabb9c6f828dc85ee2cfcab9f32e686500812932223743620f690b959339a4e0",
+          "faceRevision": "elephant-skin-v2",
+          "poseFrames": 592
+        },
+        {
+          "species": "axolotl",
+          "bytes": 2623908,
+          "sha256": "c2262a989f8b2113e309c31e2c18a161fb9e4974d610e81eb0e5c79ec7809b00",
+          "faceRevision": "axolotl-eyes-v2",
+          "poseFrames": 400
+        },
+        {
+          "species": "otter",
+          "bytes": 3176192,
+          "sha256": "c96ca902a235f593b7a8ecf47370fab3d12b845b65a947175214a97fbb9117d3",
+          "faceRevision": null,
+          "poseFrames": 400
+        },
+        {
+          "species": "polar",
+          "bytes": 4734108,
+          "sha256": "35301efaef99904d0643aa9e1e31c8f27a28c11279ab6dfb671d5627cf2bdd63",
+          "faceRevision": null,
+          "poseFrames": 400
+        },
+        {
+          "species": "gorilla",
+          "bytes": 4224412,
+          "sha256": "7a81149a541ca78d5f7dee4f10497c77b20848595f1177cb2681c18e5ed299db",
+          "faceRevision": "gorilla-face-v3",
+          "poseFrames": 496
+        }
+      ],
+      "modelMetadataRoundoff": {
+        "elephant": 0,
+        "axolotl": 0,
+        "otter": 0,
+        "polar": 0,
+        "gorilla": 0
+      }
+    },
+    "worker": {
+      "entry": "./dist/app.js?v=01208577b32a1cdc",
+      "scriptSHA256": "01208577b32a1cdc8eace15c79a8ecdb29777939a6f494fd3cc213db1729fb15",
+      "assets": [
+        {
+          "name": "art/zoo-coat-ce439863dc570346.webp",
+          "bytes": 2360034,
+          "sha256": "ce439863dc570346d2872f85bf4dddf137c3429e0ed4cca5403355c211f33209"
+        },
+        {
+          "name": "art/previews/catalog.json",
+          "bytes": 5296,
+          "sha256": "08ed1cadbb5733303e17d4ebc2ea1bb1f6910354f9c153071adea6cf155c5ab8"
+        },
+        {
+          "name": "art/previews/zoo-elephant.png",
+          "bytes": 41408,
+          "sha256": "d00858747af8eb5f76a2519e0170b7bd84c8530673e12c3afb8925905109de05"
+        },
+        {
+          "name": "art/previews/zoo-polar.png",
+          "bytes": 26232,
+          "sha256": "48ff62a6a0a424d39214ce34565e9461179b7387ffa66cb79cadb33429b3a861"
+        },
+        {
+          "name": "art/previews/zoo-otter.png",
+          "bytes": 19663,
+          "sha256": "c6e6c3ace39a99d0bdace841d5aded1c6797ce07e47c46765eaba5a54c422906"
+        },
+        {
+          "name": "art/previews/zoo-gorilla.png",
+          "bytes": 50762,
+          "sha256": "0681cf86bd73494ddc7d75a37e7247e23b595c8594d560a4fd9cc53dfa1e3f4c"
+        },
+        {
+          "name": "art/previews/zoo-axolotl.png",
+          "bytes": 26046,
+          "sha256": "db3361717649d280f700c43fec1b2fc225f3798400240aaba7965759008f6852"
+        },
+        {
+          "name": "art/previews/biome-magic-zoo.png",
+          "bytes": 51311,
+          "sha256": "9def0b8dae61388f987f80f63abb652ca3c7fde4d1123fd919bc093994814aa3"
+        },
+        {
+          "name": "art/gorilla-face-fbe5e60c2d080eee.webp",
+          "bytes": 2411740,
+          "sha256": "fbe5e60c2d080eeef5e37dab66f2d3454fd91ee88ab4788124a14841086774f7"
+        },
+        {
+          "name": "art/previews/ride-water-barrel-wave.png",
+          "bytes": 579383,
+          "sha256": "13c447122c9630d0077acaf5ed3ef8dd12791afbab9d457b1c6b25c27062db3d"
+        },
+        {
+          "name": "art/previews/ride-water-canyon-rafting.png",
+          "bytes": 568493,
+          "sha256": "aff07657cda49552e00a2da907de3fc7e67f1dee579ede916702f758005ea4e0"
+        },
+        {
+          "name": "art/previews/ride-water-fountain-carousel.png",
+          "bytes": 561248,
+          "sha256": "d1cc65d2eb071404a2ddd0c8fbd2c76df5e548027c4664e04b23ccb9535b2d5c"
+        },
+        {
+          "name": "art/previews/ride-water-glass-drop.png",
+          "bytes": 528998,
+          "sha256": "ac8bacaaaec2d4f8f1cbe9b40d27fe38fb9b69965cd3b356f4be6bbc01f80184"
+        },
+        {
+          "name": "art/previews/ride-water-lagoon-launch.png",
+          "bytes": 483852,
+          "sha256": "e400ec30fa5b31f70a5f54f0041a0bbf25a1de9012a25cf93afc3cd0214b75b1"
+        },
+        {
+          "name": "art/previews/ride-water-lazy-river.png",
+          "bytes": 535349,
+          "sha256": "35c47b7b9fa2353050c6ce2d84b6d2ea112e2355f44fea6a4697e025632d85c4"
+        },
+        {
+          "name": "art/previews/ride-water-pool-pendulum.png",
+          "bytes": 583593,
+          "sha256": "777d743e31e30bd54f5f0fea4a154ab7faeb05985994ec4b55bbbe33ce8d86ef"
+        },
+        {
+          "name": "art/previews/ride-water-surf-halfpipe.png",
+          "bytes": 514647,
+          "sha256": "ada704f447fc893774913320747f590cc462b26cd269e315e503f996797ebf16"
+        }
+      ],
+      "models": [
+        {
+          "species": "elephant",
+          "bytes": 4092064,
+          "sha256": "2b4dea9b8221667ccd322f7402591eb9643adbff81adf26626f89c0b351a4c8a",
+          "faceRevision": "elephant-skin-v2",
+          "poseFrames": 592
+        },
+        {
+          "species": "axolotl",
+          "bytes": 2623908,
+          "sha256": "c2262a989f8b2113e309c31e2c18a161fb9e4974d610e81eb0e5c79ec7809b00",
+          "faceRevision": "axolotl-eyes-v2",
+          "poseFrames": 400
+        },
+        {
+          "species": "otter",
+          "bytes": 3176192,
+          "sha256": "c96ca902a235f593b7a8ecf47370fab3d12b845b65a947175214a97fbb9117d3",
+          "faceRevision": null,
+          "poseFrames": 400
+        },
+        {
+          "species": "polar",
+          "bytes": 4734108,
+          "sha256": "35301efaef99904d0643aa9e1e31c8f27a28c11279ab6dfb671d5627cf2bdd63",
+          "faceRevision": null,
+          "poseFrames": 400
+        },
+        {
+          "species": "gorilla",
+          "bytes": 4224412,
+          "sha256": "7a81149a541ca78d5f7dee4f10497c77b20848595f1177cb2681c18e5ed299db",
+          "faceRevision": "gorilla-face-v3",
+          "poseFrames": 496
+        }
+      ],
+      "modelMetadataRoundoff": {
+        "elephant": 4.440892098500626e-16,
+        "axolotl": 0,
+        "otter": 0,
+        "polar": 0,
+        "gorilla": 0
+      }
+    }
+  },
+  "workerStatus": {
+    "configured": true,
+    "backupConfigured": true,
+    "backupProvider": "openrouter",
+    "backupModel": "dots-studio/dots-3-note-preview:free",
+    "protocol": "living-cat-world-v4",
+    "release": "6a5a5d9d406ba48f3fdb725d486205d1b82a33bc",
+    "versionId": "19148bda-a56e-4707-b398-78de2d8a1362",
+    "cloudSave": true
+  },
+  "jobs": [
+    {
+      "name": "test",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "deploy",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "pages",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ]
+}

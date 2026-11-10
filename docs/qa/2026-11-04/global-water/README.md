@@ -29,3 +29,14 @@ Final actual native map run: all 19 islands plus a return to Moon Garden passed
 orbit, zoom, completed-frame, full DPR and live-context checks. No browser or
 HTTP errors. Uses direct workerd/SQLite after Wrangler ProxyWorker transiently
 lost a save connection in the earlier run; no production save code changed.
+
+Publication verified on 2026-11-10: `6a5a5d9d406ba48f3fdb725d486205d1b82a33bc`,
+GitHub Actions `41902798241`, test/deploy/pages all successful. Pages serves app
+`5920ee5e6ebdb53a`; Worker serves `01208577b32a1cdc`. Their application logic is
+identical: the only bundle differences are the configuration cache key and
+content-hashed elephant model URL. The Worker elephant metadata has three joint
+pivots differing by less than 1e-15 from the local/Pages platform; EVERY vertex,
+normal, colour, index and pose buffer is byte-identical. This exception was
+investigated explicitly rather than counted as a byte-exact whole-file match.
+All materials, catalogue/previews and 22 shared surface/probe files match. The
+Worker reports this release and working shared-save capability.
