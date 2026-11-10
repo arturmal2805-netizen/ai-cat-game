@@ -4,6 +4,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import assert from "node:assert/strict";
+import {BIOMES} from "../public/game-data.js";
 
 export async function checkNativeMapFrames(page, review) {
   const compareReuse = !!process.env.CHICHI_COMPARE_STATIC_REUSE,
@@ -50,7 +51,8 @@ export async function checkNativeMapFrames(page, review) {
     };
   });
   const ids = process.env.CHICHI_LIVE_BIOMES?.split(",") ||
-    await page.locator("[data-biome]").evaluateAll(ns => ns.map(n => n.dataset.biome));
+    BIOMES.map(b=>b.id);
+  console.log('NATIVE_MAP_PLANNED',JSON.stringify(ids));
   if (compareReuse && ids.includes("jobcity")) {
     ids.splice(ids.indexOf("jobcity"), 1); ids.unshift("jobcity");
   }
