@@ -9,6 +9,7 @@ test('five more times the master ocean area keeps a sloping physical bed, dry ar
  assert.ok(Math.abs(MOSA_RADIUS**2/MOSA_PREVIOUS_RADIUS**2-5)<1e-12);
  assert.deepEqual(MOSA_DOCK,{x:0,z:23});assert.deepEqual(mosaDryPoint(0,MOSA_SHORE_GATE.z),{x:0,z:MOSA_SHORE_GATE.z});
  const b=byBiome('autumn');for(const other of BIOMES.filter(x=>x.id!==b.id))assert.ok(Math.hypot(b.center[0]-other.center[0],b.center[1]-other.center[1])>MOSA_RADIUS+(other.radius||11.65)+3,other.id);
+ const housing=byBiome('cat-homes');assert.ok(Math.abs(b.center[1]-housing.center[1])>MOSA_RADIUS+housing.radius+3,'all automatic residential sections along X stay clear, regardless of how many homes are built');
  const island=createBiomeScene(b);island.updateMatrixWorld(true);const bed=island.userData.ocean.sea.userData.bed;
  for(const [x,z] of [[0,0],[40,5],[70,0],[0,85],[MOSA_SEA.rx*.9,0]]){
   const hits=new T.Raycaster(new T.Vector3(x,5,z),new T.Vector3(0,-1,0)).intersectObject(bed);

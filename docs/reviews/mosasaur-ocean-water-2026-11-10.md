@@ -67,13 +67,14 @@ become an approved performance standard or be published.
 
 The player explicitly selected five times the current master ocean **area**.
 Both horizontal axes therefore use `sqrt(5)`, rather than five. The outer radius
-is now 319.0484 m (previously 142.6837 m); water semiaxes are 234.7871 by
+is now 319.0484 m (previously 142.6828 m); water semiaxes are 234.7871 by
 223.6068 m. Depth stays 200 m. Animals, cats, buildings, the original ride and
 submarine retain their real scale. The original ride pickup and submarine
 boarding coordinates remain stable; the dry approach reaches the new shore.
 
-Only this island's world centre moves, to `[-580, 250]`, clearing the existing
-housing island. Existing and previous-master owned shoreline plots retain IDs,
+Only this island's world centre moves, to `[-450, 500]`, clearing the entire
+housing expansion strip at Z=55, including future sections along X. Existing
+and previous-master owned shoreline plots retain IDs,
 local addresses, deadlines and dry pads/connecting walkways. Optical depth bounds,
 reservations, coastal headlands and reef positions follow the enlarged ocean.
 Templates, colony counts and per-frame buffers do not multiply with the area.

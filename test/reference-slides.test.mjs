@@ -67,7 +67,9 @@ test("exactly 25 independent reference cards map the 5 by 5 grid and preserve ev
       ),
       BIOMES: BIOMES.filter((b) => !["jobcity", "cat-homes", "atoll-park"].includes(b.id)),
     }),
-    "176911320fa0321fb9735abb1d2bd4e53540265eb1f50ea86279bad3d2b0e716",
+    // Includes the player's additional fivefold ocean-area expansion. The
+    // island snapshots separately verify every unrelated record is unchanged.
+    "80cc4a236d7c8da14c4d1d9127a4bb2be7b6262b29441c5442e926efef14020f",
   );
   for (const [i, s] of REFERENCE_SLIDES.entries()) {
     assert.deepEqual(s.referenceCell, {
