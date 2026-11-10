@@ -1,8 +1,8 @@
-# Mosasaur Ocean working checkpoint
+# Mosasaur Ocean incremental release verification
 
-This is an unpublished candidate. The player-approved global-water release
-`6a5a5d9` remains the production and rollback reference. The player has not
-approved the current reef art; this checkpoint does not claim reference-image
+The player-approved global-water release `6a5a5d9` remains the immutable rollback
+reference. The player has not approved the current reef art; this increment
+does not claim reference-image
 equivalence or 60 FPS on a Mac or phone.
 
 ## Water correction
@@ -27,14 +27,23 @@ Actual WebGL checks, saved under `/workspace/qa`:
 - The earlier full suite passed 975 tests (`ocean-full-v6`); it predates the
   latest water changes and is not a final-release gate for this checkpoint.
 
-## Remaining release checks
+## Release gates and visual scope
 
-Coral silhouettes, terrain composition and water art still need visual review
-against the supplied reference. Refresh reflection input manifests, rebuild,
-recapture the two ocean previews, and repeat native submarine, camera,
-interaction, save/ownership and other-island regression checks before publishing.
-Deep-cave submarine return navigation is not fully verified. The current HTML
-bundle reference has intentionally not been included in this source checkpoint.
+Coral silhouettes, terrain composition and water art remain an ongoing visual
+iteration against the supplied reference. Reflection manifests have been
+rebaked and the source build passed. Native submarine keyboard/touch controls,
+both camera positions, exact pilot seat, real exit checkpoint, private SQLite
+reload, automatic return and dry dismount passed (`submarine-native-v16`). The
+previous ordinary-orbit interference was fixed with an independent eased camera.
+
+All 19 registered islands plus four return visits passed real native orbit/zoom
+checks at DPR 2 (`ocean-all-islands-v17`): 64 adopted cats plus native residents,
+115 NPC records, no context loss, browser exceptions or HTTP errors. The full
+run covered 979 tests: 968 passed; 11 strict snapshots still described the old
+ocean area/arrival. Only the requested ocean fields/road were updated; all 13
+final footprint, unchanged-island, road and hash follow-ups passed. The added
+camera regression test and both immutable-coral-buffer tests passed too.
+See `mosasaur-ocean-native-evidence-2026-11-10.json` for retained measurements.
 
 ## Separate coral-culling candidate
 
@@ -59,9 +68,26 @@ materials and lighting with/without partitioning. Every view below produced
 The earlier v1 changed 30 pixels and was rejected. `ocean-targeted-v12` passed
 five tests, including exact colony matrices/colours, fixed-buffer updates,
 surface optics and texture warmup. These checks establish image preservation
-and less invisible geometry, **not an FPS gain**. Higher draw counts in some
-views still require representative frame-time checks before this candidate can
-become an approved performance standard or be published.
+and less invisible geometry, **not a physical-device FPS gain**. The expanded
+ocean was then tested separately below; no player-approved FPS tag is changed.
+
+### Expanded-ocean follow-up
+
+The final `ocean-coral-cells-v18` again produced zero changed pixels in all five
+views. Near/away/phone draws became 29/22, 80/64 and 29/14; triangle counts became
+2,953,580/765,422, 3,317,560/1,071,767 and 3,091,861/728,605 respectively.
+Surface and overview draw/triangle counts remain identical. The owning LOD
+skips custom frustum calculations when its original far group is selected.
+
+Alternating, warmed WebGL measurements use a tiny readback to finish GPU work
+only in the isolated QA renderer. Initial close/away/phone completed medians
+were 1419/460, 1583/609 and 1412/456 ms on SwiftShader. Distant views showed
+substantial software-backend variation: an initial candidate p95 spike was not
+reproduced; the repeat instead had its largest spike in the baseline. Repeat
+surface/overview medians were 1108/1177 and 5010/5267 ms, with CPU medians
+2.7/2.9 and 3.8/8.6 ms. These measurements support reduced close-view GPU work,
+but do not establish a distant-view or Mac/iPhone FPS improvement. Raw initial
+and repeat values are retained in `mosasaur-coral-evidence-2026-11-10.json`.
 
 ## Requested additional area
 
@@ -82,4 +108,4 @@ Templates, colony counts and per-frame buffers do not multiply with the area.
 `ocean-expansion-v14` passed all ten expansion/physics tests. The separate
 `submarine-return-v14` passed seven tests including return from both deep
 caverns: leave through the actual opening before ascending beneath a solid roof.
-Native browser and final-release checks are recorded separately when completed.
+Native browser and final-release checks are recorded above.

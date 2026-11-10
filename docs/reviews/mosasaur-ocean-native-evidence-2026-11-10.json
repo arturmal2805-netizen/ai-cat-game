@@ -1,0 +1,295 @@
+{
+  "baseline": "6a5a5d9d406ba48f3fdb725d486205d1b82a33bc",
+  "areaFactorOverMaster": 5,
+  "nativeRenderer": "Chromium SwiftShader; timings are not physical-device FPS",
+  "nativeCameraViews": [
+    {
+      "id": "moon",
+      "repeat": false,
+      "frames": 5,
+      "npcCount": 115,
+      "dpr": 2,
+      "contextLost": false,
+      "orbitRange": 0.17754085355525992,
+      "zoomRange": 15.929259413322825
+    },
+    {
+      "id": "autumn",
+      "repeat": false,
+      "frames": 3,
+      "npcCount": 115,
+      "dpr": 2,
+      "contextLost": false,
+      "orbitRange": 0.09546141472833122,
+      "zoomRange": 15.913710952033554
+    },
+    {
+      "id": "winter",
+      "repeat": false,
+      "frames": 6,
+      "npcCount": 115,
+      "dpr": 2,
+      "contextLost": false,
+      "orbitRange": 0.09354656107865508,
+      "zoomRange": 15.951048105663816
+    },
+    {
+      "id": "water",
+      "repeat": false,
+      "frames": 6,
+      "npcCount": 115,
+      "dpr": 2,
+      "contextLost": false,
+      "orbitRange": 0.14760628308200996,
+      "zoomRange": 15.95132412027452
+    },
+    {
+      "id": "summer",
+      "repeat": false,
+      "frames": 5,
+      "npcCount": 115,
+      "dpr": 2,
+      "contextLost": false,
+      "orbitRange": 0.16255592906533778,
+      "zoomRange": 15.917629421055068
+    },
+    {
+      "id": "sakura",
+      "repeat": false,
+      "frames": 8,
+      "npcCount": 115,
+      "dpr": 2,
+      "contextLost": false,
+      "orbitRange": 0.11038294057432756,
+      "zoomRange": 15.943450781406725
+    },
+    {
+      "id": "volcano",
+      "repeat": false,
+      "frames": 4,
+      "npcCount": 115,
+      "dpr": 2,
+      "contextLost": false,
+      "orbitRange": 0.09259220282631064,
+      "zoomRange": 15.943442601212581
+    },
+    {
+      "id": "candy",
+      "repeat": false,
+      "frames": 5,
+      "npcCount": 115,
+      "dpr": 2,
+      "contextLost": false,
+      "orbitRange": 0.19095169528056308,
+      "zoomRange": 15.912981080083057
+    },
+    {
+      "id": "galaxy",
+      "repeat": false,
+      "frames": 3,
+      "npcCount": 115,
+      "dpr": 2,
+      "contextLost": false,
+      "orbitRange": 0.09546141472706401,
+      "zoomRange": 15.924245596366504
+    },
+    {
+      "id": "ice",
+      "repeat": false,
+      "frames": 5,
+      "npcCount": 115,
+      "dpr": 2,
+      "contextLost": false,
+      "orbitRange": 0.09747250529885987,
+      "zoomRange": 15.953008350511496
+    },
+    {
+      "id": "clockwork",
+      "repeat": false,
+      "frames": 4,
+      "npcCount": 115,
+      "dpr": 2,
+      "contextLost": false,
+      "orbitRange": 0.09126407638678125,
+      "zoomRange": 15.913369749020234
+    },
+    {
+      "id": "foodcourt",
+      "repeat": false,
+      "frames": 5,
+      "npcCount": 115,
+      "dpr": 2,
+      "contextLost": false,
+      "orbitRange": 0.1377022575060592,
+      "zoomRange": 15.886915231247997
+    },
+    {
+      "id": "bikini",
+      "repeat": false,
+      "frames": 3,
+      "npcCount": 115,
+      "dpr": 2,
+      "contextLost": false,
+      "orbitRange": 0.0832387891428456,
+      "zoomRange": 15.904891227842796
+    },
+    {
+      "id": "homestead",
+      "repeat": false,
+      "frames": 3,
+      "npcCount": 115,
+      "dpr": 2,
+      "contextLost": false,
+      "orbitRange": 0.08295689083220785,
+      "zoomRange": 15.913355788232252
+    },
+    {
+      "id": "aquarium",
+      "repeat": false,
+      "frames": 3,
+      "npcCount": 115,
+      "dpr": 2,
+      "contextLost": false,
+      "orbitRange": 0.09546565994426931,
+      "zoomRange": 15.913036921890523
+    },
+    {
+      "id": "jobcity",
+      "repeat": false,
+      "frames": 4,
+      "npcCount": 115,
+      "dpr": 2,
+      "contextLost": false,
+      "orbitRange": 0.0831986935103756,
+      "zoomRange": 15.913036921993253
+    },
+    {
+      "id": "cat-homes",
+      "repeat": false,
+      "frames": 5,
+      "npcCount": 115,
+      "dpr": 2,
+      "contextLost": false,
+      "orbitRange": 0.19099509757374242,
+      "zoomRange": 15.919886524607179
+    },
+    {
+      "id": "atoll-park",
+      "repeat": false,
+      "frames": 8,
+      "npcCount": 115,
+      "dpr": 2,
+      "contextLost": false,
+      "orbitRange": 0.1862963669732538,
+      "zoomRange": 15.915079950355505
+    },
+    {
+      "id": "magic-zoo",
+      "repeat": false,
+      "frames": 5,
+      "npcCount": 115,
+      "dpr": 2,
+      "contextLost": false,
+      "orbitRange": 0.11034616034615925,
+      "zoomRange": 15.956822700347274
+    },
+    {
+      "id": "summer",
+      "repeat": true,
+      "frames": 3,
+      "npcCount": 115,
+      "dpr": 2,
+      "contextLost": false,
+      "orbitRange": 0.08477555315593246,
+      "zoomRange": 15.935430811092886
+    },
+    {
+      "id": "aquarium",
+      "repeat": true,
+      "frames": 4,
+      "npcCount": 115,
+      "dpr": 2,
+      "contextLost": false,
+      "orbitRange": 0.09548663841699379,
+      "zoomRange": 15.913710951927925
+    },
+    {
+      "id": "homestead",
+      "repeat": true,
+      "frames": 4,
+      "npcCount": 115,
+      "dpr": 2,
+      "contextLost": false,
+      "orbitRange": 0.09065510167455426,
+      "zoomRange": 15.953220350234147
+    },
+    {
+      "id": "sakura",
+      "repeat": true,
+      "frames": 4,
+      "npcCount": 115,
+      "dpr": 2,
+      "contextLost": false,
+      "orbitRange": 0.09100936996056758,
+      "zoomRange": 15.95345171475843
+    }
+  ],
+  "nativeErrors": {
+    "errors": [],
+    "httpErrors": []
+  },
+  "submarine": {
+    "seat": 0,
+    "start": {
+      "x": -6,
+      "y": -0.85,
+      "z": 92,
+      "yaw": 3.141592653589793,
+      "active": true,
+      "mode": "chase"
+    },
+    "driven": {
+      "x": -5.4650238858776135,
+      "y": -9.701144339446357,
+      "z": 84.596577357003,
+      "yaw": -3.059164111567832,
+      "active": true,
+      "mode": "chase"
+    },
+    "restored": {
+      "x": -5.541739403327076,
+      "y": -9.703615483882185,
+      "z": 83.66799497689435,
+      "yaw": -3.0591641115630166,
+      "active": true,
+      "mode": "chase"
+    },
+    "end": {
+      "position": [
+        -580.00083440581,
+        0.1598013731157375,
+        345.99945617752394
+      ],
+      "expected": [
+        -580,
+        0.16,
+        346
+      ],
+      "sub": {
+        "x": -6.229543863923831,
+        "y": -0.764656252001684,
+        "z": 91.71720956993494,
+        "yaw": 0.3050954258013739,
+        "active": false,
+        "mode": "chase"
+      }
+    }
+  },
+  "testNotes": {
+    "fullRun": "979 tests: 968 passed; 11 strict island snapshots expected the previous, intentionally smaller ocean.",
+    "afterSnapshotUpdate": "All 13 final footprint, unchanged-island, road and hash checks passed.",
+    "cameraFollower": "1 passed",
+    "physicsAndCavernReturn": "7 passed",
+    "coralImmutableBuffers": "2 passed"
+  }
+}
