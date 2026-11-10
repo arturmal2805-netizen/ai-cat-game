@@ -29,3 +29,11 @@ test('a steep reef wall brakes a fast boat rather than lifting it onto the ledge
  for(let i=0;i<300;i++){const oldY=p.state.y,oldX=p.state.x;p.step(.1,{forward:1});assert.ok(Math.abs(p.state.y-oldY)<.36,'no vertical teleport');if(p.state.speed<1&&i>30)collision=true;assert.ok(p.state.x-oldX<2.5);}
  assert.ok(collision,'the swept hull meets the actual reef');
 });
+test('return leaves both real cavern roofs through their openings before ascending to the pier',async()=>{
+ const {MOSA_CAVES}=await import('../public/mosasaur-collision.js'),{createSubmarineReturn}=await import('../public/submarine-return.js');
+ for(const start of [{x:0,y:-140,z:0},...MOSA_CAVES.map(c=>({x:c.x,y:c.y+3,z:c.z-c.depth*.6}))]){
+  const p=createSubmarinePhysics({...start,yaw:Math.PI,active:true});assert.equal(p.state.active,true);const navigate=createSubmarineReturn(p.state);
+  for(let i=0;i<1800&&!p.atDock();i++)p.step(.1,navigate(p.state));
+  assert.ok(p.atDock(),JSON.stringify({start,end:p.snapshot()}));assert.ok(p.state.y>mosaBedY(p.state.x,p.state.z)+1);
+ }
+});
