@@ -1,3 +1,4 @@
+import {createSubmarineRuntime} from './submarine-runtime.js';
 import {retainedMosaLand} from './mosasaur-retained-land.js';
 import {zooGuestResidents} from './zoo-guest-visits.js';
 import {createZooGuestWorld} from './zoo-guest-world.js';
@@ -500,6 +501,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     buildMode = null,
     preview = null,
     operation = null,
+    submarine = null,
     disposed = false;
   const viewDistanceLimit=()=>viewingOverview?overviewDistanceLimit:
     Math.max(600,islandOverviewDistance(byBiome(focused)?.radius,camera.fov,camera.aspect));
@@ -2565,6 +2567,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     decision,
     { manualFriendDrop = false, leisureTicket = null, background = false } = {},
   ) {
+    if(submarine?.active)return Promise.resolve({cancelled:true});
     const pending=decision.activityId&&itemGroups.get(decision.activityId);
     if(pending?.userData.loadingReference&&isBuilt(pending.userData.placement)){
       if(!background)focus(pending.userData.placement.biome,false,true);
@@ -3912,7 +3915,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
             draggingCat?.catId === id ||
             (now < gatherUntil && gatherParticipants.has(id)) ||
             (id === "chichi"
-              ? (!!operation && !operation.jobCity) ||
+              ? !!submarine?.active || (!!operation && !operation.jobCity) ||
                 !!heroGather ||
                 game.care?.resting ||
                 crew.workers.has(id)
@@ -5598,7 +5601,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       walking = heroJobFrame.walking;
       reaction = heroJobFrame.reaction;
     }
-    const heroHome = housingLife.get("chichi");
+    const heroHome = !submarine?.active && housingLife.get("chichi");
     if (heroHome && !operation && !heroGather && !draggingCat && !heroBuild) {
       applyChillFrame(heroHome, chichiCarrier, cat, true);
       walking = heroHome.walking;
@@ -5621,6 +5624,8 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       walking = heroLeisure.walking;
       reaction = heroLeisure.reaction;
     }
+    const submarinePose=!dialogOpen?submarine?.update(dt,time,reduced):null;
+    if(submarinePose){walking=submarinePose.walking;reaction=submarinePose.reaction;}
     if (!dialogOpen) {
       animateCat(
         cat,
@@ -5678,6 +5683,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     }
     frameProfile?.section("chichi");
     faceCamera.update(elapsed, look);
+    submarine?.updateCamera(elapsed);
     camera.updateMatrixWorld();
     islands
       .get(HOUSING_ID)
@@ -5872,6 +5878,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
         chichiCarrier.visible = false;
     }
     scene.fog.density = worldFogDensity(distance);
+    submarine?.applyFog(scene.fog);
     updateOcclusion(now, dt);
     // The opaque shop covers the map. Keep the simulation running, but avoid
     // competing GPU draws while its miniature scenes are being rendered.
@@ -5904,6 +5911,8 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     }
     requestAnimationFrame(loop);
   }
+  submarine=createSubmarineRuntime({container,canvas:renderer.domElement,camera,look,actor:chichiCarrier,getModel:()=>cat,getIsland:()=>islands.get('autumn'),getGame:()=>game,getFocused:()=>focused,cancelHero:()=>{cancelHeroActivity();jobs.delete('chichi');housingLife.cancel?.('chichi');faceCamera.setEnabled(false,look);},focus});
+  if(initialGame.mosasaurSubmarine?.active&&game.unlocked.includes('autumn'))focus('autumn',false,true);
   requestAnimationFrame(loop);
   for (const mood of moodNames) {
     const image = document.querySelector(`[data-mood-image="${mood}"]`);
@@ -5919,6 +5928,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
   }
   return {
     perform,
+    submarine:()=>submarine,
     farmBusyCount(id){return itemGroups.get('orchard-'+id)?.userData.harvests?.visits.size||0;},
     syncCryptoState(state){
       if(!state||game.jobCity?.epoch!==state.epoch)return;
@@ -5927,11 +5937,11 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     },
     snapshotCatLocations(next,previous=next){
       const actors=[{id:'chichi',position:chichiCarrier.position,yaw:chichiCarrier.rotation.y,
-        transient:!!court.get('chichi')?.zooCarry||!!heroGather||draggingCat?.catId==='chichi'||['ride','swim'].includes(operation?.decision.action)},
+        transient:!!submarine?.active||!!court.get('chichi')?.zooCarry||!!heroGather||draggingCat?.catId==='chichi'||['ride','swim'].includes(operation?.decision.action)},
         ...[...npcs].map(([id,n])=>({id,position:n.carrier.position,yaw:n.carrier.rotation.y,
           transient:!!court.get(id)?.zooCarry||!!n.gatherTrip||draggingCat?.catId===id||!!spa.get(id)||!!chill.get(id)||swimVisits.has(id)||
             ['ride','swim'].includes(residentPlay.get(id)?.decision?.action)}))];
-      return captureCatLocations(next,previous,actors);
+      return captureCatLocations(submarine?{...next,mosasaurSubmarine:submarine.snapshot()}:next,previous,actors);
     },
     followCat,
     inspectJobBusiness: inspectAttraction,
@@ -6097,7 +6107,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       staticDraws.dispose();
       jobs.clear();
       housingLife.clear();
-      releaseAnimalDrag();animalGuests.dispose();
+      releaseAnimalDrag();animalGuests.dispose();submarine?.dispose();
       leisure.clear();
       drivePrompt.remove();
       for (const car of cityCars.values()) car.removeFromParent();

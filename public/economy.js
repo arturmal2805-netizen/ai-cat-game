@@ -1,3 +1,4 @@
+import {normalizeSubmarine,submarineSnapshot} from './submarine-physics.js';
 import {wasMosaShore} from './mosasaur-retained-land.js';
 import {newZoo,normalizeZoo,zooSnapshotValid} from './zoo-system.js';
 import {retirementSnapshotValid} from './retired-attractions.js';
@@ -115,6 +116,7 @@ export function newGame(now = Date.now()) {
     unlocked: ["moon"],
     islandConstruction: {},
     zoo:newZoo(),
+    mosasaurSubmarine:submarineSnapshot(normalizeSubmarine()),
     jobCity: null,
     housing: null,
     family: null,
@@ -223,6 +225,8 @@ export function loadGame(storage, now = Date.now(), { advance = true } = {}) {
     game.adoption = normalizeAdoption(saved.adoption, game);
     game.spa = normalizeSpa(saved.spa);
     game.zoo=normalizeZoo(saved.zoo);
+    game.mosasaurSubmarine=submarineSnapshot(normalizeSubmarine(saved.mosasaurSubmarine));
+    if(!game.unlocked.includes('autumn'))game.mosasaurSubmarine.active=false;
     if (
       game.unlocked.includes(saved.catPosition?.biome) &&
       Number.isFinite(saved.catPosition.x) &&

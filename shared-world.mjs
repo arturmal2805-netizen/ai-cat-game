@@ -385,6 +385,7 @@ function merge(base, current, incoming, path = "", depth = 0) {
 }
 
 export function mergeSharedWorld(base, current, incoming) {
+  if(base?.mosasaurSubmarine && incoming && !Object.hasOwn(incoming,'mosasaurSubmarine'))incoming={...incoming,mosasaurSubmarine:base.mosasaurSubmarine};
   for(const game of [base,current,incoming])if(!retirementSnapshotValid(game?.retiredAttractions))throw new SharedConflict('Пошкоджений запис повернення покупки. Завантажте збережений світ.');
   if(base&&incoming&&retirementPurchaseAdvanced(base,incoming))throw new SharedConflict('Цей атракціон прибрано з гри. Оновіть сторінку; нова покупка не списана.');
   if(base&&incoming)incoming=inheritRetirement(base,incoming);
