@@ -23,77 +23,15 @@ async function localWorker() {
   await new Promise((r) => socket.close(r));
   const config = path.join(temp, "wrangler.json"),
     log = fs.openSync(path.join(temp, "worker.log"), "w");
-  fs.writeFileSync(
-    config,
-    JSON.stringify({
-      name: "chichi-chill-local",
-      main: path.join(root, ".generated/worker.mjs"),
-      compatibility_date: "2026-10-13",
-      assets: {
-        directory: path.join(root, "public"),
-        binding: "ASSETS",
-        run_worker_first: ["/api/*"],
-      },
-      durable_objects: {
-        bindings: [{ name: "SAVE_VAULT", class_name: "SaveVault" }],
-      },
-      migrations: [{ tag: "save-vault-v1", new_sqlite_classes: ["SaveVault"] }],
-      vars: { GAME_RELEASE: "development" },
-    }),
-  );
-  const localEnv = { ...process.env };
-  for (const key of [
-    "HTTP_PROXY",
-    "HTTPS_PROXY",
-    "ALL_PROXY",
-    "http_proxy",
-    "https_proxy",
-    "all_proxy",
-  ])
-    delete localEnv[key];
-  localEnv.NO_PROXY = "127.0.0.1,localhost";
-  localEnv.CLOUDFLARE_SEND_METRICS = "false";
-  const child = spawn(
-    path.join(root, "node_modules/.bin/wrangler"),
-    [
-      "dev",
-      "--local",
-      "--config",
-      config,
-      "--persist-to",
-      path.join(temp, "sqlite"),
-      "--port",
-      String(port),
-    ],
-    {
-      cwd: root,
-      detached: true,
-      env: {
-        ...localEnv,
-        WRANGLER_LOG_PATH: path.join(temp, "wrangler.log"),
-      },
-      stdio: ["ignore", log, log],
-    },
-  );
-  const stop = () => {
-    try {
-      process.kill(-child.pid, "SIGTERM");
-    } catch {}
-    fs.closeSync(log);
-  };
-  const base = "http://127.0.0.1:" + port;
-  for (let i = 0; i < 150; i++) {
-    try {
-      if ((await fetch(base + "/api/status")).ok)
-        return { base, stop, logPath: path.join(temp, "worker.log") };
-    } catch {}
-    await new Promise((r) => setTimeout(r, 200));
-  }
-  stop();
-  throw Error(
-    "Local Worker startup failed. Log: " + path.join(temp, "worker.log"),
-  );
+  const workerPath=path.join(temp,'worker.mjs'),assets=path.join(temp,'assets');
+  fs.copyFileSync(path.join(root,'.generated/worker.mjs'),workerPath);
+  fs.cpSync(path.join(root,'public'),assets,{recursive:true});
+  // Real workerd/SQLite, without the flaky development ProxyWorker.
+  const {Miniflare,Log,LogLevel,convertV4MiniflareOptions}=require(root+'/node_modules/miniflare');
+  const mf=new Miniflare(convertV4MiniflareOptions({name:'chichi-mosa-local',rootPath:temp,host:'127.0.0.1',port,modules:true,scriptPath:workerPath,compatibilityDate:'2026-10-13',bindings:{GAME_RELEASE:'development'},durableObjects:{SAVE_VAULT:{className:'SaveVault',useSQLite:true}},durableObjectsPersist:path.join(temp,'sqlite'),assets:{directory:assets,binding:'ASSETS',run_worker_first:['/api/*'],routerConfig:{has_user_worker:true}},log:new Log(LogLevel.ERROR)}));
+  const url=await mf.ready;return {base:url.origin,stop:()=>{fs.closeSync(log);return mf.dispose();},env:process.env,logPath:path.join(temp,'worker.log')};
 }
+
 (async () => {
   const local = await localWorker();
   let browser;
@@ -271,7 +209,7 @@ async function localWorker() {
         n.manualAnchor = n.carrier.position.clone();
         n.manualUntil = performance.now() + 1e7;
       }
-      q.reviewView(-150, -28, 48);
+      const b=q.islands.get('autumn');q.reviewView(b.position.x,b.position.z+14,48);
     });
     await page.waitForFunction(
       () => Math.abs(__lagoonQA.getDistance() - 48) < 0.2,
@@ -483,7 +421,7 @@ async function localWorker() {
         const q = __lagoonQA;
         q.residentPlay.cancel(id);
         q.drawPaused = !capture;
-        q.reviewView(-150, -42, 160);
+        const b=q.islands.get('autumn');q.reviewView(b.position.x,b.position.z,b.userData.ocean.sea.userData.rx*5.5);
       },
       { id: npcId, capture },
     );
