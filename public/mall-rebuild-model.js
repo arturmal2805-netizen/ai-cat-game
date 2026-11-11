@@ -1,3 +1,4 @@
+import {compactMallBuffersSteps} from './mall-buffer-compaction.js';
 import * as T from 'three';
 import {mallMascotSteps,mallGalleryIdentitySteps} from './mall-facade.js';
 import {mallAquariumSteps} from './mall-aquarium.js';
@@ -13,6 +14,7 @@ import {runSceneSteps} from './scene-tasks.js';
 import {createMallRoomLights,mallRoomLightMaterial} from './mall-room-light.js';
 
 export function* mallRebuildModelSteps(options={}){
+  const compactBuffers=options.compactBuffers!==false;
   const kit=yield* mallKitSteps(options),{mats,mesh,cube,orb,disk,tube,ring,glassMat,label,plant,chair}=kit;
   const roomLights=createMallRoomLights();
   const root=new T.Group();root.name='CHICHI horizontal underwater mall';
@@ -57,6 +59,7 @@ export function* mallRebuildModelSteps(options={}){
     const physical=new T.Group();physical.add(architecture.structure,detail);const measured=collectMallObstacles(physical,glassMat,{zOrigin:MALL_LAYOUT.z});measured.floor=floor.id;measured.layoutVersion=2;obstacles.set(floor.id,measured);
     physical.remove(architecture.structure,detail);
     const structure=yield* batchModelSteps(architecture.structure,{combineColors:true}),retail=yield* batchModelSteps(detail,{combineColors:true}),roof=yield* batchModelSteps(ceilings,{combineColors:true});
+    if(compactBuffers)for(const holder of [structure,retail,roof])yield* compactMallBuffersSteps(holder);
     retail.traverse(o=>{if(o.isMesh&&o.material.isMeshStandardMaterial)mallRoomLightMaterial(o.material,roomLights,.18);});
     group.add(structure,retail,roof,architecture.glass,architecture.kinetics,architecture.ghost);
     group.userData={structure,detail:retail,ceiling:roof,glass:architecture.glass,kinetics:architecture.kinetics,ghost:architecture.ghost,escalators:architecture.kinetics};
@@ -120,7 +123,7 @@ export function* mallRebuildModelSteps(options={}){
   cube(bridge,mats.navy,0,.14,0,10,.4,shore.distanceTo(gate)+12);for(const side of [-1,1])cube(bridge,glassMat,side*5,1,0,.06,1.6,shore.distanceTo(gate)+12);
   const cabin=new T.Group();cabin.position.set(lx,.35,lz);root.add(cabin);disk(cabin,mats.floor,0,-.28,0,r-.4,.2);kit.doorwayCylinder(cabin,0,2.37,0,r-.5,5.1,glassMat);ring(cabin,0,4.98,0,r-.5,mats.pink,.09);
   const doors=[];for(const side of [-1,1])for(const x of [-1,1]){const panel=cube(cabin,glassMat,x*2,2.37,side*(r-.6),4,5.1,.05);doors.push({mesh:panel,x:panel.position.x});}
-  const frame=yield* batchModelSteps(frameSource,{combineColors:true});root.add(frame);
+  const frame=yield* batchModelSteps(frameSource,{combineColors:true});if(compactBuffers)yield* compactMallBuffersSteps(frame);root.add(frame);
   root.userData={mall:true,built:true,layoutVersion:2,floors,stores,obstacles,cabin,doors,atlas:kit.atlas,ownedTextures:[roomLights.texture],borrowed:new Set(),
     stats:{floors:7,stores:stores.size,products:MALL_PRODUCTS.length,area:mallPlanArea()},
     focusFloor(id){for(const [n,g]of floors){const selected=!id||n===id,d=g.userData;d.structure.visible=selected;d.detail.visible=selected;d.glass.visible=selected;d.kinetics.visible=selected;d.ceiling.visible=!id;d.ghost.visible=!!id&&!selected;}frame.visible=!id;mascot.visible=!id||id===1;},
