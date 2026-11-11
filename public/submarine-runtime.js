@@ -1,15 +1,16 @@
+import {submarineControlInput,submarineAirborne} from './submarine-controls.js';
 import * as T from 'three';import{createSubmarinePhysics,SUBMARINE_DOCK,SUBMARINE_BOARDING_POINT}from'./submarine-physics.js';import{createSubmarineModel}from'./submarine-model.js';import{byBiome}from'./game-data.js';
 import {createSubmarineReturn} from './submarine-return.js';
 import {createSubmarineCameraFollower} from './submarine-camera.js';
 export function createSubmarineRuntime({container,canvas,camera,look,actor,getModel,getIsland,getGame,getFocused,cancelHero,approachDock,canPilot=()=>true,scene,focus}){
  const physics=createSubmarinePhysics(getGame().mosasaurSubmarine),state=physics.state,biome=byBiome('autumn'),centre=new T.Vector3(biome.center[0],0,biome.center[1]);
  const anchor=new T.Group();anchor.position.copy(centre);scene.add(anchor);let boat=null;
- let phase=state.active?'piloting':'docked',age=0,start=new T.Vector3(),returning=false,returnRoute=null,pan=0,tilt=0,drag=null,viewDistance=9,lastHud='',lastWake=-Infinity,shown=false,disposed=false;
+ let phase=state.active?'piloting':'docked',age=0,start=new T.Vector3(),returning=false,returnRoute=null,pan=0,tilt=0,drag=null,viewDistance=9,lastHud='',lastWake=-Infinity,shown=false,disposed=false,lastAirborne=null;
  const dockPoint=new T.Vector3(SUBMARINE_BOARDING_POINT.x,SUBMARINE_BOARDING_POINT.y,SUBMARINE_BOARDING_POINT.z).add(centre),aim=new T.Vector3();
- const keys=new Set(),point=new T.Vector3(),target=new T.Vector3(),eye=new T.Vector3(),q=new T.Quaternion(),cameraFollow=createSubmarineCameraFollower(camera,look),smooth=t=>t*t*(3-2*t);
+ const velocity=new T.Vector3(),keys=new Set(),point=new T.Vector3(),target=new T.Vector3(),eye=new T.Vector3(),q=new T.Quaternion(),cameraFollow=createSubmarineCameraFollower(camera,look),smooth=t=>t*t*(3-2*t);
  const panel=document.createElement('div');panel.className='submarine-panel';panel.style.cssText='position:absolute;right:14px;bottom:116px;z-index:12;max-width:310px;padding:10px;border-radius:18px;background:#173c57e8;color:#effcff;box-shadow:0 4px 24px #1235;font:600 13px system-ui;';
- panel.innerHTML='<div data-sub-readout></div><div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:7px"><button data-sub-enter>🌊 Сісти в субмарину · E</button><button data-sub-camera>Камера · C</button><button data-sub-return>До причалу</button><button data-sub-exit>Вийти · E</button></div><div data-sub-controls style="display:flex;gap:5px;flex-wrap:wrap;margin-top:8px"><button data-sub-key="KeyW">▲ Газ</button><button data-sub-key="KeyS">▼ Назад</button><button data-sub-key="KeyA">←</button><button data-sub-key="KeyD">→</button><button data-sub-key="Space">↑ Ривок</button><button data-sub-key="ShiftLeft">↓ Глибше</button></div><small data-sub-help style="display:block;margin-top:6px;opacity:.8">WASD · Space ↑ · Shift ↓ · C камера · E вхід/вихід</small>';
- for(const b of panel.querySelectorAll('button'))b.style.cssText='border:1px solid #8cd9e66b;border-radius:9px;background:#376980;color:white;padding:8px;font:inherit;touch-action:none;cursor:pointer;';panel.hidden=true;container.append(panel);const readout=panel.querySelector('[data-sub-readout]'),enterButton=panel.querySelector('[data-sub-enter]'),cameraButton=panel.querySelector('[data-sub-camera]'),returnButton=panel.querySelector('[data-sub-return]'),exitButton=panel.querySelector('[data-sub-exit]'),controls=panel.querySelector('[data-sub-controls]');
+ panel.innerHTML='<div data-sub-readout></div><div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:7px"><button data-sub-enter>🌊 Сісти в субмарину · E</button><button data-sub-camera>Камера · C</button><button data-sub-return>До причалу</button><button data-sub-exit>Вийти · E</button></div><div data-sub-controls style="display:flex;gap:5px;flex-wrap:wrap;margin-top:8px"><button data-sub-key="KeyW">▲ Газ</button><button data-sub-key="KeyS">▼ Назад</button><button data-sub-key="KeyA">←</button><button data-sub-key="KeyD">→</button><button data-sub-key="Space">↑ Ривок</button><button data-sub-key="ShiftLeft">↓ Глибше</button></div><small data-sub-help style="display:block;margin-top:6px;opacity:.8">WASD · Space ↑ · Shift ↓ · у польоті W/S — сальто · C камера · E вхід/вихід</small>';
+ for(const b of panel.querySelectorAll('button'))b.style.cssText='border:1px solid #8cd9e66b;border-radius:9px;background:#376980;color:white;padding:8px;font:inherit;touch-action:none;cursor:pointer;';panel.hidden=true;container.append(panel);const readout=panel.querySelector('[data-sub-readout]'),enterButton=panel.querySelector('[data-sub-enter]'),cameraButton=panel.querySelector('[data-sub-camera]'),returnButton=panel.querySelector('[data-sub-return]'),exitButton=panel.querySelector('[data-sub-exit]'),controls=panel.querySelector('[data-sub-controls]'),forwardButton=panel.querySelector('[data-sub-key="KeyW"]'),reverseButton=panel.querySelector('[data-sub-key="KeyS"]');
  function focused(){return getFocused()==='autumn'&&getGame().unlocked.includes('autumn');}
  function isBusy(){return phase!=='docked';}
  function beginBoarding(){start.copy(actor.position);phase='boarding';age=0;state.active=false;returning=false;keys.clear();}
@@ -29,13 +30,13 @@ export function createSubmarineRuntime({container,canvas,camera,look,actor,getMo
   if(!activeView||!canPilot())keys.clear();age+=dt;if(phase==='approaching'&&actor.position.distanceTo(dockPoint)<.5)beginBoarding();
   if(phase==='boarding'&&age>=3){phase='piloting';age=0;state.active=true;}if(phase==='exiting'&&age>=2.5){phase='docked';age=0;actor.rotation.set(0,0,0);focus('autumn',false,true);}
   if(phase==='piloting'){
-   const input={forward:(keys.has('KeyW')?1:0)-(keys.has('KeyS')?1:0),turn:(keys.has('KeyD')?1:0)-(keys.has('KeyA')?1:0),vertical:(keys.has('Space')?1:0)-(keys.has('ShiftLeft')||keys.has('ShiftRight')?1:0),boost:keys.has('Space')};
-   if(input.forward||input.turn||input.vertical)returning=false;
+   const input=submarineControlInput(keys,state);
+   if(input.forward||input.turn||input.vertical||input.flip)returning=false;
    if(returning){Object.assign(input,returnRoute(state));if(physics.atDock()){returning=false;exit();}}
    physics.step(dt,input);
    if(Math.abs(state.y-MOSA_SURFACE)<1&&Math.abs(state.speed)>2&&time-lastWake>.24){lastWake=time;island?.userData.ocean.sea.userData.disturb(state.x,state.z,time,Math.min(1,Math.abs(state.speed)/20));}
   }
-  boat.position.set(state.x,state.y,state.z);boat.rotation.set(-T.MathUtils.clamp(state.vertical*.025,-.25,.25),state.yaw,-state.turn*.12);boat.userData.update(time,state.speed,phase==='boarding'?1-smooth(Math.min(1,age/3)):phase==='exiting'?smooth(Math.min(1,age/2.5)):0,reduced);
+  boat.position.set(state.x,state.y,state.z);boat.rotation.set((reduced?0:state.pitch)-T.MathUtils.clamp(state.vertical*.025,-.25,.25),state.yaw,-state.turn*.12,'YXZ');boat.userData.update(time,state.speed,phase==='boarding'?1-smooth(Math.min(1,age/3)):phase==='exiting'?smooth(Math.min(1,age/2.5)):0,reduced);
   if(isBusy()&&phase!=='approaching'){
    if(phase==='boarding'){const u=smooth(Math.min(1,age/3));target.copy(boat.userData.seat).applyQuaternion(boat.quaternion).add(boat.position).add(centre);actor.position.lerpVectors(start,target,u);actor.position.y+=Math.sin(u*Math.PI)*.5;actor.rotation.set(0,state.yaw,0);}
    else if(phase==='exiting'){target.copy(dockPoint);actor.position.lerpVectors(start,target,smooth(Math.min(1,age/2.5)));}
@@ -43,13 +44,16 @@ export function createSubmarineRuntime({container,canvas,camera,look,actor,getMo
   }
   shown=activeView;panel.hidden=!shown;
   enterButton.hidden=isBusy();enterButton.disabled=!canPilot();enterButton.textContent=actor.position.distanceTo(dockPoint)>16?'🐾 Покликати Чічі до субмарини':'🌊 Сісти в субмарину · E';for(const b of[cameraButton,returnButton,exitButton])b.hidden=!isBusy()||phase==='approaching';controls.hidden=!isBusy()||phase==='approaching';exitButton.disabled=!physics.atDock()||phase!=='piloting';
-  const text=phase==='approaching'?'Чічі прямує до причалу…':phase==='boarding'?'Влаштовуємось у кабіні…':phase==='exiting'?'Повертаємось на причал…':isBusy()?'Глибина '+Math.max(0,Math.round(MOSA_SURFACE-state.y))+' м · '+Math.round(Math.abs(state.speed)*3.6)+' км/год'+(returning?' · До причалу':''): '🐾 Підводна пригода';if(text!==lastHud){readout.textContent=text;lastHud=text;}
-  return isBusy()&&phase!=='approaching'?{walking:phase==='boarding'||phase==='exiting',reaction:phase==='piloting'?{rideSit:1,weight:1,grip:.45,bodyLean:-state.turn*.1,headYaw:pan*.2,eyeClose:0}:null}:null;
+  const airborne=submarineAirborne(state);
+  if(lastAirborne!==airborne){forwardButton.textContent=airborne?'↻ Переднє сальто · W':'▲ Газ';reverseButton.textContent=airborne?'↺ Заднє сальто · S':'▼ Назад';lastAirborne=airborne;}
+  const text=phase==='approaching'?'Чічі прямує до причалу…':phase==='boarding'?'Влаштовуємось у кабіні…':phase==='exiting'?'Повертаємось на причал…':isBusy()?(airborne?'Висота '+Math.max(0,Math.round(state.y-MOSA_SURFACE)):'Глибина '+Math.max(0,Math.round(MOSA_SURFACE-state.y)))+' м · '+Math.round(Math.abs(state.speed)*3.6)+' км/год'+(returning?' · До причалу':''): '🐾 Підводна пригода';if(text!==lastHud){readout.textContent=text;lastHud=text;}
+  return isBusy()&&phase!=='approaching'?{walking:phase==='boarding'||phase==='exiting',reaction:phase==='piloting'?{rideSit:1,weight:1,grip:submarineAirborne(state)?.75:.45,surprise:submarineAirborne(state)?.3:0,bodyLean:-state.turn*.1,headYaw:pan*.2,eyeClose:0}:null}:null;
  }
  function updateCamera(dt){if(!boat||!isBusy()||phase==='approaching'||!focused()){cameraFollow.reset();return false;}q.copy(boat.quaternion);target.set(state.x,state.y+.25,state.z).add(centre);
   if(state.mode==='cockpit'){eye.set(0,.88,1).applyQuaternion(q).add(target);aim.set(Math.sin(pan)*Math.cos(tilt),-Math.sin(tilt),Math.cos(pan)*Math.cos(tilt));aim.applyQuaternion(q);target.copy(eye).addScaledVector(aim,8);}
-  else eye.set(0,3.4,-viewDistance).applyQuaternion(q).add(target);
-  cameraFollow.update(dt,eye,target);return true;
+  else{q.setFromAxisAngle(T.Object3D.DEFAULT_UP,state.yaw);eye.set(0,3.4,-viewDistance).applyQuaternion(q).add(target);}
+  velocity.set(Math.sin(state.yaw)*state.speed,state.vertical,Math.cos(state.yaw)*state.speed);
+  cameraFollow.update(dt,eye,target,velocity);return true;
  }
  return {get active(){return isBusy();},get phase(){return phase;},physics,boardingPoint:dockPoint,get boat(){return boat;},enter,exit,toggleCamera,update,updateCamera,snapshot:()=>({...physics.snapshot(),active:phase==='piloting'}),dispose(){disposed=true;clear();panel.remove();window.removeEventListener('keydown',onKey);window.removeEventListener('keyup',release);window.removeEventListener('blur',clear);canvas.removeEventListener('pointerdown',down,true);canvas.removeEventListener('pointermove',move,true);canvas.removeEventListener('pointerup',clear,true);canvas.removeEventListener('pointercancel',clear,true);canvas.removeEventListener('wheel',wheel,true);anchor.removeFromParent();boat?.userData.dispose();}};
 }

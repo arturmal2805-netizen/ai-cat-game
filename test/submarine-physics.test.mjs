@@ -21,12 +21,13 @@ test('space gives a real ballistic water breach and shift descends again',()=>{
 test('real save/load and cached shared clients retain the pilot pose without losing purchases or wallet',async()=>{
  const {newGame,loadGame}=await import('../public/economy.js'),{mergeSharedWorld}=await import('../shared-world.mjs');const now=Date.UTC(2026,10,4),g=newGame(now);g.unlocked.push('autumn');g.mosasaurSubmarine={x:20,y:-40,z:-10,yaw:.8,active:true,mode:'cockpit'};
  const restore=x=>loadGame({getItem:k=>k==='chichi-world-v2'?JSON.stringify(x):null},now,{advance:false});const loaded=restore(g);assert.deepEqual(loaded.mosasaurSubmarine,g.mosasaurSubmarine);assert.equal(loaded.coins,g.coins);assert.deepEqual(loaded.placements,g.placements);
+ const airborne=structuredClone(g);airborne.mosasaurSubmarine={...g.mosasaurSubmarine,y:33,pitch:1.2};const resumed=restore(airborne);assert.deepEqual(resumed.mosasaurSubmarine,airborne.mosasaurSubmarine);assert.equal(resumed.coins,g.coins);assert.deepEqual(resumed.placements,g.placements);
  const cached=structuredClone(g);delete cached.mosasaurSubmarine;assert.deepEqual(mergeSharedWorld(g,g,cached).mosasaurSubmarine,g.mosasaurSubmarine);
  const docked=structuredClone(g);docked.mosasaurSubmarine={...SUBMARINE_DOCK,active:false,mode:'chase'};assert.equal(mergeSharedWorld(g,g,docked).mosasaurSubmarine.active,false);
 });
 test('a steep reef wall brakes a fast boat rather than lifting it onto the ledge',()=>{
  const p=createSubmarinePhysics({x:0,y:-45,z:16,yaw:Math.PI/2,active:true});let collision=false;
- for(let i=0;i<300;i++){const oldY=p.state.y,oldX=p.state.x;p.step(.1,{forward:1});assert.ok(Math.abs(p.state.y-oldY)<.36,'no vertical teleport');if(p.state.speed<1&&i>30)collision=true;assert.ok(p.state.x-oldX<2.5);}
+ for(let i=0;i<300;i++){const oldY=p.state.y,oldX=p.state.x;p.step(.1,{forward:1});assert.ok(Math.abs(p.state.y-oldY)<.36,'no vertical teleport');if(p.state.speed<1&&i>30)collision=true;assert.ok(p.state.x-oldX<=SUBMARINE_MAX_SPEED*.1+1e-6);}
  assert.ok(collision,'the swept hull meets the actual reef');
 });
 test('return leaves both real cavern roofs through their openings before ascending to the pier',async()=>{
