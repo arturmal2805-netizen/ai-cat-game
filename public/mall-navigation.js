@@ -52,17 +52,17 @@ export function mallAccessibleService(store,slot,radius,boxes){
   return service;
 }
 
-export function collectMallObstacles(source,glass){
+export function collectMallObstacles(source,glass,{zOrigin=MALL.z}={}){
   const boxes=[];source.updateWorldMatrix(true,true);
   source.traverse(o=>{
-    if(!o.isMesh||(!o.material.isMeshStandardMaterial&&o.material!==glass))return;
+    if(!o.isMesh||o.userData.mallCollisionHandledByPosts||o.userData.mallCollisionHandledByBoundary||(!o.material.isMeshStandardMaterial&&o.material!==glass))return;
     const g=o.geometry;if(!g.boundingBox)g.computeBoundingBox();const b=g.boundingBox;if(!b)return;
     const e=o.matrixWorld.elements,cx=(b.min.x+b.max.x)/2,cy=(b.min.y+b.max.y)/2,cz=(b.min.z+b.max.z)/2;
     const hx=(b.max.x-b.min.x)/2,hy=(b.max.y-b.min.y)/2,hz=(b.max.z-b.min.z)/2;
     const y=e[1]*cx+e[5]*cy+e[9]*cz+e[13],dy=Math.abs(e[1])*hx+Math.abs(e[5])*hy+Math.abs(e[9])*hz;
     if(y+dy<.12||y-dy>2.15)return;
     const len=Math.hypot(e[0],e[2]),c=len?e[0]/len:1,s=len?e[2]/len:0;
-    const x=e[0]*cx+e[4]*cy+e[8]*cz+e[12],z=e[2]*cx+e[6]*cy+e[10]*cz+e[14]-MALL.z;
+    const x=e[0]*cx+e[4]*cy+e[8]*cz+e[12],z=e[2]*cx+e[6]*cy+e[10]*cz+e[14]-zOrigin;
     const bx=Math.abs(e[0]*c+e[2]*s)*hx+Math.abs(e[4]*c+e[6]*s)*hy+Math.abs(e[8]*c+e[10]*s)*hz;
     const bz=Math.abs(-e[0]*s+e[2]*c)*hx+Math.abs(-e[4]*s+e[6]*c)*hy+Math.abs(-e[8]*s+e[10]*c)*hz;
     // Thin mouldings attached to a larger fixture need no duplicate obstacle.

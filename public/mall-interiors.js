@@ -12,7 +12,7 @@ function nativeProp(id){if(!nativeProps.has(id))nativeProps.set(id,makeAttractio
 // These are actual shop fittings and merchandise. Every category has its own
 // working counter, storage, lighting and display arrangement, with the public
 // centre aisle and side route kept open for native visitors.
-export function* mallInteriorSteps(g,s,h){
+export function mallFixtureLibrary(g,s,h){
   const {cube,orb,disk,tube,ring,mesh,mats,glassMat,chair,plant,getSurface,labelText,motion,clock}=h;
   const colors={ivory:0xe8dcc1,ink:0x172d45,rose:0xbc718d,coral:0xdb695e,fern:0x326953,leather:0x8d5139,
     oak:0xa77b4d,red:0xbe404c,blue:0x498cb6,lilac:0xa78ac1,gold:0xe8bf76,white:0xf5efe6};
@@ -92,6 +92,12 @@ export function* mallInteriorSteps(g,s,h){
     tube(g,[[-3.6,2.1,-3.55],[-3.6,2.7,-3.55],[-3.2,2.9,-3.55],[-3,2.6,-3.55]],.04,mats.gold);
     for(const x of [-4,4]){soft(g,paint('ivory'),x,2.95,-3.6,1.5,1.55,.7);cube(g,mats.gold,x,2.98,-3.21,.05,1.2,.03);for(let k=0;k<6;k++)cube(g,paint('ink'),x-.5+k*.2,2.3,-3.21,.08,.12,.015);bottle(g,x+.42,3.8,-3.6,paint('fern'));}
   }
+  return {paint,soft,plinth,bottle,bag,garment,rack,upholsteredBench,touchscreen,foodOnPlate,cafeTable,kitchen,nativeProp};
+}
+
+export function* mallInteriorSteps(g,s,h){
+  const {cube,orb,disk,tube,ring,mesh,mats,glassMat,chair,plant,getSurface,labelText,motion,clock}=h;
+  const {paint,soft,plinth,bottle,bag,garment,rack,upholsteredBench,touchscreen,foodOnPlate,cafeTable,kitchen,nativeProp}=mallFixtureLibrary(g,s,h);
   yield;
   if(s.kind==='fashion'){
     const luxury=['vuitton','gucci','prada','chanel'].includes(s.key),back=paint(s.key==='gucci'?'fern':s.key==='chanel'?'ink':'ivory');
