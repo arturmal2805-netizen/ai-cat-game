@@ -1,5 +1,5 @@
 import {spaPath} from './spa-navigation.js';
-import {MALL,mallFloor} from './mall-data.js';
+import {MALL,mallFloor,mallPoint,mallServiceFrames} from './mall-data.js';
 const grids=new WeakMap(),extent=72,cell=.45,size=extent*2+1;
 export const mallNavigationReady=(boxes,radius)=>!!grids.get(boxes)?.has(radius);
 export function* mallNavigationSteps(boxes,radius){
@@ -39,6 +39,17 @@ export function mallPath(floor,from,to,radius,boxes){
   };
   const path=spaPath(a,b,radius,boxes,walkable,{extent,cell});
   return path?.map(p=>({x:p.x,y:mallFloor(floor).y+.18,z:p.z+MALL.z}))||null;
+}
+
+export function mallAccessibleService(store,slot,radius,boxes){
+  const service=mallServiceFrames(store,slot,radius);
+  if(service.seated)return service;
+  const side=slot%2?1:-1;
+  for(const z of [7.3,8.2,6.8,9])for(const x of [side*4.3,-side*4.3,side*2.1,0,-side*2.1]){
+    const p=mallPoint(store,x,.18,z);
+    if(mallWalkable({x:p.x,z:p.z-MALL.z},radius,boxes))return{...service,approach:p,seat:{...p}};
+  }
+  return service;
 }
 
 export function collectMallObstacles(source,glass){

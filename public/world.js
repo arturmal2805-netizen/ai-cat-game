@@ -1492,6 +1492,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       })
     )
       return false;
+    if(!autonomous)mall?.detach(id);
     n.manualAnchor = null;
     n.manualUntil = performance.now() + 90000;
     if (jobBusiness(decision.activityId))
@@ -2610,6 +2611,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     court.cancel("chichi");
     socialGlow.visible = false;
     sync(game);
+    if(!leisureTicket&&!background)mall?.detach("chichi");
     cancelHeroActivity(!!leisureTicket);
     switchMood(decision.mood);
     choiceExpression(decision);
@@ -5953,7 +5955,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     onCamera:(floor,entering)=>{
       if(entering){mallPreviousCamera={look:desiredLook.clone(),distance:desiredDistance,azimuth,elevation,fov:desiredFov};if(focused!=='autumn')focus('autumn');exitCourt(false);faceCamera.setEnabled(false,look);viewingOverview=false;}
       const b=byBiome('autumn');desiredLook.set(b.center[0],floor?mallFloor(floor).y+2:MALL.y+29,b.center[1]+MALL.z);
-      const halfHorizontal=floor?1.03:1.21;
+      const halfHorizontal=floor?1.03:1.55;
       desiredFov=Math.max(40,Math.min(135,Math.atan(halfHorizontal/camera.aspect)*360/Math.PI));
       desiredDistance=floor?46:70;
       azimuth=-.55;elevation=floor?.40:.14;overviewElevation=null;

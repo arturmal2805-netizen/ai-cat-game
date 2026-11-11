@@ -25,14 +25,14 @@ export function mallStorePath(floor,storeId,reverse=false){
   for(let i=1;i<=steps;i++){const a=start+da*i/steps;path.push(point(Math.cos(a)*lane,y,MALL.z+Math.sin(a)*lane));}
   path.push(point(s.entrance.x,y,s.entrance.z));return reverse?path.reverse():path;
 }
-export function createMallRuntime({getGame,onPurchase=()=>false,onUse=()=>false,onGoal=()=>{},onComplete=()=>{},route=null,vendorReady=()=>true}={}){
+export function createMallRuntime({getGame,onPurchase=()=>false,onUse=()=>false,onGoal=()=>{},onComplete=()=>{},route=null,vendorReady=()=>true,serviceFrames=mallServiceFrames,onRouteBlocked=()=>{}}={}){
   const visits=new Map(),storeLocks=new Map();
   const lift={floor:0,y:.35,phase:'open',opening:1,elapsed:0,passengers:[],target:0,from:.35,duration:0};
   const queue=[];let serial=0;
   function walk(v,path,next){
     if(route&&v.floor>0&&!['boarded','landed'].includes(next)&&path.length){
       const planned=route(v.floor,v.position,path.at(-1),v.radius);
-      if(!planned){v.routeFailed=true;v.walking=false;return false;}path=planned;v.routeFailed=false;
+      if(!planned){if(!v.routeFailed)onRouteBlocked(v);v.routeFailed=true;v.walking=false;v.phase='route-blocked';return false;}path=planned;v.routeFailed=false;
     }
     v.path=[copy(v.position),...path.map(copy)];v.segment=0;v.distance=0;v.next=next;v.phase='walk';v.action=next==='queue'?'EnterElevator':next==='inspect'?'BrowseStore':'ReturnHome';return true;}
   function move(v,dt,others){
@@ -111,7 +111,7 @@ export function createMallRuntime({getGame,onPurchase=()=>false,onUse=()=>false,
   return {
     visits,lift,start,has:id=>visits.has(id),get:id=>visits.get(id),
     detach(id){const v=visits.get(id);if(v)finish(v);},
-    cancel(id){const v=visits.get(id);if(!v)return;if(v.position.y>=-1&&v.phase==='walk'&&v.next==='queue'){finish(v);return;}v.returning=true;if(['inspect','compare','checkout','experience','joy'].includes(v.phase))leave(v);},
+    cancel(id){const v=visits.get(id);if(!v)return;if(v.position.y>=-1&&v.phase==='walk'&&v.next==='queue'){finish(v);return;}v.returning=true;if(['inspect','compare','checkout','experience','joy','route-blocked'].includes(v.phase))leave(v);},
     clear(){visits.clear();queue.length=0;storeLocks.clear();lift.passengers.length=0;},
     safePosition(id){const v=visits.get(id);return !v?null:['riding','boarded'].includes(v.phase)||v.next==='boarded'?mallLanding(v.fromFloor,v.slot||0):copy(v.position);},
     step(dt,time,{allow=true,blocked=()=>false}={}){
@@ -119,7 +119,7 @@ export function createMallRuntime({getGame,onPurchase=()=>false,onUse=()=>false,
       for(const v of all){if(!visits.has(v.id))continue;if(blocked(v.id)&&!v.returning)this.cancel(v.id);
         v.walking=v.phase==='walk';v.elapsed+=dt;
         if(v.phase==='walk'){if(move(v,dt,all))arrived(v);continue;}
-        const s=mallStore(v.storeId),service=mallServiceFrames(s,v.order,v.radius);v.yaw=Math.PI/2-s.angle;
+        const s=mallStore(v.storeId),service=serviceFrames(s,v.order,v.radius);v.yaw=Math.PI/2-s.angle;
         if(v.phase==='inspect'){v.action='InspectProduct';if(v.elapsed>2.6){v.phase='compare';v.elapsed=0;}}
         else if(v.phase==='compare'){v.action='CompareProducts';if(v.elapsed>1.8&&!storeLocks.has(s.id)){storeLocks.set(s.id,v.id);if(!walk(v,[service.customer],'checkout')){storeLocks.delete(s.id);leave(v);}}}
         else if(v.phase==='checkout'){

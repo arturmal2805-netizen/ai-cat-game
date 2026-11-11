@@ -16,7 +16,7 @@ raw=rng.standard_normal((n,n))
 def noise(scale):
     a=gaussian_filter(raw,scale,mode='wrap');return a/(a.std()+1e-8)
 coarse=noise(48);medium=noise(12);fine=noise(2);grain=rng.standard_normal((n,n))
-for kind in ['marble','metal','warm','fabric']:
+for kind in ['metal']:
     if kind=='marble':
         phase=u*3+coarse*.72+medium*.12
         vein=np.exp(-np.abs(np.sin(phase*np.pi*2))*55)
@@ -41,12 +41,17 @@ for kind in ['marble','metal','warm','fabric']:
 # Offline authoring inputs are never downloaded by the game or build.
 source_dir=Path(os.environ.get('CHICHI_MALL_MATERIALS','/tmp/chichi-mall-pbr'))
 provenance=[]
-for kind,asset in [('marble','marble_01'),('warm','natural_walnut_veneer'),('fabric','velour_velvet')]:
+for kind,asset in [('marble','marble_01'),('warm','natural_walnut_veneer'),('fabric','velour_velvet'),('leather','brown_leather')]:
     maps={}
     for role,size in [('color',512),('normal',256),('roughness',128)]:
         files=list(source_dir.glob(asset+'-'+role+'.*'))
         if not files:raise FileNotFoundError('Run scripts/fetch-mall-materials.py first, or set CHICHI_MALL_MATERIALS')
-        raw_file=files[0];im=Image.open(raw_file).convert('RGB' if role!='roughness' else 'L').resize((size,size),Image.Resampling.LANCZOS)
+        raw_file=files[0];im=Image.open(raw_file)
+        if role=='roughness':
+            pixels=np.asarray(im).astype(float)
+            if np.asarray(im).dtype==np.uint16:pixels*=255/65535
+            im=Image.fromarray(np.uint8(np.clip(pixels,0,255)))
+        im=im.convert('RGB' if role!='roughness' else 'L').resize((size,size),Image.Resampling.LANCZOS)
         pixels=np.asarray(im).astype(float)
         if kind=='fabric' and role=='color':
             luminance=pixels[...,0]*.2126+pixels[...,1]*.7152+pixels[...,2]*.0722
@@ -70,7 +75,7 @@ for i,text in enumerate(labels):
     draw.text((256-width/2,64-(box[3]-box[1])/2-box[1]),text,font=font,fill=255,stroke_width=0)
     mask=np.asarray(tile)>127;sdf=distance_transform_edt(mask)-distance_transform_edt(~mask);sdf=np.uint8(np.clip(128+sdf*12,0,255))
     atlas[row*128:(row+1)*128,col*512:(col+1)*512]=sdf
-    metadata[text]={'u0':(col*512+256-width/2-12)/2048,'u1':(col*512+256+width/2+12)/2048,'v0':1-(row*128+112)/4096,'v1':1-(row*128+16)/4096,'aspect':(width+24)/96}
+    metadata[text]={'u0':(col*512+256-width/2-12)/2048,'u1':(col*512+256+width/2+12)/2048,'v0':1-(row*128+64+(box[3]-box[1]+16)/2)/4096,'v1':1-(row*128+64-(box[3]-box[1]+16)/2)/4096,'aspect':(width+24)/(box[3]-box[1]+16)}
 url=save(atlas,'mall-signs-sdf');source=hashlib.sha256(json.dumps(labels,ensure_ascii=False,separators=(',',':')).encode()).hexdigest()
 Path('public/mall-art-assets.js').write_text('// Offline CC0-derived surface charts and original distance-field labels. See docs/reviews/mall-material-sources-2026-11-11.json.\nexport const MALL_SURFACES='+json.dumps(assets,separators=(',',':'))+';\nexport const MALL_SIGNS_URL='+json.dumps(url)+';\nexport const MALL_SIGN_RECTS='+json.dumps(metadata,ensure_ascii=False,separators=(',',':'))+';\nexport const MALL_LABEL_SOURCE='+json.dumps(source)+';\n')
 print(json.dumps({'labels':len(labels),'pngs':len(list(out.glob('*.png'))),'bytes':sum(p.stat().st_size for p in out.glob('*.png'))}))

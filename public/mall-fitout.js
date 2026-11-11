@@ -73,7 +73,7 @@ export function* mallFitoutSteps(g,s,h){
   }else if(food){
     // Ribbed timber counter frontage, glazed pastry/drink wing and detailed
     // place settings. The middle staff passage remains open behind checkout.
-    for(let j=0;j<24;j++)soft(g,paint('oak'),-2.27+j*.197,.95,1.32,.075,1.45,.045);
+    for(let j=0;j<24;j++)soft(g,paint('oak'),-2.27+j*.197,.44,1.32,.075,.74,.045);
     for(const side of [-1,1]){
       const x=side*3.65,z=1.3;
       for(let j=0;j<2;j++){
@@ -98,7 +98,7 @@ export function* mallFitoutSteps(g,s,h){
       }
       cube(g,mats.gold,x+.42,2.2,-2.55,.03,.55,.05);
     }
-    labelText(g,'PICK UP',0,.94,1.4,2.45,.35);
+    labelText(g,'PICK UP',0,.44,1.4,2.45,.35);
   }else if(s.kind==='home'){
     // A complete staged room: framed prints, wall panelling, cushions, rug,
     // side table and shelf plants, separate from the actual inventory props.

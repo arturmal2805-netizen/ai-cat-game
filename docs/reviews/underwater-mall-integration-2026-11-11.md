@@ -51,3 +51,30 @@ Pending before any publication: native private SQLite purchase/reload, real
 world tapping and camera exit, ownership phone audit, every-island regressions,
 full suite, and further reference art review. The reference similarity target
 is not yet claimed achieved.
+
+Checkpoint v21 foundation: full suite **992/992 passed** (log
+`/workspace/qa/mall-full-suite-v20.log`). Private native DPR-2 touch proof and
+SQLite purchase/reload completed at `/workspace/qa/underwater-mall-native-v21`:
+actual world touch opens McDonald's; catalogue starts Chichi's physical lift
+journey; wallet 5,000 → 4,150 for the 850-coin collar; reload retains exactly one
+receipt/item and returns the visitor without another debit. No JS/HTTP errors.
+The first fast harness retried before cooperative staff preparation finished;
+manager now exposes actual readiness and the reload audit waits for it.
+
+The player's new specification supersedes the tower architecture:
+`docs/specifications/underwater-cat-mall-rebuild-2026-11-11.md`. This is a genuine
+horizontal rebuild, preserving the proven IDs, wallet/stock journal, same AI
+batch, inventory and native cat rigs. `mall-layout.js` is currently an unwired
+new floor-plan prototype: central 60-metre atrium body, two rounded 64×70-metre
+wings and two additional 18-metre pavilions. Sampled plan area is 116,962 m² over
+seven levels, compared with 23,285 m² for the preceding floors/pavilions: 5.023×.
+A polygon continuity probe found zero disconnected radial intervals. Cat and
+merchandise scales are not the means of obtaining that area.
+
+Implementation still pending: wire genuine large shop rooms and broad galleries,
+new floor/vehicle navigation and preserved-save layout migration, excavation of
+only the new construction/inspection cove, clearance of intersecting unowned
+reefs, bright tropical underwater lighting, correct cat-scale counters, bounded
+background/native shoppers, transparent floor context and new fitted cameras.
+Recheck actual native 3D screenshots against the NEW reference after each stage.
+No percentage similarity or physical-device FPS claim is implied by these tests.

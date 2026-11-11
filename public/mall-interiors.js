@@ -16,19 +16,66 @@ export function* mallInteriorSteps(g,s,h){
   const {cube,orb,disk,tube,ring,mesh,mats,glassMat,chair,plant,getSurface,labelText,motion,clock}=h;
   const colors={ivory:0xe8dcc1,ink:0x172d45,rose:0xbc718d,coral:0xdb695e,fern:0x326953,leather:0x8d5139,
     oak:0xa77b4d,red:0xbe404c,blue:0x498cb6,lilac:0xa78ac1,gold:0xe8bf76,white:0xf5efe6};
-  const paints=new Map();const paint=key=>{if(!paints.has(key)){const maps=getSurface(key==='oak'||key==='leather'?'warm':key==='rose'||key==='fern'?'fabric':'metal');const material=new T.MeshStandardMaterial({color:colors[key]||key,roughness:['rose','fern','lilac'].includes(key)?.95:.53,metalness:key==='gold'?.78:key==='ink'?.42:.04,...maps,normalScale:new T.Vector2(.25,.25)});paints.set(key,material);}return paints.get(key);};
+  const paints=new Map();
+  const paint=key=>{
+    if(paints.has(key))return paints.get(key);
+    const name=String(key).replace(/^(cloth|leather)-/,''),leather=key==='leather'||String(key).startsWith('leather-');
+    const cloth=String(key).startsWith('cloth-')||['rose','fern','lilac'].includes(key);
+    const maps=getSurface(leather?'leather':cloth?'fabric':key==='oak'?'warm':'metal');
+    const material=new T.MeshStandardMaterial({color:colors[name]||name,roughness:cloth?.95:leather?.65:.53,metalness:key==='gold'?.78:key==='ink'?.42:.04,...maps,normalScale:new T.Vector2(leather?.14:.25,leather?.14:.25)});
+    paints.set(key,material);return material;
+  };
   const rounded=new RoundedBoxGeometry(1,1,1,2,.1);rounded.userData.sharedScenery=true;
   const soft=(p,m,x,y,z,sx,sy,sz)=>mesh(p,rounded,m,x,y,z,sx,sy,sz);
   function plinth(x,z,width=2){soft(g,paint('ivory'),x,.48,z,width,.8,1.15);cube(g,mats.gold,x,.1,z,width+.08,.035,1.2);}
   function bottle(p,x,y,z,m=paint('rose')){disk(p,m,x,y,z,.13,.34);disk(p,mats.gold,x,y+.2,z,.09,.08);orb(p,mats.white,x-.035,y+.03,z+.12,.025,.12,.01);}
-  function bag(p,x,y,z,scale=1){const b=new T.Group();b.position.set(x,y,z);b.scale.setScalar(scale);p.add(b);soft(b,paint(s.key==='prada'?'ink':s.key==='gucci'?'fern':'leather'),0,.35,0,.85,.67,.4);soft(b,paint('gold'),0,.48,.215,.2,.16,.035);tube(b,[[-.28,.6,0],[-.29,.95,0],[.29,.95,0],[.28,.6,0]],.045,mats.gold);for(let j=0;j<5;j++)tube(b,[[-.39+j*.18,.1,.215],[-.39+j*.18,.63,.215]],.009,mats.gold);}
-  function garment(p,x,y,z,index=0){const group=new T.Group();group.position.set(x,y,z);p.add(group);const cloth=paint(['ivory','rose','fern','ink'][index%4]);soft(group,cloth,0,0,0,.65,.85,.25);for(const side of [-1,1]){const sleeve=soft(group,cloth,side*.38,.15,0,.3,.56,.23);sleeve.rotation.z=side*.3;}cube(group,mats.gold,0,0,.14,.025,.7,.02);for(let j=0;j<3;j++)orb(group,mats.gold,.08,.2-j*.2,.15,.035);tube(group,[[-.36,.45,0],[0,.7,0],[.36,.45,0]],.025,mats.gold);}
+  const bagShapes=new Map();
+  function bag(p,x,y,z,scale=1){
+    const b=new T.Group(),variant=Math.abs(Math.round(x*3+y*7))%3;
+    b.position.set(x,y,z);b.scale.setScalar(scale);p.add(b);
+    const tone=s.key==='prada'?'ink':s.key==='gucci'?'fern':s.key==='chanel'?'ivory':'leather';
+    const material=paint('leather-'+tone),trim=paint('gold');
+    if(!bagShapes.has(variant)){
+      const shape=new T.Shape();shape.moveTo(-.34,.05);shape.bezierCurveTo(-.43,.05,-.47,.12,-.43,.28);
+      shape.lineTo(variant===1?-.32:-.36,.67);shape.quadraticCurveTo(0,variant===1?.78:.72,variant===1?.32:.36,.67);
+      shape.lineTo(.43,.28);shape.bezierCurveTo(.47,.12,.43,.05,.34,.05);shape.closePath();
+      const geometry=new T.ExtrudeGeometry(shape,{depth:.32,bevelEnabled:true,bevelThickness:.04,bevelSize:.035,bevelSegments:3,curveSegments:8,steps:1});geometry.translate(0,0,-.16);geometry.userData.sharedScenery=true;bagShapes.set(variant,geometry);
+    }
+    mesh(b,bagShapes.get(variant),material);
+    for(const side of [-1,1]){
+      tube(b,[[side*.3,.1,.205],[side*.4,.18,.205],[side*.34,.62,.205],[side*.23,.66,.205]],.005,paint('ivory'));
+      for(const front of [-1,1]){
+        const clasp=mesh(b,new T.TorusGeometry(.065,.012,6,16),trim,side*.25,.67,front*.16);clasp.rotation.y=.08;
+      }
+    }
+    for(const front of [-1,1])tube(b,[[-.25,.7,front*.14],[-.28,variant===0?1.28:1.04,front*.14],[.28,variant===0?1.28:1.04,front*.14],[.25,.7,front*.14]],.025,material);
+    if(variant===1){soft(b,material,0,.59,.20,.61,.21,.045);tube(b,[[-.28,.5,.23],[0,.46,.24],[.28,.5,.23]],.005,paint('ivory'));}
+    if(s.key==='chanel')for(let j=-2;j<=2;j++)for(const side of [-1,1]){
+      const x1=Math.max(-.3,j*.17-.2),x2=Math.min(.3,j*.17+.2);
+      tube(b,[[x1,.2+(x1-j*.17)*side,.207],[x2,.2+(x2-j*.17)*side,.207]],.003,paint('gold'));
+    }
+    soft(b,trim,0,.42,.235,.13,.11,.035);orb(b,trim,0,.52,.239,.035,.028,.02);
+    for(const dx of [-.055,-.02,.02,.055])orb(b,trim,dx,.56+(.055-Math.abs(dx))*.5,.239,.014,.019,.012);
+  }
+  function garment(p,x,y,z,index=0){
+    const group=new T.Group();group.position.set(x,y,z);p.add(group);
+    const cloth=paint('cloth-'+['ivory','rose','fern','ink'][index%4]);
+    const shape=new T.Shape();shape.moveTo(-.29,-.42);shape.lineTo(.29,-.42);shape.quadraticCurveTo(.32,-.08,.30,.16);
+    shape.lineTo(.45,-.09);shape.lineTo(.61,.02);shape.lineTo(.42,.40);shape.lineTo(.18,.48);shape.quadraticCurveTo(0,.25,-.18,.48);
+    shape.lineTo(-.42,.40);shape.lineTo(-.61,.02);shape.lineTo(-.45,-.09);shape.lineTo(-.30,.16);shape.quadraticCurveTo(-.32,-.08,-.29,-.42);shape.closePath();
+    const geometry=new T.ExtrudeGeometry(shape,{depth:.12,bevelEnabled:true,bevelSize:.045,bevelThickness:.045,bevelSegments:3,curveSegments:8});geometry.translate(0,0,-.06);mesh(group,geometry,cloth);
+    for(const side of [-1,1])tube(group,[[side*.26,-.37,.12],[side*.24,-.08,.12],[side*.27,.13,.12]],.005,paint('ivory'));
+    tube(group,[[-.27,-.38,.12],[0,-.39,.12],[.27,-.38,.12]],.006,paint('ivory'));
+    cube(group,mats.gold,0,-.01,.12,.012,.65,.016);for(let j=0;j<4;j++)orb(group,paint('gold'),.05,.17-j*.15,.13,.018);
+    tube(group,[[-.36,.45,0],[0,.69,0],[.36,.45,0]],.017,paint('gold'));
+    tube(group,[[0,.68,0],[0,.8,0],[.065,.85,0],[.10,.79,0]],.016,paint('gold'));
+  }
   function rack(x,z){for(const side of [-1,1])cube(g,mats.gold,x+side*1.4,1.6,z,.055,3,.055);cube(g,mats.gold,x,3.1,z,2.9,.055,.055);for(let j=0;j<5;j++)garment(g,x-1+j*.5,2.3,z,j);}
   function upholsteredBench(x,z,material=paint('rose')){soft(g,material,x,.52,z,2.6,.4,1.15);for(const side of [-1,1])cube(g,mats.gold,x+side*.95,.22,z,.06,.55,.6);}
   function touchscreen(p,x,y,z){soft(p,paint('ink'),x,y,z,.75,.9,.1);cube(p,mats.cyan,x,y,z+.06,.64,.72,.012);for(let j=0;j<4;j++)cube(p,j%2?mats.gold:mats.pink,x-.2+(j%2)*.3,y+.2-Math.floor(j/2)*.3,z+.08,.18,.16,.012);}
   function foodOnPlate(p,x,y,z,kind='sushi',scale=1){disk(p,mats.white,x,y-.02,z,.42*scale,.04);const food=courtFood(kind);food.scale.setScalar(scale);food.position.set(x,y,z);p.add(food);}
   function cafeTable(x,z,style=0){disk(g,paint(style?'oak':'ivory'),x,.95,z,1.08,.13);disk(g,mats.gold,x,.48,z,.07,.9);disk(g,paint('ink'),x,.09,z,.52,.08);
-    chair(g,x,z+1.6,paint(style?'fern':'rose'),.65,Math.PI);bottle(g,x,.98,z,paint('fern'));foodOnPlate(g,x+.36,1.04,z,'sushi',.45);}
+    chair(g,x,z+1.6,paint(style?'cloth-fern':'cloth-rose'),.65,Math.PI);bottle(g,x,.98,z,paint('fern'));foodOnPlate(g,x+.36,1.04,z,'sushi',.45);}
   function kitchen(){
     for(const x of [-3.8,3.8]){soft(g,paint('ink'),x,1.05,-3.1,2.2,1.8,1.5);cube(g,mats.white,x,2.03,-3.1,2.3,.12,1.7);}
     for(const x of [-3,-1,1,3]){cube(g,mats.gold,x,1.02,-2.29,1.8,.04,.025);cube(g,mats.gold,x,1.75,-2.29,.5,.04,.025);}
@@ -62,8 +109,8 @@ export function* mallInteriorSteps(g,s,h){
   }else if(s.kind==='food'){
     kitchen();yield;
     const cafe=['star','cafe','sky-cafe','restaurant'].includes(s.key),accent=paint(cafe?'fern':s.key==='ice'?'lilac':s.key==='bakery'?'rose':'red');
-    soft(g,accent,0,.95,.65,4.8,1.7,1.25);cube(g,mats.white,0,1.85,.65,5,.12,1.4);
-    for(let j=0;j<4;j++)touchscreen(g,-1.8+j*1.2,2,.45);
+    soft(g,accent,0,.43,.65,4.8,.8,1.25);cube(g,mats.white,0,.88,.65,5,.1,1.4);
+    for(const x of [-1.8,1.8]){const terminal=new T.Group();terminal.position.set(x,.98,.45);terminal.scale.setScalar(.55);g.add(terminal);touchscreen(terminal,0,.32,0);}
     const menu=new T.Group();menu.position.set(-5.15,3.45,-.3);menu.rotation.y=.12;g.add(menu);soft(menu,paint('ink'),0,0,0,3.35,2.5,.16);
     labelText(menu,'CAT SAFE MENU',0,.92,.1,3.05,.42);
     const products=MALL_PRODUCTS.filter(p=>p.storeId===s.id);products.slice(0,3).forEach((p,i)=>labelText(menu,`${p.name} · ${p.price}`,0,.34-i*.55,.11,3.08,.45));
@@ -83,8 +130,8 @@ export function* mallInteriorSteps(g,s,h){
       for(const x of [-1.4,0,1.4]){soft(g,paint('ink'),x,2.65,-3,.75,1,.6);cube(g,mats.gold,x,2.7,-2.66,.5,.3,.06);bottle(g,x,2.1,-2.5,paint('ivory'));}
       for(let i=0;i<12;i++){const x=-4.5+i%6*.55,y=2.5+Math.floor(i/6)*.5;bottle(g,x,y,-3.1,accent);}
     }else{
-      for(let i=0;i<6;i++)foodOnPlate(g,-2+i*.8,2,.95,s.key==='kfc'?'burger':'burger',.7);
-      for(const x of [-2.5,2.5]){disk(g,accent,x,2.15,.9,.27,.6);ring(g,x,2.48,.9,.28,mats.gold,.025);}
+      for(let i=0;i<6;i++)foodOnPlate(g,-2+i*.8,1.02,.95,s.key==='kfc'?'burger':'burger',.7);
+      for(const x of [-2.5,2.5]){disk(g,accent,x,1.22,.9,.19,.42);ring(g,x,1.45,.9,.2,mats.gold,.025);}
     }
     for(let j=0;j<4;j++)cube(g,mats.gold,-4.5+j*3,4.3,-3.9,2.3,.07,.07);
   }else if(s.kind==='home'){

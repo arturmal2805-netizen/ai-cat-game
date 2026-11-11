@@ -46,6 +46,21 @@
       "asset": "velour_velvet",
       "role": "roughness",
       "sourceSha256": "abbf0df83e6b19e8924f3e32eb853d5f0a78d6a64f96e2aff16803ca2bae99d8"
+    },
+    {
+      "asset": "brown_leather",
+      "role": "color",
+      "sourceSha256": "24f8bf54ee3b436f3077eacefb710ab77f62772fb75c5298e862854b597cd664"
+    },
+    {
+      "asset": "brown_leather",
+      "role": "normal",
+      "sourceSha256": "6354daff40330a2fcd6c1061912876ddc79889c960975adba336b013db5edcd5"
+    },
+    {
+      "asset": "brown_leather",
+      "role": "roughness",
+      "sourceSha256": "80f3b3b886e2ca6deb1b54559457fc50945745df021c7773e39e1bebc9d8daa1"
     }
   ]
 }

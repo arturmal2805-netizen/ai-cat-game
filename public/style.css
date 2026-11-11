@@ -3265,3 +3265,10 @@ button.cat-profile-card {
 .mall-shop-open{position:absolute;right:88px;top:110px;z-index:11;border:1px solid #ffc78c88;border-radius:14px;padding:12px 18px;background:#243f53e0;color:#fff0d2;cursor:pointer;font-size:13px}.mall-shop-open[hidden]{display:none}@media(max-width:600px){.mall-shop-open{right:61px;top:96px;max-width:180px;font-size:11px;padding:8px}}
 
 .mall-inspection .submarine-panel{display:none!important}
+
+@media(max-width:600px){
+  .mall-inspection #bubble,.mall-inspection #mood-badge,.mall-inspection .orbit-hint{display:none}
+  .mall-floors{left:8px;right:8px;top:150px;display:grid;grid-template-columns:repeat(7,minmax(0,1fr)) 1.4fr 1.4fr;gap:2px;padding:4px}
+  .mall-floors button{width:auto;min-height:40px;padding:4px;font-size:11px}
+  .mall-shop-open{top:204px;right:12px;max-width:calc(100% - 24px)}
+}

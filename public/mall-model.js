@@ -112,8 +112,8 @@ uniform vec3 uTint;varying vec3 vEye;varying vec3 vNormalView;varying vec3 vWorl
     for(const x of [-6,-2,2,6])cube(g,mats.gold,x,2.45,-4.30,.06,4.1,.06);
     for(const y of [.35,1.8,3.2,4.5])cube(g,mats.gold,0,y,-4.28,12.1,.05,.07);
     if(!['food','cinema'].includes(s.kind)){
-      cube(g,mats.warm,0,.7,3.9,3.6,1.3,1.1);cube(g,mats.navy,.6,1.5,3.9,.7,.5,.14);
-      cube(g,mats.gold,0,1.3,4.48,3.3,.06,.05);
+      cube(g,mats.warm,0,.43,3.9,3.6,.8,1.1);cube(g,mats.navy,.6,1.02,3.9,.55,.38,.12);
+      cube(g,mats.gold,0,.85,4.48,3.3,.045,.05);
     }
     const idx=4+MALL_STORES.indexOf(s);label(g,idx,0,6.2,-3.52,11,1.25);
     label(g,idx,0,6.2,-4.28,11,1.25,Math.PI);
@@ -167,7 +167,10 @@ uniform vec3 uTint;varying vec3 vEye;varying vec3 vNormalView;varying vec3 vWorl
     if(f.id<7)for(const side of [-1,1]){const x=side*11.3;for(let j=0;j<28;j++)cube(escalators,mats.navy,x,.25+j*MALL.rise/28,MALL.z-6+j*12/28,2.8,.15,.44);
       for(const dx of [-1.55,1.55]){tube(escalators,[[x+dx,.7,MALL.z-6],[x+dx,MALL.rise+.7,MALL.z+6]],.08,mats.gold);tube(escalators,[[x+dx,1.5,MALL.z-6],[x+dx,MALL.rise+1.5,MALL.z+6]],.10,mats.cyan);}
     }
-    for(let k=0;k<28;k++){const a=k*Math.PI/14,x=Math.cos(a)*31.8,z=MALL.z+Math.sin(a)*31.8;cube(opaque,mats.navy,x,3.3,z,.16,6.6,.16);}
+    for(let k=0;k<28;k++){const a=k*Math.PI/14,x=Math.cos(a)*31.8,z=MALL.z+Math.sin(a)*31.8;cube(opaque,mats.navy,x,3.3,z,.24,6.6,.24);
+      cube(opaque,mats.navy,x,.3,z,.43,.48,.43);cube(opaque,mats.gold,x,.55,z,.39,.045,.39);
+      cube(opaque,mats.navy,x,6.3,z,.43,.4,.43);
+    }
     for(let k=0;k<12;k++){const a=k*Math.PI/6,x=Math.cos(a)*10,z=MALL.z+Math.sin(a)*10;cube(opaque,mats.navy,x,.65,z,.08,1.3,.08);}
     ring(opaque,0,1.3,MALL.z,10,mats.gold,.05);
     // The front gap is reserved for the wide landing and corridor.
@@ -230,9 +233,17 @@ uniform vec3 uTint;varying vec3 vEye;varying vec3 vNormalView;varying vec3 vWorl
     for(let i=0;i<3;i++)tube(shell,[[side*4,top+4-i*.7,z+1],[side*(9+i),top+4-i*.9,z]],.095,mats.pink);
   }
   tube(shell,[[-1.5,top+6,MALL.z+30],[0,top+4.5,MALL.z+31],[1.5,top+6,MALL.z+30]],.2,mats.pink);
-  const facade=new THREE.Group();facade.position.set(0,top-5,MALL.z+33);shell.add(facade);
-  cube(facade,mats.navy,0,0,0,43,7,.8);label(facade,0,0,1.55,.45,23,2.4);label(facade,1,0,-.65,.45,40,2);label(facade,2,0,-2.3,.45,25,.8);
-  for(const y of [-3.3,3.3]){cube(facade,mats.pink,0,y,.47,43,.14,.12);cube(facade,mats.gold,0,y*.94,.47,42,.045,.08);}
+  const facade=new THREE.Group();facade.position.set(0,top-5,MALL.z);shell.add(facade);
+  const bannerRadius=34.05,bannerArc=.72;
+  mesh(facade,new THREE.CylinderGeometry(bannerRadius,bannerRadius,7.2,64,1,true,-bannerArc,bannerArc*2),mats.navy);
+  label(facade,0,0,1.65,bannerRadius+.14,23,2.6);
+  label(facade,1,0,-.85,bannerRadius+.15,40,1.75);
+  label(facade,2,0,-2.45,bannerRadius+.15,25,.65);
+  for(const y of [-3.45,3.45]){
+    const points=Array.from({length:49},(_,i)=>{const a=-bannerArc+i*bannerArc/24;return[Math.sin(a)*bannerRadius,y,Math.cos(a)*bannerRadius];});
+    tube(facade,points,.09,mats.pink);tube(facade,points,.27,mats.haloPink);
+    tube(facade,points.map(([x,y,z])=>[x,y*.96,z+.03]),.025,mats.gold);
+  }
   for(const side of [-1,1]){const ad=new THREE.Group();ad.position.set(side*43,MALL.y+21,MALL.z+32);ad.rotation.y=-side*.12;shell.add(ad);
     cube(ad,mats.navy,0,0,0,8,15,.7);for(const x of [-3.95,3.95])cube(ad,mats.pink,x,0,.45,.14,15,.12);for(const y of [-7.45,7.45])cube(ad,mats.cyan,0,y,.45,8,.1,.12);
     paw(ad,0,1,.5,2.2,mats.pink);label(ad,0,0,-4.2,.5,6.3,1.3);label(ad,2,0,5.7,.5,6.6,.65);

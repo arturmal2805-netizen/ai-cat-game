@@ -23,6 +23,22 @@ export function* mallConveyorSteps(clock){
     const geometry=copyGeometryBuffers(sourceMesh.geometry);geometry.setAttribute('aMallBeltPhase',phases);
     const material=sourceMesh.material.clone();material.onBeforeCompile=patch;material.customProgramCacheKey=()=> 'mall-sushi-conveyor-colour-v1';
     const mesh=new T.InstancedMesh(geometry,material,12);
+    const pickingMatrices=mesh.instanceMatrix.array.slice();
+    mesh.raycast=function(raycaster,hits){
+      const original=this.instanceMatrix.array;
+      try{
+        // Exact CPU picking follows the shader clock. Temporary query matrices
+        // never set needsUpdate or replace the fixed GPU instance buffer.
+        for(let i=0;i<12;i++){
+          const a=phases.getX(i)+clock.value*.28;
+          pickingMatrices[i*16+12]=Math.cos(a)*2.2;
+          pickingMatrices[i*16+13]=.2;
+          pickingMatrices[i*16+14]=Math.sin(a)*.95;
+        }
+        this.instanceMatrix.array=pickingMatrices;
+        T.InstancedMesh.prototype.raycast.call(this,raycaster,hits);
+      }finally{this.instanceMatrix.array=original;}
+    };
     mesh.customDepthMaterial=new T.MeshDepthMaterial({depthPacking:T.RGBADepthPacking});mesh.customDepthMaterial.onBeforeCompile=patch;mesh.customDepthMaterial.customProgramCacheKey=()=> 'mall-sushi-conveyor-shadow-v1';
     mesh.boundingSphere=new T.Sphere(new T.Vector3(0,.3,0),3.1);mesh.boundingBox=new T.Box3(new T.Vector3(-2.7,-.1,-1.5),new T.Vector3(2.7,1,1.5));
     mesh.castShadow=true;mesh.receiveShadow=true;root.add(mesh);

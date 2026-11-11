@@ -1,4 +1,4 @@
-import {mallPath,mallNavigationSteps,mallNavigationReady} from './mall-navigation.js';
+import {mallPath,mallNavigationSteps,mallNavigationReady,mallAccessibleService} from './mall-navigation.js';
 import {catNavigationRadius} from './cat-navigation-size.js';
 import {pauseHiddenMatrixUpdates} from './scene-visibility.js';
 import {prepareMallArt} from './mall-art.js';
@@ -26,6 +26,8 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
   }
   for(const [title,callback]of [['ALL',()=>inspect(null)],['EXIT',()=>exit()]]){const b=document.createElement('button');b.textContent=title;b.onclick=callback;panel.append(b);}
   const runtime=createMallRuntime({getGame,onPurchase,onUse,onGoal,onComplete,
+    onRouteBlocked:v=>onError("Не знайшов вільний прохід у "+mallStore(v.storeId).name+". Покупка й інвентар збережені."),
+    serviceFrames:(s,slot,radius)=>mallAccessibleService(s,slot,radius,root.userData.obstacles.get(s.floor)),
     route:(floor,from,to,radius)=>root?mallPath(floor,from,to,radius,root.userData.obstacles.get(floor)):null,
     vendorReady:v=>{const employee=staff.find(e=>e.floor===v.floor),target=mallServiceFrames(mallStore(v.storeId)).vendor;return !!employee&&employee.storeId===v.storeId&&employee.carrier.position.distanceToSquared(world(target))<.03;},
   });
@@ -39,7 +41,7 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
     const promise=prepare(mallNavigationSteps(boxes,radius),abort.signal).then(()=>!disposed).finally(()=>navigationPending.delete(key));navigationPending.set(key,promise);return promise;
   }
   async function ensure(){
-    if(root)return root;if(pending)return pending;
+    if(pending)return pending;if(root)return root;
     pending=(async()=>{
       let model;
       try{
@@ -97,7 +99,7 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
   }
   return {
     runtime,ensure,inspect,inspectStore,exit,
-    get root(){return root;},get inspection(){return inspection;},get floor(){return selected;},
+    get root(){return root;},get ready(){return !!root&&!pending&&staff.length===7&&staff.every(s=>s.carrier.parent);},get inspection(){return inspection;},get floor(){return selected;},
     async start(id,storeId,{productId=null,ticket=null,useOwned=false}={}){
       const actor=getActors().find(a=>a.id===id),store=mallStore(storeId);if(!actor||!store)return false;
       const model=await ensure();if(!model||disposed||!canSimulate())return false;
@@ -106,7 +108,7 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
     },
     startReady(id,storeId,ticket=null){
       const actor=getActors().find(a=>a.id===id),store=mallStore(storeId);
-      if(!root||!actor||!store)return false;
+      if(!this.ready||!actor||!store)return false;
       if(!mallNavigationReady(root.userData.obstacles.get(store.floor),actor.radius)){
         void prepareNavigation(store.floor,actor.radius).catch(error=>{if(!disposed)onError(error.message);});return false;
       }
@@ -146,7 +148,7 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
         p.elapsed+=dt;if(p.elapsed>8){personal.delete(id);try{onUse(id,p.item.id);}catch(error){onError(error.message);}}
       }
       root?.userData.updateLift(runtime.lift.y,runtime.lift.opening);
-      if(root&&canSimulate()&&Math.floor(time)!==lastResume){
+      if(this.ready&&canSimulate()&&Math.floor(time)!==lastResume){
         lastResume=Math.floor(time);
         for(const a of getActors()){
           const goal=game.jobCity?.profiles[a.id]?.mall?.goal;
