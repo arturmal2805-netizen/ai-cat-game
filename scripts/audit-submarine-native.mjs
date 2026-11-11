@@ -8,12 +8,12 @@ export async function auditSubmarine({page,context,base,headers,review,errors,ht
  const start=await pose();await page.keyboard.down('w');await page.waitForFunction(z=>__lagoonQA.submarine().physics.state.z<z-4,start.z);await page.keyboard.up('w');
  let before=await pose();await page.keyboard.down('a');await page.waitForFunction(y=>{const a=__lagoonQA.submarine().physics.state.yaw-y;return Math.atan2(Math.sin(a),Math.cos(a))>.25;},before.yaw);await page.keyboard.up('a');
  before=await pose();await page.keyboard.down('d');await page.waitForFunction(y=>{const a=__lagoonQA.submarine().physics.state.yaw-y;return Math.atan2(Math.sin(a),Math.cos(a))<-.25;},before.yaw);await page.keyboard.up('d');
- await page.keyboard.down('Shift');await page.waitForFunction(()=>__lagoonQA.submarine().physics.state.y<-7);await page.keyboard.up('Shift');
+ await page.keyboard.down('ArrowDown');await page.waitForFunction(()=>__lagoonQA.submarine().physics.state.y<-7);await page.keyboard.up('ArrowDown');
  await page.keyboard.down('s');await page.waitForFunction(()=>__lagoonQA.submarine().physics.state.speed< -2);await page.keyboard.up('s');await image('submarine-chase');
  await page.keyboard.press('c');await page.waitForFunction(()=>__lagoonQA.submarine().physics.state.mode==='cockpit'&&__lagoonQA.camera.position.y<0);await image('submarine-cockpit');
  const button=page.locator('[data-sub-key="KeyW"]'),bounds=await button.boundingBox();assert.ok(bounds);const cdp=await context.newCDPSession(page),point={x:bounds.x+bounds.width/2,y:bounds.y+bounds.height/2};
  await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[point]});await page.waitForFunction(()=>__lagoonQA.submarine().physics.state.speed>2);await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
- await page.keyboard.press('c');const driven=await pose();assert.equal(driven.active,true);assert.ok(driven.y< -5);console.log('WASD, reverse, dive, two cameras and real touch throttle passed',driven);
+ await page.keyboard.press('c');const driven=await pose();assert.equal(driven.active,true);assert.ok(driven.y< -5);console.log('WASD, reverse, ArrowDown dive, two cameras and real touch throttle passed',driven);
  // Real keyboard breach and both air rotations, with an upright external camera.
  await page.keyboard.down('Space');await page.waitForFunction(()=>__lagoonQA.submarine().physics.state.y>9);await page.keyboard.up('Space');
  const airStart=await page.evaluate(()=>({...__lagoonQA.submarine().physics.state}));

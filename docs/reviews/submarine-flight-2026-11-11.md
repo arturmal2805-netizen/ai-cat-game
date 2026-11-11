@@ -45,3 +45,13 @@ Production build passed. The complete local suite is running in
 `/workspace/qa/submarine-flight-full-suite.log`; publication is gated on the
 workflow's complete test/build/dry-run checks. Software-renderer timings are not
 M2/iPhone FPS measurements.
+
+## Keyboard down-arrow follow-up
+
+ArrowDown is now an accepted and scroll-suppressing control during piloting.
+It shares the same dive axis as either Shift and the on-screen down button;
+holding multiple dive shortcuts produces -1 rather than stacking the axis.
+`/workspace/qa/submarine-arrow-system.log`: 21/21 targeted tests passed.
+The real keyboard ArrowDown dive passed in the DPR-2 private browser run
+(`/workspace/qa/submarine-arrow-native.log`), followed by both air flips and
+SQLite save/reload. Existing shortcuts and autopilot yaw remain unchanged.

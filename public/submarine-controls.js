@@ -8,5 +8,5 @@ export function submarineControlInput(keys,state){
   const axis=(keys.has('KeyW')?1:0)-(keys.has('KeyS')?1:0),air=submarineAirborne(state);
   return{forward:air?0:axis,flip:air?axis:0,
     turn:(keys.has('KeyA')?1:0)-(keys.has('KeyD')?1:0),
-    vertical:(keys.has('Space')?1:0)-(keys.has('ShiftLeft')||keys.has('ShiftRight')?1:0),boost:keys.has('Space')};
+    vertical:(keys.has('Space')?1:0)-(keys.has('ShiftLeft')||keys.has('ShiftRight')||keys.has('ArrowDown')?1:0),boost:keys.has('Space')};
 }

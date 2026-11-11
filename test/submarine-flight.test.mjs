@@ -33,3 +33,12 @@ test('velocity-aware camera keeps a fast rising boat centred while the ordinary 
  for(let i=1;i<=120;i++){camera.position.set(80,90,100);look.set(0,0,0);f.update(1/60,start.clone().addScaledVector(velocity,i/60),aim.clone().addScaledVector(velocity,i/60),velocity);}
  assert.ok(camera.position.distanceTo(start.clone().addScaledVector(velocity,2))<1e-7);assert.ok(look.distanceTo(aim.clone().addScaledVector(velocity,2))<1e-7);
 });
+
+test('ArrowDown and either Shift dive while driving; the shortcuts never double the dive axis',()=>{
+ for(const key of ['ArrowDown','ShiftLeft','ShiftRight']){
+  const p=createSubmarinePhysics(initial),keys=new Set(['KeyW',key]);
+  for(let i=0;i<120;i++)p.step(1/60,submarineControlInput(keys,p.state));
+  assert.ok(p.state.y< -16,key+' increases depth');assert.ok(p.state.speed>25,key+' retains forward driving');
+ }
+ assert.equal(submarineControlInput(new Set(['ArrowDown','ShiftLeft']),initial).vertical,-1);
+});
