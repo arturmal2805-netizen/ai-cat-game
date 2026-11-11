@@ -1,3 +1,4 @@
+import {mallOffers,mallStore} from './mall-data.js';
 import { byItem, BIOMES } from "./game-data.js";
 import { islandObjects } from "./world-objects.js";
 import { HOME_OBJECTS, activityActions } from "./interactions.js";
@@ -30,7 +31,7 @@ export function leisureOffers(game, now = Date.now()) {
       .map((p) => ({ ...p, type: p.item })),
   ];
   const seen = new Set();
-  return objects.flatMap((o) => {
+  return [...mallOffers(game), ...objects.flatMap((o) => {
     if (seen.has(o.id) || !game.unlocked.includes(o.biome)) return [];
     seen.add(o.id);
     const item = byItem(o.type),
@@ -61,7 +62,7 @@ export function leisureOffers(game, now = Date.now()) {
         action,
       },
     ];
-  });
+  })];
 }
 export function validateLeisureOffers(raw = []) {
   if (!Array.isArray(raw) || raw.length > 1024)
@@ -74,7 +75,7 @@ export function validateLeisureOffers(raw = []) {
       !/^[\w-]{1,90}$/.test(o.id) ||
       seen.has(o.id) ||
       !BIOMES.some((b) => b.id === o.biome) ||
-      !activityActions(o).includes(o.action) ||
+      !(mallStore(o.id) ? mallOffers({unlocked:["autumn"]}).find(p=>p.id===o.id)?.action===o.action && o.type===o.id && o.biome==="autumn" : activityActions(o).includes(o.action)) ||
       !priorities.includes(o.action)
     )
       throw Error("Invalid leisure offer");
@@ -83,7 +84,7 @@ export function validateLeisureOffers(raw = []) {
       id: o.id,
       type: o.type,
       biome: o.biome,
-      name: String(o.name || byItem(o.type).name).slice(0, 80),
+      name: String(o.name || mallStore(o.id)?.name || byItem(o.type)?.name || o.id).slice(0, 80),
       action: o.action,
     };
   });

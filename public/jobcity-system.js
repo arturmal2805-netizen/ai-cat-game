@@ -1,3 +1,5 @@
+import {MALL_PRODUCTS,mallProduct} from './mall-data.js';
+import {buyMallProduct,newMallProfile,normalizeMallProfile} from './mall-system.js';
 import {normalizeInvestments} from "./crypto-trading.js";
 import {
   JOB_CITY_ID,
@@ -102,6 +104,7 @@ export function newJobProfile(cat) {
     attendance: null,
     lastPaidDay: -1,
     inventory: {},
+    mall: newMallProfile(),
     transactions: [],
     shifts: [],
     trip: null,
@@ -129,6 +132,7 @@ export function normalizeJobCity(raw, game, now = Date.now()) {
       r = raw.profiles?.[cat.id];
     if (r) {
       p.coins = safe(r.coins, Number.MAX_SAFE_INTEGER);
+      p.mall=normalizeMallProfile(r.mall);
       p.investments=normalizeInvestments(r.investments);
       if(r.investments!=null&&!p.investments)throw Error("Пошкоджена збережена історія інвестицій котика.");
       p.purchaseCount = safe(r.purchaseCount, Number.MAX_SAFE_INTEGER);
@@ -185,9 +189,9 @@ export function normalizeJobCity(raw, game, now = Date.now()) {
         Object.entries(r.inventory || {})
           .filter(
             ([k, v]) =>
-              (jobCar(k) || byItem(k)) && Number.isSafeInteger(v) && v > 0,
+              (jobCar(k) || byItem(k) || mallProduct(k)) && Number.isSafeInteger(v) && v > 0,
           )
-          .slice(0, 80)
+          .slice(0, 80 + MALL_PRODUCTS.length)
           .map(([k, v]) => [k, Math.min(30, v)]),
       );
       p.transactions = (Array.isArray(r.transactions) ? r.transactions : [])
@@ -297,8 +301,8 @@ export function normalizeJobCity(raw, game, now = Date.now()) {
   }
   return state;
 }
-export function ensureJobCity(game, now = Date.now()) {
-  if (!game.unlocked.includes(JOB_CITY_ID)) return game;
+export function ensureJobCity(game, now = Date.now(), {forMall=false} = {}) {
+  if (!game.unlocked.includes(JOB_CITY_ID) && !(forMall&&game.unlocked.includes("autumn"))) return game;
   const cats = cityCats(game);
   if (game.jobCity && cats.every((c) => game.jobCity.profiles[c.id]))
     return ensureFamily(game, cityClock(game.jobCity, now).day, now);
@@ -617,6 +621,7 @@ export function recordJobAttendanceBatch(game, events) {
 }
 export function catProducts(game) {
   return [
+    ...(game.unlocked.includes("autumn") ? MALL_PRODUCTS : []),
     ...JOB_CARS.map((c) => ({ ...c, category: "cars" })),
     ...HOUSE_TYPES,
     ...CATALOG.filter(
@@ -636,6 +641,7 @@ export function catProducts(game) {
   ];
 }
 export function buyCatProduct(game, id, productId, receipt, now = Date.now()) {
+  if(mallProduct(productId))return buyMallProduct(game,id,productId,receipt,now);
   if (houseType(productId))
     return buyCatHome(game, id, productId, receipt, {}, now);
   const p = game.jobCity?.profiles[id],
@@ -732,6 +738,8 @@ export function jobAIState(game, now = Date.now()) {
       sex: catSex(p.id),
       partner: partners.get(p.id) || null,
       coins: p.coins,
+      needs: (()=>{const n=p.id==='chichi'?game.cat:game.care?.residents?.[p.id];return [n?.energy??100,n?.hunger??0,n?.happiness??75].map(v=>Math.max(0,Math.min(100,Math.round(v))));})(),
+      mallVisited: p.mall?.visited||[],
       ...housingAIProfile(game, p.id),
       personality: p.personality,
       skills: p.skills,

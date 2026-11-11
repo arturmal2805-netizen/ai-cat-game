@@ -1,3 +1,5 @@
+import {validateMallEconomy} from './public/mall-system.js';
+import {MALL_PRODUCTS} from './public/mall-data.js';
 import {MOSA_OLD_RADIUS} from './public/mosasaur-data.js';
 import {mergeZoo} from './public/zoo-system.js';
 import {mergeRetirement,retirementSnapshotValid,inheritRetirement,retirementPurchaseAdvanced} from './public/retired-attractions.js';
@@ -120,6 +122,7 @@ function merge(base, current, incoming, path = "", depth = 0) {
           "earnedTotal",
           "spentTotal",
           "purchaseCount",
+          "mall",
           "inventory",
           "transactions",
           "lastPaidDay",
@@ -385,6 +388,22 @@ function merge(base, current, incoming, path = "", depth = 0) {
 }
 
 export function mergeSharedWorld(base, current, incoming) {
+  // An old client cannot serialize mall data or its product keys. Inherit
+  // omitted fields from its own base, then let the atomic wallet merge decide.
+  if(base?.jobCity&&incoming?.jobCity){
+    incoming=clone(incoming);
+    for(const [id,p]of Object.entries(incoming.jobCity.profiles||{})){
+      const old=base.jobCity.profiles[id];if(!old)continue;
+      if(!Object.hasOwn(p,'mall'))p.mall=clone(old.mall);
+      for(const item of MALL_PRODUCTS)if(!Object.hasOwn(p.inventory||{},item.id)&&old.inventory?.[item.id]){
+        // A current client records consumption in mall.used. Only legacy
+        // omissions inherit inventory, otherwise an explicit consumption wins.
+        if(!p.mall?.used?.[item.id]||p.mall.used[item.id]===old.mall?.used?.[item.id]){
+          p.inventory||={};p.inventory[item.id]=old.inventory[item.id];
+        }
+      }
+    }
+  }
   if(base?.mosasaurSubmarine && incoming && !Object.hasOwn(incoming,'mosasaurSubmarine'))incoming={...incoming,mosasaurSubmarine:base.mosasaurSubmarine};
   for(const game of [base,current,incoming])if(!retirementSnapshotValid(game?.retiredAttractions))throw new SharedConflict('Пошкоджений запис повернення покупки. Завантажте збережений світ.');
   if(base&&incoming&&retirementPurchaseAdvanced(base,incoming))throw new SharedConflict('Цей атракціон прибрано з гри. Оновіть сторінку; нова покупка не списана.');
@@ -762,6 +781,10 @@ export function mergeSharedWorld(base, current, incoming) {
     if (homes.length > 1 && homes.some(h => !base.housing?.homes[h.id] && !current.housing?.homes[h.id]))
       throw new SharedConflict("У цієї сім'ї вже є спільний дім. Монетки за другий будинок не списані.");
   }
+  for(const [id,p]of Object.entries(current.jobCity?.profiles||{}))for(const [receipt,value]of Object.entries(p.mall?.receipts||{})){
+    if(!equal(result.jobCity?.profiles[id]?.mall?.receipts?.[receipt],value))throw new SharedConflict('Чек ТРЦ не можна видалити або змінити.');
+  }
+  try{validateMallEconomy(result);}catch(error){throw new SharedConflict(error.message);}
   result.zoo=permanentZoo;
   return preserveReferenceOwnership(resolveConstructionBoosts(reconcileFamilyHomes(result)));
 }

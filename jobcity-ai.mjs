@@ -1,3 +1,4 @@
+import {mallStore} from './public/mall-data.js';
 import { JOB_END, JOB_HOURS } from "./public/jobcity-data.js";
 import { housingOffers } from "./public/housing-system.js";
 import { JOB_KINDS, JOB_CAPACITY } from "./public/jobcity-data.js";
@@ -48,6 +49,8 @@ export function validateCityAIState(s) {
       sex: catSex(c.id),
       partner: typeof c.partner === "string" ? c.partner : null,
       coins: c.coins,
+      needs: Array.from({length:3},(_,i)=>Math.max(0,Math.min(100,Math.round(Number(c.needs?.[i]??[100,0,75][i])||0)))),
+      mallVisited: Array.isArray(c.mallVisited)?[...new Set(c.mallVisited.filter(id=>mallStore(id)))].slice(0,34):[],
       ownedHomes:
         Number.isSafeInteger(c.ownedHomes) && c.ownedHomes >= 0
           ? c.ownedHomes

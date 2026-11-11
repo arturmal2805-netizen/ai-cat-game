@@ -27,6 +27,9 @@ export function mosaCoralSites(){
  });installReefCoralSites(sites);return sites;
 }
 const templates=new Map();
+// Read-only geometry lending for another selected ocean venue. Ownership and
+// all existing reef instances/LOD selection remain with the ocean cache.
+export const borrowedMosaCoralLevels=form=>templates.get(form)||null;
 export function installMosaCoralTemplates(form,levels){for(const g of levels)g.userData.sharedScenery=true;templates.set(form,levels);}
 export const coralGeometryFor=form=>runSceneSteps(coralGeometrySteps(form));
 export function* coralGeometrySteps(form){

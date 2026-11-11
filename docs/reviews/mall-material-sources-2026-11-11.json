@@ -1,0 +1,51 @@
+{
+  "license": "CC0-1.0",
+  "licenseUrl": "https://polyhaven.com/license",
+  "sources": [
+    {
+      "asset": "marble_01",
+      "role": "color",
+      "sourceSha256": "3dca2e4d474d2be25efb41c0fdc6f3c62121fb6a6cd56bce8b85e2970e58cda1"
+    },
+    {
+      "asset": "marble_01",
+      "role": "normal",
+      "sourceSha256": "fc704b82aaff2634ebadd1939c8e675cd6cc8280953c1d28db7f66b4c6b6dbab"
+    },
+    {
+      "asset": "marble_01",
+      "role": "roughness",
+      "sourceSha256": "0311debbf570016b658d09b1a7190493520cf50a033168dd260629bb86fedbe4"
+    },
+    {
+      "asset": "natural_walnut_veneer",
+      "role": "color",
+      "sourceSha256": "9144d7d27734ebca438990d4fb7e8a49ffb6ca0dc18b6903af5eeca9caf687b0"
+    },
+    {
+      "asset": "natural_walnut_veneer",
+      "role": "normal",
+      "sourceSha256": "1bc1a08f06aae075d4a165557a8105a1af8dbdb5f5c0298df464fa20417825a8"
+    },
+    {
+      "asset": "natural_walnut_veneer",
+      "role": "roughness",
+      "sourceSha256": "1e32235f1d6e08f2e4bfffcfbb8cd1e92137327db50a1789c6ba1b0c54890a5c"
+    },
+    {
+      "asset": "velour_velvet",
+      "role": "color",
+      "sourceSha256": "fb9bde5e9ca1015424f3149fdc96daed0d040cbb944965d727993c9af40c478c"
+    },
+    {
+      "asset": "velour_velvet",
+      "role": "normal",
+      "sourceSha256": "0bfa4622e13072494f36ce32d6af5e95b1037eb05e6dac10e39e90aac4154ed1"
+    },
+    {
+      "asset": "velour_velvet",
+      "role": "roughness",
+      "sourceSha256": "abbf0df83e6b19e8924f3e32eb853d5f0a78d6a64f96e2aff16803ca2bae99d8"
+    }
+  ]
+}

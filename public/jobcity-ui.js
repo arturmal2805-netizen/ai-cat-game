@@ -1,3 +1,4 @@
+import {mallProduct} from './mall-data.js';
 import { createInvestmentsPanel } from "./crypto-ui.js";
 import { setText } from "./dom-text.js";
 import { richestCats } from "./cat-wealth.js";
@@ -38,6 +39,7 @@ export function createJobCityUI({
   viewHome,
   liveHome,
   roommate: updateRoommate,
+  useMall = () => {},
   onError = () => {},
 }) {
   const dialog = document.createElement("dialog");
@@ -339,6 +341,7 @@ export function createJobCityUI({
         `${product.icon} ${product.name} ×${count}`,
         "jobcity-item",
       );
+      if(mallProduct(id))row.append(action(mallProduct(id).use==='wear'?'Одягнути':mallProduct(id).use==='eat'?'З’їсти':'Використати',()=>useMall(p.id,id)));
       if (jobCar(id))
         row.append(
           action("🚗 Вибрати машину й точку", () => {

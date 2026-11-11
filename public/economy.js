@@ -1,3 +1,4 @@
+import {validateMallEconomy} from './mall-system.js';
 import {normalizeSubmarine,submarineSnapshot} from './submarine-physics.js';
 import {wasMosaShore} from './mosasaur-retained-land.js';
 import {newZoo,normalizeZoo,zooSnapshotValid} from './zoo-system.js';
@@ -381,6 +382,7 @@ export function loadGame(storage, now = Date.now(), { advance = true } = {}) {
     }
 
     game.jobCity = normalizeJobCity(saved.jobCity, game, now);
+    validateMallEconomy(game);
     game.housing = normalizeHousing(saved.housing, game.jobCity?.profiles);
     game.family = normalizeFamily(saved.family);
     if (game.jobCity && !game.family)

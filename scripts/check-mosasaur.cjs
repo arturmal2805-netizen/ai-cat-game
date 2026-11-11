@@ -48,6 +48,13 @@ async function localWorker() {
     g.coins = 19000;
     g.catPosition = { biome: "autumn", x: 0, z: 23 };
     g.catDestinations = { luna: "autumn", moti: "autumn" };
+    if(process.env.CHICHI_MALL_AUDIT){
+      g.unlocked.push('jobcity');g.catPosition={biome:'autumn',x:0,z:110};
+      const {ensureJobCity}=await import(root+'/public/jobcity-system.js');Object.assign(g,ensureJobCity(g,now));
+      g.jobCity.epoch=now-360000;g.jobCity.eveningAIRequestedDay=0;g.jobCity.eveningAIAppliedDay=0;
+      for(const p of Object.values(g.jobCity.profiles)){p.coins=5000;p.profession=p.preferences[0];p.careerAIPending=false;p.professionSource='local';p.schedule={day:0,job:'rest',evening:'rest'};p.lastEveningDay=0;p.lastHousingAIDay=0;}
+      g.jobCity.plan={day:0,source:'local',assignments:Object.values(g.jobCity.profiles).map(p=>({id:p.id,job:'rest',profession:p.profession,evening:'rest'}))};
+    }
     g.cat.energy = 95;
     g.cat.hunger = 5;
     g.cat.happiness = 95;
@@ -104,7 +111,7 @@ async function localWorker() {
                   )
                   .replace(
                     marker,
-                    `  const qa=window.__lagoonQA={camera,look,desiredLook,renderer,islands,cat,npcs,chichiCarrier,itemGroups,THREE,scene,pickDrop,pointer,raycaster,ground,viewport,perform,performResident,faceCamera,spa,chill,residentPlay,callbacks,submarine:()=>submarine,getDragging:()=>draggingCat?.catId,reviewView:(x,z,d)=>{desiredLook.set(x,0,z);desiredDistance=d;azimuth=.15;},constructorMs:performance.now()-qaStart,focused:()=>focused,getOperation:()=>operation,isVisible:()=>worldVisible,getDistance:()=>distance,getDesiredDistance:()=>desiredDistance,frames:0,resizes:0,black:[],audit:false};
+                    `  const qa=window.__lagoonQA={camera,look,desiredLook,renderer,islands,cat,npcs,chichiCarrier,itemGroups,THREE,scene,pickDrop,pointer,raycaster,ground,viewport,perform,performResident,faceCamera,spa,chill,residentPlay,callbacks,mall:()=>mall,submarine:()=>submarine,getDragging:()=>draggingCat?.catId,reviewView:(x,z,d)=>{desiredLook.set(x,0,z);desiredDistance=d;azimuth=.15;},constructorMs:performance.now()-qaStart,focused:()=>focused,getOperation:()=>operation,isVisible:()=>worldVisible,getDistance:()=>distance,getDesiredDistance:()=>desiredDistance,frames:0,resizes:0,black:[],audit:false};
   const draw=renderer.render.bind(renderer);renderer.render=(...args)=>{if(qa.drawPaused)return;draw(...args);qa.frames++;if(qa.captureUntil&&qa.frames>=qa.captureUntil){qa.captureUntil=0;qa.drawPaused=true;}};
   const size=renderer.setSize.bind(renderer);renderer.setSize=(...args)=>{qa.resizes++;return size(...args);};
   const audit=new MutationObserver(()=>{if(!qa.audit)return;const gl=renderer.getContext(),p=new Uint8Array(4);gl.readPixels(0,0,1,1,gl.RGBA,gl.UNSIGNED_BYTE,p);if(p[0]+p[1]+p[2]===0)qa.black.push(Array.from(p));});audit.observe(renderer.domElement,{attributes:true,attributeFilter:['width','height']});
@@ -148,7 +155,7 @@ async function localWorker() {
       hasTouch: true,
     });
     const page = await context.newPage();
-    page.setDefaultTimeout(120000);
+    page.setDefaultTimeout(process.env.CHICHI_MALL_AUDIT?300000:120000);
     const errors = [],
       httpErrors = [];
     page.on("response", (r) => {
@@ -158,9 +165,9 @@ async function localWorker() {
           status: r.status(),
         });
     });
-    page.on("pageerror", (e) => errors.push(e.message));
+    page.on("pageerror", (e) => {errors.push(e.message);console.error("Browser error:",e.message);});
     page.on("console", (m) => {
-      if (m.type() === "error") errors.push(m.text());
+      if (m.type() === "error") {errors.push(m.text());console.error("Browser console:",m.text().slice(0,3000));}
     });
     await page.addInitScript(
       ({ g, token }) => {
@@ -195,13 +202,16 @@ async function localWorker() {
     await page.waitForFunction(
       () => window.__lagoonQA && window.__lagoonSaveQA?.cloud.editable,
     );
+    console.log("Native app ready");
     await page.locator('[data-biome="autumn"]').tap();
+    console.log("Autumn selected");
     await page.waitForFunction(
       () =>
         __lagoonQA.itemGroups.get("island-mosasaur") &&
         __lagoonQA.islands.get("autumn").userData.ocean &&
         !__lagoonQA.islands.get("autumn").userData.lowOnly,
-    );
+    ).catch(async error=>{console.log('Initialization diagnostics',errors,httpErrors,await page.evaluate(()=>({dialog:document.querySelector('dialog[open]')?.id,toast:document.getElementById('toast')?.textContent,low:window.__lagoonQA?.islands.get('autumn')?.userData.lowOnly,mall:!!window.__lagoonQA?.mall()?.root})));await page.screenshot({path:review+'/initialization-failure.png'});throw error;});
+    if(process.env.CHICHI_MALL_AUDIT){const {auditMallNative}=await import('./audit-mall-native.mjs');await auditMallNative({page,context,base,headers,review,errors,httpErrors});return;}
     await page.evaluate(() => {
       const q = __lagoonQA;
       q.drawPaused = true;

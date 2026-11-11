@@ -1,3 +1,6 @@
+import {createMallUI} from './mall-ui.js';
+import {mallProduct} from './mall-data.js';
+import {buyMallProduct,useMallProduct,normalizeMallProfile} from './mall-system.js';
 import {startZooGuest,endZooGuest,zooGuestResidents,activeZooGuests} from './zoo-guest-visits.js';
 import {zooGuestAnimal,zooAnimalId} from './zoo-guest-data.js';
 import {ZOO_ANIMALS} from './zoo-data.js';
@@ -301,6 +304,7 @@ renderGame = profileFunction("app.renderGame", renderGame);
 const cityUI = createJobCityUI({
   getGame: () => game,
   getAIStatus: () => cityAIStatus,
+  useMall:async(id,item)=>{cityUI.dialog.close();try{if(!await world?.useMallItem(id,item))toast('Котик зараз зайнятий. Квитками користуються у підводному ТРЦ.');}catch(error){toast(error.message);}},
   onError: toast,
   buy: (id, product) => {
     const p = game.jobCity.profiles[id];
@@ -338,6 +342,7 @@ const cityUI = createJobCityUI({
     world?.followCat(id);
   },
 });
+const mallUI=createMallUI({getGame:()=>game,prepareWallet:()=>{if(!cloud.editable||cloud.conflict)return;const next=ensureJobCity(game,Date.now(),{forMall:true});if(next!==game)commit(next);},visit:(id,store,product)=>world?.visitMall(id,store,product),follow:id=>world?.followCat(id),onError:toast});
 $("rewards-cat-tab").onclick = () => cityUI.open();
 $("rewards-player-tab").onclick = () => renderRewards();
 $("jobcity-open").onclick = () => cityUI.open();
@@ -1468,6 +1473,15 @@ try {
   }});
   world = createWorld($("map"), game, {
     onGatherComplete: persist,
+    onSelectMallStore:id=>mallUI.show(id),
+    onMallPurchase:(id,item,receipt)=>{if(!cloud.simulationOwner||!cloud.editable||cloud.conflict)return false;commit(buyMallProduct(game,id,item,receipt));return true;},
+    onMallUse:(id,item)=>{if(!cloud.simulationOwner||!cloud.editable||cloud.conflict)return false;commit(useMallProduct(game,id,item));return true;},
+    onMallGoal:(id,goal)=>{
+      if(!cloud.simulationOwner||!cloud.editable||cloud.conflict||!game.jobCity?.profiles[id])return;
+      const next=structuredClone(game),p=next.jobCity.profiles[id];p.mall=normalizeMallProfile(p.mall);
+      if(!goal&&p.mall.goal)p.mall.visited=[...new Set([...p.mall.visited,p.mall.goal.storeId])];
+      p.mall.goal=goal;commit(next);
+    },
     canDragZooAnimal:()=>cloud.editable&&!cloud.conflict,
     onSelectZooAnimal:showZooAnimal,
     onZooGuestDrop:visitZooHome,

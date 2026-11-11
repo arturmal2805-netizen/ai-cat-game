@@ -1,0 +1,13 @@
+"""Optional offline mall art sources. CC0: https://polyhaven.com/license.
+The shipped game serves only the small derived charts, never these 1K inputs.
+"""
+from pathlib import Path
+import urllib.request,hashlib,os
+sources=[{'name': 'marble_01-color.png', 'url': 'https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/marble_01/marble_01_diff_1k.png', 'sha256': '3dca2e4d474d2be25efb41c0fdc6f3c62121fb6a6cd56bce8b85e2970e58cda1'}, {'name': 'marble_01-normal.png', 'url': 'https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/marble_01/marble_01_nor_gl_1k.png', 'sha256': 'fc704b82aaff2634ebadd1939c8e675cd6cc8280953c1d28db7f66b4c6b6dbab'}, {'name': 'marble_01-roughness.png', 'url': 'https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/marble_01/marble_01_rough_1k.png', 'sha256': '0311debbf570016b658d09b1a7190493520cf50a033168dd260629bb86fedbe4'}, {'name': 'natural_walnut_veneer-color.png', 'url': 'https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/natural_walnut_veneer/natural_walnut_veneer_diff_1k.png', 'sha256': '9144d7d27734ebca438990d4fb7e8a49ffb6ca0dc18b6903af5eeca9caf687b0'}, {'name': 'natural_walnut_veneer-normal.png', 'url': 'https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/natural_walnut_veneer/natural_walnut_veneer_nor_gl_1k.png', 'sha256': '1bc1a08f06aae075d4a165557a8105a1af8dbdb5f5c0298df464fa20417825a8'}, {'name': 'natural_walnut_veneer-roughness.png', 'url': 'https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/natural_walnut_veneer/natural_walnut_veneer_rough_1k.png', 'sha256': '1e32235f1d6e08f2e4bfffcfbb8cd1e92137327db50a1789c6ba1b0c54890a5c'}, {'name': 'velour_velvet-color.png', 'url': 'https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/velour_velvet/velour_velvet_diff_1k.png', 'sha256': 'fb9bde5e9ca1015424f3149fdc96daed0d040cbb944965d727993c9af40c478c'}, {'name': 'velour_velvet-normal.png', 'url': 'https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/velour_velvet/velour_velvet_nor_gl_1k.png', 'sha256': '0bfa4622e13072494f36ce32d6af5e95b1037eb05e6dac10e39e90aac4154ed1'}, {'name': 'velour_velvet-roughness.png', 'url': 'https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/velour_velvet/velour_velvet_rough_1k.png', 'sha256': 'abbf0df83e6b19e8924f3e32eb853d5f0a78d6a64f96e2aff16803ca2bae99d8'}]
+out=Path(os.environ.get('CHICHI_MALL_MATERIALS','/tmp/chichi-mall-pbr'));out.mkdir(parents=True,exist_ok=True)
+for source in sources:
+    target=out/source['name']
+    if not target.exists():
+        with urllib.request.urlopen(source['url'],timeout=45) as r: target.write_bytes(r.read())
+    if hashlib.sha256(target.read_bytes()).hexdigest()!=source['sha256']: raise ValueError('Source checksum mismatch: '+source['name'])
+    print(target.name)
