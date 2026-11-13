@@ -96,5 +96,5 @@ uniform vec3 uTint;varying vec3 vEye;varying vec3 vNormalView;varying vec3 vWorl
     else if(kind==='eat'){disk(p,mats.white,x,y,z,.5,.12);orb(p,mats.gold,x,y+.2,z,.3,.2,.3);}
     else{orb(p,j%2?mats.cyan:mats.pink,x,y,z,.36);}
   }}
-  return {fittingGeometry:new Map(),frontMaterials:new Map(),signatureMaterials:new Map(),storefrontGeometry:new Map(),storeIds:MALL_STORES.map(s=>s.id),borrowedTextures:new Set([mosaWaterReflection().texture]),mats,mesh,cube,orb,disk,tube,ring,glassMat,pane,doorwayCylinder,paw,chair,plant,label,labels,atlas,getSurface,clock:movieClock,signMaterial,signs};
+  return {iceMaterials:new Map(),iceStation:{current:null},fittingGeometry:new Map(),frontMaterials:new Map(),signatureMaterials:new Map(),storefrontGeometry:new Map(),storeIds:MALL_STORES.map(s=>s.id),borrowedTextures:new Set([mosaWaterReflection().texture]),mats,mesh,cube,orb,disk,tube,ring,glassMat,pane,doorwayCylinder,paw,chair,plant,label,labels,atlas,getSurface,clock:movieClock,signMaterial,signs};
 }

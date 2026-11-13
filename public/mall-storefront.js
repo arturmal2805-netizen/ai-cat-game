@@ -1,4 +1,5 @@
 import * as T from 'three';
+import {mallIceFrontSteps} from './mall-ice-shop.js';
 
 function whiteLetters(object){const c=object.geometry.getAttribute('color');if(c)for(let i=0;i<c.count;i++)c.setXYZ(i,.98,.98,.96);return object;}
 
@@ -13,6 +14,7 @@ export function* mallStorefrontSteps(physical,header,store,placement,kit,f){
     return kit.frontMaterials.get(name);
   };
   const aluminium=finish('anodised-bronze',0x7c7263,.3,.72),stone=finish('warm-limestone',0xddd5c6,.68),red=finish('mcd-enamel',0x9b2530,.41,.04),carbon=finish('mcd-carbon',0x242b2a,.5,.12),gold=finish('mcd-gold',0xffc52c,.29,.25);
+  if(store.key==='ice')yield* mallIceFrontSteps(physical,header,store,placement,kit,f);
   if(store.key==='mcd'){
     // Contemporary charcoal sign band and a continuous, thin timber soffit.
     // No giant striped café awning, mirrored wordmark or yellow wooden wall.

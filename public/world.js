@@ -1,5 +1,6 @@
 import {MALL,mallStore,mallFloor,mallProduct} from './mall-data.js';
 import {createMallWorld} from './mall-world.js';
+import {applyMallIcePose} from './mall-ice-pose.js';
 import {createSubmarineRuntime} from './submarine-runtime.js';
 import {retainedMosaLand} from './mosasaur-retained-land.js';
 import {zooGuestResidents} from './zoo-guest-visits.js';
@@ -5069,7 +5070,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
           npcWalking,
           reduced,
         );
-        if (npcReaction) {reactCat(n.model, npcReaction, reduced);if(npcReaction.waterGesture||npcReaction.rideSit||npcReaction.waterSurf||npcReaction.waterProne||npcReaction.waterPawLift)applyAtollSit(n.model,npcReaction,reduced);if(manualVisit?.object?.userData.magicBed)applyMagicBedReach(n.model,manualVisit.object,manualVisit.harvester,reduced);}
+        if (npcReaction) {reactCat(n.model, npcReaction, reduced);if(npcReaction.waterGesture||npcReaction.rideSit||npcReaction.waterSurf||npcReaction.waterProne||npcReaction.waterPawLift)applyAtollSit(n.model,npcReaction,reduced);if(manualVisit?.object?.userData.magicBed)applyMagicBedReach(n.model,manualVisit.object,manualVisit.harvester,reduced);applyMallIcePose(n.model,npcReaction,reduced);}
         if(courtVisit?.zooCarry)relaxCarriedCat(n.model,courtVisit.zooCarry,time,reduced);
         if (n.hatRig) {
           const resting =
@@ -5674,9 +5675,10 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
         walking,
         reduced,
       );
-      if (reaction) {reactCat(cat, reaction, reduced);if(reaction.waterGesture||reaction.rideSit||reaction.waterSurf||reaction.waterProne||reaction.waterPawLift)applyAtollSit(cat,reaction,reduced);if(operation?.attraction?.userData.magicBed)applyMagicBedReach(cat,operation.attraction,operation.harvester,reduced);}
+      if (reaction) {reactCat(cat, reaction, reduced);if(reaction.waterGesture||reaction.rideSit||reaction.waterSurf||reaction.waterProne||reaction.waterPawLift)applyAtollSit(cat,reaction,reduced);if(operation?.attraction?.userData.magicBed)applyMagicBedReach(cat,operation.attraction,operation.harvester,reduced);applyMallIcePose(cat,reaction,reduced);}
     }
     if(court.get('chichi')?.zooCarry&&!dialogOpen)relaxCarriedCat(cat,court.get('chichi').zooCarry,time,reduced);
+    mall?.updateHeld();
     const spongeFriend = itemGroups.get("bikini-sponge");
     if (spongeFriend?.userData.playing && spongeFriend.userData.pose) {
       const visitor =

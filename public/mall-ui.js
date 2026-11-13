@@ -1,4 +1,5 @@
 import {MALL_STORES,MALL_PRODUCTS,mallStore,mallLabel} from './mall-data.js';
+import {mallIceFlavor} from './mall-ice-data.js';
 import {mallStock} from './mall-system.js';
 export function createMallUI({getGame,visit,follow,prepareWallet=()=>{},onError=()=>{}}){
   const dialog=document.createElement('dialog');dialog.className='shop-dialog mall-dialog';dialog.setAttribute('aria-label','Підводний Cat Mall');document.body.append(dialog);
@@ -13,8 +14,9 @@ export function createMallUI({getGame,visit,follow,prepareWallet=()=>{},onError=
     for(const p of Object.values(game.jobCity?.profiles||{})){const option=document.createElement('option');option.value=p.id;option.textContent=`${p.name} · ${p.coins.toLocaleString()} 🪙`;select.append(option);}
     dialog.append(select);
     const list=document.createElement('div');list.className='mall-catalog';
-    for(const p of MALL_PRODUCTS.filter(p=>p.storeId===s.id)){
+    for(const p of MALL_PRODUCTS.filter(p=>p.storeId===s.id&&!p.legacy)){
       const card=text('article','', 'mall-product');card.append(text('span',p.icon,'mall-product-icon'),text('h3',p.name),text('p',`${p.price.toLocaleString()} 🪙 · Залишилось ${mallStock(game,p.id)}`));
+      if(p.iceFlavor){card.classList.add('mall-ice-flavor');card.style.setProperty('--ice-color','#'+mallIceFlavor(p.iceFlavor).color.toString(16).padStart(6,'0'));card.append(text('small','Котяче морозиво · обраний смак у ріжку'));}
       const button=text('button','Відвідати й придбати');button.disabled=mallStock(game,p.id)<1;
       button.onclick=async()=>{const id=select.value;if(!id)return;const profile=getGame().jobCity?.profiles[id];if(profile.coins<p.price){onError('У цього котика недостатньо особистих монеток');return;}
         dialog.close();try{if(!await visit(id,s.id,p.id))onError('Котик має бути вільним на острові мозазавра. Поклич його сюди кнопкою острова.');}catch(e){onError(e.message);}};

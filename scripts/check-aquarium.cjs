@@ -820,6 +820,18 @@ async function localWorker() {
       return;
     }
 
+    // The complete itinerary prepares and checks the aquarium itself. Running
+    // the separate default aquarium scenario first needlessly warms its five
+    // tanks before a resumed Zoo-only comparison on software GPU.
+    if (process.env.CHICHI_GESTURE_ALL) {
+      const { checkAllCameraGestures } = await import(
+        "./check-all-camera-gestures.mjs"
+      );
+      await checkAllCameraGestures(page, context, review);
+      assert.deepEqual(errors, []);
+      assert.deepEqual(httpErrors, []);
+      return;
+    }
     await page.locator('[data-biome="aquarium"]')[desktop ? "click" : "tap"]();
     const tankIds = [
       "aquarium-aurora",
@@ -1241,15 +1253,6 @@ async function localWorker() {
         "./camera-gesture-audit.mjs"
       );
       await auditCameraGestures(page, context, review);
-      assert.deepEqual(errors, []);
-      assert.deepEqual(httpErrors, []);
-      return;
-    }
-    if (process.env.CHICHI_GESTURE_ALL) {
-      const { checkAllCameraGestures } = await import(
-        "./check-all-camera-gestures.mjs"
-      );
-      await checkAllCameraGestures(page, context, review);
       assert.deepEqual(errors, []);
       assert.deepEqual(httpErrors, []);
       return;

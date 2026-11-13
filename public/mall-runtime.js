@@ -1,5 +1,6 @@
 import {MALL,mallFloor,mallStore,mallProduct,mallServiceFrames} from './mall-data.js';
 import {mallChoice} from './mall-system.js';
+import {mallIceEating} from './mall-ice-data.js';
 import {MOSA_SEA,MOSA_SHORE_GATE,mosaCoastFactor,mosaDryPoint} from './mosasaur-data.js';
 
 const smooth=t=>t*t*(3-2*t),point=(x,y,z)=>({x,y,z}),copy=p=>point(p.x,p.y,p.z);
@@ -183,10 +184,11 @@ export function createMallRuntime({getGame,onPurchase=()=>false,onUse=()=>false,
     },
     frame(id,time=0,reduced=false){const v=visits.get(id);if(!v)return null;
       const e=v.elapsed,experience=v.phase==='experience'&&(!mallStore(v.storeId).price||v.bought),s=mallStore(v.storeId),sit=experience&&['food','cinema','rest','social'].includes(s.kind);
+      const flavor=mallProduct(v.productId)?.iceFlavor,iceCream=flavor&&v.bought&&!v.returning&&(experience||!v.used)?mallIceEating(experience?e:0,flavor,reduced):null;
       return {position:v.position,yaw:v.yaw,walking:v.walking,phase:v.phase,action:v.action,floor:v.floor,bought:v.bought,
-        carrying:v.bought&&!experience,reaction:{headPitch:experience&&s.kind==='food'?.23+(!reduced?Math.sin(e*4)*.06:0):v.phase==='inspect'?-.12:0,
+        iceCream,carrying:v.bought&&!experience&&!flavor,reaction:{headPitch:experience&&s.kind==='food'?.23+(!reduced?Math.sin(e*4)*.06:0):v.phase==='inspect'?-.12:0,
           paw:!reduced&&(v.phase==='checkout'||experience&&s.kind==='arcade')?Math.max(0,Math.sin(e*3))*.55:0,
-          rideSit:sit?.8:0,crouch:sit?.05:0,earTilt:v.phase==='joy'?.2:0}};
+          rideSit:sit?.8:0,crouch:sit?.05:0,iceHolding:!!iceCream,earTilt:v.phase==='joy'?.2:0,...(experience&&iceCream?{...iceCream.reaction,iceLick:iceCream.lick}: {})}};
     },
   };
 }

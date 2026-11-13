@@ -71,6 +71,9 @@ export function* mallSignatureInteriorSteps(parent,ceiling,store,placement,kit,f
     return;
   }
   if(store.key!=='vuitton')return;
+  soft(parent,walnut,0,.43,5.5,8,.8,1.4);soft(parent,chalk,0,.89,5.5,8.12,.12,1.55);
+  cube(parent,bronze,0,.12,6.225,7.9,.055,.025);cube(parent,bronze,0,.80,6.225,7.9,.025,.025);
+  for(const x of [-3,3]){const till=new T.Group();till.position.set(x,.97,5.45);till.scale.setScalar(.52);parent.add(till);touchscreen(till,0,.35,0);}
   // Luxury joinery forms continuous recessed bays, not isolated shelf blocks.
   // Reference: real Louis Vuitton airport boutiques (Incheon/Doha/Heathrow).
   soft(parent,walnut,0,3.5,back+.38,width-1.1,6.8,.25);

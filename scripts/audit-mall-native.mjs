@@ -6,6 +6,7 @@ export async function auditMallNative({page,context,base,headers,review,errors,h
  await page.evaluate(()=>{__lagoonQA.drawPaused=true;});
  await page.locator('.mall-access').click();await page.waitForFunction(()=>__lagoonQA.mall()?.ready&&__lagoonQA.mall().inspection,null,{timeout:240000});
  console.log('Actual ocean mall prepared: ',await page.evaluate(()=>__lagoonQA.mall().root.userData.stats));
+ if(process.env.CHICHI_MALL_ICE_AUDIT){const {auditMallIceNative}=await import('./audit-mall-ice-native.mjs');await auditMallIceNative({page,base,headers,review,errors,httpErrors,capture});return;}
  if(process.env.CHICHI_MALL_CAMERA_SWEEP){
  const variants=[{name:'all-115-115-near48',d:115,fov:115,near:48,e:.15,a:.06},{name:'all-140-115-near68',d:140,fov:115,near:68,e:.15,a:.06},{name:'all-160-115-near88',d:160,fov:115,near:88,e:.15,a:.06},{name:'all-115-95-near48',d:115,fov:95,near:48,e:.15,a:.06},{name:'food-140-115-near68',floor:3,d:140,fov:115,near:68,e:.5,a:-.35},{name:'food-115-115-near48',floor:3,d:115,fov:115,near:48,e:.5,a:-.35}];
  const rows=[];

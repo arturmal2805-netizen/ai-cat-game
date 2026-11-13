@@ -44,7 +44,7 @@ export function mallFixtureLibrary(g,s,h){
   function bag(p,x,y,z,scale=1){
     const b=new T.Group(),variant=Math.abs(Math.round(x*3+y*7))%3;
     b.position.set(x,y,z);b.scale.setScalar(scale);p.add(b);
-    const tone=s.key==='prada'?'ink':s.key==='gucci'?'fern':s.key==='chanel'?'ivory':'leather';
+    const tone=s.key==='vuitton'?['#6c432e','#b18153','#dfc6a2'][variant]:s.key==='prada'?'ink':s.key==='gucci'?'fern':s.key==='chanel'?'ivory':'leather';
     const material=paint('leather-'+tone),trim=paint('gold');
     if(!bagShapes.has(variant)){
       const shape=new T.Shape();shape.moveTo(-.34,.05);shape.bezierCurveTo(-.43,.05,-.47,.12,-.43,.28);

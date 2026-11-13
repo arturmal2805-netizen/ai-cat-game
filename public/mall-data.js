@@ -1,4 +1,5 @@
 import {MALL_LAYOUT,mallRoomPlacement,mallRoomContacts} from './mall-layout.js';
+import {MALL_ICE_FLAVORS} from './mall-ice-data.js';
 // Stable product/venue addresses are independent of display-brand replacements.
 export const MALL_ID = 'underwater-cat-mall';
 export const MALL = MALL_LAYOUT;
@@ -42,17 +43,21 @@ const goods = {
   book:[['book','Книга океанських чар','📖','read'],['star','Магічна зоря','✨','play']],
   spa:[['session','Перлинний догляд','🫧','spa']],rest:[],social:[],
 };
-export const MALL_PRODUCTS = Object.freeze(MALL_STORES.flatMap(s=>(s.price>0?(goods[s.kind]||[]):[]).map(([key,name,icon,use],i)=>Object.freeze({
+const originalProducts=MALL_STORES.flatMap(s=>(s.price>0?(goods[s.kind]||[]):[]).map(([key,name,icon,use],i)=>Object.freeze({
   id:`${s.id}-${key}`,storeId:s.id,name,brand:mallLabel(s),category:'mall',kind:s.kind,use,icon,
   price:Math.max(1,Math.round(s.price*[1,.6,.4][i])),stock:['food','cinema','arcade','spa','bowling','photo'].includes(s.kind)?100000:60,
   unique:!['food','cinema','arcade','spa','bowling','photo'].includes(s.kind),
-}))));
+  ...(s.key==='ice'?{legacy:true}:{}),
+})));
+export const MALL_PRODUCTS = Object.freeze([...originalProducts.filter(p=>!p.legacy),...MALL_ICE_FLAVORS.map(f=>Object.freeze({
+  id:'mall-ice-'+f.key,storeId:'mall-ice',name:f.name,brand:MALL_BRANDS.ice,category:'mall',kind:'food',use:'eat',icon:f.icon,price:f.price,stock:100000,unique:false,iceFlavor:f.key,
+})),...originalProducts.filter(p=>p.legacy)]);
 export const mallProduct = id => MALL_PRODUCTS.find(p=>p.id===id);
 export const MALL_ACTIONS = Object.freeze(['VisitMall','EnterElevator','SelectFloor','BrowseStore','InspectProduct','CompareProducts','PurchaseItem','VisitRestaurant','OrderFood','EatMeal','BuyCinemaTicket','WatchMovie','PlayArcade','MeetFriend','RelaxAtMall','ReturnHome']);
 export function mallOffers(game){return game.unlocked?.includes('autumn')?MALL_STORES.map(s=>({id:s.id,type:s.id,biome:'autumn',name:`Підводний ТРЦ · F${s.floor} · ${s.name}`,action:['food'].includes(s.kind)?'eat':['rest','spa','social'].includes(s.kind)?'rest':'play'})):[];}
 
 export const MALL_SIGN_HEADERS=['CAT SAFE MENU','NEW COLLECTION','PICK UP','TICKETS','OCEAN SPECIAL','WELCOME'];
-export function mallSignTexts(parody=false){return ['CHICHI','CAT SHOPPING MALL','UNDERWATER MEGA MALL','OCEAN EXPRESS',...MALL_STORES.map(s=>s.key==='vuitton'&&!parody?'LOUIS VUITTON':mallLabel(s,parody)),...MALL_FLOORS.map(f=>`F${f.id}  ${f.short.toUpperCase()}`),...MALL_PRODUCTS.map(p=>`${p.name} · ${p.price}`),...MALL_SIGN_HEADERS];}
+export function mallSignTexts(parody=false){return ['CHICHI','CAT SHOPPING MALL','UNDERWATER MEGA MALL','OCEAN EXPRESS',...MALL_STORES.map(s=>s.key==='vuitton'&&!parody?'LOUIS VUITTON':mallLabel(s,parody)),...MALL_FLOORS.map(f=>`F${f.id}  ${f.short.toUpperCase()}`),...MALL_PRODUCTS.filter(p=>!p.legacy).map(p=>`${p.name} · ${p.price}`),...MALL_SIGN_HEADERS];}
 
 // Coordinates are the real fittings' local frame: +Z faces the public gallery.
 // Both navigation and the cashier use these same authored contact positions.

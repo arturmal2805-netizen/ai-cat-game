@@ -621,7 +621,7 @@ export function recordJobAttendanceBatch(game, events) {
 }
 export function catProducts(game) {
   return [
-    ...(game.unlocked.includes("autumn") ? MALL_PRODUCTS : []),
+    ...(game.unlocked.includes("autumn") ? MALL_PRODUCTS.filter(p=>!p.legacy) : []),
     ...JOB_CARS.map((c) => ({ ...c, category: "cars" })),
     ...HOUSE_TYPES,
     ...CATALOG.filter(

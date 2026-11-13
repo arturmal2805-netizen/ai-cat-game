@@ -3,6 +3,7 @@ import {mallFixtureLibrary} from './mall-interiors.js';
 import {mallConveyorSteps} from './mall-conveyor.js';
 import {mallStorefrontSteps} from './mall-storefront.js';
 import {mallSignatureInteriorSteps} from './mall-signature-interiors.js';
+import {mallIceShopSteps} from './mall-ice-shop.js';
 import {MALL_PRODUCTS,mallLabel,MALL_STORES} from './mall-data.js';
 
 // Full 28-metre retail rooms, with a real rear service zone, showcases, public
@@ -32,7 +33,7 @@ export function* mallRoomSteps(store,placement,kit){
   // Cutaway inspection retains hanging fittings and the luminous wall coves;
   // only the actual opaque ceiling is lifted away.
   cube(physical,mats.gold,0,7.48,-front+.45,w-.8,.06,.045);
-  if(!['mcd','vuitton'].includes(store.key))label(physical,4+MALL_STORES.findIndex(s=>s.id===store.id),0,5.95,-front+.32,w-4,1.8);
+  if(!['mcd','vuitton','ice'].includes(store.key))label(physical,4+MALL_STORES.findIndex(s=>s.id===store.id),0,5.95,-front+.32,w-4,1.8);
 
   for(const side of [-1,1]){
     soft(physical,paint('ivory'),side*(w/2-.15),.52,0,.25,1,d-.6);
@@ -60,7 +61,7 @@ export function* mallRoomSteps(store,placement,kit){
     const arch=[[-5.1,0,front+.2],[-5.1,5.1,front+.2],[-3.9,6.7,front+.2],[0,7.1,front+.2],[3.9,6.7,front+.2],[5.1,5.1,front+.2],[5.1,0,front+.2]];
     tube(physical,arch,.16,trim).userData.mallCollisionHandledByPosts=true;tube(physical,arch.map(([x,y,z])=>[x,y,z+.15]),.042,mats.gold).userData.mallCollisionHandledByPosts=true;
     for(const side of [-1,1]){soft(physical,paint('ivory'),side*(w/2-2),3.6,front-.18,3.3,7.2,.4);cube(physical,glassMat,side*(w/2-2),3.6,front+.05,2.75,6.2,.04);}
-  }else if(store.kind==='food'&&store.key!=='mcd'){
+  }else if(store.kind==='food'&&!['mcd','ice'].includes(store.key)){
     const canopy=new T.Group();canopy.position.set(0,5.85,front+.7);physical.add(canopy);
     for(let i=0;i<24;i++){
       cube(canopy,i%2?mats.white:accent,-w/2+.6+i*(w-1.2)/23,.08,0,(w-1.2)/24,.12,1.7).rotation.x=-.14;
@@ -82,7 +83,7 @@ export function* mallRoomSteps(store,placement,kit){
   const sign=4+MALL_STORES.findIndex(s=>s.id===store.id);
   const header=new T.Group();header.userData.mallCutaway=true;physical.add(header);
   const fascia=paint(store.kind==='fashion'?store.key==='gucci'?'fern':store.key==='vuitton'?'leather':'ink':store.kind==='food'?color:'ink');
-  if(!['mcd','vuitton'].includes(store.key)){
+  if(!['mcd','vuitton','ice'].includes(store.key)){
   soft(header,fascia,0,6.65,front+.22,w-.25,1.65,.32);
   cube(header,mats.gold,0,5.81,front+.43,w-.7,.035,.035);
   const shopSign=label(header,sign,0,6.65,front+.41,w-1,1.23);
@@ -101,12 +102,12 @@ export function* mallRoomSteps(store,placement,kit){
     cube(ceiling,mats.gold,side*(w/2-.6),7.75,0,.07,.06,d-1);
     for(let i=0;i<16;i++)cube(ceiling,paint('oak'),side*(w/2-2),7.72,-front+1+i*(d-2)/15,2.7,.11,.075);
   }
-  if(!['mcd','vuitton'].includes(store.key))for(const x of [-8,0,8])for(const z of [-6,2,8]){
+  if(!['mcd','vuitton','ice'].includes(store.key))for(const x of [-8,0,8])for(const z of [-6,2,8]){
     disk(physical,mats.gold,x,7.65,z,.34,.06);
     tube(physical,[[x,7.6,z],[x,6.7,z]],.018,trim);
     orb(physical,mats.white,x,6.5,z,.25,.32,.25);
   }
-  if(store.kind!=='cinema'&&store.key!=='mcd'){
+  if(store.kind!=='cinema'&&!['mcd','vuitton','ice'].includes(store.key)){
     const width=store.kind==='food'?14:8;
     soft(physical,accent,0,.43,5.5,width,.8,1.4);
     cube(physical,mats.white,0,.88,5.5,width+.1,.1,1.55);
@@ -116,7 +117,9 @@ export function* mallRoomSteps(store,placement,kit){
     }
   }
   yield;
-  if(['mcd','vuitton'].includes(store.key)){
+  if(store.key==='ice'){
+    yield* mallIceShopSteps(physical,ceiling,motion,store,placement,h,f);
+  }else if(['mcd','vuitton'].includes(store.key)){
     yield* mallSignatureInteriorSteps(physical,ceiling,store,placement,h,f);
   }else if(store.kind==='fashion'){
     // Different boutique identities share genuine merchandise, not identical

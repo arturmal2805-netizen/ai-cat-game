@@ -173,7 +173,8 @@ export function* mallRebuildModelSteps(options={}){
   // Read-only background guests rest on actual solid benches. They cannot
   // obstruct a walking cat or generate fictitious wallets, receipts or AI calls.
   root.userData={mall:true,built:true,layoutVersion:2,floors,stores,roomStoreIds,walkSurfaces,obstacles,cabin,doors,ownedCats:[statue],borrowedTextures:kit.borrowedTextures,atlas:kit.atlas,ownedTextures:[roomLights.texture],borrowed:new Set(),
-    stats:{floors:7,stores:stores.size,products:MALL_PRODUCTS.length,area:mallPlanArea()},
+    iceCreamStation:kit.iceStation.current,
+    stats:{floors:7,stores:stores.size,products:MALL_PRODUCTS.filter(p=>!p.legacy).length,area:mallPlanArea()},
     *backgroundSteps(){
       if(background.length)return;
       for(const floor of floorData)for(const side of [-1,1]){

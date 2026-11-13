@@ -32,3 +32,16 @@ attributes, idempotence and unsupported dynamic/unindexed data.
 This is one optimization checkpoint. Mall architecture/native integration and
 visual reference acceptance remain separate work; this commit does not claim
 85–90% reference similarity or completion of that rebuild.
+
+## Final retail-art recheck, 2026-11-13
+
+The revised physical shopfronts, ceilings, signature stores and sixteen bounded
+ambient guests were checked again. Before/after geometry bytes are 405,584,173 /
+268,698,703; all 1,395 geometries remain. Saving: 136,885,470 bytes (130.54 MiB).
+The actual frozen colour/shadow comparison again has zero differing channel
+bytes, maximum difference zero, GL error zero and no browser errors.
+
+Evidence: `/workspace/qa/mall-all-storefronts-v4/compact-evidence.json` and its
+`compact-before.png` / `compact-after.png`. The same run renders every one of
+the 34 fronts. Native phone/world/purchase checks remain separate; these figures
+still do not establish physical-device FPS.

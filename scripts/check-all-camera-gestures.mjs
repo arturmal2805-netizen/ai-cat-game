@@ -41,31 +41,10 @@ export async function checkAllCameraGestures(page, context, review) {
         gl = q.renderer.getContext();
       q.freeze = true;
       q.shadowDepth?.setEnabled(false);
-      // Native comparison: independent paints and unindexed flower triangles.
-      // These are the same authored buffers, not a reduced-detail reference.
-      const paints = [],
-        geometries = new Map();
-      q.scene.traverse((o) => {
-        if (!o.isMesh) return;
-        if (o.name === "Meadow flower" && !geometries.has(o.geometry)) {
-          geometries.set(o.geometry, o.geometry.index);
-          o.geometry.setIndex(null);
-        }
-        let scenery = false;
-        for (let p = o; p; p = p.parent)
-          if (p.userData.sceneryId) {
-            scenery = true;
-            break;
-          }
-        if (scenery && !Array.isArray(o.material)) {
-          const shared = o.material,
-            copy = shared.clone();
-          copy.onBeforeCompile = shared.onBeforeCompile;
-          copy.customProgramCacheKey = shared.customProgramCacheKey;
-          paints.push([o, shared, copy]);
-          o.material = copy;
-        }
-      });
+      // Compare the native scene with the SAME original material programs
+      // and geometry. Cloning paints/unindexing flowers was an old batching
+      // experiment; it perturbed the gorilla's high-frequency face shader even
+      // on the released baseline and did not isolate camera/matrix caching.
       const a = new Uint8Array(
           gl.drawingBufferWidth * gl.drawingBufferHeight * 4,
         ),
@@ -80,10 +59,10 @@ export async function checkAllCameraGestures(page, context, review) {
         batching.renderChildren = () => null;
       });
       try {
-        q.drawFrame();
+        // Match the five settled draws used by the cached path below. The
+        // first native draw can populate renderer/material state as well.
+        for(let i=0;i<5;i++)q.drawFrame();
       } finally {
-        for (const [geometry, index] of geometries) geometry.setIndex(index);
-        for (const [object, shared] of paints) object.material = shared;
         for (const [batching, original] of traversal) {
           batching.renderChildren = original;
           if (batching.matrixDeferral) batching.matrixDeferral.enabled = true;
@@ -113,9 +92,16 @@ export async function checkAllCameraGestures(page, context, review) {
         gl.UNSIGNED_BYTE,
         b,
       );
-      for (const [, , copy] of paints) copy.dispose();
       let changed = 0;
       for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) changed++;
+      let difference=null;
+      if(changed){
+        const repeat=new Uint8Array(b.length);q.drawFrame();gl.readPixels(0,0,gl.drawingBufferWidth,gl.drawingBufferHeight,gl.RGBA,gl.UNSIGNED_BYTE,repeat);
+        let samePathChanged=0,max=0;const pixels=[];
+        for(let i=0;i<a.length;i++){if(b[i]!==repeat[i])samePathChanged++;if(a[i]!==b[i]){max=Math.max(max,Math.abs(a[i]-b[i]));if(pixels.length<64)pixels.push({x:Math.floor(i/4)%gl.drawingBufferWidth,y:Math.floor(i/4/gl.drawingBufferWidth),channel:i%4,a:a[i],b:b[i]});}}
+        const png=data=>{const c=document.createElement('canvas');c.width=gl.drawingBufferWidth;c.height=gl.drawingBufferHeight;c.getContext('2d').putImageData(new ImageData(new Uint8ClampedArray(data),c.width,c.height),0,0);return c.toDataURL('image/png').split(',')[1];};
+        difference={samePathChanged,max,pixels,raw:png(a),cached:png(b)};
+      }
       let reuploadChanged = null;
       if (["aquarium", "homestead"].includes(id)) {
         const registrations = q.poseAtlas.stats.cats,
@@ -175,6 +161,7 @@ export async function checkAllCameraGestures(page, context, review) {
         attachedCats,
         registeredCats: registered.size,
         changed,
+        difference,
         reuploadChanged,
         before,
         after: { ...q.renderer.info.render },
@@ -187,6 +174,9 @@ export async function checkAllCameraGestures(page, context, review) {
           : null,
       };
     }, id);
+    if(image.difference){
+      const {raw,cached,...details}=image.difference;fs.writeFileSync(path.join(review,id+'-raw-difference.png'),Buffer.from(raw,'base64'));fs.writeFileSync(path.join(review,id+'-cached-difference.png'),Buffer.from(cached,'base64'));fs.writeFileSync(path.join(review,id+'-difference.json'),JSON.stringify(details,null,2));delete image.difference;
+    }
     assert.equal(
       image.changed,
       0,

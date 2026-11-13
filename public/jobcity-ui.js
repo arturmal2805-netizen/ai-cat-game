@@ -334,7 +334,7 @@ export function createJobCityUI({
     const inventory = document.createElement("div");
     inventory.className = "jobcity-inventory";
     for (const [id, count] of Object.entries(p.inventory)) {
-      const product = catProducts(game).find((x) => x.id === id);
+      const product = catProducts(game).find((x) => x.id === id) || mallProduct(id);
       if (!product) continue;
       const row = text(
         "div",

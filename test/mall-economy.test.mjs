@@ -14,7 +14,7 @@ test('mall appends seven floors and real destinations to the existing AI catalog
  const g=seed(),offers=leisureOffers(g);assert.deepEqual([...new Set(MALL_STORES.map(s=>s.floor))],[1,2,3,4,5,6,7]);
  assert.equal(offers.filter(o=>o.id.startsWith('mall-')).length,MALL_STORES.length);
  assert.deepEqual(validateLeisureOffers(offers),offers);
- assert.equal(catProducts(g).filter(p=>p.category==='mall').length,MALL_PRODUCTS.length);
+ assert.equal(catProducts(g).filter(p=>p.category==='mall').length,MALL_PRODUCTS.filter(p=>!p.legacy).length);
 });
 test('existing private wallet buys once, retains its permanent receipt and exact inventory over two reloads',()=>{
  const g=seed(),n=buyCatProduct(g,'chichi',item.id,'mall-chichi-1',now),p=n.jobCity.profiles.chichi;

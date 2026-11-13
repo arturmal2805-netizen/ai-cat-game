@@ -33,6 +33,7 @@ async function localWorker() {
 }
 
 (async () => {
+  const {buildWorker}=await import('./build-worker.mjs');await buildWorker();
   const local = await localWorker();
   let browser;
   try {
@@ -101,6 +102,7 @@ async function localWorker() {
               assert.ok(source.includes(marker));
               return {
                 contents: source
+                  .replace('if(!dialogOpen)mall?.update(dt,time);', "if(!dialogOpen){const pin=window.__lagoonQA?.pinMall;if(pin){const v=mall?.runtime.get(pin.id);if(v?.phase===pin.phase)v.elapsed=pin.elapsed;}mall?.update(pin?0:dt,time);}")
                   .replace(
                     "    const time = now / 1000;",
                     "    if(window.__lagoonQA?.pinnedRide !== undefined && operation?.stage === 'activity') operation.activityStart=now-window.__lagoonQA.pinnedRide*1000;\n    const time = now / 1000;",

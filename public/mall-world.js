@@ -9,6 +9,8 @@ import * as THREE from 'three';
 import {MALL,MALL_FLOORS,MALL_STORES,mallStore,mallProduct,mallServiceFrames} from './mall-data.js';
 import {mallModelSteps} from './mall-model.js';
 import {createMallRuntime} from './mall-runtime.js';
+import {mallIceServing} from './mall-ice-serving.js';
+import {MALL_ICE_FLAVORS,mallIceEating} from './mall-ice-data.js';
 import {createCat,animateCat,reactCat,disposeCat} from './cat-model.js';
 import {catAppearance} from './cat-breeds.js';
 import {NEIGHBORS,byBiome} from './game-data.js';
@@ -16,6 +18,7 @@ import {cacheSceneMatrices} from './matrix-cache.js';
 
 export function createMallWorld({scene,container,getGame,getActors,getFocused,getOverview,getCameraElevation=()=>0,prepare,prepareModel,registerCat=()=>{},onCamera,onStoreCamera,onExit,onStore,onPurchase,onUse,onGoal,onComplete,onError=()=>{},canSimulate=()=>true,blocked=()=>false,reduced=false}={}){
   const centre=byBiome('autumn').center,abort=new AbortController(),staff=[],props=new Map(),personal=new Map(),worn=new Map(),navigationPending=new Map();
+  const iceProps=new Map(),iceOffset=new THREE.Matrix4(),icePoint=new THREE.Vector3(),iceScale=new THREE.Vector3(.65,.65,.65);
   let root=null,pending=null,disposed=false,inspection=false,selected=null,lastResume=-1;
   const access=document.createElement('button');access.className='mall-access';access.textContent='🛍 ТРЦ';access.title='Підводний Cat Mall';access.setAttribute('aria-label','Відкрити підводний ТРЦ');access.hidden=true;(container.querySelector('.map-controls')||container).append(access);
   const panel=document.createElement('nav');panel.className='mall-floors';panel.hidden=true;panel.setAttribute('aria-label','Поверхи підводного ТРЦ');container.append(panel);
@@ -68,6 +71,7 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
           if(disposed)break;
           scene.add(employee.carrier);
         }
+        for(const f of MALL_ICE_FLAVORS){if(disposed)break;await prepareModel(mallIceServing(f.key));}
         return disposed?null:root;
       }catch(error){
         if(!disposed)onError(error.message);
@@ -137,7 +141,7 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
     detach(id){personal.delete(id);runtime.detach(id);},
     frame(id,time){
       const p=personal.get(id);
-      if(p)return{position:p.position,yaw:p.yaw,walking:false,reaction:{headPitch:p.item.use==='eat'?.27:p.item.use==='rest'?.18:-.08,paw:reduced?0:.18+Math.sin(p.elapsed*2)*.13,crouch:p.item.use==='rest'?.2:0}};
+      if(p){const iceCream=p.item.iceFlavor?mallIceEating(p.elapsed,p.item.iceFlavor,reduced):null;return{iceCream,position:p.position,yaw:p.yaw,walking:false,reaction:{headPitch:p.item.use==='eat'?.27:p.item.use==='rest'?.18:-.08,paw:reduced?0:.18+Math.sin(p.elapsed*2)*.13,crouch:p.item.use==='rest'?.2:0,...(iceCream?{...iceCream.reaction,iceHolding:true,iceLick:iceCream.lick}:{})}};}
       const f=runtime.frame(id,time,reduced);return f?{...f,position:world(f.position)}:null;
     },
     safePosition(id){const p=runtime.safePosition(id);return p?world(p):null;},
@@ -162,6 +166,8 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
       if(active&&game.unlocked.includes('autumn')&&!root&&!pending)void ensure();
       if(root){root.visible=visible;if(visible){if(inspection)root.userData.inspectionElevation(getCameraElevation());root.userData.update(time,reduced);}}
       runtime.step(dt,time,{allow:canSimulate(),blocked});
+      const iceOrder=[...runtime.visits.values()].find(v=>v.storeId==='mall-ice'&&v.phase==='checkout');
+      root?.userData.iceCreamStation?.setServing(iceOrder?mallProduct(iceOrder.productId)?.iceFlavor:null,iceOrder?.elapsed||0);
       if(canSimulate())for(const [id,p]of personal){
         if(blocked(id)){personal.delete(id);continue;}
         p.elapsed+=dt;if(p.elapsed>8){personal.delete(id);try{onUse(id,p.item.id);}catch(error){onError(error.message);}}
@@ -212,8 +218,20 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
         let prop=props.get(a.id);
         if(showBag&&!prop){prop=new THREE.Group();const bag=new THREE.Mesh(sharedGeo,bagMaterial);bag.scale.set(.65,.7,.3);prop.add(bag);const stripe=new THREE.Mesh(sharedGeo,trimMaterial);stripe.position.z=.16;stripe.scale.set(.12,.45,.02);prop.add(stripe);scene.add(prop);props.set(a.id,prop);}
         if(prop){prop.visible=showBag;if(prop.visible){const scale=a.model.scale.x;prop.scale.setScalar(scale);prop.position.copy(a.position);prop.position.x+=Math.cos(a.carrier.rotation.y)*.72*scale;prop.position.z-=Math.sin(a.carrier.rotation.y)*.72*scale;prop.position.y+=.65*scale;prop.rotation.y=a.carrier.rotation.y;}}
+        let ice=iceProps.get(a.id);
+        const iceFrame=f?.iceCream||(personal.get(a.id)?.item.iceFlavor?mallIceEating(personal.get(a.id).elapsed,personal.get(a.id).item.iceFlavor,reduced):null);
+        if(iceFrame){
+          if(ice?.userData.iceFlavor!==iceFrame.flavor){ice?.removeFromParent();ice=mallIceServing(iceFrame.flavor);ice.matrixAutoUpdate=false;scene.add(ice);iceProps.set(a.id,ice);}
+          const scale=1-iceFrame.progress*.70;ice.userData.cream.scale.y=scale;ice.userData.cream.position.y=.55*(1-scale);ice.visible=a.carrier.visible;
+        }else if(ice){ice.removeFromParent();iceProps.delete(a.id);}
       }
     },
-    dispose(){disposed=true;abort.abort();runtime.clear();personal.clear();navigationPending.clear();for(const g of worn.values()){g.removeFromParent();g.traverse(o=>{if(o.isMesh)o.geometry.dispose();});}worn.clear();access.remove();panel.remove();wingControls.remove();shopOpen.remove();storeView.remove();if(root)disposeModel(root);root=null;for(const s of staff){s.carrier.removeFromParent();disposeCat(s.cat);}for(const p of props.values())p.removeFromParent();props.clear();sharedGeo.dispose();bagMaterial.dispose();trimMaterial.dispose();},
+    updateHeld(){if(!iceProps.size)return;for(const a of getActors()){
+      const ice=iceProps.get(a.id),d=a.model.userData,index=d.legs.findIndex(leg=>leg.position.z>0&&leg.position.x>0),ankle=d.legJoints?.[index]?.ankle;
+      if(!ice||!ankle)continue;
+      ankle.getWorldPosition(icePoint);a.model.worldToLocal(icePoint);icePoint.y-=.31;icePoint.z+=.13;
+      iceOffset.makeTranslation(icePoint.x,icePoint.y,icePoint.z);ice.matrix.multiplyMatrices(a.model.matrixWorld,iceOffset).scale(iceScale);ice.matrixWorldNeedsUpdate=true;ice.visible=a.carrier.visible;
+    }},
+    dispose(){disposed=true;abort.abort();runtime.clear();personal.clear();navigationPending.clear();for(const ice of iceProps.values())ice.removeFromParent();iceProps.clear();for(const g of worn.values()){g.removeFromParent();g.traverse(o=>{if(o.isMesh)o.geometry.dispose();});}worn.clear();access.remove();panel.remove();wingControls.remove();shopOpen.remove();storeView.remove();if(root)disposeModel(root);root=null;for(const s of staff){s.carrier.removeFromParent();disposeCat(s.cat);}for(const p of props.values())p.removeFromParent();props.clear();sharedGeo.dispose();bagMaterial.dispose();trimMaterial.dispose();},
   };
 }

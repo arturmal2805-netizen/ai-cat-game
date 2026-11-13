@@ -364,3 +364,16 @@ pauses above 50 ms and the slowest 1% of frame gaps. A rolling average near
 60 FPS can coexist with an isolated long pause. Hidden/menu time is excluded;
 earlier real pauses survive a rolling-window/menu reset. The panel retains only
 its copy-report button and does not pause the game.
+
+## Unused vertex storage in the new underwater Mall
+
+The Mall's baked static copies remove vertices that their exact reuse indices
+never reference. Indexed attributes, triangle order, index type, native ray
+faces and bounds stay unchanged; native cats and other islands are excluded.
+The work runs cooperatively before upload, never during camera animation.
+
+The final 2026-11-13 art check retained 1,395 geometries while buffer storage
+changed from 405,584,173 to 268,698,703 bytes: 136,885,470 bytes (130.54 MiB)
+removed. The same frozen colour/shadow image had zero differing channel bytes
+and no GL errors. This is a verified resource reduction, not a physical M2 or
+iPhone FPS measurement. See the [implementation and evidence](reviews/mall-buffer-compaction-2026-11-12.md).

@@ -6,9 +6,11 @@ similarity, photorealism, or physical-device 60 FPS.
 
 ## Implemented
 
-Seven connected floors, 34 stable venues and 63 real products retain their
-released IDs, prices, receipts, private wallets and inventory. The measured
-usable area is 125,705.85 m² over seven floors and two pavilions; the preceding
+Seven connected floors and 34 stable venues retain their original IDs, private
+wallets and inventory. The final Ocean Ice Cream batch offers 66 active products
+and retains three older Ice product IDs/prices solely for existing paid receipts
+and inventory. See `mall-ice-cream-2026-11-13.md`. The measured
+usable area is approximately 125,700 m² over seven floors and two pavilions; the preceding
 plan was 23,285.49 m². Existing cats keep their native anatomy and scales.
 Rounded retail wings, a true open atrium, cat-head glass crown, separate side
 pavilions, green roofs and supported bridges replace scaled kiosk disks.
@@ -91,6 +93,19 @@ real Mall envelope; old embedded pilots recover nearby at the same depth.
   fitted fronts and full-DPR phone overview; no shader/browser/GL errors.
 - `mall-real-retail-build-v5.log`: full build passed. Additional native phone,
   reload, all-island and final full-suite checks are recorded after completion.
+- `mall-real-retail-full-suite-v3.log`: 1003/1003 tests passed. The final small
+  counter/material revision additionally passed all five navigation/compaction
+  checks in `mall-real-retail-final-navigation-v4.log`.
+- `mall-real-retail-native-v7/mall-purchase-native.json`: actual phone world tap,
+  interior/return buttons, accessible catalogue, native lift and a private SQLite
+  restart. Balance 5000 → 4150, one collar, one receipt, no repeat debit.
+- `mall-real-retail-native-v8/mall-art-native.json`: actual phone and wide-screen
+  fronts/interiors/overview at DPR 2, no browser or HTTP errors. These captures
+  include the ceiling/light/price-card fixes; the final walnut counter and bag
+  colours are covered by the following complete storefront review.
+- `mall-all-storefronts-v4/evidence.json`: all 34 actual fronts rendered with no
+  GL/browser errors. `compact-evidence.json` verifies the final 130.54 MiB saving
+  with zero colour/shadow channel differences.
 
 ## Remaining visual limits
 

@@ -45,6 +45,7 @@ export function buyMallProduct(game,id,productId,receipt,now=Date.now()){
   if(!p||!item||!game.unlocked.includes('autumn')||typeof receipt!=='string'||!/^[\w-]{8,80}$/.test(receipt)||!Number.isFinite(now)||now<0)throw Error('Покупка ТРЦ недоступна');
   const m=normalizeMallProfile(p.mall),prior=m.receipts[receipt];
   if(prior){if(prior.product!==productId)throw Error('Цей чек належить іншому товару');return game;}
+  if(item.legacy)throw Error('У Ocean Ice Cream уже нове меню. Оберіть смак морозива.');
   const sequence=Number(receipt.match(/-(\d+)$/)?.[1]);
   if(sequence!==p.purchaseCount+1)throw Error('Оновіть гаманець котика перед покупкою');
   if(p.coins<item.price)throw Error('У котика недостатньо власних монеток');
@@ -84,6 +85,12 @@ export function useMallProduct(game,id,productId){
 // affordable product within that store; it never creates another AI request.
 export function mallChoice(game,id,storeId){
   const p=game.jobCity?.profiles[id];if(!p)return null;
-  return MALL_PRODUCTS.filter(x=>x.storeId===storeId&&x.price<=p.coins&&mallStock(game,x.id)>0&&(!x.unique||!p.inventory[x.id]))
-    .sort((a,b)=>Number(!p.wishes?.includes(a.id))-Number(!p.wishes?.includes(b.id))||a.price-b.price)[0]||null;
+  const choices=MALL_PRODUCTS.filter(x=>!x.legacy&&x.storeId===storeId&&x.price<=p.coins&&mallStock(game,x.id)>0&&(!x.unique||!p.inventory[x.id]))
+    .sort((a,b)=>Number(!p.wishes?.includes(a.id))-Number(!p.wishes?.includes(b.id))||a.price-b.price);
+  if(storeId==='mall-ice'&&choices.length&&!p.wishes?.includes(choices[0].id)){
+    let hash=0;for(const c of id)hash=(Math.imul(hash,31)+c.charCodeAt(0))>>>0;
+    const visits=Object.values(p.mall?.receipts||{}).filter(r=>mallProduct(r.product)?.iceFlavor).length;
+    return choices[(hash+visits)%choices.length];
+  }
+  return choices[0]||null;
 }
