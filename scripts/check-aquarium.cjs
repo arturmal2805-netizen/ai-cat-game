@@ -141,6 +141,7 @@ async function localWorker() {
   );
 }
 (async () => {
+  const {buildWorker}=await import('./build-worker.mjs');await buildWorker();
   const local = await localWorker();
   let browser;
   try {

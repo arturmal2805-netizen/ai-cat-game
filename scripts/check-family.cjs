@@ -27,81 +27,20 @@ async function localWorker() {
     path.join(temp, "worker.mjs"),
   );
   fs.cpSync(path.join(root, "public"), path.join(temp, "public"), { recursive: true });
-  fs.writeFileSync(
-    config,
-    JSON.stringify({
-      name: "chichi-housing-local",
-      main: path.join(temp, "worker.mjs"),
-      compatibility_date: "2026-10-13",
-      assets: {
-        directory: path.join(temp, "public"),
-        binding: "ASSETS",
-        run_worker_first: ["/api/*"],
-      },
-      durable_objects: {
-        bindings: [{ name: "SAVE_VAULT", class_name: "SaveVault" }],
-      },
-      migrations: [{ tag: "save-vault-v1", new_sqlite_classes: ["SaveVault"] }],
-      vars: { GAME_RELEASE: "development" },
-    }),
-  );
-  const localEnv = { ...process.env };
-  for (const key of [
-    "HTTP_PROXY",
-    "HTTPS_PROXY",
-    "ALL_PROXY",
-    "http_proxy",
-    "https_proxy",
-    "all_proxy",
-  ])
-    delete localEnv[key];
-  localEnv.NO_PROXY = "127.0.0.1,localhost";
-  localEnv.CLOUDFLARE_SEND_METRICS = "false";
-  const child = spawn(
-    path.join(root, "node_modules/.bin/wrangler"),
-    [
-      "dev",
-      "--local",
-      "--config",
-      config,
-      "--persist-to",
-      path.join(temp, "sqlite"),
-      "--port",
-      String(port),
-      "--inspector-port",
-      "0",
-    ],
-    {
-      cwd: root,
-      detached: true,
-      env: {
-        ...localEnv,
-        WRANGLER_LOG_PATH: path.join(temp, "wrangler.log"),
-      },
-      stdio: ["ignore", log, log],
-    },
-  );
-  const stop = () => {
-    try {
-      process.kill(-child.pid, "SIGTERM");
-    } catch {}
-    fs.closeSync(log);
-  };
-  const base = "http://127.0.0.1:" + port;
-  for (let i = 0; i < 150; i++) {
-    try {
-      if ((await fetch(base + "/api/status")).ok)
-        return { base, stop, logPath: path.join(temp, "worker.log") };
-    } catch {}
-    await new Promise((r) => setTimeout(r, 200));
-  }
-  stop();
-  throw Error(
-    "Local Worker startup failed. Log: " + path.join(temp, "worker.log"),
-  );
+  // Use real local workerd/SQLite directly, as the other native save probes
+  // do. The extra development ProxyWorker can lose its own upstream while a
+  // slow software-GPU frame is running; that is not a player save failure.
+  const {Miniflare,Log,LogLevel,convertV4MiniflareOptions}=require(root+'/node_modules/miniflare');
+  const mf=new Miniflare(convertV4MiniflareOptions({name:'chichi-family-local',rootPath:temp,host:'127.0.0.1',port,modules:true,
+    scriptPath:path.join(temp,'worker.mjs'),compatibilityDate:'2026-10-13',bindings:{GAME_RELEASE:'development'},
+    durableObjects:{SAVE_VAULT:{className:'SaveVault',useSQLite:true}},durableObjectsPersist:path.join(temp,'sqlite'),
+    assets:{directory:path.join(temp,'public'),binding:'ASSETS',run_worker_first:['/api/*'],routerConfig:{has_user_worker:true}},log:new Log(LogLevel.ERROR)}));
+  try{const url=await mf.ready;return{base:url.origin,stop:()=>{fs.closeSync(log);return mf.dispose();},logPath:path.join(temp,'worker.log')};}
+  catch(error){await mf.dispose();fs.closeSync(log);throw error;}
 }
 
 (async () => {
+  const {buildWorker}=await import('./build-worker.mjs');await buildWorker();
   const local = await localWorker();
   let browser;
   try {
@@ -583,7 +522,7 @@ async function localWorker() {
     );
   } finally {
     await browser?.close();
-    local.stop();
+    await local.stop();
   }
 })().catch((e) => {
   console.error(e);
