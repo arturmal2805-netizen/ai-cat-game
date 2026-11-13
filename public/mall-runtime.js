@@ -95,12 +95,20 @@ export function createMallRuntime({getGame,onPurchase=()=>false,onUse=()=>false,
     const ownedReceipt=owned?Object.entries(profile.mall?.receipts||{}).filter(([,r])=>r.product===productId).sort((a,b)=>a[1].sequence-b[1].sequence)[profile.mall?.used?.[productId]||0]?.[0]:null;
     if(useOwned&&!ownedReceipt)return false;
     if(productId&&!product)return false;
-    const v={id,storeId,position:copy(position),yaw:0,radius,order:serial++,elapsed:0,floor:0,productId:resume?.productId||productId||(browseOnly?null:mallChoice(game,id,storeId)?.id)||null,receipt:resume?.receipt||ownedReceipt||null,ticket,returning:false,action:'VisitMall',bought:!!resume?.purchased||!!ownedReceipt,used:!!resume?.used,walking:true};
+    const v={id,storeId,position:copy(position),yaw:0,radius,order:serial++,elapsed:0,floor:0,productId:resume?.productId||productId||(browseOnly?null:mallChoice(game,id,storeId)?.id)||null,receipt:resume?.receipt||ownedReceipt||null,ticket,returning:false,action:'VisitMall',bought:!!resume?.purchased||!!ownedReceipt,used:!!resume?.used,resumedUsed:!!resume?.used,walking:true};
     if(position.y< -10){
       if(resume&&resume.layoutVersion!==MALL.version){v.position=mallLanding(s.floor,v.order%6);position=v.position;}
       v.floor=Math.max(1,Math.min(7,Math.round((position.y-.18-MALL.y)/MALL.rise)+1));
       v.position.y=mallFloor(v.floor).y+.18;
-      if(v.floor===s.floor)walk(v,mallStorePath(v.floor,storeId),'inspect');
+      if(v.floor===s.floor){
+        // A saved diner is inside a real chair collider. Resume its mounted
+        // activity/stand-up transition instead of asking floor A* to escape
+        // through that chair. Recover the nearest actual seat, not a new slot.
+        const seat=resume?.purchased&&Array.from({length:6},(_,i)=>serviceFrames(s,i,radius)).filter(f=>f.seated).sort((a,b)=>Math.hypot(a.seat.x-position.x,a.seat.z-position.z)-Math.hypot(b.seat.x-position.x,b.seat.z-position.z))[0];
+        if(seat&&Math.hypot(seat.seat.x-position.x,seat.seat.z-position.z)<.8){
+          v.position=point(position.x,seat.seat.y,position.z);v.service={...seat,seat:copy(v.position)};v.yaw=seat.yaw;v.walking=false;v.phase=v.used?'seat-stand':'experience';v.action=v.used?'ReturnHome':'EatMeal';v.returning=v.used;
+        }else walk(v,mallStorePath(v.floor,storeId),'inspect');
+      }
       else walk(v,[mallLanding(v.floor,v.order%6)],'queue');
     }else {const landing=mallLanding(0,v.order%6);walk(v,[...mallApproach(position),point(MALL.gate.x,.35,MALL.gate.z),point(landing.x,.35,MALL.lift.z+26),landing],'queue');}
     visits.set(id,v);try{onGoal(id,{layoutVersion:MALL.version,storeId,at:resume?.at||Date.now(),productId:v.productId,receipt:v.receipt,purchased:v.bought,used:v.used});}catch(error){visits.delete(id);throw error;}return true;
@@ -184,7 +192,7 @@ export function createMallRuntime({getGame,onPurchase=()=>false,onUse=()=>false,
     },
     frame(id,time=0,reduced=false){const v=visits.get(id);if(!v)return null;
       const e=v.elapsed,experience=v.phase==='experience'&&(!mallStore(v.storeId).price||v.bought),s=mallStore(v.storeId),sit=experience&&['food','cinema','rest','social'].includes(s.kind);
-      const flavor=mallProduct(v.productId)?.iceFlavor,iceCream=flavor&&v.bought&&!v.returning&&(experience||!v.used)?mallIceEating(experience?e:0,flavor,reduced):null;
+      const flavor=mallProduct(v.productId)?.iceFlavor,iceCream=flavor&&v.bought&&!v.returning&&!v.resumedUsed&&(experience||!v.used)?mallIceEating(experience?e:0,flavor,reduced):null;
       return {position:v.position,yaw:v.yaw,walking:v.walking,phase:v.phase,action:v.action,floor:v.floor,bought:v.bought,
         iceCream,carrying:v.bought&&!experience&&!flavor,reaction:{headPitch:experience&&s.kind==='food'?.23+(!reduced?Math.sin(e*4)*.06:0):v.phase==='inspect'?-.12:0,
           paw:!reduced&&(v.phase==='checkout'||experience&&s.kind==='arcade')?Math.max(0,Math.sin(e*3))*.55:0,

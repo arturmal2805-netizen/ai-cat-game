@@ -14,5 +14,5 @@ export const mallIceFlavor=key=>MALL_ICE_FLAVORS.find(f=>f.key===key);
 export function mallIceEating(elapsed,key,reduced=false){
   const flavor=mallIceFlavor(key);if(!flavor)return null;
   const progress=Math.min(1,Math.max(0,elapsed/10.5)),cycle=elapsed*(flavor.reaction==='cool'?3.6:flavor.reaction==='savour'?2.8:4.2),lick=reduced?0:Math.max(0,Math.sin(cycle))**4;
-  return {flavor:key,progress,lick,reaction:{headPitch:.12+lick*.12,headRoll:reduced?0:flavor.reaction==='cool'?Math.sin(elapsed*9)*.055*Math.exp(-Math.max(0,elapsed-2)*2):Math.sin(elapsed*1.7)*.055,paw:reduced?0:.48+lick*.18,earRelax:reduced?0:-.08,surprise:reduced?0:flavor.reaction==='wow'?Math.max(0,1-elapsed/2)*.5:0,tailSway:reduced?0:Math.sin(elapsed*2)*.12}};
+  return {flavor:key,progress,lick,reaction:{headPitch:.22+lick*.12,headRoll:reduced?0:flavor.reaction==='cool'?Math.sin(elapsed*9)*.055*Math.exp(-Math.max(0,elapsed-2)*2):Math.sin(elapsed*1.7)*.055,paw:reduced?0:.48+lick*.18,earRelax:reduced?0:-.08,surprise:reduced?0:flavor.reaction==='wow'?Math.max(0,1-elapsed/2)*.5:0,tailSway:reduced?0:Math.sin(elapsed*2)*.12}};
 }

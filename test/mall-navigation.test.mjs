@@ -5,6 +5,7 @@ import {mallPath,mallWalkable,mallNavigationSteps,mallAccessibleService,mallSegm
 import {MALL,MALL_STORES,mallServiceFrames} from '../public/mall-data.js';
 import {runSceneSteps} from '../public/scene-tasks.js';
 import {createMallRuntime,mallLanding} from '../public/mall-runtime.js';
+import {buyMallProduct,useMallProduct,normalizeMallProfile} from '../public/mall-system.js';
 import {newGame} from '../public/economy.js';
 import {ensureJobCity} from '../public/jobcity-system.js';
 const mall=createMallModel({includeGarden:false});
@@ -34,4 +35,19 @@ test('all destinations complete with furniture navigation enabled; food/cinema s
     for(let t=0;t<500&&r.has('chichi');t+=1/30){r.step(1/30,t);const v=r.get('chichi');if(v?.phase==='experience'){seen=true;const frames=mallServiceFrames(s,v.order,.75);assert.ok(Math.hypot(v.position.x-frames.seat.x,v.position.y-frames.seat.y,v.position.z-frames.seat.z)<.001,s.id);}}
     assert.ok(seen,s.id+' activity');assert.equal(r.has('chichi'),false,s.id+' return');
   }
+});
+
+test('paid diners reload inside actual chair bounds and leave without a stuck path or another meal',()=>{
+ for(const floor of new Set(MALL_STORES.filter(s=>s.kind==='food').map(s=>s.floor)))runSceneSteps(mallNavigationSteps(mall.userData.obstacles.get(floor),.571));
+ for(const store of MALL_STORES.filter(s=>s.kind==='food'))for(const used of [false,true]){
+  let game=newGame();game.unlocked.push('autumn','jobcity');game=ensureJobCity(game);game.jobCity.profiles.chichi.coins=10000;let payments=0,uses=0;
+  const options={getGame:()=>game,onGoal:(id,goal)=>{game.jobCity.profiles[id].mall=normalizeMallProfile(game.jobCity.profiles[id].mall);game.jobCity.profiles[id].mall.goal=goal;},onPurchase:(id,p,r)=>{game=buyMallProduct(game,id,p,r);payments++;return true;},onUse:(id,p)=>{game=useMallProduct(game,id,p);uses++;return true;},serviceFrames:(s,n,r)=>mallAccessibleService(s,n,r,mall.userData.obstacles.get(s.floor)),route:(f,a,b,r,dynamic)=>mallPath(f,a,b,r,mall.userData.obstacles.get(f),dynamic)};
+  const r=createMallRuntime(options);r.start('chichi',store.id,{x:0,y:.35,z:110},{radius:.571});
+  for(let t=0;t<600&&r.get('chichi')?.phase!=='experience';t+=1/30)r.step(1/30,t);
+  assert.equal(r.get('chichi')?.phase,'experience',store.id);if(used)r.step(1/30,700);
+  const goal=structuredClone(game.jobCity.profiles.chichi.mall.goal),position={...r.get('chichi').position},coins=game.jobCity.profiles.chichi.coins;
+  const again=createMallRuntime(options);assert.ok(again.start('chichi',store.id,position,{radius:.571,resume:goal}));assert.equal(again.get('chichi').phase,used?'seat-stand':'experience',store.id);
+  for(let t=0;t<600&&again.has('chichi');t+=1/30)again.step(1/30,t);
+  assert.equal(again.has('chichi'),false,store.id+' return '+JSON.stringify(again.get('chichi')));assert.equal(payments,1);assert.equal(uses,1);assert.equal(game.jobCity.profiles.chichi.coins,coins);
+ }
 });

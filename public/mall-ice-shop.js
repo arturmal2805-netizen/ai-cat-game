@@ -67,7 +67,7 @@ export function* mallIceShopSteps(parent,ceiling,motion,store,placement,kit,f){
       labelText(parent,`${flavor.name} · ${flavor.price}`,px,3.0,z+1.57,1.5,.20);
       const nozzle=disk(parent,steel,px,2.27,z+1.63,.13,.27);tube(parent,[[px,2.45,z+1.65],[px,2.81,z+1.69],[px,2.88,z+1.85]],.045,steel);orb(parent,m,px,2.88,z+1.87,.08);
       soft(parent,steel,px,1.48,z+1.35,1.65,.10,1.0);for(let j=0;j<9;j++)cube(parent,dark,px-.7+j*.175,1.54,z+1.35,.065,.025,.82);
-      const cone=mallIceServing(flavor.key);cone.position.set(px,1.55,z+1.40);cone.scale.setScalar(.55);parent.add(cone);outlets.push({x:px,y:1.93,z:z+1.63});
+      const cone=mallIceServing(flavor.key);cone.position.set(px,1.55,z+1.40);cone.scale.setScalar(.55);parent.add(cone);disk(parent,steel,px,1.57,z+1.40,.16,.035);disk(parent,steel,px,1.62,z+1.40,.025,.10);const stand=mesh(parent,new T.TorusGeometry(.075,.012,8,24),steel,px,1.67,z+1.40);stand.rotation.x=Math.PI/2;outlets.push({x:px,y:1.93,z:z+1.63});
     }
     for(let i=0;i<18;i++)for(let row=0;row<3;row++)cube(parent,dark,x-2.9+i*.34,.32+row*.09,z+1.43,.15,.025,.035);
     for(const side of [-1,1])disk(parent,dark,x+side*2.94,1.15,z+1.47,.035,.03).rotation.x=Math.PI/2;
@@ -91,7 +91,7 @@ export function* mallIceShopSteps(parent,ceiling,motion,store,placement,kit,f){
   // Real retained dining seats, with different served examples on the tables.
   for(const side of [-1,1])for(const z of [.8,5.8]){
     const x=side*8;soft(parent,pearl,x,.95,z,2.4,.13,2.05);disk(parent,steel,x,.48,z,.065,.88);chair(parent,x,z+1.6,side<0?teal:berry,.65,Math.PI);
-    const cone=mallIceServing(side<0?'strawberry-cloud':'mango-sun');cone.position.set(x+.3,1.04,z);cone.scale.setScalar(.55);parent.add(cone);
+    const cone=mallIceServing(side<0?'strawberry-cloud':'mango-sun');cone.position.set(x+.3,1.04,z);cone.scale.setScalar(.55);parent.add(cone);disk(parent,steel,x+.3,1.06,z,.17,.03);disk(parent,steel,x+.3,1.12,z,.025,.12);const stand=mesh(parent,new T.TorusGeometry(.09,.012,8,24),steel,x+.3,1.20,z);stand.rotation.x=Math.PI/2;
   }
   for(const x of [-9,0,9]){cube(ceiling,pearl,x,7.7,0,5.7,.14,placement.d-1);tube(ceiling,[[x-2.6,7.55,back+.7],[x-2.6,7.55,placement.d/2-.7]],.028,mats.cyan);tube(ceiling,[[x+2.6,7.55,back+.7],[x+2.6,7.55,placement.d/2-.7]],.028,mats.pink);}
 }

@@ -32,7 +32,7 @@ test('every flavor reaches its real food seat and consumes exactly once, includi
   const r=make();assert.ok(r.start('chichi','mall-ice',{x:0,y:.35,z:110},{productId:id}));until(r,()=>r.get('chichi')?.phase===(checkpoint==='paid'?'joy':'experience'));
   if(checkpoint==='used')r.step(1/60,99);
   assert.equal(r.frame('chichi').iceCream.flavor,flavor.key);assert.equal(r.frame('chichi').carrying,false);
-  g=reload(g);const p=g.jobCity.profiles.chichi,goal=p.mall.goal,pos=r.safePosition('chichi'),balance=p.coins;const resumed=make();assert.ok(resumed.start('chichi','mall-ice',pos,{resume:goal}));until(resumed,()=>!resumed.has('chichi'));
+  g=reload(g);const p=g.jobCity.profiles.chichi,goal=p.mall.goal,pos=r.safePosition('chichi'),balance=p.coins;const resumed=make();assert.ok(resumed.start('chichi','mall-ice',pos,{resume:goal}));if(checkpoint==='used')assert.equal(resumed.frame('chichi').iceCream,null,'Reloading an eaten cone cannot create a fresh serving');until(resumed,()=>!resumed.has('chichi'));
   assert.equal(g.jobCity.profiles.chichi.coins,balance);assert.equal(payments,1);assert.equal(uses,1);assert.equal(g.jobCity.profiles.chichi.mall.used[id],1);validateMallEconomy(reload(g));
  }
  let g=seed();const id='mall-ice-cosmic-rainbow',r=createMallRuntime({getGame:()=>g,onPurchase:(c,p,t)=>{g=buyMallProduct(g,c,p,t,now);return true;}});r.start('chichi','mall-ice',{x:0,y:.35,z:110},{productId:id});until(r,()=>r.get('chichi')?.phase==='joy');r.cancel('chichi');assert.equal(r.frame('chichi').iceCream,null);assert.equal(g.jobCity.profiles.chichi.inventory[id],1);

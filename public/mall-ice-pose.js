@@ -11,6 +11,7 @@ export function applyMallIcePose(cat,reaction,reduced=false){
     const j=d.legJoints?.[i];if(j){j.knee.rotation.x=.7;j.ankle.rotation.x=.1;}
   }
   if(!lick)return;
+  d.head.rotation.y+=lick*.12;
   d.jaw.rotation.x+=lick*.055;d.jaw.position.y-=lick*.018;d.mouth.scale.y+=lick*.035;
   d.tongue.visible=true;d.tongue.position.z+=lick*.10;
 }
