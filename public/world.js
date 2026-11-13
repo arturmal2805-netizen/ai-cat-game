@@ -509,6 +509,8 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     submarine = null,
     mall = null,
     mallPreviousCamera = null,
+    mallWideClip = false,
+    mallFraming = null,
     disposed = false;
   const viewDistanceLimit=()=>viewingOverview?overviewDistanceLimit:
     Math.max(600,islandOverviewDistance(byBiome(focused)?.radius,camera.fov,camera.aspect));
@@ -3839,6 +3841,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     previousTime = now;
     const time = now / 1000;
     const cameraBlend = blendCamera(elapsed, reduced);
+    if(mallFraming&&mallFraming.aspect!==camera.aspect){mallFraming.aspect=camera.aspect;desiredFov=Math.max(40,Math.min(mallFraming.cap,Math.atan(mallFraming.half/camera.aspect)*360/Math.PI));}
     if(courtCamera?.zooEnclosure&&courtCamera.aspect!==camera.aspect){desiredDistance=zooEnclosureCameraView(courtObject(courtCamera.id),camera.fov,camera.aspect).distance;courtCamera.aspect=camera.aspect;}
     if (overviewElevation !== null) {
       elevation += (overviewElevation - elevation) * cameraBlend;
@@ -3863,6 +3866,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     if (faceCamera.enabled) faceCamera.facePoint(desiredLook);
     look.lerp(desiredLook, cameraBlend);
     distance += (desiredDistance - distance) * cameraBlend;
+    if(mallWideClip&&mall?.inspection){const near=mallWideClip==='all'?Math.max(.5,distance-80):Math.min(48,Math.max(.5,distance*.42));if(Math.abs(camera.near-near)>.01){camera.near=near;camera.updateProjectionMatrix();}}
     const neededFar=viewingOverview ? Math.max(4000,overviewDistanceLimit*2) :
       Math.ceil(islandCameraFar(distance,byBiome(focused)?.radius)/100)*100;
     if(neededFar>camera.far||neededFar<camera.far-199){
@@ -5717,7 +5721,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     }
     frameProfile?.section("chichi");
     faceCamera.update(elapsed, look);
-    submarine?.updateCamera(elapsed);
+    if(!mall?.inspection)submarine?.updateCamera(elapsed);
     camera.updateMatrixWorld();
     islands
       .get(HOUSING_ID)
@@ -5853,7 +5857,10 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
         );
       }
     frameProfile?.section("ambientAndBadges");
-    sun.position.set(look.x - 14, 35, look.z + 20);
+    const mallLighting=mall?.inspection,shadowRange=mallLighting?(mallWideClip==='all'?185:mallWideClip?75:22):17;
+    if(sun.shadow.camera.right!==shadowRange){Object.assign(sun.shadow.camera,{left:-shadowRange,right:shadowRange,top:shadowRange,bottom:-shadowRange});sun.shadow.camera.updateProjectionMatrix();}
+    if(mallLighting){const reach=mallWideClip==='all'?4:2;sun.position.set(look.x-14*reach,look.y+35*reach,look.z+20*reach);}
+    else sun.position.set(look.x - 14, 35, look.z + 20);
     sun.target.position.copy(look);
     sun.updateWorldMatrix(true, false);
     sun.target.updateWorldMatrix(true, false);
@@ -5947,26 +5954,33 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     }
     requestAnimationFrame(loop);
   }
-  mall=createMallWorld({scene,container,reduced,registerCat:model=>enableCatRenderBatch(model,poseAtlas),getGame:()=>game,getActors:()=>lifeActors,getFocused:()=>focused,getOverview:()=>viewingOverview,
+  mall=createMallWorld({scene,container,reduced,getCameraElevation:()=>elevation,registerCat:model=>enableCatRenderBatch(model,poseAtlas),getGame:()=>game,getActors:()=>lifeActors,getFocused:()=>focused,getOverview:()=>viewingOverview,
     prepare:(steps,signal)=>prepareSceneSteps(steps,{scheduler:scenePreparation,priority:'autumn',signal}),
     prepareModel:model=>shaderWarmup.prepare(model,{background:focused!=='autumn'}),
     canSimulate:()=>callbacks.canSimulateLeisure?.()!==false,
     blocked:id=>{const p=game.jobCity?.profiles[id],v=mall?.runtime.get(id),clock=game.jobCity&&cityClock(game.jobCity);return draggingCat?.catId===id||crew.workers.has(id)||p?.trip||!!(v?.ticket&&clock?.working&&p?.schedule?.job!=='rest')||(id==='chichi'&&!!submarine?.active);},
-    onCamera:(floor,entering)=>{
-      if(entering){mallPreviousCamera={look:desiredLook.clone(),distance:desiredDistance,azimuth,elevation,fov:desiredFov};if(focused!=='autumn')focus('autumn');exitCourt(false);faceCamera.setEnabled(false,look);viewingOverview=false;}
-      const b=byBiome('autumn');desiredLook.set(b.center[0],floor?mallFloor(floor).y+2:MALL.y+29,b.center[1]+MALL.z);
-      const halfHorizontal=floor?1.03:1.55;
-      desiredFov=Math.max(40,Math.min(135,Math.atan(halfHorizontal/camera.aspect)*360/Math.PI));
-      desiredDistance=floor?46:70;
-      azimuth=-.55;elevation=floor?.40:.14;overviewElevation=null;
+    onCamera:(floor,entering,zone=null)=>{
+      if(entering){mallPreviousCamera={look:desiredLook.clone(),distance:desiredDistance,azimuth,elevation,fov:desiredFov,near:camera.near};if(focused!=='autumn')focus('autumn');exitCourt(false);faceCamera.setEnabled(false,look);viewingOverview=false;}
+      const b=byBiome('autumn');desiredLook.set(b.center[0],floor?mallFloor(floor).y+2:MALL.y+27,b.center[1]+MALL.z);
+      const halfHorizontal=floor?1.7:1.55;
+      mallFraming={half:halfHorizontal,cap:floor?100:150,aspect:camera.aspect};
+      desiredFov=Math.max(40,Math.min(floor?100:150,Math.atan(halfHorizontal/camera.aspect)*360/Math.PI));
+      desiredDistance=floor?115:125;
+      if(floor&&(zone||camera.aspect<.8)){
+        const wing=zone||'west';desiredLook.x+=wing==='west'?-86.5:wing==='east'?86.5:0;desiredLook.z+=wing==='atrium'?15:13;
+        mallFraming.half=.95;
+        desiredDistance=wing==='atrium'?80:70;desiredFov=Math.max(40,Math.min(100,Math.atan(.95/camera.aspect)*360/Math.PI));
+      }
+      mallWideClip=floor?'floor':'all';camera.near=floor?Math.min(48,Math.max(.5,distance*.42)):Math.max(.5,distance-80);camera.updateProjectionMatrix();
+      azimuth=.06;elevation=floor?.65:.2;overviewElevation=null;
     },
-    onStoreCamera:s=>{desiredFov=40;const b=byBiome('autumn');desiredLook.set(b.center[0]+s.x,s.y+2,b.center[1]+s.z);desiredDistance=Math.max(26,8/(Math.tan(Math.PI/9)*camera.aspect));azimuth=Math.atan2(-Math.cos(s.angle),-Math.sin(s.angle))+.18;elevation=.4;},
-    onExit:restore=>{desiredFov=restore&&mallPreviousCamera?mallPreviousCamera.fov:40;if(restore&&mallPreviousCamera){desiredLook.copy(mallPreviousCamera.look);desiredDistance=mallPreviousCamera.distance;azimuth=mallPreviousCamera.azimuth;elevation=mallPreviousCamera.elevation;}mallPreviousCamera=null;},
+    onStoreCamera:(s,inside=false)=>{mallWideClip=false;const half=inside?.5:.7,offset=inside?-4:2,cap=inside?100:110;mallFraming={half,cap,aspect:camera.aspect};camera.near=.5;camera.updateProjectionMatrix();desiredFov=Math.max(40,Math.min(cap,Math.atan(half/camera.aspect)*360/Math.PI));const b=byBiome('autumn');desiredLook.set(b.center[0]+s.x+Math.sin(s.placement.yaw)*offset,s.y+(inside?2.2:3.2),b.center[1]+s.z+Math.cos(s.placement.yaw)*offset);desiredDistance=inside?14:36;azimuth=s.placement.yaw+.06;elevation=inside?.025:.055;},
+    onExit:restore=>{mallWideClip=false;mallFraming=null;camera.near=mallPreviousCamera?.near??.5;camera.updateProjectionMatrix();desiredFov=restore&&mallPreviousCamera?mallPreviousCamera.fov:40;if(restore&&mallPreviousCamera){desiredLook.copy(mallPreviousCamera.look);desiredDistance=mallPreviousCamera.distance;azimuth=mallPreviousCamera.azimuth;elevation=mallPreviousCamera.elevation;}mallPreviousCamera=null;},
     onStore:id=>callbacks.onSelectMallStore?.(id),onError:message=>callbacks.onReaction?.(message),
     onPurchase:(...args)=>callbacks.onMallPurchase?.(...args),onUse:(...args)=>callbacks.onMallUse?.(...args),onGoal:(...args)=>callbacks.onMallGoal?.(...args),
     onComplete:(id,visit)=>{if(visit.ticket)finishLeisure(id,{completed:true});else {const n=npcs.get(id);if(n)n.manualUntil=0;}},
   });
-  submarine=createSubmarineRuntime({scene,container,canvas:renderer.domElement,camera,look,actor:chichiCarrier,getModel:()=>cat,getIsland:()=>islands.get('autumn'),getGame:()=>game,getFocused:()=>focused,canPilot:()=>callbacks.canDragCat?.('chichi')!==false,cancelHero:()=>{cancelHeroActivity();heroGather=null;jobs.cancel('chichi');crew.cancel('chichi');leisure.cancel('chichi');spa.cancel('chichi');chill.cancel('chichi');court.cancel('chichi');faceCamera.setEnabled(false,look);},approachDock:point=>{heroGather=gatherTrip(chichiCarrier.position,{x:point.x,y:point.y,z:point.z},performance.now());return true;},focus});
+  submarine=createSubmarineRuntime({scene,container,canvas:renderer.domElement,camera,look,actor:chichiCarrier,getModel:()=>cat,getIsland:()=>islands.get('autumn'),getGame:()=>game,getFocused:()=>focused,canPilot:()=>callbacks.canDragCat?.('chichi')!==false&&!mall?.inspection,cancelHero:()=>{cancelHeroActivity();heroGather=null;jobs.cancel('chichi');crew.cancel('chichi');leisure.cancel('chichi');spa.cancel('chichi');chill.cancel('chichi');court.cancel('chichi');faceCamera.setEnabled(false,look);},approachDock:point=>{heroGather=gatherTrip(chichiCarrier.position,{x:point.x,y:point.y,z:point.z},performance.now());return true;},focus});
   if(initialGame.mosasaurSubmarine?.active&&game.unlocked.includes('autumn'))focus('autumn',false,true);
   requestAnimationFrame(loop);
   for (const mood of moodNames) {

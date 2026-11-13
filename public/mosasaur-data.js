@@ -1,3 +1,4 @@
+import {mallFoundationBedY} from './mall-layout.js';
 import { LEGACY_SEA_DEPTH, LAGOON_SURFACE_Y } from "./water-depths.js";
 export const MOSA_OLD_RADIUS = 11.65 * Math.sqrt(6);
 // The master ocean first grew five times in each horizontal dimension. The
@@ -71,7 +72,7 @@ export function mosaNaturalBedY(x,z) {
 export function mosaBedY(x,z){
  const natural=mosaNaturalBedY(x,z);let y=natural;
  for(const c of MOSA_CAVE_LAYOUT){const edge=Math.min(c.radius+.8-Math.abs(x-c.x),z-(c.z-c.depth),c.z+2-z);if(edge<=0)continue;const floor=mosaNaturalBedY(c.x,c.z)+.4,fade=Math.min(1,edge/1.2);y=Math.min(y,y+(floor-y)*fade);}
- return y;
+ return mallFoundationBedY(x,z,y);
 }
 export function mosaZoneContains(x,z,p){const dx=x-p.x,dz=z-p.z,c=Math.cos(p.yaw||0),s=Math.sin(p.yaw||0);return Math.abs(dx*c-dz*s)<=p.w/2 && Math.abs(dx*s+dz*c)<=p.d/2;}
 export function mosaDryPoint(x, z, margin = 1.3, zones=[]) {

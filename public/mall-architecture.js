@@ -5,6 +5,9 @@ function floorSlab(kit,ground){
   kit.floorSlabs||=new Map();if(kit.floorSlabs.has(ground))return kit.floorSlabs.get(ground);
   const points=ground?mallFloorOutline():mallUpperFloorOutline(),shape=new T.Shape();
   points.forEach((p,i)=>i?shape.lineTo(p.x,-p.z):shape.moveTo(p.x,-p.z));shape.closePath();
+  // An actual shaft aperture: the cabin crosses all seven storeys without
+  // intersecting fixed floor slabs. Ordinary routes stay outside this hole.
+  const shaft=new T.Path();shaft.absarc(MALL_LAYOUT.lift.x,-MALL_LAYOUT.lift.z,MALL_LAYOUT.lift.radius,0,Math.PI*2,false);shape.holes.push(shaft);
   const geometry=new T.ExtrudeGeometry(shape,{depth:.48,bevelEnabled:false,curveSegments:96});
   geometry.rotateX(-Math.PI/2);geometry.translate(0,-.48,0);geometry.computeBoundingBox();geometry.computeBoundingSphere();geometry.userData.sharedScenery=true;
   kit.floorSlabs.set(ground,geometry);return geometry;
@@ -17,6 +20,18 @@ function glassRibbon(points,height,closed=true,opening=()=>false){
     if(i<(closed?points.length:points.length-1)){const next=points[(i+1)%points.length],k=i*2;if(opening({x:(v.x+next.x)/2,z:(v.z+next.z)/2}))cuts.push({v,next,distance});else index.push(k,k+1,k+2,k+1,k+3,k+2);}
   }
   for(const {v,next,distance}of cuts){const k=p.length/3;p.push(v.x,7,v.z,v.x,height,v.z,next.x,7,next.z,next.x,height,next.z);const end=distance+Math.hypot(next.x-v.x,next.z-v.z);uv.push(distance*.08,7/height,distance*.08,1,end*.08,7/height,end*.08,1);index.push(k,k+1,k+2,k+1,k+3,k+2);}
+  const geometry=new T.BufferGeometry();geometry.setAttribute('position',new T.Float32BufferAttribute(p,3));geometry.setAttribute('uv',new T.Float32BufferAttribute(uv,2));geometry.setIndex(index);geometry.computeVertexNormals();return geometry;
+}
+function balconyFascia(points,closed){
+  // A continuous rolled nosing/soffit with proper section normals, rather
+  // than a flat polygon strip. It stays INSIDE the measured floor envelope.
+  const section=[[0,.02],[-.035,-.08],[-.12,-.2],[-.28,-.43],[-.28,-.6],[-.16,-.70],[0,-.72]],p=[],uv=[],index=[];let distance=0;
+  const count=closed?points.length+1:points.length;
+  for(let i=0;i<count;i++){
+    const v=points[i%points.length],a=points[Math.max(0,i-1)%points.length],b=points[Math.min(closed?i+1:points.length-1,i+1)%points.length];
+    const dx=b.x-a.x,dz=b.z-a.z,length=Math.hypot(dx,dz)||1;if(i)distance+=Math.hypot(v.x-a.x,v.z-a.z);
+    for(let j=0;j<section.length;j++){const [offset,y]=section[j];p.push(v.x+offset*dz/length,y,v.z-offset*dx/length);uv.push(distance*.18,j*.15);if(i<count-1&&j<section.length-1){const k=i*section.length+j;index.push(k,k+section.length,k+1,k+1,k+section.length,k+section.length+1);}}
+  }
   const geometry=new T.BufferGeometry();geometry.setAttribute('position',new T.Float32BufferAttribute(p,3));geometry.setAttribute('uv',new T.Float32BufferAttribute(uv,2));geometry.setIndex(index);geometry.computeVertexNormals();return geometry;
 }
 function* movingEscalator(kit,side){
@@ -33,7 +48,7 @@ function* movingEscalator(kit,side){
   // A real upper landing crosses the open atrium edge into the gallery.
   // Both tread ends are supported; the view can still see through below it.
   cube(staticPart,mats.navy,side*25,rise-.18,z+run/2,17,.3,4.6);
-  cube(staticPart,mats.floor,side*25,rise-.025,z+run/2,16.8,.05,4.4);
+  cube(staticPart,mats.floor,side*25,rise-.025,z+run/2,16.8,.05,4.4).userData.mallWalkSurface=true;
   for(const edge of [-1,1]){
     cube(staticPart,kit.glassMat,side*25,rise+.7,z+run/2+edge*2.3,17,1.3,.055);
     cube(staticPart,mats.gold,side*25,rise+1.4,z+run/2+edge*2.3,17,.055,.055);
@@ -58,11 +73,15 @@ function* movingEscalator(kit,side){
 
 export function* mallArchitectureFloorSteps(floor,kit){
   const {mesh,cube,tube,ring,glassMat,mats}=kit,structure=new T.Group(),glass=new T.Group(),kinetics=new T.Group(),points=floor.id===1?mallFloorOutline():mallUpperFloorOutline().slice(0,513),closed=floor.id===1;
-  mesh(structure,floorSlab(kit,floor.id===1),mats.floor);
+  mesh(structure,floorSlab(kit,floor.id===1),mats.floor).userData.mallWalkSurface=true;
   // The broad, connected floor is real geometry, not scaled copies of the old
   // disks. The same contour defines its glass skin and structural edge bands.
   const edge=points.map(p=>[p.x,.10,p.z]);if(closed)edge.push(edge[0]);
+  // Solid layered balcony fascias give the glass retail wings the broad
+  // horizontal silhouette of the reference, without concealing shop windows.
+  const fascia=new T.Mesh(balconyFascia(points,closed),mats.navy);fascia.castShadow=true;fascia.receiveShadow=true;structure.add(fascia);
   tube(structure,edge,.16,mats.navy).userData.mallCollisionHandledByBoundary=true;tube(structure,edge.map(([x,y,z])=>[x,y-.40,z]),.055,mats.pink);
+  tube(structure,edge.map(([x,y,z])=>[x,y-.12,z]),.055,mats.gold);
   tube(structure,edge.map(([x,y,z])=>[x,MALL_LAYOUT.rise-.24,z]),.10,mats.gold);
   const doors=MALL_LAYOUT.pavilions.filter(p=>p.floor===floor.id).map(p=>{
     const a=p.connection,dx=p.x-a.x,dz=p.z-a.z,length=Math.hypot(dx,dz);let lo=0,hi=1;
@@ -81,8 +100,17 @@ export function* mallArchitectureFloorSteps(floor,kit){
     if((i&31)===0)yield;
     const p=points[i],a=points[(i-1+points.length)%points.length];travelled+=Math.hypot(p.x-a.x,p.z-a.z);
     if(travelled<nextPost||opening(p))continue;nextPost=travelled+5.2;
-    cube(structure,mats.navy,p.x,4,p.z,.19,8,.19);
+    // Retail fronts use actual shop bays below. A column every five metres
+    // cut straight through wordmarks and the middle of the main windows.
+    if(p.z>90&&Math.abs(p.x)>55)continue;
+    cube(structure,mats.navy,p.x,4,p.z,.11,8,.13);
     for(const y of [.28,7.8]){cube(structure,mats.navy,p.x,y,p.z,.36,.45,.36);cube(structure,mats.gold,p.x,y+.22,p.z,.37,.035,.37);}
+  }
+  for(const side of [-1,1])for(const px of [61.8,91.5,121.5]){
+    const x=side*px;let lo=MALL_LAYOUT.z,hi=150;
+    for(let i=0;i<32;i++){const z=(lo+hi)/2;if(mallBuildingFootprintDistance(x,z)<0)lo=z;else hi=z;}
+    cube(structure,mats.navy,x,4,lo,.12,8,.15);
+    for(const y of [.18,7.85])cube(structure,mats.gold,x,y,lo,.20,.04,.20);
   }
   if(floor.id>1){
     const points=mallAtriumRail();
@@ -90,17 +118,10 @@ export function* mallArchitectureFloorSteps(floor,kit){
     tube(structure,points.map(p=>[p.x,1.38,p.z]),.055,mats.gold);
     for(let i=0;i<points.length;i+=5){const p=points[i];cube(structure,mats.navy,p.x,.7,p.z,.07,1.3,.07);}
   }
-  // This dry bridge really joins the enlarged west gallery to the left lift.
-  cube(structure,mats.navy,MALL_LAYOUT.lift.x,-.18,104.5,19,.3,24);
-  cube(structure,mats.floor,MALL_LAYOUT.lift.x,-.025,104.5,18.7,.05,23.7);
-  for(const side of [-1,1]){
-    cube(glass,glassMat,MALL_LAYOUT.lift.x+side*9.5,.75,104.5,.06,1.5,24);
-    cube(structure,mats.gold,MALL_LAYOUT.lift.x+side*9.5,1.5,104.5,.06,.06,24);
-  }
   if(floor.id<7)for(const side of [-1,1]){
     yield;const escalator=yield* movingEscalator(kit,side);structure.add(escalator.staticPart);kinetics.add(escalator.moving);
   }
   const ghostMat=new T.MeshBasicMaterial({color:0x85d7e2,transparent:true,opacity:.025,depthWrite:false,side:T.DoubleSide});
-  const ghost=new T.Mesh(floorSlab(kit,floor.id===1),ghostMat);ghost.visible=false;
+  const ghost=new T.Mesh(floorSlab(kit,floor.id===1),ghostMat);ghost.visible=false;ghost.userData.mallGhost=true;
   return{structure,glass,kinetics,ghost};
 }

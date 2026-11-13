@@ -1,3 +1,4 @@
+import {MALL_REEF_OFFSETS} from './mall-reef-fit.js';
 import {MOSA_SEA,MOSA_REEF_TERRACES,MOSA_HORIZONTAL_EXPANSION,mosaNaturalBedY,mosaBedY,mosaTerraceY} from './mosasaur-data.js';
 const forms=[
  {volumes:[[-1,7,0,18,12,15],[-2,22,-1,12,23,11],[1,36,-1,10,5.5,9],[-7,25,5,10,6,9],[9,16,-5,7,18,7]],caves:[[6,17,10,7,5.3,12]]},
@@ -19,10 +20,11 @@ function rawField(x,y,z,kind){
  return d;
 }
 export function reefLocalField(kind,p,out){const d=rawField(p[0],p[1],p[2],kind);if(out){const e=.02;out[0]=(rawField(p[0]+e,p[1],p[2],kind)-rawField(p[0]-e,p[1],p[2],kind))/(2*e);out[1]=(rawField(p[0],p[1]+e,p[2],kind)-rawField(p[0],p[1]-e,p[2],kind))/(2*e);out[2]=(rawField(p[0],p[1],p[2]+e,kind)-rawField(p[0],p[1],p[2]-e,kind))/(2*e);}return d;}
-export const MOSA_REEF_INSTANCES=MOSA_REEF_TERRACES.map((c,i)=>{
+export const MOSA_REEF_AUTHORED_INSTANCES=MOSA_REEF_TERRACES.map((c,i)=>{
  let base=mosaNaturalBedY(c.x,c.z);for(let j=0;j<12;j++)base=Math.min(base,mosaNaturalBedY(c.x+Math.cos(j*Math.PI/6)*c.radius*1.9,c.z+Math.sin(j*Math.PI/6)*c.radius*1.9));base-=2;
  const depth=[7,28,53,17,8,43,66,26,9,54,34,23][i],radius=c.radius*[1.42,1.18,1.54,1.3,1.43,1.28,1.46,1.39,1.37,1.44,1.47,1.32][i],top=MOSA_SEA.surfaceY-depth;return {...c,depth,radius,kind:i%3,base,top,scaleXZ:radius/10,scaleY:(top-base)/40,yaw:Math.atan2(-c.x,-c.z)};
 });
+export const MOSA_REEF_INSTANCES=MOSA_REEF_AUTHORED_INSTANCES.map((c,i)=>{const f=MALL_REEF_OFFSETS[i];return f?{...c,x:c.x+f.dx,z:c.z+f.dz}:c;});
 export function reefSolidDistance(c,x,y,z){const dx=x-c.x,dz=z-c.z,cs=Math.cos(c.yaw),sn=Math.sin(c.yaw);return rawField((dx*cs-dz*sn)/c.scaleXZ,(y-c.base)/c.scaleY,(dx*sn+dz*cs)/c.scaleXZ,c.kind)*Math.min(c.scaleXZ,c.scaleY);}
 export function mosaReefDistance(x,y,z){let d=Infinity;for(const c of MOSA_REEF_INSTANCES){const bx=Math.max(0,Math.abs(x-c.x)-c.radius*2.2),bz=Math.max(0,Math.abs(z-c.z)-c.radius*2.2),by=Math.max(0,c.base-c.scaleY*6-y,y-c.top-c.scaleY*7),bound=Math.hypot(bx,by,bz);d=Math.min(d,bound>4?bound:reefSolidDistance(c,x,y,z));}return d;}
 export function mosaReefClearance(x,y,z){const d=mosaReefDistance(x,y,z);if(d>=4)return d;const e=.05,gx=(mosaReefDistance(x+e,y,z)-mosaReefDistance(x-e,y,z))/(2*e),gy=(mosaReefDistance(x,y+e,z)-mosaReefDistance(x,y-e,z))/(2*e),gz=(mosaReefDistance(x,y,z+e)-mosaReefDistance(x,y,z-e))/(2*e);return d/Math.max(.15,Math.hypot(gx,gy,gz))*.8;}
@@ -36,11 +38,17 @@ export function reefWallSite(c,angle,level){
  // Roots follow the visible union of neighbouring cliffs AND the real bed;
  // anchoring only to one overlapping template can bury plants in its neighbour.
  const solid=(x,y,z)=>Math.min(mosaReefDistance(x,y,z),y-mosaBedY(x,z));
- let r=c.radius*2.4,open=false;for(let i=0;i<240&&r>0;i++){
+ let r=c.radius*2.4,previous=r,open=false;for(let i=0;i<240&&r>0;i++){
   const x=c.x+dx*r,z=c.z+dz*r,d=solid(x,y,z);
   if(!open){if(d>.04)open=true;else{r-=.5;continue;}}
-  if(d<.02){const e=.04,nx=solid(x+e,y,z)-solid(x-e,y,z),ny=solid(x,y+e,z)-solid(x,y-e,z),nz=solid(x,y,z+e)-solid(x,y,z-e),length=Math.hypot(nx,ny,nz)||1;return {x,y,z,nx:nx/length,ny:ny/length,nz:nz/length};}
-  r-=Math.min(2,Math.max(.02,d*.45));
+  if(d<.02){
+   // Excavated shoulders can be steeper than a signed-distance step assumes.
+   // Refine the actual outside/inside crossing instead of anchoring a coral
+   // below the visible bed when the march overshoots that steep slope.
+   let lo=r,hi=previous;for(let j=0;j<20;j++){const mid=(lo+hi)/2;if(solid(c.x+dx*mid,y,c.z+dz*mid)>.01)hi=mid;else lo=mid;}
+   const x=c.x+dx*(lo+hi)/2,z=c.z+dz*(lo+hi)/2,e=.04,nx=solid(x+e,y,z)-solid(x-e,y,z),ny=solid(x,y+e,z)-solid(x,y-e,z),nz=solid(x,y,z+e)-solid(x,y,z-e),length=Math.hypot(nx,ny,nz)||1;return {x,y,z,nx:nx/length,ny:ny/length,nz:nz/length};
+  }
+  previous=r;r-=Math.min(2,Math.max(.02,d*.45));
  }return null;
 }
 export const MOSA_OPTICAL_GRID_SIZE=128,MOSA_OPTICAL_GRID_EXTENT=116*MOSA_HORIZONTAL_EXPANSION;

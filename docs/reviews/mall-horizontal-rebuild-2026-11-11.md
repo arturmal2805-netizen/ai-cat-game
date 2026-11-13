@@ -1,5 +1,9 @@
 # Horizontal rebuild — active implementation
 
+Historical authoring checkpoints below. The later integrated implementation
+and real-store revision are recorded in
+[`mall-native-rebuild-2026-11-13.md`](mall-native-rebuild-2026-11-13.md).
+
 User source: `docs/specifications/underwater-cat-mall-rebuild-2026-11-11.md`.
 The tower checkpoints are preserved at 6800da2 and 2fd8112; neither is published.
 The new reference supersedes their architecture, not the tested private-wallet,

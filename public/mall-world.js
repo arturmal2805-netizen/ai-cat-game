@@ -1,4 +1,4 @@
-import {mallPath,mallNavigationSteps,mallNavigationReady,mallAccessibleService} from './mall-navigation.js';
+import {mallPath,mallNavigationSteps,mallNavigationReady,mallAccessibleService,mallSegmentClear} from './mall-navigation.js';
 import {catNavigationRadius} from './cat-navigation-size.js';
 import {pauseHiddenMatrixUpdates} from './scene-visibility.js';
 import {prepareMallArt} from './mall-art.js';
@@ -14,21 +14,25 @@ import {catAppearance} from './cat-breeds.js';
 import {NEIGHBORS,byBiome} from './game-data.js';
 import {cacheSceneMatrices} from './matrix-cache.js';
 
-export function createMallWorld({scene,container,getGame,getActors,getFocused,getOverview,prepare,prepareModel,registerCat=()=>{},onCamera,onStoreCamera,onExit,onStore,onPurchase,onUse,onGoal,onComplete,onError=()=>{},canSimulate=()=>true,blocked=()=>false,reduced=false}={}){
+export function createMallWorld({scene,container,getGame,getActors,getFocused,getOverview,getCameraElevation=()=>0,prepare,prepareModel,registerCat=()=>{},onCamera,onStoreCamera,onExit,onStore,onPurchase,onUse,onGoal,onComplete,onError=()=>{},canSimulate=()=>true,blocked=()=>false,reduced=false}={}){
   const centre=byBiome('autumn').center,abort=new AbortController(),staff=[],props=new Map(),personal=new Map(),worn=new Map(),navigationPending=new Map();
   let root=null,pending=null,disposed=false,inspection=false,selected=null,lastResume=-1;
-  const access=document.createElement('button');access.className='mall-access';access.textContent='🛍 Підводний ТРЦ';access.hidden=true;container.append(access);
+  const access=document.createElement('button');access.className='mall-access';access.textContent='🛍 ТРЦ';access.title='Підводний Cat Mall';access.setAttribute('aria-label','Відкрити підводний ТРЦ');access.hidden=true;(container.querySelector('.map-controls')||container).append(access);
   const panel=document.createElement('nav');panel.className='mall-floors';panel.hidden=true;panel.setAttribute('aria-label','Поверхи підводного ТРЦ');container.append(panel);
   const shopOpen=document.createElement('button');shopOpen.className='mall-shop-open';shopOpen.hidden=true;container.append(shopOpen);
+  const storeView=document.createElement('button');storeView.className='mall-store-view';storeView.hidden=true;container.append(storeView);
   const buttons=new Map();
   for(const f of [...MALL_FLOORS].reverse()){
     const b=document.createElement('button');b.textContent=`F${f.id}`;b.title=f.name;b.setAttribute('aria-label',`F${f.id} — ${f.name}`);b.onclick=()=>inspect(f.id);buttons.set(f.id,b);panel.append(b);
   }
   for(const [title,callback]of [['ALL',()=>inspect(null)],['EXIT',()=>exit()]]){const b=document.createElement('button');b.textContent=title;b.onclick=callback;panel.append(b);}
+  const wingControls=document.createElement('div');wingControls.className='mall-wing-controls';wingControls.hidden=true;
+  for(const [symbol,zone,title]of [['◀ Ліве','west','Ліве крило'],['◎ Атріум','atrium','Центральний атріум'],['Праве ▶','east','Праве крило']]){const b=document.createElement('button');b.textContent=symbol;b.title=title;b.setAttribute('aria-label',title);b.onclick=()=>inspect(selected||1,zone);wingControls.append(b);}container.append(wingControls);
   const runtime=createMallRuntime({getGame,onPurchase,onUse,onGoal,onComplete,
     onRouteBlocked:v=>onError("Не знайшов вільний прохід у "+mallStore(v.storeId).name+". Покупка й інвентар збережені."),
     serviceFrames:(s,slot,radius)=>mallAccessibleService(s,slot,radius,root.userData.obstacles.get(s.floor)),
-    route:(floor,from,to,radius)=>root?mallPath(floor,from,to,radius,root.userData.obstacles.get(floor)):null,
+    route:(floor,from,to,radius,dynamic)=>root?mallPath(floor,from,to,radius,root.userData.obstacles.get(floor),dynamic):null,
+    canWalkSegment:(floor,from,to,radius)=>!!root&&mallSegmentClear(from,to,radius,root.userData.obstacles.get(floor)),
     vendorReady:v=>{const employee=staff.find(e=>e.floor===v.floor),target=mallServiceFrames(mallStore(v.storeId)).vendor;return !!employee&&employee.storeId===v.storeId&&employee.carrier.position.distanceToSquared(world(target))<.03;},
   });
   const sharedGeo=new THREE.BoxGeometry(1,1,1),bagMaterial=new THREE.MeshStandardMaterial({color:0xc86abb,roughness:.55}),trimMaterial=new THREE.MeshBasicMaterial({color:0xffdb99});
@@ -47,8 +51,12 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
       try{
         await Promise.all([prepareMosaWaterReflection(),prepareMosaRockSurfaces(),prepareMosaReefs(),prepareMallArt()]);
         model=await prepare(mallModelSteps(),abort.signal);
+        await prepare(model.userData.backgroundSteps(),abort.signal);
+        for(const cat of model.userData.ownedCats||[])if(cat.userData.mallBackground)registerCat(cat);
         model.position.set(centre[0],0,centre[1]);model.userData.biomeId='autumn';
-        await prepareModel(model);
+        const ghosts=[...model.userData.floors.values()].map(f=>f.userData.ghost).filter(Boolean);
+        for(const ghost of ghosts)ghost.visible=true;
+        try{await prepareModel(model);}finally{for(const ghost of ghosts)ghost.visible=false;model.userData.focusFloor(null);}
         if(disposed){disposeModel(model);return null;}
         pauseHiddenMatrixUpdates(model);for(const f of model.userData.floors.values())pauseHiddenMatrixUpdates(f);cacheSceneMatrices(model);scene.add(model);root=model;
         // Original native rigs, one roaming cashier per floor, prepared in
@@ -69,9 +77,9 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
     })();
     return pending;
   }
-  async function inspect(floor=null){
+  async function inspect(floor=null,zone=null){
     const model=await ensure();if(!model||disposed)return false;
-    shopOpen.hidden=true;const entering=!inspection;onCamera?.(floor,entering);
+    shopOpen.hidden=true;storeView.hidden=true;const entering=!inspection;onCamera?.(floor,entering,zone);wingControls.hidden=!floor;
     inspection=true;container.classList.add('mall-inspection');selected=floor;panel.hidden=false;
     model.userData.focusFloor(floor);
     for(const [id,b]of buttons)b.setAttribute('aria-pressed',String(id===floor));
@@ -80,21 +88,26 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
   function exit(restore=true){
     if(!inspection)return;
     inspection=false;container.classList.remove('mall-inspection');selected=null;
-    panel.hidden=true;shopOpen.hidden=true;root?.userData.focusFloor(null);onExit?.(restore);
+    panel.hidden=true;wingControls.hidden=true;shopOpen.hidden=true;storeView.hidden=true;root?.userData.focusFloor(null);onExit?.(restore);
   }
   async function inspectStore(id){
     const store=mallStore(id);if(!store||!await inspect(store.floor))return false;
+    wingControls.hidden=true;root.userData.focusStore(id);
     onStoreCamera?.(store);shopOpen.textContent=store.name+' · Каталог';shopOpen.hidden=false;
+    let inside=false;storeView.hidden=false;storeView.textContent='Оглянути зал';storeView.setAttribute('aria-pressed','false');
+    storeView.onclick=()=>{inside=!inside;storeView.textContent=inside?'До вітрини':'Оглянути зал';storeView.setAttribute('aria-pressed',String(inside));onStoreCamera?.(store,inside);};
     shopOpen.onclick=()=>onStore?.(id);return true;
   }
   access.onclick=()=>inspect();
   function disposeModel(model){
-    const geometries=new Set(),materials=new Set(),textures=new Set();
+    for(const cat of model.userData.ownedCats||[]){cat.removeFromParent();disposeCat(cat);}
+    const geometries=new Set(),materials=new Set(),textures=new Set(model.userData.ownedTextures||[]),borrowedTextures=model.userData.borrowedTextures||new Set();
+    if(model.userData.atlas)textures.add(model.userData.atlas);
     model.traverse(o=>{if(o.isMesh){geometries.add(o.geometry);for(const m of Array.isArray(o.material)?o.material:[o.material])materials.add(m);if(o.customDepthMaterial)materials.add(o.customDepthMaterial);if(o.isInstancedMesh)o.dispose();}});
     const borrowed=model.userData.borrowed||new Set();
     for(const g of geometries)if(!borrowed.has(g))g.dispose();
-    for(const m of materials){for(const value of Object.values(m))if(value?.isTexture)textures.add(value);m.dispose();}
-    for(const t of textures)if(!t.userData.sharedScenery)t.dispose();
+    for(const m of materials){for(const value of Object.values(m))if(value?.isTexture)textures.add(value);for(const uniform of Object.values(m.uniforms||{}))if(uniform.value?.isTexture)textures.add(uniform.value);m.dispose();}
+    for(const t of textures)if(!borrowedTextures.has(t)&&!t.userData.sharedScenery)t.dispose();
     model.removeFromParent();
   }
   return {
@@ -130,9 +143,15 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
     safePosition(id){const p=runtime.safePosition(id);return p?world(p):null;},
     pick(raycaster){
       if(!root?.visible)return false;
-      const hit=raycaster.intersectObject(root,true).find(h=>{let o=h.object;while(o){if(!o.visible)return false;o=o.parent;}return true;});
+      const hits=raycaster.intersectObject(root,true).filter(h=>{let o=h.object;while(o){if(!o.visible||o.userData.mallGhost)return false;o=o.parent;}return true;});
+      const hit=hits[0];
       if(!hit)return false;
       if(!inspection){void inspect();return true;}
+      for(const contact of hits){
+        const geometry=contact.object.geometry,ids=geometry?.getAttribute('aMallRoom');if(!ids||contact.faceIndex==null)continue;
+        const vertex=ids.isInstancedBufferAttribute?(contact.instanceId||0):geometry.index?geometry.index.getX(contact.faceIndex*3):contact.faceIndex*3,id=root.userData.roomStoreIds?.[ids.getX(vertex)],store=mallStore(id);
+        if(store&&(!selected||store.floor===selected)){void inspectStore(id);return true;}
+      }
       const p=local(hit.point),floor=selected||Math.max(1,Math.min(7,Math.floor((p.y-MALL.y)/MALL.rise)+1));
       const store=MALL_STORES.filter(s=>s.floor===floor).sort((a,b)=>Math.hypot(p.x-a.x,p.z-a.z)-Math.hypot(p.x-b.x,p.z-b.z))[0];
       if(store)void inspectStore(store.id);return true;
@@ -141,7 +160,7 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
       const game=getGame(),active=getFocused()==='autumn',visible=active||getOverview();
       access.hidden=!active||!game.unlocked.includes('autumn');
       if(active&&game.unlocked.includes('autumn')&&!root&&!pending)void ensure();
-      if(root){root.visible=visible;if(visible)root.userData.update(time,reduced);}
+      if(root){root.visible=visible;if(visible){if(inspection)root.userData.inspectionElevation(getCameraElevation());root.userData.update(time,reduced);}}
       runtime.step(dt,time,{allow:canSimulate(),blocked});
       if(canSimulate())for(const [id,p]of personal){
         if(blocked(id)){personal.delete(id);continue;}
@@ -195,6 +214,6 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
         if(prop){prop.visible=showBag;if(prop.visible){const scale=a.model.scale.x;prop.scale.setScalar(scale);prop.position.copy(a.position);prop.position.x+=Math.cos(a.carrier.rotation.y)*.72*scale;prop.position.z-=Math.sin(a.carrier.rotation.y)*.72*scale;prop.position.y+=.65*scale;prop.rotation.y=a.carrier.rotation.y;}}
       }
     },
-    dispose(){disposed=true;abort.abort();runtime.clear();personal.clear();navigationPending.clear();for(const g of worn.values()){g.removeFromParent();g.traverse(o=>{if(o.isMesh)o.geometry.dispose();});}worn.clear();access.remove();panel.remove();shopOpen.remove();if(root)disposeModel(root);root=null;for(const s of staff){s.carrier.removeFromParent();disposeCat(s.cat);}for(const p of props.values())p.removeFromParent();props.clear();sharedGeo.dispose();bagMaterial.dispose();trimMaterial.dispose();},
+    dispose(){disposed=true;abort.abort();runtime.clear();personal.clear();navigationPending.clear();for(const g of worn.values()){g.removeFromParent();g.traverse(o=>{if(o.isMesh)o.geometry.dispose();});}worn.clear();access.remove();panel.remove();wingControls.remove();shopOpen.remove();storeView.remove();if(root)disposeModel(root);root=null;for(const s of staff){s.carrier.removeFromParent();disposeCat(s.cat);}for(const p of props.values())p.removeFromParent();props.clear();sharedGeo.dispose();bagMaterial.dispose();trimMaterial.dispose();},
   };
 }

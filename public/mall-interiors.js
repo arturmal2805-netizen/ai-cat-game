@@ -21,12 +21,23 @@ export function mallFixtureLibrary(g,s,h){
     if(paints.has(key))return paints.get(key);
     const name=String(key).replace(/^(cloth|leather)-/,''),leather=key==='leather'||String(key).startsWith('leather-');
     const cloth=String(key).startsWith('cloth-')||['rose','fern','lilac'].includes(key);
-    const maps=getSurface(leather?'leather':cloth?'fabric':key==='oak'?'warm':'metal');
-    const material=new T.MeshStandardMaterial({color:colors[name]||name,roughness:cloth?.95:leather?.65:.53,metalness:key==='gold'?.78:key==='ink'?.42:.04,...maps,normalScale:new T.Vector2(leather?.14:.25,leather?.14:.25)});
+    const metal=['gold','ink'].includes(key),maps=leather?getSurface('leather'):cloth?getSurface('fabric'):key==='oak'?getSurface('warm'):metal?getSurface('metal'):{};
+    const relief=leather?.14:cloth?.18:metal?.045:.12;
+    const material=new T.MeshStandardMaterial({color:colors[name]||name,roughness:cloth?.95:leather?.65:key==='gold'?.3:.53,metalness:key==='gold'?.78:key==='ink'?.32:.025,...maps,normalScale:new T.Vector2(relief,relief)});
     paints.set(key,material);return material;
   };
-  const rounded=new RoundedBoxGeometry(1,1,1,2,.1);rounded.userData.sharedScenery=true;
-  const soft=(p,m,x,y,z,sx,sy,sz)=>mesh(p,rounded,m,x,y,z,sx,sy,sz);
+  const rounded=h.fittingGeometry??=new Map();
+  const soft=(p,m,x,y,z,sx,sy,sz)=>{
+    const key=[sx,sy,sz].join(':'),radius=Math.min(.12,sx*.12,sy*.12,sz*.12);let geometry=rounded.get(key);
+    if(!geometry){
+      geometry=new RoundedBoxGeometry(sx,sy,sz,2,radius);const uv=geometry.attributes.uv,position=geometry.attributes.position,normal=geometry.attributes.normal;
+      // Real metre-scale grain, including the bevels. Scaling a unit rounded
+      // cube stretched both its corners and one tiny texture over an entire wall.
+      for(let i=0;i<uv.count;i++){const x=Math.abs(normal.getX(i)),y=Math.abs(normal.getY(i)),z=Math.abs(normal.getZ(i));uv.setXY(i,(x>y&&x>z?position.getZ(i):position.getX(i))*.35,(y>x&&y>z?position.getZ(i):position.getY(i))*.35);}
+      geometry.userData.sharedScenery=true;rounded.set(key,geometry);
+    }
+    return mesh(p,geometry,m,x,y,z);
+  };
   function plinth(x,z,width=2){soft(g,paint('ivory'),x,.48,z,width,.8,1.15);cube(g,mats.gold,x,.1,z,width+.08,.035,1.2);}
   function bottle(p,x,y,z,m=paint('rose')){disk(p,m,x,y,z,.13,.34);disk(p,mats.gold,x,y+.2,z,.09,.08);orb(p,mats.white,x-.035,y+.03,z+.12,.025,.12,.01);}
   const bagShapes=new Map();
@@ -81,13 +92,17 @@ export function mallFixtureLibrary(g,s,h){
     for(const x of [-3,-1,1,3]){cube(g,mats.gold,x,1.02,-2.29,1.8,.04,.025);cube(g,mats.gold,x,1.75,-2.29,.5,.04,.025);}
     for(let j=0;j<8;j++)cube(g,paint(j%2?'ivory':'white'),-4+j*1.15,3.3,-4.26,1.1,1.8,.1);
     const hood=soft(g,paint('ink'),0,4.65,-3.25,5,.65,1.9);cube(g,mats.gold,0,4.28,-2.4,4.8,.05,.07);
-    for(const x of [-3.8,3.8]){disk(g,paint('ink'),x,2.12,-3,.64,.08);disk(g,paint('ivory'),x,2.4,-3,.53,.5);ring(g,x,2.68,-3,.55,mats.gold,.035);}
+    const quick=['mcd','kfc'].includes(s.key);
+    for(const x of [-3.8,3.8])if(quick){
+      cube(g,paint('ink'),x,2.14,-3,1.95,.12,1.4);for(let i=0;i<8;i++)cube(g,mats.gold,x-.82+i*.235,2.22,-3,.035,.04,1.25);
+      for(let i=0;i<3;i++)foodOnPlate(g,x-.55+i*.55,2.26,-3,'burger',.45);
+    }else{disk(g,paint('ink'),x,2.12,-3,.64,.08);disk(g,paint('ivory'),x,2.4,-3,.53,.5);ring(g,x,2.68,-3,.55,mats.gold,.035);}
     for(const x of [-3.8,3.8]){
       soft(g,paint('ink'),x,1.12,-2.29,1.62,1.08,.06);cube(g,glassMat,x,1.12,-2.25,1.38,.79,.025);cube(g,mats.gold,x,1.68,-2.20,1.1,.045,.04);
       for(let k=0;k<4;k++)disk(g,mats.gold,x-.55+k*.36,1.93,-2.18,.045,.04).rotation.x=Math.PI/2;
       for(let k=0;k<7;k++)cube(g,paint('ink'),x-.65+k*.22,.38,-2.25,.09,.14,.03);
       const handle=mesh(g,new T.TorusGeometry(.18,.035,6,18,Math.PI),mats.gold,x,2.4,-2.5);handle.rotation.y=Math.PI/2;
-      disk(g,mats.white,x,2.7,-3,.5,.04);orb(g,mats.gold,x,2.77,-3,.08,.05,.08);
+      if(!quick){disk(g,mats.white,x,2.7,-3,.5,.04);orb(g,mats.gold,x,2.77,-3,.08,.05,.08);}
     }
     tube(g,[[-3.6,2.1,-3.55],[-3.6,2.7,-3.55],[-3.2,2.9,-3.55],[-3,2.6,-3.55]],.04,mats.gold);
     for(const x of [-4,4]){soft(g,paint('ivory'),x,2.95,-3.6,1.5,1.55,.7);cube(g,mats.gold,x,2.98,-3.21,.05,1.2,.03);for(let k=0;k<6;k++)cube(g,paint('ink'),x-.5+k*.2,2.3,-3.21,.08,.12,.015);bottle(g,x+.42,3.8,-3.6,paint('fern'));}

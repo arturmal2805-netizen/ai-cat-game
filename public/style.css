@@ -3268,7 +3268,15 @@ button.cat-profile-card {
 
 @media(max-width:600px){
   .mall-inspection #bubble,.mall-inspection #mood-badge,.mall-inspection .orbit-hint{display:none}
-  .mall-floors{left:8px;right:8px;top:150px;display:grid;grid-template-columns:repeat(7,minmax(0,1fr)) 1.4fr 1.4fr;gap:2px;padding:4px}
-  .mall-floors button{width:auto;min-height:40px;padding:4px;font-size:11px}
-  .mall-shop-open{top:204px;right:12px;max-width:calc(100% - 24px)}
+  .mall-floors{left:auto;right:8px;top:145px;display:flex;flex-direction:column;gap:3px;padding:4px;max-height:calc(100% - 210px);overflow:auto}
+  .mall-floors button{width:42px;min-height:32px;padding:4px;font-size:11px}
+  .mall-shop-open{top:148px;right:62px;max-width:calc(100% - 84px)}
 }
+
+.map-controls .mall-access{position:static;inset:auto;z-index:auto;padding:10px 14px;font-size:inherit;box-shadow:none}
+.mall-wing-controls{position:absolute;z-index:13;top:85px;right:95px;display:flex;gap:4px}
+.mall-wing-controls[hidden]{display:none}
+.mall-store-view{position:absolute;z-index:12;bottom:105px;left:50%;transform:translateX(-50%);padding:10px 18px;border:1px solid #ffc78c88;border-radius:14px;background:#243f53ed;color:#fff0d2;cursor:pointer;font-size:13px}
+.mall-store-view[hidden]{display:none}
+.mall-wing-controls button{min-width:68px;min-height:40px;padding:7px 8px;font-size:12px;background:#153b52e8;border:1px solid #71e7ff77;color:#dff7ff;border-radius:11px}
+@media(max-width:600px){.mall-wing-controls{top:145px;right:62px}}

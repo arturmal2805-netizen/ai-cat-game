@@ -1,3 +1,4 @@
+import {mallPressureDistance,mallPressureContact} from './mall-pressure.js';
 import {submarineAirborne} from './submarine-controls.js';
 import {MOSA_SEA,mosaBedY} from './mosasaur-data.js';
 import {mosaTerrainObstacles} from './mosasaur-collision.js';
@@ -10,8 +11,22 @@ export const SUBMARINE_BOARDING_POINT=Object.freeze({x:0,y:.16,z:96});
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),wrap=a=>Math.atan2(Math.sin(a),Math.cos(a));
 const hullOffsets=[-1.9,0,1.9];
 function overlapsReef(s){return hullOffsets.some(offset=>mosaReefClearance(s.x+Math.sin(s.yaw)*offset,s.y,s.z+Math.cos(s.yaw)*offset)<1.25);}
+function overlapsMall(s,radius=1.25){return hullOffsets.some(offset=>mallPressureDistance(s.x+Math.sin(s.yaw)*offset,s.y,s.z+Math.cos(s.yaw)*offset)<radius);}
+function escapeChangedMall(raw){
+ if(!Number.isFinite(raw.x+raw.y+raw.z+raw.yaw)||!overlapsMall(raw))return raw;
+ // A once-valid saved pilot can be inside the newly built glass shell. Keep
+ // the pilot active and at the same depth; find nearby open water, never erase
+ // its save or silently turn it into an unpiloted docked boat.
+ for(let radius=2;radius<=190;radius+=2)for(let i=0;i<32;i++){
+  const a=i*Math.PI/16,p={...raw,x:raw.x+Math.sin(a)*radius,z:raw.z+Math.cos(a)*radius};
+  if(Math.hypot(p.x/(MOSA_SEA.rx-4),p.z/(MOSA_SEA.rz-4))>=1||p.y<=mosaBedY(p.x,p.z)+1.4||overlapsMall(p,1.5)||overlapsReef(p))continue;
+  return p;
+ }
+ return raw;
+}
 export function normalizeSubmarine(raw={}){
- const valid=Number.isFinite(raw.x+raw.y+raw.z+raw.yaw)&&Math.hypot(raw.x/(MOSA_SEA.rx-4),raw.z/(MOSA_SEA.rz-4))<1&&raw.y>mosaBedY(raw.x,raw.z)+1.1&&raw.y<60&&!overlapsReef(raw);
+ raw=escapeChangedMall(raw);
+ const valid=Number.isFinite(raw.x+raw.y+raw.z+raw.yaw)&&Math.hypot(raw.x/(MOSA_SEA.rx-4),raw.z/(MOSA_SEA.rz-4))<1&&raw.y>mosaBedY(raw.x,raw.z)+1.1&&raw.y<60&&!overlapsReef(raw)&&!overlapsMall(raw);
  return {...(valid?{x:raw.x,y:raw.y,z:raw.z,yaw:wrap(raw.yaw),...(Number.isFinite(raw.pitch)&&Math.abs(raw.pitch)<100000?{pitch:wrap(raw.pitch)}:{})}:SUBMARINE_DOCK),speed:0,vertical:0,turn:0,active:valid&&raw.active===true,mode:raw.mode==='cockpit'?'cockpit':'chase'};
 }
 export function submarineAtDock(s){return Math.hypot(s.x-SUBMARINE_DOCK.x,s.z-SUBMARINE_DOCK.z)<4&&Math.abs(s.y-SUBMARINE_DOCK.y)<2.5&&Math.abs(s.speed)<1.1;}
@@ -34,6 +49,11 @@ export function createSubmarinePhysics(raw,obstacles=mosaTerrainObstacles()){
    const p={x:state.x+Math.sin(state.yaw)*offset,y:state.y,z:state.z+Math.cos(state.yaw)*offset};
    for(const o of obstacles)if(pushCapsule(p,o,1.25)){state.x=p.x-Math.sin(state.yaw)*offset;state.y=p.y;state.z=p.z-Math.cos(state.yaw)*offset;hit=true;}
   }
+  for(let pass=0;pass<3;pass++)for(const offset of hullOffsets){
+   const contact=mallPressureContact(state.x+Math.sin(state.yaw)*offset,state.y,state.z+Math.cos(state.yaw)*offset);
+   if(!contact)continue;state.x+=contact.nx*(contact.depth+.005);state.y+=contact.ny*(contact.depth+.005);state.z+=contact.nz*(contact.depth+.005);if(contact.ny*state.vertical<0)state.vertical=0;hit=true;
+  }
+  if(previous&&hit&&hullOffsets.some(offset=>mallPressureContact(state.x+Math.sin(state.yaw)*offset,state.y,state.z+Math.cos(state.yaw)*offset,1.245))){state.x=previous.x;state.y=previous.y;state.z=previous.z;state.yaw=previous.yaw;state.speed=0;state.vertical=0;hit=true;}
   if(previous&&overlapsReef(state)){
    const candidate={x:state.x,y:state.y,z:state.z,yaw:state.yaw};state.x=previous.x;state.z=previous.z;state.yaw=previous.yaw;
    if(overlapsReef(state))state.y=previous.y;

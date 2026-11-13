@@ -53,7 +53,7 @@ async function localWorker() {
   // connection during long harvest probes (POST/PUT are not retried by that
   // proxy). Use the same real workerd/SQLite/asset router directly for this
   // audit; keep the production Worker and browser save client unmodified.
-  if(process.env.CHICHI_NATIVE_MAP_AUDIT||process.env.CHICHI_WATER_TEN_AUDIT||process.env.CHICHI_GATHER_AUDIT||process.env.CHICHI_ZOO_GUEST_AUDIT||process.env.CHICHI_ZOO_AUDIT||process.env.CHICHI_MAGIC_BED_AUDIT||process.env.CHICHI_MAGIC_FARM_AUDIT||process.env.CHICHI_FARM_WITHDRAWAL_AUDIT||process.env.CHICHI_OWNERSHIP_AUDIT){
+  if(process.env.CHICHI_NATIVE_MAP_AUDIT||process.env.CHICHI_GESTURE_ALL||process.env.CHICHI_WATER_TEN_AUDIT||process.env.CHICHI_GATHER_AUDIT||process.env.CHICHI_ZOO_GUEST_AUDIT||process.env.CHICHI_ZOO_AUDIT||process.env.CHICHI_MAGIC_BED_AUDIT||process.env.CHICHI_MAGIC_FARM_AUDIT||process.env.CHICHI_FARM_WITHDRAWAL_AUDIT||process.env.CHICHI_OWNERSHIP_AUDIT){
     const {Miniflare,Log,LogLevel,convertV4MiniflareOptions}=require(root+'/node_modules/miniflare');
     const mf=new Miniflare(convertV4MiniflareOptions({name:'chichi-farm-local',rootPath:temp,host:'127.0.0.1',port,modules:true,
       scriptPath:path.join(temp,'worker.mjs'),compatibilityDate:'2026-10-13',
@@ -254,7 +254,7 @@ async function localWorker() {
         g.catDestinations[c.id] = "homestead";
       }
     }
-    if (process.env.CHICHI_LIFE_STRESS || process.env.CHICHI_MAP_CHECK) {
+    if (process.env.CHICHI_LIFE_STRESS || process.env.CHICHI_MAP_CHECK || process.env.CHICHI_GESTURE_ALL) {
       const { ADOPTION_CATS } = await import(root + "/public/cat-breeds.js");
       const { ensureJobCity } = await import(
         root + "/public/jobcity-system.js"
@@ -406,7 +406,7 @@ async function localWorker() {
                   .replace("  aliases.delete(geometry);", "  (globalThis.__qaStaticIndices ||= new Map()).set(geometry, {native:qaOriginal, fast:index.slice(), current:true});\n  aliases.delete(geometry);"),
                 loader: "js",
               }));
-            if (process.env.CHICHI_NATIVE_MAP_AUDIT || process.env.CHICHI_PHONE_CAMERA_AUDIT)
+            if (process.env.CHICHI_NATIVE_MAP_AUDIT || process.env.CHICHI_GESTURE_ALL || process.env.CHICHI_PHONE_CAMERA_AUDIT)
               b.onLoad({ filter: /\/public\/jobcity-system\.js$/ }, () => ({
                 contents: readPublic("jobcity-system.js").replace(
                   "export function cityClock(state, now = Date.now()) {",

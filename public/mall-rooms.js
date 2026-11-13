@@ -1,6 +1,8 @@
 import * as T from 'three';
 import {mallFixtureLibrary} from './mall-interiors.js';
 import {mallConveyorSteps} from './mall-conveyor.js';
+import {mallStorefrontSteps} from './mall-storefront.js';
+import {mallSignatureInteriorSteps} from './mall-signature-interiors.js';
 import {MALL_PRODUCTS,mallLabel,MALL_STORES} from './mall-data.js';
 
 // Full 28-metre retail rooms, with a real rear service zone, showcases, public
@@ -21,16 +23,16 @@ export function* mallRoomSteps(store,placement,kit){
   const floorGeometry=new T.BoxGeometry(w-.2,.05,d-.2),uv=floorGeometry.attributes.uv,position=floorGeometry.attributes.position;
   for(let i=0;i<uv.count;i++)uv.setXY(i,position.getX(i)*.35,position.getZ(i)*.35);
   const marble=new T.MeshStandardMaterial({color:0xf6efe3,roughness:.29,metalness:.12,...kit.getSurface('marble'),normalScale:new T.Vector2(.11,.11)});
-  mesh(physical,floorGeometry,marble,0,-.025,0);
+  mesh(physical,floorGeometry,marble,0,.035,0);
   for(const side of [-1,1]){
-    cube(physical,trim,side*(w/2-.75),.006,0,.035,.012,d-1.5);
-    cube(physical,trim,0,.006,side*(d/2-.75),w-1.5,.012,.035);
+    cube(physical,trim,side*(w/2-.75),.066,0,.035,.012,d-1.5);
+    cube(physical,trim,0,.066,side*(d/2-.75),w-1.5,.012,.035);
     cube(physical,mats.gold,side*(w/2-.45),7.48,0,.045,.06,d-.8);
   }
   // Cutaway inspection retains hanging fittings and the luminous wall coves;
   // only the actual opaque ceiling is lifted away.
   cube(physical,mats.gold,0,7.48,-front+.45,w-.8,.06,.045);
-  label(physical,4+MALL_STORES.findIndex(s=>s.id===store.id),0,5.95,-front+.32,w-4,1.0);
+  if(!['mcd','vuitton'].includes(store.key))label(physical,4+MALL_STORES.findIndex(s=>s.id===store.id),0,5.95,-front+.32,w-4,1.8);
 
   for(const side of [-1,1]){
     soft(physical,paint('ivory'),side*(w/2-.15),.52,0,.25,1,d-.6);
@@ -42,7 +44,7 @@ export function* mallRoomSteps(store,placement,kit){
     }
     cube(physical,glassMat,side*(w/4+2.6),3.7,front-.1,w/2-5.2,6.8,.055);
     cube(physical,mats.navy,side*5.1,3.7,front-.1,.22,7.4,.2);
-    plant(physical,side*(w/2-1.35),front+1.3,.85);
+    plant(physical,side*(w/2-1.35),front-3,.85);
   }
   if(['rest','social','spa'].includes(store.kind))cube(physical,glassMat,0,4,-front+.12,w-.5,6.7,.06);
   else{
@@ -54,11 +56,11 @@ export function* mallRoomSteps(store,placement,kit){
     }
     for(const x of [-11,-5.5,0,5.5,11])cube(physical,trim,x,3.7,-front+.29,.045,6.8,.035);
   }
-  if(store.kind==='fashion'){
+  if(store.kind==='fashion'&&store.key!=='vuitton'){
     const arch=[[-5.1,0,front+.2],[-5.1,5.1,front+.2],[-3.9,6.7,front+.2],[0,7.1,front+.2],[3.9,6.7,front+.2],[5.1,5.1,front+.2],[5.1,0,front+.2]];
     tube(physical,arch,.16,trim).userData.mallCollisionHandledByPosts=true;tube(physical,arch.map(([x,y,z])=>[x,y,z+.15]),.042,mats.gold).userData.mallCollisionHandledByPosts=true;
     for(const side of [-1,1]){soft(physical,paint('ivory'),side*(w/2-2),3.6,front-.18,3.3,7.2,.4);cube(physical,glassMat,side*(w/2-2),3.6,front+.05,2.75,6.2,.04);}
-  }else if(store.kind==='food'){
+  }else if(store.kind==='food'&&store.key!=='mcd'){
     const canopy=new T.Group();canopy.position.set(0,5.85,front+.7);physical.add(canopy);
     for(let i=0;i<24;i++){
       cube(canopy,i%2?mats.white:accent,-w/2+.6+i*(w-1.2)/23,.08,0,(w-1.2)/24,.12,1.7).rotation.x=-.14;
@@ -78,20 +80,33 @@ export function* mallRoomSteps(store,placement,kit){
   cube(physical,mats.navy,0,7.3,front-.1,w-.2,.18,.22);
   cube(physical,mats.gold,0,7.53,front-.1,w-.5,.055,.12);
   const sign=4+MALL_STORES.findIndex(s=>s.id===store.id);
-  label(physical,sign,0,6.65,front+.12,w-1,1.35);
-  label(physical,sign,0,6.65,front-.24,w-1,1.35,Math.PI);
+  const header=new T.Group();header.userData.mallCutaway=true;physical.add(header);
+  const fascia=paint(store.kind==='fashion'?store.key==='gucci'?'fern':store.key==='vuitton'?'leather':'ink':store.kind==='food'?color:'ink');
+  if(!['mcd','vuitton'].includes(store.key)){
+  soft(header,fascia,0,6.65,front+.22,w-.25,1.65,.32);
+  cube(header,mats.gold,0,5.81,front+.43,w-.7,.035,.035);
+  const shopSign=label(header,sign,0,6.65,front+.41,w-1,1.23);
+  if(shopSign.geometry.attributes.color){const c=shopSign.geometry.attributes.color;for(let i=0;i<c.count;i++)c.setXYZ(i,1,.97,.91);}
+  label(header,sign,0,6.65,front-.24,w-1,1.15,Math.PI);
+  }
+  if(['star','cafe','sky-cafe'].includes(store.key)){
+    for(const x of [-10.2,10.2]){const medallion=disk(header,paint('fern'),x,6.4,front+.68,1.0,.18);medallion.rotation.x=Math.PI/2;const rim=mesh(header,new T.TorusGeometry(.93,.045,8,40),mats.white,x,6.4,front+.79);kit.paw(header,x,6.3,front+.83,.7,mats.white);}
+  }else if(store.key==='kfc'){
+    for(const x of [-10.3,10.3]){mesh(header,new T.CylinderGeometry(.64,.46,1.3,24),mats.white,x,6.3,front+.82);cube(header,accent,x,6.3,front+1.37,1.08,.40,.025);}
+  }
+  yield* mallStorefrontSteps(physical,header,store,placement,h,f);
   // Real ceiling coves, warm pearl luminaires, metal louvers and layered soffits.
   soft(ceiling,paint('ivory'),0,7.95,0,w,.28,d);
   for(const side of [-1,1]){
     cube(ceiling,mats.gold,side*(w/2-.6),7.75,0,.07,.06,d-1);
     for(let i=0;i<16;i++)cube(ceiling,paint('oak'),side*(w/2-2),7.72,-front+1+i*(d-2)/15,2.7,.11,.075);
   }
-  for(const x of [-8,0,8])for(const z of [-6,2,8]){
+  if(!['mcd','vuitton'].includes(store.key))for(const x of [-8,0,8])for(const z of [-6,2,8]){
     disk(physical,mats.gold,x,7.65,z,.34,.06);
     tube(physical,[[x,7.6,z],[x,6.7,z]],.018,trim);
     orb(physical,mats.white,x,6.5,z,.25,.32,.25);
   }
-  if(store.kind!=='cinema'){
+  if(store.kind!=='cinema'&&store.key!=='mcd'){
     const width=store.kind==='food'?14:8;
     soft(physical,accent,0,.43,5.5,width,.8,1.4);
     cube(physical,mats.white,0,.88,5.5,width+.1,.1,1.55);
@@ -101,7 +116,9 @@ export function* mallRoomSteps(store,placement,kit){
     }
   }
   yield;
-  if(store.kind==='fashion'){
+  if(['mcd','vuitton'].includes(store.key)){
+    yield* mallSignatureInteriorSteps(physical,ceiling,store,placement,h,f);
+  }else if(store.kind==='fashion'){
     // Different boutique identities share genuine merchandise, not identical
     // coloured empty rooms. Glass cabinets flank a broad central route.
     for(const x of [-10,-5,0,5,10]){
@@ -156,7 +173,14 @@ export function* mallRoomSteps(store,placement,kit){
 
     for(const x of [-9.4,9.4]){
       soft(physical,paint('ivory'),x,1,-7,4.6,1.9,3.2);cube(physical,mats.white,x,2,-7,4.8,.13,3.35);
-      for(const z of [-7.7,-6.2])for(const dx of [-1.15,1.15]){disk(physical,paint('ink'),x+dx,2.13,z,.46,.07);disk(physical,paint('ivory'),x+dx,2.4,z,.38,.5);}
+      if(['mcd','kfc'].includes(store.key)){
+        cube(physical,paint('ink'),x,2.13,-7,4.1,.08,2.6);
+        for(let j=0;j<13;j++)cube(physical,trim,x-1.85+j*.3,2.19,-7,.045,.035,2.45);
+        for(let j=0;j<4;j++)foodOnPlate(physical,x-1.35+j*.9,2.23,-7,'burger',.65);
+        const basket=new T.Group();basket.position.set(x,2.25,-7);physical.add(basket);
+        for(const side of [-1,1])for(let j=0;j<8;j++)cube(basket,trim,side*1.6,.24,-.9+j*.25,.02,.5,.02);
+        tube(basket,[[-1.6,.5,1],[-1.6,.5,1.8],[1.6,.5,1.8],[1.6,.5,1]],.035,paint('ink'));
+      }else for(const z of [-7.7,-6.2])for(const dx of [-1.15,1.15]){disk(physical,paint('ink'),x+dx,2.13,z,.46,.07);disk(physical,paint('ivory'),x+dx,2.4,z,.38,.5);}
       for(let j=0;j<5;j++)bottle(physical,x-1.6+j*.8,2.14,-8.1,accent);
     }
     for(const x of [-8,8])for(const z of [.8,5.8]){
@@ -167,8 +191,13 @@ export function* mallRoomSteps(store,placement,kit){
     }
     for(let i=0;i<10;i++)foodOnPlate(physical,-5.5+i*1.2,1.01,5.6,store.key==='bakery'?'cake':'burger',.65);
     const menu=new T.Group();menu.position.set(0,4.6,-3.1);physical.add(menu);
-    cube(menu,glassMat,0,0,0,18,1.8,.06);labelText(menu,'CAT SAFE MENU',0,.5,.06,8,.5);
-    MALL_PRODUCTS.filter(p=>p.storeId===store.id).forEach((p,i)=>labelText(menu,`${p.name} · ${p.price}`,(i-1)*5.7,-.2,.08,5.3,.5));
+    labelText(menu,'CAT SAFE MENU',0,1.55,.12,10,.65);
+    MALL_PRODUCTS.filter(p=>p.storeId===store.id).forEach((p,i)=>{
+      const x=(i-1)*5.7;soft(menu,paint('ink'),x,0,0,5.45,2.5,.16);cube(menu,mats.gold,x,-1.22,.10,5.3,.035,.035);
+      labelText(menu,`${p.name} · ${p.price}`,x,.7,.12,5.15,.48);
+      if(i===2){disk(menu,mats.white,x,-.15,.42,.35,.58);const handle=mesh(menu,new T.TorusGeometry(.22,.04,8,24),mats.white,x+.36,-.1,.44);handle.rotation.y=Math.PI/2;}
+      else foodOnPlate(menu,x,-.65,.8,i===1?'cake':'burger',.85);
+    });
     if(store.key==='sushi'){
       const belt=new T.Group();belt.position.set(-8,.9,-2.8);physical.add(belt);disk(belt,mats.navy,0,0,0,2.6,.25).scale.z=.5;
       const dishes=yield* mallConveyorSteps(clock);dishes.position.copy(belt.position);motion.add(dishes);
@@ -200,6 +229,7 @@ export function* mallRoomSteps(store,placement,kit){
     }
     for(const x of [-10,-5,0,5,10]){soft(physical,paint('oak'),x,2.3,-front+1,3.8,4.5,1.1);for(let row=0;row<5;row++){cube(physical,paint('ivory'),x,.4+row*.85,-front+1.6,3.6,.09,.95);for(let j=0;j<5;j++)bottle(physical,x-1.2+j*.6,.65+row*.85,-front+1.6,paint(['fern','rose','ivory'][j%3]));}}
   }else if(['toy','gadget','book'].includes(store.kind)){
+    for(const side of [-1,1])upholsteredBench(side*11.4,8,paint('cloth-'+color));
     for(const x of [-10,-5,0,5,10]){
       soft(physical,paint('ivory'),x,2.5,-front+1.1,4.1,4.8,1.3);
       for(let row=0;row<5;row++){
@@ -240,7 +270,7 @@ export function* mallRoomSteps(store,placement,kit){
   }
   yield;
   const product=MALL_PRODUCTS.find(p=>p.storeId===store.id);
-  if(product){const tag=new T.Group();tag.position.set(2.9,1.4,6.3);physical.add(tag);cube(tag,glassMat,0,0,0,6.2,.8,.05);labelText(tag,`${product.name} · ${product.price}`,0,0,.06,5.9,.55);}
+  if(product){const tag=new T.Group();tag.position.set(2.9,1.18,6.3);physical.add(tag);soft(tag,paint('ivory'),0,0,0,1.8,.35,.035);const text=labelText(tag,`${product.name} · ${product.price}`,0,0,.025,1.66,.12),color=text.geometry.getAttribute('color');if(color)for(let i=0;i<color.count;i++)color.setXYZ(i,.035,.03,.025);}
   room.userData.storeId=store.id;
   return{room,ceiling,motion,physical};
 }

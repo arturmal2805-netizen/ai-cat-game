@@ -9,13 +9,15 @@ export function* mallMascotSteps(parent,kit,top){
   const front=(x,y,extra=.8)=>z+r*Math.sqrt(Math.max(.01,1-(x/r)**2-((y-top)/height)**2))+extra;
   for(const side of [-1,1]){
     yield;
-    const outer=new T.Shape();outer.moveTo(24,14);outer.bezierCurveTo(25,22,30,34,34.7,37);outer.bezierCurveTo(40,35.5,49,24,53,16);outer.quadraticCurveTo(38,13,24,14);outer.closePath();
+    const outer=new T.Shape();outer.moveTo(24,14);outer.bezierCurveTo(25,22,30,34,34.7,37);outer.bezierCurveTo(40,35.5,49,18,53,-.5);outer.quadraticCurveTo(38,5,24,14);outer.closePath();
     const shell=new T.ExtrudeGeometry(outer,{depth:2.0,bevelEnabled:true,bevelSize:1.1,bevelThickness:.65,bevelSegments:5,curveSegments:32});
-    const ear=mesh(parent,shell,pearl,0,top,z+4);ear.scale.x=side;
-    const inner=new T.Shape();inner.moveTo(28,17);inner.bezierCurveTo(29,23,32,30,35,32.5);inner.bezierCurveTo(39,30,44,23,47,18);inner.quadraticCurveTo(37,16,28,17);inner.closePath();
+    const ear=mesh(parent,shell,glassMat,0,top+8,z+22);ear.scale.x=side;
+    const outline=outer.getPoints(64).map(p=>[side*p.x,top+8+p.y,z+24.8]);
+    tube(parent,outline,.28,mats.navy,true);tube(parent,outline.map(([x,y,z])=>[x,y,z+.28]),.10,mats.cyan,true);
+    const inner=new T.Shape();inner.moveTo(28,17);inner.bezierCurveTo(29,23,32,30,35,32.5);inner.bezierCurveTo(39,28,44,16,47,9);inner.quadraticCurveTo(37,10,28,17);inner.closePath();
     const inlay=new T.ExtrudeGeometry(inner,{depth:.2,bevelEnabled:true,bevelSize:.2,bevelThickness:.2,bevelSegments:3,curveSegments:24});
-    const inset=mesh(parent,inlay,glassMat,0,top,z+6.8);inset.scale.x=side;
-    const points=inner.getPoints(64).slice(0,-1).map(p=>[side*p.x,top+p.y,z+7.2]);
+    const inset=mesh(parent,inlay,glassMat,0,top+8,z+24.8);inset.scale.x=side;
+    const points=inner.getPoints(64).slice(0,-1).map(p=>[side*p.x,top+8+p.y,z+25.2]);
     tube(parent,points,.19,mats.pink,true);tube(parent,points,.7,mats.haloPink,true);
     // Smiling closed eyes follow the dome's ellipsoid, rather than hanging
     // behind its glazing as thin straight segments.
@@ -39,14 +41,19 @@ export function* mallGalleryIdentitySteps(parent,floor,kit){
   const {cube,disk,orb,tube,ring,mesh,mats,glassMat,chair,plant}=kit;
   const galleryRoot=parent;
   for(const side of [-1,1]){
-    yield;parent=new T.Group();parent.position.z=side<0?-3:0;galleryRoot.add(parent);
-    const slots=side<0?[52,94]:[65,82];
+    yield;parent=new T.Group();parent.position.z=2.5;galleryRoot.add(parent);
+    const slots=[72.5,102.5];
     if(floor.id===2){
       // Luxury avenue: floral urns, polished arches and lounge islands.
       for(const x of slots){
         const g=new T.Group();g.position.set(side*x,0,96);parent.add(g);
         disk(g,mats.white,0,.48,0,.72,.9);ring(g,0,.96,0,.74,mats.gold,.06);
-        for(let j=0;j<13;j++){const a=j*2.399,r=.2+Math.sqrt(j/13)*.65;orb(g,j%3?mats.haloPink:mats.white,Math.cos(a)*r,1.5+j%3*.18,Math.sin(a)*r,.24);}
+        for(let j=0;j<13;j++){
+          const a=j*2.399,r=.2+Math.sqrt(j/13)*.65,x=Math.cos(a)*r,z=Math.sin(a)*r,y=1.5+j%3*.18;
+          tube(g,[[0,.85,0],[x*.5,1.15,z*.5],[x,y,z]],.014,mats.green);
+          for(let k=0;k<6;k++){const b=k*Math.PI/3;orb(g,j%3?mats.red:mats.white,x+Math.cos(b)*.11,y,z+Math.sin(b)*.11,.12,.07,.09);}
+          orb(g,mats.gold,x,y+.025,z,.045);
+        }
       }
       const a=side*(side<0?94:73);
       tube(parent,[[a-5,.15,97.5],[a-5,4,97.5],[a,6.3,97.5],[a+5,4,97.5],[a+5,.15,97.5]],.13,mats.white).userData.mallCollisionHandledByPosts=true;
@@ -57,8 +64,10 @@ export function* mallGalleryIdentitySteps(parent,floor,kit){
       for(const x of slots){
         disk(parent,mats.white,side*x,.95,96,1.15,.12);disk(parent,mats.gold,side*x,.48,96,.065,.9);
         chair(parent,side*x-1.6,96,mats.red,.65,Math.PI/2);chair(parent,side*x+1.6,96,mats.red,.65,-Math.PI/2);
-        const parasol=mesh(parent,new T.ConeGeometry(2.3,.9,12,1,true),mats.warm,side*x,4.3,96);parasol.rotation.y=x*.1;
-        disk(parent,mats.gold,side*x,2.15,96,.04,4.3);ring(parent,side*x,3.85,96,2.3,mats.gold,.035);
+        if(!(side<0&&x===102.5)){
+          const parasol=mesh(parent,new T.ConeGeometry(2.3,.9,48,1,true),mats.warm,side*x,4.3,96);parasol.rotation.y=x*.1;
+          disk(parent,mats.gold,side*x,2.15,96,.04,4.3);ring(parent,side*x,3.85,96,2.3,mats.gold,.035);
+        }
       }
     }else if(floor.id===4){
       // The cinema's bulb-lined marquee and arcade light sculptures.

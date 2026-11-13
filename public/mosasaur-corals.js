@@ -20,7 +20,14 @@ export function mosaCoralSites(){
   const p=MOSA_REEF_TERRACES[i%12],a=i*2.3999632297+.35;let x,z,wall=null;
   if(i<384){const r=p.radius*.62*Math.sqrt(((i*37)%97)/97);x=p.x+Math.sin(a)*r;z=p.z+Math.cos(a)*r*.86;}
   else if(i%3===0){const q=.88+(i%5)*.016,f=mosaCoastFactor(a);x=Math.cos(a)*MOSA_SEA.rx*f*q;z=Math.sin(a)*MOSA_SEA.rz*f*q;}
-  else{wall=reefWallSite(MOSA_REEF_INSTANCES[i%12],Math.PI/2+Math.sin(a)*.95,.28+(i%11)*.055);if(wall){x=wall.x;z=wall.z;}else{const r=p.radius*(.72+i%9*.16);x=p.x+Math.sin(a)*r;z=p.z+Math.cos(a)*r*.86;}}
+  else{
+   const reef=MOSA_REEF_INSTANCES[i%12],angle=Math.PI/2+Math.sin(a)*.95,level=.28+(i%11)*.055;
+   wall=reefWallSite(reef,angle,level);
+   // An excavated shoulder can meet this ray before the cliff. Preserve good
+   // anchors; try neighbouring faces only for a missing or horizontal site.
+   if(!wall||wall.ny>=.9)for(const offset of [.24,-.24,.48,-.48]){const candidate=reefWallSite(reef,angle+offset,level);if(candidate&&candidate.ny<.9){wall=candidate;break;}}
+   if(wall){x=wall.x;z=wall.z;}else{const r=p.radius*(.72+i%9*.16);x=p.x+Math.sin(a)*r;z=p.z+Math.cos(a)*r*.86;}
+  }
   if(!wall){const q=mosaWaterRadius(x,z);if(q>.94){x*=.94/q;z*=.94/q;}}
   const y=wall?wall.y:mosaReefSurfaceY(x,z)+.05,form=i%11,maxHeight=form===9?1.5:form===10?.6:1.,scale=Math.max(.3,Math.min((i<384?4:2.6)+(i%6)*.72,(-y-.6)/maxHeight));
   return {id:'mosa-reef-'+i,form,x,z,y,scale,yaw:a,nx:wall?.nx||0,ny:wall?.ny??1,nz:wall?.nz||0};

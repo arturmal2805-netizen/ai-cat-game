@@ -20,7 +20,7 @@ export function normalizeMallProfile(raw){
     const product=mallProduct(raw.goal.productId),receipt=raw.goal.receipt&&m.receipts[raw.goal.receipt];
     if(raw.goal.productId&&(!product||product.storeId!==raw.goal.storeId))throw Error('Пошкоджена мета візиту ТРЦ');
     if(raw.goal.receipt&&(!receipt||receipt.product!==raw.goal.productId))throw Error('Пошкоджений оплачений візит ТРЦ');
-    m.goal={storeId:raw.goal.storeId,at:raw.goal.at,productId:product?.id||null,receipt:receipt?raw.goal.receipt:null,purchased:!!receipt,used:!!receipt&&raw.goal.used===true};
+    m.goal={layoutVersion:raw.goal.layoutVersion===2?2:1,storeId:raw.goal.storeId,at:raw.goal.at,productId:product?.id||null,receipt:receipt?raw.goal.receipt:null,purchased:!!receipt,used:!!receipt&&raw.goal.used===true};
   }
   return m;
 }

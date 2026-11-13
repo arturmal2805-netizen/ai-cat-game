@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import assert from "node:assert/strict";
+import {BIOMES} from '../public/game-data.js';
 
 // All authored islands, live input handlers, full geometry/shadows and DPR 2.
 // CPU command diagnostics suppress only raster work; image checks render real
@@ -9,7 +10,7 @@ export async function checkAllCameraGestures(page, context, review) {
   const ids = await page
     .locator("[data-biome]")
     .evaluateAll((nodes) => nodes.map((n) => n.dataset.biome));
-  assert.equal(new Set(ids).size, 30);
+  assert.deepEqual([...new Set(ids)].sort(),BIOMES.map(b=>b.id).sort(),'Every currently authored island is present, including the zoo and waterpark');
   const previous = path.join(review, "all-camera-gestures.json");
   const rows = process.env.CHICHI_GESTURE_RESUME && fs.existsSync(previous)
     ? JSON.parse(fs.readFileSync(previous,"utf8")) : [];
@@ -425,7 +426,7 @@ export async function checkAllCameraGestures(page, context, review) {
       }),
     );
   }
-  assert.equal(rows.length, 31);
+  assert.equal(rows.length,itinerary.length);
   if (process.env.CHICHI_QA_HOMES) {
     const homes=await page.evaluate(()=>Object.values(__lagoonSaveQA.getGame().housing.homes).sort((a,b)=>a.plot-b.plot));
     assert.equal(homes.length,Number(process.env.CHICHI_QA_HOMES));

@@ -1,7 +1,7 @@
+import {MALL_LAYOUT,mallRoomPlacement,mallRoomContacts} from './mall-layout.js';
 // Stable product/venue addresses are independent of display-brand replacements.
 export const MALL_ID = 'underwater-cat-mall';
-export const MALL = Object.freeze({biome:'autumn', x:0, z:55, y:-117, rise:7.5, radius:32,
-  lift:{x:12,z:87,radius:7.6}, gate:{x:12,y:.35,z:99}, capacity:4, speed:9});
+export const MALL = MALL_LAYOUT;
 export const MALL_FLOORS = Object.freeze([
   ['Atrium','Ocean Grand Atrium',0x65e4ed],['Luxury','Cat Luxury Avenue',0xffcd87],
   ['Food','Cat Food Paradise',0xffa287],['Cinema','Cinema & Entertainment',0xce8fff],
@@ -24,12 +24,9 @@ const floors = [
   [['sky-cafe','Sky Ocean Café','food',85],['date','Moonlight Seats','social',0],['observatory','Ocean Hologram','rest',0]],
 ];
 export const MALL_STORES = Object.freeze(floors.flatMap((rows,i)=>rows.map(([key,name,kind,price],j)=>{
-  const angle = Math.PI*.5 + (j+1)*Math.PI*2/(rows.length+1), radius=23;
-  return Object.freeze({id:'mall-'+key,key,name,brand:key,floor:i+1,kind,price,angle,
-    x:Math.cos(angle)*radius,z:MALL.z+Math.sin(angle)*radius,
-    entrance:{x:Math.cos(angle)*16,z:MALL.z+Math.sin(angle)*16},
-    counter:{x:Math.cos(angle)*24,z:MALL.z+Math.sin(angle)*24},
-    seat:{x:Math.cos(angle)*26,z:MALL.z+Math.sin(angle)*26},y:MALL_FLOORS[i].y});
+  const placement=mallRoomPlacement(j,rows.length),angle=-placement.yaw-Math.PI/2;
+  const store={id:'mall-'+key,key,name,brand:key,floor:i+1,kind,price,angle,placement,x:placement.x,z:placement.z,y:MALL_FLOORS[i].y};
+  return Object.freeze({...store,entrance:mallPoint(store,0,.18,placement.d/2+3),counter:mallPoint(store,0,.18,5.5),seat:mallPoint(store,8,.18,14.3)});
 })));
 export const mallStore = id => MALL_STORES.find(s=>s.id===id);
 export const mallFloor = floor => MALL_FLOORS.find(f=>f.id===floor);
@@ -55,23 +52,12 @@ export const MALL_ACTIONS = Object.freeze(['VisitMall','EnterElevator','SelectFl
 export function mallOffers(game){return game.unlocked?.includes('autumn')?MALL_STORES.map(s=>({id:s.id,type:s.id,biome:'autumn',name:`Підводний ТРЦ · F${s.floor} · ${s.name}`,action:['food'].includes(s.kind)?'eat':['rest','spa','social'].includes(s.kind)?'rest':'play'})):[];}
 
 export const MALL_SIGN_HEADERS=['CAT SAFE MENU','NEW COLLECTION','PICK UP','TICKETS','OCEAN SPECIAL','WELCOME'];
-export function mallSignTexts(parody=false){return ['CHICHI','CAT SHOPPING MALL','UNDERWATER MEGA MALL','OCEAN EXPRESS',...MALL_STORES.map(s=>mallLabel(s,parody)),...MALL_FLOORS.map(f=>`F${f.id}  ${f.short.toUpperCase()}`),...MALL_PRODUCTS.map(p=>`${p.name} · ${p.price}`),...MALL_SIGN_HEADERS];}
+export function mallSignTexts(parody=false){return ['CHICHI','CAT SHOPPING MALL','UNDERWATER MEGA MALL','OCEAN EXPRESS',...MALL_STORES.map(s=>s.key==='vuitton'&&!parody?'LOUIS VUITTON':mallLabel(s,parody)),...MALL_FLOORS.map(f=>`F${f.id}  ${f.short.toUpperCase()}`),...MALL_PRODUCTS.map(p=>`${p.name} · ${p.price}`),...MALL_SIGN_HEADERS];}
 
 // Coordinates are the real fittings' local frame: +Z faces the public gallery.
 // Both navigation and the cashier use these same authored contact positions.
 export function mallPoint(store,x=0,y=.18,z=0){const c=Math.cos(store.angle),s=Math.sin(store.angle);return{x:store.x-s*x-c*z,y:store.y+y,z:store.z+c*x-s*z};}
 export function mallServiceFrames(store,slot=0,radius=.8){
-  const side=slot%2?1:-1,food=store.kind==='food',cinema=store.kind==='cinema';
-  const customer=mallPoint(store,cinema?-4:0,.18,cinema?7.2:food?3.05:6.2);
-  const vendor=mallPoint(store,cinema?-4:0,.18,cinema?3.55:food?-.85:2.6);
-  let approach,seat,yaw,seated=false;
-  if((food||cinema)&&radius<=1.05){
-    const x=food?side*3.65:side*3.6,z=food?2.9:.5;
-    approach=mallPoint(store,food?side*1.9:0,.18,food?3.2:z);
-    seat=mallPoint(store,x,.99,z);seated=true;
-    yaw=Math.PI/2-store.angle;
-  }else{
-    approach=mallPoint(store,side*4.3,.18,7.3);seat={...approach};yaw=Math.PI/2-store.angle;
-  }
-  return{customer,vendor,approach,seat,yaw,seated};
+  const frame=mallRoomContacts(store.kind,slot,radius),map=p=>mallPoint(store,p.x,p.y,p.z);
+  return{customer:map(frame.customer),vendor:map(frame.vendor),approach:map(frame.approach),seat:map(frame.seat),yaw:Math.PI/2-store.angle,seated:frame.seated};
 }

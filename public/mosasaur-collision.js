@@ -1,7 +1,7 @@
 import {mosaBedY,mosaNaturalBedY,MOSA_CAVE_LAYOUT,MOSA_REEF_TERRACES} from './mosasaur-data.js';
 import {mosaReefSurfaceY} from './mosasaur-reef-data.js';
 export const MOSA_CAVES=MOSA_CAVE_LAYOUT.map(c=>({...c,y:mosaNaturalBedY(c.x,c.z)+.7}));
-export const MOSA_RUINS=[{id:'sunken-temple',x:-39,z:53,y:mosaBedY(-39,53)+.3},{id:'abyss-gate',x:12,z:-49,y:mosaBedY(12,-49)+.3}];
+export const MOSA_RUINS=[{id:'sunken-temple',x:-39,z:-56,y:mosaBedY(-39,-56)+.3},{id:'abyss-gate',x:12,z:-49,y:mosaBedY(12,-49)+.3}];
 export const MOSA_REEF_ARCHES=MOSA_REEF_TERRACES.filter((_,i)=>i%4===0).map((c,i)=>({id:'living-reef-arch-'+i,x:c.x,z:c.z,radius:8.5,depth:3.5,y:mosaBedY(c.x,c.z)+.25}));
 export const MOSA_GUARDIAN=(()=>{const c=MOSA_REEF_TERRACES[3];return {id:'sunken-guardian',x:c.x+2,z:c.z-2,y:mosaReefSurfaceY(c.x+2,c.z-2),radius:3.5,height:9};})();
 export function mosaTerrainObstacles(){

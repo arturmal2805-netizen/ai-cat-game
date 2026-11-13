@@ -1,8 +1,11 @@
+import {mallNavigationV2Ready,mallNavigationV2Steps,mallWalkableV2,mallPathV2} from './mall-navigation-v2.js';
+export {mallSegmentClearV2 as mallSegmentClear} from './mall-navigation-v2.js';
 import {spaPath} from './spa-navigation.js';
 import {MALL,mallFloor,mallPoint,mallServiceFrames} from './mall-data.js';
 const grids=new WeakMap(),extent=72,cell=.45,size=extent*2+1;
-export const mallNavigationReady=(boxes,radius)=>!!grids.get(boxes)?.has(radius);
+export const mallNavigationReady=(boxes,radius)=>boxes.layoutVersion===2?mallNavigationV2Ready(boxes,radius):!!grids.get(boxes)?.has(radius);
 export function* mallNavigationSteps(boxes,radius){
+  if(boxes.layoutVersion===2)return yield* mallNavigationV2Steps(boxes,radius);
   let rows=grids.get(boxes);if(rows?.has(radius))return;
   const mask=new Uint8Array(size*size);
   for(let z=-extent;z<=extent;z++){
@@ -17,6 +20,7 @@ export function* mallNavigationSteps(boxes,radius){
 // The existing game's A* serves the mall as well. Boxes are measured from the
 // actual fitted meshes before batching; no second hand-drawn furniture map.
 export function mallWalkable(p,radius,boxes=[]){
+  if(boxes.layoutVersion===2)return mallWalkableV2(p,radius,boxes);
   const r=Math.hypot(p.x,p.z),floor=r<MALL.radius-radius-.12&&r>10.05+radius;
   const landing=p.x> -5+radius&&p.x<17-radius&&p.z>18&&p.z<33;
   const cabin=Math.hypot(p.x-MALL.lift.x,p.z-(MALL.lift.z-MALL.z))<MALL.lift.radius-radius-.2;
@@ -27,7 +31,8 @@ export function mallWalkable(p,radius,boxes=[]){
   }
   return true;
 }
-export function mallPath(floor,from,to,radius,boxes){
+export function mallPath(floor,from,to,radius,boxes,dynamic=[]){
+  if(boxes.layoutVersion===2)return mallPathV2(floor,from,to,radius,boxes,dynamic);
   const a={x:from.x,z:from.z-MALL.z},b={x:to.x,z:to.z-MALL.z};
   const mask=grids.get(boxes)?.get(radius),known=new Map(),walkable=(p,r,obs)=>{
     const x=Math.round(p.x/cell),z=Math.round(p.z/cell);
@@ -44,6 +49,10 @@ export function mallPath(floor,from,to,radius,boxes){
 export function mallAccessibleService(store,slot,radius,boxes){
   const service=mallServiceFrames(store,slot,radius);
   if(service.seated)return service;
+  if(boxes.layoutVersion===2){
+    if(mallWalkable({x:service.approach.x,z:service.approach.z-MALL.z},radius,boxes))return service;
+    const side=slot%2?1:-1;for(const z of [14.3,15.5,17])for(const x of [side*8,-side*8,side*5.5,0]){const p=mallPoint(store,x,.18,z);if(mallWalkable({x:p.x,z:p.z-MALL.z},radius,boxes))return{...service,approach:p,seat:{...p}};}return service;
+  }
   const side=slot%2?1:-1;
   for(const z of [7.3,8.2,6.8,9])for(const x of [side*4.3,-side*4.3,side*2.1,0,-side*2.1]){
     const p=mallPoint(store,x,.18,z);

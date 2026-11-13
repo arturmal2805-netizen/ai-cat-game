@@ -11,8 +11,8 @@ export function* mallKitSteps({parody=false}={}){
   const signs=[];
   const surfaceSets=new Map();const getSurface=(kind,repeat=1)=>{const key=kind+":"+repeat;if(!surfaceSets.has(key))surfaceSets.set(key,mallSurfaceMaps(kind,repeat));return surfaceSets.get(key);};
   const mats={
-    navy:new THREE.MeshStandardMaterial({color:0x8aa5ae,emissive:0x286781,emissiveIntensity:.08,roughness:.27,metalness:.65}),
-    floor:new THREE.MeshStandardMaterial({color:0xbed2d2,emissive:0x255365,emissiveIntensity:.23,roughness:.23,metalness:.3}),
+    navy:new THREE.MeshStandardMaterial({color:0x28516b,emissive:0x286781,emissiveIntensity:.08,roughness:.23,metalness:.65}),
+    floor:new THREE.MeshStandardMaterial({color:0xd4edff,emissive:0x0c5980,emissiveIntensity:.13,roughness:.14,metalness:.18}),
     warm:new THREE.MeshStandardMaterial({color:0xfff0dc,emissive:0xff9e40,emissiveIntensity:.18,roughness:.38}),
     white:new THREE.MeshStandardMaterial({color:0xe7ecf4,emissive:0x2a5671,emissiveIntensity:.16,roughness:.3,metalness:.12}),
     pink:new THREE.MeshBasicMaterial({color:0xff73dd}),cyan:new THREE.MeshBasicMaterial({color:0x6cffff}),
@@ -20,7 +20,7 @@ export function* mallKitSteps({parody=false}={}){
     green:new THREE.MeshStandardMaterial({color:0x24826f,roughness:.75}),
     red:new THREE.MeshStandardMaterial({color:0x80355e,roughness:.55}),
   };
-  Object.assign(mats.floor,getSurface('marble',.2));Object.assign(mats.navy,getSurface('metal'));Object.assign(mats.warm,getSurface('warm'));mats.floor.normalScale=new THREE.Vector2(.2,.2);mats.navy.normalScale=new THREE.Vector2(.35,.35);mats.warm.normalScale=new THREE.Vector2(.35,.35);
+  Object.assign(mats.floor,getSurface('marble',.2));Object.assign(mats.navy,getSurface('metal'));Object.assign(mats.warm,getSurface('warm'));mats.floor.normalScale=new THREE.Vector2(.2,.2);mats.navy.normalScale=new THREE.Vector2(.055,.055);mats.warm.normalScale=new THREE.Vector2(.1,.1);
   for(const m of [mats.floor,mats.navy,mats.white])mallReflectionMaterial(m,.16);
   mats.haloPink=mallHalo(0xff52d9);mats.haloCyan=mallHalo(0x51e7ff);
   const box=new THREE.BoxGeometry(1,1,1),sphere=new THREE.SphereGeometry(1,16,10),cylinder=new THREE.CylinderGeometry(1,1,1,32);
@@ -57,10 +57,10 @@ uniform vec3 uTint;varying vec3 vEye;varying vec3 vNormalView;varying vec3 vWorl
     const o=mesh(parent,g,signMaterial,x,y,z);o.rotation.y=yaw;o.userData.mallStore=MALL_STORES[index-4]?.id;signs.push(o);return o;
   }
   function pane(parent,x,y,z,r,h){const g=new THREE.CylinderGeometry(r,r,h,64,1,true);return mesh(parent,g,glassMat,x,y,z);}
-  function doorwayCylinder(parent,x,y,z,r,h,material){
+  function doorwayCylinder(parent,x,y,z,r,h,material,doors=2){
     // The front/back doors are genuine open apertures in the cylindrical wall.
     const angle=Math.asin(4.25/r);
-    for(const start of [angle,Math.PI+angle])mesh(parent,new THREE.CylinderGeometry(r,r,h,32,1,true,start,Math.PI-2*angle),material,x,y,z);
+    for(let i=0;i<doors;i++)mesh(parent,new THREE.CylinderGeometry(r,r,h,32,1,true,i*Math.PI*2/doors+angle,Math.PI*2/doors-2*angle),material,x,y,z);
   }
   function paw(parent,x,y,z,r,m){orb(parent,m,x,y,z,r*.52,r*.42,.1);for(let j=0;j<4;j++){const a=(j-1.5)*.58;orb(parent,m,x+Math.sin(a)*r*.77,y+Math.cos(a)*r*.85,z,r*.21,r*.27,.11);}}
   const chairGeometry=new RoundedBoxGeometry(1,1,1,2,.12);chairGeometry.userData.sharedScenery=true;Object.assign(mats.red,getSurface('fabric'));
@@ -96,5 +96,5 @@ uniform vec3 uTint;varying vec3 vEye;varying vec3 vNormalView;varying vec3 vWorl
     else if(kind==='eat'){disk(p,mats.white,x,y,z,.5,.12);orb(p,mats.gold,x,y+.2,z,.3,.2,.3);}
     else{orb(p,j%2?mats.cyan:mats.pink,x,y,z,.36);}
   }}
-  return {mats,mesh,cube,orb,disk,tube,ring,glassMat,pane,doorwayCylinder,paw,chair,plant,label,labels,atlas,getSurface,clock:movieClock,signMaterial,signs};
+  return {fittingGeometry:new Map(),frontMaterials:new Map(),signatureMaterials:new Map(),storefrontGeometry:new Map(),storeIds:MALL_STORES.map(s=>s.id),borrowedTextures:new Set([mosaWaterReflection().texture]),mats,mesh,cube,orb,disk,tube,ring,glassMat,pane,doorwayCylinder,paw,chair,plant,label,labels,atlas,getSurface,clock:movieClock,signMaterial,signs};
 }
