@@ -45,3 +45,16 @@ Evidence: `/workspace/qa/mall-all-storefronts-v4/compact-evidence.json` and its
 `compact-before.png` / `compact-after.png`. The same run renders every one of
 the 34 fronts. Native phone/world/purchase checks remain separate; these figures
 still do not establish physical-device FPS.
+
+## Ocean Ice Cream integration recheck, 2026-11-13
+
+The six-flavor shop, dispensing machines and supported display cones retain
+all 1,403 geometries. Buffer storage is 411,127,247 before / 271,099,295 bytes
+after compaction: 140,027,952 bytes (133.54 MiB) removed. The actual frozen
+colour/shadow comparison has zero differing channel bytes, maximum difference
+zero, GL error zero and no browser errors. All 34 fronts plus the Ice interior
+rendered successfully in the same run.
+
+Evidence: `/workspace/qa/mall-all-storefronts-v5/compact-evidence.json`,
+`evidence.json`, `compact-before.png`, `compact-after.png`. This remains a lossless
+resource reduction and does not measure physical-device FPS.
