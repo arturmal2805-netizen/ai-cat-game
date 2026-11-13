@@ -35,7 +35,7 @@ export function mallStorePath(floor,storeId,reverse=false){
   }
   path.push(point(s.entrance.x,y,s.entrance.z));return reverse?path.reverse():path;
 }
-export function createMallRuntime({getGame,onPurchase=()=>false,onUse=()=>false,onGoal=()=>{},onComplete=()=>{},route=null,canWalkSegment=()=>false,vendorReady=()=>true,serviceFrames=mallServiceFrames,onRouteBlocked=()=>{}}={}){
+export function createMallRuntime({getGame,onPurchase=()=>false,onUse=()=>false,onGoal=()=>{},onComplete=()=>{},onArrive=()=>{},route=null,canWalkSegment=()=>false,vendorReady=()=>true,serviceFrames=mallServiceFrames,onRouteBlocked=()=>{}}={}){
   const visits=new Map(),storeLocks=new Map();
   const lift={floor:0,y:.35,phase:'open',opening:1,elapsed:0,passengers:[],target:0,from:.35,duration:0};
   const queue=[];let serial=0,avoidanceBudget=0;
@@ -84,7 +84,7 @@ export function createMallRuntime({getGame,onPurchase=()=>false,onUse=()=>false,
     }
     else if(v.phase==='done')finish(v);
   }
-  function finish(v){if(storeLocks.get(v.storeId)===v.id)storeLocks.delete(v.storeId);visits.delete(v.id);const index=queue.indexOf(v.id);if(index>=0)queue.splice(index,1);lift.passengers=lift.passengers.filter(id=>id!==v.id);onGoal(v.id,null);onComplete(v.id,v);}
+  function finish(v){if(v.phase==='done')onArrive(v.id,copy(v.position));if(storeLocks.get(v.storeId)===v.id)storeLocks.delete(v.storeId);visits.delete(v.id);const index=queue.indexOf(v.id);if(index>=0)queue.splice(index,1);lift.passengers=lift.passengers.filter(id=>id!==v.id);onGoal(v.id,null);onComplete(v.id,v);}
   function leave(v){v.returning=true;if(storeLocks.get(v.storeId)===v.id)storeLocks.delete(v.storeId);walk(v,[...mallStorePath(v.floor,v.storeId,true),mallLanding(v.floor,v.order%6)],'queue');}
   function start(id,storeId,position,{radius=.85,productId=null,ticket=null,resume=null,browseOnly=false,useOwned=false}={}){
     const game=getGame(),s=mallStore(storeId);

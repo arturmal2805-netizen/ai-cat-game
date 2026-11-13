@@ -32,6 +32,10 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
   const wingControls=document.createElement('div');wingControls.className='mall-wing-controls';wingControls.hidden=true;
   for(const [symbol,zone,title]of [['◀ Ліве','west','Ліве крило'],['◎ Атріум','atrium','Центральний атріум'],['Праве ▶','east','Праве крило']]){const b=document.createElement('button');b.textContent=symbol;b.title=title;b.setAttribute('aria-label',title);b.onclick=()=>inspect(selected||1,zone);wingControls.append(b);}container.append(wingControls);
   const runtime=createMallRuntime({getGame,onPurchase,onUse,onGoal,onComplete,
+    // Durable completion snapshots the native carrier. Install the final real
+    // route point before clearing the goal, so a reload/revisit cannot retain
+    // a chair position after the visitor has already returned to the pier.
+    onArrive:(id,p)=>{const actor=getActors().find(a=>a.id===id);if(actor)actor.position.copy(world(p));},
     onRouteBlocked:v=>onError("Не знайшов вільний прохід у "+mallStore(v.storeId).name+". Покупка й інвентар збережені."),
     serviceFrames:(s,slot,radius)=>mallAccessibleService(s,slot,radius,root.userData.obstacles.get(s.floor)),
     route:(floor,from,to,radius,dynamic)=>root?mallPath(floor,from,to,radius,root.userData.obstacles.get(floor),dynamic):null,

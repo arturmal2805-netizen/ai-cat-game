@@ -38,3 +38,15 @@ test('failed durable intent cannot leave a running unrecorded visitor; failed co
  const game=fixture(),bad=createMallRuntime({getGame:()=>game,onGoal:()=>{throw Error('Storage unavailable');}});assert.throws(()=>bad.start('chichi','mall-mcd',{x:0,y:.35,z:110}));assert.equal(bad.visits.size,0);
  const g={game:fixture(),payments:0,uses:0};let attempts=0;const r=createMallRuntime({getGame:()=>g.game,onPurchase:()=>true,onUse:()=>{attempts++;throw Error('Storage unavailable');}});r.start('chichi','mall-mcd',{x:0,y:.35,z:110});until(r,()=>!r.has('chichi'));assert.equal(attempts,1);
 });
+
+test('native arrival is handed over before the durable goal clears, including a subsequent visit',()=>{
+ const g={game:fixture(),payments:0,uses:0};let carrier={x:0,y:.35,z:110},arrivals=0;
+ const r=createMallRuntime({getGame:()=>g.game,onArrive:(id,p)=>{carrier=p;arrivals++;},onGoal:(id,goal)=>{if(!goal){assert.ok(carrier.y>0);assert.ok(Math.hypot(carrier.x,carrier.z-114)<.001);}}});
+ for(let i=0;i<2;i++){assert.ok(r.start('chichi','mall-ice',carrier,{browseOnly:true}));until(r,()=>!r.has('chichi'));assert.equal(carrier.y,.35);}
+ assert.equal(arrivals,2);
+});
+test('detaching a manually moved visitor cannot overwrite the player drop with an old route position',()=>{
+ const game=fixture();let arrivals=0,carrier={x:100,y:.35,z:100};
+ const r=createMallRuntime({getGame:()=>game,onArrive:()=>{arrivals++;carrier={x:0,y:.35,z:114};}});
+ r.start('chichi','mall-ice',{x:0,y:.35,z:110});r.detach('chichi');assert.equal(r.has('chichi'),false);assert.equal(arrivals,0);assert.deepEqual(carrier,{x:100,y:.35,z:100});
+});

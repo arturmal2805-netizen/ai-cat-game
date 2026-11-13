@@ -46,7 +46,8 @@ test('paid diners reload inside actual chair bounds and leave without a stuck pa
   for(let t=0;t<600&&r.get('chichi')?.phase!=='experience';t+=1/30)r.step(1/30,t);
   assert.equal(r.get('chichi')?.phase,'experience',store.id);if(used)r.step(1/30,700);
   const goal=structuredClone(game.jobCity.profiles.chichi.mall.goal),position={...r.get('chichi').position},coins=game.jobCity.profiles.chichi.coins;
-  const again=createMallRuntime(options);assert.ok(again.start('chichi',store.id,position,{radius:.571,resume:goal}));assert.equal(again.get('chichi').phase,used?'seat-stand':'experience',store.id);
+  const seatY=position.y;position.y=store.y+.18; // Surface saves restore X/Z at floor height.
+  const again=createMallRuntime(options);assert.ok(again.start('chichi',store.id,position,{radius:.571,resume:goal}));assert.equal(again.get('chichi').position.y,seatY);assert.equal(again.get('chichi').phase,used?'seat-stand':'experience',store.id);
   for(let t=0;t<600&&again.has('chichi');t+=1/30)again.step(1/30,t);
   assert.equal(again.has('chichi'),false,store.id+' return '+JSON.stringify(again.get('chichi')));assert.equal(payments,1);assert.equal(uses,1);assert.equal(game.jobCity.profiles.chichi.coins,coins);
  }
