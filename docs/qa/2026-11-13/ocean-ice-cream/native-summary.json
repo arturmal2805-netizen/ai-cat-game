@@ -1,0 +1,67 @@
+{
+  "fixture": "Private local SQLite save, not a player account",
+  "renderer": "Native DPR 2 / Chromium SwiftShader. No physical-device FPS claim.",
+  "visits": [
+    {
+      "flavor": "Блакитна лагуна",
+      "price": 48,
+      "coins": 4952,
+      "receipts": {
+        "mall-chichi-1": {
+          "product": "mall-ice-blue-lagoon",
+          "sequence": 1,
+          "price": 48,
+          "at": 1794586932458
+        }
+      },
+      "used": {
+        "mall-ice-blue-lagoon": 1
+      },
+      "inventory": {},
+      "machineBefore": {
+        "matrices": 1,
+        "positions": 0,
+        "nozzles": 6
+      },
+      "machineAfter": {
+        "matrix": 1,
+        "position": 0
+      }
+    },
+    {
+      "flavor": "Космічна веселка",
+      "price": 65,
+      "coins": 4887,
+      "receipts": {
+        "mall-chichi-1": {
+          "product": "mall-ice-blue-lagoon",
+          "sequence": 1,
+          "price": 48,
+          "at": 1794586932458
+        },
+        "mall-chichi-2": {
+          "product": "mall-ice-cosmic-rainbow",
+          "sequence": 2,
+          "price": 65,
+          "at": 1794587202591
+        }
+      },
+      "used": {
+        "mall-ice-blue-lagoon": 1,
+        "mall-ice-cosmic-rainbow": 1
+      },
+      "inventory": {},
+      "machineBefore": {
+        "matrices": 1,
+        "positions": 0,
+        "nozzles": 6
+      },
+      "machineAfter": {
+        "matrix": 1,
+        "position": 0
+      }
+    }
+  ],
+  "errors": [],
+  "httpErrors": []
+}

@@ -1,0 +1,24 @@
+[
+  {
+    "version": "released eb6cbec",
+    "failures": [
+      {
+        "id": "magic-zoo",
+        "changed": 26,
+        "max": 4,
+        "samePathChanged": 45
+      }
+    ]
+  },
+  {
+    "version": "candidate c7d5689",
+    "failures": [
+      {
+        "id": "magic-zoo",
+        "changed": 38,
+        "max": 5,
+        "samePathChanged": 42
+      }
+    ]
+  }
+]

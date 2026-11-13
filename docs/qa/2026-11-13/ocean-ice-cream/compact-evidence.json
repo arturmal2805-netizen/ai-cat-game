@@ -1,0 +1,19 @@
+{
+  "resources": {
+    "before": {
+      "bytes": 411127247,
+      "geometries": 1403
+    },
+    "after": {
+      "bytes": 271099295,
+      "geometries": 1403
+    },
+    "saved": 140027952
+  },
+  "pixels": {
+    "different": 0,
+    "max": 0,
+    "glError": 0
+  },
+  "errors": []
+}

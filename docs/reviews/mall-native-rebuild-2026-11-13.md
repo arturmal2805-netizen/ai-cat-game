@@ -107,12 +107,52 @@ real Mall envelope; old embedded pilots recover nearby at the same depth.
   GL/browser errors. `compact-evidence.json` verifies the final 130.54 MiB saving
   with zero colour/shadow channel differences.
 
+- `mall-ice-full-suite-v1.log`: 1007/1007 passed after the new shop/food system.
+- `mall-ice-final-core-v2.log`: 19/19 final checks, including physical furniture
+  navigation, every destination, six large simultaneous diners, all six flavors,
+  receipt/consumption reloads, native pose/reset and compaction. The added native
+  chair-resume regression covers paid and consumed diners in every food store.
+- `mall-all-storefronts-v5/evidence.json`: 34 fronts plus Ice interior, zero
+  browser/GL errors; the final compaction proof saves 133.54 MiB with zero
+  colour/shadow differences.
+
+- `mall-ice-native-v5/ice-native.json`: real six-flavor phone menu, two serving
+  types, two private SQLite restarts and complete physical returns. Balance
+  5000 → 4952 → 4887, one use per flavor, no duplicate debit, static machine
+  buffer versions and no browser/HTTP errors. Final native phone/desktop images
+  include the supported display cones and distinct serving reactions.
+- `mall-ice-final-seat-height.log`, `mall-ice-final-handoff-v2.log`: saved chair
+  height, correct exit-position snapshot, repeat visits and manual detachment.
+- `mall-ice-final-build-v2.log`, `mall-ice-final-worker-dry-run.log`: source build
+  and Worker package validation passed.
+
 ## Remaining visual limits
 
 The reference has richer facade lighting, denser crowds, more varied individual
 stores and significantly more convincing water/environment integration.
-Other brands retain the improved common fit-out while these two stores now
+Other brands retain the improved common fit-out while McDonald’s, Louis Vuitton and Ocean Ice Cream now
 have their own plans. Software-rendered images establish actual implementation
 and visual defects; they do not establish hardware FPS or a numerical fidelity
 percentage. Continue comparing actual native full/close/phone images rather
 than presenting this checkpoint as the finished reference match.
+
+## Existing camera-image validation issue
+
+The completed 20-visit camera itinerary, 19 zero-difference comparisons and
+three purchased-home returns are recorded in the [persistent validation notes](../qa/2026-11-13/ocean-ice-cream/README.md).
+The Zoo strict zero-pixel comparison still fails on both the released clean
+worktree and this branch, with larger variation between repeated same-path
+frames. No Zoo animal/surface/face source or asset changed in this branch.
+The assertion is retained and reported as failing; this does not establish
+pixel-perfect Zoo cache acceptance or physical-device FPS.
+
+Final independent private-save checks passed:
+
+- `/workspace/qa/mall-ownership-v2/ownership.json`: Mega Loops recovered from
+  purchase proof, placed fully built for zero charge and retained exactly once
+  through two real SQLite reloads.
+- `/workspace/qa/mall-families-v2`: both partners completed their actual meal
+  outing; three reloads preserved pairs, calendar, exact homes/private wallets;
+  one house charge, five identical retries and concurrent old-client writes
+  retained the shared home. Two native sleeping positions and phone cards fit,
+  with no browser errors. AI was mocked; no player world or AI credits were used.

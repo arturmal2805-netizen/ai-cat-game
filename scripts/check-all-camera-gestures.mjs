@@ -42,9 +42,9 @@ export async function checkAllCameraGestures(page, context, review) {
       q.freeze = true;
       q.shadowDepth?.setEnabled(false);
       // Compare the native scene with the SAME original material programs
-      // and geometry. Cloning paints/unindexing flowers was an old batching
-      // experiment; it perturbed the gorilla's high-frequency face shader even
-      // on the released baseline and did not isolate camera/matrix caching.
+      // and geometry. Cloning paints/unindexing flowers is a separate batching
+      // experiment and does not isolate camera/matrix caching. Also retain a
+      // repeated cached draw to identify variation within that identical path.
       const a = new Uint8Array(
           gl.drawingBufferWidth * gl.drawingBufferHeight * 4,
         ),
@@ -175,13 +175,10 @@ export async function checkAllCameraGestures(page, context, review) {
       };
     }, id);
     if(image.difference){
-      const {raw,cached,...details}=image.difference;fs.writeFileSync(path.join(review,id+'-raw-difference.png'),Buffer.from(raw,'base64'));fs.writeFileSync(path.join(review,id+'-cached-difference.png'),Buffer.from(cached,'base64'));fs.writeFileSync(path.join(review,id+'-difference.json'),JSON.stringify(details,null,2));delete image.difference;
+      const {raw,cached,...details}=image.difference;image.temporalDifference=details;fs.writeFileSync(path.join(review,id+'-raw-difference.png'),Buffer.from(raw,'base64'));fs.writeFileSync(path.join(review,id+'-cached-difference.png'),Buffer.from(cached,'base64'));fs.writeFileSync(path.join(review,id+'-difference.json'),JSON.stringify(details,null,2));delete image.difference;
     }
-    assert.equal(
-      image.changed,
-      0,
-      `${id}: matrix/traversal caching must retain the exact image`,
-    );
+    // Keep collecting the complete camera/return itinerary before reporting
+    // strict pixel failures. The zero-difference criterion is unchanged.
     if (image.reuploadChanged !== null)
       assert.equal(
         image.reuploadChanged,
@@ -445,4 +442,8 @@ export async function checkAllCameraGestures(page, context, review) {
     fs.writeFileSync(path.join(review,'housing-return.json'),JSON.stringify(visits,null,2));
     console.log('HOUSING_RETURN',JSON.stringify(visits));
   }
+  const imageFailures=rows.filter(r=>r.image.changed!==0).map(r=>({id:r.id,changed:r.image.changed,temporalDifference:r.image.temporalDifference||null}));
+  fs.writeFileSync(path.join(review,'camera-image-failures.json'),JSON.stringify(imageFailures,null,2));
+  assert.deepEqual(imageFailures,[],'Every cached/native comparison must have zero differing channel bytes.');
+
 }
