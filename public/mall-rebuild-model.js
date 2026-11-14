@@ -1,4 +1,5 @@
 import {compactMallBuffersSteps} from './mall-buffer-compaction.js';
+import {createMallAirlock} from './mall-airlock.js';
 import {mallCutawayMaterial} from './mall-cutaway.js';
 import * as T from 'three';
 import {mallMascotSteps,mallGalleryIdentitySteps} from './mall-facade.js';
@@ -172,7 +173,10 @@ export function* mallRebuildModelSteps(options={}){
   mascot=new T.Group();statue=createCat('happy',{detail:'npc'});animateCat(statue,3,false,false);statue.scale.setScalar(5);mascot.position.set(0,MALL_LAYOUT.y+.85,84);mascot.add(statue);root.add(mascot);
   // Read-only background guests rest on actual solid benches. They cannot
   // obstruct a walking cat or generate fictitious wallets, receipts or AI calls.
-  root.userData={mall:true,built:true,layoutVersion:2,floors,stores,roomStoreIds,walkSurfaces,obstacles,cabin,doors,ownedCats:[statue],borrowedTextures:kit.borrowedTextures,atlas:kit.atlas,ownedTextures:[roomLights.texture],borrowed:new Set(),
+  // Dynamic pressure doors are added AFTER static obstacle collection, outside
+  // those source groups. Only the sequential portal FSM owns their collision.
+  const airlock=createMallAirlock();root.add(airlock);
+  root.userData={mall:true,built:true,layoutVersion:2,floors,stores,roomStoreIds,walkSurfaces,obstacles,cabin,doors,airlock,ownedCats:[statue],borrowedTextures:kit.borrowedTextures,atlas:kit.atlas,ownedTextures:[roomLights.texture],borrowed:new Set(),
     guestActors:background,
     iceCreamStation:kit.iceStation.current,
     stats:{floors:7,stores:stores.size,products:MALL_PRODUCTS.filter(p=>!p.legacy).length,area:mallPlanArea()},

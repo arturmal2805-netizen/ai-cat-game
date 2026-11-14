@@ -951,6 +951,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     const o = courtObject(id),
       g = itemGroups.get(id);
     if (!o || !(g?.userData.built || o.kind === "zoo" && courtProject(game,id)?.built)) return false;
+    submarine?.releaseControl();
     exitCourt();
     faceCamera.setEnabled(false, look);
     focused = o.biome;
@@ -2306,6 +2307,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
   syncActors = profileFunction("world.syncActors", syncActors);
   sync(initialGame);
   function focus(id, overview = false, keepFollow = false) {
+    if(!keepFollow)submarine?.releaseControl();
     mall?.exit(false);desiredFov=40;
     exitCourt(false);
     if (!keepFollow) faceCamera.setEnabled(false, look);
@@ -2497,6 +2499,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
   }
   const zooVisitorActors=()=>[{id:'chichi',position:chichiCarrier.position},...[...npcs].filter(([,n])=>n.carrier.parent).map(([id,n])=>({id,position:n.carrier.position}))];
   function followCat(id) {
+    submarine?.releaseControl();
     mall?.exit(false);
     const model = id === "chichi" ? cat : npcs.get(id)?.model;
     if (!model) return false;
@@ -5859,7 +5862,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
         );
       }
     frameProfile?.section("ambientAndBadges");
-    const mallLighting=mall?.inspection,shadowRange=mallLighting?(mallWideClip==='all'?185:mallWideClip?75:22):17;
+    const mallLighting=mall?.inspection||submarine?.exploringMall,shadowRange=mallLighting?(mallWideClip==='all'?185:mallWideClip?75:22):17;
     if(sun.shadow.camera.right!==shadowRange){Object.assign(sun.shadow.camera,{left:-shadowRange,right:shadowRange,top:shadowRange,bottom:-shadowRange});sun.shadow.camera.updateProjectionMatrix();}
     if(mallLighting){const reach=mallWideClip==='all'?4:2;sun.position.set(look.x-14*reach,look.y+35*reach,look.z+20*reach);}
     else sun.position.set(look.x - 14, 35, look.z + 20);
@@ -5920,10 +5923,10 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       if (business && cityOccluded.has(business.id))
         chichiCarrier.visible = false;
     }
-    const oceanImmersion=focused==='autumn'?THREE.MathUtils.clamp((.155-camera.position.y)/2,0,1):0;
+    const oceanImmersion=focused==='autumn'&&!submarine?.exploringMall?THREE.MathUtils.clamp((.155-camera.position.y)/2,0,1):0;
     sky.material.uniforms.uOceanUnderwater.value=oceanImmersion;
     scene.fog.color.copy(focusFogColor).lerp(oceanViewColor,oceanImmersion);
-    scene.fog.density = mall?.inspection ? Math.min(.0022,.5/Math.max(1,distance)) : THREE.MathUtils.lerp(worldFogDensity(distance),.0045,oceanImmersion);
+    scene.fog.density = mallLighting ? Math.min(.0022,.5/Math.max(1,distance)) : THREE.MathUtils.lerp(worldFogDensity(distance),.0045,oceanImmersion);
     updateOcclusion(now, dt);
     // The opaque shop covers the map. Keep the simulation running, but avoid
     // competing GPU draws while its miniature scenes are being rendered.
@@ -5962,6 +5965,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     canSimulate:()=>callbacks.canSimulateLeisure?.()!==false,
     blocked:id=>{const p=game.jobCity?.profiles[id],v=mall?.runtime.get(id),clock=game.jobCity&&cityClock(game.jobCity);return draggingCat?.catId===id||crew.workers.has(id)||p?.trip||!!(v?.ticket&&clock?.working&&p?.schedule?.job!=='rest')||(id==='chichi'&&!!submarine?.active);},
     onCamera:(floor,entering,zone=null)=>{
+      submarine?.releaseControl();
       if(entering){mallPreviousCamera={look:desiredLook.clone(),distance:desiredDistance,azimuth,elevation,fov:desiredFov,near:camera.near};if(focused!=='autumn')focus('autumn');exitCourt(false);faceCamera.setEnabled(false,look);viewingOverview=false;}
       faceCamera.setEnabled(false,look);
       const b=byBiome('autumn');desiredLook.set(b.center[0],floor?mallFloor(floor).y+2:MALL.y+27,b.center[1]+MALL.z);
@@ -5989,8 +5993,8 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     onPurchase:(...args)=>callbacks.onMallPurchase?.(...args),onUse:(...args)=>callbacks.onMallUse?.(...args),onGoal:(...args)=>callbacks.onMallGoal?.(...args),
     onComplete:(id,visit)=>{if(visit.ticket)finishLeisure(id,{completed:true});else {const n=npcs.get(id);if(n)n.manualUntil=0;}},
   });
-  submarine=createSubmarineRuntime({scene,container,canvas:renderer.domElement,camera,look,actor:chichiCarrier,getModel:()=>cat,getIsland:()=>islands.get('autumn'),getGame:()=>game,getFocused:()=>focused,canPilot:()=>callbacks.canDragCat?.('chichi')!==false&&!mall?.inspection,cancelHero:()=>{cancelHeroActivity();heroGather=null;jobs.cancel('chichi');crew.cancel('chichi');leisure.cancel('chichi');spa.cancel('chichi');chill.cancel('chichi');court.cancel('chichi');faceCamera.setEnabled(false,look);},approachDock:point=>{heroGather=gatherTrip(chichiCarrier.position,{x:point.x,y:point.y,z:point.z},performance.now());return true;},focus});
-  if(initialGame.mosasaurSubmarine?.active&&game.unlocked.includes('autumn'))focus('autumn',false,true);
+  submarine=createSubmarineRuntime({scene,container,canvas:renderer.domElement,camera,look,actor:chichiCarrier,getModel:()=>cat,getMall:()=>mall,onError:message=>callbacks.onReaction?.(message),getIsland:()=>islands.get('autumn'),getGame:()=>game,getFocused:()=>focused,canPilot:()=>callbacks.canDragCat?.('chichi')!==false&&!mall?.inspection,cancelHero:()=>{cancelHeroActivity();heroGather=null;jobs.cancel('chichi');crew.cancel('chichi');leisure.cancel('chichi');spa.cancel('chichi');chill.cancel('chichi');court.cancel('chichi');faceCamera.setEnabled(false,look);},approachDock:point=>{heroGather=gatherTrip(chichiCarrier.position,{x:point.x,y:point.y,z:point.z},performance.now());return true;},focus});
+  if((initialGame.mosasaurSubmarine?.active||initialGame.mosasaurSubmarine?.explorer)&&game.unlocked.includes('autumn'))focus('autumn',false,true);
   requestAnimationFrame(loop);
   for (const mood of moodNames) {
     const image = document.querySelector(`[data-mood-image="${mood}"]`);

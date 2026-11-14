@@ -56,6 +56,7 @@ async function localWorker() {
       for(const p of Object.values(g.jobCity.profiles)){p.coins=5000;p.profession=p.preferences[0];p.careerAIPending=false;p.professionSource='local';p.schedule={day:0,job:'rest',evening:'rest'};p.lastEveningDay=0;p.lastHousingAIDay=0;}
       g.jobCity.plan={day:0,source:'local',assignments:Object.values(g.jobCity.profiles).map(p=>({id:p.id,job:'rest',profession:p.profession,evening:'rest'}))};
     }
+    if(process.env.CHICHI_EXPLORER_AUDIT)g.mosasaurSubmarine=process.env.CHICHI_EXPLORER_STAGE==='mall'?{x:-43,y:-162.5,z:124.5,yaw:Math.PI,active:true,mode:'cockpit'}:{x:-6,y:-25,z:92,yaw:Math.PI,active:true,mode:'cockpit'};
     g.cat.energy = 95;
     g.cat.hunger = 5;
     g.cat.happiness = 95;
@@ -205,7 +206,7 @@ async function localWorker() {
       () => window.__lagoonQA && window.__lagoonSaveQA?.cloud.editable,
     );
     console.log("Native app ready");
-    await page.locator('[data-biome="autumn"]').tap();
+    if(!process.env.CHICHI_EXPLORER_AUDIT)await page.locator('[data-biome="autumn"]').tap();
     console.log("Autumn selected");
     await page.waitForFunction(
       () =>

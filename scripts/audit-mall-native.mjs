@@ -3,6 +3,7 @@ import {writeFile} from 'node:fs/promises';
 import {join} from 'node:path';
 export async function auditMallNative({page,context,base,headers,review,errors,httpErrors}){
  const capture=async name=>{await page.evaluate(()=>{const q=__lagoonQA;q.drawPaused=false;q.captureUntil=q.frames+2;});await page.waitForFunction(()=>__lagoonQA.drawPaused,null,{timeout:240000});await page.screenshot({path:join(review,name+'.png')});};
+ if(process.env.CHICHI_EXPLORER_AUDIT){const {auditOceanExplorerNative}=await import('./audit-ocean-explorer-native.mjs');await auditOceanExplorerNative({page,review,errors,httpErrors,capture});return;}
  await page.evaluate(()=>{__lagoonQA.drawPaused=true;});
  await page.locator('.mall-access').click();await page.waitForFunction(()=>__lagoonQA.mall()?.ready&&__lagoonQA.mall().inspection,null,{timeout:240000});
  console.log('Actual ocean mall prepared: ',await page.evaluate(()=>__lagoonQA.mall().root.userData.stats));

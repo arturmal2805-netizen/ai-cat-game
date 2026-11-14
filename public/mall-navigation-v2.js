@@ -1,3 +1,4 @@
+import {MALL_AIRLOCK as AIRLOCK} from './mall-airlock-data.js';
 import {spaPath} from './spa-navigation.js';
 import {MALL_LAYOUT as L,mallBuildingFootprintDistance,mallAtriumVoidDistance,roundedMallRectDistance} from './mall-layout.js';
 
@@ -7,6 +8,8 @@ const navigationWalkable=(p,radius,boxes,access=[],avoid=[])=>mallWalkableV2(p,r
 export const mallNavigationV2Ready=(boxes,radius)=>!!prepared.get(boxes)?.has(radius);
 export function mallWalkableV2(p,radius,boxes){
   const x=p.x,z=p.z+L.z;
+  // The pressure chamber belongs to its door FSM, not ordinary shop routes.
+  if(boxes.floor===1&&Math.abs(x-AIRLOCK.x)<AIRLOCK.w/2+radius&&z>AIRLOCK.z-AIRLOCK.d/2-radius&&z<AIRLOCK.z+AIRLOCK.d/2+radius)return false;
   const main=mallBuildingFootprintDistance(x,z)<-radius-.12&&(!(boxes.floor>1)||mallAtriumVoidDistance(x,z)>radius+.12);
   // Boarding/alighting is handled by the lift FSM, never by an ordinary
   // walking route across an empty shaft when the cabin is on another floor.

@@ -405,6 +405,11 @@ export function mergeSharedWorld(base, current, incoming) {
     }
   }
   if(base?.mosasaurSubmarine && incoming && !Object.hasOwn(incoming,'mosasaurSubmarine'))incoming={...incoming,mosasaurSubmarine:base.mosasaurSubmarine};
+  if(base?.mosasaurSubmarine&&(base.mosasaurSubmarine.explorerVersion===1||current?.mosasaurSubmarine?.explorerVersion===1)&&incoming?.mosasaurSubmarine?.explorerVersion!==1){
+    const old=base.mosasaurSubmarine,legacy=incoming.mosasaurSubmarine;
+    if(['x','y','z','yaw','pitch','active','mode'].some(k=>!equal(old[k],legacy?.[k])))throw new SharedConflict('Оновіть гру перед керуванням Чічі або субмариною.');
+    incoming={...incoming,mosasaurSubmarine:clone(old)};
+  }
   for(const game of [base,current,incoming])if(!retirementSnapshotValid(game?.retiredAttractions))throw new SharedConflict('Пошкоджений запис повернення покупки. Завантажте збережений світ.');
   if(base&&incoming&&retirementPurchaseAdvanced(base,incoming))throw new SharedConflict('Цей атракціон прибрано з гри. Оновіть сторінку; нова покупка не списана.');
   if(base&&incoming)incoming=inheritRetirement(base,incoming);

@@ -1,3 +1,4 @@
+import {stepMallWalker} from '../public/mall-walker.js';
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {createMallModel} from '../public/mall-model.js';
@@ -50,5 +51,16 @@ test('paid diners reload inside actual chair bounds and leave without a stuck pa
   const again=createMallRuntime(options);assert.ok(again.start('chichi',store.id,position,{radius:.571,resume:goal}));assert.equal(again.get('chichi').position.y,seatY);assert.equal(again.get('chichi').phase,used?'seat-stand':'experience',store.id);
   for(let t=0;t<600&&again.has('chichi');t+=1/30)again.step(1/30,t);
   assert.equal(again.has('chichi'),false,store.id+' return '+JSON.stringify(again.get('chichi')));assert.equal(payments,1);assert.equal(uses,1);assert.equal(game.jobCity.profiles.chichi.coins,coins);
+ }
+});
+
+test('first-person return enters each actual escalator around its upper handrail end',()=>{
+ for(let floor=2;floor<=7;floor++)for(const side of [-1,1]){
+  const s={x:side*25,y:MALL.y+(floor-1)*MALL.rise+.18,z:MALL.z+14.7,floor,yaw:0};
+  for(const target of [{x:side*18.4,z:MALL.z+14.7},{x:side*18.4,z:MALL.z+13.5},{x:side*18.4,z:MALL.z-13.5}]){
+   let n=0;while(Math.hypot(target.x-s.x,target.z-s.z)>.04&&n++<400){s.yaw=Math.atan2(target.x-s.x,target.z-s.z);stepMallWalker(s,Math.min(.05,Math.hypot(target.x-s.x,target.z-s.z)/5),{forward:1},mall.userData.obstacles,.571);}
+   assert.ok(n<400,JSON.stringify({floor,side,target,s}));
+  }
+  assert.equal(s.floor,floor-1);assert.ok(Math.abs(s.y-(MALL.y+(floor-2)*MALL.rise+.18))<.1);
  }
 });

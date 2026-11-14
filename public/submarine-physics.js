@@ -1,4 +1,5 @@
 import {mallPressureDistance,mallPressureContact} from './mall-pressure.js';
+import {normalizeOceanExplorer} from './ocean-explorer-state.js';
 import {submarineAirborne} from './submarine-controls.js';
 import {MOSA_SEA,mosaBedY} from './mosasaur-data.js';
 import {mosaTerrainObstacles} from './mosasaur-collision.js';
@@ -27,11 +28,12 @@ function escapeChangedMall(raw){
 export function normalizeSubmarine(raw={}){
  raw=escapeChangedMall(raw);
  const valid=Number.isFinite(raw.x+raw.y+raw.z+raw.yaw)&&Math.hypot(raw.x/(MOSA_SEA.rx-4),raw.z/(MOSA_SEA.rz-4))<1&&raw.y>mosaBedY(raw.x,raw.z)+1.1&&raw.y<60&&!overlapsReef(raw)&&!overlapsMall(raw);
- return {...(valid?{x:raw.x,y:raw.y,z:raw.z,yaw:wrap(raw.yaw),...(Number.isFinite(raw.pitch)&&Math.abs(raw.pitch)<100000?{pitch:wrap(raw.pitch)}:{})}:SUBMARINE_DOCK),speed:0,vertical:0,turn:0,active:valid&&raw.active===true,mode:raw.mode==='cockpit'?'cockpit':'chase'};
+ const explorer=normalizeOceanExplorer(raw.explorer);
+ return {...(valid?{x:raw.x,y:raw.y,z:raw.z,yaw:wrap(raw.yaw),...(Number.isFinite(raw.pitch)&&Math.abs(raw.pitch)<100000?{pitch:wrap(raw.pitch)}:{})}:SUBMARINE_DOCK),speed:0,vertical:0,turn:0,active:valid&&raw.active===true,mode:raw.mode==='cockpit'?'cockpit':'chase',...(raw.explorerVersion===1?{explorerVersion:1,explorer}:explorer?{explorer}:{}),...(raw.returning===true?{returning:true}:{}),...(raw.released===true?{released:true}:{})};
 }
 export function submarineAtDock(s){return Math.hypot(s.x-SUBMARINE_DOCK.x,s.z-SUBMARINE_DOCK.z)<4&&Math.abs(s.y-SUBMARINE_DOCK.y)<2.5&&Math.abs(s.speed)<1.1;}
-export function submarineSnapshot(s){return {x:s.x,y:s.y,z:s.z,yaw:s.yaw,active:!!s.active,...(Number.isFinite(s.pitch)&&Math.abs(wrap(s.pitch))>1e-7?{pitch:wrap(s.pitch)}:{}),mode:s.mode==='cockpit'?'cockpit':'chase'};}
-function pushCapsule(p,o,radius){
+export function submarineSnapshot(s){return {x:s.x,y:s.y,z:s.z,yaw:s.yaw,active:!!s.active,...(Number.isFinite(s.pitch)&&Math.abs(wrap(s.pitch))>1e-7?{pitch:wrap(s.pitch)}:{}),mode:s.mode==='cockpit'?'cockpit':'chase',...(s.explorerVersion===1?{explorerVersion:1,explorer:normalizeOceanExplorer(s.explorer)}:s.explorer?{explorer:normalizeOceanExplorer(s.explorer)}:{}),...(s.returning===true?{returning:true}:{}),...(s.released===true?{released:true}:{})};}
+export function pushCapsule(p,o,radius){
  const ax=o.a[0],ay=o.a[1],az=o.a[2],dx=o.b[0]-ax,dy=o.b[1]-ay,dz=o.b[2]-az,t=clamp(((p.x-ax)*dx+(p.y-ay)*dy+(p.z-az)*dz)/(dx*dx+dy*dy+dz*dz||1),0,1),x=p.x-ax-dx*t,y=p.y-ay-dy*t,z=p.z-az-dz*t,d=Math.hypot(x,y,z),gap=radius+o.radius;
  if(d>=gap)return false;if(d<1e-8){p.x+=gap;return true;}const k=(gap-d)/d;p.x+=x*k;p.y+=y*k;p.z+=z*k;return true;
 }

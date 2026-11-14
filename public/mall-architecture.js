@@ -88,7 +88,7 @@ export function* mallArchitectureFloorSteps(floor,kit){
     for(let i=0;i<36;i++){const t=(lo+hi)/2;if(mallBuildingFootprintDistance(a.x+dx*t,a.z+dz*t)<0)lo=t;else hi=t;}
     return{a,dx,dz,length,x:a.x+dx*lo,z:a.z+dz*lo};
   });
-  const opening=p=>doors.some(d=>{const t=((p.x-d.a.x)*d.dx+(p.z-d.a.z)*d.dz)/d.length;return t>0&&t<d.length&&Math.abs((p.x-d.a.x)*d.dz-(p.z-d.a.z)*d.dx)/d.length<4.2;});
+  const opening=p=>(floor.id===1&&Math.abs(p.x+43)<4.05&&p.z>118)||doors.some(d=>{const t=((p.x-d.a.x)*d.dx+(p.z-d.a.z)*d.dz)/d.length;return t>0&&t<d.length&&Math.abs((p.x-d.a.x)*d.dz-(p.z-d.a.z)*d.dx)/d.length<4.2;});
   const glazing=new T.Mesh(glassRibbon(points,MALL_LAYOUT.rise-.25,closed,opening),glassMat);glass.add(glazing);
   for(const door of doors){
     const frame=new T.Group();frame.position.set(door.x,0,door.z);frame.rotation.y=Math.atan2(door.dx,door.dz);structure.add(frame);
