@@ -1,3 +1,4 @@
+import {mallCameraGuests,randomMallGuest} from './mall-guests.js';
 import {mallPath,mallNavigationSteps,mallNavigationReady,mallAccessibleService,mallSegmentClear} from './mall-navigation.js';
 import {catNavigationRadius} from './cat-navigation-size.js';
 import {pauseHiddenMatrixUpdates} from './scene-visibility.js';
@@ -16,10 +17,10 @@ import {catAppearance} from './cat-breeds.js';
 import {NEIGHBORS,byBiome} from './game-data.js';
 import {cacheSceneMatrices} from './matrix-cache.js';
 
-export function createMallWorld({scene,container,getGame,getActors,getFocused,getOverview,getCameraElevation=()=>0,prepare,prepareModel,registerCat=()=>{},onCamera,onStoreCamera,onExit,onStore,onPurchase,onUse,onGoal,onComplete,onError=()=>{},canSimulate=()=>true,blocked=()=>false,reduced=false}={}){
+export function createMallWorld({scene,container,getGame,getActors,getFocused,getOverview,getCameraElevation=()=>0,prepare,prepareModel,registerCat=()=>{},onCamera,onStoreCamera,onGuestCamera,onExit,onStore,onPurchase,onUse,onGoal,onComplete,onError=()=>{},canSimulate=()=>true,blocked=()=>false,reduced=false}={}){
   const centre=byBiome('autumn').center,abort=new AbortController(),staff=[],props=new Map(),personal=new Map(),worn=new Map(),navigationPending=new Map();
   const iceProps=new Map(),iceOffset=new THREE.Matrix4(),icePoint=new THREE.Vector3(),iceScale=new THREE.Vector3(.65,.65,.65);
-  let root=null,pending=null,disposed=false,inspection=false,selected=null,lastResume=-1;
+  let root=null,pending=null,disposed=false,inspection=false,selected=null,lastResume=-1,guest=null,lastGuest=null;
   const access=document.createElement('button');access.className='mall-access';access.textContent='🛍 ТРЦ';access.title='Підводний Cat Mall';access.setAttribute('aria-label','Відкрити підводний ТРЦ');access.hidden=true;(container.querySelector('.map-controls')||container).append(access);
   const panel=document.createElement('nav');panel.className='mall-floors';panel.hidden=true;panel.setAttribute('aria-label','Поверхи підводного ТРЦ');container.append(panel);
   const shopOpen=document.createElement('button');shopOpen.className='mall-shop-open';shopOpen.hidden=true;container.append(shopOpen);
@@ -29,6 +30,7 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
     const b=document.createElement('button');b.textContent=`F${f.id}`;b.title=f.name;b.setAttribute('aria-label',`F${f.id} — ${f.name}`);b.onclick=()=>inspect(f.id);buttons.set(f.id,b);panel.append(b);
   }
   for(const [title,callback]of [['ALL',()=>inspect(null)],['EXIT',()=>exit()]]){const b=document.createElement('button');b.textContent=title;b.onclick=callback;panel.append(b);}
+  const guestButton=document.createElement('button');guestButton.className='mall-guest-camera';guestButton.textContent='🐱 Котик';guestButton.title='Котик у ТРЦ';guestButton.setAttribute('aria-label','Випадковий котик у ТРЦ');panel.append(guestButton);
   const wingControls=document.createElement('div');wingControls.className='mall-wing-controls';wingControls.hidden=true;
   for(const [symbol,zone,title]of [['◀ Ліве','west','Ліве крило'],['◎ Атріум','atrium','Центральний атріум'],['Праве ▶','east','Праве крило']]){const b=document.createElement('button');b.textContent=symbol;b.title=title;b.setAttribute('aria-label',title);b.onclick=()=>inspect(selected||1,zone);wingControls.append(b);}container.append(wingControls);
   const runtime=createMallRuntime({getGame,onPurchase,onUse,onGoal,onComplete,
@@ -87,7 +89,7 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
   }
   async function inspect(floor=null,zone=null){
     const model=await ensure();if(!model||disposed)return false;
-    shopOpen.hidden=true;storeView.hidden=true;const entering=!inspection;onCamera?.(floor,entering,zone);wingControls.hidden=!floor;
+    guest=null;onGuestCamera?.(null);shopOpen.hidden=true;storeView.hidden=true;const entering=!inspection;onCamera?.(floor,entering,zone);wingControls.hidden=!floor;
     inspection=true;container.classList.add('mall-inspection');selected=floor;panel.hidden=false;
     model.userData.focusFloor(floor);
     for(const [id,b]of buttons)b.setAttribute('aria-pressed',String(id===floor));
@@ -95,7 +97,7 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
   }
   function exit(restore=true){
     if(!inspection)return;
-    inspection=false;container.classList.remove('mall-inspection');selected=null;
+    guest=null;onGuestCamera?.(null);inspection=false;container.classList.remove('mall-inspection');selected=null;
     panel.hidden=true;wingControls.hidden=true;shopOpen.hidden=true;storeView.hidden=true;root?.userData.focusFloor(null);onExit?.(restore);
   }
   async function inspectStore(id){
@@ -106,7 +108,14 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
     storeView.onclick=()=>{inside=!inside;storeView.textContent=inside?'До вітрини':'Оглянути зал';storeView.setAttribute('aria-pressed',String(inside));onStoreCamera?.(store,inside);};
     shopOpen.onclick=()=>onStore?.(id);return true;
   }
-  access.onclick=()=>inspect();
+  function cameraGuests(){return mallCameraGuests(getActors(),runtime.visits,root?.userData.guestActors);}
+  function showGuest(next){
+    guest=next;selected=next.floor;root.userData.focusFloor(selected);
+    for(const [id,b]of buttons)b.setAttribute('aria-pressed',String(id===selected));
+    wingControls.hidden=true;shopOpen.hidden=true;storeView.hidden=true;onGuestCamera?.(next);
+  }
+  guestButton.onclick=()=>{const next=randomMallGuest(cameraGuests(),lastGuest);if(next){lastGuest=next.id;showGuest(next);}};
+  access.onclick=()=>inspect(1,'atrium');
   function disposeModel(model){
     for(const cat of model.userData.ownedCats||[]){cat.removeFromParent();disposeCat(cat);}
     const geometries=new Set(),materials=new Set(),textures=new Set(model.userData.ownedTextures||[]),borrowedTextures=model.userData.borrowedTextures||new Set();
@@ -120,7 +129,7 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
   }
   return {
     runtime,ensure,inspect,inspectStore,exit,
-    get root(){return root;},get ready(){return !!root&&!pending&&staff.length===7&&staff.every(s=>s.carrier.parent);},get inspection(){return inspection;},get floor(){return selected;},
+    get root(){return root;},get ready(){return !!root&&!pending&&staff.length===7&&staff.every(s=>s.carrier.parent);},get inspection(){return inspection;},get floor(){return selected;},get guest(){return guest;},
     async start(id,storeId,{productId=null,ticket=null,useOwned=false}={}){
       const actor=getActors().find(a=>a.id===id),store=mallStore(storeId);if(!actor||!store)return false;
       const model=await ensure();if(!model||disposed||!canSimulate())return false;
@@ -154,7 +163,7 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
       const hits=raycaster.intersectObject(root,true).filter(h=>{let o=h.object;while(o){if(!o.visible||o.userData.mallGhost)return false;o=o.parent;}return true;});
       const hit=hits[0];
       if(!hit)return false;
-      if(!inspection){void inspect();return true;}
+      if(!inspection){void inspect(1,'atrium');return true;}
       for(const contact of hits){
         const geometry=contact.object.geometry,ids=geometry?.getAttribute('aMallRoom');if(!ids||contact.faceIndex==null)continue;
         const vertex=ids.isInstancedBufferAttribute?(contact.instanceId||0):geometry.index?geometry.index.getX(contact.faceIndex*3):contact.faceIndex*3,id=root.userData.roomStoreIds?.[ids.getX(vertex)],store=mallStore(id);
@@ -170,6 +179,7 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
       if(active&&game.unlocked.includes('autumn')&&!root&&!pending)void ensure();
       if(root){root.visible=visible;if(visible){if(inspection)root.userData.inspectionElevation(getCameraElevation());root.userData.update(time,reduced);}}
       runtime.step(dt,time,{allow:canSimulate(),blocked});
+      if(inspection){const empty=!cameraGuests().length;if(guestButton.disabled!==empty){guestButton.disabled=empty;guestButton.textContent=empty?'Немає гостей':'🐱 Котик';guestButton.title=empty?'У ТРЦ поки немає відвідувачів':'Котик у ТРЦ';}if(guest){const next=cameraGuests().find(g=>g.id===guest.id);if(!next){guest=null;void inspect(selected);}else if(next.floor!==selected)showGuest(next);}}
       const iceOrder=[...runtime.visits.values()].find(v=>v.storeId==='mall-ice'&&v.phase==='checkout');
       root?.userData.iceCreamStation?.setServing(iceOrder?mallProduct(iceOrder.productId)?.iceFlavor:null,iceOrder?.elapsed||0);
       if(canSimulate())for(const [id,p]of personal){

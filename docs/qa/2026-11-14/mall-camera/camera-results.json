@@ -1,0 +1,65 @@
+{
+  "first": {
+    "floor": 2,
+    "inspection": true,
+    "guest": "mall-ambient-2",
+    "enabled": true,
+    "near": 0.15,
+    "fov": 40,
+    "point": [
+      -480,
+      -154.7503,
+      607.7898
+    ],
+    "camera": [
+      -480.0071777053486,
+      -152.46382523073822,
+      608.6594670069192
+    ],
+    "panel": true,
+    "dpr": 2
+  },
+  "second": {
+    "floor": 4,
+    "inspection": true,
+    "guest": "mall-ambient-7",
+    "enabled": true,
+    "near": 0.15,
+    "fov": 40,
+    "point": [
+      -420,
+      -137.7503,
+      607.7898
+    ],
+    "camera": [
+      -420.05266009430017,
+      -135.44473720740027,
+      608.6046966836363
+    ],
+    "panel": true,
+    "dpr": 2
+  },
+  "landscape": {
+    "floor": 4,
+    "inspection": true,
+    "guest": "mall-ambient-7",
+    "enabled": true,
+    "near": 0.15,
+    "fov": 40,
+    "point": [
+      -420,
+      -137.7503,
+      607.7898
+    ],
+    "camera": [
+      -420.0339812814795,
+      -136.2051294072438,
+      608.3793145841473
+    ],
+    "panel": true,
+    "dpr": 2
+  },
+  "errors": [],
+  "httpErrors": [],
+  "renderer": "Chromium SwiftShader, DPR2; no physical-device FPS claim"
+}

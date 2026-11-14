@@ -560,7 +560,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
   const faceCamera = createChichiCamera(camera, cat.userData.head, {
     reduced,
     // Face gestures must remain visible above the tall open halfpipe.
-    getViewLift: () => (followedCatId === "chichi" ? operation?.attraction : residentPlay.get(followedCatId)?.object)?.userData.id === "ride-water-surf-halfpipe" ? 1.35 : 0,
+    getViewLift: () => mall?.guest ? 1.6 : (followedCatId === "chichi" ? operation?.attraction : residentPlay.get(followedCatId)?.object)?.userData.id === "ride-water-surf-halfpipe" ? 1.35 : 0,
     onChange: (enabled) =>
       callbacks.onCameraMode?.(
         enabled,
@@ -570,7 +570,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
               name:
                 followedCatId === "chichi"
                   ? "Чичи"
-                  : npcs.get(followedCatId)?.profile.name,
+                  : npcs.get(followedCatId)?.profile.name || 'Котик у ТРЦ',
             }
           : null,
       ),
@@ -5963,6 +5963,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     blocked:id=>{const p=game.jobCity?.profiles[id],v=mall?.runtime.get(id),clock=game.jobCity&&cityClock(game.jobCity);return draggingCat?.catId===id||crew.workers.has(id)||p?.trip||!!(v?.ticket&&clock?.working&&p?.schedule?.job!=='rest')||(id==='chichi'&&!!submarine?.active);},
     onCamera:(floor,entering,zone=null)=>{
       if(entering){mallPreviousCamera={look:desiredLook.clone(),distance:desiredDistance,azimuth,elevation,fov:desiredFov,near:camera.near};if(focused!=='autumn')focus('autumn');exitCourt(false);faceCamera.setEnabled(false,look);viewingOverview=false;}
+      faceCamera.setEnabled(false,look);
       const b=byBiome('autumn');desiredLook.set(b.center[0],floor?mallFloor(floor).y+2:MALL.y+27,b.center[1]+MALL.z);
       const halfHorizontal=floor?1.7:1.55;
       mallFraming={half:halfHorizontal,cap:floor?100:150,aspect:camera.aspect};
@@ -5974,9 +5975,15 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
         desiredDistance=wing==='atrium'?80:70;desiredFov=Math.max(40,Math.min(100,Math.atan(.95/camera.aspect)*360/Math.PI));
       }
       mallWideClip=floor?'floor':'all';camera.near=floor?Math.min(48,Math.max(.5,distance*.42)):Math.max(.5,distance-80);camera.updateProjectionMatrix();
-      azimuth=.06;elevation=floor?.65:.2;overviewElevation=null;
+      azimuth=.06;elevation=floor?.82:.58;overviewElevation=null;
     },
-    onStoreCamera:(s,inside=false)=>{mallWideClip=false;const half=inside?.5:.7,offset=inside?-4:2,cap=inside?100:110;mallFraming={half,cap,aspect:camera.aspect};camera.near=.5;camera.updateProjectionMatrix();desiredFov=Math.max(40,Math.min(cap,Math.atan(half/camera.aspect)*360/Math.PI));const b=byBiome('autumn');desiredLook.set(b.center[0]+s.x+Math.sin(s.placement.yaw)*offset,s.y+(inside?2.2:3.2),b.center[1]+s.z+Math.cos(s.placement.yaw)*offset);desiredDistance=inside?14:36;azimuth=s.placement.yaw+.06;elevation=inside?.025:.055;},
+    onStoreCamera:(s,inside=false)=>{mallWideClip=false;const half=inside?.5:.7,offset=inside?-4:2,cap=inside?100:110;mallFraming={half,cap,aspect:camera.aspect};camera.near=.5;camera.updateProjectionMatrix();desiredFov=Math.max(40,Math.min(cap,Math.atan(half/camera.aspect)*360/Math.PI));const b=byBiome('autumn');desiredLook.set(b.center[0]+s.x+Math.sin(s.placement.yaw)*offset,s.y+(inside?2.2:3.2),b.center[1]+s.z+Math.cos(s.placement.yaw)*offset);desiredDistance=inside?14:36;azimuth=s.placement.yaw+.06;elevation=inside?.025:.62;},
+    onGuestCamera:guest=>{
+      faceCamera.setEnabled(false,look);
+      if(!guest)return;
+      mallWideClip=false;mallFraming=null;overviewElevation=null;desiredFov=40;camera.fov=40;camera.near=.15;camera.updateProjectionMatrix();
+      followedCatId=guest.id;faceCamera.setTarget(guest.model.userData.head,look);faceCamera.setEnabled(true,look);
+    },
     onExit:restore=>{mallWideClip=false;mallFraming=null;camera.near=mallPreviousCamera?.near??.5;camera.updateProjectionMatrix();desiredFov=restore&&mallPreviousCamera?mallPreviousCamera.fov:40;if(restore&&mallPreviousCamera){desiredLook.copy(mallPreviousCamera.look);desiredDistance=mallPreviousCamera.distance;azimuth=mallPreviousCamera.azimuth;elevation=mallPreviousCamera.elevation;}mallPreviousCamera=null;},
     onStore:id=>callbacks.onSelectMallStore?.(id),onError:message=>callbacks.onReaction?.(message),
     onPurchase:(...args)=>callbacks.onMallPurchase?.(...args),onUse:(...args)=>callbacks.onMallUse?.(...args),onGoal:(...args)=>callbacks.onMallGoal?.(...args),

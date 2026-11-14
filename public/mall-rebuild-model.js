@@ -173,6 +173,7 @@ export function* mallRebuildModelSteps(options={}){
   // Read-only background guests rest on actual solid benches. They cannot
   // obstruct a walking cat or generate fictitious wallets, receipts or AI calls.
   root.userData={mall:true,built:true,layoutVersion:2,floors,stores,roomStoreIds,walkSurfaces,obstacles,cabin,doors,ownedCats:[statue],borrowedTextures:kit.borrowedTextures,atlas:kit.atlas,ownedTextures:[roomLights.texture],borrowed:new Set(),
+    guestActors:background,
     iceCreamStation:kit.iceStation.current,
     stats:{floors:7,stores:stores.size,products:MALL_PRODUCTS.filter(p=>!p.legacy).length,area:mallPlanArea()},
     *backgroundSteps(){
@@ -180,7 +181,7 @@ export function* mallRebuildModelSteps(options={}){
       for(const floor of floorData)for(const side of [-1,1]){
         yield;const cat=createCat('happy',{detail:'npc',color:[0xe6a183,0xaaa7bb,0xf4e4cb,0x717c88][(floor.id+(side>0?1:0))%4],hat:false}),carrier=new T.Group();
         cat.scale.setScalar(.63);cat.userData.mallBackground=true;carrier.position.set(side*30,floor.y+1.0,107.5);carrier.userData.biomeId='autumn';carrier.add(cat);root.add(carrier);root.userData.ownedCats.push(cat);
-        animateCat(cat,floor.id+side,false,true);background.push({cat,carrier,floor:floor.id,phase:floor.id*1.7+side,next:0,reaction:{crouch:.12,paw:0,headPitch:0,headRoll:0}});
+        animateCat(cat,floor.id+side,false,true);background.push({id:`mall-ambient-${background.length}`,cat,carrier,floor:floor.id,phase:floor.id*1.7+side,next:0,reaction:{crouch:.12,paw:0,headPitch:0,headRoll:0}});
       }
       root.userData.stats.backgroundVisitors=background.length;
       for(let i=0;i<2;i++){
