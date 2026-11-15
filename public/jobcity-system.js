@@ -1,3 +1,4 @@
+import {normalizeCatVacation,catOnVacation,planCatVacations} from './cat-vacation.js';
 import {MALL_PRODUCTS,mallProduct} from './mall-data.js';
 import {buyMallProduct,newMallProfile,normalizeMallProfile} from './mall-system.js';
 import {normalizeInvestments} from "./crypto-trading.js";
@@ -131,6 +132,7 @@ export function normalizeJobCity(raw, game, now = Date.now()) {
     const p = newJobProfile(cat),
       r = raw.profiles?.[cat.id];
     if (r) {
+      if(r.vacation!=null)p.vacation=normalizeCatVacation(r.vacation);
       p.coins = safe(r.coins, Number.MAX_SAFE_INTEGER);
       p.mall=normalizeMallProfile(r.mall);
       p.investments=normalizeInvestments(r.investments);
@@ -331,7 +333,8 @@ export function localJobPlan(profiles, day) {
         a.id.localeCompare(b.id),
     )
     .map((p) => {
-      const work = p.id.startsWith("jobcat-") || hash(p.id + day) % 5 !== 0;
+      const returned=p.vacation&&day>=p.vacation.endDay&&p.lastPaidDay<p.vacation.endDay;
+      const work = !catOnVacation(p,day)&&(returned||p.id.startsWith("jobcat-")||hash(p.id + day)%5!==0);
       const options = JOB_KINDS.filter(
         (k) =>
           (!p.profession || p.profession === k) && counts[k] < JOB_CAPACITY,
@@ -436,13 +439,13 @@ export function applyJobPlan(
   families = [],
   options = {},
 ) {
-  const next = clone(game),
+  const next = clone(source==="local"?planCatVacations(game,day):game),
     state = next.jobCity;
   if (!state || state.plan?.day > day) return game;
   const valid = validateJobAssignments(
     { assignments },
     Object.values(state.profiles),
-  );
+  ).map(a=>catOnVacation(state.profiles[a.id],day)?{...a,job:"rest",profession:state.profiles[a.id].profession,reason:state.profiles[a.id].professionReason||a.reason}:a);
   const outings = valid.some((a) => a.outings?.length)
     ? new Set(leisureOffers(game).map((o) => o.id))
     : null;
@@ -595,6 +598,7 @@ export function recordJobAttendanceBatch(game, events) {
       clock = cityClock(next.jobCity, now);
     if (!p || !jobBusiness(job) || !clock.working || p.lastPaidDay >= clock.day)
       continue;
+    if(active&&catOnVacation(p,clock))continue;
     if (active && (p.schedule?.day !== clock.day || p.schedule.job !== job))
       continue;
     if (!active && p.attendance?.job !== job) continue;

@@ -1,3 +1,4 @@
+import {normalizeCatVacation,reconcileCatVacation} from './public/cat-vacation.js';
 import {validateMallEconomy} from './public/mall-system.js';
 import {MALL_PRODUCTS} from './public/mall-data.js';
 import {MOSA_OLD_RADIUS} from './public/mosasaur-data.js';
@@ -137,9 +138,10 @@ function merge(base, current, incoming, path = "", depth = 0) {
           "career",
         ],
         ["trip", "parkedAt", "parkedCar"],
+        ["vacation"],
       ];
       for (const keys of groups) {
-        const incomingChanged = keys.some((k) => (k!=="investments" || !!p.investments) && changed(old[k], p[k])),
+        const incomingChanged = keys.some((k) => (k!=="investments" || !!p.investments) && (k!=="vacation" || !!p.vacation) && changed(old[k], p[k])),
           currentChanged = keys.some((k) => changed(old[k], actual[k]));
         if (
           incomingChanged &&
@@ -154,6 +156,7 @@ function merge(base, current, incoming, path = "", depth = 0) {
       for (const key of Object.keys(p))
         if (changed(old[key], p[key])) {
           if (key === "investments" && !p[key] && actual[key]) continue;
+          if(key==="vacation"&&!p[key]&&actual[key])continue;
           if (key === "lastHousingAIDay")
             profile[key] = Math.max(actual[key] ?? -1, p[key] ?? -1);
           else if (key === "careerAIRequestedDay")
@@ -394,6 +397,13 @@ export function mergeSharedWorld(base, current, incoming) {
     incoming=clone(incoming);
     for(const [id,p]of Object.entries(incoming.jobCity.profiles||{})){
       const old=base.jobCity.profiles[id];if(!old)continue;
+      try{const vacation=reconcileCatVacation(old.vacation,current?.jobCity?.profiles[id]?.vacation,p.vacation);if(vacation)p.vacation=vacation;}catch(error){throw new SharedConflict(error.message);}
+      const vacation=current?.jobCity?.profiles[id]?.vacation||old.vacation;
+      if(vacation){
+        const prior=new Set((old.transactions||[]).map(t=>t.id));
+        if((p.transactions||[]).some(t=>t.kind==='wage'&&!prior.has(t.id)&&t.day>=vacation.startDay&&t.day<vacation.endDay))throw new SharedConflict('Котик у відпустці; оновіть гру перед нарахуванням зміни.');
+        if(p.schedule?.day>=vacation.startDay&&p.schedule.day<vacation.endDay&&p.profession!==vacation.previousJob)throw new SharedConflict('Професія котика зберігається до завершення відпустки.');
+      }
       if(!Object.hasOwn(p,'mall'))p.mall=clone(old.mall);
       for(const item of MALL_PRODUCTS)if(!Object.hasOwn(p.inventory||{},item.id)&&old.inventory?.[item.id]){
         // A current client records consumption in mall.used. Only legacy
@@ -410,6 +420,7 @@ export function mergeSharedWorld(base, current, incoming) {
     if(['x','y','z','yaw','pitch','active','mode'].some(k=>!equal(old[k],legacy?.[k])))throw new SharedConflict('Оновіть гру перед керуванням Чічі або субмариною.');
     incoming={...incoming,mosasaurSubmarine:clone(old)};
   }
+  for(const game of [base,current,incoming])for(const p of Object.values(game?.jobCity?.profiles||{}))if(p.vacation)try{normalizeCatVacation(p.vacation);}catch(error){throw new SharedConflict(error.message);}
   for(const game of [base,current,incoming])if(!retirementSnapshotValid(game?.retiredAttractions))throw new SharedConflict('Пошкоджений запис повернення покупки. Завантажте збережений світ.');
   if(base&&incoming&&retirementPurchaseAdvanced(base,incoming))throw new SharedConflict('Цей атракціон прибрано з гри. Оновіть сторінку; нова покупка не списана.');
   if(base&&incoming)incoming=inheritRetirement(base,incoming);

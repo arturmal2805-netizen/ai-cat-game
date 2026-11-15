@@ -1,3 +1,4 @@
+import {catOnVacation} from './cat-vacation.js';
 import {activeZooGuests} from './zoo-guest-visits.js';
 import {zooHostPlayFrame} from './zoo-guest-motion.js';
 import {JOB_END} from "./jobcity-data.js";
@@ -19,7 +20,7 @@ export function homeRestTime(game, id, now = Date.now(), context = null) {
   if (!game.housing?.residences[id] || !game.jobCity) return false;
   const clock = context?.clock || cityClock(game.jobCity, now),
     p = game.jobCity.profiles[id];
-  if (clock.working) return false;
+  if(clock.working&&(!catOnVacation(p,clock)||clock.hour%4>=2))return false;
   if(context?.guestHomes?context.guestHomes.has(game.housing.residences[id]):activeZooGuests(game,now).some(v=>v.houseId===game.housing.residences[id]))return true;
   const planner =
       game.jobCity.profiles[leisurePlanOwner(game, id, context?.partners)],
@@ -121,9 +122,10 @@ export function createHousingRuntime({ reduced = false } = {}) {
       actors,
       dt,
       time,
-      { night, eligible = () => true, blocked = () => false, guests = activeZooGuests(game) } = {},
+      { night, clock:providedClock=null, eligible = () => true, blocked = () => false, guests = activeZooGuests(game) } = {},
     ) {
       sync(game);
+      const clock=providedClock||(!night&&game.jobCity?cityClock(game.jobCity):null);
       // Give each column its own approach lane. Returning every resident at
       // the same gate made their collision avoidance lock the whole crowd.
       const arriving = new Map();
@@ -144,7 +146,7 @@ export function createHousingRuntime({ reduced = false } = {}) {
           h = state?.homes[id],
           visit = runtime.get(actor.id);
         if (
-          !night ||
+          (!night&&(!clock||!catOnVacation(game.jobCity?.profiles[actor.id],clock))) ||
           !eligible(actor) ||
           !h ||
           blocked(actor) ||

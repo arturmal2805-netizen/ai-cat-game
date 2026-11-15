@@ -1,0 +1,278 @@
+{
+  "initial": {
+    "vacation": {
+      "startDay": 27,
+      "endDay": 30,
+      "previousJob": "factory"
+    },
+    "profession": "factory",
+    "coins": 7400,
+    "inventory": {},
+    "schedule": {
+      "day": 28,
+      "job": "rest",
+      "evening": "rest"
+    },
+    "home": "house-adopt-nimbus-1",
+    "homes": {
+      "house-chichi-1": {
+        "id": "house-chichi-1",
+        "owner": "chichi",
+        "type": "home-sage",
+        "purchaseId": "buy-chichi-1",
+        "sequence": 1,
+        "price": 1600,
+        "at": 1794741863030,
+        "plot": 0,
+        "source": "manual",
+        "aiDay": null,
+        "roommate": "luna"
+      },
+      "house-adopt-nimbus-1": {
+        "id": "house-adopt-nimbus-1",
+        "owner": "adopt-nimbus",
+        "type": "home-lavender",
+        "purchaseId": "buy-adopt-nimbus-1",
+        "sequence": 1,
+        "price": 2600,
+        "at": 1794741863031,
+        "plot": 1,
+        "source": "manual",
+        "aiDay": null,
+        "roommate": "moti"
+      }
+    },
+    "epoch": 1794701543030
+  },
+  "home": {
+    "vacation": {
+      "startDay": 27,
+      "endDay": 30,
+      "previousJob": "factory"
+    },
+    "profession": "factory",
+    "coins": 7400,
+    "inventory": {},
+    "schedule": {
+      "day": 28,
+      "job": "rest",
+      "evening": "rest"
+    },
+    "home": "house-adopt-nimbus-1",
+    "homes": {
+      "house-chichi-1": {
+        "id": "house-chichi-1",
+        "owner": "chichi",
+        "type": "home-sage",
+        "purchaseId": "buy-chichi-1",
+        "sequence": 1,
+        "price": 1600,
+        "at": 1794741863030,
+        "plot": 0,
+        "source": "manual",
+        "aiDay": null,
+        "roommate": "luna"
+      },
+      "house-adopt-nimbus-1": {
+        "id": "house-adopt-nimbus-1",
+        "owner": "adopt-nimbus",
+        "type": "home-lavender",
+        "purchaseId": "buy-adopt-nimbus-1",
+        "sequence": 1,
+        "price": 2600,
+        "at": 1794741863031,
+        "plot": 1,
+        "source": "manual",
+        "aiDay": null,
+        "roommate": "moti"
+      }
+    },
+    "homePhase": "relax",
+    "epoch": 1794701543030
+  },
+  "reloaded": {
+    "vacation": {
+      "startDay": 27,
+      "endDay": 30,
+      "previousJob": "factory"
+    },
+    "profession": "factory",
+    "coins": 7400,
+    "inventory": {},
+    "schedule": {
+      "day": 28,
+      "job": "rest",
+      "evening": "rest"
+    },
+    "home": "house-adopt-nimbus-1",
+    "homes": {
+      "house-chichi-1": {
+        "id": "house-chichi-1",
+        "owner": "chichi",
+        "type": "home-sage",
+        "purchaseId": "buy-chichi-1",
+        "sequence": 1,
+        "price": 1600,
+        "at": 1794741863030,
+        "plot": 0,
+        "source": "manual",
+        "aiDay": null,
+        "roommate": "luna"
+      },
+      "house-adopt-nimbus-1": {
+        "id": "house-adopt-nimbus-1",
+        "owner": "adopt-nimbus",
+        "type": "home-lavender",
+        "purchaseId": "buy-adopt-nimbus-1",
+        "sequence": 1,
+        "price": 2600,
+        "at": 1794741863031,
+        "plot": 1,
+        "source": "manual",
+        "aiDay": null,
+        "roommate": "moti"
+      }
+    },
+    "epoch": 1794701543030
+  },
+  "beforeDeadline": {
+    "vacation": {
+      "startDay": 27,
+      "endDay": 30,
+      "previousJob": "factory"
+    },
+    "profession": "factory",
+    "coins": 7400,
+    "inventory": {},
+    "schedule": {
+      "day": 30,
+      "job": "factory",
+      "evening": "walk"
+    },
+    "home": "house-adopt-nimbus-1",
+    "homes": {
+      "house-chichi-1": {
+        "id": "house-chichi-1",
+        "owner": "chichi",
+        "type": "home-sage",
+        "purchaseId": "buy-chichi-1",
+        "sequence": 1,
+        "price": 1600,
+        "at": 1794741863030,
+        "plot": 0,
+        "source": "manual",
+        "aiDay": null,
+        "roommate": "luna"
+      },
+      "house-adopt-nimbus-1": {
+        "id": "house-adopt-nimbus-1",
+        "owner": "adopt-nimbus",
+        "type": "home-lavender",
+        "purchaseId": "buy-adopt-nimbus-1",
+        "sequence": 1,
+        "price": 2600,
+        "at": 1794741863031,
+        "plot": 1,
+        "source": "manual",
+        "aiDay": null,
+        "roommate": "moti"
+      }
+    },
+    "epoch": 1794701543030
+  },
+  "returned": {
+    "vacation": {
+      "startDay": 27,
+      "endDay": 30,
+      "previousJob": "factory"
+    },
+    "profession": "factory",
+    "coins": 7400,
+    "inventory": {},
+    "schedule": {
+      "day": 30,
+      "job": "factory",
+      "evening": "walk"
+    },
+    "home": "house-adopt-nimbus-1",
+    "homes": {
+      "house-chichi-1": {
+        "id": "house-chichi-1",
+        "owner": "chichi",
+        "type": "home-sage",
+        "purchaseId": "buy-chichi-1",
+        "sequence": 1,
+        "price": 1600,
+        "at": 1794741863030,
+        "plot": 0,
+        "source": "manual",
+        "aiDay": null,
+        "roommate": "luna"
+      },
+      "house-adopt-nimbus-1": {
+        "id": "house-adopt-nimbus-1",
+        "owner": "adopt-nimbus",
+        "type": "home-lavender",
+        "purchaseId": "buy-adopt-nimbus-1",
+        "sequence": 1,
+        "price": 2600,
+        "at": 1794741863031,
+        "plot": 1,
+        "source": "manual",
+        "aiDay": null,
+        "roommate": "moti"
+      }
+    },
+    "workPhase": "work",
+    "job": "factory",
+    "epoch": 1794701543030
+  },
+  "final": {
+    "vacation": {
+      "startDay": 27,
+      "endDay": 30,
+      "previousJob": "factory"
+    },
+    "profession": "factory",
+    "coins": 7400,
+    "inventory": {},
+    "schedule": {
+      "day": 30,
+      "job": "factory",
+      "evening": "walk"
+    },
+    "home": "house-adopt-nimbus-1",
+    "homes": {
+      "house-chichi-1": {
+        "id": "house-chichi-1",
+        "owner": "chichi",
+        "type": "home-sage",
+        "purchaseId": "buy-chichi-1",
+        "sequence": 1,
+        "price": 1600,
+        "at": 1794741863030,
+        "plot": 0,
+        "source": "manual",
+        "aiDay": null,
+        "roommate": "luna"
+      },
+      "house-adopt-nimbus-1": {
+        "id": "house-adopt-nimbus-1",
+        "owner": "adopt-nimbus",
+        "type": "home-lavender",
+        "purchaseId": "buy-adopt-nimbus-1",
+        "sequence": 1,
+        "price": 2600,
+        "at": 1794741863031,
+        "plot": 1,
+        "source": "manual",
+        "aiDay": null,
+        "roommate": "moti"
+      }
+    },
+    "epoch": 1794701543030
+  },
+  "aiCalls": 0,
+  "errors": [],
+  "renderer": "Actual game, Chromium SwiftShader at phone DPR2; not physical-device FPS"
+}

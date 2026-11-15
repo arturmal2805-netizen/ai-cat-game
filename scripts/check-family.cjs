@@ -81,6 +81,11 @@ async function localWorker() {
     g.jobCity.epoch = now - (27 * 1440 + 450) * 1000;
     g.jobCity.plan = null;
     g.jobCity.requestedDay = -1;
+    if(process.env.CHICHI_VACATION_AUDIT){
+      const p=g.jobCity.profiles['adopt-nimbus'];p.lastPaidDay=26;p.vacation={startDay:27,endDay:30,previousJob:p.profession};
+      g.jobCity.epoch=now-28*1440*1000;g.jobCity.eveningAIRequestedDay=28;g.jobCity.eveningAIAppliedDay=28;
+      g=applyJobPlan(g,localJobPlan(Object.values(g.jobCity.profiles),28),28);
+    }
     const token = crypto.randomBytes(32).toString("hex"),
       headers = {
         "Content-Type": "application/json",
@@ -116,6 +121,8 @@ async function localWorker() {
                   `  window.__familyQA={leisure,jobs,housingLife,court,spa,npcs,cat,chichiCarrier,itemGroups,islands,camera,scene,renderer,desiredLook,
       cancel:id=>id==='chichi'?cancelHeroActivity():cancelResident(id),
       trace:[],nativeStep:seconds=>{const states=new Map();for(let i=0;i<seconds*30;i++){const t=performance.now()/1000+i/30;stepLeisure(1/30,t,performance.now());court.step(1/30,t);for(const[id,n]of npcs){const v=court.get(id),f=leisure.frame(id);if(v){const b=byBiome(v.biome);n.carrier.position.set(b.center[0]+v.position.x,v.position.y,b.center[1]+v.position.z);}else if(f)n.carrier.position.set(f.position.x,f.position.y,f.position.z);}for(const id of ['luna','moti']){const p=game.jobCity.profiles[id],v=leisure.get(id),c=court.get(id),j=jobs.get(id),key=JSON.stringify([v?.phase,c?.phase,p.leisureProgress]);if(states.get(id)!==key){states.set(id,key);window.__familyQA.trace.push({id,second:i/30,visit:v?.phase,court:c?.phase,progress:p.leisureProgress,schedule:p.schedule,clock:cityClock(game.jobCity),job:j?.phase,manual:npcs.get(id)?.manualUntil,canSimulate:callbacks.canSimulateLeisure?.(),saveState:document.getElementById('save-state')?.textContent});}}}},
+      vacationHomeStep:seconds=>{const clock=cityClock(game.jobCity);for(let i=0;i<seconds*30;i++)housingLife.step(game,lifeActors,1/30,i/30,{night:!clock.working,clock,eligible:a=>homeRestTime(game,a.id),blocked:a=>jobs.has(a.id)});},
+      vacationWorkStep:seconds=>{for(let i=0;i<seconds*30;i++){for(const a of lifeActors){a.local.x=a.position.x-JOB_CITY_CENTER[0];a.local.y=a.position.y;a.local.z=a.position.z-JOB_CITY_CENTER[1];a.biome=a.resident?.profile.biome||'';}jobs.step(game,lifeActors,1/30,i/30,{now:Date.now()});for(const a of lifeActors){const v=jobs.get(a.id);if(v)applyJobFrame(jobCatFrame(v,i/30,reduced),a.carrier);}}},
       homeStep:seconds=>{for(let i=0;i<seconds*30;i++)housingLife.step(game,[{id:'chichi',radius:spaRadius(cat)},...[...npcs].map(([id,n])=>({id,radius:spaRadius(n.model)}))],1/30,i/30,{night:true});},
       capture:()=>{gpuFrames.clear();look.copy(desiredLook);distance=desiredDistance;camera.position.set(look.x+Math.sin(azimuth)*Math.cos(elevation)*distance,look.y+Math.sin(elevation)*distance,look.z+Math.cos(azimuth)*Math.cos(elevation)*distance);camera.lookAt(look);renderer.render(scene,camera);renderer.getContext().finish();}};\n  return {\n    perform,`,
                 ),
@@ -126,7 +133,7 @@ async function localWorker() {
                 .readFileSync(root + "/public/app.js", "utf8")
                 .replace(
                   "persist();\nrenderGame();",
-                  `window.__familySave={getGame:()=>game,commit,world,cloud,open:()=>cityUI.open(),setClock:minute=>{const n=structuredClone(game);n.jobCity.epoch=Date.now()-(27*1440+minute-720)*1000;commit(n);}};\npersist();\nrenderGame();`,
+                  `window.__familySave={getGame:()=>game,commit,world,cloud,plan:day=>commit(applyJobPlan(game,localJobPlan(Object.values(game.jobCity.profiles),day),day)),open:()=>cityUI.open(),setClock:minute=>{const n=structuredClone(game);n.jobCity.epoch=Date.now()-(27*1440+minute-720)*1000;commit(n);}};\npersist();\nrenderGame();`,
                 ),
             }));
           },
@@ -141,10 +148,11 @@ async function localWorker() {
         "--enable-unsafe-swiftshader",
       ],
     });
-    const page = await browser.newPage({
+    const page = await browser.newPage(process.env.CHICHI_VACATION_AUDIT?{viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true}:{
       viewport: { width: 1440, height: 1000 },
       deviceScaleFactor: 1,
     });
+    if(process.env.CHICHI_VACATION_AUDIT)await page.clock.setFixedTime(new Date(now));
     page.setDefaultTimeout(120000);
     const errors = [];
     page.on("pageerror", (e) => {
@@ -222,6 +230,11 @@ async function localWorker() {
       return lostAck ? r.abort("connectionreset") : r.fulfill({ json:body });
     });
     await page.goto(local.base);
+    if(process.env.CHICHI_VACATION_AUDIT){
+      await page.waitForFunction(()=>window.__familyQA&&window.__familySave?.cloud.editable);
+      const {auditCatVacationNative}=await import('./audit-cat-vacation-native.mjs');
+      await auditCatVacationNative({page,review,errors,now,getAICalls:()=>aiCalls});return;
+    }
     if (lostAck) {
       await page.waitForFunction(() => window.__familySave?.getGame().jobCity.eveningAIRequestedDay >= 0 && window.__familySave.cloud.editable);
       assert.equal(aiCalls, 1);

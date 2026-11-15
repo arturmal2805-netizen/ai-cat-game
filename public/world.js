@@ -3982,6 +3982,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
         guests:animalGuests.active,
         eligible: (actor) => homeRestTime(game, actor.id, wallNow, restContext),
         night: !lifeClock.working,
+        clock:lifeClock,
         blocked: (a) => {
           const id = a.id,
             n = npcs.get(id),

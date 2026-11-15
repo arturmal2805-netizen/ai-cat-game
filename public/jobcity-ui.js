@@ -1,3 +1,4 @@
+import {catOnVacation,vacationDaysLeft} from './cat-vacation.js';
 import {mallProduct} from './mall-data.js';
 import { createInvestmentsPanel } from "./crypto-ui.js";
 import { setText } from "./dom-text.js";
@@ -155,6 +156,7 @@ export function createJobCityUI({
     const key = JSON.stringify([
       selected,
       p,
+      vacationDaysLeft(p,c),
       state.plan?.source,
       game.housing,
       game.family,
@@ -212,7 +214,9 @@ export function createJobCityUI({
     content.append(
       text(
         "p",
-        p.schedule?.job && p.schedule.job !== "rest"
+        catOnVacation(p,c)
+          ? `🏖 Відпустка · ще ${vacationDaysLeft(p,c)} ігр. дн. · повернення: ${familyCalendar(game,p.vacation.endDay).label}, 09:00 · ${jobBusiness(p.vacation.previousJob).name}`
+          : p.schedule?.job && p.schedule.job !== "rest"
           ? `Сьогодні: ${jobBusiness(p.schedule.job).name} · ${jobBusiness(p.schedule.job).wage} 🐾/ігрову годину · оплата о 17:00 за фактично відпрацьований час`
           : "Сьогодні відпочиває; професія залишається з котиком.",
       ),

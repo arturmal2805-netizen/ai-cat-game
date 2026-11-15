@@ -1,3 +1,4 @@
+import {catOnVacation} from './cat-vacation.js';
 import { positionValue } from "./crypto-trading.js";
 import {
   JOB_START,
@@ -112,10 +113,12 @@ export function createJobCityRuntime({
       const trip = p.trip?.id === completedTrips.get(id) ? null : p.trip,
         job =
           clock.working &&
+          !catOnVacation(p,clock) &&
           p.schedule?.day === clock.day &&
           p.schedule.job !== "rest"
             ? p.schedule.job
             : null;
+      if(catOnVacation(p,clock)&&!trip&&!v?.manual&&!v?.job&&v?.phase!=="leave"){if(v)cancel(id);continue;}
       if (v?.job && (v.job !== job || trip) && v.phase !== "leave") {
         const b = jobBusiness(v.job),
           front = v.path.findIndex(

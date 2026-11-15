@@ -1,0 +1,153 @@
+diff --git a/public/jobcity-system.js b/public/jobcity-system.js
+index 15629bc..317f468 100644
+--- a/public/jobcity-system.js
++++ b/public/jobcity-system.js
+@@ -1,3 +1,4 @@
++import {normalizeCatVacation,catOnVacation,planCatVacations} from './cat-vacation.js';
+ import {MALL_PRODUCTS,mallProduct} from './mall-data.js';
+ import {buyMallProduct,newMallProfile,normalizeMallProfile} from './mall-system.js';
+ import {normalizeInvestments} from "./crypto-trading.js";
+@@ -131,6 +132,7 @@ export function normalizeJobCity(raw, game, now = Date.now()) {
+     const p = newJobProfile(cat),
+       r = raw.profiles?.[cat.id];
+     if (r) {
++      if(r.vacation!=null)p.vacation=normalizeCatVacation(r.vacation);
+       p.coins = safe(r.coins, Number.MAX_SAFE_INTEGER);
+       p.mall=normalizeMallProfile(r.mall);
+       p.investments=normalizeInvestments(r.investments);
+@@ -331,7 +333,8 @@ export function localJobPlan(profiles, day) {
+         a.id.localeCompare(b.id),
+     )
+     .map((p) => {
+-      const work = p.id.startsWith("jobcat-") || hash(p.id + day) % 5 !== 0;
++      const returned=p.vacation&&day>=p.vacation.endDay&&p.lastPaidDay<p.vacation.endDay;
++      const work = !catOnVacation(p,day)&&(returned||p.id.startsWith("jobcat-")||hash(p.id + day)%5!==0);
+       const options = JOB_KINDS.filter(
+         (k) =>
+           (!p.profession || p.profession === k) && counts[k] < JOB_CAPACITY,
+@@ -436,13 +439,13 @@ export function applyJobPlan(
+   families = [],
+   options = {},
+ ) {
+-  const next = clone(game),
++  const next = clone(source==="local"?planCatVacations(game,day):game),
+     state = next.jobCity;
+   if (!state || state.plan?.day > day) return game;
+   const valid = validateJobAssignments(
+     { assignments },
+     Object.values(state.profiles),
+-  );
++  ).map(a=>catOnVacation(state.profiles[a.id],day)?{...a,job:"rest",profession:state.profiles[a.id].profession,reason:state.profiles[a.id].professionReason||a.reason}:a);
+   const outings = valid.some((a) => a.outings?.length)
+     ? new Set(leisureOffers(game).map((o) => o.id))
+     : null;
+@@ -595,6 +598,7 @@ export function recordJobAttendanceBatch(game, events) {
+       clock = cityClock(next.jobCity, now);
+     if (!p || !jobBusiness(job) || !clock.working || p.lastPaidDay >= clock.day)
+       continue;
++    if(active&&catOnVacation(p,clock))continue;
+     if (active && (p.schedule?.day !== clock.day || p.schedule.job !== job))
+       continue;
+     if (!active && p.attendance?.job !== job) continue;
+diff --git a/shared-world.mjs b/shared-world.mjs
+index 74712f2..f5e7f71 100644
+--- a/shared-world.mjs
++++ b/shared-world.mjs
+@@ -1,3 +1,4 @@
++import {normalizeCatVacation,reconcileCatVacation} from './public/cat-vacation.js';
+ import {validateMallEconomy} from './public/mall-system.js';
+ import {MALL_PRODUCTS} from './public/mall-data.js';
+ import {MOSA_OLD_RADIUS} from './public/mosasaur-data.js';
+@@ -137,9 +138,10 @@ function merge(base, current, incoming, path = "", depth = 0) {
+           "career",
+         ],
+         ["trip", "parkedAt", "parkedCar"],
++        ["vacation"],
+       ];
+       for (const keys of groups) {
+-        const incomingChanged = keys.some((k) => (k!=="investments" || !!p.investments) && changed(old[k], p[k])),
++        const incomingChanged = keys.some((k) => (k!=="investments" || !!p.investments) && (k!=="vacation" || !!p.vacation) && changed(old[k], p[k])),
+           currentChanged = keys.some((k) => changed(old[k], actual[k]));
+         if (
+           incomingChanged &&
+@@ -154,6 +156,7 @@ function merge(base, current, incoming, path = "", depth = 0) {
+       for (const key of Object.keys(p))
+         if (changed(old[key], p[key])) {
+           if (key === "investments" && !p[key] && actual[key]) continue;
++          if(key==="vacation"&&!p[key]&&actual[key])continue;
+           if (key === "lastHousingAIDay")
+             profile[key] = Math.max(actual[key] ?? -1, p[key] ?? -1);
+           else if (key === "careerAIRequestedDay")
+@@ -394,6 +397,13 @@ export function mergeSharedWorld(base, current, incoming) {
+     incoming=clone(incoming);
+     for(const [id,p]of Object.entries(incoming.jobCity.profiles||{})){
+       const old=base.jobCity.profiles[id];if(!old)continue;
++      try{const vacation=reconcileCatVacation(old.vacation,current?.jobCity?.profiles[id]?.vacation,p.vacation);if(vacation)p.vacation=vacation;}catch(error){throw new SharedConflict(error.message);}
++      const vacation=current?.jobCity?.profiles[id]?.vacation||old.vacation;
++      if(vacation){
++        const prior=new Set((old.transactions||[]).map(t=>t.id));
++        if((p.transactions||[]).some(t=>t.kind==='wage'&&!prior.has(t.id)&&t.day>=vacation.startDay&&t.day<vacation.endDay))throw new SharedConflict('Котик у відпустці; оновіть гру перед нарахуванням зміни.');
++        if(p.schedule?.day>=vacation.startDay&&p.schedule.day<vacation.endDay&&p.profession!==vacation.previousJob)throw new SharedConflict('Професія котика зберігається до завершення відпустки.');
++      }
+       if(!Object.hasOwn(p,'mall'))p.mall=clone(old.mall);
+       for(const item of MALL_PRODUCTS)if(!Object.hasOwn(p.inventory||{},item.id)&&old.inventory?.[item.id]){
+         // A current client records consumption in mall.used. Only legacy
+@@ -410,6 +420,7 @@ export function mergeSharedWorld(base, current, incoming) {
+     if(['x','y','z','yaw','pitch','active','mode'].some(k=>!equal(old[k],legacy?.[k])))throw new SharedConflict('Оновіть гру перед керуванням Чічі або субмариною.');
+     incoming={...incoming,mosasaurSubmarine:clone(old)};
+   }
++  for(const game of [base,current,incoming])for(const p of Object.values(game?.jobCity?.profiles||{}))if(p.vacation)try{normalizeCatVacation(p.vacation);}catch(error){throw new SharedConflict(error.message);}
+   for(const game of [base,current,incoming])if(!retirementSnapshotValid(game?.retiredAttractions))throw new SharedConflict('Пошкоджений запис повернення покупки. Завантажте збережений світ.');
+   if(base&&incoming&&retirementPurchaseAdvanced(base,incoming))throw new SharedConflict('Цей атракціон прибрано з гри. Оновіть сторінку; нова покупка не списана.');
+   if(base&&incoming)incoming=inheritRetirement(base,incoming);
+diff --git a/public/cat-vacation.js b/public/cat-vacation.js
+new file mode 100644
+index 0000000..a4659f5
+--- /dev/null
++++ b/public/cat-vacation.js
+@@ -0,0 +1,45 @@
++import {JOB_KINDS,JOB_START,JOB_DAY_MINUTES} from './jobcity-data.js';
++
++export const VACATION_MIN_DAYS=2,VACATION_MAX_DAYS=7;
++const hash=text=>{let n=2166136261;for(const c of text)n=Math.imul(n^c.charCodeAt(0),16777619);n^=n>>>16;n=Math.imul(n,0x85ebca6b);return (n^(n>>>13))>>>0;};
++export function normalizeCatVacation(raw){
++  if(raw==null)return null;
++  const {startDay,endDay,previousJob}=raw;
++  if(!Number.isSafeInteger(startDay)||startDay<0||!Number.isSafeInteger(endDay)||endDay-startDay<VACATION_MIN_DAYS||endDay-startDay>VACATION_MAX_DAYS||!JOB_KINDS.includes(previousJob))throw Error('Пошкоджений збережений термін відпустки котика.');
++  return {startDay,endDay,previousJob};
++}
++export function catOnVacation(profile,clock){
++  const v=profile?.vacation;if(!v)return false;
++  if(typeof clock==='number')return clock>=v.startDay&&clock<v.endDay;
++  return clock.absolute>=v.startDay*JOB_DAY_MINUTES+JOB_START&&clock.absolute<v.endDay*JOB_DAY_MINUTES+JOB_START;
++}
++export function vacationDaysLeft(profile,clock){
++  return catOnVacation(profile,clock)?Math.ceil((profile.vacation.endDay*JOB_DAY_MINUTES+JOB_START-clock.absolute)/JOB_DAY_MINUTES):0;
++}
++export function reconcileCatVacation(base,current,incoming){
++  const old=normalizeCatVacation(base),actual=normalizeCatVacation(current),proposed=normalizeCatVacation(incoming);
++  const same=(a,b)=>a.startDay===b.startDay&&a.endDay===b.endDay&&a.previousJob===b.previousJob;
++  if(old&&actual&&old.startDay===actual.startDay&&!same(old,actual))throw Error('Збережений термін відпустки не можна змінювати.');
++  const known=!old?actual:!actual?old:actual.startDay>=old.startDay?actual:old;
++  if(!proposed)return known;
++  if(!known)return proposed;
++  if(proposed.startDay<known.startDay)return known;
++  if(proposed.startDay===known.startDay){if(!same(proposed,known))throw Error('Збережений термін відпустки не можна продовжувати.');return known;}
++  if(proposed.startDay<known.endDay+14)throw Error('Попередня відпустка та перерва між відпустками ще не завершені.');
++  return proposed;
++}
++// Called by the existing once-per-day local planner. A deterministic shared
++// draw makes reloads/retries idempotent; no extra AI call or timer is created.
++export function planCatVacations(game,day){
++  const state=game.jobCity;if(!state||state.plan?.day===day)return game;
++  const ids=new Set((game.adoption?.cats||[]).map(c=>c.id));
++  const adopted=Object.values(state.profiles).filter(p=>ids.has(p.id));
++  if(adopted.some(p=>p.vacation?.startDay===day))return game;
++  const active=adopted.filter(p=>catOnVacation(p,day)).length;
++  if(active>=Math.max(1,Math.ceil(adopted.length/4)))return game;
++  const candidates=adopted.filter(p=>JOB_KINDS.includes(p.profession)&&!p.careerAIPending&&p.lastPaidDay>=0&&p.lastPaidDay<day&&(!p.vacation||day>=p.vacation.endDay+14)).map(p=>({p,roll:hash(`${state.epoch}:${p.id}:${day}`)})).filter(c=>c.roll%13===0).sort((a,b)=>a.roll-b.roll||a.p.id.localeCompare(b.p.id));
++  const selected=candidates[0];if(!selected)return game;
++  const next=structuredClone(game),p=next.jobCity.profiles[selected.p.id];
++  p.vacation={startDay:day,endDay:day+VACATION_MIN_DAYS+hash(`days:${state.epoch}:${p.id}:${day}`)%(VACATION_MAX_DAYS-VACATION_MIN_DAYS+1),previousJob:p.profession};
++  return next;
++}
