@@ -76,7 +76,7 @@ export function collectMallObstacles(source,glass,{zOrigin=MALL.z}={}){
     const bz=Math.abs(-e[0]*s+e[2]*c)*hx+Math.abs(-e[4]*s+e[6]*c)*hy+Math.abs(-e[8]*s+e[10]*c)*hz;
     // Thin mouldings attached to a larger fixture need no duplicate obstacle.
     if(Math.min(bx,bz)<.022||bx*bz<.012)return;
-    boxes.push({x,z,hx:bx,hz:bz,c,s});
+    boxes.push({x,z,hx:bx,hz:bz,c,s,minY:y-dy,maxY:y+dy});
   });
   boxes.cells=new Map();
   for(const b of boxes){

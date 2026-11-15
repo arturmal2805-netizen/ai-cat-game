@@ -3,7 +3,7 @@ import * as THREE from "three";
 export function createChichiCamera(
   camera,
   head,
-  { reduced = false, onChange = () => {}, getViewLift = () => 0 } = {},
+  { reduced = false, onChange = () => {}, getViewLift = () => 0, getViewProfile = () => null, resolveEye = () => {} } = {},
 ) {
   const face = new THREE.Vector3(),
     eye = new THREE.Vector3(),
@@ -12,20 +12,21 @@ export function createChichiCamera(
     fromEye = new THREE.Vector3(),
     fromLook = new THREE.Vector3(),
     lastLook = new THREE.Vector3(),
+    lastSafeEye = new THREE.Vector3(),
     rotation = new THREE.Quaternion(),
     desiredRotation = new THREE.Quaternion(),
     offset = new THREE.Vector3(),
     scale = new THREE.Vector3();
   let enabled = false,
     transition = 1,
-    zoom = 1, viewLift = 0;
+    zoom = 1, viewLift = 0, safeView = false;
   function setEnabled(value, look) {
     if (enabled === value) return enabled;
     fromEye.copy(camera.position);
     fromLook.copy(enabled ? lastLook : look);
     head.updateWorldMatrix(true, false);
     head.getWorldQuaternion(rotation);
-    enabled = value;
+    enabled = value;safeView=false;
     transition = reduced ? 1 : 0;
     onChange(enabled);
     return enabled;
@@ -39,7 +40,7 @@ export function createChichiCamera(
       if (head === nextHead) return;
       fromEye.copy(camera.position);
       fromLook.copy(enabled ? lastLook : look);
-      head = nextHead;
+      head = nextHead;safeView=false;
       head.updateWorldMatrix(true, false);
       head.getWorldQuaternion(rotation);
       transition = reduced ? 1 : 0;
@@ -66,7 +67,8 @@ export function createChichiCamera(
         rotation.slerp(desiredRotation, followBlend);
         viewLift += (THREE.MathUtils.clamp(getViewLift(),0,2)-viewLift)*(reduced ? 1 : 1-Math.exp(-dt*5));
         head.getWorldScale(scale);
-        const faceScale = Math.max(scale.x, scale.y, scale.z);
+        const faceScale = Math.max(scale.x, scale.y, scale.z),profile=getViewProfile();
+        if(profile)face.y-=profile.targetDrop*faceScale;
         const distance =
           Math.max(
             2.5,
@@ -76,9 +78,20 @@ export function createChichiCamera(
                 Math.min(1, camera.aspect)),
           ) *
           faceScale *
-          zoom;
-        offset.set(0.13, 0.06 + viewLift, 1).normalize().applyQuaternion(rotation);
-        eye.copy(face).addScaledVector(offset, distance);
+          zoom * (profile?.distanceScale||1);
+        if(profile){
+          offset.set(.13,0,1).applyQuaternion(rotation);offset.y=0;offset.normalize();
+          eye.copy(face).addScaledVector(offset,distance);eye.y=face.y+distance*Math.tan(profile.downAngle);
+        }else{
+          offset.set(0.13, 0.06 + viewLift, 1).normalize().applyQuaternion(rotation);
+          eye.copy(face).addScaledVector(offset, distance);
+        }
+        if(profile&&resolveEye(eye,face)===false){
+          // Keep the last free position while a guest is briefly occluded;
+          // never jump to a ceiling view or push the eye through a wall.
+          camera.position.copy(safeView?lastSafeEye:fromEye);lastLook.copy(face);camera.lookAt(lastLook);return true;
+        }
+        lastSafeEye.copy(eye);safeView=true;
         camera.position.lerpVectors(fromEye, eye, blend);
         lastLook.lerpVectors(fromLook, face, blend);
       } else {

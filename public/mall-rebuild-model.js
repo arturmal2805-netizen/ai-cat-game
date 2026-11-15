@@ -184,7 +184,7 @@ export function* mallRebuildModelSteps(options={}){
       if(background.length)return;
       for(const floor of floorData)for(const side of [-1,1]){
         yield;const cat=createCat('happy',{detail:'npc',color:[0xe6a183,0xaaa7bb,0xf4e4cb,0x717c88][(floor.id+(side>0?1:0))%4],hat:false}),carrier=new T.Group();
-        cat.scale.setScalar(.63);cat.userData.mallBackground=true;carrier.position.set(side*30,floor.y+1.0,107.5);carrier.userData.biomeId='autumn';carrier.add(cat);root.add(carrier);root.userData.ownedCats.push(cat);
+        cat.scale.setScalar(.63);cat.userData.mallBackground=true;carrier.rotation.y=Math.PI;carrier.position.set(side*30,floor.y+1.0,107.5);carrier.userData.biomeId='autumn';carrier.add(cat);root.add(carrier);root.userData.ownedCats.push(cat);
         animateCat(cat,floor.id+side,false,true);background.push({id:`mall-ambient-${background.length}`,cat,carrier,floor:floor.id,phase:floor.id*1.7+side,next:0,reaction:{crouch:.12,paw:0,headPitch:0,headRoll:0}});
       }
       root.userData.stats.backgroundVisitors=background.length;

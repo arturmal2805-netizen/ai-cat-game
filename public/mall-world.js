@@ -1,3 +1,4 @@
+import {mallGuestCameraEye,mallGuestCameraInside} from './mall-guest-camera.js';
 import {mallCameraGuests,randomMallGuest} from './mall-guests.js';
 import {mallPath,mallNavigationSteps,mallNavigationReady,mallAccessibleService,mallSegmentClear} from './mall-navigation.js';
 import {catNavigationRadius} from './cat-navigation-size.js';
@@ -129,6 +130,14 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
   }
   return {
     runtime,ensure,inspect,inspectStore,exit,
+    resolveGuestCamera(eye,target){
+      if(!guest||!root)return;
+      const floor=guest.floor,y=MALL.y+(floor-1)*MALL.rise,boxes=root.userData.obstacles.get(floor);
+      const a={x:target.x-centre[0],y:target.y-y,z:target.z-centre[1]-MALL.z},b={x:eye.x-centre[0],y:eye.y-y,z:eye.z-centre[1]-MALL.z};
+      const resolved=mallGuestCameraEye(a,b,boxes,p=>mallGuestCameraInside(floor,p));
+      if(!resolved)return false;
+      eye.set(resolved.x+centre[0],resolved.y+y,resolved.z+centre[1]+MALL.z);return true;
+    },
     setExplorerFloor(floor){if(inspection)exit(false);if(selected===floor&&root?.userData.explorerFloor===floor)return;selected=floor;if(root){root.userData.focusFloor(floor);root.userData.explorerFloor=floor;}},
     async walkPath(floor,from,to,radius){if(!await ensure()||!await prepareNavigation(floor,radius))return null;return mallPath(floor,from,to,radius,root.userData.obstacles.get(floor));},
     walkActors(){return [...getActors().map(a=>({id:a.id,...local(a.position),radius:a.radius})),...staff.map((a,i)=>({id:'mall-staff-'+i,...local(a.carrier.position),radius:a.radius})),...(root?.userData.guestActors||[]).filter(a=>!a.roomGuest).map(a=>({id:a.id,x:a.carrier.position.x,y:a.carrier.position.y,z:a.carrier.position.z,radius:catNavigationRadius(a.cat)}))];},

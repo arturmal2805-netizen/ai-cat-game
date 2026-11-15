@@ -1,0 +1,87 @@
+{
+  "renderer": "Chromium SwiftShader DPR2; sequential runs, no parallel benchmarks",
+  "scope": "15 actually submitted warm frames per viewport; initial counters containing intentional QA pauses are excluded",
+  "hardwareFpsClaim": false,
+  "rows": [
+    {
+      "version": "before",
+      "phase": "visitor-phone",
+      "samples": 15,
+      "cpuMedian": 2.2,
+      "cpuP95": 16.7,
+      "renderMedian": 19.9,
+      "renderP95": 35.3,
+      "gapP95": 1350,
+      "gapMax": 1350,
+      "calls": 159,
+      "triangles": 1352300,
+      "dpr": 2,
+      "geometryBytes": 97492759,
+      "programs": 158,
+      "buffer": [
+        776,
+        1464
+      ]
+    },
+    {
+      "version": "before",
+      "phase": "visitor-landscape",
+      "samples": 15,
+      "cpuMedian": 1.6,
+      "cpuP95": 4.4,
+      "renderMedian": 13.1,
+      "renderP95": 27.8,
+      "gapP95": 1933.2,
+      "gapMax": 2016.6000000000058,
+      "calls": 143,
+      "triangles": 1411624,
+      "dpr": 2,
+      "geometryBytes": 97492759,
+      "programs": 158,
+      "buffer": [
+        1612,
+        1120
+      ]
+    },
+    {
+      "version": "after",
+      "phase": "visitor-phone",
+      "samples": 15,
+      "cpuMedian": 2.1,
+      "cpuP95": 8.1,
+      "renderMedian": 17.8,
+      "renderP95": 27.2,
+      "gapP95": 1366.6,
+      "gapMax": 1383.2999999999956,
+      "calls": 162,
+      "triangles": 1520984,
+      "dpr": 2,
+      "geometryBytes": 97492759,
+      "programs": 158,
+      "buffer": [
+        776,
+        1464
+      ]
+    },
+    {
+      "version": "after",
+      "phase": "visitor-landscape",
+      "samples": 15,
+      "cpuMedian": 1.5,
+      "cpuP95": 2.2,
+      "renderMedian": 14.7,
+      "renderP95": 37.4,
+      "gapP95": 2116.6,
+      "gapMax": 2133.300000000003,
+      "calls": 145,
+      "triangles": 1533876,
+      "dpr": 2,
+      "geometryBytes": 97492759,
+      "programs": 158,
+      "buffer": [
+        1612,
+        1120
+      ]
+    }
+  ]
+}

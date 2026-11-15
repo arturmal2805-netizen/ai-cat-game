@@ -1,3 +1,4 @@
+const mallGuestCameraProfile=Object.freeze({targetDrop:.28,distanceScale:1.6,downAngle:Math.PI/12});
 import {MALL,mallStore,mallFloor,mallProduct} from './mall-data.js';
 import {createMallWorld} from './mall-world.js';
 import {applyMallIcePose} from './mall-ice-pose.js';
@@ -560,7 +561,9 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
   const faceCamera = createChichiCamera(camera, cat.userData.head, {
     reduced,
     // Face gestures must remain visible above the tall open halfpipe.
-    getViewLift: () => mall?.guest ? 1.6 : (followedCatId === "chichi" ? operation?.attraction : residentPlay.get(followedCatId)?.object)?.userData.id === "ride-water-surf-halfpipe" ? 1.35 : 0,
+    getViewProfile: () => mall?.guest ? mallGuestCameraProfile : null,
+    resolveEye: (eye,target) => mall?.resolveGuestCamera(eye,target),
+    getViewLift: () => (followedCatId === "chichi" ? operation?.attraction : residentPlay.get(followedCatId)?.object)?.userData.id === "ride-water-surf-halfpipe" ? 1.35 : 0,
     onChange: (enabled) =>
       callbacks.onCameraMode?.(
         enabled,

@@ -123,6 +123,7 @@ async function localWorker() {
                 loader: "js",
               };
             });
+            if(process.env.CHICHI_MALL_CAMERA_PROFILE)b.onLoad({filter:/\/public\/frame-profile\.js$/},()=>({contents:fs.readFileSync(root+'/public/frame-profile.js','utf8').replace('  copy.onclick=async()=>{', '  window.__cameraProfile={report,reset:()=>{samples.clear();clearResources();}};\n  copy.onclick=async()=>{').replace('      samples.frame(row);','      if(window.__lagoonQA?.drawPaused)return;\n      samples.frame(row);'),loader:'js'}));
             b.onLoad({ filter: /\/public\/app\.js$/ }, () => ({
               contents: (
                 "import {storeSculptCache as qaStoreGraphics} from './sculpt-cache.js';\n" +
@@ -201,7 +202,8 @@ async function localWorker() {
         },
       }),
     );
-    await page.goto(base);
+    if(process.env.CHICHI_MALL_CAMERA_PROFILE)await page.addInitScript(()=>{document.addEventListener('DOMContentLoaded',()=>{const style=document.createElement('style');style.textContent='#frame-profile{pointer-events:none}';document.head.append(style);});});
+    await page.goto(base+(process.env.CHICHI_MALL_CAMERA_PROFILE?'?profile=1':''));
     await page.waitForFunction(
       () => window.__lagoonQA && window.__lagoonSaveQA?.cloud.editable,
     );
