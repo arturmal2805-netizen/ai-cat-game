@@ -64,3 +64,18 @@ test('first-person return enters each actual escalator around its upper handrail
   assert.equal(s.floor,floor-1);assert.ok(Math.abs(s.y-(MALL.y+(floor-2)*MALL.rise+.18))<.1);
  }
 });
+
+
+test('the previously stalled aisle position reaches the upper landing without crossing the real rail',()=>{
+ for(let floor=2;floor<=7;floor++)for(const side of [-1,1]){
+  const radius=.571,boxes=mall.userData.obstacles.get(floor);runSceneSteps(mallNavigationSteps(boxes,radius));
+  const s={x:side*20.84,y:MALL.y+(floor-1)*MALL.rise+.18,z:78.5,floor,yaw:0};
+  const to={x:side*25,y:s.y,z:79.7},path=mallPath(floor,s,to,radius,boxes);
+  assert.ok(path,`floor ${floor}, side ${side}: full aisle-to-landing route exists`);
+  for(const target of [...path.slice(1),{x:side*18.4,z:79.7},{x:side*18.4,z:78.5},{x:side*18.4,z:51.5}]){
+   let n=0;while(Math.hypot(target.x-s.x,target.z-s.z)>.04&&n++<600){s.yaw=Math.atan2(target.x-s.x,target.z-s.z);stepMallWalker(s,Math.min(.03,Math.hypot(target.x-s.x,target.z-s.z)/5),{forward:1},mall.userData.obstacles,radius);}
+   assert.ok(n<600,JSON.stringify({floor,side,target,s}));
+  }
+  assert.equal(s.floor,floor-1);
+ }
+});

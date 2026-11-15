@@ -75,8 +75,11 @@ export function createSubmarineRuntime({container,canvas,camera,look,actor,getMo
   transitOrigin={...swimmer.state,mode:entering?'swimming':'mall'};transit=createMallAirlockTransit(entering,swimmer.state);phase='airlock';clear();return true;
  }
  function interact(){if(phase==='docked')enter();else if(phase==='piloting')exit();else if(['swimming','mall'].includes(phase)){if(nearPortal())void usePortal();else enter();}}
+ const editing=target=>!!target&&(target.isContentEditable||/INPUT|TEXTAREA|SELECT/.test(target.tagName));
+ function focusInput(e){if(editing(e.target))clear();}
+ function visibility(){if(document.hidden)clear();}
  function onKey(e){
-  if(!focused()||!canPilot()||e.ctrlKey||e.metaKey||e.altKey||document.querySelector('dialog[open]')||/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))return;
+  if(!focused()||!canPilot()||e.ctrlKey||e.metaKey||e.altKey||document.querySelector('dialog[open]')||editing(e.target))return;
   if(!['KeyW','KeyS','KeyA','KeyD','Space','ShiftLeft','ShiftRight','ArrowDown','KeyC','KeyE'].includes(e.code))return;
   if(e.code==='KeyE'&&!e.repeat)interact();
   if(!controlled||!busy())return;e.preventDefault();if(e.code==='KeyC'&&!e.repeat)toggleCamera();keys.add(e.code);
@@ -90,7 +93,7 @@ export function createSubmarineRuntime({container,canvas,camera,look,actor,getMo
   drag={x:e.clientX,y:e.clientY};e.preventDefault();e.stopImmediatePropagation();
  }
  function wheel(e){if(!focused()||!controlled||phase!=='piloting')return;e.preventDefault();e.stopImmediatePropagation();viewDistance=T.MathUtils.clamp(viewDistance+e.deltaY*.008,5,18);}
- window.addEventListener('keydown',onKey);window.addEventListener('keyup',release);window.addEventListener('blur',clear);
+ window.addEventListener('keydown',onKey);window.addEventListener('keyup',release);window.addEventListener('blur',clear);window.addEventListener('focusin',focusInput);window.addEventListener('visibilitychange',visibility);
  canvas.addEventListener('pointerdown',down,true);canvas.addEventListener('pointermove',move,true);canvas.addEventListener('pointerup',clear,true);canvas.addEventListener('pointercancel',clear,true);canvas.addEventListener('wheel',wheel,{capture:true,passive:false});
  enterButton.onclick=enter;resumeButton.onclick=resume;cameraButton.onclick=toggleCamera;exitButton.onclick=exit;mallButton.onclick=()=>void usePortal();returnButton.onclick=()=>{releaseControl();if(focused())focus('autumn',false,true);};
  for(const b of panel.querySelectorAll('[data-sub-key]')){
@@ -186,6 +189,6 @@ export function createSubmarineRuntime({container,canvas,camera,look,actor,getMo
   return {...boatState,explorerVersion:1,explorer,active:phase==='piloting'||phase==='boarding',...(boatReturning?{returning:true}:{}),...(!controlled&&busy()?{released:true}:{})};
  }
  return {get active(){return busy();},get controlled(){return controlled;},get exploringMall(){return controlled&&(phase==='mall'||phase==='airlock'&&transit?.frame.inner>0);},get phase(){return phase;},get explorer(){return swimmer?.state;},physics,boardingPoint:dockPoint,get boat(){return boat;},enter,exit,resume,releaseControl,usePortal,toggleCamera,update,updateCamera,snapshot,
-  dispose(){disposed=true;clear();panel.remove();window.removeEventListener('keydown',onKey);window.removeEventListener('keyup',release);window.removeEventListener('blur',clear);canvas.removeEventListener('pointerdown',down,true);canvas.removeEventListener('pointermove',move,true);canvas.removeEventListener('pointerup',clear,true);canvas.removeEventListener('pointercancel',clear,true);canvas.removeEventListener('wheel',wheel,true);anchor.removeFromParent();boat?.userData.dispose();}};
+  dispose(){disposed=true;clear();panel.remove();window.removeEventListener('keydown',onKey);window.removeEventListener('keyup',release);window.removeEventListener('blur',clear);window.removeEventListener('focusin',focusInput);window.removeEventListener('visibilitychange',visibility);canvas.removeEventListener('pointerdown',down,true);canvas.removeEventListener('pointermove',move,true);canvas.removeEventListener('pointerup',clear,true);canvas.removeEventListener('pointercancel',clear,true);canvas.removeEventListener('wheel',wheel,true);anchor.removeFromParent();boat?.userData.dispose();}};
 }
 const MOSA_SURFACE=.155;

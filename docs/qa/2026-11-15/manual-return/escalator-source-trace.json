@@ -1,0 +1,85 @@
+{
+  "biomeCentre": [
+    -450,
+    500
+  ],
+  "coordinateContract": "Collision boxes are floor-local; their Z has MALL.z=65 subtracted. Rendered meshes add floor.y and biome centre. The retained lower rail on floor1 ends exactly at the upper landing on floor2.",
+  "rows": [
+    {
+      "floor": 1,
+      "geometry": "TubeGeometry",
+      "radius": 0.16,
+      "material": "28516b",
+      "collider": {
+        "x": 20.049999237060547,
+        "z": -0.0000019073486328125,
+        "hx": 0.15999984741210938,
+        "hz": 13.548044204711914,
+        "c": 1,
+        "s": 0
+      },
+      "localControlPoints": [
+        [
+          20.049999999999997,
+          0.18,
+          51.5
+        ],
+        [
+          20.049999999999997,
+          8.68,
+          78.5
+        ]
+      ],
+      "worldControlPoints": [
+        [
+          -429.95,
+          -164.82,
+          551.5
+        ],
+        [
+          -429.95,
+          -156.32,
+          578.5
+        ]
+      ]
+    },
+    {
+      "floor": 2,
+      "geometry": "TubeGeometry",
+      "radius": 0.16,
+      "material": "28516b",
+      "collider": {
+        "x": 20.049999237060547,
+        "z": -0.0000019073486328125,
+        "hx": 0.15999984741210938,
+        "hz": 13.548044204711914,
+        "c": 1,
+        "s": 0
+      },
+      "localControlPoints": [
+        [
+          20.049999999999997,
+          0.18,
+          51.5
+        ],
+        [
+          20.049999999999997,
+          8.68,
+          78.5
+        ]
+      ],
+      "worldControlPoints": [
+        [
+          -429.95,
+          -156.32,
+          551.5
+        ],
+        [
+          -429.95,
+          -147.82,
+          578.5
+        ]
+      ]
+    }
+  ]
+}

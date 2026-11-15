@@ -66,3 +66,15 @@ test('swimmer swept collision rejects sealed Mall shell and malformed explorer r
  assert.throws(()=>normalizeOceanExplorer({mode:'mall',x:0,y:NaN,z:0,yaw:0,floor:1}));
  assert.throws(()=>normalizeOceanExplorer({mode:'mall',x:0,y:-165,z:65,yaw:0,floor:9}));
 });
+
+
+test('manual swimming stops on release, blur and entry into text editing',()=>{
+ const f=fixture();try{
+  f.runtime.exit();
+  f.key('KeyW',true);f.tick(2);f.key('KeyW',false);
+  const released={...f.runtime.explorer};f.tick(2);assert.equal(f.runtime.explorer.z,released.z);
+  f.key('KeyW',true);window.dispatchEvent(new Event('blur'));const blurred={...f.runtime.explorer};f.tick(2);assert.equal(f.runtime.explorer.z,blurred.z);
+  f.key('KeyW',true);const event=new Event('focusin');Object.defineProperty(event,'target',{value:{tagName:'INPUT',isContentEditable:false}});window.dispatchEvent(event);
+  const editing={...f.runtime.explorer};f.tick(2);assert.equal(f.runtime.explorer.z,editing.z,'held movement must clear when a text field receives focus');
+ }finally{f.dispose();}
+});
