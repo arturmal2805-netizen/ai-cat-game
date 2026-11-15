@@ -1,0 +1,153 @@
+{
+  "completed": true,
+  "initial": {
+    "phase": "mall",
+    "controlled": true,
+    "explorer": {
+      "mode": "mall",
+      "x": -43,
+      "y": -164.82,
+      "z": 105,
+      "yaw": 3.141592653589793,
+      "floor": 1,
+      "returning": false,
+      "vertical": 0,
+      "groundY": -164.82,
+      "jumpHeld": false
+    },
+    "view": {
+      "yaw": 3.141592653589793,
+      "orbitYaw": 3.141592653589793,
+      "pitch": 0.18,
+      "distance": 6
+    },
+    "inspection": false,
+    "guest": false,
+    "face": false,
+    "camera": [
+      -493,
+      -162.75991451904298,
+      610.2760782864087
+    ],
+    "actor": [
+      -493,
+      -164.82,
+      605
+    ],
+    "visible": true
+  },
+  "overhead": {
+    "phase": "airlock",
+    "controlled": false,
+    "explorer": {
+      "mode": "mall",
+      "x": -43.06171570777285,
+      "y": -164.82,
+      "z": 104.68628105006384,
+      "yaw": 5.943423391402896,
+      "floor": 1,
+      "returning": false,
+      "vertical": 0,
+      "groundY": -164.82,
+      "jumpHeld": false,
+      "jumpVelocity": 0
+    },
+    "view": {
+      "yaw": 2.981592653589793,
+      "orbitYaw": 2.981592653589793,
+      "pitch": 0.18,
+      "distance": 6
+    },
+    "inspection": true,
+    "guest": false,
+    "face": false,
+    "camera": [
+      -479.5397713488618,
+      -102.26097438442065,
+      655.9612854961264
+    ],
+    "actor": [
+      -493.06171570777286,
+      -164.82,
+      604.6862810500638
+    ],
+    "visible": true
+  },
+  "visitor": {
+    "phase": "airlock",
+    "controlled": false,
+    "explorer": {
+      "mode": "mall",
+      "x": -43,
+      "y": -164.82,
+      "z": 105.37135708445112,
+      "yaw": 5.943423391402896,
+      "floor": 1,
+      "returning": false,
+      "vertical": 0,
+      "groundY": -164.82,
+      "jumpHeld": false,
+      "jumpVelocity": 0
+    },
+    "view": {
+      "yaw": 2.981592653589793,
+      "orbitYaw": 2.981592653589793,
+      "pitch": 0.18,
+      "distance": 6
+    },
+    "inspection": true,
+    "guest": true,
+    "face": true,
+    "camera": [
+      -446.7273026484633,
+      -104.50833362184834,
+      634.4794861975794
+    ],
+    "actor": [
+      -493,
+      -164.82,
+      605.3713570844511
+    ],
+    "visible": true
+  },
+  "released": {
+    "phase": "airlock",
+    "controlled": false,
+    "explorer": {
+      "mode": "mall",
+      "x": -43,
+      "y": -164.82,
+      "z": 111.25244539523288,
+      "yaw": 5.943423391402896,
+      "floor": 1,
+      "returning": false,
+      "vertical": 0,
+      "groundY": -164.82,
+      "jumpHeld": false,
+      "jumpVelocity": 0
+    },
+    "view": {
+      "yaw": 2.981592653589793,
+      "orbitYaw": 2.981592653589793,
+      "pitch": 0.18,
+      "distance": 6
+    },
+    "inspection": false,
+    "guest": false,
+    "face": false,
+    "camera": [
+      -479.5477027390053,
+      -145.36671083542493,
+      603.3427810346172
+    ],
+    "actor": [
+      -493,
+      -164.82,
+      611.2524453952328
+    ],
+    "visible": true
+  },
+  "multitouch": true,
+  "errors": [],
+  "httpErrors": []
+}

@@ -3282,3 +3282,27 @@ button.cat-profile-card {
 @media(max-width:600px){.mall-wing-controls{top:145px;right:62px}}
 
 .mall-ice-flavor{border-top:5px solid var(--ice-color);background:linear-gradient(150deg,#fff,#effbfc)}.mall-ice-flavor .mall-product-icon{display:inline-grid;place-items:center;width:58px;height:58px;border-radius:50%;background:color-mix(in srgb,var(--ice-color) 30%,white);box-shadow:inset 0 0 0 1px #ffffffa0}.mall-ice-flavor small{display:block;color:#526a70;line-height:1.5;margin:8px 0}
+
+/* Manual travel: no desktop overlay; thumb controls stay in the canvas corners. */
+.submarine-panel{display:none;position:absolute;inset:0;z-index:12;pointer-events:none}
+.submarine-panel[hidden],.submarine-panel [hidden]{display:none!important}
+@media(pointer:coarse){
+ .submarine-panel{display:block}
+ .submarine-panel button{pointer-events:auto;touch-action:none;user-select:none;-webkit-user-select:none;width:44px;height:44px;min-height:44px;padding:0;border:1px solid #aed9e97d;border-radius:50%;background:#183c57c7;color:#effcff;font:600 17px system-ui;box-shadow:0 2px 8px #10283c35}
+ .submarine-panel button:active{background:#578ba5e8}
+ .submarine-panel button:disabled{opacity:.45}
+ .submarine-panel [data-sub-controls]{position:absolute;left:max(12px,env(safe-area-inset-left));bottom:max(80px,env(safe-area-inset-bottom));display:grid;grid-template:repeat(3,44px)/repeat(3,44px);gap:2px}
+ .submarine-panel [data-sub-key="KeyW"]{grid-area:1/2}
+ .submarine-panel [data-sub-key="KeyA"]{grid-area:2/1}
+ .submarine-panel [data-sub-key="KeyD"]{grid-area:2/3}
+ .submarine-panel [data-sub-key="KeyS"]{grid-area:3/2}
+ .submarine-panel [data-sub-depth]{position:absolute;right:max(12px,env(safe-area-inset-right));bottom:max(80px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:4px}
+ .submarine-panel [data-sub-actions]{position:absolute;right:max(12px,env(safe-area-inset-right));bottom:calc(max(80px,env(safe-area-inset-bottom)) + 100px);display:flex;justify-content:flex-end;gap:4px}
+ .submarine-panel [data-sub-actions] button{font-size:11px}
+ .submarine-panel [data-sub-camera],.submarine-panel [data-sub-return]{font-size:20px!important}
+}
+
+@media(pointer:coarse){
+ #map:has(>.submarine-panel[data-manual="true"]) .orbit-hint,
+ #map:has(>.submarine-panel[data-manual="true"]) #mood-badge{display:none}
+}

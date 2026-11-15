@@ -8,23 +8,24 @@ import {normalizeOceanExplorer} from '../public/ocean-explorer-state.js';
 import {newGame,loadGame} from '../public/economy.js';
 import {mergeSharedWorld} from '../shared-world.mjs';
 
-function fixture(saved={x:-6,y:-20,z:92,yaw:Math.PI,active:true,mode:'cockpit'}){
+function fixture(saved={x:-6,y:-20,z:92,yaw:Math.PI,active:true,mode:'cockpit'},mall=null){
  const prior={document:globalThis.document,window:globalThis.window};
- class Element extends EventTarget {style={};dataset={};hidden=false;disabled=false;textContent='';map=new Map();setPointerCapture(){}append(){}remove(){}querySelector(s){if(!this.map.has(s))this.map.set(s,new Element());return this.map.get(s);}querySelectorAll(s){return s==='button'?[]:['KeyW','KeyS','KeyA','KeyD','Space','ShiftLeft'].map(k=>{const e=this.querySelector(k);e.dataset.subKey=k;return e;});}}
+ class Element extends EventTarget {onclick=null;setAttribute(){}style={};dataset={};hidden=false;disabled=false;textContent='';map=new Map();setPointerCapture(){}getBoundingClientRect(){return {left:0,top:0,width:400,height:600,bottom:600};}append(e){this.child=e;}remove(){}querySelector(s){if(!this.map.has(s))this.map.set(s,new Element());return this.map.get(s);}querySelectorAll(s){return s==='button'?[]:['KeyW','KeyS','KeyA','KeyD','Space','ShiftLeft'].map(k=>{const e=this.querySelector(k);e.dataset.subKey=k;return e;});}}
  globalThis.document={createElement:()=>new Element(),querySelector:()=>null};globalThis.window=new EventTarget();
  const scene=new T.Scene(),actor=new T.Group(),model=new T.Group(),head=new T.Group();head.position.y=1.4;model.add(head);model.userData={head,body:{scale:{x:.5}}};actor.add(model);scene.add(actor);
  const camera=new T.PerspectiveCamera(40,1,.5,1200),look=new T.Vector3(),focusCalls=[];let focused='autumn';
  const game={unlocked:['moon','autumn'],mosasaurSubmarine:saved};
- const runtime=createSubmarineRuntime({scene,container:new Element(),canvas:new Element(),camera,look,actor,getModel:()=>model,getIsland:()=>({userData:{detail:{visible:true},ocean:{sea:{userData:{disturb(){}}}}}}),getGame:()=>game,getFocused:()=>focused,cancelHero(){},approachDock:()=>true,focus:(...a)=>focusCalls.push(a)});
+ const canvas=new Element(),container=new Element();
+ const runtime=createSubmarineRuntime({scene,container,canvas,camera,look,actor,getModel:()=>model,getMall:()=>mall,getIsland:()=>({userData:{detail:{visible:true},ocean:{sea:{userData:{disturb(){}}}}}}),getGame:()=>game,getFocused:()=>focused,cancelHero(){},approachDock:()=>true,focus:(...a)=>focusCalls.push(a)});
  const tick=(n=1)=>{for(let i=0;i<n;i++)runtime.update(.1,i/10);};tick();
  const key=(code,down)=>{const e=new Event(down?'keydown':'keyup',{cancelable:true});Object.defineProperty(e,'code',{value:code});window.dispatchEvent(e);};
- return {runtime,actor,camera,look,focusCalls,tick,key,setFocused:v=>focused=v,dispose(){runtime.dispose();globalThis.document=prior.document;globalThis.window=prior.window;}};
+ return {runtime,actor,camera,canvas,panel:container.child,look,focusCalls,tick,key,setFocused:v=>focused=v,dispose(){runtime.dispose();globalThis.document=prior.document;globalThis.window=prior.window;}};
 }
 
-test('underwater exit, first-person swimming axes, dive, reboard and release use actual runtime',()=>{
+test('underwater exit, third-person camera-relative swimming axes, dive, reboard and release use actual runtime',()=>{
  const f=fixture();try{
   assert.equal(f.runtime.exit(),true);assert.equal(f.runtime.phase,'swimming');assert.ok(f.runtime.explorer.y< -10);
-  f.runtime.updateCamera(.1);assert.equal(f.camera.near,.08);assert.equal(f.camera.fov,65);
+  f.runtime.updateCamera(.1);assert.equal(f.camera.near,.12);assert.equal(f.camera.fov,60);
   const before={...f.runtime.explorer};f.key('KeyW',true);f.key('KeyA',true);f.tick(5);f.key('KeyW',false);f.key('KeyA',false);
   assert.ok(f.runtime.explorer.z<before.z-1);assert.ok(f.runtime.explorer.x<before.x-1);
   const depth=f.runtime.explorer.y;f.key('ArrowDown',true);f.tick(5);f.key('ArrowDown',false);assert.ok(f.runtime.explorer.y<depth-2);
@@ -76,5 +77,62 @@ test('manual swimming stops on release, blur and entry into text editing',()=>{
   f.key('KeyW',true);window.dispatchEvent(new Event('blur'));const blurred={...f.runtime.explorer};f.tick(2);assert.equal(f.runtime.explorer.z,blurred.z);
   f.key('KeyW',true);const event=new Event('focusin');Object.defineProperty(event,'target',{value:{tagName:'INPUT',isContentEditable:false}});window.dispatchEvent(event);
   const editing={...f.runtime.explorer};f.tick(2);assert.equal(f.runtime.explorer.z,editing.z,'held movement must clear when a text field receives focus');
+ }finally{f.dispose();}
+});
+
+
+test('look orbit leaves a stationary cat facing forward and releasing a look drag preserves a held movement key',()=>{
+ const f=fixture();try{
+  f.runtime.exit();f.runtime.updateCamera(.1);const yaw=f.runtime.explorer.yaw,view=f.runtime.view.orbitYaw;
+  const pointer=(type,x)=>{const event=new Event(type,{cancelable:true});for(const [k,v]of Object.entries({pointerId:1,clientX:x,clientY:0}))Object.defineProperty(event,k,{value:v});f.canvas.dispatchEvent(event);};
+  pointer('pointerdown',0);pointer('pointermove',100);pointer('pointerup',100);f.tick();assert.equal(f.runtime.explorer.yaw,yaw);assert.ok(Math.abs(f.runtime.view.orbitYaw-view)>.3);
+  f.runtime.updateCamera(.1);const a={...f.runtime.explorer},heading=f.runtime.view.yaw;f.key('KeyW',true);pointer('pointerdown',100);pointer('pointerup',100);f.tick(2);f.key('KeyW',false);const b=f.runtime.explorer;assert.ok((b.x-a.x)*Math.sin(heading)+(b.z-a.z)*Math.cos(heading)>1,'camera pointerup must not clear the keyboard');
+ }finally{f.dispose();}
+});
+
+
+test('released explorer cannot cancel a newly selected mall overview or visitor camera',()=>{
+ const floors=[],mall={inspection:false,root:null,ensure:async()=>null,walkPath:async()=>null,walkActors:()=>[],setExplorerFloor:f=>{floors.push(f);if(mall.inspection)mall.inspection=false;}};
+ const f=fixture({x:-6,y:-20,z:92,yaw:0,active:false,mode:'chase',explorer:{mode:'mall',x:-43,y:-164.82,z:105,yaw:Math.PI,floor:1,returning:false}},mall);
+ try{assert.deepEqual(floors,[1]);f.runtime.releaseControl();mall.inspection=true;f.tick();assert.equal(mall.inspection,true);assert.deepEqual(floors,[1]);assert.equal(f.runtime.updateCamera(.1),false);}finally{f.dispose();}
+});
+
+
+test('hidden canvas gestures move/look independently, dive with two fingers and stop on release',()=>{
+ const f=fixture();try{f.runtime.exit();f.runtime.updateCamera(.1);
+  const pointer=(type,id,x,y)=>{const event=new Event(type,{cancelable:true});for(const [k,v]of Object.entries({pointerId:id,pointerType:'touch',clientX:x,clientY:y}))Object.defineProperty(event,k,{value:v});f.canvas.dispatchEvent(event);};
+  pointer('pointerdown',1,80,300);pointer('pointermove',1,80,252);const a={...f.runtime.explorer};f.tick(2);assert.ok(Math.hypot(f.runtime.explorer.x-a.x,f.runtime.explorer.z-a.z)>1);
+  pointer('pointerdown',2,300,300);pointer('pointermove',2,340,300);pointer('pointerup',2,340,300);const held={...f.runtime.explorer};f.tick(2);assert.ok(Math.hypot(f.runtime.explorer.x-held.x,f.runtime.explorer.z-held.z)>1);
+  pointer('pointerup',1,80,252);const stop={...f.runtime.explorer};f.tick(2);assert.equal(f.runtime.explorer.x,stop.x);assert.equal(f.runtime.explorer.z,stop.z);
+  pointer('pointerdown',3,80,300);pointer('pointerdown',4,130,300);pointer('pointermove',3,80,252);pointer('pointermove',4,130,252);const y=f.runtime.explorer.y;f.tick(2);assert.ok(f.runtime.explorer.y>y+1);
+  pointer('pointerup',4,130,252);const level=f.runtime.explorer.y;f.tick(2);assert.equal(f.runtime.explorer.y,level);pointer('pointerup',3,80,252);
+ }finally{f.dispose();}
+});
+
+
+test('E chooses the real boat or door in view when both are within reach',async()=>{
+ const mall={ensure:async()=>true};
+ for(const [yaw,expected]of [[0,'boarding'],[Math.PI,'airlock']]){
+  const f=fixture({x:-43,y:-162.5,z:124.5,yaw,mode:'chase',active:false,explorer:{...MALL_AIRLOCK.outside,mode:'swimming',yaw,returning:false}},mall);
+  try{f.key('KeyE',true);await Promise.resolve();assert.equal(f.runtime.phase,expected);}finally{f.dispose();}
+ }
+});
+
+test('phone buttons allow independent held movement and depth; cancellation and blur clear only their owned inputs',()=>{
+ const f=fixture();try{
+  f.runtime.exit();const forward=f.panel.querySelectorAll('[data-sub-key]')[0],up=f.panel.querySelectorAll('[data-sub-key]')[4];
+  const pointer=(el,type,id)=>{const e=new Event(type,{cancelable:true});Object.defineProperty(e,'pointerId',{value:id});el.dispatchEvent(e);};
+  const a={...f.runtime.explorer};pointer(forward,'pointerdown',11);pointer(up,'pointerdown',12);f.tick(2);assert.ok(f.runtime.explorer.z<a.z-1);assert.ok(f.runtime.explorer.y>a.y+1);
+  pointer(up,'pointercancel',12);const b={...f.runtime.explorer};f.tick(2);assert.equal(f.runtime.explorer.y,b.y);assert.ok(f.runtime.explorer.z<b.z-1);
+  window.dispatchEvent(new Event('blur'));const c={...f.runtime.explorer};f.tick(2);assert.equal(f.runtime.explorer.z,c.z);assert.equal(f.runtime.explorer.y,c.y);
+ }finally{f.dispose();}
+});
+
+
+test('phone control anchor tracks the visible viewport when the game canvas extends below it',()=>{
+ const f=fixture();try{
+  window.innerHeight=500;window.dispatchEvent(new Event('resize'));assert.equal(f.panel.style.bottom,'100px');
+  window.visualViewport=Object.assign(new EventTarget(),{height:400,offsetTop:20});window.dispatchEvent(new Event('scroll'));assert.equal(f.panel.style.bottom,'180px');
+  Object.assign(window.visualViewport,{height:700,offsetTop:0});window.dispatchEvent(new Event('resize'));assert.equal(f.panel.style.bottom,'0px');
  }finally{f.dispose();}
 });

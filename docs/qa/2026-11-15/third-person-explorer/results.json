@@ -1,0 +1,39 @@
+{
+  "node": "22.23.5",
+  "localFullSuite": {
+    "passed": 1045,
+    "failed": 0,
+    "log": "/workspace/qa/third-person-mobile-full-tests.log"
+  },
+  "finalTargeted": {
+    "passed": 15,
+    "failed": 0,
+    "log": "/workspace/qa/third-person-mobile-targeted.log"
+  },
+  "nativeRoute": {
+    "path": "/workspace/qa/third-person-mobile-full-v2",
+    "completed": true,
+    "bundle": {
+      "sha256": "571227e3c73b14384443259a2e99e704cf7ff52b290620c2f5d321676fbd19cc",
+      "node": "v22.23.5",
+      "head": "b44f4ef7d510a5b3e84a95f47d9c30d4c5530207"
+    },
+    "coldMall": {
+      "root": false,
+      "ready": false,
+      "paused": true
+    }
+  },
+  "nativeModesAndFinalPhoneLayout": {
+    "path": "/workspace/qa/third-person-mobile-isolation-final",
+    "completed": true,
+    "bundle": {
+      "sha256": "5e5d827eba9416f7d42cfc68e47f29fc0767470f6984c603ccf728b5a5746cf9",
+      "node": "v22.23.5",
+      "head": "b44f4ef7d510a5b3e84a95f47d9c30d4c5530207"
+    }
+  },
+  "postNativeCosmeticChange": "Replace unsupported Mall jump glyph with the already rendered up-arrow; handler and accessible label unchanged.",
+  "publication": "Local pre-publication evidence; deployment workflow and live release are recorded separately after publishing.",
+  "renderer": "Native Chromium SwiftShader DPR2; accelerated simulation correctness, no physical-device FPS claim"
+}

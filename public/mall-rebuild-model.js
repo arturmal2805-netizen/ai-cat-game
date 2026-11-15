@@ -21,7 +21,7 @@ export function* mallRebuildModelSteps(options={}){
   const roomLights=createMallRoomLights();
   const inspectedRoom={value:0},cutawayMaterials=new Set();
   const root=new T.Group();root.name='CHICHI horizontal underwater mall';
-  const floors=new Map(),stores=new Map(),obstacles=new Map(),roomStoreIds=[null],frameSource=new T.Group();
+  const floors=new Map(),stores=new Map(),obstacles=new Map(),cameraHighObstacles=new Map(),roomStoreIds=[null],frameSource=new T.Group();
   const background=[];let focusedFloor=null,focusedStore=null;
   const walkSurfaces=[];
   const captureWalkSurfaces=(source,y=0)=>{source.updateMatrixWorld(true);source.traverse(m=>{if(m.isMesh&&m.userData.mallWalkSurface){const matrix=m.matrixWorld.clone();matrix.elements[13]+=y;walkSurfaces.push({geometry:m.geometry,matrix});}});};
@@ -84,6 +84,7 @@ export function* mallRebuildModelSteps(options={}){
     yield;
     yield* roomLights.stamp(detail,0);
     const physical=new T.Group();physical.add(architecture.structure,detail);const measured=collectMallObstacles(physical,glassMat,{zOrigin:MALL_LAYOUT.z});measured.floor=floor.id;measured.layoutVersion=2;obstacles.set(floor.id,measured);
+    physical.add(ceilings);cameraHighObstacles.set(floor.id,collectMallObstacles(physical,glassMat,{zOrigin:MALL_LAYOUT.z,cameraHigh:true}));physical.remove(ceilings);
     physical.remove(architecture.structure,detail);
     const instances=new T.Group();
     const structure=yield* batchModelSteps(architecture.structure,{combineColors:true}),retail=yield* batchModelSteps(detail,{combineColors:true}),roof=yield* batchModelSteps(ceilings,{combineColors:true});
@@ -176,7 +177,7 @@ export function* mallRebuildModelSteps(options={}){
   // Dynamic pressure doors are added AFTER static obstacle collection, outside
   // those source groups. Only the sequential portal FSM owns their collision.
   const airlock=createMallAirlock();root.add(airlock);
-  root.userData={mall:true,built:true,layoutVersion:2,floors,stores,roomStoreIds,walkSurfaces,obstacles,cabin,doors,airlock,ownedCats:[statue],borrowedTextures:kit.borrowedTextures,atlas:kit.atlas,ownedTextures:[roomLights.texture],borrowed:new Set(),
+  root.userData={mall:true,built:true,layoutVersion:2,floors,stores,roomStoreIds,walkSurfaces,obstacles,cameraHighObstacles,cabin,doors,airlock,ownedCats:[statue],borrowedTextures:kit.borrowedTextures,atlas:kit.atlas,ownedTextures:[roomLights.texture],borrowed:new Set(),
     guestActors:background,
     iceCreamStation:kit.iceStation.current,
     stats:{floors:7,stores:stores.size,products:MALL_PRODUCTS.filter(p=>!p.legacy).length,area:mallPlanArea()},

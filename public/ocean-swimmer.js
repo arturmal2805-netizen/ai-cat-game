@@ -17,7 +17,8 @@ export function createOceanSwimmer(raw,{radius=.6,obstacles=mosaTerrainObstacles
   function step(dt,input={}){
     dt=clamp(dt,0,.1);state.yaw+=clamp(input.turn||0,-1,1)*1.3*dt;
     let f=clamp(input.forward||0,-1,1),side=clamp(input.strafe||0,-1,1),length=Math.max(1,Math.hypot(f,side));f/=length;side/=length;
-    const dx=(Math.sin(state.yaw)*f+Math.cos(state.yaw)*side)*12,dz=(Math.cos(state.yaw)*f-Math.sin(state.yaw)*side)*12;
+    const heading=Number.isFinite(input.heading)?input.heading:state.yaw;
+    const dx=(Math.sin(heading)*f+Math.cos(heading)*side)*12,dz=(Math.cos(heading)*f-Math.sin(heading)*side)*12;
     const n=Math.max(1,Math.ceil(dt*20/.18)),h=dt/n;
     for(let i=0;i<n;i++){
       if(state.y>MOSA_SEA.surfaceY+.2){state.vertical-=9.81*h;}

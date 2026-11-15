@@ -138,8 +138,9 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
       if(!resolved)return false;
       eye.set(resolved.x+centre[0],resolved.y+y,resolved.z+centre[1]+MALL.z);return true;
     },
-    setExplorerFloor(floor){if(inspection)exit(false);if(selected===floor&&root?.userData.explorerFloor===floor)return;selected=floor;if(root){root.userData.focusFloor(floor);root.userData.explorerFloor=floor;}},
-    async walkPath(floor,from,to,radius){if(!await ensure()||!await prepareNavigation(floor,radius))return null;return mallPath(floor,from,to,radius,root.userData.obstacles.get(floor));},
+    setExplorerFloor(floor){if(inspection)exit(false);if(selected===floor&&root?.userData.explorerFloor===floor)return;selected=floor;if(root){root.userData.focusFloor(floor);root.userData.explorerFloor=floor;
+      if(floor){const current=root.userData.floors.get(floor),above=root.userData.floors.get(floor+1);if(current)current.userData.ceiling.visible=true;if(above){above.userData.structure.visible=true;above.userData.ghost.visible=false;}}}},
+    async walkPath(floor,from,to,radius,dynamic=[]){if(!await ensure()||!await prepareNavigation(floor,radius))return null;return mallPath(floor,from,to,radius,root.userData.obstacles.get(floor),dynamic);},
     walkActors(){return [...getActors().map(a=>({id:a.id,...local(a.position),radius:a.radius})),...staff.map((a,i)=>({id:'mall-staff-'+i,...local(a.carrier.position),radius:a.radius})),...(root?.userData.guestActors||[]).filter(a=>!a.roomGuest).map(a=>({id:a.id,x:a.carrier.position.x,y:a.carrier.position.y,z:a.carrier.position.z,radius:catNavigationRadius(a.cat)}))];},
     get root(){return root;},get ready(){return !!root&&!pending&&staff.length===7&&staff.every(s=>s.carrier.parent);},get inspection(){return inspection;},get floor(){return selected;},get guest(){return guest;},
     async start(id,storeId,{productId=null,ticket=null,useOwned=false}={}){

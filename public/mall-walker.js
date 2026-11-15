@@ -4,7 +4,8 @@ import {mallWalkable} from './mall-navigation.js';
 
 export function stepMallWalker(state,dt,input,obstacles,radius=.6,actors=[]){
   const speed=5,forward=input.forward||0,side=input.strafe||0,length=Math.max(1,Math.hypot(forward,side));
-  const dx=(Math.sin(state.yaw)*forward+Math.cos(state.yaw)*side)*speed/length,dz=(Math.cos(state.yaw)*forward-Math.sin(state.yaw)*side)*speed/length;
+  const heading=Number.isFinite(input.heading)?input.heading:state.yaw;
+  const dx=(Math.sin(heading)*forward+Math.cos(heading)*side)*speed/length,dz=(Math.cos(heading)*forward-Math.sin(heading)*side)*speed/length;
   const count=Math.max(1,Math.ceil(Math.min(dt,.1)*speed/.15)),h=Math.min(dt,.1)/count;
   function surface(p){
     // Ordinary walking cannot cross a closed pressure door or side pane.

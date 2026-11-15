@@ -1,3 +1,4 @@
+import {applyExplorerLocomotion} from './explorer-locomotion.js';
 const mallGuestCameraProfile=Object.freeze({targetDrop:.28,distanceScale:1.6,downAngle:Math.PI/12});
 import {MALL,mallStore,mallFloor,mallProduct} from './mall-data.js';
 import {createMallWorld} from './mall-world.js';
@@ -5679,9 +5680,10 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
           (heroBuild?.speed > 1
             ? heroBuild.elapsed * (1 - 1 / heroBuild.speed)
             : 0),
-        walking,
+        submarinePose?.locomotion?false:walking,
         reduced,
       );
+      if (submarinePose?.locomotion)applyExplorerLocomotion(cat,submarinePose.locomotion,reduced);
       if (reaction) {reactCat(cat, reaction, reduced);if(reaction.waterGesture||reaction.rideSit||reaction.waterSurf||reaction.waterProne||reaction.waterPawLift)applyAtollSit(cat,reaction,reduced);if(operation?.attraction?.userData.magicBed)applyMagicBedReach(cat,operation.attraction,operation.harvester,reduced);applyMallIcePose(cat,reaction,reduced);}
     }
     if(court.get('chichi')?.zooCarry&&!dialogOpen)relaxCarriedCat(cat,court.get('chichi').zooCarry,time,reduced);
