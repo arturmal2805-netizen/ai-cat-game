@@ -2,6 +2,8 @@ import {mosaWaterReflection} from './mosasaur-water-probe.js';
 import {mosaWaterField} from './mosasaur-water-field.js';
 // Only the expanded ocean opts into metre-scale surface displacement. The
 // original shared water fields, reflection sampler, wake slots and clock remain.
+// Swell wavelengths resolve on the existing polar grid even at its outer edge;
+// fine ripples stay in the shared normal field rather than aliased geometry.
 export function installMosasaurWaterOptics(material){
  const reflection=mosaWaterReflection();material.uniforms.uWaterEnvironment.value=reflection.texture;
  material.uniforms.uWaterField.value=mosaWaterField();material.toneMapped=true;
@@ -10,17 +12,17 @@ export function installMosasaurWaterOptics(material){
   shader.vertexShader='uniform vec2 uScale;attribute float aPhysicalBedDepth;varying float vPhysicalBedDepth;varying float vOceanCrest;\n'+shader.vertexShader
    .replace('vec3 p=position;',`vPhysicalBedDepth=aPhysicalBedDepth;vec3 p=position;
     vec2 oceanMetres=position.xy*uScale*.5;
-    float oceanA=dot(oceanMetres,vec2(.68,.43))-uTime*1.35;
-    float oceanB=dot(oceanMetres,vec2(-.36,.79))-uTime*1.8;
-    float oceanC=dot(oceanMetres,vec2(.19,-.21))-uTime*.76;
+    float oceanA=dot(oceanMetres,vec2(.12,.072))-uTime*1.17;
+    float oceanB=dot(oceanMetres,vec2(-.073,.104))-uTime*1.12;
+    float oceanC=dot(oceanMetres,vec2(.039,-.034))-uTime*.71;
     vOceanCrest=smoothstep(.72,.98,sin(oceanA)*.65+sin(oceanB)*.35);
     float oceanShore=smoothstep(.2,3.,aPhysicalBedDepth);`)
-   .replace('float wave=sin(p.x*1.3+uTime*.8)*.004+cos(p.y*1.7-uTime*.6)*.003;', 'float wave=(sin(oceanA)*.09+sin(oceanB)*.045+sin(oceanC)*.055)*oceanShore;')
-   .replace('vec3 viewNormal=normalMatrix*normal;',`vec2 oceanGradient=(cos(oceanA)*.09*vec2(.68,.43)+cos(oceanB)*.045*vec2(-.36,.79)+cos(oceanC)*.055*vec2(.19,-.21))*oceanShore;
+   .replace('float wave=sin(p.x*1.3+uTime*.8)*.004+cos(p.y*1.7-uTime*.6)*.003;', 'float wave=(sin(oceanA)*.30+sin(oceanB)*.14+sin(oceanC)*.06)*oceanShore;')
+   .replace('vec3 viewNormal=normalMatrix*normal;',`vec2 oceanGradient=(cos(oceanA)*.30*vec2(.12,.072)+cos(oceanB)*.14*vec2(-.073,.104)+cos(oceanC)*.06*vec2(.039,-.034))*oceanShore;
     vec3 viewNormal=normalMatrix*normalize(vec3(-oceanGradient*uScale*.5,1.));`);
   shader.fragmentShader='uniform float uOceanReflectionGain;varying float vPhysicalBedDepth;varying float vOceanCrest;\n'+shader.fragmentShader
    .replace('slope=(fieldA.rg-.5)*.075+(fieldB.gr-.5)*.115;', 'slope=(fieldA.rg-.5)*.28+(fieldB.gr-.5)*.14;')
-   .replace('vec3 sky=texture2D(uWaterEnvironment,environmentUv(reflected),.7).rgb;', 'vec3 sky=texture2D(uWaterEnvironment,environmentUv(reflected),.7).rgb*uOceanReflectionGain;')
+   .replace('vec3 sky=texture2D(uWaterEnvironment,environmentUv(reflected),waterProbeLod).rgb;', 'vec3 sky=texture2D(uWaterEnvironment,environmentUv(reflected),waterProbeLod).rgb*uOceanReflectionGain;')
    .replace('float shallow=(1.0-depth)*uLake;','depth=1.-exp2(-max(0.,vPhysicalBedDepth)*.07);float shallow=(1.0-depth)*uLake;')
    .replace('float caustic=min(1.5,fieldA.b*.7+fieldB.b*.55+fieldA.b*fieldB.b);', `
     float oceanDepth=1.-exp2(-max(0.,vPhysicalBedDepth)*.030);
@@ -45,6 +47,6 @@ export function installMosasaurWaterOptics(material){
     alpha=clamp(1.-(1.-oceanCoverage)*(1.-foam*.65),.025,.98);
     gl_FragColor=vec4(max(color,vec3(0.0)),alpha);`);
  };
- material.customProgramCacheKey=()=> 'physical-ocean-bed-optics-v4-clear-interface';
+ material.customProgramCacheKey=()=> 'physical-ocean-bed-optics-v5-resolved-swells';
  return material;
 }

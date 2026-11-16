@@ -287,18 +287,26 @@ void main(){
  vec3 n=normalize(base+tangent*slope.x+bitangent*slope.y);
  vec3 view=normalize(cameraPosition-vWaterPoint);
  float facing=clamp(abs(dot(n,view)),0.0,1.0);
- float fresnel=.025+.975*pow(1.0-facing,5.0);
+ float fresnel=.0204+.9796*pow(1.0-facing,5.0);
+ // Filter the real normal footprint, including geometric swells. A bounded
+ // GGX lobe replaces the unshadowed distribution that painted broad white bands.
+ vec2 waterNormalChange=vec2(length(dFdx(n)),length(dFdy(n)));
+ float waterVariance=dot(waterNormalChange,waterNormalChange);
  vec3 reflected=reflect(-view,n);
- vec3 sky=texture2D(uWaterEnvironment,environmentUv(reflected),.7).rgb;
- vec3 halfSun=normalize(view+normalize(vec3(-14.,35.,20.)));
+ float waterProbeLod=.7+clamp(sqrt(waterVariance)*5.,0.,2.5);
+ vec3 sky=texture2D(uWaterEnvironment,environmentUv(reflected),waterProbeLod).rgb;
+ vec3 sunDirection=normalize(vec3(-14.,35.,20.));
+ vec3 halfSun=normalize(view+sunDirection);
  float gloss=max(dot(n,halfSun),0.0);
- float roughness=.085+min(.12,length(fwidth(slope))*.65);
- #ifndef SHOWCASE_WATER
- roughness=sqrt(.0064+min(.04,dot(fwidth(slope),fwidth(slope))*.75));
- #endif
- float a2=roughness*roughness;
- float denominator=gloss*gloss*(a2-1.0)+1.0;
- float glint=(a2/(3.14159*denominator*denominator))*.014*(.4+fieldB.a*.6);
+ float roughness=.105;
+ float alphaRough=min(.22,roughness*roughness+waterVariance*.35);
+ float a2=alphaRough*alphaRough;
+ float denominator=max(.0001,gloss*gloss*(a2-1.0)+1.0);
+ float distribution=a2/(3.14159*denominator*denominator);
+ float sunFacing=max(dot(n,sunDirection),0.0),nv=max(facing,.025);
+ float visibility=.5/max(.0001,sunFacing*sqrt(nv*nv*(1.-a2)+a2)+nv*sqrt(sunFacing*sunFacing*(1.-a2)+a2));
+ float sunFresnel=.0204+.9796*pow(1.-max(dot(view,halfSun),0.),5.);
+ float glint=distribution*visibility*sunFresnel*sunFacing*.035;
  float edge=length((vWaterUv-.5)*2.0);
  float depth=clamp((1.0-edge*edge)*uLake,0.0,1.0);
  float shallow=(1.0-depth)*uLake;

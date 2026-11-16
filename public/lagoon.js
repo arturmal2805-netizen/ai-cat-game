@@ -109,6 +109,9 @@ export function* lagoonSteps({
     for(let i=0;i<p.count;i++)physicalDepth[i]=Math.max(0,LAGOON_SURFACE_Y-(opticalBedHeight||bedHeight)(p.getX(i)*rx,-p.getY(i)*rz));
     surface.geometry.setAttribute('aPhysicalBedDepth',new THREE.BufferAttribute(physicalDepth,1));
     installMosasaurWaterOptics(material);
+    // Include the bounded shader swell in the native culling/picking bounds.
+    surface.geometry.computeBoundingBox();surface.geometry.boundingBox.min.z=-.5;surface.geometry.boundingBox.max.z=.5;
+    surface.geometry.computeBoundingSphere();surface.geometry.boundingSphere.radius=Math.hypot(surface.geometry.boundingSphere.radius,.5);
   }
   surface.rotation.x = -Math.PI / 2;
   yield;
