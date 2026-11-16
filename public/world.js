@@ -1222,6 +1222,15 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       for (const whale of island.userData.renewal.flyers)
         whale.visible = !game.unlocked.includes(id);
   }
+  const meadowEye=new THREE.Vector3();
+  function configureMeadow(island){
+    island.userData.configureMeadow?.({
+      prepare:(steps,{signal}={})=>prepareSceneSteps(steps,{scheduler:scenePreparation,priority:'autumn',signal}),
+      warm:(model,{needed})=>shaderWarmup.prepare(model,{background:focused!=='autumn',needed}),
+      onModel:prepareIslandMatrices,
+    });
+    island.userData.updateMeadowView?.(meadowEye.copy(camera.position).sub(island.position),focused==='autumn'&&worldVisible);
+  }
   function makeIsland(biome) {
     const placements = game.placements.filter((p) => p.biome === biome.id),
       scenery = game.scenery?.filter((r) => r.biome === biome.id);
@@ -1234,6 +1243,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     islandContentKeys.set(biome.id, JSON.stringify([placements, scenery]));
     g.position.set(biome.center[0], 0, biome.center[1]);
     prepareIslandMatrices(g);
+    if(biome.id==='autumn')configureMeadow(g);
     if (biome.id === HOUSING_ID) g.userData.prepareModel = model =>
       shaderWarmup.prepare(model, { background: focused !== HOUSING_ID });
     if (biome.id === HOUSING_ID) g.userData.prepareHousingSteps = steps =>
@@ -1331,6 +1341,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
           g.position.copy(old.position);
           g.userData.syncOrchard?.(game.farm?.orchards?.[id]);
           prepareIslandMatrices(g);
+          if(id==='autumn')configureMeadow(g);
           g.updateMatrixWorld(true);
           // Compile against the real scene lighting while the old island remains
           // usable. Parallel shader compilation avoids the first-visit hitch.
@@ -5886,6 +5897,8 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       camera.coordinateSystem,
       camera.reversedDepth,
     );
+    const meadowIsland=islands.get('autumn');
+    meadowIsland?.userData.updateMeadowView?.(meadowEye.copy(camera.position).sub(meadowIsland.position),focused==='autumn'&&worldVisible);
     chichiCarrier.visible = heroVisibility(
       attractionFrustum,
       sun.shadow.getFrustum(),
