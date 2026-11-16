@@ -1,10 +1,11 @@
 import {byItem} from './game-data.js';
 import {sceneryFootprint} from './scenery-data.js';
-import {MOSA_OLD_RADIUS,MOSA_PREVIOUS_RADIUS,MOSA_SEA,mosaZoneContains,mosaCoastFactor} from './mosasaur-data.js';
+import {MOSA_OLD_RADIUS,MOSA_PREVIOUS_RADIUS,MOSA_RELEASED_SEA,MOSA_SEA,mosaZoneContains,mosaCoastFactor} from './mosasaur-data.js';
 // Derived from actual owned addresses; no purchase, new object ID or save copy.
 export function wasMosaShore(x,z){
  const radius=Math.hypot(x,z),a=Math.atan2(z/100,x/105);
- return Math.hypot(x/21.5,z/20.5)>=1&&radius<MOSA_OLD_RADIUS+.01 || Math.hypot(x/105,z/100)>=mosaCoastFactor(a)&&radius<MOSA_PREVIOUS_RADIUS+.01;
+ const released=MOSA_RELEASED_SEA,ra=Math.atan2(z/released.rz,x/released.rx);
+ return Math.hypot(x/21.5,z/20.5)>=1&&radius<MOSA_OLD_RADIUS+.01 || Math.hypot(x/105,z/100)>=mosaCoastFactor(a)&&radius<MOSA_PREVIOUS_RADIUS+.01 || Math.hypot(x/released.rx,z/released.rz)>=mosaCoastFactor(ra)&&radius<released.radius+.01;
 }
 export function retainedMosaLand(items=[],records=[]){
  const pads=[];

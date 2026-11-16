@@ -11,14 +11,22 @@ import {detailedCoral} from './mosasaur-coral-anatomy.js';
 import {applyUnderwaterLighting} from './water-shading.js';
 import {mosaReefSurfaceY,reefCoralSites,installReefCoralSites,reefWallSite,MOSA_REEF_INSTANCES} from './mosasaur-reef-data.js';
 import {MOSA_SEA,mosaBedY,mosaWaterRadius,mosaCoastFactor,MOSA_REEF_TERRACES} from './mosasaur-data.js';
-// Eleven reusable anatomies, 1,024 real colonies. All instance buffers are
+// Eleven reusable anatomies, 1,536 real colonies. All instance buffers are
 // immutable; polyps bend in the vertex shader from a single shared clock.
 export const MOSA_CORAL_FORMS=['staghorn','sea-fan','brain','tube-sponge','anemone','table-coral','mushroom','soft-plume','luminous-corals','kelp','sea-grass'];
 export function mosaCoralSites(){
  const cached=reefCoralSites();if(cached)return cached;
- const sites=Array.from({length:1024},(_,i)=>{
-  const p=MOSA_REEF_TERRACES[i%12],a=i*2.3999632297+.35;let x,z,wall=null;
-  if(i<384){const r=p.radius*.62*Math.sqrt(((i*37)%97)/97);x=p.x+Math.sin(a)*r;z=p.z+Math.cos(a)*r*.86;}
+ const sites=Array.from({length:1536},(_,i)=>{
+  // Use the final fitted rocks, not their pre-clearance terrace centres.
+  // Thirty-two mixed colonies make each crown an ecosystem instead of a
+  // uniform scattering across empty sand where a cliff used to stand.
+  const p=MOSA_REEF_INSTANCES[i%12],a=i*2.3999632297+.35;let x,z,wall=null;
+  if(i>=1024){
+   const j=i-1024,garden=Math.floor(j/32),side=garden%2?1:-1,r=10*Math.sqrt((j%32+.5)/32);
+   x=side*(75+Math.floor(garden/2)%4*27)+Math.sin(a)*r;
+   z=152+Math.floor(garden/8)*48+Math.cos(a)*r;
+  }
+  else if(i<384){const r=p.radius*.62*Math.sqrt(((i*37)%97)/97);x=p.x+Math.sin(a)*r;z=p.z+Math.cos(a)*r*.86;}
   else if(i%3===0){const q=.88+(i%5)*.016,f=mosaCoastFactor(a);x=Math.cos(a)*MOSA_SEA.rx*f*q;z=Math.sin(a)*MOSA_SEA.rz*f*q;}
   else{
    const reef=MOSA_REEF_INSTANCES[i%12],angle=Math.PI/2+Math.sin(a)*.95,level=.28+(i%11)*.055;

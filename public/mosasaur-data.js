@@ -1,13 +1,16 @@
 import {mallFoundationBedY} from './mall-layout.js';
 import { LEGACY_SEA_DEPTH, LAGOON_SURFACE_Y } from "./water-depths.js";
 export const MOSA_OLD_RADIUS = 11.65 * Math.sqrt(6);
-// The master ocean first grew five times in each horizontal dimension. The
-// player's next expansion adds exactly five times that area, without scaling
-// animals, owned buildings, the original pickup pier or submarine controls.
-export const MOSA_AREA_EXPANSION = 5;
+// Released shoreline is a permanent save boundary. The new expansion doubles
+// WATER area; terrain keeps its former coast width and fauna/buildings keep
+// their metre scale. Never derive a legacy purchase address from new radii.
+export const MOSA_RELEASED_SEA = Object.freeze({rx:105*Math.sqrt(5),rz:100*Math.sqrt(5),radius:11.65*Math.sqrt(6)*5*Math.sqrt(5)});
+export const MOSA_WATER_AREA_MULTIPLIER = 2;
+export const MOSA_FEATURE_SCALE = Math.sqrt(5);
+export const MOSA_AREA_EXPANSION = 5*MOSA_WATER_AREA_MULTIPLIER;
 export const MOSA_HORIZONTAL_EXPANSION = Math.sqrt(MOSA_AREA_EXPANSION);
 export const MOSA_PREVIOUS_RADIUS = MOSA_OLD_RADIUS * 5;
-export const MOSA_RADIUS = MOSA_PREVIOUS_RADIUS * MOSA_HORIZONTAL_EXPANSION;
+export const MOSA_RADIUS = MOSA_RELEASED_SEA.radius+105*MOSA_HORIZONTAL_EXPANSION-MOSA_RELEASED_SEA.rx;
 export const MOSA_SHORE_GATE = { x: 0, z: 103 * MOSA_HORIZONTAL_EXPANSION };
 export const MOSA_DEPTH = 200;
 export const MOSA_SEA = {
@@ -47,9 +50,9 @@ export function mosaReservations() {
 }
 export const mosaCoastFactor=a=>1+.035*Math.sin(a*3+.5)+.018*Math.cos(a*7);
 export function mosaWaterRadius(x,z){const a=Math.atan2(z/MOSA_SEA.rz,x/MOSA_SEA.rx);return Math.hypot(x/MOSA_SEA.rx,z/MOSA_SEA.rz)/mosaCoastFactor(a);}
-export const MOSA_HEADLANDS=[.08,.45,.86,1.95,2.4,2.85,3.35,3.9,4.45,4.95,5.55,6.0].map((angle,i)=>({angle,x:Math.cos(angle)*MOSA_SEA.rx*mosaCoastFactor(angle)*1.04,z:Math.sin(angle)*MOSA_SEA.rz*mosaCoastFactor(angle)*1.04,radius:(i%3?11+i%3*2:17)*MOSA_HORIZONTAL_EXPANSION,height:i%3?10+i%4*3:24+i%2*4}));
+export const MOSA_HEADLANDS=[.08,.45,.86,1.95,2.4,2.85,3.35,3.9,4.45,4.95,5.55,6.0].map((angle,i)=>({angle,x:Math.cos(angle)*MOSA_SEA.rx*mosaCoastFactor(angle)*1.04,z:Math.sin(angle)*MOSA_SEA.rz*mosaCoastFactor(angle)*1.04,radius:(i%3?11+i%3*2:17)*MOSA_FEATURE_SCALE,height:i%3?10+i%4*3:24+i%2*4}));
 export const MOSA_CAVE_LAYOUT=[{id:"violet-grotto",x:-25,z:-18,radius:8,depth:20,color:0x9774dc},{id:"amber-cavern",x:20,z:15,radius:7,depth:17,color:0xeab66c}];
-export const MOSA_REEF_TERRACES=Array.from({length:12},(_,i)=>{const angle=.24+i*Math.PI/6,q=i%2?.82:.67,f=mosaCoastFactor(angle);return {id:'reef-terrace-'+i,x:Math.cos(angle)*MOSA_SEA.rx*f*q,z:Math.sin(angle)*MOSA_SEA.rz*f*q,radius:(i%2?14:11.5)*MOSA_HORIZONTAL_EXPANSION,depth:7+i%4*4,angle};});
+export const MOSA_REEF_TERRACES=Array.from({length:12},(_,i)=>{const angle=.24+i*Math.PI/6,q=i%2?.82:.67,f=mosaCoastFactor(angle);return {id:'reef-terrace-'+i,x:Math.cos(angle)*MOSA_SEA.rx*f*q,z:Math.sin(angle)*MOSA_SEA.rz*f*q,radius:(i%2?14:11.5)*MOSA_FEATURE_SCALE,depth:7+i%4*4,angle};});
 export function mosaTerraceRadius(c,angle){return c.radius*(1+.12*Math.sin(angle*3+c.angle)+.065*Math.cos(angle*7-c.angle));}
 const TERRACE_LEVELS=[[1.06,0,.25],[1.48,13,.22],[1.89,37,.21],[2.22,65,.28]];
 export function mosaTerraceY(c,x,z,natural=mosaNaturalBedY(x,z)){
@@ -67,7 +70,11 @@ export function mosaNaturalBedY(x,z) {
   const r=Math.min(1,mosaWaterRadius(x,z));
   const shore=Math.min(1,(1-r)/.06),shelf=shore*shore*(3-2*shore),depth=.65+(MOSA_DEPTH-.65)*Math.pow(1-r,.88)*shelf;
   const ridge=(Math.sin(x*.075+Math.sin(z*.045)*1.5)*Math.cos(z*.053)+Math.sin((x+z)*.09)*.3)*Math.min(12,depth*.15)*(1-r);
-  return MOSA_SEA.surfaceY-Math.min(MOSA_DEPTH,Math.max(.65,depth-ridge));
+  // Broad meandering sand channels and metre-scale dune ridges are physical
+  // relief, shared by the rendered floor, depth field and vehicle collision.
+  const channel=Math.exp(-(((x-38*Math.sin(z*.018+1.2))/16)**2))*7;
+  const dune=(Math.sin(z*.44+Math.sin(x*.063)*2)*.24+Math.sin(x*.12-z*.17)*.65)*Math.min(1,depth/12)*(1-r);
+  return MOSA_SEA.surfaceY-Math.min(MOSA_DEPTH,Math.max(.65,depth-ridge+channel-dune));
 }
 export function mosaBedY(x,z){
  const natural=mosaNaturalBedY(x,z);let y=natural;

@@ -8,11 +8,11 @@ import {leafyCanopy,fern,broadleaf,gardenFlowerCluster,mossMantle} from './showc
 import {cliffGeometry} from './showcase-geology.js';
 import {shape,surfaceTexture,lantern} from './fantasy-scenery.js';
 import {waterfallSteps} from './lagoon.js';
-import {MOSA_SEA,MOSA_HEADLANDS,mosaCoastFactor} from './mosasaur-data.js';
+import {MOSA_SEA,MOSA_RELEASED_SEA,MOSA_HEADLANDS,mosaCoastFactor} from './mosasaur-data.js';
 import {placementClearance} from './landscape-detail.js';
 function gardenHeight(x,z){for(const p of MOSA_HEADLANDS){const d=Math.hypot((x-p.x)/p.radius,(z-p.z)/(p.radius*.86));if(d<.68)return p.height+.65;if(d<1.03)return null;}return .15;}
 export function mosaForestSites(){const sites=[];for(let i=0;i<240;i++){
- const angle=i*2.3999632297,f=mosaCoastFactor(angle),ring=1.09+(i%4)*.055,x=Math.cos(angle)*MOSA_SEA.rx*f*ring,z=Math.sin(angle)*MOSA_SEA.rz*f*ring;
+ const angle=i*2.3999632297,f=mosaCoastFactor(angle),ring=1.09+(i%4)*.055,x=Math.cos(angle)*(MOSA_SEA.rx+MOSA_RELEASED_SEA.rx*(ring-1))*f,z=Math.sin(angle)*(MOSA_SEA.rz+MOSA_RELEASED_SEA.rz*(ring-1))*f;
  if(Math.abs(x)<5&&z>10)continue;
  const y=gardenHeight(x,z);if(y===null)continue;
  sites.push({x,y,z,angle,kind:i%5===0?'pink':i%5===1?'green':'palm',scale:.82+i%5*.1});
@@ -44,7 +44,7 @@ export function* mosaCoastGardenSteps(placements=[]){
   }
  }
  const understory=new T.Group();for(let i=0;i<420;i++){
-  if(i%12===0)yield;const a=i*2.399,f=mosaCoastFactor(a),r=1.07+(i%9)*.019,x=Math.cos(a)*MOSA_SEA.rx*f*r,z=Math.sin(a)*MOSA_SEA.rz*f*r;if(!clear(x,z,2,2)||Math.abs(x)<4&&z>5)continue;
+  if(i%12===0)yield;const a=i*2.399,f=mosaCoastFactor(a),r=1.07+(i%9)*.019,x=Math.cos(a)*(MOSA_SEA.rx+MOSA_RELEASED_SEA.rx*(r-1))*f,z=Math.sin(a)*(MOSA_SEA.rz+MOSA_RELEASED_SEA.rz*(r-1))*f;if(!clear(x,z,2,2)||Math.abs(x)<4&&z>5)continue;
   const y=gardenHeight(x,z);if(y===null)continue;
   if(i%3===0)meadowBroadleaf(understory,x,y,z,1.9,a);else fern(understory,x,y,z,1.3,a);if(i%4===0)gardenFlowerCluster(understory,x,z,[0xffa6d8,0xe7a0ec,0xffcb70][i%3],1.4,y+.01);if(i%42===0)lantern(understory,x,y,z,1.4);
  }

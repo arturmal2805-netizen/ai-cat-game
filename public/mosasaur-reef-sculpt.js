@@ -4,7 +4,7 @@ import {runSceneSteps} from './scene-tasks.js';
 import {MOSA_REEF_FORMS,reefLocalField} from './mosasaur-reef-data.js';
 const cache=new Map();
 const lodCache=new Map();
-export const MOSA_REEF_REVISION='living-eroded-reef-ecosystem-v7';
+export const MOSA_REEF_REVISION='living-eroded-reef-ecosystem-v8-deep-forecourt';
 export function installMosaReefTemplate(kind,g){g.userData.sharedScenery=true;cache.set(kind,g);}
 export function installMosaReefLods(kind,geometries){for(const g of geometries)g.userData.sharedScenery=true;lodCache.set(kind,geometries);}
 export function mosaReefLods(kind,full){return lodCache.get(kind)||[full,full,full];}

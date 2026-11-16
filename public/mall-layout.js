@@ -97,12 +97,15 @@ export function mallRoomContacts(kind,slot=0,radius=.8){
   return{customer,vendor,seated:false,pose:'rest',approach:{x:side*8,y:.18,z:14.3},seat:{x:side*8,y:.18,z:14.3}};
 }
 
-// The new foundation is an authored excavation in this ocean only. Beyond its
-// fourteen-metre shoulder the released seabed remains numerically unchanged.
+// A real deep forecourt, wide enough to turn a submarine outside the mall.
+// Offline reef fitting uses this SAME envelope: excavation alone cannot clear
+// a separate rock mesh which happens to occupy the entrance.
+export const MALL_FORECOURT=Object.freeze({x:0,z:164,rx:180,rz:72,floor:-190});
+export function mallForecourtDistance(x,z){
+ const c=MALL_FORECOURT;return (Math.hypot((x-c.x)/c.rx,(z-c.z)/c.rz)-1)*c.rz;
+}
+export function mallOceanClearanceDistance(x,z){return Math.min(mallConstructionFootprintDistance(x,z),mallForecourtDistance(x,z));}
 export function mallFoundationBedY(x,z,natural){
-  const cove=(Math.hypot(x/112,(z-145)/50)-1)*50;
-  const d=Math.min(mallConstructionFootprintDistance(x,z),cove);
-  if(d>=14)return natural;
-  const t=Math.min(1,Math.max(0,(14-d)/12)),f=t*t*(3-2*t);
-  return natural+(Math.min(natural,MALL_LAYOUT.y-4.5)-natural)*f;
+  const blend=(distance,floor,width)=>{const t=Math.min(1,Math.max(0,(width-distance)/width));return natural+(Math.min(natural,floor)-natural)*t*t*(3-2*t);};
+  return Math.min(blend(mallConstructionFootprintDistance(x,z),MALL_LAYOUT.y-4.5,14),blend(mallForecourtDistance(x,z),MALL_FORECOURT.floor,24));
 }

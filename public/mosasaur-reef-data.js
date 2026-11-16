@@ -15,7 +15,10 @@ function rawField(x,y,z,kind){
  // Broad fracture faces interrupt rounded masses. Each layer erodes on a
  // different plane; the result has real ledges and sharp broken stone edges.
  for(let j=0;j<7;j++){const a=j*Math.PI*2/7+kind*.37,limit=12.8+(j%3)*1.2+1.1*Math.sin(y*.19+j*1.7)+.22*Math.sin(y*1.1+j);d=Math.max(d,(x*Math.cos(a)+z*Math.sin(a)-limit)*.82);}
- d=Math.max(d,y-40-.32*Math.sin(x*.4)*Math.cos(z*.3));
+ // Broken sloping crowns, rather than a single almost horizontal clipped cap.
+ // The same signed field sculpts the mesh and resolves body collisions.
+ const crown=38.3+1.35*Math.sin(x*.19+kind)*Math.cos(z*.16-.7)+.65*Math.sin((x+z)*.36)-.012*(x*x+z*z);
+ d=Math.max(d,y-crown);
  for(const c of forms[kind].caves){const cut=(1-Math.hypot((x-c[0]+.45*Math.sin(z*.22))/c[3],(y-c[1]+.32*Math.sin(x*.31))/c[4],(z-c[2])/c[5]))*Math.min(c[3],c[4],c[5]);d=Math.max(d,cut);}
  return d;
 }

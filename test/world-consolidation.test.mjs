@@ -10,7 +10,7 @@ import {RETIRED_BIOME_IDS,isRetiredBiome,retiredDistrict} from '../public/world-
 import {worldRoads,WORLD_ROAD_WIDTH} from '../public/world-roads.js';
 import {activeCats} from '../public/cat-roster.js';
 import {mergeSharedWorld} from '../shared-world.mjs';
-import {MOSA_SHORE_GATE,MOSA_HORIZONTAL_EXPANSION} from '../public/mosasaur-data.js';
+import {MOSA_SHORE_GATE,MOSA_RADIUS} from '../public/mosasaur-data.js';
 const before=JSON.parse(fs.readFileSync(new URL('./fixtures/pre-consolidation-biomes.json',import.meta.url))),now=Date.UTC(2026,9,21,12);
 test('exactly the thirteen requested islands disappear and every remaining theme/property stays intact',()=>{
  assert.equal(BIOMES.length,18);
@@ -20,7 +20,7 @@ test('exactly the thirteen requested islands disappear and every remaining theme
   if(old.id==='autumn'){const {arrival:oa,...ot}=oldTheme,{arrival:na,...nt}=newTheme;assert.deepEqual(nt,ot);assert.deepEqual(na,[MOSA_SHORE_GATE.x,MOSA_SHORE_GATE.z]);}
   else assert.deepEqual(newTheme,oldTheme);
   if(old.id==='homestead')assert.ok(Math.abs(nr*nr/(or*or)-3)<1e-12);
-  else if(old.id==='autumn')assert.ok(Math.abs(nr/or-5*MOSA_HORIZONTAL_EXPANSION)<1e-12);
+  else if(old.id==='autumn')assert.equal(nr,MOSA_RADIUS);
   else assert.equal(nr,or);
  }
  for(let i=0;i<BIOMES.length;i++)for(const b of BIOMES.slice(i+1)){

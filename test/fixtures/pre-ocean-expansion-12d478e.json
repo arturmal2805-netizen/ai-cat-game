@@ -1,0 +1,400 @@
+{
+  "source": "12d478e82e8e5a2bd6ef3ec0cbb151ea1e473d1d",
+  "biomes": [
+    {
+      "id": "moon",
+      "name": "Лунный сад",
+      "subtitle": "Дом Чичи · звёзды и мягкий мох",
+      "icon": "☾",
+      "price": 0,
+      "center": [
+        0,
+        0
+      ],
+      "ground": 5401448,
+      "edge": 3161428,
+      "foliage": 8428945,
+      "accent": 15255441,
+      "requiredLevel": 1
+    },
+    {
+      "id": "autumn",
+      "name": "Небесное море мозазавра",
+      "subtitle": "Глубокий океан, парящие скалы и большой добрый морской великан",
+      "icon": "🦕",
+      "price": 740,
+      "center": [
+        -450,
+        500
+      ],
+      "ground": 11061642,
+      "edge": 5325656,
+      "foliage": 6203770,
+      "accent": 16761540,
+      "requiredLevel": 8,
+      "radius": 319.04838974675926,
+      "arrival": [
+        0,
+        230.31500168247834
+      ]
+    },
+    {
+      "id": "winter",
+      "name": "Китовая лагуна звёзд",
+      "subtitle": "Небесные киты, жемчужные ракушки и сияющие водопады",
+      "icon": "🐋",
+      "price": 1440,
+      "center": [
+        92.9434,
+        128.5351
+      ],
+      "ground": 10202312,
+      "edge": 5399675,
+      "foliage": 10402525,
+      "accent": 15709421,
+      "requiredLevel": 4,
+      "radius": 16,
+      "arrival": [
+        0,
+        13
+      ]
+    },
+    {
+      "id": "water",
+      "name": "Cat SPA",
+      "subtitle": "Басейн, тепле джакузі, спільний лежак і котячий бар",
+      "radius": 20.17839190817742,
+      "arrival": [
+        0,
+        15.6
+      ],
+      "icon": "🪷",
+      "price": 2480,
+      "center": [
+        -60.0521,
+        141.3472
+      ],
+      "ground": 7382947,
+      "edge": 3955054,
+      "foliage": 10206128,
+      "accent": 10479317,
+      "requiredLevel": 7
+    },
+    {
+      "id": "summer",
+      "name": "Блакитна лагуна капібар",
+      "subtitle": "Блакитні каскади, соковиті джунглі й пухкенькі капібари",
+      "radius": 20.17839190817742,
+      "arrival": [
+        -11,
+        10
+      ],
+      "icon": "🌴",
+      "price": 1290,
+      "center": [
+        14.5771,
+        162.7468
+      ],
+      "ground": 8436045,
+      "edge": 5463893,
+      "foliage": 6928953,
+      "accent": 15979676,
+      "requiredLevel": 4
+    },
+    {
+      "id": "sakura",
+      "name": "Chill Land",
+      "subtitle": "Затишні особняки, спільні сни та теплі ванни серед квітів",
+      "icon": "🏡",
+      "price": 4230,
+      "center": [
+        46.4777,
+        122.8444
+      ],
+      "ground": 10993034,
+      "edge": 8749963,
+      "foliage": 8166237,
+      "accent": 16767406,
+      "requiredLevel": 9,
+      "radius": 26.05019193787255,
+      "arrival": [
+        0,
+        21.8
+      ]
+    },
+    {
+      "id": "volcano",
+      "name": "Долина маленьких динозавров",
+      "subtitle": "Пышные папоротники, добрые динозавры и тёплые лагуны",
+      "icon": "🦕",
+      "price": 10980,
+      "center": [
+        -26.5033,
+        162.7201
+      ],
+      "ground": 10273910,
+      "edge": 3878988,
+      "foliage": 7451499,
+      "accent": 16038524,
+      "quest": {
+        "harvests": 6
+      },
+      "requiredLevel": 16,
+      "radius": 14.8
+    },
+    {
+      "id": "candy",
+      "name": "Сладкая страна",
+      "subtitle": "Мармеладные деревья и сахарные облака",
+      "icon": "🍭",
+      "price": 5570,
+      "center": [
+        136.9242,
+        39.6054
+      ],
+      "ground": 12886712,
+      "edge": 9528452,
+      "foliage": 15515097,
+      "accent": 16769200,
+      "requiredLevel": 11,
+      "radius": 26.05019193787255,
+      "buildableAreaMultiplier": 5
+    },
+    {
+      "id": "galaxy",
+      "name": "Лунный залив медуз",
+      "subtitle": "Лавандовая ива, светящиеся медузы и ночные водопады",
+      "icon": "🪼",
+      "price": 17160,
+      "center": [
+        137.7209,
+        85.2487
+      ],
+      "ground": 6389157,
+      "edge": 3486297,
+      "foliage": 11115471,
+      "accent": 13739764,
+      "quest": {
+        "friends": 1
+      },
+      "requiredLevel": 19,
+      "radius": 14.8
+    },
+    {
+      "id": "ice",
+      "name": "Кристальные лотосы",
+      "subtitle": "Гигантские цветы, кристаллы, бирюзовая вода и стрекозы",
+      "icon": "🪷",
+      "price": 13600,
+      "center": [
+        -163.1679,
+        5.485
+      ],
+      "ground": 9618857,
+      "edge": 6519978,
+      "foliage": 9025709,
+      "accent": 16102619,
+      "quest": {
+        "harvests": 10
+      },
+      "requiredLevel": 18,
+      "radius": 14.8
+    },
+    {
+      "id": "clockwork",
+      "name": "Остров сладкой ваты",
+      "subtitle": "Легендарный парк хрюшек · розовые водопады и сахарные горки",
+      "icon": "🍭",
+      "radius": 23,
+      "legendary": true,
+      "arrival": [
+        0,
+        9
+      ],
+      "price": 14960,
+      "center": [
+        -137.2347,
+        -28.3119
+      ],
+      "ground": 16767688,
+      "edge": 12938135,
+      "foliage": 16099539,
+      "accent": 16769186,
+      "quest": {
+        "friends": 2
+      },
+      "requiredLevel": 18
+    },
+    {
+      "id": "foodcourt",
+      "name": "Котячий фуд-корт",
+      "subtitle": "Бургеры, бабл-ти, котячье печенье и кино под облаками",
+      "icon": "🍔",
+      "price": 2800,
+      "requiredLevel": 6,
+      "radius": 32.95117600329312,
+      "center": [
+        81.1833,
+        8.609
+      ],
+      "arrival": [
+        0,
+        29
+      ],
+      "ground": 11125899,
+      "edge": 8293778,
+      "foliage": 7776888,
+      "accent": 16043167
+    },
+    {
+      "id": "bikini",
+      "name": "Бикини-Боттом",
+      "subtitle": "Губка Боб, Патрик, крабсбургеры и мыльные пузыри над облаками",
+      "icon": "🧽",
+      "price": 2400,
+      "requiredLevel": 5,
+      "radius": 30.823002773902484,
+      "center": [
+        87.9955,
+        77.1497
+      ],
+      "arrival": [
+        0,
+        27
+      ],
+      "ground": 15324579,
+      "edge": 9343903,
+      "foliage": 9549972,
+      "accent": 6474713
+    },
+    {
+      "id": "homestead",
+      "name": "Наш остров",
+      "subtitle": "Огромный цветущий луг — всё остальное построите вы",
+      "icon": "🌼",
+      "price": 1800,
+      "requiredLevel": 3,
+      "radius": 228.29244402739224,
+      "center": [
+        0,
+        -245
+      ],
+      "arrival": [
+        0,
+        0
+      ],
+      "ground": 11257484,
+      "edge": 9803662,
+      "foliage": 10599812,
+      "accent": 15979450
+    },
+    {
+      "id": "aquarium",
+      "name": "Котячий океанариум",
+      "subtitle": "Стеклянный дворец, огромные рыбки-котики и нежные встречи у воды",
+      "icon": "🐠",
+      "price": 3200,
+      "requiredLevel": 14,
+      "radius": 38.5,
+      "center": [
+        18.3427,
+        51.7981
+      ],
+      "arrival": [
+        0,
+        33
+      ],
+      "ground": 13360294,
+      "edge": 11182517,
+      "foliage": 11061638,
+      "accent": 10805231
+    },
+    {
+      "id": "jobcity",
+      "name": "Cat Job City",
+      "subtitle": "Місто професій, власних монеток та котячих машин",
+      "icon": "🏙️",
+      "price": 6500,
+      "requiredLevel": 8,
+      "radius": 67,
+      "center": [
+        -92,
+        55
+      ],
+      "arrival": [
+        0,
+        59
+      ],
+      "ground": 12175764,
+      "edge": 9803661,
+      "foliage": 8563822,
+      "accent": 15319946
+    },
+    {
+      "id": "cat-homes",
+      "name": "Котячі оселі",
+      "subtitle": "Власні будиночки котиків · нові квартали з кожною покупкою",
+      "icon": "🏡",
+      "price": 0,
+      "requiredLevel": 8,
+      "radius": 43,
+      "center": [
+        -210,
+        55
+      ],
+      "arrival": [
+        0,
+        37
+      ],
+      "ground": 10993034,
+      "edge": 10394514,
+      "foliage": 8627566,
+      "accent": 15250885,
+      "housingOnly": true
+    },
+    {
+      "id": "atoll-park",
+      "name": "Великий аквапарк",
+      "icon": "🌊",
+      "price": 0,
+      "subtitle": "20 велетенських водних мінібіомів · просторі алеї",
+      "radius": 390,
+      "center": [
+        0,
+        -925
+      ],
+      "arrival": [
+        0,
+        375
+      ],
+      "requiredLevel": 20,
+      "ground": 10079668,
+      "edge": 8822428,
+      "foliage": 7650179,
+      "accent": 6020589,
+      "waterpark": true
+    },
+    {
+      "id": "magic-zoo",
+      "name": "Чарівний зоопарк",
+      "subtitle": "П’ять просторих вольєрів · маленькі дива й добрі велетні",
+      "icon": "🐘",
+      "price": 3600,
+      "requiredLevel": 8,
+      "radius": 40.35678381635484,
+      "center": [
+        207,
+        136
+      ],
+      "arrival": [
+        0,
+        35.8
+      ],
+      "ground": 10929787,
+      "edge": 9608072,
+      "foliage": 6661964,
+      "accent": 16763356,
+      "zoo": true
+    }
+  ]
+}

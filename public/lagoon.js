@@ -101,7 +101,7 @@ export function* lagoonSteps({
   group.add(wall);
   yield;
   const material = waterMaterial(color),
-    surface = new THREE.Mesh(bedHeight?new THREE.RingGeometry(0,1,128,96):new THREE.CircleGeometry(1, 64), material);
+    surface = new THREE.Mesh(bedHeight?new THREE.RingGeometry(0,1,192,128):new THREE.CircleGeometry(1, 64), material);
   yield;
   if(coastFactor){const p=surface.geometry.attributes.position;for(let i=1;i<p.count;i++){const f=coastFactor(Math.atan2(-p.getY(i),p.getX(i)));p.setXY(i,p.getX(i)*f,p.getY(i)*f);}}
   if(bedHeight){
