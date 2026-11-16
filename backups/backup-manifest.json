@@ -1,0 +1,12 @@
+{
+  "path": "/workspace/artifacts/chichi-project-memory-wip-2026-11-16-r8.tar.gz",
+  "bytes": 32394212,
+  "sha256": "72acf51f2f890c8b9e88c2748fa0eec862fad4b57cfad302c9972eceba2046e1",
+  "readableMembers": 72,
+  "publishedBaseRequired": "c9a2ac7a74dfad5f478464dd6cf62c072e4172a0",
+  "fullGitHistory": false,
+  "worktrees": 12,
+  "sourceMemoryCommit": "e0724b993cf1cc59aba99c5576846ef9e2e59546",
+  "restoreResult": "restore-result.json",
+  "sourceRepository": "https://github.com/arturmal2805-netizen/ai-cat-game"
+}

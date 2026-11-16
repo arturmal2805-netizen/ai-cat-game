@@ -1,0 +1,106 @@
+{
+  "archive": "chichi-project-memory-wip-2026-11-16-r8.tar.gz",
+  "sha256": "72acf51f2f890c8b9e88c2748fa0eec862fad4b57cfad302c9972eceba2046e1",
+  "restored": true,
+  "fullGitHistory": false,
+  "publishedBaseRequired": "c9a2ac7a74dfad5f478464dd6cf62c072e4172a0",
+  "worktrees": [
+    {
+      "name": "ai-cat-game",
+      "head": "b44f4ef7d510a5b3e84a95f47d9c30d4c5530207",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-coast-render",
+      "head": "c9a2ac7a74dfad5f478464dd6cf62c072e4172a0",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-mall-architecture",
+      "head": "12d478e82e8e5a2bd6ef3ec0cbb151ea1e473d1d",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-mall-realism",
+      "head": "12d478e82e8e5a2bd6ef3ec0cbb151ea1e473d1d",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-meadow-coast",
+      "head": "d17001cdcec031e882f89cdf19ab8b540e7a481e",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-ocean-expansion",
+      "head": "e0724b993cf1cc59aba99c5576846ef9e2e59546",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-ocean-occlusion",
+      "head": "c9a2ac7a74dfad5f478464dd6cf62c072e4172a0",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-realism",
+      "head": "4f49d1ff1b67aa84b9334f0e8e4c829427fe3673",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-third-person",
+      "head": "c9a2ac7a74dfad5f478464dd6cf62c072e4172a0",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-water-approved-d6",
+      "head": "d6fa8056f18d2d738890cc9b477334e4cda81523",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-water-realism",
+      "head": "939b328304d4807506849a9fbeb866ea9f40703c",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-water-recovery",
+      "head": "4392a9615fb81d2cf896b1ba5d9a2b13fac26c59",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    }
+  ],
+  "sourceWorktreesModified": false
+}
