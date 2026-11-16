@@ -1,3 +1,4 @@
+import {installMeadowLod} from './meadow-lod.js';
 import * as T from 'three';
 
 // Local authoring candidate only. No global palette, saved coordinates, collision
@@ -161,6 +162,8 @@ export function* meadowGrassSteps(clear=()=>true){
    const mesh=new T.Mesh(geometry,material);mesh.userData.meadowPacked=true;mesh.receiveShadow=true;mesh.castShadow=false;lod.addLevel(mesh,d,0);
   }
   lod.addLevel(new T.Group(),46+radius+.001,0);
+  const origins=new T.Box3();for(const p of own)origins.expandByPoint(new T.Vector3(p.x-cx,0,p.z-cz));
+  installMeadowLod(lod,origins);
  }
  root.userData.instanceCount=count;root.userData.wind=wind;root.userData.update=(time,reduced=false)=>{wind.value=reduced?0:time;};return root;
 }
