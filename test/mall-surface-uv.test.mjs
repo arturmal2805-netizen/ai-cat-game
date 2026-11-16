@@ -21,11 +21,11 @@ test('floor tiles retain metre density and match across adjoining transformed pa
 });
 test('room stamping shares only equivalent finish transforms and preserves native collider positions and primitive UVs',()=>{
  const source=new T.BoxGeometry(2,3,4),original=source.attributes.uv.array.slice(),material=finish('warm'),root=new T.Group();
- const a=new T.Mesh(source,material),b=new T.Mesh(source,material),c=new T.Mesh(source,material);c.position.set(3,0,0);root.add(a,b,c);root.updateMatrixWorld(true);
+ source.userData.sharedScenery=true;const a=new T.Mesh(source,material),b=new T.Mesh(source,material),c=new T.Mesh(source,material);c.position.set(3,0,0);root.add(a,b,c);root.updateMatrixWorld(true);
  assert.equal(mallSurfaceUVKey(a),mallSurfaceUVKey(b));assert.notEqual(mallSurfaceUVKey(a),mallSurfaceUVKey(c));
  const lights=createMallRoomLights();runSceneSteps(lights.stamp(root,2));assert.equal(a.geometry,b.geometry);assert.notEqual(a.geometry,c.geometry);assert.notEqual(a.geometry,source);
  for(const mesh of [a,b,c]){assert.deepEqual(mesh.geometry.attributes.position.array,source.attributes.position.array);assert.deepEqual(mesh.geometry.index.array,source.index.array);assert.ok([...mesh.geometry.attributes.aMallRoom.array].every(id=>id===2));}
- assert.deepEqual(source.attributes.uv.array,original);assert.equal(source.hasAttribute('aMallRoom'),false);
+ assert.deepEqual(source.attributes.uv.array,original);assert.equal(source.hasAttribute('aMallRoom'),false);assert.equal(source.userData.sharedScenery,true);assert.equal(source.userData.mallSurfaceMetres,undefined);
  const plain=new T.Mesh(source,new T.MeshStandardMaterial());plain.updateMatrixWorld();const copy=source.clone();assert.equal(writeMallSurfaceUVs(plain,copy),false);assert.deepEqual(copy.attributes.uv.array,original);lights.finish();lights.texture.dispose();
 });
 

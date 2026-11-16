@@ -19,7 +19,7 @@ export function* writeMallSurfaceUVsSteps(mesh,geometry){
   else if(ax>=az)uv.setXY(i,-position.z/tile,position.y/tile);
   else uv.setXY(i,position.x/tile,position.y/tile);
  }
- geometry.userData.mallSurfaceMetres=tile;return true;
+ geometry.userData={...geometry.userData,mallSurfaceMetres:tile};return true;
 }
 
 export function writeMallSurfaceUVs(mesh,geometry){return runSceneSteps(writeMallSurfaceUVsSteps(mesh,geometry));}
@@ -32,7 +32,7 @@ export function* stampMallSurfaceUVsSteps(root){
  for(const mesh of meshes){
   yield;const source=mesh.geometry,key=mallSurfaceUVKey(mesh);let variants=copies.get(source);
   if(!variants)copies.set(source,variants=new Map());let geometry=variants.get(key);
-  if(!geometry){geometry=copyGeometryBuffers(source);geometry.userData.sharedScenery=false;yield* writeMallSurfaceUVsSteps(mesh,geometry);variants.set(key,geometry);}
+  if(!geometry){geometry=copyGeometryBuffers(source);geometry.userData={...geometry.userData,sharedScenery:false};yield* writeMallSurfaceUVsSteps(mesh,geometry);variants.set(key,geometry);}
   mesh.geometry=geometry;
  }
  return meshes.length;
