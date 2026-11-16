@@ -23,6 +23,6 @@ test('refitting keeps all twelve original detailed reef templates, scales and un
   if(c.x!==original.x||c.z!==original.z)moved.push(i);else assert.equal(c,original);
  }
  // Reviewed exact-surface fit for the wider arrival lobby and outboard
- // pavilions. Six untouched colonies retain their original object identity.
- assert.deepEqual(moved,[0,1,2,3,4,5]);
+ // pavilions and excavated deep forecourt. Seven untouched colonies retain their original object identity.
+ assert.deepEqual(moved,[0,1,2,3,4]);
 });

@@ -1,0 +1,31 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {createHash} from 'node:crypto';
+import {waterMaterial,waterFieldTexture} from '../public/water-shading.js';
+import {SHOWCASE_WATER_PROBES} from '../public/showcase-probe-assets.js';
+import {installMosasaurWaterOptics} from '../public/mosasaur-water-optics.js';
+import {MOSA_OCEAN_PROFILE} from '../public/mosasaur-water-profile.js';
+const approved=JSON.parse(fs.readFileSync(new URL('./fixtures/approved-slide-and-wave-field.json',import.meta.url)));
+const digest=bytes=>createHash('sha256').update(bytes).digest('hex');
+test('the ocean repair preserves the currently accepted slide chain and all eight genuine reflection images',()=>{
+ for(const [file,sha]of Object.entries(approved.files))assert.equal(digest(fs.readFileSync(new URL('../public/'+file,import.meta.url))),sha,file+' changed without a new slide review');
+ assert.deepEqual(SHOWCASE_WATER_PROBES,approved.probes);
+});
+test('ocean surface uses the actual approved wave field bytes, retaining local profile isolation',()=>{
+ assert.equal(digest(waterFieldTexture().image.data),approved.waveFieldSHA256);
+ const regular=waterMaterial(),ocean=installMosasaurWaterOptics(waterMaterial());
+ assert.equal(regular.userData.oceanProfile,undefined);
+ assert.equal(ocean.userData.oceanProfile,MOSA_OCEAN_PROFILE.version);
+ assert.equal(ocean.uniforms.uWaterField.value,waterFieldTexture());
+ assert.notEqual(ocean.customProgramCacheKey(),regular.customProgramCacheKey());
+ const shader={uniforms:{},vertexShader:ocean.vertexShader,fragmentShader:ocean.fragmentShader};ocean.onBeforeCompile(shader);
+ assert.match(shader.fragmentShader,/float oceanCoverage=/);
+ assert.match(shader.fragmentShader,/vPhysicalBedDepth/);
+ assert.match(shader.vertexShader,/float wave=\(sin\(oceanA\)/);
+ assert.match(shader.fragmentShader,/float roughness=sqrt\(/);
+ assert.doesNotMatch(shader.fragmentShader,/float roughness=\.105;/);
+ assert.equal((shader.fragmentShader.match(/texture2D\(uWaterField/g)||[]).length,2);
+ assert.equal((shader.fragmentShader.match(/texture2D\(uWaterEnvironment/g)||[]).length,1);
+ regular.dispose();ocean.dispose();
+});

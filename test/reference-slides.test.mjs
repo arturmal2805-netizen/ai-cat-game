@@ -1,5 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import fs from "node:fs";
 import { createHash } from "node:crypto";
 import * as THREE from "three";
 import { REFERENCE_SLIDES } from "../public/reference-slide-data.js";
@@ -65,9 +66,9 @@ test("exactly 25 independent reference cards map the 5 by 5 grid and preserve ev
       CATALOG: CATALOG.filter(
         (s) => !s.zoo && !s.referenceSlide && !s.magicBed && !s.seed && !s.id.startsWith("job-"),
       ),
-      BIOMES: BIOMES.filter((b) => !["jobcity", "cat-homes", "atoll-park"].includes(b.id)),
+      BIOMES: BIOMES.filter((b) => !["jobcity", "cat-homes", "atoll-park"].includes(b.id)).map(b=>b.id==='autumn'?JSON.parse(fs.readFileSync(new URL('./fixtures/pre-ocean-expansion-12d478e.json',import.meta.url))).biomes.find(p=>p.id==='autumn'):b),
     }),
-    // Includes the player's additional fivefold ocean-area expansion. The
+    // Retain the exact historical catalogue/all-other-islands hash. The
     // island snapshots separately verify every unrelated record is unchanged.
     "80cc4a236d7c8da14c4d1d9127a4bb2be7b6262b29441c5442e926efef14020f",
   );

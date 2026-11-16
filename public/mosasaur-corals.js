@@ -1,3 +1,4 @@
+import {MOSA_BENTHIC_GARDENS} from './mosasaur-benthic-data.js';
 import {useMosasaurWaterField} from './mosasaur-water-field.js';
 import {coralCellIndices,coralCellMesh,installCoralCellCulling} from './mosasaur-coral-cells.js';
 import * as T from 'three';
@@ -22,9 +23,8 @@ export function mosaCoralSites(){
   // uniform scattering across empty sand where a cliff used to stand.
   const p=MOSA_REEF_INSTANCES[i%12],a=i*2.3999632297+.35;let x,z,wall=null;
   if(i>=1024){
-   const j=i-1024,garden=Math.floor(j/32),side=garden%2?1:-1,r=10*Math.sqrt((j%32+.5)/32);
-   x=side*(75+Math.floor(garden/2)%4*27)+Math.sin(a)*r;
-   z=152+Math.floor(garden/8)*48+Math.cos(a)*r;
+   const j=i-1024,garden=MOSA_BENTHIC_GARDENS[Math.floor(j/32)],r=garden.radius*Math.sqrt((j%32+.5)/32);
+   x=garden.x+Math.sin(a)*r;z=garden.z+Math.cos(a)*r;
   }
   else if(i<384){const r=p.radius*.62*Math.sqrt(((i*37)%97)/97);x=p.x+Math.sin(a)*r;z=p.z+Math.cos(a)*r*.86;}
   else if(i%3===0){const q=.88+(i%5)*.016,f=mosaCoastFactor(a);x=Math.cos(a)*MOSA_SEA.rx*f*q;z=Math.sin(a)*MOSA_SEA.rz*f*q;}
@@ -37,7 +37,7 @@ export function mosaCoralSites(){
    if(wall){x=wall.x;z=wall.z;}else{const r=p.radius*(.72+i%9*.16);x=p.x+Math.sin(a)*r;z=p.z+Math.cos(a)*r*.86;}
   }
   if(!wall){const q=mosaWaterRadius(x,z);if(q>.94){x*=.94/q;z*=.94/q;}}
-  const y=wall?wall.y:mosaReefSurfaceY(x,z)+.05,form=i%11,maxHeight=form===9?1.5:form===10?.6:1.,scale=Math.max(.3,Math.min((i<384?4:2.6)+(i%6)*.72,(-y-.6)/maxHeight));
+  const y=wall?wall.y:mosaReefSurfaceY(x,z)+.05,form=i%11,maxHeight=form===9?1.5:form===10?.6:1.,scale=Math.max(.3,Math.min((i>=1024?1.35:i<384?3.5:2.6)+(i%6)*(i>=1024?.28:.62),(-y-.6)/maxHeight));
   return {id:'mosa-reef-'+i,form,x,z,y,scale,yaw:a,nx:wall?.nx||0,ny:wall?.ny??1,nz:wall?.nz||0};
  });installReefCoralSites(sites);return sites;
 }
@@ -81,8 +81,8 @@ export function* mosaCoralSteps({spatialCells=true}={}){
  normal=normalize(abs(det)*normal-sign(det)*(dFdx(relief)*rX+dFdy(relief)*rY));
  roughnessFactor=clamp(roughnessFactor+polyp*.07,.42,.84);diffuseColor.rgb*=.94+polyp*.06;`);};
  material.customProgramCacheKey=()=> 'mosa-coral-polyp-v5';applyUnderwaterLighting(material,clock,0x51d6ef,{level:{value:MOSA_SEA.surfaceY}});useMosasaurWaterField(material);
- for(let region=0;region<16;region++){
-  yield;const own=sites.filter(p=>{const sector=Math.floor(((Math.atan2(p.z,p.x)+Math.PI*2)%(Math.PI*2))/(Math.PI/4)),outer=Math.hypot(p.x/MOSA_SEA.rx,p.z/MOSA_SEA.rz)>.84?1:0;return sector*2+outer===region;});if(!own.length)continue;
+ for(let region=0;region<32;region++){
+  yield;const own=sites.filter(p=>{const id=Number(p.id.slice(10));if(id>=1024)return region===16+Math.floor((id-1024)/32);if(region>=16)return false;const sector=Math.floor(((Math.atan2(p.z,p.x)+Math.PI*2)%(Math.PI*2))/(Math.PI/4)),outer=Math.hypot(p.x/MOSA_SEA.rx,p.z/MOSA_SEA.rz)>.84?1:0;return sector*2+outer===region;});if(!own.length)continue;
   const center=own.reduce((v,p)=>v.add(new T.Vector3(p.x,p.y,p.z)),new T.Vector3()).multiplyScalar(1/own.length),lod=new T.LOD();lod.position.copy(center);root.add(lod);if(spatialCells)installCoralCellCulling(lod);
   const groups=[new T.Group(),new T.Group(),new T.Group()];for(const [i,d]of [0,60,160].entries())lod.addLevel(groups[i],d,.08);
   for(let form=0;form<11;form++){

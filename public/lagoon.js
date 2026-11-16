@@ -65,7 +65,7 @@ export function* lagoonSteps({
     if(coastFactor){const factor=coastFactor(Math.atan2(-bedPositions.getY(i),bedPositions.getX(i)));bedPositions.setXY(i,bedPositions.getX(i)*factor,bedPositions.getY(i)*factor);}
     const physicalBedY=bedHeight?bedHeight(bedPositions.getX(i)*rx,-bedPositions.getY(i)*rz):0;
     if(bedHeight)bedPositions.setZ(i,physicalBedY-(LAGOON_SURFACE_Y-depth));
-    const shade = bedHeight ? sand.clone().lerp(depthColor,Math.min(.76,Math.max(0,(LAGOON_SURFACE_Y-physicalBedY)/100))) : depthColor.clone().lerp(sand, radius * radius);
+    const shade = bedHeight ? sand.clone() : depthColor.clone().lerp(sand, radius * radius);
     shade.toArray(bedColors, i * 3);
   }
   if(bedHeight)bedGeometry.computeVertexNormals();

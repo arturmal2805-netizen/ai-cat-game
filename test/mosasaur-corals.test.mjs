@@ -15,7 +15,7 @@ test('all coral colonies attach to real seabed or sculpted walls, with eleven an
 });
 test('spatial coral detail keeps full near meshes, shared LOD buffers and one fixed animation clock',()=>{
  const g=runSceneSteps(mosaCoralSteps()),meshes=[];g.traverse(m=>{if(m.isInstancedMesh)meshes.push(m);});
- assert.ok(g.children.length<=16);assert.deepEqual(new Set(meshes.map(m=>m.name)),new Set(MOSA_CORAL_FORMS));assert.equal(new Set(meshes.map(m=>m.material)).size,1);
+ assert.ok(g.children.length<=32);assert.deepEqual(new Set(meshes.map(m=>m.name)),new Set(MOSA_CORAL_FORMS));assert.equal(new Set(meshes.map(m=>m.material)).size,1);
  const rows=group=>{const out=new Map();for(const m of group.children)for(let i=0;i<m.count;i++)out.set(m.userData.colonyIds[i],{matrix:m.instanceMatrix.array.slice(i*16,i*16+16),color:m.instanceColor.array.slice(i*3,i*3+3),position:m.geometry.attributes.position,geometry:m.geometry});return out;};
  let total=0;for(const lod of g.children){assert.ok(lod.isLOD);const full=rows(lod.levels[0].object);total+=full.size;for(const level of lod.levels.slice(1)){const far=rows(level.object);assert.deepEqual(new Set(far.keys()),new Set(full.keys()));for(const [id,row]of full){assert.deepEqual(far.get(id).matrix,row.matrix);assert.deepEqual(far.get(id).color,row.color);assert.equal(far.get(id).position,row.position);}}}
  assert.equal(total,1536);

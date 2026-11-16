@@ -1,0 +1,44 @@
+[
+  {
+    "version": "before",
+    "id": "autumn",
+    "waterSurfaces": 1,
+    "waterPoint": [
+      -443.39535505647245,
+      0.15500000000000141,
+      493.6754890368759
+    ],
+    "waterRadius": 236.82325343824996,
+    "oceanPhysicalShader": true,
+    "oceanToneMapping": true,
+    "draws": 229,
+    "triangles": 2778073,
+    "textures": 32,
+    "vertices": 1651875,
+    "geometryBytes": 91232098,
+    "waterMaterials": 10,
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "after",
+    "id": "autumn",
+    "waterSurfaces": 1,
+    "waterPoint": [
+      -440.72129053853627,
+      0.15500000000000203,
+      591.027027790345
+    ],
+    "waterRadius": 334.9410208133982,
+    "oceanPhysicalShader": true,
+    "oceanToneMapping": true,
+    "draws": 345,
+    "triangles": 16546144,
+    "textures": 32,
+    "vertices": 1667667,
+    "geometryBytes": 91995802,
+    "waterMaterials": 10,
+    "animated": true,
+    "contextLost": false
+  }
+]

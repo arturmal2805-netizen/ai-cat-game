@@ -995,3 +995,13 @@ Preserve the approved native cat, global water performance, other islands and
 shared saves. Publish the verified shared-water update first, then separate
 working increments. The uploaded specification ends midway through section 9;
 implement its actual supplied controls and use the existing mobile conventions.
+
+
+## Resume the active ocean work before making visual changes
+
+Read [docs/continuity/ocean-recovery.md](docs/continuity/ocean-recovery.md).
+It records the user's current water reference, protected source/asset chain,
+rejected seabed drafts, unverified edits, exact validation state and next steps.
+Maintain that record after each stage and save real draft code remotely; local
+/tmp files and chat memory alone are not continuity. Keep accepted slides intact.
+A saved draft or green subset of tests is not a verified production release.

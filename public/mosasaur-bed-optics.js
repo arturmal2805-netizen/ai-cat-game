@@ -12,8 +12,12 @@ export function applyMosasaurBedOptics(material,{stoneNormals=false,reefRock=fal
   previous.call(this,shader,...args);shader.uniforms.uMosaBedStone={value:material.mosaBedStone};shader.uniforms.uMosaBedGround={value:material.mosaBedGround};
   if(stoneNormals)shader.uniforms.uMosaStoneNormal={value:material.mosaBedNormal};
   shader.vertexShader='varying vec3 vMosaBedPosition;varying vec3 vMosaBedNormal;\n'+shader.vertexShader.replace('#include <project_vertex>',`#include <project_vertex>
-   vMosaBedPosition=(modelMatrix*vec4(transformed,1.)).xyz;
-   vec3 bedViewNormal=normalize(normalMatrix*objectNormal);
+   vec4 bedWorld=vec4(transformed,1.);
+   #ifdef USE_INSTANCING
+   bedWorld=instanceMatrix*bedWorld;
+   #endif
+   vMosaBedPosition=(modelMatrix*bedWorld).xyz;
+   vec3 bedViewNormal=normalize(transformedNormal);
    vMosaBedNormal=normalize(vec3(dot(viewMatrix[0].xyz,bedViewNormal),dot(viewMatrix[1].xyz,bedViewNormal),dot(viewMatrix[2].xyz,bedViewNormal)));`);
   shader.fragmentShader='varying vec3 vMosaBedPosition;varying vec3 vMosaBedNormal;uniform sampler2D uMosaBedStone;uniform sampler2D uMosaBedGround;\n'+shader.fragmentShader.replace('#include <map_fragment>',`
    vec3 bedWeights=pow(abs(normalize(vMosaBedNormal)),vec3(4.));bedWeights/=max(.001,bedWeights.x+bedWeights.y+bedWeights.z);
@@ -32,5 +36,5 @@ export function applyMosasaurBedOptics(material,{stoneNormals=false,reefRock=fal
    vec3 rockDetail=normalize(vec3(rockNX.z*sign(rockBase.x),rockNX.y,rockNX.x)*rockWeight.x+vec3(rockNY.x,rockNY.z*sign(rockBase.y),rockNY.y)*rockWeight.y+vec3(rockNZ.x,rockNZ.y,rockNZ.z*sign(rockBase.z))*rockWeight.z);
    normal=normalize(mat3(viewMatrix)*normalize(rockBase+rockDetail*.36));roughnessFactor*=dot(vec3(rockTX.a,rockTY.a,rockTZ.a),rockWeight);`);
  };
- material.customProgramCacheKey=()=>key+'-mosasaur-scanned-stone-v4-sediment-'+stoneNormals+'-'+reefRock;return material;
+ material.customProgramCacheKey=()=>key+'-mosasaur-scanned-stone-v5-instance-sediment-'+stoneNormals+'-'+reefRock;return material;
 }

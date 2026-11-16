@@ -1,3 +1,4 @@
+import {MOSA_BENTHIC_ROCKS} from './mosasaur-benthic-data.js';
 import {MALL_REEF_OFFSETS} from './mall-reef-fit.js';
 import {MOSA_SEA,MOSA_REEF_TERRACES,MOSA_HORIZONTAL_EXPANSION,mosaNaturalBedY,mosaBedY,mosaTerraceY} from './mosasaur-data.js';
 const forms=[
@@ -28,12 +29,13 @@ export const MOSA_REEF_AUTHORED_INSTANCES=MOSA_REEF_TERRACES.map((c,i)=>{
  const depth=[7,28,53,17,8,43,66,26,9,54,34,23][i],radius=c.radius*[1.42,1.18,1.54,1.3,1.43,1.28,1.46,1.39,1.37,1.44,1.47,1.32][i],top=MOSA_SEA.surfaceY-depth;return {...c,depth,radius,kind:i%3,base,top,scaleXZ:radius/10,scaleY:(top-base)/40,yaw:Math.atan2(-c.x,-c.z)};
 });
 export const MOSA_REEF_INSTANCES=MOSA_REEF_AUTHORED_INSTANCES.map((c,i)=>{const f=MALL_REEF_OFFSETS[i];return f?{...c,x:c.x+f.dx,z:c.z+f.dz}:c;});
+const collisionRocks=[...MOSA_REEF_INSTANCES,...MOSA_BENTHIC_ROCKS];
 export function reefSolidDistance(c,x,y,z){const dx=x-c.x,dz=z-c.z,cs=Math.cos(c.yaw),sn=Math.sin(c.yaw);return rawField((dx*cs-dz*sn)/c.scaleXZ,(y-c.base)/c.scaleY,(dx*sn+dz*cs)/c.scaleXZ,c.kind)*Math.min(c.scaleXZ,c.scaleY);}
-export function mosaReefDistance(x,y,z){let d=Infinity;for(const c of MOSA_REEF_INSTANCES){const bx=Math.max(0,Math.abs(x-c.x)-c.radius*2.2),bz=Math.max(0,Math.abs(z-c.z)-c.radius*2.2),by=Math.max(0,c.base-c.scaleY*6-y,y-c.top-c.scaleY*7),bound=Math.hypot(bx,by,bz);d=Math.min(d,bound>4?bound:reefSolidDistance(c,x,y,z));}return d;}
+export function mosaReefDistance(x,y,z){let d=Infinity;for(const c of collisionRocks){const bx=Math.max(0,Math.abs(x-c.x)-c.radius*2.2),bz=Math.max(0,Math.abs(z-c.z)-c.radius*2.2),by=Math.max(0,c.base-c.scaleY*6-y,y-c.top-c.scaleY*7),bound=Math.hypot(bx,by,bz);d=Math.min(d,bound>4?bound:reefSolidDistance(c,x,y,z));}return d;}
 export function mosaReefClearance(x,y,z){const d=mosaReefDistance(x,y,z);if(d>=4)return d;const e=.05,gx=(mosaReefDistance(x+e,y,z)-mosaReefDistance(x-e,y,z))/(2*e),gy=(mosaReefDistance(x,y+e,z)-mosaReefDistance(x,y-e,z))/(2*e),gz=(mosaReefDistance(x,y,z+e)-mosaReefDistance(x,y,z-e))/(2*e);return d/Math.max(.15,Math.hypot(gx,gy,gz))*.8;}
 export function mosaReefSurfaceY(x,z){
- let highest=mosaBedY(x,z);for(const c of MOSA_REEF_INSTANCES){if(Math.hypot(x-c.x,z-c.z)>c.radius*2.2)continue;let y=c.top+c.scaleY*7;
-  for(let i=0;i<180&&y>highest;i++){const d=reefSolidDistance(c,x,y,z);if(d<.02){highest=y;break;}y-=Math.min(3,Math.max(.015,d*.45));}
+ let highest=mosaBedY(x,z);for(const c of collisionRocks){if(Math.hypot(x-c.x,z-c.z)>c.radius*2.2)continue;let y=c.top+c.scaleY*7;
+  for(let i=0;i<240&&y>highest;i++){const d=reefSolidDistance(c,x,y,z);if(d<.002){highest=y;break;}y-=Math.min(3,Math.max(.015,d*.45));}
  }return highest;
 }
 export function reefWallSite(c,angle,level){

@@ -7,6 +7,11 @@ import {mosaReefClearance,MOSA_REEF_INSTANCES} from '../public/mosasaur-reef-dat
 import {mosaCoralSites} from '../public/mosasaur-corals.js';
 import {mallOceanClearanceDistance,MALL_FORECOURT} from '../public/mall-layout.js';
 import {mosaReefTemplate} from '../public/mosasaur-reef-sculpt.js';
+import * as T from 'three';
+import {MOSA_BENTHIC_ROCKS} from '../public/mosasaur-benthic-data.js';
+import {mosaRockReefSteps} from '../public/mosasaur-rock-reefs.js';
+import {mosaReefSurfaceY} from '../public/mosasaur-reef-data.js';
+import {runSceneSteps} from '../public/scene-tasks.js';
 const released=JSON.parse(fs.readFileSync(new URL('./fixtures/pre-ocean-expansion-12d478e.json',import.meta.url)));
 test('only the requested ocean record changes; every other island stays byte-for-byte equivalent',()=>{
  assert.deepEqual(BIOMES.filter(b=>b.id!=='autumn'),released.biomes.filter(b=>b.id!=='autumn'));
@@ -43,4 +48,16 @@ test('sixteen dense mixed gardens leave the middle of the deep approach free',()
   const center=own.reduce((a,p)=>({x:a.x+p.x/32,z:a.z+p.z/32}),{x:0,z:0});
   assert.ok(own.every(p=>Math.hypot(p.x-center.x,p.z-center.z)<12));
  }
+});
+test('new garden stones have real mesh support matching the shared collider and fixed instance buffers',()=>{
+ const root=runSceneSteps(mosaRockReefSteps());root.updateMatrixWorld(true);
+ assert.equal(root.userData.benthicRocks.length,64);
+ const ray=new T.Raycaster(),matrices=[];root.traverse(m=>{if(m.isInstancedMesh)matrices.push([m.instanceMatrix,m.instanceMatrix.version,m.instanceMatrix.array.slice()]);});
+ for(const c of MOSA_BENTHIC_ROCKS.filter((_,i)=>i%4===0)){
+  ray.set(new T.Vector3(c.x,c.top+6,c.z),new T.Vector3(0,-1,0));const hits=ray.intersectObject(root);
+  assert.ok(hits.length,c.id+' must be a rendered solid rock');
+  assert.ok(Math.abs(hits[0].point.y-mosaReefSurfaceY(c.x,c.z))<.15,c.id+' collider and rendered stone disagree');
+ }
+ for(let i=0;i<100;i++)root.userData.update(i);
+ for(const [buffer,version,array]of matrices){assert.equal(buffer.version,version);assert.deepEqual(buffer.array,array);}
 });

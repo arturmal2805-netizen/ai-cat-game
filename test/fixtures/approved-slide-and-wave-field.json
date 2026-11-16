@@ -1,0 +1,24 @@
+{
+  "source": "12d478e82e8e5a2bd6ef3ec0cbb151ea1e473d1d",
+  "waveSource": "d6fa8056f18d2d738890cc9b477334e4cda81523",
+  "waveFieldSHA256": "69dc70fbb3ce332a0516f3ddaa13f9431cd66d942a6e0c07a12158e546325553",
+  "files": {
+    "water-shading.js": "ffe408b6ca3a97a013e2b4a75fff921e423590e9149b0bef70bd14278c12bd6e",
+    "showcase-water-optics.js": "aa174426bdd384c0179aba0721f18b8d09fa3009ce453844bff8de1fcd96c506",
+    "showcase-bottom-light.js": "016b324495cfbb3355cd59aec33000e026d062c51f14d5696bafecccdc89c71f",
+    "water-environment.js": "b4ebed833415437fe35089fae791b8de35849f4bc956c131c065f542129b9e17",
+    "slide-water.js": "d57dff22d5447652f92ef81cdcebc83d4cb3160ad1a2bcac367c0760c1542eb9",
+    "slide-basin-optics.js": "2d551e89c31d265b35bd5be655c8c6555d484d84dec74b54f08325f1e43d7731",
+    "showcase-water-assets.js": "1fc636f22f772369bea403f52aecb83e0467595a1db15758b67acba8861d0af5"
+  },
+  "probes": {
+    "ride-water-barrel-wave": "./art/water-reflections/barrel-wave-550cf3803519.png",
+    "ride-water-canyon-rafting": "./art/water-reflections/canyon-rafting-97773da6ff41.png",
+    "ride-water-glass-drop": "./art/water-reflections/glass-drop-c4d70e8e95a2.png",
+    "ride-water-lagoon-launch": "./art/water-reflections/lagoon-launch-006c85fcd0e1.png",
+    "ride-water-surf-halfpipe": "./art/water-reflections/surf-halfpipe-c9456db5b944.png",
+    "ride-water-lazy-river": "./art/water-reflections/lazy-river-b45d2049df5f.png",
+    "ride-water-fountain-carousel": "./art/water-reflections/fountain-carousel-07b17fe9d52a.png",
+    "ride-water-pool-pendulum": "./art/water-reflections/pool-pendulum-8b84181d9269.png"
+  }
+}
