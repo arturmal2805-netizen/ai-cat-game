@@ -1,3 +1,4 @@
+import {MOSA_OCEAN_PROFILE} from './mosasaur-water-profile.js';
 import * as T from 'three';
 import {waterFieldTexture} from './water-shading.js';
 import {MOSA_WATER_FIELD} from './mosasaur-water-field-assets.js';
@@ -16,6 +17,6 @@ export function useMosasaurWaterField(material){
  // Hiding them only in onBeforeCompile would upload them on the first live draw.
  material.mosaWaterField=mosaWaterField();
  if(material.userData.waterLight)material.userData.waterLight.texture=material.mosaWaterField;
- material.onBeforeCompile=function(shader,...args){previous.call(this,shader,...args);if(shader.uniforms.uWaterField)shader.uniforms.uWaterField.value=material.mosaWaterField;if(shader.uniforms.uWaterScatterTint)shader.uniforms.uWaterScatterTint.value.set(0x126ad2).multiplyScalar(.44);};
- material.customProgramCacheKey=()=>key+'-ocean-wind-field-v2-blue-depth';return material;
+ material.onBeforeCompile=function(shader,...args){previous.call(this,shader,...args);if(shader.uniforms.uWaterField)shader.uniforms.uWaterField.value=material.mosaWaterField;if(shader.uniforms.uWaterScatterTint)shader.uniforms.uWaterScatterTint.value.set(MOSA_OCEAN_PROFILE.scatterTint).multiplyScalar(MOSA_OCEAN_PROFILE.scatterGain);shader.fragmentShader=shader.fragmentShader.replace('vec3(.065,.018,.007)','vec3('+MOSA_OCEAN_PROFILE.extinction+')').replace('opticalPath*.035','opticalPath*'+MOSA_OCEAN_PROFILE.scatterRate);};
+ material.customProgramCacheKey=()=>key+'-ocean-wind-field-v3-clear-medium';return material;
 }
