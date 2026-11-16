@@ -171,6 +171,7 @@ export function* mallRebuildModelSteps(options={}){
   const cabin=new T.Group();cabin.position.set(lx,.35,lz);root.add(cabin);disk(cabin,mats.floor,0,-.28,0,r-.1,.2);kit.doorwayCylinder(cabin,0,2.37,0,r-.5,5.1,glassMat,4);ring(cabin,0,4.98,0,r-.5,mats.pink,.09);
   const doors=[];for(let face=0;face<4;face++){const doorway=new T.Group();doorway.rotation.y=face*Math.PI/2;cabin.add(doorway);for(const x of [-1,1]){const panel=cube(doorway,glassMat,x*2,2.37,r-.6,4,5.1,.05);doors.push({mesh:panel,x:panel.position.x});}}
   captureWalkSurfaces(frameSource);
+  yield* stampMallSurfaceUVsSteps(frameSource);
   const frame=yield* batchModelSteps(frameSource,{combineColors:true});if(compactBuffers)yield* compactMallBuffersSteps(frame);root.add(frame);
   for(const material of cutawayMaterials)mallCutawayMaterial(material,inspectedRoom);
   mascot=new T.Group();statue=createCat('happy',{detail:'npc'});animateCat(statue,3,false,false);statue.scale.setScalar(5);mascot.position.set(0,MALL_LAYOUT.y+.85,84);mascot.add(statue);root.add(mascot);

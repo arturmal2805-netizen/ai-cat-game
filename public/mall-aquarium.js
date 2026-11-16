@@ -1,3 +1,4 @@
+import {stampMallSurfaceUVsSteps} from './mall-surface-uv.js';
 import * as T from 'three';
 import {MALL_LAYOUT} from './mall-layout.js';
 import {batchModelSteps} from './model-batching.js';
@@ -39,5 +40,6 @@ export function* mallAquariumSteps(kit){
     for(let i=0;i<18;i++){const angle=i*Math.PI/9,points=[];for(let k=0;k<=16;k++){const t=k/16,r=(1-t*.55)*1.35;points.push([Math.cos(angle+t*.7)*r,-.1-t*(3.5+i%4*.4),Math.sin(angle+t*.7)*r]);}tube(arms,points,.025+i%3*.008,armMaterial);}
     const fixed=yield* batchModelSteps(arms);g.add(fixed);
   }
+  yield* stampMallSurfaceUVsSteps(source);
   const fixed=yield* batchModelSteps(source,{combineColors:true}),root=new T.Group();root.position.set(0,MALL_LAYOUT.y,MALL_LAYOUT.z);root.add(fixed,animals);return root;
 }
