@@ -1,0 +1,148 @@
+{
+  "commit": "d6fa8056f18d2d738890cc9b477334e4cda81523",
+  "sourceFiles": {
+    "public/water-shading.js": "9b57ca427dc2ca682aab1b0ee8518befc85b8e0b2f62d537ca59789be4d64ace",
+    "public/water-environment.js": "f12a9848dd63927ec73f1b59018bf6ae2bd0d10f0d2dc984c37735d923756309",
+    "public/slide-water.js": "d57dff22d5447652f92ef81cdcebc83d4cb3160ad1a2bcac367c0760c1542eb9",
+    "public/slide-basin-optics.js": "2d551e89c31d265b35bd5be655c8c6555d484d84dec74b54f08325f1e43d7731",
+    "public/showcase-water-optics.js": "6a18d32290c87a228014f3c5deb511ed55ba141041fa6f50bc27d3bc29eda3cb",
+    "public/showcase-bottom-light.js": "3c2528ad03a15f4f531c827fd61b587d1a65f1627f281f78d6a5f034f87ac214",
+    "public/showcase-water-assets.js": "2c1e82431aadf58f493cc7522ec1fa86ec4bc777b49fe8fe06acd48cf315f822",
+    "public/showcase-water-data.js": "15e1d75bbbc7870673a61bdccf81bef8a809aca48bf953be1be2bb2118a08b7d",
+    "public/showcase-water-motion.js": "6554df3829cbb2b424fde9f83da5364161335b9c60eb68aca6a5cb7398e12552",
+    "public/showcase-water-probes.js": "a1f504fd4b1a4e79c5f33761304b177da6b96773d617e7b9b018e374fba3b4e6",
+    "public/showcase-probe-assets.js": "5beeb8285b65ef61cb2bd171277374d4bb676ef348fdc5fba109cd1a6f3ac608",
+    "public/showcase-surface-details.js": "54572d394bbc4fc57b0c0a64af7ce3e907aea172579bf7a46b2bc1fadc7c5460",
+    "public/showcase-surface-assets.js": "516192d25d9e221902a04ac600d650bdb29a8816f7dd1b356a7db7b9679b037c",
+    "scripts/build-water-garden-surfaces.mjs": "e3d4e853838d109d93d446a77c22b8e5eea8179604e6b1143793e17454c15fae",
+    "scripts/bake-water-reflections.mjs": "8cbac14dc91de00ecb546e7b6861e31746f51014a317d21be0d5c090e3bfe7b7",
+    "scripts/showcase-probe-inputs.mjs": "63a5be8dfd000a53aa9d28cdf7f4510ba04490aea7b70c117e3807492e08d5ed"
+  },
+  "absentAtApprovedCommit": [
+    "public/water-sand.js",
+    "scripts/bake-mosasaur-reflection.mjs",
+    "scripts/mosasaur-probe-inputs.mjs"
+  ],
+  "actualAssets": [
+    {
+      "path": "public/art/water-garden/lawn-color-34b5c3ee1516.png",
+      "bytes": 212932,
+      "sha256": "34b5c3ee1516bcf2209e1e7f1e583108be82bb2a076e74c940b260742abfdfb4"
+    },
+    {
+      "path": "public/art/water-garden/leaf-color-bfcb3ff644f0.png",
+      "bytes": 69618,
+      "sha256": "bfcb3ff644f05815df4cc4a772336a7172367dde9ddb5768a0b281581ca80ef6"
+    },
+    {
+      "path": "public/art/water-garden/leaf-normal-1f2bca702f45.png",
+      "bytes": 71751,
+      "sha256": "1f2bca702f4524f90816074d7b848fe28a6d53dffb4057cd2349331e4a689c5b"
+    },
+    {
+      "path": "public/art/water-garden/leaf-roughness-ac0e4105f4fb.png",
+      "bytes": 16373,
+      "sha256": "ac0e4105f4fbc4a863c1092a6cac4532e4b5c72531a4675c3172373080e1db7c"
+    },
+    {
+      "path": "public/art/water-garden/moss-color-8239c6169e12.png",
+      "bytes": 380941,
+      "sha256": "8239c6169e12bcb10e2996de26270cce9fd92207069dde555b32b18981aaffbe"
+    },
+    {
+      "path": "public/art/water-garden/moss-normal-6fef4b57663e.png",
+      "bytes": 174222,
+      "sha256": "6fef4b57663ec305af0e1baa7fd4695b0e7764f6bf8d042d45520d389e8e64d1"
+    },
+    {
+      "path": "public/art/water-garden/moss-roughness-6f36748ff869.png",
+      "bytes": 16252,
+      "sha256": "6f36748ff869015c4be1208fa42e910cfeb79dc29fff44f3c936e053b4f93bd1"
+    },
+    {
+      "path": "public/art/water-garden/sand-color-f5b1be25dedf.png",
+      "bytes": 245114,
+      "sha256": "f5b1be25dedff4196f4b7d0753d1964a9b52826cb975d016f58cfe99d118e1c9"
+    },
+    {
+      "path": "public/art/water-garden/stone-color-70bf896a56a3.png",
+      "bytes": 279399,
+      "sha256": "70bf896a56a32d16d9705cd4c529b52468b38c984397612531e812f81a04c7a8"
+    },
+    {
+      "path": "public/art/water-garden/stone-normal-6812d207a0ac.png",
+      "bytes": 128915,
+      "sha256": "6812d207a0ac4ab2edfc7818a5420405e51bc6f8ad9845f9c6b511746943e924"
+    },
+    {
+      "path": "public/art/water-garden/stone-roughness-4aa2830fa994.png",
+      "bytes": 8726,
+      "sha256": "4aa2830fa994e206d99f4592c20ec3d2dbf28e4d67a4793dc95b94f470b95692"
+    },
+    {
+      "path": "public/art/water-garden/wood-color-3b43075373a9.png",
+      "bytes": 366400,
+      "sha256": "3b43075373a9c06189ca75ee0f458ba169306c690ba931ba46472fed320d2a67"
+    },
+    {
+      "path": "public/art/water-garden/wood-normal-1c51d5dcacf5.png",
+      "bytes": 146987,
+      "sha256": "1c51d5dcacf53be5f0e9fb19b32460ed31f0b8d8c46052555e684ada166f721b"
+    },
+    {
+      "path": "public/art/water-garden/wood-roughness-5f6c77c0feff.png",
+      "bytes": 12778,
+      "sha256": "5f6c77c0feff2484c1db651e9e5f657d9b4f2aeccf4c59e7f50f3cca9d42a2ba"
+    },
+    {
+      "path": "public/art/water-reflections/barrel-wave-bb54179de2a8.png",
+      "bytes": 120419,
+      "sha256": "bb54179de2a82ea374b70091b55363f277f35fd020d7e4a3bf5c56efb2d96621"
+    },
+    {
+      "path": "public/art/water-reflections/canyon-rafting-53755871ac1a.png",
+      "bytes": 123067,
+      "sha256": "53755871ac1a414458a61445fda944f8f271f98a4f69d9d380c0af71da5681e5"
+    },
+    {
+      "path": "public/art/water-reflections/fountain-carousel-ca60ffde6d8e.png",
+      "bytes": 71467,
+      "sha256": "ca60ffde6d8e02e36b3483e74f28dddd1bad63bfb78ec365ad7ea90fdf71e7c1"
+    },
+    {
+      "path": "public/art/water-reflections/glass-drop-2d36424db6a7.png",
+      "bytes": 126447,
+      "sha256": "2d36424db6a79170ca509125a91e4ef7f0c9239f9954f1d23dfc5cd7c0d9060d"
+    },
+    {
+      "path": "public/art/water-reflections/lagoon-launch-791fab4a816d.png",
+      "bytes": 113754,
+      "sha256": "791fab4a816d55ca3b8c728316a756d2ce70c8c63331292b9ae01794783d16fd"
+    },
+    {
+      "path": "public/art/water-reflections/lazy-river-1da850775c2b.png",
+      "bytes": 113888,
+      "sha256": "1da850775c2b591d2f683ad2a21ecd0fd9318354dd0742491bff17fb763d0327"
+    },
+    {
+      "path": "public/art/water-reflections/pool-pendulum-bc16495f4983.png",
+      "bytes": 107298,
+      "sha256": "bc16495f4983a4daed1ff7b41d718bbab96af7aecfff9fb9967fdfb43b089a21"
+    },
+    {
+      "path": "public/art/water-reflections/surf-halfpipe-131656ce9a31.png",
+      "bytes": 110417,
+      "sha256": "131656ce9a31948280dc144d8a5b6e95d286c3125a2f5e53541b245e4f28d6f1"
+    }
+  ],
+  "tagsChecked": {
+    "local": [],
+    "remote": [
+      "6a5a5d9d406ba48f3fdb725d486205d1b82a33bc\trefs/tags/baseline/approved-global-water-20261110",
+      "96dd9a3248df40c4cac3cbe2f7a3ae1e4a883948\trefs/tags/performance/approved-m2-60fps-2026-10-27",
+      "c67ac493aed6774afacaca4e33fa79ecbc2eedd6\trefs/tags/release/mosasaur-ocean-20261110",
+      "d5821c84c9d274403c3fbd2530ad2f989d2410a8\trefs/tags/release/mosasaur-ocean-20261110^{}"
+    ],
+    "newTagCreated": false
+  }
+}

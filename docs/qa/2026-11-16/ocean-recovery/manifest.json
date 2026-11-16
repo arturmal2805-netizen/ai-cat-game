@@ -1,0 +1,69 @@
+{
+  "status": "rejected, archival provenance incomplete; not a final QA certificate",
+  "originalSourceBaseSHA": "a8344b7b2f8a5721b6660022aeb7f05f1182e5c1",
+  "originalSourceDirty": true,
+  "reconstruction": {
+    "sourceCheckpoint": "4c829a29517599877f635c09409a8576d274c6a6",
+    "overlay": "source-overlay/public/mosasaur-corals.js",
+    "overlaySHA256": "7a7ebde84ae7c99cf9d06f12bd7741f7b7a74ae3419717bc670d1e176afc6cca",
+    "reason": "Saved earlier WIP coral runtime has 17 regions; later checkpoint has 32. Other current runtime producer edits are in the checkpoint. This reconstructs source intent; original standalone QA bundle was not retained."
+  },
+  "qaBuild": {
+    "id": "ocean-expanded-refined-preview",
+    "originalStandaloneBundleSHA256": null,
+    "missing": "Original esbuild output bytes not saved. Do not retrospectively claim an exact original bundle identity or use these PNGs for the later 32-region LOD."
+  },
+  "tools": {
+    "node": "22.23.5",
+    "browser": "Chromium 156.0.8078.79",
+    "renderer": "ANGLE SwiftShader"
+  },
+  "fixture": {
+    "biome": "autumn",
+    "savedWorld": "standalone native biome scene, no live player save",
+    "seed": "fixed authoring parameters and offline native model cache",
+    "DPR": 1,
+    "size": [
+      900,
+      650
+    ],
+    "clockSeconds": 7,
+    "gameTimeOfDay": "not present in this standalone harness",
+    "cameraForecourtLocal": {
+      "eye": [
+        25,
+        -158,
+        170
+      ],
+      "target": [
+        105,
+        -185,
+        176
+      ]
+    },
+    "lighting": "existing check-global-water.mjs at checkpoint; not whole-game lighting",
+    "fogForecourt": {
+      "color": "0x1286ad",
+      "density": 0.0045
+    }
+  },
+  "tests": {
+    "contextAndShader": "passed",
+    "visualAcceptance": "failed: user says still empty, seabed texture unacceptable",
+    "resourceBudget": "failed: 16546144 triangles vs 2778073 in paired forecourt view",
+    "wholeNativeGameRoute": "pending for new draft",
+    "finalCI": "not run",
+    "latest32RegionLOD": "not measured"
+  },
+  "metrics": "rejected-draft-native-resources.json",
+  "images": {
+    "rejected-forecourt.png": {
+      "sha256": "a265153d2c5d02a463e3e1ff7086dd1a9afc37461b07b75d357d5268ff3107a7",
+      "bytes": 487565
+    },
+    "rejected-coral-close.png": {
+      "sha256": "534c77c2af8af5fa86533fdbc685ace65ee39d0c35b96b3e798457d306a911fe",
+      "bytes": 703248
+    }
+  }
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "version": "after",
+    "id": "ride-water-canyon-rafting",
+    "waterProbes": [
+      "Baked original water-biome reflection ride-water-canyon-rafting"
+    ],
+    "draws": 40,
+    "triangles": 332980,
+    "textures": 18,
+    "timingSkipped": true,
+    "animated": true,
+    "stable": true,
+    "buffersStable": true,
+    "idleSpray": true,
+    "impact": true,
+    "channels": 1,
+    "outlets": 1,
+    "contextLost": false,
+    "staticFrames": [
+      {
+        "view": "normal",
+        "changed": 0,
+        "meshes": 14
+      },
+      {
+        "view": "grazing",
+        "changed": 0,
+        "meshes": 14
+      },
+      {
+        "view": "phone",
+        "changed": 0,
+        "meshes": 14
+      }
+    ]
+  }
+]

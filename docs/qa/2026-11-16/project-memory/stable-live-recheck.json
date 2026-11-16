@@ -1,0 +1,16 @@
+{
+  "checkedUTC": "2026-11-16T09:22:41.370644+00:00",
+  "stableSHA": "12d478e82e8e5a2bd6ef3ec0cbb151ea1e473d1d",
+  "assets": {
+    "dist/app.js": {
+      "urlVersion": "507539ea7920b048",
+      "sha256": "507539ea7920b0489284d8572aef4481c8506e1d643a24a8becda9d79b7a8ca5",
+      "bytes": 2559944
+    },
+    "style.css": {
+      "urlVersion": "c14ce8408f8f3aed",
+      "sha256": "c14ce8408f8f3aed7a5e7991eca39663fe55377343421ff62e0600ada4c048ef",
+      "bytes": 65404
+    }
+  }
+}

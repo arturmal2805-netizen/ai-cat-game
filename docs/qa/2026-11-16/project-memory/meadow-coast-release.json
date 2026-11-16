@@ -1,0 +1,39 @@
+{
+  "commit": "d17001cdcec031e882f89cdf19ab8b540e7a481e",
+  "nativeSourceCommit": "99af2e35d66b212b8c7a1ac14a10e7b4b1594c9e",
+  "workflow": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/43802311756",
+  "workflowConclusion": "success",
+  "site": "https://arturmal2805-netizen.github.io/ai-cat-game/?v=d17001c",
+  "liveVerifiedAtUTC": "2026-11-16T04:19:53.052921+00:00",
+  "liveAssets": {
+    "dist/app.js": {
+      "urlVersion": "cec9419735bac6d5",
+      "sha256": "cec9419735bac6d5572cb2d8d87c3db94020171429ad3d36d2cd544aa5862662",
+      "bytes": 2558687
+    },
+    "style.css": {
+      "urlVersion": "c14ce8408f8f3aed",
+      "sha256": "c14ce8408f8f3aed7a5e7991eca39663fe55377343421ff62e0600ada4c048ef",
+      "bytes": 65404
+    }
+  },
+  "ciJobs": [
+    {
+      "name": "test",
+      "conclusion": "success"
+    },
+    {
+      "name": "deploy",
+      "conclusion": "success"
+    },
+    {
+      "name": "pages",
+      "conclusion": "success"
+    }
+  ],
+  "serverReleaseVerification": "success",
+  "nativeRoute": "/workspace/qa/meadow-coast-explorer-full-v2/explorer-results.json",
+  "nativeTerrain": "/workspace/qa/meadow-coast-performance-99af2e3/terrain-results.json",
+  "nativeCoverage": "/workspace/qa/meadow-coast-coverage-6f85372/coast-coverage-results.json",
+  "wipBackup": "/workspace/artifacts/chichi-realism-all-wip-2026-11-16-r6.tar.gz"
+}

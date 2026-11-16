@@ -1,5 +1,7 @@
 # Coastal turf stage verification
 
+> Historical technical release record. Current user acceptance and references are in [project memory](../../project-memory/CURRENT.md); this report is not artistic approval of a later candidate.
+
 Native runtime source: `99af2e35d66b212b8c7a1ac14a10e7b4b1594c9e`.
 The release checkpoint only updates generated HTML asset URLs and this evidence.
 

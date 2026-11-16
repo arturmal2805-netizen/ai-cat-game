@@ -1,0 +1,140 @@
+{
+  "sourceSHA": "d6fa8056f18d2d738890cc9b477334e4cda81523",
+  "sourceDirty": false,
+  "sourceStatusPorcelain": "",
+  "qaBuild": {
+    "id": "project-memory-approved-water-native-canyon-2026-11-16",
+    "bundleSHA256": "b5acbe0f9e5af2e6b3e38414c0130bf372ad95715da4f5b04793e15616fd6e81",
+    "bundleBytes": 2794086,
+    "savedGzip": "qa-after.mjs.gz",
+    "instrumentation": "Exact approved script with outputFiles[0] bytes saved; temporary runner rebases top-level module paths only; native source checkout unchanged."
+  },
+  "tools": {
+    "node": "22.23.5",
+    "browser": "Chromium 156.0.8078.79 Debian 13",
+    "three": "0.186.1",
+    "esbuild": "0.28.2",
+    "renderer": "ANGLE SwiftShader; not device FPS"
+  },
+  "launch": {
+    "cwd": "checkout exact sourceSHA",
+    "script": "scripts/check-slide-water.mjs",
+    "env": {
+      "CHICHI_SLIDE_FILTER": "ride-water-canyon-rafting",
+      "CHICHI_SKIP_TIMING": "1",
+      "CHICHI_CHROMIUM": "/usr/bin/chromium",
+      "CHICHI_PLAYWRIGHT_MODULE": "installed Playwright module absolute path",
+      "CHICHI_SLIDE_REVIEW": "chosen output directory"
+    }
+  },
+  "fixture": {
+    "location": "native Canyon Rafting attraction",
+    "privateWorld": "standalone deterministic native authoring; no player save or SQLite",
+    "seed": "fixed source authoring hash, no random seed input",
+    "clock": "explicit renderer draw samples from original-runner; no game day/night clock",
+    "camera": "normal framing from native model Box3, grazing and close views specified by original-runner; exact instrumented bundle included",
+    "quality": "antialias true, ACESFilmicToneMapping, exposure1; original standalone hemi 0xe7f1ff intensity1.5 and sun0xffeed9 intensity2.3 position(-8,14,7); CHICHI_SLIDE_BEAUTY unset",
+    "viewport": "720x600 desktop DPR1; 390x560 phone DPR2, canvas780x1120"
+  },
+  "tests": {
+    "native_canyon": "passed",
+    "static_submission_normal_grazing_phone": "passed: zero changed pixels",
+    "fixed_buffers_animated_reduced_impact_outlet": "passed",
+    "timing": "skipped deliberately",
+    "whole_game_SQLite_route": "not run for this documentary reference",
+    "visual_user_approval": "historical source approved; new documentary captures not separately approved"
+  },
+  "performance": [
+    {
+      "version": "after",
+      "id": "ride-water-canyon-rafting",
+      "waterProbes": [
+        "Baked original water-biome reflection ride-water-canyon-rafting"
+      ],
+      "draws": 40,
+      "triangles": 332980,
+      "textures": 18,
+      "timingSkipped": true,
+      "animated": true,
+      "stable": true,
+      "buffersStable": true,
+      "idleSpray": true,
+      "impact": true,
+      "channels": 1,
+      "outlets": 1,
+      "contextLost": false,
+      "staticFrames": [
+        {
+          "view": "normal",
+          "changed": 0,
+          "meshes": 14
+        },
+        {
+          "view": "grazing",
+          "changed": 0,
+          "meshes": 14
+        },
+        {
+          "view": "phone",
+          "changed": 0,
+          "meshes": 14
+        }
+      ]
+    }
+  ],
+  "sourceAssets": "../approved-water-source-and-assets.json",
+  "files": {
+    "after-ride-water-canyon-rafting-basin-close.png": {
+      "bytes": 612882,
+      "sha256": "b384d6d3503392831f3ece22e25cd03cf9c98c7b5b4d566e2f6d4af32ff974e5"
+    },
+    "after-ride-water-canyon-rafting-basin-grazing-close.png": {
+      "bytes": 604000,
+      "sha256": "86da1d6a61b5adb290e21d9980bebe1f458f180fef1f96c8e8e45ff9a5b0feec"
+    },
+    "after-ride-water-canyon-rafting-flow-close.png": {
+      "bytes": 300002,
+      "sha256": "dd15eed57b29dfc5fc94f3ce4ad3f47ebd3a5b76b45e7e2cfdc710aca7d3bc64"
+    },
+    "after-ride-water-canyon-rafting-garden-close.png": {
+      "bytes": 465847,
+      "sha256": "2d8be776d467c05ff9b9624c4b8ab0f1f41733641e7bbef13d06280dda236499"
+    },
+    "after-ride-water-canyon-rafting-grazing.png": {
+      "bytes": 152960,
+      "sha256": "521174fa1db49165624f78f1de5c858489d4a71e6700aa58013593cb1f96abea"
+    },
+    "after-ride-water-canyon-rafting-outlet-close.png": {
+      "bytes": 295219,
+      "sha256": "c1925a3d15d1c13990d745c6c114228eaace9d6694a24b361f5bc0676a980cd1"
+    },
+    "after-ride-water-canyon-rafting-phone.png": {
+      "bytes": 184305,
+      "sha256": "d0025d3550d50144015e3b271d452f4aa27f26cdf5f30d106b00b8c1ffd58c46"
+    },
+    "after-ride-water-canyon-rafting.png": {
+      "bytes": 225645,
+      "sha256": "c7a1d34da6b09eee848a5f062af97b9a8a42e711ed0bbed03d18ef5a715c42be"
+    },
+    "audit.log": {
+      "bytes": 553,
+      "sha256": "bfe8fc009252ff11c2587fe9da0e98c6b6f7c9e5c61969e92a21027fd5dcb631"
+    },
+    "instrumented-runner.mjs.txt": {
+      "bytes": 21789,
+      "sha256": "2bf35c9f1840a82bf34e78462651f5c1cf7c6f123d75173193d52dc4debc5dae"
+    },
+    "original-runner.mjs.txt": {
+      "bytes": 21609,
+      "sha256": "3a8003261609af445f0c15ea68b7c9433e6c2f0efdad78862057e364d6458123"
+    },
+    "qa-after.mjs.gz": {
+      "bytes": 575229,
+      "sha256": "f7c058372197c2945abfe776b2e8228531ad38d4bd0fec2bf128ab059dff39ca"
+    },
+    "report.json": {
+      "bytes": 723,
+      "sha256": "3b8fc57fa5e93d1af3c7fdc9c334a5060ec6c97b2d436e467f694ad9a4ca48a2"
+    }
+  }
+}

@@ -1,5 +1,7 @@
 # Resolved ocean swells and filtered water highlights
 
+> Historical technical release record. Current user acceptance and references are in [project memory](../../project-memory/CURRENT.md); this report is not artistic approval of a later candidate.
+
 Ocean geometry previously carried short waves below the sampling resolution
 of its original polar grid. It now carries longer 0.50 m bounded swells with
 analytic swell normals, shoreline fade and conservative native culling bounds.

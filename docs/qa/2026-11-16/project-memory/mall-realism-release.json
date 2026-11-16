@@ -1,0 +1,39 @@
+{
+  "commit": "12d478e82e8e5a2bd6ef3ec0cbb151ea1e473d1d",
+  "nativeSourceCommit": "b67d2f1ebcd6e0166d04a720ff7fa7348cb44441",
+  "workflow": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/43807080956",
+  "workflowConclusion": "success",
+  "site": "https://arturmal2805-netizen.github.io/ai-cat-game/?v=12d478e",
+  "liveVerifiedAtUTC": "2026-11-16T05:06:34.800689+00:00",
+  "liveAssets": {
+    "dist/app.js": {
+      "urlVersion": "507539ea7920b048",
+      "sha256": "507539ea7920b0489284d8572aef4481c8506e1d643a24a8becda9d79b7a8ca5",
+      "bytes": 2559944
+    },
+    "style.css": {
+      "urlVersion": "c14ce8408f8f3aed",
+      "sha256": "c14ce8408f8f3aed7a5e7991eca39663fe55377343421ff62e0600ada4c048ef",
+      "bytes": 65404
+    }
+  },
+  "ciJobs": [
+    {
+      "name": "test",
+      "conclusion": "success"
+    },
+    {
+      "name": "deploy",
+      "conclusion": "success"
+    },
+    {
+      "name": "pages",
+      "conclusion": "success"
+    }
+  ],
+  "serverReleaseVerification": "success",
+  "nativeRoute": "/workspace/qa/mall-realism-explorer-full/explorer-results.json",
+  "nativePurchase": "/workspace/qa/mall-realism-native/mall-purchase-native.json",
+  "nativeIce": "/workspace/qa/mall-realism-ice/ice-native.json",
+  "wipBackup": "/workspace/artifacts/chichi-realism-all-wip-2026-11-16-r6.tar.gz"
+}

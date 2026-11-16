@@ -1,0 +1,26 @@
+{
+  "mergeSHA": "12d478e82e8e5a2bd6ef3ec0cbb151ea1e473d1d",
+  "parents": [
+    "0a679dcb879fec4fc73560190647756b31fab9a0",
+    "939b328304d4807506849a9fbeb866ea9f40703c"
+  ],
+  "waterReleaseSHA": "939b328304d4807506849a9fbeb866ea9f40703c",
+  "waterSourceParent": "4ec37371e6b71a03050d4e2a14e8b8fbdc9ae6b3",
+  "commonAncestor": "4ec37371e6b71a03050d4e2a14e8b8fbdc9ae6b3",
+  "reason": "Mall already contained the water implementation; merge retained the published water QA/release history.",
+  "conflict": "Only index.html JS cache version: water edb0a1411d337a38 versus mall 507539ea7920b048. Kept mall final actual bundle; no CSS conflict.",
+  "resolvedJS": "507539ea7920b0489284d8572aef4481c8506e1d643a24a8becda9d79b7a8ca5",
+  "resolvedCSS": "c14ce8408f8f3aed7a5e7991eca39663fe55377343421ff62e0600ada4c048ef",
+  "unmergedIndexEntries": false,
+  "mergeInProgress": false,
+  "trackedRuntimeConflictMarkers": false,
+  "publishedToMain": true,
+  "workflow": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/43807080956",
+  "conclusion": "success",
+  "liveRecheck": "stable-live-recheck.json",
+  "currentDraftPublishedToSite": false,
+  "applicationScriptTags": [
+    "./dist/app.js?v=507539ea7920b048"
+  ],
+  "applicationScriptCount": 1
+}

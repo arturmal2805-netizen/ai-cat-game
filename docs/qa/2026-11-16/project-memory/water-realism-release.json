@@ -1,0 +1,39 @@
+{
+  "commit": "939b328304d4807506849a9fbeb866ea9f40703c",
+  "nativeSourceCommit": "4ec37371e6b71a03050d4e2a14e8b8fbdc9ae6b3",
+  "workflow": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/43804714136",
+  "workflowConclusion": "success",
+  "site": "https://arturmal2805-netizen.github.io/ai-cat-game/?v=939b328",
+  "liveVerifiedAtUTC": "2026-11-16T04:43:37.561153+00:00",
+  "liveAssets": {
+    "dist/app.js": {
+      "urlVersion": "edb0a1411d337a38",
+      "sha256": "edb0a1411d337a388ab43ce745fb4e7f32ea1fa6df53c2d5e5d597cfedf6eab0",
+      "bytes": 2559109
+    },
+    "style.css": {
+      "urlVersion": "c14ce8408f8f3aed",
+      "sha256": "c14ce8408f8f3aed7a5e7991eca39663fe55377343421ff62e0600ada4c048ef",
+      "bytes": 65404
+    }
+  },
+  "ciJobs": [
+    {
+      "name": "test",
+      "conclusion": "success"
+    },
+    {
+      "name": "deploy",
+      "conclusion": "success"
+    },
+    {
+      "name": "pages",
+      "conclusion": "success"
+    }
+  ],
+  "serverReleaseVerification": "success",
+  "nativePrivateApp": "/workspace/qa/water-realism-private-app/showcase-water-app.json",
+  "nativeOcean": "/workspace/qa/water-realism-ocean/report.json",
+  "nativeEight": "/workspace/qa/water-realism-eight/report.json",
+  "wipBackup": "/workspace/artifacts/chichi-realism-all-wip-2026-11-16-r6.tar.gz"
+}

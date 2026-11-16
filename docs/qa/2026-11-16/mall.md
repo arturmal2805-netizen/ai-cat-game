@@ -1,5 +1,7 @@
 # Mall material scale and physical finish response
 
+> Historical technical release record. Current user acceptance and references are in [project memory](../../project-memory/CURRENT.md); this report is not artistic approval of a later candidate.
+
 Large floor panels and furniture previously stretched unit UVs independently of
 construction size. The same original surfaces now use metre-scaled charts,
 including public slabs, shop interiors, bridges and aquarium fittings. Marble,

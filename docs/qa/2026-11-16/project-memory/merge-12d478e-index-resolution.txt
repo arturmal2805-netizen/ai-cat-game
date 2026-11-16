@@ -1,0 +1,22 @@
+commit 12d478e82e8e5a2bd6ef3ec0cbb151ea1e473d1d
+Merge: 0a679dc 939b328
+Author: Artur Malenko <arturmal2805@gmail.com>
+
+    Merge commit '939b328304d4807506849a9fbeb866ea9f40703c' into codex/mall-realistic-materials
+
+diff --git a/public/index.html b/public/index.html
+remerge CONFLICT (content): Merge conflict in public/index.html
+index b7ba32e..16992e6 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -702,10 +702,6 @@
+       </div>
+     </dialog>
+     <div id="toast" role="status" aria-live="polite" hidden></div>
+-<<<<<<< 0a679dc (feat: release verified mall material scale and finish response)
+     <script type="module" src="./dist/app.js?v=507539ea7920b048"></script>
+-=======
+-    <script type="module" src="./dist/app.js?v=edb0a1411d337a38"></script>
+->>>>>>> 939b328 (feat: release verified resolved ocean swells and filtered water highlights)
+   </body>
+ </html>
