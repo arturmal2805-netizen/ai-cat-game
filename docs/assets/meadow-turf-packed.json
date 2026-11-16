@@ -1,0 +1,31 @@
+{
+  "source": "https://ambientcg.com/a/Grass004",
+  "license": "CC0-1.0",
+  "path": "public/art/meadow/grass004-normal-roughness-55ff6228bfff.png",
+  "sha256": "55ff6228bfff3797e06d61974ebb61125bb7358da82134dc7751f84040c7a55d",
+  "bytes": 3390056,
+  "size": [
+    1024,
+    1024
+  ],
+  "packing": "RGB = unchanged decoded OpenGL +Y normal; A = unchanged decoded roughness R",
+  "colorSpace": "linear data; no resizing, channel inversion or colour conversion",
+  "inputs": [
+    {
+      "role": "normalGL",
+      "path": "docs/assets/meadow-originals/grass004-normal-66852a9f30ba.jpg",
+      "gitBlob": "a42ce7677e5a0dde95971e026c8677ecb588b46d",
+      "bytes": 2341292,
+      "sha256": "66852a9f30baa693872b47f4c16868921376bc9f5a28728e7277a60d6ccdfa2e",
+      "url": "https://api.github.com/repos/projectchrono/chrono/git/blobs/a42ce7677e5a0dde95971e026c8677ecb588b46d"
+    },
+    {
+      "role": "roughness",
+      "path": "docs/assets/meadow-originals/grass004-roughness-0042371ebbdf.jpg",
+      "gitBlob": "ce11cf3f11f8a2292cc0e1744ce7741fad31df5f",
+      "bytes": 850692,
+      "sha256": "0042371ebbdf5c9c5c86e054502ec531f589e51b51df33afb51dd5acf86996f4",
+      "url": "https://api.github.com/repos/projectchrono/chrono/git/blobs/ce11cf3f11f8a2292cc0e1744ce7741fad31df5f"
+    }
+  ]
+}

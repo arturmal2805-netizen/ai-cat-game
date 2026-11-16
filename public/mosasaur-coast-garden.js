@@ -1,3 +1,4 @@
+import {meadowBroadleaf} from './meadow-leaves.js';
 import {sceneryDetailIndex} from './scenery-detail-levels.js';
 import {showcaseMaterialSteps} from './showcase-surface-details.js';
 import * as T from 'three';
@@ -45,7 +46,7 @@ export function* mosaCoastGardenSteps(placements=[]){
  const understory=new T.Group();for(let i=0;i<420;i++){
   if(i%12===0)yield;const a=i*2.399,f=mosaCoastFactor(a),r=1.07+(i%9)*.019,x=Math.cos(a)*MOSA_SEA.rx*f*r,z=Math.sin(a)*MOSA_SEA.rz*f*r;if(!clear(x,z,2,2)||Math.abs(x)<4&&z>5)continue;
   const y=gardenHeight(x,z);if(y===null)continue;
-  if(i%3===0)broadleaf(understory,x,y,z,1.9,a);else fern(understory,x,y,z,1.3,a);if(i%4===0)gardenFlowerCluster(understory,x,z,[0xffa6d8,0xe7a0ec,0xffcb70][i%3],1.4,y+.01);if(i%42===0)lantern(understory,x,y,z,1.4);
+  if(i%3===0)meadowBroadleaf(understory,x,y,z,1.9,a);else fern(understory,x,y,z,1.3,a);if(i%4===0)gardenFlowerCluster(understory,x,z,[0xffa6d8,0xe7a0ec,0xffcb70][i%3],1.4,y+.01);if(i%42===0)lantern(understory,x,y,z,1.4);
  }
  yield* showcaseMaterialSteps(understory);root.add(yield* batchModelSteps(understory,{combineColors:true}));understory.traverse(m=>{if(m.isMesh&&!m.geometry.userData.sharedScenery)m.geometry.dispose();});
  root.userData.treeCount=sites.length;root.userData.headlands=MOSA_HEADLANDS;root.userData.update=(time,reduced=false)=>{for(const fall of clockFalls)fall.userData.update(time,reduced);};return root;

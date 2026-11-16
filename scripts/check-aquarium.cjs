@@ -53,7 +53,7 @@ async function localWorker() {
   // connection during long harvest probes (POST/PUT are not retried by that
   // proxy). Use the same real workerd/SQLite/asset router directly for this
   // audit; keep the production Worker and browser save client unmodified.
-  if(process.env.CHICHI_NATIVE_MAP_AUDIT||process.env.CHICHI_GESTURE_ALL||process.env.CHICHI_WATER_TEN_AUDIT||process.env.CHICHI_GATHER_AUDIT||process.env.CHICHI_ZOO_GUEST_AUDIT||process.env.CHICHI_ZOO_AUDIT||process.env.CHICHI_MAGIC_BED_AUDIT||process.env.CHICHI_MAGIC_FARM_AUDIT||process.env.CHICHI_FARM_WITHDRAWAL_AUDIT||process.env.CHICHI_OWNERSHIP_AUDIT){
+  if(process.env.CHICHI_TERRAIN_AUDIT||process.env.CHICHI_EXPLORER_AUDIT||process.env.CHICHI_NATIVE_MAP_AUDIT||process.env.CHICHI_GESTURE_ALL||process.env.CHICHI_WATER_TEN_AUDIT||process.env.CHICHI_GATHER_AUDIT||process.env.CHICHI_ZOO_GUEST_AUDIT||process.env.CHICHI_ZOO_AUDIT||process.env.CHICHI_MAGIC_BED_AUDIT||process.env.CHICHI_MAGIC_FARM_AUDIT||process.env.CHICHI_FARM_WITHDRAWAL_AUDIT||process.env.CHICHI_OWNERSHIP_AUDIT){
     const {Miniflare,Log,LogLevel,convertV4MiniflareOptions}=require(root+'/node_modules/miniflare');
     const mf=new Miniflare(convertV4MiniflareOptions({name:'chichi-farm-local',rootPath:temp,host:'127.0.0.1',port,modules:true,
       scriptPath:path.join(temp,'worker.mjs'),compatibilityDate:'2026-10-13',
@@ -162,7 +162,7 @@ async function localWorker() {
     g.cat.energy = 95;
     g.cat.hunger = 5;
     g.cat.happiness = 95;
-    if(!process.env.CHICHI_EXPLORER_AUDIT){
+    if(!process.env.CHICHI_EXPLORER_AUDIT&&!process.env.CHICHI_TERRAIN_AUDIT){
     const legacySpace = findSpace(g, "coaster-lagoon", "homestead");
     assert.ok(legacySpace);
     Object.assign(
@@ -177,7 +177,7 @@ async function localWorker() {
     );
     for (const p of g.placements)
       if (p.item === "coaster-lagoon") p.readyAt = now - 1000;
-    }else{Object.assign(g,purchase(g,'coaster-lagoon',now));}
+    }else if(process.env.CHICHI_TERRAIN_AUDIT){g.unlocked=['moon','homestead','autumn'];g.catPosition={biome:'autumn',x:275,z:-25};g.catDestinations={luna:'homestead',moti:'moon'};}else{Object.assign(g,purchase(g,'coaster-lagoon',now));}
     if(process.env.CHICHI_ATOLL_AUDIT){
       const {ATOLL_SLIDES,ATOLL_PARK_ID}=await import(root+'/public/atoll-slide-data.js');
       g.unlocked=['moon',ATOLL_PARK_ID];g.placements=g.placements.filter(p=>p.id.startsWith('welcome-'));
@@ -379,6 +379,7 @@ async function localWorker() {
         {
           name: "qa",
           setup(b) {
+            if(process.env.CHICHI_TERRAIN_AUDIT){const original=b.onLoad.bind(b);b.onLoad=(options,fn)=>original(options,async args=>{const result=await fn(args);if(result?.contents){const relative=path.relative(root,args.path),target=path.join(review,'qa-inputs',relative);fs.mkdirSync(path.dirname(target),{recursive:true});fs.writeFileSync(target,result.contents);}return result;});}
             if (process.env.CHICHI_COMPARE_COMPACT_RANGES)
               b.onLoad({ filter: /\/public\/static-submissions\.js$/ }, () => ({
                 contents: 'import {compactIndexRanges as qaCompactRanges} from "../scripts/compact-index-ranges.mjs";\n'+readPublic("static-submissions.js").replace(
@@ -461,7 +462,7 @@ async function localWorker() {
               const cpuBoundary=source.includes('      const profileRender =')
                 ? '      const profileRender =' : '      renderer.render(scene, camera);';
               source=source.replace(cpuBoundary,
-                '      if(window.__lagoonQA?.measure)window.__lagoonQA.cpu.push(performance.now()-qaFrameStart);\n'+cpuBoundary);
+                '      if(window.__lagoonQA?.terrainAnchor){const a=window.__lagoonQA.terrainAnchor;chichiCarrier.position.set(a.x,a.y,a.z);chichiCarrier.rotation.y=1.5;}if(window.__lagoonQA?.terrainGrassVisible!==undefined)islands.get("autumn")?.traverse(o=>{if(o.userData.meadowGrass)o.visible=window.__lagoonQA.terrainGrassVisible;});\n      if(window.__lagoonQA?.measure)window.__lagoonQA.cpu.push(performance.now()-qaFrameStart);\n'+cpuBoundary);
               if(process.env.CHICHI_ACTOR_SCOPE_AUDIT)
                 source='import {courtPath as qaScopePath,courtNavigationStats as qaScopeStats,courtSegment as qaScopeSegment} from "./foodcourt-navigation.js";\n'+source.replace(
                   "  function syncActors() {",
@@ -504,7 +505,7 @@ async function localWorker() {
                   .replace("const harvesters=[...itemGroups.values()]", "const harvesters=(window.__lagoonQA?.pauseHarvestAutonomy?[]:[...itemGroups.values()])")
                   .replace(
                     "    const time = now / 1000;",
-                    "    if(window.__lagoonQA?.freeze){requestAnimationFrame(loop);return;}\n    if(window.__lagoonQA?.pinnedRide !== undefined && operation?.stage === 'activity') operation.activityStart=now-(window.__lagoonQA.pinnedRide-(operation.rider?.routeOffset||0))*1000;\n    for(const p of window.__lagoonQA?.atollPinnedResidents||[]){const v=residentPlay.get(p.id);if(v?.phase==='activity')v.activityStart=now-(p.time-(v.rider?.routeOffset||0))*1000;}\n    if(window.__lagoonQA?.pinnedSocial){const p=window.__lagoonQA.pinnedSocial,v=p.heroMeeting?operation:residentPlay.get(p.actorId);if(v)v.activityStart=now-(p.time-(v.rider?.routeOffset||0))*1000;}\n    const time = now / 1000;",
+                    "    if(window.__lagoonQA?.freeze){requestAnimationFrame(loop);return;}\n    if(window.__lagoonQA?.pinnedRide !== undefined && operation?.stage === 'activity') operation.activityStart=now-(window.__lagoonQA.pinnedRide-(operation.rider?.routeOffset||0))*1000;\n    for(const p of window.__lagoonQA?.atollPinnedResidents||[]){const v=residentPlay.get(p.id);if(v?.phase==='activity')v.activityStart=now-(p.time-(v.rider?.routeOffset||0))*1000;}\n    if(window.__lagoonQA?.pinnedSocial){const p=window.__lagoonQA.pinnedSocial,v=p.heroMeeting?operation:residentPlay.get(p.actorId);if(v)v.activityStart=now-(p.time-(v.rider?.routeOffset||0))*1000;}\n    const time = window.__lagoonQA?.terrainClock ?? now / 1000;",
                   )
                   .replace(
                     "    const dt = Math.min((now - previousTime) / 1000, 0.1);",
@@ -516,7 +517,7 @@ async function localWorker() {
                   )
                   .replace(
                     "    const cameraBlend =",
-                    "    if(window.__lagoonQA?.orbit){const o=window.__lagoonQA.orbit;desiredLook.set(o.x+Math.sin(time*.8)*12,0,o.z+Math.cos(time*.8)*12);}\n    const cameraBlend =",
+                    "    if(window.__lagoonQA?.orbit){const o=window.__lagoonQA.orbit;desiredLook.set(o.x+Math.sin(time*.8)*12,0,o.z+Math.cos(time*.8)*12);}\n    if(window.__lagoonQA?.terrainMotion){const m=window.__lagoonQA.terrainMotion;azimuth=1.5+(window.__lagoonQA.frames-m.start)/m.frames*.75;}\n    const cameraBlend =",
                   )
                   .replace(
                     "  const reduced =",
@@ -550,11 +551,11 @@ async function localWorker() {
               contents: (
                 "import {placeItem as qaPlace,findSpace as qaSpace} from './economy.js'; window.__diamondQA={placeItem:qaPlace,findSpace:qaSpace};\n" +
                 "import {storeSculptCache as qaStoreGraphics} from './sculpt-cache.js';\n" +
-                readPublic("app.js")
+                readPublic("app.js").replaceAll("claimRewards(game, Date.now(), true)",process.env.CHICHI_TERRAIN_AUDIT?"claimRewards(game, "+now+", true)":"claimRewards(game, Date.now(), true)")
               )
                 .replace(
                   "const event = nextCityAIEvent(game);",
-                  (process.env.CHICHI_VISUAL_IDLE_AUDIT||process.env.CHICHI_ZOO_GUEST_AUDIT||process.env.CHICHI_EXPLORER_AUDIT) ? "const event = null; // Private visual fixture: no AI networking." : "const event = nextCityAIEvent(game);",
+                  (process.env.CHICHI_VISUAL_IDLE_AUDIT||process.env.CHICHI_ZOO_GUEST_AUDIT||process.env.CHICHI_EXPLORER_AUDIT||process.env.CHICHI_TERRAIN_AUDIT) ? "const event = null; // Private visual fixture: no AI networking." : "const event = nextCityAIEvent(game);",
                 )
                 .replace(
                   "await restoreSculptCache();",
@@ -566,7 +567,7 @@ async function localWorker() {
                 ),
               loader: "js",
             }));
-            if (baseline)
+            if (baseline || process.env.CHICHI_TERRAIN_AUDIT)
               b.onLoad({ filter: /\/public\/.*\.js$/ }, (args) => ({
                 contents: readPublic(path.basename(args.path)),
                 loader: "js",
@@ -576,6 +577,12 @@ async function localWorker() {
       ],
     });
 
+    if(process.env.CHICHI_TERRAIN_AUDIT){
+      fs.writeFileSync(path.join(review,'qa-app.js'),output.outputFiles[0].contents);
+      const files={};const walk=dir=>{for(const d of fs.readdirSync(dir,{withFileTypes:true})){const p=path.join(dir,d.name);if(d.isDirectory())walk(p);else files[path.relative(path.join(review,'qa-inputs'),p)]=crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');}};walk(path.join(review,'qa-inputs'));
+      fs.copyFileSync(__filename,path.join(review,'qa-harness.cjs'));fs.copyFileSync(path.join(__dirname,'audit-terrain-native.mjs'),path.join(review,'qa-terrain-audit.mjs'));
+      fs.writeFileSync(path.join(review,'build-provenance.json'),JSON.stringify({baseline:baseline||null,head:require('node:child_process').execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),qaBundleSha256:crypto.createHash('sha256').update(output.outputFiles[0].contents).digest('hex'),node:process.version,esbuild:require(root+'/node_modules/esbuild/package.json').version,sourceSha256:files,preview:!!process.env.CHICHI_TERRAIN_PREVIEW,stage:process.env.CHICHI_MEADOW_STAGE||'all',timestamp:new Date().toISOString()},null,2));
+    }
     browser = process.env.CHICHI_BROWSER === "webkit"
       ? await webkit.launch({ env: { ...local.env, LIBGL_ALWAYS_SOFTWARE: "1" } })
       : await chromium.launch({
@@ -599,7 +606,9 @@ async function localWorker() {
     page.setDefaultTimeout(120000);
     const errors = [],
       httpErrors = [];
+    const terrainAssets=[],assetJobs=[];
     page.on("response", (r) => {
+      if(process.env.CHICHI_TERRAIN_AUDIT&&/\/art\/meadow\//.test(new URL(r.url()).pathname))assetJobs.push((async()=>{const bytes=await r.body();terrainAssets.push({path:new URL(r.url()).pathname,bytes:bytes.length,sha256:crypto.createHash('sha256').update(bytes).digest('hex')});})());
       if (r.status() >= 400)
         httpErrors.push({
           path: new URL(r.url()).pathname,
@@ -611,7 +620,7 @@ async function localWorker() {
       console.log("PAGE ERROR", e.message);
     });
     page.on("console", (m) => {
-      if (m.type() === "error") errors.push(m.text());
+      if (m.type() === "error") {errors.push(m.text());if(process.env.CHICHI_TERRAIN_AUDIT)console.error(m.text().slice(0,3500));}
     });
     await page.addInitScript(
       ({ g, token }) => {
@@ -662,6 +671,13 @@ async function localWorker() {
       if(process.env.CHICHI_EXPLORER_STAGE==='isolation'){const {auditExplorerIsolationNative}=await import('./audit-explorer-isolation-native.mjs');await auditExplorerIsolationNative({page,review,errors,httpErrors,capture});return;}
       const {auditOceanExplorerNative}=await import('./audit-ocean-explorer-native.mjs');await auditOceanExplorerNative({page,review,errors,httpErrors,capture});return;
     }
+    if(process.env.CHICHI_TERRAIN_AUDIT&&process.env.CHICHI_MEADOW_COAST_AUDIT){const {auditMeadowCoastNative}=await import('./audit-meadow-coast-native.mjs');await auditMeadowCoastNative({page,review,errors,httpErrors});return;}
+    if(process.env.CHICHI_TERRAIN_AUDIT&&process.env.CHICHI_TERRAIN_PROFILE){const {auditTerrainProfileNative}=await import('./audit-terrain-profile-native.mjs');await auditTerrainProfileNative({page,review,errors,httpErrors});return;}
+    if(process.env.CHICHI_TERRAIN_AUDIT){
+      try{const {auditTerrainNative}=await import('./audit-terrain-native.mjs');await auditTerrainNative({page,review,errors,httpErrors,assetJobs,terrainAssets});fs.writeFileSync(path.join(review,'audit-outcome.json'),JSON.stringify({completed:true,performanceAudit:!process.env.CHICHI_TERRAIN_PREVIEW,errors,httpErrors},null,2));}
+      catch(e){fs.writeFileSync(path.join(review,'audit-outcome.json'),JSON.stringify({completed:false,error:String(e),errors,httpErrors},null,2));throw e;}return;
+    }
+
     if (process.env.CHICHI_CAT_VIEW_AUDIT) {
       const {checkCatView}=await import('./check-cat-view.mjs');
       await checkCatView(page,review);

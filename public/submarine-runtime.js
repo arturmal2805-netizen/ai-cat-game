@@ -29,9 +29,15 @@ export function createSubmarineRuntime({container,canvas,camera,look,actor,getMo
  panel.hidden=true;container.append(panel);
  // The tall canvas can extend below a phone viewport; anchor thumbs to its
  // visible lower edge, above the existing inventory/autonomy bar.
- function layoutControls(){const b=container.getBoundingClientRect?.(),v=window.visualViewport;panel.style.bottom=Math.max(0,(b?.bottom??0)-((v?.offsetTop??0)+(v?.height??window.innerHeight??Infinity)))+'px';}
+ const controlFooter=container.querySelector?.('.world-bottom')||document.querySelector?.('.world-bottom');
+ function layoutControls(){
+  const b=container.getBoundingClientRect?.(),v=window.visualViewport,viewportBottom=(v?.offsetTop??0)+(v?.height??window.innerHeight??Infinity),bottom=Math.min(b?.bottom??viewportBottom,viewportBottom),footer=controlFooter?.getBoundingClientRect?.();
+  panel.style.bottom=Math.max(0,(b?.bottom??bottom)-bottom)+'px';
+  const clearance=footer?.height>0&&footer.bottom>0&&footer.top<bottom?Math.max(80,bottom-footer.top+8):80;
+  panel.style.setProperty?.('--sub-controls-bottom',clearance+'px');
+ }
  layoutControls();window.addEventListener('resize',layoutControls);window.addEventListener('scroll',layoutControls,true);window.visualViewport?.addEventListener('resize',layoutControls);window.visualViewport?.addEventListener('scroll',layoutControls);
- const controlResize=typeof ResizeObserver==='function'?new ResizeObserver(layoutControls):null;controlResize?.observe(container);if(document.body)controlResize?.observe(document.body);
+ const controlResize=typeof ResizeObserver==='function'?new ResizeObserver(layoutControls):null;controlResize?.observe(container);if(document.body)controlResize?.observe(document.body);if(controlFooter)controlResize?.observe(controlFooter);
  const readout=panel.querySelector('[data-sub-readout]'),enterButton=panel.querySelector('[data-sub-enter]'),resumeButton=panel.querySelector('[data-sub-resume]'),cameraButton=panel.querySelector('[data-sub-camera]'),returnButton=panel.querySelector('[data-sub-return]'),exitButton=panel.querySelector('[data-sub-exit]'),mallButton=panel.querySelector('[data-sub-mall]'),controls=panel.querySelector('[data-sub-controls]'),forwardButton=panel.querySelector('[data-sub-key="KeyW"]'),reverseButton=panel.querySelector('[data-sub-key="KeyS"]'),upButton=panel.querySelector('[data-sub-key="Space"]'),downButton=panel.querySelector('[data-sub-key="ShiftLeft"]');
  const focused=()=>getFocused()==='autumn'&&getGame().unlocked.includes('autumn');
  const busy=()=>phase!=='docked';
