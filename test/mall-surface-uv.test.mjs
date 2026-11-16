@@ -30,8 +30,8 @@ test('room stamping shares only equivalent finish transforms and preserves nativ
 });
 
 test('the real public floor receives metre UVs even though it bypasses room lighting',()=>{
- const kit=runSceneSteps(mallKitSteps()),floor=runSceneSteps(mallArchitectureFloorSteps({id:1},kit));let slab;
- floor.structure.traverse(mesh=>{if(mesh.userData.mallWalkSurface)slab=mesh;});assert.ok(slab);
+ const kit=runSceneSteps(mallKitSteps()),floor=runSceneSteps(mallArchitectureFloorSteps({id:1},kit));
+ const slab=floor.structure.children.find(mesh=>mesh.geometry===kit.floorSlabs.get(true));assert.ok(slab?.userData.mallWalkSurface);assert.equal(slab.geometry.type,'ExtrudeGeometry');
  const original=slab.geometry,positions=original.attributes.position.array.slice(),uv=original.attributes.uv.array.slice();
  assert.ok(runSceneSteps(stampMallSurfaceUVsSteps(floor.structure))>0);assert.notEqual(slab.geometry,original);
  assert.deepEqual(slab.geometry.attributes.position.array,positions);assert.deepEqual(original.attributes.uv.array,uv);
