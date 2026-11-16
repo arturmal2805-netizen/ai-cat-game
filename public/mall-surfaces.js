@@ -23,7 +23,7 @@ export function mallSurface(kind){
     }
     const k=(y*n+x)*4;for(let j=0;j<3;j++)data[k+j]=Math.min(255,Math.max(0,Math.round((color[j]+noise*.025)*255)));data[k+3]=255;
   }
-  const t=new T.DataTexture(data,n,n,T.RGBAFormat);t.name='Original Cat Mall '+kind;t.wrapS=t.wrapT=T.RepeatWrapping;t.colorSpace=T.SRGBColorSpace;t.magFilter=T.LinearFilter;t.minFilter=T.LinearMipmapLinearFilter;t.generateMipmaps=true;t.needsUpdate=true;return t;
+  const t=new T.DataTexture(data,n,n,T.RGBAFormat);t.userData.mallSurfaceKind=kind;t.name='Original Cat Mall '+kind;t.wrapS=t.wrapT=T.RepeatWrapping;t.colorSpace=T.SRGBColorSpace;t.magFilter=T.LinearFilter;t.minFilter=T.LinearMipmapLinearFilter;t.generateMipmaps=true;t.needsUpdate=true;return t;
 }
 // One existing scenery lookup, filtered by the actual finish. Dielectrics
 // retain a small Fresnel response; metal uses its own colour as reflectance.

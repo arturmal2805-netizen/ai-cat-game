@@ -1,5 +1,5 @@
 import {MALL_FINISH_REFLECTION} from './mall-surfaces.js';
-import {mallSurfaceUVKey,writeMallSurfaceUVs} from './mall-surface-uv.js';
+import {mallSurfaceUVKey,writeMallSurfaceUVsSteps} from './mall-surface-uv.js';
 import * as T from 'three';
 import {copyGeometryBuffers} from './geometry-tasks.js';
 import {mosaWaterReflection} from './mosasaur-water-probe.js';
@@ -22,7 +22,7 @@ export function createMallRoomLights(){
         yield;let cut=!!mesh.userData.mallCutaway;mesh.traverseAncestors(p=>{if(p.userData.mallCutaway)cut=true;});const variant=(id*2+Number(cut))+':'+mallSurfaceUVKey(mesh);
         let variants=copies.get(mesh.geometry);if(!variants)copies.set(mesh.geometry,variants=new Map());
         let geometry=variants.get(variant);
-        if(!geometry){geometry=copyGeometryBuffers(mesh.geometry);geometry.userData.sharedScenery=false;writeMallSurfaceUVs(mesh,geometry);const count=geometry.attributes.position.count;geometry.setAttribute('aMallRoom',new T.Uint8BufferAttribute(new Uint8Array(count).fill(id),1));geometry.setAttribute('aMallCutaway',new T.Uint8BufferAttribute(new Uint8Array(count).fill(Number(cut)),1));variants.set(variant,geometry);}
+        if(!geometry){geometry=copyGeometryBuffers(mesh.geometry);geometry.userData.sharedScenery=false;yield* writeMallSurfaceUVsSteps(mesh,geometry);const count=geometry.attributes.position.count;geometry.setAttribute('aMallRoom',new T.Uint8BufferAttribute(new Uint8Array(count).fill(id),1));geometry.setAttribute('aMallCutaway',new T.Uint8BufferAttribute(new Uint8Array(count).fill(Number(cut)),1));variants.set(variant,geometry);}
         mesh.geometry=geometry;
       }
     },

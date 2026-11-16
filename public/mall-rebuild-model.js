@@ -1,3 +1,4 @@
+import {stampMallSurfaceUVsSteps} from './mall-surface-uv.js';
 import {compactMallBuffersSteps} from './mall-buffer-compaction.js';
 import {createMallAirlock} from './mall-airlock.js';
 import {mallCutawayMaterial} from './mall-cutaway.js';
@@ -31,6 +32,7 @@ export function* mallRebuildModelSteps(options={}){
     const group=new T.Group();group.position.y=floor.y;group.name=`F${floor.id} ${floor.name}`;root.add(group);floors.set(floor.id,group);
     const architecture=yield* mallArchitectureFloorSteps(floor,kit),detail=new T.Group(),ceilings=new T.Group();
     captureWalkSurfaces(architecture.structure,floor.y);
+    yield* stampMallSurfaceUVsSteps(architecture.structure);
     const venues=MALL_STORES.filter(s=>s.floor===floor.id);
     for(const [index,original]of venues.entries()){
       const placement=mallRoomPlacement(index,venues.length),store={...original,x:placement.x,z:placement.z,y:floor.y,angle:-placement.yaw-Math.PI/2,placement};

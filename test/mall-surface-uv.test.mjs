@@ -1,9 +1,11 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import * as T from 'three';
-import {mallSurfaceUVKey,writeMallSurfaceUVs} from '../public/mall-surface-uv.js';
+import {mallSurfaceUVKey,writeMallSurfaceUVs,stampMallSurfaceUVsSteps} from '../public/mall-surface-uv.js';
 import {createMallRoomLights} from '../public/mall-room-light.js';
 import {runSceneSteps} from '../public/scene-tasks.js';
+import {mallKitSteps} from '../public/mall-kit.js';
+import {mallArchitectureFloorSteps} from '../public/mall-architecture.js';
 const finish=kind=>{const map=new T.Texture();map.userData.mallSurfaceKind=kind;return new T.MeshStandardMaterial({map});};
 test('floor tiles retain metre density and match across adjoining transformed panels without changing source geometry',()=>{
  const source=new T.PlaneGeometry(2,2);source.rotateX(-Math.PI/2);
@@ -25,4 +27,17 @@ test('room stamping shares only equivalent finish transforms and preserves nativ
  for(const mesh of [a,b,c]){assert.deepEqual(mesh.geometry.attributes.position.array,source.attributes.position.array);assert.deepEqual(mesh.geometry.index.array,source.index.array);assert.ok([...mesh.geometry.attributes.aMallRoom.array].every(id=>id===2));}
  assert.deepEqual(source.attributes.uv.array,original);assert.equal(source.hasAttribute('aMallRoom'),false);
  const plain=new T.Mesh(source,new T.MeshStandardMaterial());plain.updateMatrixWorld();const copy=source.clone();assert.equal(writeMallSurfaceUVs(plain,copy),false);assert.deepEqual(copy.attributes.uv.array,original);lights.finish();lights.texture.dispose();
+});
+
+test('the real public floor receives metre UVs even though it bypasses room lighting',()=>{
+ const kit=runSceneSteps(mallKitSteps()),floor=runSceneSteps(mallArchitectureFloorSteps({id:1},kit));let slab;
+ floor.structure.traverse(mesh=>{if(mesh.userData.mallWalkSurface)slab=mesh;});assert.ok(slab);
+ const original=slab.geometry,positions=original.attributes.position.array.slice(),uv=original.attributes.uv.array.slice();
+ assert.ok(runSceneSteps(stampMallSurfaceUVsSteps(floor.structure))>0);assert.notEqual(slab.geometry,original);
+ assert.deepEqual(slab.geometry.attributes.position.array,positions);assert.deepEqual(original.attributes.uv.array,uv);
+ assert.equal(slab.geometry.userData.mallSurfaceMetres,2.4);assert.equal(original.userData.sharedScenery,true);
+ for(let i=0;i<slab.geometry.attributes.position.count;i++)if(slab.geometry.attributes.normal.getY(i)>.99){
+  assert.ok(Math.abs(slab.geometry.attributes.uv.getX(i)-slab.geometry.attributes.position.getX(i)/2.4)<1e-5);
+  assert.ok(Math.abs(slab.geometry.attributes.uv.getY(i)+slab.geometry.attributes.position.getZ(i)/2.4)<1e-5);
+ }
 });
