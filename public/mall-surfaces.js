@@ -25,20 +25,23 @@ export function mallSurface(kind){
   }
   const t=new T.DataTexture(data,n,n,T.RGBAFormat);t.name='Original Cat Mall '+kind;t.wrapS=t.wrapT=T.RepeatWrapping;t.colorSpace=T.SRGBColorSpace;t.magFilter=T.LinearFilter;t.minFilter=T.LinearMipmapLinearFilter;t.generateMipmaps=true;t.needsUpdate=true;return t;
 }
+// One existing scenery lookup, filtered by the actual finish. Dielectrics
+// retain a small Fresnel response; metal uses its own colour as reflectance.
+export const MALL_FINISH_REFLECTION=`
+ vec3 mallR=inverseTransformDirection(reflect(-normalize(vViewPosition),normal),viewMatrix);
+ vec2 mallOct=mallR.xz/(abs(mallR.x)+abs(mallR.y)+abs(mallR.z));
+ if(mallR.y<0.)mallOct=(1.-abs(mallOct.yx))*sign(mallOct);
+ float mallFacing=clamp(abs(dot(normalize(vViewPosition),normal)),0.,1.);
+ vec3 mallF0=mix(vec3(.04),diffuseColor.rgb,metalnessFactor);
+ vec3 mallFresnel=mallF0+(vec3(1.)-mallF0)*pow(1.-mallFacing,5.);
+ outgoingLight+=texture2D(uMallProbe,mallOct*.5+.5,roughnessFactor*3.).rgb*uMallProbeGain*mallFresnel*(1.-roughnessFactor*.5);
+`;
 export function mallReflectionMaterial(material,gain=.18){
-  const probe=mosaWaterReflection();material.onBeforeCompile=s=>{
-    s.uniforms.uMallProbe={value:probe.texture};s.uniforms.uMallProbeGain={value:probe.gain*gain};
-    s.vertexShader='varying vec3 vMallDetailPosition;\n'+s.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nvMallDetailPosition=transformed;');
-    s.fragmentShader='varying vec3 vMallDetailPosition;uniform sampler2D uMallProbe;uniform float uMallProbeGain;\n'+s.fragmentShader;
-    s.fragmentShader=s.fragmentShader.replace('#include <opaque_fragment>',`
-      vec3 mallR=inverseTransformDirection(reflect(-normalize(vViewPosition),normal),viewMatrix);
-      vec2 mallOct=mallR.xz/(abs(mallR.x)+abs(mallR.y)+abs(mallR.z));
-      if(mallR.y<0.)mallOct=(1.-abs(mallOct.yx))*sign(mallOct);
-      float mallRoom=smoothstep(15.,25.,length(vMallDetailPosition.xz-vec2(0.,55.)));
-      outgoingLight+=diffuseColor.rgb*vec3(.70,.31,.12)*(.10+mallRoom*.32);
-      outgoingLight+=texture2D(uMallProbe,mallOct*.5+.5).rgb*uMallProbeGain*(.2+.8*pow(1.-abs(dot(normalize(vViewPosition),normal)),3.));
-      #include <opaque_fragment>`);
-  };material.customProgramCacheKey=()=>`mall-reflection-v2-${gain}`;return material;
+ const probe=mosaWaterReflection();material.onBeforeCompile=s=>{
+  s.uniforms.uMallProbe={value:probe.texture};s.uniforms.uMallProbeGain={value:probe.gain*gain};
+  s.fragmentShader='uniform sampler2D uMallProbe;uniform float uMallProbeGain;\n'+s.fragmentShader;
+  s.fragmentShader=s.fragmentShader.replace('#include <opaque_fragment>',MALL_FINISH_REFLECTION+'\n#include <opaque_fragment>');
+ };material.customProgramCacheKey=()=>`mall-finish-v3-${gain}`;return material;
 }
 export function mallHalo(color){return new T.ShaderMaterial({transparent:true,depthWrite:false,blending:T.AdditiveBlending,
   uniforms:{color:{value:new T.Color(color)}},
@@ -46,4 +49,4 @@ export function mallHalo(color){return new T.ShaderMaterial({transparent:true,de
   fragmentShader:'uniform vec3 color;varying vec3 n;varying vec3 e;void main(){float a=pow(abs(dot(normalize(n),normalize(e))),1.8)*.16;gl_FragColor=vec4(color,a);}',
 });}
 
-export function mallSurfaceMaps(kind,repeat=1){const maps=mallArt()?.surfaces[kind];if(!maps)return{map:mallSurface(kind)};const own={};for(const [role,t]of Object.entries(maps)){const copy=t.clone();copy.userData.sharedScenery=false;copy.repeat.set(repeat,repeat);own[role==='color'?'map':role==='normal'?'normalMap':'roughnessMap']=copy;}return own;}
+export function mallSurfaceMaps(kind,repeat=1){const maps=mallArt()?.surfaces[kind];if(!maps)return{map:mallSurface(kind)};const own={};for(const [role,t]of Object.entries(maps)){const copy=t.clone();copy.userData.sharedScenery=false;copy.userData.mallSurfaceKind=kind;copy.repeat.set(repeat,repeat);own[role==='color'?'map':role==='normal'?'normalMap':'roughnessMap']=copy;}return own;}

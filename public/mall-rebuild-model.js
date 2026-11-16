@@ -125,7 +125,7 @@ export function* mallRebuildModelSteps(options={}){
   yield* mallMascotSteps(frameSource,kit,top);
   // Glazed curved marquee: luminous text without a massive black billboard.
   const banner=new T.Group();banner.position.set(0,top-2,centreZ);frameSource.add(banner);
-  const signGlass=glassMat.clone();signGlass.uniforms.uProbe.value=glassMat.uniforms.uProbe.value;signGlass.uniforms.uTint.value=new T.Color(0x102d50);signGlass.fragmentShader=signGlass.fragmentShader.replace('.028+f*.32+glint*.16','.68+f*.17+glint*.12');
+  const signGlass=glassMat.clone();signGlass.uniforms.uProbe.value=glassMat.uniforms.uProbe.value;signGlass.uniforms.uTint.value=new T.Color(0x102d50);signGlass.fragmentShader=signGlass.fragmentShader.replace('.02+f*.72+glint*.08','.68+f*.17+glint*.12');
   mesh(banner,new T.CylinderGeometry(61,61,12.4,64,1,true,-.62,1.24),signGlass);
   label(banner,0,0,1.0,61.1,34,4.6);label(banner,1,0,-3.0,61.12,70,2.6);label(banner,2,0,-5.3,61.14,38,.7);
   for(const y of [-6.2,6.2])tube(banner,Array.from({length:49},(_,i)=>{const a=-.62+i*1.24/48;return[Math.sin(a)*61,y,Math.cos(a)*61];}),.06,mats.gold);
@@ -158,7 +158,7 @@ export function* mallRebuildModelSteps(options={}){
   const {x:lx,z:lz,radius:r}=MALL_LAYOUT.lift,shaftTop=top+.5;
   kit.doorwayCylinder(frameSource,lx,(MALL_LAYOUT.y+shaftTop)/2,lz,r,shaftTop-MALL_LAYOUT.y,glassMat,4);
   for(const f of floorData){ring(frameSource,lx,f.y,lz,r+.12,mats.pink,.12);for(const side of [-1,1])cube(frameSource,mats.navy,lx+side*r,f.y+4,lz,.16,8,.16);}
-  const upperGlass=glassMat.clone();upperGlass.uniforms.uProbe.value=glassMat.uniforms.uProbe.value;upperGlass.fragmentShader=upperGlass.fragmentShader.replace('.028+f*.32+glint*.16','(.028+f*.32+glint*.16)*.14');
+  const upperGlass=glassMat.clone();upperGlass.uniforms.uProbe.value=glassMat.uniforms.uProbe.value;upperGlass.fragmentShader=upperGlass.fragmentShader.replace('.02+f*.72+glint*.08','(.02+f*.72+glint*.08)*.14');
   mesh(frameSource,new T.CylinderGeometry(r,r,-shaftTop,64,1,true),upperGlass,lx,shaftTop/2,lz);
   disk(frameSource,mats.navy,lx,.14,lz,12,.4);cube(frameSource,mats.floor,lx,.14,lz+14,24,.4,30);
   const shore=new T.Vector3(MALL_LAYOUT.shoreJoin.x,0,MALL_LAYOUT.shoreJoin.z),gate=new T.Vector3(MALL_LAYOUT.gate.x,0,MALL_LAYOUT.gate.z),bridge=new T.Group();bridge.position.copy(shore.clone().lerp(gate,.5));bridge.rotation.y=Math.atan2(gate.x-shore.x,gate.z-shore.z);frameSource.add(bridge);

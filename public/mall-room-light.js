@@ -1,3 +1,5 @@
+import {MALL_FINISH_REFLECTION} from './mall-surfaces.js';
+import {mallSurfaceUVKey,writeMallSurfaceUVs} from './mall-surface-uv.js';
 import * as T from 'three';
 import {copyGeometryBuffers} from './geometry-tasks.js';
 import {mosaWaterReflection} from './mosasaur-water-probe.js';
@@ -15,12 +17,12 @@ export function createMallRoomLights(){
       const id=next++,c=new T.Color(color);data.set([x,6.4,z,21],id*4);data.set([c.r,c.g,c.b,2.8],(size+id)*4);return id;
     },
     *stamp(root,id=0){
-      const meshes=[];root.traverse(o=>{if(o.isMesh&&!o.geometry.hasAttribute('aMallRoom'))meshes.push(o);});
+      root.updateWorldMatrix(true,true);const meshes=[];root.traverse(o=>{if(o.isMesh&&!o.geometry.hasAttribute('aMallRoom'))meshes.push(o);});
       for(const mesh of meshes){
-        yield;let cut=!!mesh.userData.mallCutaway;mesh.traverseAncestors(p=>{if(p.userData.mallCutaway)cut=true;});const variant=id*2+Number(cut);
+        yield;let cut=!!mesh.userData.mallCutaway;mesh.traverseAncestors(p=>{if(p.userData.mallCutaway)cut=true;});const variant=(id*2+Number(cut))+':'+mallSurfaceUVKey(mesh);
         let variants=copies.get(mesh.geometry);if(!variants)copies.set(mesh.geometry,variants=new Map());
         let geometry=variants.get(variant);
-        if(!geometry){geometry=copyGeometryBuffers(mesh.geometry);geometry.userData.sharedScenery=false;const count=geometry.attributes.position.count;geometry.setAttribute('aMallRoom',new T.Uint8BufferAttribute(new Uint8Array(count).fill(id),1));geometry.setAttribute('aMallCutaway',new T.Uint8BufferAttribute(new Uint8Array(count).fill(Number(cut)),1));variants.set(variant,geometry);}
+        if(!geometry){geometry=copyGeometryBuffers(mesh.geometry);geometry.userData.sharedScenery=false;writeMallSurfaceUVs(mesh,geometry);const count=geometry.attributes.position.count;geometry.setAttribute('aMallRoom',new T.Uint8BufferAttribute(new Uint8Array(count).fill(id),1));geometry.setAttribute('aMallCutaway',new T.Uint8BufferAttribute(new Uint8Array(count).fill(Number(cut)),1));variants.set(variant,geometry);}
         mesh.geometry=geometry;
       }
     },
@@ -46,11 +48,8 @@ export function mallRoomLightMaterial(material,lights,gain=.18){
       vec3 lampHalf=normalize(lampDirection+normalize(vViewPosition));
       float lampSpecular=pow(max(0.,dot(normal,lampHalf)),mix(90.,8.,roughnessFactor));
       outgoingLight+=vMallLampColor.rgb*vMallLampColor.a*(diffuseColor.rgb*(.18+lampFalloff*.88*lampDiffuse)+lampFalloff*lampSpecular*(.12+.3*metalnessFactor));
-      vec3 mallR=inverseTransformDirection(reflect(-normalize(vViewPosition),normal),viewMatrix);
-      vec2 mallOct=mallR.xz/(abs(mallR.x)+abs(mallR.y)+abs(mallR.z));
-      if(mallR.y<0.)mallOct=(1.-abs(mallOct.yx))*sign(mallOct);
-      outgoingLight+=texture2D(uMallProbe,mallOct*.5+.5).rgb*uMallProbeGain*(.2+.8*pow(1.-abs(dot(normalize(vViewPosition),normal)),3.));
+      ${MALL_FINISH_REFLECTION}
       #include <opaque_fragment>`);
   };
-  material.customProgramCacheKey=()=>`mall-room-lamps-v1-${gain}`;return material;
+  material.customProgramCacheKey=()=>`mall-room-finish-v2-${gain}`;return material;
 }

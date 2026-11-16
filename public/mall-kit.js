@@ -11,16 +11,16 @@ export function* mallKitSteps({parody=false}={}){
   const signs=[];
   const surfaceSets=new Map();const getSurface=(kind,repeat=1)=>{const key=kind+":"+repeat;if(!surfaceSets.has(key))surfaceSets.set(key,mallSurfaceMaps(kind,repeat));return surfaceSets.get(key);};
   const mats={
-    navy:new THREE.MeshStandardMaterial({color:0x28516b,emissive:0x286781,emissiveIntensity:.08,roughness:.23,metalness:.65}),
-    floor:new THREE.MeshStandardMaterial({color:0xd4edff,emissive:0x0c5980,emissiveIntensity:.13,roughness:.14,metalness:.18}),
-    warm:new THREE.MeshStandardMaterial({color:0xfff0dc,emissive:0xff9e40,emissiveIntensity:.18,roughness:.38}),
-    white:new THREE.MeshStandardMaterial({color:0xe7ecf4,emissive:0x2a5671,emissiveIntensity:.16,roughness:.3,metalness:.12}),
+    navy:new THREE.MeshStandardMaterial({color:0x49677b,emissive:0x286781,emissiveIntensity:.015,roughness:.34,metalness:.78}),
+    floor:new THREE.MeshStandardMaterial({color:0xeff2ed,emissive:0x0c5980,emissiveIntensity:.025,roughness:.24,metalness:.02}),
+    warm:new THREE.MeshStandardMaterial({color:0xfff0dc,emissive:0xff9e40,emissiveIntensity:.025,roughness:.56}),
+    white:new THREE.MeshStandardMaterial({color:0xe7ecf4,emissive:0x2a5671,emissiveIntensity:.035,roughness:.34,metalness:.02}),
     pink:new THREE.MeshBasicMaterial({color:0xff73dd}),cyan:new THREE.MeshBasicMaterial({color:0x6cffff}),
     gold:new THREE.MeshBasicMaterial({color:0xffd98c}),purple:new THREE.MeshBasicMaterial({color:0xa87bff}),
     green:new THREE.MeshStandardMaterial({color:0x24826f,roughness:.75}),
-    red:new THREE.MeshStandardMaterial({color:0x80355e,roughness:.55}),
+    red:new THREE.MeshStandardMaterial({color:0x80355e,roughness:.82}),
   };
-  Object.assign(mats.floor,getSurface('marble',.2));Object.assign(mats.navy,getSurface('metal'));Object.assign(mats.warm,getSurface('warm'));mats.floor.normalScale=new THREE.Vector2(.2,.2);mats.navy.normalScale=new THREE.Vector2(.055,.055);mats.warm.normalScale=new THREE.Vector2(.1,.1);
+  Object.assign(mats.floor,getSurface('marble'));Object.assign(mats.navy,getSurface('metal'));Object.assign(mats.warm,getSurface('warm'));mats.floor.normalScale=new THREE.Vector2(.2,.2);mats.navy.normalScale=new THREE.Vector2(.055,.055);mats.warm.normalScale=new THREE.Vector2(.1,.1);
   for(const m of [mats.floor,mats.navy,mats.white])mallReflectionMaterial(m,.16);
   mats.haloPink=mallHalo(0xff52d9);mats.haloCyan=mallHalo(0x51e7ff);
   const box=new THREE.BoxGeometry(1,1,1),sphere=new THREE.SphereGeometry(1,16,10),cylinder=new THREE.CylinderGeometry(1,1,1,32);
@@ -36,7 +36,7 @@ export function* mallKitSteps({parody=false}={}){
     vertexShader:`varying vec3 vEye;varying vec3 vNormalView;varying vec3 vWorld;\n#include <fog_pars_vertex>\nvoid main(){vec4 mvPosition=modelViewMatrix*vec4(position,1.);vEye=-mvPosition.xyz;vNormalView=normalize(normalMatrix*normal);vWorld=(modelMatrix*vec4(position,1.)).xyz;gl_Position=projectionMatrix*mvPosition;\n#include <fog_vertex>\n}`,
     fragmentShader:`uniform sampler2D uProbe;uniform float uProbeGain;
 #include <common>
-uniform vec3 uTint;varying vec3 vEye;varying vec3 vNormalView;varying vec3 vWorld;\n#include <fog_pars_fragment>\nvoid main(){float f=pow(1.-abs(dot(normalize(vEye),normalize(vNormalView))),3.);float glint=pow(max(0.,dot(reflect(-normalize(vEye),normalize(vNormalView)),normalize(vec3(-.4,.8,.5)))),42.);vec3 ray=inverseTransformDirection(reflect(-normalize(vEye),normalize(vNormalView)),viewMatrix);vec2 oct=ray.xz/(abs(ray.x)+abs(ray.y)+abs(ray.z));if(ray.y<0.)oct=(1.-abs(oct.yx))*sign(oct);vec3 reflection=texture2D(uProbe,oct*.5+.5).rgb*uProbeGain;vec3 c=mix(uTint*.65,reflection*.6+vec3(.1,.3,.45),f*.8)+glint*.7;gl_FragColor=vec4(c,.028+f*.32+glint*.16);\n#include <fog_fragment>\n#include <tonemapping_fragment>\n#include <colorspace_fragment>\n}`});}
+uniform vec3 uTint;varying vec3 vEye;varying vec3 vNormalView;varying vec3 vWorld;\n#include <fog_pars_fragment>\nvoid main(){float f=.04+.96*pow(1.-abs(dot(normalize(vEye),normalize(vNormalView))),5.);float glint=pow(max(0.,dot(reflect(-normalize(vEye),normalize(vNormalView)),normalize(vec3(-.4,.8,.5)))),42.);vec3 ray=inverseTransformDirection(reflect(-normalize(vEye),normalize(vNormalView)),viewMatrix);vec2 oct=ray.xz/(abs(ray.x)+abs(ray.y)+abs(ray.z));if(ray.y<0.)oct=(1.-abs(oct.yx))*sign(oct);vec3 reflection=texture2D(uProbe,oct*.5+.5).rgb*uProbeGain;vec3 c=mix(uTint*.65,reflection*.6+vec3(.1,.3,.45),f*.8)+glint*.7;gl_FragColor=vec4(c,.02+f*.72+glint*.08);\n#include <fog_fragment>\n#include <tonemapping_fragment>\n#include <colorspace_fragment>\n}`});}
   const glassMat=glass(),movieClock={value:0};
   mats.movie=new THREE.ShaderMaterial({uniforms:{uTime:movieClock},vertexShader:'varying vec2 v;void main(){v=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',fragmentShader:`varying vec2 v;uniform float uTime;void main(){vec2 p=(v-.5)*vec2(2.6,1.5);vec3 c=mix(vec3(.025,.05,.18),vec3(.12,.35,.52),v.y);for(int i=0;i<6;i++){float a=float(i)*1.7+uTime*.14;vec2 q=p-vec2(sin(a)*1.1,cos(a*.7)*.5);c+=vec3(.1,.4,.5)*pow(max(0.,1.-length(q)*5.),4.);}vec2 cat=p-vec2(sin(uTime*.45)*.45,-.04);float head=1.-smoothstep(.25,.27,length(cat));float ears=max(1.-smoothstep(.1,.12,length(cat-vec2(-.16,.22))),1.-smoothstep(.1,.12,length(cat-vec2(.16,.22))));c=mix(c,vec3(.95,.85,.69),max(head,ears));for(int side=-1;side<=1;side+=2){float eye=1.-smoothstep(.025,.035,length(cat-vec2(float(side)*.09,.04)));c=mix(c,vec3(.04,.1,.15),eye);}float nose=1.-smoothstep(.025,.035,length(cat-vec2(0.,-.03)));c=mix(c,vec3(1.,.3,.6),nose);gl_FragColor=vec4(c,1.);}`});
   // One text atlas, independent of native cat textures and any external font.
@@ -63,7 +63,7 @@ uniform vec3 uTint;varying vec3 vEye;varying vec3 vNormalView;varying vec3 vWorl
     for(let i=0;i<doors;i++)mesh(parent,new THREE.CylinderGeometry(r,r,h,32,1,true,i*Math.PI*2/doors+angle,Math.PI*2/doors-2*angle),material,x,y,z);
   }
   function paw(parent,x,y,z,r,m){orb(parent,m,x,y,z,r*.52,r*.42,.1);for(let j=0;j<4;j++){const a=(j-1.5)*.58;orb(parent,m,x+Math.sin(a)*r*.77,y+Math.cos(a)*r*.85,z,r*.21,r*.27,.11);}}
-  const chairGeometry=new RoundedBoxGeometry(1,1,1,2,.12);chairGeometry.userData.sharedScenery=true;Object.assign(mats.red,getSurface('fabric'));
+  const chairGeometry=new RoundedBoxGeometry(1,1,1,2,.12);chairGeometry.userData.sharedScenery=true;Object.assign(mats.red,getSurface('fabric'));mats.red.normalScale.setScalar(.18);
   function chair(p,x,z,m=mats.red,y=.6,yaw=0){const g=new THREE.Group();g.position.set(x,y,z);g.rotation.y=yaw;p.add(g);
     mesh(g,chairGeometry,m,0,0,0,1.6,.32,1.45);mesh(g,chairGeometry,m,0,.65,-.58,1.65,1.05,.35).rotation.x=-.07;
     for(const side of [-1,1]){mesh(g,chairGeometry,m,side*.77,.25,0,.18,.5,1.28);for(const front of [-1,1]){const leg=mesh(g,cylinder,mats.gold,side*.59,-.42,front*.48,.05,.7,.05);leg.rotation.z=-side*.06;}}
