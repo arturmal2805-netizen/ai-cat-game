@@ -110,6 +110,9 @@ export function createMeadowGrassResources(){
  const wind={value:0};material.uniforms={uMeadowWind:wind};
  const vertex=`uniform float uMeadowWind;attribute vec3 meadowWind;attribute vec3 meadowCoarse;attribute vec3 meadowCoarseNormal;attribute vec4 meadowPose;attribute float meadowScale;\n`;
  material.onBeforeCompile=s=>{
+  // Thin grass ribbons keep their authored growing normal on both faces.
+  // Native shadows remain; a back face must not turn into a black needle.
+  s.fragmentShader='#undef DOUBLE_SIDED\n'+s.fragmentShader;
   s.uniforms.uMeadowWind=wind;s.vertexShader=vertex+s.vertexShader;
   s.vertexShader=s.vertexShader.replace('#include <beginnormal_vertex>',`#include <beginnormal_vertex>
    vec3 meadowRoot=(modelMatrix*vec4(meadowPose.x,0.,meadowPose.y,1.)).xyz;
@@ -127,7 +130,7 @@ export function createMeadowGrassResources(){
    float meadowCollapse=1.-smoothstep(30.,46.,meadowDistance);
    transformed.xz+=meadowBreeze*mix(meadowWind.x,meadowWind.y,meadowShape)*pow(meadowScale*meadowCollapse/.28,2.);
   `);
- };material.customProgramCacheKey=()=> 'meadow-sod-grass-packed-wind-v2';
+ };material.customProgramCacheKey=()=> 'meadow-sod-grass-growing-normals-v3';
  return {near,mid,material,wind};
 }
 export function* meadowGrassSteps(clear=()=>true){
