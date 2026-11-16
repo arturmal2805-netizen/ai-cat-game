@@ -46,12 +46,8 @@ export function polishShowcaseWater(material,{id,pool=[0,35,22,15],surfaceY=1.45
   .replace('p*.10+flow','p*.075+flow*.75')
   .replace('p.yx*.157-flow*.71+(fieldA.rg-.5)*.045','p.yx*.137-flow*.53+(fieldA.rg-.5)*.12')
   .replace('vec2 slope=(fieldA.rg+fieldB.gr-1.0)*.19;','vec2 slope=(fieldA.rg-.5)*.065+(fieldB.gr-.5)*.115;')
-  .replace('float fresnel=.025+.975*pow(1.0-facing,5.0);','float fresnel=.0204+.9796*pow(1.0-facing,5.0);')
-  .replace('normalize(vec3(-.44,.85,-.50))','normalize(vec3(-14.,35.,20.))')
-  .replace('vec3 sky=texture2D', 'vec2 footprint=fwidth(slope);float roughness=sqrt(.005625+min(.04,dot(footprint,footprint)*.75));\n vec3 sky=texture2D')
-  .replace('environmentUv(reflected),.7','environmentUv(vec3(dot(reflected,vShowcaseProbeX),reflected.y,dot(reflected,cross(vShowcaseProbeX,vec3(0.,1.,0.))))),.6+roughness*4.')
-  .replace('float roughness=.085+min(.12,length(fwidth(slope))*.65);','')
-  .replace('))*.014*(.4+fieldB.a*.6)', '))*.025*(.4+fieldB.a*.6)')
+  // Use the common filtered GGX response and retain this placement's probe basis.
+  .replace('environmentUv(reflected),waterProbeLod','environmentUv(vec3(dot(reflected,vShowcaseProbeX),reflected.y,dot(reflected,cross(vShowcaseProbeX,vec3(0.,1.,0.))))),waterProbeLod')
   .replace('float opticalDepth=(.12+depth*.88)/max(facing,.3);',`float waterDepth=mix(.23,1.19-.79*smoothstep(.55,1.,edge),uLake);
  float opticalDepth=waterDepth/max(facing,.22);`)
   .replace('vec3 body=mix(uColor*.7,mix(deep,shore,transmission),uLake);','vec3 body=mix(vec3(.004,.30,.62),vec3(.008,.52,.70),shallow*.7);')
@@ -73,7 +69,7 @@ export function polishShowcaseWater(material,{id,pool=[0,35,22,15],surfaceY=1.45
   .replace('alpha=clamp(uOpacity*(.38+depth*.17)+fresnel*.48+foam*.12,.24,.94);','alpha=clamp(1.-exp(-opticalDepth*.28)+fresnel*.85+foam*.4,.10,.96);')
   .replace('vec4(max(color,vec3(0.0)),.96)','vec4(max(color,vec3(0.0)),.90)')
   .replace('vec4(max(color,vec3(0.0)),.95)','vec4(max(color,vec3(0.0)),.84)');
- material.userData.showcaseOptics='lagoon-v7-crystal';material.needsUpdate=true;return material;
+ material.userData.showcaseOptics='lagoon-v8-filtered-reflection';material.needsUpdate=true;return material;
 }
 
 export function submergeReceivingFloor(geometry,pool,surfaceY){

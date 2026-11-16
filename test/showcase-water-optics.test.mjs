@@ -13,6 +13,15 @@ test('clear blue water keeps the existing wave/impact fields and single reflecti
  assert.ok(material.uniforms.uColor.value.b>material.uniforms.uColor.value.g);assert.equal(original.fragmentShader,snapshot);assert.equal(original.userData.showcaseOptics,undefined);
  const once=material.fragmentShader;polishShowcaseWater(material);assert.equal(material.fragmentShader,once);assert.equal(material.depthWrite,false);assert.equal(material.forceSinglePass,true);
 });
+test('placement reflection orientation survives the common filtered shader without duplicate roughness declarations',()=>{
+ const original=waterMaterial(),material=waterMaterial();polishShowcaseWater(material,SHOWCASE_WATER_RIDES[0]);
+ assert.equal((material.fragmentShader.match(/float roughness=/g)||[]).length,1);
+ assert.ok(material.fragmentShader.includes('environmentUv(vec3(dot(reflected,vShowcaseProbeX)'));
+ assert.ok(material.fragmentShader.includes('),waterProbeLod).rgb'));
+ assert.ok(material.fragmentShader.includes('float visibility='));
+ assert.ok(original.fragmentShader.includes('environmentUv(reflected),waterProbeLod'));
+ material.dispose();original.dispose();
+});
 test('receiving floors/walls meet the real basin bed while the dry rim stays intact and the rapids bank ends at its shore',()=>{
  const pool=[0,35,22,15],surface=1.45,g=new T.BufferGeometry(),before=[0,1.22,35, 0,3.82,35, 0,1.22,10, 0,3.82,10];g.setAttribute('position',new T.Float32BufferAttribute(before,3));g.setIndex([0,1,2,1,3,2]);const rim=g.attributes.position.getY(3);
  submergeReceivingWalls(g,pool,surface);assert.ok(g.attributes.position.getY(1)<surface-.9);assert.equal(g.attributes.position.getY(3),rim);assert.ok([...g.attributes.normal.array].every(Number.isFinite));
