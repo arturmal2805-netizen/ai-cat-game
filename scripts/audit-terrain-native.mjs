@@ -8,11 +8,11 @@ export async function auditTerrainNative({page,review,errors,httpErrors,assetJob
  const owned=()=>page.evaluate(()=>{const g=__lagoonSaveQA.getGame();return {coins:g.coins,inventory:g.inventory,placements:g.placements};});
  const initial=await owned();
  await page.evaluate(()=>{const q=__lagoonQA,b=q.islands.get('autumn');q.drawPaused=true;q.faceCamera.setEnabled(false,q.look);document.querySelector('[data-biome="autumn"]').click();q.reviewView(b.position.x+275,b.position.z-25,21);q.reviewOrbit(1.5,.35);});
- await page.waitForFunction(()=>{const q=__lagoonQA;return !q.islands.get('autumn').userData.lowOnly&&q.shaderWarmup.idle()&&q.look.distanceTo(q.desiredLook)<.02;},null,{timeout:240000});
+ await page.waitForFunction(()=>{const q=__lagoonQA;return !q.islands.get('autumn').userData.lowOnly&&q.shaderWarmup.idle()&&q.look.distanceTo(q.desiredLook)<.02&&(()=>{const s=q.islands.get('autumn').userData.meadowState?.();return !s||(s.wanted>0&&!s.pending&&s.ready===s.wanted&&!s.failures);})();},null,{timeout:240000});
  await Promise.all(assetJobs);
  await writeFile(join(review,'loaded-assets.json'),JSON.stringify(terrainAssets,null,2));
  const settings=await page.evaluate(stage=>{
-  const q=__lagoonQA,b=q.islands.get('autumn'),patches=[],grass=[];
+  const q=__lagoonQA,b=q.islands.get('autumn'),patches=[],grass=[];q.terrainGrassVisible=stage==='grass';
   b.traverse(o=>{for(const m of [o.material].flat().filter(Boolean))if(m.userData.meadow){m.uniforms.uMeadowEnabled.value=stage==='legacy'?0:1;const {uniforms,...metadata}=m.userData.meadow;patches.push({...metadata,textures:Object.fromEntries(Object.entries(m.uniforms).filter(([,u])=>u.value?.isTexture).map(([key,{value:t}])=>[key,{name:t.name,colorSpace:t.colorSpace,flipY:t.flipY,anisotropy:t.anisotropy,mipmaps:t.generateMipmaps,width:t.image.width,height:t.image.height}]))});}if(o.userData.meadowGrass){o.visible=stage==='grass';grass.push({count:o.userData.instanceCount,chunks:o.children.length});}});
   // Private framing fixture: original native rig/scale, fixed ground location
   // only in this audit. No save schema or production actor behavior is changed.
@@ -29,13 +29,13 @@ export async function auditTerrainNative({page,review,errors,httpErrors,assetJob
   await page.evaluate(state=>{const b=__lagoonQA.islands.get('autumn'),shore=b.getObjectByName('Wide dry beaches and walkable island ring');
    if(!shore.userData.qaMeadowMaterials)shore.userData.qaMeadowMaterials=shore.material;
    const authored=shore.userData.qaMeadowMaterials;shore.material=state==='legacy'&&Array.isArray(authored)?[authored[0],authored[0]]:authored;
-   b.traverse(o=>{if(o.userData.meadowGrass)o.visible=state==='grass';});
+   __lagoonQA.terrainGrassVisible=state==='grass';b.traverse(o=>{if(o.userData.meadowGrass)o.visible=state==='grass';});
   },state);
  }
  for(const v of views){
   console.log('Meadow',stage,v.name);
   await page.evaluate(v=>{const q=__lagoonQA,b=q.islands.get('autumn');q.reviewView(b.position.x+275,b.position.z-25,v.d);q.reviewOrbit(v.a,v.e);},v);
-  await page.waitForFunction(v=>{const q=__lagoonQA;return Math.abs(q.getDistance()-v.d)<.04&&q.shaderWarmup.idle();},v,{timeout:240000});
+  await page.waitForFunction(v=>{const q=__lagoonQA;return Math.abs(q.getDistance()-v.d)<.04&&q.shaderWarmup.idle()&&(()=>{const s=q.islands.get('autumn').userData.meadowState?.();return !s||(!s.pending&&s.ready===s.wanted&&!s.failures);})();},v,{timeout:240000});
   await frames(2);assert.deepEqual(errors,[]);
   await page.screenshot({path:join(review,v.name+'-hud.png')});
   const raw=await page.evaluate(()=>{const q=__lagoonQA;q.drawFrame(q.scene,q.camera);return q.renderer.domElement.toDataURL('image/png').split(',')[1];});

@@ -45,3 +45,27 @@ the same partitioned scene, with the same authored large leaves. Keep the
 separate published c9 source run as the full original-scene comparison.
 Native audit completion and its measurements belong in the review artifact;
 unit checks or a successful build alone do not accept this stage.
+
+## Full-coast successor
+
+The successor covers the existing shore cap with metre-scaled turf and soil.
+Its immutable radial grid follows the exact authored ocean opening and outer
+shore; it retains every original side/bottom face and the original walk height.
+Tests compare cap area, boundary coverage and actual downward native ray hits.
+The soil field is stored per vertex. The full cap no longer fetches the local
+mask or the legacy lawn image: ordinary turf uses colour plus packed normal/
+roughness, with the separate soil pair only in soil transitions.
+
+Grass uses deterministic 7 m cells, at most 192 resident models and two pending
+builds/warmups. It reuses the original low curved blades and distance morph.
+Only cells near the actual camera are requested, with a small loading margin.
+Views high above or deep below the shore sleep the cells. Native scene priority,
+shader preparation, owned-placement clearance and teardown remain in use.
+Idle models are reclaimed, stale builds cannot attach and revisits reconstruct
+identical clumps. No actor, save, AI scheduler or extra render loop is introduced.
+All Mosasaur coast broad leaves use the shared curved/ribbed template; other
+biomes retain their approved botany.
+
+The proposed root-box LOD shortcut was omitted: its native pixels matched but
+its tested views saved no submitted triangles. The unverified Mall/forest
+culling experiments are also absent from this successor.

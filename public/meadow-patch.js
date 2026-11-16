@@ -1,4 +1,3 @@
-import {installMeadowLod} from './meadow-lod.js';
 import * as T from 'three';
 
 // Local authoring candidate only. No global palette, saved coordinates, collision
@@ -47,20 +46,21 @@ function coverTexture(){
  }
  const t=new T.DataTexture(data,n,n);t.name='Prepared sod and footpath mask';t.colorSpace=T.NoColorSpace;t.magFilter=T.LinearFilter;t.minFilter=T.LinearMipmapLinearFilter;t.generateMipmaps=true;t.needsUpdate=true;return t;
 }
-export function applyMeadowPatch(material){
+export function applyMeadowPatch(material,{vertexCover=false}={}){
  if(!ready)return false;
- const p=MEADOW_PATCH,u={uMeadowEnabled:{value:1},uMeadowMask:{value:coverTexture()},uMeadowColor:{value:ready.turfColor},uMeadowNormalRough:{value:ready.turfNormalRough},uMeadowSoil:{value:ready.soilColor},uMeadowSoilNormalRough:{value:ready.soilNormalRough}};
+ const p=MEADOW_PATCH,u={uMeadowEnabled:{value:1},...(!vertexCover?{uMeadowMask:{value:coverTexture()}}:{}),uMeadowColor:{value:ready.turfColor},uMeadowNormalRough:{value:ready.turfNormalRough},uMeadowSoil:{value:ready.soilColor},uMeadowSoilNormalRough:{value:ready.soilNormalRough}};
  // Native warmup discovers these exact texture objects before reveal.
- material.addEventListener('dispose',()=>u.uMeadowMask.value.dispose());
+ if(u.uMeadowMask)material.addEventListener('dispose',()=>u.uMeadowMask.value.dispose());
+ if(vertexCover){material.map=null;material.color.setHex(0xffffff);}
  material.normalMap=null;material.normalScale.setScalar(p.normalStrength);u.uMeadowNormalScale={value:material.normalScale};material.uniforms=u;
  material.onBeforeCompile=s=>{
   Object.assign(s.uniforms,u);
-  s.vertexShader='varying vec2 vMeadowPoint;varying vec3 vMeadowTangent,vMeadowBitangent;\n'+s.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nvMeadowPoint=vec2(position.x,-position.z);vMeadowTangent=normalize((modelViewMatrix*vec4(1.,0.,0.,0.)).xyz);vMeadowBitangent=normalize((modelViewMatrix*vec4(0.,0.,-1.,0.)).xyz);');
-  s.fragmentShader=`varying vec2 vMeadowPoint;varying vec3 vMeadowTangent,vMeadowBitangent;uniform vec2 uMeadowNormalScale;uniform float uMeadowEnabled;uniform sampler2D uMeadowMask,uMeadowColor,uMeadowNormalRough,uMeadowSoil,uMeadowSoilNormalRough;\n`+s.fragmentShader;
+  s.vertexShader=(vertexCover?'attribute float aMeadowSoil;varying float vMeadowSoil;\n':'')+'varying vec2 vMeadowPoint;varying vec3 vMeadowTangent,vMeadowBitangent;\n'+s.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\n'+(vertexCover?'vMeadowSoil=aMeadowSoil;':'')+'vMeadowPoint=vec2(position.x,-position.z);vMeadowTangent=normalize((modelViewMatrix*vec4(1.,0.,0.,0.)).xyz);vMeadowBitangent=normalize((modelViewMatrix*vec4(0.,0.,-1.,0.)).xyz);');
+  s.fragmentShader=(vertexCover?'varying float vMeadowSoil;\n':'')+`varying vec2 vMeadowPoint;varying vec3 vMeadowTangent,vMeadowBitangent;uniform vec2 uMeadowNormalScale;uniform float uMeadowEnabled;uniform sampler2D ${vertexCover?'':'uMeadowMask,'}uMeadowColor,uMeadowNormalRough,uMeadowSoil,uMeadowSoilNormalRough;\n`+s.fragmentShader;
   s.fragmentShader=s.fragmentShader.replace('#include <color_fragment>',`#include <color_fragment>
    vec2 meadowXZ=vec2(vMeadowPoint.x,-vMeadowPoint.y);
    vec2 meadowMaskUV=(meadowXZ-vec2(${p.x.toFixed(1)},${p.z.toFixed(1)}))/vec2(${(p.rx*2.24).toFixed(4)},${(p.rz*2.24).toFixed(4)})+.5;
-   vec2 meadowMask=texture2D(uMeadowMask,meadowMaskUV).rg;
+   vec2 meadowMask=${vertexCover?'vec2(1.,vMeadowSoil)':'texture2D(uMeadowMask,meadowMaskUV).rg'};
    float meadowMix=meadowMask.r*uMeadowEnabled;
    vec2 meadowUV=vMeadowPoint/${p.tileMetres.toFixed(3)};
    vec3 meadowN=vec3(0.,0.,1.);float meadowRough=roughness;
@@ -80,8 +80,8 @@ export function applyMeadowPatch(material){
   s.fragmentShader=s.fragmentShader.replace('#include <roughnessmap_fragment>','float roughnessFactor=mix(roughness,clamp(meadowRough,.68,1.),meadowMix);');
   s.fragmentShader=s.fragmentShader.replace('#include <normal_fragment_maps>',`if(meadowMix>.001){meadowN.xy*=uMeadowNormalScale;vec3 meadowLitNormal=normalize(vMeadowTangent*meadowN.x+vMeadowBitangent*meadowN.y+normal*meadowN.z);normal=normalize(mix(normal,meadowLitNormal,meadowMix));}`);
  };
- material.customProgramCacheKey=()=> 'meadow-sod-patch-planar-v3-packed-data';material.needsUpdate=true;
- material.userData.meadow={...p,normalFormat:'GL +Y; rows flipped once; no green-channel inversion',colorSpace:'sRGB colour; linear normal/roughness',soilPacking:'RGB colour+A height ignored; RGB normal+A roughness',uniforms:u};
+ material.customProgramCacheKey=()=>vertexCover?'meadow-coast-vertex-cover-v1':'meadow-sod-patch-planar-v3-packed-data';material.needsUpdate=true;
+ material.userData.meadow={...p,scope:vertexCover?'whole-coast':'local-patch',mask:vertexCover?'immutable vertex soil field':'prepared texture',normalFormat:'GL +Y; rows flipped once; no green-channel inversion',colorSpace:'sRGB colour; linear normal/roughness',soilPacking:'RGB colour+A height ignored; RGB normal+A roughness',uniforms:u};
  return true;
 }
 
@@ -105,9 +105,7 @@ function grassGeometry(segments){
  }
  const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(pos,3));g.setAttribute('meadowWind',new T.Float32BufferAttribute(windWeights,3));g.setAttribute('meadowCoarse',new T.Float32BufferAttribute(coarse,3));g.setAttribute('meadowCoarseNormal',new T.Float32BufferAttribute(coarseNorm,3));g.setAttribute('normal',new T.Float32BufferAttribute(norm,3));g.setAttribute('color',new T.Float32BufferAttribute(colors,3));g.setIndex(idx);g.computeBoundingSphere();return g;
 }
-export function* meadowGrassSteps(clear=()=>true){
- if(!ready)return null;
- const root=new T.Group();root.name='Local sod candidate: continuous clumps, metre-scale LOD';root.userData.meadowGrass=true;
+export function createMeadowGrassResources(){
  const near=grassGeometry(3),mid=grassGeometry(1),material=new T.MeshStandardMaterial({vertexColors:true,roughness:.94,side:T.DoubleSide});
  const wind={value:0};material.uniforms={uMeadowWind:wind};
  const vertex=`uniform float uMeadowWind;attribute vec3 meadowWind;attribute vec3 meadowCoarse;attribute vec3 meadowCoarseNormal;attribute vec4 meadowPose;attribute float meadowScale;\n`;
@@ -130,6 +128,12 @@ export function* meadowGrassSteps(clear=()=>true){
    transformed.xz+=meadowBreeze*mix(meadowWind.x,meadowWind.y,meadowShape)*pow(meadowScale*meadowCollapse/.28,2.);
   `);
  };material.customProgramCacheKey=()=> 'meadow-sod-grass-packed-wind-v2';
+ return {near,mid,material,wind};
+}
+export function* meadowGrassSteps(clear=()=>true){
+ if(!ready)return null;
+ const root=new T.Group();root.name='Local sod candidate: continuous clumps, metre-scale LOD';root.userData.meadowGrass=true;
+ const {near,mid,material,wind}=createMeadowGrassResources();
  const p=MEADOW_PATCH,dummy=new T.Object3D(),buckets=new Map();let seed=918275,count=0;const random=()=>((seed=(Math.imul(seed,1664525)+1013904223)>>>0)/4294967296);
  for(let z=p.z-p.rz*1.1;z<p.z+p.rz*1.1;z+=.23){
   yield;
@@ -144,10 +148,15 @@ export function* meadowGrassSteps(clear=()=>true){
    own.push({x:px,z:pz,a:random()*Math.PI*2,s:(.65+tuft*.55)*(.8+random()*.4)});buckets.set(key,own);count++;
   }
  }
- for(const own of buckets.values()){
+ for(const own of buckets.values())root.add(yield* meadowPackedCellSteps(own,{near,mid,material}));
+ root.userData.instanceCount=count;root.userData.wind=wind;root.userData.update=(time,reduced=false)=>{wind.value=reduced?0:time;};return root;
+}
+
+export function* meadowPackedCellSteps(own,{near,mid,material}){
+ const dummy=new T.Object3D();
   yield;
   const cx=own.reduce((s,p)=>s+p.x,0)/own.length,cz=own.reduce((s,p)=>s+p.z,0)/own.length;
-  const lod=new T.LOD();lod.position.set(cx,.14,cz);root.add(lod);
+  const lod=new T.LOD();lod.position.set(cx,.14,cz);
   const radius=Math.max(...own.map(p=>Math.hypot(p.x-cx,p.z-cz)));
   for(const [g,d]of [[near,0],[mid,12+radius+.001]]){
    // Preserve the original authored matrix's exact Float32 components, but
@@ -162,8 +171,5 @@ export function* meadowGrassSteps(clear=()=>true){
    const mesh=new T.Mesh(geometry,material);mesh.userData.meadowPacked=true;mesh.receiveShadow=true;mesh.castShadow=false;lod.addLevel(mesh,d,0);
   }
   lod.addLevel(new T.Group(),46+radius+.001,0);
-  const origins=new T.Box3();for(const p of own)origins.expandByPoint(new T.Vector3(p.x-cx,0,p.z-cz));
-  installMeadowLod(lod,origins);
- }
- root.userData.instanceCount=count;root.userData.wind=wind;root.userData.update=(time,reduced=false)=>{wind.value=reduced?0:time;};return root;
+ return lod;
 }

@@ -1,7 +1,7 @@
 import * as T from 'three';
 import {surfaceTexture} from './fantasy-scenery.js';
 
-// Local prototype template. The rest of the world's approved botany is intact.
+// Shared curved coastal template. Other biomes keep their approved botany.
 let template,paint;
 function leafTemplate(){
  if(template)return template;

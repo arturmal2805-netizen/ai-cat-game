@@ -462,7 +462,7 @@ async function localWorker() {
               const cpuBoundary=source.includes('      const profileRender =')
                 ? '      const profileRender =' : '      renderer.render(scene, camera);';
               source=source.replace(cpuBoundary,
-                '      if(window.__lagoonQA?.terrainAnchor){const a=window.__lagoonQA.terrainAnchor;chichiCarrier.position.set(a.x,a.y,a.z);chichiCarrier.rotation.y=1.5;}\n      if(window.__lagoonQA?.measure)window.__lagoonQA.cpu.push(performance.now()-qaFrameStart);\n'+cpuBoundary);
+                '      if(window.__lagoonQA?.terrainAnchor){const a=window.__lagoonQA.terrainAnchor;chichiCarrier.position.set(a.x,a.y,a.z);chichiCarrier.rotation.y=1.5;}if(window.__lagoonQA?.terrainGrassVisible!==undefined)islands.get("autumn")?.traverse(o=>{if(o.userData.meadowGrass)o.visible=window.__lagoonQA.terrainGrassVisible;});\n      if(window.__lagoonQA?.measure)window.__lagoonQA.cpu.push(performance.now()-qaFrameStart);\n'+cpuBoundary);
               if(process.env.CHICHI_ACTOR_SCOPE_AUDIT)
                 source='import {courtPath as qaScopePath,courtNavigationStats as qaScopeStats,courtSegment as qaScopeSegment} from "./foodcourt-navigation.js";\n'+source.replace(
                   "  function syncActors() {",
@@ -671,7 +671,6 @@ async function localWorker() {
       if(process.env.CHICHI_EXPLORER_STAGE==='isolation'){const {auditExplorerIsolationNative}=await import('./audit-explorer-isolation-native.mjs');await auditExplorerIsolationNative({page,review,errors,httpErrors,capture});return;}
       const {auditOceanExplorerNative}=await import('./audit-ocean-explorer-native.mjs');await auditOceanExplorerNative({page,review,errors,httpErrors,capture});return;
     }
-    if(process.env.CHICHI_TERRAIN_AUDIT&&process.env.CHICHI_MEADOW_LOD_AUDIT){const {auditMeadowLodNative}=await import('./audit-meadow-lod-native.mjs');await auditMeadowLodNative({page,review,errors,httpErrors});return;}
     if(process.env.CHICHI_TERRAIN_AUDIT&&process.env.CHICHI_TERRAIN_PROFILE){const {auditTerrainProfileNative}=await import('./audit-terrain-profile-native.mjs');await auditTerrainProfileNative({page,review,errors,httpErrors});return;}
     if(process.env.CHICHI_TERRAIN_AUDIT){
       try{const {auditTerrainNative}=await import('./audit-terrain-native.mjs');await auditTerrainNative({page,review,errors,httpErrors,assetJobs,terrainAssets});fs.writeFileSync(path.join(review,'audit-outcome.json'),JSON.stringify({completed:true,performanceAudit:!process.env.CHICHI_TERRAIN_PREVIEW,errors,httpErrors},null,2));}

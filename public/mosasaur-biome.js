@@ -1,5 +1,5 @@
-import {meadowGrassSteps} from './meadow-patch.js';
-import {installMeadowSurface} from './meadow-surface.js';
+import {createCoastMeadowGrass} from './meadow-coast-grass.js';
+import {installCoastMeadowSurfaceSteps} from './meadow-coast-surface.js';
 import {mosaCoastGardenSteps} from './mosasaur-coast-garden.js';
 import {mosaRockReefSteps} from './mosasaur-rock-reefs.js';
 import {mosaOpticalBedY} from './mosasaur-reef-data.js';
@@ -99,7 +99,7 @@ export function* mosasaurBiomeSteps(
   base.add(navigation);root.userData.navigationSurface=navigation;
   shore.name = "Wide dry beaches and walkable island ring";
   shore.receiveShadow = true;
-  if(!lowOnly)installMeadowSurface(shore);
+  const meadowSurface=!lowOnly&&(yield* installCoastMeadowSurfaceSteps(shore));
   navigation.add(shore);
   const beachOutline = new THREE.Shape();
   coastPath(beachOutline,3.7);
@@ -389,6 +389,7 @@ export function* mosasaurBiomeSteps(
   };
   root.userData.updateScenery = (...args) =>
     runSceneSteps(root.userData.scenerySteps(...args));
+  let meadowServices=null,meadowEye=null,meadowActive=false;
   let sod = null, cover = null,
     coverKey = "", retained=null;
   root.userData.placementSteps = function* (items = [], records = []) {
@@ -420,10 +421,13 @@ export function* mosasaurBiomeSteps(
         !(Math.abs(x) < 2 && z > 18),
     });
     detail.add(cover);
-    const nextSod=yield* meadowGrassSteps(clear);
-    if(sod){detail.remove(sod);disposeScenery(sod);}
-    sod=nextSod;if(sod)detail.add(sod);
+    const nextSod=meadowSurface?createCoastMeadowGrass(clear):null;
+    if(sod){sod.userData.dispose?.();detail.remove(sod);disposeScenery(sod);}
+    sod=nextSod;if(sod){detail.add(sod);if(meadowServices)sod.userData.configureMeadow(meadowServices);if(meadowEye)sod.userData.updateView(meadowEye,meadowActive);}
   };
+  root.userData.configureMeadow=services=>{meadowServices=services;sod?.userData.configureMeadow?.(services);};
+  root.userData.updateMeadowView=(eye,active)=>{if(!meadowEye)meadowEye=new THREE.Vector3();meadowEye.copy(eye);meadowActive=active;sod?.userData.updateView?.(eye,active);};
+  root.userData.meadowState=()=>sod?.userData.meadowState?.();
   root.userData.updatePlacements = (...args) =>
     runSceneSteps(root.userData.placementSteps(...args));
   yield* root.userData.placementSteps(placements, scenery);
@@ -441,6 +445,6 @@ export function* mosasaurBiomeSteps(
   };
   detail.visible = !lowOnly;
   low.visible = lowOnly;
-  root.userData.dispose = () => disposeScenery(root);
+  root.userData.dispose = () => {sod?.userData.dispose?.();disposeScenery(root);};
   return root;
 }
