@@ -2,8 +2,9 @@
 
 This is the real Mosasaur shore at local (275, -25), approximately 54 by 46
 metres. It preserves the original walking plane, saved placement coordinates,
-approved cat models, lighting, DPR and shadows. It is a local authoring stage;
-full-coast coverage is still pending visual and performance acceptance.
+approved cat models, lighting, DPR and shadows. This was the initial local authoring checkpoint. The full-coast successor
+below passed native visual, coverage, performance and route audits; see
+`docs/qa/2026-11-16/meadow.md` for the source version and evidence.
 
 Grass004 supplies the turf. Ground037 supplies exposed soil and the worn path.
 The original CC0 licences, upstream blob IDs and SHA256 checksums are recorded
