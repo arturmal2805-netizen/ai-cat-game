@@ -1,0 +1,15 @@
+{
+  "reference": "Native visually reviewed candidate v4, before packed pose optimization; no model/detail changes allowed by this optimization",
+  "sourceSha256": "487fffa43f9c0b471cd61cf6e9d56909a3f87109948ce1f195167cf6f5f8834f",
+  "instanceCount": 25364,
+  "posesSHA256": "2ede93c92c0ebb8f1ffe028f0efe0070fffaa5a4ceee7667c15b7c95b1ead135",
+  "centresSHA256": "aa3a50d5b0a5dfa673a02b7c301270da130b7e171a7f807f60d55ec0f4b5dc42",
+  "geometry": {
+    "position": "04c5936ba25b965cbe881752bd4f718db30454d4f4d6c92c57df10b6693a01b9",
+    "meadowCoarse": "0b1089240dec712d0ff67339e19e88d9f96dc54d280f08d98f742514bc243b13",
+    "meadowCoarseNormal": "d8da71c24abba2d798ac32d13f4c14fa8dcec8d2c13471d8d66c3ff047d54353",
+    "normal": "0f47c22bc6031edb8f2b9ac516f749d4cdfda272bcf0307d06ad01dbccb96763",
+    "color": "56ce6fba2b7dacfaf5d187c0b98727e1f13fea7139160daa0ab11787d67db5aa",
+    "index": "dc5afdc210e6f0e8c604144b6b1655361db00e137f4033b4202d1485e9566ca4"
+  }
+}

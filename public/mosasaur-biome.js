@@ -1,3 +1,5 @@
+import {meadowGrassSteps} from './meadow-patch.js';
+import {installMeadowSurface} from './meadow-surface.js';
 import {mosaCoastGardenSteps} from './mosasaur-coast-garden.js';
 import {mosaRockReefSteps} from './mosasaur-rock-reefs.js';
 import {mosaOpticalBedY} from './mosasaur-reef-data.js';
@@ -97,6 +99,7 @@ export function* mosasaurBiomeSteps(
   base.add(navigation);root.userData.navigationSurface=navigation;
   shore.name = "Wide dry beaches and walkable island ring";
   shore.receiveShadow = true;
+  if(!lowOnly)installMeadowSurface(shore);
   navigation.add(shore);
   const beachOutline = new THREE.Shape();
   coastPath(beachOutline,3.7);
@@ -386,7 +389,7 @@ export function* mosasaurBiomeSteps(
   };
   root.userData.updateScenery = (...args) =>
     runSceneSteps(root.userData.scenerySteps(...args));
-  let cover = null,
+  let sod = null, cover = null,
     coverKey = "", retained=null;
   root.userData.placementSteps = function* (items = [], records = []) {
     yield* root.userData.scenerySteps(records);
@@ -417,6 +420,9 @@ export function* mosasaurBiomeSteps(
         !(Math.abs(x) < 2 && z > 18),
     });
     detail.add(cover);
+    const nextSod=yield* meadowGrassSteps(clear);
+    if(sod){detail.remove(sod);disposeScenery(sod);}
+    sod=nextSod;if(sod)detail.add(sod);
   };
   root.userData.updatePlacements = (...args) =>
     runSceneSteps(root.userData.placementSteps(...args));
@@ -431,6 +437,7 @@ export function* mosasaurBiomeSteps(
   root.userData.update = (time, reduced = false) => {
     for (const g of animations) g.userData.update?.(time, reduced);
     cover?.userData.update?.(time, reduced);
+    sod?.userData.update?.(time, reduced);
   };
   detail.visible = !lowOnly;
   low.visible = lowOnly;
