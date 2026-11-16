@@ -30,13 +30,13 @@ export function installMosasaurWaterOptics(material){
    .replace('float shallow=(1.0-depth)*uLake;','depth=1.-exp2(-max(0.,vPhysicalBedDepth)*.07);float shallow=(1.0-depth)*uLake;')
    .replace('float caustic=min(1.5,fieldA.b*.7+fieldB.b*.55+fieldA.b*fieldB.b);', `
     float oceanDepth=1.-exp2(-max(0.,vPhysicalBedDepth)/35.);
-    body=mix(vec3(.018,.62,.72),vec3(.006,.28,.52),oceanDepth);
+    body=mix(vec3(.018,.62,.72),vec3(.006,.32,.58),oceanDepth);
     float caustic=min(1.5,fieldA.b*.7+fieldB.b*.55+fieldA.b*fieldB.b);`)
    .replace('vec3 color=mix(body,sky,clamp(.035+fresnel*.91,0.0,.96));',`
     // The interface scatters a little light; underwater objects retain their
     // own depth attenuation. Using the whole seabed distance here incorrectly
     // hid a creature swimming immediately beneath a two-hundred-metre ocean.
-    float oceanScatter=.045+.10*(1.-exp2(-max(0.,vPhysicalBedDepth)*.08));
+    float oceanScatter=.07+.15*(1.-exp2(-max(0.,vPhysicalBedDepth)*.08));
     float oceanSun=min(glint*.35,.18);
     float oceanReflection=clamp(fresnel+oceanSun,0.,.98);
     float oceanCoverage=oceanReflection+(1.-oceanReflection)*oceanScatter;

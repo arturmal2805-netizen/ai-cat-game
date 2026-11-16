@@ -2,12 +2,13 @@
 // depth. The attraction material, authored colours and clocks remain independent.
 export const MOSA_OCEAN_PROFILE=Object.freeze({
  version:'clear-ocean-v6',maximumDisplacement:.83,
+ scatterTint:0x258daa,scatterGain:.60,extinction:'.045,.012,.005',scatterRate:'.022',
  swells:Object.freeze([
   Object.freeze({amplitude:.50,x:.12,z:.072,omega:1.17}),
   Object.freeze({amplitude:.23,x:-.073,z:.104,omega:1.12}),
   Object.freeze({amplitude:.10,x:.039,z:-.034,omega:.71}),
  ]),
- shallow:[.018,.62,.72],deep:[.006,.28,.52],depthMetres:35,
+ shallow:[.018,.62,.72],deep:[.006,.32,.58],depthMetres:35,
 });
 // The existing approved clear-water lobe (d6fa805, composed showcase shader).
 // This reuses its analytic footprint and strength with the real coastal probe;
