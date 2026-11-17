@@ -1,0 +1,140 @@
+[
+  {
+    "index": 0,
+    "changed": true,
+    "preservedReleasedPosition": true,
+    "before": {
+      "min": -0.37720369161287337,
+      "maxRadius": 285.60022676043076
+    },
+    "after": {
+      "min": 5.612125875737323,
+      "maxRadius": 291.53841786275655
+    },
+    "translation": {
+      "dx": 5.973058941829145,
+      "dz": 0.5679497138258772
+    }
+  },
+  {
+    "index": 1,
+    "changed": true,
+    "before": {
+      "min": -24.773537296014446,
+      "maxRadius": 332.1376259790456
+    },
+    "after": {
+      "min": 5.6395229378991925,
+      "maxRadius": 378.5261908979222
+    },
+    "translation": {
+      "dx": 59.99583969515474,
+      "dz": -0.706554508367297
+    }
+  },
+  {
+    "index": 2,
+    "changed": true,
+    "before": {
+      "min": -96.40999787046958,
+      "maxRadius": 264.4294194530949
+    },
+    "after": {
+      "min": 5.88584020123254,
+      "maxRadius": 145.72380672702283
+    },
+    "translation": {
+      "dx": 4.148176576589264,
+      "dz": -243.96473644994154
+    }
+  },
+  {
+    "index": 3,
+    "changed": true,
+    "before": {
+      "min": -75.20735403296372,
+      "maxRadius": 324.95430435966364
+    },
+    "after": {
+      "min": 6.117875897193481,
+      "maxRadius": 372.37931759847334
+    },
+    "translation": {
+      "dx": -202.79191959932524,
+      "dz": -90.32960392485298
+    }
+  },
+  {
+    "index": 4,
+    "changed": true,
+    "preservedReleasedPosition": true,
+    "before": {
+      "min": -44.40889976241941,
+      "maxRadius": 280.6685378679991
+    },
+    "after": {
+      "min": 6.971060083549387,
+      "maxRadius": 327.7777560316413
+    },
+    "translation": {
+      "dx": -86.82568010504751,
+      "dz": -40.95486874958772
+    }
+  },
+  {
+    "index": 5,
+    "changed": false,
+    "before": {
+      "min": 25.120804229421747,
+      "maxRadius": 339.4382485141029
+    }
+  },
+  {
+    "index": 6,
+    "changed": false,
+    "before": {
+      "min": 33.981947829606455,
+      "maxRadius": 273.4880277680735
+    }
+  },
+  {
+    "index": 7,
+    "changed": false,
+    "before": {
+      "min": 134.11585332848296,
+      "maxRadius": 330.7412016014397
+    }
+  },
+  {
+    "index": 8,
+    "changed": false,
+    "before": {
+      "min": 175.1310417317169,
+      "maxRadius": 278.5478567884853
+    }
+  },
+  {
+    "index": 9,
+    "changed": false,
+    "before": {
+      "min": 195.94486143695346,
+      "maxRadius": 328.7304523866902
+    }
+  },
+  {
+    "index": 10,
+    "changed": false,
+    "before": {
+      "min": 116.31431056734368,
+      "maxRadius": 274.37317755122837
+    }
+  },
+  {
+    "index": 11,
+    "changed": false,
+    "before": {
+      "min": 75.64582707972214,
+      "maxRadius": 330.9497735655169
+    }
+  }
+]

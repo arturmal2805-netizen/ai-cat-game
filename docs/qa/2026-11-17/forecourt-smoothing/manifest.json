@@ -1,0 +1,214 @@
+{
+  "baseline": "fe9415cff8cdbb9dc20ed7def14fa71f6dbff968",
+  "approvedShapeCandidate": "0bf98d59c510c341de37d619dabcd5c3d48b3236",
+  "sourceHead": "a9f5629a4c7787479643d7abc80b5d6b21017d3c",
+  "node": "v22.23.5",
+  "frontDeepReachMetres": {
+    "published": 236,
+    "firstCandidate": 254,
+    "finalCandidate": 282
+  },
+  "radiusX": 192,
+  "sideGainMetresEach": 12,
+  "floor": -190,
+  "foundationUnchanged": true,
+  "wholeIslandUnchanged": true,
+  "waterCoreUnchanged": true,
+  "catModelsUnchanged": true,
+  "reefCount": 12,
+  "tests": {
+    "functionalTargeted": 25,
+    "cacheWaterRelease": 8,
+    "failed": 0
+  },
+  "native": {
+    "renderedViews": [
+      "front-overview",
+      "front-underwater",
+      "phone-front"
+    ],
+    "behavior": "candidate-v3-behavior/front-swim-reload-return.json",
+    "completedBehavior": true,
+    "notes": "First combined v3 run captured the views but failed its later SQLite assertion. Do not count it as a whole-scenario PASS. Independent repeat legitimately acquired the private simulation session and passed movement/reload/physical return. No save/collision assertions were weakened. Render views and independent behavior use the same compiled application SHA."
+  },
+  "performanceLimits": "Intermediate overview V1 had unequal buffer dimensions and was rejected. Baseline matched-overview is2804x1384. Intermediate matched overview has same camera/FOV/DPR. Final v3 visual PNGs retained; its in-memory frame timings were lost on the later failing save assertion, so no final timing win or device-FPS claim is made. Fixed model/LOD/floor-grid/shadow/DPR budgets retained.",
+  "scriptSHA256": "db3df27ba3a6df07bf24b076f86f1b8e2d74e262468fd79f060e261322321acf",
+  "styleSHA256": "d02068257c7b2b00ecdb80590c8a6bc5003849788f1400e69b6a6d6d91fb4356",
+  "files": [
+    {
+      "path": "approved-intermediate/qa-build.json",
+      "bytes": 272,
+      "sha256": "89f72a758fd20f3086ace30f72cd6a66877c4107c37ec6ff4c54da93f0eed505"
+    },
+    {
+      "path": "approved-intermediate/front-underwater.png",
+      "bytes": 4457415,
+      "sha256": "9796a5490b64a2e0127a9552ce6e675d21957cadffeb4279127ccbaaa6015fac"
+    },
+    {
+      "path": "approved-intermediate/phone-front.png",
+      "bytes": 1397712,
+      "sha256": "fab10c26bce11263230772895a2feb651838227cd86454d965aa4b5d12e8a9d5"
+    },
+    {
+      "path": "approved-intermediate/source-cached.patch",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "approved-intermediate/forecourt-native.json",
+      "bytes": 1657,
+      "sha256": "a8bb20637e8858a2f776032d73eb7e32a6f7d71a760c378050a4c97a282bb695"
+    },
+    {
+      "path": "approved-intermediate/front-overview.png",
+      "bytes": 4020210,
+      "sha256": "4e43d764c15fa637a9ec17954fbbc04a0a58a0bbd9e2c78360e180950f7063d4"
+    },
+    {
+      "path": "approved-intermediate/source-HEAD.patch",
+      "bytes": 876,
+      "sha256": "c995214dd94380c9994c8ee03078059f3fb35268d562baca2a22552b974b8bd2"
+    },
+    {
+      "path": "approved-intermediate/qa-app.js.gz",
+      "bytes": 1127215,
+      "sha256": "db420fd8e8a95893c3b9154e24c33250923425a1f27857c748b0b5c4ec5bfa4a"
+    },
+    {
+      "path": "approved-intermediate/front-swim-reload-return.json",
+      "bytes": 33564,
+      "sha256": "50fe744b42bccc2bdf973b244c8ca79416d6c65eb6e08ab063f35ff27c9c5c7e"
+    },
+    {
+      "path": "approved-intermediate/source-status.txt",
+      "bytes": 57,
+      "sha256": "51464c2bb127ff6b41a6af507875835675dbed99b852edac461d895a9886e13a"
+    },
+    {
+      "path": "baseline-matched-overview/qa-build.json",
+      "bytes": 465,
+      "sha256": "00718865a980c14ea6be346048bab56d9650a084a91be77bdc4612b290607806"
+    },
+    {
+      "path": "baseline-matched-overview/source-cached.patch",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "baseline-matched-overview/forecourt-native.json",
+      "bytes": 635,
+      "sha256": "39ce11fa2f8ba3c535ba49be722ae300e53a7c8da0321a5934494b0cabea0389"
+    },
+    {
+      "path": "baseline-matched-overview/front-overview.png",
+      "bytes": 4255235,
+      "sha256": "153ad15e02547dc16c21f09e6abc815b72b2d6d68f94d5e54d635d0138c63674"
+    },
+    {
+      "path": "baseline-matched-overview/source-HEAD.patch",
+      "bytes": 6418,
+      "sha256": "0a3b14ff9da681bb75538201af6e882ea1856f92530acfc43254df96d4008057"
+    },
+    {
+      "path": "baseline-matched-overview/qa-app.js.gz",
+      "bytes": 1127187,
+      "sha256": "b2342854c1ecdadeb8fcf125e5399b005cb248ceddd6f8fb5b71d64ee1727e7f"
+    },
+    {
+      "path": "baseline-matched-overview/source-status.txt",
+      "bytes": 189,
+      "sha256": "152fbe26e9a01cd125a3ab4158ebebaf38dfa715957961864c65fb8f20d66025"
+    },
+    {
+      "path": "candidate-v3-views/qa-build.json",
+      "bytes": 464,
+      "sha256": "fc7080463daa8a1372d5edce591d3d08d3eb5d4b7b8d3d38d97b316bb1a5da29"
+    },
+    {
+      "path": "candidate-v3-views/front-underwater.png",
+      "bytes": 4472293,
+      "sha256": "4b16dd0500dda540090f13489320ecc804931eeb9f86d89146700393fb17c4fe"
+    },
+    {
+      "path": "candidate-v3-views/phone-front.png",
+      "bytes": 1397500,
+      "sha256": "936fd6db03eaec0d58956e61eedaf3e5a4306ac09981e1d92b3b01c2b7ead0bc"
+    },
+    {
+      "path": "candidate-v3-views/source-cached.patch",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "candidate-v3-views/front-overview.png",
+      "bytes": 4265156,
+      "sha256": "425f7ef57880c4b66c69449499411fbd53a0a818fed406463c610b976073ec37"
+    },
+    {
+      "path": "candidate-v3-views/source-HEAD.patch",
+      "bytes": 48767,
+      "sha256": "28c92778f8118b0b051a657e7cc7e7ce92309a6acfd92153035835f2ca585357"
+    },
+    {
+      "path": "candidate-v3-views/qa-app.js.gz",
+      "bytes": 1127276,
+      "sha256": "31d5f7ae4d7de2951ecc479a68c09ef58496cc47198b05a0486102b54bc4a643"
+    },
+    {
+      "path": "candidate-v3-views/source-status.txt",
+      "bytes": 226,
+      "sha256": "dae407d610409da1c20385f4606a3bfc82aac50e62c6a76376d72b64993a2246"
+    },
+    {
+      "path": "candidate-v3-behavior/swim-reloaded.json",
+      "bytes": 6527,
+      "sha256": "c3f060eaed978ee620ba9c798f735c1cea4a4720da4da929700efd3fc07faad4"
+    },
+    {
+      "path": "candidate-v3-behavior/qa-build.json",
+      "bytes": 503,
+      "sha256": "5dedc68083d6abd074664dfd44c9a8a22f61034659dc37a2e5f54411807aa7da"
+    },
+    {
+      "path": "candidate-v3-behavior/source-cached.patch",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "candidate-v3-behavior/forecourt-native.json",
+      "bytes": 184,
+      "sha256": "afb5edde34d6f4178be968ede3296fbd12437a924642b59ccaabee99e025e588"
+    },
+    {
+      "path": "candidate-v3-behavior/swim-before-save.json",
+      "bytes": 20569,
+      "sha256": "4cdd52bb5ba50de53f550380454da0b53aa1a7edec35fe6beb7b22dc590e6cb2"
+    },
+    {
+      "path": "candidate-v3-behavior/source-HEAD.patch",
+      "bytes": 53303,
+      "sha256": "640c1354acaa36018d1994a57b13996c52682749b9d8fe7794059f028ab30584"
+    },
+    {
+      "path": "candidate-v3-behavior/qa-app.js.gz",
+      "bytes": 1127276,
+      "sha256": "31d5f7ae4d7de2951ecc479a68c09ef58496cc47198b05a0486102b54bc4a643"
+    },
+    {
+      "path": "candidate-v3-behavior/front-swim-reload-return.json",
+      "bytes": 34963,
+      "sha256": "553c5771ebdf8ee6ed6afea4fb93fbe1e0c485384c1797ef9ae9c216f6d4e4ee"
+    },
+    {
+      "path": "candidate-v3-behavior/swim-after-save.json",
+      "bytes": 6528,
+      "sha256": "bc7b5dfd747c3830e8d22c2df9fac286400f4d800a9a6a0a1bbdaa4f9c8f7b71"
+    },
+    {
+      "path": "candidate-v3-behavior/source-status.txt",
+      "bytes": 264,
+      "sha256": "73c99bbf477ebd2420d9ebc82ac5179570b5e6efbe9109bf2f27000dda036915"
+    }
+  ]
+}

@@ -257,3 +257,20 @@ W/S/A/D with privateSQLite reload pass. Native underwater global button also
 exits/moves/dives/rises/reboards and releases camera under World.
 Water publication must complete first. CI and HTTP receipts remain mandatory
 for this separate fix; native SwiftShader checks establish behavior, not deviceFPS.
+
+## 2026-11-17 — front-bay scope, approved shape and larger final reach
+
+Player approved intermediate0bf shape but needed more forward clearance.
+Final bay reaches282m (+46 vs live) and preserves approved broad C2 shoulder
+through bounded uniona+b-a*b. No upward fill of either released/approved floor;
+full foundation unchanged. Retain12reef templates/counts/scales/LODs. Exact
+fitting keeps wet centres, complete vertices and shore radius; bounded full-angle
+search<=360m moves interfering cliffs away rather than shrinking/hiding them.
+Node22 build,25targeted+8cache/water checks pass. Three native candidate views
+captured; combined run later failed SQLitephase. Independent behavior repeat
+legitimately acquired simulation session and passed swim atz270,SQLite reload
+and physical dock return. Do not relabel the earlier failed run asPASS or
+claim exact rootcause without its missing owner trace. Manifest records this.
+Finalrender timing rows were lost on that assertion; no device/performance win
+claimed. Next player priority: real path/door access throughout world; City
+manual navigation currently mistakes placement road reservations for walls.

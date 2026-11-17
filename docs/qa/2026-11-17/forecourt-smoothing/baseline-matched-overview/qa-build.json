@@ -1,0 +1,8 @@
+{
+  "sha256": "2bb667b954aa4754c2ddba2318d79eaac81852d49ab4499312ab13b38fe3858f",
+  "baseline": "fe9415cff8cdbb9dc20ed7def14fa71f6dbff968",
+  "node": "v22.23.5",
+  "head": "0bf98d59c510c341de37d619dabcd5c3d48b3236",
+  "dirty": " M public/index.html\n M public/mosasaur-reef-manifest.js\n M scripts/audit-forecourt-native.mjs\n M scripts/check-aquarium.cjs\n?? public/art/ocean-reflections/tropical-coast-6f814aa3a900.png\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

@@ -1,0 +1,8 @@
+{
+  "sha256": "767fd69f28817522a09fe70df2340ded8244eac9c1852834e05dd907aad98e8b",
+  "baseline": null,
+  "node": "v22.23.5",
+  "head": "a9f5629a4c7787479643d7abc80b5d6b21017d3c",
+  "dirty": " D public/art/ocean-reflections/tropical-coast-9b818f2f91cd.png\n M public/index.html\n M public/mosasaur-reef-manifest.js\n M public/mosasaur-water-probe-assets.js\n?? public/art/ocean-reflections/tropical-coast-509a62f9c210.png\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

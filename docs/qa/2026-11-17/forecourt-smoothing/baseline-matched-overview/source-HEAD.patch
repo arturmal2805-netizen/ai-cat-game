@@ -1,0 +1,50 @@
+diff --git a/public/index.html b/public/index.html
+index 744eecf..ab34313 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -703,6 +703,6 @@
+       </div>
+     </dialog>
+     <div id="toast" role="status" aria-live="polite" hidden></div>
+-    <script type="module" src="./dist/app.js?v=0ca625bd2ecf9aa7"></script>
++    <script type="module" src="./dist/app.js?v=f2738a8b38f99229"></script>
+   </body>
+ </html>
+diff --git a/public/mosasaur-reef-manifest.js b/public/mosasaur-reef-manifest.js
+index 7dfbf56..37e226a 100644
+--- a/public/mosasaur-reef-manifest.js
++++ b/public/mosasaur-reef-manifest.js
+@@ -1,2 +1,2 @@
+ // Shared offline rock sculpts, bounded LOD indices and optical depth; selected ocean only.
+-export const MOSA_REEF_URL='./models/reefs/organic-reef-a2a6ef5269513a00.bin';
++export const MOSA_REEF_URL='./models/reefs/organic-reef-3fce74af02cf6f25.bin';
+diff --git a/scripts/audit-forecourt-native.mjs b/scripts/audit-forecourt-native.mjs
+index d4c5a93..ead8ce8 100644
+--- a/scripts/audit-forecourt-native.mjs
++++ b/scripts/audit-forecourt-native.mjs
+@@ -9,9 +9,10 @@ export async function auditForecourt({page,review,errors,httpErrors}){
+   {name:'front-overview',eye:[0,500,650],target:[0,-70,100],distance:500},
+   {name:'front-underwater',eye:[95,-153,255],target:[0,-184,165],distance:110},
+   {name:'phone-front',eye:[55,-161,245],target:[0,-185,165],distance:90,phone:true},
+- ]){
++ ].filter(s=>!process.env.CHICHI_FORECOURT_VIEW||s.name===process.env.CHICHI_FORECOURT_VIEW)){
+   await page.setViewportSize(spec.phone?{width:390,height:844}:{width:1440,height:812});
+-  const row=await page.evaluate(spec=>{const q=__lagoonQA,b=q.islands.get('autumn');q.manualFrames=true;q.drawPaused=true;q.setGameHour(12);q.terrainClock=7;q.reviewView(b.position.x+spec.target[0],b.position.z+spec.target[2],spec.distance);q.oceanReviewCamera={eye:[b.position.x+spec.eye[0],spec.eye[1],b.position.z+spec.eye[2]],target:[b.position.x+spec.target[0],spec.target[1],b.position.z+spec.target[2]]};q.gpuFrames.clear();q.manualStepping=true;try{q.step(performance.now()+100);}finally{q.manualStepping=false;}const gl=q.renderer.getContext(),pixels=new Uint8Array(gl.drawingBufferWidth*gl.drawingBufferHeight*4),frames=[];for(let i=0;i<3;i++){const at=performance.now();q.gpuFrames.clear();q.drawFrame();gl.readPixels(0,0,gl.drawingBufferWidth,gl.drawingBufferHeight,gl.RGBA,gl.UNSIGNED_BYTE,pixels);frames.push(performance.now()-at);}return{png:q.renderer.domElement.toDataURL('image/png').split(',')[1],camera:q.camera.position.toArray(),target:q.look.toArray(),dpr:q.renderer.getPixelRatio(),exposure:q.renderer.toneMappingExposure,fov:q.camera.fov,calls:q.renderer.info.render.calls,triangles:q.renderer.info.render.triangles,geometries:q.renderer.info.memory.geometries,textures:q.renderer.info.memory.textures,heap:performance.memory?.usedJSHeapSize,completeSynchronizedFrameMs:frames,lost:gl.isContextLost()};},spec);
++  await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
++  const row=await page.evaluate(({spec,samples})=>{const q=__lagoonQA,b=q.islands.get('autumn');q.manualFrames=true;q.drawPaused=true;q.setGameHour(12);q.terrainClock=7;q.reviewView(b.position.x+spec.target[0],b.position.z+spec.target[2],spec.distance);q.oceanReviewCamera={eye:[b.position.x+spec.eye[0],spec.eye[1],b.position.z+spec.eye[2]],target:[b.position.x+spec.target[0],spec.target[1],b.position.z+spec.target[2]]};q.gpuFrames.clear();q.manualStepping=true;try{q.step(performance.now()+100);}finally{q.manualStepping=false;}const gl=q.renderer.getContext(),pixels=new Uint8Array(gl.drawingBufferWidth*gl.drawingBufferHeight*4),frames=[];for(let i=0;i<samples;i++){const at=performance.now();q.gpuFrames.clear();q.drawFrame();gl.readPixels(0,0,gl.drawingBufferWidth,gl.drawingBufferHeight,gl.RGBA,gl.UNSIGNED_BYTE,pixels);frames.push(performance.now()-at);}return{png:q.renderer.domElement.toDataURL('image/png').split(',')[1],camera:q.camera.position.toArray(),target:q.look.toArray(),dpr:q.renderer.getPixelRatio(),exposure:q.renderer.toneMappingExposure,fov:q.camera.fov,calls:q.renderer.info.render.calls,triangles:q.renderer.info.render.triangles,geometries:q.renderer.info.memory.geometries,textures:q.renderer.info.memory.textures,heap:performance.memory?.usedJSHeapSize,completeSynchronizedFrameMs:frames,lost:gl.isContextLost()};},{spec,samples:Number(process.env.CHICHI_FORECOURT_SAMPLES||3)});
+   assert.equal(row.dpr,2);assert.equal(row.exposure,1);assert.equal(row.lost,false);await writeFile(join(review,spec.name+'.png'),Buffer.from(row.png,'base64'));delete row.png;rows.push({name:spec.name,...row});console.log('Captured',spec.name);
+  }
+  if(process.env.CHICHI_FORECOURT_CHECK_MOVEMENT){
+diff --git a/scripts/check-aquarium.cjs b/scripts/check-aquarium.cjs
+index ee41917..05e5884 100644
+--- a/scripts/check-aquarium.cjs
++++ b/scripts/check-aquarium.cjs
+@@ -686,7 +686,7 @@ async function localWorker() {
+       fs.writeFileSync(path.join(review,'source-cached.patch'),sourceGit(['diff','--cached','--binary']));
+       const dirty=sourceGit(['status','--porcelain=v1']).toString();
+       fs.writeFileSync(path.join(review,'source-status.txt'),dirty);
+-      fs.writeFileSync(path.join(review,'qa-build.json'),JSON.stringify({sha256:crypto.createHash('sha256').update(output.outputFiles[0].contents).digest('hex'),node:process.version,head:sourceGit(['rev-parse','HEAD']).toString().trim(),dirty,sourceOverlay:'source-HEAD.patch'},null,2));
++      fs.writeFileSync(path.join(review,'qa-build.json'),JSON.stringify({sha256:crypto.createHash('sha256').update(output.outputFiles[0].contents).digest('hex'),baseline:process.env.CHICHI_BASELINE_REF||null,node:process.version,head:sourceGit(['rev-parse','HEAD']).toString().trim(),dirty,sourceOverlay:'source-HEAD.patch'},null,2));
+       if(process.env.CHICHI_FORECOURT_AUDIT){const {auditForecourt}=await import('./audit-forecourt-native.mjs');await auditForecourt({page,review,errors,httpErrors});return;}
+       if(process.env.CHICHI_OCEAN_AREA_AUDIT){const {auditOceanAreaNative}=await import('./audit-ocean-area-native.mjs');await auditOceanAreaNative({page,review,errors,httpErrors,baseline:!!baseline});return;}
+       if(process.env.CHICHI_GLOBAL_BUTTON_AUDIT){const {auditGlobalButton}=await import('./audit-global-button.mjs');await auditGlobalButton({page,review,errors,httpErrors});return;}

@@ -1,0 +1,89 @@
+{
+  "completed": true,
+  "rows": [
+    {
+      "name": "front-overview",
+      "camera": [
+        -450,
+        500,
+        1150
+      ],
+      "target": [
+        -450,
+        -70,
+        600
+      ],
+      "dpr": 2,
+      "exposure": 1,
+      "fov": 40,
+      "calls": 1694,
+      "triangles": 15050046,
+      "geometries": 1119,
+      "textures": 67,
+      "heap": 969160092,
+      "completeSynchronizedFrameMs": [
+        23575.09999999404,
+        17945.20000000298,
+        17584.5
+      ],
+      "lost": false
+    },
+    {
+      "name": "front-underwater",
+      "camera": [
+        -355,
+        -153,
+        755
+      ],
+      "target": [
+        -450,
+        -184,
+        665
+      ],
+      "dpr": 2,
+      "exposure": 1,
+      "fov": 40,
+      "calls": 835,
+      "triangles": 8360496,
+      "geometries": 1059,
+      "textures": 69,
+      "heap": 931922210,
+      "completeSynchronizedFrameMs": [
+        11153.29999999702,
+        9704.5,
+        10007.20000000298
+      ],
+      "lost": false
+    },
+    {
+      "name": "phone-front",
+      "camera": [
+        -395,
+        -161,
+        745
+      ],
+      "target": [
+        -450,
+        -185,
+        665
+      ],
+      "dpr": 2,
+      "exposure": 1,
+      "fov": 40,
+      "calls": 578,
+      "triangles": 5560237,
+      "geometries": 987,
+      "textures": 73,
+      "heap": 953850919,
+      "completeSynchronizedFrameMs": [
+        3820.10000000149,
+        3516.60000000149,
+        3805.5
+      ],
+      "lost": false
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "limitations": "Full native private game, DPR2. Three synchronized software-GPU frames are not device FPS."
+}

@@ -1,0 +1,7 @@
+{
+  "sha256": "bc10682d4315604fd38ac1ab2fadb4f9a1aa9902d197956a7a92d5cf64fb98ea",
+  "node": "v22.23.5",
+  "head": "0bf98d59c510c341de37d619dabcd5c3d48b3236",
+  "dirty": " M public/index.html\n M public/mosasaur-reef-manifest.js\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

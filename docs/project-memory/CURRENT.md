@@ -149,3 +149,20 @@ Actualprobe/Node22build пересчитываются для этойверси
 Старый0bf вариант иегоnativePASS сохранены; егообзорV1 имелразныйaspect,
 сравнениепереснятоV2 сдвумяRAF до кадра,2804×1384 обе стороны.
 Одобрениеформы не означает одобрение всей водыилиhardwareFPS.
+
+## Финальный front-кандидат отправляется в CI
+
+Новыйfront+46m (282 вместо236), боковаяформа0bf сохранена unionC2.
+Node22build,25targeted +8cache/water guards PASS. ТриcandidatePNG сохранены;
+первыйсовмещённыйrun остановился наSQLitephase, не считатьцелымPASS.
+Повторотдельногоbehavior legitimatelyclaimEditor:actualswim наz270,
+SQLite reload, retainedmoney/items/placements, physicalautonomous dock PASS.
+Production app/world/economy/schema/merge не менялись, коллизии не ослаблялись.
+ОдинаковыйcompiledQA SHA уrender/behavior;manifest отмечает ограничение
+потерянных finalrender timings ине делаетhardwareFPS promises.
+После полногоCI проверитьactualJS/CSS/probe/reef, затемвзяться за дорожки,
+входыТРЦ, двери всехдомов/офисов по последнемузапросу. ИсточникCitybug найден:
+manualSurface применяетbuilderObstacles сjobReservations, где зарезервированы
+сами дороги/парковка — это placementexclusions, не физическиестены.
+Требуетсясобственнаяactualnavigation с двернымипроёмами иполнымbody sweep.
+Не уменьшатьрадиус/не выключатьколлизии/не телепортироватьдляпрохождения.

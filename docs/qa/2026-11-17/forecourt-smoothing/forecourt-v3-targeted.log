@@ -1,0 +1,33 @@
+✔ only the front bay grows modestly, keeping its depth and the released Mall foundation (77.098825ms)
+✔ smoothing never fills released swimming space, and far floor remains exact (201.21917ms)
+✔ the forward extension joins the approved shoulder with zero first and second excavation derivatives (0.512156ms)
+✔ an old pilot inside the new mall resumes in nearby open water at the same depth and with its pose (22.360496ms)
+✔ faster swept driving stops at the real front glass and vertical controls cannot cross either roof or ground slab (350.719301ms)
+✔ refitting keeps all twelve original detailed reef templates, scales and unchanged colonies (7221.976984ms)
+✔ ocean expansion preserves every other released biome and every other bridge exactly (14.310444ms)
+✔ underwater exit, third-person camera-relative swimming axes, dive, reboard and release use actual runtime (177.735305ms)
+✔ swimmer and released pilot restore without resetting wallets, inventory or camera ownership (209.195093ms)
+✔ pressure airlock never opens both doors; entry and exit reach their real endpoints (1.578059ms)
+✔ swimmer swept collision rejects sealed Mall shell and malformed explorer records (88.679865ms)
+✔ manual swimming stops on release, blur and entry into text editing (9.644577ms)
+✔ look orbit leaves a stationary cat facing forward and releasing a look drag preserves a held movement key (19.079403ms)
+✔ released explorer cannot cancel a newly selected mall overview or visitor camera (8.179734ms)
+✔ hidden canvas gestures move/look independently, dive with two fingers and stop on release (14.50078ms)
+✔ E chooses the real boat or door in view when both are within reach (9.505821ms)
+✔ phone buttons allow independent held movement and depth; cancellation and blur clear only their owned inputs (10.224232ms)
+✔ phone control anchor tracks the visible viewport when the game canvas extends below it (5.16914ms)
+✔ submarine accelerates, reverses, steers, dives, brakes and switches no currencies or NPC state (133.310479ms)
+✔ real-time long frames do not tunnel through terrain or cave/ruin capsules (729.421333ms)
+✔ safe entry/exit remains at the dedicated pier and invalid saved coordinates cannot strand the cat (23.165175ms)
+✔ space gives a real ballistic water breach and shift descends again (61.065403ms)
+✔ real save/load and cached shared clients retain the pilot pose without losing purchases or wallet (159.046408ms)
+✔ a steep reef wall brakes a fast boat rather than lifting it onto the ledge (288.450992ms)
+✔ return leaves both real cavern roofs through their openings before ascending to the pier (670.439625ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7897.178243

@@ -1,0 +1,20 @@
+diff --git a/public/index.html b/public/index.html
+index 744eecf..ab34313 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -703,6 +703,6 @@
+       </div>
+     </dialog>
+     <div id="toast" role="status" aria-live="polite" hidden></div>
+-    <script type="module" src="./dist/app.js?v=0ca625bd2ecf9aa7"></script>
++    <script type="module" src="./dist/app.js?v=f2738a8b38f99229"></script>
+   </body>
+ </html>
+diff --git a/public/mosasaur-reef-manifest.js b/public/mosasaur-reef-manifest.js
+index 7dfbf56..37e226a 100644
+--- a/public/mosasaur-reef-manifest.js
++++ b/public/mosasaur-reef-manifest.js
+@@ -1,2 +1,2 @@
+ // Shared offline rock sculpts, bounded LOD indices and optical depth; selected ocean only.
+-export const MOSA_REEF_URL='./models/reefs/organic-reef-a2a6ef5269513a00.bin';
++export const MOSA_REEF_URL='./models/reefs/organic-reef-3fce74af02cf6f25.bin';
