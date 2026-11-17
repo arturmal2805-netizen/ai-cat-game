@@ -1,0 +1,113 @@
+TAP version 13
+# Cloudflare AI returned an invalid decision: Выбери ровно один доступный предмет с activityId или котика с friendId и совместимое действие. Choose an available physical object
+# Subtest: release readiness waits for the current commit and protocol without calling AI
+ok 1 - release readiness waits for the current commit and protocol without calling AI
+  ---
+  duration_ms: 26.065314
+  type: 'test'
+  ...
+# Subtest: an old 200 reply like the screenshot is rejected as an old deployment before decision parsing
+ok 2 - an old 200 reply like the screenshot is rejected as an old deployment before decision parsing
+  ---
+  duration_ms: 1.133003
+  type: 'test'
+  ...
+# Subtest: persistent old deployment fails with an actionable version diagnosis
+ok 3 - persistent old deployment fails with an actionable version diagnosis
+  ---
+  duration_ms: 2.053721
+  type: 'test'
+  ...
+# Subtest: matching release alone cannot hide a missing AI binding or wrong response header
+ok 4 - matching release alone cannot hide a missing AI binding or wrong response header
+  ---
+  duration_ms: 1.124039
+  type: 'test'
+  ...
+# Subtest: the Worker exposes the deployed commit and enforces physical IDs after readiness
+ok 5 - the Worker exposes the deployed commit and enforces physical IDs after readiness
+  ---
+  duration_ms: 121.278611
+  type: 'test'
+  ...
+# Subtest: incomplete physical answers remain failures even on the expected deployment
+ok 6 - incomplete physical answers remain failures even on the expected deployment
+  ---
+  duration_ms: 2.553839
+  type: 'test'
+  ...
+# Subtest: deployment stamps use the actual checkout SHA rather than a development label
+ok 7 - deployment stamps use the actual checkout SHA rather than a development label
+  ---
+  duration_ms: 0.228848
+  type: 'test'
+  ...
+# Subtest: publication requires the cloud storage binding as well as AI readiness
+ok 8 - publication requires the cloud storage binding as well as AI readiness
+  ---
+  duration_ms: 0.500048
+  type: 'test'
+  ...
+# Subtest: a visible dragon cat beyond the old 45-unit cutoff stays visible through ordinary orbit and zoom, without moving its carrier
+ok 9 - a visible dragon cat beyond the old 45-unit cutoff stays visible through ordinary orbit and zoom, without moving its carrier
+  ---
+  duration_ms: 279.019213
+  type: 'test'
+  ...
+# Subtest: navigation radius stays constant through breathing for ordinary, tiny and giant approved cats
+ok 10 - navigation radius stays constant through breathing for ordinary, tiny and giant approved cats
+  ---
+  duration_ms: 2514.551564
+  type: 'test'
+  ...
+# Subtest: hidden scene branches skip all descendant matrix work and refresh correctly after movement or explicit camera queries
+ok 11 - hidden scene branches skip all descendant matrix work and refresh correctly after movement or explicit camera queries
+  ---
+  duration_ms: 0.972255
+  type: 'test'
+  ...
+# Subtest: navigation cache is bounded even when many different actor sizes request routes
+ok 12 - navigation cache is bounded even when many different actor sizes request routes
+  ---
+  duration_ms: 482.467113
+  type: 'test'
+  ...
+# Subtest: all 50 fish and 120 bubbles keep geometry and GPU instance buffers stable during swimming and reduced motion
+ok 13 - all 50 fish and 120 bubbles keep geometry and GPU instance buffers stable during swimming and reduced motion
+  ---
+  duration_ms: 394.172047
+  type: 'test'
+  ...
+# Subtest: 55 fireflies retain their exact sphere detail and three colours without per-frame matrix uploads
+ok 14 - 55 fireflies retain their exact sphere detail and three colours without per-frame matrix uploads
+  ---
+  duration_ms: 1.117799
+  type: 'test'
+  ...
+# Subtest: cooperative geometry bounds match Three exactly and preserve half-float data without a duplicate buffer
+ok 15 - cooperative geometry bounds match Three exactly and preserve half-float data without a duplicate buffer
+  ---
+  duration_ms: 1.905322
+  type: 'test'
+  ...
+# Subtest: idle reward polls reuse the world and cached Kyiv dates respect midnight and DST
+ok 16 - idle reward polls reuse the world and cached Kyiv dates respect midnight and DST
+  ---
+  duration_ms: 81.093406
+  type: 'test'
+  ...
+# Subtest: linear bulk register reads preserve coins, diamonds and XP timers for a large world
+ok 17 - linear bulk register reads preserve coins, diamonds and XP timers for a large world
+  ---
+  duration_ms: 59.098291
+  type: 'test'
+  ...
+1..17
+# tests 17
+# suites 0
+# pass 17
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4239.096541

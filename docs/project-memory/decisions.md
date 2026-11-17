@@ -209,3 +209,11 @@ Reuse one real carrier and existing water/Mall physics; guard all ordinary hero
 owners while land manual is active. Native V7 keyboard, actual touch, camera
 release and SQLite reload pass. Node22 build/50 targeted tests and ownership
 phone audit pass. This records verified WIP, not publication or art approval.
+
+## 2026-11-17 — global control and exact Mall palette published
+
+e25f6ffd3ab4cab2d3595a337573699bbaa4d3c2: full CI44134464517 and actual
+HTTP assets passed; one application entry, JS89f628b72c238b03/CSSd02068257c7b2b00.
+Use CURRENT and global-control-publication receipts for complete hashes.
+Publication and verified behavior are separate from player visual approval and
+physical-device FPS. The previous six-second gap remains an open investigation.
