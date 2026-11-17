@@ -210,32 +210,26 @@ owners while land manual is active. Native V7 keyboard, actual touch, camera
 release and SQLite reload pass. Node22 build/50 targeted tests and ownership
 phone audit pass. This records verified WIP, not publication or art approval.
 
-## 2026-11-17 — global control and exact Mall palette published
+## 2026-11-17 — water-only expansion; explicit next bug is global WASD
 
-e25f6ffd3ab4cab2d3595a337573699bbaa4d3c2: full CI44134464517 and actual
-HTTP assets passed; one application entry, JS89f628b72c238b03/CSSd02068257c7b2b00.
-Use CURRENT and global-control-publication receipts for complete hashes.
-Publication and verified behavior are separate from player visual approval and
-physical-device FPS. The previous six-second gap remains an open investigation.
+The player authorized publishing the island/water increment, then reported that
+third-person W/A/D movement does not work throughout the world. This supersedes
+the initial home-only report. Fix immediately after this publication. The prior
+short native A-key fixture does not establish live whole-world input correctness.
+Check mode ownership, permissions/busy-AI coupling and actual input/frame state.
+Mall development is explicitly removed from the queue; d3ecc7a is archival WIP.
 
-## 2026-11-17 — island/water release before the deferred Mall
+Native expanded-water entry/movement/reload and physical autonomous dock return
+passed, as did the separate phone ownership/two-SQLite-reload audit. The ocean
+received an actual new coast probe; all eight attraction PNGs are unchanged.
+Soil rows adapt inside the recovered narrower shore, retaining boundaries,
+walk height, cap area and up-facing triangles. The old >60m assertion correctly
+exposed that an unadapted grid would overshoot; do not just suppress that guard.
 
-Latest player instruction explicitly postpones Mall changes to a later release.
-Do not merge d3ecc7a (four added real galleries) into the ocean increment.
-That WIP is preserved on codex/mall-cyberpunk-detail; native acceptance pending.
-
-Active ocean candidate 10abb0f on codex/ocean-area-expansion is based on live
-e25f6ff. Only selected area/shore-preservation changes were reused from old
-f5f89c, not its heavy forecourt meshes, benthic rocks or coral implementation.
-The old radius416.3 intersected the future residential strip despite clearing
-its first district centre. Preserve the actual complete strip and both visible
-shore margins: outer radius397.7, water area exactly2x, no moved purchases.
-The first imported geometry test exposed this; the old WIP was not automatically
-restored or promoted as previously checked.
-
-A shared physical forecourt envelope now drives the floor and offline fitting
-of every original rock vertex down to190m depth. Do not check only the Mall's
-upper171m band and leave submerged rock bulk blocking the deeper channel.
-Keep the Mall source geometry/materials unchanged in this water-only stage.
-The candidate still requires native captures, new reflection/reef resources,
-private ownership/reload, full CI and HTTP verification before publication.
+Offline geographic PNG comparisons are not an exact whole-scene FPS A/B: the
+hero fixture differs, and the new deep-phone camera is below the former floor.
+Do not derive a hardware FPS claim from these timings. Existing global scene
+lights are constant across the two game hours; no fake QA night light is used.
+Exact triangle/vertex/LOD hashes remain for rock/coral templates. Their cached
+anchors and optical depth are now checked against regenerated expanded geometry,
+not stale b805 world-position hashes. No historical source fixture was rewritten.
