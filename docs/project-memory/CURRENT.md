@@ -4,44 +4,53 @@
 потребовал пользователь: сразу ПОСЛЕ дна, без уменьшения моделей/численности,
 графики, DPR, теней, сохранений или покупок.
 
-## Новый performance release отправлен, ещё не подтверждён live
+## Подтверждённый первый performance release
 
-Main/source **1f96a1b6ce17435bc6aa845db1ba6e52d88a56cd**. CI44101398484
-https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44101398484
-в работе. Expected JSb762b19233cfc25b514f49ecb335200116b5f77494d7030c6326e221d0310095,
-CSS прежнийc14ce840… . Verifier /tmp/verify-floor-culling-release.py пишет
-/workspace/qa/floor-culling-publication/verification.exit. До exit0 latestlive06.
-Сборка immutable /workspace/chichi-ocean-performance, больше там не редактировать.
-31targeted+12release PASS Node22; actual ocean rebake PNGнеизменён.
-Native fullMall/65resident stress/DPR2 colour+shadow A/B: underwater/overview/
-phone имеют ZERO changed RGBA channels;54sections ->6/32/3. Geometry/GPUbytes
-не уменьшались, модели/сохраняемые данные неизменны. Single SwiftShader pairs
-не обещаниеMacFPS, total drawdelta дополнительно включает native static cache
-settling; достоверно только точное отсечение floor sections.
-Source+PNG+QA https://github.com/arturmal2805-netizen/ai-cat-game/blob/1f96a1b6ce17435bc6aa845db1ba6e52d88a56cd/docs/qa/2026-11-17/ocean-performance/manifest.json
+**1f96a1b6ce17435bc6aa845db1ba6e52d88a56cd** опубликован, полный CI44101398484
+SUCCESS всех3jobs. Actual HTTP14:33:40UTC: JSb762b19233cfc25b514f49ecb335200116b5f77494d7030c6326e221d0310095,
+CSS c14ce8408f8f3aed7a5e7991eca39663fe55377343421ff62e0600ada4c048ef,
+wavefield/all9probes/reef.gz совпали; HTMLoneappscript.
+[Workflow/live receipts](../qa/2026-11-17/floor-culling-publication/live-verification.json).
+https://arturmal2805-netizen.github.io/ai-cat-game/?v=1f96a1b&profile=1
+Native actual fullMall/65residents/DPR2 floor A/B сохранил все pixels;
+54floorsections →6/32/3. Это первая небольшая экономия, не обещание60FPSMac.
+Runtime immutable /workspace/chichi-ocean-performance, веткаcodex/ocean-performance.
 
-Следующий isolated WIP: /workspace/chichi-mall-submit-performance,
-codex/mall-submit-performance, база1f96a1b. Трассировка16.6Mtri показала~10.3M
-у этажейMall, rapid refaults НЕ повторились в stationary24frame run (не прогулка).
-Найдено: room-light перезаписывает static #undef USE_BATCHING, cutaway меняет
-hookidentity; guard правильно откатывает меши в native, теряется range culling.
-Кандидат сохраняет предыдущий shader, идемпотентен для sharedmaterials, явно
-регистрирует ТОЛЬКО эти два position-preserving hooks. Unknown wind/refraction/
-key/geometry changes по-прежнему nativefallback.V1 отклонён shadererrors duplicateuMallProbe: обе картинки были битыми,
-нулевая pixel difference не подтверждала качество. Исправлено сохранением
-ТОЛЬКО известного static wrapper; старый Mall reflection заменяется как прежде.
-8unit+26release PASS. NativeV2 /workspace/qa/mall-static-native-v2/mall-static.json
-PASS: interior/overview/phoneDPR2 ZERO pixel/shader/page/HTTP errors. Triangle
-submissions11.2→5.46M,13.38→10.02M,10.73→3.94M. GPUbuffers unchanged. Single
-SwiftShader pairs interior/phone faster,overview+.53%noise; hardware неизвестен.
-Оба bakers пересняты,9reflectionPNG неизменны, producer static-submissions
-добавлен в оба списка. Ветка codex/mall-submit-performance source0b38098
-с полным build/source/PNG: docs/qa/2026-11-17/mall-static-submit/manifest.json.
-Готово локально/native, НЕ опубликовано. Pushmain только ПОСЛЕ CI/live1f,
-чтобы не отменить предыдущую публикацию. Новый report указывает наJSf8/06,
-26frames1.35s/18.52FPS НЕ сопоставимы с прежними300frames. GPU28.24ms,
-15.718Mtri, in-windowzero refaults/bufferData; texture loading8-10s отдельныйэтап.
-Не переносить неизвестные animatedshaders вstatic; не менять вершины/LOD/DPR.
+## Следующий Mall fix в main/CI, ЕЩЁ НЕ опубликован
+
+**0b38098a32e338a89b88efd784b184e9ac72c3f3** отправлен в main ТОЛЬКО после
+HTTPverification1f. CI44104460487 в работе:
+https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44104460487
+ExpectedJSdbe5f20f39f2f67ab258a143614fba517f1588f0dd839d590b3fc90d5dfd71d9,
+CSS прежнийc14ce840… . Verifier /tmp/verify-mall-submit-release.py пишет
+/workspace/qa/mall-submit-publication/verification.exit. Latestlive пока1f.
+Immutable source/assets /workspace/chichi-mall-submit-performance,
+веткаcodex/mall-submit-performance. Source9499bc9 + release0b38098.
+
+Найден rootcause: room-light/cutaway устанавливаются ПОСЛЕ batchModelSteps;
+прежний guard корректно выключал multi-draw после сменыhookidentity. Теперь
+только эти два auditedposition-preservinghooks сохраняют exactranges. Room
+lighting сохраняет ТОЛЬКО известный staticwrapper, старыйreflectionfinish
+заменяется как прежде; sharedmaterials идемпотентны. Unknown wind/refraction/
+geometry/key changes остаютсяnativefallback.8unit+26releasePASS, NativeV2
+actualfullgame/65residents/DPR2 interior/overview/phone:0shader/page/HTTPerrors,
+ZEROchangedRGBA. Tri11.2→5.46M,13.38→10.02M,10.73→3.94M; GPUbuffersнеизменны.
+SingleSwiftShaderpairs неMacFPS: interior/phone быстрее,overview+.53%noise,
+не статистическая гарантия. Обаbakers реально пересняты,9PNG неизменны;
+static-submissions producer включён в обаinputlists. V1отклонён заdouble
+uMallProbe —0pixeldifference у двух битых кадров НЕ успех. Все исходники/QA/PNG:
+https://github.com/arturmal2805-netizen/ai-cat-game/blob/0b38098a32e338a89b88efd784b184e9ac72c3f3/docs/qa/2026-11-17/mall-static-submit/manifest.json
+
+Дополнительный nativeQA без изменения production:
+/workspace/chichi-mall-submit-verification, codex/mall-submit-verification,
+база0b. ВыбранныеMcD/Vuittoncutaway + phoneinside сравниваются с полностью
+native MeshDepthMaterial (не толькоbatchoff), затемprivateSQLitecoins/inventory/
+placements reload. /workspace/qa/mall-static-store-native.log/.exit. Пока вработе.
+
+Второй report игрока: JSf8/06a39cb,26frames1.35s,18.52FPSне сравнивать с
+прежними300frames. GPU28.24ms/15.718Mtri,zeroin-windowrefaults/bufferData.
+Loadingtextures8–10s иAIplan17.4s — отдельное будущее расследование; не гонять
+paidAI заново радибенчмарка. Safe summary docs/qa/2026-11-17/player-fps-report-2-summary.json.
 
 ## Подтверждённый релиз всего дна
 
