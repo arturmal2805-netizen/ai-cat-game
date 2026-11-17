@@ -259,3 +259,16 @@ pushed to main/codex/global-manual-input. CI44176344655 pending/in progress,
 not yet published. Exact native/SQLite82test/build proof exists in that commit.
 Initial promotion failed before file changes because history directory absent;
 mkdir fixed the helper. No reset/rebase/graphics reductions/MallWIP merged.
+
+## 2026-11-17 — manual takeover fix confirmed published
+
+Release fe9415cff8cdbb9dc20ed7def14fa71f6dbff968, CI44176344655 complete test/deploy/pages
+SUCCESS including actual server/shared-save verification. HTTP2026-11-17T21:18:40.630742+00:00
+confirmed ONE app script, JS0ca625bd2ecf9aa7b3b766306bce047b5f27b882be64ab0f3261058b2ea46c88,
+CSSd02068257c7b2b00ecdb80590c8a6bc5003849788f1400e69b6a6d6d91fb4356 plus all
+wave/probe/reef resources. Source/public models, water profiles, collider sizes
+and economy merge semantics retained. Native desktop/phone/pendingAI/SQLite/
+underwater route subsets and82targeted tests passed before this fullCI.
+Publication followed water f09c3f3 only after its complete CI+HTTP receipt.
+Mall WIP remains off queue. This proves behavior/release, not hardware FPS or
+user art acceptance. Expected release public roots remain immutable.
