@@ -1,0 +1,12 @@
+diff --git a/scripts/check-aquarium.cjs b/scripts/check-aquarium.cjs
+index aac8543..ee41917 100644
+--- a/scripts/check-aquarium.cjs
++++ b/scripts/check-aquarium.cjs
+@@ -687,6 +687,7 @@ async function localWorker() {
+       const dirty=sourceGit(['status','--porcelain=v1']).toString();
+       fs.writeFileSync(path.join(review,'source-status.txt'),dirty);
+       fs.writeFileSync(path.join(review,'qa-build.json'),JSON.stringify({sha256:crypto.createHash('sha256').update(output.outputFiles[0].contents).digest('hex'),node:process.version,head:sourceGit(['rev-parse','HEAD']).toString().trim(),dirty,sourceOverlay:'source-HEAD.patch'},null,2));
++      if(process.env.CHICHI_FORECOURT_AUDIT){const {auditForecourt}=await import('./audit-forecourt-native.mjs');await auditForecourt({page,review,errors,httpErrors});return;}
+       if(process.env.CHICHI_OCEAN_AREA_AUDIT){const {auditOceanAreaNative}=await import('./audit-ocean-area-native.mjs');await auditOceanAreaNative({page,review,errors,httpErrors,baseline:!!baseline});return;}
+       if(process.env.CHICHI_GLOBAL_BUTTON_AUDIT){const {auditGlobalButton}=await import('./audit-global-button.mjs');await auditGlobalButton({page,review,errors,httpErrors});return;}
+       if(process.env.CHICHI_MANUAL_BUSY_AUDIT){const {auditManualBusy}=await import('./audit-manual-busy-native.mjs');await auditManualBusy({page,review,errors,httpErrors});return;}

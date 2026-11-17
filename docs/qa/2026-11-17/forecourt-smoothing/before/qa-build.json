@@ -1,0 +1,7 @@
+{
+  "sha256": "2bb667b954aa4754c2ddba2318d79eaac81852d49ab4499312ab13b38fe3858f",
+  "node": "v22.23.5",
+  "head": "fe9415cff8cdbb9dc20ed7def14fa71f6dbff968",
+  "dirty": " M scripts/check-aquarium.cjs\n?? scripts/audit-forecourt-native.mjs\n",
+  "sourceOverlay": "source-HEAD.patch"
+}
