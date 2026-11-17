@@ -39,10 +39,11 @@ QA новой LOD-правки. Следующий финальный этап �
 workflow имеет push branches:[main], отдельный pages workflow — только ручной
 workflow_dispatch. Не запускать deploy-диспетчер на черновике.
 
-Дополнительная независимая копия будет в отдельной архивной ветке
+Дополнительная независимая копия проверена в отдельной архивной ветке
 [archive/project-memory-2026-11-16](https://github.com/arturmal2805-netizen/ai-cat-game/tree/archive/project-memory-2026-11-16/backups).
 Она содержит archive, checksum, manifest и фактический restore-result.
-Проверять существование файлов/точного remote commit перед заявлением о копии.
+[Удалённые байты и восстановление12деревьев подтверждены](../qa/2026-11-16/project-memory/backup-remote-verification.json).
+При следующем архиве снова проверять наличие/байты и восстановление.
 Локальный путь /workspace/artifacts сам по себе независимой копией не является.
 Архивный binary отделён от игровой ветки и не является частью production deploy.
 

@@ -1,0 +1,13 @@
+{
+  "verifiedUTC": "2026-11-16T09:43:12.295059+00:00",
+  "archiveRemoteCommit": "f75236f71ab75dd46d4427f0c94bbf92fbdd2ed1",
+  "archiveURL": "https://raw.githubusercontent.com/arturmal2805-netizen/ai-cat-game/f75236f71ab75dd46d4427f0c94bbf92fbdd2ed1/backups/chichi-project-memory-wip-2026-11-16-r8.tar.gz",
+  "bytes": 32394212,
+  "sha256": "72acf51f2f890c8b9e88c2748fa0eec862fad4b57cfad302c9972eceba2046e1",
+  "remoteBytesVerified": true,
+  "restoredWorktrees": 12,
+  "restoreResultURL": "https://github.com/arturmal2805-netizen/ai-cat-game/blob/f75236f71ab75dd46d4427f0c94bbf92fbdd2ed1/backups/restore-result.json",
+  "sourceMemoryCommit": "e0724b993cf1cc59aba99c5576846ef9e2e59546",
+  "fullGitHistory": false,
+  "publishedBaseRequired": "c9a2ac7a74dfad5f478464dd6cf62c072e4172a0"
+}
