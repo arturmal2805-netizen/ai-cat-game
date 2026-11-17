@@ -4,6 +4,33 @@
 потребовал пользователь: сразу ПОСЛЕ дна, без уменьшения моделей/численности,
 графики, DPR, теней, сохранений или покупок.
 
+## Новый performance release отправлен, ещё не подтверждён live
+
+Main/source **1f96a1b6ce17435bc6aa845db1ba6e52d88a56cd**. CI44101398484
+https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44101398484
+в работе. Expected JSb762b19233cfc25b514f49ecb335200116b5f77494d7030c6326e221d0310095,
+CSS прежнийc14ce840… . Verifier /tmp/verify-floor-culling-release.py пишет
+/workspace/qa/floor-culling-publication/verification.exit. До exit0 latestlive06.
+Сборка immutable /workspace/chichi-ocean-performance, больше там не редактировать.
+31targeted+12release PASS Node22; actual ocean rebake PNGнеизменён.
+Native fullMall/65resident stress/DPR2 colour+shadow A/B: underwater/overview/
+phone имеют ZERO changed RGBA channels;54sections ->6/32/3. Geometry/GPUbytes
+не уменьшались, модели/сохраняемые данные неизменны. Single SwiftShader pairs
+не обещаниеMacFPS, total drawdelta дополнительно включает native static cache
+settling; достоверно только точное отсечение floor sections.
+Source+PNG+QA https://github.com/arturmal2805-netizen/ai-cat-game/blob/1f96a1b6ce17435bc6aa845db1ba6e52d88a56cd/docs/qa/2026-11-17/ocean-performance/manifest.json
+
+Следующий isolated WIP: /workspace/chichi-mall-submit-performance,
+codex/mall-submit-performance, база1f96a1b. Трассировка16.6Mtri показала~10.3M
+у этажейMall, rapid refaults НЕ повторились в stationary24frame run (не прогулка).
+Найдено: room-light перезаписывает static #undef USE_BATCHING, cutaway меняет
+hookidentity; guard правильно откатывает меши в native, теряется range culling.
+Кандидат сохраняет предыдущий shader, идемпотентен для sharedmaterials, явно
+регистрирует ТОЛЬКО эти два position-preserving hooks. Unknown wind/refraction/
+key/geometry changes по-прежнему nativefallback.7unitPASS, native actual pixels
+в работе: /workspace/qa/mall-static-native.log. Пока НЕ принят и не опубликован.
+Не переносить неизвестные animatedshaders вstatic; не менять вершины/LOD/DPR.
+
 ## Подтверждённый релиз всего дна
 
 **06a39cb0b1c92f104996ae315932885655f07a68**, CI44094617737 SUCCESS всех3jobs.
