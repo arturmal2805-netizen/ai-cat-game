@@ -1,3 +1,5 @@
+import {floorStoneSteps} from './mosasaur-floor-stones.js';
+import {installSandRegionSteps} from './mosasaur-sand-region.js';
 import {createCoastMeadowGrass} from './meadow-coast-grass.js';
 import {installCoastMeadowSurfaceSteps} from './meadow-coast-surface.js';
 import {mosaCoastGardenSteps} from './mosasaur-coast-garden.js';
@@ -211,6 +213,7 @@ export function* mosasaurBiomeSteps(
   root.userData.ocean.sea = sea;
   lagoons.set("lake-autumn", sea);
   base.add(sea);
+  if(!lowOnly){root.userData.ocean.sandRegion=yield* installSandRegionSteps(sea.userData.bed);const stones=yield* floorStoneSteps(sea.userData.bed);detail.add(stones);root.userData.ocean.floorStones=stones;}
   animations.push(sea);
   if (!lowOnly) {
     const reefs=yield* mosaRockReefSteps();detail.add(reefs);animations.push(reefs);root.userData.ocean.reefs=reefs;

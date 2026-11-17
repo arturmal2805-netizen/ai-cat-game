@@ -28,6 +28,7 @@ export async function auditOceanArtNative({page,review,errors,httpErrors}){
   {name:'forecourt',eye:[25,-158,170],target:[105,-185,176],distance:85},
  ];
  if(process.env.CHICHI_REEF_QUICK_PERF)specs.splice(0,specs.length,...specs.filter(s=>s.name==='reef-phone'));
+ if(process.env.CHICHI_SAND_STONE_AUDIT)specs.splice(0,specs.length,{name:'sand-stones-normal',eye:[12,-115.8,-75],target:[0,-124.8,-95],distance:26},{name:'sand-stones-phone',eye:[5,-120.8,-87],target:[0,-124.8,-95],distance:12,phone:true});
  const rows=[];
  const reefCounts=reef&&!process.env.CHICHI_BASELINE_REF?await page.evaluate(()=>{const root=__lagoonQA.islands.get('autumn').userData.ocean.reefPatch;return{colonies:root.userData.colonies.length,plants:root.userData.plants.length,groups:root.children.length};}):null;
  if(reefCounts){assert.equal(reefCounts.colonies,1216);assert.equal(reefCounts.plants,19456);}
@@ -65,7 +66,7 @@ export async function auditOceanArtNative({page,review,errors,httpErrors}){
  // Measure real complete RAF intervals including native simulation, submission
  // and queue pressure. SwiftShader diagnostics, never physical-phone FPS.
  if(process.env.CHICHI_REEF_QUICK_PERF)await page.evaluate(()=>window.__reefFrameCount=12);
- const metrics=await page.evaluate(async reef=>{const q=__lagoonQA;q.drawPaused=false;const intervals=[],renders=[];q.liveFrames=renders;let last=performance.now();await new Promise(resolve=>{let n=0;const sample=t=>{intervals.push(t-last);last=t;if(++n===(reef?(typeof window.__reefFrameCount==="number"?window.__reefFrameCount:24):80))resolve();else requestAnimationFrame(sample);};requestAnimationFrame(sample);});q.drawPaused=true;delete q.liveFrames;const sorted=intervals.slice(5).sort((a,b)=>a-b),pick=p=>sorted[Math.floor((sorted.length-1)*p)];return{frames:sorted.length,p50:pick(.5),p95:pick(.95),p99:pick(.99),max:Math.max(...sorted),pausesOver100ms:sorted.filter(t=>t>100).length,renderCPU:renders.map(r=>r[1]),heap:performance.memory?.usedJSHeapSize,contextLost:q.renderer.getContext().isContextLost()};},reef);
+ const metrics=process.env.CHICHI_SAND_STONE_AUDIT?{deferred:true,contextLost:false}:await page.evaluate(async reef=>{const q=__lagoonQA;q.drawPaused=false;const intervals=[],renders=[];q.liveFrames=renders;let last=performance.now();await new Promise(resolve=>{let n=0;const sample=t=>{intervals.push(t-last);last=t;if(++n===(reef?(typeof window.__reefFrameCount==="number"?window.__reefFrameCount:24):80))resolve();else requestAnimationFrame(sample);};requestAnimationFrame(sample);});q.drawPaused=true;delete q.liveFrames;const sorted=intervals.slice(5).sort((a,b)=>a-b),pick=p=>sorted[Math.floor((sorted.length-1)*p)];return{frames:sorted.length,p50:pick(.5),p95:pick(.95),p99:pick(.99),max:Math.max(...sorted),pausesOver100ms:sorted.filter(t=>t>100).length,renderCPU:renders.map(r=>r[1]),heap:performance.memory?.usedJSHeapSize,contextLost:q.renderer.getContext().isContextLost()};},reef);
  assert.equal(metrics.contextLost,false);
 
  await page.evaluate(()=>window.dispatchEvent(new Event('pagehide')));await page.waitForFunction(()=>!__lagoonSaveQA.cloud.dirty&&!__lagoonSaveQA.cloud.pending&&!__lagoonSaveQA.cloud.retryEntry);

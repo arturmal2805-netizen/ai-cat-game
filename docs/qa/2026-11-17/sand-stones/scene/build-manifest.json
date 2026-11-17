@@ -1,0 +1,33 @@
+{
+  "node": "v22.23.5",
+  "browser": "156.0.8078.79",
+  "renderer": "Chromium ANGLE SwiftShader, native source scenes; not device FPS",
+  "roots": [
+    {
+      "name": "before",
+      "path": "/workspace/chichi-seabed-release",
+      "sourceSHA": "c3f59b2a0568870936655bec3e308841a1952c41",
+      "dirty": "",
+      "bundleSHA256": "3b42e60babc18a2e8d43fd3fcc118a6b11273ab8b60d6e69ca2f1372b481fe93",
+      "bundleBytes": 2962121
+    },
+    {
+      "name": "after",
+      "path": "/workspace/chichi-seabed-materials",
+      "sourceSHA": "c3f59b2a0568870936655bec3e308841a1952c41",
+      "dirty": "M public/mosasaur-biome.js\n M public/mosasaur-collision.js\n M public/ocean-swimmer.js\n?? public/mosasaur-floor-stones-data.js\n?? public/mosasaur-floor-stones.js\n?? public/mosasaur-sand-region.js\n?? test/seabed-sand-stones.test.mjs",
+      "bundleSHA256": "10f6040ef6d481ede9ca19a36ee18598ed033e72f279289a26ca9789fd186579",
+      "bundleBytes": 2963198
+    }
+  ],
+  "settings": {
+    "biomes": [
+      "autumn"
+    ],
+    "views": "reef-close,reef-normal,reef-wide,reef-phone",
+    "seconds": 7,
+    "cameraContract": "baseline per-view local eye/direction/up, water centre/radius, light and shadow envelope replayed in candidate, including reef-anchored views after expansion",
+    "quality": "original lights, exposure1, ACES, shadows PCF1024; DPR1 desktop/DPR2 phone"
+  },
+  "source": "exact qa-before/qa-after.mjs retained"
+}

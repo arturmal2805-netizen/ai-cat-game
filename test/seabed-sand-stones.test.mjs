@@ -1,0 +1,15 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import * as T from 'three';
+import {runSceneSteps}from'../public/scene-tasks.js';import {lagoonSteps}from'../public/lagoon.js';import {MOSA_SEA,mosaBedY,mosaCoastFactor}from'../public/mosasaur-data.js';import{installSandRegionSteps}from'../public/mosasaur-sand-region.js';import{floorStoneSteps}from'../public/mosasaur-floor-stones.js';import{floorStoneObstacles}from'../public/mosasaur-floor-stones-data.js';import{pushCapsule}from'../public/submarine-physics.js';
+test('local sand partitions every original triangle exactly once without moving any floor vertex or changing the far shader',()=>{
+ const sea=runSceneSteps(lagoonSteps({...MOSA_SEA,bedHeight:mosaBedY,coastFactor:mosaCoastFactor,fishCount:0,ambientOnly:true,depth:200})),bed=sea.userData.bed,g=bed.geometry,original=g.index.array.slice(),positions=g.attributes.position.array.slice(),key=bed.material.customProgramCacheKey(),local=runSceneSteps(installSandRegionSteps(bed));
+ assert.ok(local);assert.equal(g.attributes.position,local.geometry.attributes.position);assert.deepEqual(g.attributes.position.array,positions);assert.equal(bed.material.customProgramCacheKey(),key);assert.ok(local.geometry.index.count<original.length*.02);
+ const count=indices=>{const m=new Map();for(let i=0;i<indices.length;i+=3){const k=[indices[i],indices[i+1],indices[i+2]].join(',');m.set(k,(m.get(k)||0)+1);}return m;};assert.deepEqual(count([...g.index.array,...local.geometry.index.array]),count(original));assert.equal(local.material.userData.waterLight.clock,bed.material.userData.waterLight.clock);
+});
+test('ready stone instances and their real physics contacts share positions and conservatively contain every sculpted vertex',()=>{
+ const mat=new T.MeshStandardMaterial();mat.userData.waterLight={clock:{value:0},level:{value:MOSA_SEA.surfaceY}};const root=runSceneSteps(floorStoneSteps({material:mat})),obstacles=floorStoneObstacles();root.updateMatrixWorld(true);let total=0;
+ for(const mesh of root.children)for(let i=0;i<mesh.count;i++){const matrix=new T.Matrix4();mesh.getMatrixAt(i,matrix);const p=new T.Vector3().setFromMatrixPosition(matrix),o=obstacles.find(o=>Math.hypot(o.a[0]-p.x,o.a[1]-p.y,o.a[2]-p.z)<1e-8);assert.ok(o);for(let k=0;k<mesh.geometry.attributes.position.count;k++){const v=new T.Vector3().fromBufferAttribute(mesh.geometry.attributes.position,k).applyMatrix4(matrix);assert.ok(v.distanceTo(p)<=o.radius+1e-6);}assert.equal(pushCapsule({x:p.x,y:p.y,z:p.z},o,.6),true);total++;}
+ assert.equal(total,18);assert.ok(obstacles.every(o=>Math.abs(o.a[0])>4));
+});
+test('a previous saved swimmer pose inside a newly placed stone is released through real contacts',async()=>{
+ const {createOceanSwimmer}=await import('../public/ocean-swimmer.js'),o=floorStoneObstacles()[0],s=createOceanSwimmer({x:o.a[0],y:mosaBedY(o.a[0],o.a[2])+.2,z:o.a[2],yaw:0});assert.equal(s.clear(s.state),true);assert.ok(Math.hypot(s.state.x-o.a[0],s.state.y+.7-o.a[1],s.state.z-o.a[2])>=o.radius+.6);
+});

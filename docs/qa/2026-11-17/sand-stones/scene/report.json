@@ -1,0 +1,206 @@
+[
+  {
+    "version": "before",
+    "id": "autumn",
+    "waterSurfaces": 1,
+    "waterPoint": [
+      -443.43896161913915,
+      0.15500000000000141,
+      493.65515050315446
+    ],
+    "waterRadius": 236.8390671146984,
+    "views": [
+      {
+        "view": "reef-close",
+        "pngSHA256": "ef822037485efb7e9d5803558939fd5ebd4fbbe82f909bdda312c745a173919a",
+        "camera": [
+          -445,
+          -120.82713780267177,
+          413
+        ],
+        "lookDirection": [
+          -0.48795003647426666,
+          -0.3903600291794133,
+          -0.7807200583588265
+        ],
+        "draws": 254,
+        "triangles": 3566595,
+        "textures": 31,
+        "dpr": 1
+      },
+      {
+        "view": "reef-normal",
+        "pngSHA256": "d828fe842ddff3328b9db3eefe3b5b866c613484148bd94d4c8630d81e8478dc",
+        "camera": [
+          -438,
+          -115.82713780267177,
+          425
+        ],
+        "lookDirection": [
+          -0.48000000000000004,
+          -0.36000000000000004,
+          -0.8
+        ],
+        "draws": 265,
+        "triangles": 3739570,
+        "textures": 31,
+        "dpr": 1
+      },
+      {
+        "view": "reef-wide",
+        "pngSHA256": "5dfe24507c949c86913d2eb17ef9106d2273e97a552785c2bf9269f6caad61cf",
+        "camera": [
+          -423,
+          -104.82713780267177,
+          443
+        ],
+        "lookDirection": [
+          -0.5322845628142322,
+          -0.39428486134387564,
+          -0.7491412365533636
+        ],
+        "draws": 233,
+        "triangles": 2876401,
+        "textures": 31,
+        "dpr": 1
+      },
+      {
+        "view": "reef-phone",
+        "pngSHA256": "43a4f4f7409e0810fb2662ca5abb854ec92aaf8024b7454aed4e0edf71edb53d",
+        "camera": [
+          -438,
+          -115.82713780267177,
+          425
+        ],
+        "lookDirection": [
+          -0.48000000000000004,
+          -0.36000000000000004,
+          -0.8
+        ],
+        "draws": 265,
+        "triangles": 3743602,
+        "textures": 31,
+        "dpr": 2
+      }
+    ],
+    "oceanPhysicalShader": true,
+    "oceanToneMapping": true,
+    "draws": 265,
+    "triangles": 3743602,
+    "textures": 31,
+    "vertices": 1743719,
+    "geometryBytes": 95992350,
+    "waterMaterials": 10,
+    "waterFields": [
+      {
+        "name": "Shared physical water field · all map water",
+        "width": 1024,
+        "height": 1024
+      }
+    ],
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "after",
+    "id": "autumn",
+    "waterSurfaces": 1,
+    "waterPoint": [
+      -443.43896161913915,
+      0.15500000000000141,
+      493.65515050315446
+    ],
+    "waterRadius": 236.8390671146984,
+    "views": [
+      {
+        "view": "reef-close",
+        "pngSHA256": "c38b537c1659c76f556909eb5e4e3d42d5c61f363799c681959b783a62e5042a",
+        "camera": [
+          -445,
+          -120.82713780267177,
+          413
+        ],
+        "lookDirection": [
+          -0.48795003647426666,
+          -0.39036002917941337,
+          -0.7807200583588267
+        ],
+        "draws": 263,
+        "triangles": 3575667,
+        "textures": 32,
+        "dpr": 1
+      },
+      {
+        "view": "reef-normal",
+        "pngSHA256": "310931e1890582f717211462a485bae4c7d39e0580cf47550a6475003ac8bab3",
+        "camera": [
+          -438,
+          -115.82713780267177,
+          425
+        ],
+        "lookDirection": [
+          -0.4800000000000098,
+          -0.3599999999999931,
+          -0.7999999999999973
+        ],
+        "draws": 274,
+        "triangles": 3748642,
+        "textures": 32,
+        "dpr": 1
+      },
+      {
+        "view": "reef-wide",
+        "pngSHA256": "dfd6f124998d267a74c4b56a6f0651eac95411e54cff62ef349adaf50768a19a",
+        "camera": [
+          -423,
+          -104.82713780267177,
+          443
+        ],
+        "lookDirection": [
+          -0.5322845628142395,
+          -0.394284861343866,
+          -0.7491412365533635
+        ],
+        "draws": 242,
+        "triangles": 2885473,
+        "textures": 32,
+        "dpr": 1
+      },
+      {
+        "view": "reef-phone",
+        "pngSHA256": "cb5063a77a2e138a4ce32caf078f57700dfb8d3a00fb382011df38a78939b3e6",
+        "camera": [
+          -438,
+          -115.82713780267177,
+          425
+        ],
+        "lookDirection": [
+          -0.4800000000000098,
+          -0.3599999999999931,
+          -0.7999999999999973
+        ],
+        "draws": 274,
+        "triangles": 3752674,
+        "textures": 32,
+        "dpr": 2
+      }
+    ],
+    "oceanPhysicalShader": true,
+    "oceanToneMapping": true,
+    "draws": 274,
+    "triangles": 3752674,
+    "textures": 32,
+    "vertices": 1785756,
+    "geometryBytes": 97840106,
+    "waterMaterials": 10,
+    "waterFields": [
+      {
+        "name": "Shared physical water field · all map water",
+        "width": 1024,
+        "height": 1024
+      }
+    ],
+    "animated": true,
+    "contextLost": false
+  }
+]

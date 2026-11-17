@@ -1,0 +1,54 @@
+diff --git a/public/mosasaur-biome.js b/public/mosasaur-biome.js
+index 97461a9..f799514 100644
+--- a/public/mosasaur-biome.js
++++ b/public/mosasaur-biome.js
+@@ -1,3 +1,5 @@
++import {floorStoneSteps} from './mosasaur-floor-stones.js';
++import {installSandRegionSteps} from './mosasaur-sand-region.js';
+ import {createCoastMeadowGrass} from './meadow-coast-grass.js';
+ import {installCoastMeadowSurfaceSteps} from './meadow-coast-surface.js';
+ import {mosaCoastGardenSteps} from './mosasaur-coast-garden.js';
+@@ -211,6 +213,7 @@ export function* mosasaurBiomeSteps(
+   root.userData.ocean.sea = sea;
+   lagoons.set("lake-autumn", sea);
+   base.add(sea);
++  if(!lowOnly){root.userData.ocean.sandRegion=yield* installSandRegionSteps(sea.userData.bed);const stones=yield* floorStoneSteps(sea.userData.bed);detail.add(stones);root.userData.ocean.floorStones=stones;}
+   animations.push(sea);
+   if (!lowOnly) {
+     const reefs=yield* mosaRockReefSteps();detail.add(reefs);animations.push(reefs);root.userData.ocean.reefs=reefs;
+diff --git a/public/mosasaur-collision.js b/public/mosasaur-collision.js
+index 8d21eed..3aac920 100644
+--- a/public/mosasaur-collision.js
++++ b/public/mosasaur-collision.js
+@@ -1,3 +1,4 @@
++import {floorStoneObstacles} from './mosasaur-floor-stones-data.js';
+ import {mosaBedY,mosaNaturalBedY,MOSA_CAVE_LAYOUT,MOSA_REEF_TERRACES} from './mosasaur-data.js';
+ import {mosaReefSurfaceY} from './mosasaur-reef-data.js';
+ export const MOSA_CAVES=MOSA_CAVE_LAYOUT.map(c=>({...c,y:mosaNaturalBedY(c.x,c.z)+.7}));
+@@ -5,7 +6,7 @@ export const MOSA_RUINS=[{id:'sunken-temple',x:-39,z:-56,y:mosaBedY(-39,-56)+.3}
+ export const MOSA_REEF_ARCHES=MOSA_REEF_TERRACES.filter((_,i)=>i%4===0).map((c,i)=>({id:'living-reef-arch-'+i,x:c.x,z:c.z,radius:8.5,depth:3.5,y:mosaBedY(c.x,c.z)+.25}));
+ export const MOSA_GUARDIAN=(()=>{const c=MOSA_REEF_TERRACES[3];return {id:'sunken-guardian',x:c.x+2,z:c.z-2,y:mosaReefSurfaceY(c.x+2,c.z-2),radius:3.5,height:9};})();
+ export function mosaTerrainObstacles(){
+- const obstacles=[];
++ const obstacles=floorStoneObstacles();
+  for(const c of MOSA_CAVES){for(let row=0;row<4;row++){const z=c.z-row*4;for(let j=0;j<8;j++){const a=j*Math.PI/8,b=(j+1)*Math.PI/8;obstacles.push({id:c.id,kind:'capsule',a:[c.x+Math.cos(a)*c.radius,c.y+Math.sin(a)*c.radius,z],b:[c.x+Math.cos(b)*c.radius,c.y+Math.sin(b)*c.radius,z],radius:1.2});}}}
+  for(const r of MOSA_RUINS)for(let i=0;i<8;i++){const a=i*Math.PI/4;obstacles.push({id:r.id,kind:'capsule',a:[r.x+Math.cos(a)*6,r.y,r.z+Math.sin(a)*6],b:[r.x+Math.cos(a)*6,r.y+7,r.z+Math.sin(a)*6],radius:.8});}
+  for(const c of MOSA_REEF_ARCHES)for(let j=0;j<16;j++){const a=j*Math.PI/16,b=(j+1)*Math.PI/16;obstacles.push({id:c.id,kind:'capsule',a:[c.x+Math.cos(a)*c.radius,c.y+Math.sin(a)*c.radius,c.z],b:[c.x+Math.cos(b)*c.radius,c.y+Math.sin(b)*c.radius,c.z],radius:2.1});}
+diff --git a/public/ocean-swimmer.js b/public/ocean-swimmer.js
+index 014b0ca..9a78f69 100644
+--- a/public/ocean-swimmer.js
++++ b/public/ocean-swimmer.js
+@@ -14,6 +14,13 @@ export function createOceanSwimmer(raw,{radius=.6,obstacles=mosaTerrainObstacles
+     for(const obstacle of obstacles)if(pushCapsule({...body},obstacle,radius))return false;
+     return true;
+   }
++  // New terrain may surround a previously valid saved swimming pose. Use
++  // ordinary bounded contact projection, never leave a restored cat trapped.
++  function releaseNewStoneContact(){
++    if(Math.abs(state.x)>12||Math.abs(state.z+95)>12)return;
++    for(let pass=0;pass<4;pass++)for(const o of obstacles){if(!o.id?.startsWith('seabed-stone-'))continue;const body={x:state.x,y:state.y+.7,z:state.z};if(pushCapsule(body,o,radius+.002)){const next={...state,x:body.x,y:body.y-.7,z:body.z};if(next.y>=mosaBedY(next.x,next.z)+.15&&mosaReefClearance(body.x,body.y,body.z)>=radius&&!mallPressureContact(body.x,body.y,body.z,radius))Object.assign(state,next);}}
++  }
++  releaseNewStoneContact();
+   function step(dt,input={}){
+     dt=clamp(dt,0,.1);state.yaw+=clamp(input.turn||0,-1,1)*1.3*dt;
+     let f=clamp(input.forward||0,-1,1),side=clamp(input.strafe||0,-1,1),length=Math.max(1,Math.hypot(f,side));f/=length;side/=length;
