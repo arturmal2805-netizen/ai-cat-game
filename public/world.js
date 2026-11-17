@@ -255,7 +255,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
   const slideAudio = createSlideAudio(renderer.domElement);
   const gpuFrames = createGpuFrameQueue(renderer.getContext());
-  const frameProfile = createFrameProfile(renderer);
+  let frameProfile = createFrameProfile(renderer,{onClose:()=>{frameProfile=null;}});
   frameProfile?.startupPreparation?.(residentModels?.stats);
   configureStaticSubmissions(renderer);
   const geometryResidency = createGeometryResidency(renderer);

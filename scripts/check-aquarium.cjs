@@ -525,6 +525,7 @@ async function localWorker() {
                     "    camera.updateMatrixWorld();\n    islands",
                     "    if(window.__lagoonQA?.oceanReviewCamera){const p=window.__lagoonQA.oceanReviewCamera;camera.position.set(...p.eye);look.set(...p.target);desiredLook.copy(look);camera.lookAt(look);}\n    camera.updateMatrixWorld();\n    islands",
                   )
+                  .replace("let frameProfile = createFrameProfile(renderer,", "window.__lagoonProfileOriginals=Object.fromEntries(['bufferData','bufferSubData','drawElements'].map(k=>[k,renderer.getContext()[k]]));let frameProfile = createFrameProfile(renderer,")
                   .replace(
                     "  const reduced =",
                     "  const qaStart=performance.now();\n  const reduced =",

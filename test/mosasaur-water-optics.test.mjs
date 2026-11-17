@@ -18,7 +18,7 @@ test('the ocean reflection is a valid immutable local capture of its current nat
 test('the native warmup uploads every hidden ocean sampler before compiling its first live material',async()=>{
  const scene=new T.Scene(),camera=new T.PerspectiveCamera(),uploaded=new Set();
  const material=applyMosasaurBedOptics(applyUnderwaterLighting(new T.MeshStandardMaterial({map:waterSandTexture()}),{value:0}),{stoneNormals:true}),mesh=new T.Mesh(new T.BoxGeometry(),material);
- scene.add(mesh);const expected=[material.map,material.mosaBedStone,material.mosaBedGround,material.mosaBedNormal,material.mosaWaterField];assert.ok(expected.every(t=>t?.isTexture));
+ scene.add(mesh);const expected=[material.map,material.mosaBedStone,material.mosaBedGround,material.mosaBedNormal,material.mosaWaterField,material.seabedSandDetail];assert.ok(expected.every(t=>t?.isTexture));
  const renderer={toneMapping:T.ACESFilmicToneMapping,outputColorSpace:T.SRGBColorSpace,shadowMap:{type:T.PCFShadowMap},info:{programs:[]},initTexture(t){uploaded.add(t);},async compileAsync(){for(const t of expected)assert.ok(uploaded.has(t),'a custom sampler would otherwise upload during the live draw');}};
  const warm=createShaderWarmup(renderer,scene,camera);await warm.prepare(mesh);assert.equal(uploaded.size,new Set(expected).size);warm.dispose();mesh.geometry.dispose();material.dispose();
 });

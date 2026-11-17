@@ -123,9 +123,11 @@ export function trackProfileGlCalls(gl, { clock = () => performance.now(), multi
   };
 }
 
-export function createFrameProfile(renderer) {
+export function createFrameProfile(renderer,{onClose}={}) {
   const query = new URLSearchParams(location.search);
   if (query.get("profile") !== "1") return null;
+  // A diagnostic link is one-shot: reload and ordinary play stay clean.
+  const cleanUrl=new URL(location.href);cleanUrl.searchParams.delete("profile");history.replaceState(history.state,"",cleanUrl);
   // One optional startup query, never a synchronous driver query per frame.
   let gpu = "not exposed";
   try {
@@ -169,7 +171,10 @@ export function createFrameProfile(renderer) {
   copy.textContent = "Скопировать отчёт";copy.type="button";copy.style.cssText="margin-top:6px;padding:5px 12px;border-radius:8px";
   copy.dataset.profileCopy="";
   output.hidden = true;output.readOnly=true;output.style.cssText="width:100%;height:110px";
-  const report = () => ({version:2,gpu,suspended:false,automaticPauseSeconds:0,startupFirstFrameMs,startupResidentPreparation,
+  const report = () => ({version:3,
+    loading:{observedResources:performance.getEntriesByType("resource").length,
+      slowest:performance.getEntriesByType("resource").slice().sort((a,b)=>b.duration-a.duration).slice(0,12).map(r=>({path:new URL(r.name,location.href).pathname,durationMs:Math.round(r.duration*100)/100,transferBytes:r.transferSize,decodedBytes:r.decodedBodySize})),
+      jsHeapBytes:performance.memory?.usedJSHeapSize??null},gpu,suspended:false,automaticPauseSeconds:0,startupFirstFrameMs,startupResidentPreparation,
     catRenderer:catDrawMode(location.search),gpuRender:gpuTimer.report(),
     appWorkSinceReset:work.report(),longAnimationFramesSupported:!!frameObserver,longestAnimationFrames:longFrames.slice(),
     app:document.querySelector('script[src*="dist/app.js"]')?.getAttribute("src"),bufferTransfersSinceReset:uploads.snapshot(),
@@ -181,11 +186,15 @@ export function createFrameProfile(renderer) {
     try { await navigator.clipboard.writeText(text); copy.textContent="Отчёт скопирован"; }
     catch { output.value=text;output.hidden=false;output.focus();output.select();copy.textContent="Выделено — скопируй текст"; }
   };
-  panel.append(label,copy,output);document.body.append(panel);
+  const close=document.createElement("button");close.type="button";close.textContent="Закрыть диагностику";close.dataset.profileClose="";close.style.cssText="margin:6px 0 0 8px;padding:5px 10px;border-radius:8px";
+  close.onclick=()=>{dispose();onClose?.();};
+  panel.append(label,copy,close,output);document.body.append(panel);
   let next = 0, lastTimer = performance.now();
   const timer = setInterval(()=>{
     const now=performance.now();samples.delay(Math.max(0,now-lastTimer-200));lastTimer=now;
   },200);
+  let disposed=false;
+  function dispose(){if(disposed)return;disposed=true;clearInterval(timer);taskObserver?.disconnect();frameObserver?.disconnect();deactivateWork();gpuTimer.dispose();glCalls.dispose();uploads.dispose();panel.remove();}
   return {
     startupPreparation(stats){startupResidentPreparation=stats?{...stats}:null;},
     catRenderer:catDrawMode(location.search),
@@ -207,6 +216,6 @@ export function createFrameProfile(renderer) {
       const r=samples.report(),loading=(row.shaderPending||0)+(row.shaderPreparing||0);
       label.textContent=`Средний FPS: ${r.fps??"…"}${row.targetFps?` / цель ${row.targetFps}`:""} · 1% худших: ${r.onePercentLowFps??"мало кадров"}\nПаузы >50 мс за сеанс: ${r.stuttersOver50MsSinceStart} · худшая: ${Math.round(r.gapMaxSinceStart??0)} мс\nCPU ${r.cpuMedian??0} мс · рендер ${r.renderMedian??0} мс · ${row.biome} · DPR ${row.dpr}${loading?` · подготовка ${loading}`:""}`;
     },
-    dispose(){clearInterval(timer);taskObserver?.disconnect();frameObserver?.disconnect();deactivateWork();gpuTimer.dispose();glCalls.dispose();uploads.dispose();panel.remove();},
+    dispose,
   };
 }
