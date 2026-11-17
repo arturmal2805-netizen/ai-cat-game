@@ -341,6 +341,7 @@ async function localWorker() {
       const {ensureJobCity}=await import(root+'/public/jobcity-system.js');g.unlocked=['moon','homestead','autumn','jobcity'];g.catPosition={biome:'autumn',x:-6,z:92};g.catDestinations={luna:'moon',moti:'moon'};
       Object.assign(g,ensureJobCity(g,now));for(const p of Object.values(g.jobCity.profiles)){p.profession=p.preferences[0];p.careerAIPending=false;p.schedule={day:0,job:'rest'};p.manualUntil=now+3600000;}
       g.mosasaurSubmarine={x:-6,y:-20,z:92,yaw:Math.PI,active:true,mode:'cockpit',speed:0,vertical:0,pitch:0};
+      if(process.env.CHICHI_SEABED_PATCH_AUDIT){g.catPosition={biome:'autumn',x:0,z:-91};g.mosasaurSubmarine={...g.mosasaurSubmarine,x:0,y:-120,z:-91};}
       if(process.env.CHICHI_EXPLORER_STAGE==='isolation')g.mosasaurSubmarine={...g.mosasaurSubmarine,active:false,explorerVersion:1,explorer:{mode:'mall',x:-43,y:-164.82,z:105,yaw:Math.PI,floor:1,returning:false}};
     }
     const base = local.base,

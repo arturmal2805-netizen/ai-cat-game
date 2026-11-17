@@ -64,8 +64,8 @@ export function* coralGeometrySteps(form){
 function finishCoralGeometry(geometry,form){
  geometry.setAttribute('aReefGlow',new T.BufferAttribute(new Float32Array(geometry.attributes.position.count).fill(form===4?.05:.018),1));geometry.setAttribute('aReefSway',new T.BufferAttribute(new Float32Array(geometry.attributes.position.count).fill(form===9?.04:form===10?.025:.008),1));geometry.computeBoundingBox();geometry.userData.sharedScenery=true;return geometry;
 }
-export function* mosaCoralSteps({spatialCells=true}={}){
- const root=new T.Group(),clock={value:0},motion={value:1},sites=mosaCoralSites(),dummy=new T.Object3D();root.name='Deep coral gardens · eleven distinct anatomies';
+export function* mosaCoralSteps({spatialCells=true,sitesOverride=null,lodDistances=[0,60,160]}={}){
+ const root=new T.Group(),clock={value:0},motion={value:1},sites=sitesOverride||mosaCoralSites(),dummy=new T.Object3D();root.name='Deep coral gardens · eleven distinct anatomies';
  const material=new T.MeshStandardMaterial({color:0xffffff,vertexColors:true,roughness:.78,normalMap:mosaRockSurface().coralNormal||null,normalScale:new T.Vector2(.65,.65),metalness:0,emissive:0x123d46,emissiveIntensity:.12,side:T.DoubleSide});
  material.onBeforeCompile=s=>{s.uniforms.uCoralTime=clock;s.uniforms.uCoralMotion=motion;s.vertexShader='uniform float uCoralTime;uniform float uCoralMotion;attribute float aReefGlow;attribute float aReefSway;varying float vReefGlow;varying vec3 vReefDetail;\n'+s.vertexShader.replace('#include <beginnormal_vertex>','#include <beginnormal_vertex>\nfloat phase=position.y*3.+uCoralTime*.7;float reefNormalBend=position.y>0.? aReefSway*(sin(phase)+position.y*3.*cos(phase))*uCoralMotion:0.;objectNormal.y-=reefNormalBend*objectNormal.x;objectNormal=normalize(objectNormal);').replace('#include <begin_vertex>','#include <begin_vertex>\nvReefGlow=aReefGlow;vReefDetail=position;transformed.x+=sin(position.y*3.+uCoralTime*.7)*max(position.y,0.)*aReefSway*uCoralMotion;');s.fragmentShader='varying float vReefGlow;varying vec3 vReefDetail;\n'+s.fragmentShader.replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n totalEmissiveRadiance+=vColor.rgb*vReefGlow;').replace('#include <normal_fragment_maps>',`#include <normal_fragment_maps>
  vec3 coralP=vReefDetail*110.;float polyp=sin(coralP.x+sin(coralP.y*.67))*sin(coralP.z+coralP.y*.8);float filtered=1.-smoothstep(.7,2.,length(fwidth(coralP)));float relief=polyp*.0017*filtered;
@@ -73,10 +73,10 @@ export function* mosaCoralSteps({spatialCells=true}={}){
  normal=normalize(abs(det)*normal-sign(det)*(dFdx(relief)*rX+dFdy(relief)*rY));
  roughnessFactor=clamp(roughnessFactor+polyp*.07,.42,.84);diffuseColor.rgb*=.94+polyp*.06;`);};
  material.customProgramCacheKey=()=> 'mosa-coral-polyp-v5';applyUnderwaterLighting(material,clock,0x51d6ef,{level:{value:MOSA_SEA.surfaceY}});useMosasaurWaterField(material);
- for(let region=0;region<16;region++){
-  yield;const own=sites.filter(p=>{const sector=Math.floor(((Math.atan2(p.z,p.x)+Math.PI*2)%(Math.PI*2))/(Math.PI/4)),outer=Math.hypot(p.x/MOSA_SEA.rx,p.z/MOSA_SEA.rz)>.84?1:0;return sector*2+outer===region;});if(!own.length)continue;
+ for(let region=0;region<(sitesOverride?1:16);region++){
+  yield;const own=sitesOverride||sites.filter(p=>{const sector=Math.floor(((Math.atan2(p.z,p.x)+Math.PI*2)%(Math.PI*2))/(Math.PI/4)),outer=Math.hypot(p.x/MOSA_SEA.rx,p.z/MOSA_SEA.rz)>.84?1:0;return sector*2+outer===region;});if(!own.length)continue;
   const center=own.reduce((v,p)=>v.add(new T.Vector3(p.x,p.y,p.z)),new T.Vector3()).multiplyScalar(1/own.length),lod=new T.LOD();lod.position.copy(center);root.add(lod);if(spatialCells)installCoralCellCulling(lod);
-  const groups=[new T.Group(),new T.Group(),new T.Group()];for(const [i,d]of [0,60,160].entries())lod.addLevel(groups[i],d,.08);
+  const groups=[new T.Group(),new T.Group(),new T.Group()];for(const [i,d]of lodDistances.entries())lod.addLevel(groups[i],d,.08);
   for(let form=0;form<11;form++){
    yield;const batch=own.filter(p=>p.form===form);if(!batch.length)continue;
    if(!templates.has(form)){const full=yield* coralGeometrySteps(form);templates.set(form,[full,full,full]);}

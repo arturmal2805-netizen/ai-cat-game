@@ -22,12 +22,12 @@ snapshot/patch плюс cached patch и новые файлы. PNG после v1
 Не изобретать задним числом отсутствующий исходный bundle hash: отметить пробел,
 сохранить доступный snapshot и при необходимости выполнить новый точный прогон.
 
-Новый документальный [native d6fa805](https://github.com/arturmal2805-netizen/ai-cat-game/blob/f5f89c75513c416d6713715b1ae0d568270fab20/docs/qa/2026-11-16/project-memory/approved-water/manifest.json)
+Новый документальный [native d6fa805](../qa/2026-11-16/project-memory/approved-water/manifest.json)
 имеет чистый точный source, сохранённые original/instrumented runner и байты
 bundle, PNG/hashes/настройки, timing явно skipped. Это историческая техническая
 база, не объявление визуального достижения Crimson Desert.
 
-[Отклонённый океан](https://github.com/arturmal2805-netizen/ai-cat-game/blob/f5f89c75513c416d6713715b1ae0d568270fab20/docs/qa/2026-11-16/ocean-recovery) имеет честную отметку
+[Отклонённый океан](../qa/2026-11-16/ocean-recovery/) имеет честную отметку
 о неполном старом capture manifest. Его картинки не использовать как финальное
 QA новой LOD-правки. Следующий финальный этап должен иметь полный manifest.
 
@@ -42,7 +42,7 @@ workflow_dispatch. Не запускать deploy-диспетчер на чер
 Дополнительная независимая копия проверена в отдельной архивной ветке
 [archive/project-memory-2026-11-16](https://github.com/arturmal2805-netizen/ai-cat-game/tree/archive/project-memory-2026-11-16/backups).
 Она содержит archive, checksum, manifest и фактический restore-result.
-[Удалённые байты и восстановление12деревьев подтверждены](https://github.com/arturmal2805-netizen/ai-cat-game/blob/f5f89c75513c416d6713715b1ae0d568270fab20/docs/qa/2026-11-16/project-memory/backup-remote-verification.json).
+[Удалённые байты и восстановление12деревьев подтверждены](../qa/2026-11-16/project-memory/backup-remote-verification.json).
 При следующем архиве снова проверять наличие/байты и восстановление.
 Локальный путь /workspace/artifacts сам по себе независимой копией не является.
 Архивный binary отделён от игровой ветки и не является частью production deploy.
