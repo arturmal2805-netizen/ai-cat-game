@@ -149,7 +149,8 @@ outer-radius416.3 не помещается в445m gap с43m housing. Тепер
 1. Завершить текущую публикацию ТОЛЬКО острова и воды: полный CI и HTTP
    сверка фактически загруженных JS/CSS/reef/probes. Native water/outer-control,
    физический return и ownership/SQLite прошли. Точный QA в
-   docs/qa/2026-11-17/ocean-area-expansion/manifest.json. 33+5+11+14+8 tests PASS.
+   docs/qa/2026-11-17/ocean-area-expansion/manifest.json. 33+5+11+14+8 tests PASS; дополнительно18 coast/fauna guards PASS.
+   Две проверки травы используют новую сухую береговую точку вместо затопленной.
 2. СРАЗУ ПОСЛЕ водной публикации исправить ручное управление Чичи ОТ ТРЕТЬЕГО
    ЛИЦА ПО ВСЕМУ МИРУ. Игрок уточнил: W, A и D не двигают Чичи; это НЕ только
    дом. Не считать прежний короткий A-key fixture достаточной проверкой.
