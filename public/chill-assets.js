@@ -1,3 +1,4 @@
+import {installManualBuildingNavigation} from './manual-building-navigation.js';
 import * as THREE from "three";
 import { runSceneSteps } from "./scene-tasks.js";
 import {
@@ -328,6 +329,7 @@ export function* chillHouseModelSteps(h) {
       shape(g, "sphere", 0x7c9b5d, x, 0.9 + i * 0.45, z, 0.35, 0.22, 0.34);
       flowerCluster(g, x, z, i % 2 ? 0xf6c3d0 : 0xffe6a7, 0.6, 1.05 + i * 0.45);
     }
+  installManualBuildingNavigation(g,g);
   return g;
 }
 export function chillSign(parent, title = "Chill Land") {

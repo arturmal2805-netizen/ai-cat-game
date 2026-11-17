@@ -1,3 +1,4 @@
+import {installManualBuildingNavigation} from './manual-building-navigation.js';
 import { cryptoOfficeSteps } from "./crypto-office.js";
 import * as T from "three";
 import {
@@ -478,6 +479,7 @@ export function* jobBuildingSteps(id) {
     }
   for (let floor = 0; floor < 3; floor++)
     pot(props, -10.3, floor * 4.6 + 0.15, 7.6, 0.85);
+  installManualBuildingNavigation(root,props,roof);
   const baked = yield* batchModelSteps(props, { combineColors: true });
   root.remove(props);
   root.add(baked);

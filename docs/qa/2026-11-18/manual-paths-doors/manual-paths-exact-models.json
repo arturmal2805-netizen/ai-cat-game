@@ -1,0 +1,187 @@
+{
+  "baseline": "e8ab6ffc24453e1e3ead9acf5190f90acff88730",
+  "rows": [
+    {
+      "id": "job-bank",
+      "before": {
+        "sha256": "df95506246b9f793e1b139aee6334b8d175122fabcba399601d03ea049cbc424",
+        "meshes": 9,
+        "vertices": 241281
+      },
+      "after": {
+        "sha256": "df95506246b9f793e1b139aee6334b8d175122fabcba399601d03ea049cbc424",
+        "meshes": 9,
+        "vertices": 241281
+      },
+      "equal": true
+    },
+    {
+      "id": "job-crypto",
+      "before": {
+        "sha256": "7596fff45053302b7c9dbf4f50430a8fa6b4b50556e7d38fdde96a43d13fbb13",
+        "meshes": 11,
+        "vertices": 292198
+      },
+      "after": {
+        "sha256": "7596fff45053302b7c9dbf4f50430a8fa6b4b50556e7d38fdde96a43d13fbb13",
+        "meshes": 11,
+        "vertices": 292198
+      },
+      "equal": true
+    },
+    {
+      "id": "job-factory",
+      "before": {
+        "sha256": "e5750e255d94db1b4ed0bbab9e192e4116c1f848fe13da1596750b4a5c7b2b5c",
+        "meshes": 12,
+        "vertices": 137479
+      },
+      "after": {
+        "sha256": "e5750e255d94db1b4ed0bbab9e192e4116c1f848fe13da1596750b4a5c7b2b5c",
+        "meshes": 12,
+        "vertices": 137479
+      },
+      "equal": true
+    },
+    {
+      "id": "job-furniture",
+      "before": {
+        "sha256": "3f8a5b0a01e61e902c8ec6f41277e069f7896642ec7f8b21b70b01e5bc85d0cd",
+        "meshes": 8,
+        "vertices": 289152
+      },
+      "after": {
+        "sha256": "3f8a5b0a01e61e902c8ec6f41277e069f7896642ec7f8b21b70b01e5bc85d0cd",
+        "meshes": 8,
+        "vertices": 289152
+      },
+      "equal": true
+    },
+    {
+      "id": "job-estate",
+      "before": {
+        "sha256": "03a7cf5a497906a3ca4b3c34dba91315fe90fd012e33cfaa4d5bffb90958484d",
+        "meshes": 9,
+        "vertices": 385574
+      },
+      "after": {
+        "sha256": "03a7cf5a497906a3ca4b3c34dba91315fe90fd012e33cfaa4d5bffb90958484d",
+        "meshes": 9,
+        "vertices": 385574
+      },
+      "equal": true
+    },
+    {
+      "id": "job-cars",
+      "before": {
+        "sha256": "afce0bc83a7b9a531fba0167ab093e0f867a848582674ac93b34ae8f7af3d6fa",
+        "meshes": 10,
+        "vertices": 209040
+      },
+      "after": {
+        "sha256": "afce0bc83a7b9a531fba0167ab093e0f867a848582674ac93b34ae8f7af3d6fa",
+        "meshes": 10,
+        "vertices": 209040
+      },
+      "equal": true
+    },
+    {
+      "id": "sage",
+      "before": {
+        "sha256": "589e8ff7547bd035484f502fe50eccd9c49fe0f914d7780663ca22805af24c12",
+        "meshes": 552,
+        "vertices": 78133
+      },
+      "after": {
+        "sha256": "589e8ff7547bd035484f502fe50eccd9c49fe0f914d7780663ca22805af24c12",
+        "meshes": 552,
+        "vertices": 78133
+      },
+      "equal": true
+    },
+    {
+      "id": "lavender",
+      "before": {
+        "sha256": "ef0f9f8f62e1426bb1be0bda4023219af9df95fc1dbf9b976cdaa53a5693c815",
+        "meshes": 559,
+        "vertices": 79013
+      },
+      "after": {
+        "sha256": "ef0f9f8f62e1426bb1be0bda4023219af9df95fc1dbf9b976cdaa53a5693c815",
+        "meshes": 559,
+        "vertices": 79013
+      },
+      "equal": true
+    },
+    {
+      "id": "rose",
+      "before": {
+        "sha256": "1f7d0d01f0bb717ea67acca948dc418178cb008c114c34cc1eaf857629fe93e8",
+        "meshes": 552,
+        "vertices": 78133
+      },
+      "after": {
+        "sha256": "1f7d0d01f0bb717ea67acca948dc418178cb008c114c34cc1eaf857629fe93e8",
+        "meshes": 552,
+        "vertices": 78133
+      },
+      "equal": true
+    },
+    {
+      "id": "blue",
+      "before": {
+        "sha256": "05028343072a7eeae6e1769af83681a0861b08bcf5fc738d78c7aff4add2862c",
+        "meshes": 559,
+        "vertices": 79013
+      },
+      "after": {
+        "sha256": "05028343072a7eeae6e1769af83681a0861b08bcf5fc738d78c7aff4add2862c",
+        "meshes": 559,
+        "vertices": 79013
+      },
+      "equal": true
+    },
+    {
+      "id": "honey",
+      "before": {
+        "sha256": "a6a2b045b8c6a00ccf1b817da79a6197f8c106e5813cb8e1c3f5b5f8d0e16e54",
+        "meshes": 552,
+        "vertices": 78133
+      },
+      "after": {
+        "sha256": "a6a2b045b8c6a00ccf1b817da79a6197f8c106e5813cb8e1c3f5b5f8d0e16e54",
+        "meshes": 552,
+        "vertices": 78133
+      },
+      "equal": true
+    },
+    {
+      "id": "berry",
+      "before": {
+        "sha256": "13df7347eb1e8089a7a4b3bf96a9b34904aa6ddb71f8f6eee018cab39bb22e6b",
+        "meshes": 552,
+        "vertices": 78133
+      },
+      "after": {
+        "sha256": "13df7347eb1e8089a7a4b3bf96a9b34904aa6ddb71f8f6eee018cab39bb22e6b",
+        "meshes": 552,
+        "vertices": 78133
+      },
+      "equal": true
+    },
+    {
+      "id": "ivy",
+      "before": {
+        "sha256": "589e8ff7547bd035484f502fe50eccd9c49fe0f914d7780663ca22805af24c12",
+        "meshes": 552,
+        "vertices": 78133
+      },
+      "after": {
+        "sha256": "589e8ff7547bd035484f502fe50eccd9c49fe0f914d7780663ca22805af24c12",
+        "meshes": 552,
+        "vertices": 78133
+      },
+      "equal": true
+    }
+  ]
+}

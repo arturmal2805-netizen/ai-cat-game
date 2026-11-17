@@ -166,3 +166,31 @@ manualSurface применяетbuilderObstacles сjobReservations, где за�
 сами дороги/парковка — это placementexclusions, не физическиестены.
 Требуетсясобственнаяactualnavigation с двернымипроёмами иполнымbody sweep.
 Не уменьшатьрадиус/не выключатьколлизии/не телепортироватьдляпрохождения.
+
+## 2026-11-18 — отдельный WIP проходов и дверей
+
+Базаe8ab6ffc24453e1e3ead9acf5190f90acff88730; расширение уже live:
+CI44185424944 SUCCESS, HTTP2026-11-17T22:12:26.233244UTC, actualassets matched.
+Новыйworktree /workspace/chichi-manual-paths-doors, codex/manual-paths-doors.
+Причина Cityподтверждена: jobReservations содержитroad/parking placement
+exclusions, аmanualSurface ошибочноприменял ихкакстены. ТеперьcityGroundClear
+плюсactualunbatched officeprimitivecolliders;другиеworldcollisionне отключены.
+Сегментыbounds/ступени/полы измеряютсяДОбатчинга через новый
+manual-building-navigation.js; sharednav утиповдомов, толькомалыйownerboard
+overlay наinstance. Door/camera используютреальныеотдельныеэлементы,
+необщийAABB mergedbuilding. Radius.571 прежний; standingheight2.15 покрывает
+реальнуюrest-anatomy maxY2.089, не уменьшено. ModelrootYучтён отдельно:
+офисыroot.16, дома0, footOffset.01, безhovering.
+Все6офисныхдверей/solidwalls и7домов/porches/unitcamera PASS.
+13models byteexact vertices/indices/UV/normals/colours/groups/worldmatrices
+кe8: docs/qa/2026-11-18/manual-paths-doors/manual-paths-exact-models.json.
+ПервыйnativeCityprototyperun PASS actualcrossroad/officein-out/SQLite.
+ПослеуточненияheightoffsetнуженповторfinalnativeCity. Homefixturereceipt
+исправленнавалидныйsequence-1; перваяпопыткаhomewaitfocusedmoon неготовила
+ленивыйдом: вQAнуженреальныйclickislandпередwait, неglobalforce-loading.
+Currenthome-v2runможетдойтидоtimeout: этостарыйQAбезfocusclick. Следующий
+runподновымQAфокусируетcat-homes. Не считатьнепройденнуюпроверкуPASS.
+ДляТРЦ добавленаdesktopcontextaction «Войти вТРЦ · E» уреальногошлюза;
+стрелкиdesktopпо-прежнемускрыты, phoneстарый44pxaction. Nativeэтогоещёнужен.
+Production saves/economy/sharedmerge не менялись; строения/Catmodels byteexact.
+ЭтоWIP,непубликоватьдоnativeвходов/коллизий/reload,Node22build/CI/live.

@@ -1,3 +1,4 @@
+import {installManualBuildingNavigation} from './manual-building-navigation.js';
 import * as T from "three";
 import {
   HOUSING_ID,
@@ -118,6 +119,7 @@ export function* housingBiomeSteps(biome, { lowOnly = false } = {}) {
     preparing = new Map(),
     pendingHouses = new Map(),
     houses = new Map(),
+    manualBuildings = new Map(),
     sections = new Map([[0, terrain]]),
     labels = new Map(),
     animated = new Set(),
@@ -234,6 +236,7 @@ export function* housingBiomeSteps(biome, { lowOnly = false } = {}) {
     sign.position.set(0, 2.45, 5.1);
     board.add(sign);
     g.add(board);
+    const boardNavigation=installManualBuildingNavigation(g,board),sharedNavigation=t.userData.getManualNavigation?.(),manualNavigation=sharedNavigation?{...sharedNavigation,extra:boardNavigation}:boardNavigation;
     const water = bathWater({ houseId: id, x: 3.05, z: 0.65 });
     g.add(water);
     g.userData = {
@@ -243,6 +246,7 @@ export function* housingBiomeSteps(biome, { lowOnly = false } = {}) {
       ownerName,
       plot: home.plot,
       originalModel: home.type,
+      getManualNavigation:()=>manualNavigation,
       water,
     };
     g.traverse((o) => {
@@ -264,6 +268,7 @@ export function* housingBiomeSteps(biome, { lowOnly = false } = {}) {
     g.userData.plot = latest.plot;
     detail.add(g);
     houses.set(id, g);
+    manualBuildings.set(id,{get x(){return g.position.x;},get y(){return g.position.y;},get z(){return g.position.z;},getManualNavigation:g.userData.getManualNavigation});
     animated.add(water);
     g.updateWorldMatrix(true, true);
   }
@@ -304,7 +309,7 @@ export function* housingBiomeSteps(biome, { lowOnly = false } = {}) {
         if (game.housing?.retiredHomes?.[id]) {
           releaseWater(g.userData.water);
           animated.delete(g.userData.water);
-          detail.remove(g); houses.delete(id);
+          detail.remove(g); houses.delete(id); manualBuildings.delete(id);
           // Template geometry/materials are shared by the surviving homes.
         }
         continue;
@@ -350,7 +355,7 @@ export function* housingBiomeSteps(biome, { lowOnly = false } = {}) {
         const water = g.userData.water;
         releaseWater(water);
         detail.remove(g);
-        houses.delete(id);
+        houses.delete(id); manualBuildings.delete(id);
         animated.delete(water);
       }
     }
@@ -380,6 +385,7 @@ export function* housingBiomeSteps(biome, { lowOnly = false } = {}) {
     trees: [],
     stats: { fishCount: 0, ...terrain.userData.stats },
     houses,
+    manualBuildings,
     sections,
     templates,
     pendingHouses,

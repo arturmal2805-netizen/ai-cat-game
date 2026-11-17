@@ -3312,3 +3312,8 @@ button.cat-profile-card {
 .chichi-walk-controls{display:none;position:absolute;left:max(12px,env(safe-area-inset-left));bottom:84px;z-index:13;grid-template:repeat(3,44px)/repeat(3,44px);gap:2px;pointer-events:none}
 .chichi-walk-controls[hidden]{display:none!important}
 @media(pointer:coarse){.chichi-walk-controls{display:grid}.chichi-walk-controls button{pointer-events:auto;touch-action:none;width:44px;height:44px;min-height:44px;padding:0;border:1px solid #aed9e97d;border-radius:50%;background:#183c57c7;color:#effcff;font-size:17px}.chichi-walk-controls [data-walk-key="KeyW"]{grid-area:1/2}.chichi-walk-controls [data-walk-key="KeyA"]{grid-area:2/1}.chichi-walk-controls [data-walk-key="KeyD"]{grid-area:2/3}.chichi-walk-controls [data-walk-key="KeyS"]{grid-area:3/2}}
+
+/* Contextual doorway interaction; desktop movement remains keyboard-only. */
+.chichi-door-action{display:none;position:absolute;left:50%;transform:translateX(-50%);bottom:90px;z-index:13;min-height:44px;padding:10px 18px;border:1px solid #b8dbea88;border-radius:14px;background:#183c57e8;color:#f4fbff;font:600 14px system-ui;cursor:pointer}
+.chichi-door-action[hidden]{display:none!important}
+@media(pointer:fine){.chichi-door-action{display:block}}

@@ -1,3 +1,4 @@
+import {installManualBuildingNavigation} from './manual-building-navigation.js';
 import * as T from "three";
 import { batchModelSteps } from "./model-batching.js";
 import { courtLabel } from "./foodcourt-assets.js";
@@ -92,6 +93,7 @@ export function* cryptoOfficeSteps(b,h) {
   label(roof,"CRYPTO CAT · GREEN PAW",0,13.85,6.52,14,1.05);
   for(const x of [-10,10])for(let i=0;i<3;i++)pot(roof,x,14.7+i*.17,-7+i*2.4,.6);
   yield;
+  installManualBuildingNavigation(root,props,roof);
   const bake=yield*batchModelSteps(props,{combineColors:true});root.remove(props);root.add(bake);
   props.traverse(o=>{if(o.isMesh&&!o.geometry.userData.sharedScenery)o.geometry.dispose();});
   const roofBake=yield*batchModelSteps(roof,{combineColors:true});root.remove(roof);root.add(roofBake);

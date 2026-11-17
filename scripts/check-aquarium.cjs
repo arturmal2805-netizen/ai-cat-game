@@ -347,6 +347,16 @@ async function localWorker() {
     if(process.env.CHICHI_OCEAN_AREA_AUDIT&&!baseline){const {MOSA_RELEASED_SEA}=await import(root+'/public/mosasaur-data.js');g.mosasaurSubmarine={...g.mosasaurSubmarine,x:MOSA_RELEASED_SEA.rx+30,y:-8,z:0};}
     if(process.env.CHICHI_GLOBAL_MANUAL_AUDIT){g.catPosition={biome:'moon',x:0,z:0};delete g.catLocations;delete g.mosasaurSubmarine;}
     if(process.env.CHICHI_MANUAL_BUSY_AUDIT){const {captureCatLocations}=await import(root+'/public/cat-locations.js'),{byBiome}=await import(root+'/public/game-data.js'),b=byBiome('homestead');Object.assign(g,captureCatLocations(g,g,[{id:'chichi',position:{x:b.center[0]+195,y:.16,z:b.center[1]-20},yaw:0}],now));}
+    if(process.env.CHICHI_MANUAL_PATHS_AUDIT){
+      const {ensureJobCity}=await import(root+'/public/jobcity-system.js'),{captureCatLocations}=await import(root+'/public/cat-locations.js'),{byBiome}=await import(root+'/public/game-data.js');
+      g.unlocked=['moon','homestead','autumn','jobcity','cat-homes','sakura'];g.catDestinations={luna:'moon',moti:'moon'};delete g.catLocations;delete g.mosasaurSubmarine;
+      Object.assign(g,ensureJobCity(g,now));for(const p of Object.values(g.jobCity.profiles)){p.profession=p.preferences[0];p.careerAIPending=false;p.schedule={day:0,job:'rest'};p.manualUntil=now+3600000;}
+      let biome='jobcity',x=16,z=40;
+      if(process.env.CHICHI_PATHS_KIND==='home'){
+        const {buyCatHome}=await import(root+'/public/housing-system.js'),{housingPlot}=await import(root+'/public/housing-data.js');g.jobCity.profiles.chichi.coins=100000;Object.assign(g,buyCatHome(g,'chichi','home-sage','manual-private-home-1',{},now));const h=g.housing.homes[g.housing.residences.chichi],p=housingPlot(h.plot);biome='cat-homes';x=p.x+3.4;z=p.z+7;
+      }
+      g.catPosition={biome,x,z};const b=byBiome(biome);Object.assign(g,captureCatLocations(g,g,[{id:'chichi',position:{x:b.center[0]+x,y:.16,z:b.center[1]+z},yaw:0}],now));
+    }
     const base = local.base,
       token = crypto.randomBytes(32).toString("hex"),
       headers = {
@@ -687,6 +697,7 @@ async function localWorker() {
       const dirty=sourceGit(['status','--porcelain=v1']).toString();
       fs.writeFileSync(path.join(review,'source-status.txt'),dirty);
       fs.writeFileSync(path.join(review,'qa-build.json'),JSON.stringify({sha256:crypto.createHash('sha256').update(output.outputFiles[0].contents).digest('hex'),baseline:process.env.CHICHI_BASELINE_REF||null,node:process.version,head:sourceGit(['rev-parse','HEAD']).toString().trim(),dirty,sourceOverlay:'source-HEAD.patch'},null,2));
+      if(process.env.CHICHI_MANUAL_PATHS_AUDIT){const {auditManualPaths}=await import('./audit-manual-paths-native.mjs');await auditManualPaths({page,review,errors,httpErrors});return;}
       if(process.env.CHICHI_FORECOURT_AUDIT){const {auditForecourt}=await import('./audit-forecourt-native.mjs');await auditForecourt({page,review,errors,httpErrors});return;}
       if(process.env.CHICHI_OCEAN_AREA_AUDIT){const {auditOceanAreaNative}=await import('./audit-ocean-area-native.mjs');await auditOceanAreaNative({page,review,errors,httpErrors,baseline:!!baseline});return;}
       if(process.env.CHICHI_GLOBAL_BUTTON_AUDIT){const {auditGlobalButton}=await import('./audit-global-button.mjs');await auditGlobalButton({page,review,errors,httpErrors});return;}

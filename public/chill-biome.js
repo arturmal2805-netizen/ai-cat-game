@@ -77,9 +77,11 @@ export function* chillBiomeSteps(
     lagoons = new Map(),
     houseSources = new THREE.Group();
   root.name = "Biome-sakura-Chill-Land";
+  const manualBuildings=[];
   root.add(base, detail, low);
   root.userData = {
     biomeId: "sakura",
+    manualBuildings,
     navigationSurface: base,
     detail,
     lowDetail: low,
@@ -144,6 +146,7 @@ export function* chillBiomeSteps(
     yield;
     if (lowOnly) continue;
     const source = yield* chillHouseModelSteps(h);
+    manualBuildings.push({x:h.x,z:h.z,getManualNavigation:source.userData.getManualNavigation});
     source.position.set(h.x, 0, h.z);
     houseSources.add(source);
     const bath = CHILL_OBJECTS.find(
