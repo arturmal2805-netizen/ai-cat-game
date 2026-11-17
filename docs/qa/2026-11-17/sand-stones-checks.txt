@@ -1,0 +1,258 @@
+Baked tropical-coast 38008
+One ocean reflection probe: 38008 download bytes; 0.33 MiB mipmapped shared GPU maximum.
+TAP version 13
+# Subtest: all coral colonies attach to real seabed or sculpted walls, with eleven anatomies and open central ride water
+ok 1 - all coral colonies attach to real seabed or sculpted walls, with eleven anatomies and open central ride water
+  ---
+  duration_ms: 423.985664
+  type: 'test'
+  ...
+# Subtest: spatial coral detail keeps full near meshes, shared LOD buffers and one fixed animation clock
+ok 2 - spatial coral detail keeps full near meshes, shared LOD buffers and one fixed animation clock
+  ---
+  duration_ms: 19617.763101
+  type: 'test'
+  ...
+# Subtest: the ocean reflection is a valid immutable local capture of its current native coastal producers
+ok 3 - the ocean reflection is a valid immutable local capture of its current native coastal producers
+  ---
+  duration_ms: 29.45354
+  type: 'test'
+  ...
+# Subtest: the native warmup uploads every hidden ocean sampler before compiling its first live material
+ok 4 - the native warmup uploads every hidden ocean sampler before compiling its first live material
+  ---
+  duration_ms: 97.031186
+  type: 'test'
+  ...
+# Subtest: ocean optics retain the native two field samples, one reflection lookup and bounded scalar wake slots
+ok 5 - ocean optics retain the native two field samples, one reflection lookup and bounded scalar wake slots
+  ---
+  duration_ms: 16.309211
+  type: 'test'
+  ...
+# Subtest: underwater exit, third-person camera-relative swimming axes, dive, reboard and release use actual runtime
+ok 6 - underwater exit, third-person camera-relative swimming axes, dive, reboard and release use actual runtime
+  ---
+  duration_ms: 153.629875
+  type: 'test'
+  ...
+# Subtest: swimmer and released pilot restore without resetting wallets, inventory or camera ownership
+ok 7 - swimmer and released pilot restore without resetting wallets, inventory or camera ownership
+  ---
+  duration_ms: 322.490087
+  type: 'test'
+  ...
+# Subtest: pressure airlock never opens both doors; entry and exit reach their real endpoints
+ok 8 - pressure airlock never opens both doors; entry and exit reach their real endpoints
+  ---
+  duration_ms: 1.912022
+  type: 'test'
+  ...
+# Subtest: swimmer swept collision rejects sealed Mall shell and malformed explorer records
+ok 9 - swimmer swept collision rejects sealed Mall shell and malformed explorer records
+  ---
+  duration_ms: 130.784238
+  type: 'test'
+  ...
+# Subtest: manual swimming stops on release, blur and entry into text editing
+ok 10 - manual swimming stops on release, blur and entry into text editing
+  ---
+  duration_ms: 27.164031
+  type: 'test'
+  ...
+# Subtest: look orbit leaves a stationary cat facing forward and releasing a look drag preserves a held movement key
+ok 11 - look orbit leaves a stationary cat facing forward and releasing a look drag preserves a held movement key
+  ---
+  duration_ms: 30.827097
+  type: 'test'
+  ...
+# Subtest: released explorer cannot cancel a newly selected mall overview or visitor camera
+ok 12 - released explorer cannot cancel a newly selected mall overview or visitor camera
+  ---
+  duration_ms: 12.109352
+  type: 'test'
+  ...
+# Subtest: hidden canvas gestures move/look independently, dive with two fingers and stop on release
+ok 13 - hidden canvas gestures move/look independently, dive with two fingers and stop on release
+  ---
+  duration_ms: 33.541393
+  type: 'test'
+  ...
+# Subtest: E chooses the real boat or door in view when both are within reach
+ok 14 - E chooses the real boat or door in view when both are within reach
+  ---
+  duration_ms: 33.072436
+  type: 'test'
+  ...
+# Subtest: phone buttons allow independent held movement and depth; cancellation and blur clear only their owned inputs
+ok 15 - phone buttons allow independent held movement and depth; cancellation and blur clear only their owned inputs
+  ---
+  duration_ms: 9.618596
+  type: 'test'
+  ...
+# Subtest: phone control anchor tracks the visible viewport when the game canvas extends below it
+ok 16 - phone control anchor tracks the visible viewport when the game canvas extends below it
+  ---
+  duration_ms: 7.216009
+  type: 'test'
+  ...
+# Subtest: bounded mixed reef preserves original colonies, actual floor support and a body-width sand passage
+ok 17 - bounded mixed reef preserves original colonies, actual floor support and a body-width sand passage
+  ---
+  duration_ms: 456.113602
+  type: 'test'
+  ...
+# Subtest: curved seagrass retains every plant at all LODs and never rewrites instance rows during animation
+ok 18 - curved seagrass retains every plant at all LODs and never rewrites instance rows during animation
+  ---
+  duration_ms: 17223.598246
+  type: 'test'
+  ...
+# Subtest: authored sand relief is a shared linear GL-normal/roughness map, not a colour photograph
+ok 19 - authored sand relief is a shared linear GL-normal/roughness map, not a colour photograph
+  ---
+  duration_ms: 23.366533
+  type: 'test'
+  ...
+# Subtest: reef gardens span the ocean floor without changing the central ride or the Mall approach
+ok 20 - reef gardens span the ocean floor without changing the central ride or the Mall approach
+  ---
+  duration_ms: 95.344291
+  type: 'test'
+  ...
+# Subtest: new distant reef indices preserve every published rock/coral vertex, original LOD and animal/site record
+ok 21 - new distant reef indices preserve every published rock/coral vertex, original LOD and animal/site record
+  ---
+  duration_ms: 108.102555
+  type: 'test'
+  ...
+# Subtest: the actual cache loader binds original distant coral levels and separate seabed-only levels
+ok 22 - the actual cache loader binds original distant coral levels and separate seabed-only levels
+  ---
+  duration_ms: 213.161947
+  type: 'test'
+  ...
+# Subtest: local sand partitions every original triangle exactly once without moving any floor vertex or changing the far shader
+ok 23 - local sand partitions every original triangle exactly once without moving any floor vertex or changing the far shader
+  ---
+  duration_ms: 800.242877
+  type: 'test'
+  ...
+# Subtest: ready stone instances and their real physics contacts share positions and conservatively contain every sculpted vertex
+ok 24 - ready stone instances and their real physics contacts share positions and conservatively contain every sculpted vertex
+  ---
+  duration_ms: 4.970195
+  type: 'test'
+  ...
+# Subtest: a previous saved swimmer pose inside a newly placed stone is released through real contacts
+ok 25 - a previous saved swimmer pose inside a newly placed stone is released through real contacts
+  ---
+  duration_ms: 3.627723
+  type: 'test'
+  ...
+# Subtest: all eight original mini-biomes have versioned 256-square static reflections matching the current scenery inputs
+ok 26 - all eight original mini-biomes have versioned 256-square static reflections matching the current scenery inputs
+  ---
+  duration_ms: 23.029689
+  type: 'test'
+  ...
+# Subtest: clear blue water keeps the existing wave/impact fields and single reflection lookup; other native water remains unchanged
+ok 27 - clear blue water keeps the existing wave/impact fields and single reflection lookup; other native water remains unchanged
+  ---
+  duration_ms: 38.612968
+  type: 'test'
+  ...
+# Subtest: placement reflection orientation survives the common filtered shader without duplicate roughness declarations
+ok 28 - placement reflection orientation survives the common filtered shader without duplicate roughness declarations
+  ---
+  duration_ms: 0.34533
+  type: 'test'
+  ...
+# Subtest: receiving floors/walls meet the real basin bed while the dry rim stays intact and the rapids bank ends at its shore
+ok 29 - receiving floors/walls meet the real basin bed while the dry rim stays intact and the rapids bank ends at its shore
+  ---
+  duration_ms: 86.298111
+  type: 'test'
+  ...
+# Subtest: one selected reflection is decoded once and shared by all matching surfaces
+ok 30 - one selected reflection is decoded once and shared by all matching surfaces
+  ---
+  duration_ms: 2.19514
+  type: 'test'
+  ...
+# Subtest: one selected reflection fails safely without retrying
+ok 31 - one selected reflection fails safely without retrying
+  ---
+  duration_ms: 1.250015
+  type: 'test'
+  ...
+# Subtest: real basin ripples retain the exact boundary and unit UVs; submerged details keep fixed shared buffers and clock
+ok 32 - real basin ripples retain the exact boundary and unit UVs; submerged details keep fixed shared buffers and clock
+  ---
+  duration_ms: 98.984519
+  type: 'test'
+  ...
+# Subtest: finite outlet rails descend continuously under the receiving bed rather than ending suspended in air
+ok 33 - finite outlet rails descend continuously under the receiving bed rather than ending suspended in air
+  ---
+  duration_ms: 325.426568
+  type: 'test'
+  ...
+# Subtest: submarine accelerates, reverses, steers, dives, brakes and switches no currencies or NPC state
+ok 34 - submarine accelerates, reverses, steers, dives, brakes and switches no currencies or NPC state
+  ---
+  duration_ms: 197.231706
+  type: 'test'
+  ...
+# Subtest: real-time long frames do not tunnel through terrain or cave/ruin capsules
+ok 35 - real-time long frames do not tunnel through terrain or cave/ruin capsules
+  ---
+  duration_ms: 888.268072
+  type: 'test'
+  ...
+# Subtest: safe entry/exit remains at the dedicated pier and invalid saved coordinates cannot strand the cat
+ok 36 - safe entry/exit remains at the dedicated pier and invalid saved coordinates cannot strand the cat
+  ---
+  duration_ms: 16.858652
+  type: 'test'
+  ...
+# Subtest: space gives a real ballistic water breach and shift descends again
+ok 37 - space gives a real ballistic water breach and shift descends again
+  ---
+  duration_ms: 42.281212
+  type: 'test'
+  ...
+# Subtest: real save/load and cached shared clients retain the pilot pose without losing purchases or wallet
+ok 38 - real save/load and cached shared clients retain the pilot pose without losing purchases or wallet
+  ---
+  duration_ms: 234.337836
+  type: 'test'
+  ...
+# Subtest: a steep reef wall brakes a fast boat rather than lifting it onto the ledge
+ok 39 - a steep reef wall brakes a fast boat rather than lifting it onto the ledge
+  ---
+  duration_ms: 252.293507
+  type: 'test'
+  ...
+# Subtest: return leaves both real cavern roofs through their openings before ascending to the pier
+ok 40 - return leaves both real cavern roofs through their openings before ascending to the pier
+  ---
+  duration_ms: 423.196634
+  type: 'test'
+  ...
+1..40
+# tests 40
+# suites 0
+# pass 40
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 20216.5925
+Final production application d161948eacde20b0 c14ce8408f8f3aed c3f59b2a0568870936655bec3e308841a1952c41
+Reef: actual Chichi left the boat and swam along the sand opening
+Ocean native: full detail and native shaders ready
+Ocean native capture sand-stones-normal-day {"triangles":8250315,"calls":411,"fog":{"color":1214125,"density":0.0045}}
+Ocean native capture sand-stones-phone-day {"triangles":9510652,"calls":409,"fog":{"color":1214125,"density":0.0045}}
+PASS: native third-person reef, ordinary/wide/phone views, frame/memory, private SQLite reload; opt-in diagnostic copied/closed when requested.

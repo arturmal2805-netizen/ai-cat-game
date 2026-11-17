@@ -1,0 +1,32 @@
+{
+  "version": 3,
+  "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+  "fps": 30.61,
+  "samples": 300,
+  "seconds": 9.767,
+  "gapP95": 50.1,
+  "gapP99": 66.7,
+  "gapMax": 483,
+  "gapMaxSinceStart": 6383.300000000003,
+  "onePercentLowFps": 3.91,
+  "stuttersOver50MsSinceStart": 30,
+  "severeStuttersOver100MsSinceStart": 6,
+  "cpuMedian": 1.5,
+  "cpuP95": 2,
+  "renderMedian": 17.1,
+  "renderP95": 29.9,
+  "startupFirstFrameMs": 4410.4,
+  "gpuRender": {
+    "supported": true,
+    "disjoint": false,
+    "samples": 300,
+    "pending": 2,
+    "medianMs": 26.74,
+    "p95Ms": 34.08,
+    "maxMs": 87.8
+  },
+  "rawSha256": "1ae8da9ae39f49b92a05d622f4a5b71b0a7017e5fd3e1a2d26a9da42967aa6b1",
+  "instruction": "Retain for optimization AFTER sand/seabed. No diagnosis during current art stage.",
+  "attachment": "file_00000000c744821084941dc2526b0098",
+  "resources": []
+}

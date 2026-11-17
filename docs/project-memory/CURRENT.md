@@ -4,6 +4,28 @@
 Следующий активный этап: песок и объёмные камни. Пользователь явно просит
 ускорить работу и перенести оптимизацию ПОСЛЕ песка и дна.
 
+## В main отправлен следующий этап: c44bdc7 (ещё ждёт CI/live)
+
+Source **c44bdc7e6a262dbe7cf356e629d7b45239a39330**, codex/seabed-materials.
+CI https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44088502846
+сейчас в работе. НЕ объявлять опубликованным до success и HTTP verification.
+ОжидаемыйJS d161948eacde20b0d138b996abf78aba933ab162dcd41efbc010eb0ec69b7cb4,
+CSS прежнийc14ce840… .40targeted PASS, native normal/phone exit/swim/SQLite
+ownership/reload PASS. Дополнительно18/18старых допустимых saved floor poses
+проверены: новые stone contacts не запирают кота. Native metrics DEFERRED по
+прямому указанию пользователя: оптимизация только ПОСЛЕ песка/дна.
+
+18готовых stones/pebbles,4immutable batches + новый sand detail ТОЛЬКО на
+пробном участке x0,z−95 (не всё дно). Прежние source floor vertices и index
+triangles сохранены ровно по одному, без overlay; дальний shader не изменён.
+Готовые shapes взяты из boulderGeometry, НЕ заново моделировались. Реальные
+капсулы используют те же Float32 центры и покрывают все rendered vertices;
+bounded initial contact projection нужна только внутри новых rocks.
+[Исходники/точные сборки/PNG/3 новых unit tests](https://github.com/arturmal2805-netizen/ai-cat-game/blob/c44bdc7e6a262dbe7cf356e629d7b45239a39330/docs/qa/2026-11-17/sand-stones/manifest.json).
+Следом распространить общую систему песка по дну и готовые stones по зонам,
+сохранить свободные пути, оригинальные animals/королей/1024reefs/ownership.
+Не объявлять всю работу завершённой после одного участка.
+
 ## Подтверждённая работающая версия
 
 **c3f59b2a0568870936655bec3e308841a1952c41** — main и сайт.
