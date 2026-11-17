@@ -17,7 +17,6 @@ export function createOceanSwimmer(raw,{radius=.6,obstacles=mosaTerrainObstacles
   // New terrain may surround a previously valid saved swimming pose. Use
   // ordinary bounded contact projection, never leave a restored cat trapped.
   function releaseNewStoneContact(){
-    if(Math.abs(state.x)>12||Math.abs(state.z+95)>12)return;
     for(let pass=0;pass<4;pass++)for(const o of obstacles){if(!o.id?.startsWith('seabed-stone-'))continue;const body={x:state.x,y:state.y+.7,z:state.z};if(pushCapsule(body,o,radius+.002)){const next={...state,x:body.x,y:body.y-.7,z:body.z};if(next.y>=mosaBedY(next.x,next.z)+.15&&mosaReefClearance(body.x,body.y,body.z)>=radius&&!mallPressureContact(body.x,body.y,body.z,radius))Object.assign(state,next);}}
   }
   releaseNewStoneContact();

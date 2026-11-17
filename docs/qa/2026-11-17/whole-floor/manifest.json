@@ -1,0 +1,10 @@
+{
+  "base": "c44bdc7e6a262dbe7cf356e629d7b45239a39330",
+  "scope": "All81920floor triangles,54staticsections,one shared 2m sand normal/roughness,118ready rocks. Original floor remains exact ray proxy.",
+  "jsSHA256": "f8acc968a8e3eef63f4e6621cbfdacd5064f6cd744e84edec2580c137b83d162",
+  "tests": "40targeted PASS Node22; actual game/privateSQLite PASS; full CI must pass before publication",
+  "metrics": "Deferred. User explicitly orders optimization AFTER whole-floor publication.",
+  "native": "ocean-art-results.json",
+  "source": "qa-build.json + source HEAD/cached/status patches + exact instrumented bundle",
+  "textures": "Genuine existing sand albedo; authored tileable intersecting ripple normal RGB and linear roughness A. Not a new scan or d6 reconstruction."
+}

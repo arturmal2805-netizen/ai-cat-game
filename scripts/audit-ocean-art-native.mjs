@@ -29,7 +29,9 @@ export async function auditOceanArtNative({page,review,errors,httpErrors}){
  ];
  if(process.env.CHICHI_REEF_QUICK_PERF)specs.splice(0,specs.length,...specs.filter(s=>s.name==='reef-phone'));
  if(process.env.CHICHI_SAND_STONE_AUDIT)specs.splice(0,specs.length,{name:'sand-stones-normal',eye:[12,-115.8,-75],target:[0,-124.8,-95],distance:26},{name:'sand-stones-phone',eye:[5,-120.8,-87],target:[0,-124.8,-95],distance:12,phone:true});
+ if(process.env.CHICHI_WHOLE_FLOOR_AUDIT)specs.splice(1,0,{name:'whole-sand-remote',eye:[-123,-50,-85],target:[-135,-58.9,-105],distance:26},{name:'whole-sand-ocean',eye:[0,-25,-140],target:[0,-125,0],distance:180});
  const rows=[];
+ const wholeFloor=process.env.CHICHI_WHOLE_FLOOR_AUDIT?await page.evaluate(()=>{const o=__lagoonQA.islands.get('autumn').userData.ocean;return{sections:o.sandRegion.userData.sectionCount,triangles:o.sandRegion.userData.sourceTriangleCount,stones:o.floorStones.userData.sites.length};}):null;if(wholeFloor){assert.ok(wholeFloor.sections>20);assert.ok(wholeFloor.stones>100);}
  const reefCounts=reef&&!process.env.CHICHI_BASELINE_REF?await page.evaluate(()=>{const root=__lagoonQA.islands.get('autumn').userData.ocean.reefPatch;return{colonies:root.userData.colonies.length,plants:root.userData.plants.length,groups:root.children.length};}):null;
  if(reefCounts){assert.equal(reefCounts.colonies,1216);assert.equal(reefCounts.plants,19456);}
  for(const hour of (reef?[12]:[12,0]))for(const spec of specs){
@@ -74,6 +76,6 @@ export async function auditOceanArtNative({page,review,errors,httpErrors}){
  const final=await page.evaluate(()=>{__lagoonQA.drawPaused=true;const g=__lagoonSaveQA.getGame();return{coins:g.coins,inventory:g.inventory,placements:g.placements};});assert.deepEqual(final,initial);
  if(reef){assert.equal(await page.evaluate(()=>__lagoonQA.submarine().phase),'swimming');assert.equal(await page.locator('#frame-profile').count(),0,'normal reload must not reopen diagnostics');}
  assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);
- await writeFile(join(review,'ocean-art-results.json'),JSON.stringify({completed:true,reefCounts,rows,metrics,initial,final,errors,httpErrors,renderer:'Native game at DPR2, Chromium SwiftShader. Equal camera/clock fixtures; diagnostic timing, not physical-device FPS.'},null,2));
+ await writeFile(join(review,'ocean-art-results.json'),JSON.stringify({completed:true,wholeFloor,reefCounts,rows,metrics,initial,final,errors,httpErrors,renderer:'Native game at DPR2, Chromium SwiftShader. Equal camera/clock fixtures; diagnostic timing, not physical-device FPS.'},null,2));
  console.log(reef?'PASS: native third-person reef, ordinary/wide/phone views, frame/memory, private SQLite reload; opt-in diagnostic copied/closed when requested.':'PASS: native ocean views at two clock times, frame intervals/memory, and ownership after private SQLite reload.');
 }

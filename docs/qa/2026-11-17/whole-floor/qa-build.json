@@ -1,0 +1,7 @@
+{
+  "sha256": "cd97efcf597f6566b45d7d1f6381ef4951f2c7bbacab443d99ba6156981d0570",
+  "node": "v22.23.5",
+  "head": "c44bdc7e6a262dbe7cf356e629d7b45239a39330",
+  "dirty": "MM public/index.html\nM  public/mosasaur-floor-stones-data.js\nM  public/mosasaur-sand-detail.js\nM  public/mosasaur-sand-region.js\nMM public/mosasaur-water-probe-assets.js\nM  public/ocean-swimmer.js\n M public/showcase-probe-assets.js\nM  scripts/audit-ocean-art-native.mjs\nM  test/seabed-sand-stones.test.mjs\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

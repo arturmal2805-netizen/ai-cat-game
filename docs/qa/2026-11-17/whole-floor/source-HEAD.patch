@@ -1,0 +1,193 @@
+diff --git a/public/index.html b/public/index.html
+index 09e1a31..ca621d2 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -702,6 +702,6 @@
+       </div>
+     </dialog>
+     <div id="toast" role="status" aria-live="polite" hidden></div>
+-    <script type="module" src="./dist/app.js?v=d161948eacde20b0"></script>
++    <script type="module" src="./dist/app.js?v=f8acc968a8e3eef6"></script>
+   </body>
+ </html>
+diff --git a/public/mosasaur-floor-stones-data.js b/public/mosasaur-floor-stones-data.js
+index 258fed0..abf3d28 100644
+--- a/public/mosasaur-floor-stones-data.js
++++ b/public/mosasaur-floor-stones-data.js
+@@ -1,9 +1,11 @@
+-import {mosaBedY} from './mosasaur-data.js';
++import {SEABED_REEF_GARDENS} from './mosasaur-seabed-patch-data.js';
++import {mosaReefClearance} from './mosasaur-reef-data.js';
++import {mosaBedY,mosaWaterRadius} from './mosasaur-data.js';
+ // Ready boulder forms are embedded into the real slope. These exact centres
+ // also drive the existing capsule collision system; no decorative duplicate.
+-export const MOSA_FLOOR_STONES=Object.freeze(Array.from({length:18},(_,i)=>{
+- const side=i%2?1:-1,row=Math.floor(i/2),x=side*(row<3?8:4.8+(row%3)*1.0+(row>=6?.8:0)),z=-95+(row<3?(row-1)*3:((row%3)-1)*5.6+(row>=6?.8:0)),r=row<3?.75+(i%3)*.2:.18+(i%4)*.07,e=.05;
++export const MOSA_FLOOR_STONES=Object.freeze(SEABED_REEF_GARDENS.flatMap((garden,gardenIndex)=>Array.from({length:18},(_,i)=>{
++ const side=i%2?1:-1,row=Math.floor(i/2),x=garden.x+garden.rx/10*side*(row<3?8:4.8+(row%3)*1.0+(row>=6?.8:0)),z=garden.z+garden.rz/8*(row<3?(row-1)*3:((row%3)-1)*5.6+(row>=6?.8:0)),r=row<3?.75+(i%3)*.2:.18+(i%4)*.07,e=.05;
+  const dx=(mosaBedY(x+e,z)-mosaBedY(x-e,z))/(2*e),dz=(mosaBedY(x,z+e)-mosaBedY(x,z-e))/(2*e),length=Math.hypot(dx,1,dz),nx=-dx/length,ny=1/length,nz=-dz/length;
+- return Object.freeze({id:'seabed-stone-'+i,x:Math.fround(x+nx*r*.15),y:Math.fround(mosaBedY(x,z)+ny*r*.15),z:Math.fround(z+nz*r*.15),nx,ny,nz,r,kind:i%4,yaw:i*2.399963});
+-}));
++ return Object.freeze({id:gardenIndex?'seabed-stone-g'+gardenIndex+'-'+i:'seabed-stone-'+i,x:Math.fround(x+nx*r*.15),y:Math.fround(mosaBedY(x,z)+ny*r*.15),z:Math.fround(z+nz*r*.15),nx,ny,nz,r,kind:i%4,yaw:i*2.399963});
++}).filter(p=>!gardenIndex||(p.ny>.5&&mosaWaterRadius(p.x,p.z)<.95&&mosaReefClearance(p.x,p.y+p.r*.4,p.z)>p.r*1.25+1.2))));
+ export const floorStoneObstacles=()=>MOSA_FLOOR_STONES.map(p=>({id:p.id,kind:'capsule',a:[p.x,p.y,p.z],b:[p.x,p.y,p.z],radius:p.r*1.25}));
+diff --git a/public/mosasaur-sand-detail.js b/public/mosasaur-sand-detail.js
+index 31058ef..5aded7a 100644
+--- a/public/mosasaur-sand-detail.js
++++ b/public/mosasaur-sand-detail.js
+@@ -5,9 +5,11 @@ let texture;
+ export function sandDetailTexture(){
+  if(texture)return texture;const size=256,data=new Uint8Array(size*size*4),tau=Math.PI*2;
+  for(let y=0;y<size;y++)for(let x=0;x<size;x++){
+-  const u=x/size,v=y/size,phase=tau*(6*v+.08*Math.sin(tau*u));
+-  const dx=-.011*Math.sin(phase)*tau*.08*tau*Math.cos(tau*u)+.0007*tau*29*Math.cos(tau*(29*u+17*v));
+-  const dz=-.011*Math.sin(phase)*tau*6+.0007*tau*17*Math.cos(tau*(29*u+17*v));
++  const u=x/size,v=y/size,warpA=tau*(u-v),warpB=tau*(u+v),phaseA=tau*(4*u+3*v+.30*Math.sin(warpA)),phaseB=tau*(-2*u+5*v+.22*Math.cos(warpB)),grain=tau*(29*u+17*v);
++  // Two curved, crossing ripple families; periodic at the 2m tile edges.
++  // Analytic derivatives preserve the GL normal direction and linear channels.
++  const dx=-.0045*Math.sin(phaseA)*tau*(4+.30*tau*Math.cos(warpA))-.0025*Math.sin(phaseB)*tau*(-2-.22*tau*Math.sin(warpB))+.0007*tau*29*Math.cos(grain);
++  const dz=-.0045*Math.sin(phaseA)*tau*(3-.30*tau*Math.cos(warpA))-.0025*Math.sin(phaseB)*tau*(5-.22*tau*Math.sin(warpB))+.0007*tau*17*Math.cos(grain);
+   const nx=-dx*.5,ny=-dz*.5,length=Math.hypot(nx,ny,1),k=(y*size+x)*4;
+   data[k]=Math.round(127.5+127.5*nx/length);data[k+1]=Math.round(127.5+127.5*ny/length);data[k+2]=Math.round(127.5+127.5/length);
+   data[k+3]=Math.round(228+11*Math.sin(tau*(13*u-9*v))*Math.cos(tau*(7*v+3*u)));
+diff --git a/public/mosasaur-sand-region.js b/public/mosasaur-sand-region.js
+index 643853d..2a4bd80 100644
+--- a/public/mosasaur-sand-region.js
++++ b/public/mosasaur-sand-region.js
+@@ -1,32 +1,31 @@
+ import * as T from 'three';
+ import {sandDetailTexture} from './mosasaur-sand-detail.js';
+-import {SEABED_REEF_PATCH as P} from './mosasaur-seabed-patch-data.js';
+-import {WORLD_CENTERS} from './world-layout.js';
+-// Partition the ORIGINAL floor triangles. No duplicate overlay, shifted floor,
+-// extra terrain evaluation or ocean-wide detail branch.
++// One metre-based sand material everywhere. Separate static floor sections use
++// the original cheap material beyond the already invisible detail transition.
++// Original floor remains the exact picking/ray proxy; visual chunks do not pick.
+ export function* installSandRegionSteps(bed){
+- const source=bed.geometry,index=source.index.array,pos=source.attributes.position,near=[],far=[],cx=P.x,cz=P.z;
++ const source=bed.geometry,index=source.index.array,pos=source.attributes.position,cells=new Map(),point=new T.Vector3();bed.updateMatrix();
+  for(let i=0;i<index.length;i+=3){
+   if(i%768===0)yield;
+-  let selected=false;for(let j=0;j<3;j++){const k=index[i+j],x=pos.getX(k)*bed.scale.x,z=-pos.getY(k)*bed.scale.y;if(Math.hypot((x-cx)/P.rx,(z-cz)/P.rz)<1.15)selected=true;}
+-  (selected?near:far).push(index[i],index[i+1],index[i+2]);
++  let x=0,y=0,z=0;for(let j=0;j<3;j++){point.fromBufferAttribute(pos,index[i+j]).applyMatrix4(bed.matrix);x+=point.x/3;y+=point.y/3;z+=point.z/3;}
++  const key=Math.floor(x/64)+':'+Math.floor(z/64);let cell=cells.get(key);if(!cell){cell={indices:[],sum:new T.Vector3(),count:0};cells.set(key,cell);}cell.indices.push(index[i],index[i+1],index[i+2]);cell.sum.add(new T.Vector3(x,y,z));cell.count++;
+  }
+- if(!near.length)return null;
+- const local=new T.BufferGeometry();for(const [key,a]of Object.entries(source.attributes))local.setAttribute(key,a);
+- local.setIndex(new T.BufferAttribute(new index.constructor(near),1));source.setIndex(new T.BufferAttribute(new index.constructor(far),1));
+  const original=bed.material,material=new T.MeshStandardMaterial({color:original.color,vertexColors:original.vertexColors,map:original.map,roughness:original.roughness,metalness:original.metalness,side:original.side});
+  for(const key of ['mosaBedStone','mosaBedGround','mosaWaterField'])material[key]=original[key];
+  material.userData.waterLight=original.userData.waterLight;material.seabedSandDetail=sandDetailTexture();
+- material.onBeforeCompile=function(s,...args){original.onBeforeCompile.call(this,s,...args);s.uniforms.uLocalSandDetail={value:material.seabedSandDetail};s.uniforms.uLocalSandCenter={value:new T.Vector2(WORLD_CENTERS.autumn[0]+cx,WORLD_CENTERS.autumn[1]+cz)};
+-  s.fragmentShader='uniform sampler2D uLocalSandDetail;uniform vec2 uLocalSandCenter;\n'+s.fragmentShader.replace('#include <normal_fragment_maps>',`#include <normal_fragment_maps>
+-   vec2 sandDelta=vMosaBedPosition.xz-uLocalSandCenter;
+-   float sandR=length(sandDelta/vec2(${P.rx.toFixed(1)},${P.rz.toFixed(1)}))+.055*sin(sandDelta.x*.8)*sin(sandDelta.y*.9);
+-   float sandMix=(1.-smoothstep(.65,1.,sandR))*smoothstep(.45,.8,abs(vMosaBedNormal.y));
++ material.onBeforeCompile=function(s,...args){original.onBeforeCompile.call(this,s,...args);s.uniforms.uLocalSandDetail={value:material.seabedSandDetail};
++  s.fragmentShader='uniform sampler2D uLocalSandDetail;\n'+s.fragmentShader.replace('#include <normal_fragment_maps>',`#include <normal_fragment_maps>
++   float sandMix=(1.-smoothstep(35.,65.,distance(cameraPosition,vMosaBedPosition)))*smoothstep(.45,.8,abs(vMosaBedNormal.y));
+    vec4 sandDetail=texture2D(uLocalSandDetail,vMosaBedPosition.xz*.5);
+-   vec3 sandBase=normalize(vMosaBedNormal),sandTangent=normalize(vec3(1.,0.,0.)-sandBase*sandBase.x),sandBitangent=cross(sandTangent,sandBase),sandN=sandDetail.xyz*2.-1.;
+-   normal=normalize(mix(normal,mat3(viewMatrix)*normalize(sandBase*sandN.z+sandTangent*sandN.x+sandBitangent*sandN.y),sandMix*.75));roughnessFactor=mix(roughnessFactor,sandDetail.a,sandMix);`);
++   vec3 sandBase=normalize(vMosaBedNormal),sandTangent=normalize(abs(sandBase.x)>.9?cross(vec3(0.,1.,0.),sandBase):vec3(1.,0.,0.)-sandBase*sandBase.x),sandBitangent=cross(sandTangent,sandBase),sandN=sandDetail.xyz*2.-1.;
++   normal=normalize(mix(normal,mat3(viewMatrix)*normalize(sandBase*sandN.z+sandTangent*sandN.x+sandBitangent*sandN.y),sandMix*.55));roughnessFactor=mix(roughnessFactor,sandDetail.a,sandMix);`);
+  };
+- material.customProgramCacheKey=()=>original.customProgramCacheKey()+'-local-authored-sand-v1';
+- const mesh=new T.Mesh(local,material);mesh.name='Exact seabed sand triangles · local PBR detail';mesh.position.copy(bed.position);mesh.rotation.copy(bed.rotation);mesh.scale.copy(bed.scale);mesh.receiveShadow=bed.receiveShadow;mesh.castShadow=bed.castShadow;bed.parent.add(mesh);
+- mesh.userData.sourceTriangleCount=index.length/3;mesh.userData.localTriangleCount=near.length/3;return mesh;
++ material.customProgramCacheKey=()=>original.customProgramCacheKey()+'-whole-floor-shared-sand-v2';
++ const root=new T.Group();root.name='Continuous sand floor · one shared physical material';
++ for(const cell of cells.values()){
++  yield;const g=new T.BufferGeometry();for(const [key,a]of Object.entries(source.attributes))g.setAttribute(key,a);g.setIndex(new T.BufferAttribute(new index.constructor(cell.indices),1));
++  const lod=new T.LOD();lod.position.copy(cell.sum.multiplyScalar(1/cell.count));root.add(lod);
++  for(const [level,paint]of [material,original].entries()){const mesh=new T.Mesh(g,paint);mesh.position.copy(bed.position).sub(lod.position);mesh.rotation.copy(bed.rotation);mesh.scale.copy(bed.scale);mesh.receiveShadow=bed.receiveShadow;mesh.castShadow=bed.castShadow;mesh.raycast=()=>{};lod.addLevel(mesh,level?130:0,.08);}
++ }
++ bed.visible=false;bed.parent.add(root);root.userData.sourceTriangleCount=index.length/3;root.userData.localTriangleCount=index.length/3;root.userData.sectionCount=cells.size;return root;
+ }
+diff --git a/public/mosasaur-water-probe-assets.js b/public/mosasaur-water-probe-assets.js
+index bc6e128..4b71e72 100644
+--- a/public/mosasaur-water-probe-assets.js
++++ b/public/mosasaur-water-probe-assets.js
+@@ -1,3 +1,3 @@
+ // Actual static tropical coast, linear radiance / 4. No gameplay capture.
+-export const MOSA_WATER_PROBE_REVISION="85db05a9f4ff631c";
++export const MOSA_WATER_PROBE_REVISION="fabee20b7f891f7d";
+ export const MOSA_WATER_PROBE="./art/ocean-reflections/tropical-coast-01333a81c41d.png";
+diff --git a/public/ocean-swimmer.js b/public/ocean-swimmer.js
+index 9a78f69..48815df 100644
+--- a/public/ocean-swimmer.js
++++ b/public/ocean-swimmer.js
+@@ -17,7 +17,6 @@ export function createOceanSwimmer(raw,{radius=.6,obstacles=mosaTerrainObstacles
+   // New terrain may surround a previously valid saved swimming pose. Use
+   // ordinary bounded contact projection, never leave a restored cat trapped.
+   function releaseNewStoneContact(){
+-    if(Math.abs(state.x)>12||Math.abs(state.z+95)>12)return;
+     for(let pass=0;pass<4;pass++)for(const o of obstacles){if(!o.id?.startsWith('seabed-stone-'))continue;const body={x:state.x,y:state.y+.7,z:state.z};if(pushCapsule(body,o,radius+.002)){const next={...state,x:body.x,y:body.y-.7,z:body.z};if(next.y>=mosaBedY(next.x,next.z)+.15&&mosaReefClearance(body.x,body.y,body.z)>=radius&&!mallPressureContact(body.x,body.y,body.z,radius))Object.assign(state,next);}}
+   }
+   releaseNewStoneContact();
+diff --git a/public/showcase-probe-assets.js b/public/showcase-probe-assets.js
+index 0157f80..5a6ff49 100644
+--- a/public/showcase-probe-assets.js
++++ b/public/showcase-probe-assets.js
+@@ -1,6 +1,6 @@
+ // Actual static mini-biomes, linear radiance / 4; shared water core.
+ export const SHOWCASE_PROBE_ENCODING="linear-radiance-div4";
+-export const SHOWCASE_PROBE_REVISION="6e9fba1771a1845d";
++export const SHOWCASE_PROBE_REVISION="d1f2bf8bcd09bc43";
+ export const SHOWCASE_WATER_PROBES={
+   "ride-water-barrel-wave": "./art/water-reflections/barrel-wave-2695db73862d.png",
+   "ride-water-canyon-rafting": "./art/water-reflections/canyon-rafting-e0943c549a14.png",
+diff --git a/scripts/audit-ocean-art-native.mjs b/scripts/audit-ocean-art-native.mjs
+index ec9fb51..c155b98 100644
+--- a/scripts/audit-ocean-art-native.mjs
++++ b/scripts/audit-ocean-art-native.mjs
+@@ -29,7 +29,9 @@ export async function auditOceanArtNative({page,review,errors,httpErrors}){
+  ];
+  if(process.env.CHICHI_REEF_QUICK_PERF)specs.splice(0,specs.length,...specs.filter(s=>s.name==='reef-phone'));
+  if(process.env.CHICHI_SAND_STONE_AUDIT)specs.splice(0,specs.length,{name:'sand-stones-normal',eye:[12,-115.8,-75],target:[0,-124.8,-95],distance:26},{name:'sand-stones-phone',eye:[5,-120.8,-87],target:[0,-124.8,-95],distance:12,phone:true});
++ if(process.env.CHICHI_WHOLE_FLOOR_AUDIT)specs.splice(1,0,{name:'whole-sand-remote',eye:[-123,-50,-85],target:[-135,-58.9,-105],distance:26},{name:'whole-sand-ocean',eye:[0,-25,-140],target:[0,-125,0],distance:180});
+  const rows=[];
++ const wholeFloor=process.env.CHICHI_WHOLE_FLOOR_AUDIT?await page.evaluate(()=>{const o=__lagoonQA.islands.get('autumn').userData.ocean;return{sections:o.sandRegion.userData.sectionCount,triangles:o.sandRegion.userData.sourceTriangleCount,stones:o.floorStones.userData.sites.length};}):null;if(wholeFloor){assert.ok(wholeFloor.sections>20);assert.ok(wholeFloor.stones>100);}
+  const reefCounts=reef&&!process.env.CHICHI_BASELINE_REF?await page.evaluate(()=>{const root=__lagoonQA.islands.get('autumn').userData.ocean.reefPatch;return{colonies:root.userData.colonies.length,plants:root.userData.plants.length,groups:root.children.length};}):null;
+  if(reefCounts){assert.equal(reefCounts.colonies,1216);assert.equal(reefCounts.plants,19456);}
+  for(const hour of (reef?[12]:[12,0]))for(const spec of specs){
+@@ -74,6 +76,6 @@ export async function auditOceanArtNative({page,review,errors,httpErrors}){
+  const final=await page.evaluate(()=>{__lagoonQA.drawPaused=true;const g=__lagoonSaveQA.getGame();return{coins:g.coins,inventory:g.inventory,placements:g.placements};});assert.deepEqual(final,initial);
+  if(reef){assert.equal(await page.evaluate(()=>__lagoonQA.submarine().phase),'swimming');assert.equal(await page.locator('#frame-profile').count(),0,'normal reload must not reopen diagnostics');}
+  assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);
+- await writeFile(join(review,'ocean-art-results.json'),JSON.stringify({completed:true,reefCounts,rows,metrics,initial,final,errors,httpErrors,renderer:'Native game at DPR2, Chromium SwiftShader. Equal camera/clock fixtures; diagnostic timing, not physical-device FPS.'},null,2));
++ await writeFile(join(review,'ocean-art-results.json'),JSON.stringify({completed:true,wholeFloor,reefCounts,rows,metrics,initial,final,errors,httpErrors,renderer:'Native game at DPR2, Chromium SwiftShader. Equal camera/clock fixtures; diagnostic timing, not physical-device FPS.'},null,2));
+  console.log(reef?'PASS: native third-person reef, ordinary/wide/phone views, frame/memory, private SQLite reload; opt-in diagnostic copied/closed when requested.':'PASS: native ocean views at two clock times, frame intervals/memory, and ownership after private SQLite reload.');
+ }
+diff --git a/test/seabed-sand-stones.test.mjs b/test/seabed-sand-stones.test.mjs
+index 825beaf..b864dee 100644
+--- a/test/seabed-sand-stones.test.mjs
++++ b/test/seabed-sand-stones.test.mjs
+@@ -1,15 +1,18 @@
+ import {test} from 'node:test';import assert from 'node:assert/strict';import * as T from 'three';
+ import {runSceneSteps}from'../public/scene-tasks.js';import {lagoonSteps}from'../public/lagoon.js';import {MOSA_SEA,mosaBedY,mosaCoastFactor}from'../public/mosasaur-data.js';import{installSandRegionSteps}from'../public/mosasaur-sand-region.js';import{floorStoneSteps}from'../public/mosasaur-floor-stones.js';import{floorStoneObstacles}from'../public/mosasaur-floor-stones-data.js';import{pushCapsule}from'../public/submarine-physics.js';
+-test('local sand partitions every original triangle exactly once without moving any floor vertex or changing the far shader',()=>{
+- const sea=runSceneSteps(lagoonSteps({...MOSA_SEA,bedHeight:mosaBedY,coastFactor:mosaCoastFactor,fishCount:0,ambientOnly:true,depth:200})),bed=sea.userData.bed,g=bed.geometry,original=g.index.array.slice(),positions=g.attributes.position.array.slice(),key=bed.material.customProgramCacheKey(),local=runSceneSteps(installSandRegionSteps(bed));
+- assert.ok(local);assert.equal(g.attributes.position,local.geometry.attributes.position);assert.deepEqual(g.attributes.position.array,positions);assert.equal(bed.material.customProgramCacheKey(),key);assert.ok(local.geometry.index.count<original.length*.02);
+- const count=indices=>{const m=new Map();for(let i=0;i<indices.length;i+=3){const k=[indices[i],indices[i+1],indices[i+2]].join(',');m.set(k,(m.get(k)||0)+1);}return m;};assert.deepEqual(count([...g.index.array,...local.geometry.index.array]),count(original));assert.equal(local.material.userData.waterLight.clock,bed.material.userData.waterLight.clock);
++test('whole-floor sections preserve every native triangle, vertex, ray proxy and world transform',()=>{
++ const sea=runSceneSteps(lagoonSteps({...MOSA_SEA,bedHeight:mosaBedY,coastFactor:mosaCoastFactor,fishCount:0,ambientOnly:true,depth:200})),bed=sea.userData.bed,g=bed.geometry,original=g.index.array.slice(),positions=g.attributes.position.array.slice(),key=bed.material.customProgramCacheKey(),root=runSceneSteps(installSandRegionSteps(bed));
++ assert.ok(root.userData.sectionCount>20);assert.equal(bed.visible,false);assert.deepEqual(g.index.array,original);assert.deepEqual(g.attributes.position.array,positions);assert.equal(bed.material.customProgramCacheKey(),key);sea.updateMatrixWorld(true);
++ const triangles=[];for(const lod of root.children){assert.equal(lod.levels.length,2);const mesh=lod.levels[0].object;assert.equal(mesh.geometry,lod.levels[1].object.geometry);assert.equal(mesh.geometry.attributes.position,g.attributes.position);triangles.push(...mesh.geometry.index.array);for(const m of lod.levels)for(let j=0;j<16;j++)assert.ok(Math.abs(m.object.matrixWorld.elements[j]-bed.matrixWorld.elements[j])<1e-9);assert.equal(mesh.material.userData.waterLight.clock,bed.material.userData.waterLight.clock);}
++ const count=indices=>{const m=new Map();for(let i=0;i<indices.length;i+=3){const k=[indices[i],indices[i+1],indices[i+2]].join(',');m.set(k,(m.get(k)||0)+1);}return m;};assert.deepEqual(count(triangles),count(original));
++ const hits=new T.Raycaster(new T.Vector3(0,0,-95),new T.Vector3(0,-1,0)).intersectObject(bed);assert.ok(hits.length,'hidden canonical bed still provides its unchanged physical ray surface');
+ });
+ test('ready stone instances and their real physics contacts share positions and conservatively contain every sculpted vertex',()=>{
+  const mat=new T.MeshStandardMaterial();mat.userData.waterLight={clock:{value:0},level:{value:MOSA_SEA.surfaceY}};const root=runSceneSteps(floorStoneSteps({material:mat})),obstacles=floorStoneObstacles();root.updateMatrixWorld(true);let total=0;
+  for(const mesh of root.children)for(let i=0;i<mesh.count;i++){const matrix=new T.Matrix4();mesh.getMatrixAt(i,matrix);const p=new T.Vector3().setFromMatrixPosition(matrix),o=obstacles.find(o=>Math.hypot(o.a[0]-p.x,o.a[1]-p.y,o.a[2]-p.z)<1e-8);assert.ok(o);for(let k=0;k<mesh.geometry.attributes.position.count;k++){const v=new T.Vector3().fromBufferAttribute(mesh.geometry.attributes.position,k).applyMatrix4(matrix);assert.ok(v.distanceTo(p)<=o.radius+1e-6);}assert.equal(pushCapsule({x:p.x,y:p.y,z:p.z},o,.6),true);total++;}
+- assert.equal(total,18);assert.ok(obstacles.every(o=>Math.abs(o.a[0])>4));
++ assert.equal(total,obstacles.length);assert.ok(total>100);assert.ok(obstacles.every(o=>Math.abs(o.a[0])>4));
+ });
+-test('a previous saved swimmer pose inside a newly placed stone is released through real contacts',async()=>{
+- const {createOceanSwimmer}=await import('../public/ocean-swimmer.js'),o=floorStoneObstacles()[0],s=createOceanSwimmer({x:o.a[0],y:mosaBedY(o.a[0],o.a[2])+.2,z:o.a[2],yaw:0});assert.equal(s.clear(s.state),true);assert.ok(Math.hypot(s.state.x-o.a[0],s.state.y+.7-o.a[1],s.state.z-o.a[2])>=o.radius+.6);
++test('every previously valid saved pose by the distributed stones can leave its new physical contact',async()=>{
++ const {createOceanSwimmer}=await import('../public/ocean-swimmer.js'),{mosaTerrainObstacles}=await import('../public/mosasaur-collision.js'),old=mosaTerrainObstacles().filter(o=>!o.id.startsWith('seabed-stone-'));let checked=0;
++ for(const o of floorStoneObstacles()){const start={x:o.a[0],y:mosaBedY(o.a[0],o.a[2])+.2,z:o.a[2],yaw:0};if(!createOceanSwimmer(start,{obstacles:old}).clear(start))continue;const s=createOceanSwimmer(start);assert.equal(s.clear(s.state),true,o.id+' saved contact');checked++;}assert.ok(checked>100);
+ });
