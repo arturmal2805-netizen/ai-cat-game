@@ -245,3 +245,17 @@ a genuinely blocked reverse path as a resident walked into the tiny moon test
 area; do not removeNPCs, loosen collisions, or lower movement assertions.
 Seed actual saved homestead195,-20 to separate input regression from dynamic
 path availability, retain all residents and verify loaded seed/no default reset.
+
+## 2026-11-17 — ocean expansion confirmed live, input fix released separately
+
+Water f09c3f3d64be85a0394049e59877711d066db733: CI44173134773 all test/deploy/
+pages SUCCESS including server/shared-save verification. HTTP21:06:09.199022UTC
+matched one app script, JSfbb0341f1dd1f67adab0b0003dc00305e7e549bd6bb1318eaa50a16a45aaad29,
+CSSd02068257c7b2b00ecdb80590c8a6bc5003849788f1400e69b6a6d6d91fb4356, all actual
+wave/probe/reef assets. GitHub transient503 stopped the first verifier; bounded
+retry confirmed full success and exactassets. This is not artwork approval.
+Only AFTER that receipt, input fe9415cff8cdbb9dc20ed7def14fa71f6dbff968 was
+pushed to main/codex/global-manual-input. CI44176344655 pending/in progress,
+not yet published. Exact native/SQLite82test/build proof exists in that commit.
+Initial promotion failed before file changes because history directory absent;
+mkdir fixed the helper. No reset/rebase/graphics reductions/MallWIP merged.
