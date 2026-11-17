@@ -119,7 +119,7 @@ CURRENT в исходном main-fe9415c фиксировал water live/inputpe
 /workspace/chichi-ocean-forecourt-smoothing. MOSA_FORECOURT rx180→192,
 rz72→84,z164→170: передний глубокий край+18m, бока+12m. Shoulder24→36m,
 C2quintic вместо cubic. Фундамент/архитектура/MOSA_SEA/соседи/покупки прежние.
-Грид122k точек: дно нигде не поднялось, прежние swimming poses не засыпаны.
+Плотная сетка точек: дно нигде не поднялось, прежние swimming poses не засыпаны.
 3targeted smoothing tests PASS;30 других PASS, cache/site guard выявил ещё
 не обновлённый reef.bin — Node22 build регенерирует; тест не ослаблять.
 Четыре края рифов отодвинуты, все12template/размеры/counts/LODs сохранены.
@@ -129,3 +129,23 @@ Baseline native overview/underwater/phone PASS; PNG и точныйQA/исход
 в docs/qa/2026-11-17/forecourt-smoothing/before. Actual ocean probe переснят,
 только его resource изменился; горки/общий shader не менялись.
 Сборка/последующие native проверки/CI/live ЕЩЁ не завершены, не считать релизом.
+
+## Дополнение игрока: формы достаточно, места впереди ещё мало
+
+Игрок одобрил форму промежуточного0bf98d5, но просит больше пространства
+именновпереди. Не публиковать18m кандидат как окончательный.
+Передняя глубокая граница теперь282m против236m вfe9415c: +46m всего,
+ещё28m к первомукандидату. Новыйfront ellipsez184/rz98/rx192/shoulder24
+объединяется с одобренным C2shoulderz170/rz84/rx192/shoulder36 через
+bounded union a+b-a*b. Сохраняются формабоков, floor−190, прежняя и
+промежуточная очищенная вода: плотнаясетка иC2edge tests PASS.
+Offlinefit учитывает настоящийwet centre<.99, сохраняет подходящиеточные
+offsets; при необходимости bounded full-angle fallback<=360m. Каждый
+кандидат проходитполныйvertex/radius limit. Этоoffline, неработа наRAF.
+Частьfrontreefs теперьперенесена в настоящую открытуюводу заfrontbay,
+а не под берег; count12/модели/scale/LODs сохранены.
+Actualprobe/Node22build пересчитываются для этойверсии; нужны свежиеnative
+кадры/плавание сz270/SQLite reload/physicalreturn иCI/live. ВсёещёWIP.
+Старый0bf вариант иегоnativePASS сохранены; егообзорV1 имелразныйaspect,
+сравнениепереснятоV2 сдвумяRAF до кадра,2804×1384 обе стороны.
+Одобрениеформы не означает одобрение всей водыилиhardwareFPS.
