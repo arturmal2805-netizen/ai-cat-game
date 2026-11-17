@@ -13,6 +13,7 @@ import {stepMallWalker} from './mall-walker.js';
 import {MALL_LAYOUT as MALL} from './mall-layout.js';
 import {catNavigationRadius} from './cat-navigation-size.js';
 import {byBiome} from './game-data.js';
+import {MOSA_SEA} from './mosasaur-data.js';
 
 export function createSubmarineRuntime({container,canvas,camera,look,actor,getModel,getIsland,getGame,getFocused,cancelHero,approachDock,canPilot=()=>true,scene,focus,getMall=()=>null,onError=()=>{},onLandExit=()=>{}}){
  const physics=createSubmarinePhysics(getGame().mosasaurSubmarine),state=physics.state,biome=byBiome('autumn'),centre=new T.Vector3(biome.center[0],0,biome.center[1]);
@@ -91,7 +92,7 @@ export function createSubmarineRuntime({container,canvas,camera,look,actor,getMo
    const mall=getMall();if(!await mall?.ensure()||disposed)return false;
    if(mallWalkable({x:p.x,z:p.z-MALL.z},radius,mall.root.userData.obstacles.get(floor)))mode='mall';
   }
-  if(!mode&&p.y<.155&&Math.hypot(p.x/200,p.z/200)<1)mode='swimming';
+  if(!mode&&p.y<MOSA_SEA.surfaceY&&Math.hypot(p.x/(MOSA_SEA.rx-2),p.z/(MOSA_SEA.rz-2))<1)mode='swimming';
   if(!mode)return false;focus('autumn',false,true);if(!canPilot())return false;
   const next=createOceanSwimmer({...p,yaw:actor.rotation.y,floor:mode==='mall'?floor:0,mode},{radius});if(mode==='swimming'&&!next.clear(next.state))return false;
   cancelHero();swimmer=next;phase=mode;controlled=true;returningExplorer=false;returning=false;route=[];clear();resetExplorerView();return true;

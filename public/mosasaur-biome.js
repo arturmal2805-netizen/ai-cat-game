@@ -18,6 +18,7 @@ import {
   MOSA_SEA,
   MOSA_DEPTH,
   MOSA_AREA_EXPANSION,
+  MOSA_WATER_AREA_MULTIPLIER,
   MOSA_SHORE_GATE,
   mosaBedY,
   mosaCoastFactor,
@@ -200,7 +201,10 @@ export function* mosasaurBiomeSteps(
     depth: MOSA_DEPTH,
     bedHeight:mosaBedY,
     opticalBedHeight:mosaOpticalBedY,
-    bedResolution:lowOnly?[96,48]:[256,160],
+    // Keep the released metre-scale sampling when WATER area doubles. Other
+    // lagoons retain their native topology and the shared shader/texture core.
+    bedResolution:(lowOnly?[96,48]:[256,160]).map(n=>Math.ceil(n*Math.sqrt(MOSA_WATER_AREA_MULTIPLIER)/4)*4),
+    surfaceResolution:[192,128].map(n=>Math.ceil(n*Math.sqrt(MOSA_WATER_AREA_MULTIPLIER)/4)*4),
     coastFactor:mosaCoastFactor,
     fishCount: 0,
     color: 0x12bed8,

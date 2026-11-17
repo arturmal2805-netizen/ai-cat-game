@@ -1,13 +1,23 @@
 import {mallFoundationBedY} from './mall-layout.js';
+import {oceanForecourtBedY} from './mosasaur-forecourt.js';
 import { LEGACY_SEA_DEPTH, LAGOON_SURFACE_Y } from "./water-depths.js";
+import {HOUSING_CENTER,HOUSING_RADIUS} from './housing-data.js';
+import {WORLD_CENTERS,MIN_ISLAND_GAP,SHORE_MARGIN} from './world-layout.js';
 export const MOSA_OLD_RADIUS = 11.65 * Math.sqrt(6);
-// The master ocean first grew five times in each horizontal dimension. The
-// player's next expansion adds exactly five times that area, without scaling
-// animals, owned buildings, the original pickup pier or submarine controls.
-export const MOSA_AREA_EXPANSION = 5;
+// Released shoreline is a permanent save boundary. The new expansion doubles
+// WATER area; fauna/buildings keep
+// their metre scale. Never derive a legacy purchase address from new radii.
+export const MOSA_RELEASED_SEA = Object.freeze({rx:105*Math.sqrt(5),rz:100*Math.sqrt(5),radius:11.65*Math.sqrt(6)*5*Math.sqrt(5)});
+export const MOSA_WATER_AREA_MULTIPLIER = 2;
+export const MOSA_FEATURE_SCALE = Math.sqrt(5);
+export const MOSA_AREA_EXPANSION = 5*MOSA_WATER_AREA_MULTIPLIER;
 export const MOSA_HORIZONTAL_EXPANSION = Math.sqrt(MOSA_AREA_EXPANSION);
 export const MOSA_PREVIOUS_RADIUS = MOSA_OLD_RADIUS * 5;
-export const MOSA_RADIUS = MOSA_PREVIOUS_RADIUS * MOSA_HORIZONTAL_EXPANSION;
+// Future residential sections extend indefinitely along X. Keep both visible
+// shore margins and the real district gap; never grow into that housing strip
+// or move existing island-local purchase addresses to manufacture clearance.
+const housingClearance=Math.abs(WORLD_CENTERS.autumn[1]-HOUSING_CENTER[1])-HOUSING_RADIUS-MIN_ISLAND_GAP-SHORE_MARGIN*2;
+export const MOSA_RADIUS = Math.min(MOSA_RELEASED_SEA.radius+105*MOSA_HORIZONTAL_EXPANSION-MOSA_RELEASED_SEA.rx,housingClearance);
 export const MOSA_SHORE_GATE = { x: 0, z: 103 * MOSA_HORIZONTAL_EXPANSION };
 export const MOSA_DEPTH = 200;
 export const MOSA_SEA = {
@@ -47,9 +57,9 @@ export function mosaReservations() {
 }
 export const mosaCoastFactor=a=>1+.035*Math.sin(a*3+.5)+.018*Math.cos(a*7);
 export function mosaWaterRadius(x,z){const a=Math.atan2(z/MOSA_SEA.rz,x/MOSA_SEA.rx);return Math.hypot(x/MOSA_SEA.rx,z/MOSA_SEA.rz)/mosaCoastFactor(a);}
-export const MOSA_HEADLANDS=[.08,.45,.86,1.95,2.4,2.85,3.35,3.9,4.45,4.95,5.55,6.0].map((angle,i)=>({angle,x:Math.cos(angle)*MOSA_SEA.rx*mosaCoastFactor(angle)*1.04,z:Math.sin(angle)*MOSA_SEA.rz*mosaCoastFactor(angle)*1.04,radius:(i%3?11+i%3*2:17)*MOSA_HORIZONTAL_EXPANSION,height:i%3?10+i%4*3:24+i%2*4}));
+export const MOSA_HEADLANDS=[.08,.45,.86,1.95,2.4,2.85,3.35,3.9,4.45,4.95,5.55,6.0].map((angle,i)=>({angle,x:Math.cos(angle)*MOSA_SEA.rx*mosaCoastFactor(angle)*1.04,z:Math.sin(angle)*MOSA_SEA.rz*mosaCoastFactor(angle)*1.04,radius:(i%3?11+i%3*2:17)*MOSA_FEATURE_SCALE,height:i%3?10+i%4*3:24+i%2*4}));
 export const MOSA_CAVE_LAYOUT=[{id:"violet-grotto",x:-25,z:-18,radius:8,depth:20,color:0x9774dc},{id:"amber-cavern",x:20,z:15,radius:7,depth:17,color:0xeab66c}];
-export const MOSA_REEF_TERRACES=Array.from({length:12},(_,i)=>{const angle=.24+i*Math.PI/6,q=i%2?.82:.67,f=mosaCoastFactor(angle);return {id:'reef-terrace-'+i,x:Math.cos(angle)*MOSA_SEA.rx*f*q,z:Math.sin(angle)*MOSA_SEA.rz*f*q,radius:(i%2?14:11.5)*MOSA_HORIZONTAL_EXPANSION,depth:7+i%4*4,angle};});
+export const MOSA_REEF_TERRACES=Array.from({length:12},(_,i)=>{const angle=.24+i*Math.PI/6,q=i%2?.82:.67,f=mosaCoastFactor(angle);return {id:'reef-terrace-'+i,x:Math.cos(angle)*MOSA_SEA.rx*f*q,z:Math.sin(angle)*MOSA_SEA.rz*f*q,radius:(i%2?14:11.5)*MOSA_FEATURE_SCALE,depth:7+i%4*4,angle};});
 export function mosaTerraceRadius(c,angle){return c.radius*(1+.12*Math.sin(angle*3+c.angle)+.065*Math.cos(angle*7-c.angle));}
 const TERRACE_LEVELS=[[1.06,0,.25],[1.48,13,.22],[1.89,37,.21],[2.22,65,.28]];
 export function mosaTerraceY(c,x,z,natural=mosaNaturalBedY(x,z)){
@@ -72,7 +82,7 @@ export function mosaNaturalBedY(x,z) {
 export function mosaBedY(x,z){
  const natural=mosaNaturalBedY(x,z);let y=natural;
  for(const c of MOSA_CAVE_LAYOUT){const edge=Math.min(c.radius+.8-Math.abs(x-c.x),z-(c.z-c.depth),c.z+2-z);if(edge<=0)continue;const floor=mosaNaturalBedY(c.x,c.z)+.4,fade=Math.min(1,edge/1.2);y=Math.min(y,y+(floor-y)*fade);}
- return mallFoundationBedY(x,z,y);
+ return oceanForecourtBedY(x,z,mallFoundationBedY(x,z,y));
 }
 export function mosaZoneContains(x,z,p){const dx=x-p.x,dz=z-p.z,c=Math.cos(p.yaw||0),s=Math.sin(p.yaw||0);return Math.abs(dx*c-dz*s)<=p.w/2 && Math.abs(dx*s+dz*c)<=p.d/2;}
 export function mosaDryPoint(x, z, margin = 1.3, zones=[]) {
