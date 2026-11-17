@@ -346,7 +346,7 @@ async function localWorker() {
     }
     if(process.env.CHICHI_OCEAN_AREA_AUDIT&&!baseline){const {MOSA_RELEASED_SEA}=await import(root+'/public/mosasaur-data.js');g.mosasaurSubmarine={...g.mosasaurSubmarine,x:MOSA_RELEASED_SEA.rx+30,y:-8,z:0};}
     if(process.env.CHICHI_GLOBAL_MANUAL_AUDIT){g.catPosition={biome:'moon',x:0,z:0};delete g.catLocations;delete g.mosasaurSubmarine;}
-    if(process.env.CHICHI_MANUAL_BUSY_AUDIT){const {captureCatLocations}=await import(root+'/public/cat-locations.js');Object.assign(g,captureCatLocations(g,g,[{id:'chichi',position:{x:0,y:.16,z:-7},yaw:0}],now));}
+    if(process.env.CHICHI_MANUAL_BUSY_AUDIT){const {captureCatLocations}=await import(root+'/public/cat-locations.js'),{byBiome}=await import(root+'/public/game-data.js'),b=byBiome('homestead');Object.assign(g,captureCatLocations(g,g,[{id:'chichi',position:{x:b.center[0]+195,y:.16,z:b.center[1]-20},yaw:0}],now));}
     const base = local.base,
       token = crypto.randomBytes(32).toString("hex"),
       headers = {

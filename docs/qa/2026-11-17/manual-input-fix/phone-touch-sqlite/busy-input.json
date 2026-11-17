@@ -1,0 +1,61 @@
+{
+  "initial": {
+    "active": false,
+    "input": {
+      "keys": [],
+      "allowed": true
+    },
+    "failure": null,
+    "heroAllowed": true,
+    "residentAllowed": true,
+    "toggle": "\n                  Дай Чичи решить самой ✦",
+    "disabled": false,
+    "button": "🐈 Управлять Чичи"
+  },
+  "busy": {
+    "active": false,
+    "input": {
+      "keys": [],
+      "allowed": true
+    },
+    "failure": null,
+    "heroAllowed": false,
+    "residentAllowed": true,
+    "operation": "jobcity",
+    "toggle": "Чичи исследует…",
+    "disabled": true,
+    "button": "🐈 Управлять Чичи"
+  },
+  "clicked": {
+    "active": true,
+    "input": {
+      "keys": [],
+      "allowed": true
+    },
+    "failure": null,
+    "heroAllowed": true,
+    "residentAllowed": true,
+    "toggle": "Дай Чичи решить самой ✦",
+    "disabled": false,
+    "button": "🐈 Отпустить Чичи"
+  },
+  "pressed": {
+    "active": true,
+    "input": {
+      "keys": [
+        "KeyW"
+      ],
+      "allowed": true
+    },
+    "failure": null,
+    "heroAllowed": true,
+    "residentAllowed": true,
+    "toggle": "Дай Чичи решить самой ✦",
+    "disabled": false,
+    "button": "🐈 Отпустить Чичи"
+  },
+  "errors": [],
+  "httpErrors": [],
+  "actualDemoButton": true,
+  "paidAI": false
+}

@@ -229,3 +229,15 @@ https://raw.githubusercontent.com/arturmal2805-netizen/ai-cat-game/501757e093701
 [решения](decisions.md), [доказательства/backup](evidence-and-recovery.md).
 Provenance merge939/источника4ec/историческогоlive12d сохранены вdecisions и
 history; не создавать их повторно и не откатыватьпозднейшиеисправления.
+
+## Manual input native follow-up (2026-11-17)
+
+DesktopW/S/A/D and phone actual held touchW/S/A/D PASS. Pending mockedAI
+takeover cancels the actual fetch; old response cannot commit over manual
+ownership; no paidAI. Final phone SQLite reload retains economy/items/actual
+position, clears transient manual owner; control restarts and Island releases.
+Proof docs/qa/2026-11-17/manual-input-fix/native-followup.json; exact QA bundle
+and source patches included. Homeworld fixture195,-20 avoids the unrelated
+dynamic resident blocker on small moon without removing any cat/collider.
+Production app/world fix unchanged. Need water publication first, Node22
+build/tests and separate inputCI/live. Mall development remains off queue.

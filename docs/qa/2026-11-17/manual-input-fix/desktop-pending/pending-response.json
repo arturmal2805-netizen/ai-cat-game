@@ -1,0 +1,12 @@
+{
+  "prior": {
+    "steps": "1 решений",
+    "location": "garden"
+  },
+  "late": {
+    "steps": "1 решений",
+    "location": "garden"
+  },
+  "intercepted": 1,
+  "paidAI": false
+}

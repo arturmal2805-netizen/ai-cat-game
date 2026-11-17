@@ -1,0 +1,116 @@
+{
+  "date": "2026-11-17",
+  "node": "22.23.5",
+  "productionFix": "4d8f8f91ae614069e6af971dc095912b20195956",
+  "renderer": "native full game Chromium/ANGLE SwiftShader; not phone hardware FPS",
+  "tests": [
+    "Desktop native W/S/A/D takeover during busy actual demo",
+    "Phone native held touch W/S/A/D, original44px hit areas",
+    "Abort intercepted pending AI request; no stale commit or extra request; no paid AI",
+    "Private SQLite reload retains actual position/economy/items/placements and releases owner",
+    "Manual restarts after reload; Island and World release owner"
+  ],
+  "fixture": "Phone followup uses private homestead195,-20 loaded pose to avoid independently moving residents on small moon; NPCs and all collisions retained",
+  "files": [
+    {
+      "path": "phone-touch-sqlite/movement-progress.json",
+      "bytes": 502,
+      "sha256": "84c9f0c17b94db67382ae2f9a8c946a0f053d2153bc65d597d5b878bb9ccfb29"
+    },
+    {
+      "path": "phone-touch-sqlite/wasd-movement.json",
+      "bytes": 1024,
+      "sha256": "da65b4614f90ebb1006eaabfa2b4b4484593f0945da9c1347e2b729dc570c783"
+    },
+    {
+      "path": "phone-touch-sqlite/qa-build.json",
+      "bytes": 285,
+      "sha256": "a83b885960b501571434c86b4ddf1a39da51251435cfbc61a14b6cfc2a183f58"
+    },
+    {
+      "path": "phone-touch-sqlite/phone-third-person.png",
+      "bytes": 458565,
+      "sha256": "d9ef52b1e8851ee04451100dee9f48e1fe2739c1a4c3a36f112215f7ade5346b"
+    },
+    {
+      "path": "phone-touch-sqlite/source-cached.patch",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "phone-touch-sqlite/source-HEAD.patch",
+      "bytes": 10174,
+      "sha256": "226fd38845e3dcada81d71d67816b631dd5511547140d52bb9a91ba9e657a80f"
+    },
+    {
+      "path": "phone-touch-sqlite/busy-input.json",
+      "bytes": 1381,
+      "sha256": "27654ed3aba11c8c011e0513b39b02cc2f7dd5fcb67457c14b9df7e85712f2f8"
+    },
+    {
+      "path": "phone-touch-sqlite/qa-app.js.gz",
+      "bytes": 1127187,
+      "sha256": "b2342854c1ecdadeb8fcf125e5399b005cb248ceddd6f8fb5b71d64ee1727e7f"
+    },
+    {
+      "path": "phone-touch-sqlite/pending-response.json",
+      "bytes": 192,
+      "sha256": "cc2d835d9005ebcb42180b8938ffca664765d13a0dcc37a4965ebd709c571a23"
+    },
+    {
+      "path": "phone-touch-sqlite/sqlite-reload.json",
+      "bytes": 13207,
+      "sha256": "3a004148e538d22996ae72aedb606c5b059545cdb8d9523225643f3f73c0563f"
+    },
+    {
+      "path": "phone-touch-sqlite/source-status.txt",
+      "bytes": 70,
+      "sha256": "a75184310ea78eb4221f75e9227b0edd35dc1523cf93939a8ad122ba01157b94"
+    },
+    {
+      "path": "desktop-pending/movement-progress.json",
+      "bytes": 506,
+      "sha256": "2c29bb202accd259247678e7e9d4c9a2059388dfa67148e5e0ce25f28b4dbea6"
+    },
+    {
+      "path": "desktop-pending/wasd-movement.json",
+      "bytes": 1028,
+      "sha256": "e50788d90ad93bdf6531c9d57e31f5a2c487fe869233984c304b1e4bf6ad9dea"
+    },
+    {
+      "path": "desktop-pending/qa-build.json",
+      "bytes": 254,
+      "sha256": "b508821827c44f75903a22bd9b20840611cc45d95ab5e84adf081f48ceb78984"
+    },
+    {
+      "path": "desktop-pending/source-cached.patch",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "desktop-pending/source-HEAD.patch",
+      "bytes": 3546,
+      "sha256": "41ab290114451122eb84acd0507cc8c9f2b0c6977449fb83f2b102852cd58348"
+    },
+    {
+      "path": "desktop-pending/busy-input.json",
+      "bytes": 1381,
+      "sha256": "27654ed3aba11c8c011e0513b39b02cc2f7dd5fcb67457c14b9df7e85712f2f8"
+    },
+    {
+      "path": "desktop-pending/qa-app.js.gz",
+      "bytes": 1127187,
+      "sha256": "b2342854c1ecdadeb8fcf125e5399b005cb248ceddd6f8fb5b71d64ee1727e7f"
+    },
+    {
+      "path": "desktop-pending/pending-response.json",
+      "bytes": 192,
+      "sha256": "cc2d835d9005ebcb42180b8938ffca664765d13a0dcc37a4965ebd709c571a23"
+    },
+    {
+      "path": "desktop-pending/source-status.txt",
+      "bytes": 40,
+      "sha256": "d4f7dc3547a2fa29ae4a75273248a86969ae5b29a478dc59a9e59342af4899fc"
+    }
+  ]
+}
