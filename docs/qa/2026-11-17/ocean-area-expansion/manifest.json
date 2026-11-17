@@ -244,6 +244,11 @@
     "return/source-status.txt": {
       "bytes": 995,
       "sha256": "96ba82067ea6c4b2021e507d0feb9b60c4d297a9753ec5e6afd32031ac236f71"
+    },
+    "18-remaining-guards.txt": {
+      "bytes": 5221,
+      "sha256": "cda85b92fcf65fe725a11d9e05ec6d155c3d224587d645e842f30eb15fa6f6ef"
     }
-  }
+  },
+  "followup": "Two grass-test coordinates moved from the submerged former shore to actual new dry land. No public runtime/asset bytes changed; 18 additional coast/fauna guards PASS."
 }

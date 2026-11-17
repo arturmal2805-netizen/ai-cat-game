@@ -1,0 +1,118 @@
+TAP version 13
+# Subtest: real cell clumps rebuild identically after eviction, respect soil and paid placement clearance, and contain dense low grass
+ok 1 - real cell clumps rebuild identically after eviction, respect soil and paid placement clearance, and contain dense low grass
+  ---
+  duration_ms: 36.397176
+  type: 'test'
+  ...
+# Subtest: stream teardown aborts actual cooperative cells and cannot reveal late models
+ok 2 - stream teardown aborts actual cooperative cells and cannot reveal late models
+  ---
+  duration_ms: 14.730074
+  type: 'test'
+  ...
+# Subtest: all coral colonies attach to real seabed or sculpted walls, with eleven anatomies and open central ride water
+ok 3 - all coral colonies attach to real seabed or sculpted walls, with eleven anatomies and open central ride water
+  ---
+  duration_ms: 250.594352
+  type: 'test'
+  ...
+# Subtest: spatial coral detail keeps full near meshes, shared LOD buffers and one fixed animation clock
+ok 4 - spatial coral detail keeps full near meshes, shared LOD buffers and one fixed animation clock
+  ---
+  duration_ms: 18535.471267
+  type: 'test'
+  ...
+# Subtest: all 102 original fish keep their scale, clear the physical bed and have individually readable faces
+ok 5 - all 102 original fish keep their scale, clear the physical bed and have individually readable faces
+  ---
+  duration_ms: 76.87152
+  type: 'test'
+  ...
+# Subtest: two complete fish schools animate with fixed GPU buffers and normal/reduced CPU pose parity
+ok 6 - two complete fish schools animate with fixed GPU buffers and normal/reduced CPU pose parity
+  ---
+  duration_ms: 31.966404
+  type: 'test'
+  ...
+# Subtest: fish retain the existing bounded response to actual lagoon splashes
+ok 7 - fish retain the existing bounded response to actual lagoon splashes
+  ---
+  duration_ms: 10.099739
+  type: 'test'
+  ...
+# Subtest: rays, jellyfish and crabs keep immutable instance/geometry buffers and freeze correctly for reduced motion
+ok 8 - rays, jellyfish and crabs keep immutable instance/geometry buffers and freeze correctly for reduced motion
+  ---
+  duration_ms: 153.881444
+  type: 'test'
+  ...
+# Subtest: only the mosasaur ocean gains the requested extra area; level eight unlocks it and previous ownership remains
+ok 9 - only the mosasaur ocean gains the requested extra area; level eight unlocks it and previous ownership remains
+  ---
+  duration_ms: 63.363712
+  type: 'test'
+  ...
+# Subtest: the measured mesh seabed is at least ten times deeper than every previous lagoon, including raised ones
+ok 10 - the measured mesh seabed is at least ten times deeper than every previous lagoon, including raised ones
+  ---
+  duration_ms: 30841.021306
+  type: 'test'
+  ...
+# Subtest: all moving geometry clears the real seabed and shores; the seat follows the exact body quaternion throughout the faster route
+ok 11 - all moving geometry clears the real seabed and shores; the seat follows the exact body quaternion throughout the faster route
+  ---
+  duration_ms: 23196.616725
+  type: 'test'
+  ...
+# Subtest: deep swimming is four times faster, and the leap has constant gravity, straight horizontal momentum and a nose-first re-entry
+ok 12 - deep swimming is four times faster, and the leap has constant gravity, straight horizontal momentum and a nose-first re-entry
+  ---
+  duration_ms: 3.42794
+  type: 'test'
+  ...
+# Subtest: the sculpt has a continuous broad skull and articulated toothed jaw, while breach and landing use bounded instanced spray
+ok 13 - the sculpt has a continuous broad skull and articulated toothed jaw, while breach and landing use bounded instanced spray
+  ---
+  duration_ms: 34.455532
+  type: 'test'
+  ...
+# Subtest: breach and re-entry disturb the real sea once each; repeated frames and reduced motion do not spam water effects
+ok 14 - breach and re-entry disturb the real sea once each; repeated frames and reduced motion do not spam water effects
+  ---
+  duration_ms: 109.432244
+  type: 'test'
+  ...
+# Subtest: all cat identities share boarding, a reserved saddle, diving, flight and safe dry dismount; real AI accepts this physical object
+ok 15 - all cat identities share boarding, a reserved saddle, diving, flight and safe dry dismount; real AI accepts this physical object
+  ---
+  duration_ms: 73.975419
+  type: 'test'
+  ...
+# Subtest: close Chichi camera stays aimed at her face, above the real bottom, through the surface, full submersion and leap
+ok 16 - close Chichi camera stays aimed at her face, above the real bottom, through the surface, full submersion and leap
+  ---
+  duration_ms: 2346.832332
+  type: 'test'
+  ...
+# Subtest: shore walking stays dry and migrated paid plots preserve every ID, deadline, crop and business tier
+ok 17 - shore walking stays dry and migrated paid plots preserve every ID, deadline, crop and business tier
+  ---
+  duration_ms: 971.153383
+  type: 'test'
+  ...
+# Subtest: idle fins animate and a cancelled deep ride returns Marin to the actual boarding transform
+ok 18 - idle fins animate and a cancelled deep ride returns Marin to the actual boarding transform
+  ---
+  duration_ms: 46.154622
+  type: 'test'
+  ...
+1..18
+# tests 18
+# suites 0
+# pass 18
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 58827.012319
