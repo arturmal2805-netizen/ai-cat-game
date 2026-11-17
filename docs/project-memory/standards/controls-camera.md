@@ -74,3 +74,22 @@ reduce existing penetration (including tangent escape), never increase it or
 enter a new obstacle. A clear endpoint does not justify crossing a wall.
 Desktop controls remain keyboard/mouse; phone arrows are44px and stay above the
 actual visible footer/safe area. Disposal removes input, resize and scroll hooks.
+
+## Manual takeover vs ordinary activity (2026-11-17)
+
+`app.busy` covers the whole awaited activity and pending AI request. It is a
+drag/decision guard, not permission to take third-person control. Keep
+`canControlChichi` separate, retaining editable-world/conflict/build-mode gates.
+Taking control cancels the existing hero action/route and pending fetch, clears
+rest through the existing save commit, and advances the hero-decision version.
+A late promise/fetch must not commit effects, reset a newer action UI or accept
+a stale cloud snapshot. Routine food/leisure must defer while manual/physical
+return owns Chichi; explicit new activity releases manual control first.
+
+Native regression helper `scripts/audit-manual-busy-native.mjs` uses the real
+demo button, actual WASD or phone-held touch, an intercepted pending AI request
+(no provider spend), and private SQLite reload. Keep exact loaded-pose checks,
+full body collisions and all residents. Use a clear seeded area for input
+checks: a resident independently entering the tested path is a collision, not
+evidence of dropped keyboard input. Do not lower movement assertions or remove
+colliders to pass. Desktop has no pad; phone targets >=44px inside the viewport.

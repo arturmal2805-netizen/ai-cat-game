@@ -264,3 +264,28 @@ collisions. Use actual private saved homestead195,-20 clear region (same saved
 address style as cat-location QA), preserve allNPCs and check start pose.
 Current rerun /workspace/qa/global-manual-touch-sqlite-v2.log/.exit.
 Production fix unchanged. Mall WIP remains removed from queue.
+
+## Input candidate ready after water (2026-11-17)
+
+Remote codex/global-manual-input c838986e7910e125ad32bfb85e836e51199eb535.
+Full Node22 build, Wrangler dry-run,82 relevant tests PASS. Native desktop
+(no screen pad) and phone W/S/A/D, busy takeover, pending mockAI abort without
+stale commit, World/Island release and SQLite economy/position reload PASS.
+Underwater global button exit/swim/dive/rise/reboard/camera release PASS.
+Exact source overlays/QA bundle/PNGs/logs:
+docs/qa/2026-11-17/manual-input-fix/candidate-build.json in candidate branch.
+ProductionJS0ca625bd2ecf9aa7b3b766306bce047b5f27b882be64ab0f3261058b2ea46c88,
+CSSd0206825 unchanged; no models/reef/probes changes. No paidAI.
+
+Promotion waiter /tmp/promote-chichi-manual-after-water.py running, foreground
+session68834, log /workspace/qa/global-manual-promotion.log. It gates all native
+/build/test exits and complete waterHTTPreceipt; checks main stillf09c3f3 and
+input stillclean candidate; copies waterreceipt, archives/rewritesCURRENT and
+commits/pushes input separately to main only after water is fully verified.
+Then discovers its CI and runs actualasset verifier. On independent main
+change/failure it stops rather than overwrites. Do not edit input worktree or
+immutable expected assets while waiter/release CI runs. Check real process and
+receipts after environment restart; a persisted script does not prove it runs.
+Input final workflow/SHA: /workspace/qa/global-manual-promotion.json once sent.
+Input live proof: /workspace/qa/global-manual-input-publication/live-verification.json
+and verification.exit. NOT yet published now. WaterCI44173134773 still running.
