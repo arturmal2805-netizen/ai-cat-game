@@ -6,18 +6,13 @@ import {polishShowcaseBottom} from './showcase-bottom-light.js';
 
 // The same two wave samples and one shared probe as native lagoon water.
 // Physical metre UVs, impact rings and the original motion clock stay put.
-const flowingFoam=`if(uFlowing>.5){
-  float across=abs(vWaterUv.x-.5)*2.;
-  float rim=smoothstep(.89,.995,across)*(.025+fieldA.a*.12);
-  float turbulence=clamp(1.-abs(vWaterNormal.y),0.,1.);
-  float aeration=smoothstep(.76,.96,fieldA.a)*smoothstep(.55,.9,fieldB.a)*(.05+turbulence*.15);
-  foam=clamp(foam+rim+aeration,0.,.34);
- }`;
 export function polishShowcaseWater(material,{id,pool=[0,35,22,15],surfaceY=1.45}={}){
  if(material.userData.showcaseOptics)return material;
  material.defines={...material.defines,SHOWCASE_WATER:1};
  if(!material.defines?.SLIDE_CATCH_POOL){material.uniforms.uColor.value.setHex(0x1499fa);material.uniforms.uShoreColor.value.setHex(0xb1efff);}
  material.uniforms.uWaterEnvironment.value=showcaseWaterProbe(id);
+ material.uniforms.uWaterEnvironmentGain.value=material.uniforms.uWaterEnvironment.value.userData.waterRadianceGain||1;
+ material.uniforms.uWaterDepth.value=1.19;
  material.uniforms.uShowcaseBasin={value:new T.Vector4(...pool)};
  material.uniforms.uShowcaseBasinY={value:surfaceY};
  material.uniforms.uShowcaseReceiving={value:!['lazy-river','surf-halfpipe','fountain-carousel','pool-pendulum'].some(kind=>id?.endsWith(kind))?1:0};
@@ -43,33 +38,13 @@ export function polishShowcaseWater(material,{id,pool=[0,35,22,15],surfaceY=1.45
  material.vertexShader='uniform vec2 uScale;uniform vec4 uShowcaseBasin;uniform float uShowcaseBasinY;uniform float uShowcaseReceiving;varying vec3 vShowcaseLocal;varying vec3 vShowcaseProbeX;\n'+material.vertexShader.replace('vWaterUv=uv;','vWaterUv=uv;vShowcaseLocal=p;vShowcaseProbeX=normalize(modelMatrix[0].xyz);');
  material.fragmentShader='uniform float uShowcaseNormalisedFlow;varying vec3 vShowcaseLocal;varying vec3 vShowcaseProbeX;uniform vec4 uShowcaseBasin;uniform float uShowcaseBasinY;\n'+material.fragmentShader
   .replace('p=vWaterUv*uFlowScale;','p=vec2(vWaterUv.x*uFlowScale.x,vWaterUv.y*mix(1.,uFlowScale.y,uShowcaseNormalisedFlow));')
-  .replace('p*.10+flow','p*.075+flow*.75')
-  .replace('p.yx*.157-flow*.71+(fieldA.rg-.5)*.045','p.yx*.137-flow*.53+(fieldA.rg-.5)*.12')
-  .replace('vec2 slope=(fieldA.rg+fieldB.gr-1.0)*.19;','vec2 slope=(fieldA.rg-.5)*.065+(fieldB.gr-.5)*.115;')
-  // Use the common filtered GGX response and retain this placement's probe basis.
   .replace('environmentUv(reflected),waterProbeLod','environmentUv(vec3(dot(reflected,vShowcaseProbeX),reflected.y,dot(reflected,cross(vShowcaseProbeX,vec3(0.,1.,0.))))),waterProbeLod')
-  .replace('float opticalDepth=(.12+depth*.88)/max(facing,.3);',`float waterDepth=mix(.23,1.19-.79*smoothstep(.55,1.,edge),uLake);
- float opticalDepth=waterDepth/max(facing,.22);`)
-  .replace('vec3 body=mix(uColor*.7,mix(deep,shore,transmission),uLake);','vec3 body=mix(vec3(.004,.30,.62),vec3(.008,.52,.70),shallow*.7);')
-  .replace('body=mix(uColor*vec3(.72,.94,1.0),uShoreColor,.08+shallow*.18);','body=mix(vec3(.004,.32,.66),vec3(.012,.57,.70),shallow*.8);')
-  .replace('clamp(.035+fresnel*.91,0.0,.96)','clamp(.02+fresnel*.96,0.0,.98)')
-  .replace('color+=lightTint*caustic*(.3+shallow*.2);','color+=vec3(.008,.026,.042)*caustic*(.12+shallow*.08);')
-  .replace('float shoreFoam=smoothstep(.945,.995,edge)*(.15+.4*fieldA.a)*uLake;',`float shoreLace=smoothstep(.54,.91,fieldA.a*.45+fieldB.a*.55);
- float shoreFoam=smoothstep(.925,.997,edge)*shoreLace*(.10+.32*fieldB.b)*uLake;`)
-  .replace('color=mix(color,uColor*(.62+fieldB.a*.3),.2);','color=mix(color,vec3(.006,.36,.64),.035+fieldB.a*.035);')
-  .replace('color+=mix(vec3(.10,.22,.25),vec3(.24,.12,.20),pink)*(fieldA.b*.7+fieldB.b*.4);','color+=vec3(.006,.025,.045)*max(fieldA.b,fieldB.b)*.13;')
-  .replace(/if\(uFlowing>\.5\)\{\n  float across=[\s\S]*?\n \}/,flowingFoam)
-  .replace('vec3(.88,1.0,.96),foam','vec3(.93,.985,1.0),foam')
-  .replace('if(uFlowing>.5)alpha=max(alpha,.62+fresnel*.22);',`if(uFlowing>.5)alpha=max(alpha,.32+fresnel*.55);
- if(uFlowing>.5&&uFlowing<1.5){
-  float basinRadius=length((vShowcaseLocal.xz-uShowcaseBasin.xy)/uShowcaseBasin.zw);
-  float basinMix=(1.-smoothstep(.70,.98,basinRadius))*(1.-smoothstep(uShowcaseBasinY+.02,uShowcaseBasinY+.65,vShowcaseLocal.y));
-  alpha*=1.-basinMix;
- }`)
-  .replace('alpha=clamp(uOpacity*(.38+depth*.17)+fresnel*.48+foam*.12,.24,.94);','alpha=clamp(1.-exp(-opticalDepth*.28)+fresnel*.85+foam*.4,.10,.96);')
-  .replace('vec4(max(color,vec3(0.0)),.96)','vec4(max(color,vec3(0.0)),.90)')
-  .replace('vec4(max(color,vec3(0.0)),.95)','vec4(max(color,vec3(0.0)),.84)');
- material.userData.showcaseOptics='lagoon-v8-filtered-reflection';material.needsUpdate=true;return material;
+  .replace('// WATER_OUTLET_MERGE',`if(uFlowing>.5&&uFlowing<1.5){
+   float basinRadius=length((vShowcaseLocal.xz-uShowcaseBasin.xy)/uShowcaseBasin.zw);
+   float basinMix=(1.-smoothstep(.70,.98,basinRadius))*(1.-smoothstep(uShowcaseBasinY+.02,uShowcaseBasinY+.65,vShowcaseLocal.y));
+   alpha*=1.-basinMix;
+  }`);
+ material.userData.showcaseOptics='shared-physical-water-v1';material.needsUpdate=true;return material;
 }
 
 export function submergeReceivingFloor(geometry,pool,surfaceY){

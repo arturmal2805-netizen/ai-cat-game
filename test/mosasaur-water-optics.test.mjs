@@ -1,3 +1,4 @@
+import {waterProbeRevision} from '../scripts/water-probe-revision.mjs';
 import {test} from 'node:test';import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';import {createHash} from 'node:crypto';
 import {MOSA_WATER_PROBE,MOSA_WATER_PROBE_REVISION} from '../public/mosasaur-water-probe-assets.js';
@@ -10,8 +11,7 @@ import {applyMosasaurBedOptics} from '../public/mosasaur-bed-optics.js';
 import {waterSandTexture} from '../public/water-sand.js';
 import {createShaderWarmup} from '../public/shader-warmup.js';
 test('the ocean reflection is a valid immutable local capture of its current native coastal producers',async()=>{
- const hash=createHash('sha256');for(const f of MOSA_PROBE_INPUTS)hash.update(f).update(await readFile(new URL('../public/'+f,import.meta.url)));
- assert.equal(MOSA_WATER_PROBE_REVISION,hash.digest('hex').slice(0,16));
+ assert.equal(MOSA_WATER_PROBE_REVISION,await waterProbeRevision(MOSA_PROBE_INPUTS,new URL('../scripts/bake-mosasaur-reflection.mjs',import.meta.url)));
  const bytes=await readFile(new URL('../public/'+MOSA_WATER_PROBE.slice(2),import.meta.url));assert.ok(bytes.length<100000);assert.equal(bytes.readUInt32BE(16),256);assert.equal(bytes.readUInt32BE(20),256);
  assert.ok(MOSA_WATER_PROBE.includes(createHash('sha256').update(bytes).digest('hex').slice(0,12)));
 });

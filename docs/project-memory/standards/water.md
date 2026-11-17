@@ -217,3 +217,29 @@ CPU/GPU нагружения. SwiftShader не физический телефо
 читаемость, анимацию и бюджет. Отдельно проверять телефон и Mac; Linux
 SwiftShader не доказывает ни один из них. Не обещать FPS/сходство без измерений
 и реального визуального сравнения. В CURRENT указывать непроверенные устройства.
+
+
+## Проверяемый общий кандидат 2026-11-17
+
+`water-field.js` — один подготовленный Texture для всей карты; ocean API теперь
+делегирует ему, не подменяя field/экстинкцию. `water-core.js` — общие GLSL
+sampling2, micro-slope, Fresnel/GGX, interface scatter и uniformmedium.
+Сохраняются отдельные физические vertex-wave envelopes/route clocks, beddepth
+и outlet fade. `showcase-water-optics.js` больше не перекрашивает fragment по
+своему; `showcase-bottom-light.js` задаёт только настоящую optical layer.
+Поверхности и отражения теперь в одной linear/ACES цепочке.
+
+Подготовлен1024² wind-field-2523d71db8b6.png, 1 974 687байтdownload/около5.33MiB
+mipmappedRGBA; seed731940 и алгоритм в build-mosasaur-water-field.py. Это
+новый общий ресурс относительно исторического128²d6, не его реконструкция.
+Startup готовит его параллельно native cats; fallback/failedprepare не выдавать
+за primary. Проверять фактическое имя/размер Texture на всех venues.
+Мокрый field и среда общие; independent clocks/локальные depths остаются.
+
+Оба bakers реально пересняты. Их revision теперь хеширует также САМ baker,
+чтобы изменение radiance encoding не скрывалось прежним producer hash.
+Старые source-lock проверки океан-only осмысленно заменены сохранением
+исторических записей и проверками общего ядра/ресурсного бюджета. Это разрешено
+последним требованием пользователя об общей воде, не оправдание удаления
+регрессионных проверок. 29targetedtests/nativevisibility пройдены; финальное
+качество, все игровые виды, CI и hardware ещё не подтверждены — см.CURRENT.

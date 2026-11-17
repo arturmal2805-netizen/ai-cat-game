@@ -8,6 +8,7 @@ import { resolve } from "node:path";
 import assert from "node:assert/strict";
 import { WATER_RIDES } from "../public/water-ride-data.js";
 import {SHOWCASE_SURFACE_ASSETS} from '../public/showcase-surface-assets.js';
+import {MOSA_WATER_FIELD} from '../public/mosasaur-water-field-assets.js';
 import {SHOWCASE_WATER_PROBES} from '../public/showcase-probe-assets.js';
 const { chromium } = createRequire(import.meta.url)(
   process.env.CHICHI_PLAYWRIGHT_MODULE || "playwright",
@@ -64,6 +65,7 @@ for (const root of roots) {
   if(!await access(resolve(root.path,'public/showcase-water-probes.js')).then(()=>true,()=>false))rootSource=rootSource.replace("import {prepareShowcaseWaterProbe} from './public/showcase-water-probes.js';","const prepareShowcaseWaterProbe=()=>Promise.resolve(false);");
   if(process.env.CHICHI_SLIDE_BEAUTY)rootSource=rootSource.replace('scene.add(sun);','scene.add(sun); scene.children[0].color.set(0xffe9db);scene.children[0].groundColor.set(0x8b9e85);scene.children[0].intensity=1.2;renderer.shadowMap.enabled=true; renderer.shadowMap.type=T.PCFShadowMap; sun.color.set(0xffd8b7);sun.intensity=2.2;sun.position.set(-70,175,100);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);Object.assign(sun.shadow.camera,{left:-85,right:85,top:85,bottom:-85,near:1,far:400});sun.shadow.bias=-.0005;const rim=new T.DirectionalLight(0xb8b7ec,.9);rim.position.set(20,16,-30);scene.add(rim);');
   const hasStatic=await access(resolve(root.path,'public/static-submissions.js')).then(()=>true,()=>false),beforeSource=hasStatic?"import {configureStaticSubmissions} from './public/static-submissions.js';\n"+rootSource.replace('renderer.toneMapping=','configureStaticSubmissions(renderer);renderer.toneMapping='):rootSource;
+  if(await access(resolve(root.path,'public/water-field.js')).then(()=>true,()=>false))rootSource="import {prepareWaterField} from './public/water-field.js';\n"+rootSource.replace('window.loadRide=async(id)=>{','window.loadRide=async(id)=>{await prepareWaterField();');
   const r = await build({
     stdin: {
       contents:
@@ -83,7 +85,7 @@ for (const root of roots) {
   });
   bundles.set("/" + root.name, r.outputFiles[0].text);
 }
-const surfaceAssets=new Map();for(const roles of Object.values(SHOWCASE_SURFACE_ASSETS))for(const url of Object.values(roles))surfaceAssets.set(url.slice(1),await readFile(resolve('public',url)));
+const surfaceAssets=new Map();surfaceAssets.set(MOSA_WATER_FIELD.slice(1),await readFile(resolve('public',MOSA_WATER_FIELD)));for(const roles of Object.values(SHOWCASE_SURFACE_ASSETS))for(const url of Object.values(roles))surfaceAssets.set(url.slice(1),await readFile(resolve('public',url)));
 for(const url of Object.values(SHOWCASE_WATER_PROBES))surfaceAssets.set(url.slice(1),await readFile(resolve('public',url)));
 // Serve each checkout's own content-hashed charts/probes. A baseline must not
 // silently fall back to old procedural maps after the candidate replaces a PNG.

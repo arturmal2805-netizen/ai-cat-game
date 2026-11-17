@@ -12,7 +12,7 @@ export function normalizeBasinUV(geometry){
  for(let i=0;i<uv.count;i++)uv.setXY(i,(uv.getX(i)-minX)/(maxX-minX||1),(uv.getY(i)-minY)/(maxY-minY||1));uv.needsUpdate=true;return true;
 }
 export function slideBasinWater(water){
- water.defines={...water.defines,SLIDE_CATCH_POOL:1};water.uniforms.uColor.value.setHex(SLIDE_BASIN_BLUE);water.uniforms.uShoreColor.value.setHex(0x98eaff);water.uniforms.uOpacity.value=.78;water.needsUpdate=true;return water;
+ water.defines={...water.defines,SLIDE_CATCH_POOL:1};water.uniforms.uColor.value.setHex(SLIDE_BASIN_BLUE);water.uniforms.uShoreColor.value.setHex(0x98eaff);water.uniforms.uOpacity.value=.78;water.uniforms.uWaterDepth.value=1.19;water.needsUpdate=true;return water;
 }
 export function applySlideBasinOptics(pool){
  if(pool.userData.slideBasinOptics)return pool;

@@ -121,6 +121,7 @@ export function* lagoonSteps({
   surface.position.y = 0.155;
   yield;
   surface.renderOrder = 3;
+  material.uniforms.uWaterDepth.value=depth;
   yield;
   material.uniforms.uLake.value = 1;
   material.uniforms.uScale.value.set(rx * 2, rz * 2);

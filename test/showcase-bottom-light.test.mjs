@@ -12,7 +12,7 @@ const compile=material=>{
   material.onBeforeCompile(shader);return shader;
 };
 
-test('local bottom light composes with native underwater uniforms and callbacks without extra field samples or changes to other water',()=>{
+test('bottom profiles retain one shared underwater shader and native projection without extra field samples',()=>{
   const clock={value:3},level={value:1.45},base=new T.MeshStandardMaterial();
   let calls=0; base.onBeforeCompile=()=>calls++;
   applyUnderwaterLighting(base,clock,0x24b9ff,{level,refract:false});
@@ -25,9 +25,9 @@ test('local bottom light composes with native underwater uniforms and callbacks 
   assert.equal((before.fragmentShader.match(/texture2D\(/g)||[]).length,2);
   const projection=after.vertexShader.replace('varying float vShowcaseImmersion;\n','').replace('vShowcaseImmersion=max(0.,uWaterLevel-waterPoint.y);','');
   assert.equal(projection,before.vertexShader,'native projection/refraction and picking stay unchanged');
-  assert.ok(after.vertexShader.indexOf('waterPoint=modelMatrix*waterPoint')<after.vertexShader.indexOf('vShowcaseImmersion=max'));
-  assert.ok(after.vertexShader.indexOf('waterPoint=instanceMatrix*waterPoint')<after.vertexShader.indexOf('vShowcaseImmersion=max'));
-  assert.equal(base.customProgramCacheKey(),key+'-showcase-bottom-v3');
+  assert.ok(after.vertexShader.indexOf('waterPoint=modelMatrix*waterPoint')<after.vertexShader.indexOf('vClearWaterImmersion=uWaterLayerDepth'));
+  assert.ok(after.vertexShader.indexOf('waterPoint=instanceMatrix*waterPoint')<after.vertexShader.indexOf('vClearWaterImmersion=uWaterLayerDepth'));
+  assert.equal(base.customProgramCacheKey(),key,'local depth is a uniform, not a different lighting shader');
   assert.equal(polishShowcaseBottom(base),base);assert.equal(base.onBeforeCompile,once);
   assert.equal(original.userData.showcaseBottomLight,undefined);
 });
@@ -45,8 +45,9 @@ test('clear water keeps its original sampler, ripple, wave and geometry contract
 test('elevated shallow river sheets use their real trough thickness rather than a world sea level',()=>{
   const clock={value:7},m=new T.MeshStandardMaterial();m.userData.showcaseRiverBed=true;
   applyUnderwaterLighting(m,clock,0x24b9ff,{refract:false});const before=m.customProgramCacheKey();polishShowcaseBottom(m);
-  const shader=compile(m);assert.match(shader.vertexShader,/vShowcaseImmersion=\.23;/);
-  assert.equal(shader.uniforms.uWaterLightTime,clock);assert.equal(m.customProgramCacheKey(),before+'-showcase-bottom-v3-sheet');
+  const shader=compile(m);assert.equal(shader.uniforms.uWaterLayerDepth.value,.23);
+  assert.match(shader.fragmentShader,/vWaterWorldY/);
+  assert.equal(shader.uniforms.uWaterLightTime,clock);assert.equal(m.customProgramCacheKey(),before);
   assert.equal((shader.fragmentShader.match(/texture2D\(/g)||[]).length,2);
 });
 
