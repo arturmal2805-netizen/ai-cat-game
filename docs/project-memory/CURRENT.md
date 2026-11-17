@@ -4,6 +4,53 @@
 первый performancefix1f96a1b → отдельный Mallfix0b38098. Все опубликованы.
 Технический релиз не равен художественному одобрению или аппаратным60FPS.
 
+## Текущая WIP-работа после третьего отчёта
+
+/workspace/chichi-ocean-cache-trace, codex/ocean-cache-trace, база0b38098.
+Код отправлен в main e25f6ffd3ab4cab2d3595a337573699bbaa4d3c2.
+CI44134464517 запущен, ещё НЕ подтверждённый live-релиз.
+https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44134464517
+Ожидаемые JS89f628b72c238b0390dc38ef142b98511d6efc2eb390d0980554f40839185856,
+CSSd02068257c7b2b00ecdb80590c8a6bc5003849788f1400e69b6a6d6d91fb4356.
+Verifier /tmp/verify-chichi-global-release.py →
+/workspace/qa/chichi-global-publication/live-verification.json.
+Не править public в source worktree пока verifier сравнивает immutable assets.
+[Exact source/QA](https://github.com/arturmal2805-netizen/ai-cat-game/blob/e25f6ffd3ab4cab2d3595a337573699bbaa4d3c2/docs/qa/2026-11-17/cache-and-global-control/manifest.json).
+Не запускать второй push main до окончания CI. Thirdreport JSdbe/0b подтверждён: GPU18.36ms,
+FPS20.43 из300frames/14.633sec сgap5900.1ms,1%low0.4;153rapidrefaults58.7MB.
+6secgap отсутствует вrecordedLongTask608ms/GPUMax223ms, причинностьcache не доказана.
+Stationarytrace не воспроизводилrefault; новый submission-only camera-cycle
+trace воспроизвёл1053returns527.8MB, преимущественно этажиMall. GPUdrawsтолько
+вЭТОМQA подавлены, realuploads/shaders остаются; этоНЕFPS/nativepixelproof.
+
+КандидатexactFloat32RGBdictionary152bakedMallgeometries:41.43MBcolour →
+6.9MBUint16indices+64KiBFloat32table,34.46MBnetGPUэкономия, vertices/normal/UV/
+index/colours32bits неизменны. Defaultdata coloursсохраненыCPU; толькоbakedfloor
+holders, неcats/rigs/morphs/instancing/sharedunsupportedmaterials. Unitбитовая
+точность+rayfaces+nativeStaticdispatch PASS. NativeV3 fullgame/DPR2interior/
+overview/phone:0changedRGBA/0errors, buffers−30.9–34.47MB. V1/V2toggleQAбыли
+биты: ThreegetProgram сохраняетОДИНuniformsetнаmaterial при возвратеcached
+program. QA-модовое переключение теперьdispose-materialcache/recompile, не
+трогаетcatmaterials. Defaultproduction ничего не переключаеткаждыйкадр.
+
+Пользователь ДОБАВИЛ вэтотрелиз: видимаякнопка «Управлять Чичи» и ходьбаот3лица
+ВЕЗДЕ, включаяобычныеострова. Уточнениеявно подтверждено пользователем.
+Новыеchichi-manual.js/worldintegration иsubmarine.controlChichi вработе:
+обычнаяходьбаизреальногоposition,существующиеwater/Mallowners, однаmodel,
+WASD/dragcamera, compacttouch44px, desktopбезdirectionpad, world/islandrelease,
+bridge-locationvalidationтолькоChichiсlegacyshorefallback. Sharedmergeнеизменён.
+Node22 full build PASS; 50 targeted tests PASS; final 30 tests after cleanup PASS.
+Native V7: real keyboard entry/movement, desktop no direction pad, real held
+phone touch44px, Island/World release, private SQLite position/balances/items
+reload PASS. Ordinary rest is unchanged. New land controller is not persisted:
+reload returns the same real cat to autonomous life. Native ownership audit
+recovered Mega Loops, re-placed for zero charge, retained one copy after TWO
+SQLite reloads PASS. No shared-world merge changes. Final direct-button water/Mall
+entry audits both PASS (exit/swim/dive/rise/reboard; Mall release/resume/walk); do not mark this WIP published until CI+HTTP receipts.
+Final source e25f6ffd3ab4cab2d3595a337573699bbaa4d3c2 on main and codex/ocean-cache-trace.
+QA: docs/qa/2026-11-17/cache-and-global-control; local native-v7, palette-v3,
+chichi-global-ownership, final button-water/button-mall in /workspace/qa.
+
 ## Текущий подтверждённый релиз
 
 **0b38098a32e338a89b88efd784b184e9ac72c3f3** — main и работающий сайт.
@@ -95,17 +142,14 @@ APIplan17.4sec и resource8–10sec — observedtimings, не доказанны
 
 ## Что делать дальше
 
-1. Нужен новый аппаратный report ПОСЛЕ0b38098: дождаться загрузки,30секунд
-   в одном ракурсе без открытых меню, затем «Скопировать отчёт». Сравнивать
-   одинаковые camera/DPR/fullframes/longpauses/GPU/память, не26framesс300frames.
-   Ни один старый report не измеряетопубликованный0b. Окнотолькопозапросу.
-2. Следующее расследование — startup/loadingpriorities: во втором report
-   textures8–10sec иAIplan17.4sec (observedtimings, не доказанныйсбойAPI).
-   Первый reportM2:18.959Mtri/2462draws/211rapidrefaults. Stationary native24frame
-   trace ихне повторил. Второй report JSf8/06:1.35sec26frames,18.52FPS,
-   GPU28.24ms/15.718Mtri,zeroin-windowrefaults/bufferData. Safe summariesвQA.
-   Не повышать budgetглобально/не обвинятьcacheбезtrace/не включатьcolonyrenderer
-   вслепую/не гонять paidAI радибенчмарка/не уменьшатьмодели,DPR,тени,количество.
+1. Finish and publish the verified global-control/Mall-memory increment from
+   codex/ocean-cache-trace. Latest report3 already measures 0b38098 (JSdbe);
+   do NOT request it again as if absent. Native direct-button water/Mall audits
+   passed; next full Node22 CI and HTTP JS/CSS hashes before claiming live.
+2. After release collect a physical-device report of 30 seconds in the same
+   camera/DPR. Report3 six-second gap remains unexplained; no recorded JS/GPU
+   task accounts for it. Palette removes ~33MiB exact Mall RGB uploads, not a
+   proven fix for every pause. Keep current GPU cache limits, fauna and detail.
 3. Художественно вода/песок/кораллы ещё НЕ приняты. Crimson Desert остаётся
    целью всей карты, не толькооднойлокации; physicalwave/depth/flowprofiles
    разные. После стабилизации продолжать поверхность/дно/реализм/экосистемы,

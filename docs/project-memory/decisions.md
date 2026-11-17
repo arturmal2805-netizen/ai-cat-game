@@ -168,24 +168,44 @@ sand triangles отделяются от прежнего floor index без ove
 Первые reef-кадры не включали mall.ensure(), поэтому не являются сопоставимым
 performance baseline. No visual approval/hardware improvement claimed.
 
-## 2026-11-17 — Mall exact ranges и дополнительные реальные проверки
+## 2026-11-17 — первое точное отсечение секций дна
 
-0b38098 прошёл26releasechecks и nativefullMall/DPR2interior/overview/phone:
-0errors/0changedRGBA. ВитриныMcD/Vuitton проверены черезнастоящийinspectStore,
-снаружиcutawayOpen=true иphoneinside=false; nativeMeshDepthMaterial baseline
-(не толькоdisablebatch) имеет те же pixels. PrivateSQLitecoins/inventory/
-placements точно сохранилисьпослеreload. ВнутреннийphoneодиночныйGPUprobe
-замедлился12.3%; из-заэтого сделаны3повторныепары, однавобратномпорядке:
-всеcandidateбыстрее,median4290.4→4084.7ms. Замедление не воспроизвелось.
-SwiftShaderсинхронныеofflineпробынепредсказываютMac/iPhoneFPS; подтвердить
-физическимreportпослепубликации. ExactQAвcodex/mall-submit-verification9176f420.
+Shared attributes сохраняются, но прежняя sphere каждой из54секций содержала
+всё дно и раздувалась nonuniform bed.scale. LOD теперь проверяет sphere по
+полным индексированным треугольникам в metre space после FINAL camera.
+Native sort sphere/LOD/shader/vertices/picking неизменны. Casting floor
+остается native, чтобы main camera не выключала тени.31targeted PASS; полные
+colour/shadow/DPR2 underwater/overview/phone pixels проверяются отдельно.
+Полный Mall trace подтвердил существенную triangle нагрузку Mall; refaults
+в неподвижном сценарии не повторились. Бюджет не повышать на основании догадки.
 
-## 2026-11-17 — опубликован Mall performancefix0b38098
+## 2026-11-17 — отклонён первый эксперимент Mall static
 
-После подтверждённой1fпубликации отдельно отправлен0b38098. Полный Node22
-CI44104460487 test/deploy/pages SUCCESS, фактическийHTTP14:47:11UTC сверил
-JSdbe5f20f…/CSSc14ce840…/wavefield/9reflectionPNG/reef.gz,HTMLoneappscript.
-Все native/composition/exactindices/selectedstore/nativeShadow/SQLiteguards
-прошли, оригинальные модели/графика/сохранения сохранены. MacFPS поканеизмерен
-на новойверсии. CURRENTочищенот устаревшихactiveочередей,полныйархивсохранён.
-Следующийstep—hardware report0bиотдельноloadingpriorities; не claimвселагиfixed.
+V1 сохранял любой previous hook, в том числе старый Mall reflection finish.
+Получены duplicate uMallProbe/mallR GLSL errors;0pixel differences между двумя
+битым изображениями НЕ делает тест успешным. Ошибки в assertion errors[]
+остановили проверку. V2 сохраняет только известный static-submission wrapper,
+старый Mall finish заменяется по прежнему контракту. Новый unit ловит duplicate
+uniform/reflection,8unitPASS. NativeV2 ещё не подтверждён. Никогда не ослаблять
+проверку console/shadererrors ради выигрыша в triangles.
+
+## 2026-11-17 — exact Mall RGB dictionary and global Chichi entry
+
+Report3 identifies published0b/JSdbe, not an earlier release. Camera-cycle
+submission-only trace reproduced Mall re-upload pressure; it is not GPU/FPS
+measurement. Baked floor RGB uses a lossless Float32 dictionary with Uint16
+indices, saving34,461,284B GPU for152 geometries without changing triangles,
+positions, normals, UVs, order, picking, cats or the cache budget. Native V3
+interior/overview/phone DPR2 pixel comparisons have zero changed RGBA channels
+and zero errors. The 5900ms physical-device gap is still unproven cache-related.
+
+Rejected QA V1/V2 used a cached Three program with a different uniform set on
+one reused material. Material-local uniforms do not track each cached program.
+Comparative mode switching now disposes/recompiles that material; production
+initializes once. Failed captures are not visual evidence of correctness.
+
+Player explicitly added global «Управлять Чичи» including ordinary islands.
+Reuse one real carrier and existing water/Mall physics; guard all ordinary hero
+owners while land manual is active. Native V7 keyboard, actual touch, camera
+release and SQLite reload pass. Node22 build/50 targeted tests and ownership
+phone audit pass. This records verified WIP, not publication or art approval.
