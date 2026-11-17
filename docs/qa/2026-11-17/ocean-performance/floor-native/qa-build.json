@@ -1,0 +1,7 @@
+{
+  "sha256": "dffd00b53e713972306b35e53801204cbf424e78f28b5734c55116a357b1cc09",
+  "node": "v22.23.5",
+  "head": "06a39cb0b1c92f104996ae315932885655f07a68",
+  "dirty": " M public/mosasaur-sand-region.js\n M scripts/check-aquarium.cjs\n M test/seabed-sand-stones.test.mjs\n?? scripts/audit-floor-culling-native.mjs\n?? scripts/audit-ocean-performance.mjs\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

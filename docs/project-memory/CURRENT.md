@@ -26,7 +26,12 @@ normal/remote/overview/phone + privateSQLite reload/ownership PASS.
 ## Активная оптимизация
 
 Рабочая ветка codex/ocean-performance, /workspace/chichi-ocean-performance,
-база06a39cb; первый production fix — точное отсечение секций дна, native A/B в работе.
+база06a39cb; первый production fix — точное отсечение секций дна. 31targeted+12release
+PASS Node22. Native fullMall/DPR2 underwater/overview/phone: ноль изменённых
+RGBA каналов;54 ->6/32/3секций. Single SwiftShader frame pairs не MacFPS и
+не статистическая гарантия. Реальный ocean-probe rebake дал прежний PNG.
+Source4af4d0c, финальная публикация запускается отдельным следующим commit.
+[Точная QA/build/source](../qa/2026-11-17/ocean-performance/manifest.json).
 Полный пользовательский report прочитан ПОСЛЕ release verification:
 /workspace/qa/optimization-player-report-extract.json. Report относится к c3f59b2
 (JSfe81b47a), AppleM2,1440x812,DPR2,68cats/29poseCats,individual renderer.

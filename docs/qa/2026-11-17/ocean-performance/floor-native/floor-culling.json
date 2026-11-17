@@ -1,0 +1,134 @@
+{
+  "completed": true,
+  "rows": [
+    {
+      "name": "underwater",
+      "baseline": {
+        "completeGpuFrameMs": 5137.400000002235,
+        "calls": 399,
+        "triangles": 8148400,
+        "visibleSections": 54,
+        "buffers": {
+          "bytes": 379616337,
+          "peak": 379616337,
+          "buffers": 3948,
+          "commandFrame": 12,
+          "commandCalls": 451,
+          "commands": 1055,
+          "staticCommands": 765
+        }
+      },
+      "candidate": {
+        "completeGpuFrameMs": 5038.5,
+        "calls": 333,
+        "triangles": 7972698,
+        "visibleSections": 6,
+        "buffers": {
+          "bytes": 379616337,
+          "peak": 379616337,
+          "buffers": 3948,
+          "commandFrame": 13,
+          "commandCalls": 367,
+          "commands": 341,
+          "staticCommands": 103
+        }
+      },
+      "changedChannels": 0,
+      "maxDelta": 0,
+      "dpr": 2,
+      "camera": [
+        -438,
+        -115.8,
+        425
+      ],
+      "lost": false
+    },
+    {
+      "name": "overview",
+      "baseline": {
+        "completeGpuFrameMs": 14111.800000000745,
+        "calls": 986,
+        "triangles": 13482470,
+        "visibleSections": 54,
+        "buffers": {
+          "bytes": 458461806,
+          "peak": 458461806,
+          "buffers": 5148,
+          "commandFrame": 16,
+          "commandCalls": 1024,
+          "commands": 1791,
+          "staticCommands": 1028
+        }
+      },
+      "candidate": {
+        "completeGpuFrameMs": 13813.300000000745,
+        "calls": 928,
+        "triangles": 13284483,
+        "visibleSections": 32,
+        "buffers": {
+          "bytes": 458461806,
+          "peak": 458461806,
+          "buffers": 5148,
+          "commandFrame": 17,
+          "commandCalls": 950,
+          "commands": 1063,
+          "staticCommands": 328
+        }
+      },
+      "changedChannels": 0,
+      "maxDelta": 0,
+      "dpr": 2,
+      "camera": [
+        -450,
+        -25,
+        360
+      ],
+      "lost": false
+    },
+    {
+      "name": "phone",
+      "baseline": {
+        "completeGpuFrameMs": 2385.699999999255,
+        "calls": 410,
+        "triangles": 9188543,
+        "visibleSections": 54,
+        "buffers": {
+          "bytes": 441203342,
+          "peak": 458461806,
+          "buffers": 4457,
+          "commandFrame": 20,
+          "commandCalls": 461,
+          "commands": 1066,
+          "staticCommands": 777
+        }
+      },
+      "candidate": {
+        "completeGpuFrameMs": 2235.89999999851,
+        "calls": 341,
+        "triangles": 9003245,
+        "visibleSections": 3,
+        "buffers": {
+          "bytes": 441203342,
+          "peak": 458461806,
+          "buffers": 4457,
+          "commandFrame": 21,
+          "commandCalls": 374,
+          "commands": 349,
+          "staticCommands": 115
+        }
+      },
+      "changedChannels": 0,
+      "maxDelta": 0,
+      "dpr": 2,
+      "camera": [
+        -445,
+        -120.8,
+        413
+      ],
+      "lost": false
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "limitations": "SwiftShader synchronized offline frame timings, not Mac/iPhone FPS. Actual private stress save, full Mall. Counts, shaders, DPR and geometry unchanged."
+}

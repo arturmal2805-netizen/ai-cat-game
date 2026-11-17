@@ -1,0 +1,85 @@
+Baked tropical-coast 38008
+One ocean reflection probe: 38008 download bytes; 0.33 MiB mipmapped shared GPU maximum.
+Final production application b762b19233cfc25b c14ce8408f8f3aed 4af4d0c955d66459e1560f4eec60ce757031b356
+TAP version 13
+# Subtest: the ocean reflection is a valid immutable local capture of its current native coastal producers
+ok 1 - the ocean reflection is a valid immutable local capture of its current native coastal producers
+  ---
+  duration_ms: 29.137855
+  type: 'test'
+  ...
+# Subtest: the native warmup uploads every hidden ocean sampler before compiling its first live material
+ok 2 - the native warmup uploads every hidden ocean sampler before compiling its first live material
+  ---
+  duration_ms: 105.389373
+  type: 'test'
+  ...
+# Subtest: ocean optics retain the native two field samples, one reflection lookup and bounded scalar wake slots
+ok 3 - ocean optics retain the native two field samples, one reflection lookup and bounded scalar wake slots
+  ---
+  duration_ms: 24.711794
+  type: 'test'
+  ...
+# Subtest: whole-floor sections preserve every native triangle, vertex, ray proxy and world transform
+ok 4 - whole-floor sections preserve every native triangle, vertex, ray proxy and world transform
+  ---
+  duration_ms: 547.923171
+  type: 'test'
+  ...
+# Subtest: floor culling covers each full indexed triangle, wakes after orbit and keeps casting floors native
+ok 5 - floor culling covers each full indexed triangle, wakes after orbit and keeps casting floors native
+  ---
+  duration_ms: 3.572475
+  type: 'test'
+  ...
+# Subtest: ready stone instances and their real physics contacts share positions and conservatively contain every sculpted vertex
+ok 6 - ready stone instances and their real physics contacts share positions and conservatively contain every sculpted vertex
+  ---
+  duration_ms: 9.058246
+  type: 'test'
+  ...
+# Subtest: every previously valid saved pose by the distributed stones can leave its new physical contact
+ok 7 - every previously valid saved pose by the distributed stones can leave its new physical contact
+  ---
+  duration_ms: 30.077118
+  type: 'test'
+  ...
+# Subtest: all 68 water rides have an individual performance; every factory including background construction installs it
+ok 8 - all 68 water rides have an individual performance; every factory including background construction installs it
+  ---
+  duration_ms: 25000.036072
+  type: 'test'
+  ...
+# Subtest: runtime only interpolates fixed cached data, supports deterministic seeking and preserves source frame/carrier
+ok 9 - runtime only interpolates fixed cached data, supports deterministic seeking and preserves source frame/carrier
+  ---
+  duration_ms: 10.848533
+  type: 'test'
+  ...
+# Subtest: left and right paws move independently on the native rig and cancellation/reduced motion restore it
+ok 10 - left and right paws move independently on the native rig and cancellation/reduced motion restore it
+  ---
+  duration_ms: 2281.611213
+  type: 'test'
+  ...
+# Subtest: faster rafting and river use a single native clock without changing true gravity, walking, boarding or landing
+ok 11 - faster rafting and river use a single native clock without changing true gravity, walking, boarding or landing
+  ---
+  duration_ms: 1.328081
+  type: 'test'
+  ...
+# Subtest: background performance preparation yields between lanes and never exposes a partial cached table
+ok 12 - background performance preparation yields between lanes and never exposes a partial cached table
+  ---
+  duration_ms: 11.327455
+  type: 'test'
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 12
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 27565.725284

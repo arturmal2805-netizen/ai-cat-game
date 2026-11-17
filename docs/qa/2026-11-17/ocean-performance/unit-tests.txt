@@ -1,0 +1,196 @@
+TAP version 13
+# Subtest: old GPU geometry is retired without altering CPU vertices and can be drawn again
+ok 1 - old GPU geometry is retired without altering CPU vertices and can be drawn again
+  ---
+  duration_ms: 5.208648
+  type: 'test'
+  ...
+# Subtest: recent shadow/colour owners protect every shared-attribute geometry
+ok 2 - recent shadow/colour owners protect every shared-attribute geometry
+  ---
+  duration_ms: 1.582296
+  type: 'test'
+  ...
+# Subtest: budget retains the most recently used geometry and external disposal is accounted once
+ok 3 - budget retains the most recently used geometry and external disposal is accounted once
+  ---
+  duration_ms: 1.00304
+  type: 'test'
+  ...
+# Subtest: GPU-only eviction preserves a living cat and its pose slots across repeated returns
+ok 4 - GPU-only eviction preserves a living cat and its pose slots across repeated returns
+  ---
+  duration_ms: 521.94998
+  type: 'test'
+  ...
+# Subtest: memory pressure retires buffers absent from three colour/shadow frames and the short active window, without waiting ten seconds
+ok 5 - memory pressure retires buffers absent from three colour/shadow frames and the short active window, without waiting ten seconds
+  ---
+  duration_ms: 0.638252
+  type: 'test'
+  ...
+# Subtest: repeated colour/shadow draws read the use clock once per native render frame
+ok 6 - repeated colour/shadow draws read the use clock once per native render frame
+  ---
+  duration_ms: 1.085472
+  type: 'test'
+  ...
+# Subtest: alternating render caches survive brief native/colony switches under pressure, while abandoned island buffers still retire
+ok 7 - alternating render caches survive brief native/colony switches under pressure, while abandoned island buffers still retire
+  ---
+  duration_ms: 0.570532
+  type: 'test'
+  ...
+# Subtest: returning camera geometry learns a bounded working set instead of repeatedly deleting and uploading it
+ok 8 - returning camera geometry learns a bounded working set instead of repeatedly deleting and uploading it
+  ---
+  duration_ms: 1.882618
+  type: 'test'
+  ...
+# Subtest: refault protection yields to its memory cap when the working set cannot fit
+ok 9 - refault protection yields to its memory cap when the working set cannot fit
+  ---
+  duration_ms: 1.247542
+  type: 'test'
+  ...
+# Subtest: refault telemetry counts restored shared streams only once and ordinary disposal stays final
+ok 10 - refault telemetry counts restored shared streams only once and ordinary disposal stays final
+  ---
+  duration_ms: 0.779531
+  type: 'test'
+  ...
+# Subtest: temporary memory overflow reclaims cold scenery before the oldest protected returning camera buffers
+ok 11 - temporary memory overflow reclaims cold scenery before the oldest protected returning camera buffers
+  ---
+  duration_ms: 0.748895
+  type: 'test'
+  ...
+# Subtest: recent animation/camera geometry survives pressure when its actual working set exceeds the idle-cache allowance
+ok 12 - recent animation/camera geometry survives pressure when its actual working set exceeds the idle-cache allowance
+  ---
+  duration_ms: 1.88343
+  type: 'test'
+  ...
+# Subtest: the short active window does not retain an endless stream of abandoned geometries or destroy shared active owners
+ok 13 - the short active window does not retain an endless stream of abandoned geometries or destroy shared active owners
+  ---
+  duration_ms: 10.87453
+  type: 'test'
+  ...
+# Subtest: whole-floor sections preserve every native triangle, vertex, ray proxy and world transform
+ok 14 - whole-floor sections preserve every native triangle, vertex, ray proxy and world transform
+  ---
+  duration_ms: 987.819081
+  type: 'test'
+  ...
+# Subtest: floor culling covers each full indexed triangle, wakes after orbit and keeps casting floors native
+ok 15 - floor culling covers each full indexed triangle, wakes after orbit and keeps casting floors native
+  ---
+  duration_ms: 5.769345
+  type: 'test'
+  ...
+# Subtest: ready stone instances and their real physics contacts share positions and conservatively contain every sculpted vertex
+ok 16 - ready stone instances and their real physics contacts share positions and conservatively contain every sculpted vertex
+  ---
+  duration_ms: 17.976351
+  type: 'test'
+  ...
+# Subtest: every previously valid saved pose by the distributed stones can leave its new physical contact
+ok 17 - every previously valid saved pose by the distributed stones can leave its new physical contact
+  ---
+  duration_ms: 87.414486
+  type: 'test'
+  ...
+# Subtest: all 68 water rides have an individual performance; every factory including background construction installs it
+ok 18 - all 68 water rides have an individual performance; every factory including background construction installs it
+  ---
+  duration_ms: 38683.098874
+  type: 'test'
+  ...
+# Subtest: runtime only interpolates fixed cached data, supports deterministic seeking and preserves source frame/carrier
+ok 19 - runtime only interpolates fixed cached data, supports deterministic seeking and preserves source frame/carrier
+  ---
+  duration_ms: 11.0167
+  type: 'test'
+  ...
+# Subtest: left and right paws move independently on the native rig and cancellation/reduced motion restore it
+ok 20 - left and right paws move independently on the native rig and cancellation/reduced motion restore it
+  ---
+  duration_ms: 3322.036438
+  type: 'test'
+  ...
+# Subtest: faster rafting and river use a single native clock without changing true gravity, walking, boarding or landing
+ok 21 - faster rafting and river use a single native clock without changing true gravity, walking, boarding or landing
+  ---
+  duration_ms: 1.230856
+  type: 'test'
+  ...
+# Subtest: background performance preparation yields between lanes and never exposes a partial cached table
+ok 22 - background performance preparation yields between lanes and never exposes a partial cached table
+  ---
+  duration_ms: 17.549411
+  type: 'test'
+  ...
+# Subtest: a visible dragon cat beyond the old 45-unit cutoff stays visible through ordinary orbit and zoom, without moving its carrier
+ok 23 - a visible dragon cat beyond the old 45-unit cutoff stays visible through ordinary orbit and zoom, without moving its carrier
+  ---
+  duration_ms: 593.606438
+  type: 'test'
+  ...
+# Subtest: navigation radius stays constant through breathing for ordinary, tiny and giant approved cats
+ok 24 - navigation radius stays constant through breathing for ordinary, tiny and giant approved cats
+  ---
+  duration_ms: 3637.111488
+  type: 'test'
+  ...
+# Subtest: hidden scene branches skip all descendant matrix work and refresh correctly after movement or explicit camera queries
+ok 25 - hidden scene branches skip all descendant matrix work and refresh correctly after movement or explicit camera queries
+  ---
+  duration_ms: 1.338996
+  type: 'test'
+  ...
+# Subtest: navigation cache is bounded even when many different actor sizes request routes
+ok 26 - navigation cache is bounded even when many different actor sizes request routes
+  ---
+  duration_ms: 875.336454
+  type: 'test'
+  ...
+# Subtest: all 50 fish and 120 bubbles keep geometry and GPU instance buffers stable during swimming and reduced motion
+ok 27 - all 50 fish and 120 bubbles keep geometry and GPU instance buffers stable during swimming and reduced motion
+  ---
+  duration_ms: 548.124024
+  type: 'test'
+  ...
+# Subtest: 55 fireflies retain their exact sphere detail and three colours without per-frame matrix uploads
+ok 28 - 55 fireflies retain their exact sphere detail and three colours without per-frame matrix uploads
+  ---
+  duration_ms: 1.033325
+  type: 'test'
+  ...
+# Subtest: cooperative geometry bounds match Three exactly and preserve half-float data without a duplicate buffer
+ok 29 - cooperative geometry bounds match Three exactly and preserve half-float data without a duplicate buffer
+  ---
+  duration_ms: 2.071767
+  type: 'test'
+  ...
+# Subtest: idle reward polls reuse the world and cached Kyiv dates respect midnight and DST
+ok 30 - idle reward polls reuse the world and cached Kyiv dates respect midnight and DST
+  ---
+  duration_ms: 101.927389
+  type: 'test'
+  ...
+# Subtest: linear bulk register reads preserve coins, diamonds and XP timers for a large world
+ok 31 - linear bulk register reads preserve coins, diamonds and XP timers for a large world
+  ---
+  duration_ms: 49.306726
+  type: 'test'
+  ...
+1..31
+# tests 31
+# suites 0
+# pass 31
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 42537.545312
