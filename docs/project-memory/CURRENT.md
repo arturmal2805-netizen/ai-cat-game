@@ -7,12 +7,14 @@
 
 ## Что опубликовано
 
-`12d478e82e8e5a2bd6ef3ec0cbb151ea1e473d1d`, main и фактический сайт:
+Последняя подтверждённая работающая версия —
+`12d478e82e8e5a2bd6ef3ec0cbb151ea1e473d1d`:
 https://arturmal2805-netizen.github.io/ai-cat-game/
 JS `507539ea7920b0489284d8572aef4481c8506e1d643a24a8becda9d79b7a8ca5`,
 CSS `c14ce8408f8f3aed7a5e7991eca39663fe55377343421ff62e0600ada4c048ef`.
 Workflow43807080956 success. [Повторная проверка17ноября](../qa/2026-11-17/shared-water-core/live-stable-recheck.json):
-байты совпали, в HTML ровно одно подключение приложения. Новый WIP НЕ live.
+байты совпали, в HTML ровно одно подключение приложения. Удалённый main уже b8051f931c66608acd15ac41bb6043c7081b7605;
+сайт ещё должен быть подтверждён после workflow44063176067.
 
 Слияние12d: water source `4ec37371e6b71a03050d4e2a14e8b8fbdc9ae6b3`,
 release metadata `939b328304d4807506849a9fbeb866ea9f40703c` поверх4ec.
@@ -26,11 +28,15 @@ release metadata `939b328304d4807506849a9fbeb866ea9f40703c` поверх4ec.
 1. **Релиз воды сейчас**: `/workspace/chichi-water-release`, ветка
    `codex/shared-water-release`, база12d. Только shared-water files из4dc,
    корректная linear-radiance/4 цепочка, волны, прозрачность и подводная оптика.
-   Никаких новых рифов/покупок/смены размеров мира. Настоящие9rebakes+Node22build
-   уже запущены: `/workspace/qa/shared-water-release-check.log/.exit`.
-   Далее targeted tests, native visibility, одинаковые океанические камеры,
-   реальный Explorer/private SQLite, полный npm test, CI/deploy и live hashes.
-   Запущенное не считать завершённым; читать результат файлов.
+   Никаких новых рифов/покупок/смены размеров мира. Релизный commit
+   **b8051f931c66608acd15ac41bb6043c7081b7605** уже отправлен в main.
+   Реальные9rebakes, Node22build,39targeted+1070full tests, Wrangler dry-run,
+   native visibility, одинаковые океанические камеры, весь маршрут/нормальная
+   работа послеprivateSQLite reload и реальный game day/night A/B завершены.
+   Сейчас дождаться полного CI/deploy/pages:44063176067, затем actual live hashes.
+   https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44063176067
+   Watch: /workspace/qa/shared-water-release-ci.log/.exit.
+   Не считать запущенное завершённым; читать фактические результаты.
 2. После водного релиза — дно/низкие экосистемы, затем бюджет и реальный объём
    расширения океана, затем детализация ТРЦ. Не задерживать воду всем контентом.
 3. Телефон/Mac hardware пока НЕ измерены; SwiftShader не выдавать за их FPS.
@@ -100,3 +106,33 @@ clone: точные HEAD/cached patches/status/bytes. Удалённые60MB п�
 [Restore/remote receipt](../qa/2026-11-17/shared-water-core/backup-r9-remote-verification.json).
 
 Канонический индекс: https://github.com/arturmal2805-netizen/ai-cat-game/blob/codex/ocean-recovery-memory/docs/project-memory/README.md
+
+
+## Релиз b8051f9: последняя проверенная подготовка
+
+[Manifest/точные QA bundles/PNG/source overlays](https://github.com/arturmal2805-netizen/ai-cat-game/blob/b8051f931c66608acd15ac41bb6043c7081b7605/docs/qa/2026-11-17/shared-water-release/manifest.json).
+JS SHA256 `dcff015e221567268f2afadf90c80f8f402b30b4faf3bf2bcc9648d9621937d6`,
+CSS `c14ce8408f8f3aed7a5e7991eca39663fe55377343421ff62e0600ada4c048ef`.
+В HTML одно приложение; размеры карты/1024коралла/модели/контроллеры/сохранения
+взяты из12d. Глобальная вода — общий core/field из4dc, собственная настоящая
+Mosa reflection rebaked01333a81c41d, восемь showcase PNG совпали побайтно.
+68-ride evidence переиспользовано только после проверки тех же code/image
+inputs, новый океан проверен заново. Каждая локация использует один1024² field.
+
+Реальный полный app benchmark (последовательно, без CPU/GPU параллельной
+нагрузки): p50 2633.3→2633.2ms, p95 3033.2→2916.5, max3199.8→3316.6;
+интервалов>100ms53→59, endheap871.2→912.1MB, peakrows951.1→948.3MB.
+Это SwiftShader приDPR2, НЕ скорость Mac/телефона и НЕ утверждение ускорения.
+Draw counts те же; +24576surface triangles, без новых животных/декораций.
+Пользовательское художественное одобрение не получено; Crimson Desert — цель.
+
+Native route desktop adapter сначала ошибочно вызывалtap безhasTouch;
+исправлен наclick. Полныйv2 прошёл все физические этапы, затем final job fixture
+ошибочно менял app-only object без нормального commit/world sync. V3 Mall-route
+повторно прошёл этажи/выход/возврат и нормальную работу до/послеSQLite reload
+через реальный commit. Это QA-исправления, production controllers не менялись.
+Не выдавать промежуточныйfailed лог за окончательный результат; все сохранены.
+
+В main теперь есть AGENTS/index со ссылкой на эту каноническую memory-ветку.
+После CI и live verification обновить здесь фактический опубликованныйSHA и
+workflow, затем продолжать WIP дна/расширения отдельно. Исходный f5f89c7 сохранён.
