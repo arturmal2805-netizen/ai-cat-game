@@ -1,0 +1,182 @@
+diff --git a/AGENTS.md b/AGENTS.md
+index 12b2ce8..121f0e6 100644
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -63,7 +63,9 @@ Gaussian weights and angular thresholds once, rather than in frame updates.
+ All receiving pools use `slide-basin-optics.js`: normalize metre-based
+ ShapeGeometry UVs to the lake shader's unit domain once, retain the actual lit
+ floor and shared reflection/wave textures, and isolate their clear-blue optics
+-with `SLIDE_CATCH_POOL`. Other island water stays on its original shader branch.
++with `SLIDE_CATCH_POOL`. This is a physical receiving-pool profile of the shared
++water core, not a separate artistic shader. The 2026-11-16 global-water standard
++supersedes the earlier isolation of other island water on its original branch.
+ Do not add per-pool render targets, scene copies or continuous buffer uploads.
+ The complete water audit includes EVERY registered type in normal, grazing,
+ full-DPR phone and seated-rider views, plus explicit basin close-ups. Preserve
+@@ -994,9 +996,11 @@ The previous 2026-11-04 Black Flag comparison is historical, superseded visually
+ 
+ ### Mosasaur ocean master specification (player, 2026-11-04)
+ 
+-See `docs/specifications/mosasaur-ocean-master-2026-11-04.md`. The latest scope
+-supersedes the earlier four-area request: expand the currently released Mosasaur
+-Ocean approximately five times in horizontal dimensions; retain the same biome
++See `docs/specifications/mosasaur-ocean-master-2026-11-04.md` for the historical
++five-times expansion request. The later request in CURRENT supersedes its next
++expansion target: double WATER AREA relative to released12d478e, chiefly adding
++navigable water, without scaling animals, buildings or owned-object addresses.
++Retain the same biome
+ ID, unlock, original pier/ride and all saved ownership. Add real navigable deep
+ terrain/caves/ruins, varied coral ecosystems, a reworked mosasaur with smoothly
+ blended ambient behavior and a controllable submarine with two camera modes.
+diff --git a/public/mosasaur-rock-reefs.js b/public/mosasaur-rock-reefs.js
+index 9fdfc0d..d86a066 100644
+--- a/public/mosasaur-rock-reefs.js
++++ b/public/mosasaur-rock-reefs.js
+@@ -6,25 +6,57 @@ import {applyMosasaurBedOptics} from './mosasaur-bed-optics.js';
+ import {applyUnderwaterLighting} from './water-shading.js';
+ import {waterSandTexture} from './water-sand.js';
+ import {MOSA_SEA} from './mosasaur-data.js';
+-export function* mosaRockReefSteps(){
++export function* mosaRockReefSteps({spatialBenthic=true}={}){
+  const root=new T.Group(),clock={value:0},variants=new Map(),material=applyMosasaurBedOptics(applyUnderwaterLighting(new T.MeshStandardMaterial({color:0xffffff,vertexColors:true,map:waterSandTexture(),roughness:.88}),clock,0x45c7db,{level:{value:MOSA_SEA.surfaceY}}),{stoneNormals:true,reefRock:true});root.name='Continuous eroded reef cliffs, overhangs and navigable grottoes';
+  for(const c of MOSA_REEF_INSTANCES){
+   yield;const g=yield* mosaReefTemplateSteps(c.kind);if(!variants.has(c.kind))variants.set(c.kind,mosaReefLods(c.kind,g));
+   const lod=new T.LOD();lod.position.set(c.x,c.base+20*c.scaleY,c.z);lod.rotation.y=c.yaw;lod.scale.set(c.scaleXZ,c.scaleY,c.scaleXZ);root.add(lod);
+   for(const [i,distance]of [0,90,220].entries()){const mesh=new T.Mesh(variants.get(c.kind)[i],material);mesh.position.y=-20;mesh.castShadow=mesh.receiveShadow=true;lod.addLevel(mesh,distance,.08);}
+  }
+- // Three immutable instance batches reuse the very same rock vertex buffers.
++ // Immutable garden batches reuse the very same three rock vertex buffers.
+  // Distant surface views select their own deep-floor LOD, independently of
+  // the tall upper cliffs; no per-frame matrix changes or extra texture set.
+  const center=new T.Vector3(0,-188,178),dummy=new T.Object3D();
+- for(const kind of [0,1,2]){
+-  yield;const own=MOSA_BENTHIC_ROCKS.filter(p=>p.kind===kind),lod=new T.LOD();lod.position.copy(center);root.add(lod);let full;
++ const sortingSpheres=new Map(),farBatches=[],gardens=new T.Group();
++ if(spatialBenthic)root.add(gardens);
++ if(spatialBenthic)for(const kind of [0,1,2]){
++  yield;const own=MOSA_BENTHIC_ROCKS.filter(p=>p.kind===kind),source=new T.InstancedMesh(variants.get(kind)[0],material,own.length);
++  for(const [i,c]of own.entries()){dummy.position.set(c.x-center.x,c.base-center.y,c.z-center.z);dummy.rotation.set(0,c.yaw,0);dummy.scale.set(c.scaleXZ,c.scaleY,c.scaleXZ);dummy.updateMatrix();source.setMatrixAt(i,dummy.matrix);}
++  source.computeBoundingSphere();sortingSpheres.set(kind,source.boundingSphere.clone());
++  source.geometry=variants.get(kind)[2];source.position.copy(center);source.instanceMatrix.needsUpdate=true;source.castShadow=source.receiveShadow=true;farBatches.push(source);
++ }
++ for(let garden=0;garden<(spatialBenthic?16:1);garden++)for(const kind of [0,1,2]){
++  yield;const own=MOSA_BENTHIC_ROCKS.filter((p,i)=>p.kind===kind&&(!spatialBenthic||Math.floor(i/4)===garden));
++  if(!own.length)continue;
++  // Select detail at the real garden, not the empty central passage. Keep the
++  // original Float32 instance rows and geometry origin exactly; the mesh's
++  // counter-translation cancels the LOD anchor before native rendering.
++  const anchor=spatialBenthic?own.reduce((v,p)=>v.add(new T.Vector3(p.x,p.base+20*p.scaleY,p.z)),new T.Vector3()).multiplyScalar(1/own.length):center;
++  const lod=new T.LOD();lod.position.copy(anchor);lod.userData.benthicRockIds=own.map(p=>p.id);(spatialBenthic?gardens:root).add(lod);let full;
+   for(const [level,distance]of [0,55,130].entries()){
+    const mesh=new T.InstancedMesh(variants.get(kind)[level],material,own.length);mesh.name='Eroded benthic rocks';
++   mesh.position.copy(center).sub(anchor);mesh.userData.benthicRockIds=lod.userData.benthicRockIds;
+    if(!level){for(const [i,c]of own.entries()){dummy.position.set(c.x-center.x,c.base-center.y,c.z-center.z);dummy.rotation.set(0,c.yaw,0);dummy.scale.set(c.scaleXZ,c.scaleY,c.scaleXZ);dummy.updateMatrix();mesh.setMatrixAt(i,dummy.matrix);}mesh.instanceMatrix.needsUpdate=true;full=mesh;}
+    else mesh.instanceMatrix=full.instanceMatrix;
+-   mesh.computeBoundingSphere();mesh.castShadow=mesh.receiveShadow=true;lod.addLevel(mesh,distance,.08);
++   mesh.computeBoundingSphere();
++   // Three also uses this sphere for native opaque depth sorting. Retain the
++   // former whole-kind sphere/order at intersecting surfaces. LOD selection
++   // still uses the real garden anchor; shadow casters are never colour-culled.
++   if(spatialBenthic)mesh.boundingSphere.copy(sortingSpheres.get(kind));
++   mesh.castShadow=mesh.receiveShadow=true;lod.addLevel(mesh,distance,.08);
+   }
+  }
++ if(spatialBenthic){
++  root.remove(gardens);const selector=new T.LOD(),far=new T.Group(),cameraPoint=new T.Vector3(),anchor=new T.Vector3();let current=0;
++  far.add(...farBatches);selector.userData.benthicFarSelector=true;selector.addLevel(gardens,0);selector.addLevel(far,130,.08);far.visible=false;root.add(selector);
++  selector.getCurrentLevel=()=>current;
++  selector.update=function(camera){
++   cameraPoint.setFromMatrixPosition(camera.matrixWorld);let nearest=Infinity;
++   for(const lod of gardens.children)nearest=Math.min(nearest,cameraPoint.distanceTo(anchor.copy(lod.position).applyMatrix4(this.matrixWorld)));
++   // Native LOD selection/hysteresis, measured at the closest real garden.
++   // When every garden is far, retain the original three combined submissions.
++   const visible=this.getObjectForDistance(nearest/camera.zoom);current=visible===far?1:0;gardens.visible=visible===gardens;far.visible=visible===far;
++  };
++ }
+  root.userData.instances=MOSA_REEF_INSTANCES;root.userData.benthicRocks=MOSA_BENTHIC_ROCKS;root.userData.update=(time,reduced=false)=>{clock.value=reduced?0:time;};return root;
+ }
+diff --git a/scripts/check-global-water.mjs b/scripts/check-global-water.mjs
+index f0b4385..3e13af2 100644
+--- a/scripts/check-global-water.mjs
++++ b/scripts/check-global-water.mjs
+@@ -21,6 +21,7 @@ window.load=async id=>{if(island){scene.remove(island);disposeBiome(island);}bio
+  const water=waters[0];if(water){const box=new T.Box3().setFromObject(water);box.getCenter(waterPoint);const size=box.getSize(new T.Vector3());waterRadius=Math.max(size.x,size.z)*.5;}else{waterPoint.set(biome.center[0],0,biome.center[1]);waterRadius=Math.min(biome.radius,30);}
+  sun.position.copy(waterPoint).add(new T.Vector3(-14,35,20).multiplyScalar(id==='autumn'?10:1));sun.target.position.copy(waterPoint);if(id==='autumn'){const extent=waterRadius*1.4;Object.assign(sun.shadow.camera,{left:-extent,right:extent,top:extent,bottom:-extent,near:1,far:650});sun.shadow.camera.updateProjectionMatrix();}window.island=island;window.renderer=renderer;window.camera=camera;
+  view('normal');await renderer.compileAsync(scene,camera);draw(7);return {id,waterSurfaces:waters.length,waterPoint:waterPoint.toArray(),waterRadius};};
++window.waterReviewFrame=()=>({point:waterPoint.clone().sub(island.position).toArray(),radius:waterRadius});
+ window.useWaterFrame=frame=>{waterPoint.copy(island.position).add(new T.Vector3(...frame.point));waterRadius=frame.radius;sun.position.copy(waterPoint).add(new T.Vector3(-14,35,20).multiplyScalar(biome.id==='autumn'?10:1));sun.target.position.copy(waterPoint);if(biome.id==='autumn'){const extent=waterRadius*1.4;Object.assign(sun.shadow.camera,{left:-extent,right:extent,top:extent,bottom:-extent,near:1,far:650});sun.shadow.camera.updateProjectionMatrix();}return{waterPoint:waterPoint.toArray(),waterRadius};};
+ window.view=(name)=>{const phone=name==='phone'||name==='hero-phone',w=phone?390:900,h=phone?600:650;renderer.setPixelRatio(phone?2:1);renderer.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();const r=Math.max(waterRadius,3);scene.fog=null;scene.background.set(0xc5d8e3);camera.position.copy(waterPoint).add(new T.Vector3(name==='top'?0:.65,name==='grazing'?.20:name==='top'?1.85:1.2,name==='top'?.25:1.6).multiplyScalar(r*1.7));camera.lookAt(waterPoint);
+  if(name==='water-close'||name==='water-low'||name==='water-sun'){camera.position.copy(waterPoint).add(new T.Vector3(name==='water-sun'?-14:18,name==='water-low'?2.5:name==='water-sun'?12:14,name==='water-low'?48:35));camera.lookAt(waterPoint.clone().add(new T.Vector3(-8,0,-12)));}
+@@ -32,5 +33,5 @@ window.view=(name)=>{const phone=name==='phone'||name==='hero-phone',w=phone?390
+ window.draw=(t,reduced=false)=>{island.userData.update?.(t,reduced);for(const tank of fixtures)tank.userData.update?.(t,reduced);renderer.render(scene,camera);};
+ window.audit=()=>{draw(7,true);const first=renderer.domElement.toDataURL();draw(53,true);if(first!==renderer.domElement.toDataURL())throw Error('Reduced motion changed');draw(7);const before=renderer.domElement.toDataURL();draw(9);const animated=before!==renderer.domElement.toDataURL();let vertices=0,bytes=0,materials=new Set(),geometries=new Set(),waterMaterials=new Set(),waterFields=new Set();island.traverse(o=>{if(o.material)materials.add(o.material);if(o.material?.uniforms?.uWaterField){waterMaterials.add(o.material);waterFields.add(o.material.uniforms.uWaterField.value);}if(o.material?.userData?.waterLight)waterFields.add(o.material.userData.waterLight.texture);if(o.geometry)geometries.add(o.geometry);});for(const g of geometries){vertices+=g.attributes.position?.count||0;for(const a of Object.values(g.attributes))bytes+=(a.array||a.data?.array)?.byteLength||0;bytes+=g.index?.array.byteLength||0;}const oceanMaterial=[...waterMaterials].find(m=>m.userData.oceanProfile||m.customProgramCacheKey().includes('physical-ocean')),program=oceanMaterial&&renderer.properties.get(oceanMaterial).currentProgram,actual=program?renderer.getContext().getShaderSource(program.fragmentShader):'';return {oceanPhysicalShader:(actual.includes('oceanPath')||actual.includes('oceanCoverage')||actual.includes('vPhysicalBedDepth')&&actual.includes('sharedWaterField')),oceanToneMapping:actual.includes('#define TONE_MAPPING'),draws:renderer.info.render.calls,triangles:renderer.info.render.triangles,textures:renderer.info.memory.textures,vertices,geometryBytes:bytes,waterMaterials:waterMaterials.size,waterFields:[...waterFields].map(t=>({name:t.name,width:t.image.width,height:t.image.height})),animated,contextLost:renderer.getContext().isContextLost()};};window.ready=true;`;
+ const bundles=new Map();for(const root of roots){const out=await build({stdin:{contents:(await readFile(resolve(root.path,'public/water-field.js')).then(()=>true,()=>false))?code.replace('window.load=async id=>{','window.load=async id=>{await prepareMosaWaterField();'):code,resolveDir:root.path,loader:'js'},bundle:true,format:'esm',write:false});bundles.set('/'+root.name+'/',out.outputFiles[0].text);await writeFile(resolve(folder,'qa-'+root.name+'.mjs'),out.outputFiles[0].contents);root.sourceSHA=execFileSync('git',['rev-parse','HEAD'],{cwd:root.path,encoding:'utf8'}).trim();root.dirty=execFileSync('git',['status','--porcelain=v1'],{cwd:root.path,encoding:'utf8'}).trim();root.bundleSHA256=createHash('sha256').update(out.outputFiles[0].contents).digest('hex');root.bundleBytes=out.outputFiles[0].contents.byteLength;await writeFile(resolve(folder,'source-'+root.name+'-HEAD.patch'),execFileSync('git',['diff','HEAD','--binary'],{cwd:root.path}));await writeFile(resolve(folder,'source-'+root.name+'-cached.patch'),execFileSync('git',['diff','--cached','--binary'],{cwd:root.path}));await writeFile(resolve(folder,'source-'+root.name+'-status.txt'),root.dirty+'\n');}
+-const server=createServer(async(req,res)=>{try{const path=new URL(req.url,'http://localhost').pathname;if(bundles.has(path)){res.writeHead(200,{'Content-Type':'text/html'});res.end('<script type="module">'+bundles.get(path)+'</script>');return;}if(path==='/favicon.ico'){res.writeHead(204);res.end();return;}const own=roots.find(root=>path.startsWith('/'+root.name+'/'));if(!own)throw Error('Unknown QA asset root');const relative=path.slice(own.name.length+1),folder=resolve(own.path,'public');const file=resolve(folder,'.'+relative);if(!file.startsWith(folder+'/'))throw Error('path');const data=await readFile(file);res.writeHead(200,{'Content-Type':extname(file)==='.png'?'image/png':extname(file)==='.webp'?'image/webp':'application/octet-stream'});res.end(data);}catch{res.writeHead(404);res.end();}});await new Promise(r=>server.listen(0,'127.0.0.1',r));let browser;const rows=[],comparisonFrames=new Map();
+-try{browser=await chromium.launch({executablePath:process.env.CHICHI_CHROMIUM,args:['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader']});await writeFile(resolve(folder,'build-manifest.json'),JSON.stringify({node:process.version,browser:await browser.version(),renderer:'Chromium ANGLE SwiftShader, native source scenes; not device FPS',roots,settings:{biomes:ids,views:process.env.CHICHI_WATER_VIEWS||null,seconds:7,cameraContract:'baseline local water centre/radius replayed in candidate; same local camera and shadow envelope, even after ocean expansion',quality:'original lights, exposure1, ACES, shadows PCF1024; DPR1 desktop/DPR2 phone'},source:'exact qa-before/qa-after.mjs retained'},null,2));for(const root of roots){const page=await browser.newPage({viewport:{width:900,height:650}}),errors=[];page.setDefaultTimeout(120000);page.on('pageerror',e=>errors.push(e.message));page.on('console',e=>{if(e.type()==='error')errors.push(e.text());});await page.goto('http://127.0.0.1:'+server.address().port+'/'+root.name+'/');await page.waitForFunction(()=>window.ready);for(const id of ids){const meta=await page.evaluate(id=>load(id),id),views=[];if(root.name==='before')comparisonFrames.set(id,await page.evaluate(()=>({point:waterPoint.clone().sub(island.position).toArray(),radius:waterRadius})));if(root.name==='after'&&comparisonFrames.has(id))Object.assign(meta,await page.evaluate(frame=>useWaterFrame(frame),comparisonFrames.get(id)));for(const view of (process.env.CHICHI_WATER_VIEWS?process.env.CHICHI_WATER_VIEWS.split(','):process.env.CHICHI_MOSA_REVIEW?['normal','top','grazing','phone','hero','hero-phone']:['normal','top','grazing','phone'])){await page.evaluate(view=>{window.view(view);draw(view.startsWith('hero')?87:7);},view);await page.setViewportSize({width:view==='phone'||view==='hero-phone'?390:900,height:view==='phone'||view==='hero-phone'?600:650});await page.screenshot({path:resolve(folder,root.name+'-'+id+'-'+view+'.png')});views.push({view,pngSHA256:createHash('sha256').update(await readFile(resolve(folder,root.name+'-'+id+'-'+view+'.png'))).digest('hex'),...await page.evaluate(()=>({camera:camera.position.toArray(),lookDirection:camera.getWorldDirection(camera.position.clone().set(0,0,0)).toArray(),draws:renderer.info.render.calls,triangles:renderer.info.render.triangles,textures:renderer.info.memory.textures,dpr:renderer.getPixelRatio()}))});}const stats=await page.evaluate(()=>audit());assert.equal(stats.contextLost,false);if(root.name==='after'&&stats.waterFields.length){assert.equal(stats.waterFields.length,1,'all surfaces/bottoms must share one field');assert.equal(stats.waterFields[0].width,1024,'native QA must use the prepared primary field, not fallback');}rows.push({version:root.name,...meta,views,...stats});await writeFile(resolve(folder,'report.json'),JSON.stringify(rows,null,2));console.log(root.name,id,JSON.stringify(stats));}assert.deepEqual(errors,[]);await page.close();}}finally{await browser?.close();await new Promise(r=>server.close(r));}
++const servedAssets={};const server=createServer(async(req,res)=>{try{const path=new URL(req.url,'http://localhost').pathname;if(bundles.has(path)){res.writeHead(200,{'Content-Type':'text/html'});res.end('<script type="module">'+bundles.get(path)+'</script>');return;}if(path==='/favicon.ico'){res.writeHead(204);res.end();return;}const own=roots.find(root=>path.startsWith('/'+root.name+'/'));if(!own)throw Error('Unknown QA asset root');const relative=path.slice(own.name.length+1),folder=resolve(own.path,'public');const file=resolve(folder,'.'+relative);if(!file.startsWith(folder+'/'))throw Error('path');const data=await readFile(file);servedAssets[path]={bytes:data.byteLength,sha256:createHash('sha256').update(data).digest('hex')};res.writeHead(200,{'Content-Type':extname(file)==='.png'?'image/png':extname(file)==='.webp'?'image/webp':'application/octet-stream'});res.end(data);}catch{res.writeHead(404);res.end();}});await new Promise(r=>server.listen(0,'127.0.0.1',r));let browser;const rows=[],comparisonFrames=new Map(),comparisonCameras=new Map();
++try{browser=await chromium.launch({executablePath:process.env.CHICHI_CHROMIUM,args:['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader']});await writeFile(resolve(folder,'build-manifest.json'),JSON.stringify({node:process.version,browser:await browser.version(),renderer:'Chromium ANGLE SwiftShader, native source scenes; not device FPS',roots,settings:{biomes:ids,views:process.env.CHICHI_WATER_VIEWS||null,seconds:7,cameraContract:'baseline per-view local eye/direction/up, water centre/radius, light and shadow envelope replayed in candidate, including reef-anchored views after expansion',quality:'original lights, exposure1, ACES, shadows PCF1024; DPR1 desktop/DPR2 phone'},source:'exact qa-before/qa-after.mjs retained'},null,2));for(const root of roots){const page=await browser.newPage({viewport:{width:900,height:650}}),errors=[];page.setDefaultTimeout(120000);page.on('pageerror',e=>errors.push(e.message));page.on('console',e=>{if(e.type()==='error')errors.push(e.text());});await page.goto('http://127.0.0.1:'+server.address().port+'/'+root.name+'/');await page.waitForFunction(()=>window.ready);for(const id of ids){const meta=await page.evaluate(id=>load(id),id),views=[];if(root.name==='before')comparisonFrames.set(id,await page.evaluate(()=>waterReviewFrame()));if(root.name==='after'&&comparisonFrames.has(id))Object.assign(meta,await page.evaluate(frame=>useWaterFrame(frame),comparisonFrames.get(id)));for(const view of (process.env.CHICHI_WATER_VIEWS?process.env.CHICHI_WATER_VIEWS.split(','):process.env.CHICHI_MOSA_REVIEW?['normal','top','grazing','phone','hero','hero-phone']:['normal','top','grazing','phone'])){await page.evaluate(view=>{window.view(view);draw(view.startsWith('hero')?87:7);},view);const cameraKey=id+':'+view;if(root.name==='before')comparisonCameras.set(cameraKey,await page.evaluate(()=>({eye:camera.position.clone().sub(island.position).toArray(),direction:camera.getWorldDirection(new camera.position.constructor()).toArray(),up:camera.up.toArray()})));if(root.name==='after'&&comparisonCameras.has(cameraKey))await page.evaluate(({frame,view})=>{camera.position.copy(island.position).add(new camera.position.constructor(...frame.eye));camera.up.fromArray(frame.up);camera.lookAt(camera.position.clone().add(new camera.position.constructor(...frame.direction)));draw(view.startsWith('hero')?87:7);},{frame:comparisonCameras.get(cameraKey),view});await page.setViewportSize({width:view==='phone'||view==='hero-phone'?390:900,height:view==='phone'||view==='hero-phone'?600:650});await page.screenshot({path:resolve(folder,root.name+'-'+id+'-'+view+'.png')});views.push({view,pngSHA256:createHash('sha256').update(await readFile(resolve(folder,root.name+'-'+id+'-'+view+'.png'))).digest('hex'),...await page.evaluate(()=>({camera:camera.position.toArray(),lookDirection:camera.getWorldDirection(camera.position.clone().set(0,0,0)).toArray(),draws:renderer.info.render.calls,triangles:renderer.info.render.triangles,textures:renderer.info.memory.textures,dpr:renderer.getPixelRatio()}))});}const stats=await page.evaluate(()=>audit());assert.equal(stats.contextLost,false);if(root.name==='after'&&stats.waterFields.length){assert.equal(stats.waterFields.length,1,'all surfaces/bottoms must share one field');assert.equal(stats.waterFields[0].width,1024,'native QA must use the prepared primary field, not fallback');}rows.push({version:root.name,...meta,views,...stats});await writeFile(resolve(folder,'report.json'),JSON.stringify(rows,null,2));console.log(root.name,id,JSON.stringify(stats));}assert.deepEqual(errors,[]);await page.close();}}finally{await browser?.close();await new Promise(r=>server.close(r));await writeFile(resolve(folder,'asset-manifest.json'),JSON.stringify({kind:'actual served asset bytes',assets:servedAssets},null,2));}
+diff --git a/scripts/check-slide-water.mjs b/scripts/check-slide-water.mjs
+index 5132a2e..b4f3653 100644
+--- a/scripts/check-slide-water.mjs
++++ b/scripts/check-slide-water.mjs
+@@ -343,7 +343,7 @@ try {
+           await page.evaluate(()=>{for(const [o,visible]of savedOpticsVisibility)o.visible=visible;delete window.savedOpticsVisibility;});
+         }
+       }
+-      if (root.name === "after") {
++      {
+         await page.evaluate(() => {
+           reviewAngle(true);
+           draw(63);
+@@ -351,9 +351,11 @@ try {
+         await page.screenshot({
+           path: resolve(folder, root.name + "-" + spec.id + "-grazing.png"),
+         });
+-        const frame = await page.evaluate(() => staticAudit());
+-        stats.staticFrames.push({ view: "grazing", ...frame });
+-        assert.equal(frame.changed, 0, spec.id + " grazing pixels");
++        if (root.name === "after") {
++          const frame = await page.evaluate(() => staticAudit());
++          stats.staticFrames.push({ view: "grazing", ...frame });
++          assert.equal(frame.changed, 0, spec.id + " grazing pixels");
++        }
+       }
+       report.push({ version: root.name, id: spec.id, nativeFrame, ...stats });
+       await writeFile(resolve(folder,"report.json"),JSON.stringify(report,null,2));
+diff --git a/test/mosasaur-forecourt.test.mjs b/test/mosasaur-forecourt.test.mjs
+index c9e4d53..b954ec1 100644
+--- a/test/mosasaur-forecourt.test.mjs
++++ b/test/mosasaur-forecourt.test.mjs
+@@ -61,3 +61,32 @@ test('new garden stones have real mesh support matching the shared collider and
+  for(let i=0;i<100;i++)root.userData.update(i);
+  for(const [buffer,version,array]of matrices){assert.equal(buffer.version,version);assert.deepEqual(buffer.array,array);}
+ });
++
++test('garden rock LOD follows actual gardens while retaining every original transform and full-detail buffer',()=>{
++ const roots=[false,true].map(spatialBenthic=>runSceneSteps(mosaRockReefSteps({spatialBenthic})));
++ const rockLods=root=>{const result=[];root.traverse(o=>{if(o.isLOD&&o.userData.benthicRockIds)result.push(o);});return result;};
++ const collect=root=>{
++  root.updateMatrixWorld(true);const rows=new Map();
++  for(const lod of rockLods(root))for(let level=0;level<3;level++){
++   const mesh=lod.levels[level].object;
++   for(const [i,id]of mesh.userData.benthicRockIds.entries()){
++    const instance=new T.Matrix4();mesh.getMatrixAt(i,instance);
++    rows.set(id+':'+level,{instance:[...instance.elements],world:new T.Matrix4().multiplyMatrices(mesh.matrixWorld,instance).elements,geometry:mesh.geometry,sphere:mesh.boundingSphere});
++   }
++  }
++  return rows;
++ };
++ const [oldRows,newRows]=roots.map(collect);assert.equal(newRows.size,64*3);
++ for(const [id,a]of oldRows){const b=newRows.get(id);assert.deepEqual(b.instance,a.instance,id+' Float32 instance rows');assert.equal(b.geometry.index,a.geometry.index);assert.equal(b.geometry.attributes.position,a.geometry.attributes.position);assert.deepEqual(b.sphere,a.sphere,id+' native sorting sphere');for(let i=0;i<16;i++)assert.ok(Math.abs(a.world[i]-b.world[i])<1e-10,id+' actual world transform');}
++ const camera=new T.PerspectiveCamera(38,1,.1,1000);camera.position.set(25,-158,170);camera.updateMatrixWorld(true);
++ const [oldLods,newLods]=roots.map(rockLods);
++ for(const lod of [...oldLods,...newLods])lod.update(camera);
++ assert.ok(oldLods.every(lod=>lod.getCurrentLevel()===0),'old empty-centre batch selected near detail for all64');
++ assert.ok(newLods.every(lod=>lod.getCurrentLevel()>=1),'no garden is within the near distance of this empty passage');
++ for(const lod of newLods){camera.position.copy(lod.position).add(new T.Vector3(0,10,0));camera.updateMatrixWorld(true);lod.update(camera);assert.equal(lod.getCurrentLevel(),0,'nearby stones keep original full detail');camera.position.copy(lod.position).add(new T.Vector3(0,500,0));camera.updateMatrixWorld(true);lod.update(camera);assert.equal(lod.getCurrentLevel(),2);}
++ const selector=roots[1].children.find(o=>o.userData.benthicFarSelector);
++ camera.position.set(18,14,35);camera.updateMatrixWorld(true);selector.update(camera);assert.equal(selector.getCurrentLevel(),1);
++ assert.equal(selector.levels[1].object.children.length,3,'surface/overview retains three original far batches');
++ assert.equal(selector.levels[1].object.children.reduce((n,m)=>n+m.count,0),64,'far selection retains every stone');
++ camera.position.set(25,-158,170);camera.updateMatrixWorld(true);selector.update(camera);assert.equal(selector.getCurrentLevel(),0);
++});

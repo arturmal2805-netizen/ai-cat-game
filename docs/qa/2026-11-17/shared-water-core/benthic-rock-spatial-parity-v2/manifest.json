@@ -1,0 +1,38 @@
+{
+  "sourceSHA": "377f5a1fd8f4a87c323c3c40deea767992ea68b6",
+  "sourceOverlay": "source-HEAD.patch",
+  "node": "v22.23.5",
+  "bundleSHA256": "d53deac1dcd4d96d7d28339c7f2a1990ca5f572b0266d7ff89f2a0a3ac399b07",
+  "settings": "actual native maps/geometry, PCF1024 shadows, DPR1 desktop/DPR2 phone; diagnostic work counts, not device FPS",
+  "assets": {
+    "/art/ocean-rock/color-644ee79df7ff.jpg": {
+      "bytes": 3814362,
+      "sha256": "644ee79df7ffbf5f6afc330b64dd3f33794bab8820915fe61ffe0c88ecfd7ece"
+    },
+    "/art/ocean-water/wind-field-2523d71db8b6.png": {
+      "bytes": 1974687,
+      "sha256": "2523d71db8b62ce0212f4eb8bce5310456a901d69f209865c41f5f3dc2b692a8"
+    },
+    "/art/ocean-rock/normal-dbcd0a950de5.png": {
+      "bytes": 2866787,
+      "sha256": "dbcd0a950de5721b7e746b1e4abc5a3c40c24ffbc06b1bb36dcb5273bee15cf1"
+    },
+    "/art/ocean-rock/coralNormal-f5ee3a4cf9d1.png": {
+      "bytes": 3133549,
+      "sha256": "f5ee3a4cf9d1ab754d17ae73495234b65fed74fc5972be6f12c844c49c6697b2"
+    },
+    "/models/reefs/organic-reef-f5b5e5e13e68ddab.bin.gz": {
+      "bytes": 7807853,
+      "sha256": "a4a20673c61a6c3387d8a227ec58fa4996125727095f58f24f9cfe5c3ee30b89"
+    },
+    "/art/ocean-rock/reef-83b51ff02b9b.jpg": {
+      "bytes": 743145,
+      "sha256": "83b51ff02b9b3b45a1eeb5676ab406b77e31c172e029e1e3e4280640fe197656"
+    },
+    "/art/ocean-rock/sand-58af2e40100f.jpg": {
+      "bytes": 960614,
+      "sha256": "58af2e40100f7f405703a86d593af64379f822c4786850def23ecfc921450d54"
+    }
+  },
+  "errors": []
+}

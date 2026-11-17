@@ -1,0 +1,170 @@
+[
+  {
+    "version": "before",
+    "id": "autumn",
+    "waterSurfaces": 1,
+    "waterPoint": [
+      -440.72129053853627,
+      0.15500000000000203,
+      591.027027790345
+    ],
+    "waterRadius": 334.9410208133982,
+    "views": [
+      {
+        "view": "deep-forecourt",
+        "pngSHA256": "4f7a693018ad407ba5442e5d7724482827f2657f5b54dbb5c8cd767f2895320c",
+        "camera": [
+          -425,
+          -158,
+          770
+        ],
+        "lookDirection": [
+          0.945108979932873,
+          -0.31897428072734463,
+          0.07088317349496553
+        ],
+        "draws": 300,
+        "triangles": 15839523,
+        "textures": 31,
+        "dpr": 1
+      },
+      {
+        "view": "underwater-close",
+        "pngSHA256": "39d10b307a56a939fe444730da0f536ab098c480d393c07b97a8a51732c12641",
+        "camera": [
+          -674.360953950223,
+          0.22741158053822996,
+          680.6287916295239
+        ],
+        "lookDirection": [
+          -0.6616216370868463,
+          -0.35286487311298476,
+          0.6616216370868463
+        ],
+        "draws": 264,
+        "triangles": 4219169,
+        "textures": 31,
+        "dpr": 1
+      },
+      {
+        "view": "phone",
+        "pngSHA256": "d40ea1be9a98f4d3689ff685b596366cb9b1e0c122e8a8692f6a70c54ff5c14c",
+        "camera": [
+          -70.61146253973124,
+          683.4346824593323,
+          1502.066604402788
+        ],
+        "lookDirection": [
+          -0.30908607233755825,
+          -0.5706204412385688,
+          -0.7608272549847588
+        ],
+        "draws": 708,
+        "triangles": 9640109,
+        "textures": 31,
+        "dpr": 2
+      }
+    ],
+    "oceanPhysicalShader": true,
+    "oceanToneMapping": true,
+    "draws": 708,
+    "triangles": 9640109,
+    "textures": 31,
+    "vertices": 1667667,
+    "geometryBytes": 91995802,
+    "waterMaterials": 10,
+    "waterFields": [
+      {
+        "name": "Shared physical water field · all map water",
+        "width": 1024,
+        "height": 1024
+      }
+    ],
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "after",
+    "id": "autumn",
+    "waterSurfaces": 1,
+    "waterPoint": [
+      -440.72129053853627,
+      0.15500000000000203,
+      591.027027790345
+    ],
+    "waterRadius": 334.9410208133982,
+    "views": [
+      {
+        "view": "deep-forecourt",
+        "pngSHA256": "ccf4fefb698d50b697be70929865813295c53b8338fc625d0c02886ebe14313d",
+        "camera": [
+          -425,
+          -158,
+          770
+        ],
+        "lookDirection": [
+          0.9451089799328751,
+          -0.31897428072733897,
+          0.070883173494964
+        ],
+        "draws": 390,
+        "triangles": 8624607,
+        "textures": 31,
+        "dpr": 1
+      },
+      {
+        "view": "underwater-close",
+        "pngSHA256": "39d10b307a56a939fe444730da0f536ab098c480d393c07b97a8a51732c12641",
+        "camera": [
+          -674.360953950223,
+          0.22741158053822996,
+          680.6287916295239
+        ],
+        "lookDirection": [
+          -0.6616216370868401,
+          -0.35286487311300824,
+          0.6616216370868402
+        ],
+        "draws": 264,
+        "triangles": 4219169,
+        "textures": 31,
+        "dpr": 1
+      },
+      {
+        "view": "phone",
+        "pngSHA256": "d40ea1be9a98f4d3689ff685b596366cb9b1e0c122e8a8692f6a70c54ff5c14c",
+        "camera": [
+          -70.61146253973124,
+          683.4346824593323,
+          1502.066604402788
+        ],
+        "lookDirection": [
+          -0.30908607233753604,
+          -0.570620441238537,
+          -0.7608272549847914
+        ],
+        "draws": 708,
+        "triangles": 9640109,
+        "textures": 31,
+        "dpr": 2
+      }
+    ],
+    "oceanPhysicalShader": true,
+    "oceanToneMapping": true,
+    "draws": 708,
+    "triangles": 9640109,
+    "textures": 31,
+    "vertices": 1667667,
+    "geometryBytes": 91995802,
+    "waterMaterials": 10,
+    "waterFields": [
+      {
+        "name": "Shared physical water field · all map water",
+        "width": 1024,
+        "height": 1024
+      }
+    ],
+    "animated": true,
+    "contextLost": false
+  }
+]

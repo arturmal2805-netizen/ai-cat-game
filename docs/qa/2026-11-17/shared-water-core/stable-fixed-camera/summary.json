@@ -1,0 +1,179 @@
+{
+  "completed": true,
+  "sameLocalCamera": true,
+  "before": "12d478e82e8e5a2bd6ef3ec0cbb151ea1e473d1d",
+  "candidatePublicTree": "d2b2983bb15b59dd27a374f9859a87b1cc2a3827",
+  "candidateRuntime": "4dc98387b9d87ca80ecc4ae7df8b39a79cc25a24",
+  "observations": [
+    "Water interface is clear and animated, but repeatable bands and empty flat forecourt are far from the Crimson Desert target.",
+    "Deep-forecourt work remains15.74M versus stable2.78M triangles; not an accepted budget.",
+    "This is pre-benthic-LOD-fix evidence, not evidence for later public code."
+  ],
+  "views": [
+    {
+      "view": "water-close",
+      "localEyeDelta": 0.0,
+      "directionDelta": 2.3925306180672123e-14,
+      "trianglesBefore": 4234459,
+      "trianglesAfter": 4227420,
+      "callsBefore": 330,
+      "callsAfter": 302
+    },
+    {
+      "view": "water-low",
+      "localEyeDelta": 0.0,
+      "directionDelta": 3.1086244689504383e-15,
+      "trianglesBefore": 4369353,
+      "trianglesAfter": 4368651,
+      "callsBefore": 337,
+      "callsAfter": 313
+    },
+    {
+      "view": "water-sun",
+      "localEyeDelta": 0.0,
+      "directionDelta": 1.4155343563970746e-14,
+      "trianglesBefore": 4347480,
+      "trianglesAfter": 3914530,
+      "callsBefore": 318,
+      "callsAfter": 294
+    },
+    {
+      "view": "shore-reference",
+      "localEyeDelta": 0.0,
+      "directionDelta": 4.0523140398818214e-14,
+      "trianglesBefore": 2950046,
+      "trianglesAfter": 4279479,
+      "callsBefore": 236,
+      "callsAfter": 248
+    },
+    {
+      "view": "deep-forecourt",
+      "localEyeDelta": 0.0,
+      "directionDelta": 5.662137425588298e-15,
+      "trianglesBefore": 2778073,
+      "trianglesAfter": 15738195,
+      "callsBefore": 229,
+      "callsAfter": 280
+    },
+    {
+      "view": "underwater-close",
+      "localEyeDelta": 0.0,
+      "directionDelta": 2.348121697082206e-14,
+      "trianglesBefore": 3202814,
+      "trianglesAfter": 4586226,
+      "callsBefore": 242,
+      "callsAfter": 238
+    },
+    {
+      "view": "phone",
+      "localEyeDelta": 0.0,
+      "directionDelta": 3.630429290524262e-14,
+      "trianglesBefore": 6295975,
+      "trianglesAfter": 8055777,
+      "callsBefore": 531,
+      "callsAfter": 530
+    }
+  ],
+  "files": {
+    "after-autumn-shore-reference.png": {
+      "sha256": "4a90b403218e931c6a8d394f574ac327f2b725a00053dafb7d4594e0f0f7f777",
+      "bytes": 645312
+    },
+    "after-autumn-phone.png": {
+      "sha256": "ba748ba8fc4a22f7da0578a9169b55b91de856910f5921b05fe87b2c01608243",
+      "bytes": 229756
+    },
+    "source-after-status.txt": {
+      "sha256": "789ca9109b1ed8eea6da0ccbdcc3999468ac69e5338a01217cd918ba8cb9db63",
+      "bytes": 182
+    },
+    "before-autumn-phone.png": {
+      "sha256": "e35b73f3b145dca4ff06f0302144c97448dce92fe77d2ff0e1b51a3bd91e4f2d",
+      "bytes": 247559
+    },
+    "after-autumn-deep-forecourt.png": {
+      "sha256": "60ae56c2ed2f0a18813cbefff7c6344df508e6725c81fab7455dae1a7221dfbd",
+      "bytes": 496307
+    },
+    "after-autumn-water-sun.png": {
+      "sha256": "a150412e431df2f1d2717dcbf5514e70e4da07bc8543fe9989dd65a5443fe89a",
+      "bytes": 544616
+    },
+    "source-before-cached.patch": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "qa-before.mjs.gz": {
+      "sha256": "bc755c192771796daf13ce47b471a1a84049de9fc6373e70099c1c1e189095ca",
+      "bytes": 623066
+    },
+    "before-autumn-water-sun.png": {
+      "sha256": "8beef3eb5469299c7c37204c76b121757255bd2858edf3f964ba2f63fef76962",
+      "bytes": 615143
+    },
+    "qa-after.mjs.gz": {
+      "sha256": "ba421e8002e665b3e2cc9710042c6fb685716b8d10f511b313521665df55244d",
+      "bytes": 623179
+    },
+    "after-autumn-underwater-close.png": {
+      "sha256": "046aac1b3ab6ca8cb153ed7ae920bb730a02ae689bec8113317d3f5d6aafc494",
+      "bytes": 451330
+    },
+    "source-before-HEAD.patch": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "after-autumn-water-low.png": {
+      "sha256": "1d79eb1966eecbde8cb7893fdd73b0d9e9c71f0cd67d6cbf34147aebeee3742f",
+      "bytes": 437465
+    },
+    "before-autumn-shore-reference.png": {
+      "sha256": "66dedbd4e602bf8e9505cf4cbfd69cbd4641b965ba70f633e67c763ff62950fc",
+      "bytes": 242116
+    },
+    "source-after-HEAD.patch": {
+      "sha256": "2b8bdc7862ffd47c76820167a9f39bb8708f96d0badee4b20627958b01b442e5",
+      "bytes": 16517
+    },
+    "before-autumn-water-low.png": {
+      "sha256": "5b36c2b217578d9f4ec90032d0b89da4cb720dd8c95d202b8cbda834eb4a15d8",
+      "bytes": 491830
+    },
+    "before-autumn-water-close.png": {
+      "sha256": "f22e876f91ec4191bb6f98e72639e03ec13b4dea54b5dce45f01ec71aa979fc4",
+      "bytes": 665634
+    },
+    "asset-manifest.json": {
+      "sha256": "fdd080528b8d3c135573ba24e928f3fcc771ee10b06ff8d8990220adabc5ee3d",
+      "bytes": 8102
+    },
+    "report.json": {
+      "sha256": "048cd7e88d3d6c558bebf5b70fc940de33ced4986bd819536d49298094207bc6",
+      "bytes": 7973
+    },
+    "source-after-cached.patch": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "before-autumn-deep-forecourt.png": {
+      "sha256": "057382ecb589d53504f323ddeb196dd9bbb6a27ce3779800328fb3cd97044f65",
+      "bytes": 464306
+    },
+    "before-autumn-underwater-close.png": {
+      "sha256": "bcb2d9f1c1542cd54029ee473b825252e42c88376a842e8c99d4b79c35e1c7fa",
+      "bytes": 831336
+    },
+    "after-autumn-water-close.png": {
+      "sha256": "e5f3667e0c4bf7ff736ce8d0dde3c34f465226764f28a046c104c335272ff847",
+      "bytes": 604145
+    },
+    "build-manifest.json": {
+      "sha256": "c8362ffbb08d3c845f8edef5459602b203f4007dd54a2e74a0f792df2161fbeb",
+      "bytes": 1415
+    },
+    "source-before-status.txt": {
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "bytes": 1
+    }
+  }
+}

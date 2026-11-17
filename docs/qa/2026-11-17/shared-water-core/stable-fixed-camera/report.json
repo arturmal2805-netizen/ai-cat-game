@@ -1,0 +1,319 @@
+[
+  {
+    "version": "before",
+    "id": "autumn",
+    "waterSurfaces": 1,
+    "waterPoint": [
+      -443.39535505647245,
+      0.15500000000000141,
+      493.6754890368759
+    ],
+    "waterRadius": 236.82325343824996,
+    "views": [
+      {
+        "view": "water-close",
+        "pngSHA256": "f22e876f91ec4191bb6f98e72639e03ec13b4dea54b5dce45f01ec71aa979fc4",
+        "camera": [
+          -425.39535505647245,
+          14.155000000000001,
+          528.6754890368759
+        ],
+        "lookDirection": [
+          -0.4684114459536851,
+          -0.25222154782121503,
+          -0.8467437676855076
+        ],
+        "draws": 330,
+        "triangles": 4234459,
+        "textures": 32,
+        "dpr": 1
+      },
+      {
+        "view": "water-low",
+        "pngSHA256": "5b36c2b217578d9f4ec90032d0b89da4cb720dd8c95d202b8cbda834eb4a15d8",
+        "camera": [
+          -425.39535505647245,
+          2.6550000000000016,
+          541.6754890368759
+        ],
+        "lookDirection": [
+          -0.3973171750518967,
+          -0.03820357452422083,
+          -0.9168857885813002
+        ],
+        "draws": 337,
+        "triangles": 4369353,
+        "textures": 32,
+        "dpr": 1
+      },
+      {
+        "view": "water-sun",
+        "pngSHA256": "8beef3eb5469299c7c37204c76b121757255bd2858edf3f964ba2f63fef76962",
+        "camera": [
+          -457.39535505647245,
+          12.155000000000001,
+          528.6754890368759
+        ],
+        "lookDirection": [
+          0.12275612634424383,
+          -0.24551225268848767,
+          -0.9615896563632432
+        ],
+        "draws": 318,
+        "triangles": 4347480,
+        "textures": 32,
+        "dpr": 1
+      },
+      {
+        "view": "shore-reference",
+        "pngSHA256": "66dedbd4e602bf8e9505cf4cbfd69cbd4641b965ba70f633e67c763ff62950fc",
+        "camera": [
+          -666,
+          3,
+          419
+        ],
+        "lookDirection": [
+          -0.2617119612951069,
+          -0.20936956903608553,
+          -0.9421630606623849
+        ],
+        "draws": 236,
+        "triangles": 2950046,
+        "textures": 32,
+        "dpr": 1
+      },
+      {
+        "view": "deep-forecourt",
+        "pngSHA256": "057382ecb589d53504f323ddeb196dd9bbb6a27ce3779800328fb3cd97044f65",
+        "camera": [
+          -425,
+          -158,
+          670
+        ],
+        "lookDirection": [
+          0.945108979932873,
+          -0.31897428072734463,
+          0.07088317349496553
+        ],
+        "draws": 229,
+        "triangles": 2778073,
+        "textures": 32,
+        "dpr": 1
+      },
+      {
+        "view": "underwater-close",
+        "pngSHA256": "bcb2d9f1c1542cd54029ee473b825252e42c88376a842e8c99d4b79c35e1c7fa",
+        "camera": [
+          -547.0187980335319,
+          1.2328185662205904,
+          656.3349062095485
+        ],
+        "lookDirection": [
+          -0.6616216370868463,
+          -0.35286487311298476,
+          0.6616216370868463
+        ],
+        "draws": 242,
+        "triangles": 3202814,
+        "textures": 32,
+        "dpr": 1
+      },
+      {
+        "view": "phone",
+        "pngSHA256": "e35b73f3b145dca4ff06f0302144c97448dce92fe77d2ff0e1b51a3bd91e4f2d",
+        "camera": [
+          -181.70566000720623,
+          483.2744370140299,
+          1137.8347383889159
+        ],
+        "lookDirection": [
+          -0.3090860723375581,
+          -0.5706204412385688,
+          -0.7608272549847588
+        ],
+        "draws": 531,
+        "triangles": 6295975,
+        "textures": 32,
+        "dpr": 2
+      }
+    ],
+    "oceanPhysicalShader": true,
+    "oceanToneMapping": true,
+    "draws": 531,
+    "triangles": 6295975,
+    "textures": 32,
+    "vertices": 1651875,
+    "geometryBytes": 91232098,
+    "waterMaterials": 10,
+    "waterFields": [
+      {
+        "name": "Shared ocean wind slopes and focused light",
+        "width": 1024,
+        "height": 1024
+      },
+      {
+        "name": "Shared lagoon wave and light field",
+        "width": 128,
+        "height": 128
+      }
+    ],
+    "animated": true,
+    "contextLost": false
+  },
+  {
+    "version": "after",
+    "id": "autumn",
+    "waterSurfaces": 1,
+    "waterPoint": [
+      -443.39535505647245,
+      0.15500000000000141,
+      593.6754890368759
+    ],
+    "waterRadius": 236.82325343824996,
+    "views": [
+      {
+        "view": "water-close",
+        "pngSHA256": "e5f3667e0c4bf7ff736ce8d0dde3c34f465226764f28a046c104c335272ff847",
+        "camera": [
+          -425.39535505647245,
+          14.155000000000001,
+          628.6754890368759
+        ],
+        "lookDirection": [
+          -0.4684114459536612,
+          -0.25222154782120604,
+          -0.8467437676855235
+        ],
+        "draws": 302,
+        "triangles": 4227420,
+        "textures": 31,
+        "dpr": 1
+      },
+      {
+        "view": "water-low",
+        "pngSHA256": "1d79eb1966eecbde8cb7893fdd73b0d9e9c71f0cd67d6cbf34147aebeee3742f",
+        "camera": [
+          -425.39535505647245,
+          2.6550000000000016,
+          641.6754890368759
+        ],
+        "lookDirection": [
+          -0.39731717505189357,
+          -0.038203574524219276,
+          -0.9168857885813017
+        ],
+        "draws": 313,
+        "triangles": 4368651,
+        "textures": 31,
+        "dpr": 1
+      },
+      {
+        "view": "water-sun",
+        "pngSHA256": "a150412e431df2f1d2717dcbf5514e70e4da07bc8543fe9989dd65a5443fe89a",
+        "camera": [
+          -457.39535505647245,
+          12.155000000000001,
+          628.6754890368759
+        ],
+        "lookDirection": [
+          0.12275612634425799,
+          -0.24551225268849114,
+          -0.9615896563632406
+        ],
+        "draws": 294,
+        "triangles": 3914530,
+        "textures": 31,
+        "dpr": 1
+      },
+      {
+        "view": "shore-reference",
+        "pngSHA256": "4a90b403218e931c6a8d394f574ac327f2b725a00053dafb7d4594e0f0f7f777",
+        "camera": [
+          -666,
+          3,
+          519
+        ],
+        "lookDirection": [
+          -0.26171196129506635,
+          -0.20936956903607667,
+          -0.9421630606623979
+        ],
+        "draws": 248,
+        "triangles": 4279479,
+        "textures": 31,
+        "dpr": 1
+      },
+      {
+        "view": "deep-forecourt",
+        "pngSHA256": "60ae56c2ed2f0a18813cbefff7c6344df508e6725c81fab7455dae1a7221dfbd",
+        "camera": [
+          -425,
+          -158,
+          770
+        ],
+        "lookDirection": [
+          0.9451089799328751,
+          -0.31897428072733897,
+          0.070883173494964
+        ],
+        "draws": 280,
+        "triangles": 15738195,
+        "textures": 31,
+        "dpr": 1
+      },
+      {
+        "view": "underwater-close",
+        "pngSHA256": "046aac1b3ab6ca8cb153ed7ae920bb730a02ae689bec8113317d3f5d6aafc494",
+        "camera": [
+          -547.0187980335319,
+          1.2328185662205904,
+          756.3349062095485
+        ],
+        "lookDirection": [
+          -0.6616216370868401,
+          -0.35286487311300824,
+          0.6616216370868402
+        ],
+        "draws": 238,
+        "triangles": 4586226,
+        "textures": 31,
+        "dpr": 1
+      },
+      {
+        "view": "phone",
+        "pngSHA256": "ba748ba8fc4a22f7da0578a9169b55b91de856910f5921b05fe87b2c01608243",
+        "camera": [
+          -181.70566000720623,
+          483.2744370140299,
+          1237.8347383889159
+        ],
+        "lookDirection": [
+          -0.3090860723375232,
+          -0.5706204412385393,
+          -0.7608272549847951
+        ],
+        "draws": 530,
+        "triangles": 8055777,
+        "textures": 31,
+        "dpr": 2
+      }
+    ],
+    "oceanPhysicalShader": true,
+    "oceanToneMapping": true,
+    "draws": 530,
+    "triangles": 8055777,
+    "textures": 31,
+    "vertices": 1667667,
+    "geometryBytes": 91995802,
+    "waterMaterials": 10,
+    "waterFields": [
+      {
+        "name": "Shared physical water field · all map water",
+        "width": 1024,
+        "height": 1024
+      }
+    ],
+    "animated": true,
+    "contextLost": false
+  }
+]

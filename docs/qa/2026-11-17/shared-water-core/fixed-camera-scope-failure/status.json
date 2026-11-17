@@ -1,0 +1,6 @@
+{
+  "completed": false,
+  "exitCode": 1,
+  "error": "QA page.evaluate referenced module-local waterPoint; fixed by an explicit window.waterReviewFrame getter. Production code unaffected.",
+  "retry": "separate -v2 directory; previous failure is preserved"
+}

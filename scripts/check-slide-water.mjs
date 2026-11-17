@@ -343,7 +343,7 @@ try {
           await page.evaluate(()=>{for(const [o,visible]of savedOpticsVisibility)o.visible=visible;delete window.savedOpticsVisibility;});
         }
       }
-      if (root.name === "after") {
+      {
         await page.evaluate(() => {
           reviewAngle(true);
           draw(63);
@@ -351,9 +351,11 @@ try {
         await page.screenshot({
           path: resolve(folder, root.name + "-" + spec.id + "-grazing.png"),
         });
-        const frame = await page.evaluate(() => staticAudit());
-        stats.staticFrames.push({ view: "grazing", ...frame });
-        assert.equal(frame.changed, 0, spec.id + " grazing pixels");
+        if (root.name === "after") {
+          const frame = await page.evaluate(() => staticAudit());
+          stats.staticFrames.push({ view: "grazing", ...frame });
+          assert.equal(frame.changed, 0, spec.id + " grazing pixels");
+        }
       }
       report.push({ version: root.name, id: spec.id, nativeFrame, ...stats });
       await writeFile(resolve(folder,"report.json"),JSON.stringify(report,null,2));

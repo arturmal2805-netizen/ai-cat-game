@@ -1,0 +1,189 @@
+{
+  "kind": "actual served asset bytes",
+  "assets": {
+    "/before/art/ocean-water/wind-field-2523d71db8b6.png": {
+      "bytes": 1974687,
+      "sha256": "2523d71db8b62ce0212f4eb8bce5310456a901d69f209865c41f5f3dc2b692a8"
+    },
+    "/before/art/ocean-reflections/tropical-coast-fad01f1a78d8.png": {
+      "bytes": 37005,
+      "sha256": "fad01f1a78d8c939e428d3b11a8d4f3de7dbf11c00e127838d80da4e716d0237"
+    },
+    "/before/models/mosasaur/mosasaur-601b2b335681858e.bin.gz": {
+      "bytes": 1553801,
+      "sha256": "b1d3568c84b8fc72ea4fa849ad2f70550c487eb914e6af68fa1f1d57a248ed7d"
+    },
+    "/before/art/ocean-rock/normal-dbcd0a950de5.png": {
+      "bytes": 2866787,
+      "sha256": "dbcd0a950de5721b7e746b1e4abc5a3c40c24ffbc06b1bb36dcb5273bee15cf1"
+    },
+    "/before/art/water-garden/wood-color-3b43075373a9.png": {
+      "bytes": 366400,
+      "sha256": "3b43075373a9c06189ca75ee0f458ba169306c690ba931ba46472fed320d2a67"
+    },
+    "/before/art/ocean-rock/coralNormal-f5ee3a4cf9d1.png": {
+      "bytes": 3133549,
+      "sha256": "f5ee3a4cf9d1ab754d17ae73495234b65fed74fc5972be6f12c844c49c6697b2"
+    },
+    "/before/art/ocean-rock/color-644ee79df7ff.jpg": {
+      "bytes": 3814362,
+      "sha256": "644ee79df7ffbf5f6afc330b64dd3f33794bab8820915fe61ffe0c88ecfd7ece"
+    },
+    "/before/art/water-garden/wood-normal-1c51d5dcacf5.png": {
+      "bytes": 146987,
+      "sha256": "1c51d5dcacf53be5f0e9fb19b32460ed31f0b8d8c46052555e684ada166f721b"
+    },
+    "/before/art/water-garden/wood-roughness-5f6c77c0feff.png": {
+      "bytes": 12778,
+      "sha256": "5f6c77c0feff2484c1db651e9e5f657d9b4f2aeccf4c59e7f50f3cca9d42a2ba"
+    },
+    "/before/art/water-garden/stone-color-70bf896a56a3.png": {
+      "bytes": 279399,
+      "sha256": "70bf896a56a32d16d9705cd4c529b52468b38c984397612531e812f81a04c7a8"
+    },
+    "/before/art/water-garden/stone-normal-6812d207a0ac.png": {
+      "bytes": 128915,
+      "sha256": "6812d207a0ac4ab2edfc7818a5420405e51bc6f8ad9845f9c6b511746943e924"
+    },
+    "/before/models/reefs/organic-reef-f5b5e5e13e68ddab.bin.gz": {
+      "bytes": 7807853,
+      "sha256": "a4a20673c61a6c3387d8a227ec58fa4996125727095f58f24f9cfe5c3ee30b89"
+    },
+    "/before/art/water-garden/stone-roughness-4aa2830fa994.png": {
+      "bytes": 8726,
+      "sha256": "4aa2830fa994e206d99f4592c20ec3d2dbf28e4d67a4793dc95b94f470b95692"
+    },
+    "/before/art/water-garden/moss-color-8239c6169e12.png": {
+      "bytes": 380941,
+      "sha256": "8239c6169e12bcb10e2996de26270cce9fd92207069dde555b32b18981aaffbe"
+    },
+    "/before/art/water-garden/moss-normal-6fef4b57663e.png": {
+      "bytes": 174222,
+      "sha256": "6fef4b57663ec305af0e1baa7fd4695b0e7764f6bf8d042d45520d389e8e64d1"
+    },
+    "/before/art/ocean-rock/reef-83b51ff02b9b.jpg": {
+      "bytes": 743145,
+      "sha256": "83b51ff02b9b3b45a1eeb5676ab406b77e31c172e029e1e3e4280640fe197656"
+    },
+    "/before/art/ocean-rock/sand-58af2e40100f.jpg": {
+      "bytes": 960614,
+      "sha256": "58af2e40100f7f405703a86d593af64379f822c4786850def23ecfc921450d54"
+    },
+    "/before/art/water-garden/moss-roughness-6f36748ff869.png": {
+      "bytes": 16252,
+      "sha256": "6f36748ff869015c4be1208fa42e910cfeb79dc29fff44f3c936e053b4f93bd1"
+    },
+    "/before/art/water-garden/leaf-color-bfcb3ff644f0.png": {
+      "bytes": 69618,
+      "sha256": "bfcb3ff644f05815df4cc4a772336a7172367dde9ddb5768a0b281581ca80ef6"
+    },
+    "/before/art/water-garden/leaf-normal-1f2bca702f45.png": {
+      "bytes": 71751,
+      "sha256": "1f2bca702f4524f90816074d7b848fe28a6d53dffb4057cd2349331e4a689c5b"
+    },
+    "/before/art/water-garden/leaf-roughness-ac0e4105f4fb.png": {
+      "bytes": 16373,
+      "sha256": "ac0e4105f4fbc4a863c1092a6cac4532e4b5c72531a4675c3172373080e1db7c"
+    },
+    "/before/art/water-garden/lawn-color-34b5c3ee1516.png": {
+      "bytes": 212932,
+      "sha256": "34b5c3ee1516bcf2209e1e7f1e583108be82bb2a076e74c940b260742abfdfb4"
+    },
+    "/before/art/water-garden/sand-color-f5b1be25dedf.png": {
+      "bytes": 245114,
+      "sha256": "f5b1be25dedff4196f4b7d0753d1964a9b52826cb975d016f58cfe99d118e1c9"
+    },
+    "/after/art/ocean-water/wind-field-2523d71db8b6.png": {
+      "bytes": 1974687,
+      "sha256": "2523d71db8b62ce0212f4eb8bce5310456a901d69f209865c41f5f3dc2b692a8"
+    },
+    "/after/models/mosasaur/mosasaur-601b2b335681858e.bin.gz": {
+      "bytes": 1553801,
+      "sha256": "b1d3568c84b8fc72ea4fa849ad2f70550c487eb914e6af68fa1f1d57a248ed7d"
+    },
+    "/after/art/ocean-reflections/tropical-coast-fad01f1a78d8.png": {
+      "bytes": 37005,
+      "sha256": "fad01f1a78d8c939e428d3b11a8d4f3de7dbf11c00e127838d80da4e716d0237"
+    },
+    "/after/art/ocean-rock/color-644ee79df7ff.jpg": {
+      "bytes": 3814362,
+      "sha256": "644ee79df7ffbf5f6afc330b64dd3f33794bab8820915fe61ffe0c88ecfd7ece"
+    },
+    "/after/art/ocean-rock/normal-dbcd0a950de5.png": {
+      "bytes": 2866787,
+      "sha256": "dbcd0a950de5721b7e746b1e4abc5a3c40c24ffbc06b1bb36dcb5273bee15cf1"
+    },
+    "/after/art/ocean-rock/coralNormal-f5ee3a4cf9d1.png": {
+      "bytes": 3133549,
+      "sha256": "f5ee3a4cf9d1ab754d17ae73495234b65fed74fc5972be6f12c844c49c6697b2"
+    },
+    "/after/art/water-garden/wood-color-3b43075373a9.png": {
+      "bytes": 366400,
+      "sha256": "3b43075373a9c06189ca75ee0f458ba169306c690ba931ba46472fed320d2a67"
+    },
+    "/after/models/reefs/organic-reef-f5b5e5e13e68ddab.bin.gz": {
+      "bytes": 7807853,
+      "sha256": "a4a20673c61a6c3387d8a227ec58fa4996125727095f58f24f9cfe5c3ee30b89"
+    },
+    "/after/art/water-garden/wood-normal-1c51d5dcacf5.png": {
+      "bytes": 146987,
+      "sha256": "1c51d5dcacf53be5f0e9fb19b32460ed31f0b8d8c46052555e684ada166f721b"
+    },
+    "/after/art/water-garden/wood-roughness-5f6c77c0feff.png": {
+      "bytes": 12778,
+      "sha256": "5f6c77c0feff2484c1db651e9e5f657d9b4f2aeccf4c59e7f50f3cca9d42a2ba"
+    },
+    "/after/art/water-garden/stone-color-70bf896a56a3.png": {
+      "bytes": 279399,
+      "sha256": "70bf896a56a32d16d9705cd4c529b52468b38c984397612531e812f81a04c7a8"
+    },
+    "/after/art/water-garden/stone-normal-6812d207a0ac.png": {
+      "bytes": 128915,
+      "sha256": "6812d207a0ac4ab2edfc7818a5420405e51bc6f8ad9845f9c6b511746943e924"
+    },
+    "/after/art/ocean-rock/reef-83b51ff02b9b.jpg": {
+      "bytes": 743145,
+      "sha256": "83b51ff02b9b3b45a1eeb5676ab406b77e31c172e029e1e3e4280640fe197656"
+    },
+    "/after/art/water-garden/stone-roughness-4aa2830fa994.png": {
+      "bytes": 8726,
+      "sha256": "4aa2830fa994e206d99f4592c20ec3d2dbf28e4d67a4793dc95b94f470b95692"
+    },
+    "/after/art/water-garden/moss-color-8239c6169e12.png": {
+      "bytes": 380941,
+      "sha256": "8239c6169e12bcb10e2996de26270cce9fd92207069dde555b32b18981aaffbe"
+    },
+    "/after/art/water-garden/moss-roughness-6f36748ff869.png": {
+      "bytes": 16252,
+      "sha256": "6f36748ff869015c4be1208fa42e910cfeb79dc29fff44f3c936e053b4f93bd1"
+    },
+    "/after/art/water-garden/moss-normal-6fef4b57663e.png": {
+      "bytes": 174222,
+      "sha256": "6fef4b57663ec305af0e1baa7fd4695b0e7764f6bf8d042d45520d389e8e64d1"
+    },
+    "/after/art/ocean-rock/sand-58af2e40100f.jpg": {
+      "bytes": 960614,
+      "sha256": "58af2e40100f7f405703a86d593af64379f822c4786850def23ecfc921450d54"
+    },
+    "/after/art/water-garden/leaf-color-bfcb3ff644f0.png": {
+      "bytes": 69618,
+      "sha256": "bfcb3ff644f05815df4cc4a772336a7172367dde9ddb5768a0b281581ca80ef6"
+    },
+    "/after/art/water-garden/leaf-roughness-ac0e4105f4fb.png": {
+      "bytes": 16373,
+      "sha256": "ac0e4105f4fbc4a863c1092a6cac4532e4b5c72531a4675c3172373080e1db7c"
+    },
+    "/after/art/water-garden/leaf-normal-1f2bca702f45.png": {
+      "bytes": 71751,
+      "sha256": "1f2bca702f4524f90816074d7b848fe28a6d53dffb4057cd2349331e4a689c5b"
+    },
+    "/after/art/water-garden/lawn-color-34b5c3ee1516.png": {
+      "bytes": 212932,
+      "sha256": "34b5c3ee1516bcf2209e1e7f1e583108be82bb2a076e74c940b260742abfdfb4"
+    },
+    "/after/art/water-garden/sand-color-f5b1be25dedf.png": {
+      "bytes": 245114,
+      "sha256": "f5b1be25dedff4196f4b7d0753d1964a9b52826cb975d016f58cfe99d118e1c9"
+    }
+  }
+}

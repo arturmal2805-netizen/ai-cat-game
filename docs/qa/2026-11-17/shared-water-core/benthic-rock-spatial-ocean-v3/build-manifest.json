@@ -1,0 +1,33 @@
+{
+  "node": "v22.23.5",
+  "browser": "156.0.8078.79",
+  "renderer": "Chromium ANGLE SwiftShader, native source scenes; not device FPS",
+  "roots": [
+    {
+      "name": "before",
+      "path": "/workspace/chichi-water-core-control",
+      "sourceSHA": "4dc98387b9d87ca80ecc4ae7df8b39a79cc25a24",
+      "dirty": "",
+      "bundleSHA256": "d8a75b52e6eeafdd3162f6b5b9b9e7f103f1168f81651b1b95974a5d7d3b8dd4",
+      "bundleBytes": 2958574
+    },
+    {
+      "name": "after",
+      "path": "/workspace/chichi-shared-water",
+      "sourceSHA": "377f5a1fd8f4a87c323c3c40deea767992ea68b6",
+      "dirty": "M AGENTS.md\n M public/mosasaur-rock-reefs.js\n M scripts/check-global-water.mjs\n M scripts/check-slide-water.mjs\n M test/mosasaur-forecourt.test.mjs\n?? docs/qa/2026-11-17/shared-water-core/all-rides/\n?? docs/qa/2026-11-17/shared-water-core/fixed-camera-scope-failure/\n?? docs/qa/2026-11-17/shared-water-core/forecourt-floor-diagnosis.json\n?? docs/qa/2026-11-17/shared-water-core/live-stable-recheck.json\n?? docs/qa/2026-11-17/shared-water-core/stable-fixed-camera/\n?? scripts/check-mosasaur-benthic-lod.mjs",
+      "bundleSHA256": "69cffda5c746a490282586ca720cfc64f759fc3f3192ef143b71d71bdaa17ef8",
+      "bundleBytes": 2953030
+    }
+  ],
+  "settings": {
+    "biomes": [
+      "autumn"
+    ],
+    "views": "deep-forecourt,underwater-close,phone",
+    "seconds": 7,
+    "cameraContract": "baseline per-view local eye/direction/up, water centre/radius, light and shadow envelope replayed in candidate, including reef-anchored views after expansion",
+    "quality": "original lights, exposure1, ACES, shadows PCF1024; DPR1 desktop/DPR2 phone"
+  },
+  "source": "exact qa-before/qa-after.mjs retained"
+}

@@ -1,0 +1,11 @@
+M AGENTS.md
+ M public/mosasaur-rock-reefs.js
+ M scripts/check-global-water.mjs
+ M scripts/check-slide-water.mjs
+ M test/mosasaur-forecourt.test.mjs
+?? docs/qa/2026-11-17/shared-water-core/all-rides/
+?? docs/qa/2026-11-17/shared-water-core/fixed-camera-scope-failure/
+?? docs/qa/2026-11-17/shared-water-core/forecourt-floor-diagnosis.json
+?? docs/qa/2026-11-17/shared-water-core/live-stable-recheck.json
+?? docs/qa/2026-11-17/shared-water-core/stable-fixed-camera/
+?? scripts/check-mosasaur-benthic-lod.mjs

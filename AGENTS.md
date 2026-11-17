@@ -63,7 +63,9 @@ Gaussian weights and angular thresholds once, rather than in frame updates.
 All receiving pools use `slide-basin-optics.js`: normalize metre-based
 ShapeGeometry UVs to the lake shader's unit domain once, retain the actual lit
 floor and shared reflection/wave textures, and isolate their clear-blue optics
-with `SLIDE_CATCH_POOL`. Other island water stays on its original shader branch.
+with `SLIDE_CATCH_POOL`. This is a physical receiving-pool profile of the shared
+water core, not a separate artistic shader. The 2026-11-16 global-water standard
+supersedes the earlier isolation of other island water on its original branch.
 Do not add per-pool render targets, scene copies or continuous buffer uploads.
 The complete water audit includes EVERY registered type in normal, grazing,
 full-DPR phone and seated-rider views, plus explicit basin close-ups. Preserve
@@ -994,9 +996,11 @@ The previous 2026-11-04 Black Flag comparison is historical, superseded visually
 
 ### Mosasaur ocean master specification (player, 2026-11-04)
 
-See `docs/specifications/mosasaur-ocean-master-2026-11-04.md`. The latest scope
-supersedes the earlier four-area request: expand the currently released Mosasaur
-Ocean approximately five times in horizontal dimensions; retain the same biome
+See `docs/specifications/mosasaur-ocean-master-2026-11-04.md` for the historical
+five-times expansion request. The later request in CURRENT supersedes its next
+expansion target: double WATER AREA relative to released12d478e, chiefly adding
+navigable water, without scaling animals, buildings or owned-object addresses.
+Retain the same biome
 ID, unlock, original pier/ride and all saved ownership. Add real navigable deep
 terrain/caves/ruins, varied coral ecosystems, a reworked mosasaur with smoothly
 blended ambient behavior and a controllable submarine with two camera modes.

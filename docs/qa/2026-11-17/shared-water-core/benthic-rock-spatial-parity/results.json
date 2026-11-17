@@ -1,0 +1,107 @@
+[
+  {
+    "name": "near",
+    "level": 0,
+    "changedChannels": 0,
+    "maxDelta": 0,
+    "rows": [
+      {
+        "spatialBenthic": false,
+        "calls": 19,
+        "triangles": 12075606
+      },
+      {
+        "spatialBenthic": true,
+        "calls": 64,
+        "triangles": 6899296
+      }
+    ],
+    "contextLost": false
+  },
+  {
+    "name": "near",
+    "level": 1,
+    "changedChannels": 0,
+    "maxDelta": 0,
+    "rows": [
+      {
+        "spatialBenthic": false,
+        "calls": 19,
+        "triangles": 7708550
+      },
+      {
+        "spatialBenthic": true,
+        "calls": 64,
+        "triangles": 4405268
+      }
+    ],
+    "contextLost": false
+  },
+  {
+    "name": "near",
+    "level": 2,
+    "changedChannels": 0,
+    "maxDelta": 0,
+    "rows": [
+      {
+        "spatialBenthic": false,
+        "calls": 19,
+        "triangles": 2066106
+      },
+      {
+        "spatialBenthic": true,
+        "calls": 64,
+        "triangles": 1180682
+      }
+    ],
+    "contextLost": false
+  },
+  {
+    "view": "near",
+    "automatic": [
+      {
+        "spatialBenthic": false,
+        "calls": 19,
+        "triangles": 7264844,
+        "lodCounts": [
+          0,
+          64,
+          0
+        ],
+        "dpr": 1,
+        "contextLost": false
+      },
+      {
+        "spatialBenthic": true,
+        "calls": 64,
+        "triangles": 3072834,
+        "lodCounts": [
+          9,
+          23,
+          32
+        ],
+        "dpr": 1,
+        "contextLost": false
+      }
+    ]
+  },
+  {
+    "name": "forecourt",
+    "level": 0,
+    "changedChannels": 3,
+    "maxDelta": 6,
+    "rows": [
+      {
+        "spatialBenthic": false,
+        "calls": 20,
+        "triangles": 12160404
+      },
+      {
+        "spatialBenthic": true,
+        "calls": 82,
+        "triangles": 9053628
+      }
+    ],
+    "contextLost": false
+  }
+]

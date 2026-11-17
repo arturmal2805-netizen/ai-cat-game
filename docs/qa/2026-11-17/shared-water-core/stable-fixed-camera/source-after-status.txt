@@ -1,0 +1,4 @@
+M AGENTS.md
+ M scripts/check-global-water.mjs
+?? docs/qa/2026-11-17/shared-water-core/forecourt-floor-diagnosis.json
+?? docs/qa/2026-11-17/shared-water-core/live-stable-recheck.json

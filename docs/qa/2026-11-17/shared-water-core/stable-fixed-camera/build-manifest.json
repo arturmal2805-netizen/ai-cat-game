@@ -1,0 +1,33 @@
+{
+  "node": "v22.23.5",
+  "browser": "156.0.8078.79",
+  "renderer": "Chromium ANGLE SwiftShader, native source scenes; not device FPS",
+  "roots": [
+    {
+      "name": "before",
+      "path": "/workspace/chichi-mall-realism",
+      "sourceSHA": "12d478e82e8e5a2bd6ef3ec0cbb151ea1e473d1d",
+      "dirty": "",
+      "bundleSHA256": "a269fb77a463f50060f37fd5c8c00ff28b62c7a8d41f910b364fc27c6bdb6619",
+      "bundleBytes": 2955114
+    },
+    {
+      "name": "after",
+      "path": "/workspace/chichi-shared-water",
+      "sourceSHA": "377f5a1fd8f4a87c323c3c40deea767992ea68b6",
+      "dirty": "M AGENTS.md\n M scripts/check-global-water.mjs\n?? docs/qa/2026-11-17/shared-water-core/forecourt-floor-diagnosis.json\n?? docs/qa/2026-11-17/shared-water-core/live-stable-recheck.json",
+      "bundleSHA256": "80014b7e92aebcdb5c3f6129bb326e517033fb499d1906bc827ce2166df0edd3",
+      "bundleBytes": 2950541
+    }
+  ],
+  "settings": {
+    "biomes": [
+      "autumn"
+    ],
+    "views": "water-close,water-low,water-sun,shore-reference,deep-forecourt,underwater-close,phone",
+    "seconds": 7,
+    "cameraContract": "baseline per-view local eye/direction/up, water centre/radius, light and shadow envelope replayed in candidate, including reef-anchored views after expansion",
+    "quality": "original lights, exposure1, ACES, shadows PCF1024; DPR1 desktop/DPR2 phone"
+  },
+  "source": "exact qa-before/qa-after.mjs retained"
+}

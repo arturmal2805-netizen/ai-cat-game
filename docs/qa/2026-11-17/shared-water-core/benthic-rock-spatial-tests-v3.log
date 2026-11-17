@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: only the requested ocean record changes; every other island stays byte-for-byte equivalent
+ok 1 - only the requested ocean record changes; every other island stays byte-for-byte equivalent
+  ---
+  duration_ms: 2.634458
+  type: 'test'
+  ...
+# Subtest: the complete fitted rock meshes leave the building and deep forecourt open
+ok 2 - the complete fitted rock meshes leave the building and deep forecourt open
+  ---
+  duration_ms: 8683.59443
+  type: 'test'
+  ...
+# Subtest: a submarine body can traverse the entire deep approach, not just stand at its endpoints
+ok 3 - a submarine body can traverse the entire deep approach, not just stand at its endpoints
+  ---
+  duration_ms: 16.631604
+  type: 'test'
+  ...
+# Subtest: sixteen dense mixed gardens leave the middle of the deep approach free
+ok 4 - sixteen dense mixed gardens leave the middle of the deep approach free
+  ---
+  duration_ms: 477.697776
+  type: 'test'
+  ...
+# Subtest: new garden stones have real mesh support matching the shared collider and fixed instance buffers
+ok 5 - new garden stones have real mesh support matching the shared collider and fixed instance buffers
+  ---
+  duration_ms: 1472.799287
+  type: 'test'
+  ...
+# Subtest: garden rock LOD follows actual gardens while retaining every original transform and full-detail buffer
+ok 6 - garden rock LOD follows actual gardens while retaining every original transform and full-detail buffer
+  ---
+  duration_ms: 11.335281
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 10929.816823

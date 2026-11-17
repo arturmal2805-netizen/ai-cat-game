@@ -1,0 +1,19 @@
+{
+  "utc": "2026-11-17T08:45:36.790952+00:00",
+  "url": "https://arturmal2805-netizen.github.io/ai-cat-game/",
+  "applicationScripts": [
+    "./dist/app.js?v=507539ea7920b048"
+  ],
+  "assets": {
+    "./dist/app.js?v=507539ea7920b048": {
+      "sha256": "507539ea7920b0489284d8572aef4481c8506e1d643a24a8becda9d79b7a8ca5",
+      "bytes": 2559944
+    },
+    "./style.css?v=c14ce8408f8f3aed": {
+      "sha256": "c14ce8408f8f3aed7a5e7991eca39663fe55377343421ff62e0600ada4c048ef",
+      "bytes": 65404
+    }
+  },
+  "expectedPublishedSHA": "12d478e82e8e5a2bd6ef3ec0cbb151ea1e473d1d",
+  "siteUnchanged": true
+}
