@@ -40,9 +40,13 @@ export function* coastMeadowGeometrySteps(source){
  for(let i=0;i<angles.length;i++){
   if((i&15)===0)yield;
   const a=angles[i],start=a.inner||rayPoint(inner,a.angle),end=a.outer||rayPoint(outer,a.angle),width=Math.hypot(end.x-start.x,end.z-start.z);
-  if(width<=60)throw Error('Unexpectedly narrow native coast');
+  if(width<=8)throw Error('Native coast cannot contain its outer soil transition');
+  // The enlarged water leaves a narrower real dry shore near the housing
+  // strip. Fit the soil rows INSIDE its recovered boundaries, retaining eight
+  // metres for the outer transition. Existing shores >=68m stay bit-for-bit.
+  const nearWidth=Math.min(60,width-8);
   for(let ring=0;ring<ringCount;ring++){
-   const distance=ring<fixed.length?fixed[ring]:60+(width-60)*(ring-fixed.length+1)/8,t=distance/width,x=ring===ringCount-1?end.x:start.x+(end.x-start.x)*t,z=ring===ringCount-1?end.z:start.z+(end.z-start.z)*t;
+   const distance=ring<fixed.length?fixed[ring]*nearWidth/60:nearWidth+(width-nearWidth)*(ring-fixed.length+1)/8,t=distance/width,x=ring===ringCount-1?end.x:start.x+(end.x-start.x)*t,z=ring===ringCount-1?end.z:start.z+(end.z-start.z)*t;
    cap.push(x,topY,z,0,1,0,x,-z,coastMeadowCover(x,z).soil);
   }
  }

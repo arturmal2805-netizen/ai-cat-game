@@ -22,7 +22,16 @@ test('sampled native downward rays see exactly the same shore opening and walk h
 test('shore field excludes water, cliffs, outside land and the existing pier approach',()=>{
  assert.equal(coastMeadowCover(0,0).grass,0);assert.equal(coastMeadowCover(500,0).region,0);
  for(let z=235;z<310;z+=2)assert.equal(coastMeadowCover(0,z).grass,0);
- const cover=coastMeadowCover(269,-25);assert.ok(cover.grass>.8);
+ assert.equal(coastMeadowCover(269,-25).grass,0,'the previous coast is now real open water');
+ const cover=coastMeadowCover(365,-25);assert.ok(cover.grass>.8);
+});
+test('a physically narrower shore keeps every soil row inside its actual hole and outer boundary',()=>{
+ const outline=new T.Shape(),hole=new T.Path();for(let i=0;i<96;i++){const a=i*Math.PI*2/96,x=Math.cos(a),z=Math.sin(a);if(i){outline.lineTo(x*45,z*45);hole.lineTo(x*25,-z*25);}else{outline.moveTo(x*45,z*45);hole.moveTo(x*25,-z*25);}}outline.closePath();hole.closePath();outline.holes.push(hole);
+ const source=new T.ExtrudeGeometry(outline,{depth:.8,bevelEnabled:false});source.rotateX(-Math.PI/2);
+ const g=runSceneSteps(coastMeadowGeometrySteps(source)),p=g.attributes.position,index=g.index;
+ for(let i=0;i<p.count;i++){const r=Math.hypot(p.getX(i),p.getZ(i));assert.ok(r>=24.98&&r<=45.00001,'no soil vertex crosses the recovered shore');}
+ let area=0;for(let i=g.groups[0].count;i<index.count;i+=3){const a=index.getX(i),b=index.getX(i+1),c=index.getX(i+2),signed=((p.getZ(b)-p.getZ(a))*(p.getX(c)-p.getX(a))-(p.getX(b)-p.getX(a))*(p.getZ(c)-p.getZ(a)))/2;assert.ok(signed>0);area+=signed;}
+ assert.ok(Math.abs(area-g.userData.coastMeadow.originalTopArea)<.01);source.dispose();g.dispose();
 });
 test('visible grass cells are deterministic and bounded at every coast camera and sleep far above or below it',()=>{
  for(let a=0;a<Math.PI*2;a+=.17){const eye={x:Math.cos(a)*278,y:2,z:Math.sin(a)*265},cells=coastMeadowCells(eye);assert.ok(cells.length<=192);assert.equal(new Set(cells.map(c=>c.key)).size,cells.length);assert.deepEqual(cells,coastMeadowCells(eye));for(let i=1;i<cells.length;i++)assert.ok(cells[i].distance>=cells[i-1].distance);}

@@ -1,0 +1,40 @@
+TAP version 13
+# Subtest: full-coast soil grid retains the original plane, cap area, holes and every solid side face
+ok 1 - full-coast soil grid retains the original plane, cap area, holes and every solid side face
+  ---
+  duration_ms: 36.843776
+  type: 'test'
+  ...
+# Subtest: sampled native downward rays see exactly the same shore opening and walk height
+ok 2 - sampled native downward rays see exactly the same shore opening and walk height
+  ---
+  duration_ms: 795.602451
+  type: 'test'
+  ...
+# Subtest: shore field excludes water, cliffs, outside land and the existing pier approach
+ok 3 - shore field excludes water, cliffs, outside land and the existing pier approach
+  ---
+  duration_ms: 0.233775
+  type: 'test'
+  ...
+# Subtest: a physically narrower shore keeps every soil row inside its actual hole and outer boundary
+ok 4 - a physically narrower shore keeps every soil row inside its actual hole and outer boundary
+  ---
+  duration_ms: 71.998649
+  type: 'test'
+  ...
+# Subtest: visible grass cells are deterministic and bounded at every coast camera and sleep far above or below it
+ok 5 - visible grass cells are deterministic and bounded at every coast camera and sleep far above or below it
+  ---
+  duration_ms: 7.100592
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1960.730229

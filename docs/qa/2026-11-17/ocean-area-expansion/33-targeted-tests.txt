@@ -1,0 +1,208 @@
+TAP version 13
+# Subtest: an old pilot inside the new mall resumes in nearby open water at the same depth and with its pose
+ok 1 - an old pilot inside the new mall resumes in nearby open water at the same depth and with its pose
+  ---
+  duration_ms: 36.645811
+  type: 'test'
+  ...
+# Subtest: faster swept driving stops at the real front glass and vertical controls cannot cross either roof or ground slab
+ok 2 - faster swept driving stops at the real front glass and vertical controls cannot cross either roof or ground slab
+  ---
+  duration_ms: 535.33823
+  type: 'test'
+  ...
+# Subtest: refitting keeps all twelve original detailed reef templates, scales and unchanged colonies
+ok 3 - refitting keeps all twelve original detailed reef templates, scales and unchanged colonies
+  ---
+  duration_ms: 7859.926208
+  type: 'test'
+  ...
+# Subtest: twice the released water area keeps a sloping physical bed, dry arrival and independent neighbouring shores
+ok 4 - twice the released water area keeps a sloping physical bed, dry arrival and independent neighbouring shores
+  ---
+  duration_ms: 31046.605962
+  type: 'test'
+  ...
+# Subtest: existing paid shoreline objects keep IDs, addresses, tiers, deadlines and dry platforms through reloads
+ok 5 - existing paid shoreline objects keep IDs, addresses, tiers, deadlines and dry platforms through reloads
+  ---
+  duration_ms: 2217.353677
+  type: 'test'
+  ...
+# Subtest: new outer land survives cached-client merge; genuine storage remains effective
+ok 6 - new outer land survives cached-client merge; genuine storage remains effective
+  ---
+  duration_ms: 89.521452
+  type: 'test'
+  ...
+# Subtest: caves are hollow real arches with usable floors and stable owned IDs, not a decorative decal
+ok 7 - caves are hollow real arches with usable floors and stable owned IDs, not a decorative decal
+  ---
+  duration_ms: 243.522372
+  type: 'test'
+  ...
+# Subtest: underwater exit, third-person camera-relative swimming axes, dive, reboard and release use actual runtime
+ok 8 - underwater exit, third-person camera-relative swimming axes, dive, reboard and release use actual runtime
+  ---
+  duration_ms: 258.982619
+  type: 'test'
+  ...
+# Subtest: swimmer and released pilot restore without resetting wallets, inventory or camera ownership
+ok 9 - swimmer and released pilot restore without resetting wallets, inventory or camera ownership
+  ---
+  duration_ms: 346.701109
+  type: 'test'
+  ...
+# Subtest: pressure airlock never opens both doors; entry and exit reach their real endpoints
+ok 10 - pressure airlock never opens both doors; entry and exit reach their real endpoints
+  ---
+  duration_ms: 2.405761
+  type: 'test'
+  ...
+# Subtest: swimmer swept collision rejects sealed Mall shell and malformed explorer records
+ok 11 - swimmer swept collision rejects sealed Mall shell and malformed explorer records
+  ---
+  duration_ms: 119.554364
+  type: 'test'
+  ...
+# Subtest: manual swimming stops on release, blur and entry into text editing
+ok 12 - manual swimming stops on release, blur and entry into text editing
+  ---
+  duration_ms: 21.783089
+  type: 'test'
+  ...
+# Subtest: look orbit leaves a stationary cat facing forward and releasing a look drag preserves a held movement key
+ok 13 - look orbit leaves a stationary cat facing forward and releasing a look drag preserves a held movement key
+  ---
+  duration_ms: 21.351753
+  type: 'test'
+  ...
+# Subtest: released explorer cannot cancel a newly selected mall overview or visitor camera
+ok 14 - released explorer cannot cancel a newly selected mall overview or visitor camera
+  ---
+  duration_ms: 7.361829
+  type: 'test'
+  ...
+# Subtest: hidden canvas gestures move/look independently, dive with two fingers and stop on release
+ok 15 - hidden canvas gestures move/look independently, dive with two fingers and stop on release
+  ---
+  duration_ms: 19.448482
+  type: 'test'
+  ...
+# Subtest: E chooses the real boat or door in view when both are within reach
+ok 16 - E chooses the real boat or door in view when both are within reach
+  ---
+  duration_ms: 17.914257
+  type: 'test'
+  ...
+# Subtest: phone buttons allow independent held movement and depth; cancellation and blur clear only their owned inputs
+ok 17 - phone buttons allow independent held movement and depth; cancellation and blur clear only their owned inputs
+  ---
+  duration_ms: 57.346573
+  type: 'test'
+  ...
+# Subtest: phone control anchor tracks the visible viewport when the game canvas extends below it
+ok 18 - phone control anchor tracks the visible viewport when the game canvas extends below it
+  ---
+  duration_ms: 12.908869
+  type: 'test'
+  ...
+# Subtest: a paid placement rejected by shore, locked land or collisions goes to the bag with its original timer instead of vanishing
+ok 19 - a paid placement rejected by shore, locked land or collisions goes to the bag with its original timer instead of vanishing
+  ---
+  duration_ms: 310.702959
+  type: 'test'
+  ...
+# Subtest: forty store/replace/restart cycles preserve one finished Mega Loops, balance, XP and ownership receipt
+ok 20 - forty store/replace/restart cycles preserve one finished Mega Loops, balance, XP and ownership receipt
+  ---
+  duration_ms: 576.185549
+  type: 'test'
+  ...
+# Subtest: legacy purchase proof recovers a missing attraction once without a charge or granting an unbought slide
+ok 21 - legacy purchase proof recovers a missing attraction once without a charge or granting an unbought slide
+  ---
+  duration_ms: 56.884551
+  type: 'test'
+  ...
+# Subtest: durable receipts recover the exact owned and completed-copy counts after a filtered snapshot
+ok 22 - durable receipts recover the exact owned and completed-copy counts after a filtered snapshot
+  ---
+  duration_ms: 37.933063
+  type: 'test'
+  ...
+# Subtest: two phones buying the same attraction retain two copies and exact once-only payments
+ok 23 - two phones buying the same attraction retain two copies and exact once-only payments
+  ---
+  duration_ms: 16.224763
+  type: 'test'
+  ...
+# Subtest: a cached client dropping a placed slide keeps its original identity and cannot erase paid completion receipts
+ok 24 - a cached client dropping a placed slide keeps its original identity and cannot erase paid completion receipts
+  ---
+  duration_ms: 17.332399
+  type: 'test'
+  ...
+# Subtest: an unchanged healthy world is returned by identity and ownership bookkeeping never touches native graphics
+ok 25 - an unchanged healthy world is returned by identity and ownership bookkeeping never touches native graphics
+  ---
+  duration_ms: 4.929498
+  type: 'test'
+  ...
+# Subtest: matching-world backups retain completed construction, while another accounts backup cannot invent ownership
+ok 26 - matching-world backups retain completed construction, while another accounts backup cannot invent ownership
+  ---
+  duration_ms: 22.395434
+  type: 'test'
+  ...
+# Subtest: submarine accelerates, reverses, steers, dives, brakes and switches no currencies or NPC state
+ok 27 - submarine accelerates, reverses, steers, dives, brakes and switches no currencies or NPC state
+  ---
+  duration_ms: 134.803698
+  type: 'test'
+  ...
+# Subtest: real-time long frames do not tunnel through terrain or cave/ruin capsules
+ok 28 - real-time long frames do not tunnel through terrain or cave/ruin capsules
+  ---
+  duration_ms: 800.269176
+  type: 'test'
+  ...
+# Subtest: safe entry/exit remains at the dedicated pier and invalid saved coordinates cannot strand the cat
+ok 29 - safe entry/exit remains at the dedicated pier and invalid saved coordinates cannot strand the cat
+  ---
+  duration_ms: 25.043543
+  type: 'test'
+  ...
+# Subtest: space gives a real ballistic water breach and shift descends again
+ok 30 - space gives a real ballistic water breach and shift descends again
+  ---
+  duration_ms: 52.226835
+  type: 'test'
+  ...
+# Subtest: real save/load and cached shared clients retain the pilot pose without losing purchases or wallet
+ok 31 - real save/load and cached shared clients retain the pilot pose without losing purchases or wallet
+  ---
+  duration_ms: 203.545832
+  type: 'test'
+  ...
+# Subtest: a steep reef wall brakes a fast boat rather than lifting it onto the ledge
+ok 32 - a steep reef wall brakes a fast boat rather than lifting it onto the ledge
+  ---
+  duration_ms: 285.609951
+  type: 'test'
+  ...
+# Subtest: return leaves both real cavern roofs through their openings before ascending to the pier
+ok 33 - return leaves both real cavern roofs through their openings before ascending to the pier
+  ---
+  duration_ms: 667.181776
+  type: 'test'
+  ...
+1..33
+# tests 33
+# suites 0
+# pass 33
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 34418.15349

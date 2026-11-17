@@ -1,0 +1,40 @@
+ D public/art/ocean-reflections/tropical-coast-01333a81c41d.png
+ M public/index.html
+ M public/meadow-coast-surface.js
+ M public/mosasaur-reef-manifest.js
+ M public/mosasaur-water-probe-assets.js
+ M public/showcase-probe-assets.js
+ M scripts/check-aquarium.cjs
+ M test/fixtures/aquarium-unaffected-biomes.json
+ M test/fixtures/before-magic-zoo.json
+ M test/fixtures/bikini-unaffected-biomes.json
+ M test/fixtures/building-expansion-before.json
+ M test/fixtures/foodcourt-unaffected-biomes.json
+ M test/fixtures/homestead-expansion-unaffected.json
+ M test/fixtures/homestead-unaffected-biomes.json
+ M test/fixtures/housing-unaffected-biomes.json
+ M test/fixtures/jobcity-unaffected-biomes.json
+ M test/meadow-coast-surface.test.mjs
+ M test/seabed-reef-patch.test.mjs
+?? docs/qa/2026-11-17/ocean-area-expansion/11-map-tests.txt
+?? docs/qa/2026-11-17/ocean-area-expansion/14-water-cache-tests.txt
+?? docs/qa/2026-11-17/ocean-area-expansion/33-targeted-tests.txt
+?? docs/qa/2026-11-17/ocean-area-expansion/5-meadow-tests.txt
+?? docs/qa/2026-11-17/ocean-area-expansion/8-release-tests.txt
+?? docs/qa/2026-11-17/ocean-area-expansion/after/
+?? docs/qa/2026-11-17/ocean-area-expansion/before/
+?? docs/qa/2026-11-17/ocean-area-expansion/native-ownership.txt
+?? docs/qa/2026-11-17/ocean-area-expansion/native-return.txt
+?? docs/qa/2026-11-17/ocean-area-expansion/node22-build.txt
+?? docs/qa/2026-11-17/ocean-area-expansion/ownership/
+?? docs/qa/2026-11-17/ocean-area-expansion/production-app.js.gz
+?? docs/qa/2026-11-17/ocean-area-expansion/reflection-log-including-rejected-narrow-shore.txt
+?? docs/qa/2026-11-17/ocean-area-expansion/return/
+?? docs/qa/2026-11-17/ocean-area-expansion/source-HEAD.patch
+?? docs/qa/2026-11-17/ocean-area-expansion/source-cached.patch
+?? docs/qa/2026-11-17/ocean-area-expansion/successful-ocean-reflection.txt
+?? docs/qa/2026-11-17/ocean-area-expansion/updated-snapshots.json
+?? public/art/ocean-reflections/tropical-coast-6f814aa3a900.png
+?? scripts/audit-ocean-area-native.mjs
+?? test/fixtures/ocean-area-release-baseline.json
+?? test/ocean-area-map-preservation.test.mjs

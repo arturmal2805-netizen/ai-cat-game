@@ -1,0 +1,7 @@
+{
+  "sha256": "23ac9a7d7319d149a0627dbfd8b89c85a841c803ff8fb90f9c5045bf1bce8b8f",
+  "node": "v22.23.5",
+  "head": "10abb0f1bbfcf0122eda230155378dbc44325bbf",
+  "dirty": " D public/art/ocean-reflections/tropical-coast-01333a81c41d.png\n M public/index.html\n M public/meadow-coast-surface.js\n M public/mosasaur-reef-manifest.js\n M public/mosasaur-water-probe-assets.js\n M public/showcase-probe-assets.js\n M scripts/check-aquarium.cjs\n M test/meadow-coast-surface.test.mjs\n?? public/art/ocean-reflections/tropical-coast-6f814aa3a900.png\n?? scripts/audit-ocean-area-native.mjs\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

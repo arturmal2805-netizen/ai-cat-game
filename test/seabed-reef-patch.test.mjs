@@ -36,11 +36,15 @@ test('reef gardens span the ocean floor without changing the central ride or the
  }
  assert.equal(total,1216);assert.ok(g.some(p=>p.x< -150)&&g.some(p=>p.x>150)&&g.some(p=>p.z< -140)&&g.some(p=>p.z>140));
 });
-test('new distant reef indices preserve every published rock/coral vertex, original LOD and animal/site record',async()=>{
+test('expanded coast preserves every published rock/coral vertex and original LOD while regenerating physical site data',async()=>{
  const {readFile}=await import('node:fs/promises'),{createHash}=await import('node:crypto'),{decodeSceneryGeometries}=await import('../public/scenery-geometry-codec.js'),{MOSA_REEF_URL}=await import('../public/mosasaur-reef-manifest.js');
  const expected=JSON.parse(await readFile(new URL('./fixtures/mosasaur-reef-original-buffers-b805.json',import.meta.url))),bytes=await readFile(new URL('../public/'+MOSA_REEF_URL.slice(2),import.meta.url)),buffer=bytes.buffer.slice(bytes.byteOffset,bytes.byteOffset+bytes.byteLength),h=JSON.parse(new TextDecoder().decode(new Uint8Array(buffer,8,new DataView(buffer).getUint32(4,true)))),actual=await decodeSceneryGeometries(buffer,expected.revision,Object.keys(h.models)),hash=a=>createHash('sha256').update(new Uint8Array(a.array.buffer,a.array.byteOffset,a.array.byteLength)).digest('hex');
  for(const [name,row]of Object.entries(expected.models)){assert.equal(hash(actual.models[name].index),row.index,name+' original indices');for(const [key,digest]of Object.entries(row.attributes))assert.equal(hash(actual.models[name].attributes[key]),digest,name+' '+key);}
- for(const [name,digest]of Object.entries(expected.extras))assert.equal(hash(actual.extras[name]),digest,name);
+ const {reefFishSchoolStates}=await import('../public/mosasaur-reef-fish.js'),{MOSA_OPTICAL_GRID_SIZE:n,MOSA_OPTICAL_GRID_EXTENT:e,mosaReefSurfaceY}=await import('../public/mosasaur-reef-data.js');
+ const sites=Float64Array.from(mosaCoralSites().flatMap((p,i)=>[p.form,p.x,p.y,p.z,p.scale,p.yaw,i,p.nx||0,p.ny??1,p.nz||0])),fish=Float64Array.from([3,7,11].flatMap(index=>reefFishSchoolStates(index).flatMap(s=>[index,s.phase,s.radius,s.cx,s.cz,s.rx,s.rz,s.speed,s.depth,s.scale,s.index])));
+ assert.deepEqual(actual.extras.coralSites.array,sites,'offline anchors match the actual expanded physical floor and cliffs');assert.equal(sites.length/10,1024);
+ assert.deepEqual(actual.extras.reefFish.array,fish,'school IDs, counts, sizes, clocks and new physical anchors match source');assert.equal(fish.length/11,144);
+ const grid=actual.extras.opticalFloor.array;assert.equal(grid.length,n*n);for(const z of [0,Math.floor(n/4),Math.floor(n/2),Math.floor(n*3/4),n-1])for(const x of [0,Math.floor(n/4),Math.floor(n/2),Math.floor(n*3/4),n-1])assert.equal(grid[z*n+x],Math.fround(mosaReefSurfaceY((x/(n-1)*2-1)*e,(z/(n-1)*2-1)*e)),'optical depth follows the same enlarged floor');
  for(let form=0;form<11;form++){const full=actual.models['coral-'+form],far=actual.models['coral-'+form+'-seabed-far'];assert.equal(far.attributes.position,full.attributes.position);assert.ok(far.index.count<=actual.models['coral-'+form+'-far'].index.count);}
 });
 test('the actual cache loader binds original distant coral levels and separate seabed-only levels',async()=>{

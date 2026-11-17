@@ -1,0 +1,249 @@
+{
+  "date": "2026-11-17",
+  "base": "e25f6ffd3ab4cab2d3595a337573699bbaa4d3c2",
+  "sourceHead": "10abb0f1bbfcf0122eda230155378dbc44325bbf",
+  "sourceOverlay": "source-HEAD.patch",
+  "productionAssets": {
+    "dist/app.js": "fbb0341f1dd1f67adab0b0003dc00305e7e549bd6bb1318eaa50a16a45aaad29",
+    "style.css": "d02068257c7b2b00ecdb80590c8a6bc5003849788f1400e69b6a6d6d91fb4356"
+  },
+  "waterAreaMultiplier": 2,
+  "outerRadius": 397.7,
+  "mallStructureChanged": false,
+  "native": [
+    "before/ocean-area-native.json",
+    "after/ocean-area-native.json",
+    "return/expanded-return.json",
+    "ownership/ownership.json"
+  ],
+  "limitations": [
+    "Native Chromium SwiftShader timings are not physical Mac/iPhone FPS.",
+    "Before/after use the same camera/time/light settings, but the actor is in the original boat for baseline and in new outer water for candidate; these are geography/art captures, not an exactly identical whole-scene performance A/B.",
+    "The first phone camera is below the old floor and above the new deeper floor; it demonstrates added space but is not a valid shared navigable-camera performance comparison.",
+    "Production scene-light values are constant across game-clock hours. Both actual clock states are captured; no artificial QA night lighting was added.",
+    "Crimson Desert remains the visual goal, not a claimed achieved match or player approval.",
+    "Player reports all WASD movement failing in the current e25 release. Explicitly queued immediately AFTER this water publication; Mall development removed from queue."
+  ],
+  "files": {
+    "5-meadow-tests.txt": {
+      "bytes": 1361,
+      "sha256": "49731aa93165a9adeef90694d37ef14f47420ff0608fcd48aaa94e5e4cd3677c"
+    },
+    "area-and-preservation-tests.txt": {
+      "bytes": 1175,
+      "sha256": "825e8424b369cfb986397a15cc4f16a8ec20a0a0a701d9e9f8fcbb9198fc6f2a"
+    },
+    "exact-reef-fit.txt": {
+      "bytes": 2579,
+      "sha256": "de060a9403f63e3ddaa2879fbea13e32ddb6d019b471a34e29343ebccc62560d"
+    },
+    "14-water-cache-tests.txt": {
+      "bytes": 3732,
+      "sha256": "541f6bded1fde5420b54b907d79df986b7f830bb9528344bbf928455a4aa0e0f"
+    },
+    "production-app.js.gz": {
+      "bytes": 809414,
+      "sha256": "c1b4d5df5eee317f02155967641e84661fc7c9270fd3c4a587c0dbf0d26a584b"
+    },
+    "node22-build.txt": {
+      "bytes": 129,
+      "sha256": "d834efce4563e545ee50e012beb21a73a28da214e672d70315011a22ee025f0d"
+    },
+    "reflection-log-including-rejected-narrow-shore.txt": {
+      "bytes": 1083,
+      "sha256": "d015648abc82cdbb23f518fc803795cd8c29cc30a242ffb286dceeac4a7aa921"
+    },
+    "native-return.txt": {
+      "bytes": 164,
+      "sha256": "da94394b0e68e27a61b313d8b305c71993621518035f11347f6da129e431045a"
+    },
+    "33-targeted-tests.txt": {
+      "bytes": 8640,
+      "sha256": "ea0f19e7ac10a5138b4e8e86f0686a70d011983dc6d4e8910b53f3e2542a023f"
+    },
+    "source-cached.patch": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "source-HEAD.patch": {
+      "bytes": 70644,
+      "sha256": "8ccefac647ea63f6f5772675f84f09dc60267b3a2d375f59a5e0aa59ca77cf33"
+    },
+    "updated-snapshots.json": {
+      "bytes": 771,
+      "sha256": "5b7e821d3f51a68bef1d6d6d43086638bbbf00413bc76a0f709802f22593ccbd"
+    },
+    "11-map-tests.txt": {
+      "bytes": 2894,
+      "sha256": "a403fbeab856ecbdb5cc48f2db9221135e0f4e7e7e738d91d219201d85ed310b"
+    },
+    "successful-ocean-reflection.txt": {
+      "bytes": 116,
+      "sha256": "0bd138e35e0ec600961a5a25f1f8a1d7bff18319514463ffcc1384c48e76c7b0"
+    },
+    "source-status.txt": {
+      "bytes": 2096,
+      "sha256": "0121f142fcd19fb869c6838dde866a886a416d7dd466a589c98793a349acd6be"
+    },
+    "native-ownership.txt": {
+      "bytes": 138,
+      "sha256": "bd221e039d973f3250688cc2bcf5d57f1a0d97eee3b8b647cf29da6fc05a8edd"
+    },
+    "8-release-tests.txt": {
+      "bytes": 2169,
+      "sha256": "1870966876b7b6566615eab850bc14c5746d5941a4eddcecf86bb5861e07174d"
+    },
+    "after/surface-close-day.png": {
+      "bytes": 5666517,
+      "sha256": "aadbf2f3556a12c087d058d1a373ca24f06f1365d87ff25c4a79ac5f50737a71"
+    },
+    "after/surface-close-night.png": {
+      "bytes": 5666517,
+      "sha256": "aadbf2f3556a12c087d058d1a373ca24f06f1365d87ff25c4a79ac5f50737a71"
+    },
+    "after/outer-water-control.json": {
+      "bytes": 28151,
+      "sha256": "10dc5d4959c5afb8fdd082b16275885abb42ecf1945188c7441c4ebafd945096"
+    },
+    "after/ocean-area-native.json": {
+      "bytes": 29825,
+      "sha256": "4197882ce416e62dae8abde59c653b453249dc7ef3b7f0604a9590f044a7ceb7"
+    },
+    "after/qa-build.json": {
+      "bytes": 625,
+      "sha256": "312f42531420e33ac0d8d59f4efb90bbffead7a2939beb1a0141dc7d415f7148"
+    },
+    "after/deep-approach-night.png": {
+      "bytes": 4785954,
+      "sha256": "73da40976c69e96bacc1c3ca80cce483fa1005d1cb88686dbb71f70193163f54"
+    },
+    "after/source-cached.patch": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "after/phone-underwater-day.png": {
+      "bytes": 1617905,
+      "sha256": "54c767d64b0b59ab52ab0654b75c0bb9f38d1fccb34135236730a8a885d6325f"
+    },
+    "after/deep-approach-day.png": {
+      "bytes": 4785954,
+      "sha256": "73da40976c69e96bacc1c3ca80cce483fa1005d1cb88686dbb71f70193163f54"
+    },
+    "after/whole-island-day.png": {
+      "bytes": 2505063,
+      "sha256": "1593ea5dbc15409d38587c6205b299a3a4b240cfdac4dd4dcedc3c1bbc640978"
+    },
+    "after/phone-underwater-night.png": {
+      "bytes": 1617905,
+      "sha256": "54c767d64b0b59ab52ab0654b75c0bb9f38d1fccb34135236730a8a885d6325f"
+    },
+    "after/qa-app.js.gz": {
+      "bytes": 1126823,
+      "sha256": "87e04518d1756b838d7675c24f036919096614abffa99bd69d601f8590c3830f"
+    },
+    "after/whole-island-night.png": {
+      "bytes": 2534731,
+      "sha256": "285f4c081549d5199b9483e15e122b78142baa29fe5f4e8a9ae29930e7dc76e9"
+    },
+    "after/source-HEAD.patch": {
+      "bytes": 62469,
+      "sha256": "8c72cbe9f411c56ab7df1e79d31a014f375ff9dc2a55c9b4d40a0e28ce7bf3cb"
+    },
+    "after/source-status.txt": {
+      "bytes": 402,
+      "sha256": "ad30fa2d3f666aec9adfddf6539365fdef949fa1efc10ef763561c22c2f8e6ee"
+    },
+    "before/surface-close-day.png": {
+      "bytes": 6164472,
+      "sha256": "a5a0331fb3b84d07820388a04fc168ba90a633e8e463e88ef2b6b68ebd3257c7"
+    },
+    "before/surface-close-night.png": {
+      "bytes": 6164472,
+      "sha256": "a5a0331fb3b84d07820388a04fc168ba90a633e8e463e88ef2b6b68ebd3257c7"
+    },
+    "before/ocean-area-native.json": {
+      "bytes": 22230,
+      "sha256": "f02ba08e58fde1675857ba69486ab35036eb8f832d123bbdb931c762e188d85a"
+    },
+    "before/qa-build.json": {
+      "bytes": 625,
+      "sha256": "ffaed51995de652fb144d0f82deffe40b1d81bad4c72079c81d03c7e386b9037"
+    },
+    "before/deep-approach-night.png": {
+      "bytes": 6278980,
+      "sha256": "d59eef43cad953a80b7ef57dee4fc19e1c3d4575169e3efe18079fb896943908"
+    },
+    "before/source-cached.patch": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "before/phone-underwater-day.png": {
+      "bytes": 508524,
+      "sha256": "b4d6882a5858a842f2c1456fd6c57170e9441df420a2a7160b6184485a6a5caf"
+    },
+    "before/deep-approach-day.png": {
+      "bytes": 6278980,
+      "sha256": "d59eef43cad953a80b7ef57dee4fc19e1c3d4575169e3efe18079fb896943908"
+    },
+    "before/whole-island-day.png": {
+      "bytes": 1482392,
+      "sha256": "945d585ef8434247e135ec4aea09299dfb811671a90446816ebf6311c53e19a4"
+    },
+    "before/phone-underwater-night.png": {
+      "bytes": 508524,
+      "sha256": "b4d6882a5858a842f2c1456fd6c57170e9441df420a2a7160b6184485a6a5caf"
+    },
+    "before/qa-app.js.gz": {
+      "bytes": 1125914,
+      "sha256": "33bffbcfb6805b3aff887ba56d0581d36f40d6398f0383dcb5c40cdfe80b43b6"
+    },
+    "before/whole-island-night.png": {
+      "bytes": 1560536,
+      "sha256": "aba62379640ac5799584cb6947fedac500d1a05c273f3c7233937426428f99d3"
+    },
+    "before/source-HEAD.patch": {
+      "bytes": 62469,
+      "sha256": "8c72cbe9f411c56ab7df1e79d31a014f375ff9dc2a55c9b4d40a0e28ce7bf3cb"
+    },
+    "before/source-status.txt": {
+      "bytes": 402,
+      "sha256": "ad30fa2d3f666aec9adfddf6539365fdef949fa1efc10ef763561c22c2f8e6ee"
+    },
+    "ownership/restored-mega-loops.png": {
+      "bytes": 700177,
+      "sha256": "0e0f190485e8a462feb158fe20c10ab0e49b9a375180669c9b94c3ed7f1d0540"
+    },
+    "ownership/ownership.json": {
+      "bytes": 726,
+      "sha256": "3ce383d036ed4cecbc512127c5f06516793dab4dc73d91539a7d60b08ca76297"
+    },
+    "return/outer-water-control.json": {
+      "bytes": 28151,
+      "sha256": "10dc5d4959c5afb8fdd082b16275885abb42ecf1945188c7441c4ebafd945096"
+    },
+    "return/qa-build.json": {
+      "bytes": 1230,
+      "sha256": "037d170d512e4ab596233bf1d634290ec0747f10bb4d539f069fc8004a12d614"
+    },
+    "return/source-cached.patch": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "return/expanded-return.json": {
+      "bytes": 7157,
+      "sha256": "5afbeeeed6a9369ba68ccade5bd46936d7b129567e00a86773b8dc5bf9b8d145"
+    },
+    "return/qa-app.js.gz": {
+      "bytes": 1126823,
+      "sha256": "87e04518d1756b838d7675c24f036919096614abffa99bd69d601f8590c3830f"
+    },
+    "return/source-HEAD.patch": {
+      "bytes": 66781,
+      "sha256": "41cc326f4d1653df82364cf012d3cb0bb35d9b2869aa4fbc7a3ad53be8ac059e"
+    },
+    "return/source-status.txt": {
+      "bytes": 995,
+      "sha256": "96ba82067ea6c4b2021e507d0feb9b60c4d297a9753ec5e6afd32031ac236f71"
+    }
+  }
+}

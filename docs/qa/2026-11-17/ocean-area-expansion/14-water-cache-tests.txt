@@ -1,0 +1,94 @@
+TAP version 13
+# Subtest: historical slide source hashes stay tied to the actual stable technical reference
+ok 1 - historical slide source hashes stay tied to the actual stable technical reference
+  ---
+  duration_ms: 3.119555
+  type: 'test'
+  ...
+# Subtest: the original wave bytes remain reproducible while ocean uses the shared optical core
+ok 2 - the original wave bytes remain reproducible while ocean uses the shared optical core
+  ---
+  duration_ms: 37.930838
+  type: 'test'
+  ...
+# Subtest: the ocean reflection is a valid immutable local capture of its current native coastal producers
+ok 3 - the ocean reflection is a valid immutable local capture of its current native coastal producers
+  ---
+  duration_ms: 16.989617
+  type: 'test'
+  ...
+# Subtest: the native warmup uploads every hidden ocean sampler before compiling its first live material
+ok 4 - the native warmup uploads every hidden ocean sampler before compiling its first live material
+  ---
+  duration_ms: 88.99434
+  type: 'test'
+  ...
+# Subtest: ocean optics retain the native two field samples, one reflection lookup and bounded scalar wake slots
+ok 5 - ocean optics retain the native two field samples, one reflection lookup and bounded scalar wake slots
+  ---
+  duration_ms: 14.704174
+  type: 'test'
+  ...
+# Subtest: bounded mixed reef preserves original colonies, actual floor support and a body-width sand passage
+ok 6 - bounded mixed reef preserves original colonies, actual floor support and a body-width sand passage
+  ---
+  duration_ms: 201.827534
+  type: 'test'
+  ...
+# Subtest: curved seagrass retains every plant at all LODs and never rewrites instance rows during animation
+ok 7 - curved seagrass retains every plant at all LODs and never rewrites instance rows during animation
+  ---
+  duration_ms: 16300.938774
+  type: 'test'
+  ...
+# Subtest: authored sand relief is a shared linear GL-normal/roughness map, not a colour photograph
+ok 8 - authored sand relief is a shared linear GL-normal/roughness map, not a colour photograph
+  ---
+  duration_ms: 29.502798
+  type: 'test'
+  ...
+# Subtest: reef gardens span the ocean floor without changing the central ride or the Mall approach
+ok 9 - reef gardens span the ocean floor without changing the central ride or the Mall approach
+  ---
+  duration_ms: 53.557092
+  type: 'test'
+  ...
+# Subtest: expanded coast preserves every published rock/coral vertex and original LOD while regenerating physical site data
+ok 10 - expanded coast preserves every published rock/coral vertex and original LOD while regenerating physical site data
+  ---
+  duration_ms: 176.585729
+  type: 'test'
+  ...
+# Subtest: the actual cache loader binds original distant coral levels and separate seabed-only levels
+ok 11 - the actual cache loader binds original distant coral levels and separate seabed-only levels
+  ---
+  duration_ms: 244.640641
+  type: 'test'
+  ...
+# Subtest: all surface profiles share the same field, sampling, Fresnel and filtered highlight core
+ok 12 - all surface profiles share the same field, sampling, Fresnel and filtered highlight core
+  ---
+  duration_ms: 33.333142
+  type: 'test'
+  ...
+# Subtest: surface, raised sheet and ocean bottom keep independent clocks but one optical medium
+ok 13 - surface, raised sheet and ocean bottom keep independent clocks but one optical medium
+  ---
+  duration_ms: 1.445824
+  type: 'test'
+  ...
+# Subtest: the former ocean loader and the whole-map loader coalesce into one decoded shared data texture
+ok 14 - the former ocean loader and the whole-map loader coalesce into one decoded shared data texture
+  ---
+  duration_ms: 19.801918
+  type: 'test'
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 17215.257518

@@ -1,0 +1,59 @@
+TAP version 13
+# Cloudflare AI returned an invalid decision: Выбери ровно один доступный предмет с activityId или котика с friendId и совместимое действие. Choose an available physical object
+# Subtest: release readiness waits for the current commit and protocol without calling AI
+ok 1 - release readiness waits for the current commit and protocol without calling AI
+  ---
+  duration_ms: 22.309981
+  type: 'test'
+  ...
+# Subtest: an old 200 reply like the screenshot is rejected as an old deployment before decision parsing
+ok 2 - an old 200 reply like the screenshot is rejected as an old deployment before decision parsing
+  ---
+  duration_ms: 0.908781
+  type: 'test'
+  ...
+# Subtest: persistent old deployment fails with an actionable version diagnosis
+ok 3 - persistent old deployment fails with an actionable version diagnosis
+  ---
+  duration_ms: 1.555196
+  type: 'test'
+  ...
+# Subtest: matching release alone cannot hide a missing AI binding or wrong response header
+ok 4 - matching release alone cannot hide a missing AI binding or wrong response header
+  ---
+  duration_ms: 1.116027
+  type: 'test'
+  ...
+# Subtest: the Worker exposes the deployed commit and enforces physical IDs after readiness
+ok 5 - the Worker exposes the deployed commit and enforces physical IDs after readiness
+  ---
+  duration_ms: 92.71399
+  type: 'test'
+  ...
+# Subtest: incomplete physical answers remain failures even on the expected deployment
+ok 6 - incomplete physical answers remain failures even on the expected deployment
+  ---
+  duration_ms: 3.808381
+  type: 'test'
+  ...
+# Subtest: deployment stamps use the actual checkout SHA rather than a development label
+ok 7 - deployment stamps use the actual checkout SHA rather than a development label
+  ---
+  duration_ms: 0.253134
+  type: 'test'
+  ...
+# Subtest: publication requires the cloud storage binding as well as AI readiness
+ok 8 - publication requires the cloud storage binding as well as AI readiness
+  ---
+  duration_ms: 0.431256
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 336.343799

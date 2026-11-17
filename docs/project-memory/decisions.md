@@ -209,3 +209,27 @@ Reuse one real carrier and existing water/Mall physics; guard all ordinary hero
 owners while land manual is active. Native V7 keyboard, actual touch, camera
 release and SQLite reload pass. Node22 build/50 targeted tests and ownership
 phone audit pass. This records verified WIP, not publication or art approval.
+
+## 2026-11-17 — water-only expansion; explicit next bug is global WASD
+
+The player authorized publishing the island/water increment, then reported that
+third-person W/A/D movement does not work throughout the world. This supersedes
+the initial home-only report. Fix immediately after this publication. The prior
+short native A-key fixture does not establish live whole-world input correctness.
+Check mode ownership, permissions/busy-AI coupling and actual input/frame state.
+Mall development is explicitly removed from the queue; d3ecc7a is archival WIP.
+
+Native expanded-water entry/movement/reload and physical autonomous dock return
+passed, as did the separate phone ownership/two-SQLite-reload audit. The ocean
+received an actual new coast probe; all eight attraction PNGs are unchanged.
+Soil rows adapt inside the recovered narrower shore, retaining boundaries,
+walk height, cap area and up-facing triangles. The old >60m assertion correctly
+exposed that an unadapted grid would overshoot; do not just suppress that guard.
+
+Offline geographic PNG comparisons are not an exact whole-scene FPS A/B: the
+hero fixture differs, and the new deep-phone camera is below the former floor.
+Do not derive a hardware FPS claim from these timings. Existing global scene
+lights are constant across the two game hours; no fake QA night light is used.
+Exact triangle/vertex/LOD hashes remain for rock/coral templates. Their cached
+anchors and optical depth are now checked against regenerated expanded geometry,
+not stale b805 world-position hashes. No historical source fixture was rewritten.

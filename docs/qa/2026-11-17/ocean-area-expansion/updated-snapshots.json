@@ -1,0 +1,16 @@
+{
+  "changed": [
+    "test/fixtures/housing-unaffected-biomes.json",
+    "test/fixtures/aquarium-unaffected-biomes.json",
+    "test/fixtures/building-expansion-before.json",
+    "test/fixtures/homestead-expansion-unaffected.json",
+    "test/fixtures/foodcourt-unaffected-biomes.json",
+    "test/fixtures/bikini-unaffected-biomes.json",
+    "test/fixtures/jobcity-unaffected-biomes.json",
+    "test/fixtures/before-magic-zoo.json",
+    "test/fixtures/homestead-unaffected-biomes.json"
+  ],
+  "oldRadius": 319.04838974675926,
+  "newRadius": 397.7,
+  "reason": "Player-authorized ocean island expansion; only autumn.radius, the dry arrival on its relocated shore and its existing bridge endpoint/gap change. All other map records and road topology guarded independently."
+}

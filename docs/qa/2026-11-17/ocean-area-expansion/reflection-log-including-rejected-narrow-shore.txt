@@ -1,0 +1,28 @@
+Baked barrel-wave 59621
+Baked canyon-rafting 59680
+Baked glass-drop 62337
+Baked lagoon-launch 55164
+Baked surf-halfpipe 52990
+Baked lazy-river 54299
+Baked fountain-carousel 31758
+Baked pool-pendulum 49384
+8 reflection probes: 425233 download bytes; 2.67 MiB mipmapped shared GPU maximum.
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+page.evaluate: Error: Unexpectedly narrow native coast
+    at coastMeadowGeometrySteps (http://127.0.0.1:37019/bake.js:32975:28)
+    at coastMeadowGeometrySteps.next (<anonymous>)
+    at installCoastMeadowSurfaceSteps (http://127.0.0.1:37019/bake.js:33011:24)
+    at installCoastMeadowSurfaceSteps.next (<anonymous>)
+    at runSceneSteps (http://127.0.0.1:37019/bake.js:33136:20)
+    at window.bake (http://127.0.0.1:37019/bake.js:52877:8)
+    at eval (eval at evaluate (:311:30), <anonymous>:1:5)
+    at UtilityScript.evaluate (<anonymous>:313:16)
+    at UtilityScript.<anonymous> (<anonymous>:1:44)
+    at /workspace/chichi-ocean-area-expansion/scripts/bake-mosasaur-reflection.mjs:25:123 {
+  log: []
+}
+
+Node.js v22.23.5

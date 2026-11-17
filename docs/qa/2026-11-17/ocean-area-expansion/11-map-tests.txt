@@ -1,0 +1,78 @@
+TAP version 13
+# Subtest: manual and AI actions, unlocks and completed visits use existing saves without changing purchases or creating meal charges
+ok 1 - manual and AI actions, unlocks and completed visits use existing saves without changing purchases or creating meal charges
+  ---
+  duration_ms: 220.350425
+  type: 'test'
+  ...
+# Subtest: Bikini Bottom appends seven ordinary island areas without moving, replacing or changing any established island
+ok 2 - Bikini Bottom appends seven ordinary island areas without moving, replacing or changing any established island
+  ---
+  duration_ms: 1.894517
+  type: 'test'
+  ...
+# Subtest: surviving expanded islands retain their area and themes after the requested map consolidation
+ok 3 - surviving expanded islands retain their area and themes after the requested map consolidation
+  ---
+  duration_ms: 1.658589
+  type: 'test'
+  ...
+1..0
+# Subtest: test/foodcourt.test.mjs
+ok 4 - test/foodcourt.test.mjs
+  ---
+  duration_ms: 596.768579
+  type: 'test'
+  ...
+# Subtest: the expanded 384-area blank island is appended without changing any of the 26 approved islands
+ok 5 - the expanded 384-area blank island is appended without changing any of the 26 approved islands
+  ---
+  duration_ms: 112.790383
+  type: 'test'
+  ...
+# Subtest: magic ornaments remain attached, finite and bounded through walking/swimming/rest poses, without changing the hero
+ok 6 - magic ornaments remain attached, finite and bounded through walking/swimming/rest poses, without changing the hero
+  ---
+  duration_ms: 3577.09341
+  type: 'test'
+  ...
+1..0
+# Subtest: test/homestead-expansion.test.mjs
+ok 6 - test/homestead-expansion.test.mjs
+  ---
+  duration_ms: 218.515686
+  type: 'test'
+  ...
+# Subtest: the residential island is appended without changing any existing island, including Chill Land and Cat Job City
+ok 8 - the residential island is appended without changing any existing island, including Chill Land and Cat Job City
+  ---
+  duration_ms: 5.191373
+  type: 'test'
+  ...
+# Subtest: Cat Job City appends a separate island without changing a single established island record
+ok 9 - Cat Job City appends a separate island without changing a single established island record
+  ---
+  duration_ms: 79.157664
+  type: 'test'
+  ...
+# Subtest: zoo appends exactly one island without changing ANY old biome, catalogue entry or road, including the waterpark
+ok 10 - zoo appends exactly one island without changing ANY old biome, catalogue entry or road, including the waterpark
+  ---
+  duration_ms: 14.908328
+  type: 'test'
+  ...
+# Subtest: ocean expansion preserves every other released biome and every other bridge exactly
+ok 11 - ocean expansion preserves every other released biome and every other bridge exactly
+  ---
+  duration_ms: 7.761928
+  type: 'test'
+  ...
+1..11
+# tests 11
+# suites 0
+# pass 11
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4985.940811
