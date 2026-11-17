@@ -1,0 +1,7 @@
+{
+  "sha256": "2d9ff87314a6fc9420ed20de5811c6963392a114bc891d1e676ed59bee1ad941",
+  "node": "v22.23.5",
+  "head": "0b38098a32e338a89b88efd784b184e9ac72c3f3",
+  "dirty": " M scripts/audit-mall-static-native.mjs\n",
+  "sourceOverlay": "source-HEAD.patch"
+}
