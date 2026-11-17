@@ -1,57 +1,84 @@
 # Текущий статус — единственная очередь
 
-Обновлено 2026-11-17. Кораллы и одноразовая FPS-диагностика ОПУБЛИКОВАНЫ.
-Следующий активный этап: песок и объёмные камни. Пользователь явно просит
-ускорить работу и перенести оптимизацию ПОСЛЕ песка и дна.
+Обновлено 2026-11-17. ВСЁ ДНО ОПУБЛИКОВАНО. Сейчас оптимизация, как прямо
+потребовал пользователь: сразу ПОСЛЕ дна, без уменьшения моделей/численности,
+графики, DPR, теней, сохранений или покупок.
 
-## Всё дно: новый этап готов к публикации
+## Подтверждённый релиз всего дна
 
-Следующий source codex/seabed-floor-wide, база c44bdc7e6a262dbe7cf356e629d7b45239a39330.
-C44 уже ПОДТВЕРЖДЁННО опубликован: CI44088502846 success/live13:14:02UTC,
-JSd161948eacde20b0d138b996abf78aba933ab162dcd41efbc010eb0ec69b7cb4.
+**06a39cb0b1c92f104996ae315932885655f07a68**, CI44094617737 SUCCESS всех3jobs.
+HTTP assets проверены 2026-11-17T13:50:03UTC: ровно одно подключение приложения,
+JS f8acc968a8e3eef63f4e6621cbfdacd5064f6cd744e84edec2580c137b83d162,
+CSS c14ce8408f8f3aed7a5e7991eca39663fe55377343421ff62e0600ada4c048ef,
+wave field/all9probes/reef.gz совпали с точной сборкой.
+[Workflow/live receipts](../qa/2026-11-17/whole-floor-publication/live-verification.json).
+Игра https://arturmal2805-netizen.github.io/ai-cat-game/?v=06a39cb
+Одноразовая диагностика https://arturmal2805-netizen.github.io/ai-cat-game/?v=06a39cb&profile=1
 
-Теперь общий материал покрывает ВСЕ81920треугольников морского дна:54неизменных
-секции с общими original attributes/точным world transform. Полный native bed
-оставлен скрытым ray proxy; visuals не участвуют в picking, нет двойного рендера.
-Near/far используют один и тот же index/vertices; normal detail плавно исчезает
-до переключения дальнего дешёвого shader. Один shared2m DataTexture, authored
-GL normal/linear roughness. Не выдавать его за скачанный PolyHaven normal или d6.
-Перекрещивающиеся плавные песчаные волны убрали регулярную полосатость первого
-варианта без дополнительных GPU texture samples.
-118готовых камней распределены по безопасным пологим рифовым участкам,4batches.
-Первые18изc44 не перемещены. Черновые136 содержали18позиций на слишком крутых
-склонах/у старых стен; placement clearance/slope filter исправлен, старые
-препятствия не удалялись, радиус кота не уменьшался. Все118старых допустимых
-saved floor poses выходят из новых stone contacts. Колонии/трава/животные и
-сохранения/платные адреса неизменны. Вода и все9reflection PNG прежние после
-реальных rebakes. 40targeted PASS Node22 и full native normal/remote/overview/
-phone + privateSQLite reload/ownership PASS. [Точные source/build/PNG](../qa/2026-11-17/whole-floor/manifest.json).
+81920 исходных triangles дна /54 static sections /118 готовых stones,
+общая sand normal/roughness2m на всём дне. Исходные vertices/attributes,
+world transforms и hidden native ray proxy сохранены. Все118 прежних
+допустимых saved poses свободны после новых контактов.40targeted + native
+normal/remote/overview/phone + privateSQLite reload/ownership PASS.
+[Точная сборка/source/PNG](https://github.com/arturmal2805-netizen/ai-cat-game/blob/06a39cb0b1c92f104996ae315932885655f07a68/docs/qa/2026-11-17/whole-floor/manifest.json).
+Это техническая публикация, не пользовательское одобрение внешнего вида.
 
-ПОСЛЕ публикации и подтверждения CI/live СРАЗУ начать оптимизацию по уже
-полученному player FPS report. Пользователь теперь прямо требует этот порядок.
-Никаких обещаний FPS до настоящих одинаковых замеров. Не снижать кошек/фауну,
-качество/численность/DPR ради оптимизации. Следующий raw report локально
-/workspace/qa/user-fps-report-2026-11-17.txt, безопасная сводка с SHA в canonical
-QA/player-fps-summary.json. Анализ намеренно не начинался до окончания дна.
+## Активная оптимизация
 
-## Песок и камни: готовый следующий этап отправляется в CI
+Рабочая ветка codex/ocean-performance, /workspace/chichi-ocean-performance,
+база06a39cb; первый production fix — точное отсечение секций дна, native A/B в работе.
+Полный пользовательский report прочитан ПОСЛЕ release verification:
+/workspace/qa/optimization-player-report-extract.json. Report относится к c3f59b2
+(JSfe81b47a), AppleM2,1440x812,DPR2,68cats/29poseCats,individual renderer.
+30.61FPS, GPU median26.74ms/P9534.08,18.959Mtri/2462draws,540.26MBgeometry,
+211rapid refaults/59.54MB, максимальная пауза6383ms; CPU median1.5ms.
+Это реальные пользовательские замеры; LinuxSwiftShader не аппаратный MacFPS.
 
-На базе c3: локальный участок x0,z−95,18готовых boulders/pebbles,4immutable
-batches с существующими scanned maps. Sand detail использует ровно исходные
-треугольники: без overlay/дублирования/измененийvertices и без усложнения дальнего
-shader. Geometry/matrix contacts и старый valid saved swimmer внутри нового
-камня проверены; bounded contact projection освобождает его, радиус не уменьшен.
-40targeted PASS под Node22; actual game exit/swim + normal/phone + privateSQLite
-reload/ownership PASS. Оптимизация RAF НЕ начиналась: пользователь отложил её
-после песка/дна. Raw FPS report сохранён локально для следующего этапа.
+Нужен полный реальный Mall: предыдущие floor/reef art audits не вызывали
+mall.ensure(), поэтому нельзя сопоставлять их draw counts с report напрямую.
+Первый trace ошибся, вернув из page.evaluate огромный Mall root: Playwright
+ERR_STRING_TOO_LONG. Исправлено: await ensure() без возврата root; trace повторяется.
+Trace завершён: при реальном полном Mall последний кадр16.613Mtri/1504draws,
+21poseCats, geometry348.6MB/peak436.7MB,225evictions, ZERO refaults. Сценарий
+стационарный, это НЕ опровержение user-report refaults при прогулках. Основная
+triangle нагрузка — этажи Mall. Native SwiftShader trace24frames был слишком
+долгим (~8min); дальнейшие проверки сокращены до нужных frozen A/B видов.
+Логи /workspace/qa/ocean-performance-trace.log, результаты trace.json.
+Не объявлять cache причиной, пока actual trace не показал какие buffers уходят.
+Не включать вслепую colony renderer: раннее снижение draws не доказало AppleFPS.
+Не повышать бюджет памяти глобально. Проверять точные pixels/shadows/poses,
+полное время кадра/паузы/память, потом отдельный commit/CI/live verification.
 
-Это первый локальный участок материала; ВСЁ дно этим этапом не объявлять готовым.
-После публикации распространить общую систему на песчаные участки дна через
-пространственные секции/материалы и дальнюю детализацию с теми же maps/метрами,
-сохранить оригинальные floor vertices/triangles/collisions и все старые1024corals.
-Старый тяжёлый WIP64benthic rocks не переносился; взяты готовые boulder forms из
-showcase-geology.js. [Native/точная сборка](../qa/2026-11-17/sand-stones/manifest.json).
-Новый полный CI/live ещё ожидаются. Ниже — последняя подтверждённая стабильная.
+## Предыдущий релиз: c44bdc7
+
+**c44bdc7e6a262dbe7cf356e629d7b45239a39330** main/site проверен13:14:02UTC,
+CI44088502846 SUCCESS все3jobs. JSd161948eacde20b0d138b996abf78aba933ab162dcd41efbc010eb0ec69b7cb4,
+CSSc14ce840… .[Полный workflow/live](../qa/2026-11-17/sand-stones-publication/live-verification.json).
+Сайт https://arturmal2805-netizen.github.io/ai-cat-game/?v=c44bdc7
+Диагностика https://arturmal2805-netizen.github.io/ai-cat-game/?v=c44bdc7&profile=1
+В c44 только пробный участок18stones/sand. Global06 опубликован и проверен выше.
+
+## История этапа c44 (сейчас уже опубликован, см. выше)
+
+Source **c44bdc7e6a262dbe7cf356e629d7b45239a39330**, codex/seabed-materials.
+CI https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44088502846
+сейчас в работе. НЕ объявлять опубликованным до success и HTTP verification.
+ОжидаемыйJS d161948eacde20b0d138b996abf78aba933ab162dcd41efbc010eb0ec69b7cb4,
+CSS прежнийc14ce840… .40targeted PASS, native normal/phone exit/swim/SQLite
+ownership/reload PASS. Дополнительно18/18старых допустимых saved floor poses
+проверены: новые stone contacts не запирают кота. Native metrics DEFERRED по
+прямому указанию пользователя: оптимизация только ПОСЛЕ песка/дна.
+
+18готовых stones/pebbles,4immutable batches + новый sand detail ТОЛЬКО на
+пробном участке x0,z−95 (не всё дно). Прежние source floor vertices и index
+triangles сохранены ровно по одному, без overlay; дальний shader не изменён.
+Готовые shapes взяты из boulderGeometry, НЕ заново моделировались. Реальные
+капсулы используют те же Float32 центры и покрывают все rendered vertices;
+bounded initial contact projection нужна только внутри новых rocks.
+[Исходники/точные сборки/PNG/3 новых unit tests](https://github.com/arturmal2805-netizen/ai-cat-game/blob/c44bdc7e6a262dbe7cf356e629d7b45239a39330/docs/qa/2026-11-17/sand-stones/manifest.json).
+Следом распространить общую систему песка по дну и готовые stones по зонам,
+сохранить свободные пути, оригинальные animals/королей/1024reefs/ownership.
+Не объявлять всю работу завершённой после одного участка.
 
 ## Подтверждённая работающая версия
 
@@ -62,12 +89,12 @@ https://arturmal2805-netizen.github.io/ai-cat-game/?v=c3f59b2&profile=1
 
 CI https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44082509878
 SUCCESS: test (Node22 build/full npm test/dry-run), deploy (сервер/shared saves,
-без paid inference), pages. [Workflow](https://github.com/arturmal2805-netizen/ai-cat-game/blob/codex/ocean-recovery-memory/docs/qa/2026-11-17/seabed-publication/workflow.json).
+без paid inference), pages. [Workflow](../qa/2026-11-17/seabed-publication/workflow.json).
 Фактический HTTP 2026-11-17T12:35:07UTC: ровно один app script,
 JS **fe81b47a2ab0e0bcf15b88bb4b457e7674bb69dccceefd6477753f125d5c4cb1**,
 CSS **c14ce8408f8f3aed7a5e7991eca39663fe55377343421ff62e0600ada4c048ef**.
 Совпали также wave field, все9reflection PNG и новый reef bin.gz.
-[Live hashes](https://github.com/arturmal2805-netizen/ai-cat-game/blob/codex/ocean-recovery-memory/docs/qa/2026-11-17/seabed-publication/live-verification.json).
+[Live hashes](../qa/2026-11-17/seabed-publication/live-verification.json).
 ?v не использовался вместо проверки байтов. Успешный CI не равен художественному
 одобрению: Crimson Desert всё ещё цель, новая вода/рифы не одобрены игроком.
 
@@ -95,7 +122,7 @@ copy→close→точные исходные GL method identities→SQLite reloa
 Native QA wrapper сам меняет bufferData: проверка toString native была неверной,
 заменена на более строгую проверку исходных функций по ссылке. Продукт не виноват.
 
-[Source/build/PNG/native/контроль/ограничения](https://github.com/arturmal2805-netizen/ai-cat-game/blob/codex/ocean-recovery-memory/docs/qa/2026-11-17/seabed-reef/manifest.json).
+[Source/build/PNG/native/контроль/ограничения](../qa/2026-11-17/seabed-reef/manifest.json).
 Final game = release-game + release-game-wide, ранние candidate/pilot папки НЕ
 выдавать за финальные. Exact production bundle отдельно от instrumented QA.
 Node22 targeted и полный CI прошли. Native exit/swim/ownership/private SQLite,

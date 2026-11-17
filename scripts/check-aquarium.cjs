@@ -382,6 +382,10 @@ async function localWorker() {
           name: "qa",
           setup(b) {
             if(process.env.CHICHI_TERRAIN_AUDIT){const original=b.onLoad.bind(b);b.onLoad=(options,fn)=>original(options,async args=>{const result=await fn(args);if(result?.contents){const relative=path.relative(root,args.path),target=path.join(review,'qa-inputs',relative);fs.mkdirSync(path.dirname(target),{recursive:true});fs.writeFileSync(target,result.contents);}return result;});}
+            if(process.env.CHICHI_OCEAN_PERF_AUDIT)b.onLoad({filter:/\/public\/geometry-residency\.js$/},()=>({loader:'js',contents:'globalThis.__resTrace={meta:new WeakMap(),events:[],time:0};\n'+readPublic('geometry-residency.js')
+              .replace('function draw(...args) {',`function draw(...args) {const g=args[2],o=args[4];if(g&&o){const names=[];for(let p=o;p&&names.length<5;p=p.parent)names.push(p.name||p.type);globalThis.__resTrace.meta.set(g,{names,cat:!!(o.isSkinnedMesh||o.material?.name?.includes('cat')),vertices:g.attributes.position?.count||0});}`)
+              .replace('stats.refaults++; stats.refaultBytes += bytes;',`stats.refaults++; stats.refaultBytes += bytes;if(globalThis.__resTrace.events.length<5000)globalThis.__resTrace.events.push({kind:'return',at:used,id:geometry.id,bytes,...globalThis.__resTrace.meta.get(geometry)});`)
+              .replace('retired.set(record.geometry, now);',`retired.set(record.geometry, now);if(globalThis.__resTrace.events.length<5000)globalThis.__resTrace.events.push({kind:'evict',at:now,id:record.geometry.id,age:now-record.used,frames:frame-record.frame,hold:record.holdUntil-now,bytes:[...record.attributes].reduce((n,a)=>n+a.array.byteLength,0),...globalThis.__resTrace.meta.get(record.geometry)});`)}));
             if (process.env.CHICHI_COMPARE_COMPACT_RANGES)
               b.onLoad({ filter: /\/public\/static-submissions\.js$/ }, () => ({
                 contents: 'import {compactIndexRanges as qaCompactRanges} from "../scripts/compact-index-ranges.mjs";\n'+readPublic("static-submissions.js").replace(
@@ -679,6 +683,8 @@ async function localWorker() {
       const dirty=sourceGit(['status','--porcelain=v1']).toString();
       fs.writeFileSync(path.join(review,'source-status.txt'),dirty);
       fs.writeFileSync(path.join(review,'qa-build.json'),JSON.stringify({sha256:crypto.createHash('sha256').update(output.outputFiles[0].contents).digest('hex'),node:process.version,head:sourceGit(['rev-parse','HEAD']).toString().trim(),dirty,sourceOverlay:'source-HEAD.patch'},null,2));
+      if(process.env.CHICHI_FLOOR_CULLING_AUDIT){const {auditFloorCullingNative}=await import('./audit-floor-culling-native.mjs');await auditFloorCullingNative({page,review,errors,httpErrors});return;}
+      if(process.env.CHICHI_OCEAN_PERF_AUDIT){const {auditOceanPerformance}=await import('./audit-ocean-performance.mjs');await auditOceanPerformance({page,review,errors,httpErrors});return;}
       if(process.env.CHICHI_OCEAN_ART_AUDIT){const {auditOceanArtNative}=await import('./audit-ocean-art-native.mjs');await auditOceanArtNative({page,review,errors,httpErrors});return;}
       const capture=async name=>{await page.evaluate(()=>{const q=__lagoonQA;q.drawPaused=true;q.submarine().updateCamera(.1);q.targetFrames=q.frames+2;q.drawPaused=false;});await page.waitForFunction(()=>__lagoonQA.frames>=__lagoonQA.targetFrames,null,{timeout:240000});await page.evaluate(()=>{__lagoonQA.drawPaused=true;});await page.screenshot({path:path.join(review,name+'.png')});const raw=await page.evaluate(()=>{__lagoonQA.drawFrame();return __lagoonQA.renderer.domElement.toDataURL('image/png').split(',')[1];});fs.writeFileSync(path.join(review,name+'-canvas.png'),Buffer.from(raw,'base64'));};
       if(process.env.CHICHI_EXPLORER_STAGE==='isolation'){const {auditExplorerIsolationNative}=await import('./audit-explorer-isolation-native.mjs');await auditExplorerIsolationNative({page,review,errors,httpErrors,capture});return;}

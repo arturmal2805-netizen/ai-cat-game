@@ -1,0 +1,5795 @@
+{
+  "rows": [
+    {
+      "frame": 0,
+      "calls": 231,
+      "triangles": 1290690,
+      "residency": {
+        "bytes": 118785442,
+        "peakBytes": 124440846,
+        "geometries": 377,
+        "evicted": 0,
+        "clockReads": 4,
+        "activeGraceMs": 250,
+        "refaults": 0,
+        "refaultBytes": 0,
+        "rapidRefaults": 0,
+        "rapidRefaultBytes": 0
+      },
+      "gpu": {
+        "bytes": 118883190,
+        "peak": 124538594,
+        "buffers": 1575,
+        "commandFrame": 4,
+        "commandCalls": 238,
+        "commands": 268,
+        "staticCommands": 90
+      }
+    },
+    {
+      "frame": 1,
+      "calls": 1504,
+      "triangles": 16613071,
+      "residency": {
+        "bytes": 428413605,
+        "peakBytes": 436710205,
+        "geometries": 1004,
+        "evicted": 49,
+        "clockReads": 5,
+        "activeGraceMs": 250,
+        "refaults": 0,
+        "refaultBytes": 0,
+        "rapidRefaults": 0,
+        "rapidRefaultBytes": 0
+      },
+      "gpu": {
+        "bytes": 429962049,
+        "peak": 438258649,
+        "buffers": 4446,
+        "commandFrame": 5,
+        "commandCalls": 1539,
+        "commands": 1878,
+        "staticCommands": 619
+      }
+    },
+    {
+      "frame": 2,
+      "calls": 1504,
+      "triangles": 16613071,
+      "residency": {
+        "bytes": 428413605,
+        "peakBytes": 436710205,
+        "geometries": 1004,
+        "evicted": 49,
+        "clockReads": 6,
+        "activeGraceMs": 250,
+        "refaults": 0,
+        "refaultBytes": 0,
+        "rapidRefaults": 0,
+        "rapidRefaultBytes": 0
+      },
+      "gpu": {
+        "bytes": 429962049,
+        "peak": 438258649,
+        "buffers": 4446,
+        "commandFrame": 6,
+        "commandCalls": 1539,
+        "commands": 1879,
+        "staticCommands": 620
+      }
+    },
+    {
+      "frame": 3,
+      "calls": 1504,
+      "triangles": 16613199,
+      "residency": {
+        "bytes": 428413605,
+        "peakBytes": 436710205,
+        "geometries": 1004,
+        "evicted": 49,
+        "clockReads": 7,
+        "activeGraceMs": 250,
+        "refaults": 0,
+        "refaultBytes": 0,
+        "rapidRefaults": 0,
+        "rapidRefaultBytes": 0
+      },
+      "gpu": {
+        "bytes": 429962049,
+        "peak": 438258649,
+        "buffers": 4446,
+        "commandFrame": 7,
+        "commandCalls": 1539,
+        "commands": 1879,
+        "staticCommands": 620
+      }
+    },
+    {
+      "frame": 4,
+      "calls": 1504,
+      "triangles": 16613199,
+      "residency": {
+        "bytes": 427165049,
+        "peakBytes": 436710205,
+        "geometries": 961,
+        "evicted": 92,
+        "clockReads": 8,
+        "activeGraceMs": 250,
+        "refaults": 0,
+        "refaultBytes": 0,
+        "rapidRefaults": 0,
+        "rapidRefaultBytes": 0
+      },
+      "gpu": {
+        "bytes": 428713493,
+        "peak": 438258649,
+        "buffers": 4270,
+        "commandFrame": 8,
+        "commandCalls": 1539,
+        "commands": 1879,
+        "staticCommands": 620
+      }
+    },
+    {
+      "frame": 5,
+      "calls": 1504,
+      "triangles": 16613327,
+      "residency": {
+        "bytes": 427165049,
+        "peakBytes": 436710205,
+        "geometries": 961,
+        "evicted": 92,
+        "clockReads": 9,
+        "activeGraceMs": 250,
+        "refaults": 0,
+        "refaultBytes": 0,
+        "rapidRefaults": 0,
+        "rapidRefaultBytes": 0
+      },
+      "gpu": {
+        "bytes": 428713493,
+        "peak": 438258649,
+        "buffers": 4270,
+        "commandFrame": 9,
+        "commandCalls": 1539,
+        "commands": 1878,
+        "staticCommands": 619
+      }
+    },
+    {
+      "frame": 6,
+      "calls": 1504,
+      "triangles": 16613327,
+      "residency": {
+        "bytes": 427165049,
+        "peakBytes": 436710205,
+        "geometries": 961,
+        "evicted": 92,
+        "clockReads": 10,
+        "activeGraceMs": 250,
+        "refaults": 0,
+        "refaultBytes": 0,
+        "rapidRefaults": 0,
+        "rapidRefaultBytes": 0
+      },
+      "gpu": {
+        "bytes": 428713493,
+        "peak": 438258649,
+        "buffers": 4270,
+        "commandFrame": 10,
+        "commandCalls": 1539,
+        "commands": 1878,
+        "staticCommands": 619
+      }
+    },
+    {
+      "frame": 7,
+      "calls": 1504,
+      "triangles": 16613327,
+      "residency": {
+        "bytes": 411451041,
+        "peakBytes": 436710205,
+        "geometries": 887,
+        "evicted": 166,
+        "clockReads": 11,
+        "activeGraceMs": 250,
+        "refaults": 0,
+        "refaultBytes": 0,
+        "rapidRefaults": 0,
+        "rapidRefaultBytes": 0
+      },
+      "gpu": {
+        "bytes": 412999485,
+        "peak": 438258649,
+        "buffers": 3955,
+        "commandFrame": 11,
+        "commandCalls": 1539,
+        "commands": 1878,
+        "staticCommands": 619
+      }
+    },
+    {
+      "frame": 8,
+      "calls": 1504,
+      "triangles": 16613327,
+      "residency": {
+        "bytes": 411451041,
+        "peakBytes": 436710205,
+        "geometries": 887,
+        "evicted": 166,
+        "clockReads": 12,
+        "activeGraceMs": 250,
+        "refaults": 0,
+        "refaultBytes": 0,
+        "rapidRefaults": 0,
+        "rapidRefaultBytes": 0
+      },
+      "gpu": {
+        "bytes": 412999485,
+        "peak": 438258649,
+        "buffers": 3955,
+        "commandFrame": 12,
+        "commandCalls": 1539,
+        "commands": 1878,
+        "staticCommands": 619
+      }
+    },
+    {
+      "frame": 9,
+      "calls": 1504,
+      "triangles": 16613199,
+      "residency": {
+        "bytes": 411451041,
+        "peakBytes": 436710205,
+        "geometries": 887,
+        "evicted": 166,
+        "clockReads": 13,
+        "activeGraceMs": 250,
+        "refaults": 0,
+        "refaultBytes": 0,
+        "rapidRefaults": 0,
+        "rapidRefaultBytes": 0
+      },
+      "gpu": {
+        "bytes": 412999485,
+        "peak": 438258649,
+        "buffers": 3955,
+        "commandFrame": 13,
+        "commandCalls": 1539,
+        "commands": 1878,
+        "staticCommands": 619
+      }
+    },
+    {
+      "frame": 10,
+      "calls": 1504,
+      "triangles": 16613199,
+      "residency": {
+        "bytes": 348606769,
+        "peakBytes": 436710205,
+        "geometries": 828,
+        "evicted": 225,
+        "clockReads": 14,
+        "activeGraceMs": 250,
+        "refaults": 0,
+        "refaultBytes": 0,
+        "rapidRefaults": 0,
+        "rapidRefaultBytes": 0
+      },
+      "gpu": {
+        "bytes": 350155213,
+        "peak": 438258649,
+        "buffers": 3664,
+        "commandFrame": 14,
+        "commandCalls": 1539,
+        "commands": 1878,
+        "staticCommands": 619
+      }
+    },
+    {
+      "frame": 11,
+      "calls": 1504,
+      "triangles": 16613199,
+      "residency": {
+        "bytes": 348606769,
+        "peakBytes": 436710205,
+        "geometries": 828,
+        "evicted": 225,
+        "clockReads": 15,
+        "activeGraceMs": 250,
+        "refaults": 0,
+        "refaultBytes": 0,
+        "rapidRefaults": 0,
+        "rapidRefaultBytes": 0
+      },
+      "gpu": {
+        "bytes": 350155213,
+        "peak": 438258649,
+        "buffers": 3664,
+        "commandFrame": 15,
+        "commandCalls": 1539,
+        "commands": 1878,
+        "staticCommands": 619
+      }
+    },
+    {
+      "frame": 12,
+      "calls": 1504,
+      "triangles": 16613199,
+      "residency": {
+        "bytes": 348606769,
+        "peakBytes": 436710205,
+        "geometries": 828,
+        "evicted": 225,
+        "clockReads": 16,
+        "activeGraceMs": 250,
+        "refaults": 0,
+        "refaultBytes": 0,
+        "rapidRefaults": 0,
+        "rapidRefaultBytes": 0
+      },
+      "gpu": {
+        "bytes": 350155213,
+        "peak": 438258649,
+        "buffers": 3664,
+        "commandFrame": 16,
+        "commandCalls": 1539,
+        "commands": 1878,
+        "staticCommands": 619
+      }
+    },
+    {
+      "frame": 13,
+      "calls": 1504,
+      "triangles": 16613199,
+      "residency": {
+        "bytes": 348606769,
+        "peakBytes": 436710205,
+        "geometries": 828,
+        "evicted": 225,
+        "clockReads": 17,
+        "activeGraceMs": 250,
+        "refaults": 0,
+        "refaultBytes": 0,
+        "rapidRefaults": 0,
+        "rapidRefaultBytes": 0
+      },
+      "gpu": {
+        "bytes": 350155213,
+        "peak": 438258649,
+        "buffers": 3664,
+        "commandFrame": 17,
+        "commandCalls": 1539,
+        "commands": 1878,
+        "staticCommands": 619
+      }
+    },
+    {
+      "frame": 14,
+      "calls": 1504,
+      "triangles": 16613199,
+      "residency": {
+        "bytes": 348606769,
+        "peakBytes": 436710205,
+        "geometries": 828,
+        "evicted": 225,
+        "clockReads": 18,
+        "activeGraceMs": 250,
+        "refaults": 0,
+        "refaultBytes": 0,
+        "rapidRefaults": 0,
+        "rapidRefaultBytes": 0
+      },
+      "gpu": {
+        "bytes": 350155213,
+        "peak": 438258649,
+        "buffers": 3664,
+        "commandFrame": 18,
+        "commandCalls": 1539,
+        "commands": 1878,
+        "staticCommands": 619
+      }
+    },
+    {
+      "frame": 15,
+      "calls": 1504,
+      "triangles": 16613199,
+      "residency": {
+        "bytes": 348606769,
+        "peakBytes": 436710205,
+        "geometries": 828,
+        "evicted": 225,
+        "clockReads": 19,
+        "activeGraceMs": 250,
+        "refaults": 0,
+        "refaultBytes": 0,
+        "rapidRefaults": 0,
+        "rapidRefaultBytes": 0
+      },
+      "gpu": {
+        "bytes": 350155213,
+        "peak": 438258649,
+        "buffers": 3664,
+        "commandFrame": 19,
+        "commandCalls": 1539,
+        "commands": 1878,
+        "staticCommands": 619
+      }
+    },
+    {
+      "frame": 16,
+      "calls": 1504,
+      "triangles": 16613199,
+      "residency": {
+        "bytes": 348606769,
+        "peakBytes": 436710205,
+        "geometries": 828,
+        "evicted": 225,
+        "clockReads": 20,
+        "activeGraceMs": 250,
+        "refaults": 0,
+        "refaultBytes": 0,
+        "rapidRefaults": 0,
+        "rapidRefaultBytes": 0
+      },
+      "gpu": {
+        "bytes": 350155213,
+        "peak": 438258649,
+        "buffers": 3664,
+        "commandFrame": 20,
+        "commandCalls": 1539,
+        "commands": 1878,
+        "staticCommands": 619
+      }
+    },
+    {
+      "frame": 17,
+      "calls": 1504,
+      "triangles": 16613199,
+      "residency": {
+        "bytes": 348606769,
+        "peakBytes": 436710205,
+        "geometries": 828,
+        "evicted": 225,
+        "clockReads": 21,
+        "activeGraceMs": 250,
+        "refaults": 0,
+        "refaultBytes": 0,
+        "rapidRefaults": 0,
+        "rapidRefaultBytes": 0
+      },
+      "gpu": {
+        "bytes": 350155213,
+        "peak": 438258649,
+        "buffers": 3664,
+        "commandFrame": 21,
+        "commandCalls": 1539,
+        "commands": 1878,
+        "staticCommands": 619
+      }
+    },
+    {
+      "frame": 18,
+      "calls": 1504,
+      "triangles": 16613199,
+      "residency": {
+        "bytes": 348606769,
+        "peakBytes": 436710205,
+        "geometries": 828,
+        "evicted": 225,
+        "clockReads": 22,
+        "activeGraceMs": 250,
+        "refaults": 0,
+        "refaultBytes": 0,
+        "rapidRefaults": 0,
+        "rapidRefaultBytes": 0
+      },
+      "gpu": {
+        "bytes": 350155213,
+        "peak": 438258649,
+        "buffers": 3664,
+        "commandFrame": 22,
+        "commandCalls": 1539,
+        "commands": 1878,
+        "staticCommands": 619
+      }
+    },
+    {
+      "frame": 19,
+      "calls": 1504,
+      "triangles": 16613199,
+      "residency": {
+        "bytes": 348606769,
+        "peakBytes": 436710205,
+        "geometries": 828,
+        "evicted": 225,
+        "clockReads": 23,
+        "activeGraceMs": 250,
+        "refaults": 0,
+        "refaultBytes": 0,
+        "rapidRefaults": 0,
+        "rapidRefaultBytes": 0
+      },
+      "gpu": {
+        "bytes": 350155213,
+        "peak": 438258649,
+        "buffers": 3664,
+        "commandFrame": 23,
+        "commandCalls": 1539,
+        "commands": 1878,
+        "staticCommands": 619
+      }
+    },
+    {
+      "frame": 20,
+      "calls": 1504,
+      "triangles": 16613199,
+      "residency": {
+        "bytes": 348606769,
+        "peakBytes": 436710205,
+        "geometries": 828,
+        "evicted": 225,
+        "clockReads": 24,
+        "activeGraceMs": 250,
+        "refaults": 0,
+        "refaultBytes": 0,
+        "rapidRefaults": 0,
+        "rapidRefaultBytes": 0
+      },
+      "gpu": {
+        "bytes": 350155213,
+        "peak": 438258649,
+        "buffers": 3664,
+        "commandFrame": 24,
+        "commandCalls": 1539,
+        "commands": 1878,
+        "staticCommands": 619
+      }
+    },
+    {
+      "frame": 21,
+      "calls": 1504,
+      "triangles": 16613199,
+      "residency": {
+        "bytes": 348606769,
+        "peakBytes": 436710205,
+        "geometries": 828,
+        "evicted": 225,
+        "clockReads": 25,
+        "activeGraceMs": 250,
+        "refaults": 0,
+        "refaultBytes": 0,
+        "rapidRefaults": 0,
+        "rapidRefaultBytes": 0
+      },
+      "gpu": {
+        "bytes": 350155213,
+        "peak": 438258649,
+        "buffers": 3664,
+        "commandFrame": 25,
+        "commandCalls": 1539,
+        "commands": 1878,
+        "staticCommands": 619
+      }
+    },
+    {
+      "frame": 22,
+      "calls": 1504,
+      "triangles": 16613199,
+      "residency": {
+        "bytes": 348606769,
+        "peakBytes": 436710205,
+        "geometries": 828,
+        "evicted": 225,
+        "clockReads": 26,
+        "activeGraceMs": 250,
+        "refaults": 0,
+        "refaultBytes": 0,
+        "rapidRefaults": 0,
+        "rapidRefaultBytes": 0
+      },
+      "gpu": {
+        "bytes": 350155213,
+        "peak": 438258649,
+        "buffers": 3664,
+        "commandFrame": 26,
+        "commandCalls": 1539,
+        "commands": 1878,
+        "staticCommands": 619
+      }
+    },
+    {
+      "frame": 23,
+      "calls": 1504,
+      "triangles": 16613199,
+      "residency": {
+        "bytes": 348606769,
+        "peakBytes": 436710205,
+        "geometries": 828,
+        "evicted": 225,
+        "clockReads": 27,
+        "activeGraceMs": 250,
+        "refaults": 0,
+        "refaultBytes": 0,
+        "rapidRefaults": 0,
+        "rapidRefaultBytes": 0
+      },
+      "gpu": {
+        "bytes": 350155213,
+        "peak": 438258649,
+        "buffers": 3664,
+        "commandFrame": 27,
+        "commandCalls": 1539,
+        "commands": 1878,
+        "staticCommands": 619
+      }
+    }
+  ],
+  "geometryEvents": [
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 17894,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 156656,
+      "names": [
+        "Mesh",
+        "decor-moon-0",
+        "Movable 3D scenery",
+        "Group",
+        "Biome-moon"
+      ],
+      "cat": false,
+      "vertices": 3310
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 17895,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 339400,
+      "names": [
+        "Mesh",
+        "decor-moon-0",
+        "Movable 3D scenery",
+        "Group",
+        "Biome-moon"
+      ],
+      "cat": false,
+      "vertices": 7340
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 17896,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 9420,
+      "names": [
+        "Mesh",
+        "decor-moon-0",
+        "Movable 3D scenery",
+        "Group",
+        "Biome-moon"
+      ],
+      "cat": false,
+      "vertices": 201
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 17897,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 31608,
+      "names": [
+        "Mesh",
+        "decor-moon-0",
+        "Movable 3D scenery",
+        "Group",
+        "Biome-moon"
+      ],
+      "cat": false,
+      "vertices": 630
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 17963,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 92324,
+      "names": [
+        "Mesh",
+        "decor-moon-1",
+        "Movable 3D scenery",
+        "Group",
+        "Biome-moon"
+      ],
+      "cat": false,
+      "vertices": 1861
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 17964,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 234280,
+      "names": [
+        "Mesh",
+        "decor-moon-1",
+        "Movable 3D scenery",
+        "Group",
+        "Biome-moon"
+      ],
+      "cat": false,
+      "vertices": 5072
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 17965,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 37764,
+      "names": [
+        "Mesh",
+        "decor-moon-1",
+        "Movable 3D scenery",
+        "Group",
+        "Biome-moon"
+      ],
+      "cat": false,
+      "vertices": 747
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 17966,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 97916,
+      "names": [
+        "Mesh",
+        "decor-moon-1",
+        "Movable 3D scenery",
+        "Group",
+        "Biome-moon"
+      ],
+      "cat": false,
+      "vertices": 1813
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 17967,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 14724,
+      "names": [
+        "Mesh",
+        "decor-moon-1",
+        "Movable 3D scenery",
+        "Group",
+        "Biome-moon"
+      ],
+      "cat": false,
+      "vertices": 291
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 18203,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 95112,
+      "names": [
+        "Mesh",
+        "decor-moon-4",
+        "Movable 3D scenery",
+        "Group",
+        "Biome-moon"
+      ],
+      "cat": false,
+      "vertices": 2034
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 18204,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 166184,
+      "names": [
+        "Mesh",
+        "decor-moon-4",
+        "Movable 3D scenery",
+        "Group",
+        "Biome-moon"
+      ],
+      "cat": false,
+      "vertices": 3442
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 18205,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 621396,
+      "names": [
+        "Mesh",
+        "decor-moon-4",
+        "Movable 3D scenery",
+        "Group",
+        "Biome-moon"
+      ],
+      "cat": false,
+      "vertices": 12015
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 18206,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 6280,
+      "names": [
+        "Mesh",
+        "decor-moon-4",
+        "Movable 3D scenery",
+        "Group",
+        "Biome-moon"
+      ],
+      "cat": false,
+      "vertices": 134
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 18207,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 59616,
+      "names": [
+        "Mesh",
+        "decor-moon-4",
+        "Movable 3D scenery",
+        "Group",
+        "Biome-moon"
+      ],
+      "cat": false,
+      "vertices": 1296
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 18335,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 95112,
+      "names": [
+        "Mesh",
+        "decor-moon-3",
+        "Movable 3D scenery",
+        "Group",
+        "Biome-moon"
+      ],
+      "cat": false,
+      "vertices": 2034
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 18336,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 166184,
+      "names": [
+        "Mesh",
+        "decor-moon-3",
+        "Movable 3D scenery",
+        "Group",
+        "Biome-moon"
+      ],
+      "cat": false,
+      "vertices": 3442
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 18337,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 352548,
+      "names": [
+        "Mesh",
+        "decor-moon-3",
+        "Movable 3D scenery",
+        "Group",
+        "Biome-moon"
+      ],
+      "cat": false,
+      "vertices": 6759
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 18338,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 6280,
+      "names": [
+        "Mesh",
+        "decor-moon-3",
+        "Movable 3D scenery",
+        "Group",
+        "Biome-moon"
+      ],
+      "cat": false,
+      "vertices": 134
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 18339,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 59616,
+      "names": [
+        "Mesh",
+        "decor-moon-3",
+        "Movable 3D scenery",
+        "Group",
+        "Biome-moon"
+      ],
+      "cat": false,
+      "vertices": 1296
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 18395,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 24624,
+      "names": [
+        "Mesh",
+        "decor-moon-5",
+        "Movable 3D scenery",
+        "Group",
+        "Biome-moon"
+      ],
+      "cat": false,
+      "vertices": 468
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 18396,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 92720,
+      "names": [
+        "Mesh",
+        "decor-moon-5",
+        "Movable 3D scenery",
+        "Group",
+        "Biome-moon"
+      ],
+      "cat": false,
+      "vertices": 2008
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 18397,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 12444,
+      "names": [
+        "Mesh",
+        "decor-moon-5",
+        "Movable 3D scenery",
+        "Group",
+        "Biome-moon"
+      ],
+      "cat": false,
+      "vertices": 231
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 18398,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 69940,
+      "names": [
+        "Mesh",
+        "decor-moon-5",
+        "Movable 3D scenery",
+        "Group",
+        "Biome-moon"
+      ],
+      "cat": false,
+      "vertices": 1295
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 18399,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 68544,
+      "names": [
+        "Mesh",
+        "decor-moon-5",
+        "Movable 3D scenery",
+        "Group",
+        "Biome-moon"
+      ],
+      "cat": false,
+      "vertices": 1332
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 18433,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 19872,
+      "names": [
+        "Mesh",
+        "decor-moon-7",
+        "Movable 3D scenery",
+        "Group",
+        "Biome-moon"
+      ],
+      "cat": false,
+      "vertices": 432
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 18434,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 37764,
+      "names": [
+        "Mesh",
+        "decor-moon-7",
+        "Movable 3D scenery",
+        "Group",
+        "Biome-moon"
+      ],
+      "cat": false,
+      "vertices": 747
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 18435,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 7440,
+      "names": [
+        "Mesh",
+        "decor-moon-7",
+        "Movable 3D scenery",
+        "Group",
+        "Biome-moon"
+      ],
+      "cat": false,
+      "vertices": 156
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 18681,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 326832,
+      "names": [
+        "Mesh",
+        "Underwater coral garden",
+        "Lagoon",
+        "Group",
+        "Biome-moon"
+      ],
+      "cat": false,
+      "vertices": 6564
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 18682,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 119040,
+      "names": [
+        "Mesh",
+        "Underwater coral garden",
+        "Lagoon",
+        "Group",
+        "Biome-moon"
+      ],
+      "cat": false,
+      "vertices": 2496
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 18683,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 387828,
+      "names": [
+        "Mesh",
+        "Underwater coral garden",
+        "Lagoon",
+        "Group",
+        "Biome-moon"
+      ],
+      "cat": false,
+      "vertices": 7371
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 19680,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 1461724,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 31493
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 19681,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 1581120,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 31104
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 19682,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 866320,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 18548
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 19683,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 81060,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 1557
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 19778,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 107136,
+      "names": [
+        "Mesh",
+        "Adaptive gardens",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 2124
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 19779,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 76120,
+      "names": [
+        "Mesh",
+        "Adaptive gardens",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 1628
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 19780,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 3140,
+      "names": [
+        "Mesh",
+        "Adaptive gardens",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 67
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 25694,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 28800,
+      "names": [
+        "Mesh",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 900
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 25696,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 3216,
+      "names": [
+        "Mesh",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 78
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 25697,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 3216,
+      "names": [
+        "Mesh",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 78
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 25766,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 4752,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 117
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 25767,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 4752,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 117
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 25830,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 163880,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 3532
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 25831,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 6280,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 134
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 25832,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 63216,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 1260
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 25833,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 11136,
+      "names": [
+        "Mesh",
+        "Общая миска котиков",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 264
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 25838,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 4752,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 117
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 25839,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 8256,
+      "names": [
+        "Mesh",
+        "Mesh",
+        "Group",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 198
+    },
+    {
+      "kind": "evict",
+      "at": 45685.033333336316,
+      "id": 25840,
+      "age": 36710.63333333408,
+      "frames": 4,
+      "hold": -45685.033333336316,
+      "bytes": 8256,
+      "names": [
+        "Mesh",
+        "Mesh",
+        "Group",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 198
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 25841,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 8256,
+      "names": [
+        "Mesh",
+        "Mesh",
+        "Group",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 198
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 25842,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 8256,
+      "names": [
+        "Mesh",
+        "Mesh",
+        "Group",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 198
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 25843,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 8256,
+      "names": [
+        "Mesh",
+        "Mesh",
+        "Group",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 198
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 25844,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 8256,
+      "names": [
+        "Mesh",
+        "Mesh",
+        "Group",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 198
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 25845,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 13544,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 322
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 25849,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 18468,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 351
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 25850,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 28800,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 900
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 25852,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 1856,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 52
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 25853,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 1856,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 52
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 25854,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 13544,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 322
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 25994,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 347600,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 7480
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 25995,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 53380,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 1139
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 25996,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 94824,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 1890
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 25997,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 28800,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 900
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 25999,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 28800,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 900
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 26001,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 1856,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 52
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 26002,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 4752,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 117
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 26003,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 1856,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 52
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 26004,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 4752,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 117
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 26005,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 1856,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 52
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 26006,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 4752,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 117
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 26007,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 1856,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 52
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 26008,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 4752,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 117
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 26009,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 1856,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 52
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 26010,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 4752,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 117
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 26011,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 28800,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 900
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 26013,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 1856,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 52
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 26014,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 4752,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 117
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 26015,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 1856,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 52
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 26016,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 4752,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 117
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 26017,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 1856,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 52
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 26018,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 4752,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 117
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 26019,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 1856,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 52
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 26020,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 4752,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 117
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 26021,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 1856,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 52
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 26022,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 4752,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 117
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 26023,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 28800,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 900
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 26087,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 163880,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 3532
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 26088,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 6280,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 134
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 26089,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 63216,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 1260
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 26092,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 1216,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 35
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 26093,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 4016,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 112
+    },
+    {
+      "kind": "evict",
+      "at": 45785.033333336316,
+      "id": 944,
+      "age": 36810.63333333408,
+      "frames": 7,
+      "hold": -45785.033333336316,
+      "bytes": 221772,
+      "names": [
+        "Exact animated cat batch · Body",
+        "Бублик",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 4668
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 26094,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 1216,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 35
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 26095,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 4016,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 112
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 945,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 18592,
+      "names": [
+        "Exact animated cat batch · CoatFibres",
+        "Бублик",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 560
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 18522,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 253440,
+      "names": [
+        "Mesh",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 5760
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 18523,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 6688,
+      "names": [
+        "Mesh",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 164
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 18535,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 3288,
+      "names": [
+        "Lagoon physical seabed",
+        "Lagoon",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 66
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 18536,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 4928,
+      "names": [
+        "Mesh",
+        "Lagoon",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 130
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 18685,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 4752,
+      "names": [
+        "Mesh",
+        "Lagoon",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 117
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 18686,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 516,
+      "names": [
+        "Mesh",
+        "Lagoon",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 15
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 19679,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 285336,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 6102
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 19777,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 47556,
+      "names": [
+        "Mesh",
+        "Adaptive gardens",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 1017
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 25829,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 95112,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 2034
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 25834,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 15648,
+      "names": [
+        "Mesh",
+        "Общая миска котиков",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 369
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 25835,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 2112,
+      "names": [
+        "Farm-grown food",
+        "Общая миска котиков",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 54
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 25861,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 3064,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 77
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 25858,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 3064,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 77
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 25855,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 3064,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 77
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 25859,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 3064,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 77
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 25856,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 3064,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 77
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 25860,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 3064,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 77
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 25857,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 3064,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 77
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 25862,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 3064,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 77
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 25993,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 239240,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 5128
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 26086,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 95112,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 2034
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 18691,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 4752,
+      "names": [
+        "Mesh",
+        "Waterfall",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 117
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 18694,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 4752,
+      "names": [
+        "Mesh",
+        "Waterfall",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 117
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 18689,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 5552,
+      "names": [
+        "Mesh",
+        "Waterfall",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 133
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 18690,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 1064,
+      "names": [
+        "Mesh",
+        "Waterfall",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 28
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 18692,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 5552,
+      "names": [
+        "Mesh",
+        "Waterfall",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 133
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 18693,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 1064,
+      "names": [
+        "Mesh",
+        "Waterfall",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 28
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 25836,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 1888,
+      "names": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 50
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 18684,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 19168,
+      "names": [
+        "Mesh",
+        "Lagoon",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 455
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 18537,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 2496,
+      "names": [
+        "Mesh",
+        "Lagoon",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 66
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 21631,
+      "age": 36910.63333333408,
+      "frames": 10,
+      "hold": -45885.033333336316,
+      "bytes": 22176,
+      "names": [
+        "Fully transparent glass dome",
+        "Group",
+        "Котячий океанариум · стеклянный дворец",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 625
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 5,
+      "age": 32833.833333333336,
+      "frames": 9,
+      "hold": -45885.033333336316,
+      "bytes": 28800,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Cat Job City · шість професій",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 900
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 4,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 13824,
+      "names": [
+        "Mesh",
+        "Group",
+        "Biome-ice",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 432
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 17651,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 3064,
+      "names": [
+        "Mesh",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 77
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 17652,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 17984,
+      "names": [
+        "Mesh",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 427
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 9,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 9672,
+      "names": [
+        "Mesh",
+        "Group",
+        "Biome-ice",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 231
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 20911,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 34720,
+      "names": [
+        "Mesh",
+        "Distant movable scenery",
+        "Group",
+        "Biome-ice",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 728
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 20912,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 78268,
+      "names": [
+        "Mesh",
+        "Distant movable scenery",
+        "Group",
+        "Biome-ice",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 1601
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 20913,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 221616,
+      "names": [
+        "Mesh",
+        "Distant movable scenery",
+        "Group",
+        "Biome-ice",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 4212
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 20914,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 79488,
+      "names": [
+        "Mesh",
+        "Distant movable scenery",
+        "Group",
+        "Biome-ice",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 1728
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 20915,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 355344,
+      "names": [
+        "Mesh",
+        "Group",
+        "Biome-ice",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 8076
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 20916,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 6688,
+      "names": [
+        "Mesh",
+        "Group",
+        "Biome-ice",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 164
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 20917,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 1280,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Biome-ice",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 34
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 20925,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 99072,
+      "names": [
+        "Mesh",
+        "Group",
+        "Biome-clockwork-cotton",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 3096
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 21129,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 328068,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Biome-clockwork-cotton",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 6375
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 21130,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 402624,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Biome-clockwork-cotton",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 7740
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 21131,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 1095280,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Biome-clockwork-cotton",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 23732
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 21132,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 167424,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Biome-clockwork-cotton",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 3516
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 21133,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 9420,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Biome-clockwork-cotton",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 201
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 21134,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 27976,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Biome-clockwork-cotton",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 518
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 25746,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 28800,
+      "names": [
+        "Mesh",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 900
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 25734,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 28800,
+      "names": [
+        "Mesh",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 900
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 25730,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 28800,
+      "names": [
+        "Mesh",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 900
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 25726,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 28800,
+      "names": [
+        "Mesh",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 900
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 25749,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 3216,
+      "names": [
+        "Mesh",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 78
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 25748,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 3216,
+      "names": [
+        "Mesh",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 78
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 25736,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 3216,
+      "names": [
+        "Mesh",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 78
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 25733,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 3216,
+      "names": [
+        "Mesh",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 78
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 25737,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 3216,
+      "names": [
+        "Mesh",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 78
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 25732,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 3216,
+      "names": [
+        "Mesh",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 78
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 25729,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 3216,
+      "names": [
+        "Mesh",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 78
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 25728,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 3216,
+      "names": [
+        "Mesh",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 78
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 25468,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 188,
+      "names": [
+        "Mesh",
+        "Group",
+        "Котячі оселі · житлова секція",
+        "Group",
+        "Котячі оселі · постійний житловий острів"
+      ],
+      "cat": false,
+      "vertices": 4
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 25470,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 5552,
+      "names": [
+        "Mesh",
+        "Waterfall",
+        "Group",
+        "Котячі оселі · постійний житловий острів",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 133
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 25472,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 4752,
+      "names": [
+        "Mesh",
+        "Waterfall",
+        "Group",
+        "Котячі оселі · постійний житловий острів",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 117
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 26941,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 9701696,
+      "names": [
+        "Mesh",
+        "Group",
+        "Котячий банк",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 201136
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 26942,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 496800,
+      "names": [
+        "Mesh",
+        "Group",
+        "Котячий банк",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 10800
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 26943,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 476560,
+      "names": [
+        "Mesh",
+        "Group",
+        "Котячий банк",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 10184
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 26944,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 285336,
+      "names": [
+        "Mesh",
+        "Group",
+        "Котячий банк",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 6102
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 26945,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 18840,
+      "names": [
+        "Mesh",
+        "Group",
+        "Котячий банк",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 402
+    },
+    {
+      "kind": "evict",
+      "at": 45885.033333336316,
+      "id": 26946,
+      "age": 29219.23333333557,
+      "frames": 7,
+      "hold": -45885.033333336316,
+      "bytes": 432216,
+      "names": [
+        "Mesh",
+        "Group",
+        "Котячий банк",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 8478
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 26947,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 41964,
+      "names": [
+        "Mesh",
+        "Group",
+        "Котячий банк",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 777
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 26958,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 124200,
+      "names": [
+        "Mesh",
+        "Group",
+        "Котячий банк",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 2700
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 26959,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 36936,
+      "names": [
+        "Mesh",
+        "Group",
+        "Котячий банк",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 702
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 26960,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 188,
+      "names": [
+        "Mesh",
+        "Group",
+        "Котячий банк",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 4
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 28009,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 10615168,
+      "names": [
+        "Mesh",
+        "Group",
+        "Криптоофіс · Green Paw Capital",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 220988
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 28010,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 940720,
+      "names": [
+        "Mesh",
+        "Group",
+        "Криптоофіс · Green Paw Capital",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 20108
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 28011,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 1073376,
+      "names": [
+        "Mesh",
+        "Group",
+        "Криптоофіс · Green Paw Capital",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 21132
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 28012,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 570672,
+      "names": [
+        "Mesh",
+        "Group",
+        "Криптоофіс · Green Paw Capital",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 12204
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 28013,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 37680,
+      "names": [
+        "Mesh",
+        "Group",
+        "Криптоофіс · Green Paw Capital",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 804
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 28014,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 372600,
+      "names": [
+        "Mesh",
+        "Group",
+        "Криптоофіс · Green Paw Capital",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 8100
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 28015,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 188,
+      "names": [
+        "Mesh",
+        "Group",
+        "Криптоофіс · Green Paw Capital",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 4
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 28016,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 1128,
+      "names": [
+        "Mesh",
+        "Group",
+        "Криптоофіс · Green Paw Capital",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 24
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 28017,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 188,
+      "names": [
+        "Mesh",
+        "Group",
+        "Криптоофіс · Green Paw Capital",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 4
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 28018,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 188,
+      "names": [
+        "Mesh",
+        "Group",
+        "Криптоофіс · Green Paw Capital",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 4
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 28165,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 141560,
+      "names": [
+        "Mesh",
+        "Group",
+        "Криптоофіс · Green Paw Capital",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 3064
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 28166,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 232740,
+      "names": [
+        "Mesh",
+        "Group",
+        "Криптоофіс · Green Paw Capital",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 4599
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 28167,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 13988,
+      "names": [
+        "Mesh",
+        "Group",
+        "Криптоофіс · Green Paw Capital",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 259
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 28168,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 188,
+      "names": [
+        "Mesh",
+        "Group",
+        "Криптоофіс · Green Paw Capital",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 4
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 28169,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 188,
+      "names": [
+        "Mesh",
+        "Group",
+        "Криптоофіс · Green Paw Capital",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 4
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 28170,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 44640,
+      "names": [
+        "Mesh",
+        "Group",
+        "Криптоофіс · Green Paw Capital",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 936
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 28171,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 140,
+      "names": [
+        "Live BTC / ETH candlestick displays",
+        "Криптоофіс · Green Paw Capital",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 4
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 28176,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 840,
+      "names": [
+        "Mesh",
+        "Котяче виробництво",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 24
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 28177,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 840,
+      "names": [
+        "Mesh",
+        "Котяче виробництво",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 24
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 28178,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 840,
+      "names": [
+        "Mesh",
+        "Котяче виробництво",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 24
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 28702,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 4531088,
+      "names": [
+        "Mesh",
+        "Group",
+        "Котяче виробництво",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 94108
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 28703,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 248400,
+      "names": [
+        "Mesh",
+        "Group",
+        "Котяче виробництво",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 5400
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 28704,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 543520,
+      "names": [
+        "Mesh",
+        "Group",
+        "Котяче виробництво",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 11588
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 28705,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 285336,
+      "names": [
+        "Mesh",
+        "Group",
+        "Котяче виробництво",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 6102
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 28706,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 18840,
+      "names": [
+        "Mesh",
+        "Group",
+        "Котяче виробництво",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 402
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 28707,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 487620,
+      "names": [
+        "Mesh",
+        "Group",
+        "Котяче виробництво",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 9531
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 28722,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 455400,
+      "names": [
+        "Mesh",
+        "Group",
+        "Котяче виробництво",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 9900
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 28723,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 6156,
+      "names": [
+        "Mesh",
+        "Group",
+        "Котяче виробництво",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 117
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 28724,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 13988,
+      "names": [
+        "Mesh",
+        "Group",
+        "Котяче виробництво",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 259
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 28725,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 188,
+      "names": [
+        "Mesh",
+        "Group",
+        "Котяче виробництво",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 4
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 29340,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 12194864,
+      "names": [
+        "Mesh",
+        "Group",
+        "Меблевий дім",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 253924
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 29341,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 248400,
+      "names": [
+        "Mesh",
+        "Group",
+        "Меблевий дім",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 5400
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 29342,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 476560,
+      "names": [
+        "Mesh",
+        "Group",
+        "Меблевий дім",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 10184
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 29343,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 285336,
+      "names": [
+        "Mesh",
+        "Group",
+        "Меблевий дім",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 6102
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 29344,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 18840,
+      "names": [
+        "Mesh",
+        "Group",
+        "Меблевий дім",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 402
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 29345,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 339876,
+      "names": [
+        "Mesh",
+        "Group",
+        "Меблевий дім",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 6723
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 29355,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 289800,
+      "names": [
+        "Mesh",
+        "Group",
+        "Меблевий дім",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 6300
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 29356,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 6156,
+      "names": [
+        "Mesh",
+        "Group",
+        "Меблевий дім",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 117
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 29357,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 188,
+      "names": [
+        "Mesh",
+        "Group",
+        "Меблевий дім",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 4
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 30130,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 16471664,
+      "names": [
+        "Mesh",
+        "Group",
+        "Котячі будиночки",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 343024
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 30131,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 496800,
+      "names": [
+        "Mesh",
+        "Group",
+        "Котячі будиночки",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 10800
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 30132,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 476560,
+      "names": [
+        "Mesh",
+        "Group",
+        "Котячі будиночки",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 10184
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 30133,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 285336,
+      "names": [
+        "Mesh",
+        "Group",
+        "Котячі будиночки",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 6102
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 30134,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 188400,
+      "names": [
+        "Mesh",
+        "Group",
+        "Котячі будиночки",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 4020
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 30135,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 339876,
+      "names": [
+        "Mesh",
+        "Group",
+        "Котячі будиночки",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 6723
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 30145,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 207000,
+      "names": [
+        "Mesh",
+        "Group",
+        "Котячі будиночки",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 4500
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 30146,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 6156,
+      "names": [
+        "Mesh",
+        "Group",
+        "Котячі будиночки",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 117
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 30147,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 4960,
+      "names": [
+        "Mesh",
+        "Group",
+        "Котячі будиночки",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 104
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 30148,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 188,
+      "names": [
+        "Mesh",
+        "Group",
+        "Котячі будиночки",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 4
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 30925,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 8163440,
+      "names": [
+        "Mesh",
+        "Group",
+        "Мур-Моторс",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 169540
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 30927,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 491440,
+      "names": [
+        "Mesh",
+        "Group",
+        "Мур-Моторс",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 10496
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 30928,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 433080,
+      "names": [
+        "Mesh",
+        "Group",
+        "Мур-Моторс",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 8910
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 30930,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 358344,
+      "names": [
+        "Mesh",
+        "Group",
+        "Мур-Моторс",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 7074
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 30942,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 207000,
+      "names": [
+        "Mesh",
+        "Group",
+        "Мур-Моторс",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 4500
+    },
+    {
+      "kind": "evict",
+      "at": 45985.033333336316,
+      "id": 31153,
+      "age": 29319.23333333557,
+      "frames": 10,
+      "hold": -45985.033333336316,
+      "bytes": 12312,
+      "names": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Marin · powerful blue mosasaur",
+        "Scene"
+      ],
+      "cat": false,
+      "vertices": 234
+    }
+  ],
+  "groups": [
+    {
+      "name": "Mesh/Group/F2 Cat Luxury Avenue/CHICHI horizontal underwater mall/Scene",
+      "calls": 58,
+      "triangles": 2381946,
+      "vertices": 1976749
+    },
+    {
+      "name": "Mesh/Group/F3 Cat Food Paradise/CHICHI horizontal underwater mall/Scene",
+      "calls": 78,
+      "triangles": 2162564,
+      "vertices": 1675517
+    },
+    {
+      "name": "Mesh/Group/F5 Cat Lifestyle/CHICHI horizontal underwater mall/Scene",
+      "calls": 56,
+      "triangles": 1634684,
+      "vertices": 1252942
+    },
+    {
+      "name": "Mesh/Group/F6 Ocean Leisure/CHICHI horizontal underwater mall/Scene",
+      "calls": 55,
+      "triangles": 1009518,
+      "vertices": 761337
+    },
+    {
+      "name": "Mesh/Group/CHICHI horizontal underwater mall/Scene",
+      "calls": 17,
+      "triangles": 851710,
+      "vertices": 530038
+    },
+    {
+      "name": "Mesh/LOD/Continuous eroded reef cliffs, overhangs and navigable grottoes/Group/Biome-autumn-Sky-Mosasaur-Sea",
+      "calls": 24,
+      "triangles": 816216,
+      "vertices": 1055784
+    },
+    {
+      "name": "Mesh/Group/F4 Cinema & Entertainment/CHICHI horizontal underwater mall/Scene",
+      "calls": 46,
+      "triangles": 814302,
+      "vertices": 583147
+    },
+    {
+      "name": "Mesh/Group/F7 Sky Ocean Observatory/CHICHI horizontal underwater mall/Scene",
+      "calls": 52,
+      "triangles": 731448,
+      "vertices": 569682
+    },
+    {
+      "name": "Mesh/Group/F1 Ocean Grand Atrium/CHICHI horizontal underwater mall/Scene",
+      "calls": 51,
+      "triangles": 674626,
+      "vertices": 519476
+    },
+    {
+      "name": "tube-sponge/Group/LOD/Deep coral gardens · eleven distinct anatomies/Deep blue grotto, fish schools and sun shafts",
+      "calls": 11,
+      "triangles": 427304,
+      "vertices": 157850
+    },
+    {
+      "name": "table-coral/Group/LOD/Deep coral gardens · eleven distinct anatomies/Deep blue grotto, fish schools and sun shafts",
+      "calls": 15,
+      "triangles": 339292,
+      "vertices": 136350
+    },
+    {
+      "name": "Mesh/Group/LOD/Dense tropical headlands, flowering canopy and natural white-sand coves/Group",
+      "calls": 24,
+      "triangles": 305008,
+      "vertices": 82860
+    },
+    {
+      "name": "soft-plume/Group/LOD/Deep coral gardens · eleven distinct anatomies/Deep blue grotto, fish schools and sun shafts",
+      "calls": 12,
+      "triangles": 281716,
+      "vertices": 107904
+    },
+    {
+      "name": "staghorn/Group/LOD/Deep coral gardens · eleven distinct anatomies/Deep blue grotto, fish schools and sun shafts",
+      "calls": 16,
+      "triangles": 277682,
+      "vertices": 143968
+    },
+    {
+      "name": "anemone/Group/LOD/Deep coral gardens · eleven distinct anatomies/Deep blue grotto, fish schools and sun shafts",
+      "calls": 11,
+      "triangles": 248840,
+      "vertices": 60709
+    },
+    {
+      "name": "Exact animated cat batch · Body/Chichi/Group/CHICHI horizontal underwater mall/Scene",
+      "calls": 28,
+      "triangles": 234276,
+      "vertices": 130704
+    },
+    {
+      "name": "Dense curved seagrass/LOD/Layered living reef and open sand · first seabed patch/Group/Biome-autumn-Sky-Mosasaur-Sea",
+      "calls": 47,
+      "triangles": 223212,
+      "vertices": 846
+    },
+    {
+      "name": "sea-fan/Group/LOD/Deep coral gardens · eleven distinct anatomies/Deep blue grotto, fish schools and sun shafts",
+      "calls": 12,
+      "triangles": 209646,
+      "vertices": 228384
+    },
+    {
+      "name": "tube-sponge/Group/LOD/Deep coral gardens · eleven distinct anatomies/Layered living reef and open sand · first seabed patch",
+      "calls": 13,
+      "triangles": 172082,
+      "vertices": 186550
+    },
+    {
+      "name": "Mesh/Cute tropical lagoon fish/Deep ocean · 40 times the previous sea depth/Group/Biome-autumn-Sky-Mosasaur-Sea",
+      "calls": 1,
+      "triangles": 160704,
+      "vertices": 10044
+    },
+    {
+      "name": "brain/Group/LOD/Deep coral gardens · eleven distinct anatomies/Deep blue grotto, fish schools and sun shafts",
+      "calls": 12,
+      "triangles": 157989,
+      "vertices": 75636
+    },
+    {
+      "name": "kelp/Group/LOD/Deep coral gardens · eleven distinct anatomies/Deep blue grotto, fish schools and sun shafts",
+      "calls": 10,
+      "triangles": 142718,
+      "vertices": 48640
+    },
+    {
+      "name": "Mesh/Group/Group/CHICHI horizontal underwater mall/Scene",
+      "calls": 10,
+      "triangles": 131216,
+      "vertices": 80987
+    },
+    {
+      "name": "Exact animated cat batch · Face/Chichi/Group/CHICHI horizontal underwater mall/Scene",
+      "calls": 28,
+      "triangles": 118664,
+      "vertices": 141764
+    },
+    {
+      "name": "luminous-corals/Group/LOD/Deep coral gardens · eleven distinct anatomies/Deep blue grotto, fish schools and sun shafts",
+      "calls": 10,
+      "triangles": 115130,
+      "vertices": 90020
+    },
+    {
+      "name": "mushroom/Group/LOD/Deep coral gardens · eleven distinct anatomies/Deep blue grotto, fish schools and sun shafts",
+      "calls": 11,
+      "triangles": 105680,
+      "vertices": 59994
+    },
+    {
+      "name": "Mesh/Underwater coral garden/Deep ocean · 40 times the previous sea depth/Group/Biome-autumn-Sky-Mosasaur-Sea",
+      "calls": 6,
+      "triangles": 85168,
+      "vertices": 74854
+    },
+    {
+      "name": "Mesh/LOD/Continuous sand floor · one shared physical material/Deep ocean · 40 times the previous sea depth/Group",
+      "calls": 54,
+      "triangles": 81920,
+      "vertices": 2234358
+    },
+    {
+      "name": "Mesh/Group/Group/Group/Group",
+      "calls": 10,
+      "triangles": 62720,
+      "vertices": 36900
+    },
+    {
+      "name": "Mesh/Embedded scanned boulders and pebbles · original ready forms/Group/Biome-autumn-Sky-Mosasaur-Sea/Scene",
+      "calls": 8,
+      "triangles": 59472,
+      "vertices": 1320
+    },
+    {
+      "name": "sea-fan/Group/LOD/Deep coral gardens · eleven distinct anatomies/Layered living reef and open sand · first seabed patch",
+      "calls": 12,
+      "triangles": 57984,
+      "vertices": 228384
+    },
+    {
+      "name": "Wide dry beaches and walkable island ring/Dry shore, original pier and retained owned plots/Group/Biome-autumn-Sky-Mosasaur-Sea/Scene",
+      "calls": 2,
+      "triangles": 54496,
+      "vertices": 61208
+    },
+    {
+      "name": "Exact animated cat batch · EyeRim-1/Chichi/Group/CHICHI horizontal underwater mall/Scene",
+      "calls": 28,
+      "triangles": 53312,
+      "vertices": 35896
+    },
+    {
+      "name": "Continuous predatory skull, muscular shoulders and tail/Group/Marin · powerful blue mosasaur/Scene",
+      "calls": 1,
+      "triangles": 52116,
+      "vertices": 27433
+    },
+    {
+      "name": "Mesh/Deep ocean · 40 times the previous sea depth/Group/Biome-autumn-Sky-Mosasaur-Sea/Scene",
+      "calls": 3,
+      "triangles": 50048,
+      "vertices": 25482
+    },
+    {
+      "name": "Mesh/Group/Dense tropical headlands, flowering canopy and natural white-sand coves/Group/Biome-autumn-Sky-Mosasaur-Sea",
+      "calls": 9,
+      "triangles": 49984,
+      "vertices": 284982
+    },
+    {
+      "name": "Mesh/Group/Explorable ocean caves, coral terraces and ancient ruins/Group/Biome-autumn-Sky-Mosasaur-Sea",
+      "calls": 7,
+      "triangles": 49224,
+      "vertices": 113714
+    },
+    {
+      "name": "Mesh/Group/Group/Biome-autumn-Sky-Mosasaur-Sea/Scene",
+      "calls": 10,
+      "triangles": 41236,
+      "vertices": 143032
+    },
+    {
+      "name": "Meadow flower/Living ground cover/Group/Biome-autumn-Sky-Mosasaur-Sea/Scene",
+      "calls": 1,
+      "triangles": 36480,
+      "vertices": 456
+    },
+    {
+      "name": "staghorn/Group/LOD/Deep coral gardens · eleven distinct anatomies/Layered living reef and open sand · first seabed patch",
+      "calls": 13,
+      "triangles": 35560,
+      "vertices": 116974
+    },
+    {
+      "name": "table-coral/Group/LOD/Deep coral gardens · eleven distinct anatomies/Layered living reef and open sand · first seabed patch",
+      "calls": 13,
+      "triangles": 35028,
+      "vertices": 118170
+    },
+    {
+      "name": "soft-plume/Group/LOD/Deep coral gardens · eleven distinct anatomies/Layered living reef and open sand · first seabed patch",
+      "calls": 13,
+      "triangles": 32766,
+      "vertices": 116896
+    },
+    {
+      "name": "Body/Chichi/Group/Scene",
+      "calls": 1,
+      "triangles": 32188,
+      "vertices": 16092
+    },
+    {
+      "name": "Face/Head/Chichi/Group/Scene",
+      "calls": 1,
+      "triangles": 31924,
+      "vertices": 15953
+    },
+    {
+      "name": "Shin/Leg-1_-1/Chichi/Group/Scene",
+      "calls": 2,
+      "triangles": 31240,
+      "vertices": 15630
+    },
+    {
+      "name": "Shin/Leg1_-1/Chichi/Group/Scene",
+      "calls": 2,
+      "triangles": 31240,
+      "vertices": 15630
+    },
+    {
+      "name": "Shin/Leg-1_1/Chichi/Group/Scene",
+      "calls": 2,
+      "triangles": 29400,
+      "vertices": 14714
+    },
+    {
+      "name": "Shin/Leg1_1/Chichi/Group/Scene",
+      "calls": 2,
+      "triangles": 29400,
+      "vertices": 14714
+    },
+    {
+      "name": "brain/Group/LOD/Deep coral gardens · eleven distinct anatomies/Layered living reef and open sand · first seabed patch",
+      "calls": 13,
+      "triangles": 25020,
+      "vertices": 81939
+    },
+    {
+      "name": "Exact animated cat batch · Pupil-1/Chichi/Group/CHICHI horizontal underwater mall/Scene",
+      "calls": 28,
+      "triangles": 24640,
+      "vertices": 13832
+    },
+    {
+      "name": "Mesh/Group/Group/Group/CHICHI horizontal underwater mall",
+      "calls": 15,
+      "triangles": 24000,
+      "vertices": 13185
+    },
+    {
+      "name": "Mesh/Scene",
+      "calls": 9,
+      "triangles": 23208,
+      "vertices": 2658
+    },
+    {
+      "name": "Exact animated cat batch · EarShell-1/Chichi/Group/CHICHI horizontal underwater mall/Scene",
+      "calls": 28,
+      "triangles": 23156,
+      "vertices": 14588
+    },
+    {
+      "name": "sea-grass/Group/LOD/Deep coral gardens · eleven distinct anatomies/Deep blue grotto, fish schools and sun shafts",
+      "calls": 9,
+      "triangles": 22631,
+      "vertices": 19152
+    },
+    {
+      "name": "Luminous little jellyfish/Living reef · six rays, eight luminous jellies and twelve tiny crabs/Deep blue grotto, fish schools and sun shafts/Group/Biome-autumn-Sky-Mosasaur-Sea",
+      "calls": 1,
+      "triangles": 22496,
+      "vertices": 8436
+    },
+    {
+      "name": "Reef shore crabs/Living reef · six rays, eight luminous jellies and twelve tiny crabs/Deep blue grotto, fish schools and sun shafts/Group/Biome-autumn-Sky-Mosasaur-Sea",
+      "calls": 1,
+      "triangles": 21792,
+      "vertices": 5448
+    },
+    {
+      "name": "Mesh/Group/Group/Marin · powerful blue mosasaur/Scene",
+      "calls": 7,
+      "triangles": 21740,
+      "vertices": 14360
+    },
+    {
+      "name": "mushroom/Group/LOD/Deep coral gardens · eleven distinct anatomies/Layered living reef and open sand · first seabed patch",
+      "calls": 13,
+      "triangles": 20989,
+      "vertices": 70902
+    },
+    {
+      "name": "Mesh/Group/Deep blue grotto, fish schools and sun shafts/Group/Biome-autumn-Sky-Mosasaur-Sea",
+      "calls": 4,
+      "triangles": 18144,
+      "vertices": 38664
+    },
+    {
+      "name": "Exact animated cat batch · Body/Снежка/Group/Scene",
+      "calls": 2,
+      "triangles": 17070,
+      "vertices": 9896
+    },
+    {
+      "name": "Exact animated cat batch · Body/Зефир/Group/Scene",
+      "calls": 2,
+      "triangles": 17070,
+      "vertices": 9896
+    },
+    {
+      "name": "Exact animated cat batch · Body/Персик/Group/Scene",
+      "calls": 2,
+      "triangles": 16734,
+      "vertices": 9336
+    },
+    {
+      "name": "Exact animated cat batch · Body/Флора/Group/Scene",
+      "calls": 2,
+      "triangles": 16734,
+      "vertices": 9336
+    },
+    {
+      "name": "Exact animated cat batch · Body/Сакура/Group/Scene",
+      "calls": 2,
+      "triangles": 16734,
+      "vertices": 9336
+    },
+    {
+      "name": "Exact animated cat batch · Body/Лили/Group/Scene",
+      "calls": 2,
+      "triangles": 16734,
+      "vertices": 9336
+    },
+    {
+      "name": "Exact animated cat batch · Body/Трюфель/Group/Scene",
+      "calls": 2,
+      "triangles": 16734,
+      "vertices": 9336
+    },
+    {
+      "name": "kelp/Group/LOD/Deep coral gardens · eleven distinct anatomies/Layered living reef and open sand · first seabed patch",
+      "calls": 13,
+      "triangles": 14986,
+      "vertices": 63232
+    },
+    {
+      "name": "Mesh/Group/Group/Group/F3 Cat Food Paradise",
+      "calls": 6,
+      "triangles": 14976,
+      "vertices": 1126
+    },
+    {
+      "name": "Body/Chichi/Group/CHICHI horizontal underwater mall/Scene",
+      "calls": 2,
+      "triangles": 12976,
+      "vertices": 6492
+    },
+    {
+      "name": "Gentle spotted rays/Living reef · six rays, eight luminous jellies and twelve tiny crabs/Deep blue grotto, fish schools and sun shafts/Group/Biome-autumn-Sky-Mosasaur-Sea",
+      "calls": 1,
+      "triangles": 12768,
+      "vertices": 6384
+    },
+    {
+      "name": "Face/Head/Chichi/Group/CHICHI horizontal underwater mall",
+      "calls": 2,
+      "triangles": 12704,
+      "vertices": 6356
+    },
+    {
+      "name": "Mesh/Articulated lower jaw/Group/Marin · powerful blue mosasaur/Scene",
+      "calls": 1,
+      "triangles": 12646,
+      "vertices": 6325
+    },
+    {
+      "name": "Mesh/Group/Articulated lower jaw/Group/Marin · powerful blue mosasaur",
+      "calls": 2,
+      "triangles": 12432,
+      "vertices": 7722
+    },
+    {
+      "name": "CheekFibres/Head/Chichi/Group/CHICHI horizontal underwater mall",
+      "calls": 1,
+      "triangles": 12408,
+      "vertices": 20680
+    },
+    {
+      "name": "Mesh/Group/Marin · powerful blue mosasaur/Scene",
+      "calls": 1,
+      "triangles": 12276,
+      "vertices": 36036
+    },
+    {
+      "name": "LegVelvet1_1/Leg1_1/Chichi/Group/Scene",
+      "calls": 1,
+      "triangles": 10500,
+      "vertices": 17500
+    },
+    {
+      "name": "LegVelvet-1_1/Leg-1_1/Chichi/Group/Scene",
+      "calls": 1,
+      "triangles": 10500,
+      "vertices": 17500
+    },
+    {
+      "name": "LegVelvet1_-1/Leg1_-1/Chichi/Group/Scene",
+      "calls": 1,
+      "triangles": 10500,
+      "vertices": 17500
+    },
+    {
+      "name": "LegVelvet-1_-1/Leg-1_-1/Chichi/Group/Scene",
+      "calls": 1,
+      "triangles": 10500,
+      "vertices": 17500
+    },
+    {
+      "name": "Exact animated cat batch · Face/Снежка/Group/Scene",
+      "calls": 2,
+      "triangles": 9388,
+      "vertices": 11646
+    },
+    {
+      "name": "Exact animated cat batch · Face/Зефир/Group/Scene",
+      "calls": 2,
+      "triangles": 9388,
+      "vertices": 11646
+    },
+    {
+      "name": "Exact animated cat batch · Face/Персик/Group/Scene",
+      "calls": 2,
+      "triangles": 8476,
+      "vertices": 10126
+    },
+    {
+      "name": "Exact animated cat batch · Face/Флора/Group/Scene",
+      "calls": 2,
+      "triangles": 8476,
+      "vertices": 10126
+    },
+    {
+      "name": "Exact animated cat batch · Face/Сакура/Group/Scene",
+      "calls": 2,
+      "triangles": 8476,
+      "vertices": 10126
+    },
+    {
+      "name": "Exact animated cat batch · Face/Лили/Group/Scene",
+      "calls": 2,
+      "triangles": 8476,
+      "vertices": 10126
+    },
+    {
+      "name": "Exact animated cat batch · Face/Трюфель/Group/Scene",
+      "calls": 2,
+      "triangles": 8476,
+      "vertices": 10126
+    },
+    {
+      "name": "Shin/Leg-1_-1/Chichi/Group/CHICHI horizontal underwater mall",
+      "calls": 2,
+      "triangles": 8016,
+      "vertices": 4062
+    },
+    {
+      "name": "Shin/Leg1_-1/Chichi/Group/CHICHI horizontal underwater mall",
+      "calls": 2,
+      "triangles": 8016,
+      "vertices": 4062
+    },
+    {
+      "name": "Iris-1/EyeGlobe-1/Eye-1/Head/Chichi",
+      "calls": 3,
+      "triangles": 7792,
+      "vertices": 4093
+    },
+    {
+      "name": "Pupil-1/EyeGlobe-1/Eye-1/Head/Chichi",
+      "calls": 3,
+      "triangles": 7792,
+      "vertices": 4093
+    },
+    {
+      "name": "Iris1/EyeGlobe1/Eye1/Head/Chichi",
+      "calls": 3,
+      "triangles": 7792,
+      "vertices": 4093
+    },
+    {
+      "name": "Pupil1/EyeGlobe1/Eye1/Head/Chichi",
+      "calls": 3,
+      "triangles": 7792,
+      "vertices": 4093
+    },
+    {
+      "name": "Shin/Leg-1_1/Chichi/Group/CHICHI horizontal underwater mall",
+      "calls": 2,
+      "triangles": 7592,
+      "vertices": 3850
+    },
+    {
+      "name": "Shin/Leg1_1/Chichi/Group/CHICHI horizontal underwater mall",
+      "calls": 2,
+      "triangles": 7592,
+      "vertices": 3850
+    },
+    {
+      "name": "CoatFibres/Body/Chichi/Group/CHICHI horizontal underwater mall",
+      "calls": 1,
+      "triangles": 7200,
+      "vertices": 12000
+    },
+    {
+      "name": "Meadow grass/Living ground cover/Group/Biome-autumn-Sky-Mosasaur-Sea/Scene",
+      "calls": 1,
+      "triangles": 6864,
+      "vertices": 32
+    },
+    {
+      "name": "sea-grass/Group/LOD/Deep coral gardens · eleven distinct anatomies/Layered living reef and open sand · first seabed patch",
+      "calls": 13,
+      "triangles": 6477,
+      "vertices": 27664
+    },
+    {
+      "name": "Mesh/Group/Group/Великий аквапарк/Scene",
+      "calls": 3,
+      "triangles": 5728,
+      "vertices": 20610
+    },
+    {
+      "name": "EarShell-1/LeftEar/Head/Chichi/Group",
+      "calls": 3,
+      "triangles": 5580,
+      "vertices": 2850
+    },
+    {
+      "name": "EarShell1/RightEar/Head/Chichi/Group",
+      "calls": 3,
+      "triangles": 5580,
+      "vertices": 2850
+    },
+    {
+      "name": "Mesh/World fireflies · shared GPU animation/Scene",
+      "calls": 3,
+      "triangles": 5500,
+      "vertices": 231
+    },
+    {
+      "name": "Whisker-1_0/Head/Chichi/Group/Scene",
+      "calls": 1,
+      "triangles": 5040,
+      "vertices": 15120
+    },
+    {
+      "name": "Mesh/Group/Group/Наш остров · свободная земля/Scene",
+      "calls": 2,
+      "triangles": 4912,
+      "vertices": 10278
+    },
+    {
+      "name": "Exact animated cat batch · CoatFibres/Chichi/Group/CHICHI horizontal underwater mall/Scene",
+      "calls": 14,
+      "triangles": 4704,
+      "vertices": 7840
+    },
+    {
+      "name": "Mesh/Group/Biome-clockwork-cotton/Scene",
+      "calls": 7,
+      "triangles": 4580,
+      "vertices": 11005
+    },
+    {
+      "name": "EyeShine-1/EyeGlobe-1/Eye-1/Head/Chichi",
+      "calls": 3,
+      "triangles": 4352,
+      "vertices": 13056
+    },
+    {
+      "name": "EyeShine1/EyeGlobe1/Eye1/Head/Chichi",
+      "calls": 3,
+      "triangles": 4352,
+      "vertices": 13056
+    },
+    {
+      "name": "Exact animated cat batch · EyeRim-1/Снежка/Group/Scene",
+      "calls": 2,
+      "triangles": 3880,
+      "vertices": 2684
+    },
+    {
+      "name": "Exact animated cat batch · EyeRim-1/Зефир/Group/Scene",
+      "calls": 2,
+      "triangles": 3880,
+      "vertices": 2684
+    },
+    {
+      "name": "Exact animated cat batch · EyeRim-1/Персик/Group/Scene",
+      "calls": 2,
+      "triangles": 3808,
+      "vertices": 2564
+    },
+    {
+      "name": "Exact animated cat batch · EyeRim-1/Флора/Group/Scene",
+      "calls": 2,
+      "triangles": 3808,
+      "vertices": 2564
+    },
+    {
+      "name": "Exact animated cat batch · EyeRim-1/Сакура/Group/Scene",
+      "calls": 2,
+      "triangles": 3808,
+      "vertices": 2564
+    },
+    {
+      "name": "Exact animated cat batch · EyeRim-1/Лили/Group/Scene",
+      "calls": 2,
+      "triangles": 3808,
+      "vertices": 2564
+    },
+    {
+      "name": "Exact animated cat batch · EyeRim-1/Трюфель/Group/Scene",
+      "calls": 2,
+      "triangles": 3808,
+      "vertices": 2564
+    },
+    {
+      "name": "Nostril-1/Head/Chichi/Group/Scene",
+      "calls": 1,
+      "triangles": 3784,
+      "vertices": 11352
+    },
+    {
+      "name": "Exact animated cat batch · Chin/Chichi/Group/CHICHI horizontal underwater mall/Scene",
+      "calls": 28,
+      "triangles": 3360,
+      "vertices": 2464
+    },
+    {
+      "name": "Exact animated cat batch · Mouth/Chichi/Group/CHICHI horizontal underwater mall/Scene",
+      "calls": 28,
+      "triangles": 3360,
+      "vertices": 2464
+    },
+    {
+      "name": "Meadow moss/Living ground cover/Group/Biome-autumn-Sky-Mosasaur-Sea/Scene",
+      "calls": 1,
+      "triangles": 3136,
+      "vertices": 54
+    },
+    {
+      "name": "Mesh/Group/Bikini Bottom · sky city/Scene",
+      "calls": 3,
+      "triangles": 3112,
+      "vertices": 9307
+    },
+    {
+      "name": "TailCoat/TailTip/Tail/Chichi/Group",
+      "calls": 3,
+      "triangles": 2816,
+      "vertices": 1545
+    },
+    {
+      "name": "Meadow fern/Living ground cover/Group/Biome-autumn-Sky-Mosasaur-Sea/Scene",
+      "calls": 1,
+      "triangles": 2480,
+      "vertices": 120
+    },
+    {
+      "name": "EyeRim-1/EyeGlobe-1/Eye-1/Head/Chichi",
+      "calls": 3,
+      "triangles": 2176,
+      "vertices": 1267
+    },
+    {
+      "name": "SleepingLid-1/ClosedEye-1/Head/Chichi/Group",
+      "calls": 3,
+      "triangles": 2176,
+      "vertices": 1267
+    },
+    {
+      "name": "EyeRim1/EyeGlobe1/Eye1/Head/Chichi",
+      "calls": 3,
+      "triangles": 2176,
+      "vertices": 1267
+    },
+    {
+      "name": "SleepingLid1/ClosedEye1/Head/Chichi/Group",
+      "calls": 3,
+      "triangles": 2176,
+      "vertices": 1267
+    },
+    {
+      "name": "Mesh/Group/Group/F3 Cat Food Paradise/CHICHI horizontal underwater mall",
+      "calls": 5,
+      "triangles": 2160,
+      "vertices": 160
+    },
+    {
+      "name": "Mesh/Group/Group/F1 Ocean Grand Atrium/CHICHI horizontal underwater mall",
+      "calls": 4,
+      "triangles": 1920,
+      "vertices": 96
+    },
+    {
+      "name": "Mesh/Group/Group/F2 Cat Luxury Avenue/CHICHI horizontal underwater mall",
+      "calls": 4,
+      "triangles": 1920,
+      "vertices": 96
+    },
+    {
+      "name": "Mesh/Group/Group/F4 Cinema & Entertainment/CHICHI horizontal underwater mall",
+      "calls": 4,
+      "triangles": 1920,
+      "vertices": 96
+    },
+    {
+      "name": "Mesh/Group/Group/F5 Cat Lifestyle/CHICHI horizontal underwater mall",
+      "calls": 4,
+      "triangles": 1920,
+      "vertices": 96
+    },
+    {
+      "name": "Mesh/Group/Group/F6 Ocean Leisure/CHICHI horizontal underwater mall",
+      "calls": 4,
+      "triangles": 1920,
+      "vertices": 96
+    },
+    {
+      "name": "Mesh/Waterfall/Group/Biome-autumn-Sky-Mosasaur-Sea/Scene",
+      "calls": 7,
+      "triangles": 1824,
+      "vertices": 390
+    },
+    {
+      "name": "Nostril-1/Head/Chichi/Group/CHICHI horizontal underwater mall",
+      "calls": 2,
+      "triangles": 1792,
+      "vertices": 5376
+    },
+    {
+      "name": "Exact animated cat batch · Pupil-1/Персик/Group/Scene",
+      "calls": 2,
+      "triangles": 1760,
+      "vertices": 988
+    },
+    {
+      "name": "Exact animated cat batch · Pupil-1/Снежка/Group/Scene",
+      "calls": 2,
+      "triangles": 1760,
+      "vertices": 988
+    },
+    {
+      "name": "Exact animated cat batch · Pupil-1/Флора/Group/Scene",
+      "calls": 2,
+      "triangles": 1760,
+      "vertices": 988
+    },
+    {
+      "name": "Exact animated cat batch · Pupil-1/Сакура/Group/Scene",
+      "calls": 2,
+      "triangles": 1760,
+      "vertices": 988
+    },
+    {
+      "name": "Exact animated cat batch · Pupil-1/Лили/Group/Scene",
+      "calls": 2,
+      "triangles": 1760,
+      "vertices": 988
+    },
+    {
+      "name": "Exact animated cat batch · Pupil-1/Зефир/Group/Scene",
+      "calls": 2,
+      "triangles": 1760,
+      "vertices": 988
+    },
+    {
+      "name": "Exact animated cat batch · Pupil-1/Трюфель/Group/Scene",
+      "calls": 2,
+      "triangles": 1760,
+      "vertices": 988
+    },
+    {
+      "name": "Exact animated cat batch · EarShell-1/Снежка/Group/Scene",
+      "calls": 2,
+      "triangles": 1750,
+      "vertices": 1202
+    },
+    {
+      "name": "Exact animated cat batch · EarShell-1/Зефир/Group/Scene",
+      "calls": 2,
+      "triangles": 1750,
+      "vertices": 1202
+    },
+    {
+      "name": "Nose/Head/Chichi/Group/CHICHI horizontal underwater mall",
+      "calls": 2,
+      "triangles": 1672,
+      "vertices": 5016
+    },
+    {
+      "name": "Exact animated cat batch · EarShell-1/Персик/Group/Scene",
+      "calls": 2,
+      "triangles": 1654,
+      "vertices": 1042
+    },
+    {
+      "name": "Exact animated cat batch · EarShell-1/Флора/Group/Scene",
+      "calls": 2,
+      "triangles": 1654,
+      "vertices": 1042
+    },
+    {
+      "name": "Exact animated cat batch · EarShell-1/Сакура/Group/Scene",
+      "calls": 2,
+      "triangles": 1654,
+      "vertices": 1042
+    },
+    {
+      "name": "Exact animated cat batch · EarShell-1/Лили/Group/Scene",
+      "calls": 2,
+      "triangles": 1654,
+      "vertices": 1042
+    },
+    {
+      "name": "Exact animated cat batch · EarShell-1/Трюфель/Group/Scene",
+      "calls": 2,
+      "triangles": 1654,
+      "vertices": 1042
+    },
+    {
+      "name": "Mesh/Strong vertical tail fluke/Group/Marin · powerful blue mosasaur/Scene",
+      "calls": 1,
+      "triangles": 1532,
+      "vertices": 4596
+    },
+    {
+      "name": "Mouth/Head/Chichi/Group/Scene",
+      "calls": 1,
+      "triangles": 1472,
+      "vertices": 825
+    },
+    {
+      "name": "TailVelvet/TailTip/Tail/Chichi/Group",
+      "calls": 1,
+      "triangles": 1464,
+      "vertices": 2440
+    },
+    {
+      "name": "InnerEarWisp-1_0/LeftEar/Head/Chichi/Group",
+      "calls": 1,
+      "triangles": 1400,
+      "vertices": 4200
+    },
+    {
+      "name": "InnerEarWisp1_0/RightEar/Head/Chichi/Group",
+      "calls": 1,
+      "triangles": 1400,
+      "vertices": 4200
+    },
+    {
+      "name": "Mesh/Group/Biome-candy/Scene",
+      "calls": 2,
+      "triangles": 1388,
+      "vertices": 3608
+    },
+    {
+      "name": "Mesh/Group/Group/Cat Job City · шість професій/Scene",
+      "calls": 1,
+      "triangles": 1152,
+      "vertices": 2106
+    },
+    {
+      "name": "Mesh/Waterfall/Чарівний зоопарк · п’ять просторих мінібіомів/Scene",
+      "calls": 4,
+      "triangles": 1152,
+      "vertices": 112
+    },
+    {
+      "name": "Mesh/Waterfall/Dense tropical headlands, flowering canopy and natural white-sand coves/Group/Biome-autumn-Sky-Mosasaur-Sea",
+      "calls": 4,
+      "triangles": 1152,
+      "vertices": 112
+    },
+    {
+      "name": "Toe-1/Leg-1_-1/Chichi/Group/Scene",
+      "calls": 2,
+      "triangles": 1120,
+      "vertices": 3360
+    },
+    {
+      "name": "Toe-1/Leg-1_1/Chichi/Group/Scene",
+      "calls": 2,
+      "triangles": 1120,
+      "vertices": 3360
+    },
+    {
+      "name": "Toe-1/Leg1_-1/Chichi/Group/Scene",
+      "calls": 2,
+      "triangles": 1120,
+      "vertices": 3360
+    },
+    {
+      "name": "Toe-1/Leg1_1/Chichi/Group/Scene",
+      "calls": 2,
+      "triangles": 1120,
+      "vertices": 3360
+    },
+    {
+      "name": "Mesh/Group/Biome-foodcourt-living-restaurants/Scene",
+      "calls": 3,
+      "triangles": 1088,
+      "vertices": 3191
+    },
+    {
+      "name": "Mesh/Group/Cat Job City · шість професій/Scene",
+      "calls": 3,
+      "triangles": 1088,
+      "vertices": 3191
+    },
+    {
+      "name": "Mesh/Group/Biome-autumn-Sky-Mosasaur-Sea/Scene",
+      "calls": 4,
+      "triangles": 1026,
+      "vertices": 863
+    },
+    {
+      "name": "EarVelvet1/RightEar/Head/Chichi/Group",
+      "calls": 1,
+      "triangles": 885,
+      "vertices": 1475
+    },
+    {
+      "name": "Mesh/Group/Котячі оселі · житлова секція/Group/Котячі оселі · постійний житловий острів",
+      "calls": 1,
+      "triangles": 864,
+      "vertices": 1809
+    },
+    {
+      "name": "EarVelvet-1/LeftEar/Head/Chichi/Group",
+      "calls": 1,
+      "triangles": 864,
+      "vertices": 1440
+    },
+    {
+      "name": "Nose/Head/Chichi/Group/Scene",
+      "calls": 1,
+      "triangles": 836,
+      "vertices": 2508
+    },
+    {
+      "name": "UpperLid-1/EyeGlobe-1/Eye-1/Head/Chichi",
+      "calls": 3,
+      "triangles": 816,
+      "vertices": 2448
+    },
+    {
+      "name": "UpperLid1/EyeGlobe1/Eye1/Head/Chichi",
+      "calls": 3,
+      "triangles": 816,
+      "vertices": 2448
+    },
+    {
+      "name": "Mesh/Group/Наш остров · свободная земля/Scene",
+      "calls": 3,
+      "triangles": 796,
+      "vertices": 2107
+    },
+    {
+      "name": "LegVelvet1_1/Leg1_1/Chichi/Group/CHICHI horizontal underwater mall",
+      "calls": 1,
+      "triangles": 789,
+      "vertices": 1315
+    },
+    {
+      "name": "LegVelvet-1_1/Leg-1_1/Chichi/Group/CHICHI horizontal underwater mall",
+      "calls": 1,
+      "triangles": 789,
+      "vertices": 1315
+    },
+    {
+      "name": "LegVelvet1_-1/Leg1_-1/Chichi/Group/CHICHI horizontal underwater mall",
+      "calls": 1,
+      "triangles": 789,
+      "vertices": 1315
+    },
+    {
+      "name": "LegVelvet-1_-1/Leg-1_-1/Chichi/Group/CHICHI horizontal underwater mall",
+      "calls": 1,
+      "triangles": 789,
+      "vertices": 1315
+    },
+    {
+      "name": "Whisker-1_0/Head/Chichi/Group/CHICHI horizontal underwater mall",
+      "calls": 2,
+      "triangles": 768,
+      "vertices": 2304
+    },
+    {
+      "name": "Mesh/Group/Великий аквапарк/Scene",
+      "calls": 3,
+      "triangles": 768,
+      "vertices": 1034
+    },
+    {
+      "name": "Mesh/Group/Котячий океанариум · стеклянный дворец/Scene",
+      "calls": 3,
+      "triangles": 736,
+      "vertices": 1163
+    },
+    {
+      "name": "Mouth/Head/Chichi/Group/CHICHI horizontal underwater mall",
+      "calls": 2,
+      "triangles": 704,
+      "vertices": 442
+    },
+    {
+      "name": "Exact animated cat batch · CoatFibres/Снежка/Group/Scene",
+      "calls": 1,
+      "triangles": 576,
+      "vertices": 960
+    },
+    {
+      "name": "Exact animated cat batch · CoatFibres/Зефир/Group/Scene",
+      "calls": 1,
+      "triangles": 576,
+      "vertices": 960
+    },
+    {
+      "name": "UpperLidVelvet1/EyeGlobe1/Eye1/Head/Chichi",
+      "calls": 1,
+      "triangles": 540,
+      "vertices": 1620
+    },
+    {
+      "name": "UpperLidVelvet-1/EyeGlobe-1/Eye-1/Head/Chichi",
+      "calls": 1,
+      "triangles": 540,
+      "vertices": 1620
+    },
+    {
+      "name": "SleepingLash-1/ClosedEye-1/Head/Chichi/Group",
+      "calls": 3,
+      "triangles": 408,
+      "vertices": 258
+    },
+    {
+      "name": "SleepingLash1/ClosedEye1/Head/Chichi/Group",
+      "calls": 3,
+      "triangles": 408,
+      "vertices": 258
+    },
+    {
+      "name": "Mesh/Group/Group/Котячий океанариум · стеклянный дворец/Scene",
+      "calls": 1,
+      "triangles": 384,
+      "vertices": 804
+    },
+    {
+      "name": "Mesh/Котячі оселі · житлова секція/Group/Котячі оселі · постійний житловий острів/Scene",
+      "calls": 1,
+      "triangles": 384,
+      "vertices": 580
+    },
+    {
+      "name": "Exact animated cat batch · CoatFibres/Персик/Group/Scene",
+      "calls": 1,
+      "triangles": 336,
+      "vertices": 560
+    },
+    {
+      "name": "Exact animated cat batch · CoatFibres/Флора/Group/Scene",
+      "calls": 1,
+      "triangles": 336,
+      "vertices": 560
+    },
+    {
+      "name": "Exact animated cat batch · CoatFibres/Сакура/Group/Scene",
+      "calls": 1,
+      "triangles": 336,
+      "vertices": 560
+    },
+    {
+      "name": "Exact animated cat batch · CoatFibres/Лили/Group/Scene",
+      "calls": 1,
+      "triangles": 336,
+      "vertices": 560
+    },
+    {
+      "name": "Exact animated cat batch · CoatFibres/Трюфель/Group/Scene",
+      "calls": 1,
+      "triangles": 336,
+      "vertices": 560
+    },
+    {
+      "name": "Mesh/Mall sequential pressure airlock/CHICHI horizontal underwater mall/Scene",
+      "calls": 26,
+      "triangles": 292,
+      "vertices": 584
+    },
+    {
+      "name": "Mesh/Group/Mall sequential pressure airlock/CHICHI horizontal underwater mall/Scene",
+      "calls": 24,
+      "triangles": 288,
+      "vertices": 576
+    },
+    {
+      "name": "Mesh/Waterfall/Group/Котячі оселі · постійний житловий острів/Scene",
+      "calls": 1,
+      "triangles": 288,
+      "vertices": 28
+    },
+    {
+      "name": "Toe-1/Leg-1_-1/Chichi/Group/CHICHI horizontal underwater mall",
+      "calls": 2,
+      "triangles": 256,
+      "vertices": 768
+    },
+    {
+      "name": "Toe-1/Leg-1_1/Chichi/Group/CHICHI horizontal underwater mall",
+      "calls": 2,
+      "triangles": 256,
+      "vertices": 768
+    },
+    {
+      "name": "Toe-1/Leg1_-1/Chichi/Group/CHICHI horizontal underwater mall",
+      "calls": 2,
+      "triangles": 256,
+      "vertices": 768
+    },
+    {
+      "name": "Toe-1/Leg1_1/Chichi/Group/CHICHI horizontal underwater mall",
+      "calls": 2,
+      "triangles": 256,
+      "vertices": 768
+    },
+    {
+      "name": "Exact animated cat batch · Chin/Персик/Group/Scene",
+      "calls": 2,
+      "triangles": 240,
+      "vertices": 176
+    },
+    {
+      "name": "Exact animated cat batch · Mouth/Персик/Group/Scene",
+      "calls": 2,
+      "triangles": 240,
+      "vertices": 176
+    },
+    {
+      "name": "Exact animated cat batch · Chin/Снежка/Group/Scene",
+      "calls": 2,
+      "triangles": 240,
+      "vertices": 176
+    },
+    {
+      "name": "Exact animated cat batch · Mouth/Снежка/Group/Scene",
+      "calls": 2,
+      "triangles": 240,
+      "vertices": 176
+    },
+    {
+      "name": "Exact animated cat batch · Chin/Флора/Group/Scene",
+      "calls": 2,
+      "triangles": 240,
+      "vertices": 176
+    },
+    {
+      "name": "Exact animated cat batch · Mouth/Флора/Group/Scene",
+      "calls": 2,
+      "triangles": 240,
+      "vertices": 176
+    },
+    {
+      "name": "Exact animated cat batch · Chin/Сакура/Group/Scene",
+      "calls": 2,
+      "triangles": 240,
+      "vertices": 176
+    },
+    {
+      "name": "Exact animated cat batch · Mouth/Сакура/Group/Scene",
+      "calls": 2,
+      "triangles": 240,
+      "vertices": 176
+    },
+    {
+      "name": "Exact animated cat batch · Chin/Лили/Group/Scene",
+      "calls": 2,
+      "triangles": 240,
+      "vertices": 176
+    },
+    {
+      "name": "Exact animated cat batch · Mouth/Лили/Group/Scene",
+      "calls": 2,
+      "triangles": 240,
+      "vertices": 176
+    },
+    {
+      "name": "Exact animated cat batch · Chin/Зефир/Group/Scene",
+      "calls": 2,
+      "triangles": 240,
+      "vertices": 176
+    },
+    {
+      "name": "Exact animated cat batch · Mouth/Зефир/Group/Scene",
+      "calls": 2,
+      "triangles": 240,
+      "vertices": 176
+    },
+    {
+      "name": "Exact animated cat batch · Chin/Трюфель/Group/Scene",
+      "calls": 2,
+      "triangles": 240,
+      "vertices": 176
+    },
+    {
+      "name": "Exact animated cat batch · Mouth/Трюфель/Group/Scene",
+      "calls": 2,
+      "triangles": 240,
+      "vertices": 176
+    },
+    {
+      "name": "SleepingLidVelvet1/ClosedEye1/Head/Chichi/Group",
+      "calls": 1,
+      "triangles": 180,
+      "vertices": 300
+    },
+    {
+      "name": "SleepingLidVelvet-1/ClosedEye-1/Head/Chichi/Group",
+      "calls": 1,
+      "triangles": 180,
+      "vertices": 300
+    },
+    {
+      "name": "Aquarium continuous walkable floor/Group/Котячий океанариум · стеклянный дворец/Scene",
+      "calls": 1,
+      "triangles": 140,
+      "vertices": 420
+    },
+    {
+      "name": "Mesh/Group/Scene",
+      "calls": 2,
+      "triangles": 96,
+      "vertices": 100
+    },
+    {
+      "name": "Mesh/Group/Biome-sakura-Chill-Land/Scene",
+      "calls": 1,
+      "triangles": 32,
+      "vertices": 67
+    },
+    {
+      "name": "Soft underwater sunlight without a render target/Deep blue grotto, fish schools and sun shafts/Group/Biome-autumn-Sky-Mosasaur-Sea/Scene",
+      "calls": 1,
+      "triangles": 32,
+      "vertices": 64
+    },
+    {
+      "name": "Extended dry approach to the original pickup pier/Dry shore, original pier and retained owned plots/Group/Biome-autumn-Sky-Mosasaur-Sea/Scene",
+      "calls": 1,
+      "triangles": 12,
+      "vertices": 24
+    },
+    {
+      "name": "Points/Scene",
+      "calls": 2,
+      "triangles": 0,
+      "vertices": 740
+    }
+  ],
+  "camera": [
+    -443.73031582370834,
+    -69.49634946700832,
+    669.3688876211605
+  ],
+  "target": [
+    -450,
+    -137.99909798521637,
+    564.9995751379643
+  ],
+  "dpr": 2,
+  "poseCats": 21,
+  "registeredCats": 121,
+  "heap": 1009086321,
+  "lost": false,
+  "errors": [],
+  "httpErrors": [],
+  "limitations": "Native Chromium SwiftShader resource trace, not Apple M2 FPS. Synthetic roster65 plus original cats, complete real Mall. No live player save touched."
+}
