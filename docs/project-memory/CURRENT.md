@@ -1,54 +1,57 @@
 # Текущий статус — единственная очередь
 
-Обновлено 2026-11-17. Кораллы и одноразовая FPS-диагностика ОПУБЛИКОВАНЫ.
-Следующий активный этап: песок и объёмные камни. Пользователь явно просит
-ускорить работу и перенести оптимизацию ПОСЛЕ песка и дна.
+Обновлено 2026-11-17. ВСЁ ДНО ОПУБЛИКОВАНО. Сейчас оптимизация, как прямо
+потребовал пользователь: сразу ПОСЛЕ дна, без уменьшения моделей/численности,
+графики, DPR, теней, сохранений или покупок.
 
-## Публикация всего дна запущена, оптимизация следует сразу после неё
+## Подтверждённый релиз всего дна
 
-Main/source **06a39cb0b1c92f104996ae315932885655f07a68**,
-ветка `codex/seabed-floor-wide`, `/workspace/chichi-seabed-floor-wide`.
-CI https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44094617737
-ещё в работе. Expected JS f8acc968a8e3eef63f4e6621cbfdacd5064f6cd744e84edec2580c137b83d162,
-CSS прежнийc14ce840… . Скрипт `/tmp/verify-whole-floor-release.py` после CI
-сверит actual assets и запишет `/workspace/qa/whole-floor-publication/verification.exit`.
-Только после exit0 публиковать подтверждённую ссылку ?v=06a39cb&profile=1 и
-СРАЗУ начинать оптимизацию: последнее прямое требование пользователя.
+**06a39cb0b1c92f104996ae315932885655f07a68**, CI44094617737 SUCCESS всех3jobs.
+HTTP assets проверены 2026-11-17T13:50:03UTC: ровно одно подключение приложения,
+JS f8acc968a8e3eef63f4e6621cbfdacd5064f6cd744e84edec2580c137b83d162,
+CSS c14ce8408f8f3aed7a5e7991eca39663fe55377343421ff62e0600ada4c048ef,
+wave field/all9probes/reef.gz совпали с точной сборкой.
+[Workflow/live receipts](../qa/2026-11-17/whole-floor-publication/live-verification.json).
+Игра https://arturmal2805-netizen.github.io/ai-cat-game/?v=06a39cb
+Одноразовая диагностика https://arturmal2805-netizen.github.io/ai-cat-game/?v=06a39cb&profile=1
 
-Весь native floor81920tri теперь54секции с одинаковыми исходными attributes,
-точным прежним world transform/triangle multiplicity. Скрытый original bed
-сохранён только как native ray proxy; visual sections не raycast, не дублируют
-рендер. Материал sand общий для ВСЕГО дна,2m GL normal/roughness, плавный fade
-деталей до дальнего shader; near/far геометрия одна. Перед публикацией убрана
-регулярная однонаправленная полосатость: две мягкие перекрещивающиеся периодичные
-семьи ряби вычисляются один раз при authoring DataTexture, не каждый кадр.
-136черновых ready stones после clearance/slope проверки стали118безопасными:
-плохие новые размещения у стен/крутых склонов исключены ДО публикации, исходные
-препятствия не удалялись. Первые18изc44 точны. Во всех118старых допустимых позах
-рядом с камнями swimmer остаётся свободным. 40targeted PASS Node22 + native
-normal/remote/ocean/phone + private SQLite reload/ownership PASS. Optim metrics
-намеренно deferred до публикации по требованию пользователя.
-[Точная сборка/PNG/source](https://github.com/arturmal2805-netizen/ai-cat-game/blob/06a39cb0b1c92f104996ae315932885655f07a68/docs/qa/2026-11-17/whole-floor/manifest.json).
+81920 исходных triangles дна /54 static sections /118 готовых stones,
+общая sand normal/roughness2m на всём дне. Исходные vertices/attributes,
+world transforms и hidden native ray proxy сохранены. Все118 прежних
+допустимых saved poses свободны после новых контактов.40targeted + native
+normal/remote/overview/phone + privateSQLite reload/ownership PASS.
+[Точная сборка/source/PNG](https://github.com/arturmal2805-netizen/ai-cat-game/blob/06a39cb0b1c92f104996ae315932885655f07a68/docs/qa/2026-11-17/whole-floor/manifest.json).
+Это техническая публикация, не пользовательское одобрение внешнего вида.
 
-Будущая optimization checkout уже приготовлена БЕЗ изменений:
-`/workspace/chichi-ocean-performance`, `codex/ocean-performance`, база06a39cb.
-Не начинать диагноз до подтверждённой публикации floor. Затем прочитать raw
-`/workspace/qa/user-fps-report-2026-11-17.txt` (полный report16KB) и безопасную
-сводку `docs/qa/2026-11-17/player-fps-summary.json`, найти фактическую версию и
-CPU/GPU/loading hot spots, воспроизвести на private save. Сохранить ВСЕ модели,
-численность/размеры/качество/DPR/сохранения. Проверять pixel/pose/коллизии и честные
-полные frame intervals, большие паузы, память; SwiftShader не аппаратный Mac FPS.
-Не объявлять песок причиной slowdown: гипотеза не подтвердилась ранее.
+## Активная оптимизация
 
-## Последний подтверждённый релиз: c44bdc7
+Рабочая ветка codex/ocean-performance, /workspace/chichi-ocean-performance,
+база06a39cb; пока только QA-инструментирование, production fix ещё не выбран.
+Полный пользовательский report прочитан ПОСЛЕ release verification:
+/workspace/qa/optimization-player-report-extract.json. Report относится к c3f59b2
+(JSfe81b47a), AppleM2,1440x812,DPR2,68cats/29poseCats,individual renderer.
+30.61FPS, GPU median26.74ms/P9534.08,18.959Mtri/2462draws,540.26MBgeometry,
+211rapid refaults/59.54MB, максимальная пауза6383ms; CPU median1.5ms.
+Это реальные пользовательские замеры; LinuxSwiftShader не аппаратный MacFPS.
+
+Нужен полный реальный Mall: предыдущие floor/reef art audits не вызывали
+mall.ensure(), поэтому нельзя сопоставлять их draw counts с report напрямую.
+Первый trace ошибся, вернув из page.evaluate огромный Mall root: Playwright
+ERR_STRING_TOO_LONG. Исправлено: await ensure() без возврата root; trace повторяется.
+Логи /workspace/qa/ocean-performance-trace.log, результаты trace.json.
+Не объявлять cache причиной, пока actual trace не показал какие buffers уходят.
+Не включать вслепую colony renderer: раннее снижение draws не доказало AppleFPS.
+Не повышать бюджет памяти глобально. Проверять точные pixels/shadows/poses,
+полное время кадра/паузы/память, потом отдельный commit/CI/live verification.
+
+## Предыдущий релиз: c44bdc7
 
 **c44bdc7e6a262dbe7cf356e629d7b45239a39330** main/site проверен13:14:02UTC,
 CI44088502846 SUCCESS все3jobs. JSd161948eacde20b0d138b996abf78aba933ab162dcd41efbc010eb0ec69b7cb4,
 CSSc14ce840… .[Полный workflow/live](../qa/2026-11-17/sand-stones-publication/live-verification.json).
 Сайт https://arturmal2805-netizen.github.io/ai-cat-game/?v=c44bdc7
 Диагностика https://arturmal2805-netizen.github.io/ai-cat-game/?v=c44bdc7&profile=1
-В c44 только пробный участок18stones/sand, не весь floor; global06ещё не
-повышать до published автоматически. Предыдущие c3/b805 доказательства ниже.
+В c44 только пробный участок18stones/sand. Global06 опубликован и проверен выше.
 
 ## История этапа c44 (сейчас уже опубликован, см. выше)
 
