@@ -1,0 +1,1 @@
+{"cycle":2,"view":"remote","frame":150,"stats":{"bytes":262599306,"peakBytes":398020764,"geometries":588,"evicted":1561,"clockReads":154,"activeGraceMs":250,"refaults":1053,"refaultBytes":527826608,"rapidRefaults":1053,"rapidRefaultBytes":527826608},"gpu":{"bytes":264200066,"peak":398853824,"buffers":3250,"commandFrame":154,"commandCalls":222,"commands":205,"staticCommands":12}}

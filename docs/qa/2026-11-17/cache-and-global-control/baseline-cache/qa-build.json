@@ -1,0 +1,7 @@
+{
+  "sha256": "416ac1543da07834872bc8760ef65a564bcaef2f6508f783d13a10d8190eb4ed",
+  "node": "v22.23.5",
+  "head": "0b38098a32e338a89b88efd784b184e9ac72c3f3",
+  "dirty": " M scripts/check-aquarium.cjs\n?? scripts/audit-cache-cycles.mjs\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

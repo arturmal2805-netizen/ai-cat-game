@@ -1,3 +1,4 @@
+import {createChichiManual} from './chichi-manual.js';
 import {applyExplorerLocomotion} from './explorer-locomotion.js';
 const mallGuestCameraProfile=Object.freeze({targetDrop:.28,distanceScale:1.6,downAngle:Math.PI/12});
 import {MALL,mallStore,mallFloor,mallProduct} from './mall-data.js';
@@ -510,6 +511,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     preview = null,
     operation = null,
     submarine = null,
+    manualWalk = null,
     mall = null,
     mallPreviousCamera = null,
     mallWideClip = false,
@@ -771,7 +773,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       },
       start: (id, offer, ticket) => {
         if(mallStore(offer.id)){
-          if(id==='chichi'){if(operation||submarine?.active)return false;cancelHeroActivity(true);}
+          if(id==='chichi'){if(operation||(submarine?.active||manualWalk?.active))return false;cancelHeroActivity(true);}
           else {cancelResident(id,true);const n=npcs.get(id);if(n)n.leisureBiome='autumn';}
           return mall?.startReady(id,offer.id,ticket)||false;
         }
@@ -955,7 +957,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     const o = courtObject(id),
       g = itemGroups.get(id);
     if (!o || !(g?.userData.built || o.kind === "zoo" && courtProject(game,id)?.built)) return false;
-    submarine?.releaseControl();
+    submarine?.releaseControl();manualWalk?.stop();
     exitCourt();
     faceCamera.setEnabled(false, look);
     focused = o.biome;
@@ -2322,7 +2324,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
   syncActors = profileFunction("world.syncActors", syncActors);
   sync(initialGame);
   function focus(id, overview = false, keepFollow = false) {
-    if(!keepFollow)submarine?.releaseControl();
+    if(!keepFollow){submarine?.releaseControl();manualWalk?.stop();}
     mall?.exit(false);desiredFov=40;
     exitCourt(false);
     if (!keepFollow) faceCamera.setEnabled(false, look);
@@ -2514,7 +2516,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
   }
   const zooVisitorActors=()=>[{id:'chichi',position:chichiCarrier.position},...[...npcs].filter(([,n])=>n.carrier.parent).map(([id,n])=>({id,position:n.carrier.position}))];
   function followCat(id) {
-    submarine?.releaseControl();
+    submarine?.releaseControl();manualWalk?.stop();
     mall?.exit(false);
     const model = id === "chichi" ? cat : npcs.get(id)?.model;
     if (!model) return false;
@@ -2609,7 +2611,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     decision,
     { manualFriendDrop = false, leisureTicket = null, background = false } = {},
   ) {
-    if(submarine?.active)return Promise.resolve({cancelled:true});
+    if((submarine?.active||manualWalk?.active))return Promise.resolve({cancelled:true});
     const pending=decision.activityId&&itemGroups.get(decision.activityId);
     if(pending?.userData.loadingReference&&isBuilt(pending.userData.placement)){
       if(!background)focus(pending.userData.placement.biome,false,true);
@@ -3964,7 +3966,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
             draggingCat?.catId === id ||
             (now < gatherUntil && gatherParticipants.has(id)) ||
             (id === "chichi"
-              ? !!submarine?.active || (!!operation && !operation.jobCity) ||
+              ? !!(submarine?.active||manualWalk?.active) || (!!operation && !operation.jobCity) ||
                 !!heroGather ||
                 game.care?.resting ||
                 crew.workers.has(id)
@@ -5657,13 +5659,13 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       walking = heroJobFrame.walking;
       reaction = heroJobFrame.reaction;
     }
-    const heroHome = !submarine?.active && housingLife.get("chichi");
+    const heroHome = !(submarine?.active||manualWalk?.active) && housingLife.get("chichi");
     if (heroHome && !operation && !heroGather && !draggingCat && !heroBuild) {
       applyChillFrame(heroHome, chichiCarrier, cat, true);
       walking = heroHome.walking;
       reaction = heroHome.reaction;
     }
-    const heroLeisure = !submarine?.active && leisure.frame("chichi");
+    const heroLeisure = !(submarine?.active||manualWalk?.active) && leisure.frame("chichi");
     if (
       heroLeisure &&
       !operation &&
@@ -5681,8 +5683,9 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       reaction = heroLeisure.reaction;
     }
     const heroMall=mall?.frame('chichi',time);
-    if(heroMall&&!draggingCat&&!heroBuild&&!submarine?.active){chichiCarrier.position.copy(heroMall.position);chichiCarrier.rotation.y=heroMall.yaw;walking=heroMall.walking;reaction=heroMall.reaction;}
-    const submarinePose=!dialogOpen?submarine?.update(dt,time,reduced):null;
+    if(heroMall&&!draggingCat&&!heroBuild&&!(submarine?.active||manualWalk?.active)){chichiCarrier.position.copy(heroMall.position);chichiCarrier.rotation.y=heroMall.yaw;walking=heroMall.walking;reaction=heroMall.reaction;}
+    refreshManualButton();
+    const submarinePose=!dialogOpen?(manualWalk?.update(dt)||submarine?.update(dt,time,reduced)):null;
     if(submarinePose){walking=submarinePose.walking;reaction=submarinePose.reaction;}
     if (!dialogOpen) {
       animateCat(
@@ -5743,7 +5746,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     }
     frameProfile?.section("chichi");
     faceCamera.update(elapsed, look);
-    if(!mall?.inspection)submarine?.updateCamera(elapsed);
+    if(!mall?.inspection){if(!manualWalk?.updateCamera(elapsed))submarine?.updateCamera(elapsed);}
     camera.updateMatrixWorld();
     islands
       .get(HOUSING_ID)
@@ -5982,9 +5985,9 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     prepare:(steps,signal)=>prepareSceneSteps(steps,{scheduler:scenePreparation,priority:'autumn',signal}),
     prepareModel:model=>shaderWarmup.prepare(model,{background:focused!=='autumn'}),
     canSimulate:()=>callbacks.canSimulateLeisure?.()!==false,
-    blocked:id=>{const p=game.jobCity?.profiles[id],v=mall?.runtime.get(id),clock=game.jobCity&&cityClock(game.jobCity);return draggingCat?.catId===id||crew.workers.has(id)||p?.trip||!!(v?.ticket&&clock?.working&&p?.schedule?.job!=='rest')||(id==='chichi'&&!!submarine?.active);},
+    blocked:id=>{const p=game.jobCity?.profiles[id],v=mall?.runtime.get(id),clock=game.jobCity&&cityClock(game.jobCity);return draggingCat?.catId===id||crew.workers.has(id)||p?.trip||!!(v?.ticket&&clock?.working&&p?.schedule?.job!=='rest')||(id==='chichi'&&!!(submarine?.active||manualWalk?.active));},
     onCamera:(floor,entering,zone=null)=>{
-      submarine?.releaseControl();
+      submarine?.releaseControl();manualWalk?.stop();
       if(entering){mallPreviousCamera={look:desiredLook.clone(),distance:desiredDistance,azimuth,elevation,fov:desiredFov,near:camera.near};if(focused!=='autumn')focus('autumn');exitCourt(false);faceCamera.setEnabled(false,look);viewingOverview=false;}
       faceCamera.setEnabled(false,look);
       const b=byBiome('autumn');desiredLook.set(b.center[0],floor?mallFloor(floor).y+2:MALL.y+27,b.center[1]+MALL.z);
@@ -6012,7 +6015,33 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     onPurchase:(...args)=>callbacks.onMallPurchase?.(...args),onUse:(...args)=>callbacks.onMallUse?.(...args),onGoal:(...args)=>callbacks.onMallGoal?.(...args),
     onComplete:(id,visit)=>{if(visit.ticket)finishLeisure(id,{completed:true});else {const n=npcs.get(id);if(n)n.manualUntil=0;}},
   });
-  submarine=createSubmarineRuntime({scene,container,canvas:renderer.domElement,camera,look,actor:chichiCarrier,getModel:()=>cat,getMall:()=>mall,onError:message=>callbacks.onReaction?.(message),getIsland:()=>islands.get('autumn'),getGame:()=>game,getFocused:()=>focused,canPilot:()=>callbacks.canDragCat?.('chichi')!==false&&!mall?.inspection,cancelHero:()=>{cancelHeroActivity();heroGather=null;jobs.cancel('chichi');crew.cancel('chichi');leisure.cancel('chichi');spa.cancel('chichi');chill.cancel('chichi');court.cancel('chichi');faceCamera.setEnabled(false,look);},approachDock:point=>{heroGather=gatherTrip(chichiCarrier.position,{x:point.x,y:point.y,z:point.z},performance.now());return true;},focus});
+  submarine=createSubmarineRuntime({scene,container,canvas:renderer.domElement,camera,look,actor:chichiCarrier,getModel:()=>cat,getMall:()=>mall,onLandExit:()=>{manualWalk?.start();refreshManualButton();},onError:message=>callbacks.onReaction?.(message),getIsland:()=>islands.get('autumn'),getGame:()=>game,getFocused:()=>focused,canPilot:()=>callbacks.canDragCat?.('chichi')!==false&&!mall?.inspection&&!manualWalk?.active,cancelHero:()=>{cancelHeroActivity();heroGather=null;jobs.cancel('chichi');crew.cancel('chichi');leisure.cancel('chichi');spa.cancel('chichi');chill.cancel('chichi');court.cancel('chichi');faceCamera.setEnabled(false,look);},approachDock:point=>{heroGather=gatherTrip(chichiCarrier.position,{x:point.x,y:point.y,z:point.z},performance.now());return true;},focus});
+  const manualGroundRay=new THREE.Raycaster(),manualOrigin=new THREE.Vector3(),manualDown=new THREE.Vector3(0,-1,0),manualHit=new THREE.Vector3();
+  function manualSurface(p,radius){
+    for(const b of BIOMES){if(!game.unlocked.includes(b.id))continue;const local={x:p.x-b.center[0],y:p.y,z:p.z-b.center[1]};
+      const housing=b.id===HOUSING_ID;
+      if(!housing&&Math.hypot(local.x,local.z)>(b.radius||11.65)-radius-.15)continue;
+      let clear=true;if(b.id==='water')clear=spaWalkable(local,radius,spaObstacles);else if(b.id==='sakura')clear=chillWalkable(local,radius,chillObstacles);else if(['foodcourt','bikini','aquarium',ZOO_ID].includes(b.id))clear=courtWalkable(local,radius,getCourtBlockers(b.id),b.id);else if(housing)clear=housingLife.walkable(local,radius,builderObstacles.get(b.id)||[]);else clear=spaClear(local,radius,builderObstacles.get(b.id)||[]);
+      if(!clear)continue;
+      if(p!==chichiCarrier.position&&[...npcs.values()].some(n=>Math.abs(n.carrier.position.y-p.y)<1.6&&Math.hypot(n.carrier.position.x-p.x,n.carrier.position.z-p.z)<radius+catNavigationRadius(n.model)))continue;
+      if(b.id==='autumn'){
+        const ground=islands.get(b.id)?.userData.navigationSurface;if(!ground)continue;manualOrigin.set(p.x,p.y+.65,p.z);manualGroundRay.set(manualOrigin,manualDown);manualGroundRay.near=0;manualGroundRay.far=1.4;const hit=manualGroundRay.intersectObject(ground,true).find(h=>h.face?.normal.z>.4||h.face?.normal.y>.4);if(hit)return{biome:b.id,y:hit.point.y+.16};continue;
+      }
+      return{biome:b.id,y:.16+islandHeight(b.id,local.x,local.z)};
+    }
+    for(const road of constructionBridges){if(!game.unlocked.includes(road.from)||!game.unlocked.includes(road.to))continue;const a=road.start,b=road.end,dx=b.x-a.x,dz=b.z-a.z,t=((p.x-a.x)*dx+(p.z-a.z)*dz)/(dx*dx+dz*dz);if(t<0||t>1||Math.hypot(p.x-a.x-t*dx,p.z-a.z-t*dz)>WORLD_ROAD_WIDTH/2-radius)continue;return{biome:t<.5?road.from:road.to,y:a.y+(b.y-a.y)*t+.16};}
+    return null;
+  }
+  function manualCameraClear(a,b){
+    const length=a.distanceTo(b),steps=Math.max(1,Math.ceil(length/.15));
+    for(let i=0;i<=steps;i++){manualHit.lerpVectors(a,b,i/steps);const support=manualSurface(manualHit,.22);if(support&&manualHit.y<support.y+.22)return false;}
+    const direction=manualDown.clone().subVectors(b,a).normalize();manualGroundRay.set(a,direction);manualGroundRay.near=0;manualGroundRay.far=length;
+    for(const g of [...itemGroups.values(),...sceneryGroups()]){if(!g.visible)continue;const box=sceneryBounds(g);if(box.max.y<a.y-.25)continue;const hit=manualGroundRay.ray.intersectBox(box.clone().expandByScalar(.22),manualHit);if(hit&&hit.distanceTo(a)<length)return false;}return true;
+  }
+  const manualButton=document.getElementById('chichi-control');
+  const refreshManualButton=()=>{if(!manualButton)return;const active=!!(manualWalk?.active||submarine?.controlled&&submarine?.explorer);if(manualButton.getAttribute('aria-pressed')===String(active))return;manualButton.setAttribute('aria-pressed',String(active));manualButton.textContent=active?'🐈 Отпустить Чичи':'🐈 Управлять Чичи';};
+  manualWalk=createChichiManual({container,canvas:renderer.domElement,camera,look,actor:chichiCarrier,getRadius:()=>catNavigationRadius(cat),surface:manualSurface,cameraClear:manualCameraClear,canControl:()=>callbacks.canDragCat?.('chichi')!==false&&!document.querySelector('dialog[open]'),cancel:()=>{cancelHeroActivity();heroGather=null;jobs.cancel('chichi');crew.cancel('chichi');housingLife.cancel?.('chichi');faceCamera.setEnabled(false,look);mall?.exit(false);},focus,onRelease:refreshManualButton});
+  if(manualButton)manualButton.onclick=async()=>{if(manualWalk.active){manualWalk.stop();refreshManualButton();return;}if(submarine.controlled&&submarine.explorer){submarine.releaseControl();refreshManualButton();return;}mall?.exit(false);if(await submarine.controlChichi?.()){refreshManualButton();return;}if(submarine.active)return;if(!manualWalk.start())callbacks.onReaction?.('Здесь пока нет свободной опоры для ходьбы.');refreshManualButton();};
   if((initialGame.mosasaurSubmarine?.active||initialGame.mosasaurSubmarine?.explorer)&&game.unlocked.includes('autumn'))focus('autumn',false,true);
   requestAnimationFrame(loop);
   for (const mood of moodNames) {
@@ -6034,7 +6063,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     inspectMall:floor=>mall.inspect(floor),
     async useMallItem(id,itemId){const item=mallProduct(itemId),actor=lifeActors.find(a=>a.id===id);if(!item||!actor||!game.jobCity?.profiles[id]?.inventory[itemId]||mall.has(id))return false;
       if(item.use==='wear')return !!callbacks.onMallUse?.(id,itemId);
-      if(crew.workers.has(id)||jobs.has(id)||housingLife.get(id)||(id==='chichi'&&(operation||submarine?.active||game.care?.resting))||id!=='chichi'&&(residentPlay.get(id)||court.get(id)||spa.get(id)||chill.get(id)))return false;
+      if(crew.workers.has(id)||jobs.has(id)||housingLife.get(id)||(id==='chichi'&&(operation||(submarine?.active||manualWalk?.active)||game.care?.resting))||id!=='chichi'&&(residentPlay.get(id)||court.get(id)||spa.get(id)||chill.get(id)))return false;
       if(['cinema','arcade','bowling','spa','photo'].includes(item.use)){
         const b=byBiome('autumn');if(Math.hypot(actor.position.x-b.center[0],actor.position.z-b.center[1])>b.radius)return false;
         return mall.start(id,item.storeId,{productId:itemId,useOwned:true});
@@ -6042,7 +6071,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       return mall.startPersonal(id,itemId);
     },
     async visitMall(id,storeId,productId=null){
-      const actor=lifeActors.find(a=>a.id===id),b=byBiome('autumn');if(!actor||!game.jobCity?.profiles[id]||Math.hypot(actor.position.x-b.center[0],actor.position.z-b.center[1])>b.radius||crew.workers.has(id)||jobs.get(id)?.job||id==='chichi'&&(operation||submarine?.active))return false;
+      const actor=lifeActors.find(a=>a.id===id),b=byBiome('autumn');if(!actor||!game.jobCity?.profiles[id]||Math.hypot(actor.position.x-b.center[0],actor.position.z-b.center[1])>b.radius||crew.workers.has(id)||jobs.get(id)?.job||id==='chichi'&&(operation||(submarine?.active||manualWalk?.active)))return false;
       if(mall.has(id))return false;
       if(id==='chichi')cancelHeroActivity();else cancelResident(id);
       return mall.start(id,storeId,{productId});
@@ -6226,7 +6255,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       staticDraws.dispose();
       jobs.clear();
       housingLife.clear();
-      releaseAnimalDrag();animalGuests.dispose();submarine?.dispose();mall?.dispose();
+      releaseAnimalDrag();animalGuests.dispose();manualWalk?.dispose();submarine?.dispose();mall?.dispose();
       leisure.clear();
       drivePrompt.remove();
       for (const car of cityCars.values()) car.removeFromParent();

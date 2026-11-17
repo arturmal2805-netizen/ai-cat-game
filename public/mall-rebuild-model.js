@@ -1,3 +1,4 @@
+import {mallColourPaletteSteps} from './mall-colour-palette.js';
 import {stampMallSurfaceUVsSteps} from './mall-surface-uv.js';
 import {compactMallBuffersSteps} from './mall-buffer-compaction.js';
 import {createMallAirlock} from './mall-airlock.js';
@@ -218,6 +219,7 @@ export function* mallRebuildModelSteps(options={}){
     updateLift(y,opening){cabin.position.y=y;for(const d of doors)d.mesh.position.x=d.x+Math.sign(d.x)*opening*3.8;},
   };
   root.traverse(o=>{if(o.isMesh){o.userData.mall=true;o.userData.biomeId='autumn';}});
+  if(options.colourPalette!==false)root.userData.colourPalette=yield* mallColourPaletteSteps(root);
   return root;
 }
 export const createMallRebuildModel=options=>runSceneSteps(mallRebuildModelSteps(options));

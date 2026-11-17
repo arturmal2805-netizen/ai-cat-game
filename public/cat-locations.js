@@ -1,8 +1,14 @@
+import {worldRoads,WORLD_ROAD_WIDTH} from './world-roads.js';
 import {BIOMES,byBiome} from './game-data.js';
 import {activeCats} from './cat-roster.js';
 import {HOUSING_ID,HOUSING_SECTION_PITCH,housingSectionCount} from './housing-data.js';
 
-function inIsland(p,b,game){
+let locationRoads;
+function onRoad(p,b,game){
+ locationRoads??=worldRoads(BIOMES);const x=p.x+b.center[0],z=p.z+b.center[1];
+ return locationRoads.some(r=>{if(![r.from,r.to].includes(b.id)||!game.unlocked.includes(r.from)||!game.unlocked.includes(r.to))return false;const a=r.start,c=r.end,dx=c.x-a.x,dz=c.z-a.z,t=((x-a.x)*dx+(z-a.z)*dz)/(dx*dx+dz*dz);return t>=0&&t<=1&&Math.hypot(x-a.x-dx*t,z-a.z-dz*t)<WORLD_ROAD_WIDTH/2-.2;});
+}
+function inIsland(p,b,game,roads=false){
   if(!b||!game.unlocked.includes(b.id))return false;
   let x=p.x;
   if(b.id===HOUSING_ID){
@@ -10,7 +16,7 @@ function inIsland(p,b,game){
     if(section>=housingSectionCount(game.housing))return false;
     x+=section*HOUSING_SECTION_PITCH;
   }
-  return Math.hypot(x,p.z)<(b.radius||11.65)-.2;
+  return Math.hypot(x,p.z)<(b.radius||11.65)-.2||roads&&onRoad(p,b,game);
 }
 export function normalizeCatLocations(raw,game,now=Date.now()){
   const ids=new Set(['chichi',...activeCats(game).map(n=>n.id)]),out={};
@@ -18,7 +24,7 @@ export function normalizeCatLocations(raw,game,now=Date.now()){
     const p=raw?.[id];
     if(!p||![p.x,p.y,p.z,p.yaw,p.at].every(Number.isFinite)||
        p.y < -400 || p.y>120 || p.at<0 || p.at>now+300000 ||
-       !inIsland(p,byBiome(p.biome),game))continue;
+       !inIsland(p,byBiome(p.biome),game,id==='chichi'))continue;
     out[id]={biome:p.biome,x:p.x,y:p.y,z:p.z,yaw:p.yaw,at:p.at};
   }
   return out;
@@ -37,12 +43,12 @@ export function captureCatLocations(next,previous,actors,now=Date.now()){
       : next.catDestinations?.[a.id]!==previous.catDestinations?.[a.id];
     if(commanded){delete locations[a.id];continue;}
     if(a.transient)continue;
-    for(const b of BIOMES){
+    for(const b of (a.id==='chichi'?[...BIOMES].sort((a,b)=>Number(b.id===next.catPosition?.biome)-Number(a.id===next.catPosition?.biome)):BIOMES)){
       const p={biome:b.id,x:a.position.x-b.center[0],y:a.position.y,z:a.position.z-b.center[1],yaw:a.yaw,at:now};
-      if(![p.x,p.y,p.z,p.yaw].every(Number.isFinite)||!inIsland(p,b,next))continue;
+      if(![p.x,p.y,p.z,p.yaw].every(Number.isFinite)||!inIsland(p,b,next,a.id==='chichi'))continue;
       const old=locations[a.id];
       locations[a.id]=old&&['biome','x','y','z','yaw'].every(k=>old[k]===p[k])?old:p;
-      if(a.id==='chichi')catPosition={biome:p.biome,x:p.x,z:p.z};
+      if(a.id==='chichi'){if(Math.hypot(p.x,p.z)<(b.radius||11.65)-.8)catPosition={biome:p.biome,x:p.x,z:p.z};else if(!catPosition||catPosition.biome!==p.biome){const scale=((b.radius||11.65)-1.1)/Math.hypot(p.x,p.z);catPosition={biome:p.biome,x:p.x*scale,z:p.z*scale};}}
       else if(p.biome!==resolved.get(a.id))destinations[a.id]=p.biome;
       break;
     }

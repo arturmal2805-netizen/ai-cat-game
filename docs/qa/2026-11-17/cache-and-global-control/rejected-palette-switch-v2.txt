@@ -1,0 +1,15 @@
+Mall range QA: full native Mall ready
+Mall native A/B {"name":"mall-interior","baseline":{"completeGpuFrameMs":7847.60000000149,"calls":671,"triangles":5464231,"palette":{"geometries":152,"colours":3627,"sourceBytes":41432184,"indexBytes":6905364,"textureBytes":65536,"savedBytes":34461284},"buffers":{"bytes":412552220,"peak":412552220,"buffers":3649,"commandFrame":8,"commandCalls":707,"commands":1266,"staticCommands":775}},"candidate":{"completeGpuFrameMs":5619.699999999255,"calls":671,"triangles":5464231,"palette":{"geometries":152,"colours":3627,"sourceBytes":41432184,"indexBytes":6905364,"textureBytes":65536,"savedBytes":34461284},"buffers":{"bytes":379831720,"peak":412552220,"buffers":3649,"commandFrame":10,"commandCalls":707,"commands":1266,"staticCommands":775}},"changedChannels":1253238,"maxDelta":255,"dpr":2,"camera":[-440,-134,599],"lost":false}
+AssertionError [ERR_ASSERTION]: exact colour and shadow pixels
+
+1253238 !== 0
+
+    at auditMallPaletteNative (file:///workspace/chichi-ocean-cache-trace/scripts/audit-mall-palette-native.mjs:20:249)
+    at async /workspace/chichi-ocean-cache-trace/scripts/check-aquarium.cjs:687:128 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 1253238,
+  expected: 0,
+  operator: 'strictEqual',
+  diff: 'simple'
+}

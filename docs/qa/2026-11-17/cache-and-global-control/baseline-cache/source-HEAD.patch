@@ -1,0 +1,22 @@
+diff --git a/scripts/check-aquarium.cjs b/scripts/check-aquarium.cjs
+index d11bb6a..bb03670 100644
+--- a/scripts/check-aquarium.cjs
++++ b/scripts/check-aquarium.cjs
+@@ -382,7 +382,8 @@ async function localWorker() {
+           name: "qa",
+           setup(b) {
+             if(process.env.CHICHI_TERRAIN_AUDIT){const original=b.onLoad.bind(b);b.onLoad=(options,fn)=>original(options,async args=>{const result=await fn(args);if(result?.contents){const relative=path.relative(root,args.path),target=path.join(review,'qa-inputs',relative);fs.mkdirSync(path.dirname(target),{recursive:true});fs.writeFileSync(target,result.contents);}return result;});}
+-            if(process.env.CHICHI_OCEAN_PERF_AUDIT)b.onLoad({filter:/\/public\/geometry-residency\.js$/},()=>({loader:'js',contents:'globalThis.__resTrace={meta:new WeakMap(),events:[],time:0};\n'+readPublic('geometry-residency.js')
++            if(process.env.CHICHI_OCEAN_PERF_AUDIT||process.env.CHICHI_CACHE_TRACE)b.onLoad({filter:/\/public\/geometry-residency\.js$/},()=>({loader:'js',contents:'globalThis.__resTrace={meta:new WeakMap(),events:[],time:0};\n'+readPublic('geometry-residency.js')
++              .replace('clock = () => performance.now()', 'clock = () => globalThis.__resTrace.now ?? performance.now()')
+               .replace('function draw(...args) {',`function draw(...args) {const g=args[2],o=args[4];if(g&&o){const names=[];for(let p=o;p&&names.length<5;p=p.parent)names.push(p.name||p.type);globalThis.__resTrace.meta.set(g,{names,cat:!!(o.isSkinnedMesh||o.material?.name?.includes('cat')),vertices:g.attributes.position?.count||0});}`)
+               .replace('stats.refaults++; stats.refaultBytes += bytes;',`stats.refaults++; stats.refaultBytes += bytes;if(globalThis.__resTrace.events.length<5000)globalThis.__resTrace.events.push({kind:'return',at:used,id:geometry.id,bytes,...globalThis.__resTrace.meta.get(geometry)});`)
+               .replace('retired.set(record.geometry, now);',`retired.set(record.geometry, now);if(globalThis.__resTrace.events.length<5000)globalThis.__resTrace.events.push({kind:'evict',at:now,id:record.geometry.id,age:now-record.used,frames:frame-record.frame,hold:record.holdUntil-now,bytes:[...record.attributes].reduce((n,a)=>n+a.array.byteLength,0),...globalThis.__resTrace.meta.get(record.geometry)});`)}));
+@@ -683,6 +684,7 @@ async function localWorker() {
+       const dirty=sourceGit(['status','--porcelain=v1']).toString();
+       fs.writeFileSync(path.join(review,'source-status.txt'),dirty);
+       fs.writeFileSync(path.join(review,'qa-build.json'),JSON.stringify({sha256:crypto.createHash('sha256').update(output.outputFiles[0].contents).digest('hex'),node:process.version,head:sourceGit(['rev-parse','HEAD']).toString().trim(),dirty,sourceOverlay:'source-HEAD.patch'},null,2));
++      if(process.env.CHICHI_CACHE_TRACE){const {auditCacheCycles}=await import('./audit-cache-cycles.mjs');await auditCacheCycles({page,review,errors,httpErrors});return;}
+       if(process.env.CHICHI_MALL_STATIC_AUDIT){const {auditMallStaticNative}=await import('./audit-mall-static-native.mjs');await auditMallStaticNative({page,review,errors,httpErrors});return;}
+       if(process.env.CHICHI_FLOOR_CULLING_AUDIT){const {auditFloorCullingNative}=await import('./audit-floor-culling-native.mjs');await auditFloorCullingNative({page,review,errors,httpErrors});return;}
+       if(process.env.CHICHI_OCEAN_PERF_AUDIT){const {auditOceanPerformance}=await import('./audit-ocean-performance.mjs');await auditOceanPerformance({page,review,errors,httpErrors});return;}

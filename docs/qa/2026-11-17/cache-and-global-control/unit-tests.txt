@@ -1,0 +1,130 @@
+TAP version 13
+# Subtest: the hero and residents restore their actual last local coordinates through thirty saves, without changing money or owners
+ok 1 - the hero and residents restore their actual last local coordinates through thirty saves, without changing money or owners
+  ---
+  duration_ms: 303.498454
+  type: 'test'
+  ...
+# Subtest: a new manual destination wins over the previous rendered position; temporary airborne rides do not overwrite a safe point
+ok 2 - a new manual destination wins over the previous rendered position; temporary airborne rides do not overwrite a safe point
+  ---
+  duration_ms: 1.750694
+  type: 'test'
+  ...
+# Subtest: cached clients omitting positions preserve them, and stale atomic positions cannot mix or overwrite a newer location
+ok 3 - cached clients omitting positions preserve them, and stale atomic positions cannot mix or overwrite a newer location
+  ---
+  duration_ms: 15.097064
+  type: 'test'
+  ...
+# Subtest: saving a venue kitten in the same island does not mark it released or detach it from its working stand
+ok 4 - saving a venue kitten in the same island does not mark it released or detach it from its working stand
+  ---
+  duration_ms: 85.231578
+  type: 'test'
+  ...
+# Subtest: a manual island command clears the previous saved shore even when the old actor is still on a transient ride
+ok 5 - a manual island command clears the previous saved shore even when the old actor is still on a transient ride
+  ---
+  duration_ms: 1.775561
+  type: 'test'
+  ...
+# Subtest: cloud merging cannot resurrect an old shore after recall or from a cached client omitting new locations
+ok 6 - cloud merging cannot resurrect an old shore after recall or from a cached client omitting new locations
+  ---
+  duration_ms: 21.302443
+  type: 'test'
+  ...
+# Subtest: recall stays on the requested island through cloud acknowledgements, completed-position saves and reloads
+ok 7 - recall stays on the requested island through cloud acknowledgements, completed-position saves and reloads
+  ---
+  duration_ms: 44.836842
+  type: 'test'
+  ...
+# Subtest: Chichi can save on a real unlocked bridge, keeps a valid legacy shore and reloads her exact body position
+ok 8 - Chichi can save on a real unlocked bridge, keeps a valid legacy shore and reloads her exact body position
+  ---
+  duration_ms: 14.494525
+  type: 'test'
+  ...
+# Subtest: third-person walking is camera-relative, diagonal-normalized and sweeps the full body before a thin wall
+ok 9 - third-person walking is camera-relative, diagonal-normalized and sweeps the full body before a thin wall
+  ---
+  duration_ms: 1.606782
+  type: 'test'
+  ...
+# Subtest: native ground heights are followed without stepping through a cliff and turning is independent of FPS
+ok 10 - native ground heights are followed without stepping through a cliff and turning is independent of FPS
+  ---
+  duration_ms: 0.9011
+  type: 'test'
+  ...
+# Subtest: exact palette preserves every Float32 colour bit, native vertices/index/bounds and picking; toggles retain static shader dispatch
+ok 11 - exact palette preserves every Float32 colour bit, native vertices/index/bounds and picking; toggles retain static shader dispatch
+  ---
+  duration_ms: 53.235419
+  type: 'test'
+  ...
+# Subtest: a material shared with a cat or unsupported colour surface is excluded completely
+ok 12 - a material shared with a cat or unsupported colour surface is excluded completely
+  ---
+  duration_ms: 9.527884
+  type: 'test'
+  ...
+# Subtest: a paid placement rejected by shore, locked land or collisions goes to the bag with its original timer instead of vanishing
+ok 13 - a paid placement rejected by shore, locked land or collisions goes to the bag with its original timer instead of vanishing
+  ---
+  duration_ms: 275.092103
+  type: 'test'
+  ...
+# Subtest: forty store/replace/restart cycles preserve one finished Mega Loops, balance, XP and ownership receipt
+ok 14 - forty store/replace/restart cycles preserve one finished Mega Loops, balance, XP and ownership receipt
+  ---
+  duration_ms: 409.361043
+  type: 'test'
+  ...
+# Subtest: legacy purchase proof recovers a missing attraction once without a charge or granting an unbought slide
+ok 15 - legacy purchase proof recovers a missing attraction once without a charge or granting an unbought slide
+  ---
+  duration_ms: 43.367603
+  type: 'test'
+  ...
+# Subtest: durable receipts recover the exact owned and completed-copy counts after a filtered snapshot
+ok 16 - durable receipts recover the exact owned and completed-copy counts after a filtered snapshot
+  ---
+  duration_ms: 20.135281
+  type: 'test'
+  ...
+# Subtest: two phones buying the same attraction retain two copies and exact once-only payments
+ok 17 - two phones buying the same attraction retain two copies and exact once-only payments
+  ---
+  duration_ms: 13.794481
+  type: 'test'
+  ...
+# Subtest: a cached client dropping a placed slide keeps its original identity and cannot erase paid completion receipts
+ok 18 - a cached client dropping a placed slide keeps its original identity and cannot erase paid completion receipts
+  ---
+  duration_ms: 14.514835
+  type: 'test'
+  ...
+# Subtest: an unchanged healthy world is returned by identity and ownership bookkeeping never touches native graphics
+ok 19 - an unchanged healthy world is returned by identity and ownership bookkeeping never touches native graphics
+  ---
+  duration_ms: 2.945568
+  type: 'test'
+  ...
+# Subtest: matching-world backups retain completed construction, while another accounts backup cannot invent ownership
+ok 20 - matching-world backups retain completed construction, while another accounts backup cannot invent ownership
+  ---
+  duration_ms: 16.913946
+  type: 'test'
+  ...
+1..20
+# tests 20
+# suites 0
+# pass 20
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1163.16053

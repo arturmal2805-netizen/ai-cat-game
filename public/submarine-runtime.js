@@ -1,3 +1,4 @@
+import {mallWalkable} from './mall-navigation.js';
 import {EXPLORER_VIEW,createExplorerCameraFollower,mallExplorerCameraClear,oceanExplorerCameraPointClear,oceanExplorerCameraSegmentClear} from './explorer-camera.js';
 import * as T from 'three';
 import {submarineControlInput,submarineAirborne} from './submarine-controls.js';
@@ -13,13 +14,14 @@ import {MALL_LAYOUT as MALL} from './mall-layout.js';
 import {catNavigationRadius} from './cat-navigation-size.js';
 import {byBiome} from './game-data.js';
 
-export function createSubmarineRuntime({container,canvas,camera,look,actor,getModel,getIsland,getGame,getFocused,cancelHero,approachDock,canPilot=()=>true,scene,focus,getMall=()=>null,onError=()=>{}}){
+export function createSubmarineRuntime({container,canvas,camera,look,actor,getModel,getIsland,getGame,getFocused,cancelHero,approachDock,canPilot=()=>true,scene,focus,getMall=()=>null,onError=()=>{},onLandExit=()=>{}}){
  const physics=createSubmarinePhysics(getGame().mosasaurSubmarine),state=physics.state,biome=byBiome('autumn'),centre=new T.Vector3(biome.center[0],0,biome.center[1]);
  const anchor=new T.Group();anchor.position.copy(centre);scene.add(anchor);let boat=null,disposed=false;
  const saved=state.explorer;
  let phase=saved?.mode||(state.active?'piloting':'docked'),controlled=phase!=='docked'&&!saved?.returning&&!state.released,age=0,returning=false,returnRoute=null,boatReturning=!!state.returning,boatRoute=boatReturning?createSubmarineReturn(state):null;
  let swimmer=saved?createOceanSwimmer(saved,{radius:catNavigationRadius(getModel())}):null,returningExplorer=!!saved?.returning,swimReturn=swimmer&&returningExplorer?createSubmarineReturn(swimmer.state):null;
  if(phase==='piloting'&&!controlled){returning=true;returnRoute=createSubmarineReturn(state);}
+ let wantLandControl=false;
  let touchMove=null,touchDepth=null,boatTap=null,lastTap=null,touchJump=0;
  let explorerYaw=saved?.yaw??state.yaw,explorerPitch=EXPLORER_VIEW.pitch,explorerDistance=EXPLORER_VIEW.distance,gaitPhase=0,locomotion=null;
  let transit=null,transitOrigin=null,pan=0,tilt=0,drag=null,viewDistance=9,lastHud='',lastWake=-Infinity,lastAirborne=null,lastControls=null,lastFloor=null,route=[],routePending=false,routeRetry=0,restoreView=null;
@@ -79,9 +81,24 @@ export function createSubmarineRuntime({container,canvas,camera,look,actor,getMo
   if(!spawn){state.active=true;return false;}
   returningExplorer=false;swimReturn=null;state.speed=0;state.vertical=0;swimmer=createOceanSwimmer(spawn,{radius});phase='swimming';pan=tilt=0;actor.rotation.set(0,state.yaw,0);cameraFollow.reset();resetExplorerView();return true;
  }
+ async function controlChichi(){
+  if(!getGame().unlocked.includes('autumn'))return false;
+  if(phase==='piloting'){if(!controlled)resume();wantLandControl=physics.atDock();return exit();}
+  if(exploring())return resume();if(busy())return false;
+  const p=localPosition(),floor=Math.round((p.y-MALL.y-.18)/MALL.rise)+1,radius=catNavigationRadius(getModel());
+  let mode=null;
+  if(floor>=1&&floor<=7&&Math.abs(p.y-(MALL.y+(floor-1)*MALL.rise+.18))<1.1){
+   const mall=getMall();if(!await mall?.ensure()||disposed)return false;
+   if(mallWalkable({x:p.x,z:p.z-MALL.z},radius,mall.root.userData.obstacles.get(floor)))mode='mall';
+  }
+  if(!mode&&p.y<.155&&Math.hypot(p.x/200,p.z/200)<1)mode='swimming';
+  if(!mode)return false;focus('autumn',false,true);if(!canPilot())return false;
+  const next=createOceanSwimmer({...p,yaw:actor.rotation.y,floor:mode==='mall'?floor:0,mode},{radius});if(mode==='swimming'&&!next.clear(next.state))return false;
+  cancelHero();swimmer=next;phase=mode;controlled=true;returningExplorer=false;returning=false;route=[];clear();resetExplorerView();return true;
+ }
  function boatHome(){boatReturning=true;boatRoute=createSubmarineReturn(state);}
  function releaseControl(){
-  if(!controlled)return false;controlled=false;clear();cameraFollow.reset();explorerFollow.reset();
+  wantLandControl=false;if(!controlled)return false;controlled=false;clear();cameraFollow.reset();explorerFollow.reset();
   if(restoreView){camera.near=restoreView.near;camera.fov=restoreView.fov;camera.updateProjectionMatrix();restoreView=null;}
   if(phase==='piloting'){returning=true;returnRoute=createSubmarineReturn(state);}
   else if(exploring()){returningExplorer=true;route=[];swimReturn=phase==='swimming'?createSubmarineReturn(swimmer.state):null;boatHome();}
@@ -163,7 +180,7 @@ export function createSubmarineRuntime({container,canvas,camera,look,actor,getMo
   const inputKeys=new Set([...keys,...screenKeys.values()]);
   if(phase==='approaching'&&actor.position.distanceTo(dockPoint)<.5)beginBoarding();
   if(phase==='boarding'&&age>=3){phase='piloting';age=0;state.active=true;}
-  if(phase==='exiting'&&age>=2.5){phase='docked';age=0;state.active=false;actor.position.copy(dockPoint);actor.rotation.set(0,0,0);if(controlled){controlled=false;focus('autumn',false,true);}}
+  if(phase==='exiting'&&age>=2.5){phase='docked';age=0;state.active=false;actor.position.copy(dockPoint);actor.rotation.set(0,0,0);if(controlled){controlled=false;focus('autumn',false,true);}if(wantLandControl){wantLandControl=false;onLandExit();}}
   if(boatReturning){state.active=true;physics.step(dt,boatRoute(state));if(physics.atDock()){boatReturning=false;state.active=false;}}
   else if(phase==='piloting'){
    state.active=true;const input=controlled?submarineControlInput(inputKeys,state):{};
@@ -259,7 +276,7 @@ export function createSubmarineRuntime({container,canvas,camera,look,actor,getMo
   const {explorer:oldExplorer,returning:oldReturn,released:oldRelease,...boatState}=physics.snapshot();
   return {...boatState,explorerVersion:1,explorer,active:phase==='piloting'||phase==='boarding',...(boatReturning?{returning:true}:{}),...(!controlled&&busy()?{released:true}:{})};
  }
- return {get active(){return busy();},get controlled(){return controlled;},get exploringMall(){return controlled&&(phase==='mall'||phase==='airlock'&&transit?.frame.inner>0);},get phase(){return phase;},get explorer(){return swimmer?.state;},get view(){return {yaw:explorerFollow.heading??explorerYaw,orbitYaw:explorerYaw,pitch:explorerPitch,distance:explorerDistance};},physics,boardingPoint:dockPoint,get boat(){return boat;},enter,exit,resume,releaseControl,usePortal,toggleCamera,update,updateCamera,snapshot,
+ return {get active(){return busy();},get controlled(){return controlled;},get exploringMall(){return controlled&&(phase==='mall'||phase==='airlock'&&transit?.frame.inner>0);},get phase(){return phase;},get explorer(){return swimmer?.state;},get view(){return {yaw:explorerFollow.heading??explorerYaw,orbitYaw:explorerYaw,pitch:explorerPitch,distance:explorerDistance};},physics,controlChichi,boardingPoint:dockPoint,get boat(){return boat;},enter,exit,resume,releaseControl,usePortal,toggleCamera,update,updateCamera,snapshot,
   dispose(){disposed=true;clear();controlResize?.disconnect();window.removeEventListener('resize',layoutControls);window.removeEventListener('scroll',layoutControls,true);window.visualViewport?.removeEventListener('resize',layoutControls);window.visualViewport?.removeEventListener('scroll',layoutControls);panel.remove();window.removeEventListener('keydown',onKey);window.removeEventListener('keyup',release);window.removeEventListener('blur',clear);window.removeEventListener('focusin',focusInput);window.removeEventListener('visibilitychange',visibility);canvas.removeEventListener('pointerdown',down,true);canvas.removeEventListener('pointermove',move,true);canvas.removeEventListener('pointerup',stopDrag,true);canvas.removeEventListener('pointercancel',stopDrag,true);canvas.removeEventListener('lostpointercapture',stopDrag,true);canvas.removeEventListener('wheel',wheel,true);anchor.removeFromParent();boat?.userData.dispose();}};
 }
 const MOSA_SURFACE=.155;

@@ -1,0 +1,7 @@
+{
+  "sha256": "b74737bba30933d9b46827c4db7bcfbd61673f65f669a3f1aefb8fb9e48c58a4",
+  "node": "v22.23.5",
+  "head": "0b38098a32e338a89b88efd784b184e9ac72c3f3",
+  "dirty": " M public/mall-rebuild-model.js\n M scripts/check-aquarium.cjs\n?? public/mall-colour-palette.js\n?? scripts/audit-cache-cycles.mjs\n?? scripts/audit-mall-palette-native.mjs\n?? scripts/check-mall-palette-pixels.mjs\n?? test/mall-colour-palette.test.mjs\n",
+  "sourceOverlay": "source-HEAD.patch"
+}
