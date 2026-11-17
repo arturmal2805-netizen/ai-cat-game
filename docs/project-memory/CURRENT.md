@@ -27,8 +27,20 @@ codex/mall-submit-performance, база1f96a1b. Трассировка16.6Mtri �
 hookidentity; guard правильно откатывает меши в native, теряется range culling.
 Кандидат сохраняет предыдущий shader, идемпотентен для sharedmaterials, явно
 регистрирует ТОЛЬКО эти два position-preserving hooks. Unknown wind/refraction/
-key/geometry changes по-прежнему nativefallback.7unitPASS, native actual pixels
-в работе: /workspace/qa/mall-static-native.log. Пока НЕ принят и не опубликован.
+key/geometry changes по-прежнему nativefallback.V1 отклонён shadererrors duplicateuMallProbe: обе картинки были битыми,
+нулевая pixel difference не подтверждала качество. Исправлено сохранением
+ТОЛЬКО известного static wrapper; старый Mall reflection заменяется как прежде.
+8unit+26release PASS. NativeV2 /workspace/qa/mall-static-native-v2/mall-static.json
+PASS: interior/overview/phoneDPR2 ZERO pixel/shader/page/HTTP errors. Triangle
+submissions11.2→5.46M,13.38→10.02M,10.73→3.94M. GPUbuffers unchanged. Single
+SwiftShader pairs interior/phone faster,overview+.53%noise; hardware неизвестен.
+Оба bakers пересняты,9reflectionPNG неизменны, producer static-submissions
+добавлен в оба списка. Ветка codex/mall-submit-performance source0b38098
+с полным build/source/PNG: docs/qa/2026-11-17/mall-static-submit/manifest.json.
+Готово локально/native, НЕ опубликовано. Pushmain только ПОСЛЕ CI/live1f,
+чтобы не отменить предыдущую публикацию. Новый report указывает наJSf8/06,
+26frames1.35s/18.52FPS НЕ сопоставимы с прежними300frames. GPU28.24ms,
+15.718Mtri, in-windowzero refaults/bufferData; texture loading8-10s отдельныйэтап.
 Не переносить неизвестные animatedshaders вstatic; не менять вершины/LOD/DPR.
 
 ## Подтверждённый релиз всего дна
