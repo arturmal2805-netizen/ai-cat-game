@@ -141,17 +141,44 @@ outer-radius416.3 не помещается в445m gap с43m housing. Тепер
 его основание; это вода/дно, не изменение геометрии ТРЦ. Офлайн fitting всех
 реальных вершин12reefs очищает весь столб до−190, не только верхние ярусы.
 Код отправлен в main c8788238e67207b9f4f30df45aaeb57900bbbe2e.
-CI44145586059 выполняется: https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44145586059
+CI44145586059 (#186) отменён после уточнения координат двух grass fixtures.
+Новая water source 0c636b86b40af399fcc50a43fb5dfccffc7871a1, CI44147306627
+(#187) завершился FAILURE на npm test; deploy/pages SKIPPED. НЕ опубликован.
+Доставка logs с results-receiver.actions.githubusercontent.com запрещена
+окружением; annotations дают только exit1. Локальный полный прогон запущен:
+/workspace/qa/ocean-area-full-local.log и .exit, session27088, Node22.
+Нужно найти реальную ошибку, исправить, проверить полный результат и CI.
+Native/production bytes fbb0341f... не изменены test-only followup.
+Старый отменённый CI: https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44145586059
 Native day/night/phone/outer-control/return/ownership PASS; НЕ считать live
 до завершения CI и /workspace/qa/ocean-area-publication/live-verification.json.
 Ожидаемые JSfbb0341f1dd1f67adab0b0003dc00305e7e549bd6bb1318eaa50a16a45aaad29,
 CSSd02068257c7b2b00ecdb80590c8a6bc5003849788f1400e69b6a6d6d91fb4356.
-Verifier /tmp/verify-ocean-area-release.py сравнивает неизменный public в
+Verifier для0c /tmp/verify-ocean-area-release-0c.py (уже остановился на FAILURE), старый /tmp/verify-ocean-area-release.py сравнивает неизменный public в
 /workspace/chichi-ocean-area-expansion. Не править эти assets во время CI.
 Исходники/QA: https://github.com/arturmal2805-netizen/ai-cat-game/blob/c8788238e67207b9f4f30df45aaeb57900bbbe2e/docs/qa/2026-11-17/ocean-area-expansion/manifest.json
 После публикации: СРАЗУ global third-person WASD bug. ТРЦ УДАЛЁН из очереди.
 Требуются Node22 build, актуальные probes/reef asset, native day/night/phone,
 субмарина/ходьба/возврат, privateSQLiteownership/reload, CI и HTTP hashes.
+
+## WIP ввода — следующий после воды, не опубликован
+
+/workspace/chichi-global-manual-input, codex/global-manual-input,
+4d8f8f9: canControlChichi отделён от app.busy/drag permission, takeover
+отменяет обычное занятие; версия запроса+AbortController не позволяют старому
+AI перезаписать ручной режим. Routine care не конкурирует с владельцем.
+NativeV4 (private fixture, no paidAI): реальный demo click→takeover→все
+W/S/A/D двигают настоящую Чичи→World release PASS. Pending-response mock
+проверяется в /workspace/qa/global-manual-pending-after.log, session12590.
+Ещё нужны phone touch/SQLite/build/tests/CI/live. В main не отправлять до
+успешной публикации воды и завершения своих проверок.
+
+В старом GLOBAL_MANUAL QA нашли null submarine→loadGame fallback default490
+coins/-6,-3. Исправлен ТОЛЬКО новый QA: delete отсутствующее поле, проверять
+реальную загруженную стартовую позу0,-7. Не считать старыйV7 проверкой rich
+seed. Water/ownership/Mall-palette не используют GLOBAL флаг и не затронуты.
+Немонотонный виртуальный QA clock искажал 2/3/4 удержание; V4 использует один
+монотонный clock и доказывает все четыре клавиши. Коллизии/радиусы не ослаблены.
 
 ## Что делать дальше
 
