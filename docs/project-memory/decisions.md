@@ -274,3 +274,13 @@ claim exact rootcause without its missing owner trace. Manifest records this.
 Finalrender timing rows were lost on that assertion; no device/performance win
 claimed. Next player priority: real path/door access throughout world; City
 manual navigation currently mistakes placement road reservations for walls.
+
+
+## 2026-11-18 — Физические проходы вместо строительных запретов
+
+Road/parking jobReservations запрещали размещение построек, но manualSurface
+ошибочно принимал их за стены. Разделены строительные резервы и настоящая
+геометрия. Двери используют отдельные исходные OBB до batching, поддерживают
+настоящие полы/ступени и сохраняют стены, мебель, полный радиус/рост кота.
+На ПК у шлюза добавлено контекстное действие, без экранного блока движения.
+См. QA manifest manual-paths-doors; все13 моделей побайтно неизменны.

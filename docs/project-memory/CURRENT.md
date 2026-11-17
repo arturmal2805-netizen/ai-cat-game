@@ -1,196 +1,99 @@
 # Текущий статус — единственная очередь
 
-Обновлено 2026-11-17. ТРЦ полностью убран из очереди по указанию игрока.
-Новый архитектурный WIP не включён в эти публикации.
+Обновлено2026-11-18, Europe/Kiev. Архитектурная/художественная доработка ТРЦ
+по-прежнему внеочереди. Новый запрос на ФУНКЦИОНАЛЬНЫЕ входы и проходы разрешён.
 
 ## Текущий подтверждённый релиз
 
-**fe9415cff8cdbb9dc20ed7def14fa71f6dbff968** — main и фактически работающий сайт.
-[Workflow44176344655](https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44176344655):
-полный test/deploy/pages SUCCESS, серверная версия/shared saves подтверждены.
-HTTP2026-11-17T21:18:40.630742+00:00: ровно одно приложение; реальные файлы совпали:
-JS0ca625bd2ecf9aa7b3b766306bce047b5f27b882be64ab0f3261058b2ea46c88,
+**e8ab6ffc24453e1e3ead9acf5190f90acff88730** — main и реально загруженный сайт.
+Workflow44185424944: полныйtest/deploy/pages SUCCESS, server/sharedsaves verified.
+HTTP2026-11-17T22:12:26.233244+00:00: одно приложение; actualassets matched.
+JSdb3df27ba3a6df07bf24b076f86f1b8e2d74e262468fd79f060e261322321acf,
 CSSd02068257c7b2b00ecdb80590c8a6bc5003849788f1400e69b6a6d6d91fb4356.
-Wave field,9reflection PNG и reef.gz тоже совпали с immutable build.
-[Квитанция CI и HTTP](../qa/2026-11-17/manual-input-publication/live-verification.json).
-Игра: https://arturmal2805-netizen.github.io/ai-cat-game/?v=fe9415c
-Одноразовая диагностика: https://arturmal2805-netizen.github.io/ai-cat-game/?v=fe9415c&profile=1
-Кнопка «Управлять Чичи», затем W/S/A/D на ПК; на телефоне компактный44px pad.
-Takeover занятой Чичи/pendingAI, отсутствие stale ответов, обычная жизнь после
-World/Island, приватный SQLite reload, underwater exit/reboard проверены.
-Эта публикация отдельная ПОСЛЕ водной f09c3f3 ниже. Модели/вода/сохранения
-не потеряны; ТРЦ-архитектура не менялась. ПлатныйИИ не вызывался.
+[Квитанция](../qa/2026-11-18/forecourt-publication/live-verification.json).
+Игра: https://arturmal2805-netizen.github.io/ai-cat-game/?v=e8ab6ff
+Одноразовая диагностика: https://arturmal2805-netizen.github.io/ai-cat-game/?v=e8ab6ff&profile=1
+Публикация подтверждена2026-11-18 00:12:26 Киев, пользователь получил ссылку.
 
-## Подтверждённая публикация воды и острова
+Передняя глубокая площадка ТРЦ удлинена на46m:282 вместо236; xradius192
+вместо180, глубина−190. Игрок одобрил плавную форму0bf98d5, но попросил ещё
+места. Сохранён её C2shoulder и добавлен forward ellipse через bounded union
+(a+b-a*b): не засыпан ни прежний, ни одобренный промежуточный свободный объём.
+Внешний берег/другие острова/архитектура/фундамент/модели/сейвы прежние.
+Сохранены12reef templates/scale/count/LODs; мешавшиеfrontreefs перемещены в
+реальную воду, полныйvertex/shore proof, offline bounded search<=360m.
+Общийводныйshader/8slideprobes прежние, actualMOSAprobe509a62f9c210 переснят.
 
-**f09c3f3d64be85a0394049e59877711d066db733** — main и реально загруженный сайт.
-Workflow44173134773: test/deploy/pages SUCCESS, серверная версия/shared saves
-проверены. HTTP подтвердил одно подключение приложения, фактические ресурсы:
-JSfbb0341f1dd1f67adab0b0003dc00305e7e549bd6bb1318eaa50a16a45aaad29,
-CSSd02068257c7b2b00ecdb80590c8a6bc5003849788f1400e69b6a6d6d91fb4356.
-[Полная квитанция](../qa/2026-11-17/ocean-area-publication/live-verification.json).
-Игра: https://arturmal2805-netizen.github.io/ai-cat-game/?v=f09c3f3
-Диагностика по запросу: https://arturmal2805-netizen.github.io/ai-cat-game/?v=f09c3f3&profile=1
+Node22build,25targeted+8cache/water tests PASS, полныйCI PASS.
+Native finalswim сz270 →SQLite reload →physical autonomous dock return PASS.
+Первый совмещённыйrender+save run поймалpiloting послеreload; его НЕ считать
+полнымPASS. Отдельнаякорректнаясессия legitimatelyclaimEditor прошла весь
+поведенческий сценарий. Production save/schema/collision tests не ослаблялись.
+[Точный source/QA/manifest](https://github.com/arturmal2805-netizen/ai-cat-game/blob/e8ab6ffc24453e1e3ead9acf5190f90acff88730/docs/qa/2026-11-17/forecourt-smoothing/manifest.json).
+Финальныйmatchedoverview переснят отдельно:2804×1384, samecamera/FOV40/DPR2/
+exposure1. Calls1634→1633, triangles14975258→14973242. Один synchronized
+SwiftShader frame24249.2→22587.3ms НЕ Mac/phone FPS/гарантия прироста.
+Source/QA этого дополнительного захвата сохранены рядом с новой квитанцией.
 
-Площадь воды2× относительно e25/12d; не масштабированы животные/дома/покупки.
-MOSA_SEA rx332.03915431767985,rz316.22776601683796; сухой берег397.7m сохраняет
-постоянную полосу жилья. Добавлен реальный глубокий подход до−190m вне здания,
-12рифов подогнаны по всем вершинам; сохранены основание ТРЦ и его архитектура.
-Шаг сеток сохранён на метр; shader/textures других водоёмов не менялись.
-Все8reflection PNG горок байт-в-байт прежние, океан получил актуальный probe.
-Native outer-water swim/physical autonomous dock return/phone ownership/two
-privateSQLite reload PASS. Это технический релиз, НЕ одобрение artwork/FPS.
-Точные build/PNG/настройки/ограничения сравнений: ocean-area-expansion/manifest.json.
-Предыдущий stablee25f6ffd3ab4cab2d3595a337573699bbaa4d3c2 остаётся контролем.
+## Сейчас — дорожки, двери домов/офисов, вход ТРЦ
 
-## Опубликованное исправление ручного управления Чичи
+Последний запрос: после расширения исправить хождение везде, дорожки и входы
+вТРЦ/все дома/офисы. На фото CatJobCity нельзя перейти через дорожку.
+Ветка codex/manual-paths-doors, /workspace/chichi-manual-paths-doors,
+remoteWIPcad6214 (полныйSHA смотретьgit). Базаe8ab6ff, НОВЫЙфикснеопубликован.
 
-Игрок сообщил: W/A/D не работают во всём мире, не только дома.
-Причина воспроизведена: app.busy держался на всём awaited занятии/AI и через
-canDragCat запрещал start manual, поэтому клавиши отбрасывались.
-Исправление public/app.js/world.js из4d8f8f91ae614069e6af971dc095912b20195956:
-отдельное canControlChichi сохраняет editable/conflict/build guards; takeover
-отменяет занятие/AI fetch, версия не допускает stale UI/effects/cloud commits.
-Обычная care/leisure уступает ручному владельцу/физическому возврату.
-Экономика/merge/схема saves/коллизии/радиус/модели не менялись.
+ПричинаCity подтверждена: manualSurface использовалbuilderObstacles с
+jobReservations, где самиroad/parking являются placementexclusions.
+Нельзя считать ихстенами и нельзя просто удалить настоящие стены.
+WIP отделяетactualplacement/scenery blockers иcityGroundClear отстроительных
+резервов; реальные здания используют примитивыДОбатчинга.
+Новыйmanual-building-navigation.js хранит реальные отдельныеOBBs/полы/ступени,
+необщийAABB mergedmesh. Sharednav натипдома, малый ownerboardoverlay наinstance.
+Door/camera неразрушают walls/furniture. Radius.571 прежний. RestnativeCat
+maxY2.0890767, heightguard2.15; радиус/ростнеменьшены.
+ModelrootY учтён отдельно: offices.16, houses0; footOffset.01, безпарения.
+Production economy/schema/merge/coin/inventory/catmodels неизменны.
 
-Node22 build, Wrangler dry-run,82 целевых теста PASS. Настоящие desktopW/S/A/D
-при busy demo, без экранного pad; phone held-touchW/S/A/D на44px; pending mockAI
-abort без stale commit; World/Island release; privateSQLite reload сохраняет
-позицию/монеты/items/placements и снимает manual; повторный start PASS.
-Под водой: global button exit/swim/dive/rise/reboard/World camera release PASS.
-[Точная QA/сборка](https://github.com/arturmal2805-netizen/ai-cat-game/blob/fe9415cff8cdbb9dc20ed7def14fa71f6dbff968/docs/qa/2026-11-17/manual-input-fix/candidate-build.json).
-JS кандидата0ca625bd2ecf9aa7b3b766306bce047b5f27b882be64ab0f3261058b2ea46c88,
-CSS прежний; приложение одно. Модели/reef/reflection assets не менялись.
-Native SwiftShader поведение не является физическим Mac/phone FPS.
+Все6офисныхдверей и7домов проходятunitсbody-sweep, back/sidewalls remain solid.
+13models byteexact vertices/indices/UV/normals/colours/groups/worldmatrices кe8.
+КвитанциявWIP docs/qa/2026-11-18/manual-paths-doors/manual-paths-exact-models.json.
+Финальные native City, bought-home-v3, held-touch phone и desktop Mall portal PASS.
+Проверены дорога, реальная дверь офиса/дома и выход, освобождение камеры,
+приватный SQLite reload; шлюз ТРЦ проходит последовательные двери123 шага
+в каждую сторону, затем настоящая ходьба и World release. Desktop pad скрыт.
+Node22 build PASS; unit3, explorer12 и housing/chill/manual36 PASS; предыдущие
+незатронутые targeted cases пройдены. Все13 моделей byteexact к e8.
+Доказательства и точные QA bundles: docs/qa/2026-11-18/manual-paths-doors/manifest.json.
+Кандидат отправляется на main отдельно от расширения. CI/live пока НЕ подтверждены.
+Не утверждать проверку каждого верхнего этажа офисов/каждой точки мира.
 
-Код исправления опубликован отдельным релизом fe9415cff8cdbb9dc20ed7def14fa71f6dbff968
-после воды. CI44176344655 и actualHTTP assets SUCCESS. Ожидаемый root
-/workspace/chichi-global-manual-input/public сохранён immutable, вода
-/workspace/chichi-ocean-area-expansion/public тоже сохранена. Не изменять
-эти проверенные assets для следующего этапа: использовать отдельную ветку.
+## Следующие шаги
 
-## Дальше
+1. ЗавершитьактивныйWIP проходов. Неослаблятьbodyradius/столкновения и не
+   исправлять маршрутытелепортом. Не менятьэкономику/назначения/домовладение.
+2. Оптимизация поактуальному аппаратному отчёту новойверсии после загрузки,
+   samecamera/settings/DPR,30секунд. Старые6secMacpauses не объявленыисправленными.
+3. Не возвращать эстетическую/архитектурную доработкуТРЦ безновогозапроса.
 
-1. Следующая работа — оптимизация по актуальному аппаратному отчёту новой
-   версии после окончания загрузки; одинаковые ракурс/настройки/DPR,30секунд.
-2. Шестисекундные паузы Mac не
-   объявлены исправленными. Не снижать fauna/detail/DPR/shadows/качество воды.
-3. Не возвращать доработку ТРЦ в очередь без нового запроса.
+## Сохранённые исходники и неизменные стандарты
 
-## Постоянные стандарты и восстановление
+Каноническая самая свежая память: codex/ocean-recovery-memory. MainCURRENT
+можетфиксироватьpredeploy pending; читать эту ветку перед возобновлением.
+Предыдущийstablefe9415cff8cdbb9dc20ed7def14fa71f6dbff968: глобальныйentry,
+busy-activity/pendingAI takeover, actualdesktop/phoneWASD,SQLite иunderwater
+проверены, CI44176344655/actualHTTP successful. Runtimefix4d8f8f9, кандидатc838986.
+Вода×2 опубликована отдельноf09c3f3d64be85a0394049e59877711d066db733,
+CI44173134773/HTTP21:06:09UTC successful, сохранилисьузлы/покупки/ownership.
+История и WIP/архивR9: [предыдущая CURRENT](history/CURRENT-before-confirmed-forecourt-2026-11-18.md).
 
-Каноническая самая свежая память: codex/ocean-recovery-memory; прочитать её перед
-возобновлением старого main. [Индекс](README.md), [water](standards/water.md),
-[controls](standards/controls-camera.md), [решения](decisions.md).
-Вода горок VERYEARLYprototype; d6fa8056f18d2d738890cc9b477334e4cda81523 —
-историческая техническая база; Crimson Desert — цель всей воды. CI не art approval.
-Диагностика только ?profile=1, запрос потребляется, закрытие снимает сбор,
-обычный reload без окна. Монеты/ownership/inventory/native cats/saves сохранены.
+Immutableexpected publicroots /workspace/chichi-ocean-forecourt-smoothing,
+/workspace/chichi-global-manual-input, /workspace/chichi-ocean-area-expansion
+не менять дляновыхпубликаций. Старуюdirty /workspace/ai-cat-game/worktrees
+не удалять/неreset. MallWIPd3ecc7a/codex/mall-cyberpunk-detail архивирован,
+не включён. Трипропавшиеветки не восстановлены. R9 неfullGit и не позднийкод.
 
-[Предыдущая полная очередь/история публикаций/WIP/архивов](history/CURRENT-before-manual-input-publication-2026-11-17.md).
-Старую dirty /workspace/ai-cat-game и worktrees НЕ удалять/не reset.
-MallWIPd3ecc7a/codex/mall-cyberpunk-detail архивирован, не включён.
-Три старые пропавшие ветки не восстановлены. R9 не полнаяGitистория и не
-содержит позднейшие релизы; новые source/QA сохранены в удалённых ветках.
-
-## Проверки и сохранённые исходники
-
-Water f09c3f3: CI44173134773, HTTP21:06:09.199022UTC, все13actualassets PASS.
-Input fe9415c: CI44176344655, HTTP receipt выше. Полный CI прошёл для обоих.
-Исходники/QA исходного inputfix4d8f8f9, кандидатаc838986 и финальногоfe9415c
-есть в codex/global-manual-input/main. Water source/QA в codex/ocean-area-expansion.
-Локальные native результаты/логи: /workspace/qa/global-manual-desktop-final,
-global-manual-touch-sqlite-v2, global-manual-underwater-final. Точный build
-и82targeted tests в main docs/qa/2026-11-17/manual-input-fix/candidate-build.json.
-Не считать старый GLOBALV7 rich-save доказательством: null-submarine fixture
-раньше давал default490; новый private seed и actual loaded pose проверены.
-Не выдавать software GPU timings за Mac/телефонFPS или art approval воды.
-
-Каноническая память codex/ocean-recovery-memory обновлена ПОСЛЕ подтверждений.
-CURRENT в исходном main-fe9415c фиксировал water live/inputpending на момент
-отправки; более новая каноническая запись здесь подтверждает оба релиза.
-Не дублировать публикацию/пройденные проверки без новых изменений/проблем.
-
-## Новый запрос — локальный передний участок дна ТРЦ (2026-11-17)
-
-Игрок уточнил: НЕ вся водная чаша, а дно ВПЕРЕДИ ТРЦ.
-Ветка codex/ocean-forecourt-smoothing, базаfe9415c, отдельное worktree
-/workspace/chichi-ocean-forecourt-smoothing. MOSA_FORECOURT rx180→192,
-rz72→84,z164→170: передний глубокий край+18m, бока+12m. Shoulder24→36m,
-C2quintic вместо cubic. Фундамент/архитектура/MOSA_SEA/соседи/покупки прежние.
-Плотная сетка точек: дно нигде не поднялось, прежние swimming poses не засыпаны.
-3targeted smoothing tests PASS;30 других PASS, cache/site guard выявил ещё
-не обновлённый reef.bin — Node22 build регенерирует; тест не ослаблять.
-Четыре края рифов отодвинуты, все12template/размеры/counts/LODs сохранены.
-Offline fitter сохраняет уже подходящие точные offsets, расширяет только
-поиск180m, проверяет все настоящие вершины и реальный предел берега.
-Baseline native overview/underwater/phone PASS; PNG и точныйQA/исходник сохранены
-в docs/qa/2026-11-17/forecourt-smoothing/before. Actual ocean probe переснят,
-только его resource изменился; горки/общий shader не менялись.
-Сборка/последующие native проверки/CI/live ЕЩЁ не завершены, не считать релизом.
-
-## Дополнение игрока: формы достаточно, места впереди ещё мало
-
-Игрок одобрил форму промежуточного0bf98d5, но просит больше пространства
-именновпереди. Не публиковать18m кандидат как окончательный.
-Передняя глубокая граница теперь282m против236m вfe9415c: +46m всего,
-ещё28m к первомукандидату. Новыйfront ellipsez184/rz98/rx192/shoulder24
-объединяется с одобренным C2shoulderz170/rz84/rx192/shoulder36 через
-bounded union a+b-a*b. Сохраняются формабоков, floor−190, прежняя и
-промежуточная очищенная вода: плотнаясетка иC2edge tests PASS.
-Offlinefit учитывает настоящийwet centre<.99, сохраняет подходящиеточные
-offsets; при необходимости bounded full-angle fallback<=360m. Каждый
-кандидат проходитполныйvertex/radius limit. Этоoffline, неработа наRAF.
-Частьfrontreefs теперьперенесена в настоящую открытуюводу заfrontbay,
-а не под берег; count12/модели/scale/LODs сохранены.
-Actualprobe/Node22build пересчитываются для этойверсии; нужны свежиеnative
-кадры/плавание сz270/SQLite reload/physicalreturn иCI/live. ВсёещёWIP.
-Старый0bf вариант иегоnativePASS сохранены; егообзорV1 имелразныйaspect,
-сравнениепереснятоV2 сдвумяRAF до кадра,2804×1384 обе стороны.
-Одобрениеформы не означает одобрение всей водыилиhardwareFPS.
-
-## Финальный front-кандидат отправляется в CI
-
-Новыйfront+46m (282 вместо236), боковаяформа0bf сохранена unionC2.
-Node22build,25targeted +8cache/water guards PASS. ТриcandidatePNG сохранены;
-первыйсовмещённыйrun остановился наSQLitephase, не считатьцелымPASS.
-Повторотдельногоbehavior legitimatelyclaimEditor:actualswim наz270,
-SQLite reload, retainedmoney/items/placements, physicalautonomous dock PASS.
-Production app/world/economy/schema/merge не менялись, коллизии не ослаблялись.
-ОдинаковыйcompiledQA SHA уrender/behavior;manifest отмечает ограничение
-потерянных finalrender timings ине делаетhardwareFPS promises.
-После полногоCI проверитьactualJS/CSS/probe/reef, затемвзяться за дорожки,
-входыТРЦ, двери всехдомов/офисов по последнемузапросу. ИсточникCitybug найден:
-manualSurface применяетbuilderObstacles сjobReservations, где зарезервированы
-сами дороги/парковка — это placementexclusions, не физическиестены.
-Требуетсясобственнаяactualnavigation с двернымипроёмами иполнымbody sweep.
-Не уменьшатьрадиус/не выключатьколлизии/не телепортироватьдляпрохождения.
-
-## 2026-11-18 — отдельный WIP проходов и дверей
-
-Базаe8ab6ffc24453e1e3ead9acf5190f90acff88730; расширение уже live:
-CI44185424944 SUCCESS, HTTP2026-11-17T22:12:26.233244UTC, actualassets matched.
-Новыйworktree /workspace/chichi-manual-paths-doors, codex/manual-paths-doors.
-Причина Cityподтверждена: jobReservations содержитroad/parking placement
-exclusions, аmanualSurface ошибочноприменял ихкакстены. ТеперьcityGroundClear
-плюсactualunbatched officeprimitivecolliders;другиеworldcollisionне отключены.
-Сегментыbounds/ступени/полы измеряютсяДОбатчинга через новый
-manual-building-navigation.js; sharednav утиповдомов, толькомалыйownerboard
-overlay наinstance. Door/camera используютреальныеотдельныеэлементы,
-необщийAABB mergedbuilding. Radius.571 прежний; standingheight2.15 покрывает
-реальнуюrest-anatomy maxY2.089, не уменьшено. ModelrootYучтён отдельно:
-офисыroot.16, дома0, footOffset.01, безhovering.
-Все6офисныхдверей/solidwalls и7домов/porches/unitcamera PASS.
-13models byteexact vertices/indices/UV/normals/colours/groups/worldmatrices
-кe8: docs/qa/2026-11-18/manual-paths-doors/manual-paths-exact-models.json.
-ПервыйnativeCityprototyperun PASS actualcrossroad/officein-out/SQLite.
-ПослеуточненияheightoffsetнуженповторfinalnativeCity. Homefixturereceipt
-исправленнавалидныйsequence-1; перваяпопыткаhomewaitfocusedmoon неготовила
-ленивыйдом: вQAнуженреальныйclickislandпередwait, неglobalforce-loading.
-Currenthome-v2runможетдойтидоtimeout: этостарыйQAбезfocusclick. Следующий
-runподновымQAфокусируетcat-homes. Не считатьнепройденнуюпроверкуPASS.
-ДляТРЦ добавленаdesktopcontextaction «Войти вТРЦ · E» уреальногошлюза;
-стрелкиdesktopпо-прежнемускрыты, phoneстарый44pxaction. Nativeэтогоещёнужен.
-Production saves/economy/sharedmerge не менялись; строения/Catmodels byteexact.
-ЭтоWIP,непубликоватьдоnativeвходов/коллизий/reload,Node22build/CI/live.
+[Индекс](README.md), [вода](standards/water.md), [controls](standards/controls-camera.md),
+[решения](decisions.md). SlidesVERYEARLYprototype, d6fa8056f18d2d738890cc9b477334e4cda81523
+историческаяtechbase; CrimsonDesert — новаяцель. Одобрение localформы не равно
+одобрению всейводы илиhardwareFPS. Диагностика только?profile=1, query
+потребляется, close снимаетcollectors; reload безокна. ПлатныйAI невызывался.

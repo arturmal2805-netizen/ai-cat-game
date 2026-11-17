@@ -1,0 +1,31 @@
+{
+  "entry": 123,
+  "exit": 123,
+  "before": {
+    "mode": "mall",
+    "x": -43,
+    "y": -164.82,
+    "z": 105,
+    "yaw": 3.141592653589793,
+    "floor": 1,
+    "returning": false,
+    "vertical": 0
+  },
+  "walked": {
+    "mode": "mall",
+    "x": -43,
+    "y": -164.82,
+    "z": 104,
+    "yaw": 3.141592653589793,
+    "floor": 1,
+    "returning": false,
+    "vertical": 0,
+    "groundY": -164.82,
+    "jumpHeld": false
+  },
+  "desktopMovementOverlayHidden": true,
+  "actualContextualButton": true,
+  "worldReleased": true,
+  "errors": [],
+  "httpErrors": []
+}

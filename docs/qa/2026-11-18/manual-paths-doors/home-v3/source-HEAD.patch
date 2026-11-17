@@ -1,0 +1,16 @@
+diff --git a/scripts/audit-manual-paths-native.mjs b/scripts/audit-manual-paths-native.mjs
+index 3501bb2..a4f088a 100644
+--- a/scripts/audit-manual-paths-native.mjs
++++ b/scripts/audit-manual-paths-native.mjs
+@@ -6,7 +6,10 @@ export async function auditManualPaths({page,review,errors,httpErrors}){
+  const home=process.env.CHICHI_PATHS_KIND==='home',biome=byBiome(home?'cat-homes':'jobcity');
+  await page.locator('[data-biome="'+biome.id+'"]').click();
+  await page.evaluate(()=>{__lagoonQA.drawPaused=true;});
+- await page.waitForFunction(home?()=>__lagoonQA.islands.get('cat-homes')?.userData.houses?.size>0:()=>['job-bank','job-crypto','job-factory','job-furniture','job-estate','job-cars'].every(id=>__lagoonQA.itemGroups.get(id)?.userData.getManualNavigation),null,{timeout:240000});
++ console.log('Native manual path: focus',biome.id);
++ const progress=setInterval(async()=>{try{console.log('Loading state',await page.evaluate(()=>{const q=__lagoonQA,h=q.islands.get('cat-homes');return {focused:q.focused(),low:h?.userData.lowOnly,houses:h?.userData.houses?.size,pending:h?.userData.pendingHouses?.size,visible:q.isVisible()};}));}catch{}},15000);
++ try{await page.waitForFunction(home?()=>__lagoonQA.islands.get('cat-homes')?.userData.houses?.size>0:()=>['job-bank','job-crypto','job-factory','job-furniture','job-estate','job-cars'].every(id=>__lagoonQA.itemGroups.get(id)?.userData.getManualNavigation),null,{timeout:120000});}finally{clearInterval(progress);}
++ console.log('Native manual path: models ready');
+  await page.evaluate(async()=>{if(!await __lagoonSaveQA.cloud.claimEditor())throw Error('Private simulation lease unavailable');__lagoonQA.manualFrames=true;});
+  const snapshot=()=>page.evaluate(()=>{const q=__lagoonQA,g=__lagoonSaveQA.getGame();return{position:q.chichiCarrier.position.toArray(),active:q.manualWalk().active,failure:q.manualWalk().startFailure,coins:g.coins,inventory:g.inventory,placements:g.placements,housing:g.housing};});
+  const initial=await snapshot();await page.locator('#chichi-control').click();assert.equal((await snapshot()).active,true,'actual entry button');

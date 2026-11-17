@@ -1,0 +1,19 @@
+{
+  "base": "e8ab6ffc24453e1e3ead9acf5190f90acff88730",
+  "productionSource": "cad6214badc6ad1817c8c8159e92895ed7ac874b",
+  "node": "22.23.5",
+  "native": [
+    "city-final",
+    "home-v3",
+    "phone",
+    "portal"
+  ],
+  "assetHashes": {
+    "public/dist/app.js": "5681cfb381526eddc877a80448535fecf0272a52c95da9744ad8edfd43a44be2",
+    "public/style.css": "eb9e72f520559ea58aefb78c10bbe4c2990e345caff015428b04e81f6ed141d2"
+  },
+  "scope": "City road crossing, six office ground entrances, seven house openings, bought home entry and exit, phone held touch, real sequential Mall airlock, camera release and private SQLite reload. Not a claim that every upper office floor or every world location was traversed.",
+  "failedQaAttempts": "Initial home fixture used invalid purchase receipt; v2 waited for lazy house while wrong island focused. Fixed QA fixture via real island click and valid receipt; home-v3 passes. Initial DOM fixture kept last child only; updated mock and all 12 explorer cases pass. No collision or ownership assertions weakened.",
+  "geometry": "All 13 existing building model attributes, indices and transforms byte-identical to base. Native rest body top 2.0890767, collision height2.15, existing navigation radius unchanged.",
+  "performance": "No physical Mac/phone FPS claim; no model, shadow or DPR reduction."
+}

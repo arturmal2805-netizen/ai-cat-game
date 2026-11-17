@@ -10,7 +10,7 @@ import {mergeSharedWorld} from '../shared-world.mjs';
 
 function fixture(saved={x:-6,y:-20,z:92,yaw:Math.PI,active:true,mode:'cockpit'},mall=null){
  const prior={document:globalThis.document,window:globalThis.window};
- class Element extends EventTarget {onclick=null;setAttribute(){}style={};dataset={};hidden=false;disabled=false;textContent='';map=new Map();setPointerCapture(){}getBoundingClientRect(){return {left:0,top:0,width:400,height:600,bottom:600};}append(e){this.child=e;}remove(){}querySelector(s){if(!this.map.has(s))this.map.set(s,new Element());return this.map.get(s);}querySelectorAll(s){return s==='button'?[]:['KeyW','KeyS','KeyA','KeyD','Space','ShiftLeft'].map(k=>{const e=this.querySelector(k);e.dataset.subKey=k;return e;});}}
+ class Element extends EventTarget {onclick=null;setAttribute(){}style={};dataset={};hidden=false;disabled=false;textContent='';map=new Map();setPointerCapture(){}getBoundingClientRect(){return {left:0,top:0,width:400,height:600,bottom:600};}append(e){(this.children||=[]).push(e);this.child=this.children.find(n=>n.className==='submarine-panel')||this.children[0];}remove(){}querySelector(s){if(!this.map.has(s))this.map.set(s,new Element());return this.map.get(s);}querySelectorAll(s){return s==='button'?[]:['KeyW','KeyS','KeyA','KeyD','Space','ShiftLeft'].map(k=>{const e=this.querySelector(k);e.dataset.subKey=k;return e;});}}
  globalThis.document={createElement:()=>new Element(),querySelector:()=>null};globalThis.window=new EventTarget();
  const scene=new T.Scene(),actor=new T.Group(),model=new T.Group(),head=new T.Group();head.position.y=1.4;model.add(head);model.userData={head,body:{scale:{x:.5}}};actor.add(model);scene.add(actor);
  const camera=new T.PerspectiveCamera(40,1,.5,1200),look=new T.Vector3(),focusCalls=[];let focused='autumn';
@@ -19,7 +19,7 @@ function fixture(saved={x:-6,y:-20,z:92,yaw:Math.PI,active:true,mode:'cockpit'},
  const runtime=createSubmarineRuntime({scene,container,canvas,camera,look,actor,getModel:()=>model,getMall:()=>mall,getIsland:()=>({userData:{detail:{visible:true},ocean:{sea:{userData:{disturb(){}}}}}}),getGame:()=>game,getFocused:()=>focused,cancelHero(){},approachDock:()=>true,focus:(...a)=>focusCalls.push(a)});
  const tick=(n=1)=>{for(let i=0;i<n;i++)runtime.update(.1,i/10);};tick();
  const key=(code,down)=>{const e=new Event(down?'keydown':'keyup',{cancelable:true});Object.defineProperty(e,'code',{value:code});window.dispatchEvent(e);};
- return {runtime,actor,camera,canvas,panel:container.child,look,focusCalls,tick,key,setFocused:v=>focused=v,dispose(){runtime.dispose();globalThis.document=prior.document;globalThis.window=prior.window;}};
+ return {runtime,actor,camera,canvas,children:container.children,panel:container.child,look,focusCalls,tick,key,setFocused:v=>focused=v,dispose(){runtime.dispose();globalThis.document=prior.document;globalThis.window=prior.window;}};
 }
 
 test('underwater exit, third-person camera-relative swimming axes, dive, reboard and release use actual runtime',()=>{
@@ -135,4 +135,11 @@ test('phone control anchor tracks the visible viewport when the game canvas exte
   window.visualViewport=Object.assign(new EventTarget(),{height:400,offsetTop:20});window.dispatchEvent(new Event('scroll'));assert.equal(f.panel.style.bottom,'180px');
   Object.assign(window.visualViewport,{height:700,offsetTop:0});window.dispatchEvent(new Event('resize'));assert.equal(f.panel.style.bottom,'0px');
  }finally{f.dispose();}
+});
+
+
+test('contextual Mall doorway action appears only at the real portal and starts the existing sequential airlock',async()=>{
+ const far=fixture();try{assert.equal(far.children.find(e=>e.className==='chichi-door-action').hidden,true);}finally{far.dispose();}
+ const mall={ensure:async()=>true,setExplorerFloor(){}},f=fixture({x:-43,y:-162.5,z:124.5,yaw:Math.PI,mode:'chase',active:false,explorer:{...MALL_AIRLOCK.outside,mode:'swimming',yaw:Math.PI,returning:false}},mall);
+ try{const action=f.children.find(e=>e.className==='chichi-door-action');assert.equal(action.hidden,false);assert.match(action.textContent,/Войти/);action.onclick();await Promise.resolve();assert.equal(f.runtime.phase,'airlock');f.tick();assert.equal(action.hidden,true);}finally{f.dispose();}
 });

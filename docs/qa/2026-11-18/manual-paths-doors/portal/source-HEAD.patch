@@ -1,0 +1,112 @@
+diff --git a/public/index.html b/public/index.html
+index a5b23c7..6379fff 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -6,7 +6,7 @@
+     <meta name="theme-color" content="#eeeaf3" />
+     <title>Чичи • мир маленьких чудес</title>
+     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+-    <link rel="stylesheet" href="./style.css?v=d02068257c7b2b00" />
++    <link rel="stylesheet" href="./style.css?v=eb9e72f520559ea5" />
+   </head>
+   <body>
+     <header>
+@@ -703,6 +703,6 @@
+       </div>
+     </dialog>
+     <div id="toast" role="status" aria-live="polite" hidden></div>
+-    <script type="module" src="./dist/app.js?v=db3df27ba3a6df07"></script>
++    <script type="module" src="./dist/app.js?v=5681cfb381526edd"></script>
+   </body>
+ </html>
+diff --git a/scripts/audit-manual-paths-native.mjs b/scripts/audit-manual-paths-native.mjs
+index 3501bb2..e2210b7 100644
+--- a/scripts/audit-manual-paths-native.mjs
++++ b/scripts/audit-manual-paths-native.mjs
+@@ -6,23 +6,28 @@ export async function auditManualPaths({page,review,errors,httpErrors}){
+  const home=process.env.CHICHI_PATHS_KIND==='home',biome=byBiome(home?'cat-homes':'jobcity');
+  await page.locator('[data-biome="'+biome.id+'"]').click();
+  await page.evaluate(()=>{__lagoonQA.drawPaused=true;});
+- await page.waitForFunction(home?()=>__lagoonQA.islands.get('cat-homes')?.userData.houses?.size>0:()=>['job-bank','job-crypto','job-factory','job-furniture','job-estate','job-cars'].every(id=>__lagoonQA.itemGroups.get(id)?.userData.getManualNavigation),null,{timeout:240000});
++ console.log('Native manual path: focus',biome.id);
++ const progress=setInterval(async()=>{try{console.log('Loading state',await page.evaluate(()=>{const q=__lagoonQA,h=q.islands.get('cat-homes');return {focused:q.focused(),low:h?.userData.lowOnly,houses:h?.userData.houses?.size,pending:h?.userData.pendingHouses?.size,visible:q.isVisible()};}));}catch{}},15000);
++ try{await page.waitForFunction(home?()=>__lagoonQA.islands.get('cat-homes')?.userData.houses?.size>0:()=>['job-bank','job-crypto','job-factory','job-furniture','job-estate','job-cars'].every(id=>__lagoonQA.itemGroups.get(id)?.userData.getManualNavigation),null,{timeout:120000});}finally{clearInterval(progress);}
++ console.log('Native manual path: models ready');
+  await page.evaluate(async()=>{if(!await __lagoonSaveQA.cloud.claimEditor())throw Error('Private simulation lease unavailable');__lagoonQA.manualFrames=true;});
+  const snapshot=()=>page.evaluate(()=>{const q=__lagoonQA,g=__lagoonSaveQA.getGame();return{position:q.chichiCarrier.position.toArray(),active:q.manualWalk().active,failure:q.manualWalk().startFailure,coins:g.coins,inventory:g.inventory,placements:g.placements,housing:g.housing};});
+  const initial=await snapshot();await page.locator('#chichi-control').click();assert.equal((await snapshot()).active,true,'actual entry button');
+- const trace=[];
++ const trace=[],touch=!!process.env.CHICHI_PATHS_TOUCH_AUDIT,cdp=touch?await page.context().newCDPSession(page):null;
++ const press=async key=>{if(!touch)return page.keyboard.down(key);const b=await page.locator('[data-walk-key="'+key+'"]').boundingBox();assert.ok(b&&b.width>=44&&b.height>=44);await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:b.x+b.width/2,y:b.y+b.height/2,id:1}]});};
++ const release=async key=>{if(!touch)return page.keyboard.up(key);await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});};
+  const walk=async(x,z)=>{const target={x:biome.center[0]+x,z:biome.center[1]+z};let key=null,best=Infinity,stuck=0;
+   try{for(let i=0;i<1800;i++){
+    const p=await page.evaluate(()=>{const q=__lagoonQA;return{x:q.chichiCarrier.position.x,z:q.chichiCarrier.position.z,heading:Math.atan2(q.look.x-q.camera.position.x,q.look.z-q.camera.position.z)};}),dx=target.x-p.x,dz=target.z-p.z,distance=Math.hypot(dx,dz);if(distance<.22){trace.push({target,reached:p});return;}
+    if(distance<best-.015){best=distance;stuck=0;}else if(++stuck>70)throw Error('Blocked actual route '+JSON.stringify({target,p,distance}));
+    const forward=dx*Math.sin(p.heading)+dz*Math.cos(p.heading),side=dx*Math.cos(p.heading)-dz*Math.sin(p.heading),next=Math.abs(forward)>Math.abs(side)?forward>0?'KeyW':'KeyS':side>0?'KeyA':'KeyD';
+-   if(next!==key){if(key)await page.keyboard.up(key);key=next;await page.keyboard.down(key);}
++   if(next!==key){if(key)await release(key);key=next;await press(key);}
+    await page.evaluate(n=>{const q=__lagoonQA;for(let i=0;i<n;i++){q.pathsClock=Math.max(performance.now(),q.pathsClock||0)+1000/30;q.gpuFrames.clear();q.manualStepping=true;try{q.step(q.pathsClock);}finally{q.manualStepping=false;}}},Math.max(1,Math.min(4,Math.floor(distance/.17))));
+-  }throw Error('Actual walking route timed out');}finally{if(key)await page.keyboard.up(key);}
++  }throw Error('Actual walking route timed out');}finally{if(key)await release(key);}
+  };
+  if(home){const g=initial.housing,h=g.homes[g.residences.chichi];const {housingPlot}=await import('../public/housing-data.js'),p=housingPlot(h.plot);await walk(p.x+3.4,p.z+3.1);assert.ok((await snapshot()).position[1]>.49,'real porch/floor');await walk(p.x+3.4,p.z+7);}
+  else{await walk(21,40);await walk(16,40);await walk(0,40);await walk(0,29);assert.ok((await snapshot()).position[1]>.3,'enter the real office');await walk(0,40);}
+  await page.evaluate(()=>__lagoonQA.drawFrame());await page.screenshot({path:join(review,home?'home-path.png':'city-path.png')});
+  await page.locator('#camera-all').click();assert.equal((await snapshot()).active,false);await page.evaluate(()=>window.dispatchEvent(new Event('pagehide')));await page.waitForFunction(()=>!__lagoonSaveQA.cloud.pending&&!__lagoonSaveQA.cloud.dirty&&!__lagoonSaveQA.cloud.retryEntry);await page.reload();await page.waitForFunction(()=>window.__lagoonQA&&__lagoonSaveQA.cloud.editable,null,{timeout:240000});await page.evaluate(()=>{__lagoonQA.drawPaused=true;__lagoonQA.manualFrames=true;});const reloaded=await snapshot();assert.equal(reloaded.active,false);for(const k of ['coins','inventory','placements','housing'])assert.deepEqual(reloaded[k],initial[k]);
+- assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);await writeFile(join(review,'manual-paths.json'),JSON.stringify({home,initial,trace,reloaded,errors,httpErrors,privateSQLite:true,native:true},null,2));console.log('PASS native',home?'home porch, physical entrance and exit':'cross reserved road, actual office entrance and exit','camera release and SQLite reload');
++ assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);await writeFile(join(review,'manual-paths.json'),JSON.stringify({home,initial,trace,reloaded,errors,httpErrors,privateSQLite:true,native:true,actualTouch:touch},null,2));console.log('PASS native',home?'home porch, physical entrance and exit':'cross reserved road, actual office entrance and exit','camera release and SQLite reload');
+ }
+diff --git a/scripts/check-aquarium.cjs b/scripts/check-aquarium.cjs
+index 98391cb..9d95738 100644
+--- a/scripts/check-aquarium.cjs
++++ b/scripts/check-aquarium.cjs
+@@ -357,6 +357,7 @@ async function localWorker() {
+       }
+       g.catPosition={biome,x,z};const b=byBiome(biome);Object.assign(g,captureCatLocations(g,g,[{id:'chichi',position:{x:b.center[0]+x,y:.16,z:b.center[1]+z},yaw:0}],now));
+     }
++    if(process.env.CHICHI_MANUAL_PORTAL_AUDIT){const {MALL_AIRLOCK}=await import(root+'/public/mall-airlock-data.js');g.mosasaurSubmarine={...g.mosasaurSubmarine,active:false,explorerVersion:1,explorer:{...MALL_AIRLOCK.outside,mode:'swimming',yaw:Math.PI,floor:0,returning:false}};}
+     const base = local.base,
+       token = crypto.randomBytes(32).toString("hex"),
+       headers = {
+@@ -697,6 +698,7 @@ async function localWorker() {
+       const dirty=sourceGit(['status','--porcelain=v1']).toString();
+       fs.writeFileSync(path.join(review,'source-status.txt'),dirty);
+       fs.writeFileSync(path.join(review,'qa-build.json'),JSON.stringify({sha256:crypto.createHash('sha256').update(output.outputFiles[0].contents).digest('hex'),baseline:process.env.CHICHI_BASELINE_REF||null,node:process.version,head:sourceGit(['rev-parse','HEAD']).toString().trim(),dirty,sourceOverlay:'source-HEAD.patch'},null,2));
++      if(process.env.CHICHI_MANUAL_PORTAL_AUDIT){const {auditManualPortal}=await import('./audit-manual-portal-native.mjs');await auditManualPortal({page,review,errors,httpErrors});return;}
+       if(process.env.CHICHI_MANUAL_PATHS_AUDIT){const {auditManualPaths}=await import('./audit-manual-paths-native.mjs');await auditManualPaths({page,review,errors,httpErrors});return;}
+       if(process.env.CHICHI_FORECOURT_AUDIT){const {auditForecourt}=await import('./audit-forecourt-native.mjs');await auditForecourt({page,review,errors,httpErrors});return;}
+       if(process.env.CHICHI_OCEAN_AREA_AUDIT){const {auditOceanAreaNative}=await import('./audit-ocean-area-native.mjs');await auditOceanAreaNative({page,review,errors,httpErrors,baseline:!!baseline});return;}
+diff --git a/test/ocean-explorer.test.mjs b/test/ocean-explorer.test.mjs
+index ed3ee73..9504b7d 100644
+--- a/test/ocean-explorer.test.mjs
++++ b/test/ocean-explorer.test.mjs
+@@ -10,7 +10,7 @@ import {mergeSharedWorld} from '../shared-world.mjs';
+ 
+ function fixture(saved={x:-6,y:-20,z:92,yaw:Math.PI,active:true,mode:'cockpit'},mall=null){
+  const prior={document:globalThis.document,window:globalThis.window};
+- class Element extends EventTarget {onclick=null;setAttribute(){}style={};dataset={};hidden=false;disabled=false;textContent='';map=new Map();setPointerCapture(){}getBoundingClientRect(){return {left:0,top:0,width:400,height:600,bottom:600};}append(e){this.child=e;}remove(){}querySelector(s){if(!this.map.has(s))this.map.set(s,new Element());return this.map.get(s);}querySelectorAll(s){return s==='button'?[]:['KeyW','KeyS','KeyA','KeyD','Space','ShiftLeft'].map(k=>{const e=this.querySelector(k);e.dataset.subKey=k;return e;});}}
++ class Element extends EventTarget {onclick=null;setAttribute(){}style={};dataset={};hidden=false;disabled=false;textContent='';map=new Map();setPointerCapture(){}getBoundingClientRect(){return {left:0,top:0,width:400,height:600,bottom:600};}append(e){(this.children||=[]).push(e);this.child=this.children.find(n=>n.className==='submarine-panel')||this.children[0];}remove(){}querySelector(s){if(!this.map.has(s))this.map.set(s,new Element());return this.map.get(s);}querySelectorAll(s){return s==='button'?[]:['KeyW','KeyS','KeyA','KeyD','Space','ShiftLeft'].map(k=>{const e=this.querySelector(k);e.dataset.subKey=k;return e;});}}
+  globalThis.document={createElement:()=>new Element(),querySelector:()=>null};globalThis.window=new EventTarget();
+  const scene=new T.Scene(),actor=new T.Group(),model=new T.Group(),head=new T.Group();head.position.y=1.4;model.add(head);model.userData={head,body:{scale:{x:.5}}};actor.add(model);scene.add(actor);
+  const camera=new T.PerspectiveCamera(40,1,.5,1200),look=new T.Vector3(),focusCalls=[];let focused='autumn';
+@@ -19,7 +19,7 @@ function fixture(saved={x:-6,y:-20,z:92,yaw:Math.PI,active:true,mode:'cockpit'},
+  const runtime=createSubmarineRuntime({scene,container,canvas,camera,look,actor,getModel:()=>model,getMall:()=>mall,getIsland:()=>({userData:{detail:{visible:true},ocean:{sea:{userData:{disturb(){}}}}}}),getGame:()=>game,getFocused:()=>focused,cancelHero(){},approachDock:()=>true,focus:(...a)=>focusCalls.push(a)});
+  const tick=(n=1)=>{for(let i=0;i<n;i++)runtime.update(.1,i/10);};tick();
+  const key=(code,down)=>{const e=new Event(down?'keydown':'keyup',{cancelable:true});Object.defineProperty(e,'code',{value:code});window.dispatchEvent(e);};
+- return {runtime,actor,camera,canvas,panel:container.child,look,focusCalls,tick,key,setFocused:v=>focused=v,dispose(){runtime.dispose();globalThis.document=prior.document;globalThis.window=prior.window;}};
++ return {runtime,actor,camera,canvas,children:container.children,panel:container.child,look,focusCalls,tick,key,setFocused:v=>focused=v,dispose(){runtime.dispose();globalThis.document=prior.document;globalThis.window=prior.window;}};
+ }
+ 
+ test('underwater exit, third-person camera-relative swimming axes, dive, reboard and release use actual runtime',()=>{
+@@ -136,3 +136,10 @@ test('phone control anchor tracks the visible viewport when the game canvas exte
+   Object.assign(window.visualViewport,{height:700,offsetTop:0});window.dispatchEvent(new Event('resize'));assert.equal(f.panel.style.bottom,'0px');
+  }finally{f.dispose();}
+ });
++
++
++test('contextual Mall doorway action appears only at the real portal and starts the existing sequential airlock',async()=>{
++ const far=fixture();try{assert.equal(far.children.find(e=>e.className==='chichi-door-action').hidden,true);}finally{far.dispose();}
++ const mall={ensure:async()=>true,setExplorerFloor(){}},f=fixture({x:-43,y:-162.5,z:124.5,yaw:Math.PI,mode:'chase',active:false,explorer:{...MALL_AIRLOCK.outside,mode:'swimming',yaw:Math.PI,returning:false}},mall);
++ try{const action=f.children.find(e=>e.className==='chichi-door-action');assert.equal(action.hidden,false);assert.match(action.textContent,/Войти/);action.onclick();await Promise.resolve();assert.equal(f.runtime.phase,'airlock');f.tick();assert.equal(action.hidden,true);}finally{f.dispose();}
++});

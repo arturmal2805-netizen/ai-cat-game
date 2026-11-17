@@ -357,6 +357,7 @@ async function localWorker() {
       }
       g.catPosition={biome,x,z};const b=byBiome(biome);Object.assign(g,captureCatLocations(g,g,[{id:'chichi',position:{x:b.center[0]+x,y:.16,z:b.center[1]+z},yaw:0}],now));
     }
+    if(process.env.CHICHI_MANUAL_PORTAL_AUDIT){const {MALL_AIRLOCK}=await import(root+'/public/mall-airlock-data.js');g.mosasaurSubmarine={...g.mosasaurSubmarine,active:false,explorerVersion:1,explorer:{...MALL_AIRLOCK.outside,mode:'swimming',yaw:Math.PI,floor:0,returning:false}};}
     const base = local.base,
       token = crypto.randomBytes(32).toString("hex"),
       headers = {
@@ -697,6 +698,7 @@ async function localWorker() {
       const dirty=sourceGit(['status','--porcelain=v1']).toString();
       fs.writeFileSync(path.join(review,'source-status.txt'),dirty);
       fs.writeFileSync(path.join(review,'qa-build.json'),JSON.stringify({sha256:crypto.createHash('sha256').update(output.outputFiles[0].contents).digest('hex'),baseline:process.env.CHICHI_BASELINE_REF||null,node:process.version,head:sourceGit(['rev-parse','HEAD']).toString().trim(),dirty,sourceOverlay:'source-HEAD.patch'},null,2));
+      if(process.env.CHICHI_MANUAL_PORTAL_AUDIT){const {auditManualPortal}=await import('./audit-manual-portal-native.mjs');await auditManualPortal({page,review,errors,httpErrors});return;}
       if(process.env.CHICHI_MANUAL_PATHS_AUDIT){const {auditManualPaths}=await import('./audit-manual-paths-native.mjs');await auditManualPaths({page,review,errors,httpErrors});return;}
       if(process.env.CHICHI_FORECOURT_AUDIT){const {auditForecourt}=await import('./audit-forecourt-native.mjs');await auditForecourt({page,review,errors,httpErrors});return;}
       if(process.env.CHICHI_OCEAN_AREA_AUDIT){const {auditOceanAreaNative}=await import('./audit-ocean-area-native.mjs');await auditOceanAreaNative({page,review,errors,httpErrors,baseline:!!baseline});return;}

@@ -1,0 +1,8 @@
+{
+  "sha256": "ec00f28ec5b256a73feda8122b07915a89bf1c698d2f8c1ac4a73b1544c785f9",
+  "baseline": null,
+  "node": "v22.23.5",
+  "head": "cad6214badc6ad1817c8c8159e92895ed7ac874b",
+  "dirty": " M scripts/audit-manual-paths-native.mjs\n",
+  "sourceOverlay": "source-HEAD.patch"
+}
