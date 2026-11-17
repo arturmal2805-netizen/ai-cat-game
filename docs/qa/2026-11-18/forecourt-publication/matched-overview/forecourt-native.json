@@ -1,0 +1,33 @@
+{
+  "completed": true,
+  "rows": [
+    {
+      "name": "front-overview",
+      "camera": [
+        -450,
+        500,
+        1150
+      ],
+      "target": [
+        -450,
+        -70,
+        600
+      ],
+      "dpr": 2,
+      "exposure": 1,
+      "fov": 40,
+      "calls": 1633,
+      "triangles": 14973242,
+      "geometries": 1136,
+      "textures": 65,
+      "heap": 975416170,
+      "completeSynchronizedFrameMs": [
+        22587.30000000447
+      ],
+      "lost": false
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "limitations": "Full native private game, DPR2. Three synchronized software-GPU frames are not device FPS."
+}

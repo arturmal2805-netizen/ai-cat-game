@@ -284,3 +284,17 @@ exact unchanged offsets retained. Offline search expands120→180m when colony2
 has no valid original bounded fit; full-vertex and shoreline limits unchanged.
 Old cache guard correctly failed before regeneration, not a reason to loosen
 it. Node22 rebuild completed; candidate native/derivedcache retests pending.
+
+## 2026-11-18 — front-bay final published; next is physical paths and doors
+
+e8ab6ffc24453e1e3ead9acf5190f90acff88730, workflow44185424944 complete SUCCESS and
+HTTP2026-11-17T22:12:26.233244+00:00 actual13assets matched/oneapp. Final46mfront
+extension preserves approved C2shoulder and oldfreewater; nativez270swim,
+SQLite and physicaldockreturn passed separately. Finalmatchedoverview same
+2804×1384/camera/FOV40/DPR2/exposure1:1634→1633calls,14975258→14973242tri,
+single softwareframe24249.2→22587.3ms. No deviceFPS or artisticwater guarantee.
+After publication user explicitly queued paths/doors including JobCityroads,
+allhouse/officeentrances and Mallgate. WIPcad6214 uses actualprimitive
+bounds/surfaces prebatch, retaining13models byteexact; do not confuse
+placement roadreservations with physicalwalls. Newcheckpoint/remainingQA
+recorded inCURRENT. No economic/save/merge/radius reductions.
