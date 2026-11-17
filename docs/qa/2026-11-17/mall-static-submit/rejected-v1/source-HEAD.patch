@@ -1,0 +1,139 @@
+diff --git a/public/mall-cutaway.js b/public/mall-cutaway.js
+index 243ac35..10fa69a 100644
+--- a/public/mall-cutaway.js
++++ b/public/mall-cutaway.js
+@@ -1,8 +1,9 @@
++import {registerPositionPreservingShader} from './static-submissions.js';
+ // Inspection cutaway for the actual frontage meshes. A shared scalar selects
+ // a room; the ordinary all/floor views retain every authored facade triangle.
+ // Keep the same static draws, geometry and texture budgets.
+ export function mallCutawayMaterial(material,selection){
+- const before=material.onBeforeCompile,key=material.customProgramCacheKey(),main=/void\s+main\s*\(\s*\)\s*\{/;
++ const before=material.onBeforeCompile,previousKey=material.customProgramCacheKey,key=previousKey.call(material),main=/void\s+main\s*\(\s*\)\s*\{/;
+  material.onBeforeCompile=function(shader,...args){
+   before.call(this,shader,...args);shader.uniforms.uMallInspectedRoom=selection;
+   const room=/attribute\s+float\s+aMallRoom\s*;/.test(shader.vertexShader)?'':'attribute float aMallRoom;\n';
+@@ -11,5 +12,5 @@ export function mallCutawayMaterial(material,selection){
+   shader.fragmentShader='varying float vMallCutaway;\n'+shader.fragmentShader;
+   shader.fragmentShader=shader.fragmentShader.replace(main,match=>match+'\n if(vMallCutaway>.5)discard;\n');
+  };
+- material.customProgramCacheKey=()=>key+'-mall-front-cutaway-v1';material.needsUpdate=true;
++ material.customProgramCacheKey=()=>key+'-mall-front-cutaway-v1';registerPositionPreservingShader(material,before,previousKey);material.needsUpdate=true;
+ }
+diff --git a/public/mall-room-light.js b/public/mall-room-light.js
+index 0da7ed9..488b863 100644
+--- a/public/mall-room-light.js
++++ b/public/mall-room-light.js
+@@ -1,3 +1,4 @@
++import {registerPositionPreservingShader} from './static-submissions.js';
+ import {MALL_FINISH_REFLECTION} from './mall-surfaces.js';
+ import {mallSurfaceUVKey,writeMallSurfaceUVsSteps} from './mall-surface-uv.js';
+ import * as T from 'three';
+@@ -29,9 +30,12 @@ export function createMallRoomLights(){
+     finishFloor(){copies.clear();},finish(){copies.clear();texture.needsUpdate=true;},
+   };
+ }
++const roomPrograms=new WeakMap();
+ export function mallRoomLightMaterial(material,lights,gain=.18){
+-  const probe=mosaWaterReflection();
+-  material.onBeforeCompile=s=>{
++  const known=roomPrograms.get(material);if(known?.lights===lights&&known.gain===gain&&known.hook===material.onBeforeCompile)return material;
++  const probe=mosaWaterReflection(),previous=material.onBeforeCompile,previousKey=material.customProgramCacheKey,key=previousKey.call(material);
++  material.onBeforeCompile=function(s,...args){
++    previous.call(this,s,...args);
+     s.uniforms.uMallRoomLamps={value:lights.texture};s.uniforms.uMallProbe={value:probe.texture};s.uniforms.uMallProbeGain={value:probe.gain*gain};
+     s.vertexShader='attribute float aMallRoom;uniform sampler2D uMallRoomLamps;varying vec3 vMallLamp;varying vec4 vMallLampColor;varying float vMallLampRange;\n'+s.vertexShader;
+     s.vertexShader=s.vertexShader.replace('#include <project_vertex>',`#include <project_vertex>
+@@ -51,5 +55,5 @@ export function mallRoomLightMaterial(material,lights,gain=.18){
+       ${MALL_FINISH_REFLECTION}
+       #include <opaque_fragment>`);
+   };
+-  material.customProgramCacheKey=()=>`mall-room-finish-v2-${gain}`;return material;
++  material.customProgramCacheKey=()=>key+`-mall-room-finish-v2-${gain}`;registerPositionPreservingShader(material,previous,previousKey);roomPrograms.set(material,{lights,gain,hook:material.onBeforeCompile});return material;
+ }
+diff --git a/public/static-submissions.js b/public/static-submissions.js
+index ee826aa..a983640 100644
+--- a/public/static-submissions.js
++++ b/public/static-submissions.js
+@@ -4,6 +4,24 @@ let available = false;
+ const prepared = new WeakMap(),
+   patched = new WeakSet();
+ 
++// Explicit contracts for audited, position-preserving material extensions.
++// Unknown wind/refraction/displacement hooks still fall back to native draws.
++const positionPreserving = new WeakMap();
++export function registerPositionPreservingShader(material, previousHook, previousKey) {
++  positionPreserving.set(material.onBeforeCompile, {key: material.customProgramCacheKey, previousHook, previousKey});
++}
++function preservesPositions(material, originalHook, originalKey) {
++  let hook=material.onBeforeCompile,key=material.customProgramCacheKey;
++  const seen=new Set();
++  while(hook!==originalHook||key!==originalKey){
++    if(seen.has(hook))return false;seen.add(hook);
++    const contract=positionPreserving.get(hook);
++    if(!contract||contract.key!==key)return false;
++    hook=contract.previousHook;key=contract.previousKey;
++  }
++  return true;
++}
++
+ // WebGL multi-draw is available in Safari 15+ and Chromium. Other renderers
+ // retain the original single mesh; there is no many-draw fallback.
+ export function configureStaticSubmissions(renderer) {
+@@ -141,6 +159,7 @@ export function* staticSubmissionSteps(mesh, { force = false } = {}) {
+   });
+   shader(depth);
+   mesh.customDepthMaterial = depth;
++  let checkedHook=staticShader,checkedKey=staticKey,validShader=true;
+   let enabled = true,
+     retired = false;
+   // Builders may attach animation before compileAsync. Expose the real mode
+@@ -157,6 +176,10 @@ export function* staticSubmissionSteps(mesh, { force = false } = {}) {
+   counts[0] = count;
+   const stats = { sourceIndices: count, submittedIndices: count, commands: 1 };
+   function compatible() {
++    if(material.onBeforeCompile!==checkedHook||material.customProgramCacheKey!==checkedKey){
++      validShader=preservesPositions(material,staticShader,staticKey);
++      checkedHook=material.onBeforeCompile;checkedKey=material.customProgramCacheKey;
++    }
+     // Some builders add reef sway/refraction or meadow wind AFTER merging.
+     // Those vertices no longer obey static bounds, and their replacement
+     // shader may require Three's ordinary dispatch. Keep them entirely native.
+@@ -164,8 +187,7 @@ export function* staticSubmissionSteps(mesh, { force = false } = {}) {
+       !retired &&
+       mesh.material === material &&
+       mesh.geometry === geometry &&
+-      material.onBeforeCompile === staticShader &&
+-      material.customProgramCacheKey === staticKey
++      validShader
+     );
+   }
+   function fallback() {
+diff --git a/scripts/check-aquarium.cjs b/scripts/check-aquarium.cjs
+index bc45aed..d11bb6a 100644
+--- a/scripts/check-aquarium.cjs
++++ b/scripts/check-aquarium.cjs
+@@ -683,6 +683,7 @@ async function localWorker() {
+       const dirty=sourceGit(['status','--porcelain=v1']).toString();
+       fs.writeFileSync(path.join(review,'source-status.txt'),dirty);
+       fs.writeFileSync(path.join(review,'qa-build.json'),JSON.stringify({sha256:crypto.createHash('sha256').update(output.outputFiles[0].contents).digest('hex'),node:process.version,head:sourceGit(['rev-parse','HEAD']).toString().trim(),dirty,sourceOverlay:'source-HEAD.patch'},null,2));
++      if(process.env.CHICHI_MALL_STATIC_AUDIT){const {auditMallStaticNative}=await import('./audit-mall-static-native.mjs');await auditMallStaticNative({page,review,errors,httpErrors});return;}
+       if(process.env.CHICHI_FLOOR_CULLING_AUDIT){const {auditFloorCullingNative}=await import('./audit-floor-culling-native.mjs');await auditFloorCullingNative({page,review,errors,httpErrors});return;}
+       if(process.env.CHICHI_OCEAN_PERF_AUDIT){const {auditOceanPerformance}=await import('./audit-ocean-performance.mjs');await auditOceanPerformance({page,review,errors,httpErrors});return;}
+       if(process.env.CHICHI_OCEAN_ART_AUDIT){const {auditOceanArtNative}=await import('./audit-ocean-art-native.mjs');await auditOceanArtNative({page,review,errors,httpErrors});return;}
+diff --git a/test/static-submissions.test.mjs b/test/static-submissions.test.mjs
+index 477b61f..6f5f206 100644
+--- a/test/static-submissions.test.mjs
++++ b/test/static-submissions.test.mjs
+@@ -207,3 +207,11 @@ test("a runtime native fallback cannot revive disposed shadow resources when the
+   mesh.onBeforeRender({ extensions: { has: () => true } }, {}, {});
+   assert.equal(mesh.isBatchedMesh, false);
+ });
++
++test('audited Mall room lighting and inspection retain exact static range dispatch and native depth, unknown later motion still falls back',async()=>{
++ const {mallRoomLightMaterial,createMallRoomLights}=await import('../public/mall-room-light.js'),{mallCutawayMaterial}=await import('../public/mall-cutaway.js');
++ const mesh=field();runSceneSteps(staticSubmissionSteps(mesh,{force:true}));const depth=mesh.customDepthMaterial,lights=createMallRoomLights();mallRoomLightMaterial(mesh.material,lights);const once=mesh.material.onBeforeCompile;mallRoomLightMaterial(mesh.material,lights);assert.equal(mesh.material.onBeforeCompile,once,'shared material gets the lamp extension once');mallCutawayMaterial(mesh.material,{value:2});
++ assert.equal(mesh.isBatchedMesh,true,'shader preparation sees audited range-only dispatch');const shader={uniforms:{},vertexShader:'void main(){\n#include <project_vertex>\n}',fragmentShader:'void main(){\n#include <opaque_fragment>\n}'};mesh.material.onBeforeCompile(shader);assert.equal((shader.vertexShader.match(/#undef USE_BATCHING/g)||[]).length,1);assert.equal((shader.vertexShader.match(/attribute float aMallRoom/g)||[]).length,1);assert.ok(shader.uniforms.uMallRoomLamps);assert.ok(shader.uniforms.uMallInspectedRoom);
++ const camera=new T.PerspectiveCamera(40,1,.1,100);camera.position.set(0,8,15);camera.lookAt(0,1,0);camera.updateMatrixWorld();mesh.updateMatrixWorld();mesh.onBeforeRender({extensions:{has:()=>true}},{},camera);mesh.onBeforeShadow({extensions:{has:()=>true}},mesh,camera,camera);assert.equal(mesh.customDepthMaterial,depth);assert.ok(mesh.userData.staticSubmission.stats.submittedIndices<mesh.geometry.index.count);
++ mesh.material.customProgramCacheKey=()=> 'unregistered shader change';assert.equal(mesh.isBatchedMesh,false,'unregistered key cannot reuse the contract');mesh.onBeforeRender({extensions:{has:()=>true}},{},camera);assert.equal(mesh.customDepthMaterial,undefined);
++});

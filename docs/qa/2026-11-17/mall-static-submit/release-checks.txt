@@ -1,0 +1,178 @@
+Baked tropical-coast 38008
+One ocean reflection probe: 38008 download bytes; 0.33 MiB mipmapped shared GPU maximum.
+Baked barrel-wave 59621
+Baked canyon-rafting 59680
+Baked glass-drop 62337
+Baked lagoon-launch 55164
+Baked surf-halfpipe 52990
+Baked lazy-river 54299
+Baked fountain-carousel 31758
+Baked pool-pendulum 49384
+8 reflection probes: 425233 download bytes; 2.67 MiB mipmapped shared GPU maximum.
+Final production application dbe5f20f39f2f67a c14ce8408f8f3aed 9499bc9bd36f46e727bac83ad7a036b42a771bb8
+TAP version 13
+# Subtest: Mall compaction retains every indexed attribute byte, triangle/face order, bounds and native ray hit
+ok 1 - Mall compaction retains every indexed attribute byte, triangle/face order, bounds and native ray hit
+  ---
+  duration_ms: 6.695138
+  type: 'test'
+  ...
+# Subtest: Mall compaction leaves dynamic instance attributes and unindexed geometry untouched
+ok 2 - Mall compaction leaves dynamic instance attributes and unindexed geometry untouched
+  ---
+  duration_ms: 0.601509
+  type: 'test'
+  ...
+# Subtest: floor tiles retain metre density and match across adjoining transformed panels without changing source geometry
+ok 3 - floor tiles retain metre density and match across adjoining transformed panels without changing source geometry
+  ---
+  duration_ms: 3.371889
+  type: 'test'
+  ...
+# Subtest: room stamping shares only equivalent finish transforms and preserves native collider positions and primitive UVs
+ok 4 - room stamping shares only equivalent finish transforms and preserves native collider positions and primitive UVs
+  ---
+  duration_ms: 2.312735
+  type: 'test'
+  ...
+# Subtest: the real public floor receives metre UVs even though it bypasses room lighting
+ok 5 - the real public floor receives metre UVs even though it bypasses room lighting
+  ---
+  duration_ms: 257.483081
+  type: 'test'
+  ...
+# Subtest: the ocean reflection is a valid immutable local capture of its current native coastal producers
+ok 6 - the ocean reflection is a valid immutable local capture of its current native coastal producers
+  ---
+  duration_ms: 28.745137
+  type: 'test'
+  ...
+# Subtest: the native warmup uploads every hidden ocean sampler before compiling its first live material
+ok 7 - the native warmup uploads every hidden ocean sampler before compiling its first live material
+  ---
+  duration_ms: 79.497325
+  type: 'test'
+  ...
+# Subtest: ocean optics retain the native two field samples, one reflection lookup and bounded scalar wake slots
+ok 8 - ocean optics retain the native two field samples, one reflection lookup and bounded scalar wake slots
+  ---
+  duration_ms: 14.526233
+  type: 'test'
+  ...
+# Subtest: static rounded building copies reuse exact vertices and keep every triangle corner, attribute and seam
+ok 9 - static rounded building copies reuse exact vertices and keep every triangle corner, attribute and seam
+  ---
+  duration_ms: 19.045122
+  type: 'test'
+  ...
+# Subtest: only immutable shared primitives cache hashes; each copy owns its reorderable indices and edits invalidate
+ok 10 - only immutable shared primitives cache hashes; each copy owns its reorderable indices and edits invalidate
+  ---
+  duration_ms: 24.33209
+  type: 'test'
+  ...
+# Subtest: UV/normal/colour seams and Float16 bits stay exact; existing indices and unsupported animation layouts remain native
+ok 11 - UV/normal/colour seams and Float16 bits stay exact; existing indices and unsupported animation layouts remain native
+  ---
+  duration_ms: 15.740256
+  type: 'test'
+  ...
+# Subtest: mixed merging and the released cache optimiser retain exact triangle order, offsets, attributes and repeatability
+ok 12 - mixed merging and the released cache optimiser retain exact triangle order, offsets, attributes and repeatability
+  ---
+  duration_ms: 80.663246
+  type: 'test'
+  ...
+# Subtest: generated face normals keep sharp corners when a custom static source omits normals
+ok 13 - generated face normals keep sharp corners when a custom static source omits normals
+  ---
+  duration_ms: 2.675291
+  type: 'test'
+  ...
+# Subtest: spatial submission retains every oriented triangle and attribute, and all removed ranges are outside the actual transformed view
+ok 14 - spatial submission retains every oriented triangle and attribute, and all removed ranges are outside the actual transformed view
+  ---
+  duration_ms: 168.879042
+  type: 'test'
+  ...
+# Subtest: unsupported renderers and animated or displaced meshes keep their original renderer and buffers
+ok 15 - unsupported renderers and animated or displaced meshes keep their original renderer and buffers
+  ---
+  duration_ms: 30.574609
+  type: 'test'
+  ...
+# Subtest: transparent glass keeps its exact triangle order and material
+ok 16 - transparent glass keeps its exact triangle order and material
+  ---
+  duration_ms: 14.24641
+  type: 'test'
+  ...
+# Subtest: wind and underwater shaders installed after merging retain native rendering, including the first shadow pass
+ok 17 - wind and underwater shaders installed after merging retain native rendering, including the first shadow pass
+  ---
+  duration_ms: 69.572267
+  type: 'test'
+  ...
+# Subtest: guest raft clones retain shared original buffers without serializing source command bounds or callbacks
+ok 18 - guest raft clones retain shared original buffers without serializing source command bounds or callbacks
+  ---
+  duration_ms: 7.026898
+  type: 'test'
+  ...
+# Subtest: a runtime native fallback cannot revive disposed shadow resources when the renderer changes
+ok 19 - a runtime native fallback cannot revive disposed shadow resources when the renderer changes
+  ---
+  duration_ms: 8.703884
+  type: 'test'
+  ...
+# Subtest: audited Mall room lighting and inspection retain exact static range dispatch and native depth, unknown later motion still falls back
+ok 20 - audited Mall room lighting and inspection retain exact static range dispatch and native depth, unknown later motion still falls back
+  ---
+  duration_ms: 30.358614
+  type: 'test'
+  ...
+# Subtest: Mall room finish replaces the older reflection finish without duplicate uniforms or reflection locals
+ok 21 - Mall room finish replaces the older reflection finish without duplicate uniforms or reflection locals
+  ---
+  duration_ms: 0.830186
+  type: 'test'
+  ...
+# Subtest: all 68 water rides have an individual performance; every factory including background construction installs it
+ok 22 - all 68 water rides have an individual performance; every factory including background construction installs it
+  ---
+  duration_ms: 27893.369748
+  type: 'test'
+  ...
+# Subtest: runtime only interpolates fixed cached data, supports deterministic seeking and preserves source frame/carrier
+ok 23 - runtime only interpolates fixed cached data, supports deterministic seeking and preserves source frame/carrier
+  ---
+  duration_ms: 13.817755
+  type: 'test'
+  ...
+# Subtest: left and right paws move independently on the native rig and cancellation/reduced motion restore it
+ok 24 - left and right paws move independently on the native rig and cancellation/reduced motion restore it
+  ---
+  duration_ms: 2353.602502
+  type: 'test'
+  ...
+# Subtest: faster rafting and river use a single native clock without changing true gravity, walking, boarding or landing
+ok 25 - faster rafting and river use a single native clock without changing true gravity, walking, boarding or landing
+  ---
+  duration_ms: 1.723714
+  type: 'test'
+  ...
+# Subtest: background performance preparation yields between lanes and never exposes a partial cached table
+ok 26 - background performance preparation yields between lanes and never exposes a partial cached table
+  ---
+  duration_ms: 12.186918
+  type: 'test'
+  ...
+1..26
+# tests 26
+# suites 0
+# pass 26
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 30926.669109

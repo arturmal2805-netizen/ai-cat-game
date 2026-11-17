@@ -1,0 +1,50 @@
+{
+  "date": "2026-11-17",
+  "base": "1f96a1b6ce17435bc6aa845db1ba6e52d88a56cd",
+  "runtimeSource": "9499bc9bd36f46e727bac83ad7a036b42a771bb8",
+  "node": "22.23.5",
+  "productionJS": "dbe5f20f39f2f67ab258a143614fba517f1588f0dd839d590b3fc90d5dfd71d9",
+  "productionCSS": "c14ce8408f8f3aed7a5e7991eca39663fe55377343421ff62e0600ada4c048ef",
+  "tests": "8 static guard/composition tests +26 release/exact-index/UV/compaction/optics checks; native three actual-game frozen views incl phoneDPR2, zero shader/page/http errors and zero changed RGBA channels",
+  "geometry": "All vertices/index/triangle order/material maps/cats/animations/shadow quality/DPR preserved. Exact static ranges only skip geometry outside actual colour OR shadow camera. Scene GPU buffers unchanged per A/B.",
+  "results": {
+    "interior": [
+      11200479,
+      5464231
+    ],
+    "overview": [
+      13377101,
+      10015913
+    ],
+    "phone": [
+      10725292,
+      3938596
+    ]
+  },
+  "timingCaveat": "Single SwiftShader synchronized frame pairs only: interior9373.8->7871.5ms,overview18557.1->18655.2ms (0.53percent slower),phone3108.7->2724.3ms. Overview noise not statistically characterized; no claim of universal FPS improvement or AppleM2/iPhone rate. Need player diagnostic after publication.",
+  "rejectedV1": "Both A/B had shader errors from composing old Mall reflection twice. Explicit errors[] assertion rejected run. Preserved separately, never released. Current hook preserves only known static wrapper; older Mall reflection is replaced exactly as released before.",
+  "reflections": "Both actual bakers rerun,9PNG bytes unchanged. static-submissions producer added to both revision input lists; no hash-only fake bake.",
+  "playerReport2": "JSf8acc968=06a39cb; 1.35second/26frames window insufficient for direct FPS comparison. GPU28.24ms/15.718Mtri, zero in-window refaults and bufferData. Loading separate issue.",
+  "files": {
+    "player-report-2-summary.json": "9afb8033418659e60541f7e388d18c15fb4cb78a6f404fa12458050056e17383",
+    "release-checks.txt": "dc46acd4cbd89eec38ae24807bafcf379e3cb7249834c43ba347313239a398f8",
+    "production-app.js.gz": "1e4cf0220d24c964aae848f4477ea4de46ab0d8b522d110de43cea5b9777e6d5",
+    "production-index.html": "2ec708e6e40f55b94d39665546b0d0ea9e3083f81afa33a6ee110b260b4fe5c9",
+    "unit-tests.txt": "c50e7459be257054aa5e2597b86a8799d9da21e955402c7e95650cf5ac2bbf45",
+    "native/mall-phone.png": "6aa1b5a7fa7209be206ae8cb966e239bae3f1a1d8f1de1cf89fc8d6e0b3f176c",
+    "native/qa-build.json": "cbf30d6b2db67c2edeb0713d017e6f67f55dd23c8b280afc63fc09cfd7c0edb7",
+    "native/mall-static.json": "aaf5560e68fac48bb93d96fa29aa1bb02eeeaeaeaa2f92f76999777990607f84",
+    "native/mall-interior.png": "ce02e6a18d2ecf0e20e44f47f3659354785a1910b04d8baca6181b5933abeafe",
+    "native/source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native/mall-overview.png": "aca493c4de96b12ab755761bdce18d34d68b48bd33e8d4de65f3b600e1a66c3c",
+    "native/qa-app.js.gz": "2acf5a4541c7507cec5ad19989251b77b70b9d181b86f5459d58a718f0852c3b",
+    "native/source-HEAD.patch": "03d65d7c536d18d278932720d2bbc1aa0ea511d9c943612b90695064c7cdc025",
+    "native/source-status.txt": "bfdf494da79725b30271417816abd2bbba79b72616fa3c0436f63a9be16fdc05",
+    "rejected-v1/shader-errors.txt": "75f5e7fc38c4c09e6147333c166671048529edbf2e04fbcb6d70eaa1facd9ab3",
+    "rejected-v1/qa-build.json": "6b9c7c32f8931fbe617919f3904a9bd97585bc5bbaf214b95a0b189efece6905",
+    "rejected-v1/source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "rejected-v1/qa-app.js.gz": "a1c7b32884e93c2d59c8fe8e5c4e5584a8be50b17458b50739d0cba15b6d4e31",
+    "rejected-v1/source-HEAD.patch": "7e5456d68d9da8c2eb5f6e44b06dbe7637230ca4c39638ba50067a96b9a9fdae",
+    "rejected-v1/source-status.txt": "bfdf494da79725b30271417816abd2bbba79b72616fa3c0436f63a9be16fdc05"
+  }
+}

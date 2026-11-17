@@ -38,8 +38,14 @@ V1 НЕ ПРОШЁЛ: хотя A/B дал0pixel differences, обе сторон
 корректного изображения и НЕ опубликованы. Ошибка исправлена: сохранять только
 зарегистрированный static submission hook, а older Mall reflection finish
 заменять как раньше; idempotence для sharedmaterial. 8unitPASS, включая exact
-single reflection block. NativeV2 сейчас /workspace/qa/mall-static-native-v2.log.
-Пока НЕ считать принятым/опубликованным. Полный CI/native требуется.
+single reflection block. NativeV2 PASS: actual fullgame/65residents/DPR2 interior/overview/phone,
+zero shader/page/HTTP errors и zerochangedRGBA. Triangle submissions11.2M→5.46M,
+13.38M→10.02M,10.73M→3.94M; исходные модели иGPUbuffers неизменны.
+Single SwiftShader GPU pairs interior/phone быстрее,overview+0.53% — шум не
+статистическая гарантия и НЕ AppleFPS.26release tests PASS, обаbakers реально
+пересняты,9reflectionPNG неизменны. Точная QA/build в
+../qa/2026-11-17/mall-static-submit/manifest.json. Готов к публикации ПОСЛЕ
+успеха firstCI/live1f, чтобы не отменить его push вmain. Пока НЕ published.
 
 ## Активная оптимизация
 

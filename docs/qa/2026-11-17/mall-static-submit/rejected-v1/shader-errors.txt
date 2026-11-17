@@ -1,0 +1,78 @@
+Mall range QA: full native Mall ready
+Mall native A/B {"name":"mall-interior","baseline":{"completeGpuFrameMs":8331.699999999255,"calls":678,"triangles":11200479,"staticHelpers":113,"buffers":{"bytes":443281613,"peak":443281613,"buffers":4619,"commandFrame":10,"commandCalls":707,"commands":1002,"staticCommands":511}},"candidate":{"completeGpuFrameMs":7398,"calls":671,"triangles":5464231,"staticHelpers":113,"buffers":{"bytes":443281613,"peak":443281613,"buffers":4619,"commandFrame":11,"commandCalls":707,"commands":1266,"staticCommands":775}},"changedChannels":0,"maxDelta":0,"dpr":2,"camera":[-440,-134,599],"lost":false}
+Mall native A/B {"name":"mall-overview","baseline":{"completeGpuFrameMs":16617.89999999851,"calls":1015,"triangles":13377101,"staticHelpers":113,"buffers":{"bytes":461583938,"peak":461583938,"buffers":5232,"commandFrame":14,"commandCalls":1049,"commands":1353,"staticCommands":537}},"candidate":{"completeGpuFrameMs":15561.900000002235,"calls":1011,"triangles":10015913,"staticHelpers":113,"buffers":{"bytes":461583938,"peak":461583938,"buffers":5232,"commandFrame":15,"commandCalls":1049,"commands":1797,"staticCommands":981}},"changedChannels":0,"maxDelta":0,"dpr":2,"camera":[-435,-65,700],"lost":false}
+Mall native A/B {"name":"mall-phone","baseline":{"completeGpuFrameMs":3118.60000000149,"calls":579,"triangles":10725292,"staticHelpers":113,"buffers":{"bytes":458027906,"peak":461583938,"buffers":5014,"commandFrame":18,"commandCalls":608,"commands":903,"staticCommands":489}},"candidate":{"completeGpuFrameMs":2009.4000000022352,"calls":549,"triangles":3938596,"staticHelpers":113,"buffers":{"bytes":458027906,"peak":461583938,"buffers":5014,"commandFrame":19,"commandCalls":608,"commands":1016,"staticCommands":602}},"changedChannels":0,"maxDelta":0,"dpr":2,"camera":[-440,-134,599],"lost":false}
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+
++ [
++   'THREE.WebGLProgram: Shader Error 0 - VALIDATE_STATUS false\n' +
++     '\n' +
++     'Material Name: \n' +
++     'Material Type: MeshStandardMaterial\n' +
++     '\n' +
++     'Program Info Log: Fragment shader is not compiled.\n' +
++     '\n' +
++     'FRAGMENT\n' +
++     '\n' +
++     "ERROR: 0:168: 'uMallProbe' : redefinition\n" +
++     "ERROR: 0:168: 'uMallProbeGain' : redefinition\n" +
++     "ERROR: 0:2121: 'mallR' : redefinition\n" +
++     "ERROR: 0:2122: 'mallOct' : redefinition\n" +
++     "ERROR: 0:2124: 'mallFacing' : redefinition\n" +
++     "ERROR: 0:2125: 'mallF0' : redefinition\n" +
++     "ERROR: 0:2126: 'mallFresnel' : redefinition\n" +
++     '\n' +
++     '  163: \treturn dot( weights, rgb );\n' +
++     '  164: }\n' +
++     '  165: \n' +
++     '  166: varying float vMallCutaway;\n' +
++     '  167: uniform sampler2D uMallProbe;uniform float uMallProbeGain;varying vec3 vMallLamp;varying vec4 vMallLampColor;varying float vMallLampRange;\n' +
++     '> 168: uniform sampler2D uMallProbe;uniform float uMallProbeGain;\n' +
++     '  169: #define STANDARD\n' +
++     '  170: #ifdef PHYSICAL\n' +
++     '  171: \t#define IOR\n' +
++     '  172: \t#define USE_SPECULAR\n' +
++     '  173: #endif\n' +
++     '  174: uniform vec3 diffuse;',
++   'THREE.WebGLProgram: Shader Error 0 - VALIDATE_STATUS false\n' +
++     '\n' +
++     'Material Name: \n' +
++     'Material Type: MeshStandardMaterial\n' +
++     '\n' +
++     'Program Info Log: Fragment shader is not compiled.\n' +
++     '\n' +
++     'FRAGMENT\n' +
++     '\n' +
++     "ERROR: 0:164: 'uMallProbe' : redefinition\n" +
++     "ERROR: 0:164: 'uMallProbeGain' : redefinition\n" +
++     "ERROR: 0:2117: 'mallR' : redefinition\n" +
++     "ERROR: 0:2118: 'mallOct' : redefinition\n" +
++     "ERROR: 0:2120: 'mallFacing' : redefinition\n" +
++     "ERROR: 0:2121: 'mallF0' : redefinition\n" +
++     "ERROR: 0:2122: 'mallFresnel' : redefinition\n" +
++     '\n' +
++     '  159: \treturn dot( weights, rgb );\n' +
++     '  160: }\n' +
++     '  161: \n' +
++     '  162: varying float vMallCutaway;\n' +
++     '  163: uniform sampler2D uMallProbe;uniform float uMallProbeGain;varying vec3 vMallLamp;varying vec4 vMallLampColor;varying float vMallLampRange;\n' +
++     '> 164: uniform sampler2D uMallProbe;uniform float uMallProbeGain;\n' +
++     '  165: #define STANDARD\n' +
++     '  166: #ifdef PHYSICAL\n' +
++     '  167: \t#define IOR\n' +
++     '  168: \t#define USE_SPECULAR\n' +
++     '  169: #endif\n' +
++     '  170: uniform vec3 diffuse;'
++ ]
+- []
+
+    at auditMallStaticNative (file:///workspace/chichi-mall-submit-performance/scripts/audit-mall-static-native.mjs:22:69)
+    at async /workspace/chichi-mall-submit-performance/scripts/check-aquarium.cjs:686:125 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: [Array],
+  expected: [],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}

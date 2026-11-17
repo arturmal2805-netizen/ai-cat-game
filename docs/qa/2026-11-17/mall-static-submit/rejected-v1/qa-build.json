@@ -1,0 +1,7 @@
+{
+  "sha256": "97f12c09b0cf667b96e59c76a13c55debfbb1d25b242a8185497b4d3408065ad",
+  "node": "v22.23.5",
+  "head": "1f96a1b6ce17435bc6aa845db1ba6e52d88a56cd",
+  "dirty": " M public/mall-cutaway.js\n M public/mall-room-light.js\n M public/static-submissions.js\n M scripts/check-aquarium.cjs\n M test/static-submissions.test.mjs\n?? scripts/audit-mall-static-native.mjs\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

@@ -1,0 +1,70 @@
+{
+  "version": 3,
+  "app": "./dist/app.js?v=f8acc968a8e3eef6",
+  "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+  "viewport": [
+    1440,
+    812
+  ],
+  "samples": 26,
+  "seconds": 1.35,
+  "fps": 18.52,
+  "onePercentLowFps": null,
+  "gapP95": 66.6,
+  "gapP99": 166.6,
+  "gapMax": 350.09999999999854,
+  "gapMaxSinceStart": 6382.5,
+  "cpuMedian": 1.7,
+  "cpuP95": 7.9,
+  "renderMedian": 17.4,
+  "renderP95": 54.1,
+  "gpuRender": {
+    "supported": true,
+    "disjoint": false,
+    "samples": 24,
+    "pending": 2,
+    "medianMs": 28.24,
+    "p95Ms": 35.46,
+    "maxMs": 328.13
+  },
+  "startupFirstFrameMs": 4881,
+  "startupResidentPreparation": {
+    "models": 67,
+    "workMs": 1523.5999999940395,
+    "maxTaskMs": 118.59999999403954,
+    "elapsedMs": 12844
+  },
+  "geometryEvictionsDuringWindow": 55,
+  "geometryRefaultsDuringWindow": 0,
+  "geometryRefaultBytesDuringWindow": 0,
+  "geometryRapidRefaultsDuringWindow": 0,
+  "last": {
+    "biome": "autumn",
+    "cats": 68,
+    "calls": 1276,
+    "triangles": 15717907,
+    "geometryBytes": 325017429,
+    "geometryPeakBytes": 456546835,
+    "geometryActiveGraceMs": 250,
+    "pending": 2,
+    "dpr": 2,
+    "poseCats": 21,
+    "colonyActive": false,
+    "shaderPending": 0,
+    "shaderPreparing": 0,
+    "evicted": 1565,
+    "refaults": 19,
+    "refaultBytes": 160892,
+    "rapidRefaults": 15,
+    "rapidRefaultBytes": 133772,
+    "targetFps": 60,
+    "programs": 210,
+    "visible": true,
+    "moving": false,
+    "buffer": [
+      2804,
+      1384
+    ]
+  },
+  "interpretation": "Player report points to JSf8acc968 (published06a39cb), before1f96a1b.1.35seconds/26frames too short for comparative FPS/1%low. GPU28.24ms,15.718Mtri. Zero in-window bufferData and zero refaults; do not blame cache churn for this window. Resource timings8-10seconds and AIplan17.4seconds require separate loading investigation, not paid inference replays."
+}

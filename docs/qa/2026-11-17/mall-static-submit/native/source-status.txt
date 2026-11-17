@@ -1,0 +1,6 @@
+ M public/mall-cutaway.js
+ M public/mall-room-light.js
+ M public/static-submissions.js
+ M scripts/check-aquarium.cjs
+ M test/static-submissions.test.mjs
+?? scripts/audit-mall-static-native.mjs
