@@ -27,7 +27,7 @@ test('the original wave bytes remain reproducible while ocean uses the shared op
  const shader={uniforms:{},vertexShader:ocean.vertexShader,fragmentShader:ocean.fragmentShader};ocean.onBeforeCompile(shader);
  assert.match(shader.fragmentShader,/float coverage=/);
  assert.match(shader.fragmentShader,/vPhysicalBedDepth/);
- assert.match(shader.vertexShader,/float wave=\(sin\(oceanA\)/);
+ assert.match(shader.vertexShader,/float wave=oceanWave.x\*oceanShore;/);
  assert.match(shader.fragmentShader,/float roughness=\.085;/);
  assert.doesNotMatch(shader.fragmentShader,/float roughness=\.105;/);
  assert.equal((shader.fragmentShader.match(/texture2D\(uWaterField/g)||[]).length,2);

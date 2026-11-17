@@ -1,6 +1,13 @@
 // Shared optical implementation. Venue wrappers supply physical dimensions,
 // finite outlet geometry and actual scenery probes; they do not repaint water.
 export const WATER_MEDIUM=Object.freeze({extinction:Object.freeze([.045,.012,.005]),scatterRate:.022});
+export const WATER_WAVES_GLSL=`
+vec3 sharedWaterWaves(vec2 point,float seconds,vec4 a,vec4 b,vec4 c,vec3 offset){
+ vec3 phase=vec3(dot(point,a.xy),dot(point,b.xy),dot(point,c.xy))-seconds*vec3(a.w,b.w,c.w)+offset;
+ vec3 height=sin(phase)*vec3(a.z,b.z,c.z),gradient=cos(phase)*vec3(a.z,b.z,c.z);
+ return vec3(height.x+height.y+height.z,dot(gradient,vec3(a.x,b.x,c.x)),dot(gradient,vec3(a.y,b.y,c.y)));
+}
+`;
 export const WATER_FIELD_GLSL=`
 void sharedWaterField(vec2 metres,vec2 flow,out vec4 a,out vec4 b){
  a=texture2D(uWaterField,metres*.075+flow*.75);

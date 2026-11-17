@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { waterEnvironmentTexture } from "./water-environment.js";
 
 import {waterFieldTexture} from './water-field.js';
-import {WATER_FIELD_GLSL,WATER_SURFACE_GLSL,WATER_MEDIUM} from './water-core.js';
+import {WATER_WAVES_GLSL,WATER_FIELD_GLSL,WATER_SURFACE_GLSL,WATER_MEDIUM} from './water-core.js';
 export {waterFieldTexture,legacyWaterFieldTexture,prepareWaterField,WATER_FIELD_SIZE} from './water-field.js';
 export const WATER_RIPPLE_SLOTS=6;
 
@@ -91,9 +91,11 @@ uniform float uFlowing;
 varying vec3 vWaterPoint;
 varying vec3 vWaterNormal;
 varying vec2 vWaterUv;
+${WATER_WAVES_GLSL}
 void main(){
  vec3 p=position;
- float wave=sin(p.x*1.3+uTime*.8)*.004+cos(p.y*1.7-uTime*.6)*.003;
+ vec3 baseWave=sharedWaterWaves(p.xy,uTime,vec4(1.3,0.,.004,-.8),vec4(0.,1.7,.003,.6),vec4(0.),vec3(0.,1.57079632679,0.));
+ float wave=baseWave.x;
  p+=normal*wave*(1.0+uFall*3.0+step(.5,uFlowing)*2.0);
  vec4 world=modelMatrix*vec4(p,1.0);
  vWaterPoint=world.xyz;
@@ -149,18 +151,12 @@ void main(){
  if(uFall>.5){
   float streak=1.0-smoothstep(.02,.17,abs(fract(vWaterUv.x*uScale.x*7.0+fieldA.r*.5)-.5));
   float lace=streak*(.22+.34*fieldB.a);
-  vec3 color=mix(uColor*.42,vec3(.75,.97,1.0),.06+lace*.52);
-  #ifndef SHOWCASE_WATER
-  color=mix(uColor*.78,vec3(.90,.985,1.),.08+lace*.48);
-  #endif
+  vec3 color=mix(uColor*.78,vec3(.90,.985,1.),.08+lace*.48);
   color+=vec3(.025,.075,.10)*fieldA.b;
   float edgeFade=smoothstep(0.0,.045,vWaterUv.x)*(1.0-smoothstep(.955,1.0,vWaterUv.x));
   float foot=(1.0-smoothstep(0.0,.15,vWaterUv.y))*(.14+fieldB.a*.16);
   color=mix(color,vec3(.82,.98,1.0),foot);
-  float alpha=clamp(uOpacity*.83+lace*.26,.28,.86)*edgeFade;
-  #ifndef SHOWCASE_WATER
-  alpha=clamp(uOpacity*.46+lace*.24+foot*.12,.18,.82)*edgeFade;
-  #endif
+  float alpha=clamp(uOpacity*.46+lace*.24+foot*.12,.18,.82)*edgeFade;
   gl_FragColor=vec4(color,alpha);
   #include <tonemapping_fragment>
   #include <colorspace_fragment>

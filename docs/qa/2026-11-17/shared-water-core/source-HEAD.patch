@@ -1,0 +1,251 @@
+diff --git a/public/index.html b/public/index.html
+index b5599b1..4bd26d4 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -702,6 +702,6 @@
+       </div>
+     </dialog>
+     <div id="toast" role="status" aria-live="polite" hidden></div>
+-    <script type="module" src="./dist/app.js?v=da67f3f791b689bf"></script>
++    <script type="module" src="./dist/app.js?v=70760833887042da"></script>
+   </body>
+ </html>
+diff --git a/public/mosasaur-water-optics.js b/public/mosasaur-water-optics.js
+index 080535c..9698765 100644
+--- a/public/mosasaur-water-optics.js
++++ b/public/mosasaur-water-optics.js
+@@ -12,16 +12,13 @@ export function installMosasaurWaterOptics(material){
+  material.uniforms.uWaterDepth.value=200;
+  material.userData.oceanProfile=MOSA_OCEAN_PROFILE.version;material.toneMapped=true;
+  material.onBeforeCompile=shader=>{
+-  shader.vertexShader='uniform vec2 uScale;attribute float aPhysicalBedDepth;varying float vPhysicalBedDepth;varying float vOceanCrest;\n'+shader.vertexShader
++  shader.vertexShader='uniform vec2 uScale;attribute float aPhysicalBedDepth;varying float vPhysicalBedDepth;\n'+shader.vertexShader
+    .replace('vec3 p=position;',`vPhysicalBedDepth=aPhysicalBedDepth;vec3 p=position;
+     vec2 oceanMetres=position.xy*uScale*.5;
+-    float oceanA=dot(oceanMetres,vec2(.12,.072))-uTime*1.17;
+-    float oceanB=dot(oceanMetres,vec2(-.073,.104))-uTime*1.12;
+-    float oceanC=dot(oceanMetres,vec2(.039,-.034))-uTime*.71;
+-    vOceanCrest=smoothstep(.72,.98,sin(oceanA)*.65+sin(oceanB)*.35);
++    vec3 oceanWave=sharedWaterWaves(oceanMetres,uTime,vec4(.12,.072,.50,1.17),vec4(-.073,.104,.23,1.12),vec4(.039,-.034,.10,.71),vec3(0.));
+     float oceanShore=smoothstep(.2,3.,aPhysicalBedDepth);`)
+-   .replace('float wave=sin(p.x*1.3+uTime*.8)*.004+cos(p.y*1.7-uTime*.6)*.003;', 'float wave=(sin(oceanA)*.50+sin(oceanB)*.23+sin(oceanC)*.10)*oceanShore;')
+-   .replace('vec3 viewNormal=normalMatrix*normal;',`vec2 oceanGradient=(cos(oceanA)*.50*vec2(.12,.072)+cos(oceanB)*.23*vec2(-.073,.104)+cos(oceanC)*.10*vec2(.039,-.034))*oceanShore;
++   .replace('float wave=baseWave.x;', 'float wave=oceanWave.x*oceanShore;')
++   .replace('vec3 viewNormal=normalMatrix*normal;',`vec2 oceanGradient=oceanWave.yz*oceanShore;
+     vec3 viewNormal=normalMatrix*normalize(vec3(-oceanGradient*uScale*.5,1.));`);
+   shader.fragmentShader='varying float vPhysicalBedDepth;\n'+shader.fragmentShader
+    .replace('float waterDepth=mix(.23,uWaterDepth*(1.-.8*smoothstep(.55,1.,edge)),uLake);','float waterDepth=max(0.,vPhysicalBedDepth);');
+diff --git a/public/mosasaur-water-probe-assets.js b/public/mosasaur-water-probe-assets.js
+index 69db10a..4655a69 100644
+--- a/public/mosasaur-water-probe-assets.js
++++ b/public/mosasaur-water-probe-assets.js
+@@ -1,3 +1,3 @@
+ // Actual static tropical coast, linear radiance / 4. No gameplay capture.
+-export const MOSA_WATER_PROBE_REVISION="ebf7a3d2ce386a9c";
++export const MOSA_WATER_PROBE_REVISION="331080b77a716dc7";
+ export const MOSA_WATER_PROBE="./art/ocean-reflections/tropical-coast-fad01f1a78d8.png";
+diff --git a/public/mosasaur-water-profile.js b/public/mosasaur-water-profile.js
+index 99bd00b..58f0566 100644
+--- a/public/mosasaur-water-profile.js
++++ b/public/mosasaur-water-profile.js
+@@ -1,23 +1,13 @@
+ // Mosasaur-only optical calibration. Metres and seconds, not island-normalised
+ // depth. The attraction material, authored colours and clocks remain independent.
+ export const MOSA_OCEAN_PROFILE=Object.freeze({
+- version:'clear-ocean-v6',maximumDisplacement:.83,
+- scatterTint:0x258daa,scatterGain:.60,extinction:'.045,.012,.005',scatterRate:'.022',
++ version:'shared-core-ocean-waves-v1',maximumDisplacement:.83,
+  swells:Object.freeze([
+   Object.freeze({amplitude:.50,x:.12,z:.072,omega:1.17}),
+   Object.freeze({amplitude:.23,x:-.073,z:.104,omega:1.12}),
+   Object.freeze({amplitude:.10,x:.039,z:-.034,omega:.71}),
+  ]),
+- shallow:[.018,.62,.72],deep:[.006,.32,.58],depthMetres:35,
+ });
+-// The existing approved clear-water lobe (d6fa805, composed showcase shader).
+-// This reuses its analytic footprint and strength with the real coastal probe;
+-// it is NOT a generated substitute reflection or another runtime texture.
+-export const MOSA_CLEAR_WATER_HIGHLIGHT=`
+- float roughness=sqrt(.005625+min(.04,dot(fwidth(slope),fwidth(slope))*.75));
+- float a2=roughness*roughness;
+- float denominator=gloss*gloss*(a2-1.0)+1.0;
+- float glint=(a2/(3.14159*denominator*denominator))*.025*(.4+fieldB.a*.6);`;
+ export function mosaOceanSwell(x,z,seconds,depth=200){
+  const t=Math.max(0,Math.min(1,(depth-.2)/2.8)),fade=t*t*(3-2*t);
+  let height=0,dx=0,dz=0;
+diff --git a/public/showcase-probe-assets.js b/public/showcase-probe-assets.js
+index 87b78b6..5a3d124 100644
+--- a/public/showcase-probe-assets.js
++++ b/public/showcase-probe-assets.js
+@@ -1,6 +1,6 @@
+ // Actual static mini-biomes, linear radiance / 4; shared water core.
+ export const SHOWCASE_PROBE_ENCODING="linear-radiance-div4";
+-export const SHOWCASE_PROBE_REVISION="f285b3b6c29a1c9f";
++export const SHOWCASE_PROBE_REVISION="03816434580c402c";
+ export const SHOWCASE_WATER_PROBES={
+   "ride-water-barrel-wave": "./art/water-reflections/barrel-wave-2695db73862d.png",
+   "ride-water-canyon-rafting": "./art/water-reflections/canyon-rafting-e0943c549a14.png",
+diff --git a/public/showcase-water-optics.js b/public/showcase-water-optics.js
+index e9f72c8..1102148 100644
+--- a/public/showcase-water-optics.js
++++ b/public/showcase-water-optics.js
+@@ -17,9 +17,9 @@ export function polishShowcaseWater(material,{id,pool=[0,35,22,15],surfaceY=1.45
+  material.uniforms.uShowcaseBasinY={value:surfaceY};
+  material.uniforms.uShowcaseReceiving={value:!['lazy-river','surf-halfpipe','fountain-carousel','pool-pendulum'].some(kind=>id?.endsWith(kind))?1:0};
+  material.uniforms.uShowcaseNormalisedFlow={value:material.userData.showcaseNormalisedFlow?1:0};
+- material.vertexShader=material.vertexShader.replace('float wave=sin(p.x*1.3+uTime*.8)*.004+cos(p.y*1.7-uTime*.6)*.003;',`float phaseA=p.x*.68+p.z*.44+uTime*.8,phaseB=p.z*.79-p.x*.23-uTime*.6;
+- float wave=sin(phaseA)*.035+cos(phaseB)*.028;
+- vec3 waveGradient=vec3(cos(phaseA)*.0238+sin(phaseB)*.00644,0.,cos(phaseA)*.0154-sin(phaseB)*.02212);
++ material.vertexShader=material.vertexShader.replace('float wave=baseWave.x;',`vec3 profileWave=sharedWaterWaves(p.xz,uTime,vec4(.68,.44,.035,-.8),vec4(-.23,.79,.028,.6),vec4(0.),vec3(0.,1.57079632679,0.));
++ float wave=profileWave.x;
++ vec3 waveGradient=vec3(profileWave.y,0.,profileWave.z);
+  float waveGain=1.0+uFall*3.0+step(.5,uFlowing)*.5;
+  #ifdef SLIDE_CATCH_POOL
+  float edge=length((uv-.5)*2.),t=clamp((edge-.78)/.22,0.,1.),fade=1.-smoothstep(.78,1.,edge);
+diff --git a/public/water-core.js b/public/water-core.js
+index f1fdaae..9026b2d 100644
+--- a/public/water-core.js
++++ b/public/water-core.js
+@@ -1,6 +1,13 @@
+ // Shared optical implementation. Venue wrappers supply physical dimensions,
+ // finite outlet geometry and actual scenery probes; they do not repaint water.
+ export const WATER_MEDIUM=Object.freeze({extinction:Object.freeze([.045,.012,.005]),scatterRate:.022});
++export const WATER_WAVES_GLSL=`
++vec3 sharedWaterWaves(vec2 point,float seconds,vec4 a,vec4 b,vec4 c,vec3 offset){
++ vec3 phase=vec3(dot(point,a.xy),dot(point,b.xy),dot(point,c.xy))-seconds*vec3(a.w,b.w,c.w)+offset;
++ vec3 height=sin(phase)*vec3(a.z,b.z,c.z),gradient=cos(phase)*vec3(a.z,b.z,c.z);
++ return vec3(height.x+height.y+height.z,dot(gradient,vec3(a.x,b.x,c.x)),dot(gradient,vec3(a.y,b.y,c.y)));
++}
++`;
+ export const WATER_FIELD_GLSL=`
+ void sharedWaterField(vec2 metres,vec2 flow,out vec4 a,out vec4 b){
+  a=texture2D(uWaterField,metres*.075+flow*.75);
+diff --git a/public/water-shading.js b/public/water-shading.js
+index c7b060f..d216e8b 100644
+--- a/public/water-shading.js
++++ b/public/water-shading.js
+@@ -2,7 +2,7 @@ import * as THREE from "three";
+ import { waterEnvironmentTexture } from "./water-environment.js";
+ 
+ import {waterFieldTexture} from './water-field.js';
+-import {WATER_FIELD_GLSL,WATER_SURFACE_GLSL,WATER_MEDIUM} from './water-core.js';
++import {WATER_WAVES_GLSL,WATER_FIELD_GLSL,WATER_SURFACE_GLSL,WATER_MEDIUM} from './water-core.js';
+ export {waterFieldTexture,legacyWaterFieldTexture,prepareWaterField,WATER_FIELD_SIZE} from './water-field.js';
+ export const WATER_RIPPLE_SLOTS=6;
+ 
+@@ -91,9 +91,11 @@ uniform float uFlowing;
+ varying vec3 vWaterPoint;
+ varying vec3 vWaterNormal;
+ varying vec2 vWaterUv;
++${WATER_WAVES_GLSL}
+ void main(){
+  vec3 p=position;
+- float wave=sin(p.x*1.3+uTime*.8)*.004+cos(p.y*1.7-uTime*.6)*.003;
++ vec3 baseWave=sharedWaterWaves(p.xy,uTime,vec4(1.3,0.,.004,-.8),vec4(0.,1.7,.003,.6),vec4(0.),vec3(0.,1.57079632679,0.));
++ float wave=baseWave.x;
+  p+=normal*wave*(1.0+uFall*3.0+step(.5,uFlowing)*2.0);
+  vec4 world=modelMatrix*vec4(p,1.0);
+  vWaterPoint=world.xyz;
+@@ -149,18 +151,12 @@ void main(){
+  if(uFall>.5){
+   float streak=1.0-smoothstep(.02,.17,abs(fract(vWaterUv.x*uScale.x*7.0+fieldA.r*.5)-.5));
+   float lace=streak*(.22+.34*fieldB.a);
+-  vec3 color=mix(uColor*.42,vec3(.75,.97,1.0),.06+lace*.52);
+-  #ifndef SHOWCASE_WATER
+-  color=mix(uColor*.78,vec3(.90,.985,1.),.08+lace*.48);
+-  #endif
++  vec3 color=mix(uColor*.78,vec3(.90,.985,1.),.08+lace*.48);
+   color+=vec3(.025,.075,.10)*fieldA.b;
+   float edgeFade=smoothstep(0.0,.045,vWaterUv.x)*(1.0-smoothstep(.955,1.0,vWaterUv.x));
+   float foot=(1.0-smoothstep(0.0,.15,vWaterUv.y))*(.14+fieldB.a*.16);
+   color=mix(color,vec3(.82,.98,1.0),foot);
+-  float alpha=clamp(uOpacity*.83+lace*.26,.28,.86)*edgeFade;
+-  #ifndef SHOWCASE_WATER
+-  alpha=clamp(uOpacity*.46+lace*.24+foot*.12,.18,.82)*edgeFade;
+-  #endif
++  float alpha=clamp(uOpacity*.46+lace*.24+foot*.12,.18,.82)*edgeFade;
+   gl_FragColor=vec4(color,alpha);
+   #include <tonemapping_fragment>
+   #include <colorspace_fragment>
+diff --git a/scripts/check-global-water.mjs b/scripts/check-global-water.mjs
+index a079e00..ea2aea1 100644
+--- a/scripts/check-global-water.mjs
++++ b/scripts/check-global-water.mjs
+@@ -30,6 +30,6 @@ window.view=(name)=>{const phone=name==='phone'||name==='hero-phone',w=phone?390
+ };
+ window.draw=(t,reduced=false)=>{island.userData.update?.(t,reduced);for(const tank of fixtures)tank.userData.update?.(t,reduced);renderer.render(scene,camera);};
+ window.audit=()=>{draw(7,true);const first=renderer.domElement.toDataURL();draw(53,true);if(first!==renderer.domElement.toDataURL())throw Error('Reduced motion changed');draw(7);const before=renderer.domElement.toDataURL();draw(9);const animated=before!==renderer.domElement.toDataURL();let vertices=0,bytes=0,materials=new Set(),geometries=new Set(),waterMaterials=new Set(),waterFields=new Set();island.traverse(o=>{if(o.material)materials.add(o.material);if(o.material?.uniforms?.uWaterField){waterMaterials.add(o.material);waterFields.add(o.material.uniforms.uWaterField.value);}if(o.material?.userData?.waterLight)waterFields.add(o.material.userData.waterLight.texture);if(o.geometry)geometries.add(o.geometry);});for(const g of geometries){vertices+=g.attributes.position?.count||0;for(const a of Object.values(g.attributes))bytes+=(a.array||a.data?.array)?.byteLength||0;bytes+=g.index?.array.byteLength||0;}const oceanMaterial=[...waterMaterials].find(m=>m.userData.oceanProfile||m.customProgramCacheKey().includes('physical-ocean')),program=oceanMaterial&&renderer.properties.get(oceanMaterial).currentProgram,actual=program?renderer.getContext().getShaderSource(program.fragmentShader):'';return {oceanPhysicalShader:(actual.includes('oceanPath')||actual.includes('oceanCoverage')||actual.includes('vPhysicalBedDepth')&&actual.includes('sharedWaterField')),oceanToneMapping:actual.includes('#define TONE_MAPPING'),draws:renderer.info.render.calls,triangles:renderer.info.render.triangles,textures:renderer.info.memory.textures,vertices,geometryBytes:bytes,waterMaterials:waterMaterials.size,waterFields:[...waterFields].map(t=>({name:t.name,width:t.image.width,height:t.image.height})),animated,contextLost:renderer.getContext().isContextLost()};};window.ready=true;`;
+-const bundles=new Map();for(const root of roots){const out=await build({stdin:{contents:(await readFile(resolve(root.path,'public/water-field.js')).then(()=>true,()=>false))?code.replace('window.load=async id=>{','window.load=async id=>{await prepareMosaWaterField();'):code,resolveDir:root.path,loader:'js'},bundle:true,format:'esm',write:false});bundles.set('/'+root.name+'/',out.outputFiles[0].text);await writeFile(resolve(folder,'qa-'+root.name+'.mjs'),out.outputFiles[0].contents);root.sourceSHA=execFileSync('git',['rev-parse','HEAD'],{cwd:root.path,encoding:'utf8'}).trim();root.dirty=execFileSync('git',['status','--porcelain=v1'],{cwd:root.path,encoding:'utf8'}).trim();root.bundleSHA256=createHash('sha256').update(out.outputFiles[0].contents).digest('hex');root.bundleBytes=out.outputFiles[0].contents.byteLength;}
++const bundles=new Map();for(const root of roots){const out=await build({stdin:{contents:(await readFile(resolve(root.path,'public/water-field.js')).then(()=>true,()=>false))?code.replace('window.load=async id=>{','window.load=async id=>{await prepareMosaWaterField();'):code,resolveDir:root.path,loader:'js'},bundle:true,format:'esm',write:false});bundles.set('/'+root.name+'/',out.outputFiles[0].text);await writeFile(resolve(folder,'qa-'+root.name+'.mjs'),out.outputFiles[0].contents);root.sourceSHA=execFileSync('git',['rev-parse','HEAD'],{cwd:root.path,encoding:'utf8'}).trim();root.dirty=execFileSync('git',['status','--porcelain=v1'],{cwd:root.path,encoding:'utf8'}).trim();root.bundleSHA256=createHash('sha256').update(out.outputFiles[0].contents).digest('hex');root.bundleBytes=out.outputFiles[0].contents.byteLength;await writeFile(resolve(folder,'source-'+root.name+'-HEAD.patch'),execFileSync('git',['diff','HEAD','--binary'],{cwd:root.path}));await writeFile(resolve(folder,'source-'+root.name+'-cached.patch'),execFileSync('git',['diff','--cached','--binary'],{cwd:root.path}));await writeFile(resolve(folder,'source-'+root.name+'-status.txt'),root.dirty+'\n');}
+ const server=createServer(async(req,res)=>{try{const path=new URL(req.url,'http://localhost').pathname;if(bundles.has(path)){res.writeHead(200,{'Content-Type':'text/html'});res.end('<script type="module">'+bundles.get(path)+'</script>');return;}if(path==='/favicon.ico'){res.writeHead(204);res.end();return;}const own=roots.find(root=>path.startsWith('/'+root.name+'/'));if(!own)throw Error('Unknown QA asset root');const relative=path.slice(own.name.length+1),folder=resolve(own.path,'public');const file=resolve(folder,'.'+relative);if(!file.startsWith(folder+'/'))throw Error('path');const data=await readFile(file);res.writeHead(200,{'Content-Type':extname(file)==='.png'?'image/png':extname(file)==='.webp'?'image/webp':'application/octet-stream'});res.end(data);}catch{res.writeHead(404);res.end();}});await new Promise(r=>server.listen(0,'127.0.0.1',r));let browser;const rows=[];
+ try{browser=await chromium.launch({executablePath:process.env.CHICHI_CHROMIUM,args:['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader']});await writeFile(resolve(folder,'build-manifest.json'),JSON.stringify({node:process.version,browser:await browser.version(),renderer:'Chromium ANGLE SwiftShader, native source scenes; not device FPS',roots,settings:{biomes:ids,views:process.env.CHICHI_WATER_VIEWS||null,seconds:7,quality:'original lights, exposure1, ACES, shadows PCF1024; DPR1 desktop/DPR2 phone'},source:'exact qa-before/qa-after.mjs retained'},null,2));for(const root of roots){const page=await browser.newPage({viewport:{width:900,height:650}}),errors=[];page.setDefaultTimeout(120000);page.on('pageerror',e=>errors.push(e.message));page.on('console',e=>{if(e.type()==='error')errors.push(e.text());});await page.goto('http://127.0.0.1:'+server.address().port+'/'+root.name+'/');await page.waitForFunction(()=>window.ready);for(const id of ids){const meta=await page.evaluate(id=>load(id),id),views=[];for(const view of (process.env.CHICHI_WATER_VIEWS?process.env.CHICHI_WATER_VIEWS.split(','):process.env.CHICHI_MOSA_REVIEW?['normal','top','grazing','phone','hero','hero-phone']:['normal','top','grazing','phone'])){await page.evaluate(view=>{window.view(view);draw(view.startsWith('hero')?87:7);},view);await page.setViewportSize({width:view==='phone'||view==='hero-phone'?390:900,height:view==='phone'||view==='hero-phone'?600:650});await page.screenshot({path:resolve(folder,root.name+'-'+id+'-'+view+'.png')});views.push({view,pngSHA256:createHash('sha256').update(await readFile(resolve(folder,root.name+'-'+id+'-'+view+'.png'))).digest('hex'),...await page.evaluate(()=>({camera:camera.position.toArray(),lookDirection:camera.getWorldDirection(camera.position.clone().set(0,0,0)).toArray(),draws:renderer.info.render.calls,triangles:renderer.info.render.triangles,textures:renderer.info.memory.textures,dpr:renderer.getPixelRatio()}))});}const stats=await page.evaluate(()=>audit());assert.equal(stats.contextLost,false);if(root.name==='after'&&stats.waterFields.length){assert.equal(stats.waterFields.length,1,'all surfaces/bottoms must share one field');assert.equal(stats.waterFields[0].width,1024,'native QA must use the prepared primary field, not fallback');}rows.push({version:root.name,...meta,views,...stats});await writeFile(resolve(folder,'report.json'),JSON.stringify(rows,null,2));console.log(root.name,id,JSON.stringify(stats));}assert.deepEqual(errors,[]);await page.close();}}finally{await browser?.close();await new Promise(r=>server.close(r));}
+diff --git a/scripts/check-slide-water.mjs b/scripts/check-slide-water.mjs
+index c22689c..5132a2e 100644
+--- a/scripts/check-slide-water.mjs
++++ b/scripts/check-slide-water.mjs
+@@ -5,6 +5,8 @@ import { createServer } from "node:http";
+ import { createRequire } from "node:module";
+ import { mkdir, writeFile, readFile, access } from "node:fs/promises";
+ import { resolve } from "node:path";
++import { execFileSync } from "node:child_process";
++import { createHash } from "node:crypto";
+ import assert from "node:assert/strict";
+ import { WATER_RIDES } from "../public/water-ride-data.js";
+ import {SHOWCASE_SURFACE_ASSETS} from '../public/showcase-surface-assets.js';
+@@ -84,6 +86,14 @@ for (const root of roots) {
+     write: false,
+   });
+   bundles.set("/" + root.name, r.outputFiles[0].text);
++  await writeFile(resolve(folder, 'qa-'+root.name+'.mjs'), r.outputFiles[0].contents);
++  root.sourceSHA=execFileSync('git',['rev-parse','HEAD'],{cwd:root.path,encoding:'utf8'}).trim();
++  root.dirty=execFileSync('git',['status','--porcelain=v1'],{cwd:root.path,encoding:'utf8'}).trim();
++  root.bundleSHA256=createHash('sha256').update(r.outputFiles[0].contents).digest('hex');
++  root.bundleBytes=r.outputFiles[0].contents.byteLength;
++  await writeFile(resolve(folder,'source-'+root.name+'-HEAD.patch'),execFileSync('git',['diff','HEAD','--binary'],{cwd:root.path}));
++  await writeFile(resolve(folder,'source-'+root.name+'-cached.patch'),execFileSync('git',['diff','--cached','--binary'],{cwd:root.path}));
++  await writeFile(resolve(folder,'source-'+root.name+'-status.txt'),root.dirty+'\n');
+ }
+ const surfaceAssets=new Map();surfaceAssets.set(MOSA_WATER_FIELD.slice(1),await readFile(resolve('public',MOSA_WATER_FIELD)));for(const roles of Object.values(SHOWCASE_SURFACE_ASSETS))for(const url of Object.values(roles))surfaceAssets.set(url.slice(1),await readFile(resolve('public',url)));
+ for(const url of Object.values(SHOWCASE_WATER_PROBES))surfaceAssets.set(url.slice(1),await readFile(resolve('public',url)));
+@@ -119,6 +129,7 @@ try {
+       "--enable-unsafe-swiftshader",
+     ],
+   });
++  await writeFile(resolve(folder,'build-manifest.json'),JSON.stringify({node:process.version,browser:await browser.version(),renderer:'Chromium ANGLE SwiftShader; not device FPS',roots,rides:selectedRides.map(r=>r.id),settings:{beauty:!!process.env.CHICHI_SLIDE_BEAUTY,timingSkipped:!!process.env.CHICHI_SKIP_TIMING,opticsAudit:!!process.env.CHICHI_SLIDE_OPTICS_AUDIT,riderAudit:!!process.env.CHICHI_SLIDE_RIDER_AUDIT},source:'exact qa-before/qa-after.mjs and source patches retained'},null,2));
+   for (const root of roots) {
+     const page = await browser.newPage({
+         viewport: { width: 720, height: 600 },
+diff --git a/test/approved-water-isolation.test.mjs b/test/approved-water-isolation.test.mjs
+index 315e77b..d553ace 100644
+--- a/test/approved-water-isolation.test.mjs
++++ b/test/approved-water-isolation.test.mjs
+@@ -27,7 +27,7 @@ test('the original wave bytes remain reproducible while ocean uses the shared op
+  const shader={uniforms:{},vertexShader:ocean.vertexShader,fragmentShader:ocean.fragmentShader};ocean.onBeforeCompile(shader);
+  assert.match(shader.fragmentShader,/float coverage=/);
+  assert.match(shader.fragmentShader,/vPhysicalBedDepth/);
+- assert.match(shader.vertexShader,/float wave=\(sin\(oceanA\)/);
++ assert.match(shader.vertexShader,/float wave=oceanWave.x\*oceanShore;/);
+  assert.match(shader.fragmentShader,/float roughness=\.085;/);
+  assert.doesNotMatch(shader.fragmentShader,/float roughness=\.105;/);
+  assert.equal((shader.fragmentShader.match(/texture2D\(uWaterField/g)||[]).length,2);
+diff --git a/test/shared-water-core.test.mjs b/test/shared-water-core.test.mjs
+index 5236472..020d70a 100644
+--- a/test/shared-water-core.test.mjs
++++ b/test/shared-water-core.test.mjs
+@@ -8,7 +8,7 @@ import {installMosasaurWaterOptics} from '../public/mosasaur-water-optics.js';
+ import {polishShowcaseWater} from '../public/showcase-water-optics.js';
+ import {polishShowcaseBottom} from '../public/showcase-bottom-light.js';
+ import {slideBasinWater} from '../public/slide-basin-optics.js';
+-import {WATER_FIELD_GLSL,WATER_MEDIUM} from '../public/water-core.js';
++import {WATER_WAVES_GLSL,WATER_FIELD_GLSL,WATER_MEDIUM} from '../public/water-core.js';
+ 
+ test('all surface profiles share the same field, sampling, Fresnel and filtered highlight core',()=>{
+  const pool=slideBasinWater(waterMaterial());
+@@ -19,6 +19,7 @@ test('all surface profiles share the same field, sampling, Fresnel and filtered
+   const shader={uniforms:{},vertexShader:material.vertexShader,fragmentShader:material.fragmentShader};material.onBeforeCompile(shader);
+   assert.equal(material.uniforms.uWaterField.value,waterFieldTexture());
+   assert.ok(shader.fragmentShader.includes(WATER_FIELD_GLSL));
++  assert.ok(shader.vertexShader.includes(WATER_WAVES_GLSL));
+   assert.equal((shader.fragmentShader.match(/float roughness=/g)||[]).length,1);
+   assert.match(shader.fragmentShader,/float fresnel=\.0204\+/);
+   assert.equal((shader.fragmentShader.match(/texture2D\(uWaterField/g)||[]).length,2);

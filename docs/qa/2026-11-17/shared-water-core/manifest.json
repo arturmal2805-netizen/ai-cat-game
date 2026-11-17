@@ -1,0 +1,350 @@
+{
+  "sourceBaseSHA": "b2baec2eb19d2d6067ee0f89ef7a5ef3b8ffd2ab",
+  "sourceOverlay": "source-HEAD.patch",
+  "capture": "global exact bundles retained; runtime public source unchanged from capture to checkpoint; metadata-only harness additions afterward",
+  "status": "exploratory native PASS; art NOT approved; no publication",
+  "ciScope": "successful full CI b2baec2; later macro extraction is not yet covered by CI",
+  "limitations": [
+    "First two slide captures have no retained QA bundle; exploratory only, final complete slide audit must retain bundles.",
+    "No device timings; no whole-app or SQLite pass yet.",
+    "Same geometry control b9f7fe8 is not stable12d; stable comparison pending."
+  ],
+  "files": {
+    "source-cached.patch": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "audit.log": {
+      "sha256": "2b4c0e13e1eb706d72066bc2d684f49fd415ce237782c7189e61493ffe4279bb",
+      "bytes": 21484
+    },
+    "source-HEAD.patch": {
+      "sha256": "80f5ae0d5cd4d870a4243d79cee1306952889a6eea91c41d988b6c1da1c5d902",
+      "bytes": 22661
+    },
+    "source-status.txt": {
+      "sha256": "87d1ff885d2c86aacf62ad4caef1118864a8e6528793c71aa88ee1875443912f",
+      "bytes": 421
+    },
+    "ci-b2baec2.json": {
+      "sha256": "7a9cf63cb99f91de9d24e7b0ed8ae10740f6772f6230735b23bdc82022d8b1de",
+      "bytes": 2794
+    },
+    "same-geometry/after-summer-water-low.png": {
+      "sha256": "8afe096e7d4a211ce0425752b78124e7a6dd54e2d09012d079ff86719b56cf06",
+      "bytes": 323948
+    },
+    "same-geometry/after-autumn-phone.png": {
+      "sha256": "d40ea1be9a98f4d3689ff685b596366cb9b1e0c122e8a8692f6a70c54ff5c14c",
+      "bytes": 216210
+    },
+    "same-geometry/before-autumn-phone.png": {
+      "sha256": "54b409b937db353b77397b9912d44a1d71dc8ac3a9c1b63dc54b0f0769eabdc4",
+      "bytes": 215267
+    },
+    "same-geometry/after-autumn-water-sun.png": {
+      "sha256": "40f1735b5355f3f2c9db433e4ba5d70aefbffcdd4037c673859928192a0e7a37",
+      "bytes": 537007
+    },
+    "same-geometry/qa-before.mjs.gz": {
+      "sha256": "82cadea1c0a09b4c879a51aefebbf744518dced8ed292987a1e9aaefab500e2f",
+      "bytes": 624953
+    },
+    "same-geometry/before-summer-phone.png": {
+      "sha256": "fe9624bd72317d4ae5f3da9d95d40df5fcce9c351192929b3d4ba719cc5aa5cf",
+      "bytes": 360467
+    },
+    "same-geometry/before-autumn-water-sun.png": {
+      "sha256": "ee7f2c7bb21a117e153a82cadd50a109c95a06a7f3482f4df477bcb92cfadd6c",
+      "bytes": 557244
+    },
+    "same-geometry/after-summer-phone.png": {
+      "sha256": "d037fa36fc89b68501439b925d828978ccbb1820f8248bfb324b50ab207f8c26",
+      "bytes": 376915
+    },
+    "same-geometry/qa-after.mjs.gz": {
+      "sha256": "e59d98f5b5f506cd65051a89f4c883945578f641fa430cd35c59a0a429d9f210",
+      "bytes": 623090
+    },
+    "same-geometry/before-summer-water-close.png": {
+      "sha256": "d368ebf7bb3300b56f602d21112e76c0987a8e64caf9696ff91a949c9daf6987",
+      "bytes": 582991
+    },
+    "same-geometry/after-summer-water-sun.png": {
+      "sha256": "87f1641bea3cef834a6a7cab9f63d9e8ac2a1772e8e995035f8192fcd271e40a",
+      "bytes": 543098
+    },
+    "same-geometry/after-autumn-water-low.png": {
+      "sha256": "0ac2a0e5747a10984a33fd30b0befb11601639a8a77e778cabe91d56f39499ce",
+      "bytes": 433987
+    },
+    "same-geometry/before-summer-water-low.png": {
+      "sha256": "a58f232a04c7986b62336c6d43da3377bfbea771c01be3ffd522b63cd90ae3c9",
+      "bytes": 321520
+    },
+    "same-geometry/before-autumn-water-low.png": {
+      "sha256": "d5b2ae7e6f1394e11c8e16e5db55c47b0284521467fab0f44ad7a5278ec125d7",
+      "bytes": 400393
+    },
+    "same-geometry/before-autumn-water-close.png": {
+      "sha256": "f551b7edec387cc8f8e7f32190f6cadb344681d3e0ad36cbf1386049f54b2cec",
+      "bytes": 611021
+    },
+    "same-geometry/report.json": {
+      "sha256": "5d1da98004f27a59e973b5a1bc0c63fc1f0b6ec02d49c02f0865377eb567ae12",
+      "bytes": 10037
+    },
+    "same-geometry/after-autumn-water-close.png": {
+      "sha256": "58b151320f7dabfd3826ef58e47fd407d2ee00fdb65c6bf2a8be830cd08d5e37",
+      "bytes": 609045
+    },
+    "same-geometry/before-summer-water-sun.png": {
+      "sha256": "947aab5f8f1ef2bee695f8ced4a7b3dc816dc3ba52a9c4a0308a802435482527",
+      "bytes": 537844
+    },
+    "same-geometry/build-manifest.json": {
+      "sha256": "adf81c1b84419b3eee53064fce805b6992c168fb3b73a7a71c751a21c362a0a6",
+      "bytes": 1357
+    },
+    "same-geometry/after-summer-water-close.png": {
+      "sha256": "bda26cb0ea9f9a090eae6ff2c054e9ba5c495a100f4af8c3c1a87f1610a35331",
+      "bytes": 589761
+    },
+    "visibility/opaque-regression.png": {
+      "sha256": "e4f86dd7faa7b4c6a41c5ca024b8a7cc453c80f93519c3d61b3a827089d96c9a",
+      "bytes": 205695
+    },
+    "visibility/visibility.json": {
+      "sha256": "80bd80b773e5dbcd438be6d84a8aa02d610cae2bf75d73d6bd67def4e047dd4a",
+      "bytes": 726
+    },
+    "visibility/clear-interface-phone.png": {
+      "sha256": "6974f4618075466196c01a52514e9780581eb0da1efac94c7f93562e53637c55",
+      "bytes": 183883
+    },
+    "visibility/clear-interface.png": {
+      "sha256": "06ca821a9bd421499a1978365476ab1add12869666637d80492e2dc71d702045",
+      "bytes": 176872
+    },
+    "first-slides/after-ride-water-canyon-rafting-garden-close.png": {
+      "sha256": "694d9c50db234c904ce1e8864406024a92b5646aafcfe2ece520c4d051921b32",
+      "bytes": 465826
+    },
+    "first-slides/before-ride-water-canyon-rafting-outlet-close.png": {
+      "sha256": "fceb24fcb5b25c2f7be773f6816d6a910440a2136dccdc9bb2908406c606b850",
+      "bytes": 320833
+    },
+    "first-slides/after-ride-water-canyon-rafting-rider-1.png": {
+      "sha256": "b6053e2443eb23c46c4a2d8aaa752275465c7284dcb3227ac9e0bf11b3b8e279",
+      "bytes": 518947
+    },
+    "first-slides/before-ride-water-canyon-rafting-cascade-close.png": {
+      "sha256": "05b8166c609557520afd57827db62b699d4ae87241561d648cf31eba41fac47e",
+      "bytes": 570215
+    },
+    "first-slides/after-ride-water-lagoon-launch-phone.png": {
+      "sha256": "8be84e044fd9ba718169db8a63f5f4a764e0862c09a62cc7fa48a46cec819258",
+      "bytes": 153618
+    },
+    "first-slides/after-ride-water-canyon-rafting-outlet-close.png": {
+      "sha256": "83f813f4a884f3f5d0b34abebb562c1719321f69a841e5b5cf619241fb9417f2",
+      "bytes": 535268
+    },
+    "first-slides/before-ride-water-lagoon-launch-basin-close.png": {
+      "sha256": "cf823b6a9bcca063f69fc0cb8587f16f5220d10a00f05af958c4688165ea0a17",
+      "bytes": 537339
+    },
+    "first-slides/before-ride-water-lagoon-launch-phone.png": {
+      "sha256": "7d4be1796d0c353a31dbfd3dc80fa8d09719763836253e9320d98ffcba39170e",
+      "bytes": 151213
+    },
+    "first-slides/after-ride-water-canyon-rafting-basin-grazing-close.png": {
+      "sha256": "5e73ba77f1f7e7860e5fb85a716913b87cf801c7b6013cd4177e5cd50430f142",
+      "bytes": 641658
+    },
+    "first-slides/after-ride-water-lagoon-launch-rider-1.png": {
+      "sha256": "5e31ed4d97789f311ba43ca3f14e11a1fc696abe3d7db5df4c50f6291eebb612",
+      "bytes": 192747
+    },
+    "first-slides/before-ride-water-lagoon-launch-outlet-close.png": {
+      "sha256": "ad60debc8bc2cbfc1266e0d907ac1e25708049b5b5630e33f0273704d72b39a3",
+      "bytes": 284979
+    },
+    "first-slides/after-ride-water-canyon-rafting-cascade-close.png": {
+      "sha256": "98d8d5406021a8aa6e5973282f9910df65c874fd4379982877bcb294c0f90397",
+      "bytes": 600641
+    },
+    "first-slides/after-ride-water-canyon-rafting-rider-0.png": {
+      "sha256": "14ded22d9225cb7501d9f22179679cf51e0fba8fe5a301ea246a6860cef65b3e",
+      "bytes": 533395
+    },
+    "first-slides/before-ride-water-canyon-rafting-phone.png": {
+      "sha256": "773adb24274dfc1dee4f8adc610df66b39895f09395e876ad7d92f937b63fded",
+      "bytes": 183070
+    },
+    "first-slides/after-ride-water-lagoon-launch-rider-3.png": {
+      "sha256": "42e72205c15ec2422408c90739415cea92c6da1f3026b314c30cf1fc177a539b",
+      "bytes": 407851
+    },
+    "first-slides/after-ride-water-lagoon-launch-basin-grazing-close.png": {
+      "sha256": "b900821fa5f723059a7b0a6ef2bdcedf715844927b072ad1789e346b0f3cb939",
+      "bytes": 462968
+    },
+    "first-slides/before-ride-water-lagoon-launch-basin-sun-close.png": {
+      "sha256": "7700596f5a194c3c52fb9d409fe2978acd50da15fc588a79bb463de7d1fccbe4",
+      "bytes": 501293
+    },
+    "first-slides/after-ride-water-lagoon-launch-basin-isolated.png": {
+      "sha256": "436714fdc3305f59146a4ffb333a91630c4114bb84c73f62c17d4535fc2bbd48",
+      "bytes": 120640
+    },
+    "first-slides/before-ride-water-lagoon-launch-basin-bed-only.png": {
+      "sha256": "94298540604598d1b69b23ac39364c1f582e1e2728402b7eaad53eec7ff76606",
+      "bytes": 117935
+    },
+    "first-slides/before-ride-water-lagoon-launch-basin-grazing-close.png": {
+      "sha256": "4cd0fd68291fe8f76f8a14f525c99c2a588f4f9df2ab1669dad826963556fcc3",
+      "bytes": 451903
+    },
+    "first-slides/before-ride-water-lagoon-launch-basin-isolated.png": {
+      "sha256": "c294d51392558e0118958556d7da555c0aa663fc57552d26615846c1574cc25c",
+      "bytes": 102306
+    },
+    "first-slides/after-ride-water-canyon-rafting-basin-bed-only.png": {
+      "sha256": "7317917edb87cfe183607955f0c465956cc296eb9813188bae8f51362f0a1167",
+      "bytes": 159633
+    },
+    "first-slides/after-ride-water-lagoon-launch-rider-2.png": {
+      "sha256": "dfba7dc6eade01ec4262a3ae5542ab485ae0a1bd438c6e56af4b43e6bee11ec9",
+      "bytes": 163807
+    },
+    "first-slides/before-ride-water-canyon-rafting.png": {
+      "sha256": "fab21ae99bfdf9bde886cf45feed049b92a806063bd082fc36ec1cd20e832c19",
+      "bytes": 224075
+    },
+    "first-slides/before-ride-water-lagoon-launch-garden-close.png": {
+      "sha256": "bcf4ce4e0abaf2cfc521c1311334d0b7a1a6750e5fdcbfc71e67f48b2bdb32f2",
+      "bytes": 432175
+    },
+    "first-slides/after-ride-water-canyon-rafting-basin-isolated.png": {
+      "sha256": "41c81decd36e2eff2f9ca31b50126ad9f9fd2f2da30ccfa25dcd6cd0375589c6",
+      "bytes": 179601
+    },
+    "first-slides/after-ride-water-canyon-rafting-grazing.png": {
+      "sha256": "b8a0868e45557735b689a60acbe3268a48cd7cecbf0375e21d935f6943feb7bd",
+      "bytes": 153178
+    },
+    "first-slides/after-ride-water-canyon-rafting-phone.png": {
+      "sha256": "b988e0d57201c6d717cb92ff183885a4c634e791041b052341f1fad70978ad39",
+      "bytes": 184139
+    },
+    "first-slides/before-ride-water-lagoon-launch-flow-close.png": {
+      "sha256": "6cf5980ef232b96bdba996f180d79fdaf3b0d148738d7c498253473091c54585",
+      "bytes": 66595
+    },
+    "first-slides/after-ride-water-lagoon-launch-basin-close.png": {
+      "sha256": "49226cfd28cc83f592e498288f9fa4fb2b8090ae27e8f61312db0f67eba1ee8f",
+      "bytes": 557506
+    },
+    "first-slides/before-ride-water-canyon-rafting-basin-sun-close.png": {
+      "sha256": "cad66cba882a8c73cbb92f7053b84e1981ccb7a769de8ac54d7e642ce1e27f2b",
+      "bytes": 583989
+    },
+    "first-slides/after-ride-water-lagoon-launch-garden-close.png": {
+      "sha256": "bcf4ce4e0abaf2cfc521c1311334d0b7a1a6750e5fdcbfc71e67f48b2bdb32f2",
+      "bytes": 432175
+    },
+    "first-slides/before-ride-water-lagoon-launch-cascade-close.png": {
+      "sha256": "0188f449d909b36ff813c0f8412f82748fbb4749a534cc333ae32245d27306a9",
+      "bytes": 588758
+    },
+    "first-slides/after-ride-water-canyon-rafting-basin-close.png": {
+      "sha256": "5a0c8af852c3737132b839361f360f3ac94725c317d1fe5553b040765057b0a4",
+      "bytes": 651304
+    },
+    "first-slides/after-ride-water-canyon-rafting-rider-3.png": {
+      "sha256": "bbde5deb7bec1b874ec2ef18a1c85f754d246b9e8eccc444071ca7249aa80368",
+      "bytes": 501632
+    },
+    "first-slides/before-ride-water-canyon-rafting-flow-close.png": {
+      "sha256": "9e26bbe82f5dce553e88f66b32baf65c20f201144183bf6e0bc3d7a65f726ce1",
+      "bytes": 293257
+    },
+    "first-slides/before-ride-water-canyon-rafting-basin-isolated.png": {
+      "sha256": "d1c268149b861ccb12062f3cb35d30d20c5a3ba97323760280bde40eb25a6195",
+      "bytes": 150619
+    },
+    "first-slides/after-ride-water-canyon-rafting-flow-close.png": {
+      "sha256": "5e167fbb037d459a21bd6cabad57c3c20beefe2b194e1a9a861a24877fb01d8f",
+      "bytes": 475195
+    },
+    "first-slides/report.json": {
+      "sha256": "2ba088136b964877c6e2733f47536349905874c76b054b23813f39f7dd598202",
+      "bytes": 20612
+    },
+    "first-slides/after-ride-water-canyon-rafting-basin-sun-close.png": {
+      "sha256": "75172b765b81b645893259ec0d1dcec7ee3b0fc13372a754d702a32a7f5d22c3",
+      "bytes": 618150
+    },
+    "first-slides/before-ride-water-canyon-rafting-basin-bed-only.png": {
+      "sha256": "116a5c753ea8f7463b19023f3a1386c68b1155f095a476f47259a03090a4dbde",
+      "bytes": 158173
+    },
+    "first-slides/after-ride-water-lagoon-launch-rider-0.png": {
+      "sha256": "2be19e63da58a1dc25af28ff2cd48eaacc974428053876c90ed975897e598373",
+      "bytes": 346318
+    },
+    "first-slides/before-ride-water-canyon-rafting-garden-close.png": {
+      "sha256": "61650806e4e6de38893f5780274ce63c1edfd2b64c8295a6fc66b03a9fc08189",
+      "bytes": 465854
+    },
+    "first-slides/after-ride-water-lagoon-launch-grazing.png": {
+      "sha256": "9e418b637580c817ea811c2548c606c75733336f2825ed81b7fc81f463108518",
+      "bytes": 127897
+    },
+    "first-slides/after-ride-water-lagoon-launch-basin-bed-only.png": {
+      "sha256": "7188bf9edbd5b31ffefb048bbcbe29937d3dc32f66b5e3cf2572b70b8e4231bb",
+      "bytes": 117356
+    },
+    "first-slides/before-ride-water-lagoon-launch.png": {
+      "sha256": "0c372641fc6c3f0c39967b93b5cb91584b1c2eb6fd6411a6fcd0d6123be6fdc5",
+      "bytes": 191817
+    },
+    "first-slides/after-ride-water-lagoon-launch-cascade-close.png": {
+      "sha256": "5ea199cc166cfae78b3c8ae91f76488a44a35dae3b9dee46e032ffacec73dbf8",
+      "bytes": 588789
+    },
+    "first-slides/after-ride-water-canyon-rafting.png": {
+      "sha256": "0b722f9d3588143d4e4f8d9c76edb699760d417c0ca754f168c613196070b3b2",
+      "bytes": 225724
+    },
+    "first-slides/after-ride-water-lagoon-launch-outlet-close.png": {
+      "sha256": "fec0eb6921402c284215bc083e9220bacd667c1719e329461e2dc4d944521f03",
+      "bytes": 505629
+    },
+    "first-slides/before-ride-water-canyon-rafting-basin-close.png": {
+      "sha256": "ea53f3fe32cc5588ba538424829b9cc15ca53a39da65ccc42a27e2121e9bd7fb",
+      "bytes": 609022
+    },
+    "first-slides/after-ride-water-lagoon-launch-flow-close.png": {
+      "sha256": "420d4c4f0eec6c000c28482e1071a611a410179245683eb8da6ad9990f37cb19",
+      "bytes": 89526
+    },
+    "first-slides/after-ride-water-lagoon-launch.png": {
+      "sha256": "1eb94432112a9d9673c723ba75a912b0da2051960af475779aab8f65de13bffa",
+      "bytes": 195170
+    },
+    "first-slides/after-ride-water-lagoon-launch-basin-sun-close.png": {
+      "sha256": "956fc319ed89e7f7eaf001d9ff0455a92936a3bbe314babf1d73769033da87df",
+      "bytes": 521595
+    },
+    "first-slides/after-ride-water-canyon-rafting-rider-2.png": {
+      "sha256": "659965662f1cf9ad59fd16c242b24dd59b39f58c96a897d9b1d8cb0f824bc76c",
+      "bytes": 368927
+    },
+    "first-slides/before-ride-water-canyon-rafting-basin-grazing-close.png": {
+      "sha256": "23294987f3b6a9684b9621f2c4ef525613680ae4fc9d3c70e01bbea578ebb9a1",
+      "bytes": 605815
+    }
+  }
+}

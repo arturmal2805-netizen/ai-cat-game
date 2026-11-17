@@ -86,3 +86,23 @@ success, actual live bytes повторно совпали. Нынешний WIP
 `12d478e82e8e5a2bd6ef3ec0cbb151ea1e473d1d`. Полные JS/CSS хеши и workflows
 в CURRENT и связанном machine-readable audit. Внешний вид пользователь
 отклонил несмотря на технически успешную публикацию.
+
+
+## 2026-11-17 — единое ядро действительно реализовано и сохранено
+
+Причина: пользователь требует одновременного развития всей воды, а отдельные
+Mosa/showcase fragment overrides расходились по оттенкам и прозрачности.
+`water-field.js` владеет одним prepared Texture; `water-core.js` содержит
+sampling2, Fresnel/GGX, scatter/extinction и теперь общий macro-wave расчёт.
+Showcase/Mosa wrappers передают размеры, реальные depths/probes и route fade,
+не отдельные художественные fragment shaders. Оба reflection bakers приведены
+к настоящему linear-radiance/4 с gain4, runtime tone mapping единый.
+
+Native A/B на одной геометрии подтвердил один Texture1024² вместо двух,
+те же geometry/draws, отсутствие static-pixel regressions на двух горках,
+работающие animation/reduced motion/rider/outlets и контраст .785. Полный CI
+b2baec2 успешен, deploy/pages skipped. Macro extraction после b2 имеет29/29
+локальных тестов + новую сборку/native, но требует нового CI. PNG показывают
+оставшиеся пустоту дна и повторяемость ряби. Поэтому решение архитектуры
+сохранено, художественный результат не принят и публикация не выполнена.
+[Точные промежуточные доказательства](../qa/2026-11-17/shared-water-core/manifest.json).

@@ -161,12 +161,11 @@ PBR нормали/шероховатость песка ещё не подкл�
 
 ## Текущая архитектура и миграция к одному ядру
 
-В нынешнем draft сосуществуют общий waterMaterial, showcase string hooks и
-mosasaur-water-optics/profile/field. Это инвентаризация, НЕ требуемая конечная
-архитектура. Последнее указание требует общих field/core для всего мира.
-Сначала составить список всех вызовов/обёрток/подводного света: capybara,
-lagoon, бассейны, потоки, showcase, океан. Параметры среды отделять от общей
-технологии. Не оставлять «исправленную одну локацию» как выполненную задачу.
+В draft уже реализованы water-field.js и water-core.js для всего мира.
+Старые showcase/Mosa wrappers сохранены только для физических параметров,
+реального probe/bed и конечной геометрии потока. Не возвращать самостоятельные
+fragment palettes/field generators в эти обёртки. Один provider обслуживает
+также подводное освещение. Native ocean/summer подтвердил один1024² Texture.
 
 Непринятый Mosa prototype: swells .50/.23/.10 м, общая граница.83м;
 shore fade .2..3м, depth scale35м, scatter0x258daa*.60,
@@ -223,7 +222,8 @@ SwiftShader не доказывает ни один из них. Не обеща
 
 `water-field.js` — один подготовленный Texture для всей карты; ocean API теперь
 делегирует ему, не подменяя field/экстинкцию. `water-core.js` — общие GLSL
-sampling2, micro-slope, Fresnel/GGX, interface scatter и uniformmedium.
+sampling2, micro-slope, Fresnel/GGX, interface scatter, uniformmedium и
+общая sharedWaterWaves для высоты/градиента всех физических wave profiles.
 Сохраняются отдельные физические vertex-wave envelopes/route clocks, beddepth
 и outlet fade. `showcase-water-optics.js` больше не перекрашивает fragment по
 своему; `showcase-bottom-light.js` задаёт только настоящую optical layer.
@@ -243,3 +243,6 @@ Startup готовит его параллельно native cats; fallback/faile
 последним требованием пользователя об общей воде, не оправдание удаления
 регрессионных проверок. 29targetedtests/nativevisibility пройдены; финальное
 качество, все игровые виды, CI и hardware ещё не подтверждены — см.CURRENT.
+
+CI b2baec2:44042710770 test success, deploy/pages skipped. Подробности новых
+macro waves и native A/B — в CURRENT и QA2026-11-17; внешний вид ещё не принят.

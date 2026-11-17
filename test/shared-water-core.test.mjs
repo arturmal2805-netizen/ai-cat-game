@@ -8,7 +8,7 @@ import {installMosasaurWaterOptics} from '../public/mosasaur-water-optics.js';
 import {polishShowcaseWater} from '../public/showcase-water-optics.js';
 import {polishShowcaseBottom} from '../public/showcase-bottom-light.js';
 import {slideBasinWater} from '../public/slide-basin-optics.js';
-import {WATER_FIELD_GLSL,WATER_MEDIUM} from '../public/water-core.js';
+import {WATER_WAVES_GLSL,WATER_FIELD_GLSL,WATER_MEDIUM} from '../public/water-core.js';
 
 test('all surface profiles share the same field, sampling, Fresnel and filtered highlight core',()=>{
  const pool=slideBasinWater(waterMaterial());
@@ -19,6 +19,7 @@ test('all surface profiles share the same field, sampling, Fresnel and filtered 
   const shader={uniforms:{},vertexShader:material.vertexShader,fragmentShader:material.fragmentShader};material.onBeforeCompile(shader);
   assert.equal(material.uniforms.uWaterField.value,waterFieldTexture());
   assert.ok(shader.fragmentShader.includes(WATER_FIELD_GLSL));
+  assert.ok(shader.vertexShader.includes(WATER_WAVES_GLSL));
   assert.equal((shader.fragmentShader.match(/float roughness=/g)||[]).length,1);
   assert.match(shader.fragmentShader,/float fresnel=\.0204\+/);
   assert.equal((shader.fragmentShader.match(/texture2D\(uWaterField/g)||[]).length,2);

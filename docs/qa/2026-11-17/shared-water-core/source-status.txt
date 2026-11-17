@@ -1,0 +1,13 @@
+ M public/index.html
+ M public/mosasaur-water-optics.js
+ M public/mosasaur-water-probe-assets.js
+ M public/mosasaur-water-profile.js
+ M public/showcase-probe-assets.js
+ M public/showcase-water-optics.js
+ M public/water-core.js
+ M public/water-shading.js
+ M scripts/check-global-water.mjs
+ M scripts/check-slide-water.mjs
+ M test/approved-water-isolation.test.mjs
+ M test/shared-water-core.test.mjs
+?? docs/qa/2026-11-17/

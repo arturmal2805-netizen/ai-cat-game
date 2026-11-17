@@ -17,9 +17,9 @@ export function polishShowcaseWater(material,{id,pool=[0,35,22,15],surfaceY=1.45
  material.uniforms.uShowcaseBasinY={value:surfaceY};
  material.uniforms.uShowcaseReceiving={value:!['lazy-river','surf-halfpipe','fountain-carousel','pool-pendulum'].some(kind=>id?.endsWith(kind))?1:0};
  material.uniforms.uShowcaseNormalisedFlow={value:material.userData.showcaseNormalisedFlow?1:0};
- material.vertexShader=material.vertexShader.replace('float wave=sin(p.x*1.3+uTime*.8)*.004+cos(p.y*1.7-uTime*.6)*.003;',`float phaseA=p.x*.68+p.z*.44+uTime*.8,phaseB=p.z*.79-p.x*.23-uTime*.6;
- float wave=sin(phaseA)*.035+cos(phaseB)*.028;
- vec3 waveGradient=vec3(cos(phaseA)*.0238+sin(phaseB)*.00644,0.,cos(phaseA)*.0154-sin(phaseB)*.02212);
+ material.vertexShader=material.vertexShader.replace('float wave=baseWave.x;',`vec3 profileWave=sharedWaterWaves(p.xz,uTime,vec4(.68,.44,.035,-.8),vec4(-.23,.79,.028,.6),vec4(0.),vec3(0.,1.57079632679,0.));
+ float wave=profileWave.x;
+ vec3 waveGradient=vec3(profileWave.y,0.,profileWave.z);
  float waveGain=1.0+uFall*3.0+step(.5,uFlowing)*.5;
  #ifdef SLIDE_CATCH_POOL
  float edge=length((uv-.5)*2.),t=clamp((edge-.78)/.22,0.,1.),fade=1.-smoothstep(.78,1.,edge);

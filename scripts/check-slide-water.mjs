@@ -5,6 +5,8 @@ import { createServer } from "node:http";
 import { createRequire } from "node:module";
 import { mkdir, writeFile, readFile, access } from "node:fs/promises";
 import { resolve } from "node:path";
+import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import assert from "node:assert/strict";
 import { WATER_RIDES } from "../public/water-ride-data.js";
 import {SHOWCASE_SURFACE_ASSETS} from '../public/showcase-surface-assets.js';
@@ -84,6 +86,14 @@ for (const root of roots) {
     write: false,
   });
   bundles.set("/" + root.name, r.outputFiles[0].text);
+  await writeFile(resolve(folder, 'qa-'+root.name+'.mjs'), r.outputFiles[0].contents);
+  root.sourceSHA=execFileSync('git',['rev-parse','HEAD'],{cwd:root.path,encoding:'utf8'}).trim();
+  root.dirty=execFileSync('git',['status','--porcelain=v1'],{cwd:root.path,encoding:'utf8'}).trim();
+  root.bundleSHA256=createHash('sha256').update(r.outputFiles[0].contents).digest('hex');
+  root.bundleBytes=r.outputFiles[0].contents.byteLength;
+  await writeFile(resolve(folder,'source-'+root.name+'-HEAD.patch'),execFileSync('git',['diff','HEAD','--binary'],{cwd:root.path}));
+  await writeFile(resolve(folder,'source-'+root.name+'-cached.patch'),execFileSync('git',['diff','--cached','--binary'],{cwd:root.path}));
+  await writeFile(resolve(folder,'source-'+root.name+'-status.txt'),root.dirty+'\n');
 }
 const surfaceAssets=new Map();surfaceAssets.set(MOSA_WATER_FIELD.slice(1),await readFile(resolve('public',MOSA_WATER_FIELD)));for(const roles of Object.values(SHOWCASE_SURFACE_ASSETS))for(const url of Object.values(roles))surfaceAssets.set(url.slice(1),await readFile(resolve('public',url)));
 for(const url of Object.values(SHOWCASE_WATER_PROBES))surfaceAssets.set(url.slice(1),await readFile(resolve('public',url)));
@@ -119,6 +129,7 @@ try {
       "--enable-unsafe-swiftshader",
     ],
   });
+  await writeFile(resolve(folder,'build-manifest.json'),JSON.stringify({node:process.version,browser:await browser.version(),renderer:'Chromium ANGLE SwiftShader; not device FPS',roots,rides:selectedRides.map(r=>r.id),settings:{beauty:!!process.env.CHICHI_SLIDE_BEAUTY,timingSkipped:!!process.env.CHICHI_SKIP_TIMING,opticsAudit:!!process.env.CHICHI_SLIDE_OPTICS_AUDIT,riderAudit:!!process.env.CHICHI_SLIDE_RIDER_AUDIT},source:'exact qa-before/qa-after.mjs and source patches retained'},null,2));
   for (const root of roots) {
     const page = await browser.newPage({
         viewport: { width: 720, height: 600 },

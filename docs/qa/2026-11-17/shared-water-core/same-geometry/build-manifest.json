@@ -1,0 +1,33 @@
+{
+  "node": "v22.23.5",
+  "browser": "156.0.8078.79",
+  "renderer": "Chromium ANGLE SwiftShader, native source scenes; not device FPS",
+  "roots": [
+    {
+      "name": "before",
+      "path": "/workspace/chichi-ocean-expansion",
+      "sourceSHA": "b9f7fe866e919ae249549a6c325ec213f83d83bf",
+      "dirty": "",
+      "bundleSHA256": "1e9a5d6bd2bf7b6d68f603fc5a37465e2289ad73a445de45873f547a946004f8",
+      "bundleBytes": 2961667
+    },
+    {
+      "name": "after",
+      "path": "/workspace/chichi-shared-water",
+      "sourceSHA": "b2baec2eb19d2d6067ee0f89ef7a5ef3b8ffd2ab",
+      "dirty": "M public/index.html\n M public/mosasaur-water-optics.js\n M public/mosasaur-water-probe-assets.js\n M public/mosasaur-water-profile.js\n M public/showcase-probe-assets.js\n M public/showcase-water-optics.js\n M public/water-core.js\n M public/water-shading.js\n M test/approved-water-isolation.test.mjs\n M test/shared-water-core.test.mjs",
+      "bundleSHA256": "2d5d5cd890fc5d0adbcc88f790b0c90564a6f1531835fbf1de0484125fe71961",
+      "bundleBytes": 2949834
+    }
+  ],
+  "settings": {
+    "biomes": [
+      "autumn",
+      "summer"
+    ],
+    "views": "water-close,water-low,water-sun,phone",
+    "seconds": 7,
+    "quality": "original lights, exposure1, ACES, shadows PCF1024; DPR1 desktop/DPR2 phone"
+  },
+  "source": "exact qa-before/qa-after.mjs retained"
+}
