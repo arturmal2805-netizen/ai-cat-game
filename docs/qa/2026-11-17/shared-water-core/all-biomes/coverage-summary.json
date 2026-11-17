@@ -1,0 +1,626 @@
+{
+  "captures": 36,
+  "biomes": 18,
+  "commonPreparedFieldConfirmed": true,
+  "zeroContextLoss": true,
+  "scope": "native scenes / shader, animation and shared-resource coverage; no real-device performance approval",
+  "limitation": "Ocean overview was fit independently to each water extent; not an identical-camera optical A/B. Fixed baseline local camera follow-up required. Other biome geometry unchanged.",
+  "files": {
+    "after-foodcourt-normal.png": {
+      "sha256": "2bd4f876a45bb62eb210e29f04c32a2d8908cc06f90ab2cef9bb45f79c97d36e",
+      "bytes": 521522
+    },
+    "before-galaxy-grazing.png": {
+      "sha256": "2453955068fbda480799f8c4987f7f9737c759b207be906e9f3625d8d8ec1000",
+      "bytes": 518292
+    },
+    "before-winter-top.png": {
+      "sha256": "bc49c3c4726d198fc1269a1ec1ab278249a39afae2ad80550aaf54395d8fbf60",
+      "bytes": 759506
+    },
+    "after-cat-homes-normal.png": {
+      "sha256": "a160b9bb372450916da2768b5ceb7f8b246bac0cbd318974d2a914a2d34d41d8",
+      "bytes": 181144
+    },
+    "after-winter-grazing.png": {
+      "sha256": "e52a0b03b7f30263369aa038adab15c6f5ad62c81a762dd695fcadd266b6be91",
+      "bytes": 442513
+    },
+    "before-foodcourt-phone.png": {
+      "sha256": "1b3f6e2329183c9078b08f8acbd2c307cc7775eed2c9551fd0277d27cdc0e61f",
+      "bytes": 195388
+    },
+    "after-autumn-phone.png": {
+      "sha256": "d40ea1be9a98f4d3689ff685b596366cb9b1e0c122e8a8692f6a70c54ff5c14c",
+      "bytes": 216210
+    },
+    "after-bikini-phone.png": {
+      "sha256": "5aa3ffec118905f4c24081a14b605de8ea1819c39af849b94482a8c73fd966b8",
+      "bytes": 260997
+    },
+    "after-water-top.png": {
+      "sha256": "28167f3a9de523f30169ee66646550db763a9115124443556da18a8fa2a4a8c5",
+      "bytes": 718664
+    },
+    "before-bikini-top.png": {
+      "sha256": "c24e014c1500593f880ca8e28446e1734f65313b04f18da580cf373bf6e3b59b",
+      "bytes": 502753
+    },
+    "before-moon-grazing.png": {
+      "sha256": "723d49dbba74fd32b4746a5adda8d81f9c3c24cbfcbe9490fad6ea0815bdb10a",
+      "bytes": 432310
+    },
+    "before-cat-homes-phone.png": {
+      "sha256": "07b913f31b7a2c5852b1789063b6cb6f90168a826bf829809a6a33696566c3d9",
+      "bytes": 97495
+    },
+    "before-magic-zoo-normal.png": {
+      "sha256": "4d80f82d13a23c028ce63c4f6cdd6a878bff3127e63336e2d0f86cacf06fc61d",
+      "bytes": 617978
+    },
+    "before-aquarium-grazing.png": {
+      "sha256": "9e5d27f9ab1e67f90d03b39d99e5db5a9dcd15bd4e0d0ff4957f60bb4ce8752b",
+      "bytes": 378697
+    },
+    "before-bikini-grazing.png": {
+      "sha256": "9013cb58e180ab4d0bf6c5398bb444e7682a6514b9cd0b946eba0556ef77e4c3",
+      "bytes": 379597
+    },
+    "after-aquarium-phone.png": {
+      "sha256": "13fe5f7ca9e299cd5b86a4568e044d1661d3b3c79268bc37e47a0f05685b7de4",
+      "bytes": 288258
+    },
+    "after-magic-zoo-grazing.png": {
+      "sha256": "c04fde36992a0c133beb93cf0b6ecd435d7c225a5eb6e6cb4cf95f1e5ad52ab5",
+      "bytes": 351779
+    },
+    "source-after-status.txt": {
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "bytes": 1
+    },
+    "after-homestead-top.png": {
+      "sha256": "a127795c364e9aea65a562ad6f9c78e1bcf3a498b80f944f8acf019c0687ef17",
+      "bytes": 276629
+    },
+    "before-moon-top.png": {
+      "sha256": "2e472d06e3c93753017beeab38106a0e7feebaf30df74f326687691ef8784ae5",
+      "bytes": 652490
+    },
+    "before-clockwork-normal.png": {
+      "sha256": "974d65c76c3e967072a9518f2c7d8abc72deda2b6eb1b5bc0bde0dc2ea01651e",
+      "bytes": 604163
+    },
+    "after-galaxy-phone.png": {
+      "sha256": "be128c721d491150263309f67170439a20d0be201f184d087b7e800c26228042",
+      "bytes": 313622
+    },
+    "before-homestead-top.png": {
+      "sha256": "a127795c364e9aea65a562ad6f9c78e1bcf3a498b80f944f8acf019c0687ef17",
+      "bytes": 276629
+    },
+    "after-galaxy-normal.png": {
+      "sha256": "c2b39aced63ba37b04bc19e43f36b68eb701425002c61b59b5636363fe9d95e5",
+      "bytes": 761528
+    },
+    "before-homestead-grazing.png": {
+      "sha256": "db278e4a055dd4a1e583eebb34a0ace1697058eca2680e39ebe97934681cbcbf",
+      "bytes": 208162
+    },
+    "before-autumn-phone.png": {
+      "sha256": "e35b73f3b145dca4ff06f0302144c97448dce92fe77d2ff0e1b51a3bd91e4f2d",
+      "bytes": 247559
+    },
+    "after-sakura-grazing.png": {
+      "sha256": "a01fe8d0a410f59a6ba5f28184e917ffda6bc61361e26db068b8cf550fbe1024",
+      "bytes": 664162
+    },
+    "after-bikini-normal.png": {
+      "sha256": "68284240bb5559a9b44ab8986435771ae9df4125a59a5e056a8f781e6cacc4a1",
+      "bytes": 585449
+    },
+    "before-magic-zoo-grazing.png": {
+      "sha256": "8bee248fcfb5580f6358fb013a4aed4998714413165f1cccec432a8c6b6a5bd1",
+      "bytes": 349892
+    },
+    "before-atoll-park-phone.png": {
+      "sha256": "abfd4a57427edc5c9e757d2e048b6db9d83d14d1f0f3f313f7a2c186fffef2c8",
+      "bytes": 37752
+    },
+    "after-sakura-phone.png": {
+      "sha256": "da165e26500eed50c6c23a9660d4be868e01b4b57681275e316510a8a683ea6a",
+      "bytes": 299290
+    },
+    "after-magic-zoo-phone.png": {
+      "sha256": "5131751b9618725aad278f190ada2c62f38e66d008eeca910b2726a39d15d696",
+      "bytes": 275697
+    },
+    "before-magic-zoo-phone.png": {
+      "sha256": "a2c19810b60a4ba8a28da09d93c352d6b08ad55005b42ef74aa98eb9317cbffe",
+      "bytes": 261343
+    },
+    "qa-after.mjs": {
+      "sha256": "2d5d5cd890fc5d0adbcc88f790b0c90564a6f1531835fbf1de0484125fe71961",
+      "bytes": 2949834
+    },
+    "before-foodcourt-normal.png": {
+      "sha256": "dbe888be380731193e4c4fa279830baa1a02f66a4214cbb5a45066b91acc3cf8",
+      "bytes": 491073
+    },
+    "after-volcano-phone.png": {
+      "sha256": "13f6483f7cd5ffc8f5636bca770f5bb8b539ab2e70f9caf55c962db72836dc8d",
+      "bytes": 316474
+    },
+    "after-winter-phone.png": {
+      "sha256": "7884a644ab73fb653253350d5e0c510ca2f5d6965164de6edb07e87badbf5ad8",
+      "bytes": 296033
+    },
+    "before-water-normal.png": {
+      "sha256": "a9baf86fa234fd887a7977133a01933f4826628138e1ad40f48ba875a5a642a7",
+      "bytes": 651345
+    },
+    "before-foodcourt-grazing.png": {
+      "sha256": "661c2ccb82675bc6b34011ba79c9e7d43b38368f254b5bc9b6cf184089e8b157",
+      "bytes": 309112
+    },
+    "before-summer-top.png": {
+      "sha256": "dbdb490ee9539125fc5ba4e1849681e5020aca89eed8f428b39262142922c72d",
+      "bytes": 887774
+    },
+    "after-summer-normal.png": {
+      "sha256": "2e79cd52d5ca58347b34143dc4da3948f85567cb839b93f99c6a5e006793abbc",
+      "bytes": 903705
+    },
+    "after-sakura-top.png": {
+      "sha256": "db4397b7ef17cd67de044cc1d95f90972449931edc841b455d4f0b4b7bc9516f",
+      "bytes": 724751
+    },
+    "before-candy-grazing.png": {
+      "sha256": "1f539ac9657e8303887ed37aa46bf2c827c55af440717805117efff2e0eb8fb6",
+      "bytes": 88349
+    },
+    "after-winter-top.png": {
+      "sha256": "52530c6310ef25b620b204b03653844f9df302b0b7605d5c3372bc46f7d60d19",
+      "bytes": 800412
+    },
+    "before-ice-normal.png": {
+      "sha256": "07cff43b80853e7faf4bc36e60ccb124ecd7066b0ee7ec81bf13c9dd29369c2a",
+      "bytes": 702650
+    },
+    "source-before-cached.patch": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "before-ice-phone.png": {
+      "sha256": "1b8fdc5be18e0a3e71eda5caaa1a25b88ccce8b7601f15a7e63b2499903c9c15",
+      "bytes": 295694
+    },
+    "before-clockwork-top.png": {
+      "sha256": "cf9276ec35f90c87c904cfb95ca36845ffb6f4191a33c5cb7b479147a5bf4fd7",
+      "bytes": 516162
+    },
+    "before-summer-phone.png": {
+      "sha256": "96e9b38283b7d0a87c5c89aafa09684b2df0c6c801eb3ce40c55cb8d19536e19",
+      "bytes": 359858
+    },
+    "before-galaxy-normal.png": {
+      "sha256": "0548c01702604255434bbd3e99620fc57227bc7df9e88305023c488afba18ee1",
+      "bytes": 749336
+    },
+    "before-homestead-phone.png": {
+      "sha256": "e342283932c6af33334040077393dc23f33eb0360ea067f3c1dc9d7cae41383c",
+      "bytes": 178394
+    },
+    "after-summer-phone.png": {
+      "sha256": "d037fa36fc89b68501439b925d828978ccbb1820f8248bfb324b50ab207f8c26",
+      "bytes": 376915
+    },
+    "before-winter-phone.png": {
+      "sha256": "80089e3264af1f39feb779048bc0404f6d219a5f0ca604c015a5a2abaac4de41",
+      "bytes": 280845
+    },
+    "before-moon-phone.png": {
+      "sha256": "d64d8ddc72cc1af2e12a63424c6aebe5f2dd1743ffa59015a4dcc04f5e5ebf63",
+      "bytes": 319091
+    },
+    "after-aquarium-top.png": {
+      "sha256": "164698af56491ce30f82c99aa17a134e445ede70cc4ff30bb19c3ef6d98e3412",
+      "bytes": 580659
+    },
+    "after-water-normal.png": {
+      "sha256": "39f164bfed7597c1c00476f72a2a00f951d4bb5b450eee578f0bf5018444c1a5",
+      "bytes": 689283
+    },
+    "before-moon-normal.png": {
+      "sha256": "7547f5891e4a2bbfbb34b702a75019ee071c940f0f966574295a4b07afa06dfb",
+      "bytes": 746521
+    },
+    "after-atoll-park-phone.png": {
+      "sha256": "d039e47de9817e4ebc03abb93f56855a0553e7b758210e6191a8705b4eb3069e",
+      "bytes": 40722
+    },
+    "after-foodcourt-grazing.png": {
+      "sha256": "1e0469dfe0431809870579fa79557fccb8b4470280b4f6ac57cb5c2a0a0c6ded",
+      "bytes": 353104
+    },
+    "after-bikini-grazing.png": {
+      "sha256": "dff1f3422bf2e992aaf88f089ae8f67c222d7da28eef271f170d263e0ed27070",
+      "bytes": 414823
+    },
+    "after-aquarium-normal.png": {
+      "sha256": "64648685958660315a44337fb29da3bd01c9b4367a2a8bfa4b3cee96720a9685",
+      "bytes": 556304
+    },
+    "before-sakura-normal.png": {
+      "sha256": "1add22d37665b08e677f66b7eb1b3b73e2ef90b9c125b6821b1703973b074124",
+      "bytes": 745123
+    },
+    "before-magic-zoo-top.png": {
+      "sha256": "7a75ae8d7fcbe39c0ad621dc6a05b37a3e802829a6684bde8c9fa87aff646cf7",
+      "bytes": 632011
+    },
+    "source-before-HEAD.patch": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "after-bikini-top.png": {
+      "sha256": "c52e1520f0b12684bfb7a416b153d043d4920fa225a8a9a27aabc7179ef7c059",
+      "bytes": 561987
+    },
+    "after-homestead-normal.png": {
+      "sha256": "b323737d83a5a2db1e36d20273a46918fe3ce0bab94f8413b373353119ec301c",
+      "bytes": 374042
+    },
+    "before-winter-grazing.png": {
+      "sha256": "1d4d8fe4bb0f0d0437a7a11eaac47718f0091e883aa58963cb790192b7a97139",
+      "bytes": 434996
+    },
+    "after-ice-phone.png": {
+      "sha256": "8f5cb00fcadff697f6e9811096cc9bb2bfd9d0376955e939211348aa10237fd0",
+      "bytes": 304955
+    },
+    "before-candy-top.png": {
+      "sha256": "541b6e105530840a333f3ab31cfb20da36309bdb03997f495d3df0083a4bb055",
+      "bytes": 278214
+    },
+    "after-aquarium-grazing.png": {
+      "sha256": "5d907c19293332900597d81c5c4dc63280764e19a8e471149aa34544e11dfa17",
+      "bytes": 408594
+    },
+    "after-summer-grazing.png": {
+      "sha256": "1aef5635fb8d6e64a2dd4735481eef30dabc1076efef9def240b85e802fd0fb4",
+      "bytes": 649843
+    },
+    "before-cat-homes-grazing.png": {
+      "sha256": "d14249ba4e8c9c58d12ccb94a7aae2dcb9bfc6612de63bb6cf2daafcb4a330dc",
+      "bytes": 152202
+    },
+    "after-magic-zoo-top.png": {
+      "sha256": "845f3498a810923e6af0c196dde3084700a4ed880369c1315896ddaeaaf5c1c7",
+      "bytes": 681361
+    },
+    "after-atoll-park-top.png": {
+      "sha256": "7f39a18e697b50f7d1866609cec3c1e209a6abdcefc4b8db33142db664241f07",
+      "bytes": 78245
+    },
+    "after-ice-normal.png": {
+      "sha256": "9c2b4bb58a4ae457bbf7aa103d02be066d3d4d2c44beff19bb567bd6fc9b32cd",
+      "bytes": 716727
+    },
+    "after-atoll-park-grazing.png": {
+      "sha256": "722b3a6bdf8859c1dfdfe94eb5647e051fd4759fb4796863a4bdaabbaa9b9747",
+      "bytes": 36235
+    },
+    "before-aquarium-normal.png": {
+      "sha256": "09b174cb0b9cdac91758d8f018313d58c6ce0e3b14dc086158e18e9ae47ba075",
+      "bytes": 501009
+    },
+    "before-cat-homes-normal.png": {
+      "sha256": "272c12c5cdbdb416c1f021112a0756d3627bacfa3e7e492fd41e8207b7019830",
+      "bytes": 167020
+    },
+    "source-after-HEAD.patch": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "before-sakura-top.png": {
+      "sha256": "a0b71490a4936a3ef0fc20ccfd7d9f27097364f1ba3893f3628448afc92ab527",
+      "bytes": 698999
+    },
+    "before-homestead-normal.png": {
+      "sha256": "b323737d83a5a2db1e36d20273a46918fe3ce0bab94f8413b373353119ec301c",
+      "bytes": 374042
+    },
+    "before-winter-normal.png": {
+      "sha256": "65e23e5d06abb59d6e03c5322a90db8e25f5bf05bc0fe531bcb3722ce60f0fc4",
+      "bytes": 648250
+    },
+    "before-volcano-grazing.png": {
+      "sha256": "981c3afeb06cc30ad952cdefcdbf28a7abb0a7c21d7ea79a6e0ff90af5fbe858",
+      "bytes": 486938
+    },
+    "after-volcano-top.png": {
+      "sha256": "75dc14f63fc42b2ce3b5182ba5046304a71a10fbb8021a60ba0a3081f8c9797a",
+      "bytes": 753321
+    },
+    "after-homestead-grazing.png": {
+      "sha256": "db278e4a055dd4a1e583eebb34a0ace1697058eca2680e39ebe97934681cbcbf",
+      "bytes": 208162
+    },
+    "after-moon-normal.png": {
+      "sha256": "0a52692bd30b75deb53fb910d0ba0d912f35bf2bcc14a7a0d94358421bed772d",
+      "bytes": 778977
+    },
+    "before-atoll-park-top.png": {
+      "sha256": "27a32a450dc5881e759bb80c3375dfc902c828795a8e139fc45d1e2c1198e5c2",
+      "bytes": 62542
+    },
+    "before-galaxy-top.png": {
+      "sha256": "2ffcf0cc2dfd069b3754ed1634321995bfb245281f30a671cb5e589aa8032363",
+      "bytes": 723221
+    },
+    "before-atoll-park-normal.png": {
+      "sha256": "16fde7ddcfe8a736271839150b30e8e16ff59b34f58aba2f39572bca49d1e272",
+      "bytes": 96811
+    },
+    "after-clockwork-grazing.png": {
+      "sha256": "9bc3f909b6865ff23831ae0200da25219b9304ff17c0da58290df79ade6216e9",
+      "bytes": 443640
+    },
+    "after-ice-top.png": {
+      "sha256": "67aafcd70920c19ee9b6fc4c4be5a06066397400919bb9341b978a0be8e079cd",
+      "bytes": 737616
+    },
+    "after-candy-grazing.png": {
+      "sha256": "efa7e4b5a8c8471f068eb5204ab9018e70ccbd59cd2162cb1c582cecf0ff7ee4",
+      "bytes": 88742
+    },
+    "before-summer-grazing.png": {
+      "sha256": "1b7b7036212d1d56518d166d46e94c7baee2342aa073a930567d9be04b632bfb",
+      "bytes": 642858
+    },
+    "before-clockwork-grazing.png": {
+      "sha256": "e6ef720139c5c2e6677e3033f223448515eb06939849716d5a17c63ce30384e3",
+      "bytes": 422251
+    },
+    "after-moon-phone.png": {
+      "sha256": "394bc0c395bd7452af1b6f5143833a6aea9cc14656e3685988427424c9814d64",
+      "bytes": 319486
+    },
+    "after-autumn-grazing.png": {
+      "sha256": "a674d7dd88b3e17c0f0b3283d9c65da7f84bcb2680b3762216d68d5848ec3dc0",
+      "bytes": 307855
+    },
+    "after-galaxy-top.png": {
+      "sha256": "a375976ce6ffddbdca5fbd9886c14d463a9f456d0b6395ad15bfd8a9e5461c8e",
+      "bytes": 744927
+    },
+    "before-volcano-normal.png": {
+      "sha256": "340fd25dc0b0f9cba724ebc81e8c9306ebd5921e2982be14bd2d3394e1080069",
+      "bytes": 744194
+    },
+    "before-bikini-phone.png": {
+      "sha256": "a9c27b57064175204ec91379ccf6ae7e449e87a283d178ac37d6774e114e0f06",
+      "bytes": 242715
+    },
+    "after-clockwork-normal.png": {
+      "sha256": "024db2ca7371510721677f871a49739b9a3621da982f668744a97c642ba67315",
+      "bytes": 627884
+    },
+    "after-autumn-top.png": {
+      "sha256": "efc1dfb722a13248ab36e063be211ddb62766e3f6506b7e60739987bc6582242",
+      "bytes": 558999
+    },
+    "before-atoll-park-grazing.png": {
+      "sha256": "12f257fa06cd4dbad8f474c08376dab76d0d8ab66758c475013f7e038d5a9236",
+      "bytes": 31652
+    },
+    "after-volcano-normal.png": {
+      "sha256": "db04af74bf121681372dd94511e4f95c9e265f9cfd80c60e952d063274f636ef",
+      "bytes": 758754
+    },
+    "before-volcano-phone.png": {
+      "sha256": "1635a91ff2cfe222b93d0e211af49facc8f353950614ac61ad34b68befc59483",
+      "bytes": 305461
+    },
+    "before-ice-top.png": {
+      "sha256": "24999f4e1cccede57f88e0d507247a8dad340e5b42fd576995bcb2b9fe0e9d73",
+      "bytes": 709907
+    },
+    "after-water-grazing.png": {
+      "sha256": "5f8b5062b1870abae76252108e33791c8826d66233a64455875799b7f8dd3bf2",
+      "bytes": 527878
+    },
+    "before-clockwork-phone.png": {
+      "sha256": "032f658486f8a54710a89cc3449d208b92641e896f271d4a4469d5a4bb8de031",
+      "bytes": 284770
+    },
+    "after-moon-grazing.png": {
+      "sha256": "5a61ce3fb2c86fb73a8ab8e37f7815ea560a267f78c4013f118af5244ac07796",
+      "bytes": 433609
+    },
+    "report.json": {
+      "sha256": "f3862c46f03c662ca706ae363e9ccd1c165b1dea7d00bd7b96c9a478e860fe7a",
+      "bytes": 86539
+    },
+    "after-clockwork-phone.png": {
+      "sha256": "47b69d6c93fa5eee4cc1f5ee7f0a7d75e0ed8efb70f263417489eb5e5b7e8ffb",
+      "bytes": 296250
+    },
+    "source-after-cached.patch": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "before-ice-grazing.png": {
+      "sha256": "53ca1cea7950704aad08d5286f8e36489e3bf63037df7b9ec7783c738ee6abff",
+      "bytes": 469233
+    },
+    "before-candy-normal.png": {
+      "sha256": "310fea7499643a3881082a3bef3c946b8f68f47b01797d8f4db3f6db432eff57",
+      "bytes": 149613
+    },
+    "after-galaxy-grazing.png": {
+      "sha256": "72b8b5ad3e6f0fc0cc4cdd2c6b719364f7a72f913e766c8f4a8895c2adf03a5a",
+      "bytes": 528470
+    },
+    "before-aquarium-phone.png": {
+      "sha256": "7394022500337936a803623974e64c3fff4e222ff81e8f49ce47e1d620ff4dff",
+      "bytes": 255518
+    },
+    "before-autumn-normal.png": {
+      "sha256": "584d8b1e4b3bfc8ee1a734196eccea68deff6fd1f6e4e13407761dd28ad4c0d9",
+      "bytes": 484648
+    },
+    "after-foodcourt-top.png": {
+      "sha256": "42aab6d90f43cd2c619daea4370200e326eba2ff0c3a3d0d4745534c4f23166d",
+      "bytes": 392255
+    },
+    "after-volcano-grazing.png": {
+      "sha256": "ffc24cb8410e144e8f0e71572125fd7f167aebce03e2c6f4e4ab7228e7463195",
+      "bytes": 489395
+    },
+    "after-summer-top.png": {
+      "sha256": "7db602eb7e500f04851789a733cc990c88ade88344eb973462dc8e5afd2a8742",
+      "bytes": 948113
+    },
+    "before-bikini-normal.png": {
+      "sha256": "935e0321c555f2ec6197f789f53c022f36ded34a359d343caca015338c93d479",
+      "bytes": 559037
+    },
+    "before-cat-homes-top.png": {
+      "sha256": "6762d621f7f3e461c1ff37e10c078e63e7eb2f97039640ce18029fe2b2700f12",
+      "bytes": 175301
+    },
+    "after-homestead-phone.png": {
+      "sha256": "e342283932c6af33334040077393dc23f33eb0360ea067f3c1dc9d7cae41383c",
+      "bytes": 178394
+    },
+    "after-cat-homes-grazing.png": {
+      "sha256": "3a0473f90de3fe4abb9eae914ea7732e38f9ec57e161f07fea531628a090bfa9",
+      "bytes": 159579
+    },
+    "before-sakura-phone.png": {
+      "sha256": "573c444db6f18bb27b8183dd333d15ef886b22070020744b76f380b162266515",
+      "bytes": 295598
+    },
+    "after-atoll-park-normal.png": {
+      "sha256": "e2097809801ad03e6d09b3dfc6ff1d104286121878b4a1d7c616d335f5fbbe84",
+      "bytes": 109635
+    },
+    "before-autumn-grazing.png": {
+      "sha256": "dd8f20962f2e8e25a82c383aeec37168254fe56a9a0758d6f0a3b040d864aeff",
+      "bytes": 326515
+    },
+    "before-summer-normal.png": {
+      "sha256": "fe5d46ff1abce08513ff7cbe8decc17a552bc388a60b989c9bb521e83c49e95b",
+      "bytes": 880577
+    },
+    "after-sakura-normal.png": {
+      "sha256": "9437ff7cef57a8f26daa110182efd43e9df2bae9751d1dd256d1991629478e6d",
+      "bytes": 764653
+    },
+    "after-candy-top.png": {
+      "sha256": "7d07eb9f7910919e5ad53150a23592d471389df90ad326361f7a8065131e2fb3",
+      "bytes": 280321
+    },
+    "after-winter-normal.png": {
+      "sha256": "851b19a6621defef9d671e5d5f2780158f51e0ed137a2db099872ba9431370a8",
+      "bytes": 674218
+    },
+    "after-clockwork-top.png": {
+      "sha256": "b8a7f4ffef5f6e8db1c18a99f3b1a793b4fe18006958dcf8269fa9f6e45b0b85",
+      "bytes": 567760
+    },
+    "after-autumn-normal.png": {
+      "sha256": "a724f430c96f7260eafcebf927f78f5d98cf2c582a0f506758140f3ac09fa288",
+      "bytes": 390634
+    },
+    "after-cat-homes-top.png": {
+      "sha256": "f421349c14b0e90c0e1e5269adc15fe607c7bf6d66f2d47e1d091a7d518b2f37",
+      "bytes": 203005
+    },
+    "qa-before.mjs": {
+      "sha256": "18aaef1d8124f1ff05e097d8716cab27540b5685d2afc5428e475761f1719d9f",
+      "bytes": 2954407
+    },
+    "after-foodcourt-phone.png": {
+      "sha256": "e4e74ec4ee8e8a48fab2b9a35732747314a580bae0d51b295bb7ab7c7e7da4dc",
+      "bytes": 205298
+    },
+    "after-candy-phone.png": {
+      "sha256": "1b592d40b71b21f7b1539621901d8dc9e32cb9dfaa59631722b3698ec8315b5e",
+      "bytes": 121545
+    },
+    "after-ice-grazing.png": {
+      "sha256": "6375d528d3cbeaed5cafe4f45914e81634914916888b80d5f3cdfdbbe44b7337",
+      "bytes": 482149
+    },
+    "after-water-phone.png": {
+      "sha256": "a6d1436334cd16609a1ee9f81fafa8506193805034950f1144f554904d754e5f",
+      "bytes": 295469
+    },
+    "before-autumn-top.png": {
+      "sha256": "5c541b9881ddd67492cf458e13d49e920512b09ea415c6b5b6b81ed1d4fb69fc",
+      "bytes": 713000
+    },
+    "before-water-grazing.png": {
+      "sha256": "8ee3f0fafa6d0c05e04b72f977331db7a6189cb64ef6be8132c334622104032f",
+      "bytes": 509617
+    },
+    "after-magic-zoo-normal.png": {
+      "sha256": "dfc1427ae42a033339e15c15d2482ef068e9fed0edbb9f85b8b6b18b0959231d",
+      "bytes": 642840
+    },
+    "after-candy-normal.png": {
+      "sha256": "a08f5be882ad85dd56f10b3b3d3563a54c00719b457c833705ea86873dee9cdd",
+      "bytes": 150556
+    },
+    "before-water-top.png": {
+      "sha256": "8e30b0069b11f805c4fe8e79ec68c9e4484282c048e211fd31aa22ea70fe442c",
+      "bytes": 658398
+    },
+    "after-cat-homes-phone.png": {
+      "sha256": "a022036499320334a639b1468b3d951792dc404cdb6de29fa78683edfb5451e5",
+      "bytes": 103572
+    },
+    "before-aquarium-top.png": {
+      "sha256": "a4bc57b1ab89812dcbac3715e5768eb655a7363f452afd6d19206c9f083af987",
+      "bytes": 489445
+    },
+    "after-moon-top.png": {
+      "sha256": "a654b0b3a7429558414a37773f92f11463db930905b9172e0166c5b9abc7ef94",
+      "bytes": 694889
+    },
+    "before-foodcourt-top.png": {
+      "sha256": "a9c178b0df1094713e7d102a3ddcc9c1cbc0ba6710a395ace82020ed0ce2f8ce",
+      "bytes": 351468
+    },
+    "before-water-phone.png": {
+      "sha256": "b68a56e495ab7d1e5c20e305d94477f4f964f559f283c99bad894f9e7ce05eb3",
+      "bytes": 274233
+    },
+    "build-manifest.json": {
+      "sha256": "e46440d03d5500ef61f2c223c148fa22687b760ae2edb39d70fb4ba1014b127c",
+      "bytes": 1252
+    },
+    "before-sakura-grazing.png": {
+      "sha256": "d4eb069cbbcd918391c245fdec66d48ec5b8830b5ec74115f4ac56e4c674cc44",
+      "bytes": 637638
+    },
+    "source-before-status.txt": {
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "bytes": 1
+    },
+    "before-volcano-top.png": {
+      "sha256": "1dbf9403f9c6bd2db9993bb7a76e6b4ea1c5e3c1f8a86b9dc55e242c2bd5159c",
+      "bytes": 728318
+    },
+    "before-galaxy-phone.png": {
+      "sha256": "a19c88b02c1057b82460b050f029be77c17cccc2773e50cbea68efb72dc8ac3a",
+      "bytes": 303965
+    },
+    "before-candy-phone.png": {
+      "sha256": "b2e0663268e62e284fde68233ad7ab8a7e8f936c662f59be8df9c6c841c7a895",
+      "bytes": 121295
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "url": "https://raw.githubusercontent.com/arturmal2805-netizen/ai-cat-game/501757e09370116b942248e392c6461211cb5632/backups/chichi-shared-water-wip-2026-11-17-r9.tar.gz",
+  "archiveCommit": "501757e09370116b942248e392c6461211cb5632",
+  "bytesDownloaded": 60499125,
+  "sha256": "aaaa3d9c257258a6dbc98a65271806d8a4805ea3d710d3830ddb1bff690d8af0",
+  "remoteBytesMatched": true,
+  "localRestore": "13/13 trees exact HEAD patch/cached patch/status/file bytes",
+  "publishedBaseRequired": "c9a2ac7a74dfad5f478464dd6cf62c072e4172a0",
+  "fullGitHistory": false
+}

@@ -61,9 +61,9 @@ unmerged index или маркеров конфликтов в проверен�
 ## Реализовано в черновике, но не принято
 
 Удалённый WIP: [codex/ocean-recovery-memory](https://github.com/arturmal2805-netizen/ai-cat-game/tree/codex/ocean-recovery-memory).
-Общее ядро сохранено в `cc35cfc08bd3338847702cd9117bd58a03d79db0`,
-затем в `b2baec2eb19d2d6067ee0f89ef7a5ef3b8ffd2ab` (проверены удалённые refs).
-Последующие изменения общего расчёта больших волн и QA — следующий checkpoint.
+Общее ядро сохранено в `4dc98387b9d87ca80ecc4ae7df8b39a79cc25a24`
+(проверены оба удалённых refs: shared-water-core и ocean-recovery-memory).
+Предыдущие точки cc35cfc и b2baec2 доступны в его истории.
 Не путать эту ветку с production `main`. Push в неё не запускает публикацию
 сайта: push-trigger `.github/workflows/cloudflare.yml` ограничен `main`;
 отдельный pages workflow запускается только вручную. Не запускать deploy
@@ -95,8 +95,8 @@ workflow_dispatch на WIP.
   при пороге >0.65; непрозрачный контроль ~0.036 корректно проваливался.
 - Полный CI `44042710770` для `b2baec2eb19d2d6067ee0f89ef7a5ef3b8ffd2ab`
   завершён success: Node22 build, весь npm test и Wrangler dry-run. Deploy/pages
-  skipped; это НЕ публикация. Последняя локальная правка macro waves после b2
-  проверена 29/29 целевых тестов, новой сборкой и native visibility, новый CI нужен.
+  skipped; это НЕ публикация. Последняя macro waves4dc
+  также прошла полный CI44046315766, новую сборку и native visibility.
 - Оба генератора отражений действительно пересняли 9 probes после изменения
   producer. Новые source hashes не выдавать за сохранение старых PNG.
 - Последний измеренный черновик: 16 546 144 треугольника, 345 draws против
@@ -164,8 +164,8 @@ SHA256 `72acf51f2f890c8b9e88c2748fa0eec862fad4b57cfad302c9972eceba2046e1`.
 
 Выполнены29целевых Node22тестов и native-компиляция. Native visibility:~0.785
 ПК/phone viewport, deliberate opaque control~0.035; порог0.65 не ослаблен.
-Это НЕ визуальное одобрение и не тест реального телефона. Полный CI исходного b2 завершён успешно; последующая macro-правка требует
-нового CI. Реальная игра/длинные кадры ещё pending. Сначала посмотреть кадры: stable
+Это НЕ визуальное одобрение и не тест реального телефона. Полный CI исходного b2 завершён успешно; последующая macro-правка4dc тоже прошла
+полный CI44046315766. Реальная игра/длинные кадры ещё pending. Сначала посмотреть кадры: stable
 12d478e и контроль с той же новой геометрией против кандидата; оценивать
 одновременно относительно Crimson Desert. Дно/плотность пока не исправлены
 до требуемого качества. Ничего нового на main/сайт не отправлять до проверок.
@@ -185,3 +185,34 @@ opaque-control .035). Затем прошли ocean/summer 4 ракурса A/B 
 
 [Исходные patches, PNG, точные global QA bundles, отчёты и CI](../qa/2026-11-17/shared-water-core/manifest.json).
 Main и сайт остаются12d478e. Не путать сохранение WIP на GitHub с публикацией.
+
+
+## Последний ход — native coverage и независимый R9
+
+18 биомов × before/after ×4 вида завершены: native WebGL без context loss,
+во всех найденных водных материалах кандидата ровно один primary1024² Texture.
+Это подтверждает общую архитектуру, не визуальное достижение референса.
+[Манифест и ограничения](../qa/2026-11-17/shared-water-core/all-biomes/coverage-summary.json).
+Автоматический обзор океана зависел от нового размера — не считать его
+identical-camera A/B. Harness исправлен: повторяется local centre/radius
+базовой воды, положение солнца и shadow envelope. Предыдущий same-geometry
+A/B корректен, поскольку размеры обоих вариантов там одинаковы.
+
+Текущий длинный native прогон: /workspace/qa/shared-water-complete-audit.log,
+результат .exit; прошли18биомов, затем проверяются ВСЕ68горок against12d.
+Не запускать второй GPU-browser параллельно. Следом поставлена проверка
+фиксированных камер океана: /workspace/qa/shared-water-fixed-camera.log/.exit.
+Точное состояние читать из результатов, не считать запущенное завершённым.
+CI последнего source4dc:44046315766 — success. Node22 build, весь npm test
+и Wrangler dry-run завершились, deploy/pages skipped. Это НЕ публикация.
+[Точный workflow результат](../qa/2026-11-17/shared-water-core/ci-4dc9838.json).
+
+Новый R9 архив включает13деревьев и общее ядро4dc с текущим WIP harness:
+[скачать60 499 125байт](https://raw.githubusercontent.com/arturmal2805-netizen/ai-cat-game/501757e09370116b942248e392c6461211cb5632/backups/chichi-shared-water-wip-2026-11-17-r9.tar.gz),
+SHA256 `aaaa3d9c257258a6dbc98a65271806d8a4805ea3d710d3830ddb1bff690d8af0`.
+Архив прочитан, в независимом clone восстановлены13/13деревьев; сравнились
+HEAD/cached patches, porcelain и байты. Удалённые60MB заново скачаны и совпали.
+[Restore](../qa/2026-11-17/shared-water-core/backup-r9-restore-result.json),
+[remote receipt](../qa/2026-11-17/shared-water-core/backup-r9-remote-verification.json).
+Базаc9a2ac7 обязательна, это incremental Git history, не полная история.
+Прежний R8 сохранён; новые QA-результаты после4dc находятся отдельными записями.

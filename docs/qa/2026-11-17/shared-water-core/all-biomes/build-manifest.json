@@ -1,0 +1,49 @@
+{
+  "node": "v22.23.5",
+  "browser": "156.0.8078.79",
+  "renderer": "Chromium ANGLE SwiftShader, native source scenes; not device FPS",
+  "roots": [
+    {
+      "name": "before",
+      "path": "/workspace/chichi-mall-realism",
+      "sourceSHA": "12d478e82e8e5a2bd6ef3ec0cbb151ea1e473d1d",
+      "dirty": "",
+      "bundleSHA256": "18aaef1d8124f1ff05e097d8716cab27540b5685d2afc5428e475761f1719d9f",
+      "bundleBytes": 2954407
+    },
+    {
+      "name": "after",
+      "path": "/workspace/chichi-shared-water",
+      "sourceSHA": "4dc98387b9d87ca80ecc4ae7df8b39a79cc25a24",
+      "dirty": "",
+      "bundleSHA256": "2d5d5cd890fc5d0adbcc88f790b0c90564a6f1531835fbf1de0484125fe71961",
+      "bundleBytes": 2949834
+    }
+  ],
+  "settings": {
+    "biomes": [
+      "autumn",
+      "moon",
+      "summer",
+      "candy",
+      "aquarium",
+      "magic-zoo",
+      "water",
+      "winter",
+      "sakura",
+      "volcano",
+      "galaxy",
+      "ice",
+      "clockwork",
+      "foodcourt",
+      "bikini",
+      "homestead",
+      "cat-homes",
+      "atoll-park"
+    ],
+    "views": null,
+    "seconds": 7,
+    "quality": "original lights, exposure1, ACES, shadows PCF1024; DPR1 desktop/DPR2 phone"
+  },
+  "source": "exact qa-before/qa-after.mjs retained"
+}

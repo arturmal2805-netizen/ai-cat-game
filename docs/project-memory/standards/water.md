@@ -246,3 +246,6 @@ Startup готовит его параллельно native cats; fallback/faile
 
 CI b2baec2:44042710770 test success, deploy/pages skipped. Подробности новых
 macro waves и native A/B — в CURRENT и QA2026-11-17; внешний вид ещё не принят.
+
+Последующий macro-source4dc9838 прошёл также полный CI44046315766;
+публикационные jobs skipped. Native18-biome coverage подтвердил одно поле.
