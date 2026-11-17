@@ -48,7 +48,7 @@ export async function auditOceanExplorerNative({page,review,errors,httpErrors,ca
  await page.locator('#camera-all').click();assert.equal((await snapshot()).controlled,false);
  assert.equal(await page.evaluate(()=>__lagoonQA.submarine().updateCamera(.1)),false);
  await advance(2200);assert.equal((await snapshot()).phase,'docked');assert.equal((await snapshot()).controlled,false);
- await page.locator('[data-biome="autumn"]').tap();
+ if(process.env.CHICHI_DESKTOP)await page.locator('[data-biome="autumn"]').click();else await page.locator('[data-biome="autumn"]').tap();
  await page.keyboard.press('KeyE');await advance(31);
  assert.equal((await snapshot()).phase,'piloting');
  }
@@ -79,11 +79,14 @@ export async function auditOceanExplorerNative({page,review,errors,httpErrors,ca
  assert.equal((await snapshot()).phase,'docked','manual Mall control must return Chichi to ordinary life');
  await reload(false);assert.equal((await snapshot()).phase,'docked');assert.equal((await snapshot()).controlled,false);assert.equal((await snapshot()).explorer,null);console.log('Explorer: final dock reload passed');
  const final=await snapshot();assert.equal(final.coins,initial.coins);assert.deepEqual(final.inventory,initial.inventory);assert.deepEqual(final.placements,initial.placements);
- await page.evaluate(()=>{const g=__lagoonSaveQA.getGame(),p=g.jobCity.profiles.chichi;g.jobCity.epoch=Date.now();p.schedule={...p.schedule,day:0,job:p.profession};p.manualUntil=0;});
- await page.waitForFunction(()=>!!__lagoonQA.jobs.get('chichi'),null,{timeout:30000});
+ // The fixture's one-hour manual hold must be released through the same durable
+ // commit/world sync as real profile changes, rather than mutating an app-only
+ // object after the world has synchronized a newer save snapshot.
+ await page.evaluate(()=>{const g=structuredClone(__lagoonSaveQA.getGame()),p=g.jobCity.profiles.chichi;g.jobCity.epoch=Date.now();p.schedule={...p.schedule,day:0,job:p.profession};p.manualUntil=0;__lagoonSaveQA.commit(g);__lagoonQA.drawPaused=false;});
+ try{await page.waitForFunction(()=>!!__lagoonQA.jobs.get('chichi'),null,{timeout:30000});}catch(error){const state=await page.evaluate(()=>{const q=__lagoonQA,g=__lagoonSaveQA.getGame();return{phase:q.submarine().phase,active:q.submarine().active,profile:g.jobCity.profiles.chichi,epoch:g.jobCity.epoch,unlocked:g.unlocked,mallHas:q.mall().has('chichi'),operation:q.getOperation()?.stage,care:g.care,paused:q.drawPaused,visibility:document.visibilityState};});await writeFile(join(review,'autonomy-blocker.json'),JSON.stringify(state,null,2));throw error;}
  const autonomous=await page.evaluate(()=>({phase:__lagoonQA.jobs.get('chichi').phase,job:__lagoonQA.jobs.get('chichi').job,position:__lagoonQA.chichiCarrier.position.toArray()}));assert.ok(autonomous.job&&autonomous.job!=='rest');
  await reload(false);assert.equal((await snapshot()).phase,'docked');assert.equal((await snapshot()).controlled,false);
- await page.waitForFunction(()=>!!__lagoonQA.jobs.get('chichi'),null,{timeout:30000});console.log('Explorer: autonomous ordinary work resumes before and after SQLite reload',autonomous);
+ try{await page.waitForFunction(()=>!!__lagoonQA.jobs.get('chichi'),null,{timeout:30000});}catch(error){const state=await page.evaluate(()=>{const q=__lagoonQA,g=__lagoonSaveQA.getGame();return{phase:q.submarine().phase,active:q.submarine().active,profile:g.jobCity.profiles.chichi,epoch:g.jobCity.epoch,unlocked:g.unlocked,mallHas:q.mall().has('chichi'),operation:q.getOperation()?.stage,care:g.care,paused:q.drawPaused,visibility:document.visibilityState};});await writeFile(join(review,'autonomy-blocker.json'),JSON.stringify(state,null,2));throw error;}console.log('Explorer: autonomous ordinary work resumes before and after SQLite reload',autonomous);
  await writeFile(join(review,'explorer-results.json'),JSON.stringify({stage:process.env.CHICHI_EXPLORER_STAGE||'full',initial,first,inside,cold,final,inputChecks,routeTrace,autonomous,errors,httpErrors,renderer:'Native game, Chromium SwiftShader at DPR2; not device FPS'},null,2));
  assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);console.log(process.env.CHICHI_EXPLORER_STAGE==='mall'?'PASS: sequential Mall airlock, walking, storey reloads, escalator, camera release and automatic return.':'PASS: underwater exit, third-person movement/dive, reboard, world/island release, swimming/Mall reload, sequential airlock, escalator and automatic return.');
  }finally{clearInterval(watcher);}

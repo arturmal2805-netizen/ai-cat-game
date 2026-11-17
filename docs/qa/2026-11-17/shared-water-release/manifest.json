@@ -1,0 +1,381 @@
+{
+  "stableBase": "12d478e82e8e5a2bd6ef3ec0cbb151ea1e473d1d",
+  "node": "22.23.5",
+  "applicationJS": "dcff015e221567268f2afadf90c80f8f402b30b4faf3bf2bcc9648d9621937d6",
+  "css": "c14ce8408f8f3aed7a5e7991eca39663fe55377343421ff62e0600ada4c048ef",
+  "tests": {
+    "targeted": 39,
+    "full": 1070,
+    "failed": 0,
+    "wranglerDryRun": "pass",
+    "visibility": "pass desktop+phone; opaque control correctly fails",
+    "oceanA_B": "pass equal camera/light, same draw counts",
+    "fullGameA_B": "pass six day/night views, animated actual water, private SQLite ownership reload",
+    "route": "Full v2 passes swimming/reboard/airlock/floors/camera/reload; final autonomy fixture needed ordinary commit/world sync. Mall/autonomy v3 passes actual normal work before and after reload.",
+    "firstDesktopRun": "QA tap-on-desktop failure; preserved log and replaced with actual desktop click, no production control change."
+  },
+  "geography": "stable geography/reef population preserved; experimental expansion/benthic gardens excluded",
+  "artStatus": "incremental shared-water improvement; Crimson Desert remains target, no user artistic approval claimed",
+  "checksums": {
+    "shared-water-release-check.log": {
+      "sha256": "bb6c4e1b3d2a7fd93578c81b2984246c1d7e368069359979bd0bb4b8f057158e",
+      "bytes": 16642
+    },
+    "shared-water-release-art.log": {
+      "sha256": "5a6321585d93f7cb7917cae598fb77426edb177c3d81274b1dffd760f9dad257",
+      "bytes": 1759
+    },
+    "reused-ride-evidence.json": {
+      "sha256": "42b50c4920a6d61020771358ddad6565308ab7647eca912800499f14786c3e32",
+      "bytes": 6057
+    },
+    "preserved-runtime.json": {
+      "sha256": "9f0d9062d3c32f8b0949c0c3840fcc99ced7dc4c02b55e4877ddb4929c85b4f8",
+      "bytes": 2736
+    },
+    "performance-comparison.json": {
+      "sha256": "c81dba0cbd6544865ccdc2133b777472747c11772bbbb05268441d1d8c8e9df8",
+      "bytes": 795
+    },
+    "water-assets.json": {
+      "sha256": "f93b0e3a867fa79e6413d947cd0a5dac70eb1b6dce061ea05d2b78716a2fe553",
+      "bytes": 2674
+    },
+    "shared-water-release-explorer-v2.log": {
+      "sha256": "d9036d08374d6859f4dd24363007c023e2132dbde7c6d67eaa5f5253de30d838",
+      "bytes": 11139
+    },
+    "shared-water-release-mall-v3.log": {
+      "sha256": "dcf8719dffb50dbb44fb957fc0b3b01b3367601c9189ba36cf77262e2c9b0341",
+      "bytes": 5063
+    },
+    "shared-water-release-full-test.log": {
+      "sha256": "799b2c19bccf430b87facba885f6ed2bd046d7f9d76b932a7c5293a95c8cc745",
+      "bytes": 287839
+    },
+    "art-after/isolated-native-wave-t7.png": {
+      "sha256": "b40bed99b80bbc12a7972aae4fc71b4daedfcf2e748679dc9dd7d7975a21447a",
+      "bytes": 3930775
+    },
+    "art-after/surface-night.png": {
+      "sha256": "013e940510b146623d352ec0acbdb5ef8b5cb6d9eb5771ab1114992be62a781b",
+      "bytes": 5341785
+    },
+    "art-after/water-close-day.png": {
+      "sha256": "a61f1a17dc70b27ecc47a77850c5904196efa2dd6c0f41a6b815f3b076595287",
+      "bytes": 4501953
+    },
+    "art-after/qa-build.json": {
+      "sha256": "0756849cb0db8b5fb420c0faa3e24f1da7372a3edbfefc816914eb1f8e0cd360",
+      "bytes": 2601
+    },
+    "art-after/surface-day.png": {
+      "sha256": "3e5f4fb919e6c344c31d2b9b124ac32e4e091bf65817b8c980943fe1311ddaa5",
+      "bytes": 5341008
+    },
+    "art-after/isolated-native-wave-t8.png": {
+      "sha256": "20453dc7c5ffe88c2565d62c6a9c86b637f3c033a299a44bb19e718a9149aa7d",
+      "bytes": 3932205
+    },
+    "art-after/forecourt-day.png": {
+      "sha256": "77f45cd5478e2494cf2c5f8ef55c3069c049914bc29930b3a0a27204a21a4065",
+      "bytes": 4633954
+    },
+    "art-after/ocean-art-results.json": {
+      "sha256": "0de0a5e11a2bef87e04307d872d3fedb85df11408358005216e2a46dbfb020c2",
+      "bytes": 19997
+    },
+    "art-after/forecourt-night.png": {
+      "sha256": "77f45cd5478e2494cf2c5f8ef55c3069c049914bc29930b3a0a27204a21a4065",
+      "bytes": 4633954
+    },
+    "art-after/qa-app.js.gz": {
+      "sha256": "82a691a14d949f0d5533bd5051722e68baac54cbf5fb1afb93104c2369201263",
+      "bytes": 1113969
+    },
+    "art-after/source-cached.patch.gz": {
+      "sha256": "d72039794a9b9b315bf24136805d5d2210a0699dd0a2d6181224aadf361493b6",
+      "bytes": 931713
+    },
+    "art-after/source-HEAD.patch.gz": {
+      "sha256": "452360d4afad334f9bb009d6490c848e6a3365e6e0c4fba8753ea70cee1f39fa",
+      "bytes": 1457266
+    },
+    "art-after/water-close-night.png": {
+      "sha256": "ad5243d6f58a5cc2ffb112944579dbc0c1216124cd838da198c357765dd3b636",
+      "bytes": 4507842
+    },
+    "art-after/source-status.txt": {
+      "sha256": "8975ba27e74fb5d7735d2cdb3d591b208b025fd30df7f28536743a6cb10b9326",
+      "bytes": 2334
+    },
+    "visibility/opaque-regression.png": {
+      "sha256": "f8ef9f34009c6648331ad268206e00064eff6aace7fe1005537061e6b36e078e",
+      "bytes": 205735
+    },
+    "visibility/visibility.json": {
+      "sha256": "2dcb8273d509a487cc510a4400b8954564f5b04d372f7638e3880670fe51ff31",
+      "bytes": 725
+    },
+    "visibility/clear-interface-phone.png": {
+      "sha256": "567b6522397f03c53391b3ac42b3929643060a44e62baf8d0080575f36b8a31b",
+      "bytes": 183846
+    },
+    "visibility/clear-interface.png": {
+      "sha256": "188ff817ec0fbac1bd9474ddd5435f1f1135de2041746ba3318fc01edc9420df",
+      "bytes": 176846
+    },
+    "explorer-complete-route/chichi-airlock-exit-third-person.png": {
+      "sha256": "4a88c8cfced8cec3a03463aa7dc83e2ad6e33ed1cf2ec5d9713afb262e4125fe",
+      "bytes": 2172274
+    },
+    "explorer-complete-route/qa-build.json": {
+      "sha256": "b3b77e7911ed953ed5fb52e57049de4ce9bb7100fd4e8ff4f33c7b7fe83d8635",
+      "bytes": 2577
+    },
+    "explorer-complete-route/chichi-escalator-floor2.png": {
+      "sha256": "9adffe818014ee86d530c2eeb9a941a31559696975b888dec664e2402c57d1ef",
+      "bytes": 2390103
+    },
+    "explorer-complete-route/qa-app.js.gz": {
+      "sha256": "82a691a14d949f0d5533bd5051722e68baac54cbf5fb1afb93104c2369201263",
+      "bytes": 1113969
+    },
+    "explorer-complete-route/source-cached.patch.gz": {
+      "sha256": "d72039794a9b9b315bf24136805d5d2210a0699dd0a2d6181224aadf361493b6",
+      "bytes": 931713
+    },
+    "explorer-complete-route/source-HEAD.patch.gz": {
+      "sha256": "6b66eee679f99da70f9da92fe174d1da3a9b8049c8315658e8647a21593057c6",
+      "bytes": 1456360
+    },
+    "explorer-complete-route/chichi-third-person-mall.png": {
+      "sha256": "9f17c8150f6f2fa30449ef4b09bcec3c524ea46d0c30dca5954bce8d575025b4",
+      "bytes": 2495784
+    },
+    "explorer-complete-route/chichi-swimming-third-person.png": {
+      "sha256": "cee289eb1ad406cc7f9ac64fe29872a70c09449a922a160724e8ad807b74046f",
+      "bytes": 2447595
+    },
+    "explorer-complete-route/source-status.txt": {
+      "sha256": "d41d7fd0df72301a8f0200d0e65b1f859e4bf5b3ee71037beebc7e7fc088eae1",
+      "bytes": 2311
+    },
+    "art-before/isolated-native-wave-t7.png": {
+      "sha256": "b2224ea51b4fbf545240ca7388b4dca8b47b2de7ad27bf1bece3b4ca1881194b",
+      "bytes": 4386500
+    },
+    "art-before/surface-night.png": {
+      "sha256": "0c296e387d6d5334b321cf130fd0620306efbc9b846e7e804a1a8212217b74e6",
+      "bytes": 5620803
+    },
+    "art-before/water-close-day.png": {
+      "sha256": "48730878fe0608fcfec20db903f44d3d89bfd16291cbe4421f8f2a81514cdfcc",
+      "bytes": 4860511
+    },
+    "art-before/qa-build.json": {
+      "sha256": "7db3bd4baa082d187b745091c0abd862a13f11f9f0110226ef2ec1c6665de1d6",
+      "bytes": 2601
+    },
+    "art-before/surface-day.png": {
+      "sha256": "00b1b580378537ca1e143d5db5a16dc939a0466403810b151db2d4302da55856",
+      "bytes": 5620236
+    },
+    "art-before/isolated-native-wave-t8.png": {
+      "sha256": "37fb720a0b8b84f3e7a09f8dd429497a7f8478c95319aab9e7774a149d9bb5c5",
+      "bytes": 4396732
+    },
+    "art-before/forecourt-day.png": {
+      "sha256": "af9366b0b0affcce21cbdb4c29c3c647a8077ea883aec26f4139ceba5c84560d",
+      "bytes": 4105153
+    },
+    "art-before/ocean-art-results.json": {
+      "sha256": "b94cb9bbd40c894a8e705744b395344d9b55ef128dadc812894a67de4c1efcee",
+      "bytes": 19826
+    },
+    "art-before/forecourt-night.png": {
+      "sha256": "af9366b0b0affcce21cbdb4c29c3c647a8077ea883aec26f4139ceba5c84560d",
+      "bytes": 4105153
+    },
+    "art-before/qa-app.js.gz": {
+      "sha256": "f802d0199c6d000b0b65dbbcb9ab07a116bdb5d6de08cef6fef56b1c4e351d0c",
+      "bytes": 1115569
+    },
+    "art-before/source-cached.patch.gz": {
+      "sha256": "d72039794a9b9b315bf24136805d5d2210a0699dd0a2d6181224aadf361493b6",
+      "bytes": 931713
+    },
+    "art-before/source-HEAD.patch.gz": {
+      "sha256": "452360d4afad334f9bb009d6490c848e6a3365e6e0c4fba8753ea70cee1f39fa",
+      "bytes": 1457266
+    },
+    "art-before/water-close-night.png": {
+      "sha256": "1c343e6e2504aae59096deaecefcf662de3b7a259d74bd6dbb1643f17572f9a1",
+      "bytes": 4864004
+    },
+    "art-before/source-status.txt": {
+      "sha256": "8975ba27e74fb5d7735d2cdb3d591b208b025fd30df7f28536743a6cb10b9326",
+      "bytes": 2334
+    },
+    "ocean/after-summer-water-low.png": {
+      "sha256": "96e2c9037a80caf7a7e3347f953bc5f6e682c3e2fc688e0eb50b5ac799b4cd1a",
+      "bytes": 322604
+    },
+    "ocean/after-autumn-phone.png": {
+      "sha256": "c5c2957b878ef4c67464c1a3d960a082c6e3d001f2682566e42f8003acfb52e0",
+      "bytes": 247300
+    },
+    "ocean/before-summer-deep-forecourt.png": {
+      "sha256": "fe5d46ff1abce08513ff7cbe8decc17a552bc388a60b989c9bb521e83c49e95b",
+      "bytes": 880577
+    },
+    "ocean/source-after-status.txt": {
+      "sha256": "e5170396ef2e16a6d95e6c0787904e11b9261d93775b228783653492435964d1",
+      "bytes": 2230
+    },
+    "ocean/before-autumn-phone.png": {
+      "sha256": "e35b73f3b145dca4ff06f0302144c97448dce92fe77d2ff0e1b51a3bd91e4f2d",
+      "bytes": 247559
+    },
+    "ocean/after-autumn-deep-forecourt.png": {
+      "sha256": "7f65472bbf01ea64fc729f4f24d693821cbd1a4a135d5a258267d5ff12346815",
+      "bytes": 531074
+    },
+    "ocean/after-summer-deep-forecourt.png": {
+      "sha256": "c6c979424a8c509ddac408c87e4ee1c32d4a5b62ef7090c8f5e0893c8a4b10e6",
+      "bytes": 898353
+    },
+    "ocean/after-autumn-water-sun.png": {
+      "sha256": "6011b820ce0ff08975895c0cea44ead35cd08ac3c1dc467bcff553bd72d72ea1",
+      "bytes": 585677
+    },
+    "ocean/qa-before.mjs.gz": {
+      "sha256": "bc755c192771796daf13ce47b471a1a84049de9fc6373e70099c1c1e189095ca",
+      "bytes": 623066
+    },
+    "ocean/before-summer-phone.png": {
+      "sha256": "96e9b38283b7d0a87c5c89aafa09684b2df0c6c801eb3ce40c55cb8d19536e19",
+      "bytes": 359858
+    },
+    "ocean/before-autumn-water-sun.png": {
+      "sha256": "8beef3eb5469299c7c37204c76b121757255bd2858edf3f964ba2f63fef76962",
+      "bytes": 615143
+    },
+    "ocean/after-summer-phone.png": {
+      "sha256": "246d2702a8d3949b1c39501bb43d14ac9d20e2538c97f5b6be136d7322559ed7",
+      "bytes": 376413
+    },
+    "ocean/qa-after.mjs.gz": {
+      "sha256": "5ff9da5b490641aba0e268b8f37cf420a68062dcdc3fa84a89ce0c574cc6203d",
+      "bytes": 622070
+    },
+    "ocean/before-summer-water-close.png": {
+      "sha256": "211810a3fcb8100056298fa80af081d621ddd2e76bed1e2bff47751775150dc7",
+      "bytes": 579334
+    },
+    "ocean/source-before-HEAD.patch.gz": {
+      "sha256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec",
+      "bytes": 20
+    },
+    "ocean/after-summer-water-sun.png": {
+      "sha256": "1e4395db2b278ad1fc35568fe532de183c565a4c97e162d750a4102e70c6dbda",
+      "bytes": 536563
+    },
+    "ocean/source-after-cached.patch.gz": {
+      "sha256": "d72039794a9b9b315bf24136805d5d2210a0699dd0a2d6181224aadf361493b6",
+      "bytes": 931713
+    },
+    "ocean/after-autumn-water-low.png": {
+      "sha256": "8cf6de46f44f42be0fee0e1b6f4da3792f6d47aef8168bf3215f96605511ce80",
+      "bytes": 468268
+    },
+    "ocean/before-summer-water-low.png": {
+      "sha256": "ec43ea3fec51f69159b0f4ca5f5ce372700afcdefa758ed24162607f9b4c73e0",
+      "bytes": 320457
+    },
+    "ocean/before-autumn-water-low.png": {
+      "sha256": "5b36c2b217578d9f4ec90032d0b89da4cb720dd8c95d202b8cbda834eb4a15d8",
+      "bytes": 491830
+    },
+    "ocean/before-autumn-water-close.png": {
+      "sha256": "f22e876f91ec4191bb6f98e72639e03ec13b4dea54b5dce45f01ec71aa979fc4",
+      "bytes": 665634
+    },
+    "ocean/asset-manifest.json": {
+      "sha256": "f783963a754902f0f5e485e2f56c5acaea087da6cad897d57efde662d30b40d2",
+      "bytes": 8102
+    },
+    "ocean/report.json": {
+      "sha256": "ccac8dfb134b42b1646bbe75f64be0e935e45953ab2de3137769a1179b66587b",
+      "bytes": 11828
+    },
+    "ocean/before-autumn-deep-forecourt.png": {
+      "sha256": "057382ecb589d53504f323ddeb196dd9bbb6a27ce3779800328fb3cd97044f65",
+      "bytes": 464306
+    },
+    "ocean/source-after-HEAD.patch.gz": {
+      "sha256": "00ed13862027b432399344822bbafe17e2e92e2527e53fac5adaa988b98eaf6c",
+      "bytes": 1452701
+    },
+    "ocean/after-autumn-water-close.png": {
+      "sha256": "cdee937097f3b2fb1d9629a8f92940db163c670646ac92a30008a8db465fcb32",
+      "bytes": 637395
+    },
+    "ocean/before-summer-water-sun.png": {
+      "sha256": "7dba85dbd61b43121ad0065fb384afe9f7c268d618658a0afb70021e8118ec4a",
+      "bytes": 531125
+    },
+    "ocean/build-manifest.json": {
+      "sha256": "ac6e960a814283f0f872b70962b73edd307e0749883ee687126fb494c0b575e1",
+      "bytes": 3493
+    },
+    "ocean/source-before-cached.patch.gz": {
+      "sha256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec",
+      "bytes": 20
+    },
+    "ocean/source-before-status.txt": {
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "bytes": 1
+    },
+    "ocean/after-summer-water-close.png": {
+      "sha256": "26a1fad5743619aaa1981fd0ecab8d691a172472da171bdcb50c6942779bfc61",
+      "bytes": 586115
+    },
+    "mall-autonomy/chichi-airlock-exit-third-person.png": {
+      "sha256": "7ad88a2698ad5d0699af0eee0617d89869010b0411de3c4d60b82206e77a8e62",
+      "bytes": 2272630
+    },
+    "mall-autonomy/qa-build.json": {
+      "sha256": "0756849cb0db8b5fb420c0faa3e24f1da7372a3edbfefc816914eb1f8e0cd360",
+      "bytes": 2601
+    },
+    "mall-autonomy/chichi-escalator-floor2.png": {
+      "sha256": "41bf18c8c171303a0a36954f83d9e13ed71067e978ab144bca14a6b75191d23f",
+      "bytes": 2490273
+    },
+    "mall-autonomy/qa-app.js.gz": {
+      "sha256": "82a691a14d949f0d5533bd5051722e68baac54cbf5fb1afb93104c2369201263",
+      "bytes": 1113969
+    },
+    "mall-autonomy/source-cached.patch.gz": {
+      "sha256": "d72039794a9b9b315bf24136805d5d2210a0699dd0a2d6181224aadf361493b6",
+      "bytes": 931713
+    },
+    "mall-autonomy/source-HEAD.patch.gz": {
+      "sha256": "452360d4afad334f9bb009d6490c848e6a3365e6e0c4fba8753ea70cee1f39fa",
+      "bytes": 1457266
+    },
+    "mall-autonomy/chichi-third-person-mall.png": {
+      "sha256": "d977c759de3aab3e4abba707672f6aeddd6f6baf4b68f1343f21fc882a936561",
+      "bytes": 2591976
+    },
+    "mall-autonomy/source-status.txt": {
+      "sha256": "8975ba27e74fb5d7735d2cdb3d591b208b025fd30df7f28536743a6cb10b9326",
+      "bytes": 2334
+    },
+    "mall-autonomy/explorer-results.json": {
+      "sha256": "80b39db7309c6e2622ec59741205f96a2efe877842666ab2c47c7bd30cc225d3",
+      "bytes": 49871
+    }
+  }
+}

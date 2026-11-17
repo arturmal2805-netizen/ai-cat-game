@@ -1,0 +1,62 @@
+{
+  "stable": "12d478e82e8e5a2bd6ef3ec0cbb151ea1e473d1d",
+  "files": {
+    "public/game-data.js": {
+      "sha256": "5e32f1f23729fe29d5082af6b8a1df1ad0e606d747a5c620b1fb24951c4c6ddb",
+      "matchesStable": true
+    },
+    "public/mosasaur-data.js": {
+      "sha256": "dc45a04fa180f7968bf06e90bd49d651e4141f6e8f7c224634cd3f7182144504",
+      "matchesStable": true
+    },
+    "public/mosasaur-reef-data.js": {
+      "sha256": "c6307df21f8c66709a6aa2b4d02f78930e1fa7d6de1d68c2e27df0b676f38dcb",
+      "matchesStable": true
+    },
+    "public/mall-layout.js": {
+      "sha256": "f13671a1d8d022b85d33b32f4dbfc18832f516a1e321fea84c38d4ddac7b4196",
+      "matchesStable": true
+    },
+    "public/cat-model.js": {
+      "sha256": "917da67b26732efd571078ab19f5f224f052d42c148f6bdcf374d4a2a20619f3",
+      "matchesStable": true
+    }
+  },
+  "scope": "No experimental ocean expansion, garden geometry, paid placements, cat rig or shared save implementation is included.",
+  "publicDiff": [
+    "public/app.js",
+    "public/art/ocean-reflections/tropical-coast-01333a81c41d.png",
+    "public/art/ocean-reflections/tropical-coast-744c0948f9bf.png",
+    "public/art/water-reflections/barrel-wave-2695db73862d.png",
+    "public/art/water-reflections/barrel-wave-550cf3803519.png",
+    "public/art/water-reflections/canyon-rafting-97773da6ff41.png",
+    "public/art/water-reflections/canyon-rafting-e0943c549a14.png",
+    "public/art/water-reflections/fountain-carousel-07b17fe9d52a.png",
+    "public/art/water-reflections/fountain-carousel-2f3d019e4f0c.png",
+    "public/art/water-reflections/glass-drop-2ae02c423d1b.png",
+    "public/art/water-reflections/glass-drop-c4d70e8e95a2.png",
+    "public/art/water-reflections/lagoon-launch-006c85fcd0e1.png",
+    "public/art/water-reflections/lagoon-launch-7a5f061661b6.png",
+    "public/art/water-reflections/lazy-river-b45d2049df5f.png",
+    "public/art/water-reflections/lazy-river-db2a9b828207.png",
+    "public/art/water-reflections/pool-pendulum-8b84181d9269.png",
+    "public/art/water-reflections/pool-pendulum-9871e9cc7240.png",
+    "public/art/water-reflections/surf-halfpipe-3e56059cadb1.png",
+    "public/art/water-reflections/surf-halfpipe-c9456db5b944.png",
+    "public/index.html",
+    "public/lagoon.js",
+    "public/mosasaur-bed-optics.js",
+    "public/mosasaur-water-field.js",
+    "public/mosasaur-water-optics.js",
+    "public/mosasaur-water-probe-assets.js",
+    "public/mosasaur-water-profile.js",
+    "public/showcase-bottom-light.js",
+    "public/showcase-probe-assets.js",
+    "public/showcase-water-optics.js",
+    "public/showcase-water-probes.js",
+    "public/slide-basin-optics.js",
+    "public/water-core.js",
+    "public/water-field.js",
+    "public/water-shading.js"
+  ]
+}

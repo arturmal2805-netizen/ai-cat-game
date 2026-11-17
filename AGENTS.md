@@ -63,7 +63,9 @@ Gaussian weights and angular thresholds once, rather than in frame updates.
 All receiving pools use `slide-basin-optics.js`: normalize metre-based
 ShapeGeometry UVs to the lake shader's unit domain once, retain the actual lit
 floor and shared reflection/wave textures, and isolate their clear-blue optics
-with `SLIDE_CATCH_POOL`. Other island water stays on its original shader branch.
+with `SLIDE_CATCH_POOL`. This is a physical receiving-pool profile of the shared
+water core, not a separate artistic shader. The 2026-11-16 global-water standard
+supersedes the earlier isolation of other island water on its original branch.
 Do not add per-pool render targets, scene copies or continuous buffer uploads.
 The complete water audit includes EVERY registered type in normal, grazing,
 full-DPR phone and seated-rider views, plus explicit basin close-ups. Preserve
@@ -912,8 +914,9 @@ two field samples plus one scenery lookup. Verify explicit sun-facing and
 isolated-bed views alongside normal, grazing, phone and native rider captures.
 These optical changes establish appearance/resource parity, not device FPS.
 
-The player approved this clear-water stage on 2026-11-04; preserve immutable
-`baseline/approved-clear-water-20261104` (`d6fa805`) when testing successors.
+Historical technical baseline: the player approved this clear-water stage on
+2026-11-04. Preserve immutable `d6fa805` source/assets for technical comparison;
+it is not the current final artistic target. See the 2026-11-16 water standard.
 Cascade streaks retain all eighteen original instances and modulo positions,
 with opacity fading to zero at recycling boundaries and transparent depth
 writes disabled. Check the actual native GL reset, not only shader text.
@@ -970,24 +973,34 @@ cameras retain zero lift. Keep the camera/loading/timing tests and the private
 face projection and working buttons alone cannot detect an occluded kitten.
 
 
-### Global water art reference (player, 2026-11-04)
+### Current global water reference (updated 2026-11-16)
 
-The player explicitly chose the water in the 2026 Assassin's Creed Black Flag
-remake as the visual comparison target across ALL game water, not only slides.
-Review crystal-blue transmission, natural deep/shallow transitions, coherent
-reflections, visible waves and irregular foam. A flat cyan sheet or dense
-repeating caustic grid fails the target. Retain the game's authored pink/special
-palettes, native creatures/physics, existing optical clocks and mobile DPR.
-Use shared bounded fields/probes and native passes, without runtime scene-copy
-reflections or per-frame geometry/texture generation. Compare actual equal-view
-images and resource counts; don't claim physical-device FPS or 1:1 fidelity
-without evidence. Preserve the previously approved water/animation baseline.
+The player changed the target because the earlier water remains an inconsistent,
+sparse early prototype. Keep these FOUR records distinct:
+- Slide water: a VERY EARLY prototype, not the final quality standard.
+- `d6fa8056f18d2d738890cc9b477334e4cda81523`: historical technical source,
+  textures, parameters and regression control; keep its reference immutable.
+- Crimson Desert: the NEW visual target for ALL map water. Concrete user
+  references, required properties and provenance are in
+  [the water standard](docs/project-memory/standards/water.md#references).
+- Stable published build: a separate full-SHA/live-evidence entry in
+  [CURRENT](docs/project-memory/CURRENT.md), not an artistic approval.
+
+Use one shared wave texture and water core across ocean, pools, troughs,
+waterfalls and capybara/other islands, with appropriate physical depth, wave
+scale, flow and transparency parameters. Compare EVERY candidate BOTH against
+stable production for regressions and against Crimson Desert for progress.
+Adapt to phone and Mac; do not promise performance or resemblance without
+actual evidence. Keep native cats/physics/clocks, DPR and resource budgets.
+The previous 2026-11-04 Black Flag comparison is historical, superseded visually.
 
 ### Mosasaur ocean master specification (player, 2026-11-04)
 
-See `docs/specifications/mosasaur-ocean-master-2026-11-04.md`. The latest scope
-supersedes the earlier four-area request: expand the currently released Mosasaur
-Ocean approximately five times in horizontal dimensions; retain the same biome
+See `docs/specifications/mosasaur-ocean-master-2026-11-04.md` for the historical
+five-times expansion request. The later request in CURRENT supersedes its next
+expansion target: double WATER AREA relative to released12d478e, chiefly adding
+navigable water, without scaling animals, buildings or owned-object addresses.
+Retain the same biome
 ID, unlock, original pier/ride and all saved ownership. Add real navigable deep
 terrain/caves/ruins, varied coral ecosystems, a reworked mosasaur with smoothly
 blended ambient behavior and a controllable submarine with two camera modes.
@@ -995,3 +1008,18 @@ Preserve the approved native cat, global water performance, other islands and
 shared saves. Publish the verified shared-water update first, then separate
 working increments. The uploaded specification ends midway through section 9;
 implement its actual supplied controls and use the existing mobile conventions.
+
+
+## Project knowledge: mandatory entry point
+
+Before changes, read [the project knowledge index](docs/project-memory/README.md),
+[the single current status](docs/project-memory/CURRENT.md), and the standard
+for the system you will touch. After substantial changes, update those records.
+Do not replace an approved reference with an unverified candidate. Preserve
+existing rules above; keep commands/evidence in their linked QA records rather
+than expanding this file into a command diary.
+
+The latest working/release status may be newer than this checkout. Read the
+canonical CURRENT on `codex/ocean-recovery-memory` before resuming; its index is
+https://github.com/arturmal2805-netizen/ai-cat-game/blob/codex/ocean-recovery-memory/docs/project-memory/README.md
+Keep draft ocean expansion separate from the optical-only water release.

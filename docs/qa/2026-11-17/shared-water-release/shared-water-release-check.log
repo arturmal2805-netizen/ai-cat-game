@@ -1,0 +1,468 @@
+Baked barrel-wave 59621
+Baked canyon-rafting 59680
+Baked glass-drop 62337
+Baked lagoon-launch 55164
+Baked surf-halfpipe 52990
+Baked lazy-river 54299
+Baked fountain-carousel 31758
+Baked pool-pendulum 49384
+8 reflection probes: 425233 download bytes; 2.67 MiB mipmapped shared GPU maximum.
+Baked tropical-coast 38008
+One ocean reflection probe: 38008 download bytes; 0.33 MiB mipmapped shared GPU maximum.
+
+> build
+> node scripts/build.mjs
+
+Built 3D world, Chichi GLB models and Worker commit 12d478e82e8e5a2bd6ef3ec0cbb151ea1e473d1d.
+TAP version 13
+# Subtest: historical slide source hashes stay tied to the actual stable technical reference
+ok 1 - historical slide source hashes stay tied to the actual stable technical reference
+  ---
+  duration_ms: 2.879301
+  type: 'test'
+  ...
+# Subtest: the original wave bytes remain reproducible while ocean uses the shared optical core
+ok 2 - the original wave bytes remain reproducible while ocean uses the shared optical core
+  ---
+  duration_ms: 57.223117
+  type: 'test'
+  ...
+# Subtest: the ocean reflection is a valid immutable local capture of its current native coastal producers
+ok 3 - the ocean reflection is a valid immutable local capture of its current native coastal producers
+  ---
+  duration_ms: 41.218533
+  type: 'test'
+  ...
+# Subtest: the native warmup uploads every hidden ocean sampler before compiling its first live material
+ok 4 - the native warmup uploads every hidden ocean sampler before compiling its first live material
+  ---
+  duration_ms: 89.616565
+  type: 'test'
+  ...
+# Subtest: ocean optics retain the native two field samples, one reflection lookup and bounded scalar wake slots
+ok 5 - ocean optics retain the native two field samples, one reflection lookup and bounded scalar wake slots
+  ---
+  duration_ms: 14.596851
+  type: 'test'
+  ...
+# Subtest: only the mosasaur ocean gains the requested extra area; level eight unlocks it and previous ownership remains
+ok 6 - only the mosasaur ocean gains the requested extra area; level eight unlocks it and previous ownership remains
+  ---
+  duration_ms: 84.79379
+  type: 'test'
+  ...
+# Subtest: the measured mesh seabed is at least ten times deeper than every previous lagoon, including raised ones
+ok 7 - the measured mesh seabed is at least ten times deeper than every previous lagoon, including raised ones
+  ---
+  duration_ms: 29490.287301
+  type: 'test'
+  ...
+# Subtest: all moving geometry clears the real seabed and shores; the seat follows the exact body quaternion throughout the faster route
+ok 8 - all moving geometry clears the real seabed and shores; the seat follows the exact body quaternion throughout the faster route
+  ---
+  duration_ms: 12298.03903
+  type: 'test'
+  ...
+# Subtest: deep swimming is four times faster, and the leap has constant gravity, straight horizontal momentum and a nose-first re-entry
+ok 9 - deep swimming is four times faster, and the leap has constant gravity, straight horizontal momentum and a nose-first re-entry
+  ---
+  duration_ms: 1.038413
+  type: 'test'
+  ...
+# Subtest: the sculpt has a continuous broad skull and articulated toothed jaw, while breach and landing use bounded instanced spray
+ok 10 - the sculpt has a continuous broad skull and articulated toothed jaw, while breach and landing use bounded instanced spray
+  ---
+  duration_ms: 25.016837
+  type: 'test'
+  ...
+# Subtest: breach and re-entry disturb the real sea once each; repeated frames and reduced motion do not spam water effects
+ok 11 - breach and re-entry disturb the real sea once each; repeated frames and reduced motion do not spam water effects
+  ---
+  duration_ms: 91.546251
+  type: 'test'
+  ...
+# Subtest: all cat identities share boarding, a reserved saddle, diving, flight and safe dry dismount; real AI accepts this physical object
+ok 12 - all cat identities share boarding, a reserved saddle, diving, flight and safe dry dismount; real AI accepts this physical object
+  ---
+  duration_ms: 60.636816
+  type: 'test'
+  ...
+# Subtest: close Chichi camera stays aimed at her face, above the real bottom, through the surface, full submersion and leap
+ok 13 - close Chichi camera stays aimed at her face, above the real bottom, through the surface, full submersion and leap
+  ---
+  duration_ms: 2079.617884
+  type: 'test'
+  ...
+# Subtest: shore walking stays dry and migrated paid plots preserve every ID, deadline, crop and business tier
+ok 14 - shore walking stays dry and migrated paid plots preserve every ID, deadline, crop and business tier
+  ---
+  duration_ms: 439.445225
+  type: 'test'
+  ...
+# Subtest: idle fins animate and a cancelled deep ride returns Marin to the actual boarding transform
+ok 15 - idle fins animate and a cancelled deep ride returns Marin to the actual boarding transform
+  ---
+  duration_ms: 23.343307
+  type: 'test'
+  ...
+# Subtest: all surface profiles share the same field, sampling, Fresnel and filtered highlight core
+ok 16 - all surface profiles share the same field, sampling, Fresnel and filtered highlight core
+  ---
+  duration_ms: 24.569978
+  type: 'test'
+  ...
+# Subtest: surface, raised sheet and ocean bottom keep independent clocks but one optical medium
+ok 17 - surface, raised sheet and ocean bottom keep independent clocks but one optical medium
+  ---
+  duration_ms: 1.522728
+  type: 'test'
+  ...
+# Subtest: the former ocean loader and the whole-map loader coalesce into one decoded shared data texture
+ok 18 - the former ocean loader and the whole-map loader coalesce into one decoded shared data texture
+  ---
+  duration_ms: 20.03246
+  type: 'test'
+  ...
+# Subtest: bottom profiles retain one shared underwater shader and native projection without extra field samples
+ok 19 - bottom profiles retain one shared underwater shader and native projection without extra field samples
+  ---
+  duration_ms: 14.900835
+  type: 'test'
+  ...
+# Subtest: clear water keeps its original sampler, ripple, wave and geometry contracts through optical-depth and filtered-sun shading
+ok 20 - clear water keeps its original sampler, ripple, wave and geometry contracts through optical-depth and filtered-sun shading
+  ---
+  duration_ms: 14.176746
+  type: 'test'
+  ...
+# Subtest: elevated shallow river sheets use their real trough thickness rather than a world sea level
+ok 21 - elevated shallow river sheets use their real trough thickness rather than a world sea level
+  ---
+  duration_ms: 0.334714
+  type: 'test'
+  ...
+# Subtest: receiving-floor colour follows the actual sloping bed while optical polish retains its durable meshes and clocks
+ok 22 - receiving-floor colour follows the actual sloping bed while optical polish retains its durable meshes and clocks
+  ---
+  duration_ms: 75.210179
+  type: 'test'
+  ...
+# Subtest: all eight original mini-biomes have versioned 256-square static reflections matching the current scenery inputs
+ok 23 - all eight original mini-biomes have versioned 256-square static reflections matching the current scenery inputs
+  ---
+  duration_ms: 32.987539
+  type: 'test'
+  ...
+# Subtest: clear blue water keeps the existing wave/impact fields and single reflection lookup; other native water remains unchanged
+ok 24 - clear blue water keeps the existing wave/impact fields and single reflection lookup; other native water remains unchanged
+  ---
+  duration_ms: 41.861873
+  type: 'test'
+  ...
+# Subtest: placement reflection orientation survives the common filtered shader without duplicate roughness declarations
+ok 25 - placement reflection orientation survives the common filtered shader without duplicate roughness declarations
+  ---
+  duration_ms: 0.288506
+  type: 'test'
+  ...
+# Subtest: receiving floors/walls meet the real basin bed while the dry rim stays intact and the rapids bank ends at its shore
+ok 26 - receiving floors/walls meet the real basin bed while the dry rim stays intact and the rapids bank ends at its shore
+  ---
+  duration_ms: 73.971715
+  type: 'test'
+  ...
+# Subtest: one selected reflection is decoded once and shared by all matching surfaces
+ok 27 - one selected reflection is decoded once and shared by all matching surfaces
+  ---
+  duration_ms: 2.078648
+  type: 'test'
+  ...
+# Subtest: one selected reflection fails safely without retrying
+ok 28 - one selected reflection fails safely without retrying
+  ---
+  duration_ms: 1.218769
+  type: 'test'
+  ...
+# Subtest: real basin ripples retain the exact boundary and unit UVs; submerged details keep fixed shared buffers and clock
+ok 29 - real basin ripples retain the exact boundary and unit UVs; submerged details keep fixed shared buffers and clock
+  ---
+  duration_ms: 88.872166
+  type: 'test'
+  ...
+# Subtest: finite outlet rails descend continuously under the receiving bed rather than ending suspended in air
+ok 30 - finite outlet rails descend continuously under the receiving bed rather than ending suspended in air
+  ---
+  duration_ms: 136.690822
+  type: 'test'
+  ...
+# Subtest: all water shares one small mipmapped field, including pink rivers and falls
+ok 31 - all water shares one small mipmapped field, including pink rivers and falls
+  ---
+  duration_ms: 27.867997
+  type: 'test'
+  ...
+# Subtest: a moved, scaled and rotated pool receives ripples at the swimmer's world position
+ok 32 - a moved, scaled and rotated pool receives ripples at the swimmer's world position
+  ---
+  duration_ms: 54.757008
+  type: 'test'
+  ...
+# Subtest: swim wakes stay bounded, expire, and freeze cleanly with reduced motion
+ok 33 - swim wakes stay bounded, expire, and freeze cleanly with reduced motion
+  ---
+  duration_ms: 14.094735
+  type: 'test'
+  ...
+# Subtest: idle lakes do not draw or upload invisible splash particles
+ok 34 - idle lakes do not draw or upload invisible splash particles
+  ---
+  duration_ms: 14.413136
+  type: 'test'
+  ...
+# Subtest: underwater lighting composes with reef motion and survives disposal of another island
+ok 35 - underwater lighting composes with reef motion and survives disposal of another island
+  ---
+  duration_ms: 23.759412
+  type: 'test'
+  ...
+# Subtest: waterfalls flow down their own UV plane and preserve geometry and palette
+ok 36 - waterfalls flow down their own UV plane and preserve geometry and palette
+  ---
+  duration_ms: 1.787058
+  type: 'test'
+  ...
+# Subtest: legacy pond, boat, slide basin and fountain animate real water on their existing meshes
+ok 37 - legacy pond, boat, slide basin and fountain animate real water on their existing meshes
+  ---
+  duration_ms: 77.91349
+  type: 'test'
+  ...
+# Subtest: reflections share one bounded mipmapped light probe, without a render target
+ok 38 - reflections share one bounded mipmapped light probe, without a render target
+  ---
+  duration_ms: 4.596486
+  type: 'test'
+  ...
+# Subtest: refraction follows a raised pool and moves eyes with the fish, while leaving its dark eye shading intact
+ok 39 - refraction follows a raised pool and moves eyes with the fish, while leaving its dark eye shading intact
+  ---
+  duration_ms: 9.053924
+  type: 'test'
+  ...
+1..39
+# tests 39
+# suites 0
+# pass 39
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 45117.439667
+opaque-regression {"legacy":true,"phone":false,"contrastRetention":0.034965651912598865,"contextLost":false,"calls":18,"triangles":245046,"buffer":[600,440],"bodyTop":-5.537112748622892}
+clear-interface {"legacy":false,"phone":false,"contrastRetention":0.7850812483310398,"contextLost":false,"calls":18,"triangles":245046,"buffer":[600,440],"bodyTop":-5.537112748622892}
+clear-interface-phone {"legacy":false,"phone":true,"contrastRetention":0.785259759558151,"contextLost":false,"calls":17,"triangles":243514,"buffer":[780,1200],"bodyTop":-5.537112748622892}
+before autumn {"oceanPhysicalShader":true,"oceanToneMapping":true,"draws":531,"triangles":6295975,"textures":32,"vertices":1651875,"geometryBytes":91232098,"waterMaterials":10,"waterFields":[{"name":"Shared ocean wind slopes and focused light","width":1024,"height":1024},{"name":"Shared lagoon wave and light field","width":128,"height":128}],"animated":true,"contextLost":false}
+before summer {"oceanPhysicalShader":false,"oceanToneMapping":false,"draws":173,"triangles":1729540,"textures":32,"vertices":754806,"geometryBytes":36834668,"waterMaterials":26,"waterFields":[{"name":"Shared lagoon wave and light field","width":128,"height":128}],"animated":true,"contextLost":false}
+after autumn {"oceanPhysicalShader":true,"oceanToneMapping":true,"draws":531,"triangles":6320551,"textures":31,"vertices":1664259,"geometryBytes":91825378,"waterMaterials":10,"waterFields":[{"name":"Shared physical water field · all map water","width":1024,"height":1024}],"animated":true,"contextLost":false}
+after summer {"oceanPhysicalShader":false,"oceanToneMapping":false,"draws":173,"triangles":1729540,"textures":31,"vertices":754806,"geometryBytes":36834668,"waterMaterials":26,"waterFields":[{"name":"Shared physical water field · all map water","width":1024,"height":1024}],"animated":true,"contextLost":false}
+Explorer: initial boat
+Explorer progress {
+  phase: 'piloting',
+  controlled: true,
+  explorer: undefined,
+  root: false,
+  ready: false,
+  visible: true,
+  paused: true,
+  exitHidden: false,
+  mallHidden: true
+}
+Explorer native input passed swimming
+PASS: hidden-control native move/look/vertical or jump gestures swimming
+Explorer progress {
+  phase: 'swimming',
+  controlled: true,
+  explorer: {
+    mode: 'swimming',
+    floor: 0,
+    x: -9.190266281605222,
+    y: -19.400000000000006,
+    z: 90.91907817916095,
+    yaw: 6.0531179087858895,
+    returning: false,
+    vertical: 0
+  },
+  root: true,
+  ready: true,
+  visible: true,
+  paused: false,
+  exitHidden: true,
+  mallHidden: true
+}
+Explorer progress {
+  phase: 'swimming',
+  controlled: true,
+  explorer: {
+    mode: 'swimming',
+    floor: 0,
+    x: -9.190266281605222,
+    y: -19.400000000000006,
+    z: 90.91907817916095,
+    yaw: 6.0531179087858895,
+    returning: false,
+    vertical: 0
+  },
+  root: true,
+  ready: true,
+  visible: true,
+  paused: true,
+  exitHidden: true,
+  mallHidden: true
+}
+Explorer progress {
+  phase: 'swimming',
+  controlled: true,
+  explorer: {
+    mode: 'swimming',
+    floor: 0,
+    x: -9.190266281605222,
+    y: -19.400000000000006,
+    z: 90.91907817916095,
+    yaw: 6.0531179087858895,
+    returning: false,
+    vertical: 0
+  },
+  root: true,
+  ready: true,
+  visible: true,
+  paused: true,
+  exitHidden: true,
+  mallHidden: true
+}
+Explorer progress {
+  phase: 'swimming',
+  controlled: true,
+  explorer: {
+    mode: 'swimming',
+    x: -9.2,
+    y: -19.4,
+    z: 92,
+    yaw: 3.141592653589793,
+    floor: 0,
+    returning: false,
+    vertical: 0
+  },
+  root: false,
+  ready: false,
+  visible: true,
+  paused: undefined,
+  exitHidden: true,
+  mallHidden: true
+}
+Explorer progress {
+  phase: 'swimming',
+  controlled: true,
+  explorer: {
+    mode: 'swimming',
+    x: -9.2,
+    y: -19.4,
+    z: 92,
+    yaw: 3.141592653589793,
+    floor: 0,
+    returning: false,
+    vertical: 0
+  },
+  root: false,
+  ready: false,
+  visible: true,
+  paused: true,
+  exitHidden: true,
+  mallHidden: true
+}
+Explorer progress {
+  phase: 'swimming',
+  controlled: true,
+  explorer: {
+    mode: 'swimming',
+    x: -9.2,
+    y: -19.4,
+    z: 92,
+    yaw: 3.141592653589793,
+    floor: 0,
+    returning: false,
+    vertical: 0
+  },
+  root: false,
+  ready: false,
+  visible: true,
+  paused: true,
+  exitHidden: true,
+  mallHidden: true
+}
+Explorer progress {
+  phase: 'swimming',
+  controlled: true,
+  explorer: {
+    mode: 'swimming',
+    x: -9.2,
+    y: -19.4,
+    z: 92,
+    yaw: 3.141592653589793,
+    floor: 0,
+    returning: false,
+    vertical: 0
+  },
+  root: false,
+  ready: false,
+  visible: true,
+  paused: true,
+  exitHidden: true,
+  mallHidden: true
+}
+Explorer progress {
+  phase: 'swimming',
+  controlled: true,
+  explorer: {
+    mode: 'swimming',
+    x: -9.2,
+    y: -19.4,
+    z: 92,
+    yaw: 3.141592653589793,
+    floor: 0,
+    returning: false,
+    vertical: 0
+  },
+  root: false,
+  ready: false,
+  visible: true,
+  paused: true,
+  exitHidden: true,
+  mallHidden: true
+}
+Explorer progress {
+  phase: 'swimming',
+  controlled: true,
+  explorer: {
+    mode: 'swimming',
+    x: -9.2,
+    y: -19.4,
+    z: 92,
+    yaw: 3.141592653589793,
+    floor: 0,
+    returning: false,
+    vertical: 0
+  },
+  root: true,
+  ready: false,
+  visible: true,
+  paused: true,
+  exitHidden: true,
+  mallHidden: true
+}
+Explorer: swim reload passed
+locator.tap: The page does not support tap. Use hasTouch context option to enable touch support.
+    at auditOceanExplorerNative (/workspace/chichi-water-release/scripts/audit-ocean-explorer-native.mjs:51:46)
+    at async /workspace/chichi-water-release/scripts/check-aquarium.cjs:683:90 {
+  log: [],
+  name: 'Error'
+}

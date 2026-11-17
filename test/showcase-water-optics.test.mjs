@@ -1,3 +1,4 @@
+import {waterProbeRevision} from '../scripts/water-probe-revision.mjs';
 import {test} from 'node:test';import assert from 'node:assert/strict';import {readFile,readdir} from 'node:fs/promises';import {createHash} from 'node:crypto';import * as T from 'three';
 import {SHOWCASE_WATER_RIDES} from '../public/showcase-water-data.js';import {SHOWCASE_WATER_PROBES,SHOWCASE_PROBE_REVISION} from '../public/showcase-probe-assets.js';import {PROBE_INPUTS} from '../scripts/showcase-probe-inputs.mjs';
 import {waterMaterial} from '../public/water-shading.js';import {polishShowcaseWater,submergeReceivingFloor,submergeReceivingWalls,receivingBankEnd,showcaseBasinGrid,detailShowcaseBasin,receivingRailPoint} from '../public/showcase-water-optics.js';import {receivingPool} from '../public/reference-slide-assets.js';import {createShowcaseRoute} from '../public/showcase-water-motion.js';
@@ -5,7 +6,7 @@ import {waterMaterial} from '../public/water-shading.js';import {polishShowcaseW
 test('all eight original mini-biomes have versioned 256-square static reflections matching the current scenery inputs',async()=>{
  assert.deepEqual(Object.keys(SHOWCASE_WATER_PROBES).sort(),SHOWCASE_WATER_RIDES.map(s=>s.id).sort());let bytes=0;
  for(const url of Object.values(SHOWCASE_WATER_PROBES)){const png=await readFile(new URL('../public/'+url,import.meta.url));assert.equal(png.readUInt32BE(16),256);assert.equal(png.readUInt32BE(20),256);assert.ok(url.includes(createHash('sha256').update(png).digest('hex').slice(0,12)));bytes+=png.length;}
- assert.ok(bytes<1500000);const h=createHash('sha256');for(const f of PROBE_INPUTS)h.update(f).update(await readFile(new URL('../public/'+f,import.meta.url)));assert.equal(SHOWCASE_PROBE_REVISION,h.digest('hex').slice(0,16),'rebake after changing original scenery');
+ assert.ok(bytes<1500000);assert.equal(SHOWCASE_PROBE_REVISION,await waterProbeRevision(PROBE_INPUTS,new URL('../scripts/bake-water-reflections.mjs',import.meta.url)),'rebake after changing scenery OR capture encoding');
 });
 test('clear blue water keeps the existing wave/impact fields and single reflection lookup; other native water remains unchanged',()=>{
  const original=waterMaterial(),snapshot=original.fragmentShader,material=waterMaterial(0x40d5e6,.79,{flow:{speed:8,width:13}}),field=material.uniforms.uWaterField.value,ripples=material.uniforms.uRipples.value,oldLookups=(material.fragmentShader.match(/texture2D\(/g)||[]).length;

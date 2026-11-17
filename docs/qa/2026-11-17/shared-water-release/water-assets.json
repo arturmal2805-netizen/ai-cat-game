@@ -1,0 +1,66 @@
+{
+  "public/art/water-reflections/barrel-wave-2695db73862d.png": {
+    "sha256": "2695db73862d947db1e3c68488736147c16001c49855b16b51a0b197758ba22e",
+    "bytes": 59621
+  },
+  "public/art/water-reflections/canyon-rafting-e0943c549a14.png": {
+    "sha256": "e0943c549a14f2623fba97a8804d1e56e79080f154084707c83342b7695e3261",
+    "bytes": 59680
+  },
+  "public/art/water-reflections/pool-pendulum-9871e9cc7240.png": {
+    "sha256": "9871e9cc72403010a447fb36159374ffc4f4e3c7403dbea3eaaf39d0061ac29e",
+    "bytes": 49384
+  },
+  "public/art/water-reflections/glass-drop-2ae02c423d1b.png": {
+    "sha256": "2ae02c423d1b68e343af448a4bcea62aeff86bb9f855d706a46e70abb06cd0a1",
+    "bytes": 62337
+  },
+  "public/art/water-reflections/surf-halfpipe-3e56059cadb1.png": {
+    "sha256": "3e56059cadb109194aa90e94bd00d44e40c5694efd99fce84cfa36e17c0f1f87",
+    "bytes": 52990
+  },
+  "public/art/water-reflections/lagoon-launch-7a5f061661b6.png": {
+    "sha256": "7a5f061661b66ece08d34ef321931534c54142b4b27b8e13d7206eee10fe65e3",
+    "bytes": 55164
+  },
+  "public/art/water-reflections/fountain-carousel-2f3d019e4f0c.png": {
+    "sha256": "2f3d019e4f0c45985abeeffc81d6d36c4c4910401bae2cb0ae8c936c4b0eaa79",
+    "bytes": 31758
+  },
+  "public/art/water-reflections/lazy-river-db2a9b828207.png": {
+    "sha256": "db2a9b828207c8254311ad312a5a54234b64219fe67789f60718136443c8fe66",
+    "bytes": 54299
+  },
+  "public/art/ocean-reflections/tropical-coast-01333a81c41d.png": {
+    "sha256": "01333a81c41ded20b1aa1a8235e94b879f203f3f0bebf9a572a1e829dd94dc4e",
+    "bytes": 38008
+  },
+  "public/art/ocean-water/wind-field-2523d71db8b6.png": {
+    "sha256": "2523d71db8b62ce0212f4eb8bce5310456a901d69f209865c41f5f3dc2b692a8",
+    "bytes": 1974687
+  },
+  "public/art/ocean-rock/sand-58af2e40100f.jpg": {
+    "sha256": "58af2e40100f7f405703a86d593af64379f822c4786850def23ecfc921450d54",
+    "bytes": 960614
+  },
+  "public/art/ocean-rock/color-644ee79df7ff.jpg": {
+    "sha256": "644ee79df7ffbf5f6afc330b64dd3f33794bab8820915fe61ffe0c88ecfd7ece",
+    "bytes": 3814362
+  },
+  "public/art/ocean-rock/sources.json": {
+    "sha256": "db166de2092b38ce7241f0d906ff1a3b736c39e96fa2c710f5c73258886e8db8",
+    "bytes": 2114
+  },
+  "public/art/ocean-rock/normal-dbcd0a950de5.png": {
+    "sha256": "dbcd0a950de5721b7e746b1e4abc5a3c40c24ffbc06b1bb36dcb5273bee15cf1",
+    "bytes": 2866787
+  },
+  "public/art/ocean-rock/reef-83b51ff02b9b.jpg": {
+    "sha256": "83b51ff02b9b3b45a1eeb5676ab406b77e31c172e029e1e3e4280640fe197656",
+    "bytes": 743145
+  },
+  "public/art/ocean-rock/coralNormal-f5ee3a4cf9d1.png": {
+    "sha256": "f5ee3a4cf9d1ab754d17ae73495234b65fed74fc5972be6f12c844c49c6697b2",
+    "bytes": 3133549
+  }
+}

@@ -1,0 +1,41 @@
+[
+  {
+    "legacy": true,
+    "phone": false,
+    "contrastRetention": 0.034965651912598865,
+    "contextLost": false,
+    "calls": 18,
+    "triangles": 245046,
+    "buffer": [
+      600,
+      440
+    ],
+    "bodyTop": -5.537112748622892
+  },
+  {
+    "legacy": false,
+    "phone": false,
+    "contrastRetention": 0.7850812483310398,
+    "contextLost": false,
+    "calls": 18,
+    "triangles": 245046,
+    "buffer": [
+      600,
+      440
+    ],
+    "bodyTop": -5.537112748622892
+  },
+  {
+    "legacy": false,
+    "phone": true,
+    "contrastRetention": 0.785259759558151,
+    "contextLost": false,
+    "calls": 17,
+    "triangles": 243514,
+    "buffer": [
+      780,
+      1200
+    ],
+    "bodyTop": -5.537112748622892
+  }
+]

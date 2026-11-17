@@ -1,12 +1,13 @@
-// Offline captures of the actual original static mini-biomes.
-export const SHOWCASE_PROBE_REVISION="46699ea7c035cacb";
+// Actual static mini-biomes, linear radiance / 4; shared water core.
+export const SHOWCASE_PROBE_ENCODING="linear-radiance-div4";
+export const SHOWCASE_PROBE_REVISION="03816434580c402c";
 export const SHOWCASE_WATER_PROBES={
-  "ride-water-barrel-wave": "./art/water-reflections/barrel-wave-550cf3803519.png",
-  "ride-water-canyon-rafting": "./art/water-reflections/canyon-rafting-97773da6ff41.png",
-  "ride-water-glass-drop": "./art/water-reflections/glass-drop-c4d70e8e95a2.png",
-  "ride-water-lagoon-launch": "./art/water-reflections/lagoon-launch-006c85fcd0e1.png",
-  "ride-water-surf-halfpipe": "./art/water-reflections/surf-halfpipe-c9456db5b944.png",
-  "ride-water-lazy-river": "./art/water-reflections/lazy-river-b45d2049df5f.png",
-  "ride-water-fountain-carousel": "./art/water-reflections/fountain-carousel-07b17fe9d52a.png",
-  "ride-water-pool-pendulum": "./art/water-reflections/pool-pendulum-8b84181d9269.png"
+  "ride-water-barrel-wave": "./art/water-reflections/barrel-wave-2695db73862d.png",
+  "ride-water-canyon-rafting": "./art/water-reflections/canyon-rafting-e0943c549a14.png",
+  "ride-water-glass-drop": "./art/water-reflections/glass-drop-2ae02c423d1b.png",
+  "ride-water-lagoon-launch": "./art/water-reflections/lagoon-launch-7a5f061661b6.png",
+  "ride-water-surf-halfpipe": "./art/water-reflections/surf-halfpipe-3e56059cadb1.png",
+  "ride-water-lazy-river": "./art/water-reflections/lazy-river-db2a9b828207.png",
+  "ride-water-fountain-carousel": "./art/water-reflections/fountain-carousel-2f3d019e4f0c.png",
+  "ride-water-pool-pendulum": "./art/water-reflections/pool-pendulum-9871e9cc7240.png"
 };

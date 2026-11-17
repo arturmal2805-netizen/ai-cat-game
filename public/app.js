@@ -1,3 +1,4 @@
+import {prepareWaterField} from './water-field.js';
 import {createMallUI} from './mall-ui.js';
 import {mallProduct} from './mall-data.js';
 import {buyMallProduct,useMallProduct,normalizeMallProfile} from './mall-system.js';
@@ -1466,11 +1467,13 @@ $("item-store").onclick = () => {
 };
 let preparedResidents,preparedRenderer;
 try {
+  const waterReady=prepareWaterField();
   await restoreSculptCache();
   preparedRenderer=createWorldRenderer();
   preparedResidents=await prepareResidentModels(game,{onProgress:(done,total)=>{
     $("world-loading").textContent=`Котики просыпаются… ${done} / ${total}`;
   }});
+  await waterReady;
   world = createWorld($("map"), game, {
     onGatherComplete: persist,
     onSelectMallStore:id=>mallUI.show(id),

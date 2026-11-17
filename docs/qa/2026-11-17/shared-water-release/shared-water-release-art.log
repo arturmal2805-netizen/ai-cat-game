@@ -1,0 +1,16 @@
+Ocean native: full detail and native shaders ready
+Ocean native capture surface-day {"triangles":14706051,"calls":849,"fog":{"color":12632023,"density":0.0007000000000000001}}
+Ocean native capture water-close-day {"triangles":7281830,"calls":363,"fog":{"color":12632023,"density":0.0035}}
+Ocean native capture forecourt-day {"triangles":5589079,"calls":238,"fog":{"color":1214125,"density":0.0045}}
+Ocean native capture surface-night {"triangles":14790335,"calls":849,"fog":{"color":12632023,"density":0.0007000000000000001}}
+Ocean native capture water-close-night {"triangles":7281830,"calls":363,"fog":{"color":12632023,"density":0.0034702658825851414}}
+Ocean native capture forecourt-night {"triangles":5589079,"calls":238,"fog":{"color":1214125,"density":0.0045}}
+PASS: native ocean views at two clock times, frame intervals/memory, and ownership after private SQLite reload.
+Ocean native: full detail and native shaders ready
+Ocean native capture surface-day {"triangles":14730627,"calls":849,"fog":{"color":12632023,"density":0.0007000000000000001}}
+Ocean native capture water-close-day {"triangles":7306406,"calls":363,"fog":{"color":12632023,"density":0.0035}}
+Ocean native capture forecourt-day {"triangles":5613655,"calls":238,"fog":{"color":1214125,"density":0.0045}}
+Ocean native capture surface-night {"triangles":14814911,"calls":849,"fog":{"color":12632023,"density":0.0007000000000000001}}
+Ocean native capture water-close-night {"triangles":7306406,"calls":363,"fog":{"color":12632023,"density":0.003470037573536234}}
+Ocean native capture forecourt-night {"triangles":5613655,"calls":238,"fog":{"color":1214125,"density":0.0045}}
+PASS: native ocean views at two clock times, frame intervals/memory, and ownership after private SQLite reload.

@@ -1,3 +1,4 @@
+import {MOSA_OCEAN_PROFILE} from './mosasaur-water-profile.js';
 import {waterSandTexture} from './water-sand.js';
 import {applyMosasaurBedOptics} from './mosasaur-bed-optics.js';
 import {installMosasaurWaterOptics} from './mosasaur-water-optics.js';
@@ -64,7 +65,7 @@ export function* lagoonSteps({
     if(coastFactor){const factor=coastFactor(Math.atan2(-bedPositions.getY(i),bedPositions.getX(i)));bedPositions.setXY(i,bedPositions.getX(i)*factor,bedPositions.getY(i)*factor);}
     const physicalBedY=bedHeight?bedHeight(bedPositions.getX(i)*rx,-bedPositions.getY(i)*rz):0;
     if(bedHeight)bedPositions.setZ(i,physicalBedY-(LAGOON_SURFACE_Y-depth));
-    const shade = bedHeight ? sand.clone().lerp(depthColor,Math.min(.76,Math.max(0,(LAGOON_SURFACE_Y-physicalBedY)/100))) : depthColor.clone().lerp(sand, radius * radius);
+    const shade = bedHeight ? sand.clone() : depthColor.clone().lerp(sand, radius * radius);
     shade.toArray(bedColors, i * 3);
   }
   if(bedHeight)bedGeometry.computeVertexNormals();
@@ -101,7 +102,7 @@ export function* lagoonSteps({
   group.add(wall);
   yield;
   const material = waterMaterial(color),
-    surface = new THREE.Mesh(bedHeight?new THREE.RingGeometry(0,1,128,96):new THREE.CircleGeometry(1, 64), material);
+    surface = new THREE.Mesh(bedHeight?new THREE.RingGeometry(0,1,192,128):new THREE.CircleGeometry(1, 64), material);
   yield;
   if(coastFactor){const p=surface.geometry.attributes.position;for(let i=1;i<p.count;i++){const f=coastFactor(Math.atan2(-p.getY(i),p.getX(i)));p.setXY(i,p.getX(i)*f,p.getY(i)*f);}}
   if(bedHeight){
@@ -110,8 +111,8 @@ export function* lagoonSteps({
     surface.geometry.setAttribute('aPhysicalBedDepth',new THREE.BufferAttribute(physicalDepth,1));
     installMosasaurWaterOptics(material);
     // Include the bounded shader swell in the native culling/picking bounds.
-    surface.geometry.computeBoundingBox();surface.geometry.boundingBox.min.z=-.5;surface.geometry.boundingBox.max.z=.5;
-    surface.geometry.computeBoundingSphere();surface.geometry.boundingSphere.radius=Math.hypot(surface.geometry.boundingSphere.radius,.5);
+    surface.geometry.computeBoundingBox();surface.geometry.boundingBox.min.z=-MOSA_OCEAN_PROFILE.maximumDisplacement;surface.geometry.boundingBox.max.z=MOSA_OCEAN_PROFILE.maximumDisplacement;
+    surface.geometry.computeBoundingSphere();surface.geometry.boundingSphere.radius=Math.hypot(surface.geometry.boundingSphere.radius,MOSA_OCEAN_PROFILE.maximumDisplacement);
   }
   surface.rotation.x = -Math.PI / 2;
   yield;
@@ -120,6 +121,7 @@ export function* lagoonSteps({
   surface.position.y = 0.155;
   yield;
   surface.renderOrder = 3;
+  material.uniforms.uWaterDepth.value=depth;
   yield;
   material.uniforms.uLake.value = 1;
   material.uniforms.uScale.value.set(rx * 2, rz * 2);

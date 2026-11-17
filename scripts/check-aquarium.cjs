@@ -48,7 +48,8 @@ async function localWorker() {
   // A build also rewrites the public entry/cache keys. Keep Wrangler's asset
   // watcher from reloading this private test server halfway through a probe.
   const assets = path.join(temp, "assets");
-  fs.cpSync(path.join(root, "public"), assets, { recursive: true });
+  const assetRoot=baseline&&process.env.CHICHI_BASELINE_ASSETS?path.resolve(process.env.CHICHI_BASELINE_ASSETS):path.join(root,"public");
+  fs.cpSync(assetRoot, assets, { recursive: true });
   // Wrangler's extra development ProxyWorker intermittently loses its upstream
   // connection during long harvest probes (POST/PUT are not retried by that
   // proxy). Use the same real workerd/SQLite/asset router directly for this
@@ -520,6 +521,10 @@ async function localWorker() {
                     "    if(window.__lagoonQA?.orbit){const o=window.__lagoonQA.orbit;desiredLook.set(o.x+Math.sin(time*.8)*12,0,o.z+Math.cos(time*.8)*12);}\n    if(window.__lagoonQA?.terrainMotion){const m=window.__lagoonQA.terrainMotion;azimuth=1.5+(window.__lagoonQA.frames-m.start)/m.frames*.75;}\n    const cameraBlend =",
                   )
                   .replace(
+                    "    camera.updateMatrixWorld();\n    islands",
+                    "    if(window.__lagoonQA?.oceanReviewCamera){const p=window.__lagoonQA.oceanReviewCamera;camera.position.set(...p.eye);look.set(...p.target);desiredLook.copy(look);camera.lookAt(look);}\n    camera.updateMatrixWorld();\n    islands",
+                  )
+                  .replace(
                     "  const reduced =",
                     "  const qaStart=performance.now();\n  const reduced =",
                   )
@@ -666,7 +671,13 @@ async function localWorker() {
 
     if(process.env.CHICHI_EXPLORER_AUDIT){
       fs.writeFileSync(path.join(review,'qa-app.js'),output.outputFiles[0].contents);
-      fs.writeFileSync(path.join(review,'qa-build.json'),JSON.stringify({sha256:crypto.createHash('sha256').update(output.outputFiles[0].contents).digest('hex'),node:process.version,head:require('node:child_process').execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim()},null,2));
+      const sourceGit=(args)=>require('node:child_process').execFileSync('git',args,{cwd:root,maxBuffer:32*1024*1024});
+      fs.writeFileSync(path.join(review,'source-HEAD.patch'),sourceGit(['diff','HEAD','--binary']));
+      fs.writeFileSync(path.join(review,'source-cached.patch'),sourceGit(['diff','--cached','--binary']));
+      const dirty=sourceGit(['status','--porcelain=v1']).toString();
+      fs.writeFileSync(path.join(review,'source-status.txt'),dirty);
+      fs.writeFileSync(path.join(review,'qa-build.json'),JSON.stringify({sha256:crypto.createHash('sha256').update(output.outputFiles[0].contents).digest('hex'),node:process.version,head:sourceGit(['rev-parse','HEAD']).toString().trim(),dirty,sourceOverlay:'source-HEAD.patch'},null,2));
+      if(process.env.CHICHI_OCEAN_ART_AUDIT){const {auditOceanArtNative}=await import('./audit-ocean-art-native.mjs');await auditOceanArtNative({page,review,errors,httpErrors});return;}
       const capture=async name=>{await page.evaluate(()=>{const q=__lagoonQA;q.drawPaused=true;q.submarine().updateCamera(.1);q.targetFrames=q.frames+2;q.drawPaused=false;});await page.waitForFunction(()=>__lagoonQA.frames>=__lagoonQA.targetFrames,null,{timeout:240000});await page.evaluate(()=>{__lagoonQA.drawPaused=true;});await page.screenshot({path:path.join(review,name+'.png')});const raw=await page.evaluate(()=>{__lagoonQA.drawFrame();return __lagoonQA.renderer.domElement.toDataURL('image/png').split(',')[1];});fs.writeFileSync(path.join(review,name+'-canvas.png'),Buffer.from(raw,'base64'));};
       if(process.env.CHICHI_EXPLORER_STAGE==='isolation'){const {auditExplorerIsolationNative}=await import('./audit-explorer-isolation-native.mjs');await auditExplorerIsolationNative({page,review,errors,httpErrors,capture});return;}
       const {auditOceanExplorerNative}=await import('./audit-ocean-explorer-native.mjs');await auditOceanExplorerNative({page,review,errors,httpErrors,capture});return;

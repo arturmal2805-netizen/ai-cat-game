@@ -1,0 +1,34 @@
+{
+  "node": "v22.23.5",
+  "browser": "156.0.8078.79",
+  "renderer": "Chromium ANGLE SwiftShader, native source scenes; not device FPS",
+  "roots": [
+    {
+      "name": "before",
+      "path": "/workspace/chichi-mall-realism",
+      "sourceSHA": "12d478e82e8e5a2bd6ef3ec0cbb151ea1e473d1d",
+      "dirty": "",
+      "bundleSHA256": "a269fb77a463f50060f37fd5c8c00ff28b62c7a8d41f910b364fc27c6bdb6619",
+      "bundleBytes": 2955114
+    },
+    {
+      "name": "after",
+      "path": "/workspace/chichi-water-release",
+      "sourceSHA": "12d478e82e8e5a2bd6ef3ec0cbb151ea1e473d1d",
+      "dirty": "M public/app.js\n A public/art/ocean-reflections/tropical-coast-01333a81c41d.png\nD  public/art/ocean-reflections/tropical-coast-744c0948f9bf.png\n A public/art/water-reflections/barrel-wave-2695db73862d.png\nD  public/art/water-reflections/barrel-wave-550cf3803519.png\nD  public/art/water-reflections/canyon-rafting-97773da6ff41.png\n A public/art/water-reflections/canyon-rafting-e0943c549a14.png\nD  public/art/water-reflections/fountain-carousel-07b17fe9d52a.png\n A public/art/water-reflections/fountain-carousel-2f3d019e4f0c.png\n A public/art/water-reflections/glass-drop-2ae02c423d1b.png\nD  public/art/water-reflections/glass-drop-c4d70e8e95a2.png\nD  public/art/water-reflections/lagoon-launch-006c85fcd0e1.png\n A public/art/water-reflections/lagoon-launch-7a5f061661b6.png\nD  public/art/water-reflections/lazy-river-b45d2049df5f.png\n A public/art/water-reflections/lazy-river-db2a9b828207.png\nD  public/art/water-reflections/pool-pendulum-8b84181d9269.png\n A public/art/water-reflections/pool-pendulum-9871e9cc7240.png\n A public/art/water-reflections/surf-halfpipe-3e56059cadb1.png\nD  public/art/water-reflections/surf-halfpipe-c9456db5b944.png\n M public/index.html\n M public/lagoon.js\n M public/mosasaur-bed-optics.js\n M public/mosasaur-water-field.js\n M public/mosasaur-water-optics.js\n M public/mosasaur-water-probe-assets.js\n A public/mosasaur-water-profile.js\n M public/showcase-bottom-light.js\n M public/showcase-probe-assets.js\n M public/showcase-water-optics.js\n M public/showcase-water-probes.js\n M public/slide-basin-optics.js\n A public/water-core.js\n A public/water-field.js\n M public/water-shading.js\n A scripts/audit-ocean-art-native.mjs\n M scripts/bake-mosasaur-reflection.mjs\n M scripts/bake-water-reflections.mjs\n M scripts/check-aquarium.cjs\n M scripts/check-global-water.mjs\n M scripts/check-mosasaur-water-visibility.mjs\n M scripts/check-slide-water.mjs\n M scripts/mosasaur-probe-inputs.mjs\n M scripts/showcase-probe-inputs.mjs\n A scripts/water-probe-revision.mjs\n A test/approved-water-isolation.test.mjs\n A test/fixtures/approved-slide-and-wave-field.json\n M test/mosasaur-water-optics.test.mjs\n A test/shared-water-core.test.mjs\n M test/showcase-bottom-light.test.mjs\n M test/showcase-water-optics.test.mjs",
+      "bundleSHA256": "2d606618dd5fae3d5e38eedbedbf9e4eb13e3703e078dab77363471a55176153",
+      "bundleBytes": 2946467
+    }
+  ],
+  "settings": {
+    "biomes": [
+      "autumn",
+      "summer"
+    ],
+    "views": "water-close,water-low,water-sun,deep-forecourt,phone",
+    "seconds": 7,
+    "cameraContract": "baseline per-view local eye/direction/up, water centre/radius, light and shadow envelope replayed in candidate, including reef-anchored views after expansion",
+    "quality": "original lights, exposure1, ACES, shadows PCF1024; DPR1 desktop/DPR2 phone"
+  },
+  "source": "exact qa-before/qa-after.mjs retained"
+}

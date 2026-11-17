@@ -1,0 +1,25 @@
+{
+  "updated": "2026-11-16",
+  "newTarget": "Crimson Desert game water, user-supplied images",
+  "reason": "Previous slide water is a very early prototype; inconsistent map water and rejected ocean/seabed.",
+  "references": [
+    {
+      "id": "crimson-underwater-user-20261116",
+      "url": "https://x.com/CrimsonDesert_/status/2113616619003867583",
+      "urlProvenance": "Visible in user-supplied Google screenshot footer; not independently fetched.",
+      "originalImageBytesArchived": false,
+      "description": "Large fish in foreground, dense varied reef and vegetation on rocks, wreck fragments, blue depth, visible moving surface."
+    },
+    {
+      "id": "crimson-rock-surface-user-20261116",
+      "url": null,
+      "displayDimensions": [
+        739,
+        415
+      ],
+      "originalImageBytesArchived": false,
+      "description": "Central flat cracked grey rock protruding through clear water; stony upper bank; visible submerged detail; reflected blue sky/shore, local ripples and highlights.",
+      "provenance": "User identifies image as Crimson Desert game water; inline image has no downloadable file reference in tools."
+    }
+  ]
+}

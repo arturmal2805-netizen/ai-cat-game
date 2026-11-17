@@ -1,0 +1,25 @@
+{
+  "before": {
+    "frames": 75,
+    "p50": 2633.300000000003,
+    "p95": 3033.1999999999825,
+    "p99": 3083.2999999999884,
+    "max": 3199.8000000000175,
+    "pausesOver100ms": 53,
+    "heap": 871203948,
+    "contextLost": false
+  },
+  "after": {
+    "frames": 75,
+    "p50": 2633.2000000000116,
+    "p95": 2916.5,
+    "p99": 3083.300000000003,
+    "max": 3316.600000000006,
+    "pausesOver100ms": 59,
+    "heap": 912115795,
+    "contextLost": false
+  },
+  "interpretation": "Software renderer only: median virtually unchanged, p95 lower in this run, maximum/long-interval count/end heap higher. One run does not establish hardware performance or a speedup. Draw calls equal; only24,576 surface triangles added.",
+  "peakObservedHeapBefore": 951100125,
+  "peakObservedHeapAfter": 948315885
+}

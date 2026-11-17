@@ -1,0 +1,53 @@
+ M AGENTS.md
+ M public/app.js
+ A public/art/ocean-reflections/tropical-coast-01333a81c41d.png
+D  public/art/ocean-reflections/tropical-coast-744c0948f9bf.png
+ A public/art/water-reflections/barrel-wave-2695db73862d.png
+D  public/art/water-reflections/barrel-wave-550cf3803519.png
+D  public/art/water-reflections/canyon-rafting-97773da6ff41.png
+ A public/art/water-reflections/canyon-rafting-e0943c549a14.png
+D  public/art/water-reflections/fountain-carousel-07b17fe9d52a.png
+ A public/art/water-reflections/fountain-carousel-2f3d019e4f0c.png
+ A public/art/water-reflections/glass-drop-2ae02c423d1b.png
+D  public/art/water-reflections/glass-drop-c4d70e8e95a2.png
+D  public/art/water-reflections/lagoon-launch-006c85fcd0e1.png
+ A public/art/water-reflections/lagoon-launch-7a5f061661b6.png
+D  public/art/water-reflections/lazy-river-b45d2049df5f.png
+ A public/art/water-reflections/lazy-river-db2a9b828207.png
+D  public/art/water-reflections/pool-pendulum-8b84181d9269.png
+ A public/art/water-reflections/pool-pendulum-9871e9cc7240.png
+ A public/art/water-reflections/surf-halfpipe-3e56059cadb1.png
+D  public/art/water-reflections/surf-halfpipe-c9456db5b944.png
+ M public/index.html
+ M public/lagoon.js
+ M public/mosasaur-bed-optics.js
+ M public/mosasaur-water-field.js
+ M public/mosasaur-water-optics.js
+ M public/mosasaur-water-probe-assets.js
+ A public/mosasaur-water-profile.js
+ M public/showcase-bottom-light.js
+ M public/showcase-probe-assets.js
+ M public/showcase-water-optics.js
+ M public/showcase-water-probes.js
+ M public/slide-basin-optics.js
+ A public/water-core.js
+ A public/water-field.js
+ M public/water-shading.js
+ A scripts/audit-ocean-art-native.mjs
+ M scripts/audit-ocean-explorer-native.mjs
+ M scripts/bake-mosasaur-reflection.mjs
+ M scripts/bake-water-reflections.mjs
+ M scripts/check-aquarium.cjs
+ M scripts/check-global-water.mjs
+ M scripts/check-mosasaur-water-visibility.mjs
+ M scripts/check-slide-water.mjs
+ M scripts/mosasaur-probe-inputs.mjs
+ M scripts/showcase-probe-inputs.mjs
+ A scripts/water-probe-revision.mjs
+ A test/approved-water-isolation.test.mjs
+ A test/fixtures/approved-slide-and-wave-field.json
+ M test/mosasaur-water-optics.test.mjs
+ A test/shared-water-core.test.mjs
+ M test/showcase-bottom-light.test.mjs
+ M test/showcase-water-optics.test.mjs
+?? docs/project-memory/

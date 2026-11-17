@@ -1,0 +1,270 @@
+Explorer: initial boat
+Explorer progress {
+  phase: 'piloting',
+  controlled: true,
+  explorer: undefined,
+  root: false,
+  ready: false,
+  visible: true,
+  paused: true,
+  exitHidden: false,
+  mallHidden: true
+}
+Explorer progress {
+  phase: 'piloting',
+  controlled: true,
+  explorer: undefined,
+  root: true,
+  ready: false,
+  visible: true,
+  paused: true,
+  exitHidden: false,
+  mallHidden: true
+}
+Explorer: preparing Mall approach
+Explorer: portal approach {
+  phase: 'swimming',
+  explorer: {
+    mode: 'swimming',
+    floor: 0,
+    x: -46.2,
+    y: -161.9,
+    z: 124.5,
+    yaw: 3.141592653589793,
+    returning: false,
+    vertical: 0
+  }
+}
+Explorer: Mall ready, portal visible false
+Explorer progress {
+  phase: 'mall',
+  controlled: true,
+  explorer: {
+    mode: 'mall',
+    floor: 1,
+    x: -43,
+    y: -164.82,
+    z: 105,
+    yaw: 3.141592653589793,
+    returning: false,
+    vertical: 0,
+    groundY: -164.82,
+    jumpHeld: false
+  },
+  root: true,
+  ready: true,
+  visible: true,
+  paused: true,
+  exitHidden: true,
+  mallHidden: false
+}
+Explorer: sequential airlock entry passed
+Explorer native input passed mall
+PASS: hidden-control native move/look/vertical or jump gestures mall
+Explorer progress {
+  phase: 'swimming',
+  controlled: true,
+  explorer: {
+    mode: 'swimming',
+    floor: 0,
+    x: -43,
+    y: -162.5,
+    z: 123.8,
+    yaw: 6.117971832780968,
+    returning: false,
+    vertical: 0,
+    groundY: -164.82,
+    jumpHeld: false,
+    jumpVelocity: 0
+  },
+  root: true,
+  ready: true,
+  visible: true,
+  paused: true,
+  exitHidden: true,
+  mallHidden: false
+}
+Explorer progress {
+  phase: 'swimming',
+  controlled: true,
+  explorer: {
+    mode: 'swimming',
+    floor: 0,
+    x: -43,
+    y: -162.5,
+    z: 123.8,
+    yaw: 6.117971832780968,
+    returning: false,
+    vertical: 0,
+    groundY: -164.82,
+    jumpHeld: false,
+    jumpVelocity: 0
+  },
+  root: true,
+  ready: true,
+  visible: true,
+  paused: true,
+  exitHidden: true,
+  mallHidden: false
+}
+Explorer progress {
+  phase: 'swimming',
+  controlled: true,
+  explorer: {
+    mode: 'swimming',
+    floor: 0,
+    x: -43,
+    y: -162.5,
+    z: 123.8,
+    yaw: 6.117971832780968,
+    returning: false,
+    vertical: 0,
+    groundY: -164.82,
+    jumpHeld: false,
+    jumpVelocity: 0
+  },
+  root: true,
+  ready: true,
+  visible: true,
+  paused: true,
+  exitHidden: true,
+  mallHidden: false
+}
+Explorer progress {
+  phase: 'mall',
+  controlled: true,
+  explorer: {
+    mode: 'mall',
+    x: -43,
+    y: -164.82,
+    z: 105,
+    yaw: 3.141592653589793,
+    floor: 1,
+    returning: false,
+    vertical: 0
+  },
+  root: false,
+  ready: false,
+  visible: true,
+  paused: true,
+  exitHidden: true,
+  mallHidden: false
+}
+Explorer progress {
+  phase: 'mall',
+  controlled: true,
+  explorer: {
+    mode: 'mall',
+    x: -43,
+    y: -164.82,
+    z: 105,
+    yaw: 3.141592653589793,
+    floor: 1,
+    returning: false,
+    vertical: 0
+  },
+  root: false,
+  ready: false,
+  visible: true,
+  paused: true,
+  exitHidden: true,
+  mallHidden: false
+}
+Explorer progress {
+  phase: 'mall',
+  controlled: true,
+  explorer: {
+    mode: 'mall',
+    x: 18.34494715052946,
+    y: -156.32,
+    z: 80.05100719204277,
+    yaw: 6.881766955910618e-9,
+    floor: 2,
+    returning: false,
+    vertical: 0,
+    groundY: -156.32,
+    jumpHeld: false
+  },
+  root: true,
+  ready: true,
+  visible: true,
+  paused: true,
+  exitHidden: true,
+  mallHidden: true
+}
+Explorer progress {
+  phase: 'mall',
+  controlled: true,
+  explorer: {
+    mode: 'mall',
+    x: 18.34494715052946,
+    y: -156.32,
+    z: 80.05100719204277,
+    yaw: 6.881766955910618e-9,
+    floor: 2,
+    returning: false,
+    vertical: 0
+  },
+  root: false,
+  ready: false,
+  visible: true,
+  paused: undefined,
+  exitHidden: true,
+  mallHidden: true
+}
+Cold Mall return initial { root: false, ready: false, paused: true }
+Explorer progress {
+  phase: 'mall',
+  controlled: false,
+  explorer: {
+    mode: 'mall',
+    x: 18.34494715052946,
+    y: -156.32,
+    z: 80.05100719204277,
+    yaw: 6.881766955910618e-9,
+    floor: 2,
+    returning: false,
+    vertical: 0
+  },
+  root: false,
+  ready: false,
+  visible: true,
+  paused: true,
+  exitHidden: true,
+  mallHidden: true
+}
+Explorer progress {
+  phase: 'mall',
+  controlled: false,
+  explorer: {
+    mode: 'mall',
+    x: 18.34494715052946,
+    y: -156.32,
+    z: 80.05100719204277,
+    yaw: 6.881766955910618e-9,
+    floor: 2,
+    returning: false,
+    vertical: 0
+  },
+  root: false,
+  ready: false,
+  visible: true,
+  paused: true,
+  exitHidden: true,
+  mallHidden: true
+}
+Explorer return state { phase: 'docked', position: undefined }
+Explorer progress {
+  phase: 'docked',
+  controlled: false,
+  explorer: undefined,
+  root: false,
+  ready: false,
+  visible: true,
+  paused: true,
+  exitHidden: true,
+  mallHidden: true
+}
+Explorer: final dock reload passed
+Explorer: autonomous ordinary work resumes before and after SQLite reload { phase: 'to-work', job: 'estate', position: [ -92, 0.32, 113.475 ] }
+PASS: sequential Mall airlock, walking, storey reloads, escalator, camera release and automatic return.
