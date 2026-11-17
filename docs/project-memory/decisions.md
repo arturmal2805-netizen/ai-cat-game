@@ -217,3 +217,25 @@ HTTP assets passed; one application entry, JS89f628b72c238b03/CSSd02068257c7b2b0
 Use CURRENT and global-control-publication receipts for complete hashes.
 Publication and verified behavior are separate from player visual approval and
 physical-device FPS. The previous six-second gap remains an open investigation.
+
+## 2026-11-17 — island/water release before the deferred Mall
+
+Latest player instruction explicitly postpones Mall changes to a later release.
+Do not merge d3ecc7a (four added real galleries) into the ocean increment.
+That WIP is preserved on codex/mall-cyberpunk-detail; native acceptance pending.
+
+Active ocean candidate 10abb0f on codex/ocean-area-expansion is based on live
+e25f6ff. Only selected area/shore-preservation changes were reused from old
+f5f89c, not its heavy forecourt meshes, benthic rocks or coral implementation.
+The old radius416.3 intersected the future residential strip despite clearing
+its first district centre. Preserve the actual complete strip and both visible
+shore margins: outer radius397.7, water area exactly2x, no moved purchases.
+The first imported geometry test exposed this; the old WIP was not automatically
+restored or promoted as previously checked.
+
+A shared physical forecourt envelope now drives the floor and offline fitting
+of every original rock vertex down to190m depth. Do not check only the Mall's
+upper171m band and leave submerged rock bulk blocking the deeper channel.
+Keep the Mall source geometry/materials unchanged in this water-only stage.
+The candidate still requires native captures, new reflection/reef resources,
+private ownership/reload, full CI and HTTP verification before publication.
