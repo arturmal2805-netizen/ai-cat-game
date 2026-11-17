@@ -8,7 +8,7 @@ const random=n=>{const v=Math.sin(n*127.1+19.7)*43758.5453;return v-Math.floor(v
 export function* seabedPatchSites(count,seed,coral=false,patch=P){
  const P=patch;
  const sites=[];
- for(let i=0;i<12000&&sites.length<count;i++){
+ for(let i=0;i<24000&&sites.length<count;i++){
   if(i%32===0)yield;
   const x=P.x+(random(i+seed)*2-1)*P.rx,z=P.z+(random(i+seed+810)*2-1)*P.rz;
   if(seabedPatchHabitat(x,z,P)<(coral?.40:.26))continue;

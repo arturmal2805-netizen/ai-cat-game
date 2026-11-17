@@ -2,7 +2,7 @@
 export const SEABED_REEF_PATCH=Object.freeze({x:0,z:-95,rx:10,rz:8,corals:64,grass:1024});
 export const SEABED_REEF_GARDENS=Object.freeze([
  SEABED_REEF_PATCH,
- ...[[-135,-105],[-65,-145],[65,-145],[135,-105],[-165,-20],[-85,-40],[85,-40],[165,-20],[-130,75],[130,75],[-135,145],[135,145]].map(([x,z])=>Object.freeze({x,z,rx:28,rz:24,corals:96,grass:1536}))
+ ...[[-135,-105],[-65,-175],[65,-145],[135,-105],[-165,-20],[-85,-40],[85,-40],[165,-20],[-130,75],[130,75],[-135,145],[135,145]].map(([x,z])=>Object.freeze({x,z,rx:28,rz:24,corals:96,grass:1536}))
 ]);
 export function seabedPatchMask(x,z,p=SEABED_REEF_PATCH){
  const dx=x-p.x,dz=z-p.z;
