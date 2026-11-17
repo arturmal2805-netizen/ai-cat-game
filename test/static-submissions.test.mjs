@@ -207,3 +207,15 @@ test("a runtime native fallback cannot revive disposed shadow resources when the
   mesh.onBeforeRender({ extensions: { has: () => true } }, {}, {});
   assert.equal(mesh.isBatchedMesh, false);
 });
+
+test('audited Mall room lighting and inspection retain exact static range dispatch and native depth, unknown later motion still falls back',async()=>{
+ const {mallRoomLightMaterial,createMallRoomLights}=await import('../public/mall-room-light.js'),{mallCutawayMaterial}=await import('../public/mall-cutaway.js');
+ const mesh=field();runSceneSteps(staticSubmissionSteps(mesh,{force:true}));const depth=mesh.customDepthMaterial,lights=createMallRoomLights();mallRoomLightMaterial(mesh.material,lights);const once=mesh.material.onBeforeCompile;mallRoomLightMaterial(mesh.material,lights);assert.equal(mesh.material.onBeforeCompile,once,'shared material gets the lamp extension once');mallCutawayMaterial(mesh.material,{value:2});
+ assert.equal(mesh.isBatchedMesh,true,'shader preparation sees audited range-only dispatch');const shader={uniforms:{},vertexShader:'void main(){\n#include <project_vertex>\n}',fragmentShader:'void main(){\n#include <opaque_fragment>\n}'};mesh.material.onBeforeCompile(shader);assert.equal((shader.vertexShader.match(/#undef USE_BATCHING/g)||[]).length,1);assert.equal((shader.vertexShader.match(/attribute float aMallRoom/g)||[]).length,1);assert.ok(shader.uniforms.uMallRoomLamps);assert.ok(shader.uniforms.uMallInspectedRoom);
+ const camera=new T.PerspectiveCamera(40,1,.1,100);camera.position.set(0,8,15);camera.lookAt(0,1,0);camera.updateMatrixWorld();mesh.updateMatrixWorld();mesh.onBeforeRender({extensions:{has:()=>true}},{},camera);mesh.onBeforeShadow({extensions:{has:()=>true}},mesh,camera,camera);assert.equal(mesh.customDepthMaterial,depth);assert.ok(mesh.userData.staticSubmission.stats.submittedIndices<mesh.geometry.index.count);
+ mesh.material.customProgramCacheKey=()=> 'unregistered shader change';assert.equal(mesh.isBatchedMesh,false,'unregistered key cannot reuse the contract');mesh.onBeforeRender({extensions:{has:()=>true}},{},camera);assert.equal(mesh.customDepthMaterial,undefined);
+});
+
+test('Mall room finish replaces the older reflection finish without duplicate uniforms or reflection locals',async()=>{
+ const {mallReflectionMaterial}=await import('../public/mall-surfaces.js'),{mallRoomLightMaterial,createMallRoomLights}=await import('../public/mall-room-light.js');const material=mallReflectionMaterial(new T.MeshStandardMaterial());mallRoomLightMaterial(material,createMallRoomLights());const shader={uniforms:{},vertexShader:'void main(){\n#include <project_vertex>\n}',fragmentShader:'void main(){\n#include <opaque_fragment>\n}'};material.onBeforeCompile(shader);assert.equal((shader.fragmentShader.match(/uniform sampler2D uMallProbe;/g)||[]).length,1);assert.equal((shader.fragmentShader.match(/vec3 mallR=/g)||[]).length,1);assert.equal((shader.vertexShader.match(/attribute float aMallRoom;/g)||[]).length,1);
+});

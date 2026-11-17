@@ -1,3 +1,4 @@
+import {isStaticSubmissionShader,registerPositionPreservingShader} from './static-submissions.js';
 import {MALL_FINISH_REFLECTION} from './mall-surfaces.js';
 import {mallSurfaceUVKey,writeMallSurfaceUVsSteps} from './mall-surface-uv.js';
 import * as T from 'three';
@@ -29,9 +30,12 @@ export function createMallRoomLights(){
     finishFloor(){copies.clear();},finish(){copies.clear();texture.needsUpdate=true;},
   };
 }
+const roomPrograms=new WeakMap();
 export function mallRoomLightMaterial(material,lights,gain=.18){
-  const probe=mosaWaterReflection();
-  material.onBeforeCompile=s=>{
+  const known=roomPrograms.get(material);if(known?.lights===lights&&known.gain===gain&&known.hook===material.onBeforeCompile)return material;
+  const composeStatic=isStaticSubmissionShader(material),probe=mosaWaterReflection(),previous=material.onBeforeCompile,previousKey=material.customProgramCacheKey,key=previousKey.call(material);
+  material.onBeforeCompile=function(s,...args){
+    if(composeStatic)previous.call(this,s,...args);
     s.uniforms.uMallRoomLamps={value:lights.texture};s.uniforms.uMallProbe={value:probe.texture};s.uniforms.uMallProbeGain={value:probe.gain*gain};
     s.vertexShader='attribute float aMallRoom;uniform sampler2D uMallRoomLamps;varying vec3 vMallLamp;varying vec4 vMallLampColor;varying float vMallLampRange;\n'+s.vertexShader;
     s.vertexShader=s.vertexShader.replace('#include <project_vertex>',`#include <project_vertex>
@@ -51,5 +55,5 @@ export function mallRoomLightMaterial(material,lights,gain=.18){
       ${MALL_FINISH_REFLECTION}
       #include <opaque_fragment>`);
   };
-  material.customProgramCacheKey=()=>`mall-room-finish-v2-${gain}`;return material;
+  material.customProgramCacheKey=()=>key+`-mall-room-finish-v2-${gain}`;if(composeStatic)registerPositionPreservingShader(material,previous,previousKey);roomPrograms.set(material,{lights,gain,hook:material.onBeforeCompile});return material;
 }

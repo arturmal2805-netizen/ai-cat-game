@@ -23,6 +23,24 @@ normal/remote/overview/phone + privateSQLite reload/ownership PASS.
 [Точная сборка/source/PNG](https://github.com/arturmal2805-netizen/ai-cat-game/blob/06a39cb0b1c92f104996ae315932885655f07a68/docs/qa/2026-11-17/whole-floor/manifest.json).
 Это техническая публикация, не пользовательское одобрение внешнего вида.
 
+## Следующий isolated кандидат: восстановление static submission ТРЦ
+
+/workspace/chichi-mall-submit-performance, codex/mall-submit-performance,
+база1f96a1b. Первый performance CI44101398484 ещё в работе, mainне трогать
+до успеха/actuallive. Ошибка root cause: room-light/cutaway устанавливаются
+ПОСЛЕ batchModelSteps; прежний guard обоснованно выключает multi-draw при
+изменении hooks. Только два проверенных position-preserving hook теперь могут
+сохранить ranges, original vertices/index/sort/shadow камеры не меняются.
+Unknown wind/refraction/geometry/key changes остаютсяnative.
+
+V1 НЕ ПРОШЁЛ: хотя A/B дал0pixel differences, обе стороны имели shader errors
+из-за двойного uMallProbe/MALL_FINISH_REFLECTION. Эти кадры/числа не доказательство
+корректного изображения и НЕ опубликованы. Ошибка исправлена: сохранять только
+зарегистрированный static submission hook, а older Mall reflection finish
+заменять как раньше; idempotence для sharedmaterial. 8unitPASS, включая exact
+single reflection block. NativeV2 сейчас /workspace/qa/mall-static-native-v2.log.
+Пока НЕ считать принятым/опубликованным. Полный CI/native требуется.
+
 ## Активная оптимизация
 
 Рабочая ветка codex/ocean-performance, /workspace/chichi-ocean-performance,

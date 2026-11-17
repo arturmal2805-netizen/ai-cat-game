@@ -2,7 +2,29 @@ import * as THREE from "three";
 
 let available = false;
 const prepared = new WeakMap(),
-  patched = new WeakSet();
+  patched = new WeakSet(), staticMaterialHooks = new WeakMap();
+
+// Explicit contracts for audited, position-preserving material extensions.
+// Unknown wind/refraction/displacement hooks still fall back to native draws.
+const positionPreserving = new WeakMap();
+export function isStaticSubmissionShader(material) {
+  const original=staticMaterialHooks.get(material);
+  return !!original&&original.hook===material.onBeforeCompile&&original.key===material.customProgramCacheKey;
+}
+export function registerPositionPreservingShader(material, previousHook, previousKey) {
+  positionPreserving.set(material.onBeforeCompile, {key: material.customProgramCacheKey, previousHook, previousKey});
+}
+function preservesPositions(material, originalHook, originalKey) {
+  let hook=material.onBeforeCompile,key=material.customProgramCacheKey;
+  const seen=new Set();
+  while(hook!==originalHook||key!==originalKey){
+    if(seen.has(hook))return false;seen.add(hook);
+    const contract=positionPreserving.get(hook);
+    if(!contract||contract.key!==key)return false;
+    hook=contract.previousHook;key=contract.previousKey;
+  }
+  return true;
+}
 
 // WebGL multi-draw is available in Safari 15+ and Chromium. Other renderers
 // retain the original single mesh; there is no many-draw fallback.
@@ -23,7 +45,7 @@ function shader(material) {
   };
   material.customProgramCacheKey = () => key + "-static-ranges-v1";
   material.needsUpdate = true;
-  patched.add(material);
+  patched.add(material);staticMaterialHooks.set(material,{hook:material.onBeforeCompile,key:material.customProgramCacheKey});
 }
 
 function eligible(mesh) {
@@ -141,6 +163,7 @@ export function* staticSubmissionSteps(mesh, { force = false } = {}) {
   });
   shader(depth);
   mesh.customDepthMaterial = depth;
+  let checkedHook=staticShader,checkedKey=staticKey,validShader=true;
   let enabled = true,
     retired = false;
   // Builders may attach animation before compileAsync. Expose the real mode
@@ -157,6 +180,10 @@ export function* staticSubmissionSteps(mesh, { force = false } = {}) {
   counts[0] = count;
   const stats = { sourceIndices: count, submittedIndices: count, commands: 1 };
   function compatible() {
+    if(material.onBeforeCompile!==checkedHook||material.customProgramCacheKey!==checkedKey){
+      validShader=preservesPositions(material,staticShader,staticKey);
+      checkedHook=material.onBeforeCompile;checkedKey=material.customProgramCacheKey;
+    }
     // Some builders add reef sway/refraction or meadow wind AFTER merging.
     // Those vertices no longer obey static bounds, and their replacement
     // shader may require Three's ordinary dispatch. Keep them entirely native.
@@ -164,8 +191,7 @@ export function* staticSubmissionSteps(mesh, { force = false } = {}) {
       !retired &&
       mesh.material === material &&
       mesh.geometry === geometry &&
-      material.onBeforeCompile === staticShader &&
-      material.customProgramCacheKey === staticKey
+      validShader
     );
   }
   function fallback() {

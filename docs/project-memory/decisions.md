@@ -178,3 +178,13 @@ Native sort sphere/LOD/shader/vertices/picking неизменны. Casting floor
 colour/shadow/DPR2 underwater/overview/phone pixels проверяются отдельно.
 Полный Mall trace подтвердил существенную triangle нагрузку Mall; refaults
 в неподвижном сценарии не повторились. Бюджет не повышать на основании догадки.
+
+## 2026-11-17 — отклонён первый эксперимент Mall static
+
+V1 сохранял любой previous hook, в том числе старый Mall reflection finish.
+Получены duplicate uMallProbe/mallR GLSL errors;0pixel differences между двумя
+битым изображениями НЕ делает тест успешным. Ошибки в assertion errors[]
+остановили проверку. V2 сохраняет только известный static-submission wrapper,
+старый Mall finish заменяется по прежнему контракту. Новый unit ловит duplicate
+uniform/reflection,8unitPASS. NativeV2 ещё не подтверждён. Никогда не ослаблять
+проверку console/shadererrors ради выигрыша в triangles.

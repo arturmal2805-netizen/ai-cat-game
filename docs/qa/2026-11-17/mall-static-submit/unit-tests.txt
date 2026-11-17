@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: spatial submission retains every oriented triangle and attribute, and all removed ranges are outside the actual transformed view
+ok 1 - spatial submission retains every oriented triangle and attribute, and all removed ranges are outside the actual transformed view
+  ---
+  duration_ms: 163.590847
+  type: 'test'
+  ...
+# Subtest: unsupported renderers and animated or displaced meshes keep their original renderer and buffers
+ok 2 - unsupported renderers and animated or displaced meshes keep their original renderer and buffers
+  ---
+  duration_ms: 37.270165
+  type: 'test'
+  ...
+# Subtest: transparent glass keeps its exact triangle order and material
+ok 3 - transparent glass keeps its exact triangle order and material
+  ---
+  duration_ms: 7.230453
+  type: 'test'
+  ...
+# Subtest: wind and underwater shaders installed after merging retain native rendering, including the first shadow pass
+ok 4 - wind and underwater shaders installed after merging retain native rendering, including the first shadow pass
+  ---
+  duration_ms: 57.427048
+  type: 'test'
+  ...
+# Subtest: guest raft clones retain shared original buffers without serializing source command bounds or callbacks
+ok 5 - guest raft clones retain shared original buffers without serializing source command bounds or callbacks
+  ---
+  duration_ms: 6.26621
+  type: 'test'
+  ...
+# Subtest: a runtime native fallback cannot revive disposed shadow resources when the renderer changes
+ok 6 - a runtime native fallback cannot revive disposed shadow resources when the renderer changes
+  ---
+  duration_ms: 5.011267
+  type: 'test'
+  ...
+# Subtest: audited Mall room lighting and inspection retain exact static range dispatch and native depth, unknown later motion still falls back
+ok 7 - audited Mall room lighting and inspection retain exact static range dispatch and native depth, unknown later motion still falls back
+  ---
+  duration_ms: 22.513522
+  type: 'test'
+  ...
+# Subtest: Mall room finish replaces the older reflection finish without duplicate uniforms or reflection locals
+ok 8 - Mall room finish replaces the older reflection finish without duplicate uniforms or reflection locals
+  ---
+  duration_ms: 0.653605
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 439.925978

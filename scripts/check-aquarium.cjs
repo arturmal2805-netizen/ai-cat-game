@@ -683,6 +683,7 @@ async function localWorker() {
       const dirty=sourceGit(['status','--porcelain=v1']).toString();
       fs.writeFileSync(path.join(review,'source-status.txt'),dirty);
       fs.writeFileSync(path.join(review,'qa-build.json'),JSON.stringify({sha256:crypto.createHash('sha256').update(output.outputFiles[0].contents).digest('hex'),node:process.version,head:sourceGit(['rev-parse','HEAD']).toString().trim(),dirty,sourceOverlay:'source-HEAD.patch'},null,2));
+      if(process.env.CHICHI_MALL_STATIC_AUDIT){const {auditMallStaticNative}=await import('./audit-mall-static-native.mjs');await auditMallStaticNative({page,review,errors,httpErrors});return;}
       if(process.env.CHICHI_FLOOR_CULLING_AUDIT){const {auditFloorCullingNative}=await import('./audit-floor-culling-native.mjs');await auditFloorCullingNative({page,review,errors,httpErrors});return;}
       if(process.env.CHICHI_OCEAN_PERF_AUDIT){const {auditOceanPerformance}=await import('./audit-ocean-performance.mjs');await auditOceanPerformance({page,review,errors,httpErrors});return;}
       if(process.env.CHICHI_OCEAN_ART_AUDIT){const {auditOceanArtNative}=await import('./audit-ocean-art-native.mjs');await auditOceanArtNative({page,review,errors,httpErrors});return;}

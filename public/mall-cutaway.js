@@ -1,8 +1,9 @@
+import {registerPositionPreservingShader} from './static-submissions.js';
 // Inspection cutaway for the actual frontage meshes. A shared scalar selects
 // a room; the ordinary all/floor views retain every authored facade triangle.
 // Keep the same static draws, geometry and texture budgets.
 export function mallCutawayMaterial(material,selection){
- const before=material.onBeforeCompile,key=material.customProgramCacheKey(),main=/void\s+main\s*\(\s*\)\s*\{/;
+ const before=material.onBeforeCompile,previousKey=material.customProgramCacheKey,key=previousKey.call(material),main=/void\s+main\s*\(\s*\)\s*\{/;
  material.onBeforeCompile=function(shader,...args){
   before.call(this,shader,...args);shader.uniforms.uMallInspectedRoom=selection;
   const room=/attribute\s+float\s+aMallRoom\s*;/.test(shader.vertexShader)?'':'attribute float aMallRoom;\n';
@@ -11,5 +12,5 @@ export function mallCutawayMaterial(material,selection){
   shader.fragmentShader='varying float vMallCutaway;\n'+shader.fragmentShader;
   shader.fragmentShader=shader.fragmentShader.replace(main,match=>match+'\n if(vMallCutaway>.5)discard;\n');
  };
- material.customProgramCacheKey=()=>key+'-mall-front-cutaway-v1';material.needsUpdate=true;
+ material.customProgramCacheKey=()=>key+'-mall-front-cutaway-v1';registerPositionPreservingShader(material,before,previousKey);material.needsUpdate=true;
 }
