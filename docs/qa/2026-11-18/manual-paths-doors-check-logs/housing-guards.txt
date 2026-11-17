@@ -1,0 +1,226 @@
+TAP version 13
+# Subtest: third-person walking is camera-relative, diagonal-normalized and sweeps the full body before a thin wall
+ok 1 - third-person walking is camera-relative, diagonal-normalized and sweeps the full body before a thin wall
+  ---
+  duration_ms: 1.26693
+  type: 'test'
+  ...
+# Subtest: native ground heights are followed without stepping through a cliff and turning is independent of FPS
+ok 2 - native ground heights are followed without stepping through a cliff and turning is independent of FPS
+  ---
+  duration_ms: 0.5621
+  type: 'test'
+  ...
+# Subtest: an existing overlap can separate continuously but a clear body can never enter or cross the wall
+ok 3 - an existing overlap can separate continuously but a clear body can never enter or cross the wall
+  ---
+  duration_ms: 0.337518
+  type: 'test'
+  ...
+# Subtest: contact with an existing footprint permits tangent escape without increasing penetration
+ok 4 - contact with an existing footprint permits tangent escape without increasing penetration
+  ---
+  duration_ms: 0.293544
+  type: 'test'
+  ...
+# Subtest: Chill Land replaces only the dream garden, with five times the playable area and the same stable unlock ID
+ok 5 - Chill Land replaces only the dream garden, with five times the playable area and the same stable unlock ID
+  ---
+  duration_ms: 1.121245
+  type: 'test'
+  ...
+# Subtest: each house has one wide bed for two, a separate bath and a clear front entrance for large cats
+ok 6 - each house has one wide bed for two, a separate bath and a clear front entrance for large cats
+  ---
+  duration_ms: 0.843665
+  type: 'test'
+  ...
+# Subtest: all fourteen beds and baths are physical manual and real AI choices after unlocking
+ok 7 - all fourteen beds and baths are physical manual and real AI choices after unlocking
+  ---
+  duration_ms: 88.623684
+  type: 'test'
+  ...
+# Subtest: every bed accepts two cats and every bath one; all finish entry, rest and exit and release reservations
+ok 8 - every bed accepts two cats and every bath one; all finish entry, rest and exit and release reservations
+  ---
+  duration_ms: 73.762117
+  type: 'test'
+  ...
+# Subtest: two giant cats fit the same mattress, dry routes avoid houses and placed scenery
+ok 9 - two giant cats fit the same mattress, dry routes avoid houses and placed scenery
+  ---
+  duration_ms: 2.692774
+  type: 'test'
+  ...
+# Subtest: warm baths and shared naps use the saved idempotent needs ledger without taking coins or creating persistent bed teleportation
+ok 10 - warm baths and shared naps use the saved idempotent needs ledger without taking coins or creating persistent bed teleportation
+  ---
+  duration_ms: 146.672672
+  type: 'test'
+  ...
+# Subtest: front rooms have no glass; both pillows and the bath are visible from an elevated camera
+ok 11 - front rooms have no glass; both pillows and the bath are visible from an elevated camera
+  ---
+  duration_ms: 136.949361
+  type: 'test'
+  ...
+# Subtest: other approved biome records remain unchanged except the later authorized replacements and four expansions
+ok 12 - other approved biome records remain unchanged except the later authorized replacements and four expansions
+  ---
+  duration_ms: 0.693584
+  type: 'test'
+  ...
+# Subtest: fourteen concurrent visitors across seven mansions all finish without leaking a reservation
+ok 13 - fourteen concurrent visitors across seven mansions all finish without leaking a reservation
+  ---
+  duration_ms: 60.210214
+  type: 'test'
+  ...
+# Subtest: the residential island is appended without changing any existing island, including Chill Land and Cat Job City
+ok 14 - the residential island is appended without changing any existing island, including Chill Land and Cat Job City
+  ---
+  duration_ms: 3.012606
+  type: 'test'
+  ...
+# Subtest: each purchase is a distinct Chill Land house, no thirty-item or sixty-placement cap, and sections grow without moving existing lots
+ok 15 - each purchase is a distinct Chill Land house, no thirty-item or sixty-placement cap, and sections grow without moving existing lots
+  ---
+  duration_ms: 142.351899
+  type: 'test'
+  ...
+# Subtest: AI purchases execute automatically in the existing daily plan, while local fallback never invents a purchase
+ok 16 - AI purchases execute automatically in the existing daily plan, while local fallback never invents a purchase
+  ---
+  duration_ms: 50.455385
+  type: 'test'
+  ...
+# Subtest: unaffordable decisions do not charge or create a house and can be reconsidered on a later day
+ok 17 - unaffordable decisions do not charge or create a house and can be reconsidered on a later day
+  ---
+  duration_ms: 3.584891
+  type: 'test'
+  ...
+# Subtest: owner retains one active home; free roommates settle automatically, explicit selection works, and no free cat leaves an empty place
+ok 18 - owner retains one active home; free roommates settle automatically, explicit selection works, and no free cat leaves an empty place
+  ---
+  duration_ms: 16.063342
+  type: 'test'
+  ...
+# Subtest: all homes, original prices, plot coordinates and complete purchase history survive twenty reloads beyond the short transaction log
+ok 19 - all homes, original prices, plot coordinates and complete purchase history survive twenty reloads beyond the short transaction log
+  ---
+  duration_ms: 158.93078
+  type: 'test'
+  ...
+# Subtest: a failed local write cannot acknowledge a house or replace the previous confirmed home ledger and wallet
+ok 20 - a failed local write cannot acknowledge a house or replace the previous confirmed home ledger and wallet
+  ---
+  duration_ms: 9.784734
+  type: 'test'
+  ...
+# Subtest: lifetime home spending and purchase sequence are never clamped to the player coin cap during normalization
+ok 21 - lifetime home spending and purchase sequence are never clamped to the player coin cap during normalization
+  ---
+  duration_ms: 9.341098
+  type: 'test'
+  ...
+# Subtest: the permanent purchase ledger repairs missing receipt markers without charging again or overwriting an older home
+ok 22 - the permanent purchase ledger repairs missing receipt markers without charging again or overwriting an older home
+  ---
+  duration_ms: 11.140294
+  type: 'test'
+  ...
+# Subtest: a malformed primary home ledger recovers the valid backup instead of silently dropping individual paid houses
+ok 23 - a malformed primary home ledger recovers the valid backup instead of silently dropping individual paid houses
+  ---
+  duration_ms: 11.902288
+  type: 'test'
+  ...
+# Subtest: housing normalization does not truncate an expanding ledger or regenerate IDs, plots or occupants
+ok 24 - housing normalization does not truncate an expanding ledger or regenerate IDs, plots or occupants
+  ---
+  duration_ms: 13.594005
+  type: 'test'
+  ...
+# Subtest: large permanent purchase ledgers store as atomic byte chunks, keep old small snapshots readable, and clean overwritten chunks
+ok 25 - large permanent purchase ledgers store as atomic byte chunks, keep old small snapshots readable, and clean overwritten chunks
+  ---
+  duration_ms: 91.780724
+  type: 'test'
+  ...
+# Subtest: concurrent purchases for different cats keep both private charges and allocate distinct stable plots in either merge order
+ok 26 - concurrent purchases for different cats keep both private charges and allocate distinct stable plots in either merge order
+  ---
+  duration_ms: 32.964246
+  type: 'test'
+  ...
+# Subtest: competing purchases on one wallet are atomic, and a cached client cannot erase houses, balances or the housing unlock
+ok 27 - competing purchases on one wallet are atomic, and a cached client cannot erase houses, balances or the housing unlock
+  ---
+  duration_ms: 11.434519
+  type: 'test'
+  ...
+# Subtest: a genuinely older city client omitting the new AI marker cannot reset receipts or discard an automatic home purchase
+ok 28 - a genuinely older city client omitting the new AI marker cannot reset receipts or discard an automatic home purchase
+  ---
+  duration_ms: 8.097532
+  type: 'test'
+  ...
+# Subtest: daily batch schema exposes house prices, ownership and roommates and validates the real AI response
+ok 29 - daily batch schema exposes house prices, ownership and roommates and validates the real AI response
+  ---
+  duration_ms: 4.855356
+  type: 'test'
+  ...
+# Subtest: two active residents reach separate places on the original Chill bed, including far expansion sections; manual play and work cancel rest
+ok 30 - two active residents reach separate places on the original Chill bed, including far expansion sections; manual play and work cancel rest
+  ---
+  duration_ms: 59.230207
+  type: 'test'
+  ...
+# Subtest: all 147 residents reach 74 homes across seven sections without crowd deadlocks or overlaps, in three arrival orders
+ok 31 - all 147 residents reach 74 homes across seven sections without crowd deadlocks or overlaps, in three arrival orders
+  ---
+  duration_ms: 2180.604149
+  type: 'test'
+  ...
+# Subtest: rendered homes reuse the exact Chill architecture and nameplates refresh without rebuilding the house geometry
+ok 32 - rendered homes reuse the exact Chill architecture and nameplates refresh without rebuilding the house geometry
+  ---
+  duration_ms: 319.197048
+  type: 'test'
+  ...
+# Subtest: ordinary save updates cannot cancel a visible paid house while its shared model is loading
+ok 33 - ordinary save updates cannot cancel a visible paid house while its shared model is loading
+  ---
+  duration_ms: 189.6433
+  type: 'test'
+  ...
+# Subtest: unchanged cloned ledgers reuse navigation objects; a moved plot refreshes bounds and keeps distant sections independent
+ok 34 - unchanged cloned ledgers reuse navigation objects; a moved plot refreshes bounds and keeps distant sections independent
+  ---
+  duration_ms: 91.154009
+  type: 'test'
+  ...
+# Subtest: house preparation coalesces view requests, caps concurrent builds and releases an unfinished template on disposal
+ok 35 - house preparation coalesces view requests, caps concurrent builds and releases an unfinished template on disposal
+  ---
+  duration_ms: 188.367202
+  type: 'test'
+  ...
+# Subtest: retiring a duplicate family house removes its visual/picking model and navigation footprint without disposing the surviving shared template
+ok 36 - retiring a duplicate family house removes its visual/picking model and navigation footprint without disposing the surviving shared template
+  ---
+  duration_ms: 128.936097
+  type: 'test'
+  ...
+1..36
+# tests 36
+# suites 0
+# pass 36
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4269.71772

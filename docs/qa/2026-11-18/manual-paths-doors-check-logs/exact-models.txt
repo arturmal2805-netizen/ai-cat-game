@@ -1,0 +1,1 @@
+PASS all13 models: exact vertices/indices/attributes/groups/world transforms, unchanged mesh counts

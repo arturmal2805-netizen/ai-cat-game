@@ -1,0 +1,20 @@
+✔ underwater exit, third-person camera-relative swimming axes, dive, reboard and release use actual runtime (134.137935ms)
+✔ swimmer and released pilot restore without resetting wallets, inventory or camera ownership (205.001413ms)
+✔ pressure airlock never opens both doors; entry and exit reach their real endpoints (1.852615ms)
+✔ swimmer swept collision rejects sealed Mall shell and malformed explorer records (64.824395ms)
+✔ manual swimming stops on release, blur and entry into text editing (8.619753ms)
+✔ look orbit leaves a stationary cat facing forward and releasing a look drag preserves a held movement key (13.586614ms)
+✔ released explorer cannot cancel a newly selected mall overview or visitor camera (5.00658ms)
+✔ hidden canvas gestures move/look independently, dive with two fingers and stop on release (11.32089ms)
+✔ E chooses the real boat or door in view when both are within reach (10.956933ms)
+✔ phone buttons allow independent held movement and depth; cancellation and blur clear only their owned inputs (9.608813ms)
+✔ phone control anchor tracks the visible viewport when the game canvas extends below it (4.271365ms)
+✔ contextual Mall doorway action appears only at the real portal and starts the existing sequential airlock (10.090954ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 712.033882

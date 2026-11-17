@@ -1,0 +1,11 @@
+✔ the reported city-road reservation is not a physical wall (1.649414ms)
+✔ all six actual office models retain a traversable entrance and solid side/back walls (1109.279971ms)
+✔ all seven approved house shapes admit walking up their real porch through the open front (57.736633ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1409.100971

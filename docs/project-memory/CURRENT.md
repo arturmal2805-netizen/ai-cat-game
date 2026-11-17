@@ -57,19 +57,16 @@ Production economy/schema/merge/coin/inventory/catmodels неизменны.
 Все6офисныхдверей и7домов проходятunitсbody-sweep, back/sidewalls remain solid.
 13models byteexact vertices/indices/UV/normals/colours/groups/worldmatrices кe8.
 КвитанциявWIP docs/qa/2026-11-18/manual-paths-doors/manual-paths-exact-models.json.
-ПервыйnativeCity prototype PASS crossroad/officeentry-exit/SQLite. После точной
-heightcoordinate correction требуетсяфинальныйповтор City.
-Дом: перваяQAпокупкаимелаbadreceipt без-1 (не productionbug), исправлена.
-Home-v2wait блокировалсяfocusedmoon иlazyhouseподготовкой. Старыйrun закончился
-timeout, неPASS. НовыйQA сначала реальнокликаетisland, progress15s:
-/workspace/qa/manual-paths-home-v3.log/.exit, session60018.
-Targeted tests: /workspace/qa/manual-paths-targeted.log/.exit, session96855.
-
-ДляТРЦ добавлен contextual desktop «Войти вТРЦ · E» унастоящегошлюза (радиус
-взаимодействия/последовательные двери не менялись). DesktopWASDpad скрыт,
-наphoneпрежний44pxaction. Нуженnativebutton/airlock smoke до публикации.
-Ещёнужны finalnativeCity/home/mobile/reload, appropriatehousing/jobs/camera
-checks, Node22build, полныйCI иactualHTTPassets. НеобъявлятьWIPготовым.
+Финальные native City, bought-home-v3, held-touch phone и desktop Mall portal PASS.
+Проверены дорога, реальная дверь офиса/дома и выход, освобождение камеры,
+приватный SQLite reload; шлюз ТРЦ проходит последовательные двери123 шага
+в каждую сторону, затем настоящая ходьба и World release. Desktop pad скрыт.
+Node22 build PASS; unit3, explorer12 и housing/chill/manual36 PASS; предыдущие
+незатронутые targeted cases пройдены. Все13 моделей byteexact к e8.
+Доказательства и точные QA bundles: docs/qa/2026-11-18/manual-paths-doors/manifest.json.
+Кандидат39148734bd3f4a0265a6ec9aff8ab4b41f36c0b4 отправлен в main отдельно от расширения.
+Workflow44194305867 запущен; CI/live пока НЕ подтверждены.
+Не утверждать проверку каждого верхнего этажа офисов/каждой точки мира.
 
 ## Следующие шаги
 

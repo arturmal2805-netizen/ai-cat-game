@@ -298,3 +298,12 @@ allhouse/officeentrances and Mallgate. WIPcad6214 uses actualprimitive
 bounds/surfaces prebatch, retaining13models byteexact; do not confuse
 placement roadreservations with physicalwalls. Newcheckpoint/remainingQA
 recorded inCURRENT. No economic/save/merge/radius reductions.
+
+
+## 2026-11-18 — Проверенные проходы отправлены в main
+
+39148734bd3f4a0265a6ec9aff8ab4b41f36c0b4; CI44194305867 pending.
+Дорога City больше не строительная стена; реальные отдельные OBB сохраняют
+проёмы всех6офисов и7домов. Native City/home/phone/real Mall airlock PASS,
+Node22build и regression guards PASS. Full evidence in source docs/qa/2026-11-18/manual-paths-doors.
+13models byteexact to e8. Art Mall redesign excluded. No live claim until receipt.
