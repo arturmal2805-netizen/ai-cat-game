@@ -233,3 +233,15 @@ lights are constant across the two game hours; no fake QA night light is used.
 Exact triangle/vertex/LOD hashes remain for rock/coral templates. Their cached
 anchors and optical depth are now checked against regenerated expanded geometry,
 not stale b805 world-position hashes. No historical source fixture was rewritten.
+
+## 2026-11-17 — CI188 and reliable manual-input physical fixture
+
+Water f09c3f3 corrects only historical guards; complete Node22 run had1089/1091
+PASS and corrected three guard files15/15PASS. New CI44173134773 must pass
+with actualHTTP assets before water publication is claimed.
+Desktop and phone each moved W/S/A/D in native game, and mocked pendingAI
+was aborted without stale commit. A subsequent SQLite-extended phone run hit
+a genuinely blocked reverse path as a resident walked into the tiny moon test
+area; do not removeNPCs, loosen collisions, or lower movement assertions.
+Seed actual saved homestead195,-20 to separate input regression from dynamic
+path availability, retain all residents and verify loaded seed/no default reset.

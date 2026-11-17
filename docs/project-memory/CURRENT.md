@@ -244,3 +244,23 @@ https://raw.githubusercontent.com/arturmal2805-netizen/ai-cat-game/501757e093701
 [решения](decisions.md), [доказательства/backup](evidence-and-recovery.md).
 Provenance merge939/источника4ec/историческогоlive12d сохранены вdecisions и
 history; не создавать их повторно и не откатыватьпозднейшиеисправления.
+
+## 2026-11-17 — water CI follow-up and input native progress
+
+Water test-only follow-up f09c3f3d64be85a0394049e59877711d066db733 pushed to
+main/codex/ocean-area-expansion. CI44173134773 running; NOT yet published.
+Full local previous run1089/1091 PASS: only historic reference-slide map hash
+and world-consolidation uniform-radius expectation failed. Both corrected
+without changing runtime/native/assets; all15 tests in the three relevant files
+PASS. Immutable expectedJSfbb0341f..., CSSd0206825... retained.
+Verifier /tmp/verify-ocean-area-release-f09.py, log
+/workspace/qa/ocean-area-publication-f09.log. Old CI187 failed;188 is new run.
+
+Input4d8f8f9 desktop actualW/S/A/D PASS; phone touch same four PASS; pending
+mockAI takeover/abort/stale-result guard PASS, no paidAI. NewSQLite extension
+exposed a flaky moon fixture where an independently moving resident blocked
+the reverse path: native collisions correctly retained. Do not weaken test or
+collisions. Use actual private saved homestead195,-20 clear region (same saved
+address style as cat-location QA), preserve allNPCs and check start pose.
+Current rerun /workspace/qa/global-manual-touch-sqlite-v2.log/.exit.
+Production fix unchanged. Mall WIP remains removed from queue.
