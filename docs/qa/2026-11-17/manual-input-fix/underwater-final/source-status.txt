@@ -1,0 +1,7 @@
+ M docs/project-memory/standards/controls-camera.md
+ M public/index.html
+ M scripts/audit-manual-busy-native.mjs
+?? docs/qa/2026-11-17/manual-input-fix/candidate-build.json
+?? docs/qa/2026-11-17/manual-input-fix/desktop-final/
+?? docs/qa/2026-11-17/manual-input-fix/global-manual-input-build.exit
+?? docs/qa/2026-11-17/manual-input-fix/global-manual-input-tests.exit

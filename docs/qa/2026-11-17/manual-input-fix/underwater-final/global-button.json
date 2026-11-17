@@ -1,0 +1,80 @@
+{
+  "initial": {
+    "phase": "piloting",
+    "controlled": true,
+    "land": false,
+    "visible": true,
+    "position": [
+      -456,
+      -20.55,
+      591.75
+    ]
+  },
+  "entered": {
+    "phase": "swimming",
+    "controlled": true,
+    "explorer": {
+      "mode": "swimming",
+      "floor": 0,
+      "x": -9.2,
+      "y": -19.4,
+      "z": 92,
+      "yaw": 3.141592653589793,
+      "returning": false,
+      "vertical": 0
+    },
+    "land": false,
+    "visible": true,
+    "position": [
+      -456,
+      -20.55,
+      591.75
+    ]
+  },
+  "moved": {
+    "phase": "swimming",
+    "controlled": true,
+    "explorer": {
+      "mode": "swimming",
+      "floor": 0,
+      "x": -9.2,
+      "y": -19.4,
+      "z": 87.20000000000027,
+      "yaw": 3.141592653589793,
+      "returning": false,
+      "vertical": 0
+    },
+    "land": false,
+    "visible": true,
+    "position": [
+      -459.2,
+      -19.4,
+      587.2000000000003
+    ]
+  },
+  "released": {
+    "phase": "swimming",
+    "controlled": false,
+    "explorer": {
+      "mode": "swimming",
+      "floor": 0,
+      "x": -9.2,
+      "y": -19.4,
+      "z": 92,
+      "yaw": 3.141592653589793,
+      "returning": false,
+      "vertical": 0
+    },
+    "land": false,
+    "visible": true,
+    "position": [
+      -456,
+      -20.55,
+      591.75
+    ]
+  },
+  "errors": [],
+  "httpErrors": [],
+  "native": true,
+  "privateSQLite": true
+}

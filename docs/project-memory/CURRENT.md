@@ -254,3 +254,16 @@ CI44147306627 для0c636b8 завершился FAILURE, deploy/pages SKIPPED.
 перед постоянной полосой жилья вместо прежнего uniform scaling.
 Все15 тестов этих трёх файлов PASS. Production JS/CSS/native assets неизменны.
 Новый CI должен полностью пройти до заявления о публикации.
+
+## Input candidate checked, not published (2026-11-17)
+
+Node22 full build and Wrangler dry-run PASS; only public/app.js/world.js and
+HTML script hash differ from water candidate. Models/reef/probes/style unchanged.
+JS0ca625bd2ecf9aa7b3b766306bce047b5f27b882be64ab0f3261058b2ea46c88.
+82 relevant unit tests PASS. Final native desktop with no pad, actualW/S/A/D,
+busy takeover, pendingAI abort, World/Island release, privateSQLite reload PASS.
+Phone actual touchW/S/A/D, same takeover/reload checks PASS. Native underwater
+global-button exit/swim/dive/rise/reboard/World camera release PASS.
+Candidate-build.json links exact source overlays/bundles/PNGs/logs.
+WaterCI44173134773 forf09c3f3 still running; input must publish separately
+AFTER its success and actual HTTP verification. Do not confuse local PASS/live.

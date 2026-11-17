@@ -1,0 +1,2 @@
+ M docs/project-memory/standards/controls-camera.md
+ M scripts/audit-manual-busy-native.mjs

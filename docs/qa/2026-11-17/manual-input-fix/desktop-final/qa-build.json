@@ -1,0 +1,7 @@
+{
+  "sha256": "2bb667b954aa4754c2ddba2318d79eaac81852d49ab4499312ab13b38fe3858f",
+  "node": "v22.23.5",
+  "head": "d6a38c63e38dcd519589eb4863c66f25edf06196",
+  "dirty": " M docs/project-memory/standards/controls-camera.md\n M scripts/audit-manual-busy-native.mjs\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

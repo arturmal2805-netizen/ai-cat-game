@@ -1,0 +1,24 @@
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mProxy environment variables detected. We'll use your proxy for fetch requests.[0m
+
+
+
+ ⛅️ wrangler 4.150.0
+────────────────────
+[custom build] Running: npm run build
+[custom build] 
+[custom build] > build
+[custom build] > node scripts/build.mjs
+[custom build] 
+[custom build] 
+[custom build] Built 3D world, Chichi GLB models and Worker commit d6a38c63e38dcd519589eb4863c66f25edf06196.
+[custom build] 
+✨ Read 877 files from the assets directory /workspace/chichi-global-manual-input/public
+Total Upload: 500.13 KiB / gzip: 113.43 KiB
+Your Worker has access to the following bindings:
+Binding                                  Resource                     
+env.SAVE_VAULT (SaveVault)               Durable Object               
+env.AI                                   AI                           
+env.ASSETS                               Assets                       
+env.CF_VERSION_METADATA                  Worker Version Metadata      
+
+--dry-run: exiting now.

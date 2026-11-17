@@ -245,3 +245,15 @@ actual expanded dry radius against the permanent housing-strip clearance,
 without changing any other theme/property expectation. All15 tests across
 these three files pass. Production/native/probe bytes are unchanged. CI187
 failed and did not deploy; publication requires new full CI and HTTP evidence.
+
+## 2026-11-17 — manual input release scope and native checks
+
+Taking control is no longer gated by busy ordinary hero activity/pending AI.
+Dedicated editable/conflict/build permission remains. Versioned cancellation
+protects UI/effects from old promises; manual/physical return defers routine
+care/leisure. No economy/schema/merge/collision/radius/model changes.
+Node22 build and Wrangler dry-run,82 relevant tests and actual desktop/phone
+W/S/A/D with privateSQLite reload pass. Native underwater global button also
+exits/moves/dives/rises/reboards and releases camera under World.
+Water publication must complete first. CI and HTTP receipts remain mandatory
+for this separate fix; native SwiftShader checks establish behavior, not deviceFPS.
