@@ -167,3 +167,15 @@ sand triangles отделяются от прежнего floor index без ove
 Реальные18.959Mtri/2462draws/211rapid refaults требуют полного Mall в QA.
 Первые reef-кадры не включали mall.ensure(), поэтому не являются сопоставимым
 performance baseline. No visual approval/hardware improvement claimed.
+
+## 2026-11-17 — Mall exact ranges и дополнительные реальные проверки
+
+0b38098 прошёл26releasechecks и nativefullMall/DPR2interior/overview/phone:
+0errors/0changedRGBA. ВитриныMcD/Vuitton проверены черезнастоящийinspectStore,
+снаружиcutawayOpen=true иphoneinside=false; nativeMeshDepthMaterial baseline
+(не толькоdisablebatch) имеет те же pixels. PrivateSQLitecoins/inventory/
+placements точно сохранилисьпослеreload. ВнутреннийphoneодиночныйGPUprobe
+замедлился12.3%; из-заэтого сделаны3повторныепары, однавобратномпорядке:
+всеcandidateбыстрее,median4290.4→4084.7ms. Замедление не воспроизвелось.
+SwiftShaderсинхронныеofflineпробынепредсказываютMac/iPhoneFPS; подтвердить
+физическимreportпослепубликации. ExactQAвcodex/mall-submit-verification9176f420.

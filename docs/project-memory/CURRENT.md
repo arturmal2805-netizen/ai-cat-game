@@ -41,11 +41,17 @@ static-submissions producer включён в обаinputlists. V1отклонё
 uMallProbe —0pixeldifference у двух битых кадров НЕ успех. Все исходники/QA/PNG:
 https://github.com/arturmal2805-netizen/ai-cat-game/blob/0b38098a32e338a89b88efd784b184e9ac72c3f3/docs/qa/2026-11-17/mall-static-submit/manifest.json
 
-Дополнительный nativeQA без изменения production:
+Дополнительный nativeQA без изменения production — PASS:
 /workspace/chichi-mall-submit-verification, codex/mall-submit-verification,
 база0b. ВыбранныеMcD/Vuittoncutaway + phoneinside сравниваются с полностью
 native MeshDepthMaterial (не толькоbatchoff), затемprivateSQLitecoins/inventory/
-placements reload. /workspace/qa/mall-static-store-native.log/.exit. Пока вработе.
+placements reload. /workspace/qa/mall-static-store-native.log/.exit0.
+Все pixels0difference,shader/page/HTTPerrors0,ownershipточный послеreload.
+Phoneinside одиночная пара+12.3% была медленнее; ПО ПРИЧИНЕ этого сомнения
+выполнены3повторные пары сразнымпорядком:4290.4→4084.7,4524.6→4208,
+4097.4→4063.1ms; slowdownне повторился. Median4290.4→4084.7, НЕhardwareFPS.
+Точный QA/source/PNG/SQLiteproof вverificationветке9176f420429b4d928184212c7ec04c725d0044e5:
+https://github.com/arturmal2805-netizen/ai-cat-game/blob/9176f420429b4d928184212c7ec04c725d0044e5/docs/qa/2026-11-17/mall-static-extra/manifest.json
 
 Второй report игрока: JSf8/06a39cb,26frames1.35s,18.52FPSне сравнивать с
 прежними300frames. GPU28.24ms/15.718Mtri,zeroin-windowrefaults/bufferData.
