@@ -272,3 +272,15 @@ underwater route subsets and82targeted tests passed before this fullCI.
 Publication followed water f09c3f3 only after its complete CI+HTTP receipt.
 Mall WIP remains off queue. This proves behavior/release, not hardware FPS or
 user art acceptance. Expected release public roots remain immutable.
+
+## 2026-11-17 — local front bay rather than another whole-island expansion
+
+Player clarified the screenshot refers to deep seabed IN FRONT of the Mall.
+Isolated worktree from livefe9415c, WIP0bf98d5 remote. Modest ellipse extension
+adds18m forward/12m each side;36m C2quintic outer shoulder, unchanged foundation
+mask. Grid guards reject raising released swimming space and preserve actual
+foundation. Keep all12reef models/scales/LODs; four interfering rims move,
+exact unchanged offsets retained. Offline search expands120→180m when colony2
+has no valid original bounded fit; full-vertex and shoreline limits unchanged.
+Old cache guard correctly failed before regeneration, not a reason to loosen
+it. Node22 rebuild completed; candidate native/derivedcache retests pending.

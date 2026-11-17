@@ -72,8 +72,10 @@ Native SwiftShader поведение не является физическим
 
 ## Дальше
 
-1. Следующая работа — оптимизация по актуальному аппаратному отчёту новой
-   версии после окончания загрузки; одинаковые ракурс/настройки/DPR,30секунд.
+1. Новый запрос игрока: немного расширить и разгладить участок глубокого дна
+   ВПЕРЕДИ ТРЦ. Уточнено ответом: не вся водная чаша. Активно ниже.
+2. Затем оптимизация по актуальному аппаратному отчёту новой версии после
+   загрузки; одинаковые ракурс/настройки/DPR,30секунд.
 2. Шестисекундные паузы Mac не
    объявлены исправленными. Не снижать fauna/detail/DPR/shadows/качество воды.
 3. Не возвращать доработку ТРЦ в очередь без нового запроса.
@@ -111,3 +113,29 @@ global-manual-touch-sqlite-v2, global-manual-underwater-final. Точный buil
 CURRENT в исходном main-fe9415c фиксировал water live/inputpending на момент
 отправки; более новая каноническая запись здесь подтверждает оба релиза.
 Не дублировать публикацию/пройденные проверки без новых изменений/проблем.
+
+## Активно — передний участок дна, база fe9415c
+
+/workspace/chichi-ocean-forecourt-smoothing, codex/ocean-forecourt-smoothing,
+WIP0bf98d5 отправлен удалённо. Изменения: передний глубокий край+18m, бока+12m,
+MOSA_FORECOURT{z:170,rx:192,rz:84,floor:-190,shoulder:36}. C2quintic shoulder
+заменяет24m cubic. Фундамент/архитектура/наружный берег/острова/водныйshader
+не менялись. Проверена плотная сетка: нигде не поднято старое дно, не засыпаны
+прежние swimming poses;3 новых unit PASS и30 другихtargeted PASS. Однаcache
+проверка ожидаемо нашла старыйbin после измененияreef sites; Node22 fullbuild
+уже регенерировал его, повтор этойпроверки /workspace/qa/forecourt-cache-release.log.
+Не ослаблять сравнение реальныхF64sites/opticalfloor и историческихrock/coralbuffers.
+Сохранены все12reef templates/counts/sizes/LODs; только4 мешавших края
+отодвинуты. Offline fitter сначала сохраняет уже подходящие ТОЧНЫЕ offsets,
+потом полныйvertex-check, поиск<=180m внутри прежнейграницы. Первая120m попытка
+не нашла colony2; исправлен только offline search bound, без удаления/сжатиярифов.
+Actual oceanprobe9b818f2f91cd переснят;8slide PNG иsharedwater неизменны.
+Baseline native overview/underwater/phone PASS, точныеPNG/source/QA bundle
+в WIP docs/qa/2026-11-17/forecourt-smoothing/before.
+Native candidate идёт /workspace/qa/forecourt-after.log/.exit, session84961.
+Он дополнительно проверяет реальную кнопку/плавание в новом глубоком front,
+SQLite reload и физическое автономное возвращение.
+FullNode22build exit0 /workspace/qa/forecourt-build.log/.exit. Модели не менялись,
+только applicationHTML/reef manifest regenerated; покаdirty дофинальногоQA.
+Нужны визуальный reviewafter, результаты/cachetests, exactQAmanifest, CI+live.
+НЕ опубликовано, stablefe9415c не менять/не называть новым artwork approval.
