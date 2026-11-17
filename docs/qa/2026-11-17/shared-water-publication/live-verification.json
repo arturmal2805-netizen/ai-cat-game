@@ -1,0 +1,62 @@
+{
+  "utc": "2026-11-17T10:29:48.933057+00:00",
+  "release": "b8051f931c66608acd15ac41bb6043c7081b7605",
+  "url": "https://arturmal2805-netizen.github.io/ai-cat-game/?v=b8051f9",
+  "applicationScripts": [
+    "./dist/app.js?v=dcff015e22156726"
+  ],
+  "applicationScriptCount": 1,
+  "liveAssetsMatched": true,
+  "assets": {
+    "./dist/app.js?v=dcff015e22156726": {
+      "sha256": "dcff015e221567268f2afadf90c80f8f402b30b4faf3bf2bcc9648d9621937d6",
+      "bytes": 2553549
+    },
+    "./style.css?v=c14ce8408f8f3aed": {
+      "sha256": "c14ce8408f8f3aed7a5e7991eca39663fe55377343421ff62e0600ada4c048ef",
+      "bytes": 65404
+    },
+    "./art/ocean-reflections/tropical-coast-01333a81c41d.png": {
+      "sha256": "01333a81c41ded20b1aa1a8235e94b879f203f3f0bebf9a572a1e829dd94dc4e",
+      "bytes": 38008
+    },
+    "./art/ocean-water/wind-field-2523d71db8b6.png": {
+      "sha256": "2523d71db8b62ce0212f4eb8bce5310456a901d69f209865c41f5f3dc2b692a8",
+      "bytes": 1974687
+    },
+    "./art/water-reflections/barrel-wave-2695db73862d.png": {
+      "sha256": "2695db73862d947db1e3c68488736147c16001c49855b16b51a0b197758ba22e",
+      "bytes": 59621
+    },
+    "./art/water-reflections/canyon-rafting-e0943c549a14.png": {
+      "sha256": "e0943c549a14f2623fba97a8804d1e56e79080f154084707c83342b7695e3261",
+      "bytes": 59680
+    },
+    "./art/water-reflections/glass-drop-2ae02c423d1b.png": {
+      "sha256": "2ae02c423d1b68e343af448a4bcea62aeff86bb9f855d706a46e70abb06cd0a1",
+      "bytes": 62337
+    },
+    "./art/water-reflections/lagoon-launch-7a5f061661b6.png": {
+      "sha256": "7a5f061661b66ece08d34ef321931534c54142b4b27b8e13d7206eee10fe65e3",
+      "bytes": 55164
+    },
+    "./art/water-reflections/surf-halfpipe-3e56059cadb1.png": {
+      "sha256": "3e56059cadb109194aa90e94bd00d44e40c5694efd99fce84cfa36e17c0f1f87",
+      "bytes": 52990
+    },
+    "./art/water-reflections/lazy-river-db2a9b828207.png": {
+      "sha256": "db2a9b828207c8254311ad312a5a54234b64219fe67789f60718136443c8fe66",
+      "bytes": 54299
+    },
+    "./art/water-reflections/fountain-carousel-2f3d019e4f0c.png": {
+      "sha256": "2f3d019e4f0c45985abeeffc81d6d36c4c4910401bae2cb0ae8c936c4b0eaa79",
+      "bytes": 31758
+    },
+    "./art/water-reflections/pool-pendulum-9871e9cc7240.png": {
+      "sha256": "9871e9cc72403010a447fb36159374ffc4f4e3c7403dbea3eaaf39d0061ac29e",
+      "bytes": 49384
+    }
+  },
+  "workflow": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44063176067",
+  "workflowConclusion": "success"
+}

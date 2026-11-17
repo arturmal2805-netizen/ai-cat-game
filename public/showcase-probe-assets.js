@@ -1,6 +1,6 @@
 // Actual static mini-biomes, linear radiance / 4; shared water core.
 export const SHOWCASE_PROBE_ENCODING="linear-radiance-div4";
-export const SHOWCASE_PROBE_REVISION="03816434580c402c";
+export const SHOWCASE_PROBE_REVISION="6e9fba1771a1845d";
 export const SHOWCASE_WATER_PROBES={
   "ride-water-barrel-wave": "./art/water-reflections/barrel-wave-2695db73862d.png",
   "ride-water-canyon-rafting": "./art/water-reflections/canyon-rafting-e0943c549a14.png",

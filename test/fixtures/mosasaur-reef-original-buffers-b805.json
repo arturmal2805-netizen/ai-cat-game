@@ -1,0 +1,455 @@
+{
+  "source": "b8051f931c66608acd15ac41bb6043c7081b7605",
+  "revision": "living-eroded-reef-ecosystem-v7",
+  "models": {
+    "0": {
+      "attributes": {
+        "position": "3343c91a4491e3d70b57194c59f4c5729401f6239ea976b80ba5ba551462ab29",
+        "normal": "6b90bc90200f826397a5be740ba2cb90ec6892b7c1604f09e938335bd6d96044",
+        "color": "ad3a0c947746aaf859698ba569a638587fabe455eb44c5124a76e6d43a3c4d1f",
+        "uv": "aea7c66cab126fbbbe60c5a90f25c4de819fe8f67ed4a5aaf900fb1d2c17ae70"
+      },
+      "index": "e4d07f80f3a457fdfcef174f684500b64f529b2895a511409d8f4c7552b75449"
+    },
+    "1": {
+      "attributes": {
+        "position": "e3f448eb9d91342b2a93ff5ef8d0e9d9e8fbb5e652cfbe0f1014868444c5acf6",
+        "normal": "aaf3e1ce4141be0683bfb7e0f28d8fbf5d03649a1365eee0d2881f5b8646cd35",
+        "color": "e0eb32ca0ca163d800b627ec1752618b288e976e6e3c768a7341878d46bd206c",
+        "uv": "25cc779c1ff6dc17902d5a4f26e0481d4cd3e5a41db0d79f7901cf6405a93fbf"
+      },
+      "index": "5f9371e6e30c95e9e31a50729f54ead0e0bc2dc9df92f841abef90029d2d5b32"
+    },
+    "2": {
+      "attributes": {
+        "position": "6004fe71312c1fdb748cabb200bdbb31d441f57c2943c499c41c79c850933879",
+        "normal": "f54d8197d188e557782f3bdb9c6655da69f84d999252e5254bf0cd1cd88b763a",
+        "color": "72d5d0a5004dd44ada90e5f8648330f54ae1dba9e4f07c9f87acbc036e6fe7d8",
+        "uv": "bc7516407396565678aa5a8a279027a2f891e37ab69e84bcf902b286c2702604"
+      },
+      "index": "6493aff6218f00823b4ff0d52c859a8caf4a3710afe5f0655378cc377018645a"
+    },
+    "0-medium": {
+      "attributes": {
+        "position": "3343c91a4491e3d70b57194c59f4c5729401f6239ea976b80ba5ba551462ab29",
+        "normal": "6b90bc90200f826397a5be740ba2cb90ec6892b7c1604f09e938335bd6d96044",
+        "color": "ad3a0c947746aaf859698ba569a638587fabe455eb44c5124a76e6d43a3c4d1f",
+        "uv": "aea7c66cab126fbbbe60c5a90f25c4de819fe8f67ed4a5aaf900fb1d2c17ae70"
+      },
+      "index": "62bf55145bf0465b0d61617f6f9243d49eacea38de10d59ab72dd94822874d85"
+    },
+    "0-far": {
+      "attributes": {
+        "position": "3343c91a4491e3d70b57194c59f4c5729401f6239ea976b80ba5ba551462ab29",
+        "normal": "6b90bc90200f826397a5be740ba2cb90ec6892b7c1604f09e938335bd6d96044",
+        "color": "ad3a0c947746aaf859698ba569a638587fabe455eb44c5124a76e6d43a3c4d1f",
+        "uv": "aea7c66cab126fbbbe60c5a90f25c4de819fe8f67ed4a5aaf900fb1d2c17ae70"
+      },
+      "index": "047cfdd068ad6d7cf8edc2fb31ed2a00b4cf00be8df38acfa5643bb0e5831e6a"
+    },
+    "1-medium": {
+      "attributes": {
+        "position": "e3f448eb9d91342b2a93ff5ef8d0e9d9e8fbb5e652cfbe0f1014868444c5acf6",
+        "normal": "aaf3e1ce4141be0683bfb7e0f28d8fbf5d03649a1365eee0d2881f5b8646cd35",
+        "color": "e0eb32ca0ca163d800b627ec1752618b288e976e6e3c768a7341878d46bd206c",
+        "uv": "25cc779c1ff6dc17902d5a4f26e0481d4cd3e5a41db0d79f7901cf6405a93fbf"
+      },
+      "index": "bd6c8b97225611b8299a632cd586615623ad62ed45dc77feebf1b97a2da0f530"
+    },
+    "1-far": {
+      "attributes": {
+        "position": "e3f448eb9d91342b2a93ff5ef8d0e9d9e8fbb5e652cfbe0f1014868444c5acf6",
+        "normal": "aaf3e1ce4141be0683bfb7e0f28d8fbf5d03649a1365eee0d2881f5b8646cd35",
+        "color": "e0eb32ca0ca163d800b627ec1752618b288e976e6e3c768a7341878d46bd206c",
+        "uv": "25cc779c1ff6dc17902d5a4f26e0481d4cd3e5a41db0d79f7901cf6405a93fbf"
+      },
+      "index": "79100e2cd82e3332b7ee2d8b3acbcded3f62d991adba9627ec89b0f34fa69d88"
+    },
+    "2-medium": {
+      "attributes": {
+        "position": "6004fe71312c1fdb748cabb200bdbb31d441f57c2943c499c41c79c850933879",
+        "normal": "f54d8197d188e557782f3bdb9c6655da69f84d999252e5254bf0cd1cd88b763a",
+        "color": "72d5d0a5004dd44ada90e5f8648330f54ae1dba9e4f07c9f87acbc036e6fe7d8",
+        "uv": "bc7516407396565678aa5a8a279027a2f891e37ab69e84bcf902b286c2702604"
+      },
+      "index": "6d6dd183bbd09c69b02797e4c153a7093ebbaff43965ddfa4a689541e8cd3828"
+    },
+    "2-far": {
+      "attributes": {
+        "position": "6004fe71312c1fdb748cabb200bdbb31d441f57c2943c499c41c79c850933879",
+        "normal": "f54d8197d188e557782f3bdb9c6655da69f84d999252e5254bf0cd1cd88b763a",
+        "color": "72d5d0a5004dd44ada90e5f8648330f54ae1dba9e4f07c9f87acbc036e6fe7d8",
+        "uv": "bc7516407396565678aa5a8a279027a2f891e37ab69e84bcf902b286c2702604"
+      },
+      "index": "ef18cac2ee48220f147bd57174b9ba26163c994b133d330be8dd9670270b726d"
+    },
+    "coral-0": {
+      "attributes": {
+        "position": "0128a07d85e74582cf8d62cf64ca41ce660306e737248416bfefc68de15a0e8b",
+        "normal": "053d5b4db63c3f3df0ee9aadf05a171888d508dfaeff5af1969c0294d482aa30",
+        "color": "fc3a66c3becf3af7bc324e66cd37b8b6496caf46fdffe1c9f9c603642d8b1749",
+        "uv": "7ae01448d96f8cdbc3bd0f8dee79cd1cb7d58c3c1fefa8b00223158c046b7ede",
+        "aReefGlow": "ca399e3a1697c2f6b91ed728a64179ae695350853b59e440141123aa4fd79406",
+        "aReefSway": "16b2e8ba35dcc78a5a00055c72a73fd9cbe0ca4b98a9bb1816d0fbe0c84f2ad5"
+      },
+      "index": "3955ac87d88d001eb154c5db7c57af062d5b5353949158c79a918cd4d89178b9"
+    },
+    "coral-0-medium": {
+      "attributes": {
+        "position": "0128a07d85e74582cf8d62cf64ca41ce660306e737248416bfefc68de15a0e8b",
+        "normal": "053d5b4db63c3f3df0ee9aadf05a171888d508dfaeff5af1969c0294d482aa30",
+        "color": "fc3a66c3becf3af7bc324e66cd37b8b6496caf46fdffe1c9f9c603642d8b1749",
+        "uv": "7ae01448d96f8cdbc3bd0f8dee79cd1cb7d58c3c1fefa8b00223158c046b7ede",
+        "aReefGlow": "ca399e3a1697c2f6b91ed728a64179ae695350853b59e440141123aa4fd79406",
+        "aReefSway": "16b2e8ba35dcc78a5a00055c72a73fd9cbe0ca4b98a9bb1816d0fbe0c84f2ad5"
+      },
+      "index": "4f21858f6126f88654cfa3e54c9a9192a199f1e5f91d1b130771e03b09c1c1c5"
+    },
+    "coral-0-far": {
+      "attributes": {
+        "position": "0128a07d85e74582cf8d62cf64ca41ce660306e737248416bfefc68de15a0e8b",
+        "normal": "053d5b4db63c3f3df0ee9aadf05a171888d508dfaeff5af1969c0294d482aa30",
+        "color": "fc3a66c3becf3af7bc324e66cd37b8b6496caf46fdffe1c9f9c603642d8b1749",
+        "uv": "7ae01448d96f8cdbc3bd0f8dee79cd1cb7d58c3c1fefa8b00223158c046b7ede",
+        "aReefGlow": "ca399e3a1697c2f6b91ed728a64179ae695350853b59e440141123aa4fd79406",
+        "aReefSway": "16b2e8ba35dcc78a5a00055c72a73fd9cbe0ca4b98a9bb1816d0fbe0c84f2ad5"
+      },
+      "index": "860b430fa37f51911bf39027030de2278f477fecd9cdf6395aa6b8d94dbd09c5"
+    },
+    "coral-1": {
+      "attributes": {
+        "position": "49e001a06c72113340a83a8097b7778bc5b3e5196c54edf02f2c69b2f99ef508",
+        "normal": "db84da3667ef9029b5e3b41fc7c8142882b3603e543474ef6ba644d640f764b2",
+        "color": "39c1d8364119cafe15757fd755948ced0b86d192fd40b41b51129d32b08671c5",
+        "uv": "514bfa2a9186044efad80b6b8e971c33126adc09125efa0162bb90f659142f27",
+        "aReefGlow": "a3ad4dbe291fd878cfe61386ffc96d34de11a0edd6b700587fc0e6a1e3e55e5a",
+        "aReefSway": "ac4913bd575e47f3933b44f0595782e985d75c0076adf973f720f6d216dc6c80"
+      },
+      "index": "526f65faa86b0b51aaceb9890bf3244213c7ffc6ec388e4f4dae2bac299c6238"
+    },
+    "coral-1-medium": {
+      "attributes": {
+        "position": "49e001a06c72113340a83a8097b7778bc5b3e5196c54edf02f2c69b2f99ef508",
+        "normal": "db84da3667ef9029b5e3b41fc7c8142882b3603e543474ef6ba644d640f764b2",
+        "color": "39c1d8364119cafe15757fd755948ced0b86d192fd40b41b51129d32b08671c5",
+        "uv": "514bfa2a9186044efad80b6b8e971c33126adc09125efa0162bb90f659142f27",
+        "aReefGlow": "a3ad4dbe291fd878cfe61386ffc96d34de11a0edd6b700587fc0e6a1e3e55e5a",
+        "aReefSway": "ac4913bd575e47f3933b44f0595782e985d75c0076adf973f720f6d216dc6c80"
+      },
+      "index": "c0fe0a20965466ceaac8e0aa0161f647f004f9bd1733caf14d6dbbdfbd0586c8"
+    },
+    "coral-1-far": {
+      "attributes": {
+        "position": "49e001a06c72113340a83a8097b7778bc5b3e5196c54edf02f2c69b2f99ef508",
+        "normal": "db84da3667ef9029b5e3b41fc7c8142882b3603e543474ef6ba644d640f764b2",
+        "color": "39c1d8364119cafe15757fd755948ced0b86d192fd40b41b51129d32b08671c5",
+        "uv": "514bfa2a9186044efad80b6b8e971c33126adc09125efa0162bb90f659142f27",
+        "aReefGlow": "a3ad4dbe291fd878cfe61386ffc96d34de11a0edd6b700587fc0e6a1e3e55e5a",
+        "aReefSway": "ac4913bd575e47f3933b44f0595782e985d75c0076adf973f720f6d216dc6c80"
+      },
+      "index": "03bbbdf17a8beddabf92fa1667965408648656d94282f28055315bfc9563d288"
+    },
+    "coral-2": {
+      "attributes": {
+        "position": "38632d0403a192733770edc08f24c646afbe5ca360a71834c253a1ad2aa928c9",
+        "normal": "4f11f144193f340e6f02ce25f4ac68520e2a5228c8f194f49db80800e5784683",
+        "color": "4ac1a926bb0e3c7a3293ac4a9afd7108345ad11d8951ddd106d8d0b6eb1aafa9",
+        "uv": "6332737396153a576d2009b772da79e23aaf8121c1a13a45c6b805a9f0f68283",
+        "aReefGlow": "762123c19628ae49269277932e20f5c5f071c4064db1331c7bf919b112c06732",
+        "aReefSway": "3855d9a2b14cc639a92dd0535022bd34e9ec8ebce3e702fb24d8ec039c635ce8"
+      },
+      "index": "e15d5324ec2124333213755fcc1cf6127d7ec060bcd6d1b669414484e889c155"
+    },
+    "coral-2-medium": {
+      "attributes": {
+        "position": "38632d0403a192733770edc08f24c646afbe5ca360a71834c253a1ad2aa928c9",
+        "normal": "4f11f144193f340e6f02ce25f4ac68520e2a5228c8f194f49db80800e5784683",
+        "color": "4ac1a926bb0e3c7a3293ac4a9afd7108345ad11d8951ddd106d8d0b6eb1aafa9",
+        "uv": "6332737396153a576d2009b772da79e23aaf8121c1a13a45c6b805a9f0f68283",
+        "aReefGlow": "762123c19628ae49269277932e20f5c5f071c4064db1331c7bf919b112c06732",
+        "aReefSway": "3855d9a2b14cc639a92dd0535022bd34e9ec8ebce3e702fb24d8ec039c635ce8"
+      },
+      "index": "e955a9041e9a7010450e8f62de4e8654b712e72d0bf8af00e8c73755860ee33c"
+    },
+    "coral-2-far": {
+      "attributes": {
+        "position": "38632d0403a192733770edc08f24c646afbe5ca360a71834c253a1ad2aa928c9",
+        "normal": "4f11f144193f340e6f02ce25f4ac68520e2a5228c8f194f49db80800e5784683",
+        "color": "4ac1a926bb0e3c7a3293ac4a9afd7108345ad11d8951ddd106d8d0b6eb1aafa9",
+        "uv": "6332737396153a576d2009b772da79e23aaf8121c1a13a45c6b805a9f0f68283",
+        "aReefGlow": "762123c19628ae49269277932e20f5c5f071c4064db1331c7bf919b112c06732",
+        "aReefSway": "3855d9a2b14cc639a92dd0535022bd34e9ec8ebce3e702fb24d8ec039c635ce8"
+      },
+      "index": "846f3cb0bc9568b9cbc9dd8acb01f09fa98c10403187cf7227256a6d34045fdc"
+    },
+    "coral-3": {
+      "attributes": {
+        "position": "8bdf38cd3c5d9994b6e6235f0a1b88fbfacef940cfe1f4eacfeb4a558a17fbda",
+        "normal": "eee22ca77dbc8869a1438bce9494f3d7975a22f1de0e37acf655ac23b8fd887b",
+        "color": "da532dc7a8aea2730ac242472d706b69ce720fc5d0758d9fb684200bfd838c6b",
+        "uv": "6f6f0df71ff72d756ef1e2e6269b25e63f28f9d7521606570c4e2e5aee17976b",
+        "aReefGlow": "a6ce823b458467df245b196b246212e034d42f32663e82275f1d5e98309932a3",
+        "aReefSway": "622af9e9491692267338b78248f7180965231d414bdcb17c395ec73a4ed8f0a5"
+      },
+      "index": "3f0a88bea84ae44fb9bf28b91d46b1b826253c2f32c4d79d403a3e5737e8e78d"
+    },
+    "coral-3-medium": {
+      "attributes": {
+        "position": "8bdf38cd3c5d9994b6e6235f0a1b88fbfacef940cfe1f4eacfeb4a558a17fbda",
+        "normal": "eee22ca77dbc8869a1438bce9494f3d7975a22f1de0e37acf655ac23b8fd887b",
+        "color": "da532dc7a8aea2730ac242472d706b69ce720fc5d0758d9fb684200bfd838c6b",
+        "uv": "6f6f0df71ff72d756ef1e2e6269b25e63f28f9d7521606570c4e2e5aee17976b",
+        "aReefGlow": "a6ce823b458467df245b196b246212e034d42f32663e82275f1d5e98309932a3",
+        "aReefSway": "622af9e9491692267338b78248f7180965231d414bdcb17c395ec73a4ed8f0a5"
+      },
+      "index": "7176b14831e6612c5468c3e2cbdf6d4e4e4abe9833668a91c2b8f95ed7208999"
+    },
+    "coral-3-far": {
+      "attributes": {
+        "position": "8bdf38cd3c5d9994b6e6235f0a1b88fbfacef940cfe1f4eacfeb4a558a17fbda",
+        "normal": "eee22ca77dbc8869a1438bce9494f3d7975a22f1de0e37acf655ac23b8fd887b",
+        "color": "da532dc7a8aea2730ac242472d706b69ce720fc5d0758d9fb684200bfd838c6b",
+        "uv": "6f6f0df71ff72d756ef1e2e6269b25e63f28f9d7521606570c4e2e5aee17976b",
+        "aReefGlow": "a6ce823b458467df245b196b246212e034d42f32663e82275f1d5e98309932a3",
+        "aReefSway": "622af9e9491692267338b78248f7180965231d414bdcb17c395ec73a4ed8f0a5"
+      },
+      "index": "97bbbf3604addfddccde4c7a737c3ab1dd0ed8d6a06e2295f0c2cb1653e536dd"
+    },
+    "coral-4": {
+      "attributes": {
+        "position": "0b5089a5759c693fc34ab66e7eb5e2904fa3b5e05484d6cbf2efb2735189753c",
+        "normal": "1eb29c52c21569d7e941228eb9c91f9e4303b291f932d91aae14189981d6da69",
+        "color": "39fd4617d420f559b9b91a981943811e49b58fbd413c9fa1cd5535a649c50599",
+        "uv": "9eab773a4d91eaa41a3fbed4b4955865fabf7fdc5d46f38f74f7bc3d242d082d",
+        "aReefGlow": "b1884ffcb0880a1ac8c1152d8469a0ee2cc61299e35cc9296557a3cd350fe277",
+        "aReefSway": "4e67decaf5ad6868e606c8497eb36a4940c52763fe93b7aec927c0cff6d53f07"
+      },
+      "index": "4c2384f09f43737127320c5ae76a4275b2036aee569d48d5156b440424749844"
+    },
+    "coral-4-medium": {
+      "attributes": {
+        "position": "0b5089a5759c693fc34ab66e7eb5e2904fa3b5e05484d6cbf2efb2735189753c",
+        "normal": "1eb29c52c21569d7e941228eb9c91f9e4303b291f932d91aae14189981d6da69",
+        "color": "39fd4617d420f559b9b91a981943811e49b58fbd413c9fa1cd5535a649c50599",
+        "uv": "9eab773a4d91eaa41a3fbed4b4955865fabf7fdc5d46f38f74f7bc3d242d082d",
+        "aReefGlow": "b1884ffcb0880a1ac8c1152d8469a0ee2cc61299e35cc9296557a3cd350fe277",
+        "aReefSway": "4e67decaf5ad6868e606c8497eb36a4940c52763fe93b7aec927c0cff6d53f07"
+      },
+      "index": "4c2384f09f43737127320c5ae76a4275b2036aee569d48d5156b440424749844"
+    },
+    "coral-4-far": {
+      "attributes": {
+        "position": "0b5089a5759c693fc34ab66e7eb5e2904fa3b5e05484d6cbf2efb2735189753c",
+        "normal": "1eb29c52c21569d7e941228eb9c91f9e4303b291f932d91aae14189981d6da69",
+        "color": "39fd4617d420f559b9b91a981943811e49b58fbd413c9fa1cd5535a649c50599",
+        "uv": "9eab773a4d91eaa41a3fbed4b4955865fabf7fdc5d46f38f74f7bc3d242d082d",
+        "aReefGlow": "b1884ffcb0880a1ac8c1152d8469a0ee2cc61299e35cc9296557a3cd350fe277",
+        "aReefSway": "4e67decaf5ad6868e606c8497eb36a4940c52763fe93b7aec927c0cff6d53f07"
+      },
+      "index": "876da582f00f02310cc102ec5a0c93e600b85b6398d90c8d7c9ba716d50fe4f4"
+    },
+    "coral-5": {
+      "attributes": {
+        "position": "29f9cdf5c3df55b43d77d9e955780e9809e7648eed096fa45ef2526c2a305afd",
+        "normal": "aced93fd1a3cde4516bb06124e06829a55555c6f42a9abd1395dca2b7a84d425",
+        "color": "179252771149812f7e0d6e6191179916b7457533f3ab7ac9faf2e094d639731a",
+        "uv": "0463dc0c0e215b78f966d9768473b061a77b2c3ea815c4543ea00e021bce82df",
+        "aReefGlow": "877b41382ff77a3350de0c597f6babb82cffdf3d2643630a63d24576d050c63b",
+        "aReefSway": "d175e6e45e852190a8280a0ab8b1147b32da8c482311e4ef6b16c35a2d09b14a"
+      },
+      "index": "77c607e9a2cfb351624ddf42f849231f92f433340997924f8b5dd17c47d17bf6"
+    },
+    "coral-5-medium": {
+      "attributes": {
+        "position": "29f9cdf5c3df55b43d77d9e955780e9809e7648eed096fa45ef2526c2a305afd",
+        "normal": "aced93fd1a3cde4516bb06124e06829a55555c6f42a9abd1395dca2b7a84d425",
+        "color": "179252771149812f7e0d6e6191179916b7457533f3ab7ac9faf2e094d639731a",
+        "uv": "0463dc0c0e215b78f966d9768473b061a77b2c3ea815c4543ea00e021bce82df",
+        "aReefGlow": "877b41382ff77a3350de0c597f6babb82cffdf3d2643630a63d24576d050c63b",
+        "aReefSway": "d175e6e45e852190a8280a0ab8b1147b32da8c482311e4ef6b16c35a2d09b14a"
+      },
+      "index": "15eb1df9e6265ec93393ae762182ab355dea8e32ce0efebd2276d56fa694f457"
+    },
+    "coral-5-far": {
+      "attributes": {
+        "position": "29f9cdf5c3df55b43d77d9e955780e9809e7648eed096fa45ef2526c2a305afd",
+        "normal": "aced93fd1a3cde4516bb06124e06829a55555c6f42a9abd1395dca2b7a84d425",
+        "color": "179252771149812f7e0d6e6191179916b7457533f3ab7ac9faf2e094d639731a",
+        "uv": "0463dc0c0e215b78f966d9768473b061a77b2c3ea815c4543ea00e021bce82df",
+        "aReefGlow": "877b41382ff77a3350de0c597f6babb82cffdf3d2643630a63d24576d050c63b",
+        "aReefSway": "d175e6e45e852190a8280a0ab8b1147b32da8c482311e4ef6b16c35a2d09b14a"
+      },
+      "index": "dc152a4e51f9bfb249ef312f87a9503a1c2dd0c15229105b41f8f315ced81228"
+    },
+    "coral-6": {
+      "attributes": {
+        "position": "53e253dc4a9ca0d151893e2bcffaeaac30c66d48fd21bd67bf18520085356e69",
+        "normal": "f7bae80b6c2067bb2b0c7efe5c02d0aa26d26f1346e709595d14c7aa71125cad",
+        "color": "bbee9aa547af7403309ced48ff40579766d60cd3d8a60d0f897c2360ea892dde",
+        "uv": "953f7a10dcd30d098162ab3727bc0d67c8e41d5fdd8a935cb1e38356d4be5658",
+        "aReefGlow": "b40157ac90cc2fdb1e172c27d6bac2acf4c8be5fc3c3f6cfe09c085e33a2ccf5",
+        "aReefSway": "55980457a433a872eeff70a8dbc6d48f4a35d846f46fa89261da43c1e9d1b113"
+      },
+      "index": "aad59417d5bdc5780b28c3b092f43f17d69ac41b982a3979e69e8926fd07e4bc"
+    },
+    "coral-6-medium": {
+      "attributes": {
+        "position": "53e253dc4a9ca0d151893e2bcffaeaac30c66d48fd21bd67bf18520085356e69",
+        "normal": "f7bae80b6c2067bb2b0c7efe5c02d0aa26d26f1346e709595d14c7aa71125cad",
+        "color": "bbee9aa547af7403309ced48ff40579766d60cd3d8a60d0f897c2360ea892dde",
+        "uv": "953f7a10dcd30d098162ab3727bc0d67c8e41d5fdd8a935cb1e38356d4be5658",
+        "aReefGlow": "b40157ac90cc2fdb1e172c27d6bac2acf4c8be5fc3c3f6cfe09c085e33a2ccf5",
+        "aReefSway": "55980457a433a872eeff70a8dbc6d48f4a35d846f46fa89261da43c1e9d1b113"
+      },
+      "index": "7377c37012de0cfd3ae7d020f251dd7c4b96571c1cd50d550c89ea14afbf2c44"
+    },
+    "coral-6-far": {
+      "attributes": {
+        "position": "53e253dc4a9ca0d151893e2bcffaeaac30c66d48fd21bd67bf18520085356e69",
+        "normal": "f7bae80b6c2067bb2b0c7efe5c02d0aa26d26f1346e709595d14c7aa71125cad",
+        "color": "bbee9aa547af7403309ced48ff40579766d60cd3d8a60d0f897c2360ea892dde",
+        "uv": "953f7a10dcd30d098162ab3727bc0d67c8e41d5fdd8a935cb1e38356d4be5658",
+        "aReefGlow": "b40157ac90cc2fdb1e172c27d6bac2acf4c8be5fc3c3f6cfe09c085e33a2ccf5",
+        "aReefSway": "55980457a433a872eeff70a8dbc6d48f4a35d846f46fa89261da43c1e9d1b113"
+      },
+      "index": "572828b850a684ce3c5689b12159be119a8eebb989d6be95810f3a7ea0e25714"
+    },
+    "coral-7": {
+      "attributes": {
+        "position": "df293559bfe23e855ee17f86540ecef00fd462e342435280a9ee96137fdc0e40",
+        "normal": "b016ccfbbcaa624c249a7f5a21339406c47f8ffacf9af083c57098bb98c4aa0f",
+        "color": "ffe148691854ec1399bfddf3dc812330ad34b8903dfae53ef54ea0d05bf0c772",
+        "uv": "3c48d9872f11679cec7489cdc43a09689bdee17caee0c4d939005217ed9fdd88",
+        "aReefGlow": "abc40dfc2771c99358f63bdbad54be47ea1212c6bb73d0b62d432e257a1d6883",
+        "aReefSway": "5d924c7bd7d2236fd3d664b8f2bdc7a9890634d573aacf33d01d456669950af1"
+      },
+      "index": "eaeee970372888b6cbc0231f76db8ce02350d625bb7ca33e13aa16589c80a3a8"
+    },
+    "coral-7-medium": {
+      "attributes": {
+        "position": "df293559bfe23e855ee17f86540ecef00fd462e342435280a9ee96137fdc0e40",
+        "normal": "b016ccfbbcaa624c249a7f5a21339406c47f8ffacf9af083c57098bb98c4aa0f",
+        "color": "ffe148691854ec1399bfddf3dc812330ad34b8903dfae53ef54ea0d05bf0c772",
+        "uv": "3c48d9872f11679cec7489cdc43a09689bdee17caee0c4d939005217ed9fdd88",
+        "aReefGlow": "abc40dfc2771c99358f63bdbad54be47ea1212c6bb73d0b62d432e257a1d6883",
+        "aReefSway": "5d924c7bd7d2236fd3d664b8f2bdc7a9890634d573aacf33d01d456669950af1"
+      },
+      "index": "b6477990731929098af5fb0b99bced04d596bdd68a5a133a73dedc1937d1292d"
+    },
+    "coral-7-far": {
+      "attributes": {
+        "position": "df293559bfe23e855ee17f86540ecef00fd462e342435280a9ee96137fdc0e40",
+        "normal": "b016ccfbbcaa624c249a7f5a21339406c47f8ffacf9af083c57098bb98c4aa0f",
+        "color": "ffe148691854ec1399bfddf3dc812330ad34b8903dfae53ef54ea0d05bf0c772",
+        "uv": "3c48d9872f11679cec7489cdc43a09689bdee17caee0c4d939005217ed9fdd88",
+        "aReefGlow": "abc40dfc2771c99358f63bdbad54be47ea1212c6bb73d0b62d432e257a1d6883",
+        "aReefSway": "5d924c7bd7d2236fd3d664b8f2bdc7a9890634d573aacf33d01d456669950af1"
+      },
+      "index": "b90ddbdafce220ac87a74b82191a5dc33119cebbdec2b510fac51fade23cc06a"
+    },
+    "coral-8": {
+      "attributes": {
+        "position": "554c06e27a45d9bdc10f2fec968f858b988e5d84fe39d46e4f3a3c03e658acad",
+        "normal": "ba318d4b01119ca0371e00320edb707f0e8da7fa10ffb065bc531cba0ecfe2e4",
+        "color": "a52dbfccde42f9f3046b0015a021653bbe2150b2074a3e18704447bda2ce434c",
+        "uv": "8d36cd8e6d9e2a6c7dd81b593c44c467215ecab9ffa53ea8844ed2b4d47b5dd4",
+        "aReefGlow": "cde1ae34cb2b4587213b7603b69ea9531f8f53dd9e76385f90e639ac1324797b",
+        "aReefSway": "c5b9acce31eb2b815de17ba7ce96310cfb80960ade46b622277495234f62e37c"
+      },
+      "index": "ba5088f5f0127de1012d2069f72b7c6dc59e445b68b88f057945b35d4e10aa61"
+    },
+    "coral-8-medium": {
+      "attributes": {
+        "position": "554c06e27a45d9bdc10f2fec968f858b988e5d84fe39d46e4f3a3c03e658acad",
+        "normal": "ba318d4b01119ca0371e00320edb707f0e8da7fa10ffb065bc531cba0ecfe2e4",
+        "color": "a52dbfccde42f9f3046b0015a021653bbe2150b2074a3e18704447bda2ce434c",
+        "uv": "8d36cd8e6d9e2a6c7dd81b593c44c467215ecab9ffa53ea8844ed2b4d47b5dd4",
+        "aReefGlow": "cde1ae34cb2b4587213b7603b69ea9531f8f53dd9e76385f90e639ac1324797b",
+        "aReefSway": "c5b9acce31eb2b815de17ba7ce96310cfb80960ade46b622277495234f62e37c"
+      },
+      "index": "b1eaca7122ac8f92b7011277b52f392c47bf11c45a980e5c92c36c3fdc93cbdc"
+    },
+    "coral-8-far": {
+      "attributes": {
+        "position": "554c06e27a45d9bdc10f2fec968f858b988e5d84fe39d46e4f3a3c03e658acad",
+        "normal": "ba318d4b01119ca0371e00320edb707f0e8da7fa10ffb065bc531cba0ecfe2e4",
+        "color": "a52dbfccde42f9f3046b0015a021653bbe2150b2074a3e18704447bda2ce434c",
+        "uv": "8d36cd8e6d9e2a6c7dd81b593c44c467215ecab9ffa53ea8844ed2b4d47b5dd4",
+        "aReefGlow": "cde1ae34cb2b4587213b7603b69ea9531f8f53dd9e76385f90e639ac1324797b",
+        "aReefSway": "c5b9acce31eb2b815de17ba7ce96310cfb80960ade46b622277495234f62e37c"
+      },
+      "index": "e55e86b40a36f90fbf77555c5852e6b3a18c3799bbd57af056d37be5a9483255"
+    },
+    "coral-9": {
+      "attributes": {
+        "position": "450b1350c85a6dba4b6bbbab3326b69c45976c2473d9218b1c50a09ca4986f7d",
+        "normal": "6c5da2e4eadab22a1e06d820e0fcda60d275edb8b22aa7c430118cd86ff9bc63",
+        "color": "7a75505ba42cb9daed22f5103c9387ac4f8b4085123d7d7aa70e537e60d1c436",
+        "uv": "c7f6761ce0241b26da4dec1b488395f410d0c30ceaa7f1cbba1c8c96f767582f",
+        "aReefGlow": "d03feba1ab34c8ebca7ab492aaaefe924a7ea29153655e17e7e60c0e69cdf03a",
+        "aReefSway": "488dce0f02a8db2826fbe2593aa7524b4206d6a8e8b85f06fef957b1445d8639"
+      },
+      "index": "5d68b599514322b72e10275fb24812fde3feb9385cc13b5bdcdccf690387dc42"
+    },
+    "coral-9-medium": {
+      "attributes": {
+        "position": "450b1350c85a6dba4b6bbbab3326b69c45976c2473d9218b1c50a09ca4986f7d",
+        "normal": "6c5da2e4eadab22a1e06d820e0fcda60d275edb8b22aa7c430118cd86ff9bc63",
+        "color": "7a75505ba42cb9daed22f5103c9387ac4f8b4085123d7d7aa70e537e60d1c436",
+        "uv": "c7f6761ce0241b26da4dec1b488395f410d0c30ceaa7f1cbba1c8c96f767582f",
+        "aReefGlow": "d03feba1ab34c8ebca7ab492aaaefe924a7ea29153655e17e7e60c0e69cdf03a",
+        "aReefSway": "488dce0f02a8db2826fbe2593aa7524b4206d6a8e8b85f06fef957b1445d8639"
+      },
+      "index": "f4a98c258c4dd43faa2c4c9b5e6c446eea90b1f9b1665e7dd66a89da672d3034"
+    },
+    "coral-9-far": {
+      "attributes": {
+        "position": "450b1350c85a6dba4b6bbbab3326b69c45976c2473d9218b1c50a09ca4986f7d",
+        "normal": "6c5da2e4eadab22a1e06d820e0fcda60d275edb8b22aa7c430118cd86ff9bc63",
+        "color": "7a75505ba42cb9daed22f5103c9387ac4f8b4085123d7d7aa70e537e60d1c436",
+        "uv": "c7f6761ce0241b26da4dec1b488395f410d0c30ceaa7f1cbba1c8c96f767582f",
+        "aReefGlow": "d03feba1ab34c8ebca7ab492aaaefe924a7ea29153655e17e7e60c0e69cdf03a",
+        "aReefSway": "488dce0f02a8db2826fbe2593aa7524b4206d6a8e8b85f06fef957b1445d8639"
+      },
+      "index": "c9854ce9abd6c572ad303c51c6ee3fdafdca902040afcb53c3e492fe0e1b75b0"
+    },
+    "coral-10": {
+      "attributes": {
+        "position": "57aadfa37040da70e6d44f41da0db7c415165cb8b0d2d71e919839753d3cb86a",
+        "normal": "d9769764c2df03001a2def3c6c4e08e3aed8fd24cc80911ba7a4ebad234b4129",
+        "color": "d79b76167018a2abd3f8be6e541fc0df425f76d0441681bdee1ba2fcb14dfc3e",
+        "uv": "6eeb0cc938e000c2f5d051418fe7bd5421b1b19372774f669a57c43cab991e0f",
+        "aReefGlow": "1031eeb5d30e12f68b2e96f17dd62dcbbbd98a9bfdee365a2c5c7bb1629eab17",
+        "aReefSway": "8213e1356d0e648a9608b696a8aa0ba135616d77e0d05f51ca84b8f22cd958a3"
+      },
+      "index": "e4492d5472cd5c9e065fd0bbc92fca3da9ea76283c36f15ba3cd22c316a02742"
+    },
+    "coral-10-medium": {
+      "attributes": {
+        "position": "57aadfa37040da70e6d44f41da0db7c415165cb8b0d2d71e919839753d3cb86a",
+        "normal": "d9769764c2df03001a2def3c6c4e08e3aed8fd24cc80911ba7a4ebad234b4129",
+        "color": "d79b76167018a2abd3f8be6e541fc0df425f76d0441681bdee1ba2fcb14dfc3e",
+        "uv": "6eeb0cc938e000c2f5d051418fe7bd5421b1b19372774f669a57c43cab991e0f",
+        "aReefGlow": "1031eeb5d30e12f68b2e96f17dd62dcbbbd98a9bfdee365a2c5c7bb1629eab17",
+        "aReefSway": "8213e1356d0e648a9608b696a8aa0ba135616d77e0d05f51ca84b8f22cd958a3"
+      },
+      "index": "fda2765a4578b25a15fd7bfa266e00e9441c951278a49534bd0b2e0dc8ca4d53"
+    },
+    "coral-10-far": {
+      "attributes": {
+        "position": "57aadfa37040da70e6d44f41da0db7c415165cb8b0d2d71e919839753d3cb86a",
+        "normal": "d9769764c2df03001a2def3c6c4e08e3aed8fd24cc80911ba7a4ebad234b4129",
+        "color": "d79b76167018a2abd3f8be6e541fc0df425f76d0441681bdee1ba2fcb14dfc3e",
+        "uv": "6eeb0cc938e000c2f5d051418fe7bd5421b1b19372774f669a57c43cab991e0f",
+        "aReefGlow": "1031eeb5d30e12f68b2e96f17dd62dcbbbd98a9bfdee365a2c5c7bb1629eab17",
+        "aReefSway": "8213e1356d0e648a9608b696a8aa0ba135616d77e0d05f51ca84b8f22cd958a3"
+      },
+      "index": "ede8f5735f9918b45f0f82feb21ccc0c290025868e5f3c43ad6bb675ae84ef08"
+    }
+  },
+  "extras": {
+    "opticalFloor": "89a55a2cc5ad0b7a6c92ba6d4974fcb856516590f77a7a3ede3c85ee27523fd2",
+    "coralSites": "e8286519557b3c9c265de4eff412c88ed09f17ff6402fdba465b05dc434c5b0a",
+    "reefFish": "ace44779e8d5372b1f12be26e4ce0d9e1f651cdebe0525219d0615c79067e907"
+  }
+}

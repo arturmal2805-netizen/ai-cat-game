@@ -2,6 +2,7 @@ import {createCoastMeadowGrass} from './meadow-coast-grass.js';
 import {installCoastMeadowSurfaceSteps} from './meadow-coast-surface.js';
 import {mosaCoastGardenSteps} from './mosasaur-coast-garden.js';
 import {mosaRockReefSteps} from './mosasaur-rock-reefs.js';
+import {mosaSeabedPatchSteps} from './mosasaur-seabed-patch.js';
 import {mosaOpticalBedY} from './mosasaur-reef-data.js';
 import {mosaTerrainSteps} from './mosasaur-terrain.js';
 import {createMosaFish} from './mosasaur-fish.js';
@@ -219,6 +220,7 @@ export function* mosasaurBiomeSteps(
     const depths = yield* deepOceanSteps();
     detail.add(depths);
     animations.push(depths);
+    const reefPatch=yield* mosaSeabedPatchSteps();detail.add(reefPatch);animations.push(reefPatch);root.userData.ocean.reefPatch=reefPatch;
     root.userData.ocean.extraDrawCalls = depths.userData.drawCalls;
   }
   yield;
