@@ -179,3 +179,13 @@ placements точно сохранилисьпослеreload. Внутренни
 всеcandidateбыстрее,median4290.4→4084.7ms. Замедление не воспроизвелось.
 SwiftShaderсинхронныеofflineпробынепредсказываютMac/iPhoneFPS; подтвердить
 физическимreportпослепубликации. ExactQAвcodex/mall-submit-verification9176f420.
+
+## 2026-11-17 — опубликован Mall performancefix0b38098
+
+После подтверждённой1fпубликации отдельно отправлен0b38098. Полный Node22
+CI44104460487 test/deploy/pages SUCCESS, фактическийHTTP14:47:11UTC сверил
+JSdbe5f20f…/CSSc14ce840…/wavefield/9reflectionPNG/reef.gz,HTMLoneappscript.
+Все native/composition/exactindices/selectedstore/nativeShadow/SQLiteguards
+прошли, оригинальные модели/графика/сохранения сохранены. MacFPS поканеизмерен
+на новойверсии. CURRENTочищенот устаревшихactiveочередей,полныйархивсохранён.
+Следующийstep—hardware report0bиотдельноloadingpriorities; не claimвселагиfixed.

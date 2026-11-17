@@ -1,62 +1,61 @@
 # Текущий статус — единственная очередь
 
-Обновлено 2026-11-17. Выполнен порядок игрока: всё дно → публикация06a39cb →
-оптимизация. Первый performance fix опубликован1f96a1b; следующий0b38098 вCI.
-Статусы ниже не равны художественному одобрению или аппаратному FPS.
+Обновлено 2026-11-17. Порядок игрока выполнен: всё дно → публикация06a39cb →
+первый performancefix1f96a1b → отдельный Mallfix0b38098. Все опубликованы.
+Технический релиз не равен художественному одобрению или аппаратным60FPS.
 
-## Подтверждённый первый performance release
+## Текущий подтверждённый релиз
 
-**1f96a1b6ce17435bc6aa845db1ba6e52d88a56cd** опубликован, полный CI44101398484
-SUCCESS всех3jobs. Actual HTTP14:33:40UTC: JSb762b19233cfc25b514f49ecb335200116b5f77494d7030c6326e221d0310095,
-CSS c14ce8408f8f3aed7a5e7991eca39663fe55377343421ff62e0600ada4c048ef,
-wavefield/all9probes/reef.gz совпали; HTMLoneappscript.
-[Workflow/live receipts](../qa/2026-11-17/floor-culling-publication/live-verification.json).
-https://arturmal2805-netizen.github.io/ai-cat-game/?v=1f96a1b&profile=1
-Native actual fullMall/65residents/DPR2 floor A/B сохранил все pixels;
-54floorsections →6/32/3. Это первая небольшая экономия, не обещание60FPSMac.
-Runtime immutable /workspace/chichi-ocean-performance, веткаcodex/ocean-performance.
-
-## Следующий Mall fix в main/CI, ЕЩЁ НЕ опубликован
-
-**0b38098a32e338a89b88efd784b184e9ac72c3f3** отправлен в main ТОЛЬКО после
-HTTPverification1f. CI44104460487 в работе:
+**0b38098a32e338a89b88efd784b184e9ac72c3f3** — main и работающий сайт.
+Полный Node22 CI44104460487 SUCCESS: test/deploy/pages, включая release/server/
+shared-save verification; paidAI не запускался.
 https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44104460487
-ExpectedJSdbe5f20f39f2f67ab258a143614fba517f1588f0dd839d590b3fc90d5dfd71d9,
-CSS прежнийc14ce840… . Verifier /tmp/verify-mall-submit-release.py пишет
-/workspace/qa/mall-submit-publication/verification.exit. Latestlive пока1f.
-Immutable source/assets /workspace/chichi-mall-submit-performance,
-веткаcodex/mall-submit-performance. Source9499bc9 + release0b38098.
+Фактический HTTP2026-11-17T14:47:11UTC: одно подключение приложения,
+JS **dbe5f20f39f2f67ab258a143614fba517f1588f0dd839d590b3fc90d5dfd71d9**,
+CSS **c14ce8408f8f3aed7a5e7991eca39663fe55377343421ff62e0600ada4c048ef**.
+Wavefield/all9reflectionPNG/reef.gz совпали с immutablebuild, а не толькоURLv.
+[Workflow/live receipts](../qa/2026-11-17/mall-submit-publication/live-verification.json).
+Игра https://arturmal2805-netizen.github.io/ai-cat-game/?v=0b38098
+Одноразовая диагностика https://arturmal2805-netizen.github.io/ai-cat-game/?v=0b38098&profile=1
 
-Найден rootcause: room-light/cutaway устанавливаются ПОСЛЕ batchModelSteps;
-прежний guard корректно выключал multi-draw после сменыhookidentity. Теперь
-только эти два auditedposition-preservinghooks сохраняют exactranges. Room
-lighting сохраняет ТОЛЬКО известный staticwrapper, старыйreflectionfinish
-заменяется как прежде; sharedmaterials идемпотентны. Unknown wind/refraction/
-geometry/key changes остаютсяnativefallback.8unit+26releasePASS, NativeV2
-actualfullgame/65residents/DPR2 interior/overview/phone:0shader/page/HTTPerrors,
-ZEROchangedRGBA. Tri11.2→5.46M,13.38→10.02M,10.73→3.94M; GPUbuffersнеизменны.
-SingleSwiftShaderpairs неMacFPS: interior/phone быстрее,overview+.53%noise,
-не статистическая гарантия. Обаbakers реально пересняты,9PNG неизменны;
-static-submissions producer включён в обаinputlists. V1отклонён заdouble
-uMallProbe —0pixeldifference у двух битых кадров НЕ успех. Все исходники/QA/PNG:
+## Что именно оптимизировано
+
+В1f96a1b6ce17435bc6aa845db1ba6e52d88a56cd исправлено отсечение54секций дна:
+sharedattributes раньше раздували bounds каждой секции до всего floor. Native
+sortsphere/всеvertices/index/shader/physicalrayproxy сохранены. Indexed metric
+bounds проверяются после FINALcamera; castingfloor остаётсяnative. Native
+underwater/overview/phoneDPR2:54→6/32/3секции,0changedRGBA.31targeted+12release
+PASS, реальныйoceanrebakePNGнеизменён. Полный CI44101398484 иHTTP14:33:40UTC
+успешны. [Receipt1f](../qa/2026-11-17/floor-culling-publication/live-verification.json).
+
+В0b38098 исправлен Mall room-light/cutaway: они подключались ПОСЛЕbatching,
+поэтому guard правильно выключал exactstaticranges после сменыhookidentity.
+Теперь ТОЛЬКО два auditedposition-preservinghooks сохраняютdispatch. Roomlight
+сохраняет только известный staticwrapper; старый reflectionfinish заменяется
+как прежде, sharedmaterials идемпотентны. Unknown wind/refraction/geometry/key
+changes по-прежнему nativefallback. Исходные vertices/index/triangleorder,
+доступные geometry/picking, shadowкамеры, все модели/анимации/DPR сохранены.
+8staticunit+26release PASS, actual fullgame/65residents/DPR2interior/overview/
+phone:0shader/page/HTTPerrors,0changedRGBA. Triangle submissions11.2→5.46M,
+13.38→10.02M,10.73→3.94M; GPUgeometrybuffers неизменны вкаждойA/Bпаре.
+Обаbakers реально пересняты,9reflectionPNG неизменны; static-submissions
+producer добавлен вобаспска. V1отклонён duplicateuMallProbe:0differenceу двух
+битыхкартинокНЕуспех. Exactsource/QA/productionbundle/PNG:
 https://github.com/arturmal2805-netizen/ai-cat-game/blob/0b38098a32e338a89b88efd784b184e9ac72c3f3/docs/qa/2026-11-17/mall-static-submit/manifest.json
 
-Дополнительный nativeQA без изменения production — PASS:
-/workspace/chichi-mall-submit-verification, codex/mall-submit-verification,
-база0b. ВыбранныеMcD/Vuittoncutaway + phoneinside сравниваются с полностью
-native MeshDepthMaterial (не толькоbatchoff), затемprivateSQLitecoins/inventory/
-placements reload. /workspace/qa/mall-static-store-native.log/.exit0.
-Все pixels0difference,shader/page/HTTPerrors0,ownershipточный послеreload.
-Phoneinside одиночная пара+12.3% была медленнее; ПО ПРИЧИНЕ этого сомнения
-выполнены3повторные пары сразнымпорядком:4290.4→4084.7,4524.6→4208,
-4097.4→4063.1ms; slowdownне повторился. Median4290.4→4084.7, НЕhardwareFPS.
-Точный QA/source/PNG/SQLiteproof вverificationветке9176f420429b4d928184212c7ec04c725d0044e5:
+Дополнительные selectedMcD/Vuittoncutaway иphoneinside прошли с полностью
+nativeMeshDepthMaterial baseline. CutawayOpentrue/false подтверждены, всеpixels
+совпали,0errors, privateSQLitecoins/inventory/placements точноравны послеreload.
+Один phoneinsideGPUprobe был медленнее12.3%;3повторныепары сразнымпорядком
+дали4290.4→4084.7,4524.6→4208,4097.4→4063.1ms. Slowdown не повторился.
+SingleSwiftShaderpairs/3samples НЕ Mac/iPhoneFPS и неуниверсальнаягарантия.
+Точный extraQA/source/PNG/SQLiteproof, productionнеизменён:
 https://github.com/arturmal2805-netizen/ai-cat-game/blob/9176f420429b4d928184212c7ec04c725d0044e5/docs/qa/2026-11-17/mall-static-extra/manifest.json
 
-Второй report игрока: JSf8/06a39cb,26frames1.35s,18.52FPSне сравнивать с
-прежними300frames. GPU28.24ms/15.718Mtri,zeroin-windowrefaults/bufferData.
-Loadingtextures8–10s иAIplan17.4s — отдельное будущее расследование; не гонять
-paidAI заново радибенчмарка. Safe summary docs/qa/2026-11-17/player-fps-report-2-summary.json.
+Immutable runtime/assets: /workspace/chichi-mall-submit-performance,
+codex/mall-submit-performance0b. Дополнительный QAвотдельной
+/workspace/chichi-mall-submit-verification, codex/mall-submit-verification9176.
+Source/qaсохраненыудалённо; не считать памятьчата/локальныефайлыединственнойкопией.
 
 ## Выполненные этапы и неизменные контракты
 
@@ -96,20 +95,24 @@ APIplan17.4sec и resource8–10sec — observedtimings, не доказанны
 
 ## Что делать дальше
 
-1. Закончить полный CI/live0b38098 и native selected-store/SQLiteaudit выше.
-   Не повышать pending доpublished по имени коммита/URLv. Дать игроку ссылку.
-2. Следующая оптимизация — по новому физическому report после этой версии:
-   fullframe/longpauses/GPU/память, отдельная проверка loadingpriorities.
-   Не повышать geometrybudget глобально и не выдавать cache за причину без
-   actualtrace. Не включать colonyrenderer вслепую; меньшеdraws раньше не
-   доказали лучший AppleFPS. Не гонять платныйAI для нагрузочных тестов.
+1. Нужен новый аппаратный report ПОСЛЕ0b38098: дождаться загрузки,30секунд
+   в одном ракурсе без открытых меню, затем «Скопировать отчёт». Сравнивать
+   одинаковые camera/DPR/fullframes/longpauses/GPU/память, не26framesс300frames.
+   Ни один старый report не измеряетопубликованный0b. Окнотолькопозапросу.
+2. Следующее расследование — startup/loadingpriorities: во втором report
+   textures8–10sec иAIplan17.4sec (observedtimings, не доказанныйсбойAPI).
+   Первый reportM2:18.959Mtri/2462draws/211rapidrefaults. Stationary native24frame
+   trace ихне повторил. Второй report JSf8/06:1.35sec26frames,18.52FPS,
+   GPU28.24ms/15.718Mtri,zeroin-windowrefaults/bufferData. Safe summariesвQA.
+   Не повышать budgetглобально/не обвинятьcacheбезtrace/не включатьcolonyrenderer
+   вслепую/не гонять paidAI радибенчмарка/не уменьшатьмодели,DPR,тени,количество.
 3. Художественно вода/песок/кораллы ещё НЕ приняты. Crimson Desert остаётся
-   целью всей карты, не только одной локации; физические wave/depth/flowprofiles
-   разные. После стабилизации продолжать качественную поверхность/дно/реализм
-   и осмысленные экосистемы, сравнивая соstable И сCrimson при одинаковыхусловиях.
-4. Запрос2×WATERAREA/свободного пространства уТРЦ остаётся отдельным WIP.
-   Не масштабировать животных/здания/ownedcoordinates; не переносить тяжёлый
-   черновик целиком встабильную игру. Управление/возврат/сохранения сохранить.
+   целью всей карты, не толькооднойлокации; physicalwave/depth/flowprofiles
+   разные. После стабилизации продолжать поверхность/дно/реализм/экосистемы,
+   сравнивая соstable И сCrimson при одинаковыхусловиях. Не выдаватьCIзаapproval.
+4. Запрос2×WATERAREA/пространствауТРЦ остаётся отдельнымWIP. Не масштабировать
+   животных/здания/ownedcoordinates и не переносить тяжёлыйчерновикцеликом.
+   Управление/возврат/сохранения/инвентарь/монеты/назначения сохранять.
 
 ## Восстановление и сохранённые ветки
 
