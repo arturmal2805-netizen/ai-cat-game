@@ -6,6 +6,7 @@
 - [Вода: Crimson Desert, историческая база d6fa805 и общее ядро](standards/water.md).
 - [Грунт и растительность](standards/terrain-vegetation.md).
 - [ТРЦ: архитектура, жизнь, покупки и сохранения](standards/mall.md).
+- [Подводный SPA-курорт](standards/underwater-spa.md).
 - [Управление и камеры](standards/controls-camera.md).
 - [Решения, ошибки и отклонённые подходы](decisions.md).
 - [Правила QA-манифестов и сохранения WIP](evidence-and-recovery.md).
