@@ -72,9 +72,15 @@ Workflow44194305867 запущен; CI/live пока НЕ подтвержден
 
 1. ЗавершитьактивныйWIP проходов. Неослаблятьbodyradius/столкновения и не
    исправлять маршрутытелепортом. Не менятьэкономику/назначения/домовладение.
-2. Оптимизация поактуальному аппаратному отчёту новойверсии после загрузки,
+2. Новый запрос2026-11-18: самостоятельный CHICHI CAT SPA & WELLNESS RESORT перед ТРЦ.
+   Полный документ сохранён docs/specifications/underwater-spa-resort-2026-11-18.md;
+   standard standards/underwater-spa.md. Отдельный worktree /workspace/chichi-underwater-spa-resort,
+   remote codex/underwater-spa-resort, initial081fb13. Пока это WIP data/booking,
+   без геометрии/интеграции/публикации. Не считать полноценным SPA.
+   14 plannedzones, actual metre scale, no replacement of old water-island SPA/Mall.
+3. Оптимизация поактуальному аппаратному отчёту новойверсии после загрузки,
    samecamera/settings/DPR,30секунд. Старые6secMacpauses не объявленыисправленными.
-3. Не возвращать эстетическую/архитектурную доработкуТРЦ безновогозапроса.
+4. Не возвращать эстетическую/архитектурную доработкуТРЦ безновогозапроса.
 
 ## Сохранённые исходники и неизменные стандарты
 
