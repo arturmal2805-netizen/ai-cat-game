@@ -1,0 +1,5 @@
+{
+  "source": "e25f6ffd3ab4cab2d3595a337573699bbaa4d3c2",
+  "completed": false,
+  "reason": "Process ended without an exit receipt after native floor/store/touch captures. No completed purchase/reload result; do not count as a pass."
+}

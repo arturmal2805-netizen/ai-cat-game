@@ -4,57 +4,44 @@
 первый performancefix1f96a1b → отдельный Mallfix0b38098. Все опубликованы.
 Технический релиз не равен художественному одобрению или аппаратным60FPS.
 
-## Текущая WIP-работа после третьего отчёта
-
-/workspace/chichi-ocean-cache-trace, codex/ocean-cache-trace, база0b38098.
-Ничего нового пока не опубликовано. Thirdreport JSdbe/0b подтверждён: GPU18.36ms,
-FPS20.43 из300frames/14.633sec сgap5900.1ms,1%low0.4;153rapidrefaults58.7MB.
-6secgap отсутствует вrecordedLongTask608ms/GPUMax223ms, причинностьcache не доказана.
-Stationarytrace не воспроизводилrefault; новый submission-only camera-cycle
-trace воспроизвёл1053returns527.8MB, преимущественно этажиMall. GPUdrawsтолько
-вЭТОМQA подавлены, realuploads/shaders остаются; этоНЕFPS/nativepixelproof.
-
-КандидатexactFloat32RGBdictionary152bakedMallgeometries:41.43MBcolour →
-6.9MBUint16indices+64KiBFloat32table,34.46MBnetGPUэкономия, vertices/normal/UV/
-index/colours32bits неизменны. Defaultdata coloursсохраненыCPU; толькоbakedfloor
-holders, неcats/rigs/morphs/instancing/sharedunsupportedmaterials. Unitбитовая
-точность+rayfaces+nativeStaticdispatch PASS. NativeV3 fullgame/DPR2interior/
-overview/phone:0changedRGBA/0errors, buffers−30.9–34.47MB. V1/V2toggleQAбыли
-биты: ThreegetProgram сохраняетОДИНuniformsetнаmaterial при возвратеcached
-program. QA-модовое переключение теперьdispose-materialcache/recompile, не
-трогаетcatmaterials. Defaultproduction ничего не переключаеткаждыйкадр.
-
-Пользователь ДОБАВИЛ вэтотрелиз: видимаякнопка «Управлять Чичи» и ходьбаот3лица
-ВЕЗДЕ, включаяобычныеострова. Уточнениеявно подтверждено пользователем.
-Новыеchichi-manual.js/worldintegration иsubmarine.controlChichi вработе:
-обычнаяходьбаизреальногоposition,существующиеwater/Mallowners, однаmodel,
-WASD/dragcamera, compacttouch44px, desktopбезdirectionpad, world/islandrelease,
-bridge-locationvalidationтолькоChichiсlegacyshorefallback. Sharedmergeнеизменён.
-Node22 full build PASS; 50 targeted tests PASS; final 30 tests after cleanup PASS.
-Native V7: real keyboard entry/movement, desktop no direction pad, real held
-phone touch44px, Island/World release, private SQLite position/balances/items
-reload PASS. Ordinary rest is unchanged. New land controller is not persisted:
-reload returns the same real cat to autonomous life. Native ownership audit
-recovered Mega Loops, re-placed for zero charge, retained one copy after TWO
-SQLite reloads PASS. No shared-world merge changes. Final direct-button water/Mall
-entry audits both PASS (exit/swim/dive/rise/reboard; Mall release/resume/walk); do not mark this WIP published until CI+HTTP receipts.
-Source WIP fe9e40027dae69902002ec0cdc68cac1f92ff303 + current final overlay.
-QA: docs/qa/2026-11-17/cache-and-global-control; local native-v7, palette-v3,
-chichi-global-ownership, final button-water/button-mall in /workspace/qa.
-
 ## Текущий подтверждённый релиз
 
-**0b38098a32e338a89b88efd784b184e9ac72c3f3** — main и работающий сайт.
-Полный Node22 CI44104460487 SUCCESS: test/deploy/pages, включая release/server/
-shared-save verification; paidAI не запускался.
-https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44104460487
-Фактический HTTP2026-11-17T14:47:11UTC: одно подключение приложения,
-JS **dbe5f20f39f2f67ab258a143614fba517f1588f0dd839d590b3fc90d5dfd71d9**,
-CSS **c14ce8408f8f3aed7a5e7991eca39663fe55377343421ff62e0600ada4c048ef**.
-Wavefield/all9reflectionPNG/reef.gz совпали с immutablebuild, а не толькоURLv.
-[Workflow/live receipts](../qa/2026-11-17/mall-submit-publication/live-verification.json).
-Игра https://arturmal2805-netizen.github.io/ai-cat-game/?v=0b38098
-Одноразовая диагностика https://arturmal2805-netizen.github.io/ai-cat-game/?v=0b38098&profile=1
+**e25f6ffd3ab4cab2d3595a337573699bbaa4d3c2** — main и фактически работающий сайт.
+[Workflow 44134464517](https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44134464517): test/deploy/pages SUCCESS,
+включая проверку серверной версии и shared saves. Платный ИИ не вызывался.
+HTTP-проверка 2026-11-17T17:25:55.519754+00:00: одно подключение приложения, настоящие файлы:
+JS **89f628b72c238b0390dc38ef142b98511d6efc2eb390d0980554f40839185856**,
+CSS **d02068257c7b2b00ecdb80590c8a6bc5003849788f1400e69b6a6d6d91fb4356**.
+Все 9 reflection PNG, общий wave field и reef.gz совпали с неизменной сборкой.
+[Квитанции workflow и HTTP](../qa/2026-11-17/global-control-publication/live-verification.json).
+Игра: https://arturmal2805-netizen.github.io/ai-cat-game/?v=e25f6ff
+Одноразовая диагностика: https://arturmal2805-netizen.github.io/ai-cat-game/?v=e25f6ff&profile=1
+
+Видимая кнопка «Управлять Чичи» включает третье лицо на обычных островах,
+мостах, в воде и ТРЦ. Одна настоящая модель; WASD/мышь на ПК, компактные
+44px кнопки на телефоне. «Остров» и «Весь мир» освобождают контроллер.
+Фактическая поза сохраняется; после reload обычная жизнь, без второго владельца.
+Проверены настоящие клавиши, удержание touch, вход/выход из воды, повторная
+посадка, включение ходьбы в ТРЦ, camera release, приватные SQLite reload.
+Отдельный ownership-аудит восстановил Mega Loops в сумку, бесплатно поставил,
+сохранил ровно одну оплаченную копию после двух перезагрузок.
+
+Точный словарь Float32 RGB для 152 запечённых геометрий ТРЦ заменяет
+41,432,184 байта цветов на 6,905,364 байта индексов и 65,536 байт таблицы:
+экономия **34,461,284 байта (~32.9 МиБ)** GPU. Позиции, нормали, UV, индексы,
+все 32 бита цветов, коллизии и picking сохранены. Полная игра: interior,
+overview, phone DPR2 — 0 изменённых RGBA, 0 ошибок shader/page/HTTP.
+Node22 build и 50 целевых тестов, финальные 30 после cleanup и 17 release/world
+guards прошли. SwiftShader-сравнение не является измерением FPS телефона/Mac.
+[Точный код, QA-сборки, PNG и хеши](https://github.com/arturmal2805-netizen/ai-cat-game/blob/e25f6ffd3ab4cab2d3595a337573699bbaa4d3c2/docs/qa/2026-11-17/cache-and-global-control/manifest.json).
+
+Третий аппаратный отчёт уже относится к 0b38098/JSdbe: 300 кадров за14.633s,
+20.43FPS, GPU median18.36ms, пауза5900.1ms и153rapid refaults58.7MB.
+Camera-cycle trace воспроизвёл повторные загрузки Mall, но шестисекундная
+пауза не объяснена recorded JS/GPU tasks. НЕ объявлять её устранённой.
+Не повышать глобальный GPU budget и не снижать fauna/detail/DPR/shadows.
+Предыдущий stable 0b38098a32e338a89b88efd784b184e9ac72c3f3 и его HTTP/CI
+остаются контролем; этот релиз не художественное одобрение воды.
 
 ## Что именно оптимизировано
 
@@ -131,16 +118,29 @@ bufferData: не проверятьnativeчерезtoString, сравниват�
 собрать30секунд в одинаковом виде/DPR, не сравнивать1.35sec/26frames с300frames.
 APIplan17.4sec и resource8–10sec — observedtimings, не доказанный сбойAPI.
 
+## WIP ТРЦ отложен пользователем
+
+2026-11-17: после повторной полной спецификации пользователь уточнил:
+ближайшая публикация ТОЛЬКО остров и вода; ТРЦ — следующая публикация.
+Новые галереи НЕ включать в водный релиз. Сохранены отдельно в
+codex/mall-cyberpunk-detail, /workspace/chichi-mall-cyberpunk, база e25f6ff.
+Добавлены четыре реальные круглые галереи на прежних боковых башнях,
+без новой валюты, дублирования Mall, изменения ID магазинов и адресов покупок.
+120/120 физических маршрутов, 16022 пробы реального пола PASS.
+Construction storage226,182,655→234,281,887B (+8,099,232B), triangles
+6,133,353→6,343,649; не GPU residency/FPS. Native candidate НЕ проверен,
+НЕ готов к публикации. Предыдущий native baseline capture прерван без receipt.
+27 Mall target tests PASS. Карта исходников и renewed-reference provenance:
+docs/qa/2026-11-17/mall-spec-recheck/. Текст byte-identical прежней спецификации.
+Исходные байты картинки в tool не получены, не утверждать архивирование фото.
+
 ## Что делать дальше
 
-1. Finish and publish the verified global-control/Mall-memory increment from
-   codex/ocean-cache-trace. Latest report3 already measures 0b38098 (JSdbe);
-   do NOT request it again as if absent. Native direct-button water/Mall audits
-   passed; next full Node22 CI and HTTP JS/CSS hashes before claiming live.
-2. After release collect a physical-device report of 30 seconds in the same
-   camera/DPR. Report3 six-second gap remains unexplained; no recorded JS/GPU
-   task accounts for it. Palette removes ~33MiB exact Mall RGB uploads, not a
-   proven fix for every pause. Keep current GPU cache limits, fauna and detail.
+1. Новый аппаратный отчёт после e25f6ff: завершённая загрузка и30 секунд
+   одинакового ракурса/DPR, «Скопировать отчёт». Окно только по запросу.
+2. Продолжать оптимизацию по фактическому новому отчёту: полное время кадра,
+   длинные паузы, memory/uploads. Причина gap5900ms пока не доказана.
+   Словарь экономит память ТРЦ, но не доказывает устранение всех торможений.
 3. Художественно вода/песок/кораллы ещё НЕ приняты. Crimson Desert остаётся
    целью всей карты, не толькооднойлокации; physicalwave/depth/flowprofiles
    разные. После стабилизации продолжать поверхность/дно/реализм/экосистемы,

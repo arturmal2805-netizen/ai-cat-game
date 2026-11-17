@@ -1,0 +1,172 @@
+TAP version 13
+# Subtest: mall appends seven floors and real destinations to the existing AI catalogue
+ok 1 - mall appends seven floors and real destinations to the existing AI catalogue
+  ---
+  duration_ms: 178.445739
+  type: 'test'
+  ...
+# Subtest: existing private wallet buys once, retains its permanent receipt and exact inventory over two reloads
+ok 2 - existing private wallet buys once, retains its permanent receipt and exact inventory over two reloads
+  ---
+  duration_ms: 36.498203
+  type: 'test'
+  ...
+# Subtest: poor balance, unavailable ocean, stale sequence and repeated unique item fail without mutating the save
+ok 3 - poor balance, unavailable ocean, stale sequence and repeated unique item fail without mutating the save
+  ---
+  duration_ms: 14.005313
+  type: 'test'
+  ...
+# Subtest: eating consumes the purchased stock once, restores native needs and persists consumption
+ok 4 - eating consumes the purchased stock once, restores native needs and persists consumption
+  ---
+  duration_ms: 13.473989
+  type: 'test'
+  ...
+# Subtest: cached clients cannot erase a paid receipt or unknown product; racing same-wallet payments reject atomically
+ok 5 - cached clients cannot erase a paid receipt or unknown product; racing same-wallet payments reject atomically
+  ---
+  duration_ms: 57.667281
+  type: 'test'
+  ...
+# Subtest: Mall camera accepts only actual interior shoppers across all floors
+ok 6 - Mall camera accepts only actual interior shoppers across all floors
+  ---
+  duration_ms: 2.472339
+  type: 'test'
+  ...
+# Subtest: Native bench guests remain eligible on other cutaway floors; room props do not
+ok 7 - Native bench guests remain eligible on other cutaway floors; room props do not
+  ---
+  duration_ms: 0.464255
+  type: 'test'
+  ...
+# Subtest: Random visitor avoids immediate repeats and has no island fallback
+ok 8 - Random visitor avoids immediate repeats and has no island fallback
+  ---
+  duration_ms: 0.433049
+  type: 'test'
+  ...
+# Subtest: six distinct affordable flavors rotate after durable purchases, respect wishes and leave old receipts usable
+ok 9 - six distinct affordable flavors rotate after durable purchases, respect wishes and leave old receipts usable
+  ---
+  duration_ms: 238.320833
+  type: 'test'
+  ...
+# Subtest: every flavor reaches its real food seat and consumes exactly once, including paid/used checkpoints and cancellation
+ok 10 - every flavor reaches its real food seat and consumes exactly once, including paid/used checkpoints and cancellation
+  ---
+  duration_ms: 837.140739
+  type: 'test'
+  ...
+# Subtest: native cone grip, tongue and face reset after eating; reduced motion keeps a stable grip without licking
+ok 11 - native cone grip, tongue and face reset after eating; reduced motion keeps a stable grip without licking
+  ---
+  duration_ms: 858.210714
+  type: 'test'
+  ...
+# Subtest: bounded six-flavor templates retain real shared geometry while portions remain independent
+ok 12 - bounded six-flavor templates retain real shared geometry while portions remain independent
+  ---
+  duration_ms: 22.416969
+  type: 'test'
+  ...
+# Subtest: every shop, cashier and authored seat approach clears the actual built fixtures
+ok 13 - every shop, cashier and authored seat approach clears the actual built fixtures
+  ---
+  duration_ms: 424.222701
+  type: 'test'
+  ...
+# Subtest: six large simultaneous restaurant visitors keep clearance with the real furniture and lift queue
+ok 14 - six large simultaneous restaurant visitors keep clearance with the real furniture and lift queue
+  ---
+  duration_ms: 3527.742009
+  type: 'test'
+  ...
+# Subtest: all destinations complete with furniture navigation enabled; food/cinema settle on their actual seats
+ok 15 - all destinations complete with furniture navigation enabled; food/cinema settle on their actual seats
+  ---
+  duration_ms: 555.779588
+  type: 'test'
+  ...
+# Subtest: paid diners reload inside actual chair bounds and leave without a stuck path or another meal
+ok 16 - paid diners reload inside actual chair bounds and leave without a stuck path or another meal
+  ---
+  duration_ms: 450.786516
+  type: 'test'
+  ...
+# Subtest: first-person return enters each actual escalator around its upper handrail end
+ok 17 - first-person return enters each actual escalator around its upper handrail end
+  ---
+  duration_ms: 13.113176
+  type: 'test'
+  ...
+# Subtest: the previously stalled aisle position reaches the upper landing without crossing the real rail
+ok 18 - the previously stalled aisle position reaches the upper landing without crossing the real rail
+  ---
+  duration_ms: 115.182698
+  type: 'test'
+  ...
+# Subtest: all 34 destinations physically finish through their floor, private checkout, activity and original dry pier
+ok 19 - all 34 destinations physically finish through their floor, private checkout, activity and original dry pier
+  ---
+  duration_ms: 1122.415423
+  type: 'test'
+  ...
+# Subtest: six largest cats retain distinct waiting places, four-seat capacity, physical separation and finite return
+ok 20 - six largest cats retain distinct waiting places, four-seat capacity, physical separation and finite return
+  ---
+  duration_ms: 405.44136
+  type: 'test'
+  ...
+# Subtest: a checkpoint after paying or using a meal resumes the same goal without another debit or meal consumption
+ok 21 - a checkpoint after paying or using a meal resumes the same goal without another debit or meal consumption
+  ---
+  duration_ms: 86.503466
+  type: 'test'
+  ...
+# Subtest: failed durable intent cannot leave a running unrecorded visitor; failed consumption has one bounded attempt
+ok 22 - failed durable intent cannot leave a running unrecorded visitor; failed consumption has one bounded attempt
+  ---
+  duration_ms: 49.122998
+  type: 'test'
+  ...
+# Subtest: native arrival is handed over before the durable goal clears, including a subsequent visit
+ok 23 - native arrival is handed over before the durable goal clears, including a subsequent visit
+  ---
+  duration_ms: 26.897292
+  type: 'test'
+  ...
+# Subtest: detaching a manually moved visitor cannot overwrite the player drop with an old route position
+ok 24 - detaching a manually moved visitor cannot overwrite the player drop with an old route position
+  ---
+  duration_ms: 2.480942
+  type: 'test'
+  ...
+# Subtest: an old pilot inside the new mall resumes in nearby open water at the same depth and with its pose
+ok 25 - an old pilot inside the new mall resumes in nearby open water at the same depth and with its pose
+  ---
+  duration_ms: 25.614389
+  type: 'test'
+  ...
+# Subtest: faster swept driving stops at the real front glass and vertical controls cannot cross either roof or ground slab
+ok 26 - faster swept driving stops at the real front glass and vertical controls cannot cross either roof or ground slab
+  ---
+  duration_ms: 369.920829
+  type: 'test'
+  ...
+# Subtest: refitting keeps all twelve original detailed reef templates, scales and unchanged colonies
+ok 27 - refitting keeps all twelve original detailed reef templates, scales and unchanged colonies
+  ---
+  duration_ms: 0.838998
+  type: 'test'
+  ...
+1..27
+# tests 27
+# suites 0
+# pass 27
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 22019.404638

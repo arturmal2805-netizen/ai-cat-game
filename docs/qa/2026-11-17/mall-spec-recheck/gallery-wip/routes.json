@@ -1,0 +1,12 @@
+{
+  "area": {
+    "floorGross": 20974.674893501247,
+    "groundUsable": 20537.239532415406,
+    "upperUsable": 17188.81042691533,
+    "sevenFloors": 129777.35821248595
+  },
+  "cases": 120,
+  "blocked": [],
+  "passed": 120,
+  "physicalFloorSamples": 16022
+}

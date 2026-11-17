@@ -144,14 +144,18 @@ export function* mallRebuildModelSteps(options={}){
     const gardenRoof=new T.RingGeometry(r-.8,p.roofRadius,96);gardenRoof.rotateX(-Math.PI/2);mesh(frameSource,gardenRoof,mats.navy,p.x,y+7.7,p.z);
     ring(frameSource,p.x,y+7.7,p.z,p.roofRadius,mats.gold,.08);
     const roofGarden=new T.Group();roofGarden.position.y=y+7.7;frameSource.add(roofGarden);
-    for(let j=0;j<8;j++){const a=j*Math.PI/4;plant(roofGarden,p.x+Math.cos(a)*18.6,p.z+Math.sin(a)*18.6,1.15);}
-    const foundation=MALL_LAYOUT.y-4.5,height=y-.4-foundation;
-    for(let j=0;j<4;j++){const a=j*Math.PI/2+Math.PI/4,x=p.x+Math.cos(a)*12.5,z=p.z+Math.sin(a)*12.5;
+    for(let j=0,n=p.gardenCount??8;j<n;j++){const a=j*Math.PI*2/n;plant(roofGarden,p.x+Math.cos(a)*18.6,p.z+Math.sin(a)*18.6,1.15);}
+    const tower=MALL_LAYOUT.pavilions.filter(v=>v.x===p.x&&v.z===p.z),originalTop=Math.max(...tower.filter(v=>v.gardenCount===undefined).map(v=>v.floor)),lower=Math.max(0,...tower.filter(v=>v.floor<p.floor).map(v=>v.floor));
+    const foundation=p.gardenCount!==undefined&&lower?floorData[lower-1].y-.4:MALL_LAYOUT.y-4.5,height=y-.4-foundation;
+    // Existing taller tower posts already support lower additions. Above an
+    // old tower, extend from the previous real gallery, never duplicate its
+    // foundation columns through several translucent storeys.
+    for(let j=0,n=p.gardenCount!==undefined&&p.floor<=originalTop?0:4;j<n;j++){const a=j*Math.PI/2+Math.PI/4,x=p.x+Math.cos(a)*12.5,z=p.z+Math.sin(a)*12.5;
       disk(frameSource,mats.navy,x,foundation+height/2,z,.4,height);
       tube(frameSource,[[x+.42,foundation,z],[x+.42,y-.4,z]],.035,mats.cyan);
     }
     for(const h of [0,7.5])ring(frameSource,p.x,y+h,p.z,r,mats.gold,.08);
-    for(let i=0;i<10;i++){const a=i*Math.PI/5,x=p.x+Math.cos(a)*12,z=p.z+Math.sin(a)*12,g=new T.Group();g.position.y=y;frameSource.add(g);plant(g,x,z,.9);chair(g,x*.96,z,mats.red,.65,-a);}
+    for(let i=0,n=p.seatingCount??10;i<n;i++){const a=i*Math.PI*2/n,x=p.x+Math.cos(a)*12,z=p.z+Math.sin(a)*12,g=new T.Group();g.position.y=y;frameSource.add(g);plant(g,x,z,.9);chair(g,x*.96,z,mats.red,.65,-a);}
     const a=new T.Vector3(p.connection.x,y,p.connection.z),b=new T.Vector3(p.x,y,p.z),mid=a.clone().lerp(b,.5),length=a.distanceTo(b),bridge=new T.Group();bridge.position.copy(mid);bridge.rotation.y=Math.atan2(b.x-a.x,b.z-a.z);frameSource.add(bridge);
     cube(bridge,mats.navy,0,-.18,0,8,.3,length);cube(bridge,mats.floor,0,-.025,0,7.8,.05,length).userData.mallWalkSurface=true;cube(bridge,glassMat,0,7,0,8,.055,length);
     for(const side of [-1,1]){cube(bridge,glassMat,side*4,3.5,0,.055,7,length);cube(bridge,mats.gold,side*4,7,0,.06,.06,length);}
@@ -184,7 +188,7 @@ export function* mallRebuildModelSteps(options={}){
   root.userData={mall:true,built:true,layoutVersion:2,floors,stores,roomStoreIds,walkSurfaces,obstacles,cameraHighObstacles,cabin,doors,airlock,ownedCats:[statue],borrowedTextures:kit.borrowedTextures,atlas:kit.atlas,ownedTextures:[roomLights.texture],borrowed:new Set(),
     guestActors:background,
     iceCreamStation:kit.iceStation.current,
-    stats:{floors:7,stores:stores.size,products:MALL_PRODUCTS.filter(p=>!p.legacy).length,area:mallPlanArea()},
+    stats:{floors:7,stores:stores.size,pavilions:MALL_LAYOUT.pavilions.length,products:MALL_PRODUCTS.filter(p=>!p.legacy).length,area:mallPlanArea()},
     *backgroundSteps(){
       if(background.length)return;
       for(const floor of floorData)for(const side of [-1,1]){

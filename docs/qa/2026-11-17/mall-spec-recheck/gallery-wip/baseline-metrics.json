@@ -1,0 +1,20 @@
+{
+  "source": "/workspace/chichi-ocean-cache-trace",
+  "stats": {
+    "floors": 7,
+    "stores": 34,
+    "products": 66,
+    "area": {
+      "floorGross": 20974.674893501247,
+      "groundUsable": 20537.239532415406,
+      "upperUsable": 17188.81042691533,
+      "sevenFloors": 125705.85413343358
+    }
+  },
+  "meshes": 388,
+  "geometries": 372,
+  "materials": 229,
+  "bytes": 226182655,
+  "triangles": 6133353,
+  "note": "Construction graph/CPU storage, not resident GPU bytes or physical device FPS."
+}

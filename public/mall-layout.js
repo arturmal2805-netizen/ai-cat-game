@@ -5,7 +5,10 @@ export const MALL_LAYOUT=Object.freeze({
   lift:{x:-43,z:81,radius:11.8,landing:15},gate:{x:-33,y:.35,z:107},
   capacity:4,speed:9,shoreJoin:{x:0,y:.35,z:110},
   wings:[{x:-86.5,z:65,w:80,d:70,corner:22},{x:86.5,z:65,w:80,d:70,corner:22}],
-  pavilions:[{id:'mall-west-pavilion',x:-150,z:45,radius:18,roofRadius:20,floor:2,connection:{x:-118,z:60}},{id:'mall-east-pavilion',x:150,z:45,radius:18,roofRadius:20,floor:6,connection:{x:118,z:60}}],
+  pavilions:[{id:'mall-west-pavilion',x:-150,z:45,radius:18,roofRadius:20,floor:2,connection:{x:-118,z:60}},{id:'mall-east-pavilion',x:150,z:45,radius:18,roofRadius:20,floor:6,connection:{x:118,z:60}},
+    // Additional real galleries share the two existing tower footprints. Old
+    // venue addresses, original pavilion records and seabed envelope stay put.
+    ...[-1,1].flatMap(side=>[2,4,6].filter(floor=>floor!==(side<0?2:6)).map(floor=>({id:`mall-${side<0?'west':'east'}-gallery-f${floor}`,x:side*150,z:45,radius:18,roofRadius:20,floor,connection:{x:side*118,z:60},gardenCount:5,seatingCount:4})))],
   room:{w:28,d:24,h:7.4},
   arrivalLobby:{x:-43,z:102,w:36,d:34,corner:5},
 });
