@@ -1,0 +1,68 @@
+{
+  "utc": "2026-11-17T23:06:23.406624+00:00",
+  "release": "39148734bd3f4a0265a6ec9aff8ab4b41f36c0b4",
+  "workflow": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44194305867",
+  "url": "https://arturmal2805-netizen.github.io/ai-cat-game/?v=3914873",
+  "diagnosticUrl": "https://arturmal2805-netizen.github.io/ai-cat-game/?v=3914873&profile=1",
+  "applicationScripts": [
+    "./dist/app.js?v=5681cfb381526edd"
+  ],
+  "applicationScriptCount": 1,
+  "assets": {
+    "dist/app.js?v=5681cfb381526edd": {
+      "bytes": 2585465,
+      "sha256": "5681cfb381526eddc877a80448535fecf0272a52c95da9744ad8edfd43a44be2"
+    },
+    "style.css?v=eb9e72f520559ea5": {
+      "bytes": 66750,
+      "sha256": "eb9e72f520559ea58aefb78c10bbe4c2990e345caff015428b04e81f6ed141d2"
+    },
+    "art/ocean-water/wind-field-2523d71db8b6.png": {
+      "bytes": 1974687,
+      "sha256": "2523d71db8b62ce0212f4eb8bce5310456a901d69f209865c41f5f3dc2b692a8"
+    },
+    "art/ocean-reflections/tropical-coast-509a62f9c210.png": {
+      "bytes": 36538,
+      "sha256": "509a62f9c21060d30b11a6ce0fcac2765f7bb89f967518cc632b92f0aa660d5c"
+    },
+    "art/water-reflections/barrel-wave-2695db73862d.png": {
+      "bytes": 59621,
+      "sha256": "2695db73862d947db1e3c68488736147c16001c49855b16b51a0b197758ba22e"
+    },
+    "art/water-reflections/canyon-rafting-e0943c549a14.png": {
+      "bytes": 59680,
+      "sha256": "e0943c549a14f2623fba97a8804d1e56e79080f154084707c83342b7695e3261"
+    },
+    "art/water-reflections/pool-pendulum-9871e9cc7240.png": {
+      "bytes": 49384,
+      "sha256": "9871e9cc72403010a447fb36159374ffc4f4e3c7403dbea3eaaf39d0061ac29e"
+    },
+    "art/water-reflections/glass-drop-2ae02c423d1b.png": {
+      "bytes": 62337,
+      "sha256": "2ae02c423d1b68e343af448a4bcea62aeff86bb9f855d706a46e70abb06cd0a1"
+    },
+    "art/water-reflections/surf-halfpipe-3e56059cadb1.png": {
+      "bytes": 52990,
+      "sha256": "3e56059cadb109194aa90e94bd00d44e40c5694efd99fce84cfa36e17c0f1f87"
+    },
+    "art/water-reflections/lagoon-launch-7a5f061661b6.png": {
+      "bytes": 55164,
+      "sha256": "7a5f061661b66ece08d34ef321931534c54142b4b27b8e13d7206eee10fe65e3"
+    },
+    "art/water-reflections/fountain-carousel-2f3d019e4f0c.png": {
+      "bytes": 31758,
+      "sha256": "2f3d019e4f0c45985abeeffc81d6d36c4c4910401bae2cb0ae8c936c4b0eaa79"
+    },
+    "art/water-reflections/lazy-river-db2a9b828207.png": {
+      "bytes": 54299,
+      "sha256": "db2a9b828207c8254311ad312a5a54234b64219fe67789f60718136443c8fe66"
+    },
+    "models/reefs/organic-reef-3f5409784f5ad1fa.bin.gz": {
+      "bytes": 7866571,
+      "sha256": "777db47179673a0da3b5d174619ad1524f85bb84c8cfc4096499663d16dc5206"
+    }
+  },
+  "liveAssetsMatched": true,
+  "nativeFinal": "manual-paths-city-final; manual-paths-home-v3; manual-paths-phone; manual-paths-portal",
+  "nativeDiagnosticCopyCloseReload": "seabed-publish-native/ocean-art-results.json"
+}

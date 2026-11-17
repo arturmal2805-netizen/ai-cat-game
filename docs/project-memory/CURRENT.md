@@ -3,9 +3,20 @@
 Обновлено2026-11-18, Europe/Kiev. Архитектурная/художественная доработка ТРЦ
 по-прежнему внеочереди. Новый запрос на ФУНКЦИОНАЛЬНЫЕ входы и проходы разрешён.
 
-## Текущий подтверждённый релиз
+## Текущий подтверждённый релиз — проходы и двери
 
-**e8ab6ffc24453e1e3ead9acf5190f90acff88730** — main и реально загруженный сайт.
+**39148734bd3f4a0265a6ec9aff8ab4b41f36c0b4** опубликован в main и на сайте.
+Полный workflow44194305867 test/deploy/pages SUCCESS, release/shared saves verified.
+HTTP assets matched; одно подключение приложения. JS5681cfb381526eddc877a80448535fecf0272a52c95da9744ad8edfd43a44be2,
+CSSeb9e72f520559ea58aefb78c10bbe4c2990e345caff015428b04e81f6ed141d2.
+Квитанция: docs/qa/2026-11-18/manual-paths-publication/live-verification.json.
+Игра https://arturmal2805-netizen.github.io/ai-cat-game/?v=3914873
+Диагностика https://arturmal2805-netizen.github.io/ai-cat-game/?v=3914873&profile=1
+Native City/home/phone/portal PASS. Не утверждать обход каждого верхнего этажа.
+
+## Предыдущий подтверждённый релиз — расширение
+
+**e8ab6ffc24453e1e3ead9acf5190f90acff88730** — предыдущая опубликованная версия.
 Workflow44185424944: полныйtest/deploy/pages SUCCESS, server/sharedsaves verified.
 HTTP2026-11-17T22:12:26.233244+00:00: одно приложение; actualassets matched.
 JSdb3df27ba3a6df07bf24b076f86f1b8e2d74e262468fd79f060e261322321acf,
@@ -35,12 +46,12 @@ exposure1. Calls1634→1633, triangles14975258→14973242. Один synchronized
 SwiftShader frame24249.2→22587.3ms НЕ Mac/phone FPS/гарантия прироста.
 Source/QA этого дополнительного захвата сохранены рядом с новой квитанцией.
 
-## Сейчас — дорожки, двери домов/офисов, вход ТРЦ
+## Завершено — дорожки, двери домов/офисов, вход ТРЦ
 
 Последний запрос: после расширения исправить хождение везде, дорожки и входы
 вТРЦ/все дома/офисы. На фото CatJobCity нельзя перейти через дорожку.
 Ветка codex/manual-paths-doors, /workspace/chichi-manual-paths-doors,
-remoteWIPcad6214 (полныйSHA смотретьgit). Базаe8ab6ff, НОВЫЙфикснеопубликован.
+remoteWIPcad6214 (полныйSHA смотретьgit). Базаe8ab6ff, фикс опубликован3914873.
 
 ПричинаCity подтверждена: manualSurface использовалbuilderObstacles с
 jobReservations, где самиroad/parking являются placementexclusions.
@@ -65,12 +76,12 @@ Node22 build PASS; unit3, explorer12 и housing/chill/manual36 PASS; преды�
 незатронутые targeted cases пройдены. Все13 моделей byteexact к e8.
 Доказательства и точные QA bundles: docs/qa/2026-11-18/manual-paths-doors/manifest.json.
 Кандидат39148734bd3f4a0265a6ec9aff8ab4b41f36c0b4 отправлен в main отдельно от расширения.
-Workflow44194305867 запущен; CI/live пока НЕ подтверждены.
+Workflow44194305867 и actualHTTP assets теперь подтверждены SUCCESS.
 Не утверждать проверку каждого верхнего этажа офисов/каждой точки мира.
 
 ## Следующие шаги
 
-1. ЗавершитьактивныйWIP проходов. Неослаблятьbodyradius/столкновения и не
+1. Проходы завершены и опубликованы. Неослаблятьbodyradius/столкновения и не
    исправлять маршрутытелепортом. Не менятьэкономику/назначения/домовладение.
 2. Новый запрос2026-11-18: самостоятельный CHICHI CAT SPA & WELLNESS RESORT перед ТРЦ.
    Полный документ сохранён docs/specifications/underwater-spa-resort-2026-11-18.md;

@@ -307,3 +307,11 @@ recorded inCURRENT. No economic/save/merge/radius reductions.
 проёмы всех6офисов и7домов. Native City/home/phone/real Mall airlock PASS,
 Node22build и regression guards PASS. Full evidence in source docs/qa/2026-11-18/manual-paths-doors.
 13models byteexact to e8. Art Mall redesign excluded. No live claim until receipt.
+
+
+## 2026-11-18 — Проходы опубликованы и проверены HTTP
+
+39148734bd3f4a0265a6ec9aff8ab4b41f36c0b4, workflow44194305867 SUCCESS.
+JS/CSS и13 assets совпали с immutable public /workspace/chichi-manual-paths-doors.
+Квитанция в docs/qa/2026-11-18/manual-paths-publication. Одно приложение.
+Далее самостоятельный SPA в codex/underwater-spa-resort; не включён в релиз.
