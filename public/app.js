@@ -235,6 +235,8 @@ let game = loadGame(
       : storage,
   ),
   busy = false,
+  heroDecisionVersion = 0,
+  heroDecisionAbort = null,
   configured = false,
   steps = 0,
   world,
@@ -1491,7 +1493,7 @@ try {
     onZooGuestHint:()=>toast("Відпусти тваринку над заселеним особистим будинком або вибери дім у її меню."),
     canSimulateLeisure: () =>
       cloud.simulationOwner && cloud.editable && !cloud.conflict,
-    isHeroBusy: () => busy || !!buildMode,
+    isHeroBusy: () => busy || !!buildMode || !!world?.isHeroControlled?.(),
     onLeisureComplete: (id, visit, result) => {
       if (!cloud.simulationOwner || !cloud.editable || cloud.conflict) return;
       try {
@@ -1521,6 +1523,8 @@ try {
     },
     canDragCat: (id = "chichi") =>
       cloud.editable && !cloud.conflict && (id !== "chichi" || !busy),
+    canControlChichi: () => cloud.editable && !cloud.conflict && !buildMode,
+    onControlChichi: takeChichiControl,
     onPreview: previewChanged,
     onSelectItem: inspect,
     onSelectCourt: showCourt,
@@ -1965,12 +1969,35 @@ function validateDecision(value) {
   return { ...value, ...resolveInteraction(worldSnapshot(game), value) };
 }
 
+function resetHeroDecisionUI() {
+  busy = false;
+  for (const id of ["toggle", "demo"]) $(id).disabled = false;
+  $("toggle").textContent = buttonLabel;
+  farmViewKey = "";
+  if ($("farm-dialog").open) renderFarm();
+}
+function takeChichiControl() {
+  heroDecisionVersion++;
+  heroDecisionAbort?.abort();
+  heroDecisionAbort = null;
+  if (game.care?.resting) {
+    const next = structuredClone(game);
+    next.care.resting = null;
+    commit(next, false);
+  }
+  if (busy) resetHeroDecisionUI();
+}
 async function decide(demo = false, manualDecision = null, routine = false) {
   if (!cloud.editable || cloud.conflict) {
     toast("Дождитесь синхронизации в аккаунте перед приключением.");
     return;
   }
   if (busy) return;
+  if (world?.isHeroControlled?.()) {
+    if (routine) return;
+    world.releaseHeroControl();
+    if (world.isHeroControlled()) return;
+  }
   if (buildMode) {
     toast("Сначала завершите или отмените размещение.");
     return;
@@ -1980,6 +2007,7 @@ async function decide(demo = false, manualDecision = null, routine = false) {
       "Cloudflare AI пока не подключён. Демо доступно отдельно.";
     return;
   }
+  const version = ++heroDecisionVersion;
   busy = true;
   for (const id of ["toggle", "demo"]) $(id).disabled = true;
   $("toggle").textContent = "Чичи выбирает приключение…";
@@ -2017,16 +2045,24 @@ async function decide(demo = false, manualDecision = null, routine = false) {
     } else {
       $("status").textContent =
         "ИИ учитывает потребности, доступные чудеса и друзей…";
-      const response = await fetch(api("/api/decide"), {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...game.cat, world: worldSnapshot(game) }),
-        signal: AbortSignal.timeout(30000),
-      });
-      decision = await response.json();
-      if (!response.ok)
-        throw Error(decision.error || "Не удалось получить решение ИИ.");
+      const controller = new AbortController(), timer = setTimeout(() => controller.abort(), 30000);
+      heroDecisionAbort = controller;
+      try {
+        const response = await fetch(api("/api/decide"), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...game.cat, world: worldSnapshot(game) }),
+          signal: controller.signal,
+        });
+        decision = await response.json();
+        if (!response.ok)
+          throw Error(decision.error || "Не удалось получить решение ИИ.");
+      } finally {
+        clearTimeout(timer);
+        if (heroDecisionAbort === controller) heroDecisionAbort = null;
+      }
     }
+    if (version !== heroDecisionVersion) return;
     decision = validateDecision(decision);
     const next = structuredClone(game);
     next.care.resting = null;
@@ -2084,6 +2120,7 @@ async function decide(demo = false, manualDecision = null, routine = false) {
     const result = await world?.perform(decision, {
       manualFriendDrop: !!manualDecision && !!decision.friendId,
     });
+    if (version !== heroDecisionVersion) return;
     if (result?.cancelled) {
       $("cat-activity").textContent = "Ждёт новое занятие";
       $("status").textContent =
@@ -2103,14 +2140,12 @@ async function decide(demo = false, manualDecision = null, routine = false) {
           ? "Демо: выбор сделан локально без ИИ."
           : "Чичи решила! Настроение и занятие выбрал Cloudflare AI.";
   } catch (error) {
-    $("status").textContent = error.message;
+    if (version === heroDecisionVersion) $("status").textContent = error.message;
   } finally {
-    busy = false;
-    for (const id of ["toggle", "demo"]) $(id).disabled = false;
-    $("toggle").textContent = buttonLabel;
-    farmViewKey = "";
-    if ($("farm-dialog").open) renderFarm();
-    cloud.acceptSnapshot();
+    if (version === heroDecisionVersion) {
+      resetHeroDecisionUI();
+      cloud.acceptSnapshot();
+    }
   }
 }
 $("toggle").onclick = () => decide();
@@ -2155,6 +2190,7 @@ setInterval(() => {
   if (
     !busy &&
     !buildMode &&
+    !world?.isHeroControlled?.() &&
     !game.care.resting &&
     game.cat.hunger >= 50 &&
     bowlPortions(game) > 0 &&

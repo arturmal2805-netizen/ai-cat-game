@@ -345,7 +345,8 @@ async function localWorker() {
       if(process.env.CHICHI_EXPLORER_STAGE==='isolation')g.mosasaurSubmarine={...g.mosasaurSubmarine,active:false,explorerVersion:1,explorer:{mode:'mall',x:-43,y:-164.82,z:105,yaw:Math.PI,floor:1,returning:false}};
     }
     if(process.env.CHICHI_OCEAN_AREA_AUDIT&&!baseline){const {MOSA_RELEASED_SEA}=await import(root+'/public/mosasaur-data.js');g.mosasaurSubmarine={...g.mosasaurSubmarine,x:MOSA_RELEASED_SEA.rx+30,y:-8,z:0};}
-    if(process.env.CHICHI_GLOBAL_MANUAL_AUDIT){g.catPosition={biome:'moon',x:0,z:0};delete g.catLocations;g.mosasaurSubmarine=null;}
+    if(process.env.CHICHI_GLOBAL_MANUAL_AUDIT){g.catPosition={biome:'moon',x:0,z:0};delete g.catLocations;delete g.mosasaurSubmarine;}
+    if(process.env.CHICHI_MANUAL_BUSY_AUDIT){const {captureCatLocations}=await import(root+'/public/cat-locations.js');Object.assign(g,captureCatLocations(g,g,[{id:'chichi',position:{x:0,y:.16,z:-7},yaw:0}],now));}
     const base = local.base,
       token = crypto.randomBytes(32).toString("hex"),
       headers = {
@@ -688,6 +689,7 @@ async function localWorker() {
       fs.writeFileSync(path.join(review,'qa-build.json'),JSON.stringify({sha256:crypto.createHash('sha256').update(output.outputFiles[0].contents).digest('hex'),node:process.version,head:sourceGit(['rev-parse','HEAD']).toString().trim(),dirty,sourceOverlay:'source-HEAD.patch'},null,2));
       if(process.env.CHICHI_OCEAN_AREA_AUDIT){const {auditOceanAreaNative}=await import('./audit-ocean-area-native.mjs');await auditOceanAreaNative({page,review,errors,httpErrors,baseline:!!baseline});return;}
       if(process.env.CHICHI_GLOBAL_BUTTON_AUDIT){const {auditGlobalButton}=await import('./audit-global-button.mjs');await auditGlobalButton({page,review,errors,httpErrors});return;}
+      if(process.env.CHICHI_MANUAL_BUSY_AUDIT){const {auditManualBusy}=await import('./audit-manual-busy-native.mjs');await auditManualBusy({page,review,errors,httpErrors});return;}
       if(process.env.CHICHI_GLOBAL_MANUAL_AUDIT){const {auditGlobalManual}=await import('./audit-global-manual.mjs');await auditGlobalManual({page,context,browser,base,headers,review,errors,httpErrors});return;}
       if(process.env.CHICHI_MALL_PALETTE_AUDIT){const {auditMallPaletteNative}=await import('./audit-mall-palette-native.mjs');await auditMallPaletteNative({page,review,errors,httpErrors});return;}
       if(process.env.CHICHI_CACHE_TRACE){const {auditCacheCycles}=await import('./audit-cache-cycles.mjs');await auditCacheCycles({page,review,errors,httpErrors});return;}

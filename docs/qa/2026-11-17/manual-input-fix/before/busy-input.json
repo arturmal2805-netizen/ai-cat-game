@@ -1,0 +1,61 @@
+{
+  "initial": {
+    "active": false,
+    "input": {
+      "keys": [],
+      "allowed": true
+    },
+    "failure": null,
+    "heroAllowed": true,
+    "residentAllowed": true,
+    "toggle": "\n                  Дай Чичи решить самой ✦",
+    "disabled": false,
+    "button": "🐈 Управлять Чичи"
+  },
+  "busy": {
+    "active": false,
+    "input": {
+      "keys": [],
+      "allowed": false
+    },
+    "failure": null,
+    "heroAllowed": false,
+    "residentAllowed": true,
+    "operation": "travel",
+    "toggle": "Чичи плавает…",
+    "disabled": true,
+    "button": "🐈 Управлять Чичи"
+  },
+  "clicked": {
+    "active": false,
+    "input": {
+      "keys": [],
+      "allowed": false
+    },
+    "failure": "unavailable",
+    "heroAllowed": false,
+    "residentAllowed": true,
+    "operation": "travel",
+    "toggle": "Чичи плавает…",
+    "disabled": true,
+    "button": "🐈 Управлять Чичи"
+  },
+  "pressed": {
+    "active": false,
+    "input": {
+      "keys": [],
+      "allowed": false
+    },
+    "failure": "unavailable",
+    "heroAllowed": false,
+    "residentAllowed": true,
+    "operation": "travel",
+    "toggle": "Чичи плавает…",
+    "disabled": true,
+    "button": "🐈 Управлять Чичи"
+  },
+  "errors": [],
+  "httpErrors": [],
+  "actualDemoButton": true,
+  "paidAI": false
+}

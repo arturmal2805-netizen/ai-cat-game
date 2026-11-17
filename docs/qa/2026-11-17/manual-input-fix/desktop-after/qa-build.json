@@ -1,0 +1,7 @@
+{
+  "sha256": "2bb667b954aa4754c2ddba2318d79eaac81852d49ab4499312ab13b38fe3858f",
+  "node": "v22.23.5",
+  "head": "c8788238e67207b9f4f30df45aaeb57900bbbe2e",
+  "dirty": " M public/app.js\n M public/world.js\n M scripts/check-aquarium.cjs\n?? scripts/audit-manual-busy-native.mjs\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

@@ -144,6 +144,27 @@ outer-radius416.3 не помещается в445m gap с43m housing. Тепер
 Требуются Node22 build, актуальные probes/reef asset, native day/night/phone,
 субмарина/ходьба/возврат, privateSQLiteownership/reload, CI и HTTP hashes.
 
+## WIP исправления всего WASD — НЕ опубликован
+
+/workspace/chichi-global-manual-input, codex/global-manual-input, basec878823.
+Доказана настоящим demo click блокировка canDragCat('chichi') через app.busy
+во время ожидающего world.perform; manual.start=false/unavailable, клавиши
+не попадают в controller. Новая отдельная canControlChichi сохраняет cloud
+permissions, допускает ручной перехват и отменяет старую операцию. Version+
+AbortController отклоняют запоздавший AI; routine care не запускает новый
+приказ поверх ручного владельца. Rest sync не переставляет управляемого кота.
+NativeV4: настоящий demo→takeover→W/S/A/D→World release PASS, без paidAI.
+Ещё нужны pending-response/phone/SQLite checks, build, full CI и live-публикация.
+
+Обнаружена ошибка старого QA GLOBAL_MANUAL fixture: null submarine приводил
+loadGame к default-world fallback (490 coins/-6,-3), поэтому seed не проверялся.
+Теперь отсутствующее поле удаляется, captureCatLocations корректно восстанавливает
+реальную стартовую позу; native test утверждает её до команд. Не объявлять
+старый V7 stress-world проверенным: он проверял лишь default fallback.
+Вода/ownership/Mall-palette fixtures не используют этот GLOBAL флаг и не затронуты.
+V3 false failure после второй клавиши был из-за немонотонного QA clock, теперь
+единая monotonic virtual clock проверяет все четыре реальных удержания.
+
 ## Что делать дальше
 
 1. Завершить текущую публикацию ТОЛЬКО острова и воды: полный CI и HTTP

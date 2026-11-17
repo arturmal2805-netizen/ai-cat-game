@@ -1,0 +1,12 @@
+diff --git a/scripts/check-aquarium.cjs b/scripts/check-aquarium.cjs
+index 675a30f..6af9783 100644
+--- a/scripts/check-aquarium.cjs
++++ b/scripts/check-aquarium.cjs
+@@ -688,6 +688,7 @@ async function localWorker() {
+       fs.writeFileSync(path.join(review,'qa-build.json'),JSON.stringify({sha256:crypto.createHash('sha256').update(output.outputFiles[0].contents).digest('hex'),node:process.version,head:sourceGit(['rev-parse','HEAD']).toString().trim(),dirty,sourceOverlay:'source-HEAD.patch'},null,2));
+       if(process.env.CHICHI_OCEAN_AREA_AUDIT){const {auditOceanAreaNative}=await import('./audit-ocean-area-native.mjs');await auditOceanAreaNative({page,review,errors,httpErrors,baseline:!!baseline});return;}
+       if(process.env.CHICHI_GLOBAL_BUTTON_AUDIT){const {auditGlobalButton}=await import('./audit-global-button.mjs');await auditGlobalButton({page,review,errors,httpErrors});return;}
++      if(process.env.CHICHI_MANUAL_BUSY_AUDIT){const {auditManualBusy}=await import('./audit-manual-busy-native.mjs');await auditManualBusy({page,review,errors,httpErrors});return;}
+       if(process.env.CHICHI_GLOBAL_MANUAL_AUDIT){const {auditGlobalManual}=await import('./audit-global-manual.mjs');await auditGlobalManual({page,context,browser,base,headers,review,errors,httpErrors});return;}
+       if(process.env.CHICHI_MALL_PALETTE_AUDIT){const {auditMallPaletteNative}=await import('./audit-mall-palette-native.mjs');await auditMallPaletteNative({page,review,errors,httpErrors});return;}
+       if(process.env.CHICHI_CACHE_TRACE){const {auditCacheCycles}=await import('./audit-cache-cycles.mjs');await auditCacheCycles({page,review,errors,httpErrors});return;}

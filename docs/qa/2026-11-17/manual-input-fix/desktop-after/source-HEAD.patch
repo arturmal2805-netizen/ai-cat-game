@@ -1,0 +1,217 @@
+diff --git a/public/app.js b/public/app.js
+index e48419b..ddff05a 100644
+--- a/public/app.js
++++ b/public/app.js
+@@ -235,6 +235,8 @@ let game = loadGame(
+       : storage,
+   ),
+   busy = false,
++  heroDecisionVersion = 0,
++  heroDecisionAbort = null,
+   configured = false,
+   steps = 0,
+   world,
+@@ -1491,7 +1493,7 @@ try {
+     onZooGuestHint:()=>toast("Відпусти тваринку над заселеним особистим будинком або вибери дім у її меню."),
+     canSimulateLeisure: () =>
+       cloud.simulationOwner && cloud.editable && !cloud.conflict,
+-    isHeroBusy: () => busy || !!buildMode,
++    isHeroBusy: () => busy || !!buildMode || !!world?.isHeroControlled?.(),
+     onLeisureComplete: (id, visit, result) => {
+       if (!cloud.simulationOwner || !cloud.editable || cloud.conflict) return;
+       try {
+@@ -1521,6 +1523,8 @@ try {
+     },
+     canDragCat: (id = "chichi") =>
+       cloud.editable && !cloud.conflict && (id !== "chichi" || !busy),
++    canControlChichi: () => cloud.editable && !cloud.conflict && !buildMode,
++    onControlChichi: takeChichiControl,
+     onPreview: previewChanged,
+     onSelectItem: inspect,
+     onSelectCourt: showCourt,
+@@ -1965,12 +1969,35 @@ function validateDecision(value) {
+   return { ...value, ...resolveInteraction(worldSnapshot(game), value) };
+ }
+ 
++function resetHeroDecisionUI() {
++  busy = false;
++  for (const id of ["toggle", "demo"]) $(id).disabled = false;
++  $("toggle").textContent = buttonLabel;
++  farmViewKey = "";
++  if ($("farm-dialog").open) renderFarm();
++}
++function takeChichiControl() {
++  heroDecisionVersion++;
++  heroDecisionAbort?.abort();
++  heroDecisionAbort = null;
++  if (game.care?.resting) {
++    const next = structuredClone(game);
++    next.care.resting = null;
++    commit(next, false);
++  }
++  if (busy) resetHeroDecisionUI();
++}
+ async function decide(demo = false, manualDecision = null, routine = false) {
+   if (!cloud.editable || cloud.conflict) {
+     toast("Дождитесь синхронизации в аккаунте перед приключением.");
+     return;
+   }
+   if (busy) return;
++  if (world?.isHeroControlled?.()) {
++    if (routine) return;
++    world.releaseHeroControl();
++    if (world.isHeroControlled()) return;
++  }
+   if (buildMode) {
+     toast("Сначала завершите или отмените размещение.");
+     return;
+@@ -1980,6 +2007,7 @@ async function decide(demo = false, manualDecision = null, routine = false) {
+       "Cloudflare AI пока не подключён. Демо доступно отдельно.";
+     return;
+   }
++  const version = ++heroDecisionVersion;
+   busy = true;
+   for (const id of ["toggle", "demo"]) $(id).disabled = true;
+   $("toggle").textContent = "Чичи выбирает приключение…";
+@@ -2017,16 +2045,24 @@ async function decide(demo = false, manualDecision = null, routine = false) {
+     } else {
+       $("status").textContent =
+         "ИИ учитывает потребности, доступные чудеса и друзей…";
+-      const response = await fetch(api("/api/decide"), {
+-        method: "POST",
+-        headers: { "Content-Type": "application/json" },
+-        body: JSON.stringify({ ...game.cat, world: worldSnapshot(game) }),
+-        signal: AbortSignal.timeout(30000),
+-      });
+-      decision = await response.json();
+-      if (!response.ok)
+-        throw Error(decision.error || "Не удалось получить решение ИИ.");
++      const controller = new AbortController(), timer = setTimeout(() => controller.abort(), 30000);
++      heroDecisionAbort = controller;
++      try {
++        const response = await fetch(api("/api/decide"), {
++          method: "POST",
++          headers: { "Content-Type": "application/json" },
++          body: JSON.stringify({ ...game.cat, world: worldSnapshot(game) }),
++          signal: controller.signal,
++        });
++        decision = await response.json();
++        if (!response.ok)
++          throw Error(decision.error || "Не удалось получить решение ИИ.");
++      } finally {
++        clearTimeout(timer);
++        if (heroDecisionAbort === controller) heroDecisionAbort = null;
++      }
+     }
++    if (version !== heroDecisionVersion) return;
+     decision = validateDecision(decision);
+     const next = structuredClone(game);
+     next.care.resting = null;
+@@ -2084,6 +2120,7 @@ async function decide(demo = false, manualDecision = null, routine = false) {
+     const result = await world?.perform(decision, {
+       manualFriendDrop: !!manualDecision && !!decision.friendId,
+     });
++    if (version !== heroDecisionVersion) return;
+     if (result?.cancelled) {
+       $("cat-activity").textContent = "Ждёт новое занятие";
+       $("status").textContent =
+@@ -2103,14 +2140,12 @@ async function decide(demo = false, manualDecision = null, routine = false) {
+           ? "Демо: выбор сделан локально без ИИ."
+           : "Чичи решила! Настроение и занятие выбрал Cloudflare AI.";
+   } catch (error) {
+-    $("status").textContent = error.message;
++    if (version === heroDecisionVersion) $("status").textContent = error.message;
+   } finally {
+-    busy = false;
+-    for (const id of ["toggle", "demo"]) $(id).disabled = false;
+-    $("toggle").textContent = buttonLabel;
+-    farmViewKey = "";
+-    if ($("farm-dialog").open) renderFarm();
+-    cloud.acceptSnapshot();
++    if (version === heroDecisionVersion) {
++      resetHeroDecisionUI();
++      cloud.acceptSnapshot();
++    }
+   }
+ }
+ $("toggle").onclick = () => decide();
+@@ -2155,6 +2190,7 @@ setInterval(() => {
+   if (
+     !busy &&
+     !buildMode &&
++    !world?.isHeroControlled?.() &&
+     !game.care.resting &&
+     game.cat.hunger >= 50 &&
+     bowlPortions(game) > 0 &&
+diff --git a/public/world.js b/public/world.js
+index e25df6b..d503db7 100644
+--- a/public/world.js
++++ b/public/world.js
+@@ -1640,7 +1640,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+         incomeButtons.delete(id);
+       }
+     itemGroups.get("chichi-food")?.userData.updateFood?.(game);
+-    if (!operation && game.care?.resting) {
++    if (!operation && !(submarine?.active||manualWalk?.active) && game.care?.resting) {
+       const bed = itemGroups.get(game.care.resting.activityId);
+       if (bed) {
+         chichiCarrier.position
+@@ -1649,7 +1649,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+         if (cat.userData.mood !== "sleep")
+           setCatMood(cat, "sleep", { immediate: reduced });
+       }
+-    } else if (!operation && cat.userData.mood !== game.cat.mood)
++    } else if (!operation && !(submarine?.active||manualWalk?.active) && cat.userData.mood !== game.cat.mood)
+       setCatMood(cat, game.cat.mood, { immediate: reduced });
+     if (
+       operation &&
+@@ -6016,7 +6016,8 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+     onPurchase:(...args)=>callbacks.onMallPurchase?.(...args),onUse:(...args)=>callbacks.onMallUse?.(...args),onGoal:(...args)=>callbacks.onMallGoal?.(...args),
+     onComplete:(id,visit)=>{if(visit.ticket)finishLeisure(id,{completed:true});else {const n=npcs.get(id);if(n)n.manualUntil=0;}},
+   });
+-  submarine=createSubmarineRuntime({scene,container,canvas:renderer.domElement,camera,look,actor:chichiCarrier,getModel:()=>cat,getMall:()=>mall,onLandExit:()=>{manualWalk?.start();refreshManualButton();},onError:message=>callbacks.onReaction?.(message),getIsland:()=>islands.get('autumn'),getGame:()=>game,getFocused:()=>focused,canPilot:()=>callbacks.canDragCat?.('chichi')!==false&&!mall?.inspection&&!manualWalk?.active,cancelHero:()=>{cancelHeroActivity();heroGather=null;jobs.cancel('chichi');crew.cancel('chichi');leisure.cancel('chichi');spa.cancel('chichi');chill.cancel('chichi');court.cancel('chichi');faceCamera.setEnabled(false,look);},approachDock:point=>{heroGather=gatherTrip(chichiCarrier.position,{x:point.x,y:point.y,z:point.z},performance.now());return true;},focus});
++  const canControlChichi=()=>callbacks.canControlChichi?callbacks.canControlChichi()!==false:callbacks.canDragCat?.('chichi')!==false;
++  submarine=createSubmarineRuntime({scene,container,canvas:renderer.domElement,camera,look,actor:chichiCarrier,getModel:()=>cat,getMall:()=>mall,onLandExit:()=>{manualWalk?.start();refreshManualButton();},onError:message=>callbacks.onReaction?.(message),getIsland:()=>islands.get('autumn'),getGame:()=>game,getFocused:()=>focused,canPilot:()=>canControlChichi()&&!mall?.inspection&&!manualWalk?.active,cancelHero:()=>{callbacks.onControlChichi?.();cancelHeroActivity();heroGather=null;jobs.cancel('chichi');crew.cancel('chichi');leisure.cancel('chichi');spa.cancel('chichi');chill.cancel('chichi');court.cancel('chichi');faceCamera.setEnabled(false,look);},approachDock:point=>{heroGather=gatherTrip(chichiCarrier.position,{x:point.x,y:point.y,z:point.z},performance.now());return true;},focus});
+   const manualGroundRay=new THREE.Raycaster(),manualOrigin=new THREE.Vector3(),manualDown=new THREE.Vector3(0,-1,0),manualHit=new THREE.Vector3();
+   function manualSurface(p,radius,from=null){
+     for(const b of BIOMES){if(!game.unlocked.includes(b.id))continue;const local={x:p.x-b.center[0],y:p.y,z:p.z-b.center[1]};
+@@ -6041,7 +6042,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+   }
+   const manualButton=document.getElementById('chichi-control');
+   const refreshManualButton=()=>{if(!manualButton)return;const active=!!(manualWalk?.active||submarine?.controlled&&submarine?.explorer);if(manualButton.getAttribute('aria-pressed')===String(active))return;manualButton.setAttribute('aria-pressed',String(active));manualButton.textContent=active?'🐈 Отпустить Чичи':'🐈 Управлять Чичи';};
+-  manualWalk=createChichiManual({container,canvas:renderer.domElement,camera,look,actor:chichiCarrier,getRadius:()=>catNavigationRadius(cat),surface:manualSurface,cameraClear:manualCameraClear,canControl:()=>callbacks.canDragCat?.('chichi')!==false&&!document.querySelector('dialog[open]'),cancel:()=>{cancelHeroActivity();heroGather=null;jobs.cancel('chichi');crew.cancel('chichi');housingLife.cancel?.('chichi');faceCamera.setEnabled(false,look);mall?.exit(false);},focus,onRelease:refreshManualButton});
++  manualWalk=createChichiManual({container,canvas:renderer.domElement,camera,look,actor:chichiCarrier,getRadius:()=>catNavigationRadius(cat),surface:manualSurface,cameraClear:manualCameraClear,canControl:()=>canControlChichi()&&!document.querySelector('dialog[open]'),cancel:()=>{callbacks.onControlChichi?.();cancelHeroActivity();heroGather=null;jobs.cancel('chichi');crew.cancel('chichi');housingLife.cancel?.('chichi');faceCamera.setEnabled(false,look);mall?.exit(false);setCatMood(cat,'happy',{immediate:reduced});},focus,onRelease:refreshManualButton});
+   if(manualButton)manualButton.onclick=async()=>{if(manualWalk.active){manualWalk.stop();refreshManualButton();return;}if(submarine.controlled&&submarine.explorer){submarine.releaseControl();refreshManualButton();return;}mall?.exit(false);if(await submarine.controlChichi?.()){refreshManualButton();return;}if(submarine.active)return;if(!manualWalk.start())callbacks.onReaction?.('Здесь пока нет свободной опоры для ходьбы.');refreshManualButton();};
+   if((initialGame.mosasaurSubmarine?.active||initialGame.mosasaurSubmarine?.explorer)&&game.unlocked.includes('autumn'))focus('autumn',false,true);
+   requestAnimationFrame(loop);
+@@ -6059,6 +6060,8 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+   }
+   return {
+     perform,
++    isHeroControlled:()=>!!(manualWalk?.active||submarine?.active),
++    releaseHeroControl:()=>{manualWalk?.stop();submarine?.releaseControl();refreshManualButton();},
+     submarine:()=>submarine,
+     mall:()=>mall,
+     inspectMall:floor=>mall.inspect(floor),
+diff --git a/scripts/check-aquarium.cjs b/scripts/check-aquarium.cjs
+index 675a30f..e54fec2 100644
+--- a/scripts/check-aquarium.cjs
++++ b/scripts/check-aquarium.cjs
+@@ -345,7 +345,8 @@ async function localWorker() {
+       if(process.env.CHICHI_EXPLORER_STAGE==='isolation')g.mosasaurSubmarine={...g.mosasaurSubmarine,active:false,explorerVersion:1,explorer:{mode:'mall',x:-43,y:-164.82,z:105,yaw:Math.PI,floor:1,returning:false}};
+     }
+     if(process.env.CHICHI_OCEAN_AREA_AUDIT&&!baseline){const {MOSA_RELEASED_SEA}=await import(root+'/public/mosasaur-data.js');g.mosasaurSubmarine={...g.mosasaurSubmarine,x:MOSA_RELEASED_SEA.rx+30,y:-8,z:0};}
+-    if(process.env.CHICHI_GLOBAL_MANUAL_AUDIT){g.catPosition={biome:'moon',x:0,z:0};delete g.catLocations;g.mosasaurSubmarine=null;}
++    if(process.env.CHICHI_GLOBAL_MANUAL_AUDIT){g.catPosition={biome:'moon',x:0,z:0};delete g.catLocations;delete g.mosasaurSubmarine;}
++    if(process.env.CHICHI_MANUAL_BUSY_AUDIT){const {captureCatLocations}=await import(root+'/public/cat-locations.js');Object.assign(g,captureCatLocations(g,g,[{id:'chichi',position:{x:0,y:.16,z:-7},yaw:0}],now));}
+     const base = local.base,
+       token = crypto.randomBytes(32).toString("hex"),
+       headers = {
+@@ -688,6 +689,7 @@ async function localWorker() {
+       fs.writeFileSync(path.join(review,'qa-build.json'),JSON.stringify({sha256:crypto.createHash('sha256').update(output.outputFiles[0].contents).digest('hex'),node:process.version,head:sourceGit(['rev-parse','HEAD']).toString().trim(),dirty,sourceOverlay:'source-HEAD.patch'},null,2));
+       if(process.env.CHICHI_OCEAN_AREA_AUDIT){const {auditOceanAreaNative}=await import('./audit-ocean-area-native.mjs');await auditOceanAreaNative({page,review,errors,httpErrors,baseline:!!baseline});return;}
+       if(process.env.CHICHI_GLOBAL_BUTTON_AUDIT){const {auditGlobalButton}=await import('./audit-global-button.mjs');await auditGlobalButton({page,review,errors,httpErrors});return;}
++      if(process.env.CHICHI_MANUAL_BUSY_AUDIT){const {auditManualBusy}=await import('./audit-manual-busy-native.mjs');await auditManualBusy({page,review,errors,httpErrors});return;}
+       if(process.env.CHICHI_GLOBAL_MANUAL_AUDIT){const {auditGlobalManual}=await import('./audit-global-manual.mjs');await auditGlobalManual({page,context,browser,base,headers,review,errors,httpErrors});return;}
+       if(process.env.CHICHI_MALL_PALETTE_AUDIT){const {auditMallPaletteNative}=await import('./audit-mall-palette-native.mjs');await auditMallPaletteNative({page,review,errors,httpErrors});return;}
+       if(process.env.CHICHI_CACHE_TRACE){const {auditCacheCycles}=await import('./audit-cache-cycles.mjs');await auditCacheCycles({page,review,errors,httpErrors});return;}
