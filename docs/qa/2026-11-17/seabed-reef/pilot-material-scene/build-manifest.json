@@ -1,0 +1,33 @@
+{
+  "node": "v22.23.5",
+  "browser": "156.0.8078.79",
+  "renderer": "Chromium ANGLE SwiftShader, native source scenes; not device FPS",
+  "roots": [
+    {
+      "name": "before",
+      "path": "/workspace/chichi-water-release",
+      "sourceSHA": "b8051f931c66608acd15ac41bb6043c7081b7605",
+      "dirty": "",
+      "bundleSHA256": "53f502ca70f8dcb19382b875b2ee1674f2e672612da4bc181b862c109199bd04",
+      "bundleBytes": 2953504
+    },
+    {
+      "name": "after",
+      "path": "/workspace/chichi-seabed-reef",
+      "sourceSHA": "b8051f931c66608acd15ac41bb6043c7081b7605",
+      "dirty": "M public/index.html\n M public/mosasaur-bed-optics.js\n M public/mosasaur-biome.js\n M public/mosasaur-corals.js\n M public/mosasaur-water-probe-assets.js\n M scripts/audit-ocean-art-native.mjs\n M scripts/check-aquarium.cjs\n M scripts/check-global-water.mjs\n M scripts/mosasaur-probe-inputs.mjs\n?? public/mosasaur-sand-detail.js\n?? public/mosasaur-seabed-patch-data.js\n?? public/mosasaur-seabed-patch.js\n?? test/seabed-reef-patch.test.mjs",
+      "bundleSHA256": "8e4952f9f1da58fe5489f77b3fecabd646bcfe05b58a8b37b7af3f644c80ae27",
+      "bundleBytes": 2957457
+    }
+  ],
+  "settings": {
+    "biomes": [
+      "autumn"
+    ],
+    "views": "reef-close,reef-normal,reef-wide,reef-phone",
+    "seconds": 7,
+    "cameraContract": "baseline per-view local eye/direction/up, water centre/radius, light and shadow envelope replayed in candidate, including reef-anchored views after expansion",
+    "quality": "original lights, exposure1, ACES, shadows PCF1024; DPR1 desktop/DPR2 phone"
+  },
+  "source": "exact qa-before/qa-after.mjs retained"
+}

@@ -1,0 +1,747 @@
+{
+  "version": 3,
+  "loading": {
+    "observedResources": 67,
+    "slowest": [
+      {
+        "path": "/models/reefs/organic-reef-ea4e347da8da6eea.bin.gz",
+        "durationMs": 7215.5,
+        "transferBytes": 7868404,
+        "decodedBytes": 7868104
+      },
+      {
+        "path": "/art/ocean-rock/color-644ee79df7ff.jpg",
+        "durationMs": 7067.1,
+        "transferBytes": 3814662,
+        "decodedBytes": 3814362
+      },
+      {
+        "path": "/art/ocean-rock/coralNormal-f5ee3a4cf9d1.png",
+        "durationMs": 7064,
+        "transferBytes": 3133849,
+        "decodedBytes": 3133549
+      },
+      {
+        "path": "/art/ocean-rock/normal-dbcd0a950de5.png",
+        "durationMs": 7062.7,
+        "transferBytes": 2867087,
+        "decodedBytes": 2866787
+      },
+      {
+        "path": "/art/mall/metal-normal-b652c39e3b5f.png",
+        "durationMs": 3011.7,
+        "transferBytes": 109402,
+        "decodedBytes": 109102
+      },
+      {
+        "path": "/art/mall/metal-roughness-0a4fa9fad2ad.png",
+        "durationMs": 3010.3,
+        "transferBytes": 6199,
+        "decodedBytes": 5899
+      },
+      {
+        "path": "/art/mall/metal-color-fc446fdcf525.png",
+        "durationMs": 2971.2,
+        "transferBytes": 74090,
+        "decodedBytes": 73790
+      },
+      {
+        "path": "/art/ocean-reflections/tropical-coast-01333a81c41d.png",
+        "durationMs": 2936.1,
+        "transferBytes": 38308,
+        "decodedBytes": 38008
+      },
+      {
+        "path": "/dist/app.js",
+        "durationMs": 386.4,
+        "transferBytes": 5106010,
+        "decodedBytes": 5105710
+      },
+      {
+        "path": "/art/meadow/grass004-normal-roughness-55ff6228bfff.png",
+        "durationMs": 266.4,
+        "transferBytes": 3390356,
+        "decodedBytes": 3390056
+      },
+      {
+        "path": "/models/mosasaur/mosasaur-601b2b335681858e.bin.gz",
+        "durationMs": 131.2,
+        "transferBytes": 1554101,
+        "decodedBytes": 1553801
+      },
+      {
+        "path": "/api/save",
+        "durationMs": 100.5,
+        "transferBytes": 12403,
+        "decodedBytes": 106667
+      }
+    ],
+    "jsHeapBytes": 907911003
+  },
+  "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "suspended": false,
+  "automaticPauseSeconds": 0,
+  "startupFirstFrameMs": 6122.3,
+  "startupResidentPreparation": {
+    "models": 33,
+    "workMs": 1675.4000000096858,
+    "maxTaskMs": 236.19999999925494,
+    "elapsedMs": 1700.199999999255
+  },
+  "catRenderer": "individual",
+  "gpuRender": {
+    "supported": true,
+    "disjoint": false,
+    "samples": 300,
+    "pending": 0,
+    "medianMs": 0,
+    "p95Ms": 0,
+    "maxMs": 0.01
+  },
+  "appWorkSinceReset": {
+    "phases": {
+      "app.persist": {
+        "calls": 1,
+        "totalMs": 9,
+        "maxMs": 9,
+        "over50ms": 0
+      },
+      "app.renderGame": {
+        "calls": 4,
+        "totalMs": 8.7,
+        "maxMs": 4,
+        "over50ms": 0
+      },
+      "frame.viewport": {
+        "calls": 768,
+        "totalMs": 797.1,
+        "maxMs": 466.6,
+        "over50ms": 3
+      },
+      "frame.cameraAndIslands": {
+        "calls": 768,
+        "totalMs": 224.7,
+        "maxMs": 5.3,
+        "over50ms": 0
+      },
+      "frame.jobsAndHomes": {
+        "calls": 768,
+        "totalMs": 224.6,
+        "maxMs": 11.4,
+        "over50ms": 0
+      },
+      "frame.venues": {
+        "calls": 768,
+        "totalMs": 89,
+        "maxMs": 2.7,
+        "over50ms": 0
+      },
+      "frame.residents": {
+        "calls": 768,
+        "totalMs": 259.9,
+        "maxMs": 3.7,
+        "over50ms": 0
+      },
+      "frame.chichi": {
+        "calls": 768,
+        "totalMs": 210.8,
+        "maxMs": 8.5,
+        "over50ms": 0
+      },
+      "frame.cameraAndHousingView": {
+        "calls": 768,
+        "totalMs": 172,
+        "maxMs": 20.7,
+        "over50ms": 0
+      },
+      "frame.ambientAndBadges": {
+        "calls": 768,
+        "totalMs": 34.4,
+        "maxMs": 3.5,
+        "over50ms": 0
+      },
+      "frame.visibility": {
+        "calls": 768,
+        "totalMs": 68.3,
+        "maxMs": 3,
+        "over50ms": 0
+      },
+      "frame.renderer": {
+        "calls": 768,
+        "totalMs": 5045.5,
+        "maxMs": 2893.2,
+        "over50ms": 2
+      },
+      "frame.gpuSubmit": {
+        "calls": 768,
+        "totalMs": 49.1,
+        "maxMs": 1.5,
+        "over50ms": 0
+      },
+      "frame.residency": {
+        "calls": 768,
+        "totalMs": 43.1,
+        "maxMs": 8.5,
+        "over50ms": 0
+      },
+      "app.cityTick": {
+        "calls": 20,
+        "totalMs": 9.1,
+        "maxMs": 1.2,
+        "over50ms": 0
+      },
+      "app.commit": {
+        "calls": 1,
+        "totalMs": 15.3,
+        "maxMs": 15.3,
+        "over50ms": 0
+      }
+    },
+    "longest": [
+      {
+        "label": "frame.renderer",
+        "atMs": 3229,
+        "durationMs": 2893.2
+      },
+      {
+        "label": "frame.renderer",
+        "atMs": 6234,
+        "durationMs": 2150.9
+      },
+      {
+        "label": "frame.viewport",
+        "atMs": 63155,
+        "durationMs": 466.6
+      },
+      {
+        "label": "frame.viewport",
+        "atMs": 3012,
+        "durationMs": 188.5
+      },
+      {
+        "label": "frame.viewport",
+        "atMs": 59308,
+        "durationMs": 140.7
+      }
+    ]
+  },
+  "longAnimationFramesSupported": true,
+  "longestAnimationFrames": [
+    {
+      "durationMs": 18249.2,
+      "blockingMs": 0,
+      "afterStyleStartMs": 0.3,
+      "scripts": [
+        {
+          "function": "loop2",
+          "type": "user-callback",
+          "durationMs": 9.1,
+          "layoutMs": 0,
+          "position": 4806322
+        }
+      ]
+    },
+    {
+      "durationMs": 5401.7,
+      "blockingMs": 0,
+      "afterStyleStartMs": 0.4,
+      "scripts": [
+        {
+          "function": "loop2",
+          "type": "user-callback",
+          "durationMs": 16,
+          "layoutMs": 0,
+          "position": 4806322
+        }
+      ]
+    },
+    {
+      "durationMs": 3297.1,
+      "blockingMs": 0,
+      "afterStyleStartMs": 0.2,
+      "scripts": [
+        {
+          "function": "loop2",
+          "type": "user-callback",
+          "durationMs": 8.5,
+          "layoutMs": 0,
+          "position": 4806322
+        }
+      ]
+    },
+    {
+      "durationMs": 2257,
+      "blockingMs": 2118.6,
+      "afterStyleStartMs": 0.8,
+      "scripts": [
+        {
+          "function": "loop2",
+          "type": "user-callback",
+          "durationMs": 2155.1,
+          "layoutMs": 0,
+          "position": 4806322
+        },
+        {
+          "function": "",
+          "type": "resolve-promise",
+          "durationMs": 12.5,
+          "layoutMs": 0,
+          "position": 1962331
+        },
+        {
+          "function": "",
+          "type": "resolve-promise",
+          "durationMs": 9.7,
+          "layoutMs": 0,
+          "position": 1962331
+        }
+      ]
+    },
+    {
+      "durationMs": 1924.7,
+      "blockingMs": 122.7,
+      "afterStyleStartMs": 1.1,
+      "scripts": [
+        {
+          "function": "save",
+          "type": "user-callback",
+          "durationMs": 151.6,
+          "layoutMs": 0,
+          "position": 2793981
+        },
+        {
+          "function": "",
+          "type": "user-callback",
+          "durationMs": 64.6,
+          "layoutMs": 0,
+          "position": 4939218
+        },
+        {
+          "function": "",
+          "type": "resolve-promise",
+          "durationMs": 52.3,
+          "layoutMs": 0,
+          "position": 1962331
+        }
+      ]
+    }
+  ],
+  "app": "./dist/app.js?v=3f04060e16c90836",
+  "bufferTransfersSinceReset": {
+    "dataCalls": 5007,
+    "dataBytes": 504202300,
+    "subCalls": 16,
+    "subBytes": 37632
+  },
+  "nativeGlCallsSinceReset": {
+    "getExtension": {
+      "calls": 4,
+      "totalMs": 48.4,
+      "maxMs": 48.4,
+      "over50ms": 0
+    },
+    "beginQuery": {
+      "calls": 637,
+      "totalMs": 3.3,
+      "maxMs": 0.5,
+      "over50ms": 0
+    },
+    "bindBuffer": {
+      "calls": 14295,
+      "totalMs": 8.3,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "bufferData": {
+      "calls": 5007,
+      "totalMs": 383.4,
+      "maxMs": 42.1,
+      "over50ms": 0
+    },
+    "bindTexture": {
+      "calls": 1286,
+      "totalMs": 1.6,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "texParameteri": {
+      "calls": 378,
+      "totalMs": 0.3,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "texImage2D": {
+      "calls": 1,
+      "totalMs": 0.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "bindFramebuffer": {
+      "calls": 14,
+      "totalMs": 0.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "pixelStorei": {
+      "calls": 11,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "texStorage2D": {
+      "calls": 68,
+      "totalMs": 0.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "clear": {
+      "calls": 10,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "createProgram": {
+      "calls": 161,
+      "totalMs": 0.5,
+      "maxMs": 0.2,
+      "over50ms": 0
+    },
+    "createShader": {
+      "calls": 322,
+      "totalMs": 0.8,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "shaderSource": {
+      "calls": 322,
+      "totalMs": 165.5,
+      "maxMs": 73,
+      "over50ms": 1
+    },
+    "compileShader": {
+      "calls": 322,
+      "totalMs": 0.4,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "attachShader": {
+      "calls": 322,
+      "totalMs": 1.2,
+      "maxMs": 0.2,
+      "over50ms": 0
+    },
+    "linkProgram": {
+      "calls": 161,
+      "totalMs": 0.4,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "getProgramInfoLog": {
+      "calls": 161,
+      "totalMs": 3728.6,
+      "maxMs": 1737.7,
+      "over50ms": 6
+    },
+    "getShaderInfoLog": {
+      "calls": 322,
+      "totalMs": 1503.6,
+      "maxMs": 1379.9,
+      "over50ms": 2
+    },
+    "getProgramParameter": {
+      "calls": 483,
+      "totalMs": 26.1,
+      "maxMs": 0.8,
+      "over50ms": 0
+    },
+    "getActiveUniform": {
+      "calls": 3995,
+      "totalMs": 4.4,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "getUniformLocation": {
+      "calls": 3995,
+      "totalMs": 6.3,
+      "maxMs": 1,
+      "over50ms": 0
+    },
+    "getActiveAttrib": {
+      "calls": 511,
+      "totalMs": 0.6,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "getAttribLocation": {
+      "calls": 511,
+      "totalMs": 0.5,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "useProgram": {
+      "calls": 977,
+      "totalMs": 0.9,
+      "maxMs": 0.2,
+      "over50ms": 0
+    },
+    "uniformMatrix4fv": {
+      "calls": 4074,
+      "totalMs": 4,
+      "maxMs": 0.2,
+      "over50ms": 0
+    },
+    "uniformMatrix3fv": {
+      "calls": 705,
+      "totalMs": 1.4,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniform1f": {
+      "calls": 1655,
+      "totalMs": 0.9,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniform1i": {
+      "calls": 428,
+      "totalMs": 0.5,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "texSubImage2D": {
+      "calls": 92,
+      "totalMs": 95.7,
+      "maxMs": 60.4,
+      "over50ms": 1
+    },
+    "generateMipmap": {
+      "calls": 51,
+      "totalMs": 0.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "bindVertexArray": {
+      "calls": 2225,
+      "totalMs": 2,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "vertexAttribPointer": {
+      "calls": 8826,
+      "totalMs": 4.6,
+      "maxMs": 0.4,
+      "over50ms": 0
+    },
+    "drawArrays": {
+      "calls": 104,
+      "totalMs": 0.4,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "drawElements": {
+      "calls": 1442,
+      "totalMs": 1.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "multiDrawElementsWEBGL": {
+      "calls": 88,
+      "totalMs": 0.6,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniform1fv": {
+      "calls": 260,
+      "totalMs": 0.2,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniform1iv": {
+      "calls": 94,
+      "totalMs": 0.2,
+      "maxMs": 0.2,
+      "over50ms": 0
+    },
+    "uniform2f": {
+      "calls": 199,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "uniform3f": {
+      "calls": 1750,
+      "totalMs": 1.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniform3fv": {
+      "calls": 94,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "drawElementsInstanced": {
+      "calls": 475,
+      "totalMs": 0.5,
+      "maxMs": 0.2,
+      "over50ms": 0
+    },
+    "uniform2fv": {
+      "calls": 2,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "uniform4fv": {
+      "calls": 16,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "endQuery": {
+      "calls": 637,
+      "totalMs": 4.1,
+      "maxMs": 0.3,
+      "over50ms": 0
+    },
+    "fenceSync": {
+      "calls": 768,
+      "totalMs": 12.6,
+      "maxMs": 0.7,
+      "over50ms": 0
+    },
+    "flush": {
+      "calls": 768,
+      "totalMs": 34,
+      "maxMs": 1.1,
+      "over50ms": 0
+    },
+    "clientWaitSync": {
+      "calls": 2,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "getQueryParameter": {
+      "calls": 1459,
+      "totalMs": 24.3,
+      "maxMs": 13.9,
+      "over50ms": 0
+    },
+    "bufferSubData": {
+      "calls": 16,
+      "totalMs": 0.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "getParameter": {
+      "calls": 2,
+      "totalMs": 28.5,
+      "maxMs": 28.5,
+      "over50ms": 0
+    },
+    "deleteBuffer": {
+      "calls": 2740,
+      "totalMs": 3.6,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "drawArraysInstanced": {
+      "calls": 12,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    }
+  },
+  "mainThreadLongTasksSupported": true,
+  "longestMainThreadTasksMs": [
+    3121,
+    2156,
+    475,
+    394,
+    237,
+    151,
+    145,
+    141,
+    123,
+    122,
+    84,
+    76,
+    76,
+    72,
+    66,
+    64,
+    61,
+    61,
+    60,
+    54
+  ],
+  "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+  "viewport": [
+    1100,
+    800
+  ],
+  "samples": 300,
+  "seconds": 33.215,
+  "rafCallbacksSinceReset": 769,
+  "pacerSkipsSinceReset": 0,
+  "rafSecondsSinceReset": 63.781,
+  "rafFpsSinceReset": 12.04,
+  "fps": 9,
+  "gapP95": 33.3,
+  "gapP99": 483.4,
+  "gapMax": 18232.6,
+  "onePercentLowFps": 0.11,
+  "stuttersOver50Ms": 14,
+  "severeStuttersOver100Ms": 8,
+  "stuttersOver50MsSinceStart": 147,
+  "severeStuttersOver100MsSinceStart": 69,
+  "gapMaxSinceStart": 18232.6,
+  "cpuMedian": 1.3,
+  "cpuP95": 5.2,
+  "cpuMax": 30.5,
+  "cpuTotalMs": 601.1,
+  "renderMedian": 0.1,
+  "renderP95": 0.3,
+  "renderMax": 28,
+  "renderTotalMs": 86.6,
+  "gpuWaitCallbacksSinceReset": 1,
+  "contextWaitCallbacksSinceReset": 0,
+  "queueCpuTotalSinceReset": 1.8,
+  "queueCpuMaxSinceReset": 0.1,
+  "eventLoopDelayP95": 3193,
+  "eventLoopDelayMax": 18108.39999999851,
+  "geometryEvictionsDuringWindow": 731,
+  "geometryRefaultsDuringWindow": 124,
+  "geometryRefaultBytesDuringWindow": 123917636,
+  "geometryRapidRefaultsDuringWindow": 124,
+  "geometryRapidRefaultBytesDuringWindow": 123917636,
+  "last": {
+    "biome": "autumn",
+    "cats": 33,
+    "calls": 400,
+    "triangles": 9720360,
+    "geometryBytes": 270046276,
+    "geometryPeakBytes": 370056992,
+    "geometryActiveGraceMs": 250,
+    "pending": 768,
+    "dpr": 2,
+    "poseCats": 0,
+    "colonyActive": false,
+    "shaderPending": 0,
+    "shaderPreparing": 0,
+    "evicted": 731,
+    "refaults": 124,
+    "refaultBytes": 123917636,
+    "rapidRefaults": 124,
+    "rapidRefaultBytes": 123917636,
+    "targetFps": 60,
+    "programs": 160,
+    "visible": true,
+    "moving": false,
+    "buffer": [
+      2124,
+      1360
+    ]
+  }
+}

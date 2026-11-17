@@ -1,0 +1,29 @@
+{
+  "offlineSynchronousProbeOnly": true,
+  "rows": [
+    {
+      "name": "neither",
+      "completeGpuFrameMs": 2828.800000000745,
+      "triangles": 8624164,
+      "calls": 358
+    },
+    {
+      "name": "corals",
+      "completeGpuFrameMs": 3111.39999999851,
+      "triangles": 9470188,
+      "calls": 405
+    },
+    {
+      "name": "grass",
+      "completeGpuFrameMs": 2288,
+      "triangles": 8655556,
+      "calls": 353
+    },
+    {
+      "name": "both",
+      "completeGpuFrameMs": 2917.10000000149,
+      "triangles": 9446956,
+      "calls": 391
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+diff --git a/public/index.html b/public/index.html
+index a96bf02..6960611 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -702,6 +702,6 @@
+       </div>
+     </dialog>
+     <div id="toast" role="status" aria-live="polite" hidden></div>
+-    <script type="module" src="./dist/app.js?v=dcff015e22156726"></script>
++    <script type="module" src="./dist/app.js?v=7de3324c9600fda3"></script>
+   </body>
+ </html>
+diff --git a/scripts/audit-ocean-art-native.mjs b/scripts/audit-ocean-art-native.mjs
+index 25058cc..cb4fcb6 100644
+--- a/scripts/audit-ocean-art-native.mjs
++++ b/scripts/audit-ocean-art-native.mjs
+@@ -6,8 +6,8 @@ import {join} from 'node:path';
+ export async function auditOceanArtNative({page,review,errors,httpErrors}){
+  const reef=!!process.env.CHICHI_SEABED_PATCH_AUDIT;
+  const initial=await page.evaluate(()=>{const g=__lagoonSaveQA.getGame();return{coins:g.coins,inventory:g.inventory,placements:g.placements};});
+- await page.locator('#camera-island').click();
+- await page.evaluate(()=>{const q=__lagoonQA;q.drawPaused=true;q.terrainClock=7;q.faceCamera.setEnabled(false,q.look);document.querySelector('[data-biome="autumn"]').click();q.reviewView(q.islands.get('autumn').position.x,q.islands.get('autumn').position.z+65,80);});
++ if(!reef)await page.locator('#camera-island').click();
++ await page.evaluate(reef=>{const q=__lagoonQA;q.drawPaused=true;q.terrainClock=7;q.faceCamera.setEnabled(false,q.look);if(!reef)document.querySelector('[data-biome="autumn"]').click();q.reviewView(q.islands.get('autumn').position.x,q.islands.get('autumn').position.z+(reef?-95:65),reef?24:80);},reef);
+  await page.waitForFunction(()=>{const q=__lagoonQA;return !q.islands.get('autumn').userData.lowOnly&&q.shaderWarmup.idle();},null,{timeout:240000});
+  if(!reef)await page.evaluate(async()=>{await __lagoonQA.mall().ensure();});
+  if(reef){await page.keyboard.press('KeyE');await page.waitForFunction(()=>__lagoonQA.submarine().phase==='swimming');await page.keyboard.down('KeyW');await page.evaluate(()=>{const q=__lagoonQA;for(let i=0;i<10;i++)q.submarine().update(.05,7+i*.05);});await page.keyboard.up('KeyW');console.log('Reef: actual Chichi left the boat and swam along the sand opening');}

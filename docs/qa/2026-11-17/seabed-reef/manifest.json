@@ -1,0 +1,216 @@
+{
+  "base": "b8051f931c66608acd15ac41bb6043c7081b7605",
+  "publishedSource": "c3f59b2a0568870936655bec3e308841a1952c41",
+  "sourceCheckpoint": "90c4ff0766b12ece7dffb52525072a8f295080b9",
+  "productionAssets": {
+    "dist/app.js": {
+      "bytes": 2558794,
+      "sha256": "fe81b47a2ab0e0bcf15b88bb4b457e7674bb69dccceefd6477753f125d5c4cb1"
+    },
+    "style.css": {
+      "bytes": 65404,
+      "sha256": "c14ce8408f8f3aed7a5e7991eca39663fe55377343421ff62e0600ada4c048ef"
+    },
+    "art/ocean-reflections/tropical-coast-01333a81c41d.png": {
+      "bytes": 38008,
+      "sha256": "01333a81c41ded20b1aa1a8235e94b879f203f3f0bebf9a572a1e829dd94dc4e"
+    },
+    "art/water-reflections/barrel-wave-2695db73862d.png": {
+      "bytes": 59621,
+      "sha256": "2695db73862d947db1e3c68488736147c16001c49855b16b51a0b197758ba22e"
+    },
+    "art/water-reflections/canyon-rafting-e0943c549a14.png": {
+      "bytes": 59680,
+      "sha256": "e0943c549a14f2623fba97a8804d1e56e79080f154084707c83342b7695e3261"
+    },
+    "art/water-reflections/fountain-carousel-2f3d019e4f0c.png": {
+      "bytes": 31758,
+      "sha256": "2f3d019e4f0c45985abeeffc81d6d36c4c4910401bae2cb0ae8c936c4b0eaa79"
+    },
+    "art/water-reflections/glass-drop-2ae02c423d1b.png": {
+      "bytes": 62337,
+      "sha256": "2ae02c423d1b68e343af448a4bcea62aeff86bb9f855d706a46e70abb06cd0a1"
+    },
+    "art/water-reflections/lagoon-launch-7a5f061661b6.png": {
+      "bytes": 55164,
+      "sha256": "7a5f061661b66ece08d34ef321931534c54142b4b27b8e13d7206eee10fe65e3"
+    },
+    "art/water-reflections/lazy-river-db2a9b828207.png": {
+      "bytes": 54299,
+      "sha256": "db2a9b828207c8254311ad312a5a54234b64219fe67789f60718136443c8fe66"
+    },
+    "art/water-reflections/pool-pendulum-9871e9cc7240.png": {
+      "bytes": 49384,
+      "sha256": "9871e9cc72403010a447fb36159374ffc4f4e3c7403dbea3eaaf39d0061ac29e"
+    },
+    "art/water-reflections/surf-halfpipe-3e56059cadb1.png": {
+      "bytes": 52990,
+      "sha256": "3e56059cadb109194aa90e94bd00d44e40c5694efd99fce84cfa36e17c0f1f87"
+    },
+    "models/reefs/organic-reef-ea4e347da8da6eea.bin": {
+      "bytes": 10119600,
+      "sha256": "ea4e347da8da6eeabf1256bbc89f6d76f0beba87bc610c7c3cf7a502bb925a59"
+    },
+    "models/reefs/organic-reef-ea4e347da8da6eea.bin.gz": {
+      "bytes": 7868104,
+      "sha256": "71b08285971beb16869838daf960515ec8f8a00617787598da36a6dca84b8d14"
+    }
+  },
+  "unchangedReflectionPNGs": [
+    "art/ocean-reflections/tropical-coast-01333a81c41d.png",
+    "art/water-reflections/barrel-wave-2695db73862d.png",
+    "art/water-reflections/canyon-rafting-e0943c549a14.png",
+    "art/water-reflections/fountain-carousel-2f3d019e4f0c.png",
+    "art/water-reflections/glass-drop-2ae02c423d1b.png",
+    "art/water-reflections/lagoon-launch-7a5f061661b6.png",
+    "art/water-reflections/lazy-river-db2a9b828207.png",
+    "art/water-reflections/pool-pendulum-9871e9cc7240.png",
+    "art/water-reflections/surf-halfpipe-3e56059cadb1.png"
+  ],
+  "releaseReefCounts": {
+    "colonies": 1216,
+    "plants": 19456,
+    "groups": 63
+  },
+  "releaseMetrics": {
+    "frames": 7,
+    "p50": 4699.800000000003,
+    "p95": 4849.899999999994,
+    "p99": 4849.899999999994,
+    "max": 4916.400000000009,
+    "pausesOver100ms": 7,
+    "renderCPU": [
+      32.900000002235174,
+      27.300000000745058,
+      33.400000002235174,
+      25.800000000745058,
+      18.800000000745058,
+      15.899999998509884,
+      24.599999997764826,
+      31.599999997764826,
+      32.400000002235174,
+      34.19999999925494,
+      25,
+      51.80000000074506
+    ],
+    "heap": 882613459,
+    "contextLost": false
+  },
+  "baselineMetrics": {
+    "frames": 19,
+    "p50": 2533.199999999997,
+    "p95": 2866.5,
+    "p99": 2866.5,
+    "max": 3133.2999999999956,
+    "pausesOver100ms": 13,
+    "renderCPU": [
+      20.90000000037253,
+      14.200000001117587,
+      17.40000000037253,
+      31.59999999962747,
+      21.300000000745058,
+      16.40000000037253,
+      28.09999999962747,
+      36.40000000037253,
+      17.5,
+      23,
+      15.199999999254942,
+      22.699999999254942,
+      13.5,
+      15.700000001117587,
+      16.699999999254942,
+      11.800000000745058,
+      22.90000000037253
+    ],
+    "heap": 870916781,
+    "contextLost": false
+  },
+  "earlierMaterialCandidateMetrics": {
+    "frames": 19,
+    "p50": 4966.399999999994,
+    "p95": 5249.700000000012,
+    "p99": 5249.700000000012,
+    "max": 5583.1999999999825,
+    "pausesOver100ms": 16,
+    "renderCPU": [
+      26.5,
+      26.300000000745058,
+      15.300000000745058,
+      32.5,
+      20.300000000745058,
+      37.899999998509884,
+      25,
+      24.599999997764826,
+      18.700000002980232,
+      22.599999997764826,
+      22.199999999254942,
+      24.600000001490116,
+      41.600000001490116,
+      22,
+      19.5,
+      24.399999998509884,
+      19.800000000745058,
+      31.100000001490116,
+      30.5,
+      19.699999999254942
+    ],
+    "heap": 886992724,
+    "contextLost": false
+  },
+  "wideNativeComparison": [
+    {
+      "view": "reef-ocean-overview-day",
+      "beforeTriangles": 14598950,
+      "candidateTriangles": 14926645,
+      "beforeCalls": 927,
+      "candidateCalls": 1015
+    },
+    {
+      "view": "reef-remote-garden-day",
+      "beforeTriangles": 2121895,
+      "candidateTriangles": 3569958,
+      "beforeCalls": 123,
+      "candidateCalls": 202
+    },
+    {
+      "view": "reef-phone-day",
+      "beforeTriangles": 8624164,
+      "candidateTriangles": 9501580,
+      "beforeCalls": 358,
+      "candidateCalls": 400
+    }
+  ],
+  "diagnosticProof": "candidate-material-game-wide/copied-diagnostic.json",
+  "note": "Diagnostic UI source is unchanged after tested copy/close/native hook identity/reload. Expensive local sand material candidate deferred, original b805 bed optics restored. Source kept in WIP and this report. SwiftShader diagnostics only; limited frame samples, not phone/Mac FPS. Early scene/pilot images explicitly belong to earlier candidate builds. Final game image/build is release-game; production JS bundle separate from instrumented QA bundles.",
+  "finalGPUReadbackAblation": {
+    "offlineSynchronousProbeOnly": true,
+    "rows": [
+      {
+        "name": "neither",
+        "completeGpuFrameMs": 2828.800000000745,
+        "triangles": 8624164,
+        "calls": 358
+      },
+      {
+        "name": "corals",
+        "completeGpuFrameMs": 3111.39999999851,
+        "triangles": 9470188,
+        "calls": 405
+      },
+      {
+        "name": "grass",
+        "completeGpuFrameMs": 2288,
+        "triangles": 8655556,
+        "calls": 353
+      },
+      {
+        "name": "both",
+        "completeGpuFrameMs": 2917.10000000149,
+        "triangles": 9446956,
+        "calls": 391
+      }
+    ],
+    "limitations": "One frame per variant, frozen same camera; real readPixels synchronization. A diagnostic, not physical-device FPS or statistical parity. gl.finish-only prior probe invalid for complete GPU timing."
+  },
+  "knownSoftwareTimingLimit": "Native RAF samples remain ~4.7s against earlier ~2.5s in software-browser fixture. Do not claim hardware parity; use opt-in user report. The one-frame full GPU probe does not reproduce a twofold GPU penalty, so material sand was not established as the cause."
+}

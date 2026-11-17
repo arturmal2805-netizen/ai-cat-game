@@ -1,0 +1,342 @@
+{
+  "seabed-budget-final.log": {
+    "bytes": 7899,
+    "sha256": "2087b622872d5848ba0f9124a7f4318675e17d2bae9f2018d6f6fd5a1ebc24db"
+  },
+  "seabed-release-final-views.log": {
+    "bytes": 557,
+    "sha256": "be0f7e9b4f6d9541a5aa087ca31869d0ea7b359e725690bbb89f1915c99fa9a5"
+  },
+  "production-app.js.gz": {
+    "bytes": 801498,
+    "sha256": "c8b82b05ceb32feabf74cd38a03e471c5a727953790b36499dc74778600b7bae"
+  },
+  "production-index.html": {
+    "bytes": 30696,
+    "sha256": "339c57caec2d5c484f2e03666ba5896b8f2bbad9acd10c803aa2d1202647db0b"
+  },
+  "seabed-sand-detail-candidate-deferred.js": {
+    "bytes": 5994,
+    "sha256": "bf5d46dc6b4a023133f1b55d76d1398f09f092c551800c1a70cc4cbf7385c3fa"
+  },
+  "seabed-baseline-views.log": {
+    "bytes": 569,
+    "sha256": "acda57a297d83cb838c169b0e04b46bee106fe1cc6f0137c4e572ea1beac9809"
+  },
+  "seabed-publish-native.log": {
+    "bytes": 717,
+    "sha256": "85838a9825a6011a3fc3537e0f7b682d35e775093b839fd07797928d3b96d417"
+  },
+  "seabed-fast-final.log": {
+    "bytes": 9844,
+    "sha256": "33310355fed8cead63fe2c5fff46638535d9b3dac971b6b4a033ba165d9d78a2"
+  },
+  "manifest.json": {
+    "bytes": 7227,
+    "sha256": "6b568fc83826f01b9ba28417484b3b949f4896713efc87de561868a52d59cd54"
+  },
+  "seabed-release-final.log": {
+    "bytes": 6179,
+    "sha256": "feda5614f1a47a2551c4bae4dd61d9423a58fd7e1cc6f51d69368fe38fd7b783"
+  },
+  "baseline-game-near/reef-normal-day.png": {
+    "bytes": 4501111,
+    "sha256": "b63c4ac8b4c8e9145bfd36c019767ffa63757f33b3b0f7854c4e489f28a9898e"
+  },
+  "baseline-game-near/qa-build.json": {
+    "bytes": 274,
+    "sha256": "de96903a2233c0e2e762e8ecc0c267aa738fb5a226696ebf2688cbe176785d90"
+  },
+  "baseline-game-near/source-cached.patch": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "baseline-game-near/ocean-art-results.json": {
+    "bytes": 17802,
+    "sha256": "fb374bc96e168f4c0c4a3583067cfa2ef3382664ed42b400ceb7eea6db83f5c7"
+  },
+  "baseline-game-near/reef-wide-day.png": {
+    "bytes": 4001115,
+    "sha256": "f661bc4f27da5c03ef7e968b64f0f5390c1bef4bbe3467700b9b24448a08f7da"
+  },
+  "baseline-game-near/reef-phone-day.png": {
+    "bytes": 1918776,
+    "sha256": "dd74be3edf89f43089509de48a89933d16f8c6d4a658347a2b4a3cf8c3949542"
+  },
+  "baseline-game-near/qa-app.js.gz": {
+    "bytes": 1113969,
+    "sha256": "82a691a14d949f0d5533bd5051722e68baac54cbf5fb1afb93104c2369201263"
+  },
+  "baseline-game-near/source-HEAD.patch": {
+    "bytes": 2215,
+    "sha256": "ead12b1ad6b64114566e850dc9a68287846bb68e039be9048830420d5bff76cd"
+  },
+  "baseline-game-near/reef-third-person-day.png": {
+    "bytes": 5113530,
+    "sha256": "a7843f0c1a08a8028f9dc19bc2599b6cd143c72c008d87d2183f2c5721dd9be1"
+  },
+  "baseline-game-near/source-status.txt": {
+    "bytes": 59,
+    "sha256": "0d85d0b181868fe7939853437510039cae0c7bafe57a16e0ee34a146f34259c3"
+  },
+  "release-game/qa-build.json": {
+    "bytes": 492,
+    "sha256": "e2134720bd119944b7a1b56d160351d6cdd02c1895611d58c8a8d61abfb360d9"
+  },
+  "release-game/native-gpu-ablation.json": {
+    "bytes": 564,
+    "sha256": "fb4281b0871a5d109d5c248dd46d705cef281ee5503a7c2c59e7a3fcac5e24f7"
+  },
+  "release-game/source-cached.patch": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "release-game/ocean-art-results.json": {
+    "bytes": 14763,
+    "sha256": "53dd550ea49cacc809fd7ac76951c8b390e0f8e3d3009402e5b4b55dfeaec4c9"
+  },
+  "release-game/reef-phone-day.png": {
+    "bytes": 2151412,
+    "sha256": "1747e6146f244b484e8386e66c6abba68c41abe78043416fe6655104173a0035"
+  },
+  "release-game/qa-app.js.gz": {
+    "bytes": 1116243,
+    "sha256": "bca218ce2922e3178dfa6696f915f5559bd2e2c50c0ca723e72238362aea574a"
+  },
+  "release-game/source-HEAD.patch": {
+    "bytes": 21861,
+    "sha256": "f830eecf3b4b0db9159d6771ba88dd47323b76274fc216d06af5e76c88da9c62"
+  },
+  "release-game/source-status.txt": {
+    "bytes": 271,
+    "sha256": "666f12a8eb4b7d423810b528b0eceab12ab951cc78adcc172dce72f7a4fea7e6"
+  },
+  "candidate-material-game-near/reef-normal-day.png": {
+    "bytes": 4840468,
+    "sha256": "607a5c76eb4cfb7cabec1f429eef8c4bcd90180ef70ec2f1982551e4dca5df9e"
+  },
+  "candidate-material-game-near/qa-build.json": {
+    "bytes": 274,
+    "sha256": "6bc7fe571b22695451820c6a17cad42e8c93454b0112ac7648ec66f107388cd4"
+  },
+  "candidate-material-game-near/source-cached.patch": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "candidate-material-game-near/ocean-art-results.json": {
+    "bytes": 17816,
+    "sha256": "6fe663f7287bc4891fb39e864631e596f4058b21e1c367bbd8843fc3135040a8"
+  },
+  "candidate-material-game-near/reef-wide-day.png": {
+    "bytes": 4077833,
+    "sha256": "6b4d1a39ada76c78045141a6ae0165224c97fbbe34d7a056787e49258aafe1b7"
+  },
+  "candidate-material-game-near/reef-phone-day.png": {
+    "bytes": 2110809,
+    "sha256": "861d3a7c55c025b38cdd19bb6bd9e417af0bbb8f4e0e027ea2842ebb26373424"
+  },
+  "candidate-material-game-near/qa-app.js.gz": {
+    "bytes": 1116553,
+    "sha256": "ea49126c82e0ecfe4f7d576aa014ffe5f4d74a4555eb2749e3f0bc744bc20713"
+  },
+  "candidate-material-game-near/source-HEAD.patch": {
+    "bytes": 2215,
+    "sha256": "ead12b1ad6b64114566e850dc9a68287846bb68e039be9048830420d5bff76cd"
+  },
+  "candidate-material-game-near/reef-third-person-day.png": {
+    "bytes": 5437854,
+    "sha256": "1ea10c7ee152c462fced774b33af8fc13ca4d89f49b4d61feed0441bf9ac0f9a"
+  },
+  "candidate-material-game-near/source-status.txt": {
+    "bytes": 59,
+    "sha256": "0d85d0b181868fe7939853437510039cae0c7bafe57a16e0ee34a146f34259c3"
+  },
+  "release-game-wide/reef-ocean-overview-day.png": {
+    "bytes": 4034905,
+    "sha256": "9f669c64509b89495e38152ca872d4c96eee3779c54699ed12894723b91bcb03"
+  },
+  "release-game-wide/qa-build.json": {
+    "bytes": 527,
+    "sha256": "37d987c1b1dbd9c9e6cf326f333a42631dfeeaef4c76b8321b091b034ba1a704"
+  },
+  "release-game-wide/source-cached.patch": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "release-game-wide/ocean-art-results.json": {
+    "bytes": 3112,
+    "sha256": "e31bafaa22ddccaffbd5b198d825e1ce8205226a1e16af34b1441badec4613e6"
+  },
+  "release-game-wide/reef-phone-day.png": {
+    "bytes": 2151240,
+    "sha256": "1038a2718d55f623b9539ff13b7cf74b7c6293aad26d3a99f4dfc2c58dba0909"
+  },
+  "release-game-wide/qa-app.js.gz": {
+    "bytes": 1116243,
+    "sha256": "bca218ce2922e3178dfa6696f915f5559bd2e2c50c0ca723e72238362aea574a"
+  },
+  "release-game-wide/source-HEAD.patch": {
+    "bytes": 26708,
+    "sha256": "0598a1aece52128a2027e97dda16ec96fe3b7cf58a9d99dd61958993323bdf98"
+  },
+  "release-game-wide/reef-remote-garden-day.png": {
+    "bytes": 5098325,
+    "sha256": "a44bf49ce604c2390bab8c90d07333a24a716cd7f85b8c8106181378d9319802"
+  },
+  "release-game-wide/source-status.txt": {
+    "bytes": 305,
+    "sha256": "9534831f1e3a0ac48b51bbe6a39ab0b5db13c12e10ea523add07dd53bafcf7e5"
+  },
+  "baseline-game-wide/reef-ocean-overview-day.png": {
+    "bytes": 4009192,
+    "sha256": "6b17e91fb793010566503747bc9d92f8babdd27b9a20d758701856736bc2f548"
+  },
+  "baseline-game-wide/qa-build.json": {
+    "bytes": 252,
+    "sha256": "038e422d5a6a28f3f4102cfa234d5dfa592c691e9349a943acd12dfa8489b3ca"
+  },
+  "baseline-game-wide/source-cached.patch": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "baseline-game-wide/ocean-art-results.json": {
+    "bytes": 3148,
+    "sha256": "ed71c405ff8ef5aa2d35327dcfaa6eaba13dc28d56c03f34940ba628f61cc871"
+  },
+  "baseline-game-wide/reef-phone-day.png": {
+    "bytes": 1918568,
+    "sha256": "8eefd9d3b5bb13474f35f7f3bdb2b7ac5632ca991a1d072f830051c09038ab23"
+  },
+  "baseline-game-wide/qa-app.js.gz": {
+    "bytes": 1113969,
+    "sha256": "82a691a14d949f0d5533bd5051722e68baac54cbf5fb1afb93104c2369201263"
+  },
+  "baseline-game-wide/source-HEAD.patch": {
+    "bytes": 2674,
+    "sha256": "883a4c89b5e9e6d47f50c5739aec04bae34fe89eb0f175abd56a9e0591989b6d"
+  },
+  "baseline-game-wide/reef-remote-garden-day.png": {
+    "bytes": 4596899,
+    "sha256": "6c09dfe313c06c031de006896da6cc11d4a4f7b403e4b1d33af81490b03cedc1"
+  },
+  "baseline-game-wide/source-status.txt": {
+    "bytes": 38,
+    "sha256": "9c68f85c0df7d91fe207ab9b58447c7cb87a86e57b7ffd69ade34e57cd64ee12"
+  },
+  "pilot-material-scene/source-after-status.txt": {
+    "bytes": 434,
+    "sha256": "3014838fbc7349fa2d0bf84b733708cda0c821eb4d45b8c0b8ee1d67030f58f1"
+  },
+  "pilot-material-scene/before-autumn-reef-normal.png": {
+    "bytes": 596358,
+    "sha256": "dd14b3bc9582eb10c1f7d56353751140499efad47c79fc6936b604d6045461a1"
+  },
+  "pilot-material-scene/after-autumn-reef-wide.png": {
+    "bytes": 528515,
+    "sha256": "5ca6eaf3af198481ee7fa546a1c93544f513b52c70cdf2b4eeace4f36fab3cdd"
+  },
+  "pilot-material-scene/source-before-cached.patch": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "pilot-material-scene/qa-before.mjs.gz": {
+    "bytes": 622568,
+    "sha256": "c7ac0dcf9f2b4bf4c44d3539f0d5cbedbfbe5967156b8870605c2921a3b9cb0f"
+  },
+  "pilot-material-scene/qa-after.mjs.gz": {
+    "bytes": 624850,
+    "sha256": "344d9caf4efe35d5d69b0b96383e078e63d7dbd5f0d8be0acd6efc273bad96c6"
+  },
+  "pilot-material-scene/before-autumn-reef-wide.png": {
+    "bytes": 490549,
+    "sha256": "8dce29209f4aea2e0480909d338383484800a2962a10b70b51bcb53b77278e78"
+  },
+  "pilot-material-scene/source-before-HEAD.patch": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "pilot-material-scene/before-autumn-reef-close.png": {
+    "bytes": 688449,
+    "sha256": "1bc568ec4d466d1053f56f05baeb2fb04d49de4427c8c2209621b3810f194d46"
+  },
+  "pilot-material-scene/source-after-HEAD.patch": {
+    "bytes": 44129,
+    "sha256": "52562cb24ba37c549d74594274d7d512e0f6373bc622d758f4a4dcbf194dcb68"
+  },
+  "pilot-material-scene/after-autumn-reef-phone.png": {
+    "bytes": 355311,
+    "sha256": "c2c4c71b9489336e4ccf53966e273577c6d4db862fde575c8b847a96280284c2"
+  },
+  "pilot-material-scene/after-autumn-reef-normal.png": {
+    "bytes": 789236,
+    "sha256": "67e7be6cdf228eb4dd976032905a1daeaf5e8e5a6d7ed6bcd927a300711c7160"
+  },
+  "pilot-material-scene/after-autumn-reef-close.png": {
+    "bytes": 900849,
+    "sha256": "46fdfbc3601b87ea7cc8d932786872c098afbc54c36bfd2dd85a6fccc829fbd6"
+  },
+  "pilot-material-scene/asset-manifest.json": {
+    "bytes": 8102,
+    "sha256": "9f0099609f5b6627943c1379ddeeae64a070e403d0bce2642793c58f502af6dd"
+  },
+  "pilot-material-scene/report.json": {
+    "bytes": 4892,
+    "sha256": "0547bf80cc5c681fc43419e5666a554f2778468edb2a59a5c03dd97b78bdaf6e"
+  },
+  "pilot-material-scene/source-after-cached.patch": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "pilot-material-scene/before-autumn-reef-phone.png": {
+    "bytes": 256751,
+    "sha256": "0f10346bfa113a542a0f1af9bc86b6ea0fce39f33e4ed646c9bc0c88fdfb6fb7"
+  },
+  "pilot-material-scene/build-manifest.json": {
+    "bytes": 1634,
+    "sha256": "bdc770a59299f2d435ab3eaf896f73692077d964769f4b68c90a4984ea66c702"
+  },
+  "pilot-material-scene/source-before-status.txt": {
+    "bytes": 1,
+    "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+  },
+  "candidate-material-game-wide/reef-ocean-overview-day.png": {
+    "bytes": 4035067,
+    "sha256": "5a045c2cc4e31d2a8b022141607e7d9ae1d68391f0fdabd933c3ea9080ad1cf5"
+  },
+  "candidate-material-game-wide/qa-build.json": {
+    "bytes": 390,
+    "sha256": "04876bdbeb0e5cf575f84b2bfa83a1d2951ad4433ac335cf3f61324b9fc45327"
+  },
+  "candidate-material-game-wide/source-cached.patch": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "candidate-material-game-wide/ocean-art-results.json": {
+    "bytes": 16902,
+    "sha256": "a480719593c2ebe7e0ad580f2d196bd4ba36eb2181d68a5590459827d6bbe72d"
+  },
+  "candidate-material-game-wide/reef-phone-day.png": {
+    "bytes": 2110655,
+    "sha256": "94b929fad88485b965b90cf42eca176c01fb87e61f8066bb7f00bb9e2b14bd03"
+  },
+  "candidate-material-game-wide/qa-app.js.gz": {
+    "bytes": 1117275,
+    "sha256": "6acba0365a6afb8fc86b63fc593916b0c2bc4f6297b8a09fc8b81ba24ad0b92e"
+  },
+  "candidate-material-game-wide/source-HEAD.patch": {
+    "bytes": 3105,
+    "sha256": "905447b1fcdb3a1acab284f693a3a6913f70758635fd635d279ed4956f109626"
+  },
+  "candidate-material-game-wide/reef-remote-garden-day.png": {
+    "bytes": 5098763,
+    "sha256": "4382eb8141f829a05442140054cbd5c801bbf85cceed91d377fe35a8cf9a2fa5"
+  },
+  "candidate-material-game-wide/copied-diagnostic.json": {
+    "bytes": 15697,
+    "sha256": "3dd39e55ef4561d80b63a31a7ec064099c2a726d65fedf112752690a645487ec"
+  },
+  "candidate-material-game-wide/source-status.txt": {
+    "bytes": 172,
+    "sha256": "5f5f6a7d895fc506986002b73f74fa63e1580864b695d3d40537e59de957f7cb"
+  }
+}

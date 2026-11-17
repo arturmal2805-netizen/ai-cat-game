@@ -1,0 +1,238 @@
+diff --git a/docs/project-memory/CURRENT.md b/docs/project-memory/CURRENT.md
+index cbef83f..0b26cc8 100644
+--- a/docs/project-memory/CURRENT.md
++++ b/docs/project-memory/CURRENT.md
+@@ -76,6 +76,47 @@ PNG байты совпали с b805 (вода горок не изменена
+ в codex/seabed-reef-patch; смотреть HEAD ветки, fbd1049 — предыдущий checkpoint. Включённый profile в одном
+ прогоне не равен baseline без profile: не выдавать их timing за честный A/B.
+ 
++## Финальная комплектация релиза (2026-11-17)
++
++Публикуем отдельным этапом рифы + одноразовую FPS-диагностику. Материал песка
++ОТЛОЖЕН по просьбе пользователя после публикации: его исходник сохранён в
++fbd104987e89abea53c16a4dc35f6bc0462b0bf4:public/mosasaur-bed-optics.js и локальном
++QA `seabed-sand-detail-candidate-deferred.js`. В релизе bed optics БАЙТ В БАЙТ b805.
++Гипотеза, что именно песок объясняет slowdown, НЕ подтвердилась: после удаления
++на SwiftShader оставались ~5сек RAF. Причину нельзя объявлять установленной.
++После публикации песок подключать локально и проверять одинаковые камеры,
++GPU/readback, полный frame time/память, без глобальной потери бюджета.
++
++Новые колонии используют настоящее scanned coral normal вместо дублирующего
++процедурного derivative relief; старые1024сохраняют исходный v5 shader. У новых
++near→middle переход6м (исходный medium error2мм), у травы8м; все растения/колонии,
++их формы/позиции/полные near meshes сохранены. Исходные fauna/reef vertices,
++LOD/index buffers, IDs и school records проверены golden hashes от b805,
++настоящий loader проверен отдельно. Далёкие дополнительные сады не масштабируют
++животных и не меняют оригинальную геометрию/коллизии/owned addresses.
++
++35targeted прошли до последней корректировки бюджета; затем26/17/19релевантных
++проверок прошли после каждого изменённого участка под Node22. Полная сборка
++Node22 выполнена; после неизменных генераторов повторно собран именно app/Worker
++с теми же esbuild/versionSiteAssets/sculptCacheVersion. CI заново выполнит весь
++npm build/test/dry-run перед деплоем. Исходный partial full-run superseded,
++не засчитывается за новый полный pass. Публикацию подтвердить только полным CI
++и фактическими HTTP hashes. В HTML одно подключение app; CSS c14ce840… прежний.
++
++Native: matched wide overview b80514,598,950tri/927calls → candidate14,926,645/1015;
++remote garden2,121,895/123 →3,569,958/202. Это добавленные рифы, не FPS-оптимизация.
++Ранние pilot PNG не являются финальной сборкой. Full native/private SQLite,
++1216colonies/19456plants, actual exit/swim, profile copy/close/exact GL method
++restoration/reload прошли. Финальный новый coral material проверяется native
++перед завершением CI; при провале отменить pipeline до деплоя. Количество,
++мобильный DPR2, вода/отражения исходного общего ядра сохранены. SwiftShader
++RAF ~2.5сек baseline против~4.4–5сек новых близких садов — ограниченные software
++диагностики, НЕ доказательство Mac/iPhone FPS или паритета. gl.finish-only
++ablation не доказывает GPU time; исправлена на настоящий readPixels sync.
++
++Сайт пока b805. Новый releasе source/CI/live статус читать в канонической
++codex/ocean-recovery-memory; текущую запись нельзя повышать до success заранее.
++
+ ## Приоритет и активные деревья
+ 
+ 1. Релиз воды **b8051f931c66608acd15ac41bb6043c7081b7605 завершён**.
+diff --git a/public/index.html b/public/index.html
+index bc88b0b..e6df0a1 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -702,6 +702,6 @@
+       </div>
+     </dialog>
+     <div id="toast" role="status" aria-live="polite" hidden></div>
+-    <script type="module" src="./dist/app.js?v=3f04060e16c90836"></script>
++    <script type="module" src="./dist/app.js?v=fe81b47a2ab0e0bc"></script>
+   </body>
+ </html>
+diff --git a/public/mosasaur-bed-optics.js b/public/mosasaur-bed-optics.js
+index 985ce6e..c157a13 100644
+--- a/public/mosasaur-bed-optics.js
++++ b/public/mosasaur-bed-optics.js
+@@ -1,8 +1,5 @@
+ import {mosaRockSurface} from './mosasaur-rock-surfaces.js';
+ import {useMosasaurWaterField} from './mosasaur-water-field.js';
+-import {sandDetailTexture} from './mosasaur-sand-detail.js';
+-import {SEABED_REEF_PATCH} from './mosasaur-seabed-patch-data.js';
+-import {WORLD_CENTERS} from './world-layout.js';
+ // Metre-based triplanar stone avoids stretching a single sand image over the
+ // two-hundred-metre canyon walls. The native underwater shader/clock stays in
+ // place. These are shared offline maps, not runtime captures or render targets.
+@@ -10,12 +7,10 @@ export function applyMosasaurBedOptics(material,{stoneNormals=false,reefRock=fal
+  useMosasaurWaterField(material);
+  material.mosaBedStone=mosaRockSurface().color;material.mosaBedGround=reefRock?mosaRockSurface().reef:mosaRockSurface().sand;
+  if(stoneNormals)material.mosaBedNormal=mosaRockSurface().normal;
+- if(!reefRock)material.seabedSandDetail=sandDetailTexture();
+  const previous=material.onBeforeCompile,key=material.customProgramCacheKey();
+  material.onBeforeCompile=function(shader,...args){
+   previous.call(this,shader,...args);shader.uniforms.uMosaBedStone={value:material.mosaBedStone};shader.uniforms.uMosaBedGround={value:material.mosaBedGround};
+   if(stoneNormals)shader.uniforms.uMosaStoneNormal={value:material.mosaBedNormal};
+-  if(!reefRock){shader.uniforms.uSeabedSandDetail={value:material.seabedSandDetail};shader.uniforms.uSeabedPatchCenter={value:[WORLD_CENTERS.autumn[0]+SEABED_REEF_PATCH.x,WORLD_CENTERS.autumn[1]+SEABED_REEF_PATCH.z]};shader.uniforms.uSeabedPatchRadii={value:[SEABED_REEF_PATCH.rx,SEABED_REEF_PATCH.rz]};}
+   shader.vertexShader='varying vec3 vMosaBedPosition;varying vec3 vMosaBedNormal;\n'+shader.vertexShader.replace('#include <project_vertex>',`#include <project_vertex>
+    vec4 bedWorld=vec4(transformed,1.);
+    #ifdef USE_INSTANCING
+@@ -34,21 +29,6 @@ export function applyMosasaurBedOptics(material,{stoneNormals=false,reefRock=fal
+    float sediment=.5+.26*sin(vMosaBedPosition.x*.071+sin(vMosaBedPosition.z*.047)*1.6)+.18*cos(vMosaBedPosition.z*.093-vMosaBedPosition.x*.038);
+    float exposed=clamp(cliff+smoothstep(.58,.88,sediment)*.38,0.,1.);
+    diffuseColor.rgb*=mix(sand*vec3(1.06,1.02,.94),stone*vec3(.95,.94,.91),exposed);`);
+-  if(!reefRock)shader.fragmentShader=shader.fragmentShader.replace('vec3 sand=texture2D(uMosaBedGround,vMosaBedPosition.xz*.5).rgb;',`vec3 sand=texture2D(uMosaBedGround,vMosaBedPosition.xz*.5).rgb;
+-   vec2 sandPatchPoint=vMosaBedPosition.xz-uSeabedPatchCenter;
+-   float sandPatchR=length(sandPatchPoint/uSeabedPatchRadii)+.055*sin(sandPatchPoint.x*.8)*sin(sandPatchPoint.y*.9);
+-   if(sandPatchR<1.){vec3 secondSand=texture2D(uMosaBedGround,vec2(-vMosaBedPosition.z,vMosaBedPosition.x)*.5+vec2(.37,.61)).rgb;
+-    float variation=.5+.5*sin(sandPatchPoint.x*.43+sin(sandPatchPoint.y*.61));sand=mix(sand,secondSand,(1.-smoothstep(.65,1.,sandPatchR))*(.22+variation*.4));}`);
+-  if(!reefRock)shader.fragmentShader='uniform sampler2D uSeabedSandDetail;uniform vec2 uSeabedPatchCenter;uniform vec2 uSeabedPatchRadii;\n'+shader.fragmentShader.replace('#include <normal_fragment_maps>',`#include <normal_fragment_maps>
+-   vec2 patchPoint=vMosaBedPosition.xz-uSeabedPatchCenter;
+-   float patchR=length(patchPoint/uSeabedPatchRadii)+.055*sin(patchPoint.x*.8)*sin(patchPoint.y*.9);
+-   float patchMask=(1.-smoothstep(.65,1.,patchR))*smoothstep(.45,.8,abs(vMosaBedNormal.y));
+-   if(patchMask>.001){
+-    vec4 detail=texture2D(uSeabedSandDetail,vMosaBedPosition.xz*.5);
+-    vec3 sandBase=normalize(vMosaBedNormal),sandTangent=normalize(vec3(1.,0.,0.)-sandBase*sandBase.x),sandBitangent=cross(sandTangent,sandBase),detailN=detail.xyz*2.-1.;
+-    vec3 sandNormal=normalize(sandBase*detailN.z+sandTangent*detailN.x+sandBitangent*detailN.y);
+-    normal=normalize(mix(normal,mat3(viewMatrix)*sandNormal,patchMask*.75));roughnessFactor=mix(roughnessFactor,detail.a,patchMask);
+-   }`);
+   if(stoneNormals)shader.fragmentShader='uniform sampler2D uMosaStoneNormal;\n'+shader.fragmentShader.replace('#include <normal_fragment_maps>',`#include <normal_fragment_maps>
+    vec3 rockBase=normalize(vMosaBedNormal),rockWeight=pow(abs(rockBase),vec3(4.));rockWeight/=max(.001,rockWeight.x+rockWeight.y+rockWeight.z);
+    vec4 rockTX=texture2D(uMosaStoneNormal,vMosaBedPosition.zy*.5),rockTY=texture2D(uMosaStoneNormal,vMosaBedPosition.xz*.5),rockTZ=texture2D(uMosaStoneNormal,vMosaBedPosition.xy*.5);
+@@ -56,5 +36,5 @@ export function applyMosasaurBedOptics(material,{stoneNormals=false,reefRock=fal
+    vec3 rockDetail=normalize(vec3(rockNX.z*sign(rockBase.x),rockNX.y,rockNX.x)*rockWeight.x+vec3(rockNY.x,rockNY.z*sign(rockBase.y),rockNY.y)*rockWeight.y+vec3(rockNZ.x,rockNZ.y,rockNZ.z*sign(rockBase.z))*rockWeight.z);
+    normal=normalize(mat3(viewMatrix)*normalize(rockBase+rockDetail*.36));roughnessFactor*=dot(vec3(rockTX.a,rockTY.a,rockTZ.a),rockWeight);`);
+  };
+- material.customProgramCacheKey=()=>key+'-mosasaur-scanned-stone-v6-local-sand-'+stoneNormals+'-'+reefRock;return material;
++ material.customProgramCacheKey=()=>key+'-mosasaur-scanned-stone-v5-instance-sediment-'+stoneNormals+'-'+reefRock;return material;
+ }
+diff --git a/public/mosasaur-corals.js b/public/mosasaur-corals.js
+index 5045d8a..834a772 100644
+--- a/public/mosasaur-corals.js
++++ b/public/mosasaur-corals.js
+@@ -68,12 +68,14 @@ function finishCoralGeometry(geometry,form){
+ export function* mosaCoralSteps({spatialCells=true,sitesOverride=null,lodDistances=[0,60,160],seabedFar=false}={}){
+  const root=new T.Group(),clock={value:0},motion={value:1},sites=sitesOverride||mosaCoralSites(),dummy=new T.Object3D();root.name='Deep coral gardens · eleven distinct anatomies';
+  const material=new T.MeshStandardMaterial({color:0xffffff,vertexColors:true,roughness:.78,normalMap:mosaRockSurface().coralNormal||null,normalScale:new T.Vector2(.65,.65),metalness:0,emissive:0x123d46,emissiveIntensity:.12,side:T.DoubleSide});
+- material.onBeforeCompile=s=>{s.uniforms.uCoralTime=clock;s.uniforms.uCoralMotion=motion;s.vertexShader='uniform float uCoralTime;uniform float uCoralMotion;attribute float aReefGlow;attribute float aReefSway;varying float vReefGlow;varying vec3 vReefDetail;\n'+s.vertexShader.replace('#include <beginnormal_vertex>','#include <beginnormal_vertex>\nfloat phase=position.y*3.+uCoralTime*.7;float reefNormalBend=position.y>0.? aReefSway*(sin(phase)+position.y*3.*cos(phase))*uCoralMotion:0.;objectNormal.y-=reefNormalBend*objectNormal.x;objectNormal=normalize(objectNormal);').replace('#include <begin_vertex>','#include <begin_vertex>\nvReefGlow=aReefGlow;vReefDetail=position;transformed.x+=sin(position.y*3.+uCoralTime*.7)*max(position.y,0.)*aReefSway*uCoralMotion;');s.fragmentShader='varying float vReefGlow;varying vec3 vReefDetail;\n'+s.fragmentShader.replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n totalEmissiveRadiance+=vColor.rgb*vReefGlow;').replace('#include <normal_fragment_maps>',`#include <normal_fragment_maps>
++ material.onBeforeCompile=s=>{s.uniforms.uCoralTime=clock;s.uniforms.uCoralMotion=motion;s.vertexShader='uniform float uCoralTime;uniform float uCoralMotion;attribute float aReefGlow;attribute float aReefSway;varying float vReefGlow;varying vec3 vReefDetail;\n'+s.vertexShader.replace('#include <beginnormal_vertex>','#include <beginnormal_vertex>\nfloat phase=position.y*3.+uCoralTime*.7;float reefNormalBend=position.y>0.? aReefSway*(sin(phase)+position.y*3.*cos(phase))*uCoralMotion:0.;objectNormal.y-=reefNormalBend*objectNormal.x;objectNormal=normalize(objectNormal);').replace('#include <begin_vertex>','#include <begin_vertex>\nvReefGlow=aReefGlow;vReefDetail=position;transformed.x+=sin(position.y*3.+uCoralTime*.7)*max(position.y,0.)*aReefSway*uCoralMotion;');s.fragmentShader='varying float vReefGlow;varying vec3 vReefDetail;\n'+s.fragmentShader.replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n totalEmissiveRadiance+=vColor.rgb*vReefGlow;').replace('#include <normal_fragment_maps>',seabedFar?'#include <normal_fragment_maps>':`#include <normal_fragment_maps>
+  vec3 coralP=vReefDetail*110.;float polyp=sin(coralP.x+sin(coralP.y*.67))*sin(coralP.z+coralP.y*.8);float filtered=1.-smoothstep(.7,2.,length(fwidth(coralP)));float relief=polyp*.0017*filtered;
+  vec3 sigmaX=dFdx(-vViewPosition),sigmaY=dFdy(-vViewPosition),rX=cross(sigmaY,normal),rY=cross(normal,sigmaX);float det=dot(sigmaX,rX)*faceDirection;
+  normal=normalize(abs(det)*normal-sign(det)*(dFdx(relief)*rX+dFdy(relief)*rY));
+  roughnessFactor=clamp(roughnessFactor+polyp*.07,.42,.84);diffuseColor.rgb*=.94+polyp*.06;`);};
+- material.customProgramCacheKey=()=> 'mosa-coral-polyp-v5';applyUnderwaterLighting(material,clock,0x51d6ef,{level:{value:MOSA_SEA.surfaceY}});useMosasaurWaterField(material);
++ // New beds reuse the scanned polyp normal map instead of computing a second
++ // derivative relief layer over the same pores. Existing colonies retain v5.
++ material.customProgramCacheKey=()=>seabedFar?'mosa-coral-scanned-polyps-v1':'mosa-coral-polyp-v5';applyUnderwaterLighting(material,clock,0x51d6ef,{level:{value:MOSA_SEA.surfaceY}});useMosasaurWaterField(material);
+  for(let region=0;region<(sitesOverride?1:16);region++){
+   yield;const own=sitesOverride||sites.filter(p=>{const sector=Math.floor(((Math.atan2(p.z,p.x)+Math.PI*2)%(Math.PI*2))/(Math.PI/4)),outer=Math.hypot(p.x/MOSA_SEA.rx,p.z/MOSA_SEA.rz)>.84?1:0;return sector*2+outer===region;});if(!own.length)continue;
+   const center=own.reduce((v,p)=>v.add(new T.Vector3(p.x,p.y,p.z)),new T.Vector3()).multiplyScalar(1/own.length),lod=new T.LOD();lod.position.copy(center);root.add(lod);if(spatialCells)installCoralCellCulling(lod);
+diff --git a/public/mosasaur-seabed-patch.js b/public/mosasaur-seabed-patch.js
+index 7f28b99..aebbc0e 100644
+--- a/public/mosasaur-seabed-patch.js
++++ b/public/mosasaur-seabed-patch.js
+@@ -43,7 +43,7 @@ export function* mosaSeabedPatchSteps({gardens=SEABED_REEF_GARDENS}={}){
+  const geometries=[grassGeometry(6),grassGeometry(3),grassGeometry(1,3)],dummy=new T.Object3D();
+  for(const [gardenIndex,P]of gardens.entries()){
+   const ownColonies=yield* seabedPatchSites(P.corals,7319+gardenIndex*101,true,P),ownPlants=yield* seabedPatchSites(P.grass,9401+gardenIndex*101,false,P);colonies.push(...ownColonies);plants.push(...ownPlants);
+-  const corals=yield* mosaCoralSteps({sitesOverride:ownColonies,lodDistances:[0,12,32],seabedFar:true});root.add(corals);coralGroups.push(corals);
++  const corals=yield* mosaCoralSteps({sitesOverride:ownColonies,lodDistances:[0,6,32],seabedFar:true});root.add(corals);coralGroups.push(corals);
+  for(let cell=0;cell<4;cell++){
+   yield;const own=ownPlants.filter(p=>(p.x>P.x?1:0)+(p.z>P.z?2:0)===cell);if(!own.length)continue;
+   const center=own.reduce((v,p)=>v.add(new T.Vector3(p.x,p.y,p.z)),new T.Vector3()).multiplyScalar(1/own.length),lod=new T.LOD();lod.position.copy(center);root.add(lod);let first;
+@@ -51,7 +51,7 @@ export function* mosaSeabedPatchSteps({gardens=SEABED_REEF_GARDENS}={}){
+    const mesh=new T.InstancedMesh(geometries[level],material,own.length);mesh.name='Dense curved seagrass';
+    if(!level){for(const [i,p]of own.entries()){dummy.position.set(p.x-center.x,p.y-center.y,p.z-center.z);dummy.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),new T.Vector3(p.nx,p.ny,p.nz));dummy.quaternion.multiply(new T.Quaternion().setFromAxisAngle(new T.Vector3(0,1,0),p.yaw));dummy.scale.setScalar(p.scale);dummy.updateMatrix();mesh.setMatrixAt(i,dummy.matrix);}mesh.instanceMatrix.needsUpdate=true;first=mesh;}
+    else mesh.instanceMatrix=first.instanceMatrix;
+-   mesh.computeBoundingSphere();mesh.boundingSphere.radius+=.05;lod.addLevel(mesh,[0,15,42][level],.12);
++   mesh.computeBoundingSphere();mesh.boundingSphere.radius+=.05;lod.addLevel(mesh,[0,8,42][level],.12);
+   }
+  }
+  }
+diff --git a/public/mosasaur-water-probe-assets.js b/public/mosasaur-water-probe-assets.js
+index bfb7a32..eb29812 100644
+--- a/public/mosasaur-water-probe-assets.js
++++ b/public/mosasaur-water-probe-assets.js
+@@ -1,3 +1,3 @@
+ // Actual static tropical coast, linear radiance / 4. No gameplay capture.
+-export const MOSA_WATER_PROBE_REVISION="7265ce98b452830c";
++export const MOSA_WATER_PROBE_REVISION="a0656b80790ad918";
+ export const MOSA_WATER_PROBE="./art/ocean-reflections/tropical-coast-01333a81c41d.png";
+diff --git a/public/showcase-probe-assets.js b/public/showcase-probe-assets.js
+index 4c3f971..0157f80 100644
+--- a/public/showcase-probe-assets.js
++++ b/public/showcase-probe-assets.js
+@@ -1,6 +1,6 @@
+ // Actual static mini-biomes, linear radiance / 4; shared water core.
+ export const SHOWCASE_PROBE_ENCODING="linear-radiance-div4";
+-export const SHOWCASE_PROBE_REVISION="8bb67db995ba221f";
++export const SHOWCASE_PROBE_REVISION="6e9fba1771a1845d";
+ export const SHOWCASE_WATER_PROBES={
+   "ride-water-barrel-wave": "./art/water-reflections/barrel-wave-2695db73862d.png",
+   "ride-water-canyon-rafting": "./art/water-reflections/canyon-rafting-e0943c549a14.png",
+diff --git a/scripts/audit-ocean-art-native.mjs b/scripts/audit-ocean-art-native.mjs
+index 80af439..20eb8ed 100644
+--- a/scripts/audit-ocean-art-native.mjs
++++ b/scripts/audit-ocean-art-native.mjs
+@@ -27,9 +27,10 @@ export async function auditOceanArtNative({page,review,errors,httpErrors}){
+   {name:'water-close',eye:[18,14,35],target:[-8,.155,-12],distance:52},
+   {name:'forecourt',eye:[25,-158,170],target:[105,-185,176],distance:85},
+  ];
++ if(process.env.CHICHI_REEF_QUICK_PERF)specs.splice(0,specs.length,...specs.filter(s=>s.name==='reef-phone'));
+  const rows=[];
+- const reefCounts=reef?await page.evaluate(()=>{const root=__lagoonQA.islands.get('autumn').userData.ocean.reefPatch;return{colonies:root.userData.colonies.length,plants:root.userData.plants.length,groups:root.children.length};}):null;
+- if(reef){assert.equal(reefCounts.colonies,1216);assert.equal(reefCounts.plants,19456);}
++ const reefCounts=reef&&!process.env.CHICHI_BASELINE_REF?await page.evaluate(()=>{const root=__lagoonQA.islands.get('autumn').userData.ocean.reefPatch;return{colonies:root.userData.colonies.length,plants:root.userData.plants.length,groups:root.children.length};}):null;
++ if(reefCounts){assert.equal(reefCounts.colonies,1216);assert.equal(reefCounts.plants,19456);}
+  for(const hour of (reef?[12]:[12,0]))for(const spec of specs){
+   if(spec.phone)await page.setViewportSize({width:390,height:844});
+   const state=await page.evaluate(({spec,hour})=>{const q=__lagoonQA,b=q.islands.get('autumn'),g=__lagoonSaveQA.getGame();g.jobCity.epoch=Date.now()-(hour===0?720000:0);q.terrainClock=7;if(spec.native){q.oceanReviewCamera=null;return null;}q.reviewView(b.position.x+spec.target[0],b.position.z+spec.target[2],spec.distance);q.oceanReviewCamera={eye:[spec.eye[0]+b.position.x,spec.eye[1],spec.eye[2]+b.position.z],target:[spec.target[0]+b.position.x,spec.target[1],spec.target[2]+b.position.z]};return q.oceanReviewCamera;},{spec,hour});
+@@ -48,6 +49,7 @@ export async function auditOceanArtNative({page,review,errors,httpErrors}){
+   }
+   console.log('Ocean native capture',name,JSON.stringify({triangles:data.triangles,calls:data.calls,fog:data.fog}));
+  }
++ if(process.env.CHICHI_SEABED_BASELINE_VIEWS||process.env.CHICHI_SEABED_CAPTURE_ONLY){assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);await writeFile(join(review,'ocean-art-results.json'),JSON.stringify({completed:true,rows,errors,httpErrors,captureOnly:true,baseline:process.env.CHICHI_BASELINE_REF||null},null,2));console.log('PASS: native matched overview/remote/phone captures; timing/reload recorded separately.');return;}
+  if(reef)await page.setViewportSize({width:1100,height:800});
+  if(reef&&process.env.CHICHI_PROFILE_QUERY){
+   assert.equal(await page.locator('#frame-profile').count(),1);assert.equal(new URL(page.url()).searchParams.has('profile'),false,'diagnostic request must be consumed');
+@@ -55,9 +57,15 @@ export async function auditOceanArtNative({page,review,errors,httpErrors}){
+   const diagnostic=await page.evaluate(async()=>JSON.parse(await navigator.clipboard.readText()));assert.ok(diagnostic.samples>0);assert.ok(diagnostic.loading.slowest.length>0);assert.ok(diagnostic.app);await writeFile(join(review,'copied-diagnostic.json'),JSON.stringify(diagnostic,null,2));
+   await page.locator('[data-profile-close]').click();assert.equal(await page.locator('#frame-profile').count(),0);assert.equal(await page.evaluate(()=>Object.entries(__lagoonProfileOriginals).every(([k,v])=>__lagoonQA.renderer.getContext()[k]===v)),true,'closing restores native GL calls');
+  }
++ if(process.env.CHICHI_REEF_ABLATION){
++  const ablation=await page.evaluate(()=>{const q=__lagoonQA,root=q.islands.get('autumn').userData.ocean.reefPatch,gl=q.renderer.getContext(),rows=[];q.manualFrames=true;
++   try{const pixel=new Uint8Array(4);gl.readPixels(0,0,1,1,gl.RGBA,gl.UNSIGNED_BYTE,pixel);for(const [name,coral,grass]of [['neither',false,false],['corals',true,false],['grass',false,true],['both',true,true]]){for(const o of root.children)o.visible=o.isLOD?grass:coral;const at=performance.now();q.drawFrame();gl.readPixels(0,0,1,1,gl.RGBA,gl.UNSIGNED_BYTE,pixel);rows.push({name,completeGpuFrameMs:performance.now()-at,triangles:q.renderer.info.render.triangles,calls:q.renderer.info.render.calls});}}
++   finally{for(const o of root.children)o.visible=true;q.manualFrames=false;}return rows;});await writeFile(join(review,'native-gpu-ablation.json'),JSON.stringify({offlineSynchronousProbeOnly:true,rows:ablation},null,2));console.log('Reef complete native GPU ablation',JSON.stringify(ablation));
++ }
+  // Measure real complete RAF intervals including native simulation, submission
+  // and queue pressure. SwiftShader diagnostics, never physical-phone FPS.
+- const metrics=await page.evaluate(async reef=>{const q=__lagoonQA;q.drawPaused=false;const intervals=[],renders=[];q.liveFrames=renders;let last=performance.now();await new Promise(resolve=>{let n=0;const sample=t=>{intervals.push(t-last);last=t;if(++n===(reef?24:80))resolve();else requestAnimationFrame(sample);};requestAnimationFrame(sample);});q.drawPaused=true;delete q.liveFrames;const sorted=intervals.slice(5).sort((a,b)=>a-b),pick=p=>sorted[Math.floor((sorted.length-1)*p)];return{frames:sorted.length,p50:pick(.5),p95:pick(.95),p99:pick(.99),max:Math.max(...sorted),pausesOver100ms:sorted.filter(t=>t>100).length,renderCPU:renders.map(r=>r[1]),heap:performance.memory?.usedJSHeapSize,contextLost:q.renderer.getContext().isContextLost()};},reef);
++ if(process.env.CHICHI_REEF_QUICK_PERF)await page.evaluate(()=>window.__reefFrameCount=12);
++ const metrics=await page.evaluate(async reef=>{const q=__lagoonQA;q.drawPaused=false;const intervals=[],renders=[];q.liveFrames=renders;let last=performance.now();await new Promise(resolve=>{let n=0;const sample=t=>{intervals.push(t-last);last=t;if(++n===(reef?(typeof window.__reefFrameCount==="number"?window.__reefFrameCount:24):80))resolve();else requestAnimationFrame(sample);};requestAnimationFrame(sample);});q.drawPaused=true;delete q.liveFrames;const sorted=intervals.slice(5).sort((a,b)=>a-b),pick=p=>sorted[Math.floor((sorted.length-1)*p)];return{frames:sorted.length,p50:pick(.5),p95:pick(.95),p99:pick(.99),max:Math.max(...sorted),pausesOver100ms:sorted.filter(t=>t>100).length,renderCPU:renders.map(r=>r[1]),heap:performance.memory?.usedJSHeapSize,contextLost:q.renderer.getContext().isContextLost()};},reef);
+  assert.equal(metrics.contextLost,false);
+ 
+  await page.evaluate(()=>window.dispatchEvent(new Event('pagehide')));await page.waitForFunction(()=>!__lagoonSaveQA.cloud.dirty&&!__lagoonSaveQA.cloud.pending&&!__lagoonSaveQA.cloud.retryEntry);
+diff --git a/test/mosasaur-water-optics.test.mjs b/test/mosasaur-water-optics.test.mjs
+index 8d4b9e2..531bc79 100644
+--- a/test/mosasaur-water-optics.test.mjs
++++ b/test/mosasaur-water-optics.test.mjs
+@@ -18,7 +18,7 @@ test('the ocean reflection is a valid immutable local capture of its current nat
+ test('the native warmup uploads every hidden ocean sampler before compiling its first live material',async()=>{
+  const scene=new T.Scene(),camera=new T.PerspectiveCamera(),uploaded=new Set();
+  const material=applyMosasaurBedOptics(applyUnderwaterLighting(new T.MeshStandardMaterial({map:waterSandTexture()}),{value:0}),{stoneNormals:true}),mesh=new T.Mesh(new T.BoxGeometry(),material);
+- scene.add(mesh);const expected=[material.map,material.mosaBedStone,material.mosaBedGround,material.mosaBedNormal,material.mosaWaterField,material.seabedSandDetail];assert.ok(expected.every(t=>t?.isTexture));
++ scene.add(mesh);const expected=[material.map,material.mosaBedStone,material.mosaBedGround,material.mosaBedNormal,material.mosaWaterField];assert.ok(expected.every(t=>t?.isTexture));
+  const renderer={toneMapping:T.ACESFilmicToneMapping,outputColorSpace:T.SRGBColorSpace,shadowMap:{type:T.PCFShadowMap},info:{programs:[]},initTexture(t){uploaded.add(t);},async compileAsync(){for(const t of expected)assert.ok(uploaded.has(t),'a custom sampler would otherwise upload during the live draw');}};
+  const warm=createShaderWarmup(renderer,scene,camera);await warm.prepare(mesh);assert.equal(uploaded.size,new Set(expected).size);warm.dispose();mesh.geometry.dispose();material.dispose();
+ });

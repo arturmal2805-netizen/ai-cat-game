@@ -1,0 +1,7 @@
+{
+  "sha256": "e23f2d50df7568932cb83824d48ec2dda49750b445299a01ea9778bdb479f107",
+  "node": "v22.23.5",
+  "head": "fbd104987e89abea53c16a4dc35f6bc0462b0bf4",
+  "dirty": " M public/index.html\n M public/mosasaur-seabed-patch-data.js\n M public/mosasaur-seabed-patch.js\n M public/mosasaur-water-probe-assets.js\n M public/showcase-probe-assets.js\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

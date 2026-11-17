@@ -1,0 +1,162 @@
+{
+  "completed": true,
+  "rows": [
+    {
+      "name": "reef-ocean-overview-day",
+      "clockHour": 12,
+      "camera": [
+        -450,
+        -25,
+        360
+      ],
+      "target": [
+        -450,
+        -125,
+        500
+      ],
+      "fog": {
+        "color": 1214125,
+        "density": 0.0045
+      },
+      "lights": [
+        {
+          "type": "HemisphereLight",
+          "color": 16771547,
+          "intensity": 1.2
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 16767159,
+          "intensity": 2.2
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 12105708,
+          "intensity": 0.9
+        }
+      ],
+      "exposure": 1,
+      "toneMapping": 4,
+      "dpr": 2,
+      "calls": 927,
+      "triangles": 14598950,
+      "textureCount": 62,
+      "geometryCount": 879,
+      "phase": "swimming",
+      "actor": [
+        -453.2,
+        -119.4,
+        402.8008000000003
+      ],
+      "visible": true,
+      "heap": 940653103,
+      "lost": false
+    },
+    {
+      "name": "reef-remote-garden-day",
+      "clockHour": 12,
+      "camera": [
+        -573,
+        -50,
+        415
+      ],
+      "target": [
+        -585,
+        -58.9,
+        395
+      ],
+      "fog": {
+        "color": 1214125,
+        "density": 0.0045
+      },
+      "lights": [
+        {
+          "type": "HemisphereLight",
+          "color": 16771547,
+          "intensity": 1.2
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 16767159,
+          "intensity": 2.2
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 12105708,
+          "intensity": 0.9
+        }
+      ],
+      "exposure": 1,
+      "toneMapping": 4,
+      "dpr": 2,
+      "calls": 123,
+      "triangles": 2121895,
+      "textureCount": 68,
+      "geometryCount": 470,
+      "phase": "swimming",
+      "actor": [
+        -453.2,
+        -119.4,
+        402.8008000000003
+      ],
+      "visible": false,
+      "heap": 880618951,
+      "lost": false
+    },
+    {
+      "name": "reef-phone-day",
+      "clockHour": 12,
+      "camera": [
+        -445,
+        -120.8,
+        413
+      ],
+      "target": [
+        -450,
+        -124.8,
+        405
+      ],
+      "fog": {
+        "color": 1214125,
+        "density": 0.0045
+      },
+      "lights": [
+        {
+          "type": "HemisphereLight",
+          "color": 16771547,
+          "intensity": 1.2
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 16767159,
+          "intensity": 2.2
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 12105708,
+          "intensity": 0.9
+        }
+      ],
+      "exposure": 1,
+      "toneMapping": 4,
+      "dpr": 2,
+      "calls": 358,
+      "triangles": 8624164,
+      "textureCount": 68,
+      "geometryCount": 475,
+      "phase": "swimming",
+      "actor": [
+        -453.2,
+        -119.4,
+        402.8008000000003
+      ],
+      "visible": true,
+      "heap": 889713303,
+      "lost": false
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "captureOnly": true,
+  "baseline": "b8051f931c66608acd15ac41bb6043c7081b7605"
+}

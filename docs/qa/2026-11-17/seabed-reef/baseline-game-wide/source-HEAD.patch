@@ -1,0 +1,23 @@
+diff --git a/scripts/audit-ocean-art-native.mjs b/scripts/audit-ocean-art-native.mjs
+index 80af439..2bf71f0 100644
+--- a/scripts/audit-ocean-art-native.mjs
++++ b/scripts/audit-ocean-art-native.mjs
+@@ -28,8 +28,8 @@ export async function auditOceanArtNative({page,review,errors,httpErrors}){
+   {name:'forecourt',eye:[25,-158,170],target:[105,-185,176],distance:85},
+  ];
+  const rows=[];
+- const reefCounts=reef?await page.evaluate(()=>{const root=__lagoonQA.islands.get('autumn').userData.ocean.reefPatch;return{colonies:root.userData.colonies.length,plants:root.userData.plants.length,groups:root.children.length};}):null;
+- if(reef){assert.equal(reefCounts.colonies,1216);assert.equal(reefCounts.plants,19456);}
++ const reefCounts=reef&&!process.env.CHICHI_BASELINE_REF?await page.evaluate(()=>{const root=__lagoonQA.islands.get('autumn').userData.ocean.reefPatch;return{colonies:root.userData.colonies.length,plants:root.userData.plants.length,groups:root.children.length};}):null;
++ if(reefCounts){assert.equal(reefCounts.colonies,1216);assert.equal(reefCounts.plants,19456);}
+  for(const hour of (reef?[12]:[12,0]))for(const spec of specs){
+   if(spec.phone)await page.setViewportSize({width:390,height:844});
+   const state=await page.evaluate(({spec,hour})=>{const q=__lagoonQA,b=q.islands.get('autumn'),g=__lagoonSaveQA.getGame();g.jobCity.epoch=Date.now()-(hour===0?720000:0);q.terrainClock=7;if(spec.native){q.oceanReviewCamera=null;return null;}q.reviewView(b.position.x+spec.target[0],b.position.z+spec.target[2],spec.distance);q.oceanReviewCamera={eye:[spec.eye[0]+b.position.x,spec.eye[1],spec.eye[2]+b.position.z],target:[spec.target[0]+b.position.x,spec.target[1],spec.target[2]+b.position.z]};return q.oceanReviewCamera;},{spec,hour});
+@@ -48,6 +48,7 @@ export async function auditOceanArtNative({page,review,errors,httpErrors}){
+   }
+   console.log('Ocean native capture',name,JSON.stringify({triangles:data.triangles,calls:data.calls,fog:data.fog}));
+  }
++ if(process.env.CHICHI_SEABED_BASELINE_VIEWS){assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);await writeFile(join(review,'ocean-art-results.json'),JSON.stringify({completed:true,rows,errors,httpErrors,captureOnly:true,baseline:'b8051f931c66608acd15ac41bb6043c7081b7605'},null,2));console.log('PASS: identical native baseline overview and remote garden; earlier baseline timing/reload retained.');return;}
+  if(reef)await page.setViewportSize({width:1100,height:800});
+  if(reef&&process.env.CHICHI_PROFILE_QUERY){
+   assert.equal(await page.locator('#frame-profile').count(),1);assert.equal(new URL(page.url()).searchParams.has('profile'),false,'diagnostic request must be consumed');

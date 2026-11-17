@@ -1,0 +1,7 @@
+{
+  "sha256": "de4cd80ea7e60029964bf25743fe5ddb7214b7b7ddb9b0f103417c09b8e05aa5",
+  "node": "v22.23.5",
+  "head": "217bc9a13bc8aaa52d5ca92c6bd4fe7e112bfcea",
+  "dirty": " M public/index.html\n M scripts/audit-ocean-art-native.mjs\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

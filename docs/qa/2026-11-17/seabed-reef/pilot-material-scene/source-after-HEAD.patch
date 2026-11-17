@@ -1,0 +1,237 @@
+diff --git a/public/index.html b/public/index.html
+index a96bf02..6960611 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -702,6 +702,6 @@
+       </div>
+     </dialog>
+     <div id="toast" role="status" aria-live="polite" hidden></div>
+-    <script type="module" src="./dist/app.js?v=dcff015e22156726"></script>
++    <script type="module" src="./dist/app.js?v=7de3324c9600fda3"></script>
+   </body>
+ </html>
+diff --git a/public/mosasaur-bed-optics.js b/public/mosasaur-bed-optics.js
+index c157a13..985ce6e 100644
+--- a/public/mosasaur-bed-optics.js
++++ b/public/mosasaur-bed-optics.js
+@@ -1,5 +1,8 @@
+ import {mosaRockSurface} from './mosasaur-rock-surfaces.js';
+ import {useMosasaurWaterField} from './mosasaur-water-field.js';
++import {sandDetailTexture} from './mosasaur-sand-detail.js';
++import {SEABED_REEF_PATCH} from './mosasaur-seabed-patch-data.js';
++import {WORLD_CENTERS} from './world-layout.js';
+ // Metre-based triplanar stone avoids stretching a single sand image over the
+ // two-hundred-metre canyon walls. The native underwater shader/clock stays in
+ // place. These are shared offline maps, not runtime captures or render targets.
+@@ -7,10 +10,12 @@ export function applyMosasaurBedOptics(material,{stoneNormals=false,reefRock=fal
+  useMosasaurWaterField(material);
+  material.mosaBedStone=mosaRockSurface().color;material.mosaBedGround=reefRock?mosaRockSurface().reef:mosaRockSurface().sand;
+  if(stoneNormals)material.mosaBedNormal=mosaRockSurface().normal;
++ if(!reefRock)material.seabedSandDetail=sandDetailTexture();
+  const previous=material.onBeforeCompile,key=material.customProgramCacheKey();
+  material.onBeforeCompile=function(shader,...args){
+   previous.call(this,shader,...args);shader.uniforms.uMosaBedStone={value:material.mosaBedStone};shader.uniforms.uMosaBedGround={value:material.mosaBedGround};
+   if(stoneNormals)shader.uniforms.uMosaStoneNormal={value:material.mosaBedNormal};
++  if(!reefRock){shader.uniforms.uSeabedSandDetail={value:material.seabedSandDetail};shader.uniforms.uSeabedPatchCenter={value:[WORLD_CENTERS.autumn[0]+SEABED_REEF_PATCH.x,WORLD_CENTERS.autumn[1]+SEABED_REEF_PATCH.z]};shader.uniforms.uSeabedPatchRadii={value:[SEABED_REEF_PATCH.rx,SEABED_REEF_PATCH.rz]};}
+   shader.vertexShader='varying vec3 vMosaBedPosition;varying vec3 vMosaBedNormal;\n'+shader.vertexShader.replace('#include <project_vertex>',`#include <project_vertex>
+    vec4 bedWorld=vec4(transformed,1.);
+    #ifdef USE_INSTANCING
+@@ -29,6 +34,21 @@ export function applyMosasaurBedOptics(material,{stoneNormals=false,reefRock=fal
+    float sediment=.5+.26*sin(vMosaBedPosition.x*.071+sin(vMosaBedPosition.z*.047)*1.6)+.18*cos(vMosaBedPosition.z*.093-vMosaBedPosition.x*.038);
+    float exposed=clamp(cliff+smoothstep(.58,.88,sediment)*.38,0.,1.);
+    diffuseColor.rgb*=mix(sand*vec3(1.06,1.02,.94),stone*vec3(.95,.94,.91),exposed);`);
++  if(!reefRock)shader.fragmentShader=shader.fragmentShader.replace('vec3 sand=texture2D(uMosaBedGround,vMosaBedPosition.xz*.5).rgb;',`vec3 sand=texture2D(uMosaBedGround,vMosaBedPosition.xz*.5).rgb;
++   vec2 sandPatchPoint=vMosaBedPosition.xz-uSeabedPatchCenter;
++   float sandPatchR=length(sandPatchPoint/uSeabedPatchRadii)+.055*sin(sandPatchPoint.x*.8)*sin(sandPatchPoint.y*.9);
++   if(sandPatchR<1.){vec3 secondSand=texture2D(uMosaBedGround,vec2(-vMosaBedPosition.z,vMosaBedPosition.x)*.5+vec2(.37,.61)).rgb;
++    float variation=.5+.5*sin(sandPatchPoint.x*.43+sin(sandPatchPoint.y*.61));sand=mix(sand,secondSand,(1.-smoothstep(.65,1.,sandPatchR))*(.22+variation*.4));}`);
++  if(!reefRock)shader.fragmentShader='uniform sampler2D uSeabedSandDetail;uniform vec2 uSeabedPatchCenter;uniform vec2 uSeabedPatchRadii;\n'+shader.fragmentShader.replace('#include <normal_fragment_maps>',`#include <normal_fragment_maps>
++   vec2 patchPoint=vMosaBedPosition.xz-uSeabedPatchCenter;
++   float patchR=length(patchPoint/uSeabedPatchRadii)+.055*sin(patchPoint.x*.8)*sin(patchPoint.y*.9);
++   float patchMask=(1.-smoothstep(.65,1.,patchR))*smoothstep(.45,.8,abs(vMosaBedNormal.y));
++   if(patchMask>.001){
++    vec4 detail=texture2D(uSeabedSandDetail,vMosaBedPosition.xz*.5);
++    vec3 sandBase=normalize(vMosaBedNormal),sandTangent=normalize(vec3(1.,0.,0.)-sandBase*sandBase.x),sandBitangent=cross(sandTangent,sandBase),detailN=detail.xyz*2.-1.;
++    vec3 sandNormal=normalize(sandBase*detailN.z+sandTangent*detailN.x+sandBitangent*detailN.y);
++    normal=normalize(mix(normal,mat3(viewMatrix)*sandNormal,patchMask*.75));roughnessFactor=mix(roughnessFactor,detail.a,patchMask);
++   }`);
+   if(stoneNormals)shader.fragmentShader='uniform sampler2D uMosaStoneNormal;\n'+shader.fragmentShader.replace('#include <normal_fragment_maps>',`#include <normal_fragment_maps>
+    vec3 rockBase=normalize(vMosaBedNormal),rockWeight=pow(abs(rockBase),vec3(4.));rockWeight/=max(.001,rockWeight.x+rockWeight.y+rockWeight.z);
+    vec4 rockTX=texture2D(uMosaStoneNormal,vMosaBedPosition.zy*.5),rockTY=texture2D(uMosaStoneNormal,vMosaBedPosition.xz*.5),rockTZ=texture2D(uMosaStoneNormal,vMosaBedPosition.xy*.5);
+@@ -36,5 +56,5 @@ export function applyMosasaurBedOptics(material,{stoneNormals=false,reefRock=fal
+    vec3 rockDetail=normalize(vec3(rockNX.z*sign(rockBase.x),rockNX.y,rockNX.x)*rockWeight.x+vec3(rockNY.x,rockNY.z*sign(rockBase.y),rockNY.y)*rockWeight.y+vec3(rockNZ.x,rockNZ.y,rockNZ.z*sign(rockBase.z))*rockWeight.z);
+    normal=normalize(mat3(viewMatrix)*normalize(rockBase+rockDetail*.36));roughnessFactor*=dot(vec3(rockTX.a,rockTY.a,rockTZ.a),rockWeight);`);
+  };
+- material.customProgramCacheKey=()=>key+'-mosasaur-scanned-stone-v5-instance-sediment-'+stoneNormals+'-'+reefRock;return material;
++ material.customProgramCacheKey=()=>key+'-mosasaur-scanned-stone-v6-local-sand-'+stoneNormals+'-'+reefRock;return material;
+ }
+diff --git a/public/mosasaur-biome.js b/public/mosasaur-biome.js
+index eebac82..97461a9 100644
+--- a/public/mosasaur-biome.js
++++ b/public/mosasaur-biome.js
+@@ -2,6 +2,7 @@ import {createCoastMeadowGrass} from './meadow-coast-grass.js';
+ import {installCoastMeadowSurfaceSteps} from './meadow-coast-surface.js';
+ import {mosaCoastGardenSteps} from './mosasaur-coast-garden.js';
+ import {mosaRockReefSteps} from './mosasaur-rock-reefs.js';
++import {mosaSeabedPatchSteps} from './mosasaur-seabed-patch.js';
+ import {mosaOpticalBedY} from './mosasaur-reef-data.js';
+ import {mosaTerrainSteps} from './mosasaur-terrain.js';
+ import {createMosaFish} from './mosasaur-fish.js';
+@@ -219,6 +220,7 @@ export function* mosasaurBiomeSteps(
+     const depths = yield* deepOceanSteps();
+     detail.add(depths);
+     animations.push(depths);
++    const reefPatch=yield* mosaSeabedPatchSteps();detail.add(reefPatch);animations.push(reefPatch);root.userData.ocean.reefPatch=reefPatch;
+     root.userData.ocean.extraDrawCalls = depths.userData.drawCalls;
+   }
+   yield;
+diff --git a/public/mosasaur-corals.js b/public/mosasaur-corals.js
+index 8e8a5c3..3bac00b 100644
+--- a/public/mosasaur-corals.js
++++ b/public/mosasaur-corals.js
+@@ -64,8 +64,8 @@ export function* coralGeometrySteps(form){
+ function finishCoralGeometry(geometry,form){
+  geometry.setAttribute('aReefGlow',new T.BufferAttribute(new Float32Array(geometry.attributes.position.count).fill(form===4?.05:.018),1));geometry.setAttribute('aReefSway',new T.BufferAttribute(new Float32Array(geometry.attributes.position.count).fill(form===9?.04:form===10?.025:.008),1));geometry.computeBoundingBox();geometry.userData.sharedScenery=true;return geometry;
+ }
+-export function* mosaCoralSteps({spatialCells=true}={}){
+- const root=new T.Group(),clock={value:0},motion={value:1},sites=mosaCoralSites(),dummy=new T.Object3D();root.name='Deep coral gardens · eleven distinct anatomies';
++export function* mosaCoralSteps({spatialCells=true,sitesOverride=null,lodDistances=[0,60,160]}={}){
++ const root=new T.Group(),clock={value:0},motion={value:1},sites=sitesOverride||mosaCoralSites(),dummy=new T.Object3D();root.name='Deep coral gardens · eleven distinct anatomies';
+  const material=new T.MeshStandardMaterial({color:0xffffff,vertexColors:true,roughness:.78,normalMap:mosaRockSurface().coralNormal||null,normalScale:new T.Vector2(.65,.65),metalness:0,emissive:0x123d46,emissiveIntensity:.12,side:T.DoubleSide});
+  material.onBeforeCompile=s=>{s.uniforms.uCoralTime=clock;s.uniforms.uCoralMotion=motion;s.vertexShader='uniform float uCoralTime;uniform float uCoralMotion;attribute float aReefGlow;attribute float aReefSway;varying float vReefGlow;varying vec3 vReefDetail;\n'+s.vertexShader.replace('#include <beginnormal_vertex>','#include <beginnormal_vertex>\nfloat phase=position.y*3.+uCoralTime*.7;float reefNormalBend=position.y>0.? aReefSway*(sin(phase)+position.y*3.*cos(phase))*uCoralMotion:0.;objectNormal.y-=reefNormalBend*objectNormal.x;objectNormal=normalize(objectNormal);').replace('#include <begin_vertex>','#include <begin_vertex>\nvReefGlow=aReefGlow;vReefDetail=position;transformed.x+=sin(position.y*3.+uCoralTime*.7)*max(position.y,0.)*aReefSway*uCoralMotion;');s.fragmentShader='varying float vReefGlow;varying vec3 vReefDetail;\n'+s.fragmentShader.replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n totalEmissiveRadiance+=vColor.rgb*vReefGlow;').replace('#include <normal_fragment_maps>',`#include <normal_fragment_maps>
+  vec3 coralP=vReefDetail*110.;float polyp=sin(coralP.x+sin(coralP.y*.67))*sin(coralP.z+coralP.y*.8);float filtered=1.-smoothstep(.7,2.,length(fwidth(coralP)));float relief=polyp*.0017*filtered;
+@@ -73,10 +73,10 @@ export function* mosaCoralSteps({spatialCells=true}={}){
+  normal=normalize(abs(det)*normal-sign(det)*(dFdx(relief)*rX+dFdy(relief)*rY));
+  roughnessFactor=clamp(roughnessFactor+polyp*.07,.42,.84);diffuseColor.rgb*=.94+polyp*.06;`);};
+  material.customProgramCacheKey=()=> 'mosa-coral-polyp-v5';applyUnderwaterLighting(material,clock,0x51d6ef,{level:{value:MOSA_SEA.surfaceY}});useMosasaurWaterField(material);
+- for(let region=0;region<16;region++){
+-  yield;const own=sites.filter(p=>{const sector=Math.floor(((Math.atan2(p.z,p.x)+Math.PI*2)%(Math.PI*2))/(Math.PI/4)),outer=Math.hypot(p.x/MOSA_SEA.rx,p.z/MOSA_SEA.rz)>.84?1:0;return sector*2+outer===region;});if(!own.length)continue;
++ for(let region=0;region<(sitesOverride?1:16);region++){
++  yield;const own=sitesOverride||sites.filter(p=>{const sector=Math.floor(((Math.atan2(p.z,p.x)+Math.PI*2)%(Math.PI*2))/(Math.PI/4)),outer=Math.hypot(p.x/MOSA_SEA.rx,p.z/MOSA_SEA.rz)>.84?1:0;return sector*2+outer===region;});if(!own.length)continue;
+   const center=own.reduce((v,p)=>v.add(new T.Vector3(p.x,p.y,p.z)),new T.Vector3()).multiplyScalar(1/own.length),lod=new T.LOD();lod.position.copy(center);root.add(lod);if(spatialCells)installCoralCellCulling(lod);
+-  const groups=[new T.Group(),new T.Group(),new T.Group()];for(const [i,d]of [0,60,160].entries())lod.addLevel(groups[i],d,.08);
++  const groups=[new T.Group(),new T.Group(),new T.Group()];for(const [i,d]of lodDistances.entries())lod.addLevel(groups[i],d,.08);
+   for(let form=0;form<11;form++){
+    yield;const batch=own.filter(p=>p.form===form);if(!batch.length)continue;
+    if(!templates.has(form)){const full=yield* coralGeometrySteps(form);templates.set(form,[full,full,full]);}
+diff --git a/public/mosasaur-water-probe-assets.js b/public/mosasaur-water-probe-assets.js
+index cac2cdd..82422c4 100644
+--- a/public/mosasaur-water-probe-assets.js
++++ b/public/mosasaur-water-probe-assets.js
+@@ -1,3 +1,3 @@
+ // Actual static tropical coast, linear radiance / 4. No gameplay capture.
+-export const MOSA_WATER_PROBE_REVISION="1efdee30120644f8";
++export const MOSA_WATER_PROBE_REVISION="882efcadd6fbadae";
+ export const MOSA_WATER_PROBE="./art/ocean-reflections/tropical-coast-01333a81c41d.png";
+diff --git a/scripts/audit-ocean-art-native.mjs b/scripts/audit-ocean-art-native.mjs
+index 827420e..25058cc 100644
+--- a/scripts/audit-ocean-art-native.mjs
++++ b/scripts/audit-ocean-art-native.mjs
+@@ -4,23 +4,32 @@ import {join} from 'node:path';
+ // Full native game, its real immersion/fog/light pipeline and private SQLite.
+ // The camera fixture runs after tracking, before native culling and lighting.
+ export async function auditOceanArtNative({page,review,errors,httpErrors}){
++ const reef=!!process.env.CHICHI_SEABED_PATCH_AUDIT;
+  const initial=await page.evaluate(()=>{const g=__lagoonSaveQA.getGame();return{coins:g.coins,inventory:g.inventory,placements:g.placements};});
+  await page.locator('#camera-island').click();
+  await page.evaluate(()=>{const q=__lagoonQA;q.drawPaused=true;q.terrainClock=7;q.faceCamera.setEnabled(false,q.look);document.querySelector('[data-biome="autumn"]').click();q.reviewView(q.islands.get('autumn').position.x,q.islands.get('autumn').position.z+65,80);});
+  await page.waitForFunction(()=>{const q=__lagoonQA;return !q.islands.get('autumn').userData.lowOnly&&q.shaderWarmup.idle();},null,{timeout:240000});
+- await page.evaluate(async()=>{await __lagoonQA.mall().ensure();});
++ if(!reef)await page.evaluate(async()=>{await __lagoonQA.mall().ensure();});
++ if(reef){await page.keyboard.press('KeyE');await page.waitForFunction(()=>__lagoonQA.submarine().phase==='swimming');await page.keyboard.down('KeyW');await page.evaluate(()=>{const q=__lagoonQA;for(let i=0;i<10;i++)q.submarine().update(.05,7+i*.05);});await page.keyboard.up('KeyW');console.log('Reef: actual Chichi left the boat and swam along the sand opening');}
++
+  console.log('Ocean native: full detail and native shaders ready');
+- const specs=[
++ const specs=reef?[
++  {name:'reef-third-person',native:true,distance:12},
++  {name:'reef-normal',eye:[12,-115.8,-75],target:[0,-124.8,-95],distance:26},
++  {name:'reef-wide',eye:[27,-104.8,-57],target:[0,-124.8,-95],distance:50},
++  {name:'reef-phone',eye:[5,-120.8,-87],target:[0,-124.8,-95],distance:12,phone:true},
++ ]:[
+   {name:'surface',eye:[80,105,225],target:[0,-8,65],distance:190},
+   {name:'water-close',eye:[18,14,35],target:[-8,.155,-12],distance:52},
+   {name:'forecourt',eye:[25,-158,170],target:[105,-185,176],distance:85},
+  ];
+  const rows=[];
+- for(const hour of [12,0])for(const spec of specs){
+-  const state=await page.evaluate(({spec,hour})=>{const q=__lagoonQA,b=q.islands.get('autumn'),g=__lagoonSaveQA.getGame();g.jobCity.epoch=Date.now()-(hour===0?720000:0);q.terrainClock=7;q.reviewView(b.position.x+spec.target[0],b.position.z+spec.target[2],spec.distance);q.oceanReviewCamera={eye:[spec.eye[0]+b.position.x,spec.eye[1],spec.eye[2]+b.position.z],target:[spec.target[0]+b.position.x,spec.target[1],spec.target[2]+b.position.z]};return q.oceanReviewCamera;},{spec,hour});
+-  await page.waitForFunction(state=>{const q=__lagoonQA;return q.camera.position.distanceTo(new q.THREE.Vector3(...state.eye))<.001&&q.shaderWarmup.idle();},state,{timeout:240000});
++ for(const hour of (reef?[12]:[12,0]))for(const spec of specs){
++  if(spec.phone)await page.setViewportSize({width:390,height:844});
++  const state=await page.evaluate(({spec,hour})=>{const q=__lagoonQA,b=q.islands.get('autumn'),g=__lagoonSaveQA.getGame();g.jobCity.epoch=Date.now()-(hour===0?720000:0);q.terrainClock=7;if(spec.native){q.oceanReviewCamera=null;return null;}q.reviewView(b.position.x+spec.target[0],b.position.z+spec.target[2],spec.distance);q.oceanReviewCamera={eye:[spec.eye[0]+b.position.x,spec.eye[1],spec.eye[2]+b.position.z],target:[spec.target[0]+b.position.x,spec.target[1],spec.target[2]+b.position.z]};return q.oceanReviewCamera;},{spec,hour});
++  if(state)await page.waitForFunction(state=>{const q=__lagoonQA;return q.camera.position.distanceTo(new q.THREE.Vector3(...state.eye))<.001&&q.shaderWarmup.idle();},state,{timeout:240000});
+   await page.waitForTimeout(250);
+-  const data=await page.evaluate(()=>{const q=__lagoonQA;q.drawFrame();return{png:q.renderer.domElement.toDataURL('image/png').split(',')[1],camera:q.camera.position.toArray(),target:q.look.toArray(),fog:{color:q.scene.fog.color.getHex(),density:q.scene.fog.density},lights:q.scene.children.filter(o=>o.isLight).map(o=>({type:o.type,color:o.color.getHex(),intensity:o.intensity})),exposure:q.renderer.toneMappingExposure,toneMapping:q.renderer.toneMapping,dpr:q.renderer.getPixelRatio(),calls:q.renderer.info.render.calls,triangles:q.renderer.info.render.triangles,textureCount:q.renderer.info.memory.textures,geometryCount:q.renderer.info.memory.geometries,heap:performance.memory?.usedJSHeapSize,lost:q.renderer.getContext().isContextLost()};});
++  const data=await page.evaluate(()=>{const q=__lagoonQA;q.drawFrame();return{png:q.renderer.domElement.toDataURL('image/png').split(',')[1],camera:q.camera.position.toArray(),target:q.look.toArray(),fog:{color:q.scene.fog.color.getHex(),density:q.scene.fog.density},lights:q.scene.children.filter(o=>o.isLight).map(o=>({type:o.type,color:o.color.getHex(),intensity:o.intensity})),exposure:q.renderer.toneMappingExposure,toneMapping:q.renderer.toneMapping,dpr:q.renderer.getPixelRatio(),calls:q.renderer.info.render.calls,triangles:q.renderer.info.render.triangles,textureCount:q.renderer.info.memory.textures,geometryCount:q.renderer.info.memory.geometries,phase:q.submarine().phase,actor:q.chichiCarrier.position.toArray(),visible:q.chichiCarrier.visible&&q.cat.visible,heap:performance.memory?.usedJSHeapSize,lost:q.renderer.getContext().isContextLost()};});
+   assert.equal(data.dpr,2);assert.equal(data.lost,false);assert.equal(data.exposure,1);
+   const name=spec.name+'-'+(hour===12?'day':'night');await writeFile(join(review,name+'.png'),Buffer.from(data.png,'base64'));delete data.png;rows.push({name,clockHour:hour,...data});
+   if(hour===12&&spec.name==='water-close'){
+@@ -33,13 +42,15 @@ export async function auditOceanArtNative({page,review,errors,httpErrors}){
+   }
+   console.log('Ocean native capture',name,JSON.stringify({triangles:data.triangles,calls:data.calls,fog:data.fog}));
+  }
++ if(reef)await page.setViewportSize({width:1100,height:800});
+  // Measure real complete RAF intervals including native simulation, submission
+  // and queue pressure. SwiftShader diagnostics, never physical-phone FPS.
+- const metrics=await page.evaluate(async()=>{const q=__lagoonQA;q.drawPaused=false;const intervals=[],renders=[];q.liveFrames=renders;let last=performance.now();await new Promise(resolve=>{let n=0;const sample=t=>{intervals.push(t-last);last=t;if(++n===80)resolve();else requestAnimationFrame(sample);};requestAnimationFrame(sample);});q.drawPaused=true;delete q.liveFrames;const sorted=intervals.slice(5).sort((a,b)=>a-b),pick=p=>sorted[Math.floor((sorted.length-1)*p)];return{frames:sorted.length,p50:pick(.5),p95:pick(.95),p99:pick(.99),max:Math.max(...sorted),pausesOver100ms:sorted.filter(t=>t>100).length,renderCPU:renders.map(r=>r[1]),heap:performance.memory?.usedJSHeapSize,contextLost:q.renderer.getContext().isContextLost()};});
++ const metrics=await page.evaluate(async reef=>{const q=__lagoonQA;q.drawPaused=false;const intervals=[],renders=[];q.liveFrames=renders;let last=performance.now();await new Promise(resolve=>{let n=0;const sample=t=>{intervals.push(t-last);last=t;if(++n===(reef?24:80))resolve();else requestAnimationFrame(sample);};requestAnimationFrame(sample);});q.drawPaused=true;delete q.liveFrames;const sorted=intervals.slice(5).sort((a,b)=>a-b),pick=p=>sorted[Math.floor((sorted.length-1)*p)];return{frames:sorted.length,p50:pick(.5),p95:pick(.95),p99:pick(.99),max:Math.max(...sorted),pausesOver100ms:sorted.filter(t=>t>100).length,renderCPU:renders.map(r=>r[1]),heap:performance.memory?.usedJSHeapSize,contextLost:q.renderer.getContext().isContextLost()};},reef);
+  assert.equal(metrics.contextLost,false);
+  await page.evaluate(()=>window.dispatchEvent(new Event('pagehide')));await page.waitForFunction(()=>!__lagoonSaveQA.cloud.dirty&&!__lagoonSaveQA.cloud.pending&&!__lagoonSaveQA.cloud.retryEntry);
+  await page.reload();await page.waitForFunction(()=>window.__lagoonQA&&__lagoonSaveQA.cloud.editable,null,{timeout:240000});
+  const final=await page.evaluate(()=>{__lagoonQA.drawPaused=true;const g=__lagoonSaveQA.getGame();return{coins:g.coins,inventory:g.inventory,placements:g.placements};});assert.deepEqual(final,initial);
++ if(reef)assert.equal(await page.evaluate(()=>__lagoonQA.submarine().phase),'swimming');
+  assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);
+  await writeFile(join(review,'ocean-art-results.json'),JSON.stringify({completed:true,rows,metrics,initial,final,errors,httpErrors,renderer:'Native game at DPR2, Chromium SwiftShader. Equal camera/clock fixtures; diagnostic timing, not physical-device FPS.'},null,2));
+  console.log('PASS: native ocean views at two clock times, frame intervals/memory, and ownership after private SQLite reload.');
+diff --git a/scripts/check-aquarium.cjs b/scripts/check-aquarium.cjs
+index 699bbf0..63ee431 100644
+--- a/scripts/check-aquarium.cjs
++++ b/scripts/check-aquarium.cjs
+@@ -341,6 +341,7 @@ async function localWorker() {
+       const {ensureJobCity}=await import(root+'/public/jobcity-system.js');g.unlocked=['moon','homestead','autumn','jobcity'];g.catPosition={biome:'autumn',x:-6,z:92};g.catDestinations={luna:'moon',moti:'moon'};
+       Object.assign(g,ensureJobCity(g,now));for(const p of Object.values(g.jobCity.profiles)){p.profession=p.preferences[0];p.careerAIPending=false;p.schedule={day:0,job:'rest'};p.manualUntil=now+3600000;}
+       g.mosasaurSubmarine={x:-6,y:-20,z:92,yaw:Math.PI,active:true,mode:'cockpit',speed:0,vertical:0,pitch:0};
++      if(process.env.CHICHI_SEABED_PATCH_AUDIT){g.catPosition={biome:'autumn',x:0,z:-91};g.mosasaurSubmarine={...g.mosasaurSubmarine,x:0,y:-120,z:-91};}
+       if(process.env.CHICHI_EXPLORER_STAGE==='isolation')g.mosasaurSubmarine={...g.mosasaurSubmarine,active:false,explorerVersion:1,explorer:{mode:'mall',x:-43,y:-164.82,z:105,yaw:Math.PI,floor:1,returning:false}};
+     }
+     const base = local.base,
+diff --git a/scripts/check-global-water.mjs b/scripts/check-global-water.mjs
+index 59c6ae2..c3cc3f7 100644
+--- a/scripts/check-global-water.mjs
++++ b/scripts/check-global-water.mjs
+@@ -11,7 +11,7 @@ const {chromium}=createRequire(import.meta.url)(process.env.CHICHI_PLAYWRIGHT_MO
+ const folder=resolve(process.env.CHICHI_WATER_REVIEW||'/tmp/chichi-global-water');await mkdir(folder,{recursive:true});
+ const ids=(process.env.CHICHI_WATER_BIOMES||'autumn,moon,summer,candy,aquarium,magic-zoo,water,winter,sakura,volcano,galaxy,ice,clockwork,foodcourt,bikini,homestead,cat-homes,atoll-park').split(',');
+ const roots=[...(process.env.CHICHI_WATER_BASELINE?[{name:'before',path:resolve(process.env.CHICHI_WATER_BASELINE)}]:[]),{name:'after',path:resolve('.')}];
+-const code=`import * as T from 'three';import {createBiomeScene,disposeBiome} from './public/biome-scenes.js';import {byBiome} from './public/game-data.js';import {prepareZooAnimalTemplates} from './public/zoo-model-cache.js';import {courtVenue} from './public/foodcourt-assets.js';import {AQUARIUM_TANKS} from './public/aquarium-data.js';import {prepareShowcaseSurfaces} from './public/showcase-surface-details.js';import {mosaCoralSites} from './public/mosasaur-corals.js';import {prepareMosaWaterField} from './public/mosasaur-water-field.js';import {prepareMosaWaterReflection} from './public/mosasaur-water-probe.js';import {MOSA_REEF_INSTANCES,reefWallSite} from './public/mosasaur-reef-data.js';import {prepareMosaRockSurfaces} from './public/mosasaur-rock-surfaces.js';import {prepareMosaReefs} from './public/mosasaur-reef-cache.js';import {prepareMosasaurModels} from './public/mosasaur-model-cache.js';import {configureStaticSubmissions} from './public/static-submissions.js';
++const code=`import {mosaBedY} from './public/mosasaur-data.js';import * as T from 'three';import {createBiomeScene,disposeBiome} from './public/biome-scenes.js';import {byBiome} from './public/game-data.js';import {prepareZooAnimalTemplates} from './public/zoo-model-cache.js';import {courtVenue} from './public/foodcourt-assets.js';import {AQUARIUM_TANKS} from './public/aquarium-data.js';import {prepareShowcaseSurfaces} from './public/showcase-surface-details.js';import {mosaCoralSites} from './public/mosasaur-corals.js';import {prepareMosaWaterField} from './public/mosasaur-water-field.js';import {prepareMosaWaterReflection} from './public/mosasaur-water-probe.js';import {MOSA_REEF_INSTANCES,reefWallSite} from './public/mosasaur-reef-data.js';import {prepareMosaRockSurfaces} from './public/mosasaur-rock-surfaces.js';import {prepareMosaReefs} from './public/mosasaur-reef-cache.js';import {prepareMosasaurModels} from './public/mosasaur-model-cache.js';import {configureStaticSubmissions} from './public/static-submissions.js';
+ const renderer=new T.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});configureStaticSubmissions(renderer);renderer.toneMapping=T.ACESFilmicToneMapping;renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFShadowMap;renderer.setSize(900,650);document.body.style='margin:0';document.body.append(renderer.domElement);
+ const scene=new T.Scene();scene.background=new T.Color(0xc5d8e3);scene.add(new T.HemisphereLight(0xffe9db,0x8b9e85,1.2));const sun=new T.DirectionalLight(0xffd8b7,2.2);sun.position.set(-14,35,20);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);Object.assign(sun.shadow.camera,{left:-60,right:60,top:60,bottom:-60,near:1,far:200});sun.shadow.bias=-.0007;scene.add(sun);scene.add(sun.target);const rim=new T.DirectionalLight(0xb8b7ec,.9);rim.position.set(20,16,-30);scene.add(rim);
+ const camera=new T.PerspectiveCamera(38,900/650,.1,1800);let fixtures=[],island,biome,waterPoint=new T.Vector3(),waterRadius=10;
+@@ -23,10 +23,11 @@ window.load=async id=>{if(island){scene.remove(island);disposeBiome(island);}bio
+  view('normal');await renderer.compileAsync(scene,camera);draw(7);return {id,waterSurfaces:waters.length,waterPoint:waterPoint.toArray(),waterRadius};};
+ window.waterReviewFrame=()=>({point:waterPoint.clone().sub(island.position).toArray(),radius:waterRadius});
+ window.useWaterFrame=frame=>{waterPoint.copy(island.position).add(new T.Vector3(...frame.point));waterRadius=frame.radius;sun.position.copy(waterPoint).add(new T.Vector3(-14,35,20).multiplyScalar(biome.id==='autumn'?10:1));sun.target.position.copy(waterPoint);if(biome.id==='autumn'){const extent=waterRadius*1.4;Object.assign(sun.shadow.camera,{left:-extent,right:extent,top:extent,bottom:-extent,near:1,far:650});sun.shadow.camera.updateProjectionMatrix();}return{waterPoint:waterPoint.toArray(),waterRadius};};
+-window.view=(name)=>{const phone=name==='phone'||name==='hero-phone',w=phone?390:900,h=phone?600:650;renderer.setPixelRatio(phone?2:1);renderer.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();const r=Math.max(waterRadius,3);scene.fog=null;scene.background.set(0xc5d8e3);camera.position.copy(waterPoint).add(new T.Vector3(name==='top'?0:.65,name==='grazing'?.20:name==='top'?1.85:1.2,name==='top'?.25:1.6).multiplyScalar(r*1.7));camera.lookAt(waterPoint);
++window.view=(name)=>{const phone=name==='phone'||name==='hero-phone'||name==='reef-phone',w=phone?390:900,h=phone?600:650;renderer.setPixelRatio(phone?2:1);renderer.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();const r=Math.max(waterRadius,3);scene.fog=null;scene.background.set(0xc5d8e3);camera.position.copy(waterPoint).add(new T.Vector3(name==='top'?0:.65,name==='grazing'?.20:name==='top'?1.85:1.2,name==='top'?.25:1.6).multiplyScalar(r*1.7));camera.lookAt(waterPoint);
+  if(name==='water-close'||name==='water-low'||name==='water-sun'){camera.position.copy(waterPoint).add(new T.Vector3(name==='water-sun'?-14:18,name==='water-low'?2.5:name==='water-sun'?12:14,name==='water-low'?48:35));camera.lookAt(waterPoint.clone().add(new T.Vector3(-8,0,-12)));}
+  if(name.startsWith('underwater')&&biome.id==='autumn'){scene.background.set(0x1286ad);scene.fog=new T.FogExp2(0x1286ad,.0045);const c=MOSA_REEF_INSTANCES[4],p=new T.Vector3(c.x,c.top,c.z).add(island.position);if(name==='underwater-wall'){const w=reefWallSite(c,Math.PI/2,.70),wp=new T.Vector3(w.x,w.y,w.z).add(island.position);camera.position.copy(wp).addScaledVector(new T.Vector3(w.nx,w.ny,w.nz),20).add(new T.Vector3(0,4,0));camera.lookAt(wp);}else if(name==='underwater-close'){const site=mosaCoralSites().find(s=>s.form===0&&s.ny>.95&&Math.hypot(s.x-c.x,s.z-c.z)<c.radius),cp=new T.Vector3(site.x,site.y+site.scale*.4,site.z).add(island.position);camera.position.copy(cp).add(new T.Vector3(15,8,-15));camera.lookAt(cp);}else{camera.position.copy(p).add(new T.Vector3(38,2,-28));camera.lookAt(p.clone().add(new T.Vector3(0,-6,0)));}}
+  if(name==='deep-forecourt'&&biome.id==='autumn'){scene.background.set(0x1286ad);scene.fog=new T.FogExp2(0x1286ad,.0045);camera.position.copy(island.position).add(new T.Vector3(25,-158,170));camera.lookAt(island.position.clone().add(new T.Vector3(105,-185,176)));}
++ if(name.startsWith('reef-')&&biome.id==='autumn'){scene.background.set(0x1286ad);scene.fog=new T.FogExp2(0x1286ad,.0045);const p=island.position.clone().add(new T.Vector3(0,mosaBedY(0,-95),-95)),d=name==='reef-close'?[5,4,8]:name==='reef-wide'?[27,20,38]:[12,9,20];camera.position.copy(p).add(new T.Vector3(...d));camera.lookAt(p);}
+  if(name==='shore-reference'&&biome.id==='autumn'){camera.position.copy(island.position).add(new T.Vector3(-216,3,-81));camera.lookAt(island.position.clone().add(new T.Vector3(-221,-1,-99)));}
+  if(name.startsWith('hero')&&biome.id==='autumn'){let dino;island.traverse(o=>{if(o.userData.deepRide)dino=o;});if(dino){delete dino.userData.rideElapsed;island.userData.update(87,false);island.updateMatrixWorld(true);const body=dino.userData.moving,p=body.getWorldPosition(new T.Vector3()),q=body.getWorldQuaternion(new T.Quaternion()),forward=new T.Vector3(0,0,1).applyQuaternion(q),right=new T.Vector3(1,0,0).applyQuaternion(q);camera.position.copy(p).addScaledVector(forward,40).addScaledVector(right,-45).add(new T.Vector3(0,28,0));camera.lookAt(p.clone().addScaledVector(forward,10).add(new T.Vector3(0,-10,0)));}}
+ };
+@@ -34,4 +35,4 @@ window.draw=(t,reduced=false)=>{island.userData.update?.(t,reduced);for(const ta
+ window.audit=()=>{draw(7,true);const first=renderer.domElement.toDataURL();draw(53,true);if(first!==renderer.domElement.toDataURL())throw Error('Reduced motion changed');draw(7);const before=renderer.domElement.toDataURL();draw(9);const animated=before!==renderer.domElement.toDataURL();let vertices=0,bytes=0,materials=new Set(),geometries=new Set(),waterMaterials=new Set(),waterFields=new Set();island.traverse(o=>{if(o.material)materials.add(o.material);if(o.material?.uniforms?.uWaterField){waterMaterials.add(o.material);waterFields.add(o.material.uniforms.uWaterField.value);}if(o.material?.userData?.waterLight)waterFields.add(o.material.userData.waterLight.texture);if(o.geometry)geometries.add(o.geometry);});for(const g of geometries){vertices+=g.attributes.position?.count||0;for(const a of Object.values(g.attributes))bytes+=(a.array||a.data?.array)?.byteLength||0;bytes+=g.index?.array.byteLength||0;}const oceanMaterial=[...waterMaterials].find(m=>m.userData.oceanProfile||m.customProgramCacheKey().includes('physical-ocean')),program=oceanMaterial&&renderer.properties.get(oceanMaterial).currentProgram,actual=program?renderer.getContext().getShaderSource(program.fragmentShader):'';return {oceanPhysicalShader:(actual.includes('oceanPath')||actual.includes('oceanCoverage')||actual.includes('vPhysicalBedDepth')&&actual.includes('sharedWaterField')),oceanToneMapping:actual.includes('#define TONE_MAPPING'),draws:renderer.info.render.calls,triangles:renderer.info.render.triangles,textures:renderer.info.memory.textures,vertices,geometryBytes:bytes,waterMaterials:waterMaterials.size,waterFields:[...waterFields].map(t=>({name:t.name,width:t.image.width,height:t.image.height})),animated,contextLost:renderer.getContext().isContextLost()};};window.ready=true;`;
+ const bundles=new Map();for(const root of roots){const out=await build({stdin:{contents:(await readFile(resolve(root.path,'public/water-field.js')).then(()=>true,()=>false))?code.replace('window.load=async id=>{','window.load=async id=>{await prepareMosaWaterField();'):code,resolveDir:root.path,loader:'js'},bundle:true,format:'esm',write:false});bundles.set('/'+root.name+'/',out.outputFiles[0].text);await writeFile(resolve(folder,'qa-'+root.name+'.mjs'),out.outputFiles[0].contents);root.sourceSHA=execFileSync('git',['rev-parse','HEAD'],{cwd:root.path,encoding:'utf8'}).trim();root.dirty=execFileSync('git',['status','--porcelain=v1'],{cwd:root.path,encoding:'utf8'}).trim();root.bundleSHA256=createHash('sha256').update(out.outputFiles[0].contents).digest('hex');root.bundleBytes=out.outputFiles[0].contents.byteLength;await writeFile(resolve(folder,'source-'+root.name+'-HEAD.patch'),execFileSync('git',['diff','HEAD','--binary'],{cwd:root.path,maxBuffer:32*1024*1024}));await writeFile(resolve(folder,'source-'+root.name+'-cached.patch'),execFileSync('git',['diff','--cached','--binary'],{cwd:root.path,maxBuffer:32*1024*1024}));await writeFile(resolve(folder,'source-'+root.name+'-status.txt'),root.dirty+'\n');}
+ const servedAssets={};const server=createServer(async(req,res)=>{try{const path=new URL(req.url,'http://localhost').pathname;if(bundles.has(path)){res.writeHead(200,{'Content-Type':'text/html'});res.end('<script type="module">'+bundles.get(path)+'</script>');return;}if(path==='/favicon.ico'){res.writeHead(204);res.end();return;}const own=roots.find(root=>path.startsWith('/'+root.name+'/'));if(!own)throw Error('Unknown QA asset root');const relative=path.slice(own.name.length+1),folder=resolve(own.path,'public');const file=resolve(folder,'.'+relative);if(!file.startsWith(folder+'/'))throw Error('path');const data=await readFile(file);servedAssets[path]={bytes:data.byteLength,sha256:createHash('sha256').update(data).digest('hex')};res.writeHead(200,{'Content-Type':extname(file)==='.png'?'image/png':extname(file)==='.webp'?'image/webp':'application/octet-stream'});res.end(data);}catch{res.writeHead(404);res.end();}});await new Promise(r=>server.listen(0,'127.0.0.1',r));let browser;const rows=[],comparisonFrames=new Map(),comparisonCameras=new Map();
+-try{browser=await chromium.launch({executablePath:process.env.CHICHI_CHROMIUM,args:['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader']});await writeFile(resolve(folder,'build-manifest.json'),JSON.stringify({node:process.version,browser:await browser.version(),renderer:'Chromium ANGLE SwiftShader, native source scenes; not device FPS',roots,settings:{biomes:ids,views:process.env.CHICHI_WATER_VIEWS||null,seconds:7,cameraContract:'baseline per-view local eye/direction/up, water centre/radius, light and shadow envelope replayed in candidate, including reef-anchored views after expansion',quality:'original lights, exposure1, ACES, shadows PCF1024; DPR1 desktop/DPR2 phone'},source:'exact qa-before/qa-after.mjs retained'},null,2));for(const root of roots){const page=await browser.newPage({viewport:{width:900,height:650}}),errors=[];page.setDefaultTimeout(120000);page.on('pageerror',e=>errors.push(e.message));page.on('console',e=>{if(e.type()==='error')errors.push(e.text());});await page.goto('http://127.0.0.1:'+server.address().port+'/'+root.name+'/');await page.waitForFunction(()=>window.ready);for(const id of ids){const meta=await page.evaluate(id=>load(id),id),views=[];if(root.name==='before')comparisonFrames.set(id,await page.evaluate(()=>waterReviewFrame()));if(root.name==='after'&&comparisonFrames.has(id))Object.assign(meta,await page.evaluate(frame=>useWaterFrame(frame),comparisonFrames.get(id)));for(const view of (process.env.CHICHI_WATER_VIEWS?process.env.CHICHI_WATER_VIEWS.split(','):process.env.CHICHI_MOSA_REVIEW?['normal','top','grazing','phone','hero','hero-phone']:['normal','top','grazing','phone'])){await page.evaluate(view=>{window.view(view);draw(view.startsWith('hero')?87:7);},view);const cameraKey=id+':'+view;if(root.name==='before')comparisonCameras.set(cameraKey,await page.evaluate(()=>({eye:camera.position.clone().sub(island.position).toArray(),direction:camera.getWorldDirection(new camera.position.constructor()).toArray(),up:camera.up.toArray()})));if(root.name==='after'&&comparisonCameras.has(cameraKey))await page.evaluate(({frame,view})=>{camera.position.copy(island.position).add(new camera.position.constructor(...frame.eye));camera.up.fromArray(frame.up);camera.lookAt(camera.position.clone().add(new camera.position.constructor(...frame.direction)));draw(view.startsWith('hero')?87:7);},{frame:comparisonCameras.get(cameraKey),view});await page.setViewportSize({width:view==='phone'||view==='hero-phone'?390:900,height:view==='phone'||view==='hero-phone'?600:650});await page.screenshot({path:resolve(folder,root.name+'-'+id+'-'+view+'.png')});views.push({view,pngSHA256:createHash('sha256').update(await readFile(resolve(folder,root.name+'-'+id+'-'+view+'.png'))).digest('hex'),...await page.evaluate(()=>({camera:camera.position.toArray(),lookDirection:camera.getWorldDirection(camera.position.clone().set(0,0,0)).toArray(),draws:renderer.info.render.calls,triangles:renderer.info.render.triangles,textures:renderer.info.memory.textures,dpr:renderer.getPixelRatio()}))});}const stats=await page.evaluate(()=>audit());assert.equal(stats.contextLost,false);if(root.name==='after'&&stats.waterFields.length){assert.equal(stats.waterFields.length,1,'all surfaces/bottoms must share one field');assert.equal(stats.waterFields[0].width,1024,'native QA must use the prepared primary field, not fallback');}rows.push({version:root.name,...meta,views,...stats});await writeFile(resolve(folder,'report.json'),JSON.stringify(rows,null,2));console.log(root.name,id,JSON.stringify(stats));}assert.deepEqual(errors,[]);await page.close();}}finally{await browser?.close();await new Promise(r=>server.close(r));await writeFile(resolve(folder,'asset-manifest.json'),JSON.stringify({kind:'actual served asset bytes',assets:servedAssets},null,2));}
++try{browser=await chromium.launch({executablePath:process.env.CHICHI_CHROMIUM,args:['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader']});await writeFile(resolve(folder,'build-manifest.json'),JSON.stringify({node:process.version,browser:await browser.version(),renderer:'Chromium ANGLE SwiftShader, native source scenes; not device FPS',roots,settings:{biomes:ids,views:process.env.CHICHI_WATER_VIEWS||null,seconds:7,cameraContract:'baseline per-view local eye/direction/up, water centre/radius, light and shadow envelope replayed in candidate, including reef-anchored views after expansion',quality:'original lights, exposure1, ACES, shadows PCF1024; DPR1 desktop/DPR2 phone'},source:'exact qa-before/qa-after.mjs retained'},null,2));for(const root of roots){const page=await browser.newPage({viewport:{width:900,height:650}}),errors=[];page.setDefaultTimeout(120000);page.on('pageerror',e=>errors.push(e.message));page.on('console',e=>{if(e.type()==='error')errors.push(e.text());});await page.goto('http://127.0.0.1:'+server.address().port+'/'+root.name+'/');await page.waitForFunction(()=>window.ready);for(const id of ids){const meta=await page.evaluate(id=>load(id),id),views=[];if(root.name==='before')comparisonFrames.set(id,await page.evaluate(()=>waterReviewFrame()));if(root.name==='after'&&comparisonFrames.has(id))Object.assign(meta,await page.evaluate(frame=>useWaterFrame(frame),comparisonFrames.get(id)));for(const view of (process.env.CHICHI_WATER_VIEWS?process.env.CHICHI_WATER_VIEWS.split(','):process.env.CHICHI_MOSA_REVIEW?['normal','top','grazing','phone','hero','hero-phone']:['normal','top','grazing','phone'])){await page.evaluate(view=>{window.view(view);draw(view.startsWith('hero')?87:7);},view);const cameraKey=id+':'+view;if(root.name==='before')comparisonCameras.set(cameraKey,await page.evaluate(()=>({eye:camera.position.clone().sub(island.position).toArray(),direction:camera.getWorldDirection(new camera.position.constructor()).toArray(),up:camera.up.toArray()})));if(root.name==='after'&&comparisonCameras.has(cameraKey))await page.evaluate(({frame,view})=>{camera.position.copy(island.position).add(new camera.position.constructor(...frame.eye));camera.up.fromArray(frame.up);camera.lookAt(camera.position.clone().add(new camera.position.constructor(...frame.direction)));draw(view.startsWith('hero')?87:7);},{frame:comparisonCameras.get(cameraKey),view});await page.setViewportSize({width:view==='phone'||view==='hero-phone'||view==='reef-phone'?390:900,height:view==='phone'||view==='hero-phone'||view==='reef-phone'?600:650});await page.screenshot({path:resolve(folder,root.name+'-'+id+'-'+view+'.png')});views.push({view,pngSHA256:createHash('sha256').update(await readFile(resolve(folder,root.name+'-'+id+'-'+view+'.png'))).digest('hex'),...await page.evaluate(()=>({camera:camera.position.toArray(),lookDirection:camera.getWorldDirection(camera.position.clone().set(0,0,0)).toArray(),draws:renderer.info.render.calls,triangles:renderer.info.render.triangles,textures:renderer.info.memory.textures,dpr:renderer.getPixelRatio()}))});}const stats=await page.evaluate(()=>audit());assert.equal(stats.contextLost,false);if(root.name==='after'&&stats.waterFields.length){assert.equal(stats.waterFields.length,1,'all surfaces/bottoms must share one field');assert.equal(stats.waterFields[0].width,1024,'native QA must use the prepared primary field, not fallback');}rows.push({version:root.name,...meta,views,...stats});await writeFile(resolve(folder,'report.json'),JSON.stringify(rows,null,2));console.log(root.name,id,JSON.stringify(stats));}assert.deepEqual(errors,[]);await page.close();}}finally{await browser?.close();await new Promise(r=>server.close(r));await writeFile(resolve(folder,'asset-manifest.json'),JSON.stringify({kind:'actual served asset bytes',assets:servedAssets},null,2));}
+diff --git a/scripts/mosasaur-probe-inputs.mjs b/scripts/mosasaur-probe-inputs.mjs
+index cd509ed..5823864 100644
+--- a/scripts/mosasaur-probe-inputs.mjs
++++ b/scripts/mosasaur-probe-inputs.mjs
+@@ -1,2 +1,2 @@
+ // Exact producers of the static coast captured by the offline reflection baker.
+-export const MOSA_PROBE_INPUTS=['water-core.js', 'water-field.js', 'mosasaur-water-field-assets.js', 'mosasaur-water-profile.js', 'meadow-cell-cache.js', 'meadow-coast-field.js', 'meadow-coast-surface.js', 'meadow-coast-grass.js', 'meadow-patch.js', 'meadow-surface.js', 'meadow-leaves.js', 'mosasaur-biome.js', 'mosasaur-coast-garden.js', 'mosasaur-data.js', 'mall-layout.js', 'mall-reef-fit.js', 'mosasaur-retained-land.js', 'showcase-water-landscape.js', 'showcase-botany.js', 'showcase-geology.js', 'showcase-surface-details.js', 'showcase-surface-assets.js', 'fantasy-scenery.js', 'geometry-tasks.js', 'model-batching.js', 'static-vertex-reuse.js', 'scenery-detail-levels.js', 'jungle-props.js', 'landscape-detail.js', 'lagoon.js', 'reef.js', 'water-shading.js', 'water-environment.js', 'water-sand.js', 'mosasaur-water-optics.js', 'mosasaur-water-field.js', 'mosasaur-bed-optics.js', 'mosasaur-rock-surfaces.js', 'mosasaur-rock-surface-assets.js', 'mosasaur-reef-data.js'];
++export const MOSA_PROBE_INPUTS=['mosasaur-sand-detail.js', 'mosasaur-seabed-patch-data.js', 'mosasaur-seabed-patch.js', 'mosasaur-corals.js', 'water-core.js', 'water-field.js', 'mosasaur-water-field-assets.js', 'mosasaur-water-profile.js', 'meadow-cell-cache.js', 'meadow-coast-field.js', 'meadow-coast-surface.js', 'meadow-coast-grass.js', 'meadow-patch.js', 'meadow-surface.js', 'meadow-leaves.js', 'mosasaur-biome.js', 'mosasaur-coast-garden.js', 'mosasaur-data.js', 'mall-layout.js', 'mall-reef-fit.js', 'mosasaur-retained-land.js', 'showcase-water-landscape.js', 'showcase-botany.js', 'showcase-geology.js', 'showcase-surface-details.js', 'showcase-surface-assets.js', 'fantasy-scenery.js', 'geometry-tasks.js', 'model-batching.js', 'static-vertex-reuse.js', 'scenery-detail-levels.js', 'jungle-props.js', 'landscape-detail.js', 'lagoon.js', 'reef.js', 'water-shading.js', 'water-environment.js', 'water-sand.js', 'mosasaur-water-optics.js', 'mosasaur-water-field.js', 'mosasaur-bed-optics.js', 'mosasaur-rock-surfaces.js', 'mosasaur-rock-surface-assets.js', 'mosasaur-reef-data.js'];
