@@ -7,6 +7,8 @@ const BIOMES = REGISTERED_BIOMES.filter(b => !b.magicFarm && !b.zoo);
 import {newGame,loadGame,saveGame,SAVE_KEY} from '../public/economy.js';
 import {migrateRetiredIsland} from '../public/world-migration.js';
 import {RETIRED_BIOME_IDS,isRetiredBiome,retiredDistrict} from '../public/world-layout.js';
+import {HOUSING_CENTER,HOUSING_RADIUS} from '../public/housing-data.js';
+import {WORLD_CENTERS,MIN_ISLAND_GAP,SHORE_MARGIN} from '../public/world-layout.js';
 import {worldRoads,WORLD_ROAD_WIDTH} from '../public/world-roads.js';
 import {activeCats} from '../public/cat-roster.js';
 import {mergeSharedWorld} from '../shared-world.mjs';
@@ -20,7 +22,14 @@ test('exactly the thirteen requested islands disappear and every remaining theme
   if(old.id==='autumn'){const {arrival:oa,...ot}=oldTheme,{arrival:na,...nt}=newTheme;assert.deepEqual(nt,ot);assert.deepEqual(na,[MOSA_SHORE_GATE.x,MOSA_SHORE_GATE.z]);}
   else assert.deepEqual(newTheme,oldTheme);
   if(old.id==='homestead')assert.ok(Math.abs(nr*nr/(or*or)-3)<1e-12);
-  else if(old.id==='autumn')assert.ok(Math.abs(nr/or-5*MOSA_HORIZONTAL_EXPANSION)<1e-12);
+  else if(old.id==='autumn'){
+   // Twofold WATER area retains feature sizes and caps dry shore before the
+   // permanent housing strip; it does not scale the whole island uniformly.
+   const releasedRadius=or*5*Math.sqrt(5), expandedRadius=releasedRadius+105*(MOSA_HORIZONTAL_EXPANSION-Math.sqrt(5));
+   const housingLimit=Math.abs(WORLD_CENTERS.autumn[1]-HOUSING_CENTER[1])-HOUSING_RADIUS-MIN_ISLAND_GAP-2*SHORE_MARGIN;
+   assert.ok(Math.abs(nr-Math.min(expandedRadius,housingLimit))<1e-12);
+   assert.ok(nr>releasedRadius);
+  }
   else assert.equal(nr,or);
  }
  for(let i=0;i<BIOMES.length;i++)for(const b of BIOMES.slice(i+1)){

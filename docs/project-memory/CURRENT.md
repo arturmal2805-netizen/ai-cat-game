@@ -209,3 +209,16 @@ https://raw.githubusercontent.com/arturmal2805-netizen/ai-cat-game/501757e093701
 [решения](decisions.md), [доказательства/backup](evidence-and-recovery.md).
 Provenance merge939/источника4ec/историческогоlive12d сохранены вdecisions и
 history; не создавать их повторно и не откатыватьпозднейшиеисправления.
+
+## Исправление CI расширения (2026-11-17)
+
+CI44147306627 для0c636b8 завершился FAILURE, deploy/pages SKIPPED.
+Полный локальный Node22 прогон:1091 тест,1089 PASS,2 FAIL — только
+исторические проверки whole-map fingerprint и старого равномерного радиуса.
+В reference-slides сохранён прежний fingerprint; только autumn radius/arrival
+восстановлены для исторического сравнения из immutable release fixture.
+Текущая география независимо проверяется ocean-area-map-preservation.
+В world-consolidation проверяется реальное расширение воды и предел берега
+перед постоянной полосой жилья вместо прежнего uniform scaling.
+Все15 тестов этих трёх файлов PASS. Production JS/CSS/native assets неизменны.
+Новый CI должен полностью пройти до заявления о публикации.

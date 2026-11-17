@@ -233,3 +233,15 @@ lights are constant across the two game hours; no fake QA night light is used.
 Exact triangle/vertex/LOD hashes remain for rock/coral templates. Their cached
 anchors and optical depth are now checked against regenerated expanded geometry,
 not stale b805 world-position hashes. No historical source fixture was rewritten.
+
+## 2026-11-17 — expansion CI guards retain historical controls
+
+Full local Node22 suite:1089/1091 passed. Only reference-slides whole-map hash
+and world-consolidation uniform-radius assumption failed after the requested
+water expansion. Preserve the historic slide hash: normalize only autumn's
+radius/arrival to immutable e25 release fixture during that historical hash.
+Independent map guards still check current biome/bridge preservation. Assert
+actual expanded dry radius against the permanent housing-strip clearance,
+without changing any other theme/property expectation. All15 tests across
+these three files pass. Production/native/probe bytes are unchanged. CI187
+failed and did not deploy; publication requires new full CI and HTTP evidence.
