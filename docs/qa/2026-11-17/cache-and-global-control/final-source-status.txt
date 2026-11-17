@@ -1,0 +1,25 @@
+ M docs/project-memory/CURRENT.md
+ M docs/project-memory/decisions.md
+ M docs/project-memory/standards/controls-camera.md
+ M public/chichi-manual.js
+ M public/index.html
+ M public/submarine-runtime.js
+ M public/world.js
+ M scripts/audit-global-manual.mjs
+ M scripts/check-aquarium.cjs
+ M test/chichi-manual.test.mjs
+?? docs/qa/2026-11-17/cache-and-global-control/button-mall/
+?? docs/qa/2026-11-17/cache-and-global-control/button-native.txt
+?? docs/qa/2026-11-17/cache-and-global-control/button-water/
+?? docs/qa/2026-11-17/cache-and-global-control/final-30-tests.txt
+?? docs/qa/2026-11-17/cache-and-global-control/final-source-HEAD.patch
+?? docs/qa/2026-11-17/cache-and-global-control/final-source-cached.patch
+?? docs/qa/2026-11-17/cache-and-global-control/global-native/
+?? docs/qa/2026-11-17/cache-and-global-control/node22-build-and-50-tests.txt
+?? docs/qa/2026-11-17/cache-and-global-control/ownership-native.txt
+?? docs/qa/2026-11-17/cache-and-global-control/ownership/
+?? docs/qa/2026-11-17/cache-and-global-control/palette-native/mall-interior.png
+?? docs/qa/2026-11-17/cache-and-global-control/palette-native/mall-overview.png
+?? docs/qa/2026-11-17/cache-and-global-control/palette-native/mall-phone.png
+?? docs/qa/2026-11-17/cache-and-global-control/production-app.js.gz
+?? scripts/audit-global-button.mjs

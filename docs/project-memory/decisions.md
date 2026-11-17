@@ -188,3 +188,24 @@ V1 сохранял любой previous hook, в том числе старый 
 старый Mall finish заменяется по прежнему контракту. Новый unit ловит duplicate
 uniform/reflection,8unitPASS. NativeV2 ещё не подтверждён. Никогда не ослаблять
 проверку console/shadererrors ради выигрыша в triangles.
+
+## 2026-11-17 — exact Mall RGB dictionary and global Chichi entry
+
+Report3 identifies published0b/JSdbe, not an earlier release. Camera-cycle
+submission-only trace reproduced Mall re-upload pressure; it is not GPU/FPS
+measurement. Baked floor RGB uses a lossless Float32 dictionary with Uint16
+indices, saving34,461,284B GPU for152 geometries without changing triangles,
+positions, normals, UVs, order, picking, cats or the cache budget. Native V3
+interior/overview/phone DPR2 pixel comparisons have zero changed RGBA channels
+and zero errors. The 5900ms physical-device gap is still unproven cache-related.
+
+Rejected QA V1/V2 used a cached Three program with a different uniform set on
+one reused material. Material-local uniforms do not track each cached program.
+Comparative mode switching now disposes/recompiles that material; production
+initializes once. Failed captures are not visual evidence of correctness.
+
+Player explicitly added global «Управлять Чичи» including ordinary islands.
+Reuse one real carrier and existing water/Mall physics; guard all ordinary hero
+owners while land manual is active. Native V7 keyboard, actual touch, camera
+release and SQLite reload pass. Node22 build/50 targeted tests and ownership
+phone audit pass. This records verified WIP, not publication or art approval.

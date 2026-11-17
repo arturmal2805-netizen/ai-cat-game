@@ -5,3 +5,9 @@ test('third-person walking is camera-relative, diagonal-normalized and sweeps th
 test('native ground heights are followed without stepping through a cliff and turning is independent of FPS',()=>{
  const surface=p=>({y:p.z>.6?2.56:.16,biome:'moon'}),s={x:0,y:.16,z:0,yaw:0};for(let i=0;i<30;i++)stepChichiWalk(s,1/30,{forward:1,side:0,heading:0},surface,.6);assert.ok(s.z<=.6);assert.equal(s.y,.16);const run=hz=>{const p={x:0,y:.16,z:0,yaw:0};for(let i=0;i<hz;i++)stepChichiWalk(p,1/hz,{forward:1,side:0,heading:1},()=>({y:.16,biome:'moon'}),.6);return p;};const a=run(30),b=run(60);assert.ok(Math.hypot(a.x-b.x,a.z-b.z)<1e-8);assert.ok(Math.abs(a.yaw-b.yaw)<1e-8);
 });
+
+test('an existing overlap can separate continuously but a clear body can never enter or cross the wall',async()=>{
+ const{clearsWalkObstacles}=await import('../public/chichi-manual.js'),wall=[{x:-6,z:-4,w:1.8,d:1.8}],r=.65;assert.equal(clearsWalkObstacles({x:-6,z:-2.9},{x:-6,z:-3},r,wall),true);assert.equal(clearsWalkObstacles({x:-6,z:-3.1},{x:-6,z:-3},r,wall),false);assert.equal(clearsWalkObstacles({x:-6,z:-2.5},{x:-6,z:-2.3},r,wall),false);
+});
+
+test('contact with an existing footprint permits tangent escape without increasing penetration',async()=>{const{clearsWalkObstacles}=await import('../public/chichi-manual.js'),wall=[{x:-6,z:-4,w:1.8,d:1.8}];assert.equal(clearsWalkObstacles({x:-6.12,z:-3},{x:-6,z:-3},.571,wall),true);assert.equal(clearsWalkObstacles({x:-6,z:-3.12},{x:-6,z:-3},.571,wall),false);});

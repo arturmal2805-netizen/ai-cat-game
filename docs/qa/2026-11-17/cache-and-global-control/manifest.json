@@ -1,0 +1,221 @@
+{
+  "date": "2026-11-17",
+  "base": "0b38098a32e338a89b88efd784b184e9ac72c3f3",
+  "sourceHead": "fe9e40027dae69902002ec0cdc68cac1f92ff303",
+  "finalOverlay": "final-source-HEAD.patch",
+  "productionAssets": {
+    "dist/app.js": "89f628b72c238b0390dc38ef142b98511d6efc2eb390d0980554f40839185856",
+    "style.css": "d02068257c7b2b00ecdb80590c8a6bc5003849788f1400e69b6a6d6d91fb4356"
+  },
+  "native": {
+    "palette": "palette-native/mall-palette.json",
+    "keyboardAndSQLite": "global-native/global-manual.json",
+    "actualPhoneTouch": "global-native/phone-controls.json",
+    "ownershipTwoReloads": "ownership/ownership.json",
+    "waterButton": "button-water/global-button.json",
+    "mallButton": "button-mall/global-button.json"
+  },
+  "limits": "SwiftShader tests are not Mac/iPhone FPS. Existing native swim/airlock/storey route remains unchanged; new direct-button checks do not claim to rerun the entire historical route. Player visual approval remains pending. Six-second physical-device pause cause remains unproven.",
+  "files": {
+    "final-source-cached.patch": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "player-report-3-summary.json": {
+      "bytes": 1474,
+      "sha256": "9ceef957054cc1ee9dbcd0c5bba9100b90474b0c2ab187ae3aba8e44f1dc7275"
+    },
+    "final-source-HEAD.patch": {
+      "bytes": 41162,
+      "sha256": "53fbb7ce8e489c612df7f68208d486bc5e7af9af6fcae968db1b31df6c1d8be1"
+    },
+    "production-app.js.gz": {
+      "bytes": 808812,
+      "sha256": "08e27c9db2a640715ce12103a54fff82147e147292af54740b824aef8e3dc683"
+    },
+    "final-source-status.txt": {
+      "bytes": 1317,
+      "sha256": "f4e22815a7175cb47c86da98804eca3c74d8c7b4a1a6aeef33b229ad6a954255"
+    },
+    "node22-build-and-50-tests.txt": {
+      "bytes": 13592,
+      "sha256": "536af343c9005a0151b140937f297cffda2d792b12d2a93269fcf2857b499b36"
+    },
+    "rejected-palette-switch-v2.txt": {
+      "bytes": 1284,
+      "sha256": "283f63e6e792d9d18b35c930d8aacc465afc173d938422b520a557e1cb84e056"
+    },
+    "unit-tests.txt": {
+      "bytes": 5810,
+      "sha256": "b874780d634cb26bb82a340895b29ba72a50af9c38faa0565d1d4f492e1d969c"
+    },
+    "final-30-tests.txt": {
+      "bytes": 8549,
+      "sha256": "56169095e045ac5e18535b2f5f9788dad3df1601deb6e39f9108b072e54a66fd"
+    },
+    "button-native.txt": {
+      "bytes": 922,
+      "sha256": "cd8cfefa244e2d0edcb8afd5580bf6976b9723beed4f77af1fd248d79408d293"
+    },
+    "ownership-native.txt": {
+      "bytes": 138,
+      "sha256": "bd221e039d973f3250688cc2bcf5d57f1a0d97eee3b8b647cf29da6fc05a8edd"
+    },
+    "button-water/qa-build.json": {
+      "bytes": 450,
+      "sha256": "c214e65f9e5b4b369c95ddb7af245f6fbdba591892533f4e908360f535cb6741"
+    },
+    "button-water/source-cached.patch": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "button-water/qa-app.js.gz": {
+      "bytes": 1125861,
+      "sha256": "f771369cfbb8a6de957f8ccaae24bab5cb3db8de56d651c5ca87bccecbd2016b"
+    },
+    "button-water/source-HEAD.patch": {
+      "bytes": 32986,
+      "sha256": "0fd2a1a2bedb9496d88767e413e95f1901e5969b032f6590cc63c9c0bb34ea58"
+    },
+    "button-water/source-status.txt": {
+      "bytes": 229,
+      "sha256": "9a225d7fc193a39ccf44861f86803d17f9e34b69dc7628278d1ade1a5430c31c"
+    },
+    "button-water/global-button.json": {
+      "bytes": 1387,
+      "sha256": "c2b59e5b38638ecc11d59eacd53ff919c7f125027639c5caf3362c3c1bdeb9b6"
+    },
+    "palette-native/mall-phone.png": {
+      "bytes": 1502684,
+      "sha256": "6aa1b5a7fa7209be206ae8cb966e239bae3f1a1d8f1de1cf89fc8d6e0b3f176c"
+    },
+    "palette-native/qa-build.json": {
+      "bytes": 468,
+      "sha256": "109bf08548637a738362facf831d8fea5070ad3fd48ae1889ec6339df1ae2796"
+    },
+    "palette-native/mall-interior.png": {
+      "bytes": 4847948,
+      "sha256": "ce02e6a18d2ecf0e20e44f47f3659354785a1910b04d8baca6181b5933abeafe"
+    },
+    "palette-native/source-cached.patch": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "palette-native/mall-overview.png": {
+      "bytes": 8166758,
+      "sha256": "aca493c4de96b12ab755761bdce18d34d68b48bd33e8d4de65f3b600e1a66c3c"
+    },
+    "palette-native/mall-palette.json": {
+      "bytes": 4369,
+      "sha256": "46729561788dff17f474bbcd517e2d0563b4f9f6479e3f594c18cbd9ed4525a6"
+    },
+    "palette-native/qa-app.js.gz": {
+      "bytes": 1121318,
+      "sha256": "bfe13a4385c390a425683d41432b1fdde40e351779478bdf4b0fb0f8c55c464e"
+    },
+    "palette-native/source-HEAD.patch": {
+      "bytes": 5251,
+      "sha256": "74ab066804fcf29ed025382e968f95453af4ef670455a714d1bf53a604b92b88"
+    },
+    "palette-native/shader-errors.json": {
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "palette-native/source-status.txt": {
+      "bytes": 248,
+      "sha256": "3b60edf55b65d13e96a3f005d8882ba1457c2fee96f82f315fa6f1d54b1462fb"
+    },
+    "global-native/global-manual.json": {
+      "bytes": 13470,
+      "sha256": "518a546fd9ef251605a39d7d3dfde63837c9a6c2321acdba73c2b44207053e69"
+    },
+    "global-native/desktop-third-person.png": {
+      "bytes": 3250934,
+      "sha256": "e061b83e1cade7044d09bd215334fa4cfb23cf3d01e501850f0dc8ea6e84b385"
+    },
+    "global-native/phone-controls.json": {
+      "bytes": 295,
+      "sha256": "1391d79666013dfaecd1111ea9af0de979b6c0cd19b4d21b9a37c73c2bf42ae2"
+    },
+    "global-native/qa-build.json": {
+      "bytes": 360,
+      "sha256": "1abec5dc702affd258a1725682255756e8bc15212b44aa5cf45e2824145cebd7"
+    },
+    "global-native/source-cached.patch": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "global-native/qa-app.js.gz": {
+      "bytes": 1125823,
+      "sha256": "62da69a66639d22236a71fce86fc3ee21bb2eea75309f4bcd83fdb344b43bf77"
+    },
+    "global-native/source-HEAD.patch": {
+      "bytes": 25509,
+      "sha256": "30b622cab02c252f7b8d91a131c1f4a6652c3e866c5f2a5624c283c6648661af"
+    },
+    "global-native/source-status.txt": {
+      "bytes": 142,
+      "sha256": "c2b4c8ffdcab4d7568636f3633631ee3f2593cd972a080cff28b6d47a2ac0a70"
+    },
+    "button-mall/qa-build.json": {
+      "bytes": 575,
+      "sha256": "3ae17ace78a8046e827b787facb14bbad3642944fff18fa57a2f41f2ac3e6569"
+    },
+    "button-mall/source-cached.patch": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "button-mall/qa-app.js.gz": {
+      "bytes": 1125861,
+      "sha256": "f771369cfbb8a6de957f8ccaae24bab5cb3db8de56d651c5ca87bccecbd2016b"
+    },
+    "button-mall/source-HEAD.patch": {
+      "bytes": 41105,
+      "sha256": "ba8f25cafd75b5a00c51193f7a779df163a53fb00053fbecbdbed00aefb400e2"
+    },
+    "button-mall/source-status.txt": {
+      "bytes": 351,
+      "sha256": "05f0295e3961922e66071f20b2c37f7f87d77adda331a92169b90081d2b3dfcb"
+    },
+    "button-mall/global-button.json": {
+      "bytes": 1627,
+      "sha256": "bf4a2c6c8b3762cba8a2cbed02c6d24f797f6a0275366a139dabd9e21ab47cbb"
+    },
+    "ownership/restored-mega-loops.png": {
+      "bytes": 703484,
+      "sha256": "420f95e1cf0af73429cafd05643c75da9e19ed2681456999f37ceec5ea0e7b62"
+    },
+    "ownership/ownership.json": {
+      "bytes": 726,
+      "sha256": "2baf996f27f7cfdd1976a0832fd3b2c8a842b5fb13ce027b249dac3ddc3bde7c"
+    },
+    "baseline-cache/cache-cycles.json": {
+      "bytes": 898801,
+      "sha256": "4fb805e9ec7b8e5a213ac014dff2a8c607c12fb8c56c93b70df2ba610e8afaae"
+    },
+    "baseline-cache/qa-build.json": {
+      "bytes": 279,
+      "sha256": "2b4f0dd35d495e136bfe5234d8e7f5c6354234fa688422053aa041f367057cf9"
+    },
+    "baseline-cache/progress.json": {
+      "bytes": 381,
+      "sha256": "bd7fdd06c6fb7990e0d6330159158e6d2658ad402cd5d80f84cb7baa949b0e44"
+    },
+    "baseline-cache/source-cached.patch": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "baseline-cache/qa-app.js.gz": {
+      "bytes": 1119947,
+      "sha256": "d7b0148df7bc9eb66a97ceff8e001be2180be18bae395ed3cf25ba5c21a13aaf"
+    },
+    "baseline-cache/source-HEAD.patch": {
+      "bytes": 3563,
+      "sha256": "c0cac6af7b7876b5b6ba9b2a1d9336537d1a98e9adcbc0ba4d7eb79b9542ea0b"
+    },
+    "baseline-cache/source-status.txt": {
+      "bytes": 64,
+      "sha256": "ab42b1953c614c0ec2b3e54cbcc2297639d660773577422905e605b43c788c6b"
+    }
+  }
+}

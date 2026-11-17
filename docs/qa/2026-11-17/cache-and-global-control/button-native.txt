@@ -1,0 +1,44 @@
+Before reboard {
+  phase: 'swimming',
+  controlled: true,
+  explorer: {
+    mode: 'swimming',
+    floor: 0,
+    x: -9.2,
+    y: -19.4,
+    z: 87.20000000000027,
+    yaw: 3.141592653589793,
+    returning: false,
+    vertical: 8
+  },
+  land: false,
+  visible: true,
+  position: [ -459.2, -19.4, 587.2000000000003 ]
+} {
+  x: -6,
+  y: -20,
+  z: 92,
+  yaw: 3.141592653589793,
+  active: false,
+  mode: 'cockpit',
+  explorerVersion: 1,
+  explorer: {
+    mode: 'swimming',
+    x: -9.2,
+    y: -19.4,
+    z: 87.20000000000027,
+    yaw: 3.141592653589793,
+    floor: 0,
+    returning: false
+  }
+}
+Reboard input {
+  phase: 'boarding',
+  controlled: true,
+  explorer: undefined,
+  land: false,
+  visible: true,
+  position: [ -459.2, -19.4, 587.2000000000003 ]
+}
+PASS global entry button: underwater exit/movement/dive/rise/reboard and World releases camera
+PASS global entry button: Mall release/resume/walk and World releases camera

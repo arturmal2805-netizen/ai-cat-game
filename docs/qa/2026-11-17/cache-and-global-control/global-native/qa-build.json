@@ -1,0 +1,7 @@
+{
+  "sha256": "385cfd56b13205234d75928fc21abc661b632fe8c2937c0becb66e04cf371c18",
+  "node": "v22.23.5",
+  "head": "fe9e40027dae69902002ec0cdc68cac1f92ff303",
+  "dirty": " M public/chichi-manual.js\n M public/world.js\n M scripts/audit-global-manual.mjs\n M scripts/check-aquarium.cjs\n M test/chichi-manual.test.mjs\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

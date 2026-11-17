@@ -1,0 +1,190 @@
+TAP version 13
+# Subtest: the hero and residents restore their actual last local coordinates through thirty saves, without changing money or owners
+ok 1 - the hero and residents restore their actual last local coordinates through thirty saves, without changing money or owners
+  ---
+  duration_ms: 594.214769
+  type: 'test'
+  ...
+# Subtest: a new manual destination wins over the previous rendered position; temporary airborne rides do not overwrite a safe point
+ok 2 - a new manual destination wins over the previous rendered position; temporary airborne rides do not overwrite a safe point
+  ---
+  duration_ms: 2.419372
+  type: 'test'
+  ...
+# Subtest: cached clients omitting positions preserve them, and stale atomic positions cannot mix or overwrite a newer location
+ok 3 - cached clients omitting positions preserve them, and stale atomic positions cannot mix or overwrite a newer location
+  ---
+  duration_ms: 18.057321
+  type: 'test'
+  ...
+# Subtest: saving a venue kitten in the same island does not mark it released or detach it from its working stand
+ok 4 - saving a venue kitten in the same island does not mark it released or detach it from its working stand
+  ---
+  duration_ms: 186.708661
+  type: 'test'
+  ...
+# Subtest: a manual island command clears the previous saved shore even when the old actor is still on a transient ride
+ok 5 - a manual island command clears the previous saved shore even when the old actor is still on a transient ride
+  ---
+  duration_ms: 8.582793
+  type: 'test'
+  ...
+# Subtest: cloud merging cannot resurrect an old shore after recall or from a cached client omitting new locations
+ok 6 - cloud merging cannot resurrect an old shore after recall or from a cached client omitting new locations
+  ---
+  duration_ms: 27.333327
+  type: 'test'
+  ...
+# Subtest: recall stays on the requested island through cloud acknowledgements, completed-position saves and reloads
+ok 7 - recall stays on the requested island through cloud acknowledgements, completed-position saves and reloads
+  ---
+  duration_ms: 96.498494
+  type: 'test'
+  ...
+# Subtest: Chichi can save on a real unlocked bridge, keeps a valid legacy shore and reloads her exact body position
+ok 8 - Chichi can save on a real unlocked bridge, keeps a valid legacy shore and reloads her exact body position
+  ---
+  duration_ms: 35.111592
+  type: 'test'
+  ...
+# Subtest: third-person walking is camera-relative, diagonal-normalized and sweeps the full body before a thin wall
+ok 9 - third-person walking is camera-relative, diagonal-normalized and sweeps the full body before a thin wall
+  ---
+  duration_ms: 1.014127
+  type: 'test'
+  ...
+# Subtest: native ground heights are followed without stepping through a cliff and turning is independent of FPS
+ok 10 - native ground heights are followed without stepping through a cliff and turning is independent of FPS
+  ---
+  duration_ms: 0.561099
+  type: 'test'
+  ...
+# Subtest: an existing overlap can separate continuously but a clear body can never enter or cross the wall
+ok 11 - an existing overlap can separate continuously but a clear body can never enter or cross the wall
+  ---
+  duration_ms: 0.359952
+  type: 'test'
+  ...
+# Subtest: contact with an existing footprint permits tangent escape without increasing penetration
+ok 12 - contact with an existing footprint permits tangent escape without increasing penetration
+  ---
+  duration_ms: 0.271571
+  type: 'test'
+  ...
+# Subtest: exact palette preserves every Float32 colour bit, native vertices/index/bounds and picking; toggles retain static shader dispatch
+ok 13 - exact palette preserves every Float32 colour bit, native vertices/index/bounds and picking; toggles retain static shader dispatch
+  ---
+  duration_ms: 53.514593
+  type: 'test'
+  ...
+# Subtest: a material shared with a cat or unsupported colour surface is excluded completely
+ok 14 - a material shared with a cat or unsupported colour surface is excluded completely
+  ---
+  duration_ms: 22.60764
+  type: 'test'
+  ...
+# Subtest: a paid placement rejected by shore, locked land or collisions goes to the bag with its original timer instead of vanishing
+ok 15 - a paid placement rejected by shore, locked land or collisions goes to the bag with its original timer instead of vanishing
+  ---
+  duration_ms: 346.822893
+  type: 'test'
+  ...
+# Subtest: forty store/replace/restart cycles preserve one finished Mega Loops, balance, XP and ownership receipt
+ok 16 - forty store/replace/restart cycles preserve one finished Mega Loops, balance, XP and ownership receipt
+  ---
+  duration_ms: 712.385517
+  type: 'test'
+  ...
+# Subtest: legacy purchase proof recovers a missing attraction once without a charge or granting an unbought slide
+ok 17 - legacy purchase proof recovers a missing attraction once without a charge or granting an unbought slide
+  ---
+  duration_ms: 39.68205
+  type: 'test'
+  ...
+# Subtest: durable receipts recover the exact owned and completed-copy counts after a filtered snapshot
+ok 18 - durable receipts recover the exact owned and completed-copy counts after a filtered snapshot
+  ---
+  duration_ms: 17.049884
+  type: 'test'
+  ...
+# Subtest: two phones buying the same attraction retain two copies and exact once-only payments
+ok 19 - two phones buying the same attraction retain two copies and exact once-only payments
+  ---
+  duration_ms: 11.241759
+  type: 'test'
+  ...
+# Subtest: a cached client dropping a placed slide keeps its original identity and cannot erase paid completion receipts
+ok 20 - a cached client dropping a placed slide keeps its original identity and cannot erase paid completion receipts
+  ---
+  duration_ms: 11.768355
+  type: 'test'
+  ...
+# Subtest: an unchanged healthy world is returned by identity and ownership bookkeeping never touches native graphics
+ok 21 - an unchanged healthy world is returned by identity and ownership bookkeeping never touches native graphics
+  ---
+  duration_ms: 3.002342
+  type: 'test'
+  ...
+# Subtest: matching-world backups retain completed construction, while another accounts backup cannot invent ownership
+ok 22 - matching-world backups retain completed construction, while another accounts backup cannot invent ownership
+  ---
+  duration_ms: 19.246908
+  type: 'test'
+  ...
+# Subtest: spatial submission retains every oriented triangle and attribute, and all removed ranges are outside the actual transformed view
+ok 23 - spatial submission retains every oriented triangle and attribute, and all removed ranges are outside the actual transformed view
+  ---
+  duration_ms: 421.914335
+  type: 'test'
+  ...
+# Subtest: unsupported renderers and animated or displaced meshes keep their original renderer and buffers
+ok 24 - unsupported renderers and animated or displaced meshes keep their original renderer and buffers
+  ---
+  duration_ms: 125.536592
+  type: 'test'
+  ...
+# Subtest: transparent glass keeps its exact triangle order and material
+ok 25 - transparent glass keeps its exact triangle order and material
+  ---
+  duration_ms: 16.913092
+  type: 'test'
+  ...
+# Subtest: wind and underwater shaders installed after merging retain native rendering, including the first shadow pass
+ok 26 - wind and underwater shaders installed after merging retain native rendering, including the first shadow pass
+  ---
+  duration_ms: 110.640713
+  type: 'test'
+  ...
+# Subtest: guest raft clones retain shared original buffers without serializing source command bounds or callbacks
+ok 27 - guest raft clones retain shared original buffers without serializing source command bounds or callbacks
+  ---
+  duration_ms: 24.015167
+  type: 'test'
+  ...
+# Subtest: a runtime native fallback cannot revive disposed shadow resources when the renderer changes
+ok 28 - a runtime native fallback cannot revive disposed shadow resources when the renderer changes
+  ---
+  duration_ms: 11.379752
+  type: 'test'
+  ...
+# Subtest: audited Mall room lighting and inspection retain exact static range dispatch and native depth, unknown later motion still falls back
+ok 29 - audited Mall room lighting and inspection retain exact static range dispatch and native depth, unknown later motion still falls back
+  ---
+  duration_ms: 86.534862
+  type: 'test'
+  ...
+# Subtest: Mall room finish replaces the older reflection finish without duplicate uniforms or reflection locals
+ok 30 - Mall room finish replaces the older reflection finish without duplicate uniforms or reflection locals
+  ---
+  duration_ms: 0.715797
+  type: 'test'
+  ...
+1..30
+# tests 30
+# suites 0
+# pass 30
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1538.647607

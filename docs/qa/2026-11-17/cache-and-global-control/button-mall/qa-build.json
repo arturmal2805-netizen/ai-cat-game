@@ -1,0 +1,7 @@
+{
+  "sha256": "6e1be3d7b89d34fa21e4a83deede6841e930762e7d104c446317677d783c418c",
+  "node": "v22.23.5",
+  "head": "fe9e40027dae69902002ec0cdc68cac1f92ff303",
+  "dirty": " M docs/project-memory/CURRENT.md\n M docs/project-memory/decisions.md\n M docs/project-memory/standards/controls-camera.md\n M public/chichi-manual.js\n M public/index.html\n M public/submarine-runtime.js\n M public/world.js\n M scripts/audit-global-manual.mjs\n M scripts/check-aquarium.cjs\n M test/chichi-manual.test.mjs\n?? scripts/audit-global-button.mjs\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

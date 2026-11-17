@@ -1,0 +1,94 @@
+{
+  "initial": {
+    "phase": "mall",
+    "controlled": true,
+    "explorer": {
+      "mode": "mall",
+      "x": -43,
+      "y": -164.82,
+      "z": 105,
+      "yaw": 3.141592653589793,
+      "floor": 1,
+      "returning": false,
+      "vertical": 0
+    },
+    "land": false,
+    "visible": true,
+    "position": [
+      -493,
+      -164.82,
+      605
+    ]
+  },
+  "entered": {
+    "phase": "mall",
+    "controlled": true,
+    "explorer": {
+      "mode": "mall",
+      "x": -43,
+      "y": -164.82,
+      "z": 105,
+      "yaw": 3.141592653589793,
+      "floor": 1,
+      "returning": false,
+      "vertical": 0
+    },
+    "land": false,
+    "visible": true,
+    "position": [
+      -493,
+      -164.82,
+      605
+    ]
+  },
+  "moved": {
+    "phase": "mall",
+    "controlled": true,
+    "explorer": {
+      "mode": "mall",
+      "x": -43,
+      "y": -164.82,
+      "z": 103,
+      "yaw": 3.141592653589793,
+      "floor": 1,
+      "returning": false,
+      "vertical": 0,
+      "groundY": -164.82,
+      "jumpHeld": false
+    },
+    "land": false,
+    "visible": true,
+    "position": [
+      -493,
+      -164.82,
+      603
+    ]
+  },
+  "released": {
+    "phase": "mall",
+    "controlled": false,
+    "explorer": {
+      "mode": "mall",
+      "x": -43,
+      "y": -164.82,
+      "z": 103,
+      "yaw": 3.141592653589793,
+      "floor": 1,
+      "returning": false,
+      "vertical": 0,
+      "groundY": -164.82,
+      "jumpHeld": false
+    },
+    "land": false,
+    "visible": true,
+    "position": [
+      -493,
+      -164.82,
+      603
+    ]
+  },
+  "errors": [],
+  "httpErrors": [],
+  "native": true,
+  "privateSQLite": true
+}

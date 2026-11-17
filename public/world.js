@@ -1,4 +1,4 @@
-import {createChichiManual} from './chichi-manual.js';
+import {createChichiManual,clearsWalkObstacles} from './chichi-manual.js';
 import {applyExplorerLocomotion} from './explorer-locomotion.js';
 const mallGuestCameraProfile=Object.freeze({targetDrop:.28,distanceScale:1.6,downAngle:Math.PI/12});
 import {MALL,mallStore,mallFloor,mallProduct} from './mall-data.js';
@@ -5685,7 +5685,8 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     const heroMall=mall?.frame('chichi',time);
     if(heroMall&&!draggingCat&&!heroBuild&&!(submarine?.active||manualWalk?.active)){chichiCarrier.position.copy(heroMall.position);chichiCarrier.rotation.y=heroMall.yaw;walking=heroMall.walking;reaction=heroMall.reaction;}
     refreshManualButton();
-    const submarinePose=!dialogOpen?(manualWalk?.update(dt)||submarine?.update(dt,time,reduced)):null;
+    const boatPose=!dialogOpen?submarine?.update(dt,time,reduced):null;
+    const submarinePose=!dialogOpen?(manualWalk?.update(dt)||boatPose):null;
     if(submarinePose){walking=submarinePose.walking;reaction=submarinePose.reaction;}
     if (!dialogOpen) {
       animateCat(
@@ -6017,13 +6018,13 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
   });
   submarine=createSubmarineRuntime({scene,container,canvas:renderer.domElement,camera,look,actor:chichiCarrier,getModel:()=>cat,getMall:()=>mall,onLandExit:()=>{manualWalk?.start();refreshManualButton();},onError:message=>callbacks.onReaction?.(message),getIsland:()=>islands.get('autumn'),getGame:()=>game,getFocused:()=>focused,canPilot:()=>callbacks.canDragCat?.('chichi')!==false&&!mall?.inspection&&!manualWalk?.active,cancelHero:()=>{cancelHeroActivity();heroGather=null;jobs.cancel('chichi');crew.cancel('chichi');leisure.cancel('chichi');spa.cancel('chichi');chill.cancel('chichi');court.cancel('chichi');faceCamera.setEnabled(false,look);},approachDock:point=>{heroGather=gatherTrip(chichiCarrier.position,{x:point.x,y:point.y,z:point.z},performance.now());return true;},focus});
   const manualGroundRay=new THREE.Raycaster(),manualOrigin=new THREE.Vector3(),manualDown=new THREE.Vector3(0,-1,0),manualHit=new THREE.Vector3();
-  function manualSurface(p,radius){
+  function manualSurface(p,radius,from=null){
     for(const b of BIOMES){if(!game.unlocked.includes(b.id))continue;const local={x:p.x-b.center[0],y:p.y,z:p.z-b.center[1]};
       const housing=b.id===HOUSING_ID;
       if(!housing&&Math.hypot(local.x,local.z)>(b.radius||11.65)-radius-.15)continue;
       let clear=true;if(b.id==='water')clear=spaWalkable(local,radius,spaObstacles);else if(b.id==='sakura')clear=chillWalkable(local,radius,chillObstacles);else if(['foodcourt','bikini','aquarium',ZOO_ID].includes(b.id))clear=courtWalkable(local,radius,getCourtBlockers(b.id),b.id);else if(housing)clear=housingLife.walkable(local,radius,builderObstacles.get(b.id)||[]);else clear=spaClear(local,radius,builderObstacles.get(b.id)||[]);
-      if(!clear)continue;
-      if(p!==chichiCarrier.position&&[...npcs.values()].some(n=>Math.abs(n.carrier.position.y-p.y)<1.6&&Math.hypot(n.carrier.position.x-p.x,n.carrier.position.z-p.z)<radius+catNavigationRadius(n.model)))continue;
+      if(!clear&&p!==chichiCarrier.position&&(!from||spaClear(local,radius,builderObstacles.get(b.id)||[])||!clearsWalkObstacles(local,{x:from.x-b.center[0],z:from.z-b.center[1]},radius,builderObstacles.get(b.id)||[])))continue;
+      if(p!==chichiCarrier.position&&[...npcs.values()].some(n=>{const d=Math.hypot(n.carrier.position.x-p.x,n.carrier.position.z-p.z);return Math.abs(n.carrier.position.y-p.y)<1.6&&d<radius+catNavigationRadius(n.model)&&(!from||d<=Math.hypot(n.carrier.position.x-from.x,n.carrier.position.z-from.z)+1e-8);}))continue;
       if(b.id==='autumn'){
         const ground=islands.get(b.id)?.userData.navigationSurface;if(!ground)continue;manualOrigin.set(p.x,p.y+.65,p.z);manualGroundRay.set(manualOrigin,manualDown);manualGroundRay.near=0;manualGroundRay.far=1.4;const hit=manualGroundRay.intersectObject(ground,true).find(h=>h.face?.normal.z>.4||h.face?.normal.y>.4);if(hit)return{biome:b.id,y:hit.point.y+.16};continue;
       }
@@ -6255,7 +6256,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       staticDraws.dispose();
       jobs.clear();
       housingLife.clear();
-      releaseAnimalDrag();animalGuests.dispose();manualWalk?.dispose();submarine?.dispose();mall?.dispose();
+      releaseAnimalDrag();animalGuests.dispose();if(manualButton)manualButton.onclick=null;manualWalk?.dispose();submarine?.dispose();mall?.dispose();
       leisure.clear();
       drivePrompt.remove();
       for (const car of cityCars.values()) car.removeFromParent();

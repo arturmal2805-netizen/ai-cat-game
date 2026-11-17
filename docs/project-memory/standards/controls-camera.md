@@ -55,3 +55,22 @@ cold-load island release → физическое docked → обычная ра
 удаляет окно и сбор/наблюдателей/таймеры/GL wrappers; reload не открывает снова.
 Copy report: FPS/1% low, CPU/GPU/длинные паузы, startup и худшие ресурсы загрузки.
 Отчёт локальный, без секретов/игровых записей и автоматической отправки.
+
+## Global entry (player clarification, 2026-11-17)
+
+The visible «Управлять Чичи» map button must enter real third-person control
+where the actual Chichi is: ordinary islands/bridges, swimming or Mall walking.
+Do not make it a Mall-only control or teleport a decorative duplicate. Use
+chichi-manual.js for dry islands and existing submarine explorer for water/Mall.
+There is one owner at a time; ordinary jobs/home/leisure cannot move a manually
+controlled hero. Land manual mode is transient, but actual catLocations persist.
+Old clients receive a valid legacy shore position when the new client is on a
+bridge; only Chichi may save a bridge pose, with both endpoint islands unlocked.
+Never loosen NPC validation or the shared-world merge for this field.
+
+An authored default spawn may already overlap a coarse scenery reservation.
+Retain full navigation radius and every obstacle: bounded substeps may keep or
+reduce existing penetration (including tangent escape), never increase it or
+enter a new obstacle. A clear endpoint does not justify crossing a wall.
+Desktop controls remain keyboard/mouse; phone arrows are44px and stay above the
+actual visible footer/safe area. Disposal removes input, resize and scroll hooks.

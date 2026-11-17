@@ -1,0 +1,8 @@
+ M public/chichi-manual.js
+ M public/index.html
+ M public/submarine-runtime.js
+ M public/world.js
+ M scripts/audit-global-manual.mjs
+ M scripts/check-aquarium.cjs
+ M test/chichi-manual.test.mjs
+?? scripts/audit-global-button.mjs

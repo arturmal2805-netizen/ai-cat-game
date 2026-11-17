@@ -1,0 +1,285 @@
+diff --git a/docs/project-memory/CURRENT.md b/docs/project-memory/CURRENT.md
+index b78fbeb..bac3ab7 100644
+--- a/docs/project-memory/CURRENT.md
++++ b/docs/project-memory/CURRENT.md
+@@ -30,9 +30,17 @@ program. QA-модовое переключение теперьdispose-material
+ обычнаяходьбаизреальногоposition,существующиеwater/Mallowners, однаmodel,
+ WASD/dragcamera, compacttouch44px, desktopбезdirectionpad, world/islandrelease,
+ bridge-locationvalidationтолькоChichiсlegacyshorefallback. Sharedmergeнеизменён.
+-20unitincludingpurchasepreservation PASS. ПервыйactualentryтестНЕпрошёл:
+-buttondidnotactivate; диагностическийV2сfailure reasonвработе:
+-/workspace/qa/chichi-global-native-v2.log. Не выдаватьUIзаfinished/неpubдоnative.
++Node22 full build PASS; 50 targeted tests PASS; final 30 tests after cleanup PASS.
++Native V7: real keyboard entry/movement, desktop no direction pad, real held
++phone touch44px, Island/World release, private SQLite position/balances/items
++reload PASS. Ordinary rest is unchanged. New land controller is not persisted:
++reload returns the same real cat to autonomous life. Native ownership audit
++recovered Mega Loops, re-placed for zero charge, retained one copy after TWO
++SQLite reloads PASS. No shared-world merge changes. Final direct-button water/Mall
++entry audits both PASS (exit/swim/dive/rise/reboard; Mall release/resume/walk); do not mark this WIP published until CI+HTTP receipts.
++Source WIP fe9e40027dae69902002ec0cdc68cac1f92ff303 + current final overlay.
++QA: docs/qa/2026-11-17/cache-and-global-control; local native-v7, palette-v3,
++chichi-global-ownership, final button-water/button-mall in /workspace/qa.
+ 
+ ## Текущий подтверждённый релиз
+ 
+@@ -125,17 +133,14 @@ APIplan17.4sec и resource8–10sec — observedtimings, не доказанны
+ 
+ ## Что делать дальше
+ 
+-1. Нужен новый аппаратный report ПОСЛЕ0b38098: дождаться загрузки,30секунд
+-   в одном ракурсе без открытых меню, затем «Скопировать отчёт». Сравнивать
+-   одинаковые camera/DPR/fullframes/longpauses/GPU/память, не26framesс300frames.
+-   Ни один старый report не измеряетопубликованный0b. Окнотолькопозапросу.
+-2. Следующее расследование — startup/loadingpriorities: во втором report
+-   textures8–10sec иAIplan17.4sec (observedtimings, не доказанныйсбойAPI).
+-   Первый reportM2:18.959Mtri/2462draws/211rapidrefaults. Stationary native24frame
+-   trace ихне повторил. Второй report JSf8/06:1.35sec26frames,18.52FPS,
+-   GPU28.24ms/15.718Mtri,zeroin-windowrefaults/bufferData. Safe summariesвQA.
+-   Не повышать budgetглобально/не обвинятьcacheбезtrace/не включатьcolonyrenderer
+-   вслепую/не гонять paidAI радибенчмарка/не уменьшатьмодели,DPR,тени,количество.
++1. Finish and publish the verified global-control/Mall-memory increment from
++   codex/ocean-cache-trace. Latest report3 already measures 0b38098 (JSdbe);
++   do NOT request it again as if absent. Native direct-button water/Mall audits
++   passed; next full Node22 CI and HTTP JS/CSS hashes before claiming live.
++2. After release collect a physical-device report of 30 seconds in the same
++   camera/DPR. Report3 six-second gap remains unexplained; no recorded JS/GPU
++   task accounts for it. Palette removes ~33MiB exact Mall RGB uploads, not a
++   proven fix for every pause. Keep current GPU cache limits, fauna and detail.
+ 3. Художественно вода/песок/кораллы ещё НЕ приняты. Crimson Desert остаётся
+    целью всей карты, не толькооднойлокации; physicalwave/depth/flowprofiles
+    разные. После стабилизации продолжать поверхность/дно/реализм/экосистемы,
+diff --git a/docs/project-memory/decisions.md b/docs/project-memory/decisions.md
+index f1e337f..c7e06c3 100644
+--- a/docs/project-memory/decisions.md
++++ b/docs/project-memory/decisions.md
+@@ -188,3 +188,24 @@ V1 сохранял любой previous hook, в том числе старый
+ старый Mall finish заменяется по прежнему контракту. Новый unit ловит duplicate
+ uniform/reflection,8unitPASS. NativeV2 ещё не подтверждён. Никогда не ослаблять
+ проверку console/shadererrors ради выигрыша в triangles.
++
++## 2026-11-17 — exact Mall RGB dictionary and global Chichi entry
++
++Report3 identifies published0b/JSdbe, not an earlier release. Camera-cycle
++submission-only trace reproduced Mall re-upload pressure; it is not GPU/FPS
++measurement. Baked floor RGB uses a lossless Float32 dictionary with Uint16
++indices, saving34,461,284B GPU for152 geometries without changing triangles,
++positions, normals, UVs, order, picking, cats or the cache budget. Native V3
++interior/overview/phone DPR2 pixel comparisons have zero changed RGBA channels
++and zero errors. The 5900ms physical-device gap is still unproven cache-related.
++
++Rejected QA V1/V2 used a cached Three program with a different uniform set on
++one reused material. Material-local uniforms do not track each cached program.
++Comparative mode switching now disposes/recompiles that material; production
++initializes once. Failed captures are not visual evidence of correctness.
++
++Player explicitly added global «Управлять Чичи» including ordinary islands.
++Reuse one real carrier and existing water/Mall physics; guard all ordinary hero
++owners while land manual is active. Native V7 keyboard, actual touch, camera
++release and SQLite reload pass. Node22 build/50 targeted tests and ownership
++phone audit pass. This records verified WIP, not publication or art approval.
+diff --git a/docs/project-memory/standards/controls-camera.md b/docs/project-memory/standards/controls-camera.md
+index 7605732..c944100 100644
+--- a/docs/project-memory/standards/controls-camera.md
++++ b/docs/project-memory/standards/controls-camera.md
+@@ -55,3 +55,22 @@ cold-load island release → физическое docked → обычная ра
+ удаляет окно и сбор/наблюдателей/таймеры/GL wrappers; reload не открывает снова.
+ Copy report: FPS/1% low, CPU/GPU/длинные паузы, startup и худшие ресурсы загрузки.
+ Отчёт локальный, без секретов/игровых записей и автоматической отправки.
++
++## Global entry (player clarification, 2026-11-17)
++
++The visible «Управлять Чичи» map button must enter real third-person control
++where the actual Chichi is: ordinary islands/bridges, swimming or Mall walking.
++Do not make it a Mall-only control or teleport a decorative duplicate. Use
++chichi-manual.js for dry islands and existing submarine explorer for water/Mall.
++There is one owner at a time; ordinary jobs/home/leisure cannot move a manually
++controlled hero. Land manual mode is transient, but actual catLocations persist.
++Old clients receive a valid legacy shore position when the new client is on a
++bridge; only Chichi may save a bridge pose, with both endpoint islands unlocked.
++Never loosen NPC validation or the shared-world merge for this field.
++
++An authored default spawn may already overlap a coarse scenery reservation.
++Retain full navigation radius and every obstacle: bounded substeps may keep or
++reduce existing penetration (including tangent escape), never increase it or
++enter a new obstacle. A clear endpoint does not justify crossing a wall.
++Desktop controls remain keyboard/mouse; phone arrows are44px and stay above the
++actual visible footer/safe area. Disposal removes input, resize and scroll hooks.
+diff --git a/public/chichi-manual.js b/public/chichi-manual.js
+index 94a6207..e077af3 100644
+--- a/public/chichi-manual.js
++++ b/public/chichi-manual.js
+@@ -1,22 +1,26 @@
+ import * as T from 'three';
+ import {createExplorerCameraFollower,EXPLORER_VIEW}from'./explorer-camera.js';
++export function clearsWalkObstacles(p,from,radius,obstacles){
++ const depth=(p,o)=>o.radius?o.radius+radius-Math.hypot(p.x-o.x,p.z-o.z):Math.min(o.w/2+radius-Math.abs(p.x-o.x),o.d/2+radius-Math.abs(p.z-o.z));
++ return obstacles.every(o=>{const d=depth(p,o);return d<=0||!!from&&depth(from,o)>0&&d<=depth(from,o)+1e-8;});
++}
+ export function stepChichiWalk(state,dt,input,surface,radius){
+  const h=Math.min(.1,Math.max(0,dt)),length=Math.max(1,Math.hypot(input.forward,input.side)),yaw=input.heading??state.yaw,speed=5,dx=(Math.sin(yaw)*input.forward+Math.cos(yaw)*input.side)*speed/length,dz=(Math.cos(yaw)*input.forward-Math.sin(yaw)*input.side)*speed/length,count=Math.max(1,Math.ceil(h*speed/.12)),old={...state};
+- for(let i=0;i<count;i++)for(const key of ['x','z']){const p={...state,[key]:state[key]+(key==='x'?dx:dz)*h/count},support=surface(p,radius);if(!support||Math.abs(support.y-state.y)>.65)continue;state[key]=p[key];state.y=support.y;state.biome=support.biome;}
++ for(let i=0;i<count;i++)for(const key of ['x','z']){const p={...state,[key]:state[key]+(key==='x'?dx:dz)*h/count},support=surface(p,radius,state);if(!support||Math.abs(support.y-state.y)>.65)continue;state[key]=p[key];state.y=support.y;state.biome=support.biome;}
+  const moved=Math.hypot(state.x-old.x,state.y-old.y,state.z-old.z);if(moved>.00001){const heading=Math.atan2(state.x-old.x,state.z-old.z);state.yaw+=Math.atan2(Math.sin(heading-state.yaw),Math.cos(heading-state.yaw))*(1-Math.exp(-h*12));}return{distance:moved,speed:h?moved/h:0};
+ }
+ export function createChichiManual({container,canvas,camera,look,actor,getRadius,surface,cameraClear,canControl,cancel,focus,onRelease=()=>{}}){
+- let startFailure=null,active=false,state=null,yaw=0,pitch=.18,distance=6,phase=0,drag=null,restore=null;const keys=new Set(),touch=new Map(),follow=createExplorerCameraFollower(camera,look),anchor=new T.Vector3();
++ let disposed=false,startFailure=null,active=false,state=null,yaw=0,pitch=.18,distance=6,phase=0,drag=null,restore=null;const keys=new Set(),touch=new Map(),follow=createExplorerCameraFollower(camera,look),anchor=new T.Vector3();
+  const pad=document.createElement('div');pad.className='chichi-walk-controls';pad.hidden=true;pad.innerHTML='<button data-walk-key="KeyW" aria-label="Вперёд">▲</button><button data-walk-key="KeyA" aria-label="Влево">‹</button><button data-walk-key="KeyD" aria-label="Вправо">›</button><button data-walk-key="KeyS" aria-label="Назад">▼</button>';container.append(pad);
+  const clear=()=>{keys.clear();touch.clear();drag=null;};
+  const editing=e=>e.target?.isContentEditable||/INPUT|TEXTAREA|SELECT/.test(e.target?.tagName);
+  function stop(){if(!active)return false;active=false;pad.hidden=true;clear();follow.reset();if(restore){camera.near=restore.near;camera.fov=restore.fov;camera.updateProjectionMatrix();restore=null;}onRelease(state);return true;}
+- function start(){if(!canControl()){startFailure='unavailable';return false;}const p=surface(actor.position,getRadius());if(!p){startFailure='ground';return false;}startFailure=null;cancel();state={x:actor.position.x,y:actor.position.y,z:actor.position.z,yaw:actor.rotation.y,biome:p.biome};yaw=actor.rotation.y;pitch=.18;active=true;phase=0;clear();follow.reset();restore={near:camera.near,fov:camera.fov};focus(p.biome,false,true);pad.hidden=false;return true;}
++ function start(){if(disposed||!canControl()){startFailure='unavailable';return false;}const p=surface(actor.position,getRadius());if(!p){startFailure='ground';return false;}startFailure=null;cancel();state={x:actor.position.x,y:actor.position.y,z:actor.position.z,yaw:actor.rotation.y,biome:p.biome};yaw=actor.rotation.y;pitch=.18;active=true;phase=0;clear();follow.reset();restore={near:camera.near,fov:camera.fov};focus(p.biome,false,true);pad.hidden=false;return true;}
+  const keydown=e=>{if(!active||editing(e)||e.ctrlKey||e.metaKey||document.querySelector('dialog[open]'))return;if(e.code==='Escape'){stop();return;}if(['KeyW','KeyA','KeyS','KeyD'].includes(e.code)){keys.add(e.code);e.preventDefault();}};
+  const keyup=e=>keys.delete(e.code),down=e=>{if(!active||!canControl()||e.button>0)return;drag={id:e.pointerId,x:e.clientX,y:e.clientY};canvas.setPointerCapture?.(e.pointerId);e.preventDefault();e.stopImmediatePropagation();},move=e=>{if(!active||drag?.id!==e.pointerId)return;yaw-=(e.clientX-drag.x)*.004;pitch=T.MathUtils.clamp(pitch+(e.clientY-drag.y)*.004,-.03,.35);drag.x=e.clientX;drag.y=e.clientY;e.preventDefault();e.stopImmediatePropagation();},up=e=>{if(drag?.id===e.pointerId)drag=null;},wheel=e=>{if(!active)return;distance=T.MathUtils.clamp(distance+e.deltaY*.006,3,8);e.preventDefault();e.stopImmediatePropagation();};
+  window.addEventListener('keydown',keydown);window.addEventListener('keyup',keyup);window.addEventListener('blur',clear);document.addEventListener('visibilitychange',clear);
+  canvas.addEventListener('pointerdown',down,true);canvas.addEventListener('pointermove',move,true);for(const name of ['pointerup','pointercancel','lostpointercapture'])canvas.addEventListener(name,up,true);canvas.addEventListener('wheel',wheel,{capture:true,passive:false});
+  for(const b of pad.querySelectorAll('button')){b.onpointerdown=e=>{if(!active)return;e.preventDefault();b.setPointerCapture?.(e.pointerId);touch.set(e.pointerId,b.dataset.walkKey);};for(const name of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(name,e=>touch.delete(e.pointerId));}
+  function layout(){const rect=container.getBoundingClientRect(),v=window.visualViewport,bottom=Math.min(rect.bottom,(v?.offsetTop??0)+(v?.height??innerHeight)),footer=container.querySelector('.world-bottom')?.getBoundingClientRect();pad.style.bottom=Math.max(0,rect.bottom-bottom)+(footer&&footer.top<bottom?Math.max(84,bottom-footer.top+8):84)+'px';}layout();const resize=typeof ResizeObserver==='function'?new ResizeObserver(layout):null;resize?.observe(container);const footer=container.querySelector('.world-bottom');if(footer)resize?.observe(footer);window.addEventListener('resize',layout);window.addEventListener('scroll',layout,true);window.visualViewport?.addEventListener('resize',layout);
+- return{get startFailure(){return startFailure;},get active(){return active;},start,stop,update(dt){if(!active)return null;if(!canControl()){clear();return{walking:false,locomotion:{mode:'walk',speed:0,phase}};}const input=new Set([...keys,...touch.values()]),frame=stepChichiWalk(state,dt,{forward:Number(input.has('KeyW'))-Number(input.has('KeyS')),side:Number(input.has('KeyA'))-Number(input.has('KeyD')),heading:follow.heading??yaw},surface,getRadius());actor.position.set(state.x,state.y,state.z);actor.rotation.set(0,state.yaw,0);phase+=frame.distance*2.2;return{walking:frame.speed>.02,locomotion:{mode:'walk',speed:frame.speed,phase}};},updateCamera(dt){if(!active)return false;camera.near=.12;camera.fov=60;camera.updateProjectionMatrix();anchor.copy(actor.position);anchor.y+=EXPLORER_VIEW.targetHeight;follow.update(dt,anchor,yaw,pitch,distance,cameraClear);return true;},dispose(){stop();resize?.disconnect();pad.remove();window.removeEventListener('keydown',keydown);window.removeEventListener('keyup',keyup);window.removeEventListener('blur',clear);document.removeEventListener('visibilitychange',clear);canvas.removeEventListener('pointerdown',down,true);canvas.removeEventListener('pointermove',move,true);for(const n of ['pointerup','pointercancel','lostpointercapture'])canvas.removeEventListener(n,up,true);canvas.removeEventListener('wheel',wheel,true);window.removeEventListener('resize',layout);window.removeEventListener('scroll',layout,true);window.visualViewport?.removeEventListener('resize',layout);}};
++ return{get inputState(){return{keys:[...keys],allowed:canControl()};},get startFailure(){return startFailure;},get active(){return active;},start,stop,update(dt){if(!active)return null;if(!canControl()){clear();return{walking:false,locomotion:{mode:'walk',speed:0,phase}};}const input=new Set([...keys,...touch.values()]),frame=stepChichiWalk(state,dt,{forward:Number(input.has('KeyW'))-Number(input.has('KeyS')),side:Number(input.has('KeyA'))-Number(input.has('KeyD')),heading:follow.heading??yaw},surface,getRadius());actor.position.set(state.x,state.y,state.z);actor.rotation.set(0,state.yaw,0);phase+=frame.distance*2.2;return{walking:frame.speed>.02,locomotion:{mode:'walk',speed:frame.speed,phase}};},updateCamera(dt){if(!active)return false;camera.near=.12;camera.fov=60;camera.updateProjectionMatrix();anchor.copy(actor.position);anchor.y+=EXPLORER_VIEW.targetHeight;follow.update(dt,anchor,yaw,pitch,distance,cameraClear);return true;},dispose(){disposed=true;stop();resize?.disconnect();pad.remove();window.removeEventListener('keydown',keydown);window.removeEventListener('keyup',keyup);window.removeEventListener('blur',clear);document.removeEventListener('visibilitychange',clear);canvas.removeEventListener('pointerdown',down,true);canvas.removeEventListener('pointermove',move,true);for(const n of ['pointerup','pointercancel','lostpointercapture'])canvas.removeEventListener(n,up,true);canvas.removeEventListener('wheel',wheel,true);window.removeEventListener('resize',layout);window.removeEventListener('scroll',layout,true);window.visualViewport?.removeEventListener('resize',layout);}};
+ }
+diff --git a/public/index.html b/public/index.html
+index ff7a0da..8301d94 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -6,7 +6,7 @@
+     <meta name="theme-color" content="#eeeaf3" />
+     <title>Чичи • мир маленьких чудес</title>
+     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+-    <link rel="stylesheet" href="./style.css?v=c14ce8408f8f3aed" />
++    <link rel="stylesheet" href="./style.css?v=d02068257c7b2b00" />
+   </head>
+   <body>
+     <header>
+@@ -703,6 +703,6 @@
+       </div>
+     </dialog>
+     <div id="toast" role="status" aria-live="polite" hidden></div>
+-    <script type="module" src="./dist/app.js?v=dbe5f20f39f2f67a"></script>
++    <script type="module" src="./dist/app.js?v=89f628b72c238b03"></script>
+   </body>
+ </html>
+diff --git a/public/submarine-runtime.js b/public/submarine-runtime.js
+index 6cc7b0e..2f06f94 100644
+--- a/public/submarine-runtime.js
++++ b/public/submarine-runtime.js
+@@ -82,7 +82,7 @@ export function createSubmarineRuntime({container,canvas,camera,look,actor,getMo
+   returningExplorer=false;swimReturn=null;state.speed=0;state.vertical=0;swimmer=createOceanSwimmer(spawn,{radius});phase='swimming';pan=tilt=0;actor.rotation.set(0,state.yaw,0);cameraFollow.reset();resetExplorerView();return true;
+  }
+  async function controlChichi(){
+-  if(!getGame().unlocked.includes('autumn'))return false;
++  if(!canPilot()||!getGame().unlocked.includes('autumn'))return false;
+   if(phase==='piloting'){if(!controlled)resume();wantLandControl=physics.atDock();return exit();}
+   if(exploring())return resume();if(busy())return false;
+   const p=localPosition(),floor=Math.round((p.y-MALL.y-.18)/MALL.rise)+1,radius=catNavigationRadius(getModel());
+diff --git a/public/world.js b/public/world.js
+index cf2792a..e25df6b 100644
+--- a/public/world.js
++++ b/public/world.js
+@@ -1,4 +1,4 @@
+-import {createChichiManual} from './chichi-manual.js';
++import {createChichiManual,clearsWalkObstacles} from './chichi-manual.js';
+ import {applyExplorerLocomotion} from './explorer-locomotion.js';
+ const mallGuestCameraProfile=Object.freeze({targetDrop:.28,distanceScale:1.6,downAngle:Math.PI/12});
+ import {MALL,mallStore,mallFloor,mallProduct} from './mall-data.js';
+@@ -5685,7 +5685,8 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+     const heroMall=mall?.frame('chichi',time);
+     if(heroMall&&!draggingCat&&!heroBuild&&!(submarine?.active||manualWalk?.active)){chichiCarrier.position.copy(heroMall.position);chichiCarrier.rotation.y=heroMall.yaw;walking=heroMall.walking;reaction=heroMall.reaction;}
+     refreshManualButton();
+-    const submarinePose=!dialogOpen?(manualWalk?.update(dt)||submarine?.update(dt,time,reduced)):null;
++    const boatPose=!dialogOpen?submarine?.update(dt,time,reduced):null;
++    const submarinePose=!dialogOpen?(manualWalk?.update(dt)||boatPose):null;
+     if(submarinePose){walking=submarinePose.walking;reaction=submarinePose.reaction;}
+     if (!dialogOpen) {
+       animateCat(
+@@ -6017,13 +6018,13 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+   });
+   submarine=createSubmarineRuntime({scene,container,canvas:renderer.domElement,camera,look,actor:chichiCarrier,getModel:()=>cat,getMall:()=>mall,onLandExit:()=>{manualWalk?.start();refreshManualButton();},onError:message=>callbacks.onReaction?.(message),getIsland:()=>islands.get('autumn'),getGame:()=>game,getFocused:()=>focused,canPilot:()=>callbacks.canDragCat?.('chichi')!==false&&!mall?.inspection&&!manualWalk?.active,cancelHero:()=>{cancelHeroActivity();heroGather=null;jobs.cancel('chichi');crew.cancel('chichi');leisure.cancel('chichi');spa.cancel('chichi');chill.cancel('chichi');court.cancel('chichi');faceCamera.setEnabled(false,look);},approachDock:point=>{heroGather=gatherTrip(chichiCarrier.position,{x:point.x,y:point.y,z:point.z},performance.now());return true;},focus});
+   const manualGroundRay=new THREE.Raycaster(),manualOrigin=new THREE.Vector3(),manualDown=new THREE.Vector3(0,-1,0),manualHit=new THREE.Vector3();
+-  function manualSurface(p,radius){
++  function manualSurface(p,radius,from=null){
+     for(const b of BIOMES){if(!game.unlocked.includes(b.id))continue;const local={x:p.x-b.center[0],y:p.y,z:p.z-b.center[1]};
+       const housing=b.id===HOUSING_ID;
+       if(!housing&&Math.hypot(local.x,local.z)>(b.radius||11.65)-radius-.15)continue;
+       let clear=true;if(b.id==='water')clear=spaWalkable(local,radius,spaObstacles);else if(b.id==='sakura')clear=chillWalkable(local,radius,chillObstacles);else if(['foodcourt','bikini','aquarium',ZOO_ID].includes(b.id))clear=courtWalkable(local,radius,getCourtBlockers(b.id),b.id);else if(housing)clear=housingLife.walkable(local,radius,builderObstacles.get(b.id)||[]);else clear=spaClear(local,radius,builderObstacles.get(b.id)||[]);
+-      if(!clear)continue;
+-      if(p!==chichiCarrier.position&&[...npcs.values()].some(n=>Math.abs(n.carrier.position.y-p.y)<1.6&&Math.hypot(n.carrier.position.x-p.x,n.carrier.position.z-p.z)<radius+catNavigationRadius(n.model)))continue;
++      if(!clear&&p!==chichiCarrier.position&&(!from||spaClear(local,radius,builderObstacles.get(b.id)||[])||!clearsWalkObstacles(local,{x:from.x-b.center[0],z:from.z-b.center[1]},radius,builderObstacles.get(b.id)||[])))continue;
++      if(p!==chichiCarrier.position&&[...npcs.values()].some(n=>{const d=Math.hypot(n.carrier.position.x-p.x,n.carrier.position.z-p.z);return Math.abs(n.carrier.position.y-p.y)<1.6&&d<radius+catNavigationRadius(n.model)&&(!from||d<=Math.hypot(n.carrier.position.x-from.x,n.carrier.position.z-from.z)+1e-8);}))continue;
+       if(b.id==='autumn'){
+         const ground=islands.get(b.id)?.userData.navigationSurface;if(!ground)continue;manualOrigin.set(p.x,p.y+.65,p.z);manualGroundRay.set(manualOrigin,manualDown);manualGroundRay.near=0;manualGroundRay.far=1.4;const hit=manualGroundRay.intersectObject(ground,true).find(h=>h.face?.normal.z>.4||h.face?.normal.y>.4);if(hit)return{biome:b.id,y:hit.point.y+.16};continue;
+       }
+@@ -6255,7 +6256,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+       staticDraws.dispose();
+       jobs.clear();
+       housingLife.clear();
+-      releaseAnimalDrag();animalGuests.dispose();manualWalk?.dispose();submarine?.dispose();mall?.dispose();
++      releaseAnimalDrag();animalGuests.dispose();if(manualButton)manualButton.onclick=null;manualWalk?.dispose();submarine?.dispose();mall?.dispose();
+       leisure.clear();
+       drivePrompt.remove();
+       for (const car of cityCars.values()) car.removeFromParent();
+diff --git a/scripts/audit-global-manual.mjs b/scripts/audit-global-manual.mjs
+index afc7356..7d2a902 100644
+--- a/scripts/audit-global-manual.mjs
++++ b/scripts/audit-global-manual.mjs
+@@ -1,12 +1,19 @@
+-import assert from'node:assert/strict';import{writeFile}from'node:fs/promises';import{join}from'node:path';
+-export async function auditGlobalManual({page,review,errors,httpErrors}){
++import assert from'node:assert/strict';import{writeFile,readFile}from'node:fs/promises';import{join}from'node:path';
++export async function auditGlobalManual({page,context,browser,base,headers,review,errors,httpErrors}){
+  await page.waitForFunction(()=>__lagoonQA.shaderWarmup.idle(),null,{timeout:240000});await page.evaluate(()=>{__lagoonQA.drawPaused=true;});
+  const initial=await page.evaluate(()=>{const g=__lagoonSaveQA.getGame();return{coins:g.coins,inventory:g.inventory,placements:g.placements};});
+  await page.locator('#chichi-control').click();console.log('Global entry',await page.evaluate(()=>({active:__lagoonQA.manualWalk().active,failure:__lagoonQA.manualWalk().startFailure,position:__lagoonQA.chichiCarrier.position.toArray(),phase:__lagoonQA.submarine().phase,biome:__lagoonQA.focused()})));assert.equal(await page.evaluate(()=>__lagoonQA.manualWalk().active),true,'entry button activates actual land controller');
+  assert.equal(await page.locator('.chichi-walk-controls').isVisible(),false,'desktop has no direction pad');
+- const before=await page.evaluate(()=>__lagoonQA.chichiCarrier.position.toArray());await page.keyboard.down('KeyW');
+- const moved=await page.evaluate(()=>{const q=__lagoonQA;q.manualFrames=true;const at=performance.now();for(let i=0;i<12;i++){q.gpuFrames.clear();q.manualStepping=true;try{q.step(at+i*1000/30);}finally{q.manualStepping=false;}}return{position:q.chichiCarrier.position.toArray(),camera:q.camera.position.toArray(),visible:q.cat.visible,active:q.manualWalk().active,phase:q.submarine().phase};});await page.keyboard.up('KeyW');assert.ok(Math.hypot(moved.position[0]-before[0],moved.position[2]-before[2])>.2,'real Chichi moves from keyboard');assert.ok(moved.visible);assert.equal(moved.phase,'docked');
++ const before=await page.evaluate(()=>__lagoonQA.chichiCarrier.position.toArray());await page.keyboard.down('KeyA');console.log('Global input',await page.evaluate(()=>{const q=__lagoonQA,p=q.chichiCarrier.position,r=q.catRadius();return{input:q.manualWalk().inputState,r,near:[...[1,-1].flatMap(d=>[{x:p.x,y:p.y,z:p.z+d*.12},{x:p.x+d*.12,y:p.y,z:p.z}])].map(v=>q.manualSurface(v,r,p)),npcs:[...q.npcs.values()].map(n=>n.carrier.position.toArray())};}));
++ const moved=await page.evaluate(()=>{const q=__lagoonQA;q.manualFrames=true;const at=performance.now();for(let i=0;i<12;i++){q.gpuFrames.clear();q.manualStepping=true;try{q.step(at+i*1000/30);}finally{q.manualStepping=false;}}return{position:q.chichiCarrier.position.toArray(),camera:q.camera.position.toArray(),visible:q.cat.visible,active:q.manualWalk().active,phase:q.submarine().phase};});await page.keyboard.up('KeyA');console.log('Global moved',JSON.stringify({before,moved}));assert.ok(Math.hypot(moved.position[0]-before[0],moved.position[2]-before[2])>.2,'real Chichi moves from keyboard');assert.ok(moved.visible);assert.equal(moved.phase,'docked');
+  const still=await page.evaluate(()=>{const q=__lagoonQA,p=q.chichiCarrier.position.clone(),at=performance.now()+1000;for(let i=0;i<8;i++){q.gpuFrames.clear();q.manualStepping=true;try{q.step(at+i*1000/30);}finally{q.manualStepping=false;}}q.drawFrame();return{delta:q.chichiCarrier.position.distanceTo(p),png:q.renderer.domElement.toDataURL('image/png').split(',')[1]};});assert.ok(still.delta<1e-8);await writeFile(join(review,'desktop-third-person.png'),Buffer.from(still.png,'base64'));delete still.png;
+  await page.locator('#camera-island').click();assert.equal(await page.evaluate(()=>__lagoonQA.manualWalk().active),false,'Island releases manual control');await page.locator('#chichi-control').click();assert.equal(await page.evaluate(()=>__lagoonQA.manualWalk().active),true);await page.locator('#camera-all').click();assert.equal(await page.evaluate(()=>__lagoonQA.manualWalk().active),false,'World releases manual control');
+  await page.locator('#chichi-control').click();const savedPosition=await page.evaluate(()=>__lagoonQA.chichiCarrier.position.toArray());await page.evaluate(()=>window.dispatchEvent(new Event('pagehide')));await page.waitForFunction(()=>!__lagoonSaveQA.cloud.pending&&!__lagoonSaveQA.cloud.dirty&&!__lagoonSaveQA.cloud.retryEntry);await page.reload();await page.waitForFunction(()=>window.__lagoonQA&&__lagoonSaveQA.cloud.editable,null,{timeout:240000});const final=await page.evaluate(()=>{const q=__lagoonQA;q.drawPaused=true;const g=__lagoonSaveQA.getGame();return{coins:g.coins,inventory:g.inventory,placements:g.placements,position:q.chichiCarrier.position.toArray(),active:q.manualWalk().active};});assert.equal(final.active,false,'reload returns ownership to ordinary life');assert.ok(Math.hypot(...final.position.map((x,i)=>x-savedPosition[i]))<.6,'reload retains manual position');assert.deepEqual({coins:final.coins,inventory:final.inventory,placements:final.placements},initial);assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);await writeFile(join(review,'global-manual.json'),JSON.stringify({initial,before,moved,still,final,errors,httpErrors,renderer:'Actual native game/private SQLite/desktop; mobile follows separately'},null,2));console.log('PASS global entry, native movement, camera releases and SQLite reload');
++ const readBundle=await readFile(join(review,'qa-app.js'),'utf8');const storage=await page.evaluate(()=>Object.fromEntries(Object.entries(localStorage)));await page.close();
++ const mobile=await browser.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true,extraHTTPHeaders:headers}),phone=await mobile.newPage();const phoneErrors=[];phone.on('pageerror',e=>phoneErrors.push(e.message));phone.on('console',m=>{if(m.type()==='error')phoneErrors.push(m.text());});
++ await phone.addInitScript(storage=>{for(const[k,v]of Object.entries(storage))localStorage.setItem(k,v);},storage);await phone.route('**/dist/app.js?*',r=>r.fulfill({contentType:'text/javascript',body:readBundle}));await phone.route('**/api/status',r=>r.fulfill({json:{configured:true,cloudSave:true,revision:'development',protocol:'living-cat-world-v4'}}));
++ await phone.goto(base);await phone.waitForFunction(()=>window.__lagoonQA&&__lagoonSaveQA.cloud.editable,null,{timeout:240000});await phone.evaluate(()=>{__lagoonQA.drawPaused=true;});await phone.locator('#chichi-control').click();assert.equal(await phone.evaluate(()=>__lagoonQA.manualWalk().active),true);assert.equal(await phone.locator('.chichi-walk-controls').isVisible(),true);
++ const key=await phone.evaluate(()=>{const q=__lagoonQA,p=q.chichiCarrier.position,r=q.catRadius(),h=Math.atan2(q.look.x-q.camera.position.x,q.look.z-q.camera.position.z);for(const [key,dx,dz]of [['KeyW',Math.sin(h),Math.cos(h)],['KeyS',-Math.sin(h),-Math.cos(h)],['KeyA',Math.cos(h),-Math.sin(h)],['KeyD',-Math.cos(h),Math.sin(h)]])if([.1,.2,.3,.4,.5,.6].every(d=>q.manualSurface({x:p.x+dx*d,y:p.y,z:p.z+dz*d},r,p)))return key;return null;});assert.ok(key,'an actual clear body path exists for the touch test');
++ const button=phone.locator('[data-walk-key="'+key+'"]'),box=await button.boundingBox();assert.ok(box.width>=44&&box.height>=44&&box.y>=0&&box.y+box.height<=844);const start=await phone.evaluate(()=>__lagoonQA.chichiCarrier.position.toArray()),cdp=await mobile.newCDPSession(phone);await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:box.x+box.width/2,y:box.y+box.height/2,id:1}]});
++ const touchPosition=await phone.evaluate(()=>{const q=__lagoonQA;q.manualFrames=true;const at=performance.now();for(let i=0;i<7;i++){q.gpuFrames.clear();q.manualStepping=true;try{q.step(at+i*1000/30);}finally{q.manualStepping=false;}}return q.chichiCarrier.position.toArray();});await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});assert.ok(Math.hypot(touchPosition[0]-start[0],touchPosition[2]-start[2])>.15,'real held touch moves the same Chichi');await phone.locator('#chichi-control').click();assert.equal(await phone.evaluate(()=>__lagoonQA.manualWalk().active),false);assert.deepEqual(phoneErrors,[]);await writeFile(join(review,'phone-controls.json'),JSON.stringify({key,box,start,touchPosition,phoneErrors,actualTouch:true,dpr:2},null,2));await mobile.close();console.log('PASS native phone44px controls and real held touch');
+ }
+diff --git a/scripts/check-aquarium.cjs b/scripts/check-aquarium.cjs
+index 531a005..4507554 100644
+--- a/scripts/check-aquarium.cjs
++++ b/scripts/check-aquarium.cjs
+@@ -542,7 +542,7 @@ async function localWorker() {
+                   )
+                   .replace(
+                     marker,
+-                    `  const qa=window.__lagoonQA={step:loop,gpuFrames,trackUploads:qaTrackUploads,geometryResidencyFactory:createGeometryResidency,shadowDepth:typeof shadowDepth==='undefined'?null:shadowDepth,geometryResidency:typeof geometryResidency==='undefined'?null:geometryResidency,makeGeometryResidency:options=>createGeometryResidency(renderer,options),gpuBuffers:qaGpuBuffers,matrixCache:typeof matrixCache==='undefined'?null:matrixCache,shaderWarmup:typeof shaderWarmup==='undefined'?null:shaderWarmup,colonyDraws:typeof colonyDraws==='undefined'?null:colonyDraws,animateCat,setCatMood,poseAtlas:typeof poseAtlas==='undefined'?null:poseAtlas,staticDraws:typeof staticDraws==='undefined'?null:staticDraws,manualWalk:()=>manualWalk,submarine:()=>submarine,mall:()=>mall,catRadius:()=>catNavigationRadius(cat),camera,look,desiredLook,renderer,islands,animalGuests:typeof animalGuests==='undefined'?null:animalGuests,housingLife,cat,npcs,chichiCarrier,itemGroups,jobs,cityCars,updateCityCar,THREE,scene,pickDrop,pointer,raycaster,ground,viewport,sync,perform,performResident,faceCamera,spa,chill,court,cinema,courtFoods,bikiniLife,enterCourt,exitCourt,getCourtCamera:()=>courtCamera,residentPlay,callbacks,showCatHome,getDragging:()=>draggingCat?.catId,getAnimalDragging:()=>typeof draggingAnimal==='undefined'?null:draggingAnimal?.animalId,getTapState:()=>({pendingTap,pointerDown,dragging:draggingCat?.catId,focused,viewingOverview,face:faceCamera.enabled}),reviewView:(x,z,d)=>{desiredLook.set(x,0,z);desiredDistance=d;azimuth=.15;},pauseHarvestAutonomy:${!!process.env.CHICHI_MAGIC_BED_AUDIT},constructorMs:performance.now()-qaStart,focused:()=>focused,getOperation:()=>operation,isVisible:()=>worldVisible,getDistance:()=>distance,getDesiredDistance:()=>desiredDistance,getOrbit:()=>({azimuth,elevation}),reviewOrbit:(a,e)=>{azimuth=a;elevation=e;},freeze:${!!process.env.CHICHI_CAT_LOCATION_AUDIT||!!process.env.CHICHI_GATHER_AUDIT},frames:0,resizes:0,black:[],audit:false,measure:false,cpu:[]};
++                    `  const qa=window.__lagoonQA={step:loop,gpuFrames,trackUploads:qaTrackUploads,geometryResidencyFactory:createGeometryResidency,shadowDepth:typeof shadowDepth==='undefined'?null:shadowDepth,geometryResidency:typeof geometryResidency==='undefined'?null:geometryResidency,makeGeometryResidency:options=>createGeometryResidency(renderer,options),gpuBuffers:qaGpuBuffers,matrixCache:typeof matrixCache==='undefined'?null:matrixCache,shaderWarmup:typeof shaderWarmup==='undefined'?null:shaderWarmup,colonyDraws:typeof colonyDraws==='undefined'?null:colonyDraws,animateCat,setCatMood,poseAtlas:typeof poseAtlas==='undefined'?null:poseAtlas,staticDraws:typeof staticDraws==='undefined'?null:staticDraws,manualSurface,manualWalk:()=>manualWalk,submarine:()=>submarine,mall:()=>mall,catRadius:()=>catNavigationRadius(cat),camera,look,desiredLook,renderer,islands,animalGuests:typeof animalGuests==='undefined'?null:animalGuests,housingLife,cat,npcs,chichiCarrier,itemGroups,jobs,cityCars,updateCityCar,THREE,scene,pickDrop,pointer,raycaster,ground,viewport,sync,perform,performResident,faceCamera,spa,chill,court,cinema,courtFoods,bikiniLife,enterCourt,exitCourt,getCourtCamera:()=>courtCamera,residentPlay,callbacks,showCatHome,getDragging:()=>draggingCat?.catId,getAnimalDragging:()=>typeof draggingAnimal==='undefined'?null:draggingAnimal?.animalId,getTapState:()=>({pendingTap,pointerDown,dragging:draggingCat?.catId,focused,viewingOverview,face:faceCamera.enabled}),reviewView:(x,z,d)=>{desiredLook.set(x,0,z);desiredDistance=d;azimuth=.15;},pauseHarvestAutonomy:${!!process.env.CHICHI_MAGIC_BED_AUDIT},constructorMs:performance.now()-qaStart,focused:()=>focused,getOperation:()=>operation,isVisible:()=>worldVisible,getDistance:()=>distance,getDesiredDistance:()=>desiredDistance,getOrbit:()=>({azimuth,elevation}),reviewOrbit:(a,e)=>{azimuth=a;elevation=e;},freeze:${!!process.env.CHICHI_CAT_LOCATION_AUDIT||!!process.env.CHICHI_GATHER_AUDIT},frames:0,resizes:0,black:[],audit:false,measure:false,cpu:[]};
+   const draw=renderer.render.bind(renderer);qa.drawFrame=()=>draw(scene,camera);renderer.render=(...args)=>{if(qa.drawPaused&&!qa.commandOnly)return;const started=performance.now();draw(...args);qa.frames++;if(qa.liveFrames)qa.liveFrames.push([started,performance.now()-started,renderer.info.render.calls,renderer.info.render.triangles]);};
+   qa.settleJobs=seconds=>{const actors=Object.keys(game.jobCity?.profiles||{}).map(id=>({id,local:jobs.get(id)?.position||{x:0,y:.32,z:-10.3},biome:'jobcity'}));for(let i=0;i<seconds*30;i++)jobs.step(game,actors,1/30,i/30);for(const a of actors){const v=jobs.get(a.id),carrier=a.id==='chichi'?chichiCarrier:npcs.get(a.id)?.carrier;if(v&&carrier)carrier.position.set(JOB_CITY_CENTER[0]+v.position.x,v.position.y+.8,JOB_CITY_CENTER[1]+v.position.z);}};
+   const size=renderer.setSize.bind(renderer);renderer.setSize=(...args)=>{qa.resizes++;return size(...args);};
+@@ -685,6 +685,7 @@ async function localWorker() {
+       const dirty=sourceGit(['status','--porcelain=v1']).toString();
+       fs.writeFileSync(path.join(review,'source-status.txt'),dirty);
+       fs.writeFileSync(path.join(review,'qa-build.json'),JSON.stringify({sha256:crypto.createHash('sha256').update(output.outputFiles[0].contents).digest('hex'),node:process.version,head:sourceGit(['rev-parse','HEAD']).toString().trim(),dirty,sourceOverlay:'source-HEAD.patch'},null,2));
++      if(process.env.CHICHI_GLOBAL_BUTTON_AUDIT){const {auditGlobalButton}=await import('./audit-global-button.mjs');await auditGlobalButton({page,review,errors,httpErrors});return;}
+       if(process.env.CHICHI_GLOBAL_MANUAL_AUDIT){const {auditGlobalManual}=await import('./audit-global-manual.mjs');await auditGlobalManual({page,context,browser,base,headers,review,errors,httpErrors});return;}
+       if(process.env.CHICHI_MALL_PALETTE_AUDIT){const {auditMallPaletteNative}=await import('./audit-mall-palette-native.mjs');await auditMallPaletteNative({page,review,errors,httpErrors});return;}
+       if(process.env.CHICHI_CACHE_TRACE){const {auditCacheCycles}=await import('./audit-cache-cycles.mjs');await auditCacheCycles({page,review,errors,httpErrors});return;}
+diff --git a/test/chichi-manual.test.mjs b/test/chichi-manual.test.mjs
+index 76e6cc2..ced5757 100644
+--- a/test/chichi-manual.test.mjs
++++ b/test/chichi-manual.test.mjs
+@@ -5,3 +5,9 @@ test('third-person walking is camera-relative, diagonal-normalized and sweeps th
+ test('native ground heights are followed without stepping through a cliff and turning is independent of FPS',()=>{
+  const surface=p=>({y:p.z>.6?2.56:.16,biome:'moon'}),s={x:0,y:.16,z:0,yaw:0};for(let i=0;i<30;i++)stepChichiWalk(s,1/30,{forward:1,side:0,heading:0},surface,.6);assert.ok(s.z<=.6);assert.equal(s.y,.16);const run=hz=>{const p={x:0,y:.16,z:0,yaw:0};for(let i=0;i<hz;i++)stepChichiWalk(p,1/hz,{forward:1,side:0,heading:1},()=>({y:.16,biome:'moon'}),.6);return p;};const a=run(30),b=run(60);assert.ok(Math.hypot(a.x-b.x,a.z-b.z)<1e-8);assert.ok(Math.abs(a.yaw-b.yaw)<1e-8);
+ });
++
++test('an existing overlap can separate continuously but a clear body can never enter or cross the wall',async()=>{
++ const{clearsWalkObstacles}=await import('../public/chichi-manual.js'),wall=[{x:-6,z:-4,w:1.8,d:1.8}],r=.65;assert.equal(clearsWalkObstacles({x:-6,z:-2.9},{x:-6,z:-3},r,wall),true);assert.equal(clearsWalkObstacles({x:-6,z:-3.1},{x:-6,z:-3},r,wall),false);assert.equal(clearsWalkObstacles({x:-6,z:-2.5},{x:-6,z:-2.3},r,wall),false);
++});
++
++test('contact with an existing footprint permits tangent escape without increasing penetration',async()=>{const{clearsWalkObstacles}=await import('../public/chichi-manual.js'),wall=[{x:-6,z:-4,w:1.8,d:1.8}];assert.equal(clearsWalkObstacles({x:-6.12,z:-3},{x:-6,z:-3},.571,wall),true);assert.equal(clearsWalkObstacles({x:-6,z:-3.12},{x:-6,z:-3},.571,wall),false);});

@@ -82,7 +82,7 @@ export function createSubmarineRuntime({container,canvas,camera,look,actor,getMo
   returningExplorer=false;swimReturn=null;state.speed=0;state.vertical=0;swimmer=createOceanSwimmer(spawn,{radius});phase='swimming';pan=tilt=0;actor.rotation.set(0,state.yaw,0);cameraFollow.reset();resetExplorerView();return true;
  }
  async function controlChichi(){
-  if(!getGame().unlocked.includes('autumn'))return false;
+  if(!canPilot()||!getGame().unlocked.includes('autumn'))return false;
   if(phase==='piloting'){if(!controlled)resume();wantLandControl=physics.atDock();return exit();}
   if(exploring())return resume();if(busy())return false;
   const p=localPosition(),floor=Math.round((p.y-MALL.y-.18)/MALL.rise)+1,radius=catNavigationRadius(getModel());
