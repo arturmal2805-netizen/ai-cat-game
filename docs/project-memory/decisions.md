@@ -137,3 +137,14 @@ Far views получили исходные3combined batches (v2 лишние90d
 CPU6tests/native9pixelcomparisons passed, whole forecourt15.84M→8.62M, far
 counts unchanged. Но это всё ещё не подтверждённый бюджет/реализм и не FPS;
 не включать WIP в срочную оптическую публикацию. Подробности — CURRENT/QA.
+
+
+## 2026-11-17 — вода опубликована и подтверждена
+
+b8051f931c66608acd15ac41bb6043c7081b7605 опубликован как отдельный общий
+оптический этап на стабильной географии. Основной draft новой геометрии
+f5f89c7 сохранён отдельно. CI44063176067 test/deploy/server save verifier/pages
+success. Реально скачанные JSdcff015e…/CSSc14ce…/wind1024²/9probes совпали;
+в HTML одно приложение. Полные хеши и HTTP receipt — CURRENT/QA publication.
+Это не визуальное одобрение и не доказательство Mac/iPhoneFPS. Следом дно,
+низкие экосистемы и отдельно проверенное расширение. Код/прогресс не потеряны.

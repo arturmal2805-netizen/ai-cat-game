@@ -1,20 +1,28 @@
 # Текущий статус — единственная очередь
 
-Обновлено 2026-11-17. Пользователь требует скорее опубликовать ВОДУ.
-Отдельный ближайший релиз: общее ядро на стабильной географии12d478e.
+Обновлено 2026-11-17. Приоритетная публикация ВОДЫ завершена.
+Опубликован отдельный этап общего ядра на стабильной географии12d478e.
 Экспериментальное расширение/новое дно/дополнительные512кораллов и64камня
 оставлены отдельным WIP. Ничего не потеряно и не сброшено.
 
-## Что опубликовано
+## Что опубликовано и фактически работает
 
-Последняя подтверждённая работающая версия —
-`12d478e82e8e5a2bd6ef3ec0cbb151ea1e473d1d`:
-https://arturmal2805-netizen.github.io/ai-cat-game/
-JS `507539ea7920b0489284d8572aef4481c8506e1d643a24a8becda9d79b7a8ca5`,
+**b8051f931c66608acd15ac41bb6043c7081b7605**, main и сайт:
+https://arturmal2805-netizen.github.io/ai-cat-game/?v=b8051f9
+CI https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44063176067
+завершён success: test, deploy (включая серверный release/shared-save verifier),
+pages. [Workflow receipt](../qa/2026-11-17/shared-water-publication/workflow.json).
+
+Проверка реальных HTTP assets 2026-11-17T10:29:48UTC:
+JS `dcff015e221567268f2afadf90c80f8f402b30b4faf3bf2bcc9648d9621937d6`,
 CSS `c14ce8408f8f3aed7a5e7991eca39663fe55377343421ff62e0600ada4c048ef`.
-Workflow43807080956 success. [Повторная проверка17ноября](../qa/2026-11-17/shared-water-core/live-stable-recheck.json):
-байты совпали, в HTML ровно одно подключение приложения. Удалённый main уже b8051f931c66608acd15ac41bb6043c7081b7605;
-сайт ещё должен быть подтверждён после workflow44063176067.
+Скачаны и совпали также основной wind-field1024² и все9reflection PNG.
+В HTML ровно одно подключение приложения. Параметр?v не использовался вместо
+проверки байтов. [Live receipt](../qa/2026-11-17/shared-water-publication/live-verification.json).
+
+Предыдущая опубликованная версия —12d478e82e8e5a2bd6ef3ec0cbb151ea1e473d1d,
+JS507539ea7920b0489284d8572aef4481c8506e1d643a24a8becda9d79b7a8ca5,
+CSSтотжеc14ce…, workflow43807080956. История её слияния ниже.
 
 Слияние12d: water source `4ec37371e6b71a03050d4e2a14e8b8fbdc9ae6b3`,
 release metadata `939b328304d4807506849a9fbeb866ea9f40703c` поверх4ec.
@@ -25,21 +33,17 @@ release metadata `939b328304d4807506849a9fbeb866ea9f40703c` поверх4ec.
 
 ## Приоритет и активные деревья
 
-1. **Релиз воды сейчас**: `/workspace/chichi-water-release`, ветка
-   `codex/shared-water-release`, база12d. Только shared-water files из4dc,
-   корректная linear-radiance/4 цепочка, волны, прозрачность и подводная оптика.
-   Никаких новых рифов/покупок/смены размеров мира. Релизный commit
-   **b8051f931c66608acd15ac41bb6043c7081b7605** уже отправлен в main.
-   Реальные9rebakes, Node22build,39targeted+1070full tests, Wrangler dry-run,
-   native visibility, одинаковые океанические камеры, весь маршрут/нормальная
-   работа послеprivateSQLite reload и реальный game day/night A/B завершены.
-   Сейчас дождаться полного CI/deploy/pages:44063176067, затем actual live hashes.
-   https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44063176067
-   Watch: /workspace/qa/shared-water-release-ci.log/.exit.
-   Не считать запущенное завершённым; читать фактические результаты.
-2. После водного релиза — дно/низкие экосистемы, затем бюджет и реальный объём
-   расширения океана, затем детализация ТРЦ. Не задерживать воду всем контентом.
-3. Телефон/Mac hardware пока НЕ измерены; SwiftShader не выдавать за их FPS.
+1. Релиз воды **b8051f931c66608acd15ac41bb6043c7081b7605 завершён**.
+   `/workspace/chichi-water-release`, `codex/shared-water-release`, чистый
+   опубликованный source. Только общее водное ядро/оптика, настоящие9rebakes,
+   39targeted+1070full tests, privateSQLite/native route и game A/B проверены,
+   CI44063176067 и actual live JS/CSS/10water images подтверждены.
+2. Следующий отдельный этап — реальное дно/низкие экосистемы, затем бюджет и
+   физический объём2×water area, после этого детализация ТРЦ. Сохранить всю
+   последующую опубликованную воду при переносе WIP-геометрии на новую основу.
+3. Телефон/Mac hardware НЕ измерены; SwiftShader не выдавать за их FPS.
+   Crimson Desert остаётся целью; текущий релиз не равен пользовательскому
+   художественному одобрению. Новые плотные сады/камни/расширение НЕ опубликованы.
 
 WIP расширения: `/workspace/chichi-shared-water`, `codex/shared-water-core`;
 каноническая память дублируется в `codex/ocean-recovery-memory`.
@@ -134,5 +138,5 @@ Native route desktop adapter сначала ошибочно вызывалtap �
 Не выдавать промежуточныйfailed лог за окончательный результат; все сохранены.
 
 В main теперь есть AGENTS/index со ссылкой на эту каноническую memory-ветку.
-После CI и live verification обновить здесь фактический опубликованныйSHA и
-workflow, затем продолжать WIP дна/расширения отдельно. Исходный f5f89c7 сохранён.
+CI и live verification завершены, полный SHA/workflow записаны выше.
+Продолжать WIP дна/расширения отдельно. Исходный f5f89c7 сохранён.
