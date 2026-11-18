@@ -1,0 +1,10 @@
+{
+  "source": "4adcbd3427d43c0c3e622361ea03fe076592e356",
+  "node": "v22.23.5",
+  "freshFromDownloadedArchive": true,
+  "npmCi": "PASS",
+  "targetedTests": 19,
+  "passed": 19,
+  "exit": 0,
+  "scope": "Fresh recovered SPA source dependencies and selected unit/economy/packing checks. Not a new native/full SPA completion claim."
+}

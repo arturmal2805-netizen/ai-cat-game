@@ -1,0 +1,43 @@
+{
+  "path": "/workspace/artifacts/chichi-memory-2026-11-18-r10.tar.gz",
+  "bytes": 263669636,
+  "sha256": "1ddb1c75b512a5e2c55c724947e4a870d5b675d7fdcd5267b0ef5deadefd683c",
+  "readableMembers": 217,
+  "publishedBaseRequired": "39148734bd3f4a0265a6ec9aff8ab4b41f36c0b4",
+  "fullGitHistory": false,
+  "worktrees": 30,
+  "parts": [
+    {
+      "name": "chichi-memory-r10.tar.gz.part-00",
+      "bytes": 46137344,
+      "sha256": "c1d55d1196f63b8837358da8002cbce44489cda91ab2a31d44c2e9e595cfba43"
+    },
+    {
+      "name": "chichi-memory-r10.tar.gz.part-01",
+      "bytes": 46137344,
+      "sha256": "d628e1e4f20df7488bc282456189ec1072d91748e3e9b0f3e9fb5702026472ad"
+    },
+    {
+      "name": "chichi-memory-r10.tar.gz.part-02",
+      "bytes": 46137344,
+      "sha256": "b55a81ac6abc474ece0e4da5c6ef9db2ea42f7eef0378a15a47fa38996528e6a"
+    },
+    {
+      "name": "chichi-memory-r10.tar.gz.part-03",
+      "bytes": 46137344,
+      "sha256": "b5663e6d9d1ff2974401255750f45fc121de0a1c62106586f8805a72929df359"
+    },
+    {
+      "name": "chichi-memory-r10.tar.gz.part-04",
+      "bytes": 46137344,
+      "sha256": "d093e0c7df16b9d76aa74d274c92df57e9e0e581f17993e6cca043f2d76c2da7"
+    },
+    {
+      "name": "chichi-memory-r10.tar.gz.part-05",
+      "bytes": 32982916,
+      "sha256": "798c1013306bf517aece00d354794ac590caa135839f85dd94a80569c15827e9"
+    }
+  ],
+  "restoreStatus": "PASS: remote archive downloaded, exact SHA256, all30worktrees restored and compared",
+  "trialCopiesDiscardedAfterVerification": true
+}

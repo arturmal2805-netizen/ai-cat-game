@@ -132,3 +132,10 @@ HEADdiff/cached/status/filebyte. При нехватке места опцион
 удаляет только уже проверенные тестовые копии, не исходныеworktrees.
 Удалённый архив отдельно от main, скачанные байты сверяют SHA256 и повторно
 проверяют восстановлением. Конкретная последняя квитанция будет в CURRENT.
+
+### Последняя копия: R10,2026-11-18
+
+[Постоянная независимая ветка](https://github.com/arturmal2805-netizen/ai-cat-game/tree/archive/project-memory-2026-11-18-r10/backups),
+точныеSHA/размер/части/проверки вCURRENT и docs/qa/2026-11-18/project-memory-handoff.
+Remote bytes проверены,30/30деревьев восстановлены точно. FreshsourceSPA
+npmci+19checksPASS. СтарыеR9иархив2026-11-16 — исторические, не последнийWIP.

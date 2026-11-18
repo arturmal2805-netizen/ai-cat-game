@@ -1,0 +1,14 @@
+{
+  "archiveCommit": "b0627be46255e26764b182a33003252740f9733b",
+  "sha256": "1ddb1c75b512a5e2c55c724947e4a870d5b675d7fdcd5267b0ef5deadefd683c",
+  "remoteBytesMatched": true,
+  "parts": [
+    "chichi-memory-r10.tar.gz.part-00",
+    "chichi-memory-r10.tar.gz.part-01",
+    "chichi-memory-r10.tar.gz.part-02",
+    "chichi-memory-r10.tar.gz.part-03",
+    "chichi-memory-r10.tar.gz.part-04",
+    "chichi-memory-r10.tar.gz.part-05"
+  ],
+  "noLocalGitAlternates": true
+}

@@ -325,3 +325,16 @@ columns in both legacy full plans and scheduled career/evening events. Keep
 147cats,allvenues,needs,balances,personality,wishes,families and original strict
 output contracts. No extra model call, cadence reduction or promised billing.
 Separate release candidate827e370 and workflow44305576620; SPA excluded.
+
+
+## 2026-11-18 — Передача и независимый R10
+
+КороткийAGENTS ссылается на обязательные полные правила без удаления требований;
+CURRENTсокращён, старыйстатус архивирован. ROADMAP — приоритеты/критерии.
+READMEисправлен поактуальному Node22/AIevents/opt-inpaidCI. Режимыthirdperson/
+guest/floor и historicald6 vsCrimsonref сохранены. Оригинальныеinlineimageбайты
+неполучены: пробел отмечен, хеши/лицензии не выдуманы.
+R10 всех30linkedtrees содержитincremental bundle+working/cached/status/new/deleted;
+удалённыебайты проверены и восстановлены30/30. Для дискового бюджета тестовые
+копии удалялись ТОЛЬКОпослеexactпроверки; оригиналы не тронуты. НоваякопияSPA
+извосстановленногоGit установилаNode22deps/прошла19checks. RemoteURL/SHAвCURRENT.
