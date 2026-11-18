@@ -38,5 +38,6 @@
       "sha256": "798c1013306bf517aece00d354794ac590caa135839f85dd94a80569c15827e9"
     }
   ],
-  "restoreStatus": "pending remote download and fresh trial restore"
+  "restoreStatus": "PASS: remote archive downloaded, exact SHA256, all30worktrees restored and compared",
+  "trialCopiesDiscardedAfterVerification": true
 }

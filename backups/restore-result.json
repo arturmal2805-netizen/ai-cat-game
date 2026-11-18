@@ -1,0 +1,251 @@
+{
+  "archive": "chichi-memory-r10-downloaded.tar.gz",
+  "sha256": "1ddb1c75b512a5e2c55c724947e4a870d5b675d7fdcd5267b0ef5deadefd683c",
+  "restored": true,
+  "fullGitHistory": false,
+  "publishedBaseRequired": "39148734bd3f4a0265a6ec9aff8ab4b41f36c0b4",
+  "worktrees": [
+    {
+      "name": "ai-cat-game",
+      "head": "b44f4ef7d510a5b3e84a95f47d9c30d4c5530207",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-coast-render",
+      "head": "c9a2ac7a74dfad5f478464dd6cf62c072e4172a0",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-compact-city-ai",
+      "head": "827e3708979cb95c4675e38caf6354364c733b64",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-global-manual-input",
+      "head": "fe9415cff8cdbb9dc20ed7def14fa71f6dbff968",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-mall-architecture",
+      "head": "12d478e82e8e5a2bd6ef3ec0cbb151ea1e473d1d",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-mall-cyberpunk",
+      "head": "d3ecc7abe3d6a7b5adb4f91df9fa6a8f59f8b8aa",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-mall-realism",
+      "head": "12d478e82e8e5a2bd6ef3ec0cbb151ea1e473d1d",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-mall-submit-performance",
+      "head": "0b38098a32e338a89b88efd784b184e9ac72c3f3",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-mall-submit-verification",
+      "head": "9176f420429b4d928184212c7ec04c725d0044e5",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-manual-paths-doors",
+      "head": "39148734bd3f4a0265a6ec9aff8ab4b41f36c0b4",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-meadow-coast",
+      "head": "d17001cdcec031e882f89cdf19ab8b540e7a481e",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-ocean-area-expansion",
+      "head": "f09c3f3d64be85a0394049e59877711d066db733",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-ocean-cache-trace",
+      "head": "e25f6ffd3ab4cab2d3595a337573699bbaa4d3c2",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-ocean-expansion",
+      "head": "b9f7fe866e919ae249549a6c325ec213f83d83bf",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-ocean-forecourt-smoothing",
+      "head": "e8ab6ffc24453e1e3ead9acf5190f90acff88730",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-ocean-occlusion",
+      "head": "c9a2ac7a74dfad5f478464dd6cf62c072e4172a0",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-ocean-performance",
+      "head": "1f96a1b6ce17435bc6aa845db1ba6e52d88a56cd",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-realism",
+      "head": "4f49d1ff1b67aa84b9334f0e8e4c829427fe3673",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-seabed-floor-wide",
+      "head": "06a39cb0b1c92f104996ae315932885655f07a68",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-seabed-materials",
+      "head": "c44bdc7e6a262dbe7cf356e629d7b45239a39330",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-seabed-reef",
+      "head": "90c4ff0766b12ece7dffb52525072a8f295080b9",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-seabed-release",
+      "head": "c3f59b2a0568870936655bec3e308841a1952c41",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-shared-water",
+      "head": "ced69e712a7838431a5aec779181c8e11053b88d",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-third-person",
+      "head": "c9a2ac7a74dfad5f478464dd6cf62c072e4172a0",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-underwater-spa-resort",
+      "head": "4adcbd3427d43c0c3e622361ea03fe076592e356",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-water-approved-d6",
+      "head": "d6fa8056f18d2d738890cc9b477334e4cda81523",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-water-core-control",
+      "head": "4dc98387b9d87ca80ecc4ae7df8b39a79cc25a24",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-water-realism",
+      "head": "939b328304d4807506849a9fbeb866ea9f40703c",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-water-recovery",
+      "head": "4392a9615fb81d2cf896b1ba5d9a2b13fac26c59",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    },
+    {
+      "name": "chichi-water-release",
+      "head": "b8051f931c66608acd15ac41bb6043c7081b7605",
+      "headDiff": "exact",
+      "cachedDiff": "exact",
+      "status": "exact",
+      "savedFileBytes": "exact"
+    }
+  ],
+  "sourceWorktreesModified": false,
+  "verifiedTreesRetained": false
+}

@@ -18,3 +18,8 @@ Use restore-wip-archive.py from source memory commitced69e7, into a NEW path.
 The existing source worktrees must never be reset or removed.
 
 Remote download/restore verification is recorded separately after upload.
+
+VERIFIED: remote bytes matched SHA256; trial restoration verified all30/30
+worktrees HEADdiff/indexdiff/status/filebytes exactly. Test copies were removed
+after verification to bound disk usage; original worktrees were untouched.
+See restore-result.json and remote-verification.json.
