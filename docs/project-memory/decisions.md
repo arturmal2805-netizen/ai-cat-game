@@ -284,3 +284,13 @@ Road/parking jobReservations запрещали размещение постр�
 настоящие полы/ступени и сохраняют стены, мебель, полный радиус/рост кота.
 На ПК у шлюза добавлено контекстное действие, без экранного блока движения.
 См. QA manifest manual-paths-doors; все13 моделей побайтно неизменны.
+
+## 2026-11-18 — Lossless AI input dictionaries
+
+User requested compact requests after a SPA catalogue exceeded the internal legacy
+20k-character guard. Request count and input length are different. Repeated
+personality/wish/visited-store strings now use a shared dictionary in explicitly
+string-valued columns; all cat identities/state/venues/output guards remain.
+Stable measurements and tests: docs/qa/2026-11-18/ai-context-compact/README.md.
+No new paid call or frequency reduction. Separate change based on3914873;
+unfinished SPA code excluded. CI/live status remains in canonical CURRENT.

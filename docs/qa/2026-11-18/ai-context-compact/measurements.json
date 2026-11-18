@@ -1,0 +1,53 @@
+{
+  "node": "v22.23.5",
+  "roster": 147,
+  "rows": [
+    {
+      "label": "147-cat full day plan, stable published venues",
+      "beforeChars": 19281,
+      "afterChars": 15620,
+      "savedPercent": 18.99,
+      "beforeUtf8Bytes": 23297,
+      "afterUtf8Bytes": 18118,
+      "dictionaryEntries": 11,
+      "reservedOutputTokens": 5698,
+      "rows": {
+        "cats": 147
+      },
+      "places": 118
+    },
+    {
+      "label": "147 initial careers",
+      "beforeChars": 5734,
+      "afterChars": 4090,
+      "savedPercent": 28.67,
+      "beforeUtf8Bytes": 7294,
+      "afterUtf8Bytes": 4132,
+      "dictionaryEntries": 4,
+      "reservedOutputTokens": 1451,
+      "rows": {
+        "careers": 147
+      },
+      "places": 0
+    },
+    {
+      "label": "147 evening decisions + buyers + scheduled families",
+      "beforeChars": 30661,
+      "afterChars": 21175,
+      "savedPercent": 30.94,
+      "beforeUtf8Bytes": 38952,
+      "afterUtf8Bytes": 24828,
+      "dictionaryEntries": 13,
+      "reservedOutputTokens": 8192,
+      "rows": {
+        "careers": 0,
+        "evenings": 147,
+        "buyers": 147,
+        "singles": 147
+      },
+      "places": 118
+    }
+  ],
+  "scope": "Deterministic serialized user payload comparison; input dictionaries decode to identical data. Character/byte counts are not token counts or measured provider billing/latency. No paid inference.",
+  "requestCount": "Unchanged; one provider invocation per existing planning event, output validation/schema unchanged."
+}

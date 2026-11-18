@@ -94,6 +94,7 @@ test("initial careers are one saved event; established careers never appear in d
   assert.deepEqual(Object.keys(JSON.parse(initialInput.messages[1].content)), [
     "day",
     "careers",
+    "text",
   ]);
   let g = await establish();
   const professions = Object.fromEntries(
@@ -523,7 +524,7 @@ test('every affordable buyer gets an explicit voluntary buy-or-wait schema with 
     assert.equal(count,state.cats[i].ownedHomes);
     assert.equal(active,state.cats[i].activeHome?1:0);
     assert.equal(partner,state.cats.findIndex(p=>p.id===state.cats[i].partner));
-    assert.equal(personality,state.cats[i].personality);
+    assert.equal(typeof personality==='number'?payload.text[personality]:personality,state.cats[i].personality);
   }
   const body=reply(state);
   body.houses=choices.buyers.map(cat=>({cat,house:null,roommate:null}));

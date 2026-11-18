@@ -1,0 +1,148 @@
+TAP version 13
+# Subtest: initial careers are one saved event; established careers never appear in daily model choices over 40 days
+ok 1 - initial careers are one saved event; established careers never appear in daily model choices over 40 days
+  ---
+  duration_ms: 632.881697
+  type: 'test'
+  ...
+# Subtest: only workers get after-shift activity choices; affordable houses and 14-day family reviews share that batch
+ok 2 - only workers get after-shift activity choices; affordable houses and 14-day family reviews share that batch
+  ---
+  duration_ms: 6.379545
+  type: 'test'
+  ...
+# Subtest: due family introductions require a real AI-selected pair in the same evening batch; empty answers cannot reset the review
+ok 3 - due family introductions require a real AI-selected pair in the same evening batch; empty answers cannot reset the review
+  ---
+  duration_ms: 7.38568
+  type: 'test'
+  ...
+# Subtest: released established local/AI professions do not become new initial choices; old clients cannot erase request markers
+ok 4 - released established local/AI professions do not become new initial choices; old clients cannot erase request markers
+  ---
+  duration_ms: 26.578558
+  type: 'test'
+  ...
+# Subtest: shared durable ledger coalesces concurrent devices, restarts and lost career ACKs without paying twice
+ok 5 - shared durable ledger coalesces concurrent devices, restarts and lost career ACKs without paying twice
+  ---
+  duration_ms: 11.591248
+  type: 'test'
+  ...
+# Subtest: quota failures stop additional inference until reset, and a failed durable reservation never calls the model
+ok 6 - quota failures stop additional inference until reset, and a failed durable reservation never calls the model
+  ---
+  duration_ms: 8.906475
+  type: 'test'
+  ...
+# Subtest: night adoption waits for work opening; resuming after days offline never replays a backlog of AI days
+ok 7 - night adoption waits for work opening; resuming after days offline never replays a backlog of AI days
+  ---
+  duration_ms: 7.623622
+  type: 'test'
+  ...
+# Subtest: family decoding schema bounds the real provider output and restricts each partner to eligible sex indices
+ok 8 - family decoding schema bounds the real provider output and restricts each partner to eligible sex indices
+  ---
+  duration_ms: 6.289913
+  type: 'test'
+  ...
+# Subtest: mixed scheduled family and house responses use nullable roommate objects without changing private prices or careers
+ok 9 - mixed scheduled family and house responses use nullable roommate objects without changing private prices or careers
+  ---
+  duration_ms: 5.272763
+  type: 'test'
+  ...
+# Subtest: a newly configured reserve can handle the next evening despite an old primary-only quota block, without replaying today's failed request
+ok 10 - a newly configured reserve can handle the next evening despite an old primary-only quota block, without replaying today's failed request
+  ---
+  duration_ms: 6.059984
+  type: 'test'
+  ...
+# Subtest: a lost family ACK recovers from the saved server receipt after reload and a later local work plan without replaying schedules or purchases
+ok 11 - a lost family ACK recovers from the saved server receipt after reload and a later local work plan without replaying schedules or purchases
+  ---
+  duration_ms: 13.346538
+  type: 'test'
+  ...
+# Subtest: only the persisted shared world can realign an AI ledger clock, preserving daily guards and existing career choices
+ok 12 - only the persisted shared world can realign an AI ledger clock, preserving daily guards and existing career choices
+  ---
+  duration_ms: 5.626084
+  type: 'test'
+  ...
+# Subtest: family status explains waiting for after-work and failed decisions instead of silently presenting an empty successful review
+ok 13 - family status explains waiting for after-work and failed decisions instead of silently presenting an empty successful review
+  ---
+  duration_ms: 4.219618
+  type: 'test'
+  ...
+# Subtest: the last unapplied family receipt survives bounded daily-event eviction without retaining old work plans
+ok 14 - the last unapplied family receipt survives bounded daily-event eviction without retaining old work plans
+  ---
+  duration_ms: 6.163166
+  type: 'test'
+  ...
+# Subtest: a lost 19:00 plan recovers real AI activities and a house exactly once, including after reload and a cached-device merge
+ok 15 - a lost 19:00 plan recovers real AI activities and a house exactly once, including after reload and a cached-device merge
+  ---
+  duration_ms: 31.312425
+  type: 'test'
+  ...
+# Subtest: nullable/missing roommates and invalid optional house suggestions cannot discard the 19:00 plan or spend unaffordable coins
+ok 16 - nullable/missing roommates and invalid optional house suggestions cannot discard the 19:00 plan or spend unaffordable coins
+  ---
+  duration_ms: 52.189397
+  type: 'test'
+  ...
+# Subtest: ordinary evenings constrain car permissions and real venues, accept object rows and persist an AI house without another inference
+ok 17 - ordinary evenings constrain car permissions and real venues, accept object rows and persist an AI house without another inference
+  ---
+  duration_ms: 13.457563
+  type: 'test'
+  ...
+# Subtest: every affordable buyer gets an explicit voluntary buy-or-wait schema with housing, partner and personality context
+ok 18 - every affordable buyer gets an explicit voluntary buy-or-wait schema with housing, partner and personality context
+  ---
+  duration_ms: 12.037707
+  type: 'test'
+  ...
+# Subtest: housing status explains the real schedule, affordability, pending receipt and failure without implying a purchase happened
+ok 19 - housing status explains the real schedule, affordability, pending receipt and failure without implying a purchase happened
+  ---
+  duration_ms: 7.413962
+  type: 'test'
+  ...
+# Subtest: dictionary packing round-trips Unicode, unique strings and nested wishes without touching numeric gameplay columns or inputs
+ok 20 - dictionary packing round-trips Unicode, unique strings and nested wishes without touching numeric gameplay columns or inputs
+  ---
+  duration_ms: 5.313522
+  type: 'test'
+  ...
+# Subtest: all 147 daily-plan cats retain exact personalities, wishes, skills, balances, partners and all offered venues
+ok 21 - all 147 daily-plan cats retain exact personalities, wishes, skills, balances, partners and all offered venues
+  ---
+  duration_ms: 119.64378
+  type: 'test'
+  ...
+# Subtest: career, evening, buyers and family context decode exactly with original output schemas and budgets
+ok 22 - career, evening, buyers and family context decode exactly with original output schemas and budgets
+  ---
+  duration_ms: 10.782885
+  type: 'test'
+  ...
+# Subtest: packing retains exactly one inference invocation and original assignment validation
+ok 23 - packing retains exactly one inference invocation and original assignment validation
+  ---
+  duration_ms: 7.992546
+  type: 'test'
+  ...
+1..23
+# tests 23
+# suites 0
+# pass 23
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1085.739627

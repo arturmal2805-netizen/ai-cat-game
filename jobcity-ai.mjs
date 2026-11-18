@@ -1,3 +1,4 @@
+import {packCityPayload,CITY_PLAN_TEXT_COLUMNS,CITY_PLAN_PACKING_HINT} from './city-ai-pack.mjs';
 import {mallStore} from './public/mall-data.js';
 import { JOB_END, JOB_HOURS } from "./public/jobcity-data.js";
 import { housingOffers } from "./public/housing-system.js";
@@ -245,11 +246,11 @@ Profession is permanent, NOT a daily random job. Keep existing profession unless
 Evening: 0=rest/home,1=walk/visit friends,2=drive. Choose 2 ONLY if hasCar=1. Give cats varied free-time choices. Outings is an array of 1-3 DIFFERENT place indices for free time; [] if resting. All offered places are real and available, across all islands. Choose varied food cafes, Krusty Krab, lemonade, art, swimming, rides and rest by personality. Partners share their outings outside work; retain their separate careers. No invented indices. reason is "" for initial/unchanged careers.
 House: -1=no purchase, otherwise its index in houses. Buy only if affordable from that cat's coins; prioritize a first home when saving permits, single cats may occasionally buy another home. A permanent couple may own ONE shared home: if either partner has a home/hasActiveHome=1, choose -1 for both. Roommate: -1=none or another catIndex with hasActiveHome=0. An owner keeps their existing active home on another purchase.
 Families: ${state.familyReview?.due ? `this is the rare 14-game-day review; choose up to ${state.familyReview.slots} new mutual lifelong couples, male + female, both partner=-1. Pick compatible personalities gradually. Choose the male index ONLY from familyCandidates.males and female ONLY from familyCandidates.females; these lists exclude taken cats. Do NOT repeat existing pairs. Keep every existing partner forever. Every cat may eventually form a family; the limit applies ONLY to new couples in THIS review, never to the total number of families.` : "NO review today: output families:[]; never form or change a pair."}
-Input cat columns: [index,name,personality,coins,profession,changeAllowed,careerChanges,skillsByJob,preferredJobs,lastPaidDay,recentWorkedDays,hasCar,ownedHomes,hasActiveHome,wishes,sex(0male/1female),partnerIndex(-1none)]. House columns: [index,id,name,price]. Place columns: [index,typeIndex,islandIndex,action]; types and islands give their names. Keep every row compact: numbers, no repeated names or keys. One batch for the whole day, no follow-up requests.`,
+Input cat columns: [index,name,personality,coins,profession,changeAllowed,careerChanges,skillsByJob,preferredJobs,lastPaidDay,recentWorkedDays,hasCar,ownedHomes,hasActiveHome,wishes,sex(0male/1female),partnerIndex(-1none)]. House columns: [index,id,name,price]. Place columns: [index,typeIndex,islandIndex,action]; types and islands give their names. Keep every row compact: numbers, no repeated names or keys. One batch for the whole day, no follow-up requests.`+CITY_PLAN_PACKING_HINT,
       },
       {
         role: "user",
-        content: JSON.stringify({
+        content: JSON.stringify(packCityPayload({
           day: state.day,
           houses: houses.map((h, i) => [i, h.id, h.name, h.price]),
           cats,
@@ -276,7 +277,7 @@ Input cat columns: [index,name,personality,coins,profession,changeAllowed,career
             islands.indexOf(p.biome),
             p.action,
           ]),
-        }),
+        },CITY_PLAN_TEXT_COLUMNS)),
       },
     ],
     max_tokens: Math.min(6500, Math.max(1500, state.cats.length * 34 + 700)),

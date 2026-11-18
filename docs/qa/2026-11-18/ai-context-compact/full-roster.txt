@@ -1,0 +1,16 @@
+TAP version 13
+# Subtest: the one daily AI batch includes all 147 cats with unique identities, preferences, skills and permanent-career constraints
+ok 1 - the one daily AI batch includes all 147 cats with unique identities, preferences, skills and permanent-career constraints
+  ---
+  duration_ms: 123.543784
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 352.593621
