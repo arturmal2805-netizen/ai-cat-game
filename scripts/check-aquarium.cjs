@@ -507,7 +507,7 @@ async function localWorker() {
                   )
                   .replace(
                     "  function loop(now) {",
-                    "  function loop(now) {\n    if(window.__lagoonQA?.manualFrames&&!window.__lagoonQA?.manualStepping){requestAnimationFrame(loop);return;}\n    if(window.__lagoonQA?.reviewHour===0||window.__lagoonQA?.reviewHour===12)game.jobCity.epoch=Date.now()-(window.__lagoonQA.reviewHour===0?720000:0);\n    if(window.__lagoonQA?.cpuOnly)worldVisible=true;",
+                    "  function loop(now) {\n    if(window.__lagoonQA?.manualFrames&&!window.__lagoonQA?.manualStepping){requestAnimationFrame(loop);return;}\n    if(window.__lagoonQA?.reviewHour===0||window.__lagoonQA?.reviewHour===12){game.jobCity.epoch=Date.now()-(window.__lagoonQA.reviewHour===0?720000:0);window.__lagoonQA.reviewFrameClock=cityClock(game.jobCity);}\n    if(window.__lagoonQA?.cpuOnly)worldVisible=true;",
                   )
                   .replace(
                     "!gpuFrames.ready()",

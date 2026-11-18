@@ -2,7 +2,7 @@
 // contacts. A jacuzzi's four guests share a real basin, not four dry grid seats.
 import {RESORT_SPA as S} from './resort-spa-data.js';
 export const RESORT_POOL=Object.freeze({depth:1.8,rise:.3,run:.75,steps:6,width:4,foot:.012});
-export const resortSkyPool=()=>({x:0,z:203,y:S.y+2*S.rise,rx:10,rz:10,depth:RESORT_POOL.depth,sky:true});
+export const resortSkyPool=()=>({x:0,z:203,y:S.y+2*S.rise,rx:18,rz:18,depth:RESORT_POOL.depth,sky:true});
 export function resortPools(zone){
  const common={y:zone.y,depth:RESORT_POOL.depth};
  if(zone.procedure==='swim')return[{...common,x:zone.x,z:zone.z,rx:zone.rx-5,rz:zone.rz-5},resortSkyPool()];

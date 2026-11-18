@@ -139,8 +139,8 @@ export function* resortLuxurySteps({solid,decor,shell,surfaces,basins,waters,mat
  // placed beneath the glass: both directions see the lower atrium and water.
  const glass=mats.glass.clone();glass.opacity=.2;glass.roughness=.09;glass.side=T.DoubleSide;glass.depthWrite=false;materials.add(glass);
  const skySpec=resortSkyPool(),sky=createResortBasin(skySpec,{stone:mats.ivory,liner:glass});sky.name='Glass Sky Pool';sky.position.set(skySpec.x,skySpec.y-S.y,skySpec.z);sky.traverse(o=>{if(o.isMesh)o.userData.resortFloor=2;});sky.userData.bed.name='Glass Sky Pool transparent bottom';sky.userData.bed.renderOrder=1;sky.userData.surface.renderOrder=2;sky.userData.surface.material.uniforms.uOpacity.value=.54;surfaces.add(sky);basins.push(sky);waters.push(sky.userData.surface);report.skyPool={...skySpec,glassBottom:true,opaqueBacking:false};
- box(solid,mats.ivory,0,17.97,214.8,5,.06,2.8);
- for(let j=0;j<12;j++){const a=(j+.5)*Math.PI/6;lantern(Math.sin(a)*12.9,18,203+Math.cos(a)*12.9,.6);}ring(decor,mats.gold,0,18.03,203,10.3,10.3,.08);
+ box(solid,mats.ivory,0,17.97,203+skySpec.rz+1.2,5,.06,2.8);
+ for(let j=0;j<12;j++){const a=(j+.5)*Math.PI/6;lantern(Math.sin(a)*(skySpec.rx+2.9),18,203+Math.cos(a)*(skySpec.rz+2.9),.6);}ring(decor,mats.gold,0,18.03,203,skySpec.rx+.3,skySpec.rz+.3,.08);
  floor=0;
  // Public gate remains open across the original real route and lift arrival.
  const entry=Array.from({length:25},(_,i)=>{const a=i*Math.PI/24;return[Math.cos(a)*10,1+Math.sin(a)*11,173];});line(decor,mats.gold,entry,.18);line(decor,mats.amber,entry.map(p=>[p[0]*.98,p[1],p[2]+.03]),.04);
@@ -148,5 +148,5 @@ export function* resortLuxurySteps({solid,decor,shell,surfaces,basins,waters,mat
  for(let j=0;j<16;j++){const a=j*Math.PI/8;line(decor,mats.gold,upperDome.map(([x,y,z])=>[Math.cos(a)*x,y,z+Math.sin(a)*x]),.09);}
  lotus(0,37,203,4);
  yield;
- return{dynamic,report,flora:{geometry:flowerCluster,material:petal},update(time,reduced=false){for(const t of starTimes)t.value=reduced?0:time;for(const f of fish){const a=f.phase+(reduced?0:time*f.speed);f.root.position.set(Math.cos(a)*2.4,12+Math.sin(a*.7)*.65,203+Math.sin(a)*2.4);f.root.rotation.y=-a-Math.PI/2;f.root.rotation.z=reduced?0:Math.sin(a*2)*.07;f.root.userData.animate(time,reduced);}},inspect(level){for(const o of dynamic.children)o.visible=level==null||o.userData.resortFloor<=level;},dispose(){for(const f of fish)f.dispose();for(const g of geometries.values())g.dispose();for(const m of materials)m.dispose();for(const t of textures)t.dispose();}};
+ return{dynamic,report,flora:{geometry:flowerCluster,material:petal,leafGeometry:leafGeo,leafMaterial:green},update(time,reduced=false){for(const t of starTimes)t.value=reduced?0:time;for(const f of fish){const a=f.phase+(reduced?0:time*f.speed);f.root.position.set(Math.cos(a)*2.4,12+Math.sin(a*.7)*.65,203+Math.sin(a)*2.4);f.root.rotation.y=-a-Math.PI/2;f.root.rotation.z=reduced?0:Math.sin(a*2)*.07;f.root.userData.animate(time,reduced);}},inspect(level){for(const o of dynamic.children)o.visible=level==null||o.userData.resortFloor<=level;},dispose(){for(const f of fish)f.dispose();for(const g of geometries.values())g.dispose();for(const m of materials)m.dispose();for(const t of textures)t.dispose();}};
 }

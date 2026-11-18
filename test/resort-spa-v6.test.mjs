@@ -28,7 +28,7 @@ test('glass sky pool has a real transparent bed, an unblocked walking bridge and
  assert(bed.material.transparent&&bed.material.opacity<.4);assert.equal(bed.material.side,T.DoubleSide);
  const ray=new T.Raycaster(new T.Vector3(0,-154.5,203),new T.Vector3(0,1,0));ray.far=6;
  const hits=ray.intersectObjects([root.userData.surfaces,root.userData.solid],true);assert(hits.some(h=>h.object===bed));assert(hits.every(h=>h.object.material.transparent),'lower atrium must see through the actual floor');
- assert(nav.segmentClear({x:0,y:18.012,z:217},{x:0,y:18.012,z:213.8},.571));
+ assert(nav.segmentClear({x:0,y:18.012,z:224},{x:0,y:18.012,z:221.8},.571));
  root.userData.dispose();
 });
 test('SPA PBR color maps are sRGB while normal and roughness charts remain linear data',()=>{
@@ -74,5 +74,14 @@ test('VIP keeps its four original wet contacts and adds four supported private l
   for(let i=0;i<1000&&runtime.has('chichi');i++){runtime.step(.1);const f=runtime.frame('chichi');if(f)actions.add(f.action);}
   assert(!runtime.has('chichi'),'VIP lounge return '+slot);assert(result.completed);assert.equal(bills,1);assert.equal(uses,1);assert(actions.has('private-star-gaze'));assert(actions.has('silk-cushion-rest'));assert.deepEqual(result.position,position);
  }
+ root.userData.dispose();
+});
+test('planted balconies retain fixed shared GPU instance buffers through animation and floor inspection',()=>{
+ const root=model(),groups=[];root.traverse(o=>{if(o.isInstancedMesh&&o.name.startsWith('SPA planted balcony'))groups.push(o);});
+ assert.equal(groups.length,6);const versions=groups.map(m=>m.instanceMatrix.version);
+ for(const m of groups)assert.doesNotMatch(m.material.customProgramCacheKey(),/mall-room-finish|spa-sealed-interior|staticSubmission/,'native instance keeps its native shader');
+ for(const time of [0,1,30])root.userData.update(time);
+ root.userData.setInspectionLevel(1);for(const m of groups)assert.equal(m.visible,m.userData.resortFloor<=1);
+ root.userData.setInspectionLevel(null);for(const m of groups)assert(m.visible);assert.deepEqual(groups.map(m=>m.instanceMatrix.version),versions);
  root.userData.dispose();
 });

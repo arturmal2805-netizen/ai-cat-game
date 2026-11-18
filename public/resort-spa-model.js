@@ -2,7 +2,8 @@ import {createResortInteriors} from './resort-spa-interiors.js';
 import {resortLuxurySteps} from './resort-spa-luxury.js';
 import {resortSurfaceMaps} from './resort-spa-surfaces.js';
 import {RoundedBoxGeometry} from 'three/addons/geometries/RoundedBoxGeometry.js';
-import {resortPools} from './resort-spa-pool-data.js';
+import {resortPools,resortSkyPool} from './resort-spa-pool-data.js';
+import {resortGallerySteps} from './resort-spa-galleries.js';
 import {createResortPoolEffects} from './resort-spa-pool-effects.js';
 import {createResortEnclosure} from './resort-spa-enclosure.js';
 import {createResortSpaAccess} from './resort-spa-access.js';
@@ -36,7 +37,7 @@ export function* resortSpaModelSteps(){
  function roof(x,y,z,rx,rz,height,wallHeight=4){mesh(shell,geometry('dome',()=>new T.SphereGeometry(1,48,24,0,Math.PI*2,0,Math.PI/2)),mats.glass,x,y,z,rx,height,rz);for(let i=0;i<24;i++){const a=i*Math.PI/12;box(shell,mats.gold,x+Math.cos(a)*rx,y-wallHeight/2,z+Math.sin(a)*rz,.13,wallHeight,.13);}}
  // Main cat dome and real three-level public atrium.
  for(let level=0;level<3;level++){
-  authoredLevel=level;const y=level*L.rise,shape=new T.Shape();shape.absarc(0,0,34,0,Math.PI*2,false);if(level){const hole=new T.Path();hole.absarc(0,0,12,0,Math.PI*2,true);shape.holes.push(hole);const stair=RESORT_STAIRS[level-1],opening=new T.Path();opening.moveTo(stair.x-3.5,-185);opening.lineTo(stair.x+3.5,-185);opening.lineTo(stair.x+3.5,-221.5);opening.lineTo(stair.x-3.5,-221.5);opening.closePath();shape.holes.push(opening);}if(level===1)for(const pool of resortPools(RESORT_ZONES.find(z=>z.key==='cafe'))){const hole=new T.Path();hole.absellipse(pool.x,-(pool.z-203),pool.rx,pool.rz,0,Math.PI*2,true);shape.holes.push(hole);}const g=new T.ShapeGeometry(shape,96);g.rotateX(-Math.PI/2);geos.set('atrium-'+level,g);mesh(surfaces,g,mats.ivory,0,y,203).name='resort-atrium-floor-'+level;
+  authoredLevel=level;const y=level*L.rise,shape=new T.Shape();shape.absarc(0,0,34,0,Math.PI*2,false);if(level){const hole=new T.Path();hole.absarc(0,0,level===2?resortSkyPool().rx:12,0,Math.PI*2,true);shape.holes.push(hole);const stair=RESORT_STAIRS[level-1],opening=new T.Path();opening.moveTo(stair.x-3.5,-185);opening.lineTo(stair.x+3.5,-185);opening.lineTo(stair.x+3.5,-221.5);opening.lineTo(stair.x-3.5,-221.5);opening.closePath();shape.holes.push(opening);}if(level===1)for(const pool of resortPools(RESORT_ZONES.find(z=>z.key==='cafe'))){const hole=new T.Path();hole.absellipse(pool.x,-(pool.z-203),pool.rx,pool.rz,0,Math.PI*2,true);shape.holes.push(hole);}const g=new T.ShapeGeometry(shape,96);g.rotateX(-Math.PI/2);geos.set('atrium-'+level,g);mesh(surfaces,g,mats.ivory,0,y,203).name='resort-atrium-floor-'+level;
   for(const side of [-1,1])for(let i=0;i<4;i++)if(level===1)sofa(-12+i*8,y,203+side*26,side<0?Math.PI:0);else sofa(side*20,y,187+i*10);
   yield;
  }
@@ -80,11 +81,12 @@ export function* resortSpaModelSteps(){
  }
  const luxury=yield* resortLuxurySteps({solid,decor,shell,surfaces,basins,waters,mats});
  const interiors=createResortInteriors({solid,decor,shell,surfaces,basins,waters,mats,flora:luxury.flora});
+ const galleries=yield* resortGallerySteps({solid,decor,mats,flora:luxury.flora});
  const enclosure=createResortEnclosure(mats);solid.add(enclosure.solid);shell.add(enclosure.shell);
  const accessGeometry=createResortSpaAccess(mats);for(const group of [accessGeometry.solid,accessGeometry.surfaces,accessGeometry.shell])group.traverse(o=>{if(o.isMesh)o.userData.resortFloor=0;});solid.add(accessGeometry.solid);surfaces.add(accessGeometry.surfaces);shell.add(accessGeometry.shell);
- root.updateMatrixWorld(true);root.userData={accessGeometry,dynamicSurfaces:[accessGeometry.deck],zones,solid,shell,decor,surfaces,basins,waters,navigation:installManualBuildingNavigation(root,solid,...[...zones.values()].map(p=>p.userData.solid).filter(Boolean)),update(time,reduced=false){for(const w of waters)advanceWater(w.material,time,reduced);},dispose(){for(const p of zones.values())p.userData.dispose?.();for(const g of geos.values())g.dispose();const textures=new Set();for(const m of Object.values(mats)){for(const key of ['map','normalMap','roughnessMap'])if(m[key])textures.add(m[key]);m.dispose();}for(const t of textures)t.dispose();for(const p of zones.values())p.traverse(o=>{if(o.isPoints)o.material.dispose();});for(const b of basins)b.userData.dispose();accessGeometry.dispose();enclosure.dispose();interiors.dispose();}};
- root.userData.luxury=luxury;yield* finishResortSpaSteps(root);root.add(accessGeometry.cabin,accessGeometry.gates,luxury.dynamic);
+ root.updateMatrixWorld(true);root.userData={accessGeometry,dynamicSurfaces:[accessGeometry.deck],zones,solid,shell,decor,surfaces,basins,waters,navigation:installManualBuildingNavigation(root,solid,...[...zones.values()].map(p=>p.userData.solid).filter(Boolean)),update(time,reduced=false){for(const w of waters)advanceWater(w.material,time,reduced);},dispose(){for(const p of zones.values())p.userData.dispose?.();for(const g of geos.values())g.dispose();const textures=new Set();for(const m of Object.values(mats)){for(const key of ['map','normalMap','roughnessMap'])if(m[key])textures.add(m[key]);m.dispose();}for(const t of textures)t.dispose();for(const p of zones.values())p.traverse(o=>{if(o.isPoints)o.material.dispose();});for(const b of basins)b.userData.dispose();accessGeometry.dispose();enclosure.dispose();interiors.dispose();galleries.dispose();}};
+ root.userData.luxury=luxury;root.userData.galleries=galleries.report;yield* finishResortSpaSteps(root);root.add(accessGeometry.cabin,accessGeometry.gates,luxury.dynamic,galleries.fixed);
  const poolEffects=createResortPoolEffects();root.add(poolEffects.root);const inspect=root.userData.setInspectionLevel;root.userData.setInspectionLevel=level=>{inspect(level);for(const group of poolEffects.root.children)group.visible=level==null||group.userData.resortFloor<=level;};const update=root.userData.update,dispose=root.userData.dispose;root.userData.update=(time,reduced)=>{update(time,reduced);poolEffects.update(time,reduced);};root.userData.dispose=()=>{poolEffects.dispose();dispose();};
- const updateLuxury=root.userData.update,disposeLuxury=root.userData.dispose,inspectLuxury=root.userData.setInspectionLevel;root.userData.update=(time,reduced)=>{updateLuxury(time,reduced);luxury.update(time,reduced);};root.userData.setInspectionLevel=level=>{inspectLuxury(level);luxury.inspect(level);};root.userData.dispose=()=>{luxury.dispose();disposeLuxury();};
+ const updateLuxury=root.userData.update,disposeLuxury=root.userData.dispose,inspectLuxury=root.userData.setInspectionLevel;root.userData.update=(time,reduced)=>{updateLuxury(time,reduced);luxury.update(time,reduced);};root.userData.setInspectionLevel=level=>{inspectLuxury(level);luxury.inspect(level);galleries.inspect(level);};root.userData.dispose=()=>{luxury.dispose();disposeLuxury();};
  return root;
 }
