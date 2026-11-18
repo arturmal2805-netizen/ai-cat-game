@@ -448,3 +448,14 @@ Crypto mockforecasts, repeat/reload/liquidation/short/long иpaidpurchase/escrow
 послекомпенсации PASS. ActualremoteAI не подтверждёниз-заtunnel403.
 Не объявлятьвосстановленнойпрошлуюколонию147/историю. Не повторятьgrant
 внепостояннойсервернойквитанции. Никогда не хранитьrawrecoverykeyвGit.
+
+
+## 2026-11-18 — Проверенная публикация аварийного исправления
+
+4025f713cea3b8ecfea72128275398af8d3dabc3 fullCI44388536452 test/deploy/pages SUCCESS, actualHTTP
+2026-11-18T20:26:29.321591+00:00 oneapp/JS/CSSmatch. Компенсацияодномуworldпостояннымreceipt,
+защитаотfreshreset, readonlybackups, nativeSPAautoload. Useractualбалансы
+ещёнеподтверждены доегоboot; не выдаватьпубликациюзаприменениеличногогранта.
+Crypto mocktests иescrow/purchasepreservationPASS, actualremoteLLM НЕподтверждён.
+Старые147профилей/прошлаяистория не восстановлены,начислениеразрешенопользователем
+каккомпенсациявместождания. Резервныеснимки beforeawardоставленынасервере.

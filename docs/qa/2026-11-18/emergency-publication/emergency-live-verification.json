@@ -1,0 +1,22 @@
+{
+  "utc": "2026-11-18T20:26:29.321591+00:00",
+  "release": "4025f713cea3b8ecfea72128275398af8d3dabc3",
+  "workflow": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44388536452",
+  "url": "https://arturmal2805-netizen.github.io/ai-cat-game/?v=4025f71",
+  "oneApplicationScript": true,
+  "applicationReference": "./dist/app.js?v=76e61007f2291f42",
+  "stylesheetReference": "./style.css?v=9db4746b53b8da87",
+  "htmlSHA256": "8c056bc2439e0a8499cd09641977507a4a99989b73642e214ec35eddbfd91c2b",
+  "assets": {
+    "dist/app.js": "76e61007f2291f42ff7afb041c54ad58a8f75624c0c4d55cb222f60a6dbf9bd8",
+    "style.css": "9db4746b53b8da87077097c9238673ce7d6a6e4f45652fb7b5c92aed121e9fd1"
+  },
+  "siteAssetHashesMatched": true,
+  "workerReleaseEvidence": "Exact headSha successful Verify release, shared saves and optional real AI step",
+  "workerStatusDirect": {
+    "verified": false,
+    "reason": "Environment Worker hostname HTTP tunnel403; not bypassed. Release/shared saves verified by full CI."
+  },
+  "paidInference": false,
+  "scope": "Emergency strict save loading/reset barrier, authenticated read-only backup export, automatic SPA preparation and one-world one-time compensation. Actual personal credit remains unconfirmed until the owner opens this client. Old147cat data/history not restored. Crypto rules/mocked forecasts tested; actual remote inference not verified."
+}
