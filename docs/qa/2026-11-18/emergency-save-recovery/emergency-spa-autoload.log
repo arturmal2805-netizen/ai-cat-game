@@ -1,0 +1,11 @@
+SPA automatic selected-island preparation pending
+PASS SPA scene appears without first clicking SPA {
+  ready: true,
+  visible: true,
+  inspection: false,
+  zones: 14,
+  coins: 550,
+  diamonds: 0,
+  profiles: 20
+}
+PASS native SPA required loading, actual scene, zone camera and World release

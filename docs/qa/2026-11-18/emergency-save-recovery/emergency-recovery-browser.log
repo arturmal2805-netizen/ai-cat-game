@@ -1,0 +1,1 @@
+PASS real browser rescue/export, no automatic requests, one explicit GET, private wallet retained, zero credential export/storage writes.

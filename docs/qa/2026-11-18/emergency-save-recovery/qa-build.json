@@ -1,0 +1,8 @@
+{
+  "sha256": "f595f4e0847b21ffcd8a2a93a0d5a90c141687b69e22081be844669bf3a7cf5f",
+  "baseline": null,
+  "node": "v22.23.5",
+  "head": "739c77bd84b8126f0868ab620aa7d5d447d5540f",
+  "dirty": " M public/app.js\n M public/index.html\n M public/resort-spa-world.js\n M public/save-recovery.js\n M save-vault.mjs\n M scripts/audit-resort-spa-native.mjs\n M scripts/check-aquarium.cjs\n M test/cloud-save.test.mjs\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

@@ -7,6 +7,7 @@ import { gunzipSync } from "node:zlib";
 import { newGame } from "../public/economy.js";
 import { verifyCloudSave } from "../scripts/cloud-check.mjs";
 import worker from "../worker.mjs";
+import {ensureJobCity} from '../public/jobcity-system.js';
 function local() {
   const map = new Map();
   return {
@@ -422,3 +423,10 @@ test("a replaced code resets revision metadata, while corrupt metadata preserves
   assert.equal(restored.conflict, true);
   assert.equal((await restored.recover(code)).version, 2);
 });
+
+test('established world cannot be replaced by fresh epoch/default world in either save protocol',async()=>{
+ for(const cooperative of [false,true]){const v=vault(),original=ensureJobCity({...newGame(),unlocked:['moon','jobcity','autumn'],coins:4381984},Date.now(),{forMall:true});v.map.set('current',{revision:8,savedAt:123,game:original});const incoming=newGame(),request={expectedRevision:8,mutationId:crypto.randomUUID(),game:incoming,...(cooperative?{cooperative:true,clientId:crypto.randomUUID(),sequence:1,baseGame:original}:{})};const before=structuredClone([...v.map]);const r=await v.instance.fetch(new Request('https://cat/api/save',{method:'PUT',body:JSON.stringify(request)}));assert.equal(r.status,409);const body=await r.json();assert.equal(body.game.coins,4381984);assert.deepEqual([...v.map],before);}
+});
+test('backup export reads exact current/previous/older without rotating state or exposing submitted payloads',async()=>{const v=vault();for(const [i,key]of ['current','previous','older'].entries())v.map.set(key,{revision:10-i,savedAt:100-i,game:{...newGame(),coins:490+i*1000},submittedGame:{privateDuplicate:true}});const before=structuredClone([...v.map]),r=await v.instance.fetch(new Request('https://cat/api/save?copies=1'));assert.equal(r.status,200);const data=await r.json();assert.deepEqual(data.copies.map(c=>c.game.coins),[490,1490,2490]);assert(!JSON.stringify(data).includes('privateDuplicate'));assert.deepEqual([...v.map],before);assert.equal((await cloudSave(new Request('https://cat/api/save?copies=1'),{})).status,503);assert.equal((await cloudSave(new Request('https://cat/api/save?copies=1'),{SAVE_VAULT:{}})).status,401);});
+
+test('recovery compensation denies other world credentials and leaves every stored wallet unchanged',async()=>{const v=vault();v.map.set('current',{revision:8,game:newGame()});const before=structuredClone([...v.map]);const r=await v.instance.fetch(new Request('https://cat/api/save',{method:'POST',headers:{'X-Chichi-Save-Token':'a'.repeat(64)},body:JSON.stringify({action:'recovery-compensation'})}));assert.equal(r.status,403);assert.deepEqual([...v.map],before);});

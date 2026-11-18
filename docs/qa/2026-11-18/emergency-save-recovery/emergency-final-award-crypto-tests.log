@@ -1,0 +1,233 @@
+TAP version 13
+# Subtest: cloud saves need a private recovery code and isolate worlds by hashed code
+ok 1 - cloud saves need a private recovery code and isolate worlds by hashed code
+  ---
+  duration_ms: 331.070178
+  type: 'test'
+  ...
+# Subtest: parallel stale writers cannot replace a newer world; retries are idempotent
+ok 2 - parallel stale writers cannot replace a newer world; retries are idempotent
+  ---
+  duration_ms: 24.791691
+  type: 'test'
+  ...
+# Subtest: cloud keeps three generations and a failed storage transaction changes none
+ok 3 - cloud keeps three generations and a failed storage transaction changes none
+  ---
+  duration_ms: 37.059367
+  type: 'test'
+  ...
+# Subtest: invalid and oversized snapshots are refused before cloud storage mutation
+ok 4 - invalid and oversized snapshots are refused before cloud storage mutation
+  ---
+  duration_ms: 349.001459
+  type: 'test'
+  ...
+# Subtest: lost acknowledgement retries the original snapshot before saving newer pending actions
+ok 5 - lost acknowledgement retries the original snapshot before saving newer pending actions
+  ---
+  duration_ms: 15.309676
+  type: 'test'
+  ...
+# Subtest: new actions arriving during an in-flight save are queued as a later revision
+ok 6 - new actions arriving during an in-flight save are queued as a later revision
+  ---
+  duration_ms: 24.585266
+  type: 'test'
+  ...
+# Subtest: restart reconciles an acknowledged server write without discarding later local progress
+ok 7 - restart reconciles an acknowledged server write without discarding later local progress
+  ---
+  duration_ms: 12.027732
+  type: 'test'
+  ...
+# Subtest: a newer remote device causes a conflict, never silent last-write-wins loss
+ok 8 - a newer remote device causes a conflict, never silent last-write-wins loss
+  ---
+  duration_ms: 15.082059
+  type: 'test'
+  ...
+# Subtest: invalid recovery or failed local installation retains the existing world code and pending changes
+ok 9 - invalid recovery or failed local installation retains the existing world code and pending changes
+  ---
+  duration_ms: 9.7569
+  type: 'test'
+  ...
+# Subtest: publication smoke check exercises actual Worker routing, CORS and durable writes
+ok 10 - publication smoke check exercises actual Worker routing, CORS and durable writes
+  ---
+  duration_ms: 12.109263
+  type: 'test'
+  ...
+# Subtest: default browser fetch keeps the global receiver needed by native APIs
+ok 11 - default browser fetch keeps the global receiver needed by native APIs
+  ---
+  duration_ms: 1.257446
+  type: 'test'
+  ...
+# Subtest: publication retries stale save replies without duplicating a committed PUT or accepting an old GET
+ok 12 - publication retries stale save replies without duplicating a committed PUT or accepting an old GET
+  ---
+  duration_ms: 10.923532
+  type: 'test'
+  ...
+# Subtest: publication refuses persistent development labels and does not retry genuine storage failures
+ok 13 - publication refuses persistent development labels and does not retry genuine storage failures
+  ---
+  duration_ms: 2.139638
+  type: 'test'
+  ...
+# Subtest: a replaced code resets revision metadata, while corrupt metadata preserves the recovery code
+ok 14 - a replaced code resets revision metadata, while corrupt metadata preserves the recovery code
+  ---
+  duration_ms: 9.677172
+  type: 'test'
+  ...
+# Subtest: established world cannot be replaced by fresh epoch/default world in either save protocol
+ok 15 - established world cannot be replaced by fresh epoch/default world in either save protocol
+  ---
+  duration_ms: 30.790544
+  type: 'test'
+  ...
+# Subtest: backup export reads exact current/previous/older without rotating state or exposing submitted payloads
+ok 16 - backup export reads exact current/previous/older without rotating state or exposing submitted payloads
+  ---
+  duration_ms: 7.965477
+  type: 'test'
+  ...
+# Subtest: recovery compensation denies other world credentials and leaves every stored wallet unchanged
+ok 17 - recovery compensation denies other world credentials and leaves every stored wallet unchanged
+  ---
+  duration_ms: 5.103031
+  type: 'test'
+  ...
+# Subtest: the actual crypto office is cooperative, open on three floors, and preserves six independent stair-connected work stations
+ok 18 - the actual crypto office is cooperative, open on three floors, and preserves six independent stair-connected work stations
+  ---
+  duration_ms: 726.251259
+  type: 'test'
+  ...
+# Subtest: all eight charts reuse one fixed GPU submission, instance matrix and price array through trading ticks and state clones
+ok 19 - all eight charts reuse one fixed GPU submission, instance matrix and price array through trading ticks and state clones
+  ---
+  duration_ms: 14.461684
+  type: 'test'
+  ...
+# Subtest: crypto typing and brief profit/loss expressions expire cleanly and freeze in reduced motion without changing other professions
+ok 20 - crypto typing and brief profit/loss expressions expire cleanly and freeze in reduced motion without changing other professions
+  ---
+  duration_ms: 2.270571
+  type: 'test'
+  ...
+# Subtest: rare rallies are deterministic five-percent events, with independent strengths between eight and twenty-five times
+ok 21 - rare rallies are deterministic five-percent events, with independent strengths between eight and twenty-five times
+  ---
+  duration_ms: 83.042809
+  type: 'test'
+  ...
+# Subtest: a rare winning rally visibly rises, makes the trader much richer and settles exactly once across restart and concurrent saves
+ok 22 - a rare winning rally visibly rises, makes the trader much richer and settles exactly once across restart and concurrent saves
+  ---
+  duration_ms: 425.403837
+  type: 'test'
+  ...
+# Subtest: shorting a soaring coin still liquidates at its first crossing and loses only the escrowed margin
+ok 23 - shorting a soaring coin still liquidates at its first crossing and loses only the escrowed margin
+  ---
+  duration_ms: 6.157197
+  type: 'test'
+  ...
+# Subtest: opening the new version never changes an already persisted legacy price path
+ok 24 - opening the new version never changes an already persisted legacy price path
+  ---
+  duration_ms: 9.934212
+  type: 'test'
+  ...
+# Subtest: only employed crypto cats may reserve, individual skipped/poor cycles are remembered and never ask again before the next seven-day cycle
+ok 25 - only employed crypto cats may reserve, individual skipped/poor cycles are remembered and never ask again before the next seven-day cycle
+  ---
+  duration_ms: 3.156458
+  type: 'test'
+  ...
+# Subtest: LONG and SHORT use directional leveraged PNL with escrow and fees, and settlement never credits twice
+ok 26 - LONG and SHORT use directional leveraged PNL with escrow and fees, and settlement never credits twice
+  ---
+  duration_ms: 17.005259
+  type: 'test'
+  ...
+# Subtest: saved prices, timers, escrow and terminal results survive thirty reloads without another payment
+ok 27 - saved prices, timers, escrow and terminal results survive thirty reloads without another payment
+  ---
+  duration_ms: 288.240721
+  type: 'test'
+  ...
+# Subtest: liquidation closes at the first persisted price crossing, consumes at most margin and cannot make a wallet negative
+ok 28 - liquidation closes at the first persisted price crossing, consumes at most margin and cannot make a wallet negative
+  ---
+  duration_ms: 97.182403
+  type: 'test'
+  ...
+# Subtest: concurrent devices, lost ACKs, a restarted ledger and provider failure consume at most one forecast per reserved cycle
+ok 29 - concurrent devices, lost ACKs, a restarted ledger and provider failure consume at most one forecast per reserved cycle
+  ---
+  duration_ms: 12.321956
+  type: 'test'
+  ...
+# Subtest: unreserved/other-profession forecasts cannot spend credits and cached clients cannot erase investments or double-spend escrow
+ok 30 - unreserved/other-profession forecasts cannot spend credits and cached clients cannot erase investments or double-spend escrow
+  ---
+  duration_ms: 23.036611
+  type: 'test'
+  ...
+# Subtest: seven-day periods follow each career start and never replay offline weeks or change family pacing
+ok 31 - seven-day periods follow each career start and never replay offline weeks or change family pacing
+  ---
+  duration_ms: 3.243247
+  type: 'test'
+  ...
+# Subtest: the server rejects an early second cycle and admits the same trader exactly seven days later
+ok 32 - the server rejects an early second cycle and admits the same trader exactly seven days later
+  ---
+  duration_ms: 8.921527
+  type: 'test'
+  ...
+# Subtest: large private trading wallets survive reload without a ten-million-coin truncation; corrupt escrow uses the save backup
+ok 33 - large private trading wallets survive reload without a ten-million-coin truncation; corrupt escrow uses the save backup
+  ---
+  duration_ms: 231.930611
+  type: 'test'
+  ...
+# Subtest: every existing, new, tiny and magical cat can trade when officially employed in crypto, with independent weekly receipts
+ok 34 - every existing, new, tiny and magical cat can trade when officially employed in crypto, with independent weekly receipts
+  ---
+  duration_ms: 5835.069083
+  type: 'test'
+  ...
+# 148 cat profiles, 95 adoption cats, 148 mocked forecasts and 71 voluntary skipped cycles; zero paid requests.
+# Subtest: authorized repair credits player/current cats once, preserves purchases/professions and survives normal load/merge
+ok 35 - authorized repair credits player/current cats once, preserves purchases/professions and survives normal load/merge
+  ---
+  duration_ms: 214.195305
+  type: 'test'
+  ...
+# Subtest: recovery never lowers existing larger balances and receipt still prevents re-credit after spending
+ok 36 - recovery never lowers existing larger balances and receipt still prevents re-credit after spending
+  ---
+  duration_ms: 9.269672
+  type: 'test'
+  ...
+# Subtest: client never contacts the award API for other identities or erases pending writes; repeated awards do not recover over local state
+ok 37 - client never contacts the award API for other identities or erases pending writes; repeated awards do not recover over local state
+  ---
+  duration_ms: 8.913326
+  type: 'test'
+  ...
+1..37
+# tests 37
+# suites 0
+# pass 37
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7311.805152

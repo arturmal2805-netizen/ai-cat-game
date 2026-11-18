@@ -1,0 +1,155 @@
+diff --git a/public/app.js b/public/app.js
+index 3215d13..c775034 100644
+--- a/public/app.js
++++ b/public/app.js
+@@ -182,7 +182,7 @@ try {
+   };
+ }
+ let cloudStatus = "local";
+-if(new URL(location.href).searchParams.get('recover')==='1')await showSaveRecovery(storage,'Проверка локальных резервных копий. Ничего не перезаписывается.');
++if(new URL(location.href).searchParams.get('recover')==='1')await showSaveRecovery(storage,'Проверка локальных резервных копий. Ничего не перезаписывается.',{base:apiBase});
+ function cloudStatusChanged(status) {
+   cloudStatus = status;
+   const texts = {
+@@ -226,13 +226,13 @@ const recoveredAtBoot =
+   !cloud.createdToken && cloud.token
+     ? await cloud.load({ force: !localSaved })
+     : null;
+-if(!localSaved&&!recoveredAtBoot&&!cloud.createdToken)await showSaveRecovery(storage,'Прежний мир недоступен. Подмена пустым миром остановлена.');
++if(!localSaved&&!recoveredAtBoot&&!cloud.createdToken)await showSaveRecovery(storage,'Прежний мир недоступен. Подмена пустым миром остановлена.',{base:apiBase});
+ let adoptionCenterId = null,
+   selectedIsland = "moon";
+ let bootGame;
+ try{bootGame=loadGame(
+  recoveredAtBoot?{getItem:key=>key===SAVE_KEY?JSON.stringify(recoveredAtBoot):null}:storage,
+-);}catch(error){await showSaveRecovery(storage,'Не удалось прочитать мир: '+error.message);}
++);}catch(error){await showSaveRecovery(storage,'Не удалось прочитать мир: '+error.message,{base:apiBase});}
+ await cloud.claimEditor();
+ let game = bootGame,
+ 
+diff --git a/public/index.html b/public/index.html
+index d03d0f1..e02b79d 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -703,6 +703,6 @@
+       </div>
+     </dialog>
+     <div id="toast" role="status" aria-live="polite" hidden></div>
+-    <script type="module" src="./dist/app.js?v=afbdde4ba0c1f53e"></script>
++    <script type="module" src="./dist/app.js?v=3eae751dd136618a"></script>
+   </body>
+ </html>
+diff --git a/public/resort-spa-world.js b/public/resort-spa-world.js
+index 75c72e4..0244880 100644
+--- a/public/resort-spa-world.js
++++ b/public/resort-spa-world.js
+@@ -20,7 +20,7 @@ import {byBiome} from './game-data.js';
+ // Independent scene/camera owner. Mall's floors, selection and guest camera
+ // remain untouched; only the world coordinator performs the hand-off.
+ export function createResortSpaWorld({scene,container,getGame,getFocused,getOverview,prepare,prepareModel,onCamera,onExit,onRecovery=()=>{},onError=()=>{},getActors=()=>[],getAccessSurfaces=()=>[],accessClear=()=>true,registerCat=()=>{},canSimulate=()=>true,blocked=()=>false,onPurchase,onUse,onGoal,onComplete}){
+- const centre=resortSpaOrigin(byBiome('autumn').center),controller=new AbortController(),buttons=new Map(),journeys=new Map(),heldFoods=new Map(),recovering=resortLiftRecovery(getGame());let root=null,pending=null,disposed=false,inspection=false,selected=null,navigation=null,appointments=null,transit=null,staff=[];
++ const centre=resortSpaOrigin(byBiome('autumn').center),controller=new AbortController(),buttons=new Map(),journeys=new Map(),heldFoods=new Map(),recovering=resortLiftRecovery(getGame());let root=null,pending=null,disposed=false,inspection=false,selected=null,navigation=null,appointments=null,transit=null,staff=[],nextPreparation=0;
+  const access=document.createElement('button');access.className='resort-spa-access';access.textContent='🪷 SPA';access.hidden=true;access.onclick=()=>inspect();(container.querySelector('.map-controls')||container).append(access);
+  const panel=document.createElement('nav');panel.className='resort-spa-zones';panel.hidden=true;panel.setAttribute('aria-label','Зоны подводного SPA');container.append(panel);
+  for(const zone of [null,...RESORT_ZONES]){const b=document.createElement('button');b.textContent=zone?.name||'Общий вид';b.onclick=()=>inspect(zone?.id);panel.append(b);buttons.set(zone?.id||'overview',b);}
+@@ -51,7 +51,7 @@ export function createResortSpaWorld({scene,container,getGame,getFocused,getOver
+  if(recovering.size)queueMicrotask(()=>{if(disposed)return;if(recovering.has('chichi'))onRecovery();void ensure();});
+  return{ensure,inspect,exit,ride,updateHeld,get recovering(){return recovering.size>0;},get root(){return root;},get ready(){return!!root&&!pending&&!!appointments;},get appointments(){return appointments;},get transit(){return transit;},has:id=>recovering.has(id)||transit?.has(id)||appointments?.has(id)||false,cancel:id=>transit?.cancel(id)||appointments?.cancel(id),frame:id=>recoveryFrame(id)||transit?.frame(id)||appointments?.frame(id),transportFrame:id=>transit?.frame(id),startReady:start,get inspection(){return inspection;},get navigation(){return navigation;},get selected(){return selected;},
+   pick(ray,occluder=null){if(!root?.visible)return false;const hits=ray.intersectObject(root,true);if(!hits.length)return false;if(occluder){const front=ray.intersectObject(occluder,true)[0];if(front&&front.distance<hits[0].distance)return false;}void inspect();return true;},
+-  update(dt,time,reduced=false){const active=getFocused()==='autumn',visible=active||getOverview();access.hidden=!active||!getGame().unlocked.includes('autumn');transit?.update(dt);appointments?.update(dt);const actor=getActors().find(a=>a.id==='chichi'),near=actor&&Math.hypot(actor.position.x-centre[0]-RESORT_LIFT.x,actor.position.z-centre[1]-RESORT_LIFT.z)<14&&(Math.abs(actor.position.y-RESORT_LIFT.upperY)<.65||Math.abs(actor.position.y-RESORT_LIFT.lowerY)<.65);liftButton.hidden=!active||!transit||!near||!!transit.has('chichi')||!!appointments?.has('chichi');liftButton.textContent=actor?.position.y>-80?'🪷 Спуститься в SPA':'🪷 Подняться на причал';updateResortStaff(staff,appointments,time,reduced,visible&&!pending);if(root){root.visible=visible&&!pending;if(visible){root.userData.update(time,reduced);if(appointments)updateResortPoolRipples(root,appointments.runtime.visits,time,reduced);}}},
++  update(dt,time,reduced=false){const active=getFocused()==='autumn',visible=active||getOverview(),unlocked=getGame().unlocked.includes('autumn');access.hidden=!active||!unlocked;if(active&&unlocked&&!root&&!pending&&time>=nextPreparation){nextPreparation=time+30;void ensure();}transit?.update(dt);appointments?.update(dt);const actor=getActors().find(a=>a.id==='chichi'),near=actor&&Math.hypot(actor.position.x-centre[0]-RESORT_LIFT.x,actor.position.z-centre[1]-RESORT_LIFT.z)<14&&(Math.abs(actor.position.y-RESORT_LIFT.upperY)<.65||Math.abs(actor.position.y-RESORT_LIFT.lowerY)<.65);liftButton.hidden=!active||!transit||!near||!!transit.has('chichi')||!!appointments?.has('chichi');liftButton.textContent=actor?.position.y>-80?'🪷 Спуститься в SPA':'🪷 Подняться на причал';updateResortStaff(staff,appointments,time,reduced,visible&&!pending);if(root){root.visible=visible&&!pending;if(visible){root.userData.update(time,reduced);if(appointments)updateResortPoolRipples(root,appointments.runtime.visits,time,reduced);}}},
+   dispose(){disposed=true;controller.abort();access.remove();panel.remove();liftButton.remove();for(const prop of heldFoods.values())prop.removeFromParent();heldFoods.clear();journeys.clear();transit?.clear();appointments?.clear();disposeResortStaff(staff);staff=[];if(root){scene.remove(root);root.userData.dispose();root=null;}},
+  };
+ }
+diff --git a/public/save-recovery.js b/public/save-recovery.js
+index f9d285f..f041dd0 100644
+--- a/public/save-recovery.js
++++ b/public/save-recovery.js
+@@ -6,11 +6,12 @@ export function recoveryCopies(storage){
+  }
+  return copies;
+ }
+-export function showSaveRecovery(storage,message){
++export function showSaveRecovery(storage,message,{base=''}={}){
+  const copies=recoveryCopies(storage),panel=document.createElement('main');panel.style.cssText='max-width:800px;margin:40px auto;padding:24px;font:18px system-ui;color:#302b40;background:#fff;border-radius:20px';
+  const title=document.createElement('h1');title.textContent='Сохранение защищено';const text=document.createElement('p');text.textContent=message;panel.append(title,text);
+  const note=document.createElement('p');note.textContent='Новый мир не создаётся, синхронизация и автосохранение не запускаются. Скачайте найденные копии для проверки. Коды аккаунта в файл не включаются.';panel.append(note);
+  for(const c of copies){const p=document.createElement('p');p.textContent=c.source+' — монеты: '+c.game.coins+', алмазы: '+(c.game.diamonds??0)+', построек: '+c.game.placements.length;panel.append(p);}
+- const button=document.createElement('button');button.textContent='Скачать найденные копии';button.style.cssText='font:inherit;padding:14px';button.onclick=()=>{const url=URL.createObjectURL(new Blob([JSON.stringify({version:1,copies})],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='chichi-recovery-copies.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};panel.append(button);document.body.replaceChildren(panel);
++ const button=document.createElement('button');button.textContent='Скачать найденные копии';button.style.cssText='font:inherit;padding:14px';button.onclick=()=>{const url=URL.createObjectURL(new Blob([JSON.stringify({version:1,copies})],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='chichi-recovery-copies.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};panel.append(button);
++ const cloud=document.createElement('button');cloud.textContent='Проверить облачные резервные копии';cloud.style.cssText=button.style.cssText;cloud.onclick=async()=>{cloud.disabled=true;try{const token=storage.getItem('chichi-recovery-code');if(!/^[a-f0-9]{64}$/.test(token||''))throw Error('Код мира в этом браузере не найден.');const url=new URL('/api/save',base||location.origin);url.searchParams.set('copies','1');const response=await fetch(url,{headers:{'X-Chichi-Save-Token':token},cache:'no-store',signal:AbortSignal.timeout(15000)});if(!response.ok)throw Error('Облако: HTTP '+response.status);const data=await response.json();for(const c of data.copies||[])if(c.game?.version===2){copies.push({source:'cloud:'+c.source,revision:c.revision,savedAt:c.savedAt,game:c.game});const p=document.createElement('p');p.textContent='Облако '+c.source+': монеты '+c.game.coins+', алмазы '+(c.game.diamonds||0)+', котиков '+Object.keys(c.game.jobCity?.profiles||{}).length;panel.append(p);}note.textContent='Копии прочитаны. Нажмите «Скачать найденные копии». Игровые сохранения не изменены.';}catch(error){note.textContent=error.message;}finally{cloud.disabled=false;}};panel.append(cloud);document.body.replaceChildren(panel);
+  return new Promise(()=>{});
+ }
+diff --git a/save-vault.mjs b/save-vault.mjs
+index ca906cd..a4128e5 100644
+--- a/save-vault.mjs
++++ b/save-vault.mjs
+@@ -143,6 +143,9 @@ export class SaveVault {
+       return json(await new AccountVault(this.storage).handle(input));
+     }
+     if (request.method === "GET") {
++      if(new URL(request.url).searchParams.get('copies')==='1'){
++        const copies=[];for(const source of ['current','previous','older']){const value=await this.storage.get(source);if(value?.game)copies.push({source,revision:value.revision,savedAt:value.savedAt,game:value.game});}return json({copies});
++      }
+       const save = await this.storage.get("current");
+       const editor = await this.storage.get("editor");
+       const { submittedGame, ...visible } = save || {};
+@@ -199,6 +202,9 @@ export class SaveVault {
+     const result = await this.storage.transaction(async (transaction) => {
+       const current = await transaction.get("current"),
+         revision = current?.revision || 0;
++      if(current?.game?.jobCity?.epoch&&input.game.jobCity?.epoch!==current.game.jobCity.epoch&&
++        (Object.keys(input.game.jobCity?.profiles||{}).length<Object.keys(current.game.jobCity.profiles||{}).length||current.game.unlocked.some(id=>!input.game.unlocked.includes(id))))
++        return {conflict:true,revision,savedAt:current.savedAt,game:current.game,error:'Подмена сохранённого мира новым остановлена. Скачайте резервные копии для восстановления.'};
+       if (input.expectedRevision > revision)
+         return {
+           unavailable: true,
+diff --git a/scripts/audit-resort-spa-native.mjs b/scripts/audit-resort-spa-native.mjs
+index 66255f7..0fb1178 100644
+--- a/scripts/audit-resort-spa-native.mjs
++++ b/scripts/audit-resort-spa-native.mjs
+@@ -1,6 +1,11 @@
+ import assert from 'node:assert/strict';import{writeFile}from'node:fs/promises';import{join}from'node:path';
+ export async function auditResortSpaNative({page,review,errors,httpErrors}){
+  await page.locator('[data-biome="autumn"]').click();await page.evaluate(()=>{__lagoonQA.drawPaused=true;});
++ if(process.env.CHICHI_RESORT_SPA_AUTOLOAD_AUDIT){
++  const progress=setInterval(()=>console.log('SPA automatic selected-island preparation pending'),15000);
++  try{await page.waitForFunction(()=>__lagoonQA.resortSpa()?.ready,null,{timeout:240000});}finally{clearInterval(progress);}
++  const auto=await page.evaluate(()=>{const r=__lagoonQA.resortSpa(),g=__lagoonSaveQA.getGame();return{ready:r.ready,visible:r.root.visible,inspection:r.inspection,zones:r.root.userData.zones.size,coins:g.coins,diamonds:g.diamonds,profiles:Object.keys(g.jobCity.profiles).length};});assert(auto.ready&&auto.visible&&!auto.inspection);assert.equal(auto.zones,14);await writeFile(join(review,'automatic-spa-loading.json'),JSON.stringify(auto,null,2));console.log('PASS SPA scene appears without first clicking SPA',auto);
++ }
+  await page.locator('.resort-spa-access').waitFor({state:'visible'});await page.locator('.resort-spa-access').click();
+  const progress=setInterval(()=>console.log('SPA required scene preparation pending'),15000);
+  try{await page.waitForFunction(()=>__lagoonQA.resortSpa()?.inspection,null,{timeout:240000});}finally{clearInterval(progress);}
+diff --git a/scripts/check-aquarium.cjs b/scripts/check-aquarium.cjs
+index 7ba646a..e0adcdb 100644
+--- a/scripts/check-aquarium.cjs
++++ b/scripts/check-aquarium.cjs
+@@ -359,6 +359,7 @@ async function localWorker() {
+     }
+     if(process.env.CHICHI_RESORT_SPA_AUDIT){delete g.mosasaurSubmarine;delete g.catLocations;if(process.env.CHICHI_RESORT_SPA_PROCEDURE_AUDIT||process.env.CHICHI_RESORT_SPA_TRANSIT_AUDIT||process.env.CHICHI_RESORT_SPA_POOLS_AUDIT||process.env.CHICHI_RESORT_SPA_DRY_AUDIT)g.jobCity.profiles.chichi.coins=process.env.CHICHI_RESORT_SPA_DRY_AUDIT&&process.env.CHICHI_RESORT_SPA_POOLS_AUDIT?6000:2000;}
+     if(process.env.CHICHI_MANUAL_PORTAL_AUDIT){const {MALL_AIRLOCK}=await import(root+'/public/mall-airlock-data.js');g.mosasaurSubmarine={...g.mosasaurSubmarine,active:false,explorerVersion:1,explorer:{...MALL_AIRLOCK.outside,mode:'swimming',yaw:Math.PI,floor:0,returning:false}};}
++    if(process.env.CHICHI_PRIVATE_SAVE_FIXTURE){const snapshot=JSON.parse(fs.readFileSync(process.env.CHICHI_PRIVATE_SAVE_FIXTURE,'utf8'));Object.assign(g,snapshot);}
+     const base = local.base,
+       token = crypto.randomBytes(32).toString("hex"),
+       headers = {
+diff --git a/test/cloud-save.test.mjs b/test/cloud-save.test.mjs
+index bbb4a97..d34908e 100644
+--- a/test/cloud-save.test.mjs
++++ b/test/cloud-save.test.mjs
+@@ -7,6 +7,7 @@ import { gunzipSync } from "node:zlib";
+ import { newGame } from "../public/economy.js";
+ import { verifyCloudSave } from "../scripts/cloud-check.mjs";
+ import worker from "../worker.mjs";
++import {ensureJobCity} from '../public/jobcity-system.js';
+ function local() {
+   const map = new Map();
+   return {
+@@ -422,3 +423,8 @@ test("a replaced code resets revision metadata, while corrupt metadata preserves
+   assert.equal(restored.conflict, true);
+   assert.equal((await restored.recover(code)).version, 2);
+ });
++
++test('established world cannot be replaced by fresh epoch/default world in either save protocol',async()=>{
++ for(const cooperative of [false,true]){const v=vault(),original=ensureJobCity({...newGame(),unlocked:['moon','jobcity','autumn'],coins:4381984},Date.now(),{forMall:true});v.map.set('current',{revision:8,savedAt:123,game:original});const incoming=newGame(),request={expectedRevision:8,mutationId:crypto.randomUUID(),game:incoming,...(cooperative?{cooperative:true,clientId:crypto.randomUUID(),sequence:1,baseGame:original}:{})};const before=structuredClone([...v.map]);const r=await v.instance.fetch(new Request('https://cat/api/save',{method:'PUT',body:JSON.stringify(request)}));assert.equal(r.status,409);const body=await r.json();assert.equal(body.game.coins,4381984);assert.deepEqual([...v.map],before);}
++});
++test('backup export reads exact current/previous/older without rotating state or exposing submitted payloads',async()=>{const v=vault();for(const [i,key]of ['current','previous','older'].entries())v.map.set(key,{revision:10-i,savedAt:100-i,game:{...newGame(),coins:490+i*1000},submittedGame:{privateDuplicate:true}});const before=structuredClone([...v.map]),r=await v.instance.fetch(new Request('https://cat/api/save?copies=1'));assert.equal(r.status,200);const data=await r.json();assert.deepEqual(data.copies.map(c=>c.game.coins),[490,1490,2490]);assert(!JSON.stringify(data).includes('privateDuplicate'));assert.deepEqual([...v.map],before);assert.equal((await cloudSave(new Request('https://cat/api/save?copies=1'),{})).status,503);assert.equal((await cloudSave(new Request('https://cat/api/save?copies=1'),{SAVE_VAULT:{}})).status,401);});

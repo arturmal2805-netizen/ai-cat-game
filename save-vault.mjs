@@ -1,4 +1,6 @@
 import {zooSnapshotValid} from './public/zoo-system.js';
+import {RECOVERY_WORLD_HASH,RECOVERY_AWARD_ID} from './public/recovery-award-data.js';
+import {applyRecoveryAward} from './recovery-award.mjs';
 import {RETIRED_ATTRACTIONS,retirementSnapshotValid,inheritRetirement,retirementPurchaseAdvanced} from './public/retired-attractions.js';
 import {cryptoSnapshotValid} from "./public/crypto-trading.js";
 import {preserveReferenceOwnership} from './public/purchase-preservation.js';
@@ -143,6 +145,9 @@ export class SaveVault {
       return json(await new AccountVault(this.storage).handle(input));
     }
     if (request.method === "GET") {
+      if(new URL(request.url).searchParams.get('copies')==='1'){
+        const copies=[];for(const source of ['current','previous','older',...['current','previous','older'].map(k=>RECOVERY_AWARD_ID+':before:'+k)]){const value=await this.storage.get(source);if(value?.game)copies.push({source,revision:value.revision,savedAt:value.savedAt,game:value.game});}return json({copies});
+      }
       const save = await this.storage.get("current");
       const editor = await this.storage.get("editor");
       const { submittedGame, ...visible } = save || {};
@@ -157,6 +162,10 @@ export class SaveVault {
         input = await readJSON(request, 1024);
       } catch {
         return json({ error: "INVALID_SESSION" }, 400);
+      }
+      if(input.action==='recovery-compensation'){
+        const token=request.headers.get('X-Chichi-Save-Token');if(!/^[a-f0-9]{64}$/.test(token||'')||await hashText(token)!==RECOVERY_WORLD_HASH)return json({error:'Начисление не предназначено для этого мира.'},403);
+        try{return json(await this.storage.transaction(t=>applyRecoveryAward(t)));}catch(error){return json({error:error.message},409);}
       }
       if (
         !sessionValid(input.sessionId) ||
@@ -199,6 +208,9 @@ export class SaveVault {
     const result = await this.storage.transaction(async (transaction) => {
       const current = await transaction.get("current"),
         revision = current?.revision || 0;
+      if(current?.game?.jobCity?.epoch&&input.game.jobCity?.epoch!==current.game.jobCity.epoch&&
+        (Object.keys(input.game.jobCity?.profiles||{}).length<Object.keys(current.game.jobCity.profiles||{}).length||current.game.unlocked.some(id=>!input.game.unlocked.includes(id))))
+        return {conflict:true,revision,savedAt:current.savedAt,game:current.game,error:'Подмена сохранённого мира новым остановлена. Скачайте резервные копии для восстановления.'};
       if (input.expectedRevision > revision)
         return {
           unavailable: true,

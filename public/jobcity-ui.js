@@ -514,7 +514,7 @@ export function createJobCityUI({
       content.append(
         text(
           "p",
-          `${t.amount > 0 ? "+" : ""}${money(t.amount)} 🐾 · ${t.kind === "wage" ? "Зміна: " + jobBusiness(t.job)?.name : t.kind === "crypto-margin" ? "Маржа криптоугоди" : t.kind === "crypto-close" ? "Закриття криптоугоди" : catProducts(game).find((x) => x.id === t.item)?.name || "Покупка"}`,
+          `${t.amount > 0 ? "+" : ""}${money(t.amount)} 🐾 · ${t.kind === "recovery" ? "Восстановительное начисление" : t.kind === "wage" ? "Зміна: " + jobBusiness(t.job)?.name : t.kind === "crypto-margin" ? "Маржа криптоугоди" : t.kind === "crypto-close" ? "Закриття криптоугоди" : catProducts(game).find((x) => x.id === t.item)?.name || "Покупка"}`,
           "jobcity-history",
         ),
       );

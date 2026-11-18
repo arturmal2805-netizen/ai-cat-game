@@ -1,6 +1,11 @@
 import assert from 'node:assert/strict';import{writeFile}from'node:fs/promises';import{join}from'node:path';
 export async function auditResortSpaNative({page,review,errors,httpErrors}){
  await page.locator('[data-biome="autumn"]').click();await page.evaluate(()=>{__lagoonQA.drawPaused=true;});
+ if(process.env.CHICHI_RESORT_SPA_AUTOLOAD_AUDIT){
+  const progress=setInterval(()=>console.log('SPA automatic selected-island preparation pending'),15000);
+  try{await page.waitForFunction(()=>__lagoonQA.resortSpa()?.ready,null,{timeout:240000});}finally{clearInterval(progress);}
+  const auto=await page.evaluate(()=>{const r=__lagoonQA.resortSpa(),g=__lagoonSaveQA.getGame();return{ready:r.ready,visible:r.root.visible,inspection:r.inspection,zones:r.root.userData.zones.size,coins:g.coins,diamonds:g.diamonds,profiles:Object.keys(g.jobCity.profiles).length};});assert(auto.ready&&auto.visible&&!auto.inspection);assert.equal(auto.zones,14);await writeFile(join(review,'automatic-spa-loading.json'),JSON.stringify(auto,null,2));console.log('PASS SPA scene appears without first clicking SPA',auto);
+ }
  await page.locator('.resort-spa-access').waitFor({state:'visible'});await page.locator('.resort-spa-access').click();
  const progress=setInterval(()=>console.log('SPA required scene preparation pending'),15000);
  try{await page.waitForFunction(()=>__lagoonQA.resortSpa()?.inspection,null,{timeout:240000});}finally{clearInterval(progress);}

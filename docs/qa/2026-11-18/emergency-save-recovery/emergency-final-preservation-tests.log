@@ -1,0 +1,130 @@
+TAP version 13
+# Subtest: cloud saves need a private recovery code and isolate worlds by hashed code
+ok 1 - cloud saves need a private recovery code and isolate worlds by hashed code
+  ---
+  duration_ms: 181.980387
+  type: 'test'
+  ...
+# Subtest: parallel stale writers cannot replace a newer world; retries are idempotent
+ok 2 - parallel stale writers cannot replace a newer world; retries are idempotent
+  ---
+  duration_ms: 13.962197
+  type: 'test'
+  ...
+# Subtest: cloud keeps three generations and a failed storage transaction changes none
+ok 3 - cloud keeps three generations and a failed storage transaction changes none
+  ---
+  duration_ms: 15.981648
+  type: 'test'
+  ...
+# Subtest: invalid and oversized snapshots are refused before cloud storage mutation
+ok 4 - invalid and oversized snapshots are refused before cloud storage mutation
+  ---
+  duration_ms: 224.402528
+  type: 'test'
+  ...
+# Subtest: lost acknowledgement retries the original snapshot before saving newer pending actions
+ok 5 - lost acknowledgement retries the original snapshot before saving newer pending actions
+  ---
+  duration_ms: 12.6975
+  type: 'test'
+  ...
+# Subtest: new actions arriving during an in-flight save are queued as a later revision
+ok 6 - new actions arriving during an in-flight save are queued as a later revision
+  ---
+  duration_ms: 11.786446
+  type: 'test'
+  ...
+# Subtest: restart reconciles an acknowledged server write without discarding later local progress
+ok 7 - restart reconciles an acknowledged server write without discarding later local progress
+  ---
+  duration_ms: 20.131337
+  type: 'test'
+  ...
+# Subtest: a newer remote device causes a conflict, never silent last-write-wins loss
+ok 8 - a newer remote device causes a conflict, never silent last-write-wins loss
+  ---
+  duration_ms: 29.808774
+  type: 'test'
+  ...
+# Subtest: invalid recovery or failed local installation retains the existing world code and pending changes
+ok 9 - invalid recovery or failed local installation retains the existing world code and pending changes
+  ---
+  duration_ms: 15.193585
+  type: 'test'
+  ...
+# Subtest: publication smoke check exercises actual Worker routing, CORS and durable writes
+ok 10 - publication smoke check exercises actual Worker routing, CORS and durable writes
+  ---
+  duration_ms: 14.384941
+  type: 'test'
+  ...
+# Subtest: default browser fetch keeps the global receiver needed by native APIs
+ok 11 - default browser fetch keeps the global receiver needed by native APIs
+  ---
+  duration_ms: 1.672629
+  type: 'test'
+  ...
+# Subtest: publication retries stale save replies without duplicating a committed PUT or accepting an old GET
+ok 12 - publication retries stale save replies without duplicating a committed PUT or accepting an old GET
+  ---
+  duration_ms: 15.212703
+  type: 'test'
+  ...
+# Subtest: publication refuses persistent development labels and does not retry genuine storage failures
+ok 13 - publication refuses persistent development labels and does not retry genuine storage failures
+  ---
+  duration_ms: 2.182631
+  type: 'test'
+  ...
+# Subtest: a replaced code resets revision metadata, while corrupt metadata preserves the recovery code
+ok 14 - a replaced code resets revision metadata, while corrupt metadata preserves the recovery code
+  ---
+  duration_ms: 12.575811
+  type: 'test'
+  ...
+# Subtest: established world cannot be replaced by fresh epoch/default world in either save protocol
+ok 15 - established world cannot be replaced by fresh epoch/default world in either save protocol
+  ---
+  duration_ms: 17.871146
+  type: 'test'
+  ...
+# Subtest: backup export reads exact current/previous/older without rotating state or exposing submitted payloads
+ok 16 - backup export reads exact current/previous/older without rotating state or exposing submitted payloads
+  ---
+  duration_ms: 16.160211
+  type: 'test'
+  ...
+# Subtest: recovery compensation denies other world credentials and leaves every stored wallet unchanged
+ok 17 - recovery compensation denies other world credentials and leaves every stored wallet unchanged
+  ---
+  duration_ms: 6.647972
+  type: 'test'
+  ...
+# Subtest: authorized repair credits player/current cats once, preserves purchases/professions and survives normal load/merge
+ok 18 - authorized repair credits player/current cats once, preserves purchases/professions and survives normal load/merge
+  ---
+  duration_ms: 163.537622
+  type: 'test'
+  ...
+# Subtest: recovery never lowers existing larger balances and receipt still prevents re-credit after spending
+ok 19 - recovery never lowers existing larger balances and receipt still prevents re-credit after spending
+  ---
+  duration_ms: 6.258707
+  type: 'test'
+  ...
+# Subtest: client never contacts the award API for other identities or erases pending writes; repeated awards do not recover over local state
+ok 20 - client never contacts the award API for other identities or erases pending writes; repeated awards do not recover over local state
+  ---
+  duration_ms: 6.15227
+  type: 'test'
+  ...
+1..20
+# tests 20
+# suites 0
+# pass 20
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 822.945675

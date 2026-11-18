@@ -1,4 +1,5 @@
 import {showSaveRecovery} from './save-recovery.js';
+import {recoverAuthorizedBalance} from './recovery-award-client.js';
 import {completeResortTicket} from './resort-spa-economy.js';
 import {prepareWaterField} from './water-field.js';
 import {createMallUI} from './mall-ui.js';
@@ -182,7 +183,7 @@ try {
   };
 }
 let cloudStatus = "local";
-if(new URL(location.href).searchParams.get('recover')==='1')await showSaveRecovery(storage,'Проверка локальных резервных копий. Ничего не перезаписывается.');
+if(new URL(location.href).searchParams.get('recover')==='1')await showSaveRecovery(storage,'Проверка локальных резервных копий. Ничего не перезаписывается.',{base:apiBase});
 function cloudStatusChanged(status) {
   cloudStatus = status;
   const texts = {
@@ -221,18 +222,19 @@ const cloud = new CloudBackup({
     $("account-mode").textContent = "Один мир для вас двоих";
   },
 });
+try{await recoverAuthorizedBalance(cloud,{storage,load:loadGame,save:saveGame});}catch(error){console.warn('Recovery award deferred:',error.message);}
 const localSaved = readSavedState(storage);
 const recoveredAtBoot =
   !cloud.createdToken && cloud.token
     ? await cloud.load({ force: !localSaved })
     : null;
-if(!localSaved&&!recoveredAtBoot&&!cloud.createdToken)await showSaveRecovery(storage,'Прежний мир недоступен. Подмена пустым миром остановлена.');
+if(!localSaved&&!recoveredAtBoot&&!cloud.createdToken)await showSaveRecovery(storage,'Прежний мир недоступен. Подмена пустым миром остановлена.',{base:apiBase});
 let adoptionCenterId = null,
   selectedIsland = "moon";
 let bootGame;
 try{bootGame=loadGame(
  recoveredAtBoot?{getItem:key=>key===SAVE_KEY?JSON.stringify(recoveredAtBoot):null}:storage,
-);}catch(error){await showSaveRecovery(storage,'Не удалось прочитать мир: '+error.message);}
+);}catch(error){await showSaveRecovery(storage,'Не удалось прочитать мир: '+error.message,{base:apiBase});}
 await cloud.claimEditor();
 let game = bootGame,
 

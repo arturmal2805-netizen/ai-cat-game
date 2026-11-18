@@ -359,6 +359,7 @@ async function localWorker() {
     }
     if(process.env.CHICHI_RESORT_SPA_AUDIT){delete g.mosasaurSubmarine;delete g.catLocations;if(process.env.CHICHI_RESORT_SPA_PROCEDURE_AUDIT||process.env.CHICHI_RESORT_SPA_TRANSIT_AUDIT||process.env.CHICHI_RESORT_SPA_POOLS_AUDIT||process.env.CHICHI_RESORT_SPA_DRY_AUDIT)g.jobCity.profiles.chichi.coins=process.env.CHICHI_RESORT_SPA_DRY_AUDIT&&process.env.CHICHI_RESORT_SPA_POOLS_AUDIT?6000:2000;}
     if(process.env.CHICHI_MANUAL_PORTAL_AUDIT){const {MALL_AIRLOCK}=await import(root+'/public/mall-airlock-data.js');g.mosasaurSubmarine={...g.mosasaurSubmarine,active:false,explorerVersion:1,explorer:{...MALL_AIRLOCK.outside,mode:'swimming',yaw:Math.PI,floor:0,returning:false}};}
+    if(process.env.CHICHI_PRIVATE_SAVE_FIXTURE){const snapshot=JSON.parse(fs.readFileSync(process.env.CHICHI_PRIVATE_SAVE_FIXTURE,'utf8'));Object.assign(g,snapshot);}
     const base = local.base,
       token = crypto.randomBytes(32).toString("hex"),
       headers = {

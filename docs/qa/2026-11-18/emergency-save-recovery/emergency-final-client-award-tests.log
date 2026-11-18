@@ -1,0 +1,34 @@
+TAP version 13
+# Subtest: authorized repair credits player/current cats once, preserves purchases/professions and survives normal load/merge
+ok 1 - authorized repair credits player/current cats once, preserves purchases/professions and survives normal load/merge
+  ---
+  duration_ms: 141.173067
+  type: 'test'
+  ...
+# Subtest: recovery never lowers existing larger balances and receipt still prevents re-credit after spending
+ok 2 - recovery never lowers existing larger balances and receipt still prevents re-credit after spending
+  ---
+  duration_ms: 5.837937
+  type: 'test'
+  ...
+# Subtest: client never contacts the award API for other identities or erases pending writes; repeated awards do not recover over local state
+ok 3 - client never contacts the award API for other identities or erases pending writes; repeated awards do not recover over local state
+  ---
+  duration_ms: 6.557519
+  type: 'test'
+  ...
+# Subtest: first client compensation installs a strictly validated snapshot through recovery and normal backup writes
+ok 4 - first client compensation installs a strictly validated snapshot through recovery and normal backup writes
+  ---
+  duration_ms: 12.28339
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 338.513306

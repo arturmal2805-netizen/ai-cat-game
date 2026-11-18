@@ -30,3 +30,34 @@ that attempt not claimed PASS. User must import locally generated repaired JSON.
 Source link https://github.com/arturmal2805-netizen/ai-cat-game/archive/refs/heads/recovery/offline-location-tool.zip
 Main game NOT redeployed. Remaining old wealth/colony/owned-state recovery needs
 actual prior account/archive/outbox/other-device snapshot; do not call it recovered.
+
+
+## Candidate continuation — explicit recovery award, auto scene and reset protection
+
+User explicitly authorized compensation instead of reconstructing exact past wallets:
+player floor4381984coins/240diamonds from supplied prior screenshot; current native
+cat profiles floor10000coins each. This is compensation, NOT restored history/147cats.
+Scoped to a one-way SHA256 world identifier; raw recovery credential NOT committed.
+Atomic permanent vault receipt prevents repeat after reload/concurrent submissions;
+pre-award current/previous/older separately retained. Other worlds receive403 and
+no mutations. Client flushes pending writes before credit; recovers only on the
+first successful award so repeated boots do not erase offline purchases.
+All current native profiles ensured after autumn opening (new venue kitten had0
+afterreload in firsttest; fixedbefore release). Existing larger balances retained.
+
+Native autoload PASS on private copy of supplied repaired save: SPA ready/visible
+with14zones BEFORE clicking SPA. Native wallet550/profiles20 is private simulation
+progress from uploaded490/19 fixture, NOT evidence live compensation applied.
+Source/archive describes exactly this pre-award autoload snapshot. Later credit
+path validated separately; old native PNG does not prove actual creditendpoint.
+Recovery DOM/export PASS: no automaticrequests, one explicit GET; no credential
+export or storage write.21save/server cases PASS before award. Final award/auth/
+preservation tests and crypto tests PASS; first failed zero venue wallet documented
+and fixed.14crypto simulations plus3office checks, mockforecasts, no paidAI.
+DirectWorker connection is tunnel403, so actual remote inference NOT confirmed.
+
+Reset mechanism reproduced: loadGame catches malformed input -> newGame420,
+then startup reward/save can persist490. Strict client load prevents this; server
+rejects a newepoch losing an existing colony/unlocks without rotating backups.
+The exact original failing raw oldworld is unavailable: do NOT claim its trigger
+was conclusively established. Main publication/fullCI/live still pending.
