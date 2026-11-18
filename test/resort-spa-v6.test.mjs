@@ -2,9 +2,12 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as T from 'three';
 import {resortSpaModelSteps} from '../public/resort-spa-model.js';
-import {RESORT_ZONES} from '../public/resort-spa-data.js';
+import {RESORT_ZONES,resortSpaSeat,RESORT_SPA as S} from '../public/resort-spa-data.js';
 import {createResortSpaNavigation} from '../public/resort-spa-navigation.js';
 import {resortSurfaceMaps} from '../public/resort-spa-surfaces.js';
+import {resortSpaView} from '../public/resort-spa-camera.js';
+import {resortInteriorLighting} from '../public/resort-spa-finishes.js';
+import {createMallRoomLights} from '../public/mall-room-light.js';
 import {mosaBedY,mosaWaterRadius} from '../public/mosasaur-data.js';
 function model(){const it=resortSpaModelSteps();let r;do{r=it.next();}while(!r.done);return r.value;}
 test('glass sky pool has a real transparent bed, an unblocked walking bridge and no opaque floor underneath',()=>{
@@ -20,6 +23,24 @@ test('SPA PBR color maps are sRGB while normal and roughness charts remain linea
  for(const kind of ['marble','fabric']){const maps=resortSurfaceMaps(kind);assert.equal(maps.map.colorSpace,T.SRGBColorSpace);assert.equal(maps.normalMap.colorSpace,T.NoColorSpace);assert.equal(maps.roughnessMap.colorSpace,T.NoColorSpace);for(const t of Object.values(maps))t.dispose();}
 });
 test('SPA overview eye is inside real open water rather than the old shallow shoreline wall',()=>{
- const a=1,e=.8,d=175,x=Math.sin(a)*Math.cos(e)*d,z=225-20+Math.cos(a)*Math.cos(e)*d,y=-162+Math.sin(e)*d;
+ const v=resortSpaView(),a=v.azimuth,e=v.elevation,d=v.distance,x=v.x+Math.sin(a)*Math.cos(e)*d,z=v.z-20+Math.cos(a)*Math.cos(e)*d,y=v.y+Math.sin(e)*d;
  assert(mosaWaterRadius(x,z)<1);assert(mosaBedY(x,z)<y-5);
+});
+test('sealed SPA illumination keeps its local lamps, emissions and reflection hook without altering outside materials',()=>{
+ const own=new T.MeshStandardMaterial(),outside=new T.MeshStandardMaterial(),original=outside.onBeforeCompile,lights=createMallRoomLights();
+ resortInteriorLighting(own,lights);const shader={uniforms:{},vertexShader:'#include <project_vertex>',fragmentShader:'#include <opaque_fragment>'};own.onBeforeCompile(shader);
+ assert.match(shader.fragmentShader,/outgoingLight-totalEmissiveRadiance/);assert.match(shader.fragmentShader,/totalEmissiveRadiance;/);assert.match(shader.fragmentShader,/uMallProbe/);assert(shader.uniforms.uMallRoomLamps);assert.match(own.customProgramCacheKey(),/spa-sealed-interior/);assert.equal(outside.onBeforeCompile,original);
+ own.dispose();outside.dispose();lights.texture.dispose();
+});
+
+test('segmented curved seats retain real support and do not close their interior with a merged bounding box',()=>{
+ const root=model(),nav=createResortSpaNavigation(root);
+ for(const id of ['resort-cabana','resort-nap','resort-amber','resort-midnight']){
+  const zone=RESORT_ZONES.find(z=>z.id===id);
+  for(let slot=0;slot<zone.seats;slot++){
+   const seat=resortSpaSeat(zone,slot);
+   assert(nav.support({x:seat.x,y:seat.y-S.y+.92,z:seat.z},.571),id+' seat '+slot);
+  }
+ }
+ root.userData.dispose();
 });

@@ -40,7 +40,7 @@ export function* resortLuxurySteps({solid,decor,shell,surfaces,basins,waters,mat
    const pad=key==='midnight'?navy:cream;box(decor,pad,s.x,y+.96,s.z,2.8,.13,1.45,true);for(const side of [-1,1])box(decor,side<0?rose:cream,s.x+side*1.08,y+1.1,s.z-.34,.48,.24,.48,true);
    // Draped blanket keeps the original native resting support unchanged.
    box(decor,key==='midnight'?silver:rose,s.x-.35,y+1.01,s.z+.42,.8,.08,.65,true);
-   disk(solid,mats.gold,s.x+2.5,y+.46,s.z-1,1.0,.8,.1);disk(solid,mats.gold,s.x+2.5,y+.2,s.z-1,.07,.4);tray(s.x+2.5,y+.54,s.z-1);lantern(s.x-2.35,y,s.z-1.25,.65);
+   const tx=s.x+2.05,tz=s.z-.95;disk(solid,mats.gold,tx,y+.46,tz,.6,.6,.1);disk(solid,mats.gold,tx,y+.24,tz,.07,.07,.48);disk(solid,mats.gold,tx,y+.04,tz,.3,.3,.08);tray(tx,y+.54,tz);lantern(s.x-2.35,y,s.z-1.25,.65);if(key==='cabana')plant(s.x+1.9,y,s.z+.8,.55,true);
   }else if(key==='cafe'){tray(s.x,y+1.3,s.z,true);lotus(s.x+.6,y+1.35,s.z,.45);}
   else if(key==='beauty'){
    for(let j=0;j<4;j++){const g=geometry('comb-tooth',()=>new T.BoxGeometry(.035,.05,.23));mesh(decor,g,mats.gold,s.x+1.9+j*.07,y+1.47,s.z-1.7);}
