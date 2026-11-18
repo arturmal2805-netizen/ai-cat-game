@@ -14,7 +14,7 @@ sha256sum /outside/chichi-memory-r10.tar.gz
 ```
 
 Expected SHA256:1ddb1c75b512a5e2c55c724947e4a870d5b675d7fdcd5267b0ef5deadefd683c
-Use restore-wip-archive.py from source memory commitced69e7, into a NEW path.
+Use restore-wip-archive.py from source memory commit ced69e712a7838431a5aec779181c8e11053b88d, into a NEW path.
 The existing source worktrees must never be reset or removed.
 
 Remote download/restore verification is recorded separately after upload.
@@ -23,3 +23,6 @@ VERIFIED: remote bytes matched SHA256; trial restoration verified all30/30
 worktrees HEADdiff/indexdiff/status/filebytes exactly. Test copies were removed
 after verification to bound disk usage; original worktrees were untouched.
 See restore-result.json and remote-verification.json.
+
+Fresh recovered SPA checkout: Node22.23.5/npmci and19targetedtests PASS.
+See fresh-checkout-verification.json. Full SPA completion is still pending.
