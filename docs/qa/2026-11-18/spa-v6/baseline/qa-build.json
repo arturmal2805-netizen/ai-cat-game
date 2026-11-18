@@ -1,0 +1,8 @@
+{
+  "sha256": "7d2d7bf67716bdd02f03098c0cc76c466c6e4e4276b79fd449abd466e5668cd1",
+  "baseline": null,
+  "node": "v22.23.5",
+  "head": "0d21c0f0773d756790facf75cc35574376263f60",
+  "dirty": " M public/app.js\n M public/index.html\n M scripts/audit-resort-spa-native.mjs\n?? public/world-backup.js\n?? scripts/audit-resort-spa-v6.mjs\n?? test/world-backup.test.mjs\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

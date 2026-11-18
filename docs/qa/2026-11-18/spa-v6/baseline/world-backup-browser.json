@@ -1,0 +1,10 @@
+{
+  "download": "CHICHI_WORLD_BACKUP_2026-11-18_21-26-29.json",
+  "cancelDidNotChangeWorld": true,
+  "beforeRestoreDownload": "CHICHI_WORLD_BACKUP_2026-11-18_21-26-30_BEFORE_RESTORE.json",
+  "restored": {
+    "coins": 13835,
+    "rollback": true
+  },
+  "scope": "Native Chromium/private SQLite. Actual Mac browser download not tested."
+}

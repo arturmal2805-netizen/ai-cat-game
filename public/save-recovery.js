@@ -1,8 +1,8 @@
 // Read-only rescue: never send a snapshot, change an account or invent funds.
 export function recoveryCopies(storage){
  const copies=[];const add=(source,game)=>{if(game?.version===2&&Array.isArray(game.unlocked)&&Array.isArray(game.placements))copies.push({source,game});};
- for(const key of ['chichi-world-v2','chichi-world-v2:backup','chichi-world-v2:backup2','chichi-cloud-outbox','chichi-world-archives']){
-  try{const value=JSON.parse(storage.getItem(key)||'null');if(key==='chichi-world-archives'){for(const [i,r]of(value||[]).entries())add(key+':'+i,r.game);}else if(key==='chichi-cloud-outbox'){for(const name of ['localGame','remoteGame'])add(key+':'+name,value?.[name]);for(const name of ['pending','retryEntry'])for(const field of ['game','baseGame'])add(key+':'+name+':'+field,value?.[name]?.[field]);}else add(key,value);}catch{}
+ for(const key of ['chichi-world-v2','chichi-world-v2:backup','chichi-world-v2:backup2','chichi-cloud-outbox','chichi-world-archives','chichi-world-before-file-import']){
+  try{const value=JSON.parse(storage.getItem(key)||'null');if(key==='chichi-world-archives'){for(const [i,r]of(value||[]).entries())add(key+':'+i,r.game);}else if(key==='chichi-cloud-outbox'){for(const name of ['localGame','remoteGame'])add(key+':'+name,value?.[name]);for(const name of ['pending','retryEntry'])for(const field of ['game','baseGame'])add(key+':'+name+':'+field,value?.[name]?.[field]);}else if(key==='chichi-world-before-file-import')add(key,value?.game);else add(key,value);}catch{}
  }
  return copies;
 }

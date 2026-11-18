@@ -1,0 +1,24 @@
+{
+  "scope": "Pre-reconstruction visuals, new local Cloud backup UI tested. Actual Chromium/private SQLite, not Mac hardware.",
+  "sourceHead": "0d21c0f0773d756790facf75cc35574376263f60",
+  "sourceDirty": "Exact app/source patches and imported snapshot attached.",
+  "baselineOverview": "FAILED visually: camera sits in shallow coastline, blank teal frame. Never use as successful overview proof.",
+  "references": "Original user V6 images R1 cafe, R2 aroma, R3 repeat cafe, R4 VIP, R5 exterior; original pixels in conversation, not archived as local originals.",
+  "files": {
+    "world-backup-browser.json": "77f8c6c5bb76cbbfda88bb6b11b023f72fdc0838b733bc6f16b6e17ce5f84c5a",
+    "native.log": "976b6f4ee871541d5c9ab3de0d7fb983aa78acdc83d17d87878c8daeba24453e",
+    "qa-build.json": "6426f309f0a7e99fb5626a6d4364cfd0bd6e17a9992b92b4a0a1181238cc131f",
+    "v6-reference-frames.json": "d23949bf370e0d28b3f19f08e1acbacb44a5ad452d08dc2349c8a0d81cb36491",
+    "baseline-overview.png": "71791d56d233f8dcc019f4bd1f0b1488f787d4449f75aff9381fbd5799389278",
+    "baseline-resort-vip.png": "c77fcc4dfb70bc9172a2519d95aa3f00bda29f1b53c113cd923b561ea2f6c660",
+    "backup-unit.log": "6936d9bda14aaa2cff06e88b6ddfeb0d13ea4603b90244e464848d56ea05714a",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "baseline-resort-cafe.png": "4cdad522b75a14159af7eb45ff90b482423d4d1d78df030651660fccea2a7cf3",
+    "imported-source.tar.gz": "6eb0b052b32994273e5eb32524503d33ec88e61dd40073a46fbadcd966d8afa1",
+    "qa-app.js.gz": "fff1875999b785b46cc5bb7292fb0e9307ff5e07cb44e46d9cd01403d781e981",
+    "source-HEAD.patch": "4f761bed5f01e1398985c38b96d910c0341512086a8a74d2a08d73d1ad29baed",
+    "baseline-resort-aroma.png": "c980f6587afec458887d38676762505d20f40a7aac7be6876f8dc1742d4477cc",
+    "source-files.json": "1f999d1f0539245d0bae390773ff1f6c73770cfec6590e89f4e46a0a72e49daa",
+    "source-status.txt": "987e0bdb4b4fe06079079d6dcd1da40dd81f93150fbc3cc23a429655f02a7861"
+  }
+}

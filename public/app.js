@@ -1,4 +1,5 @@
 import {showSaveRecovery} from './save-recovery.js';
+import {encodeWorldBackup,decodeWorldBackup,downloadWorldBackup,worldBackupName,WORLD_BACKUP_LIMIT} from './world-backup.js';
 import {recoverAuthorizedBalance} from './recovery-award-client.js';
 import {completeResortTicket} from './resort-spa-economy.js';
 import {prepareWaterField} from './water-field.js';
@@ -282,10 +283,10 @@ function persist() {
     : "Сохранение недоступно. Прогресс сохранится только до закрытия страницы.");
   if (ok) cloud.enqueue(game);
 }
-function commit(next, syncWorld = true) {
+function commit(next, syncWorld = true, {snapshotLocations=true} = {}) {
   cloud.assertEditable();
   next = resolveConstructionBoosts(next);
-  if(cloud.simulationOwner)next=world?.snapshotCatLocations(next,game)||next;
+  if(snapshotLocations&&cloud.simulationOwner)next=world?.snapshotCatLocations(next,game)||next;
   if (!saveGame(storage, next)) {
     $("save-state").textContent =
       "Сохранение не подтверждено. Изменение отменено.";
@@ -2545,31 +2546,34 @@ $("farm-sell").onclick = () => {
     toast(error.message);
   }
 };
-$("save-export").onclick = () => {
-  const file = new Blob([JSON.stringify(game, null, 2)], {
-      type: "application/json",
-    }),
-    url = URL.createObjectURL(file),
-    link = document.createElement("a");
-  link.href = url;
-  link.download = "chichi-save.json";
-  link.click();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-};
+async function exportCurrentWorld(){
+ try{const snapshot=cloud.simulationOwner?(world?.snapshotCatLocations(game,game)||game):game;downloadWorldBackup(await encodeWorldBackup(snapshot));toast('Резервная копия мира скачана. Храните файл у себя.');}catch(error){toast(error.message);}
+}
+$("save-export").onclick = exportCurrentWorld;
+$("cloud-world-export").onclick = exportCurrentWorld;
 $("save-import").onclick = () => $("save-file").click();
+$("cloud-world-import").onclick = () => $("save-file").click();
+$("world-import-apply").onclick=()=>$("world-import-confirm").close('restore');
 $("save-file").onchange = async (e) => {
   try {
     const file = e.target.files[0];
     if (!file) return;
-    if (file.size > 200000) throw Error("Файл сохранения слишком большой.");
-    const content = await file.text(),
-      raw = JSON.parse(content);
-    if (raw.version !== 2 || !Number.isSafeInteger(raw.coins) || raw.coins < 0)
-      throw Error("Это не сохранение Чичи.");
-    const restored = loadGame({
-      getItem: (key) => (key === SAVE_KEY ? content : null),
-    });
-    commit(restored);
+    if (file.size > WORLD_BACKUP_LIMIT) throw Error("Файл сохранения слишком большой.");
+    if(busy||buildMode)throw Error('Сначала завершите действие или размещение предмета.');
+    cloud.assertEditable();
+    const {game:restored,verified}=await decodeWorldBackup(await file.text());
+    const dialog=$("world-import-confirm");
+    $("world-import-summary").textContent=`В файле: ${restored.coins.toLocaleString('ru')} монет, ${restored.diamonds||0} алмазов, ${Object.keys(restored.jobCity?.profiles||{}).length} котиков. ${verified?'Контрольная сумма проверена.':'Старый формат: структура проверена, контрольной суммы нет.'} Текущий мир будет заменён. Перед заменой его копия сохранится на устройстве и скачается отдельным файлом.`;
+    dialog.returnValue='cancel';
+    const approved=new Promise(resolve=>dialog.addEventListener('close',()=>resolve(dialog.returnValue==='restore'),{once:true}));
+    dialog.showModal();if(!await approved)return;
+    cloud.assertEditable();
+    const before=await encodeWorldBackup(world?.snapshotCatLocations(game,game)||game),key='chichi-world-before-file-import';
+    storage.setItem(key,before);if(storage.getItem(key)!==before)throw Error('Не удалось сохранить мир перед заменой. Восстановление отменено.');
+    cloud.archive(game);
+    downloadWorldBackup(before,worldBackupName().replace('.json','_BEFORE_RESTORE.json'));
+    commit(restored,false,{snapshotLocations:false});
+    if(loadGame(storage).coins!==restored.coins)throw Error('Проверка записи не пройдена. Сохранена копия до восстановления.');
     location.reload();
   } catch (error) {
     toast(error.message);

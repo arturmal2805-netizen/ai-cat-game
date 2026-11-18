@@ -1,0 +1,184 @@
+{
+  "stage": "baseline",
+  "scope": "Actual running private game; brief software-renderer frame samples, not Mac/phone FPS or visual approval.",
+  "frames": [
+    {
+      "name": "Общий вид",
+      "png": "baseline-overview.png",
+      "selected": null,
+      "camera": [
+        -413.5856679560274,
+        -49.62248406885648,
+        884.638722545298
+      ],
+      "look": [
+        -450.0002431424225,
+        -162,
+        704.9999834221076
+      ],
+      "render": {
+        "frame": 10,
+        "calls": 1128,
+        "triangles": 11566270,
+        "points": 1860,
+        "lines": 0
+      },
+      "memory": {
+        "geometries": 929,
+        "textures": 71
+      },
+      "frameSamples": [
+        [
+          95215.90000000596,
+          564.1999999880791,
+          1128,
+          11566270
+        ],
+        [
+          95797.69999998808,
+          67.40000000596046,
+          1128,
+          11566270
+        ]
+      ],
+      "heap": 950241908,
+      "gl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "luxury": null
+    },
+    {
+      "name": "Aroma Therapy Garden",
+      "png": "baseline-resort-aroma.png",
+      "selected": "resort-aroma",
+      "camera": [
+        -354.0420216850306,
+        -145.54090524213834,
+        787.1910943998931
+      ],
+      "look": [
+        -363,
+        -162,
+        743
+      ],
+      "render": {
+        "frame": 13,
+        "calls": 801,
+        "triangles": 9088084,
+        "points": 0,
+        "lines": 0
+      },
+      "memory": {
+        "geometries": 614,
+        "textures": 71
+      },
+      "frameSamples": [
+        [
+          150063.59999999404,
+          133.59999999403954,
+          802,
+          9088332
+        ],
+        [
+          150202.69999998808,
+          10355.800000011921,
+          802,
+          9088204
+        ],
+        [
+          160626.19999998808,
+          60.30000001192093,
+          801,
+          9088084
+        ]
+      ],
+      "heap": 947652065,
+      "gl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "luxury": null
+    },
+    {
+      "name": "Golden Galaxy VIP Suite",
+      "png": "baseline-resort-vip.png",
+      "selected": "resort-vip",
+      "camera": [
+        -399.5281607716182,
+        -130.28638740880598,
+        724.835312495633
+      ],
+      "look": [
+        -406.9933677446958,
+        -144.00271319535173,
+        688.0082903191303
+      ],
+      "render": {
+        "frame": 15,
+        "calls": 889,
+        "triangles": 9730552,
+        "points": 720,
+        "lines": 0
+      },
+      "memory": {
+        "geometries": 661,
+        "textures": 71
+      },
+      "frameSamples": [
+        [
+          182027.79999998212,
+          98.40000000596046,
+          889,
+          9730808
+        ],
+        [
+          182131.09999999404,
+          40,
+          889,
+          9730552
+        ]
+      ],
+      "heap": 951120184,
+      "gl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "luxury": null
+    },
+    {
+      "name": "Wellness Café",
+      "png": "baseline-resort-cafe.png",
+      "selected": "resort-cafe",
+      "camera": [
+        -438.7909924889879,
+        -132.425502338937,
+        738.2349280169614
+      ],
+      "look": [
+        -449.98736898377064,
+        -152.99735629892874,
+        683.0014687228174
+      ],
+      "render": {
+        "frame": 17,
+        "calls": 896,
+        "triangles": 9859527,
+        "points": 0,
+        "lines": 0
+      },
+      "memory": {
+        "geometries": 653,
+        "textures": 71
+      },
+      "frameSamples": [
+        [
+          209227,
+          96.09999999403954,
+          896,
+          9860295
+        ],
+        [
+          209326.79999998212,
+          38.70000001788139,
+          896,
+          9859527
+        ]
+      ],
+      "heap": 956298727,
+      "gl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "luxury": null
+    }
+  ]
+}

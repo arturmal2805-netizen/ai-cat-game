@@ -595,6 +595,9 @@
       </p>
       <p id="account-mode" class="dialog-copy">Один мир для вас двоих</p>
       <p id="cloud-detail" class="dialog-copy"></p>
+      <button id="cloud-world-export" class="primary">Сохранить текущий мир ↓</button>
+      <button id="cloud-world-import" class="quiet">Загрузить мир из файла ↑</button>
+      <p class="fine-print">Скачайте копию прогресса на компьютер: монеты, котики, покупки и локации. Файл не содержит код доступа и исходники игры. Храните его на случай потери данных.</p>
       <details>
         <summary>Резервные копии и полный код мира</summary>
         <label for="recovery-code">Ваш код восстановления</label
@@ -629,6 +632,13 @@
         только после подтверждения. При конфликте двух устройств новая копия не
         перезаписывается автоматически.
       </p>
+    </dialog>
+    <dialog id="world-import-confirm" class="small-dialog">
+      <button data-close="world-import-confirm" class="close" aria-label="Отменить восстановление">×</button>
+      <h2>Восстановить мир из файла?</h2>
+      <p id="world-import-summary" class="dialog-copy"></p>
+      <button id="world-import-apply" class="primary">Сохранить копию и восстановить</button>
+      <button data-close="world-import-confirm" class="quiet">Отмена</button>
     </dialog>
     <dialog id="scenery-dialog" class="small-dialog">
       <button
