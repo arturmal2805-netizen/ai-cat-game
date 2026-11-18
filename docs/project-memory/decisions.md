@@ -315,3 +315,13 @@ Node22build и regression guards PASS. Full evidence in source docs/qa/2026-11-1
 JS/CSS и13 assets совпали с immutable public /workspace/chichi-manual-paths-doors.
 Квитанция в docs/qa/2026-11-18/manual-paths-publication. Одно приложение.
 Далее самостоятельный SPA в codex/underwater-spa-resort; не включён в релиз.
+
+
+## 2026-11-18 — Input length is not API call count
+
+Internal20klegacy character guard does not count Cloudflare requests. User asked
+for further compression; shared dictionaries losslessly encode repeated string
+columns in both legacy full plans and scheduled career/evening events. Keep
+147cats,allvenues,needs,balances,personality,wishes,families and original strict
+output contracts. No extra model call, cadence reduction or promised billing.
+Separate release candidate827e370 and workflow44305576620; SPA excluded.

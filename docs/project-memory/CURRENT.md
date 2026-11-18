@@ -150,3 +150,25 @@ procedure/economy/AI/SQLite scenario or84animations yet. Mandatory remaining
 scope in manifest. Do not present camera/ledger-only integration as finished SPA.
 
 Latest remote SPA WIP b59034c on codex/underwater-spa-resort. Full suite pending.
+
+### Active release — compact AI input, not SPA
+
+827e3708979cb95c4675e38caf6354364c733b64 pushed to main from separate
+codex/compact-city-ai-context, /workspace/chichi-compact-city-ai.
+Workflow44305576620 in progress; /workspace/qa/compact-city-publication.log
+and verifier session27871. No live confirmation yet. Stable public JS/CSS
+are EXACTLY3914873; server-only input encoding. Node22build+23event/packing
+checks +147legacyguard PASS. Stable measurements19281→15620full-plan,
+5734→4090careers,30661→21175evening+147buyers+families. Same number of
+requests, same output schemas/validators/budgets; not actual token/cost data.
+SPA14futurezones measured separately19813→16152etc, not included in main.
+
+SPA latest remote6def03b; own dirty work now wires native staff/controllers
+and actual app callback to durable completion. Native PRIVATE IN-ROOM fixture
+/workspace/qa/resort-spa-native-appointment PASS: Chichi+therapist, sequence
+inspect→mount→procedure→dismount→walk;2000→1700, one receipt/use, SQLite
+reload keeps1700, usedticket and actual[-547,-164.82,717.1]position.
+Not a shore/submarine arrival proof, not all14procedures/84actions.
+New pose-image audit currently /workspace/qa/resort-spa-native-appointment-pose,
+session13048; first state/SQLite run alreadyPASS. Main SPA still NOT published.
+Do not reapply edits or treat pending image run as passed without .exit.
