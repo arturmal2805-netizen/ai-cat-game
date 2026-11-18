@@ -1,90 +1,86 @@
 # Текущий статус
 
-## Следующий небольшой hotfix — уже в main, ещё CI
+Обновлено 18 ноября 2026, Europe/Kyiv.
 
-**0d21c0f0773d756790facf75cc35574376263f60**, codex/emergency-save-recovery.
-[CI44391975714](https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44391975714)
-идёт. Сайт пока подтверждён4025f71 ниже. Callbackpendingbug: realCloudBackup.flush
-до инициализации app мог вызвать snapshot/notice, искусственныйconflict иотложить
-компенсацию. Вscopedbootoperation временноdefer callbacks, remoteGame/очередь
-сохраняются, normalcallbacks возвращаютсяfinally. Server/award/receipt не изменены.
-5targeted Node22cases PASS, включаянастоящуюCloudBackupqueue PUT→POST→GET,
-безраннихcallbacks/conflict, strictsaved4381984, корректныйcallbackrestore.
-Node22client rebuilt exactconfig, существующиемодели прежние.
-Доказательства docs/qa/2026-11-18/recovery-boot-queue вновомкоммите.
-Monitor /workspace/qa/recovery-boot-publication-monitor.log/session68340;
-expected /workspace/qa/recovery-boot-release-expected.json. ДождатьсяfullCI/live.
-Пользователю уже дана4025f71; actualcredit/privatewalletconfirmation pending
-(заданasyncвопрос, ответаещёнет). Новоеhookисправление не даётвторойгрант.
+## Опубликовано и проверено
 
+Текущий main: **0d21c0f0773d756790facf75cc35574376263f60**.
+[Игра](https://arturmal2805-netizen.github.io/ai-cat-game/?v=0d21c0f),
+[диагностика по запросу](https://arturmal2805-netizen.github.io/ai-cat-game/?v=0d21c0f&profile=1),
+[резервные копии без записи](https://arturmal2805-netizen.github.io/ai-cat-game/?v=0d21c0f&recover=1).
+[Workflow 44391975714](https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44391975714):
+все test/deploy/pages SUCCESS, проверка точной версии Worker и shared saves SUCCESS.
+Фактические файлы сайта проверены 2026-11-18T20:45:19Z: **одно подключение приложения**,
+JS SHA256 `c10fdd50b92a2cc3e39fb41e5183d738090a98b27b3dd0d59d0a834636977174`,
+CSS SHA256 `9db4746b53b8da87077097c9238673ce7d6a6e4f45652fb7b5c92aed121e9fd1`.
+[Квитанции публикации](../qa/2026-11-18/recovery-boot-publication/recovery-boot-live-verification.json).
 
-Обновлено2026-11-18 Europe/Kiev. [История](history/CURRENT-before-emergency-publication-2026-11-18.md).
+## Аварийный фикс и фактический результат пользователя
 
-## Опубликовано аварийное исправление
+4025f713cea3b8ecfea72128275398af8d3dabc3 опубликован раньше, но пользователь
+сообщил, что баланс не изменился. Он подтвердил правильную identity мира.
+Raw recovery code — секрет доступа; не публиковать его или личные JSON.
 
-**4025f713cea3b8ecfea72128275398af8d3dabc3**, origin/main и codex/emergency-save-recovery.
-[Игра](https://arturmal2805-netizen.github.io/ai-cat-game/?v=4025f71), [диагностика](https://arturmal2805-netizen.github.io/ai-cat-game/?v=4025f71&profile=1),
-[read-only резервные копии](https://arturmal2805-netizen.github.io/ai-cat-game/?v=4025f71&recover=1).
-[FullCI44388536452](https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44388536452): test/deploy/pages SUCCESS,
-точныйserver release/sharedsaves step SUCCESS. ПлатныйAI QAневызывался.
-ActualHTTP 2026-11-18T20:26:29.321591+00:00: одноapp, JS/CSSпроверены:
-JS **76e61007f2291f42ff7afb041c54ad58a8f75624c0c4d55cb222f60a6dbf9bd8**;
-CSS **9db4746b53b8da87077097c9238673ce7d6a6e4f45652fb7b5c92aed121e9fd1**.
-[Квитанции](../qa/2026-11-18/emergency-publication/emergency-live-verification.json).
+В 0d21c0f исправлен подтверждённый boot bug: CloudBackup.flush при незавершённой
+очереди вызывал callbacks до инициализации app, вызывая TDZ и искусственный conflict.
+На время адресной операции callbacks отложены и восстановлены в finally;
+очередь/remoteGame сохранены. Серверная сумма и постоянная квитанция не изменены.
+Пользователю отправлена новая ссылка. **Получение средств в его живом мире пока
+не подтверждено.** Его отрицательный ответ относился к 4025f71, не к новой версии.
 
-1. Strictclientload блокирует silentcatch→newGame420→reward/save490. Bootпроверяет
-   данные доclaim; returningidentity бездоступногоsnapshot получает readonlyrescue.
-   ServerPUTотвергает freshnewepoch с потерейколонии/unlocks, копии не вращаются.
-   Это доказанный опасныйпуть; исходная конкретнаяошибка старого147catraw неизвестна.
-2. ПодготовкаSPA начинаетсяприфокусеоткрытогоautumn, coalesced/selected/bounded,
-   retryне чаще30сек. NativeactualgamePASS: SPAready/visible14zones ДОкликаSPA
-   на privateкопии присланного19profile мира (нормализуется20venueprofiles).
-3. ПользовательЯВНОпотребовал «начисли не теряйвремя»: scopedодномумирукомпенсация
-   доводит playercoinsдо4381984, diamondsдо240; текущие nativeprofilesдо10000coins.
-   Большиебалансы неуменьшаются. Permanentvaultreceipt одинраз; снимкиcurrent/
-   previous/older ДОначисления отдельно сохранены. Ключ НЕвGit, только one-wayhash.
-   Clientflush доgrant; pending/conflictостанавливаетgrant, послепервогоуспеха
-   recoveryставит строговалидированнуюкопию. Повторныйbootне стираетofflinestate.
-   **ПРИМЕНЕНИЕВРЕАЛЬНОМПОЛЬЗОВАТЕЛЬСКОММИРЕ ЕЩЁ ТРЕБУЕТПОДТВЕРЖДЕНИЯ**:
-   это произойдётприоткрытииновогоклиента с авторизованнымкодоммира. Изсреды
-   directWorkerзапросtunnel403; невыдаватьCI/юнит зафактическийличныйбаланс.
-4. GET/api/save?copies=1 пообычнойtoken-auth читаетcurrent/previous/older и
-   preawardкопии; readonlyrescue доавтосохранения выгружаетлокальные/outbox/
-   accountarchives и явно запрошенныеоблачные. Ключи неэкспортируются.
+Пользователь явно разрешил компенсацию вместо ожидания утраченных кошельков:
+только одному авторизованному миру баланс доводится минимум до **4 381 984 монет,
+240 алмазов**, личные кошельки текущих котиков — до **10 000**. Большие суммы не
+уменьшаются. Это компенсация, не восстановление старой финансовой истории.
+Сервер хранит постоянную квитанцию и снимки current/previous/older до начисления.
+Повторный запрос не начисляет второй раз. Не обходить квитанцию вручную.
 
-## Проверено и ограничения
+Защита: strict load не заменяет повреждённую существующую игру новой;
+returning identity без доступной копии получает read-only recovery до автозаписи.
+Сервер отвергает новый epoch с потерей котиков/unlocks. Опасный путь
+catch→newGame420→reward/save490 воспроизведён; исходная ошибка старого мира неизвестна.
+SPA подготавливается автоматически при фокусе открытого autumn, без первого клика.
+Пользователь ранее подтвердил возвращение ТРЦ после частичного offline unlock.
 
-Node22fullbuild, targeted save/award/auth/duplicate/reload/crypto tests PASS,
-реальныйbrowser rescueexport/noautomaticHTTP/noPUT PASS. Реальнаяпокупкаfashion/
-receipt/inventory/profession сохранена послеcompensation/strictreload; открытая
-криптосделка escrow/path/deadline сохранена и закрываетсяодинраз. Криптоторговля
-проверена mockforecasts (long/short/risk/liquidation/restart/nonce/7daycycles),
-**реальныйудалённыйAIответ НЕ подтверждён**. CIconfigured/release неравноpaidinference.
-Точнаяnative/targetedsource/docs: docs/qa/2026-11-18/emergency-save-recovery в4025f71.
-Первыеfails: послеautumnпоявлялсяновыйvenuekittenс0 — исправленоensureдоgrant;
-тестпокупкипотребовалреальныйreceiptсуффикс-1, fixtureисправленабезослабленияledger.
+## Проверки и ограничения
 
-Старая147котиковаяколония/работы/история НЕ восстановлены. ДваJSONпользователя
-содержали490coins/0diamonds/19profiles/5placements/newEpoch1795028031356,
-безautumn. Usercloudlatestдавала450. UserподтвердилвозвратТРЦпослеofflineunlocktool,
-SPAисправленотдельно. Последняяпубликация55a9beb былапроверенаприватно/HTTP,
-ноНЕподтвердиласохранностьнастоящегопользовательскогомира. Необъявлятьвсёвозвращённым.
-Компенсация разрешенакакзаменаожиданиюстарыхкошельков, не восстановлениеихистории.
+Node22 build/full CI; тесты strict loading, save guard, authorization, compensation,
+повтор/reload, покупки/receipts/inventory/profession и открытый crypto escrow PASS.
+Настоящий браузер + приватные Worker/workerd/SQLite: очередь PUT→POST→GET,
+4 382 044 монеты (компенсация + обычный бонус 60), 240 алмазов, все 20 текущих
+кошельков по 10 000, сохранение после reload, повторный запрос alreadyApplied.
+Копии до начисления сохранились. SPA автоматически готов/видим, 14 зон.
+В QA заменён только hash допуска на hash нового приватного QA-ключа;
+реальный пользовательский ключ не использован. Это не проверка его живого баланса.
+Точные QA исходники/сборка/manifest: удалённая **codex/recovery-credit-native-audit**,
+**1b5c8bfc9c28dd1eb7ec5dbf26546d1a987b9b80**, docs/qa/2026-11-18/recovery-native-credit/.
+QA-ветка не опубликована как main; runtime public files совпадают с 0d21c0f.
 
-## Рабочие деревья / следующий шаг
+Криптоторговля прошла mock forecast проверки long/short, риска, liquidation,
+повторов, reload и сохранения открытой сделки после компенсации. **Реальный ответ
+удалённого AI не подтверждён**: прямой Worker запрос из среды получает tunnel 403;
+CI release/shared saves и настроенный binding не доказывают inference.
 
-/workspace/chichi-emergency-save-recovery,codex/emergency-save-recovery — текущийкод.
-/workspace/chichi-underwater-spa-resort,a8ea375WIP и все старые worktrees сохранены.
-Main4025f71 включаетSPA55a9beb; не применятьего/компенсациюзаново вручную.
-Каноническаяпамять — codex/ocean-recovery-memory; rawrecoverykey/личныеJSONнепубликовать.
-Публичныйofflineunlocktool fa872ec/recovery/offline-location-tool содержитТОЛЬКОHTML,
-неигровыеданные; это предыдущийчастичныйинструмент, невозврат147профилей/кошельков.
+Старая колония 147 котиков/работы/история не восстановлена. Два предоставленных
+JSON содержат 490 монет, 0 алмазов, 19 профилей, 5 размещений, epoch 1795028031356,
+без autumn. Не выдавать их за прежний богатый мир. ZIP CI logs не резервная копия.
+SPA 55a9beb — первый функциональный этап, не готовность всех 84 фаз или референса.
+Визуальное одобрение и аппаратные FPS из CI не следуют.
 
-Послеuserreload проверитьactualSPA/балансы/privatewallets и причиныотказаеслиесть.
-Не добавлятьсредствавсеммирам и не обходитьpermanentreceipt. Далее нужные84фазы/
-полныйautonomy/manualrelease/nativephone/performance/refpolish; не объявлять
-первыйSPAэтап завершённымреференсом. Mallart по-прежнему внеочереди.
+## Рабочие деревья и следующий шаг
+
+Код: /workspace/chichi-emergency-save-recovery. Локально сейчас QA-ветка
+codex/recovery-credit-native-audit; опубликованный runtime — 0d21c0f.
+Remote codex/emergency-save-recovery указывает на 0d21c0f. Не отправлять audit в main.
+Старые worktrees, WIP SPA a8ea375 и модели сохранены; ничего не сбрасывать/удалять.
+Каноническая память — codex/ocean-recovery-memory; она не ветка релиза.
+
+Следующий шаг: подтвердить кошельки/SPA у пользователя на 0d21c0f; при отказе
+расследовать причину, не повторять компенсацию вслепую. Затем согласованная очередь
+SPA/производительности, без художественного редизайна ТРЦ. Диагностика только
+по запросу ?profile=1; закрытие и обычный reload скрывают окно.
 [Индекс](README.md), [очередь](ROADMAP.md), [решения](decisions.md),
-[recovery](evidence-and-recovery.md). R10 e38a822/30деревьев точновосстановлен,
-нораньшепозднегоSPA; неfullGit. Свежийкод/QA уже вremote. Трипотерянныеранниеветки
-необъявлятьвосстановленными. Диагностика только?profile=1/close/reloadhidden.
+[recovery](evidence-and-recovery.md),
+[предыдущий статус](history/CURRENT-before-boot-hotfix-publication-2026-11-18.md).
+R10 e38a822 восстановлен 30/30 деревьев, но старше позднего SPA и не полная Git-история.
+Три потерянные ранние ветки не объявлять восстановленными.

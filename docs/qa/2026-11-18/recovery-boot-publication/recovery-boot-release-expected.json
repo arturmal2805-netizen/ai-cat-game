@@ -1,0 +1,8 @@
+{
+  "release": "0d21c0f0773d756790facf75cc35574376263f60",
+  "workflow": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44391975714",
+  "assets": {
+    "dist/app.js": "c10fdd50b92a2cc3e39fb41e5183d738090a98b27b3dd0d59d0a834636977174",
+    "style.css": "9db4746b53b8da87077097c9238673ce7d6a6e4f45652fb7b5c92aed121e9fd1"
+  }
+}

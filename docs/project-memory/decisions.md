@@ -459,3 +459,22 @@ Crypto mockforecasts, repeat/reload/liquidation/short/long иpaidpurchase/escrow
 Crypto mocktests иescrow/purchasepreservationPASS, actualremoteLLM НЕподтверждён.
 Старые147профилей/прошлаяистория не восстановлены,начислениеразрешенопользователем
 каккомпенсациявместождания. Резервныеснимки beforeawardоставленынасервере.
+
+
+## 2026-11-18 — Boot hotfix опубликован, приватный SQLite аудит завершён
+
+Пользователь сообщил, что 4025f71 не изменил кошельки, и подтвердил identity.
+Найден воспроизводимый вызов CloudBackup callbacks до инициализации app при
+pending outbox. 0d21c0f0773d756790facf75cc35574376263f60 откладывает эти callbacks
+только на время адресной операции, возвращая их в finally. Полный workflow
+44391975714 SUCCESS; live JS/CSS и одно подключение приложения проверены.
+Квитанции: docs/qa/2026-11-18/recovery-boot-publication/.
+
+Приватный настоящий браузер/Worker/SQLite подтвердил queued boot, начисление,
+все 20 кошельков, reload, старые копии, идемпотентность и SPA autoload.
+QA использует новый приватный ключ и замену eligibility hash, не реальный мир.
+Точная QA-ветка codex/recovery-credit-native-audit на
+1b5c8bfc9c28dd1eb7ec5dbf26546d1a987b9b80; не отправлять её в main.
+Получение денег живым пользователем после новой ссылки пока не подтверждено.
+Не путать компенсацию с восстановлением 147 старых профилей, mock crypto с
+реальным inference, успешную публикацию с визуальным одобрением.
