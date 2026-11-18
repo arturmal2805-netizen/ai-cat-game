@@ -1,0 +1,6481 @@
+{
+  "scope": "Private per-room approach fixtures. Actual native rig/poses/app purchases/SQLite. Not shore/whole-resort entry, all84motions, furniture contact certification, service props/staff/art/device performance acceptance.",
+  "before": {
+    "coins": 2000,
+    "worldCoins": 13835,
+    "inventory": {
+      "yarn": 0,
+      "mouse": 0,
+      "feather": 0,
+      "tunnel": 0,
+      "scratch": 0,
+      "trampoline": 0,
+      "swing": 0,
+      "carousel": 0,
+      "coaster": 0,
+      "waterslide": 0,
+      "ferris": 0,
+      "teacup": 0,
+      "train": 0,
+      "boat": 0,
+      "balloon": 0,
+      "broom": 0,
+      "scooter": 0,
+      "party": 0,
+      "cafe": 0,
+      "picnic": 0,
+      "stage": 0,
+      "fountain": 0,
+      "mushroom": 0,
+      "crystal": 0,
+      "lantern": 0,
+      "flowers": 0,
+      "bed": 0,
+      "pond": 0,
+      "farm-field": 0,
+      "greenhouse": 0,
+      "barn": 0,
+      "orchard": 0,
+      "coaster-epic": 0,
+      "coaster-legendary": 0,
+      "coaster-mystic": 0,
+      "coaster-dragon": 0,
+      "water-river": 0,
+      "water-whirlpool": 0,
+      "water-extreme": 0,
+      "zipline": 0,
+      "drop-tower": 0,
+      "bumpercars": 0,
+      "rocket": 0,
+      "ufo": 0,
+      "airship": 0,
+      "skate": 0,
+      "catbus": 0,
+      "maze": 0,
+      "laser": 0,
+      "fireflies": 0,
+      "toy-fish": 0,
+      "library": 0,
+      "observatory": 0,
+      "spa": 0,
+      "festival": 0,
+      "portal": 0,
+      "coaster-lagoon": 1,
+      "coaster-sakura": 0,
+      "coaster-moon": 0,
+      "coaster-mushroom": 0,
+      "coaster-cloud": 0,
+      "coaster-clockwork": 0,
+      "coaster-rainbow-launch": 0,
+      "slide-royal-cascade": 0,
+      "slide-vortex-bowl": 0,
+      "coaster-comet-flight": 0,
+      "ride-jellyfish": 0,
+      "ride-dragon-cloud": 0,
+      "toy-bubble-garden": 0,
+      "toy-magic-fish": 0,
+      "cat-barista": 0,
+      "swim-lagoon": 0,
+      "adoption-center": 0,
+      "business-coffee": 0,
+      "business-hotdog": 0,
+      "business-bakery": 0,
+      "business-gelato": 0,
+      "business-florist": 0,
+      "business-artist": 0,
+      "business-farmstand": 0,
+      "business-lemonade": 0,
+      "business-fishmarket": 0,
+      "business-pizza": 0,
+      "business-boba": 0,
+      "business-honeytea": 0,
+      "business-candy": 0,
+      "business-toymaker": 0,
+      "ride-butterfly": 0,
+      "ride-lotus": 0,
+      "ride-dragonfly": 0,
+      "ride-dinosaur": 0,
+      "ride-whale": 0,
+      "ride-whale-aurora": 0,
+      "ride-dream-balloon": 0,
+      "ride-paris-wheel": 0,
+      "ride-venice-gondola": 0,
+      "ride-tokyo-train": 0,
+      "ride-cloud-tram": 0,
+      "ride-star-carousel": 0,
+      "coaster-candy-city": 0,
+      "ride-crystal-slide": 0,
+      "ride-cupcake-wheel": 0,
+      "coaster-piglet-express": 0,
+      "ride-sugar-teacups": 0,
+      "slide-marshmallow": 0,
+      "ride-pig-rose": 0,
+      "ride-pig-peach": 0,
+      "ride-pig-lilac": 0,
+      "ride-capybara-mango": 0,
+      "ride-capybara-boba": 0,
+      "ride-capybara-coconut": 0,
+      "ride-capybara-float": 0,
+      "slide-dream-crystal-loops": 0,
+      "slide-dream-pearl-funnel": 0,
+      "slide-dream-rainbow-launch": 0,
+      "slide-dream-waterfall-arch": 0,
+      "slide-dream-canyon-twins": 0,
+      "slide-dream-ocean-tunnel": 0,
+      "slide-dream-blossom-tree": 0,
+      "slide-dream-ice-tunnel": 0,
+      "slide-dream-orbital-shell": 0,
+      "slide-dream-terrace-cascades": 0,
+      "slide-dream-canyon-eight": 0,
+      "slide-dream-luminous-vortex": 0,
+      "slide-dream-ring-launch": 0,
+      "slide-dream-ribbon-tower": 0,
+      "slide-dream-tidal-wave": 0,
+      "slide-dream-water-lift": 0,
+      "slide-dream-dragon-tail": 0,
+      "slide-dream-four-funnels": 0,
+      "slide-dream-sky-bridge": 0,
+      "slide-dream-cave-loop": 0,
+      "slide-dream-twin-flights": 0,
+      "slide-dream-lighthouse": 0,
+      "slide-dream-twin-shell": 0,
+      "slide-dream-royal-aqueduct": 0,
+      "slide-dream-cloud-star": 0,
+      "slide-atoll-giant-wave": 0,
+      "slide-atoll-rock-arch": 0,
+      "slide-atoll-rainbow-race": 0,
+      "slide-atoll-sky-serpent": 0,
+      "slide-atoll-blue-whirlpool": 0,
+      "slide-atoll-double-serpent": 0,
+      "slide-atoll-waterfall-cascade": 0,
+      "slide-atoll-emerald-canyon": 0,
+      "slide-atoll-crystal-cavern": 0,
+      "slide-atoll-root-valley": 0,
+      "slide-atoll-blue-halfpipe": 0,
+      "slide-atoll-lagoon-loop": 0,
+      "slide-atoll-coral-arch": 0,
+      "slide-atoll-cloud-islets": 0,
+      "slide-atoll-flower-lagoon": 0,
+      "slide-atoll-red-canyon": 0,
+      "slide-atoll-abyss-bridge": 0,
+      "slide-atoll-green-valley": 0,
+      "slide-atoll-purple-vortex": 0,
+      "slide-atoll-mega-loops": 0,
+      "ride-water-barrel-wave": 0,
+      "ride-water-canyon-rafting": 0,
+      "ride-water-glass-drop": 0,
+      "ride-water-lagoon-launch": 0,
+      "ride-water-surf-halfpipe": 0,
+      "ride-water-lazy-river": 0,
+      "ride-water-fountain-carousel": 0,
+      "ride-water-pool-pendulum": 0,
+      "farm-magic-fruits": 0,
+      "magic-seed-cotton": 0,
+      "magic-seed-lantern": 0,
+      "magic-seed-heart": 0,
+      "magic-seed-aqua": 0,
+      "magic-seed-emerald": 0,
+      "magic-seed-golden": 0,
+      "ride-mosasaur": 0,
+      "court-burger": 0,
+      "court-boba": 0,
+      "court-coffee": 0,
+      "court-bakery": 0,
+      "court-cinema": 0,
+      "bikini-krusty": 0,
+      "bikini-sponge": 0,
+      "bikini-patrick": 0,
+      "slide-glass-corkscrew": 0,
+      "slide-sky-cannon": 0,
+      "slide-titan-funnel": 0,
+      "slide-jungle-titan": 0,
+      "slide-rainbow-tsunami": 0,
+      "slide-abyss-capsule": 0,
+      "dive-triple-sky": 0,
+      "coaster-thunder-loop": 0,
+      "coaster-aurora-rift": 0,
+      "coaster-dragon-titan": 0,
+      "diamond-mine": 0,
+      "aquarium-aurora": 0,
+      "aquarium-pearl": 0,
+      "aquarium-coral": 0,
+      "aquarium-lilac": 0,
+      "aquarium-sunrise": 0,
+      "job-bank": 0,
+      "job-crypto": 0,
+      "job-factory": 0,
+      "job-furniture": 0,
+      "job-estate": 0,
+      "job-cars": 0,
+      "zoo-elephant": 0,
+      "zoo-axolotl": 0,
+      "zoo-otter": 0,
+      "zoo-polar": 0,
+      "zoo-gorilla": 0
+    },
+    "used": {},
+    "receipts": {},
+    "position": [
+      -470.26694415263995,
+      0.16,
+      810.7598103404796
+    ]
+  },
+  "results": [
+    {
+      "id": "resort-massage",
+      "done": true,
+      "trace": [
+        {
+          "phase": "inspect",
+          "action": "greet-therapist",
+          "position": {
+            "x": -547,
+            "y": -164.988,
+            "z": 697.1
+          },
+          "pose": {
+            "head": [
+              -0.3208809051332202,
+              0.07350734263614453,
+              0.0815940676102257,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0,
+              -0.24437923405113432,
+              0,
+              -0.14440591103021574
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "mount",
+          "action": "mount",
+          "position": {
+            "x": -547,
+            "y": -164.4494129542093,
+            "z": 696.7677734375
+          },
+          "pose": {
+            "head": [
+              -0.2790160292130254,
+              -0.0433538711392866,
+              0.07774084645498168,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "settle-prone",
+          "position": {
+            "x": -547,
+            "y": -163.968,
+            "z": 693.5
+          },
+          "pose": {
+            "head": [
+              -0.2652345685954111,
+              -0.021657472987146743,
+              0.11983010770616732,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.22777343749999993,
+              -0.24404296874999995,
+              0.22777343749999993,
+              -0.24404296874999995
+            ],
+            "eyes": [
+              0.796630859375,
+              0.796630859375
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "back-massage",
+          "position": {
+            "x": -547,
+            "y": -163.968,
+            "z": 693.5
+          },
+          "pose": {
+            "head": [
+              -0.2706403757297344,
+              0.03695895675363807,
+              0.07842105306512284,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.6269921875,
+              -0.67177734375,
+              0.6269921875,
+              -0.67177734375
+            ],
+            "eyes": [
+              0.13632786179565703,
+              0.13632786179565703
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "shoulder-massage",
+          "position": {
+            "x": -547,
+            "y": -163.968,
+            "z": 693.5
+          },
+          "pose": {
+            "head": [
+              -0.26295429650522156,
+              -0.003833687978919891,
+              0.15944751433521037,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.63,
+              -0.675,
+              0.63,
+              -0.675
+            ],
+            "eyes": [
+              0.19656249999999853,
+              0.19656249999999853
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "paw-massage",
+          "position": {
+            "x": -547,
+            "y": -163.968,
+            "z": 693.5
+          },
+          "pose": {
+            "head": [
+              -0.32540204561090796,
+              0.01613387130432845,
+              0.05917676968585767,
+              "XYZ"
+            ],
+            "jaw": 0.026854494726928614,
+            "paws": [
+              0.5249999999999999,
+              -0.7704325188185819,
+              0.5249999999999999,
+              -0.5625
+            ],
+            "eyes": [
+              0.9222520933956321,
+              0.9222520933956321
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "after-massage-stretch",
+          "position": {
+            "x": -547,
+            "y": -163.968,
+            "z": 693.5
+          },
+          "pose": {
+            "head": [
+              -0.3951178022336023,
+              0.004264066795367535,
+              0.12327986843741284,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.175,
+              -0.3275,
+              0.175,
+              -0.3275
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "dismount",
+          "action": "after-massage-stretch",
+          "position": {
+            "x": -547,
+            "y": -163.67799999999997,
+            "z": 695.3
+          },
+          "pose": {
+            "head": [
+              -0.31123306551758095,
+              -0.023769487154231595,
+              0.09648941895188898,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.08750000000000001,
+              -0.16375000000000006,
+              0.08750000000000001,
+              -0.16375000000000006
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "walk",
+          "action": "walk",
+          "position": {
+            "x": -546.9,
+            "y": -164.988,
+            "z": 697.4407417596433
+          },
+          "pose": {
+            "head": [
+              -0.2754709799679031,
+              0.005096895519276796,
+              0.11928468057943598,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.043880975623155516,
+              -0.043880975623158715,
+              -0.043880975623158715,
+              0.043880975623155516
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        }
+      ],
+      "after": {
+        "coins": 1700,
+        "worldCoins": 13835,
+        "inventory": {
+          "yarn": 0,
+          "mouse": 0,
+          "feather": 0,
+          "tunnel": 0,
+          "scratch": 0,
+          "trampoline": 0,
+          "swing": 0,
+          "carousel": 0,
+          "coaster": 0,
+          "waterslide": 0,
+          "ferris": 0,
+          "teacup": 0,
+          "train": 0,
+          "boat": 0,
+          "balloon": 0,
+          "broom": 0,
+          "scooter": 0,
+          "party": 0,
+          "cafe": 0,
+          "picnic": 0,
+          "stage": 0,
+          "fountain": 0,
+          "mushroom": 0,
+          "crystal": 0,
+          "lantern": 0,
+          "flowers": 0,
+          "bed": 0,
+          "pond": 0,
+          "farm-field": 0,
+          "greenhouse": 0,
+          "barn": 0,
+          "orchard": 0,
+          "coaster-epic": 0,
+          "coaster-legendary": 0,
+          "coaster-mystic": 0,
+          "coaster-dragon": 0,
+          "water-river": 0,
+          "water-whirlpool": 0,
+          "water-extreme": 0,
+          "zipline": 0,
+          "drop-tower": 0,
+          "bumpercars": 0,
+          "rocket": 0,
+          "ufo": 0,
+          "airship": 0,
+          "skate": 0,
+          "catbus": 0,
+          "maze": 0,
+          "laser": 0,
+          "fireflies": 0,
+          "toy-fish": 0,
+          "library": 0,
+          "observatory": 0,
+          "spa": 0,
+          "festival": 0,
+          "portal": 0,
+          "coaster-lagoon": 1,
+          "coaster-sakura": 0,
+          "coaster-moon": 0,
+          "coaster-mushroom": 0,
+          "coaster-cloud": 0,
+          "coaster-clockwork": 0,
+          "coaster-rainbow-launch": 0,
+          "slide-royal-cascade": 0,
+          "slide-vortex-bowl": 0,
+          "coaster-comet-flight": 0,
+          "ride-jellyfish": 0,
+          "ride-dragon-cloud": 0,
+          "toy-bubble-garden": 0,
+          "toy-magic-fish": 0,
+          "cat-barista": 0,
+          "swim-lagoon": 0,
+          "adoption-center": 0,
+          "business-coffee": 0,
+          "business-hotdog": 0,
+          "business-bakery": 0,
+          "business-gelato": 0,
+          "business-florist": 0,
+          "business-artist": 0,
+          "business-farmstand": 0,
+          "business-lemonade": 0,
+          "business-fishmarket": 0,
+          "business-pizza": 0,
+          "business-boba": 0,
+          "business-honeytea": 0,
+          "business-candy": 0,
+          "business-toymaker": 0,
+          "ride-butterfly": 0,
+          "ride-lotus": 0,
+          "ride-dragonfly": 0,
+          "ride-dinosaur": 0,
+          "ride-whale": 0,
+          "ride-whale-aurora": 0,
+          "ride-dream-balloon": 0,
+          "ride-paris-wheel": 0,
+          "ride-venice-gondola": 0,
+          "ride-tokyo-train": 0,
+          "ride-cloud-tram": 0,
+          "ride-star-carousel": 0,
+          "coaster-candy-city": 0,
+          "ride-crystal-slide": 0,
+          "ride-cupcake-wheel": 0,
+          "coaster-piglet-express": 0,
+          "ride-sugar-teacups": 0,
+          "slide-marshmallow": 0,
+          "ride-pig-rose": 0,
+          "ride-pig-peach": 0,
+          "ride-pig-lilac": 0,
+          "ride-capybara-mango": 0,
+          "ride-capybara-boba": 0,
+          "ride-capybara-coconut": 0,
+          "ride-capybara-float": 0,
+          "slide-dream-crystal-loops": 0,
+          "slide-dream-pearl-funnel": 0,
+          "slide-dream-rainbow-launch": 0,
+          "slide-dream-waterfall-arch": 0,
+          "slide-dream-canyon-twins": 0,
+          "slide-dream-ocean-tunnel": 0,
+          "slide-dream-blossom-tree": 0,
+          "slide-dream-ice-tunnel": 0,
+          "slide-dream-orbital-shell": 0,
+          "slide-dream-terrace-cascades": 0,
+          "slide-dream-canyon-eight": 0,
+          "slide-dream-luminous-vortex": 0,
+          "slide-dream-ring-launch": 0,
+          "slide-dream-ribbon-tower": 0,
+          "slide-dream-tidal-wave": 0,
+          "slide-dream-water-lift": 0,
+          "slide-dream-dragon-tail": 0,
+          "slide-dream-four-funnels": 0,
+          "slide-dream-sky-bridge": 0,
+          "slide-dream-cave-loop": 0,
+          "slide-dream-twin-flights": 0,
+          "slide-dream-lighthouse": 0,
+          "slide-dream-twin-shell": 0,
+          "slide-dream-royal-aqueduct": 0,
+          "slide-dream-cloud-star": 0,
+          "slide-atoll-giant-wave": 0,
+          "slide-atoll-rock-arch": 0,
+          "slide-atoll-rainbow-race": 0,
+          "slide-atoll-sky-serpent": 0,
+          "slide-atoll-blue-whirlpool": 0,
+          "slide-atoll-double-serpent": 0,
+          "slide-atoll-waterfall-cascade": 0,
+          "slide-atoll-emerald-canyon": 0,
+          "slide-atoll-crystal-cavern": 0,
+          "slide-atoll-root-valley": 0,
+          "slide-atoll-blue-halfpipe": 0,
+          "slide-atoll-lagoon-loop": 0,
+          "slide-atoll-coral-arch": 0,
+          "slide-atoll-cloud-islets": 0,
+          "slide-atoll-flower-lagoon": 0,
+          "slide-atoll-red-canyon": 0,
+          "slide-atoll-abyss-bridge": 0,
+          "slide-atoll-green-valley": 0,
+          "slide-atoll-purple-vortex": 0,
+          "slide-atoll-mega-loops": 0,
+          "ride-water-barrel-wave": 0,
+          "ride-water-canyon-rafting": 0,
+          "ride-water-glass-drop": 0,
+          "ride-water-lagoon-launch": 0,
+          "ride-water-surf-halfpipe": 0,
+          "ride-water-lazy-river": 0,
+          "ride-water-fountain-carousel": 0,
+          "ride-water-pool-pendulum": 0,
+          "farm-magic-fruits": 0,
+          "magic-seed-cotton": 0,
+          "magic-seed-lantern": 0,
+          "magic-seed-heart": 0,
+          "magic-seed-aqua": 0,
+          "magic-seed-emerald": 0,
+          "magic-seed-golden": 0,
+          "ride-mosasaur": 0,
+          "court-burger": 0,
+          "court-boba": 0,
+          "court-coffee": 0,
+          "court-bakery": 0,
+          "court-cinema": 0,
+          "bikini-krusty": 0,
+          "bikini-sponge": 0,
+          "bikini-patrick": 0,
+          "slide-glass-corkscrew": 0,
+          "slide-sky-cannon": 0,
+          "slide-titan-funnel": 0,
+          "slide-jungle-titan": 0,
+          "slide-rainbow-tsunami": 0,
+          "slide-abyss-capsule": 0,
+          "dive-triple-sky": 0,
+          "coaster-thunder-loop": 0,
+          "coaster-aurora-rift": 0,
+          "coaster-dragon-titan": 0,
+          "diamond-mine": 0,
+          "aquarium-aurora": 0,
+          "aquarium-pearl": 0,
+          "aquarium-coral": 0,
+          "aquarium-lilac": 0,
+          "aquarium-sunrise": 0,
+          "job-bank": 0,
+          "job-crypto": 0,
+          "job-factory": 0,
+          "job-furniture": 0,
+          "job-estate": 0,
+          "job-cars": 0,
+          "zoo-elephant": 0,
+          "zoo-axolotl": 0,
+          "zoo-otter": 0,
+          "zoo-polar": 0,
+          "zoo-gorilla": 0
+        },
+        "used": {
+          "resort-massage-session": 1
+        },
+        "receipts": {
+          "resort-chichi-1": {
+            "product": "resort-massage-session",
+            "sequence": 1,
+            "price": 300,
+            "at": 1795011827937
+          }
+        },
+        "position": [
+          -547,
+          -164.988,
+          697.8000000000001
+        ]
+      }
+    },
+    {
+      "id": "resort-aroma",
+      "done": true,
+      "trace": [
+        {
+          "phase": "inspect",
+          "action": "inspect-place",
+          "position": {
+            "x": -373.5,
+            "y": -164.988,
+            "z": 742.3
+          },
+          "pose": {
+            "head": [
+              -0.3232756368305544,
+              0.14469083187828505,
+              0.1011609923574301,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0,
+              -0.25300000000000006,
+              0,
+              -0.14950000000000002
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "mount",
+          "action": "mount",
+          "position": {
+            "x": -373.5,
+            "y": -164.42231457505076,
+            "z": 741.7375
+          },
+          "pose": {
+            "head": [
+              -0.2851059849989668,
+              0.04087776303017758,
+              0.08732749287475014,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "eyes": [
+              1.0027233561326836,
+              1.0027233561326836
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "smell-flowers",
+          "position": {
+            "x": -373.5,
+            "y": -164.988,
+            "z": 738.7
+          },
+          "pose": {
+            "head": [
+              -0.18842406705392728,
+              0.00028355613565748256,
+              0.16339815560327586,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.253,
+              -0.143,
+              0.253,
+              -0.143
+            ],
+            "eyes": [
+              1.0213806743162013,
+              1.0213806743162013
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "slow-inhale",
+          "position": {
+            "x": -373.5,
+            "y": -164.988,
+            "z": 738.7
+          },
+          "pose": {
+            "head": [
+              -0.2711390257934269,
+              0.04194701737601173,
+              0.10586391486559174,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.5980000000000001,
+              -0.338,
+              0.5980000000000001,
+              -0.338
+            ],
+            "eyes": [
+              0.5,
+              0.5
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "aroma-rest",
+          "position": {
+            "x": -373.5,
+            "y": -164.988,
+            "z": 738.7
+          },
+          "pose": {
+            "head": [
+              -0.26993223130597566,
+              0.015182311443083503,
+              0.07603682170806442,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.644,
+              -0.364,
+              0.644,
+              -0.364
+            ],
+            "eyes": [
+              0.19555488528762027,
+              0.19555488528762027
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "gentle-stretch",
+          "position": {
+            "x": -373.5,
+            "y": -164.988,
+            "z": 738.7
+          },
+          "pose": {
+            "head": [
+              -0.421736857140522,
+              -0.04229868494590825,
+              0.1055446874811702,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0,
+              -0.13,
+              0,
+              -0.13
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "dismount",
+          "action": "gentle-stretch",
+          "position": {
+            "x": -373.5,
+            "y": -164.20337177567743,
+            "z": 740.8357421875
+          },
+          "pose": {
+            "head": [
+              -0.32847913677187873,
+              0.031032503168756463,
+              0.11945575713881727,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0,
+              -0.05287597656250002,
+              0,
+              -0.05287597656250002
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "walk",
+          "action": "walk",
+          "position": {
+            "x": -373.5,
+            "y": -164.988,
+            "z": 743.02
+          },
+          "pose": {
+            "head": [
+              -0.29370356605349,
+              0.0445606968720032,
+              0.12156378605091633,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              -0.12943465160666232,
+              0.12943465160669018,
+              0.12943465160669018,
+              -0.12943465160666232
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        }
+      ],
+      "after": {
+        "coins": 1520,
+        "worldCoins": 13835,
+        "inventory": {
+          "yarn": 0,
+          "mouse": 0,
+          "feather": 0,
+          "tunnel": 0,
+          "scratch": 0,
+          "trampoline": 0,
+          "swing": 0,
+          "carousel": 0,
+          "coaster": 0,
+          "waterslide": 0,
+          "ferris": 0,
+          "teacup": 0,
+          "train": 0,
+          "boat": 0,
+          "balloon": 0,
+          "broom": 0,
+          "scooter": 0,
+          "party": 0,
+          "cafe": 0,
+          "picnic": 0,
+          "stage": 0,
+          "fountain": 0,
+          "mushroom": 0,
+          "crystal": 0,
+          "lantern": 0,
+          "flowers": 0,
+          "bed": 0,
+          "pond": 0,
+          "farm-field": 0,
+          "greenhouse": 0,
+          "barn": 0,
+          "orchard": 0,
+          "coaster-epic": 0,
+          "coaster-legendary": 0,
+          "coaster-mystic": 0,
+          "coaster-dragon": 0,
+          "water-river": 0,
+          "water-whirlpool": 0,
+          "water-extreme": 0,
+          "zipline": 0,
+          "drop-tower": 0,
+          "bumpercars": 0,
+          "rocket": 0,
+          "ufo": 0,
+          "airship": 0,
+          "skate": 0,
+          "catbus": 0,
+          "maze": 0,
+          "laser": 0,
+          "fireflies": 0,
+          "toy-fish": 0,
+          "library": 0,
+          "observatory": 0,
+          "spa": 0,
+          "festival": 0,
+          "portal": 0,
+          "coaster-lagoon": 1,
+          "coaster-sakura": 0,
+          "coaster-moon": 0,
+          "coaster-mushroom": 0,
+          "coaster-cloud": 0,
+          "coaster-clockwork": 0,
+          "coaster-rainbow-launch": 0,
+          "slide-royal-cascade": 0,
+          "slide-vortex-bowl": 0,
+          "coaster-comet-flight": 0,
+          "ride-jellyfish": 0,
+          "ride-dragon-cloud": 0,
+          "toy-bubble-garden": 0,
+          "toy-magic-fish": 0,
+          "cat-barista": 0,
+          "swim-lagoon": 0,
+          "adoption-center": 0,
+          "business-coffee": 0,
+          "business-hotdog": 0,
+          "business-bakery": 0,
+          "business-gelato": 0,
+          "business-florist": 0,
+          "business-artist": 0,
+          "business-farmstand": 0,
+          "business-lemonade": 0,
+          "business-fishmarket": 0,
+          "business-pizza": 0,
+          "business-boba": 0,
+          "business-honeytea": 0,
+          "business-candy": 0,
+          "business-toymaker": 0,
+          "ride-butterfly": 0,
+          "ride-lotus": 0,
+          "ride-dragonfly": 0,
+          "ride-dinosaur": 0,
+          "ride-whale": 0,
+          "ride-whale-aurora": 0,
+          "ride-dream-balloon": 0,
+          "ride-paris-wheel": 0,
+          "ride-venice-gondola": 0,
+          "ride-tokyo-train": 0,
+          "ride-cloud-tram": 0,
+          "ride-star-carousel": 0,
+          "coaster-candy-city": 0,
+          "ride-crystal-slide": 0,
+          "ride-cupcake-wheel": 0,
+          "coaster-piglet-express": 0,
+          "ride-sugar-teacups": 0,
+          "slide-marshmallow": 0,
+          "ride-pig-rose": 0,
+          "ride-pig-peach": 0,
+          "ride-pig-lilac": 0,
+          "ride-capybara-mango": 0,
+          "ride-capybara-boba": 0,
+          "ride-capybara-coconut": 0,
+          "ride-capybara-float": 0,
+          "slide-dream-crystal-loops": 0,
+          "slide-dream-pearl-funnel": 0,
+          "slide-dream-rainbow-launch": 0,
+          "slide-dream-waterfall-arch": 0,
+          "slide-dream-canyon-twins": 0,
+          "slide-dream-ocean-tunnel": 0,
+          "slide-dream-blossom-tree": 0,
+          "slide-dream-ice-tunnel": 0,
+          "slide-dream-orbital-shell": 0,
+          "slide-dream-terrace-cascades": 0,
+          "slide-dream-canyon-eight": 0,
+          "slide-dream-luminous-vortex": 0,
+          "slide-dream-ring-launch": 0,
+          "slide-dream-ribbon-tower": 0,
+          "slide-dream-tidal-wave": 0,
+          "slide-dream-water-lift": 0,
+          "slide-dream-dragon-tail": 0,
+          "slide-dream-four-funnels": 0,
+          "slide-dream-sky-bridge": 0,
+          "slide-dream-cave-loop": 0,
+          "slide-dream-twin-flights": 0,
+          "slide-dream-lighthouse": 0,
+          "slide-dream-twin-shell": 0,
+          "slide-dream-royal-aqueduct": 0,
+          "slide-dream-cloud-star": 0,
+          "slide-atoll-giant-wave": 0,
+          "slide-atoll-rock-arch": 0,
+          "slide-atoll-rainbow-race": 0,
+          "slide-atoll-sky-serpent": 0,
+          "slide-atoll-blue-whirlpool": 0,
+          "slide-atoll-double-serpent": 0,
+          "slide-atoll-waterfall-cascade": 0,
+          "slide-atoll-emerald-canyon": 0,
+          "slide-atoll-crystal-cavern": 0,
+          "slide-atoll-root-valley": 0,
+          "slide-atoll-blue-halfpipe": 0,
+          "slide-atoll-lagoon-loop": 0,
+          "slide-atoll-coral-arch": 0,
+          "slide-atoll-cloud-islets": 0,
+          "slide-atoll-flower-lagoon": 0,
+          "slide-atoll-red-canyon": 0,
+          "slide-atoll-abyss-bridge": 0,
+          "slide-atoll-green-valley": 0,
+          "slide-atoll-purple-vortex": 0,
+          "slide-atoll-mega-loops": 0,
+          "ride-water-barrel-wave": 0,
+          "ride-water-canyon-rafting": 0,
+          "ride-water-glass-drop": 0,
+          "ride-water-lagoon-launch": 0,
+          "ride-water-surf-halfpipe": 0,
+          "ride-water-lazy-river": 0,
+          "ride-water-fountain-carousel": 0,
+          "ride-water-pool-pendulum": 0,
+          "farm-magic-fruits": 0,
+          "magic-seed-cotton": 0,
+          "magic-seed-lantern": 0,
+          "magic-seed-heart": 0,
+          "magic-seed-aqua": 0,
+          "magic-seed-emerald": 0,
+          "magic-seed-golden": 0,
+          "ride-mosasaur": 0,
+          "court-burger": 0,
+          "court-boba": 0,
+          "court-coffee": 0,
+          "court-bakery": 0,
+          "court-cinema": 0,
+          "bikini-krusty": 0,
+          "bikini-sponge": 0,
+          "bikini-patrick": 0,
+          "slide-glass-corkscrew": 0,
+          "slide-sky-cannon": 0,
+          "slide-titan-funnel": 0,
+          "slide-jungle-titan": 0,
+          "slide-rainbow-tsunami": 0,
+          "slide-abyss-capsule": 0,
+          "dive-triple-sky": 0,
+          "coaster-thunder-loop": 0,
+          "coaster-aurora-rift": 0,
+          "coaster-dragon-titan": 0,
+          "diamond-mine": 0,
+          "aquarium-aurora": 0,
+          "aquarium-pearl": 0,
+          "aquarium-coral": 0,
+          "aquarium-lilac": 0,
+          "aquarium-sunrise": 0,
+          "job-bank": 0,
+          "job-crypto": 0,
+          "job-factory": 0,
+          "job-furniture": 0,
+          "job-estate": 0,
+          "job-cars": 0,
+          "zoo-elephant": 0,
+          "zoo-axolotl": 0,
+          "zoo-otter": 0,
+          "zoo-polar": 0,
+          "zoo-gorilla": 0
+        },
+        "used": {
+          "resort-massage-session": 1,
+          "resort-aroma-session": 1
+        },
+        "receipts": {
+          "resort-chichi-1": {
+            "product": "resort-massage-session",
+            "sequence": 1,
+            "price": 300,
+            "at": 1795011827937
+          },
+          "resort-chichi-2": {
+            "product": "resort-aroma-session",
+            "sequence": 2,
+            "price": 180,
+            "at": 1795011846456
+          }
+        },
+        "position": [
+          -373.5,
+          -164.988,
+          743
+        ]
+      }
+    },
+    {
+      "id": "resort-sauna",
+      "done": true,
+      "trace": [
+        {
+          "phase": "inspect",
+          "action": "inspect-place",
+          "position": {
+            "x": -373.5,
+            "y": -155.988,
+            "z": 698.3
+          },
+          "pose": {
+            "head": [
+              -0.36238136955648687,
+              0.11629956926637286,
+              0.09463892880509418,
+              "XYZ"
+            ],
+            "jaw": 0.084382245711429,
+            "paws": [
+              0,
+              -0.3817549326507175,
+              0,
+              -0.14440591103021574
+            ],
+            "eyes": [
+              0.8169710694889785,
+              0.8169710694889785
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "mount",
+          "action": "mount",
+          "position": {
+            "x": -373.5,
+            "y": -155.13727743515796,
+            "z": 697.4650390625
+          },
+          "pose": {
+            "head": [
+              -0.2829994406108833,
+              -0.013270865070276345,
+              0.061723809962134765,
+              "XYZ"
+            ],
+            "jaw": 0.018321907978069277,
+            "paws": [
+              0,
+              -0.02108344068784717,
+              0,
+              0
+            ],
+            "eyes": [
+              0.9433883739117552,
+              0.9433883739117552
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "settle-on-bench",
+          "position": {
+            "x": -373.5,
+            "y": -155.188,
+            "z": 694.7
+          },
+          "pose": {
+            "head": [
+              -0.2809113660834167,
+              -0.04489427143503939,
+              0.12182807528856512,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.35477050781249997,
+              -0.20052246093749998,
+              0.35477050781249997,
+              -0.20052246093749998
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "warm-breathing",
+          "position": {
+            "x": -373.5,
+            "y": -155.188,
+            "z": 694.7
+          },
+          "pose": {
+            "head": [
+              -0.25995946518010754,
+              0.0415688844470568,
+              0.08243453170938068,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.782,
+              -0.442,
+              0.782,
+              -0.442
+            ],
+            "eyes": [
+              0.35,
+              0.35
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "follow-steam",
+          "position": {
+            "x": -373.5,
+            "y": -155.188,
+            "z": 694.7
+          },
+          "pose": {
+            "head": [
+              -0.39472180788595485,
+              0.20481468394990973,
+              0.08524495862122622,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.7360000000000001,
+              -0.41600000000000004,
+              0.7360000000000001,
+              -0.41600000000000004
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "ready-to-cool",
+          "position": {
+            "x": -373.5,
+            "y": -155.188,
+            "z": 694.7
+          },
+          "pose": {
+            "head": [
+              -0.4121969637010389,
+              0.1169991323727278,
+              0.10526236605339315,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.7360000000000001,
+              -0.41600000000000004,
+              0.7360000000000001,
+              -0.41600000000000004
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "dismount",
+          "action": "ready-to-cool",
+          "position": {
+            "x": -373.5,
+            "y": -155.188,
+            "z": 694.7
+          },
+          "pose": {
+            "head": [
+              -0.28078489459183875,
+              0.04440789169913788,
+              0.11962399769542573,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.36800000000000005,
+              -0.28800000000000003,
+              0.36800000000000005,
+              -0.28800000000000003
+            ],
+            "eyes": [
+              0.85,
+              0.85
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "done",
+          "action": "done",
+          "position": {
+            "x": -373.5,
+            "y": -155.988,
+            "z": 699
+          },
+          "pose": {
+            "head": [
+              -0.23615889850107363,
+              0.017241435127421875,
+              -0.019418137650386205,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "eyes": [
+              0.025,
+              0.025
+            ]
+          },
+          "visibleFood": []
+        }
+      ],
+      "after": {
+        "coins": 1400,
+        "worldCoins": 13835,
+        "inventory": {
+          "yarn": 0,
+          "mouse": 0,
+          "feather": 0,
+          "tunnel": 0,
+          "scratch": 0,
+          "trampoline": 0,
+          "swing": 0,
+          "carousel": 0,
+          "coaster": 0,
+          "waterslide": 0,
+          "ferris": 0,
+          "teacup": 0,
+          "train": 0,
+          "boat": 0,
+          "balloon": 0,
+          "broom": 0,
+          "scooter": 0,
+          "party": 0,
+          "cafe": 0,
+          "picnic": 0,
+          "stage": 0,
+          "fountain": 0,
+          "mushroom": 0,
+          "crystal": 0,
+          "lantern": 0,
+          "flowers": 0,
+          "bed": 0,
+          "pond": 0,
+          "farm-field": 0,
+          "greenhouse": 0,
+          "barn": 0,
+          "orchard": 0,
+          "coaster-epic": 0,
+          "coaster-legendary": 0,
+          "coaster-mystic": 0,
+          "coaster-dragon": 0,
+          "water-river": 0,
+          "water-whirlpool": 0,
+          "water-extreme": 0,
+          "zipline": 0,
+          "drop-tower": 0,
+          "bumpercars": 0,
+          "rocket": 0,
+          "ufo": 0,
+          "airship": 0,
+          "skate": 0,
+          "catbus": 0,
+          "maze": 0,
+          "laser": 0,
+          "fireflies": 0,
+          "toy-fish": 0,
+          "library": 0,
+          "observatory": 0,
+          "spa": 0,
+          "festival": 0,
+          "portal": 0,
+          "coaster-lagoon": 1,
+          "coaster-sakura": 0,
+          "coaster-moon": 0,
+          "coaster-mushroom": 0,
+          "coaster-cloud": 0,
+          "coaster-clockwork": 0,
+          "coaster-rainbow-launch": 0,
+          "slide-royal-cascade": 0,
+          "slide-vortex-bowl": 0,
+          "coaster-comet-flight": 0,
+          "ride-jellyfish": 0,
+          "ride-dragon-cloud": 0,
+          "toy-bubble-garden": 0,
+          "toy-magic-fish": 0,
+          "cat-barista": 0,
+          "swim-lagoon": 0,
+          "adoption-center": 0,
+          "business-coffee": 0,
+          "business-hotdog": 0,
+          "business-bakery": 0,
+          "business-gelato": 0,
+          "business-florist": 0,
+          "business-artist": 0,
+          "business-farmstand": 0,
+          "business-lemonade": 0,
+          "business-fishmarket": 0,
+          "business-pizza": 0,
+          "business-boba": 0,
+          "business-honeytea": 0,
+          "business-candy": 0,
+          "business-toymaker": 0,
+          "ride-butterfly": 0,
+          "ride-lotus": 0,
+          "ride-dragonfly": 0,
+          "ride-dinosaur": 0,
+          "ride-whale": 0,
+          "ride-whale-aurora": 0,
+          "ride-dream-balloon": 0,
+          "ride-paris-wheel": 0,
+          "ride-venice-gondola": 0,
+          "ride-tokyo-train": 0,
+          "ride-cloud-tram": 0,
+          "ride-star-carousel": 0,
+          "coaster-candy-city": 0,
+          "ride-crystal-slide": 0,
+          "ride-cupcake-wheel": 0,
+          "coaster-piglet-express": 0,
+          "ride-sugar-teacups": 0,
+          "slide-marshmallow": 0,
+          "ride-pig-rose": 0,
+          "ride-pig-peach": 0,
+          "ride-pig-lilac": 0,
+          "ride-capybara-mango": 0,
+          "ride-capybara-boba": 0,
+          "ride-capybara-coconut": 0,
+          "ride-capybara-float": 0,
+          "slide-dream-crystal-loops": 0,
+          "slide-dream-pearl-funnel": 0,
+          "slide-dream-rainbow-launch": 0,
+          "slide-dream-waterfall-arch": 0,
+          "slide-dream-canyon-twins": 0,
+          "slide-dream-ocean-tunnel": 0,
+          "slide-dream-blossom-tree": 0,
+          "slide-dream-ice-tunnel": 0,
+          "slide-dream-orbital-shell": 0,
+          "slide-dream-terrace-cascades": 0,
+          "slide-dream-canyon-eight": 0,
+          "slide-dream-luminous-vortex": 0,
+          "slide-dream-ring-launch": 0,
+          "slide-dream-ribbon-tower": 0,
+          "slide-dream-tidal-wave": 0,
+          "slide-dream-water-lift": 0,
+          "slide-dream-dragon-tail": 0,
+          "slide-dream-four-funnels": 0,
+          "slide-dream-sky-bridge": 0,
+          "slide-dream-cave-loop": 0,
+          "slide-dream-twin-flights": 0,
+          "slide-dream-lighthouse": 0,
+          "slide-dream-twin-shell": 0,
+          "slide-dream-royal-aqueduct": 0,
+          "slide-dream-cloud-star": 0,
+          "slide-atoll-giant-wave": 0,
+          "slide-atoll-rock-arch": 0,
+          "slide-atoll-rainbow-race": 0,
+          "slide-atoll-sky-serpent": 0,
+          "slide-atoll-blue-whirlpool": 0,
+          "slide-atoll-double-serpent": 0,
+          "slide-atoll-waterfall-cascade": 0,
+          "slide-atoll-emerald-canyon": 0,
+          "slide-atoll-crystal-cavern": 0,
+          "slide-atoll-root-valley": 0,
+          "slide-atoll-blue-halfpipe": 0,
+          "slide-atoll-lagoon-loop": 0,
+          "slide-atoll-coral-arch": 0,
+          "slide-atoll-cloud-islets": 0,
+          "slide-atoll-flower-lagoon": 0,
+          "slide-atoll-red-canyon": 0,
+          "slide-atoll-abyss-bridge": 0,
+          "slide-atoll-green-valley": 0,
+          "slide-atoll-purple-vortex": 0,
+          "slide-atoll-mega-loops": 0,
+          "ride-water-barrel-wave": 0,
+          "ride-water-canyon-rafting": 0,
+          "ride-water-glass-drop": 0,
+          "ride-water-lagoon-launch": 0,
+          "ride-water-surf-halfpipe": 0,
+          "ride-water-lazy-river": 0,
+          "ride-water-fountain-carousel": 0,
+          "ride-water-pool-pendulum": 0,
+          "farm-magic-fruits": 0,
+          "magic-seed-cotton": 0,
+          "magic-seed-lantern": 0,
+          "magic-seed-heart": 0,
+          "magic-seed-aqua": 0,
+          "magic-seed-emerald": 0,
+          "magic-seed-golden": 0,
+          "ride-mosasaur": 0,
+          "court-burger": 0,
+          "court-boba": 0,
+          "court-coffee": 0,
+          "court-bakery": 0,
+          "court-cinema": 0,
+          "bikini-krusty": 0,
+          "bikini-sponge": 0,
+          "bikini-patrick": 0,
+          "slide-glass-corkscrew": 0,
+          "slide-sky-cannon": 0,
+          "slide-titan-funnel": 0,
+          "slide-jungle-titan": 0,
+          "slide-rainbow-tsunami": 0,
+          "slide-abyss-capsule": 0,
+          "dive-triple-sky": 0,
+          "coaster-thunder-loop": 0,
+          "coaster-aurora-rift": 0,
+          "coaster-dragon-titan": 0,
+          "diamond-mine": 0,
+          "aquarium-aurora": 0,
+          "aquarium-pearl": 0,
+          "aquarium-coral": 0,
+          "aquarium-lilac": 0,
+          "aquarium-sunrise": 0,
+          "job-bank": 0,
+          "job-crypto": 0,
+          "job-factory": 0,
+          "job-furniture": 0,
+          "job-estate": 0,
+          "job-cars": 0,
+          "zoo-elephant": 0,
+          "zoo-axolotl": 0,
+          "zoo-otter": 0,
+          "zoo-polar": 0,
+          "zoo-gorilla": 0
+        },
+        "used": {
+          "resort-massage-session": 1,
+          "resort-aroma-session": 1,
+          "resort-sauna-session": 1
+        },
+        "receipts": {
+          "resort-chichi-1": {
+            "product": "resort-massage-session",
+            "sequence": 1,
+            "price": 300,
+            "at": 1795011827937
+          },
+          "resort-chichi-2": {
+            "product": "resort-aroma-session",
+            "sequence": 2,
+            "price": 180,
+            "at": 1795011846456
+          },
+          "resort-chichi-3": {
+            "product": "resort-sauna-session",
+            "sequence": 3,
+            "price": 120,
+            "at": 1795011855675
+          }
+        },
+        "position": [
+          -373.5,
+          -155.988,
+          699
+        ]
+      }
+    },
+    {
+      "id": "resort-cabana",
+      "done": true,
+      "trace": [
+        {
+          "phase": "inspect",
+          "action": "inspect-place",
+          "position": {
+            "x": -542.5,
+            "y": -155.988,
+            "z": 656.3
+          },
+          "pose": {
+            "head": [
+              -0.29691906642488336,
+              0.06348016169295242,
+              0.07972932148274353,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0,
+              -0.24437923405113432,
+              0,
+              -0.14440591103021574
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "mount",
+          "action": "mount",
+          "position": {
+            "x": -542.5,
+            "y": -155.4586414698343,
+            "z": 655.9677734375
+          },
+          "pose": {
+            "head": [
+              -0.2810564714692173,
+              -0.04495238369187772,
+              0.10177822591686084,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "eyes": [
+              0.5744444444774633,
+              0.5744444444774633
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "ocean-window",
+          "position": {
+            "x": -542.5,
+            "y": -155.068,
+            "z": 652.7
+          },
+          "pose": {
+            "head": [
+              -0.3110156968323289,
+              0.08528153402028057,
+              0.11891020016164114,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "nestle-in-cushion",
+          "position": {
+            "x": -542.5,
+            "y": -155.068,
+            "z": 652.7
+          },
+          "pose": {
+            "head": [
+              -0.2846302266672617,
+              0.008820095710480626,
+              0.12342247630087214,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.43544921874999837,
+              -0.4665527343749982,
+              0.43544921874999837,
+              -0.4665527343749982
+            ],
+            "eyes": [
+              0.4736328125000019,
+              0.4736328125000019
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "cabana-nap",
+          "position": {
+            "x": -542.5,
+            "y": -155.068,
+            "z": 652.7
+          },
+          "pose": {
+            "head": [
+              -0.29242788732684977,
+              0.010347713431324367,
+              0.10051909410535781,
+              "XYZ"
+            ],
+            "jaw": 0.01471711348773017,
+            "paws": [
+              0.5889843749999975,
+              -0.6424900031809766,
+              0.5889843749999975,
+              -0.6310546874999973
+            ],
+            "eyes": [
+              0.06465782210624545,
+              0.06465782210624545
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "wake-and-stretch",
+          "position": {
+            "x": -542.5,
+            "y": -155.068,
+            "z": 652.7
+          },
+          "pose": {
+            "head": [
+              -0.38021489961144045,
+              0.002062085000664236,
+              0.0816404513350748,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.175,
+              -0.3375,
+              0.175,
+              -0.3375
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "dismount",
+          "action": "wake-and-stretch",
+          "position": {
+            "x": -542.5,
+            "y": -154.72799999999998,
+            "z": 654.5
+          },
+          "pose": {
+            "head": [
+              -0.3342438959816036,
+              -0.0194798238609216,
+              0.11774563041486852,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.08750000000000001,
+              -0.16875000000000004,
+              0.08750000000000001,
+              -0.16875000000000004
+            ],
+            "eyes": [
+              1.0059996342321291,
+              1.0059996342321291
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "walk",
+          "action": "walk",
+          "position": {
+            "x": -542.65,
+            "y": -155.988,
+            "z": 656.6184524052577
+          },
+          "pose": {
+            "head": [
+              -0.2660114257394861,
+              -0.03591754481793534,
+              0.07897227905936186,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              -0.29944035149189446,
+              0.29944035149189263,
+              0.29944035149189263,
+              -0.29944035149189446
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        }
+      ],
+      "after": {
+        "coins": 1200,
+        "worldCoins": 13835,
+        "inventory": {
+          "yarn": 0,
+          "mouse": 0,
+          "feather": 0,
+          "tunnel": 0,
+          "scratch": 0,
+          "trampoline": 0,
+          "swing": 0,
+          "carousel": 0,
+          "coaster": 0,
+          "waterslide": 0,
+          "ferris": 0,
+          "teacup": 0,
+          "train": 0,
+          "boat": 0,
+          "balloon": 0,
+          "broom": 0,
+          "scooter": 0,
+          "party": 0,
+          "cafe": 0,
+          "picnic": 0,
+          "stage": 0,
+          "fountain": 0,
+          "mushroom": 0,
+          "crystal": 0,
+          "lantern": 0,
+          "flowers": 0,
+          "bed": 0,
+          "pond": 0,
+          "farm-field": 0,
+          "greenhouse": 0,
+          "barn": 0,
+          "orchard": 0,
+          "coaster-epic": 0,
+          "coaster-legendary": 0,
+          "coaster-mystic": 0,
+          "coaster-dragon": 0,
+          "water-river": 0,
+          "water-whirlpool": 0,
+          "water-extreme": 0,
+          "zipline": 0,
+          "drop-tower": 0,
+          "bumpercars": 0,
+          "rocket": 0,
+          "ufo": 0,
+          "airship": 0,
+          "skate": 0,
+          "catbus": 0,
+          "maze": 0,
+          "laser": 0,
+          "fireflies": 0,
+          "toy-fish": 0,
+          "library": 0,
+          "observatory": 0,
+          "spa": 0,
+          "festival": 0,
+          "portal": 0,
+          "coaster-lagoon": 1,
+          "coaster-sakura": 0,
+          "coaster-moon": 0,
+          "coaster-mushroom": 0,
+          "coaster-cloud": 0,
+          "coaster-clockwork": 0,
+          "coaster-rainbow-launch": 0,
+          "slide-royal-cascade": 0,
+          "slide-vortex-bowl": 0,
+          "coaster-comet-flight": 0,
+          "ride-jellyfish": 0,
+          "ride-dragon-cloud": 0,
+          "toy-bubble-garden": 0,
+          "toy-magic-fish": 0,
+          "cat-barista": 0,
+          "swim-lagoon": 0,
+          "adoption-center": 0,
+          "business-coffee": 0,
+          "business-hotdog": 0,
+          "business-bakery": 0,
+          "business-gelato": 0,
+          "business-florist": 0,
+          "business-artist": 0,
+          "business-farmstand": 0,
+          "business-lemonade": 0,
+          "business-fishmarket": 0,
+          "business-pizza": 0,
+          "business-boba": 0,
+          "business-honeytea": 0,
+          "business-candy": 0,
+          "business-toymaker": 0,
+          "ride-butterfly": 0,
+          "ride-lotus": 0,
+          "ride-dragonfly": 0,
+          "ride-dinosaur": 0,
+          "ride-whale": 0,
+          "ride-whale-aurora": 0,
+          "ride-dream-balloon": 0,
+          "ride-paris-wheel": 0,
+          "ride-venice-gondola": 0,
+          "ride-tokyo-train": 0,
+          "ride-cloud-tram": 0,
+          "ride-star-carousel": 0,
+          "coaster-candy-city": 0,
+          "ride-crystal-slide": 0,
+          "ride-cupcake-wheel": 0,
+          "coaster-piglet-express": 0,
+          "ride-sugar-teacups": 0,
+          "slide-marshmallow": 0,
+          "ride-pig-rose": 0,
+          "ride-pig-peach": 0,
+          "ride-pig-lilac": 0,
+          "ride-capybara-mango": 0,
+          "ride-capybara-boba": 0,
+          "ride-capybara-coconut": 0,
+          "ride-capybara-float": 0,
+          "slide-dream-crystal-loops": 0,
+          "slide-dream-pearl-funnel": 0,
+          "slide-dream-rainbow-launch": 0,
+          "slide-dream-waterfall-arch": 0,
+          "slide-dream-canyon-twins": 0,
+          "slide-dream-ocean-tunnel": 0,
+          "slide-dream-blossom-tree": 0,
+          "slide-dream-ice-tunnel": 0,
+          "slide-dream-orbital-shell": 0,
+          "slide-dream-terrace-cascades": 0,
+          "slide-dream-canyon-eight": 0,
+          "slide-dream-luminous-vortex": 0,
+          "slide-dream-ring-launch": 0,
+          "slide-dream-ribbon-tower": 0,
+          "slide-dream-tidal-wave": 0,
+          "slide-dream-water-lift": 0,
+          "slide-dream-dragon-tail": 0,
+          "slide-dream-four-funnels": 0,
+          "slide-dream-sky-bridge": 0,
+          "slide-dream-cave-loop": 0,
+          "slide-dream-twin-flights": 0,
+          "slide-dream-lighthouse": 0,
+          "slide-dream-twin-shell": 0,
+          "slide-dream-royal-aqueduct": 0,
+          "slide-dream-cloud-star": 0,
+          "slide-atoll-giant-wave": 0,
+          "slide-atoll-rock-arch": 0,
+          "slide-atoll-rainbow-race": 0,
+          "slide-atoll-sky-serpent": 0,
+          "slide-atoll-blue-whirlpool": 0,
+          "slide-atoll-double-serpent": 0,
+          "slide-atoll-waterfall-cascade": 0,
+          "slide-atoll-emerald-canyon": 0,
+          "slide-atoll-crystal-cavern": 0,
+          "slide-atoll-root-valley": 0,
+          "slide-atoll-blue-halfpipe": 0,
+          "slide-atoll-lagoon-loop": 0,
+          "slide-atoll-coral-arch": 0,
+          "slide-atoll-cloud-islets": 0,
+          "slide-atoll-flower-lagoon": 0,
+          "slide-atoll-red-canyon": 0,
+          "slide-atoll-abyss-bridge": 0,
+          "slide-atoll-green-valley": 0,
+          "slide-atoll-purple-vortex": 0,
+          "slide-atoll-mega-loops": 0,
+          "ride-water-barrel-wave": 0,
+          "ride-water-canyon-rafting": 0,
+          "ride-water-glass-drop": 0,
+          "ride-water-lagoon-launch": 0,
+          "ride-water-surf-halfpipe": 0,
+          "ride-water-lazy-river": 0,
+          "ride-water-fountain-carousel": 0,
+          "ride-water-pool-pendulum": 0,
+          "farm-magic-fruits": 0,
+          "magic-seed-cotton": 0,
+          "magic-seed-lantern": 0,
+          "magic-seed-heart": 0,
+          "magic-seed-aqua": 0,
+          "magic-seed-emerald": 0,
+          "magic-seed-golden": 0,
+          "ride-mosasaur": 0,
+          "court-burger": 0,
+          "court-boba": 0,
+          "court-coffee": 0,
+          "court-bakery": 0,
+          "court-cinema": 0,
+          "bikini-krusty": 0,
+          "bikini-sponge": 0,
+          "bikini-patrick": 0,
+          "slide-glass-corkscrew": 0,
+          "slide-sky-cannon": 0,
+          "slide-titan-funnel": 0,
+          "slide-jungle-titan": 0,
+          "slide-rainbow-tsunami": 0,
+          "slide-abyss-capsule": 0,
+          "dive-triple-sky": 0,
+          "coaster-thunder-loop": 0,
+          "coaster-aurora-rift": 0,
+          "coaster-dragon-titan": 0,
+          "diamond-mine": 0,
+          "aquarium-aurora": 0,
+          "aquarium-pearl": 0,
+          "aquarium-coral": 0,
+          "aquarium-lilac": 0,
+          "aquarium-sunrise": 0,
+          "job-bank": 0,
+          "job-crypto": 0,
+          "job-factory": 0,
+          "job-furniture": 0,
+          "job-estate": 0,
+          "job-cars": 0,
+          "zoo-elephant": 0,
+          "zoo-axolotl": 0,
+          "zoo-otter": 0,
+          "zoo-polar": 0,
+          "zoo-gorilla": 0
+        },
+        "used": {
+          "resort-massage-session": 1,
+          "resort-aroma-session": 1,
+          "resort-sauna-session": 1,
+          "resort-cabana-session": 1
+        },
+        "receipts": {
+          "resort-chichi-1": {
+            "product": "resort-massage-session",
+            "sequence": 1,
+            "price": 300,
+            "at": 1795011827937
+          },
+          "resort-chichi-2": {
+            "product": "resort-aroma-session",
+            "sequence": 2,
+            "price": 180,
+            "at": 1795011846456
+          },
+          "resort-chichi-3": {
+            "product": "resort-sauna-session",
+            "sequence": 3,
+            "price": 120,
+            "at": 1795011855675
+          },
+          "resort-chichi-4": {
+            "product": "resort-cabana-session",
+            "sequence": 4,
+            "price": 200,
+            "at": 1795011865093
+          }
+        },
+        "position": [
+          -542.5,
+          -155.988,
+          657
+        ]
+      }
+    },
+    {
+      "id": "resort-beauty",
+      "done": true,
+      "trace": [
+        {
+          "phase": "inspect",
+          "action": "inspect-place",
+          "position": {
+            "x": -378.5,
+            "y": -164.988,
+            "z": 656.3
+          },
+          "pose": {
+            "head": [
+              -0.3175706784378215,
+              0.06539299210424299,
+              0.10206705597584531,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0,
+              -0.24437923405113432,
+              0,
+              -0.14440591103021574
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "mount",
+          "action": "mount",
+          "position": {
+            "x": -378.5,
+            "y": -164.4586414698343,
+            "z": 655.9677734375
+          },
+          "pose": {
+            "head": [
+              -0.2937242289149068,
+              -0.009263818647771933,
+              0.1220625958623173,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "salon-settle",
+          "position": {
+            "x": -378.5,
+            "y": -164.068,
+            "z": 652.7
+          },
+          "pose": {
+            "head": [
+              -0.265634196362693,
+              0.0407493774588236,
+              0.09559374026929227,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.22451953124999993,
+              -0.12690234374999995,
+              0.22451953124999993,
+              -0.12690234374999995
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "fur-care",
+          "position": {
+            "x": -378.5,
+            "y": -164.068,
+            "z": 652.7
+          },
+          "pose": {
+            "head": [
+              -0.2886700718903858,
+              -0.02798181963628753,
+              0.2000464519181445,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.6840703124999999,
+              -0.38664843749999994,
+              0.6840703124999999,
+              -0.38664843749999994
+            ],
+            "eyes": [
+              0.37792968750000033,
+              0.37792968750000033
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "paw-care",
+          "position": {
+            "x": -378.5,
+            "y": -164.068,
+            "z": 652.7
+          },
+          "pose": {
+            "head": [
+              -0.28143881245856317,
+              0.04498976668044597,
+              0.12743606570853205,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.6900000000000001,
+              -0.39,
+              0.6900000000000001,
+              -0.7369238281249935
+            ],
+            "eyes": [
+              0.9720703124999882,
+              0.9720703124999882
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "mirror-check",
+          "position": {
+            "x": -378.5,
+            "y": -164.068,
+            "z": 652.7
+          },
+          "pose": {
+            "head": [
+              -0.2975302629320089,
+              -0.25914662192217963,
+              0.12358656740595453,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.6459765625000012,
+              -0.3651171875000007,
+              0.6459765625000012,
+              -0.3806933593750105
+            ],
+            "eyes": [
+              0.5109863280935018,
+              0.5109863280935018
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "pleased-head-turn",
+          "position": {
+            "x": -378.5,
+            "y": -164.068,
+            "z": 652.7
+          },
+          "pose": {
+            "head": [
+              -0.3588417660753881,
+              0.25909837750135456,
+              0.09108389130946033,
+              "XYZ"
+            ],
+            "jaw": 0.0608049486958087,
+            "paws": [
+              0.552,
+              -0.44173153266547316,
+              0.552,
+              -0.312
+            ],
+            "eyes": [
+              0.8099031132097575,
+              0.8099031132097575
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "dismount",
+          "action": "pleased-head-turn",
+          "position": {
+            "x": -378.5,
+            "y": -163.72799999999998,
+            "z": 654.5
+          },
+          "pose": {
+            "head": [
+              -0.26381805956558024,
+              0.07500001803360132,
+              0.07883414067089572,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.2760000000000001,
+              -0.15600000000000003,
+              0.2760000000000001,
+              -0.15600000000000003
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "walk",
+          "action": "walk",
+          "position": {
+            "x": -378.6,
+            "y": -164.988,
+            "z": 656.6407417596433
+          },
+          "pose": {
+            "head": [
+              -0.2822813151717515,
+              -0.035246943310233605,
+              0.08004546720277242,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              -0.23809954862963184,
+              0.23809954862965454,
+              0.23809954862965454,
+              -0.23809954862963184
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        }
+      ],
+      "after": {
+        "coins": 1020,
+        "worldCoins": 13835,
+        "inventory": {
+          "yarn": 0,
+          "mouse": 0,
+          "feather": 0,
+          "tunnel": 0,
+          "scratch": 0,
+          "trampoline": 0,
+          "swing": 0,
+          "carousel": 0,
+          "coaster": 0,
+          "waterslide": 0,
+          "ferris": 0,
+          "teacup": 0,
+          "train": 0,
+          "boat": 0,
+          "balloon": 0,
+          "broom": 0,
+          "scooter": 0,
+          "party": 0,
+          "cafe": 0,
+          "picnic": 0,
+          "stage": 0,
+          "fountain": 0,
+          "mushroom": 0,
+          "crystal": 0,
+          "lantern": 0,
+          "flowers": 0,
+          "bed": 0,
+          "pond": 0,
+          "farm-field": 0,
+          "greenhouse": 0,
+          "barn": 0,
+          "orchard": 0,
+          "coaster-epic": 0,
+          "coaster-legendary": 0,
+          "coaster-mystic": 0,
+          "coaster-dragon": 0,
+          "water-river": 0,
+          "water-whirlpool": 0,
+          "water-extreme": 0,
+          "zipline": 0,
+          "drop-tower": 0,
+          "bumpercars": 0,
+          "rocket": 0,
+          "ufo": 0,
+          "airship": 0,
+          "skate": 0,
+          "catbus": 0,
+          "maze": 0,
+          "laser": 0,
+          "fireflies": 0,
+          "toy-fish": 0,
+          "library": 0,
+          "observatory": 0,
+          "spa": 0,
+          "festival": 0,
+          "portal": 0,
+          "coaster-lagoon": 1,
+          "coaster-sakura": 0,
+          "coaster-moon": 0,
+          "coaster-mushroom": 0,
+          "coaster-cloud": 0,
+          "coaster-clockwork": 0,
+          "coaster-rainbow-launch": 0,
+          "slide-royal-cascade": 0,
+          "slide-vortex-bowl": 0,
+          "coaster-comet-flight": 0,
+          "ride-jellyfish": 0,
+          "ride-dragon-cloud": 0,
+          "toy-bubble-garden": 0,
+          "toy-magic-fish": 0,
+          "cat-barista": 0,
+          "swim-lagoon": 0,
+          "adoption-center": 0,
+          "business-coffee": 0,
+          "business-hotdog": 0,
+          "business-bakery": 0,
+          "business-gelato": 0,
+          "business-florist": 0,
+          "business-artist": 0,
+          "business-farmstand": 0,
+          "business-lemonade": 0,
+          "business-fishmarket": 0,
+          "business-pizza": 0,
+          "business-boba": 0,
+          "business-honeytea": 0,
+          "business-candy": 0,
+          "business-toymaker": 0,
+          "ride-butterfly": 0,
+          "ride-lotus": 0,
+          "ride-dragonfly": 0,
+          "ride-dinosaur": 0,
+          "ride-whale": 0,
+          "ride-whale-aurora": 0,
+          "ride-dream-balloon": 0,
+          "ride-paris-wheel": 0,
+          "ride-venice-gondola": 0,
+          "ride-tokyo-train": 0,
+          "ride-cloud-tram": 0,
+          "ride-star-carousel": 0,
+          "coaster-candy-city": 0,
+          "ride-crystal-slide": 0,
+          "ride-cupcake-wheel": 0,
+          "coaster-piglet-express": 0,
+          "ride-sugar-teacups": 0,
+          "slide-marshmallow": 0,
+          "ride-pig-rose": 0,
+          "ride-pig-peach": 0,
+          "ride-pig-lilac": 0,
+          "ride-capybara-mango": 0,
+          "ride-capybara-boba": 0,
+          "ride-capybara-coconut": 0,
+          "ride-capybara-float": 0,
+          "slide-dream-crystal-loops": 0,
+          "slide-dream-pearl-funnel": 0,
+          "slide-dream-rainbow-launch": 0,
+          "slide-dream-waterfall-arch": 0,
+          "slide-dream-canyon-twins": 0,
+          "slide-dream-ocean-tunnel": 0,
+          "slide-dream-blossom-tree": 0,
+          "slide-dream-ice-tunnel": 0,
+          "slide-dream-orbital-shell": 0,
+          "slide-dream-terrace-cascades": 0,
+          "slide-dream-canyon-eight": 0,
+          "slide-dream-luminous-vortex": 0,
+          "slide-dream-ring-launch": 0,
+          "slide-dream-ribbon-tower": 0,
+          "slide-dream-tidal-wave": 0,
+          "slide-dream-water-lift": 0,
+          "slide-dream-dragon-tail": 0,
+          "slide-dream-four-funnels": 0,
+          "slide-dream-sky-bridge": 0,
+          "slide-dream-cave-loop": 0,
+          "slide-dream-twin-flights": 0,
+          "slide-dream-lighthouse": 0,
+          "slide-dream-twin-shell": 0,
+          "slide-dream-royal-aqueduct": 0,
+          "slide-dream-cloud-star": 0,
+          "slide-atoll-giant-wave": 0,
+          "slide-atoll-rock-arch": 0,
+          "slide-atoll-rainbow-race": 0,
+          "slide-atoll-sky-serpent": 0,
+          "slide-atoll-blue-whirlpool": 0,
+          "slide-atoll-double-serpent": 0,
+          "slide-atoll-waterfall-cascade": 0,
+          "slide-atoll-emerald-canyon": 0,
+          "slide-atoll-crystal-cavern": 0,
+          "slide-atoll-root-valley": 0,
+          "slide-atoll-blue-halfpipe": 0,
+          "slide-atoll-lagoon-loop": 0,
+          "slide-atoll-coral-arch": 0,
+          "slide-atoll-cloud-islets": 0,
+          "slide-atoll-flower-lagoon": 0,
+          "slide-atoll-red-canyon": 0,
+          "slide-atoll-abyss-bridge": 0,
+          "slide-atoll-green-valley": 0,
+          "slide-atoll-purple-vortex": 0,
+          "slide-atoll-mega-loops": 0,
+          "ride-water-barrel-wave": 0,
+          "ride-water-canyon-rafting": 0,
+          "ride-water-glass-drop": 0,
+          "ride-water-lagoon-launch": 0,
+          "ride-water-surf-halfpipe": 0,
+          "ride-water-lazy-river": 0,
+          "ride-water-fountain-carousel": 0,
+          "ride-water-pool-pendulum": 0,
+          "farm-magic-fruits": 0,
+          "magic-seed-cotton": 0,
+          "magic-seed-lantern": 0,
+          "magic-seed-heart": 0,
+          "magic-seed-aqua": 0,
+          "magic-seed-emerald": 0,
+          "magic-seed-golden": 0,
+          "ride-mosasaur": 0,
+          "court-burger": 0,
+          "court-boba": 0,
+          "court-coffee": 0,
+          "court-bakery": 0,
+          "court-cinema": 0,
+          "bikini-krusty": 0,
+          "bikini-sponge": 0,
+          "bikini-patrick": 0,
+          "slide-glass-corkscrew": 0,
+          "slide-sky-cannon": 0,
+          "slide-titan-funnel": 0,
+          "slide-jungle-titan": 0,
+          "slide-rainbow-tsunami": 0,
+          "slide-abyss-capsule": 0,
+          "dive-triple-sky": 0,
+          "coaster-thunder-loop": 0,
+          "coaster-aurora-rift": 0,
+          "coaster-dragon-titan": 0,
+          "diamond-mine": 0,
+          "aquarium-aurora": 0,
+          "aquarium-pearl": 0,
+          "aquarium-coral": 0,
+          "aquarium-lilac": 0,
+          "aquarium-sunrise": 0,
+          "job-bank": 0,
+          "job-crypto": 0,
+          "job-factory": 0,
+          "job-furniture": 0,
+          "job-estate": 0,
+          "job-cars": 0,
+          "zoo-elephant": 0,
+          "zoo-axolotl": 0,
+          "zoo-otter": 0,
+          "zoo-polar": 0,
+          "zoo-gorilla": 0
+        },
+        "used": {
+          "resort-massage-session": 1,
+          "resort-aroma-session": 1,
+          "resort-sauna-session": 1,
+          "resort-cabana-session": 1,
+          "resort-beauty-session": 1
+        },
+        "receipts": {
+          "resort-chichi-1": {
+            "product": "resort-massage-session",
+            "sequence": 1,
+            "price": 300,
+            "at": 1795011827937
+          },
+          "resort-chichi-2": {
+            "product": "resort-aroma-session",
+            "sequence": 2,
+            "price": 180,
+            "at": 1795011846456
+          },
+          "resort-chichi-3": {
+            "product": "resort-sauna-session",
+            "sequence": 3,
+            "price": 120,
+            "at": 1795011855675
+          },
+          "resort-chichi-4": {
+            "product": "resort-cabana-session",
+            "sequence": 4,
+            "price": 200,
+            "at": 1795011865093
+          },
+          "resort-chichi-5": {
+            "product": "resort-beauty-session",
+            "sequence": 5,
+            "price": 180,
+            "at": 1795011881926
+          }
+        },
+        "position": [
+          -378.5,
+          -164.988,
+          657
+        ]
+      }
+    },
+    {
+      "id": "resort-meditation",
+      "done": true,
+      "trace": [
+        {
+          "phase": "inspect",
+          "action": "inspect-place",
+          "position": {
+            "x": -373.5,
+            "y": -146.988,
+            "z": 742.3
+          },
+          "pose": {
+            "head": [
+              -0.3197251057335452,
+              0.11917130385102509,
+              0.12217504058910712,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0,
+              -0.25300000000000006,
+              0,
+              -0.14950000000000002
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "mount",
+          "action": "mount",
+          "position": {
+            "x": -373.5,
+            "y": -146.42231457505076,
+            "z": 741.7375
+          },
+          "pose": {
+            "head": [
+              -0.27556832537692627,
+              0.04030842032210807,
+              0.11854786648593349,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "settle-on-mat",
+          "position": {
+            "x": -373.5,
+            "y": -146.988,
+            "z": 738.7
+          },
+          "pose": {
+            "head": [
+              -0.2664705539511849,
+              0.02869598233288347,
+              0.07703034813122595,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.36799999999999994,
+              -0.20799999999999996,
+              0.36799999999999994,
+              -0.20799999999999996
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "meditation-breath",
+          "position": {
+            "x": -373.5,
+            "y": -146.988,
+            "z": 738.7
+          },
+          "pose": {
+            "head": [
+              -0.2879555967615926,
+              0.004348247471818056,
+              0.1774097887078322,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.782,
+              -0.442,
+              0.782,
+              -0.442
+            ],
+            "eyes": [
+              0.1532071011474302,
+              0.1532071011474302
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "jellyfish-gaze",
+          "position": {
+            "x": -373.5,
+            "y": -146.988,
+            "z": 738.7
+          },
+          "pose": {
+            "head": [
+              -0.42818972858758797,
+              0.18797005130555497,
+              0.10441096446699946,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.7360000000000001,
+              -0.41600000000000004,
+              0.7360000000000001,
+              -0.41600000000000004
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "meditation-stretch",
+          "position": {
+            "x": -373.5,
+            "y": -146.988,
+            "z": 738.7
+          },
+          "pose": {
+            "head": [
+              -0.380334108867065,
+              -0.034658454611572485,
+              0.12103002760140152,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0,
+              -0.1,
+              0,
+              -0.1
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "dismount",
+          "action": "meditation-stretch",
+          "position": {
+            "x": -373.5,
+            "y": -146.20337177567743,
+            "z": 740.8357421875
+          },
+          "pose": {
+            "head": [
+              -0.32630451473535116,
+              -0.011240271675151138,
+              0.08020791475204848,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0,
+              -0.04067382812500001,
+              0,
+              -0.04067382812500001
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "walk",
+          "action": "walk",
+          "position": {
+            "x": -373.5,
+            "y": -146.988,
+            "z": 743.02
+          },
+          "pose": {
+            "head": [
+              -0.2934275298324169,
+              0.018248209973126945,
+              0.1026437701117247,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              -0.09548426334324865,
+              0.09548426334328407,
+              0.09548426334328407,
+              -0.09548426334324865
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        }
+      ],
+      "after": {
+        "coins": 920,
+        "worldCoins": 13835,
+        "inventory": {
+          "yarn": 0,
+          "mouse": 0,
+          "feather": 0,
+          "tunnel": 0,
+          "scratch": 0,
+          "trampoline": 0,
+          "swing": 0,
+          "carousel": 0,
+          "coaster": 0,
+          "waterslide": 0,
+          "ferris": 0,
+          "teacup": 0,
+          "train": 0,
+          "boat": 0,
+          "balloon": 0,
+          "broom": 0,
+          "scooter": 0,
+          "party": 0,
+          "cafe": 0,
+          "picnic": 0,
+          "stage": 0,
+          "fountain": 0,
+          "mushroom": 0,
+          "crystal": 0,
+          "lantern": 0,
+          "flowers": 0,
+          "bed": 0,
+          "pond": 0,
+          "farm-field": 0,
+          "greenhouse": 0,
+          "barn": 0,
+          "orchard": 0,
+          "coaster-epic": 0,
+          "coaster-legendary": 0,
+          "coaster-mystic": 0,
+          "coaster-dragon": 0,
+          "water-river": 0,
+          "water-whirlpool": 0,
+          "water-extreme": 0,
+          "zipline": 0,
+          "drop-tower": 0,
+          "bumpercars": 0,
+          "rocket": 0,
+          "ufo": 0,
+          "airship": 0,
+          "skate": 0,
+          "catbus": 0,
+          "maze": 0,
+          "laser": 0,
+          "fireflies": 0,
+          "toy-fish": 0,
+          "library": 0,
+          "observatory": 0,
+          "spa": 0,
+          "festival": 0,
+          "portal": 0,
+          "coaster-lagoon": 1,
+          "coaster-sakura": 0,
+          "coaster-moon": 0,
+          "coaster-mushroom": 0,
+          "coaster-cloud": 0,
+          "coaster-clockwork": 0,
+          "coaster-rainbow-launch": 0,
+          "slide-royal-cascade": 0,
+          "slide-vortex-bowl": 0,
+          "coaster-comet-flight": 0,
+          "ride-jellyfish": 0,
+          "ride-dragon-cloud": 0,
+          "toy-bubble-garden": 0,
+          "toy-magic-fish": 0,
+          "cat-barista": 0,
+          "swim-lagoon": 0,
+          "adoption-center": 0,
+          "business-coffee": 0,
+          "business-hotdog": 0,
+          "business-bakery": 0,
+          "business-gelato": 0,
+          "business-florist": 0,
+          "business-artist": 0,
+          "business-farmstand": 0,
+          "business-lemonade": 0,
+          "business-fishmarket": 0,
+          "business-pizza": 0,
+          "business-boba": 0,
+          "business-honeytea": 0,
+          "business-candy": 0,
+          "business-toymaker": 0,
+          "ride-butterfly": 0,
+          "ride-lotus": 0,
+          "ride-dragonfly": 0,
+          "ride-dinosaur": 0,
+          "ride-whale": 0,
+          "ride-whale-aurora": 0,
+          "ride-dream-balloon": 0,
+          "ride-paris-wheel": 0,
+          "ride-venice-gondola": 0,
+          "ride-tokyo-train": 0,
+          "ride-cloud-tram": 0,
+          "ride-star-carousel": 0,
+          "coaster-candy-city": 0,
+          "ride-crystal-slide": 0,
+          "ride-cupcake-wheel": 0,
+          "coaster-piglet-express": 0,
+          "ride-sugar-teacups": 0,
+          "slide-marshmallow": 0,
+          "ride-pig-rose": 0,
+          "ride-pig-peach": 0,
+          "ride-pig-lilac": 0,
+          "ride-capybara-mango": 0,
+          "ride-capybara-boba": 0,
+          "ride-capybara-coconut": 0,
+          "ride-capybara-float": 0,
+          "slide-dream-crystal-loops": 0,
+          "slide-dream-pearl-funnel": 0,
+          "slide-dream-rainbow-launch": 0,
+          "slide-dream-waterfall-arch": 0,
+          "slide-dream-canyon-twins": 0,
+          "slide-dream-ocean-tunnel": 0,
+          "slide-dream-blossom-tree": 0,
+          "slide-dream-ice-tunnel": 0,
+          "slide-dream-orbital-shell": 0,
+          "slide-dream-terrace-cascades": 0,
+          "slide-dream-canyon-eight": 0,
+          "slide-dream-luminous-vortex": 0,
+          "slide-dream-ring-launch": 0,
+          "slide-dream-ribbon-tower": 0,
+          "slide-dream-tidal-wave": 0,
+          "slide-dream-water-lift": 0,
+          "slide-dream-dragon-tail": 0,
+          "slide-dream-four-funnels": 0,
+          "slide-dream-sky-bridge": 0,
+          "slide-dream-cave-loop": 0,
+          "slide-dream-twin-flights": 0,
+          "slide-dream-lighthouse": 0,
+          "slide-dream-twin-shell": 0,
+          "slide-dream-royal-aqueduct": 0,
+          "slide-dream-cloud-star": 0,
+          "slide-atoll-giant-wave": 0,
+          "slide-atoll-rock-arch": 0,
+          "slide-atoll-rainbow-race": 0,
+          "slide-atoll-sky-serpent": 0,
+          "slide-atoll-blue-whirlpool": 0,
+          "slide-atoll-double-serpent": 0,
+          "slide-atoll-waterfall-cascade": 0,
+          "slide-atoll-emerald-canyon": 0,
+          "slide-atoll-crystal-cavern": 0,
+          "slide-atoll-root-valley": 0,
+          "slide-atoll-blue-halfpipe": 0,
+          "slide-atoll-lagoon-loop": 0,
+          "slide-atoll-coral-arch": 0,
+          "slide-atoll-cloud-islets": 0,
+          "slide-atoll-flower-lagoon": 0,
+          "slide-atoll-red-canyon": 0,
+          "slide-atoll-abyss-bridge": 0,
+          "slide-atoll-green-valley": 0,
+          "slide-atoll-purple-vortex": 0,
+          "slide-atoll-mega-loops": 0,
+          "ride-water-barrel-wave": 0,
+          "ride-water-canyon-rafting": 0,
+          "ride-water-glass-drop": 0,
+          "ride-water-lagoon-launch": 0,
+          "ride-water-surf-halfpipe": 0,
+          "ride-water-lazy-river": 0,
+          "ride-water-fountain-carousel": 0,
+          "ride-water-pool-pendulum": 0,
+          "farm-magic-fruits": 0,
+          "magic-seed-cotton": 0,
+          "magic-seed-lantern": 0,
+          "magic-seed-heart": 0,
+          "magic-seed-aqua": 0,
+          "magic-seed-emerald": 0,
+          "magic-seed-golden": 0,
+          "ride-mosasaur": 0,
+          "court-burger": 0,
+          "court-boba": 0,
+          "court-coffee": 0,
+          "court-bakery": 0,
+          "court-cinema": 0,
+          "bikini-krusty": 0,
+          "bikini-sponge": 0,
+          "bikini-patrick": 0,
+          "slide-glass-corkscrew": 0,
+          "slide-sky-cannon": 0,
+          "slide-titan-funnel": 0,
+          "slide-jungle-titan": 0,
+          "slide-rainbow-tsunami": 0,
+          "slide-abyss-capsule": 0,
+          "dive-triple-sky": 0,
+          "coaster-thunder-loop": 0,
+          "coaster-aurora-rift": 0,
+          "coaster-dragon-titan": 0,
+          "diamond-mine": 0,
+          "aquarium-aurora": 0,
+          "aquarium-pearl": 0,
+          "aquarium-coral": 0,
+          "aquarium-lilac": 0,
+          "aquarium-sunrise": 0,
+          "job-bank": 0,
+          "job-crypto": 0,
+          "job-factory": 0,
+          "job-furniture": 0,
+          "job-estate": 0,
+          "job-cars": 0,
+          "zoo-elephant": 0,
+          "zoo-axolotl": 0,
+          "zoo-otter": 0,
+          "zoo-polar": 0,
+          "zoo-gorilla": 0
+        },
+        "used": {
+          "resort-massage-session": 1,
+          "resort-aroma-session": 1,
+          "resort-sauna-session": 1,
+          "resort-cabana-session": 1,
+          "resort-beauty-session": 1,
+          "resort-meditation-session": 1
+        },
+        "receipts": {
+          "resort-chichi-1": {
+            "product": "resort-massage-session",
+            "sequence": 1,
+            "price": 300,
+            "at": 1795011827937
+          },
+          "resort-chichi-2": {
+            "product": "resort-aroma-session",
+            "sequence": 2,
+            "price": 180,
+            "at": 1795011846456
+          },
+          "resort-chichi-3": {
+            "product": "resort-sauna-session",
+            "sequence": 3,
+            "price": 120,
+            "at": 1795011855675
+          },
+          "resort-chichi-4": {
+            "product": "resort-cabana-session",
+            "sequence": 4,
+            "price": 200,
+            "at": 1795011865093
+          },
+          "resort-chichi-5": {
+            "product": "resort-beauty-session",
+            "sequence": 5,
+            "price": 180,
+            "at": 1795011881926
+          },
+          "resort-chichi-6": {
+            "product": "resort-meditation-session",
+            "sequence": 6,
+            "price": 100,
+            "at": 1795011890217
+          }
+        },
+        "position": [
+          -373.5,
+          -146.988,
+          743
+        ]
+      }
+    },
+    {
+      "id": "resort-nap",
+      "done": true,
+      "trace": [
+        {
+          "phase": "inspect",
+          "action": "inspect-place",
+          "position": {
+            "x": -503.5,
+            "y": -146.988,
+            "z": 687.3
+          },
+          "pose": {
+            "head": [
+              -0.2977753951892273,
+              0.1442176054495306,
+              0.11836263085079632,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0,
+              -0.24437923405113432,
+              0,
+              -0.14440591103021574
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "mount",
+          "action": "mount",
+          "position": {
+            "x": -503.5,
+            "y": -146.10944540390796,
+            "z": 686.4650390625
+          },
+          "pose": {
+            "head": [
+              -0.26736565396721423,
+              0.0294704779733143,
+              0.09502540458969133,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "curl-on-bed",
+          "position": {
+            "x": -503.5,
+            "y": -146.068,
+            "z": 683.7
+          },
+          "pose": {
+            "head": [
+              -0.2855333262823097,
+              -0.02636404718840598,
+              0.14257067578792887,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.2906982421874999,
+              -0.3114624023437499,
+              0.2906982421874999,
+              -0.3114624023437499
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "soft-nap",
+          "position": {
+            "x": -503.5,
+            "y": -146.068,
+            "z": 683.7
+          },
+          "pose": {
+            "head": [
+              -0.2640812287359246,
+              0.007362842701933034,
+              0.090334979930999,
+              "XYZ"
+            ],
+            "jaw": 0.0009807429403530829,
+            "paws": [
+              0.63,
+              -0.6751965028224164,
+              0.63,
+              -0.675
+            ],
+            "eyes": [
+              0.03989971164872737,
+              0.03989971164872737
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "dreamy-ear-twitch",
+          "position": {
+            "x": -503.5,
+            "y": -146.068,
+            "z": 683.7
+          },
+          "pose": {
+            "head": [
+              -0.3243717323244325,
+              0.11264919474443788,
+              0.17889442212198342,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.63,
+              -0.675,
+              0.63,
+              -0.675
+            ],
+            "eyes": [
+              0.062017159541028016,
+              0.062017159541028016
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "wake-on-bed",
+          "position": {
+            "x": -503.5,
+            "y": -146.068,
+            "z": 683.7
+          },
+          "pose": {
+            "head": [
+              -0.27989436955069225,
+              -0.008347459155963122,
+              0.09821700109524839,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.63,
+              -0.675,
+              0.63,
+              -0.675
+            ],
+            "eyes": [
+              0.03446666666864191,
+              0.03446666666864191
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "dismount",
+          "action": "wake-on-bed",
+          "position": {
+            "x": -503.5,
+            "y": -146.068,
+            "z": 683.7
+          },
+          "pose": {
+            "head": [
+              -0.28385251366153275,
+              0.017315832354421704,
+              0.08037324732955835,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.27999999999999997,
+              -0.44000000000000006,
+              0.27999999999999997,
+              -0.44000000000000006
+            ],
+            "eyes": [
+              0.85,
+              0.85
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "done",
+          "action": "done",
+          "position": {
+            "x": -503.5,
+            "y": -146.988,
+            "z": 688
+          },
+          "pose": {
+            "head": [
+              -0.27441644895620954,
+              0.044394792798785894,
+              0.1223902169713848,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        }
+      ],
+      "after": {
+        "coins": 820,
+        "worldCoins": 13835,
+        "inventory": {
+          "yarn": 0,
+          "mouse": 0,
+          "feather": 0,
+          "tunnel": 0,
+          "scratch": 0,
+          "trampoline": 0,
+          "swing": 0,
+          "carousel": 0,
+          "coaster": 0,
+          "waterslide": 0,
+          "ferris": 0,
+          "teacup": 0,
+          "train": 0,
+          "boat": 0,
+          "balloon": 0,
+          "broom": 0,
+          "scooter": 0,
+          "party": 0,
+          "cafe": 0,
+          "picnic": 0,
+          "stage": 0,
+          "fountain": 0,
+          "mushroom": 0,
+          "crystal": 0,
+          "lantern": 0,
+          "flowers": 0,
+          "bed": 0,
+          "pond": 0,
+          "farm-field": 0,
+          "greenhouse": 0,
+          "barn": 0,
+          "orchard": 0,
+          "coaster-epic": 0,
+          "coaster-legendary": 0,
+          "coaster-mystic": 0,
+          "coaster-dragon": 0,
+          "water-river": 0,
+          "water-whirlpool": 0,
+          "water-extreme": 0,
+          "zipline": 0,
+          "drop-tower": 0,
+          "bumpercars": 0,
+          "rocket": 0,
+          "ufo": 0,
+          "airship": 0,
+          "skate": 0,
+          "catbus": 0,
+          "maze": 0,
+          "laser": 0,
+          "fireflies": 0,
+          "toy-fish": 0,
+          "library": 0,
+          "observatory": 0,
+          "spa": 0,
+          "festival": 0,
+          "portal": 0,
+          "coaster-lagoon": 1,
+          "coaster-sakura": 0,
+          "coaster-moon": 0,
+          "coaster-mushroom": 0,
+          "coaster-cloud": 0,
+          "coaster-clockwork": 0,
+          "coaster-rainbow-launch": 0,
+          "slide-royal-cascade": 0,
+          "slide-vortex-bowl": 0,
+          "coaster-comet-flight": 0,
+          "ride-jellyfish": 0,
+          "ride-dragon-cloud": 0,
+          "toy-bubble-garden": 0,
+          "toy-magic-fish": 0,
+          "cat-barista": 0,
+          "swim-lagoon": 0,
+          "adoption-center": 0,
+          "business-coffee": 0,
+          "business-hotdog": 0,
+          "business-bakery": 0,
+          "business-gelato": 0,
+          "business-florist": 0,
+          "business-artist": 0,
+          "business-farmstand": 0,
+          "business-lemonade": 0,
+          "business-fishmarket": 0,
+          "business-pizza": 0,
+          "business-boba": 0,
+          "business-honeytea": 0,
+          "business-candy": 0,
+          "business-toymaker": 0,
+          "ride-butterfly": 0,
+          "ride-lotus": 0,
+          "ride-dragonfly": 0,
+          "ride-dinosaur": 0,
+          "ride-whale": 0,
+          "ride-whale-aurora": 0,
+          "ride-dream-balloon": 0,
+          "ride-paris-wheel": 0,
+          "ride-venice-gondola": 0,
+          "ride-tokyo-train": 0,
+          "ride-cloud-tram": 0,
+          "ride-star-carousel": 0,
+          "coaster-candy-city": 0,
+          "ride-crystal-slide": 0,
+          "ride-cupcake-wheel": 0,
+          "coaster-piglet-express": 0,
+          "ride-sugar-teacups": 0,
+          "slide-marshmallow": 0,
+          "ride-pig-rose": 0,
+          "ride-pig-peach": 0,
+          "ride-pig-lilac": 0,
+          "ride-capybara-mango": 0,
+          "ride-capybara-boba": 0,
+          "ride-capybara-coconut": 0,
+          "ride-capybara-float": 0,
+          "slide-dream-crystal-loops": 0,
+          "slide-dream-pearl-funnel": 0,
+          "slide-dream-rainbow-launch": 0,
+          "slide-dream-waterfall-arch": 0,
+          "slide-dream-canyon-twins": 0,
+          "slide-dream-ocean-tunnel": 0,
+          "slide-dream-blossom-tree": 0,
+          "slide-dream-ice-tunnel": 0,
+          "slide-dream-orbital-shell": 0,
+          "slide-dream-terrace-cascades": 0,
+          "slide-dream-canyon-eight": 0,
+          "slide-dream-luminous-vortex": 0,
+          "slide-dream-ring-launch": 0,
+          "slide-dream-ribbon-tower": 0,
+          "slide-dream-tidal-wave": 0,
+          "slide-dream-water-lift": 0,
+          "slide-dream-dragon-tail": 0,
+          "slide-dream-four-funnels": 0,
+          "slide-dream-sky-bridge": 0,
+          "slide-dream-cave-loop": 0,
+          "slide-dream-twin-flights": 0,
+          "slide-dream-lighthouse": 0,
+          "slide-dream-twin-shell": 0,
+          "slide-dream-royal-aqueduct": 0,
+          "slide-dream-cloud-star": 0,
+          "slide-atoll-giant-wave": 0,
+          "slide-atoll-rock-arch": 0,
+          "slide-atoll-rainbow-race": 0,
+          "slide-atoll-sky-serpent": 0,
+          "slide-atoll-blue-whirlpool": 0,
+          "slide-atoll-double-serpent": 0,
+          "slide-atoll-waterfall-cascade": 0,
+          "slide-atoll-emerald-canyon": 0,
+          "slide-atoll-crystal-cavern": 0,
+          "slide-atoll-root-valley": 0,
+          "slide-atoll-blue-halfpipe": 0,
+          "slide-atoll-lagoon-loop": 0,
+          "slide-atoll-coral-arch": 0,
+          "slide-atoll-cloud-islets": 0,
+          "slide-atoll-flower-lagoon": 0,
+          "slide-atoll-red-canyon": 0,
+          "slide-atoll-abyss-bridge": 0,
+          "slide-atoll-green-valley": 0,
+          "slide-atoll-purple-vortex": 0,
+          "slide-atoll-mega-loops": 0,
+          "ride-water-barrel-wave": 0,
+          "ride-water-canyon-rafting": 0,
+          "ride-water-glass-drop": 0,
+          "ride-water-lagoon-launch": 0,
+          "ride-water-surf-halfpipe": 0,
+          "ride-water-lazy-river": 0,
+          "ride-water-fountain-carousel": 0,
+          "ride-water-pool-pendulum": 0,
+          "farm-magic-fruits": 0,
+          "magic-seed-cotton": 0,
+          "magic-seed-lantern": 0,
+          "magic-seed-heart": 0,
+          "magic-seed-aqua": 0,
+          "magic-seed-emerald": 0,
+          "magic-seed-golden": 0,
+          "ride-mosasaur": 0,
+          "court-burger": 0,
+          "court-boba": 0,
+          "court-coffee": 0,
+          "court-bakery": 0,
+          "court-cinema": 0,
+          "bikini-krusty": 0,
+          "bikini-sponge": 0,
+          "bikini-patrick": 0,
+          "slide-glass-corkscrew": 0,
+          "slide-sky-cannon": 0,
+          "slide-titan-funnel": 0,
+          "slide-jungle-titan": 0,
+          "slide-rainbow-tsunami": 0,
+          "slide-abyss-capsule": 0,
+          "dive-triple-sky": 0,
+          "coaster-thunder-loop": 0,
+          "coaster-aurora-rift": 0,
+          "coaster-dragon-titan": 0,
+          "diamond-mine": 0,
+          "aquarium-aurora": 0,
+          "aquarium-pearl": 0,
+          "aquarium-coral": 0,
+          "aquarium-lilac": 0,
+          "aquarium-sunrise": 0,
+          "job-bank": 0,
+          "job-crypto": 0,
+          "job-factory": 0,
+          "job-furniture": 0,
+          "job-estate": 0,
+          "job-cars": 0,
+          "zoo-elephant": 0,
+          "zoo-axolotl": 0,
+          "zoo-otter": 0,
+          "zoo-polar": 0,
+          "zoo-gorilla": 0
+        },
+        "used": {
+          "resort-massage-session": 1,
+          "resort-aroma-session": 1,
+          "resort-sauna-session": 1,
+          "resort-cabana-session": 1,
+          "resort-beauty-session": 1,
+          "resort-meditation-session": 1,
+          "resort-nap-session": 1
+        },
+        "receipts": {
+          "resort-chichi-1": {
+            "product": "resort-massage-session",
+            "sequence": 1,
+            "price": 300,
+            "at": 1795011827937
+          },
+          "resort-chichi-2": {
+            "product": "resort-aroma-session",
+            "sequence": 2,
+            "price": 180,
+            "at": 1795011846456
+          },
+          "resort-chichi-3": {
+            "product": "resort-sauna-session",
+            "sequence": 3,
+            "price": 120,
+            "at": 1795011855675
+          },
+          "resort-chichi-4": {
+            "product": "resort-cabana-session",
+            "sequence": 4,
+            "price": 200,
+            "at": 1795011865093
+          },
+          "resort-chichi-5": {
+            "product": "resort-beauty-session",
+            "sequence": 5,
+            "price": 180,
+            "at": 1795011881926
+          },
+          "resort-chichi-6": {
+            "product": "resort-meditation-session",
+            "sequence": 6,
+            "price": 100,
+            "at": 1795011890217
+          },
+          "resort-chichi-7": {
+            "product": "resort-nap-session",
+            "sequence": 7,
+            "price": 100,
+            "at": 1795011899952
+          }
+        },
+        "position": [
+          -503.5,
+          -146.988,
+          688
+        ]
+      }
+    },
+    {
+      "id": "resort-cafe",
+      "done": true,
+      "trace": [
+        {
+          "phase": "inspect",
+          "action": "inspect-place",
+          "position": {
+            "x": -446.4,
+            "y": -155.988,
+            "z": 706.6
+          },
+          "pose": {
+            "head": [
+              -0.3028061433295265,
+              0.10299503465517211,
+              0.09474230375971304,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0,
+              -0.25300000000000006,
+              0,
+              -0.14950000000000002
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "mount",
+          "action": "mount",
+          "position": {
+            "x": -446.9625,
+            "y": -155.27856457505075,
+            "z": 706.475
+          },
+          "pose": {
+            "head": [
+              -0.28753884259886153,
+              -0.02553483446066874,
+              0.07686907870911716,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "table-settle",
+          "position": {
+            "x": -450,
+            "y": -155.068,
+            "z": 705.8
+          },
+          "pose": {
+            "head": [
+              -0.25219377609065186,
+              -0.04191231072584813,
+              0.03418169183491816,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.299,
+              -0.16899999999999998,
+              0.299,
+              -0.16899999999999998
+            ],
+            "eyes": [
+              0.7761768506227975,
+              0.7761768506227975
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "drink",
+          "position": {
+            "x": -450,
+            "y": -155.068,
+            "z": 705.8
+          },
+          "pose": {
+            "head": [
+              -0.05576219831931875,
+              0.04482191693968302,
+              0.07606412935031684,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.644,
+              -0.6539999999999999,
+              0.644,
+              -0.364
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": [
+            "Cat food · coffee"
+          ]
+        },
+        {
+          "phase": "procedure",
+          "action": "lick-lips",
+          "position": {
+            "x": -450,
+            "y": -155.068,
+            "z": 705.8
+          },
+          "pose": {
+            "head": [
+              -0.1714075259267887,
+              -0.04422039251844797,
+              0.08412986575978734,
+              "XYZ"
+            ],
+            "jaw": 0.008696145193859141,
+            "paws": [
+              0.644,
+              -0.364,
+              0.644,
+              -0.364
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "taste-treat",
+          "position": {
+            "x": -450,
+            "y": -155.068,
+            "z": 705.8
+          },
+          "pose": {
+            "head": [
+              -0.06344900573824844,
+              0.02635186959844772,
+              0.11756220655320913,
+              "XYZ"
+            ],
+            "jaw": 0.03741907896662884,
+            "paws": [
+              0.5980000000000001,
+              -0.338,
+              0.5980000000000001,
+              -0.338
+            ],
+            "eyes": [
+              0.5366666666333872,
+              0.5366666666333872
+            ]
+          },
+          "visibleFood": [
+            "Cat food · cookie"
+          ]
+        },
+        {
+          "phase": "procedure",
+          "action": "satisfied-chew",
+          "position": {
+            "x": -450,
+            "y": -155.068,
+            "z": 705.8
+          },
+          "pose": {
+            "head": [
+              -0.2864848141190966,
+              -0.03332884369415594,
+              0.09850608642119443,
+              "XYZ"
+            ],
+            "jaw": 0.045447129819183474,
+            "paws": [
+              0.644,
+              -0.364,
+              0.644,
+              -0.364
+            ],
+            "eyes": [
+              0.44999999999999996,
+              0.44999999999999996
+            ]
+          },
+          "visibleFood": [
+            "Cat food · cookie"
+          ]
+        },
+        {
+          "phase": "procedure",
+          "action": "contented-look",
+          "position": {
+            "x": -450,
+            "y": -155.068,
+            "z": 705.8
+          },
+          "pose": {
+            "head": [
+              -0.2987115248180833,
+              0.15637464534018267,
+              0.07843831547093878,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.5060000000000001,
+              -0.28600000000000003,
+              0.5060000000000001,
+              -0.28600000000000003
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "dismount",
+          "action": "contented-look",
+          "position": {
+            "x": -447.8642578125,
+            "y": -154.82917255692743,
+            "z": 706.274609375
+          },
+          "pose": {
+            "head": [
+              -0.26419552141823055,
+              0.08791746309122583,
+              0.12249291726130634,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.20580957031250008,
+              -0.11632714843750004,
+              0.20580957031250008,
+              -0.11632714843750004
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "walk",
+          "action": "walk",
+          "position": {
+            "x": -446.6,
+            "y": -155.988,
+            "z": 707.1963932022501
+          },
+          "pose": {
+            "head": [
+              -0.26794563431469587,
+              0.004006952763209711,
+              0.11798415698801736,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.22771916629102884,
+              -0.22771916629100453,
+              -0.22771916629100453,
+              0.22771916629102884
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        }
+      ],
+      "after": {
+        "coins": 720,
+        "worldCoins": 13835,
+        "inventory": {
+          "yarn": 0,
+          "mouse": 0,
+          "feather": 0,
+          "tunnel": 0,
+          "scratch": 0,
+          "trampoline": 0,
+          "swing": 0,
+          "carousel": 0,
+          "coaster": 0,
+          "waterslide": 0,
+          "ferris": 0,
+          "teacup": 0,
+          "train": 0,
+          "boat": 0,
+          "balloon": 0,
+          "broom": 0,
+          "scooter": 0,
+          "party": 0,
+          "cafe": 0,
+          "picnic": 0,
+          "stage": 0,
+          "fountain": 0,
+          "mushroom": 0,
+          "crystal": 0,
+          "lantern": 0,
+          "flowers": 0,
+          "bed": 0,
+          "pond": 0,
+          "farm-field": 0,
+          "greenhouse": 0,
+          "barn": 0,
+          "orchard": 0,
+          "coaster-epic": 0,
+          "coaster-legendary": 0,
+          "coaster-mystic": 0,
+          "coaster-dragon": 0,
+          "water-river": 0,
+          "water-whirlpool": 0,
+          "water-extreme": 0,
+          "zipline": 0,
+          "drop-tower": 0,
+          "bumpercars": 0,
+          "rocket": 0,
+          "ufo": 0,
+          "airship": 0,
+          "skate": 0,
+          "catbus": 0,
+          "maze": 0,
+          "laser": 0,
+          "fireflies": 0,
+          "toy-fish": 0,
+          "library": 0,
+          "observatory": 0,
+          "spa": 0,
+          "festival": 0,
+          "portal": 0,
+          "coaster-lagoon": 1,
+          "coaster-sakura": 0,
+          "coaster-moon": 0,
+          "coaster-mushroom": 0,
+          "coaster-cloud": 0,
+          "coaster-clockwork": 0,
+          "coaster-rainbow-launch": 0,
+          "slide-royal-cascade": 0,
+          "slide-vortex-bowl": 0,
+          "coaster-comet-flight": 0,
+          "ride-jellyfish": 0,
+          "ride-dragon-cloud": 0,
+          "toy-bubble-garden": 0,
+          "toy-magic-fish": 0,
+          "cat-barista": 0,
+          "swim-lagoon": 0,
+          "adoption-center": 0,
+          "business-coffee": 0,
+          "business-hotdog": 0,
+          "business-bakery": 0,
+          "business-gelato": 0,
+          "business-florist": 0,
+          "business-artist": 0,
+          "business-farmstand": 0,
+          "business-lemonade": 0,
+          "business-fishmarket": 0,
+          "business-pizza": 0,
+          "business-boba": 0,
+          "business-honeytea": 0,
+          "business-candy": 0,
+          "business-toymaker": 0,
+          "ride-butterfly": 0,
+          "ride-lotus": 0,
+          "ride-dragonfly": 0,
+          "ride-dinosaur": 0,
+          "ride-whale": 0,
+          "ride-whale-aurora": 0,
+          "ride-dream-balloon": 0,
+          "ride-paris-wheel": 0,
+          "ride-venice-gondola": 0,
+          "ride-tokyo-train": 0,
+          "ride-cloud-tram": 0,
+          "ride-star-carousel": 0,
+          "coaster-candy-city": 0,
+          "ride-crystal-slide": 0,
+          "ride-cupcake-wheel": 0,
+          "coaster-piglet-express": 0,
+          "ride-sugar-teacups": 0,
+          "slide-marshmallow": 0,
+          "ride-pig-rose": 0,
+          "ride-pig-peach": 0,
+          "ride-pig-lilac": 0,
+          "ride-capybara-mango": 0,
+          "ride-capybara-boba": 0,
+          "ride-capybara-coconut": 0,
+          "ride-capybara-float": 0,
+          "slide-dream-crystal-loops": 0,
+          "slide-dream-pearl-funnel": 0,
+          "slide-dream-rainbow-launch": 0,
+          "slide-dream-waterfall-arch": 0,
+          "slide-dream-canyon-twins": 0,
+          "slide-dream-ocean-tunnel": 0,
+          "slide-dream-blossom-tree": 0,
+          "slide-dream-ice-tunnel": 0,
+          "slide-dream-orbital-shell": 0,
+          "slide-dream-terrace-cascades": 0,
+          "slide-dream-canyon-eight": 0,
+          "slide-dream-luminous-vortex": 0,
+          "slide-dream-ring-launch": 0,
+          "slide-dream-ribbon-tower": 0,
+          "slide-dream-tidal-wave": 0,
+          "slide-dream-water-lift": 0,
+          "slide-dream-dragon-tail": 0,
+          "slide-dream-four-funnels": 0,
+          "slide-dream-sky-bridge": 0,
+          "slide-dream-cave-loop": 0,
+          "slide-dream-twin-flights": 0,
+          "slide-dream-lighthouse": 0,
+          "slide-dream-twin-shell": 0,
+          "slide-dream-royal-aqueduct": 0,
+          "slide-dream-cloud-star": 0,
+          "slide-atoll-giant-wave": 0,
+          "slide-atoll-rock-arch": 0,
+          "slide-atoll-rainbow-race": 0,
+          "slide-atoll-sky-serpent": 0,
+          "slide-atoll-blue-whirlpool": 0,
+          "slide-atoll-double-serpent": 0,
+          "slide-atoll-waterfall-cascade": 0,
+          "slide-atoll-emerald-canyon": 0,
+          "slide-atoll-crystal-cavern": 0,
+          "slide-atoll-root-valley": 0,
+          "slide-atoll-blue-halfpipe": 0,
+          "slide-atoll-lagoon-loop": 0,
+          "slide-atoll-coral-arch": 0,
+          "slide-atoll-cloud-islets": 0,
+          "slide-atoll-flower-lagoon": 0,
+          "slide-atoll-red-canyon": 0,
+          "slide-atoll-abyss-bridge": 0,
+          "slide-atoll-green-valley": 0,
+          "slide-atoll-purple-vortex": 0,
+          "slide-atoll-mega-loops": 0,
+          "ride-water-barrel-wave": 0,
+          "ride-water-canyon-rafting": 0,
+          "ride-water-glass-drop": 0,
+          "ride-water-lagoon-launch": 0,
+          "ride-water-surf-halfpipe": 0,
+          "ride-water-lazy-river": 0,
+          "ride-water-fountain-carousel": 0,
+          "ride-water-pool-pendulum": 0,
+          "farm-magic-fruits": 0,
+          "magic-seed-cotton": 0,
+          "magic-seed-lantern": 0,
+          "magic-seed-heart": 0,
+          "magic-seed-aqua": 0,
+          "magic-seed-emerald": 0,
+          "magic-seed-golden": 0,
+          "ride-mosasaur": 0,
+          "court-burger": 0,
+          "court-boba": 0,
+          "court-coffee": 0,
+          "court-bakery": 0,
+          "court-cinema": 0,
+          "bikini-krusty": 0,
+          "bikini-sponge": 0,
+          "bikini-patrick": 0,
+          "slide-glass-corkscrew": 0,
+          "slide-sky-cannon": 0,
+          "slide-titan-funnel": 0,
+          "slide-jungle-titan": 0,
+          "slide-rainbow-tsunami": 0,
+          "slide-abyss-capsule": 0,
+          "dive-triple-sky": 0,
+          "coaster-thunder-loop": 0,
+          "coaster-aurora-rift": 0,
+          "coaster-dragon-titan": 0,
+          "diamond-mine": 0,
+          "aquarium-aurora": 0,
+          "aquarium-pearl": 0,
+          "aquarium-coral": 0,
+          "aquarium-lilac": 0,
+          "aquarium-sunrise": 0,
+          "job-bank": 0,
+          "job-crypto": 0,
+          "job-factory": 0,
+          "job-furniture": 0,
+          "job-estate": 0,
+          "job-cars": 0,
+          "zoo-elephant": 0,
+          "zoo-axolotl": 0,
+          "zoo-otter": 0,
+          "zoo-polar": 0,
+          "zoo-gorilla": 0
+        },
+        "used": {
+          "resort-massage-session": 1,
+          "resort-aroma-session": 1,
+          "resort-sauna-session": 1,
+          "resort-cabana-session": 1,
+          "resort-beauty-session": 1,
+          "resort-meditation-session": 1,
+          "resort-nap-session": 1,
+          "resort-cafe-session": 1
+        },
+        "receipts": {
+          "resort-chichi-1": {
+            "product": "resort-massage-session",
+            "sequence": 1,
+            "price": 300,
+            "at": 1795011827937
+          },
+          "resort-chichi-2": {
+            "product": "resort-aroma-session",
+            "sequence": 2,
+            "price": 180,
+            "at": 1795011846456
+          },
+          "resort-chichi-3": {
+            "product": "resort-sauna-session",
+            "sequence": 3,
+            "price": 120,
+            "at": 1795011855675
+          },
+          "resort-chichi-4": {
+            "product": "resort-cabana-session",
+            "sequence": 4,
+            "price": 200,
+            "at": 1795011865093
+          },
+          "resort-chichi-5": {
+            "product": "resort-beauty-session",
+            "sequence": 5,
+            "price": 180,
+            "at": 1795011881926
+          },
+          "resort-chichi-6": {
+            "product": "resort-meditation-session",
+            "sequence": 6,
+            "price": 100,
+            "at": 1795011890217
+          },
+          "resort-chichi-7": {
+            "product": "resort-nap-session",
+            "sequence": 7,
+            "price": 100,
+            "at": 1795011899952
+          },
+          "resort-chichi-8": {
+            "product": "resort-cafe-session",
+            "sequence": 8,
+            "price": 100,
+            "at": 1795011916733
+          }
+        },
+        "position": [
+          -446.4,
+          -155.988,
+          707.3000000000001
+        ]
+      }
+    },
+    {
+      "id": "resort-waterfall",
+      "done": true,
+      "trace": [
+        {
+          "phase": "inspect",
+          "action": "inspect-place",
+          "position": {
+            "x": -460.5,
+            "y": -146.988,
+            "z": 745.3
+          },
+          "pose": {
+            "head": [
+              -0.3217315632219565,
+              0.057283809005852566,
+              0.07679349582292717,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0,
+              -0.24437923405113432,
+              0,
+              -0.14440591103021574
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "mount",
+          "action": "mount",
+          "position": {
+            "x": -460.5,
+            "y": -146.5435438135843,
+            "z": 744.9677734375
+          },
+          "pose": {
+            "head": [
+              -0.3302121193553762,
+              0.03524195551424789,
+              0.19837496249835415,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "eyes": [
+              1.0394318028257317,
+              1.0394318028257317
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "listen-to-water",
+          "position": {
+            "x": -460.5,
+            "y": -146.988,
+            "z": 741.7
+          },
+          "pose": {
+            "head": [
+              -0.2623805530335234,
+              0.062296715059848365,
+              0.12369554047139006,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.20580957031249997,
+              -0.11632714843749999,
+              0.20580957031249997,
+              -0.11632714843749999
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "cascade-gaze",
+          "position": {
+            "x": -460.5,
+            "y": -146.988,
+            "z": 741.7
+          },
+          "pose": {
+            "head": [
+              -0.43318765321288,
+              -0.008466363870956749,
+              0.11209462446958628,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.5500234374999998,
+              -0.31088281249999994,
+              0.5500234374999998,
+              -0.31088281249999994
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "garden-rest",
+          "position": {
+            "x": -460.5,
+            "y": -146.988,
+            "z": 741.7
+          },
+          "pose": {
+            "head": [
+              -0.24076123682001474,
+              0.04191777793020386,
+              0.025199256063103567,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.644,
+              -0.364,
+              0.644,
+              -0.364
+            ],
+            "eyes": [
+              0.1427444296395386,
+              0.1427444296395386
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "garden-stretch",
+          "position": {
+            "x": -460.5,
+            "y": -146.988,
+            "z": 741.7
+          },
+          "pose": {
+            "head": [
+              -0.3928613277568765,
+              0.038341922613419135,
+              0.07831263450214357,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0,
+              -0.11,
+              0,
+              -0.11
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "dismount",
+          "action": "garden-stretch",
+          "position": {
+            "x": -460.5,
+            "y": -146.188,
+            "z": 743.5
+          },
+          "pose": {
+            "head": [
+              -0.31408961526524537,
+              -0.023837865084674736,
+              0.11779097392928564,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0,
+              -0.055000000000000014,
+              0,
+              -0.055000000000000014
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "walk",
+          "action": "walk",
+          "position": {
+            "x": -460.2657151055559,
+            "y": -146.988,
+            "z": 745.0266676231486
+          },
+          "pose": {
+            "head": [
+              -0.288548084303257,
+              -0.04238610258535953,
+              0.09417844244684584,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.29798290384179577,
+              -0.29798290384179144,
+              -0.29798290384179144,
+              0.29798290384179577
+            ],
+            "eyes": [
+              0.5744444444774633,
+              0.5744444444774633
+            ]
+          },
+          "visibleFood": []
+        }
+      ],
+      "after": {
+        "coins": 620,
+        "worldCoins": 13835,
+        "inventory": {
+          "yarn": 0,
+          "mouse": 0,
+          "feather": 0,
+          "tunnel": 0,
+          "scratch": 0,
+          "trampoline": 0,
+          "swing": 0,
+          "carousel": 0,
+          "coaster": 0,
+          "waterslide": 0,
+          "ferris": 0,
+          "teacup": 0,
+          "train": 0,
+          "boat": 0,
+          "balloon": 0,
+          "broom": 0,
+          "scooter": 0,
+          "party": 0,
+          "cafe": 0,
+          "picnic": 0,
+          "stage": 0,
+          "fountain": 0,
+          "mushroom": 0,
+          "crystal": 0,
+          "lantern": 0,
+          "flowers": 0,
+          "bed": 0,
+          "pond": 0,
+          "farm-field": 0,
+          "greenhouse": 0,
+          "barn": 0,
+          "orchard": 0,
+          "coaster-epic": 0,
+          "coaster-legendary": 0,
+          "coaster-mystic": 0,
+          "coaster-dragon": 0,
+          "water-river": 0,
+          "water-whirlpool": 0,
+          "water-extreme": 0,
+          "zipline": 0,
+          "drop-tower": 0,
+          "bumpercars": 0,
+          "rocket": 0,
+          "ufo": 0,
+          "airship": 0,
+          "skate": 0,
+          "catbus": 0,
+          "maze": 0,
+          "laser": 0,
+          "fireflies": 0,
+          "toy-fish": 0,
+          "library": 0,
+          "observatory": 0,
+          "spa": 0,
+          "festival": 0,
+          "portal": 0,
+          "coaster-lagoon": 1,
+          "coaster-sakura": 0,
+          "coaster-moon": 0,
+          "coaster-mushroom": 0,
+          "coaster-cloud": 0,
+          "coaster-clockwork": 0,
+          "coaster-rainbow-launch": 0,
+          "slide-royal-cascade": 0,
+          "slide-vortex-bowl": 0,
+          "coaster-comet-flight": 0,
+          "ride-jellyfish": 0,
+          "ride-dragon-cloud": 0,
+          "toy-bubble-garden": 0,
+          "toy-magic-fish": 0,
+          "cat-barista": 0,
+          "swim-lagoon": 0,
+          "adoption-center": 0,
+          "business-coffee": 0,
+          "business-hotdog": 0,
+          "business-bakery": 0,
+          "business-gelato": 0,
+          "business-florist": 0,
+          "business-artist": 0,
+          "business-farmstand": 0,
+          "business-lemonade": 0,
+          "business-fishmarket": 0,
+          "business-pizza": 0,
+          "business-boba": 0,
+          "business-honeytea": 0,
+          "business-candy": 0,
+          "business-toymaker": 0,
+          "ride-butterfly": 0,
+          "ride-lotus": 0,
+          "ride-dragonfly": 0,
+          "ride-dinosaur": 0,
+          "ride-whale": 0,
+          "ride-whale-aurora": 0,
+          "ride-dream-balloon": 0,
+          "ride-paris-wheel": 0,
+          "ride-venice-gondola": 0,
+          "ride-tokyo-train": 0,
+          "ride-cloud-tram": 0,
+          "ride-star-carousel": 0,
+          "coaster-candy-city": 0,
+          "ride-crystal-slide": 0,
+          "ride-cupcake-wheel": 0,
+          "coaster-piglet-express": 0,
+          "ride-sugar-teacups": 0,
+          "slide-marshmallow": 0,
+          "ride-pig-rose": 0,
+          "ride-pig-peach": 0,
+          "ride-pig-lilac": 0,
+          "ride-capybara-mango": 0,
+          "ride-capybara-boba": 0,
+          "ride-capybara-coconut": 0,
+          "ride-capybara-float": 0,
+          "slide-dream-crystal-loops": 0,
+          "slide-dream-pearl-funnel": 0,
+          "slide-dream-rainbow-launch": 0,
+          "slide-dream-waterfall-arch": 0,
+          "slide-dream-canyon-twins": 0,
+          "slide-dream-ocean-tunnel": 0,
+          "slide-dream-blossom-tree": 0,
+          "slide-dream-ice-tunnel": 0,
+          "slide-dream-orbital-shell": 0,
+          "slide-dream-terrace-cascades": 0,
+          "slide-dream-canyon-eight": 0,
+          "slide-dream-luminous-vortex": 0,
+          "slide-dream-ring-launch": 0,
+          "slide-dream-ribbon-tower": 0,
+          "slide-dream-tidal-wave": 0,
+          "slide-dream-water-lift": 0,
+          "slide-dream-dragon-tail": 0,
+          "slide-dream-four-funnels": 0,
+          "slide-dream-sky-bridge": 0,
+          "slide-dream-cave-loop": 0,
+          "slide-dream-twin-flights": 0,
+          "slide-dream-lighthouse": 0,
+          "slide-dream-twin-shell": 0,
+          "slide-dream-royal-aqueduct": 0,
+          "slide-dream-cloud-star": 0,
+          "slide-atoll-giant-wave": 0,
+          "slide-atoll-rock-arch": 0,
+          "slide-atoll-rainbow-race": 0,
+          "slide-atoll-sky-serpent": 0,
+          "slide-atoll-blue-whirlpool": 0,
+          "slide-atoll-double-serpent": 0,
+          "slide-atoll-waterfall-cascade": 0,
+          "slide-atoll-emerald-canyon": 0,
+          "slide-atoll-crystal-cavern": 0,
+          "slide-atoll-root-valley": 0,
+          "slide-atoll-blue-halfpipe": 0,
+          "slide-atoll-lagoon-loop": 0,
+          "slide-atoll-coral-arch": 0,
+          "slide-atoll-cloud-islets": 0,
+          "slide-atoll-flower-lagoon": 0,
+          "slide-atoll-red-canyon": 0,
+          "slide-atoll-abyss-bridge": 0,
+          "slide-atoll-green-valley": 0,
+          "slide-atoll-purple-vortex": 0,
+          "slide-atoll-mega-loops": 0,
+          "ride-water-barrel-wave": 0,
+          "ride-water-canyon-rafting": 0,
+          "ride-water-glass-drop": 0,
+          "ride-water-lagoon-launch": 0,
+          "ride-water-surf-halfpipe": 0,
+          "ride-water-lazy-river": 0,
+          "ride-water-fountain-carousel": 0,
+          "ride-water-pool-pendulum": 0,
+          "farm-magic-fruits": 0,
+          "magic-seed-cotton": 0,
+          "magic-seed-lantern": 0,
+          "magic-seed-heart": 0,
+          "magic-seed-aqua": 0,
+          "magic-seed-emerald": 0,
+          "magic-seed-golden": 0,
+          "ride-mosasaur": 0,
+          "court-burger": 0,
+          "court-boba": 0,
+          "court-coffee": 0,
+          "court-bakery": 0,
+          "court-cinema": 0,
+          "bikini-krusty": 0,
+          "bikini-sponge": 0,
+          "bikini-patrick": 0,
+          "slide-glass-corkscrew": 0,
+          "slide-sky-cannon": 0,
+          "slide-titan-funnel": 0,
+          "slide-jungle-titan": 0,
+          "slide-rainbow-tsunami": 0,
+          "slide-abyss-capsule": 0,
+          "dive-triple-sky": 0,
+          "coaster-thunder-loop": 0,
+          "coaster-aurora-rift": 0,
+          "coaster-dragon-titan": 0,
+          "diamond-mine": 0,
+          "aquarium-aurora": 0,
+          "aquarium-pearl": 0,
+          "aquarium-coral": 0,
+          "aquarium-lilac": 0,
+          "aquarium-sunrise": 0,
+          "job-bank": 0,
+          "job-crypto": 0,
+          "job-factory": 0,
+          "job-furniture": 0,
+          "job-estate": 0,
+          "job-cars": 0,
+          "zoo-elephant": 0,
+          "zoo-axolotl": 0,
+          "zoo-otter": 0,
+          "zoo-polar": 0,
+          "zoo-gorilla": 0
+        },
+        "used": {
+          "resort-massage-session": 1,
+          "resort-aroma-session": 1,
+          "resort-sauna-session": 1,
+          "resort-cabana-session": 1,
+          "resort-beauty-session": 1,
+          "resort-meditation-session": 1,
+          "resort-nap-session": 1,
+          "resort-cafe-session": 1,
+          "resort-waterfall-session": 1
+        },
+        "receipts": {
+          "resort-chichi-1": {
+            "product": "resort-massage-session",
+            "sequence": 1,
+            "price": 300,
+            "at": 1795011827937
+          },
+          "resort-chichi-2": {
+            "product": "resort-aroma-session",
+            "sequence": 2,
+            "price": 180,
+            "at": 1795011846456
+          },
+          "resort-chichi-3": {
+            "product": "resort-sauna-session",
+            "sequence": 3,
+            "price": 120,
+            "at": 1795011855675
+          },
+          "resort-chichi-4": {
+            "product": "resort-cabana-session",
+            "sequence": 4,
+            "price": 200,
+            "at": 1795011865093
+          },
+          "resort-chichi-5": {
+            "product": "resort-beauty-session",
+            "sequence": 5,
+            "price": 180,
+            "at": 1795011881926
+          },
+          "resort-chichi-6": {
+            "product": "resort-meditation-session",
+            "sequence": 6,
+            "price": 100,
+            "at": 1795011890217
+          },
+          "resort-chichi-7": {
+            "product": "resort-nap-session",
+            "sequence": 7,
+            "price": 100,
+            "at": 1795011899952
+          },
+          "resort-chichi-8": {
+            "product": "resort-cafe-session",
+            "sequence": 8,
+            "price": 100,
+            "at": 1795011916733
+          },
+          "resort-chichi-9": {
+            "product": "resort-waterfall-session",
+            "sequence": 9,
+            "price": 100,
+            "at": 1795011930752
+          }
+        },
+        "position": [
+          -460.5,
+          -146.988,
+          746
+        ]
+      }
+    },
+    {
+      "id": "resort-amber",
+      "done": true,
+      "trace": [
+        {
+          "phase": "inspect",
+          "action": "inspect-place",
+          "position": {
+            "x": -548.5,
+            "y": -146.988,
+            "z": 698.3
+          },
+          "pose": {
+            "head": [
+              -0.3708626251926836,
+              0.07559128770114842,
+              0.05500974848051569,
+              "XYZ"
+            ],
+            "jaw": 0.07973481186287316,
+            "paws": [
+              0,
+              -0.3827315326654703,
+              0,
+              -0.14950000000000002
+            ],
+            "eyes": [
+              0.8099031132097603,
+              0.8099031132097603
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "mount",
+          "action": "mount",
+          "position": {
+            "x": -548.5,
+            "y": -146.27856457505075,
+            "z": 697.7375
+          },
+          "pose": {
+            "head": [
+              -0.27278088534177997,
+              0.004344270920446859,
+              0.1065770583846036,
+              "XYZ"
+            ],
+            "jaw": 0.0032881220257143903,
+            "paws": [
+              0,
+              -0.0015425550003568193,
+              0,
+              0
+            ],
+            "eyes": [
+              0.9900968867902441,
+              0.9900968867902441
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "amber-recline",
+          "position": {
+            "x": -548.5,
+            "y": -146.068,
+            "z": 694.7
+          },
+          "pose": {
+            "head": [
+              -0.27283456436988895,
+              0.04459595433449778,
+              0.11429756328610327,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.22749999999999995,
+              -0.24374999999999997,
+              0.22749999999999995,
+              -0.24374999999999997
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "warm-star-gaze",
+          "position": {
+            "x": -548.5,
+            "y": -146.068,
+            "z": 694.7
+          },
+          "pose": {
+            "head": [
+              -0.45224957462810955,
+              0.06275095843889063,
+              0.1123440160634139,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.27999999999999997,
+              -0.30000000000000004,
+              0.27999999999999997,
+              -0.30000000000000004
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "amber-doze",
+          "position": {
+            "x": -548.5,
+            "y": -146.068,
+            "z": 694.7
+          },
+          "pose": {
+            "head": [
+              -0.31077594606345,
+              -0.036437348289640105,
+              0.20250977233554393,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.5599999999999999,
+              -0.6000000000000001,
+              0.5599999999999999,
+              -0.6000000000000001
+            ],
+            "eyes": [
+              0.1541249999999998,
+              0.1541249999999998
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "amber-stretch",
+          "position": {
+            "x": -548.5,
+            "y": -146.068,
+            "z": 694.7
+          },
+          "pose": {
+            "head": [
+              -0.40769349356813733,
+              0.04479053718473904,
+              0.0781901148304513,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.13999999999999996,
+              -0.27999999999999997,
+              0.13999999999999996,
+              -0.27999999999999997
+            ],
+            "eyes": [
+              0.5366666666339004,
+              0.5366666666339004
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "dismount",
+          "action": "amber-stretch",
+          "position": {
+            "x": -548.5,
+            "y": -145.82917255692743,
+            "z": 696.8357421875
+          },
+          "pose": {
+            "head": [
+              -0.29801557272243095,
+              -0.042924053998699266,
+              -0.013012124791888721,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.056943359374999995,
+              -0.11388671875,
+              0.056943359374999995,
+              -0.11388671875
+            ],
+            "eyes": [
+              0.30699563063721413,
+              0.30699563063721413
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "walk",
+          "action": "walk",
+          "position": {
+            "x": -548.6,
+            "y": -146.988,
+            "z": 698.7785786437627
+          },
+          "pose": {
+            "head": [
+              -0.2674521331097136,
+              -0.025255156692700204,
+              0.016652488786034966,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.2665311764940893,
+              -0.26653117649410646,
+              -0.26653117649410646,
+              0.2665311764940893
+            ],
+            "eyes": [
+              0.8775000000000188,
+              0.8775000000000188
+            ]
+          },
+          "visibleFood": []
+        }
+      ],
+      "after": {
+        "coins": 520,
+        "worldCoins": 13835,
+        "inventory": {
+          "yarn": 0,
+          "mouse": 0,
+          "feather": 0,
+          "tunnel": 0,
+          "scratch": 0,
+          "trampoline": 0,
+          "swing": 0,
+          "carousel": 0,
+          "coaster": 0,
+          "waterslide": 0,
+          "ferris": 0,
+          "teacup": 0,
+          "train": 0,
+          "boat": 0,
+          "balloon": 0,
+          "broom": 0,
+          "scooter": 0,
+          "party": 0,
+          "cafe": 0,
+          "picnic": 0,
+          "stage": 0,
+          "fountain": 0,
+          "mushroom": 0,
+          "crystal": 0,
+          "lantern": 0,
+          "flowers": 0,
+          "bed": 0,
+          "pond": 0,
+          "farm-field": 0,
+          "greenhouse": 0,
+          "barn": 0,
+          "orchard": 0,
+          "coaster-epic": 0,
+          "coaster-legendary": 0,
+          "coaster-mystic": 0,
+          "coaster-dragon": 0,
+          "water-river": 0,
+          "water-whirlpool": 0,
+          "water-extreme": 0,
+          "zipline": 0,
+          "drop-tower": 0,
+          "bumpercars": 0,
+          "rocket": 0,
+          "ufo": 0,
+          "airship": 0,
+          "skate": 0,
+          "catbus": 0,
+          "maze": 0,
+          "laser": 0,
+          "fireflies": 0,
+          "toy-fish": 0,
+          "library": 0,
+          "observatory": 0,
+          "spa": 0,
+          "festival": 0,
+          "portal": 0,
+          "coaster-lagoon": 1,
+          "coaster-sakura": 0,
+          "coaster-moon": 0,
+          "coaster-mushroom": 0,
+          "coaster-cloud": 0,
+          "coaster-clockwork": 0,
+          "coaster-rainbow-launch": 0,
+          "slide-royal-cascade": 0,
+          "slide-vortex-bowl": 0,
+          "coaster-comet-flight": 0,
+          "ride-jellyfish": 0,
+          "ride-dragon-cloud": 0,
+          "toy-bubble-garden": 0,
+          "toy-magic-fish": 0,
+          "cat-barista": 0,
+          "swim-lagoon": 0,
+          "adoption-center": 0,
+          "business-coffee": 0,
+          "business-hotdog": 0,
+          "business-bakery": 0,
+          "business-gelato": 0,
+          "business-florist": 0,
+          "business-artist": 0,
+          "business-farmstand": 0,
+          "business-lemonade": 0,
+          "business-fishmarket": 0,
+          "business-pizza": 0,
+          "business-boba": 0,
+          "business-honeytea": 0,
+          "business-candy": 0,
+          "business-toymaker": 0,
+          "ride-butterfly": 0,
+          "ride-lotus": 0,
+          "ride-dragonfly": 0,
+          "ride-dinosaur": 0,
+          "ride-whale": 0,
+          "ride-whale-aurora": 0,
+          "ride-dream-balloon": 0,
+          "ride-paris-wheel": 0,
+          "ride-venice-gondola": 0,
+          "ride-tokyo-train": 0,
+          "ride-cloud-tram": 0,
+          "ride-star-carousel": 0,
+          "coaster-candy-city": 0,
+          "ride-crystal-slide": 0,
+          "ride-cupcake-wheel": 0,
+          "coaster-piglet-express": 0,
+          "ride-sugar-teacups": 0,
+          "slide-marshmallow": 0,
+          "ride-pig-rose": 0,
+          "ride-pig-peach": 0,
+          "ride-pig-lilac": 0,
+          "ride-capybara-mango": 0,
+          "ride-capybara-boba": 0,
+          "ride-capybara-coconut": 0,
+          "ride-capybara-float": 0,
+          "slide-dream-crystal-loops": 0,
+          "slide-dream-pearl-funnel": 0,
+          "slide-dream-rainbow-launch": 0,
+          "slide-dream-waterfall-arch": 0,
+          "slide-dream-canyon-twins": 0,
+          "slide-dream-ocean-tunnel": 0,
+          "slide-dream-blossom-tree": 0,
+          "slide-dream-ice-tunnel": 0,
+          "slide-dream-orbital-shell": 0,
+          "slide-dream-terrace-cascades": 0,
+          "slide-dream-canyon-eight": 0,
+          "slide-dream-luminous-vortex": 0,
+          "slide-dream-ring-launch": 0,
+          "slide-dream-ribbon-tower": 0,
+          "slide-dream-tidal-wave": 0,
+          "slide-dream-water-lift": 0,
+          "slide-dream-dragon-tail": 0,
+          "slide-dream-four-funnels": 0,
+          "slide-dream-sky-bridge": 0,
+          "slide-dream-cave-loop": 0,
+          "slide-dream-twin-flights": 0,
+          "slide-dream-lighthouse": 0,
+          "slide-dream-twin-shell": 0,
+          "slide-dream-royal-aqueduct": 0,
+          "slide-dream-cloud-star": 0,
+          "slide-atoll-giant-wave": 0,
+          "slide-atoll-rock-arch": 0,
+          "slide-atoll-rainbow-race": 0,
+          "slide-atoll-sky-serpent": 0,
+          "slide-atoll-blue-whirlpool": 0,
+          "slide-atoll-double-serpent": 0,
+          "slide-atoll-waterfall-cascade": 0,
+          "slide-atoll-emerald-canyon": 0,
+          "slide-atoll-crystal-cavern": 0,
+          "slide-atoll-root-valley": 0,
+          "slide-atoll-blue-halfpipe": 0,
+          "slide-atoll-lagoon-loop": 0,
+          "slide-atoll-coral-arch": 0,
+          "slide-atoll-cloud-islets": 0,
+          "slide-atoll-flower-lagoon": 0,
+          "slide-atoll-red-canyon": 0,
+          "slide-atoll-abyss-bridge": 0,
+          "slide-atoll-green-valley": 0,
+          "slide-atoll-purple-vortex": 0,
+          "slide-atoll-mega-loops": 0,
+          "ride-water-barrel-wave": 0,
+          "ride-water-canyon-rafting": 0,
+          "ride-water-glass-drop": 0,
+          "ride-water-lagoon-launch": 0,
+          "ride-water-surf-halfpipe": 0,
+          "ride-water-lazy-river": 0,
+          "ride-water-fountain-carousel": 0,
+          "ride-water-pool-pendulum": 0,
+          "farm-magic-fruits": 0,
+          "magic-seed-cotton": 0,
+          "magic-seed-lantern": 0,
+          "magic-seed-heart": 0,
+          "magic-seed-aqua": 0,
+          "magic-seed-emerald": 0,
+          "magic-seed-golden": 0,
+          "ride-mosasaur": 0,
+          "court-burger": 0,
+          "court-boba": 0,
+          "court-coffee": 0,
+          "court-bakery": 0,
+          "court-cinema": 0,
+          "bikini-krusty": 0,
+          "bikini-sponge": 0,
+          "bikini-patrick": 0,
+          "slide-glass-corkscrew": 0,
+          "slide-sky-cannon": 0,
+          "slide-titan-funnel": 0,
+          "slide-jungle-titan": 0,
+          "slide-rainbow-tsunami": 0,
+          "slide-abyss-capsule": 0,
+          "dive-triple-sky": 0,
+          "coaster-thunder-loop": 0,
+          "coaster-aurora-rift": 0,
+          "coaster-dragon-titan": 0,
+          "diamond-mine": 0,
+          "aquarium-aurora": 0,
+          "aquarium-pearl": 0,
+          "aquarium-coral": 0,
+          "aquarium-lilac": 0,
+          "aquarium-sunrise": 0,
+          "job-bank": 0,
+          "job-crypto": 0,
+          "job-factory": 0,
+          "job-furniture": 0,
+          "job-estate": 0,
+          "job-cars": 0,
+          "zoo-elephant": 0,
+          "zoo-axolotl": 0,
+          "zoo-otter": 0,
+          "zoo-polar": 0,
+          "zoo-gorilla": 0
+        },
+        "used": {
+          "resort-massage-session": 1,
+          "resort-aroma-session": 1,
+          "resort-sauna-session": 1,
+          "resort-cabana-session": 1,
+          "resort-beauty-session": 1,
+          "resort-meditation-session": 1,
+          "resort-nap-session": 1,
+          "resort-cafe-session": 1,
+          "resort-waterfall-session": 1,
+          "resort-amber-session": 1
+        },
+        "receipts": {
+          "resort-chichi-1": {
+            "product": "resort-massage-session",
+            "sequence": 1,
+            "price": 300,
+            "at": 1795011827937
+          },
+          "resort-chichi-2": {
+            "product": "resort-aroma-session",
+            "sequence": 2,
+            "price": 180,
+            "at": 1795011846456
+          },
+          "resort-chichi-3": {
+            "product": "resort-sauna-session",
+            "sequence": 3,
+            "price": 120,
+            "at": 1795011855675
+          },
+          "resort-chichi-4": {
+            "product": "resort-cabana-session",
+            "sequence": 4,
+            "price": 200,
+            "at": 1795011865093
+          },
+          "resort-chichi-5": {
+            "product": "resort-beauty-session",
+            "sequence": 5,
+            "price": 180,
+            "at": 1795011881926
+          },
+          "resort-chichi-6": {
+            "product": "resort-meditation-session",
+            "sequence": 6,
+            "price": 100,
+            "at": 1795011890217
+          },
+          "resort-chichi-7": {
+            "product": "resort-nap-session",
+            "sequence": 7,
+            "price": 100,
+            "at": 1795011899952
+          },
+          "resort-chichi-8": {
+            "product": "resort-cafe-session",
+            "sequence": 8,
+            "price": 100,
+            "at": 1795011916733
+          },
+          "resort-chichi-9": {
+            "product": "resort-waterfall-session",
+            "sequence": 9,
+            "price": 100,
+            "at": 1795011930752
+          },
+          "resort-chichi-10": {
+            "product": "resort-amber-session",
+            "sequence": 10,
+            "price": 100,
+            "at": 1795011947710
+          }
+        },
+        "position": [
+          -548.5,
+          -146.988,
+          699
+        ]
+      }
+    },
+    {
+      "id": "resort-midnight",
+      "done": true,
+      "trace": [
+        {
+          "phase": "inspect",
+          "action": "inspect-place",
+          "position": {
+            "x": -378.5,
+            "y": -146.988,
+            "z": 656.3
+          },
+          "pose": {
+            "head": [
+              -0.2950634199732888,
+              0.13048007432034306,
+              0.10835318655951547,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0,
+              -0.24437923405113432,
+              0,
+              -0.14440591103021574
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "mount",
+          "action": "mount",
+          "position": {
+            "x": -378.5,
+            "y": -146.4586414698343,
+            "z": 655.9677734375
+          },
+          "pose": {
+            "head": [
+              -0.2717257247537891,
+              0.044448909243097266,
+              0.12378064020567893,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "night-curl",
+          "position": {
+            "x": -378.5,
+            "y": -146.068,
+            "z": 652.7
+          },
+          "pose": {
+            "head": [
+              -0.2899463910419737,
+              0.017002649569973292,
+              0.1342179007105334,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.22777343749999993,
+              -0.24404296874999995,
+              0.22777343749999993,
+              -0.24404296874999995
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "deep-star-sleep",
+          "position": {
+            "x": -378.5,
+            "y": -146.068,
+            "z": 652.7
+          },
+          "pose": {
+            "head": [
+              -0.2721461048836236,
+              -0.03377942697011088,
+              0.12868117798206374,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.6604882812499998,
+              -0.7076660156249999,
+              0.6604882812499998,
+              -0.7076660156249999
+            ],
+            "eyes": [
+              0.06210937500000058,
+              0.06210937500000058
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "sleepy-ear-flick",
+          "position": {
+            "x": -378.5,
+            "y": -146.068,
+            "z": 652.7
+          },
+          "pose": {
+            "head": [
+              -0.296520935543557,
+              0.04487695571768591,
+              0.09826532817261925,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.63,
+              -0.675,
+              0.63,
+              -0.675
+            ],
+            "eyes": [
+              0.040000000000000036,
+              0.040000000000000036
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "procedure",
+          "action": "quiet-awakening",
+          "position": {
+            "x": -378.5,
+            "y": -146.068,
+            "z": 652.7
+          },
+          "pose": {
+            "head": [
+              -0.27507461077079803,
+              0.05790760798874645,
+              0.10407807836671926,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.35,
+              -0.375,
+              0.35,
+              -0.375
+            ],
+            "eyes": [
+              0.7,
+              0.7
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "dismount",
+          "action": "quiet-awakening",
+          "position": {
+            "x": -378.5,
+            "y": -145.72799999999998,
+            "z": 654.5
+          },
+          "pose": {
+            "head": [
+              -0.27782887751944635,
+              0.042319985468160765,
+              0.07658708518946683,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.17500000000000002,
+              -0.18750000000000006,
+              0.17500000000000002,
+              -0.18750000000000006
+            ],
+            "eyes": [
+              0.85,
+              0.85
+            ]
+          },
+          "visibleFood": []
+        },
+        {
+          "phase": "walk",
+          "action": "walk",
+          "position": {
+            "x": -378.6,
+            "y": -146.988,
+            "z": 656.6407417596433
+          },
+          "pose": {
+            "head": [
+              -0.26900438503634855,
+              0.029725662324377223,
+              0.08431168295490193,
+              "XYZ"
+            ],
+            "jaw": 0,
+            "paws": [
+              0.1440999259002214,
+              -0.14409992590025414,
+              -0.14409992590025414,
+              0.1440999259002214
+            ],
+            "eyes": [
+              1,
+              1
+            ]
+          },
+          "visibleFood": []
+        }
+      ],
+      "after": {
+        "coins": 420,
+        "worldCoins": 13835,
+        "inventory": {
+          "yarn": 0,
+          "mouse": 0,
+          "feather": 0,
+          "tunnel": 0,
+          "scratch": 0,
+          "trampoline": 0,
+          "swing": 0,
+          "carousel": 0,
+          "coaster": 0,
+          "waterslide": 0,
+          "ferris": 0,
+          "teacup": 0,
+          "train": 0,
+          "boat": 0,
+          "balloon": 0,
+          "broom": 0,
+          "scooter": 0,
+          "party": 0,
+          "cafe": 0,
+          "picnic": 0,
+          "stage": 0,
+          "fountain": 0,
+          "mushroom": 0,
+          "crystal": 0,
+          "lantern": 0,
+          "flowers": 0,
+          "bed": 0,
+          "pond": 0,
+          "farm-field": 0,
+          "greenhouse": 0,
+          "barn": 0,
+          "orchard": 0,
+          "coaster-epic": 0,
+          "coaster-legendary": 0,
+          "coaster-mystic": 0,
+          "coaster-dragon": 0,
+          "water-river": 0,
+          "water-whirlpool": 0,
+          "water-extreme": 0,
+          "zipline": 0,
+          "drop-tower": 0,
+          "bumpercars": 0,
+          "rocket": 0,
+          "ufo": 0,
+          "airship": 0,
+          "skate": 0,
+          "catbus": 0,
+          "maze": 0,
+          "laser": 0,
+          "fireflies": 0,
+          "toy-fish": 0,
+          "library": 0,
+          "observatory": 0,
+          "spa": 0,
+          "festival": 0,
+          "portal": 0,
+          "coaster-lagoon": 1,
+          "coaster-sakura": 0,
+          "coaster-moon": 0,
+          "coaster-mushroom": 0,
+          "coaster-cloud": 0,
+          "coaster-clockwork": 0,
+          "coaster-rainbow-launch": 0,
+          "slide-royal-cascade": 0,
+          "slide-vortex-bowl": 0,
+          "coaster-comet-flight": 0,
+          "ride-jellyfish": 0,
+          "ride-dragon-cloud": 0,
+          "toy-bubble-garden": 0,
+          "toy-magic-fish": 0,
+          "cat-barista": 0,
+          "swim-lagoon": 0,
+          "adoption-center": 0,
+          "business-coffee": 0,
+          "business-hotdog": 0,
+          "business-bakery": 0,
+          "business-gelato": 0,
+          "business-florist": 0,
+          "business-artist": 0,
+          "business-farmstand": 0,
+          "business-lemonade": 0,
+          "business-fishmarket": 0,
+          "business-pizza": 0,
+          "business-boba": 0,
+          "business-honeytea": 0,
+          "business-candy": 0,
+          "business-toymaker": 0,
+          "ride-butterfly": 0,
+          "ride-lotus": 0,
+          "ride-dragonfly": 0,
+          "ride-dinosaur": 0,
+          "ride-whale": 0,
+          "ride-whale-aurora": 0,
+          "ride-dream-balloon": 0,
+          "ride-paris-wheel": 0,
+          "ride-venice-gondola": 0,
+          "ride-tokyo-train": 0,
+          "ride-cloud-tram": 0,
+          "ride-star-carousel": 0,
+          "coaster-candy-city": 0,
+          "ride-crystal-slide": 0,
+          "ride-cupcake-wheel": 0,
+          "coaster-piglet-express": 0,
+          "ride-sugar-teacups": 0,
+          "slide-marshmallow": 0,
+          "ride-pig-rose": 0,
+          "ride-pig-peach": 0,
+          "ride-pig-lilac": 0,
+          "ride-capybara-mango": 0,
+          "ride-capybara-boba": 0,
+          "ride-capybara-coconut": 0,
+          "ride-capybara-float": 0,
+          "slide-dream-crystal-loops": 0,
+          "slide-dream-pearl-funnel": 0,
+          "slide-dream-rainbow-launch": 0,
+          "slide-dream-waterfall-arch": 0,
+          "slide-dream-canyon-twins": 0,
+          "slide-dream-ocean-tunnel": 0,
+          "slide-dream-blossom-tree": 0,
+          "slide-dream-ice-tunnel": 0,
+          "slide-dream-orbital-shell": 0,
+          "slide-dream-terrace-cascades": 0,
+          "slide-dream-canyon-eight": 0,
+          "slide-dream-luminous-vortex": 0,
+          "slide-dream-ring-launch": 0,
+          "slide-dream-ribbon-tower": 0,
+          "slide-dream-tidal-wave": 0,
+          "slide-dream-water-lift": 0,
+          "slide-dream-dragon-tail": 0,
+          "slide-dream-four-funnels": 0,
+          "slide-dream-sky-bridge": 0,
+          "slide-dream-cave-loop": 0,
+          "slide-dream-twin-flights": 0,
+          "slide-dream-lighthouse": 0,
+          "slide-dream-twin-shell": 0,
+          "slide-dream-royal-aqueduct": 0,
+          "slide-dream-cloud-star": 0,
+          "slide-atoll-giant-wave": 0,
+          "slide-atoll-rock-arch": 0,
+          "slide-atoll-rainbow-race": 0,
+          "slide-atoll-sky-serpent": 0,
+          "slide-atoll-blue-whirlpool": 0,
+          "slide-atoll-double-serpent": 0,
+          "slide-atoll-waterfall-cascade": 0,
+          "slide-atoll-emerald-canyon": 0,
+          "slide-atoll-crystal-cavern": 0,
+          "slide-atoll-root-valley": 0,
+          "slide-atoll-blue-halfpipe": 0,
+          "slide-atoll-lagoon-loop": 0,
+          "slide-atoll-coral-arch": 0,
+          "slide-atoll-cloud-islets": 0,
+          "slide-atoll-flower-lagoon": 0,
+          "slide-atoll-red-canyon": 0,
+          "slide-atoll-abyss-bridge": 0,
+          "slide-atoll-green-valley": 0,
+          "slide-atoll-purple-vortex": 0,
+          "slide-atoll-mega-loops": 0,
+          "ride-water-barrel-wave": 0,
+          "ride-water-canyon-rafting": 0,
+          "ride-water-glass-drop": 0,
+          "ride-water-lagoon-launch": 0,
+          "ride-water-surf-halfpipe": 0,
+          "ride-water-lazy-river": 0,
+          "ride-water-fountain-carousel": 0,
+          "ride-water-pool-pendulum": 0,
+          "farm-magic-fruits": 0,
+          "magic-seed-cotton": 0,
+          "magic-seed-lantern": 0,
+          "magic-seed-heart": 0,
+          "magic-seed-aqua": 0,
+          "magic-seed-emerald": 0,
+          "magic-seed-golden": 0,
+          "ride-mosasaur": 0,
+          "court-burger": 0,
+          "court-boba": 0,
+          "court-coffee": 0,
+          "court-bakery": 0,
+          "court-cinema": 0,
+          "bikini-krusty": 0,
+          "bikini-sponge": 0,
+          "bikini-patrick": 0,
+          "slide-glass-corkscrew": 0,
+          "slide-sky-cannon": 0,
+          "slide-titan-funnel": 0,
+          "slide-jungle-titan": 0,
+          "slide-rainbow-tsunami": 0,
+          "slide-abyss-capsule": 0,
+          "dive-triple-sky": 0,
+          "coaster-thunder-loop": 0,
+          "coaster-aurora-rift": 0,
+          "coaster-dragon-titan": 0,
+          "diamond-mine": 0,
+          "aquarium-aurora": 0,
+          "aquarium-pearl": 0,
+          "aquarium-coral": 0,
+          "aquarium-lilac": 0,
+          "aquarium-sunrise": 0,
+          "job-bank": 0,
+          "job-crypto": 0,
+          "job-factory": 0,
+          "job-furniture": 0,
+          "job-estate": 0,
+          "job-cars": 0,
+          "zoo-elephant": 0,
+          "zoo-axolotl": 0,
+          "zoo-otter": 0,
+          "zoo-polar": 0,
+          "zoo-gorilla": 0
+        },
+        "used": {
+          "resort-massage-session": 1,
+          "resort-aroma-session": 1,
+          "resort-sauna-session": 1,
+          "resort-cabana-session": 1,
+          "resort-beauty-session": 1,
+          "resort-meditation-session": 1,
+          "resort-nap-session": 1,
+          "resort-cafe-session": 1,
+          "resort-waterfall-session": 1,
+          "resort-amber-session": 1,
+          "resort-midnight-session": 1
+        },
+        "receipts": {
+          "resort-chichi-1": {
+            "product": "resort-massage-session",
+            "sequence": 1,
+            "price": 300,
+            "at": 1795011827937
+          },
+          "resort-chichi-2": {
+            "product": "resort-aroma-session",
+            "sequence": 2,
+            "price": 180,
+            "at": 1795011846456
+          },
+          "resort-chichi-3": {
+            "product": "resort-sauna-session",
+            "sequence": 3,
+            "price": 120,
+            "at": 1795011855675
+          },
+          "resort-chichi-4": {
+            "product": "resort-cabana-session",
+            "sequence": 4,
+            "price": 200,
+            "at": 1795011865093
+          },
+          "resort-chichi-5": {
+            "product": "resort-beauty-session",
+            "sequence": 5,
+            "price": 180,
+            "at": 1795011881926
+          },
+          "resort-chichi-6": {
+            "product": "resort-meditation-session",
+            "sequence": 6,
+            "price": 100,
+            "at": 1795011890217
+          },
+          "resort-chichi-7": {
+            "product": "resort-nap-session",
+            "sequence": 7,
+            "price": 100,
+            "at": 1795011899952
+          },
+          "resort-chichi-8": {
+            "product": "resort-cafe-session",
+            "sequence": 8,
+            "price": 100,
+            "at": 1795011916733
+          },
+          "resort-chichi-9": {
+            "product": "resort-waterfall-session",
+            "sequence": 9,
+            "price": 100,
+            "at": 1795011930752
+          },
+          "resort-chichi-10": {
+            "product": "resort-amber-session",
+            "sequence": 10,
+            "price": 100,
+            "at": 1795011947710
+          },
+          "resort-chichi-11": {
+            "product": "resort-midnight-session",
+            "sequence": 11,
+            "price": 100,
+            "at": 1795011965137
+          }
+        },
+        "position": [
+          -378.5,
+          -146.988,
+          657
+        ]
+      }
+    }
+  ],
+  "after": {
+    "coins": 420,
+    "worldCoins": 13835,
+    "inventory": {
+      "yarn": 0,
+      "mouse": 0,
+      "feather": 0,
+      "tunnel": 0,
+      "scratch": 0,
+      "trampoline": 0,
+      "swing": 0,
+      "carousel": 0,
+      "coaster": 0,
+      "waterslide": 0,
+      "ferris": 0,
+      "teacup": 0,
+      "train": 0,
+      "boat": 0,
+      "balloon": 0,
+      "broom": 0,
+      "scooter": 0,
+      "party": 0,
+      "cafe": 0,
+      "picnic": 0,
+      "stage": 0,
+      "fountain": 0,
+      "mushroom": 0,
+      "crystal": 0,
+      "lantern": 0,
+      "flowers": 0,
+      "bed": 0,
+      "pond": 0,
+      "farm-field": 0,
+      "greenhouse": 0,
+      "barn": 0,
+      "orchard": 0,
+      "coaster-epic": 0,
+      "coaster-legendary": 0,
+      "coaster-mystic": 0,
+      "coaster-dragon": 0,
+      "water-river": 0,
+      "water-whirlpool": 0,
+      "water-extreme": 0,
+      "zipline": 0,
+      "drop-tower": 0,
+      "bumpercars": 0,
+      "rocket": 0,
+      "ufo": 0,
+      "airship": 0,
+      "skate": 0,
+      "catbus": 0,
+      "maze": 0,
+      "laser": 0,
+      "fireflies": 0,
+      "toy-fish": 0,
+      "library": 0,
+      "observatory": 0,
+      "spa": 0,
+      "festival": 0,
+      "portal": 0,
+      "coaster-lagoon": 1,
+      "coaster-sakura": 0,
+      "coaster-moon": 0,
+      "coaster-mushroom": 0,
+      "coaster-cloud": 0,
+      "coaster-clockwork": 0,
+      "coaster-rainbow-launch": 0,
+      "slide-royal-cascade": 0,
+      "slide-vortex-bowl": 0,
+      "coaster-comet-flight": 0,
+      "ride-jellyfish": 0,
+      "ride-dragon-cloud": 0,
+      "toy-bubble-garden": 0,
+      "toy-magic-fish": 0,
+      "cat-barista": 0,
+      "swim-lagoon": 0,
+      "adoption-center": 0,
+      "business-coffee": 0,
+      "business-hotdog": 0,
+      "business-bakery": 0,
+      "business-gelato": 0,
+      "business-florist": 0,
+      "business-artist": 0,
+      "business-farmstand": 0,
+      "business-lemonade": 0,
+      "business-fishmarket": 0,
+      "business-pizza": 0,
+      "business-boba": 0,
+      "business-honeytea": 0,
+      "business-candy": 0,
+      "business-toymaker": 0,
+      "ride-butterfly": 0,
+      "ride-lotus": 0,
+      "ride-dragonfly": 0,
+      "ride-dinosaur": 0,
+      "ride-whale": 0,
+      "ride-whale-aurora": 0,
+      "ride-dream-balloon": 0,
+      "ride-paris-wheel": 0,
+      "ride-venice-gondola": 0,
+      "ride-tokyo-train": 0,
+      "ride-cloud-tram": 0,
+      "ride-star-carousel": 0,
+      "coaster-candy-city": 0,
+      "ride-crystal-slide": 0,
+      "ride-cupcake-wheel": 0,
+      "coaster-piglet-express": 0,
+      "ride-sugar-teacups": 0,
+      "slide-marshmallow": 0,
+      "ride-pig-rose": 0,
+      "ride-pig-peach": 0,
+      "ride-pig-lilac": 0,
+      "ride-capybara-mango": 0,
+      "ride-capybara-boba": 0,
+      "ride-capybara-coconut": 0,
+      "ride-capybara-float": 0,
+      "slide-dream-crystal-loops": 0,
+      "slide-dream-pearl-funnel": 0,
+      "slide-dream-rainbow-launch": 0,
+      "slide-dream-waterfall-arch": 0,
+      "slide-dream-canyon-twins": 0,
+      "slide-dream-ocean-tunnel": 0,
+      "slide-dream-blossom-tree": 0,
+      "slide-dream-ice-tunnel": 0,
+      "slide-dream-orbital-shell": 0,
+      "slide-dream-terrace-cascades": 0,
+      "slide-dream-canyon-eight": 0,
+      "slide-dream-luminous-vortex": 0,
+      "slide-dream-ring-launch": 0,
+      "slide-dream-ribbon-tower": 0,
+      "slide-dream-tidal-wave": 0,
+      "slide-dream-water-lift": 0,
+      "slide-dream-dragon-tail": 0,
+      "slide-dream-four-funnels": 0,
+      "slide-dream-sky-bridge": 0,
+      "slide-dream-cave-loop": 0,
+      "slide-dream-twin-flights": 0,
+      "slide-dream-lighthouse": 0,
+      "slide-dream-twin-shell": 0,
+      "slide-dream-royal-aqueduct": 0,
+      "slide-dream-cloud-star": 0,
+      "slide-atoll-giant-wave": 0,
+      "slide-atoll-rock-arch": 0,
+      "slide-atoll-rainbow-race": 0,
+      "slide-atoll-sky-serpent": 0,
+      "slide-atoll-blue-whirlpool": 0,
+      "slide-atoll-double-serpent": 0,
+      "slide-atoll-waterfall-cascade": 0,
+      "slide-atoll-emerald-canyon": 0,
+      "slide-atoll-crystal-cavern": 0,
+      "slide-atoll-root-valley": 0,
+      "slide-atoll-blue-halfpipe": 0,
+      "slide-atoll-lagoon-loop": 0,
+      "slide-atoll-coral-arch": 0,
+      "slide-atoll-cloud-islets": 0,
+      "slide-atoll-flower-lagoon": 0,
+      "slide-atoll-red-canyon": 0,
+      "slide-atoll-abyss-bridge": 0,
+      "slide-atoll-green-valley": 0,
+      "slide-atoll-purple-vortex": 0,
+      "slide-atoll-mega-loops": 0,
+      "ride-water-barrel-wave": 0,
+      "ride-water-canyon-rafting": 0,
+      "ride-water-glass-drop": 0,
+      "ride-water-lagoon-launch": 0,
+      "ride-water-surf-halfpipe": 0,
+      "ride-water-lazy-river": 0,
+      "ride-water-fountain-carousel": 0,
+      "ride-water-pool-pendulum": 0,
+      "farm-magic-fruits": 0,
+      "magic-seed-cotton": 0,
+      "magic-seed-lantern": 0,
+      "magic-seed-heart": 0,
+      "magic-seed-aqua": 0,
+      "magic-seed-emerald": 0,
+      "magic-seed-golden": 0,
+      "ride-mosasaur": 0,
+      "court-burger": 0,
+      "court-boba": 0,
+      "court-coffee": 0,
+      "court-bakery": 0,
+      "court-cinema": 0,
+      "bikini-krusty": 0,
+      "bikini-sponge": 0,
+      "bikini-patrick": 0,
+      "slide-glass-corkscrew": 0,
+      "slide-sky-cannon": 0,
+      "slide-titan-funnel": 0,
+      "slide-jungle-titan": 0,
+      "slide-rainbow-tsunami": 0,
+      "slide-abyss-capsule": 0,
+      "dive-triple-sky": 0,
+      "coaster-thunder-loop": 0,
+      "coaster-aurora-rift": 0,
+      "coaster-dragon-titan": 0,
+      "diamond-mine": 0,
+      "aquarium-aurora": 0,
+      "aquarium-pearl": 0,
+      "aquarium-coral": 0,
+      "aquarium-lilac": 0,
+      "aquarium-sunrise": 0,
+      "job-bank": 0,
+      "job-crypto": 0,
+      "job-factory": 0,
+      "job-furniture": 0,
+      "job-estate": 0,
+      "job-cars": 0,
+      "zoo-elephant": 0,
+      "zoo-axolotl": 0,
+      "zoo-otter": 0,
+      "zoo-polar": 0,
+      "zoo-gorilla": 0
+    },
+    "used": {
+      "resort-massage-session": 1,
+      "resort-aroma-session": 1,
+      "resort-sauna-session": 1,
+      "resort-cabana-session": 1,
+      "resort-beauty-session": 1,
+      "resort-meditation-session": 1,
+      "resort-nap-session": 1,
+      "resort-cafe-session": 1,
+      "resort-waterfall-session": 1,
+      "resort-amber-session": 1,
+      "resort-midnight-session": 1
+    },
+    "receipts": {
+      "resort-chichi-1": {
+        "product": "resort-massage-session",
+        "sequence": 1,
+        "price": 300,
+        "at": 1795011827937
+      },
+      "resort-chichi-2": {
+        "product": "resort-aroma-session",
+        "sequence": 2,
+        "price": 180,
+        "at": 1795011846456
+      },
+      "resort-chichi-3": {
+        "product": "resort-sauna-session",
+        "sequence": 3,
+        "price": 120,
+        "at": 1795011855675
+      },
+      "resort-chichi-4": {
+        "product": "resort-cabana-session",
+        "sequence": 4,
+        "price": 200,
+        "at": 1795011865093
+      },
+      "resort-chichi-5": {
+        "product": "resort-beauty-session",
+        "sequence": 5,
+        "price": 180,
+        "at": 1795011881926
+      },
+      "resort-chichi-6": {
+        "product": "resort-meditation-session",
+        "sequence": 6,
+        "price": 100,
+        "at": 1795011890217
+      },
+      "resort-chichi-7": {
+        "product": "resort-nap-session",
+        "sequence": 7,
+        "price": 100,
+        "at": 1795011899952
+      },
+      "resort-chichi-8": {
+        "product": "resort-cafe-session",
+        "sequence": 8,
+        "price": 100,
+        "at": 1795011916733
+      },
+      "resort-chichi-9": {
+        "product": "resort-waterfall-session",
+        "sequence": 9,
+        "price": 100,
+        "at": 1795011930752
+      },
+      "resort-chichi-10": {
+        "product": "resort-amber-session",
+        "sequence": 10,
+        "price": 100,
+        "at": 1795011947710
+      },
+      "resort-chichi-11": {
+        "product": "resort-midnight-session",
+        "sequence": 11,
+        "price": 100,
+        "at": 1795011965137
+      }
+    },
+    "position": [
+      -378.5,
+      -146.988,
+      657
+    ]
+  },
+  "reloaded": {
+    "coins": 420,
+    "worldCoins": 13835,
+    "inventory": {
+      "yarn": 0,
+      "mouse": 0,
+      "feather": 0,
+      "tunnel": 0,
+      "scratch": 0,
+      "trampoline": 0,
+      "swing": 0,
+      "carousel": 0,
+      "coaster": 0,
+      "waterslide": 0,
+      "ferris": 0,
+      "teacup": 0,
+      "train": 0,
+      "boat": 0,
+      "balloon": 0,
+      "broom": 0,
+      "scooter": 0,
+      "party": 0,
+      "cafe": 0,
+      "picnic": 0,
+      "stage": 0,
+      "fountain": 0,
+      "mushroom": 0,
+      "crystal": 0,
+      "lantern": 0,
+      "flowers": 0,
+      "bed": 0,
+      "pond": 0,
+      "farm-field": 0,
+      "greenhouse": 0,
+      "barn": 0,
+      "orchard": 0,
+      "coaster-epic": 0,
+      "coaster-legendary": 0,
+      "coaster-mystic": 0,
+      "coaster-dragon": 0,
+      "water-river": 0,
+      "water-whirlpool": 0,
+      "water-extreme": 0,
+      "zipline": 0,
+      "drop-tower": 0,
+      "bumpercars": 0,
+      "rocket": 0,
+      "ufo": 0,
+      "airship": 0,
+      "skate": 0,
+      "catbus": 0,
+      "maze": 0,
+      "laser": 0,
+      "fireflies": 0,
+      "toy-fish": 0,
+      "library": 0,
+      "observatory": 0,
+      "spa": 0,
+      "festival": 0,
+      "portal": 0,
+      "coaster-lagoon": 1,
+      "coaster-sakura": 0,
+      "coaster-moon": 0,
+      "coaster-mushroom": 0,
+      "coaster-cloud": 0,
+      "coaster-clockwork": 0,
+      "coaster-rainbow-launch": 0,
+      "slide-royal-cascade": 0,
+      "slide-vortex-bowl": 0,
+      "coaster-comet-flight": 0,
+      "ride-jellyfish": 0,
+      "ride-dragon-cloud": 0,
+      "toy-bubble-garden": 0,
+      "toy-magic-fish": 0,
+      "cat-barista": 0,
+      "swim-lagoon": 0,
+      "adoption-center": 0,
+      "business-coffee": 0,
+      "business-hotdog": 0,
+      "business-bakery": 0,
+      "business-gelato": 0,
+      "business-florist": 0,
+      "business-artist": 0,
+      "business-farmstand": 0,
+      "business-lemonade": 0,
+      "business-fishmarket": 0,
+      "business-pizza": 0,
+      "business-boba": 0,
+      "business-honeytea": 0,
+      "business-candy": 0,
+      "business-toymaker": 0,
+      "ride-butterfly": 0,
+      "ride-lotus": 0,
+      "ride-dragonfly": 0,
+      "ride-dinosaur": 0,
+      "ride-whale": 0,
+      "ride-whale-aurora": 0,
+      "ride-dream-balloon": 0,
+      "ride-paris-wheel": 0,
+      "ride-venice-gondola": 0,
+      "ride-tokyo-train": 0,
+      "ride-cloud-tram": 0,
+      "ride-star-carousel": 0,
+      "coaster-candy-city": 0,
+      "ride-crystal-slide": 0,
+      "ride-cupcake-wheel": 0,
+      "coaster-piglet-express": 0,
+      "ride-sugar-teacups": 0,
+      "slide-marshmallow": 0,
+      "ride-pig-rose": 0,
+      "ride-pig-peach": 0,
+      "ride-pig-lilac": 0,
+      "ride-capybara-mango": 0,
+      "ride-capybara-boba": 0,
+      "ride-capybara-coconut": 0,
+      "ride-capybara-float": 0,
+      "slide-dream-crystal-loops": 0,
+      "slide-dream-pearl-funnel": 0,
+      "slide-dream-rainbow-launch": 0,
+      "slide-dream-waterfall-arch": 0,
+      "slide-dream-canyon-twins": 0,
+      "slide-dream-ocean-tunnel": 0,
+      "slide-dream-blossom-tree": 0,
+      "slide-dream-ice-tunnel": 0,
+      "slide-dream-orbital-shell": 0,
+      "slide-dream-terrace-cascades": 0,
+      "slide-dream-canyon-eight": 0,
+      "slide-dream-luminous-vortex": 0,
+      "slide-dream-ring-launch": 0,
+      "slide-dream-ribbon-tower": 0,
+      "slide-dream-tidal-wave": 0,
+      "slide-dream-water-lift": 0,
+      "slide-dream-dragon-tail": 0,
+      "slide-dream-four-funnels": 0,
+      "slide-dream-sky-bridge": 0,
+      "slide-dream-cave-loop": 0,
+      "slide-dream-twin-flights": 0,
+      "slide-dream-lighthouse": 0,
+      "slide-dream-twin-shell": 0,
+      "slide-dream-royal-aqueduct": 0,
+      "slide-dream-cloud-star": 0,
+      "slide-atoll-giant-wave": 0,
+      "slide-atoll-rock-arch": 0,
+      "slide-atoll-rainbow-race": 0,
+      "slide-atoll-sky-serpent": 0,
+      "slide-atoll-blue-whirlpool": 0,
+      "slide-atoll-double-serpent": 0,
+      "slide-atoll-waterfall-cascade": 0,
+      "slide-atoll-emerald-canyon": 0,
+      "slide-atoll-crystal-cavern": 0,
+      "slide-atoll-root-valley": 0,
+      "slide-atoll-blue-halfpipe": 0,
+      "slide-atoll-lagoon-loop": 0,
+      "slide-atoll-coral-arch": 0,
+      "slide-atoll-cloud-islets": 0,
+      "slide-atoll-flower-lagoon": 0,
+      "slide-atoll-red-canyon": 0,
+      "slide-atoll-abyss-bridge": 0,
+      "slide-atoll-green-valley": 0,
+      "slide-atoll-purple-vortex": 0,
+      "slide-atoll-mega-loops": 0,
+      "ride-water-barrel-wave": 0,
+      "ride-water-canyon-rafting": 0,
+      "ride-water-glass-drop": 0,
+      "ride-water-lagoon-launch": 0,
+      "ride-water-surf-halfpipe": 0,
+      "ride-water-lazy-river": 0,
+      "ride-water-fountain-carousel": 0,
+      "ride-water-pool-pendulum": 0,
+      "farm-magic-fruits": 0,
+      "magic-seed-cotton": 0,
+      "magic-seed-lantern": 0,
+      "magic-seed-heart": 0,
+      "magic-seed-aqua": 0,
+      "magic-seed-emerald": 0,
+      "magic-seed-golden": 0,
+      "ride-mosasaur": 0,
+      "court-burger": 0,
+      "court-boba": 0,
+      "court-coffee": 0,
+      "court-bakery": 0,
+      "court-cinema": 0,
+      "bikini-krusty": 0,
+      "bikini-sponge": 0,
+      "bikini-patrick": 0,
+      "slide-glass-corkscrew": 0,
+      "slide-sky-cannon": 0,
+      "slide-titan-funnel": 0,
+      "slide-jungle-titan": 0,
+      "slide-rainbow-tsunami": 0,
+      "slide-abyss-capsule": 0,
+      "dive-triple-sky": 0,
+      "coaster-thunder-loop": 0,
+      "coaster-aurora-rift": 0,
+      "coaster-dragon-titan": 0,
+      "diamond-mine": 0,
+      "aquarium-aurora": 0,
+      "aquarium-pearl": 0,
+      "aquarium-coral": 0,
+      "aquarium-lilac": 0,
+      "aquarium-sunrise": 0,
+      "job-bank": 0,
+      "job-crypto": 0,
+      "job-factory": 0,
+      "job-furniture": 0,
+      "job-estate": 0,
+      "job-cars": 0,
+      "zoo-elephant": 0,
+      "zoo-axolotl": 0,
+      "zoo-otter": 0,
+      "zoo-polar": 0,
+      "zoo-gorilla": 0
+    },
+    "used": {
+      "resort-massage-session": 1,
+      "resort-aroma-session": 1,
+      "resort-sauna-session": 1,
+      "resort-cabana-session": 1,
+      "resort-beauty-session": 1,
+      "resort-meditation-session": 1,
+      "resort-nap-session": 1,
+      "resort-cafe-session": 1,
+      "resort-waterfall-session": 1,
+      "resort-amber-session": 1,
+      "resort-midnight-session": 1
+    },
+    "receipts": {
+      "resort-chichi-1": {
+        "product": "resort-massage-session",
+        "sequence": 1,
+        "price": 300,
+        "at": 1795011827937
+      },
+      "resort-chichi-2": {
+        "product": "resort-aroma-session",
+        "sequence": 2,
+        "price": 180,
+        "at": 1795011846456
+      },
+      "resort-chichi-3": {
+        "product": "resort-sauna-session",
+        "sequence": 3,
+        "price": 120,
+        "at": 1795011855675
+      },
+      "resort-chichi-4": {
+        "product": "resort-cabana-session",
+        "sequence": 4,
+        "price": 200,
+        "at": 1795011865093
+      },
+      "resort-chichi-5": {
+        "product": "resort-beauty-session",
+        "sequence": 5,
+        "price": 180,
+        "at": 1795011881926
+      },
+      "resort-chichi-6": {
+        "product": "resort-meditation-session",
+        "sequence": 6,
+        "price": 100,
+        "at": 1795011890217
+      },
+      "resort-chichi-7": {
+        "product": "resort-nap-session",
+        "sequence": 7,
+        "price": 100,
+        "at": 1795011899952
+      },
+      "resort-chichi-8": {
+        "product": "resort-cafe-session",
+        "sequence": 8,
+        "price": 100,
+        "at": 1795011916733
+      },
+      "resort-chichi-9": {
+        "product": "resort-waterfall-session",
+        "sequence": 9,
+        "price": 100,
+        "at": 1795011930752
+      },
+      "resort-chichi-10": {
+        "product": "resort-amber-session",
+        "sequence": 10,
+        "price": 100,
+        "at": 1795011947710
+      },
+      "resort-chichi-11": {
+        "product": "resort-midnight-session",
+        "sequence": 11,
+        "price": 100,
+        "at": 1795011965137
+      }
+    },
+    "position": [
+      -378.5,
+      -146.988,
+      657
+    ]
+  }
+}

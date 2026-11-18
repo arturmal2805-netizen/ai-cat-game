@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: native actor adapter converts root-local geometry heights once and commits actual wallet receipts once
+ok 1 - native actor adapter converts root-local geometry heights once and commits actual wallet receipts once
+  ---
+  duration_ms: 121.935777
+  type: 'test'
+  ...
+# Subtest: every dry room has its own bounded continuous native-joint choreography
+ok 2 - every dry room has its own bounded continuous native-joint choreography
+  ---
+  duration_ms: 107.777798
+  type: 'test'
+  ...
+# Subtest: all eleven dry services reach their own real seat, finish and return on actual floor geometry
+ok 3 - all eleven dry services reach their own real seat, finish and return on actual floor geometry
+  ---
+  duration_ms: 349.421913
+  type: 'test'
+  ...
+# Subtest: physical appointment returns, bills once, consumes once, reserves therapist and cleans station
+ok 4 - physical appointment returns, bills once, consumes once, reserves therapist and cleans station
+  ---
+  duration_ms: 13.132164
+  type: 'test'
+  ...
+# Subtest: resume uses durable paid ticket; failing effect retries same receipt without rebilling; paused time does not expire ownership
+ok 5 - resume uses durable paid ticket; failing effect retries same receipt without rebilling; paused time does not expire ownership
+  ---
+  duration_ms: 6.969758
+  type: 'test'
+  ...
+# Subtest: blocked full-body segment cannot start a walk or bill; cancellation releases seat and staff
+ok 6 - blocked full-body segment cannot start a walk or bill; cancellation releases seat and staff
+  ---
+  duration_ms: 0.746151
+  type: 'test'
+  ...
+# Subtest: a rejected real-wallet payment does not break the world loop or retain its therapist and booking
+ok 7 - a rejected real-wallet payment does not break the world loop or retain its therapist and booking
+  ---
+  duration_ms: 0.801654
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 647.883484

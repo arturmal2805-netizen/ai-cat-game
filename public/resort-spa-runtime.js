@@ -2,6 +2,7 @@ import {resortZone,resortSpaSeat} from './resort-spa-data.js';
 import {createResortSpaBooking} from './resort-spa-booking.js';
 import {stepResortPool,cancelResortPool} from './resort-spa-pool-procedure.js';
 import {resortPoolPerformance} from './resort-spa-pool-performance.js';
+import {resortDryPerformance} from './resort-spa-dry-performance.js';
 const copy=p=>({x:p.x,y:p.y,z:p.z}),dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y,a.z-b.z),smooth=t=>t*t*(3-2*t);
 // Uses the caller's existing route planner, durable purchase/use callbacks and
 // actual actor roster. It neither creates an AI nor mutates a wallet or save.
@@ -34,11 +35,12 @@ export function createResortSpaRuntime({route,segmentClear,onPurchase,onUse,onCo
      // but interrupted ticket remains available for a later session/reload.
      try{v.receipt=getPaidTicket(v.catId,v.zone.id)||onPurchase?.(v.catId,v.zone.id,v.request);}catch{v.receipt=null;}
      if(!v.receipt){release(v);continue;}if(!booking.occupy(v.catId,clock)){release(v);continue;}
-     v.phase=v.contact.pool?'wet-enter':'mount';v.elapsed=0;v.mountFrom=copy(v.position);
+     v.phase=v.contact.pool?'wet-enter':'mount';v.elapsed=0;v.mountFrom=copy(v.position);v.mountYaw=v.yaw;
     }else if(v.phase==='mount'){
-     const u=Math.min(1,v.elapsed/1.6),t=smooth(u),a=v.mountFrom,b=v.contact;
-     const height=v.zone.procedure==='massage'?1.02:['lounge','sleep','cabana','vip'].includes(v.zone.procedure)?.92:0;
+     const u=Math.min(1,v.elapsed/1.6),t=smooth(u),a=v.mountFrom,b=v.contact.seat||v.contact;
+     const height=v.contact.seat?0:v.zone.procedure==='massage'?1.02:['lounge','sleep','cabana','groom'].includes(v.zone.procedure)?.92:v.zone.procedure==='sauna'?.8:0;
      const target={x:b.x,y:b.y+height,z:b.z};v.position={x:a.x+(target.x-a.x)*t,y:a.y+(target.y-a.y)*t+Math.sin(Math.PI*u)*.8,z:a.z+(target.z-a.z)*t};
+     v.yaw=v.mountYaw+Math.atan2(Math.sin(v.contact.yaw-v.mountYaw),Math.cos(v.contact.yaw-v.mountYaw))*t;
      if(u===1){v.phase='procedure';v.elapsed=0;}
     }else if(v.phase==='procedure'&&v.elapsed>=24){
      // Success is durable before returning; callback failure keeps ownership
@@ -51,10 +53,10 @@ export function createResortSpaRuntime({route,segmentClear,onPurchase,onUse,onCo
     else if(v.phase==='done'){release(v,!v.cancelled);}
    }
   },
-  frame(id){const v=visits.get(id);if(!v)return null;const e=v.elapsed,active=v.phase==='procedure',sleep=['sleep','lounge','cabana'].includes(v.zone.procedure),massage=v.zone.procedure==='massage',blend=active?Math.min(1,e/2):v.phase==='dismount'?1-smooth(Math.min(1,e/1.6)):0;
+  frame(id){const v=visits.get(id);if(!v)return null;const e=v.elapsed;
    if(v.contact?.pool){const pose=resortPoolPerformance(v.phase,e,v.zone.procedure);return{position:copy(v.position),yaw:v.yaw,walking:v.walking,phase:v.phase,zoneId:v.zone.id,receipt:v.receipt,...pose};}
    return{position:copy(v.position),yaw:v.yaw,walking:v.walking,phase:v.phase,zoneId:v.zone.id,staff:v.staff,receipt:v.receipt,
-    reaction:{ride:true,crouch:blend*(sleep?.55:massage?.32:.12),eyeClose:blend*(sleep?.97:.65),earRelax:blend*.15,headPitch:blend*(massage?.12:.2),tailSway:Math.sin(e*.7)*blend*.08,paw:v.phase==='inspect'?Math.max(0,Math.sin(e*3))*.25:0},
+    ...resortDryPerformance(v.zone.key,v.phase,e),
    };
   },clear(){for(const v of [...visits.values()])release(v);booking.clear();},
  };

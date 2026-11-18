@@ -25,10 +25,10 @@ export function resortSpaFootprint(x,z,margin=0){return Math.hypot(x/(RESORT_SPA
 // Room contacts are actual local positions shared by furniture and simulation.
 export function resortSpaSeat(zone,index){
  const wet=resortPoolContact(zone,index);if(wet)return{...wet,staff:null,exit:{...wet.approach}};
- if(zone.procedure==='eat'){const a=index*Math.PI*2/zone.seats,x=Math.sin(a)*20,z=203+Math.cos(a)*20;return{x,y:zone.y+.012,z,yaw:a,approach:{x:x+Math.sin(a)*3.6,y:zone.y+.012,z:z+Math.cos(a)*3.6},staff:{x:x+2.2,y:zone.y+.012,z},exit:{x:x+Math.sin(a)*5,y:zone.y+.012,z:z+Math.cos(a)*5}};}
+ if(zone.procedure==='eat'){const a=index*Math.PI*2/zone.seats,x=Math.sin(a)*20,z=203+Math.cos(a)*20,y=zone.y+.012;return{x,y,z,yaw:Math.PI,seat:{x,y:y+.92,z:z+2.8},approach:{x:x+3.6,y,z:z+3.6},staff:{x:x+2.2,y,z},exit:{x:x+4.5,y,z:z+3.6}};}
  const columns=zone.procedure==='massage'?3:4,rows=Math.ceil(zone.seats/columns),spacing=zone.procedure==='massage'?9:7;
  const column=index%columns,row=Math.floor(index/columns),x=zone.x+(column-(columns-1)/2)*spacing,z=zone.z+(row-(rows-1)/2)*(zone.procedure==='massage'?11:8.6);
- return {x,y:zone.y+.012,z,yaw:Math.PI,approach:{x,y:zone.y+.012,z:z+3.6},staff:{x:x+2.2,y:zone.y+.012,z},exit:{x,y:zone.y+.012,z:z+5}};
+ return {x,y:zone.y+.012,z,yaw:['massage','groom'].includes(zone.procedure)?Math.PI:0,approach:{x,y:zone.y+.012,z:z+3.6},staff:{x:x+2.2,y:zone.y+.012,z},exit:{x,y:zone.y+.012,z:z+5}};
 }
 
 // Services share the existing cat-wallet product ledger. Stable addresses do

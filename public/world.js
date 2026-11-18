@@ -1,3 +1,4 @@
+import {applyResortExpression} from './resort-spa-dry-performance.js';
 import {createResortSpaWorld} from './resort-spa-world.js';
 import {resortZone,RESORT_SPA as RESORT_SPA_LAYOUT} from './resort-spa-data.js';
 import {manualBuildingSupport,manualBuildingCameraClear} from './manual-building-navigation.js';
@@ -5102,7 +5103,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
           reduced,
         );
         if(npcLocomotion)applyExplorerLocomotion(n.model,npcLocomotion,reduced);
-        if (npcReaction) {reactCat(n.model, npcReaction, reduced);if(npcReaction.waterGesture||npcReaction.rideSit||npcReaction.waterSurf||npcReaction.waterProne||npcReaction.waterPawLift)applyAtollSit(n.model,npcReaction,reduced);if(manualVisit?.object?.userData.magicBed)applyMagicBedReach(n.model,manualVisit.object,manualVisit.harvester,reduced);applyMallIcePose(n.model,npcReaction,reduced);}
+        if (npcReaction) {reactCat(n.model, npcReaction, reduced);if(npcReaction.waterGesture||npcReaction.rideSit||npcReaction.waterSurf||npcReaction.waterProne||npcReaction.waterPawLift)applyAtollSit(n.model,npcReaction,reduced);if(manualVisit?.object?.userData.magicBed)applyMagicBedReach(n.model,manualVisit.object,manualVisit.harvester,reduced);applyMallIcePose(n.model,npcReaction,reduced);applyResortExpression(n.model,npcReaction,reduced);}
         if(courtVisit?.zooCarry)relaxCarriedCat(n.model,courtVisit.zooCarry,time,reduced);
         if (n.hatRig) {
           const resting =
@@ -5711,10 +5712,10 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       );
       if (submarinePose?.locomotion)applyExplorerLocomotion(cat,submarinePose.locomotion,reduced);
       else if(heroMall?.locomotion)applyExplorerLocomotion(cat,heroMall.locomotion,reduced);
-      if (reaction) {reactCat(cat, reaction, reduced);if(reaction.waterGesture||reaction.rideSit||reaction.waterSurf||reaction.waterProne||reaction.waterPawLift)applyAtollSit(cat,reaction,reduced);if(operation?.attraction?.userData.magicBed)applyMagicBedReach(cat,operation.attraction,operation.harvester,reduced);applyMallIcePose(cat,reaction,reduced);}
+      if (reaction) {reactCat(cat, reaction, reduced);if(reaction.waterGesture||reaction.rideSit||reaction.waterSurf||reaction.waterProne||reaction.waterPawLift)applyAtollSit(cat,reaction,reduced);if(operation?.attraction?.userData.magicBed)applyMagicBedReach(cat,operation.attraction,operation.harvester,reduced);applyMallIcePose(cat,reaction,reduced);applyResortExpression(cat,reaction,reduced);}
     }
     if(court.get('chichi')?.zooCarry&&!dialogOpen)relaxCarriedCat(cat,court.get('chichi').zooCarry,time,reduced);
-    mall?.updateHeld();
+    mall?.updateHeld();resortSpa?.updateHeld();
     const spongeFriend = itemGroups.get("bikini-sponge");
     if (spongeFriend?.userData.playing && spongeFriend.userData.pose) {
       const visitor =
