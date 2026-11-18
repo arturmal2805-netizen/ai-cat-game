@@ -1,3 +1,4 @@
+import {completeResortTicket} from './resort-spa-economy.js';
 import {prepareWaterField} from './water-field.js';
 import {createMallUI} from './mall-ui.js';
 import {mallProduct} from './mall-data.js';
@@ -1480,6 +1481,7 @@ try {
     onGatherComplete: persist,
     onSelectMallStore:id=>mallUI.show(id),
     onMallPurchase:(id,item,receipt)=>{if(!cloud.simulationOwner||!cloud.editable||cloud.conflict)return false;commit(buyMallProduct(game,id,item,receipt));return true;},
+    onResortSpaUse:(id,zone,receipt)=>{if(!cloud.simulationOwner||!cloud.editable||cloud.conflict)return false;commit(completeResortTicket(game,id,zone,receipt));return true;},
     onMallUse:(id,item)=>{if(!cloud.simulationOwner||!cloud.editable||cloud.conflict)return false;commit(useMallProduct(game,id,item));return true;},
     onMallGoal:(id,goal)=>{
       if(!cloud.simulationOwner||!cloud.editable||cloud.conflict||!game.jobCity?.profiles[id])return;

@@ -1,0 +1,2 @@
+PASS native in-room massage, actual private wallet, one receipt/use and SQLite reload
+PASS native SPA required loading, actual scene, zone camera and World release

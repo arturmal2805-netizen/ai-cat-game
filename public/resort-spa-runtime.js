@@ -33,15 +33,15 @@ export function createResortSpaRuntime({route,segmentClear,onPurchase,onUse,onCo
      v.phase='mount';v.elapsed=0;v.mountFrom=copy(v.position);
     }else if(v.phase==='mount'){
      const u=Math.min(1,v.elapsed/1.6),t=smooth(u),a=v.mountFrom,b=v.contact;
-     const height=v.zone.procedure==='massage'?1.02:['lounge','sleep','cabana','vip'].includes(v.zone.procedure)?.65:0;
-     const target={x:b.x,y:b.y-.18+height,z:b.z};v.position={x:a.x+(target.x-a.x)*t,y:a.y+(target.y-a.y)*t+Math.sin(Math.PI*u)*.2,z:a.z+(target.z-a.z)*t};
+     const height=v.zone.procedure==='massage'?1.2:['lounge','sleep','cabana','vip'].includes(v.zone.procedure)?1.1:0;
+     const target={x:b.x,y:b.y-.18+height,z:b.z};v.position={x:a.x+(target.x-a.x)*t,y:a.y+(target.y-a.y)*t+Math.sin(Math.PI*u)*.8,z:a.z+(target.z-a.z)*t};
      if(u===1){v.phase='procedure';v.elapsed=0;}
     }else if(v.phase==='procedure'&&v.elapsed>=24){
      // Success is durable before returning; callback failure keeps ownership
      // and retries this same receipt, never buys a replacement ticket.
      if(!v.used){try{v.used=!!onUse?.(v.catId,v.zone.id,v.receipt);}catch{v.used=false;}}if(!v.used)continue;v.phase='dismount';v.elapsed=0;v.mountFrom=copy(v.position);
     }else if(v.phase==='dismount'){
-     const u=Math.min(1,v.elapsed/1.6),t=smooth(u),a=v.mountFrom,b=v.contact.approach;v.position={x:a.x+(b.x-a.x)*t,y:a.y+(b.y-a.y)*t+Math.sin(Math.PI*u)*.2,z:a.z+(b.z-a.z)*t};
+     const u=Math.min(1,v.elapsed/1.6),t=smooth(u),a=v.mountFrom,b=v.contact.approach;v.position={x:a.x+(b.x-a.x)*t,y:a.y+(b.y-a.y)*t+Math.sin(Math.PI*u)*.8,z:a.z+(b.z-a.z)*t};
      if(u===1){booking.release(v.catId,clock);if(v.staff){releaseStaff(v.staff.id,v.catId);v.staff=null;}v.phase='return-pending';}
     }else if(v.phase==='return-pending'){walk(v,v.returnTo,'done');}
     else if(v.phase==='done'){release(v,true);}
