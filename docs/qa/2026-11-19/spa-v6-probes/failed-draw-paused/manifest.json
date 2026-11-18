@@ -1,0 +1,18 @@
+{
+  "sourceBase": "d8b3b03e30c4f55e1f2d646a0d4aaf53f109dfa2",
+  "sourceState": "",
+  "result": "FAILED empty capture with root visible, no GL errors and zero submitted draws. QA renderer wrapper suppressed explicit offscreen renders while drawPaused=true. No reflection resource promoted.",
+  "visualReview": "Rejected authoring attempt. Diagnostics and empty PNG preserved; next correction allows explicit offscreen draws with manualFrames still pausing world simulation.",
+  "files": {
+    "FAILED-capture.json": "8d5471d53521ea9f1a2806a12b87173814e3e504728c7c5e5a855a58c64d7e31",
+    "failed-probe.png": "06ab142c3bad172a564f50931dd667c07af918ed7298107b0c41f79cd761cc8f",
+    "imported-source.tar.gz": "e9cc97f45915a94056b9596b2e8da3bdfbcf1cbcacdf285520a4dc1ec236d6b0",
+    "native.log": "f1d716d7f447f2f9366ad8824f0c5ff12a37b661d0e024511b7cec86b09c8334",
+    "qa-app.js.gz": "40b580d508c522079cee90aec4ba4092dee59b38865a01f02e88659b51762a94",
+    "qa-build.json": "5c324d5604ae6c13d53c1b19eeb9cef313b4b72160cea430e1cc9e8f30cf680e",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "e26628362687fad8ebe15ad567e70fbaa4a5476f07158ceb21b82e4bfe5ca2a5",
+    "source-status.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

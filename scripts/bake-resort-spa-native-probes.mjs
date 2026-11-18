@@ -31,7 +31,7 @@ export async function bakeResortNativeProbes({page,review,errors=[]}){
   for(let layer=0;layer<specs.length;layer++){
    const spec=specs[layer];console.log('Offline SPA actual-scene probe',layer,spec.id);
    const result=await page.evaluate(({spec,centre,size})=>{
-    const q=__lagoonQA,T=q.THREE,r=q.renderer,scene=q.scene,root=q.resortSpa().root,saved=[],hidden=new Set(),old={toneMapping:r.toneMapping,outputColorSpace:r.outputColorSpace,target:r.getRenderTarget(),viewport:r.getViewport(new T.Vector4()),scissor:r.getScissor(new T.Vector4()),scissorTest:r.getScissorTest(),autoReset:r.info.autoReset};
+    const q=__lagoonQA,T=q.THREE,r=q.renderer,scene=q.scene,root=q.resortSpa().root,saved=[],hidden=new Set(),old={drawPaused:q.drawPaused,toneMapping:r.toneMapping,outputColorSpace:r.outputColorSpace,target:r.getRenderTarget(),viewport:r.getViewport(new T.Vector4()),scissor:r.getScissor(new T.Vector4()),scissorTest:r.getScissorTest(),autoReset:r.info.autoReset};
     const hide=o=>{if(!o||hidden.has(o))return;hidden.add(o);saved.push([o,o.visible]);o.visible=false;};
     // Characters and moving aquarium fish must not become permanent ghosts.
     hide(q.chichiCarrier);for(const n of q.npcs.values())hide(n.carrier);
@@ -40,17 +40,19 @@ export async function bakeResortNativeProbes({page,review,errors=[]}){
     const sun=scene.children.find(o=>o.isDirectionalLight&&o.castShadow),sunPosition=sun?.position.clone(),sunTarget=sun?.target.position.clone();
     const started=performance.now();
     try{
-     r.toneMapping=T.NoToneMapping;r.outputColorSpace=T.LinearSRGBColorSpace;r.info.autoReset=false;r.info.reset();
+     // manualFrames already pauses the world simulation. The QA renderer's
+     // separate drawPaused wrapper must allow our explicit offscreen draws.
+     q.drawPaused=false;r.toneMapping=T.NoToneMapping;r.outputColorSpace=T.LinearSRGBColorSpace;r.info.autoReset=false;r.info.reset();
      if(sun){sun.position.set(centre[0]+spec.target.x-14,35,centre[1]+spec.target.z+20);sun.target.position.set(centre[0]+spec.target.x,spec.target.y,centre[1]+spec.target.z);sun.updateWorldMatrix(true,false);sun.target.updateWorldMatrix(true,false);}
      camera.position.set(centre[0]+spec.x,spec.y,centre[1]+spec.z);camera.updateMatrixWorld(true);scene.updateMatrixWorld(true);camera.update(r,scene);r.setRenderTarget(target);r.render(packScene,packCamera);const data=new Uint8Array(size*size*4);r.readRenderTargetPixels(target,0,0,size,size,data);
      return{data:Array.from(data),eye:camera.position.toArray(),milliseconds:performance.now()-started,render:{...r.info.render},memory:{...r.info.memory},hiddenDynamicAndWater:hidden.size,rootVisible:root.visible,sceneVisible:scene.visible,cameraMask:camera.layers.mask,nativeCameraMask:q.camera.layers.mask,glError:r.getContext().getError(),lights:scene.children.filter(o=>o.isLight).map(o=>({type:o.type,color:o.color.getHex(),intensity:o.intensity,position:o.position.toArray()})),fog:scene.fog?{color:scene.fog.color.getHex(),density:scene.fog.density}:null};
     }finally{
      if(sun){sun.position.copy(sunPosition);sun.target.position.copy(sunTarget);sun.updateWorldMatrix(true,false);sun.target.updateWorldMatrix(true,false);}
-     r.toneMapping=old.toneMapping;r.outputColorSpace=old.outputColorSpace;r.info.autoReset=old.autoReset;r.setRenderTarget(old.target);r.setViewport(old.viewport);r.setScissor(old.scissor);r.setScissorTest(old.scissorTest);for(const[o,v]of saved)o.visible=v;geometry.dispose();material.dispose();cube.dispose();target.dispose();
+     q.drawPaused=old.drawPaused;r.toneMapping=old.toneMapping;r.outputColorSpace=old.outputColorSpace;r.info.autoReset=old.autoReset;r.setRenderTarget(old.target);r.setViewport(old.viewport);r.setScissor(old.scissor);r.setScissorTest(old.scissorTest);for(const[o,v]of saved)o.visible=v;geometry.dispose();material.dispose();cube.dispose();target.dispose();
     }
    },{spec,centre,size});
    const bytes=Buffer.from(result.data);delete result.data;assert.equal(bytes.length,size*size*4);const file=png(bytes,size,size),name=spec.id+'.png';await writeFile(join(folder,name),file);
-   if(!bytes.some((n,i)=>i%4!==3&&n>10)||errors.length){await writeFile(join(folder,'FAILED-capture.json'),JSON.stringify({spec,layer,...result,firstPixels:[...bytes.subarray(0,64)],errors},null,2));assert.fail('Actual room radiance is empty or GPU errors occurred: '+errors.join('\n'));}
+   if(result.render.calls<2||!bytes.some((n,i)=>i%4!==3&&n>10)||errors.length){await writeFile(join(folder,'FAILED-capture.json'),JSON.stringify({spec,layer,...result,firstPixels:[...bytes.subarray(0,64)],errors},null,2));assert.fail('Actual room radiance/draw work is empty or GPU errors occurred: '+errors.join('\n'));}
    layers.push(bytes);captures.push({...spec,layer,png:name,pngSha256:sha(file),rgbaSha256:sha(bytes),...result});await writeFile(join(folder,'capture-progress.json'),JSON.stringify(captures,null,2));
   }
  }finally{await page.evaluate(()=>{const q=__lagoonQA;q.manualFrames=q.probeSaved.manualFrames;q.drawPaused=q.probeSaved.drawPaused;delete q.probeSaved;});}

@@ -55,3 +55,19 @@ No root is forcibly unhidden. Add failed PNG/root flags/draw counts/GL errors an
 console errors before the nonempty guard so another failure is diagnosable.
 The nonempty/error assertions remain strict. Re-run into a new QA folder and
 freeze source until it completes; first check progress rather than restart.
+
+## Cause of empty captures established
+
+Second attempt d8b3b03: rootVisible/sceneVisible true, GL error0, errors[],
+render.calls0 and all RGBA bytes0. check-aquarium.cjs wraps renderer.render and
+returns when qa.drawPaused=true. That suppressed BOTH CubeCamera and octahedral
+packing draws. This was a QA authoring bug, not evidence of missing live water.
+Correction leaves manualFrames=true to pause simulation but temporarily allows
+explicit offscreen draws; restores drawPaused and renderer in finally. Require
+actual draw submissions AND nonempty radiance/errors[] before any promotion.
+Exact failed diagnostics/empty PNG/source/bundle/log in failed-draw-paused/.
+
+A separate clean sparse worktree was created for future runtime drafts without
+changing frozen bake sources: /workspace/chichi-spa-reflection-runtime,
+codex/spa-reflection-runtime, base d8b3b03. No runtime integration there yet.
+Do not mistake creation of this checkout for completed loader/probe recovery.

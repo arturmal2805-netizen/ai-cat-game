@@ -37,6 +37,16 @@ for path in [*a.source.glob('*.png'), *(a.source / n for n in names)]:
     if path.is_file():
         shutil.copyfile(path, a.destination / path.name)
 shutil.copyfile(a.log, a.destination / 'native.log')
+failure = a.source / 'probes' / 'FAILED-capture.json'
+if failure.is_file():
+    record = json.loads(failure.read_text())
+    identifier = record['spec']['id']
+    if not identifier.startswith('resort-') or any(c not in 'abcdefghijklmnopqrstuvwxyz-' for c in identifier):
+        raise SystemExit('Unexpected failed probe identifier')
+    shutil.copyfile(failure, a.destination / 'FAILED-capture.json')
+    candidate = a.source / 'probes' / (identifier + '.png')
+    if candidate.is_file():
+        shutil.copyfile(candidate, a.destination / 'failed-probe.png')
 with gzip.GzipFile(filename='', mode='wb', fileobj=(a.destination / 'qa-app.js.gz').open('wb'), mtime=0) as f:
     f.write((a.source / 'qa-app.js').read_bytes())
 with tarfile.open(a.destination / 'imported-source.tar.gz', 'w:gz') as f:
