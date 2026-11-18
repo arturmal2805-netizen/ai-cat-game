@@ -23,63 +23,41 @@ release/sharedsaves подтверждены соответствующим ус
 Публичная карта/JS/CSS прежние39148734bd3f4a0265a6ec9aff8ab4b41f36c0b4.
 Проходы/двери опубликованы3914873; переднее дно+46м — e8ab6ffc24453e1e3ead9acf5190f90acff88730.
 
-## Активная работа и WIP
+## Кандидат публикации SPA — подготовка, ещё НЕ опубликован
 
-Активная работа — SPA. Последний сохранённый remoteWIP: **d4659e05eecb3329a06a6e3f1304f3d67bc51c85**,
-ветка **codex/underwater-spa-resort**, /workspace/chichi-underwater-spa-resort.
-Предыдущие проверенные этапы:24cfec41907b802942440febb716a897681c5f0f (лифт/массаж/возврат),
-0f5f71185c55ed5879adc0173fc888991778bbc8 (бассейн/джакузи/VIP). RemoteSHA проверен.
-Основа3914873, упаковкаAI уже есть; не копировать заново. Ветка памяти — документация.
+Исходники **a8ea3753c44068cb6940b21e7f0796c5394a4282**, remote
+**codex/underwater-spa-resort**, /workspace/chichi-underwater-spa-resort.
+Релиз готовится отдельно: /workspace/chichi-spa-functional-publication,
+codex/spa-functional-publication, merge актуального main827e370 и SPA.
+Runtime public/server/shared-world при слиянии идентичен проверяемому SPA:
+конфликтовали ТОЛЬКО3 add/add документа ai-context-compact. Опубликованные
+измерения сохранены в прежнем каталоге, SPA в ai-context-compact-spa-wip.
+Один app script; Node22 build, cat model bytes прежние.
 
-**Native PASS:** верхняя площадка→лифт→массаж→лифт→площадка→SQLite,2000→1700;
-3водных сервиса: реальные6ступеней/плавание/сухойвыход/отряхивание,2000→1000;
-11сухих сервисов: разные nativejoint-последовательности, настоящий cafeстакан
-у рта через courtFood/placeCourtFood,2000→420. Личные receipts/used пережили
-SQLite reload, worldwallet/inventory сохранены. Это14 ОТДЕЛЬНЫХ in-room/rim
-фикстур, не84завершённых действия и не готовый курорт. Все сборки/PNG/overlays:
-[QA ветки](https://github.com/arturmal2805-netizen/ai-cat-game/tree/d4659e05eecb3329a06a6e3f1304f3d67bc51c85/docs/qa/2026-11-18/resort-spa).
-1124fullsuite PASS до поздних изменений; затем целевые26wet/7dry PASS, Node22wetbuildPASS.
-Новый итоговый full CI и build после dry/shell ещё требуются.
+Native PASS: реальный причал→боковой проход→лифт→массаж→лифт→причал→SQLite;
+11dry+3wet процедуры на отдельных фикстурах с общими receipts/балансами;
+холодная перезагрузка при Y=-65.05: точная высота/закрытые двери, настоящий
+подъём/выход, World release и второй reload без списания. Source snapshots/
+bundles/PNG/logs: docs/qa/2026-11-18/resort-spa/native-{shore,furnished,cold-reload}.
+4native-contact/recovery unit cases PASS; full CI44337958092 на0c73207 идёт.
+Телефон:14процедур/SQLite PASS, дополнительный UI test прерван из-за неверного
+фокуса острова в QAпослеreload; итоговый focused held-touch test новой компактной
+панели идёт отдельно, не повторяет все14циклов. Финальный release CI ещё требуется.
 
-Исправлены реальные дефекты: новаяSPAorigin20м глубже из-за пересечения дна;
-реальные лестницы/отверстия этажей; missingmassagebridge; мосты перекрывают
-кривые края пола. Финансовый отказ безопасен. Водная отмена идёт через сухой
-выход, оставляя paidticket неиспользованным. Общие merge/кошельки не менялись.
+Реализованы14зон/3уровня/9водныхобъёмов,6массажныхкабинетов,6стеклянных
+кабан, сакура/фонари/мебель/садовыекаскады на sharedwater; отдельная камера/
+inspection, лестницы/pressureglass/полный радиус. Поддержка native тела/лап
+на лежаке проверена настоящими skinnedvertices, не числами reaction.
 
-**Послеd4659e0 есть НОВЫЙ DIRTY WIP, НЕ сбрасывать.**
-- Authoredfloor в model/finishes вместо nearest-room: верхний пол ошибочно
-  получал levelкафе и закрывал вид. Fallback теперь bboxcentregeometry.
-- Новые enclosure/corridors: настоящие стеклянные стены/крытые мосты/клинический
-  купол; clippingтолько внутренних сегментов реальных T/Yпересечений по полигонам,
-  чтобы сохранить проходы/внешние стены. Пол массажного павильона теперьellipse.
-- Nativebodyradius неизменён; cameraпроверяет обе стороны настоящих полов,
-  атриумныйпроём/стены/динамические дверилифта. 5целевых PASS; весьновыйnativeещёpending.
-- Новый боковой шлюз ПРИЧАЛА z289,width5 в resort-pier-link-data; остальнойпирс/
-  субмаринныйпроём сохранены. Physicalrails/poles общие для геометрии/коллизий.
-  Верхний мостик clippedтолько внутри реального пирса, иначе Tугол закрыл вход.
-  ActualMosa-пол/пирс unitshore→lift PASS. Oceanreflection ПЕРЕПЕЧЁН существующим
-  baker с новым sourceinput,36538байт; не старая/случайная картинка.
-- Native shore-проверка выявила, что builderObstacles содержит reservations
-  всей воды/пирса (запрет размещения, не стену). accessClear должен брать ТОЛЬКО
-  manualPhysicalObstacles, реальныеограждения проверяются отдельно. Исправлено.
-  Активный прогон: /workspace/qa/resort-spa-native-shore-physical.log (session93031).
-
-**Дальше:** дождаться native shore→gate→lift→sealedcorridor→massage→return/reload;
-сохранить exactsnapshot и remoteWIP. Затем mid-lift/mid-procedure restore через
-существующие catLocations/mall.goal/receipt (без общей mergeреформы), автономный
-вход/возврат, phone. Интерьеры всё ещё ОЧЕНЬ пустые/примитивные: нужны реальные
-кабаны/сакура/фонари/садовые каскады/растения/сауна/салон, реальные контакты/
-социальные сцены/все84действия, проверка референса и deviceperformance.
-В текущих action-названиях cascade-gaze/fur-care ещё НЕТ соответствующих
-полных объектов/персонала — не выдавать их за завершённые взаимодействия.
-Последний пользователь снова требует ускорения и разных милых детальных анимаций
-КАЖДОЙ зоны. Не заканчивать на пустых платформах/общем idle.
-
-SPA НЕопубликован/НЕодобрен. Main/live всё ещё827e370. Все старые WIPдеревья
-сохранены. Один GPUbrowser одновременно; текущий nativeявляетсяим. Node22обязателен.
-Диагностика только?profile=1; реальные Macфризы не объявлены исправленными.
-[Индекс](README.md), [очередь](ROADMAP.md), [решения](decisions.md),
-[восстановление](evidence-and-recovery.md).
+Это ПЕРВЫЙ ФУНКЦИОНАЛЬНЫЙ ЭТАП SPA, НЕ полный референс/84готовых действия.
+Остаются подробный groomingstaff/социальныепарныепроцедуры/сауна/звуки,
+все84фазы, mid-procedure/water reload, общий автономный multi-cat/phone tour,
+marinekeepout/artistical detail и сравнение с референсом/performance.
+Пользователь требует публиковать проверенные этапы быстрее. Не добавлять
+новую художественную работу в этот выпуск. Не объявлять окончательную
+готовность или Mac/iPhone FPS. Main/live всё ещё827e370, пока не подтверждены
+финальный workflow и actualassets. Старые worktrees сохранены; никаких
+платных AI QA вызовов. Диагностика только по?profile=1 и скрывается послезакрытия.
 
 ## Проверенная независимая резервная копия R10
 
@@ -95,3 +73,24 @@ Backupинкрементальный: требует39148734bd3f4a0265a6ec9aff8a
 на trackedfiles всех30деревьев. Snapshotпамятиced69e712a7838431a5aec779181c8e11053b88d;
 эти финальные квитанции сохранены отдельным последующим doccommit.
 [Локальные копии квитанций](../qa/2026-11-18/project-memory-handoff/).
+
+Последняя проверка телефонной кнопки обнаружила конфликт выбора контроллера:
+сухой пол SPA ниже моря попадал сначала в submarine.controlChichi. Теперь
+реальная поддержка dryfloor проверяется раньше классификации океанской глубины.
+Нативный focused held-touch прогон новой версии pending, fullsuite CI0c73207
+уже перешёл к wrangler dry-run. Финальный productionCI всё равно обязателен.
+
+Финальные локальные проверки завершены: native-phone-controls PASS — настоящий
+held-touch W, >1м движения на сухомполу, submarine controller неактивен,
+inspection скрыт, World release. Native14 phone procedures/SQLite такжеPASS
+отдельно от последующего aborted QA add-on. Exact snapshots/manifests в
+docs/qa/2026-11-18/resort-spa/native-phone-{procedures,controls}.
+Test-only CI44337958092 на0c73207 SUCCESS (deploy/pages skipped). Runtime
+кандидата идентичен a8ea3753c44068cb6940b21e7f0796c5394a4282; послеmerge
+дополнительного изменения runtime нет. Публикация/финальныйworkflow ещёpending.
+
+Релизный merge **55a9beb0aa27c6066817adc582828875d9809de5** уже отправлен в
+main и codex/spa-functional-publication. Публикационный workflow
+https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44340341336
+сейчас идёт. Это НЕ подтверждение live; до его SUCCESS/actualassets последняя
+подтверждённая публикация остаётся827e370.

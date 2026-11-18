@@ -384,3 +384,31 @@ Authoredfloor обязателен при батчинге: nearestzone ошиб
 большие reservationsразмещения ВСЕЙводы/пирса и не является физическимcollisionlist;
 приходSPA использует manualPhysicalObstacles плюс реальные rails/poles.
 Новый native shore-route на момент записи идёт; не считать его PASS заранее.
+
+
+## 2026-11-18 — Первый функциональный этап SPA и восстановление лифта
+
+Пользователь настойчиво просит отдельную публикацию проверенного этапа.
+Не выдавать это за завершение художественного референса или84полныханимаций.
+Новый actualphysical shore gate требует actualrails/poles, не reservation
+всейводы; источник отражения переснят существующим baker.
+Реальный coldSQLite test восстанавливает существующие catLocations и кабину
+наY=-65.05 с закрытыми дверями и физически возвращает наверх; нет телепорта,
+новой save schema/общегоmerge/повторного списания.
+Нативные rest контакты проверяются по настоящим skinnedvertices; перед CPU
+запросом обновляются bindMatrixInverse (updateMatrixWorld), а не только matrixWorld.
+
+Слияние release ветки с опубликованным827e370 нужно для сохранения последней
+упаковки AI и ancestry main. Runtimeконфликтов не было.3конфликта add/add только
+в ai-context-compact QA: main измерения остаются в оригинальном пути, SPAкопии
+в ai-context-compact-spa-wip. Не заменять этими числами опубликованные измерения.
+Финальный Node22/fullCI/nativephone/live pending записан в CURRENT, не успех заранее.
+
+
+Телефонный dryfloor input прошёл фактический heldtouch:4м вперёд по SPA при
+Y=-164.988, без перехвата submarine, независимыйinspection скрыт, World
+снимаетmanualowner. Первый phonecontrols fail выявил реальный порядок
+controlChichi доactualdrysupport; исправление a8ea3753c44068cb6940b21e7f0796c5394a4282.
+Релиз55a9beb0aa27c6066817adc582828875d9809de5 — первыйфункциональный этап,
+не готовность всего референса/84behaviors; mainpush сделалполныйCI44340341336,
+его финального результата и реальных assets ещё требуется дождаться.
