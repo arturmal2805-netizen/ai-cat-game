@@ -1,5 +1,38 @@
 # Текущий статус
 
+## Актуальное аварийное исправление / компенсация — CI идёт
+
+Userподтвердил: ТРЦвернулся послеoffline-инструмента, SPAотсутствовал.
+Подтверждён кодовыйдефект: SPAensure вызывался по кнопке, не при входе наостров.
+Исправлено selected/coalesced preparation; nativeprivateкопия19profiles →20venue
+profiles, SPAready/visible14zones БЕЗкликаSPA PASS. Старые147profiles не восстановлены.
+
+НОВОЕ ЯВНОЕ РАЗРЕШЕНИЕ пользователя: «начисли не теряй время ... защитойобезопась».
+Компенсация: playerfloor4381984coins/240diamonds (старыйскрин), текущие nativecats
+floor10000. Это НЕ возврат старойистории. Только один мир по SHA256идентификатору;
+исходныйсекрет не вGit. Permanentvaultreceipt блокируетповтордажепослерасходования;
+снимкиcurrent/previous/older ДОначисления сохраняютсяотдельно. Другиемиры403.
+Bootclient сначалаflushочередь, приpending/conflict не начисляет, послеПЕРВОГО
+успеха recoveringустанавливаетвалидированнуюкопию; повторныеboot не стираютoutbox.
+Деньги ещё НЕ подтверждены вживомбраузере пользователя дооткрытияновогоклиента.
+
+**4025f713cea3b8ecfea72128275398af8d3dabc3** отправленвmain и
+codex/emergency-save-recovery; /workspace/chichi-emergency-save-recovery.
+[FullCI44388536452](https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44388536452)
+идёт. Пока НЕобъявлятьопубликованным. Ожидаемыефайлы /workspace/qa/emergency-release-expected.json;
+monitor /workspace/qa/emergency-publication-monitor.log, session72400.
+Strictload + bootдоclaim + serverresetbarrier + read-only backup GETcopies + SPAautoload.
+Путьcatchload→newGame420→reward/save490 воспроизведён. Точный исходныйбитый
+147catснимок недоступен, его конкретная ошибка НЕ доказана.
+Targetedsave/award/auth/replay/reload/crypto tests PASS, Node22fullbuildPASS.
+Nativebrowser rescuecopyexport PASS, безstartupHTTP,одинявныйGET, безsecretsexport.
+Реальная оплаченнаяfashion покупка/receipt/inventory/profession сохранены после
+компенсации/reload (дополнительный /workspace/qa/emergency-existing-purchase-award.log).
+Открытая криптосделка/escrow/path/deadline сохранены и закрываетсяодинраз после
+компенсации (/workspace/qa/emergency-open-trade-award.log). Crypto mocktests PASS,
+реальныйплатныйLLM не вызывался: directWorker тутtunnel403. Не говоритьAIпроверенвживую.
+
+
 ## КРИТИЧЕСКИЙ ИНЦИДЕНТ ПОСЛЕ РЕЛИЗА — не объявлять восстановленным
 
 Пользователь сообщил55a9beb:490монет/0алмазов/день1, нетMosa/ТРЦ/SPA.
@@ -25,7 +58,7 @@ HTTPSZIP фактически скачан/проверен; browser filechooser
 exactonlyautumndiff PASS. Пользователь получил ссылку и инструкцию распаковать,
 открытьrestore.html, выбратьсвойJSON, импортироватьисправленныйJSON в игре.
 https://github.com/arturmal2805-netizen/ai-cat-game/archive/refs/heads/recovery/offline-location-tool.zip
-Его успешный импорт/возврат сцен пока НЕ подтверждён. Основной main/live всёещё55a9beb.
+Пользователь подтвердил возврат ТРЦ; отсутствие SPA расследовано отдельно выше. Основной main/live всёещё55a9beb.
 Следующий приоритет — добиться реального восстановления, найти прежние snapshots/
 другоеустройство/accountarchive/outbox; не выдавать unlock-only за полныйпрогресс.
 Два ZIPлога пользователя одинаковы (успешныйCI), это НЕбэкапмира.

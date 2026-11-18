@@ -435,3 +435,16 @@ unlocked autumn в текущем новоммире. Причина перви�
 Отдельный offline tool меняет ТОЛЬКО unlocked autumn на пользовательскомПК,
 ноль сетевыхзапросов, ZIPGitHub проверен. Источникfa872ec/веткаrecovery/offline-location-tool.
 Strictload/readonlyrescue WIP в codex/emergency-save-recovery не опубликован.
+
+
+## 2026-11-18 — Явно разрешённая компенсация и защита от сброса
+
+Пользователь потребовал начислить средства вместо ожиданиястаройкопии и
+проверитьcryptoAI. ScopedодномуworldSHA компенсация/постоянныйreceipt/backupbefore
+в4025f713cea3b8ecfea72128275398af8d3dabc3; fullCI44388536452 pending.
+РеальныйnativeautoloadSPA безкнопки PASS; отделятьотсовместногоначисления,
+которое вреальномworld подтвердитследующийbootвбраузерепользователя.
+Crypto mockforecasts, repeat/reload/liquidation/short/long иpaidpurchase/escrow
+послекомпенсации PASS. ActualremoteAI не подтверждёниз-заtunnel403.
+Не объявлятьвосстановленнойпрошлуюколонию147/историю. Не повторятьgrant
+внепостояннойсервернойквитанции. Никогда не хранитьrawrecoverykeyвGit.
