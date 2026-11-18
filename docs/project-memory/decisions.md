@@ -412,3 +412,14 @@ controlChichi доactualdrysupport; исправление a8ea3753c44068cb6940b
 Релиз55a9beb0aa27c6066817adc582828875d9809de5 — первыйфункциональный этап,
 не готовность всего референса/84behaviors; mainpush сделалполныйCI44340341336,
 его финального результата и реальных assets ещё требуется дождаться.
+
+
+## 2026-11-18 — Подтверждённая публикация первого этапа SPA
+
+ПолныйSHA 55a9beb0aa27c6066817adc582828875d9809de5; workflow44340341336 test/deploy/pages SUCCESS,
+release/sharedsaves verified. ActualHTTP 2026-11-18T16:08:23.131278+00:00, одноapp, JS/CSS
+соответствуютNode22кандидату. Квитанции docs/qa/2026-11-18/resort-spa-publication.
+408publicimports и actualphoneCSS совпали с mergedruntime;102архивныххеша
+подтверждены. Не объявлять визуальноеодобрение/84complete/hardwareFPS.
+Следующийэтап берёт55a9beb, сохраняетстарыйa8ea375WIP и перечисленные
+в CURRENT незавершённые сценарии; не повторяет опубликованные фиксы.

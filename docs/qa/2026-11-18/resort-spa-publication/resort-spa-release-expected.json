@@ -1,0 +1,10 @@
+{
+  "release": "55a9beb0aa27c6066817adc582828875d9809de5",
+  "workflow": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44340341336",
+  "source": "a8ea3753c44068cb6940b21e7f0796c5394a4282; identical merged public runtime",
+  "build": "Node22.23.5; resort-spa-dry-control-build.log",
+  "assets": {
+    "dist/app.js": "afbdde4ba0c1f53e3f50dad82a032b0f6a128c6675a0120384018080f96de961",
+    "style.css": "9db4746b53b8da87077097c9238673ce7d6a6e4f45652fb7b5c92aed121e9fd1"
+  }
+}
