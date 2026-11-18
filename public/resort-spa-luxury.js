@@ -62,7 +62,9 @@ export function* resortLuxurySteps({solid,decor,shell,surfaces,basins,waters,mat
  }
  function architecture(zone){const y=zone.level*S.rise,roofY=y+4;
   ring(decor,mats.gold,zone.x,y-.16,zone.z,zone.rx,zone.rz,.16);ring(decor,mats.amber,zone.x,y+.07,zone.z,zone.rx-.22,zone.rz-.22,.035);ring(decor,mats.gold,zone.x,roofY,zone.z,zone.rx,zone.rz,.12);
-  for(let j=0;j<10;j++){const a=j*Math.PI/5,points=Array.from({length:13},(_,i)=>{const t=i*Math.PI/24;return[zone.x+Math.cos(a)*zone.rx*Math.cos(t),roofY+6*Math.sin(t),zone.z+Math.sin(a)*zone.rz*Math.cos(t)];});line(decor,mats.gold,points,.055);}
+  // Cafe already uses the main atrium dome. A second low pseudo-roof would
+  // pierce the real upper glass pool between its bed16.2m and waterline18m.
+  if(zone.key!=='cafe')for(let j=0;j<10;j++){const a=j*Math.PI/5,points=Array.from({length:13},(_,i)=>{const t=i*Math.PI/24;return[zone.x+Math.cos(a)*zone.rx*Math.cos(t),roofY+6*Math.sin(t),zone.z+Math.sin(a)*zone.rz*Math.cos(t)];});line(decor,mats.gold,points,.055);}
   for(const side of [-1,1]){const x=zone.x+side*(zone.rx*.73),z=zone.z-zone.rz*.57;lantern(x,y,z);plant(zone.x+side*(zone.rx*.77),y,zone.z+zone.rz*.48,1.3,true);}
  }
  function chandelier(x,y,z,r=2){for(let i=0;i<3;i++)ring(decor,i===1?mats.amber:mats.gold,x,y+i*.35,z,r*(1-i*.2),r*(1-i*.2),i===1?.055:.065);for(let j=0;j<12;j++){const a=j*Math.PI/6;line(decor,mats.gold,[[x,y+1.4,z],[x+Math.sin(a)*r,y,z+Math.cos(a)*r]],.018);ball(decor,mats.amber,x+Math.sin(a)*r,y-.22,z+Math.cos(a)*r,.07,.24,.07);}}
@@ -123,7 +125,7 @@ export function* resortLuxurySteps({solid,decor,shell,surfaces,basins,waters,mat
    const cap=geometry('aquarium-glass-cap',()=>{const g=new T.CircleGeometry(5.8,64);g.rotateX(-Math.PI/2);return g;});mesh(shell,cap,tankGlass,0,y+.02,203);mesh(shell,cap,tankGlass,0,y+6.18,203);
    ring(decor,mats.gold,0,y+.2,203,5.8,5.8,.12);ring(decor,mats.gold,0,y+6.2,203,5.8,5.8,.12);for(let j=0;j<6;j++){const a=j*Math.PI/3,x=Math.cos(a)*5.81,z=203+Math.sin(a)*5.81;box(decor,mats.gold,x,y+3.1,z,.025,6,.025);}
    fishModel('betta',.2);fishModel('angelfish',.32);fishModel('ray',.13);
-   for(const side of [-1,1])tree(side*30,y,203,1.3);chandelier(-12,y+6.8,203,2);
+   for(const side of [-1,1])tree(side*30,y,203,1.3);chandelier(-12,y+5,203,2);
   }else if(zone.key==='waterfall'){
    features.push('two real multilevel cascades','flowering water garden','panorama lanterns');
    for(const side of [-1,1]){tree(zone.x+side*37,y,zone.z-9,1.2);lotus(zone.x+side*28,y+1.05,zone.z+1,1);for(let j=0;j<4;j++)lantern(zone.x+side*38,y,zone.z-3+j*5,.8);}

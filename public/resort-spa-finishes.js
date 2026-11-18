@@ -23,7 +23,7 @@ export function* finishResortSpaSteps(root){
  }
  lights.finish();const batch=new T.Group(),levels=new Map(),inverse=root.matrixWorld.clone().invert();
  for(let level=0;level<3;level++){
-  const sourceGroup=new T.Group();for(const source of sources){if(source.userData.resortFloor!==level)continue;const clone=new T.Mesh(source.geometry,source.material);clone.matrixAutoUpdate=false;clone.matrix.multiplyMatrices(inverse,source.matrixWorld);sourceGroup.add(clone);}
+  const sourceGroup=new T.Group();for(const source of sources){if(source.userData.resortFloor!==level)continue;const clone=new T.Mesh(source.geometry,source.material);clone.castShadow=source.castShadow;clone.receiveShadow=source.receiveShadow;clone.matrixAutoUpdate=false;clone.matrix.multiplyMatrices(inverse,source.matrixWorld);sourceGroup.add(clone);}
   const rendered=yield* batchModelSteps(sourceGroup,{combineColors:false});levels.set(level,rendered);batch.add(rendered);
  }
  root.userData.inspectionLevels=levels;root.userData.setInspectionLevel=level=>{for(const [id,g]of levels)g.visible=level==null||id<=level;for(const [id,g]of root.userData.zones){const zone=RESORT_ZONES.find(z=>z.id===id);g.visible=level==null||zone.level<=level;}};
