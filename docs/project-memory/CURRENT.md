@@ -30,7 +30,7 @@ Chromium/private Worker/SQLite download/cancel/restore/reload PASS. **Mac нап
 
 [Полное задание](../../specifications/underwater-spa-v6-2026-11-18.md).
 Код /workspace/chichi-emergency-save-recovery, ветка **codex/spa-v6-reconstruction**.
-Последний удалённый код **63976055337663d736dad265b8e10e16eefceae9**.
+Последний удалённый код **4e8bb85f3b6646e740a9263744260449754a9bfa**.
 Старые worktrees не удалены. archive/pre-spa-v6-2026-11-18 сохраняет
 0d21c0f0773d756790facf75cc35574376263f60. Не отправлять художественный WIP в main.
 
@@ -65,26 +65,57 @@ native/CI PASS не означает визуальное одобрение. Н
 unit PASS,2cutaway/buffer PASS и1native instance material isolation PASS.
 Графика/радиус кота/коллизии/ТРЦ/общая вода/экономика/AI/save schema сохранены.
 
-СЕЙЧАС native **galleries**, exec67185, лог /workspace/qa/spa-v6-galleries-native.log,
-результаты /workspace/qa/spa-v6-galleries. Шесть кадров (каждый референс+sky), затем
-настоящая W/Nap→World, расширенный sky/ступени/процедура/выход/дно снизу/SQLite.
-Сначала читать прогресс, не перезапускать долгий успешный run. One GPU browser.
-Точная команда/next step: WIP docs/qa/2026-11-19/spa-v6-galleries/NEXT.md.
-По завершении scripts/archive-spa-stage.py проверяет hashes и сохраняет allow-list
-без privateSQLite/секретов; force-add логи, проверить все manifest entries tracked,
-push WIP и обновить эту память. Сохранять результаты и не приписывать старым PNG
-новый код. Текущий dirty test/resort-spa-shadow-bake.test.mjs воспроизводит
-следующий дефект, сам public код пока не менялся после6397605.
+Седьмая native серия завершена: **d0a2e9f4f7b93498d799cd333ecab50dee4e56c8**
+сохраняет шесть кадров, настоящую W/Nap/World и расширенный36м sky со ступенями/
+процедурой/выходом/дном снизу/одной оплатой/SQLite PASS. Visual review нашёл
+дублирующие Cafe арки13–19м и люстру до17.2м внутри настоящей воды16.2–18м.
+Не выдавать этот успешный behavioural audit за готовый внешний вид.
 
-НАЙДЕНО для следующей итерации: finishResortSpaSteps создаёт временный Mesh clone
-без копирования source.castShadow; batchModelSteps берёт parts.some(castShadow),
-поэтому мебель/непрозрачные потолки SPA теряют тени. Новый тест запущен отдельно
-(ожидаемый failure), лог /workspace/qa/spa-v6-missing-shadow-reproduction.log.
-Это конкретный дефект; ещё не проверенное объяснение всего внешнего вида.
-Исправить сохранение flags отдельным этапом и сравнить реальные те же ракурсы.
-Также текущие probe отражения — ocean/Mall/sky, они не содержат новые интерьеры.
-Нужен настоящий offline scene-derived SPA bake, не случайная reference картинка
-и не полный пересчёт отражений каждый кадр. Сначала завершить текущий native.
+Восьмой исходник **212553143cc8ba1e29f8a42be6a0c95643d3ab14** исправил сохранение
+source.castShadow/receiveShadow в finishResortSpaSteps; прозрачное стекло/вода
+не стали opaque casters. Исходный воспроизводимый failure и2 corrected cases
+сохранены. Cafe уже использует главный купол: дублирующие низкие арки убраны,
+люстра опущена под стеклянное дно. Vertex test подтверждает свободный объём воды.
+Native восьмой серии завершён и сохранён в remote **d72d101137ecfc24b7c3e36536c5f868b37ccdf8**:
+шесть кадров/реальные тени/World release PASS. Непотревоженные процедуры заново
+не объявлялись проверенными. Визуально видны контактные тени и чистая вода без
+арок, но ещё далеко от R1/R2/R4/R5. Сравнение camera/light/DPR и log/source/PNG
+в WIP docs/qa/2026-11-19/spa-v6-shadow-fix/.
+
+СЕЙЧАС девятый этап — offline actual-scene reflection capture. Код/команда/next
+step сохранены в remote **4e8bb85f3b6646e740a9263744260449754a9bfa**. Никакого нового
+probe в production/runtime ещё нет. scripts/bake-resort-spa-native-probes.mjs
+в приватном native runner снимает настоящий готовый SPA:14комнат+sky,128px HDR,
+linear radiance/4, точные native light/material, персонажи/SPA fish/water
+маскированы, finally восстанавливает renderer/visibility.15 octahedral layers,
+PNG sheet512px, raw layers/hash и source/art/baker provenance; не случайная картинка.
+
+Активный exec**72278**, лог /workspace/qa/spa-v6-probes-native.log, результаты
+/workspace/qa/spa-v6-probes/probes. **НЕ менять код/HEAD/status этого worktree
+во время bake**: source-state hash проверяется и должен совпасть в конце.
+Не запускать второй GPU браузер/build/tests, которые меняют public assets.
+Сначала прочитать прогресс. Точная команда/ограничения в WIP
+docs/qa/2026-11-19/spa-v6-probes/NEXT.md. Не считать частичный capture готовым.
+
+Следом проверить реальные изображения/GLSL/возвратrenderer/нежелательные ghosts,
+сохранить PNG/data/provenance в remote. Только затем loader DataArrayTexture
+128×128×15(~1.25MiB mipmapped), linear byte/orientation checks, independent
+layer mips; SPA-only existing lamp IDs→layer и shared water profile. Нет runtime
+CubeCamera/ежекадровых render targets. Не обещать mirror quality или device FPS.
+Более подробный проект loader в WIP shadow-fix/NEXT.md и probes/NEXT.md; это
+предложение, НЕ реализованный код. Существующий fallback остаётся до проверки.
+
+Уточнение материалов: реальные shipped Mall CC0 marble/fabric просмотрены;
+marble01 — бежевые плитки, не белый Calacatta, нельзя выдавать за reference match.
+Velour maps можно переиспользовать в SPA. Новая PolyHaven API попытка blocked
+CONNECT403 (как ранее AmbientCG); не обходить через прокси/не выдумыватьdownload.
+
+Архиватор scripts/archive-spa-stage.py проверяет bundle/imported source hashes
+и сохраняет allow-list без privateSQLite/секретов; force-add логи, проверить
+manifest tracking, push WIP/обновить память на каждом этапе. Не начинать заново.
+Все старые worktrees/source/SQLite сохранены.2GiB места освобождены дедупликацией
+ТОЛЬКО byte-identical временных QA art файлов через hardlinks (все байты сохранены);
+source/история/пользовательские данные не удалялись.
 
 QA clock: reviewHour12 сбрасывает epoch перед loop; post-render getter читает
 12:15–18 после software render stalls. Седьмая серия отдельно записывает clock

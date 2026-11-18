@@ -537,3 +537,14 @@ cd4bd52: native Café water cup/полный вход-выход/платёж/SQ
 В SPA finish clone потерял castShadow; reproducer отдельный, исправление и
 визуальную проверку не выдавать за уже выполненные. Reflection probe пока не
 содержит новый SPA, требуется настоящий offline capture на следующем этапе.
+
+## 19 ноября — тени/свободный верхний бассейн и начало настоящих probes
+
+Восьмой2125531 сохраняет исходные shadow flags через bake и устраняет дублирующие
+Cafe элементы из воды. Native d72d101: реальные контактные тени/шесть кадров/World
+PASS, visual всё ещё WIP. Девятый4e8bb85 — только offline QA capture, runtime probe
+не внедрён. Actual prepared scene/14rooms+sky/HDR128/linear÷4, фиксируется source
+state/биты/позиции/свет. Bake72278 идёт; нельзя менять source worktree до конца.
+Материалы CC0 просмотрены; существующий beige tiled marble не Calacatta. API
+новых PolyHaven ресурсов tunnel403, обход не делать. Историю/данные не трогали;
+byte-identical temp QA art связаны hardlinks, освобождены2GiB без потери байтов.
