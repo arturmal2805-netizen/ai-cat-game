@@ -37,3 +37,24 @@ source/bundle/overlay and all results with scripts/archive-spa-stage.py.
 Continue exact per-reference comparison; no final visual approval yet. Remaining:
 coherent exterior galleries/facade, richer flowers/cascades/light hierarchy,
 final every-room animation/contact/phone/performance and release checks.
+
+## Native sixth stage completed
+
+Real Cafe wet cycle, cup at native mouth, safe return, one own-wallet100 debit,
+used receipt and SQLite reload PASS. Original world coins/inventory unchanged.
+Exact source f668b0684dc7bd9cef3d5b8fee161be81ae3d9a2, clean; native/manifest.json.
+Five reference frames and action captures archived. Still not final visual approval.
+
+Clock detail: reviewHour12 resets epoch at loop start. Post-render gameClock()
+getter reads12:15–18 because software render blocks the thread15–18seconds after
+that reset; do not call these exact-timestamp A/B captures. Inspection found
+world.js uses fixed Hemisphere1.2/sun2.2/rim.9; game hour does NOT automatically
+change these lights. Scene color also depends on focus/underwater fog. Future
+lighting comparison must record actual light colors/intensities, not infer night
+lighting merely from HUD time. No production day/night cycle was added here.
+
+Next art: strong coherent three-tier cornices/bridge bands and denser planter
+gardens, then actual SPA interior reflection probes. Current finish reflection
+is the existing ocean/Mall probe and cannot contain newly built SPA lanterns.
+Do not substitute a random reference image or claim mirror interiors without
+actual scene-derived bake/probe verification. Preserve mobile budgets.
