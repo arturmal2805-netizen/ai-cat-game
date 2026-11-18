@@ -71,3 +71,17 @@ A separate clean sparse worktree was created for future runtime drafts without
 changing frozen bake sources: /workspace/chichi-spa-reflection-runtime,
 codex/spa-reflection-runtime, base d8b3b03. No runtime integration there yet.
 Do not mistake creation of this checkout for completed loader/probe recovery.
+
+## Third capture SUCCESS — resume here, not from failed captures
+
+Exact clean source3ab73cd32383a1a06c31b890b3d046e1127086e8. All15 layers
+completed in /workspace/qa/spa-v6-probes-draws/probes, archived in
+successful-capture/ with exact bundle/source/PNG/data/log. Actual GL error0,
+draws>0/nonempty radiance. Sheet SHA256 c40feac8f87aa9b675f2429a5867b109ad6c4070771abdf90c34528b7f5696d2;
+raw layers SHA25674df01edbe5923cea6b3105f7056c7a8f58a68928f9ba14d081840a1320de679.
+Sheet visually inspected: amber/dark room geometry and cyan exterior, no obvious
+cat ghosts at128px; this is not proof of perfect reflections. No runtime loader
+yet. Bake finished: main worktree is no longer frozen. Next implement checksum/
+byte-orientation validated array loader and SPA-only floor/water hooks, then
+actual GLSL/native R1/R2/R4/R5+sky comparisons. Auxiliary sparse runtime tree is
+clean, base d8b3b03; no need to start over or repeat completed capture.
