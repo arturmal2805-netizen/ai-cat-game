@@ -1483,10 +1483,10 @@ try {
     onMallPurchase:(id,item,receipt)=>{if(!cloud.simulationOwner||!cloud.editable||cloud.conflict)return false;commit(buyMallProduct(game,id,item,receipt));return true;},
     onResortSpaUse:(id,zone,receipt)=>{if(!cloud.simulationOwner||!cloud.editable||cloud.conflict)return false;commit(completeResortTicket(game,id,zone,receipt));return true;},
     onMallUse:(id,item)=>{if(!cloud.simulationOwner||!cloud.editable||cloud.conflict)return false;commit(useMallProduct(game,id,item));return true;},
-    onMallGoal:(id,goal)=>{
+    onMallGoal:(id,goal,{completed=true}={})=>{
       if(!cloud.simulationOwner||!cloud.editable||cloud.conflict||!game.jobCity?.profiles[id])return;
       const next=structuredClone(game),p=next.jobCity.profiles[id];p.mall=normalizeMallProfile(p.mall);
-      if(!goal&&p.mall.goal)p.mall.visited=[...new Set([...p.mall.visited,p.mall.goal.storeId])];
+      if(!goal&&p.mall.goal&&completed)p.mall.visited=[...new Set([...p.mall.visited,p.mall.goal.storeId])];
       p.mall.goal=goal;commit(next);
     },
     canDragZooAnimal:()=>cloud.editable&&!cloud.conflict,

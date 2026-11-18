@@ -69,3 +69,24 @@ Latest user requested broader compaction: city-ai-pack.mjs now packs repeated
 strings losslessly;23 AI targeted cases + single147case PASS. Independent release
 candidate is based on3914873, with no unfinished SPA.
 New appointments adapter and lift motor are independently tested, not scene-wired.
+
+
+## Current continuation — physical shore, furnished rooms and recovery candidate
+
+Historical sections above describe earlier WIP, not current completeness.
+Native real shore→new side gate→lift→massage→physical upper return→private SQLite
+PASS in native-shore/manifest.json. Fourteen per-room procedure fixtures with
+new glass cabanas, furniture, planters/Sakura/lamps and real shared-water garden
+cascades PASS in native-furnished/manifest.json, including one final SQLite reload
+preserving all14 used receipts, private wallet, world money and inventory.
+These are not all84 actions, full autonomous groups, phone acceptance or target
+reference quality. Old snapshots predate the latest recovery/contact changes.
+
+New lift recovery restores actual existing saved catLocations at the identical
+cabin height with doors shut, then physically returns to the upper landing.
+No shared merge/schema/wallet change. Cold native SQLite audit currently pending.
+Native mesh vertex contact unit PASS for settling/prone/waking at actual negative
+world Y; same original rig and geometry. Support preparation is cooperative.
+Node22 build PASS; 4 targeted contact/recovery/motor cases PASS. Full CI after
+these source changes is pending. Main remains827e370; SPA is NOT published or
+artistically approved. Do not advertise finished84actions or deviceFPS.

@@ -11,7 +11,7 @@ export function createResortMassagePavilion(zone,{materials={}}={}){
  function box(parent,m,x,y,z,w,h,d){const key=[w,h,d].join(',');let geo=geometries.get(key);if(!geo){geo=new T.BoxGeometry(w,h,d);geometries.set(key,geo);}const o=new T.Mesh(geo,m);o.position.set(x,y,z);o.castShadow=!m.transparent;o.receiveShadow=true;parent.add(o);return o;}
  root.position.y=zone.y;
  const floor=0,contacts=[];
- box(solid,marble,zone.x,floor-.2,zone.z,zone.rx*2,.4,zone.rz*2);
+ const outline=new T.Shape();outline.absellipse(zone.x,zone.z,zone.rx,zone.rz,0,Math.PI*2,false);const floorGeometry=new T.ExtrudeGeometry(outline,{depth:.4,bevelEnabled:false,curveSegments:96});floorGeometry.rotateX(Math.PI/2);geometries.set('elliptical-pavilion-floor',floorGeometry);const floorMesh=new T.Mesh(floorGeometry,marble);floorMesh.receiveShadow=true;solid.add(floorMesh);
  for(let i=0;i<6;i++){
   const seat=resortSpaSeat(zone,i),x=seat.x,z=seat.z,y=floor;contacts.push({...seat,seat:{x,y:zone.y+1.02,z},table:{x,y:zone.y+1,z,w:1.65,d:3.6},cabinet:i});
   // Individual rooms retain a 3.2m front opening; no merged collider seals it.
@@ -29,9 +29,9 @@ export function createResortMassagePavilion(zone,{materials={}}={}){
  }
  // Shared public aisle, reception and waiting seats outside the actual cabins.
  for(const side of [-1,1]){
-  box(solid,wood,zone.x+side*19,floor+.5,zone.z+15,4,1,2);
-  box(solid,cloth,zone.x+side*19,floor+1.1,zone.z+15,4,.3,2);
-  box(solid,wood,zone.x+side*21.5,floor+1.2,zone.z+15,.5,2.4,2);
+  box(solid,wood,zone.x+side*16,floor+.5,zone.z+13,4,1,2);
+  box(solid,cloth,zone.x+side*16,floor+1.1,zone.z+13,4,.3,2);
+  box(solid,wood,zone.x+side*18.5,floor+1.2,zone.z+13,.5,2.4,2);
  }
  box(solid,marble,zone.x,floor+1.15,zone.z+18,7,2.3,1.6);
  box(decor,gold,zone.x,floor+2.35,zone.z+18,7.3,.12,1.8);

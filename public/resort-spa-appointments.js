@@ -15,7 +15,7 @@ export function createResortAppointments({getGame,getActors,getNavigation,centre
   onUse:(id,zone,receipt)=>canSimulate()&&!!onUse?.(id,zone,receipt),
   reserveStaff:(id,zone,target)=>{const staff=getStaff().find(s=>!staffOwners.has(s.id)&&Math.hypot(s.position.x-target.x,s.position.y-target.y,s.position.z-target.z)<.1);if(!staff)return null;staffOwners.set(staff.id,id);return{id:staff.id};},
   releaseStaff:(staff,id)=>{if(staffOwners.get(staff)===id)staffOwners.delete(staff);},
-  onComplete:(id,result)=>{const actor=getActors().find(a=>a.id===id);if(actor&&result.position)Object.assign(actor.position,{x:result.position.x+centre[0],y:result.position.y,z:result.position.z+centre[1]});onGoal(id,null);onComplete(id,result);},
+  onComplete:(id,result)=>{const actor=getActors().find(a=>a.id===id);if(actor&&result.position)Object.assign(actor.position,{x:result.position.x+centre[0],y:result.position.y,z:result.position.z+centre[1]});onGoal(id,null,{completed:result.completed});onComplete(id,result);},
  });
  return{runtime,has:id=>runtime.has(id),
   start(id,zoneId){const a=getActors().find(a=>a.id===id),zone=resortZone(zoneId),profile=getGame().jobCity?.profiles[id];if(!a||!zone||!profile||!canSimulate()||blocked(id)||runtime.has(id)||(profile.coins<zone.price&&!resortPaidTicket(getGame(),id,zoneId)))return false;const p={x:a.position.x-centre[0],y:a.position.y,z:a.position.z-centre[1]};if(!getNavigation()?.support(localY(p),a.radius))return false;

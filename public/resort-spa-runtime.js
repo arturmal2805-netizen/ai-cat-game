@@ -38,7 +38,7 @@ export function createResortSpaRuntime({route,segmentClear,onPurchase,onUse,onCo
      v.phase=v.contact.pool?'wet-enter':'mount';v.elapsed=0;v.mountFrom=copy(v.position);v.mountYaw=v.yaw;
     }else if(v.phase==='mount'){
      const u=Math.min(1,v.elapsed/1.6),t=smooth(u),a=v.mountFrom,b=v.contact.seat||v.contact;
-     const height=v.contact.seat?0:v.zone.procedure==='massage'?1.02:['lounge','sleep','cabana','groom'].includes(v.zone.procedure)?.92:v.zone.procedure==='sauna'?.8:0;
+     const height=v.contact.seat?0:v.zone.procedure==='massage'?1.02:['lounge','sleep','cabana','groom'].includes(v.zone.procedure)?.92:v.zone.procedure==='sauna'?.8:['aroma','meditate','garden'].includes(v.zone.procedure)?.08:0;
      const target={x:b.x,y:b.y+height,z:b.z};v.position={x:a.x+(target.x-a.x)*t,y:a.y+(target.y-a.y)*t+Math.sin(Math.PI*u)*.8,z:a.z+(target.z-a.z)*t};
      v.yaw=v.mountYaw+Math.atan2(Math.sin(v.contact.yaw-v.mountYaw),Math.cos(v.contact.yaw-v.mountYaw))*t;
      if(u===1){v.phase='procedure';v.elapsed=0;}

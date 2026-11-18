@@ -19,14 +19,14 @@ fs.mkdirSync(review, { recursive: true });
 const baseline = process.env.CHICHI_BASELINE_REF;
 if (baseline && !/^[a-f0-9]{7,40}$/.test(baseline))
   throw Error("Expected a commit hash");
-const readPublic = (name) =>
-  baseline
-    ? require("node:child_process").execFileSync(
-        "git",
-        ["show", baseline + ":public/" + name],
-        { cwd: root, encoding: "utf8" },
-      )
-    : fs.readFileSync(root + "/public/" + name, "utf8");
+const qaSourceFiles=new Map();
+const readPublic = (name) => {
+  if(qaSourceFiles.has(name))return qaSourceFiles.get(name);
+  const contents=baseline
+    ? require("node:child_process").execFileSync("git",["show",baseline+":public/"+name],{cwd:root,encoding:"utf8"})
+    : fs.readFileSync(root+"/public/"+name,"utf8");
+  qaSourceFiles.set(name,contents);return contents;
+};
 if (process.env.CHICHI_COMPARE_SCENERY_BLEND &&
     !readPublic("scenery-models.js").includes('./scenery-blending.js'))
   throw Error("Alpha-one comparison requires experiment/alpha-one-scenery-20261027 (585b2f1); the production branch keeps the released paint.");
@@ -357,7 +357,7 @@ async function localWorker() {
       }
       g.catPosition={biome,x,z};const b=byBiome(biome);Object.assign(g,captureCatLocations(g,g,[{id:'chichi',position:{x:b.center[0]+x,y:.16,z:b.center[1]+z},yaw:0}],now));
     }
-    if(process.env.CHICHI_RESORT_SPA_AUDIT){delete g.mosasaurSubmarine;delete g.catLocations;if(process.env.CHICHI_RESORT_SPA_PROCEDURE_AUDIT||process.env.CHICHI_RESORT_SPA_TRANSIT_AUDIT||process.env.CHICHI_RESORT_SPA_POOLS_AUDIT||process.env.CHICHI_RESORT_SPA_DRY_AUDIT)g.jobCity.profiles.chichi.coins=2000;}
+    if(process.env.CHICHI_RESORT_SPA_AUDIT){delete g.mosasaurSubmarine;delete g.catLocations;if(process.env.CHICHI_RESORT_SPA_PROCEDURE_AUDIT||process.env.CHICHI_RESORT_SPA_TRANSIT_AUDIT||process.env.CHICHI_RESORT_SPA_POOLS_AUDIT||process.env.CHICHI_RESORT_SPA_DRY_AUDIT)g.jobCity.profiles.chichi.coins=process.env.CHICHI_RESORT_SPA_DRY_AUDIT&&process.env.CHICHI_RESORT_SPA_POOLS_AUDIT?6000:2000;}
     if(process.env.CHICHI_MANUAL_PORTAL_AUDIT){const {MALL_AIRLOCK}=await import(root+'/public/mall-airlock-data.js');g.mosasaurSubmarine={...g.mosasaurSubmarine,active:false,explorerVersion:1,explorer:{...MALL_AIRLOCK.outside,mode:'swimming',yaw:Math.PI,floor:0,returning:false}};}
     const base = local.base,
       token = crypto.randomBytes(32).toString("hex"),
@@ -594,9 +594,9 @@ async function localWorker() {
                 ),
               loader: "js",
             }));
-            if (baseline || process.env.CHICHI_TERRAIN_AUDIT)
+            if (baseline || process.env.CHICHI_TERRAIN_AUDIT || process.env.CHICHI_EXPLORER_AUDIT)
               b.onLoad({ filter: /\/public\/.*\.js$/ }, (args) => ({
-                contents: readPublic(path.basename(args.path)),
+                contents: readPublic(path.relative(path.join(root,"public"),args.path)),
                 loader: "js",
               }));
           },
@@ -693,6 +693,7 @@ async function localWorker() {
 
     if(process.env.CHICHI_EXPLORER_AUDIT){
       fs.writeFileSync(path.join(review,'qa-app.js'),output.outputFiles[0].contents);
+      const captured={};for(const[name,contents]of qaSourceFiles){const target=path.join(review,'source',name);fs.mkdirSync(path.dirname(target),{recursive:true});fs.writeFileSync(target,contents);captured[name]=crypto.createHash('sha256').update(contents).digest('hex');}fs.writeFileSync(path.join(review,'source-files.json'),JSON.stringify(captured,null,2));
       const sourceGit=(args)=>require('node:child_process').execFileSync('git',args,{cwd:root,maxBuffer:32*1024*1024});
       fs.writeFileSync(path.join(review,'source-HEAD.patch'),sourceGit(['diff','HEAD','--binary']));
       fs.writeFileSync(path.join(review,'source-cached.patch'),sourceGit(['diff','--cached','--binary']));

@@ -3,7 +3,7 @@ import {byBiome} from '../public/game-data.js';import {resortSpaOrigin,resortZon
 export async function auditResortPools({page,review}){
  const centre=resortSpaOrigin(byBiome('autumn').center),results=[];
  const read=()=>page.evaluate(()=>{const g=__lagoonSaveQA.getGame(),p=g.jobCity.profiles.chichi;return{coins:p.coins,worldCoins:g.coins,inventory:g.inventory,used:p.mall?.used||{},receipts:p.mall?.receipts||{},position:__lagoonQA.chichiCarrier.position.toArray()};});
- const before=await read();assert.equal(before.coins,2000);
+ const before=await read();assert(before.coins>=1000);
  for(const id of ['resort-thermal','resort-jacuzzi','resort-vip']){
   const zone=resortZone(id),contact=resortSpaSeat(zone,0);await page.locator('.resort-spa-zones').getByRole('button',{name:zone.name,exact:true}).click();await page.evaluate(async({centre,contact,id})=>{if(!await __lagoonSaveQA.cloud.claimEditor())throw Error('No private owner');const q=__lagoonQA;q.manualFrames=true;q.jobs.cancel('chichi');q.chichiCarrier.position.set(centre[0]+contact.approach.x,contact.approach.y,centre[1]+contact.approach.z+.8);if(!q.resortSpa().startReady('chichi',id))throw Error('Could not start '+id);},{centre,contact,id});
   const trace=[],captured=new Set();let done=false;
@@ -17,7 +17,7 @@ export async function auditResortPools({page,review}){
   }
   const after=await read();results.push({id,done,trace,after});await writeFile(join(review,'pool-progress.json'),JSON.stringify({before,results},null,2));assert(done,id+' must physically exit and return');assert.equal(after.used[id+'-session'],1);assert(trace.some(f=>f.phase==='wet-enter'));assert(trace.some(f=>f.phase==='wet-shake'));assert(trace.some(f=>f.action===(id==='resort-thermal'?'water-play':id==='resort-vip'?'star-gaze':'bubble-surprise')));
  }
- const after=await read();assert.equal(after.coins,1000);assert.equal(after.worldCoins,before.worldCoins);assert.deepEqual(after.inventory,before.inventory);
+ const after=await read();assert.equal(after.coins,before.coins-1000);assert.equal(after.worldCoins,before.worldCoins);assert.deepEqual(after.inventory,before.inventory);
  await page.evaluate(()=>window.dispatchEvent(new Event('pagehide')));await page.waitForFunction(()=>!__lagoonSaveQA.cloud.pending&&!__lagoonSaveQA.cloud.dirty&&!__lagoonSaveQA.cloud.retryEntry,null,{timeout:120000});await page.reload();await page.waitForFunction(()=>window.__lagoonQA&&__lagoonSaveQA.cloud.editable,null,{timeout:240000});await page.evaluate(()=>{__lagoonQA.drawPaused=true;});const reloaded=await read();assert.equal(reloaded.coins,after.coins);assert.deepEqual(reloaded.used,after.used);assert.deepEqual(reloaded.receipts,after.receipts);
  await writeFile(join(review,'actual-pools-sqlite.json'),JSON.stringify({scope:'Private dry pool-rim starting fixtures. Actual native Chichi/step supports/water poses/app receipts/SQLite, not complete shore arrival/all14procedures/phone/art approval.',before,results,after,reloaded},null,2));console.log('PASS native thermal/jacuzzi/VIP entry, distinct procedures, dry exit, receipts and SQLite');
 }

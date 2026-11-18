@@ -4,9 +4,12 @@ import {join} from 'node:path';
 import {byBiome} from '../public/game-data.js';
 import {resortSpaOrigin} from '../public/resort-spa-data.js';
 import {RESORT_LIFT as L} from '../public/resort-spa-lift.js';
+import {MOSA_SHORE_GATE} from '../public/mosasaur-data.js';
+import {RESORT_SPA} from '../public/resort-spa-data.js';
 export async function auditResortTransit({page,review}){
  const centre=resortSpaOrigin(byBiome('autumn').center);
- await page.evaluate(async({centre,L})=>{if(!await __lagoonSaveQA.cloud.claimEditor())throw Error('No private owner');const q=__lagoonQA;q.manualFrames=true;q.jobs.cancel('chichi');q.chichiCarrier.position.set(centre[0],L.upperY,centre[1]+309);if(!q.resortSpa().startReady('chichi','resort-massage'))throw Error('Upper landing appointment failed to start');},{centre,L});
+ const shore=!!process.env.CHICHI_RESORT_SPA_SHORE_AUDIT;
+ await page.evaluate(async({centre,L,shore,gate,offset})=>{if(!await __lagoonSaveQA.cloud.claimEditor())throw Error('No private owner');const q=__lagoonQA;q.manualFrames=true;q.jobs.cancel('chichi');q.chichiCarrier.position.set(centre[0],shore?.435:L.upperY,centre[1]+(shore?gate.z-3-offset:309));if(!q.resortSpa().startReady('chichi','resort-massage'))throw Error('Native shore/landing appointment failed to start');},{centre,L,shore,gate:MOSA_SHORE_GATE,offset:RESORT_SPA.offsetZ});
  const before=await page.evaluate(()=>({coins:__lagoonSaveQA.getGame().jobCity.profiles.chichi.coins,worldCoins:__lagoonSaveQA.getGame().coins})),trace=[],captured=new Set();let complete=false,waiting=0;
  for(let batch=0;batch<400;batch++){
   const result=await page.evaluate(()=>{const q=__lagoonQA;for(let i=0;i<20;i++){q.appointmentClock=Math.max(performance.now(),q.appointmentClock||0)+100;q.gpuFrames.clear();q.manualStepping=true;try{q.step(q.appointmentClock);}finally{q.manualStepping=false;}}const r=q.resortSpa(),v=r.appointments.runtime.get('chichi'),t=r.transit.trips.get('chichi');return{active:r.has('chichi'),phase:v?.phase||t?.phase,stage:v?'appointment':'lift',lift:{...r.transit.lift.state},position:q.chichiCarrier.position.toArray(),paid:__lagoonSaveQA.getGame().jobCity.profiles.chichi.coins};});
@@ -23,5 +26,5 @@ export async function auditResortTransit({page,review}){
  await page.evaluate(()=>window.dispatchEvent(new Event('pagehide')));await page.waitForFunction(()=>!__lagoonSaveQA.cloud.pending&&!__lagoonSaveQA.cloud.dirty&&!__lagoonSaveQA.cloud.retryEntry,null,{timeout:120000});
  await page.reload();await page.waitForFunction(()=>window.__lagoonQA&&__lagoonSaveQA.cloud.editable,null,{timeout:240000});await page.evaluate(()=>{__lagoonQA.drawPaused=true;});
  const reloaded=await page.evaluate(()=>({coins:__lagoonSaveQA.getGame().jobCity.profiles.chichi.coins,position:__lagoonQA.chichiCarrier.position.toArray()}));assert.equal(reloaded.coins,after.coins);assert(Math.abs(reloaded.position[1]-L.upperY)<.65);
- await writeFile(join(review,'actual-landing-lift-massage-return.json'),JSON.stringify({scope:'Private upper-apron starting fixture; actual world actor, full lift/corridor/massage/return and SQLite. Does not prove shore approach, submarine airlock, other procedures or visual acceptance.',before,after,reloaded,trace},null,2));console.log('PASS native upper landing/lift/massage/physical return/SQLite');
+ await writeFile(join(review,'actual-landing-lift-massage-return.json'),JSON.stringify({scope:shore?'Private native shore-pier starting fixture; real side rail gate, lift, sealed corridor, massage, physical upper return and SQLite. Submarine airlock/other procedures/phone/art approval excluded.':'Private upper-apron starting fixture; actual world actor, full lift/corridor/massage/return and SQLite. Does not prove shore approach, submarine airlock, other procedures or visual acceptance.',before,after,reloaded,trace},null,2));console.log('PASS native '+(shore?'shore gate/':'upper landing/')+'lift/massage/physical return/SQLite');
 }

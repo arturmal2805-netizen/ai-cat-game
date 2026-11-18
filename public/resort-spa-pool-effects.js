@@ -8,7 +8,7 @@ import {resortPools} from './resort-spa-pool-data.js';
 export function createResortPoolEffects(){
  const root=new T.Group(),effects=[],geometries=new Set(),materials=new Set();
  for(const zone of RESORT_ZONES.filter(z=>z.procedure==='jacuzzi'||z.procedure==='vip'))for(const pool of resortPools(zone)){
-  const group=new T.Group(),source=new T.Group(),effect=createJacuzziEffects(source);source.position.set(-SPA_JACUZZI.x,-.5,-SPA_JACUZZI.z);group.add(source);group.scale.set(2,1,2);group.position.set(pool.x,pool.y-RESORT_SPA.y,pool.z);root.add(group);effects.push(effect);
+  const group=new T.Group(),source=new T.Group(),effect=createJacuzziEffects(source);group.userData.resortFloor=zone.level;source.position.set(-SPA_JACUZZI.x,-.5,-SPA_JACUZZI.z);group.add(source);group.scale.set(2,1,2);group.position.set(pool.x,pool.y-RESORT_SPA.y,pool.z);root.add(group);effects.push(effect);
   source.traverse(o=>{if(o.isMesh){geometries.add(o.geometry);materials.add(o.material);}});
  }
  return{root,update:(time,reduced)=>effects.forEach(e=>e.userData.update(time,reduced)),dispose(){for(const g of geometries)g.dispose();for(const m of materials)m.dispose();}};

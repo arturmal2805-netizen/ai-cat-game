@@ -1,3 +1,5 @@
+import {MOSA_SHORE_GATE} from './mosasaur-data.js';
+import {mosaPierClear} from './resort-pier-link-data.js';
 import {applyResortExpression} from './resort-spa-dry-performance.js';
 import {createResortSpaWorld} from './resort-spa-world.js';
 import {resortZone,RESORT_SPA as RESORT_SPA_LAYOUT} from './resort-spa-data.js';
@@ -6030,7 +6032,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     onPurchase:(...args)=>callbacks.onMallPurchase?.(...args),onUse:(...args)=>callbacks.onMallUse?.(...args),onGoal:(...args)=>callbacks.onMallGoal?.(...args),
     onComplete:(id,visit)=>{if(visit.ticket)finishLeisure(id,{completed:true});else {const n=npcs.get(id);if(n)n.manualUntil=0;}},
   });
-  resortSpa=createResortSpaWorld({scene,container,getActors:()=>lifeActors,registerCat:model=>enableCatRenderBatch(model,poseAtlas),canSimulate:()=>callbacks.canSimulateLeisure?.()!==false,
+  resortSpa=createResortSpaWorld({scene,container,onRecovery:()=>focus('autumn',false,true),getActors:()=>lifeActors,getAccessSurfaces:()=>[islands.get('autumn')?.userData.navigationSurface].filter(Boolean),accessClear:(p,r)=>spaClear(p,r,manualPhysicalObstacles.get('autumn')||[]),registerCat:model=>enableCatRenderBatch(model,poseAtlas),canSimulate:()=>callbacks.canSimulateLeisure?.()!==false,
     blocked:id=>draggingCat?.catId===id||crew.workers.has(id)||jobs.has(id)||!!housingLife.get(id)||(id==='chichi'&&!!(operation||submarine?.active||manualWalk?.active)),
     onPurchase:(...args)=>callbacks.onMallPurchase?.(...args),onUse:(...args)=>callbacks.onResortSpaUse?.(...args),onGoal:(...args)=>callbacks.onMallGoal?.(...args),
     onComplete:(id,result)=>{if(leisure.has(id))finishLeisure(id,result);},getGame:()=>game,getFocused:()=>focused,getOverview:()=>viewingOverview,
@@ -6067,6 +6069,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       if(!clear){if(building||b.id==='jobcity'||housing||b.id==='sakura')continue;if(p!==chichiCarrier.position&&(!from||spaClear(local,radius,builderObstacles.get(b.id)||[])||!clearsWalkObstacles(local,previous,radius,builderObstacles.get(b.id)||[])))continue;}
       if(p!==chichiCarrier.position&&[...npcs.values()].some(n=>{const d=Math.hypot(n.carrier.position.x-p.x,n.carrier.position.z-p.z);return Math.abs(n.carrier.position.y-p.y)<1.6&&d<radius+catNavigationRadius(n.model)&&(!from||d<=Math.hypot(n.carrier.position.x-from.x,n.carrier.position.z-from.z)+1e-8);}))continue;
       if(b.id==='autumn'){
+        if(!mosaPierClear(local,radius,MOSA_SHORE_GATE.z))continue;
         const ground=islands.get(b.id)?.userData.navigationSurface;if(!ground)continue;manualOrigin.set(p.x,p.y+.65,p.z);manualGroundRay.set(manualOrigin,manualDown);manualGroundRay.near=0;manualGroundRay.far=1.4;const hit=manualGroundRay.intersectObject(ground,true).find(h=>h.face?.normal.z>.4||h.face?.normal.y>.4);if(hit)return{biome:b.id,y:hit.point.y+.16};continue;
       }
       return{biome:b.id,y:supportY??(.16+islandHeight(b.id,local.x,local.z))};
@@ -6075,6 +6078,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     return null;
   }
   function manualCameraClear(a,b){
+    if(resortSpa?.ready){const r=resortSpa.root,local=p=>({x:p.x-r.position.x,y:p.y-RESORT_SPA_LAYOUT.y,z:p.z-r.position.z});if(!resortSpa.navigation.cameraClear(local(a),local(b)))return false;}
     const length=a.distanceTo(b),steps=Math.max(1,Math.ceil(length/.15));
     for(let i=0;i<=steps;i++){manualHit.lerpVectors(a,b,i/steps);const support=manualSurface(manualHit,.22);if(support&&manualHit.y<support.y+.22)return false;}
     for(const biome of BIOMES)for(const building of manualBuildings(biome)){
