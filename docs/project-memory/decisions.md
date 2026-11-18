@@ -548,3 +548,10 @@ state/биты/позиции/свет. Bake72278 идёт; нельзя мен�
 Материалы CC0 просмотрены; существующий beige tiled marble не Calacatta. API
 новых PolyHaven ресурсов tunnel403, обход не делать. Историю/данные не трогали;
 byte-identical temp QA art связаны hardlinks, освобождены2GiB без потери байтов.
+
+### 2026-11-19 — SPA actual-scene reflection checkpoint
+Третий15-layer capture на3ab73cd завершён, точные source/bundle/probes/log
+сохранены WIP bbab0e6. Две неуспешные попытки сохранены отдельно; причина
+QA drawPaused wrapper, не productionwater. Новые probes пока не подключены.
+Продолжить с byte-checked DataArrayTexture и локальными SPA hooks, повторить
+сверку каждого референса. Native/CI не является пользовательским одобрением.

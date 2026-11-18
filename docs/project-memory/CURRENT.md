@@ -30,7 +30,7 @@ Chromium/private Worker/SQLite download/cancel/restore/reload PASS. **Mac нап
 
 [Полное задание](../../specifications/underwater-spa-v6-2026-11-18.md).
 Код /workspace/chichi-emergency-save-recovery, ветка **codex/spa-v6-reconstruction**.
-Последний удалённый код **4e8bb85f3b6646e740a9263744260449754a9bfa**.
+Последний code3ab73cd32383a1a06c31b890b3d046e1127086e8; архив результата bbab0e6 (полный SHA проверяется в remote).
 Старые worktrees не удалены. archive/pre-spa-v6-2026-11-18 сохраняет
 0d21c0f0773d756790facf75cc35574376263f60. Не отправлять художественный WIP в main.
 
@@ -90,12 +90,19 @@ linear radiance/4, точные native light/material, персонажи/SPA fi
 маскированы, finally восстанавливает renderer/visibility.15 octahedral layers,
 PNG sheet512px, raw layers/hash и source/art/baker provenance; не случайная картинка.
 
-Активный exec**72278**, лог /workspace/qa/spa-v6-probes-native.log, результаты
-/workspace/qa/spa-v6-probes/probes. **НЕ менять код/HEAD/status этого worktree
-во время bake**: source-state hash проверяется и должен совпасть в конце.
-Не запускать второй GPU браузер/build/tests, которые меняют public assets.
-Сначала прочитать прогресс. Точная команда/ограничения в WIP
-docs/qa/2026-11-19/spa-v6-probes/NEXT.md. Не считать частичный capture готовым.
+Третий bake ЗАВЕРШЁН SUCCESS:15 реальных128px слоёв, draw calls>0,
+RGB nonempty, GLerror0; исходник3ab73cd32383a1a06c31b890b3d046e1127086e8.
+Причина двух пустых попыток: QA renderer wrapper блокировал offscreen draws
+при drawPaused=true. Исправлено authoring-only; это не live-регрессия воды.
+Полный success/failed/source/bundle/log в WIP docs/qa/2026-11-19/spa-v6-probes/.
+Sheet PNG SHA256 c40feac8f87aa9b675f2429a5867b109ad6c4070771abdf90c34528b7f5696d2,
+raw layers74df01edbe5923cea6b3105f7056c7a8f58a68928f9ba14d081840a1320de679.
+Sheet просмотрен: реальные янтарные светильники/тёмные комнаты/голубой экстерьер;
+явных котов-ghosts при128px не видно, не гарантия идеальных отражений.
+Runtime loader ещё НЕ реализован. Bake закончен: основной worktree не заморожен.
+Новый вспомогательный sparse checkout /workspace/chichi-spa-reflection-runtime,
+ветка codex/spa-reflection-runtime, база d8b3b03 — чистый, без loader правок.
+Не считать создание checkout реализацией и не начинать capture заново.
 
 Следом проверить реальные изображения/GLSL/возвратrenderer/нежелательные ghosts,
 сохранить PNG/data/provenance в remote. Только затем loader DataArrayTexture
