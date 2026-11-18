@@ -1,0 +1,17 @@
+SPA required scene preparation pending
+Native SPA route lift walk open [ -442.95, 0.3499999999999943, 789.15 ]
+Native SPA route lift riding closing [ -431.5, 0.35, 778.5 ]
+Native SPA route lift riding travelling [ -431.5, -5.050000000000001, 778.5 ]
+Native SPA route lift walk open [ -431.3, -164.988, 777.8272135954999 ]
+Native SPA route appointment walk open [ -429.3090227771354, -164.988, 703.3 ]
+Native SPA route appointment inspect open [ -547, -164.988, 697.1 ]
+Native SPA route appointment procedure open [ -547, -163.968, 693.5 ]
+Native SPA route appointment dismount open [ -547, -163.6176746729593, 693.8322265625 ]
+Native SPA route appointment walk open [ -545.3613397683738, -164.988, 698.2 ]
+Native SPA route lift walk open [ -419.3939081781714, -164.988, 707.5560918218287 ]
+Native SPA route lift riding travelling [ -431.5, -163.788, 778.5 ]
+Native SPA route lift riding opening [ -431.5, 0.35, 778.5 ]
+Native SPA route lift walk open [ -431.3, 0.3499999999999943, 782.6927864045003 ]
+Native SPA route lift undefined open [ -450, 0.3499999999999943, 789 ]
+PASS native upper landing/lift/massage/physical return/SQLite
+PASS native SPA required loading, actual scene, zone camera and World release

@@ -1,0 +1,36 @@
+{
+  "status": "PASS; private SQLite cold mid-lift reload; NOT publication/whole resort/art approval",
+  "node": "22.23.5",
+  "source": {
+    "sha256": "e2b9bc6d467c07506b8c299d52846ca60f19281ab7bae3d2a500be0b3f3e609a",
+    "baseline": null,
+    "node": "v22.23.5",
+    "head": "d4659e05eecb3329a06a6e3f1304f3d67bc51c85",
+    "dirty": " M public/app.js\n D public/art/ocean-reflections/tropical-coast-509a62f9c210.png\n M public/index.html\n M public/mosasaur-biome.js\n M public/mosasaur-water-probe-assets.js\n M public/resort-spa-access.js\n M public/resort-spa-appointments.js\n M public/resort-spa-dry-performance.js\n M public/resort-spa-finishes.js\n M public/resort-spa-lift.js\n M public/resort-spa-massage.js\n M public/resort-spa-model.js\n M public/resort-spa-navigation.js\n M public/resort-spa-pool-effects.js\n M public/resort-spa-runtime.js\n M public/resort-spa-transit.js\n M public/resort-spa-world.js\n M public/world.js\n M scripts/audit-resort-spa-dry.mjs\n M scripts/audit-resort-spa-native.mjs\n M scripts/audit-resort-spa-pools.mjs\n M scripts/audit-resort-spa-transit.mjs\n M scripts/check-aquarium.cjs\n M scripts/mosasaur-probe-inputs.mjs\n?? docs/qa/2026-11-18/resort-spa/native-furnished/\n?? docs/qa/2026-11-18/resort-spa/native-shore/\n?? public/art/ocean-reflections/tropical-coast-6b3853af9a2a.png\n?? public/resort-pier-link-data.js\n?? public/resort-spa-corridors.js\n?? public/resort-spa-enclosure.js\n?? public/resort-spa-interiors.js\n?? public/resort-spa-recovery.js\n?? scripts/audit-resort-spa-reload.mjs\n?? test/resort-spa-camera.test.mjs\n?? test/resort-spa-cutaway.test.mjs\n?? test/resort-spa-lift-restore.test.mjs\n?? test/resort-spa-recovery.test.mjs\n?? test/resort-spa-rest-contact.test.mjs\n?? test/resort-spa-shore.test.mjs\n",
+    "sourceOverlay": "source-HEAD.patch"
+  },
+  "exactImportedSources": "source-files.json + imported-source.tar.gz; each actual public JS compiler input captured before bundling. Captured tracked diffs record instrumentation baseline.",
+  "scope": "Save in actual moving cabin at -65.05m, restore at exactly same height with closed doors after cold scene/shader preparation, continuous return and real upper exit, World release, second SQLite reload. No charge or inventory/receipt mutation.",
+  "excluded": [
+    "Mid-procedure/table/water reload",
+    "Autonomous groups",
+    "Full84 animations",
+    "Final phone UI tweaks made later",
+    "Hardware performance/visual acceptance"
+  ],
+  "files": {
+    "qa-build.json": "9b3b8b90b96911abb18d23ac68051db3a02bc68736d8b6ede4123b8a46950c9b",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-HEAD.patch": "2d38963b4dcdd52a6eb344fd11a601eb00c36d01a4cf8a528862a4fa23904148",
+    "actual-cold-lift-reload.json": "0075277a3fa3bb73d43dc8481498cb470e0ae8db67f21948fa3acffcb5517cf1",
+    "qa-app.js.gz": "fa1c2f2b975d7474c2928118645027eb4fbd8fe01c79ed3613ea401d83f7a1fc",
+    "game-scene.json": "3c70d770f3ce4cfb38fe9c0d705ff26ddc659054e1d908db89482bd36b5b77f4",
+    "source-files.json": "07468b0e9144b340ea12e20c2886ed6f95125132594b30024601d65a72bb679b",
+    "source-status.txt": "c5065ada4bf9e1c72e7218a3ad3a23d26f57b6bd21ca36c0d155f657fa82c987",
+    "actual-game-massage.png": "9491a8a7b066a7f1e418b88fbd0d2d73e3531a71a9147da50e3224b2e769492a",
+    "imported-source.tar.gz": "62100616dc664abe42cdc4ed6e8027c9dcc7d081c3c06ad1cc0e3862070c9b0f",
+    "resort-spa-native-cold-reload.log": "3ff241eb3081a5ffc8992910520a90f98e1841f0ef0b6aadeaad718410f165fb",
+    "resort-spa-rest-reload-unit.log": "8587fa2caeafe6e04eba31c059061fd8fe51118ccc54e0d4ab9059c4fe9a7740",
+    "resort-spa-reload-build.log": "aac0d36808a405bcf62bc57d9c6d1cbeccb70a880b8af928e1a67c740e3458bd"
+  }
+}

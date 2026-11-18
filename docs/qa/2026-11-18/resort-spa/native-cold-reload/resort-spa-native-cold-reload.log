@@ -1,0 +1,3 @@
+SPA required scene preparation pending
+PASS cold SQLite lift reload, exact cabin height, physical return and second reload
+PASS native SPA required loading, actual scene, zone camera and World release

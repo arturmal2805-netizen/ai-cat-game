@@ -1,0 +1,19 @@
+{
+  "base": "63053c2e92a3a3a4e07d4f634de6c235730bf44f",
+  "node": "22.23.5",
+  "native": "Three private game scene/camera passes, latest includes finishes/batching/floor cutaway. Exact JS/HEAD overlays alongside each run.",
+  "stateTests": "23 targeted pass; full suite running, not yet passed.",
+  "economy": "All14 services use existing private cat-wallet, permanent receipts and inventory; buy/use replay, reload and stale shared save guards pass. Receipt completeResortTicket adapter not yet called by live appointment scene.",
+  "scope": "Real game SPA button loads14zone/5basin native model, selects actual zone camera and World releases inspection. Not full route/84animations/procedure/SQLite proof.",
+  "notReady": [
+    "Physical shore/submarine arrival and pressure enclosure",
+    "Per-venue AI routing and actual appointment actors/economy callbacks",
+    "84 action choreography and all procedures",
+    "Reference visual quality, phone art and hardware performance",
+    "Full CI and release"
+  ],
+  "assets": {
+    "public/dist/app.js": "de48b3fb91e5d1101bedded194229a792bbec8856b10f327a1bdd722c3ea1707",
+    "public/style.css": "4c105f68bb57dc5c2298a794a724e622f368ec1f64f4d6971afddcceba760f2a"
+  }
+}

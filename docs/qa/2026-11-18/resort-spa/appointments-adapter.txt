@@ -1,0 +1,16 @@
+TAP version 13
+# Subtest: native actor adapter converts root-local geometry heights once and commits actual wallet receipts once
+ok 1 - native actor adapter converts root-local geometry heights once and commits actual wallet receipts once
+  ---
+  duration_ms: 226.90072
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 505.005135

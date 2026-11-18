@@ -1,0 +1,227 @@
+diff --git a/public/index.html b/public/index.html
+index 6379fff..aaba00f 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -6,7 +6,7 @@
+     <meta name="theme-color" content="#eeeaf3" />
+     <title>Чичи • мир маленьких чудес</title>
+     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+-    <link rel="stylesheet" href="./style.css?v=eb9e72f520559ea5" />
++    <link rel="stylesheet" href="./style.css?v=4c105f68bb57dc5c" />
+   </head>
+   <body>
+     <header>
+@@ -703,6 +703,6 @@
+       </div>
+     </dialog>
+     <div id="toast" role="status" aria-live="polite" hidden></div>
+-    <script type="module" src="./dist/app.js?v=5681cfb381526edd"></script>
++    <script type="module" src="./dist/app.js?v=9b8e50b1fe78f931"></script>
+   </body>
+ </html>
+diff --git a/public/mall-data.js b/public/mall-data.js
+index d69370b..24be65a 100644
+--- a/public/mall-data.js
++++ b/public/mall-data.js
+@@ -1,3 +1,4 @@
++import {RESORT_PRODUCTS,resortZone,resortOffers} from './resort-spa-data.js';
+ import {MALL_LAYOUT,mallRoomPlacement,mallRoomContacts} from './mall-layout.js';
+ import {MALL_ICE_FLAVORS} from './mall-ice-data.js';
+ // Stable product/venue addresses are independent of display-brand replacements.
+@@ -29,7 +30,7 @@ export const MALL_STORES = Object.freeze(floors.flatMap((rows,i)=>rows.map(([key
+   const store={id:'mall-'+key,key,name,brand:key,floor:i+1,kind,price,angle,placement,x:placement.x,z:placement.z,y:MALL_FLOORS[i].y};
+   return Object.freeze({...store,entrance:mallPoint(store,0,.18,placement.d/2+3),counter:mallPoint(store,0,.18,5.5),seat:mallPoint(store,8,.18,14.3)});
+ })));
+-export const mallStore = id => MALL_STORES.find(s=>s.id===id);
++export const mallStore = id => MALL_STORES.find(s=>s.id===id)||resortZone(id);
+ export const mallFloor = floor => MALL_FLOORS.find(f=>f.id===floor);
+ export const mallLabel = (s,parody=false) => (parody&&MALL_PARODY_BRANDS[s.brand])||MALL_BRANDS[s.brand]||s.name;
+ const goods = {
+@@ -51,13 +52,13 @@ const originalProducts=MALL_STORES.flatMap(s=>(s.price>0?(goods[s.kind]||[]):[])
+ })));
+ export const MALL_PRODUCTS = Object.freeze([...originalProducts.filter(p=>!p.legacy),...MALL_ICE_FLAVORS.map(f=>Object.freeze({
+   id:'mall-ice-'+f.key,storeId:'mall-ice',name:f.name,brand:MALL_BRANDS.ice,category:'mall',kind:'food',use:'eat',icon:f.icon,price:f.price,stock:100000,unique:false,iceFlavor:f.key,
+-})),...originalProducts.filter(p=>p.legacy)]);
++})),...originalProducts.filter(p=>p.legacy),...RESORT_PRODUCTS]);
+ export const mallProduct = id => MALL_PRODUCTS.find(p=>p.id===id);
+ export const MALL_ACTIONS = Object.freeze(['VisitMall','EnterElevator','SelectFloor','BrowseStore','InspectProduct','CompareProducts','PurchaseItem','VisitRestaurant','OrderFood','EatMeal','BuyCinemaTicket','WatchMovie','PlayArcade','MeetFriend','RelaxAtMall','ReturnHome']);
+-export function mallOffers(game){return game.unlocked?.includes('autumn')?MALL_STORES.map(s=>({id:s.id,type:s.id,biome:'autumn',name:`Підводний ТРЦ · F${s.floor} · ${s.name}`,action:['food'].includes(s.kind)?'eat':['rest','spa','social'].includes(s.kind)?'rest':'play'})):[];}
++export function mallOffers(game){return game.unlocked?.includes('autumn')?[...MALL_STORES.map(s=>({id:s.id,type:s.id,biome:'autumn',name:`Підводний ТРЦ · F${s.floor} · ${s.name}`,action:['food'].includes(s.kind)?'eat':['rest','spa','social'].includes(s.kind)?'rest':'play'})),...resortOffers(game)]:[];}
+ 
+ export const MALL_SIGN_HEADERS=['CAT SAFE MENU','NEW COLLECTION','PICK UP','TICKETS','OCEAN SPECIAL','WELCOME'];
+-export function mallSignTexts(parody=false){return ['CHICHI','CAT SHOPPING MALL','UNDERWATER MEGA MALL','OCEAN EXPRESS',...MALL_STORES.map(s=>s.key==='vuitton'&&!parody?'LOUIS VUITTON':mallLabel(s,parody)),...MALL_FLOORS.map(f=>`F${f.id}  ${f.short.toUpperCase()}`),...MALL_PRODUCTS.filter(p=>!p.legacy).map(p=>`${p.name} · ${p.price}`),...MALL_SIGN_HEADERS];}
++export function mallSignTexts(parody=false){return ['CHICHI','CAT SHOPPING MALL','UNDERWATER MEGA MALL','OCEAN EXPRESS',...MALL_STORES.map(s=>s.key==='vuitton'&&!parody?'LOUIS VUITTON':mallLabel(s,parody)),...MALL_FLOORS.map(f=>`F${f.id}  ${f.short.toUpperCase()}`),...MALL_PRODUCTS.filter(p=>!p.legacy&&!p.resort).map(p=>`${p.name} · ${p.price}`),...MALL_SIGN_HEADERS];}
+ 
+ // Coordinates are the real fittings' local frame: +Z faces the public gallery.
+ // Both navigation and the cashier use these same authored contact positions.
+diff --git a/public/mall-world.js b/public/mall-world.js
+index b8a00f4..5ac75e7 100644
+--- a/public/mall-world.js
++++ b/public/mall-world.js
+@@ -144,14 +144,14 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
+     walkActors(){return [...getActors().map(a=>({id:a.id,...local(a.position),radius:a.radius})),...staff.map((a,i)=>({id:'mall-staff-'+i,...local(a.carrier.position),radius:a.radius})),...(root?.userData.guestActors||[]).filter(a=>!a.roomGuest).map(a=>({id:a.id,x:a.carrier.position.x,y:a.carrier.position.y,z:a.carrier.position.z,radius:catNavigationRadius(a.cat)}))];},
+     get root(){return root;},get ready(){return !!root&&!pending&&staff.length===7&&staff.every(s=>s.carrier.parent);},get inspection(){return inspection;},get floor(){return selected;},get guest(){return guest;},
+     async start(id,storeId,{productId=null,ticket=null,useOwned=false}={}){
+-      const actor=getActors().find(a=>a.id===id),store=mallStore(storeId);if(!actor||!store)return false;
++      const actor=getActors().find(a=>a.id===id),store=mallStore(storeId);if(!actor||!store||store.resort)return false;
+       const model=await ensure();if(!model||disposed||!canSimulate())return false;
+       if(!await prepareNavigation(store.floor,actor.radius))return false;
+       return runtime.start(id,storeId,local(actor.position),{radius:actor.radius,productId,ticket,browseOnly:productId===null,useOwned});
+     },
+     startReady(id,storeId,ticket=null){
+       const actor=getActors().find(a=>a.id===id),store=mallStore(storeId);
+-      if(!this.ready||!actor||!store)return false;
++      if(!this.ready||!actor||!store||store.resort)return false;
+       if(!mallNavigationReady(root.userData.obstacles.get(store.floor),actor.radius)){
+         void prepareNavigation(store.floor,actor.radius).catch(error=>{if(!disposed)onError(error.message);});return false;
+       }
+diff --git a/public/resort-spa-data.js b/public/resort-spa-data.js
+index b0fa940..1129b0c 100644
+--- a/public/resort-spa-data.js
++++ b/public/resort-spa-data.js
+@@ -17,7 +17,7 @@ const rows=[
+  ['amber','Amber Star Lounge','lounge',100,-88,219,2,25,24,8],
+  ['midnight','Midnight Blue Relaxation Room','sleep',100,82,177,2,28,18,8],
+ ];
+-export const RESORT_ZONES=Object.freeze(rows.map(([key,name,procedure,price,x,z,level,rx,rz,seats])=>Object.freeze({id:'resort-'+key,key,name,procedure,price,x,z,level,y:RESORT_SPA.y+level*RESORT_SPA.rise,rx,rz,seats,biome:'autumn',kind:procedure==='eat'?'food':'spa',action:procedure==='eat'?'eat':procedure==='swim'?'swim':'rest'})));
++export const RESORT_ZONES=Object.freeze(rows.map(([key,name,procedure,price,x,z,level,rx,rz,seats])=>Object.freeze({id:'resort-'+key,key,name,procedure,price,x,z,level,y:RESORT_SPA.y+level*RESORT_SPA.rise,rx,rz,seats,biome:'autumn',resort:true,kind:procedure==='eat'?'food':'spa',action:procedure==='eat'?'eat':procedure==='swim'?'swim':'rest'})));
+ export const resortZone=id=>RESORT_ZONES.find(z=>z.id===id);
+ export const RESORT_PROCEDURE_PRICE=Object.freeze({entry:100,thermal:150,massage:300,aroma:180,sauna:120,vip:700});
+ export function resortSpaFootprint(x,z,margin=0){return Math.hypot(x/(RESORT_SPA.width/2+margin),(z-RESORT_SPA.z)/(RESORT_SPA.depth/2+margin))<=1;}
+@@ -27,3 +27,9 @@ export function resortSpaSeat(zone,index){
+  const column=index%columns,row=Math.floor(index/columns),x=zone.x+(column-(columns-1)/2)*spacing,z=zone.z+(row-(rows-1)/2)*(zone.procedure==='massage'?11:8.6);
+  return {x,y:zone.y+.18,z,yaw:Math.PI,approach:{x,y:zone.y+.18,z:z+3.6},staff:{x:x+2.2,y:zone.y+.18,z},exit:{x,y:zone.y+.18,z:z+5}};
+ }
++
++// Services share the existing cat-wallet product ledger. Stable addresses do
++// not depend on a pavilion's display name or future architectural placement.
++export const RESORT_PRODUCTS=Object.freeze(RESORT_ZONES.map(z=>Object.freeze({id:z.id+'-session',storeId:z.id,name:z.name,brand:'CHICHI CAT SPA',category:'mall',kind:z.kind,use:z.procedure==='eat'?'eat':'spa',icon:'🪷',price:z.price,stock:100000,unique:false,resort:true})));
++export const resortProduct=id=>RESORT_PRODUCTS.find(p=>p.id===id);
++export function resortOffers(game){return game.unlocked?.includes('autumn')?RESORT_ZONES.map(z=>({id:z.id,type:z.id,biome:'autumn',name:'CHICHI CAT SPA · '+z.name,action:z.action})):[];}
+diff --git a/public/style.css b/public/style.css
+index eb18b61..a320d92 100644
+--- a/public/style.css
++++ b/public/style.css
+@@ -3317,3 +3317,8 @@ button.cat-profile-card {
+ .chichi-door-action{display:none;position:absolute;left:50%;transform:translateX(-50%);bottom:90px;z-index:13;min-height:44px;padding:10px 18px;border:1px solid #b8dbea88;border-radius:14px;background:#183c57e8;color:#f4fbff;font:600 14px system-ui;cursor:pointer}
+ .chichi-door-action[hidden]{display:none!important}
+ @media(pointer:fine){.chichi-door-action{display:block}}
++
++.resort-spa-zones {position:absolute;right:12px;top:94px;bottom:120px;z-index:8;display:flex;flex-direction:column;gap:5px;max-width:190px;overflow:auto;padding:8px;border-radius:16px;background:rgba(10,30,61,.88);}
++.resort-spa-zones[hidden]{display:none;}
++.resort-spa-zones button{min-height:44px;padding:8px;border:1px solid #bd9056;border-radius:10px;background:#28364c;color:#ffe5c4;font-size:12px;}
++.resort-spa-zones button[aria-pressed="true"]{background:#69503b;border-color:#ffcc70;}
+diff --git a/public/world.js b/public/world.js
+index c323eb1..502b572 100644
+--- a/public/world.js
++++ b/public/world.js
+@@ -1,3 +1,5 @@
++import {createResortSpaWorld} from './resort-spa-world.js';
++import {RESORT_SPA as RESORT_SPA_LAYOUT} from './resort-spa-data.js';
+ import {manualBuildingSupport,manualBuildingCameraClear} from './manual-building-navigation.js';
+ import {createChichiManual,clearsWalkObstacles} from './chichi-manual.js';
+ import {applyExplorerLocomotion} from './explorer-locomotion.js';
+@@ -515,6 +517,8 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+     submarine = null,
+     manualWalk = null,
+     mall = null,
++    resortSpa = null,
++    resortSpaPreviousCamera = null,
+     mallPreviousCamera = null,
+     mallWideClip = false,
+     mallFraming = null,
+@@ -2328,7 +2332,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+   sync(initialGame);
+   function focus(id, overview = false, keepFollow = false) {
+     if(!keepFollow){submarine?.releaseControl();manualWalk?.stop();}
+-    mall?.exit(false);desiredFov=40;
++    mall?.exit(false);resortSpa?.exit(false);desiredFov=40;
+     exitCourt(false);
+     if (!keepFollow) faceCamera.setEnabled(false, look);
+     const b = byBiome(id) || byBiome("moon");
+@@ -3552,7 +3556,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+       callbacks.onCityDrive?.(choice.id, choice.car, road);
+       return;
+     }
+-    if ((focused==='autumn'||viewingOverview)&&mall?.pick(raycaster))return;
++    if ((focused==='autumn'||viewingOverview)&&(resortSpa?.pick(raycaster,mall?.root)||mall?.pick(raycaster)))return;
+     if (focused === HOUSING_ID) {
+       const homes = islands.get(HOUSING_ID)?.userData.houses;
+       const hit =
+@@ -3930,7 +3934,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+     }
+     frameProfile?.section("cameraAndIslands");
+     if (!dialogOpen) stepLeisure(dt, time, now);
+-    if(!dialogOpen)mall?.update(dt,time);
++    if(!dialogOpen){mall?.update(dt,time);resortSpa?.update(dt,time,reduced);}
+     const wallNow = Date.now();animalGuests.sync(game,wallNow);
+     const
+       lifeClock = game.jobCity ? cityClock(game.jobCity, wallNow) : null,
+@@ -5991,6 +5995,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+     canSimulate:()=>callbacks.canSimulateLeisure?.()!==false,
+     blocked:id=>{const p=game.jobCity?.profiles[id],v=mall?.runtime.get(id),clock=game.jobCity&&cityClock(game.jobCity);return draggingCat?.catId===id||crew.workers.has(id)||p?.trip||!!(v?.ticket&&clock?.working&&p?.schedule?.job!=='rest')||(id==='chichi'&&!!(submarine?.active||manualWalk?.active));},
+     onCamera:(floor,entering,zone=null)=>{
++      resortSpa?.exit(false);
+       submarine?.releaseControl();manualWalk?.stop();
+       if(entering){mallPreviousCamera={look:desiredLook.clone(),distance:desiredDistance,azimuth,elevation,fov:desiredFov,near:camera.near};if(focused!=='autumn')focus('autumn');exitCourt(false);faceCamera.setEnabled(false,look);viewingOverview=false;}
+       faceCamera.setEnabled(false,look);
+@@ -6019,6 +6024,13 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+     onPurchase:(...args)=>callbacks.onMallPurchase?.(...args),onUse:(...args)=>callbacks.onMallUse?.(...args),onGoal:(...args)=>callbacks.onMallGoal?.(...args),
+     onComplete:(id,visit)=>{if(visit.ticket)finishLeisure(id,{completed:true});else {const n=npcs.get(id);if(n)n.manualUntil=0;}},
+   });
++  resortSpa=createResortSpaWorld({scene,container,getGame:()=>game,getFocused:()=>focused,getOverview:()=>viewingOverview,
++    prepare:(steps,signal)=>prepareSceneSteps(steps,{scheduler:scenePreparation,priority:'autumn',signal}),
++    prepareModel:model=>shaderWarmup.prepare(model,{background:focused!=='autumn'}),
++    onError:message=>callbacks.onReaction?.(message),
++    onCamera:(zone,entering)=>{if(entering){if(focused!=='autumn')focus('autumn');resortSpaPreviousCamera={look:desiredLook.clone(),distance:desiredDistance,azimuth,elevation,fov:desiredFov,near:camera.near};}mall?.exit(false);submarine?.releaseControl();manualWalk?.stop();faceCamera.setEnabled(false,look);viewingOverview=false;mallWideClip=false;mallFraming=null;const b=byBiome('autumn'),l=RESORT_SPA_LAYOUT;desiredLook.set(b.center[0]+(zone?.x||0),(zone?.y??l.y)+3,b.center[1]+(zone?.z??l.z));desiredDistance=zone?Math.max(zone.rx,zone.rz)*2:215;azimuth=.2;elevation=zone ? .35 : .55;desiredFov=48;camera.near=.3;camera.updateProjectionMatrix();},
++    onExit:restore=>{if(restore&&resortSpaPreviousCamera){desiredLook.copy(resortSpaPreviousCamera.look);desiredDistance=resortSpaPreviousCamera.distance;azimuth=resortSpaPreviousCamera.azimuth;elevation=resortSpaPreviousCamera.elevation;desiredFov=resortSpaPreviousCamera.fov;camera.near=resortSpaPreviousCamera.near;camera.updateProjectionMatrix();}resortSpaPreviousCamera=null;},
++  });
+   const canControlChichi=()=>callbacks.canControlChichi?callbacks.canControlChichi()!==false:callbacks.canDragCat?.('chichi')!==false;
+   submarine=createSubmarineRuntime({scene,container,canvas:renderer.domElement,camera,look,actor:chichiCarrier,getModel:()=>cat,getMall:()=>mall,onLandExit:()=>{manualWalk?.start();refreshManualButton();},onError:message=>callbacks.onReaction?.(message),getIsland:()=>islands.get('autumn'),getGame:()=>game,getFocused:()=>focused,canPilot:()=>canControlChichi()&&!mall?.inspection&&!manualWalk?.active,cancelHero:()=>{callbacks.onControlChichi?.();cancelHeroActivity();heroGather=null;jobs.cancel('chichi');crew.cancel('chichi');leisure.cancel('chichi');spa.cancel('chichi');chill.cancel('chichi');court.cancel('chichi');faceCamera.setEnabled(false,look);},approachDock:point=>{heroGather=gatherTrip(chichiCarrier.position,{x:point.x,y:point.y,z:point.z},performance.now());return true;},focus});
+   const manualGroundRay=new THREE.Raycaster(),manualOrigin=new THREE.Vector3(),manualDown=new THREE.Vector3(0,-1,0),manualHit=new THREE.Vector3();
+@@ -6086,6 +6098,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+     releaseHeroControl:()=>{manualWalk?.stop();submarine?.releaseControl();refreshManualButton();},
+     submarine:()=>submarine,
+     mall:()=>mall,
++    resortSpa:()=>resortSpa,
+     inspectMall:floor=>mall.inspect(floor),
+     async useMallItem(id,itemId){const item=mallProduct(itemId),actor=lifeActors.find(a=>a.id===id);if(!item||!actor||!game.jobCity?.profiles[id]?.inventory[itemId]||mall.has(id))return false;
+       if(item.use==='wear')return !!callbacks.onMallUse?.(id,itemId);
+@@ -6281,7 +6294,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+       staticDraws.dispose();
+       jobs.clear();
+       housingLife.clear();
+-      releaseAnimalDrag();animalGuests.dispose();if(manualButton)manualButton.onclick=null;manualWalk?.dispose();submarine?.dispose();mall?.dispose();
++      releaseAnimalDrag();animalGuests.dispose();if(manualButton)manualButton.onclick=null;manualWalk?.dispose();submarine?.dispose();mall?.dispose();resortSpa?.dispose();
+       leisure.clear();
+       drivePrompt.remove();
+       for (const car of cityCars.values()) car.removeFromParent();
+diff --git a/scripts/check-aquarium.cjs b/scripts/check-aquarium.cjs
+index 9d95738..4c2a406 100644
+--- a/scripts/check-aquarium.cjs
++++ b/scripts/check-aquarium.cjs
+@@ -357,6 +357,7 @@ async function localWorker() {
+       }
+       g.catPosition={biome,x,z};const b=byBiome(biome);Object.assign(g,captureCatLocations(g,g,[{id:'chichi',position:{x:b.center[0]+x,y:.16,z:b.center[1]+z},yaw:0}],now));
+     }
++    if(process.env.CHICHI_RESORT_SPA_AUDIT){delete g.mosasaurSubmarine;delete g.catLocations;}
+     if(process.env.CHICHI_MANUAL_PORTAL_AUDIT){const {MALL_AIRLOCK}=await import(root+'/public/mall-airlock-data.js');g.mosasaurSubmarine={...g.mosasaurSubmarine,active:false,explorerVersion:1,explorer:{...MALL_AIRLOCK.outside,mode:'swimming',yaw:Math.PI,floor:0,returning:false}};}
+     const base = local.base,
+       token = crypto.randomBytes(32).toString("hex"),
+@@ -555,7 +556,7 @@ async function localWorker() {
+                   )
+                   .replace(
+                     marker,
+-                    `  const qa=window.__lagoonQA={step:loop,gpuFrames,trackUploads:qaTrackUploads,geometryResidencyFactory:createGeometryResidency,shadowDepth:typeof shadowDepth==='undefined'?null:shadowDepth,geometryResidency:typeof geometryResidency==='undefined'?null:geometryResidency,makeGeometryResidency:options=>createGeometryResidency(renderer,options),gpuBuffers:qaGpuBuffers,matrixCache:typeof matrixCache==='undefined'?null:matrixCache,shaderWarmup:typeof shaderWarmup==='undefined'?null:shaderWarmup,colonyDraws:typeof colonyDraws==='undefined'?null:colonyDraws,animateCat,setCatMood,poseAtlas:typeof poseAtlas==='undefined'?null:poseAtlas,staticDraws:typeof staticDraws==='undefined'?null:staticDraws,setGameHour:hour=>{game.jobCity.epoch=Date.now()-(hour===12?0:720000);},gameClock:()=>cityClock(game.jobCity),manualSurface,manualWalk:()=>manualWalk,submarine:()=>submarine,mall:()=>mall,catRadius:()=>catNavigationRadius(cat),camera,look,desiredLook,renderer,islands,animalGuests:typeof animalGuests==='undefined'?null:animalGuests,housingLife,cat,npcs,chichiCarrier,itemGroups,jobs,cityCars,updateCityCar,THREE,scene,pickDrop,pointer,raycaster,ground,viewport,sync,perform,performResident,faceCamera,spa,chill,court,cinema,courtFoods,bikiniLife,enterCourt,exitCourt,getCourtCamera:()=>courtCamera,residentPlay,callbacks,showCatHome,getDragging:()=>draggingCat?.catId,getAnimalDragging:()=>typeof draggingAnimal==='undefined'?null:draggingAnimal?.animalId,getTapState:()=>({pendingTap,pointerDown,dragging:draggingCat?.catId,focused,viewingOverview,face:faceCamera.enabled}),reviewView:(x,z,d)=>{desiredLook.set(x,0,z);desiredDistance=d;azimuth=.15;},pauseHarvestAutonomy:${!!process.env.CHICHI_MAGIC_BED_AUDIT},constructorMs:performance.now()-qaStart,focused:()=>focused,getOperation:()=>operation,isVisible:()=>worldVisible,getDistance:()=>distance,getDesiredDistance:()=>desiredDistance,getOrbit:()=>({azimuth,elevation}),reviewOrbit:(a,e)=>{azimuth=a;elevation=e;},freeze:${!!process.env.CHICHI_CAT_LOCATION_AUDIT||!!process.env.CHICHI_GATHER_AUDIT},frames:0,resizes:0,black:[],audit:false,measure:false,cpu:[]};
++                    `  const qa=window.__lagoonQA={step:loop,gpuFrames,trackUploads:qaTrackUploads,geometryResidencyFactory:createGeometryResidency,shadowDepth:typeof shadowDepth==='undefined'?null:shadowDepth,geometryResidency:typeof geometryResidency==='undefined'?null:geometryResidency,makeGeometryResidency:options=>createGeometryResidency(renderer,options),gpuBuffers:qaGpuBuffers,matrixCache:typeof matrixCache==='undefined'?null:matrixCache,shaderWarmup:typeof shaderWarmup==='undefined'?null:shaderWarmup,colonyDraws:typeof colonyDraws==='undefined'?null:colonyDraws,animateCat,setCatMood,poseAtlas:typeof poseAtlas==='undefined'?null:poseAtlas,staticDraws:typeof staticDraws==='undefined'?null:staticDraws,setGameHour:hour=>{game.jobCity.epoch=Date.now()-(hour===12?0:720000);},gameClock:()=>cityClock(game.jobCity),manualSurface,manualWalk:()=>manualWalk,submarine:()=>submarine,mall:()=>mall,resortSpa:()=>resortSpa,catRadius:()=>catNavigationRadius(cat),camera,look,desiredLook,renderer,islands,animalGuests:typeof animalGuests==='undefined'?null:animalGuests,housingLife,cat,npcs,chichiCarrier,itemGroups,jobs,cityCars,updateCityCar,THREE,scene,pickDrop,pointer,raycaster,ground,viewport,sync,perform,performResident,faceCamera,spa,chill,court,cinema,courtFoods,bikiniLife,enterCourt,exitCourt,getCourtCamera:()=>courtCamera,residentPlay,callbacks,showCatHome,getDragging:()=>draggingCat?.catId,getAnimalDragging:()=>typeof draggingAnimal==='undefined'?null:draggingAnimal?.animalId,getTapState:()=>({pendingTap,pointerDown,dragging:draggingCat?.catId,focused,viewingOverview,face:faceCamera.enabled}),reviewView:(x,z,d)=>{desiredLook.set(x,0,z);desiredDistance=d;azimuth=.15;},pauseHarvestAutonomy:${!!process.env.CHICHI_MAGIC_BED_AUDIT},constructorMs:performance.now()-qaStart,focused:()=>focused,getOperation:()=>operation,isVisible:()=>worldVisible,getDistance:()=>distance,getDesiredDistance:()=>desiredDistance,getOrbit:()=>({azimuth,elevation}),reviewOrbit:(a,e)=>{azimuth=a;elevation=e;},freeze:${!!process.env.CHICHI_CAT_LOCATION_AUDIT||!!process.env.CHICHI_GATHER_AUDIT},frames:0,resizes:0,black:[],audit:false,measure:false,cpu:[]};
+   const draw=renderer.render.bind(renderer);qa.drawFrame=()=>draw(scene,camera);renderer.render=(...args)=>{if(qa.drawPaused&&!qa.commandOnly)return;const started=performance.now();draw(...args);qa.frames++;if(qa.liveFrames)qa.liveFrames.push([started,performance.now()-started,renderer.info.render.calls,renderer.info.render.triangles]);};
+   qa.settleJobs=seconds=>{const actors=Object.keys(game.jobCity?.profiles||{}).map(id=>({id,local:jobs.get(id)?.position||{x:0,y:.32,z:-10.3},biome:'jobcity'}));for(let i=0;i<seconds*30;i++)jobs.step(game,actors,1/30,i/30);for(const a of actors){const v=jobs.get(a.id),carrier=a.id==='chichi'?chichiCarrier:npcs.get(a.id)?.carrier;if(v&&carrier)carrier.position.set(JOB_CITY_CENTER[0]+v.position.x,v.position.y+.8,JOB_CITY_CENTER[1]+v.position.z);}};
+   const size=renderer.setSize.bind(renderer);renderer.setSize=(...args)=>{qa.resizes++;return size(...args);};
+@@ -698,6 +699,7 @@ async function localWorker() {
+       const dirty=sourceGit(['status','--porcelain=v1']).toString();
+       fs.writeFileSync(path.join(review,'source-status.txt'),dirty);
+       fs.writeFileSync(path.join(review,'qa-build.json'),JSON.stringify({sha256:crypto.createHash('sha256').update(output.outputFiles[0].contents).digest('hex'),baseline:process.env.CHICHI_BASELINE_REF||null,node:process.version,head:sourceGit(['rev-parse','HEAD']).toString().trim(),dirty,sourceOverlay:'source-HEAD.patch'},null,2));
++      if(process.env.CHICHI_RESORT_SPA_AUDIT){const {auditResortSpaNative}=await import('./audit-resort-spa-native.mjs');await auditResortSpaNative({page,review,errors,httpErrors});return;}
+       if(process.env.CHICHI_MANUAL_PORTAL_AUDIT){const {auditManualPortal}=await import('./audit-manual-portal-native.mjs');await auditManualPortal({page,review,errors,httpErrors});return;}
+       if(process.env.CHICHI_MANUAL_PATHS_AUDIT){const {auditManualPaths}=await import('./audit-manual-paths-native.mjs');await auditManualPaths({page,review,errors,httpErrors});return;}
+       if(process.env.CHICHI_FORECOURT_AUDIT){const {auditForecourt}=await import('./audit-forecourt-native.mjs');await auditForecourt({page,review,errors,httpErrors});return;}

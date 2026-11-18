@@ -1,0 +1,8 @@
+{
+  "sha256": "9e22b81d921325d18b425d94192d49eb0c799250de35004a4664324eb9496b05",
+  "baseline": null,
+  "node": "v22.23.5",
+  "head": "0f5f71185c55ed5879adc0173fc888991778bbc8",
+  "dirty": " M public/resort-spa-data.js\n M public/resort-spa-model.js\n M public/resort-spa-runtime.js\n M public/resort-spa-world.js\n M public/world.js\n M scripts/audit-resort-spa-native.mjs\n M scripts/check-aquarium.cjs\n?? public/resort-spa-dry-performance.js\n?? scripts/audit-resort-spa-dry.mjs\n?? test/resort-spa-dry-performance.test.mjs\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

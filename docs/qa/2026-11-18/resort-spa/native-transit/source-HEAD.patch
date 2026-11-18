@@ -1,0 +1,403 @@
+diff --git a/public/chichi-manual.js b/public/chichi-manual.js
+index e077af3..e7b1037 100644
+--- a/public/chichi-manual.js
++++ b/public/chichi-manual.js
+@@ -9,8 +9,8 @@ export function stepChichiWalk(state,dt,input,surface,radius){
+  for(let i=0;i<count;i++)for(const key of ['x','z']){const p={...state,[key]:state[key]+(key==='x'?dx:dz)*h/count},support=surface(p,radius,state);if(!support||Math.abs(support.y-state.y)>.65)continue;state[key]=p[key];state.y=support.y;state.biome=support.biome;}
+  const moved=Math.hypot(state.x-old.x,state.y-old.y,state.z-old.z);if(moved>.00001){const heading=Math.atan2(state.x-old.x,state.z-old.z);state.yaw+=Math.atan2(Math.sin(heading-state.yaw),Math.cos(heading-state.yaw))*(1-Math.exp(-h*12));}return{distance:moved,speed:h?moved/h:0};
+ }
+-export function createChichiManual({container,canvas,camera,look,actor,getRadius,surface,cameraClear,canControl,cancel,focus,onRelease=()=>{}}){
+- let disposed=false,startFailure=null,active=false,state=null,yaw=0,pitch=.18,distance=6,phase=0,drag=null,restore=null;const keys=new Set(),touch=new Map(),follow=createExplorerCameraFollower(camera,look),anchor=new T.Vector3();
++export function createChichiManual({container,canvas,camera,look,actor,getRadius,surface,cameraClear,canControl,cancel,focus,onRelease=()=>{},getTransport=()=>null}){
++ let disposed=false,startFailure=null,active=false,state=null,yaw=0,pitch=.18,distance=6,phase=0,drag=null,restore=null,transporting=false;const keys=new Set(),touch=new Map(),follow=createExplorerCameraFollower(camera,look),anchor=new T.Vector3();
+  const pad=document.createElement('div');pad.className='chichi-walk-controls';pad.hidden=true;pad.innerHTML='<button data-walk-key="KeyW" aria-label="Вперёд">▲</button><button data-walk-key="KeyA" aria-label="Влево">‹</button><button data-walk-key="KeyD" aria-label="Вправо">›</button><button data-walk-key="KeyS" aria-label="Назад">▼</button>';container.append(pad);
+  const clear=()=>{keys.clear();touch.clear();drag=null;};
+  const editing=e=>e.target?.isContentEditable||/INPUT|TEXTAREA|SELECT/.test(e.target?.tagName);
+@@ -22,5 +22,5 @@ export function createChichiManual({container,canvas,camera,look,actor,getRadius
+  canvas.addEventListener('pointerdown',down,true);canvas.addEventListener('pointermove',move,true);for(const name of ['pointerup','pointercancel','lostpointercapture'])canvas.addEventListener(name,up,true);canvas.addEventListener('wheel',wheel,{capture:true,passive:false});
+  for(const b of pad.querySelectorAll('button')){b.onpointerdown=e=>{if(!active)return;e.preventDefault();b.setPointerCapture?.(e.pointerId);touch.set(e.pointerId,b.dataset.walkKey);};for(const name of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(name,e=>touch.delete(e.pointerId));}
+  function layout(){const rect=container.getBoundingClientRect(),v=window.visualViewport,bottom=Math.min(rect.bottom,(v?.offsetTop??0)+(v?.height??innerHeight)),footer=container.querySelector('.world-bottom')?.getBoundingClientRect();pad.style.bottom=Math.max(0,rect.bottom-bottom)+(footer&&footer.top<bottom?Math.max(84,bottom-footer.top+8):84)+'px';}layout();const resize=typeof ResizeObserver==='function'?new ResizeObserver(layout):null;resize?.observe(container);const footer=container.querySelector('.world-bottom');if(footer)resize?.observe(footer);window.addEventListener('resize',layout);window.addEventListener('scroll',layout,true);window.visualViewport?.addEventListener('resize',layout);
+- return{get inputState(){return{keys:[...keys],allowed:canControl()};},get startFailure(){return startFailure;},get active(){return active;},start,stop,update(dt){if(!active)return null;if(!canControl()){clear();return{walking:false,locomotion:{mode:'walk',speed:0,phase}};}const input=new Set([...keys,...touch.values()]),frame=stepChichiWalk(state,dt,{forward:Number(input.has('KeyW'))-Number(input.has('KeyS')),side:Number(input.has('KeyA'))-Number(input.has('KeyD')),heading:follow.heading??yaw},surface,getRadius());actor.position.set(state.x,state.y,state.z);actor.rotation.set(0,state.yaw,0);phase+=frame.distance*2.2;return{walking:frame.speed>.02,locomotion:{mode:'walk',speed:frame.speed,phase}};},updateCamera(dt){if(!active)return false;camera.near=.12;camera.fov=60;camera.updateProjectionMatrix();anchor.copy(actor.position);anchor.y+=EXPLORER_VIEW.targetHeight;follow.update(dt,anchor,yaw,pitch,distance,cameraClear);return true;},dispose(){disposed=true;stop();resize?.disconnect();pad.remove();window.removeEventListener('keydown',keydown);window.removeEventListener('keyup',keyup);window.removeEventListener('blur',clear);document.removeEventListener('visibilitychange',clear);canvas.removeEventListener('pointerdown',down,true);canvas.removeEventListener('pointermove',move,true);for(const n of ['pointerup','pointercancel','lostpointercapture'])canvas.removeEventListener(n,up,true);canvas.removeEventListener('wheel',wheel,true);window.removeEventListener('resize',layout);window.removeEventListener('scroll',layout,true);window.visualViewport?.removeEventListener('resize',layout);}};
++ return{get inputState(){return{keys:[...keys],allowed:canControl()};},get startFailure(){return startFailure;},get active(){return active;},start,stop,update(dt){if(!active)return null;const transport=getTransport();if(transport){transporting=true;Object.assign(state,transport.position);state.yaw=transport.yaw;actor.position.copy(transport.position);actor.rotation.set(0,state.yaw,0);return{walking:transport.walking,locomotion:{mode:'walk',speed:transport.walking?3.6:0,phase:(phase+=transport.walking?Math.max(0,dt)*3.6*2.2:0)}};}if(transporting){Object.assign(state,actor.position);transporting=false;}if(!canControl()){clear();return{walking:false,locomotion:{mode:'walk',speed:0,phase}};}const input=new Set([...keys,...touch.values()]),frame=stepChichiWalk(state,dt,{forward:Number(input.has('KeyW'))-Number(input.has('KeyS')),side:Number(input.has('KeyA'))-Number(input.has('KeyD')),heading:follow.heading??yaw},surface,getRadius());actor.position.set(state.x,state.y,state.z);actor.rotation.set(0,state.yaw,0);phase+=frame.distance*2.2;return{walking:frame.speed>.02,locomotion:{mode:'walk',speed:frame.speed,phase}};},updateCamera(dt){if(!active)return false;camera.near=.12;camera.fov=60;camera.updateProjectionMatrix();anchor.copy(actor.position);anchor.y+=EXPLORER_VIEW.targetHeight;follow.update(dt,anchor,yaw,pitch,distance,cameraClear);return true;},dispose(){disposed=true;stop();resize?.disconnect();pad.remove();window.removeEventListener('keydown',keydown);window.removeEventListener('keyup',keyup);window.removeEventListener('blur',clear);document.removeEventListener('visibilitychange',clear);canvas.removeEventListener('pointerdown',down,true);canvas.removeEventListener('pointermove',move,true);for(const n of ['pointerup','pointercancel','lostpointercapture'])canvas.removeEventListener(n,up,true);canvas.removeEventListener('wheel',wheel,true);window.removeEventListener('resize',layout);window.removeEventListener('scroll',layout,true);window.visualViewport?.removeEventListener('resize',layout);}};
+ }
+diff --git a/public/index.html b/public/index.html
+index ebd0e92..7bc8e0a 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -703,6 +703,6 @@
+       </div>
+     </dialog>
+     <div id="toast" role="status" aria-live="polite" hidden></div>
+-    <script type="module" src="./dist/app.js?v=de48b3fb91e5d110"></script>
++    <script type="module" src="./dist/app.js?v=fad8611618b318f0"></script>
+   </body>
+ </html>
+diff --git a/public/resort-spa-appointments.js b/public/resort-spa-appointments.js
+index 5ae92a8..b24555a 100644
+--- a/public/resort-spa-appointments.js
++++ b/public/resort-spa-appointments.js
+@@ -1,25 +1,23 @@
+ import {createResortSpaRuntime} from './resort-spa-runtime.js';
+-import {RESORT_SPA as L,resortZone} from './resort-spa-data.js';
++import {RESORT_SPA as L,resortZone,RESORT_FOOT_OFFSET as F} from './resort-spa-data.js';
+ import {resortPaidTicket} from './resort-spa-economy.js';
+ // Adapter between native world actors and the existing app's durable ledger.
+ // Y is absolute game height in runtime/save data, root-local only in geometry.
+ export function createResortAppointments({getGame,getActors,getNavigation,centre,canSimulate=()=>true,blocked=()=>false,onPurchase,onUse,onGoal=()=>{},onComplete=()=>{},getStaff=()=>[]}={}){
+  const localY=p=>({...p,y:p.y-L.y}),absoluteY=p=>({...p,y:p.y+L.y}),staffOwners=new Map();
+  const runtime=createResortSpaRuntime({
+-  route:(a,b,r)=>getNavigation()?.floorPath(localY(a),localY(b),r)?.map(absoluteY)||null,
++  route:(a,b,r)=>(getNavigation()?.path||getNavigation()?.floorPath)?.(localY(a),localY(b),r)?.map(absoluteY)||null,
+   segmentClear:(a,b,r)=>!!getNavigation()?.segmentClear(localY(a),localY(b),r),
+   getPaidTicket:(id,zone)=>resortPaidTicket(getGame(),id,zone),
+   onPurchase:(id,zone)=>{const p=getGame().jobCity?.profiles[id];if(!p||!canSimulate())return null;const receipt='resort-'+id+'-'+(p.purchaseCount+1);return onPurchase?.(id,zone+'-session',receipt)?receipt:null;},
+   onUse:(id,zone,receipt)=>canSimulate()&&!!onUse?.(id,zone,receipt),
+   reserveStaff:(id,zone,target)=>{const staff=getStaff().find(s=>!staffOwners.has(s.id)&&Math.hypot(s.position.x-target.x,s.position.y-target.y,s.position.z-target.z)<.1);if(!staff)return null;staffOwners.set(staff.id,id);return{id:staff.id};},
+   releaseStaff:(staff,id)=>{if(staffOwners.get(staff)===id)staffOwners.delete(staff);},
+-  onComplete:(id,result)=>{onGoal(id,null);onComplete(id,result);},
++  onComplete:(id,result)=>{const actor=getActors().find(a=>a.id===id);if(actor&&result.position)Object.assign(actor.position,{x:result.position.x+centre[0],y:result.position.y,z:result.position.z+centre[1]});onGoal(id,null);onComplete(id,result);},
+  });
+  return{runtime,has:id=>runtime.has(id),
+-  start(id,zoneId){const a=getActors().find(a=>a.id===id),zone=resortZone(zoneId);if(!a||!zone||!canSimulate()||blocked(id)||runtime.has(id))return false;const p={x:a.position.x-centre[0],y:a.position.y,z:a.position.z-centre[1]};if(!getNavigation()?.support(localY(p),a.radius))return false;
+-   // A same-floor visit can begin now. Cross-level entry waits for the real
+-   // stairs route instead of moving the actor through empty water.
+-   if(Math.abs(p.y-zone.y-.18)>.65)return false;
++  start(id,zoneId){const a=getActors().find(a=>a.id===id),zone=resortZone(zoneId),profile=getGame().jobCity?.profiles[id];if(!a||!zone||!profile||!canSimulate()||blocked(id)||runtime.has(id)||(profile.coins<zone.price&&!resortPaidTicket(getGame(),id,zoneId)))return false;const p={x:a.position.x-centre[0],y:a.position.y,z:a.position.z-centre[1]};if(!getNavigation()?.support(localY(p),a.radius))return false;
++   // The shared navigator uses actual stairs for cross-level appointments.
+    const started=runtime.start({catId:id,zoneId,position:p,radius:a.radius,returnTo:p});if(started)onGoal(id,{layoutVersion:2,storeId:zoneId,at:Date.now(),productId:null,receipt:null,purchased:false,used:false});return started;
+   },
+   cancel:id=>runtime.cancel(id),update(dt){runtime.step(dt,{allow:canSimulate(),blocked});},
+diff --git a/public/resort-spa-data.js b/public/resort-spa-data.js
+index 7f81856..5078e3b 100644
+--- a/public/resort-spa-data.js
++++ b/public/resort-spa-data.js
+@@ -1,6 +1,6 @@
+ // Ocean-local metres. Separate destination: never replaces the old Cat SPA
+ // island or the Mall's existing spa, save identities, rooms or purchases.
+-export const RESORT_SPA=Object.freeze({id:'chichi-underwater-spa',biome:'autumn',x:0,z:225,y:-165,width:248,depth:144,rise:9,levels:3,gate:{x:0,z:153,y:-164.82},palette:{water:0x00cfef,deep:0x0a1e3d,amber:0xffb347,gold:0xffcc70,pink:0xff2e9a,lavender:0xb86bff,ivory:0xffe5c4,coral:0xf34dce}});
++export const RESORT_SPA=Object.freeze({id:'chichi-underwater-spa',biome:'autumn',x:0,z:225,offsetZ:-20,y:-165,width:248,depth:144,rise:9,levels:3,gate:{x:0,z:153,y:-164.82},palette:{water:0x00cfef,deep:0x0a1e3d,amber:0xffb347,gold:0xffcc70,pink:0xff2e9a,lavender:0xb86bff,ivory:0xffe5c4,coral:0xf34dce}});
+ const rows=[
+  ['thermal','Grand Thermal Lagoon','swim',150,0,266,0,50,24,12],
+  ['jacuzzi','Luxury Jacuzzi Terraces','jacuzzi',150,-65,265,1,23,21,8],
+@@ -23,9 +23,10 @@ export const RESORT_PROCEDURE_PRICE=Object.freeze({entry:100,thermal:150,massage
+ export function resortSpaFootprint(x,z,margin=0){return Math.hypot(x/(RESORT_SPA.width/2+margin),(z-RESORT_SPA.z)/(RESORT_SPA.depth/2+margin))<=1;}
+ // Room contacts are actual local positions shared by furniture and simulation.
+ export function resortSpaSeat(zone,index){
++ if(zone.procedure==='eat'){const a=index*Math.PI*2/zone.seats,x=Math.sin(a)*20,z=203+Math.cos(a)*20;return{x,y:zone.y+.012,z,yaw:a,approach:{x:x+Math.sin(a)*3.6,y:zone.y+.012,z:z+Math.cos(a)*3.6},staff:{x:x+2.2,y:zone.y+.012,z},exit:{x:x+Math.sin(a)*5,y:zone.y+.012,z:z+Math.cos(a)*5}};}
+  const columns=zone.procedure==='massage'?3:4,rows=Math.ceil(zone.seats/columns),spacing=zone.procedure==='massage'?9:7;
+  const column=index%columns,row=Math.floor(index/columns),x=zone.x+(column-(columns-1)/2)*spacing,z=zone.z+(row-(rows-1)/2)*(zone.procedure==='massage'?11:8.6);
+- return {x,y:zone.y+.18,z,yaw:Math.PI,approach:{x,y:zone.y+.18,z:z+3.6},staff:{x:x+2.2,y:zone.y+.18,z},exit:{x,y:zone.y+.18,z:z+5}};
++ return {x,y:zone.y+.012,z,yaw:Math.PI,approach:{x,y:zone.y+.012,z:z+3.6},staff:{x:x+2.2,y:zone.y+.012,z},exit:{x,y:zone.y+.012,z:z+5}};
+ }
+ 
+ // Services share the existing cat-wallet product ledger. Stable addresses do
+@@ -33,3 +34,8 @@ export function resortSpaSeat(zone,index){
+ export const RESORT_PRODUCTS=Object.freeze(RESORT_ZONES.map(z=>Object.freeze({id:z.id+'-session',storeId:z.id,name:z.name,brand:'CHICHI CAT SPA',category:'mall',kind:z.kind,use:z.procedure==='eat'?'eat':'spa',icon:'🪷',price:z.price,stock:100000,unique:false,resort:true})));
+ export const resortProduct=id=>RESORT_PRODUCTS.find(p=>p.id===id);
+ export function resortOffers(game){return game.unlocked?.includes('autumn')?RESORT_ZONES.map(z=>({id:z.id,type:z.id,biome:'autumn',name:'SPA · '+z.key,action:z.action})):[];}
++
++export const resortSpaOrigin=centre=>[centre[0],centre[1]+RESORT_SPA.offsetZ];
++
++export const RESORT_FOOT_OFFSET=.012; // native happy rest minimumY=-.00942545m
++export const RESORT_STAIRS=Object.freeze([0,1].map(level=>Object.freeze({level,x:level?-25:25,z:187,count:30,rise:.3,run:1.1,width:5,landingZ:222})));
+diff --git a/public/resort-spa-lift.js b/public/resort-spa-lift.js
+index db624b6..76968a4 100644
+--- a/public/resort-spa-lift.js
++++ b/public/resort-spa-lift.js
+@@ -1,6 +1,7 @@
++import {RESORT_SPA,RESORT_FOOT_OFFSET} from './resort-spa-data.js';
+ // Independent sealed access lift in the added front-water space. All values
+ // remain ocean-local metres; it does not move the Mall's existing lift/pier.
+-export const RESORT_LIFT=Object.freeze({x:20,z:300,radius:6,upperY:.35,lowerY:-164.82,speed:6,doorSeconds:1.2,capacity:4});
++export const RESORT_LIFT=Object.freeze({x:20,z:300,radius:6,upperY:.35,lowerY:RESORT_SPA.y+RESORT_FOOT_OFFSET,speed:6,doorSeconds:1.2,capacity:4});
+ export function createResortSpaLift(){
+  const L=RESORT_LIFT,passengers=new Map(),state={floor:0,target:0,y:L.upperY,phase:'open',door:1,elapsed:0};
+  const floorY=f=>f===0?L.upperY:L.lowerY;
+@@ -9,7 +10,7 @@ export function createResortSpaLift(){
+   board(id,position){if(state.phase!=='open'||passengers.has(id)||passengers.size>=L.capacity)return false;let slot=0;while([...passengers.values()].some(p=>p.slot===slot))slot++;const target=seat(slot);if(Math.hypot(position.x-target.x,position.y-target.y,position.z-target.z)>.05)return false;passengers.set(id,{slot,phase:'boarded'});return true;},
+   depart(floor){if(![0,1].includes(floor)||floor===state.floor||state.phase!=='open'||[...passengers.values()].some(p=>p.phase!=='boarded'))return false;state.target=floor;state.phase='closing';state.elapsed=0;return true;},
+   beginExit(id){const p=passengers.get(id);if(!p||state.phase!=='open')return false;p.phase='leaving';return true;},
+-  finishExit(id,position,radius=.571){const p=passengers.get(id);if(!p||p.phase!=='leaving'||Math.abs(position.y-state.y)>.1||position.z<L.z+L.radius+radius)return false;passengers.delete(id);return true;},
++  finishExit(id,position,radius=.571){const p=passengers.get(id);if(!p||p.phase!=='leaving'||Math.abs(position.y-state.y)>.1||(position.z-L.z)*(state.floor===0?1:-1)<L.radius+radius)return false;passengers.delete(id);return true;},
+   position(id){const p=passengers.get(id);return p?.phase==='boarded'?seat(p.slot):null;},
+   step(dt){let time=Math.max(0,Math.min(.25,dt));while(time>1e-9){if(state.phase==='open')break;
+    if(state.phase==='travelling'){const target=floorY(state.target),distance=Math.abs(target-state.y),duration=distance/L.speed,h=Math.min(time,duration);state.y+=Math.sign(target-state.y)*h*L.speed;time-=h;if(duration<=h+1e-9){state.y=target;state.floor=state.target;state.phase='opening';state.elapsed=0;}else break;}
+diff --git a/public/resort-spa-model.js b/public/resort-spa-model.js
+index b637aed..2484d96 100644
+--- a/public/resort-spa-model.js
++++ b/public/resort-spa-model.js
+@@ -1,9 +1,10 @@
++import {createResortSpaAccess} from './resort-spa-access.js';
+ import {finishResortSpaSteps} from './resort-spa-finishes.js';
+ import {mallArt} from './mall-art.js';
+ import {mallSurfaceMaps} from './mall-surfaces.js';
+ import {createResortBasin} from './resort-spa-basin.js';
+ import * as T from 'three';
+-import {RESORT_SPA as L,RESORT_ZONES,resortSpaSeat} from './resort-spa-data.js';
++import {RESORT_SPA as L,RESORT_ZONES,resortSpaSeat,RESORT_STAIRS} from './resort-spa-data.js';
+ import {createResortMassagePavilion} from './resort-spa-massage.js';
+ import {advanceWater} from './water-shading.js';
+ import {installManualBuildingNavigation} from './manual-building-navigation.js';
+@@ -23,26 +24,28 @@ export function* resortSpaModelSteps(){
+  function sofa(x,y,z){box(solid,mats.gold,x,y+.38,z,3,.76,1.6);box(solid,mats.cloth,x,y+.82,z,3,.2,1.6);box(solid,mats.cloth,x,y+1.3,z-.7,3,1,.22);}
+  function pool(x,y,z,rx,rz){const basin=createResortBasin({rx,rz,depth:1.8},{stone:mats.ivory});basin.position.set(x,y,z);surfaces.add(basin);basins.push(basin);waters.push(basin.userData.surface);return basin;}
+  function platform(zone,y,holes){const shape=new T.Shape();shape.absellipse(zone.x,-zone.z,zone.rx,zone.rz,0,Math.PI*2,false);for(const p of holes){const h=new T.Path();h.absellipse(p.x,-p.z,p.rx,p.rz,0,Math.PI*2,true);shape.holes.push(h);}const g=new T.ShapeGeometry(shape,96);g.rotateX(-Math.PI/2);geos.set(zone.id+'-floor',g);mesh(surfaces,g,mats.ivory,0,y,0);}
+- function roof(x,y,z,rx,rz,height){mesh(shell,geometry('dome',()=>new T.SphereGeometry(1,48,24,0,Math.PI*2,0,Math.PI/2)),mats.glass,x,y,z,rx,height,rz);for(let i=0;i<24;i++){const a=i*Math.PI/12;box(shell,mats.gold,x+Math.cos(a)*rx,y-2,z+Math.sin(a)*rz,.13,4,.13);}}
++ function roof(x,y,z,rx,rz,height,wallHeight=4){mesh(shell,geometry('dome',()=>new T.SphereGeometry(1,48,24,0,Math.PI*2,0,Math.PI/2)),mats.glass,x,y,z,rx,height,rz);for(let i=0;i<24;i++){const a=i*Math.PI/12;box(shell,mats.gold,x+Math.cos(a)*rx,y-wallHeight/2,z+Math.sin(a)*rz,.13,wallHeight,.13);}}
+  // Main cat dome and real three-level public atrium.
+  for(let level=0;level<3;level++){
+-  const y=level*L.rise,shape=new T.Shape();shape.absarc(0,0,34,0,Math.PI*2,false);if(level){const hole=new T.Path();hole.absarc(0,0,12,0,Math.PI*2,true);shape.holes.push(hole);}const g=new T.ShapeGeometry(shape,96);g.rotateX(-Math.PI/2);geos.set('atrium-'+level,g);mesh(surfaces,g,mats.ivory,0,y,203);
++  const y=level*L.rise,shape=new T.Shape();shape.absarc(0,0,34,0,Math.PI*2,false);if(level){const hole=new T.Path();hole.absarc(0,0,12,0,Math.PI*2,true);shape.holes.push(hole);const stair=RESORT_STAIRS[level-1],opening=new T.Path();opening.moveTo(stair.x-3.5,-185);opening.lineTo(stair.x+3.5,-185);opening.lineTo(stair.x+3.5,-221.5);opening.lineTo(stair.x-3.5,-221.5);opening.closePath();shape.holes.push(opening);}const g=new T.ShapeGeometry(shape,96);g.rotateX(-Math.PI/2);geos.set('atrium-'+level,g);mesh(surfaces,g,mats.ivory,0,y,203);
+   for(const side of [-1,1])for(let i=0;i<4;i++)sofa(side*20,y,187+i*10);
+   yield;
+  }
+- roof(0,4,203,35,35,29);
++ roof(0,19,203,35,35,18,19);
+  for(const side of [-1,1]){const points=[new T.Vector3(side*20,26,191),new T.Vector3(side*29,45,204),new T.Vector3(side*10,29,216),new T.Vector3(side*20,26,191)],curve=new T.CatmullRomCurve3(points);const g=new T.TubeGeometry(curve,48,.13,6,false);geos.set('ear-'+side,g);shell.add(new T.Mesh(g,mats.pink));}
+  disk(solid,mats.gold,0,.45,203,7,7,.9);pool(0,.95,203,6.4,6.4);
+  for(let i=0;i<8;i++){const a=i*Math.PI/4;mesh(decor,geometry('lotus',()=>new T.SphereGeometry(1,16,8)),mats.pink,Math.cos(a)*1.4,2.2,203+Math.sin(a)*1.4,.6,.3,1.7);}
+  box(solid,mats.gold,0,1.2,178,12,2.4,2.2);box(decor,mats.ivory,0,2.46,178,12.4,.12,2.5);
+- // Full-sized stairs: .3m risers, .6m treads, 5m clear width.
+- for(let level=0;level<2;level++)for(let step=0;step<30;step++){const x=level?-29:29,y=level*9+(step+1)*.3,z=181+step*.6;box(solid,mats.ivory,x,y/2+level*4.5,z,5,(step+1)*.3,.62);}yield;
++ // Shared authored stair dimensions and real openings in the floor above.
++ for(const stair of RESORT_STAIRS){const base=stair.level*L.rise;for(let i=0;i<stair.count;i++){const h=(i+1)*stair.rise;box(solid,mats.ivory,stair.x,base+h/2,stair.z+i*stair.run,stair.width,h,stair.run+.02);}box(solid,mats.ivory,stair.x,base+L.rise-.15,220.2,stair.width,.3,3.4);}yield;
+  for(const zone of RESORT_ZONES){
+   const y=zone.level*L.rise;
+-  if(zone.procedure==='massage'){const p=createResortMassagePavilion(zone,{materials:{marble:mats.ivory,gold:mats.gold,wood:mats.wood,cloth:mats.cloth,pink:mats.pink,glass:mats.glass,amber:mats.amber}});p.position.y=0;root.add(p);zones.set(zone.id,p);yield;continue;}
+-  const group=new T.Group();group.name=zone.name;root.add(group);zones.set(zone.id,group);const pools=zone.procedure==='swim'?[{x:zone.x,z:zone.z,rx:zone.rx-5,rz:zone.rz-5}]:['jacuzzi','vip'].includes(zone.procedure)?[0,4].filter(i=>i<zone.seats).map(i=>({...resortSpaSeat(zone,i),rx:3.1,rz:3.1})):[];platform(zone,y,pools);for(const p of pools)pool(p.x,y,p.z,p.rx,p.rz);roof(zone.x,y+4,zone.z,zone.rx,zone.rz,6);
+   // Bridges to the corresponding public level, using the same real dimensions.
+-  const dx=zone.x,dz=zone.z-203,len=Math.hypot(dx,dz),a=Math.atan2(dx,dz),reach=len?1/Math.hypot(dx/len/zone.rx,dz/len/zone.rz):0,gap=Math.max(0,len-34-reach+.2);if(gap){const distance=34+gap/2,b=box(solid,mats.ivory,dx/len*distance,y-.15,203+dz/len*distance,5,.3,gap);b.rotation.y=a;}
++  // Overlap both real floor edges: a tangent-ended rectangular bridge leaves
++  // unsupported slivers at its corners against a curved atrium/pavilion rim.
++  const dx=zone.x,dz=zone.z-203,len=Math.hypot(dx,dz),a=Math.atan2(dx,dz),reach=len?1/Math.hypot(dx/len/zone.rx,dz/len/zone.rz):0,gap=Math.max(0,len-34-reach+.2);if(gap){const distance=34+gap/2,b=box(solid,mats.ivory,dx/len*distance,y-.15,203+dz/len*distance,5,.3,gap+2.4);b.rotation.y=a;}
++  if(zone.procedure==='massage'){const p=createResortMassagePavilion(zone,{materials:{marble:mats.ivory,gold:mats.gold,wood:mats.wood,cloth:mats.cloth,pink:mats.pink,glass:mats.glass,amber:mats.amber}});p.position.y=0;root.add(p);zones.set(zone.id,p);yield;continue;}
++  const group=new T.Group();group.name=zone.name;root.add(group);zones.set(zone.id,group);const pools=zone.procedure==='swim'?[{x:zone.x,z:zone.z,rx:zone.rx-5,rz:zone.rz-5}]:['jacuzzi','vip'].includes(zone.procedure)?[0,4].filter(i=>i<zone.seats).map(i=>({...resortSpaSeat(zone,i),rx:3.1,rz:3.1})):[];if(zone.key!=='cafe'){platform(zone,y,pools);for(const p of pools)pool(p.x,y,p.z,p.rx,p.rz);roof(zone.x,y+4,zone.z,zone.rx,zone.rz,6);}
+ 
+   for(let i=0;i<zone.seats;i++){
+    const s=resortSpaSeat(zone,i),x=s.x,z=s.z;
+@@ -60,7 +63,8 @@ export function* resortSpaModelSteps(){
+   }
+   yield;
+  }
+- root.updateMatrixWorld(true);root.userData={zones,solid,shell,decor,surfaces,basins,waters,navigation:installManualBuildingNavigation(root,solid,...[...zones.values()].map(p=>p.userData.solid).filter(Boolean)),update(time,reduced=false){for(const w of waters)advanceWater(w.material,time,reduced);},dispose(){for(const p of zones.values())p.userData.dispose?.();for(const g of geos.values())g.dispose();const textures=new Set();for(const m of Object.values(mats)){for(const key of ['map','normalMap','roughnessMap'])if(m[key])textures.add(m[key]);m.dispose();}for(const t of textures)t.dispose();for(const p of zones.values())p.traverse(o=>{if(o.isPoints)o.material.dispose();});for(const b of basins)b.userData.dispose();}};
+- yield* finishResortSpaSteps(root);
++ const accessGeometry=createResortSpaAccess(mats);solid.add(accessGeometry.solid);surfaces.add(accessGeometry.surfaces);shell.add(accessGeometry.shell);
++ root.updateMatrixWorld(true);root.userData={accessGeometry,dynamicSurfaces:[accessGeometry.deck],zones,solid,shell,decor,surfaces,basins,waters,navigation:installManualBuildingNavigation(root,solid,...[...zones.values()].map(p=>p.userData.solid).filter(Boolean)),update(time,reduced=false){for(const w of waters)advanceWater(w.material,time,reduced);},dispose(){for(const p of zones.values())p.userData.dispose?.();for(const g of geos.values())g.dispose();const textures=new Set();for(const m of Object.values(mats)){for(const key of ['map','normalMap','roughnessMap'])if(m[key])textures.add(m[key]);m.dispose();}for(const t of textures)t.dispose();for(const p of zones.values())p.traverse(o=>{if(o.isPoints)o.material.dispose();});for(const b of basins)b.userData.dispose();accessGeometry.dispose();}};
++ yield* finishResortSpaSteps(root);root.add(accessGeometry.cabin,accessGeometry.gates);
+  return root;
+ }
+diff --git a/public/resort-spa-navigation.js b/public/resort-spa-navigation.js
+index b1813ff..33447f1 100644
+--- a/public/resort-spa-navigation.js
++++ b/public/resort-spa-navigation.js
+@@ -1,18 +1,26 @@
+ import * as T from 'three';
+ import {spaPath} from './spa-navigation.js';
+ import {manualBuildingSupport} from './manual-building-navigation.js';
+-import {RESORT_SPA as L} from './resort-spa-data.js';
++import {RESORT_SPA as L,RESORT_FOOT_OFFSET as F,RESORT_STAIRS} from './resort-spa-data.js';
+ // One source for navigation and camera: exact support triangles + individual
+ // solid segments. A merged floor's bounding box must never close a basin hole.
+ export function createResortSpaNavigation(root){
+- root.updateWorldMatrix(true,true);const ray=new T.Raycaster(),origin=new T.Vector3(),down=new T.Vector3(0,-1,0),point=new T.Vector3(),surfaces=[root.userData.surfaces,...[...root.userData.zones.values()].map(z=>z.userData.solid).filter(Boolean)];
++ root.updateWorldMatrix(true,true);const ray=new T.Raycaster(),origin=new T.Vector3(),down=new T.Vector3(0,-1,0),point=new T.Vector3(),surfaces=[root.userData.surfaces,root.userData.solid,...[...root.userData.zones.values()].map(z=>z.userData.solid).filter(Boolean)];
++ // Broad phase only: final support still comes from the exact source triangle.
++ // Do not raycast every table, stair and pavilion for each 12cm walking step.
++ const cells=new Map(),inverse=root.matrixWorld.clone().invert(),matrix=new T.Matrix4();
++ for(const group of surfaces)group.traverse(o=>{if(!o.isMesh||o.material?.uniforms?.uWaterField)return;if(!o.geometry.boundingBox)o.geometry.computeBoundingBox();matrix.multiplyMatrices(inverse,o.matrixWorld);const bounds=o.geometry.boundingBox.clone().applyMatrix4(matrix),entry={mesh:o,minY:bounds.min.y,maxY:bounds.max.y};for(let x=Math.floor(bounds.min.x/8);x<=Math.floor(bounds.max.x/8);x++)for(let z=Math.floor(bounds.min.z/8);z<=Math.floor(bounds.max.z/8);z++){const key=x+','+z;let row=cells.get(key);if(!row)cells.set(key,row=[]);row.push(entry);}});
+  function support(p,radius=.571){
+   origin.set(p.x+root.position.x,p.y+L.y+.65,p.z+root.position.z);ray.set(origin,down);ray.near=0;ray.far=1.4;
+-  const hits=ray.intersectObjects(surfaces,true),hit=hits.find(h=>h.face?.normal.y>.6&&!h.object.material?.uniforms?.uWaterField);if(!hit)return null;
+-  const ground=hit.point.y-L.y+.18;if(Math.abs(ground-p.y)>.65)return null;
+-  const body=manualBuildingSupport(root.userData.navigation,p,radius,{ground});return body?{x:p.x,y:body.y,z:p.z}:null;
++  const candidates=(cells.get(Math.floor(p.x/8)+','+Math.floor(p.z/8))||[]).filter(e=>e.maxY>=p.y-.75&&e.minY<=p.y+.65).map(e=>e.mesh);for(const d of root.userData.dynamicSurfaces||[]){d.updateWorldMatrix(true,false);candidates.push(d);}const hits=ray.intersectObjects(candidates,false),hit=hits.find(h=>h.face?.normal.y>.6&&!h.object.material?.uniforms?.uWaterField);if(!hit)return null;
++  const ground=hit.point.y-L.y+F;if(Math.abs(ground-p.y)>.65)return null;
++  const body=manualBuildingSupport(root.userData.navigation,p,radius,{ground,footOffset:F});return body&&(!root.userData.accessGeometry||root.userData.accessGeometry.clear(p,radius))?{x:p.x,y:body.y,z:p.z}:null;
+  }
+  function segmentClear(a,b,radius=.571){const length=Math.hypot(b.x-a.x,b.y-a.y,b.z-a.z),n=Math.max(1,Math.ceil(length/.12));for(let i=0;i<=n;i++){const u=i/n;point.set(a.x+(b.x-a.x)*u,a.y+(b.y-a.y)*u,a.z+(b.z-a.z)*u);if(!support(point,radius))return false;}return true;}
+  function floorPath(a,b,radius=.571){if(Math.abs(a.y-b.y)>.65)return null;const y=a.y,shift=p=>({x:p.x,z:p.z-L.z}),clear=p=>!!support({x:p.x,y,z:p.z+L.z},radius),path=spaPath(shift(a),shift(b),radius,[],clear,{extent:160,cell:.85});if(!path)return null;const out=path.map(p=>({x:p.x,y,z:p.z+L.z}));let previous=a;for(const p of out){if(!segmentClear(previous,p,radius))return null;previous=p;}return out;}
+- return{support,segmentClear,floorPath};
++ function path(a,b,radius=.571){const from=Math.round(a.y/L.rise),to=Math.round(b.y/L.rise);if(from===to)return floorPath(a,b,radius);if(from<0||from>2||to<0||to>2)return null;const out=[],append=p=>{if(!p)return false;out.push(...p);return true;};let current=a;
++  for(let level=from;level!==to;level+=Math.sign(to-from)){const up=to>from,s=RESORT_STAIRS[up?level:level-1],base=s.level*L.rise,points=[{x:s.x,y:base+F,z:185.5}];for(let i=0;i<s.count;i++){const edge=s.z-s.run/2+i*s.run,z=edge-radius-.02,y=base+(i+1)*s.rise+F;points.push({x:s.x,y:i?y-s.rise:base+F,z},{x:s.x,y,z},{x:s.x,y,z:z+s.run});}points.push({x:s.x,y:base+L.rise+F,z:s.landingZ});if(!up)points.reverse();if(!append(floorPath(current,points[0],radius)))return null;let previous=points[0];for(const p of points){if(!segmentClear(previous,p,radius))return null;previous=p;}out.push(...points);current=points.at(-1);}
++  return append(floorPath(current,b,radius))?out:null;
++ }
++ return{support,segmentClear,floorPath,path};
+ }
+diff --git a/public/resort-spa-runtime.js b/public/resort-spa-runtime.js
+index 6dccbf4..2d18063 100644
+--- a/public/resort-spa-runtime.js
++++ b/public/resort-spa-runtime.js
+@@ -28,13 +28,13 @@ export function createResortSpaRuntime({route,segmentClear,onPurchase,onUse,onCo
+      if(v.zone.procedure==='massage'&&!v.staff){v.staff=reserveStaff(v.catId,v.zone.id,v.contact.staff);if(!v.staff)continue;}
+      // Check/charge through the existing durable receipt ledger once. A paid
+      // but interrupted ticket remains available for a later session/reload.
+-     v.receipt=getPaidTicket(v.catId,v.zone.id)||onPurchase?.(v.catId,v.zone.id,v.request);
++     try{v.receipt=getPaidTicket(v.catId,v.zone.id)||onPurchase?.(v.catId,v.zone.id,v.request);}catch{v.receipt=null;}
+      if(!v.receipt){release(v);continue;}if(!booking.occupy(v.catId,clock)){release(v);continue;}
+      v.phase='mount';v.elapsed=0;v.mountFrom=copy(v.position);
+     }else if(v.phase==='mount'){
+      const u=Math.min(1,v.elapsed/1.6),t=smooth(u),a=v.mountFrom,b=v.contact;
+-     const height=v.zone.procedure==='massage'?1.2:['lounge','sleep','cabana','vip'].includes(v.zone.procedure)?1.1:0;
+-     const target={x:b.x,y:b.y-.18+height,z:b.z};v.position={x:a.x+(target.x-a.x)*t,y:a.y+(target.y-a.y)*t+Math.sin(Math.PI*u)*.8,z:a.z+(target.z-a.z)*t};
++     const height=v.zone.procedure==='massage'?1.02:['lounge','sleep','cabana','vip'].includes(v.zone.procedure)?.92:0;
++     const target={x:b.x,y:b.y+height,z:b.z};v.position={x:a.x+(target.x-a.x)*t,y:a.y+(target.y-a.y)*t+Math.sin(Math.PI*u)*.8,z:a.z+(target.z-a.z)*t};
+      if(u===1){v.phase='procedure';v.elapsed=0;}
+     }else if(v.phase==='procedure'&&v.elapsed>=24){
+      // Success is durable before returning; callback failure keeps ownership
+diff --git a/public/resort-spa-world.js b/public/resort-spa-world.js
+index 40ad040..d7fdb10 100644
+--- a/public/resort-spa-world.js
++++ b/public/resort-spa-world.js
+@@ -1,31 +1,44 @@
+ import {createResortAppointments} from './resort-spa-appointments.js';
++import {createResortTransit} from './resort-spa-transit.js';
++import {RESORT_LIFT} from './resort-spa-lift.js';
++import {resortPaidTicket} from './resort-spa-economy.js';
+ import {resortSpaStaffSteps,updateResortStaff,disposeResortStaff} from './resort-spa-staff.js';
+ import {prepareMallArt} from './mall-art.js';
+ import {prepareMosaWaterReflection} from './mosasaur-water-probe.js';
+ import * as T from 'three';
+ import {resortSpaModelSteps} from './resort-spa-model.js';
+ import {createResortSpaNavigation} from './resort-spa-navigation.js';
+-import {RESORT_SPA as L,RESORT_ZONES,resortZone} from './resort-spa-data.js';
++import {RESORT_SPA as L,RESORT_ZONES,resortZone,resortSpaOrigin} from './resort-spa-data.js';
+ import {byBiome} from './game-data.js';
+ // Independent scene/camera owner. Mall's floors, selection and guest camera
+ // remain untouched; only the world coordinator performs the hand-off.
+ export function createResortSpaWorld({scene,container,getGame,getFocused,getOverview,prepare,prepareModel,onCamera,onExit,onError=()=>{},getActors=()=>[],registerCat=()=>{},canSimulate=()=>true,blocked=()=>false,onPurchase,onUse,onGoal,onComplete}){
+- const centre=byBiome('autumn').center,controller=new AbortController(),buttons=new Map();let root=null,pending=null,disposed=false,inspection=false,selected=null,navigation=null,appointments=null,staff=[];
++ const centre=resortSpaOrigin(byBiome('autumn').center),controller=new AbortController(),buttons=new Map(),journeys=new Map();let root=null,pending=null,disposed=false,inspection=false,selected=null,navigation=null,appointments=null,transit=null,staff=[];
+  const access=document.createElement('button');access.className='resort-spa-access';access.textContent='🪷 SPA';access.hidden=true;access.onclick=()=>inspect();(container.querySelector('.map-controls')||container).append(access);
+  const panel=document.createElement('nav');panel.className='resort-spa-zones';panel.hidden=true;panel.setAttribute('aria-label','Зоны подводного SPA');container.append(panel);
+  for(const zone of [null,...RESORT_ZONES]){const b=document.createElement('button');b.textContent=zone?.name||'Общий вид';b.onclick=()=>inspect(zone?.id);panel.append(b);buttons.set(zone?.id||'overview',b);}
+  const close=document.createElement('button');close.textContent='Выйти из обзора';close.onclick=()=>exit();panel.append(close);
++ const liftButton=document.createElement('button');liftButton.className='resort-spa-lift';liftButton.hidden=true;(container.querySelector('.map-controls')||container).append(liftButton);
++ const finish=(id,result)=>{journeys.delete(id);onComplete?.(id,result);};
++ function start(id,zone){const service=resortZone(zone),profile=getGame().jobCity?.profiles[id];if(pending||!appointments||!service||!profile||journeys.has(id)||transit?.has(id)||(profile.coins<service.price&&!resortPaidTicket(getGame(),id,zone)))return false;const actor=getActors().find(a=>a.id===id);if(!actor)return false;
++  if(Math.abs(actor.position.y-RESORT_LIFT.upperY)<.65){if(blocked(id)||!transit.start(id,1))return false;journeys.set(id,{zone,result:null});return true;}
++  return appointments.start(id,zone);
++ }
++ function ride(id,target){return !!transit&&!appointments?.has(id)&&!journeys.has(id)&&transit.start(id,target,{purpose:'manual'});}
++ liftButton.onclick=()=>{const actor=getActors().find(a=>a.id==='chichi');if(actor)ride('chichi',actor.position.y>-80?1:0);};
+  async function ensure(){if(pending)return pending;if(root)return root;if(disposed)return null;pending=(async()=>{let model;try{await Promise.all([prepareMallArt(),prepareMosaWaterReflection()]);model=await prepare(resortSpaModelSteps(),controller.signal);if(disposed){model.userData.dispose();return null;}model.position.x=centre[0];model.position.z=centre[1];model.userData.biomeId='autumn';
+    // Navigation is evaluated in ocean-local coordinates; prepare before the
+    // world translation, retaining the authored floor and pool triangles.
+    model.position.x=0;model.position.z=0;navigation=createResortSpaNavigation(model);model.position.x=centre[0];model.position.z=centre[1];model.updateWorldMatrix(true,true);
+-   await prepareModel(model);if(disposed){model.userData.dispose();return null;}scene.add(model);root=model;staff=await prepare(resortSpaStaffSteps(centre,registerCat),controller.signal);if(disposed){disposeResortStaff(staff);staff=[];return null;}for(const s of staff){await prepareModel(s.carrier);if(disposed)break;scene.add(s.carrier);}if(disposed){disposeResortStaff(staff);staff=[];return null;}appointments=createResortAppointments({getGame,getActors,getNavigation:()=>navigation,centre,canSimulate,blocked,onPurchase,onUse,onGoal,onComplete,getStaff:()=>staff});return root;
++   await prepareModel(model);if(disposed){model.userData.dispose();return null;}scene.add(model);root=model;staff=await prepare(resortSpaStaffSteps(centre,registerCat),controller.signal);if(disposed){disposeResortStaff(staff);staff=[];return null;}for(const s of staff){await prepareModel(s.carrier);if(disposed)break;scene.add(s.carrier);}if(disposed){disposeResortStaff(staff);staff=[];return null;}
++   transit=createResortTransit({navigation,geometry:root.userData.accessGeometry,getActors,centre,canSimulate,blocked:(id,purpose)=>purpose!=='manual'&&blocked(id),onCancel:(id)=>finish(id,{completed:false}),onArrive:(id,{floor,purpose})=>{if(purpose==='manual')return;const journey=journeys.get(id);if(!journey)return;if(floor===1){if(!appointments.start(id,journey.zone)){journey.result={completed:false};if(!transit.start(id,0))finish(id,journey.result);}}else finish(id,journey.result||{completed:false});}});
++   appointments=createResortAppointments({getGame,getActors,getNavigation:()=>navigation,centre,canSimulate,blocked,onPurchase,onUse,onGoal,onComplete:(id,result)=>{const journey=journeys.get(id);if(!journey){onComplete?.(id,result);return;}journey.result=result;if(!transit.start(id,0))finish(id,result);},getStaff:()=>staff});return root;
+   }catch(e){if(root===model){scene.remove(root);root=null;model.userData.dispose();}else if(model&&!disposed)model.userData.dispose();disposeResortStaff(staff);staff=[];appointments=null;if(!disposed)onError(e.message);return null;}finally{pending=null;}})();return pending;}
+  async function inspect(id=null){const zone=id?resortZone(id):null;if(id&&!zone)return false;if(!getGame().unlocked.includes('autumn')||!await ensure())return false;onCamera(zone,!inspection);inspection=true;selected=id;root.userData.setInspectionLevel?.(zone?.level??null);panel.hidden=false;for(const [key,b]of buttons)b.setAttribute('aria-pressed',String(key===(id||'overview')));return true;}
+  function exit(restore=true){if(!inspection)return;inspection=false;root?.userData.setInspectionLevel?.(null);panel.hidden=true;selected=null;onExit(restore);}
+- return{ensure,inspect,exit,get root(){return root;},get ready(){return!!root&&!pending&&!!appointments;},get appointments(){return appointments;},has:id=>appointments?.has(id)||false,cancel:id=>appointments?.cancel(id),frame:id=>appointments?.frame(id),startReady:(id,zone)=>!pending&&appointments?.start(id,zone)||false,get inspection(){return inspection;},get navigation(){return navigation;},get selected(){return selected;},
++ return{ensure,inspect,exit,ride,get root(){return root;},get ready(){return!!root&&!pending&&!!appointments;},get appointments(){return appointments;},get transit(){return transit;},has:id=>transit?.has(id)||appointments?.has(id)||false,cancel:id=>transit?.cancel(id)||appointments?.cancel(id),frame:id=>transit?.frame(id)||appointments?.frame(id),transportFrame:id=>transit?.frame(id),startReady:start,get inspection(){return inspection;},get navigation(){return navigation;},get selected(){return selected;},
+   pick(ray,occluder=null){if(!root?.visible)return false;const hits=ray.intersectObject(root,true);if(!hits.length)return false;if(occluder){const front=ray.intersectObject(occluder,true)[0];if(front&&front.distance<hits[0].distance)return false;}void inspect();return true;},
+-  update(dt,time,reduced=false){const active=getFocused()==='autumn',visible=active||getOverview();access.hidden=!active||!getGame().unlocked.includes('autumn');appointments?.update(dt);updateResortStaff(staff,appointments,time,reduced,visible);if(root){root.visible=visible;if(visible)root.userData.update(time,reduced);}},
+-  dispose(){disposed=true;controller.abort();access.remove();panel.remove();appointments?.clear();disposeResortStaff(staff);staff=[];if(root){scene.remove(root);root.userData.dispose();root=null;}},
++  update(dt,time,reduced=false){const active=getFocused()==='autumn',visible=active||getOverview();access.hidden=!active||!getGame().unlocked.includes('autumn');transit?.update(dt);appointments?.update(dt);const actor=getActors().find(a=>a.id==='chichi'),near=actor&&Math.hypot(actor.position.x-centre[0]-RESORT_LIFT.x,actor.position.z-centre[1]-RESORT_LIFT.z)<14&&(Math.abs(actor.position.y-RESORT_LIFT.upperY)<.65||Math.abs(actor.position.y-RESORT_LIFT.lowerY)<.65);liftButton.hidden=!active||!transit||!near||!!transit.has('chichi')||!!appointments?.has('chichi');liftButton.textContent=actor?.position.y>-80?'🪷 Спуститься в SPA':'🪷 Подняться на причал';updateResortStaff(staff,appointments,time,reduced,visible);if(root){root.visible=visible;if(visible)root.userData.update(time,reduced);}},
++  dispose(){disposed=true;controller.abort();access.remove();panel.remove();liftButton.remove();journeys.clear();transit?.clear();appointments?.clear();disposeResortStaff(staff);staff=[];if(root){scene.remove(root);root.userData.dispose();root=null;}},
+  };
+ }
+diff --git a/public/world.js b/public/world.js
+index aefce3b..db861b0 100644
+--- a/public/world.js
++++ b/public/world.js
+@@ -6033,7 +6033,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+     prepare:(steps,signal)=>prepareSceneSteps(steps,{scheduler:scenePreparation,priority:'autumn',signal}),
+     prepareModel:model=>shaderWarmup.prepare(model,{background:focused!=='autumn'}),
+     onError:message=>callbacks.onReaction?.(message),
+-    onCamera:(zone,entering)=>{if(entering){if(focused!=='autumn')focus('autumn');resortSpaPreviousCamera={look:desiredLook.clone(),distance:desiredDistance,azimuth,elevation,fov:desiredFov,near:camera.near};}mall?.exit(false);submarine?.releaseControl();manualWalk?.stop();faceCamera.setEnabled(false,look);viewingOverview=false;mallWideClip=false;mallFraming=null;const b=byBiome('autumn'),l=RESORT_SPA_LAYOUT;desiredLook.set(b.center[0]+(zone?.x||0),(zone?.y??l.y)+3,b.center[1]+(zone?.z??l.z));desiredDistance=zone?Math.max(zone.rx,zone.rz)*2:215;azimuth=.2;elevation=zone ? .35 : .55;desiredFov=48;camera.near=.3;camera.updateProjectionMatrix();},
++    onCamera:(zone,entering)=>{if(entering){if(focused!=='autumn')focus('autumn');resortSpaPreviousCamera={look:desiredLook.clone(),distance:desiredDistance,azimuth,elevation,fov:desiredFov,near:camera.near};}mall?.exit(false);submarine?.releaseControl();manualWalk?.stop();faceCamera.setEnabled(false,look);viewingOverview=false;mallWideClip=false;mallFraming=null;const b=byBiome('autumn'),l=RESORT_SPA_LAYOUT;desiredLook.set(b.center[0]+(zone?.x||0),(zone?.y??l.y)+3,b.center[1]+l.offsetZ+(zone?.z??l.z));desiredDistance=zone?Math.max(zone.rx,zone.rz)*2:215;azimuth=.2;elevation=zone ? .35 : .55;desiredFov=48;camera.near=.3;camera.updateProjectionMatrix();},
+     onExit:restore=>{if(restore&&resortSpaPreviousCamera){desiredLook.copy(resortSpaPreviousCamera.look);desiredDistance=resortSpaPreviousCamera.distance;azimuth=resortSpaPreviousCamera.azimuth;elevation=resortSpaPreviousCamera.elevation;desiredFov=resortSpaPreviousCamera.fov;camera.near=resortSpaPreviousCamera.near;camera.updateProjectionMatrix();}resortSpaPreviousCamera=null;},
+   });
+   const canControlChichi=()=>callbacks.canControlChichi?callbacks.canControlChichi()!==false:callbacks.canDragCat?.('chichi')!==false;
+@@ -6047,6 +6047,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+     return [];
+   }
+   function manualSurface(p,radius,from=null){
++    if(resortSpa?.ready){const r=resortSpa.root,q={x:p.x-r.position.x,y:p.y-RESORT_SPA_LAYOUT.y,z:p.z-r.position.z},hit=resortSpa.navigation.support(q,radius);if(hit)return{biome:'autumn',y:hit.y+RESORT_SPA_LAYOUT.y};}
+     for(const b of BIOMES){if(!game.unlocked.includes(b.id))continue;const local={x:p.x-b.center[0],y:p.y,z:p.z-b.center[1]};
+       const housing=b.id===HOUSING_ID;
+       if(!housing&&Math.hypot(local.x,local.z)>(b.radius||11.65)-radius-.15)continue;
+@@ -6081,8 +6082,8 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+   }
+   const manualButton=document.getElementById('chichi-control');
+   const refreshManualButton=()=>{if(!manualButton)return;const active=!!(manualWalk?.active||submarine?.controlled&&submarine?.explorer);if(manualButton.getAttribute('aria-pressed')===String(active))return;manualButton.setAttribute('aria-pressed',String(active));manualButton.textContent=active?'🐈 Отпустить Чичи':'🐈 Управлять Чичи';};
+-  manualWalk=createChichiManual({container,canvas:renderer.domElement,camera,look,actor:chichiCarrier,getRadius:()=>catNavigationRadius(cat),surface:manualSurface,cameraClear:manualCameraClear,canControl:()=>canControlChichi()&&!document.querySelector('dialog[open]'),cancel:()=>{callbacks.onControlChichi?.();cancelHeroActivity();heroGather=null;jobs.cancel('chichi');crew.cancel('chichi');housingLife.cancel?.('chichi');faceCamera.setEnabled(false,look);mall?.exit(false);setCatMood(cat,'happy',{immediate:reduced});},focus,onRelease:refreshManualButton});
+-  if(manualButton)manualButton.onclick=async()=>{if(manualWalk.active){manualWalk.stop();refreshManualButton();return;}if(submarine.controlled&&submarine.explorer){submarine.releaseControl();refreshManualButton();return;}mall?.exit(false);if(await submarine.controlChichi?.()){refreshManualButton();return;}if(submarine.active)return;if(!manualWalk.start())callbacks.onReaction?.('Здесь пока нет свободной опоры для ходьбы.');refreshManualButton();};
++  manualWalk=createChichiManual({container,canvas:renderer.domElement,camera,look,actor:chichiCarrier,getRadius:()=>catNavigationRadius(cat),getTransport:()=>resortSpa?.transportFrame('chichi'),surface:manualSurface,cameraClear:manualCameraClear,canControl:()=>canControlChichi()&&!document.querySelector('dialog[open]'),cancel:()=>{callbacks.onControlChichi?.();cancelHeroActivity();heroGather=null;jobs.cancel('chichi');crew.cancel('chichi');housingLife.cancel?.('chichi');faceCamera.setEnabled(false,look);mall?.exit(false);setCatMood(cat,'happy',{immediate:reduced});},focus,onRelease:refreshManualButton});
++  if(manualButton)manualButton.onclick=async()=>{if(resortSpa?.transportFrame('chichi')&&!manualWalk.active){callbacks.onReaction?.('Дождись прибытия лифта.');return;}if(manualWalk.active){manualWalk.stop();refreshManualButton();return;}if(submarine.controlled&&submarine.explorer){submarine.releaseControl();refreshManualButton();return;}mall?.exit(false);if(await submarine.controlChichi?.()){refreshManualButton();return;}if(submarine.active)return;if(!manualWalk.start())callbacks.onReaction?.('Здесь пока нет свободной опоры для ходьбы.');refreshManualButton();};
+   if((initialGame.mosasaurSubmarine?.active||initialGame.mosasaurSubmarine?.explorer)&&game.unlocked.includes('autumn'))focus('autumn',false,true);
+   requestAnimationFrame(loop);
+   for (const mood of moodNames) {
+diff --git a/scripts/audit-resort-spa-native.mjs b/scripts/audit-resort-spa-native.mjs
+index e6944cf..ca619c3 100644
+--- a/scripts/audit-resort-spa-native.mjs
++++ b/scripts/audit-resort-spa-native.mjs
+@@ -7,7 +7,8 @@ export async function auditResortSpaNative({page,review,errors,httpErrors}){
+  const result=await page.evaluate(()=>{const r=__lagoonQA.resortSpa();return{zones:r.root.userData.zones.size,basins:r.root.userData.basins.length,spaInspection:r.inspection,mallInspection:__lagoonQA.mall().inspection,appScripts:[...document.scripts].filter(s=>s.src.includes('app.js')).length};});assert.equal(result.zones,14);assert.equal(result.basins,5);assert.equal(result.mallInspection,false);
+  const buttons=page.locator('.resort-spa-zones button');assert.equal(await buttons.count(),16);await buttons.filter({hasText:'Massage Palace'}).click();await page.waitForFunction(()=>__lagoonQA.resortSpa().selected==='resort-massage');
+  await page.evaluate(()=>{const q=__lagoonQA;q.targetFrames=q.frames+2;q.drawPaused=false;});await page.waitForFunction(()=>__lagoonQA.frames>=__lagoonQA.targetFrames,null,{timeout:240000});await page.evaluate(()=>{__lagoonQA.drawPaused=true;});await page.screenshot({path:join(review,'actual-game-massage.png')});
+- if(process.env.CHICHI_RESORT_SPA_PROCEDURE_AUDIT){const {auditResortProcedure}=await import('./audit-resort-spa-procedure.mjs');await auditResortProcedure({page,review});}
++ if(process.env.CHICHI_RESORT_SPA_TRANSIT_AUDIT){const {auditResortTransit}=await import('./audit-resort-spa-transit.mjs');await auditResortTransit({page,review});}
++ else if(process.env.CHICHI_RESORT_SPA_PROCEDURE_AUDIT){const {auditResortProcedure}=await import('./audit-resort-spa-procedure.mjs');await auditResortProcedure({page,review});}
+  await page.locator('#camera-all').click();assert.equal(await page.evaluate(()=>__lagoonQA.resortSpa().inspection),false);assert.equal(await page.locator('.resort-spa-zones').isVisible(),false);
+  assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);await writeFile(join(review,'game-scene.json'),JSON.stringify({...result,actualZoneCamera:true,worldReleased:true,errors,httpErrors,scope:'Native private game scene/camera only; full procedures, transport and SQLite receipts not yet audited'},null,2));console.log('PASS native SPA required loading, actual scene, zone camera and World release');
+ }
+diff --git a/scripts/audit-resort-spa-procedure.mjs b/scripts/audit-resort-spa-procedure.mjs
+index 3b358a4..f4ed3dd 100644
+--- a/scripts/audit-resort-spa-procedure.mjs
++++ b/scripts/audit-resort-spa-procedure.mjs
+@@ -1,6 +1,6 @@
+-import assert from'node:assert/strict';import{writeFile}from'node:fs/promises';import{join}from'node:path';import{byBiome}from'../public/game-data.js';import{resortZone,resortSpaSeat}from'../public/resort-spa-data.js';
++import assert from'node:assert/strict';import{writeFile}from'node:fs/promises';import{join}from'node:path';import{byBiome}from'../public/game-data.js';import{resortZone,resortSpaSeat,resortSpaOrigin}from'../public/resort-spa-data.js';
+ export async function auditResortProcedure({page,review}){
+- const centre=byBiome('autumn').center,contact=resortSpaSeat(resortZone('resort-massage'),0);
++ const centre=resortSpaOrigin(byBiome('autumn').center),contact=resortSpaSeat(resortZone('resort-massage'),0);
+  const snapshot=()=>page.evaluate(()=>{const g=__lagoonSaveQA.getGame(),p=g.jobCity.profiles.chichi;return{worldCoins:g.coins,inventory:g.inventory,placements:g.placements,coins:p.coins,receipts:p.mall?.receipts||{},used:p.mall?.used||{},position:__lagoonQA.chichiCarrier.position.toArray()};});
+  await page.evaluate(async({centre,contact})=>{if(!await __lagoonSaveQA.cloud.claimEditor())throw Error('No private simulation owner');const q=__lagoonQA;q.manualFrames=true;q.jobs.cancel('chichi');q.chichiCarrier.position.set(centre[0]+contact.approach.x,contact.approach.y,centre[1]+contact.approach.z);if(!q.resortSpa().startReady('chichi','resort-massage'))throw Error('Actual room appointment could not start');},{centre,contact});
+  const before=await snapshot(),trace=[];let finished=false,captured=false;
+diff --git a/scripts/check-aquarium.cjs b/scripts/check-aquarium.cjs
+index 0537b14..c89672e 100644
+--- a/scripts/check-aquarium.cjs
++++ b/scripts/check-aquarium.cjs
+@@ -357,7 +357,7 @@ async function localWorker() {
+       }
+       g.catPosition={biome,x,z};const b=byBiome(biome);Object.assign(g,captureCatLocations(g,g,[{id:'chichi',position:{x:b.center[0]+x,y:.16,z:b.center[1]+z},yaw:0}],now));
+     }
+-    if(process.env.CHICHI_RESORT_SPA_AUDIT){delete g.mosasaurSubmarine;delete g.catLocations;if(process.env.CHICHI_RESORT_SPA_PROCEDURE_AUDIT)g.jobCity.profiles.chichi.coins=2000;}
++    if(process.env.CHICHI_RESORT_SPA_AUDIT){delete g.mosasaurSubmarine;delete g.catLocations;if(process.env.CHICHI_RESORT_SPA_PROCEDURE_AUDIT||process.env.CHICHI_RESORT_SPA_TRANSIT_AUDIT)g.jobCity.profiles.chichi.coins=2000;}
+     if(process.env.CHICHI_MANUAL_PORTAL_AUDIT){const {MALL_AIRLOCK}=await import(root+'/public/mall-airlock-data.js');g.mosasaurSubmarine={...g.mosasaurSubmarine,active:false,explorerVersion:1,explorer:{...MALL_AIRLOCK.outside,mode:'swimming',yaw:Math.PI,floor:0,returning:false}};}
+     const base = local.base,
+       token = crypto.randomBytes(32).toString("hex"),
+diff --git a/test/resort-spa-appointments.test.mjs b/test/resort-spa-appointments.test.mjs
+index d21269c..15b1ff7 100644
+--- a/test/resort-spa-appointments.test.mjs
++++ b/test/resort-spa-appointments.test.mjs
+@@ -1,6 +1,6 @@
+ import{test}from'node:test';import assert from'node:assert/strict';import{createResortAppointments}from'../public/resort-spa-appointments.js';import{RESORT_SPA,resortZone,resortSpaSeat}from'../public/resort-spa-data.js';import{newGame}from'../public/economy.js';import{ensureJobCity}from'../public/jobcity-system.js';import{buyResortTicket,completeResortTicket}from'../public/resort-spa-economy.js';
+ test('native actor adapter converts root-local geometry heights once and commits actual wallet receipts once',()=>{
+  const now=1795000000000;let game=newGame(now);game.unlocked.push('autumn','jobcity');game=ensureJobCity(game,now,{forMall:true});game.jobCity.profiles.chichi.coins=10000;const zone=resortZone('resort-massage'),c=resortSpaSeat(zone,0),centre=[-300,600],actor={id:'chichi',radius:.571,position:{x:c.approach.x+centre[0],y:c.approach.y,z:c.approach.z+centre[1]}},before={...actor.position};let buys=0,completed=false,queries=0;
+- const app=createResortAppointments({getGame:()=>game,getActors:()=>[actor],centre,getNavigation:()=>({support:p=>{assert(Math.abs(p.y-.18)<1e-6);queries++;return p;},floorPath:(a,b)=>{assert(Math.abs(a.y-.18)<1e-6);assert(Math.abs(b.y-.18)<1e-6);return[a,b];},segmentClear:(a,b)=>Math.abs(a.y-.18)<1e-6&&Math.abs(b.y-.18)<1e-6}),getStaff:()=>[{id:'therapist-0',position:c.staff}],onPurchase:(id,item,receipt)=>{game=buyResortTicket(game,id,item.slice(0,-8),receipt,now);buys++;return true;},onUse:(id,z,r)=>{game=completeResortTicket(game,id,z,r);return true;},onComplete:(id,v)=>{assert.equal(id,'chichi');completed=v.completed;}});
++ const app=createResortAppointments({getGame:()=>game,getActors:()=>[actor],centre,getNavigation:()=>({support:p=>{assert(Math.abs(p.y-.012)<1e-6);queries++;return p;},floorPath:(a,b)=>{assert(Math.abs(a.y-.012)<1e-6);assert(Math.abs(b.y-.012)<1e-6);return[a,b];},segmentClear:(a,b)=>Math.abs(a.y-.012)<1e-6&&Math.abs(b.y-.012)<1e-6}),getStaff:()=>[{id:'therapist-0',position:c.staff}],onPurchase:(id,item,receipt)=>{game=buyResortTicket(game,id,item.slice(0,-8),receipt,now);buys++;return true;},onUse:(id,z,r)=>{game=completeResortTicket(game,id,z,r);return true;},onComplete:(id,v)=>{assert.equal(id,'chichi');completed=v.completed;}});
+  assert(app.start('chichi',zone.id));for(let i=0;i<600;i++){app.update(.1);const f=app.frame('chichi');if(f)Object.assign(actor.position,f.position);}assert(completed);assert.equal(buys,1);assert.equal(game.jobCity.profiles.chichi.coins,9700);assert.equal(game.jobCity.profiles.chichi.mall.used['resort-massage-session'],1);assert.deepEqual(actor.position,before);assert(queries>0);assert.equal(app.staffOwner('therapist-0'),null);
+ });
+diff --git a/test/resort-spa-lift.test.mjs b/test/resort-spa-lift.test.mjs
+index 6323c6d..4eac869 100644
+--- a/test/resort-spa-lift.test.mjs
++++ b/test/resort-spa-lift.test.mjs
+@@ -1,3 +1,3 @@
+ import{test}from'node:test';import assert from'node:assert/strict';import{createResortSpaLift,RESORT_LIFT as L}from'../public/resort-spa-lift.js';
+-test('access lift carries four existing passengers continuously, keeps doors shut under water and requires physical exit',()=>{const lift=createResortSpaLift();for(let i=0;i<4;i++)assert(lift.board('cat-'+i,lift.seat(i)));assert.equal(lift.board('extra',lift.seat(0)),false);assert(lift.depart(1));let previous=lift.state.y;for(let i=0;i<400;i++){lift.step(.1);assert(Math.abs(lift.state.y-previous)<=L.speed*.1+1e-7);previous=lift.state.y;if(lift.state.phase==='travelling')assert.equal(lift.state.door,0);for(let j=0;j<4;j++)assert.equal(lift.position('cat-'+j).y,lift.state.y);}assert.equal(lift.state.y,L.lowerY);assert.equal(lift.state.phase,'open');assert(lift.beginExit('cat-0'));assert.equal(lift.depart(0),false);assert.equal(lift.finishExit('cat-0',{x:20,y:L.lowerY,z:300}),false);assert(lift.finishExit('cat-0',{x:20,y:L.lowerY,z:307}));assert(lift.depart(0));});
++test('access lift carries four existing passengers continuously, keeps doors shut under water and requires physical exit',()=>{const lift=createResortSpaLift();for(let i=0;i<4;i++)assert(lift.board('cat-'+i,lift.seat(i)));assert.equal(lift.board('extra',lift.seat(0)),false);assert(lift.depart(1));let previous=lift.state.y;for(let i=0;i<400;i++){lift.step(.1);assert(Math.abs(lift.state.y-previous)<=L.speed*.1+1e-7);previous=lift.state.y;if(lift.state.phase==='travelling')assert.equal(lift.state.door,0);for(let j=0;j<4;j++)assert.equal(lift.position('cat-'+j).y,lift.state.y);}assert.equal(lift.state.y,L.lowerY);assert.equal(lift.state.phase,'open');assert(lift.beginExit('cat-0'));assert.equal(lift.depart(0),false);assert.equal(lift.finishExit('cat-0',{x:20,y:L.lowerY,z:300}),false);assert(lift.finishExit('cat-0',{x:20,y:L.lowerY,z:293}));assert(lift.depart(0));});
+ test('lift motion and doors retain elapsed time at 30/60/120Hz without opening during travel',()=>{const results=[];for(const fps of[30,60,120]){const lift=createResortSpaLift();lift.depart(1);for(let i=0;i<fps*12;i++)lift.step(1/fps);results.push({...lift.state});}for(const s of results){assert.equal(s.phase,'travelling');assert.equal(s.door,0);assert(Math.abs(s.y-(L.upperY-(12-L.doorSeconds)*L.speed))<1e-7);}});
+diff --git a/test/resort-spa-runtime.test.mjs b/test/resort-spa-runtime.test.mjs
+index ead7a1e..a63f2d7 100644
+--- a/test/resort-spa-runtime.test.mjs
++++ b/test/resort-spa-runtime.test.mjs
+@@ -4,3 +4,4 @@ const advance=(r,n=900)=>{for(let i=0;i<n;i++)r.step(.1);};
+ test('physical appointment returns, bills once, consumes once, reserves therapist and cleans station',()=>{let charge=0,use=0,staff=0,freed=0,complete;const r=createResortSpaRuntime({route:(a,b)=>[a,b],segmentClear:()=>true,onPurchase:()=>{charge++;return'paid-1';},onUse:()=>{use++;return true;},reserveStaff:()=>{staff++;return{id:'native-employee'};},releaseStaff:()=>freed++,onComplete:(id,v)=>complete=v});assert(r.start({catId:'chichi',zoneId:z.id,position:origin}));advance(r);assert.equal(charge,1);assert.equal(use,1);assert.equal(staff,1);assert.equal(freed,1);assert.equal(r.has('chichi'),false);assert(complete.completed);assert.deepEqual(complete.position,origin);assert.equal(r.booking.available(z.id),6);});
+ test('resume uses durable paid ticket; failing effect retries same receipt without rebilling; paused time does not expire ownership',()=>{let charges=0,uses=0;const r=createResortSpaRuntime({route:(a,b)=>[a,b],segmentClear:()=>true,getPaidTicket:()=> 'persisted-7',onPurchase:()=>++charges,onUse:()=>++uses>2,reserveStaff:()=>({id:'staff'})});assert(r.start({catId:'chichi',zoneId:z.id,position:origin}));for(let i=0;i<1000;i++)r.step(1,{allow:false});assert.equal(r.get('chichi').elapsed,0);advance(r);assert.equal(charges,0);assert.equal(uses,3);assert(!r.has('chichi'));});
+ test('blocked full-body segment cannot start a walk or bill; cancellation releases seat and staff',()=>{let bills=0;const r=createResortSpaRuntime({route:(a,b)=>[a,b],segmentClear:()=>false,onPurchase:()=>++bills});assert(r.start({catId:'a',zoneId:z.id,position:origin}));advance(r,100);assert.deepEqual(r.get('a').position,origin);assert.equal(bills,0);assert.equal(r.booking.available(z.id),6);assert(r.cancel('a'));assert(!r.has('a'));});
++test('a rejected real-wallet payment does not break the world loop or retain its therapist and booking',()=>{let released=0,result;const r=createResortSpaRuntime({route:(a,b)=>[a,b],segmentClear:()=>true,onPurchase:()=>{throw Error('Insufficient own coins');},reserveStaff:()=>({id:'therapist'}),releaseStaff:()=>released++,onComplete:(id,v)=>result=v});assert(r.start({catId:'chichi',zoneId:z.id,position:origin}));assert.doesNotThrow(()=>advance(r));assert(!r.has('chichi'));assert.equal(released,1);assert.equal(r.booking.available(z.id),6);assert.equal(result.completed,false);assert.equal(result.receipt,null);});

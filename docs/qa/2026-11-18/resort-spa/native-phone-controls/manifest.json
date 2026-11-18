@@ -1,0 +1,40 @@
+{
+  "status": "PASS actual held-touch dry walking, ocean controller inactive, compact pad, inspection handoff and World release",
+  "node": "22.23.5",
+  "renderer": "Chromium ANGLE SwiftShader",
+  "viewport": [
+    390,
+    844
+  ],
+  "DPR": 2,
+  "source": {
+    "sha256": "b7b24733b2c344efdcb5cd2ec674594ac870893a82ad64fd4cc6e98c9cf04031",
+    "baseline": null,
+    "node": "v22.23.5",
+    "head": "f1edc2ad69b5029ecf8cf2ef1eeabe5690601bf0",
+    "dirty": " M public/index.html\n M public/world.js\n M scripts/audit-resort-spa-phone-walk.mjs\n",
+    "sourceOverlay": "source-HEAD.patch"
+  },
+  "exactSource": "Captured actual public JS imports in source-files.json/imported-source.tar.gz; exact instrumented bundle archived",
+  "scope": "Actual SPA dry-floor fixture, real touch held on W, original native actor, >1metre movement, dry height retained, World release; no inferred device FPS",
+  "limits": [
+    "First functional stage, not all84 detailed behaviors",
+    "Not full autonomous groups or every floor phone walk",
+    "Not target artistic approval or hardware performance"
+  ],
+  "files": {
+    "loaded-style.css": "9db4746b53b8da87077097c9238673ce7d6a6e4f45652fb7b5c92aed121e9fd1",
+    "actual-phone-third-person-controls.png": "e2184101a234088009d1a9c658bdc894b17ba05fe1e8ad759831c10e2d16b761",
+    "qa-build.json": "3e02f39149b85fabcceda253526c782e359e624f21129e13f8483aaacede95dc",
+    "actual-phone-third-person.json": "b4b0939a742cb33b2e7ecbebc6492617e05a1c68c26beada07a01e7d896fa69d",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-HEAD.patch": "95402c1171834d5aafe7a81ff7dbb187bb3c5a2ab7a784b6d2dc2b311bf1bae1",
+    "qa-app.js.gz": "4dfcfea89110bdecac948b479babf0e06766165ee4be7b32d5c3fcfa866e0041",
+    "game-scene.json": "3c70d770f3ce4cfb38fe9c0d705ff26ddc659054e1d908db89482bd36b5b77f4",
+    "source-files.json": "d5094029bdf4ff8a250c34625ea06e2682f591d461174c584bc77af6301fda50",
+    "source-status.txt": "9e8871e3bff30cbf1aaa7d8393bb57d6835c6c961cf498c4bb4a0549b7ffb77e",
+    "actual-game-massage.png": "fa9d5a9a025cb3e482197013b953f646d7d97f2e08b2d2b57962a21438c9f0a8",
+    "imported-source.tar.gz": "f5f3f72b0e69cc9943977b5cba99a0b8a06d22a8283ebfee55fc81d49d5ba70d",
+    "audit.log": "09cb6345d442030a4ac33f32db234b5b7d3c4ba9deeb5d0cc70a7a10d3538639"
+  }
+}

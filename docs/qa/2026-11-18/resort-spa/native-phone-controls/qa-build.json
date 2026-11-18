@@ -1,0 +1,8 @@
+{
+  "sha256": "b7b24733b2c344efdcb5cd2ec674594ac870893a82ad64fd4cc6e98c9cf04031",
+  "baseline": null,
+  "node": "v22.23.5",
+  "head": "f1edc2ad69b5029ecf8cf2ef1eeabe5690601bf0",
+  "dirty": " M public/index.html\n M public/world.js\n M scripts/audit-resort-spa-phone-walk.mjs\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

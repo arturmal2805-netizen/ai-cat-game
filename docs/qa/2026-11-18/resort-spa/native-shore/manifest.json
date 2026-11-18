@@ -1,0 +1,29 @@
+{
+  "stage": "native-shore",
+  "status": "Native PASS at the captured dirty source; NOT published or artistically approved",
+  "base": "d4659e05eecb3329a06a6e3f1304f3d67bc51c85",
+  "node": "22.23.5",
+  "renderer": "Chromium ANGLE SwiftShader; not hardware performance evidence",
+  "scope": "Real shore gate/lift/corridor/massage/return/private SQLite",
+  "sourceEvidence": "Exact instrumented JS bundle plus captured tracked HEAD/index patches and status. Original harness did not separately archive untracked sources; do not assert complete original untracked source recovery. Next reload audit captures actual imported source bytes.",
+  "laterChangesExcluded": "Lift restoration and native resting-contact changes were made AFTER this run. This evidence does not validate those changes.",
+  "limits": [
+    "Not all84 fully authored actions",
+    "Not full autonomous multi-cat/phone tour",
+    "Not target reference visual approval",
+    "Not Mac/iPhone FPS"
+  ],
+  "files": {
+    "actual-game-massage.png": "c8c1d155e4def9ff41c144af8bc3f21b45e8bd1d2eb37e7179a8b6b826bd401e",
+    "actual-landing-lift-massage-return.json": "9fc76862f2e7382a7f2792729f5d55347f2cbf3a32d6bccd3e8194dba98c3e2c",
+    "actual-native-lift-trip.png": "5672bbae78fa1960c6e92e814e58377743be60375df8d5032309e24786585361",
+    "actual-native-massage-after-trip.png": "084fa8e76472895f7ab97f5f72065955e8e261cfeea39f4bb93f0291171c7739",
+    "game-scene.json": "a56adabaa6c18108722ffc134a2bb7211af99aa208ffbb7c98fd0ff8e4eb3db0",
+    "qa-app.js.gz": "ad875a70c2d2dfa742d8439b838c6135048f04e1f2afa64ce711982f1798e5b1",
+    "qa-build.json": "324eae2cf66efcfc2112b8cdd0fb26f25f8b08bc8ea5fed4b092ba587e0de46c",
+    "source-HEAD.patch": "9ddf068a5de7005bcd70a45f673a81c07e2c6e28efb1fbb5ef5b1446788bf25e",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-status.txt": "dbc4ded8eceaf74d251c1aa70fa4bb37008c67a6b2eef461e85dc42659e4ee48",
+    "audit.log": "07af57e109be56f20a37f642c151e5293c937708fab4c2c59605bf9c810b617f"
+  }
+}

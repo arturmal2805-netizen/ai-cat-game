@@ -144,14 +144,14 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
     walkActors(){return [...getActors().map(a=>({id:a.id,...local(a.position),radius:a.radius})),...staff.map((a,i)=>({id:'mall-staff-'+i,...local(a.carrier.position),radius:a.radius})),...(root?.userData.guestActors||[]).filter(a=>!a.roomGuest).map(a=>({id:a.id,x:a.carrier.position.x,y:a.carrier.position.y,z:a.carrier.position.z,radius:catNavigationRadius(a.cat)}))];},
     get root(){return root;},get ready(){return !!root&&!pending&&staff.length===7&&staff.every(s=>s.carrier.parent);},get inspection(){return inspection;},get floor(){return selected;},get guest(){return guest;},
     async start(id,storeId,{productId=null,ticket=null,useOwned=false}={}){
-      const actor=getActors().find(a=>a.id===id),store=mallStore(storeId);if(!actor||!store)return false;
+      const actor=getActors().find(a=>a.id===id),store=mallStore(storeId);if(!actor||!store||store.resort)return false;
       const model=await ensure();if(!model||disposed||!canSimulate())return false;
       if(!await prepareNavigation(store.floor,actor.radius))return false;
       return runtime.start(id,storeId,local(actor.position),{radius:actor.radius,productId,ticket,browseOnly:productId===null,useOwned});
     },
     startReady(id,storeId,ticket=null){
       const actor=getActors().find(a=>a.id===id),store=mallStore(storeId);
-      if(!this.ready||!actor||!store)return false;
+      if(!this.ready||!actor||!store||store.resort)return false;
       if(!mallNavigationReady(root.userData.obstacles.get(store.floor),actor.radius)){
         void prepareNavigation(store.floor,actor.radius).catch(error=>{if(!disposed)onError(error.message);});return false;
       }

@@ -1,0 +1,294 @@
+{
+  "scope": "Private upper-apron starting fixture; actual world actor, full lift/corridor/massage/return and SQLite. Does not prove shore approach, submarine airlock, other procedures or visual acceptance.",
+  "before": {
+    "coins": 2000,
+    "worldCoins": 13835
+  },
+  "after": {
+    "coins": 1700,
+    "worldCoins": 13835,
+    "used": {
+      "resort-massage-session": 1
+    },
+    "position": [
+      -450,
+      0.3499999999999943,
+      789
+    ]
+  },
+  "reloaded": {
+    "coins": 1700,
+    "position": [
+      -450,
+      0.3499999999999943,
+      789
+    ]
+  },
+  "trace": [
+    {
+      "active": true,
+      "phase": "walk",
+      "stage": "lift",
+      "lift": {
+        "floor": 0,
+        "target": 0,
+        "y": 0.35,
+        "phase": "open",
+        "door": 1,
+        "elapsed": 0
+      },
+      "position": [
+        -442.95,
+        0.3499999999999943,
+        789.15
+      ],
+      "paid": 2000
+    },
+    {
+      "active": true,
+      "phase": "riding",
+      "stage": "lift",
+      "lift": {
+        "floor": 0,
+        "target": 1,
+        "y": 0.35,
+        "phase": "closing",
+        "door": 0.9166666666666666,
+        "elapsed": 0.1
+      },
+      "position": [
+        -431.5,
+        0.35,
+        778.5
+      ],
+      "paid": 2000
+    },
+    {
+      "active": true,
+      "phase": "riding",
+      "stage": "lift",
+      "lift": {
+        "floor": 0,
+        "target": 1,
+        "y": -5.050000000000001,
+        "phase": "travelling",
+        "door": 0,
+        "elapsed": 0
+      },
+      "position": [
+        -431.5,
+        -5.050000000000001,
+        778.5
+      ],
+      "paid": 2000
+    },
+    {
+      "active": true,
+      "phase": "walk",
+      "stage": "lift",
+      "lift": {
+        "floor": 1,
+        "target": 1,
+        "y": -164.988,
+        "phase": "open",
+        "door": 1,
+        "elapsed": 0
+      },
+      "position": [
+        -431.3,
+        -164.988,
+        777.8272135954999
+      ],
+      "paid": 2000
+    },
+    {
+      "active": true,
+      "phase": "walk",
+      "stage": "appointment",
+      "lift": {
+        "floor": 1,
+        "target": 1,
+        "y": -164.988,
+        "phase": "open",
+        "door": 1,
+        "elapsed": 0
+      },
+      "position": [
+        -429.3090227771354,
+        -164.988,
+        703.3
+      ],
+      "paid": 2000
+    },
+    {
+      "active": true,
+      "phase": "inspect",
+      "stage": "appointment",
+      "lift": {
+        "floor": 1,
+        "target": 1,
+        "y": -164.988,
+        "phase": "open",
+        "door": 1,
+        "elapsed": 0
+      },
+      "position": [
+        -547,
+        -164.988,
+        697.1
+      ],
+      "paid": 2000
+    },
+    {
+      "active": true,
+      "phase": "procedure",
+      "stage": "appointment",
+      "lift": {
+        "floor": 1,
+        "target": 1,
+        "y": -164.988,
+        "phase": "open",
+        "door": 1,
+        "elapsed": 0
+      },
+      "position": [
+        -547,
+        -163.968,
+        693.5
+      ],
+      "paid": 1700
+    },
+    {
+      "active": true,
+      "phase": "dismount",
+      "stage": "appointment",
+      "lift": {
+        "floor": 1,
+        "target": 1,
+        "y": -164.988,
+        "phase": "open",
+        "door": 1,
+        "elapsed": 0
+      },
+      "position": [
+        -547,
+        -163.6176746729593,
+        693.8322265625
+      ],
+      "paid": 1700
+    },
+    {
+      "active": true,
+      "phase": "walk",
+      "stage": "appointment",
+      "lift": {
+        "floor": 1,
+        "target": 1,
+        "y": -164.988,
+        "phase": "open",
+        "door": 1,
+        "elapsed": 0
+      },
+      "position": [
+        -545.3613397683738,
+        -164.988,
+        698.2
+      ],
+      "paid": 1700
+    },
+    {
+      "active": true,
+      "phase": "walk",
+      "stage": "lift",
+      "lift": {
+        "floor": 1,
+        "target": 1,
+        "y": -164.988,
+        "phase": "open",
+        "door": 1,
+        "elapsed": 0
+      },
+      "position": [
+        -419.3939081781714,
+        -164.988,
+        707.5560918218287
+      ],
+      "paid": 1700
+    },
+    {
+      "active": true,
+      "phase": "riding",
+      "stage": "lift",
+      "lift": {
+        "floor": 1,
+        "target": 0,
+        "y": -163.788,
+        "phase": "travelling",
+        "door": 0,
+        "elapsed": 0
+      },
+      "position": [
+        -431.5,
+        -163.788,
+        778.5
+      ],
+      "paid": 1700
+    },
+    {
+      "active": true,
+      "phase": "riding",
+      "stage": "lift",
+      "lift": {
+        "floor": 0,
+        "target": 0,
+        "y": 0.35,
+        "phase": "opening",
+        "door": 0.5363888888887712,
+        "elapsed": 0.6436666666665254
+      },
+      "position": [
+        -431.5,
+        0.35,
+        778.5
+      ],
+      "paid": 1700
+    },
+    {
+      "active": true,
+      "phase": "walk",
+      "stage": "lift",
+      "lift": {
+        "floor": 0,
+        "target": 0,
+        "y": 0.35,
+        "phase": "open",
+        "door": 1,
+        "elapsed": 0
+      },
+      "position": [
+        -431.3,
+        0.3499999999999943,
+        782.6927864045003
+      ],
+      "paid": 1700
+    },
+    {
+      "active": false,
+      "stage": "lift",
+      "lift": {
+        "floor": 0,
+        "target": 0,
+        "y": 0.35,
+        "phase": "open",
+        "door": 1,
+        "elapsed": 0
+      },
+      "position": [
+        -450,
+        0.3499999999999943,
+        789
+      ],
+      "paid": 1700
+    }
+  ]
+}

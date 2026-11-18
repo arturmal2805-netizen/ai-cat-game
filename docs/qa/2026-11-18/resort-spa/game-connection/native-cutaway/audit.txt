@@ -1,0 +1,1 @@
+PASS native SPA required loading, actual scene, zone camera and World release

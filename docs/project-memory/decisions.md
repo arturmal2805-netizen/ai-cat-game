@@ -234,63 +234,172 @@ Exact triangle/vertex/LOD hashes remain for rock/coral templates. Their cached
 anchors and optical depth are now checked against regenerated expanded geometry,
 not stale b805 world-position hashes. No historical source fixture was rewritten.
 
-## 2026-11-17 — expansion CI guards retain historical controls
+## 2026-11-17 — CI188 and reliable manual-input physical fixture
 
-Full local Node22 suite:1089/1091 passed. Only reference-slides whole-map hash
-and world-consolidation uniform-radius assumption failed after the requested
-water expansion. Preserve the historic slide hash: normalize only autumn's
-radius/arrival to immutable e25 release fixture during that historical hash.
-Independent map guards still check current biome/bridge preservation. Assert
-actual expanded dry radius against the permanent housing-strip clearance,
-without changing any other theme/property expectation. All15 tests across
-these three files pass. Production/native/probe bytes are unchanged. CI187
-failed and did not deploy; publication requires new full CI and HTTP evidence.
+Water f09c3f3 corrects only historical guards; complete Node22 run had1089/1091
+PASS and corrected three guard files15/15PASS. New CI44173134773 must pass
+with actualHTTP assets before water publication is claimed.
+Desktop and phone each moved W/S/A/D in native game, and mocked pendingAI
+was aborted without stale commit. A subsequent SQLite-extended phone run hit
+a genuinely blocked reverse path as a resident walked into the tiny moon test
+area; do not removeNPCs, loosen collisions, or lower movement assertions.
+Seed actual saved homestead195,-20 to separate input regression from dynamic
+path availability, retain all residents and verify loaded seed/no default reset.
 
-## 2026-11-17 — manual input release scope and native checks
+## 2026-11-17 — ocean expansion confirmed live, input fix released separately
 
-Taking control is no longer gated by busy ordinary hero activity/pending AI.
-Dedicated editable/conflict/build permission remains. Versioned cancellation
-protects UI/effects from old promises; manual/physical return defers routine
-care/leisure. No economy/schema/merge/collision/radius/model changes.
-Node22 build and Wrangler dry-run,82 relevant tests and actual desktop/phone
-W/S/A/D with privateSQLite reload pass. Native underwater global button also
-exits/moves/dives/rises/reboards and releases camera under World.
-Water publication must complete first. CI and HTTP receipts remain mandatory
-for this separate fix; native SwiftShader checks establish behavior, not deviceFPS.
+Water f09c3f3d64be85a0394049e59877711d066db733: CI44173134773 all test/deploy/
+pages SUCCESS including server/shared-save verification. HTTP21:06:09.199022UTC
+matched one app script, JSfbb0341f1dd1f67adab0b0003dc00305e7e549bd6bb1318eaa50a16a45aaad29,
+CSSd02068257c7b2b00ecdb80590c8a6bc5003849788f1400e69b6a6d6d91fb4356, all actual
+wave/probe/reef assets. GitHub transient503 stopped the first verifier; bounded
+retry confirmed full success and exactassets. This is not artwork approval.
+Only AFTER that receipt, input fe9415cff8cdbb9dc20ed7def14fa71f6dbff968 was
+pushed to main/codex/global-manual-input. CI44176344655 pending/in progress,
+not yet published. Exact native/SQLite82test/build proof exists in that commit.
+Initial promotion failed before file changes because history directory absent;
+mkdir fixed the helper. No reset/rebase/graphics reductions/MallWIP merged.
 
-## 2026-11-17 — front-bay scope, approved shape and larger final reach
+## 2026-11-17 — manual takeover fix confirmed published
 
-Player approved intermediate0bf shape but needed more forward clearance.
-Final bay reaches282m (+46 vs live) and preserves approved broad C2 shoulder
-through bounded uniona+b-a*b. No upward fill of either released/approved floor;
-full foundation unchanged. Retain12reef templates/counts/scales/LODs. Exact
-fitting keeps wet centres, complete vertices and shore radius; bounded full-angle
-search<=360m moves interfering cliffs away rather than shrinking/hiding them.
-Node22 build,25targeted+8cache/water checks pass. Three native candidate views
-captured; combined run later failed SQLitephase. Independent behavior repeat
-legitimately acquired simulation session and passed swim atz270,SQLite reload
-and physical dock return. Do not relabel the earlier failed run asPASS or
-claim exact rootcause without its missing owner trace. Manifest records this.
-Finalrender timing rows were lost on that assertion; no device/performance win
-claimed. Next player priority: real path/door access throughout world; City
-manual navigation currently mistakes placement road reservations for walls.
+Release fe9415cff8cdbb9dc20ed7def14fa71f6dbff968, CI44176344655 complete test/deploy/pages
+SUCCESS including actual server/shared-save verification. HTTP2026-11-17T21:18:40.630742+00:00
+confirmed ONE app script, JS0ca625bd2ecf9aa7b3b766306bce047b5f27b882be64ab0f3261058b2ea46c88,
+CSSd02068257c7b2b00ecdb80590c8a6bc5003849788f1400e69b6a6d6d91fb4356 plus all
+wave/probe/reef resources. Source/public models, water profiles, collider sizes
+and economy merge semantics retained. Native desktop/phone/pendingAI/SQLite/
+underwater route subsets and82targeted tests passed before this fullCI.
+Publication followed water f09c3f3 only after its complete CI+HTTP receipt.
+Mall WIP remains off queue. This proves behavior/release, not hardware FPS or
+user art acceptance. Expected release public roots remain immutable.
+
+## 2026-11-17 — local front bay rather than another whole-island expansion
+
+Player clarified the screenshot refers to deep seabed IN FRONT of the Mall.
+Isolated worktree from livefe9415c, WIP0bf98d5 remote. Modest ellipse extension
+adds18m forward/12m each side;36m C2quintic outer shoulder, unchanged foundation
+mask. Grid guards reject raising released swimming space and preserve actual
+foundation. Keep all12reef models/scales/LODs; four interfering rims move,
+exact unchanged offsets retained. Offline search expands120→180m when colony2
+has no valid original bounded fit; full-vertex and shoreline limits unchanged.
+Old cache guard correctly failed before regeneration, not a reason to loosen
+it. Node22 rebuild completed; candidate native/derivedcache retests pending.
+
+## 2026-11-18 — front-bay final published; next is physical paths and doors
+
+e8ab6ffc24453e1e3ead9acf5190f90acff88730, workflow44185424944 complete SUCCESS and
+HTTP2026-11-17T22:12:26.233244+00:00 actual13assets matched/oneapp. Final46mfront
+extension preserves approved C2shoulder and oldfreewater; nativez270swim,
+SQLite and physicaldockreturn passed separately. Finalmatchedoverview same
+2804×1384/camera/FOV40/DPR2/exposure1:1634→1633calls,14975258→14973242tri,
+single softwareframe24249.2→22587.3ms. No deviceFPS or artisticwater guarantee.
+After publication user explicitly queued paths/doors including JobCityroads,
+allhouse/officeentrances and Mallgate. WIPcad6214 uses actualprimitive
+bounds/surfaces prebatch, retaining13models byteexact; do not confuse
+placement roadreservations with physicalwalls. Newcheckpoint/remainingQA
+recorded inCURRENT. No economic/save/merge/radius reductions.
 
 
-## 2026-11-18 — Физические проходы вместо строительных запретов
+## 2026-11-18 — Проверенные проходы отправлены в main
 
-Road/parking jobReservations запрещали размещение построек, но manualSurface
-ошибочно принимал их за стены. Разделены строительные резервы и настоящая
-геометрия. Двери используют отдельные исходные OBB до batching, поддерживают
-настоящие полы/ступени и сохраняют стены, мебель, полный радиус/рост кота.
-На ПК у шлюза добавлено контекстное действие, без экранного блока движения.
-См. QA manifest manual-paths-doors; все13 моделей побайтно неизменны.
+39148734bd3f4a0265a6ec9aff8ab4b41f36c0b4; CI44194305867 pending.
+Дорога City больше не строительная стена; реальные отдельные OBB сохраняют
+проёмы всех6офисов и7домов. Native City/home/phone/real Mall airlock PASS,
+Node22build и regression guards PASS. Full evidence in source docs/qa/2026-11-18/manual-paths-doors.
+13models byteexact to e8. Art Mall redesign excluded. No live claim until receipt.
 
-## 2026-11-18 — Lossless AI input dictionaries
 
-User requested compact requests after a SPA catalogue exceeded the internal legacy
-20k-character guard. Request count and input length are different. Repeated
-personality/wish/visited-store strings now use a shared dictionary in explicitly
-string-valued columns; all cat identities/state/venues/output guards remain.
-Stable measurements and tests: docs/qa/2026-11-18/ai-context-compact/README.md.
-No new paid call or frequency reduction. Separate change based on3914873;
-unfinished SPA code excluded. CI/live status remains in canonical CURRENT.
+## 2026-11-18 — Проходы опубликованы и проверены HTTP
+
+39148734bd3f4a0265a6ec9aff8ab4b41f36c0b4, workflow44194305867 SUCCESS.
+JS/CSS и13 assets совпали с immutable public /workspace/chichi-manual-paths-doors.
+Квитанция в docs/qa/2026-11-18/manual-paths-publication. Одно приложение.
+Далее самостоятельный SPA в codex/underwater-spa-resort; не включён в релиз.
+
+
+## 2026-11-18 — Input length is not API call count
+
+Internal20klegacy character guard does not count Cloudflare requests. User asked
+for further compression; shared dictionaries losslessly encode repeated string
+columns in both legacy full plans and scheduled career/evening events. Keep
+147cats,allvenues,needs,balances,personality,wishes,families and original strict
+output contracts. No extra model call, cadence reduction or promised billing.
+Separate release candidate827e370 and workflow44305576620; SPA excluded.
+
+
+## 2026-11-18 — Передача и независимый R10
+
+КороткийAGENTS ссылается на обязательные полные правила без удаления требований;
+CURRENTсокращён, старыйстатус архивирован. ROADMAP — приоритеты/критерии.
+READMEисправлен поактуальному Node22/AIevents/opt-inpaidCI. Режимыthirdperson/
+guest/floor и historicald6 vsCrimsonref сохранены. Оригинальныеinlineimageбайты
+неполучены: пробел отмечен, хеши/лицензии не выдуманы.
+R10 всех30linkedtrees содержитincremental bundle+working/cached/status/new/deleted;
+удалённыебайты проверены и восстановлены30/30. Для дискового бюджета тестовые
+копии удалялись ТОЛЬКОпослеexactпроверки; оригиналы не тронуты. НоваякопияSPA
+извосстановленногоGit установилаNode22deps/прошла19checks. RemoteURL/SHAвCURRENT.
+
+## 2026-11-18 — Физический доступ SPA и отдельные процедуры
+
+WIP24cfec41907b802942440febb716a897681c5f0f сохранён в codex/underwater-spa-resort;
+site/main всё ещё827e3708979cb95c4675e38caf6354364c733b64. Native верхняя
+площадка→лифт→массаж→лифт→площадка→SQLite PASS,2000→1700, одинчек/used.
+Source/overlays/bundle/PNG/logs: docs/qa/2026-11-18/resort-spa/native-transit в этой
+ветке. Это не полный берег/субмарина/phone/все процедуры/художественное одобрение.
+
+Реальные причины блокировки: геометрияSPA пересекала дно (только новая origin
+сдвинута20м); нижний miter-угол закрыл pressure-port; massage-specificcontinue
+пропускал мостик; tangent-ended мост оставлял неподдерживаемые кусочки между
+прямоугольником и круглым полом. Исправлены сами реальные меши и проходы,
+без уменьшения кота/отключения столкновений/телепорта. Последнее выявил native
+возврат, а не проверка только начальной/конечной точки. Финансовый отказ
+обработан без падения worldloop; баланс проверяется до поездки/процедуры.
+
+Пользователь уточнил:14зон должны иметь разные классные милые проработанные
+анимации. Подтверждён только массаж; теперь приоритет бассейны/джакузи, далее
+остальные процедуры. Одна поза с разными названиями не84состояния.
+
+## 2026-11-18 — Разные водные/сухие процедуры и ловушки реальной геометрии
+
+WIP0f5f71185c55ed5879adc0173fc888991778bbc8 проверил3водных сервиса/SQLite,
+WIPd4659e05eecb3329a06a6e3f1304f3d67bc51c85 —11dryposeциклов/SQLite.
+Все14 имеют отдельные фазы; это не84полныханимации и не художественное одобрение.
+Sparseinteriors, отсутствующие каскады/полный groomingstaff/props отмечены в QA.
+Водная отмена возвращается физически по ступеням, paidticket не потребляется.
+
+Authoredfloor обязателен при батчинге: nearestzone ошибочно назначал верхнюю
+плиту атриума уровнюкафе. Meshposition недостаточен для геометрии с ужеавторскими
+вершинами; fallback должен учитывать boundingboxcentre. Скрывать рендер можно,
+удалять физические опоры/логику нельзя.
+
+При добавлении стеклянных переходов реальная Yразвилка с подходом отлифта
+закрылась sidewall соседнего мостика. Решение — точные polygon-intersections
+и разбиение только внутренних фрагментов; внешние стены/полный радиускота
+сохраняются. То же на Tвходе со старого пирса: полмостика начинался напирсе,
+но его боковина перекрыла продольное движение; clipточно внутри ширины2.2м.
+
+Отдельный боковой проём z289,width5; старый субмаринный проём92..99 сохранён.
+Пирсовые rails/poles имеют единый source для модели/коллизий; reflectionbaker
+пересчитал настоящую сцену после sourceизменения. builderObstacles включает
+большие reservationsразмещения ВСЕЙводы/пирса и не является физическимcollisionlist;
+приходSPA использует manualPhysicalObstacles плюс реальные rails/poles.
+Новый native shore-route на момент записи идёт; не считать его PASS заранее.
+
+
+## 2026-11-18 — Первый функциональный этап SPA и восстановление лифта
+
+Пользователь настойчиво просит отдельную публикацию проверенного этапа.
+Не выдавать это за завершение художественного референса или84полныханимаций.
+Новый actualphysical shore gate требует actualrails/poles, не reservation
+всейводы; источник отражения переснят существующим baker.
+Реальный coldSQLite test восстанавливает существующие catLocations и кабину
+наY=-65.05 с закрытыми дверями и физически возвращает наверх; нет телепорта,
+новой save schema/общегоmerge/повторного списания.
+Нативные rest контакты проверяются по настоящим skinnedvertices; перед CPU
+запросом обновляются bindMatrixInverse (updateMatrixWorld), а не только matrixWorld.
+
+Слияние release ветки с опубликованным827e370 нужно для сохранения последней
+упаковки AI и ancestry main. Runtimeконфликтов не было.3конфликта add/add только
+в ai-context-compact QA: main измерения остаются в оригинальном пути, SPAкопии
+в ai-context-compact-spa-wip. Не заменять этими числами опубликованные измерения.
+Финальный Node22/fullCI/nativephone/live pending записан в CURRENT, не успех заранее.

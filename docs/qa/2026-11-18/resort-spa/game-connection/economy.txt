@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: mall appends seven floors and real destinations to the existing AI catalogue
+ok 1 - mall appends seven floors and real destinations to the existing AI catalogue
+  ---
+  duration_ms: 107.491582
+  type: 'test'
+  ...
+# Subtest: existing private wallet buys once, retains its permanent receipt and exact inventory over two reloads
+ok 2 - existing private wallet buys once, retains its permanent receipt and exact inventory over two reloads
+  ---
+  duration_ms: 23.462982
+  type: 'test'
+  ...
+# Subtest: poor balance, unavailable ocean, stale sequence and repeated unique item fail without mutating the save
+ok 3 - poor balance, unavailable ocean, stale sequence and repeated unique item fail without mutating the save
+  ---
+  duration_ms: 7.306585
+  type: 'test'
+  ...
+# Subtest: eating consumes the purchased stock once, restores native needs and persists consumption
+ok 4 - eating consumes the purchased stock once, restores native needs and persists consumption
+  ---
+  duration_ms: 10.402945
+  type: 'test'
+  ...
+# Subtest: cached clients cannot erase a paid receipt or unknown product; racing same-wallet payments reject atomically
+ok 5 - cached clients cannot erase a paid receipt or unknown product; racing same-wallet payments reject atomically
+  ---
+  duration_ms: 24.47791
+  type: 'test'
+  ...
+# Subtest: each SPA service uses existing durable wallet/inventory and survives reload without charging or applying effects twice
+ok 6 - each SPA service uses existing durable wallet/inventory and survives reload without charging or applying effects twice
+  ---
+  duration_ms: 293.058466
+  type: 'test'
+  ...
+# Subtest: old concurrent save preserves paid SPA ticket; wrong service, balance and stale sequence reject atomically
+ok 7 - old concurrent save preserves paid SPA ticket; wrong service, balance and stale sequence reject atomically
+  ---
+  duration_ms: 26.275534
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 517.868623

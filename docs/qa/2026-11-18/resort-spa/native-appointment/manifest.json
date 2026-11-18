@@ -1,0 +1,11 @@
+{
+  "base": "6def03bdc325d0e7c784b8c730383c25edfb9679",
+  "source": "Exact final source bytes in tested-source-files.json; dirty patches/status and instrumented bundle in each run. New untracked source included by following WIP commit.",
+  "node": "22.23.5",
+  "scope": "Private in-room fixture, real Chichi and staff, actual app wallet, one purchase/use, SQLite reload preserves1700/usedreceipt/position. No full shore/submarine entry/all14procedures proof.",
+  "passes": [
+    "native-appointment",
+    "native-appointment-pose"
+  ],
+  "remaining": "physical access lift/corridors, all remaining procedures/84actions, airtight rooms, art reference quality, phone/full CI before SPA publication"
+}

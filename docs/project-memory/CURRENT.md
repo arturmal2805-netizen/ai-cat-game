@@ -1,99 +1,90 @@
-# Текущий статус — единственная очередь
+# Текущий статус
 
-Обновлено2026-11-18, Europe/Kiev. Архитектурная/художественная доработка ТРЦ
-по-прежнему внеочереди. Новый запрос на ФУНКЦИОНАЛЬНЫЕ входы и проходы разрешён.
+Обновлено **2026-11-18, Europe/Kiev**. История: [архив](history/CURRENT-before-handoff-2026-11-18.md).
 
-## Текущий подтверждённый релиз
+## Последняя подтверждённая публикация
 
-**e8ab6ffc24453e1e3ead9acf5190f90acff88730** — main и реально загруженный сайт.
-Workflow44185424944: полныйtest/deploy/pages SUCCESS, server/sharedsaves verified.
-HTTP2026-11-17T22:12:26.233244+00:00: одно приложение; actualassets matched.
-JSdb3df27ba3a6df07bf24b076f86f1b8e2d74e262468fd79f060e261322321acf,
-CSSd02068257c7b2b00ecdb80590c8a6bc5003849788f1400e69b6a6d6d91fb4356.
-[Квитанция](../qa/2026-11-18/forecourt-publication/live-verification.json).
-Игра: https://arturmal2805-netizen.github.io/ai-cat-game/?v=e8ab6ff
-Одноразовая диагностика: https://arturmal2805-netizen.github.io/ai-cat-game/?v=e8ab6ff&profile=1
-Публикация подтверждена2026-11-18 00:12:26 Киев, пользователь получил ссылку.
+**827e3708979cb95c4675e38caf6354364c733b64**, origin/main.
+[Игра](https://arturmal2805-netizen.github.io/ai-cat-game/?v=827e370),
+[workflow44305576620](https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44305576620):
+полный test/deploy/pages SUCCESS; сервер/release/sharedsaves проверены CI.
+HTTP2026-11-18T12:53:03.520067+00:00: одно приложение, реальные JS/CSS совпали.
+JS5681cfb381526eddc877a80448535fecf0272a52c95da9744ad8edfd43a44be2;
+CSSeb9e72f520559ea58aefb78c10bbe4c2990e345caff015428b04e81f6ed141d2.
+Прямой Worker/api/status из этой среды: HTTP-tunnel403; не ошибка токена,
+не свидетельство отказа игровогоAI. Прямую проверку не считать выполненной;
+release/sharedsaves подтверждены соответствующим успешным шагом CI.
+[Квитанция](../qa/2026-11-18/ai-context-publication/live-verification.json).
 
-Передняя глубокая площадка ТРЦ удлинена на46m:282 вместо236; xradius192
-вместо180, глубина−190. Игрок одобрил плавную форму0bf98d5, но попросил ещё
-места. Сохранён её C2shoulder и добавлен forward ellipse через bounded union
-(a+b-a*b): не засыпан ни прежний, ни одобренный промежуточный свободный объём.
-Внешний берег/другие острова/архитектура/фундамент/модели/сейвы прежние.
-Сохранены12reef templates/scale/count/LODs; мешавшиеfrontreefs перемещены в
-реальную воду, полныйvertex/shore proof, offline bounded search<=360m.
-Общийводныйshader/8slideprobes прежние, actualMOSAprobe509a62f9c210 переснят.
+Релиз только упаковывает повторяющиеся строки AI-запросов; число вызовов,
+котики/данные, схемы ответов/валидация/бюджеты сохранены. На147котиках текст
+плана19281→15620символов; карьеры5734→4090; вечер+покупки+семьи30661→21175.
+Это символы/байты, не измеренные токены/стоимость/latency. ПлатныйQAневызывался.
+Публичная карта/JS/CSS прежние39148734bd3f4a0265a6ec9aff8ab4b41f36c0b4.
+Проходы/двери опубликованы3914873; переднее дно+46м — e8ab6ffc24453e1e3ead9acf5190f90acff88730.
 
-Node22build,25targeted+8cache/water tests PASS, полныйCI PASS.
-Native finalswim сz270 →SQLite reload →physical autonomous dock return PASS.
-Первый совмещённыйrender+save run поймалpiloting послеreload; его НЕ считать
-полнымPASS. Отдельнаякорректнаясессия legitimatelyclaimEditor прошла весь
-поведенческий сценарий. Production save/schema/collision tests не ослаблялись.
-[Точный source/QA/manifest](https://github.com/arturmal2805-netizen/ai-cat-game/blob/e8ab6ffc24453e1e3ead9acf5190f90acff88730/docs/qa/2026-11-17/forecourt-smoothing/manifest.json).
-Финальныйmatchedoverview переснят отдельно:2804×1384, samecamera/FOV40/DPR2/
-exposure1. Calls1634→1633, triangles14975258→14973242. Один synchronized
-SwiftShader frame24249.2→22587.3ms НЕ Mac/phone FPS/гарантия прироста.
-Source/QA этого дополнительного захвата сохранены рядом с новой квитанцией.
+## Кандидат публикации SPA — подготовка, ещё НЕ опубликован
 
-## Сейчас — дорожки, двери домов/офисов, вход ТРЦ
+Исходники **a8ea3753c44068cb6940b21e7f0796c5394a4282**, remote
+**codex/underwater-spa-resort**, /workspace/chichi-underwater-spa-resort.
+Релиз готовится отдельно: /workspace/chichi-spa-functional-publication,
+codex/spa-functional-publication, merge актуального main827e370 и SPA.
+Runtime public/server/shared-world при слиянии идентичен проверяемому SPA:
+конфликтовали ТОЛЬКО3 add/add документа ai-context-compact. Опубликованные
+измерения сохранены в прежнем каталоге, SPA в ai-context-compact-spa-wip.
+Один app script; Node22 build, cat model bytes прежние.
 
-Последний запрос: после расширения исправить хождение везде, дорожки и входы
-вТРЦ/все дома/офисы. На фото CatJobCity нельзя перейти через дорожку.
-Ветка codex/manual-paths-doors, /workspace/chichi-manual-paths-doors,
-remoteWIPcad6214 (полныйSHA смотретьgit). Базаe8ab6ff, НОВЫЙфикснеопубликован.
+Native PASS: реальный причал→боковой проход→лифт→массаж→лифт→причал→SQLite;
+11dry+3wet процедуры на отдельных фикстурах с общими receipts/балансами;
+холодная перезагрузка при Y=-65.05: точная высота/закрытые двери, настоящий
+подъём/выход, World release и второй reload без списания. Source snapshots/
+bundles/PNG/logs: docs/qa/2026-11-18/resort-spa/native-{shore,furnished,cold-reload}.
+4native-contact/recovery unit cases PASS; full CI44337958092 на0c73207 идёт.
+Телефон:14процедур/SQLite PASS, дополнительный UI test прерван из-за неверного
+фокуса острова в QAпослеreload; итоговый focused held-touch test новой компактной
+панели идёт отдельно, не повторяет все14циклов. Финальный release CI ещё требуется.
 
-ПричинаCity подтверждена: manualSurface использовалbuilderObstacles с
-jobReservations, где самиroad/parking являются placementexclusions.
-Нельзя считать ихстенами и нельзя просто удалить настоящие стены.
-WIP отделяетactualplacement/scenery blockers иcityGroundClear отстроительных
-резервов; реальные здания используют примитивыДОбатчинга.
-Новыйmanual-building-navigation.js хранит реальные отдельныеOBBs/полы/ступени,
-необщийAABB mergedmesh. Sharednav натипдома, малый ownerboardoverlay наinstance.
-Door/camera неразрушают walls/furniture. Radius.571 прежний. RestnativeCat
-maxY2.0890767, heightguard2.15; радиус/ростнеменьшены.
-ModelrootY учтён отдельно: offices.16, houses0; footOffset.01, безпарения.
-Production economy/schema/merge/coin/inventory/catmodels неизменны.
+Реализованы14зон/3уровня/9водныхобъёмов,6массажныхкабинетов,6стеклянных
+кабан, сакура/фонари/мебель/садовыекаскады на sharedwater; отдельная камера/
+inspection, лестницы/pressureglass/полный радиус. Поддержка native тела/лап
+на лежаке проверена настоящими skinnedvertices, не числами reaction.
 
-Все6офисныхдверей и7домов проходятunitсbody-sweep, back/sidewalls remain solid.
-13models byteexact vertices/indices/UV/normals/colours/groups/worldmatrices кe8.
-КвитанциявWIP docs/qa/2026-11-18/manual-paths-doors/manual-paths-exact-models.json.
-Финальные native City, bought-home-v3, held-touch phone и desktop Mall portal PASS.
-Проверены дорога, реальная дверь офиса/дома и выход, освобождение камеры,
-приватный SQLite reload; шлюз ТРЦ проходит последовательные двери123 шага
-в каждую сторону, затем настоящая ходьба и World release. Desktop pad скрыт.
-Node22 build PASS; unit3, explorer12 и housing/chill/manual36 PASS; предыдущие
-незатронутые targeted cases пройдены. Все13 моделей byteexact к e8.
-Доказательства и точные QA bundles: docs/qa/2026-11-18/manual-paths-doors/manifest.json.
-Кандидат отправляется на main отдельно от расширения. CI/live пока НЕ подтверждены.
-Не утверждать проверку каждого верхнего этажа офисов/каждой точки мира.
+Это ПЕРВЫЙ ФУНКЦИОНАЛЬНЫЙ ЭТАП SPA, НЕ полный референс/84готовых действия.
+Остаются подробный groomingstaff/социальныепарныепроцедуры/сауна/звуки,
+все84фазы, mid-procedure/water reload, общий автономный multi-cat/phone tour,
+marinekeepout/artistical detail и сравнение с референсом/performance.
+Пользователь требует публиковать проверенные этапы быстрее. Не добавлять
+новую художественную работу в этот выпуск. Не объявлять окончательную
+готовность или Mac/iPhone FPS. Main/live всё ещё827e370, пока не подтверждены
+финальный workflow и actualassets. Старые worktrees сохранены; никаких
+платных AI QA вызовов. Диагностика только по?profile=1 и скрывается послезакрытия.
 
-## Следующие шаги
+## Проверенная независимая резервная копия R10
 
-1. ЗавершитьактивныйWIP проходов. Неослаблятьbodyradius/столкновения и не
-   исправлять маршрутытелепортом. Не менятьэкономику/назначения/домовладение.
-2. Оптимизация поактуальному аппаратному отчёту новойверсии после загрузки,
-   samecamera/settings/DPR,30секунд. Старые6secMacpauses не объявленыисправленными.
-3. Не возвращать эстетическую/архитектурную доработкуТРЦ безновогозапроса.
+[Архив/инструкция/квитанции](https://github.com/arturmal2805-netizen/ai-cat-game/tree/archive/project-memory-2026-11-18-r10/backups),
+commit **e38a822797b3a9c970c85ff5826f7b338fb35831**.263669636байт в6частях; общийSHA256
+1ddb1c75b512a5e2c55c724947e4a870d5b675d7fdcd5267b0ef5deadefd683c.
+Снова скачан сGitHub безlocalalternates; SHA256/всеpartbytes совпали.
+В новомGitrepo восстановлены30/30worktrees: HEADdiff/indexdiff/status/files exact.
+Только тестовыекопии удалялись после проверки; оригинальные деревья не тронуты.
+Fresh restoredSPA4adcbd3: npmci/Node22.23.5 и19targetedtests PASS.
+Backupинкрементальный: требует39148734bd3f4a0265a6ec9aff8ab4b41f36c0b4.
+Не fullGit; ignoreddeps/caches/liveDB/credentials исключены. LFSfilter не обнаружен
+на trackedfiles всех30деревьев. Snapshotпамятиced69e712a7838431a5aec779181c8e11053b88d;
+эти финальные квитанции сохранены отдельным последующим doccommit.
+[Локальные копии квитанций](../qa/2026-11-18/project-memory-handoff/).
 
-## Сохранённые исходники и неизменные стандарты
+Последняя проверка телефонной кнопки обнаружила конфликт выбора контроллера:
+сухой пол SPA ниже моря попадал сначала в submarine.controlChichi. Теперь
+реальная поддержка dryfloor проверяется раньше классификации океанской глубины.
+Нативный focused held-touch прогон новой версии pending, fullsuite CI0c73207
+уже перешёл к wrangler dry-run. Финальный productionCI всё равно обязателен.
 
-Каноническая самая свежая память: codex/ocean-recovery-memory. MainCURRENT
-можетфиксироватьpredeploy pending; читать эту ветку перед возобновлением.
-Предыдущийstablefe9415cff8cdbb9dc20ed7def14fa71f6dbff968: глобальныйentry,
-busy-activity/pendingAI takeover, actualdesktop/phoneWASD,SQLite иunderwater
-проверены, CI44176344655/actualHTTP successful. Runtimefix4d8f8f9, кандидатc838986.
-Вода×2 опубликована отдельноf09c3f3d64be85a0394049e59877711d066db733,
-CI44173134773/HTTP21:06:09UTC successful, сохранилисьузлы/покупки/ownership.
-История и WIP/архивR9: [предыдущая CURRENT](history/CURRENT-before-confirmed-forecourt-2026-11-18.md).
-
-Immutableexpected publicroots /workspace/chichi-ocean-forecourt-smoothing,
-/workspace/chichi-global-manual-input, /workspace/chichi-ocean-area-expansion
-не менять дляновыхпубликаций. Старуюdirty /workspace/ai-cat-game/worktrees
-не удалять/неreset. MallWIPd3ecc7a/codex/mall-cyberpunk-detail архивирован,
-не включён. Трипропавшиеветки не восстановлены. R9 неfullGit и не позднийкод.
-
-[Индекс](README.md), [вода](standards/water.md), [controls](standards/controls-camera.md),
-[решения](decisions.md). SlidesVERYEARLYprototype, d6fa8056f18d2d738890cc9b477334e4cda81523
-историческаяtechbase; CrimsonDesert — новаяцель. Одобрение localформы не равно
-одобрению всейводы илиhardwareFPS. Диагностика только?profile=1, query
-потребляется, close снимаетcollectors; reload безокна. ПлатныйAI невызывался.
+Финальные локальные проверки завершены: native-phone-controls PASS — настоящий
+held-touch W, >1м движения на сухомполу, submarine controller неактивен,
+inspection скрыт, World release. Native14 phone procedures/SQLite такжеPASS
+отдельно от последующего aborted QA add-on. Exact snapshots/manifests в
+docs/qa/2026-11-18/resort-spa/native-phone-{procedures,controls}.
+Test-only CI44337958092 на0c73207 SUCCESS (deploy/pages skipped). Runtime
+кандидата идентичен a8ea3753c44068cb6940b21e7f0796c5394a4282; послеmerge
+дополнительного изменения runtime нет. Публикация/финальныйworkflow ещёpending.

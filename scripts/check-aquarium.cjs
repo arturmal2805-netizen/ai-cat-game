@@ -19,14 +19,14 @@ fs.mkdirSync(review, { recursive: true });
 const baseline = process.env.CHICHI_BASELINE_REF;
 if (baseline && !/^[a-f0-9]{7,40}$/.test(baseline))
   throw Error("Expected a commit hash");
-const readPublic = (name) =>
-  baseline
-    ? require("node:child_process").execFileSync(
-        "git",
-        ["show", baseline + ":public/" + name],
-        { cwd: root, encoding: "utf8" },
-      )
-    : fs.readFileSync(root + "/public/" + name, "utf8");
+const qaSourceFiles=new Map();
+const readPublic = (name) => {
+  if(qaSourceFiles.has(name))return qaSourceFiles.get(name);
+  const contents=baseline
+    ? require("node:child_process").execFileSync("git",["show",baseline+":public/"+name],{cwd:root,encoding:"utf8"})
+    : fs.readFileSync(root+"/public/"+name,"utf8");
+  qaSourceFiles.set(name,contents);return contents;
+};
 if (process.env.CHICHI_COMPARE_SCENERY_BLEND &&
     !readPublic("scenery-models.js").includes('./scenery-blending.js'))
   throw Error("Alpha-one comparison requires experiment/alpha-one-scenery-20261027 (585b2f1); the production branch keeps the released paint.");
@@ -357,6 +357,7 @@ async function localWorker() {
       }
       g.catPosition={biome,x,z};const b=byBiome(biome);Object.assign(g,captureCatLocations(g,g,[{id:'chichi',position:{x:b.center[0]+x,y:.16,z:b.center[1]+z},yaw:0}],now));
     }
+    if(process.env.CHICHI_RESORT_SPA_AUDIT){delete g.mosasaurSubmarine;delete g.catLocations;if(process.env.CHICHI_RESORT_SPA_PROCEDURE_AUDIT||process.env.CHICHI_RESORT_SPA_TRANSIT_AUDIT||process.env.CHICHI_RESORT_SPA_POOLS_AUDIT||process.env.CHICHI_RESORT_SPA_DRY_AUDIT)g.jobCity.profiles.chichi.coins=process.env.CHICHI_RESORT_SPA_DRY_AUDIT&&process.env.CHICHI_RESORT_SPA_POOLS_AUDIT?6000:2000;}
     if(process.env.CHICHI_MANUAL_PORTAL_AUDIT){const {MALL_AIRLOCK}=await import(root+'/public/mall-airlock-data.js');g.mosasaurSubmarine={...g.mosasaurSubmarine,active:false,explorerVersion:1,explorer:{...MALL_AIRLOCK.outside,mode:'swimming',yaw:Math.PI,floor:0,returning:false}};}
     const base = local.base,
       token = crypto.randomBytes(32).toString("hex"),
@@ -555,7 +556,7 @@ async function localWorker() {
                   )
                   .replace(
                     marker,
-                    `  const qa=window.__lagoonQA={step:loop,gpuFrames,trackUploads:qaTrackUploads,geometryResidencyFactory:createGeometryResidency,shadowDepth:typeof shadowDepth==='undefined'?null:shadowDepth,geometryResidency:typeof geometryResidency==='undefined'?null:geometryResidency,makeGeometryResidency:options=>createGeometryResidency(renderer,options),gpuBuffers:qaGpuBuffers,matrixCache:typeof matrixCache==='undefined'?null:matrixCache,shaderWarmup:typeof shaderWarmup==='undefined'?null:shaderWarmup,colonyDraws:typeof colonyDraws==='undefined'?null:colonyDraws,animateCat,setCatMood,poseAtlas:typeof poseAtlas==='undefined'?null:poseAtlas,staticDraws:typeof staticDraws==='undefined'?null:staticDraws,setGameHour:hour=>{game.jobCity.epoch=Date.now()-(hour===12?0:720000);},gameClock:()=>cityClock(game.jobCity),manualSurface,manualWalk:()=>manualWalk,submarine:()=>submarine,mall:()=>mall,catRadius:()=>catNavigationRadius(cat),camera,look,desiredLook,renderer,islands,animalGuests:typeof animalGuests==='undefined'?null:animalGuests,housingLife,cat,npcs,chichiCarrier,itemGroups,jobs,cityCars,updateCityCar,THREE,scene,pickDrop,pointer,raycaster,ground,viewport,sync,perform,performResident,faceCamera,spa,chill,court,cinema,courtFoods,bikiniLife,enterCourt,exitCourt,getCourtCamera:()=>courtCamera,residentPlay,callbacks,showCatHome,getDragging:()=>draggingCat?.catId,getAnimalDragging:()=>typeof draggingAnimal==='undefined'?null:draggingAnimal?.animalId,getTapState:()=>({pendingTap,pointerDown,dragging:draggingCat?.catId,focused,viewingOverview,face:faceCamera.enabled}),reviewView:(x,z,d)=>{desiredLook.set(x,0,z);desiredDistance=d;azimuth=.15;},pauseHarvestAutonomy:${!!process.env.CHICHI_MAGIC_BED_AUDIT},constructorMs:performance.now()-qaStart,focused:()=>focused,getOperation:()=>operation,isVisible:()=>worldVisible,getDistance:()=>distance,getDesiredDistance:()=>desiredDistance,getOrbit:()=>({azimuth,elevation}),reviewOrbit:(a,e)=>{azimuth=a;elevation=e;},freeze:${!!process.env.CHICHI_CAT_LOCATION_AUDIT||!!process.env.CHICHI_GATHER_AUDIT},frames:0,resizes:0,black:[],audit:false,measure:false,cpu:[]};
+                    `  const qa=window.__lagoonQA={step:loop,gpuFrames,trackUploads:qaTrackUploads,geometryResidencyFactory:createGeometryResidency,shadowDepth:typeof shadowDepth==='undefined'?null:shadowDepth,geometryResidency:typeof geometryResidency==='undefined'?null:geometryResidency,makeGeometryResidency:options=>createGeometryResidency(renderer,options),gpuBuffers:qaGpuBuffers,matrixCache:typeof matrixCache==='undefined'?null:matrixCache,shaderWarmup:typeof shaderWarmup==='undefined'?null:shaderWarmup,colonyDraws:typeof colonyDraws==='undefined'?null:colonyDraws,animateCat,setCatMood,poseAtlas:typeof poseAtlas==='undefined'?null:poseAtlas,staticDraws:typeof staticDraws==='undefined'?null:staticDraws,setGameHour:hour=>{game.jobCity.epoch=Date.now()-(hour===12?0:720000);},gameClock:()=>cityClock(game.jobCity),manualSurface,manualWalk:()=>manualWalk,submarine:()=>submarine,mall:()=>mall,resortSpa:()=>resortSpa,catRadius:()=>catNavigationRadius(cat),camera,look,desiredLook,renderer,islands,animalGuests:typeof animalGuests==='undefined'?null:animalGuests,housingLife,cat,npcs,chichiCarrier,itemGroups,jobs,cityCars,updateCityCar,THREE,scene,pickDrop,pointer,raycaster,ground,viewport,sync,perform,performResident,faceCamera,spa,chill,court,cinema,courtFoods,bikiniLife,enterCourt,exitCourt,getCourtCamera:()=>courtCamera,residentPlay,callbacks,showCatHome,getDragging:()=>draggingCat?.catId,getAnimalDragging:()=>typeof draggingAnimal==='undefined'?null:draggingAnimal?.animalId,getTapState:()=>({pendingTap,pointerDown,dragging:draggingCat?.catId,focused,viewingOverview,face:faceCamera.enabled}),reviewView:(x,z,d)=>{desiredLook.set(x,0,z);desiredDistance=d;azimuth=.15;},pauseHarvestAutonomy:${!!process.env.CHICHI_MAGIC_BED_AUDIT},constructorMs:performance.now()-qaStart,focused:()=>focused,getOperation:()=>operation,isVisible:()=>worldVisible,getDistance:()=>distance,getDesiredDistance:()=>desiredDistance,getOrbit:()=>({azimuth,elevation}),reviewOrbit:(a,e)=>{azimuth=a;elevation=e;},freeze:${!!process.env.CHICHI_CAT_LOCATION_AUDIT||!!process.env.CHICHI_GATHER_AUDIT},frames:0,resizes:0,black:[],audit:false,measure:false,cpu:[]};
   const draw=renderer.render.bind(renderer);qa.drawFrame=()=>draw(scene,camera);renderer.render=(...args)=>{if(qa.drawPaused&&!qa.commandOnly)return;const started=performance.now();draw(...args);qa.frames++;if(qa.liveFrames)qa.liveFrames.push([started,performance.now()-started,renderer.info.render.calls,renderer.info.render.triangles]);};
   qa.settleJobs=seconds=>{const actors=Object.keys(game.jobCity?.profiles||{}).map(id=>({id,local:jobs.get(id)?.position||{x:0,y:.32,z:-10.3},biome:'jobcity'}));for(let i=0;i<seconds*30;i++)jobs.step(game,actors,1/30,i/30);for(const a of actors){const v=jobs.get(a.id),carrier=a.id==='chichi'?chichiCarrier:npcs.get(a.id)?.carrier;if(v&&carrier)carrier.position.set(JOB_CITY_CENTER[0]+v.position.x,v.position.y+.8,JOB_CITY_CENTER[1]+v.position.z);}};
   const size=renderer.setSize.bind(renderer);renderer.setSize=(...args)=>{qa.resizes++;return size(...args);};
@@ -593,9 +594,9 @@ async function localWorker() {
                 ),
               loader: "js",
             }));
-            if (baseline || process.env.CHICHI_TERRAIN_AUDIT)
+            if (baseline || process.env.CHICHI_TERRAIN_AUDIT || process.env.CHICHI_EXPLORER_AUDIT)
               b.onLoad({ filter: /\/public\/.*\.js$/ }, (args) => ({
-                contents: readPublic(path.basename(args.path)),
+                contents: readPublic(path.relative(path.join(root,"public"),args.path)),
                 loader: "js",
               }));
           },
@@ -692,12 +693,14 @@ async function localWorker() {
 
     if(process.env.CHICHI_EXPLORER_AUDIT){
       fs.writeFileSync(path.join(review,'qa-app.js'),output.outputFiles[0].contents);
+      const captured={};for(const[name,contents]of qaSourceFiles){const target=path.join(review,'source',name);fs.mkdirSync(path.dirname(target),{recursive:true});fs.writeFileSync(target,contents);captured[name]=crypto.createHash('sha256').update(contents).digest('hex');}fs.writeFileSync(path.join(review,'source-files.json'),JSON.stringify(captured,null,2));
       const sourceGit=(args)=>require('node:child_process').execFileSync('git',args,{cwd:root,maxBuffer:32*1024*1024});
       fs.writeFileSync(path.join(review,'source-HEAD.patch'),sourceGit(['diff','HEAD','--binary']));
       fs.writeFileSync(path.join(review,'source-cached.patch'),sourceGit(['diff','--cached','--binary']));
       const dirty=sourceGit(['status','--porcelain=v1']).toString();
       fs.writeFileSync(path.join(review,'source-status.txt'),dirty);
       fs.writeFileSync(path.join(review,'qa-build.json'),JSON.stringify({sha256:crypto.createHash('sha256').update(output.outputFiles[0].contents).digest('hex'),baseline:process.env.CHICHI_BASELINE_REF||null,node:process.version,head:sourceGit(['rev-parse','HEAD']).toString().trim(),dirty,sourceOverlay:'source-HEAD.patch'},null,2));
+      if(process.env.CHICHI_RESORT_SPA_AUDIT){const {auditResortSpaNative}=await import('./audit-resort-spa-native.mjs');await auditResortSpaNative({page,review,errors,httpErrors});return;}
       if(process.env.CHICHI_MANUAL_PORTAL_AUDIT){const {auditManualPortal}=await import('./audit-manual-portal-native.mjs');await auditManualPortal({page,review,errors,httpErrors});return;}
       if(process.env.CHICHI_MANUAL_PATHS_AUDIT){const {auditManualPaths}=await import('./audit-manual-paths-native.mjs');await auditManualPaths({page,review,errors,httpErrors});return;}
       if(process.env.CHICHI_FORECOURT_AUDIT){const {auditForecourt}=await import('./audit-forecourt-native.mjs');await auditForecourt({page,review,errors,httpErrors});return;}

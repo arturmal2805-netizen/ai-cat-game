@@ -1,0 +1,8 @@
+{
+  "sha256": "1d123f013efceb8d5886b005c2ba522b543a3b5a88f95f0bfd5eb018267c2a82",
+  "baseline": null,
+  "node": "v22.23.5",
+  "head": "63053c2e92a3a3a4e07d4f634de6c235730bf44f",
+  "dirty": " M public/index.html\n M public/mall-data.js\n M public/mall-world.js\n M public/resort-spa-data.js\n M public/style.css\n M public/world.js\n M scripts/check-aquarium.cjs\n?? public/resort-spa-economy.js\n?? public/resort-spa-navigation.js\n?? public/resort-spa-world.js\n?? scripts/audit-resort-spa-native.mjs\n?? test/resort-spa-economy.test.mjs\n?? test/resort-spa-navigation.test.mjs\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

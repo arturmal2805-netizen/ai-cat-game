@@ -1,3 +1,4 @@
+import {mosaPierPoles,mosaPierRails} from './resort-pier-link-data.js';
 import {floorStoneSteps} from './mosasaur-floor-stones.js';
 import {installSandRegionSteps} from './mosasaur-sand-region.js';
 import {createCoastMeadowGrass} from './meadow-coast-grass.js';
@@ -126,8 +127,8 @@ export function* mosasaurBiomeSteps(
   const pier=new THREE.Mesh(new THREE.BoxGeometry(2.2,.17,MOSA_SHORE_GATE.z-23+1),new THREE.MeshStandardMaterial({color:0xc39860,map:surfaceTexture('wood'),roughness:.72}));
   pier.position.set(0,.19,(23+MOSA_SHORE_GATE.z+1)/2);pier.name='Extended dry approach to the original pickup pier';pier.receiveShadow=true;navigation.add(pier);
   const rail=new THREE.Group();
-  for(let z=24;z<=MOSA_SHORE_GATE.z;z+=2.5)for(const x of [-1.1,1.1])if(x>0||z<92||z>99)shape(rail,'pole',0x9a7648,x,.65,z,.055,.9,.055);
-  for(const [x,a,b]of [[1.1,23,MOSA_SHORE_GATE.z],[-1.1,23,92],[-1.1,99,MOSA_SHORE_GATE.z]])shape(rail,'cube',0xc7a16a,x,1.04,(a+b)/2,.055,.055,b-a);
+  for(const {x,z}of mosaPierPoles(MOSA_SHORE_GATE.z))shape(rail,'pole',0x9a7648,x,.65,z,.055,.9,.055);
+  for(const {x,a,b}of mosaPierRails(MOSA_SHORE_GATE.z))shape(rail,'cube',0xc7a16a,x,1.04,(a+b)/2,.055,.055,b-a);
   // A real side gangplank reaches the submarine's hatch. The original pickup
   // pier remains at its released coordinates; the boarding walk stays dry.
   const gangplank=new THREE.Mesh(new THREE.BoxGeometry(1.65,.17,Math.hypot(3.8,2.5)),pier.material);

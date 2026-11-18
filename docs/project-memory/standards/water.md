@@ -36,8 +36,8 @@ AGENTS.md прямо фиксирует принятие clear-water этапа 
 удалённых тегов при этой проверке не было; новый тег не нужен для постоянной
 SHA-ссылки. Не перемещать чужие теги.
 
-[Точные исходники/ресурсы и SHA256](https://github.com/arturmal2805-netizen/ai-cat-game/blob/f5f89c75513c416d6713715b1ae0d568270fab20/docs/qa/2026-11-16/project-memory/approved-water-source-and-assets.json).
-[Новый контрольный native-захват точного d6fa805](https://github.com/arturmal2805-netizen/ai-cat-game/blob/f5f89c75513c416d6713715b1ae0d568270fab20/docs/qa/2026-11-16/project-memory/approved-water/manifest.json)
+[Точные исходники/ресурсы и SHA256](../../qa/2026-11-16/project-memory/approved-water-source-and-assets.json).
+[Новый контрольный native-захват точного d6fa805](../../qa/2026-11-16/project-memory/approved-water/manifest.json)
 с байтами QA-сборки и условиями. Это документальный захват исторического кода,
 не старый пользовательский PNG и не новое пользовательское одобрение.
 
@@ -249,3 +249,13 @@ macro waves и native A/B — в CURRENT и QA2026-11-17; внешний вид 
 
 Последующий macro-source4dc9838 прошёл также полный CI44046315766;
 публикационные jobs skipped. Native18-biome coverage подтвердил одно поле.
+
+
+## Опубликованное общее ядро,17ноября2026
+
+b8051f931c66608acd15ac41bb6043c7081b7605 — опубликованный технический этап
+общей воды на прежней географии12d. CI44063176067 и actual live asset hashes
+подтверждены; источник текущего статуса — CURRENT. Единый1024² provider,
+macro/micro waves/Fresnel/GGX/medium и linear-radiance/4 отражения теперь live.
+Это не достижение Crimson Desert и не одобрение всего дна; развитие общего
+ядра далее распространять по карте, сохраняя физические параметры профилей.

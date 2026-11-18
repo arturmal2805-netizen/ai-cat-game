@@ -47,8 +47,8 @@ progress даже при скрытом render. Постоянная faceCamera 
 
 ## Проверки и статус
 
-[Последний технический этап](https://github.com/arturmal2805-netizen/ai-cat-game/blob/f5f89c75513c416d6713715b1ae0d568270fab20/docs/qa/2026-11-16/mall.md),
-[native/source/build/PNG hashes](https://github.com/arturmal2805-netizen/ai-cat-game/blob/f5f89c75513c416d6713715b1ae0d568270fab20/docs/qa/2026-11-16/mall-native-summary.json).
+[Последний технический этап](../../qa/2026-11-16/mall.md),
+[native/source/build/PNG hashes](../../qa/2026-11-16/mall-native-summary.json).
 Источник b67d2f1ebcd6e0166d04a720ff7fa7348cb44441, публикация12d478e:
 39целевых тестов, реальные шесть магазинов/14посетителей, покупка850монет,
 два мороженых/SQLite reload, разные камеры и полный Explorer были проверены.
@@ -59,3 +59,16 @@ progress даже при скрытом render. Постоянная faceCamera 
 После изменений: реальные walking/collision/airlock/storeys/return+autonomy,
 private SQLite ownership, phone/desktop views, полные кадры/паузы/память,
 Node22/full CI/live assets. Камеры описаны отдельным controls-camera стандартом.
+
+## Static range submissions и материалы (2026-11-17)
+
+Room-light/cutaway устанавливаются после batching. Эти два position-preserving
+hooks могут сохранить exact static ranges через registerPositionPreservingShader,
+связывающий реальные function/cache-key identities. Не отмечать wind/refraction/
+displacement как static: unknown mutation по-прежнему nativefallback.
+Room lighting раньше ЗАМЕНЯЛ older Mall reflection finish. Сохранять только
+известный static wrapper (#undef USE_BATCHING), иначе дублируются uMallProbe и
+reflection locals. Shared materials получают room hook один раз.
+Native audit обязан проверять errors[] вместе с pixel equality: две одинаково
+битые картинки тоже дают0difference. Reference failedV1 и исправленныйV2
+сохранены в ветке codex/mall-submit-performance/QA2026-11-17/mall-static-submit.

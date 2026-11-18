@@ -1,0 +1,245 @@
+diff --git a/public/app.js b/public/app.js
+index ddff05a..054f682 100644
+--- a/public/app.js
++++ b/public/app.js
+@@ -1,3 +1,4 @@
++import {completeResortTicket} from './resort-spa-economy.js';
+ import {prepareWaterField} from './water-field.js';
+ import {createMallUI} from './mall-ui.js';
+ import {mallProduct} from './mall-data.js';
+@@ -1480,6 +1481,7 @@ try {
+     onGatherComplete: persist,
+     onSelectMallStore:id=>mallUI.show(id),
+     onMallPurchase:(id,item,receipt)=>{if(!cloud.simulationOwner||!cloud.editable||cloud.conflict)return false;commit(buyMallProduct(game,id,item,receipt));return true;},
++    onResortSpaUse:(id,zone,receipt)=>{if(!cloud.simulationOwner||!cloud.editable||cloud.conflict)return false;commit(completeResortTicket(game,id,zone,receipt));return true;},
+     onMallUse:(id,item)=>{if(!cloud.simulationOwner||!cloud.editable||cloud.conflict)return false;commit(useMallProduct(game,id,item));return true;},
+     onMallGoal:(id,goal)=>{
+       if(!cloud.simulationOwner||!cloud.editable||cloud.conflict||!game.jobCity?.profiles[id])return;
+diff --git a/public/resort-spa-runtime.js b/public/resort-spa-runtime.js
+index f723a8a..6dccbf4 100644
+--- a/public/resort-spa-runtime.js
++++ b/public/resort-spa-runtime.js
+@@ -33,15 +33,15 @@ export function createResortSpaRuntime({route,segmentClear,onPurchase,onUse,onCo
+      v.phase='mount';v.elapsed=0;v.mountFrom=copy(v.position);
+     }else if(v.phase==='mount'){
+      const u=Math.min(1,v.elapsed/1.6),t=smooth(u),a=v.mountFrom,b=v.contact;
+-     const height=v.zone.procedure==='massage'?1.02:['lounge','sleep','cabana','vip'].includes(v.zone.procedure)?.65:0;
+-     const target={x:b.x,y:b.y-.18+height,z:b.z};v.position={x:a.x+(target.x-a.x)*t,y:a.y+(target.y-a.y)*t+Math.sin(Math.PI*u)*.2,z:a.z+(target.z-a.z)*t};
++     const height=v.zone.procedure==='massage'?1.2:['lounge','sleep','cabana','vip'].includes(v.zone.procedure)?1.1:0;
++     const target={x:b.x,y:b.y-.18+height,z:b.z};v.position={x:a.x+(target.x-a.x)*t,y:a.y+(target.y-a.y)*t+Math.sin(Math.PI*u)*.8,z:a.z+(target.z-a.z)*t};
+      if(u===1){v.phase='procedure';v.elapsed=0;}
+     }else if(v.phase==='procedure'&&v.elapsed>=24){
+      // Success is durable before returning; callback failure keeps ownership
+      // and retries this same receipt, never buys a replacement ticket.
+      if(!v.used){try{v.used=!!onUse?.(v.catId,v.zone.id,v.receipt);}catch{v.used=false;}}if(!v.used)continue;v.phase='dismount';v.elapsed=0;v.mountFrom=copy(v.position);
+     }else if(v.phase==='dismount'){
+-     const u=Math.min(1,v.elapsed/1.6),t=smooth(u),a=v.mountFrom,b=v.contact.approach;v.position={x:a.x+(b.x-a.x)*t,y:a.y+(b.y-a.y)*t+Math.sin(Math.PI*u)*.2,z:a.z+(b.z-a.z)*t};
++     const u=Math.min(1,v.elapsed/1.6),t=smooth(u),a=v.mountFrom,b=v.contact.approach;v.position={x:a.x+(b.x-a.x)*t,y:a.y+(b.y-a.y)*t+Math.sin(Math.PI*u)*.8,z:a.z+(b.z-a.z)*t};
+      if(u===1){booking.release(v.catId,clock);if(v.staff){releaseStaff(v.staff.id,v.catId);v.staff=null;}v.phase='return-pending';}
+     }else if(v.phase==='return-pending'){walk(v,v.returnTo,'done');}
+     else if(v.phase==='done'){release(v,true);}
+diff --git a/public/resort-spa-world.js b/public/resort-spa-world.js
+index 24841d9..40ad040 100644
+--- a/public/resort-spa-world.js
++++ b/public/resort-spa-world.js
+@@ -1,3 +1,5 @@
++import {createResortAppointments} from './resort-spa-appointments.js';
++import {resortSpaStaffSteps,updateResortStaff,disposeResortStaff} from './resort-spa-staff.js';
+ import {prepareMallArt} from './mall-art.js';
+ import {prepareMosaWaterReflection} from './mosasaur-water-probe.js';
+ import * as T from 'three';
+@@ -7,23 +9,23 @@ import {RESORT_SPA as L,RESORT_ZONES,resortZone} from './resort-spa-data.js';
+ import {byBiome} from './game-data.js';
+ // Independent scene/camera owner. Mall's floors, selection and guest camera
+ // remain untouched; only the world coordinator performs the hand-off.
+-export function createResortSpaWorld({scene,container,getGame,getFocused,getOverview,prepare,prepareModel,onCamera,onExit,onError=()=>{}}){
+- const centre=byBiome('autumn').center,controller=new AbortController(),buttons=new Map();let root=null,pending=null,disposed=false,inspection=false,selected=null,navigation=null;
++export function createResortSpaWorld({scene,container,getGame,getFocused,getOverview,prepare,prepareModel,onCamera,onExit,onError=()=>{},getActors=()=>[],registerCat=()=>{},canSimulate=()=>true,blocked=()=>false,onPurchase,onUse,onGoal,onComplete}){
++ const centre=byBiome('autumn').center,controller=new AbortController(),buttons=new Map();let root=null,pending=null,disposed=false,inspection=false,selected=null,navigation=null,appointments=null,staff=[];
+  const access=document.createElement('button');access.className='resort-spa-access';access.textContent='🪷 SPA';access.hidden=true;access.onclick=()=>inspect();(container.querySelector('.map-controls')||container).append(access);
+  const panel=document.createElement('nav');panel.className='resort-spa-zones';panel.hidden=true;panel.setAttribute('aria-label','Зоны подводного SPA');container.append(panel);
+  for(const zone of [null,...RESORT_ZONES]){const b=document.createElement('button');b.textContent=zone?.name||'Общий вид';b.onclick=()=>inspect(zone?.id);panel.append(b);buttons.set(zone?.id||'overview',b);}
+  const close=document.createElement('button');close.textContent='Выйти из обзора';close.onclick=()=>exit();panel.append(close);
+- async function ensure(){if(root)return root;if(pending)return pending;if(disposed)return null;pending=(async()=>{let model;try{await Promise.all([prepareMallArt(),prepareMosaWaterReflection()]);model=await prepare(resortSpaModelSteps(),controller.signal);if(disposed){model.userData.dispose();return null;}model.position.x=centre[0];model.position.z=centre[1];model.userData.biomeId='autumn';
++ async function ensure(){if(pending)return pending;if(root)return root;if(disposed)return null;pending=(async()=>{let model;try{await Promise.all([prepareMallArt(),prepareMosaWaterReflection()]);model=await prepare(resortSpaModelSteps(),controller.signal);if(disposed){model.userData.dispose();return null;}model.position.x=centre[0];model.position.z=centre[1];model.userData.biomeId='autumn';
+    // Navigation is evaluated in ocean-local coordinates; prepare before the
+    // world translation, retaining the authored floor and pool triangles.
+    model.position.x=0;model.position.z=0;navigation=createResortSpaNavigation(model);model.position.x=centre[0];model.position.z=centre[1];model.updateWorldMatrix(true,true);
+-   await prepareModel(model);if(disposed){model.userData.dispose();return null;}scene.add(model);root=model;return root;
+-  }catch(e){if(model&&!root)model.userData.dispose();if(!disposed)onError(e.message);return null;}finally{pending=null;}})();return pending;}
++   await prepareModel(model);if(disposed){model.userData.dispose();return null;}scene.add(model);root=model;staff=await prepare(resortSpaStaffSteps(centre,registerCat),controller.signal);if(disposed){disposeResortStaff(staff);staff=[];return null;}for(const s of staff){await prepareModel(s.carrier);if(disposed)break;scene.add(s.carrier);}if(disposed){disposeResortStaff(staff);staff=[];return null;}appointments=createResortAppointments({getGame,getActors,getNavigation:()=>navigation,centre,canSimulate,blocked,onPurchase,onUse,onGoal,onComplete,getStaff:()=>staff});return root;
++  }catch(e){if(root===model){scene.remove(root);root=null;model.userData.dispose();}else if(model&&!disposed)model.userData.dispose();disposeResortStaff(staff);staff=[];appointments=null;if(!disposed)onError(e.message);return null;}finally{pending=null;}})();return pending;}
+  async function inspect(id=null){const zone=id?resortZone(id):null;if(id&&!zone)return false;if(!getGame().unlocked.includes('autumn')||!await ensure())return false;onCamera(zone,!inspection);inspection=true;selected=id;root.userData.setInspectionLevel?.(zone?.level??null);panel.hidden=false;for(const [key,b]of buttons)b.setAttribute('aria-pressed',String(key===(id||'overview')));return true;}
+  function exit(restore=true){if(!inspection)return;inspection=false;root?.userData.setInspectionLevel?.(null);panel.hidden=true;selected=null;onExit(restore);}
+- return{ensure,inspect,exit,get root(){return root;},get inspection(){return inspection;},get navigation(){return navigation;},get selected(){return selected;},
++ return{ensure,inspect,exit,get root(){return root;},get ready(){return!!root&&!pending&&!!appointments;},get appointments(){return appointments;},has:id=>appointments?.has(id)||false,cancel:id=>appointments?.cancel(id),frame:id=>appointments?.frame(id),startReady:(id,zone)=>!pending&&appointments?.start(id,zone)||false,get inspection(){return inspection;},get navigation(){return navigation;},get selected(){return selected;},
+   pick(ray,occluder=null){if(!root?.visible)return false;const hits=ray.intersectObject(root,true);if(!hits.length)return false;if(occluder){const front=ray.intersectObject(occluder,true)[0];if(front&&front.distance<hits[0].distance)return false;}void inspect();return true;},
+-  update(dt,time,reduced=false){const active=getFocused()==='autumn',visible=active||getOverview();access.hidden=!active||!getGame().unlocked.includes('autumn');if(root){root.visible=visible;if(visible)root.userData.update(time,reduced);}},
+-  dispose(){disposed=true;controller.abort();access.remove();panel.remove();if(root){scene.remove(root);root.userData.dispose();root=null;}},
++  update(dt,time,reduced=false){const active=getFocused()==='autumn',visible=active||getOverview();access.hidden=!active||!getGame().unlocked.includes('autumn');appointments?.update(dt);updateResortStaff(staff,appointments,time,reduced,visible);if(root){root.visible=visible;if(visible)root.userData.update(time,reduced);}},
++  dispose(){disposed=true;controller.abort();access.remove();panel.remove();appointments?.clear();disposeResortStaff(staff);staff=[];if(root){scene.remove(root);root.userData.dispose();root=null;}},
+  };
+ }
+diff --git a/public/world.js b/public/world.js
+index 502b572..aefce3b 100644
+--- a/public/world.js
++++ b/public/world.js
+@@ -1,5 +1,5 @@
+ import {createResortSpaWorld} from './resort-spa-world.js';
+-import {RESORT_SPA as RESORT_SPA_LAYOUT} from './resort-spa-data.js';
++import {resortZone,RESORT_SPA as RESORT_SPA_LAYOUT} from './resort-spa-data.js';
+ import {manualBuildingSupport,manualBuildingCameraClear} from './manual-building-navigation.js';
+ import {createChichiManual,clearsWalkObstacles} from './chichi-manual.js';
+ import {applyExplorerLocomotion} from './explorer-locomotion.js';
+@@ -698,7 +698,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+           p = game.jobCity.profiles[id];
+         return (
+           !p ||
+-          (!visit && mall?.has(id)) ||
++          (!visit && (mall?.has(id)||resortSpa?.has(id))) ||
+           draggingCat?.catId === id ||
+           (gatherParticipants.has(id) && (now < gatherUntil || now < (n?.gatheredUntil || 0))) ||
+           crew.workers.has(id) ||
+@@ -724,7 +724,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+               operation?.partyIds?.has(id))
+         );
+       },
+-      active: (id) => mall?.has(id) || (
++      active: (id) => (mall?.has(id)||resortSpa?.has(id)) || (
+         id === "chichi"
+           ? !!operation?.leisureTicket
+           : !!(
+@@ -735,6 +735,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+               jobs.get(id)?.decision?.leisure
+             )),
+       prepare: (offer) => {
++        if(resortZone(offer.id)){if(!resortSpa?.ready)void resortSpa?.ensure();return!!resortSpa?.ready;}
+         if(mallStore(offer.id)){if(!mall?.root)void mall?.ensure();return !!mall?.root;}
+         ensureDetail(offer.biome);
+         const g = itemGroups.get(offer.id);
+@@ -778,6 +779,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+         };
+       },
+       start: (id, offer, ticket) => {
++        if(resortZone(offer.id)){if(id==='chichi'){if(operation||(submarine?.active||manualWalk?.active))return false;cancelHeroActivity(true);}else cancelResident(id,true);return resortSpa?.startReady(id,offer.id)||false;}
+         if(mallStore(offer.id)){
+           if(id==='chichi'){if(operation||(submarine?.active||manualWalk?.active))return false;cancelHeroActivity(true);}
+           else {cancelResident(id,true);const n=npcs.get(id);if(n)n.leisureBiome='autumn';}
+@@ -811,7 +813,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+         return performResident(id, decision, { autonomous: true });
+       },
+       stop: (id) => {
+-        mall?.cancel(id);
++        mall?.cancel(id);resortSpa?.cancel(id);
+         if (id === "chichi") {
+           if (operation?.leisureTicket) cancelHeroActivity();
+         } else {
+@@ -1466,7 +1468,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+     },
+   });
+   function cancelResident(id, keepLeisure = false) {
+-    if(!keepLeisure)mall?.cancel(id);
++    if(!keepLeisure){mall?.cancel(id);resortSpa?.cancel(id);}
+     if (!keepLeisure) leisure.cancel(id);
+     const actor = npcs.get(id);
+     if(actor){actor.pendingReference=null;actor.gatherTrip=null;actor.gatheredUntil=0;}
+@@ -2566,7 +2568,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+       );
+   }
+   function cancelHeroActivity(keepLeisure = false) {
+-    if(!keepLeisure)mall?.cancel("chichi");
++    if(!keepLeisure){mall?.cancel("chichi");resortSpa?.cancel("chichi");}
+     if (!keepLeisure) leisure.cancel("chichi");
+     court.cancel("chichi");
+     if (operation) {
+@@ -3969,7 +3971,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+               !p.trip &&
+               !manualJob) ||
+             (Date.now() < (p.manualUntil || 0) && !p.trip && !manualJob) ||
+-            mall?.has(id) ||
++            (mall?.has(id)||resortSpa?.has(id)) ||
+             draggingCat?.catId === id ||
+             (now < gatherUntil && gatherParticipants.has(id)) ||
+             (id === "chichi"
+@@ -4012,7 +4014,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+             draggingCat?.catId === id ||
+             (gatherParticipants.has(id) && (now < gatherUntil || now < (n?.gatheredUntil||0))) ||
+             crew.workers.has(id) ||
+-            mall?.has(id) ||
++            (mall?.has(id)||resortSpa?.has(id)) ||
+             p?.trip ||
+             jobs.has(id) ||
+             Date.now() < (p?.manualUntil || 0) ||
+@@ -4298,7 +4300,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+             court.get(id) ||
+             crew.workers.has(id) ||
+             jobs.has(id) ||
+-            mall?.has(id) ||
++            (mall?.has(id)||resortSpa?.has(id)) ||
+             housingLife.get(id) ||
+             leisure.has(id) ||
+             (now >= (n.gatheredUntil || 0) && (familyLinks.has(id) ||
+@@ -4362,7 +4364,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+       const gathering = n.gatherTrip ? gatherFrame(n.gatherTrip,now) : null;
+       const homeVisit = housingLife.get(id);
+       const leisureFrame = leisure.frame(id);
+-      const mallFrame = mall?.frame(id,time);
++      const mallFrame = mall?.frame(id,time)||resortSpa?.frame(id);
+       const spouse = familyLinks.get(id),
+         follows =
+           spouse &&
+@@ -5689,7 +5691,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+       walking = heroLeisure.walking;
+       reaction = heroLeisure.reaction;
+     }
+-    const heroMall=mall?.frame('chichi',time);
++    const heroMall=mall?.frame('chichi',time)||resortSpa?.frame('chichi');
+     if(heroMall&&!draggingCat&&!heroBuild&&!(submarine?.active||manualWalk?.active)){chichiCarrier.position.copy(heroMall.position);chichiCarrier.rotation.y=heroMall.yaw;walking=heroMall.walking;reaction=heroMall.reaction;}
+     refreshManualButton();
+     const boatPose=!dialogOpen?submarine?.update(dt,time,reduced):null;
+@@ -6024,7 +6026,10 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+     onPurchase:(...args)=>callbacks.onMallPurchase?.(...args),onUse:(...args)=>callbacks.onMallUse?.(...args),onGoal:(...args)=>callbacks.onMallGoal?.(...args),
+     onComplete:(id,visit)=>{if(visit.ticket)finishLeisure(id,{completed:true});else {const n=npcs.get(id);if(n)n.manualUntil=0;}},
+   });
+-  resortSpa=createResortSpaWorld({scene,container,getGame:()=>game,getFocused:()=>focused,getOverview:()=>viewingOverview,
++  resortSpa=createResortSpaWorld({scene,container,getActors:()=>lifeActors,registerCat:model=>enableCatRenderBatch(model,poseAtlas),canSimulate:()=>callbacks.canSimulateLeisure?.()!==false,
++    blocked:id=>draggingCat?.catId===id||crew.workers.has(id)||jobs.has(id)||!!housingLife.get(id)||(id==='chichi'&&!!(operation||submarine?.active||manualWalk?.active)),
++    onPurchase:(...args)=>callbacks.onMallPurchase?.(...args),onUse:(...args)=>callbacks.onResortSpaUse?.(...args),onGoal:(...args)=>callbacks.onMallGoal?.(...args),
++    onComplete:(id,result)=>{if(leisure.has(id))finishLeisure(id,result);},getGame:()=>game,getFocused:()=>focused,getOverview:()=>viewingOverview,
+     prepare:(steps,signal)=>prepareSceneSteps(steps,{scheduler:scenePreparation,priority:'autumn',signal}),
+     prepareModel:model=>shaderWarmup.prepare(model,{background:focused!=='autumn'}),
+     onError:message=>callbacks.onReaction?.(message),
+@@ -6094,7 +6099,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+   }
+   return {
+     perform,
+-    isHeroControlled:()=>!!(manualWalk?.active||submarine?.active),
++    isHeroControlled:()=>!!(manualWalk?.active||submarine?.active||resortSpa?.has('chichi')),
+     releaseHeroControl:()=>{manualWalk?.stop();submarine?.releaseControl();refreshManualButton();},
+     submarine:()=>submarine,
+     mall:()=>mall,
+diff --git a/scripts/audit-resort-spa-native.mjs b/scripts/audit-resort-spa-native.mjs
+index 34c6c8a..e6944cf 100644
+--- a/scripts/audit-resort-spa-native.mjs
++++ b/scripts/audit-resort-spa-native.mjs
+@@ -7,6 +7,7 @@ export async function auditResortSpaNative({page,review,errors,httpErrors}){
+  const result=await page.evaluate(()=>{const r=__lagoonQA.resortSpa();return{zones:r.root.userData.zones.size,basins:r.root.userData.basins.length,spaInspection:r.inspection,mallInspection:__lagoonQA.mall().inspection,appScripts:[...document.scripts].filter(s=>s.src.includes('app.js')).length};});assert.equal(result.zones,14);assert.equal(result.basins,5);assert.equal(result.mallInspection,false);
+  const buttons=page.locator('.resort-spa-zones button');assert.equal(await buttons.count(),16);await buttons.filter({hasText:'Massage Palace'}).click();await page.waitForFunction(()=>__lagoonQA.resortSpa().selected==='resort-massage');
+  await page.evaluate(()=>{const q=__lagoonQA;q.targetFrames=q.frames+2;q.drawPaused=false;});await page.waitForFunction(()=>__lagoonQA.frames>=__lagoonQA.targetFrames,null,{timeout:240000});await page.evaluate(()=>{__lagoonQA.drawPaused=true;});await page.screenshot({path:join(review,'actual-game-massage.png')});
++ if(process.env.CHICHI_RESORT_SPA_PROCEDURE_AUDIT){const {auditResortProcedure}=await import('./audit-resort-spa-procedure.mjs');await auditResortProcedure({page,review});}
+  await page.locator('#camera-all').click();assert.equal(await page.evaluate(()=>__lagoonQA.resortSpa().inspection),false);assert.equal(await page.locator('.resort-spa-zones').isVisible(),false);
+  assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);await writeFile(join(review,'game-scene.json'),JSON.stringify({...result,actualZoneCamera:true,worldReleased:true,errors,httpErrors,scope:'Native private game scene/camera only; full procedures, transport and SQLite receipts not yet audited'},null,2));console.log('PASS native SPA required loading, actual scene, zone camera and World release');
+ }
+diff --git a/scripts/check-aquarium.cjs b/scripts/check-aquarium.cjs
+index 4c2a406..0537b14 100644
+--- a/scripts/check-aquarium.cjs
++++ b/scripts/check-aquarium.cjs
+@@ -357,7 +357,7 @@ async function localWorker() {
+       }
+       g.catPosition={biome,x,z};const b=byBiome(biome);Object.assign(g,captureCatLocations(g,g,[{id:'chichi',position:{x:b.center[0]+x,y:.16,z:b.center[1]+z},yaw:0}],now));
+     }
+-    if(process.env.CHICHI_RESORT_SPA_AUDIT){delete g.mosasaurSubmarine;delete g.catLocations;}
++    if(process.env.CHICHI_RESORT_SPA_AUDIT){delete g.mosasaurSubmarine;delete g.catLocations;if(process.env.CHICHI_RESORT_SPA_PROCEDURE_AUDIT)g.jobCity.profiles.chichi.coins=2000;}
+     if(process.env.CHICHI_MANUAL_PORTAL_AUDIT){const {MALL_AIRLOCK}=await import(root+'/public/mall-airlock-data.js');g.mosasaurSubmarine={...g.mosasaurSubmarine,active:false,explorerVersion:1,explorer:{...MALL_AIRLOCK.outside,mode:'swimming',yaw:Math.PI,floor:0,returning:false}};}
+     const base = local.base,
+       token = crypto.randomBytes(32).toString("hex"),

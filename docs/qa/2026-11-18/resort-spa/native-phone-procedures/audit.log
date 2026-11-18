@@ -1,0 +1,209 @@
+SPA required scene preparation pending
+Native SPA dry resort-massage inspect greet-therapist
+Native SPA dry resort-massage mount mount
+Native SPA dry resort-massage procedure settle-prone
+Native SPA dry resort-massage procedure back-massage
+Native SPA dry resort-massage procedure shoulder-massage
+Native SPA dry resort-massage procedure paw-massage
+Native SPA dry resort-massage procedure after-massage-stretch
+Native SPA dry resort-massage dismount after-massage-stretch
+Native SPA dry resort-massage walk walk
+Native SPA dry resort-aroma inspect inspect-place
+Native SPA dry resort-aroma mount mount
+Native SPA dry resort-aroma procedure smell-flowers
+Native SPA dry resort-aroma procedure slow-inhale
+Native SPA dry resort-aroma procedure aroma-rest
+Native SPA dry resort-aroma procedure gentle-stretch
+Native SPA dry resort-aroma dismount gentle-stretch
+Native SPA dry resort-aroma walk walk
+Native SPA dry resort-sauna inspect inspect-place
+Native SPA dry resort-sauna mount mount
+Native SPA dry resort-sauna procedure settle-on-bench
+Native SPA dry resort-sauna procedure warm-breathing
+Native SPA dry resort-sauna procedure follow-steam
+Native SPA dry resort-sauna procedure ready-to-cool
+Native SPA dry resort-sauna dismount ready-to-cool
+Native SPA dry resort-sauna done done
+Native SPA dry resort-cabana inspect inspect-place
+Native SPA dry resort-cabana mount mount
+Native SPA dry resort-cabana procedure ocean-window
+Native SPA dry resort-cabana procedure nestle-in-cushion
+Native SPA dry resort-cabana procedure cabana-nap
+Native SPA dry resort-cabana procedure wake-and-stretch
+Native SPA dry resort-cabana dismount wake-and-stretch
+Native SPA dry resort-cabana walk walk
+Native SPA dry resort-beauty inspect inspect-place
+Native SPA dry resort-beauty mount mount
+Native SPA dry resort-beauty procedure salon-settle
+Native SPA dry resort-beauty procedure fur-care
+Native SPA dry resort-beauty procedure paw-care
+Native SPA dry resort-beauty procedure mirror-check
+Native SPA dry resort-beauty procedure pleased-head-turn
+Native SPA dry resort-beauty dismount pleased-head-turn
+Native SPA dry resort-beauty walk walk
+Native SPA dry resort-meditation inspect inspect-place
+Native SPA dry resort-meditation mount mount
+Native SPA dry resort-meditation procedure settle-on-mat
+Native SPA dry resort-meditation procedure meditation-breath
+Native SPA dry resort-meditation procedure jellyfish-gaze
+Native SPA dry resort-meditation procedure meditation-stretch
+Native SPA dry resort-meditation dismount meditation-stretch
+Native SPA dry resort-meditation walk walk
+Native SPA dry resort-nap inspect inspect-place
+Native SPA dry resort-nap mount mount
+Native SPA dry resort-nap procedure curl-on-bed
+Native SPA dry resort-nap procedure soft-nap
+Native SPA dry resort-nap procedure dreamy-ear-twitch
+Native SPA dry resort-nap procedure wake-on-bed
+Native SPA dry resort-nap dismount wake-on-bed
+Native SPA dry resort-nap done done
+Native SPA dry resort-cafe inspect inspect-place
+Native SPA dry resort-cafe mount mount
+Native SPA dry resort-cafe procedure table-settle
+Native SPA dry resort-cafe procedure drink
+Native SPA dry resort-cafe procedure lick-lips
+Native SPA dry resort-cafe procedure taste-treat
+Native SPA dry resort-cafe procedure satisfied-chew
+Native SPA dry resort-cafe procedure contented-look
+Native SPA dry resort-cafe dismount contented-look
+Native SPA dry resort-cafe walk walk
+Native SPA dry resort-waterfall inspect inspect-place
+Native SPA dry resort-waterfall mount mount
+Native SPA dry resort-waterfall procedure listen-to-water
+Native SPA dry resort-waterfall procedure cascade-gaze
+Native SPA dry resort-waterfall procedure garden-rest
+Native SPA dry resort-waterfall procedure garden-stretch
+Native SPA dry resort-waterfall dismount garden-stretch
+Native SPA dry resort-waterfall walk walk
+Native SPA dry resort-amber inspect inspect-place
+Native SPA dry resort-amber mount mount
+Native SPA dry resort-amber procedure amber-recline
+Native SPA dry resort-amber procedure warm-star-gaze
+Native SPA dry resort-amber procedure amber-doze
+Native SPA dry resort-amber procedure amber-stretch
+Native SPA dry resort-amber dismount amber-stretch
+Native SPA dry resort-amber walk walk
+Native SPA dry resort-midnight inspect inspect-place
+Native SPA dry resort-midnight mount mount
+Native SPA dry resort-midnight procedure night-curl
+Native SPA dry resort-midnight procedure deep-star-sleep
+Native SPA dry resort-midnight procedure sleepy-ear-flick
+Native SPA dry resort-midnight procedure quiet-awakening
+Native SPA dry resort-midnight dismount quiet-awakening
+Native SPA dry resort-midnight walk walk
+PASS native eleven dry services, distinct pose frames, actual cafe cup, receipts
+Native SPA pool resort-thermal inspect test-water
+Native SPA pool resort-thermal wet-enter careful-stairs
+Native SPA pool resort-thermal wet-float paddle
+Native SPA pool resort-thermal wet-swim paddle
+Native SPA pool resort-thermal procedure gentle-swim
+Native SPA pool resort-thermal procedure float-rest
+Native SPA pool resort-thermal procedure gentle-swim
+Native SPA pool resort-thermal procedure water-play
+Native SPA pool resort-thermal procedure gentle-swim
+Native SPA pool resort-thermal wet-return paddle
+Native SPA pool resort-thermal wet-land paddle
+Native SPA pool resort-thermal wet-exit climb-out
+Native SPA pool resort-thermal wet-shake shake-fur
+Native SPA pool resort-thermal walk walk
+Native SPA pool resort-jacuzzi inspect test-water
+Native SPA pool resort-jacuzzi wet-enter careful-stairs
+Native SPA pool resort-jacuzzi wet-float paddle
+Native SPA pool resort-jacuzzi wet-swim paddle
+Native SPA pool resort-jacuzzi procedure warm-soak
+Native SPA pool resort-jacuzzi procedure bubble-surprise
+Native SPA pool resort-jacuzzi procedure warm-soak
+Native SPA pool resort-jacuzzi procedure ocean-gaze
+Native SPA pool resort-jacuzzi procedure warm-soak
+Native SPA pool resort-jacuzzi wet-return paddle
+Native SPA pool resort-jacuzzi wet-land paddle
+Native SPA pool resort-jacuzzi wet-exit climb-out
+Native SPA pool resort-jacuzzi wet-shake shake-fur
+Native SPA pool resort-jacuzzi walk walk
+Native SPA pool resort-vip inspect test-water
+Native SPA pool resort-vip wet-enter careful-stairs
+Native SPA pool resort-vip wet-float paddle
+Native SPA pool resort-vip wet-swim paddle
+Native SPA pool resort-vip procedure private-float
+Native SPA pool resort-vip procedure star-gaze
+Native SPA pool resort-vip procedure private-float
+Native SPA pool resort-vip wet-return paddle
+Native SPA pool resort-vip wet-land paddle
+Native SPA pool resort-vip wet-exit climb-out
+Native SPA pool resort-vip wet-shake shake-fur
+Native SPA pool resort-vip walk walk
+PASS native thermal/jacuzzi/VIP entry, distinct procedures, dry exit, receipts and SQLite
+locator.tap: Target page, context or browser has been closed
+Browser logs:
+
+<launching> /usr/bin/chromium --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --no-sandbox --use-angle=swiftshader --enable-unsafe-swiftshader --user-data-dir=/tmp/playwright_chromiumdev_profile-yp9uQi --remote-debugging-pipe --no-startup-window
+<launched> pid=209472
+[pid=209472][err] [209472:209504:1118/153847.261233:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[pid=209472][err] [209472:209504:1118/153847.261553:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[pid=209472][err] [209472:209504:1118/153847.261772:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[pid=209472][err] [209472:209504:1118/153847.263954:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[pid=209472][err] [209472:209504:1118/153847.264057:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[pid=209472][err] [209472:209504:1118/153847.264068:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[pid=209472][err] [209472:209504:1118/153847.264076:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[pid=209472][err] [209472:209504:1118/153847.311738:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[pid=209472][err] [209472:209472:1118/153847.345128:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[pid=209472][err] [209472:209472:1118/153847.345234:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[pid=209472][err] [209472:209504:1118/153847.345244:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[pid=209472][err] [209472:209504:1118/153847.345257:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[pid=209472][err] [209472:209472:1118/153847.363995:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[pid=209472][err] [209472:209504:1118/153847.364137:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[pid=209472][err] [209472:209472:1118/153847.367119:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[pid=209472][err] [209472:209472:1118/153847.367169:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[pid=209472][err] [209472:209504:1118/153847.367304:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[pid=209472][err] [209472:209504:1118/153847.367358:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[pid=209472][err] [209472:209504:1118/153847.367367:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[pid=209472][err] [209472:209472:1118/153847.368373:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[pid=209472][err] [209472:209472:1118/153847.369165:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.Properties.GetAll: object_path= /org/freedesktop/UPower/devices/DisplayDevice: unknown error type: 
+[pid=209472][err] [209472:209472:1118/153847.369191:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[pid=209472][err] [209472:209504:1118/153847.369281:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[pid=209472][err] [209472:209472:1118/153847.371828:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[pid=209472][err] [209472:209504:1118/153847.371881:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[pid=209472][err] [209472:209472:1118/153847.376214:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[pid=209472][err] Warning: vkCreateInstance: Found no drivers!
+[pid=209472][err] Warning: vkCreateInstance failed with VK_ERROR_INCOMPATIBLE_DRIVER
+[pid=209472][err]     at CheckVkSuccessImpl (../../third_party/dawn/src/dawn/native/vulkan/VulkanError.cpp:106)
+[pid=209472][err] 
+Call log:
+[2m  - waiting for locator('.resort-spa-access')[22m
+[2m    - locator resolved to <button hidden="" class="resort-spa-access">🪷 SPA</button>[22m
+[2m  - attempting tap action[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not visible[22m
+[2m    - retrying tap action[22m
+[2m    - waiting 20ms[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not visible[22m
+[2m    - retrying tap action[22m
+[2m      - waiting 100ms[22m
+[2m    199 × waiting for element to be visible, enabled and stable[22m
+[2m        - element is not visible[22m
+[2m      - retrying tap action[22m
+[2m        - waiting 500ms[22m
+
+    at auditResortPhoneWalk (/workspace/chichi-underwater-spa-resort/scripts/audit-resort-spa-phone-walk.mjs:7:43)
+    at auditResortPools (/workspace/chichi-underwater-spa-resort/scripts/audit-resort-spa-pools.mjs:23:119)
+    at async auditResortSpaNative (/workspace/chichi-underwater-spa-resort/scripts/audit-resort-spa-native.mjs:11:319)
+    at async /workspace/chichi-underwater-spa-resort/scripts/check-aquarium.cjs:703:122 {
+  log: [
+    "  - waiting for locator('.resort-spa-access')",
+    '    - locator resolved to <button hidden="" class="resort-spa-access">🪷 SPA</button>',
+    '  - attempting tap action',
+    '    2 × waiting for element to be visible, enabled and stable',
+    '      - element is not visible',
+    '    - retrying tap action',
+    '    - waiting 20ms',
+    '    2 × waiting for element to be visible, enabled and stable',
+    '      - element is not visible',
+    '    - retrying tap action',
+    '      - waiting 100ms',
+    '    199 × waiting for element to be visible, enabled and stable',
+    '        - element is not visible',
+    '      - retrying tap action',
+    '        - waiting 500ms'
+  ]
+}

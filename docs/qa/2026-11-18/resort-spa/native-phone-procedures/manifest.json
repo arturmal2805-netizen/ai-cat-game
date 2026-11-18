@@ -1,0 +1,61 @@
+{
+  "status": "All14 procedure fixtures and final SQLite PASS; optional subsequent phone-control add-on interrupted/failed, not whole-run PASS",
+  "node": "22.23.5",
+  "renderer": "Chromium ANGLE SwiftShader",
+  "viewport": [
+    390,
+    844
+  ],
+  "DPR": 2,
+  "source": {
+    "sha256": "e2b9bc6d467c07506b8c299d52846ca60f19281ab7bae3d2a500be0b3f3e609a",
+    "baseline": null,
+    "node": "v22.23.5",
+    "head": "0c73207af85828da8b076edd6422fe1f0ca5b260",
+    "dirty": "",
+    "sourceOverlay": "source-HEAD.patch"
+  },
+  "exactSource": "Captured actual public JS imports in source-files.json/imported-source.tar.gz; exact instrumented bundle archived",
+  "scope": "Eleven dry and three wet native per-room fixtures, distinct pose snapshots, new support contacts, real stairs/pools/exit, all14 receipts/wallet/inventory survive final private SQLite reload. This tested source0c73207 before later phone inspection/controller routing changes.",
+  "limits": [
+    "First functional stage, not all84 detailed behaviors",
+    "Not full autonomous groups or every floor phone walk",
+    "Not target artistic approval or hardware performance"
+  ],
+  "files": {
+    "resort-vip-procedure.png": "af38c9722890825dd1283df16ab2ac2ba593082fc111052e1bd50e5faf1cdfc3",
+    "resort-cabana-cabana-nap.png": "f385fff402cbfa0d8e0625134b72fc0be7d1b3f1873c2d3534779c243c21b502",
+    "resort-sauna-warm-breathing.png": "731f32321c95a360849e39c0cbc778bdcee91bd5dc2a3aa703cc8fc7b5fe0e6c",
+    "resort-midnight-deep-star-sleep.png": "ca2c8af9cac194f4d1a8b65a1e12c6a850700095ebfb13dc0c0ed3765ea31b59",
+    "qa-build.json": "ae15d2c6f7b7a81f1c95ad4eaa98d6d7a88523b376b7b13e349517042b9f936c",
+    "resort-jacuzzi-procedure.png": "e0fb4e28cd69c686f8870da6e81e71e0e9366fbd9eeb57a8f77615f92d0356be",
+    "resort-thermal-wet-enter.png": "0b131e7c8d08eb9a02e53b5a46cb6d9d178a1ae55ade6a40700ec315f75c8c92",
+    "resort-massage-shoulder-massage.png": "029a5c3598b8f79db9ce4d8c82d4ee2703699ce27ae9185aca589ec93c63e3d3",
+    "actual-dry-procedures-sqlite.json": "cc678e4bfcb17e337981a4a38f102f1f62092be71d46236e5d78af89897c89ed",
+    "actual-pools-sqlite.json": "4c4c13bfaeacdd6fbc57f0538dbef10e143ad8c32fa86b58e35a33b7ff2c7272",
+    "resort-thermal-wet-shake.png": "e3c707d811f7eda568bfbc641f7d544228204a52aae76a10f103006952da10c2",
+    "resort-nap-soft-nap.png": "52d70dabf425fa13086710d2ec372e2618ae3e9a924a20a63b0b52432db3fccb",
+    "resort-thermal-procedure.png": "692dea04e17109b6a510604ec8a605ff7a76b6c4c3e4bd2d4c6d3aa51bc71a19",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "resort-meditation-meditation-breath.png": "b1461ccbdc3cc1d1b88207ae53173dcfbe3a555ff6ef08c54a8d859adf136a4f",
+    "resort-cafe-drink.png": "7eda4b89ae9bff1e2de2a792f6340c19d7ffdaaa7fdc44d3c0432cf8e87988d8",
+    "dry-progress.json": "66bf05d309613615d4cfd826a0ad34173c9d6f52721513706e4baa4761d245b1",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "resort-amber-warm-star-gaze.png": "f4b7d74b0bc6b4bb461b046662fb6a7aa67cd96dd1229e31bc29593e7a7ab844",
+    "resort-aroma-slow-inhale.png": "3644ad12f60f0c2f380119f7020959c9344dc1ef1596ff9bcf8ba72415add505",
+    "resort-jacuzzi-wet-enter.png": "798446a30cf5e5272e311d767c7fe469632404482c0a6fb49bf30756041d0e7b",
+    "qa-app.js.gz": "fa1c2f2b975d7474c2928118645027eb4fbd8fe01c79ed3613ea401d83f7a1fc",
+    "resort-vip-wet-shake.png": "404200163feda21fa54a595903f9099cd2846de42ef04dd961f8aff82991ff94",
+    "resort-vip-wet-enter.png": "e0f886a1a71fa89e55b5a917fe7c20e3557355fc3b2eb98f0825af879fdb1d72",
+    "resort-jacuzzi-wet-shake.png": "03610310f0d939b5d824fb1fda3fbeee0007f80a4fc8c4bc4dd66406fe61957e",
+    "pool-progress.json": "23ebb3dee0207fd17c9991b2d2a33651600792ac84d4c94805532b2700a34376",
+    "resort-beauty-mirror-check.png": "e5a14a33a482617e58040b9b0d5791fdd01854e7177a719fd244a93378db92e5",
+    "resort-waterfall-cascade-gaze.png": "fdfa6d486ead21513594ce23079a70998a573297f068818fe5bde80f17c23954",
+    "source-files.json": "ca90316578e06ba89aba6a83a0d7a84bff71bf9b73bb11da096c7a357bec990f",
+    "source-status.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual-game-massage.png": "1617af145f3130b0e2abbd478ddbec6cad36aa99c5991748082ccc3644e3f4e3",
+    "imported-source.tar.gz": "4479456dfdf691d1d7a60f39972b24d962c2882a70bceef1e9077e2de8787bd4",
+    "audit.log": "7b3866d69eb7b40e96884101f437045f1978157d6a572770de04800124e7c7c0"
+  },
+  "addonFailure": "After all14 results were written, optional phone-control add-on waited for hidden SPA access because reload focused another island. Only this own test browser was terminated. The island focus was fixed in QA; later actual control selection bug fixed in production and isolated native-phone-controls audit PASS."
+}
