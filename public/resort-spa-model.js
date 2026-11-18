@@ -1,3 +1,6 @@
+import {finishResortSpaSteps} from './resort-spa-finishes.js';
+import {mallArt} from './mall-art.js';
+import {mallSurfaceMaps} from './mall-surfaces.js';
 import {createResortBasin} from './resort-spa-basin.js';
 import * as T from 'three';
 import {RESORT_SPA as L,RESORT_ZONES,resortSpaSeat} from './resort-spa-data.js';
@@ -10,8 +13,9 @@ export function* resortSpaModelSteps(){
  const root=new T.Group(),solid=new T.Group(),shell=new T.Group(),decor=new T.Group(),surfaces=new T.Group(),basins=[],waters=[];root.name='CHICHI CAT SPA & WELLNESS RESORT';root.position.y=L.y;root.add(solid,shell,decor,surfaces);
  const mats={},geos=new Map(),zones=new Map();
  for(const [k,c]of Object.entries(L.palette))mats[k]=new T.MeshStandardMaterial({color:c,roughness:k==='gold'?.24:.55,metalness:k==='gold'?.7:0,...(['amber','pink','lavender'].includes(k)?{emissive:c,emissiveIntensity:.35}:{})});
+ if(mallArt()){Object.assign(mats.ivory,mallSurfaceMaps('marble'));Object.assign(mats.gold,mallSurfaceMaps('metal'));}
  mats.glass=new T.MeshStandardMaterial({color:0xb3ebf0,transparent:true,opacity:.11,roughness:.15,depthWrite:false,side:T.DoubleSide,forceSinglePass:true});
- mats.cloth=new T.MeshStandardMaterial({color:0xd5b4cc,roughness:.96});mats.wood=new T.MeshStandardMaterial({color:0x593c32,roughness:.7});
+ mats.cloth=new T.MeshStandardMaterial({color:0xd5b4cc,roughness:.96});mats.wood=new T.MeshStandardMaterial({color:0x593c32,roughness:.7});if(mallArt())Object.assign(mats.wood,mallSurfaceMaps('wood'));
  const geometry=(key,make)=>{if(!geos.has(key))geos.set(key,make());return geos.get(key);};
  function mesh(parent,g,m,x,y,z,sx=1,sy=1,sz=1){const o=new T.Mesh(g,m);o.position.set(x,y,z);o.scale.set(sx,sy,sz);o.castShadow=!m.transparent;o.receiveShadow=true;parent.add(o);return o;}
  function box(parent,m,x,y,z,w,h,d){return mesh(parent,geometry(['box',w,h,d].join(':'),()=>new T.BoxGeometry(w,h,d)),m,x,y,z);}
@@ -56,6 +60,7 @@ export function* resortSpaModelSteps(){
   }
   yield;
  }
- root.updateMatrixWorld(true);root.userData={zones,solid,shell,decor,surfaces,basins,waters,navigation:installManualBuildingNavigation(root,solid,...[...zones.values()].map(p=>p.userData.solid).filter(Boolean)),update(time,reduced=false){for(const w of waters)advanceWater(w.material,time,reduced);},dispose(){for(const p of zones.values())p.userData.dispose?.();for(const g of geos.values())g.dispose();for(const m of Object.values(mats))m.dispose();for(const p of zones.values())p.traverse(o=>{if(o.isPoints)o.material.dispose();});for(const b of basins)b.userData.dispose();}};
+ root.updateMatrixWorld(true);root.userData={zones,solid,shell,decor,surfaces,basins,waters,navigation:installManualBuildingNavigation(root,solid,...[...zones.values()].map(p=>p.userData.solid).filter(Boolean)),update(time,reduced=false){for(const w of waters)advanceWater(w.material,time,reduced);},dispose(){for(const p of zones.values())p.userData.dispose?.();for(const g of geos.values())g.dispose();const textures=new Set();for(const m of Object.values(mats)){for(const key of ['map','normalMap','roughnessMap'])if(m[key])textures.add(m[key]);m.dispose();}for(const t of textures)t.dispose();for(const p of zones.values())p.traverse(o=>{if(o.isPoints)o.material.dispose();});for(const b of basins)b.userData.dispose();}};
+ yield* finishResortSpaSteps(root);
  return root;
 }

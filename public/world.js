@@ -1,3 +1,5 @@
+import {createResortSpaWorld} from './resort-spa-world.js';
+import {RESORT_SPA as RESORT_SPA_LAYOUT} from './resort-spa-data.js';
 import {manualBuildingSupport,manualBuildingCameraClear} from './manual-building-navigation.js';
 import {createChichiManual,clearsWalkObstacles} from './chichi-manual.js';
 import {applyExplorerLocomotion} from './explorer-locomotion.js';
@@ -515,6 +517,8 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     submarine = null,
     manualWalk = null,
     mall = null,
+    resortSpa = null,
+    resortSpaPreviousCamera = null,
     mallPreviousCamera = null,
     mallWideClip = false,
     mallFraming = null,
@@ -2328,7 +2332,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
   sync(initialGame);
   function focus(id, overview = false, keepFollow = false) {
     if(!keepFollow){submarine?.releaseControl();manualWalk?.stop();}
-    mall?.exit(false);desiredFov=40;
+    mall?.exit(false);resortSpa?.exit(false);desiredFov=40;
     exitCourt(false);
     if (!keepFollow) faceCamera.setEnabled(false, look);
     const b = byBiome(id) || byBiome("moon");
@@ -3552,7 +3556,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       callbacks.onCityDrive?.(choice.id, choice.car, road);
       return;
     }
-    if ((focused==='autumn'||viewingOverview)&&mall?.pick(raycaster))return;
+    if ((focused==='autumn'||viewingOverview)&&(resortSpa?.pick(raycaster,mall?.root)||mall?.pick(raycaster)))return;
     if (focused === HOUSING_ID) {
       const homes = islands.get(HOUSING_ID)?.userData.houses;
       const hit =
@@ -3930,7 +3934,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     }
     frameProfile?.section("cameraAndIslands");
     if (!dialogOpen) stepLeisure(dt, time, now);
-    if(!dialogOpen)mall?.update(dt,time);
+    if(!dialogOpen){mall?.update(dt,time);resortSpa?.update(dt,time,reduced);}
     const wallNow = Date.now();animalGuests.sync(game,wallNow);
     const
       lifeClock = game.jobCity ? cityClock(game.jobCity, wallNow) : null,
@@ -5991,6 +5995,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     canSimulate:()=>callbacks.canSimulateLeisure?.()!==false,
     blocked:id=>{const p=game.jobCity?.profiles[id],v=mall?.runtime.get(id),clock=game.jobCity&&cityClock(game.jobCity);return draggingCat?.catId===id||crew.workers.has(id)||p?.trip||!!(v?.ticket&&clock?.working&&p?.schedule?.job!=='rest')||(id==='chichi'&&!!(submarine?.active||manualWalk?.active));},
     onCamera:(floor,entering,zone=null)=>{
+      resortSpa?.exit(false);
       submarine?.releaseControl();manualWalk?.stop();
       if(entering){mallPreviousCamera={look:desiredLook.clone(),distance:desiredDistance,azimuth,elevation,fov:desiredFov,near:camera.near};if(focused!=='autumn')focus('autumn');exitCourt(false);faceCamera.setEnabled(false,look);viewingOverview=false;}
       faceCamera.setEnabled(false,look);
@@ -6018,6 +6023,13 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     onStore:id=>callbacks.onSelectMallStore?.(id),onError:message=>callbacks.onReaction?.(message),
     onPurchase:(...args)=>callbacks.onMallPurchase?.(...args),onUse:(...args)=>callbacks.onMallUse?.(...args),onGoal:(...args)=>callbacks.onMallGoal?.(...args),
     onComplete:(id,visit)=>{if(visit.ticket)finishLeisure(id,{completed:true});else {const n=npcs.get(id);if(n)n.manualUntil=0;}},
+  });
+  resortSpa=createResortSpaWorld({scene,container,getGame:()=>game,getFocused:()=>focused,getOverview:()=>viewingOverview,
+    prepare:(steps,signal)=>prepareSceneSteps(steps,{scheduler:scenePreparation,priority:'autumn',signal}),
+    prepareModel:model=>shaderWarmup.prepare(model,{background:focused!=='autumn'}),
+    onError:message=>callbacks.onReaction?.(message),
+    onCamera:(zone,entering)=>{if(entering){if(focused!=='autumn')focus('autumn');resortSpaPreviousCamera={look:desiredLook.clone(),distance:desiredDistance,azimuth,elevation,fov:desiredFov,near:camera.near};}mall?.exit(false);submarine?.releaseControl();manualWalk?.stop();faceCamera.setEnabled(false,look);viewingOverview=false;mallWideClip=false;mallFraming=null;const b=byBiome('autumn'),l=RESORT_SPA_LAYOUT;desiredLook.set(b.center[0]+(zone?.x||0),(zone?.y??l.y)+3,b.center[1]+(zone?.z??l.z));desiredDistance=zone?Math.max(zone.rx,zone.rz)*2:215;azimuth=.2;elevation=zone ? .35 : .55;desiredFov=48;camera.near=.3;camera.updateProjectionMatrix();},
+    onExit:restore=>{if(restore&&resortSpaPreviousCamera){desiredLook.copy(resortSpaPreviousCamera.look);desiredDistance=resortSpaPreviousCamera.distance;azimuth=resortSpaPreviousCamera.azimuth;elevation=resortSpaPreviousCamera.elevation;desiredFov=resortSpaPreviousCamera.fov;camera.near=resortSpaPreviousCamera.near;camera.updateProjectionMatrix();}resortSpaPreviousCamera=null;},
   });
   const canControlChichi=()=>callbacks.canControlChichi?callbacks.canControlChichi()!==false:callbacks.canDragCat?.('chichi')!==false;
   submarine=createSubmarineRuntime({scene,container,canvas:renderer.domElement,camera,look,actor:chichiCarrier,getModel:()=>cat,getMall:()=>mall,onLandExit:()=>{manualWalk?.start();refreshManualButton();},onError:message=>callbacks.onReaction?.(message),getIsland:()=>islands.get('autumn'),getGame:()=>game,getFocused:()=>focused,canPilot:()=>canControlChichi()&&!mall?.inspection&&!manualWalk?.active,cancelHero:()=>{callbacks.onControlChichi?.();cancelHeroActivity();heroGather=null;jobs.cancel('chichi');crew.cancel('chichi');leisure.cancel('chichi');spa.cancel('chichi');chill.cancel('chichi');court.cancel('chichi');faceCamera.setEnabled(false,look);},approachDock:point=>{heroGather=gatherTrip(chichiCarrier.position,{x:point.x,y:point.y,z:point.z},performance.now());return true;},focus});
@@ -6086,6 +6098,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     releaseHeroControl:()=>{manualWalk?.stop();submarine?.releaseControl();refreshManualButton();},
     submarine:()=>submarine,
     mall:()=>mall,
+    resortSpa:()=>resortSpa,
     inspectMall:floor=>mall.inspect(floor),
     async useMallItem(id,itemId){const item=mallProduct(itemId),actor=lifeActors.find(a=>a.id===id);if(!item||!actor||!game.jobCity?.profiles[id]?.inventory[itemId]||mall.has(id))return false;
       if(item.use==='wear')return !!callbacks.onMallUse?.(id,itemId);
@@ -6281,7 +6294,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       staticDraws.dispose();
       jobs.clear();
       housingLife.clear();
-      releaseAnimalDrag();animalGuests.dispose();if(manualButton)manualButton.onclick=null;manualWalk?.dispose();submarine?.dispose();mall?.dispose();
+      releaseAnimalDrag();animalGuests.dispose();if(manualButton)manualButton.onclick=null;manualWalk?.dispose();submarine?.dispose();mall?.dispose();resortSpa?.dispose();
       leisure.clear();
       drivePrompt.remove();
       for (const car of cityCars.values()) car.removeFromParent();

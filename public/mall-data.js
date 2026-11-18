@@ -1,3 +1,4 @@
+import {RESORT_PRODUCTS,resortZone,resortOffers} from './resort-spa-data.js';
 import {MALL_LAYOUT,mallRoomPlacement,mallRoomContacts} from './mall-layout.js';
 import {MALL_ICE_FLAVORS} from './mall-ice-data.js';
 // Stable product/venue addresses are independent of display-brand replacements.
@@ -29,7 +30,7 @@ export const MALL_STORES = Object.freeze(floors.flatMap((rows,i)=>rows.map(([key
   const store={id:'mall-'+key,key,name,brand:key,floor:i+1,kind,price,angle,placement,x:placement.x,z:placement.z,y:MALL_FLOORS[i].y};
   return Object.freeze({...store,entrance:mallPoint(store,0,.18,placement.d/2+3),counter:mallPoint(store,0,.18,5.5),seat:mallPoint(store,8,.18,14.3)});
 })));
-export const mallStore = id => MALL_STORES.find(s=>s.id===id);
+export const mallStore = id => MALL_STORES.find(s=>s.id===id)||resortZone(id);
 export const mallFloor = floor => MALL_FLOORS.find(f=>f.id===floor);
 export const mallLabel = (s,parody=false) => (parody&&MALL_PARODY_BRANDS[s.brand])||MALL_BRANDS[s.brand]||s.name;
 const goods = {
@@ -51,13 +52,13 @@ const originalProducts=MALL_STORES.flatMap(s=>(s.price>0?(goods[s.kind]||[]):[])
 })));
 export const MALL_PRODUCTS = Object.freeze([...originalProducts.filter(p=>!p.legacy),...MALL_ICE_FLAVORS.map(f=>Object.freeze({
   id:'mall-ice-'+f.key,storeId:'mall-ice',name:f.name,brand:MALL_BRANDS.ice,category:'mall',kind:'food',use:'eat',icon:f.icon,price:f.price,stock:100000,unique:false,iceFlavor:f.key,
-})),...originalProducts.filter(p=>p.legacy)]);
+})),...originalProducts.filter(p=>p.legacy),...RESORT_PRODUCTS]);
 export const mallProduct = id => MALL_PRODUCTS.find(p=>p.id===id);
 export const MALL_ACTIONS = Object.freeze(['VisitMall','EnterElevator','SelectFloor','BrowseStore','InspectProduct','CompareProducts','PurchaseItem','VisitRestaurant','OrderFood','EatMeal','BuyCinemaTicket','WatchMovie','PlayArcade','MeetFriend','RelaxAtMall','ReturnHome']);
-export function mallOffers(game){return game.unlocked?.includes('autumn')?MALL_STORES.map(s=>({id:s.id,type:s.id,biome:'autumn',name:`Підводний ТРЦ · F${s.floor} · ${s.name}`,action:['food'].includes(s.kind)?'eat':['rest','spa','social'].includes(s.kind)?'rest':'play'})):[];}
+export function mallOffers(game){return game.unlocked?.includes('autumn')?[...MALL_STORES.map(s=>({id:s.id,type:s.id,biome:'autumn',name:`Підводний ТРЦ · F${s.floor} · ${s.name}`,action:['food'].includes(s.kind)?'eat':['rest','spa','social'].includes(s.kind)?'rest':'play'})),...resortOffers(game)]:[];}
 
 export const MALL_SIGN_HEADERS=['CAT SAFE MENU','NEW COLLECTION','PICK UP','TICKETS','OCEAN SPECIAL','WELCOME'];
-export function mallSignTexts(parody=false){return ['CHICHI','CAT SHOPPING MALL','UNDERWATER MEGA MALL','OCEAN EXPRESS',...MALL_STORES.map(s=>s.key==='vuitton'&&!parody?'LOUIS VUITTON':mallLabel(s,parody)),...MALL_FLOORS.map(f=>`F${f.id}  ${f.short.toUpperCase()}`),...MALL_PRODUCTS.filter(p=>!p.legacy).map(p=>`${p.name} · ${p.price}`),...MALL_SIGN_HEADERS];}
+export function mallSignTexts(parody=false){return ['CHICHI','CAT SHOPPING MALL','UNDERWATER MEGA MALL','OCEAN EXPRESS',...MALL_STORES.map(s=>s.key==='vuitton'&&!parody?'LOUIS VUITTON':mallLabel(s,parody)),...MALL_FLOORS.map(f=>`F${f.id}  ${f.short.toUpperCase()}`),...MALL_PRODUCTS.filter(p=>!p.legacy&&!p.resort).map(p=>`${p.name} · ${p.price}`),...MALL_SIGN_HEADERS];}
 
 // Coordinates are the real fittings' local frame: +Z faces the public gallery.
 // Both navigation and the cashier use these same authored contact positions.

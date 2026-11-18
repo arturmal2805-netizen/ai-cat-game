@@ -17,7 +17,7 @@ const rows=[
  ['amber','Amber Star Lounge','lounge',100,-88,219,2,25,24,8],
  ['midnight','Midnight Blue Relaxation Room','sleep',100,82,177,2,28,18,8],
 ];
-export const RESORT_ZONES=Object.freeze(rows.map(([key,name,procedure,price,x,z,level,rx,rz,seats])=>Object.freeze({id:'resort-'+key,key,name,procedure,price,x,z,level,y:RESORT_SPA.y+level*RESORT_SPA.rise,rx,rz,seats,biome:'autumn',kind:procedure==='eat'?'food':'spa',action:procedure==='eat'?'eat':procedure==='swim'?'swim':'rest'})));
+export const RESORT_ZONES=Object.freeze(rows.map(([key,name,procedure,price,x,z,level,rx,rz,seats])=>Object.freeze({id:'resort-'+key,key,name,procedure,price,x,z,level,y:RESORT_SPA.y+level*RESORT_SPA.rise,rx,rz,seats,biome:'autumn',resort:true,kind:procedure==='eat'?'food':'spa',action:procedure==='eat'?'eat':procedure==='swim'?'swim':'rest'})));
 export const resortZone=id=>RESORT_ZONES.find(z=>z.id===id);
 export const RESORT_PROCEDURE_PRICE=Object.freeze({entry:100,thermal:150,massage:300,aroma:180,sauna:120,vip:700});
 export function resortSpaFootprint(x,z,margin=0){return Math.hypot(x/(RESORT_SPA.width/2+margin),(z-RESORT_SPA.z)/(RESORT_SPA.depth/2+margin))<=1;}
@@ -27,3 +27,9 @@ export function resortSpaSeat(zone,index){
  const column=index%columns,row=Math.floor(index/columns),x=zone.x+(column-(columns-1)/2)*spacing,z=zone.z+(row-(rows-1)/2)*(zone.procedure==='massage'?11:8.6);
  return {x,y:zone.y+.18,z,yaw:Math.PI,approach:{x,y:zone.y+.18,z:z+3.6},staff:{x:x+2.2,y:zone.y+.18,z},exit:{x,y:zone.y+.18,z:z+5}};
 }
+
+// Services share the existing cat-wallet product ledger. Stable addresses do
+// not depend on a pavilion's display name or future architectural placement.
+export const RESORT_PRODUCTS=Object.freeze(RESORT_ZONES.map(z=>Object.freeze({id:z.id+'-session',storeId:z.id,name:z.name,brand:'CHICHI CAT SPA',category:'mall',kind:z.kind,use:z.procedure==='eat'?'eat':'spa',icon:'🪷',price:z.price,stock:100000,unique:false,resort:true})));
+export const resortProduct=id=>RESORT_PRODUCTS.find(p=>p.id===id);
+export function resortOffers(game){return game.unlocked?.includes('autumn')?RESORT_ZONES.map(z=>({id:z.id,type:z.id,biome:'autumn',name:'CHICHI CAT SPA · '+z.name,action:z.action})):[];}

@@ -133,3 +133,18 @@ separate support surfaces,8 Node22tests PASS. First standalone construction imag
 is sparse/pale, not target quality and NOT actual game/native proof. See updated
 resort-spa/status.md and construction-overview.png. Continue art+existing runtime
 integration; noSPA publication. Current source branch must be fetched before use.
+
+### SPA — real game scene/camera and ledger connection, WIP
+
+New economy adapter shares existing MALL_PRODUCTS/private cat wallet/receipts/used
+ledger (no new merge semantics);14procedures buy/use replay, reload and stale
+shared-save tests pass. Paid/used ticket adapter awaits scene appointment wiring.
+Scene now attaches lazily from actual SPA button; own zone camera and World exit
+passed THREE native private-game runs incl prepared existing finishes, bounded
+room lights and exact-detail batching. Upper-floor cutaway is visual only.
+Node22build+23targeted tests PASS. Full npm test currently running at
+/workspace/qa/resort-spa-full-tests.log/.exit, PTY72239. Do not claim pass yet.
+Evidence: docs/qa/2026-11-18/resort-spa/game-connection/manifest.json.
+Not published; still far from reference. NO full arrival, actual visiting actor
+procedure/economy/AI/SQLite scenario or84animations yet. Mandatory remaining
+scope in manifest. Do not present camera/ledger-only integration as finished SPA.
