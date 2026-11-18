@@ -22,3 +22,43 @@ proof yet. Do not publish this as a completed SPA or replace old SPA/Mall.
 Next: construct composed resort geometry/navigation, actual procedure state
 machines driven by existing leisure/purchase ledger; native before/after and
 private SQLite full scenarios, then fullCI/actual assets before separate release.
+
+## Continuation: composed model and procedure controller
+
+resort-spa-model.js now builds14 zones,907meshes/60567triangles before batching,
+central three-level atrium, actual .3m-rise/.6m-run stairs, dome ears, pool surfaces,
+furnished rooms and star points. Source construction candidate only: not rendered
+or integrated into production. These counts are not performance results.
+Core nav includes the six-cabin physical segments as well as common furniture.
+
+resort-spa-runtime.js implements reservations, walking via REQUIRED injected
+physical route/segment checks, therapist reservation, purchase callback, mounting,
+procedure, idempotent durable-effect callback retry, dismounting and physical return.
+Seven Node22tests PASS across booking, actual six-door geometry and controller.
+The controller tests use injected routes and ledger stubs; they do NOT establish
+real-game routing, payment persistence or finished84-action choreography.
+
+Before integration: replace candidate shallow pool fittings with actual recessed
+water volumes/stairs and floor cut-outs; check sealed shells and all corridor
+openings, table mount/dismount swept clearance, connect to existing economy/AI
+and shared owner, batching/lazy prep, proper scene materials and isolated camera.
+Native browser pictures/real procedures/SQLite still required. Do not publish
+this candidate as a finished resort or equate unit tests with those checks.
+
+## Recessed basins and first construction render
+
+resort-spa-basin.js: actual1.8m recessed bed, open-ended ellipse walls,
+real floor holes,4m-wide .3m-rise/.75m-run steps, shared water core.
+Platform surfaces are separate from coarse obstacle OBBs: use their actual
+triangles for support, never a filled merged bounding box across a pool hole.
+Common bridges now stop at pavilion perimeter, not at the centre of a pool.
+8 Node22 tests PASS, including real triangle-ray opening/bed/step assertions.
+
+First standalone construction render completed without JS errors:
+construction-overview.png and construction-render.json.938draws/60639triangles;
+not actual game lighting, loaded-map FPS, production render or visual approval.
+The actual image remains visibly sparse and pale, far from the supplied target.
+Do not call it reference quality. Next art pass needs architectural glass ribs,
+real finishes from prepared Mall art, filled amber interiors, plants/lotus/waterfall,
+local bounded lights, actual cats and native game camera/context. No shipping yet.
+Recessed-pool geometry is fixed; routing/support and native swim/exit still pending.

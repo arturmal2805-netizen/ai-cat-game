@@ -86,7 +86,7 @@ Workflow44194305867 и actualHTTP assets теперь подтверждены S
 2. Новый запрос2026-11-18: самостоятельный CHICHI CAT SPA & WELLNESS RESORT перед ТРЦ.
    Полный документ сохранён docs/specifications/underwater-spa-resort-2026-11-18.md;
    standard standards/underwater-spa.md. Отдельный worktree /workspace/chichi-underwater-spa-resort,
-   remote codex/underwater-spa-resort, latest WIPc75857d (full SHA via git), initial081fb13. WIP:14 planned zones, exclusive booking и six-cabin furnished massage module.
+   remote codex/underwater-spa-resort, initial081fb13. WIP:14 planned zones, exclusive booking и six-cabin furnished massage module.
    4 Node22 state/full-body geometry tests PASS; docs/qa/2026-11-18/resort-spa/status.md.
    Нет native browser/полного runtime/интеграции/публикации. Не считать полноценным SPA.
    14 plannedzones, actual metre scale, no replacement of old water-island SPA/Mall.
@@ -116,3 +116,22 @@ Immutableexpected publicroots /workspace/chichi-ocean-forecourt-smoothing,
 историческаяtechbase; CrimsonDesert — новаяцель. Одобрение localформы не равно
 одобрению всейводы илиhardwareFPS. Диагностика только?profile=1, query
 потребляется, close снимаетcollectors; reload безокна. ПлатныйAI невызывался.
+
+### SPA continuation — composed model and controller WIP
+
+Worktree /workspace/chichi-underwater-spa-resort, branch codex/underwater-spa-resort.
+New resort-spa-model.js:14 zones/three-level atrium,907meshes/60567triangles before
+batching, no production attachment. New resort-spa-runtime.js: full appointment
+phase flow via injected existing route/ledger/staff callbacks,7targeted Node22tests
+PASS. Actual live integration/native art/SQLite checks are NOT complete.
+Known next tasks/limitations explicitly in docs/qa/2026-11-18/resort-spa/status.md,
+especially recessed pool volumes, sealed openings, mount clearance, all84actions,
+existing economy/AI wiring and camera. Do not call WIP a finished SPA.
+
+SPA latest continuation: basin module integrated into candidate, floor holes and
+separate support surfaces,8 Node22tests PASS. First standalone construction image
+is sparse/pale, not target quality and NOT actual game/native proof. See updated
+resort-spa/status.md and construction-overview.png. Continue art+existing runtime
+integration; noSPA publication. Current source branch must be fetched before use.
+
+Latest SPA WIP63053c2 on codex/underwater-spa-resort; no live integration.
