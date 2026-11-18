@@ -1,0 +1,16 @@
+// Read-only rescue: never send a snapshot, change an account or invent funds.
+export function recoveryCopies(storage){
+ const copies=[];const add=(source,game)=>{if(game?.version===2&&Array.isArray(game.unlocked)&&Array.isArray(game.placements))copies.push({source,game});};
+ for(const key of ['chichi-world-v2','chichi-world-v2:backup','chichi-world-v2:backup2','chichi-cloud-outbox','chichi-world-archives']){
+  try{const value=JSON.parse(storage.getItem(key)||'null');if(key==='chichi-world-archives'){for(const [i,r]of(value||[]).entries())add(key+':'+i,r.game);}else if(key==='chichi-cloud-outbox'){for(const name of ['localGame','remoteGame'])add(key+':'+name,value?.[name]);for(const name of ['pending','retryEntry'])for(const field of ['game','baseGame'])add(key+':'+name+':'+field,value?.[name]?.[field]);}else add(key,value);}catch{}
+ }
+ return copies;
+}
+export function showSaveRecovery(storage,message){
+ const copies=recoveryCopies(storage),panel=document.createElement('main');panel.style.cssText='max-width:800px;margin:40px auto;padding:24px;font:18px system-ui;color:#302b40;background:#fff;border-radius:20px';
+ const title=document.createElement('h1');title.textContent='Сохранение защищено';const text=document.createElement('p');text.textContent=message;panel.append(title,text);
+ const note=document.createElement('p');note.textContent='Новый мир не создаётся, синхронизация и автосохранение не запускаются. Скачайте найденные копии для проверки. Коды аккаунта в файл не включаются.';panel.append(note);
+ for(const c of copies){const p=document.createElement('p');p.textContent=c.source+' — монеты: '+c.game.coins+', алмазы: '+(c.game.diamonds??0)+', построек: '+c.game.placements.length;panel.append(p);}
+ const button=document.createElement('button');button.textContent='Скачать найденные копии';button.style.cssText='font:inherit;padding:14px';button.onclick=()=>{const url=URL.createObjectURL(new Blob([JSON.stringify({version:1,copies})],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='chichi-recovery-copies.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};panel.append(button);document.body.replaceChildren(panel);
+ return new Promise(()=>{});
+}

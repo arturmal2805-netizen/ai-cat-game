@@ -1,3 +1,4 @@
+import {showSaveRecovery} from './save-recovery.js';
 import {completeResortTicket} from './resort-spa-economy.js';
 import {prepareWaterField} from './water-field.js';
 import {createMallUI} from './mall-ui.js';
@@ -157,7 +158,7 @@ import {
   bestEligible,
 } from "./social-system.js";
 // Shared snapshots are loaded verbatim; only the elected simulator advances offline care.
-const loadGame = (storage) => readGame(storage, Date.now(), { advance: false });
+const loadGame = (storage) => readGame(storage, Date.now(), { advance: false, strict: true });
 const $ = (id) => document.getElementById(id),
   api = (path) =>
     apiBase
@@ -181,6 +182,7 @@ try {
   };
 }
 let cloudStatus = "local";
+if(new URL(location.href).searchParams.get('recover')==='1')await showSaveRecovery(storage,'Проверка локальных резервных копий. Ничего не перезаписывается.');
 function cloudStatusChanged(status) {
   cloudStatus = status;
   const texts = {
@@ -224,17 +226,16 @@ const recoveredAtBoot =
   !cloud.createdToken && cloud.token
     ? await cloud.load({ force: !localSaved })
     : null;
-await cloud.claimEditor();
+if(!localSaved&&!recoveredAtBoot&&!cloud.createdToken)await showSaveRecovery(storage,'Прежний мир недоступен. Подмена пустым миром остановлена.');
 let adoptionCenterId = null,
   selectedIsland = "moon";
-let game = loadGame(
-    recoveredAtBoot
-      ? {
-          getItem: (key) =>
-            key === SAVE_KEY ? JSON.stringify(recoveredAtBoot) : null,
-        }
-      : storage,
-  ),
+let bootGame;
+try{bootGame=loadGame(
+ recoveredAtBoot?{getItem:key=>key===SAVE_KEY?JSON.stringify(recoveredAtBoot):null}:storage,
+);}catch(error){await showSaveRecovery(storage,'Не удалось прочитать мир: '+error.message);}
+await cloud.claimEditor();
+let game = bootGame,
+
   busy = false,
   heroDecisionVersion = 0,
   heroDecisionAbort = null,

@@ -191,17 +191,20 @@ export function newGame(now = Date.now()) {
   game.progression = newProgression();
   return game;
 }
-export function loadGame(storage, now = Date.now(), { advance = true } = {}) {
+export function loadGame(storage, now = Date.now(), { advance = true, strict = false } = {}) {
   try {
     let saved = readSavedState(storage);
-    if (!saved) return newGame(now);
+    if (!saved) {
+      if(strict&&[SAVE_KEY,SAVE_KEY+':backup',SAVE_KEY+':backup2'].some(k=>storage.getItem(k)))throw Error('Сохранённый мир не прошёл проверку. Исходные копии не изменены.');
+      return newGame(now);
+    }
     if (
       saved.version !== 2 ||
       !Number.isSafeInteger(saved.coins) ||
       saved.coins < 0 ||
       saved.coins > 10000000
     )
-      return newGame(now);
+      if(strict)throw Error('Некорректное сохранение: новый мир не создан.');else return newGame(now);
     saved = migrateRetiredIsland(saved, now);
     const game = newGame(now);
     game.retiredIslandRefund = saved.retiredIslandRefund || 0;
@@ -410,7 +413,8 @@ export function loadGame(storage, now = Date.now(), { advance = true } = {}) {
     if(game.jobCity?.epoch&&missingReferenceOwnership(game,now))for(const key of [SAVE_KEY+':backup',SAVE_KEY+':backup2'])try{const record=JSON.parse(storage.getItem(key)||'null');if(record?.jobCity?.epoch===game.jobCity.epoch)evidence.push(record);}catch{}
     const resolved = preserveReferenceOwnership(resolveConstructionBoosts(game),now,{sources:evidence});
     return advance ? advanceCare(resolved, now, { offline: true }) : resolved;
-  } catch {
+  } catch (error) {
+    if(strict)throw error;
     return newGame(now);
   }
 }
