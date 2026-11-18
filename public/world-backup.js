@@ -23,7 +23,9 @@ export async function encodeWorldBackup(game,now=Date.now()){
  // Only the existing game schema is exported, never storage/account/outbox.
  const copy=JSON.parse(JSON.stringify(game));validate(copy,now);
  const payload=JSON.stringify(copy);if(new TextEncoder().encode(payload).length>WORLD_BACKUP_LIMIT-1024)throw Error('Мир превышает поддерживаемый размер резервного файла.');
- return JSON.stringify({format:WORLD_BACKUP_FORMAT,formatVersion:1,gameVersion:2,createdAt:new Date(now).toISOString(),integrity:{algorithm:'SHA-256',hash:await digest(payload)},game:copy},null,2);
+ const text=JSON.stringify({format:WORLD_BACKUP_FORMAT,formatVersion:1,gameVersion:2,createdAt:new Date(now).toISOString(),integrity:{algorithm:'SHA-256',hash:await digest(payload)},game:copy},null,2);
+ if(new TextEncoder().encode(text).length>WORLD_BACKUP_LIMIT)throw Error('Мир превышает поддерживаемый размер резервного файла.');
+ return text;
 }
 export async function decodeWorldBackup(text,now=Date.now()){
  if(typeof text!=='string'||new TextEncoder().encode(text).length>WORLD_BACKUP_LIMIT)throw Error('Файл сохранения слишком большой.');
