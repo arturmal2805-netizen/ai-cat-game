@@ -4,6 +4,7 @@ import {join} from 'node:path';
 
 export async function auditResortV6({page,review}){
  const stage=process.env.CHICHI_SPA_V6_STAGE||'candidate',frames=[];
+ if(process.env.CHICHI_REVIEW_HOUR!==undefined){const hour=Number(process.env.CHICHI_REVIEW_HOUR);if(![0,12].includes(hour))throw Error('Review hour must be 0 or 12');await page.evaluate(hour=>{__lagoonQA.reviewHour=hour;},hour);}
  const names=process.env.CHICHI_SPA_V6_ALL?['Общий вид','Grand Thermal Lagoon','Luxury Jacuzzi Terraces','Massage Palace','Aroma Therapy Garden','Sauna & Steam Palace','Floating Glass Cabanas','Beauty & Grooming','Golden Galaxy VIP Suite','Ocean Meditation Dome','Cat Nap Galaxy','Wellness Café','Waterfall Relaxation Garden','Amber Star Lounge','Midnight Blue Relaxation Room']:['Общий вид','Aroma Therapy Garden','Golden Galaxy VIP Suite','Wellness Café','Floating Glass Cabanas'];
  if(process.env.CHICHI_SPA_V6_ALL)names.push('Верхний бассейн');
  for(const name of names){
@@ -15,7 +16,9 @@ export async function auditResortV6({page,review}){
   const png=stage+'-'+(name==='Верхний бассейн'?'sky-pool':state.selected||'overview')+'.png';await page.screenshot({path:join(review,png)});frames.push({name,png,...state});
   await writeFile(join(review,'v6-reference-frames.json'),JSON.stringify({stage,scope:'Actual running private game; brief software-renderer frame samples, not Mac/phone FPS or visual approval.',frames},null,2));console.log('V6 reference review frame',stage,name);
  }
- if(process.env.CHICHI_SPA_V6_VIP_LOUNGE){
+ if(process.env.CHICHI_SPA_V6_CAFE_WATER){
+  const {auditResortPools}=await import('./audit-resort-spa-pools.mjs');await auditResortPools({page,review});
+ }else if(process.env.CHICHI_SPA_V6_VIP_LOUNGE){
   const {auditResortDry}=await import('./audit-resort-spa-dry.mjs');await auditResortDry({page,review,zoneIds:['resort-vip']});
  }else if(process.env.CHICHI_SPA_V6_CONTACTS){
   const {auditResortSeatWalk}=await import('./audit-resort-spa-seat-walk.mjs');await auditResortSeatWalk({page,review});

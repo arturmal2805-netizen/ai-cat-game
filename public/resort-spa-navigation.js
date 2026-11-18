@@ -28,5 +28,6 @@ export function createResortSpaNavigation(root,{externalSurfaces=()=>[],external
   const candidates=floorMeshes.filter(({bounds:q})=>q.max.y>=Math.min(a.y,b.y)-radius&&q.min.y<=Math.max(a.y,b.y)+radius&&q.max.x>=Math.min(a.x,b.x)-radius&&q.min.x<=Math.max(a.x,b.x)+radius&&q.max.z>=Math.min(a.z,b.z)-radius&&q.min.z<=Math.max(a.z,b.z)+radius).map(e=>e.mesh);candidates.push(...(root.userData.dynamicSurfaces||[]));
   for(const offset of [[0,0,0],[radius,0,0],[-radius,0,0],[0,radius,0],[0,-radius,0],[0,0,radius],[0,0,-radius]]){cameraOrigin.set(a.x+root.position.x+offset[0],a.y+L.y+offset[1],a.z+root.position.z+offset[2]);cameraEnd.set(b.x+root.position.x+offset[0],b.y+L.y+offset[1],b.z+root.position.z+offset[2]);cameraDirection.subVectors(cameraEnd,cameraOrigin).normalize();ray.set(cameraOrigin,cameraDirection);ray.near=0;ray.far=length;if(ray.intersectObjects(candidates,true).length)return false;cameraDirection.negate();ray.set(cameraEnd,cameraDirection);if(ray.intersectObjects(candidates,true).length)return false;}return true;
  }
- return{support,segmentClear,floorPath,path,cameraClear};
+ function bodyClear(p,radius=.571){const hit=manualBuildingSupport(root.userData.navigation,p,radius,{ground:p.y,footOffset:F});return!!hit&&Math.abs(hit.y-p.y)<.03;}
+ return{support,segmentClear,floorPath,path,cameraClear,bodyClear};
 }

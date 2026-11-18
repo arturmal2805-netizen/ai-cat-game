@@ -47,7 +47,7 @@ export function* resortLuxurySteps({solid,decor,shell,surfaces,basins,waters,mat
     for(const side of [-1,1]){box(solid,mats.gold,s.x+side*1.8,y+1.8,s.z-.95,.07,3.6,.07);line(decor,mats.gold,[[s.x+side*1.8,y+3.6,s.z-.95],[s.x+side*.9,y+4.5,s.z-.95],[s.x,y+4.65,s.z-.95]],.055);}
     line(decor,mats.amber,[[s.x-1.7,y+3.62,s.z-.93],[s.x,y+4.58,s.z-.93],[s.x+1.7,y+3.62,s.z-.93]],.025);
    }
-  }else if(key==='cafe'){tray(s.x,y+1.3,s.z,true);lotus(s.x+.6,y+1.35,s.z,.45);}
+  }else if(key==='cafe'){const t=s.table||{x:s.x,y:S.y+y+1.3,z:s.z};tray(t.x,t.y-S.y+.08,t.z,true);lotus(t.x+.6,t.y-S.y+.13,t.z,.45);}
   else if(key==='beauty'){
    for(let j=0;j<4;j++){const g=geometry('comb-tooth',()=>new T.BoxGeometry(.035,.05,.23));mesh(decor,g,mats.gold,s.x+1.9+j*.07,y+1.47,s.z-1.7);}
    ring(decor,mats.amber,s.x,y+2.05,s.z-2.01,1.15,.015,.035);
@@ -115,9 +115,13 @@ export function* resortLuxurySteps({solid,decor,shell,surfaces,basins,waters,mat
    features.push('deep lavender star dome','individual sleep niches','soft blankets');domedCeiling(zone,0x171d3a);for(const side of [-1,1])curtains(zone.x+side*12,y,zone.z-10,2.8);
   }else if(zone.key==='cafe'){
    features.push('curved marble bar','dessert service','central exotic fish aquarium','sculpted blossom trees');
-   const shape=new T.Shape();shape.absarc(0,-203,12.05,0,Math.PI*2,false);const opening=new T.Path();opening.absarc(0,-203,6.3,0,Math.PI*2,true);shape.holes.push(opening);const floorGeometry=new T.ShapeGeometry(shape,72);floorGeometry.rotateX(-Math.PI/2);geometries.set('cafe-bar-walkway',floorGeometry);mesh(surfaces,floorGeometry,mats.ivory,0,y,0);
+   // Service floor follows the actual front bar arc. Preserve the rear open
+   // atrium sector instead of sealing the whole old void with a full annulus.
+   const shape=new T.Shape(),start=-Math.PI*.72,end=Math.PI*.72;for(let j=0;j<=72;j++){const a=start+(end-start)*j/72,x=Math.sin(a)*12.05,z=-(203+Math.cos(a)*12.05);if(j)shape.lineTo(x,z);else shape.moveTo(x,z);}for(let j=72;j>=0;j--){const a=start+(end-start)*j/72;shape.lineTo(Math.sin(a)*6.3,-(203+Math.cos(a)*6.3));}shape.closePath();const floorGeometry=new T.ShapeGeometry(shape,72);floorGeometry.rotateX(-Math.PI/2);geometries.set('cafe-bar-walkway',floorGeometry);mesh(surfaces,floorGeometry,mats.ivory,0,y,0);
    for(let j=0;j<24;j++){const a=-Math.PI*.7+j*Math.PI*1.4/23,x=zone.x+Math.sin(a)*9,z=zone.z+Math.cos(a)*9,o=box(solid,mats.ivory,x,y+.75,z,2.1,1.5,1.4,true);o.rotation.y=a;const top=box(decor,mats.gold,x,y+1.53,z,2.15,.10,1.5,true);top.rotation.y=a;if(j%3===0)tray(x,y+1.62,z,true);}
-   const tankGeo=geometry('aquarium-wall',()=>new T.CylinderGeometry(5.8,5.8,6.2,64,1,true));mesh(shell,tankGeo,mats.glass,0,y+3.1,203);ring(decor,mats.gold,0,y+.2,203,5.8,5.8,.12);ring(decor,mats.gold,0,y+6.2,203,5.8,5.8,.12);
+   const tankGlass=material(0x62cbd9,{transparent:true,opacity:.23,roughness:.08,metalness:.08,side:T.DoubleSide,depthWrite:false,forceSinglePass:true}),tankGeo=geometry('aquarium-wall',()=>new T.CylinderGeometry(5.8,5.8,6.2,64,1,true));mesh(shell,tankGeo,tankGlass,0,y+3.1,203);
+   const cap=geometry('aquarium-glass-cap',()=>{const g=new T.CircleGeometry(5.8,64);g.rotateX(-Math.PI/2);return g;});mesh(shell,cap,tankGlass,0,y+.02,203);mesh(shell,cap,tankGlass,0,y+6.18,203);
+   ring(decor,mats.gold,0,y+.2,203,5.8,5.8,.12);ring(decor,mats.gold,0,y+6.2,203,5.8,5.8,.12);for(let j=0;j<6;j++){const a=j*Math.PI/3,x=Math.cos(a)*5.81,z=203+Math.sin(a)*5.81;box(decor,mats.gold,x,y+3.1,z,.025,6,.025);}
    fishModel('betta',.2);fishModel('angelfish',.32);fishModel('ray',.13);
    for(const side of [-1,1])tree(side*30,y,203,1.3);chandelier(-12,y+6.8,203,2);
   }else if(zone.key==='waterfall'){

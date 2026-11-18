@@ -36,8 +36,8 @@ export function* resortSpaModelSteps(){
  function roof(x,y,z,rx,rz,height,wallHeight=4){mesh(shell,geometry('dome',()=>new T.SphereGeometry(1,48,24,0,Math.PI*2,0,Math.PI/2)),mats.glass,x,y,z,rx,height,rz);for(let i=0;i<24;i++){const a=i*Math.PI/12;box(shell,mats.gold,x+Math.cos(a)*rx,y-wallHeight/2,z+Math.sin(a)*rz,.13,wallHeight,.13);}}
  // Main cat dome and real three-level public atrium.
  for(let level=0;level<3;level++){
-  authoredLevel=level;const y=level*L.rise,shape=new T.Shape();shape.absarc(0,0,34,0,Math.PI*2,false);if(level){const hole=new T.Path();hole.absarc(0,0,12,0,Math.PI*2,true);shape.holes.push(hole);const stair=RESORT_STAIRS[level-1],opening=new T.Path();opening.moveTo(stair.x-3.5,-185);opening.lineTo(stair.x+3.5,-185);opening.lineTo(stair.x+3.5,-221.5);opening.lineTo(stair.x-3.5,-221.5);opening.closePath();shape.holes.push(opening);}const g=new T.ShapeGeometry(shape,96);g.rotateX(-Math.PI/2);geos.set('atrium-'+level,g);mesh(surfaces,g,mats.ivory,0,y,203).name='resort-atrium-floor-'+level;
-  for(const side of [-1,1])for(let i=0;i<4;i++)sofa(side*20,y,187+i*10);
+  authoredLevel=level;const y=level*L.rise,shape=new T.Shape();shape.absarc(0,0,34,0,Math.PI*2,false);if(level){const hole=new T.Path();hole.absarc(0,0,12,0,Math.PI*2,true);shape.holes.push(hole);const stair=RESORT_STAIRS[level-1],opening=new T.Path();opening.moveTo(stair.x-3.5,-185);opening.lineTo(stair.x+3.5,-185);opening.lineTo(stair.x+3.5,-221.5);opening.lineTo(stair.x-3.5,-221.5);opening.closePath();shape.holes.push(opening);}if(level===1)for(const pool of resortPools(RESORT_ZONES.find(z=>z.key==='cafe'))){const hole=new T.Path();hole.absellipse(pool.x,-(pool.z-203),pool.rx,pool.rz,0,Math.PI*2,true);shape.holes.push(hole);}const g=new T.ShapeGeometry(shape,96);g.rotateX(-Math.PI/2);geos.set('atrium-'+level,g);mesh(surfaces,g,mats.ivory,0,y,203).name='resort-atrium-floor-'+level;
+  for(const side of [-1,1])for(let i=0;i<4;i++)if(level===1)sofa(-12+i*8,y,203+side*26,side<0?Math.PI:0);else sofa(side*20,y,187+i*10);
   yield;
  }
  roof(0,19,203,35,35,18,19);
@@ -54,7 +54,7 @@ export function* resortSpaModelSteps(){
   // unsupported slivers at its corners against a curved atrium/pavilion rim.
   const dx=zone.x,dz=zone.z-203,len=Math.hypot(dx,dz),a=Math.atan2(dx,dz),reach=len?1/Math.hypot(dx/len/zone.rx,dz/len/zone.rz):0,gap=Math.max(0,len-34-reach+.2);if(gap){const distance=34+gap/2,b=box(solid,mats.ivory,dx/len*distance,y-.15,203+dz/len*distance,5,.3,gap+2.4);b.rotation.y=a;}
   if(zone.procedure==='massage'){const p=createResortMassagePavilion(zone,{materials:{marble:mats.ivory,gold:mats.gold,wood:mats.wood,cloth:mats.cloth,pink:mats.pink,glass:mats.glass,amber:mats.amber}});p.position.y=0;p.traverse(o=>{if(o.isMesh)o.userData.resortFloor=zone.level;});root.add(p);roof(zone.x,y+4,zone.z,zone.rx,zone.rz,6);zones.set(zone.id,p);yield;continue;}
-  const group=new T.Group();group.name=zone.name;root.add(group);zones.set(zone.id,group);const pools=zone.key==='cabana'?[{x:zone.x,z:zone.z,rx:zone.rx-3,rz:zone.rz-3}]:resortPools(zone).filter(p=>Math.abs(p.y-zone.y)<.01);if(zone.key!=='cafe'){platform(zone,y,pools);for(const p of pools)pool(p.x,y,p.z,p.rx,p.rz);roof(zone.x,y+4,zone.z,zone.rx,zone.rz,6);}
+  const group=new T.Group();group.name=zone.name;root.add(group);zones.set(zone.id,group);const pools=zone.key==='cabana'?[{x:zone.x,z:zone.z,rx:zone.rx-3,rz:zone.rz-3}]:resortPools(zone).filter(p=>Math.abs(p.y-zone.y)<.01);if(zone.key!=='cafe'){platform(zone,y,pools);roof(zone.x,y+4,zone.z,zone.rx,zone.rz,6);}for(const p of pools)pool(p.x,y,p.z,p.rx,p.rz);
   if(zone.key==='cabana'){
    box(solid,mats.ivory,zone.x,y-.08,zone.z,52,.16,2.4);box(solid,mats.ivory,zone.x,y-.08,zone.z+12,36,.16,3);
    for(let i=0;i<zone.seats;i++){const s=resortSpaSeat(zone,i),end=s.z<zone.z?zone.z:zone.z+12;disk(surfaces,mats.ivory,s.x,y-.04,s.z,3.2,3.2,.08);box(solid,mats.ivory,s.x,y-.08,(s.z+end)/2,2.2,.16,Math.abs(end-s.z)+.2);if(s.z>zone.z)for(const side of [-1,1])box(solid,mats.glass,s.x+side*1.08,y+.6,zone.z+9,.06,1.2,3);}
@@ -66,7 +66,10 @@ export function* resortSpaModelSteps(){
    else if(['swim','jacuzzi','vip'].includes(zone.procedure)){ /* Contacts resolved against separate wet volumes by navigation. */ }
    else if(['sleep','lounge','cabana'].includes(zone.procedure)){sofa(x,y,z);box(decor,mats.ivory,x,y+1,z,1.4,.12,.7);}
    else if(zone.procedure==='sauna'){box(solid,mats.wood,x,y+.4,z,4,.8,1.4);box(solid,mats.wood,x,y+1.15,z-.65,4,1.5,.18);}
-   else if(zone.procedure==='eat'){disk(solid,mats.gold,x,y+1.2,z,1.3,1.3,.12);box(solid,mats.gold,x,y+.55,z,.15,1.1,.15);sofa(x,y,z+2.8,Math.PI);}
+   else if(zone.procedure==='eat'){
+    if(s.pool){const t=s.table;disk(solid,mats.ivory,t.x,y+.52,t.z,1.2,1.2,.12);disk(decor,mats.gold,t.x,y+.58,t.z,1.22,1.22,.045);box(solid,mats.gold,t.x,y-.68,t.z,.16,2.28,.16);box(solid,mats.ivory,s.x,y-1.06,s.z,1.7,.3,1.7);box(solid,mats.gold,s.x,y-1.45,s.z,.14,.48,.14);}
+    else{disk(solid,mats.gold,x,y+1.2,z,1.3,1.3,.12);box(solid,mats.gold,x,y+.55,z,.15,1.1,.15);sofa(x,y,z+2.8,Math.PI);}
+   }
    else if(zone.procedure==='groom'){sofa(x,y,z);box(solid,mats.gold,x,y+2,z-2.2,2.5,3,.16);box(decor,mats.glass,x,y+2,z-2.08,2.2,2.7,.04);}
    else if(zone.procedure==='aroma'){
     const cushion=geometry('aroma-cushion',()=>new RoundedBoxGeometry(1,1,1,3,.11));mesh(solid,cushion,mats.cloth,x,y+.65,z,3,.3,2.1);const back=mesh(solid,cushion,mats.cloth,x,y+1.3,z-.95,3,1.3,.36);back.rotation.x=-.1;for(const side of [-1,1])mesh(solid,cushion,mats.cloth,x+side*1.5,y+1,z,.28,.6,2.1);
