@@ -116,3 +116,14 @@ Immutableexpected publicroots /workspace/chichi-ocean-forecourt-smoothing,
 историческаяtechbase; CrimsonDesert — новаяцель. Одобрение localформы не равно
 одобрению всейводы илиhardwareFPS. Диагностика только?profile=1, query
 потребляется, close снимаетcollectors; reload безокна. ПлатныйAI невызывался.
+
+### SPA continuation — composed model and controller WIP
+
+Worktree /workspace/chichi-underwater-spa-resort, branch codex/underwater-spa-resort.
+New resort-spa-model.js:14 zones/three-level atrium,907meshes/60567triangles before
+batching, no production attachment. New resort-spa-runtime.js: full appointment
+phase flow via injected existing route/ledger/staff callbacks,7targeted Node22tests
+PASS. Actual live integration/native art/SQLite checks are NOT complete.
+Known next tasks/limitations explicitly in docs/qa/2026-11-18/resort-spa/status.md,
+especially recessed pool volumes, sealed openings, mount clearance, all84actions,
+existing economy/AI wiring and camera. Do not call WIP a finished SPA.

@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: every actual station excludes concurrent cats; cancellation and cleaning release correctly
+ok 1 - every actual station excludes concurrent cats; cancellation and cleaning release correctly
+  ---
+  duration_ms: 7.826423
+  type: 'test'
+  ...
+# Subtest: duplicate synchronization never extends reserved expiry; stale owner cannot occupy or release another cat
+ok 2 - duplicate synchronization never extends reserved expiry; stale owner cannot occupy or release another cat
+  ---
+  duration_ms: 0.305751
+  type: 'test'
+  ...
+# Subtest: unavailable, occupied and cleaning stations do not accept new reservations; teardown releases all owners
+ok 3 - unavailable, occupied and cleaning stations do not accept new reservations; teardown releases all owners
+  ---
+  duration_ms: 0.492847
+  type: 'test'
+  ...
+# Subtest: all six actual massage cabins keep full-body door routes, solid tables, walls and separate staff contacts
+ok 4 - all six actual massage cabins keep full-body door routes, solid tables, walls and separate staff contacts
+  ---
+  duration_ms: 17.074072
+  type: 'test'
+  ...
+# Subtest: physical appointment returns, bills once, consumes once, reserves therapist and cleans station
+ok 5 - physical appointment returns, bills once, consumes once, reserves therapist and cleans station
+  ---
+  duration_ms: 15.935092
+  type: 'test'
+  ...
+# Subtest: resume uses durable paid ticket; failing effect retries same receipt without rebilling; paused time does not expire ownership
+ok 6 - resume uses durable paid ticket; failing effect retries same receipt without rebilling; paused time does not expire ownership
+  ---
+  duration_ms: 5.848312
+  type: 'test'
+  ...
+# Subtest: blocked full-body segment cannot start a walk or bill; cancellation releases seat and staff
+ok 7 - blocked full-body segment cannot start a walk or bill; cancellation releases seat and staff
+  ---
+  duration_ms: 1.292938
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 158.911015

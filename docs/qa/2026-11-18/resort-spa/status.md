@@ -22,3 +22,25 @@ proof yet. Do not publish this as a completed SPA or replace old SPA/Mall.
 Next: construct composed resort geometry/navigation, actual procedure state
 machines driven by existing leisure/purchase ledger; native before/after and
 private SQLite full scenarios, then fullCI/actual assets before separate release.
+
+## Continuation: composed model and procedure controller
+
+resort-spa-model.js now builds14 zones,907meshes/60567triangles before batching,
+central three-level atrium, actual .3m-rise/.6m-run stairs, dome ears, pool surfaces,
+furnished rooms and star points. Source construction candidate only: not rendered
+or integrated into production. These counts are not performance results.
+Core nav includes the six-cabin physical segments as well as common furniture.
+
+resort-spa-runtime.js implements reservations, walking via REQUIRED injected
+physical route/segment checks, therapist reservation, purchase callback, mounting,
+procedure, idempotent durable-effect callback retry, dismounting and physical return.
+Seven Node22tests PASS across booking, actual six-door geometry and controller.
+The controller tests use injected routes and ledger stubs; they do NOT establish
+real-game routing, payment persistence or finished84-action choreography.
+
+Before integration: replace candidate shallow pool fittings with actual recessed
+water volumes/stairs and floor cut-outs; check sealed shells and all corridor
+openings, table mount/dismount swept clearance, connect to existing economy/AI
+and shared owner, batching/lazy prep, proper scene materials and isolated camera.
+Native browser pictures/real procedures/SQLite still required. Do not publish
+this candidate as a finished resort or equate unit tests with those checks.
