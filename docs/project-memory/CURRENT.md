@@ -1,5 +1,36 @@
 # Текущий статус
 
+## КРИТИЧЕСКИЙ ИНЦИДЕНТ ПОСЛЕ РЕЛИЗА — не объявлять восстановленным
+
+Пользователь сообщил55a9beb:490монет/0алмазов/день1, нетMosa/ТРЦ/SPA.
+ДВА фактических JSON подтверждают490/0,19профилей,0усыновлений,5placements,
+новыйepoch1795028031356, autumn НЕ открыт. Старого147cat/миллионов в них нет.
+Userlatestcloudload даёт450; прямой cloudGET здесь tunnel403. Не повторять
+загрузку этой копии как восстановление. Кодмира/персональныеJSON не публиковались.
+Старый runtime/SPA/Mall в Git цел, но старые деньги/колония НЕ восстановлены.
+
+Активная WIP /workspace/chichi-emergency-save-recovery,
+codex/emergency-save-recovery: strictload против silentnewGame overwrite,
+read-only rescue before ownership/autosave.5target tests/compileNode22PASS,
+НЕ опубликован/не признан точной причиной исходного сброса. Статус/команда:
+docs/qa/2026-11-18/emergency-save-recovery/status.md в WIP ветке.
+
+Быстрое частичное возвращение ЛОКАЦИЙ: только unlocked+autumn по screenshotproof,
+без новых денег/котиков. Actualstrictload/merge проверены; Mosa/14offers появляются.
+ЛичныйJSON по локальнымссылкам пользователь скачать не смог. Gist403 и uploads403;
+пустойсозданныйdraftrelease удалён. Публичных личных сохранений нет.
+Вместо этого опубликован ТОЛЬКО автономный HTMLинструмент без пользовательскихданных,
+recovery/offline-location-tool **fa872ec97b6f7b11b13e8a354b9328c9e7da791c**.
+HTTPSZIP фактически скачан/проверен; browser filechooser/autodownload/zeroHTTP/
+exactonlyautumndiff PASS. Пользователь получил ссылку и инструкцию распаковать,
+открытьrestore.html, выбратьсвойJSON, импортироватьисправленныйJSON в игре.
+https://github.com/arturmal2805-netizen/ai-cat-game/archive/refs/heads/recovery/offline-location-tool.zip
+Его успешный импорт/возврат сцен пока НЕ подтверждён. Основной main/live всёещё55a9beb.
+Следующий приоритет — добиться реального восстановления, найти прежние snapshots/
+другоеустройство/accountarchive/outbox; не выдавать unlock-only за полныйпрогресс.
+Два ZIPлога пользователя одинаковы (успешныйCI), это НЕбэкапмира.
+
+
 Обновлено2026-11-18, Europe/Kiev. [История перед публикацией](history/CURRENT-before-SPA-publication-2026-11-18.md).
 
 ## Последняя подтверждённая публикация — первый функциональный этап SPA
