@@ -52,3 +52,17 @@ sampler2DArray compilation in this pinned WebGL2 renderer and preserve fallback;
 do not alter global water/Mall/cat shaders. Sky needs its own15th layer.
 This is a proposal, not a promise of mirror quality or phone/Mac FPS. Actual
 scene-derived images and GPU/software measurements required before promotion.
+
+## Eighth native comparison finished
+
+Exact source212553143cc8ba1e29f8a42be6a0c95643d3ab14 clean, six same-view frames.
+Native shader preparation/render/World release PASS; furniture shadows visible,
+obsolete ribs/pendant absent from upper pool volume. Earlier unchanged wet/dry
+procedures are not claimed rerun. Camera/light/DPR comparison saved separately.
+Still visual WIP, not final reference match or physical-device performance.
+
+Existing CC0 Mall marble/fabric charts were actually viewed. Marble is beige
+staggered stone tiles, not white Calacatta; do not claim it reproduces reference.
+Fabric is real velour data, reusable locally for more natural textile detail.
+PolyHaven API and earlier AmbientCG API are blocked with tunnel403 in this
+environment; do not retry through proxies or invent downloaded assets.

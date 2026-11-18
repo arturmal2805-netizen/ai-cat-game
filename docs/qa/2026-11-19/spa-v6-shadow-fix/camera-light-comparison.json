@@ -1,0 +1,569 @@
+{
+  "scope": "Camera/light/DPR records, not exact moving-world pixel equivalence or hardware FPS.",
+  "views": [
+    {
+      "view": "\u041e\u0431\u0449\u0438\u0439 \u0432\u0438\u0434",
+      "sameName": true,
+      "cameraDifferenceMetres": 0.0005250601653977581,
+      "lookDifferenceMetres": 0.0001705939053036198,
+      "fovBefore": 63.9913180360744,
+      "fovAfter": 63.990079430713585,
+      "dprBefore": 2,
+      "dprAfter": 2,
+      "lightingBefore": [
+        {
+          "type": "HemisphereLight",
+          "color": 16771547,
+          "intensity": 1.2,
+          "position": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 16767159,
+          "intensity": 2.2,
+          "position": [
+            -464.00027789611937,
+            35,
+            724.9999810525374
+          ]
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 12105708,
+          "intensity": 0.9,
+          "position": [
+            20,
+            16,
+            -30
+          ]
+        }
+      ],
+      "lightingAfter": [
+        {
+          "type": "HemisphereLight",
+          "color": 16771547,
+          "intensity": 1.2,
+          "position": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 16767159,
+          "intensity": 2.2,
+          "position": [
+            -464.00010925093284,
+            35,
+            724.9999925510728
+          ]
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 12105708,
+          "intensity": 0.9,
+          "position": [
+            20,
+            16,
+            -30
+          ]
+        }
+      ],
+      "frameStartClockBefore": {
+        "absolute": 720,
+        "day": 0,
+        "minute": 720,
+        "hour": 12,
+        "label": "12:00",
+        "working": true
+      },
+      "frameStartClockAfter": {
+        "absolute": 720,
+        "day": 0,
+        "minute": 720,
+        "hour": 12,
+        "label": "12:00",
+        "working": true
+      },
+      "callsBefore": 1269,
+      "callsAfter": 1317,
+      "trianglesBefore": 13335727,
+      "trianglesAfter": 13470921
+    },
+    {
+      "view": "Aroma Therapy Garden",
+      "sameName": true,
+      "cameraDifferenceMetres": 0.0,
+      "lookDifferenceMetres": 0.0,
+      "fovBefore": 60.00989348826969,
+      "fovAfter": 60.00989041807395,
+      "dprBefore": 2,
+      "dprAfter": 2,
+      "lightingBefore": [
+        {
+          "type": "HemisphereLight",
+          "color": 16771547,
+          "intensity": 1.2,
+          "position": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 16767159,
+          "intensity": 2.2,
+          "position": [
+            -377,
+            35,
+            763
+          ]
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 12105708,
+          "intensity": 0.9,
+          "position": [
+            20,
+            16,
+            -30
+          ]
+        }
+      ],
+      "lightingAfter": [
+        {
+          "type": "HemisphereLight",
+          "color": 16771547,
+          "intensity": 1.2,
+          "position": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 16767159,
+          "intensity": 2.2,
+          "position": [
+            -377,
+            35,
+            763
+          ]
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 12105708,
+          "intensity": 0.9,
+          "position": [
+            20,
+            16,
+            -30
+          ]
+        }
+      ],
+      "frameStartClockBefore": {
+        "absolute": 720,
+        "day": 0,
+        "minute": 720,
+        "hour": 12,
+        "label": "12:00",
+        "working": true
+      },
+      "frameStartClockAfter": {
+        "absolute": 720,
+        "day": 0,
+        "minute": 720,
+        "hour": 12,
+        "label": "12:00",
+        "working": true
+      },
+      "callsBefore": 1516,
+      "callsAfter": 1531,
+      "trianglesBefore": 11408449,
+      "trianglesAfter": 11602849
+    },
+    {
+      "view": "Golden Galaxy VIP Suite",
+      "sameName": true,
+      "cameraDifferenceMetres": 0.00208019018064507,
+      "lookDifferenceMetres": 0.002037647849033831,
+      "fovBefore": 60.00989348826969,
+      "fovAfter": 60.00989041807395,
+      "dprBefore": 2,
+      "dprAfter": 2,
+      "lightingBefore": [
+        {
+          "type": "HemisphereLight",
+          "color": 16771547,
+          "intensity": 1.2,
+          "position": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 16767159,
+          "intensity": 2.2,
+          "position": [
+            -420.99701755058896,
+            35,
+            708.0037280617637
+          ]
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 12105708,
+          "intensity": 0.9,
+          "position": [
+            20,
+            16,
+            -30
+          ]
+        }
+      ],
+      "lightingAfter": [
+        {
+          "type": "HemisphereLight",
+          "color": 16771547,
+          "intensity": 1.2,
+          "position": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 16767159,
+          "intensity": 2.2,
+          "position": [
+            -420.99825082383734,
+            35,
+            708.0021864702034
+          ]
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 12105708,
+          "intensity": 0.9,
+          "position": [
+            20,
+            16,
+            -30
+          ]
+        }
+      ],
+      "frameStartClockBefore": {
+        "absolute": 720,
+        "day": 0,
+        "minute": 720,
+        "hour": 12,
+        "label": "12:00",
+        "working": true
+      },
+      "frameStartClockAfter": {
+        "absolute": 720,
+        "day": 0,
+        "minute": 720,
+        "hour": 12,
+        "label": "12:00",
+        "working": true
+      },
+      "callsBefore": 1637,
+      "callsAfter": 1686,
+      "trianglesBefore": 12318252,
+      "trianglesAfter": 12480232
+    },
+    {
+      "view": "Wellness Caf\u00e9",
+      "sameName": true,
+      "cameraDifferenceMetres": 0.002891582397320784,
+      "lookDifferenceMetres": 0.00286327625113831,
+      "fovBefore": 60.00989348826969,
+      "fovAfter": 60.00989041807395,
+      "dprBefore": 2,
+      "dprAfter": 2,
+      "lightingBefore": [
+        {
+          "type": "HemisphereLight",
+          "color": 16771547,
+          "intensity": 1.2,
+          "position": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 16767159,
+          "intensity": 2.2,
+          "position": [
+            -463.9915399473697,
+            35,
+            703.0009837270501
+          ]
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 12105708,
+          "intensity": 0.9,
+          "position": [
+            20,
+            16,
+            -30
+          ]
+        }
+      ],
+      "lightingAfter": [
+        {
+          "type": "HemisphereLight",
+          "color": 16771547,
+          "intensity": 1.2,
+          "position": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 16767159,
+          "intensity": 2.2,
+          "position": [
+            -463.9943245185619,
+            35,
+            703.0006599397021
+          ]
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 12105708,
+          "intensity": 0.9,
+          "position": [
+            20,
+            16,
+            -30
+          ]
+        }
+      ],
+      "frameStartClockBefore": {
+        "absolute": 720,
+        "day": 0,
+        "minute": 720,
+        "hour": 12,
+        "label": "12:00",
+        "working": true
+      },
+      "frameStartClockAfter": {
+        "absolute": 720,
+        "day": 0,
+        "minute": 720,
+        "hour": 12,
+        "label": "12:00",
+        "working": true
+      },
+      "callsBefore": 1749,
+      "callsAfter": 1780,
+      "trianglesBefore": 12468619,
+      "trianglesAfter": 12590545
+    },
+    {
+      "view": "Floating Glass Cabanas",
+      "sameName": true,
+      "cameraDifferenceMetres": 0.0029502965649251963,
+      "lookDifferenceMetres": 0.002930648476319955,
+      "fovBefore": 60.00989348826969,
+      "fovAfter": 60.00989041807395,
+      "dprBefore": 2,
+      "dprAfter": 2,
+      "lightingBefore": [
+        {
+          "type": "HemisphereLight",
+          "color": 16771547,
+          "intensity": 1.2,
+          "position": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 16767159,
+          "intensity": 2.2,
+          "position": [
+            -545.9957416808094,
+            35,
+            677.0013501987678
+          ]
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 12105708,
+          "intensity": 0.9,
+          "position": [
+            20,
+            16,
+            -30
+          ]
+        }
+      ],
+      "lightingAfter": [
+        {
+          "type": "HemisphereLight",
+          "color": 16771547,
+          "intensity": 1.2,
+          "position": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 16767159,
+          "intensity": 2.2,
+          "position": [
+            -545.9985352647253,
+            35,
+            677.0004644282578
+          ]
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 12105708,
+          "intensity": 0.9,
+          "position": [
+            20,
+            16,
+            -30
+          ]
+        }
+      ],
+      "frameStartClockBefore": {
+        "absolute": 720,
+        "day": 0,
+        "minute": 720,
+        "hour": 12,
+        "label": "12:00",
+        "working": true
+      },
+      "frameStartClockAfter": {
+        "absolute": 720,
+        "day": 0,
+        "minute": 720,
+        "hour": 12,
+        "label": "12:00",
+        "working": true
+      },
+      "callsBefore": 1661,
+      "callsAfter": 1691,
+      "trianglesBefore": 12016217,
+      "trianglesAfter": 12138797
+    },
+    {
+      "view": "\u0412\u0435\u0440\u0445\u043d\u0438\u0439 \u0431\u0430\u0441\u0441\u0435\u0439\u043d",
+      "sameName": true,
+      "cameraDifferenceMetres": 0.0002518666768426386,
+      "lookDifferenceMetres": 0.00024346762415885533,
+      "fovBefore": 67.99109369574445,
+      "fovAfter": 67.9911008145191,
+      "dprBefore": 2,
+      "dprAfter": 2,
+      "lightingBefore": [
+        {
+          "type": "HemisphereLight",
+          "color": 16771547,
+          "intensity": 1.2,
+          "position": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 16767159,
+          "intensity": 2.2,
+          "position": [
+            -464.00098262720417,
+            35,
+            702.9996884352768
+          ]
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 12105708,
+          "intensity": 0.9,
+          "position": [
+            20,
+            16,
+            -30
+          ]
+        }
+      ],
+      "lightingAfter": [
+        {
+          "type": "HemisphereLight",
+          "color": 16771547,
+          "intensity": 1.2,
+          "position": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 16767159,
+          "intensity": 2.2,
+          "position": [
+            -464.0007516191944,
+            35,
+            702.9997616817188
+          ]
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 12105708,
+          "intensity": 0.9,
+          "position": [
+            20,
+            16,
+            -30
+          ]
+        }
+      ],
+      "frameStartClockBefore": {
+        "absolute": 720,
+        "day": 0,
+        "minute": 720,
+        "hour": 12,
+        "label": "12:00",
+        "working": true
+      },
+      "frameStartClockAfter": {
+        "absolute": 720,
+        "day": 0,
+        "minute": 720,
+        "hour": 12,
+        "label": "12:00",
+        "working": true
+      },
+      "callsBefore": 1912,
+      "callsAfter": 1960,
+      "trianglesBefore": 14824602,
+      "trianglesAfter": 14990412
+    }
+  ]
+}

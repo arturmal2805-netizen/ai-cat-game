@@ -1,0 +1,25 @@
+{
+  "sourceBase": "212553143cc8ba1e29f8a42be6a0c95643d3ab14",
+  "sourceState": "",
+  "result": "PASS six actual native views/shaders/camera release with restored authored opaque shadow casters and no Cafe ribs/pendant inside sky pool. Earlier unchanged procedures/SQLite are recorded separately, not rerun here.",
+  "visualReview": "Furniture contact shadows now visible and enlarged pool volume clear. Still far from R1/R2/R4/R5; texture/soft furnishing/garden density and scene-derived interior reflections need work. No final approval or hardware FPS claim.",
+  "files": {
+    "actual-game-massage.png": "d741c42d7018cc4a6e36e05529fb96e6f3e36ae1953cae087523944666f72c1a",
+    "game-scene.json": "6e398c797fdb2280e311335b20e238bce08184b9c0a5a887f27186077ee4d896",
+    "imported-source.tar.gz": "3557b7d600e9ba9d91c78b6ed789aaf84d5a3563dcefc280afe128c91f821c8f",
+    "native.log": "bf547f5991843a9669643320dfa50d171135b6f3cb2a39a2b41e96b3503ecda2",
+    "qa-app.js.gz": "40b580d508c522079cee90aec4ba4092dee59b38865a01f02e88659b51762a94",
+    "qa-build.json": "d7e63eb955dc0b5d45c8ad2b080ec1b015f358ae1b75da071e74afdbf266ad30",
+    "shadow-fix-overview.png": "fb7c0b29d670a1ee86164d9b6fd50c5cdb298d56fc847ba4bd8cd9885950154e",
+    "shadow-fix-resort-aroma.png": "022503e755147a25fc4e4c951bfa2e800bddbcd8b4c4359a38fd43a7b5c93a00",
+    "shadow-fix-resort-cabana.png": "dda26bc44cec2f25aa425235e5f106f6be3ed961c08553377474d6c109e325d5",
+    "shadow-fix-resort-cafe.png": "442407c974a98c510069fe237a7267bafe42eabaf0b56adbe51a65484f8d92c6",
+    "shadow-fix-resort-vip.png": "84861c97236832984402018e978aa68e63d0bcbeefc0c37cbdd14972308aac14",
+    "shadow-fix-sky-pool.png": "f4b5945bfd4a5879ed938911cecadc4ab822dba53a773b890ec2e0ffb6a705c2",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "d7f7a42205efcc70a250b8fdd6839c14c32559f756c824c3ab072eaa050defb0",
+    "source-status.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "v6-reference-frames.json": "cc5759fede2a0d4538e8b1e9b9a902c3b4249fd42031ced3fe9121938ffdea73"
+  }
+}

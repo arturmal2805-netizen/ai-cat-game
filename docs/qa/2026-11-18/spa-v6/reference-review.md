@@ -81,3 +81,15 @@ the image exposes Cafe duplicate pseudo-roof/pendant crossing water; this is
 a visual geometry failure, despite successful behaviour. Correct it next.
 Source also proves missing furniture/opaque-roof castShadow propagation during
 bake. Native grey uniform floor is not final; restore flags before probe work.
+
+## Eighth comparison — shadow/volume fix
+
+Native exact212553143cc8ba1e29f8a42be6a0c95643d3ab14: six views, actual
+opaque-caster flags restored. R2 chairs/canopies now cast contact shadows; still
+no lush layered garden/cascades or softly draped cloth. R4 real furniture casts
+shadows but star/galaxy hierarchy and reflective dark floor remain weak.
+R1/R3 water dining/tank work, still simple materials/reflections. R5 larger glass
+pool is genuinely clear of obsolete Cafe roof/chandelier, but palace silhouette
+and warm interior density remain far from reference. See camera/light/DPR
+records in ../../2026-11-19/spa-v6-shadow-fix/camera-light-comparison.json.
+Not exact moving-world pixel equivalence; no final visual approval.
