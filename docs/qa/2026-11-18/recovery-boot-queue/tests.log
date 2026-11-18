@@ -1,0 +1,40 @@
+TAP version 13
+# Subtest: authorized repair credits player/current cats once, preserves purchases/professions and survives normal load/merge
+ok 1 - authorized repair credits player/current cats once, preserves purchases/professions and survives normal load/merge
+  ---
+  duration_ms: 139.104267
+  type: 'test'
+  ...
+# Subtest: recovery never lowers existing larger balances and receipt still prevents re-credit after spending
+ok 2 - recovery never lowers existing larger balances and receipt still prevents re-credit after spending
+  ---
+  duration_ms: 5.787545
+  type: 'test'
+  ...
+# Subtest: client never contacts the award API for other identities or erases pending writes; repeated awards do not recover over local state
+ok 3 - client never contacts the award API for other identities or erases pending writes; repeated awards do not recover over local state
+  ---
+  duration_ms: 6.964673
+  type: 'test'
+  ...
+# Subtest: first client compensation installs a strictly validated snapshot through recovery and normal backup writes
+ok 4 - first client compensation installs a strictly validated snapshot through recovery and normal backup writes
+  ---
+  duration_ms: 13.318765
+  type: 'test'
+  ...
+# Subtest: real cloud queue defers application callbacks during boot and retains authoritative compensation through queued-write replay
+ok 5 - real cloud queue defers application callbacks during boot and retains authoritative compensation through queued-write replay
+  ---
+  duration_ms: 62.274569
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 405.815798
