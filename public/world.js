@@ -4419,6 +4419,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       let x = n.carrier.position.x,
         z = n.carrier.position.z,
         npcWalking = false,
+        npcLocomotion = null,
         npcReaction = null,
         direct = false;
       n.carrier.rotation.x = 0;
@@ -4731,7 +4732,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
         if(gathering.done){n.manualAnchor={x,z};n.gatherTrip=null;}
       } else if (mallFrame && !draggingThis) {
         n.carrier.position.copy(mallFrame.position);n.carrier.rotation.y=mallFrame.yaw;
-        x=mallFrame.position.x;z=mallFrame.position.z;direct=true;npcWalking=mallFrame.walking;npcReaction=mallFrame.reaction;
+        x=mallFrame.position.x;z=mallFrame.position.z;direct=true;npcWalking=mallFrame.walking;npcLocomotion=mallFrame.locomotion;npcReaction=mallFrame.reaction;
       } else if (leisureFrame && !draggingThis) {
         n.carrier.position.set(
           leisureFrame.position.x,
@@ -5097,9 +5098,10 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
             (builderFrame?.speed > 1
               ? builderFrame.elapsed * (1 - 1 / builderFrame.speed)
               : 0),
-          npcWalking,
+          npcLocomotion?false:npcWalking,
           reduced,
         );
+        if(npcLocomotion)applyExplorerLocomotion(n.model,npcLocomotion,reduced);
         if (npcReaction) {reactCat(n.model, npcReaction, reduced);if(npcReaction.waterGesture||npcReaction.rideSit||npcReaction.waterSurf||npcReaction.waterProne||npcReaction.waterPawLift)applyAtollSit(n.model,npcReaction,reduced);if(manualVisit?.object?.userData.magicBed)applyMagicBedReach(n.model,manualVisit.object,manualVisit.harvester,reduced);applyMallIcePose(n.model,npcReaction,reduced);}
         if(courtVisit?.zooCarry)relaxCarriedCat(n.model,courtVisit.zooCarry,time,reduced);
         if (n.hatRig) {
@@ -5704,10 +5706,11 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
           (heroBuild?.speed > 1
             ? heroBuild.elapsed * (1 - 1 / heroBuild.speed)
             : 0),
-        submarinePose?.locomotion?false:walking,
+        (submarinePose?.locomotion||heroMall?.locomotion)?false:walking,
         reduced,
       );
       if (submarinePose?.locomotion)applyExplorerLocomotion(cat,submarinePose.locomotion,reduced);
+      else if(heroMall?.locomotion)applyExplorerLocomotion(cat,heroMall.locomotion,reduced);
       if (reaction) {reactCat(cat, reaction, reduced);if(reaction.waterGesture||reaction.rideSit||reaction.waterSurf||reaction.waterProne||reaction.waterPawLift)applyAtollSit(cat,reaction,reduced);if(operation?.attraction?.userData.magicBed)applyMagicBedReach(cat,operation.attraction,operation.harvester,reduced);applyMallIcePose(cat,reaction,reduced);}
     }
     if(court.get('chichi')?.zooCarry&&!dialogOpen)relaxCarriedCat(cat,court.get('chichi').zooCarry,time,reduced);

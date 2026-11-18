@@ -1,3 +1,5 @@
+import {resortPools} from './resort-spa-pool-data.js';
+import {createResortPoolEffects} from './resort-spa-pool-effects.js';
 import {createResortSpaAccess} from './resort-spa-access.js';
 import {finishResortSpaSteps} from './resort-spa-finishes.js';
 import {mallArt} from './mall-art.js';
@@ -45,7 +47,7 @@ export function* resortSpaModelSteps(){
   // unsupported slivers at its corners against a curved atrium/pavilion rim.
   const dx=zone.x,dz=zone.z-203,len=Math.hypot(dx,dz),a=Math.atan2(dx,dz),reach=len?1/Math.hypot(dx/len/zone.rx,dz/len/zone.rz):0,gap=Math.max(0,len-34-reach+.2);if(gap){const distance=34+gap/2,b=box(solid,mats.ivory,dx/len*distance,y-.15,203+dz/len*distance,5,.3,gap+2.4);b.rotation.y=a;}
   if(zone.procedure==='massage'){const p=createResortMassagePavilion(zone,{materials:{marble:mats.ivory,gold:mats.gold,wood:mats.wood,cloth:mats.cloth,pink:mats.pink,glass:mats.glass,amber:mats.amber}});p.position.y=0;root.add(p);zones.set(zone.id,p);yield;continue;}
-  const group=new T.Group();group.name=zone.name;root.add(group);zones.set(zone.id,group);const pools=zone.procedure==='swim'?[{x:zone.x,z:zone.z,rx:zone.rx-5,rz:zone.rz-5}]:['jacuzzi','vip'].includes(zone.procedure)?[0,4].filter(i=>i<zone.seats).map(i=>({...resortSpaSeat(zone,i),rx:3.1,rz:3.1})):[];if(zone.key!=='cafe'){platform(zone,y,pools);for(const p of pools)pool(p.x,y,p.z,p.rx,p.rz);roof(zone.x,y+4,zone.z,zone.rx,zone.rz,6);}
+  const group=new T.Group();group.name=zone.name;root.add(group);zones.set(zone.id,group);const pools=resortPools(zone);if(zone.key!=='cafe'){platform(zone,y,pools);for(const p of pools)pool(p.x,y,p.z,p.rx,p.rz);roof(zone.x,y+4,zone.z,zone.rx,zone.rz,6);}
 
   for(let i=0;i<zone.seats;i++){
    const s=resortSpaSeat(zone,i),x=s.x,z=s.z;
@@ -66,5 +68,6 @@ export function* resortSpaModelSteps(){
  const accessGeometry=createResortSpaAccess(mats);solid.add(accessGeometry.solid);surfaces.add(accessGeometry.surfaces);shell.add(accessGeometry.shell);
  root.updateMatrixWorld(true);root.userData={accessGeometry,dynamicSurfaces:[accessGeometry.deck],zones,solid,shell,decor,surfaces,basins,waters,navigation:installManualBuildingNavigation(root,solid,...[...zones.values()].map(p=>p.userData.solid).filter(Boolean)),update(time,reduced=false){for(const w of waters)advanceWater(w.material,time,reduced);},dispose(){for(const p of zones.values())p.userData.dispose?.();for(const g of geos.values())g.dispose();const textures=new Set();for(const m of Object.values(mats)){for(const key of ['map','normalMap','roughnessMap'])if(m[key])textures.add(m[key]);m.dispose();}for(const t of textures)t.dispose();for(const p of zones.values())p.traverse(o=>{if(o.isPoints)o.material.dispose();});for(const b of basins)b.userData.dispose();accessGeometry.dispose();}};
  yield* finishResortSpaSteps(root);root.add(accessGeometry.cabin,accessGeometry.gates);
+ const poolEffects=createResortPoolEffects();root.add(poolEffects.root);const update=root.userData.update,dispose=root.userData.dispose;root.userData.update=(time,reduced)=>{update(time,reduced);poolEffects.update(time,reduced);};root.userData.dispose=()=>{poolEffects.dispose();dispose();};
  return root;
 }

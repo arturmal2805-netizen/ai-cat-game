@@ -1,0 +1,43 @@
+SPA required scene preparation pending
+Native SPA pool resort-thermal inspect test-water
+Native SPA pool resort-thermal wet-enter careful-stairs
+Native SPA pool resort-thermal wet-float paddle
+Native SPA pool resort-thermal wet-swim paddle
+Native SPA pool resort-thermal procedure gentle-swim
+Native SPA pool resort-thermal procedure float-rest
+Native SPA pool resort-thermal procedure gentle-swim
+Native SPA pool resort-thermal procedure water-play
+Native SPA pool resort-thermal procedure gentle-swim
+Native SPA pool resort-thermal wet-return paddle
+Native SPA pool resort-thermal wet-land paddle
+Native SPA pool resort-thermal wet-exit climb-out
+Native SPA pool resort-thermal wet-shake shake-fur
+Native SPA pool resort-thermal walk walk
+Native SPA pool resort-jacuzzi inspect test-water
+Native SPA pool resort-jacuzzi wet-enter careful-stairs
+Native SPA pool resort-jacuzzi wet-float paddle
+Native SPA pool resort-jacuzzi wet-swim paddle
+Native SPA pool resort-jacuzzi procedure warm-soak
+Native SPA pool resort-jacuzzi procedure bubble-surprise
+Native SPA pool resort-jacuzzi procedure warm-soak
+Native SPA pool resort-jacuzzi procedure ocean-gaze
+Native SPA pool resort-jacuzzi procedure warm-soak
+Native SPA pool resort-jacuzzi wet-return paddle
+Native SPA pool resort-jacuzzi wet-land paddle
+Native SPA pool resort-jacuzzi wet-exit climb-out
+Native SPA pool resort-jacuzzi wet-shake shake-fur
+Native SPA pool resort-jacuzzi walk walk
+Native SPA pool resort-vip inspect test-water
+Native SPA pool resort-vip wet-enter careful-stairs
+Native SPA pool resort-vip wet-float paddle
+Native SPA pool resort-vip wet-swim paddle
+Native SPA pool resort-vip procedure private-float
+Native SPA pool resort-vip procedure star-gaze
+Native SPA pool resort-vip procedure private-float
+Native SPA pool resort-vip wet-return paddle
+Native SPA pool resort-vip wet-land paddle
+Native SPA pool resort-vip wet-exit climb-out
+Native SPA pool resort-vip wet-shake shake-fur
+Native SPA pool resort-vip walk walk
+PASS native thermal/jacuzzi/VIP entry, distinct procedures, dry exit, receipts and SQLite
+PASS native SPA required loading, actual scene, zone camera and World release

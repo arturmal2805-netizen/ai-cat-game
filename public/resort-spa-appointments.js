@@ -1,11 +1,13 @@
 import {createResortSpaRuntime} from './resort-spa-runtime.js';
 import {RESORT_SPA as L,resortZone,RESORT_FOOT_OFFSET as F} from './resort-spa-data.js';
 import {resortPaidTicket} from './resort-spa-economy.js';
+import {createResortPoolNavigation} from './resort-spa-pool-navigation.js';
 // Adapter between native world actors and the existing app's durable ledger.
 // Y is absolute game height in runtime/save data, root-local only in geometry.
 export function createResortAppointments({getGame,getActors,getNavigation,centre,canSimulate=()=>true,blocked=()=>false,onPurchase,onUse,onGoal=()=>{},onComplete=()=>{},getStaff=()=>[]}={}){
  const localY=p=>({...p,y:p.y-L.y}),absoluteY=p=>({...p,y:p.y+L.y}),staffOwners=new Map();
  const runtime=createResortSpaRuntime({
+  poolNavigation:createResortPoolNavigation(getNavigation),
   route:(a,b,r)=>(getNavigation()?.path||getNavigation()?.floorPath)?.(localY(a),localY(b),r)?.map(absoluteY)||null,
   segmentClear:(a,b,r)=>!!getNavigation()?.segmentClear(localY(a),localY(b),r),
   getPaidTicket:(id,zone)=>resortPaidTicket(getGame(),id,zone),
