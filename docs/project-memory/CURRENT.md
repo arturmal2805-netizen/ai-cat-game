@@ -127,3 +127,9 @@ PASS. Actual live integration/native art/SQLite checks are NOT complete.
 Known next tasks/limitations explicitly in docs/qa/2026-11-18/resort-spa/status.md,
 especially recessed pool volumes, sealed openings, mount clearance, all84actions,
 existing economy/AI wiring and camera. Do not call WIP a finished SPA.
+
+SPA latest continuation: basin module integrated into candidate, floor holes and
+separate support surfaces,8 Node22tests PASS. First standalone construction image
+is sparse/pale, not target quality and NOT actual game/native proof. See updated
+resort-spa/status.md and construction-overview.png. Continue art+existing runtime
+integration; noSPA publication. Current source branch must be fetched before use.

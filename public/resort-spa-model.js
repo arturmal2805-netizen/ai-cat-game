@@ -1,13 +1,13 @@
+import {createResortBasin} from './resort-spa-basin.js';
 import * as T from 'three';
 import {RESORT_SPA as L,RESORT_ZONES,resortSpaSeat} from './resort-spa-data.js';
 import {createResortMassagePavilion} from './resort-spa-massage.js';
-import {waterMaterial,advanceWater} from './water-shading.js';
-import {slideBasinWater} from './slide-basin-optics.js';
+import {advanceWater} from './water-shading.js';
 import {installManualBuildingNavigation} from './manual-building-navigation.js';
 // Construction candidate, deliberately not attached to production until native
 // navigation, enclosure, rendering and durable procedure audits are complete.
 export function* resortSpaModelSteps(){
- const root=new T.Group(),solid=new T.Group(),shell=new T.Group(),decor=new T.Group(),waters=[];root.name='CHICHI CAT SPA & WELLNESS RESORT';root.position.y=L.y;root.add(solid,shell,decor);
+ const root=new T.Group(),solid=new T.Group(),shell=new T.Group(),decor=new T.Group(),surfaces=new T.Group(),basins=[],waters=[];root.name='CHICHI CAT SPA & WELLNESS RESORT';root.position.y=L.y;root.add(solid,shell,decor,surfaces);
  const mats={},geos=new Map(),zones=new Map();
  for(const [k,c]of Object.entries(L.palette))mats[k]=new T.MeshStandardMaterial({color:c,roughness:k==='gold'?.24:.55,metalness:k==='gold'?.7:0,...(['amber','pink','lavender'].includes(k)?{emissive:c,emissiveIntensity:.35}:{})});
  mats.glass=new T.MeshStandardMaterial({color:0xb3ebf0,transparent:true,opacity:.11,roughness:.15,depthWrite:false,side:T.DoubleSide,forceSinglePass:true});
@@ -17,11 +17,12 @@ export function* resortSpaModelSteps(){
  function box(parent,m,x,y,z,w,h,d){return mesh(parent,geometry(['box',w,h,d].join(':'),()=>new T.BoxGeometry(w,h,d)),m,x,y,z);}
  function disk(parent,m,x,y,z,rx,rz,h=.3){return mesh(parent,geometry('disk',()=>new T.CylinderGeometry(1,1,1,64)),m,x,y,z,rx,h,rz);}
  function sofa(x,y,z){box(solid,mats.gold,x,y+.38,z,3,.76,1.6);box(solid,mats.cloth,x,y+.82,z,3,.2,1.6);box(solid,mats.cloth,x,y+1.3,z-.7,3,1,.22);}
- function pool(x,y,z,rx,rz){disk(solid,mats.ivory,x,y-.45,z,rx+.55,rz+.55,.9);disk(decor,mats.water,x,y+.02,z,rx,rz,.08);const water=slideBasinWater(waterMaterial(0x00cfef,.72,{width:rx*2,height:rz*2}));water.uniforms.uWaterDepth.value=.85;const g=new T.CircleGeometry(1,64);g.rotateX(-Math.PI/2);geos.set('water-'+waters.length,g);const w=mesh(decor,g,water,x,y+.07,z,rx,1,rz);waters.push(w);return w;}
+ function pool(x,y,z,rx,rz){const basin=createResortBasin({rx,rz,depth:1.8},{stone:mats.ivory});basin.position.set(x,y,z);surfaces.add(basin);basins.push(basin);waters.push(basin.userData.surface);return basin;}
+ function platform(zone,y,holes){const shape=new T.Shape();shape.absellipse(zone.x,-zone.z,zone.rx,zone.rz,0,Math.PI*2,false);for(const p of holes){const h=new T.Path();h.absellipse(p.x,-p.z,p.rx,p.rz,0,Math.PI*2,true);shape.holes.push(h);}const g=new T.ShapeGeometry(shape,96);g.rotateX(-Math.PI/2);geos.set(zone.id+'-floor',g);mesh(surfaces,g,mats.ivory,0,y,0);}
  function roof(x,y,z,rx,rz,height){mesh(shell,geometry('dome',()=>new T.SphereGeometry(1,48,24,0,Math.PI*2,0,Math.PI/2)),mats.glass,x,y,z,rx,height,rz);for(let i=0;i<24;i++){const a=i*Math.PI/12;box(shell,mats.gold,x+Math.cos(a)*rx,y-2,z+Math.sin(a)*rz,.13,4,.13);}}
  // Main cat dome and real three-level public atrium.
  for(let level=0;level<3;level++){
-  const y=level*L.rise,shape=new T.Shape();shape.absarc(0,0,34,0,Math.PI*2,false);if(level){const hole=new T.Path();hole.absarc(0,0,12,0,Math.PI*2,true);shape.holes.push(hole);}const g=new T.ShapeGeometry(shape,96);g.rotateX(-Math.PI/2);geos.set('atrium-'+level,g);mesh(solid,g,mats.ivory,0,y,203);
+  const y=level*L.rise,shape=new T.Shape();shape.absarc(0,0,34,0,Math.PI*2,false);if(level){const hole=new T.Path();hole.absarc(0,0,12,0,Math.PI*2,true);shape.holes.push(hole);}const g=new T.ShapeGeometry(shape,96);g.rotateX(-Math.PI/2);geos.set('atrium-'+level,g);mesh(surfaces,g,mats.ivory,0,y,203);
   for(const side of [-1,1])for(let i=0;i<4;i++)sofa(side*20,y,187+i*10);
   yield;
  }
@@ -35,12 +36,13 @@ export function* resortSpaModelSteps(){
  for(const zone of RESORT_ZONES){
   const y=zone.level*L.rise;
   if(zone.procedure==='massage'){const p=createResortMassagePavilion(zone,{materials:{marble:mats.ivory,gold:mats.gold,wood:mats.wood,cloth:mats.cloth,pink:mats.pink,glass:mats.glass,amber:mats.amber}});p.position.y=0;root.add(p);zones.set(zone.id,p);yield;continue;}
-  const group=new T.Group();group.name=zone.name;root.add(group);zones.set(zone.id,group);disk(solid,mats.ivory,zone.x,y-.18,zone.z,zone.rx,zone.rz,.36);roof(zone.x,y+4,zone.z,zone.rx,zone.rz,6);
+  const group=new T.Group();group.name=zone.name;root.add(group);zones.set(zone.id,group);const pools=zone.procedure==='swim'?[{x:zone.x,z:zone.z,rx:zone.rx-5,rz:zone.rz-5}]:['jacuzzi','vip'].includes(zone.procedure)?[0,4].filter(i=>i<zone.seats).map(i=>({...resortSpaSeat(zone,i),rx:3.1,rz:3.1})):[];platform(zone,y,pools);for(const p of pools)pool(p.x,y,p.z,p.rx,p.rz);roof(zone.x,y+4,zone.z,zone.rx,zone.rz,6);
   // Bridges to the corresponding public level, using the same real dimensions.
-  const dx=zone.x,dz=zone.z-203,len=Math.hypot(dx,dz),a=Math.atan2(dx,dz),mid={x:dx*.5,z:203+dz*.5};if(len>34){const b=box(solid,mats.ivory,mid.x,y-.15,mid.z,5,.3,len);b.rotation.y=a;}
+  const dx=zone.x,dz=zone.z-203,len=Math.hypot(dx,dz),a=Math.atan2(dx,dz),reach=len?1/Math.hypot(dx/len/zone.rx,dz/len/zone.rz):0,gap=Math.max(0,len-34-reach+.2);if(gap){const distance=34+gap/2,b=box(solid,mats.ivory,dx/len*distance,y-.15,203+dz/len*distance,5,.3,gap);b.rotation.y=a;}
+
   for(let i=0;i<zone.seats;i++){
    const s=resortSpaSeat(zone,i),x=s.x,z=s.z;
-   if(['swim','jacuzzi','vip'].includes(zone.procedure)){if(i%4===0)pool(x,y+.15,z,3.1,3.1);}
+   if(['swim','jacuzzi','vip'].includes(zone.procedure)){ /* Contacts resolved against separate wet volumes by navigation. */ }
    else if(['sleep','lounge','cabana'].includes(zone.procedure)){sofa(x,y,z);box(decor,mats.ivory,x,y+1,z,1.4,.12,.7);}
    else if(zone.procedure==='sauna'){box(solid,mats.wood,x,y+.4,z,4,.8,1.4);box(solid,mats.wood,x,y+1.15,z-.65,4,1.5,.18);}
    else if(zone.procedure==='eat'){disk(solid,mats.gold,x,y+1.2,z,1.3,1.3,.12);box(solid,mats.gold,x,y+.55,z,.15,1.1,.15);sofa(x,y,z+2.8);}
@@ -54,6 +56,6 @@ export function* resortSpaModelSteps(){
   }
   yield;
  }
- root.updateMatrixWorld(true);root.userData={zones,solid,shell,decor,waters,navigation:installManualBuildingNavigation(root,solid,...[...zones.values()].map(p=>p.userData.solid).filter(Boolean)),update(time,reduced=false){for(const w of waters)advanceWater(w.material,time,reduced);},dispose(){for(const p of zones.values())p.userData.dispose?.();for(const g of geos.values())g.dispose();for(const m of Object.values(mats))m.dispose();for(const p of zones.values())p.traverse(o=>{if(o.isPoints)o.material.dispose();});for(const w of waters)w.material.dispose();}};
+ root.updateMatrixWorld(true);root.userData={zones,solid,shell,decor,surfaces,basins,waters,navigation:installManualBuildingNavigation(root,solid,...[...zones.values()].map(p=>p.userData.solid).filter(Boolean)),update(time,reduced=false){for(const w of waters)advanceWater(w.material,time,reduced);},dispose(){for(const p of zones.values())p.userData.dispose?.();for(const g of geos.values())g.dispose();for(const m of Object.values(mats))m.dispose();for(const p of zones.values())p.traverse(o=>{if(o.isPoints)o.material.dispose();});for(const b of basins)b.userData.dispose();}};
  return root;
 }
