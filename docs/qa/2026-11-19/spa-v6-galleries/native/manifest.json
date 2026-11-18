@@ -1,0 +1,33 @@
+{
+  "sourceBase": "63976055337663d736dad265b8e10e16eefceae9",
+  "sourceState": "",
+  "result": "PASS six native views; actual Nap W/footstool/World release; enlarged36m sky-pool stairs/procedure/return/transparent underside/one payment/SQLite.",
+  "visualReview": "Visual WIP, not final. Larger sky pool exposes obsolete Cafe pseudo-roof ribs/chandelier crossing its water volume; those need real geometry correction. Opaque furniture/ceiling shadow flags also lost by static bake. No visual approval or device FPS claim.",
+  "files": {
+    "actual-game-massage.png": "5951bbab2971d1449c1a0d302f456ec1eb56312c6c1a5f1fc980ede16b5d51b6",
+    "actual-manual-seat-exit.json": "b1cb0d1480fc8487ea85600dd09d57ace796c646be81bd01c318fe7857fad618",
+    "actual-manual-seat-exit.png": "0aaf997c24d3768774d6f7838b5893638fe24ebc848a2f945547368f3917edf2",
+    "actual-pools-sqlite.json": "a0ad0f09fd84a9271e08ede13798159e7986313a22bfdd351c59c125127a926d",
+    "actual-sky-pool-transparent-bottom-from-below.png": "653ba5558569ad844e28b0355ae84f69f1b47fb4f2a2e457c6576858cb3312ca",
+    "galleries-overview.png": "065e669247175359d0fe75bcbf744f93fd958f25913c032ecbfe4993200b9d64",
+    "galleries-resort-aroma.png": "fdc8645ad7a9f8cc6b1e2e7265a3263805698a35b72756b3ee2a42e2385e6dfd",
+    "galleries-resort-cabana.png": "3986e1cfe8d5124dd0b9d57fd20bb23b5fa2503c524a3dd04761720b548c71e4",
+    "galleries-resort-cafe.png": "3b6bb2fb1191aee9dcc1b3c40626de7b41fbbe18b7ec6297603188fa736d6624",
+    "galleries-resort-vip.png": "a5de5875714fd192ad107257d725e588f0ad5d904dde7d1dfbfd23543576d17a",
+    "galleries-sky-pool.png": "3da4df893d84ddb5ccce8ceb9dbc14775eaefa7348ace7bdb3c7bfbd9889c3bf",
+    "game-scene.json": "6e398c797fdb2280e311335b20e238bce08184b9c0a5a887f27186077ee4d896",
+    "imported-source.tar.gz": "2149977982d677b9e6c653a119e1eb197186752c11dc40ef69d6f71712267c8c",
+    "native.log": "b140c88170dc8bfcc305ee68a7fdc68663866982e618fc741947fab5360ea3bc",
+    "pool-progress.json": "b8824c827b361bd7512ca1b71658103ff8e856eb3da4c594a9bc2d70bbbae751",
+    "qa-app.js.gz": "802d7a7deccecba12946f6b510654aa92919a0b351e57db7c07cae664c5fe0a8",
+    "qa-build.json": "d718f2a5d2be30afbe741ef8dbf0f3ddcce705940c5ca8e8970f0ed33c7abc34",
+    "resort-thermal-sky-procedure.png": "63e553932bde0bfab7ec2f9b455a750206bc5f2909012aa5582dcc332b1d0126",
+    "resort-thermal-sky-wet-enter.png": "d8628753dab9bfe1514d5730087e3e7764ecb77981db56b65a7fedae00f3ad5c",
+    "resort-thermal-sky-wet-shake.png": "4c581249d7aad92c2d66173fe0ee1c5d308ac05681ce29636dbfd1ccfcf182a3",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "562f6e938d12b9f4f2401b37f56e4f04d7dbb09ee0ef6eb7ad584c9d73b1b2da",
+    "source-status.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "v6-reference-frames.json": "2634b3b490ce8d584c4465b031336ad42b4dd31c714a743acd337779753fb525"
+  }
+}

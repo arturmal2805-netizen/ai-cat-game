@@ -65,3 +65,19 @@ far from reference. R5: pavilion silhouette/wing galleries still need unificatio
 No final visual acceptance. Recorded source, camera, clock and settings per frame;
 clock differs4–10 game minutes from the fourth series, so this is not an exact
 lighting A/B. Next controlled comparison must hold the QA clock fixed.
+
+## Seventh comparison — galleries (six native views)
+
+Exact source63976055337663d736dad265b8e10e16eefceae9, clean,
+../../2026-11-19/spa-v6-galleries/native/manifest.json.
+R1/R3: actual wet dining and identifiable fish now present; tank reads better
+with true caps/seams, but lacks luminous detail and actual interior reflections.
+R2: planters/flower volume increased; still too sparse and no layered lush
+water garden/cascades. R4: real lounge beds and curved star roof read, but flat
+floor/light and weak galaxy hierarchy remain far from reference. R5: tier
+bands/bridges align but silhouette remains separate discs, not unified palace.
+Upper glass pool now36m, genuine transparency/steps/visit/reload work. However
+the image exposes Cafe duplicate pseudo-roof/pendant crossing water; this is
+a visual geometry failure, despite successful behaviour. Correct it next.
+Source also proves missing furniture/opaque-roof castShadow propagation during
+bake. Native grey uniform floor is not final; restore flags before probe work.

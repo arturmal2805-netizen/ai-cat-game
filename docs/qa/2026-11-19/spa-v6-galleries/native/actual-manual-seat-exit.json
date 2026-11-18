@@ -1,0 +1,35 @@
+{
+  "before": [
+    -489.5,
+    -146.068,
+    692.3
+  ],
+  "after": [
+    -489.5,
+    -146.988,
+    698.3000000000013
+  ],
+  "levels": [
+    -146.068,
+    -146.068,
+    -146.52800000000002,
+    -146.52800000000002,
+    -146.988,
+    -146.988,
+    -146.988,
+    -146.988,
+    -146.988,
+    -146.988,
+    -146.988,
+    -146.988
+  ],
+  "radius": 0.5710000000000001,
+  "submarineControlled": false,
+  "inspection": false,
+  "input": {
+    "keys": [],
+    "allowed": true
+  },
+  "worldReleased": true,
+  "scope": "Actual W held on native third-person Chichi from Nap seat6, physical footstool and floor. Private fixture; not a full autonomous shore tour."
+}

@@ -37,3 +37,13 @@ collision/loading failures, fuller gardens/cascades/soft furnishings and true
 scene-derived interior reflection probes. Current ocean/Mall probe contains no
 new SPA lights. Final14-room/phone/performance/Node22/fullCI/live checks still
 required. No final visual approval or production V6 publication yet.
+
+## Seventh native stage finished
+
+Six views, actual Nap W/World owner release,36m sky entry/procedure/exit,
+transparent underside, one150 payment/use and SQLite PASS. Exact source6397605
+clean, native/manifest.json. Still visually rejected as final. In the larger
+sky view obsolete Cafe roof ribs at13–19m and a pendant reaching17.2m cross the
+actual16.2–18m upper pool. Remove the duplicate Cafe pseudo-dome (main dome is
+real roof), lower the pendant under glass bed. Do not hide water or weaken
+collisions. Next shadow/pool-volume source correction is separate from these PNG.
