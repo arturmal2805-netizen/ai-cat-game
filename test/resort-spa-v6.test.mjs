@@ -8,6 +8,7 @@ import {resortSurfaceMaps} from '../public/resort-spa-surfaces.js';
 import {resortSpaView} from '../public/resort-spa-camera.js';
 import {resortInteriorLighting} from '../public/resort-spa-finishes.js';
 import {createMallRoomLights} from '../public/mall-room-light.js';
+import {stepChichiWalk} from '../public/chichi-manual.js';
 import {mosaBedY,mosaWaterRadius} from '../public/mosasaur-data.js';
 function model(){const it=resortSpaModelSteps();let r;do{r=it.next();}while(!r.done);return r.value;}
 test('glass sky pool has a real transparent bed, an unblocked walking bridge and no opaque floor underneath',()=>{
@@ -42,5 +43,12 @@ test('segmented curved seats retain real support and do not close their interior
    assert(nav.support({x:seat.x,y:seat.y-S.y+.92,z:seat.z},.571),id+' seat '+slot);
   }
  }
+ root.userData.dispose();
+});
+test('manual Chichi physically steps off a Nap seat and cannot send the camera through the sealed dome even during cutaway',()=>{
+ const root=model(),nav=createResortSpaNavigation(root),zone=RESORT_ZONES.find(z=>z.key==='nap'),seat=resortSpaSeat(zone,6),state={x:seat.x,y:seat.y-S.y+.92,z:seat.z,yaw:0,biome:'autumn'},levels=[];
+ for(let i=0;i<16;i++){stepChichiWalk(state,.1,{forward:1,side:0,heading:0},p=>{const hit=nav.support(p,.571);return hit?{y:hit.y,biome:'autumn'}:null;},.571);levels.push(state.y);}
+ assert(state.z-seat.z>3);assert(levels.some(y=>Math.abs(y-18.472)<.03));assert(Math.abs(state.y-18.012)<.03);
+ for(const hidden of [false,true]){if(hidden)root.userData.setInspectionLevel(0);assert.equal(nav.cameraClear({x:0,y:35,z:203},{x:0,y:39,z:203}),false);assert.equal(nav.cameraClear({x:0,y:39,z:203},{x:0,y:35,z:203}),false);}
  root.userData.dispose();
 });
