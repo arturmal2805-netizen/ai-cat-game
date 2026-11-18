@@ -1,6 +1,6 @@
-import assert from'node:assert/strict';import{writeFile}from'node:fs/promises';import{join}from'node:path';import{byBiome}from'../public/game-data.js';import{resortZone,resortSpaSeat}from'../public/resort-spa-data.js';
+import assert from'node:assert/strict';import{writeFile}from'node:fs/promises';import{join}from'node:path';import{byBiome}from'../public/game-data.js';import{resortZone,resortSpaSeat,resortSpaOrigin}from'../public/resort-spa-data.js';
 export async function auditResortProcedure({page,review}){
- const centre=byBiome('autumn').center,contact=resortSpaSeat(resortZone('resort-massage'),0);
+ const centre=resortSpaOrigin(byBiome('autumn').center),contact=resortSpaSeat(resortZone('resort-massage'),0);
  const snapshot=()=>page.evaluate(()=>{const g=__lagoonSaveQA.getGame(),p=g.jobCity.profiles.chichi;return{worldCoins:g.coins,inventory:g.inventory,placements:g.placements,coins:p.coins,receipts:p.mall?.receipts||{},used:p.mall?.used||{},position:__lagoonQA.chichiCarrier.position.toArray()};});
  await page.evaluate(async({centre,contact})=>{if(!await __lagoonSaveQA.cloud.claimEditor())throw Error('No private simulation owner');const q=__lagoonQA;q.manualFrames=true;q.jobs.cancel('chichi');q.chichiCarrier.position.set(centre[0]+contact.approach.x,contact.approach.y,centre[1]+contact.approach.z);if(!q.resortSpa().startReady('chichi','resort-massage'))throw Error('Actual room appointment could not start');},{centre,contact});
  const before=await snapshot(),trace=[];let finished=false,captured=false;

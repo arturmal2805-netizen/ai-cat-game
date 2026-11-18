@@ -1,0 +1,8 @@
+{
+  "sha256": "10476bb1a2318bafb24a35ac828205557b15af0d77396d9b424176f9eb8f7297",
+  "baseline": null,
+  "node": "v22.23.5",
+  "head": "4adcbd3427d43c0c3e622361ea03fe076592e356",
+  "dirty": " M public/chichi-manual.js\n M public/index.html\n M public/resort-spa-appointments.js\n M public/resort-spa-data.js\n M public/resort-spa-lift.js\n M public/resort-spa-model.js\n M public/resort-spa-navigation.js\n M public/resort-spa-runtime.js\n M public/resort-spa-world.js\n M public/world.js\n M scripts/audit-resort-spa-native.mjs\n M scripts/audit-resort-spa-procedure.mjs\n M scripts/check-aquarium.cjs\n M test/resort-spa-appointments.test.mjs\n M test/resort-spa-lift.test.mjs\n M test/resort-spa-runtime.test.mjs\n?? public/resort-spa-access.js\n?? public/resort-spa-pool-data.js\n?? public/resort-spa-transit.js\n?? scripts/audit-resort-spa-transit.mjs\n?? test/resort-spa-access.test.mjs\n?? test/resort-spa-foundation.test.mjs\n?? test/resort-spa-stairs.test.mjs\n?? test/resort-spa-transit.test.mjs\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

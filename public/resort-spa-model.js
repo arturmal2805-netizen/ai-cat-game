@@ -1,9 +1,10 @@
+import {createResortSpaAccess} from './resort-spa-access.js';
 import {finishResortSpaSteps} from './resort-spa-finishes.js';
 import {mallArt} from './mall-art.js';
 import {mallSurfaceMaps} from './mall-surfaces.js';
 import {createResortBasin} from './resort-spa-basin.js';
 import * as T from 'three';
-import {RESORT_SPA as L,RESORT_ZONES,resortSpaSeat} from './resort-spa-data.js';
+import {RESORT_SPA as L,RESORT_ZONES,resortSpaSeat,RESORT_STAIRS} from './resort-spa-data.js';
 import {createResortMassagePavilion} from './resort-spa-massage.js';
 import {advanceWater} from './water-shading.js';
 import {installManualBuildingNavigation} from './manual-building-navigation.js';
@@ -23,26 +24,28 @@ export function* resortSpaModelSteps(){
  function sofa(x,y,z){box(solid,mats.gold,x,y+.38,z,3,.76,1.6);box(solid,mats.cloth,x,y+.82,z,3,.2,1.6);box(solid,mats.cloth,x,y+1.3,z-.7,3,1,.22);}
  function pool(x,y,z,rx,rz){const basin=createResortBasin({rx,rz,depth:1.8},{stone:mats.ivory});basin.position.set(x,y,z);surfaces.add(basin);basins.push(basin);waters.push(basin.userData.surface);return basin;}
  function platform(zone,y,holes){const shape=new T.Shape();shape.absellipse(zone.x,-zone.z,zone.rx,zone.rz,0,Math.PI*2,false);for(const p of holes){const h=new T.Path();h.absellipse(p.x,-p.z,p.rx,p.rz,0,Math.PI*2,true);shape.holes.push(h);}const g=new T.ShapeGeometry(shape,96);g.rotateX(-Math.PI/2);geos.set(zone.id+'-floor',g);mesh(surfaces,g,mats.ivory,0,y,0);}
- function roof(x,y,z,rx,rz,height){mesh(shell,geometry('dome',()=>new T.SphereGeometry(1,48,24,0,Math.PI*2,0,Math.PI/2)),mats.glass,x,y,z,rx,height,rz);for(let i=0;i<24;i++){const a=i*Math.PI/12;box(shell,mats.gold,x+Math.cos(a)*rx,y-2,z+Math.sin(a)*rz,.13,4,.13);}}
+ function roof(x,y,z,rx,rz,height,wallHeight=4){mesh(shell,geometry('dome',()=>new T.SphereGeometry(1,48,24,0,Math.PI*2,0,Math.PI/2)),mats.glass,x,y,z,rx,height,rz);for(let i=0;i<24;i++){const a=i*Math.PI/12;box(shell,mats.gold,x+Math.cos(a)*rx,y-wallHeight/2,z+Math.sin(a)*rz,.13,wallHeight,.13);}}
  // Main cat dome and real three-level public atrium.
  for(let level=0;level<3;level++){
-  const y=level*L.rise,shape=new T.Shape();shape.absarc(0,0,34,0,Math.PI*2,false);if(level){const hole=new T.Path();hole.absarc(0,0,12,0,Math.PI*2,true);shape.holes.push(hole);}const g=new T.ShapeGeometry(shape,96);g.rotateX(-Math.PI/2);geos.set('atrium-'+level,g);mesh(surfaces,g,mats.ivory,0,y,203);
+  const y=level*L.rise,shape=new T.Shape();shape.absarc(0,0,34,0,Math.PI*2,false);if(level){const hole=new T.Path();hole.absarc(0,0,12,0,Math.PI*2,true);shape.holes.push(hole);const stair=RESORT_STAIRS[level-1],opening=new T.Path();opening.moveTo(stair.x-3.5,-185);opening.lineTo(stair.x+3.5,-185);opening.lineTo(stair.x+3.5,-221.5);opening.lineTo(stair.x-3.5,-221.5);opening.closePath();shape.holes.push(opening);}const g=new T.ShapeGeometry(shape,96);g.rotateX(-Math.PI/2);geos.set('atrium-'+level,g);mesh(surfaces,g,mats.ivory,0,y,203);
   for(const side of [-1,1])for(let i=0;i<4;i++)sofa(side*20,y,187+i*10);
   yield;
  }
- roof(0,4,203,35,35,29);
+ roof(0,19,203,35,35,18,19);
  for(const side of [-1,1]){const points=[new T.Vector3(side*20,26,191),new T.Vector3(side*29,45,204),new T.Vector3(side*10,29,216),new T.Vector3(side*20,26,191)],curve=new T.CatmullRomCurve3(points);const g=new T.TubeGeometry(curve,48,.13,6,false);geos.set('ear-'+side,g);shell.add(new T.Mesh(g,mats.pink));}
  disk(solid,mats.gold,0,.45,203,7,7,.9);pool(0,.95,203,6.4,6.4);
  for(let i=0;i<8;i++){const a=i*Math.PI/4;mesh(decor,geometry('lotus',()=>new T.SphereGeometry(1,16,8)),mats.pink,Math.cos(a)*1.4,2.2,203+Math.sin(a)*1.4,.6,.3,1.7);}
  box(solid,mats.gold,0,1.2,178,12,2.4,2.2);box(decor,mats.ivory,0,2.46,178,12.4,.12,2.5);
- // Full-sized stairs: .3m risers, .6m treads, 5m clear width.
- for(let level=0;level<2;level++)for(let step=0;step<30;step++){const x=level?-29:29,y=level*9+(step+1)*.3,z=181+step*.6;box(solid,mats.ivory,x,y/2+level*4.5,z,5,(step+1)*.3,.62);}yield;
+ // Shared authored stair dimensions and real openings in the floor above.
+ for(const stair of RESORT_STAIRS){const base=stair.level*L.rise;for(let i=0;i<stair.count;i++){const h=(i+1)*stair.rise;box(solid,mats.ivory,stair.x,base+h/2,stair.z+i*stair.run,stair.width,h,stair.run+.02);}box(solid,mats.ivory,stair.x,base+L.rise-.15,220.2,stair.width,.3,3.4);}yield;
  for(const zone of RESORT_ZONES){
   const y=zone.level*L.rise;
-  if(zone.procedure==='massage'){const p=createResortMassagePavilion(zone,{materials:{marble:mats.ivory,gold:mats.gold,wood:mats.wood,cloth:mats.cloth,pink:mats.pink,glass:mats.glass,amber:mats.amber}});p.position.y=0;root.add(p);zones.set(zone.id,p);yield;continue;}
-  const group=new T.Group();group.name=zone.name;root.add(group);zones.set(zone.id,group);const pools=zone.procedure==='swim'?[{x:zone.x,z:zone.z,rx:zone.rx-5,rz:zone.rz-5}]:['jacuzzi','vip'].includes(zone.procedure)?[0,4].filter(i=>i<zone.seats).map(i=>({...resortSpaSeat(zone,i),rx:3.1,rz:3.1})):[];platform(zone,y,pools);for(const p of pools)pool(p.x,y,p.z,p.rx,p.rz);roof(zone.x,y+4,zone.z,zone.rx,zone.rz,6);
   // Bridges to the corresponding public level, using the same real dimensions.
-  const dx=zone.x,dz=zone.z-203,len=Math.hypot(dx,dz),a=Math.atan2(dx,dz),reach=len?1/Math.hypot(dx/len/zone.rx,dz/len/zone.rz):0,gap=Math.max(0,len-34-reach+.2);if(gap){const distance=34+gap/2,b=box(solid,mats.ivory,dx/len*distance,y-.15,203+dz/len*distance,5,.3,gap);b.rotation.y=a;}
+  // Overlap both real floor edges: a tangent-ended rectangular bridge leaves
+  // unsupported slivers at its corners against a curved atrium/pavilion rim.
+  const dx=zone.x,dz=zone.z-203,len=Math.hypot(dx,dz),a=Math.atan2(dx,dz),reach=len?1/Math.hypot(dx/len/zone.rx,dz/len/zone.rz):0,gap=Math.max(0,len-34-reach+.2);if(gap){const distance=34+gap/2,b=box(solid,mats.ivory,dx/len*distance,y-.15,203+dz/len*distance,5,.3,gap+2.4);b.rotation.y=a;}
+  if(zone.procedure==='massage'){const p=createResortMassagePavilion(zone,{materials:{marble:mats.ivory,gold:mats.gold,wood:mats.wood,cloth:mats.cloth,pink:mats.pink,glass:mats.glass,amber:mats.amber}});p.position.y=0;root.add(p);zones.set(zone.id,p);yield;continue;}
+  const group=new T.Group();group.name=zone.name;root.add(group);zones.set(zone.id,group);const pools=zone.procedure==='swim'?[{x:zone.x,z:zone.z,rx:zone.rx-5,rz:zone.rz-5}]:['jacuzzi','vip'].includes(zone.procedure)?[0,4].filter(i=>i<zone.seats).map(i=>({...resortSpaSeat(zone,i),rx:3.1,rz:3.1})):[];if(zone.key!=='cafe'){platform(zone,y,pools);for(const p of pools)pool(p.x,y,p.z,p.rx,p.rz);roof(zone.x,y+4,zone.z,zone.rx,zone.rz,6);}
 
   for(let i=0;i<zone.seats;i++){
    const s=resortSpaSeat(zone,i),x=s.x,z=s.z;
@@ -60,7 +63,8 @@ export function* resortSpaModelSteps(){
   }
   yield;
  }
- root.updateMatrixWorld(true);root.userData={zones,solid,shell,decor,surfaces,basins,waters,navigation:installManualBuildingNavigation(root,solid,...[...zones.values()].map(p=>p.userData.solid).filter(Boolean)),update(time,reduced=false){for(const w of waters)advanceWater(w.material,time,reduced);},dispose(){for(const p of zones.values())p.userData.dispose?.();for(const g of geos.values())g.dispose();const textures=new Set();for(const m of Object.values(mats)){for(const key of ['map','normalMap','roughnessMap'])if(m[key])textures.add(m[key]);m.dispose();}for(const t of textures)t.dispose();for(const p of zones.values())p.traverse(o=>{if(o.isPoints)o.material.dispose();});for(const b of basins)b.userData.dispose();}};
- yield* finishResortSpaSteps(root);
+ const accessGeometry=createResortSpaAccess(mats);solid.add(accessGeometry.solid);surfaces.add(accessGeometry.surfaces);shell.add(accessGeometry.shell);
+ root.updateMatrixWorld(true);root.userData={accessGeometry,dynamicSurfaces:[accessGeometry.deck],zones,solid,shell,decor,surfaces,basins,waters,navigation:installManualBuildingNavigation(root,solid,...[...zones.values()].map(p=>p.userData.solid).filter(Boolean)),update(time,reduced=false){for(const w of waters)advanceWater(w.material,time,reduced);},dispose(){for(const p of zones.values())p.userData.dispose?.();for(const g of geos.values())g.dispose();const textures=new Set();for(const m of Object.values(mats)){for(const key of ['map','normalMap','roughnessMap'])if(m[key])textures.add(m[key]);m.dispose();}for(const t of textures)t.dispose();for(const p of zones.values())p.traverse(o=>{if(o.isPoints)o.material.dispose();});for(const b of basins)b.userData.dispose();accessGeometry.dispose();}};
+ yield* finishResortSpaSteps(root);root.add(accessGeometry.cabin,accessGeometry.gates);
  return root;
 }

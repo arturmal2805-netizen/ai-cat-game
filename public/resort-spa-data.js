@@ -1,6 +1,6 @@
 // Ocean-local metres. Separate destination: never replaces the old Cat SPA
 // island or the Mall's existing spa, save identities, rooms or purchases.
-export const RESORT_SPA=Object.freeze({id:'chichi-underwater-spa',biome:'autumn',x:0,z:225,y:-165,width:248,depth:144,rise:9,levels:3,gate:{x:0,z:153,y:-164.82},palette:{water:0x00cfef,deep:0x0a1e3d,amber:0xffb347,gold:0xffcc70,pink:0xff2e9a,lavender:0xb86bff,ivory:0xffe5c4,coral:0xf34dce}});
+export const RESORT_SPA=Object.freeze({id:'chichi-underwater-spa',biome:'autumn',x:0,z:225,offsetZ:-20,y:-165,width:248,depth:144,rise:9,levels:3,gate:{x:0,z:153,y:-164.82},palette:{water:0x00cfef,deep:0x0a1e3d,amber:0xffb347,gold:0xffcc70,pink:0xff2e9a,lavender:0xb86bff,ivory:0xffe5c4,coral:0xf34dce}});
 const rows=[
  ['thermal','Grand Thermal Lagoon','swim',150,0,266,0,50,24,12],
  ['jacuzzi','Luxury Jacuzzi Terraces','jacuzzi',150,-65,265,1,23,21,8],
@@ -23,9 +23,10 @@ export const RESORT_PROCEDURE_PRICE=Object.freeze({entry:100,thermal:150,massage
 export function resortSpaFootprint(x,z,margin=0){return Math.hypot(x/(RESORT_SPA.width/2+margin),(z-RESORT_SPA.z)/(RESORT_SPA.depth/2+margin))<=1;}
 // Room contacts are actual local positions shared by furniture and simulation.
 export function resortSpaSeat(zone,index){
+ if(zone.procedure==='eat'){const a=index*Math.PI*2/zone.seats,x=Math.sin(a)*20,z=203+Math.cos(a)*20;return{x,y:zone.y+.012,z,yaw:a,approach:{x:x+Math.sin(a)*3.6,y:zone.y+.012,z:z+Math.cos(a)*3.6},staff:{x:x+2.2,y:zone.y+.012,z},exit:{x:x+Math.sin(a)*5,y:zone.y+.012,z:z+Math.cos(a)*5}};}
  const columns=zone.procedure==='massage'?3:4,rows=Math.ceil(zone.seats/columns),spacing=zone.procedure==='massage'?9:7;
  const column=index%columns,row=Math.floor(index/columns),x=zone.x+(column-(columns-1)/2)*spacing,z=zone.z+(row-(rows-1)/2)*(zone.procedure==='massage'?11:8.6);
- return {x,y:zone.y+.18,z,yaw:Math.PI,approach:{x,y:zone.y+.18,z:z+3.6},staff:{x:x+2.2,y:zone.y+.18,z},exit:{x,y:zone.y+.18,z:z+5}};
+ return {x,y:zone.y+.012,z,yaw:Math.PI,approach:{x,y:zone.y+.012,z:z+3.6},staff:{x:x+2.2,y:zone.y+.012,z},exit:{x,y:zone.y+.012,z:z+5}};
 }
 
 // Services share the existing cat-wallet product ledger. Stable addresses do
@@ -33,3 +34,8 @@ export function resortSpaSeat(zone,index){
 export const RESORT_PRODUCTS=Object.freeze(RESORT_ZONES.map(z=>Object.freeze({id:z.id+'-session',storeId:z.id,name:z.name,brand:'CHICHI CAT SPA',category:'mall',kind:z.kind,use:z.procedure==='eat'?'eat':'spa',icon:'🪷',price:z.price,stock:100000,unique:false,resort:true})));
 export const resortProduct=id=>RESORT_PRODUCTS.find(p=>p.id===id);
 export function resortOffers(game){return game.unlocked?.includes('autumn')?RESORT_ZONES.map(z=>({id:z.id,type:z.id,biome:'autumn',name:'SPA · '+z.key,action:z.action})):[];}
+
+export const resortSpaOrigin=centre=>[centre[0],centre[1]+RESORT_SPA.offsetZ];
+
+export const RESORT_FOOT_OFFSET=.012; // native happy rest minimumY=-.00942545m
+export const RESORT_STAIRS=Object.freeze([0,1].map(level=>Object.freeze({level,x:level?-25:25,z:187,count:30,rise:.3,run:1.1,width:5,landingZ:222})));
