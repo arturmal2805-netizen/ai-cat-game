@@ -1,0 +1,22 @@
+{
+  "utc": "2026-11-18T21:56:48.684297+00:00",
+  "release": "39708e32a6a4f86b9a6a09d777fc4c38526a7f33",
+  "workflow": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44403570410",
+  "url": "https://arturmal2805-netizen.github.io/ai-cat-game/?v=39708e3",
+  "oneApplicationScript": true,
+  "applicationReference": "./dist/app.js?v=0b3d5f0bd640400c",
+  "stylesheetReference": "./style.css?v=9db4746b53b8da87",
+  "htmlSHA256": "fc655acdb92e03d980b3963b89c42d150f7987e69c3be90dd6e6967585c4a90b",
+  "assets": {
+    "dist/app.js": "0b3d5f0bd640400cbcd65c7efb9d0feafdef0b1b003cf9601d03a36e341acdc0",
+    "style.css": "9db4746b53b8da87077097c9238673ce7d6a6e4f45652fb7b5c92aed121e9fd1"
+  },
+  "siteAssetHashesMatched": true,
+  "workerReleaseEvidence": "Exact headSha successful Verify release, shared saves and optional real AI step",
+  "workerStatusDirect": {
+    "verified": false,
+    "reason": "Environment Worker hostname HTTP tunnel403; not bypassed. Release/shared saves verified by full CI."
+  },
+  "paidInference": false,
+  "scope": "Portable Cloud world backup/download and confirmed file restore, checksum and pre-restore copy. SPA reconstruction is separate unpublished WIP. Native Chromium/private SQLite verified, actual Mac download not tested."
+}
