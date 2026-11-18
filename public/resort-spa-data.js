@@ -3,7 +3,7 @@ import {resortPoolContact} from './resort-spa-pool-data.js';
 // island or the Mall's existing spa, save identities, rooms or purchases.
 export const RESORT_SPA=Object.freeze({id:'chichi-underwater-spa',biome:'autumn',x:0,z:225,offsetZ:-20,y:-165,width:248,depth:144,rise:9,levels:3,gate:{x:0,z:153,y:-164.82},palette:{water:0x00cfef,deep:0x0a1e3d,amber:0xffb347,gold:0xffcc70,pink:0xff2e9a,lavender:0xb86bff,ivory:0xffe5c4,coral:0xf34dce}});
 const rows=[
- ['thermal','Grand Thermal Lagoon','swim',150,0,266,0,50,24,12],
+ ['thermal','Grand Thermal Lagoon','swim',150,0,266,0,50,24,16],
  ['jacuzzi','Luxury Jacuzzi Terraces','jacuzzi',150,-65,265,1,23,21,8],
  ['massage','Massage Palace','massage',300,-88,219,0,25,24,6],
  ['aroma','Aroma Therapy Garden','aroma',180,87,263,0,24,22,6],
@@ -28,7 +28,7 @@ export function resortSpaSeat(zone,index){
  if(zone.procedure==='eat'){const a=index*Math.PI*2/zone.seats,x=Math.sin(a)*20,z=203+Math.cos(a)*20,y=zone.y+.012;return{x,y,z,yaw:Math.PI,seat:{x,y:y+.92,z:z+2.8},approach:{x:x+3.6,y,z:z+3.6},staff:{x:x+2.2,y,z},exit:{x:x+4.5,y,z:z+3.6}};}
  const columns=zone.procedure==='massage'?3:4,rows=Math.ceil(zone.seats/columns),spacing=zone.procedure==='massage'?9:7;
  const column=index%columns,row=Math.floor(index/columns),x=zone.x+(column-(columns-1)/2)*spacing,z=zone.z+(row-(rows-1)/2)*(zone.procedure==='massage'?11:8.6);
- return {x,y:zone.y+.012,z,yaw:['massage','groom'].includes(zone.procedure)?Math.PI:0,approach:{x,y:zone.y+.012,z:z+3.6},staff:{x:x+2.2,y:zone.y+.012,z},exit:{x,y:zone.y+.012,z:z+5}};
+ return {x,y:zone.y+.012,z,yaw:['massage','groom'].includes(zone.procedure)?Math.PI:0,...(zone.procedure==='aroma'?{seat:{x,y:zone.y+.812,z}}:{}),approach:{x,y:zone.y+.012,z:z+3.6},staff:{x:x+2.2,y:zone.y+.012,z},exit:{x,y:zone.y+.012,z:z+5}};
 }
 
 // Services share the existing cat-wallet product ledger. Stable addresses do

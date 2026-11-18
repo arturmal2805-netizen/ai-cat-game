@@ -8,7 +8,7 @@ export function createResortSpaBooking({cleanSeconds=8,reservationSeconds=180}={
  function release(id,time=0){const s=owners.get(id);if(!s)return false;reset(s,s.state==='Occupied'?'Cleaning':'Available',s.state==='Occupied'?time+cleanSeconds:0);return true;}
  function step(time){for(const s of seats.values())if((s.state==='Cleaning'||s.state==='Reserved')&&time>=s.until)reset(s);}
  return{seats,step,get:id=>owners.get(id)||null,
-  reserve(id,zoneId,time=0){if(!resortZone(zoneId)||typeof id!=='string'||!id)return null;step(time);const prior=owners.get(id);if(prior?.zoneId===zoneId)return prior;if(prior)return null;const s=[...seats.values()].find(s=>s.zoneId===zoneId&&s.state==='Available');if(!s)return null;s.state='Reserved';s.owner=id;s.until=time+reservationSeconds;s.generation++;owners.set(id,s);return s;},
+  reserve(id,zoneId,time=0,preferred=[]){if(!resortZone(zoneId)||typeof id!=='string'||!id)return null;step(time);const prior=owners.get(id);if(prior?.zoneId===zoneId)return prior;if(prior)return null;const available=[...seats.values()].filter(s=>s.zoneId===zoneId&&s.state==='Available'),s=preferred.map(slot=>available.find(s=>s.slot===slot)).find(Boolean)||available[0];if(!s)return null;s.state='Reserved';s.owner=id;s.until=time+reservationSeconds;s.generation++;owners.set(id,s);return s;},
   occupy(id,time=0){step(time);const s=owners.get(id);if(!s||s.state!=='Reserved')return false;s.state='Occupied';s.until=0;return true;},release,
   available(zoneId,time=0){step(time);return[...seats.values()].filter(s=>s.zoneId===zoneId&&s.state==='Available').length;},
   setUnavailable(seatId,value=true){const s=seats.get(seatId);if(!s||s.owner||s.state==='Cleaning')return false;reset(s,value?'Unavailable':'Available');return true;},

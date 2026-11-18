@@ -17,10 +17,14 @@ export function resortBasinGeometry({rx,rz,depth=1.8,rim=1,segments=96}){
 }
 export function createResortBasin(spec,{stone,liner}={}){
  const root=new T.Group(),g=resortBasinGeometry(spec),owned=[];
- const rock=stone||new T.MeshStandardMaterial({color:0xffe5c4,roughness:.35}),bedMat=liner||new T.MeshStandardMaterial({color:0x86cbd4,roughness:.4,side:T.DoubleSide});if(!stone)owned.push(rock);if(!liner)owned.push(bedMat);
+ const rock=stone||new T.MeshStandardMaterial({color:0xffe5c4,roughness:.35}),bedMat=liner||new T.MeshStandardMaterial({color:0x42becd,roughness:.4,side:T.DoubleSide});if(!stone)owned.push(rock);if(!liner)owned.push(bedMat);
  const water=slideBasinWater(waterMaterial(0x00cfef,.72,{width:spec.rx*2,height:spec.rz*2}));water.uniforms.uWaterDepth.value=g.depth;
+ // A vertical-walled SPA bath has its real, constant optical depth. Retain
+ // shared normals/probes/Fresnel; never change ocean or slide profiles here.
+ water.fragmentShader=water.fragmentShader.replace('float waterDepth=mix(.23,uWaterDepth*(1.-.8*smoothstep(.55,1.,edge)),uLake);','float waterDepth=uWaterDepth;');
  const add=(geo,mat)=>{const o=new T.Mesh(geo,mat);o.receiveShadow=true;root.add(o);return o;};
  const floor=add(g.surround,rock),bed=add(g.bed,bedMat),wall=add(g.wall,bedMat),surface=add(g.water,water),steps=[];
+ bed.userData.resortWaterLiner=wall.userData.resortWaterLiner=true;
  for(const s of g.steps){const geometry=new T.BoxGeometry(s.w,s.h,s.d);const o=add(geometry,rock);o.position.set(s.x,s.y-s.h/2,s.z);steps.push(o);}
  root.userData={floor,bed,wall,surface,steps,depth:g.depth,update:(t,reduced)=>advanceWater(water,t,reduced),dispose(){for(const o of root.children)o.geometry.dispose();water.dispose();for(const m of owned)m.dispose();}};return root;
 }

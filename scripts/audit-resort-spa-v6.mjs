@@ -4,10 +4,10 @@ import {join} from 'node:path';
 
 export async function auditResortV6({page,review}){
  const stage=process.env.CHICHI_SPA_V6_STAGE||'candidate',frames=[];
- const names=process.env.CHICHI_SPA_V6_ALL?['Общий вид','Grand Thermal Lagoon','Luxury Jacuzzi Terraces','Massage Palace','Aroma Therapy Garden','Sauna & Steam Palace','Floating Glass Cabanas','Beauty & Grooming','Golden Galaxy VIP Suite','Ocean Meditation Dome','Cat Nap Galaxy','Wellness Café','Waterfall Relaxation Garden','Amber Star Lounge','Midnight Blue Relaxation Room']:['Общий вид','Aroma Therapy Garden','Golden Galaxy VIP Suite','Wellness Café'];
+ const names=process.env.CHICHI_SPA_V6_ALL?['Общий вид','Grand Thermal Lagoon','Luxury Jacuzzi Terraces','Massage Palace','Aroma Therapy Garden','Sauna & Steam Palace','Floating Glass Cabanas','Beauty & Grooming','Golden Galaxy VIP Suite','Ocean Meditation Dome','Cat Nap Galaxy','Wellness Café','Waterfall Relaxation Garden','Amber Star Lounge','Midnight Blue Relaxation Room']:['Общий вид','Aroma Therapy Garden','Golden Galaxy VIP Suite','Wellness Café','Floating Glass Cabanas'];
  for(const name of names){
   await page.locator('.resort-spa-zones').getByRole('button',{name,exact:true}).click();
-  await page.waitForFunction(()=>__lagoonQA.look.distanceTo(__lagoonQA.desiredLook)<.03,null,{timeout:60000});
+  await page.waitForFunction(()=>__lagoonQA.look.distanceTo(__lagoonQA.desiredLook)<.03&&Math.abs(__lagoonQA.getDistance()-__lagoonQA.getDesiredDistance())<.03,null,{timeout:60000});
   await page.evaluate(()=>{const q=__lagoonQA;q.liveFrames=[];q.targetFrames=q.frames+2;q.drawPaused=false;});
   await page.waitForFunction(()=>__lagoonQA.frames>=__lagoonQA.targetFrames,null,{timeout:240000});
   const state=await page.evaluate(()=>{const q=__lagoonQA;q.drawPaused=true;return{selected:q.resortSpa().selected,camera:q.camera.position.toArray(),look:q.look.toArray(),render:q.renderer.info.render,memory:q.renderer.info.memory,frameSamples:q.liveFrames,heap:performance.memory?.usedJSHeapSize,gl:q.renderer.getContext().getParameter(q.renderer.getContext().VERSION),luxury:q.resortSpa().root.userData.luxury?.report||null};});

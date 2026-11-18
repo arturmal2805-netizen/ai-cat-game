@@ -1,3 +1,4 @@
+import {RoundedBoxGeometry} from 'three/addons/geometries/RoundedBoxGeometry.js';
 import * as T from 'three';
 import {resortSpaSeat} from './resort-spa-data.js';
 import {installManualBuildingNavigation} from './manual-building-navigation.js';
@@ -15,11 +16,12 @@ export function createResortMassagePavilion(zone,{materials={}}={}){
  for(let i=0;i<6;i++){
   const seat=resortSpaSeat(zone,i),x=seat.x,z=seat.z,y=floor;contacts.push({...seat,seat:{x,y:zone.y+1.02,z},table:{x,y:zone.y+1,z,w:1.65,d:3.6},cabinet:i});
   // Individual rooms retain a 3.2m front opening; no merged collider seals it.
-  box(solid,wood,x-3.7,y+2.5,z,.18,5,7.2);box(solid,wood,x+3.7,y+2.5,z,.18,5,7.2);
-  box(solid,wood,x,y+2.5,z-3.6,7.4,5,.18);
+  for(const side of [-1,1]){box(solid,marble,x+side*3.7,y+.65,z,.18,1.3,7.2);box(solid,glass,x+side*3.7,y+3.15,z,.1,3.7,7.2);for(const edge of [-1,1])box(solid,gold,x+side*3.7,y+2.5,z+edge*3.6,.1,5,.1);}
+  box(solid,marble,x,y+.65,z-3.6,7.4,1.3,.18);box(solid,glass,x,y+3.15,z-3.6,7.4,3.7,.1);
+  for(let j=0;j<5;j++)box(decor,gold,x-3+j*1.5,y+2.8,z-3.51,.035,4.3,.035);
   for(const side of [-1,1])box(solid,gold,x+side*2.65,y+2.1,z+3.6,2.1,4.2,.18);
   box(solid,gold,x,y+4.8,z+3.6,7.4,.4,.18);
-  box(solid,cloth,x,y+.9,z,1.65,.24,3.6);
+  const cushionKey='sculpted-treatment-table';if(!geometries.has(cushionKey))geometries.set(cushionKey,new RoundedBoxGeometry(1,1,1,2,.08));const cushion=new T.Mesh(geometries.get(cushionKey),cloth);cushion.position.set(x,y+.9,z);cushion.scale.set(1.65,.24,3.6);cushion.receiveShadow=true;solid.add(cushion);
   for(const a of [-1,1])for(const b of [-1,1])box(solid,gold,x+a*.6,y+.42,z+b*1.35,.12,.84,.12);
   box(decor,marble,x,y+1.07,z-1.15,1.5,.12,.65); // folded towel/head support
   box(solid,wood,x+2.7,y+1.0,z-2.75,1.35,2,.55);

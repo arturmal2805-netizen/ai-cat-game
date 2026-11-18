@@ -5,13 +5,13 @@ import {batchModelSteps} from './model-batching.js';
 // Existing immutable bounded room-lamp table, not extra scene PointLights.
 // Stamp before merging; full-detail native source remains the physics target.
 export function* finishResortSpaSteps(root){
- const lights=createMallRoomLights(),ids=new Map();
- for(const z of RESORT_ZONES){const id=lights.register(z.x,z.z,z.key==='midnight'?0xb7caff:0xffc383);ids.set(z.id,id);lights.texture.image.data[id*4+1]=z.level*L.rise+5.5;}
+ const lights=createMallRoomLights(),ids=new Map(),waterIds=new Map();
+ for(const z of RESORT_ZONES){const id=lights.register(z.x,z.z,z.key==='midnight'?0xb7caff:0xffc383),water=lights.register(z.x,z.z,0x62dce8);ids.set(z.id,id);waterIds.set(z.id,water);lights.texture.image.data[id*4+1]=z.level*L.rise+5.5;lights.texture.image.data[water*4+1]=z.level*L.rise+1.3;lights.texture.image.data[water*4+3]=Math.max(z.rx,z.rz)*1.6;}
  const sources=[];root.updateWorldMatrix(true,true);root.traverse(o=>{if(o.isMesh)sources.push(o);});const p=new T.Vector3();
  for(const mesh of sources){
   if(!mesh.geometry.boundingBox)mesh.geometry.computeBoundingBox();mesh.geometry.boundingBox.getCenter(p).applyMatrix4(mesh.matrixWorld);
   const authored=mesh.userData.resortFloor,choices=Number.isInteger(authored)?RESORT_ZONES.filter(z=>z.level===authored):RESORT_ZONES,z=choices.reduce((best,z)=>{const d=Math.hypot(p.x-z.x,p.z-z.z)+Math.abs(p.y-z.y)*3;return !best||d<best.d?{z,d}:best;},null).z;
-  mesh.userData.resortFloor=Number.isInteger(authored)?authored:z.level;yield* lights.stamp(mesh,ids.get(z.id));
+  mesh.userData.resortFloor=Number.isInteger(authored)?authored:z.level;yield* lights.stamp(mesh,(mesh.userData.resortWaterLiner?waterIds:ids).get(z.id));
  }
  lights.finish();const batch=new T.Group(),levels=new Map(),inverse=root.matrixWorld.clone().invert();
  for(let level=0;level<3;level++){

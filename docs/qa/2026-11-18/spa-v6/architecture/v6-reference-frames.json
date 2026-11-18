@@ -1,0 +1,824 @@
+{
+  "stage": "architecture",
+  "scope": "Actual running private game; brief software-renderer frame samples, not Mac/phone FPS or visual approval.",
+  "frames": [
+    {
+      "name": "Общий вид",
+      "png": "architecture-overview.png",
+      "selected": null,
+      "camera": [
+        -371.6657146142049,
+        -49.6230362944131,
+        539.2912214618636
+      ],
+      "look": [
+        -450.0008066157208,
+        -162,
+        704.9999450034736
+      ],
+      "render": {
+        "frame": 10,
+        "calls": 843,
+        "triangles": 6064111,
+        "points": 1860,
+        "lines": 0
+      },
+      "memory": {
+        "geometries": 830,
+        "textures": 91
+      },
+      "frameSamples": [
+        [
+          54164.80000001192,
+          433.2999999821186,
+          843,
+          6063599
+        ],
+        [
+          54603.59999999404,
+          59,
+          843,
+          6064111
+        ]
+      ],
+      "heap": 1156287706,
+      "gl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "luxury": {
+        "version": 6,
+        "rooms": {
+          "resort-thermal": {
+            "key": "thermal",
+            "meshes": 168,
+            "floweringTrees": 2,
+            "features": [
+              "elliptical thermal hall",
+              "ten perimeter chaise lounges",
+              "four conversation islands",
+              "sculpted central lotus"
+            ]
+          },
+          "resort-jacuzzi": {
+            "key": "jacuzzi",
+            "meshes": 124,
+            "floweringTrees": 2,
+            "features": [
+              "panoramic jacuzzi hall",
+              "sculpted stone rims",
+              "lantern terraces"
+            ]
+          },
+          "resort-massage": {
+            "key": "massage",
+            "meshes": 134,
+            "floweringTrees": 0,
+            "features": [
+              "six private treatment rooms",
+              "gold cabin arches",
+              "towel and oil stations"
+            ]
+          },
+          "resort-aroma": {
+            "key": "aroma",
+            "meshes": 203,
+            "floweringTrees": 6,
+            "features": [
+              "private arched garden seats",
+              "flowering grove",
+              "aroma vessels",
+              "curved leaf canopies"
+            ]
+          },
+          "resort-sauna": {
+            "key": "sauna",
+            "meshes": 141,
+            "floweringTrees": 0,
+            "features": [
+              "cedar sauna tiers",
+              "steam salon",
+              "cooling lounge"
+            ]
+          },
+          "resort-cabana": {
+            "key": "cabana",
+            "meshes": 236,
+            "floweringTrees": 0,
+            "features": [
+              "six private transparent pavilions",
+              "pleated curtains",
+              "canopied rest seats"
+            ]
+          },
+          "resort-beauty": {
+            "key": "beauty",
+            "meshes": 175,
+            "floweringTrees": 1,
+            "features": [
+              "six lit grooming stations",
+              "accessory displays",
+              "flowering salon island"
+            ]
+          },
+          "resort-vip": {
+            "key": "vip",
+            "meshes": 115,
+            "floweringTrees": 1,
+            "features": [
+              "golden galaxy ceiling",
+              "private turquoise bath",
+              "cream lounges",
+              "amber chandelier"
+            ]
+          },
+          "resort-meditation": {
+            "key": "meditation",
+            "meshes": 77,
+            "floweringTrees": 0,
+            "features": [
+              "ocean panorama",
+              "sculptural meditation lotus",
+              "individual cushions",
+              "quiet stone garden"
+            ]
+          },
+          "resort-nap": {
+            "key": "nap",
+            "meshes": 247,
+            "floweringTrees": 0,
+            "features": [
+              "deep lavender star dome",
+              "individual sleep niches",
+              "soft blankets"
+            ]
+          },
+          "resort-cafe": {
+            "key": "cafe",
+            "meshes": 458,
+            "floweringTrees": 2,
+            "features": [
+              "curved marble bar",
+              "dessert service",
+              "central exotic fish aquarium",
+              "sculpted blossom trees"
+            ]
+          },
+          "resort-waterfall": {
+            "key": "waterfall",
+            "meshes": 176,
+            "floweringTrees": 2,
+            "features": [
+              "two real multilevel cascades",
+              "flowering water garden",
+              "panorama lanterns"
+            ]
+          },
+          "resort-amber": {
+            "key": "amber",
+            "meshes": 296,
+            "floweringTrees": 2,
+            "features": [
+              "curved amber star ceiling",
+              "cream conversational suites",
+              "warm lanterns"
+            ]
+          },
+          "resort-midnight": {
+            "key": "midnight",
+            "meshes": 263,
+            "floweringTrees": 0,
+            "features": [
+              "midnight star vault",
+              "silver-blue textiles",
+              "quiet private niches"
+            ]
+          }
+        },
+        "skyPool": {
+          "x": 0,
+          "z": 203,
+          "y": 18,
+          "rx": 10,
+          "rz": 10,
+          "depth": 1.8,
+          "glassBottom": true,
+          "opaqueBacking": false
+        },
+        "source": "SPA-local 3D geometry; no reference images used as scenery"
+      }
+    },
+    {
+      "name": "Aroma Therapy Garden",
+      "png": "architecture-resort-aroma.png",
+      "selected": "resort-aroma",
+      "camera": [
+        -354.0420216850306,
+        -145.54090524213834,
+        787.1910943998931
+      ],
+      "look": [
+        -363,
+        -162,
+        743
+      ],
+      "render": {
+        "frame": 13,
+        "calls": 819,
+        "triangles": 9225560,
+        "points": 0,
+        "lines": 0
+      },
+      "memory": {
+        "geometries": 630,
+        "textures": 91
+      },
+      "frameSamples": [
+        [
+          75299.40000000596,
+          194.40000000596046,
+          820,
+          9226832
+        ],
+        [
+          75500.19999998808,
+          10891.5,
+          820,
+          9225936
+        ],
+        [
+          86401.19999998808,
+          54.60000002384186,
+          819,
+          9225560
+        ]
+      ],
+      "heap": 1017433050,
+      "gl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "luxury": {
+        "version": 6,
+        "rooms": {
+          "resort-thermal": {
+            "key": "thermal",
+            "meshes": 168,
+            "floweringTrees": 2,
+            "features": [
+              "elliptical thermal hall",
+              "ten perimeter chaise lounges",
+              "four conversation islands",
+              "sculpted central lotus"
+            ]
+          },
+          "resort-jacuzzi": {
+            "key": "jacuzzi",
+            "meshes": 124,
+            "floweringTrees": 2,
+            "features": [
+              "panoramic jacuzzi hall",
+              "sculpted stone rims",
+              "lantern terraces"
+            ]
+          },
+          "resort-massage": {
+            "key": "massage",
+            "meshes": 134,
+            "floweringTrees": 0,
+            "features": [
+              "six private treatment rooms",
+              "gold cabin arches",
+              "towel and oil stations"
+            ]
+          },
+          "resort-aroma": {
+            "key": "aroma",
+            "meshes": 203,
+            "floweringTrees": 6,
+            "features": [
+              "private arched garden seats",
+              "flowering grove",
+              "aroma vessels",
+              "curved leaf canopies"
+            ]
+          },
+          "resort-sauna": {
+            "key": "sauna",
+            "meshes": 141,
+            "floweringTrees": 0,
+            "features": [
+              "cedar sauna tiers",
+              "steam salon",
+              "cooling lounge"
+            ]
+          },
+          "resort-cabana": {
+            "key": "cabana",
+            "meshes": 236,
+            "floweringTrees": 0,
+            "features": [
+              "six private transparent pavilions",
+              "pleated curtains",
+              "canopied rest seats"
+            ]
+          },
+          "resort-beauty": {
+            "key": "beauty",
+            "meshes": 175,
+            "floweringTrees": 1,
+            "features": [
+              "six lit grooming stations",
+              "accessory displays",
+              "flowering salon island"
+            ]
+          },
+          "resort-vip": {
+            "key": "vip",
+            "meshes": 115,
+            "floweringTrees": 1,
+            "features": [
+              "golden galaxy ceiling",
+              "private turquoise bath",
+              "cream lounges",
+              "amber chandelier"
+            ]
+          },
+          "resort-meditation": {
+            "key": "meditation",
+            "meshes": 77,
+            "floweringTrees": 0,
+            "features": [
+              "ocean panorama",
+              "sculptural meditation lotus",
+              "individual cushions",
+              "quiet stone garden"
+            ]
+          },
+          "resort-nap": {
+            "key": "nap",
+            "meshes": 247,
+            "floweringTrees": 0,
+            "features": [
+              "deep lavender star dome",
+              "individual sleep niches",
+              "soft blankets"
+            ]
+          },
+          "resort-cafe": {
+            "key": "cafe",
+            "meshes": 458,
+            "floweringTrees": 2,
+            "features": [
+              "curved marble bar",
+              "dessert service",
+              "central exotic fish aquarium",
+              "sculpted blossom trees"
+            ]
+          },
+          "resort-waterfall": {
+            "key": "waterfall",
+            "meshes": 176,
+            "floweringTrees": 2,
+            "features": [
+              "two real multilevel cascades",
+              "flowering water garden",
+              "panorama lanterns"
+            ]
+          },
+          "resort-amber": {
+            "key": "amber",
+            "meshes": 296,
+            "floweringTrees": 2,
+            "features": [
+              "curved amber star ceiling",
+              "cream conversational suites",
+              "warm lanterns"
+            ]
+          },
+          "resort-midnight": {
+            "key": "midnight",
+            "meshes": 263,
+            "floweringTrees": 0,
+            "features": [
+              "midnight star vault",
+              "silver-blue textiles",
+              "quiet private niches"
+            ]
+          }
+        },
+        "skyPool": {
+          "x": 0,
+          "z": 203,
+          "y": 18,
+          "rx": 10,
+          "rz": 10,
+          "depth": 1.8,
+          "glassBottom": true,
+          "opaqueBacking": false
+        },
+        "source": "SPA-local 3D geometry; no reference images used as scenery"
+      }
+    },
+    {
+      "name": "Golden Galaxy VIP Suite",
+      "png": "architecture-resort-vip.png",
+      "selected": "resort-vip",
+      "camera": [
+        -399.5304178069768,
+        -130.28563047522536,
+        724.8322183837257
+      ],
+      "look": [
+        -406.9955507083092,
+        -144.0018201647826,
+        688.0055616146135
+      ],
+      "render": {
+        "frame": 15,
+        "calls": 932,
+        "triangles": 9903060,
+        "points": 720,
+        "lines": 0
+      },
+      "memory": {
+        "geometries": 697,
+        "textures": 91
+      },
+      "frameSamples": [
+        [
+          111095,
+          134.09999999403954,
+          932,
+          9903444
+        ],
+        [
+          111233.30000001192,
+          45.099999994039536,
+          932,
+          9903060
+        ]
+      ],
+      "heap": 1009215218,
+      "gl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "luxury": {
+        "version": 6,
+        "rooms": {
+          "resort-thermal": {
+            "key": "thermal",
+            "meshes": 168,
+            "floweringTrees": 2,
+            "features": [
+              "elliptical thermal hall",
+              "ten perimeter chaise lounges",
+              "four conversation islands",
+              "sculpted central lotus"
+            ]
+          },
+          "resort-jacuzzi": {
+            "key": "jacuzzi",
+            "meshes": 124,
+            "floweringTrees": 2,
+            "features": [
+              "panoramic jacuzzi hall",
+              "sculpted stone rims",
+              "lantern terraces"
+            ]
+          },
+          "resort-massage": {
+            "key": "massage",
+            "meshes": 134,
+            "floweringTrees": 0,
+            "features": [
+              "six private treatment rooms",
+              "gold cabin arches",
+              "towel and oil stations"
+            ]
+          },
+          "resort-aroma": {
+            "key": "aroma",
+            "meshes": 203,
+            "floweringTrees": 6,
+            "features": [
+              "private arched garden seats",
+              "flowering grove",
+              "aroma vessels",
+              "curved leaf canopies"
+            ]
+          },
+          "resort-sauna": {
+            "key": "sauna",
+            "meshes": 141,
+            "floweringTrees": 0,
+            "features": [
+              "cedar sauna tiers",
+              "steam salon",
+              "cooling lounge"
+            ]
+          },
+          "resort-cabana": {
+            "key": "cabana",
+            "meshes": 236,
+            "floweringTrees": 0,
+            "features": [
+              "six private transparent pavilions",
+              "pleated curtains",
+              "canopied rest seats"
+            ]
+          },
+          "resort-beauty": {
+            "key": "beauty",
+            "meshes": 175,
+            "floweringTrees": 1,
+            "features": [
+              "six lit grooming stations",
+              "accessory displays",
+              "flowering salon island"
+            ]
+          },
+          "resort-vip": {
+            "key": "vip",
+            "meshes": 115,
+            "floweringTrees": 1,
+            "features": [
+              "golden galaxy ceiling",
+              "private turquoise bath",
+              "cream lounges",
+              "amber chandelier"
+            ]
+          },
+          "resort-meditation": {
+            "key": "meditation",
+            "meshes": 77,
+            "floweringTrees": 0,
+            "features": [
+              "ocean panorama",
+              "sculptural meditation lotus",
+              "individual cushions",
+              "quiet stone garden"
+            ]
+          },
+          "resort-nap": {
+            "key": "nap",
+            "meshes": 247,
+            "floweringTrees": 0,
+            "features": [
+              "deep lavender star dome",
+              "individual sleep niches",
+              "soft blankets"
+            ]
+          },
+          "resort-cafe": {
+            "key": "cafe",
+            "meshes": 458,
+            "floweringTrees": 2,
+            "features": [
+              "curved marble bar",
+              "dessert service",
+              "central exotic fish aquarium",
+              "sculpted blossom trees"
+            ]
+          },
+          "resort-waterfall": {
+            "key": "waterfall",
+            "meshes": 176,
+            "floweringTrees": 2,
+            "features": [
+              "two real multilevel cascades",
+              "flowering water garden",
+              "panorama lanterns"
+            ]
+          },
+          "resort-amber": {
+            "key": "amber",
+            "meshes": 296,
+            "floweringTrees": 2,
+            "features": [
+              "curved amber star ceiling",
+              "cream conversational suites",
+              "warm lanterns"
+            ]
+          },
+          "resort-midnight": {
+            "key": "midnight",
+            "meshes": 263,
+            "floweringTrees": 0,
+            "features": [
+              "midnight star vault",
+              "silver-blue textiles",
+              "quiet private niches"
+            ]
+          }
+        },
+        "skyPool": {
+          "x": 0,
+          "z": 203,
+          "y": 18,
+          "rx": 10,
+          "rz": 10,
+          "depth": 1.8,
+          "glassBottom": true,
+          "opaqueBacking": false
+        },
+        "source": "SPA-local 3D geometry; no reference images used as scenery"
+      }
+    },
+    {
+      "name": "Wellness Café",
+      "png": "architecture-resort-cafe.png",
+      "selected": "resort-cafe",
+      "camera": [
+        -438.79986756751606,
+        -132.4259864747494,
+        738.237959557304
+      ],
+      "look": [
+        -449.9970876643309,
+        -152.9993904413716,
+        683.0003386436824
+      ],
+      "render": {
+        "frame": 17,
+        "calls": 920,
+        "triangles": 10006367,
+        "points": 0,
+        "lines": 0
+      },
+      "memory": {
+        "geometries": 676,
+        "textures": 91
+      },
+      "frameSamples": [
+        [
+          142294.40000000596,
+          205.40000000596046,
+          920,
+          10006623
+        ],
+        [
+          142506.80000001192,
+          62.5,
+          920,
+          10006367
+        ]
+      ],
+      "heap": 1016669416,
+      "gl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "luxury": {
+        "version": 6,
+        "rooms": {
+          "resort-thermal": {
+            "key": "thermal",
+            "meshes": 168,
+            "floweringTrees": 2,
+            "features": [
+              "elliptical thermal hall",
+              "ten perimeter chaise lounges",
+              "four conversation islands",
+              "sculpted central lotus"
+            ]
+          },
+          "resort-jacuzzi": {
+            "key": "jacuzzi",
+            "meshes": 124,
+            "floweringTrees": 2,
+            "features": [
+              "panoramic jacuzzi hall",
+              "sculpted stone rims",
+              "lantern terraces"
+            ]
+          },
+          "resort-massage": {
+            "key": "massage",
+            "meshes": 134,
+            "floweringTrees": 0,
+            "features": [
+              "six private treatment rooms",
+              "gold cabin arches",
+              "towel and oil stations"
+            ]
+          },
+          "resort-aroma": {
+            "key": "aroma",
+            "meshes": 203,
+            "floweringTrees": 6,
+            "features": [
+              "private arched garden seats",
+              "flowering grove",
+              "aroma vessels",
+              "curved leaf canopies"
+            ]
+          },
+          "resort-sauna": {
+            "key": "sauna",
+            "meshes": 141,
+            "floweringTrees": 0,
+            "features": [
+              "cedar sauna tiers",
+              "steam salon",
+              "cooling lounge"
+            ]
+          },
+          "resort-cabana": {
+            "key": "cabana",
+            "meshes": 236,
+            "floweringTrees": 0,
+            "features": [
+              "six private transparent pavilions",
+              "pleated curtains",
+              "canopied rest seats"
+            ]
+          },
+          "resort-beauty": {
+            "key": "beauty",
+            "meshes": 175,
+            "floweringTrees": 1,
+            "features": [
+              "six lit grooming stations",
+              "accessory displays",
+              "flowering salon island"
+            ]
+          },
+          "resort-vip": {
+            "key": "vip",
+            "meshes": 115,
+            "floweringTrees": 1,
+            "features": [
+              "golden galaxy ceiling",
+              "private turquoise bath",
+              "cream lounges",
+              "amber chandelier"
+            ]
+          },
+          "resort-meditation": {
+            "key": "meditation",
+            "meshes": 77,
+            "floweringTrees": 0,
+            "features": [
+              "ocean panorama",
+              "sculptural meditation lotus",
+              "individual cushions",
+              "quiet stone garden"
+            ]
+          },
+          "resort-nap": {
+            "key": "nap",
+            "meshes": 247,
+            "floweringTrees": 0,
+            "features": [
+              "deep lavender star dome",
+              "individual sleep niches",
+              "soft blankets"
+            ]
+          },
+          "resort-cafe": {
+            "key": "cafe",
+            "meshes": 458,
+            "floweringTrees": 2,
+            "features": [
+              "curved marble bar",
+              "dessert service",
+              "central exotic fish aquarium",
+              "sculpted blossom trees"
+            ]
+          },
+          "resort-waterfall": {
+            "key": "waterfall",
+            "meshes": 176,
+            "floweringTrees": 2,
+            "features": [
+              "two real multilevel cascades",
+              "flowering water garden",
+              "panorama lanterns"
+            ]
+          },
+          "resort-amber": {
+            "key": "amber",
+            "meshes": 296,
+            "floweringTrees": 2,
+            "features": [
+              "curved amber star ceiling",
+              "cream conversational suites",
+              "warm lanterns"
+            ]
+          },
+          "resort-midnight": {
+            "key": "midnight",
+            "meshes": 263,
+            "floweringTrees": 0,
+            "features": [
+              "midnight star vault",
+              "silver-blue textiles",
+              "quiet private niches"
+            ]
+          }
+        },
+        "skyPool": {
+          "x": 0,
+          "z": 203,
+          "y": 18,
+          "rx": 10,
+          "rz": 10,
+          "depth": 1.8,
+          "glassBottom": true,
+          "opaqueBacking": false
+        },
+        "source": "SPA-local 3D geometry; no reference images used as scenery"
+      }
+    }
+  ]
+}
