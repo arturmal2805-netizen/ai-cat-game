@@ -1,5 +1,23 @@
 # Текущий статус
 
+## Следующий небольшой hotfix — уже в main, ещё CI
+
+**0d21c0f0773d756790facf75cc35574376263f60**, codex/emergency-save-recovery.
+[CI44391975714](https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44391975714)
+идёт. Сайт пока подтверждён4025f71 ниже. Callbackpendingbug: realCloudBackup.flush
+до инициализации app мог вызвать snapshot/notice, искусственныйconflict иотложить
+компенсацию. Вscopedbootoperation временноdefer callbacks, remoteGame/очередь
+сохраняются, normalcallbacks возвращаютсяfinally. Server/award/receipt не изменены.
+5targeted Node22cases PASS, включаянастоящуюCloudBackupqueue PUT→POST→GET,
+безраннихcallbacks/conflict, strictsaved4381984, корректныйcallbackrestore.
+Node22client rebuilt exactconfig, существующиемодели прежние.
+Доказательства docs/qa/2026-11-18/recovery-boot-queue вновомкоммите.
+Monitor /workspace/qa/recovery-boot-publication-monitor.log/session68340;
+expected /workspace/qa/recovery-boot-release-expected.json. ДождатьсяfullCI/live.
+Пользователю уже дана4025f71; actualcredit/privatewalletconfirmation pending
+(заданasyncвопрос, ответаещёнет). Новоеhookисправление не даётвторойгрант.
+
+
 Обновлено2026-11-18 Europe/Kiev. [История](history/CURRENT-before-emergency-publication-2026-11-18.md).
 
 ## Опубликовано аварийное исправление
