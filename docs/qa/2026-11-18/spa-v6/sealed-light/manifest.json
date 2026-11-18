@@ -1,0 +1,32 @@
+{
+  "sourceBase": "0ffa10fca9b7d3df2a263f1f40d0d68efb79a9a0",
+  "sourceState": " M scripts/audit-resort-spa-pools.mjs\n M scripts/audit-resort-spa-v6.mjs\n?? scripts/audit-resort-spa-seat-walk.mjs\n",
+  "result": "PASS actual W from Nap seat6 via footstool, World releases owner; upper thermal entry/procedure/exit, exact receipt/SQLite reload and glass-bottom underside. Five native reference views. Not full shore/84 phases/hardware FPS.",
+  "visualReview": "REJECTED as final V6: VIP empty floor and no own cream lounge, weak dark ceiling; cafe fish too abstract and aquarium/bar still primitive; needs architecture and furnishing. Native pass is not visual approval.",
+  "files": {
+    "actual-game-massage.png": "9e61c1f6d7b9af684da0a91f2068baffab15e0cb407b02037c49182901cbfa94",
+    "actual-manual-seat-exit.json": "b1cb0d1480fc8487ea85600dd09d57ace796c646be81bd01c318fe7857fad618",
+    "actual-manual-seat-exit.png": "2a917763e4ed9944af4d2d304675d90ec8a9554e6f06d0f379067890ef44d058",
+    "actual-pools-sqlite.json": "e5508b2c029ebeacae14fe0f8c1846f751c3f1102bc3c0706026c986ce223a90",
+    "actual-sky-pool-transparent-bottom-from-below.png": "871a04ecb414927889860376b282eab8ec497fde4f2fda6d896d71594fbdd0b8",
+    "game-scene.json": "602a9ba6613a712811b674ee0eba41f6457b20465834e14f7d2dd8e3ab328470",
+    "imported-source.tar.gz": "d2cda53618ecaec23385fd9f5baada6a1cd931454e687bda94964134e90fe12a",
+    "native.log": "576d8e21b82857c5b4d3be7c960ecc035366d675c1130a679d20497c0ce5a53b",
+    "pool-progress.json": "bc437e62ebe525a990a68830cdffcd6226134c39c08fee40fd5c338f26830a94",
+    "qa-app.js.gz": "afaa21c2f43ab60bba1dd2b3c45239fcea46bab2fb64dbccb770951d59123981",
+    "qa-build.json": "71158a49274f80bfaffd01600a081d3c2069a192c5e311c710934f3846e325be",
+    "resort-thermal-sky-procedure.png": "427d942a82c9c155ae6ecb7ab5794b9e5c272d3f0c915a4d0cb3810403188e37",
+    "resort-thermal-sky-wet-enter.png": "8624143ce1c8c9f24c024994acd98d0f73ba55a7cccc458fb48ab1d9d586773e",
+    "resort-thermal-sky-wet-shake.png": "c00a0184db7d7551edde80ebbfde92ce8ae4e2dd7e84c2987c46c39ba07d13ac",
+    "sealed-light-overview.png": "720cf9600168bd8066d2d074ddc6ac6ac9340b15daf98cb62282a18c6a38e71b",
+    "sealed-light-resort-aroma.png": "31b89cab5d17c36515889ac16ea4e87a8c87c2ce33a25496a0811600d1bf5909",
+    "sealed-light-resort-cabana.png": "2abb7ae6974bab45c2f295dc2eed2feaf3631e8621a9dfe584a1888be1a17c0d",
+    "sealed-light-resort-cafe.png": "a00ffe8fc13438be577a410fbd47b6d6a99e7c7c139147746776aae02bee5317",
+    "sealed-light-resort-vip.png": "21b9e6f3d3fb7428c39f02497954620fd728211f784616c21a2e7c3a7f221c50",
+    "source-HEAD.patch": "fd685451f12a64c29d8b7e912c2ad25f29d69e329a3a0e20046523d0c615de7a",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "02597aa4348d4669e74ff10ef25357dc59babe50331e70cf74f163173ecb9552",
+    "source-status.txt": "3c1b76f591feebfd8794405271f9e7cacf0858593a015ede00fc6028cc22b18a",
+    "v6-reference-frames.json": "492d78b9b5dc76543071aec37c29bf2f3098e88785a04af6c8be0acc13070f82"
+  }
+}
