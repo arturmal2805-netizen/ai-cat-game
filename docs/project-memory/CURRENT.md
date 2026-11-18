@@ -86,8 +86,9 @@ Workflow44194305867 и actualHTTP assets теперь подтверждены S
 2. Новый запрос2026-11-18: самостоятельный CHICHI CAT SPA & WELLNESS RESORT перед ТРЦ.
    Полный документ сохранён docs/specifications/underwater-spa-resort-2026-11-18.md;
    standard standards/underwater-spa.md. Отдельный worktree /workspace/chichi-underwater-spa-resort,
-   remote codex/underwater-spa-resort, initial081fb13. Пока это WIP data/booking,
-   без геометрии/интеграции/публикации. Не считать полноценным SPA.
+   remote codex/underwater-spa-resort, latest WIPc75857d (full SHA via git), initial081fb13. WIP:14 planned zones, exclusive booking и six-cabin furnished massage module.
+   4 Node22 state/full-body geometry tests PASS; docs/qa/2026-11-18/resort-spa/status.md.
+   Нет native browser/полного runtime/интеграции/публикации. Не считать полноценным SPA.
    14 plannedzones, actual metre scale, no replacement of old water-island SPA/Mall.
 3. Оптимизация поактуальному аппаратному отчёту новойверсии после загрузки,
    samecamera/settings/DPR,30секунд. Старые6secMacpauses не объявленыисправленными.

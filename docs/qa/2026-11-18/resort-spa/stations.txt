@@ -1,0 +1,34 @@
+TAP version 13
+# Subtest: every actual station excludes concurrent cats; cancellation and cleaning release correctly
+ok 1 - every actual station excludes concurrent cats; cancellation and cleaning release correctly
+  ---
+  duration_ms: 7.62206
+  type: 'test'
+  ...
+# Subtest: duplicate synchronization never extends reserved expiry; stale owner cannot occupy or release another cat
+ok 2 - duplicate synchronization never extends reserved expiry; stale owner cannot occupy or release another cat
+  ---
+  duration_ms: 0.195248
+  type: 'test'
+  ...
+# Subtest: unavailable, occupied and cleaning stations do not accept new reservations; teardown releases all owners
+ok 3 - unavailable, occupied and cleaning stations do not accept new reservations; teardown releases all owners
+  ---
+  duration_ms: 0.395494
+  type: 'test'
+  ...
+# Subtest: all six actual massage cabins keep full-body door routes, solid tables, walls and separate staff contacts
+ok 4 - all six actual massage cabins keep full-body door routes, solid tables, walls and separate staff contacts
+  ---
+  duration_ms: 12.800112
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 141.81756
