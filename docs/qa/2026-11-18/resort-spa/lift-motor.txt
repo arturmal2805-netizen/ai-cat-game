@@ -1,0 +1,22 @@
+TAP version 13
+# Subtest: access lift carries four existing passengers continuously, keeps doors shut under water and requires physical exit
+ok 1 - access lift carries four existing passengers continuously, keeps doors shut under water and requires physical exit
+  ---
+  duration_ms: 4.915575
+  type: 'test'
+  ...
+# Subtest: lift motion and doors retain elapsed time at 30/60/120Hz without opening during travel
+ok 2 - lift motion and doors retain elapsed time at 30/60/120Hz without opening during travel
+  ---
+  duration_ms: 2.341827
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 68.443555

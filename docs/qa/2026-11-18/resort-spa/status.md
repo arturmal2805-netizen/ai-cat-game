@@ -62,3 +62,10 @@ Do not call it reference quality. Next art pass needs architectural glass ribs,
 real finishes from prepared Mall art, filled amber interiors, plants/lotus/waterfall,
 local bounded lights, actual cats and native game camera/context. No shipping yet.
 Recessed-pool geometry is fixed; routing/support and native swim/exit still pending.
+
+Full first suite completed1110cases:1109PASS/1FAIL, legacy all147context length.
+Shortening only SPA AI labels fixes that guard; full user interface names retained.
+Latest user requested broader compaction: city-ai-pack.mjs now packs repeated
+strings losslessly;23 AI targeted cases + single147case PASS. Independent release
+candidate is based on3914873, with no unfinished SPA.
+New appointments adapter and lift motor are independently tested, not scene-wired.

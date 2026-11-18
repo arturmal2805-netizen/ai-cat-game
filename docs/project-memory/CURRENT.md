@@ -148,3 +148,24 @@ Evidence: docs/qa/2026-11-18/resort-spa/game-connection/manifest.json.
 Not published; still far from reference. NO full arrival, actual visiting actor
 procedure/economy/AI/SQLite scenario or84animations yet. Mandatory remaining
 scope in manifest. Do not present camera/ledger-only integration as finished SPA.
+
+### Latest request — compact AI context, isolated release candidate
+
+User clarified: make request text smaller. 20k is our internal legacy full-plan
+CHARACTER guard, not Cloudflare request count/token billing. Shared dictionaries
+now losslessly pack repeated personality/wish/visited-store strings; cat/place
+indices, needs, balances, careers, output schemas, budget, invocation count intact.
+Original SPA full suite:1110cases,1109PASS/1FAIL (legacy147-cat context20162>20000).
+Short SPA labels then same147case PASS. New packing+19event regressions:23PASS;
+full147legacycase PASS. Deterministic SPA measurements:19813→16152 full-plan chars,
+5734→4090 careers,31249→21763 evening+147buyers+family. Not actual token/billing/FPS.
+
+Independent /workspace/chichi-compact-city-ai, codex/compact-city-ai-context,
+base stable3914873 contains ONLY server prompt packing/tests/QA docs, NO SPA.
+Node22build currently running: /workspace/qa/compact-stable-build.log/.exit.
+Finish build, fullCI and actual live verification before any release claim.
+SPA currently WIP; keep all own changes. Latest own appointment adapter and sealed
+lift motor have unit proof (coordinate/ledger adapter1, lift2), not attached to
+native scene or physical route yet. Do NOT confuse their tests with full actor
+procedures/entry/84actions/SQLite. Next after compact release: actual SPA actors,
+physical shore/lift/corridor and procedure callbacks, then art/native/phone audit.

@@ -32,4 +32,4 @@ export function resortSpaSeat(zone,index){
 // not depend on a pavilion's display name or future architectural placement.
 export const RESORT_PRODUCTS=Object.freeze(RESORT_ZONES.map(z=>Object.freeze({id:z.id+'-session',storeId:z.id,name:z.name,brand:'CHICHI CAT SPA',category:'mall',kind:z.kind,use:z.procedure==='eat'?'eat':'spa',icon:'🪷',price:z.price,stock:100000,unique:false,resort:true})));
 export const resortProduct=id=>RESORT_PRODUCTS.find(p=>p.id===id);
-export function resortOffers(game){return game.unlocked?.includes('autumn')?RESORT_ZONES.map(z=>({id:z.id,type:z.id,biome:'autumn',name:'CHICHI CAT SPA · '+z.name,action:z.action})):[];}
+export function resortOffers(game){return game.unlocked?.includes('autumn')?RESORT_ZONES.map(z=>({id:z.id,type:z.id,biome:'autumn',name:'SPA · '+z.key,action:z.action})):[];}
