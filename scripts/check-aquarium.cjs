@@ -16,6 +16,8 @@ const root = path.resolve(__dirname, ".."),
     process.env.CHICHI_REVIEW_DIR ||
     path.join(os.tmpdir(), "chichi-aquarium-review");
 fs.mkdirSync(review, { recursive: true });
+const recoveryAuditToken=process.env.CHICHI_RECOVERY_AWARD_AUDIT?crypto.randomBytes(32).toString('hex'):null;
+const recoveryAuditHash=recoveryAuditToken?crypto.createHash('sha256').update(recoveryAuditToken).digest('hex'):null;
 const baseline = process.env.CHICHI_BASELINE_REF;
 if (baseline && !/^[a-f0-9]{7,40}$/.test(baseline))
   throw Error("Expected a commit hash");
@@ -45,6 +47,7 @@ async function localWorker() {
     path.join(root, ".generated/worker.mjs"),
     path.join(temp, "worker.mjs"),
   );
+  if(recoveryAuditHash){const p=path.join(temp,'worker.mjs'),original=readPublic('recovery-award-data.js').match(/HASH='([a-f0-9]+)'/)[1],code=fs.readFileSync(p,'utf8');assert(code.includes(original));fs.writeFileSync(p,code.replaceAll(original,recoveryAuditHash));}
   // A build also rewrites the public entry/cache keys. Keep Wrangler's asset
   // watcher from reloading this private test server halfway through a probe.
   const assets = path.join(temp, "assets");
@@ -361,7 +364,7 @@ async function localWorker() {
     if(process.env.CHICHI_MANUAL_PORTAL_AUDIT){const {MALL_AIRLOCK}=await import(root+'/public/mall-airlock-data.js');g.mosasaurSubmarine={...g.mosasaurSubmarine,active:false,explorerVersion:1,explorer:{...MALL_AIRLOCK.outside,mode:'swimming',yaw:Math.PI,floor:0,returning:false}};}
     if(process.env.CHICHI_PRIVATE_SAVE_FIXTURE){const snapshot=JSON.parse(fs.readFileSync(process.env.CHICHI_PRIVATE_SAVE_FIXTURE,'utf8'));Object.assign(g,snapshot);}
     const base = local.base,
-      token = crypto.randomBytes(32).toString("hex"),
+      token = recoveryAuditToken||crypto.randomBytes(32).toString("hex"),
       headers = {
         "Content-Type": "application/json",
         "X-Chichi-Save-Token": token,
@@ -397,6 +400,7 @@ async function localWorker() {
         {
           name: "qa",
           setup(b) {
+            if(recoveryAuditHash)b.onLoad({filter:/\/public\/recovery-award-data\.js$/},()=>({loader:'js',contents:readPublic('recovery-award-data.js').replace(/HASH='[a-f0-9]+'/,'HASH='+JSON.stringify(recoveryAuditHash))}));
             if(process.env.CHICHI_TERRAIN_AUDIT){const original=b.onLoad.bind(b);b.onLoad=(options,fn)=>original(options,async args=>{const result=await fn(args);if(result?.contents){const relative=path.relative(root,args.path),target=path.join(review,'qa-inputs',relative);fs.mkdirSync(path.dirname(target),{recursive:true});fs.writeFileSync(target,result.contents);}return result;});}
             if(process.env.CHICHI_OCEAN_PERF_AUDIT||process.env.CHICHI_CACHE_TRACE)b.onLoad({filter:/\/public\/geometry-residency\.js$/},()=>({loader:'js',contents:'globalThis.__resTrace={meta:new WeakMap(),events:[],time:0};\n'+readPublic('geometry-residency.js')
               .replace('clock = () => performance.now()', 'clock = () => globalThis.__resTrace.now ?? performance.now()')
@@ -651,7 +655,7 @@ async function localWorker() {
       if (m.type() === "error") {errors.push(m.text());if(process.env.CHICHI_MALL_PALETTE_AUDIT)console.error(m.text().slice(0,2500));if(process.env.CHICHI_TERRAIN_AUDIT)console.error(m.text().slice(0,3500));}
     });
     await page.addInitScript(
-      ({ g, token }) => {
+      ({ g, token,awardAudit }) => {
         if (!localStorage.getItem("chichi-world-v2")) {
           localStorage.setItem("chichi-world-v2", JSON.stringify(g));
           localStorage.setItem("chichi-recovery-code", token);
@@ -659,9 +663,10 @@ async function localWorker() {
             "chichi-cloud-save",
             JSON.stringify({ token, revision: 1, dirty: false }),
           );
+          if(awardAudit)localStorage.setItem('chichi-cloud-outbox',JSON.stringify({token,sequence:1,localGame:g,pending:{game:g,baseGame:g,clientId:'recovery-native-queued-writer',sequence:1,mutationId:crypto.randomUUID()}}));
         }
       },
-      { g: normalizedSeed.game, token },
+      { g: normalizedSeed.game, token,awardAudit:!!recoveryAuditToken },
     );
     const routeOwner=process.env.CHICHI_VISUAL_IDLE_AUDIT ? context : page;
     await routeOwner.route("**/dist/app.js?*", (r) =>

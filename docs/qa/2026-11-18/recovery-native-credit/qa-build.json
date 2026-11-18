@@ -1,0 +1,8 @@
+{
+  "sha256": "a8ad9c9ed9b2e343f49d53b3bc95a26e9e095eb7c938725a5b0d213df46bb94a",
+  "baseline": null,
+  "node": "v22.23.5",
+  "head": "0d21c0f0773d756790facf75cc35574376263f60",
+  "dirty": " M scripts/audit-resort-spa-native.mjs\n M scripts/check-aquarium.cjs\n?? scripts/audit-recovery-credit.mjs\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

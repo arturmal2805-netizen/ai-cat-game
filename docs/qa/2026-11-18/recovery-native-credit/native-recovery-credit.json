@@ -1,0 +1,75 @@
+{
+  "scope": "Private local Worker/SQLite and original app boot. ONLY world-hash gate replaced with hash of a freshly generated private QA token in exact client/Worker copies. Real player credential never used. Pending outbox seeded before first boot. Does NOT confirm live personal account credit.",
+  "before": {
+    "coins": 4382044,
+    "diamonds": 240,
+    "profiles": {
+      "chichi": 10000,
+      "luna": 10000,
+      "moti": 10000,
+      "pixel": 10000,
+      "peach": 10000,
+      "bagel": 10000,
+      "salem": 10000,
+      "honey": 10000,
+      "jobcat-bank-0": 10000,
+      "jobcat-bank-1": 10000,
+      "jobcat-crypto-0": 10000,
+      "jobcat-crypto-1": 10000,
+      "jobcat-factory-0": 10000,
+      "jobcat-factory-1": 10000,
+      "jobcat-furniture-0": 10000,
+      "jobcat-furniture-1": 10000,
+      "jobcat-estate-0": 10000,
+      "jobcat-estate-1": 10000,
+      "jobcat-cars-0": 10000,
+      "jobcat-cars-1": 10000
+    },
+    "conflict": false,
+    "pending": false
+  },
+  "after": {
+    "coins": 4382044,
+    "diamonds": 240,
+    "profiles": {
+      "chichi": 10000,
+      "luna": 10000,
+      "moti": 10000,
+      "pixel": 10000,
+      "peach": 10000,
+      "bagel": 10000,
+      "salem": 10000,
+      "honey": 10000,
+      "jobcat-bank-0": 10000,
+      "jobcat-bank-1": 10000,
+      "jobcat-crypto-0": 10000,
+      "jobcat-crypto-1": 10000,
+      "jobcat-factory-0": 10000,
+      "jobcat-factory-1": 10000,
+      "jobcat-furniture-0": 10000,
+      "jobcat-furniture-1": 10000,
+      "jobcat-estate-0": 10000,
+      "jobcat-estate-1": 10000,
+      "jobcat-cars-0": 10000,
+      "jobcat-cars-1": 10000
+    },
+    "conflict": false,
+    "pending": true
+  },
+  "repeat": {
+    "status": 200,
+    "alreadyApplied": true
+  },
+  "preAwardSnapshots": [
+    {
+      "source": "player-recovery-20261118:before:current",
+      "coins": 490,
+      "revision": 2
+    },
+    {
+      "source": "player-recovery-20261118:before:previous",
+      "coins": 490,
+      "revision": 1
+    }
+  ]
+}

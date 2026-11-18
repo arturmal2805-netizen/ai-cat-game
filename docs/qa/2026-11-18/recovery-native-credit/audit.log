@@ -1,0 +1,12 @@
+SPA automatic selected-island preparation pending
+PASS SPA scene appears without first clicking SPA {
+  ready: true,
+  visible: true,
+  inspection: false,
+  zones: 14,
+  coins: 4382044,
+  diamonds: 240,
+  profiles: 20
+}
+PASS native queued boot → real private SQLite grant → funded UI → reload → idempotent repeat; previous snapshots retained
+PASS native SPA required loading, actual scene, zone camera and World release

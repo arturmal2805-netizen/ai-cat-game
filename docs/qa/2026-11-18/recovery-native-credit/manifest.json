@@ -1,0 +1,25 @@
+{
+  "status": "PASS private real browser/Worker/SQLite queued boot and native SPA automatic load",
+  "sourceBase": "0d21c0f0773d756790facf75cc35574376263f60",
+  "instrumentation": "Original client and exact private Worker copies substitute only the eligibility hash for a newly generated private QA credential. Pending outbox seeded before first boot. Native QA hooks retained. Real player credential not used.",
+  "scope": "Funded native UI, every current cat wallet, preserved old vault copies, private SQLite reload, idempotent repeated award. NOT confirmation of the live player account.",
+  "fixture": "Private supplied repaired JSON remains outside Git; personal input not published.",
+  "files": {
+    "check-aquarium.cjs": "115bebd6eec577aa1535d18ebbe5394c0766a290f0a850dd28a9dee1943b1650",
+    "qa-build.json": "25a49a7452313978d398bd342004b2d0bfa900b60ae3345cf5481182d32e5c8e",
+    "audit-resort-spa-native.mjs": "b9783263b74a7e32d98a75825ef945373ece58135aefbd31fc288ffa42e67a7f",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "automatic-spa-loading.json": "de2f5ce3be607fd6b5c97d5c3e0d326a3243410379c52cb062bcd6d3d7dfa5ac",
+    "imported-source.tar.gz": "c30e9a7d1a80114e5a9da99f689e12eee975fc636deb65ae0fe4b935cb27e836",
+    "private-worker.mjs.gz": "bed0a4f862c1dadbfcd6ec6b8210ad50afca69becf2bea34268305bac86c01cd",
+    "qa-app.js.gz": "027da6392f6e5fc772392f1ee9d09378978ae382307de6f98311cb2dde7b89c9",
+    "audit.log": "fcd37d58762121bb9d128a97163cce5606eccc9e49f4670bc9ea080207e6d2c2",
+    "source-HEAD.patch": "2cd779c6aa9e7923bea19c299a5f90ad68e84bb362de8522251e7a4192c6f775",
+    "game-scene.json": "3c70d770f3ce4cfb38fe9c0d705ff26ddc659054e1d908db89482bd36b5b77f4",
+    "source-files.json": "5b7fdc7b29d81c59c0635cb55ecca6962cdbe00878e71f788dd096a82fc9cc56",
+    "source-status.txt": "3beb7d8e570001dc9a89a07bcfff4e4fc09b388438d1bdff193e5075f299f63b",
+    "audit-recovery-credit.mjs": "260f316ec810bcf59ff92c151402d7582647ed54034f1340fcb00e3544917616",
+    "actual-game-massage.png": "530e1943607f356a919f8620057240632553fb501319fb210e33c52d76118b85",
+    "native-recovery-credit.json": "a2a92095f973edc242ddb9dd4445c7404c833760c98035d9a052aa39d1556987"
+  }
+}
