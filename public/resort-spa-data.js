@@ -10,7 +10,7 @@ const rows=[
  ['sauna','Sauna & Steam Palace','sauna',120,87,219,1,25,24,8],
  ['cabana','Floating Glass Cabanas','cabana',200,-82,177,1,28,18,6],
  ['beauty','Beauty & Grooming','groom',180,82,177,0,28,18,6],
- ['vip','Golden Galaxy VIP Suite','vip',700,43,208,2,20,19,4],
+ ['vip','Golden Galaxy VIP Suite','vip',700,43,208,2,20,19,8],
  ['meditation','Ocean Meditation Dome','meditate',100,87,263,2,24,22,8],
  ['nap','Cat Nap Galaxy','sleep',100,-43,208,2,20,19,8],
  ['cafe','Wellness Café','eat',100,0,203,1,30,24,8],
@@ -24,6 +24,7 @@ export const RESORT_PROCEDURE_PRICE=Object.freeze({entry:100,thermal:150,massage
 export function resortSpaFootprint(x,z,margin=0){return Math.hypot(x/(RESORT_SPA.width/2+margin),(z-RESORT_SPA.z)/(RESORT_SPA.depth/2+margin))<=1;}
 // Room contacts are actual local positions shared by furniture and simulation.
 export function resortSpaSeat(zone,index){
+ if(zone.key==='vip'&&index>=4){const [dx,dz]=[[-9,-9],[-9,4],[-2,12],[9,10]][(index-4)%4],x=zone.x+dx,z=zone.z+dz,y=zone.y+.012;return{x,y,z,yaw:0,seat:{x,y:y+.92,z},approach:{x,y,z:z+3.6},staff:null,exit:{x,y,z:z+5}};}
  const wet=resortPoolContact(zone,index);if(wet)return{...wet,staff:null,exit:{...wet.approach}};
  if(zone.procedure==='eat'){const a=index*Math.PI*2/zone.seats,x=Math.sin(a)*20,z=203+Math.cos(a)*20,y=zone.y+.012;return{x,y,z,yaw:Math.PI,seat:{x,y:y+.92,z:z+2.8},approach:{x:x+3.6,y,z:z+3.6},staff:{x:x+2.2,y,z},exit:{x:x+4.5,y,z:z+3.6}};}
  const columns=zone.procedure==='massage'?3:4,rows=Math.ceil(zone.seats/columns),spacing=zone.procedure==='massage'?9:7;

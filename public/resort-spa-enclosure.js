@@ -13,7 +13,16 @@ export function createResortEnclosure(materials){
  // Real polygon intersections define door widths exactly. The bridge's side
  // walls meet the cut rim; no wider invisible opening leaks around the port.
  for(let level=0;level<3;level++){const lo=level*S.rise,hi=Math.min(19,(level+1)*S.rise);if(hi<=lo)continue;const clips=footprints.get(level).map(p=>p.poly);for(let i=0;i<atrium.length;i++){const a=atrium[i],b=atrium[(i+1)%atrium.length];for(const[u,v]of clipPressureWall(a,b,clips))wall(u,v,lo,Math.min(hi,lo+4),level);wall(a,b,lo+4,hi,level);}}
- for(const zone of RESORT_ZONES){if(zone.key==='cafe')continue;const points=ellipse(zone.x,zone.z,zone.rx,zone.rz),lo=zone.level*S.rise,clips=[atrium,...footprints.get(zone.level).filter(p=>p.id!==zone.id).map(p=>p.poly)];for(let i=0;i<points.length;i++)for(const[a,b]of clipPressureWall(points[i],points[(i+1)%points.length],clips)){wall(a,b,lo,lo+4,zone.level);if(i%8===0)box(solid,materials.gold,(a.x+b.x)/2,lo+2,(a.z+b.z)/2,.1,4,.1,zone.level);}}
+ for(const zone of RESORT_ZONES){if(zone.key==='cafe')continue;const points=ellipse(zone.x,zone.z,zone.rx,zone.rz),lo=zone.level*S.rise,clips=[atrium,...footprints.get(zone.level).filter(p=>p.id!==zone.id).map(p=>p.poly)];for(let i=0;i<points.length;i++)for(const[a,b]of clipPressureWall(points[i],points[(i+1)%points.length],clips)){
+   wall(a,b,lo,lo+4,zone.level);
+   // Interior joinery follows the exact clipped pressure-wall segments. Door
+   // mouths/overlapping halls remain genuinely open, including Amber/Nap.
+   const x=(a.x+b.x)/2,z=(a.z+b.z)/2,length=Math.hypot(b.x-a.x,b.z-a.z)+.012,angle=Math.atan2(-(b.z-a.z),b.x-a.x),night=['vip','nap','amber','midnight'].includes(zone.key);
+   const panel=box(solid,night?materials.wood:materials.ivory,x,lo+.31,z,length,.62,.12,zone.level);panel.rotation.y=angle;
+   const trim=box(shell,materials.gold,x,lo+.64,z,length,.06,.14,zone.level);trim.rotation.y=angle;
+   if(night&&[0,1,10,11].includes(i%12)){const pier=box(solid,materials.wood,x,lo+2.3,z,length,3.4,.12,zone.level);pier.rotation.y=angle;}
+   if(i%8===0){box(solid,materials.gold,x,lo+2,z,.1,4,.1,zone.level);box(shell,materials.amber,x,lo+2,z,.045,3.2,.14,zone.level);}
+  }}
  for(const bridge of RESORT_BRIDGES){const others=[atrium,...RESORT_BRIDGES.filter(b=>b!==bridge&&b.level===bridge.level).map(b=>b.outline),...footprints.get(bridge.level).filter(p=>!p.id.startsWith('bridge-')).map(p=>p.poly)];
   for(const [i,j]of [[0,1],[2,3]])for(const[a,b]of clipPressureWall(bridge.outline[i],bridge.outline[j],others)){const wall=box(solid,materials.glass,(a.x+b.x)/2,bridge.y+2,(a.z+b.z)/2,.07,4,Math.hypot(b.x-a.x,b.z-a.z),bridge.level);wall.rotation.y=Math.atan2(b.x-a.x,b.z-a.z);}
   const a=bridge.points[0],b=bridge.points[1],roof=box(solid,materials.glass,(a.x+b.x)/2,bridge.y+4,(a.z+b.z)/2,5,.06,Math.hypot(b.x-a.x,b.z-a.z),bridge.level);roof.rotation.y=Math.atan2(b.x-a.x,b.z-a.z);

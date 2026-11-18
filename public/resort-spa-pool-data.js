@@ -11,6 +11,7 @@ export function resortPools(zone){
  return[];
 }
 export function resortPoolContact(zone,slot){
+ if(zone.key==='vip'&&slot>=4)return null;
  const pools=resortPools(zone);if(!pools.length)return null;const group=zone.procedure==='swim'?12:zone.procedure==='jacuzzi'?1:4,pool=pools[Math.floor(slot/group)%pools.length],index=slot%group,a=(index+.5)*Math.PI*2/group;
  const x=pool.x+Math.sin(a)*(zone.procedure==='swim'?pool.rx*.63:Math.min(2,pool.rx*.3)),z=pool.z+(zone.procedure==='swim'?Math.cos(a)*pool.rz*.57:Math.cos(a)*Math.min(1.2,pool.rz*.3));
  return{pool,index,x,z,y:pool.y-.9,yaw:a+Math.PI,approach:{x:pool.x,y:pool.y+RESORT_POOL.foot,z:pool.z+pool.rz+2},entry:{x:pool.x,y:pool.y-RESORT_POOL.depth+RESORT_POOL.foot,z:pool.z+pool.rz-RESORT_POOL.steps*RESORT_POOL.run-.7}};

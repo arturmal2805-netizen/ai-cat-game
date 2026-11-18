@@ -17,6 +17,7 @@ const sequence={
  waterfall:[['listen-to-water',5,{rideSit:.55,headYaw:.14}],['cascade-gaze',7,{rideSit:.6,headPitch:-.18}],['garden-rest',8,{rideSit:.7,eyeClose:.7,earRelax:.16}],['garden-stretch',4,{frontLift:.11,headPitch:-.09}]],
  amber:[['amber-recline',4,{waterProne:.65}],['warm-star-gaze',7,{waterProne:.4,headPitch:-.19,headYaw:.1}],['amber-doze',8,{waterProne:.8,eyeClose:.85,earRelax:.17}],['amber-stretch',5,{waterProne:.2,frontLift:.13,headPitch:-.12}]],
  midnight:[['night-curl',4,{waterProne:.8,headRoll:.11}],['deep-star-sleep',13,{waterProne:.95,eyeClose:.98,earRelax:.2}],['sleepy-ear-flick',3,{waterProne:.9,eyeClose:.96,earRelax:.29}],['quiet-awakening',4,{waterProne:.5,eyeClose:.3,headYaw:.08}]],
+ vip:[['vip-settle',4,{waterProne:.55}],['private-star-gaze',7,{waterProne:.4,headPitch:-.23,headYaw:.12}],['silk-cushion-rest',9,{waterProne:.85,eyeClose:.8,earRelax:.2}],['vip-stretch',4,{waterProne:.2,frontLift:.15,headPitch:-.1}]],
 };
 export const RESORT_DRY_CHOREOGRAPHY=Object.freeze(Object.fromEntries(Object.entries(sequence).map(([key,value])=>[key,Object.freeze(value)])));
 export function resortDryPerformance(key,phase,time){

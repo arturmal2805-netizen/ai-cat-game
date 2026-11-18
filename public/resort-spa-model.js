@@ -29,7 +29,7 @@ export function* resortSpaModelSteps(){
  function mesh(parent,g,m,x,y,z,sx=1,sy=1,sz=1){const o=new T.Mesh(g,m);o.userData.resortFloor=authoredLevel;o.position.set(x,y,z);o.scale.set(sx,sy,sz);o.castShadow=!m.transparent;o.receiveShadow=true;parent.add(o);return o;}
  function box(parent,m,x,y,z,w,h,d){return mesh(parent,geometry(['box',w,h,d].join(':'),()=>new T.BoxGeometry(w,h,d)),m,x,y,z);}
  function disk(parent,m,x,y,z,rx,rz,h=.3){return mesh(parent,geometry('disk',()=>new T.CylinderGeometry(1,1,1,64)),m,x,y,z,rx,h,rz);}
- function backGeometry(index){return geometry('wraparound-upholstery-segment-'+index,()=>{const a=index*Math.PI/12,b=(index+1)*Math.PI/12,s=new T.Shape();s.absellipse(0,0,1.55,.85,a,b,false);s.lineTo(Math.cos(b)*1.3,Math.sin(b)*.69);s.absellipse(0,0,1.3,.69,b,a,true);s.closePath();const g=new T.ExtrudeGeometry(s,{depth:.82,bevelEnabled:true,bevelThickness:.055,bevelSize:.045,bevelSegments:3,steps:1,curveSegments:24});g.rotateX(-Math.PI/2);return g;});}
+ function backGeometry(index){return geometry('wraparound-upholstery-segment-'+index,()=>{const a=index*Math.PI/12,b=(index+1)*Math.PI/12,s=new T.Shape();s.absellipse(0,0,1.55,.85,a,b,false);s.lineTo(Math.cos(b)*1.3,Math.sin(b)*.69);s.absellipse(0,0,1.3,.69,b,a,true);s.closePath();const g=new T.ExtrudeGeometry(s,{depth:.82,bevelEnabled:true,bevelThickness:.055,bevelSize:.045,bevelSegments:3,steps:1,curveSegments:4});g.rotateX(-Math.PI/2);return g;});}
  function sofa(x,y,z,yaw=0){const group=new T.Group();group.position.set(x,y,z);group.rotation.y=yaw;solid.add(group);const g=geometry('rounded-sofa',()=>new RoundedBoxGeometry(1,1,1,3,.1));mesh(group,g,mats.gold,0,.68,0,3,.12,1.6);for(const a of [-1,1])for(const b of [-1,1])box(group,mats.gold,a*1.2,.31,b*.55,.12,.62,.12);mesh(group,g,mats.cloth,0,.82,0,3,.2,1.6);for(let i=0;i<12;i++)mesh(group,backGeometry(i),mats.cloth,0,.93,0);mesh(group,g,mats.cloth,0,.38,1.05,2.6,.16,.8);for(const side of [-1,1])box(group,mats.gold,side*.95,.15,1.05,.1,.3,.5);}
  function pool(x,y,z,rx,rz){const basin=createResortBasin({rx,rz,depth:1.8},{stone:mats.ivory});basin.position.set(x,y,z);surfaces.add(basin);basins.push(basin);waters.push(basin.userData.surface);return basin;}
  function platform(zone,y,holes){const shape=new T.Shape();shape.absellipse(zone.x,-zone.z,zone.rx,zone.rz,0,Math.PI*2,false);for(const p of holes){const h=new T.Path();h.absellipse(p.x,-p.z,p.rx,p.rz,0,Math.PI*2,true);shape.holes.push(h);}const g=new T.ShapeGeometry(shape,96);g.rotateX(-Math.PI/2);geos.set(zone.id+'-floor',g);mesh(surfaces,g,mats.ivory,0,y,0);}
@@ -62,13 +62,15 @@ export function* resortSpaModelSteps(){
 
   for(let i=0;i<zone.seats;i++){
    const s=resortSpaSeat(zone,i),x=s.x,z=s.z;
-   if(['swim','jacuzzi','vip'].includes(zone.procedure)){ /* Contacts resolved against separate wet volumes by navigation. */ }
+   if(zone.procedure==='vip'&&!s.pool){sofa(x,y,z);}
+   else if(['swim','jacuzzi','vip'].includes(zone.procedure)){ /* Contacts resolved against separate wet volumes by navigation. */ }
    else if(['sleep','lounge','cabana'].includes(zone.procedure)){sofa(x,y,z);box(decor,mats.ivory,x,y+1,z,1.4,.12,.7);}
    else if(zone.procedure==='sauna'){box(solid,mats.wood,x,y+.4,z,4,.8,1.4);box(solid,mats.wood,x,y+1.15,z-.65,4,1.5,.18);}
    else if(zone.procedure==='eat'){disk(solid,mats.gold,x,y+1.2,z,1.3,1.3,.12);box(solid,mats.gold,x,y+.55,z,.15,1.1,.15);sofa(x,y,z+2.8,Math.PI);}
    else if(zone.procedure==='groom'){sofa(x,y,z);box(solid,mats.gold,x,y+2,z-2.2,2.5,3,.16);box(decor,mats.glass,x,y+2,z-2.08,2.2,2.7,.04);}
    else if(zone.procedure==='aroma'){
-    const cushion=geometry('aroma-cushion',()=>new RoundedBoxGeometry(1,1,1,2,.09));mesh(solid,cushion,mats.cloth,x,y+.65,z,3,.3,2.1);mesh(solid,cushion,mats.cloth,x,y+1.3,z-.95,3,1.3,.28);for(const side of [-1,1])mesh(solid,cushion,mats.cloth,x+side*1.5,y+1,z,.28,.6,2.1);
+    const cushion=geometry('aroma-cushion',()=>new RoundedBoxGeometry(1,1,1,3,.11));mesh(solid,cushion,mats.cloth,x,y+.65,z,3,.3,2.1);const back=mesh(solid,cushion,mats.cloth,x,y+1.3,z-.95,3,1.3,.36);back.rotation.x=-.1;for(const side of [-1,1])mesh(solid,cushion,mats.cloth,x+side*1.5,y+1,z,.28,.6,2.1);
+    mesh(solid,cushion,mats.gold,x,y+.45,z,3.08,.1,2.14);for(const a of [-1,1])for(const b of [-1,1])box(solid,mats.gold,x+a*1.24,y+.2,z+b*.8,.1,.4,.1);
    }else{disk(decor,mats.cloth,x,y+.04,z,1.5,1.5,.08);}
   }
   yield;

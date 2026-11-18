@@ -8,7 +8,7 @@ export function resortSurfaceMaps(kind='marble'){
  for(let y=0;y<size;y++)for(let x=0;x<size;x++){
   const u=x/size*Math.PI*2,v=y/size*Math.PI*2,k=(y*size+x)*4;
   const coarse=noise(x/size,y/size,4)*.58+noise(x/size,y/size,8)*.28+noise(x/size,y/size,16)*.14,vein=Math.exp(-Math.abs(coarse-.49)*105),fine=noise(x/size,y/size,32),grain=Math.sin(u*37)*Math.sin(v*43);
-  const fabric=kind==='fabric',shade=fabric?(.96+grain*.025):(.97-vein*.16+(fine-.5)*.025);
+  const fabric=kind==='fabric',shade=fabric?(.96+grain*.025):(.985-vein*.055+(fine-.5)*.018);
   for(let c=0;c<3;c++){color[k+c]=Math.round(Math.max(0,Math.min(1,shade-(fabric?0:c*vein*.009)))*255);rough[k+c]=fabric?235:Math.round(110+vein*25+fine*15);}
   color[k+3]=rough[k+3]=normal[k+3]=255;normal[k]=Math.round(128+(fabric?Math.cos(u*37)*Math.sin(v*43)*7:Math.cos(u*4+Math.sin(v)*1.3)*vein*3));normal[k+1]=Math.round(128+(fabric?Math.sin(u*37)*Math.cos(v*43)*7:Math.sin(v)*vein*3));normal[k+2]=255;
  }

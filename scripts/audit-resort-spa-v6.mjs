@@ -15,7 +15,9 @@ export async function auditResortV6({page,review}){
   const png=stage+'-'+(name==='Верхний бассейн'?'sky-pool':state.selected||'overview')+'.png';await page.screenshot({path:join(review,png)});frames.push({name,png,...state});
   await writeFile(join(review,'v6-reference-frames.json'),JSON.stringify({stage,scope:'Actual running private game; brief software-renderer frame samples, not Mac/phone FPS or visual approval.',frames},null,2));console.log('V6 reference review frame',stage,name);
  }
- if(process.env.CHICHI_SPA_V6_CONTACTS){
+ if(process.env.CHICHI_SPA_V6_VIP_LOUNGE){
+  const {auditResortDry}=await import('./audit-resort-spa-dry.mjs');await auditResortDry({page,review,zoneIds:['resort-vip']});
+ }else if(process.env.CHICHI_SPA_V6_CONTACTS){
   const {auditResortSeatWalk}=await import('./audit-resort-spa-seat-walk.mjs');await auditResortSeatWalk({page,review});
   const {auditResortPools}=await import('./audit-resort-spa-pools.mjs');await auditResortPools({page,review});
  }else if(process.env.CHICHI_SPA_V6_PROCEDURES){

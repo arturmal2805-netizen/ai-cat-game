@@ -10,7 +10,18 @@ import {resortInteriorLighting} from '../public/resort-spa-finishes.js';
 import {createMallRoomLights} from '../public/mall-room-light.js';
 import {stepChichiWalk} from '../public/chichi-manual.js';
 import {mosaBedY,mosaWaterRadius} from '../public/mosasaur-data.js';
+import {createResortSpaRuntime} from '../public/resort-spa-runtime.js';
+import {createResortAquariumFish} from '../public/resort-spa-aquarium.js';
 function model(){const it=resortSpaModelSteps();let r;do{r=it.next();}while(!r.done);return r.value;}
+test('SPA fish keep distinct real anatomy and every moving membrane inside their glass tank',()=>{
+ const p=new T.Vector3(),dimensions=[];
+ for(const kind of ['betta','angelfish','ray']){
+  const fish=createResortAquariumFish(kind),box=new T.Box3().setFromObject(fish.root);dimensions.push(box.getSize(new T.Vector3()).toArray());
+  for(let time=0;time<25;time+=.7){fish.root.userData.animate(time);fish.root.position.set(Math.cos(time)*2.4,12+Math.sin(time*.7)*.65,203+Math.sin(time)*2.4);fish.root.rotation.y=-time-Math.PI/2;fish.root.rotation.z=Math.sin(time*2)*.07;fish.root.updateMatrixWorld(true);fish.root.traverse(o=>{if(!o.isMesh)return;const a=o.geometry.attributes.position;for(let i=0;i<a.count;i++){p.fromBufferAttribute(a,i).applyMatrix4(o.matrixWorld);assert(Math.hypot(p.x,p.z-203)<5.7,kind+' glass wall');assert(p.y>9.1&&p.y<15.1,kind+' tank cap');}});}
+  fish.dispose();
+ }
+ assert.equal(new Set(dimensions.map(d=>JSON.stringify(d))).size,3);
+});
 test('glass sky pool has a real transparent bed, an unblocked walking bridge and no opaque floor underneath',()=>{
  const root=model(),pool=root.getObjectByName('Glass Sky Pool'),bed=pool.userData.bed,nav=createResortSpaNavigation(root);
  assert.equal(root.userData.zones.size,14);assert.deepEqual([...root.userData.zones.keys()],[...RESORT_ZONES.map(z=>z.id)]);
@@ -50,5 +61,18 @@ test('manual Chichi physically steps off a Nap seat and cannot send the camera t
  for(let i=0;i<16;i++){stepChichiWalk(state,.1,{forward:1,side:0,heading:0},p=>{const hit=nav.support(p,.571);return hit?{y:hit.y,biome:'autumn'}:null;},.571);levels.push(state.y);}
  assert(state.z-seat.z>3);assert(levels.some(y=>Math.abs(y-18.472)<.03));assert(Math.abs(state.y-18.012)<.03);
  for(const hidden of [false,true]){if(hidden)root.userData.setInspectionLevel(0);assert.equal(nav.cameraClear({x:0,y:35,z:203},{x:0,y:39,z:203}),false);assert.equal(nav.cameraClear({x:0,y:39,z:203},{x:0,y:35,z:203}),false);}
+ root.userData.dispose();
+});
+test('VIP keeps its four original wet contacts and adds four supported private lounges with complete real-floor return paths',()=>{
+ const root=model(),nav=createResortSpaNavigation(root),zone=RESORT_ZONES.find(z=>z.key==='vip'),local=p=>({...p,y:p.y-S.y}),absolute=p=>({...p,y:p.y+S.y});
+ for(let slot=0;slot<4;slot++)assert(resortSpaSeat(zone,slot).pool,'original wet slot '+slot);
+ for(let slot=4;slot<8;slot++){
+  const c=resortSpaSeat(zone,slot),position={...c.approach,z:c.approach.z+.2},actions=new Set();let bills=0,uses=0,result;
+  assert(!c.pool);assert(nav.support(local(c.seat),.571),'native seat support '+slot);
+  const runtime=createResortSpaRuntime({route:(a,b,r)=>nav.path(local(a),local(b),r)?.map(absolute),segmentClear:(a,b,r)=>nav.segmentClear(local(a),local(b),r),onPurchase:()=>{bills++;return'vip-ticket';},onUse:()=>{uses++;return true;},onComplete:(id,v)=>result=v});
+  assert(runtime.start({catId:'chichi',zoneId:zone.id,position}));assert.equal(runtime.get('chichi').slot,slot);
+  for(let i=0;i<1000&&runtime.has('chichi');i++){runtime.step(.1);const f=runtime.frame('chichi');if(f)actions.add(f.action);}
+  assert(!runtime.has('chichi'),'VIP lounge return '+slot);assert(result.completed);assert.equal(bills,1);assert.equal(uses,1);assert(actions.has('private-star-gaze'));assert(actions.has('silk-cushion-rest'));assert.deepEqual(result.position,position);
+ }
  root.userData.dispose();
 });
