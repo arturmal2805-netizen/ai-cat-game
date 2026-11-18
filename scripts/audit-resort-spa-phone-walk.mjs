@@ -4,10 +4,11 @@ import {join} from 'node:path';
 import {byBiome} from '../public/game-data.js';
 import {resortSpaOrigin,RESORT_SPA} from '../public/resort-spa-data.js';
 export async function auditResortPhoneWalk({page,review}){
+ await page.locator('[data-biome="autumn"]').tap();
  await page.locator('.resort-spa-access').tap();await page.waitForFunction(()=>__lagoonQA.resortSpa()?.ready,null,{timeout:240000});
  const centre=resortSpaOrigin(byBiome('autumn').center);
  await page.evaluate(async({centre,y})=>{await __lagoonSaveQA.cloud.claimEditor();const q=__lagoonQA;q.manualFrames=true;q.drawPaused=true;q.jobs.cancel('chichi');q.chichiCarrier.position.set(centre[0],y+.012,centre[1]+233);},{centre,y:RESORT_SPA.y});
- await page.locator('#chichi-control').tap();assert(await page.evaluate(()=>__lagoonQA.manualWalk().active));
+ await page.locator('#chichi-control').tap();await page.waitForFunction(()=>__lagoonQA.manualWalk().active,null,{timeout:10000});assert.equal(await page.evaluate(()=>__lagoonQA.submarine().controlled),false,'the dry SPA floor must not become open-ocean swimming');
  if(process.env.CHICHI_RESORT_SPA_PHONE_ONLY_AUDIT)assert.equal(await page.locator('.resort-spa-zones').isVisible(),false,'manual walking releases the independent SPA inspection panel');
  const pad=page.locator('.chichi-walk-controls');assert(await pad.isVisible());const bounds=await pad.boundingBox();assert(bounds&&bounds.x>=0&&bounds.x+bounds.width<=390.5);
  const before=await page.evaluate(()=>__lagoonQA.chichiCarrier.position.toArray()),button=await pad.locator('[data-walk-key="KeyW"]').boundingBox();assert(button);
