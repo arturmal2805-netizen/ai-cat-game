@@ -3322,3 +3322,4 @@ button.cat-profile-card {
 .resort-spa-zones[hidden]{display:none;}
 .resort-spa-zones button{min-height:44px;padding:8px;border:1px solid #bd9056;border-radius:10px;background:#28364c;color:#ffe5c4;font-size:12px;}
 .resort-spa-zones button[aria-pressed="true"]{background:#69503b;border-color:#ffcc70;}
+@media(pointer:coarse){.resort-spa-zones{top:auto;bottom:156px;max-height:min(30vh,220px);max-width:min(168px,44vw);padding:5px;gap:4px}.resort-spa-zones button{font-size:11px;min-height:44px;padding:5px}}

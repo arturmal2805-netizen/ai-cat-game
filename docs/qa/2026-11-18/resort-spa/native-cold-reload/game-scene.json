@@ -1,0 +1,12 @@
+{
+  "zones": 14,
+  "basins": 9,
+  "spaInspection": true,
+  "mallInspection": false,
+  "appScripts": 1,
+  "actualZoneCamera": true,
+  "worldReleased": true,
+  "errors": [],
+  "httpErrors": [],
+  "scope": "Native private game scene/camera only; full procedures, transport and SQLite receipts not yet audited"
+}

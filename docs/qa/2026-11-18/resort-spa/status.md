@@ -90,3 +90,17 @@ world Y; same original rig and geometry. Support preparation is cooperative.
 Node22 build PASS; 4 targeted contact/recovery/motor cases PASS. Full CI after
 these source changes is pending. Main remains827e370; SPA is NOT published or
 artistically approved. Do not advertise finished84actions or deviceFPS.
+
+
+### Cold lift recovery verified
+
+Native SQLite cold mid-descent reload PASS at savedY -65.05m, exact cabin/actor
+height restored, closed doors, physical upper return/exit and second reload with
+unchanged wallet/inventory/receipts. Exact imported JS source snapshots, overlay,
+bundle, PNG, logs and hashes: native-cold-reload/manifest.json. This does not
+prove mid-procedure reload or all84 actions.
+Phone inspection panel was observed to obscure too much view. Compact coarse
+pointer CSS and releasing SPA inspection when actual manual walking starts are
+now implemented; focused native held-touch test still pending for that revision.
+WIP test-only CI44337958092 runs source0c73207 (before these UI-only changes).
+No deployment was dispatched. Current main/live remains827e370.
