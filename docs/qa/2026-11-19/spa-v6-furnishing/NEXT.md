@@ -1,7 +1,7 @@
 # SPA V6 — fifth iteration, work in progress
 
 19 November 2026 Europe/Kyiv. Not published; not visually accepted.
-Preceding exact native stage: ../2026-11-18/spa-v6/sealed-light (from docs/qa).
+Preceding exact native stage: ../../2026-11-18/spa-v6/sealed-light (from docs/qa).
 
 Implemented after that stage: four supported VIP dry lounges beside the original
 four wet contacts, nearest reachable station preference, separate VIP rest actions
@@ -29,3 +29,14 @@ terraces, final each-room polish, all required native/performance/phone checks.
 Do not declare the V6 goal fulfilled merely because runtime tests are green.
 Archive next completed run with scripts/archive-spa-stage.py, add ignored log
 explicitly, check every manifest entry is tracked, push WIP and canonical memory.
+
+## Fifth run finished
+
+31 completed PASS before restart +12 unfinished cases PASS in separate run.
+Native VIP true lounge procedure/own-wallet/use/physical return/SQLite PASS.
+Exact code6f2d87aeae7b1da87849393b8d84f42936d1fe0b + QA-scope overlay, native/manifest.json.
+All five views reviewed; not final visual acceptance. Next: actual Cafe wet
+dining contacts/real holes and table clearance, improve tank visibility. Freeze
+the same QA-only game clock for strict next lighting comparisons; previous
+series differ by4–10 game minutes, so do not attribute all light difference
+to shaders. Existing 31+12 checks need no repeat absent further affected changes.

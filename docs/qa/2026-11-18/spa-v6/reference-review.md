@@ -53,3 +53,15 @@ R4 — Golden Galaxy VIP, R5 — общий трёхуровневый комп�
 
 Серия НЕ принята как финал. Не выдавать native PASS за визуальное одобрение.
 Пользователь подтвердил разрыв с целью и требует сохранение каждого этапа в remote.
+
+## Fifth comparison — furnishing
+
+Exact proof: ../../2026-11-19/spa-v6-furnishing/native/manifest.json.
+R1/R3: fish now identifiable and bar lower, but tank reads as empty air; water
+dining is still absent. R2: real canopies/legs/denser blossoms improve structure;
+still no lush garden and cascades. R4: supported lounge beds and opaque curved
+star vault now visible; lantern/light hierarchy, planting and rich ceiling still
+far from reference. R5: pavilion silhouette/wing galleries still need unification.
+No final visual acceptance. Recorded source, camera, clock and settings per frame;
+clock differs4–10 game minutes from the fourth series, so this is not an exact
+lighting A/B. Next controlled comparison must hold the QA clock fixed.

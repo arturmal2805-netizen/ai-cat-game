@@ -1,0 +1,27 @@
+{
+  "sourceBase": "6f2d87aeae7b1da87849393b8d84f42936d1fe0b",
+  "sourceState": " M scripts/audit-resort-spa-dry.mjs\n",
+  "result": "PASS five reference views; real native VIP dry approach/mount/four actions/dismount/return, once-only own-wallet payment and SQLite reload. 31+12 unit cases completed in separate runs after environment restart.",
+  "visualReview": "Still WIP, not visual approval. Better supported/canopied furniture and identifiable fish, but Cafe tank too invisible, no water dining, sparse gardens and disconnected exterior. Clock differs by 4-10 game minutes from previous series; not a strict lighting A/B.",
+  "files": {
+    "actual-dry-procedures-sqlite.json": "fcefec2208bc7153d13d21965ed392fe9e90ca7dd730eb9663b31703b5d94232",
+    "actual-game-massage.png": "cc4b144a31f53913a5c9d84ba42348ca20af8ece2404034da0f4da6dc3690552",
+    "dry-progress.json": "977becd3d8f6e8daaf2553b962726490a9d58916dc0d6fde2aa0517e1c3c8af5",
+    "furnishing-overview.png": "163785792c7959c9f80ac9bae8bb6cd2e8ff1e0736d9d6d48b300db48ee14678",
+    "furnishing-resort-aroma.png": "1af659a5fdfd677cadd5c922f08950b9920cbd8e0566849d3f9bd6d281c92d59",
+    "furnishing-resort-cabana.png": "34c233888ea30afd9fb959d9bc553a474377520e47928483d9f324d3f0290936",
+    "furnishing-resort-cafe.png": "3caea28c21810437feaa98ee54ac75800b2d15a2faca9f374d9cbe9f693bc85d",
+    "furnishing-resort-vip.png": "2962221797fa38c3f627e84fa4342aefce623d5bf96c8cdb3e1394e48a040923",
+    "game-scene.json": "602a9ba6613a712811b674ee0eba41f6457b20465834e14f7d2dd8e3ab328470",
+    "imported-source.tar.gz": "edcbaeab5a60c537995f8332e4264e1cd814f2f4c9b9bdd9f4368648a11bf09b",
+    "native.log": "af0b8a80a90b568570e53994414ecc11e8a6186a979df11f6f1ca47b6967761a",
+    "qa-app.js.gz": "528d6a7f880ce31b9bcce49dccd3abc2ff1840f53bdb91ff45a5fd787fb3df5a",
+    "qa-build.json": "929c47e37c8b04b3899258c596d5094c0cabd645198f14e0561b44438c1d48d8",
+    "resort-vip-private-star-gaze.png": "c335ff9931426affc2ff2f21e06fac65e6f72a0bb9ee5e1f1334b4b7ec9d145f",
+    "source-HEAD.patch": "690aa9317c6e6d0fcc35f0f935b3e4126da2d0f2279eb1a8522161a059435730",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "a5ffb761987314a1a5023c861df38467556d9a10b325cbab7491aa7b0516f19d",
+    "source-status.txt": "0ad1191499be08c62a299239a18f6eeef110c5132a94c0603746224a2850cfc4",
+    "v6-reference-frames.json": "79118b4c1b7725af328d92c59435d148e7945fd4682d2add7302a1d5bcf9e716"
+  }
+}
