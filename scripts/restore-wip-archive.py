@@ -17,6 +17,7 @@ parser.add_argument('destination', type=pathlib.Path)
 parser.add_argument('--sha256', required=True)
 parser.add_argument('--base', required=True, help='Published repository URL or local checkout')
 parser.add_argument('--base-branch', default='main')
+parser.add_argument('--discard-verified-trees', action='store_true', help='After exact verification remove only newly restored QA worktree copies to bound disk use')
 args = parser.parse_args()
 archive = args.archive.resolve()
 assert hashlib.sha256(archive.read_bytes()).hexdigest() == args.sha256, 'Archive checksum mismatch'
@@ -85,8 +86,11 @@ for record in manifest['roots']:
                 assert item.read_bytes() == (target / item.relative_to(files)).read_bytes()
     results.append({'name': name, 'head': record['head'], 'headDiff': 'exact',
                     'cachedDiff': 'exact', 'status': 'exact', 'savedFileBytes': 'exact'})
+    if args.discard_verified_trees:
+        assert target.resolve().is_relative_to((destination / 'worktrees').resolve())
+        run('git','worktree','remove','--force',str(target))
 report = {'archive': archive.name, 'sha256': args.sha256, 'restored': True,
           'fullGitHistory': False, 'publishedBaseRequired': manifest['incrementalHistoryBase'],
-          'worktrees': results, 'sourceWorktreesModified': False}
+          'worktrees': results, 'sourceWorktreesModified': False, 'verifiedTreesRetained': not args.discard_verified_trees}
 (destination / 'restore-result.json').write_text(json.dumps(report, indent=2) + '\n')
 print(json.dumps(report, indent=2))

@@ -1,0 +1,19 @@
+{
+  "utc": "2026-11-18T12:53:03.520067+00:00",
+  "release": "827e3708979cb95c4675e38caf6354364c733b64",
+  "workflow": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44305576620",
+  "url": "https://arturmal2805-netizen.github.io/ai-cat-game/?v=827e370",
+  "oneApplicationScript": true,
+  "assets": {
+    "dist/app.js": "5681cfb381526eddc877a80448535fecf0272a52c95da9744ad8edfd43a44be2",
+    "style.css": "eb9e72f520559ea58aefb78c10bbe4c2990e345caff015428b04e81f6ed141d2"
+  },
+  "siteAssetHashesMatched": true,
+  "workerReleaseEvidence": "Successful Verify release, shared saves and optional real AI workflow step at this exact headSha",
+  "workerStatusDirect": {
+    "verified": false,
+    "reason": "Execution environment HTTP tunnel returns403 Forbidden for Worker hostname. Not bypassed. Worker release/shared saves verified by successful CI step."
+  },
+  "paidInference": false,
+  "scope": "Server-only lossless AI request encoding. Public JS/CSS remain exactly3914873. No SPA code."
+}
