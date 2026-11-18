@@ -43,3 +43,15 @@ remote. A failed/partial bake is evidence only, not a recovered final asset.
 After successful capture, persist real PNG/data/source provenance in Git, then
 implement loader/integration with meaningful color/GLSL/fallback tests and
 repeat actual R1/R2/R4/R5 comparison. Fuller furnishings/gardens still needed.
+
+## First capture failed, no asset promoted
+
+Actual attempt4e8bb85 failed the first nonempty-radiance assertion. Exact failed
+source/bundle/log preserved in failed-first-capture/. No valid probes recovered.
+Cause not yet established: capture had no preserved GPU/root diagnostics.
+Next authoring correction awaits a real revealed native frame before pausing
+world updates; the ready promise can settle between frames with stale visibility.
+No root is forcibly unhidden. Add failed PNG/root flags/draw counts/GL errors and
+console errors before the nonempty guard so another failure is diagnosable.
+The nonempty/error assertions remain strict. Re-run into a new QA folder and
+freeze source until it completes; first check progress rather than restart.

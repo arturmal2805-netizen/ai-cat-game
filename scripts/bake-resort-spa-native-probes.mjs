@@ -15,9 +15,15 @@ function chunk(type,bytes){const t=Buffer.from(type),s=Buffer.alloc(4);s.writeUI
 function png(bytes,width,height){const h=Buffer.alloc(13);h.writeUInt32BE(width,0);h.writeUInt32BE(height,4);h[8]=8;h[9]=6;const rows=Buffer.alloc((width*4+1)*height);for(let y=0;y<height;y++)rows.set(bytes.subarray(y*width*4,(y+1)*width*4),y*(width*4+1)+1);return Buffer.concat([Buffer.from([137,80,78,71,13,10,26,10]),chunk('IHDR',h),chunk('IDAT',deflateSync(rows,{level:9})),chunk('IEND',Buffer.alloc(0))]);}
 const git=(...args)=>execFileSync('git',args,{encoding:'utf8'}),workspaceState=()=>sha(git('rev-parse','HEAD')+git('diff','HEAD','--binary')+git('status','--porcelain=v1'));
 
-export async function bakeResortNativeProbes({page,review}){
+export async function bakeResortNativeProbes({page,review,errors=[]}){
  const folder=join(review,'probes');await mkdir(folder,{recursive:true});const before=workspaceState(),sourceFiles=JSON.parse(await readFile(join(review,'source-files.json'),'utf8')),build=JSON.parse(await readFile(join(review,'qa-build.json'),'utf8'));
  const centre=resortSpaOrigin(byBiome('autumn').center),specs=RESORT_ZONES.map(z=>({id:z.id,x:z.x,y:z.y+1.4,z:z.z+(z.key==='cafe'?13:0),target:{x:z.x,y:z.y+2,z:z.z}}));specs.push({id:'resort-sky-pool',x:0,y:S.y+19.2,z:203,target:{x:0,y:S.y+19.3,z:203}});
+ // The ready promise may settle between frames, while the selected world's
+ // visibility is still paused for preparation. Await an actual revealed frame;
+ // do not force a hidden root visible or bake the loading representation.
+ await page.evaluate(()=>{const q=__lagoonQA;q.targetFrames=q.frames+1;q.drawPaused=false;q.gpuFrames.clear();});
+ await page.waitForFunction(()=>__lagoonQA.frames>=__lagoonQA.targetFrames&&__lagoonQA.resortSpa().root.visible,null,{timeout:240000});
+ await page.evaluate(()=>{__lagoonQA.drawPaused=true;});
  // Keep the renderer and real static scene intact after the offline operation.
  await page.evaluate(()=>{const q=__lagoonQA;q.probeSaved={manualFrames:q.manualFrames,drawPaused:q.drawPaused};q.manualFrames=true;q.drawPaused=true;q.gpuFrames.clear();});
  const layers=[],captures=[];
@@ -37,13 +43,15 @@ export async function bakeResortNativeProbes({page,review}){
      r.toneMapping=T.NoToneMapping;r.outputColorSpace=T.LinearSRGBColorSpace;r.info.autoReset=false;r.info.reset();
      if(sun){sun.position.set(centre[0]+spec.target.x-14,35,centre[1]+spec.target.z+20);sun.target.position.set(centre[0]+spec.target.x,spec.target.y,centre[1]+spec.target.z);sun.updateWorldMatrix(true,false);sun.target.updateWorldMatrix(true,false);}
      camera.position.set(centre[0]+spec.x,spec.y,centre[1]+spec.z);camera.updateMatrixWorld(true);scene.updateMatrixWorld(true);camera.update(r,scene);r.setRenderTarget(target);r.render(packScene,packCamera);const data=new Uint8Array(size*size*4);r.readRenderTargetPixels(target,0,0,size,size,data);
-     return{data:Array.from(data),eye:camera.position.toArray(),milliseconds:performance.now()-started,render:{...r.info.render},memory:{...r.info.memory},hiddenDynamicAndWater:hidden.size,lights:scene.children.filter(o=>o.isLight).map(o=>({type:o.type,color:o.color.getHex(),intensity:o.intensity,position:o.position.toArray()})),fog:scene.fog?{color:scene.fog.color.getHex(),density:scene.fog.density}:null};
+     return{data:Array.from(data),eye:camera.position.toArray(),milliseconds:performance.now()-started,render:{...r.info.render},memory:{...r.info.memory},hiddenDynamicAndWater:hidden.size,rootVisible:root.visible,sceneVisible:scene.visible,cameraMask:camera.layers.mask,nativeCameraMask:q.camera.layers.mask,glError:r.getContext().getError(),lights:scene.children.filter(o=>o.isLight).map(o=>({type:o.type,color:o.color.getHex(),intensity:o.intensity,position:o.position.toArray()})),fog:scene.fog?{color:scene.fog.color.getHex(),density:scene.fog.density}:null};
     }finally{
      if(sun){sun.position.copy(sunPosition);sun.target.position.copy(sunTarget);sun.updateWorldMatrix(true,false);sun.target.updateWorldMatrix(true,false);}
      r.toneMapping=old.toneMapping;r.outputColorSpace=old.outputColorSpace;r.info.autoReset=old.autoReset;r.setRenderTarget(old.target);r.setViewport(old.viewport);r.setScissor(old.scissor);r.setScissorTest(old.scissorTest);for(const[o,v]of saved)o.visible=v;geometry.dispose();material.dispose();cube.dispose();target.dispose();
     }
    },{spec,centre,size});
-   const bytes=Buffer.from(result.data);assert.equal(bytes.length,size*size*4);assert(bytes.some((n,i)=>i%4!==3&&n>10),'nonempty actual room radiance');const file=png(bytes,size,size),name=spec.id+'.png';await writeFile(join(folder,name),file);layers.push(bytes);delete result.data;captures.push({...spec,layer,png:name,pngSha256:sha(file),rgbaSha256:sha(bytes),...result});await writeFile(join(folder,'capture-progress.json'),JSON.stringify(captures,null,2));
+   const bytes=Buffer.from(result.data);delete result.data;assert.equal(bytes.length,size*size*4);const file=png(bytes,size,size),name=spec.id+'.png';await writeFile(join(folder,name),file);
+   if(!bytes.some((n,i)=>i%4!==3&&n>10)||errors.length){await writeFile(join(folder,'FAILED-capture.json'),JSON.stringify({spec,layer,...result,firstPixels:[...bytes.subarray(0,64)],errors},null,2));assert.fail('Actual room radiance is empty or GPU errors occurred: '+errors.join('\n'));}
+   layers.push(bytes);captures.push({...spec,layer,png:name,pngSha256:sha(file),rgbaSha256:sha(bytes),...result});await writeFile(join(folder,'capture-progress.json'),JSON.stringify(captures,null,2));
   }
  }finally{await page.evaluate(()=>{const q=__lagoonQA;q.manualFrames=q.probeSaved.manualFrames;q.drawPaused=q.probeSaved.drawPaused;delete q.probeSaved;});}
  assert.equal(workspaceState(),before,'source changed during native capture; keep evidence but do not promote probe');
