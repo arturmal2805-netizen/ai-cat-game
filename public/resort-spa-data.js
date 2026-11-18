@@ -24,6 +24,6 @@ export function resortSpaFootprint(x,z,margin=0){return Math.hypot(x/(RESORT_SPA
 // Room contacts are actual local positions shared by furniture and simulation.
 export function resortSpaSeat(zone,index){
  const columns=zone.procedure==='massage'?3:4,rows=Math.ceil(zone.seats/columns),spacing=zone.procedure==='massage'?9:7;
- const column=index%columns,row=Math.floor(index/columns),x=zone.x+(column-(columns-1)/2)*spacing,z=zone.z+(row-(rows-1)/2)*8;
+ const column=index%columns,row=Math.floor(index/columns),x=zone.x+(column-(columns-1)/2)*spacing,z=zone.z+(row-(rows-1)/2)*(zone.procedure==='massage'?11:8.6);
  return {x,y:zone.y+.18,z,yaw:Math.PI,approach:{x,y:zone.y+.18,z:z+3.6},staff:{x:x+2.2,y:zone.y+.18,z},exit:{x,y:zone.y+.18,z:z+5}};
 }
