@@ -27,8 +27,8 @@ export function* resortPalaceFacadeSteps({solid,shell,decor,mats,box,setLevel}){
  for(let i=0;i<20;i++){
   const angle=i*Math.PI/10,dx=Math.cos(angle),dz=Math.sin(angle);let lo=0,hi=180;
   // Intersect with the measured rounded envelope, not an unrelated ellipse.
-  for(let k=0;k<32;k++){const r=(lo+hi)/2,x=dx*r,z=P.z+dz*r,qx=Math.abs(x)-P.width/2+P.corner,qz=Math.abs(z-P.z)-P.depth/2+P.corner,d=Math.hypot(Math.max(0,qx),Math.max(0,qz))+Math.min(Math.max(qx,qz),0)-P.corner;if(d<=0)lo=r;else hi=r;}
-  const points=Array.from({length:49},(_,j)=>{const r=lo*j/48,x=dx*r,z=P.z+dz*r;return[x,spaPalaceRoofY(x,z)+.12,z];});
+  for(let k=0;k<32;k++){const r=(lo+hi)/2,x=dx*r,z=P.atrium.z+dz*r,qx=Math.abs(x)-P.width/2+P.corner,qz=Math.abs(z-P.z)-P.depth/2+P.corner,d=Math.hypot(Math.max(0,qx),Math.max(0,qz))+Math.min(Math.max(qx,qz),0)-P.corner;if(d<=0)lo=r;else hi=r;}
+  const points=Array.from({length:49},(_,j)=>{const r=lo*j/48,x=dx*r,z=P.atrium.z+dz*r;return[x,spaPalaceRoofY(x,z)+.12,z];});
   tube(shell,points,mats.gold,.17);if(i%4===0)tube(decor,points.map(([x,y,z])=>[x,y+.07,z]),amber,.035);report.roofRibs++;yield;
  }
  setLevel(0);
