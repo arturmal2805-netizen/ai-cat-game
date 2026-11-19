@@ -1,0 +1,25 @@
+{
+  "sourceBase": "114f70895b72db093f6181369ddd4dfe124a7b2d",
+  "sourceState": "",
+  "result": "PASS actual free invitation/repeat/SQLite reload and full existing service/transport/receipt/export scenarios. Visual frames are the pre-final batch-shadow correction control.",
+  "visualReview": "Three real views inspected. The source-only shadow flag was overwritten by the shared render batch; f026b77 fixes that final-batch issue and adds an actual rendered-batch assertion. These images are not the final corrected water claim.",
+  "files": {
+    "cabana-interior.png": "709ad2da22efdda1d7927830495752d6ee41613372d9ea996881a2cd741f21e0",
+    "golden-interior.png": "d75c145a75386324e7a70323cc5a90b7465855a6ebb8a454e01362abdea133fb",
+    "imported-source.tar.gz": "31c03a38a7b937c6ebfa885f45f237e2a4f7ac5bd8aab689b3cbd305b5701f67",
+    "layout-world-transforms.json": "3518713f83d48cad7ccba56c16c8fa3635d2295bfcf0bc272ef031db684a99a7",
+    "native.log": "a0d7f9d84f34e4ddf5f73507d8415067271264caf6bf904caba0c6194497af74",
+    "qa-app.js.gz": "c7da9991bf5650711402386af0afe794e8524c91e90c3c54c71a060c01560523",
+    "qa-build.json": "bd039a73ddf0bd294b502af1edeea7c81a3c0e1ecc32f6abe8f436922528c7ba",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "c075fa3a062864817f962bb2936e606e5e89c382332be3bfaf038c2ee6d94028",
+    "source-status.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "thermal-interior.png": "74c7b1bba1e1aae538b6d64445e6c9a0c9065b0dcad558307e9a267bce839d36",
+    "v7-functional-progress.json": "f62dd267778e1ec27dbdad2d61bac10ee6a93dea0159dee0ebb66c73bed7596d",
+    "v7-functional-sqlite.json": "9815063da98cdfd19335b671f76d5ca63db76d35bf1ea9c1bb63acad9e527b47",
+    "v7-mass-frames.json": "0e710dec270ceb73639194b17e29248c89716beae312756e18556c9a10fb0003",
+    "v8-invitation-reload.json": "f8e63ea15d8c26eb0df9872bb7ac8197545fd7020bf2096530e0f4a63ae3c33c",
+    "v8-invitation.json": "327e9e01e9af0092e12f33554180fd9e39cd624f17864d6c1538be49defaeec5"
+  }
+}

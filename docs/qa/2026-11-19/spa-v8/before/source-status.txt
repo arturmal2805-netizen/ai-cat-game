@@ -1,0 +1,2 @@
+ M scripts/audit-resort-spa-v7-mass.mjs
+?? docs/specifications/spa-visual-overhaul-v8-2026-11-19.md

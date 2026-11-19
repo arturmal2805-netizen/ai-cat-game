@@ -65,7 +65,7 @@ export function* resortGardenSteps({solid,decor,surfaces,waters,mats,rise=S.rise
  }
  // Enrich existing Cabana planters on their true private platforms, without
  // placing new solid pots across the narrow wet ring or dry boarding paths.
- const cabana=zoneList.find(z=>z.key==='cabana');for(let i=0;i<cabana.seats;i++){const s=seatContact(cabana,i);planting(1,s.x+1.9,rise+.75,s.z+.8,.3,.3,0,4);}
+ const cabana=zoneList.find(z=>z.key==='cabana');for(let i=0;i<cabana.seats;i++){const s=seatContact(cabana,i);planting(1,s.x+(cabana.roomId?2.7:1.9),rise+.75,s.z+(cabana.roomId?-2.2:.8),.3,.3,0,4);}
  for(const feature of cascadeList){
   const group=new T.Group();group.position.set(feature.x,0,feature.z);const tierRecords=[];surfaces.add(group);
   for(let i=0;i<feature.tiers.length;i++){

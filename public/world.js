@@ -5137,7 +5137,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       chichiCarrier.position.set(frame.position.x,frame.position.y,frame.position.z);
       chichiCarrier.rotation.y=frame.yaw;
       walking=frame.walking;reaction=frame.reaction;
-      if(frame.done)heroGather=null;
+      if(frame.done){const invite=heroGather.spaInvitation;heroGather=null;if(invite&&!resortSpa?.ride('chichi',1,'invitation'))callbacks.onReaction?.('Не удалось пройти к лифту SPA. Чичи осталась на безопасном причале.');}
     }
     if(gatherSavePending&&!heroGather&&![...npcs.values()].some(n=>n.gatherTrip)){
       gatherSavePending=false;callbacks.onGatherComplete?.();
@@ -6033,7 +6033,25 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     onPurchase:(...args)=>callbacks.onMallPurchase?.(...args),onUse:(...args)=>callbacks.onMallUse?.(...args),onGoal:(...args)=>callbacks.onMallGoal?.(...args),
     onComplete:(id,visit)=>{if(visit.ticket)finishLeisure(id,{completed:true});else {const n=npcs.get(id);if(n)n.manualUntil=0;}},
   });
-  resortSpa=createResortSpaWorld({scene,container,onRecovery:()=>focus('autumn',false,true),getActors:()=>lifeActors,getAccessSurfaces:()=>[islands.get('autumn')?.userData.navigationSurface].filter(Boolean),accessClear:(p,r)=>spaClear(p,r,manualPhysicalObstacles.get('autumn')||[]),registerCat:model=>enableCatRenderBatch(model,poseAtlas),canSimulate:()=>callbacks.canSimulateLeisure?.()!==false,
+  resortSpa=createResortSpaWorld({scene,container,
+    onInvitationArrive:()=>{callbacks.onReaction?.('Чичи пришла в SPA. Выбери ей занятие — вызов бесплатный.');callbacks.onGatherComplete?.();},
+    callBusy:()=>!!heroGather?.spaInvitation||!!resortSpa?.transportFrame('chichi'),
+    onCall:async()=>{
+      if(callbacks.canSimulateLeisure?.()===false||!canControlChichi()){callbacks.onReaction?.('Сначала получи управление этим миром.');return false;}
+      if(heroGather?.spaInvitation||resortSpa?.has('chichi')){callbacks.onReaction?.('Чичи уже в SPA или направляется туда.');return false;}
+      if(submarine?.active){callbacks.onReaction?.('Сначала выйди из субмарины на причале.');return false;}
+      if(!availableGatherCats().includes('chichi')){callbacks.onReaction?.('Чичи сейчас работает или спит. Позови её после отдыха или смены.');return false;}
+      if(!await resortSpa.ensure()||!availableGatherCats().includes('chichi'))return false;
+      manualWalk?.stop();callbacks.onControlChichi?.();cancelHeroActivity();heroGather=null;jobs.cancel('chichi');crew.cancel('chichi');housingLife.cancel?.('chichi');faceCamera.setEnabled(false,look);
+      const r=resortSpa.root,p={x:chichiCarrier.position.x-r.position.x,y:chichiCarrier.position.y-RESORT_SPA_LAYOUT.y,z:chichiCarrier.position.z-r.position.z},supported=resortSpa.navigation.support(p,catNavigationRadius(cat));
+      if(supported&&p.y<80){focus('autumn',false,true);callbacks.onReaction?.('Чичи уже в SPA. Выбери ей занятие — вызов бесплатный.');return true;}
+      if(supported&&resortSpa.ride('chichi',1,'invitation')){focus('autumn',false,true);callbacks.onReaction?.('Чичи идёт ко входу SPA. Вызов бесплатный.');return true;}
+      // Reuse the game's established magical recall only BETWEEN locations.
+      // The shore-to-SPA route and pressure lift stay physically simulated.
+      const b=byBiome('autumn'),arrival=b.arrival;
+      heroGather=gatherTrip(chichiCarrier.position,{x:b.center[0]+arrival[0],y:.16+islandHeight('autumn',arrival[0],arrival[1]),z:b.center[1]+arrival[1]},performance.now());heroGather.spaInvitation=true;gatherSavePending=true;
+      focus('autumn',false,true);callbacks.onReaction?.('Зову Чичи на причал: дальше она пройдёт в SPA через лифт. Вызов бесплатный.');return true;
+    },onRecovery:()=>focus('autumn',false,true),getActors:()=>lifeActors,getAccessSurfaces:()=>[islands.get('autumn')?.userData.navigationSurface].filter(Boolean),accessClear:(p,r)=>spaClear(p,r,manualPhysicalObstacles.get('autumn')||[]),registerCat:model=>enableCatRenderBatch(model,poseAtlas),canSimulate:()=>callbacks.canSimulateLeisure?.()!==false,
     blocked:id=>draggingCat?.catId===id||crew.workers.has(id)||jobs.has(id)||!!housingLife.get(id)||(id==='chichi'&&!!(operation||submarine?.active||manualWalk?.active)),
     onPurchase:(...args)=>callbacks.onMallPurchase?.(...args),onUse:(...args)=>callbacks.onResortSpaUse?.(...args),onGoal:(...args)=>callbacks.onMallGoal?.(...args),
     onComplete:(id,result)=>{if(leisure.has(id))finishLeisure(id,result);},getGame:()=>game,getFocused:()=>focused,getOverview:()=>viewingOverview,

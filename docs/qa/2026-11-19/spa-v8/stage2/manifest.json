@@ -1,0 +1,27 @@
+{
+  "sourceBase": "9a489e69dd7a717d1008949a896afd28b2e6d84e",
+  "sourceState": "",
+  "result": "PASS nine real views and unchanged root/room transforms; intermediate art stage.",
+  "visualReview": "All8 rooms and facade compared repeatedly with the latest tutorial. Finer marble, richer furniture/rugs and additional conversation islands are present; the visual target still requires further work. DPR1 iteration is not a matched DPR2 device benchmark. Native call button is a subsequent independent change.",
+  "files": {
+    "aroma-interior.png": "59929cde859173abc96b1ee40027cf78092bc147e44511700240edca45289cc8",
+    "cabana-interior.png": "67021946d3f9852e7f03425cdc5fe4765c1f2b3e81f7e85d12d5fcb7c2d37ede",
+    "cafe-interior.png": "cfc5a7b23f4d69d00412874b0a7294830313eca94fc86b893703315b1f486955",
+    "golden-interior.png": "1b72a0c92efef2c6bc4687c1c37560d523c3bcf1ff95593f050842b144e8e1e8",
+    "imported-source.tar.gz": "6ef70dd102eb4fb0efa870dfc91fd673fb27ea7a59a38d101ebd5f62f6786e5d",
+    "layout-world-transforms.json": "3518713f83d48cad7ccba56c16c8fa3635d2295bfcf0bc272ef031db684a99a7",
+    "mass-front.png": "767151bfa4aa14eb29a5328769b48289b07e2fe458d9e802c8d33ca33c4eed81",
+    "massage-interior.png": "d9893bab5434ee1d6ec33825ba98df3529bffd738ee6727c11e171f92e4818ab",
+    "midnight-interior.png": "6bfbd519aafd5ebbe0040c27e86b6b4c68f9297b6c0c4a2f8ed665b9c67dcbaa",
+    "native.log": "ce2d60ffbe66ffe01500be0b5ee95a6c0eb15440931b812858730a151ecd5ae9",
+    "qa-app.js.gz": "139bd7c487a091e9d3a6aa001cd94b302900d3309fa734dce8dcf272b8037008",
+    "qa-build.json": "637458e212ab89235ef16f5fe34c2da82dbc6b8c37ca2641a1937339cb606f5d",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "83b8c3ef2f862e880b7740504b6d55627c88fa5a7aef9ef406d68b2ecaa53bbe",
+    "source-status.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "thermal-interior.png": "2a7f8e8180f73760387b4176a8ad823801104048d14c265e68736aecf5a4e57b",
+    "v7-mass-frames.json": "762b5b5e99108438852333f35b943a22a09bec3ff7fd409597f1c23ec61ce342",
+    "waterfall-interior.png": "ae905635c4ea07df1874f739c78fa48542e04bf7fa9c0508fb190e7020f2baa4"
+  }
+}

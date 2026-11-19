@@ -1,0 +1,408 @@
+{
+  "root": {
+    "position": [
+      -450,
+      -165,
+      480
+    ],
+    "quaternion": [
+      0,
+      0,
+      0,
+      1
+    ],
+    "scale": [
+      1,
+      1,
+      1
+    ],
+    "matrixWorld": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      -450,
+      -165,
+      480,
+      1
+    ]
+  },
+  "rooms": [
+    {
+      "id": "resort-thermal",
+      "name": "Grand Thermal Lagoon",
+      "parent": "CHICHI CAT SPA & WELLNESS RESORT",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -450,
+        -165,
+        480,
+        1
+      ],
+      "bounds": {
+        "x": 0,
+        "z": 266,
+        "width": 108,
+        "depth": 48,
+        "minimumCeiling": 10.8
+      }
+    },
+    {
+      "id": "resort-vip",
+      "name": "Golden Galaxy Jacuzzi & VIP Lounge",
+      "parent": "CHICHI CAT SPA & WELLNESS RESORT",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -450,
+        -165,
+        480,
+        1
+      ],
+      "bounds": {
+        "x": 82,
+        "z": 230,
+        "width": 92,
+        "depth": 64,
+        "minimumCeiling": 10.8
+      }
+    },
+    {
+      "id": "resort-midnight",
+      "name": "Midnight Blue Grand Relaxation Lounge",
+      "parent": "CHICHI CAT SPA & WELLNESS RESORT",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -450,
+        -165,
+        480,
+        1
+      ],
+      "bounds": {
+        "x": -82,
+        "z": 230,
+        "width": 86,
+        "depth": 42,
+        "minimumCeiling": 10.8
+      }
+    },
+    {
+      "id": "resort-massage",
+      "name": "Massage Palace",
+      "parent": "CHICHI CAT SPA & WELLNESS RESORT",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -450,
+        -165,
+        480,
+        1
+      ],
+      "bounds": {
+        "x": -88,
+        "z": 225,
+        "width": 56,
+        "depth": 50,
+        "minimumCeiling": 10.8
+      }
+    },
+    {
+      "id": "resort-aroma",
+      "name": "Aroma Therapy Garden",
+      "parent": "CHICHI CAT SPA & WELLNESS RESORT",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -450,
+        -165,
+        480,
+        1
+      ],
+      "bounds": {
+        "x": 87,
+        "z": 262,
+        "width": 54,
+        "depth": 48,
+        "minimumCeiling": 10.8
+      }
+    },
+    {
+      "id": "resort-cabana",
+      "name": "Floating Glass Cabanas",
+      "parent": "CHICHI CAT SPA & WELLNESS RESORT",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -450,
+        -165,
+        480,
+        1
+      ],
+      "bounds": {
+        "x": -82,
+        "z": 180,
+        "width": 62,
+        "depth": 42,
+        "minimumCeiling": 10.8
+      }
+    },
+    {
+      "id": "resort-cafe",
+      "name": "Wellness Café",
+      "parent": "CHICHI CAT SPA & WELLNESS RESORT",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -450,
+        -165,
+        480,
+        1
+      ],
+      "bounds": {
+        "x": 0,
+        "z": 203,
+        "width": 68,
+        "depth": 58,
+        "minimumCeiling": 10.8
+      }
+    },
+    {
+      "id": "resort-waterfall",
+      "name": "Waterfall Relaxation Garden",
+      "parent": "CHICHI CAT SPA & WELLNESS RESORT",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -450,
+        -165,
+        480,
+        1
+      ],
+      "bounds": {
+        "x": 94,
+        "z": 231,
+        "width": 70,
+        "depth": 78,
+        "minimumCeiling": 10.8
+      }
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "baseline": "c477057b6eda6e251f02bc27735e4220d737112b",
+  "sourceHead": "9a489e69dd7a717d1008949a896afd28b2e6d84e",
+  "checkedUnchangedPublicFiles": 896,
+  "changedPublicFiles": [
+    "public/index.html",
+    "public/resort-spa-detailing-v8.js",
+    "public/resort-spa-finishes.js",
+    "public/resort-spa-luxury.js",
+    "public/resort-spa-marble-v8.js",
+    "public/resort-spa-model.js"
+  ],
+  "unexpectedChanges": [],
+  "scope": "Byte check of every existing public file outside the explicitly scoped SPA art and build entry; includes approved cat models, Mall, ocean, storage, AI and economy."
+}

@@ -20,7 +20,8 @@ export function* resortPalaceStructureSteps({solid,shell,decor,surfaces,mats,geo
   if(level===2)for(const z of SPA_V7_ROOMS.filter(z=>['midnight','vip'].includes(z.key)))shape.holes.push(path(roomOutline(z)));
   if(level){const stair=SPA_PALACE_STAIRS[level-1],s=new T.Path();s.moveTo(stair.x-3.5,-185);s.lineTo(stair.x+3.5,-185);s.lineTo(stair.x+3.5,-231.5);s.lineTo(stair.x-3.5,-231.5);s.closePath();shape.holes.push(s);}
   const slab=geometry('palace-slab-'+level,()=>{const g=new T.ExtrudeGeometry(shape,{depth:.4,bevelEnabled:false,curveSegments:96});g.rotateX(-Math.PI/2);g.translate(0,-.4,0);return g;});
-  const floor=mesh(surfaces,slab,mats.ivory,0,y,0);floor.name='SPA continuous sealed floor '+level;floors.push(floor);
+  let floorMaterial=mats.ivory;if(level===2){floorMaterial=mats.ivory.clone();floorMaterial.color.setHex(0x293c52);floorMaterial.roughness=.38;floorMaterial.metalness=.035;nightFloors.set('public-upper',floorMaterial);}
+  const floor=mesh(surfaces,slab,floorMaterial,0,y,0);floor.name='SPA continuous sealed floor '+level;floors.push(floor);
   // The approved night finishes cover the actual enlarged hall; the common
   // slab remains beneath them, including their real circulation space.
   if(level===2)for(const key of ['midnight','vip']){

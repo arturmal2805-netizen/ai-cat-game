@@ -1,3 +1,4 @@
+import {installSpaPoolCaustics} from './resort-spa-water-v8.js';
 import {palaceFloorLightSteps} from './resort-spa-palace-floor-light.js';
 import * as T from 'three';
 import {resortReflections,applyResortFinishReflection} from './resort-spa-reflections.js';
@@ -8,7 +9,7 @@ import {registerPositionPreservingShader} from './static-submissions.js';
 // The resort's sealed interiors exclude most exterior daylight. Attenuate only
 // their own incident light; preserve emissive fixtures, local lamps and probes.
 export function resortInteriorLighting(material,lights){
- mallRoomLightMaterial(material,lights,.8);const before=material.onBeforeCompile,previousKey=material.customProgramCacheKey,key=previousKey.call(material),probe=resortReflections();
+ mallRoomLightMaterial(material,lights,.8);installSpaPoolCaustics(material);const before=material.onBeforeCompile,previousKey=material.customProgramCacheKey,key=previousKey.call(material),probe=resortReflections();
  material.onBeforeCompile=function(shader,...args){before.call(this,shader,...args);applyResortFinishReflection(shader,probe);shader.fragmentShader=shader.fragmentShader.replace('outgoingLight+=vMallLampColor.rgb','outgoingLight=(outgoingLight-totalEmissiveRadiance)*.32+totalEmissiveRadiance;\n      outgoingLight+=vMallLampColor.rgb').replace('diffuseColor.rgb*(.18+lampFalloff*.88*lampDiffuse)','diffuseColor.rgb*(.035+lampFalloff*.88*lampDiffuse)');};
  material.customProgramCacheKey=()=>key+'-spa-sealed-interior-v1'+(probe?'-spa-room-array-v4-'+probe.revision:'-fallback');registerPositionPreservingShader(material,before,previousKey);material.needsUpdate=true;
 }
@@ -16,7 +17,7 @@ export function resortInteriorLighting(material,lights){
 // Stamp before merging; full-detail native source remains the physics target.
 export function* finishResortSpaSteps(root,{zones=RESORT_ZONES,rise=L.rise}={}){
  const lights=createMallRoomLights(),ids=new Map(),waterIds=new Map();
- for(const z of zones){const lamps=[-.55,0,.55].map(offset=>{const x=z.x+z.rx*offset,id=lights.register(x,z.z,z.key==='midnight'&&(offset<.5||!z.roomId)?0xb7caff:0xffc383);lights.texture.image.data[id*4+1]=z.level*rise+5.5;if(z.roomId)lights.texture.image.data[id*4+3]=Math.max(21,z.rz*1.6);return{id,x,z:z.z};}),water=lights.register(z.x,z.z,0x62dce8);ids.set(z.id,lamps);waterIds.set(z.id,water);lights.texture.image.data[water*4+1]=z.level*rise+1.3;lights.texture.image.data[water*4+3]=Math.max(z.rx,z.rz)*1.6;lights.texture.image.data[(64+water)*4+3]=.8;}
+ for(const z of zones){const lamps=[-.55,0,.55].map(offset=>{const x=z.x+z.rx*offset,id=lights.register(x,z.z,z.key==='midnight'&&(offset<.5||!z.roomId)?0xb7caff:(z.roomId?0xffe0b8:0xffc383));lights.texture.image.data[id*4+1]=z.level*rise+5.5;if(z.roomId)lights.texture.image.data[id*4+3]=Math.max(21,z.rz*1.6);return{id,x,z:z.z};}),water=lights.register(z.x,z.z,0x62dce8);ids.set(z.id,lamps);waterIds.set(z.id,water);lights.texture.image.data[water*4+1]=z.level*rise+1.3;lights.texture.image.data[water*4+3]=Math.max(z.rx,z.rz)*1.6;lights.texture.image.data[(64+water)*4+3]=.8;}
  const sources=[];root.updateWorldMatrix(true,true);root.traverse(o=>{if(o.isMesh)sources.push(o);});const p=new T.Vector3();
  for(const mesh of sources){
   if(!mesh.geometry.boundingBox)mesh.geometry.computeBoundingBox();mesh.geometry.boundingBox.getCenter(p).applyMatrix4(mesh.matrixWorld);
@@ -26,7 +27,11 @@ export function* finishResortSpaSteps(root,{zones=RESORT_ZONES,rise=L.rise}={}){
  lights.finish();const batch=new T.Group(),levels=new Map(),inverse=root.matrixWorld.clone().invert();
  for(let level=0;level<3;level++){
   const sourceGroup=new T.Group(),temporary=[];for(const source of sources){if(source.userData.resortFloor!==level||source.userData.resortSeparateTransparency)continue;const clone=new T.Mesh(source.geometry,source.material);clone.castShadow=source.castShadow;clone.receiveShadow=source.receiveShadow;clone.matrixAutoUpdate=false;clone.matrix.multiplyMatrices(inverse,source.matrixWorld);if(root.userData.layoutVersion===7){const refined=yield* palaceFloorLightSteps(source,clone.matrix,zones.filter(z=>z.level===level),ids);if(refined){clone.geometry=refined;temporary.push(refined);}}sourceGroup.add(clone);}
-  const rendered=yield* batchModelSteps(sourceGroup,{combineColors:false});levels.set(level,rendered);batch.add(rendered);for(const g of temporary)g.dispose();
+  const rendered=yield* batchModelSteps(sourceGroup,{combineColors:false});
+  // The shared batcher defaults to receiveShadow=true. Retain the diagnosed
+  // sealed-liner profile on the ACTUAL rendered batch, not only hidden sources.
+  rendered.traverse(o=>{if(o.isMesh){const originals=sources.filter(s=>s.userData.resortFloor===level&&s.material===o.material);if(originals.length&&originals.every(s=>!s.receiveShadow))o.receiveShadow=false;}});
+  levels.set(level,rendered);batch.add(rendered);for(const g of temporary)g.dispose();
  }
  root.userData.inspectionLevels=levels;root.userData.setInspectionLevel=level=>{for(const [id,g]of levels)g.visible=level==null||id<=level;for(const [id,g]of root.userData.zones){const zone=zones.find(z=>z.id===id);g.visible=level==null||zone.level<=level;}for(const o of sources)if(o.userData.resortSeparateTransparency)o.visible=level==null||o.userData.resortFloor<=level;};
  const materials=new Set(sources.filter(o=>o.userData.resortSeparateTransparency&&o.material.isMeshStandardMaterial).map(o=>o.material));batch.traverse(o=>{if(o.isMesh&&o.material.isMeshStandardMaterial)materials.add(o.material);});for(const m of materials)resortInteriorLighting(m,lights);

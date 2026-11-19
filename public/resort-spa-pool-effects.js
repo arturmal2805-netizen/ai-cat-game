@@ -9,7 +9,7 @@ export function createResortPoolEffects({zones=RESORT_ZONES,poolsFor=resortPools
  const root=new T.Group(),effects=[],geometries=new Set(),materials=new Set();
  for(const zone of zones.filter(z=>z.procedure==='jacuzzi'||z.procedure==='vip'))for(const pool of poolsFor(zone)){
   const group=new T.Group();group.name='SPA dynamic jacuzzi '+zone.id+' '+effects.length;const source=new T.Group(),effect=createJacuzziEffects(source);group.userData.resortFloor=zone.level;source.position.set(-SPA_JACUZZI.x,-.5,-SPA_JACUZZI.z);group.add(source);group.scale.set(pool.rx/3,1,pool.rz/3);group.position.set(pool.x,pool.y-RESORT_SPA.y,pool.z);root.add(group);effects.push(effect);
-  source.traverse(o=>{if(o.isMesh){geometries.add(o.geometry);materials.add(o.material);}});
+  source.traverse(o=>{if(zone.roomId&&o.isInstancedMesh&&o.material.isMeshStandardMaterial){o.material.opacity=.2;o.material.color.setHex(0xbceff2);o.material.roughness=.12;o.material.metalness=.08;}if(o.isMesh){geometries.add(o.geometry);materials.add(o.material);}});
  }
  return{root,update:(time,reduced)=>effects.forEach(e=>e.userData.update(time,reduced)),dispose(){for(const g of geometries)g.dispose();for(const m of materials)m.dispose();}};
 }

@@ -1,3 +1,4 @@
+import {spaPoolOpticsV8,addSpaStepLights} from './resort-spa-water-v8.js';
 import * as T from 'three';
 import {applyResortWaterReflection} from './resort-spa-reflections.js';
 import {waterMaterial,advanceWater} from './water-shading.js';
@@ -26,10 +27,15 @@ export function createResortBasin(spec,{stone,liner}={}){
  const water=slideBasinWater(waterMaterial(0x00cfef,.72,{width:spec.rx*2,height:spec.rz*2}));water.uniforms.uWaterDepth.value=g.depth;applyResortWaterReflection(water,spec.probeLayer??0);
  // A vertical-walled SPA bath has its real, constant optical depth. Retain
  // shared normals/probes/Fresnel; never change ocean or slide profiles here.
+ if(spec.spaVisual===8)spaPoolOpticsV8(water,bedMat,{depth:g.depth,worldLevel:spec.worldLevel,rx:spec.rx});
  water.fragmentShader=water.fragmentShader.replace('float waterDepth=mix(.23,uWaterDepth*(1.-.8*smoothstep(.55,1.,edge)),uLake);','float waterDepth=uWaterDepth;');
  const add=(geo,mat)=>{const o=new T.Mesh(geo,mat);o.receiveShadow=true;root.add(o);return o;};
  const floor=add(g.surround,rock),bed=add(g.bed,bedMat),wall=add(g.wall,bedMat),surface=add(g.water,water),steps=[];
  bed.userData.resortWaterLiner=wall.userData.resortWaterLiner=true;
- for(const s of g.steps){const geometry=new T.BoxGeometry(s.w,s.h,s.d);const o=add(geometry,rock);o.position.set(s.x,s.y-s.h/2,s.z);steps.push(o);}
+ // Sealed indoor basins use bounded room lamps and animated caustics. Exterior
+ // sun shadow-map leakage produced the demonstrated giant polygon on the bed.
+ if(spec.spaVisual===8&&!spec.sky)bed.receiveShadow=wall.receiveShadow=false;
+ for(const s of g.steps){const geometry=new T.BoxGeometry(s.w,s.h,s.d);const o=add(geometry,rock);o.position.set(s.x,s.y-s.h/2,s.z);if(spec.spaVisual===8&&!spec.sky)o.receiveShadow=false;steps.push(o);}
+ if(spec.spaVisual===8)addSpaStepLights(root,g.steps,owned);
  root.userData={floor,bed,wall,surface,steps,depth:g.depth,update:(t,reduced)=>advanceWater(water,t,reduced),dispose(){for(const o of root.children)o.geometry.dispose();water.dispose();for(const m of owned)m.dispose();}};return root;
 }

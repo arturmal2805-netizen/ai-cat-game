@@ -634,7 +634,7 @@ async function localWorker() {
     const context = await browser.newContext({
       viewport: process.env.CHICHI_QA_WIDTH ? {width:Number(process.env.CHICHI_QA_WIDTH),height:Number(process.env.CHICHI_QA_HEIGHT||812)}
         : desktop ? { width: 1100, height: 800 } : { width: 390, height: 844 },
-      deviceScaleFactor: 2,
+      deviceScaleFactor: Number(process.env.CHICHI_QA_DPR||2),
       isMobile: !desktop,
       hasTouch: !desktop,
     });
