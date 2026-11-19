@@ -1,0 +1,547 @@
+{
+  "scope": "Historical pre-garden WIP, not published stable39708e3. Matched authored cameras within convergence tolerance; actual recorded light/settings below. Very short SwiftShader samples, cold shader stalls and retained geometry/texture counts; no hardware FPS, total memory or sustained frame-time guarantee.",
+  "beforeSource": "992355c (historical soft-polish native-partial archive)",
+  "afterSource": "4b72f2fa04dfdcf045c0a211570524d4c89d6268",
+  "comparisons": [
+    {
+      "name": "\u041e\u0431\u0449\u0438\u0439 \u0432\u0438\u0434",
+      "beforePNG": "docs/qa/2026-11-19/spa-v6-soft-polish/native-partial/soft-polish-overview.png",
+      "afterPNG": "native/gardens-release-overview.png",
+      "maximumCameraDifferenceMetres": 0.0011568847775720315,
+      "sameLighting": false,
+      "sameDPR": true,
+      "sameFOV": false,
+      "before": {
+        "render": {
+          "frame": 10,
+          "calls": 1329,
+          "triangles": 13535075,
+          "points": 5220,
+          "lines": 0
+        },
+        "memory": {
+          "geometries": 1390,
+          "textures": 102
+        },
+        "frameSamples": [
+          [
+            71437.29999998212,
+            416.40000000596046,
+            1329,
+            13534435
+          ],
+          [
+            71859.59999999404,
+            58.30000001192093,
+            1329,
+            13535075
+          ]
+        ],
+        "heap": 1194926593,
+        "frameStartClock": {
+          "absolute": 720,
+          "day": 0,
+          "minute": 720,
+          "hour": 12,
+          "label": "12:00",
+          "working": true
+        },
+        "fog": {
+          "color": 1214125,
+          "density": 0.0018
+        }
+      },
+      "after": {
+        "render": {
+          "frame": 15,
+          "calls": 1353,
+          "triangles": 13730515,
+          "points": 5220,
+          "lines": 0
+        },
+        "memory": {
+          "geometries": 1534,
+          "textures": 102
+        },
+        "frameSamples": [
+          [
+            112865.59999999404,
+            913.7999999821186,
+            1353,
+            13729875
+          ],
+          [
+            113787.5,
+            133.2999999821186,
+            1353,
+            13730515
+          ]
+        ],
+        "heap": 1172429750,
+        "frameStartClock": {
+          "absolute": 720,
+          "day": 0,
+          "minute": 720,
+          "hour": 12,
+          "label": "12:00",
+          "working": true
+        },
+        "fog": {
+          "color": 1214125,
+          "density": 0.0018
+        }
+      }
+    },
+    {
+      "name": "Aroma Therapy Garden",
+      "beforePNG": "docs/qa/2026-11-19/spa-v6-soft-polish/native-partial/soft-polish-resort-aroma.png",
+      "afterPNG": "native/gardens-release-resort-aroma.png",
+      "maximumCameraDifferenceMetres": 0.002099403107706621,
+      "sameLighting": false,
+      "sameDPR": true,
+      "sameFOV": false,
+      "before": {
+        "render": {
+          "frame": 13,
+          "calls": 1534,
+          "triangles": 11624115,
+          "points": 740,
+          "lines": 0
+        },
+        "memory": {
+          "geometries": 1149,
+          "textures": 108
+        },
+        "frameSamples": [
+          [
+            109436.29999998212,
+            136.7000000178814,
+            1534,
+            11624499
+          ],
+          [
+            109581.59999999404,
+            15552.199999988079,
+            1534,
+            11624115
+          ],
+          [
+            125140.5,
+            63.5,
+            1534,
+            11624115
+          ]
+        ],
+        "heap": 1154577122,
+        "frameStartClock": {
+          "absolute": 720,
+          "day": 0,
+          "minute": 720,
+          "hour": 12,
+          "label": "12:00",
+          "working": true
+        },
+        "fog": {
+          "color": 1214125,
+          "density": 0.0018
+        }
+      },
+      "after": {
+        "render": {
+          "frame": 24,
+          "calls": 1552,
+          "triangles": 11728979,
+          "points": 740,
+          "lines": 0
+        },
+        "memory": {
+          "geometries": 1329,
+          "textures": 108
+        },
+        "frameSamples": [
+          [
+            335980.1999999881,
+            264.19999998807907,
+            1552,
+            11729363
+          ],
+          [
+            336251.5,
+            77.09999999403954,
+            1552,
+            11728979
+          ]
+        ],
+        "heap": 1180884348,
+        "frameStartClock": {
+          "absolute": 720,
+          "day": 0,
+          "minute": 720,
+          "hour": 12,
+          "label": "12:00",
+          "working": true
+        },
+        "fog": {
+          "color": 1214125,
+          "density": 0.0018
+        }
+      }
+    },
+    {
+      "name": "Floating Glass Cabanas",
+      "beforePNG": "docs/qa/2026-11-19/spa-v6-soft-polish/native-partial/soft-polish-resort-cabana.png",
+      "afterPNG": "native/gardens-release-resort-cabana.png",
+      "maximumCameraDifferenceMetres": 0.005139429620498959,
+      "sameLighting": false,
+      "sameDPR": true,
+      "sameFOV": false,
+      "before": {
+        "render": {
+          "frame": 19,
+          "calls": 1691,
+          "triangles": 12163805,
+          "points": 740,
+          "lines": 0
+        },
+        "memory": {
+          "geometries": 1342,
+          "textures": 108
+        },
+        "frameSamples": [
+          [
+            229236,
+            166.09999999403954,
+            1691,
+            12163933
+          ],
+          [
+            229410.5,
+            81,
+            1691,
+            12163805
+          ]
+        ],
+        "heap": 1169974004,
+        "frameStartClock": {
+          "absolute": 720,
+          "day": 0,
+          "minute": 720,
+          "hour": 12,
+          "label": "12:00",
+          "working": true
+        },
+        "fog": {
+          "color": 1214125,
+          "density": 0.0018
+        }
+      },
+      "after": {
+        "render": {
+          "frame": 28,
+          "calls": 1695,
+          "triangles": 12361239,
+          "points": 740,
+          "lines": 0
+        },
+        "memory": {
+          "geometries": 1309,
+          "textures": 108
+        },
+        "frameSamples": [
+          [
+            402551.2999999821,
+            496.2000000178814,
+            1695,
+            12361239
+          ],
+          [
+            403058,
+            80.19999998807907,
+            1695,
+            12361239
+          ]
+        ],
+        "heap": 1159189493,
+        "frameStartClock": {
+          "absolute": 720,
+          "day": 0,
+          "minute": 720,
+          "hour": 12,
+          "label": "12:00",
+          "working": true
+        },
+        "fog": {
+          "color": 1214125,
+          "density": 0.0018
+        }
+      }
+    },
+    {
+      "name": "Golden Galaxy VIP Suite",
+      "beforePNG": "docs/qa/2026-11-19/spa-v6-soft-polish/native-partial/soft-polish-resort-vip.png",
+      "afterPNG": "native/gardens-release-resort-vip.png",
+      "maximumCameraDifferenceMetres": 0.005253200565334737,
+      "sameLighting": false,
+      "sameDPR": true,
+      "sameFOV": false,
+      "before": {
+        "render": {
+          "frame": 15,
+          "calls": 1691,
+          "triangles": 12499864,
+          "points": 3140,
+          "lines": 0
+        },
+        "memory": {
+          "geometries": 1218,
+          "textures": 108
+        },
+        "frameSamples": [
+          [
+            157368.5,
+            226.69999998807907,
+            1691,
+            12500248
+          ],
+          [
+            157603.79999998212,
+            69.90000000596046,
+            1691,
+            12499864
+          ]
+        ],
+        "heap": 1159226437,
+        "frameStartClock": {
+          "absolute": 720,
+          "day": 0,
+          "minute": 720,
+          "hour": 12,
+          "label": "12:00",
+          "working": true
+        },
+        "fog": {
+          "color": 1214125,
+          "density": 0.0018
+        }
+      },
+      "after": {
+        "render": {
+          "frame": 32,
+          "calls": 1703,
+          "triangles": 12725314,
+          "points": 3140,
+          "lines": 0
+        },
+        "memory": {
+          "geometries": 1206,
+          "textures": 108
+        },
+        "frameSamples": [
+          [
+            467634.89999997616,
+            256.10000002384186,
+            1703,
+            12725442
+          ],
+          [
+            467896,
+            86.89999997615814,
+            1703,
+            12725314
+          ]
+        ],
+        "heap": 1173391269,
+        "frameStartClock": {
+          "absolute": 720,
+          "day": 0,
+          "minute": 720,
+          "hour": 12,
+          "label": "12:00",
+          "working": true
+        },
+        "fog": {
+          "color": 1214125,
+          "density": 0.0018
+        }
+      }
+    },
+    {
+      "name": "Wellness Caf\u00e9",
+      "beforePNG": "docs/qa/2026-11-19/spa-v6-soft-polish/native-partial/soft-polish-resort-cafe.png",
+      "afterPNG": "native/gardens-release-resort-cafe.png",
+      "maximumCameraDifferenceMetres": 0.014815924399044889,
+      "sameLighting": false,
+      "sameDPR": true,
+      "sameFOV": false,
+      "before": {
+        "render": {
+          "frame": 17,
+          "calls": 1781,
+          "triangles": 12589223,
+          "points": 740,
+          "lines": 0
+        },
+        "memory": {
+          "geometries": 1303,
+          "textures": 108
+        },
+        "frameSamples": [
+          [
+            191023.40000000596,
+            144.7999999821186,
+            1781,
+            12589223
+          ],
+          [
+            191173.90000000596,
+            68.2999999821186,
+            1781,
+            12589223
+          ]
+        ],
+        "heap": 1166818385,
+        "frameStartClock": {
+          "absolute": 720,
+          "day": 0,
+          "minute": 720,
+          "hour": 12,
+          "label": "12:00",
+          "working": true
+        },
+        "fog": {
+          "color": 1214125,
+          "density": 0.0018
+        }
+      },
+      "after": {
+        "render": {
+          "frame": 38,
+          "calls": 1787,
+          "triangles": 12701219,
+          "points": 740,
+          "lines": 0
+        },
+        "memory": {
+          "geometries": 1311,
+          "textures": 108
+        },
+        "frameSamples": [
+          [
+            583212.7999999821,
+            146.5,
+            1788,
+            12707762
+          ],
+          [
+            583364.6999999881,
+            64.59999999403954,
+            1787,
+            12701219
+          ]
+        ],
+        "heap": 1161769566,
+        "frameStartClock": {
+          "absolute": 720,
+          "day": 0,
+          "minute": 720,
+          "hour": 12,
+          "label": "12:00",
+          "working": true
+        },
+        "fog": {
+          "color": 1214125,
+          "density": 0.0018
+        }
+      }
+    },
+    {
+      "name": "\u0412\u0435\u0440\u0445\u043d\u0438\u0439 \u0431\u0430\u0441\u0441\u0435\u0439\u043d",
+      "beforePNG": "docs/qa/2026-11-19/spa-v6-soft-polish/native-partial/soft-polish-sky-pool.png",
+      "afterPNG": "native/gardens-release-sky-pool.png",
+      "maximumCameraDifferenceMetres": 0.007658719767619004,
+      "sameLighting": false,
+      "sameDPR": true,
+      "sameFOV": false,
+      "before": {
+        "render": {
+          "frame": 21,
+          "calls": 1965,
+          "triangles": 14991960,
+          "points": 4340,
+          "lines": 0
+        },
+        "memory": {
+          "geometries": 1420,
+          "textures": 108
+        },
+        "frameSamples": [
+          [
+            268346.2999999821,
+            365.7000000178814,
+            1963,
+            14989544
+          ],
+          [
+            268720.6999999881,
+            149.5,
+            1965,
+            14991960
+          ]
+        ],
+        "heap": 1150348195,
+        "frameStartClock": {
+          "absolute": 720,
+          "day": 0,
+          "minute": 720,
+          "hour": 12,
+          "label": "12:00",
+          "working": true
+        },
+        "fog": {
+          "color": 1214125,
+          "density": 0.0018
+        }
+      },
+      "after": {
+        "render": {
+          "frame": 47,
+          "calls": 1984,
+          "triangles": 15165344,
+          "points": 4340,
+          "lines": 0
+        },
+        "memory": {
+          "geometries": 1429,
+          "textures": 108
+        },
+        "frameSamples": [
+          [
+            756206.2999999821,
+            159.09999999403954,
+            1984,
+            15164704
+          ],
+          [
+            756370.099999994,
+            67.5,
+            1984,
+            15165344
+          ]
+        ],
+        "heap": 1154088288,
+        "frameStartClock": {
+          "absolute": 720,
+          "day": 0,
+          "minute": 720,
+          "hour": 12,
+          "label": "12:00",
+          "working": true
+        },
+        "fog": {
+          "color": 1214125,
+          "density": 0.0018
+        }
+      }
+    }
+  ]
+}
