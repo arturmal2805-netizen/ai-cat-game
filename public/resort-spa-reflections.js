@@ -50,5 +50,5 @@ export function applyResortFinishReflection(shader,probe){
  // Each authored room reserves exactly four existing lamp IDs, starting at1.
  shader.vertexShader='varying float vSpaProbeLayer;\n'+shader.vertexShader;
  shader.vertexShader=shader.vertexShader.replace('#include <project_vertex>','#include <project_vertex>\n vSpaProbeLayer=clamp(floor((aMallRoom-1.)/4.),0.,13.);');
- shader.fragmentShader='uniform highp sampler2DArray uSpaRoomProbe;varying float vSpaProbeLayer;\n'+shader.fragmentShader.replace(lookup,'texture(uSpaRoomProbe,vec3(mallOct*.5+.5,vSpaProbeLayer),roughnessFactor*3.)');
+ shader.fragmentShader='uniform highp sampler2DArray uSpaRoomProbe;varying float vSpaProbeLayer;\n'+shader.fragmentShader.replace(lookup,'texture(uSpaRoomProbe,vec3(mallOct*.5+.5,vSpaProbeLayer),roughnessFactor*3.)').replace('*(1.-roughnessFactor*.5)','*(.08+.92*pow(1.-roughnessFactor,2.))');
 }

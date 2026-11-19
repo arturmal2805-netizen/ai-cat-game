@@ -1,4 +1,5 @@
 import * as T from 'three';
+import {spaTiedCurtainGeometry,spaPillowGeometry,spaGalaxyTexture} from './resort-spa-soft-furnishings.js';
 import {RoundedBoxGeometry} from 'three/addons/geometries/RoundedBoxGeometry.js';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 import {RESORT_ZONES,RESORT_SPA as S,resortSpaSeat} from './resort-spa-data.js';
@@ -15,12 +16,13 @@ export function* resortLuxurySteps({solid,decor,shell,surfaces,basins,waters,mat
  let floor=0,room=null;
  const material=(color,options={})=>{const m=new T.MeshStandardMaterial({color,roughness:.65,...options});materials.add(m);return m;};
  const cream=material(0xfff0de,{roughness:.9}),rose=material(0xdfa5bc,{roughness:.95}),navy=material(0x111c38,{roughness:.88}),bronze=material(0x33241f,{roughness:.55}),green=material(0x326c55),leafLight=material(0x6e9f67),petal=material(0xf3a4cf,{roughness:.7,side:T.DoubleSide}),petalDark=material(0xd9599c,{roughness:.65,side:T.DoubleSide}),ivoryLight=material(0xfff4e6),silk=material(0xf9ddcc,{roughness:.9,side:T.DoubleSide}),silver=material(0xb8d7e6,{roughness:.16,metalness:.8});
- for(const m of [cream,rose,navy,silk])for(const key of ['map','normalMap','roughnessMap'])m[key]=mats.cloth[key];
+ for(const m of [cream,rose,navy,silk]){for(const key of ['map','normalMap','roughnessMap'])m[key]=mats.cloth[key];m.normalScale.copy(mats.cloth.normalScale);}
  const glow=new T.MeshBasicMaterial({color:0xffb347,transparent:true,opacity:.14,depthWrite:false,blending:T.AdditiveBlending,toneMapped:false});materials.add(glow);
  const geometry=(key,make)=>{if(!geometries.has(key))geometries.set(key,make());return geometries.get(key);};
  const cube=geometry('rounded',()=>new RoundedBoxGeometry(1,1,1,2,.07)),unitBox=geometry('box',()=>new T.BoxGeometry(1,1,1)),sphere=geometry('sphere',()=>new T.SphereGeometry(1,12,8)),cylinder=geometry('cylinder',()=>new T.CylinderGeometry(1,1,1,24));
  function mesh(parent,g,m,x,y,z,sx=1,sy=1,sz=1){const o=new T.Mesh(g,m);o.position.set(x,y,z);o.scale.set(sx,sy,sz);o.userData.resortFloor=floor;o.userData.resortRoom=room;o.castShadow=!m.transparent;o.receiveShadow=true;parent.add(o);if(room)report.rooms[room].meshes++;return o;}
  const box=(p,m,x,y,z,w,h,d,rounded=false)=>mesh(p,rounded?cube:unitBox,m,x,y,z,w,h,d);
+ const pillow=(p,m,x,y,z,w,h,d)=>{const o=mesh(p,geometry('puffed-pillow',spaPillowGeometry),m,x,y,z,w,h,d);o.rotation.x=-.16;return o;};
  const ball=(p,m,x,y,z,rx,ry=rx,rz=rx)=>mesh(p,sphere,m,x,y,z,rx,ry,rz);
  const disk=(p,m,x,y,z,rx,rz,h=.2)=>mesh(p,cylinder,m,x,y,z,rx,h,rz);
  function line(parent,m,points,r=.07){const key='line:'+r+':'+points.map(p=>p.join(',')).join('|'),g=geometry(key,()=>new T.TubeGeometry(new T.CatmullRomCurve3(points.map(p=>new T.Vector3(...p))),Math.max(8,points.length*3),r,6,false));return mesh(parent,g,m,0,0,0);}
@@ -38,7 +40,7 @@ export function* resortLuxurySteps({solid,decor,shell,surfaces,basins,waters,mat
  }
  function station(s,key){const y=s.y-S.y-.012;
   if(['cabana','nap','amber','midnight','vip'].includes(key)&&!s.pool){
-   const pad=key==='midnight'?navy:cream;box(decor,pad,s.x,y+.96,s.z,2.8,.13,1.45,true);for(const side of [-1,1])box(decor,side<0?rose:cream,s.x+side*1.08,y+1.1,s.z-.34,.48,.24,.48,true);
+   const pad=key==='midnight'?navy:cream;box(decor,pad,s.x,y+.96,s.z,2.8,.13,1.45,true);for(const side of [-1,1]){const p=pillow(decor,side<0?rose:cream,s.x+side*1.08,y+1.1,s.z-.34,.48,.24,.48);p.rotation.z=side*.14;}
    // Draped blanket keeps the original native resting support unchanged.
    box(decor,key==='midnight'?silver:rose,s.x-.35,y+1.01,s.z+.42,.8,.08,.65,true);
    const tx=s.x+2.05,tz=s.z-.95;disk(solid,mats.gold,tx,y+.46,tz,.6,.6,.1);disk(solid,mats.gold,tx,y+.24,tz,.07,.07,.48);disk(solid,mats.gold,tx,y+.04,tz,.3,.3,.08);tray(tx,y+.54,tz);lantern(s.x-2.35,y,s.z-1.25,.65);if(key==='cabana')plant(s.x+1.9,y,s.z+.8,.55,true);
@@ -56,7 +58,7 @@ export function* resortLuxurySteps({solid,decor,shell,surfaces,basins,waters,mat
    const radius=2.7,dome=geometry('aroma-private-canopy',()=>new T.SphereGeometry(1,32,16,0,Math.PI*2,0,Math.PI/2));mesh(shell,dome,mats.glass,s.x,y+2.7,s.z,2.7,2.0,2.7);ring(decor,mats.gold,s.x,y+2.7,s.z,2.7,2.7,.045);
    for(let j=0;j<4;j++){const a=j*Math.PI/2,points=Array.from({length:13},(_,i)=>{const t=i*Math.PI/24;return[s.x+Math.cos(a)*radius*Math.cos(t),y+2.7+2*Math.sin(t),s.z+Math.sin(a)*radius*Math.cos(t)];});line(decor,mats.gold,points,.045);}
    for(const side of [-1,1]){box(solid,mats.gold,s.x+side*radius,y+1.35,s.z,.06,2.7,.06);const points=Array.from({length:13},(_,i)=>{const a=i*Math.PI/12;return[s.x+side*radius*Math.cos(a),y+1.2+3.3*Math.sin(a),s.z-1];});line(decor,mats.gold,points,.045);}
-   curtains(s.x,y,s.z,2.65);const pillow=box(decor,rose,s.x+.9,y+.98,s.z-.55,.6,.35,.6,true);pillow.rotation.z=-.12;
+   curtains(s.x,y,s.z,2.65);const cushion=pillow(decor,rose,s.x+.9,y+.98,s.z-.55,.6,.35,.6);cushion.rotation.z=-.12;
    disk(solid,mats.gold,s.x+2.3,y+.55,s.z-1,.6,.6,.1);ball(decor,mats.glass,s.x+2.3,y+.8,s.z-1,.25,.3,.25);ball(decor,mats.amber,s.x+2.3,y+.75,s.z-1,.08,.15);
   }
  }
@@ -68,14 +70,14 @@ export function* resortLuxurySteps({solid,decor,shell,surfaces,basins,waters,mat
   for(const side of [-1,1]){const x=zone.x+side*(zone.rx*.73),z=zone.z-zone.rz*.57;lantern(x,y,z);plant(zone.x+side*(zone.rx*.77),y,zone.z+zone.rz*.48,1.3,true);}
  }
  function chandelier(x,y,z,r=2){for(let i=0;i<3;i++)ring(decor,i===1?mats.amber:mats.gold,x,y+i*.35,z,r*(1-i*.2),r*(1-i*.2),i===1?.055:.065);for(let j=0;j<12;j++){const a=j*Math.PI/6;line(decor,mats.gold,[[x,y+1.4,z],[x+Math.sin(a)*r,y,z+Math.cos(a)*r]],.018);ball(decor,mats.amber,x+Math.sin(a)*r,y-.22,z+Math.cos(a)*r,.07,.24,.07);}}
- function curtains(x,y,z,r=2.8){const g=geometry('pleated-curtain',()=>{const p=[],uv=[],ix=[];for(let i=0;i<=16;i++)for(let j=0;j<2;j++){const t=i/16;p.push(t*1.1,j*2.6,Math.sin(t*Math.PI*8)*.1);uv.push(t,j);}for(let i=0;i<16;i++){const a=i*2;ix.push(a,a+1,a+2,a+1,a+3,a+2);}const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(p,3));g.setAttribute('uv',new T.Float32BufferAttribute(uv,2));g.setIndex(ix);g.computeVertexNormals();return g;});for(const side of [-1,1]){const o=mesh(decor,g,silk,x+side*r,y+1,z-1);o.rotation.y=side*.3;}}
+ function curtains(x,y,z,r=2.8){const g=geometry('tied-draped-curtain',spaTiedCurtainGeometry);for(const side of [-1,1]){const o=mesh(decor,g,silk,x+side*r,y+1,z-1);o.rotation.y=side*.3;}}
  function domedCeiling(zone,color){
-  const base=4.15,height=4.4,m=material(color,{roughness:.48,side:T.DoubleSide});const g=geometry('star-ceiling',()=>new T.SphereGeometry(1,48,24,0,Math.PI*2,0,Math.PI/2));mesh(shell,g,m,zone.x,zone.level*S.rise+base,zone.z,zone.rx*.96,height,zone.rz*.96);
+  const base=4.15,height=4.4,m=material(color,{roughness:.92,side:T.DoubleSide});if(zone.key==='vip'){const chart=spaGalaxyTexture();textures.add(chart);m.emissiveMap=chart;m.emissive.setHex(0xffffff);m.emissiveIntensity=1.6;}const g=geometry('star-ceiling',()=>new T.SphereGeometry(1,48,24,0,Math.PI*2,0,Math.PI/2));mesh(shell,g,m,zone.x,zone.level*S.rise+base,zone.z,zone.rx*.96,height,zone.rz*.96);
   ring(decor,mats.gold,zone.x,zone.level*S.rise+base-.05,zone.z,zone.rx*.96,zone.rz*.96,.16);ring(decor,mats.amber,zone.x,zone.level*S.rise+base-.15,zone.z,zone.rx*.95,zone.rz*.95,.04);
   const points=[],phases=[],colors=[],warm=new T.Color(zone.key==='midnight'?0xbacfff:zone.key==='nap'?0xd7b6fb:0xffd08a),cool=new T.Color(0xa698e6);
   for(let i=0;i<1200;i++){const galaxy=zone.key==='vip'&&i<480,r=galaxy?.04+.65*Math.sqrt((i+.5)/480):Math.sqrt((i+.5)/1200)*.94,a=galaxy?r*12+(i%2)*Math.PI+Math.sin(i*12.98)*.13:i*2.399963;points.push(zone.x+Math.cos(a)*r*zone.rx,zone.level*S.rise+base-.035+Math.sqrt(Math.max(0,1-(r/.96)**2))*height,zone.z+Math.sin(a)*r*zone.rz);phases.push(i*1.117);const c=galaxy?(i%4?cool:warm):i%7?warm:cool;colors.push(c.r,c.g,c.b);}
   const stars=new T.BufferGeometry();stars.setAttribute('position',new T.Float32BufferAttribute(points,3));stars.setAttribute('aPhase',new T.Float32BufferAttribute(phases,1));stars.setAttribute('color',new T.Float32BufferAttribute(colors,3));geometries.set(zone.id+'-v6-stars',stars);
-  const time={value:0},sm=new T.ShaderMaterial({transparent:true,depthWrite:false,vertexColors:true,uniforms:{time},vertexShader:'attribute float aPhase;uniform float time;varying vec3 ink;varying float glow;void main(){ink=color;glow=.78+.22*sin(time*.35+aPhase);vec4 p=modelViewMatrix*vec4(position,1.);gl_Position=projectionMatrix*p;gl_PointSize=clamp((1.7+fract(aPhase)*2.)*32./max(1.,-p.z),.65,5.);}',fragmentShader:'varying vec3 ink;varying float glow;void main(){float d=length(gl_PointCoord-.5);float a=exp(-d*d*22.)*glow;gl_FragColor=vec4(ink,a);\n#include <colorspace_fragment>\n}'});materials.add(sm);starTimes.push(time);const sky=new T.Points(stars,sm);sky.userData.resortFloor=zone.level;dynamic.add(sky);
+  const time={value:0},sm=new T.ShaderMaterial({transparent:true,depthWrite:false,vertexColors:true,uniforms:{time},vertexShader:'attribute float aPhase;uniform float time;varying vec3 ink;varying float glow;void main(){ink=color;glow=.78+.22*sin(time*.35+aPhase);vec4 p=modelViewMatrix*vec4(position,1.);gl_Position=projectionMatrix*p;gl_PointSize=clamp((1.7+fract(aPhase)*2.)*65./max(1.,-p.z),.85,7.);}',fragmentShader:'varying vec3 ink;varying float glow;void main(){float d=length(gl_PointCoord-.5);float a=exp(-d*d*22.)*glow;gl_FragColor=vec4(ink,a);\n#include <colorspace_fragment>\n}'});materials.add(sm);starTimes.push(time);const sky=new T.Points(stars,sm);sky.userData.resortFloor=zone.level;dynamic.add(sky);
  }
  function textSign(zone){if(typeof document==='undefined')return;const canvas=document.createElement('canvas');canvas.width=1024;canvas.height=256;const c=canvas.getContext('2d');c.textAlign='center';c.fillStyle='#ffe7ab';c.font='500 48px sans-serif';const words=zone.name.split(' '),mid=Math.ceil(words.length/2);c.fillText(words.slice(0,mid).join(' '),512,108,970);c.fillText(words.slice(mid).join(' '),512,172,970);const t=new T.CanvasTexture(canvas);t.colorSpace=T.SRGBColorSpace;textures.add(t);const m=new T.MeshBasicMaterial({map:t,transparent:true,depthWrite:false,side:T.DoubleSide});materials.add(m);mesh(decor,geometry('room-sign',()=>new T.PlaneGeometry(9,2.25)),m,zone.x,zone.level*S.rise+4,zone.z-zone.rz+.35);}
  function fishModel(kind,speed){const model=createResortAquariumFish(kind),root=model.root;root.userData.resortFloor=1;dynamic.add(root);fish.push({...model,speed,phase:fish.length*2.1});return root;}

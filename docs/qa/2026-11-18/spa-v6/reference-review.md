@@ -97,7 +97,8 @@ Not exact moving-world pixel equivalence; no final visual approval.
 ## Tenth comparison — actual room reflections
 Exact source5adfcdbb3d8dd16a1b236b8f00c9a3b14a0c69be; six native frames and
 actual GPU array readback/GLSL/World release PASS. No unchanged procedure claims.
-Same DPR/FOV/light colors/intensities; camera drift millimetres recorded.
+Same DPR/light colors/intensities; FOV interpolation differs up to0.00124 degrees,
+camera drift up to5.4mm. These are near-identical views, not exact pixel A/B.
 R1/R3: metal/bar and pool now reflect actual amber room; sparse bar/service and
 flowers, tank still looks weak against giant Mall background. R2: actual room
 light is warmer, but straight curtains, cuboid pillows and sparse garden remain.
