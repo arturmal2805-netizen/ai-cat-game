@@ -109,3 +109,17 @@ floors and missing rich green/cascade mass still far from palace reference.
 Sky water/glass remains clear and shows lower atrium. No final visual acceptance.
 Next soft furnishings/material differentiation/ceiling hierarchy, then richer
 gardens/cascades; preserve current exact checkpoint and re-bake final changed art.
+
+## Eleventh comparison — soft furnishings and material hierarchy
+Exact source992355c2d50d09795ba44b9b1fc885caeb68e18a. Six views captured;
+actual Nap W/footstool/World PASS. Subsequent sky test stopped BEFORE purchase:
+private wallet was not funded by V6 CONTACTS flag. No full final error-array/
+sky procedure/SQLite PASS claimed for this attempt. Preserve native-partial/.
+R1/R3 material highlights improved, but large tank/service and planting remain
+sparse. R2 curtains now smoothly tied and pillows puffed, floor polished; cloth
+bottom still floats at old1m authoring anchor, and lush water garden absent.
+R4 dark polished floor and visible curved spiral star vault now read; broad
+rough-ceiling orange patch attenuated. Still sparse flowers/lantern hierarchy,
+curtains need actual mounting. R5 silhouette remains fragmented round pavilions.
+No final acceptance. Finish curtain hang points and QA fixture funding, then
+repeat only affected R2/R4/cabana+sky with complete error checks and SQLite.

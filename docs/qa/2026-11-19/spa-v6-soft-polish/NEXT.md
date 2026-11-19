@@ -25,3 +25,13 @@ Frame stage=soft-polish, reviewHour12, directory /workspace/qa/spa-v6-soft-polis
 Keep one GPU browser. Archive exact source/bundle/PNG/log and compare EVERY
 R1/R2/R4/R5. Main39708e3 stays published; V6 remains WIP. Next fuller layered
 gardens/cascades and coherent palace silhouette,14rooms/phone/performance/fullCI.
+
+## First native attempt partial, preserve exact evidence
+Six views and actual Nap W/footstool/World completed; then sky PRECONDITION
+assert(before.coins>=cost) failed before any procedure. CONTACTS alone did not
+fund the private QA wallet. This is harness setup, not live economy loss.
+Exact992355c source/bundle/frames/log preserved native-partial/. No sky/SQLite
+or final error-array result claimed. Fix QA-only funding, no live balances.
+Also correct curtains old1m floating bottom and attach to actual canopies.
+R1/R5 unchanged by that anchor fix: next focus R2/R4/cabanas+sky, not repeat
+unaffected earlier checks. Use funded CONTACTS+SKY_ONLY, actual SQLite roundtrip.

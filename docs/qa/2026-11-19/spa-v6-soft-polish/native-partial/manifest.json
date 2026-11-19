@@ -1,0 +1,26 @@
+{
+  "sourceBase": "992355c2d50d09795ba44b9b1fc885caeb68e18a",
+  "sourceState": "",
+  "result": "PARTIAL: six visual views and actual Nap W/World step-down completed. Sky procedure stopped before start: private fixture lacked funded wallet because CONTACTS flag was omitted from funding condition. No sky/SQLite or final error-array PASS claimed.",
+  "visualReview": "VIP galaxy/dark floor and curved drapes/pillows improve hierarchy. Still distant from all references. Curtains float at old1m bottom and need real hang points. R2 gardens/cascades sparse; R1 weak tank/service; R5 scattered pavilion silhouette. Do not publish as final.",
+  "files": {
+    "actual-game-massage.png": "20fbe3abcf22a48dd2d3f274c5dd2f78ddd24db8d27397f61da24f75c51d087c",
+    "actual-manual-seat-exit.json": "b1cb0d1480fc8487ea85600dd09d57ace796c646be81bd01c318fe7857fad618",
+    "actual-manual-seat-exit.png": "f0c597d9601154e79161c17aec3f7dda8459ffbfc79dd565bfdbe49b551e8540",
+    "imported-source.tar.gz": "0906b3126261996de50ade710cec2f2a1db60d8d6b50994ec37ed8dc93dc703e",
+    "native.log": "9aa43e49b1c4cc4ee9d24f8440f41dc0b7edc470a6a866449054d44401e61871",
+    "qa-app.js.gz": "d9be79162ef65c10d6bef7ff590e094ff293fdc854d442a4ba84e2c40b0babd0",
+    "qa-build.json": "ff1e70edec771a022b7dc5b6febef78735f2d251006476c99cfdc2a0c946a9fc",
+    "soft-polish-overview.png": "f248b7158de363bcce9c2b2063cd3234d3aed916dfc0ffedf96201c90c87959a",
+    "soft-polish-resort-aroma.png": "b562e46ee51f4c723923c6122dd76799871ac3766a3ae1cf5139bb944abf50d1",
+    "soft-polish-resort-cabana.png": "055e0160fd535df9ec3a532bb5b0d0235e023b82a8f829aa0d74d2cab7dec5c2",
+    "soft-polish-resort-cafe.png": "4293ed8a80a23df24cdf372d002dd9ff1f327b350c7d0edc5b47169128e61eac",
+    "soft-polish-resort-vip.png": "71ea61aac0a58d8a2464a31a360b8d297687f15243b4140df7ec50d528d115aa",
+    "soft-polish-sky-pool.png": "29be5ae7803dba8b66e3ffbdda16fab5fa6c022e38e6c55a56281bd9986c7906",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "e5628067cee11f811d7606ba3b2a651c242d052ff12cea392fce03b236cee180",
+    "source-status.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "v6-reference-frames.json": "bbf31a1d48e2daff2d8558c5439b06e7e85278f487e8e60f789260efc302575e"
+  }
+}
