@@ -38,7 +38,7 @@ Chromium/private Worker/SQLite download/cancel/restore/reload PASS. **Mac нап
 ## Активная задача — V7, единый SPA
 
 Код /workspace/chichi-emergency-save-recovery, codex/spa-v7-consolidation,
-remote664a7c7 (проверитьполныйSHA черезls-remote). Main/live всёещё6e28f75.
+remote534f3a954643a0a1fda1632ab1dee762a07bf3d6 (ls-remoteпроверен). Main/live всёещё6e28f75.
 V7/VisualProtocol тексты лежатвdocs/specifications; новыйконцепт1536×1024
 УЖЕполученвчате. Inlineбайтынедоступны:невыдумыватьhashкартинки.
 Пользовательпроситускоритьпубликацию,никакихновыхпобочныхзадач.
@@ -72,12 +72,19 @@ bundlecc69072f01663062f94b096784929339f76b6cbef2e7a39b6f35e0efdf3e11ca.
 Прерванныйpaidticketпослеreloadиспользуетсябезновойоплаты;completedconsumed
 необнуляется. Общийmerge/shared-world/баланснетронуты. Exactliftreloadсохранён.
 
-СейчасОДИНGPUactualnativefunctional/session17221 (проверитьзавершение),
-/workspace/qa/spa-v7-functional-native.log,outputspa-v7-functional.
-ФлагиEXPLORER_AUDIT=1 RESORT_SPA_AUDIT=1 SPA_V7_FUNCTIONAL_AUDIT=1 DESKTOP=1.
-Harnessпроверяет8услуг,8VIPbaths,sky/Cafewet,историческиеpaidtickets,
-реальныйshore→lift→14mstairs→procedure→shore,SQLiteinterruptedpoolreload,
-W/Worldrelease/Cloudbackup. Нередактироватькодпокаrunснимаетsource-state.
-Потомfinal13actualimagesсновымиprobes,phoneheldtouch,OWNERSHIP_AUDITrequired,
-Node22exactbuild/fullCI/Pages/livebytes. НЕзаканчиватьнаWIP/плане.
-НепутатьnativePASS/CIсвизуальнымодобрениемилиhardwareFPS. Всёещёдальшефоторефа.
+Первыйnative664a7c7 завершилсянеполным:все8каноническихуслуг/8VIPbaths/sky
+прошли,ноCafewetзастрялнастыкеcoping/floor. Native-functional-firstсохранил
+исходники/трейсы/SQLiteвыборкибезсекретов.534f3a9исправляетИМЕННОгеометрию:
+реальнаявнешняяфаскабортикасunderlap2.5см/drop6мм,тольков7,безрадиусныххаков.
+Все14actualpoolentry/procedure/exit/returnsPASS.12mmпробасначалакасаласьнулевой
+границыводы,исправлена6mm;сохранятьfailedlogsневыдаватьихзаPASS.
+
+СейчасодинGPUremainingfunctional/session33250,лог
+/workspace/qa/spa-v7-functional-remaining.log. FlagsV7_REMAINING_ONLY=1выбирают
+тольконеоконченныеCafewet/prepaidaliases/shorelift/midwetSQLite/reload/W/Cloud.
+Необъявлятьэтотrunсамостоятельнойпроверкойвсех8зон:онивпервомcheckpoint.
+Нередактироватькодвовремяcaptures. Далее13finalactualframes/phoneheldtouch/
+OWNERSHIP_AUDIT,exactNode22build/fullCI/livebytes. DraftPR#2создан,CI44572028855
+стартовална664a7c7;послепоследнегоpushпроверитьновыйhead/run,неспутатьстарыйCI.
+WorkersBuildsотдельноошибаетсяикакнастабильнойверсии;главныйTestanddeploy
+обязателенполностью. НЕзаканчиватьнаWIP/плане,публикацияавторизованапослепроверок.
