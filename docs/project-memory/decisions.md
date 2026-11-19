@@ -669,3 +669,11 @@ Receipt b91350c04fc29ad93c72e8cca38ab14c75f785e0 on separate release-evidence br
 Native phone CSS also matched live. No extra main deploy for documentation. This
 publishes the checked structural8room/3floor SPA stage, not artistic completion
 or user visual approval, hardware phone/Mac FPS or all84motion certification.
+
+### 2026-11-19 — V8 freezes V7 layout and concentrates on authored interiors
+User V8 and the new photo tutorial preserve the existing eight rooms, their
+positions and entrances. Code WIP ae0e7ba on codex/spa-v8-visual-overhaul freezes
+actual physical centers and all96 contacts/14 basins/stairs/approach against
+published c477057. Room marker world transforms and physical centers are distinct.
+Reusable authored art, affected-route checks and repeated native reference review
+reduce iteration cost; final offline probes follow art lock. No V8 publication yet.
