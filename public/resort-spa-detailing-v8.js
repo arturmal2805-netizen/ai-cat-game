@@ -72,7 +72,7 @@ export function* resortSpaDetailSteps(h){
    for(let i=0;i<10;i++){const a=i*Math.PI/5,x=zone.x+Math.cos(a)*(zone.rx-2.4),z=zone.z+Math.sin(a)*(zone.rz-2.4);const back=box(decor,cream,x,y+1.18,z,1.15,.18,1.05,true);back.rotation.set(-.32,-a,0);const p=pillow(decor,blush,x,y+1.12,z,.52,.2,.48);p.rotation.y=-a;rolled(x,y+.96,z+.6,1);}
    for(const side of [-1,1]){for(let i=0;i<4;i++)lanternPair(side*(34+i*3),251-i*.3);for(let i=0;i<3;i++)bowl(side*50,258+i*7,.75);}
   }else if(key==='vip'){
-   tree(125,y,220,1.4);tree(125,y,241,1.25);tree(82,y,259,1.15);
+   tree(125,y,220,1.4);tree(125,y,241,1.25);tree(74,y,258,1.15);
    for(const z of [213,230,247]){box(decor,mats.gold,127,y+4,z,.16,3.2,.42,true);box(decor,warm,126.88,y+4,z,.035,2.8,.18);lantern(124,y,z,.65);}
    features.features.push('eight dressed jacuzzi rims','towel and drink ledges','layered textile islands','private gold arches');
    for(const p of spaPalacePools().filter(p=>p.room===zone.id)){
