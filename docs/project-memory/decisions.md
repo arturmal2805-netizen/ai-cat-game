@@ -651,3 +651,12 @@ only in V7. Full-body collision remains enabled. All14 pool runtime/geometry exi
 pass; the remaining native Cafe/prepaid/shore lift/stairs/interrupted pool reload/
 desktop W/Cloud download scenarios also pass. Exact evidence is in the code branch.
 Final visual views, phone/ownership and complete release gates remain pending.
+
+### 2026-11-19 — V7 release merged, publication still gated
+PR#2 regular merge c477057 has parents6e28f75 and1a32b17; exact tree equals the
+checked candidate, public sources equal f043655. All native procedure/transport/
+reload/backup/phone/ownership checks completed. Phone's first fixture hit a real
+column0,234; the collision was retained and the real open hall0,238 passed4m.
+189 manifest entries and30 explicitly retained logs are in Git. Main workflow
+44579271016 is the publication gate; predeploy HTTP still showed the stable old
+bundle, so no publication claim is made yet. Release evidence stays off main.

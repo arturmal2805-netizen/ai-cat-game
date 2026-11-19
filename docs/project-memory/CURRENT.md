@@ -35,96 +35,99 @@ account archive; потом обычный commit без подмешивани�
 Chromium/private Worker/SQLite download/cancel/restore/reload PASS. **Mac напрямую
 не проверен**; не называть Chromium аппаратным Mac тестом. Новую ссылку пользователь получил.
 
-## Активная задача — единый SPA V7
+## V7: код слит, ожидается публикация
 
-Код: `/workspace/chichi-emergency-save-recovery`, ветка `codex/spa-v7-consolidation`.
-Ветка PR пока на `534f3a954643a0a1fda1632ab1dee762a07bf3d6`.
-Последний code HEAD `f04365585a2f0183ce695e57269d298b73863fa0` сохранён отдельно
-в remote `codex/spa-v7-visual-final` (ls-remote проверен); это актуальный код.
-Не начинать заново со старого remote consolidation.
-Draft PR: https://github.com/arturmal2805-netizen/ai-cat-game/pull/2.
-Main и сайт пока остаются на `6e28f752291e65e7b51f7f093a004e5c81fd27b3`.
-Публикация после проверок уже разрешена. Не завершать работу на WIP или плане.
+Main: `c477057b6eda6e251f02bc27735e4220d737112b`, PR#2 MERGED.
+Родители: старый опубликованный `6e28f752291e65e7b51f7f093a004e5c81fd27b3`
+и кандидат `1a32b17fe4ec66223f6e92904a9ad2f4443fd1e7`.
+Обычное слияние без ручных конфликтов; итоговое дерево равно кандидату.
+Product public/ побайтно равно финальному native/build исходнику
+`f04365585a2f0183ce695e57269d298b73863fa0`. Весь code/WIP сохранён:
+remote codex/spa-v7-consolidation=1a32b17, codex/spa-v7-visual-final=f043655.
+Старые worktrees сохранены. Ничего не сбрасывать и не применять повторно.
 
-Пользователь прислал V7, Visual Implementation Protocol и новый концепт
-1536×1024. Тексты сохранены в `docs/specifications/`. Концепт уже получен в чате,
-но оригинальные байты inline картинки локально не предоставлены; SHA не выдумывать.
-Он заменяет четырнадцать раздельных комнат восемью зонами единого здания.
+**Единственный оставшийся gate:** полный main workflow
+https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44579271016
+(tests → Worker deploy → exact release/shared saves → Pages) и реальные live bytes.
+Сборка CI уже прошла, выполняется npm test. Повторный PR run44579260657 отменён,
+поскольку тот же код проверяется main workflow; это не неудача продукта.
+Предыдущий полный CI44573032188 на функциональном534f3a9 SUCCESS.
+Не объявлять публикацию до полного результата и HTTP-проверки.
 
-Реализованы общий корпус 300×132 м, три этажа с шагом 14 м, реальные лестницы
-по 50 ступеней, восемь VIP-ванн и прозрачный верхний бассейн. Midnight и Golden
-увеличены; минимальная высота их сводов 10.8 м, внешняя крыша начинается на 46 м
-над нижним полом. Service ceiling на 12 м над средним этажом закрывает днища
-ванн, но сохраняет настоящий проём верхнего бассейна. Соседние ТРЦ, дно, вода,
-модели котиков и общие правила экономики/слияния не изменены.
+19 ноября17:42UTC (19:42 по Киеву) URL?v=c477057 ещё отдавал старый HTML:
+SHA `d1423f0c0e37d4312509d8fc807cca5923e87e90d896dee9521183b44c7541d0`,
+app key c006ed8238ebefbc. Это контроль до deploy, не ошибка нового релиза.
+Параметр v не является доказательством публикации.
 
-Production world явно выбирает layoutVersion7; public offers содержит 8 зон,
-меню — 10 кнопок (обзор + 8 + выход). Исторические 14 product/service IDs остаются
-для квитанций. Amber → Midnight, Jacuzzi → VIP. Четыре удалённые услуги принимают
-только уже оплаченные билеты для отдыха в Midnight; новых продаж или валюты нет.
-Старые default6 geometry tests являются историческим контролем, не доказательством
-текущего production7. Актуальная геометрия проверена отдельными V7 тестами.
+Активный путь `/workspace/chichi-emergency-save-recovery` теперь на новой ветке
+`codex/spa-v7-release-evidence`, основанной на origin/main=c477057, дерево чистое.
+Переключение не изменило product bytes; предыдущая ветка сохранена. После deploy
+записать квитанцию в docs/qa/2026-11-19/spa-v7-release и отправить **только** в
+codex/spa-v7-release-evidence (не запускать ещё один main deploy ради документов).
 
-Реальные этапы A/B/C/D сохранены с исходниками, bundle, PNG и логами в
-`docs/qa/2026-11-19/spa-v7/`. D на 4f69 выявил пересечения крыши и сводов,
-зубчатый стык бортика/пола и открытые днища ванн. Геометрия исправлена в 4d85624;
-32 целевых проверки прошли, включая все 96 контактов и лестницы в обе стороны.
-Девять отражений сняты на точном 4d85624 и подключены в 664a7c7:
-atlas SHA256 `01443cd814ef1222ea2ccef537e5cb97989269428d4833cc9ebcdc7093fb6997`,
-bundle `cc69072f01663062f94b096784929339f76b6cbef2e7a39b6f35e0efdf3e11ca`.
-Полная цепочка и исходные слои — `native-nine-probes`. Старый atlas сохранён.
+### Что реализовано и проверено
 
-Сохранение во время wet/elevated процедуры записывает сухую поддержанную точку,
-не перемещая живого кота. Одновременные гости получают разные точки. После reload
-прерванный оплаченный билет используется без повторной оплаты. Завершённые
-квитанции остаются использованными; точное восстановление лифта сохранено.
-Устаревшая асинхронная миграция уступает новой команде/позиции. Общая семантика
-shared-world/merge и баланс не менялись. Девять reflection/recovery тестов PASS.
+Единый корпус 300×132 м, три этажа с шагом14м, восемь зон,96контактов, реальные
+лестницы по50ступеней, восемь VIP-ванн и верхний бассейн с прозрачным дном.
+Midnight/Golden увеличены; своды минимум10.8м, крыша выше минимум0.9м по реальным
+треугольникам. Service ceiling закрывает днища ванн, сохраняет sky aperture.
+Public offers8, меню10 (обзор+8+выход);14 старых product/service IDs сохранены.
+Amber→Midnight,Jacuzzi→VIP с единым физическим occupancy; четыре снятые услуги
+принимают только прежние prepaid tickets как отдых в Midnight. Нет новых монет,
+изменений цен, общего merge, моделей котиков, ТРЦ, океана, грунта или управления.
+Тексты V7/VisualProtocol в docs/specifications; концепт уже получен в чате.
 
-Первый native run на 664a7c7 прошёл 8 канонических услуг, 8 VIP-ванн и sky pool,
-но нашёл застревание выхода водного кафе на Float32-стыке. Его полный failed
-checkpoint сохранён в `native-functional-first`; не выдавать весь run за PASS.
-534f3a9 добавляет настоящий наружный скос бортика: underlap 2.5 см, drop 6 мм,
-только V7. Радиус/столкновения не ослаблены. Все 14 бассейнов прошли реальный
-geometry/runtime вход → процедура → выход → возвращение.
+Сохранение elevated/wet процедуры записывает раздельные сухие поддержанные точки,
+не перемещая живых котов; reload использует оплаченный билет без новой покупки.
+Marker7 исключает повторную миграцию, более новая команда отменяет старую repair.
+Точное восстановление лифта и существующая семантика shared-world сохранены.
 
-Оставшиеся native сценарии на 534f3a9 теперь PASS, архив `native-functional-remaining`,
-bundle `4ca1c81178b86edb4c64cdae007dba0845849ea3104f30ca5d12c5422d198ac3`:
-водное кафе, старые оплаченные Jacuzzi/Nap, настоящий путь от причала через лифт
-и лестницы к массажу и обратно, private SQLite reload посреди купания без повторной
-оплаты, W/World release и действительное скачивание Cloud backup с проверкой SHA.
-Это дополнение к успешным частям первого run, не повторная проверка всех 8 зон.
+Actual native доказательства и exact source/bundle/PNG находятся в main:
+`docs/qa/2026-11-19/spa-v7/`. A/B/C/D/E/final регулярно сопоставлены с секциями
+референса A–I; E включает все13 видов, final четыре вида освещения. Все просмотрены.
+Исправлены настоящие пересечения сводов, Float32-стык бортика/пола, скачки света
+по треугольникам и гранёные нормали сводов. Фасад и сады ещё проще/реже концепта;
+это структурный V7 этап, а не завершённое художественное сходство или user approval.
 
-Все13 кадров E завершены и просмотрены; точный архив `native-all-rooms-e`.
-Выявлены треугольные пятна света и грани сводов. 56cb872 исправляет непрерывные
-vertex-параметры света и нормали из поля высот. 5 проверок геометрии/нормалей PASS.
-Отражения повторно сняты на точном чистом 56cb872, source-state guard PASS,
-`native-smooth-probes`: atlas
-`bad2f1b8b9825eccdb7a334b55fb9b9f9dd710edf1653b570b4bb2c0cb6f505e`,
-raw `1bcdb047a6322bdd99fbdbbfe84a7ffb41eff533c07dd0579d6042d84abfa09d`,
-bundle `1b2beaa26597cc2826bcaa8bc87c7caca13cd518037bb78e3ea106aa3f31d41c`.
-f043655 подключает новый atlas, flat probe layer/cachekeyv4, Node22 exact build.
-6 дополнительных reflection/continuity checks PASS. HTML содержит один app module.
+Первый functional native прошёл8услуг/8VIPbaths/sky, затем нашёл Cafe seam.
+Фаска underlap25мм/drop6мм исправила именно геометрию; радиус/коллизии сохранены.
+Все14pool runtime/geometry вход→процедура→выход→возврат PASS. Остальные native
+Cafe/prepaidJacuzzi/Nap/shore→lift→stairs→massage→shore/privateSQLite reload
+посреди купания без двойной оплаты/desktopW/World/realCloudbackup PASS.
+Все96контактов и обе лестницы в обе стороны PASS, включая новые проверки колонны.
+
+Phone held touch PASS: native Chichi прошла4м в настоящем проходе0,238; pad136px
+вviewport390×844/DPR2, сухой controller, World release. Первые два phone run
+ошиблись стартовым fixture0,233 перед настоящей колонной0,234: .2м до остановки,
+реальные pointerevents и allowed=true. Колонна сохранена; новый полный body sweep
+доказывает обход/свободный участок. Это не поломка touch и не ослабленный тест.
+
+Required OWNERSHIP_AUDIT PASS, exit0:750000 приватных fixturecoins неизменны,
+legacyMegaLoops восстановлен/размещён без оплаты, одна копия после двух SQLite
+reload,errors[]/httpErrors[]. Runner не сохранял instrumented bundle; manifest
+честно содержит null и этот PNG не используется как художественное доказательство.
+Workerd Brokenpipe при завершении не прервал assertions; процесс exit0.
+Не выдумывать недостающий bundle hash задним числом. Живые user saves/AI не трогались.
+
+189 файлов QA manifest проверены по staged Git bytes. Все30 нужных логов force-added
+в main, несмотря на *.log. Не повторять успешно пройденные native проверки без
+изменений/нового сбоя. Hardware phone/Mac FPS и все84motion sequences не заявлены.
+
+### Точные ожидаемые assets после deploy
+
+Node22.23.5 build PASS. HTML один app module:
+`./dist/app.js?v=48922a7a2e2977b4`.
+HTML SHA `b23ef7595b67953a77eb4b8cae0fe6e8738457e12f56cb0b5eabc866fed0b234`;
 JS `48922a7a2e2977b430ade30da5577f97f23a822363c4d39ed754e6714c105508`;
-CSS остаётся `1ca6fd7d91d93d2434122de8b604f9e1f0306145487ece7434204f01d46492bc`.
-Модели котиков не менялись. Build и targeted logs игнорируются *.log: необходимо
-force-add ровно проверенные QA logs перед итоговым evidence commit, а затем
-проверить каждый manifest path по Git tree. Только native-mass log уже tracked;
-остальные локально имеются, но их прежние commits пропустили из-за gitignore.
+CSS `1ca6fd7d91d93d2434122de8b604f9e1f0306145487ece7434204f01d46492bc`;
+SPA atlas `bad2f1b8b9825eccdb7a334b55fb9b9f9dd710edf1653b570b4bb2c0cb6f505e`.
+Последние9probes сняты на чистом56cb872; native-smooth-probes содержит все слои,
+rawRGBA, PNG и полный источник. Runtime flat-layer/cachekeyv4 не добавляет pass/
+sampler/scene lights. Native final bundle
+`9a922bbe799ab3ff1bdc5a24e6a0cbd6f2ebd92270df7514a151b97eb9038930`.
 
-Сейчас единственный GPU — 4 финальных вида освещения на f043655, session52473,
-`/workspace/qa/spa-v7-final-shading.log`, output `/workspace/qa/spa-v7-final-shading`.
-Флаги EXPLORER_AUDIT=1 RESORT_SPA_AUDIT=1 SPA_V7_MASS_AUDIT=1
-SPA_V7_PHASE=interiors SPA_V7_VIEWS=midnight-interior,golden-interior,thermal-interior,aroma-interior
-DESKTOP=1. Потом phone held touch и обязательный OWNERSHIP_AUDIT; последний
-полный CI на main и live bytes до объявления публикации. Не запускать два GPU run.
-
-CI https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44573032188
-на 534f3a9 завершён SUCCESS (tests/build/wrangler dryrun, без deploy). Лог скачать
-не удалось (Forbidden), не выдавать пустой файл за полный test log. Структурный
-статус успешный. Изменения после него только отображение света/probes/QA/HTML;
-финальный exact main CI всё равно обязателен перед deploy. Первый CI44572028855
-отменён новым push. Отдельный Workers Builds ошибается и на стабильной версии;
-главный Test and deploy должен закончиться целиком. Native/CI не означают
-визуального одобрения или аппаратного FPS. Детализация фасада/садов ещё уступает
-концепту; не объявлять художественную реконструкцию завершённой.
+После полного CI получить реальные HTML/JS/CSS/atlas по HTTP, сравнить SHA/ключи,
+проверить одну app-загрузку и записать полный опубликованный c477057/workflow.
+Прямой Worker GET в среде ранее tunnel403; exact release/shared saves подтверждает
+главный workflow. Не объявлять проблему ключа из-за tunnel и не запускать paidAI.
+Затем обновить стабильную запись выше/историю и дать пользователю ссылку.
