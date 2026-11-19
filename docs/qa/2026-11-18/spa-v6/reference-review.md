@@ -93,3 +93,18 @@ pool is genuinely clear of obsolete Cafe roof/chandelier, but palace silhouette
 and warm interior density remain far from reference. See camera/light/DPR
 records in ../../2026-11-19/spa-v6-shadow-fix/camera-light-comparison.json.
 Not exact moving-world pixel equivalence; no final visual approval.
+
+## Tenth comparison — actual room reflections
+Exact source5adfcdbb3d8dd16a1b236b8f00c9a3b14a0c69be; six native frames and
+actual GPU array readback/GLSL/World release PASS. No unchanged procedure claims.
+Same DPR/FOV/light colors/intensities; camera drift millimetres recorded.
+R1/R3: metal/bar and pool now reflect actual amber room; sparse bar/service and
+flowers, tank still looks weak against giant Mall background. R2: actual room
+light is warmer, but straight curtains, cuboid pillows and sparse garden remain.
+R4: actual room probes revealed excessive broad amber patch on rough ceiling;
+calibrate rough response before promoting. Pale floor and faint galaxy still
+wrong hierarchy. R5: gold tier detail improves, but disconnected discs, big bare
+floors and missing rich green/cascade mass still far from palace reference.
+Sky water/glass remains clear and shows lower atrium. No final visual acceptance.
+Next soft furnishings/material differentiation/ceiling hierarchy, then richer
+gardens/cascades; preserve current exact checkpoint and re-bake final changed art.

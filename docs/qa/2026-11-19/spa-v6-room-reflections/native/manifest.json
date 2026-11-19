@@ -1,0 +1,26 @@
+{
+  "sourceBase": "5adfcdbb3d8dd16a1b236b8f00c9a3b14a0c69be",
+  "sourceState": "",
+  "result": "PASS actual WebGL2 array GLSL, five layers byte-exact readback, 21 pool layer bindings, six actual reference views and World release; no repeated unchanged procedure audit.",
+  "visualReview": "Actual amber room reflections now replace unrelated ocean/sky fallback. VIP rough ceiling has an excessive broad amber reflection patch; reduce rough-surface response. R1/R2/R4/R5 remain far from reference. Art is WIP; no device FPS or visual acceptance.",
+  "files": {
+    "actual-game-massage.png": "361ad34c053a893eeed94acbb03b4be2172c5055becbf8a97937938a1e8247c2",
+    "actual-reflection-array.json": "bfe3d049133f9cacadf0a632bc87ce124ad37c0bdd510aa6b3dd062b5f141a3f",
+    "game-scene.json": "6e398c797fdb2280e311335b20e238bce08184b9c0a5a887f27186077ee4d896",
+    "imported-source.tar.gz": "7af383ed74fd7f518680f887b579cd1842f5e7bf6026e51eb41a9435a77a0fc3",
+    "native.log": "cf1848c7be9bb132673240658f8287fcef138bdf3bde83c07896af0fb19813f5",
+    "qa-app.js.gz": "2894045594143e8423da48f3a3757a7d5d03e78bf43281c141f16c9fa8cb275d",
+    "qa-build.json": "daf75956b8bc66e48dc081b93aa9d38debdb7e6f9fa6ab1d5843caa0e7b6765b",
+    "room-reflections-overview.png": "dd9ec46ce75d00b48e795f07c7c4ce516a89f5dca2e2f62b960c324e186d320a",
+    "room-reflections-resort-aroma.png": "8797f2da361b643b8cda506ea42049e157de595774dbf3504ba471195737c914",
+    "room-reflections-resort-cabana.png": "06fd60b9607d1d8da778e60553a851385fe75d3cf7475d72c73a0778fc26e4d0",
+    "room-reflections-resort-cafe.png": "42966c9b5787eba95577a8da00b3a15b2062c05cadedac33195d85f52da5b788",
+    "room-reflections-resort-vip.png": "b7360266f395e212027e28168a5d92170a581d0aed33f8e77d0b617044c1daef",
+    "room-reflections-sky-pool.png": "3d84aef93215038f7ede40b3f41951771c5707522dc35a1251cddb968bc857a7",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "98b483ca776acd5a3bdec10aa96c5c0e3c5000592b73cab910b88c527854cd25",
+    "source-status.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "v6-reference-frames.json": "de05a71bb29b0a550e47302cd906127b1a1d62abc1b627666ec83c91b33dbfa8"
+  }
+}

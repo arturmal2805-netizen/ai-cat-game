@@ -1,0 +1,275 @@
+{
+  "scope": "Brief software-renderer samples; not device FPS or exact moving-world pixels",
+  "comparisons": [
+    {
+      "name": "\u041e\u0431\u0449\u0438\u0439 \u0432\u0438\u0434",
+      "cameraDelta": 0.0,
+      "sameDPR": true,
+      "sameFov": false,
+      "beforeMemory": {
+        "geometries": 1417,
+        "textures": 101
+      },
+      "afterMemory": {
+        "geometries": 1432,
+        "textures": 104
+      },
+      "beforeFrameSamples": [
+        [
+          66971.70000001788,
+          567,
+          1317,
+          13470281
+        ],
+        [
+          67544,
+          73.30000001192093,
+          1317,
+          13470921
+        ]
+      ],
+      "afterFrameSamples": [
+        [
+          72099.59999999404,
+          593.5999999940395,
+          1317,
+          13470281
+        ],
+        [
+          72701.09999999404,
+          72.40000000596046,
+          1317,
+          13470921
+        ]
+      ],
+      "sameLightColorIntensity": true
+    },
+    {
+      "name": "Aroma Therapy Garden",
+      "cameraDelta": 0.0,
+      "sameDPR": true,
+      "sameFov": false,
+      "beforeMemory": {
+        "geometries": 1147,
+        "textures": 107
+      },
+      "afterMemory": {
+        "geometries": 1147,
+        "textures": 110
+      },
+      "beforeFrameSamples": [
+        [
+          102586.90000000596,
+          140.5,
+          1531,
+          11603105
+        ],
+        [
+          102737.10000002384,
+          15599.199999988079,
+          1531,
+          11602849
+        ],
+        [
+          118343.30000001192,
+          67.30000001192093,
+          1531,
+          11602849
+        ]
+      ],
+      "afterFrameSamples": [
+        [
+          109938.19999998808,
+          455,
+          1531,
+          11603233
+        ],
+        [
+          110401.09999999404,
+          16049.200000017881,
+          1531,
+          11602849
+        ],
+        [
+          126506.59999999404,
+          105.80000001192093,
+          1531,
+          11602849
+        ]
+      ],
+      "sameLightColorIntensity": true
+    },
+    {
+      "name": "Golden Galaxy VIP Suite",
+      "cameraDelta": 0.00075331337541229,
+      "sameDPR": true,
+      "sameFov": false,
+      "beforeMemory": {
+        "geometries": 1214,
+        "textures": 107
+      },
+      "afterMemory": {
+        "geometries": 1214,
+        "textures": 110
+      },
+      "beforeFrameSamples": [
+        [
+          149956.40000000596,
+          227.7000000178814,
+          1686,
+          12480488
+        ],
+        [
+          150188.60000002384,
+          59.89999997615814,
+          1686,
+          12480232
+        ]
+      ],
+      "afterFrameSamples": [
+        [
+          159128.69999998808,
+          284.80000001192093,
+          1686,
+          12480360
+        ],
+        [
+          159419.5,
+          96.5,
+          1686,
+          12480232
+        ]
+      ],
+      "sameLightColorIntensity": true
+    },
+    {
+      "name": "Wellness Caf\u00e9",
+      "cameraDelta": 0.0019044190535169037,
+      "sameDPR": true,
+      "sameFov": false,
+      "beforeMemory": {
+        "geometries": 1301,
+        "textures": 107
+      },
+      "afterMemory": {
+        "geometries": 1301,
+        "textures": 110
+      },
+      "beforeFrameSamples": [
+        [
+          182219.60000002384,
+          149,
+          1780,
+          12590673
+        ],
+        [
+          182376.10000002384,
+          72.39999997615814,
+          1780,
+          12590545
+        ]
+      ],
+      "afterFrameSamples": [
+        [
+          193344,
+          197.80000001192093,
+          1780,
+          12590545
+        ],
+        [
+          193548,
+          87.90000000596046,
+          1780,
+          12590545
+        ]
+      ],
+      "sameLightColorIntensity": true
+    },
+    {
+      "name": "Floating Glass Cabanas",
+      "cameraDelta": 0.003358587453817563,
+      "sameDPR": true,
+      "sameFov": false,
+      "beforeMemory": {
+        "geometries": 1324,
+        "textures": 107
+      },
+      "afterMemory": {
+        "geometries": 1341,
+        "textures": 110
+      },
+      "beforeFrameSamples": [
+        [
+          217232.20000001788,
+          329.69999998807907,
+          1691,
+          12138925
+        ],
+        [
+          217571,
+          69.90000000596046,
+          1691,
+          12138797
+        ]
+      ],
+      "afterFrameSamples": [
+        [
+          228823.80000001192,
+          173.7999999821186,
+          1691,
+          12138925
+        ],
+        [
+          229005.09999999404,
+          80.09999999403954,
+          1691,
+          12138797
+        ]
+      ],
+      "sameLightColorIntensity": true
+    },
+    {
+      "name": "\u0412\u0435\u0440\u0445\u043d\u0438\u0439 \u0431\u0430\u0441\u0441\u0435\u0439\u043d",
+      "cameraDelta": 0.0053936141021040385,
+      "sameDPR": true,
+      "sameFov": false,
+      "beforeMemory": {
+        "geometries": 1414,
+        "textures": 107
+      },
+      "afterMemory": {
+        "geometries": 1408,
+        "textures": 110
+      },
+      "beforeFrameSamples": [
+        [
+          254136,
+          420.10000002384186,
+          1959,
+          14990188
+        ],
+        [
+          254561.30000001192,
+          59.30000001192093,
+          1960,
+          14990412
+        ]
+      ],
+      "afterFrameSamples": [
+        [
+          264428.1999999881,
+          148.2000000178814,
+          1955,
+          14972662
+        ],
+        [
+          264585.90000000596,
+          87.19999998807907,
+          1955,
+          14972534
+        ]
+      ],
+      "sameLightColorIntensity": true
+    }
+  ]
+}
