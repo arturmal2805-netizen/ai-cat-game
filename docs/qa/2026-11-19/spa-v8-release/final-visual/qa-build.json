@@ -1,0 +1,8 @@
+{
+  "sha256": "08e018a1a8ab45df71ed72d5ff81287c31f93603d0bb6b22a20efdb6213039c2",
+  "baseline": null,
+  "node": "v22.23.5",
+  "head": "f026b778ab7a6ac22696dfa974d7efeda47ea5e3",
+  "dirty": " M public/index.html\n M public/resort-spa-probe-assets.js\n M scripts/archive-spa-stage.py\n?? docs/qa/2026-11-19/spa-v8/native-final-probes/\n?? docs/qa/2026-11-19/spa-v8/native-functional/\n?? public/art/spa-reflections/spa-interiors-ffabc732b641.png\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

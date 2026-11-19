@@ -1,0 +1,58 @@
+diff --git a/public/index.html b/public/index.html
+index 26411da..d25ebe9 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -713,6 +713,6 @@
+       </div>
+     </dialog>
+     <div id="toast" role="status" aria-live="polite" hidden></div>
+-    <script type="module" src="./dist/app.js?v=a0c4b9a52177dc6f"></script>
++    <script type="module" src="./dist/app.js?v=17fb011e9dc66129"></script>
+   </body>
+ </html>
+diff --git a/public/resort-spa-probe-assets.js b/public/resort-spa-probe-assets.js
+index 33fa58e..8b1dd28 100644
+--- a/public/resort-spa-probe-assets.js
++++ b/public/resort-spa-probe-assets.js
+@@ -1,15 +1,15 @@
+-// Actual V7 static palace, eight rooms plus transparent sky pool; linear radiance /4.
++// Actual V8 static SPA, eight retained rooms plus glass-bottom sky pool; linear radiance /4.
+ export const SPA_PROBE=Object.freeze({
+  "size": 128,
+  "layers": 9,
+  "columns": 4,
+  "rows": 3,
+- "assetSha256": "bad2f1b8b9825eccdb7a334b55fb9b9f9dd710edf1653b570b4bb2c0cb6f505e",
+- "rgbaSha256": "1bcdb047a6322bdd99fbdbbfe84a7ffb41eff533c07dd0579d6042d84abfa09d",
+- "revision": "cdb4eb5c13c7d20e1bda06fa15ae56122af7e39ac52aa904c09fa2ab473a3941",
++ "assetSha256": "ffabc732b641d70c2894ca97ebff1ab83ba4fecbf6da71e5d0251efd19648d6f",
++ "rgbaSha256": "6ff6afe1c0311addf8ba77a7db24e3479b23b84742fe1da3a48755243ff9472f",
++ "revision": "fe710268e259d13bdcb5e0baa1b3ea3052b418a53d57e91685bec7d7e72c800c",
+  "gain": 4,
+- "sourceHead": "56cb872f2c0e750d6cbc1e6e1380af0b357b3cd4",
+- "url": "./art/spa-reflections/spa-interiors-bad2f1b8b982.png",
++ "sourceHead": "f026b778ab7a6ac22696dfa974d7efeda47ea5e3",
++ "url": "./art/spa-reflections/spa-interiors-ffabc732b641.png",
+  "rooms": [
+   "resort-thermal",
+   "resort-vip",
+@@ -21,5 +21,5 @@ export const SPA_PROBE=Object.freeze({
+   "resort-waterfall",
+   "resort-sky-pool"
+  ],
+- "provenance": "docs/qa/2026-11-19/spa-v7/native-smooth-probes/probes/manifest.json"
++ "provenance": "docs/qa/2026-11-19/spa-v8/native-final-probes/probes/manifest.json"
+ } );
+diff --git a/scripts/archive-spa-stage.py b/scripts/archive-spa-stage.py
+index 5779bc8..3fdac44 100644
+--- a/scripts/archive-spa-stage.py
++++ b/scripts/archive-spa-stage.py
+@@ -27,7 +27,7 @@ for name, expected in sources.items():
+         raise SystemExit('Imported source hash differs: ' + name)
+ # Explicit evidence allow-list. Never archive arbitrary world exports, SQLite,
+ # localStorage, credentials, browser profiles or unreviewed root JSON files.
+-names = ['v8-invitation.json', 'layout-world-transforms.json', 'qa-build.json', 'source-files.json', 'source-status.txt',
++names = ['v8-invitation.json', 'v8-invitation-reload.json', 'water-diagnosis.json', 'layout-world-transforms.json', 'qa-build.json', 'source-files.json', 'source-status.txt',
+          'source-HEAD.patch', 'source-cached.patch', 'v6-reference-frames.json', 'v7-mass-frames.json',
+          'v7-functional-progress.json', 'v7-functional-sqlite.json', 'actual-phone-third-person.json', 'actual-manual-seat-exit.json', 'actual-pools-sqlite.json',
+          'game-scene.json', 'pool-progress.json', 'dry-progress.json',

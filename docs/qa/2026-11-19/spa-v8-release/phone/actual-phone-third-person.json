@@ -1,0 +1,19 @@
+{
+  "scope": "390x844 at DPR2, native SPA hall starting fixture, actual held touch on compact movement pad, original actor/third-person camera, World release. Not a complete phone shore/all-floor walking tour or hardware FPS.",
+  "before": [
+    -450,
+    -164.988,
+    718
+  ],
+  "after": [
+    -450,
+    -164.98799999403954,
+    722.0000000000009
+  ],
+  "bounds": {
+    "x": 13,
+    "y": 624,
+    "width": 136,
+    "height": 136
+  }
+}

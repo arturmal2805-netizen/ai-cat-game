@@ -1,0 +1,6 @@
+ M public/index.html
+ M public/resort-spa-probe-assets.js
+ M scripts/archive-spa-stage.py
+?? docs/qa/2026-11-19/spa-v8/native-final-probes/
+?? docs/qa/2026-11-19/spa-v8/native-functional/
+?? public/art/spa-reflections/spa-interiors-ffabc732b641.png

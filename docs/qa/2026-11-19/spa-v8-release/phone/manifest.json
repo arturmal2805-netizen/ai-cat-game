@@ -1,0 +1,18 @@
+{
+  "sourceBase": "812c8a6723dcbe106b567da88e1c3e1b1e4e399d",
+  "sourceState": "",
+  "result": "PASS actual held touch movement and World release at 390x844 DPR2",
+  "visualReview": "Functional mobile emulation; not a physical phone performance certificate.",
+  "files": {
+    "actual-phone-third-person-controls.png": "c2168e98171a01ab0ba1165dd40778f80a0096d3e47a44fc663ed8c0a73580d0",
+    "actual-phone-third-person.json": "1e94729c5d5fccd03ad6d8c41b0736aca5f7c589a8cee18cd641250df89462fb",
+    "imported-source.tar.gz": "da0ec99b93eca7cf31a8ce9c3063f9c372638884353130793741f66cb4b4a68c",
+    "native.log": "5bbc4b659ad4afb4a7f908c20f2ef6ee7a04a3281119db773b8728da4395a50d",
+    "qa-app.js.gz": "19f2f81e64ecd428490f21e1a6b91083b9f4e860c610a69defc7b1091cf15492",
+    "qa-build.json": "50103e1d71e13b4852bb3e8b9cd74e2f06c5cd0ddfb999b444994a76cc93f86c",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "be323598f3739085fa265991e84341127630be512ba204a406c3238ecb73cd0d",
+    "source-status.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

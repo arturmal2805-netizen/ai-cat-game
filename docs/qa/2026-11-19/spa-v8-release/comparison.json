@@ -1,0 +1,594 @@
+{
+  "candidate": "812c8a6723dcbe106b567da88e1c3e1b1e4e399d",
+  "sourceMatch": "438 imported modules in both final/phone match main by SHA256",
+  "conditions": "Same native private fixture, camera/FOV, explicit scene lights and DPR2; final waits for adjacent Mall readiness.",
+  "timingLimit": "frameSamples measure CPU render submission on SwiftShader, not synchronized total GPU frame time; no physical phone/Mac FPS claim.",
+  "visualReview": "Nine final views reviewed. Thermal dark polygon removed. Water caustic pattern still too strong; reference likeness and user acceptance incomplete.",
+  "views": [
+    {
+      "view": "mass-front",
+      "camera": [
+        -450,
+        -151,
+        788
+      ],
+      "fov": 110,
+      "before": {
+        "render": {
+          "frame": 8,
+          "calls": 1377,
+          "triangles": 10917953,
+          "points": 3940,
+          "lines": 0
+        },
+        "memory": {
+          "geometries": 875,
+          "textures": 90
+        },
+        "heap": 1403925194,
+        "frameSamples": [
+          [
+            43621.29999998212,
+            1120.1000000238419,
+            1377,
+            10917953
+          ],
+          [
+            44747.09999999404,
+            38.099999994039536,
+            1377,
+            10917953
+          ]
+        ]
+      },
+      "after": {
+        "render": {
+          "frame": 8,
+          "calls": 2033,
+          "triangles": 20082214,
+          "points": 3940,
+          "lines": 0
+        },
+        "memory": {
+          "geometries": 1441,
+          "textures": 96
+        },
+        "heap": 1327438322,
+        "frameSamples": [
+          [
+            57965.30000001192,
+            2420.0999999940395,
+            2041,
+            20099006
+          ],
+          [
+            60430.10000002384,
+            82.7999999821186,
+            2033,
+            20082214
+          ]
+        ]
+      }
+    },
+    {
+      "view": "midnight-interior",
+      "camera": [
+        -532,
+        -130,
+        726
+      ],
+      "fov": 80,
+      "before": {
+        "render": {
+          "frame": 10,
+          "calls": 1647,
+          "triangles": 14794800,
+          "points": 2340,
+          "lines": 0
+        },
+        "memory": {
+          "geometries": 1181,
+          "textures": 96
+        },
+        "heap": 1114813181,
+        "frameSamples": [
+          [
+            84092.29999998212,
+            893.8000000119209,
+            1650,
+            14809942
+          ],
+          [
+            84997,
+            69.7999999821186,
+            1647,
+            14794800
+          ]
+        ]
+      },
+      "after": {
+        "render": {
+          "frame": 10,
+          "calls": 1685,
+          "triangles": 15177734,
+          "points": 2340,
+          "lines": 0
+        },
+        "memory": {
+          "geometries": 1281,
+          "textures": 102
+        },
+        "heap": 1204293277,
+        "frameSamples": [
+          [
+            120166.60000002384,
+            154.09999999403954,
+            1685,
+            15177734
+          ],
+          [
+            120326.70000001788,
+            21240.5,
+            1685,
+            15177734
+          ]
+        ]
+      }
+    },
+    {
+      "view": "golden-interior",
+      "camera": [
+        -368,
+        -131,
+        737
+      ],
+      "fov": 80,
+      "before": {
+        "render": {
+          "frame": 12,
+          "calls": 1280,
+          "triangles": 10867405,
+          "points": 2340,
+          "lines": 0
+        },
+        "memory": {
+          "geometries": 956,
+          "textures": 102
+        },
+        "heap": 1087145714,
+        "frameSamples": [
+          [
+            131441.29999998212,
+            246.2000000178814,
+            1279,
+            10867149
+          ],
+          [
+            131693.19999998808,
+            57.900000005960464,
+            1280,
+            10867405
+          ]
+        ]
+      },
+      "after": {
+        "render": {
+          "frame": 12,
+          "calls": 1326,
+          "triangles": 11220225,
+          "points": 2340,
+          "lines": 0
+        },
+        "memory": {
+          "geometries": 1077,
+          "textures": 102
+        },
+        "heap": 1200516976,
+        "frameSamples": [
+          [
+            165997.80000001192,
+            272.30000001192093,
+            1326,
+            11220225
+          ],
+          [
+            166281.40000000596,
+            69.80000001192093,
+            1326,
+            11220225
+          ]
+        ]
+      }
+    },
+    {
+      "view": "thermal-interior",
+      "camera": [
+        -470,
+        -158,
+        764
+      ],
+      "fov": 85,
+      "before": {
+        "render": {
+          "frame": 14,
+          "calls": 1587,
+          "triangles": 13912728,
+          "points": 2340,
+          "lines": 0
+        },
+        "memory": {
+          "geometries": 1137,
+          "textures": 102
+        },
+        "heap": 1084008981,
+        "frameSamples": [
+          [
+            164489.90000000596,
+            148.89999997615814,
+            1587,
+            13912728
+          ],
+          [
+            164642.90000000596,
+            50.599999994039536,
+            1587,
+            13912728
+          ]
+        ]
+      },
+      "after": {
+        "render": {
+          "frame": 14,
+          "calls": 1631,
+          "triangles": 14995682,
+          "points": 2340,
+          "lines": 0
+        },
+        "memory": {
+          "geometries": 1169,
+          "textures": 102
+        },
+        "heap": 1211705994,
+        "frameSamples": [
+          [
+            206477.10000002384,
+            471.69999998807907,
+            1631,
+            14995682
+          ],
+          [
+            206955.20000001788,
+            66.5,
+            1631,
+            14995682
+          ]
+        ]
+      }
+    },
+    {
+      "view": "massage-interior",
+      "camera": [
+        -538,
+        -144,
+        721
+      ],
+      "fov": 80,
+      "before": {
+        "render": {
+          "frame": 16,
+          "calls": 1660,
+          "triangles": 14555434,
+          "points": 2340,
+          "lines": 0
+        },
+        "memory": {
+          "geometries": 1152,
+          "textures": 102
+        },
+        "heap": 1096211973,
+        "frameSamples": [
+          [
+            201594.40000000596,
+            142.5,
+            1660,
+            14555434
+          ],
+          [
+            201742.69999998808,
+            65.80000001192093,
+            1660,
+            14555434
+          ]
+        ]
+      },
+      "after": {
+        "render": {
+          "frame": 16,
+          "calls": 1696,
+          "triangles": 14868590,
+          "points": 2340,
+          "lines": 0
+        },
+        "memory": {
+          "geometries": 1181,
+          "textures": 102
+        },
+        "heap": 1219910860,
+        "frameSamples": [
+          [
+            246595.10000002384,
+            292.39999997615814,
+            1696,
+            14867054
+          ],
+          [
+            246898.20000001788,
+            74.5,
+            1696,
+            14868590
+          ]
+        ]
+      }
+    },
+    {
+      "view": "aroma-interior",
+      "camera": [
+        -363,
+        -144,
+        761
+      ],
+      "fov": 80,
+      "before": {
+        "render": {
+          "frame": 18,
+          "calls": 1724,
+          "triangles": 15514874,
+          "points": 2340,
+          "lines": 0
+        },
+        "memory": {
+          "geometries": 1285,
+          "textures": 102
+        },
+        "heap": 1101243326,
+        "frameSamples": [
+          [
+            251818.79999998212,
+            601.5,
+            1725,
+            15516406
+          ],
+          [
+            252426.19999998808,
+            56.400000005960464,
+            1724,
+            15514874
+          ]
+        ]
+      },
+      "after": {
+        "render": {
+          "frame": 18,
+          "calls": 1768,
+          "triangles": 16331230,
+          "points": 2340,
+          "lines": 0
+        },
+        "memory": {
+          "geometries": 1275,
+          "textures": 102
+        },
+        "heap": 1231755957,
+        "frameSamples": [
+          [
+            293769.10000002384,
+            144.69999998807907,
+            1767,
+            16330110
+          ],
+          [
+            293918.3000000119,
+            67.90000000596046,
+            1768,
+            16331230
+          ]
+        ]
+      }
+    },
+    {
+      "view": "cabana-interior",
+      "camera": [
+        -532,
+        -144,
+        679
+      ],
+      "fov": 85,
+      "before": {
+        "render": {
+          "frame": 20,
+          "calls": 1487,
+          "triangles": 12761912,
+          "points": 2340,
+          "lines": 0
+        },
+        "memory": {
+          "geometries": 1039,
+          "textures": 102
+        },
+        "heap": 1087506273,
+        "frameSamples": [
+          [
+            302677.2999999821,
+            402.7000000178814,
+            1487,
+            12761912
+          ],
+          [
+            303084,
+            56.19999998807907,
+            1487,
+            12761912
+          ]
+        ]
+      },
+      "after": {
+        "render": {
+          "frame": 20,
+          "calls": 1501,
+          "triangles": 12975932,
+          "points": 2340,
+          "lines": 0
+        },
+        "memory": {
+          "geometries": 1156,
+          "textures": 102
+        },
+        "heap": 1207410112,
+        "frameSamples": [
+          [
+            341869.40000000596,
+            353.30000001192093,
+            1501,
+            12975932
+          ],
+          [
+            342227.60000002384,
+            66.59999999403954,
+            1501,
+            12975932
+          ]
+        ]
+      }
+    },
+    {
+      "view": "cafe-interior",
+      "camera": [
+        -450,
+        -158,
+        708
+      ],
+      "fov": 85,
+      "before": {
+        "render": {
+          "frame": 22,
+          "calls": 1717,
+          "triangles": 15767840,
+          "points": 740,
+          "lines": 0
+        },
+        "memory": {
+          "geometries": 1191,
+          "textures": 102
+        },
+        "heap": 1092030444,
+        "frameSamples": [
+          [
+            342191.2999999821,
+            492.40000000596046,
+            1716,
+            15766592
+          ],
+          [
+            342690.5,
+            74.09999999403954,
+            1717,
+            15767840
+          ]
+        ]
+      },
+      "after": {
+        "render": {
+          "frame": 22,
+          "calls": 1743,
+          "triangles": 15875676,
+          "points": 740,
+          "lines": 0
+        },
+        "memory": {
+          "geometries": 1213,
+          "textures": 102
+        },
+        "heap": 1214707458,
+        "frameSamples": [
+          [
+            378253.5,
+            462.2000000178814,
+            1743,
+            15875676
+          ],
+          [
+            378728,
+            79.7000000178814,
+            1743,
+            15875676
+          ]
+        ]
+      }
+    },
+    {
+      "view": "waterfall-interior",
+      "camera": [
+        -356,
+        -158,
+        722
+      ],
+      "fov": 85,
+      "before": {
+        "render": {
+          "frame": 24,
+          "calls": 1574,
+          "triangles": 14477461,
+          "points": 2340,
+          "lines": 0
+        },
+        "memory": {
+          "geometries": 1102,
+          "textures": 102
+        },
+        "heap": 1100285743,
+        "frameSamples": [
+          [
+            386095.7999999821,
+            258.10000002384186,
+            1574,
+            14477461
+          ],
+          [
+            386360.1999999881,
+            23948.30000001192,
+            1574,
+            14477461
+          ]
+        ]
+      },
+      "after": {
+        "render": {
+          "frame": 24,
+          "calls": 1606,
+          "triangles": 14653669,
+          "points": 2340,
+          "lines": 0
+        },
+        "memory": {
+          "geometries": 1147,
+          "textures": 102
+        },
+        "heap": 1222131344,
+        "frameSamples": [
+          [
+            417744.60000002384,
+            211.89999997615814,
+            1606,
+            14653669
+          ],
+          [
+            417964.10000002384,
+            20749.5,
+            1606,
+            14653669
+          ]
+        ]
+      }
+    }
+  ]
+}
