@@ -677,3 +677,15 @@ actual physical centers and all96 contacts/14 basins/stairs/approach against
 published c477057. Room marker world transforms and physical centers are distinct.
 Reusable authored art, affected-route checks and repeated native reference review
 reduce iteration cost; final offline probes follow art lock. No V8 publication yet.
+
+## 2026-11-19 — V8 actual batch shadow fix и отдельный V11
+
+PR#3 merged812c8a6; workflow44601625796 пока pending. Не путать merge/live/approval.
+Actual final9PNG+phone и source matching сохранены fce0867 на release-evidence.
+Пятно на дне было exterior shadow receive actual batch; f026 сохраняет SPA-only
+sourcefalse после batcher. Финальный Thermal кадр без полигона. Общий batcher/океан
+не изменены. Stage1/2 отвергнуты пользователем; final далёк от референса.
+V11water-only изолирован codex/spa-water-v11: profiles+refraction utility remote97b6b1d.
+Дальнейшая интеграция38поверхностей пока WIP. Один framebuffercopy для рефракции
+всегоSPA закадр, без дополнительных scene renders/per-pool RT; надо измерять.
+Текущая стабильная публикация всё ещё c477057 до exact HTTP подтверждения812.

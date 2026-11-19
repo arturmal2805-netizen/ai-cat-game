@@ -2,51 +2,60 @@
 
 Обновлено 19 ноября 2026, Europe/Kyiv. Публикация подтверждена в19:54 по Киеву.
 
-## Активная работа — SPA V8, WIP без публикации
+## Активная работа — V8 публикация, V11 отдельно
 
-Remote код: `codex/spa-v8-visual-overhaul`, **`25e52c3`**.
-Основа — опубликованный c477057; V7 структура не перестраивается повторно.
-Точные V8 и новые Thermal/Golden/Cabana исправления: docs/specifications/ в
-кодовой ветке. Новый фото-туториал сохраняет8комнат; поздние парные фото требуют
-прозрачную воду/каустику, тёплый свет и реально заметное улучшение мебели/деталей.
-Пользователь прямо отверг stage1/stage2: «их нету». Не считать их visualapproval.
-Пиксели оригинальных reference пока в сообщениях; не объявлять их архивированными.
+V8 в main **812c8a6723dcbe106b567da88e1c3e1b1e4e399d**, PR#3 MERGED.
+Родители c477057 и4d686b540b23278dc6ea10725d3726f650c0d84e; дерево равно кандидату,
+ручных конфликтов нет. Workflow44601625796 сейчас выполняет tests. Ещё НЕ live.
+До полного SUCCESS и HTTP проверки текущая стабильная версия ниже — c477057.
+Не делать повторный merge/deploy. Пользователь уже разрешил публикацию.
 
-SPA_LAYOUT_BASELINE.json заморозил root(-450,-165,480),8 physical centers,
-96 contacts,14 бассейнов, лестницы и подход. Room Group-маркеры identity,
-их world position не равна физическому центру. Native actual matrices сверяются.
-BEFORE9, stage1/2 PNG/source/QA bundle/бинарные patches/логи —
-`docs/qa/2026-11-19/spa-v8/` в кодовой ветке. Все96 подходов/лестницы PASS;
-после переносов отдельно Thermal16/Golden30/Cabana6 и14pool returns PASS.
-На stage2 byte-check896 защищённых public files совпал с c477057; последующий
-world.js изменён только для нового приглашения, а SPA файлы — для local art.
+Полный native PASS: бесплатный вызов Чичи/повтор/реальный приход/SQLite reload,
+8процедур/8VIPванн/sky/Cafe/legacytickets/лифт/лестницы/Cloudexport, coins/inventory
+сохранены. Actual phone390×844/DPR2 heldtouch4м и World release PASS.
+Финальные9DPR2кадров просмотрены; camera/FOV/scene lights совпадают с BEFORE.
+438импортированных модулей final и phone совпали с main по SHA256.
+Архив remote codex/spa-v8-release-evidence **fce086793695fe10a6d51c4ae83c24263dfc7bfb**,
+каталог docs/qa/2026-11-19/spa-v8-release, включая сравнение/PNG/source/bundle/логи.
+Это технические проверки, НЕ visualapproval или hardware Mac/phone FPS.
 
-В25e52c3: SPA-only shallow water profile, реальная shared-field каустика,
-подсветка ступеней/бортиков, прозрачнее пузырьки, подвесная растительность,
-сакура/светильники Golden, тёмный public upper floor, округлая Cabana мебель.
-Контакт.92м и прежние foot supports сохранены. Исправлен порядок hooks:
-room-light мог затереть ранее установленную каустику. Тест actual final batch
-проверяет сохранённые lamp+caustic shader и живой clock/физическую глубину PASS.
-Большой тёмный полигон остаётся без водной поверхности: не установлен как баг
-interface shader. Сейчас integrated native изолирует world shadows дна.
-Нельзя заявлять причину или устранение до просмотра paired кадров.
+Причина Thermal тёмного полигона: exterior shadow map на фактическом render batch
+дна. Без water surface пятно оставалось, без shadowreceive дна исчезало.
+114f изменил source.receiveShadow=false, но общий batcher снова включалtrue.
+**f026b778ab7a6ac22696dfa974d7efeda47ea5e3** сохраняет false на actual SPA-only
+liner batches. Финальный Thermal PNG подтвердил исчезновение. Не расследовать
+и не переписывать это снова в V11. Глобальный model-batching не меняли.
 
-Кнопка «Позвать Чичи в SPA» уже в коде. Бесплатный вызов, процедуры отдельно.
-Между локациями — существующий magical recall, далее реальная ходьба/лифт/вход.
-Работа/сон и simulation owner проверяются; повторного вызова/списания нет.
-Первый native дошёл до dry(-450,-164.988,769.2), walk/riding/arrived, wallets/
-inventory/receipts прежние. Repeat-клик timeout: focus закономерно закрыл панель.
-QA исправлен: снова открыть SPA и проверить repeat + настоящий SQLite reload.
-Не считать первый частичный прогон полным PASS. Новый integrated run идёт в
-/workspace/qa/spa-v8-integrated(.log); затем8 процедур/transport/export.
-Перезапуск среды прервал diagnostic2 до кадров; success нет. Один GPU run.
+Actual9room probes сняты после art lock, без воды/котиков/feedback.
+Atlas spa-interiors-ffabc732b641.png SHA256
+ffabc732b641d70c2894ca97ebff1ab83ba4fecbf6da71e5d0251efd19648d6f;
+linear radiance/4, NoColorSpace, rawSHA6ff6afe1c0311addf8ba77a7db24e3479b23b84742fe1da3a48755243ff9472f.
+Ожидаемый build JS17fb011e9dc66129ccbbdc47da645188c161b25f941d64c59a9eff336ae8f65a,
+CSS1ca6fd7d91d93d2434122de8b604f9e1f0306145487ece7434204f01d46492bc,
+HTML одно module-приложение. Это пока ожидаемые bytes, не live receipt.
 
-Local Node22 full tests1191/1191 завершился, но source менялся по новым правкам
-во время прогона — это не exact-source release gate. Нужны clean final CI,
-точный Node22 build,8+фасад matched DPR2 кадры/память/полное время кадра,
-новые offline9 probes после art lock, phone/save/Cloud и live actual bytes.
-Отражения не переснимать после каждой мелочи. Успешный CI не visualapproval,
-SwiftShader не подтверждает Mac/phone FPS. Экономика/AI/котики/океан/ТРЦ сохранены.
+Пользователь отверг stage1/stage2 «их нету». Final всё ещё проще референса;
+каустика слишком узорчатая, роскошное наполнение неполно. Не называть весь V8
+завершённым/одобренным. Прежние8комнат/96контактов/14бассейнов не переносились.
+Кнопка «Позвать Чичи в SPA» бесплатна; процедуры оплачиваются отдельно.
+
+V11 — новый WATER ONLY объём из пользовательского файла, сохранённый целиком:
+docs/specifications/spa-water-quality-v11-2026-11-19.md.
+Отдельный worktree /workspace/chichi-spa-water-v11, ветка codex/spa-water-v11.
+Remote checkpoint97b6b1d: immutable profiles/metre absorption + bounded one-frame
+refraction capture utility (не дополнительные scene renders). Сейчас runtime
+интеграция WIP на диске: все38реальных surfaces (14basins+20garden+4weir/falls),
+metric steps, softer liner/step caustics, own underwater-step material,
+3wave scales, actual opaque-frame refraction после sRGB output без doubleACES.
+CPU integration38profile counts+hooks+disposal PASS; build/native ещё нужны.
+Cabana не имеет бассейна: новые водные объекты не создавать. Ocean/Mall/интерьеры/
+кошельки/AI/модели не менять. Один GPU run одновременно. Не обещать сходство/FPS.
+
+Рабочий V8 evidence checkout /workspace/chichi-emergency-save-recovery теперь
+codex/spa-v8-release-evidence, product public равен main812. V11 не находитсятам.
+Прерывание среды убивало diagnostic2, не считать его PASS. Старые worktrees не удалены.
+Диск близок к полному: удалять можно лишь asset-копии завершённых своих private QA,
+сохранив SQLite/logs и архив source/PNG; не чистить чужие worktrees.
 
 ## Стабильная опубликованная версия
 
