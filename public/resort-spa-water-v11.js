@@ -10,10 +10,11 @@ export function configureSpaWater(material,{kind='thermal',depth,rx=0,rz=0,steps
  if(!Number.isFinite(depth)||depth<=0)throw Error('SPA water needs physical depth in metres');
  const q=spaWaterQuality(kind),u=material.uniforms;
  u.uColor.value.set(q.clear);u.uShoreColor.value.set(q.shallow);u.uOpacity.value=q.transparency;u.uWaterDepth.value=depth;
- Object.assign(u,{uSpaSceneColor:{value:null},uSpaRefractionReady:{value:0},uSpaViewport:{value:new T.Vector2(1,1)},uSpaAbsorption:{value:new T.Vector3(...q.absorption)},uSpaScatter:{value:q.scattering},uSpaRefract:{value:q.refractionStrength},uSpaRoughness:{value:q.roughness},uSpaWaveSpeed:{value:q.waveSpeed},uSpaNormal:{value:q.normalStrength},uSpaWaveAmplitude:{value:q.waveAmplitude},uSpaReflection:{value:q.reflectionStrength},uSpaBasin:{value:new T.Vector3(rx,rz,steps?1:0)}});
+ Object.assign(u,{uSpaSceneColor:{value:null},uSpaRefractionReady:{value:0},uSpaViewport:{value:new T.Vector2(1,1)},uSpaAbsorption:{value:new T.Vector3(...q.absorption)},uSpaScatter:{value:q.scattering},uSpaRefract:{value:q.refractionStrength},uSpaRoughness:{value:q.roughness},uSpaWaveSpeed:{value:q.waveSpeed},uSpaNormal:{value:q.normalStrength},uSpaWaveAmplitude:{value:q.waveAmplitude},uSpaFoam:{value:q.foamIntensity},uSpaReflection:{value:q.reflectionStrength},uSpaBasin:{value:new T.Vector3(rx,rz,steps?1:0)}});
+ material.vertexShader='uniform float uSpaWaveSpeed,uSpaWaveAmplitude;\n'+material.vertexShader.replace('sharedWaterWaves(p.xy,uTime,','sharedWaterWaves(mix(p.xz,p.xy,uFall),uTime*uSpaWaveSpeed,').replace('float wave=baseWave.x;','float wave=baseWave.x+sin(dot(p.xz,vec2(.31,.17))-uTime*uSpaWaveSpeed*.65)*uSpaWaveAmplitude;');
  const header=`
 uniform sampler2D uSpaSceneColor;uniform float uSpaRefractionReady;uniform vec2 uSpaViewport;
-uniform vec3 uSpaAbsorption;uniform float uSpaScatter,uSpaRefract,uSpaRoughness,uSpaWaveSpeed,uSpaNormal,uSpaWaveAmplitude,uSpaReflection;
+uniform vec3 uSpaAbsorption;uniform float uSpaScatter,uSpaRefract,uSpaRoughness,uSpaWaveSpeed,uSpaNormal,uSpaWaveAmplitude,uSpaReflection,uSpaFoam;
 uniform vec3 uSpaBasin;
 float spaMetricDepth(){
  float depth=uWaterDepth;
@@ -51,6 +52,7 @@ void spaRefract(vec2 slope,float depth){
  f=f.replace('vec2 slope=sharedWaterSlope(fieldA,fieldB);',`vec2 slope=sharedWaterSlope(fieldA,fieldB)*uSpaNormal;
  vec2 broadPhase=vec2(dot(vWaterPoint.xz,vec2(.31,.17)),dot(vWaterPoint.xz,vec2(-.19,.27)))-uTime*uSpaWaveSpeed*vec2(.65,.43);
  slope+=cos(broadPhase)*uSpaWaveAmplitude*vec2(.31,.27);`);
+ f=f.replace('float foam=clamp(shoreFoam+wakeFoam,0.,.48);','float foam=clamp((shoreFoam+wakeFoam)*uSpaFoam/.04,0.,.2);');
  f=f.replace('float roughness=.085;','float roughness=uSpaRoughness;').replace('sky*fresnel','sky*fresnel*uSpaReflection');
  f=f.replace(/float waterDepth=(?:mix\([^;]+\)|uWaterDepth);/,'float waterDepth=spaMetricDepth();');
  // Both waterfall early-return and ordinary surface use this same transfer.
@@ -62,7 +64,12 @@ void spaRefract(vec2 slope,float depth){
 }
 
 export function prepareSpaWaterQuality(root){
- const data=root.userData,assigned=new Set();
+ const data=root.userData,assigned=new Set(),ornamentalMaterials=new Map();
+ const ornamental=(bed,wall,water,kind,level,depth)=>{
+  const key=kind+':'+level+':'+depth;let m=ornamentalMaterials.get(key);
+  if(!m){m=bed.material.clone();m.color.setHex(0x87d3da);m.roughness=.34;const q=spaWaterQuality(kind);registerSpaCausticProfile(m,{clock:water.uniforms.uTime,worldLevel:level,fieldScale:q.causticScale,intensity:q.causticIntensity,depth:0});ornamentalMaterials.set(key,m);}
+  for(const o of [bed,wall]){o.material=m;o.receiveShadow=false;o.userData.resortWaterLiner=true;}
+ };
  for(const b of data.basins){const p=b.userData.palacePool,water=b.userData.surface.material;
   const kind=p.sky?'sky':p.id==='thermal-main'?'thermal':p.id.startsWith('cafe')?'cafe':'vip';
   configureSpaWater(water,{kind,depth:b.userData.depth,rx:p.rx,rz:p.rz,steps:true});assigned.add(water);
@@ -75,10 +82,11 @@ export function prepareSpaWaterQuality(root){
    const dispose=b.userData.dispose;b.userData.dispose=()=>{stepMaterial.dispose();dispose();};
   }
  }
- for(const f of data.gardenFeatures||[])for(const t of f.tiers){configureSpaWater(t.water.material,{kind:f.level===1?'aroma':'waterfall',depth:t.spec.depth,rx:t.spec.rx,rz:t.spec.rz});assigned.add(t.water.material);}
- for(const f of data.thermalCascades||[]){configureSpaWater(f.source.material,{kind:'cascade',depth:f.spec.depth,rx:f.spec.rx,rz:f.spec.rz});assigned.add(f.source.material);}
+ for(const f of data.gardenFeatures||[])for(const t of f.tiers){const kind=f.level===1?'aroma':'waterfall';configureSpaWater(t.water.material,{kind,depth:t.spec.depth,rx:t.spec.rx,rz:t.spec.rz});ornamental(t.bed,t.wall,t.water.material,kind,root.position.y+t.spec.y,t.spec.depth);assigned.add(t.water.material);}
+ for(const f of data.thermalCascades||[]){configureSpaWater(f.source.material,{kind:'cascade',depth:f.spec.depth,rx:f.spec.rx,rz:f.spec.rz});ornamental(f.bed,f.wall,f.source.material,'cascade',root.position.y+f.spec.y,f.spec.depth);assigned.add(f.source.material);}
  for(const w of data.waters)if(!assigned.has(w.material))configureSpaWater(w.material,{kind:'cascade',depth:w.material.uniforms.uFall.value>.5?.035:w.material.uniforms.uWaterDepth.value});
  data.waterQuality={version:11,surfaces:data.waters.length,profiles:data.waters.map(w=>w.material.userData.spaWaterQuality)};
+ const dispose=data.dispose;data.dispose=()=>{for(const m of ornamentalMaterials.values())m.dispose();dispose();};
 }
 
 export function attachSpaRefraction(root){

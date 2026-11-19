@@ -3,16 +3,16 @@
 export const SPA_WATER_DEFAULTS=Object.freeze({
  absorption:Object.freeze([.085,.028,.014]),scattering:.055,transparency:.56,
  roughness:.095,normalStrength:.75,waveSpeed:.65,waveAmplitude:.009,
- causticIntensity:.28,causticScale:.32,reflectionStrength:1,
+ causticIntensity:.34,causticScale:.2,reflectionStrength:1.3,
  refractionStrength:.8,bubbleDensity:.6,foamIntensity:.04,
  shallow:'#65f2ed',clear:'#00d8e8',medium:'#009fc0',deep:'#086a91',
 });
 export const SPA_WATER_PROFILES=Object.freeze(Object.fromEntries(Object.entries({
- thermal:{waveSpeed:.48,waveAmplitude:.008,causticScale:.28},
- vip:{waveSpeed:.9,waveAmplitude:.012,normalStrength:.95,causticScale:.5,bubbleDensity:1,foamIntensity:.08},
- cafe:{waveSpeed:.4,waveAmplitude:.005,normalStrength:.55,causticScale:.48,bubbleDensity:.35},
- aroma:{waveSpeed:.3,waveAmplitude:.004,normalStrength:.45,causticScale:.55,foamIntensity:.015},
- waterfall:{waveSpeed:.75,waveAmplitude:.012,normalStrength:.9,causticScale:.4,foamIntensity:.15},
+ thermal:{waveSpeed:.48,waveAmplitude:.008,causticScale:.1},
+ vip:{waveSpeed:.9,waveAmplitude:.012,normalStrength:.95,causticScale:.2,bubbleDensity:1,foamIntensity:.08},
+ cafe:{waveSpeed:.4,waveAmplitude:.005,normalStrength:.55,causticScale:.2,bubbleDensity:.35},
+ aroma:{waveSpeed:.3,waveAmplitude:.004,normalStrength:.45,causticScale:.3,foamIntensity:.015},
+ waterfall:{waveSpeed:.75,waveAmplitude:.012,normalStrength:.9,causticScale:.25,foamIntensity:.15},
  cabana:{waveSpeed:.35,waveAmplitude:.004,normalStrength:.5,causticScale:.5,bubbleDensity:.2},
  sky:{waveSpeed:.4,waveAmplitude:.006,normalStrength:.65,causticScale:.35,transparency:.48},
  cascade:{waveSpeed:1,normalStrength:.9,waveAmplitude:.012,causticScale:.5,foamIntensity:.22},

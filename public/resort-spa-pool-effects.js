@@ -3,18 +3,19 @@ import {createJacuzziEffects} from './spa-effects.js';
 import {SPA_JACUZZI} from './spa-data.js';
 import {RESORT_ZONES,RESORT_SPA} from './resort-spa-data.js';
 import {resortPools} from './resort-spa-pool-data.js';
+import {spaWaterQuality} from './resort-spa-water-quality.js';
 // Reuse the existing GPU particle implementation; original island SPA remains
 // untouched. Static instance buffers, one clock per basin and no PointLights.
 export function createResortPoolEffects({zones=RESORT_ZONES,poolsFor=resortPools}={}){
  const root=new T.Group(),effects=[],geometries=new Set(),materials=new Set();
- for(const zone of zones.filter(z=>z.procedure==='jacuzzi'||z.procedure==='vip'))for(const pool of poolsFor(zone)){
+ for(const zone of zones.filter(z=>z.procedure==='jacuzzi'||z.procedure==='vip'||z.roomId&&z.key==='cafe'))for(const pool of poolsFor(zone)){
   const group=new T.Group();group.name='SPA dynamic jacuzzi '+zone.id+' '+effects.length;const source=new T.Group(),effect=createJacuzziEffects(source);group.userData.resortFloor=zone.level;source.position.set(-SPA_JACUZZI.x,-.5,-SPA_JACUZZI.z);group.add(source);group.scale.set(pool.rx/3,1,pool.rz/3);group.position.set(pool.x,pool.y-RESORT_SPA.y,pool.z);root.add(group);effects.push(effect);
-  source.traverse(o=>{if(zone.roomId&&o.isInstancedMesh&&o.material.isMeshStandardMaterial){o.material.opacity=.2;o.material.color.setHex(0xbceff2);o.material.roughness=.12;o.material.metalness=.08;}if(o.isMesh){geometries.add(o.geometry);materials.add(o.material);}});
+  source.traverse(o=>{if(zone.roomId&&o.isInstancedMesh){o.userData.spaWaterDynamic=true;if(o.material.isMeshStandardMaterial){o.count=Math.round(24*spaWaterQuality(zone.key==='cafe'?'cafe':'vip').bubbleDensity);o.material.opacity=.2;o.material.color.setHex(0xbceff2);o.material.roughness=.12;o.material.metalness=.08;}else if(zone.key==='cafe')o.count=4;}if(o.isMesh){geometries.add(o.geometry);materials.add(o.material);}});effect.group=group;
  }
- return{root,update:(time,reduced)=>effects.forEach(e=>e.userData.update(time,reduced)),dispose(){for(const g of geometries)g.dispose();for(const m of materials)m.dispose();}};
+ return{root,update:(time,reduced)=>effects.forEach(e=>{if(e.group.visible)e.userData.update(time,reduced);}),dispose(){for(const g of geometries)g.dispose();for(const m of materials)m.dispose();}};
 }
 const emitted=new WeakMap();
 export function updateResortPoolRipples(root,visits,time,reduced){if(reduced)return;for(const v of visits.values()){
- if(!v.contact?.pool||!['wet-swim','wet-return','procedure'].includes(v.phase))continue;if(time-(emitted.get(v)??-Infinity)<.7)continue;const p=v.contact.pool,basin=root.userData.basins.find(b=>Math.abs(b.position.x-p.x)<.01&&Math.abs(b.position.z-p.z)<.01&&Math.abs(b.position.y+RESORT_SPA.y-p.y)<.01);if(!basin)continue;
+ if(!v.contact?.pool||!['wet-enter','wet-swim','wet-return','wet-exit','wet-shake','procedure'].includes(v.phase))continue;if(time-(emitted.get(v)??-Infinity)<.7)continue;const p=v.contact.pool,basin=root.userData.basins.find(b=>Math.abs(b.position.x-p.x)<.01&&Math.abs(b.position.z-p.z)<.01&&Math.abs(b.position.y+RESORT_SPA.y-p.y)<.01);if(!basin)continue;
  const material=basin.userData.surface.material,slots=material.uniforms.uRipples.value,slot=slots.reduce((a,b)=>a.z<b.z?a:b);slot.set(root.position.x+v.position.x,root.position.z+v.position.z,time,v.zone.procedure==='swim'?.08:.035);material.uniforms.uRippleCount.value=slots.filter(r=>r.w>0).length;emitted.set(v,time);
  }}
