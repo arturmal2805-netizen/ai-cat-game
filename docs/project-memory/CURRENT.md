@@ -104,10 +104,21 @@ coalesced selected-only загрузка, immutable mipmapped DataArrayTexture(~
 SPA floors и21pool profiles. Shared water/Mall/AI/save/models не менялись.
 3 unit cases PASS: actual PNG/raw parity, corrupt/offline fallback/coalescing,
 shader hook composition. Это пока НЕ actual GPU/pass или визуальное одобрение.
-Нативный прогон exec2357 /workspace/qa/spa-v6-room-reflections-native.log,
-результаты /workspace/qa/spa-v6-room-reflections. Сначала проверить прогресс;
-не запускать второй GPU. Код5adfcdb оставлять неизменным до завершения.
-Проверяет GLSL/data-array readback и21pool layers, шесть обычных ракурсов+World.
+Нативный прогон5adfcdb ЗАВЕРШЁН PASS: actual GLSL/data-array readback
+пятислоёв byte-exact,21pool profiles, шесть reference views и World release.
+Proof удалённый **bd6195ee5f318b1bc6c3c5538af99de808d89df0**, WIP
+docs/qa/2026-11-19/spa-v6-room-reflections/. Сверка всехR1/R2/R4/R5 сохраняет
+visual WIP: слишком плоские шторы/подушки/светлые полы/редкие сады.
+Особенно VIP: широкое янтарное пятно отражения на rough ceiling;
+следом калибровать roughness response, не глобальный свет. FOV отличается
+≤0.00124°, eye≤5.4mm; не exact pixel A/B. Mac/phone FPS не проверен.
+
+Следующий material/soft-furnishing этап начат локально в основном worktree:
+изогнутые tied curtains, пухлые decorative pillows, actual existing velour
+normal/roughness, разные marble floors ночных комнат, свой256px VIP galaxy.
+Не меняются station/support/cat/save/collisions. Существующие capture probes
+сняты ДО этого art этапа; перед финальным релизом обновить их после геометрии.
+Native нового этапа ещё не запускался; текущий local diff НЕ считать готовым.
 Новый вспомогательный sparse checkout /workspace/chichi-spa-reflection-runtime,
 ветка codex/spa-reflection-runtime, база d8b3b03 — чистый, без loader правок.
 Не считать создание checkout реализацией и не начинать capture заново.
