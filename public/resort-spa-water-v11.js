@@ -1,3 +1,4 @@
+import {installSpaWaterHighlights} from './resort-spa-water-highlights.js';
 import * as T from 'three';
 import {spaWaterQuality} from './resort-spa-water-quality.js';
 import {createSpaRefraction} from './resort-spa-refraction.js';
@@ -90,6 +91,7 @@ export function prepareSpaWaterQuality(root){
 }
 
 export function attachSpaRefraction(root){
+ installSpaWaterHighlights(root);
  const capture=createSpaRefraction(root),dispose=root.userData.dispose;
  root.userData.waterQuality.refraction=capture.stats;
  root.userData.dispose=()=>{capture.dispose();dispose();};

@@ -1,0 +1,24 @@
+{
+  "samples": {
+    "copyDisabled": [
+      161.09999999403954,
+      60.5,
+      53.29999998211861,
+      71.40000000596046
+    ],
+    "copyEnabled": [
+      71.7999999821186,
+      55.099999994039536,
+      98.90000000596046,
+      100.69999998807907
+    ]
+  },
+  "capture": {
+    "enabled": true,
+    "copies": 18,
+    "sceneRenders": 0,
+    "textureBytes": 11554560,
+    "resizes": 1
+  },
+  "scope": "Four full native simulation/render steps with gl.finish per mode in SwiftShader. Copy-on/off overhead comparison only; no hardware FPS claim."
+}

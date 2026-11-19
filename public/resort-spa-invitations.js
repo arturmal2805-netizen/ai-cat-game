@@ -6,6 +6,7 @@ export function createSpaInvitations({actors,free,recall,ride,transit,navigation
  const local=p=>({x:p.x-origin.x,y:p.y-origin.y,z:p.z-origin.z});
  const world=p=>({x:p.x+origin.x,y:p.y+origin.y,z:p.z+origin.z});
  const places=[];for(const z of contract.zones)for(let i=0;i<z.seats;i++){const c=contract.seat(z,i);if(!c.pool)places.push({...c.approach,y:c.approach.y-origin.y});}
+ places.sort((a,b)=>a.y-b.y);
  const clear=(p,r,id)=>actors().every(a=>a.id===id||Math.abs(local(a.position).y-p.y)>2||Math.hypot(local(a.position).x-p.x,local(a.position).z-p.z)>a.radius+r+.15)&&[...guests.values()].every(g=>g.id===id||!g.place||Math.abs(g.place.y-p.y)>2||Math.hypot(g.place.x-p.x,g.place.z-p.z)>g.radius+r+.15);
  const drop=id=>{if(!guests.has(id))return false;guests.delete(id);onRelease(id);return true;};
  function reserve(g){for(const p of places){if(!navigation.support(p,g.radius)||!clear(p,g.radius,g.id))continue;g.place={...p};return true;}return false;}
@@ -26,7 +27,7 @@ export function createSpaInvitations({actors,free,recall,ride,transit,navigation
    }
    if(clock<nextPlan)return;nextPlan=clock+.75;
    const plan=[...guests.values()].find(g=>g.phase==='plan');
-   if(plan){const actor=actors().find(a=>a.id===plan.id);if(!actor){drop(plan.id);return;}const p=local(actor.position),path=navigation.floorPath(p,plan.place,plan.radius);if(!path?.length){drop(plan.id);return;}plan.position=p;plan.path=path;plan.index=0;plan.phase='walk';return;}
+   if(plan){const actor=actors().find(a=>a.id===plan.id);if(!actor){drop(plan.id);return;}const p=local(actor.position),path=(navigation.path||navigation.floorPath)(p,plan.place,plan.radius);if(!path?.length){drop(plan.id);return;}plan.position=p;plan.path=path;plan.index=0;plan.phase='walk';return;}
    const ready=[...guests.values()].find(g=>g.phase==='ready');if(ready){if(ride(ready.id,1,'group-invitation'))ready.phase='transit';return;}
    if([...guests.values()].filter(g=>!['queued','parked'].includes(g.phase)).length>=4||[...guests.values()].some(g=>g.phase==='recall'))return;
    const g=[...guests.values()].find(g=>g.phase==='queued');if(!g||!reserve(g))return;if(recall(g.id)){g.phase='recall';}else g.place=null;
