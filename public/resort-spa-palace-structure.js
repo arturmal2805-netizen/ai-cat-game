@@ -1,3 +1,4 @@
+import {smoothPalaceNormals} from './resort-spa-palace-normals.js';
 import * as T from 'three';
 import {TessellateModifier} from 'three/addons/modifiers/TessellateModifier.js';
 import {SPA_PALACE as P,SPA_V7_ROOMS,SPA_PALACE_STAIRS,SPA_PALACE_APPROACH,spaPalaceOutline,spaPalaceRoofY,spaPalacePools,spaRoomMeasurement} from './resort-spa-layout-v7.js';
@@ -53,7 +54,7 @@ export function* resortPalaceStructureSteps({solid,shell,decor,surfaces,mats,geo
  setLevel(2);
  const roofGeometry=geometry('palace-connected-pressure-roof',()=>{
   let g=new T.ShapeGeometry(path(outline),72);g.rotateX(-Math.PI/2);const source=g;g=new TessellateModifier(6,9).modify(g);source.dispose();
-  const a=g.attributes.position;for(let i=0;i<a.count;i++)a.setY(i,spaPalaceRoofY(a.getX(i),a.getZ(i)));a.needsUpdate=true;g.computeVertexNormals();return g;
+  const a=g.attributes.position;for(let i=0;i<a.count;i++)a.setY(i,spaPalaceRoofY(a.getX(i),a.getZ(i)));a.needsUpdate=true;smoothPalaceNormals(g,spaPalaceRoofY);return g;
  });
  const roof=mesh(shell,roofGeometry,mats.glass,0,0,0);roof.name='SPA one continuous fused glass roof';
  // The same structural stair dimensions drive geometry and the later runtime.

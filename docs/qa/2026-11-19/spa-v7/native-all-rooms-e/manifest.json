@@ -1,0 +1,30 @@
+{
+  "sourceBase": "534f3a954643a0a1fda1632ab1dee762a07bf3d6",
+  "sourceState": "?? docs/qa/2026-11-19/spa-v7/native-functional-remaining/\n",
+  "result": "PASS 13 actual room/envelope/sky views with no browser/HTTP errors; visual defects recorded separately",
+  "visualReview": "Before final lighting correction: all room/sky frames captured. Hard floor light boundaries and faceted curved vault normals remain visible; not final visual approval.",
+  "files": {
+    "aroma-interior.png": "a7fee6c56b7a9e6d1d0473b69284774d899c69b180697c35f9dc9dd8bf69017a",
+    "cabana-interior.png": "d0137dd45f705c068a220928db946f3f72b7168c4797891f0771469437d6ed5d",
+    "cafe-interior.png": "787dd8cc0af9daac106495776f81a8ac9f5d1a03b3342806839db18dd95fa63c",
+    "golden-interior.png": "02a5b24912d1244637fcbcbc12b19157dca885d8bb30d864c130f9806a88f455",
+    "imported-source.tar.gz": "0a49d0ac9a27b5d9c973beefd40d2a808767b022118aeab1769a7af4c8793ff9",
+    "mass-angle.png": "5890a7d01359b1744b5b112b0602a81fbf57f71f576233c6c92768a460d2c3df",
+    "mass-front.png": "979ad6006c45db5c772efff5bac9e34913e80719ba85efb18d5f551a3c650b0a",
+    "mass-top.png": "78c514eb52ea0522d8ae9836ccebc1013fc4ec193a712e3167565afc15b02ac6",
+    "massage-interior.png": "f371984354d839f0902acf3016d22e60c1d402198a4368fda216748b11a2b3ae",
+    "midnight-interior.png": "d75511003194e0f33509c492d746aa48e56921999c356f8176b6d2f781521f50",
+    "native.log": "82e4e9895c0911178d9ae90e0b70dd8d307c2b259de2732e3751bb8d734ad24c",
+    "qa-app.js.gz": "79c16c251756de3dd4703877bd32856f23b23393f8761996986a475e1ed6047e",
+    "qa-build.json": "88b6c9deaa1cca768bb0cf9ba377921b289e6ac336d79a0cee6c43ba8221d275",
+    "sky-pool-above.png": "9a289b908fa86d42f70c8b6d00746213d41aa8e794df43dd13d3d237459b961c",
+    "sky-pool-below.png": "6b974d643caebcb15357889f4c8678f0f4e7d5e19ef75f19373b6aa7115a39e4",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "7eabb354fc792940f324296f5a36c7d8e77b9041edc7fc54f29c8e44a8d93d8c",
+    "source-status.txt": "f9f7b057c459b5785d4228335048bef440bcd8395cf552f882003d8f05d6baf0",
+    "thermal-interior.png": "5dd38561d0d2c8d16b893ce096a4f1433688f376ccdcba4628c422f648ea3077",
+    "v7-mass-frames.json": "da22d81120c6b3111a37a2b835b251bc2447b442fba04ac3465ff6338aa32ef8",
+    "waterfall-interior.png": "bdfaf7947e504a3cdcc5e86dcdd28bdb30d609725780a2c1c074f38741689801"
+  }
+}

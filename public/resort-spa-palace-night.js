@@ -1,3 +1,4 @@
+import {smoothPalaceNormals} from './resort-spa-palace-normals.js';
 import * as T from 'three';
 import {TessellateModifier} from 'three/addons/modifiers/TessellateModifier.js';
 import {SPA_V7_ROOMS,SPA_PALACE as P,spaRoomOutline,spaNightCeilingY} from './resort-spa-layout-v7.js';
@@ -10,7 +11,7 @@ export function* resortPalaceNightSteps({shell,decor,mats}){
  for(const z of SPA_V7_ROOMS.filter(z=>['vip','midnight'].includes(z.key))){
   const outline=spaRoomOutline(z,.8),shape=new T.Shape();outline.forEach((p,i)=>i?shape.lineTo(p.x,-p.z):shape.moveTo(p.x,-p.z));shape.closePath();
   const source=new T.ShapeGeometry(shape,32);source.rotateX(-Math.PI/2);const g=own(new TessellateModifier(4,8).modify(source));source.dispose();const p=g.attributes.position,uv=g.attributes.uv;
-  for(let i=0;i<p.count;i++){const x=p.getX(i),d=p.getZ(i);p.setY(i,spaNightCeilingY(z,x,d));uv.setXY(i,(x-z.x)/(z.rx*2)+.5,(d-z.z)/(z.rz*2)+.5);}g.computeVertexNormals();
+  for(let i=0;i<p.count;i++){const x=p.getX(i),d=p.getZ(i);p.setY(i,spaNightCeilingY(z,x,d));uv.setXY(i,(x-z.x)/(z.rx*2)+.5,(d-z.z)/(z.rz*2)+.5);}smoothPalaceNormals(g,(x,d)=>spaNightCeilingY(z,x,d));
   const material=new T.MeshStandardMaterial({color:z.key==='vip'?0x291f29:0x0e1831,roughness:.92,side:T.DoubleSide});materials.add(material);
   if(z.key==='vip'){const chart=spaGalaxyTexture({planar:true});textures.add(chart);material.emissiveMap=chart;material.emissive.setHex(0xffffff);material.emissiveIntensity=1.6;}
   const vault=new T.Mesh(g,material);vault.name='SPA full-height '+z.key+' star vault';vault.userData.resortFloor=2;shell.add(vault);
