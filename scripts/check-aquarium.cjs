@@ -360,6 +360,7 @@ async function localWorker() {
     if(process.env.CHICHI_RESORT_SPA_AUDIT){
       delete g.mosasaurSubmarine;delete g.catLocations;
       const paidV6=!!(process.env.CHICHI_SPA_V6_CONTACTS||process.env.CHICHI_SPA_V6_PROCEDURES||process.env.CHICHI_SPA_V6_VIP_LOUNGE||process.env.CHICHI_SPA_V6_CAFE_WATER);
+      if(process.env.CHICHI_SPA_V7_FUNCTIONAL_AUDIT)g.jobCity.profiles.chichi.coins=20000;
       if(paidV6||process.env.CHICHI_RESORT_SPA_PROCEDURE_AUDIT||process.env.CHICHI_RESORT_SPA_TRANSIT_AUDIT||process.env.CHICHI_RESORT_SPA_POOLS_AUDIT||process.env.CHICHI_RESORT_SPA_DRY_AUDIT)
         g.jobCity.profiles.chichi.coins=paidV6||process.env.CHICHI_RESORT_SPA_DRY_AUDIT&&process.env.CHICHI_RESORT_SPA_POOLS_AUDIT?6000:2000;
     }

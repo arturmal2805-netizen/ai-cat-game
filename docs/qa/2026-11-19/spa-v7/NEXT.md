@@ -184,3 +184,21 @@ now adjusts those and uses one exact stationary frame perview, not a FPS claim.
 Required remaining: promote9layers/hashes, native procedures/legacyticket/SQLite/
 reload/manualphone/Worldrelease + OWNERSHIP_AUDIT, finalNode22CI/live. Do not
 mistake a successful bake or old6 tests for finalfunctional or visual acceptance.
+
+## Nine-probe promotion / native functionality next
+Bake4d85624 completed9/9 with source-state guard. New atlas01443cd814ef,
+raw5a05a2493adaaa6112fea0adc41b86fbdd7e76671522119d369afb54c73c3264,
+exact bundlecc69072f01663062f94b096784929339f76b6cbef2e7a39b6f35e0efdf3e11ca.
+Archived native-nine-probes with exact inputs/source. Old15atlas kept historical.
+Production manifests9layers, cachekey includesrevision, sky8, finishclamp7.
+
+Additional reload protection: safePositions snapshots real dry, supported,
+nonoverlapping approaches for elevated/wet procedures. It never moves live actors
+or changes tickets. Interrupted paid sessions resume using their original receipt;
+completed sessions remain consumed. Ordinary walking saves current positions,
+exact lift restore unchanged. If no safe point found, preserve prior position.
+Asynchronous old-layout recovery is pruned if newer positions/commands arrive;
+manual control is disabled only while hero recovery owns it.
+Next native functional harness8rooms/8VIPbaths/sky/Cafewet/prepaid/lift/SQLite/
+mid-procedure reload/W/release/backup, then actual13 finalimages/phone/ownership.
+Do not publish until gates pass; main remains6e28f75.

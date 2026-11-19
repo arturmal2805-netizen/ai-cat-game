@@ -1,31 +1,25 @@
-// Actual native static SPA gardens and interiors, linear radiance /4. No gameplay captures.
+// Actual V7 static palace, eight rooms plus transparent sky pool; linear radiance /4.
 export const SPA_PROBE=Object.freeze({
  "size": 128,
- "layers": 15,
+ "layers": 9,
  "columns": 4,
- "rows": 4,
- "assetSha256": "c3beaca169a6462a0622a42858c67eec7bc14d61722b12d3530295de9c3b2cc0",
- "rgbaSha256": "da49c948fe3bfaa711f85a1fc0cf05aa5f511949554ddfd9e4bdd350312eaf9c",
- "revision": "7ff5e23e65753623f8e6542f5a361f2f2a3e5a01b1811f5154c7cdef16550337",
+ "rows": 3,
+ "assetSha256": "01443cd814ef1222ea2ccef537e5cb97989269428d4833cc9ebcdc7093fb6997",
+ "rgbaSha256": "5a05a2493adaaa6112fea0adc41b86fbdd7e76671522119d369afb54c73c3264",
+ "revision": "2ec040b8c46bbc46c770a604a75b2b0c7308d8c5b5d6afa0adef81908028f1c9",
  "gain": 4,
- "url": "./art/spa-reflections/spa-interiors-c3beaca169a6.png",
- "sourceHead": "ca0813f3ec71232b427f4d98667a0e3fb153ad57",
+ "sourceHead": "4d85624d8ecb722630f1a261ff5cc81a9234f026",
+ "url": "./art/spa-reflections/spa-interiors-01443cd814ef.png",
  "rooms": [
   "resort-thermal",
-  "resort-jacuzzi",
+  "resort-vip",
+  "resort-midnight",
   "resort-massage",
   "resort-aroma",
-  "resort-sauna",
   "resort-cabana",
-  "resort-beauty",
-  "resort-vip",
-  "resort-meditation",
-  "resort-nap",
   "resort-cafe",
   "resort-waterfall",
-  "resort-amber",
-  "resort-midnight",
   "resort-sky-pool"
  ],
- "provenance": "docs/qa/2026-11-19/spa-v6-gardens-probes/native/probes/manifest.json"
+ "provenance": "docs/qa/2026-11-19/spa-v7/native-nine-probes/probes/manifest.json"
 });

@@ -15,7 +15,7 @@ export function resortPalaceRecovery(game){
   if(!room&&!atrium)continue;
   const destination=room?spaTicketDestination(room.id):null,retired=room?.key&&['nap','meditation','beauty','sauna'].includes(room.key);
   const target=destination&&!retired?spaV7Seat(spaV7Service(destination),destination==='resort-vip'?18:0).approach:{x:p.x,y:P.baseY+.012,z};
-  out.set(id,{saved:{...p},oldRoom:room?.id||null,destination:retired?null:destination,target:{...target},retired:!!retired});
+  out.set(id,{saved:{...p},oldRoom:room?.id||null,destination:retired?null:destination,target:{...target},retired:!!retired,goalId:goal,goalAt:game.jobCity?.profiles[id]?.mall?.goal?.at??null});
  }
  return out;
 }
@@ -29,4 +29,23 @@ export function resolvePalaceRecovery(records,navigation,actors){
   if(chosen){result.set(id,chosen);reserved.push({...chosen,y:chosen.y-P.baseY,radius});}
  }
  return result;
+}
+
+// Preparation is asynchronous. A newer command/position always wins over the
+// startup repair; cancelling transient recovery never deletes durable data.
+export function prunePalaceRecovery(records,game){
+ for(const[id,r]of records){const p=game.catLocations?.[id],goal=game.jobCity?.profiles[id]?.mall?.goal;
+  if(!p||p.spaLayout===7||['biome','x','y','z','yaw','at'].some(k=>p[k]!==r.saved[k])||goal?.storeId!==r.goalId||(goal?.at??null)!==r.goalAt||id==='chichi'&&(game.mosasaurSubmarine?.active||game.mosasaurSubmarine?.explorer))records.delete(id);
+ }return records;
+}
+
+// A procedure owns an elevated/wet pose only in memory. Persist a real dry
+// approach for cold reload, without moving the live actor or touching receipts.
+export function palaceProcedureSavePositions(visits,navigation,actors){
+ const records=new Map();
+ for(const[id,v]of visits){if(!v.contact||!['mount','procedure','dismount'].includes(v.phase)&&!v.phase.startsWith('wet-'))continue;
+  records.set(id,{target:{...v.contact.approach},saved:{...v.returnTo},retired:false});
+ }
+ const resolved=resolvePalaceRecovery(records,navigation,actors);
+ return new Map([...records.keys()].map(id=>[id,resolved.get(id)||null]));
 }

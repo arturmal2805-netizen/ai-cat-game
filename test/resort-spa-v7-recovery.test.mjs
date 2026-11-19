@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';
-import {resortPalaceRecovery,resolvePalaceRecovery,spaPalaceCommonHall} from '../public/resort-spa-layout-recovery.js';
+import {resortPalaceRecovery,resolvePalaceRecovery,spaPalaceCommonHall,prunePalaceRecovery,palaceProcedureSavePositions} from '../public/resort-spa-layout-recovery.js';
 import {SPA_V6_ROOMS,SPA_PALACE as P} from '../public/resort-spa-layout-v7.js';
 import {resortSpaModelSteps} from '../public/resort-spa-model.js';
 import {createResortSpaNavigation} from '../public/resort-spa-navigation.js';
@@ -21,4 +21,18 @@ test('SPA layout marker survives reload and ordinary timestamp merge without alt
  const reload=loadGame({getItem:k=>k===SAVE_KEY?JSON.stringify(current):null},now,{advance:false});assert.equal(reload.catLocations.chichi.spaLayout,7);assert(!resortPalaceRecovery(reload).has('chichi'));assert.equal(captureCatLocations(current,current,[a],now+1),current);
  const stale={chichi:{...current.catLocations.chichi,spaLayout:undefined,at:now-1}};assert.equal(mergeCatLocations(current.catLocations,stale).chichi.spaLayout,7);
  const ordinary=captureCatLocations(current,current,[{...a,spaLayout:undefined,position:{x:0,y:.16,z:0}}],now+2);assert.equal(ordinary.catLocations.chichi.spaLayout,undefined);const malformed=normalizeCatLocations({chichi:{...ordinary.catLocations.chichi,spaLayout:7}},ordinary,now+2);assert.equal(malformed.chichi.spaLayout,undefined);
+});
+
+test('newer positions, commands and actual exploration during preparation cancel only the obsolete transient repair',()=>{
+ const p=saved(SPA_V6_ROOMS.find(r=>r.key==='vip')),base={unlocked:['autumn'],catLocations:{chichi:p}};
+ for(const change of [g=>{g.catLocations.chichi={...p,x:p.x+1,at:p.at+1};},g=>{delete g.catLocations.chichi;},g=>{g.mosasaurSubmarine={explorer:{mode:'swimming'}};},g=>{g.jobCity={profiles:{chichi:{mall:{goal:{storeId:'resort-aroma',at:now+1}}}}};}]){const records=resortPalaceRecovery(base),current=structuredClone(base);change(current);const snapshot=structuredClone(current);assert.equal(prunePalaceRecovery(records,current).size,0);assert.deepEqual(current,snapshot);}
+ const records=resortPalaceRecovery(base);assert.equal(prunePalaceRecovery(records,base).size,1);
+});
+
+test('mid-procedure saves use unique dry supported approaches without moving live cats or changing tickets',async()=>{
+ const {spaV7Service,spaV7Seat}=await import('../public/resort-spa-services-v7.js');let s,it=resortSpaModelSteps({layoutVersion:7});while(!(s=it.next()).done);const root=s.value;
+ try{const nav=createResortSpaNavigation(root),zone=spaV7Service('resort-vip'),contact=spaV7Seat(zone,0),visits=new Map(['a','b','c','d'].map(id=>[id,{phase:'procedure',contact,returnTo:{...contact.approach},position:{x:contact.x,y:contact.y,z:contact.z},receipt:'paid-'+id}])),actors=[...visits.keys()].map(id=>({id,radius:.571})),before=structuredClone(visits),out=palaceProcedureSavePositions(visits,nav,actors);assert.equal(out.size,4);
+ for(const[id,p]of out){assert(p,id);assert(nav.support({...p,y:p.y-P.baseY},.571));assert(Math.abs(p.y-contact.approach.y)<1e-6);for(const[j,q]of out)if(id!==j)assert(Math.hypot(p.x-q.x,p.z-q.z)>1.142);}
+ assert.deepEqual(visits,before);visits.get('a').phase='walk';assert(!palaceProcedureSavePositions(visits,nav,actors).has('a'));
+ }finally{root.userData.dispose();}
 });
