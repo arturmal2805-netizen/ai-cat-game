@@ -16,10 +16,13 @@ rawda49c948fe3bfaa711f85a1fc0cf05aa5f511949554ddfd9e4bdd350312eaf9c.
 Provenance lives in source docs/qa/2026-11-19/spa-v6-gardens-probes/native.
 Later flow UV/curvature adjustments affected only water masked during capture.
 
-Native final is still running: do not treat this draft as release approval.
-Source/bundle/settings/frames/receipts/SQLite/error result will be archived here
-only when the actual run finishes. New public paths must physically return from
-Aroma0 and Cabana4 to actual atrium/stair origins with radius/walls preserved.
+Native final completed PASS on clean4b72f2f:16views, exact five-layer GPU
+readback/21pool mappings, actual publicAroma0/Cabana4 outward and return paths,
+11dry and4wet procedure runs, purchases/receipts/SQLite reload and World release.
+Final errors[]/httpErrors[]; one application script. Exact source/bundle/settings/
+PNG/log hashes are under native/. Does not certify all84motions/everycontact,
+full shore tour, target art equivalence or hardware FPS. Additional phone check
+is running on the unchanged source; publication status is recorded separately.
 
 The separate Workers Builds integration also failed on the previous stable
 39708e3 despite its successful complete Test and deploy workflow. Failure cause
