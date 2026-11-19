@@ -1,0 +1,3 @@
+{
+  "result": "Group test not started: actual locator click timed out waiting for visible/enabled/stable call-all button after manual frame timing. Two real views and 38-profile/copy/timing checks complete. Reopen the SPA panel as in the existing single-hero audit, then repeat group-only. No force click or disabled-state bypass."
+}

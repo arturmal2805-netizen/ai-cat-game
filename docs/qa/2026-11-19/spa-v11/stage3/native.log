@@ -1,0 +1,22 @@
+SPA required scene preparation pending
+V7 actual architecture frame golden-interior
+V7 actual architecture frame thermal-interior
+PASS V7 mass native capture; functionality and reference detailing remain pending
+locator.click: Timeout 120000ms exceeded.
+Call log:
+[2m  - waiting for locator('.resort-spa-call-all')[22m
+[2m    - locator resolved to <button class="resort-spa-call-all" title="Бесплатное приглашение свободных котиков. Входят по очереди через лифт; процедуры отдельно.">🐾 Позвать свободных котиков в SPA</button>[22m
+[2m  - attempting click action[22m
+[2m    - waiting for element to be visible, enabled and stable[22m
+
+    at auditSpaWaterV11 (/workspace/chichi-spa-water-v11/scripts/audit-spa-water-v11.mjs:15:74)
+    at async auditResortSpaNative (/workspace/chichi-spa-water-v11/scripts/audit-resort-spa-native.mjs:13:228)
+    at async /workspace/chichi-spa-water-v11/scripts/check-aquarium.cjs:712:122 {
+  log: [
+    "  - waiting for locator('.resort-spa-call-all')",
+    '    - locator resolved to <button class="resort-spa-call-all" title="Бесплатное приглашение свободных котиков. Входят по очереди через лифт; процедуры отдельно.">🐾 Позвать свободных котиков в SPA</button>',
+    '  - attempting click action',
+    '    - waiting for element to be visible, enabled and stable'
+  ],
+  name: 'TimeoutError'
+}

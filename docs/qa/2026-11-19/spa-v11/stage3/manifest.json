@@ -1,0 +1,23 @@
+{
+  "sourceBase": "42aa782bff44804d899bd74561a8034a38a91ce5",
+  "sourceState": "",
+  "result": "PASS two final lamp-highlight views and actual 38 profiles/copy/frame completion; group UI click timed out, not passed",
+  "visualReview": "Thermal/Golden real renders reviewed. Lamp highlights are stronger; still far from the artist reference. Group scenario needs explicit SPA panel reopening after simulation frames; do not count it as an arrival PASS.",
+  "files": {
+    "FAILED-group-ui.json": "ad2f81e53d1af9b290da591eeedb4186c84e5a522c3ced87aec2a14d7e192c7c",
+    "golden-interior.png": "4b856b5f470a5b9173992d54e5610cad2ded442127bc3d1411a37f64e8064de8",
+    "imported-source.tar.gz": "c2eb08e62dc7e50bbd59efaf1fa739def9af59bb2f9bb0023c9386380ac0eaed",
+    "layout-world-transforms.json": "3518713f83d48cad7ccba56c16c8fa3635d2295bfcf0bc272ef031db684a99a7",
+    "native.log": "58c620ed32d1316fe229de070107daaab04245f2caca58821ac7e745c79b84ab",
+    "qa-app.js.gz": "ef4073acb9712fd553f6e3abcbf33c05b0133af9e6b6e4e2fa6fe4df95868901",
+    "qa-build.json": "be3254a827f86df05d9443701f782aa258046bbbb4a22ac8916bee3daa379774",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "e87330fb9b272787b05ade0e291eaaf5a2d8f65bee1f2b26b863cf5094a6ee77",
+    "source-status.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "thermal-interior.png": "f3c2ec4954cf514d28385e8168a6ae0bb69102470016fbbb780b8c3911bd6463",
+    "v11-frame-completion.json": "8ffb3b3eebaa636fc716f04e5a69224e4f59714760609c7dcb56718ffbeb449c",
+    "v11-optics.json": "ca5ae8261157578cf543bf6d82fb954776db898d40f37f5ddfd4de1c937b6521",
+    "v7-mass-frames.json": "bbd2aea89163865440b5a8246ab16649f3912275edf1e9bc187d1741a2fe77c8"
+  }
+}
