@@ -1,0 +1,21 @@
+{
+  "sourceBase": "be2676c31f1b73fe5e1215a288c44738f95c3caa",
+  "sourceState": "",
+  "result": "INTERRUPTED by execution environment restart after three affected room frames (Aroma,VIP,Cabana). Sky/contacts/SQLite and final errors assertion not completed. Exact clean be2676c sources retained.",
+  "visualReview": "Mounted drapes and room material candidate; three PNG preserved for comparison, remaining checks must finish separately. Not visual approval or publication.",
+  "files": {
+    "actual-game-massage.png": "2de96c4b75d471e5e5a1dd1af1b1e89b5e0aff5ffa00c8d0f79548d50cf52273",
+    "imported-source.tar.gz": "807a49f3f4fa306b28c735af8e139fae4fc894cb382cb83aa1dc27c03c22f7ca",
+    "native.log": "e4e1d70839ce98fc420e4bb1072aa92baa9efad62f6aa242520e10089b597ca0",
+    "qa-app.js.gz": "7a42680823ae719108d7f442c77a79c01f79c44faaa58f4008a22ab8d421bccc",
+    "qa-build.json": "5e9e2a4e43eba268cdb2dcab1d945c0be6b36be742e56c6067842a0fb0c558b8",
+    "soft-mounted-resort-aroma.png": "b5e3722665f5508ea39bc54b3f4cdacd1a2a50d1b0e152785c5307593778dc71",
+    "soft-mounted-resort-cabana.png": "235abdaa65426ed005e78fa9bb34023aae0371c2a1252877130bea8b789c8324",
+    "soft-mounted-resort-vip.png": "fb74369d574b6937787408fdc33780c1c866456a857e1acdb78442b3aa9f2513",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "a32e6f4c02ab7840544fec1b3f6cfd85e5d77a54307173894e3aad6f1bc205ff",
+    "source-status.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "v6-reference-frames.json": "7cc43ad2c06cf4276605c55080f240577d6d7428564385d4861648c310734698"
+  }
+}

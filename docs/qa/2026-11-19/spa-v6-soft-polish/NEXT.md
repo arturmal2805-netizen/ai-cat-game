@@ -44,3 +44,11 @@ QA funding includes paid V6 flags when constructing PRIVATE SQLite world;
 production coin code unchanged. New FOCUS_CURTAINS option renders only
 R2/R4/cabana (R1/R5 unchanged by this fix), plus upper pool.
 Next run with CONTACTS=1/SKY_ONLY=1/focus, exact source saved before launch.
+
+## Execution environment restart interrupted second native run
+Exact be2676c31f1b73fe5e1215a288c44738f95c3caa, clean. Three affected room
+frames/source/bundle/log survive and are archived mounted-interrupted/.
+Old process37747 no longer exists. No sky/contact/SQLite/final error-array
+PASS claimed. Continue only remaining native sky+Nap/World+SQLite with funded
+private wallet, retaining these three unchanged-art views rather than restarting.
+Temporary QA assets may have been removed by environment; no user data touched.
