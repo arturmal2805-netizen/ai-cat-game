@@ -83,3 +83,12 @@ export const spaRoomMeasurement=key=>{
   after:{width:after.rx*2,depth:after.rz*2,area:spaRoomArea(after),minimumCeiling:after.ceilingMinimum},
   areaRatio:spaRoomArea(after)/(Math.PI*before.rx*before.rz)};
 };
+
+export function spaRoomOutline(zone,inset=0,samples=16){
+ const rx=zone.rx-inset,rz=zone.rz-inset,r=Math.max(.1,zone.corner-inset),points=[];
+ for(let c=0;c<4;c++){const a=c*Math.PI/2,cx=zone.x+(c===0||c===3?1:-1)*(rx-r),cz=zone.z+(c<2?1:-1)*(rz-r);for(let i=0;i<=samples;i++){const t=a+i*Math.PI/(2*samples);points.push({x:cx+Math.cos(t)*r,z:cz+Math.sin(t)*r});}}return points;
+}
+export function spaNightCeilingY(zone,x,z){
+ const q=Math.max(Math.abs((x-zone.x)/(zone.rx-.8)),Math.abs((z-zone.z)/(zone.rz-.8))),crown=6.2*Math.sqrt(Math.max(0,1-q*q));
+ return Math.min(zone.level*SPA_PALACE.rise+SPA_PALACE.ceilingMinimum+crown,spaPalaceRoofY(x,z)-.35);
+}

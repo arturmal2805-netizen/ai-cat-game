@@ -1,0 +1,24 @@
+{
+  "sourceBase": "f85bc69b48cfae355dec2b21927775a68f8fd697",
+  "sourceState": "",
+  "result": "PASS seven actual architecture/interior captures, errors empty; full V7 runtime not yet activated",
+  "visualReview": "A/B/D/E/F/G/H compared. Midnight dark floor and high star field retained. Remaining: Thermal needs double-height void/coffers, VIP curtains occlude room and framing is poor, room boundaries/LED must follow actual enlarged outline rather than oval floating caps. Cafe approach found blocked by chair; correct before activation. No visual approval or functional completion claimed.",
+  "files": {
+    "golden-interior.png": "d7fd88b1a83c54de54b478398019f3b4f683cb0d671fcfb670b08597e3f5e2e7",
+    "imported-source.tar.gz": "affd9a9bb07a27d465f006b7833690eed9a653688535467f470824028d487d0b",
+    "mass-angle.png": "235abfbe03d7299b67946b0629ffe56f0d1f40a9236747d6ba2c3b163c20a5ff",
+    "mass-front.png": "94eac1c09d52c66c1ca4728ec8fbe0ff42344fd4b06aa7bf433a7c76281151cb",
+    "mass-top.png": "7cec3968605a30342d2e38df7716f7e6bd5130cb984c0bfe39cfe9a103076c70",
+    "massage-interior.png": "4aa015ca0f153f72a0588fe3d6e7233c45077c3eac7bacbbd715ccd2d79904c5",
+    "midnight-interior.png": "6804974c55da6b1e9df873dd4c953e56a5ed25db7810dede9fd89fcbac87f439",
+    "native.log": "33a87d3f76ff64dac28ab2c659290609325cc8bf1a30ff3d456bd9dfc6cdb306",
+    "qa-app.js.gz": "900ebe6e8ecbdff817baed4b5be036143335adf57d343c19c15a0e90c8957e74",
+    "qa-build.json": "cb7194cfdb1d056860e100b836da0eb256216c61e9d52e8562f2c1a208edd97b",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "a4d26044c5be2badfab35b7e2ec1914cde8161cf1cdb059ae96fb110c3fb7bf6",
+    "source-status.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "thermal-interior.png": "fd7f8242bc9377246be7436d09fd641294aa2b867cc5eea99ebe7e7f0506af8e",
+    "v7-mass-frames.json": "40c56160200dc390f628fde49ace508a620159b2fabf693f86a0732a212cb70e"
+  }
+}

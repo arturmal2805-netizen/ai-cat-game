@@ -35,10 +35,10 @@ export function spaV7Seat(zone,index){
  else if(key==='midnight'){
   const positions=[[-16,-9],[0,-9],[16,-9],[-16,5],[0,5],[16,5],[-32,-12],[-32,-3],[-32,6],[-32,15],[31,-12],[31,-3],[31,6],[31,15],[-12,15],[12,15]];
   [x,z]=positions[index];x+=zone.x;z+=zone.z;
- }else if(key==='cafe'){const a=index*Math.PI/4;x=Math.sin(a)*20;z=203+Math.cos(a)*20;yaw=Math.PI;}
+ }else if(key==='cafe'){const a=index*Math.PI/4;x=Math.sin(a)*20;z=203+Math.cos(a)*20;if(index===2||index===6){x=index===2?32:-32;z=215;}yaw=Math.PI;}
  else if(key==='cabana'){x=zone.x+(index-2.5)*9;z=zone.z;}
  else{const columns=key==='massage'?3:key==='aroma'?3:4,spacing=key==='massage'?12:key==='aroma'?13:10;x=zone.x+(index%columns-(columns-1)/2)*spacing;z=zone.z+(Math.floor(index/columns)-(Math.ceil(zone.seats/columns)-1)/2)*(key==='massage'?15:12);}
  const seat=['vip','midnight','cabana','aroma'].includes(key)?{x,y:y+(key==='aroma'?.8:.92),z}:key==='cafe'?{x,y:y+.92,z:z+2.8}:undefined;
- return{x,y,z,yaw,...(seat?{seat}:{}),approach:{x,y,z:z+3.6},staff:key==='massage'?{x:x+2.2,y,z}:null,exit:{x,y,z:z+5}};
+ return{x,y,z,yaw,...(seat?{seat}:{}),approach:{x:x+(key==='cafe'?3.6:0),y,z:z+3.6},staff:key==='massage'?{x:x+2.2,y,z}:null,exit:{x:x+(key==='cafe'?4.5:0),y,z:z+(key==='cafe'?3.6:5)}};
 }
 export const SPA_V7_RUNTIME_CONTRACT=Object.freeze({zones:SPA_V7_ZONES,zone:spaV7Service,seat:spaV7Seat,slots:spaV7Slots,skyY:P.baseY+2*P.rise});

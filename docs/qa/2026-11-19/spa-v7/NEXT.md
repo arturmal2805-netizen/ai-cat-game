@@ -95,3 +95,48 @@ to-120m and looks lower to read the main entrance; physical source/camera must
 still be checked on actual PNG. Snapshot style hides only SPA panel for judging
 architecture, not world geometry. No whole-V7 functionality or approval claimed.
 Run mass audit with PHASE=facade, REVIEW_DIR=/workspace/qa/spa-v7-facade.
+
+## Phase C actual seven-frame checkpoint + next correction candidate
+Source f85bc69b48cfae355dec2b21927775a68f8fd697, native-interiors-c archived exact
+bundle3d46f71115d5749c633800e05fffcaedbd73cf7f35567945c74aefa526970f96.
+Actual images reviewed: all3 building views and Midnight/Golden/Thermal/Massage.
+Not accepted visually: Thermal flat intermediate slab, night cap only oval rather
+than the enlarged room, VIP camera behind excessive curtain. Corrected candidate
+now has a real double-height Thermal opening, two balcony falls landing into its
+existing basin, high full-outline star vaults and continuous violet LED, tall
+Aroma/Cabana glass furniture, four garden cascades/real dense leaf/flower beds.
+Other4room views and above/below sky-pool are added to next actual13frame audit.
+Do not label screenshots from C as proving these later changes.
+
+Root V7 now carries optional serviceContract for real appointments/booking/staff.
+Menu rebuilds from8physical rooms to exactly10buttons after lazy preparation;
+view tools removed under the new explicit10item menu contract. Default model6
+remains until finalactivation/compatibility/native checks. RESORT_ZONES/products
+are still original14; public offers/data activation and probe rebake pending.
+Historical ticket selection preserves original purchase/use IDs. Four removed
+prepaid services redeem one Midnight rest; no new sale/refund/currency changes.
+
+New SPA-only catLocations.spaLayout=7 marker, old timestamp merge unchanged.
+Layout recovery detects old supported floor/contact bands; skips hero submarine/
+explorer, lift recovery, other biomes, arbitrary diver heights, and marked7.
+Retired room positions recover into nearest supported PUBLIC HALL, not a random
+new room; repairs reserve non-overlapping body places. Callback save sees marker
+because recovery ownership clears BEFORE onGoal. Only world.js changes are SPA
+camera options and position-stamp hook. New/old wallets/receipts untouched.
+Ownership native audit REQUIRED because normalization gained a field.
+
+96contact full-radius routes and stairs bothways PASS on source before the later
+balcony weirs and tallAroma additions; rerun affected geometry paths as needed.
+Cafe0 approach fixed clear ofchair; cafe2/6 tables moved to±32,215 to avoid actual
+stair/support (no shrinking cat radius or removing obstacles). New V7 lift round
+trip test exposed the old waiting point outside the new lateral landing; added
+actual supported wait points16.4/13.8,293.2 rather than weakening return assertions.
+Default6 transit stillpasses. Check new V7 transit fixed log for full result.
+
+Sky bed/wall/water stay independently sorted native optical faces (three draws),
+not merged into the whole façade glass. renderOrder0 lets camera-depth sorting
+work above/below; physical floor holes unchanged. Actual optical captures pending.
+26targeted checksPASS earlier; combined28 had one default6 undefined cascades
+regression from an overly broad insertion, now removed and default6 transit
+retestedPASS. Keep failed logs; do not claim fullCI. Node22 interim buildPASS
+but it began before last source edits; final exact build/fullCI still needed.

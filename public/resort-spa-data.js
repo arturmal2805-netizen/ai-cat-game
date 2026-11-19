@@ -19,6 +19,7 @@ const rows=[
  ['midnight','Midnight Blue Relaxation Room','sleep',100,82,177,2,28,18,8],
 ];
 export const RESORT_ZONES=Object.freeze(rows.map(([key,name,procedure,price,x,z,level,rx,rz,seats])=>Object.freeze({id:'resort-'+key,key,name,procedure,price,x,z,level,y:RESORT_SPA.y+level*RESORT_SPA.rise,rx,rz,seats,biome:'autumn',resort:true,kind:procedure==='eat'?'food':'spa',action:procedure==='eat'?'eat':procedure==='swim'?'swim':'rest'})));
+export const RESORT_LEGACY_ZONES=RESORT_ZONES;
 export const resortZone=id=>RESORT_ZONES.find(z=>z.id===id);
 export const RESORT_PROCEDURE_PRICE=Object.freeze({entry:100,thermal:150,massage:300,aroma:180,sauna:120,vip:700});
 export function resortSpaFootprint(x,z,margin=0){return Math.hypot(x/(RESORT_SPA.width/2+margin),(z-RESORT_SPA.z)/(RESORT_SPA.depth/2+margin))<=1;}

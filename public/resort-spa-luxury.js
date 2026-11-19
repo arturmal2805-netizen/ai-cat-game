@@ -45,7 +45,7 @@ export function* resortLuxurySteps({solid,decor,shell,surfaces,basins,waters,mat
    box(decor,key==='midnight'?silver:rose,s.x-.35,y+1.01,s.z+.42,.8,.08,.65,true);
    const tx=s.x+2.05,tz=s.z-.95;disk(solid,mats.gold,tx,y+.46,tz,.6,.6,.1);disk(solid,mats.gold,tx,y+.24,tz,.07,.07,.48);disk(solid,mats.gold,tx,y+.04,tz,.3,.3,.08);tray(tx,y+.54,tz);lantern(s.x-2.35,y,s.z-1.25,.65);if(key==='cabana')plant(s.x+1.9,y,s.z+.8,.55,true);
    if(key==='vip'){
-    curtains(s.x,y,s.z,1.9,palace?7:3.6);
+    curtains(s.x,y,s.z,1.9);
     for(const side of [-1,1]){box(solid,mats.gold,s.x+side*1.8,y+1.8,s.z-.95,.07,3.6,.07);line(decor,mats.gold,[[s.x+side*1.8,y+3.6,s.z-.95],[s.x+side*.9,y+4.5,s.z-.95],[s.x,y+4.65,s.z-.95]],.055);}
     line(decor,mats.amber,[[s.x-1.7,y+3.62,s.z-.93],[s.x,y+4.58,s.z-.93],[s.x+1.7,y+3.62,s.z-.93]],.025);
    }
@@ -54,11 +54,11 @@ export function* resortLuxurySteps({solid,decor,shell,surfaces,basins,waters,mat
    for(let j=0;j<4;j++){const g=geometry('comb-tooth',()=>new T.BoxGeometry(.035,.05,.23));mesh(decor,g,mats.gold,s.x+1.9+j*.07,y+1.47,s.z-1.7);}
    ring(decor,mats.amber,s.x,y+2.05,s.z-2.01,1.15,.015,.035);
    box(decor,mats.ivory,s.x+1.7,y+1.3,s.z-2,1.5,.16,.65,true);tray(s.x+1.7,y+1.42,s.z-2);
-  }else if(key==='aroma'&&!palace){
-   const radius=2.7,dome=geometry('aroma-private-canopy',()=>new T.SphereGeometry(1,32,16,0,Math.PI*2,0,Math.PI/2));mesh(shell,dome,mats.glass,s.x,y+2.7,s.z,2.7,2.0,2.7);ring(decor,mats.gold,s.x,y+2.7,s.z,2.7,2.7,.045);
-   for(let j=0;j<4;j++){const a=j*Math.PI/2,points=Array.from({length:13},(_,i)=>{const t=i*Math.PI/24;return[s.x+Math.cos(a)*radius*Math.cos(t),y+2.7+2*Math.sin(t),s.z+Math.sin(a)*radius*Math.cos(t)];});line(decor,mats.gold,points,.045);}
-   for(const side of [-1,1]){box(solid,mats.gold,s.x+side*radius,y+1.35,s.z,.06,2.7,.06);const points=Array.from({length:13},(_,i)=>{const a=i*Math.PI/12;return[s.x+side*radius*Math.cos(a),y+1.2+3.3*Math.sin(a),s.z-1];});line(decor,mats.gold,points,.045);}
-   curtains(s.x,y,s.z,1.95,2.7);const cushion=pillow(decor,rose,s.x+.9,y+.98,s.z-.55,.6,.35,.6);cushion.rotation.z=-.12;
+  }else if(key==='aroma'){
+   const radius=2.7,canopyBase=palace?10.8:2.7,canopyHeight=palace?.35:2,dome=geometry('aroma-private-canopy',()=>new T.SphereGeometry(1,32,16,0,Math.PI*2,0,Math.PI/2));mesh(shell,dome,mats.glass,s.x,y+canopyBase,s.z,2.7,canopyHeight,2.7);ring(decor,mats.gold,s.x,y+canopyBase,s.z,2.7,2.7,.045);
+   for(let j=0;j<4;j++){const a=j*Math.PI/2,points=Array.from({length:13},(_,i)=>{const t=i*Math.PI/24;return[s.x+Math.cos(a)*radius*Math.cos(t),y+canopyBase+canopyHeight*Math.sin(t),s.z+Math.sin(a)*radius*Math.cos(t)];});line(decor,mats.gold,points,.045);}
+   for(const side of [-1,1]){box(solid,mats.gold,s.x+side*radius,y+canopyBase/2,s.z,.06,canopyBase,.06);const points=Array.from({length:13},(_,i)=>{const a=i*Math.PI/12;return[s.x+side*radius*Math.cos(a),y+1.2+3.3*Math.sin(a),s.z-1];});line(decor,mats.gold,points,.045);}
+   curtains(s.x,y,s.z,1.95,palace?7:2.7);const cushion=pillow(decor,rose,s.x+.9,y+.98,s.z-.55,.6,.35,.6);cushion.rotation.z=-.12;
    disk(solid,mats.gold,s.x+2.3,y+.55,s.z-1,.6,.6,.1);ball(decor,mats.glass,s.x+2.3,y+.8,s.z-1,.25,.3,.25);ball(decor,mats.amber,s.x+2.3,y+.75,s.z-1,.08,.15);
   }
  }
@@ -113,7 +113,7 @@ export function* resortLuxurySteps({solid,decor,shell,surfaces,basins,waters,mat
    tree(zone.x,y,zone.z,1.1);for(const side of [-1,1]){box(solid,mats.ivory,zone.x+side*20,y+1.4,zone.z-8,3,2.8,1,true);for(let j=0;j<7;j++)ball(decor,j%2?rose:petalDark,zone.x+side*20+(j%3-1)*.6,y+1.2+Math.floor(j/3)*.6,zone.z-7.45,.13,.1,.08);}
   }else if(zone.key==='vip'){
    features.push('golden galaxy ceiling','private turquoise bath','cream lounges','amber chandelier');
-   domedCeiling(zone,0x291f29);chandelier(zone.x-7,y+5.6,zone.z-2,2.7);tree(zone.x-13,y,zone.z+8,1);for(let j=0;j<3;j++)lantern(zone.x+15,y,zone.z-9+j*7,.8);
+   if(!palace)domedCeiling(zone,0x291f29);chandelier(zone.x-7,y+5.6,zone.z-2,2.7);tree(zone.x-13,y,zone.z+8,1);for(let j=0;j<3;j++)lantern(zone.x+15,y,zone.z-9+j*7,.8);
   }else if(zone.key==='meditation'){
    features.push('ocean panorama','sculptural meditation lotus','individual cushions','quiet stone garden');
    lotus(zone.x,y+.45,zone.z,2.0);disk(solid,mats.ivory,zone.x,y+.13,zone.z,2.5,2.5,.26);for(const side of [-1,1])for(let j=0;j<4;j++)ball(decor,j%2?mats.ivory:silver,zone.x+side*18,y+.2,zone.z-7+j*4,.5,.3,.4);
@@ -136,7 +136,7 @@ export function* resortLuxurySteps({solid,decor,shell,surfaces,basins,waters,mat
   }else if(zone.key==='amber'){
    features.push('curved amber star ceiling','cream conversational suites','warm lanterns');domedCeiling(zone,0x33241e);chandelier(zone.x,y+6.4,zone.z,2.8);for(const side of [-1,1])tree(zone.x+side*18,y,zone.z-9,.9);
   }else if(zone.key==='midnight'){
-   features.push('midnight star vault','silver-blue textiles','quiet private niches');domedCeiling(zone,0x0e1831);for(const side of [-1,1])plant(zone.x+side*20,y,zone.z-10,1.3,true);
+   features.push('midnight star vault','silver-blue textiles','quiet private niches');if(!palace)domedCeiling(zone,0x0e1831);for(const side of [-1,1])plant(zone.x+side*20,y,zone.z-10,1.3,true);
   }
   yield;
  }

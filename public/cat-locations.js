@@ -25,7 +25,7 @@ export function normalizeCatLocations(raw,game,now=Date.now()){
     if(!p||![p.x,p.y,p.z,p.yaw,p.at].every(Number.isFinite)||
        p.y < -400 || p.y>120 || p.at<0 || p.at>now+300000 ||
        !inIsland(p,byBiome(p.biome),game,id==='chichi'))continue;
-    out[id]={biome:p.biome,x:p.x,y:p.y,z:p.z,yaw:p.yaw,at:p.at};
+    out[id]={biome:p.biome,x:p.x,y:p.y,z:p.z,yaw:p.yaw,at:p.at,...(p.biome==='autumn'&&p.spaLayout===7?{spaLayout:7}:{})};
   }
   return out;
 }
@@ -44,17 +44,17 @@ export function captureCatLocations(next,previous,actors,now=Date.now()){
     if(commanded){delete locations[a.id];continue;}
     if(a.transient)continue;
     for(const b of (a.id==='chichi'?[...BIOMES].sort((a,b)=>Number(b.id===next.catPosition?.biome)-Number(a.id===next.catPosition?.biome)):BIOMES)){
-      const p={biome:b.id,x:a.position.x-b.center[0],y:a.position.y,z:a.position.z-b.center[1],yaw:a.yaw,at:now};
+      const p={biome:b.id,x:a.position.x-b.center[0],y:a.position.y,z:a.position.z-b.center[1],yaw:a.yaw,at:now,...(b.id==='autumn'&&a.spaLayout===7?{spaLayout:7}:{})};
       if(![p.x,p.y,p.z,p.yaw].every(Number.isFinite)||!inIsland(p,b,next,a.id==='chichi'))continue;
       const old=locations[a.id];
-      locations[a.id]=old&&['biome','x','y','z','yaw'].every(k=>old[k]===p[k])?old:p;
+      locations[a.id]=old&&['biome','x','y','z','yaw','spaLayout'].every(k=>old[k]===p[k])?old:p;
       if(a.id==='chichi'){if(Math.hypot(p.x,p.z)<(b.radius||11.65)-.8)catPosition={biome:p.biome,x:p.x,z:p.z};else if(!catPosition||catPosition.biome!==p.biome){const scale=((b.radius||11.65)-1.1)/Math.hypot(p.x,p.z);catPosition={biome:p.biome,x:p.x*scale,z:p.z*scale};}}
       else if(p.biome!==resolved.get(a.id))destinations[a.id]=p.biome;
       break;
     }
   }
   const sameLocations=Object.keys(locations).length===Object.keys(next.catLocations||{}).length&&
-    Object.entries(locations).every(([id,p])=>Object.keys(p).every(k=>p[k]===next.catLocations?.[id]?.[k])),
+    Object.entries(locations).every(([id,p])=>Object.keys(p).every(k=>p[k]===next.catLocations?.[id]?.[k])&&p.spaLayout===next.catLocations?.[id]?.spaLayout),
     sameDestinations=Object.keys(destinations).length===Object.keys(next.catDestinations||{}).length&&
       Object.entries(destinations).every(([id,b])=>next.catDestinations?.[id]===b);
   if(sameLocations&&sameDestinations&&JSON.stringify(catPosition)===JSON.stringify(next.catPosition))return next;

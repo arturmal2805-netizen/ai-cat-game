@@ -1,0 +1,191 @@
+TAP version 13
+# Subtest: the hero and residents restore their actual last local coordinates through thirty saves, without changing money or owners
+ok 1 - the hero and residents restore their actual last local coordinates through thirty saves, without changing money or owners
+  ---
+  duration_ms: 467.482112
+  type: 'test'
+  ...
+# Subtest: a new manual destination wins over the previous rendered position; temporary airborne rides do not overwrite a safe point
+ok 2 - a new manual destination wins over the previous rendered position; temporary airborne rides do not overwrite a safe point
+  ---
+  duration_ms: 2.583163
+  type: 'test'
+  ...
+# Subtest: cached clients omitting positions preserve them, and stale atomic positions cannot mix or overwrite a newer location
+ok 3 - cached clients omitting positions preserve them, and stale atomic positions cannot mix or overwrite a newer location
+  ---
+  duration_ms: 19.32093
+  type: 'test'
+  ...
+# Subtest: saving a venue kitten in the same island does not mark it released or detach it from its working stand
+ok 4 - saving a venue kitten in the same island does not mark it released or detach it from its working stand
+  ---
+  duration_ms: 98.421171
+  type: 'test'
+  ...
+# Subtest: a manual island command clears the previous saved shore even when the old actor is still on a transient ride
+ok 5 - a manual island command clears the previous saved shore even when the old actor is still on a transient ride
+  ---
+  duration_ms: 1.72758
+  type: 'test'
+  ...
+# Subtest: cloud merging cannot resurrect an old shore after recall or from a cached client omitting new locations
+ok 6 - cloud merging cannot resurrect an old shore after recall or from a cached client omitting new locations
+  ---
+  duration_ms: 38.443658
+  type: 'test'
+  ...
+# Subtest: recall stays on the requested island through cloud acknowledgements, completed-position saves and reloads
+ok 7 - recall stays on the requested island through cloud acknowledgements, completed-position saves and reloads
+  ---
+  duration_ms: 58.933882
+  type: 'test'
+  ...
+# Subtest: Chichi can save on a real unlocked bridge, keeps a valid legacy shore and reloads her exact body position
+ok 8 - Chichi can save on a real unlocked bridge, keeps a valid legacy shore and reloads her exact body position
+  ---
+  duration_ms: 26.718996
+  type: 'test'
+  ...
+# Subtest: a paid placement rejected by shore, locked land or collisions goes to the bag with its original timer instead of vanishing
+ok 9 - a paid placement rejected by shore, locked land or collisions goes to the bag with its original timer instead of vanishing
+  ---
+  duration_ms: 335.650949
+  type: 'test'
+  ...
+# Subtest: forty store/replace/restart cycles preserve one finished Mega Loops, balance, XP and ownership receipt
+ok 10 - forty store/replace/restart cycles preserve one finished Mega Loops, balance, XP and ownership receipt
+  ---
+  duration_ms: 739.03429
+  type: 'test'
+  ...
+# Subtest: legacy purchase proof recovers a missing attraction once without a charge or granting an unbought slide
+ok 11 - legacy purchase proof recovers a missing attraction once without a charge or granting an unbought slide
+  ---
+  duration_ms: 84.041014
+  type: 'test'
+  ...
+# Subtest: durable receipts recover the exact owned and completed-copy counts after a filtered snapshot
+ok 12 - durable receipts recover the exact owned and completed-copy counts after a filtered snapshot
+  ---
+  duration_ms: 28.365351
+  type: 'test'
+  ...
+# Subtest: two phones buying the same attraction retain two copies and exact once-only payments
+ok 13 - two phones buying the same attraction retain two copies and exact once-only payments
+  ---
+  duration_ms: 15.497246
+  type: 'test'
+  ...
+# Subtest: a cached client dropping a placed slide keeps its original identity and cannot erase paid completion receipts
+ok 14 - a cached client dropping a placed slide keeps its original identity and cannot erase paid completion receipts
+  ---
+  duration_ms: 18.770557
+  type: 'test'
+  ...
+# Subtest: an unchanged healthy world is returned by identity and ownership bookkeeping never touches native graphics
+ok 15 - an unchanged healthy world is returned by identity and ownership bookkeeping never touches native graphics
+  ---
+  duration_ms: 6.045975
+  type: 'test'
+  ...
+# Subtest: matching-world backups retain completed construction, while another accounts backup cannot invent ownership
+ok 16 - matching-world backups retain completed construction, while another accounts backup cannot invent ownership
+  ---
+  duration_ms: 26.710337
+  type: 'test'
+  ...
+# Subtest: native actor adapter converts root-local geometry heights once and commits actual wallet receipts once
+ok 17 - native actor adapter converts root-local geometry heights once and commits actual wallet receipts once
+  ---
+  duration_ms: 191.842717
+  type: 'test'
+  ...
+# Subtest: each SPA service uses existing durable wallet/inventory and survives reload without charging or applying effects twice
+ok 18 - each SPA service uses existing durable wallet/inventory and survives reload without charging or applying effects twice
+  ---
+  duration_ms: 541.746019
+  type: 'test'
+  ...
+# Subtest: old concurrent save preserves paid SPA ticket; wrong service, balance and stale sequence reject atomically
+ok 19 - old concurrent save preserves paid SPA ticket; wrong service, balance and stale sequence reject atomically
+  ---
+  duration_ms: 45.177072
+  type: 'test'
+  ...
+# Subtest: real geometry lift journey walks, rides, exits and returns without skipping a body segment
+not ok 20 - real geometry lift journey walks, rides, exits and returns without skipping a body segment
+  ---
+  duration_ms: 870.116968
+  type: 'test'
+  location: '/workspace/chichi-emergency-save-recovery/test/resort-spa-transit.test.mjs:7:1'
+  failureType: 'testCodeFailure'
+  error: 'cascades is not defined'
+  code: 'ERR_TEST_FAILURE'
+  name: 'ReferenceError'
+  stack: |-
+    resortSpaModelSteps (file:///workspace/chichi-emergency-save-recovery/public/resort-spa-model.js:116:184)
+    resortSpaModelSteps.next (<anonymous>)
+    TestContext.<anonymous> (file:///workspace/chichi-emergency-save-recovery/test/resort-spa-transit.test.mjs:8:47)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: legacy SPA floor positions redirect once; real divers, cabin seats, other islands and new layout remain untouched
+ok 21 - legacy SPA floor positions redirect once; real divers, cabin seats, other islands and new layout remain untouched
+  ---
+  duration_ms: 3.560486
+  type: 'test'
+  ...
+# Subtest: multiple legacy guests repair to disjoint full-body supported positions on actual palace geometry
+ok 22 - multiple legacy guests repair to disjoint full-body supported positions on actual palace geometry
+  ---
+  duration_ms: 2169.354937
+  type: 'test'
+  ...
+# Subtest: SPA layout marker survives reload and ordinary timestamp merge without altering economy or marking unrelated locations
+ok 23 - SPA layout marker survives reload and ordinary timestamp merge without altering economy or marking unrelated locations
+  ---
+  duration_ms: 137.988246
+  type: 'test'
+  ...
+# Subtest: eight physical destinations retain fourteen historical prices and real shared contacts
+ok 24 - eight physical destinations retain fourteen historical prices and real shared contacts
+  ---
+  duration_ms: 4.432984
+  type: 'test'
+  ...
+# Subtest: alias reservations share real bath occupancy including occupied cleaning and unavailable states
+ok 25 - alias reservations share real bath occupancy including occupied cleaning and unavailable states
+  ---
+  duration_ms: 0.723929
+  type: 'test'
+  ...
+# Subtest: retired service redeems its original paid receipt without selling or rebilling
+ok 26 - retired service redeems its original paid receipt without selling or rebilling
+  ---
+  duration_ms: 10.267226
+  type: 'test'
+  ...
+# Subtest: V7 continuous real slabs preserve pool/atrium/stair openings, clear headroom and the original SPA root
+ok 27 - V7 continuous real slabs preserve pool/atrium/stair openings, clear headroom and the original SPA root
+  ---
+  duration_ms: 2098.806033
+  type: 'test'
+  ...
+# Subtest: Thermal is double-height and the two real balcony sheets end inside its existing water without crossing the middle slab
+ok 28 - Thermal is double-height and the two real balcony sheets end inside its existing water without crossing the middle slab
+  ---
+  duration_ms: 971.344776
+  type: 'test'
+  ...
+1..28
+# tests 28
+# suites 0
+# pass 27
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4941.41699

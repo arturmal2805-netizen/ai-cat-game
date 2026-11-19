@@ -6047,7 +6047,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       if(options.top){elevation=1.3;desiredDistance=Math.max(desiredDistance,zone?zone.rx*1.8:175);return;}
       if(entering){if(focused!=='autumn')focus('autumn');resortSpaPreviousCamera={look:desiredLook.clone(),distance:desiredDistance,azimuth,elevation,fov:desiredFov,near:camera.near};}
       mall?.exit(false);submarine?.releaseControl();manualWalk?.stop();faceCamera.setEnabled(false,look);viewingOverview=false;mallWideClip=false;mallFraming=null;
-      const b=byBiome('autumn'),v=resortSpaView(zone,options);desiredLook.set(b.center[0]+v.x,v.y,b.center[1]+RESORT_SPA_LAYOUT.offsetZ+v.z);desiredDistance=v.distance;azimuth=v.azimuth;elevation=v.elevation;desiredFov=v.fov;camera.near=.3;camera.updateProjectionMatrix();
+      const b=byBiome('autumn'),v=resortSpaView(zone,{...options,palace:resortSpa?.root?.userData.layoutVersion===7,aspect:camera.aspect});desiredLook.set(b.center[0]+v.x,v.y,b.center[1]+RESORT_SPA_LAYOUT.offsetZ+v.z);desiredDistance=v.distance;azimuth=v.azimuth;elevation=v.elevation;desiredFov=v.fov;camera.near=.3;camera.updateProjectionMatrix();
     },
     onExit:restore=>{if(restore&&resortSpaPreviousCamera){desiredLook.copy(resortSpaPreviousCamera.look);desiredDistance=resortSpaPreviousCamera.distance;azimuth=resortSpaPreviousCamera.azimuth;elevation=resortSpaPreviousCamera.elevation;desiredFov=resortSpaPreviousCamera.fov;camera.near=resortSpaPreviousCamera.near;camera.updateProjectionMatrix();}resortSpaPreviousCamera=null;},
   });
@@ -6154,7 +6154,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
         ...[...npcs].map(([id,n])=>({id,position:n.carrier.position,yaw:n.carrier.rotation.y,
           transient:!!court.get(id)?.zooCarry||!!n.gatherTrip||draggingCat?.catId===id||!!spa.get(id)||!!chill.get(id)||swimVisits.has(id)||
             ['ride','swim'].includes(residentPlay.get(id)?.decision?.action)}))];
-      return captureCatLocations(submarine?{...next,mosasaurSubmarine:submarine.snapshot()}:next,previous,actors.map(a=>({...a,position:mall?.safePosition(a.id)||a.position})));
+      return captureCatLocations(submarine?{...next,mosasaurSubmarine:submarine.snapshot()}:next,previous,actors.map(a=>({...a,position:mall?.safePosition(a.id)||a.position,spaLayout:resortSpa?.locationStamp(a.id,a.position)})));
     },
     followCat,
     inspectJobBusiness: inspectAttraction,

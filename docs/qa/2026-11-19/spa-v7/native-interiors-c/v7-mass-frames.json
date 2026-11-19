@@ -1,0 +1,681 @@
+{
+  "stage": "interiors",
+  "scope": "Architecture mass/facade in actual private game using explicit QA-only layoutVersion7; public default remains6. Stage-specific geometry and furnishing capture; not a complete functional V7 audit, final reference acceptance or device FPS.",
+  "report": {
+    "floorCount": 3,
+    "connectedEnvelope": true,
+    "independentRoomPlatforms": 0,
+    "rooms": [
+      {
+        "id": "resort-thermal",
+        "key": "thermal",
+        "name": "Grand Thermal Lagoon",
+        "x": 0,
+        "z": 266,
+        "level": 0,
+        "rx": 54,
+        "rz": 24,
+        "corner": 8,
+        "y": -165,
+        "ceilingMinimum": 10.8
+      },
+      {
+        "id": "resort-vip",
+        "key": "vip",
+        "name": "Golden Galaxy Jacuzzi & VIP Lounge",
+        "x": 82,
+        "z": 230,
+        "level": 2,
+        "rx": 46,
+        "rz": 32,
+        "corner": 12,
+        "y": -141,
+        "ceilingMinimum": 10.8
+      },
+      {
+        "id": "resort-midnight",
+        "key": "midnight",
+        "name": "Midnight Blue Grand Relaxation Lounge",
+        "x": -82,
+        "z": 230,
+        "level": 2,
+        "rx": 43,
+        "rz": 21,
+        "corner": 12,
+        "y": -141,
+        "ceilingMinimum": 10.8
+      },
+      {
+        "id": "resort-massage",
+        "key": "massage",
+        "name": "Massage Palace",
+        "x": -88,
+        "z": 225,
+        "level": 1,
+        "rx": 28,
+        "rz": 25,
+        "corner": 8,
+        "y": -153,
+        "ceilingMinimum": 10.8
+      },
+      {
+        "id": "resort-aroma",
+        "key": "aroma",
+        "name": "Aroma Therapy Garden",
+        "x": 87,
+        "z": 262,
+        "level": 1,
+        "rx": 27,
+        "rz": 24,
+        "corner": 8,
+        "y": -153,
+        "ceilingMinimum": 10.8
+      },
+      {
+        "id": "resort-cabana",
+        "key": "cabana",
+        "name": "Floating Glass Cabanas",
+        "x": -82,
+        "z": 180,
+        "level": 1,
+        "rx": 31,
+        "rz": 21,
+        "corner": 8,
+        "y": -153,
+        "ceilingMinimum": 10.8
+      },
+      {
+        "id": "resort-cafe",
+        "key": "cafe",
+        "name": "Wellness Café",
+        "x": 0,
+        "z": 203,
+        "level": 0,
+        "rx": 34,
+        "rz": 29,
+        "corner": 8,
+        "y": -165,
+        "ceilingMinimum": 10.8
+      },
+      {
+        "id": "resort-waterfall",
+        "key": "waterfall",
+        "name": "Waterfall Relaxation Garden",
+        "x": 94,
+        "z": 231,
+        "level": 0,
+        "rx": 35,
+        "rz": 39,
+        "corner": 12,
+        "y": -165,
+        "ceilingMinimum": 10.8
+      }
+    ],
+    "minimumCeiling": 10.8,
+    "midnight": {
+      "key": "midnight",
+      "before": {
+        "width": 56,
+        "depth": 36,
+        "area": 1583.3626974092558,
+        "minimumCeiling": 4
+      },
+      "after": {
+        "width": 86,
+        "depth": 42,
+        "area": 3488.38934211693,
+        "minimumCeiling": 10.8
+      },
+      "areaRatio": 2.2031524096309294
+    },
+    "vip": {
+      "key": "vip",
+      "before": {
+        "width": 40,
+        "depth": 38,
+        "area": 1193.8052083641214,
+        "minimumCeiling": 4
+      },
+      "after": {
+        "width": 92,
+        "depth": 64,
+        "area": 5764.3893421169305,
+        "minimumCeiling": 10.8
+      },
+      "areaRatio": 4.828584514232358
+    },
+    "pools": 14,
+    "facade": {
+      "roofRibs": 20,
+      "entryArchSegments": 40,
+      "continuousBands": 3,
+      "sharedColumns": 203,
+      "entry": {
+        "x": 0,
+        "z": 290,
+        "doorWidth": 5,
+        "doorHeight": 4,
+        "archHeight": 20
+      }
+    },
+    "interiors": {
+      "rooms": {
+        "resort-thermal": {
+          "contacts": 16,
+          "level": 0,
+          "supported": 16
+        },
+        "resort-vip": {
+          "contacts": 30,
+          "level": 2,
+          "supported": 30
+        },
+        "resort-midnight": {
+          "contacts": 16,
+          "level": 2,
+          "supported": 16
+        },
+        "resort-massage": {
+          "contacts": 6,
+          "level": 1,
+          "supported": 6
+        },
+        "resort-aroma": {
+          "contacts": 6,
+          "level": 1,
+          "supported": 6
+        },
+        "resort-cabana": {
+          "contacts": 6,
+          "level": 1,
+          "supported": 6
+        },
+        "resort-cafe": {
+          "contacts": 8,
+          "level": 0,
+          "supported": 8
+        },
+        "resort-waterfall": {
+          "contacts": 8,
+          "level": 0,
+          "supported": 8
+        }
+      },
+      "minimumRoomCeiling": 10.8
+    }
+  },
+  "layout": {
+    "x": 0,
+    "z": 224,
+    "width": 300,
+    "depth": 132,
+    "corner": 60,
+    "rise": 12,
+    "levels": 3,
+    "ceilingMinimum": 10.8,
+    "atrium": {
+      "x": 0,
+      "z": 203,
+      "rx": 40,
+      "rz": 36
+    },
+    "baseY": -165,
+    "offsetZ": -20
+  },
+  "rootName": "CHICHI CAT SPA & WELLNESS RESORT",
+  "rootId": "chichi-underwater-spa",
+  "zoneCount": 8,
+  "basins": 14,
+  "mallInspection": false,
+  "appScripts": 1,
+  "frames": [
+    {
+      "name": "mass-angle",
+      "x": 176,
+      "y": -58,
+      "z": 263,
+      "fov": 100,
+      "camera": [
+        -274,
+        -58,
+        743
+      ],
+      "look": [
+        -450,
+        -138,
+        704
+      ],
+      "render": {
+        "frame": 8,
+        "calls": 942,
+        "triangles": 7027254,
+        "points": 2820,
+        "lines": 0
+      },
+      "memory": {
+        "geometries": 736,
+        "textures": 82
+      },
+      "frameSamples": [
+        [
+          39818.5,
+          1059.4000000059605,
+          950,
+          7044046
+        ],
+        [
+          40881.10000002384,
+          30.799999982118607,
+          942,
+          7027254
+        ]
+      ],
+      "heap": 1060493781,
+      "lighting": [
+        {
+          "type": "HemisphereLight",
+          "color": 16771547,
+          "intensity": 1.2
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 16767159,
+          "intensity": 2.2
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 12105708,
+          "intensity": 0.9
+        }
+      ],
+      "dpr": 2
+    },
+    {
+      "name": "mass-front",
+      "x": 0,
+      "y": -151,
+      "z": 308,
+      "fov": 110,
+      "targetY": -148,
+      "camera": [
+        -450,
+        -151,
+        788
+      ],
+      "look": [
+        -450,
+        -148,
+        704
+      ],
+      "render": {
+        "frame": 10,
+        "calls": 1909,
+        "triangles": 17041180,
+        "points": 3140,
+        "lines": 0
+      },
+      "memory": {
+        "geometries": 1402,
+        "textures": 100
+      },
+      "frameSamples": [
+        [
+          67050.5,
+          629.1000000238419,
+          1909,
+          17041180
+        ],
+        [
+          67687.20000001788,
+          59.900000005960464,
+          1909,
+          17041180
+        ]
+      ],
+      "heap": 1046087015,
+      "lighting": [
+        {
+          "type": "HemisphereLight",
+          "color": 16771547,
+          "intensity": 1.2
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 16767159,
+          "intensity": 2.2
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 12105708,
+          "intensity": 0.9
+        }
+      ],
+      "dpr": 2
+    },
+    {
+      "name": "mass-top",
+      "x": 12,
+      "y": -0.5,
+      "z": 239,
+      "fov": 100,
+      "camera": [
+        -438,
+        -0.5,
+        719
+      ],
+      "look": [
+        -450,
+        -138,
+        704
+      ],
+      "render": {
+        "frame": 12,
+        "calls": 1142,
+        "triangles": 11159418,
+        "points": 2820,
+        "lines": 0
+      },
+      "memory": {
+        "geometries": 1023,
+        "textures": 100
+      },
+      "frameSamples": [
+        [
+          115153.10000002384,
+          147.59999999403954,
+          1142,
+          11159418
+        ],
+        [
+          115305.10000002384,
+          48.099999994039536,
+          1142,
+          11159418
+        ]
+      ],
+      "heap": 1015079880,
+      "lighting": [
+        {
+          "type": "HemisphereLight",
+          "color": 16771547,
+          "intensity": 1.2
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 16767159,
+          "intensity": 2.2
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 12105708,
+          "intensity": 0.9
+        }
+      ],
+      "dpr": 2
+    },
+    {
+      "name": "midnight-interior",
+      "x": -82,
+      "y": -134,
+      "z": 246,
+      "targetX": -82,
+      "targetY": -139,
+      "targetZ": 225,
+      "fov": 80,
+      "camera": [
+        -532,
+        -134,
+        726
+      ],
+      "look": [
+        -532,
+        -139,
+        705
+      ],
+      "render": {
+        "frame": 15,
+        "calls": 1668,
+        "triangles": 13871820,
+        "points": 1940,
+        "lines": 0
+      },
+      "memory": {
+        "geometries": 1164,
+        "textures": 106
+      },
+      "frameSamples": [
+        [
+          143074,
+          127.5,
+          1626,
+          13724436
+        ],
+        [
+          143210.40000000596,
+          19193.80000001192,
+          1626,
+          13724820
+        ],
+        [
+          162410.90000000596,
+          45.5,
+          1668,
+          13871820
+        ]
+      ],
+      "heap": 1011447469,
+      "lighting": [
+        {
+          "type": "HemisphereLight",
+          "color": 16771547,
+          "intensity": 1.2
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 16767159,
+          "intensity": 2.2
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 12105708,
+          "intensity": 0.9
+        }
+      ],
+      "dpr": 2
+    },
+    {
+      "name": "golden-interior",
+      "x": 51,
+      "y": -135,
+      "z": 251,
+      "targetX": 99,
+      "targetY": -139,
+      "targetZ": 224,
+      "fov": 80,
+      "camera": [
+        -399,
+        -135,
+        731
+      ],
+      "look": [
+        -351,
+        -139,
+        704
+      ],
+      "render": {
+        "frame": 17,
+        "calls": 1011,
+        "triangles": 7396350,
+        "points": 1940,
+        "lines": 0
+      },
+      "memory": {
+        "geometries": 904,
+        "textures": 106
+      },
+      "frameSamples": [
+        [
+          204301.30000001192,
+          90.80000001192093,
+          1011,
+          7396350
+        ],
+        [
+          204395.70000001788,
+          47.5,
+          1011,
+          7396350
+        ]
+      ],
+      "heap": 1023850896,
+      "lighting": [
+        {
+          "type": "HemisphereLight",
+          "color": 16771547,
+          "intensity": 1.2
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 16767159,
+          "intensity": 2.2
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 12105708,
+          "intensity": 0.9
+        }
+      ],
+      "dpr": 2
+    },
+    {
+      "name": "thermal-interior",
+      "x": -20,
+      "y": -158,
+      "z": 284,
+      "targetX": 0,
+      "targetY": -163,
+      "targetZ": 259,
+      "fov": 85,
+      "camera": [
+        -470,
+        -158,
+        764
+      ],
+      "look": [
+        -450,
+        -163,
+        739
+      ],
+      "render": {
+        "frame": 19,
+        "calls": 1524,
+        "triangles": 12588216,
+        "points": 1940,
+        "lines": 0
+      },
+      "memory": {
+        "geometries": 1085,
+        "textures": 106
+      },
+      "frameSamples": [
+        [
+          226293.10000002384,
+          298.7999999821186,
+          1524,
+          12588216
+        ],
+        [
+          226597,
+          51.20000001788139,
+          1524,
+          12588216
+        ]
+      ],
+      "heap": 1027126391,
+      "lighting": [
+        {
+          "type": "HemisphereLight",
+          "color": 16771547,
+          "intensity": 1.2
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 16767159,
+          "intensity": 2.2
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 12105708,
+          "intensity": 0.9
+        }
+      ],
+      "dpr": 2
+    },
+    {
+      "name": "massage-interior",
+      "x": -88,
+      "y": -146,
+      "z": 241,
+      "targetX": -88,
+      "targetY": -150,
+      "targetZ": 222,
+      "fov": 80,
+      "camera": [
+        -538,
+        -146,
+        721
+      ],
+      "look": [
+        -538,
+        -150,
+        702
+      ],
+      "render": {
+        "frame": 21,
+        "calls": 1640,
+        "triangles": 13470297,
+        "points": 1940,
+        "lines": 0
+      },
+      "memory": {
+        "geometries": 1147,
+        "textures": 106
+      },
+      "frameSamples": [
+        [
+          260231.80000001192,
+          127.59999999403954,
+          1640,
+          13470553
+        ],
+        [
+          260363.70000001788,
+          49.099999994039536,
+          1640,
+          13470297
+        ]
+      ],
+      "heap": 1036613431,
+      "lighting": [
+        {
+          "type": "HemisphereLight",
+          "color": 16771547,
+          "intensity": 1.2
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 16767159,
+          "intensity": 2.2
+        },
+        {
+          "type": "DirectionalLight",
+          "color": 12105708,
+          "intensity": 0.9
+        }
+      ],
+      "dpr": 2
+    }
+  ],
+  "errors": [],
+  "httpErrors": []
+}

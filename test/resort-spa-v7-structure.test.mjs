@@ -24,12 +24,23 @@ test('V7 continuous real slabs preserve pool/atrium/stair openings, clear headro
   const allFloors=[...floors,...night];const ceiling=hits(0,y+12+.02,226,allFloors,up)[0];assert(ceiling&&ceiling.point.y-(y+12)>=10.8);
   let roof;root.userData.shell.traverse(o=>{if(o.name==='SPA one continuous fused glass roof')roof=o;});assert(roof);
   const a=roof.geometry.attributes.position;for(let i=0;i<a.count;i++)assert(Math.abs(a.getY(i)-spaPalaceRoofY(a.getX(i),a.getZ(i)))<1e-4);
-  const sky=root.userData.basins.find(b=>b.userData.palacePool.sky);assert(sky.userData.bed.material.transparent,'the actual sky-pool bed must remain transparent');
+  const sky=root.userData.basins.find(b=>b.userData.palacePool.sky);assert(sky.userData.bed.material.transparent,'the actual sky-pool bed must remain transparent');for(const o of [sky.userData.bed,sky.userData.wall,sky.userData.surface]){assert(o.visible,'actual optical face remains independently sorted');assert(o.userData.resortSeparateTransparency);assert.equal(o.renderOrder,0,'native camera-depth sorting works from both sides');}
   assert(!spaPalaceContains(20,294),'a real access shaft stays outside the plates');
   const nav=createResortSpaNavigation(root),portalFrom={x:0,y:.012,z:293.2},portalTo={x:0,y:.012,z:287};
   assert(nav.segmentClear(portalFrom,portalTo,.571),'the full original body passes through the real façade portal and segmented arch');
   assert(!nav.segmentClear({...portalFrom,x:4},{...portalTo,x:4},.571),'the adjacent pressure wall stays closed');
   assert.equal(root.userData.palace.facade.roofRibs,20);
   assert.equal(root.userData.palace.facade.entryArchSegments,40);
+ }finally{root.userData.dispose();}
+});
+
+test('Thermal is double-height and the two real balcony sheets end inside its existing water without crossing the middle slab',()=>{
+ const root=finish(resortSpaModelSteps({layoutVersion:7}));try{
+ const floors=[];root.userData.surfaces.traverse(o=>{if(o.name==='SPA continuous sealed floor 1')floors.push(o);});
+ const ray=new T.Raycaster(new T.Vector3(0,P.baseY+13,266),new T.Vector3(0,-1,0));ray.far=2;assert.equal(ray.intersectObjects(floors).length,0);
+ assert.equal(root.userData.thermalCascades.length,2);for(const f of root.userData.thermalCascades){const a=f.fall.geometry.attributes.position,r=f.spec.receiver;
+ for(let i=0;i<a.count;i++){const x=a.getX(i),y=a.getY(i),z=a.getZ(i);if(Math.abs(y)<1e-5)assert(Math.hypot((x-r.x)/r.rx,(z-r.z)/r.rz)<1,'fall ends inside Thermal');if(Math.abs(y-12)<.7){ray.set(new T.Vector3(x,P.baseY+13,z),new T.Vector3(0,-1,0));assert.equal(ray.intersectObjects(floors).length,0,'real middle slab opening');}}
+ }
+ const vaults=[];root.userData.shell.traverse(o=>{if(o.name.includes('full-height'))vaults.push(o);});assert.equal(vaults.length,2);for(const o of vaults){const a=o.geometry.attributes.position;for(let i=0;i<a.count;i++)assert(a.getY(i)>=34.8-1e-4,'no low black cap');}
  }finally{root.userData.dispose();}
 });

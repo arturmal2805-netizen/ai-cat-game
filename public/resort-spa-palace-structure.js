@@ -14,7 +14,7 @@ export function* resortPalaceStructureSteps({solid,shell,decor,surfaces,mats,geo
  for(const z of SPA_V7_ROOMS){const g=new T.Group();g.name=z.name;g.userData.resortZone=z.id;g.userData.roomBounds={x:z.x,z:z.z,width:z.rx*2,depth:z.rz*2,minimumCeiling:z.ceilingMinimum};zones.set(z.id,g);}
  for(let level=0;level<P.levels;level++){
   setLevel(level);const shape=path(outline),y=level*P.rise;
-  if(level===1)holeCircle(shape,0,203,20,20);
+  if(level===1){holeCircle(shape,0,203,20,20);holeCircle(shape,0,266,49,22);}
   for(const p of pools.filter(p=>p.level===level&&(level!==2||p.sky)))holeCircle(shape,p.x,p.z,p.rx,p.rz);
   if(level===2)for(const z of SPA_V7_ROOMS.filter(z=>['midnight','vip'].includes(z.key)))shape.holes.push(path(roomOutline(z)));
   if(level){const stair=SPA_PALACE_STAIRS[level-1],s=new T.Path();s.moveTo(stair.x-3.5,-185);s.lineTo(stair.x+3.5,-185);s.lineTo(stair.x+3.5,-231.5);s.lineTo(stair.x-3.5,-231.5);s.closePath();shape.holes.push(s);}

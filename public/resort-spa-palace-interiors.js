@@ -24,10 +24,17 @@ export function* resortPalaceInteriorsSteps({solid,decor,shell,mats,geometry,mes
     box(solid,mats.glass,x,y+5.4,z-4.5,9,10.8,.08);box(solid,mats.gold,x,y+10.85,z+4.5,9,.1,.16);
     for(const side of [-1,1])box(solid,mats.glass,x+side*3.25,y+5.4,z+4.5,2.5,10.8,.08);
     box(solid,mats.wood,x+3,y+1,z-3,1.2,2,.6);
+   }else if(zone.key==='midnight'&&i>=14){
+    disk(solid,mats.gold,x,y+.65,z,2.25,2.25,.14);disk(solid,mats.cloth,x,y+.82,z,2.2,2.2,.2);
+    for(let j=0;j<12;j++){const a=Math.PI+j*Math.PI/11,o=pad(solid,mats.cloth,x+Math.cos(a)*2,y+1.3,z+Math.sin(a)*2,.7,1,.35);o.rotation.y=-a-Math.PI/2;}
    }else if(['vip','midnight','cabana','cafe'].includes(zone.key))sofa(c,y);
    else if(zone.key==='aroma'){
     pad(solid,mats.gold,x,y+.45,z,3.08,.1,2.14);pad(solid,mats.cloth,x,y+.65,z,3,.3,2.1);pad(solid,mats.cloth,x,y+1.3,z-.95,3,1.3,.36);for(const side of [-1,1])pad(solid,mats.cloth,x+side*1.5,y+1,z,.28,.6,2.1);
    }else disk(decor,mats.cloth,x,y+.04,z,1.5,1.5,.08);
+   if(zone.key==='cabana'){
+    for(const side of [-1,1]){box(solid,mats.glass,x+side*3.7,y+5.4,z,.08,10.8,7);box(solid,mats.gold,x+side*3.7,y+5.4,z-3.5,.1,10.8,.1);box(solid,mats.glass,x+side*2.65,y+5.4,z+3.5,2.1,10.8,.08);}
+    box(solid,mats.glass,x,y+5.4,z-3.5,7.4,10.8,.08);box(decor,mats.gold,x,y+10.85,z+3.5,7.4,.1,.16);
+   }
    if(!c.pool&&zone.key==='cafe'){disk(solid,mats.gold,x,y+1.2,z,1.3,1.3,.12);disk(solid,mats.gold,x,y+.55,z,.12,.12,1.1);}
    report.rooms[zone.id].supported++;
   }

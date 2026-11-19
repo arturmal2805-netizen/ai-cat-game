@@ -15,7 +15,7 @@ export function resortInteriorLighting(material,lights){
 // Stamp before merging; full-detail native source remains the physics target.
 export function* finishResortSpaSteps(root,{zones=RESORT_ZONES,rise=L.rise}={}){
  const lights=createMallRoomLights(),ids=new Map(),waterIds=new Map();
- for(const z of zones){const lamps=[-.55,0,.55].map(offset=>{const x=z.x+z.rx*offset,id=lights.register(x,z.z,z.key==='midnight'?0xb7caff:0xffc383);lights.texture.image.data[id*4+1]=z.level*rise+5.5;return{id,x,z:z.z};}),water=lights.register(z.x,z.z,0x62dce8);ids.set(z.id,lamps);waterIds.set(z.id,water);lights.texture.image.data[water*4+1]=z.level*rise+1.3;lights.texture.image.data[water*4+3]=Math.max(z.rx,z.rz)*1.6;lights.texture.image.data[(64+water)*4+3]=.8;}
+ for(const z of zones){const lamps=[-.55,0,.55].map(offset=>{const x=z.x+z.rx*offset,id=lights.register(x,z.z,z.key==='midnight'&&(offset<.5||!z.roomId)?0xb7caff:0xffc383);lights.texture.image.data[id*4+1]=z.level*rise+5.5;return{id,x,z:z.z};}),water=lights.register(z.x,z.z,0x62dce8);ids.set(z.id,lamps);waterIds.set(z.id,water);lights.texture.image.data[water*4+1]=z.level*rise+1.3;lights.texture.image.data[water*4+3]=Math.max(z.rx,z.rz)*1.6;lights.texture.image.data[(64+water)*4+3]=.8;}
  const sources=[];root.updateWorldMatrix(true,true);root.traverse(o=>{if(o.isMesh)sources.push(o);});const p=new T.Vector3();
  for(const mesh of sources){
   if(!mesh.geometry.boundingBox)mesh.geometry.computeBoundingBox();mesh.geometry.boundingBox.getCenter(p).applyMatrix4(mesh.matrixWorld);
@@ -24,14 +24,14 @@ export function* finishResortSpaSteps(root,{zones=RESORT_ZONES,rise=L.rise}={}){
  }
  lights.finish();const batch=new T.Group(),levels=new Map(),inverse=root.matrixWorld.clone().invert();
  for(let level=0;level<3;level++){
-  const sourceGroup=new T.Group();for(const source of sources){if(source.userData.resortFloor!==level)continue;const clone=new T.Mesh(source.geometry,source.material);clone.castShadow=source.castShadow;clone.receiveShadow=source.receiveShadow;clone.matrixAutoUpdate=false;clone.matrix.multiplyMatrices(inverse,source.matrixWorld);sourceGroup.add(clone);}
+  const sourceGroup=new T.Group();for(const source of sources){if(source.userData.resortFloor!==level||source.userData.resortSeparateTransparency)continue;const clone=new T.Mesh(source.geometry,source.material);clone.castShadow=source.castShadow;clone.receiveShadow=source.receiveShadow;clone.matrixAutoUpdate=false;clone.matrix.multiplyMatrices(inverse,source.matrixWorld);sourceGroup.add(clone);}
   const rendered=yield* batchModelSteps(sourceGroup,{combineColors:false});levels.set(level,rendered);batch.add(rendered);
  }
- root.userData.inspectionLevels=levels;root.userData.setInspectionLevel=level=>{for(const [id,g]of levels)g.visible=level==null||id<=level;for(const [id,g]of root.userData.zones){const zone=zones.find(z=>z.id===id);g.visible=level==null||zone.level<=level;}};
- const materials=new Set();batch.traverse(o=>{if(o.isMesh&&o.material.isMeshStandardMaterial)materials.add(o.material);});for(const m of materials)resortInteriorLighting(m,lights);
+ root.userData.inspectionLevels=levels;root.userData.setInspectionLevel=level=>{for(const [id,g]of levels)g.visible=level==null||id<=level;for(const [id,g]of root.userData.zones){const zone=zones.find(z=>z.id===id);g.visible=level==null||zone.level<=level;}for(const o of sources)if(o.userData.resortSeparateTransparency)o.visible=level==null||o.userData.resortFloor<=level;};
+ const materials=new Set(sources.filter(o=>o.userData.resortSeparateTransparency&&o.material.isMeshStandardMaterial).map(o=>o.material));batch.traverse(o=>{if(o.isMesh&&o.material.isMeshStandardMaterial)materials.add(o.material);});for(const m of materials)resortInteriorLighting(m,lights);
  // Hidden source geometry is still queried directly for floor holes and body
  // collisions. Its authored detail and transforms are preserved exactly.
- for(const source of sources)source.visible=false;root.add(batch);
+ for(const source of sources)if(!source.userData.resortSeparateTransparency)source.visible=false;root.add(batch);
  const stamped=new Set(sources.map(o=>o.geometry));const previous=root.userData.dispose;root.userData.renderBatch=batch;root.userData.roomLightTexture=lights.texture;
  root.userData.dispose=()=>{const geometries=new Set();batch.traverse(o=>{if(o.isMesh)geometries.add(o.geometry);});for(const g of geometries)g.dispose();for(const g of stamped)g.dispose();lights.texture.dispose();previous?.();};
  return root;
