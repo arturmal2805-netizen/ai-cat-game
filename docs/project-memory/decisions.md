@@ -642,3 +642,12 @@ with01443cd814ef atlas and complete native-nine-probes source/byte evidence.
 approaches, without moving live cats or changing original receipt ledgers.
 Asynchronous layout repair yields to newer commands; nine reflection/reload
 checksPASS. Required actual functional/native/ownership/finalimages/CI pending.
+
+### 2026-11-19 — Actual V7 services and interrupted SQLite session verified
+The first real run on664a7c7 completed eight canonical services, eight VIP baths
+and the sky pool, then exposed a Float32 coping/floor seam at the wet Cafe exit.
+534f3a9 repairs the physical seam with a 25mm underlap and 6mm recessed outer bevel,
+only in V7. Full-body collision remains enabled. All14 pool runtime/geometry exits
+pass; the remaining native Cafe/prepaid/shore lift/stairs/interrupted pool reload/
+desktop W/Cloud download scenarios also pass. Exact evidence is in the code branch.
+Final visual views, phone/ownership and complete release gates remain pending.

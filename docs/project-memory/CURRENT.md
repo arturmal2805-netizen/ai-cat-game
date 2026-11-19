@@ -35,56 +35,70 @@ account archive; потом обычный commit без подмешивани�
 Chromium/private Worker/SQLite download/cancel/restore/reload PASS. **Mac напрямую
 не проверен**; не называть Chromium аппаратным Mac тестом. Новую ссылку пользователь получил.
 
-## Активная задача — V7, единый SPA
+## Активная задача — единый SPA V7
 
-Код /workspace/chichi-emergency-save-recovery, codex/spa-v7-consolidation,
-remote534f3a954643a0a1fda1632ab1dee762a07bf3d6 (ls-remoteпроверен). Main/live всёещё6e28f75.
-V7/VisualProtocol тексты лежатвdocs/specifications; новыйконцепт1536×1024
-УЖЕполученвчате. Inlineбайтынедоступны:невыдумыватьhashкартинки.
-Пользовательпроситускоритьпубликацию,никакихновыхпобочныхзадач.
+Код: `/workspace/chichi-emergency-save-recovery`, ветка `codex/spa-v7-consolidation`.
+Точный remote SHA: `534f3a954643a0a1fda1632ab1dee762a07bf3d6` (проверен ls-remote).
+Draft PR: https://github.com/arturmal2805-netizen/ai-cat-game/pull/2.
+Main и сайт пока остаются на `6e28f752291e65e7b51f7f093a004e5c81fd27b3`.
+Публикация после проверок уже разрешена. Не завершать работу на WIP или плане.
 
-A/B/C/D native завершены:3+3+7+13реальныхPNG сexactsource/bundle/log в
-code docs/qa/2026-11-19/spa-v7/native-{mass,facade,interiors-c,interiors-d}.
-D4f69 нашёлпересеченияреальнойкрыши(VIP-1.426m/Midnight-.713m),зубчатый
-coping/пол,открытыеднищаванн. Исправленыв4d85624,НЕмаскировкой:
-3этажапо14м(ранее12),50реальныхступеней×.28,roofspring46,nightvaultmax45,
-минимум10.8мвкомнатах;serviceceiling12мнадсреднимэтажомскрываетднищаванн,
-ноимеетреальныйskyhole19м. Poolholesссовпадающим192samplecopingboundary.
-НастоящиедиваныWaterfall,масла/свет/8ограниченныхJacuzzieffectsсохранены.
-Footprint300×132/corner60,реальные96контактов/лестницы/лифт;Mall/днонеизменены.
+Пользователь прислал V7, Visual Implementation Protocol и новый концепт
+1536×1024. Тексты сохранены в `docs/specifications/`. Концепт уже получен в чате,
+но оригинальные байты inline картинки локально не предоставлены; SHA не выдумывать.
+Он заменяет четырнадцать раздельных комнат восемью зонами единого здания.
 
-ProductionworldтеперьЯВНОmodel({layoutVersion:7}),offers8activeIDs.
-RESORT_ZONES/products14остаютсяисторическимреестромквитанций/default6тестов;
-новаяиграневызываетdefault6. Menu10=overview+8+exit. AliasAmber/Jacuzzi
-используютизначальныеквитанции,retired4толькостарыйprepaidrestбезпродажи.
+Реализованы общий корпус 300×132 м, три этажа с шагом 14 м, реальные лестницы
+по 50 ступеней, восемь VIP-ванн и прозрачный верхний бассейн. Midnight и Golden
+увеличены; минимальная высота их сводов 10.8 м, внешняя крыша начинается на 46 м
+над нижним полом. Service ceiling на 12 м над средним этажом закрывает днища
+ванн, но сохраняет настоящий проём верхнего бассейна. Соседние ТРЦ, дно, вода,
+модели котиков и общие правила экономики/слияния не изменены.
 
-32targetedNode22PASSвpre-probe-tests.log.9/9newrealreflectionbakeна4d85624
-завершён,source-stateguardPASS. Atlas01443cd814ef1222ea2ccef537e5cb97989269428d4833cc9ebcdc7093fb6997,
-raw5a05a2493adaaa6112fea0adc41b86fbdd7e76671522119d369afb54c73c3264,
-bundlecc69072f01663062f94b096784929339f76b6cbef2e7a39b6f35e0efdf3e11ca.
-Полнаяцепочкаnative-nine-probesархивирована,новыйatlas/9manifestподключены.
-Старый15atlasсохранёнкакhistory/cachedclient. Sky8,finishclamp7,cachekeyrevision.
+Production world явно выбирает layoutVersion7; public offers содержит 8 зон,
+меню — 10 кнопок (обзор + 8 + выход). Исторические 14 product/service IDs остаются
+для квитанций. Amber → Midnight, Jacuzzi → VIP. Четыре удалённые услуги принимают
+только уже оплаченные билеты для отдыха в Midnight; новых продаж или валюты нет.
+Старые default6 geometry tests являются историческим контролем, не доказательством
+текущего production7. Актуальная геометрия проверена отдельными V7 тестами.
 
-664a7c7:9targetedreflection/recoveryPASS. Staleasyncmigrationотменяетсяпри
-новойкоманде/позиции;manualheroзаблокировантольковrestoring-phase. Savehook
-во времяwet/elevatedпроцедуры сохраняетdrysupportapproach,неперемещаяживого
-кота. Несколькокотовполучаютраздельныеточки;еслинетопоры—предыдущаяпозиция.
-Прерванныйpaidticketпослеreloadиспользуетсябезновойоплаты;completedconsumed
-необнуляется. Общийmerge/shared-world/баланснетронуты. Exactliftreloadсохранён.
+Реальные этапы A/B/C/D сохранены с исходниками, bundle, PNG и логами в
+`docs/qa/2026-11-19/spa-v7/`. D на 4f69 выявил пересечения крыши и сводов,
+зубчатый стык бортика/пола и открытые днища ванн. Геометрия исправлена в 4d85624;
+32 целевых проверки прошли, включая все 96 контактов и лестницы в обе стороны.
+Девять отражений сняты на точном 4d85624 и подключены в 664a7c7:
+atlas SHA256 `01443cd814ef1222ea2ccef537e5cb97989269428d4833cc9ebcdc7093fb6997`,
+bundle `cc69072f01663062f94b096784929339f76b6cbef2e7a39b6f35e0efdf3e11ca`.
+Полная цепочка и исходные слои — `native-nine-probes`. Старый atlas сохранён.
 
-Первыйnative664a7c7 завершилсянеполным:все8каноническихуслуг/8VIPbaths/sky
-прошли,ноCafewetзастрялнастыкеcoping/floor. Native-functional-firstсохранил
-исходники/трейсы/SQLiteвыборкибезсекретов.534f3a9исправляетИМЕННОгеометрию:
-реальнаявнешняяфаскабортикасunderlap2.5см/drop6мм,тольков7,безрадиусныххаков.
-Все14actualpoolentry/procedure/exit/returnsPASS.12mmпробасначалакасаласьнулевой
-границыводы,исправлена6mm;сохранятьfailedlogsневыдаватьихзаPASS.
+Сохранение во время wet/elevated процедуры записывает сухую поддержанную точку,
+не перемещая живого кота. Одновременные гости получают разные точки. После reload
+прерванный оплаченный билет используется без повторной оплаты. Завершённые
+квитанции остаются использованными; точное восстановление лифта сохранено.
+Устаревшая асинхронная миграция уступает новой команде/позиции. Общая семантика
+shared-world/merge и баланс не менялись. Девять reflection/recovery тестов PASS.
 
-СейчасодинGPUremainingfunctional/session33250,лог
-/workspace/qa/spa-v7-functional-remaining.log. FlagsV7_REMAINING_ONLY=1выбирают
-тольконеоконченныеCafewet/prepaidaliases/shorelift/midwetSQLite/reload/W/Cloud.
-Необъявлятьэтотrunсамостоятельнойпроверкойвсех8зон:онивпервомcheckpoint.
-Нередактироватькодвовремяcaptures. Далее13finalactualframes/phoneheldtouch/
-OWNERSHIP_AUDIT,exactNode22build/fullCI/livebytes. DraftPR#2создан,CI44572028855
-стартовална664a7c7;послепоследнегоpushпроверитьновыйhead/run,неспутатьстарыйCI.
-WorkersBuildsотдельноошибаетсяикакнастабильнойверсии;главныйTestanddeploy
-обязателенполностью. НЕзаканчиватьнаWIP/плане,публикацияавторизованапослепроверок.
+Первый native run на 664a7c7 прошёл 8 канонических услуг, 8 VIP-ванн и sky pool,
+но нашёл застревание выхода водного кафе на Float32-стыке. Его полный failed
+checkpoint сохранён в `native-functional-first`; не выдавать весь run за PASS.
+534f3a9 добавляет настоящий наружный скос бортика: underlap 2.5 см, drop 6 мм,
+только V7. Радиус/столкновения не ослаблены. Все 14 бассейнов прошли реальный
+geometry/runtime вход → процедура → выход → возвращение.
+
+Оставшиеся native сценарии на 534f3a9 теперь PASS, архив `native-functional-remaining`,
+bundle `4ca1c81178b86edb4c64cdae007dba0845849ea3104f30ca5d12c5422d198ac3`:
+водное кафе, старые оплаченные Jacuzzi/Nap, настоящий путь от причала через лифт
+и лестницы к массажу и обратно, private SQLite reload посреди купания без повторной
+оплаты, W/World release и действительное скачивание Cloud backup с проверкой SHA.
+Это дополнение к успешным частям первого run, не повторная проверка всех 8 зон.
+
+Сейчас идёт единственный GPU run финальных 13 кадров, session60045:
+`/workspace/qa/spa-v7-final-views.log`, output `/workspace/qa/spa-v7-final-views`.
+Флаги EXPLORER_AUDIT=1 RESORT_SPA_AUDIT=1 SPA_V7_MASS_AUDIT=1
+SPA_V7_PHASE=interiors DESKTOP=1. Просмотреть все PNG, записать сравнение по секциям
+референса. Затем phone held touch и обязательный OWNERSHIP_AUDIT; точная сборка
+Node22, полный CI и проверка live assets перед публикацией.
+CI текущего code SHA: https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44573032188.
+Первый CI44572028855 отменён новым push — не считать его успешным.
+Отдельный Workers Builds ошибается и на стабильной версии; главный Test and deploy
+обязателен полностью. Native/CI не означают визуального одобрения или hardware FPS.
