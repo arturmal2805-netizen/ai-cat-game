@@ -71,7 +71,7 @@ HTML7d8e29b489c6522e341085f6729878b80a662cbad0ffc8383b34bff9e4a62a5e;
 JS593013c89da9d392e10c9a42a7ba7297e2073cccff5e3fc32951b930262e4dce;
 CSS1ca6fd7d91d93d2434122de8b604f9e1f0306145487ece7434204f01d46492bc.
 SPA atlas прежний ffabc732b641d70c2894ca97ebff1ab83ba4fecbf6da71e5d0251efd19648d6f:
-только вода/динамика менялись, masked static probe inputs остались прежними.
+статическая архитектура/room lamp table сохранены. Это прежние V8 probes, не новые V11 captures; подводная caustic/liner shading изменилась, поэтому точный новый вид дна в них не переснят.
 Проверить actual HTTP HTML/JS/CSS/atlas после Pages, одно приложение и matching
 cache query. v в URL не доказательство. Worker exactrelease/save checks — workflow.
 
