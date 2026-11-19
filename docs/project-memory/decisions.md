@@ -689,3 +689,17 @@ V11water-only изолирован codex/spa-water-v11: profiles+refraction util
 Дальнейшая интеграция38поверхностей пока WIP. Один framebuffercopy для рефракции
 всегоSPA закадр, без дополнительных scene renders/per-pool RT; надо измерять.
 Текущая стабильная публикация всё ещё c477057 до exact HTTP подтверждения812.
+
+## 2026-11-19 22:04 Kyiv — V8 опубликован, V11 и group-call отдельно
+
+812c8a6723dcbe106b567da88e1c3e1b1e4e399d LIVE; workflow44601625796 SUCCESS всех jobs.
+Фактические HTTP HTML/JS/CSS/atlas и одно подключение приложения проверены.
+Receipt remote16526f9 на codex/spa-v8-release-evidence; хеши в CURRENT.
+Бесплатный вызов Чичи уже live. Последующий group-call свободных жителей
+разрешён пользователем и включён в отдельный V11 WIP1e6d6fd; не приписывать812.
+V11 stage1 native8views технически PASS, художественно всё ещё не принято.
+По новому Thermal кадру укрупняем caustics/делаем мягкие отражения и метрику.
+Group-call исключает work/sleep/manual/занятость, делает конечную очередь с4
+активными journey и native lift/physical dry parking, без покупки/LLM.
+Текущая stage2 native проверяет actual38profiles/copy/frame completion и2
+живых жителей. Не объявлять результаты до завершения и просмотра.
