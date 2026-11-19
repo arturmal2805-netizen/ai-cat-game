@@ -9,6 +9,7 @@ export async function auditResortSpaNative({page,review,errors,httpErrors}){
  await page.locator('.resort-spa-access').waitFor({state:'visible'});await page.locator('.resort-spa-access').click();
  const progress=setInterval(()=>console.log('SPA required scene preparation pending'),15000);
  try{await page.waitForFunction(()=>__lagoonQA.resortSpa()?.inspection,null,{timeout:240000});}finally{clearInterval(progress);}
+ if(process.env.CHICHI_SPA_V8_AUDIT){await page.evaluate(async()=>{await __lagoonQA.mall().ensure();});await page.waitForFunction(()=>__lagoonQA.mall().ready,null,{timeout:240000});}
  if(process.env.CHICHI_SPA_V7_MASS_AUDIT&&process.env.CHICHI_RESORT_SPA_PHONE_ONLY_AUDIT){const {auditResortPhoneWalk}=await import('./audit-resort-spa-phone-walk.mjs');await auditResortPhoneWalk({page,review});assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;}
  if(process.env.CHICHI_SPA_V7_FUNCTIONAL_AUDIT){const {auditSpaV7Functional}=await import('./audit-resort-spa-v7-functional.mjs');await auditSpaV7Functional({page,review,errors,httpErrors});return;}
  if(process.env.CHICHI_SPA_V7_MASS_AUDIT&&process.env.CHICHI_SPA_PROBE_BAKE){assert.equal(await page.evaluate(()=>__lagoonQA.resortSpa().root.userData.layoutVersion),7);const {bakeResortNativeProbes}=await import('./bake-resort-spa-native-probes.mjs');await bakeResortNativeProbes({page,review,errors});assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;}

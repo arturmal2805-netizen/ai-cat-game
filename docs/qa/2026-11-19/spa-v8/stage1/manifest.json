@@ -1,0 +1,22 @@
+{
+  "sourceBase": "0c17d17d6a050e56c0f697439f3a0d4be37e7ae5",
+  "sourceState": "",
+  "result": "PASS rendered 4 actual rooms and unchanged native transforms. Intermediate visual study only, not release.",
+  "visualReview": "Repeated reference review: micro-details alone are insufficient; add real conversation groups and ceiling accents; reduce the coarse original marble vein scale/contrast. DPR1 iteration is not a matched DPR2 performance comparison; first view also preceded full Mall preparation.",
+  "files": {
+    "aroma-interior.png": "dbbfe30778adb20f2af613cdf93e98e35664579ddea3b559b3cb0ee451487f6d",
+    "cafe-interior.png": "3bd059a90aed1f3cac067d6b9d01c7710775c10f3f2f069fe19811c97d1ae8a2",
+    "imported-source.tar.gz": "6362b3a4052059305ff80c21cc41bc09704185f611c9fe6e39352ba3fc08fc73",
+    "layout-world-transforms.json": "3518713f83d48cad7ccba56c16c8fa3635d2295bfcf0bc272ef031db684a99a7",
+    "midnight-interior.png": "a3756c104626511a7854bdbf2cb9c3d235dfc667463e7d5592150d75083d8fe6",
+    "native.log": "5acebbb3cfb0aa6ae0ceefd4f1db4c482c41b572c98d2ff4590d218838b2e824",
+    "qa-app.js.gz": "9924664546466e318ec607f9b42e5bf7b1131abeb79f38528b433ba41967b4ab",
+    "qa-build.json": "43f30285368df5e473f4464ad147bf999cd326bffb85c59ba4975ddcd2db99e1",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "f82514c958859dd1053db2703264e39e647c538bef14a8cc234dab63b5bad89c",
+    "source-status.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "thermal-interior.png": "ac648297c4916b15a8ee0801fbd0a349af4efebf439e43dc9fc3b739b19a5c41",
+    "v7-mass-frames.json": "10ae97ebd3f6d3eea54aa7ddc723024d2c361e4bfbf0de286929c993425162d4"
+  }
+}
