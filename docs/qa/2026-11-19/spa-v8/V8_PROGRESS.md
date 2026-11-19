@@ -74,3 +74,16 @@ Current combined private run: /workspace/qa/spa-v8-integrated (.log), one GPU.
 Local npm test returned1191/1191 but product sources changed while it was running
 for the new user corrections. Treat it as partial supporting information, NOT
 an exact-source final gate. Final clean Node22 CI is still required.
+
+Paired actual integrated frames prove the large polygon is exterior shadow-map
+leakage into the sealed pool bed: it disappears when only the bed batch stops
+receiving that exterior shadow. Fix is scoped to V8 submerged liner/steps; rim,
+public floors, architecture, other venues and every collision stay intact.
+Thermal caustic/wave-field scale now .28, small pools .5; shader program key
+includes that profile scale. Denser actual vines replace floating sparse clumps.
+
+Integrated invitation reached SPA but Playwright crashed on reload: QA returned
+an entire THREE root from page.evaluate(ensure), overflowing its512MB string
+limit. Fixed both invitation and existing functional helper to await preparation
+without serializing the scene. This is a QA transport fix, not a player-save
+reset. Preserve failed run evidence; completed arrival/reload tests still pending.

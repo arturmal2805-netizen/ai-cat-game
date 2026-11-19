@@ -63,7 +63,7 @@ export function* resortSpaDetailSteps(h){
    // Ornament follows the existing double-height balcony edge. The hanging
    // leaves/petals remain well above a cat and never close an actual opening.
    for(let i=0;i<18;i++){const a=Math.PI*.08+i*Math.PI*.84/17,x=Math.cos(a)*48,z=266-Math.sin(a)*21.7;
-    for(let j=0;j<3;j++){const t=j/2,px=x+Math.sin(i*1.7+t)*.32,py=13.7-t*2.6,pz=z+Math.cos(i+t)*.18;const leaf=mesh(decor,leafGeo,green,px,py,pz,.5,.6,.55);leaf.rotation.set(-.5,i*2.4+t,0);if(j===0||i%3===0)mesh(decor,flowerCluster,i%2?petal:petalDark,px,py,pz,.42,.3,.42);}
+    line(decor,green,[[x,14,z],[x+Math.sin(i)*.3,12.6,z+.15],[x+Math.sin(i*1.7+1)*.32,10.7,z+Math.cos(i+1)*.18]],.035);for(let j=0;j<6;j++){const t=j/5,px=x+Math.sin(i*1.7+t)*.32,py=13.7-t*2.6,pz=z+Math.cos(i+t)*.18;const leaf=mesh(decor,leafGeo,green,px,py,pz,.8,.85,.8);leaf.rotation.set(-.5,i*2.4+t,0);if(j%2===0)mesh(decor,flowerCluster,i%2?petal:petalDark,px,py,pz,.65,.45,.65);}
    }
    ring(decor,mats.gold,0,.06,266,45.3,19.3,.07);ring(decor,warm,0,.025,266,45.75,19.75,.035);
    for(const side of [-1,1])ceilingMedallion(side*22,266,9,5,25.7);
