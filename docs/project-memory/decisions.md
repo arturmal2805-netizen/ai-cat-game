@@ -660,3 +660,12 @@ column0,234; the collision was retained and the real open hall0,238 passed4m.
 189 manifest entries and30 explicitly retained logs are in Git. Main workflow
 44579271016 is the publication gate; predeploy HTTP still showed the stable old
 bundle, so no publication claim is made yet. Release evidence stays off main.
+
+### 2026-11-19 — SPA V7 publication verified
+Main c477057b6eda6e251f02bc27735e4220d737112b completed workflow44579271016
+SUCCESS for test/deploy/Pages, exact Worker release and shared saves. Actual public
+HTTP17:54:13UTC matched Node22 HTML/JS/CSS/new9probe bytes, one application module.
+Receipt b91350c04fc29ad93c72e8cca38ab14c75f785e0 on separate release-evidence branch.
+Native phone CSS also matched live. No extra main deploy for documentation. This
+publishes the checked structural8room/3floor SPA stage, not artistic completion
+or user visual approval, hardware phone/Mac FPS or all84motion certification.
