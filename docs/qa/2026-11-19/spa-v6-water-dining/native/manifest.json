@@ -1,0 +1,29 @@
+{
+  "sourceBase": "f668b0684dc7bd9cef3d5b8fee161be81ae3d9a2",
+  "sourceState": "",
+  "result": "PASS actual native Cafe water entry, safe furniture detour, real cup/drink/lick/treat, dry stair exit, one own-wallet payment/use and SQLite reload. Five reference views.",
+  "visualReview": "Still WIP. Water dining is functional but furniture/planting/light/exterior remain far from references. QA clock lock requested12; post-render clock getters show12:15..18 after software render stalls. Do not claim exact timestamp A/B.",
+  "files": {
+    "actual-game-massage.png": "ca8e94feebf99a20e5fbad8ef1a683453f2293cdfcb80aa7f98bda57252b6a7a",
+    "actual-pools-sqlite.json": "1301781e773964deec8c47f1d2f8f719ab779441aad7f77788d957c26e5e6ecc",
+    "game-scene.json": "6e398c797fdb2280e311335b20e238bce08184b9c0a5a887f27186077ee4d896",
+    "imported-source.tar.gz": "57045937c5a1cd293aa85bf750d8839a85fce0bd1e63651ffbb2e08c43e41942",
+    "native.log": "93f195eb5c38607fb330e69fdad6b0a5bb6761777d65ac2289363ba4af790708",
+    "pool-progress.json": "173fc25c583ac1dcffa982950cdab77009d379d8cdc0ed7c6f9bdcb3ab66dbc1",
+    "qa-app.js.gz": "a7a017b352e73e729a282828ea237680b0b68c949ae18fd1bae1318203560b58",
+    "qa-build.json": "9523608cc02fd56700e2df04cfba986c3b42507144e3a2e55af98afcb2e6b6c8",
+    "resort-cafe-procedure.png": "004dc7bf49b0604f54e07e7f229e1de9dd27ed693f415a45f9b0f2ee266c9b7b",
+    "resort-cafe-wet-enter.png": "c67eb50ecb0368259dc85f58f436b26eecf47406c789ef8a275b28ffe4e5a2d3",
+    "resort-cafe-wet-shake.png": "d67442374a76da97ed2626926e799b6246dd0b0cbd3ba149d5e7d4d346d4ec18",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "dd5772550ebe6297582c70c57e09cfe730a290d49d631736f28962fec09d48cc",
+    "source-status.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "v6-reference-frames.json": "15411d64d1c414a5b9d401ed921a26b5d2533b1d61ded39558e4e8ffa3331deb",
+    "water-dining-overview.png": "098e91b81071382dee6e6499fb324faf29fe530cafb6a1cf576ad940258dfcd9",
+    "water-dining-resort-aroma.png": "e19136a09a23b453dfe5345e0b84d1caee9d2832bc138d85ca15a37df073ac49",
+    "water-dining-resort-cabana.png": "5d8efa0a48a320ad0efab9c445e7f4521c6bd5c9d92c98ff3220728b10f44b13",
+    "water-dining-resort-cafe.png": "9478385bda4b7b65ce9ed8ddf16d499e64f562da7164694c9082dad01fda1522",
+    "water-dining-resort-vip.png": "d1f65b8c83276265087fe39a2027b27d86919ce9980303b256edc3b7e054064c"
+  }
+}

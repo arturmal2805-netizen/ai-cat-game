@@ -1,0 +1,23 @@
+SPA required scene preparation pending
+V6 reference review frame soft-polish Общий вид
+V6 reference review frame soft-polish Aroma Therapy Garden
+V6 reference review frame soft-polish Golden Galaxy VIP Suite
+V6 reference review frame soft-polish Wellness Café
+V6 reference review frame soft-polish Floating Glass Cabanas
+V6 reference review frame soft-polish Верхний бассейн
+PASS actual keyboard W from Nap seat6 via real footstool, no submarine takeover and World release
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert(before.coins>=cost)
+
+    at auditResortPools (file:///workspace/chichi-emergency-save-recovery/scripts/audit-resort-spa-pools.mjs:7:58)
+    at async auditResortV6 (file:///workspace/chichi-emergency-save-recovery/scripts/audit-resort-spa-v6.mjs:26:73)
+    at async auditResortSpaNative (file:///workspace/chichi-emergency-save-recovery/scripts/audit-resort-spa-native.mjs:16:102)
+    at async /workspace/chichi-emergency-save-recovery/scripts/check-aquarium.cjs:705:122 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

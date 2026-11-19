@@ -1,0 +1,118 @@
+TAP version 13
+# Subtest: four Cafe water tables have real floor holes, body-blocking furniture and complete eating/stair/return paths
+ok 1 - four Cafe water tables have real floor holes, body-blocking furniture and complete eating/stair/return paths
+  ---
+  duration_ms: 4904.38359
+  type: 'test'
+  ...
+# Subtest: Cafe cancellation reverses only physically reached water waypoints and does not consume an interrupted ticket
+ok 2 - Cafe cancellation reverses only physically reached water waypoints and does not consume an interrupted ticket
+  ---
+  duration_ms: 3284.278237
+  type: 'test'
+  ...
+# Subtest: every dry room has its own bounded continuous native-joint choreography
+ok 3 - every dry room has its own bounded continuous native-joint choreography
+  ---
+  duration_ms: 158.885226
+  type: 'test'
+  ...
+# Subtest: all eleven dry services reach their own real seat, finish and return on actual floor geometry
+ok 4 - all eleven dry services reach their own real seat, finish and return on actual floor geometry
+  ---
+  duration_ms: 4374.121356
+  type: 'test'
+  ...
+# Subtest: thermal, sky pool, all eight jacuzzis and VIP retain full-body stair descent/ascent and actual enclosed swimming space
+ok 5 - thermal, sky pool, all eight jacuzzis and VIP retain full-body stair descent/ascent and actual enclosed swimming space
+  ---
+  duration_ms: 4671.124914
+  type: 'test'
+  ...
+# Subtest: each wet service really descends, paddles or soaks distinctly, exits/shakes, consumes once and walks back
+ok 6 - each wet service really descends, paddles or soaks distinctly, exits/shakes, consumes once and walks back
+  ---
+  duration_ms: 3478.705867
+  type: 'test'
+  ...
+# Subtest: cancelling a swimmer retains ownership until real dry exit and preserves the unconsumed paid ticket
+ok 7 - cancelling a swimmer retains ownership until real dry exit and preserves the unconsumed paid ticket
+  ---
+  duration_ms: 2779.24317
+  type: 'test'
+  ...
+# Subtest: full-sized body sweeps real stairs both ways through actual floor openings on both levels
+ok 8 - full-sized body sweeps real stairs both ways through actual floor openings on both levels
+  ---
+  duration_ms: 3807.819342
+  type: 'test'
+  ...
+# Subtest: the massage-specific model keeps its real atrium bridge and all six cabin doors reachable
+ok 9 - the massage-specific model keeps its real atrium bridge and all six cabin doors reachable
+  ---
+  duration_ms: 4181.440681
+  type: 'test'
+  ...
+# Subtest: an entire massage visit crosses curved bridge joints both ways at actual runtime substeps
+ok 10 - an entire massage visit crosses curved bridge joints both ways at actual runtime substeps
+  ---
+  duration_ms: 3030.033979
+  type: 'test'
+  ...
+# Subtest: SPA fish keep distinct real anatomy and every moving membrane inside their glass tank
+ok 11 - SPA fish keep distinct real anatomy and every moving membrane inside their glass tank
+  ---
+  duration_ms: 97.540255
+  type: 'test'
+  ...
+# Subtest: glass sky pool has a real transparent bed, an unblocked walking bridge and no opaque floor underneath
+ok 12 - glass sky pool has a real transparent bed, an unblocked walking bridge and no opaque floor underneath
+  ---
+  duration_ms: 3024.52577
+  type: 'test'
+  ...
+# Subtest: SPA PBR color maps are sRGB while normal and roughness charts remain linear data
+ok 13 - SPA PBR color maps are sRGB while normal and roughness charts remain linear data
+  ---
+  duration_ms: 22.932428
+  type: 'test'
+  ...
+# Subtest: SPA overview eye is inside real open water rather than the old shallow shoreline wall
+ok 14 - SPA overview eye is inside real open water rather than the old shallow shoreline wall
+  ---
+  duration_ms: 0.375123
+  type: 'test'
+  ...
+# Subtest: sealed SPA illumination keeps its local lamps, emissions and reflection hook without altering outside materials
+ok 15 - sealed SPA illumination keeps its local lamps, emissions and reflection hook without altering outside materials
+  ---
+  duration_ms: 0.520899
+  type: 'test'
+  ...
+# Subtest: segmented curved seats retain real support and do not close their interior with a merged bounding box
+ok 16 - segmented curved seats retain real support and do not close their interior with a merged bounding box
+  ---
+  duration_ms: 2252.515238
+  type: 'test'
+  ...
+# Subtest: manual Chichi physically steps off a Nap seat and cannot send the camera through the sealed dome even during cutaway
+ok 17 - manual Chichi physically steps off a Nap seat and cannot send the camera through the sealed dome even during cutaway
+  ---
+  duration_ms: 2285.875125
+  type: 'test'
+  ...
+# Subtest: VIP keeps its four original wet contacts and adds four supported private lounges with complete real-floor return paths
+ok 18 - VIP keeps its four original wet contacts and adds four supported private lounges with complete real-floor return paths
+  ---
+  duration_ms: 2204.008615
+  type: 'test'
+  ...
+1..18
+# tests 18
+# suites 0
+# pass 18
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 18737.290908

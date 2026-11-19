@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: new planted beds preserve real public-to-station body routes in every affected room
+ok 1 - new planted beds preserve real public-to-station body routes in every affected room
+  ---
+  duration_ms: 6551.679091
+  type: 'test'
+  ...
+# Subtest: cascade sheets leave their real stone foundations and land inside actual receiving pools
+ok 2 - cascade sheets leave their real stone foundations and land inside actual receiving pools
+  ---
+  duration_ms: 1.793728
+  type: 'test'
+  ...
+# Subtest: dense garden geometry has a bounded fixed native instance budget and floor inspection never rewrites buffers
+ok 3 - dense garden geometry has a bounded fixed native instance budget and floor inspection never rewrites buffers
+  ---
+  duration_ms: 4.456309
+  type: 'test'
+  ...
+# Subtest: actual shipped reflection sheet decodes byte-identically to all 15 native captures, preserving bottom row and linear bytes
+ok 4 - actual shipped reflection sheet decodes byte-identically to all 15 native captures, preserving bottom row and linear bytes
+  ---
+  duration_ms: 74.413633
+  type: 'test'
+  ...
+# Subtest: selected SPA loader coalesces requests and keeps immutable linear layer storage; rejected checksums leave fallback available
+ok 5 - selected SPA loader coalesces requests and keeps immutable linear layer storage; rejected checksums leave fallback available
+  ---
+  duration_ms: 2.609883
+  type: 'test'
+  ...
+# Subtest: SPA array finish composes existing native lamp/static hooks and Fresnel without modifying global Mall materials
+ok 6 - SPA array finish composes existing native lamp/static hooks and Fresnel without modifying global Mall materials
+  ---
+  duration_ms: 60.471861
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 12045.069851

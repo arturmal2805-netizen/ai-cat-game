@@ -1,0 +1,13 @@
+SPA required scene preparation pending
+Offline SPA actual-scene probe 0 resort-thermal
+AssertionError [ERR_ASSERTION]: nonempty actual room radiance
+    at bakeResortNativeProbes (file:///workspace/chichi-emergency-save-recovery/scripts/bake-resort-spa-native-probes.mjs:46:80)
+    at async auditResortSpaNative (file:///workspace/chichi-emergency-save-recovery/scripts/audit-resort-spa-native.mjs:13:123)
+    at async /workspace/chichi-emergency-save-recovery/scripts/check-aquarium.cjs:704:122 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

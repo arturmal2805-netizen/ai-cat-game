@@ -23,6 +23,6 @@ export function createResortPoolNavigation(getNavigation){
    for(const step of steps(pool)){const top=step.top+P.foot;if(radiusDistance(p,step)<radius&&Math.abs(top-p.y)<=.65)y=Math.max(y??-Infinity,top);}
    if(y===null||Math.abs(y-p.y)>.65||!resortPoolBodyClear({...p,y},pool,radius))return null;return{...p,y};
   },
-  swimClear(p,pool,radius=.571){return Math.hypot((p.x-pool.x)/pool.rx,(p.z-pool.z)/pool.rz)<1&&boundary(p,pool)>=radius&&p.y<=pool.y-.2&&resortPoolBodyClear(p,pool,radius);},
+  swimClear(p,pool,radius=.571){const nav=getNavigation();return Math.hypot((p.x-pool.x)/pool.rx,(p.z-pool.z)/pool.rz)<1&&boundary(p,pool)>=radius&&p.y<=pool.y-.2&&resortPoolBodyClear(p,pool,radius)&&(!nav?.bodyClear||nav.bodyClear({...p,y:p.y-S.y},radius));},
  };
 }

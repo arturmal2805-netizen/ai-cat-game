@@ -1,0 +1,23 @@
+{
+  "scope": "Intermediate architecture review, deliberately NOT a finished V6 or visual approval. Exact imported source and instrumented bundle attached.",
+  "sourceHead": "0d21c0f0773d756790facf75cc35574376263f60",
+  "sourceState": "Dirty overlay and imported new modules attached. Later source changes are not evidenced by these PNGs.",
+  "review": "R1/R2/R4/R5 each inspected. Sparse rooms, repetitive marble, weak star ceiling and Mall occlusion remain; these frames rejected as final.",
+  "files": {
+    "native.log": "74ce6bac41af390409ec41abdc9e2d1425c6a20ed8fd09fb282b893c68bb6cb5",
+    "qa-build.json": "69f6a0b714c7caea5e3ae41cc71969180372967f13cd67e3e170e8fc0691e4cd",
+    "v6-reference-frames.json": "bd4e54d1c9868aa358133cdaad0dd0d71361f1070c44f01b4499d027c04575d8",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "architecture-resort-vip.png": "583700d0ee4e23df9835212469c7527c7b7f5078183df05fa247ab4ae0557764",
+    "architecture-overview.png": "85214f4870809aa46aeb822b9532280fa085105f283787aceb2f531a8984a2a8",
+    "imported-source.tar.gz": "8f7c93bed1c29bac7d63d0b3b7f72c9350bc18d26993df1e825a37c9ed2a1715",
+    "qa-app.js.gz": "0e5c5421c6afba0ea1b61fb9833cd288a5b6593c4646ad87f44af80bd7cd4add",
+    "source-HEAD.patch": "242f09918ec5663800bafd049d956490bd9f4ba68998528fd799a306a8abe9d8",
+    "architecture-resort-aroma.png": "56f74f64277c1eb7243eb2979ba191420e4029fba36428fe1f240a132d5e0039",
+    "architecture-resort-cafe.png": "cc0dff68a0033b2269a81fbb2b051d89b43a1c81bee5d5e54678ab3c491183ad",
+    "game-scene.json": "917f59592139c5f5b0e6fa9f98d1d6a610a17652c915afa59ceceb24db76e64c",
+    "source-files.json": "50f53b783e82ac22ad8ad4e1cfc6a414e9b20cdce4857a02cccf273a855e5c16",
+    "source-status.txt": "ee0ca6a294f036d8caf9a5869fb22ea8efc5dabbd1d2134c50a3341f0dbcbd9f",
+    "actual-game-massage.png": "2156f81549f6b8671784873d1be406e2d1156c83eed34be511d20e5522b3618f"
+  }
+}

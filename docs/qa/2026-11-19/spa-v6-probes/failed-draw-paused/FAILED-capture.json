@@ -1,0 +1,140 @@
+{
+  "spec": {
+    "id": "resort-thermal",
+    "x": 0,
+    "y": -163.6,
+    "z": 266,
+    "target": {
+      "x": 0,
+      "y": -163,
+      "z": 266
+    }
+  },
+  "layer": 0,
+  "eye": [
+    -450,
+    -163.6,
+    746
+  ],
+  "milliseconds": 10385.800000011921,
+  "render": {
+    "frame": 7,
+    "calls": 0,
+    "triangles": 0,
+    "points": 0,
+    "lines": 0
+  },
+  "memory": {
+    "geometries": 657,
+    "textures": 87
+  },
+  "hiddenDynamicAndWater": 802,
+  "rootVisible": true,
+  "sceneVisible": true,
+  "cameraMask": 1,
+  "nativeCameraMask": 1,
+  "glError": 0,
+  "lights": [
+    {
+      "type": "HemisphereLight",
+      "color": 16771547,
+      "intensity": 1.2,
+      "position": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "type": "DirectionalLight",
+      "color": 16767159,
+      "intensity": 2.2,
+      "position": [
+        -464,
+        35,
+        766
+      ]
+    },
+    {
+      "type": "DirectionalLight",
+      "color": 12105708,
+      "intensity": 0.9,
+      "position": [
+        20,
+        16,
+        -30
+      ]
+    }
+  ],
+  "fog": {
+    "color": 1214125,
+    "density": 0.0018
+  },
+  "firstPixels": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "errors": []
+}

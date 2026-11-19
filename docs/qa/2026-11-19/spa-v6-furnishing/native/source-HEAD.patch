@@ -1,0 +1,11 @@
+diff --git a/scripts/audit-resort-spa-dry.mjs b/scripts/audit-resort-spa-dry.mjs
+index dd60343..b653828 100644
+--- a/scripts/audit-resort-spa-dry.mjs
++++ b/scripts/audit-resort-spa-dry.mjs
+@@ -13,5 +13,5 @@ export async function auditResortDry({page,review,reload=true,zoneIds=null}){
+  }
+  const after=await read();assert.equal(after.coins,before.coins-cost);assert.equal(after.worldCoins,before.worldCoins);assert.deepEqual(after.inventory,before.inventory);
+  let reloaded=null;if(reload){await page.evaluate(()=>window.dispatchEvent(new Event('pagehide')));await page.waitForFunction(()=>!__lagoonSaveQA.cloud.pending&&!__lagoonSaveQA.cloud.dirty&&!__lagoonSaveQA.cloud.retryEntry,null,{timeout:120000});await page.reload();await page.waitForFunction(()=>window.__lagoonQA&&__lagoonSaveQA.cloud.editable,null,{timeout:240000});await page.evaluate(()=>{__lagoonQA.drawPaused=true;});reloaded=await read();assert.equal(reloaded.coins,after.coins);assert.deepEqual(reloaded.used,after.used);assert.deepEqual(reloaded.receipts,after.receipts);}
+- await writeFile(join(review,'actual-dry-procedures-sqlite.json'),JSON.stringify({scope:'Private per-room approach fixtures. Actual native rig/poses/app purchases. SQLite reload '+(reload?'included':'deferred to subsequent pool audit in this same private world')+'. Not shore/whole-resort entry, all84motions, furniture contact certification, service props/staff/art/device performance acceptance.',before,results,after,reloaded},null,2));console.log('PASS native eleven dry services, distinct pose frames, actual cafe cup, receipts'+(reload?' and SQLite':''));
++ await writeFile(join(review,'actual-dry-procedures-sqlite.json'),JSON.stringify({scope:'Private per-room approach fixtures for '+selected.map(z=>z.id).join(', ')+'. Actual native rig/poses/app purchases. SQLite reload '+(reload?'included':'deferred to subsequent pool audit in this same private world')+'. Not shore/whole-resort entry, all84motions, furniture contact certification, service props/staff/art/device performance acceptance.',before,results,after,reloaded},null,2));console.log('PASS native '+selected.length+' dry services ('+selected.map(z=>z.id).join(', ')+'), distinct pose frames, receipts'+(reload?' and SQLite':''));
+ }

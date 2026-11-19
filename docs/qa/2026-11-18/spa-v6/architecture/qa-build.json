@@ -1,0 +1,8 @@
+{
+  "sha256": "e12b2fb1823b178a64d01d319d728ed00371f734f29abbaadacdfafbb21b9144",
+  "baseline": null,
+  "node": "v22.23.5",
+  "head": "0d21c0f0773d756790facf75cc35574376263f60",
+  "dirty": " M public/app.js\n M public/index.html\n M public/resort-spa-model.js\n M public/world.js\n M scripts/audit-resort-spa-native.mjs\n?? public/resort-spa-luxury.js\n?? public/resort-spa-surfaces.js\n?? public/world-backup.js\n?? scripts/audit-resort-spa-v6.mjs\n?? test/resort-spa-v6.test.mjs\n?? test/world-backup.test.mjs\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

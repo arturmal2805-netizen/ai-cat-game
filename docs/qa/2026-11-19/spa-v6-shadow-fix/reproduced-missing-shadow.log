@@ -1,0 +1,30 @@
+TAP version 13
+# Subtest: SPA immutable bake preserves authored opaque shadow casters without making glass and water opaque shadows
+not ok 1 - SPA immutable bake preserves authored opaque shadow casters without making glass and water opaque shadows
+  ---
+  duration_ms: 4303.634562
+  type: 'test'
+  location: '/workspace/chichi-emergency-save-recovery/test/resort-spa-shadow-bake.test.mjs:5:1'
+  failureType: 'testCodeFailure'
+  error: 'authored furniture/opaque ceilings must still cast shadows after preparation'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/chichi-emergency-save-recovery/test/resort-spa-shadow-bake.test.mjs:8:2)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4632.294744

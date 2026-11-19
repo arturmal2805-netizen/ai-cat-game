@@ -1,0 +1,22 @@
+TAP version 13
+# Subtest: SPA immutable bake preserves authored opaque shadow casters without making glass and water opaque shadows
+ok 1 - SPA immutable bake preserves authored opaque shadow casters without making glass and water opaque shadows
+  ---
+  duration_ms: 3302.501685
+  type: 'test'
+  ...
+# Subtest: Cafe roof and hanging fixtures do not pierce the actual glass sky-pool water volume
+ok 2 - Cafe roof and hanging fixtures do not pierce the actual glass sky-pool water volume
+  ---
+  duration_ms: 2011.673294
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5581.145327

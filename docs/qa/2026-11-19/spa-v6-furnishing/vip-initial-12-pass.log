@@ -1,0 +1,82 @@
+TAP version 13
+# Subtest: every dry room has its own bounded continuous native-joint choreography
+ok 1 - every dry room has its own bounded continuous native-joint choreography
+  ---
+  duration_ms: 189.461794
+  type: 'test'
+  ...
+# Subtest: all eleven dry services reach their own real seat, finish and return on actual floor geometry
+ok 2 - all eleven dry services reach their own real seat, finish and return on actual floor geometry
+  ---
+  duration_ms: 7208.337936
+  type: 'test'
+  ...
+# Subtest: thermal, sky pool, all eight jacuzzis and VIP retain full-body stair descent/ascent and actual enclosed swimming space
+ok 3 - thermal, sky pool, all eight jacuzzis and VIP retain full-body stair descent/ascent and actual enclosed swimming space
+  ---
+  duration_ms: 7192.290575
+  type: 'test'
+  ...
+# Subtest: each wet service really descends, paddles or soaks distinctly, exits/shakes, consumes once and walks back
+ok 4 - each wet service really descends, paddles or soaks distinctly, exits/shakes, consumes once and walks back
+  ---
+  duration_ms: 7122.125644
+  type: 'test'
+  ...
+# Subtest: cancelling a swimmer retains ownership until real dry exit and preserves the unconsumed paid ticket
+ok 5 - cancelling a swimmer retains ownership until real dry exit and preserves the unconsumed paid ticket
+  ---
+  duration_ms: 3662.734469
+  type: 'test'
+  ...
+# Subtest: glass sky pool has a real transparent bed, an unblocked walking bridge and no opaque floor underneath
+ok 6 - glass sky pool has a real transparent bed, an unblocked walking bridge and no opaque floor underneath
+  ---
+  duration_ms: 4433.066877
+  type: 'test'
+  ...
+# Subtest: SPA PBR color maps are sRGB while normal and roughness charts remain linear data
+ok 7 - SPA PBR color maps are sRGB while normal and roughness charts remain linear data
+  ---
+  duration_ms: 25.491041
+  type: 'test'
+  ...
+# Subtest: SPA overview eye is inside real open water rather than the old shallow shoreline wall
+ok 8 - SPA overview eye is inside real open water rather than the old shallow shoreline wall
+  ---
+  duration_ms: 0.25039
+  type: 'test'
+  ...
+# Subtest: sealed SPA illumination keeps its local lamps, emissions and reflection hook without altering outside materials
+ok 9 - sealed SPA illumination keeps its local lamps, emissions and reflection hook without altering outside materials
+  ---
+  duration_ms: 0.503914
+  type: 'test'
+  ...
+# Subtest: segmented curved seats retain real support and do not close their interior with a merged bounding box
+ok 10 - segmented curved seats retain real support and do not close their interior with a merged bounding box
+  ---
+  duration_ms: 3242.101041
+  type: 'test'
+  ...
+# Subtest: manual Chichi physically steps off a Nap seat and cannot send the camera through the sealed dome even during cutaway
+ok 11 - manual Chichi physically steps off a Nap seat and cannot send the camera through the sealed dome even during cutaway
+  ---
+  duration_ms: 3424.911706
+  type: 'test'
+  ...
+# Subtest: VIP keeps its four original wet contacts and adds four supported private lounges with complete real-floor return paths
+ok 12 - VIP keeps its four original wet contacts and adds four supported private lounges with complete real-floor return paths
+  ---
+  duration_ms: 3051.522114
+  type: 'test'
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 12
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 21970.454042

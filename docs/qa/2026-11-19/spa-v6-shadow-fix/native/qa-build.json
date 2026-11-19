@@ -1,0 +1,8 @@
+{
+  "sha256": "f1314050aa0d023c956d23b32a54034df9d1f38c1dd5b688ea5f6df6e189228f",
+  "baseline": null,
+  "node": "v22.23.5",
+  "head": "212553143cc8ba1e29f8a42be6a0c95643d3ab14",
+  "dirty": "",
+  "sourceOverlay": "source-HEAD.patch"
+}

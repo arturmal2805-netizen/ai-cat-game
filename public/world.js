@@ -1,3 +1,4 @@
+import {resortSpaView} from './resort-spa-camera.js';
 import {MOSA_SHORE_GATE} from './mosasaur-data.js';
 import {mosaPierClear} from './resort-pier-link-data.js';
 import {applyResortExpression} from './resort-spa-dry-performance.js';
@@ -5964,7 +5965,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     const oceanImmersion=focused==='autumn'&&!submarine?.exploringMall?THREE.MathUtils.clamp((.155-camera.position.y)/2,0,1):0;
     sky.material.uniforms.uOceanUnderwater.value=oceanImmersion;
     scene.fog.color.copy(focusFogColor).lerp(oceanViewColor,oceanImmersion);
-    scene.fog.density = mallLighting ? Math.min(.0022,.5/Math.max(1,distance)) : THREE.MathUtils.lerp(worldFogDensity(distance),.0045,oceanImmersion);
+    scene.fog.density = resortSpa?.inspection ? .0018 : mallLighting ? Math.min(.0022,.5/Math.max(1,distance)) : THREE.MathUtils.lerp(worldFogDensity(distance),.0045,oceanImmersion);
     updateOcclusion(now, dt);
     // The opaque shop covers the map. Keep the simulation running, but avoid
     // competing GPU draws while its miniature scenes are being rendered.
@@ -6039,7 +6040,15 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     prepare:(steps,signal)=>prepareSceneSteps(steps,{scheduler:scenePreparation,priority:'autumn',signal}),
     prepareModel:model=>shaderWarmup.prepare(model,{background:focused!=='autumn'}),
     onError:message=>callbacks.onReaction?.(message),
-    onCamera:(zone,entering)=>{if(entering){if(focused!=='autumn')focus('autumn');resortSpaPreviousCamera={look:desiredLook.clone(),distance:desiredDistance,azimuth,elevation,fov:desiredFov,near:camera.near};}mall?.exit(false);submarine?.releaseControl();manualWalk?.stop();faceCamera.setEnabled(false,look);viewingOverview=false;mallWideClip=false;mallFraming=null;const b=byBiome('autumn'),l=RESORT_SPA_LAYOUT;desiredLook.set(b.center[0]+(zone?.x||0),(zone?.y??l.y)+3,b.center[1]+l.offsetZ+(zone?.z??l.z));desiredDistance=zone?Math.max(zone.rx,zone.rz)*2:215;azimuth=.2;elevation=zone ? .35 : .55;desiredFov=48;camera.near=.3;camera.updateProjectionMatrix();},
+    onCamera:(zone,entering,options={})=>{
+      if(options.cat||options.follow){const p=options.cat||options.follow;desiredLook.set(p.x,p.y+1.1,p.z);if(options.cat){desiredDistance=7;azimuth=-.2;elevation=.12;}return;}
+      if(options.zoom){desiredDistance=THREE.MathUtils.clamp(desiredDistance*options.zoom,5,240);return;}
+      if(options.rotate){azimuth+=options.rotate;return;}
+      if(options.top){elevation=1.3;desiredDistance=Math.max(desiredDistance,zone?zone.rx*1.8:175);return;}
+      if(entering){if(focused!=='autumn')focus('autumn');resortSpaPreviousCamera={look:desiredLook.clone(),distance:desiredDistance,azimuth,elevation,fov:desiredFov,near:camera.near};}
+      mall?.exit(false);submarine?.releaseControl();manualWalk?.stop();faceCamera.setEnabled(false,look);viewingOverview=false;mallWideClip=false;mallFraming=null;
+      const b=byBiome('autumn'),v=resortSpaView(zone,options);desiredLook.set(b.center[0]+v.x,v.y,b.center[1]+RESORT_SPA_LAYOUT.offsetZ+v.z);desiredDistance=v.distance;azimuth=v.azimuth;elevation=v.elevation;desiredFov=v.fov;camera.near=.3;camera.updateProjectionMatrix();
+    },
     onExit:restore=>{if(restore&&resortSpaPreviousCamera){desiredLook.copy(resortSpaPreviousCamera.look);desiredDistance=resortSpaPreviousCamera.distance;azimuth=resortSpaPreviousCamera.azimuth;elevation=resortSpaPreviousCamera.elevation;desiredFov=resortSpaPreviousCamera.fov;camera.near=resortSpaPreviousCamera.near;camera.updateProjectionMatrix();}resortSpaPreviousCamera=null;},
   });
   const canControlChichi=()=>callbacks.canControlChichi?callbacks.canControlChichi()!==false:callbacks.canDragCat?.('chichi')!==false;

@@ -1,0 +1,8 @@
+{
+  "sha256": "896ba499b6ef37b74a33bc0e53491c3eb213cb841194af8044c9994be310f3e4",
+  "baseline": null,
+  "node": "v22.23.5",
+  "head": "ed3ae4dd51858b0980658ac1ba8ed426047cdefd",
+  "dirty": " M scripts/audit-resort-spa-pools.mjs\n M scripts/audit-resort-spa-v6.mjs\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

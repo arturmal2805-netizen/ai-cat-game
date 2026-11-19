@@ -3,6 +3,7 @@ import {createResortSpaBooking} from './resort-spa-booking.js';
 import {stepResortPool,cancelResortPool} from './resort-spa-pool-procedure.js';
 import {resortPoolPerformance} from './resort-spa-pool-performance.js';
 import {resortDryPerformance} from './resort-spa-dry-performance.js';
+import {resortSkyPool} from './resort-spa-pool-data.js';
 const copy=p=>({x:p.x,y:p.y,z:p.z}),dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y,a.z-b.z),smooth=t=>t*t*(3-2*t);
 // Uses the caller's existing route planner, durable purchase/use callbacks and
 // actual actor roster. It neither creates an AI nor mutates a wallet or save.
@@ -16,7 +17,7 @@ export function createResortSpaRuntime({route,segmentClear,onPurchase,onUse,onCo
   if(!segmentClear(v.position,p,v.radius)||[...visits.values()].some(o=>o!==v&&Math.abs(o.position.y-p.y)<2&&Math.hypot(o.position.x-p.x,o.position.z-p.z)<o.radius+v.radius+.1))return;
   v.yaw=Math.atan2(target.x-v.position.x,target.z-v.position.z);v.position=p;v.walking=true;left-=step;if(length<=step+1e-7)v.pathIndex++;
  }if(v.pathIndex===v.path.length)arrive(v);}
- function assign(v){const station=booking.reserve(v.catId,v.zone.id,clock);if(!station)return false;v.slot=station.slot;v.contact=resortSpaSeat(v.zone,v.slot);const goal=v.contact.approach;if(v.contact.pool&&!poolNavigation||!walk(v,goal,'inspect')){booking.release(v.catId,clock);return false;}return true;}
+ function assign(v){const preferred=['vip','cafe'].includes(v.zone.key)?Array.from({length:v.zone.seats},(_,i)=>i).sort((a,b)=>dist(v.position,resortSpaSeat(v.zone,a).approach)-dist(v.position,resortSpaSeat(v.zone,b).approach)):v.zone.procedure==='swim'&&Math.abs(v.position.y-resortSkyPool().y)<.7?[12,13,14,15]:[],station=booking.reserve(v.catId,v.zone.id,clock,preferred);if(!station)return false;v.slot=station.slot;v.contact=resortSpaSeat(v.zone,v.slot);const goal=v.contact.approach;if(v.contact.pool&&!poolNavigation||!walk(v,goal,'inspect')){booking.release(v.catId,clock);return false;}return true;}
  const free=(v,p)=>![...visits.values()].some(o=>o!==v&&Math.abs(o.position.y-p.y)<2&&Math.hypot(o.position.x-p.x,o.position.z-p.z)<o.radius+v.radius+.1);
  return{visits,booking,get:id=>visits.get(id),has:id=>visits.has(id),
   start({catId,zoneId,position,radius=.571,returnTo=position}){const zone=resortZone(zoneId);if(!zone||visits.has(catId)||visits.size>=12||!position||![position.x,position.y,position.z,radius].every(Number.isFinite)||radius<=0)return false;

@@ -1,0 +1,8 @@
+{
+  "sha256": "16024783bc48feeadacef45be6dc4c1145856b191b7e8fcbd128cc7d53f1a155",
+  "baseline": null,
+  "node": "v22.23.5",
+  "head": "6f2d87aeae7b1da87849393b8d84f42936d1fe0b",
+  "dirty": " M scripts/audit-resort-spa-dry.mjs\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

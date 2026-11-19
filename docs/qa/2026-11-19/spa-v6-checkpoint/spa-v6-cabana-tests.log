@@ -1,0 +1,238 @@
+TAP version 13
+# Subtest: full body can traverse actual upper and lower access corridors; closed doors and cabin sides remain solid
+ok 1 - full body can traverse actual upper and lower access corridors; closed doors and cabin sides remain solid
+  ---
+  duration_ms: 3006.988236
+  type: 'test'
+  ...
+# Subtest: native actor adapter converts root-local geometry heights once and commits actual wallet receipts once
+ok 2 - native actor adapter converts root-local geometry heights once and commits actual wallet receipts once
+  ---
+  duration_ms: 185.492814
+  type: 'test'
+  ...
+# Subtest: actual pool floor has an opening, submerged bed and continuous full-width descending steps
+ok 3 - actual pool floor has an opening, submerged bed and continuous full-width descending steps
+  ---
+  duration_ms: 78.709967
+  type: 'test'
+  ...
+# Subtest: every actual station excludes concurrent cats; cancellation and cleaning release correctly
+ok 4 - every actual station excludes concurrent cats; cancellation and cleaning release correctly
+  ---
+  duration_ms: 7.170103
+  type: 'test'
+  ...
+# Subtest: duplicate synchronization never extends reserved expiry; stale owner cannot occupy or release another cat
+ok 5 - duplicate synchronization never extends reserved expiry; stale owner cannot occupy or release another cat
+  ---
+  duration_ms: 0.355355
+  type: 'test'
+  ...
+# Subtest: unavailable, occupied and cleaning stations do not accept new reservations; teardown releases all owners
+ok 6 - unavailable, occupied and cleaning stations do not accept new reservations; teardown releases all owners
+  ---
+  duration_ms: 0.514179
+  type: 'test'
+  ...
+# Subtest: third-person camera cannot cross pressure glass or either floor face, while the true atrium opening stays open
+ok 7 - third-person camera cannot cross pressure glass or either floor face, while the true atrium opening stays open
+  ---
+  duration_ms: 2841.739057
+  type: 'test'
+  ...
+# Subtest: authored upper atrium floor is hidden in cafe view without removing its actual walking support
+ok 8 - authored upper atrium floor is hidden in cafe view without removing its actual walking support
+  ---
+  duration_ms: 2757.75749
+  type: 'test'
+  ...
+# Subtest: every dry room has its own bounded continuous native-joint choreography
+ok 9 - every dry room has its own bounded continuous native-joint choreography
+  ---
+  duration_ms: 88.664108
+  type: 'test'
+  ...
+# Subtest: all eleven dry services reach their own real seat, finish and return on actual floor geometry
+ok 10 - all eleven dry services reach their own real seat, finish and return on actual floor geometry
+  ---
+  duration_ms: 2337.496218
+  type: 'test'
+  ...
+# Subtest: each SPA service uses existing durable wallet/inventory and survives reload without charging or applying effects twice
+ok 11 - each SPA service uses existing durable wallet/inventory and survives reload without charging or applying effects twice
+  ---
+  duration_ms: 356.524205
+  type: 'test'
+  ...
+# Subtest: old concurrent save preserves paid SPA ticket; wrong service, balance and stale sequence reject atomically
+ok 12 - old concurrent save preserves paid SPA ticket; wrong service, balance and stale sequence reject atomically
+  ---
+  duration_ms: 16.946944
+  type: 'test'
+  ...
+# Subtest: all candidate pavilion floor outlines stay above actual seabed, inside water and separate from existing Mall
+ok 13 - all candidate pavilion floor outlines stay above actual seabed, inside water and separate from existing Mall
+  ---
+  duration_ms: 33.426918
+  type: 'test'
+  ...
+# Subtest: access lift footprint has real depth clearance rather than relying on a free point on a diagram
+ok 14 - access lift footprint has real depth clearance rather than relying on a free point on a diagram
+  ---
+  duration_ms: 0.736087
+  type: 'test'
+  ...
+# Subtest: saved cabin passengers restore at exactly the saved height with closed doors and physically return up
+ok 15 - saved cabin passengers restore at exactly the saved height with closed doors and physically return up
+  ---
+  duration_ms: 3.560425
+  type: 'test'
+  ...
+# Subtest: inconsistent, duplicate or off-seat snapshots cannot partly change the lift
+ok 16 - inconsistent, duplicate or off-seat snapshots cannot partly change the lift
+  ---
+  duration_ms: 0.25757
+  type: 'test'
+  ...
+# Subtest: access lift carries four existing passengers continuously, keeps doors shut under water and requires physical exit
+ok 17 - access lift carries four existing passengers continuously, keeps doors shut under water and requires physical exit
+  ---
+  duration_ms: 8.503562
+  type: 'test'
+  ...
+# Subtest: lift motion and doors retain elapsed time at 30/60/120Hz without opening during travel
+ok 18 - lift motion and doors retain elapsed time at 30/60/120Hz without opening during travel
+  ---
+  duration_ms: 1.066884
+  type: 'test'
+  ...
+# Subtest: all six actual massage cabins keep full-body door routes, solid tables, walls and separate staff contacts
+ok 19 - all six actual massage cabins keep full-body door routes, solid tables, walls and separate staff contacts
+  ---
+  duration_ms: 42.138467
+  type: 'test'
+  ...
+# Subtest: actual resort supports dry reception while open thermal water is not an invisible floor
+ok 20 - actual resort supports dry reception while open thermal water is not an invisible floor
+  ---
+  duration_ms: 2276.867796
+  type: 'test'
+  ...
+# Subtest: translated live island retains ocean-local support and holes
+ok 21 - translated live island retains ocean-local support and holes
+  ---
+  duration_ms: 1704.740635
+  type: 'test'
+  ...
+# Subtest: thermal, sky pool, all eight jacuzzis and VIP retain full-body stair descent/ascent and actual enclosed swimming space
+ok 22 - thermal, sky pool, all eight jacuzzis and VIP retain full-body stair descent/ascent and actual enclosed swimming space
+  ---
+  duration_ms: 2901.787237
+  type: 'test'
+  ...
+# Subtest: each wet service really descends, paddles or soaks distinctly, exits/shakes, consumes once and walks back
+ok 23 - each wet service really descends, paddles or soaks distinctly, exits/shakes, consumes once and walks back
+  ---
+  duration_ms: 2351.706222
+  type: 'test'
+  ...
+# Subtest: cancelling a swimmer retains ownership until real dry exit and preserves the unconsumed paid ticket
+ok 24 - cancelling a swimmer retains ownership until real dry exit and preserves the unconsumed paid ticket
+  ---
+  duration_ms: 1638.30306
+  type: 'test'
+  ...
+# Subtest: recovery identifies only saved SPA cabin seats, not ordinary divers, other biomes or a submarine owner
+ok 25 - recovery identifies only saved SPA cabin seats, not ordinary divers, other biomes or a submarine owner
+  ---
+  duration_ms: 3.320861
+  type: 'test'
+  ...
+# Subtest: native resting body and animated paw vertices remain supported through settling and awakening at real underwater height
+ok 26 - native resting body and animated paw vertices remain supported through settling and awakening at real underwater height
+  ---
+  duration_ms: 6944.511708
+  type: 'test'
+  ...
+# Subtest: physical appointment returns, bills once, consumes once, reserves therapist and cleans station
+ok 27 - physical appointment returns, bills once, consumes once, reserves therapist and cleans station
+  ---
+  duration_ms: 11.291957
+  type: 'test'
+  ...
+# Subtest: resume uses durable paid ticket; failing effect retries same receipt without rebilling; paused time does not expire ownership
+ok 28 - resume uses durable paid ticket; failing effect retries same receipt without rebilling; paused time does not expire ownership
+  ---
+  duration_ms: 6.532071
+  type: 'test'
+  ...
+# Subtest: blocked full-body segment cannot start a walk or bill; cancellation releases seat and staff
+ok 29 - blocked full-body segment cannot start a walk or bill; cancellation releases seat and staff
+  ---
+  duration_ms: 1.034578
+  type: 'test'
+  ...
+# Subtest: a rejected real-wallet payment does not break the world loop or retain its therapist and booking
+ok 30 - a rejected real-wallet payment does not break the world loop or retain its therapist and booking
+  ---
+  duration_ms: 1.454867
+  type: 'test'
+  ...
+# Subtest: actual extended pier has a real side gate aligned to SPA; rails elsewhere remain solid through the whole journey
+ok 31 - actual extended pier has a real side gate aligned to SPA; rails elsewhere remain solid through the whole journey
+  ---
+  duration_ms: 3171.814565
+  type: 'test'
+  ...
+# Subtest: full-sized body sweeps real stairs both ways through actual floor openings on both levels
+ok 32 - full-sized body sweeps real stairs both ways through actual floor openings on both levels
+  ---
+  duration_ms: 1988.660997
+  type: 'test'
+  ...
+# Subtest: the massage-specific model keeps its real atrium bridge and all six cabin doors reachable
+ok 33 - the massage-specific model keeps its real atrium bridge and all six cabin doors reachable
+  ---
+  duration_ms: 2906.465846
+  type: 'test'
+  ...
+# Subtest: an entire massage visit crosses curved bridge joints both ways at actual runtime substeps
+ok 34 - an entire massage visit crosses curved bridge joints both ways at actual runtime substeps
+  ---
+  duration_ms: 1817.844642
+  type: 'test'
+  ...
+# Subtest: real geometry lift journey walks, rides, exits and returns without skipping a body segment
+ok 35 - real geometry lift journey walks, rides, exits and returns without skipping a body segment
+  ---
+  duration_ms: 2247.274497
+  type: 'test'
+  ...
+# Subtest: glass sky pool has a real transparent bed, an unblocked walking bridge and no opaque floor underneath
+ok 36 - glass sky pool has a real transparent bed, an unblocked walking bridge and no opaque floor underneath
+  ---
+  duration_ms: 1462.729841
+  type: 'test'
+  ...
+# Subtest: SPA PBR color maps are sRGB while normal and roughness charts remain linear data
+ok 37 - SPA PBR color maps are sRGB while normal and roughness charts remain linear data
+  ---
+  duration_ms: 17.523014
+  type: 'test'
+  ...
+# Subtest: SPA overview eye is inside real open water rather than the old shallow shoreline wall
+ok 38 - SPA overview eye is inside real open water rather than the old shallow shoreline wall
+  ---
+  duration_ms: 0.640075
+  type: 'test'
+  ...
+1..38
+# tests 38
+# suites 0
+# pass 38
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 16909.355078

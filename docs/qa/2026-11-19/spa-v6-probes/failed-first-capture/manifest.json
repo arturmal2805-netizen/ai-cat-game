@@ -1,0 +1,16 @@
+{
+  "sourceBase": "4e8bb85f3b6646e740a9263744260449754a9bfa",
+  "sourceState": "",
+  "result": "FAILED first actual-scene probe: nonempty-radiance assertion failed. No valid probe assets generated or promoted. Shader/root/packing diagnosis required.",
+  "visualReview": "Not a reflection candidate. Exact failed source/bundle preserved; do not treat missing/empty capture as recovered water or approved quality.",
+  "files": {
+    "imported-source.tar.gz": "3a87816461163dd369d9f1ecce033bfc45325efe7e85f8141b5525f9b087c974",
+    "native.log": "b022f3d1c3bd22c3cdb42c4317ae5e3d9378a8809beb46f9d5f06ac7a5ef5be4",
+    "qa-app.js.gz": "40b580d508c522079cee90aec4ba4092dee59b38865a01f02e88659b51762a94",
+    "qa-build.json": "e24537d8fa0797568513c2a417b83f76994314464d561538e561031737e9e52b",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "34bb021345cee920a27bd37fa262556c7a0f6e45967beea7a48b4c94747dde9b",
+    "source-status.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

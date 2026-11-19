@@ -1,0 +1,15 @@
+SPA required scene preparation pending
+V6 reference review frame furnishing Общий вид
+V6 reference review frame furnishing Aroma Therapy Garden
+V6 reference review frame furnishing Golden Galaxy VIP Suite
+V6 reference review frame furnishing Wellness Café
+V6 reference review frame furnishing Floating Glass Cabanas
+Native SPA dry resort-vip inspect inspect-place
+Native SPA dry resort-vip mount mount
+Native SPA dry resort-vip procedure vip-settle
+Native SPA dry resort-vip procedure private-star-gaze
+Native SPA dry resort-vip procedure silk-cushion-rest
+Native SPA dry resort-vip procedure vip-stretch
+Native SPA dry resort-vip dismount vip-stretch
+PASS native 1 dry services (resort-vip), distinct pose frames, receipts and SQLite
+PASS native SPA required loading, actual scene, zone camera and World release

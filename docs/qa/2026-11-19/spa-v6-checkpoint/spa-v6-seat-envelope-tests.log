@@ -1,0 +1,76 @@
+TAP version 13
+# Subtest: third-person camera cannot cross pressure glass or either floor face, while the true atrium opening stays open
+ok 1 - third-person camera cannot cross pressure glass or either floor face, while the true atrium opening stays open
+  ---
+  duration_ms: 7138.750661
+  type: 'test'
+  ...
+# Subtest: actual resort supports dry reception while open thermal water is not an invisible floor
+ok 2 - actual resort supports dry reception while open thermal water is not an invisible floor
+  ---
+  duration_ms: 7425.007254
+  type: 'test'
+  ...
+# Subtest: translated live island retains ocean-local support and holes
+ok 3 - translated live island retains ocean-local support and holes
+  ---
+  duration_ms: 4332.01835
+  type: 'test'
+  ...
+# Subtest: full-sized body sweeps real stairs both ways through actual floor openings on both levels
+ok 4 - full-sized body sweeps real stairs both ways through actual floor openings on both levels
+  ---
+  duration_ms: 6943.3214
+  type: 'test'
+  ...
+# Subtest: the massage-specific model keeps its real atrium bridge and all six cabin doors reachable
+ok 5 - the massage-specific model keeps its real atrium bridge and all six cabin doors reachable
+  ---
+  duration_ms: 5580.845906
+  type: 'test'
+  ...
+# Subtest: an entire massage visit crosses curved bridge joints both ways at actual runtime substeps
+ok 6 - an entire massage visit crosses curved bridge joints both ways at actual runtime substeps
+  ---
+  duration_ms: 3606.069181
+  type: 'test'
+  ...
+# Subtest: glass sky pool has a real transparent bed, an unblocked walking bridge and no opaque floor underneath
+ok 7 - glass sky pool has a real transparent bed, an unblocked walking bridge and no opaque floor underneath
+  ---
+  duration_ms: 4772.397274
+  type: 'test'
+  ...
+# Subtest: SPA PBR color maps are sRGB while normal and roughness charts remain linear data
+ok 8 - SPA PBR color maps are sRGB while normal and roughness charts remain linear data
+  ---
+  duration_ms: 20.193252
+  type: 'test'
+  ...
+# Subtest: SPA overview eye is inside real open water rather than the old shallow shoreline wall
+ok 9 - SPA overview eye is inside real open water rather than the old shallow shoreline wall
+  ---
+  duration_ms: 0.581859
+  type: 'test'
+  ...
+# Subtest: sealed SPA illumination keeps its local lamps, emissions and reflection hook without altering outside materials
+ok 10 - sealed SPA illumination keeps its local lamps, emissions and reflection hook without altering outside materials
+  ---
+  duration_ms: 0.566126
+  type: 'test'
+  ...
+# Subtest: segmented curved seats retain real support and do not close their interior with a merged bounding box
+ok 11 - segmented curved seats retain real support and do not close their interior with a merged bounding box
+  ---
+  duration_ms: 2984.954595
+  type: 'test'
+  ...
+1..11
+# tests 11
+# suites 0
+# pass 11
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 16345.730362

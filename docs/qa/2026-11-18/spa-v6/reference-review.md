@@ -1,0 +1,143 @@
+# SPA V6 — повторная сверка референсов
+
+Исходное задание: docs/specifications/underwater-spa-v6-2026-11-18.md.
+R1 — Wellness Café, R2 — Aroma Therapy Garden, R3 — повтор R1,
+R4 — Golden Galaxy VIP, R5 — общий трёхуровневый комплекс.
+Оригинальные изображения доступны в сообщении пользователя, их байты не
+получены как локальные файлы. Описания и наши PNG не заменяют оригиналы.
+Реальные фотографии звёздных SPA-потолков в сообщении не приложены.
+
+| Референс | Исходный игровой вид | Архитектурная сверка | Следующая доработка |
+|---|---|---|---|
+| R1/R3 Café | baseline/baseline-resort-cafe.png: редкие одинаковые столы | architecture/architecture-resort-cafe.png: новый округлый бар и аквариум, но простор пустой, рыбы похожи на цветные комки, потолок и свет не соответствуют | Разные силуэты рыб, бариста, настоящая опора пола вокруг аквариума, нормальная интерьерная камера, плотнее интерьер; столики-джакузи ещё впереди |
+| R2 Aroma | baseline/baseline-resort-aroma.png: шесть ковриков, шаровые кроны | architecture/architecture-resort-aroma.png: арки и цветы добавлены, мягких кресел ещё нет, пол чрезмерно повторяется, композиция слишком пустая | Мягкие кресла с точными контактами, детальные лепестки вместо шаров, органический материал, подвесной цветочный декор и дальнейшее наполнение |
+| R4 VIP | baseline/baseline-resort-vip.png: простой бассейн и редкие кресла | architecture/architecture-resort-vip.png: слабый потолок практически не читается, вода серая, чрезмерно светлый пол | Настоящий тёмный куполообразный потолок, звёзды на его геометрии, разделить тёплый свет комнаты и голубой свет бассейна, низкая камера |
+| R5 Exterior | baseline/baseline-overview.png: ОШИБКА, камера внутри прибрежного грунта | architecture/architecture-overview.png: SPA появился, но ракурс со стороны ТРЦ перекрыт чужим зданием; силуэт ещё набор павильонов | Ракурс из свободной воды перед SPA, цельный фасад/галереи, более богатые террасы. Не скрывать и не менять ТРЦ |
+
+Обе серии реально просмотрены. Ни одна не принята как финальное соответствие.
+Переход к третьей серии: материалы/свет/мебель и геометрия бассейнов.
+Далее — независимая сверка наполнения/анимаций и финальный проход каждой зоны.
+Не ставить PASS только потому, что объект или его имя присутствует в коде.
+
+Масштаб проверять относительно родной модели кота. Текущая планировка занимает
+примерно 226×137 м в существующей резервации 248×144 м; центральный купол уже
+70 м в диаметре. Все 14 контуров проверены по реальному дну и воде, отдельно от
+ТРЦ. Расширение не нужно ради этих размеров: обзор можно поставить в существующую
+расчищенную бухту. Если новая геометрия потребует выхода за границы — пересчитать,
+не считать этот вывод разрешением растянуть весь остров.
+
+Новый верхний бассейн имеет отдельное прозрачное дно и настоящий мостик.
+Ранняя проверка выявила светильник на мостике: он смещён между направлениями входа.
+Кресло перекрывало термальные ступени, дерево — лестницу; предметы переставлены,
+столкновения и размер тела не изменены. Повторные проверки лестниц/воды пройдены.
+Стеклянные кабины получают реальный внутренний бассейн с отверстиями в полу,
+существующими местами, опорными площадками и мостиками; нативная проверка ещё нужна.
+
+## Четвёртая сверка — sealed-light, 19 ноября (Kyiv)
+
+Точные bundle/source/overlay и пять кадров — sealed-light/manifest.json.
+Настоящая W вывела Чичи из Nap seat6 по подставке; «Весь мир» снял owner.
+Верхний thermal: реальные ступени/плавание/выход, оплата/SQLite reload PASS;
+отдельный кадр показывает настоящее прозрачное дно снизу. Это не полный береговой тур.
+
+- R1/R3 Café: бар стал округлым, но аквариум теряется перед чужим ТРЦ, рыбы
+  всё ещё абстрактные объёмы без глаз/читаемых плавников. Нужны настоящие силуэты,
+  более тонкая геометрия бара, собственная интерьерная композиция и мокрые столики.
+- R2 Aroma: нужны плотная цветочная композиция, настоящие стеклянные беседки
+  и каскады; арки и кресла сами по себе не воспроизводят сад референса.
+- R4 VIP: тёмный верх добавлен, но в основном ракурсе выглядит как далёкая
+  сетка. Большой пустой пол, собственных кремовых лежаков нет. Сначала реальные
+  лежаки и защищённая архитектурой композиция со звёздным потолком/нишами.
+- R5 Exterior: камера теперь в воде, а не в грунте; силуэт всё ещё набор
+  разрозненных плоских павильонов, требует цельных карнизов/галерей/садов.
+
+Серия НЕ принята как финал. Не выдавать native PASS за визуальное одобрение.
+Пользователь подтвердил разрыв с целью и требует сохранение каждого этапа в remote.
+
+## Fifth comparison — furnishing
+
+Exact proof: ../../2026-11-19/spa-v6-furnishing/native/manifest.json.
+R1/R3: fish now identifiable and bar lower, but tank reads as empty air; water
+dining is still absent. R2: real canopies/legs/denser blossoms improve structure;
+still no lush garden and cascades. R4: supported lounge beds and opaque curved
+star vault now visible; lantern/light hierarchy, planting and rich ceiling still
+far from reference. R5: pavilion silhouette/wing galleries still need unification.
+No final visual acceptance. Recorded source, camera, clock and settings per frame;
+clock differs4–10 game minutes from the fourth series, so this is not an exact
+lighting A/B. Next controlled comparison must hold the QA clock fixed.
+
+## Seventh comparison — galleries (six native views)
+
+Exact source63976055337663d736dad265b8e10e16eefceae9, clean,
+../../2026-11-19/spa-v6-galleries/native/manifest.json.
+R1/R3: actual wet dining and identifiable fish now present; tank reads better
+with true caps/seams, but lacks luminous detail and actual interior reflections.
+R2: planters/flower volume increased; still too sparse and no layered lush
+water garden/cascades. R4: real lounge beds and curved star roof read, but flat
+floor/light and weak galaxy hierarchy remain far from reference. R5: tier
+bands/bridges align but silhouette remains separate discs, not unified palace.
+Upper glass pool now36m, genuine transparency/steps/visit/reload work. However
+the image exposes Cafe duplicate pseudo-roof/pendant crossing water; this is
+a visual geometry failure, despite successful behaviour. Correct it next.
+Source also proves missing furniture/opaque-roof castShadow propagation during
+bake. Native grey uniform floor is not final; restore flags before probe work.
+
+## Eighth comparison — shadow/volume fix
+
+Native exact212553143cc8ba1e29f8a42be6a0c95643d3ab14: six views, actual
+opaque-caster flags restored. R2 chairs/canopies now cast contact shadows; still
+no lush layered garden/cascades or softly draped cloth. R4 real furniture casts
+shadows but star/galaxy hierarchy and reflective dark floor remain weak.
+R1/R3 water dining/tank work, still simple materials/reflections. R5 larger glass
+pool is genuinely clear of obsolete Cafe roof/chandelier, but palace silhouette
+and warm interior density remain far from reference. See camera/light/DPR
+records in ../../2026-11-19/spa-v6-shadow-fix/camera-light-comparison.json.
+Not exact moving-world pixel equivalence; no final visual approval.
+
+## Tenth comparison — actual room reflections
+Exact source5adfcdbb3d8dd16a1b236b8f00c9a3b14a0c69be; six native frames and
+actual GPU array readback/GLSL/World release PASS. No unchanged procedure claims.
+Same DPR/light colors/intensities; FOV interpolation differs up to0.00124 degrees,
+camera drift up to5.4mm. These are near-identical views, not exact pixel A/B.
+R1/R3: metal/bar and pool now reflect actual amber room; sparse bar/service and
+flowers, tank still looks weak against giant Mall background. R2: actual room
+light is warmer, but straight curtains, cuboid pillows and sparse garden remain.
+R4: actual room probes revealed excessive broad amber patch on rough ceiling;
+calibrate rough response before promoting. Pale floor and faint galaxy still
+wrong hierarchy. R5: gold tier detail improves, but disconnected discs, big bare
+floors and missing rich green/cascade mass still far from palace reference.
+Sky water/glass remains clear and shows lower atrium. No final visual acceptance.
+Next soft furnishings/material differentiation/ceiling hierarchy, then richer
+gardens/cascades; preserve current exact checkpoint and re-bake final changed art.
+
+## Eleventh comparison — soft furnishings and material hierarchy
+Exact source992355c2d50d09795ba44b9b1fc885caeb68e18a. Six views captured;
+actual Nap W/footstool/World PASS. Subsequent sky test stopped BEFORE purchase:
+private wallet was not funded by V6 CONTACTS flag. No full final error-array/
+sky procedure/SQLite PASS claimed for this attempt. Preserve native-partial/.
+R1/R3 material highlights improved, but large tank/service and planting remain
+sparse. R2 curtains now smoothly tied and pillows puffed, floor polished; cloth
+bottom still floats at old1m authoring anchor, and lush water garden absent.
+R4 dark polished floor and visible curved spiral star vault now read; broad
+rough-ceiling orange patch attenuated. Still sparse flowers/lantern hierarchy,
+curtains need actual mounting. R5 silhouette remains fragmented round pavilions.
+No final acceptance. Finish curtain hang points and QA fixture funding, then
+repeat only affected R2/R4/cabana+sky with complete error checks and SQLite.
+
+## Mounted follow-up and restart completion
+Art/renderer be2676c31f1b73fe5e1215a288c44738f95c3caa: R2/R4/cabana
+images saved before environment restart, mounted-interrupted/. Cloth now reaches
+floor+.08 and has real canopy-level rails; pillows read softer, VIP dark glossy
+floor and violet/gold galaxy are visible. R2 still lacks lush water/plant mass;
+R4 still sparse lantern/flower composition; R1/R3 and R5 remain as prior full
+six-view series: tank/service and coherent palace silhouette still need work.
+
+Continuation30467bf3545cebf4db8112b912fbda9f1617d628 changed ONLY Node audit
+funding/remaining-view selection. All421 imported source files AND actual QA
+bundle SHA bb5d43d1d5ffb0243313224dc633451a6b6b8957f5f087e1ee4b5ed0caeeaaae
+are identical. Native remaining sky/NapW/World/steps/swim/play/exit/shake/one150
+receipt/SQLite reload and final errors[]/httpErrors[] PASS, native-completion/.
+No new full14room/84phase or hardware FPS claim; no final visual acceptance.
+First partial wallet failure and interrupted run retained, never replaced by
+a misleading all-PASS record. Next richer gardens/cascades and palace facade,
+then final probe re-bake/native14room/phone/performance/Node22/fullCI/live.

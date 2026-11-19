@@ -1,0 +1,191 @@
+diff --git a/public/app.js b/public/app.js
+index b011c26..253b844 100644
+--- a/public/app.js
++++ b/public/app.js
+@@ -1,4 +1,5 @@
+ import {showSaveRecovery} from './save-recovery.js';
++import {encodeWorldBackup,decodeWorldBackup,downloadWorldBackup,worldBackupName,WORLD_BACKUP_LIMIT} from './world-backup.js';
+ import {recoverAuthorizedBalance} from './recovery-award-client.js';
+ import {completeResortTicket} from './resort-spa-economy.js';
+ import {prepareWaterField} from './water-field.js';
+@@ -282,10 +283,10 @@ function persist() {
+     : "Сохранение недоступно. Прогресс сохранится только до закрытия страницы.");
+   if (ok) cloud.enqueue(game);
+ }
+-function commit(next, syncWorld = true) {
++function commit(next, syncWorld = true, {snapshotLocations=true} = {}) {
+   cloud.assertEditable();
+   next = resolveConstructionBoosts(next);
+-  if(cloud.simulationOwner)next=world?.snapshotCatLocations(next,game)||next;
++  if(snapshotLocations&&cloud.simulationOwner)next=world?.snapshotCatLocations(next,game)||next;
+   if (!saveGame(storage, next)) {
+     $("save-state").textContent =
+       "Сохранение не подтверждено. Изменение отменено.";
+@@ -2545,31 +2546,34 @@ $("farm-sell").onclick = () => {
+     toast(error.message);
+   }
+ };
+-$("save-export").onclick = () => {
+-  const file = new Blob([JSON.stringify(game, null, 2)], {
+-      type: "application/json",
+-    }),
+-    url = URL.createObjectURL(file),
+-    link = document.createElement("a");
+-  link.href = url;
+-  link.download = "chichi-save.json";
+-  link.click();
+-  setTimeout(() => URL.revokeObjectURL(url), 1000);
+-};
++async function exportCurrentWorld(){
++ try{const snapshot=cloud.simulationOwner?(world?.snapshotCatLocations(game,game)||game):game;downloadWorldBackup(await encodeWorldBackup(snapshot));toast('Резервная копия мира скачана. Храните файл у себя.');}catch(error){toast(error.message);}
++}
++$("save-export").onclick = exportCurrentWorld;
++$("cloud-world-export").onclick = exportCurrentWorld;
+ $("save-import").onclick = () => $("save-file").click();
++$("cloud-world-import").onclick = () => $("save-file").click();
++$("world-import-apply").onclick=()=>$("world-import-confirm").close('restore');
+ $("save-file").onchange = async (e) => {
+   try {
+     const file = e.target.files[0];
+     if (!file) return;
+-    if (file.size > 200000) throw Error("Файл сохранения слишком большой.");
+-    const content = await file.text(),
+-      raw = JSON.parse(content);
+-    if (raw.version !== 2 || !Number.isSafeInteger(raw.coins) || raw.coins < 0)
+-      throw Error("Это не сохранение Чичи.");
+-    const restored = loadGame({
+-      getItem: (key) => (key === SAVE_KEY ? content : null),
+-    });
+-    commit(restored);
++    if (file.size > WORLD_BACKUP_LIMIT) throw Error("Файл сохранения слишком большой.");
++    if(busy||buildMode)throw Error('Сначала завершите действие или размещение предмета.');
++    cloud.assertEditable();
++    const {game:restored,verified}=await decodeWorldBackup(await file.text());
++    const dialog=$("world-import-confirm");
++    $("world-import-summary").textContent=`В файле: ${restored.coins.toLocaleString('ru')} монет, ${restored.diamonds||0} алмазов, ${Object.keys(restored.jobCity?.profiles||{}).length} котиков. ${verified?'Контрольная сумма проверена.':'Старый формат: структура проверена, контрольной суммы нет.'} Текущий мир будет заменён. Перед заменой его копия сохранится на устройстве и скачается отдельным файлом.`;
++    dialog.returnValue='cancel';
++    const approved=new Promise(resolve=>dialog.addEventListener('close',()=>resolve(dialog.returnValue==='restore'),{once:true}));
++    dialog.showModal();if(!await approved)return;
++    cloud.assertEditable();
++    const before=await encodeWorldBackup(world?.snapshotCatLocations(game,game)||game),key='chichi-world-before-file-import';
++    storage.setItem(key,before);if(storage.getItem(key)!==before)throw Error('Не удалось сохранить мир перед заменой. Восстановление отменено.');
++    cloud.archive(game);
++    downloadWorldBackup(before,worldBackupName().replace('.json','_BEFORE_RESTORE.json'));
++    commit(restored,false,{snapshotLocations:false});
++    if(loadGame(storage).coins!==restored.coins)throw Error('Проверка записи не пройдена. Сохранена копия до восстановления.');
+     location.reload();
+   } catch (error) {
+     toast(error.message);
+diff --git a/public/index.html b/public/index.html
+index 7109f83..524082a 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -595,6 +595,9 @@
+       </p>
+       <p id="account-mode" class="dialog-copy">Один мир для вас двоих</p>
+       <p id="cloud-detail" class="dialog-copy"></p>
++      <button id="cloud-world-export" class="primary">Сохранить текущий мир ↓</button>
++      <button id="cloud-world-import" class="quiet">Загрузить мир из файла ↑</button>
++      <p class="fine-print">Скачайте копию прогресса на компьютер: монеты, котики, покупки и локации. Файл не содержит код доступа и исходники игры. Храните его на случай потери данных.</p>
+       <details>
+         <summary>Резервные копии и полный код мира</summary>
+         <label for="recovery-code">Ваш код восстановления</label
+@@ -630,6 +633,13 @@
+         перезаписывается автоматически.
+       </p>
+     </dialog>
++    <dialog id="world-import-confirm" class="small-dialog">
++      <button data-close="world-import-confirm" class="close" aria-label="Отменить восстановление">×</button>
++      <h2>Восстановить мир из файла?</h2>
++      <p id="world-import-summary" class="dialog-copy"></p>
++      <button id="world-import-apply" class="primary">Сохранить копию и восстановить</button>
++      <button data-close="world-import-confirm" class="quiet">Отмена</button>
++    </dialog>
+     <dialog id="scenery-dialog" class="small-dialog">
+       <button
+         data-close="scenery-dialog"
+diff --git a/public/resort-spa-model.js b/public/resort-spa-model.js
+index 30a0bb4..be280af 100644
+--- a/public/resort-spa-model.js
++++ b/public/resort-spa-model.js
+@@ -1,4 +1,7 @@
+ import {createResortInteriors} from './resort-spa-interiors.js';
++import {resortLuxurySteps} from './resort-spa-luxury.js';
++import {resortSurfaceMaps} from './resort-spa-surfaces.js';
++import {RoundedBoxGeometry} from 'three/addons/geometries/RoundedBoxGeometry.js';
+ import {resortPools} from './resort-spa-pool-data.js';
+ import {createResortPoolEffects} from './resort-spa-pool-effects.js';
+ import {createResortEnclosure} from './resort-spa-enclosure.js';
+@@ -18,14 +21,15 @@ export function* resortSpaModelSteps(){
+  const root=new T.Group(),solid=new T.Group(),shell=new T.Group(),decor=new T.Group(),surfaces=new T.Group(),basins=[],waters=[];root.name='CHICHI CAT SPA & WELLNESS RESORT';root.position.y=L.y;root.add(solid,shell,decor,surfaces);
+  const mats={},geos=new Map(),zones=new Map();let authoredLevel=0;
+  for(const [k,c]of Object.entries(L.palette))mats[k]=new T.MeshStandardMaterial({color:c,roughness:k==='gold'?.24:.55,metalness:k==='gold'?.7:0,...(['amber','pink','lavender'].includes(k)?{emissive:c,emissiveIntensity:.35}:{})});
+- if(mallArt()){Object.assign(mats.ivory,mallSurfaceMaps('marble'));Object.assign(mats.gold,mallSurfaceMaps('metal'));}
++ Object.assign(mats.ivory,resortSurfaceMaps('marble'));mats.ivory.roughness=.32;
++ mats.gold.color.setHex(0xd6a34a);mats.gold.roughness=.24;
+  mats.glass=new T.MeshStandardMaterial({color:0xb3ebf0,transparent:true,opacity:.11,roughness:.15,depthWrite:false,side:T.DoubleSide,forceSinglePass:true});
+- mats.cloth=new T.MeshStandardMaterial({color:0xd5b4cc,roughness:.96});mats.wood=new T.MeshStandardMaterial({color:0x593c32,roughness:.7});if(mallArt())Object.assign(mats.wood,mallSurfaceMaps('wood'));
++ mats.cloth=new T.MeshStandardMaterial({color:0xffeedc,roughness:.96,...resortSurfaceMaps('fabric')});mats.wood=new T.MeshStandardMaterial({color:0x593c32,roughness:.7});if(mallArt())Object.assign(mats.wood,mallSurfaceMaps('wood'));
+  const geometry=(key,make)=>{if(!geos.has(key))geos.set(key,make());return geos.get(key);};
+  function mesh(parent,g,m,x,y,z,sx=1,sy=1,sz=1){const o=new T.Mesh(g,m);o.userData.resortFloor=authoredLevel;o.position.set(x,y,z);o.scale.set(sx,sy,sz);o.castShadow=!m.transparent;o.receiveShadow=true;parent.add(o);return o;}
+  function box(parent,m,x,y,z,w,h,d){return mesh(parent,geometry(['box',w,h,d].join(':'),()=>new T.BoxGeometry(w,h,d)),m,x,y,z);}
+  function disk(parent,m,x,y,z,rx,rz,h=.3){return mesh(parent,geometry('disk',()=>new T.CylinderGeometry(1,1,1,64)),m,x,y,z,rx,h,rz);}
+- function sofa(x,y,z,yaw=0){const group=new T.Group();group.position.set(x,y,z);group.rotation.y=yaw;solid.add(group);box(group,mats.gold,0,.38,0,3,.76,1.6);box(group,mats.cloth,0,.82,0,3,.2,1.6);box(group,mats.cloth,0,1.3,-.7,3,1,.22);}
++ function sofa(x,y,z,yaw=0){const group=new T.Group();group.position.set(x,y,z);group.rotation.y=yaw;solid.add(group);const g=geometry('rounded-sofa',()=>new RoundedBoxGeometry(1,1,1,2,.08));mesh(group,g,mats.gold,0,.38,0,3,.76,1.6);mesh(group,g,mats.cloth,0,.82,0,3,.2,1.6);mesh(group,g,mats.cloth,0,1.3,-.7,3,1,.22);}
+  function pool(x,y,z,rx,rz){const basin=createResortBasin({rx,rz,depth:1.8},{stone:mats.ivory});basin.position.set(x,y,z);surfaces.add(basin);basins.push(basin);waters.push(basin.userData.surface);return basin;}
+  function platform(zone,y,holes){const shape=new T.Shape();shape.absellipse(zone.x,-zone.z,zone.rx,zone.rz,0,Math.PI*2,false);for(const p of holes){const h=new T.Path();h.absellipse(p.x,-p.z,p.rx,p.rz,0,Math.PI*2,true);shape.holes.push(h);}const g=new T.ShapeGeometry(shape,96);g.rotateX(-Math.PI/2);geos.set(zone.id+'-floor',g);mesh(surfaces,g,mats.ivory,0,y,0);}
+  function roof(x,y,z,rx,rz,height,wallHeight=4){mesh(shell,geometry('dome',()=>new T.SphereGeometry(1,48,24,0,Math.PI*2,0,Math.PI/2)),mats.glass,x,y,z,rx,height,rz);for(let i=0;i<24;i++){const a=i*Math.PI/12;box(shell,mats.gold,x+Math.cos(a)*rx,y-wallHeight/2,z+Math.sin(a)*rz,.13,wallHeight,.13);}}
+@@ -68,10 +72,12 @@ export function* resortSpaModelSteps(){
+   yield;
+  }
+  const interiors=createResortInteriors({solid,decor,shell,surfaces,basins,waters,mats});
++ const luxury=yield* resortLuxurySteps({solid,decor,shell,surfaces,basins,waters,mats});
+  const enclosure=createResortEnclosure(mats);solid.add(enclosure.solid);shell.add(enclosure.shell);
+  const accessGeometry=createResortSpaAccess(mats);for(const group of [accessGeometry.solid,accessGeometry.surfaces,accessGeometry.shell])group.traverse(o=>{if(o.isMesh)o.userData.resortFloor=0;});solid.add(accessGeometry.solid);surfaces.add(accessGeometry.surfaces);shell.add(accessGeometry.shell);
+  root.updateMatrixWorld(true);root.userData={accessGeometry,dynamicSurfaces:[accessGeometry.deck],zones,solid,shell,decor,surfaces,basins,waters,navigation:installManualBuildingNavigation(root,solid,...[...zones.values()].map(p=>p.userData.solid).filter(Boolean)),update(time,reduced=false){for(const w of waters)advanceWater(w.material,time,reduced);},dispose(){for(const p of zones.values())p.userData.dispose?.();for(const g of geos.values())g.dispose();const textures=new Set();for(const m of Object.values(mats)){for(const key of ['map','normalMap','roughnessMap'])if(m[key])textures.add(m[key]);m.dispose();}for(const t of textures)t.dispose();for(const p of zones.values())p.traverse(o=>{if(o.isPoints)o.material.dispose();});for(const b of basins)b.userData.dispose();accessGeometry.dispose();enclosure.dispose();interiors.dispose();}};
+- yield* finishResortSpaSteps(root);root.add(accessGeometry.cabin,accessGeometry.gates);
++ root.userData.luxury=luxury;yield* finishResortSpaSteps(root);root.add(accessGeometry.cabin,accessGeometry.gates,luxury.dynamic);
+  const poolEffects=createResortPoolEffects();root.add(poolEffects.root);const inspect=root.userData.setInspectionLevel;root.userData.setInspectionLevel=level=>{inspect(level);for(const group of poolEffects.root.children)group.visible=level==null||group.userData.resortFloor<=level;};const update=root.userData.update,dispose=root.userData.dispose;root.userData.update=(time,reduced)=>{update(time,reduced);poolEffects.update(time,reduced);};root.userData.dispose=()=>{poolEffects.dispose();dispose();};
++ const updateLuxury=root.userData.update,disposeLuxury=root.userData.dispose,inspectLuxury=root.userData.setInspectionLevel;root.userData.update=(time,reduced)=>{updateLuxury(time,reduced);luxury.update(time,reduced);};root.userData.setInspectionLevel=level=>{inspectLuxury(level);luxury.inspect(level!=null);};root.userData.dispose=()=>{luxury.dispose();disposeLuxury();};
+  return root;
+ }
+diff --git a/public/world.js b/public/world.js
+index 69c31f1..30cf495 100644
+--- a/public/world.js
++++ b/public/world.js
+@@ -5964,7 +5964,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+     const oceanImmersion=focused==='autumn'&&!submarine?.exploringMall?THREE.MathUtils.clamp((.155-camera.position.y)/2,0,1):0;
+     sky.material.uniforms.uOceanUnderwater.value=oceanImmersion;
+     scene.fog.color.copy(focusFogColor).lerp(oceanViewColor,oceanImmersion);
+-    scene.fog.density = mallLighting ? Math.min(.0022,.5/Math.max(1,distance)) : THREE.MathUtils.lerp(worldFogDensity(distance),.0045,oceanImmersion);
++    scene.fog.density = resortSpa?.inspection ? .0018 : mallLighting ? Math.min(.0022,.5/Math.max(1,distance)) : THREE.MathUtils.lerp(worldFogDensity(distance),.0045,oceanImmersion);
+     updateOcclusion(now, dt);
+     // The opaque shop covers the map. Keep the simulation running, but avoid
+     // competing GPU draws while its miniature scenes are being rendered.
+@@ -6039,7 +6039,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
+     prepare:(steps,signal)=>prepareSceneSteps(steps,{scheduler:scenePreparation,priority:'autumn',signal}),
+     prepareModel:model=>shaderWarmup.prepare(model,{background:focused!=='autumn'}),
+     onError:message=>callbacks.onReaction?.(message),
+-    onCamera:(zone,entering)=>{if(entering){if(focused!=='autumn')focus('autumn');resortSpaPreviousCamera={look:desiredLook.clone(),distance:desiredDistance,azimuth,elevation,fov:desiredFov,near:camera.near};}mall?.exit(false);submarine?.releaseControl();manualWalk?.stop();faceCamera.setEnabled(false,look);viewingOverview=false;mallWideClip=false;mallFraming=null;const b=byBiome('autumn'),l=RESORT_SPA_LAYOUT;desiredLook.set(b.center[0]+(zone?.x||0),(zone?.y??l.y)+3,b.center[1]+l.offsetZ+(zone?.z??l.z));desiredDistance=zone?Math.max(zone.rx,zone.rz)*2:215;azimuth=.2;elevation=zone ? .35 : .55;desiredFov=48;camera.near=.3;camera.updateProjectionMatrix();},
++    onCamera:(zone,entering)=>{if(entering){if(focused!=='autumn')focus('autumn');resortSpaPreviousCamera={look:desiredLook.clone(),distance:desiredDistance,azimuth,elevation,fov:desiredFov,near:camera.near};}mall?.exit(false);submarine?.releaseControl();manualWalk?.stop();faceCamera.setEnabled(false,look);viewingOverview=false;mallWideClip=false;mallFraming=null;const b=byBiome('autumn'),l=RESORT_SPA_LAYOUT;desiredLook.set(b.center[0]+(zone?.x||0),(zone?.y??l.y)+3,b.center[1]+l.offsetZ+(zone?.z??l.z));desiredDistance=zone?Math.max(zone.rx,zone.rz)*2:215;azimuth=zone?.2:2.7;elevation=zone ? .35 : .55;desiredFov=48;camera.near=.3;camera.updateProjectionMatrix();},
+     onExit:restore=>{if(restore&&resortSpaPreviousCamera){desiredLook.copy(resortSpaPreviousCamera.look);desiredDistance=resortSpaPreviousCamera.distance;azimuth=resortSpaPreviousCamera.azimuth;elevation=resortSpaPreviousCamera.elevation;desiredFov=resortSpaPreviousCamera.fov;camera.near=resortSpaPreviousCamera.near;camera.updateProjectionMatrix();}resortSpaPreviousCamera=null;},
+   });
+   const canControlChichi=()=>callbacks.canControlChichi?callbacks.canControlChichi()!==false:callbacks.canDragCat?.('chichi')!==false;
+diff --git a/scripts/audit-resort-spa-native.mjs b/scripts/audit-resort-spa-native.mjs
+index 0fb1178..7a2101f 100644
+--- a/scripts/audit-resort-spa-native.mjs
++++ b/scripts/audit-resort-spa-native.mjs
+@@ -9,10 +9,11 @@ export async function auditResortSpaNative({page,review,errors,httpErrors}){
+  await page.locator('.resort-spa-access').waitFor({state:'visible'});await page.locator('.resort-spa-access').click();
+  const progress=setInterval(()=>console.log('SPA required scene preparation pending'),15000);
+  try{await page.waitForFunction(()=>__lagoonQA.resortSpa()?.inspection,null,{timeout:240000});}finally{clearInterval(progress);}
+- const result=await page.evaluate(()=>{const r=__lagoonQA.resortSpa();return{zones:r.root.userData.zones.size,basins:r.root.userData.basins.length,spaInspection:r.inspection,mallInspection:__lagoonQA.mall().inspection,appScripts:[...document.scripts].filter(s=>s.src.includes('app.js')).length};});assert.equal(result.zones,14);assert.equal(result.basins,9);assert.equal(result.mallInspection,false);
++ const result=await page.evaluate(()=>{const r=__lagoonQA.resortSpa();return{zones:r.root.userData.zones.size,basins:r.root.userData.basins.length,spaInspection:r.inspection,mallInspection:__lagoonQA.mall().inspection,appScripts:[...document.scripts].filter(s=>s.src.includes('app.js')).length};});assert.equal(result.zones,14);assert.equal(result.basins,10);assert.equal(result.mallInspection,false);
+  const buttons=page.locator('.resort-spa-zones button');assert.equal(await buttons.count(),16);await buttons.filter({hasText:'Massage Palace'}).click();await page.waitForFunction(()=>__lagoonQA.resortSpa().selected==='resort-massage');
+  await page.evaluate(()=>{const q=__lagoonQA;q.targetFrames=q.frames+2;q.drawPaused=false;});await page.waitForFunction(()=>__lagoonQA.frames>=__lagoonQA.targetFrames,null,{timeout:240000});await page.evaluate(()=>{__lagoonQA.drawPaused=true;});await page.screenshot({path:join(review,'actual-game-massage.png')});
+- if(process.env.CHICHI_RESORT_SPA_PHONE_ONLY_AUDIT){const {auditResortPhoneWalk}=await import('./audit-resort-spa-phone-walk.mjs');await auditResortPhoneWalk({page,review});}
++ if(process.env.CHICHI_SPA_V6_AUDIT){const {auditResortV6}=await import('./audit-resort-spa-v6.mjs');await auditResortV6({page,review});}
++ else if(process.env.CHICHI_RESORT_SPA_PHONE_ONLY_AUDIT){const {auditResortPhoneWalk}=await import('./audit-resort-spa-phone-walk.mjs');await auditResortPhoneWalk({page,review});}
+  else if(process.env.CHICHI_RESORT_SPA_RELOAD_AUDIT){const {auditResortReload}=await import('./audit-resort-spa-reload.mjs');await auditResortReload({page,review});}
+  else if(process.env.CHICHI_RESORT_SPA_DRY_AUDIT){const {auditResortDry}=await import('./audit-resort-spa-dry.mjs');await auditResortDry({page,review,reload:!process.env.CHICHI_RESORT_SPA_POOLS_AUDIT});if(process.env.CHICHI_RESORT_SPA_POOLS_AUDIT){const {auditResortPools}=await import('./audit-resort-spa-pools.mjs');await auditResortPools({page,review});}}
+  else if(process.env.CHICHI_RESORT_SPA_POOLS_AUDIT){const {auditResortPools}=await import('./audit-resort-spa-pools.mjs');await auditResortPools({page,review});}

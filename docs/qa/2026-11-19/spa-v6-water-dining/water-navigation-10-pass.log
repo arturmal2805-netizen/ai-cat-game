@@ -1,0 +1,70 @@
+TAP version 13
+# Subtest: four Cafe water tables have real floor holes, body-blocking furniture and complete eating/stair/return paths
+ok 1 - four Cafe water tables have real floor holes, body-blocking furniture and complete eating/stair/return paths
+  ---
+  duration_ms: 4001.49967
+  type: 'test'
+  ...
+# Subtest: Cafe cancellation reverses only physically reached water waypoints and does not consume an interrupted ticket
+ok 2 - Cafe cancellation reverses only physically reached water waypoints and does not consume an interrupted ticket
+  ---
+  duration_ms: 3038.34681
+  type: 'test'
+  ...
+# Subtest: every dry room has its own bounded continuous native-joint choreography
+ok 3 - every dry room has its own bounded continuous native-joint choreography
+  ---
+  duration_ms: 135.627678
+  type: 'test'
+  ...
+# Subtest: all eleven dry services reach their own real seat, finish and return on actual floor geometry
+ok 4 - all eleven dry services reach their own real seat, finish and return on actual floor geometry
+  ---
+  duration_ms: 3943.712533
+  type: 'test'
+  ...
+# Subtest: thermal, sky pool, all eight jacuzzis and VIP retain full-body stair descent/ascent and actual enclosed swimming space
+ok 5 - thermal, sky pool, all eight jacuzzis and VIP retain full-body stair descent/ascent and actual enclosed swimming space
+  ---
+  duration_ms: 4257.61689
+  type: 'test'
+  ...
+# Subtest: each wet service really descends, paddles or soaks distinctly, exits/shakes, consumes once and walks back
+ok 6 - each wet service really descends, paddles or soaks distinctly, exits/shakes, consumes once and walks back
+  ---
+  duration_ms: 3072.842542
+  type: 'test'
+  ...
+# Subtest: cancelling a swimmer retains ownership until real dry exit and preserves the unconsumed paid ticket
+ok 7 - cancelling a swimmer retains ownership until real dry exit and preserves the unconsumed paid ticket
+  ---
+  duration_ms: 1983.75361
+  type: 'test'
+  ...
+# Subtest: full-sized body sweeps real stairs both ways through actual floor openings on both levels
+ok 8 - full-sized body sweeps real stairs both ways through actual floor openings on both levels
+  ---
+  duration_ms: 2995.574375
+  type: 'test'
+  ...
+# Subtest: the massage-specific model keeps its real atrium bridge and all six cabin doors reachable
+ok 9 - the massage-specific model keeps its real atrium bridge and all six cabin doors reachable
+  ---
+  duration_ms: 3514.589961
+  type: 'test'
+  ...
+# Subtest: an entire massage visit crosses curved bridge joints both ways at actual runtime substeps
+ok 10 - an entire massage visit crosses curved bridge joints both ways at actual runtime substeps
+  ---
+  duration_ms: 2415.186461
+  type: 'test'
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 13710.753564
