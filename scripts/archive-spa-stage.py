@@ -27,7 +27,7 @@ for name, expected in sources.items():
         raise SystemExit('Imported source hash differs: ' + name)
 # Explicit evidence allow-list. Never archive arbitrary world exports, SQLite,
 # localStorage, credentials, browser profiles or unreviewed root JSON files.
-names = ['v8-invitation.json', 'layout-world-transforms.json', 'qa-build.json', 'source-files.json', 'source-status.txt',
+names = ['v8-invitation.json', 'v8-invitation-reload.json', 'water-diagnosis.json', 'layout-world-transforms.json', 'qa-build.json', 'source-files.json', 'source-status.txt',
          'source-HEAD.patch', 'source-cached.patch', 'v6-reference-frames.json', 'v7-mass-frames.json',
          'v7-functional-progress.json', 'v7-functional-sqlite.json', 'actual-phone-third-person.json', 'actual-manual-seat-exit.json', 'actual-pools-sqlite.json',
          'game-scene.json', 'pool-progress.json', 'dry-progress.json',
