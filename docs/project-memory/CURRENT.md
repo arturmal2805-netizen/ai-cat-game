@@ -1,168 +1,105 @@
 # Текущий статус
 
-Обновлено 19 ноября 2026, Europe/Kyiv. Публикация подтверждена в19:54 по Киеву.
+Обновлено19 ноября2026, Europe/Kyiv. Публикация проверена22:04 по Киеву.
 
-## Активная работа — V8 публикация, V11 отдельно
+## Стабильная опубликованная сборка
 
-V8 в main **812c8a6723dcbe106b567da88e1c3e1b1e4e399d**, PR#3 MERGED.
-Родители c477057 и4d686b540b23278dc6ea10725d3726f650c0d84e; дерево равно кандидату,
-ручных конфликтов нет. Workflow44601625796 сейчас выполняет tests. Ещё НЕ live.
-До полного SUCCESS и HTTP проверки текущая стабильная версия ниже — c477057.
-Не делать повторный merge/deploy. Пользователь уже разрешил публикацию.
+**812c8a6723dcbe106b567da88e1c3e1b1e4e399d** — origin/main, PR#3 MERGED.
+[Игра](https://arturmal2805-netizen.github.io/ai-cat-game/?v=812c8a6) ·
+[Диагностика по запросу](https://arturmal2805-netizen.github.io/ai-cat-game/?v=812c8a6&profile=1).
+[Workflow44601625796](https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44601625796)
+полностью SUCCESS: Node22 build/fulltests/dryrun, Worker deploy, exact release и
+shared-save checks, Pages. Платный AI inference не запускался.
+Родители: прежний livec477057b6eda6e251f02bc27735e4220d737112b + кандидат
+4d686b540b23278dc6ea10725d3726f650c0d84e. Дерево main равно кандидату,
+ручных конфликтов нет. Не делать повторное слияние/публикацию этого этапа.
 
-Полный native PASS: бесплатный вызов Чичи/повтор/реальный приход/SQLite reload,
-8процедур/8VIPванн/sky/Cafe/legacytickets/лифт/лестницы/Cloudexport, coins/inventory
-сохранены. Actual phone390×844/DPR2 heldtouch4м и World release PASS.
-Финальные9DPR2кадров просмотрены; camera/FOV/scene lights совпадают с BEFORE.
-438импортированных модулей final и phone совпали с main по SHA256.
-Архив remote codex/spa-v8-release-evidence **fce086793695fe10a6d51c4ae83c24263dfc7bfb**,
-каталог docs/qa/2026-11-19/spa-v8-release, включая сравнение/PNG/source/bundle/логи.
-Это технические проверки, НЕ visualapproval или hardware Mac/phone FPS.
+Реальные HTTP bytes проверены2026-11-19T20:04:13UTC:
 
-Причина Thermal тёмного полигона: exterior shadow map на фактическом render batch
-дна. Без water surface пятно оставалось, без shadowreceive дна исчезало.
-114f изменил source.receiveShadow=false, но общий batcher снова включалtrue.
-**f026b778ab7a6ac22696dfa974d7efeda47ea5e3** сохраняет false на actual SPA-only
-liner batches. Финальный Thermal PNG подтвердил исчезновение. Не расследовать
-и не переписывать это снова в V11. Глобальный model-batching не меняли.
+- HTML SHA256 bb63c10e537c681c0f105dd130a1f02c08f437fbf065796a5673bcc985620474.
+- JS SHA256 17fb011e9dc66129ccbbdc47da645188c161b25f941d64c59a9eff336ae8f65a.
+- CSS SHA256 1ca6fd7d91d93d2434122de8b604f9e1f0306145487ece7434204f01d46492bc.
+- SPA atlas ffabc732b641d70c2894ca97ebff1ab83ba4fecbf6da71e5d0251efd19648d6f.
 
-Actual9room probes сняты после art lock, без воды/котиков/feedback.
-Atlas spa-interiors-ffabc732b641.png SHA256
-ffabc732b641d70c2894ca97ebff1ab83ba4fecbf6da71e5d0251efd19648d6f;
-linear radiance/4, NoColorSpace, rawSHA6ff6afe1c0311addf8ba77a7db24e3479b23b84742fe1da3a48755243ff9472f.
-Ожидаемый build JS17fb011e9dc66129ccbbdc47da645188c161b25f941d64c59a9eff336ae8f65a,
-CSS1ca6fd7d91d93d2434122de8b604f9e1f0306145487ece7434204f01d46492bc,
-HTML одно module-приложение. Это пока ожидаемые bytes, не live receipt.
+HTML содержит ровно одно приложение ./dist/app.js?v=17fb011e9dc66129,
+реальный JS ссылается на spa-interiors-ffabc732b641.png. Проверяли bytes, не v.
+HTTP/CI receipt и actual assets в remote codex/spa-v8-release-evidence,
+**16526f9c8dc7334d7622ac44099fdc1e598a4a45**, docs/qa/2026-11-19/spa-v8-release/live.
+Там же final-visual9PNG и phone heldtouch.438импортированных модулей обоих QA
+сверены с main по SHA;9camera/FOV/scene lights совпали с BEFORE. CPU submission
+samples не являются GPU FPS. SwiftShader не сертификат скорости телефона/Mac.
 
-Пользователь отверг stage1/stage2 «их нету». Final всё ещё проще референса;
-каустика слишком узорчатая, роскошное наполнение неполно. Не называть весь V8
-завершённым/одобренным. Прежние8комнат/96контактов/14бассейнов не переносились.
-Кнопка «Позвать Чичи в SPA» бесплатна; процедуры оплачиваются отдельно.
+## Что входит в публикацию
 
-V11 — новый WATER ONLY объём из пользовательского файла, сохранённый целиком:
-docs/specifications/spa-water-quality-v11-2026-11-19.md.
-Отдельный worktree /workspace/chichi-spa-water-v11, ветка codex/spa-water-v11.
-Remote checkpoint97b6b1d: immutable profiles/metre absorption + bounded one-frame
-refraction capture utility (не дополнительные scene renders). Сейчас runtime
-интеграция WIP на диске: все38реальных surfaces (14basins+20garden+4weir/falls),
-metric steps, softer liner/step caustics, own underwater-step material,
-3wave scales, actual opaque-frame refraction после sRGB output без doubleACES.
-CPU integration38profile counts+hooks+disposal PASS; build/native ещё нужны.
-Cabana не имеет бассейна: новые водные объекты не создавать. Ocean/Mall/интерьеры/
-кошельки/AI/модели не менять. Один GPU run одновременно. Не обещать сходство/FPS.
+Сохранена V7 структура: один300×132м корпус,3этажа по14м,8комнат,96контактов,
+14бассейнов, реальные лестницы/лифт/подход, минимальная высота10.8м.
+V8 — текущий корректирующий этап материалов/мебели/декора/локальной воды и
+новые9room probes после art lock. Линейный atlas radiance/4, NoColorSpace,
+без воды/котиков/feedback; исходныйcapturef026b778ab7a6ac22696dfa974d7efeda47ea5e3.
 
-Рабочий V8 evidence checkout /workspace/chichi-emergency-save-recovery теперь
-codex/spa-v8-release-evidence, product public равен main812. V11 не находитсятам.
-Прерывание среды убивало diagnostic2, не считать его PASS. Старые worktrees не удалены.
-Диск близок к полному: удалять можно лишь asset-копии завершённых своих private QA,
-сохранив SQLite/logs и архив source/PNG; не чистить чужие worktrees.
+Причина Thermal тёмного полигона была exterior shadow map actual render batch.
+Без интерфейса воды пятно оставалось, без receiveShadow дна исчезало.
+114f sourcefalse не хватало: общий batcher ставил true снова. **f026b77** сохраняет
+false на actual SPA-only liner batches; финальный Thermal PNG без пятна.
+Глобальный batcher и океан не меняли. В V11 это исправление не переписывать.
 
-## Стабильная опубликованная версия
+«🐈 Позвать Чичи в SPA» уже LIVE в меню SPA. Вызов бесплатный, процедуры отдельно.
+Между локациями native magical recall, затем физические ходьба/лифт/вход.
+Проверены работа/сон/owner, реальный приход, повтор без дубля, SQLite reload,
+неизменные coins/inventory/receipts. Полный native:8процедур/8VIP/sky/Cafe,
+старые оплаченные tickets, shorelift/лестницы, прерванное купание/reload, Cloud
+export и desktopW. Phone390×844/DPR2 heldtouch4м + World release PASS.
 
-**`c477057b6eda6e251f02bc27735e4220d737112b`**, origin/main.
-[Игра](https://arturmal2805-netizen.github.io/ai-cat-game/?v=c477057) ·
-[Диагностика по запросу](https://arturmal2805-netizen.github.io/ai-cat-game/?v=c477057&profile=1).
-[Workflow44579271016](https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44579271016)
-полностью **SUCCESS**: Node22 tests/build/dry-run, Worker deploy, exact server
-release/shared saves, Pages. Платный AI inference не запускался.
-PR#2 MERGED. Родители: прежний live6e28f75 и кандидат1a32b17; дерево равно кандидату,
-ручных конфликтов не было. Product public/ равно финальному native/build f043655.
+Пользователь отверг stage1/stage2 «их нету». Финальные9видов просмотрены:
+водный узор ещё слишком мелкий/густой, роскошное наполнение и фасад проще
+референсов. **Это не завершение всего V8 и не visualapproval пользователя.**
 
-Реальные HTTP bytes проверены19 ноября17:54:13UTC (19:54 по Киеву), не только v:
+## Активная работа — V11 вода + новое приглашение свободных жителей
 
-- HTML SHA256 `b23ef7595b67953a77eb4b8cae0fe6e8738457e12f56cb0b5eabc866fed0b234`.
-- JS `48922a7a2e2977b430ade30da5577f97f23a822363c4d39ed754e6714c105508`.
-- CSS `1ca6fd7d91d93d2434122de8b604f9e1f0306145487ece7434204f01d46492bc`.
-- SPA atlas `bad2f1b8b9825eccdb7a334b55fb9b9f9dd710edf1653b570b4bb2c0cb6f505e`.
+Отдельный worktree **/workspace/chichi-spa-water-v11**, ветка **codex/spa-water-v11**.
+Последний remote checkpoint **2a1927d**: все38реальных водных поверхностей
+подключены к SPA-only profiles, metric absorption/refraction/stepdepth,
+soft liner/step caustics; первый actual native8видов PASS, но визуально не принят.
+Архив stage1 — docs/qa/2026-11-19/spa-v11/stage1. Это phone390×844/DPR2,
+НЕ desktop matched comparison. Source/bundle/PNG/лог сохранены; не пересниматьстарое.
 
-HTML содержит одно приложение `dist/app.js?v=48922a7a2e2977b4`; реально загруженный
-JS ссылается на новый atlas. Native phone CSS совпал с live по байтам.
-[Квитанция](https://github.com/arturmal2805-netizen/ai-cat-game/blob/b91350c04fc29ad93c72e8cca38ab14c75f785e0/docs/qa/2026-11-19/spa-v7-release/live-verification.json)
-на ветке `codex/spa-v7-release-evidence`, commit
-**`b91350c04fc29ad93c72e8cca38ab14c75f785e0`** (remote проверен).
-Там actual HTML/CSS/atlas, gzip production JS, статусы workflow и контроль старого
-HTML до deploy. Evidence не отправлялось в main и не запускало повторный релиз.
-Прямой Worker GET из среды ранее блокировал tunnel403; сервер проверил workflow.
-Не объявлять проблему ключа из-за tunnel. Annotation о runtime checkout/setup
-GitHub Actions не означает смену проектного Node22 на Node24.
+На диске stage2 WIP: укрупнённые каустики, stronger bounded room reflections,
+реальные медленные vertex waves + micro normal +6wake slots; ornamental liner
+caustics с настоящими уровнями; Café bubbles из того же fixed pool, hidden-level
+updates пропускаются. Один framebuffer copy всегоSPA закадр, без дополнительного
+scene render/per-pool RT, после sRGB output без doubleACES. Нужен actualGPU
+stats/полный frame completion A/B; не обещать аппаратный FPS.
 
-## Что опубликовано
+Новый запрос пользователя: **кнопка позвать всех свободных котиков в SPA**.
+Stage2 содержит кнопку, bounded queue (до4 simultaneous guest journeys),
+реальный лифт и пеший подход к distinct сухим точкам без покупки/AI-вызова.
+Работающие/спящие/занятые/другая manual-команда исключены, free-state перепроверяется.
+Повтор дедуплицируется; новый work/owner отменяет hold. Это ещё НЕ LIVE.
+Native actual resident group test входит в scripts/audit-spa-water-v11.mjs.
+CPU8targeted tests PASS; stage2 build идёт. Нужны native7water zones/sky,
+реальный group arrival/repeat/неизменные wallets, full CI и HTTP перед публикацией.
 
-Проверенный структурный SPA V7: один корпус300×132м,3 настоящих этажа по14м,
-8 крупных зон,96контактов, реальные лестницы по50ступеней,8VIP-ванн и верхний
-бассейн с прозрачным дном. Свободная высота ночных сводов минимум10.8м; actual
-triangles внешней крыши выше минимум на0.9м. Днища ванн закрыты service ceiling,
-настоящий sky aperture сохранён. Midnight/Golden увеличены, тёмные полы/звёзды/
-Amber-сектор/фиолетовый контур сохранены. Нап/Meditation/Beauty/Sauna убраны из
-физического меню и новых AI offers; остаются8зон и10кнопок (обзор+8+выход).
+Полный V11 файл сохранён docs/specifications/spa-water-quality-v11-2026-11-19.md.
+Вода ONLY: не переносить8комнат/14бассейнов, не менять интерьеры/потолки/фасад,
+ТРЦ/океан/мозазавра/модели/экономику/AI. Новый UI group invite отдельно разрешён.
+Cabana не имеет бассейна: новый не придумывать. Последний пользовательский
+Thermal кадр: ясно видимые дно/ступени, мягкая рябь, редкие крупные каустики,
+вытянутые золотые отражения. Оригинальные пиксели остаются в сообщении, не
+объявлять архивированными без фактического файла. Сравнивать каждый этап.
 
-Исторические14product/service IDs, цены и квитанции сохранены. Amber→Midnight,
-Jacuzzi→VIP используют общий physical occupancy; снятые услуги принимают только
-старые prepaid tickets как отдых в Midnight. Миграция старых поддержанных позиций
-работает один раз через SPA-only marker7, уступает новой команде/позиции.
-Во время raised/wet процедуры сохраняется раздельная сухая опора, живой кот не
-перемещается; после reload прежний билет используется без повторного списания.
-Точное восстановление лифта и общая семантика merge/shared-world сохранены.
-Океан, ТРЦ, грунт, модели котиков, кошельки/инвентарь и общий AI не переделывались.
+## Передача / защита
 
-Код/specs/все этапы: main `docs/qa/2026-11-19/spa-v7/`, тексты V7 и VisualProtocol
-в `docs/specifications/`. Фабрика default6 и RESORT_ZONES14 остаются историческими
-geometry/service реестрами; production world явно выбирает layoutVersion7.
-Не переписывать старые receipt IDs или считать старые6-тесты проверкой нового7.
+V8 product/evidence checkout /workspace/chichi-emergency-save-recovery сейчас
+codex/spa-v8-release-evidence; public равен live812. Не редактировать его радиV11.
+Каноническая память remote codex/ocean-recovery-memory; старый CURRENT в main
+устарел и не является источником активного WIP. Один GPU run одновременно.
+Node22. Старые worktrees не удалять. Диск почти заполнен: лишь assets-копии
+своих завершённых privateQA допустимо убрать после архива, сохранив SQLite/логи.
+Архивы allow-list, без usertokens/SQLite/worldexports; *.log force-add.
+Все существенные checkpoints в remote проверять точным SHA.
 
-## Проверки и точные границы доказательств
-
-Node22 build и финальный полный main CI PASS. Native private Worker/SQLite:
-8канонических процедур,8VIP-ванн,sky pool; весь путь от причала через лифт и
-лестницы к массажу и обратно; старые оплаченные Jacuzzi/Nap; reload посреди
-купания без новой покупки; desktopW/World release; реальное Cloud-скачивание
-с SHA; ownership recovery/размещение за0 и две SQLite reload без дубля/потери
-fixturecoins. Все96подходов/лестницы в обе стороны и14pool returns PASS.
-
-Реальные pointer held touch на телефоне390×844/DPR2 прошли4м в сухом проходе,
-pad136px помещается в экран, World освобождает управление. Первые два phone
-fixture0,233 корректно остановились перед колонной0,234; это не сломанный touch.
-Колонна/радиус/коллизии сохранены, свободный участок0,238→242 проверен sweep.
-Первый functional run выявил Float32-щель бортика Cafe: исправлена настоящей
-фаской underlap25мм/drop6мм; failed checkpoint сохранён, оставшиеся native пройдены.
-
-A/B/C/D/E/final сопоставлялись с референсами повторно. Просмотрены все13реальных
-видов (корпус/8комнат/sky above/below) и4финальных вида света; camera/FOV/DPR/
-scene lights сравниваемых E/final кадров совпадают. Нормали сводов непрерывные,
-свет больших полов выбирается по общей вершине, слой probe дискретен на примитиве.
-9offline probes пересняты на чистом56cb872, без движущихся котов/рыб/воды/feedback.
-Никаких per-frame CubeCamera, дополнительных sampler/passes/PointLights.
-Финальный native bundle:
-`9a922bbe799ab3ff1bdc5a24e6a0cbd6f2ebd92270df7514a151b97eb9038930`.
-189manifest файлов проверены по Git bytes,30нужныхлогов force-added несмотря на*.log.
-
-Ownership runner не сохранял instrumented bundle: его manifest честно содержит
-null, PNG используется только как функциональное доказательство. Не выдумывать
-bundle hash задним числом. Workerd Brokenpipe при shutdown не прервал assertions;
-процесс exit0, errors[]/httpErrors[]. Живые пользовательские save/token не трогались.
-Не повторять пройденные проверки без изменения/нового сбоя. Предпубликационная
-[история](history/spa-v7-release-2026-11-19.md) хранит детали, но больше не активна.
-
-## Что не объявлено завершённым
-
-Это публикация структурного V7 этапа, **не визуальное одобрение пользователя**.
-Фасад/сады ещё проще и реже художественного концепта. Все84motion sequences,
-полный телефонный маршрут через каждый этаж и hardware FPS телефона/Mac не
-сертифицированы. Не обещать сходство или скорость только по CI/SwiftShader.
-Следующая работа — по ROADMAP, с референсами и одинаковыми условиями сравнения;
-не применять старые изменения повторно и не включать редизайн ТРЦ в очередь.
-
-## Сохранение работы / текущая среда
-
-`/workspace/chichi-emergency-save-recovery` сейчас на `codex/spa-v7-release-evidence`
-с evidence b91350c; public-код равен опубликованному c477057. Дерево чистое.
-WIP в remote: `codex/spa-v7-consolidation=1a32b17`, `codex/spa-v7-visual-final=f043655`.
-Старые worktrees не удалены. Каноническая память — `codex/ocean-recovery-memory`;
-она отдельна от кода релиза. Всегда читать её свежий CURRENT, не запускать её
-старый app как текущий main. Предыдущие6e28f75/d259c32 — исторический V6 контроль.
-
-В существующем окне «Аккаунт» (☁, облачное сохранение) остаются «Сохранить текущий
-мир» / «Загрузить мир из файла». Download содержит полную game schema, прогресс,
-покупки/кошельки и checksum, не исходники, storage/outbox или секреты. Legacy
-сохранения принимаются с проверкой; до импорта сохраняется долговечная предыдущая
-копия. Не подменять recovery-файлом чужой или новый пустой мир.
+Cloud/«Облако» уже содержит «Сохранить текущий мир»/«Загрузить мир из файла»:
+полная игровая схема/кошельки/покупки + checksum, без секретов/исходников;
+до импорта долговечная резервная копия. Не подменять мир пустым recoveryfixture.
+Более ранние слияния939b328/вода4ec3737/исторический12d478e и d6fa805 — история
+и standards/water.md; не выбирать их вместо актуального main по короткому названию.
