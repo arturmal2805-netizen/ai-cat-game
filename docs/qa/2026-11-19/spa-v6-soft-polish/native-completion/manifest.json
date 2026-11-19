@@ -1,0 +1,29 @@
+{
+  "sourceBase": "30467bf3545cebf4db8112b912fbda9f1617d628",
+  "sourceState": "",
+  "result": "PASS remaining native sky view, actual Nap W/footstool/World, sky stairs/swim/play/return/dry exit/shake, exactly one 150 receipt and private SQLite reload. Final browser/HTTP errors empty. Public sources and rendered bundle byte-identical to interrupted three-room capture.",
+  "visualReview": "Three affected room images retained from interrupted be2676c run; same renderer bundle confirmed. Drapes now reach floor and canopy rails; VIP ceiling/floor hierarchy improved. R1/R2/R4/R5 remain visual WIP; no final approval or device FPS claim.",
+  "files": {
+    "actual-game-massage.png": "4615e0efeadf0e934884aad229ef50e73f04415f4bb3cab248226f31dd0c6bf5",
+    "actual-manual-seat-exit.json": "b1cb0d1480fc8487ea85600dd09d57ace796c646be81bd01c318fe7857fad618",
+    "actual-manual-seat-exit.png": "cd83bf5a40d34ad9783bbeb29018559496270a2a54b09c81195dfcc8c2ebb99b",
+    "actual-pools-sqlite.json": "f0d4b14998d919638cf39a697050625caf96e22a122423f57818e0956d00551f",
+    "actual-sky-pool-transparent-bottom-from-below.png": "c7e6fd8533aa405cf5fcddebe5004febe577b5cf852b7a54a85219c1468fed81",
+    "game-scene.json": "6e398c797fdb2280e311335b20e238bce08184b9c0a5a887f27186077ee4d896",
+    "imported-source.tar.gz": "367f75f0c9c124dc5764281592d59cf0d143020cf6e258ed5644ecf07921c7da",
+    "native.log": "2c38dc358ba988b45688b2e5296894554a44e540437cdad697582aa8875d99ca",
+    "pool-progress.json": "b4a8e53c0a7e13bfb885ac9b3d8e86d713ee89a2ea3f3c40c891811f7b30943d",
+    "qa-app.js.gz": "7a42680823ae719108d7f442c77a79c01f79c44faaa58f4008a22ab8d421bccc",
+    "qa-build.json": "c25106fc2463034149c86d59f5126ef70f16c2c9b13fd1e870351a02268068d4",
+    "resort-thermal-sky-procedure.png": "94f4301917840635e4f01168c661ad8eb77e33c8fa4fbf8d3b8aa1fa99b9bcc8",
+    "resort-thermal-sky-wet-enter.png": "0710b3be40db0228dfdd92213371a260189e82479e6b57b80325dac3d33062de",
+    "resort-thermal-sky-wet-shake.png": "775ff9f749e39f7e50eba9f10f26649f0c8b2dea74e1082cb87e299f3f7090b7",
+    "soft-completion-sky-pool.png": "d42b9d8345ed9f3ed827088594ca212f140b5edf64e94d75ee3b32aa9b877ed7",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "4d23d5beedeb210200af64d24fa557deb771175966af71fecbe5aaadd2966795",
+    "source-status.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "v6-reference-frames.json": "9d17c880ca8e2eb4d29ae071147672d689dca9dd6d889da452ca224af944e7b9",
+    "continuation-parity.json": "2e59d869cfdb1844f0f396a779e2a607858a0971658354b21bdb93a11ace0533"
+  }
+}

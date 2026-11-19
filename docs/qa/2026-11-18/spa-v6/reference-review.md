@@ -123,3 +123,21 @@ rough-ceiling orange patch attenuated. Still sparse flowers/lantern hierarchy,
 curtains need actual mounting. R5 silhouette remains fragmented round pavilions.
 No final acceptance. Finish curtain hang points and QA fixture funding, then
 repeat only affected R2/R4/cabana+sky with complete error checks and SQLite.
+
+## Mounted follow-up and restart completion
+Art/renderer be2676c31f1b73fe5e1215a288c44738f95c3caa: R2/R4/cabana
+images saved before environment restart, mounted-interrupted/. Cloth now reaches
+floor+.08 and has real canopy-level rails; pillows read softer, VIP dark glossy
+floor and violet/gold galaxy are visible. R2 still lacks lush water/plant mass;
+R4 still sparse lantern/flower composition; R1/R3 and R5 remain as prior full
+six-view series: tank/service and coherent palace silhouette still need work.
+
+Continuation30467bf3545cebf4db8112b912fbda9f1617d628 changed ONLY Node audit
+funding/remaining-view selection. All421 imported source files AND actual QA
+bundle SHA bb5d43d1d5ffb0243313224dc633451a6b6b8957f5f087e1ee4b5ed0caeeaaae
+are identical. Native remaining sky/NapW/World/steps/swim/play/exit/shake/one150
+receipt/SQLite reload and final errors[]/httpErrors[] PASS, native-completion/.
+No new full14room/84phase or hardware FPS claim; no final visual acceptance.
+First partial wallet failure and interrupted run retained, never replaced by
+a misleading all-PASS record. Next richer gardens/cascades and palace facade,
+then final probe re-bake/native14room/phone/performance/Node22/fullCI/live.

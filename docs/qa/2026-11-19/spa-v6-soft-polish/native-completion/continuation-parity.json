@@ -1,0 +1,9 @@
+{
+  "interruptedSource": "be2676c31f1b73fe5e1215a288c44738f95c3caa",
+  "continuedSource": "30467bf3545cebf4db8112b912fbda9f1617d628",
+  "identicalImportedPublicSources": true,
+  "importedFiles": 421,
+  "identicalRenderedBundle": true,
+  "bundleSha256": "bb5d43d1d5ffb0243313224dc633451a6b6b8957f5f087e1ee4b5ed0caeeaaae",
+  "reason": "Only Node QA fixture funding/remaining-view selection changed; public renderer/model source and QA bundle are byte-identical. Three existing affected room frames retained; only remaining sky/Nap/SQLite steps repeated."
+}

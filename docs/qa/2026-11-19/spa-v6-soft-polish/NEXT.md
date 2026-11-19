@@ -59,3 +59,12 @@ Private funded V6 wallet6000 covers even full fourteen-room future suites; no
 production economy changes. Public renderer/model bytes unchanged from be2676c.
 Compare saved source-files and bundle SHA to mounted-interrupted before combining
 evidence. Do not re-label a different bundle as identical without checking.
+
+## Completed continuation — next art starts here
+Remaining native checks PASS, source30467bf; exact public sources and QA bundle
+are byte-identical to mounted-interrupted be2676c. Archived native-completion/
+includes parity.json, full source/bundle/PNG/log, receipts/SQLite summary.
+No active browser/process remains. Do not rerun these unchanged checks.
+All current art remains WIP: fuller layered gardens/cascades and connected
+palace massing are next. Preserve14room IDs/actual stations/controls/saves;
+final update actual room probes after geometry/light changes before publication.
