@@ -125,9 +125,14 @@ Sky — отдельный слой14. Тот же core волн/Fresnel/глу�
 shader hooks, native instancing isolation и уникальный program cache variant.
 
 Первый реальный capture source3ab73cd, архив bbab0e6. Actual GPU/readback/
-GLSL proof5adfcdb сохранён bd6195e. Эти probes сняты ДО поздней мягкой мебели/
-галактики/новых полов: перед финальной публикацией обновить после всех art
-изменений, не объявлять старый probe совпадающим с новой геометрией.
+GLSL proof5adfcdb сохранён bd6195e. Это исторические captures ДО поздней мягкой мебели/галактики/новых полов.
+Текущий capture уже ОБНОВЛЁН на sourceca0813f после gardens/furniture/floors:15layers,
+PNG302059bytes c3beaca169a6462a0622a42858c67eec7bc14d61722b12d3530295de9c3b2cc0,
+rawda49c948fe3bfaa711f85a1fc0cf05aa5f511949554ddfd9e4bdd350312eaf9c.
+Реальная captureprovenance лежит в runtime manifest; исходный bake архив
+docs/qa/2026-11-19/spa-v6-gardens-probes/native. Late waterUV/curvature меняли
+толькоMASKEDводу, неstaticcapturecontents. Fresh actualGLSL/readback на4b72f2f
+PASS; не переписывать sourceHead задним числом на новый runtimeSHA.
 Будущий private baker обходит свой SPA probe loader, чтобы не отражать себя
 рекурсивно. Все exact source/bundle/hash/PNG/log — docs/qa/2026-11-19/spa-v6-*.
 
@@ -154,3 +159,41 @@ Paid V6 audit fixtures фондируются только в приватном
 Native/CI остаются техническими доказательствами, не художественным одобрением.
 Все R1/R2/R4/R5 ещё требуют плотных садов/каскадов/связного дворцового силуэта;
 проверять каждый на этапах. Mac/phone FPS не подтверждать по SwiftShader.
+
+## Gardens/cascades и настоящие проходы — закреплённые контракты
+
+16protectedraisedbeds и2three-tiercascades — новый ограниченный art слой.
+Сохранять original21 bathingcontacts/14roomIDs и оригинальные модели. Цветы/листья
+используют6fixednativeInstancedMesh batches, отдельные vertex/instance colours.
+Присоединять после общего staticbake; не наследовать aMallRoom/staticrange hooks.
+Не перестраивать geometry/instancebuffer perframe. Sourcebudget136576newtriangles
+проверен, это не гарантия hardwareFPS. Не выдавать draw-trianglecounter зачисло
+авторских треугольников: он включает повторныеpasses и движущиесяобъекты.
+
+Каскады: реальные stonefoundations/linerbasins, frontcopingnotch иweir; sheet
+начинается в настоящем водном крае, проходитнадweir, падает вне своейfoundation
+и всей шириной попадает в следующуючашу. UV идёт downstream с общим flowclock.
+Оставлять общийwatercore/roomreflection, отдельные масштабы/глубину, bounded4
+impactvector updates. Нельзя waterplane поверхсплошногокамня или водопадчерезстену.
+
+Aroma старыйplanter69,252 блокировалbridge mouth: перенос только этогоpot в
+боковойсад, не удалениеполосы. Cabana frontpods4/5 требуют реального2.6m public
+gangway междуcrosswalks; private rear glasswalls сохраняются. Potson3mкольце
+подвешены на actual cornicearms abovebodyheight; не ставитьих назад впроход.
+Навигация сохраняетradius.571/fullbody sweeps: lazy failed-edge cache/replan
+bounded24, не costlysweep everyexpandednode и не discardingwholepath onfirstbadedge.
+Проверять весьотрезок иreturn, не только свободнуюцель. Все28publicapproaches и
+20defaultfixtures PASS; actualpublicAroma0/Cabana4 outward/return такжеPASS.
+
+Проверенный4b72f2f native:16views,11dry+4wet, оплаты/receipts/privateSQLite reload,
+Worldrelease иerrors[]/httpErrors[]; phone390×844/DPR2 heldtouch такжеPASS.
+Это не полный84motion/everycontact/shoretour/hardwarecertificate. Артефакты
+отдельно codex/spa-v6-release-evidence/docs/qa/2026-11-19/spa-v6-gardens-release;
+добавлениеPNG в этуветку не запускаетновыйapplicationCI. Сравнивая source-files.json,
+сравнивать key→hash mappings (insertionorder может отличаться), а actualQA bundle
+— по байтам/SHA. Всефайлы/логи должны входить вmanifest иGittracking.
+
+Повторная R1/R2/R4/R5 сверка оставляет явные art gaps: сады пока уступают
+referenceплотности, общийsilhouette fragmented, Aromaобычныйкадр barelyexposes
+cascades. Не выдавать такойкадр за close-up motionquality водопада. Следующий
+art этап продолжает этиразличия, не начинает заново и не объявляетвесьV6готовым.
