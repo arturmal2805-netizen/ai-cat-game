@@ -1,0 +1,21 @@
+{
+  "sourceBase": "4b72f2fa04dfdcf045c0a211570524d4c89d6268",
+  "sourceState": "",
+  "result": "PASS narrow390x844/DPR2 native held touch, real original Chichi displacement on SPA hall floor, no submarine controller, compact visible pad bounds, World release and final errors[]/httpErrors[]",
+  "visualReview": "Browser phone emulation, not physical phone FPS or complete shore/all-floor tour.",
+  "files": {
+    "loaded-style.css": "1ca6fd7d91d93d2434122de8b604f9e1f0306145487ece7434204f01d46492bc",
+    "native.log": "09cb6345d442030a4ac33f32db234b5b7d3c4ba9deeb5d0cc70a7a10d3538639",
+    "actual-phone-third-person-controls.png": "2c92298d7d46c97ed7c161a60a99ac13f833ff8d4488d7a8d9ce72d1e027037f",
+    "qa-build.json": "297a7eb4475f5b3895d8c5710c938133c1dea4117bac74b98b570e7caab5e3d8",
+    "actual-phone-third-person.json": "a9c06cdee112b0f0f7bfbe9a86fa46a48351c8ed359c3e2b62bbda15dc143d16",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "imported-source.tar.gz": "5a4da263de2ef28fd6beff7a4b46bce4f3fc19bf6fa1df8c4749dfef0ac1a4ea",
+    "qa-app.js.gz": "250f724be4026b4174ec10ba9627e6fd2165f362367f82528cc5743d5a7e2088",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "game-scene.json": "6e398c797fdb2280e311335b20e238bce08184b9c0a5a887f27186077ee4d896",
+    "source-files.json": "4b1cdd4fbfd459b48f763bb62ba24690f9851e855b71b3af530cfd71d9c65b6d",
+    "source-status.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual-game-massage.png": "35b1e7b2c392d6b27bee13ea8b2f9a006c532bb157f376f761cb4dd6539c99a9"
+  }
+}
