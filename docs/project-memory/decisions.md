@@ -632,3 +632,13 @@ location after lateral entry reroute; supported physical waitingpoints fixed
 without reducing radius/returnassertions. SPA-specific spaLayout7 marker keeps
 existing atomic timestamp merge; removed-room recovery uses a supported public
 hall.13actual reference views are running, not accepted/published.
+
+### 2026-11-19 — V7 exact9probe bake and safe interrupted procedure saves
+D13frames revealed real roof/coping defects;4d85624 fixes realgeometry with14m
+rise/10.8mroomminimum/roofspring46 and true skyaperture.32targetedchecksPASS.
+Nine-room+sky probes captured exact4d85624, no moving actors/feedback, promoted
+with01443cd814ef atlas and complete native-nine-probes source/byte evidence.
+664a7c7 preserves interrupted raised/wet procedures using dry supported save
+approaches, without moving live cats or changing original receipt ledgers.
+Asynchronous layout repair yields to newer commands; nine reflection/reload
+checksPASS. Required actual functional/native/ownership/finalimages/CI pending.
