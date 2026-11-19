@@ -27,7 +27,11 @@ export function* finishResortSpaSteps(root,{zones=RESORT_ZONES,rise=L.rise}={}){
  lights.finish();const batch=new T.Group(),levels=new Map(),inverse=root.matrixWorld.clone().invert();
  for(let level=0;level<3;level++){
   const sourceGroup=new T.Group(),temporary=[];for(const source of sources){if(source.userData.resortFloor!==level||source.userData.resortSeparateTransparency)continue;const clone=new T.Mesh(source.geometry,source.material);clone.castShadow=source.castShadow;clone.receiveShadow=source.receiveShadow;clone.matrixAutoUpdate=false;clone.matrix.multiplyMatrices(inverse,source.matrixWorld);if(root.userData.layoutVersion===7){const refined=yield* palaceFloorLightSteps(source,clone.matrix,zones.filter(z=>z.level===level),ids);if(refined){clone.geometry=refined;temporary.push(refined);}}sourceGroup.add(clone);}
-  const rendered=yield* batchModelSteps(sourceGroup,{combineColors:false});levels.set(level,rendered);batch.add(rendered);for(const g of temporary)g.dispose();
+  const rendered=yield* batchModelSteps(sourceGroup,{combineColors:false});
+  // The shared batcher defaults to receiveShadow=true. Retain the diagnosed
+  // sealed-liner profile on the ACTUAL rendered batch, not only hidden sources.
+  rendered.traverse(o=>{if(o.isMesh){const originals=sources.filter(s=>s.userData.resortFloor===level&&s.material===o.material);if(originals.length&&originals.every(s=>!s.receiveShadow))o.receiveShadow=false;}});
+  levels.set(level,rendered);batch.add(rendered);for(const g of temporary)g.dispose();
  }
  root.userData.inspectionLevels=levels;root.userData.setInspectionLevel=level=>{for(const [id,g]of levels)g.visible=level==null||id<=level;for(const [id,g]of root.userData.zones){const zone=zones.find(z=>z.id===id);g.visible=level==null||zone.level<=level;}for(const o of sources)if(o.userData.resortSeparateTransparency)o.visible=level==null||o.userData.resortFloor<=level;};
  const materials=new Set(sources.filter(o=>o.userData.resortSeparateTransparency&&o.material.isMeshStandardMaterial).map(o=>o.material));batch.traverse(o=>{if(o.isMesh&&o.material.isMeshStandardMaterial)materials.add(o.material);});for(const m of materials)resortInteriorLighting(m,lights);
