@@ -1,0 +1,21 @@
+{
+  "sourceBase": "7ff6f00b290faf0d6e6efd32a963f18e88aaa194",
+  "sourceState": "",
+  "result": "PASS two actual native resident arrivals, real pressure lift and dry walking; repeat deduplicated; coins/inventory/all-profile receipts unchanged",
+  "visualReview": "Group-only functional gate; 38-water/optics and final lamp images are recorded separately in stage2/3. No paid AI or procedure was invoked. The final particle count cap is a separate CPU-verified change; it does not change controllers, geometry or shader source.",
+  "files": {
+    "imported-source.tar.gz": "05453b56cd171ba755af2a7e40d4b364b2452a1fdb6ce63e03b4528eba0eda23",
+    "layout-world-transforms.json": "3518713f83d48cad7ccba56c16c8fa3635d2295bfcf0bc272ef031db684a99a7",
+    "native.log": "7bea2abac4d3ed743358fa73a6b520c008b8e445d54aadad32db28fe709a65a2",
+    "qa-app.js.gz": "c0cba56bbda86c16bde1497f2dcd65357e4a2f20f0dfd372885b4df576b2c62e",
+    "qa-build.json": "41b35a7dc285e99b3a59e866a9ddf77990024ff8dbe345113462b7c861d3b68b",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "a365a09e35566f1b50b4ce5cafebd0056b5a48b6c5ab4dd6ba4d0b373c65d1b6",
+    "source-status.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "v11-group-candidates.json": "dcc14cfb2d5f9da0335352c2420d17d9c56a2a0d99cce744ee5b21a3388da62f",
+    "v11-group-invitation.json": "c70f2e33517e65eaa565cd886e735aca7c86cd7f21116eccc3d58b40219d3a6d",
+    "v11-group-progress.json": "ad675aa96e17a91ffffa4325bd4bd7c0382d4b70230fdc9a78613f506be24f72",
+    "v11-group-ui.json": "d985df24b7342a51a5dcc04221f7933c49a76fa03d459ecefcdd7ca51614944e"
+  }
+}

@@ -22,5 +22,5 @@ export async function auditSpaWaterV11({page,review}){
  const after=await page.evaluate(()=>{const q=__lagoonQA,g=__lagoonSaveQA.getGame();return{coins:g.coins,profiles:Object.fromEntries(Object.entries(g.jobCity.profiles).map(([id,p])=>[id,{coins:p.coins,receipts:p.mall?.receipts||{},used:p.mall?.used||{}}])),inventory:g.inventory,invited:q.resortSpa().invited};});
  await writeFile(join(review,'v11-group-invitation.json'),JSON.stringify({before,after,count,arrived,arrivals:[...arrivals],phases:[...phases],scope:'Actual native residents, free staged recall, physical lift and dry walking, private editor. No procedure or AI purchase.'},null,2));
  assert(arrived,'two invited residents must reach distinct supported dry positions');assert(phases.has('riding'),'use real pressure lift');for(const k of ['coins','profiles','inventory'])assert.deepEqual(after[k],before[k],'free invitation must preserve '+k);
- console.log('PASS V11 actual 38 water profiles/copy bounds and free resident group arrival');
+ console.log(groupOnly?'PASS native free resident group arrival/repeat and unchanged wallets':'PASS V11 actual 38 water profiles/copy bounds and free resident group arrival');
 }
