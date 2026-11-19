@@ -1,4 +1,5 @@
 import {createResortInteriors} from './resort-spa-interiors.js';
+import {resortPalaceStructureSteps} from './resort-spa-palace-structure.js';
 import {resortLuxurySteps} from './resort-spa-luxury.js';
 import {resortSurfaceMaps} from './resort-spa-surfaces.js';
 import {RoundedBoxGeometry} from 'three/addons/geometries/RoundedBoxGeometry.js';
@@ -19,7 +20,7 @@ import {advanceWater} from './water-shading.js';
 import {installManualBuildingNavigation} from './manual-building-navigation.js';
 // Construction candidate, deliberately not attached to production until native
 // navigation, enclosure, rendering and durable procedure audits are complete.
-export function* resortSpaModelSteps(){
+export function* resortSpaModelSteps({layoutVersion=6}={}){
  const root=new T.Group(),solid=new T.Group(),shell=new T.Group(),decor=new T.Group(),surfaces=new T.Group(),basins=[],waters=[];root.name='CHICHI CAT SPA & WELLNESS RESORT';root.position.y=L.y;root.add(solid,shell,decor,surfaces);
  const mats={},geos=new Map(),zones=new Map();let authoredLevel=0;
  for(const [k,c]of Object.entries(L.palette))mats[k]=new T.MeshStandardMaterial({color:c,roughness:k==='gold'?.24:.55,metalness:k==='gold'?.7:0,...(['amber','pink','lavender'].includes(k)?{emissive:c,emissiveIntensity:.35}:{})});
@@ -35,9 +36,16 @@ export function* resortSpaModelSteps(){
  function disk(parent,m,x,y,z,rx,rz,h=.3){return mesh(parent,geometry('disk',()=>new T.CylinderGeometry(1,1,1,64)),m,x,y,z,rx,h,rz);}
  function backGeometry(index){return geometry('wraparound-upholstery-segment-'+index,()=>{const a=index*Math.PI/12,b=(index+1)*Math.PI/12,s=new T.Shape();s.absellipse(0,0,1.55,.85,a,b,false);s.lineTo(Math.cos(b)*1.3,Math.sin(b)*.69);s.absellipse(0,0,1.3,.69,b,a,true);s.closePath();const g=new T.ExtrudeGeometry(s,{depth:.82,bevelEnabled:true,bevelThickness:.055,bevelSize:.045,bevelSegments:3,steps:1,curveSegments:4});g.rotateX(-Math.PI/2);return g;});}
  function sofa(x,y,z,yaw=0){const group=new T.Group();group.position.set(x,y,z);group.rotation.y=yaw;solid.add(group);const g=geometry('rounded-sofa',()=>new RoundedBoxGeometry(1,1,1,3,.1));mesh(group,g,mats.gold,0,.68,0,3,.12,1.6);for(const a of [-1,1])for(const b of [-1,1])box(group,mats.gold,a*1.2,.31,b*.55,.12,.62,.12);mesh(group,g,mats.cloth,0,.82,0,3,.2,1.6);for(let i=0;i<12;i++)mesh(group,backGeometry(i),mats.cloth,0,.93,0);mesh(group,g,mats.cloth,0,.38,1.05,2.6,.16,.8);for(const side of [-1,1])box(group,mats.gold,side*.95,.15,1.05,.1,.3,.5);}
- function pool(x,y,z,rx,rz,probeLayer=10){const basin=createResortBasin({rx,rz,depth:1.8,probeLayer},{stone:mats.ivory});basin.position.set(x,y,z);surfaces.add(basin);basins.push(basin);waters.push(basin.userData.surface);return basin;}
+ function pool(x,y,z,rx,rz,probeLayer=10,{sky=false}={}){if(sky&&!mats.skyGlass){mats.skyGlass=mats.glass.clone();mats.skyGlass.opacity=.2;mats.skyGlass.roughness=.09;}const basin=createResortBasin({rx,rz,depth:1.8,probeLayer,sky},{stone:mats.ivory,...(sky?{liner:mats.skyGlass}:{})});basin.position.set(x,y,z);if(sky){basin.userData.bed.name='Glass Sky Pool transparent bottom';basin.userData.bed.renderOrder=1;basin.userData.surface.renderOrder=2;}surfaces.add(basin);basins.push(basin);waters.push(basin.userData.surface);return basin;}
  function platform(zone,y,holes){const shape=new T.Shape();shape.absellipse(zone.x,-zone.z,zone.rx,zone.rz,0,Math.PI*2,false);for(const p of holes){const h=new T.Path();h.absellipse(p.x,-p.z,p.rx,p.rz,0,Math.PI*2,true);shape.holes.push(h);}const g=new T.ShapeGeometry(shape,96);g.rotateX(-Math.PI/2);geos.set(zone.id+'-floor',g);mesh(surfaces,g,floorFor(zone),0,y,0).name='resort-room-floor-'+zone.key;}
  function roof(x,y,z,rx,rz,height,wallHeight=4){mesh(shell,geometry('dome',()=>new T.SphereGeometry(1,48,24,0,Math.PI*2,0,Math.PI/2)),mats.glass,x,y,z,rx,height,rz);for(let i=0;i<24;i++){const a=i*Math.PI/12;box(shell,mats.gold,x+Math.cos(a)*rx,y-wallHeight/2,z+Math.sin(a)*rz,.13,wallHeight,.13);}}
+ if(layoutVersion===7){
+  const palace=yield* resortPalaceStructureSteps({solid,shell,decor,surfaces,mats,geometry,mesh,box,pool,setLevel:level=>{authoredLevel=level;}});
+  for(const [id,g]of palace.zones){zones.set(id,g);root.add(g);}
+  const accessGeometry=createResortSpaAccess(mats);for(const g of [accessGeometry.solid,accessGeometry.surfaces,accessGeometry.shell])g.traverse(o=>{if(o.isMesh)o.userData.resortFloor=0;});solid.add(accessGeometry.solid);surfaces.add(accessGeometry.surfaces);shell.add(accessGeometry.shell);
+  root.updateMatrixWorld(true);root.userData={layoutVersion:7,phase:'architecture-mass',palace:palace.report,id:L.id,accessGeometry,dynamicSurfaces:[accessGeometry.deck],zones,solid,shell,decor,surfaces,basins,waters,navigation:installManualBuildingNavigation(root,solid),update(time,reduced=false){for(const w of waters)advanceWater(w.material,time,reduced);},dispose(){palace.dispose();accessGeometry.dispose();for(const b of basins)b.userData.dispose();for(const g of geos.values())g.dispose();const textures=new Set();for(const m of Object.values(mats)){for(const key of ['map','normalMap','roughnessMap'])if(m[key])textures.add(m[key]);m.dispose();}for(const t of textures)t.dispose();}};
+  yield* finishResortSpaSteps(root);root.add(accessGeometry.cabin,accessGeometry.gates);return root;
+ }
  // Main cat dome and real three-level public atrium.
  for(let level=0;level<3;level++){
   authoredLevel=level;const y=level*L.rise,shape=new T.Shape();shape.absarc(0,0,34,0,Math.PI*2,false);if(level){const hole=new T.Path();hole.absarc(0,0,level===2?resortSkyPool().rx:12,0,Math.PI*2,true);shape.holes.push(hole);const stair=RESORT_STAIRS[level-1],opening=new T.Path();opening.moveTo(stair.x-3.5,-185);opening.lineTo(stair.x+3.5,-185);opening.lineTo(stair.x+3.5,-221.5);opening.lineTo(stair.x-3.5,-221.5);opening.closePath();shape.holes.push(opening);}if(level===1)for(const pool of resortPools(RESORT_ZONES.find(z=>z.key==='cafe'))){const hole=new T.Path();hole.absellipse(pool.x,-(pool.z-203),pool.rx,pool.rz,0,Math.PI*2,true);shape.holes.push(hole);}const g=new T.ShapeGeometry(shape,96);g.rotateX(-Math.PI/2);geos.set('atrium-'+level,g);mesh(surfaces,g,mats.ivory,0,y,203).name='resort-atrium-floor-'+level;
