@@ -49,16 +49,19 @@ Flags CHICHI_EXPLORER_AUDIT=1 CHICHI_RESORT_SPA_AUDIT=1 CHICHI_SPA_V6_AUDIT=1
 CHICHI_SPA_V6_STAGE=gardens-release CHICHI_SPA_V6_ALL=1
 CHICHI_SPA_V6_PROCEDURES=1 CHICHI_SPA_GARDEN_WALK=1
 CHICHI_SPA_REFLECTION_AUDIT=1 CHICHI_REVIEW_HOUR=12 CHICHI_DESKTOP=1.
-Один GPU, HEAD не менять до завершения capture. Нужны14rooms+sky,
-publicAroma0/Cabana4 actualwalk/return, freshGPUarray/процедуры/privateSQLite.
-Localfulltestsconcurrency2 ещё без итога, log /workspace/qa/spa-v6-gardens-full-tests.log.
+Один GPU, HEAD не менять до завершения capture. Все16views(overview+14rooms+sky) готовы;
+publicAroma0/Cabana4 actualwalk/return PASS; freshGPUarray PASS;11dryservices PASS.
+Сейчас4wetservices иSQLitereload; затем phone-only native на томжеclean4b72f2f.
+Localfulltestsconcurrency2 завершены1171/1171 PASS, log /workspace/qa/spa-v6-gardens-full-tests.log.
 Он стартовал до позднегоassetupdate: exactfinalfullgate — GitHubCI.
 
 PR#1 https://github.com/arturmal2805-netizen/ai-cat-game/pull/1 draft доQA;
-CI44535236300 на4b72f2f in_progress. Отдельный Workers Builds check FAILURE,
+CI44535236300 на4b72f2f **SUCCESS** (Node22build/fulltests/wranglerdryrun). Отдельный Workers Builds check FAILURE,
 причина ещё не установлена; не путать его с главным Test and deploy workflow.
+Доказательства отдельно от applicationCI: codex/spa-v6-release-evidence,
+checkpoint500820a (проверить remoteSHA). Это толькоартефакты, не другаяверсиякода.
 Пользователь требует публикацию данного этапа. После native/CI PASS сохранить
-точные PNG/source/bundle/log/hash, отметитьPRready и merge без удаленияWIPветки,
+точные PNG/source/bundle/log/hash, отметитьPRready и обычный merge без удаленияWIPветки (сохранить checkpoint ancestry),
 дождаться ВСЕХmain jobs и сверитьactualHTML/JS/CSS/Workerrelease. Не заканчивать
 ещё одним WIP-only ответом. Уже есть авторизация на публикацию.
 
