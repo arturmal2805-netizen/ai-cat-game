@@ -1,0 +1,283 @@
+{
+  "checkedAt": "2026-11-19T17:54:13.214529+00:00",
+  "releaseCommit": "c477057b6eda6e251f02bc27735e4220d737112b",
+  "candidateProductSource": "f04365585a2f0183ce695e57269d298b73863fa0",
+  "nativeBundleSha256": "9a922bbe799ab3ff1bdc5a24e6a0cbd6f2ebd92270df7514a151b97eb9038930",
+  "workflow": {
+    "conclusion": "success",
+    "headSha": "c477057b6eda6e251f02bc27735e4220d737112b",
+    "jobs": [
+      {
+        "completedAt": "2026-11-19T17:50:49Z",
+        "conclusion": "success",
+        "databaseId": 135755149812,
+        "name": "test",
+        "startedAt": "2026-11-19T17:38:03Z",
+        "status": "completed",
+        "steps": [
+          {
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run actions/setup-node@v4",
+            "number": 3,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run npm ci",
+            "number": 4,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run npm run build",
+            "number": 5,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run npm test",
+            "number": 6,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run npx wrangler deploy --dry-run",
+            "number": 7,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Post Run actions/setup-node@v4",
+            "number": 13,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 14,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 15,
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44579271016/job/135755149812"
+      },
+      {
+        "completedAt": "2026-11-19T17:53:34Z",
+        "conclusion": "success",
+        "databaseId": 135763125392,
+        "name": "deploy",
+        "startedAt": "2026-11-19T17:50:52Z",
+        "status": "completed",
+        "steps": [
+          {
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run actions/setup-node@v4",
+            "number": 3,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run npm ci",
+            "number": 4,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run npm run build",
+            "number": 5,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Validate deployment credentials",
+            "number": 6,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Sync optional OpenRouter backup key",
+            "number": 7,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Deploy Cloudflare Worker",
+            "number": 8,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Verify release, shared saves and optional real AI",
+            "number": 9,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run actions/upload-pages-artifact@v3",
+            "number": 10,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Post Run actions/setup-node@v4",
+            "number": 19,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 20,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 21,
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44579271016/job/135763125392"
+      },
+      {
+        "completedAt": "2026-11-19T17:53:52Z",
+        "conclusion": "success",
+        "databaseId": 135764820604,
+        "name": "pages",
+        "startedAt": "2026-11-19T17:53:39Z",
+        "status": "completed",
+        "steps": [
+          {
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run actions/configure-pages@v5",
+            "number": 2,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Publish AI-connected cat website",
+            "number": 3,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Website address",
+            "number": 4,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 5,
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44579271016/job/135764820604"
+      }
+    ],
+    "status": "completed",
+    "url": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44579271016"
+  },
+  "applicationCount": 1,
+  "applicationScripts": [
+    "./dist/app.js?v=48922a7a2e2977b4"
+  ],
+  "responses": {
+    "html": {
+      "url": "https://arturmal2805-netizen.github.io/ai-cat-game/?v=c477057",
+      "status": 200,
+      "bytes": 31956,
+      "sha256": "b23ef7595b67953a77eb4b8cae0fe6e8738457e12f56cb0b5eabc866fed0b234",
+      "headers": {
+        "ETag": "\"6aff37ac-7cd4\"",
+        "Last-Modified": "Thu, 19 Nov 2026 17:53:48 GMT",
+        "Cache-Control": "max-age=600",
+        "Content-Type": "text/html; charset=utf-8",
+        "Age": "0"
+      }
+    },
+    "js": {
+      "url": "https://arturmal2805-netizen.github.io/ai-cat-game/dist/app.js?v=48922a7a2e2977b4",
+      "status": 200,
+      "bytes": 2755715,
+      "sha256": "48922a7a2e2977b430ade30da5577f97f23a822363c4d39ed754e6714c105508",
+      "headers": {
+        "ETag": "\"6aff37ad-2a0c83\"",
+        "Last-Modified": "Thu, 19 Nov 2026 17:53:49 GMT",
+        "Cache-Control": "max-age=600",
+        "Content-Type": "application/javascript; charset=utf-8",
+        "Age": "0"
+      }
+    },
+    "css": {
+      "url": "https://arturmal2805-netizen.github.io/ai-cat-game/style.css?v=1ca6fd7d91d93d24",
+      "status": 200,
+      "bytes": 67599,
+      "sha256": "1ca6fd7d91d93d2434122de8b604f9e1f0306145487ece7434204f01d46492bc",
+      "headers": {
+        "ETag": "\"6aff37ac-1080f\"",
+        "Last-Modified": "Thu, 19 Nov 2026 17:53:48 GMT",
+        "Cache-Control": "max-age=600",
+        "Content-Type": "text/css; charset=utf-8",
+        "Age": "0"
+      }
+    },
+    "atlas": {
+      "url": "https://arturmal2805-netizen.github.io/ai-cat-game/art/spa-reflections/spa-interiors-bad2f1b8b982.png",
+      "status": 200,
+      "bytes": 175182,
+      "sha256": "bad2f1b8b9825eccdb7a334b55fb9b9f9dd710edf1653b570b4bb2c0cb6f505e",
+      "headers": {
+        "ETag": "\"6aff37ac-2ac4e\"",
+        "Last-Modified": "Thu, 19 Nov 2026 17:53:48 GMT",
+        "Cache-Control": "max-age=600",
+        "Content-Type": "image/png",
+        "Age": "0"
+      }
+    }
+  },
+  "scope": "Actual public HTTP bytes match the checked Node22 build; the complete main workflow independently passed Worker deployment, exact server release/shared-save verification and Pages. No live player save/recovery token or paid AI request used. This is a checked structural V7 stage, not user artistic approval or hardware phone/Mac FPS.",
+  "files": {
+    "native-phone-loaded-style.css": "1ca6fd7d91d93d2434122de8b604f9e1f0306145487ece7434204f01d46492bc",
+    "live-index.html": "b23ef7595b67953a77eb4b8cae0fe6e8738457e12f56cb0b5eabc866fed0b234",
+    "README.md": "5efafde9b2812c77edde1801ee4fe9af14e5450a8d3258a716faa78ba9ffcf0f",
+    "before-deployment.json": "545e4bb7cd12d6ad063747afc56dba3c0ac9e51ddabb0c7415d0a6d7ef3959ef",
+    "live-spa-atlas.png": "bad2f1b8b9825eccdb7a334b55fb9b9f9dd710edf1653b570b4bb2c0cb6f505e",
+    "live-style.css": "1ca6fd7d91d93d2434122de8b604f9e1f0306145487ece7434204f01d46492bc",
+    "live-app.js.gz": "a70af870f582e61913793007a6ccb259e8505984d06ba10c1dd42a834bd8d1c5"
+  }
+}

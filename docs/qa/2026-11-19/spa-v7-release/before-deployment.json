@@ -1,0 +1,10 @@
+{
+  "checkedAt": "2026-11-19T17:42:05.059384+00:00",
+  "url": "https://arturmal2805-netizen.github.io/ai-cat-game/?v=c477057",
+  "status": 200,
+  "htmlSha256": "d1423f0c0e37d4312509d8fc807cca5923e87e90d896dee9521183b44c7541d0",
+  "scripts": [
+    "./dist/app.js?v=c006ed8238ebefbc"
+  ],
+  "scope": "Pre-deployment control only; main workflow is still running. Query version is not evidence of publication."
+}
