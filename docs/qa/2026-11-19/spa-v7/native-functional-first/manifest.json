@@ -1,0 +1,17 @@
+{
+  "sourceBase": "664a7c7b2ab4f8607ad349259376f5f85f952f2c",
+  "sourceState": "",
+  "result": "FAILED Cafe wet exit on a Float32 coping/floor seam; eight canonical services and eight VIP baths already returned successfully",
+  "visualReview": "Functional only, no visual acceptance. Preserve failure; repair physical support seam then rerun affected scenarios.",
+  "files": {
+    "imported-source.tar.gz": "0a63a8870396ebdb808e2c15a8255b4b83c5db44ff3d311aaac860e9d93aa4aa",
+    "native.log": "f01fa96f80bdd69754d8ef3f6d999d152a15b416eda237e28c2e18fc64183fb4",
+    "qa-app.js.gz": "4b9bec8cf2cb47788a7a13781e1b985586045c74e7fa8b7fab9ba5f5cc467267",
+    "qa-build.json": "44d61bd2542d4e5819920a82653b790e111cfcf379861323a011d20add942673",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "5ccac1cbfc612546dd09a2bc85a9a4923ef696a415a92932f0abe0a9a70b5193",
+    "source-status.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "v7-functional-progress.json": "151eefecccbdea2731903d312c83ffd15aaea4666ed990ae400b29c34efece5c"
+  }
+}

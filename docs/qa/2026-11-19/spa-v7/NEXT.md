@@ -202,3 +202,14 @@ manual control is disabled only while hero recovery owns it.
 Next native functional harness8rooms/8VIPbaths/sky/Cafewet/prepaid/lift/SQLite/
 mid-procedure reload/W/release/backup, then actual13 finalimages/phone/ownership.
 Do not publish until gates pass; main remains6e28f75.
+
+Native664a7c7 first run: all8canonical procedures and all8VIPbaths plusThermal
+sky returned; Cafe wet exit stalled at the outer coping/floor seam. Kept exact
+failed run in native-functional-first, not counted as a full PASS. Float32 mesh
+edges left a ray gap atz223.7421356. New V7-only real outer coping bevel underlaps
+floor by2.5cm, drops6mm, preventing precision gaps and coplanar flicker. Default6
+basins unchanged; radius/obstacles unchanged. All14realpool entry/procedure/exit/
+return tests PASS on actual7geometry (pool-seam-final.log). Native rerun only
+remaining scenarios to avoid duplicating passed checks; final13images stillneed
+newbevel/probes together. Initial12mm bevel hitwaterline epsilon; fixed6mm and
+keptfailed logs outside archive, no assertions weakened.

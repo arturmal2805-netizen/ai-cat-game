@@ -4,10 +4,14 @@ import {waterMaterial,advanceWater} from './water-shading.js';
 import {slideBasinWater} from './slide-basin-optics.js';
 // Actual recessed pool. Floor geometry has a real opening; all simulations can
 // raycast the same triangles instead of treating a merged bound as a solid lid.
-export function resortBasinGeometry({rx,rz,depth=1.8,rim=1,segments=96}){
+export function resortBasinGeometry({rx,rz,depth=1.8,rim=1,segments=96,seamOverlap=0}){
  if(!(rx>3&&rz>3&&depth>0&&depth<=3))throw Error('Invalid SPA basin dimensions');
- const shape=new T.Shape();shape.absellipse(0,0,rx+rim,rz+rim,0,Math.PI*2,false);const hole=new T.Path();hole.absellipse(0,0,rx,rz,0,Math.PI*2,true);shape.holes.push(hole);
+ const shape=new T.Shape();shape.absellipse(0,0,rx+rim+seamOverlap,rz+rim+seamOverlap,0,Math.PI*2,false);const hole=new T.Path();hole.absellipse(0,0,rx,rz,0,Math.PI*2,true);shape.holes.push(hole);
  const surround=new T.ShapeGeometry(shape,segments);surround.rotateX(-Math.PI/2);
+ // A recessed outer bevel physically underlaps the adjoining floor. Float32
+ // triangle seams must not leave a ray-sized unsupported gap at the pool exit.
+ // The shallow slope separates the surfaces, avoiding coplanar flicker.
+ if(seamOverlap){const a=surround.attributes.position;for(let i=0;i<a.count;i++){const edge=Math.hypot(a.getX(i)/(rx+rim+seamOverlap),a.getZ(i)/(rz+rim+seamOverlap));if(edge>.999)a.setY(i,-.006);}a.needsUpdate=true;surround.computeVertexNormals();}
  const bed=new T.CircleGeometry(1,segments);bed.rotateX(-Math.PI/2);bed.scale(rx,1,rz);bed.translate(0,-depth,0);
  const water=new T.CircleGeometry(1,segments);water.rotateX(-Math.PI/2);water.scale(rx,1,rz);
  // Vertical side wall is an actual ellipse, never a closed cylinder cap.
