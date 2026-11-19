@@ -52,3 +52,10 @@ Old process37747 no longer exists. No sky/contact/SQLite/final error-array
 PASS claimed. Continue only remaining native sky+Nap/World+SQLite with funded
 private wallet, retaining these three unchanged-art views rather than restarting.
 Temporary QA assets may have been removed by environment; no user data touched.
+
+Resume command adds CHICHI_SPA_V6_ONLY_SKY=1 (only remaining view), CONTACTS=1,
+SKY_ONLY=1, STAGE=soft-completion, REVIEW_DIR=/workspace/qa/spa-v6-soft-completion.
+Private funded V6 wallet6000 covers even full fourteen-room future suites; no
+production economy changes. Public renderer/model bytes unchanged from be2676c.
+Compare saved source-files and bundle SHA to mounted-interrupted before combining
+evidence. Do not re-label a different bundle as identical without checking.
