@@ -2,9 +2,9 @@ import test from 'node:test';import assert from 'node:assert/strict';
 import {SPA_V7_ZONES,SPA_V7_SERVICES,spaV7Service,spaV7Slots,spaV7Seat,SPA_V7_RUNTIME_CONTRACT} from '../public/resort-spa-services-v7.js';
 import {createResortSpaBooking} from '../public/resort-spa-booking.js';
 import {createResortSpaRuntime} from '../public/resort-spa-runtime.js';
-import {RESORT_PRODUCTS} from '../public/resort-spa-data.js';
+import {RESORT_PRODUCTS,resortOffers} from '../public/resort-spa-data.js';
 test('eight physical destinations retain fourteen historical prices and real shared contacts',()=>{
- assert.equal(SPA_V7_ZONES.length,8);assert.equal(SPA_V7_SERVICES.length,14);
+ assert.equal(SPA_V7_ZONES.length,8);assert.equal(SPA_V7_SERVICES.length,14);assert.deepEqual(resortOffers({unlocked:['autumn']}).map(z=>z.id),SPA_V7_ZONES.map(z=>z.id));assert.equal(RESORT_PRODUCTS.length,14);
  for(const s of SPA_V7_SERVICES){assert.equal(s.price,RESORT_PRODUCTS.find(p=>p.id===s.id+'-session').price);for(const i of spaV7Slots(s)){const c=spaV7Seat(s,i);assert([c.x,c.y,c.z,c.approach.x,c.approach.y,c.approach.z].every(Number.isFinite));}}
  const vip=spaV7Service('resort-vip'),wet=Array.from({length:30},(_,i)=>spaV7Seat(vip,i)).filter(c=>c.pool);assert.equal(wet.length,18);assert.equal(new Set(wet.map(c=>c.pool.id)).size,8);assert.equal(wet.filter(c=>c.pool.size==='group').length,8);assert.equal(wet.filter(c=>c.pool.size==='medium').length,8);assert.equal(wet.filter(c=>c.pool.size==='private').length,2);
 });

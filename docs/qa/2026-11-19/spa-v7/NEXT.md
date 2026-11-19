@@ -140,3 +140,47 @@ work above/below; physical floor holes unchanged. Actual optical captures pendin
 regression from an overly broad insertion, now removed and default6 transit
 retestedPASS. Keep failed logs; do not claim fullCI. Node22 interim buildPASS
 but it began before last source edits; final exact build/fullCI still needed.
+
+## After D visual review — source for nine-layer bake
+D on4f69e9f completed13actual PNG, menu10, errors[]/HTTP[]. Full originals are
+native-interiors-d. Review found actual roof intersections (VIP-1.426m,
+Midnight-.713m) and coplanar pool coping/floor overlap; both were visible in PNG.
+Aroma also exposed upper bath bottoms. They are corrected, not hidden/deleted:
+
+- Currentrise14 (NOT earlier12),50steps×.28m/run.88, same footprint/landings.
+  This gives12.2m under upstairs bath beds, room canopybase10.8 remains.
+- Pressure roof spring46m/clearance18 above upperfloor28; nightvaultmax45,
+  preserving minimum10.8m room spring and >=.9m actual triangle clearance.
+- Middle12m service ceiling covers VIP bath bottoms; true19m sky-pool aperture
+  and real upper staircase opening remain. Sky bed has NO opaque backing.
+- Pool floor holes use rx/rz+1m coping outer radius, same192sample boundary as
+  the actual ring. No overlapping coplanar floor/stone ring.
+- Original galaxy texture math gains an explicit planar projection for the
+  new full-outline vault, not an equirectangular chart stretched across it.
+- Bounded render-only floor subdivision assigns existing32lamp IDs per small
+  triangle. Original physics floors remain coarse, no extra ray triangles or
+  per-frame updates. Room lamp ranges scale locally, no global scene relighting.
+- Waterfall now has eight real soft lounges on shared contacts, treatment oils
+  are visible, eight existing fixed-buffer Jacuzzi effects are restored in V7.
+- V7 A* extent derives from300m width; only two world.js SPAhooks remain.
+
+Production-source world now EXPLICITLY calls model({layoutVersion:7}); publicAI
+resortOffers uses8active IDs. Historical RESORT_ZONES/RESORT_PRODUCTS14 and
+factorydefault6 remain as the legacy service/geometry compatibility registry.
+The game never calls the legacy model now. Dedicated7 tests are the current
+physical evidence; old6 unit tests are historical regression support.
+
+32targeted Node22checks PASS (pre-probe-tests.log): all96contacts/new14mstairs,
+6/7liftreturns, actualrooftriangleclearance, rim-no-overlap, serviceceiling/sky
+opening, ledger/prepaid, reloadmarker/stale saves, purchase preservation.
+Main/publication still6e28f75. Need actual9probe bake on exact committed source:
+EXPLORER_AUDIT=1 RESORT_SPA_AUDIT=1 SPA_V7_MASS_AUDIT=1 SPA_PROBE_BAKE=1 DESKTOP=1.
+Helper order handles this BEFORE legacy14 assertions; existing loader disabled
+only in private offline bake, avoiding a feedback reflection of previousprobes.
+Active sky layer8, finish clamp manifestderived; new9manifest/asset not promoted
+yet. Moving cats, SPAfish, water and Jacuzzi particles masked from static bake.
+Next finalnative roomframes must use updated relative14/28m cameras; masshelper
+now adjusts those and uses one exact stationary frame perview, not a FPS claim.
+Required remaining: promote9layers/hashes, native procedures/legacyticket/SQLite/
+reload/manualphone/Worldrelease + OWNERSHIP_AUDIT, finalNode22CI/live. Do not
+mistake a successful bake or old6 tests for finalfunctional or visual acceptance.

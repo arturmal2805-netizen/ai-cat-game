@@ -2,7 +2,7 @@
 // existing SPA builder; this module never mutates a world, wallet or scene.
 export const SPA_LAYOUT_VERSION=7;
 export const SPA_PALACE=Object.freeze({x:0,z:224,width:300,depth:132,corner:60,
-  rise:12,levels:3,ceilingMinimum:10.8,atrium:{x:0,z:203,rx:40,rz:36},
+  rise:14,levels:3,ceilingMinimum:10.8,roofClearance:18,atrium:{x:0,z:203,rx:40,rz:36},
   baseY:-165,offsetZ:-20});
 
 const oldRows=[
@@ -31,7 +31,7 @@ export const SPA_V7_ROOMS=Object.freeze(rooms.map(([key,name,x,z,level,rx,rz,cor
  Object.freeze({id:'resort-'+key,key,name,x,z,level,rx,rz,corner,
   y:SPA_PALACE.baseY+level*SPA_PALACE.rise,ceilingMinimum:SPA_PALACE.ceilingMinimum})));
 export const SPA_PALACE_STAIRS=Object.freeze([0,1].map(level=>Object.freeze({
- level,x:level?-25:25,z:187,count:40,rise:.3,run:1.1,width:5,landingZ:234})));
+ level,x:level?-25:25,z:187,count:50,rise:.28,run:.88,width:5,landingZ:234})));
 export const SPA_PALACE_APPROACH=Object.freeze([{x:20,z:293.2},{x:0,z:293.2},{x:0,z:289.2}].map(Object.freeze));
 export function spaPalacePools(){
  const all=[{id:'thermal-main',room:'resort-thermal',x:0,z:266,level:0,rx:45,rz:19,capacity:12},
@@ -72,7 +72,7 @@ export function spaPalaceOutline(samples=24){
 }
 export function spaPalaceRoofY(x,z){
  const dome=(cx,cz,rx,rz,height)=>height*Math.sqrt(Math.max(0,1-((x-cx)/rx)**2-((z-cz)/rz)**2));
- return SPA_PALACE.rise*2+SPA_PALACE.ceilingMinimum+.4+
+ return SPA_PALACE.rise*2+SPA_PALACE.roofClearance+
   Math.max(dome(0,203,43,37,20),dome(-82,230,43,21,7.5),dome(82,230,46,32,7.5));
 }
 export const spaRoomArea=zone=>zone.rx*zone.rz*4-(4-Math.PI)*zone.corner**2;
@@ -90,5 +90,5 @@ export function spaRoomOutline(zone,inset=0,samples=16){
 }
 export function spaNightCeilingY(zone,x,z){
  const q=Math.max(Math.abs((x-zone.x)/(zone.rx-.8)),Math.abs((z-zone.z)/(zone.rz-.8))),crown=6.2*Math.sqrt(Math.max(0,1-q*q));
- return Math.min(zone.level*SPA_PALACE.rise+SPA_PALACE.ceilingMinimum+crown,spaPalaceRoofY(x,z)-.35);
+ return zone.level*SPA_PALACE.rise+SPA_PALACE.ceilingMinimum+crown;
 }

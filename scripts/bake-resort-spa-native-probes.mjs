@@ -1,3 +1,5 @@
+import {SPA_V7_ZONES} from '../public/resort-spa-services-v7.js';
+import {SPA_PALACE as P} from '../public/resort-spa-layout-v7.js';
 // Offline authoring only. Capture the actual prepared private game scene;
 // never called from production and never adds gameplay render targets.
 import assert from 'node:assert/strict';
@@ -9,7 +11,7 @@ import {execFileSync} from 'node:child_process';
 import {RESORT_ZONES,resortSpaOrigin,RESORT_SPA as S} from '../public/resort-spa-data.js';
 import {byBiome} from '../public/game-data.js';
 
-const size=128,columns=4,rows=4,sha=data=>createHash('sha256').update(data).digest('hex');
+const zones=process.env.CHICHI_SPA_V7_MASS_AUDIT?SPA_V7_ZONES:RESORT_ZONES,size=128,columns=4,rows=Math.ceil((zones.length+1)/columns),sha=data=>createHash('sha256').update(data).digest('hex');
 const crcTable=Array.from({length:256},(_,i)=>{let n=i;for(let k=0;k<8;k++)n=n&1?0xedb88320^(n>>>1):n>>>1;return n>>>0;});
 function chunk(type,bytes){const t=Buffer.from(type),s=Buffer.alloc(4);s.writeUInt32BE(bytes.length);let n=0xffffffff;for(const x of Buffer.concat([t,bytes]))n=crcTable[(n^x)&255]^(n>>>8);const c=Buffer.alloc(4);c.writeUInt32BE((n^0xffffffff)>>>0);return Buffer.concat([s,t,bytes,c]);}
 function png(bytes,width,height){const h=Buffer.alloc(13);h.writeUInt32BE(width,0);h.writeUInt32BE(height,4);h[8]=8;h[9]=6;const rows=Buffer.alloc((width*4+1)*height);for(let y=0;y<height;y++)rows.set(bytes.subarray(y*width*4,(y+1)*width*4),y*(width*4+1)+1);return Buffer.concat([Buffer.from([137,80,78,71,13,10,26,10]),chunk('IHDR',h),chunk('IDAT',deflateSync(rows,{level:9})),chunk('IEND',Buffer.alloc(0))]);}
@@ -17,7 +19,7 @@ const git=(...args)=>execFileSync('git',args,{encoding:'utf8'}),workspaceState=(
 
 export async function bakeResortNativeProbes({page,review,errors=[]}){
  const folder=join(review,'probes');await mkdir(folder,{recursive:true});const before=workspaceState(),sourceFiles=JSON.parse(await readFile(join(review,'source-files.json'),'utf8')),build=JSON.parse(await readFile(join(review,'qa-build.json'),'utf8'));
- const centre=resortSpaOrigin(byBiome('autumn').center),specs=RESORT_ZONES.map(z=>({id:z.id,x:z.x,y:z.y+1.4,z:z.z+(z.key==='cafe'?13:0),target:{x:z.x,y:z.y+2,z:z.z}}));specs.push({id:'resort-sky-pool',x:0,y:S.y+19.2,z:203,target:{x:0,y:S.y+19.3,z:203}});
+ const centre=resortSpaOrigin(byBiome('autumn').center),specs=zones.map(z=>({id:z.id,x:z.x,y:z.y+1.4,z:z.z+(z.key==='cafe'?13:0),target:{x:z.x,y:z.y+2,z:z.z}}));specs.push({id:'resort-sky-pool',x:0,y:S.y+(process.env.CHICHI_SPA_V7_MASS_AUDIT?P.rise*2+1.2:19.2),z:203,target:{x:0,y:S.y+(process.env.CHICHI_SPA_V7_MASS_AUDIT?P.rise*2+1.3:19.3),z:203}});
  // The ready promise may settle between frames, while the selected world's
  // visibility is still paused for preparation. Await an actual revealed frame;
  // do not force a hidden root visible or bake the loading representation.
@@ -35,7 +37,7 @@ export async function bakeResortNativeProbes({page,review,errors=[]}){
     const hide=o=>{if(!o||hidden.has(o))return;hidden.add(o);saved.push([o,o.visible]);o.visible=false;};
     // Characters and moving aquarium fish must not become permanent ghosts.
     hide(q.chichiCarrier);for(const n of q.npcs.values())hide(n.carrier);
-    scene.traverse(o=>{if(o.isSkinnedMesh||o.userData?.body&&o.userData?.legs||o.name?.startsWith('SPA aquarium '))hide(o);if(o.isMesh&&o.material?.uniforms?.uWaterField)hide(o);});
+    scene.traverse(o=>{if(o.isSkinnedMesh||o.userData?.body&&o.userData?.legs||o.name?.startsWith('SPA aquarium ')||o.name?.startsWith('SPA dynamic jacuzzi '))hide(o);if(o.isMesh&&o.material?.uniforms?.uWaterField)hide(o);});
     const cube=new T.WebGLCubeRenderTarget(size,{type:T.HalfFloatType,generateMipmaps:true,minFilter:T.LinearMipmapLinearFilter}),camera=new T.CubeCamera(.1,500,cube),target=new T.WebGLRenderTarget(size,size,{type:T.UnsignedByteType}),packScene=new T.Scene(),packCamera=new T.OrthographicCamera(-1,1,1,-1,0,1),geometry=new T.PlaneGeometry(2,2),material=new T.ShaderMaterial({uniforms:{uCube:{value:cube.texture}},vertexShader:'varying vec2 vProbeUv;void main(){vProbeUv=position.xy*.5+.5;gl_Position=vec4(position.xy,0.,1.);}',fragmentShader:'uniform samplerCube uCube;varying vec2 vProbeUv;void main(){vec2 p=vProbeUv*2.-1.;vec3 d=vec3(p.x,1.-abs(p.x)-abs(p.y),p.y);if(d.y<0.)d.xz=(1.-abs(d.zx))*sign(d.xz+vec2(.00001));gl_FragColor=vec4(clamp(textureCube(uCube,normalize(d)).rgb/4.,0.,1.),1.);}',toneMapped:false,depthTest:false,depthWrite:false});packScene.add(new T.Mesh(geometry,material));
     const sun=scene.children.find(o=>o.isDirectionalLight&&o.castShadow),sunPosition=sun?.position.clone(),sunTarget=sun?.target.position.clone();
     const started=performance.now();

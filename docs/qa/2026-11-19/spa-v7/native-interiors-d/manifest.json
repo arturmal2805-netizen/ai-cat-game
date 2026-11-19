@@ -1,0 +1,30 @@
+{
+  "sourceBase": "4f69e9f3c48926789de20439b38be1565c1cfa8a",
+  "sourceState": "",
+  "result": "PASS thirteen native captures and exact ten-button menu; visual defects found, NOT release-ready",
+  "visualReview": "Real screenshot review found coplanar basin coping/floor overlap and actual night-vault/outer-roof intersections. Numeric actual-triangle probe: VIP -1.426m, Midnight -0.713m clearance. Repair geometry rather than hiding source. Planar galaxy UV adaptation and bounded floor lighting also needed. No visual approval/publication.",
+  "files": {
+    "aroma-interior.png": "fca19480b22818450152f222936ebfd931d6be48da9e480763335c4534649e39",
+    "cabana-interior.png": "c291ce45a83ce65df46e1273c1fa261b5e6245e16ecafb767fcf9e7374907200",
+    "cafe-interior.png": "d7ac4a810e5403a9852c431b175a76e0ff48878f40402cec7b536aefbf6c9eb5",
+    "golden-interior.png": "e6a7853c3f870ddc921217f17cb2aa6cc8997a4025d87022de764952b248f9b2",
+    "imported-source.tar.gz": "c3f95330bf1a15268389d96b17e73b79303f20c642ee9b343dd12c76a24e4541",
+    "mass-angle.png": "bbadd45bce2924badf6f41b27702f936b596a908f2cbf93dc8999b3ad9afe490",
+    "mass-front.png": "3c99bf95bcad20cb63559a42e4db3cfe0a5d1b6f742734813fe5d865fa4767c1",
+    "mass-top.png": "9653af5c452566e2d6216710f8bcd418f7cbefd4be09878eeaedef4494b5c0da",
+    "massage-interior.png": "3557455d6e8cd18c0d39664b361a13e0cecc4155ec3b50da30eff3fc9656c1a7",
+    "midnight-interior.png": "f3d42e44022b2431b1003fb3cc7b8916519bc8019f6b7bdb0cb48c91357fd215",
+    "native.log": "82e4e9895c0911178d9ae90e0b70dd8d307c2b259de2732e3751bb8d734ad24c",
+    "qa-app.js.gz": "60e6f4f9d925dd5540f20116626d163d0fb625398ba4d3ad08a5fb2e5b1fd046",
+    "qa-build.json": "5c8038a8e389f9eff157efb4962112c227be99917dab10565eb1236cd2f65eb2",
+    "sky-pool-above.png": "9b2cd3c876e3406656a809ef8cdb07423d34934806d035e3c5d637860351a3ae",
+    "sky-pool-below.png": "31c3f2fa9536fc9a9a655735be3854b765103875bb300a3f942b0a8916a13ff8",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "60fca23d2835eb261bfb92298b8deb0696be25607d864c63d97c8b2841601023",
+    "source-status.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "thermal-interior.png": "6ad772da91b4b35ee2daf7c0d7541aeb883c6df28ecc60b409ed8353b344ba30",
+    "v7-mass-frames.json": "979e44cda47b3d03fcf3949fc4f97a6f9075256b7c5d9fbadf6ba6381c8ca0ab",
+    "waterfall-interior.png": "cb629f136c67622fc7f31d466d503636719741ca5df980a8987b6d33c73dbe78"
+  }
+}

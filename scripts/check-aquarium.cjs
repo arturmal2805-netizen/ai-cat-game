@@ -402,7 +402,7 @@ async function localWorker() {
         {
           name: "qa",
           setup(b) {
-            if(process.env.CHICHI_SPA_V7_MASS_AUDIT)b.onLoad({filter:/\/public\/resort-spa-world\.js$/},()=>{const source=readPublic('resort-spa-world.js');assert(source.includes('resortSpaModelSteps()'));return{loader:'js',contents:source.replace('resortSpaModelSteps()','resortSpaModelSteps({layoutVersion:7})')};});
+            if(process.env.CHICHI_SPA_V7_MASS_AUDIT)b.onLoad({filter:/\/public\/resort-spa-world\.js$/},()=>{const source=readPublic('resort-spa-world.js');assert(source.includes('resortSpaModelSteps()')||source.includes('resortSpaModelSteps({layoutVersion:7})'));return{loader:'js',contents:source.replace('resortSpaModelSteps()','resortSpaModelSteps({layoutVersion:7})')};});
             if(process.env.CHICHI_SPA_PROBE_BAKE)b.onLoad({filter:/\/public\/resort-spa-reflections\.js$/},()=>({loader:'js',contents:readPublic('resort-spa-reflections.js').replace('return loader.prepare();','return Promise.resolve(false);')}));
             if(process.env.CHICHI_TERRAIN_AUDIT){const original=b.onLoad.bind(b);b.onLoad=(options,fn)=>original(options,async args=>{const result=await fn(args);if(result?.contents){const relative=path.relative(root,args.path),target=path.join(review,'qa-inputs',relative);fs.mkdirSync(path.dirname(target),{recursive:true});fs.writeFileSync(target,result.contents);}return result;});}
             if(process.env.CHICHI_OCEAN_PERF_AUDIT||process.env.CHICHI_CACHE_TRACE)b.onLoad({filter:/\/public\/geometry-residency\.js$/},()=>({loader:'js',contents:'globalThis.__resTrace={meta:new WeakMap(),events:[],time:0};\n'+readPublic('geometry-residency.js')

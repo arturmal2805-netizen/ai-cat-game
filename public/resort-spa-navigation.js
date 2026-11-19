@@ -30,7 +30,7 @@ export function createResortSpaNavigation(root,{externalSurfaces=()=>[],external
   // Validate only candidate route edges. Cache failures and re-plan around
   // them, instead of raycasting every neighbour of every expanded grid cell.
   for(let attempt=0;attempt<24;attempt++){
-   const path=spaPath(shift(a),shift(b),radius,[],clear,{extent:160,cell:.85,edgeClear:(p,q)=>!blocked.has(edgeKey(local(p),local(q)))});if(!path)return null;
+   const path=spaPath(shift(a),shift(b),radius,[],clear,{extent:root.userData.layoutVersion===7?Math.ceil(SPA_PALACE.width/2/.85)+8:160,cell:.85,edgeClear:(p,q)=>!blocked.has(edgeKey(local(p),local(q)))});if(!path)return null;
    const out=path.map(p=>support(local(p),radius)||local(p));out[out.length-1]={...b};let previous=a,failed=false;
    for(const p of out){const key=edgeKey(previous,p);if(!edges.has(key))edges.set(key,segmentClear(previous,p,radius));if(!edges.get(key)){blocked.add(key);failed=true;}previous=p;}
    if(!failed)return out;

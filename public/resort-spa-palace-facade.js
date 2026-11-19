@@ -9,7 +9,7 @@ export function* resortPalaceFacadeSteps({solid,shell,decor,mats,box,setLevel}){
  function beam(a,b,r=.18){const start=new T.Vector3(...a),end=new T.Vector3(...b),d=end.clone().sub(start),o=new T.Mesh(unit,mats.gold);o.position.copy(start.add(end).multiplyScalar(.5));o.scale.set(r,d.length(),r);o.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),d.normalize());o.castShadow=o.receiveShadow=true;o.userData.resortFloor=0;solid.add(o);return o;}
  function tube(parent,points,material,r=.1,level=2){const curve=new T.CatmullRomCurve3(points.map(p=>new T.Vector3(...p))),g=new T.TubeGeometry(curve,Math.max(32,points.length*2),r,6,false);geos.add(g);const o=new T.Mesh(g,material);o.userData.resortFloor=level;o.castShadow=!material.isMeshBasicMaterial;o.receiveShadow=true;parent.add(o);return o;}
  for(let level=0;level<3;level++){
-  setLevel(level);const y=level*P.rise;
+  setLevel(level);const y=level*P.rise,height=level===2?P.roofClearance:P.rise;
   tube(decor,[...outline,outline[0]].map(p=>[p.x,y-.08,p.z]),mats.gold,.25,level);
   tube(decor,[...outline,outline[0]].map(p=>[p.x,y-.38,p.z]),level===2?violet:amber,.065,level);
   for(let i=0;i<outline.length;i++){
@@ -18,7 +18,7 @@ export function* resortPalaceFacadeSteps({solid,shell,decor,mats,box,setLevel}){
     if(i%4!==0&&parts===1)continue;const t=j/parts,x=a.x+(b.x-a.x)*t,z=a.z+(b.z-a.z)*t;
     // Keep the real central entry mouth open at the lower level.
     if(level===0&&Math.abs(x)<4&&z>289)continue;
-    box(solid,mats.gold,x,y+P.rise/2-.1,z,.25,P.rise-.2,.25);report.sharedColumns++;
+    box(solid,mats.gold,x,y+height/2-.1,z,.25,height-.2,.25);report.sharedColumns++;
    }
   }
   yield;

@@ -1,9 +1,10 @@
+import {SPA_PALACE as P} from './resort-spa-layout-v7.js';
 import * as T from 'three';
 import {waterMaterial} from './water-shading.js';
 import {applyResortWaterReflection} from './resort-spa-reflections.js';
 // Balcony weirs spill through the REAL double-height opening into Thermal's
 // existing basin. No falling sheet crosses an intact intermediate slab.
-export const PALACE_THERMAL_CASCADES=Object.freeze([-1,1].map(side=>Object.freeze({x:side*28,z:248,y:12.8,rx:4,rz:3.2,depth:.35,receiver:{x:0,z:266,y:0,rx:45,rz:19}})));
+export const PALACE_THERMAL_CASCADES=Object.freeze([-1,1].map(side=>Object.freeze({x:side*28,z:248,y:P.rise+.8,rx:4,rz:3.2,depth:.35,receiver:{x:0,z:266,y:0,rx:45,rz:19}})));
 export function* resortPalaceCascadesSteps({solid,surfaces,decor,mats,waters}){
  const geos=new Set(),materials=new Set(),features=[];let lastImpact=-1;const own=g=>(geos.add(g),g);
  const add=(parent,g,m,x=0,y=0,z=0)=>{const o=new T.Mesh(g,m);o.position.set(x,y,z);o.userData.resortFloor=1;o.receiveShadow=true;o.castShadow=!m.transparent;parent.add(o);return o;};

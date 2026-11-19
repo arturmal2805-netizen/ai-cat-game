@@ -1,8 +1,9 @@
+import {SPA_PALACE as PALACE} from './resort-spa-layout-v7.js';
 import {resortPalaceCascadesSteps} from './resort-spa-palace-cascades.js';
 import {SPA_PALACE_CASCADES,spaPalaceGardenSites} from './resort-spa-palace-garden-data.js';
 import {resortPalaceNightSteps} from './resort-spa-palace-night.js';
 import {resortPalaceInteriorsSteps} from './resort-spa-palace-interiors.js';
-import {SPA_V7_ZONES,spaV7Seat,SPA_V7_RUNTIME_CONTRACT} from './resort-spa-services-v7.js';
+import {SPA_V7_ZONES,spaV7Seat,spaV7Pools,SPA_V7_RUNTIME_CONTRACT} from './resort-spa-services-v7.js';
 import {createResortInteriors} from './resort-spa-interiors.js';
 import {resortPalaceStructureSteps} from './resort-spa-palace-structure.js';
 import {resortPalaceFacadeSteps} from './resort-spa-palace-facade.js';
@@ -50,13 +51,14 @@ export function* resortSpaModelSteps({layoutVersion=6}={}){
   const facade=yield* resortPalaceFacadeSteps({solid,shell,decor,mats,box,setLevel:level=>{authoredLevel=level;}});palace.report.facade=facade.report;
   for(const [id,g]of palace.zones){zones.set(id,g);root.add(g);}
   const interior=yield* resortPalaceInteriorsSteps({solid,shell,decor,mats,geometry,mesh,box,setLevel:level=>{authoredLevel=level;}});palace.report.interiors=interior.report;
-  const luxury=yield* resortLuxurySteps({solid,decor,shell,surfaces,basins,waters,mats,palace:true,zoneList:SPA_V7_ZONES,seatContact:spaV7Seat,rise:12});
+  const luxury=yield* resortLuxurySteps({solid,decor,shell,surfaces,basins,waters,mats,palace:true,zoneList:SPA_V7_ZONES,seatContact:spaV7Seat,rise:PALACE.rise});
   const night=yield* resortPalaceNightSteps({shell,decor,mats});
+  const poolEffects=createResortPoolEffects({zones:SPA_V7_ZONES,poolsFor:spaV7Pools});
   const cascades=yield* resortPalaceCascadesSteps({solid,surfaces,decor,mats,waters});
-  const gardens=yield* resortGardenSteps({solid,decor,surfaces,waters,mats,rise:12,zoneList:SPA_V7_ZONES,seatContact:spaV7Seat,sites:spaPalaceGardenSites(),cascadeList:SPA_PALACE_CASCADES,probeForFeature:f=>f.level===1?4:7});
+  const gardens=yield* resortGardenSteps({solid,decor,surfaces,waters,mats,rise:PALACE.rise,zoneList:SPA_V7_ZONES,seatContact:spaV7Seat,sites:spaPalaceGardenSites(),cascadeList:SPA_PALACE_CASCADES,probeForFeature:f=>f.level===1?4:7});
   const accessGeometry=createResortSpaAccess(mats,{palace:true});for(const g of [accessGeometry.solid,accessGeometry.surfaces,accessGeometry.shell])g.traverse(o=>{if(o.isMesh)o.userData.resortFloor=0;});solid.add(accessGeometry.solid);surfaces.add(accessGeometry.surfaces);shell.add(accessGeometry.shell);
-  root.updateMatrixWorld(true);root.userData={layoutVersion:7,serviceContract:SPA_V7_RUNTIME_CONTRACT,phase:'layout-interiors',palace:palace.report,id:L.id,accessGeometry,dynamicSurfaces:[accessGeometry.deck],zones,solid,shell,decor,surfaces,basins,waters,navigation:installManualBuildingNavigation(root,solid),update(time,reduced=false){for(const w of waters)advanceWater(w.material,time,reduced);luxury.update(time,reduced);night.update(time,reduced);gardens.update(time,reduced,root.position);cascades.update(time,reduced,root);},dispose(){cascades.dispose();gardens.dispose();night.dispose();luxury.dispose();facade.dispose();palace.dispose();accessGeometry.dispose();for(const b of basins)b.userData.dispose();for(const g of geos.values())g.dispose();const textures=new Set();for(const m of Object.values(mats)){for(const key of ['map','normalMap','roughnessMap'])if(m[key])textures.add(m[key]);m.dispose();}for(const t of textures)t.dispose();}};
-  root.userData.luxury=luxury;root.userData.gardens=gardens.report;root.userData.gardenFeatures=gardens.features;root.userData.thermalCascades=cascades.features;yield* finishResortSpaSteps(root,{zones:SPA_V7_ZONES,rise:12});const inspect=root.userData.setInspectionLevel;root.userData.setInspectionLevel=level=>{inspect(level);luxury.inspect(level);night.inspect(level);gardens.inspect(level);};root.add(accessGeometry.cabin,accessGeometry.gates,luxury.dynamic,night.dynamic,gardens.fixed);return root;
+  root.updateMatrixWorld(true);root.userData={layoutVersion:7,serviceContract:SPA_V7_RUNTIME_CONTRACT,phase:'layout-interiors',palace:palace.report,id:L.id,accessGeometry,dynamicSurfaces:[accessGeometry.deck],zones,solid,shell,decor,surfaces,basins,waters,navigation:installManualBuildingNavigation(root,solid),update(time,reduced=false){for(const w of waters)advanceWater(w.material,time,reduced);luxury.update(time,reduced);night.update(time,reduced);gardens.update(time,reduced,root.position);cascades.update(time,reduced,root);poolEffects.update(time,reduced);},dispose(){poolEffects.dispose();cascades.dispose();gardens.dispose();night.dispose();luxury.dispose();facade.dispose();palace.dispose();accessGeometry.dispose();for(const b of basins)b.userData.dispose();for(const g of geos.values())g.dispose();const textures=new Set();for(const m of Object.values(mats)){for(const key of ['map','normalMap','roughnessMap'])if(m[key])textures.add(m[key]);m.dispose();}for(const t of textures)t.dispose();}};
+  root.userData.luxury=luxury;root.userData.gardens=gardens.report;root.userData.gardenFeatures=gardens.features;root.userData.thermalCascades=cascades.features;root.userData.poolEffects=poolEffects;yield* finishResortSpaSteps(root,{zones:SPA_V7_ZONES,rise:PALACE.rise});const inspect=root.userData.setInspectionLevel;root.userData.setInspectionLevel=level=>{inspect(level);luxury.inspect(level);night.inspect(level);gardens.inspect(level);for(const o of poolEffects.root.children)o.visible=level==null||o.userData.resortFloor<=level;};root.add(accessGeometry.cabin,accessGeometry.gates,luxury.dynamic,night.dynamic,gardens.fixed,poolEffects.root);return root;
  }
  // Main cat dome and real three-level public atrium.
  for(let level=0;level<3;level++){

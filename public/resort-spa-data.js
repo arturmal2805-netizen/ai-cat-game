@@ -1,3 +1,4 @@
+import {SPA_V7_ZONES} from './resort-spa-services-v7.js';
 import {resortPoolContact} from './resort-spa-pool-data.js';
 // Ocean-local metres. Separate destination: never replaces the old Cat SPA
 // island or the Mall's existing spa, save identities, rooms or purchases.
@@ -19,7 +20,9 @@ const rows=[
  ['midnight','Midnight Blue Relaxation Room','sleep',100,82,177,2,28,18,8],
 ];
 export const RESORT_ZONES=Object.freeze(rows.map(([key,name,procedure,price,x,z,level,rx,rz,seats])=>Object.freeze({id:'resort-'+key,key,name,procedure,price,x,z,level,y:RESORT_SPA.y+level*RESORT_SPA.rise,rx,rz,seats,biome:'autumn',resort:true,kind:procedure==='eat'?'food':'spa',action:procedure==='eat'?'eat':procedure==='swim'?'swim':'rest'})));
+// Historical service registry remains readable by existing receipts and cached clients.
 export const RESORT_LEGACY_ZONES=RESORT_ZONES;
+export const RESORT_ACTIVE_ZONES=SPA_V7_ZONES;
 export const resortZone=id=>RESORT_ZONES.find(z=>z.id===id);
 export const RESORT_PROCEDURE_PRICE=Object.freeze({entry:100,thermal:150,massage:300,aroma:180,sauna:120,vip:700});
 export function resortSpaFootprint(x,z,margin=0){return Math.hypot(x/(RESORT_SPA.width/2+margin),(z-RESORT_SPA.z)/(RESORT_SPA.depth/2+margin))<=1;}
@@ -37,7 +40,7 @@ export function resortSpaSeat(zone,index){
 // not depend on a pavilion's display name or future architectural placement.
 export const RESORT_PRODUCTS=Object.freeze(RESORT_ZONES.map(z=>Object.freeze({id:z.id+'-session',storeId:z.id,name:z.name,brand:'CHICHI CAT SPA',category:'mall',kind:z.kind,use:z.procedure==='eat'?'eat':'spa',icon:'🪷',price:z.price,stock:100000,unique:false,resort:true})));
 export const resortProduct=id=>RESORT_PRODUCTS.find(p=>p.id===id);
-export function resortOffers(game){return game.unlocked?.includes('autumn')?RESORT_ZONES.map(z=>({id:z.id,type:z.id,biome:'autumn',name:'SPA · '+z.key,action:z.action})):[];}
+export function resortOffers(game){return game.unlocked?.includes('autumn')?RESORT_ACTIVE_ZONES.map(z=>({id:z.id,type:z.id,biome:'autumn',name:'SPA · '+z.key,action:z.action})):[];}
 
 export const resortSpaOrigin=centre=>[centre[0],centre[1]+RESORT_SPA.offsetZ];
 

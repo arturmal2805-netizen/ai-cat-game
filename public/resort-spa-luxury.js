@@ -1,3 +1,4 @@
+import {spaPalaceRoofY} from './resort-spa-layout-v7.js';
 import * as T from 'three';
 import {spaTiedCurtainGeometry,spaPillowGeometry,spaGalaxyTexture} from './resort-spa-soft-furnishings.js';
 import {RoundedBoxGeometry} from 'three/addons/geometries/RoundedBoxGeometry.js';
@@ -39,7 +40,7 @@ export function* resortLuxurySteps({solid,decor,shell,surfaces,basins,waters,mat
  function tray(x,y,z,food=false){disk(decor,mats.gold,x,y,z,.55,.4,.045);for(let j=0;j<3;j++){const q=x+(j-1)*.3;disk(decor,ivoryLight,q,y+.1,z,.12,.12,.15);if(food){ball(decor,rose,q,y+.22,z,.14,.11,.14);ball(decor,petalDark,q,y+.33,z,.04);}else{disk(decor,bronze,q,y+.18,z,.1,.1,.02);const handle=mesh(decor,geometry('cup-handle',()=>new T.TorusGeometry(.08,.018,5,12)),mats.gold,q+.13,y+.11,z);handle.rotation.y=Math.PI/2;}}
  }
  function station(s,key){const y=s.y-S.y-.012;
-  if(['cabana','nap','amber','midnight','vip'].includes(key)&&!s.pool){
+  if(['cabana','nap','amber','midnight','vip',...(palace?['waterfall']:[])].includes(key)&&!s.pool){
    const pad=key==='midnight'?navy:cream;box(decor,pad,s.x,y+.96,s.z,2.8,.13,1.45,true);for(const side of [-1,1]){const p=pillow(decor,side<0?rose:cream,s.x+side*1.08,y+1.1,s.z-.34,.48,.24,.48);p.rotation.z=side*.14;}
    // Draped blanket keeps the original native resting support unchanged.
    box(decor,key==='midnight'?silver:rose,s.x-.35,y+1.01,s.z+.42,.8,.08,.65,true);
@@ -154,7 +155,7 @@ export function* resortLuxurySteps({solid,decor,shell,surfaces,basins,waters,mat
  const upperDome=Array.from({length:25},(_,i)=>{const t=i*Math.PI/48;return[35*Math.cos(t),19+18*Math.sin(t),203];});
  for(let j=0;j<16;j++){const a=j*Math.PI/8;line(decor,mats.gold,upperDome.map(([x,y,z])=>[Math.cos(a)*x,y,z+Math.sin(a)*x]),.09);}
  lotus(0,37,203,4);
- }else{report.skyPool={x:0,z:203,y:S.y+2*rise,rx:18,rz:18,glassBottom:true,opaqueBacking:false};lotus(0,55.2,203,4);}
+ }else{report.skyPool={x:0,z:203,y:S.y+2*rise,rx:18,rz:18,glassBottom:true,opaqueBacking:false};lotus(0,spaPalaceRoofY(0,203)+.2,203,4);}
 
  yield;
  return{dynamic,report,flora:{geometry:flowerCluster,material:petal,leafGeometry:leafGeo,leafMaterial:green},update(time,reduced=false){for(const t of starTimes)t.value=reduced?0:time;for(const f of fish){const a=f.phase+(reduced?0:time*f.speed);f.root.position.set(Math.cos(a)*2.4,(palace?3:12)+Math.sin(a*.7)*.65,203+Math.sin(a)*2.4);f.root.rotation.y=-a-Math.PI/2;f.root.rotation.z=reduced?0:Math.sin(a*2)*.07;f.root.userData.animate(time,reduced);}},inspect(level){for(const o of dynamic.children)o.visible=level==null||o.userData.resortFloor<=level;},dispose(){for(const f of fish)f.dispose();for(const g of geometries.values())g.dispose();for(const m of materials)m.dispose();for(const t of textures)t.dispose();}};

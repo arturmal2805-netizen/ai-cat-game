@@ -12,7 +12,7 @@ export function* resortPalaceNightSteps({shell,decor,mats}){
   const source=new T.ShapeGeometry(shape,32);source.rotateX(-Math.PI/2);const g=own(new TessellateModifier(4,8).modify(source));source.dispose();const p=g.attributes.position,uv=g.attributes.uv;
   for(let i=0;i<p.count;i++){const x=p.getX(i),d=p.getZ(i);p.setY(i,spaNightCeilingY(z,x,d));uv.setXY(i,(x-z.x)/(z.rx*2)+.5,(d-z.z)/(z.rz*2)+.5);}g.computeVertexNormals();
   const material=new T.MeshStandardMaterial({color:z.key==='vip'?0x291f29:0x0e1831,roughness:.92,side:T.DoubleSide});materials.add(material);
-  if(z.key==='vip'){const chart=spaGalaxyTexture();textures.add(chart);material.emissiveMap=chart;material.emissive.setHex(0xffffff);material.emissiveIntensity=1.6;}
+  if(z.key==='vip'){const chart=spaGalaxyTexture({planar:true});textures.add(chart);material.emissiveMap=chart;material.emissive.setHex(0xffffff);material.emissiveIntensity=1.6;}
   const vault=new T.Mesh(g,material);vault.name='SPA full-height '+z.key+' star vault';vault.userData.resortFloor=2;shell.add(vault);
   for(const [offset,radius,mat]of[[.02,.16,mats.gold],[-.12,.055,glow]]){
    const curve=new T.CatmullRomCurve3([...outline,outline[0]].map(p=>new T.Vector3(p.x,spaNightCeilingY(z,p.x,p.z)+offset,p.z)),true),geo=own(new T.TubeGeometry(curve,256,radius,6,true)),ring=new T.Mesh(geo,mat);ring.name='SPA '+z.key+' continuous ceiling '+(mat===glow?'violet LED':'cornice');ring.userData.resortFloor=2;decor.add(ring);
