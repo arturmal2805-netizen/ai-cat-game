@@ -1,5 +1,6 @@
 import {createResortInteriors} from './resort-spa-interiors.js';
 import {resortPalaceStructureSteps} from './resort-spa-palace-structure.js';
+import {resortPalaceFacadeSteps} from './resort-spa-palace-facade.js';
 import {resortLuxurySteps} from './resort-spa-luxury.js';
 import {resortSurfaceMaps} from './resort-spa-surfaces.js';
 import {RoundedBoxGeometry} from 'three/addons/geometries/RoundedBoxGeometry.js';
@@ -41,9 +42,10 @@ export function* resortSpaModelSteps({layoutVersion=6}={}){
  function roof(x,y,z,rx,rz,height,wallHeight=4){mesh(shell,geometry('dome',()=>new T.SphereGeometry(1,48,24,0,Math.PI*2,0,Math.PI/2)),mats.glass,x,y,z,rx,height,rz);for(let i=0;i<24;i++){const a=i*Math.PI/12;box(shell,mats.gold,x+Math.cos(a)*rx,y-wallHeight/2,z+Math.sin(a)*rz,.13,wallHeight,.13);}}
  if(layoutVersion===7){
   const palace=yield* resortPalaceStructureSteps({solid,shell,decor,surfaces,mats,geometry,mesh,box,pool,setLevel:level=>{authoredLevel=level;}});
+  const facade=yield* resortPalaceFacadeSteps({solid,shell,decor,mats,box,setLevel:level=>{authoredLevel=level;}});palace.report.facade=facade.report;
   for(const [id,g]of palace.zones){zones.set(id,g);root.add(g);}
-  const accessGeometry=createResortSpaAccess(mats);for(const g of [accessGeometry.solid,accessGeometry.surfaces,accessGeometry.shell])g.traverse(o=>{if(o.isMesh)o.userData.resortFloor=0;});solid.add(accessGeometry.solid);surfaces.add(accessGeometry.surfaces);shell.add(accessGeometry.shell);
-  root.updateMatrixWorld(true);root.userData={layoutVersion:7,phase:'architecture-mass',palace:palace.report,id:L.id,accessGeometry,dynamicSurfaces:[accessGeometry.deck],zones,solid,shell,decor,surfaces,basins,waters,navigation:installManualBuildingNavigation(root,solid),update(time,reduced=false){for(const w of waters)advanceWater(w.material,time,reduced);},dispose(){palace.dispose();accessGeometry.dispose();for(const b of basins)b.userData.dispose();for(const g of geos.values())g.dispose();const textures=new Set();for(const m of Object.values(mats)){for(const key of ['map','normalMap','roughnessMap'])if(m[key])textures.add(m[key]);m.dispose();}for(const t of textures)t.dispose();}};
+  const accessGeometry=createResortSpaAccess(mats,{palace:true});for(const g of [accessGeometry.solid,accessGeometry.surfaces,accessGeometry.shell])g.traverse(o=>{if(o.isMesh)o.userData.resortFloor=0;});solid.add(accessGeometry.solid);surfaces.add(accessGeometry.surfaces);shell.add(accessGeometry.shell);
+  root.updateMatrixWorld(true);root.userData={layoutVersion:7,phase:'architecture-facade',palace:palace.report,id:L.id,accessGeometry,dynamicSurfaces:[accessGeometry.deck],zones,solid,shell,decor,surfaces,basins,waters,navigation:installManualBuildingNavigation(root,solid),update(time,reduced=false){for(const w of waters)advanceWater(w.material,time,reduced);},dispose(){facade.dispose();palace.dispose();accessGeometry.dispose();for(const b of basins)b.userData.dispose();for(const g of geos.values())g.dispose();const textures=new Set();for(const m of Object.values(mats)){for(const key of ['map','normalMap','roughnessMap'])if(m[key])textures.add(m[key]);m.dispose();}for(const t of textures)t.dispose();}};
   yield* finishResortSpaSteps(root);root.add(accessGeometry.cabin,accessGeometry.gates);return root;
  }
  // Main cat dome and real three-level public atrium.

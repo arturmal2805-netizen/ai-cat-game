@@ -1,15 +1,16 @@
 import * as T from 'three';
 import {RESORT_SPA as S,RESORT_FOOT_OFFSET as F} from './resort-spa-data.js';
 import {RESORT_LIFT as L} from './resort-spa-lift.js';
+import {SPA_PALACE_APPROACH,spaPalaceOutline} from './resort-spa-layout-v7.js';
 import {RESORT_UPPER_APPROACH,RESORT_LOWER_APPROACH,RESORT_BRIDGES,corridorOutline,clipPressureWall} from './resort-spa-corridors.js';
 export {RESORT_UPPER_APPROACH,RESORT_LOWER_APPROACH,corridorOutline};
-export function createResortSpaAccess(mats){
+export function createResortSpaAccess(mats,{palace=false}={}){
  const solid=new T.Group(),surfaces=new T.Group(),shell=new T.Group(),cabin=new T.Group(),gates=new T.Group(),geometries=new Set(),materials=new Set(),doorBoxes=[],cabinBoxes=[];
  const native=k=>{const source=mats[k],m=new T.MeshStandardMaterial({color:source.color,roughness:source.roughness,metalness:source.metalness,map:source.map||null,normalMap:source.normalMap||null,roughnessMap:source.roughnessMap||null,transparent:source.transparent,opacity:source.opacity,depthWrite:source.depthWrite,side:source.side});materials.add(m);return m;},cabinFloor=native('ivory'),cabinGlass=native('glass'),cabinGold=native('gold');
  function box(parent,material,x,y,z,w,h,d){const g=new T.BoxGeometry(w,h,d);geometries.add(g);const m=new T.Mesh(g,material);m.position.set(x,y,z);m.castShadow=!material.transparent;m.receiveShadow=true;parent.add(m);return m;}
  function floor(parent,material,outline,y){const shape=new T.Shape();shape.moveTo(outline[0].x,-outline[0].z);for(const p of outline.slice(1))shape.lineTo(p.x,-p.z);shape.closePath();const g=new T.ShapeGeometry(shape);g.rotateX(-Math.PI/2);geometries.add(g);const m=new T.Mesh(g,material);m.position.y=y;m.receiveShadow=true;parent.add(m);return m;}
- function corridor(points,y,roof=true){const{outline,openEdges}=corridorOutline(points);floor(surfaces,mats.ivory,outline,y);if(roof)floor(shell,mats.glass,outline,y+4.6);for(let i=0;i<outline.length;i++){if(openEdges.has(i))continue;const a=outline[i],b=outline[(i+1)%outline.length],others=y===0?RESORT_BRIDGES.filter(b=>b.level===0).map(b=>b.outline):[[{x:-1.1,z:RESORT_UPPER_APPROACH[0].z-5},{x:1.1,z:RESORT_UPPER_APPROACH[0].z-5},{x:1.1,z:RESORT_UPPER_APPROACH[0].z+5},{x:-1.1,z:RESORT_UPPER_APPROACH[0].z+5}]];for(const[u,v]of clipPressureWall(a,b,others)){const wall=box(solid,mats.glass,(u.x+v.x)/2,y+2.3,(u.z+v.z)/2,.09,4.6,Math.hypot(v.x-u.x,v.z-u.z));wall.rotation.y=Math.atan2(v.x-u.x,v.z-u.z);}}}
- const upper=L.upperY-S.y-F;corridor(RESORT_UPPER_APPROACH,upper,false);corridor(RESORT_LOWER_APPROACH,0);
+ function corridor(points,y,roof=true){const{outline,openEdges}=corridorOutline(points),floorOutline=palace&&y===0?corridorOutline(points.map((p,i)=>i===points.length-1?{...p,z:290}:p)).outline:outline;floor(surfaces,mats.ivory,floorOutline,y);if(roof)floor(shell,mats.glass,outline,y+4.6);for(let i=0;i<outline.length;i++){if(openEdges.has(i))continue;const a=outline[i],b=outline[(i+1)%outline.length],others=y===0?(palace?[spaPalaceOutline()]:RESORT_BRIDGES.filter(b=>b.level===0).map(b=>b.outline)):[[{x:-1.1,z:RESORT_UPPER_APPROACH[0].z-5},{x:1.1,z:RESORT_UPPER_APPROACH[0].z-5},{x:1.1,z:RESORT_UPPER_APPROACH[0].z+5},{x:-1.1,z:RESORT_UPPER_APPROACH[0].z+5}]];for(const[u,v]of clipPressureWall(a,b,others)){const wall=box(solid,mats.glass,(u.x+v.x)/2,y+2.3,(u.z+v.z)/2,.09,4.6,Math.hypot(v.x-u.x,v.z-u.z));wall.rotation.y=Math.atan2(v.x-u.x,v.z-u.z);}}}
+ const upper=L.upperY-S.y-F;corridor(RESORT_UPPER_APPROACH,upper,false);corridor(palace?SPA_PALACE_APPROACH:RESORT_LOWER_APPROACH,0);
  box(solid,mats.ivory,L.x,upper-.15,L.z,16,.3,20);box(solid,mats.ivory,L.x,-.15,296,16,.3,9);
  // Glass shaft has only the two actual landing openings, not an empty
  // vertical slit. Its individual chord panels preserve each pressure port.

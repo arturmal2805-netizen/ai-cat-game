@@ -80,3 +80,18 @@ Retired positions → actual safe supported common landing; Amber/Jacuzzi → ne
 room approach; do not teleport during ordinary movement. Stamp marker on real
 SPA location snapshots via existing world hook only after actual support/owner
 classification. Preserve wallets/inventory/receipts and handle reload/staleclient.
+
+## Phase B implemented — next actual capture
+20 true gold roof meridians follow the single fused glass roof,3 continuous
+cornices with violet/amber accents, shared façade mullions,40 separately
+collidable entrance-arch segments,3D lotus and actual brand geometry. Portal
+now aligns with new outside-only lower approach via(0,290). The low4.6m access
+tunnel no longer continues across the grand interior. Individual arc collision
+segments preserve the doorway; no broad bounding box seals it. Unit full-body
+sweep throughportal PASS at radius.571; adjacent pressurewall remains closed.
+Default6 access still passes prior access/transit tests. More actual views needed.
+Angle lens100 now avoids the near foreground crop; front eye raised from-135
+to-120m and looks lower to read the main entrance; physical source/camera must
+still be checked on actual PNG. Snapshot style hides only SPA panel for judging
+architecture, not world geometry. No whole-V7 functionality or approval claimed.
+Run mass audit with PHASE=facade, REVIEW_DIR=/workspace/qa/spa-v7-facade.

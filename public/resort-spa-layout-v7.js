@@ -32,6 +32,7 @@ export const SPA_V7_ROOMS=Object.freeze(rooms.map(([key,name,x,z,level,rx,rz,cor
   y:SPA_PALACE.baseY+level*SPA_PALACE.rise,ceilingMinimum:SPA_PALACE.ceilingMinimum})));
 export const SPA_PALACE_STAIRS=Object.freeze([0,1].map(level=>Object.freeze({
  level,x:level?-25:25,z:187,count:40,rise:.3,run:1.1,width:5,landingZ:234})));
+export const SPA_PALACE_APPROACH=Object.freeze([{x:20,z:293.2},{x:0,z:293.2},{x:0,z:289.2}].map(Object.freeze));
 export function spaPalacePools(){
  const all=[{id:'thermal-main',room:'resort-thermal',x:0,z:266,level:0,rx:45,rz:19,capacity:12},
   {id:'thermal-sky',room:'resort-thermal',x:0,z:203,level:2,rx:18,rz:18,capacity:4,sky:true}];

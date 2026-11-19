@@ -1,7 +1,7 @@
 import * as T from 'three';
 import {TessellateModifier} from 'three/addons/modifiers/TessellateModifier.js';
-import {SPA_PALACE as P,SPA_V7_ROOMS,SPA_PALACE_STAIRS,spaPalaceOutline,spaPalaceRoofY,spaPalacePools,spaRoomMeasurement} from './resort-spa-layout-v7.js';
-import {RESORT_LOWER_APPROACH,corridorOutline,clipPressureWall} from './resort-spa-corridors.js';
+import {SPA_PALACE as P,SPA_V7_ROOMS,SPA_PALACE_STAIRS,SPA_PALACE_APPROACH,spaPalaceOutline,spaPalaceRoofY,spaPalacePools,spaRoomMeasurement} from './resort-spa-layout-v7.js';
+import {corridorOutline,clipPressureWall} from './resort-spa-corridors.js';
 
 // One connected pressure envelope and three real continuous slabs. This is
 // architecture, not a collection of pavilion floors under a decorative roof.
@@ -31,7 +31,7 @@ export function* resortPalaceStructureSteps({solid,shell,decor,surfaces,mats,geo
   yield;
  }
  // A single exterior skin; only the real lower access tunnel cuts its door.
- const access=corridorOutline(RESORT_LOWER_APPROACH).outline;
+ const access=corridorOutline(SPA_PALACE_APPROACH).outline;
  for(let level=0;level<3;level++){
   setLevel(level);const low=level*P.rise,high=level===2?2*P.rise+P.ceilingMinimum+.4:(level+1)*P.rise;
   for(let i=0;i<outline.length;i++){

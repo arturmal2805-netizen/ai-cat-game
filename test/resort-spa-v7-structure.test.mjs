@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as T from 'three';
 import {resortSpaModelSteps} from '../public/resort-spa-model.js';
+import {createResortSpaNavigation} from '../public/resort-spa-navigation.js';
 import {SPA_PALACE as P,spaPalaceContains,spaPalaceRoofY,spaPalacePools} from '../public/resort-spa-layout-v7.js';
 const finish=g=>{let n;while(!(n=g.next()).done);return n.value;};
 
@@ -25,5 +26,10 @@ test('V7 continuous real slabs preserve pool/atrium/stair openings, clear headro
   const a=roof.geometry.attributes.position;for(let i=0;i<a.count;i++)assert(Math.abs(a.getY(i)-spaPalaceRoofY(a.getX(i),a.getZ(i)))<1e-4);
   const sky=root.userData.basins.find(b=>b.userData.palacePool.sky);assert(sky.userData.bed.material.transparent,'the actual sky-pool bed must remain transparent');
   assert(!spaPalaceContains(20,294),'a real access shaft stays outside the plates');
+  const nav=createResortSpaNavigation(root),portalFrom={x:0,y:.012,z:293.2},portalTo={x:0,y:.012,z:287};
+  assert(nav.segmentClear(portalFrom,portalTo,.571),'the full original body passes through the real façade portal and segmented arch');
+  assert(!nav.segmentClear({...portalFrom,x:4},{...portalTo,x:4},.571),'the adjacent pressure wall stays closed');
+  assert.equal(root.userData.palace.facade.roofRibs,20);
+  assert.equal(root.userData.palace.facade.entryArchSegments,40);
  }finally{root.userData.dispose();}
 });
