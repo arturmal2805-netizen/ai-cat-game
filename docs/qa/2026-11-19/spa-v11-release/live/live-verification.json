@@ -1,0 +1,69 @@
+{
+  "verifiedAt": "2026-11-19T21:11:33.372865+00:00",
+  "release": "9e26f331d91d3ad85e2c0f15b5a6a4e63106e5ce",
+  "workflow": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44612746706",
+  "applicationScripts": [
+    "./dist/app.js?v=593013c89da9d392"
+  ],
+  "stylesheets": [
+    "./style.css?v=1ca6fd7d91d93d24"
+  ],
+  "resources": [
+    {
+      "path": "",
+      "bytes": 31956,
+      "sha256": "7d8e29b489c6522e341085f6729878b80a662cbad0ffc8383b34bff9e4a62a5e",
+      "headers": {
+        "ETag": "\"6aff65b2-7cd4\"",
+        "Last-Modified": "Thu, 19 Nov 2026 21:10:10 GMT",
+        "Content-Type": "text/html; charset=utf-8",
+        "Cache-Control": "max-age=600"
+      }
+    },
+    {
+      "path": "dist/app.js?v=593013c89da9d392",
+      "bytes": 2792467,
+      "sha256": "593013c89da9d392e10c9a42a7ba7297e2073cccff5e3fc32951b930262e4dce",
+      "headers": {
+        "ETag": "\"6aff65b2-2a9c13\"",
+        "Last-Modified": "Thu, 19 Nov 2026 21:10:10 GMT",
+        "Content-Type": "application/javascript; charset=utf-8",
+        "Cache-Control": "max-age=600"
+      }
+    },
+    {
+      "path": "style.css?v=1ca6fd7d91d93d24",
+      "bytes": 67599,
+      "sha256": "1ca6fd7d91d93d2434122de8b604f9e1f0306145487ece7434204f01d46492bc",
+      "headers": {
+        "ETag": "\"6aff65b2-1080f\"",
+        "Last-Modified": "Thu, 19 Nov 2026 21:10:10 GMT",
+        "Content-Type": "text/css; charset=utf-8",
+        "Cache-Control": "max-age=600"
+      }
+    },
+    {
+      "path": "art/spa-reflections/spa-interiors-ffabc732b641.png",
+      "bytes": 190875,
+      "sha256": "ffabc732b641d70c2894ca97ebff1ab83ba4fecbf6da71e5d0251efd19648d6f",
+      "headers": {
+        "ETag": "\"6aff65b2-2e99b\"",
+        "Last-Modified": "Thu, 19 Nov 2026 21:10:10 GMT",
+        "Content-Type": "image/png",
+        "Cache-Control": "max-age=600"
+      }
+    },
+    {
+      "path": "art/ocean-water/wind-field-2523d71db8b6.png",
+      "bytes": 1974687,
+      "sha256": "2523d71db8b62ce0212f4eb8bce5310456a901d69f209865c41f5f3dc2b692a8",
+      "headers": {
+        "ETag": "\"6aff65b2-1e219f\"",
+        "Last-Modified": "Thu, 19 Nov 2026 21:10:10 GMT",
+        "Content-Type": "image/png",
+        "Cache-Control": "max-age=600"
+      }
+    }
+  ],
+  "limitations": "HTTP bytes and successful server release/save checks do not certify visual approval or hardware FPS. V11 optical profiles and free resident group invitations are included; exact reference likeness and dynamic cat reflections remain incomplete."
+}
