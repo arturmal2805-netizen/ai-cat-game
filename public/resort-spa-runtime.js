@@ -7,9 +7,9 @@ import {resortSkyPool} from './resort-spa-pool-data.js';
 const copy=p=>({x:p.x,y:p.y,z:p.z}),dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y,a.z-b.z),smooth=t=>t*t*(3-2*t);
 // Uses the caller's existing route planner, durable purchase/use callbacks and
 // actual actor roster. It neither creates an AI nor mutates a wallet or save.
-export function createResortSpaRuntime({route,segmentClear,onPurchase,onUse,onComplete=()=>{},reserveStaff=()=>null,releaseStaff=()=>{},getPaidTicket=()=>null,poolNavigation=null}={}){
+export function createResortSpaRuntime({route,segmentClear,onPurchase,onUse,onComplete=()=>{},reserveStaff=()=>null,releaseStaff=()=>{},getPaidTicket=()=>null,poolNavigation=null,contract=null}={}){
  if(typeof route!=='function'||typeof segmentClear!=='function')throw Error('SPA needs physical routes and full-body clearance');
- const booking=createResortSpaBooking(),visits=new Map();let clock=0,serial=0;
+ const zoneFor=contract?.zone||resortZone,seatFor=contract?.seat||resortSpaSeat,booking=createResortSpaBooking(contract?{zones:contract.zones,zoneFor,slotsFor:contract.slots}:undefined),visits=new Map();let clock=0,serial=0;
  function release(v,completed=false){booking.release(v.catId,clock);if(v.staff)releaseStaff(v.staff.id,v.catId);visits.delete(v.catId);onComplete(v.catId,{completed,receipt:v.receipt,zoneId:v.zone.id,position:copy(v.position)});}
  function walk(v,goal,next){const path=route(copy(v.position),copy(goal),v.radius);if(!Array.isArray(path)||!path.length)return false;let prior=v.position;for(const p of path){if(![p.x,p.y,p.z].every(Number.isFinite)||!segmentClear(prior,p,v.radius))return false;prior=p;}if(dist(prior,goal)>.05)return false;v.path=path.map(copy);v.pathIndex=0;v.next=next;v.phase='walk';v.elapsed=0;return true;}
  function arrive(v){v.phase=v.next;v.elapsed=0;v.walking=false;}
@@ -17,10 +17,10 @@ export function createResortSpaRuntime({route,segmentClear,onPurchase,onUse,onCo
   if(!segmentClear(v.position,p,v.radius)||[...visits.values()].some(o=>o!==v&&Math.abs(o.position.y-p.y)<2&&Math.hypot(o.position.x-p.x,o.position.z-p.z)<o.radius+v.radius+.1))return;
   v.yaw=Math.atan2(target.x-v.position.x,target.z-v.position.z);v.position=p;v.walking=true;left-=step;if(length<=step+1e-7)v.pathIndex++;
  }if(v.pathIndex===v.path.length)arrive(v);}
- function assign(v){const preferred=['vip','cafe'].includes(v.zone.key)?Array.from({length:v.zone.seats},(_,i)=>i).sort((a,b)=>dist(v.position,resortSpaSeat(v.zone,a).approach)-dist(v.position,resortSpaSeat(v.zone,b).approach)):v.zone.procedure==='swim'&&Math.abs(v.position.y-resortSkyPool().y)<.7?[12,13,14,15]:[],station=booking.reserve(v.catId,v.zone.id,clock,preferred);if(!station)return false;v.slot=station.slot;v.contact=resortSpaSeat(v.zone,v.slot);const goal=v.contact.approach;if(v.contact.pool&&!poolNavigation||!walk(v,goal,'inspect')){booking.release(v.catId,clock);return false;}return true;}
+ function assign(v){const preferred=['vip','cafe'].includes(v.zone.key)?Array.from({length:v.zone.seats},(_,i)=>i).sort((a,b)=>dist(v.position,seatFor(v.zone,a).approach)-dist(v.position,seatFor(v.zone,b).approach)):v.zone.procedure==='swim'&&Math.abs(v.position.y-(contract?.skyY??resortSkyPool().y))<.7?[12,13,14,15]:[],station=booking.reserve(v.catId,v.zone.id,clock,preferred);if(!station)return false;v.slot=station.slot;v.contact=seatFor(v.zone,v.slot);const goal=v.contact.approach;if(v.contact.pool&&!poolNavigation||!walk(v,goal,'inspect')){booking.release(v.catId,clock);return false;}return true;}
  const free=(v,p)=>![...visits.values()].some(o=>o!==v&&Math.abs(o.position.y-p.y)<2&&Math.hypot(o.position.x-p.x,o.position.z-p.z)<o.radius+v.radius+.1);
  return{visits,booking,get:id=>visits.get(id),has:id=>visits.has(id),
-  start({catId,zoneId,position,radius=.571,returnTo=position}){const zone=resortZone(zoneId);if(!zone||visits.has(catId)||visits.size>=12||!position||![position.x,position.y,position.z,radius].every(Number.isFinite)||radius<=0)return false;
+  start({catId,zoneId,position,radius=.571,returnTo=position}){const zone=zoneFor(zoneId);if(!zone||visits.has(catId)||visits.size>=12||!position||![position.x,position.y,position.z,radius].every(Number.isFinite)||radius<=0)return false;
    const v={catId,zone,position:copy(position),returnTo:copy(returnTo),radius,phase:'waiting',elapsed:0,yaw:0,walking:false,receipt:null,used:false,staff:null,request:'resort-'+catId+'-'+(++serial)};visits.set(catId,v);assign(v);return true;},
   cancel(id){const v=visits.get(id);if(!v)return false;if(v.contact?.pool&&(v.phase.startsWith('wet-')||v.phase==='procedure'))cancelResortPool(v);else release(v);return true;},
   step(dt,{allow=true,blocked=()=>false}={}){if(!allow)return;const h=Math.min(.1,Math.max(0,dt));clock+=h;booking.step(clock);
@@ -34,7 +34,7 @@ export function createResortSpaRuntime({route,segmentClear,onPurchase,onUse,onCo
      if(v.zone.procedure==='massage'&&!v.staff){v.staff=reserveStaff(v.catId,v.zone.id,v.contact.staff);if(!v.staff)continue;}
      // Check/charge through the existing durable receipt ledger once. A paid
      // but interrupted ticket remains available for a later session/reload.
-     try{v.receipt=getPaidTicket(v.catId,v.zone.id)||onPurchase?.(v.catId,v.zone.id,v.request);}catch{v.receipt=null;}
+     try{v.receipt=getPaidTicket(v.catId,v.zone.id)||(!v.zone.retired?onPurchase?.(v.catId,v.zone.id,v.request):null);}catch{v.receipt=null;}
      if(!v.receipt){release(v);continue;}if(!booking.occupy(v.catId,clock)){release(v);continue;}
      v.phase=v.contact.pool?'wet-enter':'mount';v.elapsed=0;v.mountFrom=copy(v.position);v.mountYaw=v.yaw;
     }else if(v.phase==='mount'){

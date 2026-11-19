@@ -1,0 +1,20 @@
+{
+  "sourceBase": "772a6313560f0fb14227f371e34164988f01324e",
+  "sourceState": "",
+  "result": "PASS three actual native architecture captures; runtime V7 not active",
+  "visualReview": "Compared A/B/D: roof ribs and segmented real portal added. Main remaining gaps: bare floors, weak glass/window depth, absent room lighting and planting. Front is an entrance detail, not a complete façade acceptance.",
+  "files": {
+    "imported-source.tar.gz": "647d34799f1c684adc08792dce8588b14be796cf4fbf3b8393df6926743c7733",
+    "mass-angle.png": "70a0e63d73facb4c62ccbf44fbb86fbc5c3c466a56bda18491b9caf15c36912d",
+    "mass-front.png": "5d6d2c7a05ae072824fd98b60f4cd46f75253282d594dcd66f1cbd801867dcb3",
+    "mass-top.png": "ce00725de1d80e37df401b5adf96358f84f742de1663018ccfc60327608e3cd6",
+    "native.log": "8502a0930a88aa73752e997782868932d488dbf29685eb0d2ac15bee38f60802",
+    "qa-app.js.gz": "594af2136de344663ab00d62d7ed0d21751ddfa8b5d8320cfd6c53462753b36f",
+    "qa-build.json": "201777989d2166f8c472aa6aab41bc17357f7451ee9e6cc8ef000f8d9c6a987b",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "0f90fd6d952fcc9a36a05ec62176ef33ab5a3f3c1a58ca76328a8f931ad8b155",
+    "source-status.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "v7-mass-frames.json": "5aa0ffcda13610bd45b7ce4f834b16dc3e545d804f36084abcae3a16668035df"
+  }
+}

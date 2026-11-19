@@ -1,3 +1,4 @@
+import {SPA_PALACE,SPA_PALACE_STAIRS} from './resort-spa-layout-v7.js';
 import * as T from 'three';
 import {spaPath} from './spa-navigation.js';
 import {manualBuildingSupport,manualBuildingCameraClear} from './manual-building-navigation.js';
@@ -5,6 +6,7 @@ import {RESORT_SPA as L,RESORT_FOOT_OFFSET as F,RESORT_STAIRS} from './resort-sp
 // One source for navigation and camera: exact support triangles + individual
 // solid segments. A merged floor's bounding box must never close a basin hole.
 export function createResortSpaNavigation(root,{externalSurfaces=()=>[],externalContains=()=>true,externalClear=()=>true}={}){
+ const rise=root.userData.layoutVersion===7?SPA_PALACE.rise:L.rise,stairs=root.userData.layoutVersion===7?SPA_PALACE_STAIRS:RESORT_STAIRS;
  root.updateWorldMatrix(true,true);const ray=new T.Raycaster(),origin=new T.Vector3(),down=new T.Vector3(0,-1,0),point=new T.Vector3(),surfaces=[root.userData.surfaces,root.userData.solid,...[...root.userData.zones.values()].map(z=>z.userData.solid).filter(Boolean)];
  // Broad phase only: final support still comes from the exact source triangle.
  // Do not raycast every table, stair and pavilion for each 12cm walking step.
@@ -35,8 +37,8 @@ export function createResortSpaNavigation(root,{externalSurfaces=()=>[],external
   }
   return null;
  }
- function path(a,b,radius=.571){const from=Math.round(a.y/L.rise),to=Math.round(b.y/L.rise);if(from===to)return floorPath(a,b,radius);if(from<0||from>2||to<0||to>2)return null;const out=[],append=p=>{if(!p)return false;out.push(...p);return true;};let current=a;
-  for(let level=from;level!==to;level+=Math.sign(to-from)){const up=to>from,s=RESORT_STAIRS[up?level:level-1],base=s.level*L.rise,points=[{x:s.x,y:base+F,z:185.5}];for(let i=0;i<s.count;i++){const edge=s.z-s.run/2+i*s.run,z=edge-radius-.02,y=base+(i+1)*s.rise+F;points.push({x:s.x,y:i?y-s.rise:base+F,z},{x:s.x,y,z},{x:s.x,y,z:z+s.run});}points.push({x:s.x,y:base+L.rise+F,z:s.landingZ});if(!up)points.reverse();if(!append(floorPath(current,points[0],radius)))return null;let previous=points[0];for(const p of points){if(!segmentClear(previous,p,radius))return null;previous=p;}out.push(...points);current=points.at(-1);}
+ function path(a,b,radius=.571){const from=Math.round(a.y/rise),to=Math.round(b.y/rise);if(from===to)return floorPath(a,b,radius);if(from<0||from>2||to<0||to>2)return null;const out=[],append=p=>{if(!p)return false;out.push(...p);return true;};let current=a;
+  for(let level=from;level!==to;level+=Math.sign(to-from)){const up=to>from,s=stairs[up?level:level-1],base=s.level*rise,points=[{x:s.x,y:base+F,z:185.5}];for(let i=0;i<s.count;i++){const edge=s.z-s.run/2+i*s.run,z=edge-radius-.02,y=base+(i+1)*s.rise+F;points.push({x:s.x,y:i?y-s.rise:base+F,z},{x:s.x,y,z},{x:s.x,y,z:z+s.run});}points.push({x:s.x,y:base+rise+F,z:s.landingZ});if(!up)points.reverse();if(!append(floorPath(current,points[0],radius)))return null;let previous=points[0];for(const p of points){if(!segmentClear(previous,p,radius))return null;previous=p;}out.push(...points);current=points.at(-1);}
   return append(floorPath(current,b,radius))?out:null;
  }
  const floorMeshes=[];for(const group of [root.userData.surfaces,root.userData.shell])group?.traverse(o=>{if(o.isMesh&&!o.material?.uniforms?.uWaterField){if(!o.geometry.boundingBox)o.geometry.computeBoundingBox();matrix.multiplyMatrices(inverse,o.matrixWorld);floorMeshes.push({mesh:o,bounds:o.geometry.boundingBox.clone().applyMatrix4(matrix)});}});
