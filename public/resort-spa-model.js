@@ -1,3 +1,4 @@
+import {spaMarbleV8} from './resort-spa-marble-v8.js';
 import {SPA_PALACE as PALACE} from './resort-spa-layout-v7.js';
 import {resortPalaceCascadesSteps} from './resort-spa-palace-cascades.js';
 import {SPA_PALACE_CASCADES,spaPalaceGardenSites} from './resort-spa-palace-garden-data.js';
@@ -31,7 +32,7 @@ export function* resortSpaModelSteps({layoutVersion=6}={}){
  const root=new T.Group(),solid=new T.Group(),shell=new T.Group(),decor=new T.Group(),surfaces=new T.Group(),basins=[],waters=[];root.name='CHICHI CAT SPA & WELLNESS RESORT';root.position.y=L.y;root.add(solid,shell,decor,surfaces);
  const mats={},geos=new Map(),zones=new Map();let authoredLevel=0;
  for(const [k,c]of Object.entries(L.palette))mats[k]=new T.MeshStandardMaterial({color:c,roughness:k==='gold'?.24:.55,metalness:k==='gold'?.7:0,...(['amber','pink','lavender'].includes(k)?{emissive:c,emissiveIntensity:.35}:{})});
- Object.assign(mats.ivory,resortSurfaceMaps('marble'));mats.ivory.roughness=.7;
+ Object.assign(mats.ivory,layoutVersion===7?spaMarbleV8():resortSurfaceMaps('marble'));mats.ivory.roughness=layoutVersion===7?.6:.7;if(layoutVersion===7)mats.ivory.color.setHex(0xf3f0e9);
  mats.gold.color.setHex(0xd6a34a);mats.gold.roughness=.24;
  mats.glass=new T.MeshStandardMaterial({color:0xb3ebf0,transparent:true,opacity:.11,roughness:.15,depthWrite:false,side:T.DoubleSide,forceSinglePass:true});
  mats.cloth=new T.MeshStandardMaterial({color:0xffeedc,roughness:.96,...resortSurfaceMaps('fabric')});if(mallArt()){const maps=mallSurfaceMaps('fabric');maps.map?.dispose();mats.cloth.normalMap.dispose();mats.cloth.roughnessMap.dispose();mats.cloth.normalMap=maps.normalMap;mats.cloth.roughnessMap=maps.roughnessMap;mats.cloth.normalScale.set(.32,.32);}

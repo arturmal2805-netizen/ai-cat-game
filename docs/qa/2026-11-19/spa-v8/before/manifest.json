@@ -1,0 +1,27 @@
+{
+  "sourceBase": "c477057b6eda6e251f02bc27735e4220d737112b",
+  "sourceState": " M scripts/audit-resort-spa-v7-mass.mjs\n?? docs/specifications/spa-visual-overhaul-v8-2026-11-19.md\n",
+  "result": "PASS: private actual V7 eight-room and facade baseline; root/marker matrices recorded.",
+  "visualReview": "All8 baseline views inspected against the supplied photo tutorial. Large empty floor areas, sparse treatment decoration and excessive warm cast remain; this is the control, not V8 approval.",
+  "files": {
+    "aroma-interior.png": "25e927e6a9f9c4cea1e55844099dab44b2ac954fa41c832d3fede3e07cd3e45f",
+    "cabana-interior.png": "e9441fe255b798be10d6f5c3f3ce18c5e43a9f5d605f99f85777a54a24a5f577",
+    "cafe-interior.png": "9916f4eda4c9268c02e32127a7be99f16283928e208f83cb9d93849004d5ab8e",
+    "golden-interior.png": "024cf67f14d540e92a17b8734a359dfb1371f510bdd3cfadd24bc361082ab169",
+    "imported-source.tar.gz": "74be57aeeedd8e7c7f05b2c4946d419aa9c70724e15268f78edef5910c9a5259",
+    "layout-world-transforms.json": "3518713f83d48cad7ccba56c16c8fa3635d2295bfcf0bc272ef031db684a99a7",
+    "mass-front.png": "4cc1a1a84814095a983d127a2decc1240f1b3fe5cbb1a5510738c78204ac4652",
+    "massage-interior.png": "11d67cb647c822ecad333386e84d4eedcb3819b6001de8b4504abdda895033a6",
+    "midnight-interior.png": "1d08f62ddfb9e61c1ea637a299189a9ba2acc2f49fce908de4f66671b096a468",
+    "native.log": "ce2d60ffbe66ffe01500be0b5ee95a6c0eb15440931b812858730a151ecd5ae9",
+    "qa-app.js.gz": "966b8078163b19731f5811694034830a817ce81c9f54d72e55f47344e8240bf6",
+    "qa-build.json": "ac3026af663c1a6998c96858212fc1ece9552212b274f6f2bf36f20f3ebc63be",
+    "source-HEAD.patch": "669b4b395b5bf6e6267f080768a6c463906a74157e7d06a676b2c78b5e9056cc",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "ed189e01228f0a5000ef2911a3ac01733b8bd2f14613140cecee381bc1446515",
+    "source-status.txt": "36d2b573767eb2bf39cf7ce078c664a1c4692ff6b07fd4dd788ee7c6be91834f",
+    "thermal-interior.png": "a3d32e556a09bbde093eda60ef5bf888cf35ae200538f20e3ab8024baad9ea9e",
+    "v7-mass-frames.json": "9c4fb980b6ebd8c522e19c2d063e55bbef555e3151bdcc4533fc69e1c5710a1a",
+    "waterfall-interior.png": "8a4cd225aae770eee43d98c0a37ec563c3e59bdddb94d64b8e92941cfe00a0ab"
+  }
+}

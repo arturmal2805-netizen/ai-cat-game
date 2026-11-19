@@ -1,0 +1,8 @@
+{
+  "sha256": "9a922bbe799ab3ff1bdc5a24e6a0cbd6f2ebd92270df7514a151b97eb9038930",
+  "baseline": null,
+  "node": "v22.23.5",
+  "head": "c477057b6eda6e251f02bc27735e4220d737112b",
+  "dirty": " M scripts/audit-resort-spa-v7-mass.mjs\n?? docs/specifications/spa-visual-overhaul-v8-2026-11-19.md\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

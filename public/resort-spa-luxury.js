@@ -1,3 +1,4 @@
+import {resortSpaDetailSteps} from './resort-spa-detailing-v8.js';
 import {spaPalaceRoofY} from './resort-spa-layout-v7.js';
 import * as T from 'three';
 import {spaTiedCurtainGeometry,spaPillowGeometry,spaGalaxyTexture} from './resort-spa-soft-furnishings.js';
@@ -141,6 +142,7 @@ export function* resortLuxurySteps({solid,decor,shell,surfaces,basins,waters,mat
   }
   yield;
  }
+ if(palace)report.detailing=yield* resortSpaDetailSteps({solid,decor,shell,mats,material,geometry,mesh,box,disk,ball,line,ring,pillow,plant,tree,lantern,lotus,tray,curtains,setRoom:zone=>{floor=zone.level;room=zone.id;}});
  room=null;floor=2;
  // This exact upper-floor opening existed already. No opaque backing disk is
  // placed beneath the glass: both directions see the lower atrium and water.

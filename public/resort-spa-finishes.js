@@ -16,7 +16,7 @@ export function resortInteriorLighting(material,lights){
 // Stamp before merging; full-detail native source remains the physics target.
 export function* finishResortSpaSteps(root,{zones=RESORT_ZONES,rise=L.rise}={}){
  const lights=createMallRoomLights(),ids=new Map(),waterIds=new Map();
- for(const z of zones){const lamps=[-.55,0,.55].map(offset=>{const x=z.x+z.rx*offset,id=lights.register(x,z.z,z.key==='midnight'&&(offset<.5||!z.roomId)?0xb7caff:0xffc383);lights.texture.image.data[id*4+1]=z.level*rise+5.5;if(z.roomId)lights.texture.image.data[id*4+3]=Math.max(21,z.rz*1.6);return{id,x,z:z.z};}),water=lights.register(z.x,z.z,0x62dce8);ids.set(z.id,lamps);waterIds.set(z.id,water);lights.texture.image.data[water*4+1]=z.level*rise+1.3;lights.texture.image.data[water*4+3]=Math.max(z.rx,z.rz)*1.6;lights.texture.image.data[(64+water)*4+3]=.8;}
+ for(const z of zones){const lamps=[-.55,0,.55].map(offset=>{const x=z.x+z.rx*offset,id=lights.register(x,z.z,z.key==='midnight'&&(offset<.5||!z.roomId)?0xb7caff:(z.roomId?0xffe0b8:0xffc383));lights.texture.image.data[id*4+1]=z.level*rise+5.5;if(z.roomId)lights.texture.image.data[id*4+3]=Math.max(21,z.rz*1.6);return{id,x,z:z.z};}),water=lights.register(z.x,z.z,0x62dce8);ids.set(z.id,lamps);waterIds.set(z.id,water);lights.texture.image.data[water*4+1]=z.level*rise+1.3;lights.texture.image.data[water*4+3]=Math.max(z.rx,z.rz)*1.6;lights.texture.image.data[(64+water)*4+3]=.8;}
  const sources=[];root.updateWorldMatrix(true,true);root.traverse(o=>{if(o.isMesh)sources.push(o);});const p=new T.Vector3();
  for(const mesh of sources){
   if(!mesh.geometry.boundingBox)mesh.geometry.computeBoundingBox();mesh.geometry.boundingBox.getCenter(p).applyMatrix4(mesh.matrixWorld);
