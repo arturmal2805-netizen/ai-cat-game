@@ -6044,8 +6044,10 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
   }
   resortSpa=createResortSpaWorld({scene,container,
     getInvitees:()=>availableGatherCats().filter(id=>id!=='chichi'&&freeSpaGuest(id)&&!resortSpa?.has(id)),guestFree:freeSpaGuest,
+    onGuestReserve:id=>{const n=npcs.get(id);if(!n||!freeSpaGuest(id))return false;n.spaInvitationHeld=true;n.manualAnchor={x:n.carrier.position.x,z:n.carrier.position.z};n.manualUntil=performance.now()+3600000;n.gatheredUntil=n.manualUntil;return true;},
+    onGuestHold:id=>{const n=npcs.get(id);if(n?.spaInvitationHeld){n.manualUntil=performance.now()+3600000;n.gatheredUntil=n.manualUntil;}},
     onRecallGuest:id=>{
-      if(!freeSpaGuest(id)||callbacks.canSimulateLeisure?.()===false)return false;
+      if(!freeSpaGuest(id,true)||callbacks.canSimulateLeisure?.()===false)return false;
       const n=npcs.get(id),b=byBiome('autumn'),r=resortSpa.root,radius=catNavigationRadius(n.model),reserved=lifeActors.filter(a=>a.id!==id).map(a=>({x:a.position.x-b.center[0],z:a.position.z-b.center[1],radius:a.radius}));
       const landing=gatherLanding({x:b.arrival[0],z:b.arrival[1]},radius,reserved,(p,rad)=>{
         const y=.16+islandHeight('autumn',p.x,p.z);return !!resortSpa.navigation.support({x:b.center[0]+p.x-r.position.x,y:y-RESORT_SPA_LAYOUT.y,z:b.center[1]+p.z-r.position.z},rad);

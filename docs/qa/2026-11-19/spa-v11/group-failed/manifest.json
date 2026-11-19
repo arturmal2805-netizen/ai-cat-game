@@ -1,0 +1,20 @@
+{
+  "sourceBase": "bdb4b91e5ebfbc29360a963f07b3d58e0255a27d",
+  "sourceState": "",
+  "result": "FAIL group: Luna reached real dry parking; second queued resident never arrived; parked hold expired into outside wandering",
+  "visualReview": "Group function is not ready for publication. Reserve accepted guests immediately, and retain supported indoor idle until another actual owner starts. Repeat with two residents and unchanged balances.",
+  "files": {
+    "imported-source.tar.gz": "7625a02518b56628801877be82b265149e95e3345c1145f59d0767fc924ad96b",
+    "layout-world-transforms.json": "3518713f83d48cad7ccba56c16c8fa3635d2295bfcf0bc272ef031db684a99a7",
+    "native.log": "38ba69a7d617d17fd2b0cd8bec991b91e5b2ec8ee3e0591b05eca995890bfeb6",
+    "qa-app.js.gz": "ef4073acb9712fd553f6e3abcbf33c05b0133af9e6b6e4e2fa6fe4df95868901",
+    "qa-build.json": "da7a44419cc9636290413379dfeed3af47e0f028b7a61334bd8d74650f9ab2eb",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "9f510acfbc10b14e817ca3c1157c8abb97d357a4912c38134d7ee01b8fb15f2c",
+    "source-status.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "v11-group-invitation.json": "617cd33521465e9aaf9d6621f6c648cd63bb0d998647e7a50f5e50063e9e1085",
+    "v11-group-progress.json": "59b25c2fec9abbe9bd5f4bccafe18078bf5dc1a73cdb68d2a0f0c9740a3b20d5",
+    "v11-group-ui.json": "d985df24b7342a51a5dcc04221f7933c49a76fa03d459ecefcdd7ca51614944e"
+  }
+}

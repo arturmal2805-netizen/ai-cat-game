@@ -361,6 +361,7 @@ async function localWorker() {
       delete g.mosasaurSubmarine;delete g.catLocations;
       const paidV6=!!(process.env.CHICHI_SPA_V6_CONTACTS||process.env.CHICHI_SPA_V6_PROCEDURES||process.env.CHICHI_SPA_V6_VIP_LOUNGE||process.env.CHICHI_SPA_V6_CAFE_WATER);
       if(process.env.CHICHI_SPA_V7_FUNCTIONAL_AUDIT)g.jobCity.profiles.chichi.coins=20000;
+      if(process.env.CHICHI_SPA_V11_AUDIT){const {activeCats}=await import(root+'/public/cat-roster.js');for(const c of activeCats(g).slice(0,2)){const p=g.jobCity.profiles[c.id];if(p){p.manualUntil=0;p.schedule={day:0,job:'rest'};}}}
       if(paidV6||process.env.CHICHI_RESORT_SPA_PROCEDURE_AUDIT||process.env.CHICHI_RESORT_SPA_TRANSIT_AUDIT||process.env.CHICHI_RESORT_SPA_POOLS_AUDIT||process.env.CHICHI_RESORT_SPA_DRY_AUDIT)
         g.jobCity.profiles.chichi.coins=paidV6||process.env.CHICHI_RESORT_SPA_DRY_AUDIT&&process.env.CHICHI_RESORT_SPA_POOLS_AUDIT?6000:2000;
     }

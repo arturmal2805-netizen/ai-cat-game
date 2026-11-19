@@ -1,0 +1,30 @@
+{
+  "batch": 1380,
+  "state": [
+    {
+      "id": "luna",
+      "frame": null,
+      "position": [
+        -479.66937292219615,
+        0.16,
+        471.75355113243086
+      ]
+    },
+    {
+      "id": "moti",
+      "frame": null,
+      "position": [
+        5.8618113222247406,
+        0.16,
+        -1.1778657264570112
+      ]
+    }
+  ],
+  "phases": [
+    "walk",
+    "boarding",
+    "riding",
+    "spa-invitation-walk",
+    "spa-invitation-parked"
+  ]
+}
