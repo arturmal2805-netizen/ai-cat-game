@@ -1,0 +1,19 @@
+{
+  "sourceBase": "270049acf9b74bd91c5aed0ba081662dfcb5749d",
+  "sourceState": "",
+  "result": "FAIL private fixture: selected two profiles still had active native job runtime states after paused schedule setup",
+  "visualReview": "As with the existing single-hero invitation test, explicitly cancel only these private fixture job runtimes while configuring rest. Production work exclusion stays intact.",
+  "files": {
+    "imported-source.tar.gz": "41c430b5c418586a153f26a8231d986bbf63736e9938a536f68dd101f8a1b714",
+    "layout-world-transforms.json": "3518713f83d48cad7ccba56c16c8fa3635d2295bfcf0bc272ef031db684a99a7",
+    "native.log": "4988016d77289aed695811915878cf30d23865958f66806c20a5620d9a4d4686",
+    "qa-app.js.gz": "e9e25439d1dbf3610b5c0d4e792fc96813d7087d45fb88bb176d42e26107c2a7",
+    "qa-build.json": "b7fd33912e7aa127a083ef9f701451490e3148b1a330ab2b5a7ec8300dd93b74",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "1b1bef81b5d34287efe5e753f4bceeefdb3e24d7a898286992f8202a3fa1a852",
+    "source-status.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "v11-group-candidates.json": "235277bf265cb2655b8968a6a9dafb98e762b00998ab49cb8e9015ac3287a82a",
+    "v11-group-ui.json": "d985df24b7342a51a5dcc04221f7933c49a76fa03d459ecefcdd7ca51614944e"
+  }
+}
