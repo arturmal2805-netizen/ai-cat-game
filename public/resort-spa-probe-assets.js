@@ -4,12 +4,12 @@ export const SPA_PROBE=Object.freeze({
  "layers": 9,
  "columns": 4,
  "rows": 3,
- "assetSha256": "01443cd814ef1222ea2ccef537e5cb97989269428d4833cc9ebcdc7093fb6997",
- "rgbaSha256": "5a05a2493adaaa6112fea0adc41b86fbdd7e76671522119d369afb54c73c3264",
- "revision": "2ec040b8c46bbc46c770a604a75b2b0c7308d8c5b5d6afa0adef81908028f1c9",
+ "assetSha256": "bad2f1b8b9825eccdb7a334b55fb9b9f9dd710edf1653b570b4bb2c0cb6f505e",
+ "rgbaSha256": "1bcdb047a6322bdd99fbdbbfe84a7ffb41eff533c07dd0579d6042d84abfa09d",
+ "revision": "cdb4eb5c13c7d20e1bda06fa15ae56122af7e39ac52aa904c09fa2ab473a3941",
  "gain": 4,
- "sourceHead": "4d85624d8ecb722630f1a261ff5cc81a9234f026",
- "url": "./art/spa-reflections/spa-interiors-01443cd814ef.png",
+ "sourceHead": "56cb872f2c0e750d6cbc1e6e1380af0b357b3cd4",
+ "url": "./art/spa-reflections/spa-interiors-bad2f1b8b982.png",
  "rooms": [
   "resort-thermal",
   "resort-vip",
@@ -21,5 +21,5 @@ export const SPA_PROBE=Object.freeze({
   "resort-waterfall",
   "resort-sky-pool"
  ],
- "provenance": "docs/qa/2026-11-19/spa-v7/native-nine-probes/probes/manifest.json"
-});
+ "provenance": "docs/qa/2026-11-19/spa-v7/native-smooth-probes/probes/manifest.json"
+} );

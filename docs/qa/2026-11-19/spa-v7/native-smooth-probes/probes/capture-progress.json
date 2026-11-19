@@ -1,0 +1,668 @@
+[
+  {
+    "id": "resort-thermal",
+    "x": 0,
+    "y": -163.6,
+    "z": 266,
+    "target": {
+      "x": 0,
+      "y": -163,
+      "z": 266
+    },
+    "layer": 0,
+    "png": "resort-thermal.png",
+    "pngSha256": "5f6e86fc7cdbd83f77b3f39ffc6f22a2c1da6e6e447cee78e3bcea1e70a80077",
+    "rgbaSha256": "2958d6e1608b6a874d3eb1faa0e0e573567902ad93f89c2a761d2f08417214ea",
+    "eye": [
+      -450,
+      -163.6,
+      746
+    ],
+    "milliseconds": 11343.5,
+    "render": {
+      "frame": 12,
+      "calls": 1821,
+      "triangles": 22067953,
+      "points": 10440,
+      "lines": 0
+    },
+    "memory": {
+      "geometries": 753,
+      "textures": 73
+    },
+    "hiddenDynamicAndWater": 839,
+    "rootVisible": true,
+    "sceneVisible": true,
+    "cameraMask": 1,
+    "nativeCameraMask": 1,
+    "glError": 0,
+    "lights": [
+      {
+        "type": "HemisphereLight",
+        "color": 16771547,
+        "intensity": 1.2,
+        "position": [
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "type": "DirectionalLight",
+        "color": 16767159,
+        "intensity": 2.2,
+        "position": [
+          -464,
+          35,
+          766
+        ]
+      },
+      {
+        "type": "DirectionalLight",
+        "color": 12105708,
+        "intensity": 0.9,
+        "position": [
+          20,
+          16,
+          -30
+        ]
+      }
+    ],
+    "fog": {
+      "color": 1214125,
+      "density": 0.0018
+    }
+  },
+  {
+    "id": "resort-vip",
+    "x": 82,
+    "y": -135.6,
+    "z": 230,
+    "target": {
+      "x": 82,
+      "y": -135,
+      "z": 230
+    },
+    "layer": 1,
+    "png": "resort-vip.png",
+    "pngSha256": "3934a113e02526e14befef4707b217618b63753705aa2ed86d12258f9a069188",
+    "rgbaSha256": "de798832d8735ac344c1c80d8b77b69ee71cc577f279932d63e78641c24a7748",
+    "eye": [
+      -368,
+      -135.6,
+      710
+    ],
+    "milliseconds": 5096,
+    "render": {
+      "frame": 19,
+      "calls": 1912,
+      "triangles": 21478158,
+      "points": 12460,
+      "lines": 0
+    },
+    "memory": {
+      "geometries": 755,
+      "textures": 73
+    },
+    "hiddenDynamicAndWater": 839,
+    "rootVisible": true,
+    "sceneVisible": true,
+    "cameraMask": 1,
+    "nativeCameraMask": 1,
+    "glError": 0,
+    "lights": [
+      {
+        "type": "HemisphereLight",
+        "color": 16771547,
+        "intensity": 1.2,
+        "position": [
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "type": "DirectionalLight",
+        "color": 16767159,
+        "intensity": 2.2,
+        "position": [
+          -382,
+          35,
+          730
+        ]
+      },
+      {
+        "type": "DirectionalLight",
+        "color": 12105708,
+        "intensity": 0.9,
+        "position": [
+          20,
+          16,
+          -30
+        ]
+      }
+    ],
+    "fog": {
+      "color": 1214125,
+      "density": 0.0018
+    }
+  },
+  {
+    "id": "resort-midnight",
+    "x": -82,
+    "y": -135.6,
+    "z": 230,
+    "target": {
+      "x": -82,
+      "y": -135,
+      "z": 230
+    },
+    "layer": 2,
+    "png": "resort-midnight.png",
+    "pngSha256": "2a14452b31d2f947a2d4316777fed29fc8d537b5aa56f07a52b29306379b36cf",
+    "rgbaSha256": "9495eba17d7905a36889160c8e069ed324e526fa8e5c2c93847d3c9261b6b169",
+    "eye": [
+      -532,
+      -135.6,
+      710
+    ],
+    "milliseconds": 5911.5999999940395,
+    "render": {
+      "frame": 26,
+      "calls": 1928,
+      "triangles": 23706736,
+      "points": 12460,
+      "lines": 0
+    },
+    "memory": {
+      "geometries": 766,
+      "textures": 73
+    },
+    "hiddenDynamicAndWater": 839,
+    "rootVisible": true,
+    "sceneVisible": true,
+    "cameraMask": 1,
+    "nativeCameraMask": 1,
+    "glError": 0,
+    "lights": [
+      {
+        "type": "HemisphereLight",
+        "color": 16771547,
+        "intensity": 1.2,
+        "position": [
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "type": "DirectionalLight",
+        "color": 16767159,
+        "intensity": 2.2,
+        "position": [
+          -546,
+          35,
+          730
+        ]
+      },
+      {
+        "type": "DirectionalLight",
+        "color": 12105708,
+        "intensity": 0.9,
+        "position": [
+          20,
+          16,
+          -30
+        ]
+      }
+    ],
+    "fog": {
+      "color": 1214125,
+      "density": 0.0018
+    }
+  },
+  {
+    "id": "resort-massage",
+    "x": -88,
+    "y": -149.6,
+    "z": 225,
+    "target": {
+      "x": -88,
+      "y": -149,
+      "z": 225
+    },
+    "layer": 3,
+    "png": "resort-massage.png",
+    "pngSha256": "d1f84d4ab6b871915e77fef0a02146b1620229af234884b0a6a3c99066cabcc2",
+    "rgbaSha256": "14568fcfdc4ebbb0475dc26c593a2b6ad26c0bc727f41e11a87e59dad338e7b7",
+    "eye": [
+      -538,
+      -149.6,
+      705
+    ],
+    "milliseconds": 6306.800000011921,
+    "render": {
+      "frame": 33,
+      "calls": 1924,
+      "triangles": 23970673,
+      "points": 12460,
+      "lines": 0
+    },
+    "memory": {
+      "geometries": 767,
+      "textures": 73
+    },
+    "hiddenDynamicAndWater": 839,
+    "rootVisible": true,
+    "sceneVisible": true,
+    "cameraMask": 1,
+    "nativeCameraMask": 1,
+    "glError": 0,
+    "lights": [
+      {
+        "type": "HemisphereLight",
+        "color": 16771547,
+        "intensity": 1.2,
+        "position": [
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "type": "DirectionalLight",
+        "color": 16767159,
+        "intensity": 2.2,
+        "position": [
+          -552,
+          35,
+          725
+        ]
+      },
+      {
+        "type": "DirectionalLight",
+        "color": 12105708,
+        "intensity": 0.9,
+        "position": [
+          20,
+          16,
+          -30
+        ]
+      }
+    ],
+    "fog": {
+      "color": 1214125,
+      "density": 0.0018
+    }
+  },
+  {
+    "id": "resort-aroma",
+    "x": 87,
+    "y": -149.6,
+    "z": 262,
+    "target": {
+      "x": 87,
+      "y": -149,
+      "z": 262
+    },
+    "layer": 4,
+    "png": "resort-aroma.png",
+    "pngSha256": "6ac0c835d9768cda6c8528f6a3be60507d4c0a898339371ea94b46808f626c0c",
+    "rgbaSha256": "6a2792a424ce081758f50babcb5e1117375cbe14cf40ee53bbce6cd0c1abd813",
+    "eye": [
+      -363,
+      -149.6,
+      742
+    ],
+    "milliseconds": 5068.5,
+    "render": {
+      "frame": 40,
+      "calls": 1836,
+      "triangles": 21405835,
+      "points": 12460,
+      "lines": 0
+    },
+    "memory": {
+      "geometries": 767,
+      "textures": 73
+    },
+    "hiddenDynamicAndWater": 839,
+    "rootVisible": true,
+    "sceneVisible": true,
+    "cameraMask": 1,
+    "nativeCameraMask": 1,
+    "glError": 0,
+    "lights": [
+      {
+        "type": "HemisphereLight",
+        "color": 16771547,
+        "intensity": 1.2,
+        "position": [
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "type": "DirectionalLight",
+        "color": 16767159,
+        "intensity": 2.2,
+        "position": [
+          -377,
+          35,
+          762
+        ]
+      },
+      {
+        "type": "DirectionalLight",
+        "color": 12105708,
+        "intensity": 0.9,
+        "position": [
+          20,
+          16,
+          -30
+        ]
+      }
+    ],
+    "fog": {
+      "color": 1214125,
+      "density": 0.0018
+    }
+  },
+  {
+    "id": "resort-cabana",
+    "x": -82,
+    "y": -149.6,
+    "z": 180,
+    "target": {
+      "x": -82,
+      "y": -149,
+      "z": 180
+    },
+    "layer": 5,
+    "png": "resort-cabana.png",
+    "pngSha256": "be7d7525944251f5e6458f782629e7fde25fdcc042a286fc62d22fb9efebf941",
+    "rgbaSha256": "3685d0ed8bb5de21d1cb35ad536ebe7aee1142880e747fd5e49c89b7048e98f0",
+    "eye": [
+      -532,
+      -149.6,
+      660
+    ],
+    "milliseconds": 5618.199999988079,
+    "render": {
+      "frame": 47,
+      "calls": 1912,
+      "triangles": 21966405,
+      "points": 9580,
+      "lines": 0
+    },
+    "memory": {
+      "geometries": 778,
+      "textures": 73
+    },
+    "hiddenDynamicAndWater": 839,
+    "rootVisible": true,
+    "sceneVisible": true,
+    "cameraMask": 1,
+    "nativeCameraMask": 1,
+    "glError": 0,
+    "lights": [
+      {
+        "type": "HemisphereLight",
+        "color": 16771547,
+        "intensity": 1.2,
+        "position": [
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "type": "DirectionalLight",
+        "color": 16767159,
+        "intensity": 2.2,
+        "position": [
+          -546,
+          35,
+          680
+        ]
+      },
+      {
+        "type": "DirectionalLight",
+        "color": 12105708,
+        "intensity": 0.9,
+        "position": [
+          20,
+          16,
+          -30
+        ]
+      }
+    ],
+    "fog": {
+      "color": 1214125,
+      "density": 0.0018
+    }
+  },
+  {
+    "id": "resort-cafe",
+    "x": 0,
+    "y": -163.6,
+    "z": 216,
+    "target": {
+      "x": 0,
+      "y": -163,
+      "z": 203
+    },
+    "layer": 6,
+    "png": "resort-cafe.png",
+    "pngSha256": "1f22284b1ab33eff2f7c6ee4f02c98251cbff7c20614343d6d7398dda267412b",
+    "rgbaSha256": "ee4b4dfa23a7db32d6205df180baa1dcf6f5f3b43626c42e0ba5391be33fba99",
+    "eye": [
+      -450,
+      -163.6,
+      696
+    ],
+    "milliseconds": 5661.800000011921,
+    "render": {
+      "frame": 54,
+      "calls": 1857,
+      "triangles": 23312569,
+      "points": 9260,
+      "lines": 0
+    },
+    "memory": {
+      "geometries": 778,
+      "textures": 73
+    },
+    "hiddenDynamicAndWater": 839,
+    "rootVisible": true,
+    "sceneVisible": true,
+    "cameraMask": 1,
+    "nativeCameraMask": 1,
+    "glError": 0,
+    "lights": [
+      {
+        "type": "HemisphereLight",
+        "color": 16771547,
+        "intensity": 1.2,
+        "position": [
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "type": "DirectionalLight",
+        "color": 16767159,
+        "intensity": 2.2,
+        "position": [
+          -464,
+          35,
+          703
+        ]
+      },
+      {
+        "type": "DirectionalLight",
+        "color": 12105708,
+        "intensity": 0.9,
+        "position": [
+          20,
+          16,
+          -30
+        ]
+      }
+    ],
+    "fog": {
+      "color": 1214125,
+      "density": 0.0018
+    }
+  },
+  {
+    "id": "resort-waterfall",
+    "x": 94,
+    "y": -163.6,
+    "z": 231,
+    "target": {
+      "x": 94,
+      "y": -163,
+      "z": 231
+    },
+    "layer": 7,
+    "png": "resort-waterfall.png",
+    "pngSha256": "bd22bf1a0ed47ada52b2f0e0140772580c8b7a01b96000ba63e11861a1562ec3",
+    "rgbaSha256": "8aea74ab021ae6c82116bba9c71ada5d0f9b406c4f2d52772f1c7d6bb1c24a03",
+    "eye": [
+      -356,
+      -163.6,
+      711
+    ],
+    "milliseconds": 5319.5,
+    "render": {
+      "frame": 61,
+      "calls": 1869,
+      "triangles": 22303713,
+      "points": 12460,
+      "lines": 0
+    },
+    "memory": {
+      "geometries": 778,
+      "textures": 73
+    },
+    "hiddenDynamicAndWater": 839,
+    "rootVisible": true,
+    "sceneVisible": true,
+    "cameraMask": 1,
+    "nativeCameraMask": 1,
+    "glError": 0,
+    "lights": [
+      {
+        "type": "HemisphereLight",
+        "color": 16771547,
+        "intensity": 1.2,
+        "position": [
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "type": "DirectionalLight",
+        "color": 16767159,
+        "intensity": 2.2,
+        "position": [
+          -370,
+          35,
+          731
+        ]
+      },
+      {
+        "type": "DirectionalLight",
+        "color": 12105708,
+        "intensity": 0.9,
+        "position": [
+          20,
+          16,
+          -30
+        ]
+      }
+    ],
+    "fog": {
+      "color": 1214125,
+      "density": 0.0018
+    }
+  },
+  {
+    "id": "resort-sky-pool",
+    "x": 0,
+    "y": -135.8,
+    "z": 203,
+    "target": {
+      "x": 0,
+      "y": -135.7,
+      "z": 203
+    },
+    "layer": 8,
+    "png": "resort-sky-pool.png",
+    "pngSha256": "f3d9be09c6dae20e977c04e6a2106a8e1cd9d85e0fffe961a9f382371f83b80b",
+    "rgbaSha256": "d9789adf2e2865d03cceebb59aff757ece9329422bfc25361757fbd0bc5ab818",
+    "eye": [
+      -450,
+      -135.8,
+      683
+    ],
+    "milliseconds": 5486.600000023842,
+    "render": {
+      "frame": 68,
+      "calls": 1889,
+      "triangles": 23600450,
+      "points": 9680,
+      "lines": 0
+    },
+    "memory": {
+      "geometries": 779,
+      "textures": 73
+    },
+    "hiddenDynamicAndWater": 839,
+    "rootVisible": true,
+    "sceneVisible": true,
+    "cameraMask": 1,
+    "nativeCameraMask": 1,
+    "glError": 0,
+    "lights": [
+      {
+        "type": "HemisphereLight",
+        "color": 16771547,
+        "intensity": 1.2,
+        "position": [
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "type": "DirectionalLight",
+        "color": 16767159,
+        "intensity": 2.2,
+        "position": [
+          -464,
+          35,
+          703
+        ]
+      },
+      {
+        "type": "DirectionalLight",
+        "color": 12105708,
+        "intensity": 0.9,
+        "position": [
+          20,
+          16,
+          -30
+        ]
+      }
+    ],
+    "fog": {
+      "color": 1214125,
+      "density": 0.0018
+    }
+  }
+]

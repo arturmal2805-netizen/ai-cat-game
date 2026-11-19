@@ -1,0 +1,12 @@
+{
+  "node": "22.23.5",
+  "scope": "Local exact candidate build before its source commit. CI main merge SHA and actual live response still required. No cat GLB tracked changes.",
+  "scripts": [
+    "./dist/app.js?v=48922a7a2e2977b4"
+  ],
+  "applicationCount": 1,
+  "htmlSha256": "b23ef7595b67953a77eb4b8cae0fe6e8738457e12f56cb0b5eabc866fed0b234",
+  "jsSha256": "48922a7a2e2977b430ade30da5577f97f23a822363c4d39ed754e6714c105508",
+  "cssSha256": "1ca6fd7d91d93d2434122de8b604f9e1f0306145487ece7434204f01d46492bc",
+  "spaAtlasSha256": "bad2f1b8b9825eccdb7a334b55fb9b9f9dd710edf1653b570b4bb2c0cb6f505e"
+}

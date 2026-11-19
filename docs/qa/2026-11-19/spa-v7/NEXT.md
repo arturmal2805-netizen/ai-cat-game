@@ -213,3 +213,22 @@ return tests PASS on actual7geometry (pool-seam-final.log). Native rerun only
 remaining scenarios to avoid duplicating passed checks; final13images stillneed
 newbevel/probes together. Initial12mm bevel hitwaterline epsilon; fixed6mm and
 keptfailed logs outside archive, no assertions weakened.
+
+E actual13views on534f3a9 completed and all were inspected. See visual-review-e.md:
+real8rooms/sky sorting/height are proven, but sparse ornament is still an art
+limitation. Floor light switching per triangle caused visible patches;56cb872
+now stamps lamps per shared vertex (continuous existing varyings), and computes
+smooth analytic height-field normals for curved roofs/vaults. Positions/UVs/
+physics unchanged;5 targeted geometry/normal/continuity checksPASS.
+
+Nine probes re-baked on exactclean56cb872, sourceguardPASS, archived native-smooth-probes.
+Atlasbad2f1b8b9825eccdb7a334b55fb9b9f9dd710edf1653b570b4bb2c0cb6f505e,
+raw1bcdb047a6322bdd99fbdbbfe84a7ffb41eff533c07dd0579d6042d84abfa09d,
+bundle1b2beaa26597cc2826bcaa8bc87c7caca13cd518037bb78e3ea106aa3f31d41c.
+Runtime keeps probe layer flat per primitive so interpolating smooth lamp
+positions/colors never walks through unrelated array layers. Cachekey v4 includes
+revision; no extra runtime sampler/scene light/pass. This hook is disabled during
+static bake, so flat-layer correction does not alter its captured scene inputs.
+6 reflection/continuity checksPASS. Old atlases retained for history/cachedclients.
+Full CI44573032188 on534f3a9 PASSED test/build/wranglerdryrun (PR, no deploy).
+Need final4actualshade views, phone, ownership, finalexactmainCI/live beforepublish.

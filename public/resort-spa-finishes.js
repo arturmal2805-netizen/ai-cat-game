@@ -10,7 +10,7 @@ import {registerPositionPreservingShader} from './static-submissions.js';
 export function resortInteriorLighting(material,lights){
  mallRoomLightMaterial(material,lights,.8);const before=material.onBeforeCompile,previousKey=material.customProgramCacheKey,key=previousKey.call(material),probe=resortReflections();
  material.onBeforeCompile=function(shader,...args){before.call(this,shader,...args);applyResortFinishReflection(shader,probe);shader.fragmentShader=shader.fragmentShader.replace('outgoingLight+=vMallLampColor.rgb','outgoingLight=(outgoingLight-totalEmissiveRadiance)*.32+totalEmissiveRadiance;\n      outgoingLight+=vMallLampColor.rgb').replace('diffuseColor.rgb*(.18+lampFalloff*.88*lampDiffuse)','diffuseColor.rgb*(.035+lampFalloff*.88*lampDiffuse)');};
- material.customProgramCacheKey=()=>key+'-spa-sealed-interior-v1'+(probe?'-spa-room-array-v3-'+probe.revision:'-fallback');registerPositionPreservingShader(material,before,previousKey);material.needsUpdate=true;
+ material.customProgramCacheKey=()=>key+'-spa-sealed-interior-v1'+(probe?'-spa-room-array-v4-'+probe.revision:'-fallback');registerPositionPreservingShader(material,before,previousKey);material.needsUpdate=true;
 }
 // Existing immutable bounded room-lamp table, not extra scene PointLights.
 // Stamp before merging; full-detail native source remains the physics target.
