@@ -100,3 +100,57 @@ SPA, упомянутые в тексте, в новом сообщении не
 Кнопки «Сохранить текущий мир» / «Загрузить мир из файла» — в существующем «Облаке»;
 полная поддерживаемая игровая схема, без секретов/исходников, checksum нового
 формата, строгая валидация, подтверждение и резервная копия ДО замены.
+
+## Зафиксированная технология V6, 19 ноября 2026
+
+Отражения снимает scripts/bake-resort-spa-native-probes.mjs из настоящего
+приватного native game scene:14room+верхний бассейн,128px HDR, octahedral
+linear radiance/4, PNG sheet512px/15слоёв. Персонажи/SPA fish/вода скрыты только
+для offline capture; renderer/light/visibility возвращаются в finally.
+QA manualFrames останавливает simulation, но drawPaused должен быть false
+для явных offscreen draws: иначе QA wrapper возвращает пустые captures.
+Проверять реальные draw calls/nonempty RGB/GL errors, не только root.ready.
+Не запускать второй GPU и не менять HEAD/diff/imported source во время capture.
+
+Runtime public/resort-spa-reflections.js: одна selected-only/coalesced загрузка,
+PNG и unpacked raw SHA256, decode без gamma/flip/premultiply. Независимые
+слои DataArrayTexture128×128×15 RGBA8 (~1.25MiB с mipmaps), NoColorSpace,
+общая immutable/sharedScenery текстура; нет gameplay CubeCamera/render targets
+или per-frame upload. Недоступный/битый asset сохраняет предыдущий fallback.
+Файл манифеста public/resort-spa-probe-assets.js содержит реальные SHA/order/
+source revision. Room lamp ID1..56: каждая комната резервирует4, слой
+floor((aMallRoom-1)/4); при изменении порядка зон проверить mapping и rebake.
+Sky — отдельный слой14. Тот же core волн/Fresnel/глубины, только свой probe
+для21SPA basins. Общие water-core/Mall/cats не менять. Сохранять прежние
+shader hooks, native instancing isolation и уникальный program cache variant.
+
+Первый реальный capture source3ab73cd, архив bbab0e6. Actual GPU/readback/
+GLSL proof5adfcdb сохранён bd6195e. Эти probes сняты ДО поздней мягкой мебели/
+галактики/новых полов: перед финальной публикацией обновить после всех art
+изменений, не объявлять старый probe совпадающим с новой геометрией.
+Будущий private baker обходит свой SPA probe loader, чтобы не отражать себя
+рекурсивно. Все exact source/bundle/hash/PNG/log — docs/qa/2026-11-19/spa-v6-*.
+
+Материалы: shipped CC0 Mall marble01 — бежевые плитки, не Calacatta.
+Новые источники AmbientCG/PolyHaven API здесь blocked403; не выдумывать download.
+Штатный velour normal/roughness можно переиспользовать через собственные clone
+textures, с data NoColorSpace/GL normal, нейтральным SPA albedo и normalScale.32.
+Walnut maps имеют kind warm, не несуществующий wood. Color всегдаsRGB,
+normal/roughness без gamma; использовать metre UVs через существующий stamp.
+Декоративные puffed pillows/tied curtains не меняют опорную геометрию кресла
+или радиус/маршрут кота. Нижний край драпировки+.08м, высотаAroma2.7/Cabana2.8/
+обычная3.6; проверять навес/рейку и пол визуально. VIP256px spiral chart —
+собственная процедурная живопись на настоящем своде, не reference photograph.
+
+Восстановление после рестарта: сначала branch/SHA/status/CURRENT и последние
+логи. Готовые PNG/source/bundle сохранять отдельно от failed/interrupted,
+недополученный итог не объявлять PASS. Продолжать только отсутствующие шаги,
+сопоставив реальные source-files и bundle SHA, не переснимать всё автоматически.
+Paid V6 audit fixtures фондируются только в приватном SQLite (6000хватает
+полным процедурам). Нехватка тестового кошелька — precondition failure,
+не повод менять настоящие кошельки/цены/проверки. Архив не включает SQLite,
+секреты или world credentials; log force-add и manifest bytes/tracking обязательны.
+
+Native/CI остаются техническими доказательствами, не художественным одобрением.
+Все R1/R2/R4/R5 ещё требуют плотных садов/каскадов/связного дворцового силуэта;
+проверять каждый на этапах. Mac/phone FPS не подтверждать по SwiftShader.

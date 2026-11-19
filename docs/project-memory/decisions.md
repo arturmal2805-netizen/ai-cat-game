@@ -555,3 +555,12 @@ byte-identical temp QA art связаны hardlinks, освобождены2GiB 
 QA drawPaused wrapper, не productionwater. Новые probes пока не подключены.
 Продолжить с byte-checked DataArrayTexture и локальными SPA hooks, повторить
 сверку каждого референса. Native/CI не является пользовательским одобрением.
+
+### 2026-11-19 — Сохранение V6 пережило перезапуск среды
+Reflection proof bd6195e; soft-art source992355c/partialc294dde; mounting
+sourcebe2676c/interruptedprooff88adeb сохранены с точными PNG/source/bundle/log.
+Рестарт оборвал только последнее продолжение после3комнат; код и результат
+не потеряны.30467bf запускает только sky/Nap/SQLite оставшиеся шаги.
+QA wallet failure сохранён отдельно, productionбалансы не затрагивались.
+Долговечная технология/provenance/ограничения добавлены в SPA standard,
+не только в чат. Все новые art этапы пока WIP, без публикации/visual approval.

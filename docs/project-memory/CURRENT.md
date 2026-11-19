@@ -30,7 +30,7 @@ Chromium/private Worker/SQLite download/cancel/restore/reload PASS. **Mac нап
 
 [Полное задание](../../specifications/underwater-spa-v6-2026-11-18.md).
 Код /workspace/chichi-emergency-save-recovery, ветка **codex/spa-v6-reconstruction**.
-Последний удалённый код **be2676c** (полный SHA в origin/codex/spa-v6-reconstruction). Архив15actual probes **bbab0e60e65a30b4aea2c4fd76a7717e9ebbda86**.
+Последний удалённый код **30467bf3545cebf4db8112b912fbda9f1617d628**; art/renderer остаётсяbe2676c31f1b73fe5e1215a288c44738f95c3caa. Архив15actual probes **bbab0e60e65a30b4aea2c4fd76a7717e9ebbda86**.
 Старые worktrees не удалены. archive/pre-spa-v6-2026-11-18 сохраняет
 0d21c0f0773d756790facf75cc35574376263f60. Не отправлять художественный WIP в main.
 
@@ -128,11 +128,24 @@ Nap step-down/camera, VIP4wet+4dry full-floor routes) PASS подNode22.
 R4 galaxy/dark floor заметны, но все references ещё далеки.
 be2676c исправляет только QA funding и mounting drapes: bottom+.08,
 Aroma top2.7/Cabana2.8/обычный3.6 и реальные gold rods.
-Новый native /workspace/qa/spa-v6-soft-mounted-native.log, результаты
-/workspace/qa/spa-v6-soft-mounted: focus R2/R4/cabana+sky, Nap W, upperpool
-procedure/SQLite. R1/R5 не менялись этой anchor правкой, старые6видов сохранены.
-НЕ считать этот прогон завершённым. Сначала читать лог, не второй GPU/не менять
-основной код пока сохранилась точная frozen source.
+Второй native прерван рестартом среды ПОСЛЕ трёх R2/R4/cabana PNG.
+Source/be2676c/bundle/log/3frames сохранились и удалённо архивированы
+**f88adeb6ceb8f7b93b6efd20ab5c117e3cef08a3**, mounted-interrupted/.
+Старый process37747 больше не существует; не ждать его.
+Продолжение exec**9039**, лог /workspace/qa/spa-v6-soft-completion-native.log,
+результаты /workspace/qa/spa-v6-soft-completion: ONLY_SKY=1/CONTACTS=1/
+SKY_ONLY=1, один оставшийся вид+Nap W/World+верхнийpool/SQLite+finalerrors.
+30467bf меняет только private runner: budget6000 и ONLY_SKY, чтобы не повторять
+три уже снятых комнаты. До объединения доказательств сравнить настоящие
+source-files/bundle SHA. НЕ считать прогон завершённым до результата.
+Основной worktree frozen на30467bf, второй GPU не запускать.
+Технология capture/loader/material/restart сохранена в стандартеunderwater-spa.
+
+Readonly camera finding: front eye az0,d200,e.4 оказался за water radius1.27
+и внутри реального берега (bed-.495,eye-73). Не менять overview на такой
+ракурс ради красивой картинки и не скрывать скалы. Текущий az1.35/d210/e.5
+свободен (waterRadius.939, минимум terrain clearance39м). Это геометрическая
+проверка, не новый native camera acceptance.
 Новый вспомогательный sparse checkout /workspace/chichi-spa-reflection-runtime,
 ветка codex/spa-reflection-runtime, база d8b3b03 — чистый, без loader правок.
 Не считать создание checkout реализацией и не начинать capture заново.
