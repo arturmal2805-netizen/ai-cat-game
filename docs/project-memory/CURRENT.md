@@ -30,7 +30,7 @@ Chromium/private Worker/SQLite download/cancel/restore/reload PASS. **Mac нап
 
 [Полное задание](../../specifications/underwater-spa-v6-2026-11-18.md).
 Код /workspace/chichi-emergency-save-recovery, ветка **codex/spa-v6-reconstruction**.
-Последний code3ab73cd32383a1a06c31b890b3d046e1127086e8; архив результата bbab0e6 (полный SHA проверяется в remote).
+Последний удалённый код **5adfcdbb3d8dd16a1b236b8f00c9a3b14a0c69be**. Архив15actual probes **bbab0e60e65a30b4aea2c4fd76a7717e9ebbda86**.
 Старые worktrees не удалены. archive/pre-spa-v6-2026-11-18 сохраняет
 0d21c0f0773d756790facf75cc35574376263f60. Не отправлять художественный WIP в main.
 
@@ -99,7 +99,15 @@ Sheet PNG SHA256 c40feac8f87aa9b675f2429a5867b109ad6c4070771abdf90c34528b7f5696d
 raw layers74df01edbe5923cea6b3105f7056c7a8f58a68928f9ba14d081840a1320de679.
 Sheet просмотрен: реальные янтарные светильники/тёмные комнаты/голубой экстерьер;
 явных котов-ghosts при128px не видно, не гарантия идеальных отражений.
-Runtime loader ещё НЕ реализован. Bake закончен: основной worktree не заморожен.
+Runtime loader реализован в5adfcdb: PNG/rawSHA256 проверяются,15слоёв без sRGB/flip,
+coalesced selected-only загрузка, immutable mipmapped DataArrayTexture(~1.25MiB),
+SPA floors и21pool profiles. Shared water/Mall/AI/save/models не менялись.
+3 unit cases PASS: actual PNG/raw parity, corrupt/offline fallback/coalescing,
+shader hook composition. Это пока НЕ actual GPU/pass или визуальное одобрение.
+Нативный прогон exec2357 /workspace/qa/spa-v6-room-reflections-native.log,
+результаты /workspace/qa/spa-v6-room-reflections. Сначала проверить прогресс;
+не запускать второй GPU. Код5adfcdb оставлять неизменным до завершения.
+Проверяет GLSL/data-array readback и21pool layers, шесть обычных ракурсов+World.
 Новый вспомогательный sparse checkout /workspace/chichi-spa-reflection-runtime,
 ветка codex/spa-reflection-runtime, база d8b3b03 — чистый, без loader правок.
 Не считать создание checkout реализацией и не начинать capture заново.
