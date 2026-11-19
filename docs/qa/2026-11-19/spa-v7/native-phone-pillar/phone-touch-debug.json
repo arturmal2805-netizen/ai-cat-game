@@ -1,0 +1,67 @@
+{
+  "before": [
+    -450,
+    -164.988,
+    713
+  ],
+  "after": [
+    -450,
+    -164.98799999403954,
+    713.2
+  ],
+  "bounds": {
+    "x": 13,
+    "y": 497,
+    "width": 136,
+    "height": 136
+  },
+  "button": {
+    "x": 59,
+    "y": 497,
+    "width": 44,
+    "height": 44
+  },
+  "hit": {
+    "tag": "BUTTON",
+    "key": "KeyW",
+    "cls": ""
+  },
+  "debug": {
+    "events": [
+      {
+        "name": "pointerdown",
+        "key": "KeyW",
+        "target": "BUTTON",
+        "id": 5
+      },
+      {
+        "name": "pointerup",
+        "key": "KeyW",
+        "target": "BUTTON",
+        "id": 5
+      },
+      {
+        "name": "lostpointercapture",
+        "key": "KeyW",
+        "target": "BUTTON",
+        "id": 5
+      }
+    ],
+    "input": {
+      "keys": [],
+      "allowed": true
+    },
+    "camera": [
+      -450,
+      -162.8138225534846,
+      707.2969378432713
+    ],
+    "look": [
+      -450,
+      -163.88799999403955,
+      713.2
+    ],
+    "active": true,
+    "dialogs": []
+  }
+}

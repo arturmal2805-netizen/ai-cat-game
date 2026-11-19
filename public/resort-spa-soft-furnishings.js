@@ -17,10 +17,10 @@ export function spaPillowGeometry(){
 }
 // Original painted emissive star-vault chart, not a photograph/reference asset.
 // Only the VIP ceiling uses this bounded256px map; other rooms keep their palette.
-export function spaGalaxyTexture(){
+export function spaGalaxyTexture({planar=false}={}){
  const size=256,data=new Uint8Array(size*size*4);
  for(let y=0;y<size;y++)for(let x=0;x<size;x++){
-  const angle=x/(size-1)*Math.PI*2,r=Math.sin((1-y/(size-1))*Math.PI),a=angle*2+Math.log(r+.07)*6;
+  const nx=x/(size-1)*2-1,nz=y/(size-1)*2-1,angle=planar?Math.atan2(nz,nx):x/(size-1)*Math.PI*2,r=planar?Math.hypot(nx,nz):Math.sin((1-y/(size-1))*Math.PI),a=angle*2+Math.log(r+.07)*6;
   const core=Math.exp(-r*r*160),arm=Math.max(0,Math.cos(a))**8*Math.exp(-r*4),mist=(.5+.5*Math.sin(angle*9+r*57))*.08*Math.exp(-r*3);
   const rgb=[core*.95+arm*.45+mist*.5,core*.65+arm*.16+mist*.2,core*.6+arm*.7+mist*.7],k=(y*size+x)*4;
   for(let c=0;c<3;c++)data[k+c]=Math.round(Math.min(1,rgb[c])*255);data[k+3]=255;

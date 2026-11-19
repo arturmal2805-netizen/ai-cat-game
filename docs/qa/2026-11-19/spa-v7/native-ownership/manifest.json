@@ -1,0 +1,18 @@
+{
+  "sourceCommit": "f04365585a2f0183ce695e57269d298b73863fa0",
+  "productSourceDirty": false,
+  "qaOnlyChanges": [
+    "scripts/audit-resort-spa-phone-walk.mjs",
+    "test/resort-spa-v7-routes.test.mjs"
+  ],
+  "result": "PASS, exit0, errors[] and httpErrors[]; real private Worker SQLite two reloads",
+  "command": "Node22 CHICHI_OWNERSHIP_AUDIT=1 CHICHI_ZOO_FIXED_DRAWS=1 node scripts/check-aquarium.cjs",
+  "qaBundleSha256": null,
+  "limitation": "The existing ownership runner did not capture its instrumented bundle. No retrospective bundle hash is claimed. Its PNG is functional inventory evidence, not a V7 appearance or hardware performance comparison. Product sources remained byte-identical to f043655.",
+  "workerLog": "A workerd Broken pipe line appeared during shutdown; the native process exited0, assertions completed, browser/HTTP errors remained empty.",
+  "files": {
+    "restored-mega-loops.png": "95f406afb7f430cae8255e4993f1e8c559aa21d8cdfa1a57cfbe912583919653",
+    "native.log": "262314bd38d5f1e66c586582fa9ff5471b168e696c4511f7e8d75fb8fda2a729",
+    "ownership.json": "ecb035e7c22c5db2bfab6117a1a1f4cc5483ec7cde1ad711a06c828dc091ec71"
+  }
+}

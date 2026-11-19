@@ -1,0 +1,16 @@
+{
+  "sourceBase": "f04365585a2f0183ce695e57269d298b73863fa0",
+  "sourceState": "?? docs/qa/2026-11-19/spa-v7/native-final-shading/\n",
+  "result": "FAILED held touch movement assertion; control did activate and pad was visible; cause being investigated",
+  "visualReview": "Do not call phone passed. Preserve exact final-render source/bundle; no product relaxation or movement radius change.",
+  "files": {
+    "imported-source.tar.gz": "591de5ab42effaa6e6efc67ae3a3fe1c2e1fbfcf28320b8764597e770442607b",
+    "native.log": "d0d1c24059c2d4a5a23ec2515937b9b4c6733397a1da08de651dc48f0f8a5f63",
+    "qa-app.js.gz": "966b8078163b19731f5811694034830a817ce81c9f54d72e55f47344e8240bf6",
+    "qa-build.json": "eb31e3b8ba5dfa13a105b026056c4e4185eeacf31549beb6c207e65be95f8eac",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "2c826994e016bd6dbc9f3a62b9dcc968e120c1b823dd2ab31dcf40ef2180ab5e",
+    "source-status.txt": "9b0700796db2986e57c42b13b3e60a3a4d4fabc7252733297535ffac3d273c87"
+  }
+}

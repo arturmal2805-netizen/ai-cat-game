@@ -1,0 +1,18 @@
+{
+  "sourceBase": "534f3a954643a0a1fda1632ab1dee762a07bf3d6",
+  "sourceState": "",
+  "result": "PASS remaining actual native scenarios and private SQLite interrupted pool reload/controls/Cloud download",
+  "visualReview": "Together with successful portions in native-functional-first and final14pool CPU geometry gate; not a full visual/ref or hardware performance acceptance.",
+  "files": {
+    "imported-source.tar.gz": "e730136b577f478df4f0c0655b896665bf22d97c53ae6b53634cf119b3d55445",
+    "native.log": "9889526589e79c842a59e35bbd016eb2919a6659a6e13461e711c343895012c0",
+    "qa-app.js.gz": "79c16c251756de3dd4703877bd32856f23b23393f8761996986a475e1ed6047e",
+    "qa-build.json": "0832eab886a72a9535066064333ea026e9bdd2838e1261701665e442da761c5f",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "588f99b2222afbe88a6a5c302a4bc147f4966c1074fdd37f5a62508bf8ab32ee",
+    "source-status.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "v7-functional-progress.json": "a675033154a1a142b69437625c2887167705c957cc81b457575cff3b536e17c6",
+    "v7-functional-sqlite.json": "6ee91611bf5a030100f3fe9fe930951533e608cbaa70c465c0ec5407d79a9783"
+  }
+}

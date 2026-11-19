@@ -1,0 +1,40 @@
+TAP version 13
+# Subtest: full body can traverse actual upper and lower access corridors; closed doors and cabin sides remain solid
+ok 1 - full body can traverse actual upper and lower access corridors; closed doors and cabin sides remain solid
+  ---
+  duration_ms: 4757.213517
+  type: 'test'
+  ...
+# Subtest: real geometry lift journey walks, rides, exits and returns without skipping a body segment
+ok 2 - real geometry lift journey walks, rides, exits and returns without skipping a body segment
+  ---
+  duration_ms: 5194.322569
+  type: 'test'
+  ...
+# Subtest: V7 has eight actual room destinations, preserving fourteen historical service addresses
+ok 3 - V7 has eight actual room destinations, preserving fourteen historical service addresses
+  ---
+  duration_ms: 1.465782
+  type: 'test'
+  ...
+# Subtest: the enlarged night halls have measured area and real vertical clearance
+ok 4 - the enlarged night halls have measured area and real vertical clearance
+  ---
+  duration_ms: 3.526134
+  type: 'test'
+  ...
+# Subtest: V7 continuous real slabs preserve pool/atrium/stair openings, clear headroom and the original SPA root
+ok 5 - V7 continuous real slabs preserve pool/atrium/stair openings, clear headroom and the original SPA root
+  ---
+  duration_ms: 1019.428834
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5489.77548

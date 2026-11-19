@@ -1,0 +1,100 @@
+TAP version 13
+# Subtest: full body can traverse actual upper and lower access corridors; closed doors and cabin sides remain solid
+ok 1 - full body can traverse actual upper and lower access corridors; closed doors and cabin sides remain solid
+  ---
+  duration_ms: 4495.922345
+  type: 'test'
+  ...
+# Subtest: every actual station excludes concurrent cats; cancellation and cleaning release correctly
+ok 2 - every actual station excludes concurrent cats; cancellation and cleaning release correctly
+  ---
+  duration_ms: 11.466166
+  type: 'test'
+  ...
+# Subtest: duplicate synchronization never extends reserved expiry; stale owner cannot occupy or release another cat
+ok 3 - duplicate synchronization never extends reserved expiry; stale owner cannot occupy or release another cat
+  ---
+  duration_ms: 0.415754
+  type: 'test'
+  ...
+# Subtest: unavailable, occupied and cleaning stations do not accept new reservations; teardown releases all owners
+ok 4 - unavailable, occupied and cleaning stations do not accept new reservations; teardown releases all owners
+  ---
+  duration_ms: 0.555681
+  type: 'test'
+  ...
+# Subtest: physical appointment returns, bills once, consumes once, reserves therapist and cleans station
+ok 5 - physical appointment returns, bills once, consumes once, reserves therapist and cleans station
+  ---
+  duration_ms: 12.854085
+  type: 'test'
+  ...
+# Subtest: resume uses durable paid ticket; failing effect retries same receipt without rebilling; paused time does not expire ownership
+ok 6 - resume uses durable paid ticket; failing effect retries same receipt without rebilling; paused time does not expire ownership
+  ---
+  duration_ms: 8.937027
+  type: 'test'
+  ...
+# Subtest: blocked full-body segment cannot start a walk or bill; cancellation releases seat and staff
+ok 7 - blocked full-body segment cannot start a walk or bill; cancellation releases seat and staff
+  ---
+  duration_ms: 1.55134
+  type: 'test'
+  ...
+# Subtest: a rejected real-wallet payment does not break the world loop or retain its therapist and booking
+ok 8 - a rejected real-wallet payment does not break the world loop or retain its therapist and booking
+  ---
+  duration_ms: 2.122163
+  type: 'test'
+  ...
+# Subtest: real geometry lift journey walks, rides, exits and returns without skipping a body segment
+ok 9 - real geometry lift journey walks, rides, exits and returns without skipping a body segment
+  ---
+  duration_ms: 5031.474442
+  type: 'test'
+  ...
+# Subtest: V7 has eight actual room destinations, preserving fourteen historical service addresses
+ok 10 - V7 has eight actual room destinations, preserving fourteen historical service addresses
+  ---
+  duration_ms: 1.115767
+  type: 'test'
+  ...
+# Subtest: the enlarged night halls have measured area and real vertical clearance
+ok 11 - the enlarged night halls have measured area and real vertical clearance
+  ---
+  duration_ms: 0.425659
+  type: 'test'
+  ...
+# Subtest: eight physical destinations retain fourteen historical prices and real shared contacts
+ok 12 - eight physical destinations retain fourteen historical prices and real shared contacts
+  ---
+  duration_ms: 8.470394
+  type: 'test'
+  ...
+# Subtest: alias reservations share real bath occupancy including occupied cleaning and unavailable states
+ok 13 - alias reservations share real bath occupancy including occupied cleaning and unavailable states
+  ---
+  duration_ms: 0.848072
+  type: 'test'
+  ...
+# Subtest: retired service redeems its original paid receipt without selling or rebilling
+ok 14 - retired service redeems its original paid receipt without selling or rebilling
+  ---
+  duration_ms: 16.076222
+  type: 'test'
+  ...
+# Subtest: V7 continuous real slabs preserve pool/atrium/stair openings, clear headroom and the original SPA root
+ok 15 - V7 continuous real slabs preserve pool/atrium/stair openings, clear headroom and the original SPA root
+  ---
+  duration_ms: 2209.847764
+  type: 'test'
+  ...
+1..15
+# tests 15
+# suites 0
+# pass 15
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5400.777847

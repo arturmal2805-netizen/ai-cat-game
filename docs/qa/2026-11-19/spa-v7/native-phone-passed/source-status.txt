@@ -1,0 +1,5 @@
+ M scripts/audit-resort-spa-phone-walk.mjs
+ M test/resort-spa-v7-routes.test.mjs
+?? docs/qa/2026-11-19/spa-v7/native-final-shading/
+?? docs/qa/2026-11-19/spa-v7/native-phone-first/
+?? docs/qa/2026-11-19/spa-v7/native-phone-pillar/

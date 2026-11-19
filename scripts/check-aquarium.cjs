@@ -360,6 +360,7 @@ async function localWorker() {
     if(process.env.CHICHI_RESORT_SPA_AUDIT){
       delete g.mosasaurSubmarine;delete g.catLocations;
       const paidV6=!!(process.env.CHICHI_SPA_V6_CONTACTS||process.env.CHICHI_SPA_V6_PROCEDURES||process.env.CHICHI_SPA_V6_VIP_LOUNGE||process.env.CHICHI_SPA_V6_CAFE_WATER);
+      if(process.env.CHICHI_SPA_V7_FUNCTIONAL_AUDIT)g.jobCity.profiles.chichi.coins=20000;
       if(paidV6||process.env.CHICHI_RESORT_SPA_PROCEDURE_AUDIT||process.env.CHICHI_RESORT_SPA_TRANSIT_AUDIT||process.env.CHICHI_RESORT_SPA_POOLS_AUDIT||process.env.CHICHI_RESORT_SPA_DRY_AUDIT)
         g.jobCity.profiles.chichi.coins=paidV6||process.env.CHICHI_RESORT_SPA_DRY_AUDIT&&process.env.CHICHI_RESORT_SPA_POOLS_AUDIT?6000:2000;
     }
@@ -402,6 +403,7 @@ async function localWorker() {
         {
           name: "qa",
           setup(b) {
+            if(process.env.CHICHI_SPA_V7_MASS_AUDIT)b.onLoad({filter:/\/public\/resort-spa-world\.js$/},()=>{const source=readPublic('resort-spa-world.js');assert(source.includes('resortSpaModelSteps()')||source.includes('resortSpaModelSteps({layoutVersion:7})'));return{loader:'js',contents:source.replace('resortSpaModelSteps()','resortSpaModelSteps({layoutVersion:7})')};});
             if(process.env.CHICHI_SPA_PROBE_BAKE)b.onLoad({filter:/\/public\/resort-spa-reflections\.js$/},()=>({loader:'js',contents:readPublic('resort-spa-reflections.js').replace('return loader.prepare();','return Promise.resolve(false);')}));
             if(process.env.CHICHI_TERRAIN_AUDIT){const original=b.onLoad.bind(b);b.onLoad=(options,fn)=>original(options,async args=>{const result=await fn(args);if(result?.contents){const relative=path.relative(root,args.path),target=path.join(review,'qa-inputs',relative);fs.mkdirSync(path.dirname(target),{recursive:true});fs.writeFileSync(target,result.contents);}return result;});}
             if(process.env.CHICHI_OCEAN_PERF_AUDIT||process.env.CHICHI_CACHE_TRACE)b.onLoad({filter:/\/public\/geometry-residency\.js$/},()=>({loader:'js',contents:'globalThis.__resTrace={meta:new WeakMap(),events:[],time:0};\n'+readPublic('geometry-residency.js')
@@ -550,7 +552,7 @@ async function localWorker() {
                   )
                   .replace(
                     "    camera.updateMatrixWorld();\n    islands",
-                    "    if(window.__lagoonQA?.oceanReviewCamera){const p=window.__lagoonQA.oceanReviewCamera;camera.position.set(...p.eye);look.set(...p.target);desiredLook.copy(look);camera.lookAt(look);}\n    camera.updateMatrixWorld();\n    islands",
+                    "    if(window.__lagoonQA?.oceanReviewCamera){const p=window.__lagoonQA.oceanReviewCamera;camera.position.set(...p.eye);look.set(...p.target);desiredLook.copy(look);camera.lookAt(look);if(p.fov){camera.fov=p.fov;camera.updateProjectionMatrix();}}\n    camera.updateMatrixWorld();\n    islands",
                   )
                   .replace("let frameProfile = createFrameProfile(renderer,", "window.__lagoonProfileOriginals=Object.fromEntries(['bufferData','bufferSubData','drawElements'].map(k=>[k,renderer.getContext()[k]]));let frameProfile = createFrameProfile(renderer,")
                   .replace(

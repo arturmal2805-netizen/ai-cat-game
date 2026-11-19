@@ -6047,11 +6047,11 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       if(options.top){elevation=1.3;desiredDistance=Math.max(desiredDistance,zone?zone.rx*1.8:175);return;}
       if(entering){if(focused!=='autumn')focus('autumn');resortSpaPreviousCamera={look:desiredLook.clone(),distance:desiredDistance,azimuth,elevation,fov:desiredFov,near:camera.near};}
       mall?.exit(false);submarine?.releaseControl();manualWalk?.stop();faceCamera.setEnabled(false,look);viewingOverview=false;mallWideClip=false;mallFraming=null;
-      const b=byBiome('autumn'),v=resortSpaView(zone,options);desiredLook.set(b.center[0]+v.x,v.y,b.center[1]+RESORT_SPA_LAYOUT.offsetZ+v.z);desiredDistance=v.distance;azimuth=v.azimuth;elevation=v.elevation;desiredFov=v.fov;camera.near=.3;camera.updateProjectionMatrix();
+      const b=byBiome('autumn'),v=resortSpaView(zone,{...options,palace:resortSpa?.root?.userData.layoutVersion===7,aspect:camera.aspect});desiredLook.set(b.center[0]+v.x,v.y,b.center[1]+RESORT_SPA_LAYOUT.offsetZ+v.z);desiredDistance=v.distance;azimuth=v.azimuth;elevation=v.elevation;desiredFov=v.fov;camera.near=.3;camera.updateProjectionMatrix();
     },
     onExit:restore=>{if(restore&&resortSpaPreviousCamera){desiredLook.copy(resortSpaPreviousCamera.look);desiredDistance=resortSpaPreviousCamera.distance;azimuth=resortSpaPreviousCamera.azimuth;elevation=resortSpaPreviousCamera.elevation;desiredFov=resortSpaPreviousCamera.fov;camera.near=resortSpaPreviousCamera.near;camera.updateProjectionMatrix();}resortSpaPreviousCamera=null;},
   });
-  const canControlChichi=()=>callbacks.canControlChichi?callbacks.canControlChichi()!==false:callbacks.canDragCat?.('chichi')!==false;
+  const canControlChichi=()=>!resortSpa?.frame('chichi')?.phase?.startsWith('restoring-')&&(callbacks.canControlChichi?callbacks.canControlChichi()!==false:callbacks.canDragCat?.('chichi')!==false);
   submarine=createSubmarineRuntime({scene,container,canvas:renderer.domElement,camera,look,actor:chichiCarrier,getModel:()=>cat,getMall:()=>mall,onLandExit:()=>{manualWalk?.start();refreshManualButton();},onError:message=>callbacks.onReaction?.(message),getIsland:()=>islands.get('autumn'),getGame:()=>game,getFocused:()=>focused,canPilot:()=>canControlChichi()&&!mall?.inspection&&!manualWalk?.active,cancelHero:()=>{callbacks.onControlChichi?.();cancelHeroActivity();heroGather=null;jobs.cancel('chichi');crew.cancel('chichi');leisure.cancel('chichi');spa.cancel('chichi');chill.cancel('chichi');court.cancel('chichi');faceCamera.setEnabled(false,look);},approachDock:point=>{heroGather=gatherTrip(chichiCarrier.position,{x:point.x,y:point.y,z:point.z},performance.now());return true;},focus});
   const manualGroundRay=new THREE.Raycaster(),manualOrigin=new THREE.Vector3(),manualDown=new THREE.Vector3(0,-1,0),manualHit=new THREE.Vector3();
   const manualCityBuildings=JOB_BUSINESSES.map(o=>({x:o.x,z:o.z,get y(){return itemGroups.get(o.id)?.position.y||0;},get getManualNavigation(){return itemGroups.get(o.id)?.userData.getManualNavigation;}}));
@@ -6154,7 +6154,8 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
         ...[...npcs].map(([id,n])=>({id,position:n.carrier.position,yaw:n.carrier.rotation.y,
           transient:!!court.get(id)?.zooCarry||!!n.gatherTrip||draggingCat?.catId===id||!!spa.get(id)||!!chill.get(id)||swimVisits.has(id)||
             ['ride','swim'].includes(residentPlay.get(id)?.decision?.action)}))];
-      return captureCatLocations(submarine?{...next,mosasaurSubmarine:submarine.snapshot()}:next,previous,actors.map(a=>({...a,position:mall?.safePosition(a.id)||a.position})));
+      const safeSpa=resortSpa?.safePositions()||new Map();
+      return captureCatLocations(submarine?{...next,mosasaurSubmarine:submarine.snapshot()}:next,previous,actors.map(a=>{const position=mall?.safePosition(a.id)||safeSpa.get(a.id)||a.position;return{...a,position,transient:a.transient||safeSpa.has(a.id)&&!safeSpa.get(a.id),spaLayout:resortSpa?.locationStamp(a.id,position)};}));
     },
     followCat,
     inspectJobBusiness: inspectAttraction,

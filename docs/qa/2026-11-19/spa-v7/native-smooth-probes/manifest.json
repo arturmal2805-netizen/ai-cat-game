@@ -1,0 +1,29 @@
+{
+  "sourceBase": "56cb872f2c0e750d6cbc1e6e1380af0b357b3cd4",
+  "sourceState": "",
+  "result": "PASS 9 exact-source smooth-normal and continuous-floor-light actual scene probes; source-state guard passed",
+  "visualReview": "Static scene captures after normal/light correction. No moving cats, fish or feedback. Final runtime optical review is separate.",
+  "files": {
+    "imported-source.tar.gz": "748448c83ecfbfa487e499b75b415d0d53ef9d3fa657af43e68af1627049aee8",
+    "native.log": "b4610e0670ac8f3f60412dfd01e5e2eb2ed001fef4d87a3ec57be1f9418131c1",
+    "qa-app.js.gz": "59d79e1b7917bd597b617a0b863eb5693b093cba1decf02bbc47f69ff90d26b0",
+    "qa-build.json": "059f941d48067b7d66a360945580126bf6caf997a5b39db2429ad762d10265ec",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "5b048471325eeb1274801497d85121332f7e85ec93551742ef0063b3777cce47",
+    "source-status.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "probes/resort-aroma.png": "6ac0c835d9768cda6c8528f6a3be60507d4c0a898339371ea94b46808f626c0c",
+    "probes/resort-thermal.png": "5f6e86fc7cdbd83f77b3f39ffc6f22a2c1da6e6e447cee78e3bcea1e70a80077",
+    "probes/resort-cafe.png": "1f22284b1ab33eff2f7c6ee4f02c98251cbff7c20614343d6d7398dda267412b",
+    "probes/resort-sky-pool.png": "f3d9be09c6dae20e977c04e6a2106a8e1cd9d85e0fffe961a9f382371f83b80b",
+    "probes/spa-interiors-bad2f1b8b982.png": "bad2f1b8b9825eccdb7a334b55fb9b9f9dd710edf1653b570b4bb2c0cb6f505e",
+    "probes/resort-cabana.png": "be7d7525944251f5e6458f782629e7fde25fdcc042a286fc62d22fb9efebf941",
+    "probes/resort-massage.png": "d1f84d4ab6b871915e77fef0a02146b1620229af234884b0a6a3c99066cabcc2",
+    "probes/capture-progress.json": "191748dc634183ef3725cf7b6078e6d5ace17d69fa9b81ae1a252cec20978ac9",
+    "probes/resort-vip.png": "3934a113e02526e14befef4707b217618b63753705aa2ed86d12258f9a069188",
+    "probes/resort-waterfall.png": "bd22bf1a0ed47ada52b2f0e0140772580c8b7a01b96000ba63e11861a1562ec3",
+    "probes/resort-midnight.png": "2a14452b31d2f947a2d4316777fed29fc8d537b5aa56f07a52b29306379b36cf",
+    "probes/probe-layers.rgba.gz": "bd94f1a070acceec3474ce57df2e2f91f9dae999bf6b06f261a0e4b2d11f76d6",
+    "probes/manifest.json": "68526607b649f88e54071f7a6bdc3f2b8b81c7d61e5b681b39642e35658e0dab"
+  }
+}

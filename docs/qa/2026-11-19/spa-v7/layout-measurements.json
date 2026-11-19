@@ -1,0 +1,336 @@
+{
+  "base": "6e28f752291e65e7b51f7f093a004e5c81fd27b3",
+  "status": "Candidate layout only; actual geometry/navigation/visual checks pending",
+  "palace": {
+    "x": 0,
+    "z": 224,
+    "width": 300,
+    "depth": 132,
+    "corner": 60,
+    "rise": 12,
+    "levels": 3,
+    "ceilingMinimum": 10.8,
+    "atrium": {
+      "x": 0,
+      "z": 203,
+      "rx": 40,
+      "rz": 36
+    },
+    "baseY": -165,
+    "offsetZ": -20
+  },
+  "oldRooms": [
+    {
+      "id": "resort-thermal",
+      "key": "thermal",
+      "x": 0,
+      "z": 266,
+      "level": 0,
+      "rx": 50,
+      "rz": 24,
+      "price": 150,
+      "y": -165
+    },
+    {
+      "id": "resort-jacuzzi",
+      "key": "jacuzzi",
+      "x": -65,
+      "z": 265,
+      "level": 1,
+      "rx": 23,
+      "rz": 21,
+      "price": 150,
+      "y": -156
+    },
+    {
+      "id": "resort-massage",
+      "key": "massage",
+      "x": -88,
+      "z": 219,
+      "level": 0,
+      "rx": 25,
+      "rz": 24,
+      "price": 300,
+      "y": -165
+    },
+    {
+      "id": "resort-aroma",
+      "key": "aroma",
+      "x": 87,
+      "z": 263,
+      "level": 0,
+      "rx": 24,
+      "rz": 22,
+      "price": 180,
+      "y": -165
+    },
+    {
+      "id": "resort-sauna",
+      "key": "sauna",
+      "x": 87,
+      "z": 219,
+      "level": 1,
+      "rx": 25,
+      "rz": 24,
+      "price": 120,
+      "y": -156
+    },
+    {
+      "id": "resort-cabana",
+      "key": "cabana",
+      "x": -82,
+      "z": 177,
+      "level": 1,
+      "rx": 28,
+      "rz": 18,
+      "price": 200,
+      "y": -156
+    },
+    {
+      "id": "resort-beauty",
+      "key": "beauty",
+      "x": 82,
+      "z": 177,
+      "level": 0,
+      "rx": 28,
+      "rz": 18,
+      "price": 180,
+      "y": -165
+    },
+    {
+      "id": "resort-vip",
+      "key": "vip",
+      "x": 43,
+      "z": 208,
+      "level": 2,
+      "rx": 20,
+      "rz": 19,
+      "price": 700,
+      "y": -147
+    },
+    {
+      "id": "resort-meditation",
+      "key": "meditation",
+      "x": 87,
+      "z": 263,
+      "level": 2,
+      "rx": 24,
+      "rz": 22,
+      "price": 100,
+      "y": -147
+    },
+    {
+      "id": "resort-nap",
+      "key": "nap",
+      "x": -43,
+      "z": 208,
+      "level": 2,
+      "rx": 20,
+      "rz": 19,
+      "price": 100,
+      "y": -147
+    },
+    {
+      "id": "resort-cafe",
+      "key": "cafe",
+      "x": 0,
+      "z": 203,
+      "level": 1,
+      "rx": 30,
+      "rz": 24,
+      "price": 100,
+      "y": -156
+    },
+    {
+      "id": "resort-waterfall",
+      "key": "waterfall",
+      "x": 0,
+      "z": 266,
+      "level": 2,
+      "rx": 46,
+      "rz": 24,
+      "price": 100,
+      "y": -147
+    },
+    {
+      "id": "resort-amber",
+      "key": "amber",
+      "x": -88,
+      "z": 219,
+      "level": 2,
+      "rx": 25,
+      "rz": 24,
+      "price": 100,
+      "y": -147
+    },
+    {
+      "id": "resort-midnight",
+      "key": "midnight",
+      "x": 82,
+      "z": 177,
+      "level": 2,
+      "rx": 28,
+      "rz": 18,
+      "price": 100,
+      "y": -147
+    }
+  ],
+  "newRooms": [
+    {
+      "id": "resort-thermal",
+      "key": "thermal",
+      "name": "Grand Thermal Lagoon",
+      "x": 0,
+      "z": 266,
+      "level": 0,
+      "rx": 54,
+      "rz": 24,
+      "corner": 8,
+      "y": -165,
+      "ceilingMinimum": 10.8
+    },
+    {
+      "id": "resort-vip",
+      "key": "vip",
+      "name": "Golden Galaxy Jacuzzi & VIP Lounge",
+      "x": 82,
+      "z": 230,
+      "level": 2,
+      "rx": 46,
+      "rz": 32,
+      "corner": 12,
+      "y": -141,
+      "ceilingMinimum": 10.8
+    },
+    {
+      "id": "resort-midnight",
+      "key": "midnight",
+      "name": "Midnight Blue Grand Relaxation Lounge",
+      "x": -82,
+      "z": 230,
+      "level": 2,
+      "rx": 43,
+      "rz": 21,
+      "corner": 12,
+      "y": -141,
+      "ceilingMinimum": 10.8
+    },
+    {
+      "id": "resort-massage",
+      "key": "massage",
+      "name": "Massage Palace",
+      "x": -88,
+      "z": 225,
+      "level": 1,
+      "rx": 28,
+      "rz": 25,
+      "corner": 8,
+      "y": -153,
+      "ceilingMinimum": 10.8
+    },
+    {
+      "id": "resort-aroma",
+      "key": "aroma",
+      "name": "Aroma Therapy Garden",
+      "x": 87,
+      "z": 262,
+      "level": 1,
+      "rx": 27,
+      "rz": 24,
+      "corner": 8,
+      "y": -153,
+      "ceilingMinimum": 10.8
+    },
+    {
+      "id": "resort-cabana",
+      "key": "cabana",
+      "name": "Floating Glass Cabanas",
+      "x": -82,
+      "z": 180,
+      "level": 1,
+      "rx": 31,
+      "rz": 21,
+      "corner": 8,
+      "y": -153,
+      "ceilingMinimum": 10.8
+    },
+    {
+      "id": "resort-cafe",
+      "key": "cafe",
+      "name": "Wellness Café",
+      "x": 0,
+      "z": 203,
+      "level": 0,
+      "rx": 34,
+      "rz": 29,
+      "corner": 8,
+      "y": -165,
+      "ceilingMinimum": 10.8
+    },
+    {
+      "id": "resort-waterfall",
+      "key": "waterfall",
+      "name": "Waterfall Relaxation Garden",
+      "x": 94,
+      "z": 231,
+      "level": 0,
+      "rx": 35,
+      "rz": 39,
+      "corner": 12,
+      "y": -165,
+      "ceilingMinimum": 10.8
+    }
+  ],
+  "midnight": {
+    "key": "midnight",
+    "before": {
+      "width": 56,
+      "depth": 36,
+      "area": 1583.3626974092558,
+      "minimumCeiling": 4
+    },
+    "after": {
+      "width": 86,
+      "depth": 42,
+      "area": 3488.38934211693,
+      "minimumCeiling": 10.8
+    },
+    "areaRatio": 2.2031524096309294
+  },
+  "vip": {
+    "key": "vip",
+    "before": {
+      "width": 40,
+      "depth": 38,
+      "area": 1193.8052083641214,
+      "minimumCeiling": 4
+    },
+    "after": {
+      "width": 92,
+      "depth": 64,
+      "area": 5764.3893421169305,
+      "minimumCeiling": 10.8
+    },
+    "areaRatio": 4.828584514232358
+  },
+  "clearance": {
+    "samples": 961,
+    "bed": {
+      "gap": 22.499999999999943,
+      "x": -78,
+      "z": 272
+    },
+    "reef": {
+      "gap": 18.591612000616635,
+      "x": -144,
+      "y": -116,
+      "z": 200
+    },
+    "mall": {
+      "gap": 19,
+      "x": 0,
+      "z": 164
+    }
+  },
+  "scope": "6m sampled unchanged bed/reef functions; does not replace native collision/complete-volume/camera checks. No terrain or Mall changes made."
+}

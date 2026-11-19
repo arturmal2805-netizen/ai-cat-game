@@ -1,3 +1,4 @@
+import {RESORT_ACTIVE_ZONES} from '../public/resort-spa-data.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
@@ -10,7 +11,7 @@ import {createSpaReflectionLoader,applyResortFinishReflection} from '../public/r
 import {resortInteriorLighting} from '../public/resort-spa-finishes.js';
 import {createMallRoomLights} from '../public/mall-room-light.js';
 const sha=b=>createHash('sha256').update(b).digest('hex');
-test('actual shipped reflection sheet decodes byte-identically to all 15 native captures, preserving bottom row and linear bytes',async()=>{
+test('actual shipped reflection sheet decodes byte-identically to all authored native captures, preserving bottom row and linear bytes',async()=>{
  const png=await readFile(new URL('../public/'+SPA_PROBE.url,import.meta.url));assert.equal(sha(png),SPA_PROBE.assetSha256);
  const idat=[];for(let at=8;at<png.length;){const size=png.readUInt32BE(at),type=png.toString('ascii',at+4,at+8);if(type==='IDAT')idat.push(png.subarray(at+8,at+8+size));at+=12+size;}
  const width=png.readUInt32BE(16),height=png.readUInt32BE(20),rows=inflateSync(Buffer.concat(idat)),data=new Uint8Array(width*height*4);
@@ -36,3 +37,5 @@ test('SPA array finish composes existing native lamp/static hooks and Fresnel wi
  assert.match(shader.fragmentShader,/sampler2DArray uSpaRoomProbe/);assert.match(shader.fragmentShader,/mallFresnel/);assert.match(shader.fragmentShader,/totalEmissiveRadiance/);assert.match(shader.vertexShader,/aMallRoom-1/);assert.equal(shader.uniforms.uMallProbeGain.value,3.2);
  assert(!oceanShader.includes('uSpaRoomProbe'));assert.match(m.customProgramCacheKey(),/fallback/);probe.texture.dispose();m.dispose();lights.texture.dispose();
 });
+
+test('current palace probes map the eight active rooms and the actual sky layer once',()=>{assert.equal(SPA_PROBE.layers,9);assert.deepEqual(SPA_PROBE.rooms,[...RESORT_ACTIVE_ZONES.map(z=>z.id),'resort-sky-pool']);assert.equal(SPA_PROBE.rows,3);});

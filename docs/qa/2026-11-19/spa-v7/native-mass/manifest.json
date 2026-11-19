@@ -1,0 +1,20 @@
+{
+  "sourceBase": "01d0ae4b5583c00bd92f448d7b670282d44d532a",
+  "sourceState": "",
+  "result": "PASS phase-A private native capture only: connected architecture prototype,3views/errors[]/httpErrors[]. Not functional/furnished V7.",
+  "visualReview": "Top3 gaps: roof shape is barely legible without structural ribs; angle view crops foreground, front view is too close; fa\u00e7ade lacks the required entrance hierarchy/frames. These require real geometry/camera corrections next.",
+  "files": {
+    "native.log": "8502a0930a88aa73752e997782868932d488dbf29685eb0d2ac15bee38f60802",
+    "qa-build.json": "ec71564dfb497a58c353954be71fb982790249e5a34d0e30a0df1fca7ad1f344",
+    "v7-mass-frames.json": "655f32067015fbdb1c776d420ef20d7b23356e7f36508813014db7e4b7c668a4",
+    "mass-front.png": "bddc42c48f2b627440f7d70b445b4119746bcbbd797f0573ba5661f1f2f42003",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mass-angle.png": "87aae66e73a88825db3eb5478133b7be83720cd5d7ddf51ef8dea8577ba0a315",
+    "imported-source.tar.gz": "bc9a75d88424637d6b067dbbe60078cfbb0e4fe8ed143f573b8ab7b83c0be27a",
+    "qa-app.js.gz": "d6b173e2f52e805a166ff3015fa1e8f99dcef2dab0ac2bc650d6089641e2e31a",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mass-top.png": "3c5a89fb1e0e5adf4ce700f32978194ea1a9c2388b8e3825575ff9afd071ae71",
+    "source-files.json": "f8347048d0693a71f54c11541b648b80a7451970b1eaacbed74dbf8fac9fff17",
+    "source-status.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

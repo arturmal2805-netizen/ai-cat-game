@@ -1,0 +1,29 @@
+{
+  "sourceBase": "4d85624d8ecb722630f1a261ff5cc81a9234f026",
+  "sourceState": "",
+  "result": "PASS nine actual static room/sky radiance captures; not gameplay or visual acceptance",
+  "visualReview": "Source4d85624, eight active rooms plus sky. Cats, SPA aquarium fish, water and jacuzzi particles masked. Keep source/bundle and all probe layer hashes. Final reflective gameplay views still required.",
+  "files": {
+    "imported-source.tar.gz": "e94abf1ced355c90db24db1d2fc33762cefbcef6e0c4b6b07eef4bea6d28f8c6",
+    "native.log": "20c03221e284cad44143e42b8a0a71ebd02f773ce6d69f12adc4eef662cea688",
+    "qa-app.js.gz": "1921c10cd62ba3dfd39d80e62518fc82a012a24e8c1d049142f35513a4b9414c",
+    "qa-build.json": "9bcf6745d079756edc06387a7ce48ae95b09bbcd304e706b3fe18b128df2c89d",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "0064250a2d9d708bee1d29490ef64342a1972d47d359a718f1f7afc98d84c5f5",
+    "source-status.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "probes/resort-aroma.png": "f8921d87f01c80380a1eeb193e1dc7a0dbc29426d37db3f270d66ec6f8fde52b",
+    "probes/resort-thermal.png": "adb062ad9011c7ee24a9b03c44deaa1c9a57a2bc3d8b7708792ef024cf003a8c",
+    "probes/resort-cafe.png": "5403a4fd99a7dd845911be8e2a6d6f876da19d3c140fc2e8ab018d38ed21aa2b",
+    "probes/resort-sky-pool.png": "ac1a2d46f5f33bbf349c1a131eec44e9e67da336c0ce61dff7f56c4f56daeba7",
+    "probes/resort-cabana.png": "ce1607c825aa4a8cf7599f47ce7d7be921224242f95ce75c878c334277503be7",
+    "probes/resort-massage.png": "1ba633a30d8fa1feb04f20b74c88068b79abf7fd21ef59a2093b7f15ad942b1d",
+    "probes/capture-progress.json": "57dca5d472192f78be1f7680e02cad7ee67ec81b26071d8fae8b4a550611ec73",
+    "probes/resort-vip.png": "17a192cd875c8e32f4f95a89f42a013e65849150c3a98ed49c12b673b94bc7ac",
+    "probes/spa-interiors-01443cd814ef.png": "01443cd814ef1222ea2ccef537e5cb97989269428d4833cc9ebcdc7093fb6997",
+    "probes/resort-waterfall.png": "d4f5d28118c1ee09216fe36311622d813c6a0d481dcc9f298f77a025a7b5c9e2",
+    "probes/resort-midnight.png": "1741a1fc57c95946aca610a99f7010cf595c215049c3d9c6cc3318e9746ffe1f",
+    "probes/probe-layers.rgba.gz": "3dcc1b07cf957888fd9a8f84f3c7e6823f51b561039813708de1733730fdd818",
+    "probes/manifest.json": "1cedfedecad2d7b6f12a21d21bd94e6f10e15a2b3735cad6bb8189c2eca5b8e7"
+  }
+}

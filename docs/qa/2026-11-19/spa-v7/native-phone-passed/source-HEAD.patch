@@ -1,0 +1,38 @@
+diff --git a/scripts/audit-resort-spa-phone-walk.mjs b/scripts/audit-resort-spa-phone-walk.mjs
+index 7757545..242ae82 100644
+--- a/scripts/audit-resort-spa-phone-walk.mjs
++++ b/scripts/audit-resort-spa-phone-walk.mjs
+@@ -7,16 +7,18 @@ export async function auditResortPhoneWalk({page,review}){
+  await page.locator('[data-biome="autumn"]').tap();
+  await page.locator('.resort-spa-access').tap();await page.waitForFunction(()=>__lagoonQA.resortSpa()?.ready,null,{timeout:240000});
+  const centre=resortSpaOrigin(byBiome('autumn').center);
+- await page.evaluate(async({centre,y})=>{await __lagoonSaveQA.cloud.claimEditor();const q=__lagoonQA;q.manualFrames=true;q.drawPaused=true;q.jobs.cancel('chichi');q.chichiCarrier.position.set(centre[0],y+.012,centre[1]+233);},{centre,y:RESORT_SPA.y});
++ await page.evaluate(async({centre,y})=>{await __lagoonSaveQA.cloud.claimEditor();const q=__lagoonQA;q.manualFrames=true;q.drawPaused=true;q.jobs.cancel('chichi');q.chichiCarrier.position.set(centre[0],y+.012,centre[1]+238);},{centre,y:RESORT_SPA.y});
+  await page.locator('#chichi-control').tap();await page.waitForFunction(()=>__lagoonQA.manualWalk().active,null,{timeout:10000});assert.equal(await page.evaluate(()=>__lagoonQA.submarine().controlled),false,'the dry SPA floor must not become open-ocean swimming');
+  if(process.env.CHICHI_RESORT_SPA_PHONE_ONLY_AUDIT)assert.equal(await page.locator('.resort-spa-zones').isVisible(),false,'manual walking releases the independent SPA inspection panel');
+  const pad=page.locator('.chichi-walk-controls');assert(await pad.isVisible());const bounds=await pad.boundingBox();assert(bounds&&bounds.x>=0&&bounds.x+bounds.width<=390.5);
+  const before=await page.evaluate(()=>__lagoonQA.chichiCarrier.position.toArray()),button=await pad.locator('[data-walk-key="KeyW"]').boundingBox();assert(button);
++ await page.evaluate(()=>{window.__phoneTouchTrace=[];for(const name of ['pointerdown','pointerup','pointercancel','lostpointercapture'])document.addEventListener(name,e=>__phoneTouchTrace.push({name,key:e.target.dataset?.walkKey,target:e.target.tagName,id:e.pointerId}),true);});
++ const hit=await page.evaluate(({x,y})=>{const e=document.elementFromPoint(x,y);return{tag:e?.tagName,key:e?.dataset?.walkKey,cls:e?.className};},{x:button.x+button.width/2,y:button.y+button.height/2});
+  const cdp=await page.context().newCDPSession(page);
+  await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:button.x+button.width/2,y:button.y+button.height/2}]});
+  await page.evaluate(()=>{const q=__lagoonQA;for(let i=0;i<8;i++){q.appointmentClock=Math.max(performance.now(),q.appointmentClock||0)+100;q.gpuFrames.clear();q.manualStepping=true;try{q.step(q.appointmentClock);}finally{q.manualStepping=false;}}});
+  await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await cdp.detach();
+- const after=await page.evaluate(()=>__lagoonQA.chichiCarrier.position.toArray());assert(Math.hypot(after[0]-before[0],after[2]-before[2])>1,'Actual held touch must move native Chichi on the real SPA floor');assert(Math.abs(after[1]-before[1])<.1);
++ const after=await page.evaluate(()=>__lagoonQA.chichiCarrier.position.toArray());const debug=await page.evaluate(()=>({events:__phoneTouchTrace,input:__lagoonQA.manualWalk().inputState,camera:__lagoonQA.camera.position.toArray(),look:__lagoonQA.look.toArray(),active:__lagoonQA.manualWalk().active,dialogs:[...document.querySelectorAll('dialog[open]')].map(e=>e.id)}));await writeFile(join(review,'phone-touch-debug.json'),JSON.stringify({before,after,bounds,button,hit,debug},null,2));if(Math.hypot(after[0]-before[0],after[2]-before[2])<=1)await page.screenshot({path:join(review,'failed-phone-touch.png')});assert(Math.hypot(after[0]-before[0],after[2]-before[2])>1,'Actual held touch must move native Chichi on the real SPA floor');assert(Math.abs(after[1]-before[1])<.1);
+  await page.evaluate(()=>{const q=__lagoonQA;q.drawPaused=false;q.gpuFrames.clear();q.appointmentClock+=100;q.manualStepping=true;try{q.step(q.appointmentClock);}finally{q.manualStepping=false;q.drawPaused=true;}});
+  await page.screenshot({path:join(review,'actual-phone-third-person-controls.png')});
+  const css=await page.evaluate(async()=>{const href=document.querySelector('link[rel="stylesheet"]').href;return{href,source:await(await fetch(href)).text()};});await writeFile(join(review,'loaded-style.css'),css.source);
+diff --git a/test/resort-spa-v7-routes.test.mjs b/test/resort-spa-v7-routes.test.mjs
+index f068fd2..8bbb6b3 100644
+--- a/test/resort-spa-v7-routes.test.mjs
++++ b/test/resort-spa-v7-routes.test.mjs
+@@ -2,6 +2,8 @@ import test from 'node:test';import assert from 'node:assert/strict';
+ import {resortSpaModelSteps} from '../public/resort-spa-model.js';import {createResortSpaNavigation} from '../public/resort-spa-navigation.js';import {SPA_V7_ZONES,spaV7Seat} from '../public/resort-spa-services-v7.js';import {SPA_PALACE as P,SPA_PALACE_STAIRS} from '../public/resort-spa-layout-v7.js';
+ test('every retained physical contact has a full-body route from its actual common-floor landing; stairs remain traversable both ways',()=>{
+  let s,it=resortSpaModelSteps({layoutVersion:7});while(!(s=it.next()).done);const root=s.value;try{const nav=createResortSpaNavigation(root),radius=.571;
++ assert(!nav.segmentClear({x:0,y:.012,z:233},{x:0,y:.012,z:234},radius),'a real supporting column at0,234 must still stop the full body');
++ assert(nav.segmentClear({x:0,y:.012,z:238},{x:0,y:.012,z:242},radius),'phone walking fixture uses an actual clear hall segment past that column');
+  for(const stair of SPA_PALACE_STAIRS){const a={x:stair.x,y:stair.level*P.rise+.012,z:185.5},b={x:stair.x,y:(stair.level+1)*P.rise+.012,z:234};for(const[from,to]of[[a,b],[b,a]]){const path=nav.path(from,to,radius);assert(path,JSON.stringify({stair,from,to}));let prev=from;for(const p of path){assert(nav.segmentClear(prev,p,radius),'stair capsule sweep');prev=p;}}}
+  for(const z of SPA_V7_ZONES){const from={x:z.level===1?25:z.level===2?-25:0,y:z.level*P.rise+.012,z:z.level?234:287};for(let i=0;i<z.seats;i++){const c=spaV7Seat(z,i),to={...c.approach,y:c.approach.y-P.baseY};const path=nav.path(from,to,radius);assert(path,`${z.id}:${i} actual approach unreachable ${JSON.stringify(to)}`);let prior=from;for(const p of path){assert(nav.segmentClear(prior,p,radius),`${z.id}:${i} actual body sweep`);prior=p;}assert(Math.hypot(prior.x-to.x,prior.y-to.y,prior.z-to.z)<1e-6);}}
+  }finally{root.userData.dispose();}
