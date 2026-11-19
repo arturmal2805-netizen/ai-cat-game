@@ -21,11 +21,18 @@ readback/21pool mappings, actual publicAroma0/Cabana4 outward and return paths,
 11dry and4wet procedure runs, purchases/receipts/SQLite reload and World release.
 Final errors[]/httpErrors[]; one application script. Exact source/bundle/settings/
 PNG/log hashes are under native/. Does not certify all84motions/everycontact,
-full shore tour, target art equivalence or hardware FPS. Additional phone check
-is running on the unchanged source; publication status is recorded separately.
+full shore tour, target art equivalence or hardware FPS. Phone390×844/DPR2 held-touch/compact bounds/World release also PASS; all423
+imported source hashes match desktop (JSON order differs, mappings equal), and
+the exact QA bundle SHA is identical. Publication status is recorded separately.
 
 The separate Workers Builds integration also failed on the previous stable
 39708e3 despite its successful complete Test and deploy workflow. Failure cause
 is not established from its empty GitHub output. Do not claim that this check
 passed; authoritative publication evidence requires the actual main workflow
 Worker deployment/release/shared-save/Pages jobs and matching live assets.
+
+PR#1 merged normally at14:01:47UTC into6e28f752291e65e7b51f7f093a004e5c81fd27b3.
+Parents: stable39708e3 + checked4b72f2f. The complete merged tree equals4b72f2f;
+no conflict resolution or application changes occurred during this merge.
+Checkpoint history and WIP/evidence branches are preserved. Website deployment
+is pending; merge alone is not publication.
