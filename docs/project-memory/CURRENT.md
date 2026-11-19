@@ -29,10 +29,14 @@ Chromium/private Worker/SQLite download/cancel/restore/reload PASS. **Mac нап
 ## Активная задача — SPA V6, НЕ опубликована и НЕ одобрена визуально
 
 Код: /workspace/chichi-emergency-save-recovery, **codex/spa-v6-reconstruction**.
-Удалённый checkpoint **49513c41a5aa555d0e92b55db9b11ef9fdb9a48f**, рабочее дерево чистое.
+Удалённый checkpoint **fd3fb4f** (полныйSHA проверить в origin/codex/spa-v6-reconstruction).
+Текущий этап — gardens/cascades + публичные проходы; требуется публикация.
 Последняя художественная/renderer правка **be2676c31f1b73fe5e1215a288c44738f95c3caa**.
 Завершённое native продолжение — source30467bf3545cebf4db8112b912fbda9f1617d628.
-**Активных QA/GPU процессов нет.** Не начинать заново: все этапы сохранены в remote.
+**СЕЙЧАС Node22 build** /workspace/qa/spa-v6-gardens-build.log; сначала проверить
+его прогресс, не запускать одновременно второй build/GPU. Пользователь19ноября
+явно потребовал ускориться, завершить текущую доработку и ОПУБЛИКОВАТЬ; не
+заканчивать простым WIP-ответом. Главная версия пока39708e3.
 Старые worktrees/исходники/SQLite не удалялись.
 
 [Полное задание](https://github.com/arturmal2805-netizen/ai-cat-game/blob/49513c41a5aa555d0e92b55db9b11ef9fdb9a48f/docs/specifications/underwater-spa-v6-2026-11-18.md),
@@ -71,7 +75,29 @@ SHA256 bb5d43d1d5ffb0243313224dc633451a6b6b8957f5f087e1ee4b5ed0caeeaaae.
 и INTERRUPTED архивы сохранены отдельно, не подменены общим all-PASS.
 Все97 manifest entries проверены по байтам и Git tracking, логи force-added.
 
-**Следующий шаг — полноценные сады/каскады и цельная архитектурная композиция.**
+**Новый этап уже реализован:16клумб Aroma/Cafe/VIP,2трёхъярусных каскада,
+6настоящих принимающих чаш/4связных weir-sheet,184flower/736leaf instances,
+6fixed native foliage batches,136576добавленных triangles.** Existing21 bathing
+contacts/14IDs/модели/кошельки/sharedwater сохранены.4новыхgarden/default20route
+cases PASS: реальные public-to-approach пути Aroma6/Cafe8/VIP8/Cabana6 с полным
+сметанием радиуса.4прежнихphysicalcases такжеPASS.
+
+Выявлен прежний49513c4 path failure Aroma0: tree planter69,252 в bridge mouth
+перемещён в боковой сад; A* теперь лениво запоминает физически непроходимые
+рёбра и перепланирует, не делает дорогой full-sweep на каждом expanded node.
+Cabana front4/5 не имели публичной связи между двумя crosswalks: добавлен
+НАСТОЯЩИЙ2.6м east gangway с railings. Rear glass private cabins сохраняется.
+Cabana ring pots подвешены к cornice вышеbodyheight вместо перекрытия3мкольца.
+Не ослаблялись bodyradius/коллизии/ожидания. Docs/qa/2026-11-19/spa-v6-gardens/NEXT.md.
+
+Ближайшее: закончитьNode22build, обновить actual native15room reflection probes
+(старые3ab доart), полные необходимые проверки/native14rooms+publicAroma0/
+Cabana4+процедуры/privateSQLite/phone; fullCI, затем main publish/actuallive.
+Новый helper dryaudit поддерживаетpublicOrigins и повторные receipts, чтобы
+пройти настоящий путь от общих лестничных площадок, а не только in-roomfixture.
+Не возвращаться к старому495 как к активной задаче, не повторять компенсации.
+
+Цельная архитектурная композиция ещё требует следующих художественных этапов.
 R1/R3 пока слабые аквариум/бар/сервис и цветы; R2 не хватает плотного водного
 сада; R4 — богатой композиции света/растений; R5 — связного дворцового силуэта,
 павильоны пока слишком разрознены. Не закрывать весь этап по крупному плану.

@@ -573,3 +573,10 @@ CURRENT очищен от старых pending-команд: историчес�
 в history/spa-v6-checkpoints-2026-11-19.md, технология — в SPA standard.
 Следующее art: плотные сады/каскады и связный дворец; текущие references
 по-прежнему не достигнуты, V6 не опубликована. Перед релизом новый probe bake.
+
+### 2026-11-19 — пользователь поручил публикацию после текущей доработки
+WIP d9ab6a6/fd3fb4f:16клумб/2каскада и реальная связь Cabana crosswalks.
+28publicstation paths и20старыхdefaultpathfixtures PASS; сохранили радиус/стены.
+Новый native public route audit должен проверить Aroma0/Cabana4 туда/обратно.
+СледомNode22build/probe refresh/native/fullCI/main/live. Не завершать задачу
+после очередного WIP-only checkpoint; публикация явно разрешена пользователем.
