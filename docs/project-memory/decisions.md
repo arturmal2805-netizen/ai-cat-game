@@ -601,3 +601,15 @@ inference or hardware FPS claim. Final evidence commit d259c323876187606fa9512ba
 byte/Git-tracking verified. This incremental art release is not fullV6 or user
 visual approval. WIP branch fast-forwarded without file changes to published
 main, retaining checkpoint history and all old worktrees.
+
+## 2026-11-19 — V7 supersedes fourteen independent rooms
+
+The user supplied the full V7 consolidation and visual implementation protocol,
+a new1536×1024 façade/8-room concept and a screenshot showing low room roofs.
+Eight rooms replace14 physical pavilions, while historical services/ledgers
+remain compatible. Higher real ceilings and protected Midnight/Golden materials
+are explicit requirements. Branch codex/spa-v7-consolidation starts from6e28f75.
+PhaseA prototype01d0ae4 has a connected shell/three slabs/real basin and stair
+openings; defaultproduction6 remains until compatibility/runtime stages pass.
+Coarse layout clearance allowed300×132 within existing bay, no terrain/Mall
+change. Active native capture and next actions are in CURRENT.
