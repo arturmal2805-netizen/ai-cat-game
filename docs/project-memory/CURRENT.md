@@ -45,52 +45,74 @@ Chromium/private Worker/SQLite download/cancel/restore/reload PASS. **Mac нап
 spa-visual-implementation-protocol-v1-2026-11-19.md.
 
 Активный код: /workspace/chichi-emergency-save-recovery,
-**codex/spa-v7-consolidation**, remote checkpoint
-**f85bc69b48cfae355dec2b21927775a68f8fd697** (проверен ls-remote).
-Main/live всё ещё6e28f752291e65e7b51f7f093a004e5c81fd27b3.
-Default model6; новый7 включается пока только в точном private QA bundle.
-Не публиковать незавершённый корпус и не называть его готовыми8зонами.
+**codex/spa-v7-consolidation**, remote
+**4f69e9f3c48926789de20439b38be1565c1cfa8a** (ls-remote подтверждён).
+Main/live остаётся6e28f752291e65e7b51f7f093a004e5c81fd27b3.
+Пользователь снова просит ускорить; не добавлять новые задачи в этап.
 
-PhaseA01d0ae4 и phaseB772a631 завершили реальные3кадра/ошибки[]/HTTPошибки[].
-Архивы exact source/bundle/PNG/log: docs/qa/2026-11-19/spa-v7/native-{mass,facade}.
-PhaseB bundlefb48fa4ed6df33680c84311c605af3f241220aa80a4cf12ed55e73fac7804593.
-Референс A/B/D просмотрен повторно: каркас един,20 рёбер/главный портал есть,
-но нет достаточного наполнения/читаемого стекла/внутреннего света. НЕ visualPASS.
+**Сейчас идёт13кадров actual native**, sourcefreeze до конца, один GPU:
+session66889 проверить; /workspace/qa/spa-v7-interiors-d-native.log,
+output /workspace/qa/spa-v7-interiors-d. Flags EXPLORER_AUDIT=1,
+RESORT_SPA_AUDIT=1,SPA_V7_MASS_AUDIT=1,SPA_V7_PHASE=interiors,DESKTOP=1.
+Фабрика по умолчанию пока6, privateQA явновключает7; production7 ещё НЕ активирован.
+После capture просмотреть ВСЕ13PNG:3architecture+8rooms+sky above/below.
+Не редактировать исходники/HEAD параллельно capture. Не завершать на WIP.
 
-Корпус300×132/corner60,3 непрерывных slab,rise12,10.8м minimumroomceiling.
-Midnight1583.36→3488.39м²(2.203×);VIP1193.81→5764.39м²(4.829×с8ваннами).
-961 coarse samples:bedgap22.5/reef18.59/Mall19м; terrain/Mall/мозазавр неизменны.
-Лифт20,300 вне корпуса; новая физическая нижняя трасса20,293.2→0,293.2→0,289.2.
-Арка40 individualsegments, радиус.571; body sweep portalPASS, соседняястена закрыта.
+PhaseA01d0,PhaseB772a native3views и PhaseCf85bc69 native7views/errors[]
+завершены и сохранены exactsource/bundle/PNG/log в active code branch:
+docs/qa/2026-11-19/spa-v7/native-{mass,facade,interiors-c}.
+PhaseC bundle3d46f71115d5749c633800e05fffcaedbd73cf7f35567945c74aefa526970f96.
+В visual-review-c.md записаны реальные3расхождения, не visualapproval:
+плоский Thermal, овальные старые nightcaps, VIPcamera за занавесью.
+Следующие исправления4f69 ЕЩЁ ждут новыхPNG.
 
-Теперь идёт **phaseC/D furnished native** на sourcef85bc69; sourcefreeze до конца.
-Session4296 проверить; /workspace/qa/spa-v7-interiors-native.log,
-output /workspace/qa/spa-v7-interiors. Flags какmass,PHASE=interiors,7кадров
-(3общих+Midnight/Golden/Thermal/Massage). Один GPU, не запускать второй.
-Новыйreport не подтверждает fullprocedures/старыеSQLite/recovery/deviceFPS.
+Реальный общий корпус300×132/corner60,3этажапо12м,не14павильонов.
+Midnight1583.36→3488.39м²(2.203×),VIP1193.81→5764.39(4.829×с8ваннами).
+Новые full-outline starvaults имеют spring10.8м,нестарые4.15;1600stars каждый,
+continuousvioletLED. Тёмныеполы Midnight/VIP сохраняются. ВThermal actual
+middlefloorvoid создаёт23.6м надводой;2балконныхкаскада физическипадают через
+проём в существующий нижний бассейн,4садовыхкаскада/плотныецветы/листья.
+Aroma/privateglass canopybase10.8,6Cabana fronts также10.8. Room supports,
+мебель/квитанции/workercontact изоднихпозиционныхданных. Skybed/wall/water
+оставлены3native transparentfaces для camera-depthsort сверху/снизу, неслиты
+сwholefaçadeglass. Новыеabove/below кадры проверятреальныйвид.
 
-Новая независимаяregistry resort-spa-services-v7:8 физических комнат,
-14 исторических услуг.18wet+12dryVIP,16Midnight,остальныекакплан.
-Booking/runtime принимают optionalcontract; aliases используют один canonical
-seatMap. Jacuzzi ограничен18wet,Amber4warm; retired4 только с исходным оплач.
-билетом погашаются как Midnightrest, не продаются/не конвертируются ввалюту.
-15 targeted testsPASS:prepaid/occupied/cleaning/sharedseats плюс прежниеruntime/
-booking/access/transit иactualgeometry. Не означает nativeфункциональности7.
+**96контактов +2лестницывобестороны PASS**, final-geometry-stage.log9tests,
+включаяactualweirs/vaults/migration/prepaid. Newpalacelift roundtrip сначала
+поймал реальныйнеподдержанныйoldwaitingpoint; исправленыsupportedwaits
+16.4/13.8,293.2; прежниеassertreturnнеослаблены. New7 и old6 транзитPASS.
+Комбинированный28run дал27PASS/1ReferenceError вlegacy6 изширокойвставки;
+ошибкаcascadesremoved иlegacytransitretеstPASS. Всеfailedlogs сохранены.
+Node22stagebuildPASS;моделикотовнеизменены,indexимеетодноappподключение.
+Не называть этоfullCI/release; finalexactCI/live ещёобязательны.
 
-Внутри7 уже furniture изтехжеконтактов,полновысотныемассажныекабины,
-защищённыетёмныеполы,starvaultbase10.8 вместо4.15;нетстарыхlowpavilionroofs.
-Luxuryhelper параметризован zones/seat/rise/palace; default6 сохранён.
-Навигация7 берётrise12/40stairs,finishlights8rooms optional. Старая15-layer
-reflection пока неrebaked под9; не выдавать этот interim вид за конечный.
+Root7 serviceContract подключён кappointments/staff/booking/transit и10itemmenu.
+14историческихproducts/IDs/prices/receipts остаются;8canonicalphysicalrooms
+вresort-spa-services-v7.js. Jacuzzi18wet VIPslots,Amber4warmMidnightslots,
+retired4 толькоprepaidMidnightrest сoriginalreceipt, без новыхмонет/продаж.
+Зоныпо3этажам. Factorydefault и RESORT_ZONES покаисторические14; приactivation
+можно явно вызватьmodel({layoutVersion:7}) вworld и publicoffers вывести из
+SPA_V7_ZONES, сохранив историческийregistry дляledger. Не менять14receiptIDs.
+Доказатьactualroot7, ане считатьlegacy6 Nodegeometrytests production7 audit.
 
-Следующее: проверить ВСЕ7actualPNG/секции A/B/D/E/F/G/H; исправить3главных
-различия. Затем подключить8-zone publicdata/menu(10buttons), runtimecontract/
-appointments/staff/новуюlowerapproach transit, saved-positionlayoutmigration.
-Последнее ещё НЕ сделано: отличатьlegacydryfloor отrealdiver, исключитьactive
-submarine/explorer/lift, вернутьretiredpositions вsupportedhall, сохранить14
-productprices/receiptIDs. Общийmergeалгоритм не менять. Новый9-layer room+sky
-rebake послеgeometry/art. Потомnativeprocedures/SQLite/Cloudbackup/камеры/
-scopeguardNode22/fullCI/live перед публикацией. Не завершать наWIPпрототипе.
+SPA-only catLocations.spaLayout=7 добавлен normalize/capture/world hook;
+shared-world/merge semantics НЕ менялись. Layoutrecovery исключает hero
+submarine/explorer,lift,otherbiomes/arbitrarydiver/newmarker. Retiredpositions
+вближайшийSUPPORTEDPUBLICHALL, всеbodyplacesраздельные; clearrecoveryBEFORE
+onGoal, чтобы синхронныйsave получилmarker7.12oldCatLocation+3newreload/stale/
+walletchecksPASS; native OWNERSHIP_AUDIT и старыйprivateSQLite ещёОБЯЗАТЕЛЬНЫ.
+World.js имеетТОЛЬКО2SPAhooks:cameraoptions иpositionstamp,необщийредизайн.
+
+После13PNG: исправитьпо3существеннымвидимымотличиям. Замеченоpotential:
+commoncontinuousslab сейчас получает один lampID поcentroid; разным комнатам
+нужно boundedпервершинное назначение приprepare, безshaderloop8/perframecost.
+УвеличитьV7A*gridextent от160cells(.85м=>±136м) под±150мширину, сохранивold6.
+Актуальный9layer(8rooms+sky) native reflectionrebake, нестарые15. Выставить
+skyprobe8, shaderclamp7/manifestderived; bakehelperпокаspecsold14/rows4.
+Не вызывать второйGPU пока13runидёт. Потом activation8offers/root7, native
+все8процедур/8VIPванн/legacyprepaid/SQLite/reload/Cloudbackup/phone/manual/
+Worldrelease/scopeguard,Node22fullCI/live. ПлатныйAIQAневызывать. Сохранения
+пользователянеиспользовать. Полный V7 ещё НЕ готов/НЕ опубликован/НЕ одобрен.
 
 Предыдущее опубликованное состояние — history/spa-v6-publication-2026-11-19.md.
 

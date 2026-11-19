@@ -622,3 +622,13 @@ for the existing ledger. Retired paid services redeem one Midnight rest admissio
 using their own original receipt; they are not sold or credited new coins.
 Runtime accepts this optional contract; existing production6 remains unchanged.
 15 targeted checks pass; furnished seven-view nativef85bc69 is running.
+
+### 2026-11-19 — V7 ceiling/route and compatibility checkpoint4f69e9f
+Actual C screenshots exposed flat Thermal/oval room caps/curtain obstruction.
+Candidate now has true double-height void and two real balcony receivers,
+full-outline high starvaults and independently sorted three sky-pool optical
+faces.96contact/stairs sweepsPASS. Actual lift test caught unsupported waiting
+location after lateral entry reroute; supported physical waitingpoints fixed
+without reducing radius/returnassertions. SPA-specific spaLayout7 marker keeps
+existing atomic timestamp merge; removed-room recovery uses a supported public
+hall.13actual reference views are running, not accepted/published.
