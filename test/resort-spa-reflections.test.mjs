@@ -15,9 +15,9 @@ test('actual shipped reflection sheet decodes byte-identically to all 15 native 
  const idat=[];for(let at=8;at<png.length;){const size=png.readUInt32BE(at),type=png.toString('ascii',at+4,at+8);if(type==='IDAT')idat.push(png.subarray(at+8,at+8+size));at+=12+size;}
  const width=png.readUInt32BE(16),height=png.readUInt32BE(20),rows=inflateSync(Buffer.concat(idat)),data=new Uint8Array(width*height*4);
  for(let y=0;y<height;y++){assert.equal(rows[y*(width*4+1)],0);data.set(rows.subarray(y*(width*4+1)+1,(y+1)*(width*4+1)),y*width*4);}
- const layers=unpackSpaProbeSheet({data,width,height},SPA_PROBE),native=gunzipSync(await readFile(new URL('../docs/qa/2026-11-19/spa-v6-probes/successful-capture/probes/probe-layers.rgba.gz',import.meta.url)));
+ const layers=unpackSpaProbeSheet({data,width,height},SPA_PROBE),native=gunzipSync(await readFile(new URL('probe-layers.rgba.gz',new URL('../'+SPA_PROBE.provenance,import.meta.url))));
  assert.deepEqual(Buffer.from(layers),native);assert.equal(sha(layers),SPA_PROBE.rgbaSha256);await verifySpaProbeBytes(layers,SPA_PROBE.rgbaSha256);
- const m=JSON.parse(await readFile(new URL('../docs/qa/2026-11-19/spa-v6-probes/successful-capture/probes/manifest.json',import.meta.url)));
+ const m=JSON.parse(await readFile(new URL('../'+SPA_PROBE.provenance,import.meta.url)));
  for(const c of m.captures)assert.equal(sha(layers.subarray(c.layer*128*128*4,(c.layer+1)*128*128*4)),c.rgbaSha256);
  assert.throws(()=>unpackSpaProbeSheet({data,width:width/2,height},SPA_PROBE),/dimensions/);
  await assert.rejects(verifySpaProbeBytes(new Uint8Array([1]),SPA_PROBE.rgbaSha256),/checksum/);

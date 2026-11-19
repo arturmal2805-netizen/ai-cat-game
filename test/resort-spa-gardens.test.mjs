@@ -19,7 +19,7 @@ test('new planted beds preserve real public-to-station body routes in every affe
 });
 test('cascade sheets leave their real stone foundations and land inside actual receiving pools',()=>{
  for(const cascade of AROMA_CASCADES)for(let i=1;i<cascade.tiers.length;i++){
-  const upper=cascade.tiers[i],lower=cascade.tiers[i-1],g=spaGardenFallGeometry(upper,lower),p=g.attributes.position;
+  const upper=cascade.tiers[i],lower=cascade.tiers[i-1],g=spaGardenFallGeometry(upper,lower),p=g.attributes.position;assert(g.attributes.uv.getY(0)<g.attributes.uv.getY(p.count-1),'shared downhill flow must advance toward the receiving basin');
   for(let n=0;n<p.count;n++){
    const x=p.getX(n),y=p.getY(n),z=p.getZ(n);assert(y>=lower.y-1e-6&&y<=upper.y+1e-6);
    if(y<upper.y-.05)for(const tier of cascade.tiers){const inside=(x/(tier.rx+.14))**2+((z-tier.z)/(tier.rz+.14))**2<.999;assert(!(inside&&y<tier.y-tier.depth-.001),'fall must not pass through its own raised stone foundation');}

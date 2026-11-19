@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {SPA_PROBE} from '../public/resort-spa-probe-assets.js';
 import {writeFile} from 'node:fs/promises';
 import {join} from 'node:path';
 // Authoring-only readback: verify uploaded array layers before judging art.
@@ -16,7 +17,7 @@ export async function auditSpaReflections({page,review}){
   }finally{q.manualFrames=old.manualFrames;q.drawPaused=old.drawPaused;r.setRenderTarget(old.target);r.setViewport(old.viewport);r.setScissor(old.scissor);r.setScissorTest(old.scissorTest);r.toneMapping=old.toneMapping;r.outputColorSpace=old.outputColorSpace;geometry.dispose();material.dispose();target.dispose();}
  });
  await writeFile(join(review,'actual-reflection-array.json'),JSON.stringify(result,null,2));
- assert.deepEqual(result.dimensions,[128,128,15]);assert.equal(result.rawSha256,'74df01edbe5923cea6b3105f7056c7a8f58a68928f9ba14d081840a1320de679');assert.equal(result.glError,0);
+ assert.deepEqual(result.dimensions,[128,128,15]);assert.equal(result.rawSha256,SPA_PROBE.rgbaSha256);assert.equal(result.glError,0);
  for(const layer of result.layers)assert.equal(layer.maximumByteError,0,'actual array sampling changed byte order, color space or layer');
  assert.equal(result.poolLayers.length,21);assert(result.poolLayers.every(n=>Number.isInteger(n)&&n>=0&&n<15));assert(result.poolLayers.includes(14));
  console.log('PASS native SPA array reflection decode, GLSL sampling/readback, 21 pool profiles and exact linear bytes');

@@ -38,7 +38,7 @@ export function spaGardenFallGeometry(upper,lower){
  const p=[],uv=[],ix=[],width=upper.rx*.85,height=upper.y-lower.y;
  for(let j=0;j<=12;j++)for(let i=0;i<=8;i++){
   const t=j/12,x=(i/8-.5)*width,z=upper.z+upper.rz*Math.sqrt(1-(x/upper.rx)**2),fall=Math.max(0,(t-.15)/.85);
-  p.push(x,upper.y-height*fall,z+Math.min(1,t/.15)*.2+.18*fall*fall);uv.push(i/8,1-t);
+  p.push(x,upper.y-height*fall,z+Math.min(1,t/.15)*.2+.18*Math.sqrt(fall));uv.push(i/8,t);
  }
  for(let j=0;j<12;j++)for(let i=0;i<8;i++){const n=j*9+i;ix.push(n,n+1,n+9,n+1,n+10,n+9);}
  const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(p,3));g.setAttribute('uv',new T.Float32BufferAttribute(uv,2));g.setIndex(ix);g.computeVertexNormals();return g;

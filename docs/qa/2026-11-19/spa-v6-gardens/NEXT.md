@@ -39,3 +39,13 @@ Source cascade geometry and150k budget/fixed buffer tests PASS.
 Next exactNode22build/fulltests, actual room probes rebake and native all14room/
 procedures plus public Aroma0/Cabana4 outward/return/privateSQLite. Then full
 workflow and live publication as explicitly requested. Do not stop at this WIP.
+
+## Refreshed actual room capture complete
+Fresh15 layers on clean sourceca0813f3ec71232b427f4d98667a0e3fb153ad57,
+302059PNGbytes, rawSHA256da49c948fe3bfaa711f85a1fc0cf05aa5f511949554ddfd9e4bdd350312eaf9c.
+All actual static gardens/furniture/floors/galaxy included; all water masked.
+Full exactsource/bundle/PNG/data/log archived in spa-v6-gardens-probes/native.
+After capture corrected ONLY MASKED waterfall UV direction (downstream), and
+ballistic sheet curvature; static visible contents unchanged, no fake producer
+SHA updates. New actual final native will verify flowing water and fresharray.
+Old immutable capture/proof assets retained. Tests read new provenance manifest.
