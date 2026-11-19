@@ -30,7 +30,7 @@ Chromium/private Worker/SQLite download/cancel/restore/reload PASS. **Mac нап
 
 [Полное задание](../../specifications/underwater-spa-v6-2026-11-18.md).
 Код /workspace/chichi-emergency-save-recovery, ветка **codex/spa-v6-reconstruction**.
-Последний удалённый код **992355c2d50d09795ba44b9b1fc885caeb68e18a**. Архив15actual probes **bbab0e60e65a30b4aea2c4fd76a7717e9ebbda86**.
+Последний удалённый код **be2676c** (полный SHA в origin/codex/spa-v6-reconstruction). Архив15actual probes **bbab0e60e65a30b4aea2c4fd76a7717e9ebbda86**.
 Старые worktrees не удалены. archive/pre-spa-v6-2026-11-18 сохраняет
 0d21c0f0773d756790facf75cc35574376263f60. Не отправлять художественный WIP в main.
 
@@ -120,10 +120,19 @@ normal/roughness, разные marble floors ночных комнат, свой
 сняты ДО этого art этапа; перед финальным релизом обновить их после геометрии.
 5reflection/shadow cases и4physical cases (glass sky, curved supports,
 Nap step-down/camera, VIP4wet+4dry full-floor routes) PASS подNode22.
-Нативный прогон начат: /workspace/qa/spa-v6-soft-polish-native.log,
-результаты /workspace/qa/spa-v6-soft-polish, six views+Nap W+sky/SQLite.
-Сначала посмотреть прогресс, не менять основной код и не запускать второй GPU.
-Native нового материала ещё НЕ считать завершённым/одобренным.
+Первый native992355c: шесть visual views и реальная Nap W/footstool/World
+завершены. Потом assert(before.coins>=cost) — QA CONTACTS не фондировал
+приватный тестовый кошелёк. До покупки/sky/SQLite; не live потеря монет.
+Полный PARTIAL исходник/bundle/PNG/log сохранён remote
+**c294ddeae8a6776700df4d21b6c9f12aecc0e55a**, native-partial/.
+R4 galaxy/dark floor заметны, но все references ещё далеки.
+be2676c исправляет только QA funding и mounting drapes: bottom+.08,
+Aroma top2.7/Cabana2.8/обычный3.6 и реальные gold rods.
+Новый native /workspace/qa/spa-v6-soft-mounted-native.log, результаты
+/workspace/qa/spa-v6-soft-mounted: focus R2/R4/cabana+sky, Nap W, upperpool
+procedure/SQLite. R1/R5 не менялись этой anchor правкой, старые6видов сохранены.
+НЕ считать этот прогон завершённым. Сначала читать лог, не второй GPU/не менять
+основной код пока сохранилась точная frozen source.
 Новый вспомогательный sparse checkout /workspace/chichi-spa-reflection-runtime,
 ветка codex/spa-reflection-runtime, база d8b3b03 — чистый, без loader правок.
 Не считать создание checkout реализацией и не начинать capture заново.
