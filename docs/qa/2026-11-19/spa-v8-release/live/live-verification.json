@@ -1,0 +1,58 @@
+{
+  "verifiedAt": "2026-11-19T20:04:13.687180+00:00",
+  "release": "812c8a6723dcbe106b567da88e1c3e1b1e4e399d",
+  "workflow": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44601625796",
+  "applicationScripts": [
+    "./dist/app.js?v=17fb011e9dc66129"
+  ],
+  "stylesheets": [
+    "./style.css?v=1ca6fd7d91d93d24"
+  ],
+  "resources": [
+    {
+      "path": "",
+      "bytes": 31956,
+      "sha256": "bb63c10e537c681c0f105dd130a1f02c08f437fbf065796a5673bcc985620474",
+      "headers": {
+        "ETag": "\"6aff561e-7cd4\"",
+        "Last-Modified": "Thu, 19 Nov 2026 20:03:42 GMT",
+        "Content-Type": "text/html; charset=utf-8",
+        "Cache-Control": "max-age=600"
+      }
+    },
+    {
+      "path": "dist/app.js?v=17fb011e9dc66129",
+      "bytes": 2773293,
+      "sha256": "17fb011e9dc66129ccbbdc47da645188c161b25f941d64c59a9eff336ae8f65a",
+      "headers": {
+        "ETag": "\"6aff561e-2a512d\"",
+        "Last-Modified": "Thu, 19 Nov 2026 20:03:42 GMT",
+        "Content-Type": "application/javascript; charset=utf-8",
+        "Cache-Control": "max-age=600"
+      }
+    },
+    {
+      "path": "style.css?v=1ca6fd7d91d93d24",
+      "bytes": 67599,
+      "sha256": "1ca6fd7d91d93d2434122de8b604f9e1f0306145487ece7434204f01d46492bc",
+      "headers": {
+        "ETag": "\"6aff561e-1080f\"",
+        "Last-Modified": "Thu, 19 Nov 2026 20:03:42 GMT",
+        "Content-Type": "text/css; charset=utf-8",
+        "Cache-Control": "max-age=600"
+      }
+    },
+    {
+      "path": "art/spa-reflections/spa-interiors-ffabc732b641.png",
+      "bytes": 190875,
+      "sha256": "ffabc732b641d70c2894ca97ebff1ab83ba4fecbf6da71e5d0251efd19648d6f",
+      "headers": {
+        "ETag": "\"6aff561e-2e99b\"",
+        "Last-Modified": "Thu, 19 Nov 2026 20:03:42 GMT",
+        "Content-Type": "image/png",
+        "Cache-Control": "max-age=600"
+      }
+    }
+  ],
+  "limitations": "HTTP bytes and successful server release/save checks do not certify visual approval or hardware FPS. V11 is a separate WIP, not this publication."
+}
