@@ -35,3 +35,12 @@ or final error-array result claimed. Fix QA-only funding, no live balances.
 Also correct curtains old1m floating bottom and attach to actual canopies.
 R1/R5 unchanged by that anchor fix: next focus R2/R4/cabanas+sky, not repeat
 unaffected earlier checks. Use funded CONTACTS+SKY_ONLY, actual SQLite roundtrip.
+
+## Follow-up hang points and funded completion
+Cloth now reaches floor+.08 and hangs from explicit gold rods. Aroma top2.7m
+and Cabana top2.8m match their existing canopy ring levels; VIP original3.6m
+frame retained. Only decorative mesh anchors, no support/route/radius change.
+QA funding includes paid V6 flags when constructing PRIVATE SQLite world;
+production coin code unchanged. New FOCUS_CURTAINS option renders only
+R2/R4/cabana (R1/R5 unchanged by this fix), plus upper pool.
+Next run with CONTACTS=1/SKY_ONLY=1/focus, exact source saved before launch.

@@ -58,7 +58,7 @@ export function* resortLuxurySteps({solid,decor,shell,surfaces,basins,waters,mat
    const radius=2.7,dome=geometry('aroma-private-canopy',()=>new T.SphereGeometry(1,32,16,0,Math.PI*2,0,Math.PI/2));mesh(shell,dome,mats.glass,s.x,y+2.7,s.z,2.7,2.0,2.7);ring(decor,mats.gold,s.x,y+2.7,s.z,2.7,2.7,.045);
    for(let j=0;j<4;j++){const a=j*Math.PI/2,points=Array.from({length:13},(_,i)=>{const t=i*Math.PI/24;return[s.x+Math.cos(a)*radius*Math.cos(t),y+2.7+2*Math.sin(t),s.z+Math.sin(a)*radius*Math.cos(t)];});line(decor,mats.gold,points,.045);}
    for(const side of [-1,1]){box(solid,mats.gold,s.x+side*radius,y+1.35,s.z,.06,2.7,.06);const points=Array.from({length:13},(_,i)=>{const a=i*Math.PI/12;return[s.x+side*radius*Math.cos(a),y+1.2+3.3*Math.sin(a),s.z-1];});line(decor,mats.gold,points,.045);}
-   curtains(s.x,y,s.z,2.65);const cushion=pillow(decor,rose,s.x+.9,y+.98,s.z-.55,.6,.35,.6);cushion.rotation.z=-.12;
+   curtains(s.x,y,s.z,1.95,2.7);const cushion=pillow(decor,rose,s.x+.9,y+.98,s.z-.55,.6,.35,.6);cushion.rotation.z=-.12;
    disk(solid,mats.gold,s.x+2.3,y+.55,s.z-1,.6,.6,.1);ball(decor,mats.glass,s.x+2.3,y+.8,s.z-1,.25,.3,.25);ball(decor,mats.amber,s.x+2.3,y+.75,s.z-1,.08,.15);
   }
  }
@@ -70,7 +70,7 @@ export function* resortLuxurySteps({solid,decor,shell,surfaces,basins,waters,mat
   for(const side of [-1,1]){const x=zone.x+side*(zone.rx*.73),z=zone.z-zone.rz*.57;lantern(x,y,z);plant(zone.x+side*(zone.rx*.77),y,zone.z+zone.rz*.48,1.3,true);}
  }
  function chandelier(x,y,z,r=2){for(let i=0;i<3;i++)ring(decor,i===1?mats.amber:mats.gold,x,y+i*.35,z,r*(1-i*.2),r*(1-i*.2),i===1?.055:.065);for(let j=0;j<12;j++){const a=j*Math.PI/6;line(decor,mats.gold,[[x,y+1.4,z],[x+Math.sin(a)*r,y,z+Math.cos(a)*r]],.018);ball(decor,mats.amber,x+Math.sin(a)*r,y-.22,z+Math.cos(a)*r,.07,.24,.07);}}
- function curtains(x,y,z,r=2.8){const g=geometry('tied-draped-curtain',spaTiedCurtainGeometry);for(const side of [-1,1]){const o=mesh(decor,g,silk,x+side*r,y+1,z-1);o.rotation.y=side*.3;}}
+ function curtains(x,y,z,r=2.8,top=3.6){const g=geometry('tied-draped-curtain',spaTiedCurtainGeometry);for(const side of [-1,1]){const o=mesh(decor,g,silk,x+side*r,y+.08,z-1,1,(top-.08)/2.6,1);o.rotation.y=side*.3;}line(decor,mats.gold,[[x-r-.55,y+top,z-1],[x+r+.55,y+top,z-1]],.035);}
  function domedCeiling(zone,color){
   const base=4.15,height=4.4,m=material(color,{roughness:.92,side:T.DoubleSide});if(zone.key==='vip'){const chart=spaGalaxyTexture();textures.add(chart);m.emissiveMap=chart;m.emissive.setHex(0xffffff);m.emissiveIntensity=1.6;}const g=geometry('star-ceiling',()=>new T.SphereGeometry(1,48,24,0,Math.PI*2,0,Math.PI/2));mesh(shell,g,m,zone.x,zone.level*S.rise+base,zone.z,zone.rx*.96,height,zone.rz*.96);
   ring(decor,mats.gold,zone.x,zone.level*S.rise+base-.05,zone.z,zone.rx*.96,zone.rz*.96,.16);ring(decor,mats.amber,zone.x,zone.level*S.rise+base-.15,zone.z,zone.rx*.95,zone.rz*.95,.04);
@@ -105,7 +105,7 @@ export function* resortLuxurySteps({solid,decor,shell,surfaces,basins,waters,mat
    chandelier(zone.x,y+7,zone.z,2.3);
   }else if(zone.key==='cabana'){
    features.push('six private transparent pavilions','pleated curtains','canopied rest seats');
-   for(let i=0;i<zone.seats;i++){const s=resortSpaSeat(zone,i);curtains(s.x,y,s.z);ring(decor,mats.gold,s.x,y+2.8,s.z,3.1,3.1,.055);for(let j=0;j<4;j++){const a=j*Math.PI/2;line(decor,mats.gold,Array.from({length:11},(_,k)=>{const t=k*Math.PI/20;return[s.x+Math.cos(a)*3.1*Math.cos(t),y+2.8+3.5*Math.sin(t),s.z+Math.sin(a)*3.1*Math.cos(t)];}),.04);}}
+   for(let i=0;i<zone.seats;i++){const s=resortSpaSeat(zone,i);curtains(s.x,y,s.z,2.3,2.8);ring(decor,mats.gold,s.x,y+2.8,s.z,3.1,3.1,.055);for(let j=0;j<4;j++){const a=j*Math.PI/2;line(decor,mats.gold,Array.from({length:11},(_,k)=>{const t=k*Math.PI/20;return[s.x+Math.cos(a)*3.1*Math.cos(t),y+2.8+3.5*Math.sin(t),s.z+Math.sin(a)*3.1*Math.cos(t)];}),.04);}}
   }else if(zone.key==='beauty'){
    features.push('six lit grooming stations','accessory displays','flowering salon island');
    tree(zone.x,y,zone.z,1.1);for(const side of [-1,1]){box(solid,mats.ivory,zone.x+side*20,y+1.4,zone.z-8,3,2.8,1,true);for(let j=0;j<7;j++)ball(decor,j%2?rose:petalDark,zone.x+side*20+(j%3-1)*.6,y+1.2+Math.floor(j/3)*.6,zone.z-7.45,.13,.1,.08);}
