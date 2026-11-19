@@ -1,4 +1,5 @@
 import * as T from 'three';
+import {applyResortWaterReflection} from './resort-spa-reflections.js';
 import {waterMaterial,advanceWater} from './water-shading.js';
 import {slideBasinWater} from './slide-basin-optics.js';
 // Actual recessed pool. Floor geometry has a real opening; all simulations can
@@ -18,7 +19,7 @@ export function resortBasinGeometry({rx,rz,depth=1.8,rim=1,segments=96}){
 export function createResortBasin(spec,{stone,liner}={}){
  const root=new T.Group(),g=resortBasinGeometry(spec),owned=[];
  const rock=stone||new T.MeshStandardMaterial({color:0xffe5c4,roughness:.35}),bedMat=liner||new T.MeshStandardMaterial({color:0x42becd,roughness:.4,side:T.DoubleSide});if(!stone)owned.push(rock);if(!liner)owned.push(bedMat);
- const water=slideBasinWater(waterMaterial(0x00cfef,.72,{width:spec.rx*2,height:spec.rz*2}));water.uniforms.uWaterDepth.value=g.depth;
+ const water=slideBasinWater(waterMaterial(0x00cfef,.72,{width:spec.rx*2,height:spec.rz*2}));water.uniforms.uWaterDepth.value=g.depth;applyResortWaterReflection(water,spec.probeLayer??0);
  // A vertical-walled SPA bath has its real, constant optical depth. Retain
  // shared normals/probes/Fresnel; never change ocean or slide profiles here.
  water.fragmentShader=water.fragmentShader.replace('float waterDepth=mix(.23,uWaterDepth*(1.-.8*smoothstep(.55,1.,edge)),uLake);','float waterDepth=uWaterDepth;');

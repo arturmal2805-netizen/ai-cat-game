@@ -140,7 +140,7 @@ export function* resortLuxurySteps({solid,decor,shell,surfaces,basins,waters,mat
  // This exact upper-floor opening existed already. No opaque backing disk is
  // placed beneath the glass: both directions see the lower atrium and water.
  const glass=mats.glass.clone();glass.opacity=.2;glass.roughness=.09;glass.side=T.DoubleSide;glass.depthWrite=false;materials.add(glass);
- const skySpec=resortSkyPool(),sky=createResortBasin(skySpec,{stone:mats.ivory,liner:glass});sky.name='Glass Sky Pool';sky.position.set(skySpec.x,skySpec.y-S.y,skySpec.z);sky.traverse(o=>{if(o.isMesh)o.userData.resortFloor=2;});sky.userData.bed.name='Glass Sky Pool transparent bottom';sky.userData.bed.renderOrder=1;sky.userData.surface.renderOrder=2;sky.userData.surface.material.uniforms.uOpacity.value=.54;surfaces.add(sky);basins.push(sky);waters.push(sky.userData.surface);report.skyPool={...skySpec,glassBottom:true,opaqueBacking:false};
+ const skySpec=resortSkyPool(),sky=createResortBasin({...skySpec,probeLayer:14},{stone:mats.ivory,liner:glass});sky.name='Glass Sky Pool';sky.position.set(skySpec.x,skySpec.y-S.y,skySpec.z);sky.traverse(o=>{if(o.isMesh)o.userData.resortFloor=2;});sky.userData.bed.name='Glass Sky Pool transparent bottom';sky.userData.bed.renderOrder=1;sky.userData.surface.renderOrder=2;sky.userData.surface.material.uniforms.uOpacity.value=.54;surfaces.add(sky);basins.push(sky);waters.push(sky.userData.surface);report.skyPool={...skySpec,glassBottom:true,opaqueBacking:false};
  box(solid,mats.ivory,0,17.97,203+skySpec.rz+1.2,5,.06,2.8);
  for(let j=0;j<12;j++){const a=(j+.5)*Math.PI/6;lantern(Math.sin(a)*(skySpec.rx+2.9),18,203+Math.cos(a)*(skySpec.rz+2.9),.6);}ring(decor,mats.gold,0,18.03,203,skySpec.rx+.3,skySpec.rz+.3,.08);
  floor=0;

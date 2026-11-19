@@ -3,6 +3,7 @@ import {writeFile} from 'node:fs/promises';
 import {join} from 'node:path';
 
 export async function auditResortV6({page,review}){
+ if(process.env.CHICHI_SPA_REFLECTION_AUDIT){const {auditSpaReflections}=await import('./audit-resort-spa-reflections.mjs');await auditSpaReflections({page,review});}
  const stage=process.env.CHICHI_SPA_V6_STAGE||'candidate',frames=[];
  if(process.env.CHICHI_REVIEW_HOUR!==undefined){const hour=Number(process.env.CHICHI_REVIEW_HOUR);if(![0,12].includes(hour))throw Error('Review hour must be 0 or 12');await page.evaluate(hour=>{__lagoonQA.reviewHour=hour;},hour);}
  const names=process.env.CHICHI_SPA_V6_ALL?['Общий вид','Grand Thermal Lagoon','Luxury Jacuzzi Terraces','Massage Palace','Aroma Therapy Garden','Sauna & Steam Palace','Floating Glass Cabanas','Beauty & Grooming','Golden Galaxy VIP Suite','Ocean Meditation Dome','Cat Nap Galaxy','Wellness Café','Waterfall Relaxation Garden','Amber Star Lounge','Midnight Blue Relaxation Room']:['Общий вид','Aroma Therapy Garden','Golden Galaxy VIP Suite','Wellness Café','Floating Glass Cabanas'];

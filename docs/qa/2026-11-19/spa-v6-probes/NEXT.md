@@ -85,3 +85,22 @@ yet. Bake finished: main worktree is no longer frozen. Next implement checksum/
 byte-orientation validated array loader and SPA-only floor/water hooks, then
 actual GLSL/native R1/R2/R4/R5+sky comparisons. Auxiliary sparse runtime tree is
 clean, base d8b3b03; no need to start over or repeat completed capture.
+
+## Tenth stage — runtime candidate (not yet native-verified)
+Added checksum/decode-verified selected-only coalesced DataArrayTexture loader.
+All15 native raw layers match archived bytes; 3 meaningful unit cases PASS
+(actual PNG/raw hashes, corrupt/offline fallback, hook composition). SPA-only
+floor and21pool reflection bindings; shared water core/Mall/cats untouched.
+Array128x128x15 RGBA8 mipmapped~1.25MiB, one299711byte PNG; no runtime capture.
+Future authoring bake bypasses new array loader only in private QA substitution
+to avoid self-feedback. This first-bounce probe is a current art checkpoint;
+re-bake after geometry/lighting changes, preserving its exact provenance.
+
+Next native Node22 command: CHICHI_EXPLORER_AUDIT=1 CHICHI_RESORT_SPA_AUDIT=1
+CHICHI_SPA_V6_AUDIT=1 CHICHI_SPA_V6_STAGE=room-reflections
+CHICHI_SPA_REFLECTION_AUDIT=1 CHICHI_SPA_V6_INCLUDE_SKY=1
+CHICHI_REVIEW_HOUR=12 CHICHI_DESKTOP=1
+CHICHI_REVIEW_DIR=/workspace/qa/spa-v6-room-reflections node scripts/check-aquarium.cjs
+Actual GLSL array sampling/readback, all21basinprofiles, six same-view frames,
+World release; do not re-claim unaffected procedures. Archive then compare each
+R1/R2/R4/R5 plus same-settings previous shadows stage. No V6 publication yet.
