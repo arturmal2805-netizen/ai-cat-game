@@ -1,0 +1,29 @@
+{
+  "sourceBase": "f026b778ab7a6ac22696dfa974d7efeda47ea5e3",
+  "sourceState": " M public/index.html\n",
+  "result": "PASS9 actual static room/sky probes; source-state guard unchanged. Only dirty generated HTML cache key; imported art source exactf026b77.",
+  "visualReview": "Actual static geometry and local lighting; moving cats/fish/water masked. Linear radiance /4, nine distinct room layers. Final live visuals remain to check.",
+  "files": {
+    "imported-source.tar.gz": "017fa8d2f4acaed6a0c34a7e7f24faaa4f0d62310606df1359c5f0ce940d3f7b",
+    "native.log": "c5a082fdf154dc85355ce5910bd7351c1cd117c4227f815c368668f9fa48feb8",
+    "probes/capture-progress.json": "1779895a1cc87ded26f107de3b301976f1551c72509e56b703377fb419ace23b",
+    "probes/manifest.json": "be8d54146ec05a3477c258e81ffb8191dbfe2f409a10d6b173744bcfe5cfc554",
+    "probes/probe-layers.rgba.gz": "b10ee5337419d59ee72a3828fb6824b8122d6b47094438e9d15dbfe6b543549e",
+    "probes/resort-aroma.png": "ca8128eb675684e0d18f5cef23a07caf359fe6d4cdde0ed4c8cc67316de5d0d4",
+    "probes/resort-cabana.png": "ae2c1532cec0adb9f67cb19ec9876e44e4443454192a570185971472671a69ce",
+    "probes/resort-cafe.png": "0397eeecc9b1992989be1fa8f54d97f1b87bf272e15024b93ac8508e4a14d3cf",
+    "probes/resort-massage.png": "c0ed6cd7a1746d6f4fcadff24793607881f88e5060b8d4a547f81125b60d3d67",
+    "probes/resort-midnight.png": "ce73e3dd5149718be1439d6180546404d552d5b7d18dfb9440dfff57f9407009",
+    "probes/resort-sky-pool.png": "0064b768371db9564f1157423dc486cdff8f6a330e9a49a5652259e4d4108892",
+    "probes/resort-thermal.png": "9c74555f7c52926ff12b182f999d99f0a0aa6850f4c40e1e93f6787ce79d9513",
+    "probes/resort-vip.png": "0ef1a9a8ce86dcfa879ee40e3c401b8e7346060a4d568032f41bedef63c2eb78",
+    "probes/resort-waterfall.png": "6fe45a8d979b11ca9271dca4f220d6c05b8ff2d5e621bdbfa6681d2ed9e4fa32",
+    "probes/spa-interiors-ffabc732b641.png": "ffabc732b641d70c2894ca97ebff1ab83ba4fecbf6da71e5d0251efd19648d6f",
+    "qa-app.js.gz": "f1eea9777c0ab3925e653c4e1254dc2cf87e7a493c1142b5db7bab664ea59b3c",
+    "qa-build.json": "a0a94d9da12584b19906ac9be0a5168bde0389d8b880b6237110761a00e835b9",
+    "source-HEAD.patch": "3ecadb65921243272ceb161927f8968328e68576c6864a6cfe6080d46776b65d",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "4a5e4f37f7cb4687a8a409cf11ad74204362cefb6c05ffc4468e9af16e9e641b",
+    "source-status.txt": "09d8582c4e23e7214d7944c5ffa0d2d54367e11cfac7846c9f73be250b453836"
+  }
+}
