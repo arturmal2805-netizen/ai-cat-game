@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: actual shipped reflection sheet decodes byte-identically to all authored native captures, preserving bottom row and linear bytes
+ok 1 - actual shipped reflection sheet decodes byte-identically to all authored native captures, preserving bottom row and linear bytes
+  ---
+  duration_ms: 18.650817
+  type: 'test'
+  ...
+# Subtest: selected SPA loader coalesces requests and keeps immutable linear layer storage; rejected checksums leave fallback available
+ok 2 - selected SPA loader coalesces requests and keeps immutable linear layer storage; rejected checksums leave fallback available
+  ---
+  duration_ms: 3.207555
+  type: 'test'
+  ...
+# Subtest: SPA array finish composes existing native lamp/static hooks and Fresnel without modifying global Mall materials
+ok 3 - SPA array finish composes existing native lamp/static hooks and Fresnel without modifying global Mall materials
+  ---
+  duration_ms: 22.395941
+  type: 'test'
+  ...
+# Subtest: current palace probes map the eight active rooms and the actual sky layer once
+ok 4 - current palace probes map the eight active rooms and the actual sky layer once
+  ---
+  duration_ms: 0.266564
+  type: 'test'
+  ...
+# Subtest: adjacent floor triangles use identical lighting at every shared vertex; cutaway and source physics remain intact
+ok 5 - adjacent floor triangles use identical lighting at every shared vertex; cutaway and source physics remain intact
+  ---
+  duration_ms: 3.802714
+  type: 'test'
+  ...
+# Subtest: curved vault normals are continuous and normalized without changing actual support geometry or UVs
+ok 6 - curved vault normals are continuous and normalized without changing actual support geometry or UVs
+  ---
+  duration_ms: 0.763046
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 220.389625

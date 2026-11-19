@@ -1,0 +1,12 @@
+SPA required scene preparation pending
+AssertionError [ERR_ASSERTION]: Actual held touch must move native Chichi on the real SPA floor
+    at auditResortPhoneWalk (file:///workspace/chichi-emergency-save-recovery/scripts/audit-resort-spa-phone-walk.mjs:19:83)
+    at async auditResortSpaNative (file:///workspace/chichi-emergency-save-recovery/scripts/audit-resort-spa-native.mjs:12:170)
+    at async /workspace/chichi-emergency-save-recovery/scripts/check-aquarium.cjs:712:122 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

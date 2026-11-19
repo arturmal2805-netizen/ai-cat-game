@@ -1,0 +1,18 @@
+{
+  "sourceBase": "f04365585a2f0183ce695e57269d298b73863fa0",
+  "sourceState": " M scripts/audit-resort-spa-phone-walk.mjs\n?? docs/qa/2026-11-19/spa-v7/native-final-shading/\n?? docs/qa/2026-11-19/spa-v7/native-phone-first/\n",
+  "result": "FAILED motion assertion: actual pointer events/allowed input worked, original fixture ran into physical column at local0,234",
+  "visualReview": "No product movement failure inferred: actual .2m stop matches full-body nav against a real 0.44m column. Move fixture to real open hall, retain pillar and radius.",
+  "files": {
+    "failed-phone-touch.png": "479b1c5b8f1197789332e67a38c2f7757f9c0da39a6cdf3ad9d3b145e57046d4",
+    "imported-source.tar.gz": "4e6b9379d492b4e0bd64c29ddec4fee7793724f69217410ddf96382e14a4e73b",
+    "native.log": "ca9b1a22e5ee26d7d8623c2164a2e52dfbf91eabc08b1c7d4763315ff535ffab",
+    "qa-app.js.gz": "966b8078163b19731f5811694034830a817ce81c9f54d72e55f47344e8240bf6",
+    "qa-build.json": "923d8544c15064d1468ba7a3f31c4c5b0982d476e82719ba3be18bf3bdce3877",
+    "source-HEAD.patch": "88e4d2b6a618c1842aa678ef745aeb632f94f3a4c1f525ad9719b50ad96d2bea",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "88e8049f48ee4ab386427c09bb1123e48fbbf077c19d8fd21b85092d1396afb6",
+    "source-status.txt": "f4ad89aa68f41d8e15544cfb1cb7e75adb1ef4f4694a8e6cef07a3d646f97c64",
+    "phone-touch-debug.json": "ca46399372b9d8e8f6c36a885d775f74817224c79959aa3bd798561a983dd3f0"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "sourceBase": "f04365585a2f0183ce695e57269d298b73863fa0",
+  "sourceState": "",
+  "result": "PASS final four actual shaded room frames and native GLSL compilation; browser/HTTP errors empty",
+  "visualReview": "Night rooms reviewed: continuous light and curved normals remove prior face seams. Thermal/Aroma inspected separately. Complete8room/envelope/sky geometry views remain in native-all-rooms-e; not photorealistic reference acceptance or hardware FPS.",
+  "files": {
+    "aroma-interior.png": "b0fd976e8dcbb88b6b5394e02c0e34878be8531d3694de28fabb5da14e23a0ec",
+    "golden-interior.png": "f383d6485390d91b83a3e935ac760575d7398956def298c2ecec3405e1e3096c",
+    "imported-source.tar.gz": "e8708d268bcf04018fe4224d6b259dbac5e7a01044408a5dda516db5822b11ed",
+    "midnight-interior.png": "26c41d12c3148752b2029b85bbea405b1a2d3889d8d82af940d77d9e3071a967",
+    "native.log": "2339e00cfeba6c2be341b2d8cc0988235a7c5214138ef9fa6e54a0d7023a3291",
+    "qa-app.js.gz": "966b8078163b19731f5811694034830a817ce81c9f54d72e55f47344e8240bf6",
+    "qa-build.json": "fb33371716421c706face1c22d0a90ca8444e229e465469e2c8fc690f26a4b79",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "54b9423b1e8dd39a1b9288c79333f7883aefc1e7fcb9d57e308eec23de53d42d",
+    "source-status.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "thermal-interior.png": "d91e9191d2a1245b5767e77508a588356a08a76929cc9ed2be95c245f1ed0f8a",
+    "v7-mass-frames.json": "43833a2a5e8789b31d06d182260c3e69b24f9ea3dcfab44366ace4f8592f064e"
+  }
+}

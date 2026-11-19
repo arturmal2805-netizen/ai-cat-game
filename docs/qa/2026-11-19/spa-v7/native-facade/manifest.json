@@ -2,7 +2,7 @@
   "sourceBase": "772a6313560f0fb14227f371e34164988f01324e",
   "sourceState": "",
   "result": "PASS three actual native architecture captures; runtime V7 not active",
-  "visualReview": "Compared A/B/D: roof ribs and segmented real portal added. Main remaining gaps: bare floors, weak glass/window depth, absent room lighting and planting. Front is an entrance detail, not a complete façade acceptance.",
+  "visualReview": "Compared A/B/D: roof ribs and segmented real portal added. Main remaining gaps: bare floors, weak glass/window depth, absent room lighting and planting. Front is an entrance detail, not a complete fa\u00e7ade acceptance.",
   "files": {
     "imported-source.tar.gz": "647d34799f1c684adc08792dce8588b14be796cf4fbf3b8393df6926743c7733",
     "mass-angle.png": "70a0e63d73facb4c62ccbf44fbb86fbc5c3c466a56bda18491b9caf15c36912d",

@@ -1,0 +1,18 @@
+{
+  "sourceBase": "f04365585a2f0183ce695e57269d298b73863fa0",
+  "sourceState": " M scripts/audit-resort-spa-phone-walk.mjs\n M test/resort-spa-v7-routes.test.mjs\n?? docs/qa/2026-11-19/spa-v7/native-final-shading/\n?? docs/qa/2026-11-19/spa-v7/native-phone-first/\n?? docs/qa/2026-11-19/spa-v7/native-phone-pillar/\n",
+  "result": "PASS actual held touch on real open lower hall, native third-person rig, dry mode, compact390px pad and World release",
+  "visualReview": "Previous fixture correctly stopped at the physical0,234 support column. New start0,238 follows a real clear corridor; column and collision remain. Not hardware FPS or whole phone shore/stair tour.",
+  "files": {
+    "actual-phone-third-person-controls.png": "afd806f7ba5c44653b1d63fd9014b2c4a0080c9bd6d81e612f1cb36b8c707404",
+    "actual-phone-third-person.json": "638575fc7c7faaf679ef4bb57a74673f69199c08fbd86707316a414915b558d9",
+    "imported-source.tar.gz": "8eb3d6bb58c0cc49d1e0ee466d42e1ecebbf4c66acf259eb074662fe7db50ad4",
+    "native.log": "5bbc4b659ad4afb4a7f908c20f2ef6ee7a04a3281119db773b8728da4395a50d",
+    "qa-app.js.gz": "966b8078163b19731f5811694034830a817ce81c9f54d72e55f47344e8240bf6",
+    "qa-build.json": "5306c4d7a4a449a73f85e98651f725b25107b02f936e0d68d6a9b2d1f721b3bf",
+    "source-HEAD.patch": "c192a6c239091e831d2dd643c822c899ec252bdf89a8dbe9b1bcabfbc8569049",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "33a76c0476475fff7d860fca621c08257edd4540481ddc33859da8801071e782",
+    "source-status.txt": "b6a3935c996748efad3987e62a470dc40fa693a896655c2c5a034d0d407e33ef"
+  }
+}

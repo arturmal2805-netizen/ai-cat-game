@@ -1,0 +1,11 @@
+SPA required scene preparation pending
+Offline SPA actual-scene probe 0 resort-thermal
+Offline SPA actual-scene probe 1 resort-vip
+Offline SPA actual-scene probe 2 resort-midnight
+Offline SPA actual-scene probe 3 resort-massage
+Offline SPA actual-scene probe 4 resort-aroma
+Offline SPA actual-scene probe 5 resort-cabana
+Offline SPA actual-scene probe 6 resort-cafe
+Offline SPA actual-scene probe 7 resort-waterfall
+Offline SPA actual-scene probe 8 resort-sky-pool
+PASS offline actual SPA probes 9 layers, 175182 PNG bytes, raw SHA256 1bcdb047a6322bdd99fbdbbfe84a7ffb41eff533c07dd0579d6042d84abfa09d

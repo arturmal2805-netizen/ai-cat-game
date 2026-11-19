@@ -1,0 +1,16 @@
+TAP version 13
+# Subtest: every retained physical contact has a full-body route from its actual common-floor landing; stairs remain traversable both ways
+ok 1 - every retained physical contact has a full-body route from its actual common-floor landing; stairs remain traversable both ways
+  ---
+  duration_ms: 83877.21553
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 84115.680377

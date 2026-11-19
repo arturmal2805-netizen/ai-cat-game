@@ -232,3 +232,27 @@ static bake, so flat-layer correction does not alter its captured scene inputs.
 6 reflection/continuity checksPASS. Old atlases retained for history/cachedclients.
 Full CI44573032188 on534f3a9 PASSED test/build/wranglerdryrun (PR, no deploy).
 Need final4actualshade views, phone, ownership, finalexactmainCI/live beforepublish.
+
+Final native shading4views onf043655 completed, all inspected. Exact native bundle
+9a922bbe799ab3ff1bdc5a24e6a0cbd6f2ebd92270df7514a151b97eb9038930.
+Camera/FOV/DPR/scene-light values match corresponding E records. Complete visual
+limitations in visual-review-final.md; not a finished photo likeness or Mac FPS.
+
+Phone held touch PASS at real clear hall0,238: native actor moved4m, compact136px
+pad within390px viewport, dry controller, World releases. First fixture0,233
+correctly stopped .2m before real support column0,234; debug real pointer events/
+allowedinput proved touch worked. Column/collisions/radius preserved; added body
+sweep assertions for blocked column and clear new segment. All96route/stair test
+with these assertions PASS (84s). No product control change was necessary.
+
+Required ownership native PASS: actual privateSQLite recovered/re-placed legacy
+MegaLoops for0charge,750000fixturecoins unchanged, onecopy after2reloads/errors[].
+Existing ownership runner omitted instrumented bundle; manifest explicitly says
+qaBundleSha256=null, no retrospective hash claimed. Productsourcef043655 unchanged;
+its PNG is functional evidence only. Workerd logged Brokenpipe during shutdown,
+process exit0 after all assertions. Never describe this as a player-world reset.
+
+All reviewed archived native logs and targeted/build logs are now force-added
+because repository *.log ignores them. Every archive manifest is checked against
+Git staged bytes before release. All8physical rooms/14historical services/coins/
+cat models/Mall/ocean preserved. Full exact mainworkflow/Worker/livebytes required.

@@ -2,7 +2,7 @@
   "sourceBase": "01d0ae4b5583c00bd92f448d7b670282d44d532a",
   "sourceState": "",
   "result": "PASS phase-A private native capture only: connected architecture prototype,3views/errors[]/httpErrors[]. Not functional/furnished V7.",
-  "visualReview": "Top3 gaps: roof shape is barely legible without structural ribs; angle view crops foreground, front view is too close; façade lacks the required entrance hierarchy/frames. These require real geometry/camera corrections next.",
+  "visualReview": "Top3 gaps: roof shape is barely legible without structural ribs; angle view crops foreground, front view is too close; fa\u00e7ade lacks the required entrance hierarchy/frames. These require real geometry/camera corrections next.",
   "files": {
     "native.log": "8502a0930a88aa73752e997782868932d488dbf29685eb0d2ac15bee38f60802",
     "qa-build.json": "ec71564dfb497a58c353954be71fb982790249e5a34d0e30a0df1fca7ad1f344",

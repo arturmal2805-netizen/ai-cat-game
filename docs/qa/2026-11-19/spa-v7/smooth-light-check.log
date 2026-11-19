@@ -1,0 +1,40 @@
+TAP version 13
+# Subtest: adjacent floor triangles use identical lighting at every shared vertex; cutaway and source physics remain intact
+ok 1 - adjacent floor triangles use identical lighting at every shared vertex; cutaway and source physics remain intact
+  ---
+  duration_ms: 2.830168
+  type: 'test'
+  ...
+# Subtest: curved vault normals are continuous and normalized without changing actual support geometry or UVs
+ok 2 - curved vault normals are continuous and normalized without changing actual support geometry or UVs
+  ---
+  duration_ms: 0.356036
+  type: 'test'
+  ...
+# Subtest: V7 continuous real slabs preserve pool/atrium/stair openings, clear headroom and the original SPA root
+ok 3 - V7 continuous real slabs preserve pool/atrium/stair openings, clear headroom and the original SPA root
+  ---
+  duration_ms: 4198.159121
+  type: 'test'
+  ...
+# Subtest: Thermal is double-height and the two real balcony sheets end inside its existing water without crossing the middle slab
+ok 4 - Thermal is double-height and the two real balcony sheets end inside its existing water without crossing the middle slab
+  ---
+  duration_ms: 2784.313307
+  type: 'test'
+  ...
+# Subtest: actual roof triangles clear both star vaults; inset basin coping never overlaps the real floor and bath bottoms stay above the middle service ceiling
+ok 5 - actual roof triangles clear both star vaults; inset basin coping never overlaps the real floor and bath bottoms stay above the middle service ceiling
+  ---
+  duration_ms: 2928.362386
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 10098.03507

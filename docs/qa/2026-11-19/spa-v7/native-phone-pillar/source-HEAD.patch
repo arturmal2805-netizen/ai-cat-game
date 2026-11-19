@@ -1,0 +1,19 @@
+diff --git a/scripts/audit-resort-spa-phone-walk.mjs b/scripts/audit-resort-spa-phone-walk.mjs
+index 7757545..afa6c8f 100644
+--- a/scripts/audit-resort-spa-phone-walk.mjs
++++ b/scripts/audit-resort-spa-phone-walk.mjs
+@@ -12,11 +12,13 @@ export async function auditResortPhoneWalk({page,review}){
+  if(process.env.CHICHI_RESORT_SPA_PHONE_ONLY_AUDIT)assert.equal(await page.locator('.resort-spa-zones').isVisible(),false,'manual walking releases the independent SPA inspection panel');
+  const pad=page.locator('.chichi-walk-controls');assert(await pad.isVisible());const bounds=await pad.boundingBox();assert(bounds&&bounds.x>=0&&bounds.x+bounds.width<=390.5);
+  const before=await page.evaluate(()=>__lagoonQA.chichiCarrier.position.toArray()),button=await pad.locator('[data-walk-key="KeyW"]').boundingBox();assert(button);
++ await page.evaluate(()=>{window.__phoneTouchTrace=[];for(const name of ['pointerdown','pointerup','pointercancel','lostpointercapture'])document.addEventListener(name,e=>__phoneTouchTrace.push({name,key:e.target.dataset?.walkKey,target:e.target.tagName,id:e.pointerId}),true);});
++ const hit=await page.evaluate(({x,y})=>{const e=document.elementFromPoint(x,y);return{tag:e?.tagName,key:e?.dataset?.walkKey,cls:e?.className};},{x:button.x+button.width/2,y:button.y+button.height/2});
+  const cdp=await page.context().newCDPSession(page);
+  await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:button.x+button.width/2,y:button.y+button.height/2}]});
+  await page.evaluate(()=>{const q=__lagoonQA;for(let i=0;i<8;i++){q.appointmentClock=Math.max(performance.now(),q.appointmentClock||0)+100;q.gpuFrames.clear();q.manualStepping=true;try{q.step(q.appointmentClock);}finally{q.manualStepping=false;}}});
+  await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await cdp.detach();
+- const after=await page.evaluate(()=>__lagoonQA.chichiCarrier.position.toArray());assert(Math.hypot(after[0]-before[0],after[2]-before[2])>1,'Actual held touch must move native Chichi on the real SPA floor');assert(Math.abs(after[1]-before[1])<.1);
++ const after=await page.evaluate(()=>__lagoonQA.chichiCarrier.position.toArray());const debug=await page.evaluate(()=>({events:__phoneTouchTrace,input:__lagoonQA.manualWalk().inputState,camera:__lagoonQA.camera.position.toArray(),look:__lagoonQA.look.toArray(),active:__lagoonQA.manualWalk().active,dialogs:[...document.querySelectorAll('dialog[open]')].map(e=>e.id)}));await writeFile(join(review,'phone-touch-debug.json'),JSON.stringify({before,after,bounds,button,hit,debug},null,2));if(Math.hypot(after[0]-before[0],after[2]-before[2])<=1)await page.screenshot({path:join(review,'failed-phone-touch.png')});assert(Math.hypot(after[0]-before[0],after[2]-before[2])>1,'Actual held touch must move native Chichi on the real SPA floor');assert(Math.abs(after[1]-before[1])<.1);
+  await page.evaluate(()=>{const q=__lagoonQA;q.drawPaused=false;q.gpuFrames.clear();q.appointmentClock+=100;q.manualStepping=true;try{q.step(q.appointmentClock);}finally{q.manualStepping=false;q.drawPaused=true;}});
+  await page.screenshot({path:join(review,'actual-phone-third-person-controls.png')});
+  const css=await page.evaluate(async()=>{const href=document.querySelector('link[rel="stylesheet"]').href;return{href,source:await(await fetch(href)).text()};});await writeFile(join(review,'loaded-style.css'),css.source);
