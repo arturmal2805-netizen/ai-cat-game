@@ -6035,7 +6035,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
   });
   function freeSpaGuest(id,owned=false){
     const n=npcs.get(id),p=game.jobCity?.profiles[id],now=performance.now();
-    return !!n&&canGatherCat(game,id,Date.now(),{working:jobs.has(id)||crew.workers.has(id),sleeping:n.model.userData.mood==='sleep'})&&
+    return !!n&&canGatherCat(game,id,Date.now(),{working:!!jobs.get(id)?.job||!!jobs.get(id)?.manual||crew.workers.has(id),sleeping:n.model.userData.mood==='sleep'})&&
       !housingLife.get(id)&&!residentPlay.get(id)&&!residentPlay.friendVisit(id)&&!leisure.has(id)&&!mall?.has(id)&&
       !spa.get(id)&&!chill.get(id)&&!court.get(id)&&!mealVisits.has(id)&&!swimVisits.has(id)&&!n.pendingReference&&
       draggingCat?.catId!==id&&operation?.decision.friendId!==id&&!operation?.partyIds?.has(id)&&
@@ -6044,7 +6044,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
   }
   resortSpa=createResortSpaWorld({scene,container,
     getInvitees:()=>availableGatherCats().filter(id=>id!=='chichi'&&freeSpaGuest(id)&&!resortSpa?.has(id)),guestFree:freeSpaGuest,
-    onGuestReserve:id=>{const n=npcs.get(id);if(!n||!freeSpaGuest(id))return false;n.spaInvitationHeld=true;n.manualAnchor={x:n.carrier.position.x,z:n.carrier.position.z};n.manualUntil=performance.now()+3600000;n.gatheredUntil=n.manualUntil;return true;},
+    onGuestReserve:id=>{const n=npcs.get(id);if(!n||!freeSpaGuest(id))return false;jobs.cancel(id);n.spaInvitationHeld=true;n.manualAnchor={x:n.carrier.position.x,z:n.carrier.position.z};n.manualUntil=performance.now()+3600000;n.gatheredUntil=n.manualUntil;return true;},
     onGuestHold:id=>{const n=npcs.get(id);if(n?.spaInvitationHeld){n.manualUntil=performance.now()+3600000;n.gatheredUntil=n.manualUntil;}},
     onRecallGuest:id=>{
       if(!freeSpaGuest(id,true)||callbacks.canSimulateLeisure?.()===false)return false;
