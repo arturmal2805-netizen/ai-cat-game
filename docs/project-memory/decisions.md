@@ -718,3 +718,14 @@ matched views равны812.0 extra scene renders, один measured desktopcopy
 Staticroom probes не являются dynamiccatreflection, SSR живых котов не добавлен.
 Code/evidence/checkpoints remote. После fullSUCCESS проверитьHTML/JS/CSS/atlas
 bytes и лишь затем отправить9e26f33 ссылку пользователю.
+
+## 2026-11-19 23:11 Kyiv — V11 опубликован и actualbytes подтверждены
+
+main9e26f331d91d3ad85e2c0f15b5a6a4e63106e5ce LIVE, workflow44612746706
+SUCCESS всех GHA jobs. HTTP HTML/JS/CSS/roomatlas/sharedfield verified, одно
+app подключение. Полные hashes и receipt 2bf67d2e8c5a426f16ee7a279d72f587677e0959 в CURRENT/evidencebranch.
+Проверены finalphone443sourcehashes, group2nativearrivals/repeat/nocharges,
+matched camera/light/DPR Thermal/Golden.12targets/build/fullCI PASS.
+Не утверждать artist likeness/user approval или hardwareFPS. DynamiccatSSR
+не добавлен, retained V8 atlas не свежий V11liner capture. Продолжать с этого
+этапа по конкретному feedback, не перестраивать весьSPA.
