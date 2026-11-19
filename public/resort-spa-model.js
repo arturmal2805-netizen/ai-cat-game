@@ -61,6 +61,10 @@ export function* resortSpaModelSteps(){
   const group=new T.Group();group.name=zone.name;root.add(group);zones.set(zone.id,group);const pools=zone.key==='cabana'?[{x:zone.x,z:zone.z,rx:zone.rx-3,rz:zone.rz-3}]:resortPools(zone).filter(p=>Math.abs(p.y-zone.y)<.01);if(zone.key!=='cafe'){platform(zone,y,pools);roof(zone.x,y+4,zone.z,zone.rx,zone.rz,6);}for(const p of pools)pool(p.x,y,p.z,p.rx,p.rz,RESORT_ZONES.indexOf(zone));
   if(zone.key==='cabana'){
    box(solid,mats.ivory,zone.x,y-.08,zone.z,52,.16,2.4);box(solid,mats.ivory,zone.x,y-.08,zone.z+12,36,.16,3);
+   // Public connection between the two real crosswalks. Front private pods
+   // have rear glass walls; guests must reach their front doors around them.
+   box(solid,mats.ivory,zone.x+18,y-.08,zone.z+6,2.6,.16,14.4).name='Cabana public east connector';
+   for(const side of [-1,1])box(solid,mats.glass,zone.x+18+side*1.25,y+.55,zone.z+6,.06,1.1,9);
    for(let i=0;i<zone.seats;i++){const s=resortSpaSeat(zone,i),end=s.z<zone.z?zone.z:zone.z+12;disk(surfaces,mats.ivory,s.x,y-.04,s.z,3.2,3.2,.08);box(solid,mats.ivory,s.x,y-.08,(s.z+end)/2,2.2,.16,Math.abs(end-s.z)+.2);if(s.z>zone.z)for(const side of [-1,1])box(solid,mats.glass,s.x+side*1.08,y+.6,zone.z+9,.06,1.2,3);}
   }
 

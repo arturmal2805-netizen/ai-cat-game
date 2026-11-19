@@ -31,7 +31,7 @@ names = ['qa-build.json', 'source-files.json', 'source-status.txt',
          'source-HEAD.patch', 'source-cached.patch', 'v6-reference-frames.json',
          'actual-manual-seat-exit.json', 'actual-pools-sqlite.json',
          'game-scene.json', 'pool-progress.json', 'dry-progress.json',
-         'actual-dry-procedures-sqlite.json', 'actual-reflection-array.json']
+         'actual-dry-procedures-sqlite.json', 'actual-reflection-array.json', 'actual-garden-public-walk.json']
 a.destination.mkdir(parents=True)
 for path in [*a.source.glob('*.png'), *(a.source / n for n in names)]:
     if path.is_file():

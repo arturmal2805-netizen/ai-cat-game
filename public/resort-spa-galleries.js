@@ -26,9 +26,12 @@ export function* resortGallerySteps({solid,decor,mats,flora}){
      box(decor,mats.gold,x,y-.17,z,length+.035,.11,.57,level,angle);
      box(decor,mats.amber,x,y-.46,z,length+.035,.035,.58,level,angle);report.tierSegments++;
      if(hall.id!=='atrium'&&i%8===4&&length>.65){
-      const px=x+(hall.x-x)*.055,pz=z+(hall.z-z)*.055,planter=new T.Mesh(plantGeometry,mats.gold);planter.position.set(px,y+.25,pz);planter.userData.resortFloor=level;planter.castShadow=planter.receiveShadow=true;solid.add(planter);report.planters++;
-      box(decor,mats.wood,px,y+.9,pz,.04,.85,.04,level,angle);
-      bloom(level,px,y+1.35,pz,angle);
+      // Cabana's real annular walkway is only3m wide. Floor pots there closed
+      // both body-clear lanes; hang those same pots from the existing cornice.
+      const lift=hall.key==='cabana'?2.7:0,px=x+(hall.x-x)*.055,pz=z+(hall.z-z)*.055,planter=new T.Mesh(plantGeometry,mats.gold);planter.position.set(px,y+.25+lift,pz);planter.userData.resortFloor=level;planter.castShadow=planter.receiveShadow=true;solid.add(planter);report.planters++;
+      box(decor,mats.wood,px,y+.9+lift,pz,.04,.85,.04,level,angle);
+      if(lift){const arm=box(decor,mats.gold,(x+px)/2,y+3.95,(z+pz)/2,Math.hypot(x-px,z-pz)+.1,.05,.05,level,Math.atan2(-(pz-z),px-x));box(decor,mats.gold,px,y+3.55,pz,.035,.8,.035,level);}
+      bloom(level,px,y+1.35+lift,pz,angle);
      }
     }
     if(i%12===0)yield;

@@ -27,3 +27,15 @@ actual live SHA/assets verification; keep user updated and do not claim publish
 until full successful workflow/site. Existing main39708e3 unchanged so far.
 Do not repeatedly run unchanged old procedures; current changed routes need
 real private game validation. Logs/PNG/bundle/source/checksum to be archived.
+
+## Physical path corrections completed
+Aroma6/Cafe8/VIP8/Cabana6 paths now PASS from actual public stair/atrium
+landings, sweeping the unchanged radius along every segment. Fixed missing
+public connection between Cabana crosswalks with actual2.6m east gangway/rails;
+front private cabins retain rear glass walls. Cabana ring pots now hang from
+real cornice arms above body height, same containers retained. Root A* uses
+cached failed-edge replanning; default20 old route fixtures remain byte-identical.
+Source cascade geometry and150k budget/fixed buffer tests PASS.
+Next exactNode22build/fulltests, actual room probes rebake and native all14room/
+procedures plus public Aroma0/Cabana4 outward/return/privateSQLite. Then full
+workflow and live publication as explicitly requested. Do not stop at this WIP.
