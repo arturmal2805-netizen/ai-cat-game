@@ -29,14 +29,22 @@ Chromium/private Worker/SQLite download/cancel/restore/reload PASS. **Mac нап
 ## Активная задача — SPA V6, НЕ опубликована и НЕ одобрена визуально
 
 Код: /workspace/chichi-emergency-save-recovery, **codex/spa-v6-reconstruction**.
-Удалённый checkpoint **fd3fb4f** (полныйSHA проверить в origin/codex/spa-v6-reconstruction).
+Удалённый checkpoint **ca0813f3ec71232b427f4d98667a0e3fb153ad57**.
 Текущий этап — gardens/cascades + публичные проходы; требуется публикация.
 Последняя художественная/renderer правка **be2676c31f1b73fe5e1215a288c44738f95c3caa**.
 Завершённое native продолжение — source30467bf3545cebf4db8112b912fbda9f1617d628.
-**СЕЙЧАС Node22 build** /workspace/qa/spa-v6-gardens-build.log; сначала проверить
-его прогресс, не запускать одновременно второй build/GPU. Пользователь19ноября
-явно потребовал ускориться, завершить текущую доработку и ОПУБЛИКОВАТЬ; не
-заканчивать простым WIP-ответом. Главная версия пока39708e3.
+**Node22 build завершён**, approved models не изменились; HTML hash обновлён.
+Текущий remote **ca0813f3ec71232b427f4d98667a0e3fb153ad57**.
+PR#1 https://github.com/arturmal2805-netizen/ai-cat-game/pull/1 (draft доQA),
+workflow44533519542 запущен наca0813f. Local fulltestsconcurrency2:
+/workspace/qa/spa-v6-gardens-full-tests.log (не объявлятьPASS доитога).
+**Сейчас идёт actual15room probe rebake** /workspace/qa/spa-v6-gardens-probes-native.log,
+результаты /workspace/qa/spa-v6-gardens-probes/probes. НЕ менять основной
+HEAD/source/status пока bake не закончен, второйGPU не запускать. Localtests
+read-only/noGPU, source clean. Сначала проверить прогресс, не стартоватьзаново.
+Пользователь явно требует завершить текущую доработку и ОПУБЛИКОВАТЬ; не
+заканчивать WIP-only ответом. Главная версия пока39708e3.
+
 Старые worktrees/исходники/SQLite не удалялись.
 
 [Полное задание](https://github.com/arturmal2805-netizen/ai-cat-game/blob/49513c41a5aa555d0e92b55db9b11ef9fdb9a48f/docs/specifications/underwater-spa-v6-2026-11-18.md),
