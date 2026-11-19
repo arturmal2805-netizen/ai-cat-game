@@ -590,3 +590,14 @@ ancestry; WIP branch and oldworktrees remain. Native/phone proof lives in
 codex/spa-v6-release-evidence so adding artifacts does not invalidate immutable
 application CI. Publication workflow44539374765 is the next gate; merge alone
 is not live publication. Artwork still has documented reference gaps.
+
+## 2026-11-19 — SPA publication verified
+
+Published full SHA 6e28f752291e65e7b51f7f093a004e5c81fd27b3. Main workflow44539374765 succeeded in test,
+deploy and Pages, including exact Worker release/shared-save verification.
+At14:20:35UTC actual HTML/JS/CSS/atlas matched the checked build; one app script.
+Direct Worker GET remains blocked by this environment's tunnel403; no paid AI
+inference or hardware FPS claim. Final evidence commit d259c323876187606fa9512baff0b59c7d83845c,86 entries
+byte/Git-tracking verified. This incremental art release is not fullV6 or user
+visual approval. WIP branch fast-forwarded without file changes to published
+main, retaining checkpoint history and all old worktrees.

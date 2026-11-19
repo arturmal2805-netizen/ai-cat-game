@@ -1,18 +1,27 @@
 # Текущий статус
 
-Обновлено 19 ноября 2026, Europe/Kyiv (публикация 18 ноября 21:56 UTC).
+Обновлено 19 ноября 2026, Europe/Kyiv. Публикация подтверждена в16:20 по Киеву.
 
 ## Стабильная опубликованная версия
 
-**39708e32a6a4f86b9a6a09d777fc4c38526a7f33**, origin/main.
-[Игра](https://arturmal2805-netizen.github.io/ai-cat-game/?v=39708e3),
-[диагностика по запросу](https://arturmal2805-netizen.github.io/ai-cat-game/?v=39708e3&profile=1).
-[Полный workflow 44403570410](https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44403570410)
-завершён SUCCESS: tests, Worker deploy, точный release/shared saves, Pages.
-Actual HTTP 2026-11-18T21:56:48Z, одно подключение приложения:
-JS SHA256 `0b3d5f0bd640400cbcd65c7efb9d0feafdef0b1b003cf9601d03a36e341acdc0`;
-CSS SHA256 `9db4746b53b8da87077097c9238673ce7d6a6e4f45652fb7b5c92aed121e9fd1`.
-[Квитанция](../qa/2026-11-18/cloud-backup-publication/cloud-backup-live-verification.json).
+**6e28f752291e65e7b51f7f093a004e5c81fd27b3**, origin/main.
+[Игра](https://arturmal2805-netizen.github.io/ai-cat-game/?v=6e28f75),
+[диагностика по запросу](https://arturmal2805-netizen.github.io/ai-cat-game/?v=6e28f75&profile=1).
+[Workflow44539374765](https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44539374765) — **SUCCESS**:
+Node22 tests/build, Worker deploy, exact release/shared saves, Pages.
+Проверено HTTP19 ноября14:20:35UTC (16:20 по Киеву).
+HTML совпал с проверенной сборкой по байтам; одно подключение приложения.
+JS SHA256 `c006ed8238ebefbcd77d246f69a9dd8765107618bfcfee285662a44a0bc5feea`;
+CSS SHA256 `1ca6fd7d91d93d2434122de8b604f9e1f0306145487ece7434204f01d46492bc`;
+SPA atlas `c3beaca169a6462a0622a42858c67eec7bc14d61722b12d3530295de9c3b2cc0`.
+[Квитанция](https://github.com/arturmal2805-netizen/ai-cat-game/blob/d259c323876187606fa9512baff0b59c7d83845c/docs/qa/2026-11-19/spa-v6-gardens-release/live-verification.json).
+
+Опубликован промежуточный этап SPA: интерьеры, настоящий верхний бассейн со
+стеклянным дном, кафе/аквариум, мягкая мебель, сады/каскады и реальные проходы.
+Это НЕ завершение художественного V6 и НЕ визуальное одобрение пользователя.
+Прежний опубликованный39708e3 и квитанция cloud-backup остаются историей.
+Прямой GET Worker здесь блокирует tunnel403; точную серверную версию и shared
+saves проверил главный workflow. Платный AI inference не выполнялся.
 
 В существующем окне «Аккаунт» (☁, оно же облачное сохранение) добавлены кнопки
 «Сохранить текущий мир» / «Загрузить мир из файла». Никакой отдельной новой вкладки
@@ -26,58 +35,52 @@ account archive; потом обычный commit без подмешивани�
 Chromium/private Worker/SQLite download/cancel/restore/reload PASS. **Mac напрямую
 не проверен**; не называть Chromium аппаратным Mac тестом. Новую ссылку пользователь получил.
 
-## Активная задача — дождаться развёртывания SPA и проверить live
+## Завершённая публикация SPA; следующий этап не начат
 
-PR#1 уже MERGED вmain **6e28f752291e65e7b51f7f093a004e5c81fd27b3**,
-19 ноября14:01:47UTC. Полный tree идентичен проверенному
-**4b72f2fa04dfdcf045c0a211570524d4c89d6268**, без конфликтов/новых правок.
-Merge сохранил всю checkpoint историю: родители stable39708e3 и source4b72f2f.
-WIP codex/spa-v6-reconstruction и старые worktrees сохранены, не удалять/reset.
-Код в /workspace/chichi-emergency-save-recovery остаётся наclean4b72f2f;
-не начинать разработку заново. Дополнительные code changes сейчас НЕ нужны.
+PR#1 слит обычным merge6e28f752291e65e7b51f7f093a004e5c81fd27b3.
+Родители: stable39708e3 и проверенный4b72f2f; полный tree совпадает с4b72f2f,
+конфликтов и новых правок при merge не было. История checkpoints сохранена.
+Основной checkout /workspace/chichi-emergency-save-recovery, ветка
+codex/spa-v6-reconstruction, после публикации продвинута fast-forward к6e28f75.
+Никакие старые worktrees или пользовательские изменения не сбрасывались.
 
-**Главный publication workflow44539374765 сейчас in_progress**:
-https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44539374765
-Не объявлять сайт обновлённым по одному merge/URLv. Дождаться всех test/deploy/
-Verifyrelease/sharedsaves/Pages jobs SUCCESS, затем actual HTML/JS/CSS/atlas bytes.
-Verifier /tmp/verify-spa-publication.py; постоянная копия в evidence branch.
-Node22 какCI; не rebuild Node24, не запускать paidAI. Прямой Worker host здесь
-ранее tunnel403; успешный exact-release/shared-save CI — отдельное доказательство,
-не выдавать403 за успешный directGET или за realLLM inference.
+Проверки: точный PR CI44535236300 SUCCESS; финальный main workflow44539374765
+SUCCESS. Local broad1171/1171 PASS стартовал до позднего probe update, поэтому
+точное полное подтверждение финального кода — CI, а не только local log.
+Final6 targeted cases PASS. Все28 подходов и20 прежних маршрутов PASS.
+Native на clean4b72f2f:16 видов, пять слоёв byte-exact GLSL/21pool mappings,
+publicAroma0/Cabana4 туда и обратно,11 сухих/4 водных процедуры, реальные позы,
+оплата/квитанции/privateSQLite reload/World release. Errors[]/httpErrors[],
+одно приложение. Phone390×844/DPR2 удержание кнопки и освобождение управления
+PASS; все423 imported source hashes и QA bundle совпадают с desktop.
+Это не сертификация всех84 движений/каждого контакта/пути от берега или
+аппаратного FPS настоящего Mac/телефона.
 
-Проверки завершены: exactPRCI44535236300 SUCCESS; localbroad1171/1171 PASS
-(стартовал до позднегоprobeupdate, exactfullgate — CI); final6targeted PASS.
-Native clean4b72f2f:16views(overview+14rooms+sky),5arraylayer byte-exactGLSL/
-21pool mappings,actualpublicAroma0/Cabana4 outward/return,11dry/4wetservices,
-poses/receipts/privateSQLite reload/World release PASS; errors[]/httpErrors[],
-одно приложение. Phone390×844/DPR2 actual heldtouch/compactbounds/originalChichi/
-Worldrelease PASS; все423 publicsource hashes и QA bundle identicaldesktop.
-HardwareMac/phoneFPS и полный84motion/everycontact/shore tour не сертифицированы.
+Полный evidence remote codex/spa-v6-release-evidence, commit **d259c323876187606fa9512baff0b59c7d83845c**:
+[Артефакты](https://github.com/arturmal2805-netizen/ai-cat-game/tree/d259c323876187606fa9512baff0b59c7d83845c/docs/qa/2026-11-19/spa-v6-gardens-release).
+Native/phone source, QA bundle, настройки, PNG, логи, CI и live receipt;
+все86 entries финального manifest сверены по байтам и Git tracking.
+/workspace/chichi-spa-release-evidence — sparse worktree артефактов,
+не другой runtime. Браузерные проверки и наблюдение workflow завершены.
 
-Доказательства remote **codex/spa-v6-release-evidence**, checkpoint395c03f4f65173e5abdbd257a1c6c9d47aa1da2c:
-docs/qa/2026-11-19/spa-v6-gardens-release/{native,phone}, exact source/bundle/
-PNG/log/manifests + comparison/reference-review/CI. /workspace/chichi-spa-release-evidence
-— отдельный sparse worktree артефактов; это НЕ другой runtimeкод.
-Не перепутать его с основным checkout. Финальный publication receipt добавить
-сюда после deploy. Полная проверка всехmanifest bytes/Gittracking обязательна.
+Свежий capture15 комнат снят наca0813f после мебели/полов/галактики/садов.
+Provenance в runtime manifest и docs/qa/2026-11-19/spa-v6-gardens-probes/native;
+27 entries bytes/Gittracking PASS. Поздние UV/curvature меняли только скрытую
+при capture воду; статическая видимая геометрия не менялась.
 
-Свежие actual15roomprobes sourceca0813f, PNG302059bytes c3beaca169a6462a0622a42858c67eec7bc14d61722b12d3530295de9c3b2cc0,
-rawda49c948fe3bfaa711f85a1fc0cf05aa5f511949554ddfd9e4bdd350312eaf9c.
-Архив в коде docs/qa/2026-11-19/spa-v6-gardens-probes/native;27entries bytes/Gittracking PASS.
-Late UV/curvature меняли onlymaskedwater, видимыеstaticcapturecontents сохранены.
-16beds/2three-tiercascades/6nativefoliagebatches;28affectedpublicroutes+20default
-fixtures PASS. FixedrealAroma bridge/Cabana connector; unchangedradius/walls,
-originalmodels/economy/shared-save/watercore intact.
+Далее продолжать оставшиеся художественные расхождения по R1/R2/R4/R5,
+сохраняя сделанное; R3 — дубль R1. Не начинать реконструкцию заново.
+Журнал новой сверки находится в release evidence/reference-review.md.
+Пока уступают цельность силуэта, плотность водных садов, слои света и деталей.
+Обычный кадр Aroma почти не показывает каскады и не подтверждает их close-up
+motion quality. Полное задание — docs/specifications/underwater-spa-v6-2026-11-18.md;
+устойчивые контракты — standards/underwater-spa.md. Редизайн ТРЦ исключён.
 
-Внешний Workers Builds Gitcheck FAILURE присутствовал и наstable39708e3;
-причина не установлена, пустойGitHuboutput. Не заявлять этотcheckSUCCESS.
-Настоящую публикацию подтверждать главным Test and deploy workflow иlivebytes.
-Это промежуточный художественный SPA, НЕ visualapproval/fullV6. R1/R2/R4/R5
-сверены опять, R3duplicateR1; сохраняется отставание по плотности сада/свету/
-связному palace silhouette. Референсы не подменены картинкой в игре.
-Цель/ограничения — standards/underwater-spa.md; прошлое — history/. Не повторять
-компенсацию монет, не трогать живое сохранение. Пользователь требует публикацию,
-не заканчивать WIP-only ответом и не просить разрешение повторно.
+Отдельный Workers Builds Git check ранее падал и на stable39708e3; причина
+по пустому GitHub output не установлена. Не объявлять этот check успешным:
+настоящий deploy и версия подтверждены главным workflow и live bytes.
+Нельзя повторять компенсацию монет, трогать живой мир или выдавать routine
+release verification за платный ответ LLM. Прежняя история — history/.
 
 ## Предыдущее аварийное восстановление
 
