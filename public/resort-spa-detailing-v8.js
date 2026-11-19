@@ -5,7 +5,7 @@ import {SPA_V7_ZONES,spaV7Seat} from './resort-spa-services-v7.js';
 // SPA-local furnishing, authored around the immutable V7 service contacts.
 // Rugs/cloth/inlays are non-obstructing; new furniture bases remain in solid.
 export function* resortSpaDetailSteps(h){
- const {solid,decor,shell,mats,material,geometry,mesh,box,disk,ball,line,ring,pillow,plant,tree,lantern,lotus,tray,curtains}=h;
+ const {solid,decor,shell,mats,material,geometry,mesh,box,disk,ball,line,ring,pillow,plant,tree,lantern,lotus,tray,curtains,flowerCluster,petal,petalDark,leafGeo,green}=h;
  const cream=material(0xf4e7dc,{roughness:.78}),blush=material(0xc98dac,{roughness:.85}),blue=material(0x1b3555,{roughness:.83}),rug=material(0x576678,{roughness:1}),jade=material(0x32675f,{roughness:.58}),porcelain=material(0xf4f3e9,{roughness:.22}),warm=material(0xffd28a,{emissive:0xffc76f,emissiveIntensity:1.2,roughness:.4}),violet=material(0xab6ad9,{emissive:0x8c51ca,emissiveIntensity:.6});
  for(const m of [cream,blush,blue,rug]){for(const k of ['map','normalMap','roughnessMap'])m[k]=mats.cloth[k];m.normalScale.copy(mats.cloth.normalScale);}
  const report={version:8,rooms:{},newPointLights:0,layoutMoved:false,source:'Authored reusable 3D furniture, textiles, porcelain and floral compositions; no image scenery'};
@@ -47,7 +47,7 @@ export function* resortSpaDetailSteps(h){
    const c=spaV7Seat(zone,i);if(c.pool)continue;
    if(['vip','midnight','cabana','aroma','waterfall'].includes(key)){
     chairDress(c);carpet(c.x,c.z+.2,key==='cabana'?3:2.9,key==='cabana'?2.7:2.5,key==='midnight'?rug:key==='aroma'?jade:rug);
-    flowerVase(c.x+2.04,y+.6,c.z-.95,.65);
+    flowerVase(c.x+(key==='cabana'?2.69:2.04),y+.6,c.z-.95,.65);
     if(['cabana','vip','midnight'].includes(key))rolled(c.x+1.1,y+1.02,c.z+.35,2);
    }
    if(key==='massage'){
@@ -60,12 +60,20 @@ export function* resortSpaDetailSteps(h){
   }
   if(key==='thermal'){
    for(const side of [-1,1])conversation(side*38,247);
+   // Ornament follows the existing double-height balcony edge. The hanging
+   // leaves/petals remain well above a cat and never close an actual opening.
+   for(let i=0;i<18;i++){const a=Math.PI*.08+i*Math.PI*.84/17,x=Math.cos(a)*48,z=266-Math.sin(a)*21.7;
+    for(let j=0;j<3;j++){const t=j/2,px=x+Math.sin(i*1.7+t)*.32,py=13.7-t*2.6,pz=z+Math.cos(i+t)*.18;const leaf=mesh(decor,leafGeo,green,px,py,pz,.5,.6,.55);leaf.rotation.set(-.5,i*2.4+t,0);if(j===0||i%3===0)mesh(decor,flowerCluster,i%2?petal:petalDark,px,py,pz,.42,.3,.42);}
+   }
+   ring(decor,mats.gold,0,.06,266,45.3,19.3,.07);ring(decor,warm,0,.025,266,45.75,19.75,.035);
    for(const side of [-1,1])ceilingMedallion(side*22,266,9,5,25.7);
    features.features.push('pool coping jewellery','embroidered chaise upholstery','paired lantern terraces','water-edge porcelain');
    // Refinement of the ten existing perimeter chaises, not new obstructions.
    for(let i=0;i<10;i++){const a=i*Math.PI/5,x=zone.x+Math.cos(a)*(zone.rx-2.4),z=zone.z+Math.sin(a)*(zone.rz-2.4);const back=box(decor,cream,x,y+1.18,z,1.15,.18,1.05,true);back.rotation.set(-.32,-a,0);const p=pillow(decor,blush,x,y+1.12,z,.52,.2,.48);p.rotation.y=-a;rolled(x,y+.96,z+.6,1);}
    for(const side of [-1,1]){for(let i=0;i<4;i++)lanternPair(side*(34+i*3),251-i*.3);for(let i=0;i<3;i++)bowl(side*50,258+i*7,.75);}
   }else if(key==='vip'){
+   tree(125,y,220,1.4);tree(125,y,241,1.25);tree(82,y,259,1.15);
+   for(const z of [213,230,247]){box(decor,mats.gold,127,y+4,z,.16,3.2,.42,true);box(decor,warm,126.88,y+4,z,.035,2.8,.18);lantern(124,y,z,.65);}
    features.features.push('eight dressed jacuzzi rims','towel and drink ledges','layered textile islands','private gold arches');
    for(const p of spaPalacePools().filter(p=>p.room===zone.id)){
     ring(decor,mats.gold,p.x,y+.045,p.z,p.rx+.18,p.rz+.18,.075);ring(decor,warm,p.x,y-.055,p.z,p.rx+.055,p.rz+.055,.025);

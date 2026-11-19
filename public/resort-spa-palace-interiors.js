@@ -27,7 +27,13 @@ export function* resortPalaceInteriorsSteps({solid,decor,shell,mats,geometry,mes
    }else if(zone.key==='midnight'&&i>=14){
     disk(solid,mats.gold,x,y+.65,z,2.25,2.25,.14);disk(solid,mats.cloth,x,y+.82,z,2.2,2.2,.2);
     for(let j=0;j<12;j++){const a=Math.PI+j*Math.PI/11,o=pad(solid,mats.cloth,x+Math.cos(a)*2,y+1.3,z+Math.sin(a)*2,.7,1,.35);o.rotation.y=-a-Math.PI/2;}
-   }else if(['vip','midnight','cabana','cafe','waterfall'].includes(zone.key))sofa(c,y);
+   }else if(zone.key==='cabana'){
+    // Rounded capsule upholstery retains the exact original .92m contact and
+    // front foot support. Separate back pieces keep their real open front.
+    disk(solid,mats.gold,x,y+.65,z,1.84,.84,.14);disk(solid,mats.cloth,x,y+.82,z,1.8,.8,.2);
+    for(let j=0;j<13;j++){const a=Math.PI+j*Math.PI/12,o=pad(solid,mats.cloth,x+Math.cos(a)*1.65,y+1.35,z+Math.sin(a)*.68,.48,1,.25);o.rotation.y=-a-Math.PI/2;}
+    pad(solid,mats.cloth,x,y+.39,z+1.05,2.6,.16,.8);for(const side of [-1,1])for(const dz of [-.6,.6])box(solid,mats.gold,x+side*1.2,y+.3,z+dz,.12,.6,.12);
+   }else if(['vip','midnight','cafe','waterfall'].includes(zone.key))sofa(c,y);
    else if(zone.key==='aroma'){
     pad(solid,mats.gold,x,y+.45,z,3.08,.1,2.14);pad(solid,mats.cloth,x,y+.65,z,3,.3,2.1);pad(solid,mats.cloth,x,y+1.3,z-.95,3,1.3,.36);for(const side of [-1,1])pad(solid,mats.cloth,x+side*1.5,y+1,z,.28,.6,2.1);
    }else disk(decor,mats.cloth,x,y+.04,z,1.5,1.5,.08);

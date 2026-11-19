@@ -44,3 +44,33 @@ Archive every completed native run with archive-spa-stage.py; explicitly force
 add native.log despite *.log and verify all manifest paths against git bytes.
 Do not archive the private SQLite/token/export save. Current stage2 source is
 saved remotely; do not rebuild from a loose reconstructed description.
+
+## New user corrections — not approved stage2
+Thermal/Golden/Cabana paired visual corrections are recorded in
+spa-v8-visual-corrections-2026-11-19.md. The user explicitly rejected stage2's
+visible progress. Do not present it as a finished visual improvement.
+
+After6fcaa45: local shallow SPA optics, shared-field animated caustics, gold
+step edges, lower bubble opacity, hanging balcony foliage, Golden perimeter
+sakura/sconces, preserved dark upper public floor, rounded Cabana upholstery.
+The original service contact height .92 and foot support stay intact.
+Found and fixed caustic composition order: room lighting could discard a hook
+installed earlier. New test exercises the actual final batched liner material,
+its time/physical-depth uniforms and composed lamp shader (PASS).
+Golden30 full-body approaches PASS, Cabana6 PASS, all frozen anchors unchanged.
+
+Water diagnosis1 proves the large dark polygon persists with the actual water
+interface hidden; do not claim the water interface shader is the proven cause.
+Integrated native run now isolates the bed's world-shadow reception before
+changing it. No shadow/collision bypass has been shipped.
+
+Free invitation's first native run reached the dry entrance and preserved all
+balances/receipts. Its second click timed out because normal focus closed the
+SPA panel. The QA flow now reopens the panel and checks repeat + actual SQLite
+reload. Keep the first failed/partial run; do not mark it a full native pass.
+Environment restart interrupted diagnostic2 before frames; no success claim.
+Current combined private run: /workspace/qa/spa-v8-integrated (.log), one GPU.
+
+Local npm test returned1191/1191 but product sources changed while it was running
+for the new user corrections. Treat it as partial supporting information, NOT
+an exact-source final gate. Final clean Node22 CI is still required.

@@ -10,6 +10,7 @@ export async function auditResortSpaNative({page,review,errors,httpErrors}){
  const progress=setInterval(()=>console.log('SPA required scene preparation pending'),15000);
  try{await page.waitForFunction(()=>__lagoonQA.resortSpa()?.inspection,null,{timeout:240000});}finally{clearInterval(progress);}
  if(process.env.CHICHI_SPA_V8_AUDIT){await page.evaluate(async()=>{await __lagoonQA.mall().ensure();});await page.waitForFunction(()=>__lagoonQA.mall().ready,null,{timeout:240000});}
+ if(process.env.CHICHI_SPA_V8_WATER_DIAG){const {auditSpaWaterArt}=await import('./audit-spa-water-art.mjs');await auditSpaWaterArt({page,review,errors,httpErrors});if(!process.env.CHICHI_SPA_V7_FUNCTIONAL_AUDIT)return;}
  if(process.env.CHICHI_SPA_V7_MASS_AUDIT&&process.env.CHICHI_RESORT_SPA_PHONE_ONLY_AUDIT){const {auditResortPhoneWalk}=await import('./audit-resort-spa-phone-walk.mjs');await auditResortPhoneWalk({page,review});assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;}
  if(process.env.CHICHI_SPA_V8_INVITATION_AUDIT){const {auditSpaInvitation}=await import('./audit-resort-spa-invitation.mjs');await auditSpaInvitation({page,review});if(!process.env.CHICHI_SPA_V7_FUNCTIONAL_AUDIT){assert.deepEqual(errors,[]);assert.deepEqual(httpErrors,[]);return;}}
  if(process.env.CHICHI_SPA_V7_FUNCTIONAL_AUDIT){const {auditSpaV7Functional}=await import('./audit-resort-spa-v7-functional.mjs');await auditSpaV7Functional({page,review,errors,httpErrors});return;}

@@ -45,7 +45,7 @@ export function* resortLuxurySteps({solid,decor,shell,surfaces,basins,waters,mat
    const pad=key==='midnight'?navy:cream;box(decor,pad,s.x,y+.96,s.z,2.8,.13,1.45,true);for(const side of [-1,1]){const p=pillow(decor,side<0?rose:cream,s.x+side*1.08,y+1.1,s.z-.34,.48,.24,.48);p.rotation.z=side*.14;}
    // Draped blanket keeps the original native resting support unchanged.
    box(decor,key==='midnight'?silver:rose,s.x-.35,y+1.01,s.z+.42,.8,.08,.65,true);
-   const tx=s.x+2.05,tz=s.z-.95;disk(solid,mats.gold,tx,y+.46,tz,.6,.6,.1);disk(solid,mats.gold,tx,y+.24,tz,.07,.07,.48);disk(solid,mats.gold,tx,y+.04,tz,.3,.3,.08);tray(tx,y+.54,tz);lantern(s.x-2.35,y,s.z-1.25,.65);if(key==='cabana')plant(s.x+1.9,y,s.z+.8,.55,true);
+   const tx=s.x+(key==='cabana'?2.7:2.05),tz=s.z-.95;disk(solid,mats.gold,tx,y+.46,tz,.6,.6,.1);disk(solid,mats.gold,tx,y+.24,tz,.07,.07,.48);disk(solid,mats.gold,tx,y+.04,tz,.3,.3,.08);tray(tx,y+.54,tz);lantern(s.x-2.35,y,s.z-1.25,.65);if(key==='cabana')plant(s.x+2.7,y,s.z-2.2,.55,true);
    if(key==='vip'){
     curtains(s.x,y,s.z,1.9);
     for(const side of [-1,1]){box(solid,mats.gold,s.x+side*1.8,y+1.8,s.z-.95,.07,3.6,.07);line(decor,mats.gold,[[s.x+side*1.8,y+3.6,s.z-.95],[s.x+side*.9,y+4.5,s.z-.95],[s.x,y+4.65,s.z-.95]],.055);}
@@ -109,7 +109,7 @@ export function* resortLuxurySteps({solid,decor,shell,surfaces,basins,waters,mat
    chandelier(zone.x,y+7,zone.z,2.3);
   }else if(zone.key==='cabana'){
    features.push('six private transparent pavilions','pleated curtains','canopied rest seats');
-   for(let i=0;i<zone.seats;i++){const s=seatContact(zone,i);curtains(s.x,y,s.z,2.3,palace?8:2.8);ring(decor,mats.gold,s.x,y+(palace?10.8:2.8),s.z,3.1,3.1,.055);for(let j=0;j<4;j++){const a=j*Math.PI/2;line(decor,mats.gold,Array.from({length:11},(_,k)=>{const t=k*Math.PI/20;return[s.x+Math.cos(a)*3.1*Math.cos(t),y+(palace?10.8:2.8)+(palace?0:3.5)*Math.sin(t),s.z+Math.sin(a)*3.1*Math.cos(t)];}),.04);}}
+   for(let i=0;i<zone.seats;i++){const s=seatContact(zone,i);curtains(s.x,y,s.z,2.3,palace?8:2.8);ring(decor,mats.gold,s.x,y+(palace?10.8:2.8),s.z,3.1,3.1,.055);if(palace)ring(decor,mats.amber,s.x,y+10.75,s.z,3.03,3.03,.06);for(let j=0;j<4;j++){const a=j*Math.PI/2;line(decor,mats.gold,Array.from({length:11},(_,k)=>{const t=k*Math.PI/20;return[s.x+Math.cos(a)*3.1*Math.cos(t),y+(palace?10.8:2.8)+(palace?0:3.5)*Math.sin(t),s.z+Math.sin(a)*3.1*Math.cos(t)];}),.04);}}
   }else if(zone.key==='beauty'){
    features.push('six lit grooming stations','accessory displays','flowering salon island');
    tree(zone.x,y,zone.z,1.1);for(const side of [-1,1]){box(solid,mats.ivory,zone.x+side*20,y+1.4,zone.z-8,3,2.8,1,true);for(let j=0;j<7;j++)ball(decor,j%2?rose:petalDark,zone.x+side*20+(j%3-1)*.6,y+1.2+Math.floor(j/3)*.6,zone.z-7.45,.13,.1,.08);}
@@ -142,7 +142,7 @@ export function* resortLuxurySteps({solid,decor,shell,surfaces,basins,waters,mat
   }
   yield;
  }
- if(palace)report.detailing=yield* resortSpaDetailSteps({solid,decor,shell,mats,material,geometry,mesh,box,disk,ball,line,ring,pillow,plant,tree,lantern,lotus,tray,curtains,setRoom:zone=>{floor=zone.level;room=zone.id;}});
+ if(palace)report.detailing=yield* resortSpaDetailSteps({solid,decor,shell,mats,material,geometry,mesh,box,disk,ball,line,ring,pillow,plant,tree,lantern,lotus,tray,curtains,flowerCluster,petal,petalDark,leafGeo,green,setRoom:zone=>{floor=zone.level;room=zone.id;}});
  room=null;floor=2;
  // This exact upper-floor opening existed already. No opaque backing disk is
  // placed beneath the glass: both directions see the lower atrium and water.

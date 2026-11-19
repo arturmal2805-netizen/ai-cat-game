@@ -1,3 +1,4 @@
+import {installSpaPoolCaustics} from './resort-spa-water-v8.js';
 import {palaceFloorLightSteps} from './resort-spa-palace-floor-light.js';
 import * as T from 'three';
 import {resortReflections,applyResortFinishReflection} from './resort-spa-reflections.js';
@@ -8,7 +9,7 @@ import {registerPositionPreservingShader} from './static-submissions.js';
 // The resort's sealed interiors exclude most exterior daylight. Attenuate only
 // their own incident light; preserve emissive fixtures, local lamps and probes.
 export function resortInteriorLighting(material,lights){
- mallRoomLightMaterial(material,lights,.8);const before=material.onBeforeCompile,previousKey=material.customProgramCacheKey,key=previousKey.call(material),probe=resortReflections();
+ mallRoomLightMaterial(material,lights,.8);installSpaPoolCaustics(material);const before=material.onBeforeCompile,previousKey=material.customProgramCacheKey,key=previousKey.call(material),probe=resortReflections();
  material.onBeforeCompile=function(shader,...args){before.call(this,shader,...args);applyResortFinishReflection(shader,probe);shader.fragmentShader=shader.fragmentShader.replace('outgoingLight+=vMallLampColor.rgb','outgoingLight=(outgoingLight-totalEmissiveRadiance)*.32+totalEmissiveRadiance;\n      outgoingLight+=vMallLampColor.rgb').replace('diffuseColor.rgb*(.18+lampFalloff*.88*lampDiffuse)','diffuseColor.rgb*(.035+lampFalloff*.88*lampDiffuse)');};
  material.customProgramCacheKey=()=>key+'-spa-sealed-interior-v1'+(probe?'-spa-room-array-v4-'+probe.revision:'-fallback');registerPositionPreservingShader(material,before,previousKey);material.needsUpdate=true;
 }
