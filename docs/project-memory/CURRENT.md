@@ -54,43 +54,95 @@ export и desktopW. Phone390×844/DPR2 heldtouch4м + World release PASS.
 водный узор ещё слишком мелкий/густой, роскошное наполнение и фасад проще
 референсов. **Это не завершение всего V8 и не visualapproval пользователя.**
 
-## Активная работа — V11 вода + новое приглашение свободных жителей
+## Активная работа — V11 уже в main, публикация выполняется
 
-Отдельный worktree **/workspace/chichi-spa-water-v11**, ветка **codex/spa-water-v11**.
-Последний remote checkpoint **2a1927d**: все38реальных водных поверхностей
-подключены к SPA-only profiles, metric absorption/refraction/stepdepth,
-soft liner/step caustics; первый actual native8видов PASS, но визуально не принят.
-Архив stage1 — docs/qa/2026-11-19/spa-v11/stage1. Это phone390×844/DPR2,
-НЕ desktop matched comparison. Source/bundle/PNG/лог сохранены; не пересниматьстарое.
+**9e26f331d91d3ad85e2c0f15b5a6a4e63106e5ce**, PR#4 MERGED.
+Родители: предыдущий опубликованный812c8a6 + кандидат
+**d24d343037f08c9e94a89487928dbbf222a5e8d6**. Дерево main равно кандидату;
+ручных конфликтов не было. НЕ делать повторный merge.
+[Workflow44612746706](https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44612746706)
+сейчас выполняет full npm test; Node22 build уже PASS. До полного SUCCESS и
+HTTP byte check нельзя говорить LIVE9e26f33. Stable live выше пока812c8a6.
+Публикация пользователем уже многократно разрешена, разрешение не спрашивать.
+Повторный PR workflow44612653709 отменён после merge; основной gate не ослаблен.
 
-На диске stage2 WIP: укрупнённые каустики, stronger bounded room reflections,
-реальные медленные vertex waves + micro normal +6wake slots; ornamental liner
-caustics с настоящими уровнями; Café bubbles из того же fixed pool, hidden-level
-updates пропускаются. Один framebuffer copy всегоSPA закадр, без дополнительного
-scene render/per-pool RT, после sRGB output без doubleACES. Нужен actualGPU
-stats/полный frame completion A/B; не обещать аппаратный FPS.
+Ожидаемые реальные output bytes финального Node22 build:
+HTML7d8e29b489c6522e341085f6729878b80a662cbad0ffc8383b34bff9e4a62a5e;
+JS593013c89da9d392e10c9a42a7ba7297e2073cccff5e3fc32951b930262e4dce;
+CSS1ca6fd7d91d93d2434122de8b604f9e1f0306145487ece7434204f01d46492bc.
+SPA atlas прежний ffabc732b641d70c2894ca97ebff1ab83ba4fecbf6da71e5d0251efd19648d6f:
+только вода/динамика менялись, masked static probe inputs остались прежними.
+Проверить actual HTTP HTML/JS/CSS/atlas после Pages, одно приложение и matching
+cache query. v в URL не доказательство. Worker exactrelease/save checks — workflow.
 
-Новый запрос пользователя: **кнопка позвать всех свободных котиков в SPA**.
-Stage2 содержит кнопку, bounded queue (до4 simultaneous guest journeys),
-реальный лифт и пеший подход к distinct сухим точкам без покупки/AI-вызова.
-Работающие/спящие/занятые/другая manual-команда исключены, free-state перепроверяется.
-Повтор дедуплицируется; новый work/owner отменяет hold. Это ещё НЕ LIVE.
-Native actual resident group test входит в scripts/audit-spa-water-v11.mjs.
-CPU8targeted tests PASS; stage2 build идёт. Нужны native7water zones/sky,
-реальный group arrival/repeat/неизменные wallets, full CI и HTTP перед публикацией.
+V11: все38реальных водных поверхностей (14basins+20garden+4weir/falls),
+SPA-only physical profiles, metric absorption/scatter/stepdepth, slow vertexwaves,
+micro-normal и6wake slots; caustics дна/стен/ступеней с правильным порядком hooks;
+один shared framebuffer copy для рефракции после colour output без doubleACES,
+без дополнительного scene render/per-pool RT. Существующие room probes +3 bounded
+room lamps дают локальные highlights, новых PointLights нет. Комнаты/геометрия,
+океан/ТРЦ/коты/AI/crypto/server/save schema не менялись. Native external-shadow
+fixf026 сохранён. Статических отражений живых котиков нет; screen refraction
+показывает подводные части. Не выдавать эту технику за полноценный dynamicSSR.
 
-Полный V11 файл сохранён docs/specifications/spa-water-quality-v11-2026-11-19.md.
-Вода ONLY: не переносить8комнат/14бассейнов, не менять интерьеры/потолки/фасад,
-ТРЦ/океан/мозазавра/модели/экономику/AI. Новый UI group invite отдельно разрешён.
-Cabana не имеет бассейна: новый не придумывать. Последний пользовательский
-Thermal кадр: ясно видимые дно/ступени, мягкая рябь, редкие крупные каустики,
-вытянутые золотые отражения. Оригинальные пиксели остаются в сообщении, не
-объявлять архивированными без фактического файла. Сравнивать каждый этап.
+VIP+Cafe частицы теперь делят прежний бюджет <=192bubbles/96steam (12groups,
+скрытые уровни не обновляют clock). Финальная count-only коррекция проверена
+CPU отдельно; shader/controller/контакты прежние. Не обещать hardware FPS.
+Измеренный desktop framebuffer11,554,560bytes, один allocation/resize,0 extra
+scene renders.4gl.finish samples/mode сохранены, этого мало для p95/device claims.
+
+Бесплатная «Позвать свободных котиков в SPA» входит в9e26f33, ещё НЕ live.
+Существующая «Позвать Чичи» ужеlive812. Новый group-call: конечная rosterqueue,
+до4simultaneousjourneys, настоящий pressurelift/ходьба к distinct dry points,
+без покупки/LLM. Работа/сон/manual/занятость исключены, повтор дедуплицируется.
+Accepted queued guests получают hold сразу; actual newowner/work отменяет его.
+Пришедший idle сохраняет реальный сухой floor support до другой команды,
+а не падает в обычный наружный NPCwander после90s.
+
+Найденные ошибки и проверки НЕ повторять заново:
+- parking должен использовать navigation.path (с лестницами), не толькоfloorPath;
+  lower-floor места выбираются первыми, fixed seats не переносятся.
+- jobs.has включает idle runtime, проверять настоящий job/manual и при принятии
+  freeguest отменять лишь accepted idle state. Работающих не отменять.
+- QA initial p.schedule rest не очищает уже активный runtime; как singlehero
+  аудит, только privatefixture вызывает jobs.cancel для двух выбранных гостей.
+- после manual timing frames панель может быть закрыта; reopen actual SPA,
+  update SPA UI, настоящий locator click. Не forceclick/не обходить disabled.
+- empty reserved destination не физическая стена: проверять на шагах actual
+  actor positions; reservations нужны для distinct parking.
+
+Доказательства main docs/qa/2026-11-19/spa-v11/:
+stage1phone8views; stage2desktop8views+actual38profiles/copy/GL-completed samples;
+stage3finalThermal/Golden highlights. group-pass: Luna+Moti реально прошли
+walk/boarding/riding/отдельные сухие arrivals, повтор без дубля, все wallets/
+inventory/receipts неизменны.12targeted tests +Node22 final build PASS.
+Все failed/interrupted стадии сохранены отдельно, не принимать их за PASS.
+Group-only log раньше печатал общий38label, но optics проверены stage2/3 отдельно.
+
+Final phone на product main9e26f33: actual390×844/DPR2 heldtouch4м + World release
+PASS, все443 imported modules совпали с main по SHA256. Ветка evidence
+**codex/spa-v11-release-evidence** в /workspace/chichi-spa-water-v11;
+там docs/qa/2026-11-19/spa-v11-release/comparison.json и phone evidence.
+Thermal/Golden BEFORE812 vs AFTER42aa water source: camera/look/FOV/lighting/DPR
+все совпали. Последующие group-controller edits не меняют графику; финальный
+particlecap уменьшает только count. Остальные6 водных видов проверены stage2.
+
+Reference likeness всё ещё неполна и **нет visualapproval**. Не называть весьSPA
+законченным или равным artist image. Последний Thermal кадр пользователя:
+ясные дно/ступени, мягкая рябь, редкие крупные caustics, золотые отражения.
+Оригинальные pixels остаются в сообщении, не выдумывать их архивирование.
+Полный V11 пользовательский текст сохранён docs/specifications/spa-water-quality-v11-2026-11-19.md.
+Cabana не имеет бассейна: новых водных объектов не добавляли.
+
+Внешний check «Workers Builds: chichi-cat-world» FAILED уже на прежнемlive812;
+отдельный GHA Worker deploy/exactrelease/sharedsave тогда SUCCESS. Не путать этот
+существующий внешний integration check с реальной недоступностью AI/сохранений;
+не говорить «все GitHub checks зелёные», проверять именно полный GHA и actual bytes.
 
 ## Передача / защита
 
 V8 product/evidence checkout /workspace/chichi-emergency-save-recovery сейчас
-codex/spa-v8-release-evidence; public равен live812. Не редактировать его радиV11.
+codex/spa-v8-release-evidence; public равен live812. Не редактировать его радиV11. V11 /workspace/chichi-spa-water-v11 теперь release-evidence; код уже в main9e26f33, runtime не править без нового основания.
 Каноническая память remote codex/ocean-recovery-memory; старый CURRENT в main
 устарел и не является источником активного WIP. Один GPU run одновременно.
 Node22. Старые worktrees не удалять. Диск почти заполнен: лишь assets-копии

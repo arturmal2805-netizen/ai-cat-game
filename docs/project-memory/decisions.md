@@ -703,3 +703,18 @@ Group-call исключает work/sleep/manual/занятость, делает
 активными journey и native lift/physical dry parking, без покупки/LLM.
 Текущая stage2 native проверяет actual38profiles/copy/frame completion и2
 живых жителей. Не объявлять результаты до завершения и просмотра.
+
+## 2026-11-19 — V11 проверен и слит, ожидает полного deploy gate
+
+PR#4 main9e26f331d91d3ad85e2c0f15b5a6a4e63106e5ce, кандидатd24d343, treeequal.
+Workflow44612746706 идёт; до actualHTTP stable812.12targetedchecks/build PASS,
+actual8water views/2final lamp views и2native residents through lift PASS.
+Failedgroup fixtures отдельно заархивированы; причина jobs.has vs actualjob/
+manual + private rest setup/runtime mismatch. Парковка physical path со stairs,
+acceptedqueue hold, continuous supported idle до новогоowner. Никаких fees/LLM.
+Все443 finalphone modules match main; heldtouch/World PASS. Камера/свет/DPR двух
+matched views равны812.0 extra scene renders, один measured desktopcopy11.55MB.
+Частицы VIP+Cafe в прежних192/96, no hardwareFPS/visualapproval claim.
+Staticroom probes не являются dynamiccatreflection, SSR живых котов не добавлен.
+Code/evidence/checkpoints remote. После fullSUCCESS проверитьHTML/JS/CSS/atlas
+bytes и лишь затем отправить9e26f33 ссылку пользователю.
