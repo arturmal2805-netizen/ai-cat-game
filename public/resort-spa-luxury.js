@@ -96,7 +96,9 @@ export function* resortLuxurySteps({solid,decor,shell,surfaces,basins,waters,mat
    for(let i=0;i<zone.seats;i++){const s=resortSpaSeat(zone,i);curtains(s.x,y,s.z,3.3);lantern(s.x-2.5,y,s.z-2.5,.55);box(decor,cream,s.x,y+.99,s.z,1.55,.08,3.45,true);for(let j=0;j<3;j++){const towel=geometry('rolled-towel',()=>new T.CylinderGeometry(.14,.14,.45,12)),o=mesh(decor,towel,cream,s.x+2.7,y+1.2+j*.3,s.z-2.65);o.rotation.z=Math.PI/2;}}
   }else if(zone.key==='aroma'){
    features.push('private arched garden seats','flowering grove','aroma vessels','curved leaf canopies');
-   for(const side of [-1,1])for(let i=0;i<3;i++)tree(zone.x+side*18,y,zone.z-11+i*10,.9);
+   // The old left rear planter at(69,252) occupied the real bridge mouth.
+   // Move that planter into the side garden; retain the wall, door and radius.
+   for(const side of [-1,1])for(let i=0;i<3;i++)tree(zone.x+side*18+(side<0&&i===0?-2:0),y,zone.z-11+i*10+(side<0&&i===0?4:0),.9);
    chandelier(zone.x,y+6.6,zone.z,2);lotus(zone.x,y+.4,zone.z,1.7);
   }else if(zone.key==='sauna'){
    features.push('cedar sauna tiers','steam salon','cooling lounge');

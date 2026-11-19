@@ -4,6 +4,7 @@ import {resortSurfaceMaps} from './resort-spa-surfaces.js';
 import {RoundedBoxGeometry} from 'three/addons/geometries/RoundedBoxGeometry.js';
 import {resortPools,resortSkyPool} from './resort-spa-pool-data.js';
 import {resortGallerySteps} from './resort-spa-galleries.js';
+import {resortGardenSteps} from './resort-spa-gardens.js';
 import {createResortPoolEffects} from './resort-spa-pool-effects.js';
 import {createResortEnclosure} from './resort-spa-enclosure.js';
 import {createResortSpaAccess} from './resort-spa-access.js';
@@ -84,11 +85,12 @@ export function* resortSpaModelSteps(){
  const luxury=yield* resortLuxurySteps({solid,decor,shell,surfaces,basins,waters,mats});
  const interiors=createResortInteriors({solid,decor,shell,surfaces,basins,waters,mats,flora:luxury.flora});
  const galleries=yield* resortGallerySteps({solid,decor,mats,flora:luxury.flora});
+ const gardens=yield* resortGardenSteps({solid,decor,surfaces,waters,mats});
  const enclosure=createResortEnclosure(mats);solid.add(enclosure.solid);shell.add(enclosure.shell);
  const accessGeometry=createResortSpaAccess(mats);for(const group of [accessGeometry.solid,accessGeometry.surfaces,accessGeometry.shell])group.traverse(o=>{if(o.isMesh)o.userData.resortFloor=0;});solid.add(accessGeometry.solid);surfaces.add(accessGeometry.surfaces);shell.add(accessGeometry.shell);
  root.updateMatrixWorld(true);root.userData={accessGeometry,dynamicSurfaces:[accessGeometry.deck],zones,solid,shell,decor,surfaces,basins,waters,navigation:installManualBuildingNavigation(root,solid,...[...zones.values()].map(p=>p.userData.solid).filter(Boolean)),update(time,reduced=false){for(const w of waters)advanceWater(w.material,time,reduced);},dispose(){for(const p of zones.values())p.userData.dispose?.();for(const g of geos.values())g.dispose();const textures=new Set();for(const m of Object.values(mats)){for(const key of ['map','normalMap','roughnessMap'])if(m[key])textures.add(m[key]);m.dispose();}for(const t of textures)t.dispose();for(const p of zones.values())p.traverse(o=>{if(o.isPoints)o.material.dispose();});for(const b of basins)b.userData.dispose();accessGeometry.dispose();enclosure.dispose();interiors.dispose();galleries.dispose();}};
- root.userData.luxury=luxury;root.userData.galleries=galleries.report;yield* finishResortSpaSteps(root);root.add(accessGeometry.cabin,accessGeometry.gates,luxury.dynamic,galleries.fixed);
+ root.userData.luxury=luxury;root.userData.galleries=galleries.report;root.userData.gardens=gardens.report;root.userData.gardenFeatures=gardens.features;yield* finishResortSpaSteps(root);root.add(accessGeometry.cabin,accessGeometry.gates,luxury.dynamic,galleries.fixed,gardens.fixed);
  const poolEffects=createResortPoolEffects();root.add(poolEffects.root);const inspect=root.userData.setInspectionLevel;root.userData.setInspectionLevel=level=>{inspect(level);for(const group of poolEffects.root.children)group.visible=level==null||group.userData.resortFloor<=level;};const update=root.userData.update,dispose=root.userData.dispose;root.userData.update=(time,reduced)=>{update(time,reduced);poolEffects.update(time,reduced);};root.userData.dispose=()=>{poolEffects.dispose();dispose();};
- const updateLuxury=root.userData.update,disposeLuxury=root.userData.dispose,inspectLuxury=root.userData.setInspectionLevel;root.userData.update=(time,reduced)=>{updateLuxury(time,reduced);luxury.update(time,reduced);};root.userData.setInspectionLevel=level=>{inspectLuxury(level);luxury.inspect(level);galleries.inspect(level);};root.userData.dispose=()=>{luxury.dispose();disposeLuxury();};
+ const updateLuxury=root.userData.update,disposeLuxury=root.userData.dispose,inspectLuxury=root.userData.setInspectionLevel;root.userData.update=(time,reduced)=>{updateLuxury(time,reduced);luxury.update(time,reduced);gardens.update(time,reduced,root.position);};root.userData.setInspectionLevel=level=>{inspectLuxury(level);luxury.inspect(level);galleries.inspect(level);gardens.inspect(level);};root.userData.dispose=()=>{gardens.dispose();luxury.dispose();disposeLuxury();};
  return root;
 }

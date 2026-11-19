@@ -52,7 +52,7 @@ export function spaPath(
   radius = 0.5,
   obstacles = [],
   walkable = spaWalkable,
-  { extent = 32, cell = 0.6 } = {},
+  { extent = 32, cell = 0.6, edgeClear = null } = {},
 ) {
   const size = extent * 2 + 1,
     key = (x, z) => (z + extent) * size + x + extent;
@@ -85,7 +85,7 @@ export function spaPath(
         z++
       ) {
         const dd = distance(p, { x: x * cell, z: z * cell });
-        if (dd < d && valid(x, z)) {
+        if (dd < d && valid(x, z) && (!edgeClear || edgeClear(p,{x:x*cell,z:z*cell}))) {
           best = { x, z };
           d = dd;
         }
@@ -151,7 +151,8 @@ export function spaPath(
         z = n.z + dz;
       if (
         !valid(x, z) ||
-        (dx && dz && (!valid(n.x + dx, n.z) || !valid(n.x, n.z + dz)))
+        (dx && dz && (!valid(n.x + dx, n.z) || !valid(n.x, n.z + dz))) ||
+        (edgeClear && !edgeClear({x:n.x*cell,z:n.z*cell},{x:x*cell,z:z*cell}))
       )
         continue;
       const k = key(x, z),

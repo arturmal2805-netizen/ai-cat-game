@@ -17,7 +17,24 @@ export function createResortSpaNavigation(root,{externalSurfaces=()=>[],external
   const body=manualBuildingSupport(root.userData.navigation,p,radius,{ground,footOffset:F});return body&&(!root.userData.accessGeometry||root.userData.accessGeometry.clear(p,radius))?{x:p.x,y:body.y,z:p.z}:null;
  }
  function segmentClear(a,b,radius=.571){const length=Math.hypot(b.x-a.x,b.y-a.y,b.z-a.z),n=Math.max(1,Math.ceil(length/.12));for(let i=0;i<=n;i++){const u=i/n;point.set(a.x+(b.x-a.x)*u,a.y+(b.y-a.y)*u,a.z+(b.z-a.z)*u);if(!support(point,radius))return false;}return true;}
- function floorPath(a,b,radius=.571){if(Math.abs(a.y-b.y)>.65)return null;const y=a.y,shift=p=>({x:p.x,z:p.z-L.z}),memo=new Map(),clear=p=>{const key=p.x+','+p.z;if(!memo.has(key))memo.set(key,!!support({x:p.x,y,z:p.z+L.z},radius));return memo.get(key);},path=spaPath(shift(a),shift(b),radius,[],clear,{extent:160,cell:.85});if(!path)return null;const out=path.map(p=>{const q={x:p.x,y,z:p.z+L.z};return support(q,radius)||q;});out[out.length-1]={...b};let previous=a;for(const p of out){if(!segmentClear(previous,p,radius))return null;previous=p;}return out;}
+ function floorPath(a,b,radius=.571){
+  if(Math.abs(a.y-b.y)>.65)return null;
+  const y=a.y,shift=p=>({x:p.x,z:p.z-L.z}),local=p=>({x:p.x,y,z:p.z+L.z}),memo=new Map(),edges=new Map(),blocked=new Set();
+  const clear=p=>{const key=p.x+','+p.z;if(!memo.has(key))memo.set(key,!!support(local(p),radius));return memo.get(key);};
+  // A valid pair of cells can straddle a curved floor edge or a thin wall.
+  // Search only swept-body-clear links instead of rejecting the whole route
+  // after A* has selected an invalid shortcut. Other SPA callers keep default.
+  const edgeKey=(p,q)=>{const one=p.x+','+p.z,two=q.x+','+q.z;return one<two?one+'|'+two:two+'|'+one;};
+  // Validate only candidate route edges. Cache failures and re-plan around
+  // them, instead of raycasting every neighbour of every expanded grid cell.
+  for(let attempt=0;attempt<24;attempt++){
+   const path=spaPath(shift(a),shift(b),radius,[],clear,{extent:160,cell:.85,edgeClear:(p,q)=>!blocked.has(edgeKey(local(p),local(q)))});if(!path)return null;
+   const out=path.map(p=>support(local(p),radius)||local(p));out[out.length-1]={...b};let previous=a,failed=false;
+   for(const p of out){const key=edgeKey(previous,p);if(!edges.has(key))edges.set(key,segmentClear(previous,p,radius));if(!edges.get(key)){blocked.add(key);failed=true;}previous=p;}
+   if(!failed)return out;
+  }
+  return null;
+ }
  function path(a,b,radius=.571){const from=Math.round(a.y/L.rise),to=Math.round(b.y/L.rise);if(from===to)return floorPath(a,b,radius);if(from<0||from>2||to<0||to>2)return null;const out=[],append=p=>{if(!p)return false;out.push(...p);return true;};let current=a;
   for(let level=from;level!==to;level+=Math.sign(to-from)){const up=to>from,s=RESORT_STAIRS[up?level:level-1],base=s.level*L.rise,points=[{x:s.x,y:base+F,z:185.5}];for(let i=0;i<s.count;i++){const edge=s.z-s.run/2+i*s.run,z=edge-radius-.02,y=base+(i+1)*s.rise+F;points.push({x:s.x,y:i?y-s.rise:base+F,z},{x:s.x,y,z},{x:s.x,y,z:z+s.run});}points.push({x:s.x,y:base+L.rise+F,z:s.landingZ});if(!up)points.reverse();if(!append(floorPath(current,points[0],radius)))return null;let previous=points[0];for(const p of points){if(!segmentClear(previous,p,radius))return null;previous=p;}out.push(...points);current=points.at(-1);}
   return append(floorPath(current,b,radius))?out:null;
