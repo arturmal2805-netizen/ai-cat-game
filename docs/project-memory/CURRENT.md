@@ -30,7 +30,7 @@ Chromium/private Worker/SQLite download/cancel/restore/reload PASS. **Mac нап
 
 [Полное задание](../../specifications/underwater-spa-v6-2026-11-18.md).
 Код /workspace/chichi-emergency-save-recovery, ветка **codex/spa-v6-reconstruction**.
-Последний удалённый код **5adfcdbb3d8dd16a1b236b8f00c9a3b14a0c69be**. Архив15actual probes **bbab0e60e65a30b4aea2c4fd76a7717e9ebbda86**.
+Последний удалённый код **992355c2d50d09795ba44b9b1fc885caeb68e18a**. Архив15actual probes **bbab0e60e65a30b4aea2c4fd76a7717e9ebbda86**.
 Старые worktrees не удалены. archive/pre-spa-v6-2026-11-18 сохраняет
 0d21c0f0773d756790facf75cc35574376263f60. Не отправлять художественный WIP в main.
 
@@ -113,12 +113,17 @@ visual WIP: слишком плоские шторы/подушки/светлы
 следом калибровать roughness response, не глобальный свет. FOV отличается
 ≤0.00124°, eye≤5.4mm; не exact pixel A/B. Mac/phone FPS не проверен.
 
-Следующий material/soft-furnishing этап начат локально в основном worktree:
+Одиннадцатый material/soft-furnishing этап сохранён remote992355c:
 изогнутые tied curtains, пухлые decorative pillows, actual existing velour
 normal/roughness, разные marble floors ночных комнат, свой256px VIP galaxy.
 Не меняются station/support/cat/save/collisions. Существующие capture probes
 сняты ДО этого art этапа; перед финальным релизом обновить их после геометрии.
-Native нового этапа ещё не запускался; текущий local diff НЕ считать готовым.
+5reflection/shadow cases и4physical cases (glass sky, curved supports,
+Nap step-down/camera, VIP4wet+4dry full-floor routes) PASS подNode22.
+Нативный прогон начат: /workspace/qa/spa-v6-soft-polish-native.log,
+результаты /workspace/qa/spa-v6-soft-polish, six views+Nap W+sky/SQLite.
+Сначала посмотреть прогресс, не менять основной код и не запускать второй GPU.
+Native нового материала ещё НЕ считать завершённым/одобренным.
 Новый вспомогательный sparse checkout /workspace/chichi-spa-reflection-runtime,
 ветка codex/spa-reflection-runtime, база d8b3b03 — чистый, без loader правок.
 Не считать создание checkout реализацией и не начинать capture заново.
