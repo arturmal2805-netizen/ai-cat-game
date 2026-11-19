@@ -1,0 +1,1449 @@
+{
+  "version": 11,
+  "surfaces": [
+    {
+      "profile": {
+        "version": 11,
+        "kind": "thermal",
+        "depth": 1.8,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.75,
+          "waveSpeed": 0.48,
+          "waveAmplitude": 0.008,
+          "causticIntensity": 0.34,
+          "causticScale": 0.1,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 0.6,
+          "foamIntensity": 0.04,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "thermal"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "sky",
+        "depth": 1.8,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.48,
+          "roughness": 0.095,
+          "normalStrength": 0.65,
+          "waveSpeed": 0.4,
+          "waveAmplitude": 0.006,
+          "causticIntensity": 0.34,
+          "causticScale": 0.35,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 0.6,
+          "foamIntensity": 0.04,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "sky"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "vip",
+        "depth": 1.8,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.95,
+          "waveSpeed": 0.9,
+          "waveAmplitude": 0.012,
+          "causticIntensity": 0.34,
+          "causticScale": 0.2,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 1,
+          "foamIntensity": 0.08,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "vip"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "vip",
+        "depth": 1.8,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.95,
+          "waveSpeed": 0.9,
+          "waveAmplitude": 0.012,
+          "causticIntensity": 0.34,
+          "causticScale": 0.2,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 1,
+          "foamIntensity": 0.08,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "vip"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "vip",
+        "depth": 1.8,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.95,
+          "waveSpeed": 0.9,
+          "waveAmplitude": 0.012,
+          "causticIntensity": 0.34,
+          "causticScale": 0.2,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 1,
+          "foamIntensity": 0.08,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "vip"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "vip",
+        "depth": 1.8,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.95,
+          "waveSpeed": 0.9,
+          "waveAmplitude": 0.012,
+          "causticIntensity": 0.34,
+          "causticScale": 0.2,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 1,
+          "foamIntensity": 0.08,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "vip"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "vip",
+        "depth": 1.8,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.95,
+          "waveSpeed": 0.9,
+          "waveAmplitude": 0.012,
+          "causticIntensity": 0.34,
+          "causticScale": 0.2,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 1,
+          "foamIntensity": 0.08,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "vip"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "vip",
+        "depth": 1.8,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.95,
+          "waveSpeed": 0.9,
+          "waveAmplitude": 0.012,
+          "causticIntensity": 0.34,
+          "causticScale": 0.2,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 1,
+          "foamIntensity": 0.08,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "vip"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "vip",
+        "depth": 1.8,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.95,
+          "waveSpeed": 0.9,
+          "waveAmplitude": 0.012,
+          "causticIntensity": 0.34,
+          "causticScale": 0.2,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 1,
+          "foamIntensity": 0.08,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "vip"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "vip",
+        "depth": 1.8,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.95,
+          "waveSpeed": 0.9,
+          "waveAmplitude": 0.012,
+          "causticIntensity": 0.34,
+          "causticScale": 0.2,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 1,
+          "foamIntensity": 0.08,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "vip"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "cafe",
+        "depth": 1.8,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.55,
+          "waveSpeed": 0.4,
+          "waveAmplitude": 0.005,
+          "causticIntensity": 0.34,
+          "causticScale": 0.2,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 0.35,
+          "foamIntensity": 0.04,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "cafe"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "cafe",
+        "depth": 1.8,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.55,
+          "waveSpeed": 0.4,
+          "waveAmplitude": 0.005,
+          "causticIntensity": 0.34,
+          "causticScale": 0.2,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 0.35,
+          "foamIntensity": 0.04,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "cafe"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "cafe",
+        "depth": 1.8,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.55,
+          "waveSpeed": 0.4,
+          "waveAmplitude": 0.005,
+          "causticIntensity": 0.34,
+          "causticScale": 0.2,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 0.35,
+          "foamIntensity": 0.04,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "cafe"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "cafe",
+        "depth": 1.8,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.55,
+          "waveSpeed": 0.4,
+          "waveAmplitude": 0.005,
+          "causticIntensity": 0.34,
+          "causticScale": 0.2,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 0.35,
+          "foamIntensity": 0.04,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "cafe"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "cascade",
+        "depth": 0.35,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.9,
+          "waveSpeed": 1,
+          "waveAmplitude": 0.012,
+          "causticIntensity": 0.34,
+          "causticScale": 0.5,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 0.6,
+          "foamIntensity": 0.22,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "cascade"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "cascade",
+        "depth": 0.035,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.9,
+          "waveSpeed": 1,
+          "waveAmplitude": 0.012,
+          "causticIntensity": 0.34,
+          "causticScale": 0.5,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 0.6,
+          "foamIntensity": 0.22,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "cascade"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "cascade",
+        "depth": 0.35,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.9,
+          "waveSpeed": 1,
+          "waveAmplitude": 0.012,
+          "causticIntensity": 0.34,
+          "causticScale": 0.5,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 0.6,
+          "foamIntensity": 0.22,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "cascade"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "cascade",
+        "depth": 0.035,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.9,
+          "waveSpeed": 1,
+          "waveAmplitude": 0.012,
+          "causticIntensity": 0.34,
+          "causticScale": 0.5,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 0.6,
+          "foamIntensity": 0.22,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "cascade"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "aroma",
+        "depth": 0.35,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.45,
+          "waveSpeed": 0.3,
+          "waveAmplitude": 0.004,
+          "causticIntensity": 0.34,
+          "causticScale": 0.3,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 0.6,
+          "foamIntensity": 0.015,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "aroma"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "aroma",
+        "depth": 0.3,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.45,
+          "waveSpeed": 0.3,
+          "waveAmplitude": 0.004,
+          "causticIntensity": 0.34,
+          "causticScale": 0.3,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 0.6,
+          "foamIntensity": 0.015,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "aroma"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "aroma",
+        "depth": 0.25,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.45,
+          "waveSpeed": 0.3,
+          "waveAmplitude": 0.004,
+          "causticIntensity": 0.34,
+          "causticScale": 0.3,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 0.6,
+          "foamIntensity": 0.015,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "aroma"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "cascade",
+        "depth": 0.035,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.9,
+          "waveSpeed": 1,
+          "waveAmplitude": 0.012,
+          "causticIntensity": 0.34,
+          "causticScale": 0.5,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 0.6,
+          "foamIntensity": 0.22,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "cascade"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "cascade",
+        "depth": 0.035,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.9,
+          "waveSpeed": 1,
+          "waveAmplitude": 0.012,
+          "causticIntensity": 0.34,
+          "causticScale": 0.5,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 0.6,
+          "foamIntensity": 0.22,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "cascade"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "aroma",
+        "depth": 0.35,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.45,
+          "waveSpeed": 0.3,
+          "waveAmplitude": 0.004,
+          "causticIntensity": 0.34,
+          "causticScale": 0.3,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 0.6,
+          "foamIntensity": 0.015,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "aroma"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "aroma",
+        "depth": 0.3,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.45,
+          "waveSpeed": 0.3,
+          "waveAmplitude": 0.004,
+          "causticIntensity": 0.34,
+          "causticScale": 0.3,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 0.6,
+          "foamIntensity": 0.015,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "aroma"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "aroma",
+        "depth": 0.25,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.45,
+          "waveSpeed": 0.3,
+          "waveAmplitude": 0.004,
+          "causticIntensity": 0.34,
+          "causticScale": 0.3,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 0.6,
+          "foamIntensity": 0.015,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "aroma"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "cascade",
+        "depth": 0.035,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.9,
+          "waveSpeed": 1,
+          "waveAmplitude": 0.012,
+          "causticIntensity": 0.34,
+          "causticScale": 0.5,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 0.6,
+          "foamIntensity": 0.22,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "cascade"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "cascade",
+        "depth": 0.035,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.9,
+          "waveSpeed": 1,
+          "waveAmplitude": 0.012,
+          "causticIntensity": 0.34,
+          "causticScale": 0.5,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 0.6,
+          "foamIntensity": 0.22,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "cascade"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "waterfall",
+        "depth": 0.35,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.9,
+          "waveSpeed": 0.75,
+          "waveAmplitude": 0.012,
+          "causticIntensity": 0.34,
+          "causticScale": 0.25,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 0.6,
+          "foamIntensity": 0.15,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "waterfall"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "waterfall",
+        "depth": 0.3,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.9,
+          "waveSpeed": 0.75,
+          "waveAmplitude": 0.012,
+          "causticIntensity": 0.34,
+          "causticScale": 0.25,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 0.6,
+          "foamIntensity": 0.15,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "waterfall"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "waterfall",
+        "depth": 0.25,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.9,
+          "waveSpeed": 0.75,
+          "waveAmplitude": 0.012,
+          "causticIntensity": 0.34,
+          "causticScale": 0.25,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 0.6,
+          "foamIntensity": 0.15,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "waterfall"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "cascade",
+        "depth": 0.035,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.9,
+          "waveSpeed": 1,
+          "waveAmplitude": 0.012,
+          "causticIntensity": 0.34,
+          "causticScale": 0.5,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 0.6,
+          "foamIntensity": 0.22,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "cascade"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "cascade",
+        "depth": 0.035,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.9,
+          "waveSpeed": 1,
+          "waveAmplitude": 0.012,
+          "causticIntensity": 0.34,
+          "causticScale": 0.5,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 0.6,
+          "foamIntensity": 0.22,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "cascade"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "waterfall",
+        "depth": 0.35,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.9,
+          "waveSpeed": 0.75,
+          "waveAmplitude": 0.012,
+          "causticIntensity": 0.34,
+          "causticScale": 0.25,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 0.6,
+          "foamIntensity": 0.15,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "waterfall"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "waterfall",
+        "depth": 0.3,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.9,
+          "waveSpeed": 0.75,
+          "waveAmplitude": 0.012,
+          "causticIntensity": 0.34,
+          "causticScale": 0.25,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 0.6,
+          "foamIntensity": 0.15,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "waterfall"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "waterfall",
+        "depth": 0.25,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.9,
+          "waveSpeed": 0.75,
+          "waveAmplitude": 0.012,
+          "causticIntensity": 0.34,
+          "causticScale": 0.25,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 0.6,
+          "foamIntensity": 0.15,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "waterfall"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "cascade",
+        "depth": 0.035,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.9,
+          "waveSpeed": 1,
+          "waveAmplitude": 0.012,
+          "causticIntensity": 0.34,
+          "causticScale": 0.5,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 0.6,
+          "foamIntensity": 0.22,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "cascade"
+        }
+      },
+      "ready": 1
+    },
+    {
+      "profile": {
+        "version": 11,
+        "kind": "cascade",
+        "depth": 0.035,
+        "profile": {
+          "absorption": [
+            0.085,
+            0.028,
+            0.014
+          ],
+          "scattering": 0.055,
+          "transparency": 0.56,
+          "roughness": 0.095,
+          "normalStrength": 0.9,
+          "waveSpeed": 1,
+          "waveAmplitude": 0.012,
+          "causticIntensity": 0.34,
+          "causticScale": 0.5,
+          "reflectionStrength": 1.3,
+          "refractionStrength": 0.8,
+          "bubbleDensity": 0.6,
+          "foamIntensity": 0.22,
+          "shallow": "#65f2ed",
+          "clear": "#00d8e8",
+          "medium": "#009fc0",
+          "deep": "#086a91",
+          "kind": "cascade"
+        }
+      },
+      "ready": 1
+    }
+  ],
+  "capture": {
+    "enabled": true,
+    "copies": 4,
+    "sceneRenders": 0,
+    "textureBytes": 11554560,
+    "resizes": 1
+  },
+  "programs": [
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {}
+  ],
+  "memory": {
+    "geometries": 790,
+    "textures": 102
+  }
+}

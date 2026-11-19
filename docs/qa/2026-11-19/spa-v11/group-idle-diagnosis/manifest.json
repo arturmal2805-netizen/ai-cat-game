@@ -1,0 +1,19 @@
+{
+  "sourceBase": "e75252aea2f407a77bddef164cfa42e8ea49690d",
+  "sourceState": " M public/index.html\n M scripts/archive-spa-stage.py\n M scripts/audit-spa-water-v11.mjs\n M scripts/check-aquarium.cjs\n M test/resort-spa-invitations.test.mjs\n?? docs/qa/2026-11-19/spa-v11/group-reserved-failed/\n",
+  "result": "FAIL eligibility identified: jobs.has includes nonworking rest states; both native free fixtures rejected despite no assignment",
+  "visualReview": "Use actual jobs.get(id).job/manual and preserve work/manual exclusions; cancel only the accepted idle runtime state at reservation, as existing native recall does.",
+  "files": {
+    "imported-source.tar.gz": "63301a16a79f33f0a7a43aa7274a0733cb6b641cd3c446e6b175f1db5c7be21c",
+    "layout-world-transforms.json": "3518713f83d48cad7ccba56c16c8fa3635d2295bfcf0bc272ef031db684a99a7",
+    "native.log": "257972867177f9830eef9a7dcf300e6723dc58b880dfa6e1ee704fb68a519191",
+    "qa-app.js.gz": "0b05c2a3307213399f9d7ff024b000631d45f3f6440fc1d339282cc5839fa39d",
+    "qa-build.json": "1422b3b8d9d96417734a11c121daa2e927c6020321360c0d3d80eb8cbb16e03d",
+    "source-HEAD.patch": "38673f4539f3ee75d0cdf0dc280be2e6294947b1bb73286542e3e607a2104aec",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "cfcc2cc6c66f19259a383f1b161efb8e278dd5daa04ee1a6f286cd3fe5eac989",
+    "source-status.txt": "152352a0902b5020dd5352c1599bfef8d56d9a96e25df10f4df48e0b709e2250",
+    "v11-group-candidates.json": "b83f54a878dcb1f255a30893f70b49cd25c24c4df456e54ec015d6ee657f9cf3",
+    "v11-group-ui.json": "d985df24b7342a51a5dcc04221f7933c49a76fa03d459ecefcdd7ca51614944e"
+  }
+}

@@ -1,0 +1,6 @@
+ M public/index.html
+ M scripts/archive-spa-stage.py
+ M scripts/audit-spa-water-v11.mjs
+ M scripts/check-aquarium.cjs
+ M test/resort-spa-invitations.test.mjs
+?? docs/qa/2026-11-19/spa-v11/group-reserved-failed/

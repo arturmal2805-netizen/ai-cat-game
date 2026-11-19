@@ -1,0 +1,8 @@
+{
+  "sha256": "08bd61b7317db49e1db984fda4bbc8236e6fb60f3f49886fbab070f7bcafb76c",
+  "baseline": null,
+  "node": "v22.23.5",
+  "head": "e75252aea2f407a77bddef164cfa42e8ea49690d",
+  "dirty": " M public/index.html\n M scripts/archive-spa-stage.py\n M scripts/audit-spa-water-v11.mjs\n M scripts/check-aquarium.cjs\n M test/resort-spa-invitations.test.mjs\n?? docs/qa/2026-11-19/spa-v11/group-reserved-failed/\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

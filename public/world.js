@@ -19,7 +19,7 @@ import {pickZooExhibit,pickZooAnimal,pickZooGuestHouse} from './zoo-picking.js';
 import {zooEnclosureCameraView,randomZooCameraGuest,zooCameraGuests} from './zoo-camera.js';
 import {relaxCarriedCat} from './bikini-carry.js';
 import {safeZooRestoredPosition} from './zoo-navigation.js';
-import {gatherCandidates as selectGatherCats,releaseGatherOverrides,gatherTrip,gatherFrame,gatherLanding} from './gather-system.js';
+import {canGatherCat,gatherCandidates as selectGatherCats,releaseGatherOverrides,gatherTrip,gatherFrame,gatherLanding} from './gather-system.js';
 import {ZOO_ID,ZOO_LINEAR_SCALE,ZOO_EXHIBITS,zooObstacles} from './zoo-data.js';
 import {zooPhotoCamera} from './zoo-gate.js';
 import {applyMagicBedReach} from './magic-bed-pose.js';
@@ -4733,7 +4733,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
         n.carrier.rotation.y=gathering.yaw;
         x=gathering.position.x;z=gathering.position.z;direct=true;
         npcWalking=gathering.walking;npcReaction=gathering.reaction;
-        if(gathering.done){n.manualAnchor={x,z};n.gatherTrip=null;}
+        if(gathering.done){const invite=n.gatherTrip?.spaInvitation;n.manualAnchor={x,z};n.gatherTrip=null;if(invite)resortSpa?.invitationReady(id);}
       } else if (mallFrame && !draggingThis) {
         n.carrier.position.copy(mallFrame.position);n.carrier.rotation.y=mallFrame.yaw;
         x=mallFrame.position.x;z=mallFrame.position.z;direct=true;npcWalking=mallFrame.walking;npcLocomotion=mallFrame.locomotion;npcReaction=mallFrame.reaction;
@@ -6033,7 +6033,30 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     onPurchase:(...args)=>callbacks.onMallPurchase?.(...args),onUse:(...args)=>callbacks.onMallUse?.(...args),onGoal:(...args)=>callbacks.onMallGoal?.(...args),
     onComplete:(id,visit)=>{if(visit.ticket)finishLeisure(id,{completed:true});else {const n=npcs.get(id);if(n)n.manualUntil=0;}},
   });
+  function freeSpaGuest(id,owned=false){
+    const n=npcs.get(id),p=game.jobCity?.profiles[id],now=performance.now();
+    return !!n&&canGatherCat(game,id,Date.now(),{working:!!jobs.get(id)?.job||!!jobs.get(id)?.manual||crew.workers.has(id),sleeping:n.model.userData.mood==='sleep'})&&
+      !housingLife.get(id)&&!residentPlay.get(id)&&!residentPlay.friendVisit(id)&&!leisure.has(id)&&!mall?.has(id)&&
+      !spa.get(id)&&!chill.get(id)&&!court.get(id)&&!mealVisits.has(id)&&!swimVisits.has(id)&&!n.pendingReference&&
+      draggingCat?.catId!==id&&operation?.decision.friendId!==id&&!operation?.partyIds?.has(id)&&
+      !p?.trip&&Date.now()>=(p?.manualUntil||0)&&
+      ((!n.gatherTrip&&now>=(n.manualUntil||0))||(owned&&n.spaInvitationHeld));
+  }
   resortSpa=createResortSpaWorld({scene,container,
+    getInvitees:()=>availableGatherCats().filter(id=>id!=='chichi'&&freeSpaGuest(id)&&!resortSpa?.has(id)),guestFree:freeSpaGuest,
+    onGuestReserve:id=>{const n=npcs.get(id);if(!n||!freeSpaGuest(id))return false;jobs.cancel(id);n.spaInvitationHeld=true;n.manualAnchor={x:n.carrier.position.x,z:n.carrier.position.z};n.manualUntil=performance.now()+3600000;n.gatheredUntil=n.manualUntil;return true;},
+    onGuestHold:id=>{const n=npcs.get(id);if(n?.spaInvitationHeld){n.manualUntil=performance.now()+3600000;n.gatheredUntil=n.manualUntil;}},
+    onRecallGuest:id=>{
+      if(!freeSpaGuest(id,true)||callbacks.canSimulateLeisure?.()===false)return false;
+      const n=npcs.get(id),b=byBiome('autumn'),r=resortSpa.root,radius=catNavigationRadius(n.model),reserved=lifeActors.filter(a=>a.id!==id).map(a=>({x:a.position.x-b.center[0],z:a.position.z-b.center[1],radius:a.radius}));
+      const landing=gatherLanding({x:b.arrival[0],z:b.arrival[1]},radius,reserved,(p,rad)=>{
+        const y=.16+islandHeight('autumn',p.x,p.z);return !!resortSpa.navigation.support({x:b.center[0]+p.x-r.position.x,y:y-RESORT_SPA_LAYOUT.y,z:b.center[1]+p.z-r.position.z},rad);
+      },12);if(!landing)return false;
+      const now=performance.now();releaseGatherOverrides(n,now+600000);n.leisureBiome='autumn';n.spaInvitationHeld=true;
+      n.gatherTrip=gatherTrip(n.carrier.position,{x:b.center[0]+landing.x,y:.16+islandHeight('autumn',landing.x,landing.z),z:b.center[1]+landing.z},now);n.gatherTrip.spaInvitation=true;n.gatheredUntil=now+600000;gatherSavePending=true;return true;
+    },
+    onGuestPark:(id,p)=>{const n=npcs.get(id);if(n){n.carrier.position.set(p.x,p.y,p.z);n.manualAnchor={x:p.x,z:p.z};n.manualUntil=performance.now()+90000;}callbacks.onGatherComplete?.();},
+    onGuestRelease:id=>{const n=npcs.get(id);if(n?.spaInvitationHeld){n.spaInvitationHeld=false;if(n.gatherTrip?.spaInvitation)n.gatherTrip=null;n.manualUntil=0;n.gatheredUntil=0;}},
     onInvitationArrive:()=>{callbacks.onReaction?.('Чичи пришла в SPA. Выбери ей занятие — вызов бесплатный.');callbacks.onGatherComplete?.();},
     callBusy:()=>!!heroGather?.spaInvitation||!!resortSpa?.transportFrame('chichi'),
     onCall:async()=>{

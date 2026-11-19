@@ -1,0 +1,29 @@
+{
+  "sourceBase": "1e6d6fdc09f2340ae6bfdc5c1dad20e6496614ec",
+  "sourceState": "",
+  "result": "PASS eight real desktop views, actual 38 profiles/shared-copy and GPU-completed frame samples; group invitation INTERRUPTED for discovered cross-floor route bug",
+  "visualReview": "Not final acceptance. Thermal/Golden lamp highlights too weak. Group parking used floorPath only for upper-floor slots; path() fix and repeat are required. Never report group PASS from this partial run.",
+  "files": {
+    "INTERRUPTED-group-path.json": "73c12a12f3c2e324355f355c2ac8eea9627f3bcc930e486610ecd80af65852db",
+    "aroma-interior.png": "00279954a8f5d2930b6c09feab335031faae9dac9a7f9888d26c8b8997b915ff",
+    "cabana-interior.png": "881d468234b955710784ccd202c367c30e3a332ffb5e0e24d06570163951ba9a",
+    "cafe-interior.png": "8b3d0343376e8761342d2eb57542263360377d83985db4ba81a4359618b453af",
+    "golden-interior.png": "9dd0c366688fe9c9db10de12db8cabcef232bdea56f419d7227fcf12c1ccabae",
+    "imported-source.tar.gz": "748d460f846ad54db3ba55152ec1588a242f6b9d1859377a06f25f580ffa6ea8",
+    "layout-world-transforms.json": "3518713f83d48cad7ccba56c16c8fa3635d2295bfcf0bc272ef031db684a99a7",
+    "native.log": "1aae252475a81e8bb39cf5cea9d58c974327f840706b2f614d44f9db9d416481",
+    "qa-app.js.gz": "d369b5ed25f3be6016afc07569c936f7db1d3dd3a5aeca2a42f24133f43f1841",
+    "qa-build.json": "37480c72e8608c58b30e8719feccd57da446fc69e37a3e6c5df60ed60e124a22",
+    "sky-pool-above.png": "81a3562c048cf4523a2e6d3b8580ebcfe80e5abb7abe33103a37f62cc1c709cc",
+    "sky-pool-below.png": "777570e4f32b2492d89718624dc24142be203f74368d01a3bd537afea53ca0a1",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "3f57b7f1b97f764744e4f52a7607e663d97c759d3e9574176f876ffd1233587a",
+    "source-status.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "thermal-interior.png": "65d81fde69f21095e083529c7ae0f418adfe70c6493a68e851b20114e8656369",
+    "v11-frame-completion.json": "ebbe2e49fd0a065066389941e2897042f784139dbfc426f8e7198d60fc0a8a48",
+    "v11-optics.json": "32a22242b5a261008e9c2d434a4699cef5e90e813b6a86c8515b227ae329b877",
+    "v7-mass-frames.json": "fdad4a9394c33ffbdd9bc7694ce068cdf5097a49d1364aedf0e0cfd0ff776db4",
+    "waterfall-interior.png": "65cd3146a3eebe7f463a2904eeeda875382de2367f8dc05b639d4d6604cf973d"
+  }
+}

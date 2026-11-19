@@ -71,14 +71,14 @@ export function* resortGardenSteps({solid,decor,surfaces,waters,mats,rise=S.rise
   for(let i=0;i<feature.tiers.length;i++){
    const t=feature.tiers[i],base=feature.level*rise,bodyHeight=t.y-t.depth-base,foundation=mesh(solid,cylinder,mats.ivory,feature.x,base+bodyHeight/2,feature.z+t.z,t.rx+.14,bodyHeight,t.rz+.14,feature.level);
    const bed=mesh(surfaces,own(new T.CircleGeometry(1,48).rotateX(-Math.PI/2)),liner,feature.x,t.y-t.depth+.006,feature.z+t.z,t.rx,1,t.rz,feature.level);
-   const wall=own(new T.CylinderGeometry(1,1,t.depth,48,1,true));mesh(solid,wall,liner,feature.x,t.y-t.depth/2-.025,feature.z+t.z,t.rx,1,t.rz,feature.level);
+   const wall=own(new T.CylinderGeometry(1,1,t.depth,48,1,true)),sidewall=mesh(solid,wall,liner,feature.x,t.y-t.depth/2-.025,feature.z+t.z,t.rx,1,t.rz,feature.level);
    // Coping has a real front opening, over the lower weir wall. No solid lid.
    const shape=new T.Shape(),start=.5,end=Math.PI*2-.5;
    for(let k=0;k<=64;k++){const a=start+(end-start)*k/64,x=Math.sin(a)*(t.rx+.15),z=-Math.cos(a)*(t.rz+.15);if(k)shape.lineTo(x,z);else shape.moveTo(x,z);}
    for(let k=64;k>=0;k--){const a=start+(end-start)*k/64;shape.lineTo(Math.sin(a)*t.rx,-Math.cos(a)*t.rz);}shape.closePath();
    mesh(decor,own(new T.ShapeGeometry(shape,16).rotateX(-Math.PI/2)),mats.gold,feature.x,t.y+.035,feature.z+t.z,1,1,1,feature.level);
    const material=waterMaterial(0x26bed5,.7,{width:t.rx*2,height:t.rz*2});material.uniforms.uWaterDepth.value=t.depth;material.fragmentShader=material.fragmentShader.replace('float waterDepth=mix(.23,uWaterDepth*(1.-.8*smoothstep(.55,1.,edge)),uLake);','float waterDepth=uWaterDepth;');applyResortWaterReflection(material,probeForFeature(feature));materials.add(material);
-   const water=mesh(group,own(new T.CircleGeometry(1,48).rotateX(-Math.PI/2)),material,0,t.y,t.z,t.rx,1,t.rz,feature.level);waters.push(water);tierRecords.push({spec:t,water,bed,foundation});
+   const water=mesh(group,own(new T.CircleGeometry(1,48).rotateX(-Math.PI/2)),material,0,t.y,t.z,t.rx,1,t.rz,feature.level);waters.push(water);tierRecords.push({spec:t,water,bed,wall:sidewall,foundation});
   }
   for(let i=1;i<feature.tiers.length;i++){
    const upper=feature.tiers[i],lower=feature.tiers[i-1],material=waterMaterial(0x26bed5,.7,{waterfall:true,width:upper.rx*.85,height:upper.y-lower.y,flow:{width:upper.rx*.85,length:upper.y-lower.y,speed:3}});applyResortWaterReflection(material,probeForFeature(feature));materials.add(material);

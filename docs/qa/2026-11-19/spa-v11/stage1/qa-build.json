@@ -1,0 +1,8 @@
+{
+  "sha256": "40513fbd024c10485ac0df4fecc8e0c09361eb5a5b4b0574512e911e418e84ae",
+  "baseline": null,
+  "node": "v22.23.5",
+  "head": "97b6b1d4d2e662f8a71808e0819c23b7a5e50aee",
+  "dirty": " M public/index.html\n M public/resort-spa-model.js\n M public/resort-spa-water-v8.js\n?? public/resort-spa-water-v11.js\n?? test/resort-spa-water-integration-v11.test.mjs\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

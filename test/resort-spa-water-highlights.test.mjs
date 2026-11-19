@@ -1,0 +1,7 @@
+import test from 'node:test';import assert from 'node:assert/strict';import * as T from 'three';
+import {createMallRoomLights} from '../public/mall-room-light.js';import {installSpaWaterHighlights} from '../public/resort-spa-water-highlights.js';
+test('water highlights use the existing actual room lamp positions/colours, without additional scene lights or frame uploads',()=>{
+ const root=new T.Group(),table=createMallRoomLights();for(let i=0;i<8;i++){for(let j=0;j<3;j++)table.register(i*20+j,200,0xffd6a0);table.register(i*20,200,0x62dce8);}root.userData.roomLightTexture=table.texture;
+ const m=new T.ShaderMaterial({uniforms:{uSpaWaterLayer:{value:1}},fragmentShader:'void main(){gl_FragColor.a=1.;}'});m.userData.spaWaterQuality={kind:'vip'};const a=new T.Mesh(new T.PlaneGeometry(),m),b=new T.Mesh(a.geometry,m);root.add(a,b);installSpaWaterHighlights(root);
+ assert.deepEqual(m.uniforms.uSpaLampPositions.value.map(v=>v.x),[20,21,22]);assert.equal(m.uniforms.uSpaOrigin.value,root.position);assert.equal((m.fragmentShader.match(/uniform vec4 uSpaLampPositions/g)||[]).length,1,'shared materials are installed once');assert(m.fragmentShader.includes('fresnel*9.'));assert(!root.children.some(o=>o.isLight));root.position.x=100;assert.equal(m.uniforms.uSpaOrigin.value.x,100,'actual world placement, not a frozen local probe origin');a.geometry.dispose();m.dispose();table.texture.dispose();
+});

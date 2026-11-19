@@ -1,0 +1,83 @@
+[
+  {
+    "id": "luna",
+    "free": true,
+    "ownedFree": true,
+    "mood": "happy",
+    "job": false,
+    "schedule": {
+      "day": 0,
+      "job": "rest"
+    },
+    "crew": false,
+    "home": false,
+    "resident": false,
+    "friend": false,
+    "leisure": false,
+    "mall": false,
+    "spa": false,
+    "chill": false,
+    "court": false,
+    "meal": false,
+    "swim": false,
+    "pending": false,
+    "gather": false,
+    "npcManualRemaining": -47768.39999997616,
+    "profileManualRemaining": -1795121154476,
+    "profileTrip": false
+  },
+  {
+    "id": "moti",
+    "free": true,
+    "ownedFree": true,
+    "mood": "happy",
+    "job": false,
+    "schedule": {
+      "day": 0,
+      "job": "rest"
+    },
+    "crew": false,
+    "home": false,
+    "resident": false,
+    "friend": false,
+    "leisure": false,
+    "mall": false,
+    "spa": false,
+    "chill": false,
+    "court": false,
+    "meal": false,
+    "swim": false,
+    "pending": false,
+    "gather": false,
+    "npcManualRemaining": -47768.5,
+    "profileManualRemaining": -1795121154476,
+    "profileTrip": false
+  },
+  {
+    "id": "pixel",
+    "free": false,
+    "ownedFree": false,
+    "mood": "happy",
+    "job": false,
+    "schedule": {
+      "day": 0,
+      "job": "rest"
+    },
+    "crew": false,
+    "home": false,
+    "resident": false,
+    "friend": false,
+    "leisure": false,
+    "mall": false,
+    "spa": false,
+    "chill": false,
+    "court": false,
+    "meal": false,
+    "swim": true,
+    "pending": false,
+    "gather": false,
+    "npcManualRemaining": -47768.5,
+    "profileManualRemaining": 3599946,
+    "profileTrip": false
+  }
+]

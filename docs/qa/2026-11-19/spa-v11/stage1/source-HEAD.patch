@@ -1,0 +1,54 @@
+diff --git a/public/index.html b/public/index.html
+index d25ebe9..3db6bce 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -713,6 +713,6 @@
+       </div>
+     </dialog>
+     <div id="toast" role="status" aria-live="polite" hidden></div>
+-    <script type="module" src="./dist/app.js?v=17fb011e9dc66129"></script>
++    <script type="module" src="./dist/app.js?v=86da9938c7bac0e9"></script>
+   </body>
+ </html>
+diff --git a/public/resort-spa-model.js b/public/resort-spa-model.js
+index 46c2799..dadffbd 100644
+--- a/public/resort-spa-model.js
++++ b/public/resort-spa-model.js
+@@ -1,3 +1,4 @@
++import {prepareSpaWaterQuality,attachSpaRefraction} from './resort-spa-water-v11.js';
+ import {spaMarbleV8} from './resort-spa-marble-v8.js';
+ import {SPA_PALACE as PALACE} from './resort-spa-layout-v7.js';
+ import {resortPalaceCascadesSteps} from './resort-spa-palace-cascades.js';
+@@ -59,7 +60,7 @@ export function* resortSpaModelSteps({layoutVersion=6}={}){
+   const gardens=yield* resortGardenSteps({solid,decor,surfaces,waters,mats,rise:PALACE.rise,zoneList:SPA_V7_ZONES,seatContact:spaV7Seat,sites:spaPalaceGardenSites(),cascadeList:SPA_PALACE_CASCADES,probeForFeature:f=>f.level===1?4:7});
+   const accessGeometry=createResortSpaAccess(mats,{palace:true});for(const g of [accessGeometry.solid,accessGeometry.surfaces,accessGeometry.shell])g.traverse(o=>{if(o.isMesh)o.userData.resortFloor=0;});solid.add(accessGeometry.solid);surfaces.add(accessGeometry.surfaces);shell.add(accessGeometry.shell);
+   root.updateMatrixWorld(true);root.userData={layoutVersion:7,serviceContract:SPA_V7_RUNTIME_CONTRACT,phase:'layout-interiors',palace:palace.report,id:L.id,accessGeometry,dynamicSurfaces:[accessGeometry.deck],zones,solid,shell,decor,surfaces,basins,waters,navigation:installManualBuildingNavigation(root,solid),update(time,reduced=false){for(const w of waters)advanceWater(w.material,time,reduced);luxury.update(time,reduced);night.update(time,reduced);gardens.update(time,reduced,root.position);cascades.update(time,reduced,root);poolEffects.update(time,reduced);},dispose(){poolEffects.dispose();cascades.dispose();gardens.dispose();night.dispose();luxury.dispose();facade.dispose();palace.dispose();accessGeometry.dispose();for(const b of basins)b.userData.dispose();for(const g of geos.values())g.dispose();const textures=new Set();for(const m of Object.values(mats)){for(const key of ['map','normalMap','roughnessMap'])if(m[key])textures.add(m[key]);m.dispose();}for(const t of textures)t.dispose();}};
+-  root.userData.luxury=luxury;root.userData.gardens=gardens.report;root.userData.gardenFeatures=gardens.features;root.userData.thermalCascades=cascades.features;root.userData.poolEffects=poolEffects;yield* finishResortSpaSteps(root,{zones:SPA_V7_ZONES,rise:PALACE.rise});const inspect=root.userData.setInspectionLevel;root.userData.setInspectionLevel=level=>{inspect(level);luxury.inspect(level);night.inspect(level);gardens.inspect(level);for(const o of poolEffects.root.children)o.visible=level==null||o.userData.resortFloor<=level;};root.add(accessGeometry.cabin,accessGeometry.gates,luxury.dynamic,night.dynamic,gardens.fixed,poolEffects.root);return root;
++  root.userData.luxury=luxury;root.userData.gardens=gardens.report;root.userData.gardenFeatures=gardens.features;root.userData.thermalCascades=cascades.features;root.userData.poolEffects=poolEffects;prepareSpaWaterQuality(root);yield* finishResortSpaSteps(root,{zones:SPA_V7_ZONES,rise:PALACE.rise});attachSpaRefraction(root);const inspect=root.userData.setInspectionLevel;root.userData.setInspectionLevel=level=>{inspect(level);luxury.inspect(level);night.inspect(level);gardens.inspect(level);for(const o of poolEffects.root.children)o.visible=level==null||o.userData.resortFloor<=level;};root.add(accessGeometry.cabin,accessGeometry.gates,luxury.dynamic,night.dynamic,gardens.fixed,poolEffects.root);return root;
+  }
+  // Main cat dome and real three-level public atrium.
+  for(let level=0;level<3;level++){
+diff --git a/public/resort-spa-water-v8.js b/public/resort-spa-water-v8.js
+index a0981bd..b6409de 100644
+--- a/public/resort-spa-water-v8.js
++++ b/public/resort-spa-water-v8.js
+@@ -4,6 +4,7 @@ import {registerPositionPreservingShader} from './static-submissions.js';
+ // Shallow sealed SPA pool profile on the common water core. No ocean/slide
+ // parameters are changed. The true basin depth and physical steps are retained.
+ const profiles=new WeakMap();
++export function registerSpaCausticProfile(material,profile){profiles.set(material,profile);material.userData.waterLayerDepth=profile.depth>0?profile.depth:-1;}
+ export function spaPoolOpticsV8(water,liner,{depth,worldLevel,rx}){
+  const fieldScale=rx>20?.28:.5;water.fragmentShader=water.fragmentShader.replace('vec2 p=vWaterPoint.xz;',`vec2 p=vWaterPoint.xz*${fieldScale};`);
+  water.uniforms.uColor.value.setHex(0x22b9cf);water.uniforms.uShoreColor.value.setHex(0xa1edf0);water.uniforms.uOpacity.value=.54;
+@@ -18,8 +19,9 @@ export function installSpaPoolCaustics(liner){
+  const before=liner.onBeforeCompile,key=liner.customProgramCacheKey;
+  applyUnderwaterLighting(liner,profile.clock,0x89e3e7,{level:{value:profile.worldLevel},refract:false,light:true,depthFog:false});
+  const shared=liner.onBeforeCompile,sharedKey=liner.customProgramCacheKey();
+- liner.onBeforeCompile=function(shader,...args){shared.call(this,shader,...args);shader.fragmentShader=shader.fragmentShader.replace('waterLight(vWaterLightPoint,uWaterLightTime)',`waterLight(vWaterLightPoint*${profile.fieldScale},uWaterLightTime)`).replace('diffuseColor.rgb*=uUnderwaterTint*(.98+waterCaustic*.20);','diffuseColor.rgb*=uUnderwaterTint*(.82+waterCaustic*.54);').replace('vec3(.012,.029,.043)*waterCaustic*waterCaustic','vec3(.10,.24,.25)*waterCaustic*waterCaustic');};
+- liner.customProgramCacheKey=()=>sharedKey+'-spa-shallow-caustics-v8-'+profile.fieldScale;registerPositionPreservingShader(liner,before,key);liner.needsUpdate=true;
++ const intensity=profile.intensity??.54;
++ liner.onBeforeCompile=function(shader,...args){shared.call(this,shader,...args);shader.fragmentShader=shader.fragmentShader.replace('waterLight(vWaterLightPoint,uWaterLightTime)',`waterLight(vWaterLightPoint*${profile.fieldScale},uWaterLightTime)`).replace('diffuseColor.rgb*=uUnderwaterTint*(.98+waterCaustic*.20);',`diffuseColor.rgb*=uUnderwaterTint*(.96+waterCaustic*${intensity.toFixed(3)});`).replace('vec3(.012,.029,.043)*waterCaustic*waterCaustic','vec3(.006,.014,.016)*waterCaustic*waterCaustic');};
++ liner.customProgramCacheKey=()=>sharedKey+'-spa-shallow-caustics-v8-'+profile.fieldScale+'-soft-'+intensity;registerPositionPreservingShader(liner,before,key);liner.needsUpdate=true;
+ }
+ 
+ export function addSpaStepLights(root,steps,own){

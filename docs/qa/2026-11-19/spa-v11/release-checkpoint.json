@@ -1,0 +1,27 @@
+{
+  "sourceBase": "7ff6f00b290faf0d6e6efd32a963f18e88aaa194",
+  "expectedAssets": {
+    "public/index.html": "7d8e29b489c6522e341085f6729878b80a662cbad0ffc8383b34bff9e4a62a5e",
+    "public/dist/app.js": "593013c89da9d392e10c9a42a7ba7297e2073cccff5e3fc32951b930262e4dce",
+    "public/style.css": "1ca6fd7d91d93d2434122de8b604f9e1f0306145487ece7434204f01d46492bc"
+  },
+  "changedPublicFiles": [
+    "public/index.html",
+    "public/resort-spa-gardens.js",
+    "public/resort-spa-invitations.js",
+    "public/resort-spa-model.js",
+    "public/resort-spa-palace-cascades.js",
+    "public/resort-spa-pool-effects.js",
+    "public/resort-spa-refraction.js",
+    "public/resort-spa-water-highlights.js",
+    "public/resort-spa-water-quality.js",
+    "public/resort-spa-water-v11.js",
+    "public/resort-spa-water-v8.js",
+    "public/resort-spa-world.js",
+    "public/world.js"
+  ],
+  "protected": "No changes to ocean/shared water core, Mall, crypto/AI/server/save schema, approved cat assets or existing physical layout. world.js changes only free resident invitation and native gather handoff.",
+  "native": "stage2 eight actual desktop water/sky views + 38 profiles/refraction stats; stage3 two actual final lamp views; group-pass two native residents and repeat/unchanged all wallet and inventory assertions. Group-only log old generic 38 label is not independent optics proof.",
+  "particleBudget": "Final count-only reduction verified separately: <=192 bubbles and <=96 steam across existing VIP plus Cafe, hidden-level clocks skipped. Controllers, shader source, positions and supports unchanged from group-pass.",
+  "limits": "User has not visually approved V11; interiors still simpler than reference. Four gl.finish samples per copy mode on SwiftShader are not hardware FPS or a p95 certificate. The one frame texture used 11554560 bytes in the measured desktop canvas. Pending group invitations are transient; no purchase or paid AI is triggered."
+}

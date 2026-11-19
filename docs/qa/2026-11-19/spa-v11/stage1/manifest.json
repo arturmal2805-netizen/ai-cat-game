@@ -1,0 +1,26 @@
+{
+  "sourceBase": "97b6b1d4d2e662f8a71808e0819c23b7a5e50aee",
+  "sourceState": " M public/index.html\n M public/resort-spa-model.js\n M public/resort-spa-water-v8.js\n?? public/resort-spa-water-v11.js\n?? test/resort-spa-water-integration-v11.test.mjs\n",
+  "result": "PASS actual phone-context native GLSL/render of eight water/sky views; empty errors/httpErrors",
+  "visualReview": "Not visual acceptance. Thermal/Golden caustics too fine/dense compared with latest supplied frame. This is 390x844 DPR2 phone context, NOT matched desktop before/after. Need broader cells, stronger room highlights and measured framebuffer copy statistics.",
+  "files": {
+    "aroma-interior.png": "9e59ab570e58a37462a9de7cfead50bb57f459aa7e842aa09d2b449437f197f8",
+    "cabana-interior.png": "b235bd7509d824af2cddafd4173cfcbd9c949dda2edabe0de1ce47c1eb0f4442",
+    "cafe-interior.png": "731c45d4eb79dfd79dcc59ef27eab17c32d9fd0bf14abbd1d13a2c8d73e339bc",
+    "golden-interior.png": "741e7a6df031d21c990eea292874ea03010a84201a61c53db38876ac2bbbdd23",
+    "imported-source.tar.gz": "9d3ee026dce46d34be49692293c11c0b62cdd52db76c5151b0ee51326a8f496a",
+    "layout-world-transforms.json": "3518713f83d48cad7ccba56c16c8fa3635d2295bfcf0bc272ef031db684a99a7",
+    "native.log": "ecbe817cc827eb3345892e391ebfe5e2568dd02460e913f4c4ad44f30996dc4c",
+    "qa-app.js.gz": "11a9d209ff2918d13171a3418956519273eec5dff3c901a4f01843f69b531422",
+    "qa-build.json": "65a60a73d89c9b1408c84db4198dc026d1b3cfd99011d3a7500ba3fa5ed0c2ef",
+    "sky-pool-above.png": "30590b59132b49101609eedd3f712100f295a4ff864c59ebb40905b6c9898570",
+    "sky-pool-below.png": "31192e7c3c7b15c0bce62a0b8dc625c1bff2c094776ed07b84037e368cc1be29",
+    "source-HEAD.patch": "93d4ec4b329b4dae5f00c83267116ad73a6b1c97ef6da33bacbe1a9fb490bf44",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "46614d31fdd97f72f2248008c8aa5ec04f7975b18866f22938250b23d5eeba70",
+    "source-status.txt": "101b517265944e2f86d1237c153a4f8105148d61a7ddc1470259b8f193e178a4",
+    "thermal-interior.png": "5a0e26b4799cb07b2fcc101ee315301fe4268c4b48c78112faa185d42c5cce1a",
+    "v7-mass-frames.json": "119e5db06030f632034985cc19380205f1bd5111bfa2bbd664d5acc3f9ec4ae4",
+    "waterfall-interior.png": "82b510106b30a9cc6c4eb447a89c47348b898d68b68f3aad7c3860d0814050db"
+  }
+}

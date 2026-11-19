@@ -1,0 +1,19 @@
+SPA required scene preparation pending
+PASS V7 mass native capture; functionality and reference detailing remain pending
+V11 group candidates [{"id":"luna","free":false,"ownedFree":false,"mood":"happy","job":true,"crew":false,"home":false,"resident":false,"friend":false,"leisure":false,"mall":false,"spa":false,"chill":false,"court":false,"meal":false,"swim":false,"pending":false,"gather":false,"npcManualRemaining":-49071.40000000596,"profileManualRemaining":-1795120877070,"profileTrip":false},{"id":"moti","free":false,"ownedFree":false,"mood":"happy","job":true,"crew":false,"home":false,"resident":false,"friend":false,"leisure":false,"mall":false,"spa":false,"chill":false,"court":false,"meal":false,"swim":false,"pending":false,"gather":false,"npcManualRemaining":-49071.5,"profileManualRemaining":-1795120877070,"profileTrip":false},{"id":"pixel","free":false,"ownedFree":false,"mood":"happy","job":false,"crew":false,"home":false,"resident":false,"friend":false,"leisure":false,"mall":false,"spa":false,"chill":false,"court":false,"meal":false,"swim":true,"pending":false,"gather":false,"npcManualRemaining":-49071.5,"profileManualRemaining":3599985,"profileTrip":false}]
+V11 group UI {"inspection":true,"panelHidden":false,"disabled":false,"rect":{"x":887,"y":161,"width":174,"height":44,"top":161,"right":1061,"bottom":205,"left":887}}
+V11 group accepted 0
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert(count>=2)
+
+    at auditSpaWaterV11 (file:///workspace/chichi-spa-water-v11/scripts/audit-spa-water-v11.mjs:19:110)
+    at async auditResortSpaNative (file:///workspace/chichi-spa-water-v11/scripts/audit-resort-spa-native.mjs:13:228)
+    at async /workspace/chichi-spa-water-v11/scripts/check-aquarium.cjs:713:122 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
