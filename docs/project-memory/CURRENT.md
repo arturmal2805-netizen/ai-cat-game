@@ -26,52 +26,58 @@ account archive; потом обычный commit без подмешивани�
 Chromium/private Worker/SQLite download/cancel/restore/reload PASS. **Mac напрямую
 не проверен**; не называть Chromium аппаратным Mac тестом. Новую ссылку пользователь получил.
 
-## Активная задача — публикация проверенного этапа SPA V6
+## Активная задача — дождаться развёртывания SPA и проверить live
 
-Код /workspace/chichi-emergency-save-recovery, ветка codex/spa-v6-reconstruction.
-Remote checkpoint **4b72f2fa04dfdcf045c0a211570524d4c89d6268**, source clean.
-Node22 build готов; модели не изменились. Gardens16beds/2three-tier cascades,
-184flower/736leaf instances,6native batches. Все28affected public routes и20old
-route fixtures PASS с прежним радиусом. Реальные Aroma bridge/Cabana connector
-исправлены; стены/кошельки/21bath contacts/shared water сохранились.
+PR#1 уже MERGED вmain **6e28f752291e65e7b51f7f093a004e5c81fd27b3**,
+19 ноября14:01:47UTC. Полный tree идентичен проверенному
+**4b72f2fa04dfdcf045c0a211570524d4c89d6268**, без конфликтов/новых правок.
+Merge сохранил всю checkpoint историю: родители stable39708e3 и source4b72f2f.
+WIP codex/spa-v6-reconstruction и старые worktrees сохранены, не удалять/reset.
+Код в /workspace/chichi-emergency-save-recovery остаётся наclean4b72f2f;
+не начинать разработку заново. Дополнительные code changes сейчас НЕ нужны.
 
-Fresh actual15room probes завершены наca0813f3ec71232b427f4d98667a0e3fb153ad57:
-PNG302059bytes c3beaca169a6462a0622a42858c67eec7bc14d61722b12d3530295de9c3b2cc0;
+**Главный publication workflow44539374765 сейчас in_progress**:
+https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44539374765
+Не объявлять сайт обновлённым по одному merge/URLv. Дождаться всех test/deploy/
+Verifyrelease/sharedsaves/Pages jobs SUCCESS, затем actual HTML/JS/CSS/atlas bytes.
+Verifier /tmp/verify-spa-publication.py; постоянная копия в evidence branch.
+Node22 какCI; не rebuild Node24, не запускать paidAI. Прямой Worker host здесь
+ранее tunnel403; успешный exact-release/shared-save CI — отдельное доказательство,
+не выдавать403 за успешный directGET или за realLLM inference.
+
+Проверки завершены: exactPRCI44535236300 SUCCESS; localbroad1171/1171 PASS
+(стартовал до позднегоprobeupdate, exactfullgate — CI); final6targeted PASS.
+Native clean4b72f2f:16views(overview+14rooms+sky),5arraylayer byte-exactGLSL/
+21pool mappings,actualpublicAroma0/Cabana4 outward/return,11dry/4wetservices,
+poses/receipts/privateSQLite reload/World release PASS; errors[]/httpErrors[],
+одно приложение. Phone390×844/DPR2 actual heldtouch/compactbounds/originalChichi/
+Worldrelease PASS; все423 publicsource hashes и QA bundle identicaldesktop.
+HardwareMac/phoneFPS и полный84motion/everycontact/shore tour не сертифицированы.
+
+Доказательства remote **codex/spa-v6-release-evidence**, checkpoint395c03f4f65173e5abdbd257a1c6c9d47aa1da2c:
+docs/qa/2026-11-19/spa-v6-gardens-release/{native,phone}, exact source/bundle/
+PNG/log/manifests + comparison/reference-review/CI. /workspace/chichi-spa-release-evidence
+— отдельный sparse worktree артефактов; это НЕ другой runtimeкод.
+Не перепутать его с основным checkout. Финальный publication receipt добавить
+сюда после deploy. Полная проверка всехmanifest bytes/Gittracking обязательна.
+
+Свежие actual15roomprobes sourceca0813f, PNG302059bytes c3beaca169a6462a0622a42858c67eec7bc14d61722b12d3530295de9c3b2cc0,
 rawda49c948fe3bfaa711f85a1fc0cf05aa5f511949554ddfd9e4bdd350312eaf9c.
-Точный архив docs/qa/2026-11-19/spa-v6-gardens-probes/native. Послеcapture
-изменены только MASKED water UV/curvature; статическая видимая геометрия таже.
-6targeted finalasset/garden cases PASS. Старыеcaptures сохранены отдельно.
+Архив в коде docs/qa/2026-11-19/spa-v6-gardens-probes/native;27entries bytes/Gittracking PASS.
+Late UV/curvature меняли onlymaskedwater, видимыеstaticcapturecontents сохранены.
+16beds/2three-tiercascades/6nativefoliagebatches;28affectedpublicroutes+20default
+fixtures PASS. FixedrealAroma bridge/Cabana connector; unchangedradius/walls,
+originalmodels/economy/shared-save/watercore intact.
 
-**Сейчас идёт финальный native**, не перезапускать без проверки процесса:
-/workspace/qa/spa-v6-gardens-release-native.log;
-/workspace/qa/spa-v6-gardens-release (exact source4b72f2f).
-Flags CHICHI_EXPLORER_AUDIT=1 CHICHI_RESORT_SPA_AUDIT=1 CHICHI_SPA_V6_AUDIT=1
-CHICHI_SPA_V6_STAGE=gardens-release CHICHI_SPA_V6_ALL=1
-CHICHI_SPA_V6_PROCEDURES=1 CHICHI_SPA_GARDEN_WALK=1
-CHICHI_SPA_REFLECTION_AUDIT=1 CHICHI_REVIEW_HOUR=12 CHICHI_DESKTOP=1.
-Один GPU, HEAD не менять до завершения capture. Все16views(overview+14rooms+sky) готовы;
-publicAroma0/Cabana4 actualwalk/return PASS; freshGPUarray PASS;11dryservices PASS.
-Сейчас4wetservices иSQLitereload; затем phone-only native на томжеclean4b72f2f.
-Localfulltestsconcurrency2 завершены1171/1171 PASS, log /workspace/qa/spa-v6-gardens-full-tests.log.
-Он стартовал до позднегоassetupdate: exactfinalfullgate — GitHubCI.
-
-PR#1 https://github.com/arturmal2805-netizen/ai-cat-game/pull/1 draft доQA;
-CI44535236300 на4b72f2f **SUCCESS** (Node22build/fulltests/wranglerdryrun). Отдельный Workers Builds check FAILURE,
-причина ещё не установлена; не путать его с главным Test and deploy workflow.
-Доказательства отдельно от applicationCI: codex/spa-v6-release-evidence,
-checkpoint500820a (проверить remoteSHA). Это толькоартефакты, не другаяверсиякода.
-Пользователь требует публикацию данного этапа. После native/CI PASS сохранить
-точные PNG/source/bundle/log/hash, отметитьPRready и обычный merge без удаленияWIPветки (сохранить checkpoint ancestry),
-дождаться ВСЕХmain jobs и сверитьactualHTML/JS/CSS/Workerrelease. Не заканчивать
-ещё одним WIP-only ответом. Уже есть авторизация на публикацию.
-
-Это улучшенный промежуточный SPA, не закрытый весьV6 и не визуальное одобрение.
-R1/R2/R4/R5 сверять по фактическим кадрам; R3duplicateR1. Originalpixels только
-в сообщениях пользователя. Полный источникзадания docs/specifications/underwater-spa-v6-2026-11-18.md.
-Исторический контекст/оставшиеся художественные расхождения —
-[предыдущая передача](history/spa-v6-gardens-pre-release-2026-11-19.md),
-[правилаSPA](standards/underwater-spa.md). Mac/phonehardwareFPS не проверены.
-Старыеworktrees/privateSQLite/архивы не удалять. Не повторять компенсацию баланса.
+Внешний Workers Builds Gitcheck FAILURE присутствовал и наstable39708e3;
+причина не установлена, пустойGitHuboutput. Не заявлять этотcheckSUCCESS.
+Настоящую публикацию подтверждать главным Test and deploy workflow иlivebytes.
+Это промежуточный художественный SPA, НЕ visualapproval/fullV6. R1/R2/R4/R5
+сверены опять, R3duplicateR1; сохраняется отставание по плотности сада/свету/
+связному palace silhouette. Референсы не подменены картинкой в игре.
+Цель/ограничения — standards/underwater-spa.md; прошлое — history/. Не повторять
+компенсацию монет, не трогать живое сохранение. Пользователь требует публикацию,
+не заканчивать WIP-only ответом и не просить разрешение повторно.
 
 ## Предыдущее аварийное восстановление
 

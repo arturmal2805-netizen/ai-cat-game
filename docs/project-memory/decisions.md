@@ -580,3 +580,13 @@ WIP d9ab6a6/fd3fb4f:16клумб/2каскада и реальная связь 
 Новый native public route audit должен проверить Aroma0/Cabana4 туда/обратно.
 СледомNode22build/probe refresh/native/fullCI/main/live. Не завершать задачу
 после очередного WIP-only checkpoint; публикация явно разрешена пользователем.
+
+## 2026-11-19 — SPA checked stage merged, deployment still pending
+
+PR#1 regular merge6e28f752291e65e7b51f7f093a004e5c81fd27b3 joins published39708e3
+and exact checked4b72f2f. Complete tree equality verified; no conflict resolution
+or application changes during merge. Regular merge retains exact QA/checkpoint
+ancestry; WIP branch and oldworktrees remain. Native/phone proof lives in
+codex/spa-v6-release-evidence so adding artifacts does not invalidate immutable
+application CI. Publication workflow44539374765 is the next gate; merge alone
+is not live publication. Artwork still has documented reference gaps.
