@@ -1,0 +1,18 @@
+{
+  "sourceBase": "46fa8465093b044a230e965d886b44fbce62fdd4",
+  "sourceState": "",
+  "result": "PASS actual 390x844 DPR2 held touch and World release on final V11 product source",
+  "visualReview": "Native mobile emulation, not physical phone/Mac FPS certification.",
+  "files": {
+    "actual-phone-third-person-controls.png": "99e0b00e645acb77574e7575a27fe36587959a99fdacfa8507d25005c9b597bf",
+    "actual-phone-third-person.json": "0fa9cad0019045514e6dfc61c9c8f8ce3c73da1dadbddd92c5867429fec47683",
+    "imported-source.tar.gz": "d4532f01f4dba4fe2df2b9e89dd1f1c5329f311b270980950df83116ff6c6409",
+    "native.log": "5bbc4b659ad4afb4a7f908c20f2ef6ee7a04a3281119db773b8728da4395a50d",
+    "qa-app.js.gz": "c756211daa82e07fd93937add29b92c5581d0d7f43ce4ee26b8313750518a1ac",
+    "qa-build.json": "99f40b166b925f87aee20ce3715129ecf2d2b363f8fece5551fc8ac785bd76c1",
+    "source-HEAD.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-cached.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-files.json": "4618b99a0e4120483f6c64dffeed48cbdad8239aac851ca13da136fa540c2766",
+    "source-status.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

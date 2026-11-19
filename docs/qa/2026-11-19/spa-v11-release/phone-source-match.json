@@ -1,0 +1,7 @@
+{
+  "releaseCandidate": "9e26f331d91d3ad85e2c0f15b5a6a4e63106e5ce",
+  "importedModulesMatched": 443,
+  "result": "Every imported native module matches merged main by SHA256",
+  "viewport": "390x844 DPR2",
+  "scope": "Held touch and World release; not hardware performance"
+}
