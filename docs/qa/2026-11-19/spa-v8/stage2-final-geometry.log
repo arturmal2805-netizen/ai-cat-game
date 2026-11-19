@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: all fourteen actual palace pools retain full-body entry, procedure, physical exit and supported return across coping seams
+ok 1 - all fourteen actual palace pools retain full-body entry, procedure, physical exit and supported return across coping seams
+  ---
+  duration_ms: 8666.372275
+  type: 'test'
+  ...
+# Subtest: selected rooms thermal: full-body route from its actual common-floor landing; stairs remain traversable both ways
+ok 2 - selected rooms thermal: full-body route from its actual common-floor landing; stairs remain traversable both ways
+  ---
+  duration_ms: 19811.408321
+  type: 'test'
+  ...
+# Subtest: V7 continuous real slabs preserve pool/atrium/stair openings, clear headroom and the original SPA root
+ok 3 - V7 continuous real slabs preserve pool/atrium/stair openings, clear headroom and the original SPA root
+  ---
+  duration_ms: 7224.275017
+  type: 'test'
+  ...
+# Subtest: Thermal is double-height and the two real balcony sheets end inside its existing water without crossing the middle slab
+ok 4 - Thermal is double-height and the two real balcony sheets end inside its existing water without crossing the middle slab
+  ---
+  duration_ms: 4229.291549
+  type: 'test'
+  ...
+# Subtest: actual roof triangles clear both star vaults; inset basin coping never overlaps the real floor and bath bottoms stay above the middle service ceiling
+ok 5 - actual roof triangles clear both star vaults; inset basin coping never overlaps the real floor and bath bottoms stay above the middle service ceiling
+  ---
+  duration_ms: 4287.131696
+  type: 'test'
+  ...
+# Subtest: V8 preserves published c477057 physical room centers, all 96 booking contacts, basins, stairs and approach
+ok 6 - V8 preserves published c477057 physical room centers, all 96 booking contacts, basins, stairs and approach
+  ---
+  duration_ms: 16.957825
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 20073.829064
