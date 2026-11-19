@@ -564,3 +564,12 @@ sourcebe2676c/interruptedprooff88adeb сохранены с точными PNG/s
 QA wallet failure сохранён отдельно, productionбалансы не затрагивались.
 Долговечная технология/provenance/ограничения добавлены в SPA standard,
 не только в чат. Все новые art этапы пока WIP, без публикации/visual approval.
+
+### 2026-11-19 — SPA native продолжение завершено без потери этапа
+49513c41a5aa555d0e92b55db9b11ef9fdb9a48f сохраняет actual sky/Nap/SQLite/
+errors PASS и exact source/bundle parity421файла с interruptedbe2676c.
+Три комнатных PNG не переснимались. Все97 evidence entries проверены/отслежены.
+CURRENT очищен от старых pending-команд: историческая передача вынесена
+в history/spa-v6-checkpoints-2026-11-19.md, технология — в SPA standard.
+Следующее art: плотные сады/каскады и связный дворец; текущие references
+по-прежнему не достигнуты, V6 не опубликована. Перед релизом новый probe bake.
