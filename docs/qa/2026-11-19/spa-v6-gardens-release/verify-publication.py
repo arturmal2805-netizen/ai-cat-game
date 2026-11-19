@@ -21,7 +21,7 @@ class Entries(HTMLParser):
         d=dict(attrs)
         if tag=='script' and re.search(r'(?:^|/)app\.js(?:\?|$)',d.get('src','')): self.apps.append(d['src'])
         if tag=='link' and d.get('rel')=='stylesheet' and 'style.css' in d.get('href',''): self.css.append(d['href'])
-html=fetch(base+'?v='+a.sha[:7]); parsed=Entries(); parsed.feed(html.decode())
+html=fetch(base+'?v='+a.sha[:7]); assert html==Path('public/index.html').read_bytes(), 'Delivered HTML does not match the checked build'; parsed=Entries(); parsed.feed(html.decode())
 assert len(parsed.apps)==1,parsed.apps
 assert len(parsed.css)==1,parsed.css
 assets={}
@@ -49,7 +49,7 @@ if api:
 result={'utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'release':a.sha,
         'workflow':a.workflow,'url':base+'?v='+a.sha[:7],
         'oneApplicationScript':True,'applicationReference':parsed.apps[0],
-        'stylesheetReference':parsed.css[0],'htmlSHA256':digest(html),'assets':assets,
+        'stylesheetReference':parsed.css[0],'htmlSHA256':digest(html),'htmlMatchesCheckedBuild':True,'assets':assets,
         'siteAssetHashesMatched':True,'workerStatusDirect':status,'paidInference':False,
         'scope':'Incremental SPA interiors, room reflection atlas, gardens/cascades and physical routes; not full reference matching or device FPS approval.'}
 Path(a.out).write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')

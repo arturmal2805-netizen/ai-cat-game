@@ -1,0 +1,8 @@
+{
+  "utc": "2026-11-19T14:08:40.465106+00:00",
+  "status": "Before new workflow completes; not new publication evidence",
+  "applicationReference": "./dist/app.js?v=0b3d5f0bd640400c",
+  "applicationSHA256": "0b3d5f0bd640400cbcd65c7efb9d0feafdef0b1b003cf9601d03a36e341acdc0",
+  "matchesPreviousStable39708e3": true,
+  "oneApplicationScript": true
+}

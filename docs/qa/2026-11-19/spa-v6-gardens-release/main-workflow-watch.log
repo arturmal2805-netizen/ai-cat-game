@@ -1,0 +1,425 @@
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* main Test and deploy Chichi · 44539374765
+Triggered via push about 3 minutes ago
+
+JOBS
+* test (ID 135613274113)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  * Run npm test
+  * Run npx wrangler deploy --dry-run
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* main Test and deploy Chichi · 44539374765
+Triggered via push about 4 minutes ago
+
+JOBS
+* test (ID 135613274113)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  * Run npm test
+  * Run npx wrangler deploy --dry-run
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* main Test and deploy Chichi · 44539374765
+Triggered via push about 5 minutes ago
+
+JOBS
+* test (ID 135613274113)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  * Run npm test
+  * Run npx wrangler deploy --dry-run
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* main Test and deploy Chichi · 44539374765
+Triggered via push about 5 minutes ago
+
+JOBS
+* test (ID 135613274113)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  * Run npm test
+  * Run npx wrangler deploy --dry-run
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* main Test and deploy Chichi · 44539374765
+Triggered via push about 6 minutes ago
+
+JOBS
+* test (ID 135613274113)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  * Run npm test
+  * Run npx wrangler deploy --dry-run
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* main Test and deploy Chichi · 44539374765
+Triggered via push about 7 minutes ago
+
+JOBS
+* test (ID 135613274113)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  * Run npm test
+  * Run npx wrangler deploy --dry-run
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* main Test and deploy Chichi · 44539374765
+Triggered via push about 8 minutes ago
+
+JOBS
+* test (ID 135613274113)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  * Run npm test
+  * Run npx wrangler deploy --dry-run
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* main Test and deploy Chichi · 44539374765
+Triggered via push about 8 minutes ago
+
+JOBS
+* test (ID 135613274113)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  * Run npm test
+  * Run npx wrangler deploy --dry-run
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* main Test and deploy Chichi · 44539374765
+Triggered via push about 9 minutes ago
+
+JOBS
+* test (ID 135613274113)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  * Run npm test
+  * Run npx wrangler deploy --dry-run
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* main Test and deploy Chichi · 44539374765
+Triggered via push about 10 minutes ago
+
+JOBS
+* test (ID 135613274113)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  * Run npm test
+  * Run npx wrangler deploy --dry-run
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* main Test and deploy Chichi · 44539374765
+Triggered via push about 11 minutes ago
+
+JOBS
+* test (ID 135613274113)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  * Run npm test
+  * Run npx wrangler deploy --dry-run
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* main Test and deploy Chichi · 44539374765
+Triggered via push about 12 minutes ago
+
+JOBS
+* test (ID 135613274113)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  * Run npm test
+  * Run npx wrangler deploy --dry-run
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* main Test and deploy Chichi · 44539374765
+Triggered via push about 12 minutes ago
+
+JOBS
+* test (ID 135613274113)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  * Run npm test
+  * Run npx wrangler deploy --dry-run
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* main Test and deploy Chichi · 44539374765
+Triggered via push about 13 minutes ago
+
+JOBS
+* test (ID 135613274113)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npm test
+  * Run npx wrangler deploy --dry-run
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* main Test and deploy Chichi · 44539374765
+Triggered via push about 14 minutes ago
+
+JOBS
+* test (ID 135613274113)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npm test
+  * Run npx wrangler deploy --dry-run
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* main Test and deploy Chichi · 44539374765
+Triggered via push about 15 minutes ago
+
+JOBS
+✓ test in 14m49s (ID 135613274113)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npm test
+  ✓ Run npx wrangler deploy --dry-run
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* deploy (ID 135622501211)
+  ✓ Set up job
+  * Run actions/checkout@v4
+  * Run actions/setup-node@v4
+  * Run npm ci
+  * Run npm run build
+  * Validate deployment credentials
+  * Sync optional OpenRouter backup key
+  * Deploy Cloudflare Worker
+  * Verify release, shared saves and optional real AI
+  * Run actions/upload-pages-artifact@v3
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+test: .github#2
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* main Test and deploy Chichi · 44539374765
+Triggered via push about 16 minutes ago
+
+JOBS
+✓ test in 14m49s (ID 135613274113)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npm test
+  ✓ Run npx wrangler deploy --dry-run
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* deploy (ID 135622501211)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  * Run npm run build
+  * Validate deployment credentials
+  * Sync optional OpenRouter backup key
+  * Deploy Cloudflare Worker
+  * Verify release, shared saves and optional real AI
+  * Run actions/upload-pages-artifact@v3
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+test: .github#2
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* main Test and deploy Chichi · 44539374765
+Triggered via push about 16 minutes ago
+
+JOBS
+✓ test in 14m49s (ID 135613274113)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npm test
+  ✓ Run npx wrangler deploy --dry-run
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* deploy (ID 135622501211)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Validate deployment credentials
+  ✓ Sync optional OpenRouter backup key
+  * Deploy Cloudflare Worker
+  * Verify release, shared saves and optional real AI
+  * Run actions/upload-pages-artifact@v3
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+test: .github#2
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* main Test and deploy Chichi · 44539374765
+Triggered via push about 17 minutes ago
+
+JOBS
+✓ test in 14m49s (ID 135613274113)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npm test
+  ✓ Run npx wrangler deploy --dry-run
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* deploy (ID 135622501211)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Validate deployment credentials
+  ✓ Sync optional OpenRouter backup key
+  ✓ Deploy Cloudflare Worker
+  * Verify release, shared saves and optional real AI
+  * Run actions/upload-pages-artifact@v3
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+test: .github#2
+
+✓ main Test and deploy Chichi · 44539374765
+Triggered via push about 18 minutes ago
+
+JOBS
+✓ test in 14m49s (ID 135613274113)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npm test
+  ✓ Run npx wrangler deploy --dry-run
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ deploy in 2m51s (ID 135622501211)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Validate deployment credentials
+  ✓ Sync optional OpenRouter backup key
+  ✓ Deploy Cloudflare Worker
+  ✓ Verify release, shared saves and optional real AI
+  ✓ Run actions/upload-pages-artifact@v3
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ pages in 17s (ID 135624322023)
+  ✓ Set up job
+  ✓ Run actions/configure-pages@v5
+  ✓ Publish AI-connected cat website
+  ✓ Website address
+  ✓ Complete job
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+test: .github#2
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+deploy: .github#2
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/configure-pages@v5, actions/deploy-pages@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+pages: .github#4
+

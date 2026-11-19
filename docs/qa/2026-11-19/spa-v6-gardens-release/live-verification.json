@@ -1,0 +1,33 @@
+{
+  "utc": "2026-11-19T14:20:35.450308+00:00",
+  "release": "6e28f752291e65e7b51f7f093a004e5c81fd27b3",
+  "workflow": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44539374765",
+  "url": "https://arturmal2805-netizen.github.io/ai-cat-game/?v=6e28f75",
+  "oneApplicationScript": true,
+  "applicationReference": "./dist/app.js?v=c006ed8238ebefbc",
+  "stylesheetReference": "./style.css?v=1ca6fd7d91d93d24",
+  "htmlSHA256": "d1423f0c0e37d4312509d8fc807cca5923e87e90d896dee9521183b44c7541d0",
+  "htmlMatchesCheckedBuild": true,
+  "assets": {
+    "dist/app.js": {
+      "sha256": "c006ed8238ebefbcd77d246f69a9dd8765107618bfcfee285662a44a0bc5feea",
+      "bytes": 2720064
+    },
+    "style.css": {
+      "sha256": "1ca6fd7d91d93d2434122de8b604f9e1f0306145487ece7434204f01d46492bc",
+      "bytes": 67599
+    },
+    "art/spa-reflections/spa-interiors-c3beaca169a6.png": {
+      "sha256": "c3beaca169a6462a0622a42858c67eec7bc14d61722b12d3530295de9c3b2cc0",
+      "bytes": 302059
+    }
+  },
+  "siteAssetHashesMatched": true,
+  "workerStatusDirect": {
+    "verified": false,
+    "reason": "<urlopen error Tunnel connection failed: 403 Forbidden>",
+    "evidence": "Exact release/shared-save verification in the successful main workflow"
+  },
+  "paidInference": false,
+  "scope": "Incremental SPA interiors, room reflection atlas, gardens/cascades and physical routes; not full reference matching or device FPS approval."
+}

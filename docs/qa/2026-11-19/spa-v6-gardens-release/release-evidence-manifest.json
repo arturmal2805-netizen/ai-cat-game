@@ -2,12 +2,15 @@
   "applicationSource": "4b72f2fa04dfdcf045c0a211570524d4c89d6268",
   "mergedMain": "6e28f752291e65e7b51f7f093a004e5c81fd27b3",
   "publicationWorkflow": 44539374765,
-  "publicationStatus": "running; not yet verified live",
+  "publicationStatus": "Verified successful main test/deploy/pages and byte-identical live HTML/JS/CSS/atlas; see direct Worker network limitation in receipt",
   "files": {
-    "README.md": "ba746cd15ebccbcb99470a37d8bf47de0153406ba03db3af693b3b548e14f7cd",
+    "README.md": "f0202dddbd5bb7c2254e99cd21c815a36a9086496a581bdf08859e60e20c0ad5",
     "final-targeted-tests.log": "c0c1d593004cb545958ece3c482ad791ecc4b876dd119b63195638883ec57be3",
     "garden-stage-comparison.json": "d493f329dd4cfc9a7b3252b9d10c399885b16068ba29131154ae52b5f4957715",
+    "live-verification.json": "2c6cc77867d1c5e57390e826a75ea177d8ca23ce042aea16b6fa814430b002d4",
     "local-full-tests.log": "a381749d6ef43d288095f33ccbcd0456b9088978ab772fe235fce9e5708ba986",
+    "main-workflow-watch.log": "adedb4702b0f0066c6668216ad37f93d3607f0b7b64a079821f2abe958e8b10c",
+    "main-workflow.json": "685f6b46090b15e75b1c1aa4fd9345a4ffc25944e947ca8deab1bd5e7a4a9e57",
     "native/actual-dry-procedures-sqlite.json": "0b9fdf5d4d4ad5f9b5515dd28da51a917d61d7ec82a30e3c774bb20d2c77b045",
     "native/actual-game-massage.png": "c8bce0c45dfd8db224f00917317a24e8611bb93c335ba6c56dac8577bce8fdf4",
     "native/actual-garden-public-walk.json": "41d3890df8835281edc1c48acaaade3a78e42a45ec91a746fd8e42a5f6c16d68",
@@ -84,7 +87,8 @@
     "phone/source-files.json": "4b1cdd4fbfd459b48f763bb62ba24690f9851e855b71b3af530cfd71d9c65b6d",
     "phone/source-status.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "pr-ci.json": "b4041ed8f010e68b3195a6ed8a4e576aaf506f675b30fb5f560e01033f6141c0",
+    "pre-deployment-site.json": "f96eaf807037823ea21e69f0bc335f2327733750e7632ef1bf3addd8ceac08aa",
     "reference-review.md": "645130dfa15fd0cb829863db917bf813bb5c5a315fd10b5cb14213243ad527ea",
-    "verify-publication.py": "06860604eaf284749cb20160ce2af632bfb70757dec4204bc0ec2eebf6d6575f"
+    "verify-publication.py": "f2cceec54b45c6d9956611d9713937d580f2f3a6c62596b7f1dd6f80b86b8dd1"
   }
 }

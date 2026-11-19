@@ -34,5 +34,10 @@ Worker deployment/release/shared-save/Pages jobs and matching live assets.
 PR#1 merged normally at14:01:47UTC into6e28f752291e65e7b51f7f093a004e5c81fd27b3.
 Parents: stable39708e3 + checked4b72f2f. The complete merged tree equals4b72f2f;
 no conflict resolution or application changes occurred during this merge.
-Checkpoint history and WIP/evidence branches are preserved. Website deployment
-is pending; merge alone is not publication.
+Checkpoint history and WIP/evidence branches are preserved. Publication is verified: main workflow44539374765 completed all three jobs
+SUCCESS; actual live HTML/JS/CSS/atlas bytes match the checked build.
+Receipt: live-verification.json,2026-11-19T14:20:35UTC.
+https://arturmal2805-netizen.github.io/ai-cat-game/?v=6e28f75
+Direct Worker GET is blocked by environment tunnel403; exact Worker release and
+shared saves are separately verified by the successful main workflow. No paid
+inference was requested. This is not user visual approval or full V6 completion.
