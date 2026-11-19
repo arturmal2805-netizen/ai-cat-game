@@ -45,62 +45,52 @@ Chromium/private Worker/SQLite download/cancel/restore/reload PASS. **Mac нап
 spa-visual-implementation-protocol-v1-2026-11-19.md.
 
 Активный код: /workspace/chichi-emergency-save-recovery,
-**codex/spa-v7-consolidation**, checkpoint **01d0ae4b5583c00bd92f448d7b670282d44d532a**.
-Проверить remoteSHA. Старые worktrees и WIP не удалялись; отдельная безопасная
-ветка создана с опубликованного6e28f75. Baseline Node22 build PASS без tracked
-изменений; существующие16 native кадров4b72f2f имеют тот же полный tree, что6e28f75,
-три baselinePNG/metadata сохранены в новом docs/qa/2026-11-19/spa-v7/baseline.
-Это reuse точной базы, не объявление нового native baseline прогона.
+**codex/spa-v7-consolidation**, remote checkpoint
+**f85bc69b48cfae355dec2b21927775a68f8fd697** (проверен ls-remote).
+Main/live всё ещё6e28f752291e65e7b51f7f093a004e5c81fd27b3.
+Default model6; новый7 включается пока только в точном private QA bundle.
+Не публиковать незавершённый корпус и не называть его готовыми8зонами.
 
-**Сейчас идёт phaseA native**, не запускать второй GPU и не менять code HEAD:
-/workspace/qa/spa-v7-mass-native.log, output /workspace/qa/spa-v7-mass.
-Flags CHICHI_EXPLORER_AUDIT=1 CHICHI_RESORT_SPA_AUDIT=1
-CHICHI_SPA_V7_MASS_AUDIT=1 CHICHI_DESKTOP=1. Session93923 (проверить существование).
-Подготовлен настоящий SPA root с QA-only layoutVersion7, три архитектурных вида.
-Public default пока6; V7 НЕ активирован и НЕ опубликован. Это намеренно phaseA:
-сначала силуэт/реальная масса, затем фасад, планировка/миграция/интерьеры.
+PhaseA01d0ae4 и phaseB772a631 завершили реальные3кадра/ошибки[]/HTTPошибки[].
+Архивы exact source/bundle/PNG/log: docs/qa/2026-11-19/spa-v7/native-{mass,facade}.
+PhaseB bundlefb48fa4ed6df33680c84311c605af3f241220aa80a4cf12ed55e73fac7804593.
+Референс A/B/D просмотрен повторно: каркас един,20 рёбер/главный портал есть,
+но нет достаточного наполнения/читаемого стекла/внутреннего света. НЕ visualPASS.
 
-Реализовано в public/resort-spa-layout-v7.js и resort-spa-palace-structure.js:
-единая оболочка,3 непрерывных slab, слитная крыша/центральный и встроенные купола,
-настоящие отверстия лестниц/бассейнов,40ступеней на12м rise,14 водных объёмов
-(8 VIP jacuzzis,4 café,thermal+sky), sky bed действительно transparent.
-Защищённые night floors вставлены в slab без перекрывающихся z-fightingслоёв.
-Original root name/id сохраняются.3 unit cases actual geometry/layout PASS.
-Это ещё НЕ готовые8 функциональных зон или визуальная приёмка.
+Корпус300×132/corner60,3 непрерывных slab,rise12,10.8м minimumroomceiling.
+Midnight1583.36→3488.39м²(2.203×);VIP1193.81→5764.39м²(4.829×с8ваннами).
+961 coarse samples:bedgap22.5/reef18.59/Mall19м; terrain/Mall/мозазавр неизменны.
+Лифт20,300 вне корпуса; новая физическая нижняя трасса20,293.2→0,293.2→0,289.2.
+Арка40 individualsegments, радиус.571; body sweep portalPASS, соседняястена закрыта.
 
-После измерений корпус300×132м, corner60; НЕ прежний набросок300×184, который
-закрыл бы shaft/вышел в мелководье.961 coarse6m samples дают bedgap22.5м,
-reef18.59м,Mallgap19м; actual native/collision проверки ещё нужны. Ничего в
-terrain/Mall/мозазавре не изменено. Лифт(20,300) остаётся вне перекрытий.
-Midnight:56×36ellipse1583.36→86×42rounded3488.39м² (2.203×), VIP40×38ellipse1193.81
-→92×64rounded5764.39м² (4.829×, включает8jacuzzis). Room ceiling target10.8м
-вместо старого4м, rise12 вместо9. Замерять реальную нижнюю балку/перекрытие.
+Теперь идёт **phaseC/D furnished native** на sourcef85bc69; sourcefreeze до конца.
+Session4296 проверить; /workspace/qa/spa-v7-interiors-native.log,
+output /workspace/qa/spa-v7-interiors. Flags какmass,PHASE=interiors,7кадров
+(3общих+Midnight/Golden/Thermal/Massage). Один GPU, не запускать второй.
+Новыйreport не подтверждает fullprocedures/старыеSQLite/recovery/deviceFPS.
 
-Карта14old→8new/component/camera/navigation сохранена в
-`docs/qa/2026-11-19/spa-v7/compatibility-map.md`, measurements.json рядом.
-Amber→Midnight,Jacuzzi→VIP. Nap/Meditation/Beauty/Sauna убрать из публичных
-комнат/AI offers;14 исторических адресов products/receipts сохранять. Pure
-redirect map уже есть, но runtime prepaid/occupancy migration ещё НЕ подключена.
-Не выдавать список aliases за завершённую миграцию.
+Новая независимаяregistry resort-spa-services-v7:8 физических комнат,
+14 исторических услуг.18wet+12dryVIP,16Midnight,остальныекакплан.
+Booking/runtime принимают optionalcontract; aliases используют один canonical
+seatMap. Jacuzzi ограничен18wet,Amber4warm; retired4 только с исходным оплач.
+билетом погашаются как Midnightrest, не продаются/не конвертируются ввалюту.
+15 targeted testsPASS:prepaid/occupied/cleaning/sharedseats плюс прежниеruntime/
+booking/access/transit иactualgeometry. Не означает nativeфункциональности7.
 
-Ближайшее после phaseA PNG: сравнить секции A/B/D нового концепта, выделить3
-крупнейших отличия и исправить силуэт/фасад, только потом меблировка. Получить
-фактические фото, не генерировать их и не использовать reference какbackground.
-Runtime V7 дальше требует8-zone data/booking/sharedphysicaloccupancy для aliases,
-prepaid historical tickets без потери ledger, saved-position layout migration
-(не захватывать swimmer/другие локации), новые камеры/10menuitems, re-seat
-существующих мебели/контактов на нужных этажах, tall ceilings/private canopies,
-актуальный9-layer room+sky rebake вместо старого15. Общую merge/economy semantics
-не менять. Не ставить старые circular galleries/low roofs обратно в новыйкорпус.
-Старые luxury/interiors содержат hardcoded203/18/9; не просто переименовать!
+Внутри7 уже furniture изтехжеконтактов,полновысотныемассажныекабины,
+защищённыетёмныеполы,starvaultbase10.8 вместо4.15;нетстарыхlowpavilionroofs.
+Luxuryhelper параметризован zones/seat/rise/palace; default6 сохранён.
+Навигация7 берётrise12/40stairs,finishlights8rooms optional. Старая15-layer
+reflection пока неrebaked под9; не выдавать этот interim вид за конечный.
 
-После каждого существенного этапа сохранять exactsource/bundle/PNG/log/hash в
-remote. Перед final publish: Native процедуры/старые билеты/SQLite/Cloudbackup/
-камеры/полныйscope unchanged соседей, Node22/fullCI/live assets. Визуальная
-готовность отдельна от загрузки/кнопок. Новыйuser protocol просит реальные
-скриншоты стадий и итоговую таблицу файлов/объединений/размеров/ограничений.
-Subagents не использовать: developer запрещает, пользователь делегирование
-не просил. Не останавливаться на phaseA WIP; продолжать V7 до результата.
+Следующее: проверить ВСЕ7actualPNG/секции A/B/D/E/F/G/H; исправить3главных
+различия. Затем подключить8-zone publicdata/menu(10buttons), runtimecontract/
+appointments/staff/новуюlowerapproach transit, saved-positionlayoutmigration.
+Последнее ещё НЕ сделано: отличатьlegacydryfloor отrealdiver, исключитьactive
+submarine/explorer/lift, вернутьretiredpositions вsupportedhall, сохранить14
+productprices/receiptIDs. Общийmergeалгоритм не менять. Новый9-layer room+sky
+rebake послеgeometry/art. Потомnativeprocedures/SQLite/Cloudbackup/камеры/
+scopeguardNode22/fullCI/live перед публикацией. Не завершать наWIPпрототипе.
 
 Предыдущее опубликованное состояние — history/spa-v6-publication-2026-11-19.md.
 

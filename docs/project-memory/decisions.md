@@ -613,3 +613,12 @@ PhaseA prototype01d0ae4 has a connected shell/three slabs/real basin and stair
 openings; defaultproduction6 remains until compatibility/runtime stages pass.
 Coarse layout clearance allowed300×132 within existing bay, no terrain/Mall
 change. Active native capture and next actions are in CURRENT.
+
+### 2026-11-19 — V7 physical occupancy and visual checkpoints
+PhaseB actual native on772a631 shows a real common shell/entry but remains bare,
+not approved. Three frames and exact bundle/source archived in active code branch.
+V7 aliases reserve canonical physical seats, with historical service IDs separate
+for the existing ledger. Retired paid services redeem one Midnight rest admission
+using their own original receipt; they are not sold or credited new coins.
+Runtime accepts this optional contract; existing production6 remains unchanged.
+15 targeted checks pass; furnished seven-view nativef85bc69 is running.
