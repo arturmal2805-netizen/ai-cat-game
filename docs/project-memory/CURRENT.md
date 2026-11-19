@@ -38,7 +38,10 @@ Chromium/private Worker/SQLite download/cancel/restore/reload PASS. **Mac нап
 ## Активная задача — единый SPA V7
 
 Код: `/workspace/chichi-emergency-save-recovery`, ветка `codex/spa-v7-consolidation`.
-Точный remote SHA: `534f3a954643a0a1fda1632ab1dee762a07bf3d6` (проверен ls-remote).
+Ветка PR пока на `534f3a954643a0a1fda1632ab1dee762a07bf3d6`.
+Последний code HEAD `f04365585a2f0183ce695e57269d298b73863fa0` сохранён отдельно
+в remote `codex/spa-v7-visual-final` (ls-remote проверен); это актуальный код.
+Не начинать заново со старого remote consolidation.
 Draft PR: https://github.com/arturmal2805-netizen/ai-cat-game/pull/2.
 Main и сайт пока остаются на `6e28f752291e65e7b51f7f093a004e5c81fd27b3`.
 Публикация после проверок уже разрешена. Не завершать работу на WIP или плане.
@@ -92,13 +95,36 @@ bundle `4ca1c81178b86edb4c64cdae007dba0845849ea3104f30ca5d12c5422d198ac3`:
 оплаты, W/World release и действительное скачивание Cloud backup с проверкой SHA.
 Это дополнение к успешным частям первого run, не повторная проверка всех 8 зон.
 
-Сейчас идёт единственный GPU run финальных 13 кадров, session60045:
-`/workspace/qa/spa-v7-final-views.log`, output `/workspace/qa/spa-v7-final-views`.
+Все13 кадров E завершены и просмотрены; точный архив `native-all-rooms-e`.
+Выявлены треугольные пятна света и грани сводов. 56cb872 исправляет непрерывные
+vertex-параметры света и нормали из поля высот. 5 проверок геометрии/нормалей PASS.
+Отражения повторно сняты на точном чистом 56cb872, source-state guard PASS,
+`native-smooth-probes`: atlas
+`bad2f1b8b9825eccdb7a334b55fb9b9f9dd710edf1653b570b4bb2c0cb6f505e`,
+raw `1bcdb047a6322bdd99fbdbbfe84a7ffb41eff533c07dd0579d6042d84abfa09d`,
+bundle `1b2beaa26597cc2826bcaa8bc87c7caca13cd518037bb78e3ea106aa3f31d41c`.
+f043655 подключает новый atlas, flat probe layer/cachekeyv4, Node22 exact build.
+6 дополнительных reflection/continuity checks PASS. HTML содержит один app module.
+JS `48922a7a2e2977b430ade30da5577f97f23a822363c4d39ed754e6714c105508`;
+CSS остаётся `1ca6fd7d91d93d2434122de8b604f9e1f0306145487ece7434204f01d46492bc`.
+Модели котиков не менялись. Build и targeted logs игнорируются *.log: необходимо
+force-add ровно проверенные QA logs перед итоговым evidence commit, а затем
+проверить каждый manifest path по Git tree. Только native-mass log уже tracked;
+остальные локально имеются, но их прежние commits пропустили из-за gitignore.
+
+Сейчас единственный GPU — 4 финальных вида освещения на f043655, session52473,
+`/workspace/qa/spa-v7-final-shading.log`, output `/workspace/qa/spa-v7-final-shading`.
 Флаги EXPLORER_AUDIT=1 RESORT_SPA_AUDIT=1 SPA_V7_MASS_AUDIT=1
-SPA_V7_PHASE=interiors DESKTOP=1. Просмотреть все PNG, записать сравнение по секциям
-референса. Затем phone held touch и обязательный OWNERSHIP_AUDIT; точная сборка
-Node22, полный CI и проверка live assets перед публикацией.
-CI текущего code SHA: https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44573032188.
-Первый CI44572028855 отменён новым push — не считать его успешным.
-Отдельный Workers Builds ошибается и на стабильной версии; главный Test and deploy
-обязателен полностью. Native/CI не означают визуального одобрения или hardware FPS.
+SPA_V7_PHASE=interiors SPA_V7_VIEWS=midnight-interior,golden-interior,thermal-interior,aroma-interior
+DESKTOP=1. Потом phone held touch и обязательный OWNERSHIP_AUDIT; последний
+полный CI на main и live bytes до объявления публикации. Не запускать два GPU run.
+
+CI https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44573032188
+на 534f3a9 завершён SUCCESS (tests/build/wrangler dryrun, без deploy). Лог скачать
+не удалось (Forbidden), не выдавать пустой файл за полный test log. Структурный
+статус успешный. Изменения после него только отображение света/probes/QA/HTML;
+финальный exact main CI всё равно обязателен перед deploy. Первый CI44572028855
+отменён новым push. Отдельный Workers Builds ошибается и на стабильной версии;
+главный Test and deploy должен закончиться целиком. Native/CI не означают
+визуального одобрения или аппаратного FPS. Детализация фасада/садов ещё уступает
+концепту; не объявлять художественную реконструкцию завершённой.
