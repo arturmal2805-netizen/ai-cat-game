@@ -47,3 +47,36 @@ Next: read incoming visual implementation protocol, record rules override in
 canonical memory, implement/test compatibility/layout module first, then connect
 real continuous floors/envelope/ceilings and retain/reposition actual furniture.
 No subagents (developer prohibition, user has not requested delegation).
+
+## Phase A actual native completed
+Source01d0ae4, output /workspace/qa/spa-v7-mass, exit0.3 frames archived in
+native-mass with exact source/bundle/log/PNG. Main unchanged6e28f75. Review
+mass-review.md: glass roof almost invisible without ribs; diagonal/front crops;
+entrance hierarchy missing. Next phaseB real roof ribs/goldcornices/portal and
+correct camera before furniture, following new visual protocol.
+
+New selected footprint is300×132/corner60, not184deep. Existingbed/reef/Mall
+are unchanged; coarse gaps22.5/18.59/19m. Lift20,300 stays outside. Need central
+entry at0,290: SPA-only lower approach20,293.2→0,293.2→0,289.2. Clip only
+its outside corridor floor/walls against common hull, so a4.6m old tunnel does
+not continue across the grand interior. Preserve actual door/shaft geometry.
+
+Runtime contract design (not yet implemented): keep RESORT_ZONES8 physical
+rooms + a14-address historical service/product registry. Alias services retain
+original prices/receipt IDs. Booking must reserve one canonical physical seat
+map, with logical serviceID separate: Jacuzzi uses VIP wet slots, Amber uses
+Midnight warm-corner slots. Retired4 prepaid tickets can be redeemed as retained
+Midnight rest admission using their ORIGINAL consumed receipt, not erased or
+credited arbitrary money. Do not sell/offer retired services to new clients.
+New public VIP:8 baths with18 wet guest contacts(2group×4,4medium×2,2private×1)
+plus12dry lounge slots. Midnight:6central lounges/4left/4Amber/2roundsofas.
+Existing12concurrent runtime guests limit remains; no decorative duplicate cats.
+
+Location migration design: optional SPA-only catLocation layoutVersion marker7
+through normalize/capture; ordinary timestamp merge unchanged. Old floor y9/18
+vs new12/24 plus legacy room/goal map identify dry saved positions. Exclude
+active submarine/explorer hero, real divers, other biomes and lift recovery.
+Retired positions → actual safe supported common landing; Amber/Jacuzzi → new
+room approach; do not teleport during ordinary movement. Stamp marker on real
+SPA location snapshots via existing world hook only after actual support/owner
+classification. Preserve wallets/inventory/receipts and handle reload/staleclient.
