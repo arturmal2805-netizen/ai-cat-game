@@ -1,0 +1,72 @@
+{
+  "archiveRetained": "/workspace/artifacts/chichi-shared-water-wip-2026-11-17-r9.tar.gz",
+  "remoteArchiveCommit": "501757e09370116b942248e392c6461211cb5632",
+  "checks": [
+    {
+      "name": "ai-cat-game",
+      "verified": "HEAD/index/status/files exact",
+      "action": "remove temporary restored QA copy only"
+    },
+    {
+      "name": "chichi-coast-render",
+      "verified": "HEAD/index/status/files exact",
+      "action": "remove temporary restored QA copy only"
+    },
+    {
+      "name": "chichi-mall-architecture",
+      "verified": "HEAD/index/status/files exact",
+      "action": "remove temporary restored QA copy only"
+    },
+    {
+      "name": "chichi-mall-realism",
+      "verified": "HEAD/index/status/files exact",
+      "action": "remove temporary restored QA copy only"
+    },
+    {
+      "name": "chichi-meadow-coast",
+      "verified": "HEAD/index/status/files exact",
+      "action": "remove temporary restored QA copy only"
+    },
+    {
+      "name": "chichi-ocean-expansion",
+      "verified": "HEAD/index/status/files exact",
+      "action": "remove temporary restored QA copy only"
+    },
+    {
+      "name": "chichi-ocean-occlusion",
+      "verified": "HEAD/index/status/files exact",
+      "action": "remove temporary restored QA copy only"
+    },
+    {
+      "name": "chichi-realism",
+      "verified": "HEAD/index/status/files exact",
+      "action": "remove temporary restored QA copy only"
+    },
+    {
+      "name": "chichi-shared-water",
+      "verified": "HEAD/index/status/files exact",
+      "action": "remove temporary restored QA copy only"
+    },
+    {
+      "name": "chichi-third-person",
+      "verified": "HEAD/index/status/files exact",
+      "action": "remove temporary restored QA copy only"
+    },
+    {
+      "name": "chichi-water-approved-d6",
+      "verified": "HEAD/index/status/files exact",
+      "action": "remove temporary restored QA copy only"
+    },
+    {
+      "name": "chichi-water-realism",
+      "verified": "HEAD/index/status/files exact",
+      "action": "remove temporary restored QA copy only"
+    },
+    {
+      "name": "chichi-water-recovery",
+      "verified": "HEAD/index/status/files exact",
+      "action": "remove temporary restored QA copy only"
+    }
+  ],
+  "originalWorkspaceWorktreesUntouched": true
+}

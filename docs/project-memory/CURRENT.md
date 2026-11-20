@@ -80,3 +80,8 @@ ocean-water-domain расширяет движение/валидацию на �
 Новая ширина исходного внешнего эллипса rz750→1100; край со стороны бесконечного
 жилого ряда ограничен localZ=-350 и обходит соседние острова. Дальше: focusedtests,
 новый actual reflection probe, native views+movement/save, fullCI/main/livehashes.
+
+Checkpoint: source **262f3574baec3932807e0f7d132cc0f7315f6a2b** pushed and exact remote
+verified; PR#10.54focused checks, real production bed rays and Node22 build PASS.
+Native desktop capture/movement/SQLite underway; no publication claim yet.
+Evidence: ../qa/2026-11-20/warehouse-open-water/README.md.

@@ -1,0 +1,334 @@
+TAP version 13
+# Subtest: one contiguous basin retains a 1300m clear approach after the authorized Warehouse enlargement
+ok 1 - one contiguous basin retains a 1300m clear approach after the authorized Warehouse enlargement
+  ---
+  duration_ms: 32.692776
+  type: 'test'
+  ...
+# Subtest: protected old central bed and building approaches retain exact heights
+ok 2 - protected old central bed and building approaches retain exact heights
+  ---
+  duration_ms: 10.157526
+  type: 'test'
+  ...
+# Subtest: expansion extends a single released water surface without a shader/material/clock fork
+ok 3 - expansion extends a single released water surface without a shader/material/clock fork
+  ---
+  duration_ms: 653.044525
+  type: 'test'
+  ...
+# Subtest: exactly one sealed underwater shell with a neutral base, no equipped interior or interactions
+ok 4 - exactly one sealed underwater shell with a neutral base, no equipped interior or interactions
+  ---
+  duration_ms: 169.370114
+  type: 'test'
+  ...
+# Subtest: current released paid shore stays supported without changing purchases or saved addresses
+ok 5 - current released paid shore stays supported without changing purchases or saved addresses
+  ---
+  duration_ms: 4.611078
+  type: 'test'
+  ...
+# Subtest: expanded coast stays clear of every other island and the infinitely extending housing row
+ok 6 - expanded coast stays clear of every other island and the infinitely extending housing row
+  ---
+  duration_ms: 6.67244
+  type: 'test'
+  ...
+# Subtest: the former neck belongs to the common lagoon instead of enclosing a small separate cup
+ok 7 - the former neck belongs to the common lagoon instead of enclosing a small separate cup
+  ---
+  duration_ms: 0.193646
+  type: 'test'
+  ...
+# Subtest: former interior headlands and their raised bed roots no longer form a small rock cup
+ok 8 - former interior headlands and their raised bed roots no longer form a small rock cup
+  ---
+  duration_ms: 13.590985
+  type: 'test'
+  ...
+# Subtest: existing swimmer and submarine floor contacts use the carved bed instead of a ghost old rim
+ok 9 - existing swimmer and submarine floor contacts use the carved bed instead of a ghost old rim
+  ---
+  duration_ms: 15.006985
+  type: 'test'
+  ...
+# Subtest: the preserved building bed joins the common deep floor with a smooth shoulder rather than a vertical rectangle
+ok 10 - the preserved building bed joins the common deep floor with a smooth shoulder rather than a vertical rectangle
+  ---
+  duration_ms: 0.93419
+  type: 'test'
+  ...
+# Subtest: released core dimensions, current physical bed, dry arrival and independent neighbouring shores stay consistent
+ok 11 - released core dimensions, current physical bed, dry arrival and independent neighbouring shores stay consistent
+  ---
+  duration_ms: 33097.27884
+  type: 'test'
+  ...
+# Subtest: existing paid shoreline objects keep IDs, addresses, tiers, deadlines and dry platforms through reloads
+ok 12 - existing paid shoreline objects keep IDs, addresses, tiers, deadlines and dry platforms through reloads
+  ---
+  duration_ms: 4019.941073
+  type: 'test'
+  ...
+# Subtest: new outer land survives cached-client merge; genuine storage remains effective
+ok 13 - new outer land survives cached-client merge; genuine storage remains effective
+  ---
+  duration_ms: 97.138044
+  type: 'test'
+  ...
+# Subtest: caves are hollow real arches with usable floors and stable owned IDs, not a decorative decal
+ok 14 - caves are hollow real arches with usable floors and stable owned IDs, not a decorative decal
+  ---
+  duration_ms: 188.027513
+  type: 'test'
+  ...
+# Subtest: removed east-side reefs stay absent; original reef addresses and non-Warehouse buildings stay unchanged
+ok 15 - removed east-side reefs stay absent; original reef addresses and non-Warehouse buildings stay unchanged
+  ---
+  duration_ms: 7436.694916
+  type: 'test'
+  ...
+# Subtest: manual swimming and restored submarine poses can occupy and cross the deleted rock volumes without ghost contacts
+ok 16 - manual swimming and restored submarine poses can occupy and cross the deleted rock volumes without ghost contacts
+  ---
+  duration_ms: 28.825903
+  type: 'test'
+  ...
+# Subtest: authored flora remains byte-identical; only colonies without a surviving rock/floor support disappear
+ok 17 - authored flora remains byte-identical; only colonies without a surviving rock/floor support disappear
+  ---
+  duration_ms: 249.488999
+  type: 'test'
+  ...
+# Subtest: cached optical depth omits the removed trio while retaining the complete authored flora cache
+ok 18 - cached optical depth omits the removed trio while retaining the complete authored flora cache
+  ---
+  duration_ms: 127.017722
+  type: 'test'
+  ...
+# Subtest: the old decorative underside cannot protrude through the unchanged physical seabed at the exposed grey patch
+ok 19 - the old decorative underside cannot protrude through the unchanged physical seabed at the exposed grey patch
+  ---
+  duration_ms: 1394.088209
+  type: 'test'
+  ...
+# Subtest: underwater exit, third-person camera-relative swimming axes, dive, reboard and release use actual runtime
+ok 20 - underwater exit, third-person camera-relative swimming axes, dive, reboard and release use actual runtime
+  ---
+  duration_ms: 180.663572
+  type: 'test'
+  ...
+# Subtest: swimmer and released pilot restore without resetting wallets, inventory or camera ownership
+ok 21 - swimmer and released pilot restore without resetting wallets, inventory or camera ownership
+  ---
+  duration_ms: 287.687367
+  type: 'test'
+  ...
+# Subtest: pressure airlock never opens both doors; entry and exit reach their real endpoints
+ok 22 - pressure airlock never opens both doors; entry and exit reach their real endpoints
+  ---
+  duration_ms: 1.31407
+  type: 'test'
+  ...
+# Subtest: swimmer swept collision rejects sealed Mall shell and malformed explorer records
+ok 23 - swimmer swept collision rejects sealed Mall shell and malformed explorer records
+  ---
+  duration_ms: 113.863938
+  type: 'test'
+  ...
+# Subtest: manual swimming stops on release, blur and entry into text editing
+ok 24 - manual swimming stops on release, blur and entry into text editing
+  ---
+  duration_ms: 18.194321
+  type: 'test'
+  ...
+# Subtest: look orbit leaves a stationary cat facing forward and releasing a look drag preserves a held movement key
+ok 25 - look orbit leaves a stationary cat facing forward and releasing a look drag preserves a held movement key
+  ---
+  duration_ms: 30.299342
+  type: 'test'
+  ...
+# Subtest: released explorer cannot cancel a newly selected mall overview or visitor camera
+ok 26 - released explorer cannot cancel a newly selected mall overview or visitor camera
+  ---
+  duration_ms: 10.249051
+  type: 'test'
+  ...
+# Subtest: hidden canvas gestures move/look independently, dive with two fingers and stop on release
+ok 27 - hidden canvas gestures move/look independently, dive with two fingers and stop on release
+  ---
+  duration_ms: 15.848218
+  type: 'test'
+  ...
+# Subtest: E chooses the real boat or door in view when both are within reach
+ok 28 - E chooses the real boat or door in view when both are within reach
+  ---
+  duration_ms: 15.326397
+  type: 'test'
+  ...
+# Subtest: phone buttons allow independent held movement and depth; cancellation and blur clear only their owned inputs
+ok 29 - phone buttons allow independent held movement and depth; cancellation and blur clear only their owned inputs
+  ---
+  duration_ms: 13.572568
+  type: 'test'
+  ...
+# Subtest: phone control anchor tracks the visible viewport when the game canvas extends below it
+ok 30 - phone control anchor tracks the visible viewport when the game canvas extends below it
+  ---
+  duration_ms: 12.81485
+  type: 'test'
+  ...
+# Subtest: contextual Mall doorway action appears only at the real portal and starts the existing sequential airlock
+ok 31 - contextual Mall doorway action appears only at the real portal and starts the existing sequential airlock
+  ---
+  duration_ms: 13.361967
+  type: 'test'
+  ...
+# Subtest: a paid placement rejected by shore, locked land or collisions goes to the bag with its original timer instead of vanishing
+ok 32 - a paid placement rejected by shore, locked land or collisions goes to the bag with its original timer instead of vanishing
+  ---
+  duration_ms: 254.51235
+  type: 'test'
+  ...
+# Subtest: forty store/replace/restart cycles preserve one finished Mega Loops, balance, XP and ownership receipt
+ok 33 - forty store/replace/restart cycles preserve one finished Mega Loops, balance, XP and ownership receipt
+  ---
+  duration_ms: 536.109297
+  type: 'test'
+  ...
+# Subtest: legacy purchase proof recovers a missing attraction once without a charge or granting an unbought slide
+ok 34 - legacy purchase proof recovers a missing attraction once without a charge or granting an unbought slide
+  ---
+  duration_ms: 50.86162
+  type: 'test'
+  ...
+# Subtest: durable receipts recover the exact owned and completed-copy counts after a filtered snapshot
+ok 35 - durable receipts recover the exact owned and completed-copy counts after a filtered snapshot
+  ---
+  duration_ms: 20.693621
+  type: 'test'
+  ...
+# Subtest: two phones buying the same attraction retain two copies and exact once-only payments
+ok 36 - two phones buying the same attraction retain two copies and exact once-only payments
+  ---
+  duration_ms: 13.9739
+  type: 'test'
+  ...
+# Subtest: a cached client dropping a placed slide keeps its original identity and cannot erase paid completion receipts
+ok 37 - a cached client dropping a placed slide keeps its original identity and cannot erase paid completion receipts
+  ---
+  duration_ms: 12.839256
+  type: 'test'
+  ...
+# Subtest: an unchanged healthy world is returned by identity and ownership bookkeeping never touches native graphics
+ok 38 - an unchanged healthy world is returned by identity and ownership bookkeeping never touches native graphics
+  ---
+  duration_ms: 2.961752
+  type: 'test'
+  ...
+# Subtest: matching-world backups retain completed construction, while another accounts backup cannot invent ownership
+ok 39 - matching-world backups retain completed construction, while another accounts backup cannot invent ownership
+  ---
+  duration_ms: 16.47279
+  type: 'test'
+  ...
+# Subtest: submarine accelerates, reverses, steers, dives, brakes and switches no currencies or NPC state
+ok 40 - submarine accelerates, reverses, steers, dives, brakes and switches no currencies or NPC state
+  ---
+  duration_ms: 126.376786
+  type: 'test'
+  ...
+# Subtest: real-time long frames do not tunnel through terrain or cave/ruin capsules
+ok 41 - real-time long frames do not tunnel through terrain or cave/ruin capsules
+  ---
+  duration_ms: 722.043175
+  type: 'test'
+  ...
+# Subtest: safe entry/exit remains at the dedicated pier and invalid saved coordinates cannot strand the cat
+ok 42 - safe entry/exit remains at the dedicated pier and invalid saved coordinates cannot strand the cat
+  ---
+  duration_ms: 24.200344
+  type: 'test'
+  ...
+# Subtest: space gives a real ballistic water breach and shift descends again
+ok 43 - space gives a real ballistic water breach and shift descends again
+  ---
+  duration_ms: 55.601226
+  type: 'test'
+  ...
+# Subtest: real save/load and cached shared clients retain the pilot pose without losing purchases or wallet
+ok 44 - real save/load and cached shared clients retain the pilot pose without losing purchases or wallet
+  ---
+  duration_ms: 213.014846
+  type: 'test'
+  ...
+# Subtest: a steep reef wall brakes a fast boat rather than lifting it onto the ledge
+ok 45 - a steep reef wall brakes a fast boat rather than lifting it onto the ledge
+  ---
+  duration_ms: 176.034986
+  type: 'test'
+  ...
+# Subtest: return leaves both real cavern roofs through their openings before ascending to the pier
+ok 46 - return leaves both real cavern roofs through their openings before ascending to the pier
+  ---
+  duration_ms: 487.395149
+  type: 'test'
+  ...
+# Subtest: Warehouse button camera fits the real shell in portrait/landscape and remains in open water above the physical floor
+ok 47 - Warehouse button camera fits the real shell in portrait/landscape and remains in open water above the physical floor
+  ---
+  duration_ms: 202.792942
+  type: 'test'
+  ...
+# Subtest: approved glass shell retains its topology and exact 2.5x width/height with unchanged depth, floor anchor and world position
+ok 48 - approved glass shell retains its topology and exact 2.5x width/height with unchanged depth, floor anchor and world position
+  ---
+  duration_ms: 213.075741
+  type: 'test'
+  ...
+# Subtest: architectural facade uses static shared batches without adding an interior, interactions or dynamic lights
+ok 49 - architectural facade uses static shared batches without adding an interior, interactions or dynamic lights
+  ---
+  duration_ms: 184.309069
+  type: 'test'
+  ...
+# Subtest: only the two covered Warehouse garden pockets move clear of the enlarged foundation; counts and other addresses survive
+ok 50 - only the two covered Warehouse garden pockets move clear of the enlarged foundation; counts and other addresses survive
+  ---
+  duration_ms: 13.971205
+  type: 'test'
+  ...
+# Subtest: Warehouse illumination keeps global ocean fog and glazing untouched and adds no texture or dynamic-light pass
+ok 51 - Warehouse illumination keeps global ocean fog and glazing untouched and adds no texture or dynamic-light pass
+  ---
+  duration_ms: 87.584275
+  type: 'test'
+  ...
+# Subtest: both Warehouse banks widen, previous water remains and all building sources/coordinates stay frozen
+ok 52 - both Warehouse banks widen, previous water remains and all building sources/coordinates stay frozen
+  ---
+  duration_ms: 3.315977
+  type: 'test'
+  ...
+# Subtest: all eight marked mounds and 72 crown rocks are absent from the actual mesh; living seabed gardens survive
+ok 53 - all eight marked mounds and 72 crown rocks are absent from the actual mesh; living seabed gardens survive
+  ---
+  duration_ms: 20435.476612
+  type: 'test'
+  ...
+# Subtest: real swimmer/submarine sweep through every former mound with full scenery obstacles, and reject the new outer bank
+ok 54 - real swimmer/submarine sweep through every former mound with full scenery obstacles, and reject the new outer bank
+  ---
+  duration_ms: 289.75393
+  type: 'test'
+  ...
+1..54
+# tests 54
+# suites 0
+# pass 54
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 38131.678393
