@@ -75,3 +75,21 @@ grey underside опущена12м под прежнее дно. Не возвр�
 Широкая выемка подходаSPA приостановлена: codex/v12-spa-approach-visibility@18c1e57,
 PR#6 CLOSED безmerge; не включать её в другие задачи. Старые исходные worktrees
 и архивы сохранены. Диагностика только по запросу, QA толькоprivateWorker/SQLite.
+
+## В работе — исправление зависаний и загрузок (2026-11-20)
+
+Пользователь явно попросил «фиксь». Рабочая ветка codex/ocean-stall-loading-fix,
+/workspace/chichi-v12-island-warehouse, база опубликованный7a0e1f3. Пока runtime
+не менялся. Сначала baseline CPUprofile и совпадающие native камеры; нельзя
+объявлять меньший trianglecounter контролируемым ускорением. Сохранять DPR2,
+графику/воду/котиков/тени/сохранения. Публикация исправления уже разрешена.
+
+Профилирование session33029, /workspace/qa/render-stall-baseline.log,
+точный QA-only runner /workspace/qa/check-render-stall-profile.cjs. Один GPU.
+CHICHI_EXPLORER_AUDIT/V12_AUDIT,4ракурса, frozenclock7,desktopDPR1, приватный
+Worker/SQLite, CDP Profiler1000µs. Это диагностика CPU, не M2FPSбенчмарк.
+
+Загрузка Mosa одновременно стартует meadow(4карты),rock(5карт,11.5MB),reef.gz
+7.86MB,общиеshowcaseкарты имодели. Grassdeadline15000мс совпадает с отчётом;
+не увеличивать/уменьшать таймаут как неподтверждённое исправление. Рассматриваются
+точные losslesspack/cache варианты после измерения, не снижение детализации.
