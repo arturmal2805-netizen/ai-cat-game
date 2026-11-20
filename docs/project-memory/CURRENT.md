@@ -95,3 +95,24 @@ Chromium=/usr/bin/chromium. Один GPU run одновременно.
 Sparse checkout исключаетdocs/qa: читать нужные файлы черезgitshow или точечно
 материализовать их. После switch они могут отсутствовать; это не потеря вGit.
 Не checkout всего дерева и не удалять старые worktrees.
+
+
+## Уже запущенная публикационная цепочка
+
+Не запускать второе слияние или дублирующее развёртывание.
+Exec session **22834** в /workspace/chichi-v12-island-warehouse:
+`gh run watch44732308801 --exit-status` →
+/workspace/qa/merge-v12-after-ci.py. Скрипт проверяет SUCCESS точногоca08b43,
+894сравнения public modules, неизменныйbase9e26f33 и headPR5; только после этого
+выполняет обычный REST merge без force/admin. Затем находит main workflow,
+ждёт его SUCCESS и запускает actualHTTP verifier с повтором только при CDNcache.
+При любом FAIL останавливается; это не основание объявлять публикацию успешной.
+
+Текущие файлы состояния:
+/workspace/qa/v12-pr-ci-watch.log — ожидание PR CI;
+/workspace/qa/v12-merge.json — появится после фактического слияния;
+/workspace/qa/v12-main-workflow.json — полныйmainSHA и workflowID;
+/workspace/qa/v12-main-ci-watch.log — main test/deploy/Pages;
+/workspace/qa/v12-live-verifier.log и v12-smooth-final-live/live-verification.json
+— появятся после реальной проверки сайта. Дождаться и проверить, затем обновить
+этотCURRENT/ROADMAP/decisions и сохранить live receipt в evidencebranch.
