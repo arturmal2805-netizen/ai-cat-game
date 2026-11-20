@@ -28,3 +28,10 @@ test('cached optical depth omits the removed trio while retaining the complete a
  for(const id of MOSA_REMOVED_REEF_IDS){const c=MOSA_REEF_INSTANCES.find(c=>c.id===id),x=Math.round((c.x/e*.5+.5)*(n-1)),z=Math.round((c.z/e*.5+.5)*(n-1));assert.equal(extras.opticalFloor.array[z*n+x],Math.fround(mosaActiveReefSurfaceY((x/(n-1)*2-1)*e,(z/(n-1)*2-1)*e)));}
  assert.equal(extras.coralSites.count,10240);
 });
+
+test('the old decorative underside cannot protrude through the unchanged physical seabed at the exposed grey patch',async()=>{
+ const T=await import('three'),{mosasaurBiomeSteps}=await import('../public/mosasaur-biome.js'),{byBiome}=await import('../public/game-data.js');
+ const model=runSceneSteps(mosasaurBiomeSteps(byBiome('autumn'),{lowOnly:true}));model.updateMatrixWorld(true);const underside=model.getObjectByName('Buried decorative island underside');assert(underside);
+ const box=new T.Box3().setFromObject(underside),camera=new T.PerspectiveCamera(40,1402/880,.5,10000);camera.position.set(450,740,1050);camera.lookAt(0,-70,100);camera.updateMatrixWorld(true);
+ for(const [x,y]of [[1000,480],[1010,500],[985,440],[1028,535]]){const ray=new T.Raycaster();ray.setFromCamera(new T.Vector2(x/1402*2-1,1-y/880*2),camera);const solid=ray.intersectObject(model,true).find(h=>h.object.material?.type!=='ShaderMaterial');assert.equal(solid?.object.name,'Lagoon physical seabed','actual sand covers the former grey pixel');assert(box.max.y<solid.point.y-2);}
+});

@@ -1,3 +1,3 @@
 // Actual static tropical coast, linear radiance / 4. No gameplay capture.
-export const MOSA_WATER_PROBE_REVISION="f7fd4655fd3949a6";
-export const MOSA_WATER_PROBE="./art/ocean-reflections/tropical-coast-4fa4e0cc0c7f.png";
+export const MOSA_WATER_PROBE_REVISION="b557b6ec0689551c";
+export const MOSA_WATER_PROBE="./art/ocean-reflections/tropical-coast-9fdd0c96b9c8.png";
