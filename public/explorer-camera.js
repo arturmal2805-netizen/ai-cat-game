@@ -2,7 +2,8 @@ import * as T from 'three';
 import {MALL_AIRLOCK} from './mall-airlock-data.js';
 import {MALL_LAYOUT as L,mallFloorOutline,mallUpperFloorOutline,mallBuildingFootprintDistance} from './mall-layout.js';
 import {mallCameraRayClear} from './mall-guest-camera.js';
-import {mosaBedY,MOSA_SEA} from './mosasaur-data.js';
+import {expansionBedY as mosaBedY} from './mosasaur-expansion.js';
+import {oceanWaterContains} from './ocean-water-domain.js';
 import {mosaTerrainObstacles} from './mosasaur-collision.js';
 import {mosaActiveReefClearance as mosaReefClearance} from './mosasaur-reef-data.js';
 import {mallPressureContact} from './mall-pressure.js';
@@ -63,7 +64,7 @@ function mallCameraSurfacesClear(a,b,records,radius){
 }
 
 export function oceanExplorerCameraPointClear(p,radius=EXPLORER_VIEW.radius){
- if(Math.hypot(p.x/(MOSA_SEA.rx-1),p.z/(MOSA_SEA.rz-1))>1||p.y-radius<mosaBedY(p.x,p.z)||mosaReefClearance(p.x,p.y,p.z)<radius||mallPressureContact(p.x,p.y,p.z,radius))return false;
+ if(!oceanWaterContains(p.x,p.z,1)||p.y-radius<mosaBedY(p.x,p.z)||mosaReefClearance(p.x,p.y,p.z)<radius||mallPressureContact(p.x,p.y,p.z,radius))return false;
  for(const obstacle of terrain)if(pushCapsule({...p},obstacle,radius))return false;
  return true;
 }
