@@ -37,17 +37,18 @@ export function* mosaCoastGardenSteps(placements=[]){
   if(i%3===0){const x=p.x-Math.cos(p.angle)*p.radius*.88,z=p.z-Math.sin(p.angle)*p.radius*.88,fall=yield* waterfallSteps(x,z,2.8,p.height+.4,{color:0x4fdbed});fall.position.y+=p.height+.35;fall.rotation.y=p.angle+Math.PI/2;root.add(fall);clockFalls.push(fall);}
  }
  yield* showcaseMaterialSteps(rocks);const rockBatch=yield* batchModelSteps(rocks,{combineColors:true});root.add(rockBatch);rocks.traverse(m=>{if(m.isMesh&&!m.geometry.userData.sharedScenery)m.geometry.dispose();});
- // Three full-detail templates, shared in four spatial sectors. More vegetation
+ // Three full-detail templates shared by bounded spatial cells. More vegetation
  // does not duplicate every frond's vertex buffers for every tree.
  const sites=mosaForestSites().filter(p=>clear(p.x,p.z,7,7));
  for(const kind of ['palm','pink','green']){
   const source=new T.Group();if(kind==='palm')tropicalPalm(source,0,0,0,15,.4);else{shape(source,'pole',0x896949,0,4.1,0,.36,8.2,.36);leafyCanopy(source,0,9,0,5.2,kind==='pink');for(let j=0;j<4;j++)leafyCanopy(source,Math.sin(j*2.4)*3,7.2,Math.cos(j*2.4)*3,3.1,kind==='pink');}
   yield* showcaseMaterialSteps(source);const template=yield* batchModelSteps(source,{combineColors:true});source.traverse(m=>{if(m.isMesh&&!m.geometry.userData.sharedScenery)m.geometry.dispose();});
   const variants=new Map();
-  for(let sector=0;sector<16;sector++){
-   yield;const own=sites.filter(p=>p.kind===kind&&Math.floor(((Math.atan2(p.z,p.x)+Math.PI*2)%(Math.PI*2))/(Math.PI/8))===sector);if(!own.length)continue;
+  const cells=new Map();for(const p of sites.filter(p=>p.kind===kind)){const key=Math.floor(p.x/320)+':'+Math.floor(p.z/320);if(!cells.has(key))cells.set(key,[]);cells.get(key).push(p);}
+  for(const own of cells.values()){
+   yield;
    const centroid=own.reduce((v,p)=>v.add(new T.Vector3(p.x,0,p.z)),new T.Vector3()).multiplyScalar(1/own.length),lod=new T.LOD();lod.position.copy(centroid);root.add(lod);
-   template.updateMatrixWorld(true);for(const [level,distance,error,ratio]of [[0,0,0,1],[1,130,.035,.4],[2,300,.10,.15]]){
+   template.updateMatrixWorld(true);for(const [level,distance,error,ratio]of [[0,0,0,1],[1,450,.035,.4],[2,800,.10,.15]]){
     const group=new T.Group();template.traverse(m=>{if(!m.isMesh)return;const key=m.uuid+':'+level;if(!variants.has(key))variants.set(key,level?sceneryDetailIndex(m.geometry,error,ratio):m.geometry);const geometry=variants.get(key),mesh=new T.InstancedMesh(geometry,m.material,own.length);for(let i=0;i<own.length;i++){const p=own[i];dummy.position.set(p.x-centroid.x,p.y,p.z-centroid.z);dummy.rotation.set(0,p.angle,0);dummy.scale.setScalar(p.scale);dummy.updateMatrix();mesh.setMatrixAt(i,dummy.matrix.clone().multiply(m.matrixWorld));}mesh.instanceMatrix.needsUpdate=true;mesh.computeBoundingSphere();mesh.castShadow=mesh.receiveShadow=true;group.add(mesh);});lod.addLevel(group,distance,.08);
    }
   }

@@ -19,3 +19,8 @@ other island geometry remain protected. Warehouse must be far beyond the strait.
 Latest superseding user clarification (2026-11-20): coast/ring may be reshaped
 freely; preserving the ring is NOT required. Mall and SPA must remain intact.
 Preserve purchased objects and saves independently of terrain redesign.
+
+User superseding revision (2026-11-20): TWICE Warehouse width AND length.
+512fc4c is now an intermediate, unpublished candidate; do not publish it. Move
+only the new Warehouse farther away and extend the same single lagoon, retaining
+>=3 actual new platform widths of open-water gap. Mall and SPA remain intact.

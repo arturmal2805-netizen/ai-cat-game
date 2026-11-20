@@ -1,5 +1,5 @@
 import {warehouseHabitatSteps} from './warehouse-habitat.js';
-import {expansionShorePath,expansionOuterPoint,expansionCoastDecorPoint,expandMosaSea,expansionWarehouseSteps} from './mosasaur-expansion.js';
+import {expansionShorePath,expansionOuterPoint,expansionCoastDecorPoint,expandMosaSeaSteps,expansionWarehouseSteps} from './mosasaur-expansion.js';
 import {mosaPierPoles,mosaPierRails} from './resort-pier-link-data.js';
 import {floorStoneSteps} from './mosasaur-floor-stones.js';
 import {installSandRegionSteps} from './mosasaur-sand-region.js';
@@ -219,7 +219,7 @@ export function* mosasaurBiomeSteps(
   });
   sea.name = "Deep ocean · 40 times the previous sea depth";
   sea.userData.water.uniforms.uOpacity.value = 0.46;
-  root.userData.ocean.expansion=expandMosaSea(sea);
+  root.userData.ocean.expansion=yield* expandMosaSeaSteps(sea);root.userData.ocean.releasedWaterArea=root.userData.ocean.waterArea;root.userData.ocean.waterArea=root.userData.ocean.expansion.waterAreaM2;
   if(!lowOnly){const warehouse=yield* expansionWarehouseSteps();detail.add(warehouse);root.userData.ocean.warehouse=warehouse;}
   root.userData.ocean.sea = sea;
   lagoons.set("lake-autumn", sea);

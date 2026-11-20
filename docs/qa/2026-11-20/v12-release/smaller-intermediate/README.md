@@ -1,0 +1,1 @@
+Old240×120 Warehouse only: technical desktop/touch controls and true Island button passed, but the user then required480×240. These views are intermediate and do not validate the larger geometry. Corrected front/side viewpoints stay above actual bed; no geometry was hidden. Source public modules match512fc4c. Never publish the superseded smaller candidate.

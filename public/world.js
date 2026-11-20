@@ -530,7 +530,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     mallFraming = null,
     disposed = false;
   const viewDistanceLimit=()=>viewingOverview?overviewDistanceLimit:
-    Math.max(600,islandOverviewDistance(focused==='autumn'?expandedOverview().radius:byBiome(focused)?.radius,camera.fov,camera.aspect));
+    Math.max(600,islandOverviewDistance(focused==='autumn'&&!mall?.inspection&&!resortSpa?.inspection?expandedOverview().radius:byBiome(focused)?.radius,camera.fov,camera.aspect));
   const chichiCarrier = new THREE.Group();
   chichiCarrier.position.set(-6, 0.14, -3);
   if (initialGame.catPosition) {
@@ -3907,7 +3907,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     distance += (desiredDistance - distance) * cameraBlend;
     if(mallWideClip&&mall?.inspection){const near=mallWideClip==='all'?Math.max(.5,distance-80):Math.min(48,Math.max(.5,distance*.42));if(Math.abs(camera.near-near)>.01){camera.near=near;camera.updateProjectionMatrix();}}
     const neededFar=viewingOverview ? Math.max(4000,overviewDistanceLimit*2) :
-      Math.ceil(islandCameraFar(distance,focused==='autumn'?expandedOverview().radius:byBiome(focused)?.radius)/100)*100;
+      Math.ceil(islandCameraFar(distance,focused==='autumn'&&!mall?.inspection&&!resortSpa?.inspection?expandedOverview().radius:byBiome(focused)?.radius)/100)*100;
     if(neededFar>camera.far||neededFar<camera.far-199){
       camera.far=neededFar;camera.updateProjectionMatrix();
     }

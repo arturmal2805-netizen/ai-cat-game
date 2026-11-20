@@ -1,6 +1,6 @@
 // V12: geography only. Released centres, building coordinates and save IDs stay put.
-export const MOSA_EXPANSION=Object.freeze({version:12,x:650,z:350,rx:1050,rz:500,shoreWidth:30,bedY:-199.845});
-export const WAREHOUSE=Object.freeze({id:'chichi-warehouse',x:1150,z:350,y:-177,width:240,depth:120,wallHeight:12,roofHeight:43.2,platformWidth:264,platformDepth:148,exteriorOnly:true});
+export const MOSA_EXPANSION=Object.freeze({version:12,x:1250,z:450,rx:1850,rz:750,shoreWidth:30,bedY:-199.845});
+export const WAREHOUSE=Object.freeze({id:'chichi-warehouse',x:2200,z:450,y:-177,width:480,depth:240,wallHeight:12,roofHeight:43.2,platformWidth:528,platformDepth:296,exteriorOnly:true});
 const TAU=Math.PI*2;
 export function expansionRayRadius(dx,dz){
  const {x,z,rx,rz}=MOSA_EXPANSION,a=(dx/rx)**2+(dz/rz)**2,b=-2*(dx*x/rx**2+dz*z/rz**2),c=(x/rx)**2+(z/rz)**2-1;
@@ -15,7 +15,7 @@ export function expandedWaterContains(x,z,sea,coastFactor,margin=0){
  const a=Math.atan2(z/sea.rz,x/sea.rx),p=expandedCoastPoint(a,sea,coastFactor,-margin);return Math.hypot(x,z)<=Math.hypot(p.x,p.z);
 }
 export function expandedCoastSamples(sea,coastFactor,margin=0,count=384){return Array.from({length:count+1},(_,i)=>expandedCoastPoint(i*TAU/count,sea,coastFactor,margin));}
-export function expandedOverview(){return{center:[650,-55,320],radius:1160};}
-export function warehousePlanBounds(){return{min:[WAREHOUSE.x-132,WAREHOUSE.y-1.2,WAREHOUSE.z-74],max:[WAREHOUSE.x+132,WAREHOUSE.y+56,WAREHOUSE.z+74]};}
+export function expandedOverview(){return{center:[1250,-55,400],radius:1980};}
+export function warehousePlanBounds(){return{min:[WAREHOUSE.x-WAREHOUSE.platformWidth/2-.8,WAREHOUSE.y-1.2,WAREHOUSE.z-WAREHOUSE.platformDepth/2-.8],max:[WAREHOUSE.x+WAREHOUSE.platformWidth/2+.8,WAREHOUSE.y+WAREHOUSE.wallHeight+WAREHOUSE.roofHeight+1,WAREHOUSE.z+WAREHOUSE.platformDepth/2+.8]};}
 
-export const WAREHOUSE_REEFS=Object.freeze([[680,620],[850,90],[1110,100],[1420,260],[1400,550],[1150,640],[580,400],[1540,430]].map(([x,z],i)=>Object.freeze({x,z,radius:64+i%3*8,top:-72-i%4*11})));
+export const WAREHOUSE_REEFS=Object.freeze([[680,620],[850,90],[1110,100],[1420,260],[1400,550],[1150,640],[580,400],[1540,430]].map(([x,z],i)=>Object.freeze({x:WAREHOUSE.x+(x-1150)*1.5,z:WAREHOUSE.z+(z-350)*1.5,radius:64+i%3*8,top:-72-i%4*11})));
