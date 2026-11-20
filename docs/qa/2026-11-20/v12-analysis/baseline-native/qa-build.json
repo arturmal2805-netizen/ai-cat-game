@@ -1,0 +1,8 @@
+{
+  "sha256": "2e9b192f169d539cf0b2e42072a075568c31b93e1249ffca704adf2f2dc65e88",
+  "baseline": "9e26f331d91d3ad85e2c0f15b5a6a4e63106e5ce",
+  "node": "v22.23.5",
+  "head": "a8d078a1e845ad75bd299e4768da87e690db6400",
+  "dirty": " M docs/qa/2026-11-20/v12-analysis/SCOPE.md\n M public/mosasaur-biome.js\n M public/mosasaur-coast-garden.js\n M scripts/check-aquarium.cjs\n?? docs/qa/2026-11-20/v12-analysis/baseline-boxes.json\n?? public/mosasaur-expansion-data.js\n?? public/mosasaur-expansion.js\n?? public/warehouse-exterior.js\n?? scripts/audit-v12-native.mjs\n?? scripts/measure-v12-baseline.mjs\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

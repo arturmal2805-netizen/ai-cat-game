@@ -1,3 +1,4 @@
+import {expandedOverview} from './mosasaur-expansion-data.js';
 import {resortSpaView} from './resort-spa-camera.js';
 import {MOSA_SHORE_GATE} from './mosasaur-data.js';
 import {mosaPierClear} from './resort-pier-link-data.js';
@@ -528,7 +529,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     mallFraming = null,
     disposed = false;
   const viewDistanceLimit=()=>viewingOverview?overviewDistanceLimit:
-    Math.max(600,islandOverviewDistance(byBiome(focused)?.radius,camera.fov,camera.aspect));
+    Math.max(600,islandOverviewDistance(focused==='autumn'?expandedOverview().radius:byBiome(focused)?.radius,camera.fov,camera.aspect));
   const chichiCarrier = new THREE.Group();
   chichiCarrier.position.set(-6, 0.14, -3);
   if (initialGame.catPosition) {
@@ -2408,9 +2409,11 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       camera.far=islandCameraFar(desiredDistance,b.radius);
       camera.updateProjectionMatrix();
     }
+    if(b.id==='autumn'&&!overview){const view=expandedOverview();overviewElevation=.92;overviewAspect=camera.aspect;desiredLook.set(b.center[0]+view.center[0],view.center[1],b.center[1]+view.center[2]);desiredDistance=islandOverviewDistance(view.radius,camera.fov,camera.aspect);camera.far=islandCameraFar(desiredDistance,view.radius);camera.updateProjectionMatrix();}
     if (overview) {
       const bounds = new THREE.Box3();
       const targets = [...BIOMES];
+      {const b=byBiome('autumn'),v=expandedOverview();targets.push({id:'autumn-v12-overview-only',center:[b.center[0]+v.center[0],b.center[1]+v.center[2]],radius:v.radius});}
       const sections = islands.get(HOUSING_ID)?.userData.sections.size || 1;
       if (sections > 1)
         targets.push({
@@ -3882,7 +3885,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       if (overviewAspect !== camera.aspect) {
         overviewAspect = camera.aspect;
         desiredDistance = islandOverviewDistance(
-          byBiome(focused).radius,
+          focused==='autumn'?expandedOverview().radius:byBiome(focused).radius,
           camera.fov,
           camera.aspect,
         );
@@ -3902,7 +3905,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     distance += (desiredDistance - distance) * cameraBlend;
     if(mallWideClip&&mall?.inspection){const near=mallWideClip==='all'?Math.max(.5,distance-80):Math.min(48,Math.max(.5,distance*.42));if(Math.abs(camera.near-near)>.01){camera.near=near;camera.updateProjectionMatrix();}}
     const neededFar=viewingOverview ? Math.max(4000,overviewDistanceLimit*2) :
-      Math.ceil(islandCameraFar(distance,byBiome(focused)?.radius)/100)*100;
+      Math.ceil(islandCameraFar(distance,focused==='autumn'?expandedOverview().radius:byBiome(focused)?.radius)/100)*100;
     if(neededFar>camera.far||neededFar<camera.far-199){
       camera.far=neededFar;camera.updateProjectionMatrix();
     }

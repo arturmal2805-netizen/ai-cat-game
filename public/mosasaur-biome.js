@@ -1,3 +1,4 @@
+import {expansionShorePath,expansionOuterPoint,expansionCoastDecorPoint,expandMosaSea,expansionWarehouseSteps} from './mosasaur-expansion.js';
 import {mosaPierPoles,mosaPierRails} from './resort-pier-link-data.js';
 import {floorStoneSteps} from './mosasaur-floor-stones.js';
 import {installSandRegionSteps} from './mosasaur-sand-region.js';
@@ -42,10 +43,10 @@ import {
 } from "./scenery-models.js";
 import { BIOME_STYLES } from "./biome-styles.js";
 import { junglePalmSteps, jungleFlowers } from "./jungle-props.js";
-function coastPath(path,margin=0){for(let i=0;i<=192;i++){const a=i*Math.PI*2/192,f=mosaCoastFactor(a),x=Math.cos(a)*(MOSA_SEA.rx*f+margin),y=-Math.sin(a)*(MOSA_SEA.rz*f+margin);if(i===0)path.moveTo(x,y);else path.lineTo(x,y);}path.closePath();return path;}
+function coastPath(path,margin=0){return expansionShorePath(path,margin);}
 function shoreGeometry() {
   const shape = new THREE.Shape();
-  shape.absarc(0, 0, MOSA_RADIUS, 0, Math.PI * 2, false);
+  expansionShorePath(shape,0,true);
   const hole = new THREE.Path();
   coastPath(hole);
   shape.holes.push(hole);
@@ -175,6 +176,7 @@ export function* mosasaurBiomeSteps(
     "color",
     new THREE.Float32BufferAttribute(cliffColors, 3),
   );
+  for(let i=0;i<cliffPositions.count;i++){const x=cliffPositions.getX(i),z=cliffPositions.getZ(i),a=Math.atan2(z/MOSA_SEA.rz,x/MOSA_SEA.rx),p=expansionOuterPoint(a),ratio=Math.hypot(x,z)/(MOSA_RADIUS-.1);cliffPositions.setX(i,p.x*ratio);cliffPositions.setZ(i,p.z*ratio);}
   cliff.geometry.computeVertexNormals();
   cliff.material.color.set(0xffffff);
   cliff.material.vertexColors = true;
@@ -215,6 +217,8 @@ export function* mosasaurBiomeSteps(
   });
   sea.name = "Deep ocean · 40 times the previous sea depth";
   sea.userData.water.uniforms.uOpacity.value = 0.46;
+  root.userData.ocean.expansion=expandMosaSea(sea);
+  if(!lowOnly){const warehouse=yield* expansionWarehouseSteps();detail.add(warehouse);root.userData.ocean.warehouse=warehouse;}
   root.userData.ocean.sea = sea;
   lagoons.set("lake-autumn", sea);
   base.add(sea);
@@ -290,6 +294,7 @@ export function* mosasaurBiomeSteps(
       if (i % 6 === 0) lantern(props, px - 0.8, 0.15, pz, 0.65);
     }
   }
+  for(const o of props.children){const p=expansionCoastDecorPoint(o.position.x,o.position.z,{outer:o.position.y<0});o.position.x=p.x;o.position.z=p.z;}
   const cliffs = yield* bake(props, base);
   root.userData.stats.staticMeshes = cliffs.children.length;
   root.userData.stats.sourceMeshes = cliffs.userData.sourceMeshes;
@@ -331,6 +336,7 @@ export function* mosasaurBiomeSteps(
           0.42,
         );
     }
+    for(const o of gardens.children){const p=expansionCoastDecorPoint(o.position.x,o.position.z);o.position.x=p.x;o.position.z=p.z;}
     const flowers = yield* bake(gardens, detail);
     root.userData.stats.staticMeshes += flowers.children.length;
     root.userData.stats.sourceMeshes += flowers.userData.sourceMeshes;
@@ -350,6 +356,7 @@ export function* mosasaurBiomeSteps(
       height + 18,
       { color: 0x83dced },
     );
+    const coastFall=expansionCoastDecorPoint(fall.position.x,fall.position.z,{outer:true});fall.position.x=coastFall.x;fall.position.z=coastFall.z;
     fall.rotation.y = a;
     detail.add(fall);
     animations.push(fall);
@@ -428,6 +435,7 @@ export function* mosasaurBiomeSteps(
       clearance: (x, z, w, d) =>
         clear(x, z, w, d) &&
         mosaWaterRadius(x,z)>1.045 &&
+        expansionCoastDecorPoint(x,z).x===x &&
         !(Math.abs(x) < 2 && z > 18),
     });
     detail.add(cover);

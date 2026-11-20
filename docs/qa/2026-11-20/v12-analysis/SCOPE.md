@@ -15,3 +15,7 @@ an interrupted no-space initialization before any source edits; baseline is clea
 existing shore ring. This is the explicit localized exception to retaining old
 geography. All buildings, ownership coordinates, old central bed, fauna and
 other island geometry remain protected. Warehouse must be far beyond the strait.
+
+Latest superseding user clarification (2026-11-20): coast/ring may be reshaped
+freely; preserving the ring is NOT required. Mall and SPA must remain intact.
+Preserve purchased objects and saves independently of terrain redesign.

@@ -1,3 +1,4 @@
+import {expansionBedY} from '../public/mosasaur-expansion.js';
 import {test} from 'node:test';import assert from 'node:assert/strict';import * as T from 'three';
 import {BIOMES,byBiome} from '../public/game-data.js';import {MOSA_RADIUS,MOSA_PREVIOUS_RADIUS,MOSA_RELEASED_SEA,MOSA_SEA,MOSA_SHORE_GATE,MOSA_DOCK,mosaBedY,mosaCoastFactor,mosaDryPoint} from '../public/mosasaur-data.js';
 import {retainedMosaLand} from '../public/mosasaur-retained-land.js';import {createBiomeScene} from '../public/biome-scenes.js';
@@ -14,7 +15,7 @@ test('twice the released water area keeps a sloping physical bed, dry arrival an
  const island=createBiomeScene(b);island.updateMatrixWorld(true);const bed=island.userData.ocean.sea.userData.bed;
  for(const [x,z] of [[0,0],[40,5],[70,0],[0,85],[MOSA_SEA.rx*.9,0]]){
   const hits=new T.Raycaster(new T.Vector3(x,5,z),new T.Vector3(0,-1,0)).intersectObject(bed);
-  assert.ok(hits.length);assert.ok(Math.abs(hits[0].point.y-mosaBedY(x,z))<.15);
+  assert.ok(hits.length);assert.ok(Math.abs(hits[0].point.y-expansionBedY(x,z))<.15);
  }
  assert.ok(mosaBedY(MOSA_SEA.rx*mosaCoastFactor(0)*.99,0)>mosaBedY(0,0)+198);island.userData.dispose();
 });

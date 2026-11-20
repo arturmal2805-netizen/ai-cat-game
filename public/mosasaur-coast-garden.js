@@ -1,3 +1,4 @@
+import {expansionCoastDecorPoint} from './mosasaur-expansion.js';
 import {meadowBroadleaf} from './meadow-leaves.js';
 import {sceneryDetailIndex} from './scenery-detail-levels.js';
 import {showcaseMaterialSteps} from './showcase-surface-details.js';
@@ -15,7 +16,8 @@ export function mosaForestSites(){const sites=[];for(let i=0;i<240;i++){
  const angle=i*2.3999632297,f=mosaCoastFactor(angle),ring=1.09+(i%4)*.055,x=Math.cos(angle)*MOSA_SEA.rx*f*ring,z=Math.sin(angle)*MOSA_SEA.rz*f*ring;
  if(Math.abs(x)<5&&z>10)continue;
  const y=gardenHeight(x,z);if(y===null)continue;
- sites.push({x,y,z,angle,kind:i%5===0?'pink':i%5===1?'green':'palm',scale:.82+i%5*.1});
+ const mapped=y===.15?expansionCoastDecorPoint(x,z):{x,z};
+ sites.push({x:mapped.x,y,z:mapped.z,angle,kind:i%5===0?'pink':i%5===1?'green':'palm',scale:.82+i%5*.1});
  }return sites;}
 export function* mosaCoastGardenSteps(placements=[]){
  const root=new T.Group(),rocks=new T.Group(),clockFalls=[],clear=placementClearance(placements.filter(p=>p.biome==='autumn')),dummy=new T.Object3D();root.name='Dense tropical headlands, flowering canopy and natural white-sand coves';
@@ -44,8 +46,9 @@ export function* mosaCoastGardenSteps(placements=[]){
   }
  }
  const understory=new T.Group();for(let i=0;i<420;i++){
-  if(i%12===0)yield;const a=i*2.399,f=mosaCoastFactor(a),r=1.07+(i%9)*.019,x=Math.cos(a)*MOSA_SEA.rx*f*r,z=Math.sin(a)*MOSA_SEA.rz*f*r;if(!clear(x,z,2,2)||Math.abs(x)<4&&z>5)continue;
+  if(i%12===0)yield;let a=i*2.399,f=mosaCoastFactor(a),r=1.07+(i%9)*.019,x=Math.cos(a)*MOSA_SEA.rx*f*r,z=Math.sin(a)*MOSA_SEA.rz*f*r;if(!clear(x,z,2,2)||Math.abs(x)<4&&z>5)continue;
   const y=gardenHeight(x,z);if(y===null)continue;
+  const mapped=y===.15?expansionCoastDecorPoint(x,z):{x,z};x=mapped.x;z=mapped.z;
   if(i%3===0)meadowBroadleaf(understory,x,y,z,1.9,a);else fern(understory,x,y,z,1.3,a);if(i%4===0)gardenFlowerCluster(understory,x,z,[0xffa6d8,0xe7a0ec,0xffcb70][i%3],1.4,y+.01);if(i%42===0)lantern(understory,x,y,z,1.4);
  }
  yield* showcaseMaterialSteps(understory);root.add(yield* batchModelSteps(understory,{combineColors:true}));understory.traverse(m=>{if(m.isMesh&&!m.geometry.userData.sharedScenery)m.geometry.dispose();});
