@@ -846,3 +846,17 @@ Native desktop/phone проверки PASS;450modules каждого прого�
 Фасад усилен статическими деталями и отдельным fog cap.32; глобальная вода/туман
 не изменены. Только два сада с прежними ID отодвинуты от большей основы.
 Новый фасад ещё не одобрен пользователем; аппаратный FPS не измерялся.
+
+## 2026-11-20 — очищенная широкая вода вокруг Warehouse опубликована
+
+Фото f28975b отмечало8конусов и расширение обоихберегов. Sourcec8a0000, PR#10,
+main7a0e1f3daf8afd0629d60d7a3cb0aa147b2a02f4, workflow44794849010 SUCCESS, actualbytes/одинapp verified.
+8mounds/72crownrocks удалены;384corals/60fish/3buildings сохранены. Общая площадь
+4.539→5.848км². ПриX2200 вода шире на445м, с обеихсторон. Housing/neighbours
+сохранены. Old+newcontour union исключает уменьшение прежней воды.
+Nativeheldinput выявил пропущенную старуюграницу explorercamera; исправлена
+вместе со swimmer/submarine/restore/manualentry. -198мsavecutoff не позволял
+сохраниться у actualdeepfloor, теперь bound=bedY-5.61focusedtests/fullCI и
+реальные desktop/touch/deepdive/2reloads накаждом PASS. ТочныеQA/source/bundle
+и промежуточная failedстадия сохранены. Новыйвид не одобрен пользователем;
+hardwareFPS неизмерялся. PaidAI/liveplayerworlds не использовались.

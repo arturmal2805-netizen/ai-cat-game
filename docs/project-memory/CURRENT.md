@@ -1,75 +1,69 @@
 # Текущий статус
 
-20 ноября2026, Europe/Kyiv. Каноническая память — эта удалённая ветка;
-её app старый, актуальные исходники брать из рабочей ветки ниже.
+20 ноября2026, Europe/Kyiv. Каноническая память — codex/ocean-recovery-memory.
+Её старый app не является текущей игрой. Предыдущая история —
+[до публикации](history/CURRENT-before-open-water-publication-2026-11-20.md).
 
-## Последняя подтверждённая публикация
+## Опубликовано и фактически проверено
 
-**f28975bd8c2cf1cd7d94c61239ab8f98f7dbc96f**, workflow44755743721 SUCCESS:
-test/deploy/pages, Worker release/sharedsaves, actual HTTP и одно приложение.
-JS1b15b0b20e8732f762568abdb9a11e26d539ee316b2c662b4fe409edb2fa2032;
-CSS1fd2857ef1fbaedd5e7a34a5082a77ff49bcf7f1c7030d5292502753b86967d0.
-[Квитанция](../qa/2026-11-20/warehouse-facade-2_5x/live/live-verification.json).
-Warehouse ×2,5 по ширине/высоте; глубина/центр прежние, подробный стеклянно-золотой
-фасад. ТРЦ/SPA не изменялись. Новый фасад ещё не одобрен пользователем.
+Main **7a0e1f3daf8afd0629d60d7a3cb0aa147b2a02f4**. [Игра](https://arturmal2805-netizen.github.io/ai-cat-game/?v=7a0e1f3).
+Workflow **44794849010 SUCCESS**: полный test/deploy/pages, точный Worker release
+и shared-save checks. ПлатныеAIвQAневызывались. Actual HTTP HTML/JS/CSS/probe/
+reef-cache совпали с ожидаемыми байтами, в HTML одно подключение приложения.
+[Полная квитанция](../qa/2026-11-20/warehouse-open-water/live/live-verification.json).
 
-## Сейчас публикуется — 8 отмеченных скал и ширина воды
+- JS: 1f35c6c1ed6c391fe4560b3962ffd3cb5cbb0e139532623f131601134712400f.
+- CSS: 1fd2857ef1fbaedd5e7a34a5082a77ff49bcf7f1c7030d5292502753b86967d0.
+- HTML: 8c4b1c4fc7e098bb930c24a3ea80003409462dc3cbd4b562c2085ce738db37c5.
+- Probe: afc536509c5b98ea660eb1a4baa3a608653168e3083dd6673ce7c82ad36c5b6e.
+- Reef binary 1b90309ff46a4537, SPA atlas и общий wind field прежние.
 
-Фото пользователя f28975b: убрать все8конусов вокруг Warehouse и раздвинуть оба
-берега. Исходник **c8a0000a020d236bc6a4f6dd28d6b7e3644cdab1**,
-ветка codex/warehouse-open-water, worktree /workspace/chichi-v12-island-warehouse.
-PR#10 merged обычным merge, без bypass. Main **7a0e1f3daf8afd0629d60d7a3cb0aa147b2a02f4**.
-Workflow **44794849010 выполняется**: не считать опубликованным до test/deploy/pages
-SUCCESS и actual HTTP receipt. PR-дубликат44794698913 отменён после merge;
-старые PR-runs262/e370 отменены при обновлении ветки, не являются production proof.
+## Завершённое изменение по последнему фото
 
-Удалены8height mounds и72верхнихкамня.384коралла на тех же X/Z опущены на
-реальныйровныйпол,60рыб сохранены. Внешний эллипс rz750→1100, плавный лимит
-localZ=-350 защищает бесконечный жилой ряд; обход соседних островов и точное
-объединение с прежним radial contour. Прежняя вода не сокращается.
-Исходники Warehouse/Mall/SPA, их координаты/размеры/фасады прежние. Нет интерьера,
-AI, покупки/балансы/saveformat не менялись. Реальный общий probe перебейкан:
-afc536509c5b98ea660eb1a4baa3a608653168e3083dd6673ce7c82ad36c5b6e.
-Общий shader/clock/field и reef binarycache прежние.
+Удалены ВСЕ8отмеченных поднятых участков вокруг Warehouse и72камня на вершинах.
+384коралла с прежними ID/X/Z сидят на реальномровномдне,60рыб сохранены.
+Конусы убраны из physical bed и водной optical depth, без ghost contacts.
+Общая лагуна расширена в обе стороны: rz750→1100, исходный берег объединён с
+новым без срезания прежней воды. Плавный localZ>=-350 защищает жилой ряд;
+контур обходит соседние острова. Площадь воды4.539→5.848км². При X2200 ширина
+1.267→1.712км: +158м севернее и+286м южнее. [Измерения](../qa/2026-11-20/warehouse-open-water/measurements.json).
+Warehouse, ТРЦ и SPA — прежние исходники/координаты/размеры/фасады/комнаты;
+интерьер/магазины/экономика/форматsaveне добавлялись. Shared water/material/clock
+прежние; фактический coast probe перебейкан после изменения геометрии.
 
-Найдены и исправлены связанные блокировки: swimmer, submarine, explorer restore,
-кнопка управления И камера третьего лица ограничивали движение старым эллипсом.
-Новый ocean-water-domain использует общую лагуну и сохраняет допустимый старый
-эллипс для совместимости. Camera physical bed теперь actual expansionBedY.
-Старый -198м save cutoff не включал новый глубокий пол: нижняя граница следует
-реальному bedY-5. Native должен проверить held input, dive ниже-200м и2reload.
+Старая малая ellipse мешала swimmer/submarine, ручной кнопке, камере и restore.
+Новый ocean-water-domain использует реальную общую лагуну, сохраняя прежде
+допустимый эллипс для старых позиций. Camera floor следует expansionBedY.
+Save cutoff -198м заменён реальным минимальным bedY-5: корректное плавание
+у глубокого дна теперь переживает reload. Это поддержка разрешённого движения,
+не изменение покупок/балансов.
 
-61focused Node22 checks PASS: production floor rays/все8sweep/реальные runtimekeys,
-old3rocks/caves/purchases/camera/optics. Full Node22 build базового этапаPASS;
-после depth/camera edits app/Worker rebuilt теми же функциями без изменения model
-producers. Полный main CI проверит окончательную сборку. Desktop final native PASS:10views, realW sweep всех8объёмов, dive ниже-200м и
-2privateSQLite reload с прежними coin/inventory/profilebalances. Phone PASS: real heldtouch/dive ниже-200м/2SQLite reload и product overview.
-Baseline f289 capture в двух совпадающих ракурсах также PASS. GPU только один за раз.
+61focused Node22 checks PASS; полный main build/test PASS. Native desktop:
+10views, реальные heldkeys через все8объёмов, dive ниже-200м,2SQLite reload.
+Native phone390×844/coarse/DPR2: полный product overview/кадрирование, реальные
+heldtouch через8объёмов, dive и2reload. Coin/inventory/placements/profilebalances
+прежние. Дополнительно CHICHI_OWNERSHIP_AUDIT phone PASS:paid recovery/re-place
+безcharge/deadline, realmodel и2reload/exactlyonecopy. Все451publicmodules каждого finalcapture совпали с source.
+Baseline сравнение и точные исходники/bundles/camera/PNG/запуски сохранены в
+[QA](../qa/2026-11-20/warehouse-open-water/README.md).
 
-QA [warehouse-open-water](../qa/2026-11-20/warehouse-open-water/README.md).
-Промежуточный262 имел реальные10views, но heldinputFAIL выявил старую camera
-границу; сохранён как superseded, не финальныйproof. Актуальные команды/логи:
-/workspace/qa/warehouse-open-water-desktop-final.log; завершён; phone session98991 завершён.
-Release monitor session31987, /workspace/qa/watch-warehouse-open-water-release.py.
-Он требует финальные desktop+phone v12-native.json/movement.json и livehashes.
-Expected bytes: /workspace/qa/warehouse-open-water-expected-production.json.
-Не запускать повторныйdeploy, не ждать userapproval уже разрешённой публикации.
+Source **c8a0000a020d236bc6a4f6dd28d6b7e3644cdab1**, PR#10 merged обычным merge.
+Ветка codex/warehouse-open-water, worktree /workspace/chichi-v12-island-warehouse.
+Tree исходника совпадает с опубликованным main. PR-дубли отменены после обновления/
+merge; они не production proof. Промежуточный262 сохранён как superseded:
+картинки были корректны, реальное inputиспытание выявило старую camera границу.
+Окончательные Native PASS относятся к c8a0000, а не к этому промежуточному bundle.
 
-## Ограничения и сохранённое
+Художественное одобрение этого выпуска пользователем ещё не получено. Новый релиз на физическом Mac/iPhone ещё не измерялся. Пользовательский
+M2/DPR2 отчёт старого f289:13.53FPS за22.1с, renderer stall8.2с, GPUmedian32.41мс,
+15.33Msubmittedtriangles. Это не замер нового релиза. [Отчёт/анализ](../qa/2026-11-20/warehouse-open-water/user-fps-f289/analysis.md). Задание завершено; ждать следующего указания.
 
-407e427: старые reef-terrace-0/1/11 удалены, другие9скал прежние; grey underside
-опущен12м, физический старый пол не тронут. b995: компактные3SVGкнопки с44px
-областями и actualbbox Warehouse camera. Широкая выемка подходаSPA приостановлена
-(codex/v12-spa-approach-visibility@18c1e57, PR#6 CLOSED безmerge). Не включать её.
-Не трогать пользовательские сохранения/коины/риги. Диагностика только по запросу.
-Нативный QA — private Worker/SQLite и software Chromium, без paidAI. Физический
-Mac/iPhone FPS не измерялся. История перед этапом — history/CURRENT-before-open-water-release-2026-11-20.md.
+## Сохранённые предыдущие этапы
 
-Пользователь прислал M2/DPR2 FPSreport старого app1b15/f289:13.53FPS за22.1с,
-8.2srenderstall, GPUmedian32.41ms,15.33Mtriangles. Это НЕ новыйрелиз.
-Сохранены исходныйJSON/hash/анализ в QA/user-fps-f289; не обещать FPSулучшения.
-
-Final ownership native phone PASS:invalid paidplacement→bag→re-placebuilt(nocharge),
-realmodelready,2SQLite reload, exactlyonecopy/coinbalance unchanged. Exactrunner
-/source/bundle in QA/ownership-phone; all checks complete, workflow now SUCCESS;
-actual liveHTTP verifier still needs its receipt before currentpublished update.
+f28975b: Warehouse ×2,5 по ширине/высоте относительно b995, глубина/центр прежние,
+подробный стеклянно-золотой фасад. b995: компактные3SVGvenuebuttons/44px и camera.
+407e427: старые reef-terrace-0/1/11 удалены, остальные9скал прежние; декоративная
+grey underside опущена12м под прежнее дно. Не возвращать удалённое каменье.
+Широкая выемка подходаSPA приостановлена: codex/v12-spa-approach-visibility@18c1e57,
+PR#6 CLOSED безmerge; не включать её в другие задачи. Старые исходные worktrees
+и архивы сохранены. Диагностика только по запросу, QA толькоprivateWorker/SQLite.

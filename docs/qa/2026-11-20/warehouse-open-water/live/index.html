@@ -1,0 +1,718 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#eeeaf3" />
+    <title>Чичи • мир маленьких чудес</title>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="stylesheet" href="./style.css?v=1fd2857ef1fbaedd" />
+  </head>
+  <body>
+    <header>
+      <a class="logo" href="./"
+        ><span>☾</span> чичи<small>CAT WIZARD WORLD</small></a
+      >
+      <nav>
+        <button
+          id="level-open"
+          class="level-pill"
+          aria-label="Ваш уровень и опыт"
+        >
+          <span id="level-number">1</span
+          ><span
+            >уровень<progress id="level-xp" max="100" value="0"></progress
+          ></span>
+        </button>
+        <button id="farm-open" class="nav-button" aria-label="Открыть ферму">
+          <span class="nav-icon">🌱</span><span class="nav-label">Ферма</span>
+        </button>
+        <button id="adoption-open" class="nav-button">
+          <span class="nav-icon">🐾</span
+          ><span class="nav-label">Усыновить</span>
+        </button>
+        <button id="business-open" class="nav-button">
+          <span class="nav-icon">☕</span><span class="nav-label">Бизнес</span>
+        </button>
+        <button id="friends-open" class="nav-button">
+          <span class="nav-icon">🐈</span><span class="nav-label">Друзья</span>
+          <b id="friend-count">0</b></button
+        ><button
+          id="rewards-open"
+          class="coin-pill"
+          title="Награды и котомонеты"
+        >
+          <span class="coin-icon">✦</span><strong id="coins">0</strong
+          ><span>+</span></button
+        ><button
+          id="diamonds-open"
+          class="diamond-pill"
+          title="Алмазы и ускорение котиков-строителей"
+        >
+          <span>💎</span><strong id="diamonds">0</strong></button
+        ><button id="account-open" class="nav-button" aria-label="Аккаунт">
+          <span class="nav-icon">☁</span
+          ><span class="nav-label">Аккаунт</span></button
+        ><button id="shop-open" class="shop-button">▦ Магазин</button>
+        <button
+          id="jobcity-open"
+          class="nav-button"
+          hidden
+          title="Професії та особисті монетки котиків"
+        >
+          <span>🏙️</span><span id="jobcity-clock" class="jobcity-clock"></span>
+        </button>
+      </nav>
+    </header>
+    <main>
+      <section class="intro">
+        <div>
+          <p class="eyebrow">ТИХАЯ МАГИЯ. БОЛЬШИЕ ПРИКЛЮЧЕНИЯ.</p>
+          <h1>Мир, в котором<br />хочется <em>остаться.</em></h1>
+          <p>
+            Откройте острова, наполните их чудесами.<br />Чичи сама решит —
+            поиграть, покататься или встретить друзей.
+          </p>
+        </div>
+        <div class="world-facts">
+          <div>
+            <strong id="biome-total">24</strong><span>сказочных биомов</span>
+          </div>
+          <div>
+            <strong id="wonder-total">112</strong><span>маленьких чудес</span>
+          </div>
+          <div>
+            <strong id="adoption-total">35</strong
+            ><span>котиков для усыновления</span>
+          </div>
+        </div>
+      </section>
+      <div class="game-layout">
+        <section class="world">
+          <div id="map">
+            <div class="world-top">
+              <span
+                ><i class="live-dot"></i> <b id="biome-name">Лунный сад</b
+                ><small id="mode">Подключаем ИИ…</small></span
+              >
+              <div class="map-controls">
+                <button
+                  id="island-open"
+                  aria-label="Собрать котов на этом острове"
+                  title="Отправить всех котов на этот остров"
+                >
+                  🐾
+                </button>
+                <button
+                  id="care-open"
+                  class="cat-menu"
+                  aria-label="Открыть меню Чичи"
+                  title="Чичи и все котики"
+                >
+                  <span class="cat-menu-face"
+                    ><img id="care-avatar" alt="" hidden /><span
+                      id="care-avatar-fallback"
+                      >🐈‍⬛</span
+                    ></span
+                  >
+                </button>
+                <button
+                  id="scenery-open"
+                  aria-label="Декорации островов"
+                  title="Деревья, домики и камни"
+                >
+                  🌿 Декор
+                </button>
+                <button
+                  id="camera-home"
+                  title="Вернуться в лунный сад"
+                  aria-label="Домой"
+                >
+                  ⌂</button
+                ><button id="camera-all" title="Показать все острова">
+                  Весь мир ↗
+                </button>
+                <button
+                  id="camera-island"
+                  title="Обзор текущего острова сверху"
+                  aria-label="Показать текущий остров целиком сверху"
+                >
+                  🏝 Остров
+                </button>
+                <button id="chichi-control" aria-pressed="false" title="Ходить и плавать за Чичи от третьего лица">🐈 Управлять Чичи</button>
+                <button
+                  id="camera-random-cat"
+                  title="Приблизиться к случайному котику и следовать за ним"
+                  aria-label="Ближняя камера случайного котика"
+                  aria-pressed="false"
+                >
+                  🎲 Котик
+                </button>
+              </div>
+            </div>
+
+            <div id="world-loading">Зажигаем звёзды и открываем острова…</div>
+            <div id="bubble" aria-live="polite">
+              Мяу… кажется, сегодня случится что-то чудесное.
+            </div>
+            <span
+              id="builder-boost-hud"
+              class="builder-boost-hud"
+              hidden
+            ></span>
+            <span class="orbit-hint"
+              >Потяните карту для поворота · перетащите Чичи к предмету или
+              котику</span
+            ><span id="mood-badge">happy · стартовое состояние</span>
+            <div id="build-panel" hidden>
+              <div>
+                <span class="eyebrow">РЕЖИМ СТРОИТЕЛЬСТВА</span>
+                <h3 id="build-title">Размещение</h3>
+                <p id="build-reason">Выберите место</p>
+              </div>
+              <div class="build-actions">
+                <label
+                  >Остров
+                  <select id="build-biome"></select></label
+                ><button id="build-rotate">↻ Повернуть</button
+                ><button id="build-confirm" class="primary">Разместить</button
+                ><button id="build-cancel" class="quiet">Отмена</button>
+              </div>
+            </div>
+            <div class="map-zoom" role="group" aria-label="Масштаб мира">
+              <button id="zoom-in" aria-label="Приблизить">+</button
+              ><button id="zoom-out" aria-label="Отдалить">−</button>
+              <button
+                id="camera-follow-exit"
+                hidden
+                title="Повернути огляд світу"
+                aria-label="Вернуться из ближней камеры котика"
+              >
+                ↩
+              </button>
+            </div>
+            <div class="world-bottom">
+              <div class="world-primary-actions">
+                <button id="toggle" class="primary">
+                  Дай Чичи решить самой ✦</button
+                ><button id="bag-open">
+                  ▣ Моя сумка <b id="bag-count">0</b>
+                </button>
+              </div>
+              <div class="world-meta-actions">
+                <button id="demo" class="quiet">Попробовать демо без ИИ</button
+                ><span>✦ Волшебный час</span><span id="steps">0 решений</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <section class="discovery">
+        <div>
+          <span>✦</span>
+          <p class="eyebrow">МИР РАСТЁТ ВМЕСТЕ С ВАМИ</p>
+          <h2>Чуть больше магии.<br />Каждый день.</h2>
+          <p>
+            Котомонеты за визит, часы в мире и заботу.<br />Игрушки, аттракционы
+            и новые острова — без настоящих денег.
+          </p>
+          <button id="discover-shop" class="primary">
+            Открыть коллекцию чудес ↗
+          </button>
+        </div>
+        <div class="discovery-islands">
+          <span>🍁</span><span>❄</span><span>🔮</span><span>🐚</span
+          ><span>🌸</span><span>☁</span>
+          <p>Осень · зима · магия · море · сакура · облака</p>
+        </div>
+      </section>
+      <nav id="biome-nav" class="biome-nav" aria-label="Острова мира"></nav>
+      <footer>
+        Чичи · мир маленьких чудес
+        <button id="cloud-save-open" class="quiet">
+          ☁ Аккаунт и сохранение
+        </button>
+        <span id="cloud-state">Локальная копия</span
+        ><span id="save-state">Прогресс сохраняется на этом устройстве</span>
+      </footer>
+    </main>
+    <dialog id="care-dialog" class="care-dialog">
+      <button
+        data-close="care-dialog"
+        class="close"
+        aria-label="Закрыть меню Чичи"
+      >
+        ×
+      </button>
+      <section class="profile">
+        <div class="profile-heading">
+          <p class="eyebrow">
+            ВАША ЧИЧИ
+            <span class="cat-sex" aria-label="Кішечка" title="Кішечка">♀</span>
+          </p>
+          <span id="cat-activity">Дома</span>
+        </div>
+        <button
+          id="chichi-camera"
+          class="chichi-camera-button"
+          aria-pressed="false"
+        >
+          <span aria-hidden="true">📷</span
+          ><span id="chichi-camera-label"
+            >Камера Чичі · ближче до мордочки</span
+          >
+        </button>
+        <div class="mood-strip">
+          <div data-mood="sleep">
+            <img data-mood-image="sleep" alt="Чичи sleep" /><span>sleep</span>
+          </div>
+          <div data-mood="crazy hungry">
+            <img data-mood-image="crazy hungry" alt="Чичи crazy hungry" /><span
+              >crazy hungry</span
+            >
+          </div>
+          <div data-mood="happy" class="active">
+            <img data-mood-image="happy" alt="Чичи happy" /><span>happy</span>
+          </div>
+        </div>
+        <h2>Маленькая жизнь.<br />Большие желания.</h2>
+        <div class="needs-panel">
+          <div class="need">
+            <label>⚡ Энергия <span id="energy-text">85%</span></label
+            ><progress id="energy" value="85" max="100"></progress>
+          </div>
+          <div class="need">
+            <label>🥣 Голод <span id="food-text">30%</span></label
+            ><progress id="food" value="30" max="100"></progress>
+          </div>
+          <div class="need">
+            <label>💛 Счастье <span id="happiness-text">75%</span></label
+            ><progress id="happiness" value="75" max="100"></progress>
+          </div>
+        </div>
+        <p id="rest-hint" class="care-hint">
+          Перетащите Чичи на подушку, чтобы уложить спать. К игрушке — чтобы
+          поиграть.
+        </p>
+        <button id="bowl-open" class="bowl-button">
+          🥣 Общая миска · <span id="bowl-count">0</span> порций
+        </button>
+        <div class="colony-panel">
+          <p class="eyebrow">
+            ВСЕ СОСЕДИ · <span id="colony-count">5</span> КОТИКОВ
+          </p>
+          <label>🥣 Общий голод <span id="colony-hunger-text"></span></label
+          ><progress id="colony-hunger" max="100"></progress>
+          <label
+            >💛 Общее счастье <span id="colony-happiness-text"></span></label
+          ><progress id="colony-happiness" max="100"></progress>
+          <p id="colony-hint" class="care-hint">
+            Урожай в миске — для всех. Игры и общение делают котиков счастливее.
+          </p>
+        </div>
+        <p id="status" role="status" aria-live="polite">Подготовка…</p>
+      </section>
+      <section class="diary">
+        <h3>✎ Маленькие истории</h3>
+        <ul id="diary">
+          <li>Здесь начинается наша сказка.</li>
+        </ul>
+      </section>
+
+      <section class="neighbors-section">
+        <div class="section-title">
+          <div>
+            <p class="eyebrow">КОМПАНИЯ ДЛЯ ПРИКЛЮЧЕНИЙ</p>
+            <h2>Соседи, которые станут друзьями</h2>
+          </div>
+          <span>Чичи знакомится по собственному желанию</span>
+        </div>
+        <div id="neighbors" class="neighbors"></div>
+      </section>
+    </dialog>
+    <dialog id="shop-dialog" class="shop-dialog">
+      <div class="dialog-top">
+        <div>
+          <p class="eyebrow">ЧТО-ТО ОСОБЕННОЕ ДЛЯ ЧИЧИ</p>
+          <h2>Коллекция чудес</h2>
+        </div>
+        <div class="dialog-controls">
+          <span class="balance"
+            ><span class="coin-icon">✦</span> <b id="shop-coins">0</b></span
+          ><button
+            data-close="shop-dialog"
+            class="close"
+            aria-label="Закрыть магазин"
+          >
+            ×
+          </button>
+        </div>
+      </div>
+      <div class="shop-search">
+        <input
+          id="shop-search"
+          type="search"
+          placeholder="Найти своё маленькое чудо…"
+          aria-label="Поиск по магазину"
+        /><span id="shop-count"></span>
+      </div>
+      <div id="shop-tabs" class="shop-tabs" role="tablist"></div>
+      <div id="shop-grid" class="shop-grid"></div>
+      <div class="shop-footer">
+        <span>Покупка попадает в сумку. Место выбираете вы.</span
+        ><button id="shop-rewards">Как получить котомонеты ↗</button>
+      </div>
+    </dialog>
+    <dialog id="rewards-dialog" class="small-dialog">
+      <button
+        data-close="rewards-dialog"
+        class="close"
+        aria-label="Закрыть награды"
+      >
+        ×
+      </button>
+      <nav class="jobcity-tabs" aria-label="Гаманці">
+        <button id="rewards-player-tab">Монетки гравця</button
+        ><button id="rewards-cat-tab">Монетки котиків</button>
+      </nav>
+      <p class="eyebrow">МАЛЕНЬКИЕ ЗНАКИ БОЛЬШОЙ ЗАБОТЫ</p>
+      <h2>Котомонеты <span class="coin-icon">✦</span></h2>
+      <p class="dialog-copy">
+        Только игровая валюта. Приходите, заботьтесь и наполняйте мир чудесами.
+      </p>
+      <div class="reward-row">
+        <span>☀</span>
+        <div>
+          <h3>Ежедневный визит</h3>
+          <p id="login-reward">Получено сегодня</p>
+        </div>
+        <b>+70</b>
+      </div>
+      <div class="reward-row">
+        <span>◷</span>
+        <div>
+          <h3>Каждый полный час</h3>
+          <p id="hourly-reward">Следующая награда через час</p>
+        </div>
+        <b>+60</b>
+      </div>
+      <div class="reward-row">
+        <span>♡</span>
+        <div>
+          <h3>Внимание к Чичи</h3>
+          <p id="attention-reward">Уход или совместное приключение</p>
+        </div>
+        <b>+10</b>
+      </div>
+      <p class="fine-print">
+        Награда за внимание — раз в 10 минут. Почасовые монеты начисляются и
+        между визитами, до 24 часов за один сбор.
+      </p>
+    </dialog>
+    <dialog id="friends-dialog" class="small-dialog">
+      <button
+        data-close="friends-dialog"
+        class="close"
+        aria-label="Закрыть друзей"
+      >
+        ×
+      </button>
+      <p class="eyebrow">ПРИЯТНО БЫТЬ ВМЕСТЕ</p>
+      <h2>Кошачья компания</h2>
+      <p class="dialog-copy">
+        ИИ решает, с кем познакомиться и когда пойти на вечеринку. Каждая
+        встреча делает дружбу теплее.
+      </p>
+      <div id="friends-list"></div>
+    </dialog>
+    <dialog id="adoption-dialog" class="shop-dialog">
+      <button
+        data-close="adoption-dialog"
+        class="close"
+        aria-label="Закрыть усыновление"
+      >
+        ×
+      </button>
+      <p class="eyebrow">Маленькие лапки · большое сердце</p>
+      <h2>Cat Adoption Center</h2>
+      <p id="adoption-note" class="dialog-copy"></p>
+      <select id="adoption-centers" aria-label="Центр усыновления"></select
+      ><button id="adoption-build" class="primary">Построить центр</button>
+      <button id="adoption-manage" class="quiet">Переставить центр</button>
+      <input
+        id="adoption-search"
+        type="search"
+        placeholder="Имя, порода или характер"
+        aria-label="Поиск котиков по породе"
+      />
+      <select id="adoption-filter" aria-label="Коллекция котиков">
+        <option value="all">Все котики</option>
+        <option value="tiny">Малыши · как у хот-догов</option>
+        <option value="plump">Пухляши</option>
+        <option value="new-breeds">Новые породы</option>
+        <option value="magic">Магические и легендарные</option>
+        <option value="adult">Большие котики</option>
+      </select>
+      <div id="adoption-grid" class="adoption-grid"></div>
+    </dialog>
+    <dialog id="business-dialog" class="shop-dialog">
+      <button
+        data-close="business-dialog"
+        class="close"
+        aria-label="Закрыть бизнес"
+      >
+        ×
+      </button>
+      <p class="eyebrow">Дело для маленьких лапок</p>
+      <h2>Кошачий бизнес</h2>
+      <div class="builder-boost-card">
+        <p id="builder-boost-status"></p>
+        <button id="builder-boost-buy" class="primary">
+          Ускорить стройки ×10 · 1 час · 8 💎
+        </button>
+        <button id="diamond-mine-shop" class="quiet">
+          💎 Построить алмазную шахту
+        </button>
+      </div>
+      <p id="business-note" class="dialog-copy"></p>
+      <p id="business-summary" class="income-summary"></p>
+      <button id="business-collect-all" class="primary">
+        Собрать весь доход и XP
+      </button>
+      <button id="business-shop" class="primary">Открыть новые бизнесы</button>
+      <div id="business-grid" class="business-grid"></div>
+    </dialog>
+    <dialog id="island-dialog" class="small-dialog">
+      <button
+        data-close="island-dialog"
+        class="close"
+        aria-label="Закрыть остров"
+      >
+        ×
+      </button>
+      <h2 id="island-title"></h2>
+      <p id="island-summary" class="dialog-copy"></p>
+      <div id="island-projects" class="island-projects" hidden></div>
+      <button id="island-gather" class="primary">
+        Отправить сюда всех котов 🐾
+      </button>
+    </dialog>
+    <dialog id="item-dialog" class="small-dialog">
+      <button
+        data-close="item-dialog"
+        class="close"
+        aria-label="Закрыть предмет"
+      >
+        ×</button
+      ><span id="item-icon" class="big-icon"></span>
+      <h2 id="item-name"></h2>
+      <p id="item-construction" class="construction-info"></p>
+      <p id="item-description" class="dialog-copy"></p>
+      <p id="item-note" class="fine-print">
+        Чичи пользуется этим предметом, когда сама выберет его через ИИ.
+      </p>
+      <div class="item-actions">
+        <button id="item-move" class="primary">Переставить</button
+        ><button id="item-store" class="quiet">Убрать в сумку</button>
+        <button id="item-guest-camera" class="quiet" hidden>
+          📷 Камера гостя
+        </button>
+        <button id="item-attraction-camera" class="quiet" hidden>
+          🏞️ Камера аттракциона
+        </button>
+      </div>
+      <div id="spa-bar-actions" class="spa-bar-actions" hidden></div>
+    </dialog>
+    <dialog id="level-dialog" class="small-dialog">
+      <button
+        data-close="level-dialog"
+        class="close"
+        aria-label="Закрыть уровень"
+      >
+        ×
+      </button>
+      <p class="eyebrow">МИР РАСТЁТ ВМЕСТЕ С ВАМИ</p>
+      <h2 id="level-title"></h2>
+      <p id="level-detail" class="dialog-copy"></p>
+      <progress id="level-big-xp" max="100"></progress>
+      <p id="level-guide" class="income-summary"></p>
+      <p class="dialog-copy">
+        XP — за сбор дохода бизнеса и аттракционов, первый экземпляр новой
+        покупки, собранный урожай, ресурсы, ежедневный визит и завершённые
+        приключения. Перестановки и повторные покупки одного предмета XP не
+        дают.
+      </p>
+      <p id="level-next" class="dialog-copy"></p>
+      <p class="fine-print">
+        Уровень растёт постепенно. За один день можно получить до 1800 XP.
+        Награда за каждый новый уровень — котомонеты. Уже открытые острова и
+        покупки сохраняются.
+      </p>
+    </dialog>
+    <dialog id="bowl-dialog" class="small-dialog">
+      <button data-close="bowl-dialog" class="close" aria-label="Закрыть миску">
+        ×
+      </button>
+      <p class="eyebrow">ВЫРАЩЕНО С ЗАБОТОЙ</p>
+      <h2>Миска для всех</h2>
+      <p id="bowl-summary" class="dialog-copy"></p>
+      <div id="bowl-stock"></div>
+      <p class="fine-print">
+        Нажмите на урожай со склада, чтобы добавить его в миску. Он расходуется
+        при кормлении и больше не продаётся. Чичи и соседи едят, пока есть
+        порции.
+      </p>
+      <button id="bowl-farm" class="primary">🌱 Открыть ферму</button>
+    </dialog>
+    <dialog id="cloud-save-dialog" class="small-dialog">
+      <button
+        data-close="cloud-save-dialog"
+        class="close"
+        aria-label="Закрыть сохранение"
+      >
+        ×
+      </button>
+      <p class="eyebrow">ВАШ МИР · ВАША ИСТОРИЯ</p>
+      <h2>Наш аккаунт</h2>
+      <p class="dialog-copy">
+        Первый раз войдите на телефоне с нужным прогрессом. Затем введите тот же
+        код на втором — у вас будет один общий мир.
+      </p>
+      <label for="account-code">Код аккаунта</label>
+      <input
+        id="account-code"
+        class="recovery-input"
+        inputmode="numeric"
+        autocomplete="off"
+        maxlength="12"
+        placeholder="1427"
+        aria-label="Код аккаунта"
+      />
+      <button id="account-login" class="primary">Войти в общий мир</button>
+      <p class="fine-print">
+        Ваш код — 1427. Код открывает доступ к миру: 4 цифры легко угадать;
+        можно выбрать до 12 цифр.
+      </p>
+      <p id="account-mode" class="dialog-copy">Один мир для вас двоих</p>
+      <p id="cloud-detail" class="dialog-copy"></p>
+      <button id="cloud-world-export" class="primary">Сохранить текущий мир ↓</button>
+      <button id="cloud-world-import" class="quiet">Загрузить мир из файла ↑</button>
+      <p class="fine-print">Скачайте копию прогресса на компьютер: монеты, котики, покупки и локации. Файл не содержит код доступа и исходники игры. Храните его на случай потери данных.</p>
+      <details>
+        <summary>Резервные копии и полный код мира</summary>
+        <label for="recovery-code">Ваш код восстановления</label
+        ><input
+          id="recovery-code"
+          readonly
+          class="recovery-input"
+          aria-label="Ваш код восстановления"
+        />
+        <button id="recovery-copy" class="primary">Скопировать код</button>
+        <p class="fine-print">
+          Сохраните этот код у себя и никому не передавайте. Он открывает ваш
+          мир на другом устройстве или после очистки браузера.
+        </p>
+        <label for="recovery-enter">Восстановить мир по коду</label
+        ><input
+          id="recovery-enter"
+          class="recovery-input"
+          placeholder="Вставьте свой код"
+          autocomplete="off"
+        />
+        <button id="recovery-restore" class="quiet">
+          Восстановить из облака</button
+        ><button id="cloud-retry" class="quiet">Повторить синхронизацию</button>
+        <button id="cloud-load-latest" class="quiet">
+          Загрузить последнюю облачную версию
+        </button>
+        <button id="account-archive" class="quiet">Скачать прежний мир</button>
+      </details>
+      <p class="fine-print">
+        Локальная копия записывается сразу. Облачная считается сохранённой
+        только после подтверждения. При конфликте двух устройств новая копия не
+        перезаписывается автоматически.
+      </p>
+    </dialog>
+    <dialog id="world-import-confirm" class="small-dialog">
+      <button data-close="world-import-confirm" class="close" aria-label="Отменить восстановление">×</button>
+      <h2>Восстановить мир из файла?</h2>
+      <p id="world-import-summary" class="dialog-copy"></p>
+      <button id="world-import-apply" class="primary">Сохранить копию и восстановить</button>
+      <button data-close="world-import-confirm" class="quiet">Отмена</button>
+    </dialog>
+    <dialog id="scenery-dialog" class="small-dialog">
+      <button
+        data-close="scenery-dialog"
+        class="close"
+        aria-label="Закрыть декорации"
+      >
+        ×
+      </button>
+      <p class="eyebrow">ВАШ ОСТРОВ · ВАШЕ НАСТРОЕНИЕ</p>
+      <h2>Деревья и домики</h2>
+      <p class="dialog-copy">
+        Выберите декорацию здесь или нажмите на неё на карте. Можно свободно
+        переставлять, поворачивать и возвращать из коллекции.
+      </p>
+      <div id="scenery-list"></div>
+    </dialog>
+    <dialog id="farm-dialog" class="farm-dialog">
+      <div class="dialog-top">
+        <div>
+          <p class="eyebrow">ПОСАДИТЬ. ВЫРАСТИТЬ. СОБРАТЬ.</p>
+          <h2>Маленькая ферма</h2>
+        </div>
+        <button
+          data-close="farm-dialog"
+          class="close"
+          aria-label="Закрыть ферму"
+        >
+          ×
+        </button>
+      </div>
+      <div class="farm-content">
+        <p class="dialog-copy">
+          Перетащите Чичи на готовые грядки на карте — она соберёт урожай. Или
+          отправьте её кнопкой. ИИ тоже может выбрать работу на ферме.
+        </p>
+        <div class="farm-toolbar">
+          <label
+            >Постройка
+            <select id="farm-field"></select></label
+          ><label
+            >Культура
+            <select id="farm-crop"></select></label
+          ><label id="farm-seed-label" hidden>Насіння з сумки<select id="farm-seed"></select></label><button id="farm-command" class="primary">Отправить Чичи 🌱</button>
+        </div>
+        <div id="farm-plots" class="farm-plots"></div>
+        <div class="farm-stock">
+          <div>
+            <p class="eyebrow">СКЛАД УРОЖАЯ</p>
+            <p id="farm-stock-text"></p>
+            <small id="farm-level"></small>
+          </div>
+          <button id="farm-sell" class="primary">Продать урожай</button>
+        </div>
+        <h3 class="farm-section-title">Открытия новых биомов</h3>
+        <div id="farm-jobs" class="farm-jobs"></div>
+        <p class="fine-print">
+          Рост, стройки, урожай и деньги сохраняются сразу. Таймеры продолжаются
+          между визитами.
+        </p>
+        <div class="backup-controls">
+          <button id="save-export" class="quiet">Скачать сохранение ↓</button
+          ><button id="save-import" class="quiet">
+            Восстановить из файла ↑</button
+          ><input
+            id="save-file"
+            type="file"
+            accept="application/json,.json"
+            hidden
+          />
+        </div>
+      </div>
+    </dialog>
+    <div id="toast" role="status" aria-live="polite" hidden></div>
+    <script type="module" src="./dist/app.js?v=1f35c6c1ed6c391f"></script>
+  </body>
+</html>
