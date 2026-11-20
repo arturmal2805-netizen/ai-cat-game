@@ -93,3 +93,13 @@ Worker/SQLite, CDP Profiler1000µs. Это диагностика CPU, не M2FP
 7.86MB,общиеshowcaseкарты имодели. Grassdeadline15000мс совпадает с отчётом;
 не увеличивать/уменьшать таймаут как неподтверждённое исправление. Рассматриваются
 точные losslesspack/cache варианты после измерения, не снижение детализации.
+
+Measured baseline profile complete:16.5s native geometry sphere scans under
+renderer/projectObject across4views (software diagnostics, not M2FPS). Candidate
+**935a375** pushed, PR#11, branch codex/ocean-stall-loading-fix. Exact-sphere
+cooperative preparation + force-cache for hashed same-origin public assets.
+35tests/fullNode22build/cache-expiry browser PASS. All9probe PNGbytes identical
+after real rebakes. LosslessWebP4–6% trial rejected/no artasset changes.
+CandidateCPUprofile session43145, /workspace/qa/render-stall-candidate.log.
+Baseline/archive in docs/qa/2026-11-20/render-stall-loading. Native allmap/phone
+and fullmainCI/livehashes remain mandatory; main/live still7a0e1f3.

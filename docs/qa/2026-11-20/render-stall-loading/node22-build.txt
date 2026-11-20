@@ -1,0 +1,5 @@
+
+> build
+> node scripts/build.mjs
+
+Built 3D world, Chichi GLB models and Worker commit 7a0e1f3daf8afd0629d60d7a3cb0aa147b2a02f4.

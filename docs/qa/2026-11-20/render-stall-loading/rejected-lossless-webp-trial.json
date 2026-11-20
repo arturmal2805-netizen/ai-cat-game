@@ -1,0 +1,35 @@
+[
+  {
+    "path": "art/ocean-rock/normal-dbcd0a950de5.png",
+    "pngBytes": 2866787,
+    "webpBytes": 2699428,
+    "exactRGBA": true,
+    "size": [
+      1024,
+      1024
+    ],
+    "seconds": 1.29
+  },
+  {
+    "path": "art/ocean-rock/coralNormal-f5ee3a4cf9d1.png",
+    "pngBytes": 3133549,
+    "webpBytes": 2991186,
+    "exactRGBA": true,
+    "size": [
+      1024,
+      1024
+    ],
+    "seconds": 1.53
+  },
+  {
+    "path": "art/meadow/grass004-normal-roughness-55ff6228bfff.png",
+    "pngBytes": 3390056,
+    "webpBytes": 3270216,
+    "exactRGBA": true,
+    "size": [
+      1024,
+      1024
+    ],
+    "seconds": 1.48
+  }
+]

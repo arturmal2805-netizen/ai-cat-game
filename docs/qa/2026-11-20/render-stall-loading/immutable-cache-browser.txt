@@ -1,0 +1,1 @@
+PASS: expired immutable bytes reused across two reloads/app versions; API, cancellation and explicit reload preserved.
