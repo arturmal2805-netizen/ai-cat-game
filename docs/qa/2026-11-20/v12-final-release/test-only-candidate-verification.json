@@ -1,0 +1,8 @@
+{
+  "releaseCandidate": "ca08b43ecee9fcf94aeca81abfe390434687e049",
+  "nativeVisualSource": "9d81059d67249b024635a6c4d502c8d55a0e4d91",
+  "publicAndRuntimeCodeByteIdentical": true,
+  "capturedModulesCheckedAgainstCandidate": 894,
+  "change": "Test-only correction: native bed rays compare with expansionBedY at the same .15m tolerance. Four legacy geometry/ownership/cave tests pass. Full CI44732308801 pending; older44730300724 failed.",
+  "scope": "Native desktop/touch images remain source-exact for identical product code. No visual or hardware FPS approval."
+}

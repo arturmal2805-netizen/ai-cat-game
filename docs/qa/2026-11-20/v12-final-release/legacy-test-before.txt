@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: twice the released water area keeps a sloping physical bed, dry arrival and independent neighbouring shores
+not ok 1 - twice the released water area keeps a sloping physical bed, dry arrival and independent neighbouring shores
+  ---
+  duration_ms: 27503.099024
+  type: 'test'
+  location: '/workspace/chichi-v12-island-warehouse/test/mosasaur-expansion.test.mjs:7:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert.ok(Math.abs(hits[0].point.y-mosaBedY(x,z))<.15)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/chichi-v12-island-warehouse/test/mosasaur-expansion.test.mjs:17:33)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: existing paid shoreline objects keep IDs, addresses, tiers, deadlines and dry platforms through reloads
+ok 2 - existing paid shoreline objects keep IDs, addresses, tiers, deadlines and dry platforms through reloads
+  ---
+  duration_ms: 3064.108087
+  type: 'test'
+  ...
+# Subtest: new outer land survives cached-client merge; genuine storage remains effective
+ok 3 - new outer land survives cached-client merge; genuine storage remains effective
+  ---
+  duration_ms: 97.068196
+  type: 'test'
+  ...
+# Subtest: caves are hollow real arches with usable floors and stable owned IDs, not a decorative decal
+ok 4 - caves are hollow real arches with usable floors and stable owned IDs, not a decorative decal
+  ---
+  duration_ms: 203.726855
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 3
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 31355.702724

@@ -15,8 +15,9 @@
     "bytes": 36525,
     "sha256": "4fa4e0cc0c7f63e1a3063f46a827bb458114a2cebe271e29ce81bbfac3beda4e"
   },
-  "source": "9d81059d67249b024635a6c4d502c8d55a0e4d91",
+  "source": "ca08b43ecee9fcf94aeca81abfe390434687e049",
   "scripts": [
     "./dist/app.js?v=eee88668a2689f00"
-  ]
+  ],
+  "visualSource": "9d81059d67249b024635a6c4d502c8d55a0e4d91"
 }
