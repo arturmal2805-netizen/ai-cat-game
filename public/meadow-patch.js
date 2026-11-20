@@ -1,3 +1,4 @@
+import {fetchImmutableAsset} from './immutable-asset-fetch.js';
 import * as T from 'three';
 
 // Local authoring candidate only. No global palette, saved coordinates, collision
@@ -16,7 +17,7 @@ export function prepareMeadowPatch(){
   const staged={},made=[],queue=Object.entries(MEADOW_ASSETS);
   try{
    const results=await Promise.allSettled(Array.from({length:2},async()=>{while(queue.length){
-    const [role,url]=queue.shift(),r=await fetch(url,{signal:AbortSignal.timeout(15000)});if(!r.ok)throw Error('Meadow source unavailable');
+    const [role,url]=queue.shift(),r=await fetchImmutableAsset(url,{signal:AbortSignal.timeout(15000)});if(!r.ok)throw Error('Meadow source unavailable');
     // Flip image rows exactly ONCE, equivalent to TextureLoader's default Y
     // orientation. Both GL normals and colour use the same UV basis, +Y intact.
     const bitmap=await createImageBitmap(await r.blob(),{imageOrientation:'flipY',colorSpaceConversion:'none',premultiplyAlpha:'none'}),t=new T.Texture(bitmap);
