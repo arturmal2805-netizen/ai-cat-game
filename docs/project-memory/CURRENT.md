@@ -2,42 +2,40 @@
 
 Обновлено 20 ноября 2026, Europe/Kyiv.
 
-## Опубликованная версия
+## Опубликовано и проверено
 
-**9e26f331d91d3ad85e2c0f15b5a6a4e63106e5ce** — последняя подтверждённая публикация.
-Origin/main уже перешёл на1ebc94c; его выпуск пока выполняется.
-[Игра](https://arturmal2805-netizen.github.io/ai-cat-game/?v=9e26f33).
-Workflow **44612746706 — SUCCESS**. V11: 38 поверхностей воды SPA и бесплатные
-кнопки вызова Чичи и свободных жителей. V12 пока **НЕ опубликован**.
-Старый live JS:593013c89da9d392e10c9a42a7ba7297e2073cccff5e3fc32951b930262e4dce.
-CSS:1ca6fd7d91d93d2434122de8b604f9e1f0306145487ece7434204f01d46492bc.
+Main **1ebc94cb7c38d26aca2d87c7404d1380a8df33ac**, workflow **44734816312 SUCCESS**.
+https://arturmal2805-netizen.github.io/ai-cat-game/?v=1ebc94c
+HTTP проверен2026-11-20T12:34:01Z. Одно подключение приложения.
+JS eee88668a2689f000b143998a1a405723c77ecd596e4559cd4abbe165dcc8fa3;
+CSS 1ca6fd7d91d93d2434122de8b604f9e1f0306145487ece7434204f01d46492bc;
+HTML c23806a4baf706ca00a73c97de6c9b4bfd55b5a65016347f79e92f8e110ea552.
+Локальные HTTP receipts:/workspace/qa/v12-smooth-final-live/.
+Native evidence:codex/v12-final-release-evidence@2a0dd26d6d1ef5dacff96d61dc4a608fe75171a8.
+Не означает художественное одобрение или аппаратный FPS.
 
-## Кандидат V12 и ближайший шаг
+## Только три отмеченные скалы — текущая задача
 
-PR **#5 — MERGED**,2026-11-20T12:19:24Z:
-https://github.com/arturmal2805-netizen/ai-cat-game/pull/5
-Источник: **ca08b43ecee9fcf94aeca81abfe390434687e049**, удалённая ветка
-**codex/v12-island-warehouse**. Полный CI **44732308801 — SUCCESS**.
-Слитый main:**1ebc94cb7c38d26aca2d87c7404d1380a8df33ac**. Его trackedtree
-63a12037f735a6d502ed2534e15e28218d39dd39 точно совпадает сca08b43.
-Основной workflow **44734816312 выполняется**: test→Worker→release/save→Pages.
-Рабочее дерево:/workspace/chichi-v12-island-warehouse сейчас стоит на отдельной
-ветке **codex/v12-final-release-evidence**, а не на ветке PR.
+Пользователь2026-11-20 прислал IMG_0790.heic и явно потребовал убрать ТОЛЬКО
+три обведённые скалы справа/восточнее ТРЦ для ручного движения Чичи.
+IDs:reef-terrace-0,reef-terrace-1,reef-terrace-11. Остальные9,дно,ТРЦ,SPA,
+Warehouse и всё остальное должны остаться прежними.
+Ветка **codex/mosa-remove-three-marked-reefs**, worktree
+/workspace/chichi-v12-island-warehouse, база опубликованный1ebc94c.
+WIP:отдельный active reef field для renderer/player/camera/submarine/opticaldepth;
+исходный authored field сохранён для неизменности остальных flora/fauna anchors.
+Raw1024corals SHA256e560902adc642a96b8b7c01468eca5f2f2c3de81d572577fd5be53dbb32b4f41
+прежний;166колоний на удалённой тройке пропускаются,858остаются.
+Проверки движения по бывшим объёмам и защищённых файлов добавлены; build/fullCI/
+Native/новая публикация ещё pending. Не объявлять текущий WIP опубликованным.
 
-Геометрия/вся игра совпадают с9d81059d67249b024635a6c4d502c8d55a0e4d91.
-Последний ca08b43 меняет ТОЛЬКО старый тест: raycast сравнивается с фактическим
-expansionBedY при том же допуске0.15м. CI44730300724 на9d81059 завершилсяFAIL.
-Локально воспроизвели старое ожидание mosaBedY у удалённого склона; после правки
-все4legacy geometry/ownership/cave теста PASS. До этого57targeted checks PASS.
-Логи GitHub скачать не удалось из-за transportForbidden; не утверждать, что
-известен весь список ошибок старого полного CI. Повторный полный CI44732308801 завершилсяSUCCESS.
-
-Далее: дождаться44734816312 SUCCESS с Worker exact-release/shared-save/Pages →
-проверить реальные HTTP HTML/JS/CSS/probe bytes → записать опубликованныйSHA.
-Не повторятьmerge: он уже выполнен и отправлен вorigin/main. Пока не объявлять,
-что1ebc94c опубликован, поскольку pipeline ещё работает.
-Публикация уже разрешена пользователем; повторное согласие не нужно.
-Не запускать платный AI и не использовать живой мир пользователя для QA.
+Предыдущая широкая выемка дна перед SPA ПРИОСТАНОВЛЕНА:ветка
+codex/v12-spa-approach-visibility@18c1e57, PR#6 CLOSED безmerge, CI44737410238
+отменён. Не включать её в новую узкую задачу, не восстанавливать expansion.js из неё.
+Правильное фото: /workspace/qa/user-IMG_0790-single.jpg. HEICдекодировать с
+heif-convert --tile-threads 1 --codec-threads 1; стандартный декодер дал цветные
+плитки, это артефакт декодирования, не дефект игры. Оригинал сохранён вattachments.
+Исходное указание:sediment://file_000000003d34821092a5f0fd014351f7.
 
 ## Что реализовано
 
