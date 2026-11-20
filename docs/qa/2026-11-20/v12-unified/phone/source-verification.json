@@ -1,0 +1,11 @@
+{
+  "candidate": "1ec45e891c0eeb126462800106e83202ee4a7e4e",
+  "capturedFromEvidenceCommit": "1fbc5c56a0914b042fc12e19a46cc2b25e9096e9",
+  "nativePublicModules": 447,
+  "everyModuleMatchesGit": true,
+  "qaBundleSha256": "662f64ea47ffa24979a343ac85962584f221fc6b3d92280c62bbb3d30fd888a2",
+  "coarse": true,
+  "dpr": 2,
+  "actualIslandButton": true,
+  "scope": "Native Chromium touch context with private Worker/SQLite. Not a physical-phone FPS measurement or visual approval."
+}
