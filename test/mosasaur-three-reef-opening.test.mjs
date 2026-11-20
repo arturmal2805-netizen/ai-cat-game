@@ -8,7 +8,9 @@ test('removed east-side reefs stay absent; original reef addresses and non-Wareh
  const model=runSceneSteps(mosaRockReefSteps());assert.equal(model.children.length,9);assert.deepEqual(model.userData.instances.map(c=>c.id),MOSA_ACTIVE_REEF_INSTANCES.map(c=>c.id));
  // Later user authorization enlarges/reworks Warehouse only; dedicated facade
  // tests preserve its old shell topology and verify the requested axis ratios.
- for(const[p,digest]of Object.entries(baseline.protectedFiles).filter(([p])=>!['public/mosasaur-expansion-data.js','public/warehouse-exterior.js'].includes(p)))assert.equal(hash(readFileSync(new URL('../'+p,import.meta.url))),digest,p);
+ // The later marked-mound/wider-water request changes the expansion floor,
+ // habitat crowns and navigation boundary; warehouse-open-water tests cover it.
+ for(const[p,digest]of Object.entries(baseline.protectedFiles).filter(([p])=>!['public/mosasaur-expansion-data.js','public/mosasaur-expansion.js','public/warehouse-exterior.js','public/warehouse-habitat.js','public/ocean-swimmer.js','public/submarine-physics.js'].includes(p)))assert.equal(hash(readFileSync(new URL('../'+p,import.meta.url))),digest,p);
 });
 test('manual swimming and restored submarine poses can occupy and cross the deleted rock volumes without ghost contacts',()=>{
  for(const id of MOSA_REMOVED_REEF_IDS){const c=MOSA_REEF_INSTANCES.find(c=>c.id===id);let start;

@@ -1,7 +1,7 @@
 import {mallPressureDistance,mallPressureContact} from './mall-pressure.js';
 import {normalizeOceanExplorer} from './ocean-explorer-state.js';
 import {submarineAirborne} from './submarine-controls.js';
-import {MOSA_SEA} from './mosasaur-data.js';
+import {oceanWaterContains,constrainOceanWater} from './ocean-water-domain.js';
 import {expansionBedY as mosaBedY} from './mosasaur-expansion.js';
 import {mosaTerrainObstacles} from './mosasaur-collision.js';
 import {mosaActiveReefClearance as mosaReefClearance} from './mosasaur-reef-data.js';
@@ -21,14 +21,14 @@ function escapeChangedMall(raw){
  // its save or silently turn it into an unpiloted docked boat.
  for(let radius=2;radius<=190;radius+=2)for(let i=0;i<32;i++){
   const a=i*Math.PI/16,p={...raw,x:raw.x+Math.sin(a)*radius,z:raw.z+Math.cos(a)*radius};
-  if(Math.hypot(p.x/(MOSA_SEA.rx-4),p.z/(MOSA_SEA.rz-4))>=1||p.y<=mosaBedY(p.x,p.z)+1.4||overlapsMall(p,1.5)||overlapsReef(p))continue;
+  if(!oceanWaterContains(p.x,p.z,4)||p.y<=mosaBedY(p.x,p.z)+1.4||overlapsMall(p,1.5)||overlapsReef(p))continue;
   return p;
  }
  return raw;
 }
 export function normalizeSubmarine(raw={}){
  raw=escapeChangedMall(raw);
- const valid=Number.isFinite(raw.x+raw.y+raw.z+raw.yaw)&&Math.hypot(raw.x/(MOSA_SEA.rx-4),raw.z/(MOSA_SEA.rz-4))<1&&raw.y>mosaBedY(raw.x,raw.z)+1.1&&raw.y<60&&!overlapsReef(raw)&&!overlapsMall(raw);
+ const valid=Number.isFinite(raw.x+raw.y+raw.z+raw.yaw)&&oceanWaterContains(raw.x,raw.z,4)&&raw.y>mosaBedY(raw.x,raw.z)+1.1&&raw.y<60&&!overlapsReef(raw)&&!overlapsMall(raw);
  const explorer=normalizeOceanExplorer(raw.explorer);
  return {...(valid?{x:raw.x,y:raw.y,z:raw.z,yaw:wrap(raw.yaw),...(Number.isFinite(raw.pitch)&&Math.abs(raw.pitch)<100000?{pitch:wrap(raw.pitch)}:{})}:SUBMARINE_DOCK),speed:0,vertical:0,turn:0,active:valid&&raw.active===true,mode:raw.mode==='cockpit'?'cockpit':'chase',...(raw.explorerVersion===1?{explorerVersion:1,explorer}:explorer?{explorer}:{}),...(raw.returning===true?{returning:true}:{}),...(raw.released===true?{released:true}:{})};
 }
@@ -42,7 +42,7 @@ export function createSubmarinePhysics(raw,obstacles=mosaTerrainObstacles()){
  const state=normalizeSubmarine(raw);state.pitch||=0;state.flipSpeed=0;let boostCooldown=0;
  function hullFloor(){let floor=-Infinity;for(const offset of [-1.9,0,1.9])floor=Math.max(floor,mosaBedY(state.x+Math.sin(state.yaw)*offset,state.z+Math.cos(state.yaw)*offset)+1.3);return floor;}
  function constrain(previous=null){
-  let hit=false;const r=Math.hypot(state.x/(MOSA_SEA.rx-3.5),state.z/(MOSA_SEA.rz-3.5));if(r>1){state.x/=r;state.z/=r;hit=true;}
+  let hit=constrainOceanWater(state,3.5);
   let floor=hullFloor();
   if(state.y<floor){
    if(previous&&floor>previous.y+Math.max(.02,Math.hypot(state.x-previous.x,state.z-previous.z)*.8)){state.x=previous.x;state.z=previous.z;state.yaw=previous.yaw;state.speed=0;floor=hullFloor();}

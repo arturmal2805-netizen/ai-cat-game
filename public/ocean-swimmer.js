@@ -1,4 +1,5 @@
 import {MOSA_SEA} from './mosasaur-data.js';
+import {oceanWaterContains} from './ocean-water-domain.js';
 import {expansionBedY as mosaBedY} from './mosasaur-expansion.js';
 import {mosaTerrainObstacles} from './mosasaur-collision.js';
 import {mosaActiveReefClearance as mosaReefClearance} from './mosasaur-reef-data.js';
@@ -9,7 +10,7 @@ const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function createOceanSwimmer(raw,{radius=.6,obstacles=mosaTerrainObstacles()}={}){
   const state={...raw,vertical:0};let jumping=false;
   function clear(p){
-    if(Math.hypot(p.x/(MOSA_SEA.rx-2),p.z/(MOSA_SEA.rz-2))>1||p.y<mosaBedY(p.x,p.z)+.15)return false;
+    if(!oceanWaterContains(p.x,p.z,2)||p.y<mosaBedY(p.x,p.z)+.15)return false;
     const body={x:p.x,y:p.y+.7,z:p.z};
     if(mosaReefClearance(body.x,body.y,body.z)<radius||mallPressureContact(body.x,body.y,body.z,radius))return false;
     for(const obstacle of obstacles)if(pushCapsule({...body},obstacle,radius))return false;
