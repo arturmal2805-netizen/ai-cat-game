@@ -14,16 +14,21 @@ export function expansionCoastDecorPoint(x,z,{outer=false}={}){
  if(newR-oldR<.01)return{x,z};
  const to=outer?expansionOuterPoint(a):expansionPoint(a,clamp((r-oldR)*.38,4,25));return to;
 }
+// Keep headlands only on the NEW outer shore. Old interior crowns are removed,
+// rather than surrounding the unchanged buildings with a miniature rock ring.
+let shoreHeadlands;
+export function expansionHeadlands(){return shoreHeadlands??=MOSA_HEADLANDS.filter(h=>{const a=Math.atan2(h.z/MOSA_SEA.rz,h.x/MOSA_SEA.rx),p=expansionPoint(a);return Math.hypot(h.x,h.z)>=Math.hypot(p.x,p.z)+h.radius*.15;});}
+export const EXPANSION_PROTECTED_CORE=.7;
 export const protectedBuildingBed=(x,z)=>Math.abs(x)<176&&z> -26&&z<300;
 export function expansionBedY(x,z){
  if(protectedBuildingBed(x,z))return mosaBedY(x,z);
  const a=Math.atan2(z/MOSA_SEA.rz,x/MOSA_SEA.rx),p=expansionPoint(a),r=Math.hypot(x,z),outer=Math.hypot(p.x,p.z),q=mosaWaterRadius(x,z),oldR=r/Math.max(q,.00001),extension=outer-oldR;
- if(extension<1||q<=.95)return mosaBedY(x,z);
- const coastDistance=outer-r,deep=MOSA_EXPANSION.bedY+5*Math.sin(x*.008)*Math.sin(z*.007),shoal=smooth(coastDistance,0,100),channel=T.MathUtils.lerp(-.495,deep,shoal),carve=smooth(q,.95,1),base=q<1?T.MathUtils.lerp(mosaBedY(x,z),channel,carve):channel;
+ if(extension<1||q<=EXPANSION_PROTECTED_CORE)return mosaBedY(x,z);
+ const coastDistance=outer-r,deep=MOSA_EXPANSION.bedY+5*Math.sin(x*.008)*Math.sin(z*.007),shoal=smooth(coastDistance,0,100),channel=T.MathUtils.lerp(-.495,deep,shoal),carve=smooth(q,EXPANSION_PROTECTED_CORE,1),base=q<1?T.MathUtils.lerp(mosaBedY(x,z),channel,carve):channel;
  // A broad natural shelf embeds the pale foundation; no suspended warehouse.
  const dx=Math.max(0,Math.abs(x-WAREHOUSE.x)-WAREHOUSE.platformWidth/2),dz=Math.max(0,Math.abs(z-WAREHOUSE.z)-WAREHOUSE.platformDepth/2),shelf=1-smooth(Math.hypot(dx,dz),0,80);let y=T.MathUtils.lerp(base,WAREHOUSE.y-1.25,shelf);
- // Existing headland crowns become intact islets with stone-root support.
- for(const h of MOSA_HEADLANDS){const d=Math.hypot(x-h.x,z-h.z);if(d<h.radius+15)y=Math.max(y,T.MathUtils.lerp(-10,base,smooth(d,h.radius*.84,h.radius+15)));}
+ // Only the real outside shore keeps headland roots; no old internal ring.
+ for(const h of expansionHeadlands()){const d=Math.hypot(x-h.x,z-h.z);if(d<h.radius+15)y=Math.max(y,T.MathUtils.lerp(-10,base,smooth(d,h.radius*.84,h.radius+15)));}
  for(const reef of WAREHOUSE_REEFS){const r=Math.hypot(x-reef.x,z-reef.z)/reef.radius;if(r<1)y=Math.max(y,T.MathUtils.lerp(base,reef.top,1-smooth(r,.14,1)));}
  return y;
 }
@@ -53,10 +58,10 @@ function* radialAnnulusSteps(source,rings,{bed=false,baseY=0}={}){
 }
 export function* expandMosaSeaSteps(sea){
  const bed=sea.userData.bed,surface=sea.children.find(m=>m.isMesh&&m.material===sea.userData.water),bp=bed.geometry.attributes.position,depth=surface.geometry.attributes.aPhysicalBedDepth,sp=surface.geometry.attributes.position;
- // Core vertices retain their exact positions. Only the former outer shoreline
- // becomes the broad deep connection explicitly authorised by the user.
- for(let i=0;i<bp.count;i++){if(i%1024===0)yield;const x=bp.getX(i)*MOSA_SEA.rx,z=-bp.getY(i)*MOSA_SEA.rz;if(mosaWaterRadius(x,z)>.95)bp.setZ(i,expansionBedY(x,z)-bed.position.y);}
- for(let i=0;i<sp.count;i++){if(i%1024===0)yield;const x=sp.getX(i)*MOSA_SEA.rx,z=-sp.getY(i)*MOSA_SEA.rz;if(mosaWaterRadius(x,z)>.95&&!protectedBuildingBed(x,z))depth.setX(i,MOSA_SEA.surfaceY-expansionBedY(x,z));}
+ // Preserve the original caves, seabed gardens and building foundation. Smooth
+ // the former basin shoulder across its outer 30%, without a leftover ridge.
+ for(let i=0;i<bp.count;i++){if(i%1024===0)yield;const x=bp.getX(i)*MOSA_SEA.rx,z=-bp.getY(i)*MOSA_SEA.rz;if(mosaWaterRadius(x,z)>EXPANSION_PROTECTED_CORE)bp.setZ(i,expansionBedY(x,z)-bed.position.y);}
+ for(let i=0;i<sp.count;i++){if(i%1024===0)yield;const x=sp.getX(i)*MOSA_SEA.rx,z=-sp.getY(i)*MOSA_SEA.rz;if(mosaWaterRadius(x,z)>EXPANSION_PROTECTED_CORE&&!protectedBuildingBed(x,z))depth.setX(i,MOSA_SEA.surfaceY-expansionBedY(x,z));}
  const extension=yield* radialAnnulusSteps(surface.geometry,160),bg=yield* radialAnnulusSteps(bed.geometry,160,{bed:true,baseY:bed.position.y}),oldSurface=surface.geometry,oldBed=bed.geometry;
  surface.geometry=mergeGeometries([oldSurface,extension]);bed.geometry=mergeGeometries([oldBed,bg]);bed.geometry.computeVertexNormals();surface.geometry.computeBoundingSphere();surface.geometry.computeBoundingBox();surface.geometry.boundingBox.min.z=-1.2;surface.geometry.boundingBox.max.z=1.2;surface.geometry.computeBoundingSphere();
  for(const g of [oldSurface,extension,oldBed,bg])g.dispose();
@@ -64,7 +69,7 @@ export function* expandMosaSeaSteps(sea){
  for(const o of [...sea.children])if(o.isMesh&&o!==surface&&o!==bed&&(o.geometry.type==='CylinderGeometry'||o.geometry.type==='TorusGeometry')){sea.remove(o);o.geometry.dispose();o.material.dispose();}
  // One native surface, one released material/clock/field/probe, no second pond.
  const coast=expandedCoastSamples(MOSA_SEA,mosaCoastFactor),area=Math.abs(coast.slice(1).reduce((sum,p,i)=>sum+coast[i].x*p.z-p.x*coast[i].z,0))*.5;
- sea.userData.expansion={version:12,waterSurfaces:1,sameMaterial:true,geometryOnly:true,centralCorePreserved:.95,waterAreaM2:area,extraSurfaceVertices:extension.attributes.position.count,extraBedVertices:bg.attributes.position.count};
+ sea.userData.expansion={version:12,waterSurfaces:1,sameMaterial:true,geometryOnly:true,centralCorePreserved:EXPANSION_PROTECTED_CORE,removedInnerHeadlands:MOSA_HEADLANDS.length-expansionHeadlands().length,waterAreaM2:area,extraSurfaceVertices:extension.attributes.position.count,extraBedVertices:bg.attributes.position.count};
  return sea.userData.expansion;
 }
 export const expandMosaSea=sea=>runSceneSteps(expandMosaSeaSteps(sea));

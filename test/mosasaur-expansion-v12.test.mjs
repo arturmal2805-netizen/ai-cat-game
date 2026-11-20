@@ -24,3 +24,20 @@ test('current released paid shore stays supported without changing purchases or 
 test('expanded coast stays clear of every other island and the infinitely extending housing row',()=>{for(let i=0;i<720;i++){const a=i*Math.PI/360,p=expandedCoastPoint(a,MOSA_SEA,mosaCoastFactor,31),wx=p.x-450,wz=p.z+500;assert(wz>96,'clear entire residential row');for(const b of baseline.islands.filter(b=>b.id!=='autumn'))assert(Math.hypot(wx-b.center[0],wz-b.center[1])>(b.radius||11.65)+3,b.id);}});
 
 test('the former neck belongs to the common lagoon instead of enclosing a small separate cup',()=>{for(const [x,z]of [[300,-280],[400,-270],[600,-265]])assert(expandedWaterContains(x,z,MOSA_SEA,mosaCoastFactor,2),'continuous open water across the former small-cup bank');});
+
+
+test('former interior headlands and their raised bed roots no longer form a small rock cup',async()=>{
+ const {MOSA_HEADLANDS,mosaWaterRadius}=await import('../public/mosasaur-data.js'),{expansionHeadlands}=await import('../public/mosasaur-expansion.js');
+ const retained=expansionHeadlands(),removed=MOSA_HEADLANDS.filter(h=>!retained.includes(h));assert(removed.length>=6);
+ for(const h of retained)assert(!expandedWaterContains(h.x,h.z,MOSA_SEA,mosaCoastFactor));
+ for(const h of removed)if(!protectedBuildingBed(h.x,h.z)&&expandedWaterContains(h.x,h.z,MOSA_SEA,mosaCoastFactor,100))assert(expansionBedY(h.x,h.z)<-120,'removed crown has open deep water instead of a -10m supporting column');
+ const {MOSA_FLOOR_STONES}=await import('../public/mosasaur-floor-stones-data.js');for(const p of MOSA_FLOOR_STONES)assert(mosaWaterRadius(p.x,p.z)<.7,'existing embedded stones remain inside unchanged core');
+ for(let i=0;i<32;i++){const a=i*Math.PI/16,x=Math.cos(a)*MOSA_SEA.rx*mosaCoastFactor(a)*.86,z=Math.sin(a)*MOSA_SEA.rz*mosaCoastFactor(a)*.86;if(!protectedBuildingBed(x,z)&&expandedWaterContains(x/.86,z/.86,MOSA_SEA,mosaCoastFactor,100)&&mosaBedY(x,z)>-100)assert(expansionBedY(x,z)<mosaBedY(x,z)-50,'wide smooth cut removes the old shallow basin rim');}
+});
+
+
+test('existing swimmer and submarine floor contacts use the carved bed instead of a ghost old rim',async()=>{
+ const {createOceanSwimmer}=await import('../public/ocean-swimmer.js'),{normalizeSubmarine}=await import('../public/submarine-physics.js');
+ let open=0;for(let i=0;i<64;i++){const a=i*Math.PI/32,x=Math.cos(a)*MOSA_SEA.rx*.87,z=Math.sin(a)*MOSA_SEA.rz*.87,y=expansionBedY(x,z)+8;if(y>=mosaBedY(x,z)-20)continue;const p={x,y,z,yaw:0,active:true};if(!createOceanSwimmer(p,{obstacles:[]}).clear(p))continue;assert(normalizeSubmarine(p).active,'the exact same clear underwater pose survives submarine normalization');open++;}
+ assert(open>4,'the former rim has multiple actual open deep-water approaches');
+});
