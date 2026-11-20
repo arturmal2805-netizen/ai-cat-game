@@ -2,8 +2,8 @@
 
 Sourcec4d2f18cb4ba541398378d23c10ad3ffce608f49, PR#8merged→main
 b995a82d21dbc788357a9c048e12dfcf2bcbd4fb. Both tracked trees3ad7fecc403c09471989e2d22683c4882ae483d8.
-Main workflow44746802316 still running: NOT yet a live publication claim.
-Previously published407e427 remains verified live until actual HTTP receipt.
+Published main b995a82, workflow 44746802316 SUCCESS: test/deploy/pages.
+Actual HTTP HTML/JS/CSS/probe/reef-cache and single app verified; see live/live-verification.json.
 
 Three44×44pxSVGmarks:cat/Mall,lotus/SPA,Warehouse dome. Native titles/ARIA labels
 and focus-visible preserved. Warehouseclick framesactualbox fromwesternopenwater,

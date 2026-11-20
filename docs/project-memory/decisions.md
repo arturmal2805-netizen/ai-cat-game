@@ -814,3 +814,14 @@ actualHTTPbytes/одноappподключение проверены. Source9bf3
 Следующая явно запрошенная задача:3компактных SVGлоготипа ТРЦ/SPA/Warehouse с44pxhit
 и подсказками; Warehousebutton реальнонаводиткамеру,не добавляет интерьер/покупки.
 Камера строится поactualbbox,подходитсзападачерезводу,приhandoffотпускаетстарыйowner.
+
+## 2026-11-20 — компактные кнопки и камера Warehouse опубликованы
+
+Main b995a82d21dbc788357a9c048e12dfcf2bcbd4fb, source c4d2f18cb4ba541398378d23c10ad3ffce608f49,
+PR #8. Workflow 44746802316: test/deploy/pages SUCCESS; actual HTTP и одно
+подключение приложения проверены. Три SVG-логотипа с 44px hit areas, ARIA/title;
+Warehouse camera использует настоящий bbox. 18 targeted + 3 optics + Node22
+build, полный main CI и Native desktop/phone с реальными кликами PASS.
+449 модулей каждого прогона совпали с source. Сохранения и геометрия прежние,
+исправления скал/серой основы из 407e427 сохранены. Художественное одобрение
+новых кнопок пользователем ещё не получено; физический FPS не измерялся.

@@ -93,3 +93,16 @@ full body collisions and all residents. Use a clear seeded area for input
 checks: a resident independently entering the tested path is a collision, not
 evidence of dropped keyboard input. Do not lower movement assertions or remove
 colliders to pass. Desktop has no pad; phone targets >=44px inside the viewport.
+
+## Компактные кнопки мест — 2026-11-20
+
+Три SVG-логотипа ТРЦ (киця), SPA (лотос), Warehouse (купол) создаёт venue-buttons.js.
+На ПК и телефоне сохранять область нажатия 44px, title/ARIA и фокус клавиатуры.
+Геометрию зданий ради UI не менять. warehouse-camera.js строит кадр по настоящему
+мировому bbox и подходит с запада через воду; учитывать portrait/landscape/resize.
+Владельцы камеры освобождают друг друга; «Остров», follow и manual снимают
+Warehouse mode. Проверять реальные клики и проекции 8 углов в полной игре,
+включая phone/coarse/DPR2. В offline QA останавливать рисование на время
+подготовки, затем рисовать настоящий кадр; убирать осиротевший GPU-процесс
+прерванного прогона. SwiftShader не подтверждает FPS физического устройства.
+[Проверенный выпуск](../../qa/2026-11-20/venue-camera/README.md).

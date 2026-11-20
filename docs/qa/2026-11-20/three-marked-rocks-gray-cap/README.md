@@ -2,8 +2,8 @@
 
 Source9bf328cda3da2fd066a36675e93a43a0ff33d691 merged to main
 407e4274128e86644619d022978e6d5fd16cd969. Both tracked trees equal
-3de255bc3c4c17907a45538616d9b7d78cc25522. Main workflow44742914000 is
-still running; these are Native/expected bytes, not a publication claim.
+3de255bc3c4c17907a45538616d9b7d78cc25522. Published 407e427: workflow 44742914000 SUCCESS and actual HTTP verified.
+Publication receipt: live/live-verification.json. Later venue UI is published separately as b995a82.
 
 The player approved the three-rock opening, then reported a grey area and said
 “го” to its repair. Rays identified the old decorative cone cap atY=-200 ABOVE

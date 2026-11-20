@@ -1,48 +1,56 @@
 # Текущий статус
 
-Обновлено20ноября2026,Europe/Kyiv. [Предыдущие этапы](history/CURRENT-before-rocks-publication-2026-11-20.md).
+Обновлено 20 ноября 2026, Europe/Kyiv. [Предыдущий этап](history/CURRENT-before-venue-publication-2026-11-20.md).
 
-## Опубликовано — три скалы и серая зона
+## Опубликовано и проверено
 
-**407e4274128e86644619d022978e6d5fd16cd969**, workflow **44742914000 SUCCESS**:
-полные test/deploy/pages и точная release/shared-save проверка. ПлатныйAI QA0.
-https://arturmal2805-netizen.github.io/ai-cat-game/?v=407e427
-Actual HTTP HTML/JS/CSS/probe/reef-cache bytes проверены; одно приложение.
-JS81c9fb9a6d1f50010a7e4162dbf5b8dbf164da3950f79f9457559c415956f9aa;
-CSS1ca6fd7d91d93d2434122de8b604f9e1f0306145487ece7434204f01d46492bc;
-HTML6850f35841cdd3b9ba84e01a74c44d8d00b566753a00fb95ee1a2e80533eceda.
-[Полная HTTPквитанция](../qa/2026-11-20/three-marked-rocks-gray-cap/live/live-verification.json).
+Main **b995a82d21dbc788357a9c048e12dfcf2bcbd4fb**.
+[Игра](https://arturmal2805-netizen.github.io/ai-cat-game/?v=b995a82).
+Workflow **44746802316 — SUCCESS**: test, deploy, pages, точная версия Worker и
+проверка общих сохранений. Платные вызовы AI при QA не выполнялись.
+Actual HTTP HTML/JS/CSS/probe/reef-cache совпали с ожидаемыми байтами.
+[Полная квитанция](../qa/2026-11-20/venue-camera/live/live-verification.json).
+Одно подключение приложения: dist/app.js?v=8ded538408618c3d.
 
-УдаленыТОЛЬКО reef-terrace-0,1,11 с геометрией/реальными коллизиями/оптической
-высотой;166прикреплённых неподдерживаемых кораллов скрыты. Raw1024authored anchors
-прежние,858visible; другие9скал прежние. Дополнительно пользователь разрешил
-устранить серую зону:старая декоративная cone-основа опущена12м под физическое
-дно. Дно/ТРЦ/SPA/Warehouse/кошельки/котики неизменны.145protected files exact.
-Source9bf328cda3da2fd066a36675e93a43a0ff33d691, PR#7merged, tree3de255bc3c4c17907a45538616d9b7d78cc25522
-совпадает сmain407. FullparentCI44740442266 такжеSUCCESS. Native desktop2views/
-phone390×844coarseDPR2 PASS;447capturedmodules каждого прогона exactsource.
-[QA](../qa/2026-11-20/three-marked-rocks-gray-cap/README.md).
-Пользователь одобрил открытие тройки; это не одобрение всей воды или hardwareFPS.
+- JS: 8ded538408618c3d2592ca7b5e4ac9610fc9070fd519c6e3081be01fbc39720d.
+- CSS: 1fd2857ef1fbaedd5e7a34a5082a77ff49bcf7f1c7030d5292502753b86967d0.
+- HTML: 1095d6d4297b70f67d7d870e86f4bc70490d3f9618836b6b131de204c1bd70f1.
+- Probe 9fdd0c96b9c8 и reef-cache 1b90309ff46a4537 сохранены от 407e427.
 
-## Сейчас — компактные кнопки и камера Warehouse
+## Что завершено
 
-Новая просьба пользователя:добавить Warehouse рядом сТРЦ/SPA и сделать эти3кнопки
-аккуратнее,только логотипы(киця/лотос/Warehouse),с подсказками;44pxнажатия сохранить.
-Ветка **codex/compact-venue-camera**, worktree/workspace/chichi-v12-island-warehouse,
-source **c4d2f18cb4ba541398378d23c10ad3ffce608f49**, PR#8merged;
-main **b995a82d21dbc788357a9c048e12dfcf2bcbd4fb**, workflow **44746802316** выполняется, base опубликованный407e427.
-18targeted checks/Node22build/3optics-regressions PASS. Native настоящие3кнопки/
-переходы камер desktop/phone390×844coarseDPR2 PASS;449publicmodules каждого
-прогонаexactsource. [QA](../qa/2026-11-20/venue-camera/README.md).
-Полный mainCI/публикация нового UI ещё pending. Эти кнопки ЕЩЁ НЕ опубликованы.
-Не отменять и не перепубликовывать407:он уже полностью опубликован/HTTPverified.
+Три компактные SVG-кнопки: киця ТРЦ, лотос SPA, купол Warehouse. Области нажатия
+44×44 px, подсказки title, ARIA и видимый фокус клавиатуры. Кнопка Warehouse
+наводит камеру по настоящему bounding box; подход с запада проходит через воду.
+Кадр адаптируется к ориентации и изменению размера экрана. Переключения между
+ТРЦ, SPA, Warehouse, «Остров», следованием и ручным управлением освобождают
+предыдущего владельца камеры.
 
-Новая логика:venue-buttons.js — SVG+ARIA/title/44px; warehouse-camera.js — framing
-actualbbox и подводный подход через свободную ось; world.js — camera handoff/resize/
-dispose. ТРЦ/SPAworld modules меняют толькосоздание кнопок. Геометрия/экономика прежние.
+18 проверок камеры/управления и 3 проверки оптики PASS; Node22 build и полный
+main CI PASS. Native: реальные клики, проекции восьми углов и переходы камер
+проверены на desktop и 390×844/coarse/DPR2. Все 449 публичных модулей каждого
+прогона совпали с исходниками. Это не измерение FPS на физическом Mac/телефоне.
+[QA, исходники, bundles и кадры](../qa/2026-11-20/venue-camera/README.md).
 
-## Приостановлено
+Source **c4d2f18cb4ba541398378d23c10ad3ffce608f49**, PR #8 merged.
+Ветка: codex/compact-venue-camera; worktree: /workspace/chichi-v12-island-warehouse.
+Её tree **3ad7fecc403c09471989e2d22683c4882ae483d8** совпадает с main b995a82.
+Ветка памяти содержит документы, её старый app не является текущей игрой.
 
-Широкая выемка подходаSPA:codex/v12-spa-approach-visibility@18c1e57, PR#6closedбезmerge.
-НЕ включать в текущую задачу. Старые worktrees сохранены; не запускать appветки памяти
-как свежийmain. Диагностика только по запросу. Не тестировать вживом мире игрока.
+Предыдущий опубликованный **407e4274128e86644619d022978e6d5fd16cd969**,
+workflow 44742914000 SUCCESS и actual HTTP verified: удалены только скалы
+reef-terrace-0, 1, 11, их коллизии и оптическая высота. Скрыты 166 прикреплённых
+кораллов без опоры; исходные 1024 адреса сохранены, видимы 858 колоний. Другие
+9 скал, физическое дно, ТРЦ, SPA, Warehouse, кошельки и котики сохранены.
+По отдельному разрешению старая декоративная cone-основа опущена на 12 м под
+неизменённое дно, чтобы убрать серую зону. [QA](../qa/2026-11-20/three-marked-rocks-gray-cap/README.md).
+
+Пользователь одобрил открытие тройки и разрешил исправление серой зоны.
+Новые кнопки проверены ассистентом; отдельного художественного одобрения
+пользователя ещё нет. Задание завершено, ожидать следующего указания.
+
+## Приостановлено и ограничения
+
+Широкая выемка подхода SPA: codex/v12-spa-approach-visibility@18c1e57,
+PR #6 закрыт без merge. Не включать её в другие правки. Старые worktrees сохранены.
+Диагностика только по запросу. QA — приватный Worker/SQLite, не живой мир игрока.
