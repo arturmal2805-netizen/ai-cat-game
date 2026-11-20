@@ -106,3 +106,19 @@ Warehouse mode. Проверять реальные клики и проекци
 подготовки, затем рисовать настоящий кадр; убирать осиротевший GPU-процесс
 прерванного прогона. SwiftShader не подтверждает FPS физического устройства.
 [Проверенный выпуск](../../qa/2026-11-20/venue-camera/README.md).
+
+## Общая лагуна — физические и сохранённые границы (2026-11-20)
+
+После расширения до Warehouse исходные MOSA_SEA.rx/rz нужны для прежней сетки,
+UV и совместимости владения, но НЕ являются границей нового плавания/камеры.
+Использовать ocean-water-domain для swimmer/submarine/manualentry/explorerrestore
+и oceanExplorerCameraPointClear. Сохранён прежде допустимый эллипс плюс реальная
+expandedCoastPoint область с физическим margin. Camera bed — expansionBedY,
+а не старая mosaBedY. Иначе camera follower схлопывается в target и heading
+становится0: W визуально движет не в ту сторону даже при исправленном swimmer.
+
+Save minY следует реальному глубокому bedY-5, а не старому -198м. Проверять
+настоящий heldinput через удалённыеобъёмы, camera-relative направление, dive
+ниже-200м и2privateSQLite reload с сохранностью wallets/ownership. Node physics
+без реального camera follower не выявляет camera-boundary регрессию.
+[Проверки](../../qa/2026-11-20/warehouse-open-water/README.md). Current/live — CURRENT.

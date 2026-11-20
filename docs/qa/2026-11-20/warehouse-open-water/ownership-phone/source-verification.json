@@ -1,0 +1,45 @@
+{
+  "source": "c8a0000a020d236bc6a4f6dd28d6b7e3644cdab1",
+  "allCapturedPublicModulesMatchSource": true,
+  "moduleCount": 2,
+  "state": "PASS: paid invalid placement recovered, re-placed fully built without charge, real model ready and exactly one copy after two private SQLite reloads.",
+  "scope": "Actual native game/private Worker/SQLite; SwiftShader correctness only, hardware FPS unmeasured",
+  "files": {
+    "check-aquarium.cjs": {
+      "bytes": 120039,
+      "sha256": "330b5432c56062329d25edd692c8787a5e0d9b74fbe8a2c40a9b787d2d565c4b"
+    },
+    "restored-mega-loops.png": {
+      "bytes": 703444,
+      "sha256": "ccd0487e03dcacd6aafeee1229d5824ca43c72e98a96ee184b1c594358b5620d"
+    },
+    "qa-build.json": {
+      "bytes": 233,
+      "sha256": "36777e08ec853b7539da32e8903e2fdebfa2e61ad797679bd35b11ea10d4db9a"
+    },
+    "source-proof.tar.gz": {
+      "bytes": 1334830,
+      "sha256": "6c5b193106c47fbd849a0381aa47d6f7c885426ea3a9334b4053eec1fd993f2b"
+    },
+    "audit-v12-native.mjs": {
+      "bytes": 8185,
+      "sha256": "f0869e31e5aeed61408b5b275733bae8054fbd4a7ae7695d5d838b1bc283f41d"
+    },
+    "ownership.json": {
+      "bytes": 726,
+      "sha256": "edf652bd8f22d15da596456b6e0dc3863277758864fcfdaae35db54557afb363"
+    },
+    "audit-warehouse-open-water.mjs": {
+      "bytes": 5201,
+      "sha256": "8e4a18348cc38d51bc84fc09da3a79ca96df37246c8d5b58a4a6d469b96042b0"
+    },
+    "source-files.json": {
+      "bytes": 164,
+      "sha256": "80b3e4a3478144478a2cc8de6bf70600b61f82da47fcb6b7796507b106621eed"
+    },
+    "source-status.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "node": "v22.23.5",
+  "browser": "Chromium 156.0.8078.79 built on Debian GNU/Linux 13 (trixie)",
+  "browserPath": "/usr/bin/chromium",
+  "launchRenderer": "--use-angle=swiftshader --enable-unsafe-swiftshader",
+  "rendererVendorQuery": "not retained; no hardware FPS claim",
+  "gpuJobs": "sequential only",
+  "nativeWorld": "isolated generated test world/private Worker/SQLite, no player save or paid inference",
+  "lightAndTime": "12:00 game hour; terrain clock 7; original fog/quality; exact world cameras in v12-native.json/v12-views.json",
+  "launchOverrides": "QA-only renderer/pose/camera controls in captured QA app; public modules exact-source verified",
+  "timings": "hardware performance not measured by these native runs",
+  "runs": [
+    {
+      "role": "desktop",
+      "sourceProof": "desktop/source-verification.json",
+      "privateWorkerSha256": "3c5f891103d6e3793bbf0a38cd19384cdeece4a283be3fccc3784b5dfcdc2828",
+      "privateWorkerBytes": 999032,
+      "snapshotBeforeBundleRecordSeconds": 12.679,
+      "environment": {
+        "CHICHI_EXPLORER_AUDIT": "1",
+        "CHICHI_V12_AUDIT": "1",
+        "CHICHI_VISUAL_IDLE_AUDIT": "1",
+        "CHICHI_PROFILE_QUERY": "review=1",
+        "CHICHI_CHROMIUM": "/usr/bin/chromium",
+        "CHICHI_PLAYWRIGHT_MODULE": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright",
+        "CHICHI_DESKTOP": "1",
+        "CHICHI_QA_DPR": "1",
+        "CHICHI_WAREHOUSE_OPEN_WATER_AUDIT": "1",
+        "CHICHI_PRIVATE_SAVE_FIXTURE": "warehouse-open-water-private-fixture.json"
+      }
+    },
+    {
+      "role": "phone",
+      "sourceProof": "phone/source-verification.json",
+      "privateWorkerSha256": "3c5f891103d6e3793bbf0a38cd19384cdeece4a283be3fccc3784b5dfcdc2828",
+      "privateWorkerBytes": 999032,
+      "snapshotBeforeBundleRecordSeconds": 9.953,
+      "environment": {
+        "CHICHI_EXPLORER_AUDIT": "1",
+        "CHICHI_V12_AUDIT": "1",
+        "CHICHI_VISUAL_IDLE_AUDIT": "1",
+        "CHICHI_PROFILE_QUERY": "review=1",
+        "CHICHI_CHROMIUM": "/usr/bin/chromium",
+        "CHICHI_PLAYWRIGHT_MODULE": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright",
+        "CHICHI_QA_DPR": "2",
+        "CHICHI_V12_PHONE_ONLY": "1",
+        "CHICHI_WAREHOUSE_OPEN_WATER_AUDIT": "1",
+        "CHICHI_PRIVATE_SAVE_FIXTURE": "warehouse-open-water-private-fixture.json"
+      }
+    },
+    {
+      "role": "baseline-f289",
+      "sourceProof": "baseline-f289/source-verification.json",
+      "privateWorkerSha256": "3c5f891103d6e3793bbf0a38cd19384cdeece4a283be3fccc3784b5dfcdc2828",
+      "privateWorkerBytes": 999032,
+      "snapshotBeforeBundleRecordSeconds": 11.554,
+      "environment": {
+        "CHICHI_EXPLORER_AUDIT": "1",
+        "CHICHI_V12_AUDIT": "1",
+        "CHICHI_VISUAL_IDLE_AUDIT": "1",
+        "CHICHI_PROFILE_QUERY": "review=1",
+        "CHICHI_CHROMIUM": "/usr/bin/chromium",
+        "CHICHI_PLAYWRIGHT_MODULE": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright",
+        "CHICHI_DESKTOP": "1",
+        "CHICHI_QA_DPR": "1",
+        "CHICHI_BASELINE_REF": "f28975bd8c2cf1cd7d94c61239ab8f98f7dbc96f",
+        "CHICHI_WAREHOUSE_OPEN_WATER_VIEWS": "1",
+        "CHICHI_V12_VIEWS": "expanded-overview,warehouse-cleared-banks"
+      }
+    },
+    {
+      "role": "ownership-phone",
+      "viewport": [
+        390,
+        844
+      ],
+      "coarse": true,
+      "dpr": 2,
+      "environment": {
+        "CHICHI_OWNERSHIP_AUDIT": "1",
+        "CHICHI_ZOO_FIXED_DRAWS": "1",
+        "CHICHI_QA_DPR": "2",
+        "CHICHI_PROFILE_QUERY": "review=1"
+      },
+      "runner": "ownership-phone/exact-qa-runner.cjs",
+      "runnerPurpose": "same existing ownership scenario; only absolute paths and extra QA source/bundle capture; no app changes",
+      "assertions": "recover paid object, unchanged coins, no new construction deadline, real model, two SQLite reloads/exactly one copy"
+    }
+  ]
+}

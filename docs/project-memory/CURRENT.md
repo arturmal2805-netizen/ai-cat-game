@@ -68,3 +68,8 @@ Mac/iPhone FPS не измерялся. История перед этапом �
 Пользователь прислал M2/DPR2 FPSreport старого app1b15/f289:13.53FPS за22.1с,
 8.2srenderstall, GPUmedian32.41ms,15.33Mtriangles. Это НЕ новыйрелиз.
 Сохранены исходныйJSON/hash/анализ в QA/user-fps-f289; не обещать FPSулучшения.
+
+Final ownership native phone PASS:invalid paidplacement→bag→re-placebuilt(nocharge),
+realmodelready,2SQLite reload, exactlyonecopy/coinbalance unchanged. Exactrunner
+/source/bundle in QA/ownership-phone; all checks complete, workflow now SUCCESS;
+actual liveHTTP verifier still needs its receipt before currentpublished update.
