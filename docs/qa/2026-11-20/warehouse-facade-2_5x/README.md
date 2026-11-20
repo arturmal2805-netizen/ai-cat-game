@@ -2,7 +2,8 @@
 
 Source139c68af0dabcacb76d47d3bd83f5f722ca7fa01, PR#9 merged to main
 f28975bd8c2cf1cd7d94c61239ab8f98f7dbc96f. Both trees da78637508469eb7b1e276fe061d5e272532b8f5.
-Workflow44755743721 is still running; not yet a publication claim.
+Published main f28975b: workflow44755743721 SUCCESS (test/deploy/pages).
+Actual HTTP hashes and one app script verified; see live/live-verification.json.
 
 The player replaced ×1.5 with ×2.5 in width and height, keeping the liked glass
 vault as the starting point. Width480→1200m; same240m depth, centre and floor anchor.
