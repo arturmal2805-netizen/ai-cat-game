@@ -1,0 +1,64 @@
+TAP version 13
+# Subtest: released core dimensions, current physical bed, dry arrival and independent neighbouring shores stay consistent
+ok 1 - released core dimensions, current physical bed, dry arrival and independent neighbouring shores stay consistent
+  ---
+  duration_ms: 30493.192759
+  type: 'test'
+  ...
+# Subtest: existing paid shoreline objects keep IDs, addresses, tiers, deadlines and dry platforms through reloads
+ok 2 - existing paid shoreline objects keep IDs, addresses, tiers, deadlines and dry platforms through reloads
+  ---
+  duration_ms: 4027.655289
+  type: 'test'
+  ...
+# Subtest: new outer land survives cached-client merge; genuine storage remains effective
+ok 3 - new outer land survives cached-client merge; genuine storage remains effective
+  ---
+  duration_ms: 83.127234
+  type: 'test'
+  ...
+# Subtest: caves are hollow real arches with usable floors and stable owned IDs, not a decorative decal
+ok 4 - caves are hollow real arches with usable floors and stable owned IDs, not a decorative decal
+  ---
+  duration_ms: 155.508395
+  type: 'test'
+  ...
+# Subtest: only the three circled east-side reef instances are omitted; remaining positions/forms and every building stay unchanged
+ok 5 - only the three circled east-side reef instances are omitted; remaining positions/forms and every building stay unchanged
+  ---
+  duration_ms: 6669.208763
+  type: 'test'
+  ...
+# Subtest: manual swimming and restored submarine poses can occupy and cross the deleted rock volumes without ghost contacts
+ok 6 - manual swimming and restored submarine poses can occupy and cross the deleted rock volumes without ghost contacts
+  ---
+  duration_ms: 26.427292
+  type: 'test'
+  ...
+# Subtest: authored flora remains byte-identical; only colonies without a surviving rock/floor support disappear
+ok 7 - authored flora remains byte-identical; only colonies without a surviving rock/floor support disappear
+  ---
+  duration_ms: 242.952152
+  type: 'test'
+  ...
+# Subtest: cached optical depth omits the removed trio while retaining the complete authored flora cache
+ok 8 - cached optical depth omits the removed trio while retaining the complete authored flora cache
+  ---
+  duration_ms: 83.962374
+  type: 'test'
+  ...
+# Subtest: the old decorative underside cannot protrude through the unchanged physical seabed at the exposed grey patch
+ok 9 - the old decorative underside cannot protrude through the unchanged physical seabed at the exposed grey patch
+  ---
+  duration_ms: 1259.788853
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 35333.469357

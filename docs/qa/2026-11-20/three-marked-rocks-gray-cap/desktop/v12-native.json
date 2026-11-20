@@ -1,0 +1,189 @@
+{
+  "report": {
+    "mall": {
+      "position": [
+        -450,
+        0,
+        500
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "box": {
+        "min": [
+          -620.9345397949219,
+          -169.5,
+          504.81850242614746
+        ],
+        "max": [
+          -279.8011016845703,
+          5.69000015258789,
+          626.9100036621094
+        ]
+      },
+      "visible": true
+    },
+    "spa": {
+      "position": [
+        -450,
+        -165,
+        480
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "box": {
+        "min": [
+          -600.2498931884766,
+          -166.86000001430511,
+          637.5940246582031
+        ],
+        "max": [
+          -299.7629089355469,
+          5.028000003576272,
+          791.5450134277344
+        ]
+      },
+      "visible": true
+    },
+    "warehouse": {
+      "position": [
+        2200,
+        -177,
+        450
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "box": {
+        "min": [
+          1485.2998962402344,
+          -178.5,
+          801.3000030517578
+        ],
+        "max": [
+          2014.7001037597656,
+          -120.9874153137207,
+          1098.6999969482422
+        ]
+      },
+      "visible": true
+    },
+    "water": {
+      "version": 12,
+      "waterSurfaces": 1,
+      "sameMaterial": true,
+      "geometryOnly": true,
+      "centralCorePreserved": 0.7,
+      "removedInnerHeadlands": 10,
+      "waterAreaM2": 4537536.859686573,
+      "extraSurfaceVertices": 87473,
+      "extraBedVertices": 117005
+    },
+    "habitat": {
+      "colonies": 384,
+      "fishCount": 60,
+      "pockets": 8
+    },
+    "coins": 13835,
+    "gaps": {
+      "mall": {
+        "edgeGapMetres": 1773.6948454461558,
+        "warehouseWidths": 3.350385625568004
+      },
+      "spa": {
+        "edgeGapMetres": 1785.0894594514284,
+        "warehouseWidths": 3.371909255221761
+      }
+    },
+    "removedReefs": {
+      "ids": [
+        "reef-terrace-2",
+        "reef-terrace-3",
+        "reef-terrace-4",
+        "reef-terrace-5",
+        "reef-terrace-6",
+        "reef-terrace-7",
+        "reef-terrace-8",
+        "reef-terrace-9",
+        "reef-terrace-10"
+      ],
+      "children": 9
+    }
+  },
+  "rows": [
+    {
+      "name": "three-reefs-overview",
+      "cameraFloorY": -191.90861249857227,
+      "cameraClearance": 931.9086124985722,
+      "camera": [
+        0,
+        740,
+        1550
+      ],
+      "target": [
+        -450,
+        -70,
+        600
+      ],
+      "calls": 2469,
+      "triangles": 19249535,
+      "memory": {
+        "geometries": 1792,
+        "textures": 106
+      },
+      "glLost": false,
+      "programs": 0
+    },
+    {
+      "name": "three-reefs-open-route",
+      "cameraFloorY": -200.87643035616753,
+      "cameraClearance": 188.87643035616753,
+      "camera": [
+        -30,
+        -12,
+        680
+      ],
+      "target": [
+        -290,
+        -50,
+        520
+      ],
+      "calls": 1294,
+      "triangles": 13664643,
+      "memory": {
+        "geometries": 1795,
+        "textures": 106
+      },
+      "glLost": false,
+      "programs": 0
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "scope": "Actual full game/private SQLite, SwiftShader not hardware FPS; QA camera override only."
+}

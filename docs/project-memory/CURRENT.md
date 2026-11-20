@@ -53,7 +53,9 @@ Raycast4точных пикселей показал: старый декора�
 не новый материал и не отсутствующий кусок геометрии дна.
 WIP:только декоративная нижняя основа опускается12м, capY=-212; физическое дно,
 ТРЦ/SPA/Warehouse/остальные9скал не меняются.9targeted tests PASS, включая реальные
-rays в бывшие серые пиксели, Node22 build/3optics PASS; Native нового финала выполняется.
+rays в бывшие серые пиксели, Node22 build/3optics PASS; Native нового финала desktop2views/phone390×844/coarse/DPR2 PASS;
+447public modules в каждом прогоне совпадают с9bf328c.145защищённых файлов
+прежние. [Финальное QA](../qa/2026-11-20/three-marked-rocks-gray-cap/README.md).
 Предыдущий автоматический merge остановлен ДОmerge. После локализованной правки
 PR#7 MERGED:source9bf328cda3da2fd066a36675e93a43a0ff33d691 → main
 407e4274128e86644619d022978e6d5fd16cd969. Workflow44742914000 выполняется;

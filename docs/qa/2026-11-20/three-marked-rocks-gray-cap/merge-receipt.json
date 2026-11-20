@@ -1,0 +1,10 @@
+{
+  "candidate": "9bf328cda3da2fd066a36675e93a43a0ff33d691",
+  "base": "1ebc94cb7c38d26aca2d87c7404d1380a8df33ac",
+  "baselineFullCI": "44740442266",
+  "result": {
+    "sha": "407e4274128e86644619d022978e6d5fd16cd969",
+    "merged": true,
+    "message": "Pull Request successfully merged"
+  }
+}
