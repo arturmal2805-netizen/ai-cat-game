@@ -775,3 +775,16 @@ candidate1ec45e8, где12старыхheadlands всё ещё окружали M
 PASS, offlineprobe4fa4e0cc0c7f. FullCI и finaldesktop/touch ещё pending — CURRENT.
 Не выдавать intermediate0ba9e549ed5221f61435679625719dbabc4d23fa за финальное
 одобрение. Старые истории/исходники/PNGs сохранены в remote.
+
+
+## 2026-11-20 — V12 слит, публикация ещё выполняется
+
+Полный CI44732308801 наca08b43ecee9fcf94aeca81abfe390434687e049 SUCCESS.
+PR5 слит2026-11-20T12:19:24Z, origin/main теперь
+1ebc94cb7c38d26aca2d87c7404d1380a8df33ac. Проверен одинаковый trackedtree
+63a12037f735a6d502ed2534e15e28218d39dd39. Никакие новые правки игры не вошли
+при слиянии. Основной workflow44734816312 ещё работает; liveпубликация не
+подтверждена. После успеха обязательныactualHTTP hashes и запись полногоSHA.
+Evidence2a0dd26d6d1ef5dacff96d61dc4a608fe75171a8 вcodex/v12-final-release-evidence.
+Существующаяsession22834 сама ждётmainCI и запускаетGETverifier; не дублировать
+merge/deploy. Native/source/ошибочные стадии сохранены отдельно.

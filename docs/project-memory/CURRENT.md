@@ -4,7 +4,8 @@
 
 ## Опубликованная версия
 
-**9e26f331d91d3ad85e2c0f15b5a6a4e63106e5ce**, origin/main.
+**9e26f331d91d3ad85e2c0f15b5a6a4e63106e5ce** — последняя подтверждённая публикация.
+Origin/main уже перешёл на1ebc94c; его выпуск пока выполняется.
 [Игра](https://arturmal2805-netizen.github.io/ai-cat-game/?v=9e26f33).
 Workflow **44612746706 — SUCCESS**. V11: 38 поверхностей воды SPA и бесплатные
 кнопки вызова Чичи и свободных жителей. V12 пока **НЕ опубликован**.
@@ -13,10 +14,13 @@ CSS:1ca6fd7d91d93d2434122de8b604f9e1f0306145487ece7434204f01d46492bc.
 
 ## Кандидат V12 и ближайший шаг
 
-PR **#5**, готов к слиянию после полного CI:
+PR **#5 — MERGED**,2026-11-20T12:19:24Z:
 https://github.com/arturmal2805-netizen/ai-cat-game/pull/5
 Источник: **ca08b43ecee9fcf94aeca81abfe390434687e049**, удалённая ветка
-**codex/v12-island-warehouse**. Новый полный CI **44732308801 выполняется**.
+**codex/v12-island-warehouse**. Полный CI **44732308801 — SUCCESS**.
+Слитый main:**1ebc94cb7c38d26aca2d87c7404d1380a8df33ac**. Его trackedtree
+63a12037f735a6d502ed2534e15e28218d39dd39 точно совпадает сca08b43.
+Основной workflow **44734816312 выполняется**: test→Worker→release/save→Pages.
 Рабочее дерево:/workspace/chichi-v12-island-warehouse сейчас стоит на отдельной
 ветке **codex/v12-final-release-evidence**, а не на ветке PR.
 
@@ -26,11 +30,12 @@ expansionBedY при том же допуске0.15м. CI44730300724 на9d81059
 Локально воспроизвели старое ожидание mosaBedY у удалённого склона; после правки
 все4legacy geometry/ownership/cave теста PASS. До этого57targeted checks PASS.
 Логи GitHub скачать не удалось из-за transportForbidden; не утверждать, что
-известен весь список ошибок старого полного CI. Новый полный PASS ещё требуется.
+известен весь список ошибок старого полного CI. Повторный полный CI44732308801 завершилсяSUCCESS.
 
-Далее: дождаться44732308801 SUCCESS → слить точный ca08b43 вmain → дождаться
-main workflow с Worker exact-release/shared-save/Pages → проверить реальные
-HTTP HTML/JS/CSS/probe bytes → записать полный опубликованный SHA и workflow.
+Далее: дождаться44734816312 SUCCESS с Worker exact-release/shared-save/Pages →
+проверить реальные HTTP HTML/JS/CSS/probe bytes → записать опубликованныйSHA.
+Не повторятьmerge: он уже выполнен и отправлен вorigin/main. Пока не объявлять,
+что1ebc94c опубликован, поскольку pipeline ещё работает.
 Публикация уже разрешена пользователем; повторное согласие не нужно.
 Не запускать платный AI и не использовать живой мир пользователя для QA.
 
@@ -61,7 +66,8 @@ Actual edge gaps:1773.6948454461558м до ТРЦ и1785.0894594514284м доSPA
 ## Доказательства
 
 Удалённая ветка **codex/v12-final-release-evidence**:
-**90dacb26d88d85d1888e8caae26472126c50d37e**, SHA проверен на сервере.
+**2a0dd26d6d1ef5dacff96d61dc4a608fe75171a8**, SHA проверен на сервере.
+Также сохраненыmerge-receipt.json/merge-verification.json/pr-workflow.json.
 Каталог:docs/qa/2026-11-20/v12-final-release/.
 Десктоп9ракурсов и отдельный touch390×844/coarse/DPR2/настоящая кнопка«Остров»
 PASS: errors[]/httpErrors[]/GLlostfalse/failedprograms0. Все8углов Warehouse
@@ -100,7 +106,8 @@ Sparse checkout исключаетdocs/qa: читать нужные файлы 
 ## Уже запущенная публикационная цепочка
 
 Не запускать второе слияние или дублирующее развёртывание.
-Exec session **22834** в /workspace/chichi-v12-island-warehouse:
+Exec session **22834** в /workspace/chichi-v12-island-warehouse уже прошла
+PRCI иmerge, сейчас ожидает основной workflow44734816312:
 `gh run watch44732308801 --exit-status` →
 /workspace/qa/merge-v12-after-ci.py. Скрипт проверяет SUCCESS точногоca08b43,
 894сравнения public modules, неизменныйbase9e26f33 и headPR5; только после этого
