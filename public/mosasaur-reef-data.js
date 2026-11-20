@@ -25,14 +25,24 @@ export const MOSA_REEF_AUTHORED_INSTANCES=MOSA_REEF_TERRACES.map((c,i)=>{
  const depth=[7,28,53,17,8,43,66,26,9,54,34,23][i],radius=c.radius*[1.42,1.18,1.54,1.3,1.43,1.28,1.46,1.39,1.37,1.44,1.47,1.32][i],top=MOSA_SEA.surfaceY-depth;return {...c,depth,radius,kind:i%3,base,top,scaleXZ:radius/10,scaleY:(top-base)/40,yaw:Math.atan2(-c.x,-c.z)};
 });
 export const MOSA_REEF_INSTANCES=MOSA_REEF_AUTHORED_INSTANCES.map((c,i)=>{const f=MALL_REEF_OFFSETS[i];return f?{...c,x:c.x+f.dx,z:c.z+f.dz}:c;});
+// User's circled east-side trio,2026-11-20. Authored IDs/data remain stable;
+// render and player collision omit ONLY these three original instances.
+export const MOSA_REMOVED_REEF_IDS=Object.freeze(['reef-terrace-0','reef-terrace-1','reef-terrace-11']);
+export const MOSA_ACTIVE_REEF_INSTANCES=MOSA_REEF_INSTANCES.filter(c=>!MOSA_REMOVED_REEF_IDS.includes(c.id));
+const activeOpticalTerraces=MOSA_REEF_TERRACES.filter(c=>!MOSA_REMOVED_REEF_IDS.includes(c.id));
 export function reefSolidDistance(c,x,y,z){const dx=x-c.x,dz=z-c.z,cs=Math.cos(c.yaw),sn=Math.sin(c.yaw);return rawField((dx*cs-dz*sn)/c.scaleXZ,(y-c.base)/c.scaleY,(dx*sn+dz*cs)/c.scaleXZ,c.kind)*Math.min(c.scaleXZ,c.scaleY);}
-export function mosaReefDistance(x,y,z){let d=Infinity;for(const c of MOSA_REEF_INSTANCES){const bx=Math.max(0,Math.abs(x-c.x)-c.radius*2.2),bz=Math.max(0,Math.abs(z-c.z)-c.radius*2.2),by=Math.max(0,c.base-c.scaleY*6-y,y-c.top-c.scaleY*7),bound=Math.hypot(bx,by,bz);d=Math.min(d,bound>4?bound:reefSolidDistance(c,x,y,z));}return d;}
-export function mosaReefClearance(x,y,z){const d=mosaReefDistance(x,y,z);if(d>=4)return d;const e=.05,gx=(mosaReefDistance(x+e,y,z)-mosaReefDistance(x-e,y,z))/(2*e),gy=(mosaReefDistance(x,y+e,z)-mosaReefDistance(x,y-e,z))/(2*e),gz=(mosaReefDistance(x,y,z+e)-mosaReefDistance(x,y,z-e))/(2*e);return d/Math.max(.15,Math.hypot(gx,gy,gz))*.8;}
-export function mosaReefSurfaceY(x,z){
- let highest=mosaBedY(x,z);for(const c of MOSA_REEF_INSTANCES){if(Math.hypot(x-c.x,z-c.z)>c.radius*2.2)continue;let y=c.top+c.scaleY*7;
+export function mosaReefDistance(x,y,z,instances=MOSA_REEF_INSTANCES){let d=Infinity;for(const c of instances){const bx=Math.max(0,Math.abs(x-c.x)-c.radius*2.2),bz=Math.max(0,Math.abs(z-c.z)-c.radius*2.2),by=Math.max(0,c.base-c.scaleY*6-y,y-c.top-c.scaleY*7),bound=Math.hypot(bx,by,bz);d=Math.min(d,bound>4?bound:reefSolidDistance(c,x,y,z));}return d;}
+function reefClearance(distance,x,y,z){const d=distance(x,y,z);if(d>=4)return d;const e=.05,gx=(distance(x+e,y,z)-distance(x-e,y,z))/(2*e),gy=(distance(x,y+e,z)-distance(x,y-e,z))/(2*e),gz=(distance(x,y,z+e)-distance(x,y,z-e))/(2*e);return d/Math.max(.15,Math.hypot(gx,gy,gz))*.8;}
+// Full authored field is retained for unchanged baked flora/fish addresses.
+export const mosaActiveReefDistance=(x,y,z)=>mosaReefDistance(x,y,z,MOSA_ACTIVE_REEF_INSTANCES);
+export const mosaReefClearance=(x,y,z)=>reefClearance(mosaReefDistance,x,y,z);
+export const mosaActiveReefClearance=(x,y,z)=>reefClearance(mosaActiveReefDistance,x,y,z);
+export function mosaReefSurfaceY(x,z,instances=MOSA_REEF_INSTANCES){
+ let highest=mosaBedY(x,z);for(const c of instances){if(Math.hypot(x-c.x,z-c.z)>c.radius*2.2)continue;let y=c.top+c.scaleY*7;
   for(let i=0;i<180&&y>highest;i++){const d=reefSolidDistance(c,x,y,z);if(d<.02){highest=y;break;}y-=Math.min(3,Math.max(.015,d*.45));}
  }return highest;
 }
+export const mosaActiveReefSurfaceY=(x,z)=>mosaReefSurfaceY(x,z,MOSA_ACTIVE_REEF_INSTANCES);
 export function reefWallSite(c,angle,level){
  const cs=Math.cos(c.yaw),sn=Math.sin(c.yaw),lx=Math.cos(angle),lz=Math.sin(angle),dx=lx*cs+lz*sn,dz=-lx*sn+lz*cs,y=c.base+(c.top-c.base)*level;
  // Roots follow the visible union of neighbouring cliffs AND the real bed;
@@ -61,7 +71,7 @@ export const reefCoralSites=()=>coralSites;
 export function installReefCoralSites(sites){coralSites=sites;}
 export function installMosaReefOpticalGrid(grid){if(grid.length!==MOSA_OPTICAL_GRID_SIZE**2)throw Error('Invalid reef depth grid');opticalGrid=grid;}
 export function mosaOpticalBedY(x,z){
- if(!opticalGrid){const natural=mosaBedY(x,z);let y=natural;for(const c of MOSA_REEF_TERRACES)y=Math.max(y,mosaTerraceY(c,x,z,natural));return y;}
+ if(!opticalGrid){const natural=mosaBedY(x,z);let y=natural;for(const c of activeOpticalTerraces)y=Math.max(y,mosaTerraceY(c,x,z,natural));return y;}
  const n=MOSA_OPTICAL_GRID_SIZE,u=Math.max(0,Math.min(n-1,(x/MOSA_OPTICAL_GRID_EXTENT*.5+.5)*(n-1))),v=Math.max(0,Math.min(n-1,(z/MOSA_OPTICAL_GRID_EXTENT*.5+.5)*(n-1))),ix=Math.min(n-2,Math.floor(u)),iz=Math.min(n-2,Math.floor(v)),a=u-ix,b=v-iz,k=iz*n+ix;
  return (opticalGrid[k]*(1-a)+opticalGrid[k+1]*a)*(1-b)+(opticalGrid[k+n]*(1-a)+opticalGrid[k+n+1]*a)*b;
 }

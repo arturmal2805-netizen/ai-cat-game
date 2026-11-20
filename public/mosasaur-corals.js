@@ -9,7 +9,7 @@ import {sculptBranchingCoralSteps} from './mosasaur-coral-sculpt.js';
 import {mosaRockSurface} from './mosasaur-rock-surfaces.js';
 import {detailedCoral} from './mosasaur-coral-anatomy.js';
 import {applyUnderwaterLighting} from './water-shading.js';
-import {mosaReefSurfaceY,reefCoralSites,installReefCoralSites,reefWallSite,MOSA_REEF_INSTANCES} from './mosasaur-reef-data.js';
+import {mosaActiveReefClearance,mosaReefSurfaceY,reefCoralSites,installReefCoralSites,reefWallSite,MOSA_REEF_INSTANCES} from './mosasaur-reef-data.js';
 import {MOSA_SEA,mosaBedY,mosaWaterRadius,mosaCoastFactor,MOSA_REEF_TERRACES} from './mosasaur-data.js';
 // Eleven reusable anatomies, 1,024 real colonies. All instance buffers are
 // immutable; polyps bend in the vertex shader from a single shared clock.
@@ -33,6 +33,8 @@ export function mosaCoralSites(){
   return {id:'mosa-reef-'+i,form,x,z,y,scale,yaw:a,nx:wall?.nx||0,ny:wall?.ny??1,nz:wall?.nz||0};
  });installReefCoralSites(sites);return sites;
 }
+const visibleSitesCache=new WeakMap();
+export function visibleMosaCoralSites(){const all=mosaCoralSites();if(!visibleSitesCache.has(all))visibleSitesCache.set(all,all.filter(p=>Math.abs(p.y-mosaBedY(p.x,p.z))<.15||Math.abs(mosaActiveReefClearance(p.x,p.y,p.z))<.15));return visibleSitesCache.get(all);}
 const templates=new Map(),seabedFarTemplates=new Map();
 export function installMosaSeabedFarTemplate(form,g){g.userData.sharedScenery=true;seabedFarTemplates.set(form,g);}
 // Read-only geometry lending for another selected ocean venue. Ownership and
@@ -66,7 +68,7 @@ function finishCoralGeometry(geometry,form){
  geometry.setAttribute('aReefGlow',new T.BufferAttribute(new Float32Array(geometry.attributes.position.count).fill(form===4?.05:.018),1));geometry.setAttribute('aReefSway',new T.BufferAttribute(new Float32Array(geometry.attributes.position.count).fill(form===9?.04:form===10?.025:.008),1));geometry.computeBoundingBox();geometry.userData.sharedScenery=true;return geometry;
 }
 export function* mosaCoralSteps({spatialCells=true,sitesOverride=null,lodDistances=[0,60,160],seabedFar=false}={}){
- const root=new T.Group(),clock={value:0},motion={value:1},sites=sitesOverride||mosaCoralSites(),dummy=new T.Object3D();root.name='Deep coral gardens · eleven distinct anatomies';
+ const root=new T.Group(),clock={value:0},motion={value:1},sourceSites=sitesOverride||mosaCoralSites(),visible=sitesOverride?null:new Set(visibleMosaCoralSites().map(p=>p.id)),dummy=new T.Object3D();root.name='Deep coral gardens · eleven distinct anatomies';
  const material=new T.MeshStandardMaterial({color:0xffffff,vertexColors:true,roughness:.78,normalMap:mosaRockSurface().coralNormal||null,normalScale:new T.Vector2(.65,.65),metalness:0,emissive:0x123d46,emissiveIntensity:.12,side:T.DoubleSide});
  material.onBeforeCompile=s=>{s.uniforms.uCoralTime=clock;s.uniforms.uCoralMotion=motion;s.vertexShader='uniform float uCoralTime;uniform float uCoralMotion;attribute float aReefGlow;attribute float aReefSway;varying float vReefGlow;varying vec3 vReefDetail;\n'+s.vertexShader.replace('#include <beginnormal_vertex>','#include <beginnormal_vertex>\nfloat phase=position.y*3.+uCoralTime*.7;float reefNormalBend=position.y>0.? aReefSway*(sin(phase)+position.y*3.*cos(phase))*uCoralMotion:0.;objectNormal.y-=reefNormalBend*objectNormal.x;objectNormal=normalize(objectNormal);').replace('#include <begin_vertex>','#include <begin_vertex>\nvReefGlow=aReefGlow;vReefDetail=position;transformed.x+=sin(position.y*3.+uCoralTime*.7)*max(position.y,0.)*aReefSway*uCoralMotion;');s.fragmentShader='varying float vReefGlow;varying vec3 vReefDetail;\n'+s.fragmentShader.replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n totalEmissiveRadiance+=vColor.rgb*vReefGlow;').replace('#include <normal_fragment_maps>',seabedFar?'#include <normal_fragment_maps>':`#include <normal_fragment_maps>
  vec3 coralP=vReefDetail*110.;float polyp=sin(coralP.x+sin(coralP.y*.67))*sin(coralP.z+coralP.y*.8);float filtered=1.-smoothstep(.7,2.,length(fwidth(coralP)));float relief=polyp*.0017*filtered;
@@ -77,15 +79,15 @@ export function* mosaCoralSteps({spatialCells=true,sitesOverride=null,lodDistanc
  // derivative relief layer over the same pores. Existing colonies retain v5.
  material.customProgramCacheKey=()=>seabedFar?'mosa-coral-scanned-polyps-v1':'mosa-coral-polyp-v5';applyUnderwaterLighting(material,clock,0x51d6ef,{level:{value:MOSA_SEA.surfaceY}});useMosasaurWaterField(material);
  for(let region=0;region<(sitesOverride?1:16);region++){
-  yield;const own=sitesOverride||sites.filter(p=>{const sector=Math.floor(((Math.atan2(p.z,p.x)+Math.PI*2)%(Math.PI*2))/(Math.PI/4)),outer=Math.hypot(p.x/MOSA_SEA.rx,p.z/MOSA_SEA.rz)>.84?1:0;return sector*2+outer===region;});if(!own.length)continue;
-  const center=own.reduce((v,p)=>v.add(new T.Vector3(p.x,p.y,p.z)),new T.Vector3()).multiplyScalar(1/own.length),lod=new T.LOD();lod.position.copy(center);root.add(lod);if(spatialCells)installCoralCellCulling(lod);
+  yield;const originalOwn=sitesOverride||sourceSites.filter(p=>{const sector=Math.floor(((Math.atan2(p.z,p.x)+Math.PI*2)%(Math.PI*2))/(Math.PI/4)),outer=Math.hypot(p.x/MOSA_SEA.rx,p.z/MOSA_SEA.rz)>.84?1:0;return sector*2+outer===region;}),own=visible?originalOwn.filter(p=>visible.has(p.id)):originalOwn;if(!own.length)continue;
+  const center=originalOwn.reduce((v,p)=>v.add(new T.Vector3(p.x,p.y,p.z)),new T.Vector3()).multiplyScalar(1/originalOwn.length),lod=new T.LOD();lod.position.copy(center);root.add(lod);if(spatialCells)installCoralCellCulling(lod);
   const groups=[new T.Group(),new T.Group(),new T.Group()];for(const [i,d]of lodDistances.entries())lod.addLevel(groups[i],d,.08);
   for(let form=0;form<11;form++){
-   yield;const batch=own.filter(p=>p.form===form);if(!batch.length)continue;
+   yield;const batch=own.filter(p=>p.form===form),originalBatch=originalOwn.filter(p=>p.form===form),originalColor=new Map(originalBatch.map((p,i)=>[p.id,i%4]));if(!batch.length)continue;
    if(!templates.has(form)){const full=yield* coralGeometrySteps(form);templates.set(form,[full,full,full]);}
    let original;const cells=coralCellIndices(batch),nearCells=[],ids=batch.map(p=>p.id);for(let level=0;level<3;level++){
     const mesh=new T.InstancedMesh(seabedFar&&level===2&&seabedFarTemplates.has(form)?seabedFarTemplates.get(form):templates.get(form)[level],material,batch.length);mesh.name=MOSA_CORAL_FORMS[form];
-    if(!level){for(let i=0;i<batch.length;i++){const p=batch[i];dummy.position.set(p.x-center.x,p.y-center.y,p.z-center.z);dummy.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),new T.Vector3(p.nx||0,p.ny??1,p.nz||0)).multiply(new T.Quaternion().setFromAxisAngle(new T.Vector3(0,1,0),p.yaw));dummy.scale.setScalar(p.scale);dummy.updateMatrix();mesh.setMatrixAt(i,dummy.matrix);mesh.setColorAt(i,new T.Color([0xffffff,0xffe7f5,0xe4faff,0xfff2ce][i%4]));}mesh.instanceMatrix.needsUpdate=true;mesh.computeBoundingBox();mesh.computeBoundingSphere();original=mesh;}
+    if(!level){for(let i=0;i<batch.length;i++){const p=batch[i];dummy.position.set(p.x-center.x,p.y-center.y,p.z-center.z);dummy.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),new T.Vector3(p.nx||0,p.ny??1,p.nz||0)).multiply(new T.Quaternion().setFromAxisAngle(new T.Vector3(0,1,0),p.yaw));dummy.scale.setScalar(p.scale);dummy.updateMatrix();mesh.setMatrixAt(i,dummy.matrix);mesh.setColorAt(i,new T.Color([0xffffff,0xffe7f5,0xe4faff,0xfff2ce][originalColor.get(p.id)]));}mesh.instanceMatrix.needsUpdate=true;mesh.computeBoundingBox();mesh.computeBoundingSphere();original=mesh;}
     else{mesh.instanceMatrix=original.instanceMatrix;mesh.instanceColor=original.instanceColor;mesh.boundingBox=original.boundingBox.clone();mesh.boundingSphere=original.boundingSphere.clone();}
     mesh.userData.colonyIds=ids;
     if(spatialCells&&level<2&&cells.length>1&&batch.length>=6){groups[level].userData.coralCells=true;for(const [cell,indices]of cells.entries()){yield;const sub=coralCellMesh(original,templates.get(form)[level],indices,ids,level?nearCells[cell]:null);if(!level)nearCells.push(sub);groups[level].add(sub);}mesh.dispose();}
@@ -93,5 +95,5 @@ export function* mosaCoralSteps({spatialCells=true,sitesOverride=null,lodDistanc
    }
   }
  }
- root.userData.sites=sites;root.userData.update=(time,reduced=false)=>{clock.value=reduced?0:time;motion.value=reduced?0:1;};return root;
+ root.userData.sites=sitesOverride||visibleMosaCoralSites();root.userData.update=(time,reduced=false)=>{clock.value=reduced?0:time;motion.value=reduced?0:1;};return root;
 }

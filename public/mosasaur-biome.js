@@ -197,6 +197,10 @@ export function* mosasaurBiomeSteps(
     MOSA_RADIUS - 3,
   );
   bottom.rotation.z = Math.PI;
+  // The expanded bed dips below the old -200m cone cap. Bury this purely
+  // decorative underside so it cannot show as a grey patch through the sand.
+  bottom.position.y -= 12;
+  bottom.name = 'Buried decorative island underside';
   yield;
   // The same water/fish engine, with a physically much deeper basin. Nothing
   // changes for the pre-existing lagoon material or basin defaults.
