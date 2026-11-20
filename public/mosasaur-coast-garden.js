@@ -1,4 +1,4 @@
-import {expansionCoastDecorPoint} from './mosasaur-expansion.js';
+import {expansionPoint,expansionCoastDecorPoint} from './mosasaur-expansion.js';
 import {meadowBroadleaf} from './meadow-leaves.js';
 import {sceneryDetailIndex} from './scenery-detail-levels.js';
 import {showcaseMaterialSteps} from './showcase-surface-details.js';
@@ -18,7 +18,14 @@ export function mosaForestSites(){const sites=[];for(let i=0;i<240;i++){
  const y=gardenHeight(x,z);if(y===null)continue;
  const mapped=y===.15?expansionCoastDecorPoint(x,z):{x,z};
  sites.push({x:mapped.x,y,z:mapped.z,angle,kind:i%5===0?'pink':i%5===1?'green':'palm',scale:.82+i%5*.1});
- }return sites;}
+ }
+ let previous=null;
+ for(let i=0;i<1024;i++){
+  const a=i*Math.PI*2/1024,p=expansionPoint(a,8+(i%4)*4),old=Math.hypot(Math.cos(a)*MOSA_SEA.rx*mosaCoastFactor(a),Math.sin(a)*MOSA_SEA.rz*mosaCoastFactor(a));
+  if(Math.hypot(p.x,p.z)-old<80||previous&&Math.hypot(p.x-previous.x,p.z-previous.z)<18)continue;
+  sites.push({x:p.x,y:.15,z:p.z,angle:a,kind:i%5===0?'pink':i%5===1?'green':'palm',scale:.85+i%4*.08});previous=p;
+ }
+ return sites;}
 export function* mosaCoastGardenSteps(placements=[]){
  const root=new T.Group(),rocks=new T.Group(),clockFalls=[],clear=placementClearance(placements.filter(p=>p.biome==='autumn')),dummy=new T.Object3D();root.name='Dense tropical headlands, flowering canopy and natural white-sand coves';
  for(const [i,p]of MOSA_HEADLANDS.entries()){
