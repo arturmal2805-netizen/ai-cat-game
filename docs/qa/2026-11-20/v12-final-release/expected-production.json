@@ -1,0 +1,22 @@
+{
+  "index.html": {
+    "bytes": 31956,
+    "sha256": "c23806a4baf706ca00a73c97de6c9b4bfd55b5a65016347f79e92f8e110ea552"
+  },
+  "dist/app.js": {
+    "bytes": 2808204,
+    "sha256": "eee88668a2689f000b143998a1a405723c77ecd596e4559cd4abbe165dcc8fa3"
+  },
+  "style.css": {
+    "bytes": 67599,
+    "sha256": "1ca6fd7d91d93d2434122de8b604f9e1f0306145487ece7434204f01d46492bc"
+  },
+  "art/ocean-reflections/tropical-coast-4fa4e0cc0c7f.png": {
+    "bytes": 36525,
+    "sha256": "4fa4e0cc0c7f63e1a3063f46a827bb458114a2cebe271e29ce81bbfac3beda4e"
+  },
+  "source": "9d81059d67249b024635a6c4d502c8d55a0e4d91",
+  "scripts": [
+    "./dist/app.js?v=eee88668a2689f00"
+  ]
+}
