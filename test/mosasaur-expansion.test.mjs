@@ -1,10 +1,11 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';import * as T from 'three';
 import {BIOMES,byBiome} from '../public/game-data.js';import {MOSA_RADIUS,MOSA_PREVIOUS_RADIUS,MOSA_RELEASED_SEA,MOSA_SEA,MOSA_SHORE_GATE,MOSA_DOCK,mosaBedY,mosaCoastFactor,mosaDryPoint} from '../public/mosasaur-data.js';
+import {expansionBedY} from '../public/mosasaur-expansion.js';
 import {retainedMosaLand} from '../public/mosasaur-retained-land.js';import {createBiomeScene} from '../public/biome-scenes.js';
 import {newGame,loadGame,purchase,placeItem,canPlace,storeItem} from '../public/economy.js';import {xpForLevel} from '../public/progression.js';import {mergeSharedWorld} from '../shared-world.mjs';
 const now=Date.UTC(2026,10,4),restore=g=>loadGame({getItem:k=>k==='chichi-world-v2'?JSON.stringify(g):null},now,{advance:false});
 function seed(){const g=newGame(now);g.unlocked.push('autumn');g.coins=8000000;g.progression.xp=xpForLevel(30);return g;}
-test('twice the released water area keeps a sloping physical bed, dry arrival and independent neighbouring shores',()=>{
+test('released core dimensions, current physical bed, dry arrival and independent neighbouring shores stay consistent',()=>{
  assert.ok(Math.abs(MOSA_SEA.rx*MOSA_SEA.rz/(MOSA_RELEASED_SEA.rx*MOSA_RELEASED_SEA.rz)-2)<1e-12);
  assert.ok(MOSA_RADIUS>MOSA_RELEASED_SEA.radius,'dry territory also grows without scaling owned objects');
  for(let i=0;i<360;i++){const a=i*Math.PI/180;assert.ok(Math.hypot(Math.cos(a)*MOSA_SEA.rx,Math.sin(a)*MOSA_SEA.rz)*mosaCoastFactor(a)+12<MOSA_RADIUS,'a real dry coast remains around the enlarged water');}
@@ -14,7 +15,7 @@ test('twice the released water area keeps a sloping physical bed, dry arrival an
  const island=createBiomeScene(b);island.updateMatrixWorld(true);const bed=island.userData.ocean.sea.userData.bed;
  for(const [x,z] of [[0,0],[40,5],[70,0],[0,85],[MOSA_SEA.rx*.9,0]]){
   const hits=new T.Raycaster(new T.Vector3(x,5,z),new T.Vector3(0,-1,0)).intersectObject(bed);
-  assert.ok(hits.length);assert.ok(Math.abs(hits[0].point.y-mosaBedY(x,z))<.15);
+  assert.ok(hits.length);assert.ok(Math.abs(hits[0].point.y-expansionBedY(x,z))<.15);
  }
  assert.ok(mosaBedY(MOSA_SEA.rx*mosaCoastFactor(0)*.99,0)>mosaBedY(0,0)+198);island.userData.dispose();
 });
