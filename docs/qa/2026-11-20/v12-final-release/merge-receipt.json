@@ -1,0 +1,12 @@
+{
+  "at": "2026-11-20T12:19:25.952486+00:00",
+  "candidate": "ca08b43ecee9fcf94aeca81abfe390434687e049",
+  "previousMain": "9e26f331d91d3ad85e2c0f15b5a6a4e63106e5ce",
+  "pr": 5,
+  "prWorkflow": "44732308801",
+  "result": {
+    "sha": "1ebc94cb7c38d26aca2d87c7404d1380a8df33ac",
+    "merged": true,
+    "message": "Pull Request successfully merged"
+  }
+}

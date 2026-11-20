@@ -1,0 +1,99 @@
+{
+  "conclusion": "success",
+  "headSha": "ca08b43ecee9fcf94aeca81abfe390434687e049",
+  "jobs": [
+    {
+      "completedAt": "2026-11-20T12:18:59Z",
+      "conclusion": "success",
+      "databaseId": 136274894999,
+      "name": "test",
+      "startedAt": "2026-11-20T12:01:22Z",
+      "status": "completed",
+      "steps": [
+        {
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run actions/checkout@v4",
+          "number": 2,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run actions/setup-node@v4",
+          "number": 3,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run npm ci",
+          "number": 4,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run npm run build",
+          "number": 5,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run npm test",
+          "number": 6,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run npx wrangler deploy --dry-run",
+          "number": 7,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Run actions/setup-node@v4",
+          "number": 13,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v4",
+          "number": 14,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 15,
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44732308801/job/136274894999"
+    },
+    {
+      "completedAt": "2026-11-20T12:19:00Z",
+      "conclusion": "skipped",
+      "databaseId": 136283210998,
+      "name": "deploy",
+      "startedAt": "2026-11-20T12:19:00Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44732308801/job/136283210998"
+    },
+    {
+      "completedAt": "2026-11-20T12:19:00Z",
+      "conclusion": "skipped",
+      "databaseId": 136283211313,
+      "name": "pages",
+      "startedAt": "2026-11-20T12:19:00Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44732308801/job/136283211313"
+    }
+  ],
+  "status": "completed",
+  "url": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44732308801"
+}
