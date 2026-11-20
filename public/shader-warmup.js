@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { yieldSceneTask } from "./scene-tasks.js";
+import { geometryBoundsSteps } from "./geometry-bounds.js";
 
 // Colour-only compileAsync does not prepare the actual depth pass or the first
 // uniform/attribute reflection. Do that cooperatively before a newly loaded
@@ -263,6 +264,15 @@ export function createShaderWarmup(
     let start = performance.now();
     for (const object of objects) {
       if (disposed || !needed()) return;
+      // Native projection lazily scans every vertex when a sphere is missing.
+      // Finish that exact static bound cooperatively before revealing the root.
+      for (const _ of geometryBoundsSteps(object.geometry)) {
+        if (disposed || !needed()) return;
+        if (performance.now() - start > 3) {
+          await turn(background);
+          start = performance.now();
+        }
+      }
       for (const material of Array.isArray(object.material)
         ? object.material
         : [object.material]) {

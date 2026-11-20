@@ -1,3 +1,4 @@
+import {fetchImmutableAsset} from './immutable-asset-fetch.js';
 import * as T from 'three';
 import {SHOWCASE_SURFACE_ASSETS} from './showcase-surface-assets.js';
 import {copyGeometryBuffers} from './geometry-tasks.js';
@@ -11,7 +12,7 @@ export function prepareShowcaseSurfaces(){
  return preparing||=(async()=>{
   const staged=new Map(),queue=Object.entries(SHOWCASE_SURFACE_ASSETS).flatMap(([kind,roles])=>Object.entries(roles).map(([role,url])=>({kind,role,url}))),created=[];
   try{
-   const decoded=await Promise.allSettled(Array.from({length:3},async()=>{while(queue.length){const {kind,role,url}=queue.shift(),response=await fetch(url,typeof AbortSignal?.timeout==='function'?{signal:AbortSignal.timeout(8000)}:{});if(!response.ok)throw Error('Water surface unavailable');
+   const decoded=await Promise.allSettled(Array.from({length:3},async()=>{while(queue.length){const {kind,role,url}=queue.shift(),response=await fetchImmutableAsset(url,typeof AbortSignal?.timeout==='function'?{signal:AbortSignal.timeout(8000)}:{});if(!response.ok)throw Error('Water surface unavailable');
     const bitmap=await createImageBitmap(await response.blob(),{imageOrientation:'none',colorSpaceConversion:'none',premultiplyAlpha:'none'}),t=new T.Texture(bitmap);
     t.name='Shared water garden '+kind+' '+role;t.flipY=false;t.wrapS=t.wrapT=T.RepeatWrapping;t.colorSpace=role==='color'?T.SRGBColorSpace:T.NoColorSpace;
     t.magFilter=T.LinearFilter;t.minFilter=T.LinearMipmapLinearFilter;t.generateMipmaps=true;t.anisotropy=4;t.userData.sharedScenery=true;t.needsUpdate=true;created.push(t);
