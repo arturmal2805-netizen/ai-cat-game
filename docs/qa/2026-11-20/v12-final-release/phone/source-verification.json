@@ -1,0 +1,19 @@
+{
+  "candidate": "9d81059d67249b024635a6c4d502c8d55a0e4d91",
+  "capturedHead": "98698a876cd2087d07b15f0d8effcf48c1003266",
+  "nativePublicModules": 447,
+  "everyModuleMatchesGit": true,
+  "waterSurfaces": 1,
+  "removedInnerHeadlands": 10,
+  "gaps": {
+    "mall": {
+      "edgeGapMetres": 1773.6948454461558,
+      "warehouseWidths": 3.350385625568004
+    },
+    "spa": {
+      "edgeGapMetres": 1785.0894594514284,
+      "warehouseWidths": 3.371909255221761
+    }
+  },
+  "scope": "Actual full game with private Worker/SQLite. Native Chromium/SwiftShader is not physical Mac/iPhone FPS or artistic approval."
+}
