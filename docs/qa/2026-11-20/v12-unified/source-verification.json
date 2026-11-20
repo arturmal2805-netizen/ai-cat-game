@@ -1,0 +1,17 @@
+{
+  "candidate": "1ec45e891c0eeb126462800106e83202ee4a7e4e",
+  "nativePublicModules": 447,
+  "everyModuleMatchesGit": true,
+  "oneWaterSurface": true,
+  "gaps": {
+    "mall": {
+      "edgeGapMetres": 1773.6948454461558,
+      "warehouseWidths": 3.350385625568004
+    },
+    "spa": {
+      "edgeGapMetres": 1785.0894594514284,
+      "warehouseWidths": 3.371909255221761
+    }
+  },
+  "scope": "Actual full game/private SQLite, desktop and portrait-aspect capture. Separate genuine touch-context product overview pending. No hardware FPS or artistic approval claim."
+}

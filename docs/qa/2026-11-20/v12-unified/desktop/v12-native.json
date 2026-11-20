@@ -1,0 +1,331 @@
+{
+  "report": {
+    "mall": {
+      "position": [
+        -450,
+        0,
+        500
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "box": {
+        "min": [
+          -620.9345397949219,
+          -169.5,
+          504.81850242614746
+        ],
+        "max": [
+          -279.8011016845703,
+          5.69000015258789,
+          626.9100036621094
+        ]
+      },
+      "visible": true
+    },
+    "spa": {
+      "position": [
+        -450,
+        -165,
+        480
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "box": {
+        "min": [
+          -600.2498931884766,
+          -166.86000001430511,
+          637.5940246582031
+        ],
+        "max": [
+          -299.7629089355469,
+          5.028000003576272,
+          791.5450134277344
+        ]
+      },
+      "visible": true
+    },
+    "warehouse": {
+      "position": [
+        2200,
+        -177,
+        450
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "box": {
+        "min": [
+          1485.2998962402344,
+          -178.5,
+          801.3000030517578
+        ],
+        "max": [
+          2014.7001037597656,
+          -120.9874153137207,
+          1098.6999969482422
+        ]
+      },
+      "visible": true
+    },
+    "water": {
+      "version": 12,
+      "waterSurfaces": 1,
+      "sameMaterial": true,
+      "geometryOnly": true,
+      "centralCorePreserved": 0.95,
+      "waterAreaM2": 4537536.859686573,
+      "extraSurfaceVertices": 87473,
+      "extraBedVertices": 117005
+    },
+    "habitat": {
+      "colonies": 384,
+      "fishCount": 60,
+      "pockets": 8
+    },
+    "coins": 13835,
+    "gaps": {
+      "mall": {
+        "edgeGapMetres": 1773.6948454461558,
+        "warehouseWidths": 3.350385625568004
+      },
+      "spa": {
+        "edgeGapMetres": 1785.0894594514284,
+        "warehouseWidths": 3.371909255221761
+      }
+    }
+  },
+  "rows": [
+    {
+      "name": "old-area-comparison",
+      "cameraFloorY": -191.90861249857227,
+      "cameraClearance": 931.9086124985722,
+      "camera": [
+        0,
+        740,
+        1550
+      ],
+      "target": [
+        -450,
+        -70,
+        600
+      ],
+      "calls": 2486,
+      "triangles": 19757060,
+      "memory": {
+        "geometries": 1796,
+        "textures": 106
+      },
+      "glLost": false,
+      "programs": 0
+    },
+    {
+      "name": "expanded-overview",
+      "cameraClearance": null,
+      "camera": [
+        1900,
+        2400,
+        3800
+      ],
+      "target": [
+        800,
+        -75,
+        950
+      ],
+      "calls": 3367,
+      "triangles": 19628808,
+      "memory": {
+        "geometries": 2686,
+        "textures": 108
+      },
+      "glLost": false,
+      "programs": 0
+    },
+    {
+      "name": "three-buildings",
+      "cameraClearance": null,
+      "camera": [
+        1500,
+        1300,
+        2900
+      ],
+      "target": [
+        600,
+        -130,
+        840
+      ],
+      "calls": 3181,
+      "triangles": 19326223,
+      "memory": {
+        "geometries": 2661,
+        "textures": 108
+      },
+      "glLost": false,
+      "programs": 0
+    },
+    {
+      "name": "open-water-gap",
+      "cameraFloorY": -202.96536642232738,
+      "cameraClearance": 127.96536642232738,
+      "camera": [
+        550,
+        -75,
+        1300
+      ],
+      "target": [
+        550,
+        -150,
+        800
+      ],
+      "calls": 743,
+      "triangles": 1882869,
+      "memory": {
+        "geometries": 2589,
+        "textures": 108
+      },
+      "glLost": false,
+      "programs": 0
+    },
+    {
+      "name": "warehouse-front",
+      "cameraFloorY": -202.1434061455023,
+      "cameraClearance": 162.1434061455023,
+      "camera": [
+        1750,
+        -40,
+        1470
+      ],
+      "target": [
+        1750,
+        -145,
+        950
+      ],
+      "calls": 399,
+      "triangles": 1106343,
+      "memory": {
+        "geometries": 2564,
+        "textures": 108
+      },
+      "glLost": false,
+      "programs": 0
+    },
+    {
+      "name": "warehouse-side",
+      "cameraFloorY": -171.31889416142306,
+      "cameraClearance": 126.31889416142306,
+      "camera": [
+        2290,
+        -45,
+        1050
+      ],
+      "target": [
+        1750,
+        -145,
+        950
+      ],
+      "calls": 3059,
+      "triangles": 19125856,
+      "memory": {
+        "geometries": 2589,
+        "textures": 108
+      },
+      "glLost": false,
+      "programs": 0
+    },
+    {
+      "name": "warehouse-top",
+      "cameraFloorY": -178.2500006866456,
+      "cameraClearance": 428.2500006866456,
+      "camera": [
+        1750,
+        250,
+        950
+      ],
+      "target": [
+        1750,
+        -145,
+        950.01
+      ],
+      "calls": 186,
+      "triangles": 931663,
+      "memory": {
+        "geometries": 1484,
+        "textures": 108
+      },
+      "glLost": false,
+      "programs": 0
+    },
+    {
+      "name": "new-coast",
+      "cameraClearance": null,
+      "camera": [
+        2350,
+        85,
+        1570
+      ],
+      "target": [
+        2400,
+        0,
+        1410
+      ],
+      "calls": 262,
+      "triangles": 1479736,
+      "memory": {
+        "geometries": 1508,
+        "textures": 108
+      },
+      "glLost": false,
+      "programs": 0
+    },
+    {
+      "name": "phone-overview",
+      "cameraClearance": null,
+      "camera": [
+        800,
+        11000,
+        9000
+      ],
+      "target": [
+        800,
+        -55,
+        900
+      ],
+      "calls": 3367,
+      "triangles": 19628680,
+      "memory": {
+        "geometries": 2595,
+        "textures": 108
+      },
+      "glLost": false,
+      "programs": 0
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "scope": "Actual full game/private SQLite, SwiftShader not hardware FPS; QA camera override only."
+}
