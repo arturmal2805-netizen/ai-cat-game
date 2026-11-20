@@ -1,3 +1,4 @@
+import {warehouseHabitatSteps} from './warehouse-habitat.js';
 import {expansionShorePath,expansionOuterPoint,expansionCoastDecorPoint,expandMosaSea,expansionWarehouseSteps} from './mosasaur-expansion.js';
 import {mosaPierPoles,mosaPierRails} from './resort-pier-link-data.js';
 import {floorStoneSteps} from './mosasaur-floor-stones.js';
@@ -127,6 +128,7 @@ export function* mosasaurBiomeSteps(
   base.add(sand);
   const pier=new THREE.Mesh(new THREE.BoxGeometry(2.2,.17,MOSA_SHORE_GATE.z-23+1),new THREE.MeshStandardMaterial({color:0xc39860,map:surfaceTexture('wood'),roughness:.72}));
   pier.position.set(0,.19,(23+MOSA_SHORE_GATE.z+1)/2);pier.name='Extended dry approach to the original pickup pier';pier.receiveShadow=true;navigation.add(pier);
+  const arrivalSupport=new THREE.Mesh(new THREE.BoxGeometry(9,.3,9),pier.material);arrivalSupport.position.set(MOSA_SHORE_GATE.x,.03,MOSA_SHORE_GATE.z);arrivalSupport.name='Preserved original pressure-lift shore landing';navigation.add(arrivalSupport);
   const rail=new THREE.Group();
   for(const {x,z}of mosaPierPoles(MOSA_SHORE_GATE.z))shape(rail,'pole',0x9a7648,x,.65,z,.055,.9,.055);
   for(const {x,a,b}of mosaPierRails(MOSA_SHORE_GATE.z))shape(rail,'cube',0xc7a16a,x,1.04,(a+b)/2,.055,.055,b-a);
@@ -141,7 +143,7 @@ export function* mosasaurBiomeSteps(
       MOSA_RADIUS - 0.1,
       MOSA_RADIUS - 3,
       MOSA_DEPTH+3,
-      48,
+      384,
       6,
       true,
     ),
@@ -176,7 +178,7 @@ export function* mosasaurBiomeSteps(
     "color",
     new THREE.Float32BufferAttribute(cliffColors, 3),
   );
-  for(let i=0;i<cliffPositions.count;i++){const x=cliffPositions.getX(i),z=cliffPositions.getZ(i),a=Math.atan2(z/MOSA_SEA.rz,x/MOSA_SEA.rx),p=expansionOuterPoint(a),ratio=Math.hypot(x,z)/(MOSA_RADIUS-.1);cliffPositions.setX(i,p.x*ratio);cliffPositions.setZ(i,p.z*ratio);}
+  for(let i=0;i<cliffPositions.count;i++){const x=cliffPositions.getX(i),z=cliffPositions.getZ(i),a=Math.atan2(z/MOSA_SEA.rz,x/MOSA_SEA.rx),p=expansionOuterPoint(a),ratio=1+Math.max(0,Math.hypot(x,z)/(MOSA_RADIUS-.1)-1)*.2;cliffPositions.setX(i,p.x*ratio);cliffPositions.setZ(i,p.z*ratio);}
   cliff.geometry.computeVertexNormals();
   cliff.material.color.set(0xffffff);
   cliff.material.vertexColors = true;
@@ -233,6 +235,7 @@ export function* mosasaurBiomeSteps(
     detail.add(depths);
     animations.push(depths);
     const reefPatch=yield* mosaSeabedPatchSteps();detail.add(reefPatch);animations.push(reefPatch);root.userData.ocean.reefPatch=reefPatch;
+    const habitat=yield* warehouseHabitatSteps();detail.add(habitat);animations.push(habitat);root.userData.ocean.warehouseHabitat={colonies:habitat.userData.colonies,fishCount:habitat.userData.fishCount,pockets:habitat.userData.reefPockets};
     root.userData.ocean.extraDrawCalls = depths.userData.drawCalls;
   }
   yield;

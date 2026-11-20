@@ -1,3 +1,4 @@
+import {survivingLegacyShore} from './mosasaur-expansion.js';
 import {expandedOverview} from './mosasaur-expansion-data.js';
 import {resortSpaView} from './resort-spa-camera.js';
 import {MOSA_SHORE_GATE} from './mosasaur-data.js';
@@ -470,7 +471,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     itemGroups = new Map(),
     npcs = new Map();
   const initialMosaLand=retainedMosaLand(initialGame.placements,initialGame.scenery);
-  function mosaDryPoint(x,z,margin){return projectMosaDryPoint(x,z,margin,islands.get('autumn')?.userData.retainedDryZones||initialMosaLand);}
+  function mosaDryPoint(x,z,margin=1.3){const zones=islands.get('autumn')?.userData.retainedDryZones||initialMosaLand;return survivingLegacyShore(projectMosaDryPoint(x,z,margin,zones),margin,zones);}
   let megaGroundPlots = [];
   const megaGroundPoint = { x: 0, z: 0 };
   const rideOutings = createRideOutings();
@@ -1328,9 +1329,10 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       try {
         if (
           old?.userData.lowOnly &&
+          ((b.id==='autumn'&&focused==='autumn'&&!viewingOverview)||(
           desiredDistance < Math.max(110, (b.radius || 12) * 7,b.magicFarm?islandOverviewDistance(b.radius,camera.fov,camera.aspect)*1.1:0) &&
           Math.hypot(b.center[0] - desiredLook.x, b.center[1] - desiredLook.z) <
-            (["jobcity","homestead","autumn"].includes(b.id) || b.waterpark || b.magicFarm ? b.radius + 10 : 40) && (!b.magicFarm||focused===b.id)
+            (["jobcity","homestead","autumn"].includes(b.id) || b.waterpark || b.magicFarm ? b.radius + 10 : 40) && (!b.magicFarm||focused===b.id)))
         ) {
           const snapshot = () => [
             game.placements.filter((p) => p.biome === id),
@@ -3926,6 +3928,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     for (const b of BIOMES) {
       const island = islands.get(b.id),
         close =
+          (b.id==='autumn'&&focused==='autumn'&&!viewingOverview)||
           distance < Math.max(110, (b.radius || 12) * 7,b.magicFarm?islandOverviewDistance(b.radius,camera.fov,camera.aspect)*1.1:0) &&
           (b.id === HOUSING_ID
             ? island.userData.near(look)

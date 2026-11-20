@@ -9,7 +9,7 @@ export function expansionRayRadius(dx,dz){
 export function expandedCoastPoint(a,sea,coastFactor,margin=0){
  const ox=Math.cos(a)*sea.rx*coastFactor(a),oz=Math.sin(a)*sea.rz*coastFactor(a),r=Math.hypot(ox,oz),dx=ox/r,dz=oz/r;
  const candidate=expansionRayRadius(dx,dz)*(1+.009*Math.sin(a*9)+.006*Math.cos(a*17));
- const radius=Math.max(r,candidate)+margin;return{x:dx*radius,z:dz*radius};
+ const blend=Math.max(0,40-Math.abs(r-candidate));const radius=Math.max(r,candidate)+blend*blend/160+margin;return{x:dx*radius,z:dz*radius};
 }
 export function expandedWaterContains(x,z,sea,coastFactor,margin=0){
  const a=Math.atan2(z/sea.rz,x/sea.rx),p=expandedCoastPoint(a,sea,coastFactor,-margin);return Math.hypot(x,z)<=Math.hypot(p.x,p.z);
@@ -17,3 +17,5 @@ export function expandedWaterContains(x,z,sea,coastFactor,margin=0){
 export function expandedCoastSamples(sea,coastFactor,margin=0,count=384){return Array.from({length:count+1},(_,i)=>expandedCoastPoint(i*TAU/count,sea,coastFactor,margin));}
 export function expandedOverview(){return{center:[650,-55,320],radius:1160};}
 export function warehousePlanBounds(){return{min:[WAREHOUSE.x-132,WAREHOUSE.y-1.2,WAREHOUSE.z-74],max:[WAREHOUSE.x+132,WAREHOUSE.y+56,WAREHOUSE.z+74]};}
+
+export const WAREHOUSE_REEFS=Object.freeze([[680,620],[850,90],[1110,100],[1420,260],[1400,550],[1150,640],[580,400],[1540,430]].map(([x,z],i)=>Object.freeze({x,z,radius:64+i%3*8,top:-72-i%4*11})));

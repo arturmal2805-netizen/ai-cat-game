@@ -1,0 +1,8 @@
+{
+  "sha256": "a450fbc7ece223756f073539fe8b9dc501f9082dee23300b36180f511f8470f5",
+  "baseline": null,
+  "node": "v22.23.5",
+  "head": "50c34b2ca50fc06365756d2b3b757933b04de552",
+  "dirty": " M public/mosasaur-biome.js\n M public/mosasaur-retained-land.js\n M public/world.js\n M scripts/audit-v12-native.mjs\n M scripts/check-aquarium.cjs\n?? public/warehouse-habitat.js\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

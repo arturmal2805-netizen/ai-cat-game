@@ -553,7 +553,7 @@ async function localWorker() {
                   )
                   .replace(
                     "    camera.updateMatrixWorld();\n    islands",
-                    "    if(window.__lagoonQA?.oceanReviewCamera){const p=window.__lagoonQA.oceanReviewCamera;camera.position.set(...p.eye);look.set(...p.target);desiredLook.copy(look);camera.lookAt(look);if(p.fov){camera.fov=p.fov;camera.updateProjectionMatrix();}}\n    camera.updateMatrixWorld();\n    islands",
+                    "    if(window.__lagoonQA?.oceanReviewCamera){const p=window.__lagoonQA.oceanReviewCamera;camera.position.set(...p.eye);look.set(...p.target);desiredLook.copy(look);camera.lookAt(look);if(p.fov){camera.fov=p.fov;camera.updateProjectionMatrix();}if(p.far){camera.far=p.far;camera.updateProjectionMatrix();}}\n    camera.updateMatrixWorld();\n    islands",
                   )
                   .replace("let frameProfile = createFrameProfile(renderer,", "window.__lagoonProfileOriginals=Object.fromEntries(['bufferData','bufferSubData','drawElements'].map(k=>[k,renderer.getContext()[k]]));let frameProfile = createFrameProfile(renderer,")
                   .replace(

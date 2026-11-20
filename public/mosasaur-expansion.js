@@ -1,7 +1,7 @@
 import * as T from 'three';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 import {MOSA_SEA,MOSA_RADIUS,MOSA_HEADLANDS,mosaCoastFactor,mosaBedY,mosaWaterRadius} from './mosasaur-data.js';
-import {expandedCoastPoint,expandedCoastSamples,MOSA_EXPANSION,WAREHOUSE} from './mosasaur-expansion-data.js';
+import {expandedCoastPoint,expandedCoastSamples,MOSA_EXPANSION,WAREHOUSE,WAREHOUSE_REEFS} from './mosasaur-expansion-data.js';
 import {warehouseExteriorSteps} from './warehouse-exterior.js';
 const TAU=Math.PI*2,clamp=T.MathUtils.clamp,smooth=T.MathUtils.smoothstep;
 export const expansionPoint=(a,margin=0)=>expandedCoastPoint(a,MOSA_SEA,mosaCoastFactor,margin);
@@ -17,12 +17,13 @@ export const protectedBuildingBed=(x,z)=>Math.abs(x)<176&&z> -26&&z<300;
 export function expansionBedY(x,z){
  if(protectedBuildingBed(x,z))return mosaBedY(x,z);
  const a=Math.atan2(z/MOSA_SEA.rz,x/MOSA_SEA.rx),p=expansionPoint(a),r=Math.hypot(x,z),outer=Math.hypot(p.x,p.z),q=mosaWaterRadius(x,z),oldR=r/Math.max(q,.00001),extension=outer-oldR;
- if(extension<1||q<=.84)return mosaBedY(x,z);
- const coastDistance=outer-r,deep=MOSA_EXPANSION.bedY+5*Math.sin(x*.008)*Math.sin(z*.007),shoal=smooth(coastDistance,0,100),channel=T.MathUtils.lerp(-.495,deep,shoal),carve=smooth(q,.84,1),base=q<1?T.MathUtils.lerp(mosaBedY(x,z),channel,carve):channel;
+ if(extension<1||q<=.95)return mosaBedY(x,z);
+ const coastDistance=outer-r,deep=MOSA_EXPANSION.bedY+5*Math.sin(x*.008)*Math.sin(z*.007),shoal=smooth(coastDistance,0,100),channel=T.MathUtils.lerp(-.495,deep,shoal),carve=smooth(q,.95,1),base=q<1?T.MathUtils.lerp(mosaBedY(x,z),channel,carve):channel;
  // A broad natural shelf embeds the pale foundation; no suspended warehouse.
  const dx=Math.max(0,Math.abs(x-WAREHOUSE.x)-132),dz=Math.max(0,Math.abs(z-WAREHOUSE.z)-74),shelf=1-smooth(Math.hypot(dx,dz),0,80);let y=T.MathUtils.lerp(base,WAREHOUSE.y-1.25,shelf);
  // Existing headland crowns become intact islets with stone-root support.
  for(const h of MOSA_HEADLANDS){const d=Math.hypot(x-h.x,z-h.z);if(d<h.radius+15)y=Math.max(y,T.MathUtils.lerp(-10,base,smooth(d,h.radius*.84,h.radius+15)));}
+ for(const reef of WAREHOUSE_REEFS){const r=Math.hypot(x-reef.x,z-reef.z)/reef.radius;if(r<1)y=Math.max(y,T.MathUtils.lerp(base,reef.top,1-smooth(r,.14,1)));}
  return y;
 }
 function radialAnnulus(segments,rings,{bed=false,baseY=0}={}){
@@ -39,15 +40,28 @@ export function expandMosaSea(sea){
  const bed=sea.userData.bed,surface=sea.children.find(m=>m.isMesh&&m.material===sea.userData.water),bp=bed.geometry.attributes.position,depth=surface.geometry.attributes.aPhysicalBedDepth,sp=surface.geometry.attributes.position;
  // Core vertices retain their exact positions. Only the former outer shoreline
  // becomes the broad deep connection explicitly authorised by the user.
- for(let i=0;i<bp.count;i++){const x=bp.getX(i)*MOSA_SEA.rx,z=-bp.getY(i)*MOSA_SEA.rz;if(mosaWaterRadius(x,z)>.84)bp.setZ(i,expansionBedY(x,z)-bed.position.y);}
- for(let i=0;i<sp.count;i++){const x=sp.getX(i)*MOSA_SEA.rx,z=-sp.getY(i)*MOSA_SEA.rz;if(mosaWaterRadius(x,z)>.84&&!protectedBuildingBed(x,z))depth.setX(i,MOSA_SEA.surfaceY-expansionBedY(x,z));}
+ for(let i=0;i<bp.count;i++){const x=bp.getX(i)*MOSA_SEA.rx,z=-bp.getY(i)*MOSA_SEA.rz;if(mosaWaterRadius(x,z)>.95)bp.setZ(i,expansionBedY(x,z)-bed.position.y);}
+ for(let i=0;i<sp.count;i++){const x=sp.getX(i)*MOSA_SEA.rx,z=-sp.getY(i)*MOSA_SEA.rz;if(mosaWaterRadius(x,z)>.95&&!protectedBuildingBed(x,z))depth.setX(i,MOSA_SEA.surfaceY-expansionBedY(x,z));}
  const extension=radialAnnulus(surface.geometry.parameters.thetaSegments,80),bg=radialAnnulus(bed.geometry.parameters.thetaSegments,80,{bed:true,baseY:bed.position.y}),oldSurface=surface.geometry,oldBed=bed.geometry;
  surface.geometry=mergeGeometries([oldSurface,extension]);bed.geometry=mergeGeometries([oldBed,bg]);bed.geometry.computeVertexNormals();surface.geometry.computeBoundingSphere();surface.geometry.computeBoundingBox();surface.geometry.boundingBox.min.z=-1.2;surface.geometry.boundingBox.max.z=1.2;surface.geometry.computeBoundingSphere();
  for(const g of [oldSurface,extension,oldBed,bg])g.dispose();
  // Remove the former enclosing vertical wall/rim, not any fauna or seabed prop.
  for(const o of [...sea.children])if(o.isMesh&&o!==surface&&o!==bed&&(o.geometry.type==='CylinderGeometry'||o.geometry.type==='TorusGeometry')){sea.remove(o);o.geometry.dispose();o.material.dispose();}
  // One native surface, one released material/clock/field/probe, no second pond.
- sea.userData.expansion={version:12,waterSurfaces:1,sameMaterial:true,geometryOnly:true,centralCorePreserved:.84};
+ sea.userData.expansion={version:12,waterSurfaces:1,sameMaterial:true,geometryOnly:true,centralCorePreserved:.95};
  return sea.userData.expansion;
 }
 export function* expansionWarehouseSteps(){return yield* warehouseExteriorSteps();}
+
+// Residents retain valid released save coordinates on the still-dry old shore.
+// Owned pads and the existing pier always win; never strand a saved cat where
+// the explicitly approved coast redesign removed the old ground.
+let survivingShore;
+export function survivingLegacyShore(point,margin,zones=[]){
+ if(Math.abs(point.x)<=1.1&&point.z>=9.8&&point.z<=326.8)return point;
+ if(zones.some(p=>{const a=p.yaw||0,dx=point.x-p.x,dz=point.z-p.z;return Math.abs(dx*Math.cos(a)-dz*Math.sin(a))<=p.w/2&&Math.abs(dx*Math.sin(a)+dz*Math.cos(a))<=p.d/2;}))return point;
+ const wet=(x,z)=>{const a=Math.atan2(z/MOSA_SEA.rz,x/MOSA_SEA.rx),p=expansionPoint(a);return Math.hypot(x,z)<Math.hypot(p.x,p.z)+Math.max(.5,margin);};
+ if(!wet(point.x,point.z))return point;
+ survivingShore??=Array.from({length:384},(_,i)=>{const a=i*TAU/384,p={x:Math.cos(a)*MOSA_SEA.rx*mosaCoastFactor(a),z:Math.sin(a)*MOSA_SEA.rz*mosaCoastFactor(a)},r=Math.hypot(p.x,p.z),factor=(r+7)/r;return{x:p.x*factor,z:p.z*factor};}).filter(p=>!wet(p.x,p.z)&&MOSA_HEADLANDS.every(h=>Math.hypot(p.x-h.x,p.z-h.z)>h.radius+5));
+ let nearest=point,distance=Infinity;for(const p of survivingShore){const d=Math.hypot(p.x-point.x,p.z-point.z);if(d<distance){distance=d;nearest=p;}}return {...nearest};
+}
