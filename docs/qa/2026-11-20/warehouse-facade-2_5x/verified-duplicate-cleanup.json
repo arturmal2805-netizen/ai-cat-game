@@ -1,0 +1,38 @@
+[
+  {
+    "folder": "/workspace/qa/venue-camera-native-desktop-final",
+    "archiveRef": "cf1e3020cb147911c4ca00b4579f1b9ad57a5a2a:docs/qa/2026-11-20/venue-camera/desktop/source-proof.tar.gz",
+    "archiveSha256": "440f5ae1b2bbd69e8013a52e94d50ad0797a737cc5757a1f31247bac2de30043",
+    "removedDuplicateBytes": 8822934
+  },
+  {
+    "folder": "/workspace/qa/venue-camera-native-phone-final",
+    "archiveRef": "cf1e3020cb147911c4ca00b4579f1b9ad57a5a2a:docs/qa/2026-11-20/venue-camera/phone/source-proof.tar.gz",
+    "archiveSha256": "61f47b57768fb05b61c9359a613cefc2175b6887f2386a0915cfd95a5ef75d16",
+    "removedDuplicateBytes": 8822934
+  },
+  {
+    "folder": "/workspace/qa/mosa-gray-cap-native-desktop",
+    "archiveRef": "cf1e3020cb147911c4ca00b4579f1b9ad57a5a2a:docs/qa/2026-11-20/three-marked-rocks-gray-cap/desktop/source-proof.tar.gz",
+    "archiveSha256": "c083efeb1974b91ffcd9ddb219f1d25499e1363a3c2238ecaf105b836cc66903",
+    "removedDuplicateBytes": 8816723
+  },
+  {
+    "folder": "/workspace/qa/mosa-gray-cap-native-phone",
+    "archiveRef": "cf1e3020cb147911c4ca00b4579f1b9ad57a5a2a:docs/qa/2026-11-20/three-marked-rocks-gray-cap/phone/source-proof.tar.gz",
+    "archiveSha256": "0978f2ffcba36ff2e97853da239aacac610c24f594cf60e1c9a5dfa058aa2761",
+    "removedDuplicateBytes": 8816723
+  },
+  {
+    "folder": "/workspace/qa/mosa-three-rocks-native-desktop-final",
+    "archiveRef": "cf1e3020cb147911c4ca00b4579f1b9ad57a5a2a:docs/qa/2026-11-20/three-marked-rocks/desktop/source-proof.tar.gz",
+    "archiveSha256": "ce740a988c1a27ff7c83bcc52258e419046306cee3f16c33dd9504cf281d27a1",
+    "removedDuplicateBytes": 8816409
+  },
+  {
+    "folder": "/workspace/qa/mosa-three-rocks-native-phone-final",
+    "archiveRef": "cf1e3020cb147911c4ca00b4579f1b9ad57a5a2a:docs/qa/2026-11-20/three-marked-rocks/phone/source-proof.tar.gz",
+    "archiveSha256": "109976bbb6ac998ca3af51fb5b863e7877d7e31ac74d4367a1b894d135ddd8fb",
+    "removedDuplicateBytes": 8816409
+  }
+]

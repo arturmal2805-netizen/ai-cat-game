@@ -1,0 +1,54 @@
+{
+  "node": "v22.23.5",
+  "chromiumExecutable": "/usr/bin/chromium",
+  "chromiumVersion": "Chromium 156.0.8078.79 built on Debian GNU/Linux 13 (trixie)",
+  "rendererModeRequested": "ANGLE SwiftShader via launch flags; not physical-device FPS",
+  "desktop": {
+    "viewport": [
+      1440,
+      1000
+    ],
+    "DPR": 1
+  },
+  "phone": {
+    "viewport": [
+      390,
+      844
+    ],
+    "DPR": 2,
+    "coarse": true
+  },
+  "lightingInspection": {
+    "hour": 12,
+    "terrainClock": 7
+  },
+  "privateFixture": "Local Miniflare Worker/SQLite, no live save or paid AI",
+  "timing": "Skipped: geometry/appearance/navigation QA, not a performance benchmark",
+  "pngs": [
+    {
+      "path": "desktop/warehouse-camera-and-toolbar.png",
+      "bytes": 646172,
+      "sha256": "6f097886f197939576b52be4f7bbc29c6261efa347cd4c04aa3f4f94c752b132"
+    },
+    {
+      "path": "desktop/warehouse-portal-close.png",
+      "bytes": 1017959,
+      "sha256": "daf368a829923a607283dfc1456b1059db7c3eaeedb36a0ce0622585c0377133"
+    },
+    {
+      "path": "desktop/warehouse-front-full.png",
+      "bytes": 1074800,
+      "sha256": "e866b06f52db89df8d6323a3e0390b2f723167de80d8733752e5924594596a7b"
+    },
+    {
+      "path": "phone/warehouse-camera-and-toolbar.png",
+      "bytes": 562081,
+      "sha256": "b44c698c4a9e2892c273713419e270baa29b540c6a49d612b90cbba11a95fee7"
+    },
+    {
+      "path": "phone/warehouse-portal-phone.png",
+      "bytes": 962325,
+      "sha256": "f85ea13d35911cbca83559214529a096a6ffc9228930c3b5356fe46a8f31b9e9"
+    }
+  ]
+}

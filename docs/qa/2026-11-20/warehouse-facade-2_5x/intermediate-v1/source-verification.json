@@ -1,0 +1,21 @@
+{
+  "candidate": "e91c86b6c2ab7b30769b69949f7ed25631421acb",
+  "modules": 450,
+  "everyCapturedModuleMatchesCandidate": true,
+  "state": "intermediate superseded: fog obscures detail and canopy intersects arch",
+  "bounds": {
+    "min": [
+      1088.249755859375,
+      -182.04,
+      801.3000030517578
+    ],
+    "max": [
+      2411.750244140625,
+      -38.25853637695312,
+      1098.6999969482422
+    ]
+  },
+  "meshCount": 11,
+  "triangles": 115470,
+  "scope": "Actual full game/private Worker; software Chromium is not hardware FPS or artistic approval."
+}

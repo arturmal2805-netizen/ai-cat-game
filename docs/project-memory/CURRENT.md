@@ -56,9 +56,13 @@ reef-terrace-0, 1, 11, их коллизии и оптическая высот�
 центр(2200,-177,450),scale1 и прежняя топология стеклянного купола сохранены.
 Никакого нового интерьера/игровых механик. Детали: карнизы, рамы, панели, колоны,
 фонари, портал, козырёк, ступени, герб и вынесенная вперёд вывеска.
-Источник **e91c86b** (полный SHA уточнить вGit), ветка **codex/warehouse-facade-2_5x**,
+Источник **139c68af0dabcacb76d47d3bd83f5f722ca7fa01**, ветка **codex/warehouse-facade-2_5x**,
 worktree /workspace/chichi-v12-island-warehouse. Node22build/20targeted/4facade checks PASS.
-Реальный Native desktop/phone и новый fullCI/публикация ещё pending. Последний
+PR#9 merged → main **f28975bd8c2cf1cd7d94c61239ab8f98f7dbc96f**,
+workflow **44755743721** выполняется. 27focusedchecks и Node22CIbuild PASS.
+Native desktop/phone coarseDPR2,450publicmodules каждого прогона exactsource PASS.
+[QA/исходники/кадры](../qa/2026-11-20/warehouse-facade-2_5x/README.md).
+ПолныйCI/публикация ещё pending. Последний
 подтверждённый сайт всё ещё b995a82, новую работу не объявлять опубликованной.
 
 Габариты укладываются в прежнюю лагуну, кровля ниже -30м. Исторический зазор

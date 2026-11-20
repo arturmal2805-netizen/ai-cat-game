@@ -1,0 +1,172 @@
+TAP version 13
+# Subtest: one contiguous basin retains a 1300m clear approach after the authorized Warehouse enlargement
+ok 1 - one contiguous basin retains a 1300m clear approach after the authorized Warehouse enlargement
+  ---
+  duration_ms: 12.857127
+  type: 'test'
+  ...
+# Subtest: protected old central bed and building approaches retain exact heights
+ok 2 - protected old central bed and building approaches retain exact heights
+  ---
+  duration_ms: 7.649012
+  type: 'test'
+  ...
+# Subtest: expansion extends a single released water surface without a shader/material/clock fork
+ok 3 - expansion extends a single released water surface without a shader/material/clock fork
+  ---
+  duration_ms: 728.916295
+  type: 'test'
+  ...
+# Subtest: exactly one sealed underwater shell with a neutral base, no equipped interior or interactions
+ok 4 - exactly one sealed underwater shell with a neutral base, no equipped interior or interactions
+  ---
+  duration_ms: 185.426756
+  type: 'test'
+  ...
+# Subtest: current released paid shore stays supported without changing purchases or saved addresses
+ok 5 - current released paid shore stays supported without changing purchases or saved addresses
+  ---
+  duration_ms: 6.647333
+  type: 'test'
+  ...
+# Subtest: expanded coast stays clear of every other island and the infinitely extending housing row
+ok 6 - expanded coast stays clear of every other island and the infinitely extending housing row
+  ---
+  duration_ms: 18.337298
+  type: 'test'
+  ...
+# Subtest: the former neck belongs to the common lagoon instead of enclosing a small separate cup
+ok 7 - the former neck belongs to the common lagoon instead of enclosing a small separate cup
+  ---
+  duration_ms: 0.266613
+  type: 'test'
+  ...
+# Subtest: former interior headlands and their raised bed roots no longer form a small rock cup
+ok 8 - former interior headlands and their raised bed roots no longer form a small rock cup
+  ---
+  duration_ms: 15.089533
+  type: 'test'
+  ...
+# Subtest: existing swimmer and submarine floor contacts use the carved bed instead of a ghost old rim
+ok 9 - existing swimmer and submarine floor contacts use the carved bed instead of a ghost old rim
+  ---
+  duration_ms: 15.643863
+  type: 'test'
+  ...
+# Subtest: the preserved building bed joins the common deep floor with a smooth shoulder rather than a vertical rectangle
+ok 10 - the preserved building bed joins the common deep floor with a smooth shoulder rather than a vertical rectangle
+  ---
+  duration_ms: 0.928731
+  type: 'test'
+  ...
+# Subtest: released core dimensions, current physical bed, dry arrival and independent neighbouring shores stay consistent
+ok 11 - released core dimensions, current physical bed, dry arrival and independent neighbouring shores stay consistent
+  ---
+  duration_ms: 33831.336057
+  type: 'test'
+  ...
+# Subtest: existing paid shoreline objects keep IDs, addresses, tiers, deadlines and dry platforms through reloads
+ok 12 - existing paid shoreline objects keep IDs, addresses, tiers, deadlines and dry platforms through reloads
+  ---
+  duration_ms: 3296.519887
+  type: 'test'
+  ...
+# Subtest: new outer land survives cached-client merge; genuine storage remains effective
+ok 13 - new outer land survives cached-client merge; genuine storage remains effective
+  ---
+  duration_ms: 84.719707
+  type: 'test'
+  ...
+# Subtest: caves are hollow real arches with usable floors and stable owned IDs, not a decorative decal
+ok 14 - caves are hollow real arches with usable floors and stable owned IDs, not a decorative decal
+  ---
+  duration_ms: 162.674398
+  type: 'test'
+  ...
+# Subtest: removed east-side reefs stay absent; original reef addresses and non-Warehouse buildings stay unchanged
+ok 15 - removed east-side reefs stay absent; original reef addresses and non-Warehouse buildings stay unchanged
+  ---
+  duration_ms: 8738.706811
+  type: 'test'
+  ...
+# Subtest: manual swimming and restored submarine poses can occupy and cross the deleted rock volumes without ghost contacts
+ok 16 - manual swimming and restored submarine poses can occupy and cross the deleted rock volumes without ghost contacts
+  ---
+  duration_ms: 29.017182
+  type: 'test'
+  ...
+# Subtest: authored flora remains byte-identical; only colonies without a surviving rock/floor support disappear
+ok 17 - authored flora remains byte-identical; only colonies without a surviving rock/floor support disappear
+  ---
+  duration_ms: 400.00341
+  type: 'test'
+  ...
+# Subtest: cached optical depth omits the removed trio while retaining the complete authored flora cache
+ok 18 - cached optical depth omits the removed trio while retaining the complete authored flora cache
+  ---
+  duration_ms: 80.041069
+  type: 'test'
+  ...
+# Subtest: the old decorative underside cannot protrude through the unchanged physical seabed at the exposed grey patch
+ok 19 - the old decorative underside cannot protrude through the unchanged physical seabed at the exposed grey patch
+  ---
+  duration_ms: 1542.090791
+  type: 'test'
+  ...
+# Subtest: the ocean reflection is a valid immutable local capture of its current native coastal producers
+ok 20 - the ocean reflection is a valid immutable local capture of its current native coastal producers
+  ---
+  duration_ms: 42.921502
+  type: 'test'
+  ...
+# Subtest: the native warmup uploads every hidden ocean sampler before compiling its first live material
+ok 21 - the native warmup uploads every hidden ocean sampler before compiling its first live material
+  ---
+  duration_ms: 87.560959
+  type: 'test'
+  ...
+# Subtest: ocean optics retain the native two field samples, one reflection lookup and bounded scalar wake slots
+ok 22 - ocean optics retain the native two field samples, one reflection lookup and bounded scalar wake slots
+  ---
+  duration_ms: 11.029251
+  type: 'test'
+  ...
+# Subtest: Warehouse button camera fits the real shell in portrait/landscape and remains in open water above the physical floor
+ok 23 - Warehouse button camera fits the real shell in portrait/landscape and remains in open water above the physical floor
+  ---
+  duration_ms: 345.758819
+  type: 'test'
+  ...
+# Subtest: approved glass shell retains its topology and exact 2.5x width/height with unchanged depth, floor anchor and world position
+ok 24 - approved glass shell retains its topology and exact 2.5x width/height with unchanged depth, floor anchor and world position
+  ---
+  duration_ms: 282.02462
+  type: 'test'
+  ...
+# Subtest: architectural facade uses static shared batches without adding an interior, interactions or dynamic lights
+ok 25 - architectural facade uses static shared batches without adding an interior, interactions or dynamic lights
+  ---
+  duration_ms: 156.870178
+  type: 'test'
+  ...
+# Subtest: only the two covered Warehouse garden pockets move clear of the enlarged foundation; counts and other addresses survive
+ok 26 - only the two covered Warehouse garden pockets move clear of the enlarged foundation; counts and other addresses survive
+  ---
+  duration_ms: 11.839496
+  type: 'test'
+  ...
+# Subtest: Warehouse illumination keeps global ocean fog and glazing untouched and adds no texture or dynamic-light pass
+ok 27 - Warehouse illumination keeps global ocean fog and glazing untouched and adds no texture or dynamic-light pass
+  ---
+  duration_ms: 226.595071
+  type: 'test'
+  ...
+1..27
+# tests 27
+# suites 0
+# pass 27
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 38209.185807

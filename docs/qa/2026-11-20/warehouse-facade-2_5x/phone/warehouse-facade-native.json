@@ -1,0 +1,76 @@
+{
+  "report": {
+    "position": [
+      2200,
+      -177,
+      450
+    ],
+    "scale": [
+      1,
+      1,
+      1
+    ],
+    "bounds": {
+      "min": [
+        1088.249755859375,
+        -182.04,
+        801.3000030517578
+      ],
+      "max": [
+        2411.750244140625,
+        -38.25853637695312,
+        1098.6999969482422
+      ]
+    },
+    "facade": {
+      "version": 2,
+      "wallPanelCount": 20,
+      "lanternCount": 12,
+      "portalLayers": 4,
+      "roofSecondaryRibs": 16,
+      "interiorAdded": false
+    },
+    "dimensions": {
+      "width": 1200,
+      "depth": 240,
+      "heightScale": 2.5
+    },
+    "meshes": 11,
+    "triangles": 115470,
+    "water": {
+      "version": 12,
+      "waterSurfaces": 1,
+      "sameMaterial": true,
+      "geometryOnly": true,
+      "centralCorePreserved": 0.7,
+      "removedInnerHeadlands": 10,
+      "waterAreaM2": 4537536.859686573,
+      "extraSurfaceVertices": 87473,
+      "extraBedVertices": 117005
+    }
+  },
+  "rows": [
+    {
+      "name": "warehouse-portal-phone",
+      "camera": [
+        1750,
+        -85,
+        1340
+      ],
+      "target": [
+        1750,
+        -127,
+        1070
+      ],
+      "fov": 95,
+      "dpr": 2,
+      "floorY": -142.5135265055306,
+      "clearance": 57.51352650553059,
+      "lost": false,
+      "failedPrograms": 0
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "scope": "Actual full game/private Worker SQLite. Product toolbar view plus explicit QA inspection cameras; no artistic approval or physical-device FPS claim."
+}

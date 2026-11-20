@@ -1,0 +1,40 @@
+TAP version 13
+# Subtest: Warehouse button camera fits the real shell in portrait/landscape and remains in open water above the physical floor
+ok 1 - Warehouse button camera fits the real shell in portrait/landscape and remains in open water above the physical floor
+  ---
+  duration_ms: 273.81513
+  type: 'test'
+  ...
+# Subtest: approved glass shell retains its topology and exact 2.5x width/height with unchanged depth, floor anchor and world position
+ok 2 - approved glass shell retains its topology and exact 2.5x width/height with unchanged depth, floor anchor and world position
+  ---
+  duration_ms: 252.028721
+  type: 'test'
+  ...
+# Subtest: architectural facade uses static shared batches without adding an interior, interactions or dynamic lights
+ok 3 - architectural facade uses static shared batches without adding an interior, interactions or dynamic lights
+  ---
+  duration_ms: 139.445917
+  type: 'test'
+  ...
+# Subtest: only the two covered Warehouse garden pockets move clear of the enlarged foundation; counts and other addresses survive
+ok 4 - only the two covered Warehouse garden pockets move clear of the enlarged foundation; counts and other addresses survive
+  ---
+  duration_ms: 6.833627
+  type: 'test'
+  ...
+# Subtest: Warehouse illumination keeps global ocean fog and glazing untouched and adds no texture or dynamic-light pass
+ok 5 - Warehouse illumination keeps global ocean fog and glazing untouched and adds no texture or dynamic-light pass
+  ---
+  duration_ms: 68.598038
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 641.020935

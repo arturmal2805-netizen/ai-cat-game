@@ -1,0 +1,31 @@
+{
+  "candidate": "139c68af0dabcacb76d47d3bd83f5f722ca7fa01",
+  "bounds": {
+    "min": [
+      1088.249755859375,
+      -182.04,
+      801.3000030517578
+    ],
+    "max": [
+      2411.750244140625,
+      -38.25853637695312,
+      1098.6999969482422
+    ]
+  },
+  "dimensions": {
+    "width": 1200,
+    "depth": 240,
+    "heightScale": 2.5
+  },
+  "gapsUsingUnchangedFrozenMallSpaBoxes": {
+    "mall": 1379.1211044407398,
+    "spa": 1388.0469435338507
+  },
+  "meshCount": 11,
+  "triangles": 115470,
+  "rootScale": [
+    1,
+    1,
+    1
+  ]
+}
