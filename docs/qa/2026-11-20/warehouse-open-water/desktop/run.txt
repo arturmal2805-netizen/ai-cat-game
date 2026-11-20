@@ -1,0 +1,12 @@
+V12 required buildings and full-detail island READY
+V12 actual game capture old-area-comparison 2405 18509503
+V12 actual game capture expanded-overview 3694 19208415
+V12 actual game capture three-buildings 3363 18619346
+V12 actual game capture open-water-gap 770 1946361
+V12 actual game capture warehouse-front 442 1183581
+V12 actual game capture warehouse-side 3125 18528216
+V12 actual game capture warehouse-top 180 1005726
+V12 actual game capture new-coast 309 1814941
+V12 actual game capture phone-overview 3689 19210975
+V12 actual game capture warehouse-cleared-banks 2007 6353202
+Warehouse open water: all 8 native sweeps and 2 private SQLite reloads PASS
