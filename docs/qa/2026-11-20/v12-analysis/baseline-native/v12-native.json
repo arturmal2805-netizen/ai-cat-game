@@ -1,0 +1,56 @@
+{
+  "report": {
+    "mall": {
+      "position": [
+        -450,
+        0,
+        500
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    "spa": {
+      "position": [
+        -450,
+        -165,
+        480
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    "water": null,
+    "coins": 13835
+  },
+  "rows": [
+    {
+      "name": "old-overview",
+      "camera": [
+        0,
+        740,
+        1550
+      ],
+      "target": [
+        -450,
+        -70,
+        600
+      ],
+      "calls": 529,
+      "triangles": 3855782,
+      "memory": {
+        "geometries": 661,
+        "textures": 86
+      },
+      "glLost": false,
+      "programs": 0
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "scope": "Actual full game/private SQLite, SwiftShader not hardware FPS; QA camera override only."
+}

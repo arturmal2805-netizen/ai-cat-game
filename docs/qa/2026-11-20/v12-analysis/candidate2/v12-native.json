@@ -1,0 +1,188 @@
+{
+  "report": {
+    "mall": {
+      "position": [
+        -450,
+        0,
+        500
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    "spa": {
+      "position": [
+        -450,
+        -165,
+        480
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    "water": {
+      "version": 12,
+      "waterSurfaces": 1,
+      "sameMaterial": true,
+      "geometryOnly": true,
+      "centralCorePreserved": 0.84
+    },
+    "coins": 13835
+  },
+  "rows": [
+    {
+      "name": "expanded-overview",
+      "camera": [
+        900,
+        1500,
+        2550
+      ],
+      "target": [
+        150,
+        -75,
+        800
+      ],
+      "calls": 2566,
+      "triangles": 18416582,
+      "memory": {
+        "geometries": 2037,
+        "textures": 107
+      },
+      "glLost": false,
+      "programs": 0
+    },
+    {
+      "name": "three-buildings",
+      "camera": [
+        800,
+        700,
+        1900
+      ],
+      "target": [
+        70,
+        -130,
+        740
+      ],
+      "calls": 2521,
+      "triangles": 18351425,
+      "memory": {
+        "geometries": 2033,
+        "textures": 107
+      },
+      "glLost": false,
+      "programs": 0
+    },
+    {
+      "name": "open-water-gap",
+      "camera": [
+        100,
+        -75,
+        1240
+      ],
+      "target": [
+        80,
+        -150,
+        735
+      ],
+      "calls": 1049,
+      "triangles": 5776448,
+      "memory": {
+        "geometries": 2001,
+        "textures": 107
+      },
+      "glLost": false,
+      "programs": 0
+    },
+    {
+      "name": "warehouse-front",
+      "camera": [
+        700,
+        -100,
+        1130
+      ],
+      "target": [
+        700,
+        -145,
+        850
+      ],
+      "calls": 321,
+      "triangles": 993690,
+      "memory": {
+        "geometries": 1911,
+        "textures": 107
+      },
+      "glLost": false,
+      "programs": 0
+    },
+    {
+      "name": "warehouse-side",
+      "camera": [
+        950,
+        -105,
+        1000
+      ],
+      "target": [
+        700,
+        -145,
+        850
+      ],
+      "calls": 2359,
+      "triangles": 18163113,
+      "memory": {
+        "geometries": 1991,
+        "textures": 107
+      },
+      "glLost": false,
+      "programs": 0
+    },
+    {
+      "name": "warehouse-top",
+      "camera": [
+        700,
+        100,
+        850
+      ],
+      "target": [
+        700,
+        -145,
+        850.01
+      ],
+      "calls": 161,
+      "triangles": 872956,
+      "memory": {
+        "geometries": 1884,
+        "textures": 107
+      },
+      "glLost": false,
+      "programs": 0
+    },
+    {
+      "name": "new-coast",
+      "camera": [
+        1060,
+        80,
+        1290
+      ],
+      "target": [
+        990,
+        0,
+        1220
+      ],
+      "calls": 299,
+      "triangles": 875802,
+      "memory": {
+        "geometries": 1859,
+        "textures": 107
+      },
+      "glLost": false,
+      "programs": 0
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "scope": "Actual full game/private SQLite, SwiftShader not hardware FPS; QA camera override only."
+}

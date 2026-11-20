@@ -1,7 +1,8 @@
 import {mallPressureDistance,mallPressureContact} from './mall-pressure.js';
 import {normalizeOceanExplorer} from './ocean-explorer-state.js';
 import {submarineAirborne} from './submarine-controls.js';
-import {MOSA_SEA,mosaBedY} from './mosasaur-data.js';
+import {MOSA_SEA} from './mosasaur-data.js';
+import {expansionBedY as mosaBedY} from './mosasaur-expansion.js';
 import {mosaTerrainObstacles} from './mosasaur-collision.js';
 import {mosaReefClearance} from './mosasaur-reef-data.js';
 export const SUBMARINE_DOCK=Object.freeze({x:-6,y:-.85,z:92,yaw:Math.PI});

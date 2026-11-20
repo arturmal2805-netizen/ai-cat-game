@@ -553,7 +553,7 @@ async function localWorker() {
                   )
                   .replace(
                     "    camera.updateMatrixWorld();\n    islands",
-                    "    if(window.__lagoonQA?.oceanReviewCamera){const p=window.__lagoonQA.oceanReviewCamera;camera.position.set(...p.eye);look.set(...p.target);desiredLook.copy(look);camera.lookAt(look);if(p.fov){camera.fov=p.fov;camera.updateProjectionMatrix();}}\n    camera.updateMatrixWorld();\n    islands",
+                    "    if(window.__lagoonQA?.oceanReviewCamera){const p=window.__lagoonQA.oceanReviewCamera;camera.position.set(...p.eye);look.set(...p.target);desiredLook.copy(look);camera.lookAt(look);if(p.fov){camera.fov=p.fov;camera.updateProjectionMatrix();}if(p.far){camera.far=p.far;camera.updateProjectionMatrix();}}\n    camera.updateMatrixWorld();\n    islands",
                   )
                   .replace("let frameProfile = createFrameProfile(renderer,", "window.__lagoonProfileOriginals=Object.fromEntries(['bufferData','bufferSubData','drawElements'].map(k=>[k,renderer.getContext()[k]]));let frameProfile = createFrameProfile(renderer,")
                   .replace(
@@ -710,6 +710,7 @@ async function localWorker() {
       const dirty=sourceGit(['status','--porcelain=v1']).toString();
       fs.writeFileSync(path.join(review,'source-status.txt'),dirty);
       fs.writeFileSync(path.join(review,'qa-build.json'),JSON.stringify({sha256:crypto.createHash('sha256').update(output.outputFiles[0].contents).digest('hex'),baseline:process.env.CHICHI_BASELINE_REF||null,node:process.version,head:sourceGit(['rev-parse','HEAD']).toString().trim(),dirty,sourceOverlay:'source-HEAD.patch'},null,2));
+      if(process.env.CHICHI_V12_AUDIT){const {auditV12}=await import('./audit-v12-native.mjs');await auditV12({page,review,errors,httpErrors});return;}
       if(process.env.CHICHI_RESORT_SPA_AUDIT){const {auditResortSpaNative}=await import('./audit-resort-spa-native.mjs');await auditResortSpaNative({page,review,errors,httpErrors});return;}
       if(process.env.CHICHI_MANUAL_PORTAL_AUDIT){const {auditManualPortal}=await import('./audit-manual-portal-native.mjs');await auditManualPortal({page,review,errors,httpErrors});return;}
       if(process.env.CHICHI_MANUAL_PATHS_AUDIT){const {auditManualPaths}=await import('./audit-manual-paths-native.mjs');await auditManualPaths({page,review,errors,httpErrors});return;}

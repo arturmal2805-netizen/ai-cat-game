@@ -1,4 +1,4 @@
-import {test}from'node:test';import assert from'node:assert/strict';import{createSubmarinePhysics,normalizeSubmarine,SUBMARINE_MAX_SPEED,SUBMARINE_DOCK}from'../public/submarine-physics.js';import{mosaBedY,MOSA_SEA}from'../public/mosasaur-data.js';
+import {test}from'node:test';import assert from'node:assert/strict';import{createSubmarinePhysics,normalizeSubmarine,SUBMARINE_MAX_SPEED,SUBMARINE_DOCK}from'../public/submarine-physics.js';import{MOSA_SEA}from'../public/mosasaur-data.js';import{expansionBedY as mosaBedY}from'../public/mosasaur-expansion.js';
 test('submarine accelerates, reverses, steers, dives, brakes and switches no currencies or NPC state',()=>{
  const p=createSubmarinePhysics({x:0,y:-6,z:0,yaw:0,active:true});
  for(let i=0;i<120;i++)p.step(1/60,{forward:1});assert.ok(p.state.speed>20);assert.ok(p.state.speed<=SUBMARINE_MAX_SPEED);

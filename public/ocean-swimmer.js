@@ -1,4 +1,5 @@
-import {MOSA_SEA,mosaBedY} from './mosasaur-data.js';
+import {MOSA_SEA} from './mosasaur-data.js';
+import {expansionBedY as mosaBedY} from './mosasaur-expansion.js';
 import {mosaTerrainObstacles} from './mosasaur-collision.js';
 import {mosaReefClearance} from './mosasaur-reef-data.js';
 import {mallPressureContact} from './mall-pressure.js';

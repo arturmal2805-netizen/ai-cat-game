@@ -1,0 +1,171 @@
+{
+  "report": {
+    "mall": {
+      "position": [
+        -450,
+        0,
+        500
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "box": {
+        "min": [
+          -620.9345397949219,
+          -169.5,
+          504.81850242614746
+        ],
+        "max": [
+          -279.8011016845703,
+          5.69000015258789,
+          626.9100036621094
+        ]
+      },
+      "visible": true
+    },
+    "spa": {
+      "position": [
+        -450,
+        -165,
+        480
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "box": {
+        "min": [
+          -600.2498931884766,
+          -166.86000001430511,
+          637.5940246582031
+        ],
+        "max": [
+          -299.7629089355469,
+          5.028000003576272,
+          791.5450134277344
+        ]
+      },
+      "visible": true
+    },
+    "warehouse": {
+      "position": [
+        1150,
+        -177,
+        350
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "box": {
+        "min": [
+          567.6499481201172,
+          -178.5,
+          775.6500015258789
+        ],
+        "max": [
+          832.3500518798828,
+          -121.34966659545898,
+          924.3499984741211
+        ]
+      },
+      "visible": true
+    },
+    "water": {
+      "version": 12,
+      "waterSurfaces": 1,
+      "sameMaterial": true,
+      "geometryOnly": true,
+      "centralCorePreserved": 0.95
+    },
+    "habitat": {
+      "colonies": 384,
+      "fishCount": 60,
+      "pockets": 8
+    },
+    "coins": 13835,
+    "gaps": {
+      "mall": {
+        "edgeGapMetres": 860.405060875156,
+        "warehouseWidths": 3.250490077843095
+      },
+      "spa": {
+        "edgeGapMetres": 867.4128570556641,
+        "warehouseWidths": 3.276964552469173
+      }
+    }
+  },
+  "rows": [
+    {
+      "name": "warehouse-front",
+      "cameraFloorY": -155.49488792193017,
+      "cameraClearance": 80.49488792193017,
+      "camera": [
+        700,
+        -75,
+        1090
+      ],
+      "target": [
+        700,
+        -145,
+        850
+      ],
+      "calls": 280,
+      "triangles": 2037221,
+      "memory": {
+        "geometries": 729,
+        "textures": 97
+      },
+      "glLost": false,
+      "programs": 0
+    },
+    {
+      "name": "warehouse-side",
+      "cameraFloorY": -200.42887162854433,
+      "cameraClearance": 105.42887162854433,
+      "camera": [
+        980,
+        -95,
+        930
+      ],
+      "target": [
+        700,
+        -145,
+        850
+      ],
+      "calls": 2417,
+      "triangles": 19553726,
+      "memory": {
+        "geometries": 1948,
+        "textures": 107
+      },
+      "glLost": false,
+      "programs": 0
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "scope": "Actual full game/private SQLite, SwiftShader not hardware FPS; QA camera override only."
+}

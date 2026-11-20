@@ -1,3 +1,5 @@
+import {survivingLegacyShore} from './mosasaur-expansion.js';
+import {expandedOverview} from './mosasaur-expansion-data.js';
 import {resortSpaView} from './resort-spa-camera.js';
 import {MOSA_SHORE_GATE} from './mosasaur-data.js';
 import {mosaPierClear} from './resort-pier-link-data.js';
@@ -469,7 +471,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     itemGroups = new Map(),
     npcs = new Map();
   const initialMosaLand=retainedMosaLand(initialGame.placements,initialGame.scenery);
-  function mosaDryPoint(x,z,margin){return projectMosaDryPoint(x,z,margin,islands.get('autumn')?.userData.retainedDryZones||initialMosaLand);}
+  function mosaDryPoint(x,z,margin=1.3){const zones=islands.get('autumn')?.userData.retainedDryZones||initialMosaLand;return survivingLegacyShore(projectMosaDryPoint(x,z,margin,zones),margin,zones);}
   let megaGroundPlots = [];
   const megaGroundPoint = { x: 0, z: 0 };
   const rideOutings = createRideOutings();
@@ -528,7 +530,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     mallFraming = null,
     disposed = false;
   const viewDistanceLimit=()=>viewingOverview?overviewDistanceLimit:
-    Math.max(600,islandOverviewDistance(byBiome(focused)?.radius,camera.fov,camera.aspect));
+    Math.max(600,islandOverviewDistance(focused==='autumn'&&!mall?.inspection&&!resortSpa?.inspection?expandedOverview().radius:byBiome(focused)?.radius,camera.fov,camera.aspect));
   const chichiCarrier = new THREE.Group();
   chichiCarrier.position.set(-6, 0.14, -3);
   if (initialGame.catPosition) {
@@ -1327,9 +1329,10 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       try {
         if (
           old?.userData.lowOnly &&
+          ((b.id==='autumn'&&focused==='autumn'&&!viewingOverview)||(
           desiredDistance < Math.max(110, (b.radius || 12) * 7,b.magicFarm?islandOverviewDistance(b.radius,camera.fov,camera.aspect)*1.1:0) &&
           Math.hypot(b.center[0] - desiredLook.x, b.center[1] - desiredLook.z) <
-            (["jobcity","homestead","autumn"].includes(b.id) || b.waterpark || b.magicFarm ? b.radius + 10 : 40) && (!b.magicFarm||focused===b.id)
+            (["jobcity","homestead","autumn"].includes(b.id) || b.waterpark || b.magicFarm ? b.radius + 10 : 40) && (!b.magicFarm||focused===b.id)))
         ) {
           const snapshot = () => [
             game.placements.filter((p) => p.biome === id),
@@ -2408,9 +2411,11 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       camera.far=islandCameraFar(desiredDistance,b.radius);
       camera.updateProjectionMatrix();
     }
+    if(b.id==='autumn'&&!overview){const view=expandedOverview();overviewElevation=.92;overviewAspect=camera.aspect;desiredLook.set(b.center[0]+view.center[0],view.center[1],b.center[1]+view.center[2]);desiredDistance=islandOverviewDistance(view.radius,camera.fov,camera.aspect);camera.far=islandCameraFar(desiredDistance,view.radius);camera.updateProjectionMatrix();}
     if (overview) {
       const bounds = new THREE.Box3();
       const targets = [...BIOMES];
+      {const b=byBiome('autumn'),v=expandedOverview();targets.push({id:'autumn-v12-overview-only',center:[b.center[0]+v.center[0],b.center[1]+v.center[2]],radius:v.radius});}
       const sections = islands.get(HOUSING_ID)?.userData.sections.size || 1;
       if (sections > 1)
         targets.push({
@@ -2500,7 +2505,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     ).id;
   }
   function islandOverview() {
-    const id = viewedIsland();
+    const id = viewedIsland(),viewRadius=id==='autumn'?expandedOverview().radius:byBiome(id).radius;
     const housingLook = id === HOUSING_ID ? look.clone() : null;
     focus(id);
     if (housingLook)
@@ -2519,11 +2524,11 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     overviewElevation = 1.03;
     overviewAspect = camera.aspect;
     desiredDistance = islandOverviewDistance(
-      byBiome(id).radius,
+      viewRadius,
       camera.fov,
       camera.aspect,
     );
-    camera.far=islandCameraFar(desiredDistance,byBiome(id).radius);
+    camera.far=islandCameraFar(desiredDistance,viewRadius);
     camera.updateProjectionMatrix();
     return id;
   }
@@ -3882,7 +3887,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       if (overviewAspect !== camera.aspect) {
         overviewAspect = camera.aspect;
         desiredDistance = islandOverviewDistance(
-          byBiome(focused).radius,
+          focused==='autumn'?expandedOverview().radius:byBiome(focused).radius,
           camera.fov,
           camera.aspect,
         );
@@ -3902,7 +3907,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     distance += (desiredDistance - distance) * cameraBlend;
     if(mallWideClip&&mall?.inspection){const near=mallWideClip==='all'?Math.max(.5,distance-80):Math.min(48,Math.max(.5,distance*.42));if(Math.abs(camera.near-near)>.01){camera.near=near;camera.updateProjectionMatrix();}}
     const neededFar=viewingOverview ? Math.max(4000,overviewDistanceLimit*2) :
-      Math.ceil(islandCameraFar(distance,byBiome(focused)?.radius)/100)*100;
+      Math.ceil(islandCameraFar(distance,focused==='autumn'&&!mall?.inspection&&!resortSpa?.inspection?expandedOverview().radius:byBiome(focused)?.radius)/100)*100;
     if(neededFar>camera.far||neededFar<camera.far-199){
       camera.far=neededFar;camera.updateProjectionMatrix();
     }
@@ -3923,6 +3928,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     for (const b of BIOMES) {
       const island = islands.get(b.id),
         close =
+          (b.id==='autumn'&&focused==='autumn'&&!viewingOverview)||
           distance < Math.max(110, (b.radius || 12) * 7,b.magicFarm?islandOverviewDistance(b.radius,camera.fov,camera.aspect)*1.1:0) &&
           (b.id === HOUSING_ID
             ? island.userData.near(look)
