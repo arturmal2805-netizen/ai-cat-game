@@ -1,0 +1,57 @@
+{
+  "source": "c8a0000a020d236bc6a4f6dd28d6b7e3644cdab1",
+  "allCapturedPublicModulesMatchSource": true,
+  "moduleCount": 451,
+  "state": "PASS: actual coarse/DPR2 phone overview, eight held-touch sweeps, dive below -200m and two private SQLite reloads.",
+  "scope": "Actual native game/private Worker/SQLite; SwiftShader correctness only, hardware FPS unmeasured",
+  "files": {
+    "check-aquarium.cjs": {
+      "bytes": 120039,
+      "sha256": "330b5432c56062329d25edd692c8787a5e0d9b74fbe8a2c40a9b787d2d565c4b"
+    },
+    "v12-native.json": {
+      "bytes": 3888,
+      "sha256": "f4969c33f79b3c6285d9902d37eff215bbf0b5e5e3d1e2a4f997a833318dc75b"
+    },
+    "qa-build.json": {
+      "bytes": 233,
+      "sha256": "38f2d30f2964c06b0869933e3e0e02a0f83a9eaf05d6ac8acec13c1e39fed6dc"
+    },
+    "warehouse-open-water-movement.json": {
+      "bytes": 28835,
+      "sha256": "c94bf045147db7aa30748b875c8a253e4b9f89cf00481a07e7198e26ae4267e0"
+    },
+    "actual-game-ui.png": {
+      "bytes": 369770,
+      "sha256": "31af249e8e11e5495af5af21f5c077c621060f89ffced78bedbad198b4483813"
+    },
+    "source-proof.tar.gz": {
+      "bytes": 2259667,
+      "sha256": "193091dbd8bdfcfa7d9c52aad1ecd13f994ccdc29c5a3e6d990a9f2f698c5c3d"
+    },
+    "phone-overview.png": {
+      "bytes": 234549,
+      "sha256": "3fce77d3fa54f78feff934a58b5002b28138bec509429b81ef153c4c1584d5a5"
+    },
+    "audit-v12-native.mjs": {
+      "bytes": 8185,
+      "sha256": "f0869e31e5aeed61408b5b275733bae8054fbd4a7ae7695d5d838b1bc283f41d"
+    },
+    "audit-warehouse-open-water.mjs": {
+      "bytes": 5201,
+      "sha256": "8e4a18348cc38d51bc84fc09da3a79ca96df37246c8d5b58a4a6d469b96042b0"
+    },
+    "v12-views.json": {
+      "bytes": 3786,
+      "sha256": "3d6a83c174acd441ad4cf35fe50cd6493b7e482d85de0e1af79ecbfe3d72a716"
+    },
+    "source-files.json": {
+      "bytes": 41862,
+      "sha256": "fe93428a104575a6fb340b7d4f6b4e8ebc009337ab15c6cdaf8ce47d46d82ed1"
+    },
+    "source-status.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

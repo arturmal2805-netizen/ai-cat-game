@@ -43,13 +43,13 @@ afc536509c5b98ea660eb1a4baa3a608653168e3083dd6673ce7c82ad36c5b6e.
 old3rocks/caves/purchases/camera/optics. Full Node22 build базового этапаPASS;
 после depth/camera edits app/Worker rebuilt теми же функциями без изменения model
 producers. Полный main CI проверит окончательную сборку. Desktop final native PASS:10views, realW sweep всех8объёмов, dive ниже-200м и
-2privateSQLite reload с прежними coin/inventory/profilebalances. Phone сейчас
-выполняется, затем baseline сравнение. GPU только один за раз.
+2privateSQLite reload с прежними coin/inventory/profilebalances. Phone PASS: real heldtouch/dive ниже-200м/2SQLite reload и product overview.
+Baseline f289 capture в двух совпадающих ракурсах также PASS. GPU только один за раз.
 
 QA [warehouse-open-water](../qa/2026-11-20/warehouse-open-water/README.md).
 Промежуточный262 имел реальные10views, но heldinputFAIL выявил старую camera
 границу; сохранён как superseded, не финальныйproof. Актуальные команды/логи:
-/workspace/qa/warehouse-open-water-desktop-final.log; завершён; phone session98991.
+/workspace/qa/warehouse-open-water-desktop-final.log; завершён; phone session98991 завершён.
 Release monitor session31987, /workspace/qa/watch-warehouse-open-water-release.py.
 Он требует финальные desktop+phone v12-native.json/movement.json и livehashes.
 Expected bytes: /workspace/qa/warehouse-open-water-expected-production.json.
@@ -64,3 +64,7 @@ Expected bytes: /workspace/qa/warehouse-open-water-expected-production.json.
 Не трогать пользовательские сохранения/коины/риги. Диагностика только по запросу.
 Нативный QA — private Worker/SQLite и software Chromium, без paidAI. Физический
 Mac/iPhone FPS не измерялся. История перед этапом — history/CURRENT-before-open-water-release-2026-11-20.md.
+
+Пользователь прислал M2/DPR2 FPSreport старого app1b15/f289:13.53FPS за22.1с,
+8.2srenderstall, GPUmedian32.41ms,15.33Mtriangles. Это НЕ новыйрелиз.
+Сохранены исходныйJSON/hash/анализ в QA/user-fps-f289; не обещать FPSулучшения.

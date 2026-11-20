@@ -1,0 +1,53 @@
+{
+  "source": "f28975bd8c2cf1cd7d94c61239ab8f98f7dbc96f",
+  "allCapturedPublicModulesMatchSource": true,
+  "moduleCount": 450,
+  "state": "PASS: original published geometry in identical overview and Warehouse-bank camera/light/DPR, for direct comparison.",
+  "scope": "Actual native game/private Worker/SQLite; SwiftShader correctness only, hardware FPS unmeasured",
+  "files": {
+    "check-aquarium.cjs": {
+      "bytes": 120039,
+      "sha256": "330b5432c56062329d25edd692c8787a5e0d9b74fbe8a2c40a9b787d2d565c4b"
+    },
+    "v12-native.json": {
+      "bytes": 3085,
+      "sha256": "7d0c62e804e8ba34a90e24dfded864ed94c9310fe3bbcdf9cb9cbe628f5385ad"
+    },
+    "qa-build.json": {
+      "bytes": 271,
+      "sha256": "d01d1d4fdb1ae927cfb8101f61d6f5007e8fbaef385ee2163f3c9caebd61518e"
+    },
+    "actual-game-ui.png": {
+      "bytes": 610403,
+      "sha256": "c41034d79626a8e5daf54735e178eb45f6304bcecc77df69c4285e47c324a59b"
+    },
+    "source-proof.tar.gz": {
+      "bytes": 2259207,
+      "sha256": "61a369b52a42e8a91c8784b49cbb6f9ca736697e0a31f57ea346dac6ad1ef915"
+    },
+    "expanded-overview.png": {
+      "bytes": 563136,
+      "sha256": "0b703c0502477b92de5a625b71d401ebb71de0bc0418556c229faa04893275b6"
+    },
+    "audit-v12-native.mjs": {
+      "bytes": 7664,
+      "sha256": "427e2e4a1b562d8b4253e32978292fa819706dd7dccc4dd2f0a636aa80df125e"
+    },
+    "warehouse-cleared-banks.png": {
+      "bytes": 863492,
+      "sha256": "f53040b6e9fb33b0b1fa615ba3a2d8d33d1a489423003e4f4f4648522f64a841"
+    },
+    "v12-views.json": {
+      "bytes": 2983,
+      "sha256": "43ce1a272aa31d524f3e8a7fce876d2b6c7c06f57cac2a8c2e2323be1d57321d"
+    },
+    "source-files.json": {
+      "bytes": 41767,
+      "sha256": "6b3536164f86f9ff29f0a89815337557c1187cb7256f62943fd5589447f99651"
+    },
+    "source-status.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

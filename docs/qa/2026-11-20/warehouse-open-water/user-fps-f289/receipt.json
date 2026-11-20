@@ -1,0 +1,7 @@
+{
+  "source": "user-uploaded FPS diagnostic report during the open-water release",
+  "reportedApp": "./dist/app.js?v=1b15b0b20e8732f7",
+  "sha256": "64bff9241fabb843d2d1ad7511a3e257dfb1f17d7271646a7b74161f4ce34732",
+  "reportedRelease": "f28975bd8c2cf1cd7d94c61239ab8f98f7dbc96f",
+  "doesNotMeasureOpenWaterCandidate": true
+}
