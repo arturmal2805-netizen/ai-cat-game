@@ -19,12 +19,13 @@ export function expansionCoastDecorPoint(x,z,{outer=false}={}){
 let shoreHeadlands;
 export function expansionHeadlands(){return shoreHeadlands??=MOSA_HEADLANDS.filter(h=>{const a=Math.atan2(h.z/MOSA_SEA.rz,h.x/MOSA_SEA.rx),p=expansionPoint(a);return Math.hypot(h.x,h.z)>=Math.hypot(p.x,p.z)+h.radius*.15;});}
 export const EXPANSION_PROTECTED_CORE=.7;
+export const buildingBedShoulderDistance=(x,z)=>Math.hypot(Math.max(0,Math.abs(x)-176),Math.max(0,-26-z,z-300));
 export const protectedBuildingBed=(x,z)=>Math.abs(x)<176&&z> -26&&z<300;
 export function expansionBedY(x,z){
  if(protectedBuildingBed(x,z))return mosaBedY(x,z);
  const a=Math.atan2(z/MOSA_SEA.rz,x/MOSA_SEA.rx),p=expansionPoint(a),r=Math.hypot(x,z),outer=Math.hypot(p.x,p.z),q=mosaWaterRadius(x,z),oldR=r/Math.max(q,.00001),extension=outer-oldR;
  if(extension<1||q<=EXPANSION_PROTECTED_CORE)return mosaBedY(x,z);
- const coastDistance=outer-r,deep=MOSA_EXPANSION.bedY+5*Math.sin(x*.008)*Math.sin(z*.007),shoal=smooth(coastDistance,0,100),channel=T.MathUtils.lerp(-.495,deep,shoal),carve=smooth(q,EXPANSION_PROTECTED_CORE,1),base=q<1?T.MathUtils.lerp(mosaBedY(x,z),channel,carve):channel;
+ const coastDistance=outer-r,deep=MOSA_EXPANSION.bedY+5*Math.sin(x*.008)*Math.sin(z*.007),shoal=smooth(coastDistance,0,100),channel=T.MathUtils.lerp(-.495,deep,shoal),carve=smooth(q,EXPANSION_PROTECTED_CORE,1),carved=q<1?T.MathUtils.lerp(mosaBedY(x,z),channel,carve):channel,base=T.MathUtils.lerp(mosaBedY(x,z),carved,smooth(buildingBedShoulderDistance(x,z),0,90));
  // A broad natural shelf embeds the pale foundation; no suspended warehouse.
  const dx=Math.max(0,Math.abs(x-WAREHOUSE.x)-WAREHOUSE.platformWidth/2),dz=Math.max(0,Math.abs(z-WAREHOUSE.z)-WAREHOUSE.platformDepth/2),shelf=1-smooth(Math.hypot(dx,dz),0,80);let y=T.MathUtils.lerp(base,WAREHOUSE.y-1.25,shelf);
  // Only the real outside shore keeps headland roots; no old internal ring.
