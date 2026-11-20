@@ -729,3 +729,11 @@ matched camera/light/DPR Thermal/Golden.12targets/build/fullCI PASS.
 Не утверждать artist likeness/user approval или hardwareFPS. DynamiccatSSR
 не добавлен, retained V8 atlas не свежий V11liner capture. Продолжать с этого
 этапа по конкретному feedback, не перестраивать весьSPA.
+
+## 2026-11-20 — V12: дальний Warehouse, берег можно перекроить
+
+WIP codex/v12-island-warehouse от live9e26f33. Один exterior без интерьера/AI/
+транспорта. Реальный edgegap2–3Warehousewidth. Последнее уточнение пользователя
+отменяет сохранение кольца: берег можно менять как угодно, именно ТРЦ и SPA
+должны остаться невредимыми. Покупки/кошельки/сохранения защищены независимо
+от новой географии. Пока не опубликовано и не visualapproval.

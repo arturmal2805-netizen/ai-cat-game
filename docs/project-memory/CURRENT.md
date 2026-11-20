@@ -89,16 +89,32 @@ QA pitfalls: rest profile не очищает nativejobstate; privatefixture я�
 docs/specifications/spa-water-quality-v11-2026-11-19.md.
 Cabana не имеет бассейна: новые водные объекты не добавляли.
 
-## Продолжение / защита
+## Активная задача V12 / защита
 
-Текущая задача публикации выполнена. Следующий шаг — оценка пользователя и
-доработка конкретных отличий по референсу, затем аппаратный performance report.
-Не начинать заново V7/перестройку комнат, не менять весь океан радиSPA.
-Источник кода — main9e26f33; WIP codex/spa-water-v11=d24d343 сохранён remote.
-/workspace/chichi-spa-water-v11 сейчас **codex/spa-v11-release-evidence**,
-product public равен опубликованному9e26f33. Ветка evidence не запускает релиз.
-V8 /workspace/chichi-emergency-save-recovery=codex/spa-v8-release-evidence,
-16526f9 сохраняет прежнюю публикацию812/realbytes/PNG. Старые worktrees не удалять.
+Обновлено20 ноября2026, Europe/Kyiv. Код — опубликованный main9e26f33.
+Активный worktree /workspace/chichi-v12-island-warehouse, ветка
+**codex/v12-island-warehouse**, initial remote checkpoint
+**a8d078a1e845ad75bd299e4768da87e690db6400**. Это WIP, не новый live.
+Полный запрос: docs/specifications/island-warehouse-v12-phase1-2026-11-20.md;
+этапы/доказательства: docs/qa/2026-11-20/v12-analysis/.
+V12 phase1: расширить акваторию, один далёкий подводный Warehouse только снаружи,
+без интерьера/транспорта/экономики/AI. Edge gap минимум2–3реальных ширины
+Warehouse по3D boundingboxes. Пользователь подчеркнул большую дистанцию как на фото.
+Сначала разрешил пролив на свободной стороне, затем ЯВНО уточнил:
+**береговое кольцо можно менять как угодно; сохранять именно кольцо не нужно**.
+ТРЦ/SPA невредимы: позиции/размеры/материалы/комнаты/вода/камеры/механики прежние.
+Покупки/мир/кошельки сохраняются независимо от переделки берега.
+Не менять глобальный water shader, не масштабировать root/старые здания.
+Ближайшее: actual baseline/freeze → план → география/вода → оболочка/окружение →
+камера/native QA. Не выдавать conceptart за игру. Исходный reference в сообщениях.
+Диск~750MB: sparse исключает docs/qa; старые worktrees не удалять.
+/workspace/qa/v12-temp-cleanup.json подтверждает очистку только архивированных
+завершённых privateQA assetcopies. SQLite/логи/исходники сохранены.
+
+V11 опубликован, merge не повторять. /workspace/chichi-spa-water-v11 =
+codex/spa-v11-release-evidence (2bf67d2), product public равен9e26f33.
+V8 /workspace/chichi-emergency-save-recovery = codex/spa-v8-release-evidence
+16526f9 сохраняет812/livebytes/PNG. Не брать приложение из ветки памяти.
 
 Каноническая память — codex/ocean-recovery-memory; её собственный app старый,
 не запускать вместо main. Node22, один GPU run. Архивы allow-list, без usertokens/
