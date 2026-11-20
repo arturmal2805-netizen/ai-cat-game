@@ -10,7 +10,7 @@ test('one contiguous expanded basin includes old lake and distant warehouse with
  for(let x=0;x<=WAREHOUSE.x;x+=10)assert(expandedWaterContains(x,WAREHOUSE.z*x/WAREHOUSE.x,MOSA_SEA,mosaCoastFactor,5));
  assert(expansionBedY(WAREHOUSE.x,WAREHOUSE.z)<=WAREHOUSE.y-1.2);assert(WAREHOUSE.y+WAREHOUSE.wallHeight+WAREHOUSE.roofHeight< -80);
 });
-test('protected old central bed and building approaches retain exact heights',()=>{for(let x=-170;x<=170;x+=17)for(let z=-20;z<299;z+=13)assert.equal(expansionBedY(x,z),mosaBedY(x,z));assert(protectedBuildingBed(0,290));});
+test('protected old central bed and building approaches retain exact heights',()=>{for(let x=-170;x<=170;x+=17)for(let z=-20;z<250;z+=13)assert.equal(expansionBedY(x,z),mosaBedY(x,z));assert(protectedBuildingBed(0,290));});
 test('expansion extends a single released water surface without a shader/material/clock fork',()=>{
  const sea=runSceneSteps(lagoonSteps({rx:MOSA_SEA.rx,rz:MOSA_SEA.rz,depth:200,bedHeight:mosaBedY,coastFactor:mosaCoastFactor,bedResolution:[64,32],surfaceResolution:[64,32],fishCount:0})),material=sea.userData.water,surface=sea.children.find(m=>m.material===material),oldCount=surface.geometry.attributes.position.count,oldPos=surface.geometry.attributes.position.array.slice(),core=[];
  for(let i=0;i<sea.userData.bed.geometry.attributes.position.count;i++){const p=sea.userData.bed.geometry.attributes.position;if(Math.hypot(p.getX(i),p.getY(i))<.5)core.push([i,p.getZ(i)]);}
@@ -47,4 +47,10 @@ test('the preserved building bed joins the common deep floor with a smooth shoul
  for(const p of [[176,285],[170,300],[-176,245]]){const [x,z]=p;
   for(const [dx,dz]of [[.05,0],[-.05,0],[0,.05],[0,-.05]])assert(Math.abs(expansionBedY(x+dx,z+dz)-expansionBedY(x-dx,z-dz))<1,'continuous physical floor at the protected foundation edge');
  }
+});
+
+
+test('retained SPA roofs have unobstructed terrain sightlines from shared-lagoon overview cameras',()=>{
+ for(const eye of [[2350,2400,3300],[1950,1300,2400],[1250,11000,8500]])for(const roof of [[0,-130,210],[0,-130,260],[-80,-130,230],[80,-130,230]])for(let i=1;i<150;i++){const t=i/500,x=roof[0]+(eye[0]-roof[0])*t,y=roof[1]+(eye[1]-roof[1])*t,z=roof[2]+(eye[2]-roof[2])*t;assert(y>expansionBedY(x,z)+1,'old front ridge must not conceal the fixed underwater SPA');}
+ for(const x of [-160,-80,0,80,160])for(const z of [280,300,340,400])assert(expansionBedY(x,z)<-190,'the approach is real open deep water, not a camera-only trick');
 });

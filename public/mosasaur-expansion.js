@@ -21,7 +21,7 @@ export function expansionHeadlands(){return shoreHeadlands??=MOSA_HEADLANDS.filt
 export const EXPANSION_PROTECTED_CORE=.7;
 export const buildingBedShoulderDistance=(x,z)=>Math.hypot(Math.max(0,Math.abs(x)-176),Math.max(0,-26-z,z-300));
 export const protectedBuildingBed=(x,z)=>Math.abs(x)<176&&z> -26&&z<300;
-export function expansionBedY(x,z){
+function baseExpansionBedY(x,z){
  if(protectedBuildingBed(x,z))return mosaBedY(x,z);
  const a=Math.atan2(z/MOSA_SEA.rz,x/MOSA_SEA.rx),p=expansionPoint(a),r=Math.hypot(x,z),outer=Math.hypot(p.x,p.z),q=mosaWaterRadius(x,z),oldR=r/Math.max(q,.00001),extension=outer-oldR;
  if(extension<1||q<=EXPANSION_PROTECTED_CORE)return mosaBedY(x,z);
@@ -33,6 +33,11 @@ export function expansionBedY(x,z){
  for(const reef of WAREHOUSE_REEFS){const r=Math.hypot(x-reef.x,z-reef.z)/reef.radius;if(r<1)y=Math.max(y,T.MathUtils.lerp(base,reef.top,1-smooth(r,.14,1)));}
  return y;
 }
+// The old approach ridge hid the retained SPA from the shared-lagoon overview.
+// Excavate only its front water approach; all building meshes and dry access
+// remain at their saved coordinates. Existing seabed gardens end below z=170.
+export const spaApproachCutWeight=(x,z)=>smooth(z,250,280)*(1-smooth(Math.abs(x),210,310))*(1-smooth(z,460,600));
+export function expansionBedY(x,z){const bed=baseExpansionBedY(x,z),cut=spaApproachCutWeight(x,z);return T.MathUtils.lerp(bed,Math.min(bed,MOSA_EXPANSION.bedY+2),cut);}
 // Double both grid axes when the outer geography doubles. The first row is
 // the exact old boundary; a 2:1 triangle transition prevents cracks without
 // retessellating the protected original water or adding a shader variant.
@@ -62,7 +67,7 @@ export function* expandMosaSeaSteps(sea){
  // Preserve the original caves, seabed gardens and building foundation. Smooth
  // the former basin shoulder across its outer 30%, without a leftover ridge.
  for(let i=0;i<bp.count;i++){if(i%1024===0)yield;const x=bp.getX(i)*MOSA_SEA.rx,z=-bp.getY(i)*MOSA_SEA.rz;if(mosaWaterRadius(x,z)>EXPANSION_PROTECTED_CORE)bp.setZ(i,expansionBedY(x,z)-bed.position.y);}
- for(let i=0;i<sp.count;i++){if(i%1024===0)yield;const x=sp.getX(i)*MOSA_SEA.rx,z=-sp.getY(i)*MOSA_SEA.rz;if(mosaWaterRadius(x,z)>EXPANSION_PROTECTED_CORE&&!protectedBuildingBed(x,z))depth.setX(i,MOSA_SEA.surfaceY-expansionBedY(x,z));}
+ for(let i=0;i<sp.count;i++){if(i%1024===0)yield;const x=sp.getX(i)*MOSA_SEA.rx,z=-sp.getY(i)*MOSA_SEA.rz;if(mosaWaterRadius(x,z)>EXPANSION_PROTECTED_CORE&&!protectedBuildingBed(x,z)||spaApproachCutWeight(x,z)>0)depth.setX(i,MOSA_SEA.surfaceY-expansionBedY(x,z));}
  const extension=yield* radialAnnulusSteps(surface.geometry,160),bg=yield* radialAnnulusSteps(bed.geometry,160,{bed:true,baseY:bed.position.y}),oldSurface=surface.geometry,oldBed=bed.geometry;
  surface.geometry=mergeGeometries([oldSurface,extension]);bed.geometry=mergeGeometries([oldBed,bg]);bed.geometry.computeVertexNormals();surface.geometry.computeBoundingSphere();surface.geometry.computeBoundingBox();surface.geometry.boundingBox.min.z=-1.2;surface.geometry.boundingBox.max.z=1.2;surface.geometry.computeBoundingSphere();
  for(const g of [oldSurface,extension,oldBed,bg])g.dispose();
@@ -70,7 +75,7 @@ export function* expandMosaSeaSteps(sea){
  for(const o of [...sea.children])if(o.isMesh&&o!==surface&&o!==bed&&(o.geometry.type==='CylinderGeometry'||o.geometry.type==='TorusGeometry')){sea.remove(o);o.geometry.dispose();o.material.dispose();}
  // One native surface, one released material/clock/field/probe, no second pond.
  const coast=expandedCoastSamples(MOSA_SEA,mosaCoastFactor),area=Math.abs(coast.slice(1).reduce((sum,p,i)=>sum+coast[i].x*p.z-p.x*coast[i].z,0))*.5;
- sea.userData.expansion={version:12,waterSurfaces:1,sameMaterial:true,geometryOnly:true,centralCorePreserved:EXPANSION_PROTECTED_CORE,removedInnerHeadlands:MOSA_HEADLANDS.length-expansionHeadlands().length,waterAreaM2:area,extraSurfaceVertices:extension.attributes.position.count,extraBedVertices:bg.attributes.position.count};
+ sea.userData.expansion={version:12,waterSurfaces:1,sameMaterial:true,geometryOnly:true,centralCorePreserved:EXPANSION_PROTECTED_CORE,removedInnerHeadlands:MOSA_HEADLANDS.length-expansionHeadlands().length,spaApproachCleared:true,waterAreaM2:area,extraSurfaceVertices:extension.attributes.position.count,extraBedVertices:bg.attributes.position.count};
  return sea.userData.expansion;
 }
 export const expandMosaSea=sea=>runSceneSteps(expandMosaSeaSteps(sea));
