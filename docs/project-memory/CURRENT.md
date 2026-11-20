@@ -22,6 +22,12 @@ IDs:reef-terrace-0,reef-terrace-1,reef-terrace-11. Остальные9,дно,Т
 Warehouse и всё остальное должны остаться прежними.
 Ветка **codex/mosa-remove-three-marked-reefs**, worktree
 /workspace/chichi-v12-island-warehouse, база опубликованный1ebc94c.
+Код сохранён в remote: **6ca4c3c8503b55b90e49550634b18d227f27df4a**, PR#7.
+FullCI **44740442266** pending/inprogress; прошлый44740268700 заменён test-only
+поправкой decoder expected names. RuntimePublic неизменен относительноd460aef.
+Node22 build/42targeted PASS; 4final opening/cache checks PASS с настоящими
+terrain obstacles. Native desktop идёт, затем отдельный phone.
+Архив опубликованного1eb: [HTTP receipts](../qa/2026-11-20/v12-published-live/README.md).
 WIP:отдельный active reef field для renderer/player/camera/submarine/opticaldepth;
 исходный authored field сохранён для неизменности остальных flora/fauna anchors.
 Raw1024corals SHA256e560902adc642a96b8b7c01468eca5f2f2c3de81d572577fd5be53dbb32b4f41
