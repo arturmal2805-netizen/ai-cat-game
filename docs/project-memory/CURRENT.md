@@ -13,9 +13,9 @@ V12 ещё НЕ опубликован. Не объявлять его live/ви
 
 ## Активный V12: убрать именно внутренний скальный обод
 
-**a6151330c7027b97e2a8949dd465493a83050a46**, remote
+**9d81059d67249b024635a6c4d502c8d55a0e4d91**, remote
 **codex/v12-island-warehouse**, /workspace/chichi-v12-island-warehouse.
-PR#5 ready, fullCI **44729248201** выполняется.
+PR#5 ready, fullCI **44730300724** выполняется.
 https://github.com/arturmal2805-netizen/ai-cat-game/pull/5
 
 Пользователь на actual новом screenshot увидел оставшийся малый круг из
@@ -34,6 +34,8 @@ Phase1 exterioronly, без оборудованного интерьера/Squi
 Новая правка: удалены10старых внутренних headlands и их bedcolumns до-10м.
 Два headlands сохранены ТОЛЬКО на настоящем внешнем берегу. Crown foliage
 переходит на новый drycoast. Широкий smooth bedcut теперь q=.7..1 вместо.95..1.
+За пределами точного protectedbuildingbed добавлен90м smoothshoulder: Native
+после удаленияcrown показал резкую прямоугольную границу, она исправлена.
 Все старые floorstones имеютq<=.6902, reefgardens footprints<=.6823: они внутри
 точно прежнего ядра. Точный protectedbuildingbed и подходы прежние. Верхние
 координаты всех старых watervertices НЕ менялись: дополняется один releasedmesh,
@@ -43,15 +45,15 @@ submarine floor contacts используютactualexpansionBedY, чтобы н�
 visible in lowOnly/worldoverview. Все neighbouringislands/housing gaps прежние.
 
 Настоящий offlineprobe перебейкан на новый coast:
-tropical-coast-11fb032edc2b.png,36913bytes/0.33MiBmipGPU,revisionf6a4ccb236467f87.
+tropical-coast-4fa4e0cc0c7f.png,36525bytes/0.33MiBmipGPU,revision0e4355d282ef35fc.
 Старые PNG сохранены для cachedclients. SPAatlas/sharedwaterfield прежние.
 
 ## Проверено и следующий шаг
 
-56Node22 geometry/layout/purchase/performance/swimmer/submarine/explorer checks
+57Node22 geometry/layout/purchase/performance/swimmer/submarine/explorer checks
 PASS, diffcheckPASS. Новый regression проверяет удалённыеcrownroots, сохранение
 старых stones/core, отсутствие ghostfloor и actualunderwaterpose normalization.
-Node22 productionbuild сейчас /workspace/qa/v12-no-inner-ring-build.log, session90181.
+Node22 productionbuild сейчас /workspace/qa/v12-smooth-final-build.log, session55406.
 После него: finalNative desktop9views и genuinephone390×844/coarse/DPR2/real
 Островbutton, один GPUcontext за раз. Не использовать37c208ePNGs какproof a615133.
 Затем exactfullCI→mergePR5→mainCI/Workerrelease/sharedsaves/Pages→actualHTTP
@@ -71,3 +73,12 @@ Node22 PATH=/home/agent/.npm/_npx/52027bd8fc0022aa/node_modules/.bin:$PATH.
 Playwright=/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright;
 Chromium=/usr/bin/chromium. Sparsecheckout excludesdocs/qa; materialize only exact
 fixtures throughgitshow. Never checkout entiretree. Never delete oldworktrees.
+
+
+Новый Native9views наa615133 сначала PASS, но визуально обнаружил hardjunction
+вокруг protectedbuildingbed. Это intermediate, НЕfinalproof. Архив source+PNG:
+**codex/v12-no-inner-ring-evidence=0ba9e549ed5221f61435679625719dbabc4d23fa**,
+docs/qa/2026-11-20/v12-no-inner-ring/intermediate-before-shoulder-blend/.
+Remote sourceprooftar повторно скачан/сверен; duplicateassets очищены, уникальные
+source/PNGs/SQLite/logs/worktrees сохранены. Новая9d81059 добавляет90мплавный стык;
+57checksPASS, probeперебейкан, fullCI44730300724. Кадрыa615 не выдавать за9d.

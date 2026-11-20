@@ -762,3 +762,16 @@ ActualHTTP подтвердил: Pages ещё отдаёт./dist/app.js?v=593013
 то есть прежние production bytes. Сообщили это пользователю прямо: новая
 геометрия пока НЕlive, внутренний разделяющий берег удалён вcandidate, внешний
 берег большой лагуны остаётся. Не объявлять визуальное одобрение или hardwareFPS.
+
+
+## 2026-11-20 — пользователь подтвердил проблему на новом screenshot
+
+Предыдущее объяснение об oldlive оказалось ошибочным: фото в чате показывало
+candidate1ec45e8, где12старыхheadlands всё ещё окружали Mall/SPA. Ошибку признали.
+Вa615133 удалены10внутреннихcrown и ихподпорки, сглажен старый q=.7..1 slope,
+контакты плавания/подлодки используютactualbed. Native9views обнаружил резкий
+стык с protectedbuildingbed;9d81059d67249b024635a6c4d502c8d55a0e4d91 добавил
+90мsmoothshoulder с точными прежними высотами внутри foundation. Новые57checks
+PASS, offlineprobe4fa4e0cc0c7f. FullCI и finaldesktop/touch ещё pending — CURRENT.
+Не выдавать intermediate0ba9e549ed5221f61435679625719dbabc4d23fa за финальное
+одобрение. Старые истории/исходники/PNGs сохранены в remote.
