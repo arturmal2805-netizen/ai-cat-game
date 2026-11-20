@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';import {writeFile}from'node:fs/promises';import {join}from'node:path';
 export async function auditV12({page,review,errors,httpErrors}){
+ if(process.env.CHICHI_VENUE_UI_AUDIT){const{auditVenueButtons}=await import('./audit-venue-buttons-native.mjs');return auditVenueButtons({page,review,errors,httpErrors});}
  await page.setViewportSize(process.env.CHICHI_V12_PHONE_ONLY?{width:390,height:844}:{width:1440,height:1000});await page.locator('[data-biome="autumn"]').click();await page.evaluate(async()=>{const q=__lagoonQA;q.drawPaused=true;await q.mall().ensure();await q.resortSpa().ensure();});
  await page.waitForFunction(()=>__lagoonQA.mall().ready&&__lagoonQA.resortSpa().ready&&!__lagoonQA.islands.get('autumn').userData.lowOnly&&__lagoonQA.shaderWarmup.idle(),null,{timeout:300000});
  console.log('V12 required buildings and full-detail island READY');

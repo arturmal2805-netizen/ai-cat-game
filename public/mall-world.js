@@ -1,3 +1,4 @@
+import {venueButton} from './venue-buttons.js';
 import {mallGuestCameraEye,mallGuestCameraInside} from './mall-guest-camera.js';
 import {mallCameraGuests,randomMallGuest} from './mall-guests.js';
 import {mallPath,mallNavigationSteps,mallNavigationReady,mallAccessibleService,mallSegmentClear} from './mall-navigation.js';
@@ -22,7 +23,7 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
   const centre=byBiome('autumn').center,abort=new AbortController(),staff=[],props=new Map(),personal=new Map(),worn=new Map(),navigationPending=new Map();
   const iceProps=new Map(),iceOffset=new THREE.Matrix4(),icePoint=new THREE.Vector3(),iceScale=new THREE.Vector3(.65,.65,.65);
   let root=null,pending=null,disposed=false,inspection=false,selected=null,lastResume=-1,guest=null,lastGuest=null;
-  const access=document.createElement('button');access.className='mall-access';access.textContent='🛍 ТРЦ';access.title='Підводний Cat Mall';access.setAttribute('aria-label','Відкрити підводний ТРЦ');access.hidden=true;(container.querySelector('.map-controls')||container).append(access);
+  const access=venueButton('mall');access.classList.add('mall-access');access.hidden=true;(container.querySelector('.map-controls')||container).append(access);
   const panel=document.createElement('nav');panel.className='mall-floors';panel.hidden=true;panel.setAttribute('aria-label','Поверхи підводного ТРЦ');container.append(panel);
   const shopOpen=document.createElement('button');shopOpen.className='mall-shop-open';shopOpen.hidden=true;container.append(shopOpen);
   const storeView=document.createElement('button');storeView.className='mall-store-view';storeView.hidden=true;container.append(storeView);
