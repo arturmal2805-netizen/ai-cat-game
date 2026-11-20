@@ -1,0 +1,118 @@
+TAP version 13
+# Subtest: front attraction camera fits wide pools and tall slides on every phone orientation
+ok 1 - front attraction camera fits wide pools and tall slides on every phone orientation
+  ---
+  duration_ms: 11.335172
+  type: 'test'
+  ...
+# Subtest: island shortcut fits every entire island on portrait and landscape screens
+ok 2 - island shortcut fits every entire island on portrait and landscape screens
+  ---
+  duration_ms: 20.37144
+  type: 'test'
+  ...
+# Subtest: random camera selects all available cats, avoids immediate repeats and handles an empty roster
+ok 3 - random camera selects all available cats, avoids immediate repeats and handles an empty roster
+  ---
+  duration_ms: 1.428879
+  type: 'test'
+  ...
+# Subtest: switching from Chichi to kittens and giant cats keeps their moving face framed without changing their rig
+ok 4 - switching from Chichi to kittens and giant cats keeps their moving face framed without changing their rig
+  ---
+  duration_ms: 14.495837
+  type: 'test'
+  ...
+# Subtest: large build-island lawn repeats without square seams at either texture edge
+ok 5 - large build-island lawn repeats without square seams at either texture edge
+  ---
+  duration_ms: 16.617068
+  type: 'test'
+  ...
+# Subtest: underwater exit, third-person camera-relative swimming axes, dive, reboard and release use actual runtime
+ok 6 - underwater exit, third-person camera-relative swimming axes, dive, reboard and release use actual runtime
+  ---
+  duration_ms: 173.874027
+  type: 'test'
+  ...
+# Subtest: swimmer and released pilot restore without resetting wallets, inventory or camera ownership
+ok 7 - swimmer and released pilot restore without resetting wallets, inventory or camera ownership
+  ---
+  duration_ms: 235.845963
+  type: 'test'
+  ...
+# Subtest: pressure airlock never opens both doors; entry and exit reach their real endpoints
+ok 8 - pressure airlock never opens both doors; entry and exit reach their real endpoints
+  ---
+  duration_ms: 1.50405
+  type: 'test'
+  ...
+# Subtest: swimmer swept collision rejects sealed Mall shell and malformed explorer records
+ok 9 - swimmer swept collision rejects sealed Mall shell and malformed explorer records
+  ---
+  duration_ms: 75.080878
+  type: 'test'
+  ...
+# Subtest: manual swimming stops on release, blur and entry into text editing
+ok 10 - manual swimming stops on release, blur and entry into text editing
+  ---
+  duration_ms: 10.322417
+  type: 'test'
+  ...
+# Subtest: look orbit leaves a stationary cat facing forward and releasing a look drag preserves a held movement key
+ok 11 - look orbit leaves a stationary cat facing forward and releasing a look drag preserves a held movement key
+  ---
+  duration_ms: 16.032847
+  type: 'test'
+  ...
+# Subtest: released explorer cannot cancel a newly selected mall overview or visitor camera
+ok 12 - released explorer cannot cancel a newly selected mall overview or visitor camera
+  ---
+  duration_ms: 8.646092
+  type: 'test'
+  ...
+# Subtest: hidden canvas gestures move/look independently, dive with two fingers and stop on release
+ok 13 - hidden canvas gestures move/look independently, dive with two fingers and stop on release
+  ---
+  duration_ms: 11.184631
+  type: 'test'
+  ...
+# Subtest: E chooses the real boat or door in view when both are within reach
+ok 14 - E chooses the real boat or door in view when both are within reach
+  ---
+  duration_ms: 11.823873
+  type: 'test'
+  ...
+# Subtest: phone buttons allow independent held movement and depth; cancellation and blur clear only their owned inputs
+ok 15 - phone buttons allow independent held movement and depth; cancellation and blur clear only their owned inputs
+  ---
+  duration_ms: 10.170243
+  type: 'test'
+  ...
+# Subtest: phone control anchor tracks the visible viewport when the game canvas extends below it
+ok 16 - phone control anchor tracks the visible viewport when the game canvas extends below it
+  ---
+  duration_ms: 6.049339
+  type: 'test'
+  ...
+# Subtest: contextual Mall doorway action appears only at the real portal and starts the existing sequential airlock
+ok 17 - contextual Mall doorway action appears only at the real portal and starts the existing sequential airlock
+  ---
+  duration_ms: 11.036481
+  type: 'test'
+  ...
+# Subtest: Warehouse button camera fits the real shell in portrait/landscape and remains in open water above the physical floor
+ok 18 - Warehouse button camera fits the real shell in portrait/landscape and remains in open water above the physical floor
+  ---
+  duration_ms: 259.522091
+  type: 'test'
+  ...
+1..18
+# tests 18
+# suites 0
+# pass 18
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 879.974446

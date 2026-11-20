@@ -1,0 +1,9 @@
+{
+  "candidate": "c4d2f18cb4ba541398378d23c10ad3ffce608f49",
+  "base": "407e4274128e86644619d022978e6d5fd16cd969",
+  "result": {
+    "sha": "b995a82d21dbc788357a9c048e12dfcf2bcbd4fb",
+    "merged": true,
+    "message": "Pull Request successfully merged"
+  }
+}

@@ -29,9 +29,12 @@ phone390×844coarseDPR2 PASS;447capturedmodules каждого прогона ex
 Новая просьба пользователя:добавить Warehouse рядом сТРЦ/SPA и сделать эти3кнопки
 аккуратнее,только логотипы(киця/лотос/Warehouse),с подсказками;44pxнажатия сохранить.
 Ветка **codex/compact-venue-camera**, worktree/workspace/chichi-v12-island-warehouse,
-source **c5ce4f0d816a42debd547e88bf1c9866fc18fc19**, PR#8, base опубликованный407e427.
-18targeted checks/Node22build PASS. Native настоящие кнопки/переходы камер desktop/
-phone и полный CI/публикация нового UI ещё pending. Эти кнопки ЕЩЁ НЕ опубликованы.
+source **c4d2f18cb4ba541398378d23c10ad3ffce608f49**, PR#8merged;
+main **b995a82d21dbc788357a9c048e12dfcf2bcbd4fb**, workflow **44746802316** выполняется, base опубликованный407e427.
+18targeted checks/Node22build/3optics-regressions PASS. Native настоящие3кнопки/
+переходы камер desktop/phone390×844coarseDPR2 PASS;449publicmodules каждого
+прогонаexactsource. [QA](../qa/2026-11-20/venue-camera/README.md).
+Полный mainCI/публикация нового UI ещё pending. Эти кнопки ЕЩЁ НЕ опубликованы.
 Не отменять и не перепубликовывать407:он уже полностью опубликован/HTTPverified.
 
 Новая логика:venue-buttons.js — SVG+ARIA/title/44px; warehouse-camera.js — framing

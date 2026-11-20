@@ -1,0 +1,8 @@
+{
+  "candidate": "c4d2f18cb4ba541398378d23c10ad3ffce608f49",
+  "main": "b995a82d21dbc788357a9c048e12dfcf2bcbd4fb",
+  "everyCapturedModuleMatchesCandidate": true,
+  "nativePublicModulesChecked": 449,
+  "actualButtonClicksAndCameraHandoffs": true,
+  "scope": "Private Worker/SQLite, actual game and real toolbar clicks. Chromium software rendering is not physical Mac/phone FPS."
+}
