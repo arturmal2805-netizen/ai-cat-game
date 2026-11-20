@@ -13,3 +13,9 @@ test('cooperative work preserves native/custom/morph bounds and abandons replace
  const morph=make();morph.morphAttributes.position=[morph.attributes.position.clone()];assert.equal(run(geometryBoundsSteps(morph)),false);
  const ready=make();ready.computeBoundingSphere();const bound=ready.boundingSphere;assert.equal(run(geometryBoundsSteps(ready)),false);assert.equal(ready.boundingSphere,bound);
 });
+test('direct static reads preserve normalized/custom getters, empty buffers and Float64 arithmetic exactly',()=>{
+ const geometries=[];
+ for(const attr of [new T.BufferAttribute(new Uint16Array([0,65535,30000,1400,50,90]),3,true),new T.BufferAttribute(new Float64Array([1e100,-.003,1e-50,-1e100,.004,7]),3),new T.BufferAttribute(new Float32Array(),3)]){const g=new T.BufferGeometry();g.setAttribute('position',attr);geometries.push(g);}
+ const custom=new T.BufferGeometry(),p=new T.Float32BufferAttribute([1,2,3,4,5,6],3),getY=p.getY;p.getY=function(i){return getY.call(this,i)+7;};custom.setAttribute('position',p);geometries.push(custom);
+ for(const g of geometries){g.computeBoundingSphere();const native=g.boundingSphere.clone();g.boundingSphere=null;run(geometryBoundsSteps(g));assert.deepEqual(g.boundingSphere,native);assert.equal(g.boundingBox,null);}
+});
