@@ -2505,7 +2505,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     ).id;
   }
   function islandOverview() {
-    const id = viewedIsland();
+    const id = viewedIsland(),viewRadius=id==='autumn'?expandedOverview().radius:byBiome(id).radius;
     const housingLook = id === HOUSING_ID ? look.clone() : null;
     focus(id);
     if (housingLook)
@@ -2524,11 +2524,11 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     overviewElevation = 1.03;
     overviewAspect = camera.aspect;
     desiredDistance = islandOverviewDistance(
-      byBiome(id).radius,
+      viewRadius,
       camera.fov,
       camera.aspect,
     );
-    camera.far=islandCameraFar(desiredDistance,byBiome(id).radius);
+    camera.far=islandCameraFar(desiredDistance,viewRadius);
     camera.updateProjectionMatrix();
     return id;
   }
