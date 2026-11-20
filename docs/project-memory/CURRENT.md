@@ -67,12 +67,27 @@ Reference pixels находятся в сообщениях; не выдумыв
 ## Проверки и следующий шаг
 
 30Node22 targeted/layout/ownership/performance checks PASS, diffcheck PASS.
-Финальные source-fixed проверки сейчас:
-- /workspace/qa/v12-unified-desktop.log — все реальные виды на1ec45e8;
-- /workspace/qa/v12-unified-build.log — настоящий Node22 production build;
-- затем отдельный touch context CHICHI_V12_PHONE_ONLY=1, настоящая кнопка
-  #camera-island, DPR2 и project Warehouse bounds полностью внутри кадра.
-- Полный GitHub CI для exact PR head, затем merge/mainCI/Worker/Pages/HTTP hashes.
+Настоящий Node22 production build на1ec45e8 завершён.
+Финальный desktop Native PASS:9ракурсов/errors[]/httpErrors[]/GLlostfalse,
+actualbed clearance. Все447public modules совпадают сGit1ec45e8.
+Measured edge gaps: Mall1773.6948454461558м (3.350385625568004W),
+SPA1785.0894594514284м (3.371909255221761W).
+Доказательства сохранены и remoteSHA проверен:
+**codex/v12-unified-evidence=1fbc5c56a0914b042fc12e19a46cc2b25e9096e9**,
+docs/qa/2026-11-20/v12-unified/desktop/ и source-verification.json.
+Remote source-proof.tar.gz повторно скачан черезGitBlobs и побайтово совпал,
+SHA256b92e1355f6d4daa731b5963744fbb9045af9439b94143ce6a28e082b527cd2bc.
+Удалена только duplicateassets завершённогоprivateQA, не SQLite/PNGs/worktrees.
+
+Следующий шаг уже запущен:
+- genuine touch context CHICHI_V12_PHONE_ONLY=1, настоящая #camera-island,
+  DPR2 и project Warehouse bounds полностью внутри кадра;
+  /workspace/qa/v12-unified-phone.log, execsession99034.
+- exact PR head full GitHub CI44713392228 пока выполняется;
+- после обоихPASS: mergePR#5→mainCI/Worker/Pages→actualHTTP hashes.
+Исторический внешне подключённый WorkersBuilds check сообщаетfailure и для
+старых успешных релизов; не путать его с обязательным .github/workflows/cloudflare.yml.
+GitHub fullCI и actual production checks ещё не объявлятьPASS.
 
 512fc4c (меньший корпус) и5aa0bf9 (2×корпус, но прежняя малая чаша) СУПЕРСЕДЕД.
 Их native desktop/phone PASS и CI не являются финальным proof.447модулей сравнили
@@ -85,7 +100,7 @@ Old baseline PNG сfar1200 был обрезан; valid baseline9e сfar10000/de
 Архивы intermediate source/bundles/views:
 docs/qa/2026-11-20/v12-release/smaller-intermediate/ и
 v12-enlarged/intermediate-before-unifying/ (включены1ec45e8).
-Финальный proof будет вv12-unified/. Перед публикацией сравнить каждый вид с
+Финальный desktop proof уже вv12-unified/. Перед публикацией сравнить каждый вид с
 reference и valid baseline; GLSL/CI PASS не есть художественное одобрение.
 Не запускать платный AI, не использовать live-world/token/SQLite дляQA.
 
@@ -101,8 +116,7 @@ source/receipt; уникальные PNG/source/SQLite/logs сохранены. 
 
 Каноническая память — codex/ocean-recovery-memory. Её приложение старое, не
 запускать его вместо активного source. Подтверждать полный SHA после push.
-Worktree сейчас codebranch; послефинальных Native можно создать НОВУЮ evidence
-ветку от1ec45e8 для PNG/source, оставив PR head неизменным радиCI. Не checkout
+Worktree сейчас codex/v12-unified-evidence от1ec45e8; PR head остаётся1ec45e8 радиCI. Не checkout
 старую codex/v12-release-evidence=ce921de как актуальный продукт!
 V11 /workspace/chichi-spa-water-v11 = codex/spa-v11-release-evidence2bf67d2;
 V8 /workspace/chichi-emergency-save-recovery = codex/spa-v8-release-evidence16526f9.
