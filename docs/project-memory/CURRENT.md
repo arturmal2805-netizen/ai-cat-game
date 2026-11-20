@@ -23,7 +23,7 @@ Warehouse и всё остальное должны остаться прежн�
 Ветка **codex/mosa-remove-three-marked-reefs**, worktree
 /workspace/chichi-v12-island-warehouse, база опубликованный1ebc94c.
 Код сохранён в remote: **6ca4c3c8503b55b90e49550634b18d227f27df4a**, PR#7.
-FullCI **44740442266** pending/inprogress; прошлый44740268700 заменён test-only
+FullCI **44740442266 SUCCESS** для6ca4c3c; прошлый44740268700 заменён test-only
 поправкой decoder expected names. RuntimePublic неизменен относительноd460aef.
 Node22 build/42targeted PASS; 4final opening/cache checks PASS с настоящими
 terrain obstacles. Native desktop2ракурса и phone390×844/coarse/DPR2 PASS;447public modules
@@ -43,6 +43,26 @@ codex/v12-spa-approach-visibility@18c1e57, PR#6 CLOSED безmerge, CI4473741023
 heif-convert --tile-threads 1 --codec-threads 1; стандартный декодер дал цветные
 плитки, это артефакт декодирования, не дефект игры. Оригинал сохранён вattachments.
 Исходное указание:sediment://file_000000003d34821092a5f0fd014351f7.
+
+## Новое уточнение: серая зона под скалой
+
+После просмотра Native пользователь подтвердил «а так все топ» относительно
+удаления тройки и указал серую зону справа; ответил «го» на исправление.
+Raycast4точных пикселей показал: старый декоративный ConeGeometry cap(color828c99)
+наY=-200 был ВЫШЕ неизменённого expansionBedY~-200.5..-204.3. Это не вода,
+не новый материал и не отсутствующий кусок геометрии дна.
+WIP:только декоративная нижняя основа опускается12м, capY=-212; физическое дно,
+ТРЦ/SPA/Warehouse/остальные9скал не меняются.9targeted tests PASS, включая реальные
+rays в бывшие серые пиксели, Node22 build/3optics PASS; Native нового финала выполняется.
+Предыдущий автоматический merge остановлен ДОmerge. После локализованной правки
+PR#7 MERGED:source9bf328cda3da2fd066a36675e93a43a0ff33d691 → main
+407e4274128e86644619d022978e6d5fd16cd969. Workflow44742914000 выполняется;
+новый выпуск ещё НЕ опубликован, подтверждённый live всё ещё1ebc94c.
+Параллельно финальному полному mainCI выполняется exact-source Native серой
+правки. Производственная публикация всё равно проходит полные main tests.
+Полный CI44740442266 для6ca4c3c SUCCESS. Новый main всё равно обязан пройти
+полные tests/release/saves перед публикацией. Не путать одобрение удаления скал
+с одобрением всей воды/карты или обещанием FPS.
 
 ## Что реализовано
 
