@@ -26,7 +26,8 @@ Warehouse и всё остальное должны остаться прежн�
 FullCI **44740442266** pending/inprogress; прошлый44740268700 заменён test-only
 поправкой decoder expected names. RuntimePublic неизменен относительноd460aef.
 Node22 build/42targeted PASS; 4final opening/cache checks PASS с настоящими
-terrain obstacles. Native desktop идёт, затем отдельный phone.
+terrain obstacles. Native desktop2ракурса и phone390×844/coarse/DPR2 PASS;447public modules
+каждого из2прогонов точно совпадают сcandidate. [QA](../qa/2026-11-20/three-marked-rocks/README.md).
 Архив опубликованного1eb: [HTTP receipts](../qa/2026-11-20/v12-published-live/README.md).
 WIP:отдельный active reef field для renderer/player/camera/submarine/opticaldepth;
 исходный authored field сохранён для неизменности остальных flora/fauna anchors.

@@ -1,0 +1,34 @@
+TAP version 13
+# Subtest: only the three circled east-side reef instances are omitted; remaining positions/forms and every building stay unchanged
+ok 1 - only the three circled east-side reef instances are omitted; remaining positions/forms and every building stay unchanged
+  ---
+  duration_ms: 9663.569324
+  type: 'test'
+  ...
+# Subtest: manual swimming and restored submarine poses can occupy and cross the deleted rock volumes without ghost contacts
+ok 2 - manual swimming and restored submarine poses can occupy and cross the deleted rock volumes without ghost contacts
+  ---
+  duration_ms: 25.997078
+  type: 'test'
+  ...
+# Subtest: authored flora remains byte-identical; only colonies without a surviving rock/floor support disappear
+ok 3 - authored flora remains byte-identical; only colonies without a surviving rock/floor support disappear
+  ---
+  duration_ms: 345.543743
+  type: 'test'
+  ...
+# Subtest: cached optical depth omits the removed trio while retaining the complete authored flora cache
+ok 4 - cached optical depth omits the removed trio while retaining the complete authored flora cache
+  ---
+  duration_ms: 110.25111
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 10491.725796

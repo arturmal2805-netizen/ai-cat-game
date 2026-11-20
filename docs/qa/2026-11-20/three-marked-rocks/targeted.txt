@@ -1,0 +1,262 @@
+TAP version 13
+# Subtest: all coral colonies attach to real seabed or sculpted walls, with eleven anatomies and open central ride water
+ok 1 - all coral colonies attach to real seabed or sculpted walls, with eleven anatomies and open central ride water
+  ---
+  duration_ms: 334.006183
+  type: 'test'
+  ...
+# Subtest: spatial coral detail keeps full near meshes, shared LOD buffers and one fixed animation clock
+ok 2 - spatial coral detail keeps full near meshes, shared LOD buffers and one fixed animation clock
+  ---
+  duration_ms: 18974.179461
+  type: 'test'
+  ...
+# Subtest: released core dimensions, current physical bed, dry arrival and independent neighbouring shores stay consistent
+ok 3 - released core dimensions, current physical bed, dry arrival and independent neighbouring shores stay consistent
+  ---
+  duration_ms: 30108.037582
+  type: 'test'
+  ...
+# Subtest: existing paid shoreline objects keep IDs, addresses, tiers, deadlines and dry platforms through reloads
+ok 4 - existing paid shoreline objects keep IDs, addresses, tiers, deadlines and dry platforms through reloads
+  ---
+  duration_ms: 3079.003045
+  type: 'test'
+  ...
+# Subtest: new outer land survives cached-client merge; genuine storage remains effective
+ok 5 - new outer land survives cached-client merge; genuine storage remains effective
+  ---
+  duration_ms: 81.982045
+  type: 'test'
+  ...
+# Subtest: caves are hollow real arches with usable floors and stable owned IDs, not a decorative decal
+ok 6 - caves are hollow real arches with usable floors and stable owned IDs, not a decorative decal
+  ---
+  duration_ms: 175.714145
+  type: 'test'
+  ...
+# Subtest: only the three circled east-side reef instances are omitted; remaining positions/forms and every building stay unchanged
+ok 7 - only the three circled east-side reef instances are omitted; remaining positions/forms and every building stay unchanged
+  ---
+  duration_ms: 6720.112699
+  type: 'test'
+  ...
+# Subtest: manual swimming and restored submarine poses can occupy and cross the deleted rock volumes without ghost contacts
+ok 8 - manual swimming and restored submarine poses can occupy and cross the deleted rock volumes without ghost contacts
+  ---
+  duration_ms: 14.281143
+  type: 'test'
+  ...
+# Subtest: authored flora remains byte-identical; only colonies without a surviving rock/floor support disappear
+ok 9 - authored flora remains byte-identical; only colonies without a surviving rock/floor support disappear
+  ---
+  duration_ms: 237.577691
+  type: 'test'
+  ...
+# Subtest: underwater exit, third-person camera-relative swimming axes, dive, reboard and release use actual runtime
+ok 10 - underwater exit, third-person camera-relative swimming axes, dive, reboard and release use actual runtime
+  ---
+  duration_ms: 110.204273
+  type: 'test'
+  ...
+# Subtest: swimmer and released pilot restore without resetting wallets, inventory or camera ownership
+ok 11 - swimmer and released pilot restore without resetting wallets, inventory or camera ownership
+  ---
+  duration_ms: 233.354882
+  type: 'test'
+  ...
+# Subtest: pressure airlock never opens both doors; entry and exit reach their real endpoints
+ok 12 - pressure airlock never opens both doors; entry and exit reach their real endpoints
+  ---
+  duration_ms: 3.905796
+  type: 'test'
+  ...
+# Subtest: swimmer swept collision rejects sealed Mall shell and malformed explorer records
+ok 13 - swimmer swept collision rejects sealed Mall shell and malformed explorer records
+  ---
+  duration_ms: 132.97967
+  type: 'test'
+  ...
+# Subtest: manual swimming stops on release, blur and entry into text editing
+ok 14 - manual swimming stops on release, blur and entry into text editing
+  ---
+  duration_ms: 13.922072
+  type: 'test'
+  ...
+# Subtest: look orbit leaves a stationary cat facing forward and releasing a look drag preserves a held movement key
+ok 15 - look orbit leaves a stationary cat facing forward and releasing a look drag preserves a held movement key
+  ---
+  duration_ms: 24.163272
+  type: 'test'
+  ...
+# Subtest: released explorer cannot cancel a newly selected mall overview or visitor camera
+ok 16 - released explorer cannot cancel a newly selected mall overview or visitor camera
+  ---
+  duration_ms: 8.087159
+  type: 'test'
+  ...
+# Subtest: hidden canvas gestures move/look independently, dive with two fingers and stop on release
+ok 17 - hidden canvas gestures move/look independently, dive with two fingers and stop on release
+  ---
+  duration_ms: 15.501164
+  type: 'test'
+  ...
+# Subtest: E chooses the real boat or door in view when both are within reach
+ok 18 - E chooses the real boat or door in view when both are within reach
+  ---
+  duration_ms: 13.781926
+  type: 'test'
+  ...
+# Subtest: phone buttons allow independent held movement and depth; cancellation and blur clear only their owned inputs
+ok 19 - phone buttons allow independent held movement and depth; cancellation and blur clear only their owned inputs
+  ---
+  duration_ms: 11.804576
+  type: 'test'
+  ...
+# Subtest: phone control anchor tracks the visible viewport when the game canvas extends below it
+ok 20 - phone control anchor tracks the visible viewport when the game canvas extends below it
+  ---
+  duration_ms: 5.937696
+  type: 'test'
+  ...
+# Subtest: contextual Mall doorway action appears only at the real portal and starts the existing sequential airlock
+ok 21 - contextual Mall doorway action appears only at the real portal and starts the existing sequential airlock
+  ---
+  duration_ms: 10.965247
+  type: 'test'
+  ...
+# Subtest: a paid placement rejected by shore, locked land or collisions goes to the bag with its original timer instead of vanishing
+ok 22 - a paid placement rejected by shore, locked land or collisions goes to the bag with its original timer instead of vanishing
+  ---
+  duration_ms: 205.38433
+  type: 'test'
+  ...
+# Subtest: forty store/replace/restart cycles preserve one finished Mega Loops, balance, XP and ownership receipt
+ok 23 - forty store/replace/restart cycles preserve one finished Mega Loops, balance, XP and ownership receipt
+  ---
+  duration_ms: 436.932625
+  type: 'test'
+  ...
+# Subtest: legacy purchase proof recovers a missing attraction once without a charge or granting an unbought slide
+ok 24 - legacy purchase proof recovers a missing attraction once without a charge or granting an unbought slide
+  ---
+  duration_ms: 40.285933
+  type: 'test'
+  ...
+# Subtest: durable receipts recover the exact owned and completed-copy counts after a filtered snapshot
+ok 25 - durable receipts recover the exact owned and completed-copy counts after a filtered snapshot
+  ---
+  duration_ms: 15.736021
+  type: 'test'
+  ...
+# Subtest: two phones buying the same attraction retain two copies and exact once-only payments
+ok 26 - two phones buying the same attraction retain two copies and exact once-only payments
+  ---
+  duration_ms: 11.450273
+  type: 'test'
+  ...
+# Subtest: a cached client dropping a placed slide keeps its original identity and cannot erase paid completion receipts
+ok 27 - a cached client dropping a placed slide keeps its original identity and cannot erase paid completion receipts
+  ---
+  duration_ms: 12.054286
+  type: 'test'
+  ...
+# Subtest: an unchanged healthy world is returned by identity and ownership bookkeeping never touches native graphics
+ok 28 - an unchanged healthy world is returned by identity and ownership bookkeeping never touches native graphics
+  ---
+  duration_ms: 2.991696
+  type: 'test'
+  ...
+# Subtest: matching-world backups retain completed construction, while another accounts backup cannot invent ownership
+ok 29 - matching-world backups retain completed construction, while another accounts backup cannot invent ownership
+  ---
+  duration_ms: 15.310793
+  type: 'test'
+  ...
+# Subtest: bounded mixed reef preserves original colonies, actual floor support and a body-width sand passage
+ok 30 - bounded mixed reef preserves original colonies, actual floor support and a body-width sand passage
+  ---
+  duration_ms: 340.220376
+  type: 'test'
+  ...
+# Subtest: curved seagrass retains every plant at all LODs and never rewrites instance rows during animation
+ok 31 - curved seagrass retains every plant at all LODs and never rewrites instance rows during animation
+  ---
+  duration_ms: 17096.844789
+  type: 'test'
+  ...
+# Subtest: authored sand relief is a shared linear GL-normal/roughness map, not a colour photograph
+ok 32 - authored sand relief is a shared linear GL-normal/roughness map, not a colour photograph
+  ---
+  duration_ms: 30.08967
+  type: 'test'
+  ...
+# Subtest: reef gardens span the ocean floor without changing the central ride or the Mall approach
+ok 33 - reef gardens span the ocean floor without changing the central ride or the Mall approach
+  ---
+  duration_ms: 84.871351
+  type: 'test'
+  ...
+# Subtest: expanded coast preserves every published rock/coral vertex and original LOD while regenerating physical site data
+ok 34 - expanded coast preserves every published rock/coral vertex and original LOD while regenerating physical site data
+  ---
+  duration_ms: 173.271601
+  type: 'test'
+  ...
+# Subtest: the actual cache loader binds original distant coral levels and separate seabed-only levels
+ok 35 - the actual cache loader binds original distant coral levels and separate seabed-only levels
+  ---
+  duration_ms: 185.157317
+  type: 'test'
+  ...
+# Subtest: submarine accelerates, reverses, steers, dives, brakes and switches no currencies or NPC state
+ok 36 - submarine accelerates, reverses, steers, dives, brakes and switches no currencies or NPC state
+  ---
+  duration_ms: 103.361261
+  type: 'test'
+  ...
+# Subtest: real-time long frames do not tunnel through terrain or cave/ruin capsules
+ok 37 - real-time long frames do not tunnel through terrain or cave/ruin capsules
+  ---
+  duration_ms: 644.682938
+  type: 'test'
+  ...
+# Subtest: safe entry/exit remains at the dedicated pier and invalid saved coordinates cannot strand the cat
+ok 38 - safe entry/exit remains at the dedicated pier and invalid saved coordinates cannot strand the cat
+  ---
+  duration_ms: 34.23454
+  type: 'test'
+  ...
+# Subtest: space gives a real ballistic water breach and shift descends again
+ok 39 - space gives a real ballistic water breach and shift descends again
+  ---
+  duration_ms: 50.51863
+  type: 'test'
+  ...
+# Subtest: real save/load and cached shared clients retain the pilot pose without losing purchases or wallet
+ok 40 - real save/load and cached shared clients retain the pilot pose without losing purchases or wallet
+  ---
+  duration_ms: 157.422822
+  type: 'test'
+  ...
+# Subtest: a steep reef wall brakes a fast boat rather than lifting it onto the ledge
+ok 41 - a steep reef wall brakes a fast boat rather than lifting it onto the ledge
+  ---
+  duration_ms: 182.806805
+  type: 'test'
+  ...
+# Subtest: return leaves both real cavern roofs through their openings before ascending to the pier
+ok 42 - return leaves both real cavern roofs through their openings before ascending to the pier
+  ---
+  duration_ms: 451.267494
+  type: 'test'
+  ...
+1..42
+# tests 42
+# suites 0
+# pass 42
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 33927.848341
