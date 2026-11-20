@@ -1,0 +1,81 @@
+{
+  "verifiedAt": "2026-11-20T12:34:01.761386+00:00",
+  "release": "1ebc94cb7c38d26aca2d87c7404d1380a8df33ac",
+  "candidate": "ca08b43ecee9fcf94aeca81abfe390434687e049",
+  "workflow": "https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44734816312",
+  "applicationScripts": [
+    "./dist/app.js?v=eee88668a2689f00"
+  ],
+  "stylesheets": [
+    "./style.css?v=1ca6fd7d91d93d24"
+  ],
+  "resources": [
+    {
+      "path": "",
+      "bytes": 31956,
+      "sha256": "c23806a4baf706ca00a73c97de6c9b4bfd55b5a65016347f79e92f8e110ea552",
+      "headers": {
+        "ETag": "\"6b003e14-7cd4\"",
+        "Last-Modified": "Fri, 20 Nov 2026 12:33:24 GMT",
+        "Content-Type": "text/html; charset=utf-8",
+        "Cache-Control": "max-age=600"
+      }
+    },
+    {
+      "path": "dist/app.js?v=eee88668a2689f00",
+      "bytes": 2808204,
+      "sha256": "eee88668a2689f000b143998a1a405723c77ecd596e4559cd4abbe165dcc8fa3",
+      "headers": {
+        "ETag": "\"6b003e14-2ad98c\"",
+        "Last-Modified": "Fri, 20 Nov 2026 12:33:24 GMT",
+        "Content-Type": "application/javascript; charset=utf-8",
+        "Cache-Control": "max-age=600"
+      }
+    },
+    {
+      "path": "style.css?v=1ca6fd7d91d93d24",
+      "bytes": 67599,
+      "sha256": "1ca6fd7d91d93d2434122de8b604f9e1f0306145487ece7434204f01d46492bc",
+      "headers": {
+        "ETag": "\"6b003e14-1080f\"",
+        "Last-Modified": "Fri, 20 Nov 2026 12:33:24 GMT",
+        "Content-Type": "text/css; charset=utf-8",
+        "Cache-Control": "max-age=600"
+      }
+    },
+    {
+      "path": "art/ocean-reflections/tropical-coast-4fa4e0cc0c7f.png",
+      "bytes": 36525,
+      "sha256": "4fa4e0cc0c7f63e1a3063f46a827bb458114a2cebe271e29ce81bbfac3beda4e",
+      "headers": {
+        "ETag": "\"6b003e14-8ead\"",
+        "Last-Modified": "Fri, 20 Nov 2026 12:33:24 GMT",
+        "Content-Type": "image/png",
+        "Cache-Control": "max-age=600"
+      }
+    },
+    {
+      "path": "art/spa-reflections/spa-interiors-ffabc732b641.png",
+      "bytes": 190875,
+      "sha256": "ffabc732b641d70c2894ca97ebff1ab83ba4fecbf6da71e5d0251efd19648d6f",
+      "headers": {
+        "ETag": "\"6b003e14-2e99b\"",
+        "Last-Modified": "Fri, 20 Nov 2026 12:33:24 GMT",
+        "Content-Type": "image/png",
+        "Cache-Control": "max-age=600"
+      }
+    },
+    {
+      "path": "art/ocean-water/wind-field-2523d71db8b6.png",
+      "bytes": 1974687,
+      "sha256": "2523d71db8b62ce0212f4eb8bce5310456a901d69f209865c41f5f3dc2b692a8",
+      "headers": {
+        "ETag": "\"6b003e19-1e219f\"",
+        "Last-Modified": "Fri, 20 Nov 2026 12:33:29 GMT",
+        "Content-Type": "image/png",
+        "Cache-Control": "max-age=600"
+      }
+    }
+  ],
+  "limitations": "Actual HTTP bytes, completed release/save workflow and native geometry checks do not establish artistic approval or physical Mac/iPhone FPS."
+}
