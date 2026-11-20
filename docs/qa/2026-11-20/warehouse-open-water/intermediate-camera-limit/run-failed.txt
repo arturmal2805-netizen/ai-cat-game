@@ -1,0 +1,22 @@
+V12 required buildings and full-detail island READY
+V12 actual game capture old-area-comparison 2397 18508063
+V12 actual game capture expanded-overview 3688 19206975
+V12 actual game capture three-buildings 3365 18634698
+V12 actual game capture open-water-gap 767 1944921
+V12 actual game capture warehouse-front 441 1182141
+V12 actual game capture warehouse-side 3124 18526776
+V12 actual game capture warehouse-top 179 1004286
+V12 actual game capture new-coast 308 1813501
+V12 actual game capture phone-overview 3688 19209535
+V12 actual game capture warehouse-cleared-banks 2006 6351762
+AssertionError [ERR_ASSERTION]: held real input crosses former mound
+    at auditWarehouseOpenWater (file:///workspace/chichi-v12-island-warehouse/scripts/audit-warehouse-open-water.mjs:11:3)
+    at async auditV12 (file:///workspace/chichi-v12-island-warehouse/scripts/audit-v12-native.mjs:37:132)
+    at async /workspace/chichi-v12-island-warehouse/scripts/check-aquarium.cjs:713:96 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

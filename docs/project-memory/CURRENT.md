@@ -1,87 +1,65 @@
 # Текущий статус
 
-Обновлено 20 ноября 2026, Europe/Kyiv. [Предыдущие этапы](history/CURRENT-before-warehouse-facade-publication-2026-11-20.md).
+20 ноября2026, Europe/Kyiv. Каноническая память — эта удалённая ветка;
+её app старый, актуальные исходники брать из рабочей ветки ниже.
 
-## Опубликовано и проверено
+## Последняя подтверждённая публикация
 
-Main **f28975bd8c2cf1cd7d94c61239ab8f98f7dbc96f**.
-[Игра](https://arturmal2805-netizen.github.io/ai-cat-game/?v=f28975b).
-Workflow **44755743721 — SUCCESS**: полные test/deploy/pages, точная версия
-Worker и проверка общих сохранений. Платные AI-вызовы в QA не выполнялись.
-Actual HTTP HTML/JS/CSS/probe/reef-cache совпали с ожидаемыми байтами;
-одно подключение приложения. [Полная квитанция](../qa/2026-11-20/warehouse-facade-2_5x/live/live-verification.json).
+**f28975bd8c2cf1cd7d94c61239ab8f98f7dbc96f**, workflow44755743721 SUCCESS:
+test/deploy/pages, Worker release/sharedsaves, actual HTTP и одно приложение.
+JS1b15b0b20e8732f762568abdb9a11e26d539ee316b2c662b4fe409edb2fa2032;
+CSS1fd2857ef1fbaedd5e7a34a5082a77ff49bcf7f1c7030d5292502753b86967d0.
+[Квитанция](../qa/2026-11-20/warehouse-facade-2_5x/live/live-verification.json).
+Warehouse ×2,5 по ширине/высоте; глубина/центр прежние, подробный стеклянно-золотой
+фасад. ТРЦ/SPA не изменялись. Новый фасад ещё не одобрен пользователем.
 
-- JS: 1b15b0b20e8732f762568abdb9a11e26d539ee316b2c662b4fe409edb2fa2032.
-- CSS: 1fd2857ef1fbaedd5e7a34a5082a77ff49bcf7f1c7030d5292502753b86967d0.
-- HTML: 60e61542b25345a1ba3fbf1a77e27c86d6cd39f9ff35101a92fb72f513767105.
-- Probe: 4ec06705e46efeebabb766e570713f787cd6024e51257a69156088075170beeb.
-- Reef-cache 1b90309ff46a4537, SPA atlas и общий wind field прежние.
+## Сейчас публикуется — 8 отмеченных скал и ширина воды
 
-## Что завершено
+Фото пользователя f28975b: убрать все8конусов вокруг Warehouse и раздвинуть оба
+берега. Исходник **c8a0000a020d236bc6a4f6dd28d6b7e3644cdab1**,
+ветка codex/warehouse-open-water, worktree /workspace/chichi-v12-island-warehouse.
+PR#10 merged обычным merge, без bypass. Main **7a0e1f3daf8afd0629d60d7a3cb0aa147b2a02f4**.
+Workflow **44794849010 выполняется**: не считать опубликованным до test/deploy/pages
+SUCCESS и actual HTTP receipt. PR-дубликат44794698913 отменён после merge;
+старые PR-runs262/e370 отменены при обновлении ветки, не являются production proof.
 
-Warehouse увеличен **×2,5 по ширине и высоте относительно b995a82**, вместо
-первоначально запрошенного ×1,5. Ширина корпуса 480→1200м; глубина 240м,
-центр(2200,-177,450), прежняя отметка пола и root scale1 сохранены. Каждая
-вершина исходной стеклянной оболочки проверена после осевого преобразования;
-топология прежняя. Реальная кровля остаётся ниже -30м.
+Удалены8height mounds и72верхнихкамня.384коралла на тех же X/Z опущены на
+реальныйровныйпол,60рыб сохранены. Внешний эллипс rz750→1100, плавный лимит
+localZ=-350 защищает бесконечный жилой ряд; обход соседних островов и точное
+объединение с прежним radial contour. Прежняя вода не сокращается.
+Исходники Warehouse/Mall/SPA, их координаты/размеры/фасады прежние. Нет интерьера,
+AI, покупки/балансы/saveformat не менялись. Реальный общий probe перебейкан:
+afc536509c5b98ea660eb1a4baa3a608653168e3083dd6673ce7c82ad36c5b6e.
+Общий shader/clock/field и reef binarycache прежние.
 
-Детали фасада: карнизы, 16 дополнительных рёбер, 20 панелей, 12 фонарей,
-четыре обрамления портала, колонны, козырёк над аркой, ступени, герб и вывеска.
-11 общих статических mesh batches, 115470 треугольников; новых динамических
-источников света, интерьера, AI, покупок или схемы сохранений нет.
-Для читаемости освещённых непрозрачных материалов только Warehouse применяется
-fog cap .32. Глобальный туман, вода и прозрачность стекла .14 прежние.
+Найдены и исправлены связанные блокировки: swimmer, submarine, explorer restore,
+кнопка управления И камера третьего лица ограничивали движение старым эллипсом.
+Новый ocean-water-domain использует общую лагуну и сохраняет допустимый старый
+эллипс для совместимости. Camera physical bed теперь actual expansionBedY.
+Старый -198м save cutoff не включал новый глубокий пол: нижняя граница следует
+реальному bedY-5. Native должен проверить held input, dive ниже-200м и2reload.
 
-Две перекрытые декоративные группы рифов(3/7) отодвинуты от большей основы.
-8 ID/384 колонии/60 рыб сохранены; остальные 6 адресов прежние. Старый критерий
-3 ширины платформы superseded новым разрешённым увеличением на месте:
-сохраняется фактический зазор >=1300м. ТРЦ/SPA/карта не перенесены.
+61focused Node22 checks PASS: production floor rays/все8sweep/реальные runtimekeys,
+old3rocks/caves/purchases/camera/optics. Full Node22 build базового этапаPASS;
+после depth/camera edits app/Worker rebuilt теми же функциями без изменения model
+producers. Полный main CI проверит окончательную сборку. Desktop final native
+сейчас выполняется; затем phone и baseline сравнение. GPU только один за раз.
 
-27 focused Node22 проверок геометрии/рифов/камеры/оптики PASS, полный main CI
-PASS. Native desktop/390×844 coarse/DPR2: настоящая кнопка Warehouse, переходы
-камер, полное кадрирование, фронт/портал, физический зазор камеры и GLSL PASS.
-Все 450 public modules каждого прогона совпали с source. [QA, исходники и кадры](../qa/2026-11-20/warehouse-facade-2_5x/README.md).
-Первый промежуточный вариант e91c86b сохранён отдельно: туман скрывал детали,
-козырёк пересекал арку. Финальный 139c68a устраняет обе проблемы.
+QA [warehouse-open-water](../qa/2026-11-20/warehouse-open-water/README.md).
+Промежуточный262 имел реальные10views, но heldinputFAIL выявил старую camera
+границу; сохранён как superseded, не финальныйproof. Актуальные команды/логи:
+/workspace/qa/warehouse-open-water-desktop-final.log; session29628.
+Release monitor session31987, /workspace/qa/watch-warehouse-open-water-release.py.
+Он требует финальные desktop+phone v12-native.json/movement.json и livehashes.
+Expected bytes: /workspace/qa/warehouse-open-water-expected-production.json.
+Не запускать повторныйdeploy, не ждать userapproval уже разрешённой публикации.
 
-Source **139c68af0dabcacb76d47d3bd83f5f722ca7fa01**, PR#9 merged.
-Ветка codex/warehouse-facade-2_5x, worktree /workspace/chichi-v12-island-warehouse.
-Tree **da78637508469eb7b1e276fe061d5e272532b8f5** совпадает с опубликованным main.
-Ветка памяти содержит документы; не запускать её старый app как свежую игру.
+## Ограничения и сохранённое
 
-Пользователь одобрил прежний облик как основу. Новый фасад проверен ассистентом,
-художественное одобрение пользователя ещё не получено. Физический Mac/phone FPS
-не измерялся. Новый запрос ниже имеет приоритет над завершённым этапом фасада.
-
-## Сохранённые предыдущие изменения
-
-b995a82: компактные SVG-кнопки ТРЦ/SPA/Warehouse и наведение камеры.
-407e427: удалены только reef-terrace-0,1,11 и их коллизии, скрыты 166 кораллов
-без опоры; raw1024/visible858, другие9скал сохранены. Старая декоративная
-cone-основа опущена12м под неизменённое дно для устранения серой зоны.
-Широкая выемка подхода SPA приостановлена: codex/v12-spa-approach-visibility@18c1e57,
-PR#6 закрыт без merge. Не включать её в другие задачи. Старые worktrees сохранены.
-Диагностика только по запросу; QA только приватный Worker/SQLite, не живой мир игрока.
-
-## В работе — расширить воду и убрать 8 скал вокруг Warehouse
-
-2026-11-20: фото пользователя на f28975b обводит все 8 новых поднятых участков
-WAREHOUSE_REEFS и просит расширить воду по обеим сторонам. Убираются их физические
-конусы и 72 верхних камня;384 живых коралла опускаются на настоящее дно,60рыб
-сохраняются. ТРЦ/SPA/Warehouse и их координаты/размеры/фасады прежние.
-Рабочая ветка codex/warehouse-open-water в /workspace/chichi-v12-island-warehouse.
-Пока локальный WIP; текущий опубликованный f28975b не заменять без live receipt.
-
-Выявлена отдельная причина блокировки: swimmer/submarine/explorer restore и
-кнопка управления использовали исходный эллипс~330м, исключая Warehouse. Общий
-ocean-water-domain расширяет движение/валидацию на фактическую лагуну, сохраняя
-прежний допустимый эллипс для старых позиций. Проверить sweep всех8объёмов,
-реальные клавиши/phone, SQLite reload и покупки, не только картинки.
-Новая ширина исходного внешнего эллипса rz750→1100; край со стороны бесконечного
-жилого ряда ограничен localZ=-350 и обходит соседние острова. Дальше: focusedtests,
-новый actual reflection probe, native views+movement/save, fullCI/main/livehashes.
-
-Checkpoint: source **262f3574baec3932807e0f7d132cc0f7315f6a2b** pushed and exact remote
-verified; PR#10.54focused checks, real production bed rays and Node22 build PASS.
-Native desktop capture/movement/SQLite underway; no publication claim yet.
-Evidence: ../qa/2026-11-20/warehouse-open-water/README.md.
+407e427: старые reef-terrace-0/1/11 удалены, другие9скал прежние; grey underside
+опущен12м, физический старый пол не тронут. b995: компактные3SVGкнопки с44px
+областями и actualbbox Warehouse camera. Широкая выемка подходаSPA приостановлена
+(codex/v12-spa-approach-visibility@18c1e57, PR#6 CLOSED безmerge). Не включать её.
+Не трогать пользовательские сохранения/коины/риги. Диагностика только по запросу.
+Нативный QA — private Worker/SQLite и software Chromium, без paidAI. Физический
+Mac/iPhone FPS не измерялся. История перед этапом — history/CURRENT-before-open-water-release-2026-11-20.md.

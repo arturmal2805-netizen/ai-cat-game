@@ -1,0 +1,81 @@
+{
+  "source": "262f3574baec3932807e0f7d132cc0f7315f6a2b",
+  "allCapturedPublicModulesMatchSource": true,
+  "moduleCount": 451,
+  "state": "Superseded: geometry views captured, actual held-input test failed because explorer camera still used old ellipse; no final native PASS.",
+  "scope": "Actual native game/private Worker/SQLite; SwiftShader correctness only, hardware FPS unmeasured",
+  "files": {
+    "warehouse-top.png": {
+      "bytes": 921099,
+      "sha256": "00fe075c99b9c0c4f2a21f2d95266dacc0ae4a579feab78e0729b016c18aa801"
+    },
+    "new-coast.png": {
+      "bytes": 1892661,
+      "sha256": "9fdf60c059923fad8246bbd3707cfe58882d3b384ea872f716f36adb85709dc6"
+    },
+    "warehouse-front.png": {
+      "bytes": 720157,
+      "sha256": "69605e7e2630b865eb2d7364aef20c2b33a749aa599461283d670f1882067b44"
+    },
+    "check-aquarium.cjs": {
+      "bytes": 120039,
+      "sha256": "330b5432c56062329d25edd692c8787a5e0d9b74fbe8a2c40a9b787d2d565c4b"
+    },
+    "qa-build.json": {
+      "bytes": 233,
+      "sha256": "7ae990d1b102d669e4e8b3b38c8e172f42658e1486800da9ccc683d1aff62610"
+    },
+    "actual-game-ui.png": {
+      "bytes": 676334,
+      "sha256": "b4461b39f3e4c50c18ccf3e4cde778ff4be71cdd51fa3144d4a2e130ee8c6aec"
+    },
+    "source-proof.tar.gz": {
+      "bytes": 2259450,
+      "sha256": "9bf875d0cdb15fba0b9dd7f06498e20381fed4515924b548dd3dd86d30438475"
+    },
+    "phone-overview.png": {
+      "bytes": 71769,
+      "sha256": "5d3339368eea91bb1438abab6c94213755007b287e612e556387f8386d23d404"
+    },
+    "expanded-overview.png": {
+      "bytes": 642003,
+      "sha256": "23e76951a5e122b61efd1484d6ea8e63bd4ed944273dc24e9034610c7f66da00"
+    },
+    "audit-v12-native.mjs": {
+      "bytes": 8081,
+      "sha256": "9bf62620fc6d7daf7efc75083d3fa968677598fd679719e6e0c21ce4458355c7"
+    },
+    "old-area-comparison.png": {
+      "bytes": 1171530,
+      "sha256": "fc12ca7f46adbf3897baa46aaa933419408c52460a3a613353ee7febecc1552d"
+    },
+    "warehouse-cleared-banks.png": {
+      "bytes": 973717,
+      "sha256": "c078bff74efa048b7e19b240e73aa74bd088072118edff870bf6620cb2116765"
+    },
+    "warehouse-side.png": {
+      "bytes": 1071781,
+      "sha256": "539c924fe3d5450dc783132e4e53bc40cfe49e45a44c1626b54f4e6891b5b1c1"
+    },
+    "audit-warehouse-open-water.mjs": {
+      "bytes": 4288,
+      "sha256": "d761af66194e0e0e325dcf4c6a239f267a71ed85665ce1ddf93e61af46d104af"
+    },
+    "open-water-gap.png": {
+      "bytes": 523208,
+      "sha256": "1ed7e84d476f36b458b294325dcdaa51e5985d6276cb26d265df9b0a2a705065"
+    },
+    "three-buildings.png": {
+      "bytes": 947937,
+      "sha256": "79ece7e827d22f531669fcc33b81e123eab4b3015575b5f18a21f149a28434e3"
+    },
+    "source-files.json": {
+      "bytes": 41862,
+      "sha256": "887055949e97ba02c5c1b528ca7a584f38d1afe3ccdf7538aa6a08e56784d67d"
+    },
+    "source-status.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}
