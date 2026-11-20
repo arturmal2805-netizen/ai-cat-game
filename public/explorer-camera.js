@@ -4,7 +4,7 @@ import {MALL_LAYOUT as L,mallFloorOutline,mallUpperFloorOutline,mallBuildingFoot
 import {mallCameraRayClear} from './mall-guest-camera.js';
 import {mosaBedY,MOSA_SEA} from './mosasaur-data.js';
 import {mosaTerrainObstacles} from './mosasaur-collision.js';
-import {mosaReefClearance} from './mosasaur-reef-data.js';
+import {mosaActiveReefClearance as mosaReefClearance} from './mosasaur-reef-data.js';
 import {mallPressureContact} from './mall-pressure.js';
 import {pushCapsule} from './submarine-physics.js';
 

@@ -26,7 +26,8 @@ test('real save/load and cached shared clients retain the pilot pose without los
  const docked=structuredClone(g);docked.mosasaurSubmarine={...SUBMARINE_DOCK,active:false,mode:'chase'};assert.equal(mergeSharedWorld(g,g,docked).mosasaurSubmarine.active,false);
 });
 test('a steep reef wall brakes a fast boat rather than lifting it onto the ledge',()=>{
- const p=createSubmarinePhysics({x:0,y:-45,z:16,yaw:Math.PI/2,active:true});let collision=false;
+ // Retained reef-terrace-2; the former east-side wall was intentionally removed.
+ const p=createSubmarinePhysics({x:-86.67466196791474,y:-76.08936827407578,z:-50.592675777169546,yaw:Math.PI/2,active:true});assert.equal(p.state.active,true);let collision=false;
  for(let i=0;i<300;i++){const oldY=p.state.y,oldX=p.state.x;p.step(.1,{forward:1});assert.ok(Math.abs(p.state.y-oldY)<.36,'no vertical teleport');if(p.state.speed<1&&i>30)collision=true;assert.ok(p.state.x-oldX<=SUBMARINE_MAX_SPEED*.1+1e-6);}
  assert.ok(collision,'the swept hull meets the actual reef');
 });

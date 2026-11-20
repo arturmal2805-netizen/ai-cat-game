@@ -4,7 +4,7 @@ import {submarineAirborne} from './submarine-controls.js';
 import {MOSA_SEA} from './mosasaur-data.js';
 import {expansionBedY as mosaBedY} from './mosasaur-expansion.js';
 import {mosaTerrainObstacles} from './mosasaur-collision.js';
-import {mosaReefClearance} from './mosasaur-reef-data.js';
+import {mosaActiveReefClearance as mosaReefClearance} from './mosasaur-reef-data.js';
 export const SUBMARINE_DOCK=Object.freeze({x:-6,y:-.85,z:92,yaw:Math.PI});
 export const SUBMARINE_MAX_SPEED=36;
 export const SUBMARINE_BOOST_SPEED=26.6; // Dock-to-apex height is ~4× after underwater drag and gravity.

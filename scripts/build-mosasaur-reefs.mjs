@@ -1,5 +1,5 @@
 import * as T from 'three';import {gzipSync} from 'node:zlib';import {mkdir,writeFile,readdir,unlink} from 'node:fs/promises';import {createHash} from 'node:crypto';
-import {mosaReefTemplate,MOSA_REEF_REVISION} from '../public/mosasaur-reef-sculpt.js';import {encodeSceneryGeometries} from '../public/scenery-geometry-codec.js';import{sceneryDetailIndex}from'../public/scenery-detail-levels.js';import{mosaReefSurfaceY,MOSA_OPTICAL_GRID_SIZE,MOSA_OPTICAL_GRID_EXTENT}from'../public/mosasaur-reef-data.js';
+import {mosaReefTemplate,MOSA_REEF_REVISION} from '../public/mosasaur-reef-sculpt.js';import {encodeSceneryGeometries} from '../public/scenery-geometry-codec.js';import{sceneryDetailIndex}from'../public/scenery-detail-levels.js';import{mosaActiveReefSurfaceY as mosaReefSurfaceY,MOSA_OPTICAL_GRID_SIZE,MOSA_OPTICAL_GRID_EXTENT}from'../public/mosasaur-reef-data.js';
 import {coralGeometryFor,mosaCoralSites} from '../public/mosasaur-corals.js';
 import {reefFishSchoolStates} from '../public/mosasaur-reef-fish.js';
 export async function buildMosasaurReefs(){

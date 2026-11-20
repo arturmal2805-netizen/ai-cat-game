@@ -1,5 +1,5 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';import * as T from 'three';
-import {mosaCoralSteps,mosaCoralSites,MOSA_CORAL_FORMS} from '../public/mosasaur-corals.js';
+import {mosaCoralSteps,mosaCoralSites,visibleMosaCoralSites,MOSA_CORAL_FORMS} from '../public/mosasaur-corals.js';
 import {mosaBedY} from '../public/mosasaur-data.js';
 import {mosaReefClearance} from '../public/mosasaur-reef-data.js';
 import {runSceneSteps} from '../public/scene-tasks.js';
@@ -18,7 +18,7 @@ test('spatial coral detail keeps full near meshes, shared LOD buffers and one fi
  assert.ok(g.children.length<=16);assert.deepEqual(new Set(meshes.map(m=>m.name)),new Set(MOSA_CORAL_FORMS));assert.equal(new Set(meshes.map(m=>m.material)).size,1);
  const rows=group=>{const out=new Map();for(const m of group.children)for(let i=0;i<m.count;i++)out.set(m.userData.colonyIds[i],{matrix:m.instanceMatrix.array.slice(i*16,i*16+16),color:m.instanceColor.array.slice(i*3,i*3+3),position:m.geometry.attributes.position,geometry:m.geometry});return out;};
  let total=0;for(const lod of g.children){assert.ok(lod.isLOD);const full=rows(lod.levels[0].object);total+=full.size;for(const level of lod.levels.slice(1)){const far=rows(level.object);assert.deepEqual(new Set(far.keys()),new Set(full.keys()));for(const [id,row]of full){assert.deepEqual(far.get(id).matrix,row.matrix);assert.deepEqual(far.get(id).color,row.color);assert.equal(far.get(id).position,row.position);}}}
- assert.equal(total,1024);
+ assert.equal(total,visibleMosaCoralSites().length);
  const baseline=runSceneSteps(mosaCoralSteps({spatialCells:false}));for(let i=0;i<g.children.length;i++)for(let level=0;level<3;level++){const actual=rows(g.children[i].levels[level].object),expected=rows(baseline.children[i].levels[level].object);assert.deepEqual(new Set(actual.keys()),new Set(expected.keys()));for(const [id,row]of expected){assert.deepEqual(actual.get(id).matrix,row.matrix);assert.deepEqual(actual.get(id).color,row.color);assert.equal(actual.get(id).geometry,row.geometry);}if(level===2)assert.equal(g.children[i].levels[level].object.children.length,baseline.children[i].levels[level].object.children.length,'far overview keeps its original combined draw count');}
  const old=meshes.map(m=>[m.instanceMatrix.version,m.instanceMatrix.array.slice()]);for(let i=0;i<100;i++)g.userData.update(i,false);
  meshes.forEach((m,i)=>{assert.equal(m.instanceMatrix.version,old[i][0]);assert.deepEqual(m.instanceMatrix.array,old[i][1]);assert.ok(m.geometry.attributes.aReefGlow);assert.ok(m.geometry.attributes.aReefSway);assert.ok(m.boundingSphere.radius>0);});
