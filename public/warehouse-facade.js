@@ -1,4 +1,10 @@
 import * as T from 'three';
+// Limit only this illuminated exterior's fog. The global ocean and other
+// buildings retain their original shaders and depth haze. No extra samplers.
+export function litWarehouseMaterial(material){
+ material.onBeforeCompile=shader=>{const fog=T.ShaderChunk.fog_fragment.replace('fogFactor );','min( fogFactor, 0.32 ) );');shader.fragmentShader=shader.fragmentShader.replace('#include <fog_fragment>',fog);};
+ material.customProgramCacheKey=()=> 'warehouse-illuminated-facade-v1';return material;
+}
 // Static architectural detail in the original shell's authored metres. The
 // exterior builder applies the requested width/height factors once afterwards.
 export function* warehouseFacadeSteps({tube,buffers,stadium}){
@@ -19,11 +25,11 @@ export function* warehouseFacadeSteps({tube,buffers,stadium}){
  }
  // A legible main portal: nested arches, paired fluted columns and a canopy.
  for(const [radius,height,z,key,r]of [[18.3,26,62,'stone',.7],[17.1,25,62.8,'bronze',.46],[16.2,24.2,63.4,'gold',.3],[16.1,24.1,63.85,'warm',.075]]){const pts=[];for(let i=0;i<=32;i++){const a=Math.PI*i/32;pts.push([Math.cos(a)*radius,2+Math.sin(a)*height,z]);}tube(key,pts,r);}
- for(const x of [-23,-19,19,23]){put('stone',new T.CylinderGeometry(.54,.7,16,10),x,9.5,63);for(const dx of [-.22,0,.22])box('bronze',.065,14,.1,x+dx,9.5,63.52);put('gold',new T.CylinderGeometry(.9,.9,.35,12),x,1.4,63);put('gold',new T.CylinderGeometry(.85,.85,.4,12),x,17.7,63);}
- box('enamel',50,1.15,5,0,19.1,64);box('gold',50.6,.2,5.35,0,19.75,64);box('warm',47.5,.08,.12,0,18.52,66.58);
+ for(const x of [-23,-19,19,23]){put('stone',new T.CylinderGeometry(.54,.7,27,10),x,15.5,63);for(const dx of [-.22,0,.22])box('bronze',.065,25,.1,x+dx,15.5,63.52);put('gold',new T.CylinderGeometry(.9,.9,.35,12),x,1.4,63);put('gold',new T.CylinderGeometry(.85,.85,.4,12),x,29.3,63);}
+ box('enamel',50,1.15,5,0,30.1,64);box('gold',50.6,.2,5.35,0,30.75,64);box('warm',47.5,.08,.12,0,29.52,66.58);
  for(const [w,z,y]of [[41,68,.62],[45,70,.32],[49,72,.05]]){box('stone',w,.3,1.8,0,y,z);box('warm',w-.8,.055,.08,0,y+.15,z+.9);}
  // Cat crest and door handles remain decoration on the sealed exterior.
- tube('gold',[[-4,36.1,63.1],[-4.4,42.3,63.1],[-1.7,40.6,63.1],[1.7,40.6,63.1],[4.4,42.3,63.1],[4,36.1,63.1],[0,34.4,63.1],[-4,36.1,63.1]],.18);
+ tube('gold',[[-4,46.1,63.1],[-4.4,52.3,63.1],[-1.7,50.6,63.1],[1.7,50.6,63.1],[4.4,52.3,63.1],[4,46.1,63.1],[0,44.4,63.1],[-4,46.1,63.1]],.18);
  for(const x of [-.65,.65])tube('gold',[[x,5.5,64.2],[x,8,64.2]],.09);
  return {version:2,wallPanelCount:20,lanternCount:12,portalLayers:4,roofSecondaryRibs:16,interiorAdded:false};
 }

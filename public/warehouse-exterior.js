@@ -1,4 +1,4 @@
-import {warehouseFacadeSteps} from './warehouse-facade.js';
+import {warehouseFacadeSteps,litWarehouseMaterial} from './warehouse-facade.js';
 import * as T from 'three';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 import {WAREHOUSE as W} from './mosasaur-expansion-data.js';
@@ -7,6 +7,7 @@ export function* warehouseExteriorSteps(){
  const root=new T.Group();root.name='CHICHI WAREHOUSE · SQUISH GAME ZONE · exterior only';root.position.set(W.x,W.y,W.z);
  const stone=new T.MeshStandardMaterial({color:0xe3ddd1,roughness:.66}),gold=new T.MeshStandardMaterial({color:0xcfa54e,metalness:.62,roughness:.25,emissive:0x8d5b20,emissiveIntensity:.16}),glass=new T.MeshStandardMaterial({color:0xc9f0f5,roughness:.12,metalness:.1,transparent:true,opacity:.14,depthWrite:false,side:T.DoubleSide,forceSinglePass:true}),warm=new T.MeshBasicMaterial({color:0xffd58c,fog:false}),lavender=new T.MeshBasicMaterial({color:0xa49be2,fog:false});
  const bronze=new T.MeshStandardMaterial({color:0x876d48,metalness:.78,roughness:.3}),enamel=new T.MeshStandardMaterial({color:0x183949,metalness:.35,roughness:.26});
+ for(const material of [gold,stone,bronze,enamel])litWarehouseMaterial(material);
  const palette={gold,warm,lavender,stone,bronze,enamel},buffers=Object.fromEntries(Object.keys(palette).map(k=>[k,[]]));
  const tube=(key,points,r=.3)=>{const curve=new T.CatmullRomCurve3(points.map(p=>new T.Vector3(...p)));buffers[key].push(new T.TubeGeometry(curve,Math.max(12,points.length*2),r,6,false));};
  const mesh=(g,m,name)=>{const o=new T.Mesh(g,m);o.name=name;o.castShadow=!m.transparent;o.receiveShadow=true;root.add(o);return o;};
@@ -28,7 +29,7 @@ export function* warehouseExteriorSteps(){
  const portal=[];for(let i=0;i<=32;i++){const a=Math.PI*i/32;portal.push([Math.cos(a)*15,2+Math.sin(a)*23,61]);}tube('gold',portal,.8);tube('warm',portal.map(([x,y,z])=>[x,y,z+1.05]),.18);
  const door=new T.Shape();door.moveTo(-15,0);door.lineTo(-15,2);door.absellipse(0,2,15,23,Math.PI,0,true);door.lineTo(15,0);door.closePath();const entrance=mesh(new T.ExtrudeGeometry(door,{depth:6,bevelEnabled:false,curveSegments:32}),glass,'Decorative sealed arched entrance · no access interaction');entrance.position.set(0,1,58);
  for(const z of [58,64])tube('gold',portal.map(([x,y])=>[x,y,z]),.55);
- if(typeof document!=='undefined'){const canvas=document.createElement('canvas');canvas.width=1024;canvas.height=256;const c=canvas.getContext('2d');const bg=c.createLinearGradient(0,0,0,256);bg.addColorStop(0,'#234757');bg.addColorStop(1,'#0c2431');c.fillStyle=bg;c.fillRect(0,0,1024,256);c.strokeStyle='#d7b469';c.lineWidth=8;c.strokeRect(8,8,1008,240);c.lineWidth=2;c.strokeRect(22,22,980,212);c.textAlign='center';c.fillStyle='#ffe1a4';c.font='600 70px sans-serif';c.fillText('CHICHI WAREHOUSE',512,114);c.font='36px sans-serif';c.fillText('SQUISH GAME ZONE',512,187);const texture=new T.CanvasTexture(canvas);texture.colorSpace=T.SRGBColorSpace;const sign=mesh(new T.PlaneGeometry(44,11),new T.MeshBasicMaterial({map:texture,fog:false}),'Warehouse exterior sign');sign.position.set(0,28,63.5);}
+ if(typeof document!=='undefined'){const canvas=document.createElement('canvas');canvas.width=1024;canvas.height=256;const c=canvas.getContext('2d');const bg=c.createLinearGradient(0,0,0,256);bg.addColorStop(0,'#234757');bg.addColorStop(1,'#0c2431');c.fillStyle=bg;c.fillRect(0,0,1024,256);c.strokeStyle='#d7b469';c.lineWidth=8;c.strokeRect(8,8,1008,240);c.lineWidth=2;c.strokeRect(22,22,980,212);c.textAlign='center';c.fillStyle='#ffe1a4';c.font='600 70px sans-serif';c.fillText('CHICHI WAREHOUSE',512,114);c.font='36px sans-serif';c.fillText('SQUISH GAME ZONE',512,187);const texture=new T.CanvasTexture(canvas);texture.colorSpace=T.SRGBColorSpace;const sign=mesh(new T.PlaneGeometry(44,11),new T.MeshBasicMaterial({map:texture,fog:false}),'Warehouse exterior sign');sign.position.set(0,37.5,63.5);}
  for(const [key,geometries]of Object.entries(buffers)){yield;if(geometries.length)mesh(mergeGeometries(geometries),palette[key],key+' structure · one shared batch');geometries.forEach(g=>g.dispose());}
  // Author the larger shell into its own geometry; no island/old-building scale.
  const sx=W.width/240,sy=W.heightScale||1,sz=W.depth/120,anchor=.86;root.traverse(o=>{if(o.isMesh){o.geometry.scale(sx,sy,sz);o.position.x*=sx;o.position.y=anchor+(o.position.y-anchor)*sy;o.position.z*=sz;}});

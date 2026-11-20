@@ -41,7 +41,7 @@ export function expandedWaterContains(x,z,sea,coastFactor,margin=0){
 }
 export function expandedCoastSamples(sea,coastFactor,margin=0,count=384){return Array.from({length:count+1},(_,i)=>expandedCoastPoint(i*TAU/count,sea,coastFactor,margin));}
 export function expandedOverview(){return{center:[1250,-55,400],radius:1980};}
-export function warehousePlanBounds(){return{min:[WAREHOUSE.x-WAREHOUSE.platformWidth/2-.8,WAREHOUSE.y-1.2,WAREHOUSE.z-WAREHOUSE.platformDepth/2-.8],max:[WAREHOUSE.x+WAREHOUSE.platformWidth/2+.8,WAREHOUSE.y+WAREHOUSE.wallHeight+WAREHOUSE.roofHeight+1,WAREHOUSE.z+WAREHOUSE.platformDepth/2+.8]};}
+export function warehousePlanBounds(){return{min:[WAREHOUSE.x-WAREHOUSE.platformWidth/2-.8*WAREHOUSE.width/480,WAREHOUSE.y+.86-2.36*(WAREHOUSE.heightScale||1)-.1,WAREHOUSE.z-WAREHOUSE.platformDepth/2-.8],max:[WAREHOUSE.x+WAREHOUSE.platformWidth/2+.8*WAREHOUSE.width/480,WAREHOUSE.y+WAREHOUSE.wallHeight+WAREHOUSE.roofHeight+1,WAREHOUSE.z+WAREHOUSE.platformDepth/2+.8]};}
 
 export const WAREHOUSE_REEFS=Object.freeze([[680,620],[850,90],[1110,100],[1420,260],[1400,550],[1150,640],[580,400],[1540,430]].map(([x,z],i)=>{
  const px=WAREHOUSE.x+(x-1150)*1.5,radius=64+i%3*8;let pz=WAREHOUSE.z+(z-350)*1.5;
