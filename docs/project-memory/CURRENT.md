@@ -79,12 +79,20 @@ Remote source-proof.tar.gz повторно скачан черезGitBlobs и �
 SHA256b92e1355f6d4daa731b5963744fbb9045af9439b94143ce6a28e082b527cd2bc.
 Удалена только duplicateassets завершённогоprivateQA, не SQLite/PNGs/worktrees.
 
-Следующий шаг уже запущен:
-- genuine touch context CHICHI_V12_PHONE_ONLY=1, настоящая #camera-island,
-  DPR2 и project Warehouse bounds полностью внутри кадра;
-  /workspace/qa/v12-unified-phone.log, execsession99034.
-- exact PR head full GitHub CI44713392228 пока выполняется;
-- после обоихPASS: mergePR#5→mainCI/Worker/Pages→actualHTTP hashes.
+Genuine touch Native PASS:390×844/coarse=true/DPR2, настоящая #camera-island,
+все8углов actualWarehouse bounds внутри кадра, errors[]/httpErrors[].
+Все447captured modules снова совпали сGit1ec45e8; QA bundle одинаковый
+662f64ea47ffa24979a343ac85962584f221fc6b3d92280c62bbb3d30fd888a2.
+Финальный remote proof desktop+phone:
+**codex/v12-unified-evidence=37c208e6e65f4c7dc66c24572d3072dab3ab83ad**,
+remoteSHA проверен. Настоящий privateSQLite/world не включает liveplayer.
+HTMLproductionbuild: одно подключение./dist/app.js?v=d9df446f237f1f8d,
+JSd9df446f237f1f8d043532b1b47a836c8ce838b3e74a78432e30180bf5b831dd,
+CSS1ca6fd7d91d93d2434122de8b604f9e1f0306145487ece7434204f01d46492bc.
+Это ожидаемые локальные bytes, пока НЕlivepublicationreceipt.
+
+Следующий шаг: exact PR head full GitHub CI44713392228 ещё выполняется;
+послеSUCCESS mergePR#5→mainCI/Worker/Pages→actualHTTP hashes.
 Исторический внешне подключённый WorkersBuilds check сообщаетfailure и для
 старых успешных релизов; не путать его с обязательным .github/workflows/cloudflare.yml.
 GitHub fullCI и actual production checks ещё не объявлятьPASS.
