@@ -53,9 +53,25 @@ tropical-coast-4fa4e0cc0c7f.png,36525bytes/0.33MiBmipGPU,revision0e4355d282ef35f
 57Node22 geometry/layout/purchase/performance/swimmer/submarine/explorer checks
 PASS, diffcheckPASS. Новый regression проверяет удалённыеcrownroots, сохранение
 старых stones/core, отсутствие ghostfloor и actualunderwaterpose normalization.
-Node22 productionbuild сейчас /workspace/qa/v12-smooth-final-build.log, session55406.
-После него: finalNative desktop9views и genuinephone390×844/coarse/DPR2/real
-Островbutton, один GPUcontext за раз. Не использовать37c208ePNGs какproof a615133.
+Node22 productionbuild PASS. FinaldesktopNative9views PASS on9d81059:
+errors[]/httpErrors[]/GLlostfalse/failedprograms0, actualcamera-floorclearance.
+Все447capturedpublicmodules совпали с9d81059; waterSurfaces1/removedInnerHeadlands10.
+Actual Mall/SPA roots/gaps прежние1773.6948454461558/1785.0894594514284м.
+Finalremote **codex/v12-final-release-evidence=98698a876cd2087d07b15f0d8effcf48c1003266**,
+docs/qa/2026-11-20/v12-final-release/{desktop,expected-production.json,preservation.json}.
+Source-prooftar повторно скачан черезGitBlobs/byte-verified, then толькоduplicate
+privateassets очищены. Дубликаты qa-app.js удалены после сравнения с уже
+remote-verifiedsourcearchives; всеbytes остаются внутри независимых tar/Git.
+
+Рабочее дерево сейчас codex/v12-final-release-evidence, НЕPRsourcebranch;
+productmodules одинаковые. Genuinephone/coarse/DPR2/realIslandbutton запущен:
+/workspace/qa/v12-smooth-final-phone.log, session6728. Не считать егоPASS заранее.
+Productionexpected (неlive): HTMLc23806a4baf706ca00a73c97de6c9b4bfd55b5a65016347f79e92f8e110ea552,
+JSeee88668a2689f000b143998a1a405723c77ecd596e4559cd4abbe165dcc8fa3,
+CSS1ca6fd7d91d93d2434122de8b604f9e1f0306145487ece7434204f01d46492bc,
+Probe4fa4e0cc0c7f63e1a3063f46a827bb458114a2cebe271e29ce81bbfac3beda4e.
+В собранном HTML одноapplicationconnection./dist/app.js?v=eee88668a2689f00.
+Liveverifier подготовлен:/workspace/qa/verify-v12-live.py MAIN_SHA WORKFLOW_ID.
 Затем exactfullCI→mergePR5→mainCI/Workerrelease/sharedsaves/Pages→actualHTTP
 HTML/JS/CSS/probehashes/одноapplicationconnection. PaidAI не запускать.
 Ни NativePASS, ни CI не означают artisticapproval/Mac/iPhoneFPS.
