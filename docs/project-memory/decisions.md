@@ -882,3 +882,16 @@ explicit cache сохраняются, новая DB/service worker не доб�
 всё ещё может быть медленной. PR#11 merged main6ccec70440b551ff6c3c06a98945ff7d5d168db0,
 workflow44804905460 test PASS; deploy/live/phone на момент записи ещё ожидаются.
 Exact sources/profiles/PNG сохранены. Нет обхода branch checks/admin merge.
+
+## 2026-11-20 — исправление stalls/cache опубликовано и сверено
+
+Main6ccec70440b551ff6c3c06a98945ff7d5d168db0, sourceb9f681aadb42f7d89914fcc57da8b17f70605055,
+workflow44804905460 test/deploy/pages SUCCESS. Actual HTTP22:03Europe/Kyiv:
+JS0e305ce4212c504f7e2b40fb9dff8d55f093b70a136e5cb809c8b708f12fac0c,
+CSS1fd2857ef1fbaedd5e7a34a5082a77ff49bcf7f1c7030d5292502753b86967d0,
+HTML27d48bbe9ad72f2b7dd19b00ec008b29a620c6e8b32e1642fa11812c3cd96444,
+одно app подключение. Assets/вода/котики/тени/DPR не менялись.
+Final native19+2islands/phone8heldtouch/deepdive/2SQLite reload PASS, exact453
+publicmodules каждого capture. Кошельки/inventory/placements прежние.
+Полная QAдоказательная база и failed wrongmode attempt сохранены отдельно.
+M2FPS ещё не проверен новым report, художественного одобрения не получено.

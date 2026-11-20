@@ -2,7 +2,8 @@
 
 Final source b9f681aadb42f7d89914fcc57da8b17f70605055, main
 6ccec70440b551ff6c3c06a98945ff7d5d168db0, PR #11. Main workflow44804905460:
-test PASS, deployment/live verification pending at this checkpoint.
+test/deploy/pages SUCCESS. Actual HTTP verification22:03Europe/Kyiv confirms
+HTML/JS/CSS/probe/reef/SPA/wind bytes and exactly one application script; see live/.
 
 Baseline 7a0e1f3: 451 public modules. Intermediate935 and finalb9:453 modules.
 Every captured public module is SHA-verified against its exact Git source.
@@ -21,7 +22,10 @@ and bank views differ by animated actors (mean absolute channel differences
 <0.07/255). Exact images/profile/comparison scripts retained.
 
 Native DPR2 all-map:19 islands plus two returns, actual mouse orbit/zoom PASS.
-Phone/coarse390×844/DPR2 held-touch, deepdive, two private reloads pending.
+Phone/coarse390×844/DPR2 full product overview,8 real held-touch crossings,
+deepdive below-200m and two private reloads PASS; all balances/inventory/
+placements/personal wallets preserved. Native errors/HTTP errors empty.
+Phone453modules match final source exactly.
 An earlier wrong visual-idle mode waited for obsolete data-profile-pause;
 that attempt is not a successful gate and is superseded by all-map-final.
 
@@ -32,3 +36,6 @@ API/explicit reload/abort semantics preserved. Cold first transfers still
 network-dependent. Lossless WebP4–6% trial rejected; no art replacement.
 All9 water-probe rebakes identical PNG bytes; only producer revisions change.
 Main CI success/live publication and user visual approval remain distinct.
+Physical M2/iPhone FPS after this fix is still unmeasured; request a new report.
+Full CI raw log download was blocked by network policy; completed job/step
+metadata from GitHub retained in live/workflow.json, no invented test count.

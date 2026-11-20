@@ -4,16 +4,24 @@
 Старое приложение этой ветки не является текущей игрой. Предыдущий CURRENT:
 [история перед исправлением зависаний](history/CURRENT-before-stall-loading-publication-2026-11-20.md).
 
-## Исправление зависаний: main готов, публикация проверяется
+## Опубликовано и фактически проверено
 
+Main **6ccec70440b551ff6c3c06a98945ff7d5d168db0**.
+[Игра](https://arturmal2805-netizen.github.io/ai-cat-game/?v=6ccec70) ·
+[FPS-диагностика](https://arturmal2805-netizen.github.io/ai-cat-game/?v=6ccec70&profile=1).
 Source **b9f681aadb42f7d89914fcc57da8b17f70605055**, ветка
 codex/ocean-stall-loading-fix, /workspace/chichi-v12-island-warehouse.
-PR #11 merged обычным merge. Main **6ccec70440b551ff6c3c06a98945ff7d5d168db0**,
-дерево идентично source: ccb1e5780f8d753a322efd25e988b7f3d5f8f735ab.
+PR #11 merged обычным merge. Дерево main и source идентично:
+ccb1e5780f8d753a322efd25e988b7f3d5f8f735ab.
 [Workflow 44804905460](https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44804905460):
-полный test/build/dry-run PASS, deploy/pages ещё проверяются. Это пока НЕ
-подтверждение обновления live. Последний подтверждённый live —
-7a0e1f3daf8afd0629d60d7a3cb0aa147b2a02f4, workflow 44794849010.
+test/build/dry-run, deploy и pages **SUCCESS**, Worker release/shared-save
+проверки PASS. Actual HTTP verification 20 ноября2026,22:03Europe/Kyiv:
+HTML/JS/CSS/coast/reef/SPAatlas/wind совпали с ожидаемыми bytes.
+В итоговом HTML ровно одно app подключение:
+`./dist/app.js?v=0e305ce4212c504f`, CSS `./style.css?v=1fd2857ef1fbaedd`.
+[Квитанция](../qa/2026-11-20/render-stall-loading/live/live-verification.json).
+Предыдущая стабильная7a0e1f3daf8afd0629d60d7a3cb0aa147b2a02f4 — baseline
+сравнения, НЕ новая опубликованная версия.
 
 В native baseline trace найдено 16661.90мс вычисления geometry bounding spheres
 внутри renderer/projectObject на четырёх одинаковых ракурсах. Теперь точная
@@ -42,23 +50,27 @@ modules exactsource, без JS/HTTP/GL ошибок; Warehouse-front/open-water-
 Проверено: 35 focused regression до финальной оптимизации чтения, затем 11
 focused bounds/cache/warmup tests на final b9; полный main CI test PASS.
 Native DPR2: 19 островов + 2 возврата с реальным mouse orbit/zoom PASS.
-Телефон 390×844/coarse/DPR2, held touch/deep dive/2 private SQLite reload —
-ещё выполняется. Один GPU job за раз. Неверный ранний QA mode visual-idle
+Телефон 390×844/coarse/DPR2: полный product overview/кадрирование, 8 реальных
+held-touch переходов, deep dive ниже-200м и 2 private SQLite reload PASS.
+Баланс, инвентарь, placements и кошельки котиков сохранены; 453 модуля exact.
+Native phone ошибок JS/HTTP/GL не обнаружил. Один GPU job за раз. Неверный ранний QA mode visual-idle
 остановился на удалённой кнопке data-profile-pause; это superseded QA-fixture
 ошибка, НЕ production regression. Финальный all-map запуск правильный.
 
 [QA и точные источники](../qa/2026-11-20/render-stall-loading/README.md).
-Ожидаемые production hashes: JS
+Проверенные actual production hashes: JS
 0e305ce4212c504f7e2b40fb9dff8d55f093b70a136e5cb809c8b708f12fac0c;
 CSS 1fd2857ef1fbaedd5e7a34a5082a77ff49bcf7f1c7030d5292502753b86967d0;
 HTML 27d48bbe9ad72f2b7dd19b00ec008b29a620c6e8b32e1642fa11812c3cd96444.
-Live verifier должен подтвердить реальные bytes и одно подключение приложения.
-Monitor /workspace/qa/watch-stall-loading-release.py, receipt
-/workspace/qa/stall-loading-live/live-verification.json. Затем обновить этот
-CURRENT, завершить телефон/архив и remote memory verification. Публикация
-разрешена пользователем; художественного одобрения/FPS обещаний не делать.
+Coast probe afc536509c5b98ea660eb1a4baa3a608653168e3083dd6673ce7c82ad36c5b6e,
+reef gzip70d7512296dbb20dbb2f6468b558db374dfdbc0232810118b54a1c81c5cec395,
+SPAatlas/wind field прежние. Полные resource hashes и headers — live receipt.
+Точные исходники/QA bundle/профили/PNG/команды/failed attempt сохранены в QA.
+Физический M2/iPhone FPS после исправления ещё не измерен; нужен новый report.
+Успешный workflow не означает пользовательское художественное одобрение.
+Публикация завершена, новых runtime задач самовольно не начинать.
 
-## Завершённое изменение по последнему фото
+## Сохранённый предыдущий выпуск7a: изменение по фото
 
 Удалены ВСЕ8отмеченных поднятых участков вокруг Warehouse и72камня на вершинах.
 384коралла с прежними ID/X/Z сидят на реальномровномдне,60рыб сохранены.
@@ -101,10 +113,11 @@ merge; они не production proof. Промежуточный262 сохран�
 13.53FPS/GPU32.41мс/15.33Mtriangles, новый lastframe2.386Mtriangles/380calls.
 Камера неизвестна, кадры существенно разные: НЕ заявлять82%ускорениякода.
 [Новый отчёт/сравнение](../qa/2026-11-20/warehouse-open-water/user-fps-7a0e1f3/analysis.md).
-Сохраняются две проблемы: длительные rendererstalls и медленные coldresources.
+В отчёте7a сохранялись две проблемы: длительные rendererstalls и медленные coldresources.
 Исторический статус до CPU-профиля: точная причина ещё не была установлена; источник meadowgrass содержит15сabortdeadline,
 совпадающий с длительностью двухзапросов, но status/trace отчёт не содержит.
-Разбор отчёта завершён; код/качество/FPSдиагностика не менялись.
+На этапе разбора отчёта7a runtime ещё не менялся. Затем выполнено и опубликовано
+исправление6ccec70, описанное выше. Диагностика/качество сохранены.
 
 ## Сохранённые предыдущие этапы
 

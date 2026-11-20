@@ -1,0 +1,62 @@
+{
+  "source": "b9f681aadb42f7d89914fcc57da8b17f70605055",
+  "main": "6ccec70440b551ff6c3c06a98945ff7d5d168db0",
+  "node": "v22.23.5",
+  "chromium": "156.0.8078.79",
+  "playwright": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright",
+  "assetFixture": "native-readonly-hardlinks.cjs",
+  "cpuProfiles": {
+    "roles": [
+      "baseline",
+      "candidate",
+      "fast"
+    ],
+    "flags": {
+      "CHICHI_EXPLORER_AUDIT": "1",
+      "CHICHI_V12_AUDIT": "1",
+      "CHICHI_WAREHOUSE_OPEN_WATER_VIEWS": "1",
+      "CHICHI_V12_VIEWS": "expanded-overview,warehouse-cleared-banks,warehouse-front,open-water-gap",
+      "CHICHI_DESKTOP": "1",
+      "CHICHI_QA_DPR": "1",
+      "CHICHI_VISUAL_IDLE_AUDIT": "1",
+      "CHICHI_PROFILE_QUERY": "review=1"
+    },
+    "clock": 7,
+    "samplingIntervalUs": 1000
+  },
+  "allMap": {
+    "runner": "check-stall-map.cjs",
+    "flags": {
+      "CHICHI_NATIVE_MAP_AUDIT": "1",
+      "CHICHI_MAP_CHECK": "1",
+      "CHICHI_QA_ROSTER": "18",
+      "CHICHI_NATIVE_SAMPLE_MS": "800",
+      "CHICHI_NATIVE_MIN_FRAMES": "3",
+      "CHICHI_NATIVE_REPEATS": "autumn,homestead",
+      "CHICHI_NATIVE_MAP_CAPTURE": "1",
+      "CHICHI_PROFILE_QUERY": "review=1",
+      "CHICHI_DESKTOP": "1",
+      "CHICHI_QA_DPR": "2"
+    },
+    "result": "21 samples,19 islands, all actual mouse orbit and zoom, no GL context loss or browser/HTTP errors"
+  },
+  "phone": {
+    "runner": "scripts/check-aquarium.cjs",
+    "flags": {
+      "CHICHI_EXPLORER_AUDIT": "1",
+      "CHICHI_V12_AUDIT": "1",
+      "CHICHI_V12_PHONE_ONLY": "1",
+      "CHICHI_WAREHOUSE_OPEN_WATER_AUDIT": "1",
+      "CHICHI_VISUAL_IDLE_AUDIT": "1",
+      "CHICHI_PROFILE_QUERY": "review=1",
+      "CHICHI_QA_DPR": "2"
+    },
+    "privateFixture": true,
+    "viewport": [
+      390,
+      844
+    ],
+    "result": "8 real held-touch crossings, deep dive below -200, two private SQLite reloads preserve balances/inventory/placements/personal wallets"
+  },
+  "limitations": "Sequential GPU jobs; SwiftShader correctness/CPU attribution, not physical Mac/phone FPS. Wrong earlier visual-idle attempt superseded, no runtime pause button reintroduced. Full CI raw log URL blocked by network; completed jobs and step metadata retained instead."
+}
