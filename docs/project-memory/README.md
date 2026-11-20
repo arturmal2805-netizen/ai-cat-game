@@ -8,6 +8,7 @@
 - [Грунт/растительность](standards/terrain-vegetation.md).
 - [ТРЦ](standards/mall.md).
 - [Управление/камеры](standards/controls-camera.md).
+- [V12: общая лагуна и далёкий Warehouse](standards/island-warehouse-v12.md).
 - [Подводный SPA](standards/underwater-spa.md).
 - [AI: запросы и упаковка](standards/ai-requests.md).
 - [Сохранения/экономика](standards/saves-economy.md).

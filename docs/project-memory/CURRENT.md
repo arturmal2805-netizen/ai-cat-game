@@ -94,7 +94,7 @@ Cabana не имеет бассейна: новые водные объекты 
 Обновлено20 ноября2026, Europe/Kyiv. Код — опубликованный main9e26f33.
 Активный worktree /workspace/chichi-v12-island-warehouse, ветка
 **codex/v12-island-warehouse**, initial remote checkpoint
-**a8d078a1e845ad75bd299e4768da87e690db6400**. Это WIP, не новый live.
+**512fc4c123bec4e93d4b0d1eeb7101ba711d915f** (предыдущие a8d078a →50c34b2 →ac9f1d4 →1e4b64f). Это WIP, не новый live. PR#5 DRAFT: https://github.com/arturmal2805-netizen/ai-cat-game/pull/5.
 Полный запрос: docs/specifications/island-warehouse-v12-phase1-2026-11-20.md;
 этапы/доказательства: docs/qa/2026-11-20/v12-analysis/.
 V12 phase1: расширить акваторию, один далёкий подводный Warehouse только снаружи,
@@ -105,8 +105,43 @@ Warehouse по3D boundingboxes. Пользователь подчеркнул б
 ТРЦ/SPA невредимы: позиции/размеры/материалы/комнаты/вода/камеры/механики прежние.
 Покупки/мир/кошельки сохраняются независимо от переделки берега.
 Не менять глобальный water shader, не масштабировать root/старые здания.
-Ближайшее: actual baseline/freeze → план → география/вода → оболочка/окружение →
-камера/native QA. Не выдавать conceptart за игру. Исходный reference в сообщениях.
+BaselineCPU actualboxes измерены: Mall root(-450,0,500), SPA(-450,-165,480),
+scale1/identity quaternion. Ни один Mall/SPA/cat/watercore/economy исходник не
+менялся. Warehouse local(1150,-177,350), shell240×120, платформа~264.7м;
+плановый edgegap~850м, финально проверить actualnative3D boxes>=3ширин.
+Один исходный water mesh расширен геометрией: тот же material/uniform/clock/
+field/probe; прежний кольцевой wall убран. Одно новое внешнее здание без
+интерьера/AI. Reef pockets с shared anatomy/instances, буферы фиксированные.
+Только бывший наружный край берега прорезается; центральный радиус<=.95 и
+подходы к зданиям защищены. Старые оплаченные адреса получают drypads без
+перемещения; старые подходы не растягивать на километры. NPC остаются на
+сохранившемся сухом берегу в прежних save bounds, validation не расширена.
+Wide overview имеет отдельный bounds и detail gate (старый мешал загрузке).
+Candidate2: семь native actualviews/private SQLite, HTTP/GLSL PASS. PNG сравнили:
+стенка слишком угловата/каркас теряется/reef pockets слишком глубоки — правки
+в следующем checkpoint, это НЕ одобренный финал. Source+views archive remote
+1e4b64f, docs/qa/2026-11-20/v12-analysis/candidate2/source-and-views.tar.gz.
+Первый baseline PNG был обрезан QA farplane: INVALID для сравнения; повтор
+9e26f33 с far10000/desktop завершён и сохранён remote628226d. Полный локальный Node22 precheck завершён:1205PASS/4FAIL;
+одна отсутствующая sparse QAJSON дала ENOENT, fixture восстановлен, isolated
+historicalwater recheckPASS. Не считать этот precheck чистым exactfinalPASS.
+Ближайшее: финальные native desktop/phone/actualgaps/freeze, targeted и fullCI;
+лишь затем публикация/HTTP hashes. Локальный precheck также выявил старый
+круговой предел в island-layout test (обновлён только для разрешённой географии),
+отсутствующий sparse SPA probe RGBA fixture (восстановлен изGit), устаревшую
+coast reflection revision. Последняя требует настоящего нового offline capture,
+а не подмены хеша: bake выполнен,36,627bytes,0.33MiB, runtime sampler/gain/шейдер
+прежние, старый PNG сохраняется для cached клиентов. SPA probes не менялись.
+Все4найденные причины исправлены и отдельно rechecked:15targetedPASS +3coast
+layoutPASS. Этот precheck смешивал стадии source и не является финальным fullPASS.
+Финальная проверка выполняется отдельно от512fc4c: desktop true context +touch
+phone UI кнопка «Остров»/projection; GitHub fullCI started на PR#5. Кнопка «Остров»
+имела отдельный старый radius override послеfocus: исправлен дляautumn,
+иначе обрезала Warehouse, хотя выбор самой локации уже работал.
+Новыйlocalprobe PNG tropical-coast-fde0daf5fd6c.png36,627bytes; runtime gain4 и
+0.33MiB прежние, только offlinebaker sky/far увеличены для новой географии.
+Смотреть logs /workspace/qa/v12-final-desktop.log, далее отдельный touchrun.
+Пока НЕ опубликовано; stable9e26f33 остаётся live. Все изменения сохранять в remote. Не выдавать conceptart за игру. Исходный reference в сообщениях.
 Диск~750MB: sparse исключает docs/qa; старые worktrees не удалять.
 /workspace/qa/v12-temp-cleanup.json подтверждает очистку только архивированных
 завершённых privateQA assetcopies. SQLite/логи/исходники сохранены.
