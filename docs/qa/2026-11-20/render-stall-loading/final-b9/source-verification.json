@@ -1,0 +1,73 @@
+{
+  "source": "b9f681aadb42f7d89914fcc57da8b17f70605055",
+  "allCapturedPublicModulesMatchSource": true,
+  "moduleCount": 453,
+  "state": "native-four-view-pass-final-source",
+  "scope": "Actual native game/private Worker/SQLite; SwiftShader correctness only, hardware FPS unmeasured",
+  "files": {
+    "warehouse-front.png": {
+      "bytes": 720157,
+      "sha256": "69605e7e2630b865eb2d7364aef20c2b33a749aa599461283d670f1882067b44"
+    },
+    "check-aquarium.cjs": {
+      "bytes": 120039,
+      "sha256": "330b5432c56062329d25edd692c8787a5e0d9b74fbe8a2c40a9b787d2d565c4b"
+    },
+    "v12-native.json": {
+      "bytes": 3958,
+      "sha256": "444850711ae082a36bd393523f91ca4f21437ec12bae8b155bb613703ce4c703"
+    },
+    "qa-build.json": {
+      "bytes": 233,
+      "sha256": "f1b5bda3149819d08aa49d9a980141315c5aaced2bfb510b0d2ebe6b9bba2564"
+    },
+    "actual-game-ui.png": {
+      "bytes": 655829,
+      "sha256": "2ea1887486d35955559f71d501acf31bcae9ceacd9fd720cac4470e7c8d3982b"
+    },
+    "source-proof.tar.gz": {
+      "bytes": 2262728,
+      "sha256": "0a2498b971babc568a22fa59824287b10dc6f54c99f87894f9ce150610141d75"
+    },
+    "startup.cpuprofile.gz": {
+      "bytes": 317651,
+      "sha256": "2e017545ce69dc3eb873235a75cc1853226caf8490b61b4f69a47c35bba727f2"
+    },
+    "expanded-overview.png": {
+      "bytes": 627194,
+      "sha256": "124f1671a90cbca72b7c28879ccc084d182819b243d7f8dc18cdcb8beaa7692d"
+    },
+    "audit-v12-native.mjs": {
+      "bytes": 8185,
+      "sha256": "f0869e31e5aeed61408b5b275733bae8054fbd4a7ae7695d5d838b1bc283f41d"
+    },
+    "warehouse-cleared-banks.png": {
+      "bytes": 937067,
+      "sha256": "13b5ab98ae0b992bdb91353ee2fdfd91f3d4093153140b372a3b1193e5e745d2"
+    },
+    "check-native-map-frames.mjs": {
+      "bytes": 25290,
+      "sha256": "c97ec2343991d2d1a6730902af3ae35898dbaf7271857dd45475fe3f441580ca"
+    },
+    "audit-warehouse-open-water.mjs": {
+      "bytes": 5201,
+      "sha256": "8e4a18348cc38d51bc84fc09da3a79ca96df37246c8d5b58a4a6d469b96042b0"
+    },
+    "open-water-gap.png": {
+      "bytes": 523208,
+      "sha256": "1ed7e84d476f36b458b294325dcdaa51e5985d6276cb26d265df9b0a2a705065"
+    },
+    "v12-views.json": {
+      "bytes": 3856,
+      "sha256": "db1f4fa80f35427c422d11f6c3e02c3e097d0f125fe0abb97d3238aef9b21627"
+    },
+    "source-files.json": {
+      "bytes": 42052,
+      "sha256": "a1d2e502e2961d4eba419e27ae75e0c10df2ab0c085a0c44ad25a32861e5f558"
+    },
+    "source-status.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

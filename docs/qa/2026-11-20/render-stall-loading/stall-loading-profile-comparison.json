@@ -1,0 +1,137 @@
+{
+  "profiles": [
+    {
+      "role": "baseline",
+      "lazyBoundsUnderRendererMs": 16661.9,
+      "newPreparationMs": 0.0,
+      "rendererInclusiveMs": 25006.12
+    },
+    {
+      "role": "candidate",
+      "lazyBoundsUnderRendererMs": 120.54,
+      "newPreparationMs": 17867.1,
+      "rendererInclusiveMs": 6672.1
+    },
+    {
+      "role": "fast",
+      "lazyBoundsUnderRendererMs": 97.41,
+      "newPreparationMs": 7128.13,
+      "rendererInclusiveMs": 5943.84
+    }
+  ],
+  "images": [
+    {
+      "role": "candidate",
+      "view": "expanded-overview",
+      "size": [
+        1402,
+        880
+      ],
+      "meanAbsoluteChannelDifference": [
+        0.09724743872390092,
+        0.05523683698612372,
+        0.0758705096615225
+      ],
+      "exactPixels": false
+    },
+    {
+      "role": "candidate",
+      "view": "warehouse-cleared-banks",
+      "size": [
+        1402,
+        880
+      ],
+      "meanAbsoluteChannelDifference": [
+        2.5936973155232786e-05,
+        1.2968486577616393e-05,
+        1.9452729866424588e-05
+      ],
+      "exactPixels": false
+    },
+    {
+      "role": "candidate",
+      "view": "warehouse-front",
+      "size": [
+        1402,
+        880
+      ],
+      "meanAbsoluteChannelDifference": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "exactPixels": true
+    },
+    {
+      "role": "candidate",
+      "view": "open-water-gap",
+      "size": [
+        1402,
+        880
+      ],
+      "meanAbsoluteChannelDifference": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "exactPixels": true
+    },
+    {
+      "role": "fast",
+      "view": "expanded-overview",
+      "size": [
+        1402,
+        880
+      ],
+      "meanAbsoluteChannelDifference": [
+        0.06785436389573336,
+        0.038136266372714306,
+        0.05290331993256387
+      ],
+      "exactPixels": false
+    },
+    {
+      "role": "fast",
+      "view": "warehouse-cleared-banks",
+      "size": [
+        1402,
+        880
+      ],
+      "meanAbsoluteChannelDifference": [
+        3.485280767734406e-05,
+        1.783166904422254e-05,
+        2.188432109972766e-05
+      ],
+      "exactPixels": false
+    },
+    {
+      "role": "fast",
+      "view": "warehouse-front",
+      "size": [
+        1402,
+        880
+      ],
+      "meanAbsoluteChannelDifference": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "exactPixels": true
+    },
+    {
+      "role": "fast",
+      "view": "open-water-gap",
+      "size": [
+        1402,
+        880
+      ],
+      "meanAbsoluteChannelDifference": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "exactPixels": true
+    }
+  ],
+  "scope": "One sequential CDP CPU diagnostic per version, sampling interval 1000us, same four actual-game cameras/clock7/desktopDPR1, Chromium156/SwiftShader/private Worker. Not physical M2 FPS. Animated actors can differ between runs."
+}

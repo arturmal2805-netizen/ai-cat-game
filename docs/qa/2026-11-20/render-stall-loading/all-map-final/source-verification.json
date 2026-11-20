@@ -1,0 +1,125 @@
+{
+  "source": "b9f681aadb42f7d89914fcc57da8b17f70605055",
+  "allCapturedPublicModulesMatchSource": true,
+  "moduleCount": 453,
+  "state": "native-19-islands-and-2-returns-pass-DPR2",
+  "scope": "Actual native game/private Worker/SQLite; SwiftShader correctness only, hardware FPS unmeasured",
+  "files": {
+    "map-galaxy.png": {
+      "bytes": 1606712,
+      "sha256": "99938673ee6252f6978d39e4da67fca987451f98a6f8ed289eb2f80bfbc8a2a4"
+    },
+    "browser-errors.json": {
+      "bytes": 38,
+      "sha256": "9576c195c11db77d2ef4c62001272a9327bdb75acc94d071b2ec7c22280f8db5"
+    },
+    "map-bikini.png": {
+      "bytes": 2354205,
+      "sha256": "6f0fb1a03070b04f35c7270216cc02d9b49cd707016c651eab5bc3fddc1eb501"
+    },
+    "map-ice.png": {
+      "bytes": 1268599,
+      "sha256": "3972b2ef32dc68ff80793a762ba47b2b03a2360be6452955d4818bff62cf88a6"
+    },
+    "map-winter.png": {
+      "bytes": 1540403,
+      "sha256": "c21132895188a7d24a57e667161270cc2a4b9c732d91943d366fa82a2250d88c"
+    },
+    "check-aquarium.cjs": {
+      "bytes": 120039,
+      "sha256": "330b5432c56062329d25edd692c8787a5e0d9b74fbe8a2c40a9b787d2d565c4b"
+    },
+    "qa-build.json": {
+      "bytes": 233,
+      "sha256": "3bc1d75b56d3a8106b487397b3a7970201bbdeab70ed9091bc882d3e8542e4de"
+    },
+    "map-sakura.png": {
+      "bytes": 2296308,
+      "sha256": "4cdc2dfb835bde1bbf0cf7ba67c887d19b6cc5305b5e467660d96bbdef5fa65d"
+    },
+    "map-magic-zoo.png": {
+      "bytes": 1909947,
+      "sha256": "b276c307b734d1499fe0533b9ed2504446b80b2999c6d3a07c1515cffc475b58"
+    },
+    "map-cat-homes.png": {
+      "bytes": 798717,
+      "sha256": "4861de78fd1dfe0100326ce59efef807f43c9a0d2c77c3dadf4886c66164e0ce"
+    },
+    "source-proof.tar.gz": {
+      "bytes": 2262776,
+      "sha256": "fd0ce7ced547c60eba76a6e9c08576e548bd2ebf389dc64ef699b98369ecf542"
+    },
+    "map-aquarium.png": {
+      "bytes": 2550319,
+      "sha256": "075d624dd9fb71f461b0afa8a865c7e2097923a70d10f8780b9af84abdf3ee7f"
+    },
+    "map-autumn.png": {
+      "bytes": 2579452,
+      "sha256": "3ec476664771b278a11da7693ccf5f063b36138adcda3d673016527106201fdb"
+    },
+    "audit-v12-native.mjs": {
+      "bytes": 8185,
+      "sha256": "f0869e31e5aeed61408b5b275733bae8054fbd4a7ae7695d5d838b1bc283f41d"
+    },
+    "map-foodcourt.png": {
+      "bytes": 2364659,
+      "sha256": "94b818227d2f0513596b02b69639e13158d6b843d85cf976c1de7392f759a6c1"
+    },
+    "map-moon.png": {
+      "bytes": 1124578,
+      "sha256": "b118f031097fbad967e4fe8890285ff7c155ca32eced71f4f950cafbcabb282a"
+    },
+    "map-homestead.png": {
+      "bytes": 1635516,
+      "sha256": "4943a8c14a9d595381e7f528144b333fe2662f66a81b946c1a71c7faf744968e"
+    },
+    "map-summer.png": {
+      "bytes": 1828004,
+      "sha256": "7367739f5469c54df5cc34203667f99498fb4ebb2758622cbb7f4d714f4286fd"
+    },
+    "map-water.png": {
+      "bytes": 2448884,
+      "sha256": "c038cf44ccd56f0306320ac6ae9b0bd101c662dad7b9f412f4540bf61ab3d027"
+    },
+    "check-native-map-frames.mjs": {
+      "bytes": 25290,
+      "sha256": "c97ec2343991d2d1a6730902af3ae35898dbaf7271857dd45475fe3f441580ca"
+    },
+    "map-volcano.png": {
+      "bytes": 2147834,
+      "sha256": "6dbe775ba656ca3d805dd69177c81431db5a2545e9f2af15f60f98d5e0570c05"
+    },
+    "native-map-frames.json": {
+      "bytes": 115958,
+      "sha256": "a7130e9424329ffea25a31c98f781c4624fb59d599965e2fdd94d19f70f9ed38"
+    },
+    "audit-warehouse-open-water.mjs": {
+      "bytes": 5201,
+      "sha256": "8e4a18348cc38d51bc84fc09da3a79ca96df37246c8d5b58a4a6d469b96042b0"
+    },
+    "map-candy.png": {
+      "bytes": 1574811,
+      "sha256": "93a9114f43b58e0a6bb560141ac462dd66aace0043db966c37401edf98190b3c"
+    },
+    "map-atoll-park.png": {
+      "bytes": 472594,
+      "sha256": "5597f5f4d9c9eb15a7fadc1b5a2379f1f8d6a5ecfa156d336a224abdfccc4800"
+    },
+    "source-files.json": {
+      "bytes": 42052,
+      "sha256": "81c06255614b1f0c338f6c7341329eb0139605a597f8b31355916d8b6514ee5b"
+    },
+    "source-status.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "map-clockwork.png": {
+      "bytes": 1713146,
+      "sha256": "6bdab0285126b5aba14c9e58c31ffd8d48d86246025c2dddd2ad12518551e553"
+    },
+    "map-jobcity.png": {
+      "bytes": 1305285,
+      "sha256": "d3692f96e78cfb16a8aa817044041b708d16683bc7241adc94f5c230811c851f"
+    }
+  }
+}

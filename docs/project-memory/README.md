@@ -11,6 +11,7 @@
 - [V12: общая лагуна и далёкий Warehouse](standards/island-warehouse-v12.md).
 - [Подводный SPA](standards/underwater-spa.md).
 - [AI: запросы и упаковка](standards/ai-requests.md).
+- [Подготовка renderer и immutable cache](standards/render-preparation.md).
 - [Сохранения/экономика](standards/saves-economy.md).
 - [Запуск, QA, восстановление и публикация](evidence-and-recovery.md).
 

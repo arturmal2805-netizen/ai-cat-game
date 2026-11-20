@@ -1,0 +1,11 @@
+VISUAL_STEP {"phase":"released-offscreen-preparation","frames":0,"workSteps":9,"compiled":1,"textures":1,"prepared":true,"visible":false,"hidden":false}
+VISUAL_STEP {"phase":"candidate-offscreen-preparation","frames":0,"workSteps":8,"compiled":0,"textures":0,"prepared":false,"visible":false,"hidden":false}
+locator.click: Timeout 120000ms exceeded.
+Call log:
+[2m  - waiting for locator('[data-profile-pause]')[22m
+
+    at checkVisualIdle (/workspace/chichi-v12-island-warehouse/scripts/check-visual-idle.mjs:67:66)
+    at async /workspace/qa/check-stall-map.cjs:821:7 {
+  log: [ "  - waiting for locator('[data-profile-pause]')" ],
+  name: 'TimeoutError'
+}

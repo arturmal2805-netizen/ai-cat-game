@@ -1023,3 +1023,11 @@ for the system you will touch. After substantial changes, update those records.
 Do not replace an approved reference with an unverified candidate. Preserve
 existing rules above; keep commands/evidence in their linked QA records rather
 than expanding this file into a command diary.
+
+## 2026-11-20 — измеренные renderer stalls и hashed asset reload
+
+Для оптимизации выполнять [render-preparation](render-preparation.md): exact
+cooperative bounds до reveal, trace при одинаковых камерах, без снижения DPR/
+воды/котиков/теней. Native all19+returns/phone и actual live bytes обязательны;
+CPU Software timings не выдавать за M2 FPS. Content-addressed same-origin art
+может reuse native HTTP cache; API/AbortSignal/explicit cache не менять.

@@ -868,3 +868,17 @@ App1f35c6c1ed6c391f соответствует7a0e1f3.24.64FPS vs13.53, но las
 приростскоростикода. Rendererstalls3.512/2.913с иcoldloadsдо22.94с остаются.
 ИсходныйJSON/hash/таблица сохранены вQA/user-fps-7a0e1f3. Новый runtimechange
 не делался. Не выдавать этот разбор за устранение зависаний или одобрениевида.
+
+## 2026-11-20 — измеренное исправление renderer stalls и cache revalidation
+
+По прямому «фиксь» опубликованная7a стала baseline. Полные CPU traces выявили
+native geometry sphere scans в renderer/projectObject:16661.90мс/4views.
+Выбрана точная кооперативная подготовка до root reveal, без изменения geometry,
+DPR, воды, котиков или culling semantics. Intermediate935 подготовка17867.10мс
+заменена finalb9 Float16 lookup/typed reads:7128.13мс; lazy renderer97.41мс.
+Это software CPU diagnostic, не физический M2 FPS. Lossless WebP4–6% отклонён.
+Для неизменяемых hashed public assets выбран native force-cache; API, abort и
+explicit cache сохраняются, новая DB/service worker не добавляются. Coldnetwork
+всё ещё может быть медленной. PR#11 merged main6ccec70440b551ff6c3c06a98945ff7d5d168db0,
+workflow44804905460 test PASS; deploy/live/phone на момент записи ещё ожидаются.
+Exact sources/profiles/PNG сохранены. Нет обхода branch checks/admin merge.
