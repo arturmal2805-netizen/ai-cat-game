@@ -143,3 +143,8 @@ test('contextual Mall doorway action appears only at the real portal and starts 
  const mall={ensure:async()=>true,setExplorerFloor(){}},f=fixture({x:-43,y:-162.5,z:124.5,yaw:Math.PI,mode:'chase',active:false,explorer:{...MALL_AIRLOCK.outside,mode:'swimming',yaw:Math.PI,returning:false}},mall);
  try{const action=f.children.find(e=>e.className==='chichi-door-action');assert.equal(action.hidden,false);assert.match(action.textContent,/Войти/);action.onclick();await Promise.resolve();assert.equal(f.runtime.phase,'airlock');f.tick();assert.equal(action.hidden,true);}finally{f.dispose();}
 });
+
+test('restored Chichi swims under real keyboard control at distant Warehouse and preserves a deep-floor snapshot',()=>{
+ const saved={x:1495,y:-135,z:855,yaw:Math.PI/2,active:false,mode:'chase',explorerVersion:1,explorer:{mode:'swimming',x:1475,y:-135,z:855,yaw:Math.PI/2,floor:0,returning:false}};
+ const f=fixture(saved);try{f.runtime.updateCamera(.1);f.key('KeyW',true);f.tick(40);f.key('KeyW',false);assert(f.runtime.explorer.x>1515,JSON.stringify({p:f.runtime.explorer,view:f.runtime.view,controlled:f.runtime.controlled}));Object.assign(f.runtime.explorer,{x:2575,y:-197,z:750});f.key('ShiftLeft',true);f.tick(12);f.key('ShiftLeft',false);assert(f.runtime.explorer.y< -200);const snapshot=f.runtime.snapshot();assert.equal(snapshot.explorer.y,f.runtime.explorer.y);assert.equal(normalizeOceanExplorer(snapshot.explorer).y,snapshot.explorer.y);}finally{f.dispose();}
+});

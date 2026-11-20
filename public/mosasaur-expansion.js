@@ -2,7 +2,7 @@ import {runSceneSteps} from './scene-tasks.js';
 import * as T from 'three';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 import {MOSA_SEA,MOSA_RADIUS,MOSA_HEADLANDS,mosaCoastFactor,mosaBedY,mosaWaterRadius} from './mosasaur-data.js';
-import {expandedCoastPoint,expandedCoastSamples,MOSA_EXPANSION,WAREHOUSE,WAREHOUSE_REEFS} from './mosasaur-expansion-data.js';
+import {expandedCoastPoint,expandedCoastSamples,MOSA_EXPANSION,WAREHOUSE} from './mosasaur-expansion-data.js';
 import {warehouseExteriorSteps} from './warehouse-exterior.js';
 const TAU=Math.PI*2,clamp=T.MathUtils.clamp,smooth=T.MathUtils.smoothstep;
 export const expansionPoint=(a,margin=0)=>expandedCoastPoint(a,MOSA_SEA,mosaCoastFactor,margin);
@@ -30,7 +30,8 @@ export function expansionBedY(x,z){
  const dx=Math.max(0,Math.abs(x-WAREHOUSE.x)-WAREHOUSE.platformWidth/2),dz=Math.max(0,Math.abs(z-WAREHOUSE.z)-WAREHOUSE.platformDepth/2),shelf=1-smooth(Math.hypot(dx,dz),0,80);let y=T.MathUtils.lerp(base,WAREHOUSE.y-1.25,shelf);
  // Only the real outside shore keeps headland roots; no old internal ring.
  for(const h of expansionHeadlands()){const d=Math.hypot(x-h.x,z-h.z);if(d<h.radius+15)y=Math.max(y,T.MathUtils.lerp(-10,base,smooth(d,h.radius*.84,h.radius+15)));}
- for(const reef of WAREHOUSE_REEFS){const r=Math.hypot(x-reef.x,z-reef.z)/reef.radius;if(r<1)y=Math.max(y,T.MathUtils.lerp(base,reef.top,1-smooth(r,.14,1)));}
+ // The eight Warehouse mounds were explicitly removed by the player. Coral
+ // gardens keep their addresses but follow this same unobstructed physical bed.
  return y;
 }
 // Double both grid axes when the outer geography doubles. The first row is

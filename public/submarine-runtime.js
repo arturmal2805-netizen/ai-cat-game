@@ -7,6 +7,7 @@ import {createSubmarineModel} from './submarine-model.js';
 import {createSubmarineReturn} from './submarine-return.js';
 import {createSubmarineCameraFollower} from './submarine-camera.js';
 import {createOceanSwimmer} from './ocean-swimmer.js';
+import {oceanWaterContains} from './ocean-water-domain.js';
 import {normalizeOceanExplorer} from './ocean-explorer-state.js';
 import {MALL_AIRLOCK as AIRLOCK,createMallAirlockTransit} from './mall-airlock-data.js';
 import {stepMallWalker} from './mall-walker.js';
@@ -93,7 +94,7 @@ export function createSubmarineRuntime({container,canvas,camera,look,actor,getMo
    const mall=getMall();if(!await mall?.ensure()||disposed)return false;
    if(mallWalkable({x:p.x,z:p.z-MALL.z},radius,mall.root.userData.obstacles.get(floor)))mode='mall';
   }
-  if(!mode&&p.y<MOSA_SEA.surfaceY&&Math.hypot(p.x/(MOSA_SEA.rx-2),p.z/(MOSA_SEA.rz-2))<1)mode='swimming';
+  if(!mode&&p.y<MOSA_SEA.surfaceY&&oceanWaterContains(p.x,p.z,2))mode='swimming';
   if(!mode)return false;focus('autumn',false,true);if(!canPilot())return false;
   const next=createOceanSwimmer({...p,yaw:actor.rotation.y,floor:mode==='mall'?floor:0,mode},{radius});if(mode==='swimming'&&!next.clear(next.state))return false;
   cancelHero();swimmer=next;phase=mode;controlled=true;returningExplorer=false;returning=false;route=[];clear();resetExplorerView();return true;
