@@ -1,0 +1,6 @@
+Baked tropical-coast 36627
+One ocean reflection probe: 36627 download bytes; 0.33 MiB mipmapped shared GPU maximum.
+
+Actual current coast re-rendered offline: new geographic range requires farther
+cube camera/sky in the baker only. Runtime shader/field/opacity/waves/gain stay
+unchanged. Existing old probe PNG retained for cached released clients.
