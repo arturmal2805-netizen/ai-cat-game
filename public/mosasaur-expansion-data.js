@@ -1,7 +1,7 @@
 import {BIOMES} from './game-data.js';
 // V12: geography only. Released centres, building coordinates and save IDs stay put.
 export const MOSA_EXPANSION=Object.freeze({version:12,x:1250,z:450,rx:1850,rz:750,shoreWidth:30,bedY:-199.845});
-export const WAREHOUSE=Object.freeze({id:'chichi-warehouse',x:2200,z:450,y:-177,width:480,depth:240,wallHeight:12,roofHeight:43.2,platformWidth:528,platformDepth:296,exteriorOnly:true});
+export const WAREHOUSE=Object.freeze({id:'chichi-warehouse',x:2200,z:450,y:-177,width:1200,depth:240,wallHeight:30,roofHeight:108,platformWidth:1320,platformDepth:296,heightScale:2.5,exteriorOnly:true});
 const TAU=Math.PI*2;
 export function expansionRayRadius(dx,dz){
  const {x,z,rx,rz}=MOSA_EXPANSION,a=(dx/rx)**2+(dz/rz)**2,b=-2*(dx*x/rx**2+dz*z/rz**2),c=(x/rx)**2+(z/rz)**2-1;
@@ -43,4 +43,11 @@ export function expandedCoastSamples(sea,coastFactor,margin=0,count=384){return 
 export function expandedOverview(){return{center:[1250,-55,400],radius:1980};}
 export function warehousePlanBounds(){return{min:[WAREHOUSE.x-WAREHOUSE.platformWidth/2-.8,WAREHOUSE.y-1.2,WAREHOUSE.z-WAREHOUSE.platformDepth/2-.8],max:[WAREHOUSE.x+WAREHOUSE.platformWidth/2+.8,WAREHOUSE.y+WAREHOUSE.wallHeight+WAREHOUSE.roofHeight+1,WAREHOUSE.z+WAREHOUSE.platformDepth/2+.8]};}
 
-export const WAREHOUSE_REEFS=Object.freeze([[680,620],[850,90],[1110,100],[1420,260],[1400,550],[1150,640],[580,400],[1540,430]].map(([x,z],i)=>Object.freeze({x:WAREHOUSE.x+(x-1150)*1.5,z:WAREHOUSE.z+(z-350)*1.5,radius:64+i%3*8,top:-72-i%4*11})));
+export const WAREHOUSE_REEFS=Object.freeze([[680,620],[850,90],[1110,100],[1420,260],[1400,550],[1150,640],[580,400],[1540,430]].map(([x,z],i)=>{
+ const px=WAREHOUSE.x+(x-1150)*1.5,radius=64+i%3*8;let pz=WAREHOUSE.z+(z-350)*1.5;
+ // Keep the existing eight garden IDs/counts, clearing only pockets covered by
+ // the explicitly enlarged footprint, including their peripheral coral roots.
+ const dx=Math.max(0,Math.abs(px-WAREHOUSE.x)-WAREHOUSE.platformWidth/2),dz=Math.max(0,Math.abs(pz-WAREHOUSE.z)-WAREHOUSE.platformDepth/2),clearance=radius+70;
+ if(Math.hypot(dx,dz)<clearance)pz=WAREHOUSE.z+Math.sign(pz-WAREHOUSE.z||1)*(WAREHOUSE.platformDepth/2+clearance+12);
+ return Object.freeze({x:px,z:pz,radius,top:-72-i%4*11});
+}));
