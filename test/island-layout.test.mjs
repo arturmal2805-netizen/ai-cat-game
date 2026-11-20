@@ -92,6 +92,7 @@ test("real navigation meshes including bevels and cliff lips stay inside the res
     const island = createBiomeScene(b, { lowOnly: true });
     const base = island.userData.navigationSurface;
     assert.ok(base, b.id);
+    if(b.id==='autumn'){const warehouse=island.userData.ocean.warehouse;assert.ok(warehouse,'Warehouse remains present in the low-detail world overview');assert.notEqual(warehouse.parent,island.userData.detail,'the whole venue must not disappear with decorative detail');}
     island.updateMatrixWorld(true);
     let maximum = 0,
       count = 0;

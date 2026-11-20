@@ -178,7 +178,7 @@ export function* mosasaurBiomeSteps(
     "color",
     new THREE.Float32BufferAttribute(cliffColors, 3),
   );
-  for(let i=0;i<cliffPositions.count;i++){const x=cliffPositions.getX(i),z=cliffPositions.getZ(i),a=Math.atan2(z/MOSA_SEA.rz,x/MOSA_SEA.rx),p=expansionOuterPoint(a),ratio=1+Math.max(0,Math.hypot(x,z)/(MOSA_RADIUS-.1)-1)*.2;cliffPositions.setX(i,p.x*ratio);cliffPositions.setZ(i,p.z*ratio);}
+  for(let i=0;i<cliffPositions.count;i++){const x=cliffPositions.getX(i),z=cliffPositions.getZ(i),a=Math.atan2(z/MOSA_SEA.rz,x/MOSA_SEA.rx),p=expansionOuterPoint(a),ratio=1+Math.min(1.5/Math.hypot(p.x,p.z),Math.max(0,Math.hypot(x,z)/(MOSA_RADIUS-.1)-1)*.2);cliffPositions.setX(i,p.x*ratio);cliffPositions.setZ(i,p.z*ratio);}
   cliff.geometry.computeVertexNormals();
   cliff.material.color.set(0xffffff);
   cliff.material.vertexColors = true;
@@ -220,7 +220,7 @@ export function* mosasaurBiomeSteps(
   sea.name = "Deep ocean · 40 times the previous sea depth";
   sea.userData.water.uniforms.uOpacity.value = 0.46;
   root.userData.ocean.expansion=yield* expandMosaSeaSteps(sea);root.userData.ocean.releasedWaterArea=root.userData.ocean.waterArea;root.userData.ocean.waterArea=root.userData.ocean.expansion.waterAreaM2;
-  if(!lowOnly){const warehouse=yield* expansionWarehouseSteps();detail.add(warehouse);root.userData.ocean.warehouse=warehouse;}
+  const warehouse=yield* expansionWarehouseSteps();base.add(warehouse);root.userData.ocean.warehouse=warehouse;
   root.userData.ocean.sea = sea;
   lagoons.set("lake-autumn", sea);
   base.add(sea);

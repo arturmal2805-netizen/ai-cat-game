@@ -24,3 +24,9 @@ User superseding revision (2026-11-20): TWICE Warehouse width AND length.
 512fc4c is now an intermediate, unpublished candidate; do not publish it. Move
 only the new Warehouse farther away and extend the same single lagoon, retaining
 >=3 actual new platform widths of open-water gap. Mall and SPA remain intact.
+
+Latest clarification: the goal is ONE lagoon without the old small semicircular
+basin. User explicitly selected keeping Mall/SPA in place. Do NOT translate their
+roots or the biome world center. Enclose old and new water with one outline,
+remove the neck, and keep neighbour clearances (a naive hull intersects four
+other islands). Preserve the old protected bed/core and all ownership addresses.
