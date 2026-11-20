@@ -1,0 +1,352 @@
+TAP version 13
+# Subtest: enlarged islands leave open space between every pair, including all four starter bridges
+ok 1 - enlarged islands leave open space between every pair, including all four starter bridges
+  ---
+  duration_ms: 1.542807
+  type: 'test'
+  ...
+# Subtest: the old moon/whale and dinosaur/lotus overlaps are resolved without changing sizes or save coordinates
+ok 2 - the old moon/whale and dinosaur/lotus overlaps are resolved without changing sizes or save coordinates
+  ---
+  duration_ms: 125.123691
+  type: 'test'
+  ...
+# Subtest: real navigation meshes including bevels and cliff lips stay inside the reserved shoreline
+ok 3 - real navigation meshes including bevels and cliff lips stay inside the reserved shoreline
+  ---
+  duration_ms: 2594.680438
+  type: 'test'
+  ...
+# Subtest: one contiguous expanded basin includes old lake and distant warehouse with real edge gaps
+ok 4 - one contiguous expanded basin includes old lake and distant warehouse with real edge gaps
+  ---
+  duration_ms: 14.791534
+  type: 'test'
+  ...
+# Subtest: protected old central bed and building approaches retain exact heights
+ok 5 - protected old central bed and building approaches retain exact heights
+  ---
+  duration_ms: 6.000026
+  type: 'test'
+  ...
+# Subtest: expansion extends a single released water surface without a shader/material/clock fork
+ok 6 - expansion extends a single released water surface without a shader/material/clock fork
+  ---
+  duration_ms: 734.803988
+  type: 'test'
+  ...
+# Subtest: exactly one sealed underwater shell with a neutral base, no equipped interior or interactions
+ok 7 - exactly one sealed underwater shell with a neutral base, no equipped interior or interactions
+  ---
+  duration_ms: 122.845308
+  type: 'test'
+  ...
+# Subtest: current released paid shore stays supported without changing purchases or saved addresses
+ok 8 - current released paid shore stays supported without changing purchases or saved addresses
+  ---
+  duration_ms: 20.604936
+  type: 'test'
+  ...
+# Subtest: expanded coast stays clear of every other island and the infinitely extending housing row
+ok 9 - expanded coast stays clear of every other island and the infinitely extending housing row
+  ---
+  duration_ms: 4.666017
+  type: 'test'
+  ...
+# Subtest: the former neck belongs to the common lagoon instead of enclosing a small separate cup
+ok 10 - the former neck belongs to the common lagoon instead of enclosing a small separate cup
+  ---
+  duration_ms: 0.194748
+  type: 'test'
+  ...
+# Subtest: former interior headlands and their raised bed roots no longer form a small rock cup
+ok 11 - former interior headlands and their raised bed roots no longer form a small rock cup
+  ---
+  duration_ms: 12.655802
+  type: 'test'
+  ...
+# Subtest: existing swimmer and submarine floor contacts use the carved bed instead of a ghost old rim
+ok 12 - existing swimmer and submarine floor contacts use the carved bed instead of a ghost old rim
+  ---
+  duration_ms: 14.211708
+  type: 'test'
+  ...
+# Subtest: the preserved building bed joins the common deep floor with a smooth shoulder rather than a vertical rectangle
+ok 13 - the preserved building bed joins the common deep floor with a smooth shoulder rather than a vertical rectangle
+  ---
+  duration_ms: 0.878737
+  type: 'test'
+  ...
+# Subtest: the ocean reflection is a valid immutable local capture of its current native coastal producers
+ok 14 - the ocean reflection is a valid immutable local capture of its current native coastal producers
+  ---
+  duration_ms: 22.48097
+  type: 'test'
+  ...
+# Subtest: the native warmup uploads every hidden ocean sampler before compiling its first live material
+ok 15 - the native warmup uploads every hidden ocean sampler before compiling its first live material
+  ---
+  duration_ms: 89.401439
+  type: 'test'
+  ...
+# Subtest: ocean optics retain the native two field samples, one reflection lookup and bounded scalar wake slots
+ok 16 - ocean optics retain the native two field samples, one reflection lookup and bounded scalar wake slots
+  ---
+  duration_ms: 15.842586
+  type: 'test'
+  ...
+# Subtest: underwater exit, third-person camera-relative swimming axes, dive, reboard and release use actual runtime
+ok 17 - underwater exit, third-person camera-relative swimming axes, dive, reboard and release use actual runtime
+  ---
+  duration_ms: 183.480905
+  type: 'test'
+  ...
+# Subtest: swimmer and released pilot restore without resetting wallets, inventory or camera ownership
+ok 18 - swimmer and released pilot restore without resetting wallets, inventory or camera ownership
+  ---
+  duration_ms: 319.552386
+  type: 'test'
+  ...
+# Subtest: pressure airlock never opens both doors; entry and exit reach their real endpoints
+ok 19 - pressure airlock never opens both doors; entry and exit reach their real endpoints
+  ---
+  duration_ms: 1.257526
+  type: 'test'
+  ...
+# Subtest: swimmer swept collision rejects sealed Mall shell and malformed explorer records
+ok 20 - swimmer swept collision rejects sealed Mall shell and malformed explorer records
+  ---
+  duration_ms: 132.736899
+  type: 'test'
+  ...
+# Subtest: manual swimming stops on release, blur and entry into text editing
+ok 21 - manual swimming stops on release, blur and entry into text editing
+  ---
+  duration_ms: 10.896584
+  type: 'test'
+  ...
+# Subtest: look orbit leaves a stationary cat facing forward and releasing a look drag preserves a held movement key
+ok 22 - look orbit leaves a stationary cat facing forward and releasing a look drag preserves a held movement key
+  ---
+  duration_ms: 15.714217
+  type: 'test'
+  ...
+# Subtest: released explorer cannot cancel a newly selected mall overview or visitor camera
+ok 23 - released explorer cannot cancel a newly selected mall overview or visitor camera
+  ---
+  duration_ms: 6.851694
+  type: 'test'
+  ...
+# Subtest: hidden canvas gestures move/look independently, dive with two fingers and stop on release
+ok 24 - hidden canvas gestures move/look independently, dive with two fingers and stop on release
+  ---
+  duration_ms: 29.663397
+  type: 'test'
+  ...
+# Subtest: E chooses the real boat or door in view when both are within reach
+ok 25 - E chooses the real boat or door in view when both are within reach
+  ---
+  duration_ms: 20.90474
+  type: 'test'
+  ...
+# Subtest: phone buttons allow independent held movement and depth; cancellation and blur clear only their owned inputs
+ok 26 - phone buttons allow independent held movement and depth; cancellation and blur clear only their owned inputs
+  ---
+  duration_ms: 53.076469
+  type: 'test'
+  ...
+# Subtest: phone control anchor tracks the visible viewport when the game canvas extends below it
+ok 27 - phone control anchor tracks the visible viewport when the game canvas extends below it
+  ---
+  duration_ms: 6.405065
+  type: 'test'
+  ...
+# Subtest: contextual Mall doorway action appears only at the real portal and starts the existing sequential airlock
+ok 28 - contextual Mall doorway action appears only at the real portal and starts the existing sequential airlock
+  ---
+  duration_ms: 14.508195
+  type: 'test'
+  ...
+# Subtest: a paid placement rejected by shore, locked land or collisions goes to the bag with its original timer instead of vanishing
+ok 29 - a paid placement rejected by shore, locked land or collisions goes to the bag with its original timer instead of vanishing
+  ---
+  duration_ms: 317.153585
+  type: 'test'
+  ...
+# Subtest: forty store/replace/restart cycles preserve one finished Mega Loops, balance, XP and ownership receipt
+ok 30 - forty store/replace/restart cycles preserve one finished Mega Loops, balance, XP and ownership receipt
+  ---
+  duration_ms: 562.983055
+  type: 'test'
+  ...
+# Subtest: legacy purchase proof recovers a missing attraction once without a charge or granting an unbought slide
+ok 31 - legacy purchase proof recovers a missing attraction once without a charge or granting an unbought slide
+  ---
+  duration_ms: 38.372313
+  type: 'test'
+  ...
+# Subtest: durable receipts recover the exact owned and completed-copy counts after a filtered snapshot
+ok 32 - durable receipts recover the exact owned and completed-copy counts after a filtered snapshot
+  ---
+  duration_ms: 23.529333
+  type: 'test'
+  ...
+# Subtest: two phones buying the same attraction retain two copies and exact once-only payments
+ok 33 - two phones buying the same attraction retain two copies and exact once-only payments
+  ---
+  duration_ms: 16.468269
+  type: 'test'
+  ...
+# Subtest: a cached client dropping a placed slide keeps its original identity and cannot erase paid completion receipts
+ok 34 - a cached client dropping a placed slide keeps its original identity and cannot erase paid completion receipts
+  ---
+  duration_ms: 17.804803
+  type: 'test'
+  ...
+# Subtest: an unchanged healthy world is returned by identity and ownership bookkeeping never touches native graphics
+ok 35 - an unchanged healthy world is returned by identity and ownership bookkeeping never touches native graphics
+  ---
+  duration_ms: 5.071296
+  type: 'test'
+  ...
+# Subtest: matching-world backups retain completed construction, while another accounts backup cannot invent ownership
+ok 36 - matching-world backups retain completed construction, while another accounts backup cannot invent ownership
+  ---
+  duration_ms: 22.917761
+  type: 'test'
+  ...
+# Subtest: A/D point to the visible left/right in the native +Z chase view; air W/S become opposing somersaults
+ok 37 - A/D point to the visible left/right in the native +Z chase view; air W/S become opposing somersaults
+  ---
+  duration_ms: 125.838631
+  type: 'test'
+  ...
+# Subtest: maximum forward speed is 50% higher and fourfold breach height retains real gravity
+ok 38 - maximum forward speed is 50% higher and fourfold breach height retains real gravity
+  ---
+  duration_ms: 333.990104
+  type: 'test'
+  ...
+# Subtest: landing eases the hull upright and a saved midair turn restores at height without stranding the pilot
+ok 39 - landing eases the hull upright and a saved midair turn restores at height without stranding the pilot
+  ---
+  duration_ms: 98.520642
+  type: 'test'
+  ...
+# Subtest: velocity-aware camera keeps a fast rising boat centred while the ordinary world orbit still runs
+ok 40 - velocity-aware camera keeps a fast rising boat centred while the ordinary world orbit still runs
+  ---
+  duration_ms: 2.725803
+  type: 'test'
+  ...
+# Subtest: ArrowDown and either Shift dive while driving; the shortcuts never double the dive axis
+ok 41 - ArrowDown and either Shift dive while driving; the shortcuts never double the dive axis
+  ---
+  duration_ms: 92.872423
+  type: 'test'
+  ...
+# Subtest: submarine accelerates, reverses, steers, dives, brakes and switches no currencies or NPC state
+ok 42 - submarine accelerates, reverses, steers, dives, brakes and switches no currencies or NPC state
+  ---
+  duration_ms: 165.394076
+  type: 'test'
+  ...
+# Subtest: real-time long frames do not tunnel through terrain or cave/ruin capsules
+ok 43 - real-time long frames do not tunnel through terrain or cave/ruin capsules
+  ---
+  duration_ms: 855.506623
+  type: 'test'
+  ...
+# Subtest: safe entry/exit remains at the dedicated pier and invalid saved coordinates cannot strand the cat
+ok 44 - safe entry/exit remains at the dedicated pier and invalid saved coordinates cannot strand the cat
+  ---
+  duration_ms: 26.72447
+  type: 'test'
+  ...
+# Subtest: space gives a real ballistic water breach and shift descends again
+ok 45 - space gives a real ballistic water breach and shift descends again
+  ---
+  duration_ms: 54.290802
+  type: 'test'
+  ...
+# Subtest: real save/load and cached shared clients retain the pilot pose without losing purchases or wallet
+ok 46 - real save/load and cached shared clients retain the pilot pose without losing purchases or wallet
+  ---
+  duration_ms: 150.37484
+  type: 'test'
+  ...
+# Subtest: a steep reef wall brakes a fast boat rather than lifting it onto the ledge
+ok 47 - a steep reef wall brakes a fast boat rather than lifting it onto the ledge
+  ---
+  duration_ms: 265.475601
+  type: 'test'
+  ...
+# Subtest: return leaves both real cavern roofs through their openings before ascending to the pier
+ok 48 - return leaves both real cavern roofs through their openings before ascending to the pier
+  ---
+  duration_ms: 495.422746
+  type: 'test'
+  ...
+# Subtest: a visible dragon cat beyond the old 45-unit cutoff stays visible through ordinary orbit and zoom, without moving its carrier
+ok 49 - a visible dragon cat beyond the old 45-unit cutoff stays visible through ordinary orbit and zoom, without moving its carrier
+  ---
+  duration_ms: 506.000351
+  type: 'test'
+  ...
+# Subtest: navigation radius stays constant through breathing for ordinary, tiny and giant approved cats
+ok 50 - navigation radius stays constant through breathing for ordinary, tiny and giant approved cats
+  ---
+  duration_ms: 2010.533314
+  type: 'test'
+  ...
+# Subtest: hidden scene branches skip all descendant matrix work and refresh correctly after movement or explicit camera queries
+ok 51 - hidden scene branches skip all descendant matrix work and refresh correctly after movement or explicit camera queries
+  ---
+  duration_ms: 1.354559
+  type: 'test'
+  ...
+# Subtest: navigation cache is bounded even when many different actor sizes request routes
+ok 52 - navigation cache is bounded even when many different actor sizes request routes
+  ---
+  duration_ms: 554.280413
+  type: 'test'
+  ...
+# Subtest: all 50 fish and 120 bubbles keep geometry and GPU instance buffers stable during swimming and reduced motion
+ok 53 - all 50 fish and 120 bubbles keep geometry and GPU instance buffers stable during swimming and reduced motion
+  ---
+  duration_ms: 389.93494
+  type: 'test'
+  ...
+# Subtest: 55 fireflies retain their exact sphere detail and three colours without per-frame matrix uploads
+ok 54 - 55 fireflies retain their exact sphere detail and three colours without per-frame matrix uploads
+  ---
+  duration_ms: 1.552772
+  type: 'test'
+  ...
+# Subtest: cooperative geometry bounds match Three exactly and preserve half-float data without a duplicate buffer
+ok 55 - cooperative geometry bounds match Three exactly and preserve half-float data without a duplicate buffer
+  ---
+  duration_ms: 2.504257
+  type: 'test'
+  ...
+# Subtest: idle reward polls reuse the world and cached Kyiv dates respect midnight and DST
+ok 56 - idle reward polls reuse the world and cached Kyiv dates respect midnight and DST
+  ---
+  duration_ms: 94.293411
+  type: 'test'
+  ...
+# Subtest: linear bulk register reads preserve coins, diamonds and XP timers for a large world
+ok 57 - linear bulk register reads preserve coins, diamonds and XP timers for a large world
+  ---
+  duration_ms: 57.819759
+  type: 'test'
+  ...
+1..57
+# tests 57
+# suites 0
+# pass 57
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6462.528652

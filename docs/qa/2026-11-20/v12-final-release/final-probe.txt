@@ -1,0 +1,2 @@
+Baked tropical-coast 36525
+One ocean reflection probe: 36525 download bytes; 0.33 MiB mipmapped shared GPU maximum.
