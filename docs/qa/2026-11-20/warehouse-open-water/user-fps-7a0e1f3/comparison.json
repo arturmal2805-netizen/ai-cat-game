@@ -1,0 +1,42 @@
+{
+  "fps": {
+    "previous": 13.53,
+    "current": 24.64
+  },
+  "seconds": {
+    "previous": 22.1,
+    "current": 12.133
+  },
+  "gapMax": {
+    "previous": 8199.699999999997,
+    "current": 3065.9000000000015
+  },
+  "gapMaxSinceStart": {
+    "previous": 8916.9,
+    "current": 8500
+  },
+  "stuttersOver50Ms": {
+    "previous": 55,
+    "current": 8
+  },
+  "cpuMedian": {
+    "previous": 1.1,
+    "current": 0.8
+  },
+  "renderMedian": {
+    "previous": 26.4,
+    "current": 14.3
+  },
+  "gpuMedianMs": {
+    "previous": 32.41,
+    "current": 12.8
+  },
+  "lastTriangles": {
+    "previous": 15330179,
+    "current": 2386288
+  },
+  "lastCalls": {
+    "previous": 1401,
+    "current": 380
+  }
+}

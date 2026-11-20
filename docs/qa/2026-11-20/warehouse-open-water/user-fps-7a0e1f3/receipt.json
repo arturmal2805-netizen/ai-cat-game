@@ -1,0 +1,9 @@
+{
+  "receivedDate": "2026-11-20 Europe/Kyiv",
+  "source": "User uploaded diagnostic report",
+  "sha256": "969f8262a15202ac9eb186158eb944e532faeaf34e3ee69bb34c80ad79a21c9c",
+  "app": "./dist/app.js?v=1f35c6c1ed6c391f",
+  "release": "7a0e1f3daf8afd0629d60d7a3cb0aa147b2a02f4",
+  "verifiedPublishedJsSha256": "1f35c6c1ed6c391fe4560b3962ffd3cb5cbb0e139532623f131601134712400f",
+  "cameraPoseUnavailable": true
+}

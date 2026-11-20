@@ -1,0 +1,785 @@
+{
+  "version": 3,
+  "loading": {
+    "observedResources": 105,
+    "slowest": [
+      {
+        "path": "/ai-cat-game/art/ocean-rock/coralNormal-f5ee3a4cf9d1.png",
+        "durationMs": 22936.5,
+        "transferBytes": 3133849,
+        "decodedBytes": 3133549
+      },
+      {
+        "path": "/ai-cat-game/models/reefs/organic-reef-1b90309ff46a4537.bin.gz",
+        "durationMs": 22419.2,
+        "transferBytes": 7866700,
+        "decodedBytes": 7866400
+      },
+      {
+        "path": "/ai-cat-game/art/mall/marble-color-c2266a99833d.png",
+        "durationMs": 18820.2,
+        "transferBytes": 337969,
+        "decodedBytes": 337669
+      },
+      {
+        "path": "/ai-cat-game/art/meadow/grass004-normal-roughness-55ff6228bfff.png",
+        "durationMs": 15000.8,
+        "transferBytes": 300,
+        "decodedBytes": 0
+      },
+      {
+        "path": "/ai-cat-game/art/meadow/grass004-color-cf1c4c5a2c23.jpg",
+        "durationMs": 15000.7,
+        "transferBytes": 300,
+        "decodedBytes": 0
+      },
+      {
+        "path": "/ai-cat-game/art/mall/marble-normal-da7dad545507.png",
+        "durationMs": 14537.7,
+        "transferBytes": 34755,
+        "decodedBytes": 34455
+      },
+      {
+        "path": "/ai-cat-game/art/ocean-rock/reef-83b51ff02b9b.jpg",
+        "durationMs": 14387.9,
+        "transferBytes": 743445,
+        "decodedBytes": 743145
+      },
+      {
+        "path": "/ai-cat-game/art/ocean-rock/sand-58af2e40100f.jpg",
+        "durationMs": 12047.6,
+        "transferBytes": 960914,
+        "decodedBytes": 960614
+      },
+      {
+        "path": "/ai-cat-game/art/ocean-rock/normal-dbcd0a950de5.png",
+        "durationMs": 10878.7,
+        "transferBytes": 2867087,
+        "decodedBytes": 2866787
+      },
+      {
+        "path": "/ai-cat-game/art/mall/warm-color-436bcf9f4575.png",
+        "durationMs": 9789.2,
+        "transferBytes": 339811,
+        "decodedBytes": 339511
+      },
+      {
+        "path": "/ai-cat-game/art/mall/marble-roughness-34e8d2c86610.png",
+        "durationMs": 9100.7,
+        "transferBytes": 6558,
+        "decodedBytes": 6258
+      },
+      {
+        "path": "/ai-cat-game/art/water-garden/stone-normal-6812d207a0ac.png",
+        "durationMs": 8013.8,
+        "transferBytes": 300,
+        "decodedBytes": 0
+      }
+    ],
+    "jsHeapBytes": 1500640651
+  },
+  "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+  "suspended": false,
+  "automaticPauseSeconds": 0,
+  "startupFirstFrameMs": 1836.4,
+  "startupResidentPreparation": {
+    "models": 19,
+    "workMs": 339.40000009536743,
+    "maxTaskMs": 45.59999996423721,
+    "elapsedMs": 346
+  },
+  "catRenderer": "individual",
+  "gpuRender": {
+    "supported": true,
+    "disjoint": false,
+    "samples": 300,
+    "pending": 1,
+    "medianMs": 12.8,
+    "p95Ms": 18.58,
+    "maxMs": 249.51
+  },
+  "appWorkSinceReset": {
+    "phases": {
+      "app.persist": {
+        "calls": 1,
+        "totalMs": 6.2,
+        "maxMs": 6.2,
+        "over50ms": 0
+      },
+      "app.renderGame": {
+        "calls": 43,
+        "totalMs": 33.5,
+        "maxMs": 9.7,
+        "over50ms": 0
+      },
+      "frame.viewport": {
+        "calls": 1921,
+        "totalMs": 35.1,
+        "maxMs": 33.5,
+        "over50ms": 0
+      },
+      "frame.cameraAndIslands": {
+        "calls": 1921,
+        "totalMs": 160.1,
+        "maxMs": 0.9,
+        "over50ms": 0
+      },
+      "frame.jobsAndHomes": {
+        "calls": 1921,
+        "totalMs": 458.8,
+        "maxMs": 14.5,
+        "over50ms": 0
+      },
+      "frame.venues": {
+        "calls": 1921,
+        "totalMs": 116.5,
+        "maxMs": 0.9,
+        "over50ms": 0
+      },
+      "frame.residents": {
+        "calls": 1921,
+        "totalMs": 158.8,
+        "maxMs": 0.8,
+        "over50ms": 0
+      },
+      "frame.chichi": {
+        "calls": 1921,
+        "totalMs": 108.8,
+        "maxMs": 4,
+        "over50ms": 0
+      },
+      "frame.cameraAndHousingView": {
+        "calls": 1921,
+        "totalMs": 43.8,
+        "maxMs": 0.3,
+        "over50ms": 0
+      },
+      "frame.ambientAndBadges": {
+        "calls": 1921,
+        "totalMs": 40.9,
+        "maxMs": 0.5,
+        "over50ms": 0
+      },
+      "frame.visibility": {
+        "calls": 1921,
+        "totalMs": 98.4,
+        "maxMs": 2.6,
+        "over50ms": 0
+      },
+      "frame.renderer": {
+        "calls": 1921,
+        "totalMs": 20512.1,
+        "maxMs": 3512,
+        "over50ms": 9
+      },
+      "frame.gpuSubmit": {
+        "calls": 1921,
+        "totalMs": 14,
+        "maxMs": 0.1,
+        "over50ms": 0
+      },
+      "frame.residency": {
+        "calls": 1921,
+        "totalMs": 2004.3,
+        "maxMs": 57.4,
+        "over50ms": 1
+      },
+      "app.commit": {
+        "calls": 25,
+        "totalMs": 185.5,
+        "maxMs": 11.7,
+        "over50ms": 0
+      },
+      "app.cityTick": {
+        "calls": 41,
+        "totalMs": 89.7,
+        "maxMs": 26.1,
+        "over50ms": 0
+      }
+    },
+    "longest": [
+      {
+        "label": "frame.renderer",
+        "atMs": 31806,
+        "durationMs": 3512
+      },
+      {
+        "label": "frame.renderer",
+        "atMs": 45606,
+        "durationMs": 2912.5
+      },
+      {
+        "label": "frame.renderer",
+        "atMs": 1136,
+        "durationMs": 700.2
+      },
+      {
+        "label": "frame.renderer",
+        "atMs": 4538,
+        "durationMs": 569.6
+      },
+      {
+        "label": "frame.renderer",
+        "atMs": 49158,
+        "durationMs": 249
+      },
+      {
+        "label": "frame.renderer",
+        "atMs": 48582,
+        "durationMs": 220.1
+      },
+      {
+        "label": "frame.renderer",
+        "atMs": 35324,
+        "durationMs": 209.4
+      },
+      {
+        "label": "frame.residency",
+        "atMs": 49407,
+        "durationMs": 57.4
+      },
+      {
+        "label": "frame.renderer",
+        "atMs": 44191,
+        "durationMs": 54.8
+      },
+      {
+        "label": "frame.renderer",
+        "atMs": 27838,
+        "durationMs": 53.4
+      }
+    ]
+  },
+  "longAnimationFramesSupported": true,
+  "longestAnimationFrames": [
+    {
+      "durationMs": 3530.1,
+      "blockingMs": 3472.9,
+      "afterStyleStartMs": 0.3,
+      "scripts": [
+        {
+          "function": "lb",
+          "type": "user-callback",
+          "durationMs": 3513,
+          "layoutMs": 0,
+          "position": 2599304
+        },
+        {
+          "function": "",
+          "type": "resolve-promise",
+          "durationMs": 9.5,
+          "layoutMs": 0,
+          "position": 12546
+        }
+      ]
+    },
+    {
+      "durationMs": 3063.4,
+      "blockingMs": 2930.1,
+      "afterStyleStartMs": 53.3,
+      "scripts": [
+        {
+          "function": "lb",
+          "type": "user-callback",
+          "durationMs": 2917.2,
+          "layoutMs": 0,
+          "position": 2599304
+        },
+        {
+          "function": "",
+          "type": "resolve-promise",
+          "durationMs": 9.5,
+          "layoutMs": 0,
+          "position": 12546
+        },
+        {
+          "function": "",
+          "type": "resolve-promise",
+          "durationMs": 6.4,
+          "layoutMs": 0,
+          "position": 12546
+        }
+      ]
+    },
+    {
+      "durationMs": 583.9,
+      "blockingMs": 526.3,
+      "afterStyleStartMs": 0.3,
+      "scripts": [
+        {
+          "function": "lb",
+          "type": "user-callback",
+          "durationMs": 570.3,
+          "layoutMs": 0,
+          "position": 2599304
+        }
+      ]
+    },
+    {
+      "durationMs": 412.3,
+      "blockingMs": 327,
+      "afterStyleStartMs": 56.4,
+      "scripts": [
+        {
+          "function": "lb",
+          "type": "user-callback",
+          "durationMs": 308.4,
+          "layoutMs": 0,
+          "position": 2599304
+        },
+        {
+          "function": "",
+          "type": "resolve-promise",
+          "durationMs": 12.2,
+          "layoutMs": 0,
+          "position": 2687131
+        },
+        {
+          "function": "",
+          "type": "user-callback",
+          "durationMs": 7,
+          "layoutMs": 0,
+          "position": 2775752
+        }
+      ]
+    },
+    {
+      "durationMs": 227.7,
+      "blockingMs": 177.3,
+      "afterStyleStartMs": 0.8,
+      "scripts": [
+        {
+          "function": "lb",
+          "type": "user-callback",
+          "durationMs": 225.3,
+          "layoutMs": 0,
+          "position": 2599304
+        }
+      ]
+    }
+  ],
+  "app": "./dist/app.js?v=1f35c6c1ed6c391f",
+  "bufferTransfersSinceReset": {
+    "dataCalls": 6967,
+    "dataBytes": 434358882,
+    "subCalls": 10009,
+    "subBytes": 18460672
+  },
+  "nativeGlCallsSinceReset": {
+    "getExtension": {
+      "calls": 4,
+      "totalMs": 59,
+      "maxMs": 59,
+      "over50ms": 1
+    },
+    "beginQuery": {
+      "calls": 1921,
+      "totalMs": 6.5,
+      "maxMs": 4.1,
+      "over50ms": 0
+    },
+    "bindBuffer": {
+      "calls": 32368,
+      "totalMs": 11.5,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "bufferData": {
+      "calls": 6967,
+      "totalMs": 264.3,
+      "maxMs": 26.7,
+      "over50ms": 0
+    },
+    "bindTexture": {
+      "calls": 589016,
+      "totalMs": 101.7,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "texParameteri": {
+      "calls": 99337,
+      "totalMs": 19.5,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "texImage2D": {
+      "calls": 2,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "bindFramebuffer": {
+      "calls": 5470,
+      "totalMs": 5.9,
+      "maxMs": 0.4,
+      "over50ms": 0
+    },
+    "pixelStorei": {
+      "calls": 93,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "texStorage2D": {
+      "calls": 124,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "clear": {
+      "calls": 3854,
+      "totalMs": 8,
+      "maxMs": 1.7,
+      "over50ms": 0
+    },
+    "createProgram": {
+      "calls": 232,
+      "totalMs": 0.4,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "createShader": {
+      "calls": 464,
+      "totalMs": 0.6,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "shaderSource": {
+      "calls": 464,
+      "totalMs": 51.1,
+      "maxMs": 0.7,
+      "over50ms": 0
+    },
+    "compileShader": {
+      "calls": 464,
+      "totalMs": 0.2,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "attachShader": {
+      "calls": 464,
+      "totalMs": 0.2,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "linkProgram": {
+      "calls": 232,
+      "totalMs": 3.9,
+      "maxMs": 2.5,
+      "over50ms": 0
+    },
+    "getProgramInfoLog": {
+      "calls": 232,
+      "totalMs": 1404.2,
+      "maxMs": 128.3,
+      "over50ms": 4
+    },
+    "getShaderInfoLog": {
+      "calls": 464,
+      "totalMs": 101.5,
+      "maxMs": 51.5,
+      "over50ms": 1
+    },
+    "getProgramParameter": {
+      "calls": 1034,
+      "totalMs": 28.2,
+      "maxMs": 13,
+      "over50ms": 0
+    },
+    "getActiveUniform": {
+      "calls": 6038,
+      "totalMs": 3.6,
+      "maxMs": 1.5,
+      "over50ms": 0
+    },
+    "getUniformLocation": {
+      "calls": 6038,
+      "totalMs": 3.7,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "getActiveAttrib": {
+      "calls": 759,
+      "totalMs": 0.2,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "getAttribLocation": {
+      "calls": 759,
+      "totalMs": 0.3,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "useProgram": {
+      "calls": 398804,
+      "totalMs": 78.3,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniformMatrix4fv": {
+      "calls": 2371658,
+      "totalMs": 434.7,
+      "maxMs": 0.2,
+      "over50ms": 0
+    },
+    "uniformMatrix3fv": {
+      "calls": 424711,
+      "totalMs": 78.9,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniform1f": {
+      "calls": 341693,
+      "totalMs": 63.3,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniform1i": {
+      "calls": 56222,
+      "totalMs": 13.4,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "texSubImage2D": {
+      "calls": 24827,
+      "totalMs": 104.1,
+      "maxMs": 54.6,
+      "over50ms": 1
+    },
+    "generateMipmap": {
+      "calls": 97,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "bindVertexArray": {
+      "calls": 911239,
+      "totalMs": 284.6,
+      "maxMs": 0.4,
+      "over50ms": 0
+    },
+    "vertexAttribPointer": {
+      "calls": 14129,
+      "totalMs": 4.7,
+      "maxMs": 1.6,
+      "over50ms": 0
+    },
+    "drawArrays": {
+      "calls": 220642,
+      "totalMs": 41,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "drawElements": {
+      "calls": 806899,
+      "totalMs": 131.8,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "multiDrawElementsWEBGL": {
+      "calls": 106496,
+      "totalMs": 53.9,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniform3f": {
+      "calls": 425433,
+      "totalMs": 77.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniform1iv": {
+      "calls": 128,
+      "totalMs": 0.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniform2f": {
+      "calls": 16353,
+      "totalMs": 3.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniform3fv": {
+      "calls": 128,
+      "totalMs": 0.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "drawElementsInstanced": {
+      "calls": 50192,
+      "totalMs": 11.8,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniform4fv": {
+      "calls": 15636,
+      "totalMs": 4.4,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "endQuery": {
+      "calls": 1921,
+      "totalMs": 3.8,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "fenceSync": {
+      "calls": 1921,
+      "totalMs": 5.5,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "flush": {
+      "calls": 1921,
+      "totalMs": 6.2,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "clientWaitSync": {
+      "calls": 3054,
+      "totalMs": 9.4,
+      "maxMs": 1.1,
+      "over50ms": 0
+    },
+    "getQueryParameter": {
+      "calls": 4614,
+      "totalMs": 8.6,
+      "maxMs": 1.4,
+      "over50ms": 0
+    },
+    "bufferSubData": {
+      "calls": 10009,
+      "totalMs": 21.2,
+      "maxMs": 0.5,
+      "over50ms": 0
+    },
+    "deleteSync": {
+      "calls": 1920,
+      "totalMs": 3.8,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "blitFramebuffer": {
+      "calls": 399,
+      "totalMs": 1.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniform1fv": {
+      "calls": 14678,
+      "totalMs": 3.8,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "getParameter": {
+      "calls": 2,
+      "totalMs": 1.1,
+      "maxMs": 1.1,
+      "over50ms": 0
+    },
+    "deleteBuffer": {
+      "calls": 785,
+      "totalMs": 0.3,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "drawArraysInstanced": {
+      "calls": 1259,
+      "totalMs": 0.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    }
+  },
+  "mainThreadLongTasksSupported": true,
+  "longestMainThreadTasksMs": [
+    3513,
+    2974,
+    788,
+    571,
+    365,
+    226,
+    211,
+    159,
+    155,
+    132,
+    123,
+    118,
+    90,
+    81,
+    71,
+    70,
+    67,
+    57,
+    55,
+    54
+  ],
+  "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+  "viewport": [
+    1440,
+    812
+  ],
+  "samples": 300,
+  "seconds": 12.133,
+  "rafCallbacksSinceReset": 2221,
+  "pacerSkipsSinceReset": 0,
+  "rafSecondsSinceReset": 57.467,
+  "rafFpsSinceReset": 38.63,
+  "fps": 24.64,
+  "gapP95": 49.6,
+  "gapP99": 183.3,
+  "gapMax": 3065.9000000000015,
+  "onePercentLowFps": 0.75,
+  "stuttersOver50Ms": 8,
+  "severeStuttersOver100Ms": 4,
+  "stuttersOver50MsSinceStart": 24,
+  "severeStuttersOver100MsSinceStart": 14,
+  "gapMaxSinceStart": 8500,
+  "cpuMedian": 0.8,
+  "cpuP95": 1.2,
+  "cpuMax": 3.299999952316284,
+  "cpuTotalMs": 265.3,
+  "renderMedian": 14.3,
+  "renderP95": 42.4,
+  "renderMax": 2915.300000011921,
+  "renderTotalMs": 9604.5,
+  "gpuWaitCallbacksSinceReset": 300,
+  "contextWaitCallbacksSinceReset": 0,
+  "queueCpuTotalSinceReset": 18.9,
+  "queueCpuMaxSinceReset": 1.1,
+  "eventLoopDelayP95": 35.8,
+  "eventLoopDelayMax": 8451.699999988079,
+  "geometryEvictionsDuringWindow": 153,
+  "geometryRefaultsDuringWindow": 0,
+  "geometryRefaultBytesDuringWindow": 0,
+  "geometryRapidRefaultsDuringWindow": 0,
+  "geometryRapidRefaultBytesDuringWindow": 0,
+  "last": {
+    "biome": "autumn",
+    "cats": 19,
+    "calls": 380,
+    "triangles": 2386288,
+    "geometryBytes": 399569962,
+    "geometryPeakBytes": 399569962,
+    "geometryActiveGraceMs": 250,
+    "pending": 1,
+    "dpr": 2,
+    "poseCats": 4,
+    "colonyActive": false,
+    "shaderPending": 0,
+    "shaderPreparing": 0,
+    "evicted": 153,
+    "refaults": 0,
+    "refaultBytes": 0,
+    "rapidRefaults": 0,
+    "rapidRefaultBytes": 0,
+    "targetFps": 60,
+    "programs": 232,
+    "visible": true,
+    "moving": false,
+    "buffer": [
+      2804,
+      1384
+    ]
+  }
+}

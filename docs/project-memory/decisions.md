@@ -860,3 +860,11 @@ Nativeheldinput выявил пропущенную старуюграницу e
 реальные desktop/touch/deepdive/2reloads накаждом PASS. ТочныеQA/source/bundle
 и промежуточная failedстадия сохранены. Новыйвид не одобрен пользователем;
 hardwareFPS неизмерялся. PaidAI/liveplayerworlds не использовались.
+
+## 2026-11-20 — новый M2 FPS report привязан к опубликованным байтам
+
+App1f35c6c1ed6c391f соответствует7a0e1f3.24.64FPS vs13.53, но lastframe triangles
+2.386M vs15.33M иcalls380vs1401 при неизвестнойкамере — это не контролируемый
+приростскоростикода. Rendererstalls3.512/2.913с иcoldloadsдо22.94с остаются.
+ИсходныйJSON/hash/таблица сохранены вQA/user-fps-7a0e1f3. Новый runtimechange
+не делался. Не выдавать этот разбор за устранение зависаний или одобрениевида.
