@@ -1,3 +1,4 @@
+import {venueButton} from './venue-buttons.js';
 import {createSpaInvitations} from './resort-spa-invitations.js';
 import {resortPalaceRecovery,resolvePalaceRecovery,prunePalaceRecovery,palaceProcedureSavePositions} from './resort-spa-layout-recovery.js';
 import {spaPalaceContains} from './resort-spa-layout-v7.js';
@@ -26,7 +27,7 @@ import {byBiome} from './game-data.js';
 // remain untouched; only the world coordinator performs the hand-off.
 export function createResortSpaWorld({scene,container,getGame,getFocused,getOverview,prepare,prepareModel,onCamera,onExit,onRecovery=()=>{},onError=()=>{},getActors=()=>[],getAccessSurfaces=()=>[],accessClear=()=>true,registerCat=()=>{},canSimulate=()=>true,blocked=()=>false,onPurchase,onUse,onGoal,onComplete,onCall=()=>false,callBusy=()=>false,onInvitationArrive=()=>{},getInvitees=()=>[],guestFree=()=>false,onRecallGuest=()=>false,onGuestPark=()=>{},onGuestRelease=()=>{},onGuestReserve=()=>true,onGuestHold=()=>{}}){
  const centre=resortSpaOrigin(byBiome('autumn').center),controller=new AbortController(),buttons=new Map(),journeys=new Map(),heldFoods=new Map(),recovering=resortLiftRecovery(getGame()),layoutRecovery=resortPalaceRecovery(getGame());for(const id of recovering.keys())layoutRecovery.delete(id);let root=null,pending=null,disposed=false,inspection=false,selected=null,navigation=null,appointments=null,transit=null,invitations=null,staff=[],nextPreparation=0,watched=null;
- const access=document.createElement('button');access.className='resort-spa-access';access.textContent='🪷 SPA';access.hidden=true;access.onclick=()=>inspect();(container.querySelector('.map-controls')||container).append(access);
+ const access=venueButton('spa');access.classList.add('resort-spa-access');access.hidden=true;access.onclick=()=>inspect();(container.querySelector('.map-controls')||container).append(access);
  const panel=document.createElement('nav');panel.className='resort-spa-zones';panel.hidden=true;panel.setAttribute('aria-label','Зоны подводного SPA');container.append(panel);
  for(const zone of [null,...RESORT_ZONES]){const b=document.createElement('button');b.textContent=zone?.name||'Общий вид';b.onclick=()=>inspect(zone?.id);panel.append(b);buttons.set(zone?.id||'overview',b);}
  const callButton=document.createElement('button');callButton.className='resort-spa-call';callButton.textContent='🐈 Позвать Чичи в SPA';callButton.title='Бесплатный вызов ко входу. Процедуры выбираются отдельно.';let calling=false;callButton.onclick=async()=>{if(calling||callBusy())return;calling=true;callButton.disabled=true;try{await onCall();}catch(e){onError(e.message);}finally{calling=false;callButton.disabled=false;}};panel.append(callButton);

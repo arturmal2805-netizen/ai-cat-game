@@ -3325,3 +3325,13 @@ button.cat-profile-card {
 @media(pointer:coarse){.resort-spa-zones{top:auto;bottom:156px;max-height:min(30vh,220px);max-width:min(168px,44vw);padding:5px;gap:4px}.resort-spa-zones button{font-size:11px;min-height:44px;padding:5px}}
 
 .resort-spa-view-tools{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}.resort-spa-view-tools button{min-width:0;font-size:11px;}
+
+/* Compact venue marks keep the same 44px touch targets on every screen. */
+.map-controls{gap:4px}
+.map-controls .venue-access{width:44px;height:44px;min-width:44px;min-height:44px;padding:8px;flex:0 0 44px;display:inline-flex;align-items:center;justify-content:center;color:#f3d59b}
+.map-controls .venue-access[hidden]{display:none}
+.venue-access svg{width:26px;height:26px;pointer-events:none}
+.venue-access[data-venue="spa"] svg{color:#f1a2d5}
+.venue-access[data-venue="warehouse"] svg{color:#9cdee3}
+.venue-access:focus-visible{outline:2px solid #ffe3a8;outline-offset:2px}
+.venue-access[aria-pressed="true"]{border-color:#f4d28e;background:#64513d}
