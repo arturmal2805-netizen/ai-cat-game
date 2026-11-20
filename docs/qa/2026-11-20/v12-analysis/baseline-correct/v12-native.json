@@ -1,0 +1,95 @@
+{
+  "report": {
+    "mall": {
+      "position": [
+        -450,
+        0,
+        500
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "box": {
+        "min": [
+          -620.9345397949219,
+          -169.5,
+          504.81850242614746
+        ],
+        "max": [
+          -279.8011016845703,
+          5.69000015258789,
+          626.9100036621094
+        ]
+      },
+      "visible": true
+    },
+    "spa": {
+      "position": [
+        -450,
+        -165,
+        480
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "box": {
+        "min": [
+          -600.2498931884766,
+          -166.86000001430511,
+          637.5940246582031
+        ],
+        "max": [
+          -299.7629089355469,
+          5.028000003576272,
+          791.5450134277344
+        ]
+      },
+      "visible": true
+    },
+    "warehouse": null,
+    "water": null,
+    "coins": 13835
+  },
+  "rows": [
+    {
+      "name": "old-overview",
+      "camera": [
+        0,
+        740,
+        1550
+      ],
+      "target": [
+        -450,
+        -70,
+        600
+      ],
+      "calls": 2334,
+      "triangles": 19542480,
+      "memory": {
+        "geometries": 1583,
+        "textures": 103
+      },
+      "glLost": false,
+      "programs": 0
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "scope": "Actual full game/private SQLite, SwiftShader not hardware FPS; QA camera override only."
+}

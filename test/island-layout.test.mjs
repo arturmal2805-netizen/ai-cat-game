@@ -1,3 +1,5 @@
+import {expansionOuterPoint} from '../public/mosasaur-expansion.js';
+import {MOSA_SEA} from '../public/mosasaur-data.js';
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import * as THREE from "three";
@@ -99,12 +101,14 @@ test("real navigation meshes including bevels and cliff lips stay inside the res
       for (let i = 0; i < position.count; i++) {
         point.fromBufferAttribute(position, i).applyMatrix4(mesh.matrixWorld);
         if (point.y < -0.08) continue;
-        maximum = Math.max(maximum, Math.hypot(point.x, point.z));
+        const r=Math.hypot(point.x,point.z);
+        if(b.id==='autumn'){const p=expansionOuterPoint(Math.atan2(point.z/MOSA_SEA.rz,point.x/MOSA_SEA.rx));maximum=Math.max(maximum,r/(Math.hypot(p.x,p.z)+.65));}
+        else maximum = Math.max(maximum, r);
         count++;
       }
     });
     assert.ok(count > 0, b.id);
-    assert.ok(maximum <= islandShoreRadius(b) + 0.01, `${b.id}: ${maximum}`);
+    assert.ok(maximum <= (b.id==='autumn'?1:islandShoreRadius(b)) + 0.01, `${b.id}: ${maximum}`);
     disposeBiome(island);
   }
 });
