@@ -1,0 +1,1 @@
+Source a6151330c7027b97e2a8949dd465493a83050a46. Native HTTP/GLSL checks pass and internal crowns disappear. Superseded visually: a hard junction outside the protected building bed needs a broad smooth shoulder before publication. Not a final art approval.
