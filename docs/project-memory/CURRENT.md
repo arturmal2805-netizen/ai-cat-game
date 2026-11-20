@@ -33,8 +33,8 @@ WIP:отдельный active reef field для renderer/player/camera/submarine
 исходный authored field сохранён для неизменности остальных flora/fauna anchors.
 Raw1024corals SHA256e560902adc642a96b8b7c01468eca5f2f2c3de81d572577fd5be53dbb32b4f41
 прежний;166колоний на удалённой тройке пропускаются,858остаются.
-Проверки движения по бывшим объёмам и защищённых файлов добавлены; build/fullCI/
-Native/новая публикация ещё pending. Не объявлять текущий WIP опубликованным.
+Проверки движения по бывшим объёмам/защищённых файлов, build и Native PASS.
+ПолныйCI/новая публикация ещё pending. Не объявлять текущий WIP опубликованным.
 
 Предыдущая широкая выемка дна перед SPA ПРИОСТАНОВЛЕНА:ветка
 codex/v12-spa-approach-visibility@18c1e57, PR#6 CLOSED безmerge, CI44737410238
