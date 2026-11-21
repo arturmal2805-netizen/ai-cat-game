@@ -96,6 +96,22 @@ test("native meshes have complete position/normal/UV attributes, finite bounds a
     "soft ring wraps the entire trampoline",
   );
 });
+test("trampoline triangles face upward so above-net lighting and shadow normals agree", () => {
+  const net = root().userData.trampoline.userData.net;
+  const { position, normal } = net.geometry.attributes;
+  const indices = net.geometry.index;
+  const a = new T.Vector3(), b = new T.Vector3(), c = new T.Vector3();
+  for (let i = 0; i < indices.count; i += 3) {
+    a.fromBufferAttribute(position, indices.getX(i));
+    b.fromBufferAttribute(position, indices.getX(i + 1));
+    c.fromBufferAttribute(position, indices.getX(i + 2));
+    assert.ok(b.sub(a).cross(c.sub(a)).y > 0, "front face faces the jumping cat");
+  }
+  for (let i = 0; i < normal.count; i++) assert.ok(normal.getY(i) > 0.999);
+  const ray = new T.Raycaster(net.localToWorld(new T.Vector3(5, 10, 9)), new T.Vector3(0, -1, 0));
+  const hit = ray.intersectObject(net)[0];
+  assert.ok(hit && hit.face.normal.y > 0.999, "actual above-net ray sees a front face");
+});
 test("all glazed floor panes have actual empty apertures through the restaurant and supporting pier", () => {
   const m = root(),
     roof = m.userData.restaurant.userData.roof;

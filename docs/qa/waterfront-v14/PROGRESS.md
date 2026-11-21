@@ -97,3 +97,14 @@ keep that provenance honest, do not synthesize a substitute as the original.
   for this trampoline activity, retaining native first-person ownership.
 - Native19/UI/touch/privateSQLite validation must be rerun on this final runtime.
   Original reference similarity and GTA6 equivalence remain unconfirmed targets.
+
+22 November, native first-person review:
+- Native d2e9 captured all19 views, exact protected buildings/lights, real group13
+  with6active, WASD,7increasing jumps, V, water entry and24first-person frames.
+  Save audit failed after reload because autonomous cats had already moved and
+  busy Chichi resumed her job; balances/inventory/profile wallets passed. Preserve
+  raw attempt; verify initial restored poses before autonomous RAF in the next run.
+- A new actual triangle/normal test reproduced downward net winding. Corrected
+  indices so front face, authored upward normals and shadow shader agree; retain
+  all6145vertices. Added comfortable third-person pitch restoration after looking
+  down in first person; native mouse/touch QA will cover the switch.

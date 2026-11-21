@@ -164,14 +164,14 @@ export function* trampolineSteps(root, materials) {
       );
     }
   for (let i = 0; i < segments; i++)
-    index.push(0, 1 + ((i + 1) % segments), 1 + i);
+    index.push(0, 1 + i, 1 + ((i + 1) % segments));
   for (let j = 1; j < rings; j++)
     for (let i = 0; i < segments; i++) {
       const a = 1 + (j - 1) * segments + i,
         c = 1 + j * segments + i,
         an = 1 + (j - 1) * segments + ((i + 1) % segments),
         cn = 1 + j * segments + ((i + 1) % segments);
-      index.push(a, cn, c, a, an, cn);
+      index.push(a, c, cn, a, cn, an);
     }
   geometry.setAttribute("position", new T.Float32BufferAttribute(v, 3));
   geometry.setAttribute("uv", new T.Float32BufferAttribute(uv, 2));
