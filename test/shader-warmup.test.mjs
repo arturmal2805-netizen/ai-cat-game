@@ -339,3 +339,28 @@ test("retired queued batches never recreate disposed GPU resources; active retir
   assert.equal(calls, 1, "cancellation does not cache an unfinished root");
   warm.dispose();
 });
+
+test("animated cat shaders prepare natively without replacing rig-owned bounds or skeletons", async () => {
+  const scene=new THREE.Scene(), camera=new THREE.Camera(), calls=[];
+  const renderer={toneMapping:THREE.ACESFilmicToneMapping,outputColorSpace:THREE.SRGBColorSpace,
+    shadowMap:{type:THREE.PCFShadowMap},info:{programs:[]},
+    async compileAsync(proxy){calls.push(proxy);}};
+  const warm=createShaderWarmup(renderer,scene,camera,camera), root=new THREE.Group();
+  const skinned=new THREE.SkinnedMesh(new THREE.BoxGeometry(),new THREE.MeshStandardMaterial());
+  skinned.bind(new THREE.Skeleton([new THREE.Bone()]));skinned.castShadow=true;
+  const rig=new THREE.Mesh(new THREE.BoxGeometry(),new THREE.MeshStandardMaterial());
+  rig.userData.rigMaterialSource=rig.material;rig.castShadow=true;
+  rig.customDepthMaterial=new THREE.MeshDepthMaterial();
+  rig.customDepthMaterial.onBeforeCompile=()=>{};
+  rig.customDepthMaterial.customProgramCacheKey=()=>"exact-rig-pose";
+  root.add(skinned,rig);const skeleton=skinned.skeleton;
+  await warm.prepare(root);
+  assert.equal(calls.length,4,"prepare colour and real depth shader of both cat representations");
+  assert.equal(calls[0].skeleton,skeleton);assert.equal(calls[0].isSkinnedMesh,true);
+  assert.equal(calls[2].userData.rigMaterialSource,rig.material);
+  assert.equal(calls[3].material.onBeforeCompile,rig.customDepthMaterial.onBeforeCompile);
+  assert.equal(calls[3].material.customProgramCacheKey(),"exact-rig-pose");
+  assert.equal(skinned.geometry.boundingSphere,null);assert.equal(rig.geometry.boundingSphere,null);
+  assert.equal(skinned.boundingSphere,null);assert.equal(skinned.skeleton,skeleton);
+  assert.deepEqual(root.children,[skinned,rig]);warm.dispose();
+});
