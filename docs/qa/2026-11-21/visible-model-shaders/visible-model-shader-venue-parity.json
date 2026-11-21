@@ -1,0 +1,25 @@
+{
+  "mall": {
+    "exact": true
+  },
+  "spa": {
+    "exact": true
+  },
+  "warehouse": {
+    "exact": true
+  },
+  "warehouseImageRegion": {
+    "xyxy": [
+      785,
+      463,
+      1220,
+      635
+    ],
+    "exact": false,
+    "meanAbsoluteDifference": [
+      0.7149291633253141,
+      0.35708366746859127,
+      0.5102646351242983
+    ]
+  }
+}

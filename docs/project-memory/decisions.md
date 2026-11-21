@@ -895,3 +895,19 @@ Final native19+2islands/phone8heldtouch/deepdive/2SQLite reload PASS, exact453
 publicmodules каждого capture. Кошельки/inventory/placements прежние.
 Полная QAдоказательная база и failed wrongmode attempt сохранены отдельно.
 M2FPS ещё не проверен новым report, художественного одобрения не получено.
+
+## 2026-11-21 — подготовить deferred модели и cat shaders до первого draw
+
+Новый M2 report6ccec70 показал19.04FPS и8.6s gap; native checks shader logs
+суммарно1.2085s. Сам8.6s gap не объяснён. Exactsource native trace выделил
+88first-use reflections внутри visible renderer, включая newly builtMosasaur/
+bank/court и mallguestcat. Исправлен пропущенный awaitwarmup async root до
+публикации; rig/skinned готовят colour/depth без static bounds изменений.
+Sourcefef392422062766450651067ea2eeb7f6d1112d6, mainc199697c2bcf3d18efc3b250f71c1171badc8516,
+PR#12mergednormal/noadmin; trees7416427ee5bbeb65c45a98589a3b5c90bea165bc.
+27tests/Node22build/native comparison PASS:88→75 visible misses, целевые paths
+исчезли. Nativegeometrycount/venueposition+quaternion+scale+bbox unchanged;
+полныйPNG не pixelidentical, небольшие differences допускают async/actor timing.
+Программы на M2/FPS/8.6s паузу считать подтверждёнными только после нового report.
+Mainworkflow44894584877/allmap/phone/live пока завершаются; опубликованный
+baseline всё ещё6ccec70. ПлатныхAI/живыхuserworlds вQA нет.
