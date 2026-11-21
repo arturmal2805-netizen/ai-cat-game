@@ -105,3 +105,25 @@ Buildsession8390,/workspace/qa/scene-fairness-build.log. NativeGPUjobs сейч�
 Actualmodule experiment10940 завершёнPASS; test86826 завершён35PASS.
 Довести build/commit/source/PR/нативные19+returns/phone/CI/live/memory; публикация
 уже разрешена. ФизическийMacрезультат ещё непроверен. Новыйsourceнеопубликован.
+
+Scene fairness source **ba2a3dd5131988cc1d001b9e97061e4174fe2985**, PR#13MERGED
+normal/noadmin. Main **1e0ea4762167e0572c9c53121b975c6cd1ebbd70**. Exacttreechecked
+source/main; capture receipt in /workspace/qa/scene-fairness-merge.json.
+35focusedtests/fullNode22build/actualmodulebrowserfairness PASS. Cache version
+sculpt-v2-a496203fa13a037a7a10a927 прежняя. Assets/geometry/visuals не менялись.
+Mainworkflow **44896468638** test выполняется; PRduplicate44896465884 отменён.
+Live покаc199697: новыйpatch ещё не подтверждён опубликованным.
+Nativeallmap session **31063**, /workspace/qa/scene-fairness-all-map{,.log},
+runnercheck-stall-map.cjs unchanged +sourcecapture,19islands+2returns/DPR2.
+Phone автоматически после21samples/mapGPUexit: session **3818**,
+/workspace/qa/finish-scene-fairness-native.py, logs scene-fairness-native-finish.log
+иscene-fairness-phone.log; outputs /workspace/qa/scene-fairness-phone.
+Publication watcher session **80505**, watch-scene-fairness-release.py.
+ExpectedJS1a198981ae54d9d020864efbfafb41cefc9f6726a3b315fd4c9b7732fad3e52c,
+CSS1fd2857ef1fbaedd5e7a34a5082a77ff49bcf7f1c7030d5292502753b86967d0.
+Expectedfile scene-fairness-expected-production.json; actualHTTPreceipt будет
+/workspace/qa/scene-fairness-live/live-verification.json. После всехPASS:
+archive-scene-fairness.py дляall-map/phone exactsourceba2, archive live receipt,
+обновить CURRENT/ROADMAP/decisions/standards, pushremote+verifyexactSHA.
+Дать немедленно игру?v=1e0ea47 иFPS?v=1e0ea47&profile=1 толькопослеactualHTTP,
+не обещать физическийMacFPS/устранениевсехпауз без нового report.

@@ -22,3 +22,8 @@ cancellation and graphics/cats/DPR/water/shadows/data unchanged.35focusedchecks
 PASS. FullNode22build session8390 pending. Sourcebranchcodex/scene-task-fairness,
 /workspace/chichi-v12-island-warehouse. Needcommit/push/nativewholemap/phone/mainCI/
 actualhashes and finalMacreport. Do not claim newpublication beforeverification.
+
+Checkpoint:Node22fullbuild PASS, sourceba2a3dd5131988cc1d001b9e97061e4174fe2985,
+PR#13mergedmain1e0ea4762167e0572c9c53121b975c6cd1ebbd70, fullworkflow44896468638
+running. Nativeallmap+phone and actualHTTP pending. Source/cacheversion/asset
+hashes preserved; livebaseline stillc199 untilreceipt. See CURRENT for sessions.
