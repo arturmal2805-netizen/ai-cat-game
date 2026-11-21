@@ -1,0 +1,46 @@
+{
+  "source": "ba2a3dd5131988cc1d001b9e97061e4174fe2985",
+  "main": "1e0ea4762167e0572c9c53121b975c6cd1ebbd70",
+  "node": "v22.23.5",
+  "chromium": "156.0.8078.79",
+  "gpu": "SwiftShader correctness only, not Mac FPS",
+  "oneGpuJobAtATime": true,
+  "finalMap": {
+    "runner": "check-scene-fairness-map.cjs",
+    "helper": "check-native-map-fairness-ready.mjs",
+    "readinessDeadlineMs": 600000,
+    "priorFailedDeadlineMs": 180000,
+    "flags": {
+      "CHICHI_NATIVE_MAP_AUDIT": 1,
+      "CHICHI_MAP_CHECK": 1,
+      "CHICHI_QA_ROSTER": 18,
+      "CHICHI_NATIVE_SAMPLE_MS": 800,
+      "CHICHI_NATIVE_MIN_FRAMES": 3,
+      "CHICHI_NATIVE_REPEATS": "autumn,homestead",
+      "CHICHI_NATIVE_MAP_CAPTURE": 1,
+      "CHICHI_PROFILE_QUERY": "review=1",
+      "CHICHI_DESKTOP": 1,
+      "CHICHI_QA_DPR": 2
+    },
+    "unchanged": "Full native RAF, original simulation/graphics/nonblockingGPUqueue, actual mouse orbit/zoom, all assert conditions; no preparatory drawing pause or DPR reduction"
+  },
+  "phone": {
+    "runner": "scripts/check-aquarium.cjs",
+    "flags": {
+      "CHICHI_EXPLORER_AUDIT": 1,
+      "CHICHI_V12_AUDIT": 1,
+      "CHICHI_V12_PHONE_ONLY": 1,
+      "CHICHI_WAREHOUSE_OPEN_WATER_AUDIT": 1,
+      "CHICHI_VISUAL_IDLE_AUDIT": 1,
+      "CHICHI_PROFILE_QUERY": "review=1",
+      "CHICHI_QA_DPR": 2
+    },
+    "privateWorkerSQLite": true,
+    "viewport": [
+      390,
+      844
+    ]
+  },
+  "ci": "44896468638 attempt1 cancelled before deploy following native readiness timeout; attempt2 reruns all tests/build/deploy/pages",
+  "unverified": "Physical M2/phone FPS and elimination of all reported Mac pauses"
+}

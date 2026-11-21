@@ -33,3 +33,22 @@ customDepthMaterial прежние. Не отключать shader errors для
 реального draw, а какие вне кадра. Общая программа/floatbounds теста недостаточна.
 Суммарное время getProgramInfoLog не объясняет больший RAFgap без trace;
 не выдавать частичное исправление за устранение всей неподтверждённой паузы.
+
+## 2026-11-21 — справедливость task turns, не только длина slice
+
+3–4ms slices сами по себе не гарантируют отзывчивость: boosted scheduler.yield
+continuation chain вChromium блокировала обычный200ms timer на8.9–9.5s при
+отсутствии одиночного8s longtask. ExistingWindowMessageChannelFIFO в том же
+productionESM workload держитdelayоколо6ms и регулярныйnativeRAF. ПоэтомуWindow
+scene tasks выбираютMessageChannel раньшеscheduler.yield; workerfallback остаётся.
+Не возвращать boost-first по одному названию «modern scheduler» без реальных
+RAF/timer проверок под длинной модельной подготовкой. Это не MacFPSbenchmark.
+
+При nativecorrectness QA различать низкийdetail/selectedrootготов и global
+backgroundwarmupidle. SoftwareGPU теперь получает обычные кадры междуslices и
+конкурирует заCPU с построением, поэтому старый180s globalidle testdeadline
+может истечь при продолжающейся живой сцене. Сохранять failedattempt/progress;
+QA-onlyreadinesswait600s допускается с явной фиксацией, без измененияDPR2/
+graphics/fullnativeRAF/input/asserts. Не называть такой timeout gamecrash и не
+выдавать продление за ускорение. Обязательны конечный PASS/actualsource и новый
+physicalMacreport; не пропускать gates и не скрывать незавершённую сцену.
