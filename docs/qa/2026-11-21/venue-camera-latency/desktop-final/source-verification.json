@@ -1,5 +1,5 @@
 {
-  "source": "de479f16eaaefac390110a4dd284f7a63a11bcc4",
+  "source": "5c198b50bbf986f1381d5090abfc8b9f2a93d4f9",
   "allCapturedPublicModulesMatchSource": true,
   "moduleCount": 453,
   "state": "cold8room-intent-cancellation-framing-pass",
@@ -19,7 +19,7 @@
     },
     "source-proof.tar.gz": {
       "bytes": 2265133,
-      "sha256": "0c07086e972a2110df6bd55715f3a6960004a71dc06c6279a2d380fd7c6d3120"
+      "sha256": "642b280cb578dde4c4d511560ff302b03339b3b219687da92c85464f6e15e29e"
     },
     "audit-v12-native.mjs": {
       "bytes": 8185,

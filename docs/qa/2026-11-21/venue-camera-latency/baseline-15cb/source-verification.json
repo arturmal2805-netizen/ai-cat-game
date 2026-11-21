@@ -2,7 +2,7 @@
   "source": "15cb5b4c20dd8acaf3a80818d9c1fb0ea0ce7992",
   "allCapturedPublicModulesMatchSource": true,
   "moduleCount": 453,
-  "state": "cold-baseline-preparation-wait-before-camera",
+  "state": "baseline-cold-preparation-gated-selection",
   "scope": "Actual native game/private Worker/SQLite; SwiftShader correctness only, hardware FPS unmeasured",
   "files": {
     "check-aquarium.cjs": {
@@ -13,9 +13,13 @@
       "bytes": 271,
       "sha256": "1bc18b96d669db3cfe63993454c95c88118edfbed397fe362c047569cdd89339"
     },
+    "venue-click.cpuprofile.gz": {
+      "bytes": 5149,
+      "sha256": "74cfa63d4426df3a7f74e4ca3275f4573a106ad464f60460cf710cc0cac75295"
+    },
     "source-proof.tar.gz": {
       "bytes": 2264120,
-      "sha256": "31622daffb5083b1b460b1bfcc8b3cbb7dd126c682acf56c0ff5accc429714bf"
+      "sha256": "d72446cb6d83794276014e8c9d923d574046c73004720faa96547f24a693f16a"
     },
     "audit-v12-native.mjs": {
       "bytes": 8185,

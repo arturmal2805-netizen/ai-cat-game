@@ -122,3 +122,18 @@ Save minY следует реальному глубокому bedY-5, а не �
 ниже-200м и2privateSQLite reload с сохранностью wallets/ownership. Node physics
 без реального camera follower не выявляет camera-boundary регрессию.
 [Проверки](../../qa/2026-11-20/warehouse-open-water/README.md). Current/live — CURRENT.
+
+## Toolbar intent и async preparation — 2026-11-21
+
+Команда камеры принимается синхронно при разрешённом нажатии на Mall/SPA.
+Не await whole ensure со staff/navigation/assets перед onCamera. Сама fullnative
+подготовка/service/purchase gates прежние; раннийtarget не означает модельготова.
+Каждыйexit (даже безактивнойinspection) иноваяselection инвалидирует pending
+request. Позднийsuccess/failure/legacyalias не возвращает старуюкамеру после
+Island/world/follow/manual/другогоvenue. Cold SPA использует фактическийv7palace.
+Exact Warehouse bbox можно reuseтолькоуimmutableauthoredmodel, сcloneout и
+проверкойworldtransform/identity. Не заменять exactvertexbound приблизительным.
+NativeQA: реальные coldclicks, быстрыехэндоверыдоensurecompletion, отсутствие
+позднегоперехвата, finaldesktop/phone bbox/framing/44px, all19+returns/reload.
+Различатьphysicalinputdelay/cameraintent/modelready/первыйGPUframe. Capture
+microtask междуeventlisteners немеряетonclickcost; измерятьвнутриhandlerwrapper.

@@ -1,0 +1,27 @@
+COLD_CAMERA_IMMEDIATE {"ready":false,"inspection":true,"menu":"Общий видGrand Thermal LagoonGolden Galaxy Jacuzzi & VIP LoungeMidnight Blue Grand Relaxation LoungeMassage PalaceAroma Therapy GardenFloating Glass CabanasWellness CaféWaterfall Relaxation Garden🐈 Позвать Чичи в SPA🐾 Позвать свободных котиков в SPAВыйти из обзора","writes":[{"atMs":0.5,"value":[-450,-134,704]}],"event":{"target":"spa","handlerMs":0.5}}
+COLD_REQUEST_CANCELLATION_PASS {"mall":false,"spa":false,"look":[800,-55,900]}
+HOT_CAMERA {"selector":".warehouse-access","look":[1750,-110.14926818847655,950],"writes":[{"atMs":0.10000000894069672,"value":[-450,0,500]},{"atMs":0.20000000298023224,"value":[800,-55,900]},{"atMs":8.100000008940697,"value":[1750,-110.14926818847655,950]}],"event":{"target":"warehouse","handlerMs":8.100000008940697},"mall":false,"spa":false}
+HOT_CAMERA {"selector":".mall-access","look":[-450,-163,580],"writes":[{"atMs":0.09999999403953552,"value":[-450,-163,565]}],"event":{"target":"mall","handlerMs":0.3999999910593033},"mall":true,"spa":false}
+HOT_CAMERA {"selector":".resort-spa-access","look":[-450,-134,704],"writes":[{"atMs":0.09999999403953552,"value":[-450,-134,704]}],"event":{"target":"spa","handlerMs":2.0999999940395355},"mall":false,"spa":true}
+HOT_CAMERA {"selector":".warehouse-access","look":[1750,-110.14926818847655,950],"writes":[{"atMs":0.29999999701976776,"value":[-450,0,500]},{"atMs":0.29999999701976776,"value":[800,-55,900]},{"atMs":0.3999999910593033,"value":[1750,-110.14926818847655,950]}],"event":{"target":"warehouse","handlerMs":0.3999999910593033},"mall":false,"spa":false}
+HOT_CAMERA {"selector":".warehouse-access","look":[1750,-110.14926818847655,950],"writes":[{"atMs":0,"value":[-450,0,500]},{"atMs":0,"value":[800,-55,900]},{"atMs":0.29999999701976776,"value":[1750,-110.14926818847655,950]}],"event":{"target":"warehouse","handlerMs":0.29999999701976776},"mall":false,"spa":false}
+Warehouse button actual camera and compact toolbar PASS
+Mall / SPA / Warehouse / Island handoffs PASS
+locator.click: Timeout 15000ms exceeded.
+Call log:
+[2m  - waiting for locator('[data-biome="autumn"]')[22m
+[2m    - locator resolved to <button data-biome="autumn" aria-current="location" class="biome-chip active" aria-label="Посмотреть Небесное море мозазавра">…</button>[22m
+[2m  - attempting click action[22m
+[2m    - waiting for element to be visible, enabled and stable[22m
+
+    at auditV12 (/workspace/chichi-v12-island-warehouse/scripts/audit-v12-native.mjs:5:156)
+    at async auditVenueLatency (/workspace/qa/audit-venue-latency-final.mjs:27:141)
+    at async /workspace/qa/check-venue-latency-final.cjs:733:128 {
+  log: [
+    `  - waiting for locator('[data-biome="autumn"]')`,
+    '    - locator resolved to <button data-biome="autumn" aria-current="location" class="biome-chip active" aria-label="Посмотреть Небесное море мозазавра">…</button>',
+    '  - attempting click action',
+    '    - waiting for element to be visible, enabled and stable'
+  ],
+  name: 'TimeoutError'
+}

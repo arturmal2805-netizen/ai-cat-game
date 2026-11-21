@@ -941,3 +941,13 @@ nonretireable floor плюс тот же <=64MiBidlecache; cold reclaim/grace/2m
 прежние. Controlled cycle82,211,624B fewer uploads, same616,583,450Bpeak; exact
 GL/fullwidepixels/native19+2/phone2reloads/dataPASS. PhysicalnewFPSещёнеизмерен.
 [QA](../qa/2026-11-21/active-geometry-refaults/README.md).
+
+## 2026-11-21 — toolbar intent без ожидания whole ensure
+
+UsernoFPSgain/до5siconresponseна15cb. Maind0d944acdc83ab69c1337d85e77c0471b044cb7a/source5c198b50bbf986f1381d5090abfc8b9f2a93d4f9,PR#15+PR#16,
+workflow44930181677/actualHTTPoneappPASS. Mall/SPA synchronouscameraintent, fullnative
+prepare/servicegatesretained, versionedexit/latestrequestpreventsasynccamera
+stealing. Follow/manualreleasesSPA; exactimmutableWarehousebboxreuse.
+Nativecoldintent/cancel/framing/19+2/phone2reloadPASS,24focusedtests/mainCIgreen.
+Необъявлятьearlyintentускорениеммоделей/FPSнаMac; ждёмactualnewreport.
+[QA](../qa/2026-11-21/venue-camera-latency/README.md).

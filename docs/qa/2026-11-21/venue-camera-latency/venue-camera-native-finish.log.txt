@@ -1,0 +1,9 @@
+Desktop cold/cancel/framing PASS; starting full map
+All-map native PASS; starting phone cold/cancel/framing/movement/reloads
+Traceback (most recent call last):
+  File "/workspace/qa/finish-venue-camera-native.py", line 29, in <module>
+    with(q/'venue-camera-phone.log').open('w')as log:subprocess.run(['node',str(q/'check-venue-latency-final.cjs')],cwd=root,env=phoneenv,stdout=log,stderr=subprocess.STDOUT,check=True)
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['node', '/workspace/qa/check-venue-latency-final.cjs']' returned non-zero exit status 1.

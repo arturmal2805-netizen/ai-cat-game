@@ -1,0 +1,41 @@
+{
+  "source": "aac417141026eb58421d92f7b37f912cd5bb23da",
+  "allCapturedPublicModulesMatchSource": true,
+  "moduleCount": 453,
+  "state": "interrupted-after-camera-pass-test-erroneously-clicked-hidden-dialog-control",
+  "scope": "Actual native game/private Worker/SQLite; SwiftShader correctness only, hardware FPS unmeasured",
+  "files": {
+    "check-aquarium.cjs": {
+      "bytes": 120039,
+      "sha256": "330b5432c56062329d25edd692c8787a5e0d9b74fbe8a2c40a9b787d2d565c4b"
+    },
+    "qa-build.json": {
+      "bytes": 233,
+      "sha256": "0538c352915b3c2658841c30bc559e9ebd150ee8981b521f073415308c2959e6"
+    },
+    "source-proof.tar.gz": {
+      "bytes": 2265132,
+      "sha256": "2c30209ad6dc5854c4d7a4497f370b8702d001ce1b486f3f0120f7af442601a5"
+    },
+    "audit-v12-native.mjs": {
+      "bytes": 8185,
+      "sha256": "f0869e31e5aeed61408b5b275733bae8054fbd4a7ae7695d5d838b1bc283f41d"
+    },
+    "check-native-map-frames.mjs": {
+      "bytes": 25290,
+      "sha256": "c97ec2343991d2d1a6730902af3ae35898dbaf7271857dd45475fe3f441580ca"
+    },
+    "audit-warehouse-open-water.mjs": {
+      "bytes": 5201,
+      "sha256": "8e4a18348cc38d51bc84fc09da3a79ca96df37246c8d5b58a4a6d469b96042b0"
+    },
+    "source-files.json": {
+      "bytes": 42052,
+      "sha256": "f65ace689a4e4370adf22b81889765af9ffc72981172a81472847bf7d0c54ddb"
+    },
+    "source-status.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

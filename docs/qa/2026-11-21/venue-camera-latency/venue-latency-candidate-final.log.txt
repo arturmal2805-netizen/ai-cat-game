@@ -1,0 +1,40 @@
+COLD_CAMERA_IMMEDIATE {"ready":false,"inspection":true,"writes":[{"atMs":0.7000000029802322,"value":[-450,-134,704]}],"event":{"target":"spa","handlerMs":0.7000000029802322}}
+locator.click: Timeout 120000ms exceeded.
+Call log:
+[2m  - waiting for locator('.mall-access')[22m
+[2m    - locator resolved to <button hidden="" type="button" data-venue="mall" class="venue-access mall-access" title="Підводний Cat Mall — ТРЦ" aria-label="Підводний Cat Mall — ТРЦ">…</button>[22m
+[2m  - attempting click action[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not visible[22m
+[2m    - retrying click action[22m
+[2m    - waiting 20ms[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not visible[22m
+[2m    - retrying click action[22m
+[2m      - waiting 100ms[22m
+[2m    219 × waiting for element to be visible, enabled and stable[22m
+[2m        - element is not visible[22m
+[2m      - retrying click action[22m
+[2m        - waiting 500ms[22m
+
+    at auditVenueLatency (/workspace/qa/audit-venue-latency-final.mjs:13:37)
+    at async /workspace/qa/check-venue-latency-final.cjs:733:128 {
+  log: [
+    "  - waiting for locator('.mall-access')",
+    '    - locator resolved to <button hidden="" type="button" data-venue="mall" class="venue-access mall-access" title="Підводний Cat Mall — ТРЦ" aria-label="Підводний Cat Mall — ТРЦ">…</button>',
+    '  - attempting click action',
+    '    2 × waiting for element to be visible, enabled and stable',
+    '      - element is not visible',
+    '    - retrying click action',
+    '    - waiting 20ms',
+    '    2 × waiting for element to be visible, enabled and stable',
+    '      - element is not visible',
+    '    - retrying click action',
+    '      - waiting 100ms',
+    '    219 × waiting for element to be visible, enabled and stable',
+    '        - element is not visible',
+    '      - retrying click action',
+    '        - waiting 500ms'
+  ],
+  name: 'TimeoutError'
+}

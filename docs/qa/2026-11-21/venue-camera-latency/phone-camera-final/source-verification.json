@@ -2,7 +2,7 @@
   "source": "5c198b50bbf986f1381d5090abfc8b9f2a93d4f9",
   "allCapturedPublicModulesMatchSource": true,
   "moduleCount": 453,
-  "state": "cold-intent-cancel-framing-pass-downstream-combined-fixture-transition-timeout",
+  "state": "cold-intent-cancel-framing-pass-then-combined-fixture-V12-transition-timeout",
   "scope": "Actual native game/private Worker/SQLite; SwiftShader correctness only, hardware FPS unmeasured",
   "files": {
     "warehouse-camera-and-toolbar.png": {
@@ -19,7 +19,7 @@
     },
     "source-proof.tar.gz": {
       "bytes": 2265257,
-      "sha256": "91f2169d9b562886c93a9926036bef370c704cfd1e6f2848de2b111d0ee1cda8"
+      "sha256": "24952f462f313ff7b0dd9f8d2791067eb091d77bc2845692b1e36815b1f168fc"
     },
     "audit-v12-native.mjs": {
       "bytes": 8185,

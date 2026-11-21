@@ -1,12 +1,12 @@
 # Очередь
 
-21 ноября2026: опубликован main **15cb5b4c20dd8acaf3a80818d9c1fb0ea0ce7992**, source **b67979f1880cc32985265e963ad70122a84ac683**, PR#14.
-Workflow44914901033 test/deploy/pages SUCCESS, actual HTTP bytes/одноapp verified.
-36focusedchecks/fullmainbuild/native19+2/phone8touch/deepdive/2SQLite reload PASS.
-Контрольный resource cycle:82,211,624B меньше refault uploads при том же пике;
-realGL/fullwide pixels и котики сохранены. Полные условия/границы — CURRENT/QA.
+21 ноября2026: опубликован main **d0d944acdc83ab69c1337d85e77c0471b044cb7a**, source **5c198b50bbf986f1381d5090abfc8b9f2a93d4f9**.
+PR#15 camera implementation + PR#16 tests-only compatibility. Workflow44930181677,
+actual HTTP/одно app,24related tests/native19+2/desktop+phone cameras/8touch/
+deep dive/2privateSQLite reloads PASS. Точные хеши и ограничения — CURRENT/QA.
 
-Следующее: свежий M2report той же камеры/перехода наappfec56d9990ec8549.
-8.9sпауза не повторилась в baseline54s, но GPU24ms и меньшие задержки остаются.
-Не обещать60FPS/идеал/visualapproval. Не снижать DPR/графику/воду/тени/котиков.
-BroadSPAexcavation parked, редизайнТРЦ исключён, Warehouseinterior не запрошен.
+Следующий шаг — новый физический M2 report с app21fc1aa9e5cc5091 и проверка тех же
+верхних иконок после загрузки/cold transition. Не обещать FPS gain: предыдущий
+отзыв «прироста нет» принят, early intent не ускоряет построение моделей.
+Сохранять качество/DPR/воду/тени/котиков/data. SPA excavation parked; redesign
+ТРЦ исключён; Warehouse interior не запрошен.

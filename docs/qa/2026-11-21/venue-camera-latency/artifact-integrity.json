@@ -1,0 +1,60 @@
+{
+  "verifiedAt": "2026-11-21T17:46:34.454266+00:00",
+  "roles": [
+    {
+      "role": "all-map-final",
+      "source": "5c198b50bbf986f1381d5090abfc8b9f2a93d4f9",
+      "filesVerified": 29,
+      "state": "native19islands+2returns-DPR2-pass"
+    },
+    {
+      "role": "all-map-interrupted-before-menu",
+      "source": "aac417141026eb58421d92f7b37f912cd5bb23da",
+      "filesVerified": 10,
+      "state": "interrupted-after-first-island-for-eight-room-menu-refinement"
+    },
+    {
+      "role": "baseline-15cb",
+      "source": "15cb5b4c20dd8acaf3a80818d9c1fb0ea0ce7992",
+      "filesVerified": 10,
+      "state": "baseline-cold-preparation-gated-selection"
+    },
+    {
+      "role": "candidate-failed-follow-left-island",
+      "source": "aac417141026eb58421d92f7b37f912cd5bb23da",
+      "filesVerified": 8,
+      "state": "interrupted-after-follow-success-test-requested-hidden-autumn-venue"
+    },
+    {
+      "role": "candidate-failed-hidden-test-control",
+      "source": "aac417141026eb58421d92f7b37f912cd5bb23da",
+      "filesVerified": 8,
+      "state": "interrupted-after-camera-pass-test-erroneously-clicked-hidden-dialog-control"
+    },
+    {
+      "role": "desktop-before-eight-room-menu",
+      "source": "aac417141026eb58421d92f7b37f912cd5bb23da",
+      "filesVerified": 11,
+      "state": "camera-cancel-framing-pass-before-cold-menu-refinement"
+    },
+    {
+      "role": "desktop-final",
+      "source": "5c198b50bbf986f1381d5090abfc8b9f2a93d4f9",
+      "filesVerified": 11,
+      "state": "cold8room-intent-cancellation-framing-pass"
+    },
+    {
+      "role": "phone-camera-final",
+      "source": "5c198b50bbf986f1381d5090abfc8b9f2a93d4f9",
+      "filesVerified": 11,
+      "state": "cold-intent-cancel-framing-pass-then-combined-fixture-V12-transition-timeout"
+    },
+    {
+      "role": "phone-world-final",
+      "source": "5c198b50bbf986f1381d5090abfc8b9f2a93d4f9",
+      "filesVerified": 13,
+      "state": "8heldtouch-deepdive-2SQLite-reloads-pass"
+    }
+  ],
+  "manifestSelfHashExcluded": true
+}

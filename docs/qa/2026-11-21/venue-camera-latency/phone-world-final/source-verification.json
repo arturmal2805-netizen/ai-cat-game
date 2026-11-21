@@ -2,7 +2,7 @@
   "source": "5c198b50bbf986f1381d5090abfc8b9f2a93d4f9",
   "allCapturedPublicModulesMatchSource": true,
   "moduleCount": 453,
-  "state": "movement-deepdive-2SQLite-reloads-pass",
+  "state": "8heldtouch-deepdive-2SQLite-reloads-pass",
   "scope": "Actual native game/private Worker/SQLite; SwiftShader correctness only, hardware FPS unmeasured",
   "files": {
     "check-aquarium.cjs": {
@@ -27,7 +27,7 @@
     },
     "source-proof.tar.gz": {
       "bytes": 2264553,
-      "sha256": "156a85b9f9661f9008a9fd25a51947f0ad4fff79cb9f10d825b97814cb7176f2"
+      "sha256": "f094c0f0b25908c5afecc27c258a5b7658aa8e689597dc649bacd533ea60d27a"
     },
     "phone-overview.png": {
       "bytes": 234548,
