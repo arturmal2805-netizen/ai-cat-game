@@ -921,3 +921,13 @@ Native19+2maps/DPR2/realmouse иphoneheldtouch/deepdive/2SQLite reloadPASS;
 source453modules exact,кошельки/placements/inventory прежние. Правилаshader
 подготовки/rootpublication сохранены.8.6s пользовательский gap остаётся
 неатрибутированным; физический FPS/все зависания не объявлять исправленными.
+
+## 2026-11-21 — scene continuation fairness опубликован
+
+Main1e0ea4762167e0572c9c53121b975c6cd1ebbd70,sourceba2a3dd5131988cc1d001b9e97061e4174fe2985,PR#13normalmerge.
+Workflow44896468638wholeSUCCESS,actualHTTP/одноappverified.
+ExistingWindowMessageChannelFIFOпредпочтёнboostedscheduler.yield после двух
+нативных экспериментов,actualproductionESM9.533s→6.1ms timerdelay.35checks/full
+Node22build/native19+2maps/phonecontrols/deepdive/2SQLite reloadPASS.
+PhysicalM2FPS/все8.9s паузы ещё не проверены новымreport. Artwork/DPR/вода/rig/
+сохранения прежние; canonicalQAхранитrawreport/модули/метрики/точныйsource.
