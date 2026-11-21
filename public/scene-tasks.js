@@ -9,9 +9,10 @@ export function runSceneSteps(steps) {
 let sceneChannel;
 const sceneTurns = [];
 export function yieldSceneTask() {
-  if (globalThis.scheduler?.yield) return globalThis.scheduler.yield();
-  // Safari clamps nested zero-delay timers to at least 4 ms. A posted task
-  // still yields to input/paint without adding that delay hundreds of times.
+  // A boosted scheduler.yield continuation chain can starve timers and paint
+  // during long model preparation, even when every slice is short. Posted
+  // messages share ordinary task turns and keep input/rendering responsive.
+  // They also avoid Safari's nested zero-delay timer clamp.
   if (typeof window !== "undefined" && globalThis.MessageChannel) {
     if (!sceneChannel) {
       sceneChannel = new MessageChannel();
@@ -22,6 +23,7 @@ export function yieldSceneTask() {
       sceneChannel.port2.postMessage(0);
     });
   }
+  if (globalThis.scheduler?.yield) return globalThis.scheduler.yield();
   return new Promise((resolve) => setTimeout(resolve, 0));
 }
 
