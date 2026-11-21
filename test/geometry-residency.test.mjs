@@ -302,3 +302,46 @@ test('the short active window does not retain an endless stream of abandoned geo
  f.time(30000);f.renderer.info.render.frame=1000;f.residency.sweep();assert.ok(f.residency.stats.bytes<=bytes*3);f.residency.dispose();
  const shared=fixture({budget:0,activeGrace:250,grace:10000}),a=g.clone(),b=g.clone();b.setAttribute('position',a.attributes.position);shared.renderer.info={render:{frame:1}};shared.draw(a);shared.draw(b);shared.time(300);shared.renderer.info.render.frame=8;shared.draw(b);shared.residency.sweep();assert.equal(shared.residency.stats.evicted,0);shared.residency.dispose();
 });
+
+test('a continuously drawn over-budget scene does not consume the bounded returning-camera cache',()=>{
+ const template=new THREE.BoxGeometry(),bytes=[template.index,...Object.values(template.attributes)].reduce((sum,a)=>sum+a.array.byteLength,0),
+   f=fixture({budget:3*bytes,refaultBudget:bytes,grace:10000,activeGrace:250}),
+   visible=Array.from({length:8},()=>template.clone()),turning=[template.clone(),template.clone()];
+ f.renderer.info={render:{frame:0}};
+ for(let frame=1;frame<=180;frame++){
+  f.renderer.info.render.frame=frame;f.time(frame*40);
+  for(const g of visible)f.draw(g);
+  f.draw(turning[Math.floor((frame-1)/10)%2]);f.residency.sweep();
+  assert.ok(f.residency.stats.bytes<=10*bytes,'active scene plus one idle geometry is the entire bounded allowance');
+ }
+ assert.equal(f.residency.stats.rapidRefaults,2,'each turning buffer learns one return, then stays cached');
+ assert.equal(f.residency.stats.evicted,2);
+ assert.equal(f.residency.stats.peakBytes,10*bytes,'retaining returned buffers does not increase the already-required upload peak');
+ const refaults=f.residency.stats.refaults;
+ f.renderer.info.render.frame=181;f.time(7240);for(const g of visible)f.draw(g);for(const g of turning)f.draw(g);
+ assert.equal(f.residency.stats.refaults,refaults);
+ f.renderer.info.render.frame=1000;f.time(30000);f.residency.sweep();
+ assert.ok(f.residency.stats.bytes<=3*bytes,'abandoned working set returns to the original budget');
+ f.residency.dispose();
+});
+
+test('the active floor includes the entire shared-owner component without extending its lifetime',()=>{
+ const template=new THREE.BoxGeometry(),bytes=[template.index,...Object.values(template.attributes)].reduce((sum,a)=>sum+a.array.byteLength,0),
+   f=fixture({budget:3*bytes,refaultBudget:bytes,grace:10000,activeGrace:250}),
+   visible=Array.from({length:8},()=>template.clone()),shared=template.clone(),turning=[template.clone(),template.clone()];
+ shared.setAttribute('position',visible[0].attributes.position);
+ const uniqueSharedBytes=bytes-shared.attributes.position.array.byteLength;
+ f.renderer.info={render:{frame:0}};
+ for(let frame=1;frame<=180;frame++){
+  f.renderer.info.render.frame=frame;f.time(frame*40);
+  for(const g of visible)f.draw(g);
+  if(frame===1)f.draw(shared);
+  f.draw(turning[Math.floor((frame-1)/10)%2]);f.residency.sweep();
+  assert.ok(f.residency.stats.bytes<=10*bytes+uniqueSharedBytes);
+ }
+ assert.equal(f.residency.stats.rapidRefaults,2,'implicit shared-owner pins cannot steal the returning cache allowance');
+ assert.equal(f.residency.stats.peakBytes,10*bytes+uniqueSharedBytes);
+ f.renderer.info.render.frame=1000;f.time(30000);f.residency.sweep();
+ assert.ok(f.residency.stats.bytes<=3*bytes,'shared groups are reclaimed when all owners are abandoned');
+ f.residency.dispose();
+});

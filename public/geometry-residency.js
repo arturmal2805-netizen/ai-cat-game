@@ -46,7 +46,8 @@ export function createGeometryResidency(
   // Only buffers which actually returned after a policy eviction receive this
   // short working-set grace. Normal remote islands keep fast retirement. The
   // extra idle residency is capped; this is not an unbounded memory-budget bump.
-  const refaultLimit = budget + Math.min(Math.max(0, refaultBudget), Math.max(0, budget / 3));
+  const refaultAllowance = Math.min(Math.max(0, refaultBudget), Math.max(0, budget / 3));
+  const refaultLimit = budget + refaultAllowance;
   let nextSweep = 0,
     disposed = false,
     frameRetirement = true,
@@ -121,6 +122,22 @@ export function createGeometryResidency(
     if (!disposed && args[2]?.isBufferGeometry) touch(args[2]);
     return native.apply(this, args);
   }
+  function pinnedBytes(idle) {
+    // Current rendering already wins over the soft budget. Count the unique
+    // buffers that cannot be reclaimed, including whole shared-owner groups.
+    // Otherwise a large active scene consumes the entire idle allowance and
+    // pressure evicts every returning buffer without ever reaching its target.
+    const group = new Set(), buffers = new Set();
+    for (const record of records.values()) if (!idle(record)) group.add(record);
+    let bytes = 0;
+    for (const record of group) for (const attribute of record.attributes) {
+      if (buffers.has(attribute)) continue;
+      buffers.add(attribute);
+      bytes += attribute.array?.byteLength || 0;
+      for (const owner of owners.get(attribute) || []) group.add(owner);
+    }
+    return bytes;
+  }
   renderer.renderBufferDirect = draw;
   return {
     stats,
@@ -139,8 +156,13 @@ export function createGeometryResidency(
         // this short window; abandoned scenery still takes the fast path.
         idle = r => r.used < cutoff || (frameRetirement && !timeGrace.has(r.geometry) && now - r.used >= activeWindow &&
           Number.isFinite(frame) && r.frame >= 0 && frame - r.frame >= idleFrames),
-        held = r => refaultProtection && refaultLimit > budget && now < r.holdUntil,
+        held = r => refaultProtection && refaultAllowance > 0 && now < r.holdUntil,
         candidates = [...records.values()].filter(idle).sort((a, b) => a.used - b.used);
+      // This owner snapshot is bookkeeping, like the candidate list above.
+      // Preserve the full existing 2 ms budget for actual buffer retirement.
+      const pressureLimit = refaultProtection && stats.bytes > refaultLimit && candidates.some(held)
+        ? Math.max(budget, pinnedBytes(idle)) + refaultAllowance
+        : refaultLimit;
       const start = clock();
       // Reclaim cold scenery BEFORE breaking a learned camera working set.
       // Testing the total inside idle() used to sacrifice the oldest returning
@@ -148,7 +170,7 @@ export function createGeometryResidency(
       // allowance. Both passes share the original 2 ms cleanup budget.
       for (const pressure of [false, true]) {
         if (pressure && stats.bytes <= refaultLimit) break;
-        const considered = new Set(), target = pressure ? refaultLimit : budget;
+        const considered = new Set(), target = pressure ? pressureLimit : budget;
         for (const candidate of candidates) {
           if (stats.bytes <= target || clock() - start > 2) break;
           if (considered.has(candidate) || !records.has(candidate.geometry)) continue;
