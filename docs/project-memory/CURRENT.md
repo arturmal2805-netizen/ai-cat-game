@@ -6,40 +6,41 @@
 
 ## Активная работа — V14 (не опубликовано)
 
-Полный запрос пользователя сохранён без изменений в `docs/specifications/waterfront-v14-2026-11-21.md` ветки **codex/v14-waterfront**, worktree `/workspace/chichi-v12-island-warehouse`. Remote implementation checkpoint **5d9e0f35330a030048302435b44b099e6ba0a24c**, PR #17 draft; original contract **ac99f40fb0e35cd026f5a04237b11f48ef58949f**. Новый ресторан, набережная, мост и большой батут — отдельная зона напротив Warehouse, autumn-local центр `[1140,-342]`; старые три комплекса не перемещать и не менять. В `waterfront-v14-protection.json` зафиксированы SHA256 116 защищённых исходников; native baseline из опубликованного d0d944a содержит точные buffers/materials/transforms/bounds всех трёх зданий. Native capture завершён PASS.
+22 ноября 2026, Europe/Kyiv. Source worktree `/workspace/chichi-v12-island-warehouse`,
+ветка `codex/v14-waterfront`, remote HEAD **d2e9a8b73beaa33dd49d1e0d287001bea417f5ee**,
+runtime producer **031c2132fd9ab7091859ce98ffbd9566affe359d**. PR #17 draft.
+Полный запрос — `docs/specifications/waterfront-v14-2026-11-21.md`, исходный contract
+ac99f40fb0e35cd026f5a04237b11f48ef58949f. Новый ресторан, набережная, мост и батут
+напротив Warehouse, autumn-local `[1140,-342]`. Старые комплексы не менять.
+116 защищённых source SHA256 совпадают; native exact hierarchy/buffers/materials/
+transforms/global lights при одном animation time7 совпали с опубликованным d0d944a.
+Inline reference просмотрен, байты оригинала недоступны: не выдумывать hash.
 
-Оригинальный inline-референс просмотрен в чате, доступного файла байтов нет: не выдумывать hash или заменять картинкой генератора. Запрос и registry с этим ограничением скопированы в [V14 QA](../qa/2026-11-21/waterfront-v14/). Реализованы отдельные waterfront-модули, подключены новая зона, 6 AI offers, native cat carriers/высокие баллистические прыжки/плавание/возврат/стеклянные отверстия/мост. 10 новых meaningful tests + 48 прежних checks PASS; полный stage2 build PASS. Stage1 capture прерван до валидации из-за найденного normal-count дефекта, исправлен. Stage2: 4 реальные native PNG без JS/HTTP ошибок, но визуальная сверка выявила слишком плоскую кровлю, прямоугольный пирс, тёмный материал и ошибочно маленький torus обода. Художественно НЕ принят; идёт stage3 коррекция силуэта/мрамора/обода, затем 19 PNG/проверка protection/controls/saves/AI/full CI. Журнал source `docs/qa/waterfront-v14/PROGRESS.md`. Не путать этот WIP с d0d944a ниже.
+Реализованы native first-person глаза Чичи, V/кнопка1↔3, WASD/touch, held Space/
+экранный прыжок с растущей высотой, локальная подготовка/полет/приземление approved
+rig. Отдельная кнопка «У воду» сохраняет first-person через всплеск/погружение/
+плавание/автовозврат. Динамические controls44px привязаны к видимому viewport.
+Persistent8-node spring field непрерывен при отрыве/контакте, shader/depth/CPU net
+единые. Очередь всех свободных + forced busy Чичи, 6 одновременно, без дублей.
+Safe airborne save positions теперь раздельные, deformed-net standing сохраняет
+безопасную rest-height. Старые кошельки/сохранения не переписывать.
 
-22 ноября: новый пользовательский запрос — клик по батуту → все свободные +
-Чичи даже занята; ручное WASD/held Space/touch с нарастающими прыжками и большим
-всплеском. Реализованы очередь (6 одновременно), безопасный forced hero intent,
-прогрессия прыжков ~3/6/9/14/22/32/46м (ограничение60), native rig/carrier, safe
-release, 320 pooled spray/12 rings, физические openings/stairs через обод.
-56 related Node checks PASS, full Node22 build PASS. Вся реализация сохранена
-на remote SHA выше; live остаётся d0d944a. Финальный native19/protection/controls
-в процессе, CI44956406483 test running; deploy/pages PR не означают публикацию.
-[Сохранённые visual stages/источники/журнал](../qa/2026-11-22/waterfront-v14/README.md).
-
-Последнее уточнение 22 ноября: пользователь просит доводить реализм/анимации
-до высокого уровня (GTA6 как ориентир, НЕ достигнутый/проверенный уровень),
-и отдельно хорошо проработать прыжки от первого лица Чичи. Это добавлено в
-активную задачу: native eye camera, переключение1/3лица, корректный input/air
-control, preparation/weight transfer/elastic contact/landing/swim reactions.
-Пока не реализовано: новые first-person hooks и дополнительная contact polish.
-До следующего релиза исправить обнаруженную safePosition: airborne участники
-сейчас получают одну fallback arrival; нужны разные queue/reservation points,
-а стояние на деформированной сетке должно сохранять безопасную rest-height.
-Финальный source entry checkpoint **7465e9b4c7a8357346572f77bd518d3f18441f34**
-(только HTML; JS/CSS те же runtime5d9e0f3): app a2c470305882c03f, CSS1b1af56f61579f83.
-CI44957096437 идёт, прежний44956406483 отменён из-за нового push. Новая native
-проверка при fixed animation time7 уже дала **PROTECTED_NATIVE_IDENTICAL** для
-полной иерархии/геометрии/материалов/трансформаций всех3комплексов и lights/DPR.
-Первый произвольный-time snapshot получил248различий только staff/fish poses;
-raw attempts сохранить, не выдавать за регрессию архитектуры или PASS. Сейчас
-`/workspace/qa/waterfront-v14-final-desktop-time7`, session60861, снимает19видов/
-проверяет UI group/player. Не менять public assets при активном hardlink QA.
-Новый baseline: `/workspace/qa/waterfront-v14-baseline-time7`. Оба сняты одним
-`waterfront-v14-protected.mjs` с native time7, mood reset и skeleton update.
+61 связанный Node check PASS, Node22 full build PASS. Native desktop на d2e9:
+`/workspace/qa/waterfront-v14-first-person-desktop`, session78409, ещё идёт.
+Уже PASS exact protected comparison, реальные click/group13/6active, WASD,
+7 возрастающих прыжков2.60/5.11/8.65/13.60/20.51/30.17/43.69м, FOV70/near.045/
+камера точно на native eye-height. Остались water-entry/2privateSQLite/phone.
+Обнаружен реальный art defect: winding net triangles направляет backface normal
+вниз, затемняет снаружи. Исправить после завершения этого hardlinked GPU QA,
+добавить нормальный geometry test и переснять финальный source. Не менять public
+assets/build во время активного hardlink QA. Этот capture — промежуточный.
+CI44958849847 PASS на50c71e9; текущий44959765559 ещё проверяется. PR deploy/pages
+skipped ожидаемо и НЕ публикация. GTA6 — пожелание качества, не достигнутая оценка.
+JS1534a954743784dc70aba09651a03c45dde48617b0c3791e5cc591282e5ffbd8,
+CSSed0f6fc4c986acd5e3ad1ee3d6d70ad7e36cea229f266afc45c618feab881f7a.
+Одно app подключение; финальные live hashes обновить после реального main deploy.
+[Visual stages/исходники/failed attempts](../qa/2026-11-22/waterfront-v14/README.md).
+Исходный журнал — `docs/qa/waterfront-v14/PROGRESS.md` source branch.
 
 ## Опубликовано
 

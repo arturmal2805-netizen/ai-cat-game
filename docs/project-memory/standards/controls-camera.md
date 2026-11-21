@@ -2,7 +2,9 @@
 
 ## Последний пользовательский контракт
 
-**Чичи ходит и плавает ОТ ТРЕТЬЕГО ЛИЦА.** Это отменяет прежнее первое лицо.
+**Обычное управление миром: Чичи ходит и плавает ОТ ТРЕТЬЕГО ЛИЦА.**
+22 ноября пользователь отдельно запросил первое лицо для нового батута;
+это локальное исключение V14, не смена камер остального мира.
 Камера сзади/немного сверху, видны кот и путь, небольшой наклон. Одна настоящая
 утверждённая модель, без декоративного двойника и скрытия тела.
 W/S — вперёд/назад относительно камеры, A/D — боковое движение; плавный
@@ -137,3 +139,18 @@ NativeQA: реальные coldclicks, быстрыехэндоверыдоensur
 позднегоперехвата, finaldesktop/phone bbox/framing/44px, all19+returns/reload.
 Различатьphysicalinputdelay/cameraintent/modelready/первыйGPUframe. Capture
 microtask междуeventlisteners немеряетonclickcost; измерятьвнутриhandlerwrapper.
+
+## V14: прыжки от глаз Чичи — 22 ноября2026
+
+Батут при явном takeover включает первое лицо от midpoint настоящих native eyes,
+малый forward mount перед собственным лицом, FOV70/near.045. Тело/голову не скрывать
+и не заменять. Высота камеры следует реальному полету без vertical chase lag;
+world-up горизонт, только малая ограниченная landing response. V и видимая кнопка
+переключают1/3, остальные controllers сохраняют свои defaults. Held Space/touch
+наращивает импульс по физическому elastic contact; WASD двигает реального carrier.
+Отдельный water action не теряет camera owner при splash/submersion/swim/climb.
+Экранные jump/view/dive touch targets44px внутри фактически видимого viewport,
+с учетомfooter/safearea/scroll; resize/scroll/viewport listeners освобождаются.
+Сохранять безопасные разные dry points для airborne visitors. QA: настоящий input,
+последовательность native кадров, view switch, вода, phone held touch,2SQLite reload.
+GTA6 — пожелание уровня качества; не обещание графики или производительности.

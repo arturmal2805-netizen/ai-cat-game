@@ -951,3 +951,14 @@ stealing. Follow/manualreleasesSPA; exactimmutableWarehousebboxreuse.
 Nativecoldintent/cancel/framing/19+2/phone2reloadPASS,24focusedtests/mainCIgreen.
 Необъявлятьearlyintentускорениеммоделей/FPSнаMac; ждёмactualnewreport.
 [QA](../qa/2026-11-21/venue-camera-latency/README.md).
+
+## 2026-11-22 — V14 native first-person и непрерывный контакт
+
+User отдельно попросил проработать прыжки от Чичи. Локальная eye-camera для батута
+с V/1↔3 сохраняет обычные third-person режимы и native approved rig. Подъем камеры
+следует истинной ballistic height; bounded120Hz damped spring nodes исключают
+мгновенный сброс деформации при отрыве. Уникальные dry reservations предотвращают
+стекание airborne saves в одну точку. 61related checks/full build PASS; native
+exact protected comparison/group/7progressive hops PASS, full desktop+phone ещё
+идут на source d2e9a8b73beaa33dd49d1e0d287001bea417f5ee. Обнаруженное downward
+net winding исправить перед финальной проверкой. V14 ещё не опубликован.
