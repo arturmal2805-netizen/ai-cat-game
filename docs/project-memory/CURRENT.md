@@ -161,3 +161,14 @@ session52029; phone затем, одинGPU. PRworkflow44894283893 test выпо
 Main/live всё ещё6ccec70; не выдавать WIP за опубликованный. ПолныеSHA и exact
 source453modules сохранены для baseline и кандидата. Новых runtime правок
 не добавлять без выявленной ошибки; довести gates/merge/mainCI/live/memory.
+
+PR#12 уже MERGED без admin/bypass: mainc199697c2bcf3d18efc3b250f71c1171badc8516,
+sourcefef392422062766450651067ea2eeb7f6d1112d6, деревья совпадают.
+Mainworkflow44894584877 test выполняется; PRдубликат44894283893 отменён после
+merge. Live пока6ccec70. Publication watcher session6150:
+/workspace/qa/watch-visible-model-shaders-release.py; expected/live files
+/workspace/qa/visible-model-shader-{expected-production.json,live/}.
+Nativeallmap session52029 ещё выполняется. Phone автоматически стартует после
+выхода этого GPUjob и проверки21samples: session43558,
+/workspace/qa/finish-visible-model-native.py. Проверить оба exitstatus, затем
+архив exactsource453modules/phone checks и live HTTP/mainCI before final claim.
