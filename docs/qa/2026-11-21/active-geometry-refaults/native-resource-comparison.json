@@ -1,0 +1,21 @@
+{
+  "scope": "Native submission-only full real scene/virtual30Hz; no FPS/pixel claim. Event traces capped5000 and have differing coverage; compare full aggregate counters, not held-event counts.",
+  "rows": [
+    {
+      "role": "baseline",
+      "peakBytes": 616583450,
+      "refaultBytes": 1450375695,
+      "refaults": 2731,
+      "evicted": 3662
+    },
+    {
+      "role": "candidate",
+      "peakBytes": 616583450,
+      "refaultBytes": 1368164071,
+      "refaults": 2574,
+      "evicted": 3515
+    }
+  ],
+  "savedRefaultBytes": 82211624,
+  "peakDeltaBytes": 0
+}

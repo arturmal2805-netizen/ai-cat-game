@@ -1,0 +1,27 @@
+{
+  "changed": 0,
+  "before": {
+    "frame": 187,
+    "calls": 3688,
+    "triangles": 19206975,
+    "points": 3940,
+    "lines": 0
+  },
+  "after": {
+    "frame": 188,
+    "calls": 3688,
+    "triangles": 19206975,
+    "points": 3940,
+    "lines": 0
+  },
+  "gpuBefore": 611233198,
+  "retiredBytes": 3037076,
+  "gpuAfter": 611233198,
+  "cats": 81,
+  "slots": 2191,
+  "afterCats": 81,
+  "afterSlots": 2191,
+  "error": 0,
+  "contextLost": false,
+  "dpr": 2
+}

@@ -28,3 +28,11 @@ Baselinecachecapturecomplete. Candidatecache+realGLproof session21711,
 /workspace/qa/active-refault-candidate{,.log}. Need compare resources/peak/pixels,
 then all19islands+returns/phonecontrols/deepdive/two privateSQLite reloads,
 fullmainCI/actualHTTPoneapp/remote-memoryverification. Notpublishedyet.
+
+Native candidate resourceproofcomplete:82,211,624 fewer refaultbytes, exactsame
+616,583,450 trackedpeak.5.7%reductioninthisbroadcycle, legitimatecoldreturntraffic
+remains; not ahardwareFPSgain. TinyrealGL:exactpixels/samepeak/lateuploads11760→0,
+rapid16→2/reclaimtotarget. Fullwide19.2Mtri/3688calls:exactpixelsafterretire/return,
+GPU611233198→3037076→611233198/cat81/slot2191unchanged/noGLerror/contextloss/DPR2.
+PR#14mergedmain15cb5b4c20dd8acaf3a80818d9c1fb0ea0ce7992/sourceb67979f,
+workflow44914901033 running. Nativeallmap/phone/live remain; CURRENT hassessions.

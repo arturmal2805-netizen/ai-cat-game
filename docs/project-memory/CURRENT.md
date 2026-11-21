@@ -103,3 +103,25 @@ b995a82:3compactSVG44pxvenuebuttons+actualWarehousecamera;
 unmerged. Не включать её/редизайнТРЦ/интерьерWarehouse/AI/экономику самовольно.
 CrimsonDesert — visualtarget, stable — regressionbaseline, d6fa805 — historicalbase.
 Не удалять старые worktrees/pre-existing scripts/__pycache__/ в ветке памяти.
+
+PR#14MERGED normal/noadmin: main **15cb5b4c20dd8acaf3a80818d9c1fb0ea0ce7992**,
+sourceb67979f1880cc32985265e963ad70122a84ac683. Source/main exacttree
+a2edf381fc9e4f958ef21a0c3bc2387e94ba05c9. Mainworkflow **44914901033** running;
+PRduplicate44914690669cancelledaftermerge. Liveпока1e0ea47, неclaimnewpublication.
+Nativecandidateproof21711PASS: refaultbytes1,450,375,695→1,368,164,071,
+**82,211,624bytesless**, trackedpeakEXACT616,583,450both. Только5.7% в этомшироком
+cycle, не обещатьсильнорастущийFPS; legitimatecoldreturnsприограниченномcacheостаются.
+TinyrealGLold/new:pixelchanged0, samepeak8400, lateuploads11760→0bytes,
+rapidreturns16→2; abandonment2520==originalbudget. Isolated64x64proof, gamestillDPR2.
+Actualfullwide19,206,975tri/3688calls returnbefore/after retirementpixelchanged0,
+GPU611,233,198→retired3,037,076→restored611,233,198, cats81/slots2191preserved,
+GLerror0/contextnotlost/DPR2. Eventtracescapped5000, heldcountssubsetsnotcomparable.
+Fullwholemap session **8436**, /workspace/qa/active-refault-all-map-final{,.log},
+unchangedfairnessready600QAhelper/realRAF/DPR2/19+2asserts. Phoneautoafterexit
+session **32667**, finish-active-refault-native.py, logactive-refault-native-finish.log.
+Publicationwatcher session **4303**, watch-active-refault-release.py. Expected
+JSfec56d9990ec8549b9bf147e5ae063e742fab6993601ef7b0417cb8c050a58cf,
+CSSsame1fd...; expectedfileactive-refault-expected-production.json, receipt
+/workspace/qa/active-refault-live/live-verification.json. НужноNative21/phone2reload
++fullmainCI/livebytes, archiveall exactsource453modules, updateCURRENT/ROADMAP/
+standards/decisions иremoteSHA. Датьновыеигра/FPS?v=15cb5b4 толькопослеactualHTTP.

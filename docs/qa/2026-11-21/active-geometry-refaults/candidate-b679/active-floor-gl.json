@@ -1,0 +1,58 @@
+{
+  "rows": [
+    {
+      "role": "baseline",
+      "changed": 0,
+      "bytesPerGeometry": 840,
+      "transfers": {
+        "dataCalls": 104,
+        "dataBytes": 21840,
+        "subCalls": 0,
+        "subBytes": 0
+      },
+      "lateDataBytes": 11760,
+      "cache": {
+        "bytes": 7560,
+        "peakBytes": 8400,
+        "geometries": 9,
+        "evicted": 17,
+        "clockReads": 180,
+        "activeGraceMs": 250,
+        "refaults": 16,
+        "refaultBytes": 13440,
+        "rapidRefaults": 16,
+        "rapidRefaultBytes": 13440
+      },
+      "afterAbandon": 2520
+    },
+    {
+      "role": "candidate",
+      "changed": 0,
+      "bytesPerGeometry": 840,
+      "transfers": {
+        "dataCalls": 48,
+        "dataBytes": 10080,
+        "subCalls": 0,
+        "subBytes": 0
+      },
+      "lateDataBytes": 0,
+      "cache": {
+        "bytes": 8400,
+        "peakBytes": 8400,
+        "geometries": 10,
+        "evicted": 2,
+        "clockReads": 180,
+        "activeGraceMs": 250,
+        "refaults": 2,
+        "refaultBytes": 1680,
+        "rapidRefaults": 2,
+        "rapidRefaultBytes": 1680
+      },
+      "afterAbandon": 2520
+    }
+  ],
+  "error": 0,
+  "contextLost": false,
+  "gameDpr": 2,
+  "scope": "Real isolated64x64GPU allocation/pixel proof; actual game remainsDPR2. Not hardwareFPS."
+}

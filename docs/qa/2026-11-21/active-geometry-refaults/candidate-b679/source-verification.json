@@ -1,0 +1,57 @@
+{
+  "source": "b67979f1880cc32985265e963ad70122a84ac683",
+  "allCapturedPublicModulesMatchSource": true,
+  "moduleCount": 453,
+  "state": "native-resource-plus-realGL-pixel-upload-and-fullwide-return-proofs-pass",
+  "scope": "Actual native game/private Worker/SQLite; SwiftShader correctness only, hardware FPS unmeasured",
+  "files": {
+    "check-aquarium.cjs": {
+      "bytes": 120039,
+      "sha256": "330b5432c56062329d25edd692c8787a5e0d9b74fbe8a2c40a9b787d2d565c4b"
+    },
+    "cache-cycles.json": {
+      "bytes": 1673782,
+      "sha256": "77b6ad6d44cd38c914de86c1fd1995ef37a1912168d0d0c820381d24e4a3bffa"
+    },
+    "qa-build.json": {
+      "bytes": 233,
+      "sha256": "e35da9ff8bffa408c13f9338f384967281ba5a10eb668d2bc696a2f65e4ba0e3"
+    },
+    "progress.json": {
+      "bytes": 384,
+      "sha256": "62d754f39c945ed29ec8574335801d1edbee4ff5f89b32c718fa636fd240c98b"
+    },
+    "source-proof.tar.gz": {
+      "bytes": 2264243,
+      "sha256": "667e139fdffe0b6596c3a12da134b7778ee057b23a2b66174fad09ebc90c9f26"
+    },
+    "active-floor-gl.json": {
+      "bytes": 1318,
+      "sha256": "18abc63282e80d4a98ffc27a8ff294d8d2f58234cf79c0331e71e3161ea30d0b"
+    },
+    "audit-v12-native.mjs": {
+      "bytes": 8185,
+      "sha256": "f0869e31e5aeed61408b5b275733bae8054fbd4a7ae7695d5d838b1bc283f41d"
+    },
+    "native-wide-return.json": {
+      "bytes": 453,
+      "sha256": "e0e85310b9b1557d15e099d52885ed8039b4ce0b032343b6791234fbe36525ba"
+    },
+    "check-native-map-frames.mjs": {
+      "bytes": 25290,
+      "sha256": "c97ec2343991d2d1a6730902af3ae35898dbaf7271857dd45475fe3f441580ca"
+    },
+    "audit-warehouse-open-water.mjs": {
+      "bytes": 5201,
+      "sha256": "8e4a18348cc38d51bc84fc09da3a79ca96df37246c8d5b58a4a6d469b96042b0"
+    },
+    "source-files.json": {
+      "bytes": 42052,
+      "sha256": "6b80b25e3638e6ec9ef01b46b526f342ceec7e05e9fabea0f22f49d3e2e3d5a1"
+    },
+    "source-status.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}
