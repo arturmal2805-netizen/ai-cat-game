@@ -26,3 +26,10 @@ network. No unrequested quality/DPR/cat/shadow reduction permitted.
 Next: exact-source native first-use shader trace distinguishing preparation
 from actual render paths; reproduce unexpected variants before changing code.
 No new runtime patch or publication is implied by this report analysis.
+
+## User clarification2026-11-21
+
+The long pause occurs during loading or moving to a location, rather than
+ordinary play after everything has loaded. This establishes the reproduction
+scenario; it does not attribute the entire8.6s to shader first-use or prove the
+new fix removes it. Repeat the same cold/transition scenario on physicalM2.

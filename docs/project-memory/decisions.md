@@ -911,3 +911,13 @@ PR#12mergednormal/noadmin; trees7416427ee5bbeb65c45a98589a3b5c90bea165bc.
 Программы на M2/FPS/8.6s паузу считать подтверждёнными только после нового report.
 Mainworkflow44894584877/allmap/phone/live пока завершаются; опубликованный
 baseline всё ещё6ccec70. ПлатныхAI/живыхuserworlds вQA нет.
+
+## 2026-11-21 — shader first-use fix опубликован и фактически сверён
+
+Mainc199697c2bcf3d18efc3b250f71c1171badc8516/sourcefef392422062766450651067ea2eeb7f6d1112d6,
+workflow44894584877test/deploy/pagesSUCCESS; liveHTTPHTML/JS/CSS/probe/reef/
+SPA/wind exact,одно app. JS0ce8e474cf059c73ee94dadc1b86abdab08157006e7b54ef1ac066ad53de35c7.
+Native19+2maps/DPR2/realmouse иphoneheldtouch/deepdive/2SQLite reloadPASS;
+source453modules exact,кошельки/placements/inventory прежние. Правилаshader
+подготовки/rootpublication сохранены.8.6s пользовательский gap остаётся
+неатрибутированным; физический FPS/все зависания не объявлять исправленными.

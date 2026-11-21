@@ -1,26 +1,13 @@
 # Очередь
 
-20 ноября2026: исправление renderer stalls опубликовано main6ccec70,
-sourceb9f681a, workflow44804905460 test/deploy/pages SUCCESS. Actual HTTP hashes
-и одно app подключение verified. Native19островов+2возврата и phone touch/deep
-save/2reload PASS. Публикация завершена. ПолныеSHA/хеши/доказательства — CURRENT.
-Получен новый M2report6ccec70:19.04FPS и8.6s gap. Приоритет: attribution
-оставшихся stalls; native first-use shader trace запущен, новый runtime не менялся.
-Не обещать FPS и не начинать следующий редизайн без новой задачи.
+21 ноября2026: shader first-use bypass исправлен и опубликован
+mainc199697c2bcf3d18efc3b250f71c1171badc8516/sourcefef3924. Workflow44894584877
+весьSUCCESS, actualbytes/одноapp verified.27focusedchecks, Node22build,
+Native19islands+2returns/phone8heldtouch/deepdive/2privateSQLite reload PASS.
+Вода/DPR/графика/анимации/балансы сохранены. ExactSHA/QA — CURRENT.
 
-Удалены8отмеченныхскал и72верхнихкамня, обе стороны лагуны шире. ТРЦ/SPA/
-Warehouse безизменений. Свободное движение/камера/глубокиеsave исправлены;
-Native desktop/phone и2reload на каждом устройстве PASS. Полные SHA — CURRENT.
-
-Запрос на исправление измеренных rendererstalls и cached reload выполнен. Coldnetwork может оставаться медленной. Не добавлять самовольно интерьерWarehouse, AI,
-магазины/экономику. Широкая выемка подходаSPA приостановлена; редизайнТРЦ исключён.
-Сохранять удалённые3старые+8новыхскал, исправление серой основы, текущие3кнопки.
-Вода — общийcore, Crimson Desert как цель, stable отдельно для регрессий.
-CI/Native success не означает художественное одобрение или hardwareFPS.
-
-## Новые аппаратные измерения7a0e1f3
-
-ПользовательскийM2/DPR2 отчёт:24.64FPS, rendererstallsдо3.512с, ресурсыдо22.94с.
-Сначала при оптимизации изолировать longrenderertrace и coldnetwork statuses;
-разные lastframe counters не доказывают ускорения самого кода. Не понижать DPR,
-тени, воду, графику или котиков. ПолныйJSON/анализ — CURRENT→user-fps-7a0e1f3.
+Следующий шаг: новый аппаратный M2report в том же cold/transition сценарии.
+Пользователь подтвердил: пауза при загрузке/переходе. Длительность8.6s ещё не атрибутирована; не объявлять все зависания устранёнными.
+Не понижать качество и не начинать следующий редизайн самовольно. BroadSPA
+excavation parked, редизайнТРЦ исключён, интерьерWarehouse не запрошен.
+CrimsonDesert — визуальная цель; stable отдельно для регрессий, CI не одобрение.

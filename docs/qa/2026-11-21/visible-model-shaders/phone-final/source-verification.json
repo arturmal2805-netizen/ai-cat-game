@@ -1,0 +1,61 @@
+{
+  "source": "fef392422062766450651067ea2eeb7f6d1112d6",
+  "allCapturedPublicModulesMatchSource": true,
+  "moduleCount": 453,
+  "state": "native-phone-controls-deep-dive-two-reloads-pass",
+  "scope": "Actual native game/private Worker/SQLite; SwiftShader correctness only, hardware FPS unmeasured",
+  "files": {
+    "check-aquarium.cjs": {
+      "bytes": 120039,
+      "sha256": "330b5432c56062329d25edd692c8787a5e0d9b74fbe8a2c40a9b787d2d565c4b"
+    },
+    "v12-native.json": {
+      "bytes": 3887,
+      "sha256": "1b843647afd4227c6cd59fdac0375ade6ad7b30f8ed86d389e43e39d2b2f9d45"
+    },
+    "qa-build.json": {
+      "bytes": 233,
+      "sha256": "2ddc226252a72eef10b5b016f515ffb10e54dad9959addffe8ca237ac09a4ebc"
+    },
+    "warehouse-open-water-movement.json": {
+      "bytes": 28835,
+      "sha256": "c94bf045147db7aa30748b875c8a253e4b9f89cf00481a07e7198e26ae4267e0"
+    },
+    "actual-game-ui.png": {
+      "bytes": 369757,
+      "sha256": "76dee685035879fd811d535265fadc4c617c2ff0042645207d12c1b5f7eb147f"
+    },
+    "source-proof.tar.gz": {
+      "bytes": 2262881,
+      "sha256": "4acaf224e1cf8daf8a1ee77b19c778d43c9b197fbd20a12210f76784a7e686c3"
+    },
+    "phone-overview.png": {
+      "bytes": 234743,
+      "sha256": "a3292f50cd0a5e4613444948981a9873a4ed26d7fce5a0803528a0af3c798c20"
+    },
+    "audit-v12-native.mjs": {
+      "bytes": 8185,
+      "sha256": "f0869e31e5aeed61408b5b275733bae8054fbd4a7ae7695d5d838b1bc283f41d"
+    },
+    "check-native-map-frames.mjs": {
+      "bytes": 25290,
+      "sha256": "c97ec2343991d2d1a6730902af3ae35898dbaf7271857dd45475fe3f441580ca"
+    },
+    "audit-warehouse-open-water.mjs": {
+      "bytes": 5201,
+      "sha256": "8e4a18348cc38d51bc84fc09da3a79ca96df37246c8d5b58a4a6d469b96042b0"
+    },
+    "v12-views.json": {
+      "bytes": 3785,
+      "sha256": "20ead9001d6c5f2e344f523386d5013b1a2c459dd6253cb7e347bca6006c5412"
+    },
+    "source-files.json": {
+      "bytes": 42052,
+      "sha256": "d73b6fe44fca646360cfcac7dba2354b194f9e05760a23508216a1d1d01dd558"
+    },
+    "source-status.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}
