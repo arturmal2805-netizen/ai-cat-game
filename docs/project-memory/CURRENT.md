@@ -4,43 +4,45 @@
 Приложение в ветке памяти старое: актуальный код указан ниже.
 [Предыдущие checkpoint и неуспешные попытки](history/CURRENT-before-toolbar-camera-publication-2026-11-21.md).
 
-## Активная работа — V14 (не опубликовано)
+## Активная работа — V14 (ещё не опубликовано)
 
-22 ноября 2026, Europe/Kyiv. Source worktree `/workspace/chichi-v12-island-warehouse`,
-ветка `codex/v14-waterfront`, remote HEAD **d2e9a8b73beaa33dd49d1e0d287001bea417f5ee**,
-runtime producer **031c2132fd9ab7091859ce98ffbd9566affe359d**. PR #17 draft.
-Полный запрос — `docs/specifications/waterfront-v14-2026-11-21.md`, исходный contract
-ac99f40fb0e35cd026f5a04237b11f48ef58949f. Новый ресторан, набережная, мост и батут
-напротив Warehouse, autumn-local `[1140,-342]`. Старые комплексы не менять.
-116 защищённых source SHA256 совпадают; native exact hierarchy/buffers/materials/
-transforms/global lights при одном animation time7 совпали с опубликованным d0d944a.
-Inline reference просмотрен, байты оригинала недоступны: не выдумывать hash.
+22 ноября2026, Europe/Kyiv. Source `/workspace/chichi-v12-island-warehouse`,
+ветка `codex/v14-waterfront`, remote HEAD **56f305e21abf87a1be8f40ee2c3761a6a840d110**,
+runtime producer **8e3a4d321f253f7ea5b39a2877bec849a0e21c52**. PR#17draft.
+Full request `docs/specifications/waterfront-v14-2026-11-21.md`; contract ac99f40.
+Новая зона autumn-local `[1140,-342]`, старые комплексы/их камеры не менять.
+116 source hashes совпали; native exact buffers/materials/transforms/light/DPR
+старых3зданий при общем animation time7 совпали с опубликованным d0d944a.
+Inline reference просмотрен; байты недоступны, не выдумывать original image hash.
 
-Реализованы native first-person глаза Чичи, V/кнопка1↔3, WASD/touch, held Space/
-экранный прыжок с растущей высотой, локальная подготовка/полет/приземление approved
-rig. Отдельная кнопка «У воду» сохраняет first-person через всплеск/погружение/
-плавание/автовозврат. Динамические controls44px привязаны к видимому viewport.
-Persistent8-node spring field непрерывен при отрыве/контакте, shader/depth/CPU net
-единые. Очередь всех свободных + forced busy Чичи, 6 одновременно, без дублей.
-Safe airborne save positions теперь раздельные, deformed-net standing сохраняет
-безопасную rest-height. Старые кошельки/сохранения не переписывать.
+First-person от настоящих глаз Чичи, V/кнопка1↔3, реальный WASD/touch, held Space/
+кнопка для возрастающих прыжков, подготовка/полёт/контакт/приземление approved rig.
+Water action сохраняет first-person через погружение/swim/автовозврат. UI44px в
+видимом viewport. Уникальные dry reservations для airborne saves/rest-height на
+деформируемой сетке. Все свободные + forced busy Чичи, очередь6активных, без дублей.
+Persistent8-node springs/120Hz, единая CPU/colour/depth деформация. Corrected
+upward triangle winding: старая сине-чёрная сетка была backface shading defect;
+независимый normal/triangle/ray test воспроизвёл ошибку и теперь PASS. Third-person
+pitch ограничен при возврате после look-down, остальные режимы прежние.
 
-61 связанный Node check PASS, Node22 full build PASS. Native desktop на d2e9:
-`/workspace/qa/waterfront-v14-first-person-desktop`, session78409, ещё идёт.
-Уже PASS exact protected comparison, реальные click/group13/6active, WASD,
-7 возрастающих прыжков2.60/5.11/8.65/13.60/20.51/30.17/43.69м, FOV70/near.045/
-камера точно на native eye-height. Остались water-entry/2privateSQLite/phone.
-Обнаружен реальный art defect: winding net triangles направляет backface normal
-вниз, затемняет снаружи. Исправить после завершения этого hardlinked GPU QA,
-добавить нормальный geometry test и переснять финальный source. Не менять public
-assets/build во время активного hardlink QA. Этот capture — промежуточный.
-CI44958849847 PASS на50c71e9; текущий44959765559 ещё проверяется. PR deploy/pages
-skipped ожидаемо и НЕ публикация. GTA6 — пожелание качества, не достигнутая оценка.
-JS1534a954743784dc70aba09651a03c45dde48617b0c3791e5cc591282e5ffbd8,
-CSSed0f6fc4c986acd5e3ad1ee3d6d70ad7e36cea229f266afc45c618feab881f7a.
-Одно app подключение; финальные live hashes обновить после реального main deploy.
-[Visual stages/исходники/failed attempts](../qa/2026-11-22/waterfront-v14/README.md).
-Исходный журнал — `docs/qa/waterfront-v14/PROGRESS.md` source branch.
+**62related checks PASS**, Node22fullbuild PASS. App JS SHA256
+**aa2a920989f5f7a5bc63c487218f4cf2b7daa7752adcbbbd7b29f1b15ee01b2f**,
+CSS **ed0f6fc4c986acd5e3ad1ee3d6d70ad7e36cea229f266afc45c618feab881f7a**,
+одно app. Final native `/workspace/qa/waterfront-v14-release-desktop`, session64178,
+идёт на clean56f305e. Не изменять public/build до окончания hardlinked QA.
+Затем подготовленный `check-waterfront-v14-phone.cjs`/`waterfront-v14-phone.mjs`:
+реальные held touch/look/V/dive/44px, один GPU за раз. Full CI/обычный merge/main
+workflow/actual live HTML+JS+CSS+assets+Worker SHA ещё впереди; PRskipped не publish.
+
+Предыдущий d2e9native дал19views/exactprotection/group13active6/реальныйWASD/
+7hops2.60→43.69m/V/nativeeye/waterentry/swim и24framesvideo. Балансы/инвентарь/
+личные кошельки прошли reload. CatLocations equality после автономногоRAF FAIL:
+котики успели начать обычное движение, занятая Чичи работу. Не считать этот run
+полнымPASS. Следующий audit останавливает только autonomousRAF ДО первого кадра
+reload и сравнивает initialnative координаты/yaw/полные game locations и банки.
+Нормальную автономию в product не отключать. Raw failed attempt/source/helpers/
+PNG/video/timedbaseline сохранены [в QAархивах](../qa/2026-11-22/waterfront-v14/).
+GTA6/точное сходство/60FPS — не подтверждённые обещания, user visual approval нет.
 
 ## Опубликовано
 

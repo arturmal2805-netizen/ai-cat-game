@@ -1,0 +1,22 @@
+{
+  "waterfront-v14-baseline-time7.tar.gz": {
+    "bytes": 3901628,
+    "sha256": "203add46b6544f70a5fd8748e22ac33f2e992483dc36d4bdf987106a80f312ec"
+  },
+  "waterfront-v14-first-person-desktop.tar.gz": {
+    "bytes": 73665783,
+    "sha256": "1e61ce379b38e20319e3cd8f637c4777f56825c028b9151053c94b939adcd43d"
+  },
+  "waterfront-v14-final-desktop-time7.tar.gz": {
+    "bytes": 37710261,
+    "sha256": "b5d92f1fea79714f89f9cb293f6b91f9b06c89c48ac500d0db9b09491e5e69ed"
+  },
+  "waterfront-v14-final-desktop.tar.gz": {
+    "bytes": 3964817,
+    "sha256": "f93aa45ca2372b8df1254831b0075d44730ca6ce6a464ec719528785870a54de"
+  },
+  "first-person-review-logs-and-helpers.tar.gz": {
+    "bytes": 172034,
+    "sha256": "515d23c33c1aff1faa6d478a429888433d376af526efff65374d9baa66aebb62"
+  }
+}
