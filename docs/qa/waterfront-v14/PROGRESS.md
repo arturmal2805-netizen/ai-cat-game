@@ -80,3 +80,20 @@ keep that provenance honest, do not synthesize a substitute as the original.
   the final small moving-net contact extension; rerun log is required for final
   status. Next: related regression build, native first-person/group/dive/touch,
   all19 actual views and2privateSQLite reloads, then normal CI/merge/publication.
+
+22 November, first-person physical-motion refinement:
+- First-person stays mounted on the actual native eyes through flight, explicit
+  water jump and climb-out. V and the visible1↔3button switch view; the visible
+  water button works while the inspection panel is closed. No hidden/duplicate
+  avatar, deleted head, altered cat geometry or global render-quality change.
+- WASD steers gently in air inside the safe net area. Landing ends at the moving
+  spring surface; no forced rest-plane snap. Persistent damped nodes carry both
+  displacement and velocity, with bounded120Hz integration and identical native
+  height/normal/depth deformation. Simultaneous loads resolve before display.
+- Impact starts by changing spring velocity, not instant mesh displacement.
+  Spring-energy anticipation, local native paw/ear/tail/flight/landing poses,
+  drag/buoyancy on water entry, bounded spray/bubbles/drip and a small finite
+  landing camera response are implemented. Swimming/climb return is automatic
+  for this trampoline activity, retaining native first-person ownership.
+- Native19/UI/touch/privateSQLite validation must be rerun on this final runtime.
+  Original reference similarity and GTA6 equivalence remain unconfirmed targets.

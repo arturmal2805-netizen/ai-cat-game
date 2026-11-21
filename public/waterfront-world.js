@@ -124,6 +124,14 @@ export function createWaterfrontWorld({
   jumpButton.className = "waterfront-jump";
   jumpButton.textContent = "Стрибок ↑";
   jumpButton.setAttribute("aria-label", "Стрибати на батуті дедалі вище");
+  const diveControl = document.createElement("button");
+  diveControl.className = "waterfront-dive-control";
+  diveControl.dataset.waterfrontDive = "";
+  diveControl.textContent = "У воду ↗";
+  diveControl.setAttribute("aria-label", "Стрибнути з батута у воду");
+  diveControl.hidden = true;
+  diveControl.onclick = () => runtime?.divePlayer();
+  container.append(diveControl);
   jumpButton.hidden = true;
   container.append(jumpButton);
   jumpButton.onpointerdown = (e) => {
@@ -537,7 +545,13 @@ export function createWaterfrontWorld({
         runtime.frame("chichi")?.phase === "player"
       )
         playerStarted = onPlayerStart();
-      jumpButton.hidden = viewToggle.hidden = !playerStarted;
+      jumpButton.hidden =
+        viewToggle.hidden =
+        diveControl.hidden =
+          !playerStarted;
+      diveControl.disabled =
+        !canSimulate() ||
+        !["player", "player-land"].includes(runtime?.frame("chichi")?.phase);
       viewToggle.disabled = !canSimulate();
       jumpButton.disabled = !canSimulate();
       allTrampoline.hidden = playerButton.hidden =
@@ -585,6 +599,7 @@ export function createWaterfrontWorld({
       effects?.dispose();
       access.remove();
       jumpButton.remove();
+      diveControl.remove();
       viewToggle.remove();
       panel.remove();
       for (const s of staff) {

@@ -478,3 +478,51 @@ test("real shared net keeps every grounded native carrier in contact after simul
   assert.ok(compress);
   assert.ok(largest < 0.35, "no instant displacement on impact at120Hz");
 });
+
+test("first-person ownership and input stay on the same native actor through an explicit water jump and return", () => {
+  const actor = {
+      id: "chichi",
+      position: new T.Vector3(W.trampoline.x, 1.312, W.trampoline.z - 48),
+      radius: 0.6,
+    },
+    r = createWaterfrontRuntime({
+      origin: { x: 0, z: 0 },
+      getActors: () => [actor],
+      getTrampoline: () => null,
+    });
+  assert.ok(r.start("chichi", "waterfront-bounce"));
+  r.requestPlayer();
+  for (let i = 0; i < 300 && r.frame("chichi")?.phase !== "player"; i++)
+    r.update(0.05, i * 0.05);
+  assert.equal(r.frame("chichi").phase, "player");
+  assert.ok(r.divePlayer());
+  let entered = false,
+    minimum = 0,
+    returned = false;
+  for (let i = 0; i < 10000; i++) {
+    r.playerInput({
+      firstPerson: true,
+      heading: 0.7,
+      jump: false,
+      forward: 0,
+      side: 0,
+    });
+    r.update(0.05, 20 + i * 0.05);
+    assert.ok(r.ownsPlayer);
+    const v = r.get("chichi");
+    if (v.phase === "splash") {
+      entered = true;
+      minimum = Math.min(minimum, v.local.y);
+    }
+    if (entered && v.phase === "player") {
+      returned = true;
+      break;
+    }
+  }
+  assert.ok(entered && returned);
+  assert.ok(
+    minimum < -1,
+    "physical water entry submerges the body before buoyancy",
+  );
+  assert.ok(Math.abs(r.frame("chichi").yaw - 0.7) < 1e-8);
+});
