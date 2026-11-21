@@ -20,6 +20,27 @@ release, 320 pooled spray/12 rings, физические openings/stairs чер�
 в процессе, CI44956406483 test running; deploy/pages PR не означают публикацию.
 [Сохранённые visual stages/источники/журнал](../qa/2026-11-22/waterfront-v14/README.md).
 
+Последнее уточнение 22 ноября: пользователь просит доводить реализм/анимации
+до высокого уровня (GTA6 как ориентир, НЕ достигнутый/проверенный уровень),
+и отдельно хорошо проработать прыжки от первого лица Чичи. Это добавлено в
+активную задачу: native eye camera, переключение1/3лица, корректный input/air
+control, preparation/weight transfer/elastic contact/landing/swim reactions.
+Пока не реализовано: новые first-person hooks и дополнительная contact polish.
+До следующего релиза исправить обнаруженную safePosition: airborne участники
+сейчас получают одну fallback arrival; нужны разные queue/reservation points,
+а стояние на деформированной сетке должно сохранять безопасную rest-height.
+Финальный source entry checkpoint **7465e9b4c7a8357346572f77bd518d3f18441f34**
+(только HTML; JS/CSS те же runtime5d9e0f3): app a2c470305882c03f, CSS1b1af56f61579f83.
+CI44957096437 идёт, прежний44956406483 отменён из-за нового push. Новая native
+проверка при fixed animation time7 уже дала **PROTECTED_NATIVE_IDENTICAL** для
+полной иерархии/геометрии/материалов/трансформаций всех3комплексов и lights/DPR.
+Первый произвольный-time snapshot получил248различий только staff/fish poses;
+raw attempts сохранить, не выдавать за регрессию архитектуры или PASS. Сейчас
+`/workspace/qa/waterfront-v14-final-desktop-time7`, session60861, снимает19видов/
+проверяет UI group/player. Не менять public assets при активном hardlink QA.
+Новый baseline: `/workspace/qa/waterfront-v14-baseline-time7`. Оба сняты одним
+`waterfront-v14-protected.mjs` с native time7, mood reset и skeleton update.
+
 ## Опубликовано
 
 - Main: **d0d944acdc83ab69c1337d85e77c0471b044cb7a**.
