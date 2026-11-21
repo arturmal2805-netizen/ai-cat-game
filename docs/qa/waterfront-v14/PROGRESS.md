@@ -108,3 +108,14 @@ keep that provenance honest, do not synthesize a substitute as the original.
   indices so front face, authored upward normals and shadow shader agree; retain
   all6145vertices. Added comfortable third-person pitch restoration after looking
   down in first person; native mouse/touch QA will cover the switch.
+
+22 November, actual phone tap correction:
+- Desktop final19/exact466sources/protection0diff/actual input/water/2privateSQLite
+  initialnative restores/banks all PASS. Phone heldtouch/7hops/view/look44px PASS,
+  but raw event trace reproduced trusted pointerdown/up andtouchstart/end on the
+  enabled water button with editablecloud, WITHOUT a browser-generated click.
+- The new water button now handles a bounded real touch release with cancel/drag
+  guards and capture. Mouse/keyboard click remains; runtime rejects a duplicate
+  compatibility click after the first route starts. Added touch-action manipulation.
+  Only new button/UI changed; all rendered geometry/physics/cameras remain exact.
+  Recheck the same native phone gesture sequence before normal merge/publication.

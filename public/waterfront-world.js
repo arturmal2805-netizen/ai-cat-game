@@ -130,7 +130,28 @@ export function createWaterfrontWorld({
   diveControl.textContent = "У воду ↗";
   diveControl.setAttribute("aria-label", "Стрибнути з батута у воду");
   diveControl.hidden = true;
-  diveControl.onclick = () => runtime?.divePlayer();
+  const diveAction = () => !diveControl.disabled && runtime?.divePlayer();
+  diveControl.onclick = diveAction;
+  // A touch following a camera drag need not synthesize a click. Use the real
+  // bounded tap release, retaining native click activation for mouse/keyboard.
+  let diveTouch = null;
+  diveControl.onpointerdown = (e) => {
+    if (e.pointerType !== "touch" || diveControl.disabled || diveTouch) return;
+    diveTouch = { id: e.pointerId, x: e.clientX, y: e.clientY };
+    diveControl.setPointerCapture?.(e.pointerId);
+    e.preventDefault();
+  };
+  diveControl.onpointerup = (e) => {
+    if (diveTouch?.id !== e.pointerId) return;
+    const start = diveTouch;
+    diveTouch = null;
+    e.preventDefault();
+    if (Math.hypot(e.clientX - start.x, e.clientY - start.y) <= 12) diveAction();
+  };
+  const cancelDiveTouch = (e) => {
+    if (diveTouch?.id === e.pointerId) diveTouch = null;
+  };
+  diveControl.onpointercancel = diveControl.onlostpointercapture = cancelDiveTouch;
   container.append(diveControl);
   jumpButton.hidden = true;
   container.append(jumpButton);

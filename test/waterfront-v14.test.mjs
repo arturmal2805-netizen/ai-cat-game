@@ -512,6 +512,7 @@ test("first-person ownership and input stay on the same native actor through an 
     r.update(0.05, i * 0.05);
   assert.equal(r.frame("chichi").phase, "player");
   assert.ok(r.divePlayer());
+  assert.equal(r.divePlayer(), false, "touch release followed by a compatibility click cannot launch twice");
   let entered = false,
     minimum = 0,
     returned = false;
