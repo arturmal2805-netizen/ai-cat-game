@@ -22,12 +22,15 @@ export function ballisticLaunch(
   };
 }
 export function ballisticFrame(launch, age, out = {}) {
-  const t = Math.max(0, Math.min(age, launch.duration));
+  const t = Math.max(
+    0,
+    launch.netContact ? age : Math.min(age, launch.duration),
+  );
   out.x = launch.from.x + launch.vx * t;
   out.y = launch.from.y + launch.vy * t - (launch.gravity * t * t) / 2;
   out.z = launch.from.z + launch.vz * t;
   out.vy = launch.vy - launch.gravity * t;
-  out.done = age >= launch.duration;
+  out.done = !launch.netContact && age >= launch.duration;
   return out;
 }
 export function safeWaterLanding(p, radius = 0.8) {

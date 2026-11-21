@@ -53,3 +53,30 @@ keep that provenance honest, do not synthesize a substitute as the original.
 - Added bridge/climb openings through soft rim, matching dry support/stairs and
   additive underwater rim contact. Latest changes require final native controls,
   all19views/protection/save checks, build/CI and publication. Not yet released.
+
+22 November, first-person/contact checkpoint (local validation; not published):
+- Previous full PR workflow44957096437 (source7465e9b) TEST SUCCESS; deploy/pages
+  correctly skipped for a PR. It is not a live release and predates this step.
+- Fixed-time7 historical vs candidate comparison: every protected hierarchy,
+  mesh buffer/material/root transform/bounds and global light/DPR/shadow invariant
+  matched exactly. 12 of19 actual views captured; UI stage paused because the QA
+  froze RAF while waiting for a visibility update. New menu intent now also sets
+  the two trampoline buttons synchronously. Preserve both raw attempts.
+- User now prioritizes realism/animation polish and specifically first-person
+  jumping. Added a native eye-mounted camera, V and visible1/3toggle, wide pitch,
+  the same native avatar/body/shadows, airborne steering and safe dive ownership.
+  Native-eye camera unit check confirms no nearby own-face obstruction and no
+  mesh/anatomy/visibility replacement. Device/actual first-person QA is pending.
+- Replaced discontinuous analytic impact resets with8 persistent damped springs,
+  bounded120Hz substeps and matched GPU/CPU height field. Anticipation/pressure,
+  launch energy, late moving-net contact and simultaneous loads are continuous.
+  Added a local approved-rig layer for flight/paws/ears/tail/landing; no old
+  venue animation source changed. Entry drag/buoyancy, pooled bubbles and drip
+  complement the larger splash. GTA6 remains an aspirational quality reference,
+  not a verified equivalence or performance claim.
+- Fixed safe saves: different airborne cats receive different reserved dry
+  points, and deformed-net standing is captured at rest support height.
+-16 targeted first-person/model/physics/AI/save/protection checks passed before
+  the final small moving-net contact extension; rerun log is required for final
+  status. Next: related regression build, native first-person/group/dive/touch,
+  all19 actual views and2privateSQLite reloads, then normal CI/merge/publication.

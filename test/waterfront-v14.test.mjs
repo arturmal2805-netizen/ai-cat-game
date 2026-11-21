@@ -176,13 +176,13 @@ test("high jumps retain 9.81 gravity, exact continuous contacts and safe deep-wa
     assert.equal(l.gravity, 9.81);
   }
 });
-test("elastic net responds locally to simultaneous impacts, decays and matches CPU support field", () => {
-  const impacts = [new T.Vector4(0, 0, 1, 0.8), new T.Vector4(30, 0, 1, 0.6)];
-  assert.ok(netDisplacement(0, 0, 1, impacts) < -0.75);
-  assert.ok(netDisplacement(30, 0, 1, impacts) < -0.55);
-  assert.equal(netDisplacement(0, 0, 5, impacts), 0);
-  for (let t = 1; t < 5; t += 0.05)
-    assert.ok(Math.abs(netDisplacement(0, 0, t, impacts)) <= 1.1);
+test("elastic field superposes local spring positions without discontinuous impulse displacement", () => {
+  const springs = [new T.Vector4(0, 0, -0.8, 0), new T.Vector4(30, 0, -0.6, 0)];
+  assert.ok(netDisplacement(0, 0, 1, springs) < -0.79);
+  assert.ok(netDisplacement(30, 0, 1, springs) < -0.59);
+  assert.ok(Math.abs(netDisplacement(100, 100, 1, springs)) < 1e-6);
+  springs[0].z = springs[1].z = 0;
+  assert.equal(netDisplacement(0, 0, 1, springs), 0);
 });
 test("native cat dive finishes all phases, cancels safely in air, releases capacity and never jumps position", () => {
   for (const cancel of [false, true]) {
@@ -385,4 +385,96 @@ test("player keeps the native actor, builds increasingly high physical hops and 
   for (let i = 0; i < 30000 && r.has("chichi"); i++)
     r.update(1 / 60, 1000 + i / 60);
   assert.equal(r.has("chichi"), false);
+});
+
+test("simultaneous airborne saves reserve distinct dry positions and normalize deformed-net standing height", () => {
+  const actors = Array.from({ length: 3 }, (_, i) => ({
+      id: i ? "safe-" + i : "chichi",
+      position: new T.Vector3(
+        W.trampoline.x + (i - 1) * 6,
+        1.312,
+        W.trampoline.z - 48,
+      ),
+      radius: 0.6,
+    })),
+    r = createWaterfrontRuntime({
+      origin: { x: 0, z: 0 },
+      getActors: () => actors,
+      getTrampoline: () => ({ userData: { height: () => 0.4, impact() {} } }),
+    });
+  for (const a of actors) assert.ok(r.start(a.id, "waterfront-bounce"));
+  for (let i = 0; i < 40; i++) r.update(0.1, i * 0.1);
+  const points = actors.map((a) => r.safePosition(a.id));
+  assert.equal(new Set(points.map((p) => p.toArray().join(","))).size, 3);
+  for (const p of points) assert.ok(waterfrontDrySupport(p, 0.6));
+  const g = newGame(),
+    b = byBiome("autumn");
+  g.unlocked.push("autumn");
+  const p = points[0],
+    next = captureCatLocations(g, g, [
+      {
+        id: "chichi",
+        position: {
+          x: p.x + b.center[0] + W.x,
+          y: p.y,
+          z: p.z + b.center[1] + W.z,
+        },
+        yaw: 0,
+      },
+    ]);
+  assert.ok(next.catLocations.chichi);
+});
+
+test("real shared net keeps every grounded native carrier in contact after simultaneous spring loads", async () => {
+  const { trampolineSteps } = await import(
+      "../public/waterfront-trampoline.js"
+    ),
+    { waterfrontMaterials } = await import(
+      "../public/waterfront-primitives.js"
+    ),
+    net = new T.Group();
+  for (const _ of trampolineSteps(net, waterfrontMaterials())) {
+  }
+  const actors = [-2, 2].map((x, i) => ({
+      id: i ? "contact-cat" : "chichi",
+      position: new T.Vector3(W.trampoline.x + x, 1.312, W.trampoline.z - 48),
+      radius: 0.6,
+    })),
+    r = createWaterfrontRuntime({
+      origin: { x: 0, z: 0 },
+      getActors: () => actors,
+      getTrampoline: () => net,
+    });
+  for (const a of actors) assert.ok(r.start(a.id, "waterfront-bounce"));
+  let previous = new Map(),
+    largest = 0,
+    compress = false;
+  for (let i = 0; i < 800; i++) {
+    const time = i / 120;
+    r.update(1 / 120, time);
+    for (const v of r.visits.values()) {
+      if (["compress", "land", "player", "player-land"].includes(v.phase)) {
+        assert.ok(
+          Math.abs(
+            v.frame.position.y -
+              (net.userData.height(
+                v.local.x - W.trampoline.x,
+                v.local.z - W.trampoline.z,
+                time,
+              ) +
+                0.012),
+          ) < 1e-6,
+        );
+        compress ||= v.phase === "compress";
+      }
+      if (previous.has(v.id))
+        largest = Math.max(
+          largest,
+          v.frame.position.distanceTo(previous.get(v.id)),
+        );
+      previous.set(v.id, v.frame.position.clone());
+    }
+  }
+  assert.ok(compress);
+  assert.ok(largest < 0.35, "no instant displacement on impact at120Hz");
 });

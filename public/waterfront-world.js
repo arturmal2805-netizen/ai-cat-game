@@ -32,6 +32,7 @@ export function createWaterfrontWorld({
   canInvite = () => false,
   prepareHero = () => true,
   onPlayerStart = () => false,
+  onViewChange = () => {},
   hold = () => {},
   reserve = () => true,
   onPark = () => {},
@@ -56,7 +57,8 @@ export function createWaterfrontWorld({
     pendingHero = false,
     wantPlayer = false,
     playerStarted = false,
-    jumpHeld = false;
+    jumpHeld = false,
+    firstPerson = true;
   const access = document.createElement("button");
   access.className = "venue-access waterfront-access";
   access.dataset.venue = "waterfront";
@@ -94,6 +96,30 @@ export function createWaterfrontWorld({
     () => void controlPlayer(),
   );
   playerButton.dataset.waterfrontPlayer = "";
+  const viewButton = button("👁 Від очей Чічі · V", () => {
+    if (!playerStarted) {
+      firstPerson = true;
+      void controlPlayer();
+      return;
+    }
+    toggleView();
+  });
+  viewButton.dataset.waterfrontFirstPerson = "";
+  const viewToggle = document.createElement("button");
+  viewToggle.className = "waterfront-view-toggle";
+  viewToggle.textContent = "1 ↔ 3";
+  viewToggle.setAttribute("aria-label", "Перемкнути перше або третє лице");
+  viewToggle.hidden = true;
+  viewToggle.onclick = () => toggleView();
+  container.append(viewToggle);
+  function toggleView() {
+    firstPerson = !firstPerson;
+    onViewChange();
+    viewButton.textContent = firstPerson
+      ? "👁 Від очей Чічі · V"
+      : "🐈 Від третьої особи · V";
+    return firstPerson;
+  }
   const jumpButton = document.createElement("button");
   jumpButton.className = "waterfront-jump";
   jumpButton.textContent = "Стрибок ↑";
@@ -118,9 +144,10 @@ export function createWaterfrontWorld({
     "🐾 Чічі · батут",
     () => void invite("chichi", "waterfront-bounce"),
   );
-  const dive = button(
-    "💦 Чічі · стрибок у воду",
-    () => void invite("chichi", "waterfront-dive"),
+  const dive = button("💦 Чічі · стрибок у воду", () =>
+    playerStarted
+      ? runtime?.divePlayer()
+      : void invite("chichi", "waterfront-dive"),
   );
   button("Вийти з огляду", () => exit(true));
   container.append(panel);
@@ -235,6 +262,10 @@ export function createWaterfrontWorld({
     onCamera(view, entering, origin);
     inspection = true;
     selected = view.id;
+    allTrampoline.hidden = playerButton.hidden = ![
+      "trampoline",
+      "jumps",
+    ].includes(selected);
     panel.hidden = false;
     access.setAttribute("aria-pressed", "true");
     for (const b of panel.querySelectorAll("[data-waterfront-view]"))
@@ -252,6 +283,7 @@ export function createWaterfrontWorld({
     inspection = false;
     selected = null;
     panel.hidden = true;
+    allTrampoline.hidden = playerButton.hidden = true;
     access.setAttribute("aria-pressed", "false");
     if (root) root.userData.restaurant.userData.roof.visible = true;
     onExit(restore);
@@ -378,11 +410,24 @@ export function createWaterfrontWorld({
     inviteAllTrampoline,
     controlPlayer,
     get playerControlled() {
-      return canSimulate() && wantPlayer && !!runtime?.playerReady;
+      return (
+        canSimulate() &&
+        wantPlayer &&
+        !!runtime?.ownsPlayer &&
+        (playerStarted || runtime.playerReady)
+      );
     },
+    get firstPerson() {
+      return firstPerson;
+    },
+    toggleView,
     playerTransport(input) {
-      if (!canSimulate() || !wantPlayer || !runtime?.playerReady) return null;
-      return runtime.playerInput({ ...input, jump: input.jump || jumpHeld });
+      if (!canSimulate() || !wantPlayer || !runtime?.ownsPlayer) return null;
+      return runtime.playerInput({
+        ...input,
+        firstPerson,
+        jump: input.jump || jumpHeld,
+      });
     },
     releasePlayer() {
       wantPlayer = false;
@@ -492,7 +537,8 @@ export function createWaterfrontWorld({
         runtime.frame("chichi")?.phase === "player"
       )
         playerStarted = onPlayerStart();
-      jumpButton.hidden = !playerStarted;
+      jumpButton.hidden = viewToggle.hidden = !playerStarted;
+      viewToggle.disabled = !canSimulate();
       jumpButton.disabled = !canSimulate();
       allTrampoline.hidden = playerButton.hidden =
         !inspection || !["trampoline", "jumps"].includes(selected);
@@ -539,6 +585,7 @@ export function createWaterfrontWorld({
       effects?.dispose();
       access.remove();
       jumpButton.remove();
+      viewToggle.remove();
       panel.remove();
       for (const s of staff) {
         s.carrier.removeFromParent();

@@ -78,16 +78,27 @@ export function createWaterfrontRuntime({
       ticket: v.ticket,
     });
   }
-  function bounce(v, height, next) {
-    getTrampoline()?.userData.impact(
-      v.local.x - W.trampoline.x,
-      v.local.z - W.trampoline.z,
-      animationTime,
-      Math.min(1.05, 0.35 + Math.sqrt(height / 60) * 0.65),
+  function netSurface(v, time) {
+    return (
+      (getTrampoline()?.userData.height(
+        v.local.x - W.trampoline.x,
+        v.local.z - W.trampoline.z,
+        time,
+      ) ?? W.trampoline.y) + WATERFRONT_FOOT
     );
-    v.flight = ballisticLaunch(v.local, v.local, { height });
+  }
+  function bounce(v, height, next) {
+    // Spring potential becomes launch energy; the player's timed pumping adds
+    // energy between contacts. Gravity remains 9.81 throughout every flight.
+    const mass = 4,
+      stiffness = 4500,
+      weight = mass * 9.81;
+    v.compression =
+      (weight + Math.sqrt(weight * weight + 2 * stiffness * weight * height)) /
+      stiffness;
+    v.launchHeight = height;
     v.afterFlight = next;
-    phase(v, "bounce");
+    phase(v, "compress");
   }
   function pose(v) {
     const f = v.frame;
@@ -177,6 +188,7 @@ export function createWaterfrontRuntime({
           walking: false,
           reaction: {},
           locomotion: { mode: "walk", speed: 0, phase: 0 },
+          motion: { age: 0, velocityY: 0, flight: 0, compression: 0 },
         },
         ticket,
         cancelled: false,
@@ -214,6 +226,7 @@ export function createWaterfrontRuntime({
     dt = Math.max(0, Math.min(0.1, dt));
     clock += dt;
     animationTime = time;
+    getTrampoline()?.userData.step?.(dt, time);
     for (const v of visits.values())
       if (!v.active && v.phase === "waiting") {
         if (v.cancelled) finish(v, false);
@@ -290,9 +303,68 @@ export function createWaterfrontRuntime({
             bounce(v, 1.8, "land");
           else phase(v, v.activity.kind);
         }
+      } else if (v.phase === "compress") {
+        const u = Math.min(1, v.age / 0.28),
+          weight = 0.5 - 0.5 * Math.cos(Math.PI * u);
+        getTrampoline()?.userData.press?.(
+          v.slot,
+          v.local.x - W.trampoline.x,
+          v.local.z - W.trampoline.z,
+          time,
+          v.compression * weight,
+        );
+        v.local.y = netSurface(v, time);
+        reaction.crouch = 0.15 + 0.55 * weight;
+        reaction.earRelax = 0.12;
+        if (v.cancelled) phase(v, "return");
+        else if (u === 1) {
+          const from = { ...v.local },
+            to = { ...from, y: W.trampoline.y + WATERFRONT_FOOT };
+          getTrampoline()?.userData.release?.(v.slot);
+          v.flight = ballisticLaunch(from, to, { height: v.launchHeight });
+          v.flight.netContact = true;
+          v.airVX = v.airVZ = 0;
+          phase(v, "bounce");
+        }
       } else if (v.phase === "bounce") {
         const p = ballisticFrame(v.flight, v.age);
-        Object.assign(v.local, { x: p.x, y: p.y, z: p.z });
+        v.local.y = p.y;
+        if (v.id === player) {
+          const input = v.input || {},
+            yaw = input.heading ?? v.yaw,
+            length = Math.max(
+              1,
+              Math.hypot(input.forward || 0, input.side || 0),
+            ),
+            vx =
+              ((Math.sin(yaw) * (input.forward || 0) +
+                Math.cos(yaw) * (input.side || 0)) *
+                6) /
+              length,
+            vz =
+              ((Math.cos(yaw) * (input.forward || 0) -
+                Math.sin(yaw) * (input.side || 0)) *
+                6) /
+              length,
+            k = 1 - Math.exp(-dt * 1.4);
+          v.airVX += (vx - v.airVX) * k;
+          v.airVZ += (vz - v.airVZ) * k;
+          v.local.x += v.airVX * dt;
+          v.local.z += v.airVZ * dt;
+          const dx = v.local.x - W.trampoline.x,
+            dz = v.local.z - W.trampoline.z,
+            r = Math.hypot(dx, dz),
+            limit = W.trampoline.radius - 8 - v.radius;
+          if (r > limit) {
+            v.local.x = W.trampoline.x + (dx / r) * limit;
+            v.local.z = W.trampoline.z + (dz / r) * limit;
+            v.airVX *= 0.2;
+            v.airVZ *= 0.2;
+          }
+        } else {
+          v.local.x = p.x;
+          v.local.z = p.z;
+        }
         Object.assign(reaction, {
           ride: true,
           frontLift: p.vy > 0 ? 0.25 : 0.1,
@@ -301,12 +373,15 @@ export function createWaterfrontRuntime({
           headPitch: p.vy > 0 ? -0.12 : 0.15,
           pawSpread: 0.12,
         });
-        if (p.done) {
+        if (p.done || (p.vy < 0 && v.local.y <= netSurface(v, time))) {
+          v.local.y = netSurface(v, time);
+          v.impactVelocity = p.vy;
           getTrampoline()?.userData.impact(
             v.local.x - W.trampoline.x,
             v.local.z - W.trampoline.z,
             time,
             0.8,
+            v.slot,
           );
           phase(v, v.afterFlight);
         }
@@ -353,6 +428,7 @@ export function createWaterfrontRuntime({
           bounce(v, v.chain, "player-land");
         }
       } else if (v.phase === "player-land") {
+        v.local.y = netSurface(v, time);
         reaction.crouch = 0.7 * Math.exp(-v.age * 8);
         if (v.age > 0.25) {
           if (v.id !== player || v.cancelled) phase(v, "return");
@@ -362,6 +438,7 @@ export function createWaterfrontRuntime({
           } else phase(v, "player");
         }
       } else if (v.phase === "land") {
+        v.local.y = netSurface(v, time);
         reaction.crouch = 0.65 * Math.exp(-v.age * 7);
         if (v.age > 0.5) {
           v.bounces++;
@@ -396,12 +473,41 @@ export function createWaterfrontRuntime({
             time,
             Math.min(2.6, 1.3 + Math.abs(p.vy) / 22),
           );
+          v.entrySpeed = Math.abs(p.vy);
+          v.waterEntryY = v.local.y;
           phase(v, "splash");
         }
       } else if (v.phase === "splash") {
-        v.local.y = -0.25 + Math.min(1, v.age / 0.65) * 0.245;
-        reaction.headPitch = -0.08;
-        if (v.age > 0.65) {
+        const t = v.age,
+          entry = 0.28,
+          k = 14,
+          speed = Math.min(28, v.entrySpeed || 18),
+          deep = v.waterEntryY - (speed / k) * (1 - Math.exp(-k * entry)),
+          tail = -speed * Math.exp(-k * entry),
+          recovery = 1.4;
+        if (t <= entry)
+          v.local.y = v.waterEntryY - (speed / k) * (1 - Math.exp(-k * t));
+        else {
+          const u = Math.min(1, (t - entry) / recovery),
+            u2 = u * u,
+            u3 = u2 * u;
+          v.local.y =
+            deep * (2 * u3 - 3 * u2 + 1) +
+            tail * recovery * (u3 - 2 * u2 + u) +
+            v.waterEntryY * (-2 * u3 + 3 * u2);
+        }
+        if (t > 0.16 && t - dt <= 0.16)
+          effects?.bubbles?.(v.local.x, v.local.y + 0.5, v.local.z, time);
+        reaction.headPitch = t < entry ? 0.12 : -0.08;
+        reaction.ride = true;
+        reaction.bodyPitch = t < entry ? 0.2 : -0.06;
+        reaction.eyeClose = 0.7 * Math.exp(-t * 7);
+        reaction.earRelax = 0.1;
+        f.locomotion.mode = "swim";
+        f.locomotion.speed = 1.5;
+        f.locomotion.phase += dt * 5;
+        if (t > entry + recovery) {
+          v.local.y = v.waterEntryY;
           v.swimStart = { ...v.local };
           phase(v, "swim");
         }
@@ -447,11 +553,17 @@ export function createWaterfrontRuntime({
           phase(v, "shake");
         }
       } else if (v.phase === "shake") {
+        if (
+          v.age < 0.8 &&
+          Math.floor(v.age * 8) !== Math.floor((v.age - dt) * 8)
+        )
+          effects?.drip?.(v.local.x, v.local.y + 1, v.local.z, time);
         reaction.ride = true;
         reaction.bodyLean = Math.sin(v.age * 22) * 0.05 * Math.exp(-v.age);
         reaction.headRoll = Math.sin(v.age * 22) * 0.1 * Math.exp(-v.age);
         reaction.tailSway = Math.sin(v.age * 15) * 0.2;
-        if (v.age > 2) phase(v, "return");
+        if (v.age > 2)
+          phase(v, v.id === player && !v.cancelled ? "player" : "return");
       } else if (v.phase === "dine") {
         reaction.crouch = 0.28;
         reaction.paw = 0.2 + 0.12 * Math.sin(time * 1.6);
@@ -491,8 +603,30 @@ export function createWaterfrontRuntime({
         )
           finish(v, false);
       } else if (v.phase === "done") finish(v);
-      if (visits.has(v.id)) pose(v);
+      if (visits.has(v.id)) {
+        const m = f.motion;
+        m.age = v.age;
+        m.velocityY = ["bounce", "dive"].includes(v.phase)
+          ? v.flight.vy - v.flight.gravity * v.age
+          : 0;
+        m.flight = ["bounce", "dive"].includes(v.phase)
+          ? Math.min(1, v.age / v.flight.duration)
+          : 0;
+        m.compression = ["compress", "prepare", "land", "player-land"].includes(
+          v.phase,
+        )
+          ? reaction.crouch || 0
+          : 0;
+        pose(v);
+      }
     }
+    // Resolve all simultaneous spring loads before the shared native net is
+    // rendered, so one kitten cannot float above a later neighbour's impact.
+    for (const v of visits.values())
+      if (["compress", "player", "land", "player-land"].includes(v.phase)) {
+        v.local.y = netSurface(v, time);
+        pose(v);
+      }
   }
   return {
     visits,
@@ -510,6 +644,16 @@ export function createWaterfrontRuntime({
       v.chain = 1;
       return true;
     },
+    get ownsPlayer() {
+      return !!player && visits.has(player);
+    },
+    divePlayer() {
+      const v = visits.get(player);
+      if (!v || !["player", "player-land"].includes(v.phase)) return false;
+      v.lane = diveLane(v.slot);
+      v.activity = waterfrontActivity("waterfront-dive");
+      return route(v, v.lane.launch, "launch");
+    },
     get player() {
       return player;
     },
@@ -523,7 +667,13 @@ export function createWaterfrontRuntime({
     },
     playerInput(input) {
       const v = visits.get(player);
-      if (v) v.input = { ...input };
+      if (v) {
+        v.input = { ...input };
+        if (input.firstPerson && Number.isFinite(input.heading)) {
+          v.yaw = input.heading;
+          v.frame.yaw = input.heading;
+        }
+      }
       return v?.frame || null;
     },
     releasePlayer() {
@@ -569,13 +719,16 @@ export function createWaterfrontRuntime({
     safePosition(id) {
       const v = visits.get(id);
       if (!v) return null;
-      if (this.unsafe(id))
-        return new T.Vector3(
-          origin.x + W.arrival.x,
-          W.y + WATERFRONT_FOOT,
-          origin.z + W.arrival.z,
-        );
-      return v.frame.position.clone();
+      if (this.unsafe(id)) {
+        const p = queuePoint(v.queueIndex, v.radius);
+        return new T.Vector3(origin.x + p.x, p.y, origin.z + p.z);
+      }
+      const support = waterfrontDrySupport(v.local, v.radius);
+      return new T.Vector3(
+        v.frame.position.x,
+        support?.y ?? v.frame.position.y,
+        v.frame.position.z,
+      );
     },
     dispose() {
       for (const v of visits.values()) onPark(v.id, this.safePosition(v.id));

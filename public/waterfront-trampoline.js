@@ -3,21 +3,15 @@ import { WATERFRONT } from "./waterfront-data.js";
 import { parts } from "./waterfront-primitives.js";
 export const TRAMPOLINE_GRAVITY = 9.81,
   TRAMPOLINE_SLOTS = 8;
-export function netDisplacement(x, z, time, impacts) {
+export function netDisplacement(x, z, time, springs) {
   let y = 0;
-  for (const p of impacts) {
-    const age = time - p.z;
-    if (age < 0 || age > 3.5) continue;
-    const r = Math.hypot(x - p.x, z - p.y);
-    y -=
-      p.w *
-      Math.exp(-age * 1.5) *
-      Math.cos(age * 9 - r * 0.14) *
-      Math.exp((-r * r) / 95);
+  for (const p of springs) {
+    const r2 = (x - p.x) ** 2 + (z - p.y) ** 2;
+    y += p.z * Math.exp(-r2 / 95);
   }
   return Math.max(-1.1, Math.min(0.42, y));
 }
-const deform = `uniform vec4 wfImpacts[8];uniform float wfTime;float wfDeform(vec2 p){float d=0.;for(int i=0;i<8;i++){float a=wfTime-wfImpacts[i].z;if(a<0.||a>3.5)continue;float r=length(p-wfImpacts[i].xy);d-=wfImpacts[i].w*exp(-a*1.5)*cos(a*9.-r*.14)*exp(-r*r/95.);}return clamp(d,-1.1,.42);}`;
+const deform = `uniform vec4 wfSprings[8];float wfDeform(vec2 p){float d=0.;for(int i=0;i<8;i++){vec2 v=p-wfSprings[i].xy;d+=wfSprings[i].z*exp(-dot(v,v)/95.);}return clamp(d,-1.1,.42);}`;
 function netTexture() {
   if (typeof document === "undefined") return null;
   const c = document.createElement("canvas");
@@ -127,7 +121,7 @@ export function* trampolineSteps(root, materials) {
   }
   b.box("ivory", 0, y - 0.225, -r + 3, 12, 0.45, 6);
   yield* b.finish();
-  const impacts = Array.from({ length: 8 }, () => new T.Vector4(0, 0, -100, 0)),
+  const impacts = Array.from({ length: 8 }, () => new T.Vector4(0, 0, 0, 0)),
     clock = { value: 0 },
     map = netTexture(),
     mat = new T.MeshStandardMaterial({
@@ -137,7 +131,7 @@ export function* trampolineSteps(root, materials) {
       side: T.DoubleSide,
     });
   const patch = (shader) => {
-    shader.uniforms.wfImpacts = { value: impacts };
+    shader.uniforms.wfSprings = { value: impacts };
     shader.uniforms.wfTime = clock;
     shader.vertexShader = deform + "\n" + shader.vertexShader;
     shader.vertexShader = shader.vertexShader.replace(
@@ -150,7 +144,8 @@ export function* trampolineSteps(root, materials) {
     );
   };
   mat.onBeforeCompile = patch;
-  mat.customProgramCacheKey = () => "waterfront-elastic-net-v1";
+  mat.customProgramCacheKey = () =>
+    "waterfront-elastic-net-v3-persistent-springs";
   const geometry = new T.CircleGeometry(r - 6, 128, 0, Math.PI * 2);
   // Concentric topology resolves local paw impacts across the entire net.
   const v = [0, 0, 0],
@@ -198,11 +193,57 @@ export function* trampolineSteps(root, materials) {
   net.customDepthMaterial = depth;
   root.add(net);
   let cursor = 0;
+  const states = Array.from({ length: 8 }, () => ({
+    target: 0,
+    until: -Infinity,
+  }));
   root.userData = {
     net,
     impacts,
-    impact(x, z, t, strength = 0.5) {
-      impacts[cursor++ % 8].set(x, z, t, strength);
+    press(slot, x, z, t, strength) {
+      const i = slot % 8;
+      impacts[i].x = x;
+      impacts[i].y = z;
+      states[i].target = -Math.max(0, Math.min(1.06, strength));
+      states[i].until = t + 0.13;
+    },
+    release(slot) {
+      states[slot % 8].target = 0;
+      states[slot % 8].until = -Infinity;
+    },
+    impact(x, z, t, strength = 0.5, slot = null) {
+      const i = slot === null ? cursor++ % 8 : slot % 8;
+      impacts[i].x = x;
+      impacts[i].y = z;
+      impacts[i].w = Math.max(-14, impacts[i].w - Math.max(0.2, strength) * 9);
+      states[i].target = 0;
+      states[i].until = -Infinity;
+    },
+    step(dt, t) {
+      const count = Math.max(
+          1,
+          Math.ceil(Math.max(0, Math.min(0.1, dt)) * 120),
+        ),
+        h = Math.max(0, Math.min(0.1, dt)) / count;
+      for (let j = 0; j < count; j++)
+        for (let i = 0; i < 8; i++) {
+          const p = impacts[i],
+            target = t <= states[i].until ? states[i].target : 0;
+          p.w += (100 * (target - p.z) - 8 * p.w) * h;
+          p.z += p.w * h;
+          if (p.z < -1.08) {
+            p.z = -1.08;
+            p.w = Math.max(0, p.w) * 0.25;
+          }
+          if (p.z > 0.42) {
+            p.z = 0.42;
+            p.w = Math.min(0, p.w) * 0.25;
+          }
+          if (Math.abs(p.z) < 1e-7 && Math.abs(p.w) < 1e-6) {
+            p.z = 0;
+            p.w = 0;
+          }
+        }
     },
     height(x, z, t) {
       return y + netDisplacement(x, z, t, impacts);
