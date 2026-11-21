@@ -20,7 +20,8 @@ between event listeners); use the corrected explicit onclick wrapper for costs.
 Commit camera intent synchronously on accepted Mall/SPA inspection, keeping full
 native ensure preparation and service/purchase gates. Each inspection tracks a
 version; exit always invalidates pending requests, same-venue latest wins, stale
-failure/completion cannot restore or replace a newer owner. Cold SPA preview uses
+failure/completion cannot restore or replace a newer owner. Cold SPA preview/menu uses the actual8 v7 rooms and service aliases, so exposing
+the panel before preparation does not revive the14 legacy rooms. It uses
 the actual v7 palace framing; resolve legacy room aliases after preparation only
 for the current request. Chichi follow/manual also release SPA inspection.
 Warehouse reuses its exact native vertex bounds by immutable model identity and

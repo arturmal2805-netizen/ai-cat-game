@@ -1,4 +1,5 @@
 import {venueButton} from './venue-buttons.js';
+import {spaV7Service} from './resort-spa-services-v7.js';
 import {createSpaInvitations} from './resort-spa-invitations.js';
 import {resortPalaceRecovery,resolvePalaceRecovery,prunePalaceRecovery,palaceProcedureSavePositions} from './resort-spa-layout-recovery.js';
 import {spaPalaceContains} from './resort-spa-layout-v7.js';
@@ -21,7 +22,7 @@ import {prepareMosaWaterReflection} from './mosasaur-water-probe.js';
 import * as T from 'three';
 import {resortSpaModelSteps} from './resort-spa-model.js';
 import {createResortSpaNavigation} from './resort-spa-navigation.js';
-import {RESORT_SPA as L,RESORT_ZONES,resortZone,resortSpaOrigin} from './resort-spa-data.js';
+import {RESORT_SPA as L,RESORT_ACTIVE_ZONES,resortZone,resortSpaOrigin} from './resort-spa-data.js';
 import {byBiome} from './game-data.js';
 // Independent scene/camera owner. Mall's floors, selection and guest camera
 // remain untouched; only the world coordinator performs the hand-off.
@@ -29,12 +30,12 @@ export function createResortSpaWorld({scene,container,getGame,getFocused,getOver
  const centre=resortSpaOrigin(byBiome('autumn').center),controller=new AbortController(),buttons=new Map(),journeys=new Map(),heldFoods=new Map(),recovering=resortLiftRecovery(getGame()),layoutRecovery=resortPalaceRecovery(getGame());for(const id of recovering.keys())layoutRecovery.delete(id);let root=null,pending=null,disposed=false,inspection=false,selected=null,navigation=null,appointments=null,transit=null,invitations=null,staff=[],nextPreparation=0,watched=null;
  const access=venueButton('spa');access.classList.add('resort-spa-access');access.hidden=true;access.onclick=()=>inspect();(container.querySelector('.map-controls')||container).append(access);
  const panel=document.createElement('nav');panel.className='resort-spa-zones';panel.hidden=true;panel.setAttribute('aria-label','Зоны подводного SPA');container.append(panel);
- for(const zone of [null,...RESORT_ZONES]){const b=document.createElement('button');b.textContent=zone?.name||'Общий вид';b.onclick=()=>inspect(zone?.id);panel.append(b);buttons.set(zone?.id||'overview',b);}
+ for(const zone of [null,...RESORT_ACTIVE_ZONES]){const b=document.createElement('button');b.textContent=zone?.name||'Общий вид';b.onclick=()=>inspect(zone?.id);panel.append(b);buttons.set(zone?.id||'overview',b);}
  const callButton=document.createElement('button');callButton.className='resort-spa-call';callButton.textContent='🐈 Позвать Чичи в SPA';callButton.title='Бесплатный вызов ко входу. Процедуры выбираются отдельно.';let calling=false;callButton.onclick=async()=>{if(calling||callBusy())return;calling=true;callButton.disabled=true;try{await onCall();}catch(e){onError(e.message);}finally{calling=false;callButton.disabled=false;}};panel.append(callButton);
  const callAll=document.createElement('button');callAll.className='resort-spa-call-all';callAll.textContent='🐾 Позвать свободных котиков в SPA';callAll.title='Бесплатное приглашение свободных котиков. Входят по очереди через лифт; процедуры отдельно.';let callingAll=false;callAll.onclick=async()=>{if(callingAll)return;callingAll=true;try{if(!canSimulate()||!await ensure())return;const count=invitations.invite(getInvitees());onError(count?'Приглашено котиков: '+count+'. Они придут в SPA по очереди. Вызов бесплатный.':'Свободных котиков для нового приглашения сейчас нет.');}catch(e){onError(e.message);}finally{callingAll=false;}};panel.append(callAll);
  const close=document.createElement('button');close.textContent='Выйти из обзора';close.onclick=()=>exit();panel.append(close);
  const liftButton=document.createElement('button');liftButton.className='resort-spa-lift';liftButton.hidden=true;(container.querySelector('.map-controls')||container).append(liftButton);
- const serviceFor=id=>root?.userData.serviceContract?.zone(id)||resortZone(id);
+ const serviceFor=id=>root?.userData.serviceContract?.zone(id)||spaV7Service(id)||resortZone(id);
  const finish=(id,result)=>{journeys.delete(id);onComplete?.(id,result);};
  function start(id,zone){if(invitations?.has(id)){if(invitations.frame(id)?.phase!=='spa-invitation-parked')return false;invitations.cancel(id);}zone=resortTicketService(getGame(),id,zone,root?.userData.serviceContract);const service=serviceFor(zone),profile=getGame().jobCity?.profiles[id];if(pending||!appointments||!service||!profile||journeys.has(id)||transit?.has(id)||((service.retired||profile.coins<service.price)&&!resortPaidTicket(getGame(),id,zone)))return false;const actor=getActors().find(a=>a.id===id);if(!actor)return false;
   if(Math.abs(actor.position.y-RESORT_LIFT.upperY)<.65){if(blocked(id)||!transit.start(id,1))return false;journeys.set(id,{zone,result:null});return true;}
