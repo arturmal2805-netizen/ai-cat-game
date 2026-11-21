@@ -1,0 +1,16 @@
+[
+  {
+    "kind": "scheduler",
+    "elapsed": 9177,
+    "rafs": 96,
+    "rafGapMax": 116.70000000000073,
+    "eventLoopDelayMax": 8877.09999999404
+  },
+  {
+    "kind": "channel",
+    "elapsed": 9285.70000000298,
+    "rafs": 557,
+    "rafGapMax": 16.80000000000109,
+    "eventLoopDelayMax": 5.5999999940395355
+  }
+]

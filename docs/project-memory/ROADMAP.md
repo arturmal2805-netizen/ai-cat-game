@@ -11,3 +11,7 @@ Native19islands+2returns/phone8heldtouch/deepdive/2privateSQLite reload PASS.
 Не понижать качество и не начинать следующий редизайн самовольно. BroadSPA
 excavation parked, редизайнТРЦ исключён, интерьерWarehouse не запрошен.
 CrimsonDesert — визуальная цель; stable отдельно для регрессий, CI не одобрение.
+
+Текущий приоритет после нового reportc199: устранить scheduler.yield starvation
+черезexistingMessageChannelFIFO.35focusedchecks/actualmodulebrowserfairnessPASS,
+Node22buildвпроцессе. Затемвсеnative/CI/livegatesиопубликовать; см.CURRENT.

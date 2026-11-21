@@ -87,3 +87,21 @@ b995a82:3compactSVG44pxvenuebuttons+actualWarehousecamera.
 unmerged; не включать её/редизайнТРЦ/интерьерWarehouse/AI/покупки самовольно.
 Диагностика opt-in/one-shot/закрываемая, QAтолькоprivateWorker/SQLite. Не удалять
 старые worktrees; pre-existing scripts/__pycache__/ в памяти не трогать.
+
+## 2026-11-21 — новый report и воспроизведённая starvation очереди
+
+Получен report именноc199/app0ce8e474:16.21FPS,8883.8ms gap/8922.5ms timerdelay.
+Shaderfix не устранил большуюпаузу. Loading<=1551.5ms, maxlongtask808ms, поэтому
+не приписывать8.9s целиком сети/одному rendercall. User:загрузка/переход;
+безFPSдиагностики пока не сравнивал. Полныйreport/базовоеQA:
+[scene-task-fairness](../qa/2026-11-21/scene-task-fairness/README.md).
+Воспроизведена отдельная системная причина: boosted scheduler.yield chain
+3000x3ms даёт8.877s timerdelay; тот жеCPU черезMessageChannel5.6ms. Actualmodule
+ESMпроверка:9.533s→6.1ms timerdelay,102→564nativeRAF. Не физическийM2FPS!
+35focusedtests PASS. НовыйruntimeWIP:codex/scene-task-fairness, тот жеworktree,
+basec199; public/scene-tasks.js выбираетexistingMessageChannelвWindow раньше
+scheduler.yield. Worker/timerfallback/budgets/cancel и всеgraphics прежние.
+Buildsession8390,/workspace/qa/scene-fairness-build.log. NativeGPUjobs сейчаснет.
+Actualmodule experiment10940 завершёнPASS; test86826 завершён35PASS.
+Довести build/commit/source/PR/нативные19+returns/phone/CI/live/memory; публикация
+уже разрешена. ФизическийMacрезультат ещё непроверен. Новыйsourceнеопубликован.

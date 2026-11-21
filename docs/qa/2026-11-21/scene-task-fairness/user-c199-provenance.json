@@ -1,0 +1,7 @@
+{
+  "sha256": "697c39f111c2dcc35bde2a25c86b7a5291f46c183bee25a26d96988b9ac9d617",
+  "sediment": "file_000000006c90821092180cbcffb9266f",
+  "release": "c199697c2bcf3d18efc3b250f71c1171badc8516",
+  "app": "./dist/app.js?v=0ce8e474cf059c73",
+  "userClarification": "Pause during loading/transition; ordinary play without diagnostic not yet compared"
+}

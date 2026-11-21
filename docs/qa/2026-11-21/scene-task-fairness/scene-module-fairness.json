@@ -1,0 +1,24 @@
+{
+  "browser": "156.0.8078.79",
+  "scope": "Actual production ESM module,3000x3ms slices, native RAF and200ms timer; CPU scheduling experiment, not M2 FPS",
+  "rows": [
+    {
+      "role": "baseline",
+      "moduleSha256": "2391613b1da6d63f86b0940f39d78ae4ce11c6344f865b4e4a403cf8e2c97fa4",
+      "elapsedMs": 9832.60000000894,
+      "rafs": 102,
+      "rafGapMaxMs": 116.80000000000109,
+      "eventLoopDelayMaxMs": 9532.79999999702,
+      "timerCalls": 2
+    },
+    {
+      "role": "candidate",
+      "moduleSha256": "3349093ac8f3d187336e073f6823bbdc831cec3ea2fdb9b3fc81c7523b24c1e8",
+      "elapsedMs": 9381.79999999702,
+      "rafs": 564,
+      "rafGapMaxMs": 16.80000000000109,
+      "eventLoopDelayMaxMs": 6.0999999940395355,
+      "timerCalls": 46
+    }
+  ]
+}
