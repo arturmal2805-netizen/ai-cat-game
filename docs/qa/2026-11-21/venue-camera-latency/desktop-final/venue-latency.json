@@ -1,0 +1,210 @@
+{
+  "cold": {
+    "ready": false,
+    "inspection": true,
+    "menu": "Общий видGrand Thermal LagoonGolden Galaxy Jacuzzi & VIP LoungeMidnight Blue Grand Relaxation LoungeMassage PalaceAroma Therapy GardenFloating Glass CabanasWellness CaféWaterfall Relaxation Garden🐈 Позвать Чичи в SPA🐾 Позвать свободных котиков в SPAВыйти из обзора",
+    "writes": [
+      {
+        "atMs": 0.7000000029802322,
+        "value": [
+          -450,
+          -134,
+          704
+        ]
+      }
+    ],
+    "event": {
+      "target": "spa",
+      "handlerMs": 0.7000000029802322
+    }
+  },
+  "cancellation": {
+    "island": [
+      800,
+      -55,
+      900
+    ],
+    "after": {
+      "mall": false,
+      "spa": false,
+      "look": [
+        800,
+        -55,
+        900
+      ]
+    }
+  },
+  "rows": [
+    {
+      "selector": ".warehouse-access",
+      "look": [
+        1750,
+        -110.14926818847655,
+        950
+      ],
+      "writes": [
+        {
+          "atMs": 0.20000000298023224,
+          "value": [
+            -450,
+            0,
+            500
+          ]
+        },
+        {
+          "atMs": 0.20000000298023224,
+          "value": [
+            800,
+            -55,
+            900
+          ]
+        },
+        {
+          "atMs": 5.800000011920929,
+          "value": [
+            1750,
+            -110.14926818847655,
+            950
+          ]
+        }
+      ],
+      "event": {
+        "target": "warehouse",
+        "handlerMs": 5.9000000059604645
+      },
+      "mall": false,
+      "spa": false
+    },
+    {
+      "selector": ".mall-access",
+      "look": [
+        -450,
+        -163,
+        580
+      ],
+      "writes": [
+        {
+          "atMs": 0.09999999403953552,
+          "value": [
+            -450,
+            -163,
+            565
+          ]
+        }
+      ],
+      "event": {
+        "target": "mall",
+        "handlerMs": 0.29999999701976776
+      },
+      "mall": true,
+      "spa": false
+    },
+    {
+      "selector": ".resort-spa-access",
+      "look": [
+        -450,
+        -134,
+        704
+      ],
+      "writes": [
+        {
+          "atMs": 0.20000000298023224,
+          "value": [
+            -450,
+            -134,
+            704
+          ]
+        }
+      ],
+      "event": {
+        "target": "spa",
+        "handlerMs": 1.2000000029802322
+      },
+      "mall": false,
+      "spa": true
+    },
+    {
+      "selector": ".warehouse-access",
+      "look": [
+        1750,
+        -110.14926818847655,
+        950
+      ],
+      "writes": [
+        {
+          "atMs": 0,
+          "value": [
+            -450,
+            0,
+            500
+          ]
+        },
+        {
+          "atMs": 0,
+          "value": [
+            800,
+            -55,
+            900
+          ]
+        },
+        {
+          "atMs": 0.20000000298023224,
+          "value": [
+            1750,
+            -110.14926818847655,
+            950
+          ]
+        }
+      ],
+      "event": {
+        "target": "warehouse",
+        "handlerMs": 0.20000000298023224
+      },
+      "mall": false,
+      "spa": false
+    },
+    {
+      "selector": ".warehouse-access",
+      "look": [
+        1750,
+        -110.14926818847655,
+        950
+      ],
+      "writes": [
+        {
+          "atMs": 0,
+          "value": [
+            -450,
+            0,
+            500
+          ]
+        },
+        {
+          "atMs": 0,
+          "value": [
+            800,
+            -55,
+            900
+          ]
+        },
+        {
+          "atMs": 0.19999998807907104,
+          "value": [
+            1750,
+            -110.14926818847655,
+            950
+          ]
+        }
+      ],
+      "event": {
+        "target": "warehouse",
+        "handlerMs": 0.19999998807907104
+      },
+      "mall": false,
+      "spa": false
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "scope": "Actual product clicks and native full preparation; no raster while cold construction only in QA. Camera intent latency, not physical-device FPS/model-ready latency."
+}

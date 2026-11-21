@@ -1,0 +1,82 @@
+TAP version 13
+# Subtest: zoom damping retains its real-time response through late frames without replaying simulation
+ok 1 - zoom damping retains its real-time response through late frames without replaying simulation
+  ---
+  duration_ms: 1.020687
+  type: 'test'
+  ...
+# Subtest: wheel pixel input is unchanged and line/page events use their actual units
+ok 2 - wheel pixel input is unchanged and line/page events use their actual units
+  ---
+  duration_ms: 0.262587
+  type: 'test'
+  ...
+# Subtest: Mall visitor view keeps a low world-space angle through head poses and phone resize
+ok 3 - Mall visitor view keeps a low world-space angle through head poses and phone resize
+  ---
+  duration_ms: 5.30498
+  type: 'test'
+  ...
+# Subtest: a real sofa back selects a low side view, while free space above a low table stays clear
+ok 4 - a real sofa back selects a low side view, while free space above a low table stays clear
+  ---
+  duration_ms: 0.981078
+  type: 'test'
+  ...
+# Subtest: a temporarily blocked visitor keeps the last free eye instead of entering furniture
+ok 5 - a temporarily blocked visitor keeps the last free eye instead of entering furniture
+  ---
+  duration_ms: 1.321221
+  type: 'test'
+  ...
+# Subtest: guest camera containment uses the real pavilion glass and its own floor, not the wider roof
+ok 6 - guest camera containment uses the real pavilion glass and its own floor, not the wider roof
+  ---
+  duration_ms: 0.516592
+  type: 'test'
+  ...
+# Subtest: third-person camera respects actual pressure glass, floors and closed aquarium while the real rear atrium opening stays open
+ok 7 - third-person camera respects actual pressure glass, floors and closed aquarium while the real rear atrium opening stays open
+  ---
+  duration_ms: 3386.517004
+  type: 'test'
+  ...
+# Subtest: eight physical destinations retain fourteen historical prices and real shared contacts
+ok 8 - eight physical destinations retain fourteen historical prices and real shared contacts
+  ---
+  duration_ms: 7.899734
+  type: 'test'
+  ...
+# Subtest: alias reservations share real bath occupancy including occupied cleaning and unavailable states
+ok 9 - alias reservations share real bath occupancy including occupied cleaning and unavailable states
+  ---
+  duration_ms: 0.710609
+  type: 'test'
+  ...
+# Subtest: retired service redeems its original paid receipt without selling or rebilling
+ok 10 - retired service redeems its original paid receipt without selling or rebilling
+  ---
+  duration_ms: 11.862218
+  type: 'test'
+  ...
+# Subtest: immutable Warehouse bounds retain exact transformed vertices without rescanning on repeated visits
+ok 11 - immutable Warehouse bounds retain exact transformed vertices without rescanning on repeated visits
+  ---
+  duration_ms: 2.85239
+  type: 'test'
+  ...
+# Subtest: Warehouse button camera fits the real shell in portrait/landscape and remains in open water above the physical floor
+ok 12 - Warehouse button camera fits the real shell in portrait/landscape and remains in open water above the physical floor
+  ---
+  duration_ms: 277.582551
+  type: 'test'
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 12
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3591.88507

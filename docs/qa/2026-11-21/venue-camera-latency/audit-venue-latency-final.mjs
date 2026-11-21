@@ -1,5 +1,6 @@
 import {writeFile} from 'node:fs/promises';import {join} from 'node:path';import assert from 'node:assert/strict';
 export async function auditVenueLatency({page,review,errors,httpErrors}){
+ page.setDefaultTimeout(15000);
  await page.evaluate(()=>{const q=__lagoonQA;q.drawPaused=true;q.freeze=false;q.reviewHour=12;document.querySelector('[data-biome="autumn"]').click();globalThis.__venueEvents=[];
   document.addEventListener('click',e=>{const button=e.target.closest('.venue-access');if(button)globalThis.__venueActive={target:button.dataset.venue,at:performance.now(),writes:[]};},true);
   for(const name of ['set','copy']){const original=q.desiredLook[name];q.desiredLook[name]=function(...args){const r=original.apply(this,args);if(globalThis.__venueActive)__venueActive.writes.push({atMs:performance.now()-__venueActive.at,value:this.toArray()});return r;};}
@@ -7,11 +8,12 @@ export async function auditVenueLatency({page,review,errors,httpErrors}){
  await page.locator('.resort-spa-access').waitFor({state:'visible',timeout:180000});
  await page.evaluate(()=>{for(const b of document.querySelectorAll('.venue-access')){const native=b.onclick;b.onclick=function(...args){const start=performance.now();try{return native.apply(this,args);}finally{__venueEvents.push({target:b.dataset.venue,handlerMs:performance.now()-start});}};}});
  const cold=await page.evaluate(()=>({ready:__lagoonQA.resortSpa().ready}));await page.locator('.resort-spa-access').click();
- Object.assign(cold,await page.evaluate(()=>({inspection:__lagoonQA.resortSpa().inspection,writes:__venueActive.writes,event:__venueEvents.at(-1)})));assert(cold.inspection);assert(cold.writes.length&&cold.writes[0].atMs<100);console.log('COLD_CAMERA_IMMEDIATE',JSON.stringify(cold));
+ Object.assign(cold,await page.evaluate(()=>({inspection:__lagoonQA.resortSpa().inspection,menu:document.querySelector('.resort-spa-zones').textContent,writes:__venueActive.writes,event:__venueEvents.at(-1)})));assert(cold.inspection);for(const retired of ['Cat Nap Galaxy','Ocean Meditation Dome','Beauty & Grooming','Sauna & Steam Palace'])assert(!cold.menu.includes(retired));assert(cold.writes.length&&cold.writes[0].atMs<100);console.log('COLD_CAMERA_IMMEDIATE',JSON.stringify(cold));
  // All commands below run while actual venue construction is still pending.
- await page.locator('#chichi-camera').click();assert(!(await page.evaluate(()=>__lagoonQA.resortSpa().inspection)));
  await page.locator('.mall-access').click();assert(await page.evaluate(()=>__lagoonQA.mall().inspection));
  await page.locator('.resort-spa-access').click();assert(!(await page.evaluate(()=>__lagoonQA.mall().inspection)));
+ await page.locator('#camera-random-cat').click();assert(!(await page.evaluate(()=>__lagoonQA.resortSpa().inspection)));
+ await page.locator('[data-biome="autumn"]').click();
  await page.locator('#camera-island').click();const island=await page.evaluate(()=>__lagoonQA.desiredLook.toArray());
  await page.evaluate(async()=>{await Promise.all([__lagoonQA.mall().ensure(),__lagoonQA.resortSpa().ensure()]);});
  await page.waitForFunction(()=>!__lagoonQA.islands.get('autumn').userData.lowOnly&&__lagoonQA.shaderWarmup.idle(),null,{timeout:600000});

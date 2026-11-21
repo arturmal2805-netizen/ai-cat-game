@@ -126,3 +126,14 @@ framingdesktop98438 thencontroller69125 runsallmap→phone. All-map pauseONLY
 preparation toavoidSwiftShaderCPUcompetition; finalsampling fullRAF/DPR2/input
 unchanged, deadline600s inherited. Logs/runners /workspace/qa/venue-camera*.
 PRworkflow44927682063 testinprogress, deploy/pages correctlyskipforPR. Live15cb.
+
+Finalcandidate **de479f16eaaefac390110a4dd284f7a63a11bcc4** after coldmenu
+refinement: actual8v7zones/services beforemodelready, no14legacyroomflash.
+12focusedchecksPASS; exactcacheversiona496unchanged. FullNode22buildpreceded
+thissmallrefinement,finalruntime/Workerrebuilt. Desktopactualcoldintent0.7ms,
+cancel/follow/Mall/SPA/Island andframingPASS. EarlierQAwronghiddencontrol,then
+wrongreturnafterrandomcatleftautumn preservedfailed;productcodeunchangedbetween
+thoseattempts. Oldallmapinterruptedafterfirstmoonforsmall8menu refinement;
+finalnativecontroller25808 allmap→phone fullRAF/DPR2 sampling, prep-onlypause.
+PR#15normalmerge requestedtooverlapmainCIwithremainingnativegates; cancelmain
+workflowifnativefailsbeforepublication. Livecurrently15cb,notclaimnewdeploy.

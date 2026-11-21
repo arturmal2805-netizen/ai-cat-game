@@ -10,8 +10,12 @@ def running(needle):
    except OSError:pass
  assert len(found)<=1,found
  return found
+for _ in range(180):
+ if running(b'node\0/workspace/qa/check-venue-latency-final.cjs\0') or (q/'venue-latency-final/venue-native.json').exists():break
+ time.sleep(1)
+else:raise RuntimeError('Desktop native runner did not start')
 while running(b'node\0/workspace/qa/check-venue-latency-final.cjs\0'):time.sleep(3)
-assert json.loads((q/'venue-latency-candidate/venue-native.json').read_text())['errors']==[]
+assert json.loads((q/'venue-latency-final/venue-native.json').read_text())['errors']==[]
 print('Desktop cold/cancel/framing PASS; starting full map',flush=True)
 env=dict(os.environ);env['PATH']='/home/agent/.npm/_npx/52027bd8fc0022aa/node_modules/.bin:'+env['PATH']
 env.update(NODE_PATH=str(root/'node_modules'),NODE_OPTIONS='--require=/workspace/qa/native-readonly-hardlinks.cjs',CHICHI_PLAYWRIGHT_MODULE='/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright',CHICHI_CHROMIUM='/usr/bin/chromium',CHICHI_PROFILE_QUERY='review=1',CHICHI_QA_DPR='2')
