@@ -1,0 +1,3038 @@
+[
+  {
+    "at": 7414.89999999851,
+    "ms": 6.700000002980232,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "DodecahedronGeometry",
+      "material": "MeshDepthMaterial",
+      "materialName": "",
+      "receiveShadow": true,
+      "castShadow": true,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ]
+    },
+    "key": "depth,highp,srgb-linear,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,false,false,0,,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,3200,8388608,8532992,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 7426.5,
+    "ms": 3,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshDepthMaterial",
+      "materialName": "",
+      "receiveShadow": true,
+      "castShadow": true,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Underwater coral garden",
+        "Lagoon",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ]
+    },
+    "key": "depth,highp,srgb-linear,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,false,false,0,,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,3201,8388608,8532992,srgb,onBeforeCompile() {\n      }-static-ranges-v1",
+    "program": ""
+  },
+  {
+    "at": 7432.69999999553,
+    "ms": 5.4000000059604645,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshDepthMaterial",
+      "materialName": "",
+      "receiveShadow": true,
+      "castShadow": true,
+      "batch": true,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ]
+    },
+    "key": "depth,highp,srgb-linear,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,false,false,0,,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,3201,8650752,8532992,srgb,onBeforeCompile() {\n      }-static-ranges-v1",
+    "program": ""
+  },
+  {
+    "at": 7444.10000000149,
+    "ms": 5.799999997019768,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshDepthMaterial",
+      "materialName": "",
+      "receiveShadow": true,
+      "castShadow": true,
+      "batch": true,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Котячий океанариум · стеклянный дворец",
+        "Scene"
+      ]
+    },
+    "key": "depth,highp,srgb-linear,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,false,false,0,,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,3201,8650752,8532992,srgb,onBeforeCompile() {\n      }-static-ranges-v1",
+    "program": ""
+  },
+  {
+    "at": 7453.79999999702,
+    "ms": 3.2000000029802322,
+    "draw": {
+      "object": "Exact animated cat batch · Body",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshDepthMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": true,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Exact animated cat batch · Body",
+        "Луна",
+        "Group",
+        "Scene"
+      ]
+    },
+    "key": "depth,highp,srgb-linear,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,false,false,0,,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,3201,8388608,8532992,srgb,onBeforeCompile() {\n      }-exact-rig-palette-v2-16",
+    "program": ""
+  },
+  {
+    "at": 7458.29999999702,
+    "ms": 18.5,
+    "draw": {
+      "object": "Exact animated cat batch · Face",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshDepthMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": true,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Exact animated cat batch · Face",
+        "Луна",
+        "Group",
+        "Scene"
+      ]
+    },
+    "key": "depth,highp,srgb-linear,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,false,false,0,,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,3201,8388608,8532992,srgb,onBeforeCompile() {\n      }-exact-rig-palette-v2-1",
+    "program": ""
+  },
+  {
+    "at": 7478.60000000149,
+    "ms": 6,
+    "draw": {
+      "object": "Exact animated cat batch · EarShell-1",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshDepthMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": true,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Exact animated cat batch · EarShell-1",
+        "Луна",
+        "Group",
+        "Scene"
+      ]
+    },
+    "key": "depth,highp,srgb-linear,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,false,false,0,,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,3201,8388608,8532992,srgb,onBeforeCompile() {\n      }-exact-rig-palette-v2-2",
+    "program": ""
+  },
+  {
+    "at": 7493.60000000149,
+    "ms": 12.099999994039536,
+    "draw": {
+      "object": "Exact animated cat batch · Body",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshPhysicalMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": true,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Exact animated cat batch · Body",
+        "Луна",
+        "Group",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,PHYSICAL,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8586243,srgb,chichi-reference-short-fur-v2-false-exact-rig-palette-v2-16",
+    "program": ""
+  },
+  {
+    "at": 7513.19999999553,
+    "ms": 46.600000001490116,
+    "draw": {
+      "object": "Exact animated cat batch · CoatFibres",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshPhysicalMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Exact animated cat batch · CoatFibres",
+        "Луна",
+        "Group",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,PHYSICAL,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8588291,srgb,onBeforeCompile() {\n      }-exact-rig-palette-v2-1",
+    "program": ""
+  },
+  {
+    "at": 7563.19999999553,
+    "ms": 38.100000001490116,
+    "draw": {
+      "object": "Exact animated cat batch · Face",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshPhysicalMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": true,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Exact animated cat batch · Face",
+        "Луна",
+        "Group",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,PHYSICAL,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8586243,srgb,chichi-reference-short-fur-v2-true-exact-rig-palette-v2-1",
+    "program": ""
+  },
+  {
+    "at": 7605.19999999553,
+    "ms": 41.400000005960464,
+    "draw": {
+      "object": "Exact animated cat batch · EarShell-1",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshPhysicalMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": true,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Exact animated cat batch · EarShell-1",
+        "Луна",
+        "Group",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,PHYSICAL,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8586243,srgb,chichi-reference-short-fur-v2-false-exact-rig-palette-v2-2",
+    "program": ""
+  },
+  {
+    "at": 7649.29999999702,
+    "ms": 53.899999998509884,
+    "draw": {
+      "object": "Exact animated cat batch · EyeRim-1",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshPhysicalMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": true,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Exact animated cat batch · EyeRim-1",
+        "Луна",
+        "Group",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,PHYSICAL,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389760,8520707,srgb,onBeforeCompile() {\n      }-exact-rig-palette-v2-2",
+    "program": ""
+  },
+  {
+    "at": 7705.79999999702,
+    "ms": 47.30000000447035,
+    "draw": {
+      "object": "Exact animated cat batch · Pupil-1",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshPhysicalMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": true,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Exact animated cat batch · Pupil-1",
+        "Луна",
+        "Group",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,PHYSICAL,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388736,8520707,srgb,onBeforeCompile() {\n      }-exact-rig-palette-v2-2",
+    "program": ""
+  },
+  {
+    "at": 7755.89999999851,
+    "ms": 40.600000001490116,
+    "draw": {
+      "object": "Exact animated cat batch · Chin",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": true,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Exact animated cat batch · Chin",
+        "Луна",
+        "Group",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8520707,srgb,onBeforeCompile() {\n      }-exact-rig-palette-v2-1",
+    "program": ""
+  },
+  {
+    "at": 8620.29999999702,
+    "ms": 32.100000001490116,
+    "draw": {
+      "object": "Exact animated cat batch · Chest",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshPhysicalMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": true,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Exact animated cat batch · Chest",
+        "Салем",
+        "Group",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,PHYSICAL,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8586243,srgb,onBeforeCompile() {\n      }-exact-rig-palette-v2-1",
+    "program": ""
+  },
+  {
+    "at": 8654.89999999851,
+    "ms": 30.100000001490116,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "SphereGeometry",
+      "material": "ShaderMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Scene"
+      ]
+    },
+    "key": "0,1,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,0,8388608,8524801,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 8687.29999999702,
+    "ms": 12,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "SphereGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": true,
+      "ancestors": [
+        "Mesh",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388611,8520707,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 8702.19999999553,
+    "ms": 21.600000001490116,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "SphereGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": true,
+      "castShadow": false,
+      "batch": false,
+      "instance": true,
+      "ancestors": [
+        "Mesh",
+        "World fireflies · shared GPU animation",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388609,8520707,srgb,world-fireflies-v1-0",
+    "program": ""
+  },
+  {
+    "at": 8726.19999999553,
+    "ms": 23.400000005960464,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "SphereGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": true,
+      "castShadow": false,
+      "batch": false,
+      "instance": true,
+      "ancestors": [
+        "Mesh",
+        "World fireflies · shared GPU animation",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388609,8520707,srgb,world-fireflies-v1-1",
+    "program": ""
+  },
+  {
+    "at": 8752,
+    "ms": 23.19999999552965,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "SphereGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": true,
+      "castShadow": false,
+      "batch": false,
+      "instance": true,
+      "ancestors": [
+        "Mesh",
+        "World fireflies · shared GPU animation",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388609,8520707,srgb,world-fireflies-v1-2",
+    "program": ""
+  },
+  {
+    "at": 8777.5,
+    "ms": 37.79999999701977,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "ExtrudeGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": true,
+      "castShadow": false,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8520707,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 8818.10000000149,
+    "ms": 25.899999998509884,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "CylinderGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8520707,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 8846.79999999702,
+    "ms": 28.200000002980232,
+    "draw": {
+      "object": "Lagoon physical seabed",
+      "type": "Mesh",
+      "geometry": "CircleGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Lagoon physical seabed",
+        "Lagoon",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8520707,srgb,onBeforeCompile() {\n      }-underwater-optics-v4-shared-false-true-true",
+    "program": ""
+  },
+  {
+    "at": 8889.39999999851,
+    "ms": 30.799999997019768,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "CylinderGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Lagoon",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8522755,srgb,onBeforeCompile() {\n      }-underwater-optics-v4-shared-false-false-true",
+    "program": ""
+  },
+  {
+    "at": 8923.10000000149,
+    "ms": 40.599999994039536,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": true,
+      "castShadow": true,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Underwater coral garden",
+        "Lagoon",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8520707,srgb,reef-current-v1-underwater-optics-v4-shared-true-true-true",
+    "program": ""
+  },
+  {
+    "at": 8966.5,
+    "ms": 37.899999998509884,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "SphereGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": true,
+      "ancestors": [
+        "Mesh",
+        "Lagoon",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388611,8520707,srgb,onBeforeCompile() {\n      }-underwater-optics-v4-shared-true-true-true",
+    "program": ""
+  },
+  {
+    "at": 9006.69999999553,
+    "ms": 29.80000000447035,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "ConeGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": true,
+      "ancestors": [
+        "Mesh",
+        "Lagoon",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388611,8522755,srgb,onBeforeCompile() {\n      }-underwater-optics-v4-shared-true-true-true",
+    "program": ""
+  },
+  {
+    "at": 9038.5,
+    "ms": 26.299999997019768,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "SphereGeometry",
+      "material": "MeshBasicMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": true,
+      "ancestors": [
+        "Mesh",
+        "Lagoon",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ]
+    },
+    "key": "basic,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,0,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388609,8520707,srgb,onBeforeCompile() {\n      }-underwater-optics-v4-shared-true-false-false",
+    "program": ""
+  },
+  {
+    "at": 9067.69999999553,
+    "ms": 17.600000001490116,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "SphereGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": true,
+      "ancestors": [
+        "Mesh",
+        "Lagoon",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388609,8520707,srgb,onBeforeCompile() {\n      }-underwater-optics-v4-shared-true-true-true",
+    "program": ""
+  },
+  {
+    "at": 9087,
+    "ms": 25.69999999552965,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshBasicMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": true,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ]
+    },
+    "key": "basic,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,0,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8651776,8520707,srgb,onBeforeCompile() {\n      }-static-ranges-v1",
+    "program": ""
+  },
+  {
+    "at": 9115.60000000149,
+    "ms": 4,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": true,
+      "castShadow": true,
+      "batch": true,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8651776,8520707,srgb,onBeforeCompile() {\n      }-static-ranges-v1",
+    "program": ""
+  },
+  {
+    "at": 9123.10000000149,
+    "ms": 33.5,
+    "draw": {
+      "object": "Meadow grass",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": true,
+      "ancestors": [
+        "Meadow grass",
+        "Living ground cover",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388611,8522755,srgb,meadow-breeze-v1",
+    "program": ""
+  },
+  {
+    "at": 9159.79999999702,
+    "ms": 20.100000001490116,
+    "draw": {
+      "object": "Meadow flower",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": true,
+      "ancestors": [
+        "Meadow flower",
+        "Living ground cover",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389635,8522755,srgb,meadow-breeze-v1",
+    "program": ""
+  },
+  {
+    "at": 9182.29999999702,
+    "ms": 22.80000000447035,
+    "draw": {
+      "object": "Meadow moss",
+      "type": "Mesh",
+      "geometry": "SphereGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": true,
+      "ancestors": [
+        "Meadow moss",
+        "Living ground cover",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388611,8522755,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 9206.79999999702,
+    "ms": 21.399999998509884,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshBasicMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Adaptive gardens",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ]
+    },
+    "key": "basic,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,0,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8520707,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 9231.5,
+    "ms": 16.399999998509884,
+    "draw": {
+      "object": "Wide dry beaches and walkable island ring",
+      "type": "Mesh",
+      "geometry": "ExtrudeGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": true,
+      "castShadow": false,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Wide dry beaches and walkable island ring",
+        "Dry shore, original pier and retained owned plots",
+        "Group",
+        "Biome-autumn-Sky-Mosasaur-Sea",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8520707,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 9251,
+    "ms": 25.100000001490116,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "CylinderGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Group",
+        "Biome-autumn-Sky-Mosasaur-Sea",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8522759,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 9279.10000000149,
+    "ms": 35.5,
+    "draw": {
+      "object": "Lagoon physical seabed",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Lagoon physical seabed",
+        "Deep ocean · 40 times the previous sea depth",
+        "Group",
+        "Biome-autumn-Sky-Mosasaur-Sea",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8520707,srgb,onBeforeCompile() {\n      }-underwater-optics-v4-shared-false-true-true-mosasaur-scanned-stone-v5-instance-sediment-false-false",
+    "program": ""
+  },
+  {
+    "at": 9318.39999999851,
+    "ms": 35.100000001490116,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "ConeGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": true,
+      "ancestors": [
+        "Mesh",
+        "Deep ocean · 40 times the previous sea depth",
+        "Group",
+        "Biome-autumn-Sky-Mosasaur-Sea",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388609,8522755,srgb,onBeforeCompile() {\n      }-underwater-optics-v4-shared-true-true-true",
+    "program": ""
+  },
+  {
+    "at": 9356.89999999851,
+    "ms": 4.299999997019768,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "CylinderGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Group",
+        "Biome-clockwork-cotton",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8520707,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 9364.69999999553,
+    "ms": 29.400000005960464,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": true,
+      "castShadow": true,
+      "batch": true,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Котячий океанариум · стеклянный дворец",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8651776,8520707,srgb,onBeforeCompile() {\n      }-static-ranges-v1",
+    "program": ""
+  },
+  {
+    "at": 9400.79999999702,
+    "ms": 30.899999998509884,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "LatheGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": true,
+      "castShadow": true,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Общая миска котиков",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8522755,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 9434.39999999851,
+    "ms": 19.200000002980232,
+    "draw": {
+      "object": "Farm-grown food",
+      "type": "Mesh",
+      "geometry": "SphereGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": true,
+      "ancestors": [
+        "Farm-grown food",
+        "Общая миска котиков",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388609,8520707,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 9460.19999999553,
+    "ms": 6.800000004470348,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "CylinderGeometry",
+      "material": "MeshBasicMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": true,
+      "ancestors": [
+        "Mesh",
+        "Waterfall",
+        "Group",
+        "Котячі оселі · постійний житловий острів",
+        "Scene"
+      ]
+    },
+    "key": "basic,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,0,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388609,8389635,srgb,native-waterfall-fixed-v1",
+    "program": ""
+  },
+  {
+    "at": 9472.19999999553,
+    "ms": 11.800000004470348,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "SphereGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": true,
+      "ancestors": [
+        "Mesh",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388609,8389635,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 9486.19999999553,
+    "ms": 25.400000005960464,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": true,
+      "castShadow": false,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "decor-moon-2",
+        "Movable 3D scenery",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8389635,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 9514.10000000149,
+    "ms": 20.5,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": true,
+      "castShadow": false,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "decor-moon-2",
+        "Movable 3D scenery",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8389635,srgb,volumetric-garden-breeze-v1",
+    "program": ""
+  },
+  {
+    "at": 9536.39999999851,
+    "ms": 23.799999997019768,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshBasicMaterial",
+      "materialName": "",
+      "receiveShadow": true,
+      "castShadow": false,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "decor-moon-2",
+        "Movable 3D scenery",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ]
+    },
+    "key": "basic,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,0,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8389635,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 9563.10000000149,
+    "ms": 8.199999995529652,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "SphereGeometry",
+      "material": "MeshBasicMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Waterfall",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ]
+    },
+    "key": "basic,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,0,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8389635,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 9572.79999999702,
+    "ms": 8.200000002980232,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "PlaneGeometry",
+      "material": "ShaderMaterial",
+      "materialName": "Luminous flowing waterfall",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Waterfall",
+        "Group",
+        "Biome-moon",
+        "Scene"
+      ]
+    },
+    "key": "2,3,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8391681,srgb,onBeforeCompile() {\n      }",
+    "program": "Luminous flowing waterfall"
+  },
+  {
+    "at": 9583.19999999553,
+    "ms": 19.600000001490116,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "CircleGeometry",
+      "material": "MeshBasicMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Group",
+        "Scene"
+      ]
+    },
+    "key": "basic,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,0,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8393731,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 9605.5,
+    "ms": 8.699999995529652,
+    "draw": {
+      "object": "",
+      "type": "Points",
+      "geometry": "BufferGeometry",
+      "material": "PointsMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Points",
+        "Scene"
+      ]
+    },
+    "key": "points,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,true,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,0,8389635,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 9616.39999999851,
+    "ms": 10.700000002980232,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "ShaderMaterial",
+      "materialName": "Clear living lagoon water",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Deep ocean · 40 times the previous sea depth",
+        "Group",
+        "Biome-autumn-Sky-Mosasaur-Sea",
+        "Scene"
+      ]
+    },
+    "key": "2,3,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8391681,srgb,shared-physical-water-v1-ocean-depth",
+    "program": "Clear living lagoon water"
+  },
+  {
+    "at": 9628.79999999702,
+    "ms": 20.899999998509884,
+    "draw": {
+      "object": "Fully transparent glass dome",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshBasicMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Fully transparent glass dome",
+        "Group",
+        "Котячий океанариум · стеклянный дворец",
+        "Scene"
+      ]
+    },
+    "key": "basic,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,0,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8391683,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 12087.29999999702,
+    "ms": 36.30000000447035,
+    "draw": {
+      "object": "Shin",
+      "type": "SkinnedMesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshDepthMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": true,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Shin",
+        "Leg-1_-1",
+        "Chichi",
+        "Group",
+        "Scene"
+      ]
+    },
+    "key": "depth,highp,srgb-linear,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,false,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,3200,8388608,8533024,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 12126.10000000149,
+    "ms": 2.2999999970197678,
+    "draw": {
+      "object": "TailCoat",
+      "type": "Mesh",
+      "geometry": "TubeGeometry",
+      "material": "MeshDepthMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": true,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "TailCoat",
+        "TailTip",
+        "Tail",
+        "Chichi",
+        "Group",
+        "Scene"
+      ]
+    },
+    "key": "depth,highp,srgb-linear,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,false,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,3200,8388608,8532992,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 12129.29999999702,
+    "ms": 1.5,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshDepthMaterial",
+      "materialName": "",
+      "receiveShadow": true,
+      "castShadow": true,
+      "batch": true,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Biome-autumn-Sky-Mosasaur-Sea",
+        "Scene"
+      ]
+    },
+    "key": "depth,highp,srgb-linear,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,false,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,3201,8650752,8532992,srgb,onBeforeCompile() {\n      }-static-ranges-v1",
+    "program": ""
+  },
+  {
+    "at": 12131.60000000149,
+    "ms": 4.399999998509884,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshDepthMaterial",
+      "materialName": "",
+      "receiveShadow": true,
+      "castShadow": true,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Underwater coral garden",
+        "Deep ocean · 40 times the previous sea depth",
+        "Group",
+        "Biome-autumn-Sky-Mosasaur-Sea",
+        "Scene"
+      ]
+    },
+    "key": "depth,highp,srgb-linear,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,false,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,3201,8388608,8532992,srgb,onBeforeCompile() {\n      }-static-ranges-v1",
+    "program": ""
+  },
+  {
+    "at": 12140.5,
+    "ms": 4.199999995529652,
+    "draw": {
+      "object": "Shin",
+      "type": "SkinnedMesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshPhysicalMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": true,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Shin",
+        "Leg-1_-1",
+        "Chichi",
+        "Group",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,PHYSICAL,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8586275,srgb,chichi-reference-short-fur-v2-false-skip-zero-joints-v1",
+    "program": ""
+  },
+  {
+    "at": 12147.69999999553,
+    "ms": 33.5,
+    "draw": {
+      "object": "LegVelvet1_-1",
+      "type": "SkinnedMesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshPhysicalMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "LegVelvet1_-1",
+        "Leg1_-1",
+        "Chichi",
+        "Group",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,PHYSICAL,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8588323,srgb,onBeforeCompile() {\n      }-skip-zero-joints-v1",
+    "program": ""
+  },
+  {
+    "at": 12184.60000000149,
+    "ms": 34,
+    "draw": {
+      "object": "Toe-1",
+      "type": "SkinnedMesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": true,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Toe-1",
+        "Leg-1_-1",
+        "Chichi",
+        "Group",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8520739,srgb,onBeforeCompile() {\n      }-skip-zero-joints-v1",
+    "program": ""
+  },
+  {
+    "at": 12224.69999999553,
+    "ms": 23,
+    "draw": {
+      "object": "Pupil1",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshPhysicalMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": true,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Pupil1",
+        "EyeGlobe1",
+        "Eye1",
+        "Head",
+        "Chichi",
+        "Group",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,PHYSICAL,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388736,8520707,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 12250.29999999702,
+    "ms": 24.700000002980232,
+    "draw": {
+      "object": "Iris1",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshPhysicalMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": true,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Iris1",
+        "EyeGlobe1",
+        "Eye1",
+        "Head",
+        "Chichi",
+        "Group",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,PHYSICAL,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389760,8520707,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 12280.5,
+    "ms": 36.899999998509884,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "CircleGeometry",
+      "material": "MeshBasicMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Biome-ice",
+        "Scene"
+      ]
+    },
+    "key": "basic,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,0,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8520707,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 12325.19999999553,
+    "ms": 3.8000000044703484,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshBasicMaterial",
+      "materialName": "",
+      "receiveShadow": true,
+      "castShadow": false,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Group",
+        "Котячі оселі · житлова секція",
+        "Group",
+        "Котячі оселі · постійний житловий острів",
+        "Scene"
+      ]
+    },
+    "key": "basic,highp,srgb,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,0,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8393731,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 12330.39999999851,
+    "ms": 11.100000001490116,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshBasicMaterial",
+      "materialName": "",
+      "receiveShadow": true,
+      "castShadow": false,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Group",
+        "Котячі оселі · житлова секція",
+        "Group",
+        "Котячі оселі · постійний житловий острів",
+        "Scene"
+      ]
+    },
+    "key": "basic,highp,srgb,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,0,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8389635,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 12344.19999999553,
+    "ms": 6.800000004470348,
+    "draw": {
+      "object": "",
+      "type": "Points",
+      "geometry": "BufferGeometry",
+      "material": "PointsMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Points",
+        "Scene"
+      ]
+    },
+    "key": "points,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,true,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,0,0,8389635,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 14290,
+    "ms": 45.899999998509884,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": true,
+      "castShadow": true,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Group",
+        "Котячий банк",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8520707,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 16406.39999999851,
+    "ms": 120.5,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshPhysicalMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": true,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Marin · powerful blue mosasaur",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,PHYSICAL,,highp,srgb,false,,false,false,false,false,uv,false,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389760,8520707,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 16543.5,
+    "ms": 54.69999999552965,
+    "draw": {
+      "object": "Continuous predatory skull, muscular shoulders and tail",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshPhysicalMaterial",
+      "materialName": "",
+      "receiveShadow": true,
+      "castShadow": true,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Continuous predatory skull, muscular shoulders and tail",
+        "Group",
+        "Marin · powerful blue mosasaur",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,PHYSICAL,,highp,srgb,false,,false,false,false,false,uv,false,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389760,8520707,srgb,mosa-muscular-tail-normal-v3",
+    "program": ""
+  },
+  {
+    "at": 38292,
+    "ms": 14.699999995529652,
+    "draw": {
+      "object": "Underwater bubble trail",
+      "type": "Mesh",
+      "geometry": "SphereGeometry",
+      "material": "MeshBasicMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": true,
+      "ancestors": [
+        "Underwater bubble trail",
+        "Marin · powerful blue mosasaur",
+        "Scene"
+      ]
+    },
+    "key": "basic,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,0,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388609,8389635,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 52814.10000000149,
+    "ms": 18.899999998509884,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8520707,srgb,meadow-coast-vertex-cover-v1",
+    "program": ""
+  },
+  {
+    "at": 52833.89999999851,
+    "ms": 0.20000000298023224,
+    "draw": null,
+    "key": "depth,highp,srgb-linear,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,3201,8650752,8532993,srgb-linear,onBeforeCompile() {\n      }-static-ranges-v1",
+    "program": ""
+  },
+  {
+    "at": 52834.5,
+    "ms": 0.10000000149011612,
+    "draw": null,
+    "key": "depth,highp,srgb-linear,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,3200,8388608,8532993,srgb-linear,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 52835,
+    "ms": 3.6999999955296516,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8520707,srgb,warehouse-illuminated-facade-v1",
+    "program": ""
+  },
+  {
+    "at": 52839.19999999553,
+    "ms": 0.20000000298023224,
+    "draw": null,
+    "key": "depth,highp,srgb-linear,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,3200,8388608,8532993,srgb-linear,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 52839.69999999553,
+    "ms": 1.7000000029802322,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8391683,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 52841.79999999702,
+    "ms": 0.8000000044703484,
+    "draw": null,
+    "key": "basic,highp,srgb,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,0,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8520705,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 52842.89999999851,
+    "ms": 0.7999999970197678,
+    "draw": null,
+    "key": "basic,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,0,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8520705,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 52844.10000000149,
+    "ms": 0.19999999552965164,
+    "draw": null,
+    "key": "depth,highp,srgb-linear,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,3201,8388608,8532993,srgb-linear,onBeforeCompile() {\n      }-static-ranges-v1",
+    "program": ""
+  },
+  {
+    "at": 52844.60000000149,
+    "ms": 2.2999999970197678,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8520707,srgb,onBeforeCompile() {\n      }-underwater-optics-v4-shared-false-true-true-mosasaur-scanned-stone-v5-instance-sediment-false-false-whole-floor-shared-sand-v2",
+    "program": ""
+  },
+  {
+    "at": 52847.39999999851,
+    "ms": 2.7999999970197678,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389633,8522755,srgb,mosa-cute-fish-palette-v2-48-underwater-optics-v4-shared-true-true-true",
+    "program": ""
+  },
+  {
+    "at": 52851,
+    "ms": 2.7999999970197678,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388609,8520707,srgb,onBeforeCompile() {\n      }-underwater-optics-v4-shared-false-true-true-mosasaur-scanned-stone-v5-instance-sediment-true-true",
+    "program": ""
+  },
+  {
+    "at": 52854.39999999851,
+    "ms": 0.5,
+    "draw": null,
+    "key": "depth,highp,srgb-linear,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,3200,8388609,8532993,srgb-linear,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 52855.29999999702,
+    "ms": 5.600000001490116,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8520707,srgb,onBeforeCompile() {\n      }-underwater-optics-v4-shared-true-true-true-mosasaur-scanned-stone-v5-instance-sediment-true-true",
+    "program": ""
+  },
+  {
+    "at": 52861.89999999851,
+    "ms": 2.7999999970197678,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,false,uv,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8651840,8520707,srgb,onBeforeCompile() {\n      }-static-ranges-v1",
+    "program": ""
+  },
+  {
+    "at": 52865.39999999851,
+    "ms": 3.7999999970197678,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,false,uv,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389696,8522755,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 52869.89999999851,
+    "ms": 0.6000000014901161,
+    "draw": null,
+    "key": "depth,highp,srgb-linear,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,3200,8388608,8530945,srgb-linear,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 52871,
+    "ms": 2.5,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,false,uv,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8651840,8522755,srgb,onBeforeCompile() {\n      }-static-ranges-v1",
+    "program": ""
+  },
+  {
+    "at": 52874,
+    "ms": 0.6999999955296516,
+    "draw": null,
+    "key": "depth,highp,srgb-linear,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,3201,8650752,8530945,srgb-linear,onBeforeCompile() {\n      }-static-ranges-v1",
+    "program": ""
+  },
+  {
+    "at": 52875.10000000149,
+    "ms": 0.5999999940395355,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8651776,8522755,srgb,onBeforeCompile() {\n      }-static-ranges-v1",
+    "program": ""
+  },
+  {
+    "at": 52876.19999999553,
+    "ms": 0.6000000014901161,
+    "draw": null,
+    "key": "depth,highp,srgb-linear,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,3201,8650752,8530945,srgb-linear,onBeforeCompile() {\n      }-static-ranges-v1",
+    "program": ""
+  },
+  {
+    "at": 52877.29999999702,
+    "ms": 2.399999998509884,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,false,uv,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389697,8520707,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 52880.29999999702,
+    "ms": 0.5,
+    "draw": null,
+    "key": "depth,highp,srgb-linear,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,3200,8388609,8532993,srgb-linear,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 52881.29999999702,
+    "ms": 2.399999998509884,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,false,uv,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389697,8522755,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 52884.19999999553,
+    "ms": 0.6000000014901161,
+    "draw": null,
+    "key": "depth,highp,srgb-linear,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,3200,8388609,8530945,srgb-linear,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 52885.19999999553,
+    "ms": 2.5,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,false,uv,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389697,8522755,srgb,onBeforeCompile() {\n      }-static-ranges-v1",
+    "program": ""
+  },
+  {
+    "at": 52888.19999999553,
+    "ms": 2.8000000044703484,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8522755,srgb,onBeforeCompile() {\n      }-static-ranges-v1-underwater-optics-v4-shared-false-true-true-mosasaur-scanned-stone-v5-instance-sediment-true-true",
+    "program": ""
+  },
+  {
+    "at": 52891.60000000149,
+    "ms": 5.899999998509884,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8520707,srgb,onBeforeCompile() {\n      }-static-ranges-v1-underwater-optics-v4-shared-false-true-true-mosasaur-scanned-stone-v5-instance-sediment-true-true",
+    "program": ""
+  },
+  {
+    "at": 52898.10000000149,
+    "ms": 2.399999998509884,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8520707,srgb,onBeforeCompile() {\n      }-underwater-optics-v4-shared-false-true-true-mosasaur-scanned-stone-v5-instance-sediment-true-true",
+    "program": ""
+  },
+  {
+    "at": 52901.10000000149,
+    "ms": 2.5999999940395355,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8520707,srgb,onBeforeCompile() {\n      }-static-ranges-v1-underwater-optics-v4-shared-false-true-true-mosasaur-scanned-stone-v5-instance-sediment-true-true",
+    "program": ""
+  },
+  {
+    "at": 52906.60000000149,
+    "ms": 3,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389633,8522755,srgb,mosa-cute-fish-palette-v2-54-underwater-optics-v4-shared-true-true-true",
+    "program": ""
+  },
+  {
+    "at": 52910.39999999851,
+    "ms": 6.399999998509884,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389699,8522755,srgb,mosa-coral-polyp-v5-underwater-optics-v4-shared-true-true-true",
+    "program": ""
+  },
+  {
+    "at": 52917.60000000149,
+    "ms": 0.8999999985098839,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389633,8520707,srgb,living-marine-reef-v1-underwater-optics-v4-shared-true-true-true",
+    "program": ""
+  },
+  {
+    "at": 52919,
+    "ms": 0.6999999955296516,
+    "draw": null,
+    "key": "10,11,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,0,8391681,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 52920.19999999553,
+    "ms": 3,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389699,8522755,srgb,mosa-coral-scanned-polyps-v1-underwater-optics-v4-shared-true-true-true",
+    "program": ""
+  },
+  {
+    "at": 52923.79999999702,
+    "ms": 1,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389633,8522755,srgb,seabed-curved-ribbed-grass-v1-underwater-optics-v4-shared-true-true-true",
+    "program": ""
+  },
+  {
+    "at": 52926,
+    "ms": 2.7999999970197678,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389633,8522755,srgb,mosa-cute-fish-palette-v2-60-underwater-optics-v4-shared-true-true-true",
+    "program": ""
+  },
+  {
+    "at": 55251.60000000149,
+    "ms": 36,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8391683,srgb,onBeforeCompile() {\n      }-static-ranges-v1-mall-room-finish-v2-0.8-spa-sealed-interior-v1-spa-room-array-v4-fe710268e259d13bdcb5e0baa1b3ea3052b418a53d57e91685bec7d7e72c800c",
+    "program": ""
+  },
+  {
+    "at": 55288.69999999553,
+    "ms": 2.8000000044703484,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8520707,srgb,onBeforeCompile() {\n      }-static-ranges-v1-mall-room-finish-v2-0.8-spa-sealed-interior-v1-spa-room-array-v4-fe710268e259d13bdcb5e0baa1b3ea3052b418a53d57e91685bec7d7e72c800c",
+    "program": ""
+  },
+  {
+    "at": 55292.39999999851,
+    "ms": 31.299999997019768,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,false,uv,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388672,8520707,srgb,onBeforeCompile() {\n      }-static-ranges-v1-mall-room-finish-v2-0.8-spa-sealed-interior-v1-spa-room-array-v4-fe710268e259d13bdcb5e0baa1b3ea3052b418a53d57e91685bec7d7e72c800c",
+    "program": ""
+  },
+  {
+    "at": 55324.60000000149,
+    "ms": 3,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,false,uv,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388672,8522755,srgb,onBeforeCompile() {\n      }-static-ranges-v1-mall-room-finish-v2-0.8-spa-sealed-interior-v1-spa-room-array-v4-fe710268e259d13bdcb5e0baa1b3ea3052b418a53d57e91685bec7d7e72c800c",
+    "program": ""
+  },
+  {
+    "at": 55328.10000000149,
+    "ms": 31.899999998509884,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,false,uv,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388672,8520707,srgb,onBeforeCompile() {\n      }-mall-room-finish-v2-0.8-underwater-optics-v4-shared-false-true-false-spa-shallow-caustics-v8-0.5-soft-0.34-spa-sealed-interior-v1-spa-room-array-v4-fe710268e259d13bdcb5e0baa1b3ea3052b418a53d57e91685bec7d7e72c800c",
+    "program": ""
+  },
+  {
+    "at": 55363.10000000149,
+    "ms": 20.69999999552965,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8522755,srgb,onBeforeCompile() {\n      }-mall-room-finish-v2-0.8-underwater-optics-v4-shared-false-true-false-spa-shallow-caustics-v8-0.3-soft-0.34-spa-sealed-interior-v1-spa-room-array-v4-fe710268e259d13bdcb5e0baa1b3ea3052b418a53d57e91685bec7d7e72c800c",
+    "program": ""
+  },
+  {
+    "at": 55384.60000000149,
+    "ms": 0.5999999940395355,
+    "draw": null,
+    "key": "depth,highp,srgb-linear,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,3200,8388608,8530945,srgb-linear,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 55385.69999999553,
+    "ms": 2.9000000059604645,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8522755,srgb,onBeforeCompile() {\n      }-mall-room-finish-v2-0.8-underwater-optics-v4-shared-false-true-false-spa-shallow-caustics-v8-0.25-soft-0.34-spa-sealed-interior-v1-spa-room-array-v4-fe710268e259d13bdcb5e0baa1b3ea3052b418a53d57e91685bec7d7e72c800c",
+    "program": ""
+  },
+  {
+    "at": 55389.10000000149,
+    "ms": 2.6999999955296516,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8391683,srgb,onBeforeCompile() {\n      }-mall-room-finish-v2-0.8-spa-sealed-interior-v1-spa-room-array-v4-fe710268e259d13bdcb5e0baa1b3ea3052b418a53d57e91685bec7d7e72c800c",
+    "program": ""
+  },
+  {
+    "at": 55392.19999999553,
+    "ms": 10.600000001490116,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8522755,srgb,onBeforeCompile() {\n      }-static-ranges-v1-mall-room-finish-v2-0.8-spa-sealed-interior-v1-spa-room-array-v4-fe710268e259d13bdcb5e0baa1b3ea3052b418a53d57e91685bec7d7e72c800c",
+    "program": ""
+  },
+  {
+    "at": 55403.29999999702,
+    "ms": 2.5,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8522755,srgb,onBeforeCompile() {\n      }-mall-room-finish-v2-0.8-spa-sealed-interior-v1-spa-room-array-v4-fe710268e259d13bdcb5e0baa1b3ea3052b418a53d57e91685bec7d7e72c800c",
+    "program": ""
+  },
+  {
+    "at": 55406.19999999553,
+    "ms": 0.6000000014901161,
+    "draw": null,
+    "key": "basic,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,0,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,0,8388608,8520707,srgb,onBeforeCompile() {\n      }-static-ranges-v1",
+    "program": ""
+  },
+  {
+    "at": 55407.19999999553,
+    "ms": 0.7000000029802322,
+    "draw": null,
+    "key": "basic,highp,srgb,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,0,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8393731,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 55408.29999999702,
+    "ms": 0.7000000029802322,
+    "draw": null,
+    "key": "basic,highp,srgb,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,0,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8389635,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 55409.19999999553,
+    "ms": 2.3000000044703484,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8520707,srgb,onBeforeCompile() {\n      }-mall-room-finish-v2-0.8-spa-sealed-interior-v1-spa-room-array-v4-fe710268e259d13bdcb5e0baa1b3ea3052b418a53d57e91685bec7d7e72c800c",
+    "program": ""
+  },
+  {
+    "at": 55411.89999999851,
+    "ms": 2.2999999970197678,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8522755,srgb,onBeforeCompile() {\n      }-static-ranges-v1-mall-room-finish-v2-0.8-spa-sealed-interior-v1-spa-room-array-v4-fe710268e259d13bdcb5e0baa1b3ea3052b418a53d57e91685bec7d7e72c800c",
+    "program": ""
+  },
+  {
+    "at": 55414.69999999553,
+    "ms": 0.7000000029802322,
+    "draw": null,
+    "key": "basic,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,0,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,0,8388608,8389635,srgb,onBeforeCompile() {\n      }-static-ranges-v1",
+    "program": ""
+  },
+  {
+    "at": 55415.69999999553,
+    "ms": 2.600000001490116,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8522755,srgb,onBeforeCompile() {\n      }-mall-room-finish-v2-0.8-underwater-optics-v4-shared-false-true-false-spa-shallow-caustics-v8-0.1-soft-0.34-spa-sealed-interior-v1-spa-room-array-v4-fe710268e259d13bdcb5e0baa1b3ea3052b418a53d57e91685bec7d7e72c800c",
+    "program": ""
+  },
+  {
+    "at": 55418.69999999553,
+    "ms": 2.5,
+    "draw": null,
+    "key": "8,9,SLIDE_CATCH_POOL,1,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8391681,srgb,onBeforeCompile() {\n      }",
+    "program": "Clear living lagoon water"
+  },
+  {
+    "at": 55421.89999999851,
+    "ms": 3.100000001490116,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,false,uv,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388672,8520707,srgb,onBeforeCompile() {\n      }-mall-room-finish-v2-0.8-underwater-optics-v4-shared-false-true-false-spa-shallow-caustics-v8-0.1-soft-0.34-spa-sealed-interior-v1-spa-room-array-v4-fe710268e259d13bdcb5e0baa1b3ea3052b418a53d57e91685bec7d7e72c800c",
+    "program": "SPA submerged step optics"
+  },
+  {
+    "at": 55425.60000000149,
+    "ms": 0.29999999701976776,
+    "draw": null,
+    "key": "basic,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,0,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,0,8388608,8520707,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 55426.19999999553,
+    "ms": 2.4000000059604645,
+    "draw": null,
+    "key": "8,12,SLIDE_CATCH_POOL,1,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8391681,srgb,onBeforeCompile() {\n      }",
+    "program": "Clear living lagoon water"
+  },
+  {
+    "at": 55429.10000000149,
+    "ms": 2.5999999940395355,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8522755,srgb,onBeforeCompile() {\n      }-mall-room-finish-v2-0.8-underwater-optics-v4-shared-false-true-false-spa-shallow-caustics-v8-0.2-soft-0.34-spa-sealed-interior-v1-spa-room-array-v4-fe710268e259d13bdcb5e0baa1b3ea3052b418a53d57e91685bec7d7e72c800c",
+    "program": ""
+  },
+  {
+    "at": 55432,
+    "ms": 2.2999999970197678,
+    "draw": null,
+    "key": "8,13,SLIDE_CATCH_POOL,1,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8391681,srgb,onBeforeCompile() {\n      }",
+    "program": "Clear living lagoon water"
+  },
+  {
+    "at": 55434.79999999702,
+    "ms": 2.899999998509884,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,false,uv,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388672,8520707,srgb,onBeforeCompile() {\n      }-mall-room-finish-v2-0.8-underwater-optics-v4-shared-false-true-false-spa-shallow-caustics-v8-0.2-soft-0.34-spa-sealed-interior-v1-spa-room-array-v4-fe710268e259d13bdcb5e0baa1b3ea3052b418a53d57e91685bec7d7e72c800c",
+    "program": "SPA submerged step optics"
+  },
+  {
+    "at": 55438.10000000149,
+    "ms": 2.5,
+    "draw": null,
+    "key": "8,14,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8391681,srgb,onBeforeCompile() {\n      }",
+    "program": "Clear living lagoon water"
+  },
+  {
+    "at": 55440.89999999851,
+    "ms": 2.399999998509884,
+    "draw": null,
+    "key": "8,15,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8391681,srgb,onBeforeCompile() {\n      }",
+    "program": "Clear living lagoon water"
+  },
+  {
+    "at": 55443.79999999702,
+    "ms": 2.399999998509884,
+    "draw": null,
+    "key": "8,16,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8391681,srgb,onBeforeCompile() {\n      }",
+    "program": "Clear living lagoon water"
+  },
+  {
+    "at": 55446.5,
+    "ms": 2.2999999970197678,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8650752,8391683,srgb,onBeforeCompile() {\n      }-static-ranges-v1-mall-room-finish-v2-0.8-spa-sealed-interior-v1-spa-room-array-v4-fe710268e259d13bdcb5e0baa1b3ea3052b418a53d57e91685bec7d7e72c800c",
+    "program": ""
+  },
+  {
+    "at": 55449.29999999702,
+    "ms": 2.600000001490116,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8650752,8520707,srgb,onBeforeCompile() {\n      }-static-ranges-v1-mall-room-finish-v2-0.8-spa-sealed-interior-v1-spa-room-array-v4-fe710268e259d13bdcb5e0baa1b3ea3052b418a53d57e91685bec7d7e72c800c",
+    "program": ""
+  },
+  {
+    "at": 55452.5,
+    "ms": 0.19999999552965164,
+    "draw": null,
+    "key": "depth,highp,srgb-linear,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,3201,8650752,8532993,srgb-linear,onBeforeCompile() {\n      }-static-ranges-v1",
+    "program": ""
+  },
+  {
+    "at": 55453.29999999702,
+    "ms": 3.2000000029802322,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,false,uv,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8650816,8520707,srgb,onBeforeCompile() {\n      }-static-ranges-v1-mall-room-finish-v2-0.8-spa-sealed-interior-v1-spa-room-array-v4-fe710268e259d13bdcb5e0baa1b3ea3052b418a53d57e91685bec7d7e72c800c",
+    "program": ""
+  },
+  {
+    "at": 55457.10000000149,
+    "ms": 2.7999999970197678,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,false,uv,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8650816,8522755,srgb,onBeforeCompile() {\n      }-static-ranges-v1-mall-room-finish-v2-0.8-spa-sealed-interior-v1-spa-room-array-v4-fe710268e259d13bdcb5e0baa1b3ea3052b418a53d57e91685bec7d7e72c800c",
+    "program": ""
+  },
+  {
+    "at": 55460.5,
+    "ms": 0.6999999955296516,
+    "draw": null,
+    "key": "basic,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,0,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,0,8650752,8520707,srgb,onBeforeCompile() {\n      }-static-ranges-v1",
+    "program": ""
+  },
+  {
+    "at": 55461.60000000149,
+    "ms": 2.399999998509884,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8650752,8522755,srgb,onBeforeCompile() {\n      }-static-ranges-v1-mall-room-finish-v2-0.8-spa-sealed-interior-v1-spa-room-array-v4-fe710268e259d13bdcb5e0baa1b3ea3052b418a53d57e91685bec7d7e72c800c",
+    "program": ""
+  },
+  {
+    "at": 55466.19999999553,
+    "ms": 0.8000000044703484,
+    "draw": null,
+    "key": "basic,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,0,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,0,8650752,8389635,srgb,onBeforeCompile() {\n      }-static-ranges-v1",
+    "program": ""
+  },
+  {
+    "at": 55467.39999999851,
+    "ms": 2.7000000029802322,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8650752,8522755,srgb,onBeforeCompile() {\n      }-static-ranges-v1-mall-room-finish-v2-0.8-spa-sealed-interior-v1-spa-room-array-v4-fe710268e259d13bdcb5e0baa1b3ea3052b418a53d57e91685bec7d7e72c800c",
+    "program": ""
+  },
+  {
+    "at": 55470.69999999553,
+    "ms": 2.7000000029802322,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,false,uv,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388672,8520707,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 55473.89999999851,
+    "ms": 2.2999999970197678,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8393731,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 55476.79999999702,
+    "ms": 0,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8389635,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 55477.19999999553,
+    "ms": 0.7000000029802322,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8522755,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 55478.29999999702,
+    "ms": 0.8000000044703484,
+    "draw": null,
+    "key": "21,22,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,1024,8389633,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 55479.5,
+    "ms": 0.6999999955296516,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389635,8522755,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 55480.60000000149,
+    "ms": 0.5999999940395355,
+    "draw": null,
+    "key": "depth,highp,srgb-linear,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,3200,8388611,8530945,srgb-linear,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 55481.89999999851,
+    "ms": 0.7999999970197678,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388609,8389635,srgb,spa-gpu-bubbles-v1",
+    "program": ""
+  },
+  {
+    "at": 55483.10000000149,
+    "ms": 0.8999999985098839,
+    "draw": null,
+    "key": "23,24,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388609,8389633,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 55881.60000000149,
+    "ms": 8.699999995529652,
+    "draw": null,
+    "key": "physical,STANDARD,,PHYSICAL,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8586243,srgb,chichi-reference-short-fur-v2-false",
+    "program": ""
+  },
+  {
+    "at": 55892,
+    "ms": 0.6000000014901161,
+    "draw": null,
+    "key": "physical,STANDARD,,PHYSICAL,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8586243,srgb,chichi-reference-short-fur-v2-true",
+    "program": ""
+  },
+  {
+    "at": 59166.60000000149,
+    "ms": 24.799999997019768,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,false,uv,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388672,8520707,srgb,mall-finish-v3-0.16",
+    "program": ""
+  },
+  {
+    "at": 59196.10000000149,
+    "ms": 10,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,false,uv,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388672,8520707,srgb,mall-finish-v3-0.16-mall-room-finish-v2-0.18-mall-front-cutaway-v1",
+    "program": ""
+  },
+  {
+    "at": 59209.19999999553,
+    "ms": 0.9000000059604645,
+    "draw": null,
+    "key": "basic,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,0,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8651776,8520707,srgb,onBeforeCompile() {\n      }-static-ranges-v1-mall-exact-float32-rgb-v1",
+    "program": ""
+  },
+  {
+    "at": 59210.60000000149,
+    "ms": 4.5999999940395355,
+    "draw": null,
+    "key": "4,5,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8391683,srgb,onBeforeCompile() {\n      }-mall-front-cutaway-v1",
+    "program": ""
+  },
+  {
+    "at": 59216.10000000149,
+    "ms": 12.5,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,false,uv,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389696,8520707,srgb,onBeforeCompile() {\n      }-mall-room-finish-v2-0.18-mall-front-cutaway-v1-mall-exact-float32-rgb-v1",
+    "program": ""
+  },
+  {
+    "at": 59229.29999999702,
+    "ms": 3.3000000044703484,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,false,uv,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8651840,8520707,srgb,onBeforeCompile() {\n      }-static-ranges-v1-mall-room-finish-v2-0.18-mall-front-cutaway-v1-mall-exact-float32-rgb-v1",
+    "program": ""
+  },
+  {
+    "at": 59233.19999999553,
+    "ms": 1.4000000059604645,
+    "draw": null,
+    "key": "basic,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,0,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8651776,8520707,srgb,onBeforeCompile() {\n      }-static-ranges-v1-mall-front-cutaway-v1-mall-exact-float32-rgb-v1",
+    "program": ""
+  },
+  {
+    "at": 59234.89999999851,
+    "ms": 1,
+    "draw": null,
+    "key": "6,7,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8389633,srgb,onBeforeCompile() {\n      }-mall-front-cutaway-v1",
+    "program": ""
+  },
+  {
+    "at": 59236.29999999702,
+    "ms": 7,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8651776,8520707,srgb,onBeforeCompile() {\n      }-static-ranges-v1-mall-room-finish-v2-0.18-mall-front-cutaway-v1-mall-exact-float32-rgb-v1",
+    "program": ""
+  },
+  {
+    "at": 59243.89999999851,
+    "ms": 2.7999999970197678,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8651776,8522755,srgb,onBeforeCompile() {\n      }-static-ranges-v1-mall-room-finish-v2-0.18-mall-front-cutaway-v1-mall-exact-float32-rgb-v1",
+    "program": ""
+  },
+  {
+    "at": 59247.10000000149,
+    "ms": 3,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8520707,srgb,mall-finish-v3-0.16-mall-room-finish-v2-0.18-mall-front-cutaway-v1",
+    "program": ""
+  },
+  {
+    "at": 59250.60000000149,
+    "ms": 3.6999999955296516,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8520707,srgb,onBeforeCompile() {\n      }-mall-room-finish-v2-0.18-mall-front-cutaway-v1-mall-exact-float32-rgb-v1",
+    "program": ""
+  },
+  {
+    "at": 59257,
+    "ms": 8.299999997019768,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8651776,8520707,srgb,onBeforeCompile() {\n      }-static-ranges-v1-mall-room-finish-v2-0.18-mall-front-cutaway-v1-mall-exact-float32-rgb-v1",
+    "program": ""
+  },
+  {
+    "at": 59266.10000000149,
+    "ms": 3.399999998509884,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,false,uv,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388672,8520707,srgb,onBeforeCompile() {\n      }-mall-room-finish-v2-0.18-mall-front-cutaway-v1",
+    "program": ""
+  },
+  {
+    "at": 59270.29999999702,
+    "ms": 1,
+    "draw": null,
+    "key": "basic,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,0,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8520707,srgb,onBeforeCompile() {\n      }-mall-front-cutaway-v1-mall-exact-float32-rgb-v1",
+    "program": ""
+  },
+  {
+    "at": 59271.69999999553,
+    "ms": 2.8000000044703484,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,false,uv,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388673,8520707,srgb,mall-tread-colour--1",
+    "program": ""
+  },
+  {
+    "at": 59275,
+    "ms": 0.7999999970197678,
+    "draw": null,
+    "key": "depth,highp,srgb-linear,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,3201,8388609,8532993,srgb-linear,mall-tread-shadow--1",
+    "program": ""
+  },
+  {
+    "at": 59276.19999999553,
+    "ms": 2.7000000029802322,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,false,uv,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388673,8520707,srgb,mall-tread-colour-1",
+    "program": ""
+  },
+  {
+    "at": 59279.29999999702,
+    "ms": 0.6000000014901161,
+    "draw": null,
+    "key": "depth,highp,srgb-linear,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,3201,8388609,8532993,srgb-linear,mall-tread-shadow-1",
+    "program": ""
+  },
+  {
+    "at": 59280.29999999702,
+    "ms": 0.8999999985098839,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389633,8520707,srgb,mall-sushi-conveyor-colour-v1",
+    "program": ""
+  },
+  {
+    "at": 59281.5,
+    "ms": 0.6000000014901161,
+    "draw": null,
+    "key": "depth,highp,srgb-linear,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,3201,8388609,8532993,srgb-linear,mall-sushi-conveyor-shadow-v1",
+    "program": ""
+  },
+  {
+    "at": 59282.5,
+    "ms": 1,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389633,8520707,srgb,mall-sushi-conveyor-colour-v1",
+    "program": ""
+  },
+  {
+    "at": 59283.89999999851,
+    "ms": 0.5,
+    "draw": null,
+    "key": "depth,highp,srgb-linear,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,3201,8388609,8532993,srgb-linear,mall-sushi-conveyor-shadow-v1",
+    "program": ""
+  },
+  {
+    "at": 59284.69999999553,
+    "ms": 2.600000001490116,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388609,8520707,srgb,mall-ice-six-static-nozzles-v1",
+    "program": ""
+  },
+  {
+    "at": 59287.79999999702,
+    "ms": 0.8000000044703484,
+    "draw": null,
+    "key": "17,18,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8520705,srgb,onBeforeCompile() {\n      }-mall-front-cutaway-v1",
+    "program": ""
+  },
+  {
+    "at": 59288.89999999851,
+    "ms": 3.7000000029802322,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8520707,srgb,onBeforeCompile() {\n      }-mall-room-finish-v2-0.18-mall-front-cutaway-v1-mall-exact-float32-rgb-v1",
+    "program": ""
+  },
+  {
+    "at": 59293,
+    "ms": 0.6999999955296516,
+    "draw": null,
+    "key": "19,20,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8389633,srgb,onBeforeCompile() {\n      }-mall-front-cutaway-v1",
+    "program": ""
+  },
+  {
+    "at": 59294.19999999553,
+    "ms": 2.2000000029802322,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8393731,srgb,mall-jelly-bell-0",
+    "program": ""
+  },
+  {
+    "at": 59296.89999999851,
+    "ms": 0.7000000029802322,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8389635,srgb,mall-jelly-bell-0",
+    "program": ""
+  },
+  {
+    "at": 59297.89999999851,
+    "ms": 0.7999999970197678,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8520707,srgb,mall-jelly-arms-0",
+    "program": ""
+  },
+  {
+    "at": 59299.10000000149,
+    "ms": 2.399999998509884,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8393731,srgb,mall-jelly-bell-1",
+    "program": ""
+  },
+  {
+    "at": 59301.89999999851,
+    "ms": 0.7999999970197678,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8389635,srgb,mall-jelly-bell-1",
+    "program": ""
+  },
+  {
+    "at": 59303,
+    "ms": 0.6999999955296516,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8520707,srgb,mall-jelly-arms-1",
+    "program": ""
+  },
+  {
+    "at": 59304.10000000149,
+    "ms": 2.1999999955296516,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8393731,srgb,mall-jelly-bell-2",
+    "program": ""
+  },
+  {
+    "at": 59306.79999999702,
+    "ms": 0.8000000044703484,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8389635,srgb,mall-jelly-bell-2",
+    "program": ""
+  },
+  {
+    "at": 59308.10000000149,
+    "ms": 0.7999999970197678,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8520707,srgb,mall-jelly-arms-2",
+    "program": ""
+  },
+  {
+    "at": 59309.39999999851,
+    "ms": 2.399999998509884,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8393731,srgb,mall-jelly-bell-3",
+    "program": ""
+  },
+  {
+    "at": 59312.29999999702,
+    "ms": 1,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8389635,srgb,mall-jelly-bell-3",
+    "program": ""
+  },
+  {
+    "at": 59313.79999999702,
+    "ms": 0.7000000029802322,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8520707,srgb,mall-jelly-arms-3",
+    "program": ""
+  },
+  {
+    "at": 59315,
+    "ms": 2.899999998509884,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8393731,srgb,mall-jelly-bell-4",
+    "program": ""
+  },
+  {
+    "at": 59318.5,
+    "ms": 1,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8389635,srgb,mall-jelly-bell-4",
+    "program": ""
+  },
+  {
+    "at": 59319.89999999851,
+    "ms": 0.7999999970197678,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8520707,srgb,mall-jelly-arms-4",
+    "program": ""
+  },
+  {
+    "at": 59321,
+    "ms": 1.1000000014901161,
+    "draw": null,
+    "key": "4,25,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8391683,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 59322.79999999702,
+    "ms": 1,
+    "draw": null,
+    "key": "4,26,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8391683,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 59324.10000000149,
+    "ms": 0.5999999940395355,
+    "draw": null,
+    "key": "physical,STANDARD,,PHYSICAL,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8588291,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 59325.29999999702,
+    "ms": 1.8999999985098839,
+    "draw": null,
+    "key": "physical,STANDARD,,PHYSICAL,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8520707,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 61308.39999999851,
+    "ms": 15.100000001490116,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8651776,8520707,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 61324.60000000149,
+    "ms": 3.2999999970197678,
+    "draw": null,
+    "key": "depth,highp,srgb-linear,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,3200,8650752,8532993,srgb-linear,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 61429.69999999553,
+    "ms": 35,
+    "draw": null,
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8651776,8520707,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 61474.39999999851,
+    "ms": 4.299999997019768,
+    "draw": null,
+    "key": "depth,highp,srgb-linear,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,3200,8650752,8532993,srgb-linear,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 61766.29999999702,
+    "ms": 5.300000004470348,
+    "draw": null,
+    "key": "depth,highp,srgb-linear,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,3201,8388608,8532993,srgb-linear,mosa-muscular-tail-normal-v3",
+    "program": ""
+  },
+  {
+    "at": 63511.10000000149,
+    "ms": 4.5,
+    "draw": {
+      "object": "Shared exact static props",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshDepthMaterial",
+      "materialName": "",
+      "receiveShadow": true,
+      "castShadow": true,
+      "batch": true,
+      "instance": false,
+      "ancestors": [
+        "Shared exact static props",
+        "Scene"
+      ]
+    },
+    "key": "depth,highp,srgb-linear,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,false,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,3200,8650752,8532992,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 63518.60000000149,
+    "ms": 0.6999999955296516,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshDepthMaterial",
+      "materialName": "",
+      "receiveShadow": true,
+      "castShadow": true,
+      "batch": true,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Biome-autumn-Sky-Mosasaur-Sea",
+        "Scene"
+      ]
+    },
+    "key": "depth,highp,srgb-linear,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,false,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,3201,8650752,8532992,srgb,onBeforeCompile() {\n      }-static-ranges-v1",
+    "program": ""
+  },
+  {
+    "at": 63520.69999999553,
+    "ms": 0.7000000029802322,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshDepthMaterial",
+      "materialName": "",
+      "receiveShadow": true,
+      "castShadow": true,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Biome-autumn-Sky-Mosasaur-Sea",
+        "Scene"
+      ]
+    },
+    "key": "depth,highp,srgb-linear,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,false,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,3200,8388608,8532992,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 63522.79999999702,
+    "ms": 6.5,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshDepthMaterial",
+      "materialName": "",
+      "receiveShadow": true,
+      "castShadow": true,
+      "batch": true,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Group",
+        "Dense tropical headlands, flowering canopy and natural white-sand coves",
+        "Group",
+        "Biome-autumn-Sky-Mosasaur-Sea",
+        "Scene"
+      ]
+    },
+    "key": "depth,highp,srgb-linear,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,false,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,3201,8650752,8530944,srgb,onBeforeCompile() {\n      }-static-ranges-v1",
+    "program": ""
+  },
+  {
+    "at": 63531.10000000149,
+    "ms": 7,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshDepthMaterial",
+      "materialName": "",
+      "receiveShadow": true,
+      "castShadow": true,
+      "batch": true,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Group",
+        "Dense tropical headlands, flowering canopy and natural white-sand coves",
+        "Group",
+        "Biome-autumn-Sky-Mosasaur-Sea",
+        "Scene"
+      ]
+    },
+    "key": "depth,highp,srgb-linear,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,false,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,3201,8650752,8530944,srgb,onBeforeCompile() {\n      }-static-ranges-v1",
+    "program": ""
+  },
+  {
+    "at": 63546.60000000149,
+    "ms": 5,
+    "draw": {
+      "object": "UpperLid1",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshPhysicalMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": true,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "UpperLid1",
+        "EyeGlobe1",
+        "Eye1",
+        "Head",
+        "Chichi",
+        "Group",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,PHYSICAL,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8586243,srgb,chichi-reference-short-fur-v2-false-skip-zero-joints-v1",
+    "program": ""
+  },
+  {
+    "at": 63554.5,
+    "ms": 30.5,
+    "draw": {
+      "object": "UpperLidVelvet1",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshPhysicalMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "UpperLidVelvet1",
+        "EyeGlobe1",
+        "Eye1",
+        "Head",
+        "Chichi",
+        "Group",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,PHYSICAL,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8588291,srgb,onBeforeCompile() {\n      }-skip-zero-joints-v1",
+    "program": ""
+  },
+  {
+    "at": 63588.5,
+    "ms": 29.19999999552965,
+    "draw": {
+      "object": "SleepingLash1",
+      "type": "Mesh",
+      "geometry": "TubeGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": true,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "SleepingLash1",
+        "ClosedEye1",
+        "Head",
+        "Chichi",
+        "Group",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8520707,srgb,onBeforeCompile() {\n      }-skip-zero-joints-v1",
+    "program": ""
+  },
+  {
+    "at": 63628.10000000149,
+    "ms": 25.899999998509884,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": true,
+      "castShadow": true,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Group",
+        "Group",
+        "Biome-summer-capybara-lagoon",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8522755,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 63667.79999999702,
+    "ms": 15.899999998509884,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshBasicMaterial",
+      "materialName": "",
+      "receiveShadow": true,
+      "castShadow": false,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Group",
+        "Котячий банк",
+        "Scene"
+      ]
+    },
+    "key": "basic,highp,srgb,false,,uv,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,0,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8520707,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 63686,
+    "ms": 5.199999995529652,
+    "draw": {
+      "object": "Live BTC / ETH candlestick displays",
+      "type": "Mesh",
+      "geometry": "PlaneGeometry",
+      "material": "ShaderMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": true,
+      "ancestors": [
+        "Live BTC / ETH candlestick displays",
+        "Криптоофіс · Green Paw Capital",
+        "Scene"
+      ]
+    },
+    "key": "27,28,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,0,8388609,8522753,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 63693.19999999553,
+    "ms": 3.7000000029802322,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "BoxGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": true,
+      "ancestors": [
+        "Mesh",
+        "Котяче виробництво",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388609,8520707,srgb,city-conveyor-v1",
+    "program": ""
+  },
+  {
+    "at": 63880.69999999553,
+    "ms": 7.300000004470348,
+    "draw": {
+      "object": "Shin",
+      "type": "SkinnedMesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshPhysicalMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": true,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Shin",
+        "Leg1_1",
+        "Chichi",
+        "Group",
+        "CHICHI horizontal underwater mall",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,PHYSICAL,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8586275,srgb,chichi-reference-short-fur-v2-false",
+    "program": ""
+  },
+  {
+    "at": 63892.5,
+    "ms": 46.399999998509884,
+    "draw": {
+      "object": "LegVelvet1_1",
+      "type": "SkinnedMesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshPhysicalMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": false,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "LegVelvet1_1",
+        "Leg1_1",
+        "Chichi",
+        "Group",
+        "CHICHI horizontal underwater mall",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,PHYSICAL,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8588323,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 63942,
+    "ms": 47.5,
+    "draw": {
+      "object": "Toe-1",
+      "type": "SkinnedMesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": false,
+      "castShadow": true,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Toe-1",
+        "Leg1_1",
+        "Chichi",
+        "Group",
+        "CHICHI horizontal underwater mall",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8388608,8520739,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 64096.10000000149,
+    "ms": 10.299999997019768,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": true,
+      "castShadow": false,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Group",
+        "Мур-Моторс",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8393731,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 64108.69999999553,
+    "ms": 31.200000002980232,
+    "draw": {
+      "object": "",
+      "type": "Mesh",
+      "geometry": "BufferGeometry",
+      "material": "MeshStandardMaterial",
+      "materialName": "",
+      "receiveShadow": true,
+      "castShadow": false,
+      "batch": false,
+      "instance": false,
+      "ancestors": [
+        "Mesh",
+        "Group",
+        "Мур-Моторс",
+        "Scene"
+      ]
+    },
+    "key": "physical,STANDARD,,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8389632,8389635,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  },
+  {
+    "at": 89347.29999999702,
+    "ms": 8.399999998509884,
+    "draw": null,
+    "key": "basic,highp,srgb,false,,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,0,true,false,0,,0,2,0,0,0,1,0,0,1,0,0,0,0,1,4,0,0,0,8651776,8520707,srgb,onBeforeCompile() {\n      }",
+    "program": ""
+  }
+]

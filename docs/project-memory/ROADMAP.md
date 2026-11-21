@@ -4,7 +4,8 @@
 sourceb9f681a, workflow44804905460 test/deploy/pages SUCCESS. Actual HTTP hashes
 и одно app подключение verified. Native19островов+2возврата и phone touch/deep
 save/2reload PASS. Публикация завершена. ПолныеSHA/хеши/доказательства — CURRENT.
-Следующее: оценить новый аппаратный M2report, если пользователь его пришлёт.
+Получен новый M2report6ccec70:19.04FPS и8.6s gap. Приоритет: attribution
+оставшихся stalls; native first-use shader trace запущен, новый runtime не менялся.
 Не обещать FPS и не начинать следующий редизайн без новой задачи.
 
 Удалены8отмеченныхскал и72верхнихкамня, обе стороны лагуны шире. ТРЦ/SPA/

@@ -68,7 +68,8 @@ SPAatlas/wind field прежние. Полные resource hashes и headers — 
 Точные исходники/QA bundle/профили/PNG/команды/failed attempt сохранены в QA.
 Физический M2/iPhone FPS после исправления ещё не измерен; нужен новый report.
 Успешный workflow не означает пользовательское художественное одобрение.
-Публикация завершена, новых runtime задач самовольно не начинать.
+Публикация6ccec70 завершена. Получен новый report с сохраняющимися паузами;
+текущая работа — атрибуция оставшихся shader first-use stalls, см. ниже.
 
 ## Сохранённый предыдущий выпуск7a: изменение по фото
 
@@ -129,3 +130,17 @@ grey underside опущена12м под прежнее дно. Не возвр�
 PR#6 CLOSED безmerge; не включать её в другие задачи. Старые исходные worktrees
 и архивы сохранены. Диагностика только по запросу, QA толькоprivateWorker/SQLite.
 
+
+## Новый M2 report6ccec70 — зависания всё ещё есть
+
+App0e305ce4212c504f подтверждён.19.04FPS/15.7s, gap8599.9ms, eventloop8650.5ms;
+GPUmedian9.48/p9513.79ms. Fullreset renderer867.5/508.8ms;97getProgramInfoLog
+1208.5ms total. Эти shaderchecks — оставшаяся измеренная стоимость, но они НЕ
+объясняют весь8.6s gap: longtaskmax913ms/LoAF523.7ms. Не выдумывать причину и не
+объявлять меньший workload или network durations контролируемым ускорением.
+Последний кадр630912tri/36calls,3preparing, без evictions/refaults. Полныйreport,
+hash/анализ: [QA](../qa/2026-11-20/render-stall-loading/user-fps-6ccec70/analysis.md).
+Runtime пока прежнийb9. Запущен QA-only exact-source shader first-use trace:
+/workspace/qa/check-shader-misses.cjs → /workspace/qa/shader-miss-baseline,
+session85623. Один actual expanded-overview/privateWorker; не physical FPS.
+Не снижать DPR/графику/воду/котиков и не отключать shader errors ради цифр.

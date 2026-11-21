@@ -1,0 +1,12 @@
+{
+  "sha256": "90dd125e36aa06b90cb660a955dddd0a101edecda3306b4a48655de1794c521c",
+  "sediment": "file_00000000a5f082108142ff0de950ef02",
+  "app": "./dist/app.js?v=0e305ce4212c504f",
+  "release": "6ccec70440b551ff6c3c06a98945ff7d5d168db0",
+  "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+  "viewport": [
+    1440,
+    812
+  ],
+  "DPR": 2
+}
