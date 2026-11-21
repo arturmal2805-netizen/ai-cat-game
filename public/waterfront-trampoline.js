@@ -1,0 +1,24 @@
+import * as T from 'three';
+import {WATERFRONT}from'./waterfront-data.js';
+import {parts}from'./waterfront-primitives.js';
+export const TRAMPOLINE_GRAVITY=9.81,TRAMPOLINE_SLOTS=8;
+export function netDisplacement(x,z,time,impacts){let y=0;for(const p of impacts){const age=time-p.z;if(age<0||age>3.5)continue;const r=Math.hypot(x-p.x,z-p.y);y-=p.w*Math.exp(-age*1.5)*Math.cos(age*9-r*.14)*Math.exp(-r*r/95);}return Math.max(-1.1,Math.min(.42,y));}
+const deform=`uniform vec4 wfImpacts[8];uniform float wfTime;float wfDeform(vec2 p){float d=0.;for(int i=0;i<8;i++){float a=wfTime-wfImpacts[i].z;if(a<0.||a>3.5)continue;float r=length(p-wfImpacts[i].xy);d-=wfImpacts[i].w*exp(-a*1.5)*cos(a*9.-r*.14)*exp(-r*r/95.);}return clamp(d,-1.1,.42);}`;
+function netTexture(){if(typeof document==='undefined')return null;const c=document.createElement('canvas');c.width=c.height=1024;const ctx=c.getContext('2d');ctx.fillStyle='#6c55ac';ctx.fillRect(0,0,1024,1024);ctx.strokeStyle='#b6a0db';ctx.lineWidth=1.2;for(let i=0;i<=1024;i+=8){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,1024);ctx.moveTo(0,i);ctx.lineTo(1024,i);ctx.stroke();}ctx.fillStyle='#eeb6dc';ctx.beginPath();ctx.ellipse(512,550,132,110,0,0,Math.PI*2);ctx.fill();for(const[x,y]of[[330,390],[450,320],[585,320],[695,390]]){ctx.beginPath();ctx.ellipse(x,y,49,70,Math.atan2(x-512,240),0,Math.PI*2);ctx.fill();}const t=new T.CanvasTexture(c);t.colorSpace=T.SRGBColorSpace;t.anisotropy=4;return t;}
+export function* trampolineSteps(root,materials){
+ const b=parts(root,materials),r=WATERFRONT.trampoline.radius,y=WATERFRONT.trampoline.y;
+ b.torus('violet',0,y,r-3,3.3);b.torus('rose',0,y+1.3,r-3,1);b.torus('gold',0,y-.7,r+1,.55);b.torus('light',0,y-.75,r+1.4,.16);
+ for(let i=0;i<24;i++){yield;const a=i*Math.PI/12,x=Math.sin(a)*(r-3),z=Math.cos(a)*(r-3);b.sphere('gold',x,y+1.7,z,.18,1,.18);if(i%3===0){b.sphere('light',x,y+2.7,z,.65,.4,.65);b.cylinder('gold',x,y+4.4,z,.1,4);b.box('pink',x+1.4*Math.cos(a),y+5.5,z-1.4*Math.sin(a),3,2,.08,[0,a,0]);}}
+ // Four real stairs give swimmers a wide climb-out with no jump through the ring.
+ for(const a of[0,Math.PI/2,Math.PI,Math.PI*1.5]){yield;for(let i=0;i<7;i++){const d=r+7-i*1.55;b.box('ivory',Math.sin(a)*d,y-2.4+i*.42,Math.cos(a)*d,5,.42,2.2,[0,a,0]);}for(const side of[-1,1]){const line=[];for(let i=0;i<7;i++){const d=r+7-i*1.55;line.push([Math.sin(a)*d+side*Math.cos(a)*2.8,y-.9+i*.42,Math.cos(a)*d-side*Math.sin(a)*2.8]);}b.tube('gold',line,.15);}}
+ yield* b.finish();
+ const impacts=Array.from({length:8},()=>new T.Vector4(0,0,-100,0)),clock={value:0},map=netTexture(),mat=new T.MeshStandardMaterial({color:map?0xffffff:0xa288d0,map,roughness:.8,side:T.DoubleSide});
+ const patch=shader=>{shader.uniforms.wfImpacts={value:impacts};shader.uniforms.wfTime=clock;shader.vertexShader=deform+'\n'+shader.vertexShader;shader.vertexShader=shader.vertexShader.replace('#include <beginnormal_vertex>','#include <beginnormal_vertex>\nfloat e=.12;objectNormal=normalize(vec3(-(wfDeform(position.xz+vec2(e,0.))-wfDeform(position.xz-vec2(e,0.)))/(2.*e),1.,-(wfDeform(position.xz+vec2(0.,e))-wfDeform(position.xz-vec2(0.,e)))/(2.*e)));');shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\ntransformed.y+=wfDeform(position.xz);');};
+ mat.onBeforeCompile=patch;mat.customProgramCacheKey=()=> 'waterfront-elastic-net-v1';const geometry=new T.CircleGeometry(r-6,128,0,Math.PI*2);
+ // Concentric topology resolves local paw impacts across the entire net.
+ const v=[0,0,0],uv=[.5,.5],index=[];const rings=48,segments=128;for(let j=1;j<=rings;j++)for(let i=0;i<segments;i++){const a=i*Math.PI*2/segments,d=(r-6)*j/rings;v.push(Math.sin(a)*d,0,Math.cos(a)*d);uv.push(.5+Math.sin(a)*j/rings*.5,.5+Math.cos(a)*j/rings*.5);}
+ for(let i=0;i<segments;i++)index.push(0,1+(i+1)%segments,1+i);for(let j=1;j<rings;j++)for(let i=0;i<segments;i++){const a=1+(j-1)*segments+i,c=1+j*segments+i,an=1+(j-1)*segments+(i+1)%segments,cn=1+j*segments+(i+1)%segments;index.push(a,cn,c,a,an,cn);}
+ geometry.setAttribute('position',new T.Float32BufferAttribute(v,3));geometry.setAttribute('uv',new T.Float32BufferAttribute(uv,2));geometry.setIndex(index);geometry.computeVertexNormals();geometry.computeBoundingBox();geometry.boundingBox.min.y=-1.1;geometry.boundingBox.max.y=.42;geometry.computeBoundingSphere();geometry.boundingSphere.radius+=1.1;
+ const net=new T.Mesh(geometry,mat);net.position.y=y;net.castShadow=true;net.receiveShadow=true;const depth=new T.MeshDepthMaterial({depthPacking:T.RGBADepthPacking});depth.onBeforeCompile=patch;depth.customProgramCacheKey=mat.customProgramCacheKey;net.customDepthMaterial=depth;root.add(net);let cursor=0;
+ root.userData={net,impacts,impact(x,z,t,strength=.5){impacts[cursor++%8].set(x,z,t,strength);},height(x,z,t){return y+netDisplacement(x,z,t,impacts);},update(t){clock.value=t;}};return root;
+}
