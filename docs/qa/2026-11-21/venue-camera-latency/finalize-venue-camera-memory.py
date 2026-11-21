@@ -10,7 +10,8 @@ for folder,role,sha,state in [('venue-latency-baseline-final','baseline-15cb','1
 for folder in ['venue-latency-final','venue-camera-phone']:
  x=json.loads((w/folder/'venue-latency.json').read_text());assert x['cold']['inspection'] and x['cold']['writes'][0]['atMs']<100 and not x['cancellation']['after']['mall'] and not x['cancellation']['after']['spa'];assert not x['errors'] and not x['httpErrors']
 shutil.copytree(w/'venue-camera-live',q/'live',dirs_exist_ok=True)
-for name in ['venue-camera-native-finish.log','venue-camera-native-startup-race.log','venue-camera-all-map.log-before-menu','venue-camera-final-regressions.log','venue-latency-final.log','venue-camera-expected-production.json','venue-latency-candidate.log','venue-latency-candidate-final.log','venue-latency-candidate-verified.log','audit-venue-latency-wrong-return.mjs','venue-camera-all-map.log','venue-camera-phone.log','venue-camera-main-ci-watch.log','venue-camera-publication.log','venue-camera-live-verifier.log','audit-venue-latency-final.mjs','check-venue-latency-final.cjs','check-venue-map-helper.mjs','check-venue-map.cjs','check-native-map-fairness-ready.mjs','native-readonly-hardlinks.cjs','finish-venue-camera-native.py','verify-venue-camera-live.py','watch-venue-camera-release.py','finalize-venue-camera-memory.py']:
+shutil.copy2(w/'venue-camera-expected-production.json',q/'expected-production.json')
+for name in ['venue-camera-native-finish.log','venue-camera-native-startup-race.log','venue-camera-all-map.log-before-menu','venue-camera-final-regressions.log','venue-latency-final.log','venue-camera-expected-production.json','venue-latency-candidate.log','venue-latency-candidate-final.log','venue-latency-candidate-verified.log','audit-venue-latency-wrong-return.mjs','venue-camera-all-map.log','venue-camera-phone.log','venue-camera-merge.json','venue-camera-main-ci-watch.log','venue-camera-publication.log','venue-camera-live-verifier.log','audit-venue-latency-final.mjs','check-venue-latency-final.cjs','check-venue-map-helper.mjs','check-venue-map.cjs','check-native-map-fairness-ready.mjs','native-readonly-hardlinks.cjs','finish-venue-camera-native.py','verify-venue-camera-live.py','watch-venue-camera-release.py','finalize-venue-camera-memory.py']:
  p=w/name
  if p.exists():shutil.copy2(p,q/(name+'.txt' if p.suffix=='.log' else name))
 old=(m/'CURRENT.md').read_text();hist=m/'history/CURRENT-before-toolbar-camera-publication-2026-11-21.md'
@@ -78,10 +79,11 @@ CrimsonDesert artistic approval. Newhardware report must match app{e['dist/app.j
 
 Main **{main}**, source **{source}**, branch`codex/venue-camera-latency`,
 worktree`/workspace/chichi-v12-island-warehouse`. PR#15 merged normally/noadmin.
+Exact source/main tree `afe1933dac0b7dd893d8e491a0f20547983db458`.
 [Игра](https://arturmal2805-netizen.github.io/ai-cat-game/?v={main[:7]}) ·
 [FPS](https://arturmal2805-netizen.github.io/ai-cat-game/?v={main[:7]}&profile=1).
 Workflow **{run}** test/build/deploy/pages SUCCESS, exact Worker release/shared-save
-checks PASS, routine paidAI не вызывается. PR workflow44927682063 не является
+checks PASS, routine paidAI не вызывается. PR workflows44927682063/44928626955 отменены после source update/merge и не являются
 production deployment. External Workers Builds отдельно от official main workflow.
 Actual HTTP **{t} Europe/Kyiv**: versioned HTML/JS/CSS/coast/reef/SPA/wind bytes
 совпали; **одно подключение приложения**.

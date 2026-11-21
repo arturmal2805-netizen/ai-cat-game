@@ -1,12 +1,12 @@
 {
-  "source": "aac417141026eb58421d92f7b37f912cd5bb23da",
+  "source": "de479f16eaaefac390110a4dd284f7a63a11bcc4",
   "index.html": {
     "bytes": 31956,
-    "sha256": "90ea2118bf2917f6868c586bba1b75dd3d5be1aafea5f33defe76dc3418fe473"
+    "sha256": "4085bc29c681fd0efa0e3c602855f00ddc8083abab806d27ccc6582beda7e634"
   },
   "dist/app.js": {
-    "bytes": 2820844,
-    "sha256": "500bf0c7422ec7ccbfaf0b86e8d633cf03ad7950d40b9fb360e1e03902bce163"
+    "bytes": 2820852,
+    "sha256": "21fc1aa9e5cc509119d0d4e914216f970c5326cb370ac2c364ed317da309b95a"
   },
   "style.css": {
     "bytes": 68254,

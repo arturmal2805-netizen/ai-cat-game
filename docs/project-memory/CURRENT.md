@@ -137,3 +137,16 @@ thoseattempts. Oldallmapinterruptedafterfirstmoonforsmall8menu refinement;
 finalnativecontroller25808 allmap→phone fullRAF/DPR2 sampling, prep-onlypause.
 PR#15normalmerge requestedtooverlapmainCIwithremainingnativegates; cancelmain
 workflowifnativefailsbeforepublication. Livecurrently15cb,notclaimnewdeploy.
+
+PR#15 MERGED normally: main **abd2305e6234f42e9bcc5e0be41ca5dd8c6d9561**,
+source **de479f16eaaefac390110a4dd284f7a63a11bcc4**, exacttree
+afe1933dac0b7dd893d8e491a0f20547983db458. Official mainworkflow **44928862404**
+running/test, PRduplicate44928626955cancelledaftermerge. Publicationwatch
+session23794 watchesmain+actualHTTP (verify-venue-camera-live.py). Nativecontroller
+25808 /workspace/qa/finish-venue-camera-native.py; /workspace/qa/venue-camera-native-finish.log,
+fullmap→combinedphonecold/cancel/framing/8touch/2reload. Watcher cancelsmainifnative
+controllerfails. LiveSTILL15cb untilreceipt exists. Expectedfinalapp
+21fc1aa9e5cc509119d0d4e914216f970c5326cb370ac2c364ed317da309b95a/CSSsame1fd.
+Finalmemorywriter /workspace/qa/finalize-venue-camera-memory.py MAIN RUN,
+requiresallnative/liveproofs. No further sourcechangesneeded; finishexistinggates,
+archivefailedandfinalexactsource, actualHTTP/oneapp, memorypush/remoteSHA, thenlinks.
