@@ -150,3 +150,10 @@ controllerfails. LiveSTILL15cb untilreceipt exists. Expectedfinalapp
 Finalmemorywriter /workspace/qa/finalize-venue-camera-memory.py MAIN RUN,
 requiresallnative/liveproofs. No further sourcechangesneeded; finishexistinggates,
 archivefailedandfinalexactsource, actualHTTP/oneapp, memorypush/remoteSHA, thenlinks.
+
+Finalnativeallmap **21rows/19islands+2returns PASS**, allDPR2/frame>=3,
+minorbit0.09467/minzoom15.9994, noJS/HTTPerrors/contextloss. Exact453modules
+verifiedsource de479. QApausedONLYpreparationbeforefullnativeRAF samples;
+oldbefore-menu interruptedrun preserved separately/sourceaac. Phonecombined
+running, coldintent0.5ms/8roommenuPASS; final2reload andCI/live pending.
+Previousmainworkflowtestphase normally~12min; do not bypass whilewaiting.

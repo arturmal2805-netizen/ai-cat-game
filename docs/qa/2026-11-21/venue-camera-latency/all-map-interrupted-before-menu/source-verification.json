@@ -1,0 +1,49 @@
+{
+  "source": "aac417141026eb58421d92f7b37f912cd5bb23da",
+  "allCapturedPublicModulesMatchSource": true,
+  "moduleCount": 453,
+  "state": "interrupted-after-first-island-for-eight-room-menu-refinement",
+  "scope": "Actual native game/private Worker/SQLite; SwiftShader correctness only, hardware FPS unmeasured",
+  "files": {
+    "check-aquarium.cjs": {
+      "bytes": 120039,
+      "sha256": "330b5432c56062329d25edd692c8787a5e0d9b74fbe8a2c40a9b787d2d565c4b"
+    },
+    "qa-build.json": {
+      "bytes": 233,
+      "sha256": "9bb156739d5e5a77d2a64b781b4c0d99819e6b0e6f0a363f79b9cdb46be7eefb"
+    },
+    "source-proof.tar.gz": {
+      "bytes": 2264426,
+      "sha256": "4d6c5bb7deea1e3dcf35cb948710ef5f7596f27a5a28c6ea5be410311f02846b"
+    },
+    "audit-v12-native.mjs": {
+      "bytes": 8185,
+      "sha256": "f0869e31e5aeed61408b5b275733bae8054fbd4a7ae7695d5d838b1bc283f41d"
+    },
+    "map-moon.png": {
+      "bytes": 1187448,
+      "sha256": "76606d72e4dfc18075bf103ddc2c512b011acaf30c59c811e786e59cde347a29"
+    },
+    "check-native-map-frames.mjs": {
+      "bytes": 25290,
+      "sha256": "c97ec2343991d2d1a6730902af3ae35898dbaf7271857dd45475fe3f441580ca"
+    },
+    "native-map-frames.json": {
+      "bytes": 5529,
+      "sha256": "925416f330229d72ee8411cbd40b8f6abde2509940341a88b17d928eff64101f"
+    },
+    "audit-warehouse-open-water.mjs": {
+      "bytes": 5201,
+      "sha256": "8e4a18348cc38d51bc84fc09da3a79ca96df37246c8d5b58a4a6d469b96042b0"
+    },
+    "source-files.json": {
+      "bytes": 42052,
+      "sha256": "bedd1c7e753aa873642bebcfc126212d6528eedc4e1acee576b02dd685069463"
+    },
+    "source-status.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}
