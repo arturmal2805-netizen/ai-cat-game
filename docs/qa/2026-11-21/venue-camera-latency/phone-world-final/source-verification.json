@@ -1,0 +1,61 @@
+{
+  "source": "5c198b50bbf986f1381d5090abfc8b9f2a93d4f9",
+  "allCapturedPublicModulesMatchSource": true,
+  "moduleCount": 453,
+  "state": "movement-deepdive-2SQLite-reloads-pass",
+  "scope": "Actual native game/private Worker/SQLite; SwiftShader correctness only, hardware FPS unmeasured",
+  "files": {
+    "check-aquarium.cjs": {
+      "bytes": 120039,
+      "sha256": "330b5432c56062329d25edd692c8787a5e0d9b74fbe8a2c40a9b787d2d565c4b"
+    },
+    "v12-native.json": {
+      "bytes": 3887,
+      "sha256": "1b843647afd4227c6cd59fdac0375ade6ad7b30f8ed86d389e43e39d2b2f9d45"
+    },
+    "qa-build.json": {
+      "bytes": 233,
+      "sha256": "7557af357edff3fcf21afbabcdb6250f4e2d87f4560a32187f03a69df9db28cd"
+    },
+    "warehouse-open-water-movement.json": {
+      "bytes": 28835,
+      "sha256": "c94bf045147db7aa30748b875c8a253e4b9f89cf00481a07e7198e26ae4267e0"
+    },
+    "actual-game-ui.png": {
+      "bytes": 369165,
+      "sha256": "28e30918dda0ac95fc5760523b3bd75718772d22efc6e3f6350f8182321f994b"
+    },
+    "source-proof.tar.gz": {
+      "bytes": 2264553,
+      "sha256": "156a85b9f9661f9008a9fd25a51947f0ad4fff79cb9f10d825b97814cb7176f2"
+    },
+    "phone-overview.png": {
+      "bytes": 234548,
+      "sha256": "1c50807cb699251651ea2b03645685639320e27a246dedfab9ae954ed3dda282"
+    },
+    "audit-v12-native.mjs": {
+      "bytes": 8185,
+      "sha256": "f0869e31e5aeed61408b5b275733bae8054fbd4a7ae7695d5d838b1bc283f41d"
+    },
+    "check-native-map-frames.mjs": {
+      "bytes": 25290,
+      "sha256": "c97ec2343991d2d1a6730902af3ae35898dbaf7271857dd45475fe3f441580ca"
+    },
+    "audit-warehouse-open-water.mjs": {
+      "bytes": 5201,
+      "sha256": "8e4a18348cc38d51bc84fc09da3a79ca96df37246c8d5b58a4a6d469b96042b0"
+    },
+    "v12-views.json": {
+      "bytes": 3785,
+      "sha256": "20ead9001d6c5f2e344f523386d5013b1a2c459dd6253cb7e347bca6006c5412"
+    },
+    "source-files.json": {
+      "bytes": 42052,
+      "sha256": "952af2bb1bc5c50fa94097e7e793bc7dc640e006722ac9f61d277d4162a7a139"
+    },
+    "source-status.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

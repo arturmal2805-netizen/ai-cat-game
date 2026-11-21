@@ -157,3 +157,25 @@ verifiedsource de479. QApausedONLYpreparationbeforefullnativeRAF samples;
 oldbefore-menu interruptedrun preserved separately/sourceaac. Phonecombined
 running, coldintent0.5ms/8roommenuPASS; final2reload andCI/live pending.
 Previousmainworkflowtestphase normally~12min; do not bypass whilewaiting.
+
+## Validation correction and all native gates complete
+
+Firstmain **abd2305/workflow44928862404FAILEDnpmtest**, deploy/pagesSKIPPED;
+notpublished. RawCIlogsblocked(resultsreceiver); metadata+localrepro retained:
+2whole-filehashguards rejectedauthorizedcamera/runtimefiles. Historicalfixtures
+notchanged; narrowexceptionsforMall/SPAcamera controllers/Warehousecamera,
+buildingmodels/economy/saves assertions retained.24relatedtestsPASS.
+Tests-onlysource **5c198b50bbf986f1381d5090abfc8b9f2a93d4f9**, PR#16normalmerge
+main **d0d944acdc83ab69c1337d85e77c0471b044cb7a**, exacttree
+48ba046378769439b40426a0ff048f8056b44994. Newmainworkflow **44930181677**running.
+PRduplicate44930178385cancelledaftermerge. Watchsession **2231**,
+/workspace/qa/watch-venue-camera-release.py → venue-camera-publication.log;
+actualreceipt /workspace/qa/venue-camera-live/live-verification.json.
+Publictree de479==5c==d0dverified; actualruntimeunchangedafter24testfix.
+Nativeallmap21/cold8room/cancel/framingdesktop+phoneALLPASS. Combinedphoneafter
+cameraPASS timedoutre-enteringautumntabinV12fixture; keptfailedlog; separate
+originalphone-worldfixture **21140** PASS8touch/deepdive/2SQLite reloads.
+Finalnativegatelog /workspace/qa/venue-camera-native-final.log. No moreGPUwork
+needed. OnlyfullmainCI/livebytes/finalmemory/remoteSHA remain. Finalizer source
+5c andseparatephone-world pathupdated. LiveSTILL15cbuntilverifiedreceipt;
+expectedJS21fc1aa9e5cc509119d0d4e914216f970c5326cb370ac2c364ed317da309b95a.

@@ -1,0 +1,9 @@
+{
+  "publicTrees": {
+    "de479f16eaaefac390110a4dd284f7a63a11bcc4": "b7308806a093c350c3c807bf8dbcc46b870c29f9",
+    "5c198b50bbf986f1381d5090abfc8b9f2a93d4f9": "b7308806a093c350c3c807bf8dbcc46b870c29f9",
+    "d0d944acdc83ab69c1337d85e77c0471b044cb7a": "b7308806a093c350c3c807bf8dbcc46b870c29f9"
+  },
+  "runtimeByteIdentical": true,
+  "scope": "Final validation commit changes two test files only; native captures retain their original HEAD and every captured public module is verified against final source."
+}

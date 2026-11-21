@@ -1,0 +1,5 @@
+Desktop cold8room intent/cancellation/framing PASS
+19 islands+2returns native fullRAF/DPR2/input PASS
+Phone cold8room intent/cancellation/framing PASS
+Phone separate world fixture:8heldtouch/deepdive/2privateSQLite reloads PASS
+All native gates PASS

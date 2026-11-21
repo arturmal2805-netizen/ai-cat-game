@@ -1,0 +1,154 @@
+TAP version 13
+# Subtest: zoom damping retains its real-time response through late frames without replaying simulation
+ok 1 - zoom damping retains its real-time response through late frames without replaying simulation
+  ---
+  duration_ms: 0.689588
+  type: 'test'
+  ...
+# Subtest: wheel pixel input is unchanged and line/page events use their actual units
+ok 2 - wheel pixel input is unchanged and line/page events use their actual units
+  ---
+  duration_ms: 0.17666
+  type: 'test'
+  ...
+# Subtest: Mall visitor view keeps a low world-space angle through head poses and phone resize
+ok 3 - Mall visitor view keeps a low world-space angle through head poses and phone resize
+  ---
+  duration_ms: 3.356525
+  type: 'test'
+  ...
+# Subtest: a real sofa back selects a low side view, while free space above a low table stays clear
+ok 4 - a real sofa back selects a low side view, while free space above a low table stays clear
+  ---
+  duration_ms: 0.522641
+  type: 'test'
+  ...
+# Subtest: a temporarily blocked visitor keeps the last free eye instead of entering furniture
+ok 5 - a temporarily blocked visitor keeps the last free eye instead of entering furniture
+  ---
+  duration_ms: 0.571784
+  type: 'test'
+  ...
+# Subtest: guest camera containment uses the real pavilion glass and its own floor, not the wider roof
+ok 6 - guest camera containment uses the real pavilion glass and its own floor, not the wider roof
+  ---
+  duration_ms: 0.220155
+  type: 'test'
+  ...
+# Subtest: removed east-side reefs stay absent; original reef addresses and non-Warehouse buildings stay unchanged
+ok 7 - removed east-side reefs stay absent; original reef addresses and non-Warehouse buildings stay unchanged
+  ---
+  duration_ms: 5836.448891
+  type: 'test'
+  ...
+# Subtest: manual swimming and restored submarine poses can occupy and cross the deleted rock volumes without ghost contacts
+ok 8 - manual swimming and restored submarine poses can occupy and cross the deleted rock volumes without ghost contacts
+  ---
+  duration_ms: 42.586908
+  type: 'test'
+  ...
+# Subtest: authored flora remains byte-identical; only colonies without a surviving rock/floor support disappear
+ok 9 - authored flora remains byte-identical; only colonies without a surviving rock/floor support disappear
+  ---
+  duration_ms: 194.428003
+  type: 'test'
+  ...
+# Subtest: cached optical depth omits the removed trio while retaining the complete authored flora cache
+ok 10 - cached optical depth omits the removed trio while retaining the complete authored flora cache
+  ---
+  duration_ms: 58.020017
+  type: 'test'
+  ...
+# Subtest: the old decorative underside cannot protrude through the unchanged physical seabed at the exposed grey patch
+ok 11 - the old decorative underside cannot protrude through the unchanged physical seabed at the exposed grey patch
+  ---
+  duration_ms: 1058.185146
+  type: 'test'
+  ...
+# Subtest: third-person camera respects actual pressure glass, floors and closed aquarium while the real rear atrium opening stays open
+ok 12 - third-person camera respects actual pressure glass, floors and closed aquarium while the real rear atrium opening stays open
+  ---
+  duration_ms: 2612.416562
+  type: 'test'
+  ...
+# Subtest: eight physical destinations retain fourteen historical prices and real shared contacts
+ok 13 - eight physical destinations retain fourteen historical prices and real shared contacts
+  ---
+  duration_ms: 4.523805
+  type: 'test'
+  ...
+# Subtest: alias reservations share real bath occupancy including occupied cleaning and unavailable states
+ok 14 - alias reservations share real bath occupancy including occupied cleaning and unavailable states
+  ---
+  duration_ms: 0.586435
+  type: 'test'
+  ...
+# Subtest: retired service redeems its original paid receipt without selling or rebilling
+ok 15 - retired service redeems its original paid receipt without selling or rebilling
+  ---
+  duration_ms: 10.506633
+  type: 'test'
+  ...
+# Subtest: immutable Warehouse bounds retain exact transformed vertices without rescanning on repeated visits
+ok 16 - immutable Warehouse bounds retain exact transformed vertices without rescanning on repeated visits
+  ---
+  duration_ms: 2.701957
+  type: 'test'
+  ...
+# Subtest: Warehouse button camera fits the real shell in portrait/landscape and remains in open water above the physical floor
+ok 17 - Warehouse button camera fits the real shell in portrait/landscape and remains in open water above the physical floor
+  ---
+  duration_ms: 183.636911
+  type: 'test'
+  ...
+# Subtest: approved glass shell retains its topology and exact 2.5x width/height with unchanged depth, floor anchor and world position
+ok 18 - approved glass shell retains its topology and exact 2.5x width/height with unchanged depth, floor anchor and world position
+  ---
+  duration_ms: 158.019982
+  type: 'test'
+  ...
+# Subtest: architectural facade uses static shared batches without adding an interior, interactions or dynamic lights
+ok 19 - architectural facade uses static shared batches without adding an interior, interactions or dynamic lights
+  ---
+  duration_ms: 98.565131
+  type: 'test'
+  ...
+# Subtest: only the two covered Warehouse garden pockets move clear of the enlarged foundation; counts and other addresses survive
+ok 20 - only the two covered Warehouse garden pockets move clear of the enlarged foundation; counts and other addresses survive
+  ---
+  duration_ms: 16.736616
+  type: 'test'
+  ...
+# Subtest: Warehouse illumination keeps global ocean fog and glazing untouched and adds no texture or dynamic-light pass
+ok 21 - Warehouse illumination keeps global ocean fog and glazing untouched and adds no texture or dynamic-light pass
+  ---
+  duration_ms: 62.434046
+  type: 'test'
+  ...
+# Subtest: both Warehouse banks widen, previous water remains and all building sources/coordinates stay frozen
+ok 22 - both Warehouse banks widen, previous water remains and all building sources/coordinates stay frozen
+  ---
+  duration_ms: 3.089939
+  type: 'test'
+  ...
+# Subtest: all eight marked mounds and 72 crown rocks are absent from the actual mesh; living seabed gardens survive
+ok 23 - all eight marked mounds and 72 crown rocks are absent from the actual mesh; living seabed gardens survive
+  ---
+  duration_ms: 16464.790011
+  type: 'test'
+  ...
+# Subtest: real swimmer/submarine sweep through every former mound with full scenery obstacles, and reject the new outer bank
+ok 24 - real swimmer/submarine sweep through every former mound with full scenery obstacles, and reject the new outer bank
+  ---
+  duration_ms: 233.288152
+  type: 'test'
+  ...
+1..24
+# tests 24
+# suites 0
+# pass 24
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 20756.139657
