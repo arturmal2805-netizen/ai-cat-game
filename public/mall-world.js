@@ -22,7 +22,7 @@ import {cacheSceneMatrices} from './matrix-cache.js';
 export function createMallWorld({scene,container,getGame,getActors,getFocused,getOverview,getCameraElevation=()=>0,prepare,prepareModel,registerCat=()=>{},onCamera,onStoreCamera,onGuestCamera,onExit,onStore,onPurchase,onUse,onGoal,onComplete,onError=()=>{},canSimulate=()=>true,blocked=()=>false,reduced=false}={}){
   const centre=byBiome('autumn').center,abort=new AbortController(),staff=[],props=new Map(),personal=new Map(),worn=new Map(),navigationPending=new Map();
   const iceProps=new Map(),iceOffset=new THREE.Matrix4(),icePoint=new THREE.Vector3(),iceScale=new THREE.Vector3(.65,.65,.65);
-  let root=null,pending=null,disposed=false,inspection=false,selected=null,lastResume=-1,guest=null,lastGuest=null;
+  let root=null,pending=null,disposed=false,inspection=false,selected=null,lastResume=-1,guest=null,lastGuest=null,inspectionVersion=0;
   const access=venueButton('mall');access.classList.add('mall-access');access.hidden=true;(container.querySelector('.map-controls')||container).append(access);
   const panel=document.createElement('nav');panel.className='mall-floors';panel.hidden=true;panel.setAttribute('aria-label','Поверхи підводного ТРЦ');container.append(panel);
   const shopOpen=document.createElement('button');shopOpen.className='mall-shop-open';shopOpen.hidden=true;container.append(shopOpen);
@@ -69,7 +69,7 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
         for(const ghost of ghosts)ghost.visible=true;
         try{await prepareModel(model);}finally{for(const ghost of ghosts)ghost.visible=false;model.userData.focusFloor(null);}
         if(disposed){disposeModel(model);return null;}
-        pauseHiddenMatrixUpdates(model);for(const f of model.userData.floors.values())pauseHiddenMatrixUpdates(f);cacheSceneMatrices(model);scene.add(model);root=model;
+        pauseHiddenMatrixUpdates(model);for(const f of model.userData.floors.values())pauseHiddenMatrixUpdates(f);cacheSceneMatrices(model);scene.add(model);root=model;model.userData.focusFloor(inspection?selected:null);
         // Original native rigs, one roaming cashier per floor, prepared in
         // separate scheduler slices. No portrait renders or separate AI.
         function* staffSteps(){for(const f of MALL_FLOORS){yield;const profile=NEIGHBORS[(f.id*3)%NEIGHBORS.length],cat=createCat('happy',{detail:'npc',...catAppearance(profile)});cat.scale.setScalar(.63);registerCat(cat);yield;yield* mallNavigationSteps(model.userData.obstacles.get(f.id),catNavigationRadius(cat));const carrier=new THREE.Group();carrier.add(cat);pauseHiddenMatrixUpdates(carrier);carrier.userData.biomeId='autumn';const store=MALL_STORES.find(s=>s.floor===f.id);carrier.position.copy(world(mallServiceFrames(store).vendor));staff.push({floor:f.id,cat,carrier,radius:catNavigationRadius(cat),storeId:store.id,path:[]});yield;}}
@@ -90,14 +90,21 @@ export function createMallWorld({scene,container,getGame,getActors,getFocused,ge
     return pending;
   }
   async function inspect(floor=null,zone=null){
-    const model=await ensure();if(!model||disposed)return false;
+    if(disposed||!getGame().unlocked.includes('autumn'))return false;
+    // Camera intent is immediate; native models/staff still finish their full
+    // preparation. A later toolbar selection must never be undone on resolve.
     guest=null;onGuestCamera?.(null);shopOpen.hidden=true;storeView.hidden=true;const entering=!inspection;onCamera?.(floor,entering,zone);wingControls.hidden=!floor;
-    inspection=true;container.classList.add('mall-inspection');selected=floor;panel.hidden=false;
-    model.userData.focusFloor(floor);
+    const version=++inspectionVersion;
+    inspection=true;container.classList.add('mall-inspection');selected=floor;panel.hidden=false;root?.userData.focusFloor(floor);
     for(const [id,b]of buttons)b.setAttribute('aria-pressed',String(id===floor));
+    const model=await ensure();
+    if(version!==inspectionVersion||!inspection||disposed)return false;
+    if(!model){exit();return false;}
+    model.userData.focusFloor(floor);
     return true;
   }
   function exit(restore=true){
+    inspectionVersion++;
     if(!inspection)return;
     guest=null;onGuestCamera?.(null);inspection=false;container.classList.remove('mall-inspection');selected=null;
     panel.hidden=true;wingControls.hidden=true;shopOpen.hidden=true;storeView.hidden=true;root?.userData.focusFloor(null);onExit?.(restore);

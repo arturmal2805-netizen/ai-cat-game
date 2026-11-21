@@ -1,5 +1,5 @@
 import {venueButton} from './venue-buttons.js';
-import {warehouseCameraView} from './warehouse-camera.js';
+import {warehouseCameraView,warehouseCameraBounds} from './warehouse-camera.js';
 import {survivingLegacyShore} from './mosasaur-expansion.js';
 import {expandedOverview} from './mosasaur-expansion-data.js';
 import {resortSpaView} from './resort-spa-camera.js';
@@ -2361,7 +2361,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
   function focusWarehouse(){
     if(!game.unlocked.includes('autumn'))return false;
     focus('autumn');const model=islands.get('autumn')?.userData.ocean?.warehouse;if(!model)return false;
-    model.updateWorldMatrix(true,true);warehouseFraming={bounds:new THREE.Box3().setFromObject(model,true),aspect:camera.aspect};
+    warehouseFraming={bounds:warehouseCameraBounds(model),aspect:camera.aspect};
     overviewElevation=null;desiredFov=40;camera.near=.5;camera.updateProjectionMatrix();applyWarehouseCamera();warehouseAccess?.setAttribute('aria-pressed','true');return true;
   }
   function focus(id, overview = false, keepFollow = false) {
@@ -2563,6 +2563,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     clearWarehouseCamera();
     submarine?.releaseControl();manualWalk?.stop();
     mall?.exit(false);
+    resortSpa?.exit(false);
     const model = id === "chichi" ? cat : npcs.get(id)?.model;
     if (!model) return false;
     exitCourt(false);
@@ -6125,7 +6126,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       if(options.top){elevation=1.3;desiredDistance=Math.max(desiredDistance,zone?zone.rx*1.8:175);return;}
       if(entering){if(focused!=='autumn')focus('autumn');resortSpaPreviousCamera={look:desiredLook.clone(),distance:desiredDistance,azimuth,elevation,fov:desiredFov,near:camera.near};}
       mall?.exit(false);submarine?.releaseControl();manualWalk?.stop();faceCamera.setEnabled(false,look);viewingOverview=false;mallWideClip=false;mallFraming=null;
-      const b=byBiome('autumn'),v=resortSpaView(zone,{...options,palace:resortSpa?.root?.userData.layoutVersion===7,aspect:camera.aspect});desiredLook.set(b.center[0]+v.x,v.y,b.center[1]+RESORT_SPA_LAYOUT.offsetZ+v.z);desiredDistance=v.distance;azimuth=v.azimuth;elevation=v.elevation;desiredFov=v.fov;camera.near=.3;camera.updateProjectionMatrix();
+      const b=byBiome('autumn'),v=resortSpaView(zone,{...options,palace:(resortSpa?.root?.userData.layoutVersion??7)===7,aspect:camera.aspect});desiredLook.set(b.center[0]+v.x,v.y,b.center[1]+RESORT_SPA_LAYOUT.offsetZ+v.z);desiredDistance=v.distance;azimuth=v.azimuth;elevation=v.elevation;desiredFov=v.fov;camera.near=.3;camera.updateProjectionMatrix();
     },
     onExit:restore=>{if(restore&&resortSpaPreviousCamera){desiredLook.copy(resortSpaPreviousCamera.look);desiredDistance=resortSpaPreviousCamera.distance;azimuth=resortSpaPreviousCamera.azimuth;elevation=resortSpaPreviousCamera.elevation;desiredFov=resortSpaPreviousCamera.fov;camera.near=resortSpaPreviousCamera.near;camera.updateProjectionMatrix();}resortSpaPreviousCamera=null;},
   });
@@ -6179,7 +6180,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
   const manualButton=document.getElementById('chichi-control');
   const refreshManualButton=()=>{if(!manualButton)return;const active=!!(manualWalk?.active||submarine?.controlled&&submarine?.explorer);if(manualButton.getAttribute('aria-pressed')===String(active))return;manualButton.setAttribute('aria-pressed',String(active));manualButton.textContent=active?'🐈 Отпустить Чичи':'🐈 Управлять Чичи';};
   manualWalk=createChichiManual({container,canvas:renderer.domElement,camera,look,actor:chichiCarrier,getRadius:()=>catNavigationRadius(cat),getTransport:()=>resortSpa?.transportFrame('chichi'),surface:manualSurface,cameraClear:manualCameraClear,canControl:()=>canControlChichi()&&!document.querySelector('dialog[open]'),cancel:()=>{clearWarehouseCamera();callbacks.onControlChichi?.();cancelHeroActivity();heroGather=null;jobs.cancel('chichi');crew.cancel('chichi');housingLife.cancel?.('chichi');faceCamera.setEnabled(false,look);mall?.exit(false);resortSpa?.exit(false);setCatMood(cat,'happy',{immediate:reduced});},focus,onRelease:refreshManualButton});
-  if(manualButton)manualButton.onclick=async()=>{if(resortSpa?.transportFrame('chichi')&&!manualWalk.active){callbacks.onReaction?.('Дождись прибытия лифта.');return;}if(manualWalk.active){manualWalk.stop();refreshManualButton();return;}if(submarine.controlled&&submarine.explorer){submarine.releaseControl();refreshManualButton();return;}mall?.exit(false);
+  if(manualButton)manualButton.onclick=async()=>{if(resortSpa?.transportFrame('chichi')&&!manualWalk.active){callbacks.onReaction?.('Дождись прибытия лифта.');return;}if(manualWalk.active){manualWalk.stop();refreshManualButton();return;}if(submarine.controlled&&submarine.explorer){submarine.releaseControl();refreshManualButton();return;}mall?.exit(false);resortSpa?.exit(false);
     // A sealed SPA floor is dry even though its world Y is below sea level.
     // Resolve its actual support before the ocean controller classifies depth.
     if(resortSpa?.ready){const root=resortSpa.root,p={x:chichiCarrier.position.x-root.position.x,y:chichiCarrier.position.y-RESORT_SPA_LAYOUT.y,z:chichiCarrier.position.z-root.position.z},hit=resortSpa.navigation.support(p,catNavigationRadius(cat));if(hit&&Math.abs(hit.y+RESORT_SPA_LAYOUT.y-chichiCarrier.position.y)<.65){if(!manualWalk.start())callbacks.onReaction?.('Здесь пока нет свободной опоры для ходьбы.');refreshManualButton();return;}}

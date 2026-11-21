@@ -55,8 +55,26 @@ export function createResortSpaWorld({scene,container,getGame,getFocused,getOver
    if(layoutRecovery.size&&root.userData.layoutVersion===7){prunePalaceRecovery(layoutRecovery,getGame());const repairs=resolvePalaceRecovery(layoutRecovery,navigation,getActors());for(const[id,p]of repairs){const actor=getActors().find(a=>a.id===id);Object.assign(actor.position,{x:centre[0]+p.x,y:p.y,z:centre[1]+p.z});layoutRecovery.delete(id);onGoal?.(id,null,{completed:false,recovered:true});}if(layoutRecovery.size)onError('Не найдена безопасная опора для прежней позиции SPA. Исходная позиция сохранена.');}
    if(recovering.size){for(const[id,saved]of recovering){const actor=getActors().find(a=>a.id===id);if(actor)Object.assign(actor.position,{x:centre[0]+saved.local.x,y:saved.y,z:centre[1]+saved.local.z});}if(transit.restore([...recovering.keys()]))recovering.clear();else onError('Не удалось восстановить согласованные места в лифте SPA. Сохранение не изменено.');}return root;
   }catch(e){if(root===model){scene.remove(root);root=null;model.userData.dispose();}else if(model&&!disposed)model.userData.dispose();disposeResortStaff(staff);staff=[];appointments=null;if(!disposed)onError(e.message);return null;}finally{pending=null;}})();return pending;}
- async function inspect(id=null){watched=null;if(!getGame().unlocked.includes('autumn')||!await ensure())return false;let zone=id?serviceFor(id):null;if(id&&!zone)return false;if(root.userData.layoutVersion===7&&zone){id=zone.roomId;zone=serviceFor(id);}onCamera(zone,!inspection);inspection=true;selected=id;root.userData.setInspectionLevel?.(zone?.level??null);panel.hidden=false;for(const[key,b]of buttons)b.setAttribute('aria-pressed',String(key===(id||'overview')));return true;}
- function exit(restore=true){if(!inspection)return;watched=null;inspection=false;root?.userData.setInspectionLevel?.(null);panel.hidden=true;selected=null;onExit(restore);}
+ let inspectionVersion=0;
+ async function inspect(id=null){
+  if(disposed||!getGame().unlocked.includes('autumn'))return false;
+  let zone=id?serviceFor(id):null;if(root&&id&&!zone)return false;
+  watched=null;onCamera(zone,!inspection);
+  const version=++inspectionVersion;inspection=true;selected=id;panel.hidden=false;
+  root?.userData.setInspectionLevel?.(zone?.level??null);
+  for(const[key,b]of buttons)b.setAttribute('aria-pressed',String(key===(id||'overview')));
+  const model=await ensure();
+  if(version!==inspectionVersion||!inspection||disposed)return false;
+  if(!model){exit();return false;}
+  const preview=zone;zone=id?serviceFor(id):null;if(id&&!zone){exit();return false;}
+  if(model.userData.layoutVersion===7&&zone){id=zone.roomId;zone=serviceFor(id);}
+  // Resolve legacy room aliases only for the latest request after preparation.
+  if(zone!==preview)onCamera(zone,false);
+  selected=id;model.userData.setInspectionLevel?.(zone?.level??null);
+  for(const[key,b]of buttons)b.setAttribute('aria-pressed',String(key===(id||'overview')));
+  return true;
+ }
+ function exit(restore=true){inspectionVersion++;if(!inspection)return;watched=null;inspection=false;root?.userData.setInspectionLevel?.(null);panel.hidden=true;selected=null;onExit(restore);}
  function updateHeld(){const active=new Set();for(const v of appointments?.runtime.visits.values()||[]){if(v.zone.key!=='cafe'||v.phase!=='procedure')continue;const actor=getActors().find(a=>a.id===v.catId);if(!actor)continue;const action=appointments.frame(v.catId)?.action,kind=action==='drink'?'coffee':['taste-treat','satisfied-chew'].includes(action)?'cookie':null;if(!kind)continue;const key=v.catId+':'+kind;active.add(key);let prop=heldFoods.get(key);if(!prop){prop=courtFood(kind);prop.userData.biomeId='autumn';scene.add(prop);heldFoods.set(key,prop);}prop.visible=!!root?.visible;placeCourtFood(prop,actor.model,actor.carrier,{kind,drinking:kind==='coffee',time:v.elapsed});}for(const[key,prop]of heldFoods)if(!active.has(key)){prop.removeFromParent();heldFoods.delete(key);}}
  const recoveryFrame=id=>{const legacy=layoutRecovery.get(id);if(legacy){const p=legacy.saved;return{position:{x:centre[0]+p.x,y:p.y,z:centre[1]+p.z-L.offsetZ},yaw:p.yaw,walking:false,phase:'restoring-spa-layout',reaction:null};}const p=recovering.get(id);return p?{position:{x:centre[0]+p.local.x,y:p.y,z:centre[1]+p.local.z},yaw:p.yaw,walking:false,phase:'restoring-lift',reaction:{ride:true}}:null;};
  if(recovering.size||layoutRecovery.size)queueMicrotask(()=>{if(disposed)return;if(recovering.has('chichi')||layoutRecovery.has('chichi'))onRecovery();void ensure();});
