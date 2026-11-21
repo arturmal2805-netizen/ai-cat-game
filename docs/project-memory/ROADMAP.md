@@ -5,7 +5,7 @@ PR#15 camera implementation + PR#16 tests-only compatibility. Workflow4493018167
 actual HTTP/одно app,24related tests/native19+2/desktop+phone cameras/8touch/
 deep dive/2privateSQLite reloads PASS. Точные хеши и ограничения — CURRENT/QA.
 
-Следующий шаг — новый физический M2 report с app21fc1aa9e5cc5091 и проверка тех же
+Приоритет пользователя изменён на V14: отдельный waterfront-ресторан и батут напротив Warehouse. Сохранять старые ТРЦ/SPA/Warehouse полностью; полный запрос/116 source hashes/native baseline в CURRENT. Пошаговые remote checkpoints, настоящие native PNG, физика/AI/save compatibility, затем публикация с actual HTTP. Новый физический M2 report с app21fc1aa9e5cc5091 и проверка тех же
 верхних иконок после загрузки/cold transition. Не обещать FPS gain: предыдущий
 отзыв «прироста нет» принят, early intent не ускоряет построение моделей.
 Сохранять качество/DPR/воду/тени/котиков/data. SPA excavation parked; redesign

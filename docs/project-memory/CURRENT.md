@@ -4,6 +4,12 @@
 Приложение в ветке памяти старое: актуальный код указан ниже.
 [Предыдущие checkpoint и неуспешные попытки](history/CURRENT-before-toolbar-camera-publication-2026-11-21.md).
 
+## Активная работа — V14 (не опубликовано)
+
+Полный запрос пользователя сохранён без изменений в `docs/specifications/waterfront-v14-2026-11-21.md` ветки **codex/v14-waterfront**, worktree `/workspace/chichi-v12-island-warehouse`. Remote checkpoint **ac99f40fb0e35cd026f5a04237b11f48ef58949f**. Новый ресторан, набережная, мост и большой батут — отдельная зона напротив Warehouse, autumn-local центр `[1140,-342]`; старые три комплекса не перемещать и не менять. В `waterfront-v14-protection.json` зафиксированы SHA256 116 защищённых исходников; native baseline из опубликованного d0d944a содержит точные buffers/materials/transforms/bounds всех трёх зданий. Native capture завершён PASS.
+
+Оригинальный inline-референс просмотрен в чате, доступного файла байтов нет: не выдумывать hash или заменять картинкой генератора. Запрос и registry с этим ограничением скопированы в [V14 QA](../qa/2026-11-21/waterfront-v14/). Текущие `public/waterfront-data.js`, `waterfront-primitives.js` — пока локальные не подключённые заготовки. Следующий шаг: настоящая геометрия, сквозное стеклянное дно, bridge/navigation, батут/ballistics/AI; 19 native PNG и сравнение immutable baseline до публикации. Не путать этот WIP с d0d944a ниже.
+
 ## Опубликовано
 
 - Main: **d0d944acdc83ab69c1337d85e77c0471b044cb7a**.
