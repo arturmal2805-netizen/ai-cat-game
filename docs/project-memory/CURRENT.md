@@ -144,3 +144,20 @@ Runtime пока прежнийb9. Запущен QA-only exact-source shader fi
 /workspace/qa/check-shader-misses.cjs → /workspace/qa/shader-miss-baseline,
 session85623. Один actual expanded-overview/privateWorker; не physical FPS.
 Не снижать DPR/графику/воду/котиков и не отключать shader errors ради цифр.
+
+## 2026-11-21 — измеренный shader first-use bypass исправлен, ещё WIP
+
+Sourcefef392422062766450651067ea2eeb7f6d1112d6,
+codex/visible-model-shader-preparation, PR#12. Deferred court/bank/Mosasaur
+строились async, но попадали в scene без prepare; теперь warmup до публикации
+root, с прежними priority/cancel/dispose. Skinned/rig котики готовят nativecolour/
+depthshader, но rig-owned bounds/skeleton не меняются. Shadererrors не отключены.
+27focusedtests/Node22fullbuild PASS. Exactsource native samecamera:88→75 visible
+first-use reflections, missing Mosasaur/bank/new mallguest paths исчезли.
+Counts/timing/PNG/rawtrace — [QA](../qa/2026-11-21/visible-model-shaders/README.md).
+Это НЕ физический FPS и не доказательство устранения всего8.6s gap.
+Finalall19+returns native сейчас /workspace/qa/visible-model-shaders-all-map,
+session52029; phone затем, одинGPU. PRworkflow44894283893 test выполняется.
+Main/live всё ещё6ccec70; не выдавать WIP за опубликованный. ПолныеSHA и exact
+source453modules сохранены для baseline и кандидата. Новых runtime правок
+не добавлять без выявленной ошибки; довести gates/merge/mainCI/live/memory.

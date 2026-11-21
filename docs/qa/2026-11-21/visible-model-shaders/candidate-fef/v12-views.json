@@ -1,0 +1,150 @@
+{
+  "report": {
+    "mall": {
+      "position": [
+        -450,
+        0,
+        500
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "box": {
+        "min": [
+          -620.9345397949219,
+          -169.5,
+          504.81850242614746
+        ],
+        "max": [
+          -279.8011016845703,
+          5.69000015258789,
+          626.9100036621094
+        ]
+      },
+      "visible": true
+    },
+    "spa": {
+      "position": [
+        -450,
+        -165,
+        480
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "box": {
+        "min": [
+          -600.2498931884766,
+          -166.86000001430511,
+          637.5940246582031
+        ],
+        "max": [
+          -299.7629089355469,
+          5.028000003576272,
+          791.5450134277344
+        ]
+      },
+      "visible": true
+    },
+    "warehouse": {
+      "position": [
+        2200,
+        -177,
+        450
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "box": {
+        "min": [
+          1088.249755859375,
+          -182.04,
+          801.3000030517578
+        ],
+        "max": [
+          2411.750244140625,
+          -38.25853637695312,
+          1098.6999969482422
+        ]
+      },
+      "visible": true
+    },
+    "water": {
+      "version": 12,
+      "waterSurfaces": 1,
+      "sameMaterial": true,
+      "geometryOnly": true,
+      "centralCorePreserved": 0.7,
+      "removedInnerHeadlands": 10,
+      "waterAreaM2": 5846513.694083067,
+      "extraSurfaceVertices": 87473,
+      "extraBedVertices": 117005
+    },
+    "habitat": {
+      "colonies": 384,
+      "fishCount": 60,
+      "pockets": 8
+    },
+    "coins": 13835,
+    "gaps": {
+      "mall": {
+        "edgeGapMetres": 1379.1211044407398,
+        "warehouseWidths": 1.04202538393599
+      },
+      "spa": {
+        "edgeGapMetres": 1388.0469435338507,
+        "warehouseWidths": 1.0487694986319374
+      }
+    }
+  },
+  "rows": [
+    {
+      "name": "expanded-overview",
+      "cameraClearance": null,
+      "camera": [
+        1900,
+        2400,
+        3800
+      ],
+      "target": [
+        800,
+        -75,
+        950
+      ],
+      "calls": 3714,
+      "triangles": 19206975,
+      "memory": {
+        "geometries": 3046,
+        "textures": 96
+      },
+      "glLost": false,
+      "programs": 0
+    }
+  ],
+  "errors": [],
+  "httpErrors": []
+}

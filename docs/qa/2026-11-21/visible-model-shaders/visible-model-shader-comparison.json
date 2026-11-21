@@ -1,0 +1,156 @@
+{
+  "scope": "One sequential exact-source native expanded-overview/clock7/desktopDPR1 comparison, software Chromium156. Not physical M2 FPS and not an explanation of the 8.6s user gap. Actors can animate independently.",
+  "profiles": [
+    {
+      "role": "baseline",
+      "visibleFirstUseCount": 88,
+      "visibleFirstUseTotalMs": 1969.7000000178814,
+      "roots": {
+        "Biome-moon": {
+          "calls": 23,
+          "ms": 503.6000000014901
+        },
+        "\u041a\u043e\u0442\u044f\u0447\u0438\u0439 \u043e\u043a\u0435\u0430\u043d\u0430\u0440\u0438\u0443\u043c \u00b7 \u0441\u0442\u0435\u043a\u043b\u044f\u043d\u043d\u044b\u0439 \u0434\u0432\u043e\u0440\u0435\u0446": {
+          "calls": 3,
+          "ms": 56.100000001490116
+        },
+        "Group": {
+          "calls": 22,
+          "ms": 582.1000000089407
+        },
+        "Mesh": {
+          "calls": 3,
+          "ms": 53.900000005960464
+        },
+        "World fireflies \u00b7 shared GPU animation": {
+          "calls": 3,
+          "ms": 68.20000000298023
+        },
+        "Biome-autumn-Sky-Mosasaur-Sea": {
+          "calls": 11,
+          "ms": 143.60000000149012
+        },
+        "Biome-clockwork-cotton": {
+          "calls": 1,
+          "ms": 4.299999997019768
+        },
+        "\u041e\u0431\u0449\u0430\u044f \u043c\u0438\u0441\u043a\u0430 \u043a\u043e\u0442\u0438\u043a\u043e\u0432": {
+          "calls": 2,
+          "ms": 50.100000001490116
+        },
+        "\u041a\u043e\u0442\u044f\u0447\u0456 \u043e\u0441\u0435\u043b\u0456 \u00b7 \u043f\u043e\u0441\u0442\u0456\u0439\u043d\u0438\u0439 \u0436\u0438\u0442\u043b\u043e\u0432\u0438\u0439 \u043e\u0441\u0442\u0440\u0456\u0432": {
+          "calls": 3,
+          "ms": 21.700000010430813
+        },
+        "Points": {
+          "calls": 2,
+          "ms": 15.5
+        },
+        "Biome-ice": {
+          "calls": 1,
+          "ms": 36.899999998509884
+        },
+        "\u041a\u043e\u0442\u044f\u0447\u0438\u0439 \u0431\u0430\u043d\u043a": {
+          "calls": 2,
+          "ms": 61.79999999701977
+        },
+        "Marin \u00b7 powerful blue mosasaur": {
+          "calls": 3,
+          "ms": 189.8999999910593
+        },
+        "Shared exact static props": {
+          "calls": 1,
+          "ms": 4.5
+        },
+        "Biome-summer-capybara-lagoon": {
+          "calls": 1,
+          "ms": 25.899999998509884
+        },
+        "\u041a\u0440\u0438\u043f\u0442\u043e\u043e\u0444\u0456\u0441 \u00b7 Green Paw Capital": {
+          "calls": 1,
+          "ms": 5.199999995529652
+        },
+        "\u041a\u043e\u0442\u044f\u0447\u0435 \u0432\u0438\u0440\u043e\u0431\u043d\u0438\u0446\u0442\u0432\u043e": {
+          "calls": 1,
+          "ms": 3.7000000029802322
+        },
+        "CHICHI horizontal underwater mall": {
+          "calls": 3,
+          "ms": 101.20000000298023
+        },
+        "\u041c\u0443\u0440-\u041c\u043e\u0442\u043e\u0440\u0441": {
+          "calls": 2,
+          "ms": 41.5
+        }
+      }
+    },
+    {
+      "role": "candidate",
+      "visibleFirstUseCount": 75,
+      "visibleFirstUseTotalMs": 1601.4999999552965,
+      "roots": {
+        "Biome-moon": {
+          "calls": 23,
+          "ms": 531.9999999850988
+        },
+        "\u041a\u043e\u0442\u044f\u0447\u0438\u0439 \u043e\u043a\u0435\u0430\u043d\u0430\u0440\u0438\u0443\u043c \u00b7 \u0441\u0442\u0435\u043a\u043b\u044f\u043d\u043d\u044b\u0439 \u0434\u0432\u043e\u0440\u0435\u0446": {
+          "calls": 3,
+          "ms": 61.19999998807907
+        },
+        "Group": {
+          "calls": 22,
+          "ms": 570.6999999582767
+        },
+        "Mesh": {
+          "calls": 3,
+          "ms": 69.70000000298023
+        },
+        "World fireflies \u00b7 shared GPU animation": {
+          "calls": 3,
+          "ms": 59.49999998509884
+        },
+        "Biome-autumn-Sky-Mosasaur-Sea": {
+          "calls": 11,
+          "ms": 150.40000000596046
+        },
+        "Biome-clockwork-cotton": {
+          "calls": 1,
+          "ms": 6.9000000059604645
+        },
+        "\u041e\u0431\u0449\u0430\u044f \u043c\u0438\u0441\u043a\u0430 \u043a\u043e\u0442\u0438\u043a\u043e\u0432": {
+          "calls": 2,
+          "ms": 50.1000000089407
+        },
+        "\u041a\u043e\u0442\u044f\u0447\u0456 \u043e\u0441\u0435\u043b\u0456 \u00b7 \u043f\u043e\u0441\u0442\u0456\u0439\u043d\u0438\u0439 \u0436\u0438\u0442\u043b\u043e\u0432\u0438\u0439 \u043e\u0441\u0442\u0440\u0456\u0432": {
+          "calls": 3,
+          "ms": 19.100000008940697
+        },
+        "Points": {
+          "calls": 2,
+          "ms": 12.700000002980232
+        },
+        "Biome-ice": {
+          "calls": 1,
+          "ms": 23.200000002980232
+        },
+        "Biome-summer-capybara-lagoon": {
+          "calls": 1,
+          "ms": 46
+        }
+      }
+    }
+  ],
+  "image": {
+    "view": "expanded-overview",
+    "size": [
+      1402,
+      880
+    ],
+    "meanAbsoluteChannelDifference": [
+      0.399598787446505,
+      0.21909447542471794,
+      0.3015748605887693
+    ],
+    "exactPixels": false
+  }
+}

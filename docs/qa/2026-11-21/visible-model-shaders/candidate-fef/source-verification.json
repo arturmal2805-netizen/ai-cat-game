@@ -1,0 +1,65 @@
+{
+  "source": "fef392422062766450651067ea2eeb7f6d1112d6",
+  "allCapturedPublicModulesMatchSource": true,
+  "moduleCount": 453,
+  "state": "native-first-use-trace-pass",
+  "scope": "Actual native game/private Worker/SQLite; SwiftShader correctness only, hardware FPS unmeasured",
+  "files": {
+    "check-aquarium.cjs": {
+      "bytes": 120039,
+      "sha256": "330b5432c56062329d25edd692c8787a5e0d9b74fbe8a2c40a9b787d2d565c4b"
+    },
+    "v12-native.json": {
+      "bytes": 2693,
+      "sha256": "09c356bf82362915861910af2b325fa73000a7749dbaa89e34843a0817ac1298"
+    },
+    "qa-build.json": {
+      "bytes": 233,
+      "sha256": "f097ff66e8a9b24fab33ec33e44ac29d0d2d8f2b5acb3fe79beaea786720eae1"
+    },
+    "actual-game-ui.png": {
+      "bytes": 483106,
+      "sha256": "f5a5da41ae5972179fcffc5a95de6f5368301707c365be080f2c0f4e6c512c00"
+    },
+    "source-proof.tar.gz": {
+      "bytes": 2263348,
+      "sha256": "072da6039cbb2e531edd413494339bf46eea321daff2b286df1061de081f483d"
+    },
+    "startup.cpuprofile.gz": {
+      "bytes": 302756,
+      "sha256": "5d25f9271420881fcebe34bdf55c003d49d7196e72bbb67dfb79b84e4e038de1"
+    },
+    "expanded-overview.png": {
+      "bytes": 628505,
+      "sha256": "bbfd1160d5341bcd201fb279f430ec005d8b36b96f905255dcc10cdb6ecf1cce"
+    },
+    "audit-v12-native.mjs": {
+      "bytes": 8185,
+      "sha256": "f0869e31e5aeed61408b5b275733bae8054fbd4a7ae7695d5d838b1bc283f41d"
+    },
+    "shader-misses.json": {
+      "bytes": 124733,
+      "sha256": "5afe4d83ecb8a78d0fd593e11ba2b390bc1738c42314df46c583189035121b32"
+    },
+    "check-native-map-frames.mjs": {
+      "bytes": 25290,
+      "sha256": "c97ec2343991d2d1a6730902af3ae35898dbaf7271857dd45475fe3f441580ca"
+    },
+    "audit-warehouse-open-water.mjs": {
+      "bytes": 5201,
+      "sha256": "8e4a18348cc38d51bc84fc09da3a79ca96df37246c8d5b58a4a6d469b96042b0"
+    },
+    "v12-views.json": {
+      "bytes": 2591,
+      "sha256": "43fdae6bf8fa5b4b656daa17375c343ed945a3e87ed9e96bef7fdd4b0dab6b62"
+    },
+    "source-files.json": {
+      "bytes": 42052,
+      "sha256": "4244e9f26945317723735bd1be9af4896125ac5bcb0eb5e1b10cdded226e8456"
+    },
+    "source-status.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}
