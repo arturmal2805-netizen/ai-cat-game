@@ -33,3 +33,23 @@ interaction, then capture all 19 required views/day/night/jumps/splash/swim, com
 native immutable protection, verify controls/saves/AI, full CI and actual publication.
 The inline image is visible in conversation but has no exposed original byte file;
 keep that provenance honest, do not synthesize a substitute as the original.
+
+
+22 November 2026 (Europe/Kyiv), user steering and stage3/interactive checkpoint:
+- Actual stage2 vs stage3 views reviewed against original inline reference.
+  Corrected rim torus arguments; larger pearl roof (82m peak), rounded end caps,
+  ivory marble, bounded lighting on new materials only, richer planting, visible
+  marine life. Stage3 has four native PNGs and no JS/HTTP errors. This is progress,
+  not a claim of 1:1 artistic equivalence or approval.
+- User requests ALL free cats + Chichi even when busy; click the real trampoline
+  opens the group button. Added queued reservations (six active bouncers), forced
+  hero intent that waits for a safe submarine/lift/airborne handoff, and manual
+  native-avatar play. WASD plus held Space/touch Jump grows hop heights through
+  ~3/6/9/14/22/32/46m, bounded at60m. Safe release continues to real contact.
+- Bigger contact splash uses a bounded320-particle/12-ripple pool; sprite scale and
+  actual ballistic impact speed drive the splash. Existing water source untouched.
+- Generic manual controller accepts optional transport input/reaction and Space
+  only for this new controlled trampoline. Old location defaults remain intact.
+- Added bridge/climb openings through soft rim, matching dry support/stairs and
+  additive underwater rim contact. Latest changes require final native controls,
+  all19views/protection/save checks, build/CI and publication. Not yet released.

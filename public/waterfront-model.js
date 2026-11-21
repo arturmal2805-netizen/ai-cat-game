@@ -69,7 +69,7 @@ export function* waterfrontModelSteps(root = new T.Group()) {
     yield;
     const x = -304 + i * 26.4,
       z = i % 2 ? promenadeBack(x) + 9 : promenadeFront(x) - 14;
-    if (Math.abs(x) < 151 && z < 49) continue;
+    if ((Math.abs(x) < 151 && z < 49) || Math.abs(x) < 24) continue;
     planter(b, x, z, y, 5);
     garden.push({ x, y: y + 1.7, z, palm: i % 3 === 0 });
   }
@@ -111,7 +111,7 @@ export function* waterfrontModelSteps(root = new T.Group()) {
   // Real structural piles reach the existing bed. None fills the glass-floor apertures.
   for (const x of [-305, -220, -145, 145, 220, 305])
     for (const z of [-35, 42]) {
-      b.cylinder("ivory", x, -99, z, 1.7, 200, 2.4);
+      b.cylinder("pile", x, -99, z, 1.7, 200, 2.4);
       b.cylinder("gold", x, -2, z, 1.9, 1);
     }
   yield* b.finish();
@@ -228,7 +228,7 @@ export function* waterfrontModelSteps(root = new T.Group()) {
     y: -12,
     z: 5 + Math.sin(i * 2.399) * (8 + (i % 4) * 4),
     form: i % 11,
-    scale: 0.8 + (i % 4) * 0.3,
+    scale: 1.4 + (i % 4) * 0.45,
     yaw: i,
     nx: 0,
     ny: 1,
@@ -249,7 +249,7 @@ export function* waterfrontModelSteps(root = new T.Group()) {
     rz: 0.5,
     speed: 0.08 + (i % 3) * 0.015,
     depth: -4 - (i % 5),
-    scale: 0.6 + (i % 3) * 0.2,
+    scale: 1.8 + (i % 3) * 0.5,
   }));
   const fish = createMosaFish({ deep: true, school });
   habitat.add(fish);

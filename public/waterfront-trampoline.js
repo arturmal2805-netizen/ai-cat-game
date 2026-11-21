@@ -23,9 +23,9 @@ function netTexture() {
   const c = document.createElement("canvas");
   c.width = c.height = 1024;
   const ctx = c.getContext("2d");
-  ctx.fillStyle = "#6c55ac";
+  ctx.fillStyle = "#b296df";
   ctx.fillRect(0, 0, 1024, 1024);
-  ctx.strokeStyle = "#b6a0db";
+  ctx.strokeStyle = "#e0caef";
   ctx.lineWidth = 1.2;
   for (let i = 0; i <= 1024; i += 8) {
     ctx.beginPath();
@@ -35,7 +35,7 @@ function netTexture() {
     ctx.lineTo(1024, i);
     ctx.stroke();
   }
-  ctx.fillStyle = "#eeb6dc";
+  ctx.fillStyle = "#ffd8ed";
   ctx.beginPath();
   ctx.ellipse(512, 550, 132, 110, 0, 0, Math.PI * 2);
   ctx.fill();
@@ -58,10 +58,23 @@ export function* trampolineSteps(root, materials) {
   const b = parts(root, materials),
     r = WATERFRONT.trampoline.radius,
     y = WATERFRONT.trampoline.y;
-  b.torus("violet", 0, y, r - 3, 3.3);
-  b.torus("rose", 0, y + 1.3, r - 3, 1);
-  b.torus("gold", 0, y - 0.7, r + 1, 0.55);
-  b.torus("light", 0, y - 0.75, r + 1.4, 0.16);
+  // Soft rim with authored bridge/climb openings; it never blocks an exit.
+  const gaps = [0.045, 0.045, 0.045, 0.11];
+  for (let i = 0; i < 4; i++) {
+    const start = (i * Math.PI) / 2 + gaps[i],
+      arc = Math.PI / 2 - gaps[i] - gaps[(i + 1) % 4];
+    for (const [key, tube, yOffset] of [
+      ["violet", 3.3, 0],
+      ["rose", 1, 1.3],
+    ]) {
+      const g = new T.TorusGeometry(r - 3, tube, 12, 96, arc);
+      g.rotateZ(start);
+      g.rotateX(Math.PI / 2);
+      b.put(g, key, 0, y + yOffset, 0);
+    }
+  }
+  b.torus("gold", 0, y - 0.7, 0, r + 1, 0.55);
+  b.torus("light", 0, y - 0.75, 0, r + 1.4, 0.16);
   for (let i = 0; i < 24; i++) {
     yield;
     const a = (i * Math.PI) / 12,
@@ -86,12 +99,12 @@ export function* trampolineSteps(root, materials) {
   // Four real stairs give swimmers a wide climb-out with no jump through the ring.
   for (const a of [0, Math.PI / 2, Math.PI, Math.PI * 1.5]) {
     yield;
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 9; i++) {
       const d = r + 7 - i * 1.55;
       b.box(
         "ivory",
         Math.sin(a) * d,
-        y - 2.4 + i * 0.42,
+        y - 2.4 + i * 0.28,
         Math.cos(a) * d,
         5,
         0.42,
@@ -101,17 +114,18 @@ export function* trampolineSteps(root, materials) {
     }
     for (const side of [-1, 1]) {
       const line = [];
-      for (let i = 0; i < 7; i++) {
+      for (let i = 0; i < 9; i++) {
         const d = r + 7 - i * 1.55;
         line.push([
           Math.sin(a) * d + side * Math.cos(a) * 2.8,
-          y - 0.9 + i * 0.42,
+          y - 0.9 + i * 0.28,
           Math.cos(a) * d - side * Math.sin(a) * 2.8,
         ]);
       }
       b.tube("gold", line, 0.15);
     }
   }
+  b.box("ivory", 0, y - 0.225, -r + 3, 12, 0.45, 6);
   yield* b.finish();
   const impacts = Array.from({ length: 8 }, () => new T.Vector4(0, 0, -100, 0)),
     clock = { value: 0 },

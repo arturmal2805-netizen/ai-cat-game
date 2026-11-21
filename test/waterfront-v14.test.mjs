@@ -87,6 +87,14 @@ test("native meshes have complete position/normal/UV attributes, finite bounds a
     6145,
   );
   assert.equal(m.userData.tableCount, 28);
+  const ring = m.userData.trampoline.children.find(
+      (o) => o.material === m.userData.materials.violet,
+    ),
+    bounds = new T.Box3().setFromObject(ring);
+  assert.ok(
+    bounds.max.x - bounds.min.x > 145,
+    "soft ring wraps the entire trampoline",
+  );
 });
 test("all glazed floor panes have actual empty apertures through the restaurant and supporting pier", () => {
   const m = root(),
@@ -257,7 +265,11 @@ test("bounded additive venue positions survive reload with all balances/owners/o
   g.catPosition = { biome: "autumn", x: 0, z: 90 };
   g.coins = 4386174;
   g.diamonds = 240;
-  const old = loadGame({getItem:k=>k===SAVE_KEY?JSON.stringify(g):null},now,{advance:false}),
+  const old = loadGame(
+      { getItem: (k) => (k === SAVE_KEY ? JSON.stringify(g) : null) },
+      now,
+      { advance: false },
+    ),
     p = { x: b.center[0] + W.x, y: W.y + 0.012, z: b.center[1] + W.z + 12 },
     saved = captureCatLocations(
       g,
@@ -295,4 +307,82 @@ test("optional ocean collisions protect only the new glazed deck, piles and livi
     waterfrontOceanClear({ x: W.x - 220, y: -100, z: W.z + 42 }),
     false,
   );
+});
+
+test("all free cats can reserve a real queue without breaching trampoline capacity or duplicating actors", () => {
+  const actors = Array.from({ length: 30 }, (_, i) => ({
+      id: i ? "cat-" + i : "chichi",
+      position: new T.Vector3(W.arrival.x, 1.062, W.arrival.z),
+      radius: 0.6,
+    })),
+    done = [];
+  const r = createWaterfrontRuntime({
+    origin: { x: 0, z: 0 },
+    getActors: () => actors,
+    getTrampoline: () => null,
+    onComplete: (id) => done.push(id),
+  });
+  for (const a of actors)
+    assert.equal(
+      r.start(a.id, "waterfront-bounce", { invite: true, enqueue: true }),
+      true,
+    );
+  assert.equal(r.visits.size, 30);
+  assert.equal(
+    r.start("chichi", "waterfront-bounce", { enqueue: true }),
+    false,
+  );
+  for (let i = 0; i < 120000 && r.visits.size; i++) {
+    r.update(1 / 60, i / 60);
+    assert.ok(
+      [...r.visits.values()].filter(
+        (v) => v.active && v.activity.kind === "bounce",
+      ).length <= 6,
+    );
+  }
+  assert.equal(r.visits.size, 0);
+  assert.equal(new Set(done).size, 30);
+  assert.equal(done.length, 30);
+});
+test("player keeps the native actor, builds increasingly high physical hops and releases safely midair", () => {
+  const actor = {
+    id: "chichi",
+    position: new T.Vector3(W.trampoline.x, 1.312, W.trampoline.z - 48),
+    radius: 0.6,
+  };
+  let allowed = true;
+  const r = createWaterfrontRuntime({
+    origin: { x: 0, z: 0 },
+    getActors: () => [actor],
+    getTrampoline: () => null,
+    canSimulate: () => allowed,
+  });
+  assert.ok(r.start("chichi", "waterfront-bounce"));
+  assert.ok(r.requestPlayer());
+  const heights = [];
+  let previous = "";
+  for (let i = 0; i < 12000 && heights.length < 7; i++) {
+    r.playerInput({ jump: true, forward: 0, side: 0, heading: 0 });
+    r.update(1 / 60, i / 60);
+    const v = r.get("chichi");
+    if (v.phase === "bounce" && previous !== "bounce")
+      heights.push(v.flight.vy ** 2 / (2 * 9.81));
+    previous = v.phase;
+  }
+  assert.equal(heights.length, 7);
+  for (let i = 1; i < heights.length; i++)
+    assert.ok(heights[i] > heights[i - 1]);
+  assert.ok(heights.at(-1) > 40);
+  const before = r.frame("chichi").position.clone(),
+    clock = r.clock;
+  allowed = false;
+  r.update(0.1, 900);
+  assert.equal(r.clock, clock);
+  assert.deepEqual(r.frame("chichi").position, before);
+  allowed = true;
+  r.releasePlayer();
+  assert.ok(r.has("chichi"));
+  for (let i = 0; i < 30000 && r.has("chichi"); i++)
+    r.update(1 / 60, 1000 + i / 60);
+  assert.equal(r.has("chichi"), false);
 });

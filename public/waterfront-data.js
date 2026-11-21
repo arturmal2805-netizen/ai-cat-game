@@ -7,11 +7,11 @@ export const WATERFRONT = Object.freeze({
   y: 1.05,
   width: 650,
   depth: 120,
-  restaurant: { x: 0, z: -8, width: 280, depth: 112, height: 34 },
+  restaurant: { x: 0, z: -8, width: 280, depth: 112, height: 82 },
   trampoline: { x: -10, z: 350, radius: 74, y: 1.3 },
   bridge: {
     width: 12,
-    start: { x: 0, z: 80 },
+    start: { x: 0, z: 110 },
     control: { x: -42, z: 190 },
     end: { x: -10, z: 276 },
   },
@@ -82,11 +82,24 @@ export const waterfrontOffers = (game) =>
         action: a.action,
       }))
     : [];
+function promenadeEdges(x) {
+  const front = 60 + 50 * Math.cos(((x / 330) * Math.PI) / 2),
+    back = -58 - 12 * Math.cos((x / 330) * Math.PI),
+    centre = (front + back) / 2;
+  const cap =
+    Math.abs(x) <= 285
+      ? 1
+      : Math.sqrt(Math.max(0, 1 - ((Math.abs(x) - 285) / 40) ** 2));
+  return {
+    front: centre + ((front - back) / 2) * cap,
+    back: centre - ((front - back) / 2) * cap,
+  };
+}
 export function promenadeFront(x) {
-  return 46 + 34 * Math.cos(((x / 330) * Math.PI) / 2);
+  return promenadeEdges(x).front;
 }
 export function promenadeBack(x) {
-  return -64 + 12 * Math.cos((x / 330) * Math.PI);
+  return promenadeEdges(x).back;
 }
 export function bridgePoint(t) {
   const b = WATERFRONT.bridge,
@@ -118,14 +131,14 @@ export const WATERFRONT_VIEWS = Object.freeze([
     name: "Зал ресторану",
     target: [-5, 9, -2],
     eye: [72, 17, 43],
-    inside: true,
+    inside: false,
   },
   {
     id: "glass",
     name: "Скляна підлога",
     target: [0, -4, 9],
     eye: [25, 30, 45],
-    inside: true,
+    inside: false,
   },
   {
     id: "underwater",

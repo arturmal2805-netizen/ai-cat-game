@@ -40,8 +40,25 @@ export function waterfrontDrySupport(p, radius = 0.55) {
   const r = W.trampoline.radius,
     dx = p.x - W.trampoline.x,
     dz = p.z - W.trampoline.z;
-  if (Math.hypot(dx, dz) <= r - radius)
+  const radial = Math.hypot(dx, dz);
+  if (radial <= r - 6.2 - radius)
     return { y: W.trampoline.y + WATERFRONT_FOOT, kind: "net" };
+  if (
+    radial >= r - 6.2 - radius &&
+    radial < r + 8 &&
+    ((Math.abs(dx) < 2.5 - radius && Math.abs(dz) > 60) ||
+      (Math.abs(dz) < 2.5 - radius && Math.abs(dx) > 60))
+  ) {
+    if (dz < 0 && Math.abs(dx) < 6 - radius)
+      return { y: W.trampoline.y + WATERFRONT_FOOT, kind: "entry" };
+    const stair = Math.max(0, Math.min(8, Math.round((r + 7 - radial) / 1.55)));
+    return {
+      y: W.trampoline.y - 2.4 + stair * 0.28 + 0.21 + WATERFRONT_FOOT,
+      kind: "stair",
+    };
+  }
+  if (dz < -60 && radial < r + 1 && Math.abs(dx) < 6 - radius)
+    return { y: W.trampoline.y + WATERFRONT_FOOT, kind: "entry" };
   const b = bridgeSupport(p.x, p.z, radius);
   if (b) return { ...b, y: b.y + WATERFRONT_FOOT, kind: "bridge" };
   if (
@@ -51,7 +68,7 @@ export function waterfrontDrySupport(p, radius = 0.55) {
   )
     return { y: W.y + WATERFRONT_FOOT, kind: "pier" };
   // A flared threshold closes the small curved shore/bridge seam.
-  if (Math.abs(p.x) < W.bridge.width / 2 - radius && p.z >= 76 && p.z <= 89)
+  if (Math.abs(p.x) < W.bridge.width / 2 - radius && p.z >= 106 && p.z <= 116)
     return { y: W.y + WATERFRONT_FOOT, kind: "bridge" };
   return null;
 }
@@ -78,27 +95,48 @@ export function waterfrontPath(from, to, r = 0.6) {
   if (!waterfrontWalkable(to, r)) return null;
   const insideNet = (p) =>
     Math.hypot(p.x - W.trampoline.x, p.z - W.trampoline.z) < 74;
-  if (to.z >= 88 || from.z >= 88) {
-    const entering = from.z < 88,
-      points = bridge
-        .filter((_, i) => i % 4 === 0)
-        .map((p) => ({ ...p, y: p.y + WATERFRONT_FOOT }));
-    const threshold = { x: 0, z: 75, y: W.y + WATERFRONT_FOOT };
-    if (entering) {
+  if (to.z >= 110 || from.z >= 110) {
+    const threshold = { x: 0, z: 108, y: W.y + WATERFRONT_FOOT },
+      near = (p) =>
+        bridge.reduce(
+          (best, q, i) =>
+            Math.hypot(q.x - p.x, q.z - p.z) <
+            Math.hypot(bridge[best].x - p.x, bridge[best].z - p.z)
+              ? i
+              : best,
+          0,
+        );
+    const span = (a, b) => {
+      const out = [],
+        direction = a > b ? -1 : 1;
+      for (let i = a; direction > 0 ? i <= b : i >= b; i += direction)
+        out.push({ ...bridge[i], y: bridge[i].y + WATERFRONT_FOOT });
+      return out;
+    };
+    if (from.z < 110) {
       const land = waterfrontPath(from, threshold, r);
-      return land ? [...land, ...points, to] : null;
+      return land
+        ? [...land, ...span(0, insideNet(to) ? 96 : near(to)), to]
+        : null;
     }
-    if (!insideNet(to) && to.z < 88) {
+    if (to.z < 110) {
       const land = waterfrontPath(threshold, to, r);
-      return land ? [...points.reverse(), threshold, ...land] : null;
+      return land
+        ? [...span(insideNet(from) ? 96 : near(from), 0), threshold, ...land]
+        : null;
     }
-    return [from, to];
+    if (insideNet(from) && insideNet(to)) return [from, to];
+    return [
+      from,
+      ...span(insideNet(from) ? 96 : near(from), insideNet(to) ? 96 : near(to)),
+      to,
+    ];
   }
   const step = 3,
     minX = -324,
     minZ = -75,
     nx = 217,
-    nz = 54,
+    nz = 63,
     key = (x, z) => z * nx + x,
     cell = (p) => ({
       x: Math.max(0, Math.min(nx - 1, Math.round((p.x - minX) / step))),
@@ -159,7 +197,7 @@ export function waterfrontCameraClear(a, b) {
         y: a.y + (b.y - a.y) * t,
         z: a.z + (b.z - a.z) * t,
       };
-    if (p.y > 1 && p.y < 26 && wallBlocked(p, 0.3)) return false;
+    if (p.y > 1 && p.y < 76 && wallBlocked(p, 0.3)) return false;
     if (
       p.y < 1 &&
       p.y > -2.6 &&
@@ -176,7 +214,24 @@ export function waterfrontOceanClear(p, r = 0.6) {
   const x = p.x - W.x,
     z = p.z - W.z;
   if (x < -330 - r || x > 330 + r || z < -82 - r || z > 432 + r) return true;
-  const y = p.y + 0.7;
+  const y = p.y + 0.7,
+    tx = x - W.trampoline.x,
+    tz = z - W.trampoline.z,
+    radial = Math.hypot(tx, tz),
+    angle = (Math.atan2(tz, tx) + Math.PI * 2) % (Math.PI * 2),
+    index = Math.round(angle / (Math.PI / 2)) % 4,
+    gap = [0.045, 0.045, 0.045, 0.11][index],
+    delta = Math.abs(
+      Math.atan2(
+        Math.sin(angle - (index * Math.PI) / 2),
+        Math.cos(angle - (index * Math.PI) / 2),
+      ),
+    );
+  if (
+    delta > gap &&
+    Math.hypot(radial - (W.trampoline.radius - 3), y - W.trampoline.y) < 3.3 + r
+  )
+    return false;
   if (
     y > -3 - r &&
     y < W.y + r &&

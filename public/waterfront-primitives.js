@@ -1,27 +1,56 @@
 import * as T from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
+import { waterfrontMarble } from "./waterfront-lighting.js";
+import { applyUnderwaterLighting } from "./water-shading.js";
 import { mallSurfaceMaps } from "./mall-surfaces.js";
 export function waterfrontMaterials() {
   const standard = (color, roughness = 0.5, extra = {}) =>
     new T.MeshStandardMaterial({ color, roughness, ...extra });
+  const maps = mallSurfaceMaps("marble", 1),
+    marble = waterfrontMarble(),
+    pile = standard(0xb7bcbd, 0.8);
+  applyUnderwaterLighting(pile, { value: 0 }, 0x2a929e, {
+    level: { value: 0.155 },
+  });
   return {
-    ivory: standard(0xffe7cc, 0.34, mallSurfaceMaps("marble", 6)),
-    rose: standard(0xeec4c6, 0.47),
+    pile,
+    pearl: new T.MeshPhysicalMaterial({
+      color: 0xfffaf3,
+      roughness: 0.24,
+      metalness: 0.08,
+      clearcoat: 0.45,
+      clearcoatRoughness: 0.22,
+      side: T.DoubleSide,
+    }),
+    ivory: standard(0xfffcf8, 0.25, {
+      ...maps,
+      map: marble,
+      normalScale: new T.Vector2(0.11, 0.11),
+      emissive: 0x7b6e5d,
+      emissiveIntensity: 0.12,
+    }),
+    rose: standard(0xf5d3d2, 0.47, {
+      ...mallSurfaceMaps("fabric", 8),
+      normalScale: new T.Vector2(0.13, 0.13),
+    }),
     dark: standard(0x303154, 0.38),
     wood: standard(0x785b44, 0.65),
     gold: standard(0xd3aa55, 0.24, {
-      metalness: 0.72,
+      metalness: 0.42,
       emissive: 0x976322,
-      emissiveIntensity: 0.09,
+      emissiveIntensity: 0.18,
     }),
     light: standard(0xffd99a, 0.3, {
       emissive: 0xffb855,
       emissiveIntensity: 0.85,
     }),
     violet: standard(0xa88ad5, 0.5),
-    pink: standard(0xf3b1d9, 0.43),
+    pink: standard(0xf3b1d9, 0.43, {
+      ...mallSurfaceMaps("fabric", 8),
+      normalScale: new T.Vector2(0.13, 0.13),
+    }),
     green: standard(0x438552, 0.78),
-    flower: standard(0xf4a0d2, 0.63),
+    flower: standard(0xffffff, 0.63),
     glass: standard(0xc5eced, 0.09, {
       metalness: 0.16,
       transparent: true,
@@ -147,7 +176,7 @@ export function* flowers(root, materials, sites) {
     leaf = new T.SphereGeometry(1, 7, 4),
     trunk = new T.CylinderGeometry(0.45, 0.72, 1, 7),
     bark = new T.MeshStandardMaterial({ color: 0x75604c, roughness: 0.9 }),
-    counts = sites.length * 32,
+    counts = sites.length * 64,
     blossoms = new T.InstancedMesh(petal, materials.flower, counts),
     leaves = new T.InstancedMesh(leaf, materials.green, sites.length * 12),
     trunks = new T.InstancedMesh(trunk, bark, sites.length),
@@ -157,15 +186,15 @@ export function* flowers(root, materials, sites) {
   for (let i = 0; i < sites.length; i++) {
     yield;
     const s = sites[i],
-      height = s.palm ? 13 : 7;
+      height = s.palm ? 16 : 12;
     dummy.position.set(s.x, s.y + height / 2, s.z);
     dummy.scale.set(s.palm ? 0.75 : 1, height, 1);
     dummy.rotation.set(0, 0, s.palm ? 0.07 : 0);
     dummy.updateMatrix();
     trunks.setMatrixAt(i, dummy.matrix);
-    for (let j = 0; j < 32; j++) {
+    for (let j = 0; j < 64; j++) {
       const a = j * 2.399963,
-        r = (s.palm ? 3 : 4) * Math.sqrt((j + 0.5) / 32);
+        r = (s.palm ? 4 : 7) * Math.sqrt((j + 0.5) / 64);
       dummy.position.set(
         s.x + Math.cos(a) * r,
         s.y + height + Math.sin(j * 2.1) * 1.2,
@@ -173,9 +202,9 @@ export function* flowers(root, materials, sites) {
       );
       dummy.rotation.set(0, a, 0.25 * Math.sin(a));
       dummy.scale.set(
-        s.palm ? 0.38 : 0.82,
-        s.palm ? 0.3 : 0.65,
-        s.palm ? 3.4 : 0.82,
+        s.palm ? 0.45 : 1.1,
+        s.palm ? 0.3 : 0.85,
+        s.palm ? 4.4 : 1.1,
       );
       dummy.updateMatrix();
       if (s.palm) {

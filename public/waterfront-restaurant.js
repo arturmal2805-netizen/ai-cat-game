@@ -24,10 +24,10 @@ export function floorHoles(shape, offset = 0) {
 }
 function roofHeight(x, z) {
   return (
-    25 +
-    10 * Math.exp(-((x / 60) ** 2)) +
-    3 * Math.cos(x / 67) -
-    3 * (z / 58) ** 2
+    52 +
+    24 * Math.exp(-((x / 60) ** 2)) +
+    6 * Math.cos(x / 67) -
+    8 * (z / 58) ** 2
   );
 }
 function roofGeometry() {
@@ -139,7 +139,7 @@ export function* restaurantSteps(root, materials) {
   roof.name = "Laguna pearl canopy";
   root.add(roof);
   const rb = parts(roof, materials);
-  rb.put(roofGeometry(), "ivory", 0, 0, -8);
+  rb.put(roofGeometry(), "pearl", 0, 0, -8);
   for (const z of [-60, 60]) {
     yield;
     const pts = [];
@@ -169,6 +169,36 @@ export function* restaurantSteps(root, materials) {
       pts.push([x, roofHeight(x, z) + 0.2, z - 8]);
     rb.tube("gold", pts, 0.15);
   }
+  for (const side of [-1, 1]) {
+    const pts = [];
+    for (let i = 0; i <= 32; i++) {
+      const a = -Math.PI / 2 + (i * Math.PI) / 32,
+        x = side * (117 + 23 * Math.cos(a)),
+        z = -8 + 48 * Math.sin(a),
+        h = roofHeight(x, z + 8);
+      pts.push([x, h, z]);
+      if (i % 4 === 0) {
+        b.cylinder("gold", x, (h + y) / 2, z, 0.23, h - y);
+        const glass = new T.CylinderGeometry(
+          1,
+          1,
+          1,
+          8,
+          1,
+          true,
+          a - 0.06,
+          0.12,
+        );
+        b.put(glass, "glass", side * 117, y + (h - y) / 2, -8, 23, h - y, 48);
+      }
+    }
+    rb.tube("gold", pts, 0.5);
+    rb.tube(
+      "light",
+      pts.map((p) => [p[0], p[1] - 0.4, p[2]]),
+      0.18,
+    );
+  }
   // Central roof lantern gives sunlight and a real view through the arched glazing.
   for (let x = -54; x <= 54; x += 9) {
     const pts = [];
@@ -191,13 +221,13 @@ export function* restaurantSteps(root, materials) {
     0,
     Math.PI / 2,
   );
-  rb.put(skylight, "glass", 0, 30, -8, 56, 9, 26);
+  rb.put(skylight, "glass", 0, 73, -8, 56, 12, 26);
   yield* rb.finish();
   // The entry remains an open arch, not a transparent collision wall.
   const arch = [];
   for (let i = 0; i <= 32; i++) {
     const a = (Math.PI * i) / 32;
-    arch.push([Math.cos(a) * 18, y + 8 + Math.sin(a) * 15, 47]);
+    arch.push([Math.cos(a) * 18, y + 17 + Math.sin(a) * 25, 47]);
   }
   b.tube("gold", arch, 0.8);
   b.tube(
@@ -205,21 +235,21 @@ export function* restaurantSteps(root, materials) {
     arch.map((p) => [p[0] * 0.94, p[1] - 0.45, p[2] + 0.4]),
     0.23,
   );
-  for (const x of [-18, 18]) b.cylinder("gold", x, y + 4, 47, 0.8, 8);
-  const sign = signMesh("РЕСТОРАН\n«ЛАГУНА»", 27, 8);
-  sign.position.set(0, 29, 49);
+  for (const x of [-18, 18]) b.cylinder("gold", x, y + 8.5, 47, 0.8, 17);
+  const sign = signMesh("РЕСТОРАН\n«ЛАГУНА»", 37, 12);
+  sign.position.set(0, 58, 49);
   root.add(sign);
   // Paw above the arch; these are sculpted meshes, not substituted cat avatars.
-  b.sphere("light", 0, 37, 48, 1.5, 1.1, 0.3);
+  b.sphere("light", 0, 70, 48, 2.8, 2, 0.4);
   for (let i = 0; i < 4; i++)
     b.sphere(
       "light",
-      (i - 1.5) * 1.1,
-      38.5 + (0.5 - Math.abs(i - 1.5) * 0.25),
+      (i - 1.5) * 2,
+      73 + (0.5 - Math.abs(i - 1.5) * 0.25),
       48,
-      0.45,
-      0.65,
-      0.3,
+      0.8,
+      1.1,
+      0.4,
     );
   // A broad curved bar and stocked back shelving, leaving the glazed centre open.
   const bar = [];

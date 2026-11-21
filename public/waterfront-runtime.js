@@ -4,6 +4,7 @@ import {
   waterfrontPath,
   waterfrontDrySupport,
   waterfrontTables,
+  waterfrontWalkable,
   WATERFRONT_FOOT,
 } from "./waterfront-navigation.js";
 import {
@@ -25,7 +26,8 @@ export function createWaterfrontRuntime({
   const visits = new Map();
   let clock = 0,
     animationTime = 0,
-    climber = null;
+    climber = null,
+    player = null;
   const local = (p) => ({ x: p.x - origin.x, y: p.y, z: p.z - origin.z });
   function destination(a, slot) {
     if (a.kind === "bounce" || a.kind === "dive")
@@ -67,6 +69,7 @@ export function createWaterfrontRuntime({
   function finish(v, completed = true) {
     onPark(v.id, v.frame.position);
     visits.delete(v.id);
+    if (player === v.id) player = null;
     if (climber === v.id) climber = null;
     onComplete(v.id, {
       completed: completed && !v.cancelled,
@@ -80,7 +83,7 @@ export function createWaterfrontRuntime({
       v.local.x - W.trampoline.x,
       v.local.z - W.trampoline.z,
       animationTime,
-      0.65,
+      Math.min(1.05, 0.35 + Math.sqrt(height / 60) * 0.65),
     );
     v.flight = ballisticLaunch(v.local, v.local, { height });
     v.afterFlight = next;
@@ -93,25 +96,74 @@ export function createWaterfrontRuntime({
     f.phase = v.phase;
     return f;
   }
-  function start(id, activityId, { invite = false, ticket = null } = {}) {
+  function queuePoint(index, radius) {
+    let seen = 0;
+    for (let row = 0; row < 12; row++)
+      for (let col = 0; col < 32; col++) {
+        const p = {
+          x: -279 + col * 18,
+          y: W.y + WATERFRONT_FOOT,
+          z: 64 + row * 3,
+        };
+        if (!waterfrontWalkable(p, radius + 0.3)) continue;
+        if (seen++ === index) return p;
+      }
+    return null;
+  }
+  const activeVisits = () => [...visits.values()].filter((v) => v.active);
+  function activate(v) {
+    const active = activeVisits();
+    if (
+      active.length >= W.capacity ||
+      active.filter((q) => q.activity.id === v.activity.id).length >=
+        v.activity.capacity
+    )
+      return false;
+    const used = new Set(active.map((q) => q.slot));
+    let slot = 0;
+    while (used.has(slot)) slot++;
+    v.slot = slot;
+    v.active = true;
+    v.target = destination(v.activity, slot);
+    return route(v, v.target);
+  }
+  function start(
+    id,
+    activityId,
+    { invite = false, ticket = null, enqueue = false } = {},
+  ) {
     const a = waterfrontActivity(activityId),
       actor = getActors().find((a) => a.id === id);
     if (
       !a ||
       !actor ||
       visits.has(id) ||
-      visits.size >= W.capacity ||
-      [...visits.values()].filter((v) => v.activity.id === activityId).length >=
-        a.capacity ||
+      (enqueue
+        ? visits.size >= Math.min(384, getActors().length)
+        : activeVisits().length >= W.capacity) ||
+      (!enqueue &&
+        activeVisits().filter((v) => v.activity.id === activityId).length >=
+          a.capacity) ||
       !canSimulate()
     )
       return false;
-    const used = new Set([...visits.values()].map((v) => v.slot));
+    const used = new Set(activeVisits().map((v) => v.slot));
     let slot = 0;
     while (used.has(slot)) slot++;
+    const occupiedQueue = new Set(
+      [...visits.values()].map((v) => v.queueIndex),
+    );
+    let queueIndex = 0;
+    while (occupiedQueue.has(queueIndex)) queueIndex++;
     const p = local(actor.position),
       v = {
         id,
+        active:
+          !enqueue ||
+          (activeVisits().length < W.capacity &&
+            activeVisits().filter((v) => v.activity.id === activityId).length <
+              a.capacity),
+        queueIndex,
         activity: a,
         slot,
         radius: actor.radius || 0.6,
@@ -130,29 +182,57 @@ export function createWaterfrontRuntime({
         cancelled: false,
         bounces: 0,
       };
-    v.target = destination(a, slot);
+    v.target = v.active
+      ? destination(a, slot)
+      : queuePoint(v.queueIndex, v.radius);
+    if (!v.target) return false;
     if (invite && !waterfrontDrySupport(p, v.radius)) {
       v.trip = gatherTrip(
         actor.position,
         {
-          x: origin.x + W.arrival.x + (slot % 2) * 2,
+          x: origin.x + (v.active ? W.arrival.x + (slot % 2) * 2 : v.target.x),
           y: W.y + WATERFRONT_FOOT,
-          z: origin.z + W.arrival.z + Math.floor(slot / 2) * 2,
+          z:
+            origin.z +
+            (v.active ? W.arrival.z + Math.floor(slot / 2) * 2 : v.target.z),
         },
         0,
       );
       v.trip.start = clock * 1000;
       phase(v, "travel");
-    } else if (!route(v, v.target)) return false;
+    } else if (!route(v, v.target, v.active ? "prepare" : "waiting"))
+      return false;
     visits.set(id, v);
     return true;
   }
+  const thisUnsafe = (v) =>
+    ["bounce", "dive", "splash", "swim", "queue", "climb", "travel"].includes(
+      v.phase,
+    );
   function update(dt, time) {
     if (!canSimulate()) return;
     dt = Math.max(0, Math.min(0.1, dt));
     clock += dt;
     animationTime = time;
+    for (const v of visits.values())
+      if (!v.active && v.phase === "waiting") {
+        if (v.cancelled) finish(v, false);
+        else activate(v);
+      }
     for (const v of [...visits.values()]) {
+      if (v.redirect && !thisUnsafe(v)) {
+        v.activity = waterfrontActivity(v.redirect);
+        v.redirect = null;
+        v.ticket = null;
+        v.cancelled = false;
+        v.bounces = 0;
+        v.active = false;
+        v.target = queuePoint(v.queueIndex, v.radius);
+        if (!route(v, v.target, "waiting")) {
+          finish(v, false);
+          continue;
+        }
+      }
       const f = v.frame;
       v.age += dt;
       f.walking = false;
@@ -165,7 +245,13 @@ export function createWaterfrontRuntime({
         v.local = local(t.position);
         v.yaw = t.yaw;
         Object.assign(reaction, t.reaction);
-        if (t.done && !route(v, v.target)) finish(v, false);
+        if (t.done) {
+          if (!v.active) phase(v, "waiting");
+          else if (!route(v, v.target)) finish(v, false);
+        }
+      } else if (v.phase === "waiting") {
+        reaction.crouch = 0.3;
+        reaction.headRoll = Math.sin(time * 0.4 + v.queueIndex) * 0.06;
       } else if (v.phase === "approach" || v.phase === "exit") {
         let budget = dt * 5;
         while (budget > 0 && v.path?.length) {
@@ -199,6 +285,7 @@ export function createWaterfrontRuntime({
         reaction.earRelax = 0.06;
         if (v.age > 0.8) {
           if (v.cancelled) phase(v, "return");
+          else if (v.id === player) phase(v, "player");
           else if (["bounce", "dive"].includes(v.activity.kind))
             bounce(v, 1.8, "land");
           else phase(v, v.activity.kind);
@@ -223,11 +310,63 @@ export function createWaterfrontRuntime({
           );
           phase(v, v.afterFlight);
         }
+      } else if (v.phase === "player") {
+        const input = v.input || {},
+          length = Math.max(1, Math.hypot(input.forward || 0, input.side || 0)),
+          yaw = input.heading ?? v.yaw,
+          dx =
+            ((Math.sin(yaw) * (input.forward || 0) +
+              Math.cos(yaw) * (input.side || 0)) *
+              5 *
+              dt) /
+            length,
+          dz =
+            ((Math.cos(yaw) * (input.forward || 0) -
+              Math.sin(yaw) * (input.side || 0)) *
+              5 *
+              dt) /
+            length,
+          p = { ...v.local, x: v.local.x + dx, z: v.local.z + dz };
+        if (
+          Math.hypot(p.x - W.trampoline.x, p.z - W.trampoline.z) <
+          W.trampoline.radius - 7 - v.radius
+        ) {
+          v.local.x = p.x;
+          v.local.z = p.z;
+          if (Math.hypot(dx, dz) > 0.0001) {
+            v.yaw = Math.atan2(dx, dz);
+            f.walking = true;
+            f.locomotion.speed = 5;
+            f.locomotion.phase += dt * 11;
+          }
+        }
+        v.local.y =
+          (getTrampoline()?.userData.height(
+            v.local.x - W.trampoline.x,
+            v.local.z - W.trampoline.z,
+            time,
+          ) ?? W.trampoline.y) + WATERFRONT_FOOT;
+        if (v.cancelled || v.id !== player) phase(v, "return");
+        else if (input.jump) {
+          v.chain =
+            v.age > 1.5 ? 2.5 : Math.min(60, (v.chain || 1) * 1.4 + 1.5);
+          bounce(v, v.chain, "player-land");
+        }
+      } else if (v.phase === "player-land") {
+        reaction.crouch = 0.7 * Math.exp(-v.age * 8);
+        if (v.age > 0.25) {
+          if (v.id !== player || v.cancelled) phase(v, "return");
+          else if (v.input?.jump) {
+            v.chain = Math.min(60, (v.chain || 2.5) * 1.4 + 1.5);
+            bounce(v, v.chain, "player-land");
+          } else phase(v, "player");
+        }
       } else if (v.phase === "land") {
         reaction.crouch = 0.65 * Math.exp(-v.age * 7);
         if (v.age > 0.5) {
           v.bounces++;
-          if (v.cancelled || v.bounces >= 4) phase(v, "return");
+          if (v.id === player && !v.cancelled) phase(v, "player");
+          else if (v.cancelled || v.bounces >= 4) phase(v, "return");
           else if (v.activity.kind === "dive" && v.bounces >= 2) {
             v.lane = diveLane(v.slot);
             if (!route(v, v.lane.launch, "launch")) phase(v, "return");
@@ -251,7 +390,12 @@ export function createWaterfrontRuntime({
           headPitch: p.vy < 0 ? 0.16 : -0.1,
         });
         if (p.done) {
-          effects?.splash(v.local.x, v.local.z, time, 0.8);
+          effects?.splash(
+            v.local.x,
+            v.local.z,
+            time,
+            Math.min(2.6, 1.3 + Math.abs(p.vy) / 22),
+          );
           phase(v, "splash");
         }
       } else if (v.phase === "splash") {
@@ -352,11 +496,52 @@ export function createWaterfrontRuntime({
   }
   return {
     visits,
+    redirect(id, activity) {
+      const v = visits.get(id);
+      if (!v || !waterfrontActivity(activity)) return false;
+      if (v.activity.id === activity && !v.cancelled) return true;
+      v.redirect = activity;
+      return true;
+    },
+    requestPlayer(id = "chichi") {
+      const v = visits.get(id);
+      if (!v || !["bounce", "dive"].includes(v.activity.kind)) return false;
+      player = id;
+      v.chain = 1;
+      return true;
+    },
+    get player() {
+      return player;
+    },
+    get playerReady() {
+      const v = visits.get(player);
+      return (
+        !!v &&
+        ["player", "player-land", "bounce"].includes(v.phase) &&
+        Math.hypot(v.local.x - W.trampoline.x, v.local.z - W.trampoline.z) < 68
+      );
+    },
+    playerInput(input) {
+      const v = visits.get(player);
+      if (v) v.input = { ...input };
+      return v?.frame || null;
+    },
+    releasePlayer() {
+      const v = visits.get(player);
+      if (v) {
+        v.input = {};
+        v.cancelled = true;
+      }
+      player = null;
+    },
     start,
     update,
     has: (id) => visits.has(id),
     frame: (id) => visits.get(id)?.frame || null,
     get: (id) => visits.get(id),
+    get animationTime() {
+      return animationTime;
+    },
     get clock() {
       return clock;
     },
@@ -395,7 +580,7 @@ export function createWaterfrontRuntime({
     dispose() {
       for (const v of visits.values()) onPark(v.id, this.safePosition(v.id));
       visits.clear();
-      climber = null;
+      ((climber = null), (player = null));
     },
   };
 }

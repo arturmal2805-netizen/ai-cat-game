@@ -2614,7 +2614,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       );
   }
   function cancelHeroActivity(keepLeisure = false) {
-    if(!keepLeisure){mall?.cancel("chichi");resortSpa?.cancel("chichi");waterfront?.cancel("chichi");}
+    if(!keepLeisure){mall?.cancel("chichi");resortSpa?.cancel("chichi");if(!waterfront?.playerControlled)waterfront?.cancel("chichi");}
     if (!keepLeisure) leisure.cancel("chichi");
     court.cancel("chichi");
     if (operation) {
@@ -3604,7 +3604,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       callbacks.onCityDrive?.(choice.id, choice.car, road);
       return;
     }
-    if ((focused==='autumn'||viewingOverview)&&(resortSpa?.pick(raycaster,mall?.root)||mall?.pick(raycaster)))return;
+    if ((focused==='autumn'||viewingOverview)&&(waterfront?.pick(raycaster)||resortSpa?.pick(raycaster,mall?.root)||mall?.pick(raycaster)))return;
     if (focused === HOUSING_ID) {
       const homes = islands.get(HOUSING_ID)?.userData.houses;
       const hit =
@@ -6144,7 +6144,10 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
   waterfront=createWaterfrontWorld({scene,container,getGame:()=>game,getActors:()=>lifeActors,getFocused:()=>focused,getOverview:()=>viewingOverview,
     prepare:(steps,signal)=>prepareSceneSteps(steps,{scheduler:scenePreparation,priority:'autumn',signal}),prepareModel:model=>shaderWarmup.prepare(model,{background:focused!=='autumn'}),registerCat:model=>enableCatRenderBatch(model,poseAtlas),
     canBuild:()=>!!mall?.root&&!!resortSpa?.ready&&!islands.get('autumn')?.userData.lowOnly&&shaderWarmup.idle(),canSimulate:()=>callbacks.canSimulateLeisure?.()!==false,
-    canInvite:id=>id==='chichi'?canControlChichi()&&!submarine?.active&&!mall?.has(id)&&!resortSpa?.has(id)&&!heroGather&&availableGatherCats().includes(id):waterfront?.has(id)?!waterfront.unsafe(id):freeSpaGuest(id)&&!resortSpa?.has(id),
+    canInvite:(id,options={})=>id==='chichi'?canControlChichi()&&!submarine?.active&&(options.force||!mall?.has(id)&&!resortSpa?.has(id)&&!heroGather&&availableGatherCats().includes(id)):waterfront?.has(id)?!waterfront.unsafe(id):freeSpaGuest(id)&&!resortSpa?.has(id),
+    prepareHero:()=>{if(callbacks.canSimulateLeisure?.()===false)return false;if(submarine?.active){submarine.releaseControl();return false;}if(waterfront?.unsafe('chichi')||resortSpa?.transportFrame('chichi'))return false;return true;},
+    hold:id=>{const n=npcs.get(id);if(n)n.manualUntil=performance.now()+60000;},
+    onPlayerStart:()=>manualWalk?.start()||false,
     reserve:id=>{if(id==='chichi'){manualWalk?.stop();callbacks.onControlChichi?.();cancelHeroActivity();heroGather=null;jobs.cancel(id);crew.cancel(id);housingLife.cancel?.(id);}else{cancelResident(id,true);const n=npcs.get(id);if(!n)return false;n.manualAnchor={x:n.carrier.position.x,z:n.carrier.position.z};n.manualUntil=performance.now()+3600000;n.leisureBiome='autumn';}return true;},
     onPark:(id,p)=>{if(!p)return;const carrier=id==='chichi'?chichiCarrier:npcs.get(id)?.carrier;if(carrier)carrier.position.copy(p);const n=npcs.get(id);if(n){n.manualAnchor={x:p.x,z:p.z};n.manualUntil=performance.now()+90000;}gatherSavePending=true;},
     onComplete:(id,result)=>{if(result.ticket)finishLeisure(id,result);},onError:message=>callbacks.onReaction?.(message),
@@ -6202,8 +6205,8 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
   }
   const manualButton=document.getElementById('chichi-control');
   const refreshManualButton=()=>{if(!manualButton)return;const active=!!(manualWalk?.active||submarine?.controlled&&submarine?.explorer);if(manualButton.getAttribute('aria-pressed')===String(active))return;manualButton.setAttribute('aria-pressed',String(active));manualButton.textContent=active?'🐈 Отпустить Чичи':'🐈 Управлять Чичи';};
-  manualWalk=createChichiManual({container,canvas:renderer.domElement,camera,look,actor:chichiCarrier,getRadius:()=>catNavigationRadius(cat),getTransport:()=>resortSpa?.transportFrame('chichi'),surface:manualSurface,cameraClear:manualCameraClear,canControl:()=>canControlChichi()&&!document.querySelector('dialog[open]'),cancel:()=>{waterfront?.exit(false);clearWarehouseCamera();callbacks.onControlChichi?.();cancelHeroActivity();heroGather=null;jobs.cancel('chichi');crew.cancel('chichi');housingLife.cancel?.('chichi');faceCamera.setEnabled(false,look);mall?.exit(false);resortSpa?.exit(false);setCatMood(cat,'happy',{immediate:reduced});},focus,onRelease:refreshManualButton});
-  if(manualButton)manualButton.onclick=async()=>{if(waterfront?.unsafe('chichi')){callbacks.onReaction?.('Дождись безопасного приземления и выхода из воды.');return;}waterfront?.exit(false);if(resortSpa?.transportFrame('chichi')&&!manualWalk.active){callbacks.onReaction?.('Дождись прибытия лифта.');return;}if(manualWalk.active){manualWalk.stop();refreshManualButton();return;}if(submarine.controlled&&submarine.explorer){submarine.releaseControl();refreshManualButton();return;}mall?.exit(false);resortSpa?.exit(false);
+  manualWalk=createChichiManual({container,canvas:renderer.domElement,camera,look,actor:chichiCarrier,getRadius:()=>catNavigationRadius(cat),getTransport:input=>waterfront?.playerControlled?waterfront.playerTransport(input):resortSpa?.transportFrame('chichi'),canJump:()=>!!waterfront?.playerControlled,surface:manualSurface,cameraClear:manualCameraClear,canControl:()=>(waterfront?.playerControlled||canControlChichi())&&!document.querySelector('dialog[open]'),cancel:()=>{waterfront?.exit(false);clearWarehouseCamera();callbacks.onControlChichi?.();cancelHeroActivity();heroGather=null;jobs.cancel('chichi');crew.cancel('chichi');housingLife.cancel?.('chichi');faceCamera.setEnabled(false,look);mall?.exit(false);resortSpa?.exit(false);setCatMood(cat,'happy',{immediate:reduced});},focus,onRelease:()=>{waterfront?.releasePlayer();refreshManualButton();}});
+  if(manualButton)manualButton.onclick=async()=>{if(waterfront?.playerControlled){manualWalk?.stop();refreshManualButton();return;}if(waterfront?.has('chichi')&&['bounce','dive'].includes(waterfront.runtime.get('chichi')?.activity.kind)){void waterfront.controlPlayer();return;}if(waterfront?.unsafe('chichi')){callbacks.onReaction?.('Дождись безопасного приземления и выхода из воды.');return;}waterfront?.exit(false);if(resortSpa?.transportFrame('chichi')&&!manualWalk.active){callbacks.onReaction?.('Дождись прибытия лифта.');return;}if(manualWalk.active){manualWalk.stop();refreshManualButton();return;}if(submarine.controlled&&submarine.explorer){submarine.releaseControl();refreshManualButton();return;}mall?.exit(false);resortSpa?.exit(false);
     // A sealed SPA floor is dry even though its world Y is below sea level.
     // Resolve its actual support before the ocean controller classifies depth.
     if(resortSpa?.ready){const root=resortSpa.root,p={x:chichiCarrier.position.x-root.position.x,y:chichiCarrier.position.y-RESORT_SPA_LAYOUT.y,z:chichiCarrier.position.z-root.position.z},hit=resortSpa.navigation.support(p,catNavigationRadius(cat));if(hit&&Math.abs(hit.y+RESORT_SPA_LAYOUT.y-chichiCarrier.position.y)<.65){if(!manualWalk.start())callbacks.onReaction?.('Здесь пока нет свободной опоры для ходьбы.');refreshManualButton();return;}}

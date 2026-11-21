@@ -1,4 +1,6 @@
 import * as T from "three";
+import { waterfrontLocalLighting } from "./waterfront-lighting.js";
+import { cityClock } from "./jobcity-system.js";
 import {
   WATERFRONT as W,
   WATERFRONT_VIEWS,
@@ -28,6 +30,9 @@ export function createWaterfrontWorld({
   canSimulate = () => true,
   canBuild = () => true,
   canInvite = () => false,
+  prepareHero = () => true,
+  onPlayerStart = () => false,
+  hold = () => {},
   reserve = () => true,
   onPark = () => {},
   onComplete = () => {},
@@ -47,7 +52,11 @@ export function createWaterfrontWorld({
     selected = null,
     lastInvite = 0,
     nextTry = 0,
-    request = 0;
+    request = 0,
+    pendingHero = false,
+    wantPlayer = false,
+    playerStarted = false,
+    jumpHeld = false;
   const access = document.createElement("button");
   access.className = "venue-access waterfront-access";
   access.dataset.venue = "waterfront";
@@ -75,6 +84,32 @@ export function createWaterfrontWorld({
     () => void invite("chichi", "waterfront-dine"),
   );
   const all = button("🐾 Вільні котики", () => void inviteAll());
+  const allTrampoline = button(
+    "🐾 Усі вільні + Чічі на батут",
+    () => void inviteAllTrampoline(),
+  );
+  allTrampoline.dataset.waterfrontAllTrampoline = "";
+  const playerButton = button(
+    "🎮 Керувати стрибками Чічі",
+    () => void controlPlayer(),
+  );
+  playerButton.dataset.waterfrontPlayer = "";
+  const jumpButton = document.createElement("button");
+  jumpButton.className = "waterfront-jump";
+  jumpButton.textContent = "Стрибок ↑";
+  jumpButton.setAttribute("aria-label", "Стрибати на батуті дедалі вище");
+  jumpButton.hidden = true;
+  container.append(jumpButton);
+  jumpButton.onpointerdown = (e) => {
+    if (!playerStarted) return;
+    e.preventDefault();
+    jumpButton.setPointerCapture?.(e.pointerId);
+    jumpHeld = true;
+  };
+  for (const key of ["pointerup", "pointercancel", "lostpointercapture"])
+    jumpButton.addEventListener(key, () => {
+      jumpHeld = false;
+    });
   for (const view of WATERFRONT_VIEWS) {
     const b = button(view.name, () => void inspect(view.id));
     b.dataset.waterfrontView = view.id;
@@ -111,25 +146,43 @@ export function createWaterfrontWorld({
   }
   async function ensure() {
     if (disposed) return null;
-    if (root) return root;
     if (pending) return pending;
+    if (root) return root;
     pending = (async () => {
       let model;
       try {
         model = await prepare(waterfrontModelSteps(), abort.signal);
         model.position.set(origin.x, 0, origin.z);
         model.userData.biomeId = "autumn";
+        const localLights = [];
+        for (const [key, material] of Object.entries(model.userData.materials))
+          if (
+            !["glass", "floorGlass", "pile", "water"].includes(key) &&
+            material.isMeshStandardMaterial
+          )
+            localLights.push(waterfrontLocalLighting(material, origin));
+        model.userData.localLights = localLights;
+        effects = createWaterfrontEffects(model);
         await prepareModel(model);
-        if (disposed) return null;
-        root = model;
-        scene.add(root);
-        effects = createWaterfrontEffects(root);
+        if (disposed) {
+          effects.dispose();
+          disposeModel(model);
+          return null;
+        }
         await prepare(staffSteps(), abort.signal);
         for (const s of staff) {
           await prepareModel(s.carrier);
           if (disposed) break;
-          scene.add(s.carrier);
         }
+        if (disposed) {
+          effects.dispose();
+          disposeModel(model);
+          return null;
+        }
+        model.updateWorldMatrix(true, true);
+        root = model;
+        scene.add(root);
+        for (const s of staff) scene.add(s.carrier);
         runtime = createWaterfrontRuntime({
           origin,
           getActors,
@@ -252,6 +305,68 @@ export function createWaterfrontWorld({
       n ? "Запрошено вільних котиків: " + n : "Зараз вільних котиків немає.",
     );
   }
+  async function tryHero() {
+    if (!pendingHero || !runtime || !canSimulate()) return false;
+    if (!prepareHero()) return false;
+    if (runtime.has("chichi")) {
+      runtime.redirect("chichi", "waterfront-bounce");
+      pendingHero = false;
+      if (wantPlayer) runtime.requestPlayer();
+      return true;
+    }
+    if (
+      !canInvite("chichi", { force: true }) ||
+      !reserve("chichi", { force: true })
+    )
+      return false;
+    if (
+      !runtime.start("chichi", "waterfront-bounce", {
+        invite: true,
+        enqueue: true,
+      })
+    )
+      return false;
+    pendingHero = false;
+    if (wantPlayer) runtime.requestPlayer();
+    return true;
+  }
+  async function inviteAllTrampoline() {
+    if (!canSimulate() || !(await ensure())) return false;
+    pendingHero = true;
+    await tryHero();
+    let n = runtime.has("chichi") ? 1 : 0;
+    for (const a of getActors()) {
+      if (a.id === "chichi" || runtime.has(a.id) || !canInvite(a.id)) continue;
+      if (!reserve(a.id)) continue;
+      if (
+        runtime.start(a.id, "waterfront-bounce", {
+          invite: true,
+          enqueue: true,
+        })
+      )
+        n++;
+      else onPark(a.id, a.position);
+    }
+    onError(
+      "На батут запрошено: " +
+        n +
+        (pendingHero
+          ? " · Чічі приєднається після безпечного переходу."
+          : ". Чічі теж іде."),
+    );
+    return true;
+  }
+  async function controlPlayer() {
+    if (!canSimulate() || !(await ensure())) return false;
+    wantPlayer = true;
+    playerStarted = false;
+    pendingHero = true;
+    await tryHero();
+    onError(
+      "Чічі йде на батут. WASD — рух; утримуй пробіл або «Стрибок», щоб стрибати щоразу вище.",
+    );
+    return true;
+  }
   const local = (p) => ({ x: p.x - origin.x, y: p.y, z: p.z - origin.z });
   return {
     origin,
@@ -260,6 +375,39 @@ export function createWaterfrontWorld({
     exit,
     invite,
     inviteAll,
+    inviteAllTrampoline,
+    controlPlayer,
+    get playerControlled() {
+      return canSimulate() && wantPlayer && !!runtime?.playerReady;
+    },
+    playerTransport(input) {
+      if (!canSimulate() || !wantPlayer || !runtime?.playerReady) return null;
+      return runtime.playerInput({ ...input, jump: input.jump || jumpHeld });
+    },
+    releasePlayer() {
+      wantPlayer = false;
+      playerStarted = false;
+      jumpHeld = false;
+      runtime?.releasePlayer();
+    },
+    pick(raycaster) {
+      if (!root?.visible) return false;
+      const ray = raycaster.ray
+          .clone()
+          .applyMatrix4(root.matrixWorld.clone().invert()),
+        point = new T.Vector3();
+      if (
+        !ray.intersectPlane(
+          new T.Plane(new T.Vector3(0, 1, 0), -W.trampoline.y),
+          point,
+        ) ||
+        Math.hypot(point.x - W.trampoline.x, point.z - W.trampoline.z) >
+          W.trampoline.radius
+      )
+        return false;
+      void inspect("trampoline");
+      return true;
+    },
     get root() {
       return root;
     },
@@ -307,7 +455,7 @@ export function createWaterfrontWorld({
                 ? root.userData.trampoline.userData.height(
                     q.x - W.trampoline.x,
                     q.z - W.trampoline.z,
-                    runtime.clock,
+                    runtime.animationTime,
                   ) + 0.012
                 : s.y,
           }
@@ -334,8 +482,34 @@ export function createWaterfrontWorld({
       }
       if (!root) return;
       root.visible = visible;
+      if (pendingHero) void tryHero();
       runtime?.update(dt, time);
-      if (visible) root.userData.update(time, reduced);
+      for (const id of runtime?.visits.keys() || []) hold(id);
+      if (
+        wantPlayer &&
+        runtime?.playerReady &&
+        !playerStarted &&
+        runtime.frame("chichi")?.phase === "player"
+      )
+        playerStarted = onPlayerStart();
+      jumpButton.hidden = !playerStarted;
+      jumpButton.disabled = !canSimulate();
+      allTrampoline.hidden = playerButton.hidden =
+        !inspection || !["trampoline", "jumps"].includes(selected);
+      if (visible) {
+        const minute = getGame().jobCity
+            ? cityClock(getGame().jobCity).minute
+            : 720,
+          night =
+            minute < 360 || minute > 1140
+              ? 1
+              : minute > 1020
+                ? (minute - 1020) / 120
+                : 0;
+        for (const light of root.userData.localLights || [])
+          light.update(time, night);
+        root.userData.update(time, reduced);
+      }
       effects?.update(time, dt, visible);
       for (const s of staff) {
         s.carrier.visible = visible;
@@ -364,6 +538,7 @@ export function createWaterfrontWorld({
       runtime?.dispose();
       effects?.dispose();
       access.remove();
+      jumpButton.remove();
       panel.remove();
       for (const s of staff) {
         s.carrier.removeFromParent();
@@ -386,6 +561,13 @@ export function createWaterfrontWorld({
         glassPanels: root?.userData.glassPanels,
         staff: staff.length,
         invited: lastInvite,
+        pendingHero,
+        player: runtime?.player,
+        playerStarted,
+        active: [...(runtime?.visits.values() || [])].filter((v) => v.active)
+          .length,
+        queued: [...(runtime?.visits.values() || [])].filter((v) => !v.active)
+          .length,
       };
     },
   };

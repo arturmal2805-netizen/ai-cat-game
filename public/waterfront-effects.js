@@ -1,7 +1,7 @@
 import * as T from "three";
 // Fixed pools: no meshes, materials, or arrays are allocated by a splash or RAF.
 export function createWaterfrontEffects(root) {
-  const count = 192,
+  const count = 320,
     position = new Float32Array(count * 3),
     velocity = new Float32Array(count * 3),
     birth = new Float32Array(count).fill(-100),
@@ -17,7 +17,7 @@ export function createWaterfrontEffects(root) {
       },
     },
     vertexShader:
-      "attribute float birth;uniform float clock;uniform float ratio;varying float age;void main(){age=clock-birth;vec4 mv=modelViewMatrix*vec4(position,1.);gl_Position=projectionMatrix*mv;gl_PointSize=age<0.||age>1.6?0.:clamp(110.*ratio/max(1.,-mv.z),1.,6.);}",
+      "attribute float birth;uniform float clock;uniform float ratio;varying float age;void main(){age=clock-birth;vec4 mv=modelViewMatrix*vec4(position,1.);gl_Position=projectionMatrix*mv;gl_PointSize=age<0.||age>1.6?0.:clamp(190.*ratio/max(1.,-mv.z),1.,10.);}",
     fragmentShader:
       "varying float age;void main(){float d=length(gl_PointCoord-.5);if(d>.5||age<0.||age>1.6)discard;gl_FragColor=vec4(.7,.95,1.,(1.-age/1.6)*(1.-smoothstep(.2,.5,d)));}",
     transparent: true,
@@ -53,7 +53,7 @@ export function createWaterfrontEffects(root) {
     splash(x, z, time, strength = 1) {
       const e = events[event++ % events.length];
       Object.assign(e, { x, z, time, strength });
-      for (let k = 0; k < 32; k++) {
+      for (let k = 0; k < 64; k++) {
         const i = cursor++ % count,
           a = k * 2.399963,
           s = 1.3 + (k % 7) * 0.4;
