@@ -107,3 +107,22 @@ b995a82:3compactSVG44pxvenuebuttons+actualWarehousecamera;
 unmerged. Не включать её/редизайнТРЦ/интерьерWarehouse/AI/экономику самовольно.
 CrimsonDesert — visualtarget, stable — regressionbaseline, d6fa805 — historicalbase.
 Не удалять старые worktrees/pre-existing scripts/__pycache__/ в ветке памяти.
+
+## Новое сообщение игрока — toolbar camera WIP
+
+Report15cb/appfec56d: user no perceived FPS gain; верхниеиконки→cameraдо5s.
+Новаязадача codex/venue-camera-latency в chichi-v12-island-warehouse,
+неопубликована. Mall/SPA awaitfullensure до camera, pendingrequestнеотменяется
+приexit иможетперехватитькамерупозже. WIP synchronousintent+versioncancel,
+SPA follow/manualhandoff, exactimmutableWarehousebboxcache. Coldnativebaseline
+39936ms selection, warm62–154ms dispatch, НЕhardwaretiming. Newreport/rawQA:
+docs/qa/2026-11-21/venue-camera-latency. Source/всеfinalchecks ещёнужны.
+
+Source **aac417141026eb58421d92f7b37f912cd5bb23da**, PR#15,
+branchcodex/venue-camera-latency.9focusedtests/Node22fullbuildPASS; localbuild
+Worker recordedpreviousHEAD15cb (sourcefinalmainCIещёнужен). CandidatecoldSPA
+firstcameraintent0.4ms/onclick0.5ms while rootnotready; finalcoldcancellation/
+framingdesktop98438 thencontroller69125 runsallmap→phone. All-map pauseONLY
+preparation toavoidSwiftShaderCPUcompetition; finalsampling fullRAF/DPR2/input
+unchanged, deadline600s inherited. Logs/runners /workspace/qa/venue-camera*.
+PRworkflow44927682063 testinprogress, deploy/pages correctlyskipforPR. Live15cb.

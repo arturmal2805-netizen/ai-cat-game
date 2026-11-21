@@ -1,0 +1,45 @@
+{
+  "source": "15cb5b4c20dd8acaf3a80818d9c1fb0ea0ce7992",
+  "allCapturedPublicModulesMatchSource": true,
+  "moduleCount": 453,
+  "state": "cold-baseline-preparation-wait-before-camera",
+  "scope": "Actual native game/private Worker/SQLite; SwiftShader correctness only, hardware FPS unmeasured",
+  "files": {
+    "check-aquarium.cjs": {
+      "bytes": 120039,
+      "sha256": "330b5432c56062329d25edd692c8787a5e0d9b74fbe8a2c40a9b787d2d565c4b"
+    },
+    "qa-build.json": {
+      "bytes": 271,
+      "sha256": "1bc18b96d669db3cfe63993454c95c88118edfbed397fe362c047569cdd89339"
+    },
+    "source-proof.tar.gz": {
+      "bytes": 2264120,
+      "sha256": "31622daffb5083b1b460b1bfcc8b3cbb7dd126c682acf56c0ff5accc429714bf"
+    },
+    "audit-v12-native.mjs": {
+      "bytes": 8185,
+      "sha256": "f0869e31e5aeed61408b5b275733bae8054fbd4a7ae7695d5d838b1bc283f41d"
+    },
+    "check-native-map-frames.mjs": {
+      "bytes": 25290,
+      "sha256": "c97ec2343991d2d1a6730902af3ae35898dbaf7271857dd45475fe3f441580ca"
+    },
+    "audit-warehouse-open-water.mjs": {
+      "bytes": 5201,
+      "sha256": "8e4a18348cc38d51bc84fc09da3a79ca96df37246c8d5b58a4a6d469b96042b0"
+    },
+    "venue-latency.json": {
+      "bytes": 1927,
+      "sha256": "2253839777230762b364f609a1d90ec914d2cd863ab3c7d62251f74c4fff06a0"
+    },
+    "source-files.json": {
+      "bytes": 42052,
+      "sha256": "888673be972daeed65b83aa918c4e3de46097196331cab4aa09a156ec96a98de"
+    },
+    "source-status.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

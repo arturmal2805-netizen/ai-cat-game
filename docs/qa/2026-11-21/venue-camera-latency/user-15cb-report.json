@@ -1,0 +1,732 @@
+{
+  "version": 3,
+  "loading": {
+    "observedResources": 73,
+    "slowest": [
+      {
+        "path": "/api/save",
+        "durationMs": 2930.1,
+        "transferBytes": 0,
+        "decodedBytes": 0
+      },
+      {
+        "path": "/api/save",
+        "durationMs": 1812.4,
+        "transferBytes": 0,
+        "decodedBytes": 0
+      },
+      {
+        "path": "/api/save",
+        "durationMs": 1795,
+        "transferBytes": 0,
+        "decodedBytes": 0
+      },
+      {
+        "path": "/api/save",
+        "durationMs": 1219.7,
+        "transferBytes": 0,
+        "decodedBytes": 0
+      },
+      {
+        "path": "/api/save",
+        "durationMs": 1162.8,
+        "transferBytes": 0,
+        "decodedBytes": 0
+      },
+      {
+        "path": "/ai-cat-game/art/ocean-water/wind-field-2523d71db8b6.png",
+        "durationMs": 1145.8,
+        "transferBytes": 1974987,
+        "decodedBytes": 1974687
+      },
+      {
+        "path": "/api/save",
+        "durationMs": 1132.6,
+        "transferBytes": 0,
+        "decodedBytes": 0
+      },
+      {
+        "path": "/api/save",
+        "durationMs": 941.5,
+        "transferBytes": 0,
+        "decodedBytes": 0
+      },
+      {
+        "path": "/api/save",
+        "durationMs": 909.6,
+        "transferBytes": 0,
+        "decodedBytes": 0
+      },
+      {
+        "path": "/api/save",
+        "durationMs": 881.2,
+        "transferBytes": 0,
+        "decodedBytes": 0
+      },
+      {
+        "path": "/api/save",
+        "durationMs": 876.2,
+        "transferBytes": 0,
+        "decodedBytes": 0
+      },
+      {
+        "path": "/api/save",
+        "durationMs": 815.4,
+        "transferBytes": 0,
+        "decodedBytes": 0
+      }
+    ],
+    "jsHeapBytes": 1617456689
+  },
+  "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+  "suspended": false,
+  "automaticPauseSeconds": 0,
+  "startupFirstFrameMs": 2081.1,
+  "startupResidentPreparation": {
+    "models": 19,
+    "workMs": 355.5,
+    "maxTaskMs": 41,
+    "elapsedMs": 361.69999998807907
+  },
+  "catRenderer": "individual",
+  "gpuRender": {
+    "supported": true,
+    "disjoint": false,
+    "samples": 300,
+    "pending": 1,
+    "medianMs": 10.66,
+    "p95Ms": 17.53,
+    "maxMs": 42.62
+  },
+  "appWorkSinceReset": {
+    "phases": {
+      "app.persist": {
+        "calls": 1,
+        "totalMs": 11,
+        "maxMs": 11,
+        "over50ms": 0
+      },
+      "app.renderGame": {
+        "calls": 2,
+        "totalMs": 1.4,
+        "maxMs": 0.8,
+        "over50ms": 0
+      },
+      "frame.viewport": {
+        "calls": 1264,
+        "totalMs": 22.5,
+        "maxMs": 20.4,
+        "over50ms": 0
+      },
+      "frame.cameraAndIslands": {
+        "calls": 1264,
+        "totalMs": 139.9,
+        "maxMs": 1,
+        "over50ms": 0
+      },
+      "frame.jobsAndHomes": {
+        "calls": 1264,
+        "totalMs": 258.4,
+        "maxMs": 10.3,
+        "over50ms": 0
+      },
+      "frame.venues": {
+        "calls": 1264,
+        "totalMs": 88.7,
+        "maxMs": 0.9,
+        "over50ms": 0
+      },
+      "frame.residents": {
+        "calls": 1264,
+        "totalMs": 158,
+        "maxMs": 0.6,
+        "over50ms": 0
+      },
+      "frame.chichi": {
+        "calls": 1264,
+        "totalMs": 73.6,
+        "maxMs": 4.3,
+        "over50ms": 0
+      },
+      "frame.cameraAndHousingView": {
+        "calls": 1264,
+        "totalMs": 20.6,
+        "maxMs": 0.3,
+        "over50ms": 0
+      },
+      "frame.ambientAndBadges": {
+        "calls": 1264,
+        "totalMs": 42.7,
+        "maxMs": 2.5,
+        "over50ms": 0
+      },
+      "frame.visibility": {
+        "calls": 1264,
+        "totalMs": 86.2,
+        "maxMs": 0.4,
+        "over50ms": 0
+      },
+      "frame.renderer": {
+        "calls": 1264,
+        "totalMs": 6992.3,
+        "maxMs": 765.6,
+        "over50ms": 2
+      },
+      "frame.gpuSubmit": {
+        "calls": 1264,
+        "totalMs": 11.1,
+        "maxMs": 0.1,
+        "over50ms": 0
+      },
+      "frame.residency": {
+        "calls": 1264,
+        "totalMs": 1.5,
+        "maxMs": 0.1,
+        "over50ms": 0
+      },
+      "app.cityTick": {
+        "calls": 44,
+        "totalMs": 9,
+        "maxMs": 1.9,
+        "over50ms": 0
+      }
+    },
+    "longest": [
+      {
+        "label": "frame.renderer",
+        "atMs": 1315,
+        "durationMs": 765.6
+      },
+      {
+        "label": "frame.renderer",
+        "atMs": 18203,
+        "durationMs": 286.9
+      }
+    ]
+  },
+  "longAnimationFramesSupported": true,
+  "longestAnimationFrames": [
+    {
+      "durationMs": 317.1,
+      "blockingMs": 247.3,
+      "afterStyleStartMs": 0.2,
+      "scripts": [
+        {
+          "function": "hb",
+          "type": "user-callback",
+          "durationMs": 287.8,
+          "layoutMs": 0,
+          "position": 2605769
+        },
+        {
+          "function": "",
+          "type": "event-listener",
+          "durationMs": 6.2,
+          "layoutMs": 0,
+          "position": 2764237
+        }
+      ]
+    },
+    {
+      "durationMs": 307.7,
+      "blockingMs": 229.1,
+      "afterStyleStartMs": 0.1,
+      "scripts": [
+        {
+          "function": "",
+          "type": "event-listener",
+          "durationMs": 277.1,
+          "layoutMs": 0,
+          "position": 12589
+        }
+      ]
+    },
+    {
+      "durationMs": 193.2,
+      "blockingMs": 133.1,
+      "afterStyleStartMs": 0.1,
+      "scripts": [
+        {
+          "function": "",
+          "type": "event-listener",
+          "durationMs": 176.2,
+          "layoutMs": 0,
+          "position": 12589
+        },
+        {
+          "function": "hb",
+          "type": "user-callback",
+          "durationMs": 6.7,
+          "layoutMs": 0,
+          "position": 2605769
+        },
+        {
+          "function": "",
+          "type": "event-listener",
+          "durationMs": 5.6,
+          "layoutMs": 0,
+          "position": 12589
+        }
+      ]
+    },
+    {
+      "durationMs": 179.1,
+      "blockingMs": 109.8,
+      "afterStyleStartMs": 0.1,
+      "scripts": [
+        {
+          "function": "",
+          "type": "event-listener",
+          "durationMs": 152.8,
+          "layoutMs": 0,
+          "position": 12589
+        },
+        {
+          "function": "hb",
+          "type": "user-callback",
+          "durationMs": 6.7,
+          "layoutMs": 0,
+          "position": 2605769
+        },
+        {
+          "function": "",
+          "type": "event-listener",
+          "durationMs": 5.1,
+          "layoutMs": 0,
+          "position": 12589
+        }
+      ]
+    },
+    {
+      "durationMs": 114.3,
+      "blockingMs": 53.7,
+      "afterStyleStartMs": 0.1,
+      "scripts": [
+        {
+          "function": "",
+          "type": "event-listener",
+          "durationMs": 101.5,
+          "layoutMs": 0,
+          "position": 12589
+        },
+        {
+          "function": "",
+          "type": "event-listener",
+          "durationMs": 6.3,
+          "layoutMs": 0,
+          "position": 12589
+        }
+      ]
+    }
+  ],
+  "app": "./dist/app.js?v=fec56d9990ec8549",
+  "bufferTransfersSinceReset": {
+    "dataCalls": 2328,
+    "dataBytes": 163024163,
+    "subCalls": 8481,
+    "subBytes": 14172992
+  },
+  "nativeGlCallsSinceReset": {
+    "getExtension": {
+      "calls": 4,
+      "totalMs": 34.4,
+      "maxMs": 34.3,
+      "over50ms": 0
+    },
+    "beginQuery": {
+      "calls": 1264,
+      "totalMs": 2.4,
+      "maxMs": 0.3,
+      "over50ms": 0
+    },
+    "bindBuffer": {
+      "calls": 13458,
+      "totalMs": 7.5,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "bufferData": {
+      "calls": 2328,
+      "totalMs": 52.5,
+      "maxMs": 2.8,
+      "over50ms": 0
+    },
+    "bindTexture": {
+      "calls": 291155,
+      "totalMs": 70.6,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "texParameteri": {
+      "calls": 49105,
+      "totalMs": 12.6,
+      "maxMs": 0.2,
+      "over50ms": 0
+    },
+    "texImage2D": {
+      "calls": 2,
+      "totalMs": 0.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "bindFramebuffer": {
+      "calls": 4434,
+      "totalMs": 3.7,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "pixelStorei": {
+      "calls": 145,
+      "totalMs": 0.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "texStorage2D": {
+      "calls": 114,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "clear": {
+      "calls": 2531,
+      "totalMs": 4.3,
+      "maxMs": 1.3,
+      "over50ms": 0
+    },
+    "createProgram": {
+      "calls": 206,
+      "totalMs": 0.6,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "createShader": {
+      "calls": 412,
+      "totalMs": 1.8,
+      "maxMs": 1.7,
+      "over50ms": 0
+    },
+    "shaderSource": {
+      "calls": 412,
+      "totalMs": 43.5,
+      "maxMs": 0.4,
+      "over50ms": 0
+    },
+    "compileShader": {
+      "calls": 412,
+      "totalMs": 0.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "attachShader": {
+      "calls": 412,
+      "totalMs": 0.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "linkProgram": {
+      "calls": 206,
+      "totalMs": 6,
+      "maxMs": 4.8,
+      "over50ms": 0
+    },
+    "getProgramInfoLog": {
+      "calls": 202,
+      "totalMs": 801.2,
+      "maxMs": 68.4,
+      "over50ms": 2
+    },
+    "getShaderInfoLog": {
+      "calls": 404,
+      "totalMs": 26.2,
+      "maxMs": 2.2,
+      "over50ms": 0
+    },
+    "getProgramParameter": {
+      "calls": 935,
+      "totalMs": 5.9,
+      "maxMs": 0.2,
+      "over50ms": 0
+    },
+    "getActiveUniform": {
+      "calls": 5201,
+      "totalMs": 3.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "getUniformLocation": {
+      "calls": 5201,
+      "totalMs": 3.9,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "getActiveAttrib": {
+      "calls": 628,
+      "totalMs": 0.6,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "getAttribLocation": {
+      "calls": 628,
+      "totalMs": 0.4,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "useProgram": {
+      "calls": 177182,
+      "totalMs": 44.3,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniformMatrix4fv": {
+      "calls": 1051696,
+      "totalMs": 257.3,
+      "maxMs": 0.2,
+      "over50ms": 0
+    },
+    "uniformMatrix3fv": {
+      "calls": 179322,
+      "totalMs": 37.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniform1f": {
+      "calls": 147592,
+      "totalMs": 36.8,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniform1i": {
+      "calls": 27197,
+      "totalMs": 10.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "texSubImage2D": {
+      "calls": 12270,
+      "totalMs": 70.9,
+      "maxMs": 34.6,
+      "over50ms": 0
+    },
+    "generateMipmap": {
+      "calls": 87,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "bindVertexArray": {
+      "calls": 425869,
+      "totalMs": 158.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "vertexAttribPointer": {
+      "calls": 2079,
+      "totalMs": 0.7,
+      "maxMs": 0.2,
+      "over50ms": 0
+    },
+    "drawArrays": {
+      "calls": 93531,
+      "totalMs": 22.3,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "drawElements": {
+      "calls": 378394,
+      "totalMs": 102.6,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "multiDrawElementsWEBGL": {
+      "calls": 47432,
+      "totalMs": 37.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniform3f": {
+      "calls": 173512,
+      "totalMs": 40.5,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniform1iv": {
+      "calls": 56,
+      "totalMs": 0.1,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniform2f": {
+      "calls": 6314,
+      "totalMs": 1.6,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniform3fv": {
+      "calls": 56,
+      "totalMs": 0.2,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "drawElementsInstanced": {
+      "calls": 20143,
+      "totalMs": 6.3,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "uniform4fv": {
+      "calls": 7536,
+      "totalMs": 2.8,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "endQuery": {
+      "calls": 1264,
+      "totalMs": 2.6,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "fenceSync": {
+      "calls": 1264,
+      "totalMs": 4.3,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "flush": {
+      "calls": 1264,
+      "totalMs": 5,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "clientWaitSync": {
+      "calls": 1305,
+      "totalMs": 5.8,
+      "maxMs": 0.9,
+      "over50ms": 0
+    },
+    "deleteSync": {
+      "calls": 1263,
+      "totalMs": 2.4,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "getQueryParameter": {
+      "calls": 2567,
+      "totalMs": 7,
+      "maxMs": 1.4,
+      "over50ms": 0
+    },
+    "bufferSubData": {
+      "calls": 8481,
+      "totalMs": 17.9,
+      "maxMs": 0.2,
+      "over50ms": 0
+    },
+    "blitFramebuffer": {
+      "calls": 473,
+      "totalMs": 0.3,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "deleteBuffer": {
+      "calls": 10,
+      "totalMs": 0,
+      "maxMs": 0,
+      "over50ms": 0
+    },
+    "uniform1fv": {
+      "calls": 535,
+      "totalMs": 0.4,
+      "maxMs": 0.1,
+      "over50ms": 0
+    },
+    "getParameter": {
+      "calls": 2,
+      "totalMs": 0.4,
+      "maxMs": 0.4,
+      "over50ms": 0
+    }
+  },
+  "mainThreadLongTasksSupported": true,
+  "longestMainThreadTasksMs": [
+    826,
+    288,
+    277,
+    176,
+    152,
+    101,
+    81,
+    80,
+    70,
+    60,
+    57,
+    57
+  ],
+  "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+  "viewport": [
+    1440,
+    812
+  ],
+  "samples": 300,
+  "seconds": 10.267,
+  "rafCallbacksSinceReset": 1266,
+  "pacerSkipsSinceReset": 0,
+  "rafSecondsSinceReset": 45.183,
+  "rafFpsSinceReset": 28,
+  "fps": 29.12,
+  "gapP95": 33.9,
+  "gapP99": 34.3,
+  "gapMax": 267.1999999999971,
+  "onePercentLowFps": 7.49,
+  "stuttersOver50Ms": 3,
+  "severeStuttersOver100Ms": 1,
+  "stuttersOver50MsSinceStart": 13,
+  "severeStuttersOver100MsSinceStart": 5,
+  "gapMaxSinceStart": 2099.2000000000007,
+  "cpuMedian": 0.4,
+  "cpuP95": 0.6,
+  "cpuMax": 3.300000011920929,
+  "cpuTotalMs": 139,
+  "renderMedian": 1.1,
+  "renderP95": 7.6,
+  "renderMax": 18.799999952316284,
+  "renderTotalMs": 943.3,
+  "gpuWaitCallbacksSinceReset": 2,
+  "contextWaitCallbacksSinceReset": 0,
+  "queueCpuTotalSinceReset": 14.6,
+  "queueCpuMaxSinceReset": 0.9,
+  "eventLoopDelayP95": 25.4,
+  "eventLoopDelayMax": 1925.9000000357628,
+  "geometryEvictionsDuringWindow": 0,
+  "geometryRefaultsDuringWindow": 0,
+  "geometryRefaultBytesDuringWindow": 0,
+  "geometryRapidRefaultsDuringWindow": 0,
+  "geometryRapidRefaultBytesDuringWindow": 0,
+  "last": {
+    "biome": "autumn",
+    "cats": 19,
+    "calls": 744,
+    "triangles": 2585971,
+    "geometryBytes": 162617807,
+    "geometryPeakBytes": 162617807,
+    "geometryActiveGraceMs": 250,
+    "pending": 1,
+    "dpr": 2,
+    "poseCats": 0,
+    "colonyActive": false,
+    "shaderPending": 2,
+    "shaderPreparing": 2,
+    "evicted": 0,
+    "refaults": 0,
+    "refaultBytes": 0,
+    "rapidRefaults": 0,
+    "rapidRefaultBytes": 0,
+    "targetFps": 60,
+    "programs": 204,
+    "visible": true,
+    "moving": false,
+    "buffer": [
+      2804,
+      1384
+    ]
+  }
+}

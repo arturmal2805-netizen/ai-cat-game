@@ -1,0 +1,6 @@
+VENUE_COLD_SPA {"ready":false,"pending":{"pending":28,"preparing":1,"prepared":1,"reflected":1,"compiled":1,"reused":0,"textures":0},"selectedMs":39936}
+VENUE_HOT {"selector":".warehouse-access","dispatchToEvaluateMs":152.79999999701977,"look":[1750,-110.14926818847655,950],"event":{"target":"warehouse","handlerMs":0},"mall":false,"spa":false}
+VENUE_HOT {"selector":".mall-access","dispatchToEvaluateMs":62.20000000298023,"look":[-450,-163,580],"event":{"target":"mall","handlerMs":0.09999999403953552},"mall":true,"spa":false}
+VENUE_HOT {"selector":".resort-spa-access","dispatchToEvaluateMs":154.20000000298023,"look":[-450,-134,704],"event":{"target":"spa","handlerMs":0},"mall":false,"spa":true}
+VENUE_HOT {"selector":".warehouse-access","dispatchToEvaluateMs":89.8999999910593,"look":[1750,-110.14926818847655,950],"event":{"target":"warehouse","handlerMs":0},"mall":false,"spa":false}
+VENUE_HOT {"selector":".warehouse-access","dispatchToEvaluateMs":80.20000000298023,"look":[1750,-110.14926818847655,950],"event":{"target":"warehouse","handlerMs":0},"mall":false,"spa":false}
