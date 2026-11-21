@@ -144,6 +144,35 @@ export function createWaterfrontWorld({
     jumpButton.addEventListener(key, () => {
       jumpHeld = false;
     });
+  const footer = container.querySelector(".world-bottom");
+  function layoutPlayerControls() {
+    const rect = container.getBoundingClientRect(),
+      vp = window.visualViewport,
+      bottom = Math.min(
+        rect.bottom,
+        (vp?.offsetTop ?? 0) + (vp?.height ?? window.innerHeight),
+      ),
+      f = footer?.getBoundingClientRect(),
+      offset = Math.max(0, rect.bottom - bottom),
+      clearance =
+        f && f.top < bottom && f.bottom > 0
+          ? Math.max(84, bottom - f.top + 8)
+          : 84;
+    for (const b of [jumpButton, viewToggle])
+      b.style.bottom = offset + clearance + 14 + "px";
+    diveControl.style.bottom = offset + clearance + 82 + "px";
+  }
+  const controlsResize =
+    typeof ResizeObserver === "function"
+      ? new ResizeObserver(layoutPlayerControls)
+      : null;
+  controlsResize?.observe(container);
+  if (footer) controlsResize?.observe(footer);
+  window.addEventListener("resize", layoutPlayerControls);
+  window.addEventListener("scroll", layoutPlayerControls, true);
+  window.visualViewport?.addEventListener("resize", layoutPlayerControls);
+  window.visualViewport?.addEventListener("scroll", layoutPlayerControls);
+  layoutPlayerControls();
   for (const view of WATERFRONT_VIEWS) {
     const b = button(view.name, () => void inspect(view.id));
     b.dataset.waterfrontView = view.id;
@@ -597,6 +626,17 @@ export function createWaterfrontWorld({
       abort.abort();
       runtime?.dispose();
       effects?.dispose();
+      controlsResize?.disconnect();
+      window.removeEventListener("resize", layoutPlayerControls);
+      window.removeEventListener("scroll", layoutPlayerControls, true);
+      window.visualViewport?.removeEventListener(
+        "resize",
+        layoutPlayerControls,
+      );
+      window.visualViewport?.removeEventListener(
+        "scroll",
+        layoutPlayerControls,
+      );
       access.remove();
       jumpButton.remove();
       diveControl.remove();
