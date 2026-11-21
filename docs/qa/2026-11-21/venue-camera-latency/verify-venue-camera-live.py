@@ -2,7 +2,7 @@ from pathlib import Path
 import urllib.request,json,hashlib,re,gzip,subprocess,datetime,sys
 sha,run=sys.argv[1:3]
 expected=json.loads(Path('/workspace/qa/venue-camera-expected-production.json').read_text())
-out=Path('/workspace/qa/venue-camera-live');out.mkdir(exist_ok=True)
+out=Path('/workspace/qa/venue-camera-latency-live-final');out.mkdir(exist_ok=True)
 workflow=json.loads(subprocess.check_output(['gh','run','view',run,'--repo','arturmal2805-netizen/ai-cat-game','--json','status,conclusion,jobs,headSha,url']))
 assert workflow['status']=='completed' and workflow['conclusion']=='success',workflow
 assert workflow['headSha']==sha

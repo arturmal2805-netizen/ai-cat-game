@@ -179,3 +179,16 @@ Finalnativegatelog /workspace/qa/venue-camera-native-final.log. No moreGPUwork
 needed. OnlyfullmainCI/livebytes/finalmemory/remoteSHA remain. Finalizer source
 5c andseparatephone-world pathupdated. LiveSTILL15cbuntilverifiedreceipt;
 expectedJS21fc1aa9e5cc509119d0d4e914216f970c5326cb370ac2c364ed317da309b95a.
+
+## CI tests PASS; final publication remaining
+
+Mainworkflow44930181677 fulltest/build/dryrunSUCCESS; deploycurrentlybuilding.
+Allnativecheckscomplete, do not repeat or expandcode. ActualNEWlive receiptpath:
+`/workspace/qa/venue-camera-latency-live-final/live-verification.json`.
+Old `/workspace/qa/venue-camera-live/` belongs to historicalb995 release; do not
+use existence alone. Assert receipt.release==d0d944acdc83ab69c1337d85e77c0471b044cb7a.
+Watcher2231 updatesnewuniquefolder afterwholeworkflowPASS. Then run
+`python /workspace/qa/finalize-venue-camera-memory.py d0d944acdc83ab69c1337d85e77c0471b044cb7a 44930181677`
+followed by `python /workspace/qa/polish-venue-camera-memory.py`; archive/helper
+excludes its own manifest from hashentries. Verifyallartifacthashes, gitdiffcheck,
+pushmemory/remoteSHA, PRbodyupdate. Givegame/FPS?v=d0d944a onlyafterHTTPproof.

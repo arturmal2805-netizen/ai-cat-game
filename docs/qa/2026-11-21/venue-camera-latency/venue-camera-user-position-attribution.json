@@ -1,0 +1,25 @@
+{
+  "appSha256": "fec56d9990ec8549b9bf147e5ae063e742fab6993601ef7b0417cb8c050a58cf",
+  "method": "Exact production bundle character positions from user LoAF report; inspect literal containing function without source-map inference.",
+  "positions": [
+    {
+      "position": 12589,
+      "function": "MessageChannel port1.onmessage / yieldSceneTask FIFO continuation",
+      "reportedMaxMs": 277.1,
+      "snippet": "eof window<\"u\"&&globalThis.MessageChannel?(hM||(hM=new MessageChannel,hM.port1.onmessage=()=>iI.shift()?.()),new Promise(t=>{iI.push(t),hM.port2.postMessage(0)})):globalThis.scheduler?.yield?globalThis.scheduler.yield():new Promise(t=>setTimeout(t,0))}function sI({getPr"
+    },
+    {
+      "position": 2605769,
+      "function": "world RAF loop hb",
+      "reportedMaxMs": 287.8,
+      "snippet": "let li=new G,QV=new G,v2=new G,$V=new G,eW=new G,C_=performance.now(),tW=VU();function hb(H){if($n)return;d?.raf(H);let re=d?performance.now():0;if(w2||document.hidden||!l.ready()){d?.blocked(w2?\"context\":document.hidden?\"hidden\":\"gpu\",perf"
+    },
+    {
+      "position": 2764237,
+      "function": "camera-all onclick -> world.overview",
+      "reportedMaxMs": 6.2,
+      "snippet": "e()}xe(\"camera-home\").onclick=()=>ma?.focus(\"moon\");xe(\"camera-all\").onclick=()=>ma?.overview();xe(\"camera-island\").onclick=()=>ma?.islandOverview();xe(\"camera-random-cat\").onclick=()=>ma?.followRandomCat();xe("
+    }
+  ],
+  "limitation": "Does not identify which resumed scene iterator produced the277ms task. A4ms scheduler budget cannot split one expensive next(). Camera-intent fix does not prove all input/render stalls gone."
+}

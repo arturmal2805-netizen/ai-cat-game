@@ -14,5 +14,5 @@ if (src/'startup.cpuprofile').exists():
 for name in ['scripts/check-native-map-frames.mjs','scripts/audit-v12-native.mjs','scripts/audit-warehouse-open-water.mjs','scripts/check-aquarium.cjs']:
  try:b=subprocess.check_output(['git','show',candidate+':'+name],cwd=repo,stderr=subprocess.DEVNULL);(out/Path(name).name).write_bytes(b)
  except subprocess.CalledProcessError:pass
-proof={'source':candidate,'allCapturedPublicModulesMatchSource':True,'moduleCount':len(manifest),'state':state,'scope':'Actual native game/private Worker/SQLite; SwiftShader correctness only, hardware FPS unmeasured','files':{p.name:{'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()}for p in out.iterdir()if p.is_file()}}
+proof={'source':candidate,'allCapturedPublicModulesMatchSource':True,'moduleCount':len(manifest),'state':state,'scope':'Actual native game/private Worker/SQLite; SwiftShader correctness only, hardware FPS unmeasured','files':{p.name:{'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()}for p in out.iterdir()if p.is_file() and p.name!='source-verification.json'}}
 (out/'source-verification.json').write_text(json.dumps(proof,indent=2));print(candidate,len(manifest),state)
