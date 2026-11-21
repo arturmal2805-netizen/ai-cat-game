@@ -10,6 +10,7 @@
 - [Управление/камеры](standards/controls-camera.md).
 - [V12: общая лагуна и далёкий Warehouse](standards/island-warehouse-v12.md).
 - [Подводный SPA](standards/underwater-spa.md).
+- [Waterfront V14: ресторан и прыжки от Чичи](standards/waterfront-v14.md).
 - [AI: запросы и упаковка](standards/ai-requests.md).
 - [Подготовка renderer и immutable cache](standards/render-preparation.md).
 - [Сохранения/экономика](standards/saves-economy.md).

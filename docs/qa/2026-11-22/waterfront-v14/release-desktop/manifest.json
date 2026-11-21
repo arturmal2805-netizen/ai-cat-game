@@ -1,0 +1,237 @@
+{
+  "date": "2026-11-22 Europe/Kyiv",
+  "source": {
+    "sha256": "02f41e0cf434580f0a614d27b028620f31fc5d291c6668399a04f1273b6651ea",
+    "baseline": null,
+    "node": "v22.23.5",
+    "head": "56f305e21abf87a1be8f40ee2c3761a6a840d110",
+    "dirty": "",
+    "sourceOverlay": "source-HEAD.patch"
+  },
+  "productionExpected": {
+    "source": "8e3a4d321f253f7ea5b39a2877bec849a0e21c52",
+    "index.html": {
+      "bytes": 31956,
+      "sha256": "993762573be4c9b3688346e7d6c2ece693f12e7cc1afa4186ec07c4cda2a7315"
+    },
+    "dist/app.js": {
+      "bytes": 2883413,
+      "sha256": "aa2a920989f5f7a5bc63c487218f4cf2b7daa7752adcbbbd7b29f1b15ee01b2f"
+    },
+    "style.css": {
+      "bytes": 70056,
+      "sha256": "ed0f6fc4c986acd5e3ad1ee3d6d70ad7e36cea229f266afc45c618feab881f7a"
+    },
+    "art/ocean-reflections/tropical-coast-afc536509c5b.png": {
+      "bytes": 36628,
+      "sha256": "afc536509c5b98ea660eb1a4baa3a608653168e3083dd6673ce7c82ad36c5b6e"
+    },
+    "models/reefs/organic-reef-1b90309ff46a4537.bin.gz": {
+      "bytes": 7866400,
+      "sha256": "70d7512296dbb20dbb2f6468b558db374dfdbc0232810118b54a1c81c5cec395"
+    }
+  },
+  "browser": "Chromium 156.0.8078.79 built on Debian GNU/Linux 13 (trixie)",
+  "renderer": "Native WebGL; Chromium launched with --use-angle=swiftshader --enable-unsafe-swiftshader. Vendor string not sampled in desktop capture.",
+  "viewport": [
+    1100,
+    800
+  ],
+  "dpr": 2,
+  "quality": "Complete native geometry, original shadow/tone mapping/fog and all old complexes. No graphics simplification.",
+  "lights": [
+    {
+      "type": "HemisphereLight",
+      "color": 16771547,
+      "intensity": 1.2,
+      "position": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "type": "DirectionalLight",
+      "color": 16767159,
+      "intensity": 2.2,
+      "position": [
+        786,
+        35,
+        920
+      ]
+    },
+    {
+      "type": "DirectionalLight",
+      "color": 12105708,
+      "intensity": 0.9,
+      "position": [
+        20,
+        16,
+        -30
+      ]
+    }
+  ],
+  "toneMapping": 4,
+  "shadowType": 1,
+  "fog": {
+    "color": 12632023
+  },
+  "privateFixtureSha256": "0710f9225996e13760b8c8932aa2b8774019cab0940e2531077686b2d752f51e",
+  "publicSourceModules": 466,
+  "sourceBytesMatch": true,
+  "passed": [
+    "62 related Node22 checks",
+    "full Node22 build",
+    "116 protected source checksums",
+    "exact native protected buildings/global lights",
+    "19 actual native views",
+    "13 group cats/6 active including forced busy Chichi",
+    "actual WASD and held Space",
+    "7 strictly increasing native jumps",
+    "eye-mounted first-person/FOV/near/no face obstruction",
+    "actual mouse look-down and V comfortable third-person return",
+    "visible water action, splash/submersion/swim",
+    "2 actual private SQLite reloads with exact game locations/initial carrier coordinates/yaws/balances/inventory/placements/personal wallets",
+    "zero JS/HTTP errors or GL context loss"
+  ],
+  "timing": "Performance measurement skipped. QA preparation pauses raster; deterministic steps/rendered frames do not establish physical Mac/phone FPS. Video samples native frames at .2 seconds.",
+  "artisticStatus": "Functional review complete; exact reference resemblance and user visual approval are not established. Original inline reference bytes unavailable.",
+  "files": {
+    "01-waterfront-overview.png": {
+      "bytes": 2096168,
+      "sha256": "5ddbc91178d8f232b62bb71df1070a49b3bc1f3ca1aed4470592441f7b65ef19"
+    },
+    "02-distant-warehouse.png": {
+      "bytes": 3225890,
+      "sha256": "a2541a0ed014438d8122b42273f2a4a244403183045183bbef46b58e60fc6122"
+    },
+    "03-restaurant-front.png": {
+      "bytes": 1822200,
+      "sha256": "d4c911c834f74188c633334493953ad84e5a325e04f0f94e2634ac4d575783bc"
+    },
+    "04-restaurant-top.png": {
+      "bytes": 2298100,
+      "sha256": "fd1763ce10a128a6b74144b39d9d3dfbc35f9cccbba73572e46aec534720995b"
+    },
+    "05-restaurant-interior.png": {
+      "bytes": 2887502,
+      "sha256": "e32cbab864adf742e8120c81de267e1f902b56a5daf2b27b9a0f3215a81a92c7"
+    },
+    "06-glass-floor.png": {
+      "bytes": 3393162,
+      "sha256": "59603e822b7fc7a973ba3502b6ce48c4b6f9fe9860ada8b14b56a51de6e640eb"
+    },
+    "07-underwater.png": {
+      "bytes": 2798105,
+      "sha256": "194841ecaf077e8500db49ff3b18b4373caffc12e0eaeb7b4e43da5c58be59d4"
+    },
+    "08-terrace.png": {
+      "bytes": 1879952,
+      "sha256": "a1822048b62d7bed4fd9239c561882547cb918105ea67e7e2334f068d60bc604"
+    },
+    "09-promenade.png": {
+      "bytes": 2920320,
+      "sha256": "9432542e44fd0d5c3e435ef8a30128380c7f8eada605268952c925c41d8fcc1d"
+    },
+    "10-bridge.png": {
+      "bytes": 3986569,
+      "sha256": "2c4694ca93e4d37afbd65c3e6dfbc0b9f65944b516cee310ca6b30286bf16453"
+    },
+    "11-trampoline-top.png": {
+      "bytes": 2929752,
+      "sha256": "a883815a611496a08af3349b556e4eaa3360ce11681f9f7e8c889bb7efd2c554"
+    },
+    "12-trampoline-side.png": {
+      "bytes": 3663208,
+      "sha256": "cd1bdd31074ad3ec83f5058050e5347d65515be884b8a79730103c50ff74796e"
+    },
+    "13-cats-on-trampoline.png": {
+      "bytes": 4417257,
+      "sha256": "486428261712a78139f0b9e10bfd1ab1d4a1e15a903a321ff3ea8007ec57c25d"
+    },
+    "14-high-physical-jump.png": {
+      "bytes": 3821730,
+      "sha256": "bb063019f5bf709422b88ec44b11fe9873eff12715293633aacdea72836f9d24"
+    },
+    "15-water-contact-splash.png": {
+      "bytes": 4087257,
+      "sha256": "e951bbc9ab53524d064f864ef345d7e0933ff2bab2658a45c8d63da490d28509"
+    },
+    "16-actual-swimming.png": {
+      "bytes": 3642051,
+      "sha256": "bc0271da44b845cf84387c40d89fdd4c8358c0de7e9f9eb7682e4d09b5bf0936"
+    },
+    "17-restaurant-night.png": {
+      "bytes": 1867267,
+      "sha256": "28ce98dd0300e5c27a7cad40e1b940130996f86b8f07d024f72cc65d3e8959d9"
+    },
+    "18-trampoline-night.png": {
+      "bytes": 4381634,
+      "sha256": "4e4f34a306cb77e8f67e17fd42a9a23273ff17da39af004d950b12067a41541a"
+    },
+    "19-three-protected-and-waterfront.png": {
+      "bytes": 1985789,
+      "sha256": "d52f01382fd1112c75a6f74f8e39016e8001552594d4d5beadba4329172b65c8"
+    },
+    "actual-controls-ui.png": {
+      "bytes": 1443819,
+      "sha256": "e1c335497e184814ca27799142dba773be94c18e8e17c87bb2bd57d99e6f98dc"
+    },
+    "exact-inputs-and-protected-snapshot.tar.gz": {
+      "bytes": 3978410,
+      "sha256": "fb63dfd3e5cfd4d9394a254e841a89f0907b88628c04d80d0cf5024372b3dd65"
+    },
+    "first-person-high-jump.png": {
+      "bytes": 2612733,
+      "sha256": "928e092445be359c15868a5caf9a02342d7d4cc87cf0bce37ab45dc0942975cd"
+    },
+    "first-person-jump.mp4": {
+      "bytes": 991764,
+      "sha256": "627368f1938cc75bc912e136251c64d7200d4ea26b8edeacf6b61611b67f2083"
+    },
+    "first-person-look-down.png": {
+      "bytes": 3866115,
+      "sha256": "6e2fff2dd368b817c1d6ffa5a5f022b734a902b4b00b900f27fb45a73afe1541"
+    },
+    "first-person-water-entry.png": {
+      "bytes": 3003652,
+      "sha256": "7bf1f5abc00bec0238c0a392bf47bbc26799ba1b055651692ad8d489a444fe5c"
+    },
+    "production-app.js.gz": {
+      "bytes": 920957,
+      "sha256": "2151ab5966a62ee1ea0bd96e6e82cd164eebb12150624e3180a9f9c42df0d8b9"
+    },
+    "production-index.html": {
+      "bytes": 31956,
+      "sha256": "993762573be4c9b3688346e7d6c2ece693f12e7cc1afa4186ec07c4cda2a7315"
+    },
+    "production-style.css": {
+      "bytes": 70056,
+      "sha256": "ed0f6fc4c986acd5e3ad1ee3d6d70ad7e36cea229f266afc45c618feab881f7a"
+    },
+    "protected-comparison.json": {
+      "bytes": 77,
+      "sha256": "520bebb694ce0df3a0bcabec13b960107d1cc52500d7b6aacb5550904f68d7bb"
+    },
+    "qa-build.json": {
+      "bytes": 233,
+      "sha256": "11e309b93847ce417cd71937de9a920a55a3c4198ee816ab08264703bfa0d50f"
+    },
+    "save-reloads.json": {
+      "bytes": 56954,
+      "sha256": "8ff108d0c198d0e137703a782cf430299b00cb433ae9afbed0a0759bb39d6780"
+    },
+    "source-files.json": {
+      "bytes": 43301,
+      "sha256": "8126555dd727c3eec3a2ade96cce9452c6e762e37f5c9cf2f8af4f9729a5582b"
+    },
+    "third-person-toggle.png": {
+      "bytes": 3264669,
+      "sha256": "28da75bdb24193221b62414d6f4db06dad2c225455170ffbd345adc2af481d0b"
+    },
+    "waterfront-native.json": {
+      "bytes": 53373,
+      "sha256": "503176d354da5dc5a276381887bce446897a34415448c32dff19b6e44a8bfa42"
+    }
+  }
+}

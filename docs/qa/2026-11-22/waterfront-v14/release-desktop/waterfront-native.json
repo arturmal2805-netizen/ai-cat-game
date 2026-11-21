@@ -1,0 +1,2544 @@
+{
+  "scope": "Private SQLite, complete native meshes/DPR2; QA review cameras/manual time stepping for deterministic physics. Reload initial poses sampled before autonomous RAF, then exact native carriers/game locations/banks compared. No device FPS claim.",
+  "group": {
+    "ready": true,
+    "selected": "trampoline",
+    "visits": [
+      {
+        "id": "chichi",
+        "phase": "approach",
+        "activity": "waterfront-bounce",
+        "slot": 0,
+        "position": [
+          679,
+          1.312,
+          460
+        ]
+      },
+      {
+        "id": "luna",
+        "phase": "travel",
+        "activity": "waterfront-bounce",
+        "slot": 1,
+        "position": [
+          1.6482545348532085,
+          1.904605889020683,
+          2.65783428354689
+        ]
+      },
+      {
+        "id": "moti",
+        "phase": "travel",
+        "activity": "waterfront-bounce",
+        "slot": 2,
+        "position": [
+          0.780398869035821,
+          1.9133658737112196,
+          -2.8677540813258418
+        ]
+      },
+      {
+        "id": "pixel",
+        "phase": "travel",
+        "activity": "waterfront-bounce",
+        "slot": 3,
+        "position": [
+          -1.2092796315231453,
+          1.9166708362077385,
+          3.996572691011835
+        ]
+      },
+      {
+        "id": "peach",
+        "phase": "travel",
+        "activity": "waterfront-bounce",
+        "slot": 4,
+        "position": [
+          3.116292406843286,
+          1.902169888217084,
+          0.44643607871859103
+        ]
+      },
+      {
+        "id": "bagel",
+        "phase": "travel",
+        "activity": "waterfront-bounce",
+        "slot": 5,
+        "position": [
+          -1.7966083155174601,
+          1.9331539759914818,
+          -2.227317607349619
+        ]
+      },
+      {
+        "id": "salem",
+        "phase": "travel",
+        "activity": "waterfront-bounce",
+        "slot": 6,
+        "position": [
+          0.07098571557128253,
+          2.5199172326127663,
+          3.0801346735165396
+        ]
+      },
+      {
+        "id": "nori",
+        "phase": "travel",
+        "activity": "waterfront-bounce",
+        "slot": 6,
+        "position": [
+          2.448973579448193,
+          3.1267888191638917,
+          -246.6150035313546
+        ]
+      },
+      {
+        "id": "honey",
+        "phase": "travel",
+        "activity": "waterfront-bounce",
+        "slot": 6,
+        "position": [
+          -1397.736980350288,
+          3.1267888191638917,
+          663.8341706903828
+        ]
+      },
+      {
+        "id": "flora",
+        "phase": "travel",
+        "activity": "waterfront-bounce",
+        "slot": 6,
+        "position": [
+          2.1874918870262263,
+          3.1267888191638917,
+          -242.7417290543716
+        ]
+      },
+      {
+        "id": "astra",
+        "phase": "travel",
+        "activity": "waterfront-bounce",
+        "slot": 6,
+        "position": [
+          -1.6883471768134086,
+          3.1267888191638917,
+          -242.67648409105936
+        ]
+      },
+      {
+        "id": "cloud",
+        "phase": "travel",
+        "activity": "waterfront-bounce",
+        "slot": 6,
+        "position": [
+          -2.0864355998988913,
+          3.1267888191638917,
+          -246.5383408321136
+        ]
+      },
+      {
+        "id": "cinnamon",
+        "phase": "travel",
+        "activity": "waterfront-bounce",
+        "slot": 6,
+        "position": [
+          0.7790604858976167,
+          3.1267888191638917,
+          -242.00682198676895
+        ]
+      }
+    ],
+    "tables": 28,
+    "glassPanels": [
+      {
+        "x": 0,
+        "z": 13,
+        "w": 112,
+        "d": 48
+      },
+      {
+        "x": -96,
+        "z": 22,
+        "w": 32,
+        "d": 24
+      },
+      {
+        "x": 96,
+        "z": 22,
+        "w": 32,
+        "d": 24
+      }
+    ],
+    "staff": 2,
+    "invited": 0,
+    "pendingHero": false,
+    "player": null,
+    "playerStarted": false,
+    "active": 6,
+    "queued": 7
+  },
+  "hops": [
+    2.6042090577080432,
+    5.105087580422411,
+    8.647993230703552,
+    13.595083485281778,
+    20.508207436438262,
+    30.17311915950973,
+    43.68927326647842
+  ],
+  "firstPerson": {
+    "firstView": {
+      "eye": [
+        666.2500015516105,
+        43.000163662149234,
+        460.01055700237487
+      ],
+      "camera": [
+        665.9700015516105,
+        43.000163662149234,
+        460.01055700237487
+      ],
+      "fov": 70,
+      "near": 0.045,
+      "position": [
+        667,
+        41.603060128430585,
+        460
+      ],
+      "phase": "bounce"
+    },
+    "thirdView": {
+      "eye": [
+        666.2202913098256,
+        45.08408399113291,
+        460.0104633823844
+      ],
+      "camera": [
+        672.7561288731846,
+        46.490298907296875,
+        460
+      ],
+      "fov": 60,
+      "near": 0.12,
+      "position": [
+        667,
+        43.77469652565367,
+        460
+      ],
+      "phase": "bounce"
+    },
+    "sequence": [
+      {
+        "eye": [
+          666.2494355624267,
+          44.34189946056466,
+          460.0116411891971
+        ],
+        "camera": [
+          665.9694355624267,
+          44.34189946056466,
+          460.0116411891971
+        ],
+        "fov": 70,
+        "near": 0.045,
+        "position": [
+          667,
+          42.94599952796777,
+          460
+        ],
+        "phase": "bounce"
+      },
+      {
+        "eye": [
+          666.2487879617129,
+          45.29107198518372,
+          460.0124797433763
+        ],
+        "camera": [
+          665.9687879617129,
+          45.29107198518372,
+          460.0124797433763
+        ],
+        "fov": 70,
+        "near": 0.045,
+        "position": [
+          667,
+          43.89653892750494,
+          460
+        ],
+        "phase": "bounce"
+      },
+      {
+        "eye": [
+          666.2333348387094,
+          45.25440912629681,
+          460.01305752898793
+        ],
+        "camera": [
+          672.9030621567288,
+          46.07071636805989,
+          460
+        ],
+        "fov": 60,
+        "near": 0.12,
+        "position": [
+          667,
+          43.89653892750494,
+          460
+        ],
+        "phase": "bounce"
+      },
+      {
+        "eye": [
+          666.2476831891138,
+          45.84688335798121,
+          460.0133645519536
+        ],
+        "camera": [
+          665.9676831891138,
+          45.84688335798121,
+          460.0133645519536
+        ],
+        "fov": 70,
+        "near": 0.045,
+        "position": [
+          667,
+          44.45467832704213,
+          460
+        ],
+        "phase": "bounce"
+      },
+      {
+        "eye": [
+          666.2200139651329,
+          45.92768448473491,
+          460.01339611512475
+        ],
+        "camera": [
+          665.940013965133,
+          45.92768448473491,
+          460.01339611512475
+        ],
+        "fov": 70,
+        "near": 0.045,
+        "position": [
+          667,
+          44.620417726579305,
+          460
+        ],
+        "phase": "bounce"
+      },
+      {
+        "eye": [
+          666.2196804245889,
+          45.69918610652417,
+          460.0131528605017
+        ],
+        "camera": [
+          665.9396804245889,
+          45.69918610652417,
+          460.0131528605017
+        ],
+        "fov": 70,
+        "near": 0.045,
+        "position": [
+          667,
+          44.39375712611648,
+          460
+        ],
+        "phase": "bounce"
+      },
+      {
+        "eye": [
+          666.2315359260974,
+          45.746425011864574,
+          460.01261825453173
+        ],
+        "camera": [
+          672.9030621567288,
+          46.56793456667143,
+          460
+        ],
+        "fov": 60,
+        "near": 0.12,
+        "position": [
+          667,
+          44.39375712611648,
+          460
+        ],
+        "phase": "bounce"
+      },
+      {
+        "eye": [
+          666.232073385416,
+          45.74813103172817,
+          460.0117169901547
+        ],
+        "camera": [
+          672.9030621567288,
+          46.56793456667143,
+          460
+        ],
+        "fov": 60,
+        "near": 0.12,
+        "position": [
+          667,
+          44.39375712611648,
+          460
+        ],
+        "phase": "bounce"
+      }
+    ],
+    "lookDown": [
+      -0.8253356149096787,
+      -0.564642473395035,
+      2.220446049250313e-16
+    ],
+    "thirdAngle": 0.2736346671978121
+  },
+  "wasd": {
+    "before": [
+      671,
+      1.312,
+      460
+    ],
+    "after": [
+      667.5,
+      1.312,
+      460
+    ]
+  },
+  "rows": [
+    {
+      "id": "01-waterfront-overview",
+      "calls": 2281,
+      "triangles": 14664515,
+      "dpr": 2,
+      "camera": [
+        1740,
+        900,
+        1608
+      ],
+      "target": [
+        970,
+        12,
+        458
+      ],
+      "clock": {
+        "absolute": 742.431,
+        "day": 0,
+        "minute": 742.431,
+        "hour": 12,
+        "label": "12:22",
+        "working": true
+      },
+      "lost": false,
+      "badPrograms": 0,
+      "diagnostics": {
+        "ready": true,
+        "selected": null,
+        "visits": [],
+        "tables": 28,
+        "glassPanels": [
+          {
+            "x": 0,
+            "z": 13,
+            "w": 112,
+            "d": 48
+          },
+          {
+            "x": -96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          },
+          {
+            "x": 96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          }
+        ],
+        "staff": 2,
+        "invited": 0,
+        "pendingHero": false,
+        "player": null,
+        "playerStarted": false,
+        "active": 0,
+        "queued": 0
+      }
+    },
+    {
+      "id": "02-distant-warehouse",
+      "calls": 2100,
+      "triangles": 14041055,
+      "dpr": 2,
+      "camera": [
+        1940,
+        300,
+        1408
+      ],
+      "target": [
+        1270,
+        -30,
+        658
+      ],
+      "clock": {
+        "absolute": 733.44,
+        "day": 0,
+        "minute": 733.44,
+        "hour": 12,
+        "label": "12:13",
+        "working": true
+      },
+      "lost": false,
+      "badPrograms": 0,
+      "diagnostics": {
+        "ready": true,
+        "selected": null,
+        "visits": [],
+        "tables": 28,
+        "glassPanels": [
+          {
+            "x": 0,
+            "z": 13,
+            "w": 112,
+            "d": 48
+          },
+          {
+            "x": -96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          },
+          {
+            "x": 96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          }
+        ],
+        "staff": 2,
+        "invited": 0,
+        "pendingHero": false,
+        "player": null,
+        "playerStarted": false,
+        "active": 0,
+        "queued": 0
+      }
+    },
+    {
+      "id": "03-restaurant-front",
+      "calls": 208,
+      "triangles": 1630940,
+      "dpr": 2,
+      "camera": [
+        690,
+        68,
+        398
+      ],
+      "target": [
+        690,
+        36,
+        150
+      ],
+      "clock": {
+        "absolute": 722.289,
+        "day": 0,
+        "minute": 722.289,
+        "hour": 12,
+        "label": "12:02",
+        "working": true
+      },
+      "lost": false,
+      "badPrograms": 0,
+      "diagnostics": {
+        "ready": true,
+        "selected": null,
+        "visits": [],
+        "tables": 28,
+        "glassPanels": [
+          {
+            "x": 0,
+            "z": 13,
+            "w": 112,
+            "d": 48
+          },
+          {
+            "x": -96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          },
+          {
+            "x": 96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          }
+        ],
+        "staff": 2,
+        "invited": 0,
+        "pendingHero": false,
+        "player": null,
+        "playerStarted": false,
+        "active": 0,
+        "queued": 0
+      }
+    },
+    {
+      "id": "04-restaurant-top",
+      "calls": 261,
+      "triangles": 1669191,
+      "dpr": 2,
+      "camera": [
+        840,
+        370,
+        358
+      ],
+      "target": [
+        690,
+        4,
+        150
+      ],
+      "clock": {
+        "absolute": 722.216,
+        "day": 0,
+        "minute": 722.216,
+        "hour": 12,
+        "label": "12:02",
+        "working": true
+      },
+      "lost": false,
+      "badPrograms": 0,
+      "diagnostics": {
+        "ready": true,
+        "selected": null,
+        "visits": [],
+        "tables": 28,
+        "glassPanels": [
+          {
+            "x": 0,
+            "z": 13,
+            "w": 112,
+            "d": 48
+          },
+          {
+            "x": -96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          },
+          {
+            "x": 96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          }
+        ],
+        "staff": 2,
+        "invited": 0,
+        "pendingHero": false,
+        "player": null,
+        "playerStarted": false,
+        "active": 0,
+        "queued": 0
+      }
+    },
+    {
+      "id": "05-restaurant-interior",
+      "calls": 698,
+      "triangles": 3357616,
+      "dpr": 2,
+      "camera": [
+        762,
+        17,
+        201
+      ],
+      "target": [
+        685,
+        9,
+        156
+      ],
+      "clock": {
+        "absolute": 724.247,
+        "day": 0,
+        "minute": 724.247,
+        "hour": 12,
+        "label": "12:04",
+        "working": true
+      },
+      "lost": false,
+      "badPrograms": 0,
+      "diagnostics": {
+        "ready": true,
+        "selected": null,
+        "visits": [],
+        "tables": 28,
+        "glassPanels": [
+          {
+            "x": 0,
+            "z": 13,
+            "w": 112,
+            "d": 48
+          },
+          {
+            "x": -96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          },
+          {
+            "x": 96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          }
+        ],
+        "staff": 2,
+        "invited": 0,
+        "pendingHero": false,
+        "player": null,
+        "playerStarted": false,
+        "active": 0,
+        "queued": 0
+      }
+    },
+    {
+      "id": "06-glass-floor",
+      "calls": 184,
+      "triangles": 1743370,
+      "dpr": 2,
+      "camera": [
+        720,
+        26,
+        193
+      ],
+      "target": [
+        690,
+        -10,
+        162
+      ],
+      "clock": {
+        "absolute": 722.689,
+        "day": 0,
+        "minute": 722.689,
+        "hour": 12,
+        "label": "12:02",
+        "working": true
+      },
+      "lost": false,
+      "badPrograms": 0,
+      "diagnostics": {
+        "ready": true,
+        "selected": null,
+        "visits": [],
+        "tables": 28,
+        "glassPanels": [
+          {
+            "x": 0,
+            "z": 13,
+            "w": 112,
+            "d": 48
+          },
+          {
+            "x": -96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          },
+          {
+            "x": 96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          }
+        ],
+        "staff": 2,
+        "invited": 0,
+        "pendingHero": false,
+        "player": null,
+        "playerStarted": false,
+        "active": 0,
+        "queued": 0
+      }
+    },
+    {
+      "id": "07-underwater",
+      "calls": 234,
+      "triangles": 1573354,
+      "dpr": 2,
+      "camera": [
+        770,
+        -18,
+        258
+      ],
+      "target": [
+        690,
+        -4,
+        163
+      ],
+      "clock": {
+        "absolute": 722.203,
+        "day": 0,
+        "minute": 722.203,
+        "hour": 12,
+        "label": "12:02",
+        "working": true
+      },
+      "lost": false,
+      "badPrograms": 0,
+      "diagnostics": {
+        "ready": true,
+        "selected": null,
+        "visits": [],
+        "tables": 28,
+        "glassPanels": [
+          {
+            "x": 0,
+            "z": 13,
+            "w": 112,
+            "d": 48
+          },
+          {
+            "x": -96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          },
+          {
+            "x": 96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          }
+        ],
+        "staff": 2,
+        "invited": 0,
+        "pendingHero": false,
+        "player": null,
+        "playerStarted": false,
+        "active": 0,
+        "queued": 0
+      }
+    },
+    {
+      "id": "08-terrace",
+      "calls": 161,
+      "triangles": 1266178,
+      "dpr": 2,
+      "camera": [
+        930,
+        25,
+        253
+      ],
+      "target": [
+        920,
+        3,
+        155
+      ],
+      "clock": {
+        "absolute": 721.796,
+        "day": 0,
+        "minute": 721.796,
+        "hour": 12,
+        "label": "12:01",
+        "working": true
+      },
+      "lost": false,
+      "badPrograms": 0,
+      "diagnostics": {
+        "ready": true,
+        "selected": null,
+        "visits": [],
+        "tables": 28,
+        "glassPanels": [
+          {
+            "x": 0,
+            "z": 13,
+            "w": 112,
+            "d": 48
+          },
+          {
+            "x": -96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          },
+          {
+            "x": 96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          }
+        ],
+        "staff": 2,
+        "invited": 0,
+        "pendingHero": false,
+        "player": null,
+        "playerStarted": false,
+        "active": 0,
+        "queued": 0
+      }
+    },
+    {
+      "id": "09-promenade",
+      "calls": 723,
+      "triangles": 3222879,
+      "dpr": 2,
+      "camera": [
+        1040,
+        90,
+        288
+      ],
+      "target": [
+        860,
+        4,
+        168
+      ],
+      "clock": {
+        "absolute": 723.59,
+        "day": 0,
+        "minute": 723.59,
+        "hour": 12,
+        "label": "12:03",
+        "working": true
+      },
+      "lost": false,
+      "badPrograms": 0,
+      "diagnostics": {
+        "ready": true,
+        "selected": null,
+        "visits": [],
+        "tables": 28,
+        "glassPanels": [
+          {
+            "x": 0,
+            "z": 13,
+            "w": 112,
+            "d": 48
+          },
+          {
+            "x": -96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          },
+          {
+            "x": 96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          }
+        ],
+        "staff": 2,
+        "invited": 0,
+        "pendingHero": false,
+        "player": null,
+        "playerStarted": false,
+        "active": 0,
+        "queued": 0
+      }
+    },
+    {
+      "id": "10-bridge",
+      "calls": 674,
+      "triangles": 5348448,
+      "dpr": 2,
+      "camera": [
+        820,
+        100,
+        408
+      ],
+      "target": [
+        675,
+        3,
+        348
+      ],
+      "clock": {
+        "absolute": 724.985,
+        "day": 0,
+        "minute": 724.985,
+        "hour": 12,
+        "label": "12:04",
+        "working": true
+      },
+      "lost": false,
+      "badPrograms": 0,
+      "diagnostics": {
+        "ready": true,
+        "selected": null,
+        "visits": [],
+        "tables": 28,
+        "glassPanels": [
+          {
+            "x": 0,
+            "z": 13,
+            "w": 112,
+            "d": 48
+          },
+          {
+            "x": -96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          },
+          {
+            "x": 96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          }
+        ],
+        "staff": 2,
+        "invited": 0,
+        "pendingHero": false,
+        "player": null,
+        "playerStarted": false,
+        "active": 0,
+        "queued": 0
+      }
+    },
+    {
+      "id": "11-trampoline-top",
+      "calls": 268,
+      "triangles": 1844511,
+      "dpr": 2,
+      "camera": [
+        680,
+        240,
+        508
+      ],
+      "target": [
+        680,
+        1.3,
+        508.01
+      ],
+      "clock": {
+        "absolute": 722.208,
+        "day": 0,
+        "minute": 722.208,
+        "hour": 12,
+        "label": "12:02",
+        "working": true
+      },
+      "lost": false,
+      "badPrograms": 0,
+      "diagnostics": {
+        "ready": true,
+        "selected": null,
+        "visits": [],
+        "tables": 28,
+        "glassPanels": [
+          {
+            "x": 0,
+            "z": 13,
+            "w": 112,
+            "d": 48
+          },
+          {
+            "x": -96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          },
+          {
+            "x": 96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          }
+        ],
+        "staff": 2,
+        "invited": 0,
+        "pendingHero": false,
+        "player": null,
+        "playerStarted": false,
+        "active": 0,
+        "queued": 0
+      }
+    },
+    {
+      "id": "12-trampoline-side",
+      "calls": 2065,
+      "triangles": 16035995,
+      "dpr": 2,
+      "camera": [
+        850,
+        35,
+        588
+      ],
+      "target": [
+        680,
+        3,
+        508
+      ],
+      "clock": {
+        "absolute": 737.767,
+        "day": 0,
+        "minute": 737.767,
+        "hour": 12,
+        "label": "12:17",
+        "working": true
+      },
+      "lost": false,
+      "badPrograms": 0,
+      "diagnostics": {
+        "ready": true,
+        "selected": null,
+        "visits": [],
+        "tables": 28,
+        "glassPanels": [
+          {
+            "x": 0,
+            "z": 13,
+            "w": 112,
+            "d": 48
+          },
+          {
+            "x": -96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          },
+          {
+            "x": 96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          }
+        ],
+        "staff": 2,
+        "invited": 0,
+        "pendingHero": false,
+        "player": null,
+        "playerStarted": false,
+        "active": 0,
+        "queued": 0
+      }
+    },
+    {
+      "id": "13-cats-on-trampoline",
+      "calls": 1460,
+      "triangles": 9905499,
+      "dpr": 2,
+      "camera": [
+        810,
+        55,
+        588
+      ],
+      "target": [
+        680,
+        3,
+        508
+      ],
+      "clock": {
+        "absolute": 729.456,
+        "day": 0,
+        "minute": 729.456,
+        "hour": 12,
+        "label": "12:09",
+        "working": true
+      },
+      "lost": false,
+      "badPrograms": 0,
+      "diagnostics": {
+        "ready": true,
+        "selected": null,
+        "visits": [
+          {
+            "id": "chichi",
+            "phase": "player",
+            "activity": "waterfront-bounce",
+            "slot": 0,
+            "position": [
+              667,
+              1.312,
+              460
+            ]
+          },
+          {
+            "id": "luna",
+            "phase": "travel",
+            "activity": "waterfront-bounce",
+            "slot": 1,
+            "position": [
+              53.9880351884334,
+              33.72750789188032,
+              25.96082135979148
+            ]
+          },
+          {
+            "id": "moti",
+            "phase": "travel",
+            "activity": "waterfront-bounce",
+            "slot": 2,
+            "position": [
+              52.96438639999781,
+              33.89546371994397,
+              21.470820839598844
+            ]
+          },
+          {
+            "id": "pixel",
+            "phase": "travel",
+            "activity": "waterfront-bounce",
+            "slot": 3,
+            "position": [
+              51.52372312044736,
+              33.958830007949224,
+              27.390555239528
+            ]
+          },
+          {
+            "id": "peach",
+            "phase": "travel",
+            "activity": "waterfront-bounce",
+            "slot": 4,
+            "position": [
+              54.97884022612618,
+              33.68080227005724,
+              24.60416675340565
+            ]
+          },
+          {
+            "id": "bagel",
+            "phase": "travel",
+            "activity": "waterfront-bounce",
+            "slot": 5,
+            "position": [
+              51.01721608341097,
+              34.274862454268245,
+              22.298345338239386
+            ]
+          },
+          {
+            "id": "salem",
+            "phase": "travel",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              71.4802302011193,
+              45.52491734872639,
+              33.20545385112874
+            ]
+          },
+          {
+            "id": "nori",
+            "phase": "travel",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              76.0079457797259,
+              57.16051072568805,
+              -182.12941410461872
+            ]
+          },
+          {
+            "id": "honey",
+            "phase": "travel",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              -1129.0230163833892,
+              57.16051072568805,
+              603.0338618843589
+            ]
+          },
+          {
+            "id": "flora",
+            "phase": "travel",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              80.7363662517705,
+              57.16051072568805,
+              -178.7891366204285
+            ]
+          },
+          {
+            "id": "astra",
+            "phase": "travel",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              79.87083707046907,
+              57.16051072568805,
+              -178.73286994395005
+            ]
+          },
+          {
+            "id": "cloud",
+            "phase": "travel",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              82.00448913231776,
+              57.16051072568805,
+              -182.06330087415347
+            ]
+          },
+          {
+            "id": "cinnamon",
+            "phase": "travel",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              86.95262746864842,
+              57.16051072568805,
+              -178.15535929701053
+            ]
+          }
+        ],
+        "tables": 28,
+        "glassPanels": [
+          {
+            "x": 0,
+            "z": 13,
+            "w": 112,
+            "d": 48
+          },
+          {
+            "x": -96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          },
+          {
+            "x": 96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          }
+        ],
+        "staff": 2,
+        "invited": 0,
+        "pendingHero": false,
+        "player": "chichi",
+        "playerStarted": true,
+        "active": 6,
+        "queued": 7
+      }
+    },
+    {
+      "id": "14-high-physical-jump",
+      "calls": 990,
+      "triangles": 4983934,
+      "dpr": 2,
+      "camera": [
+        840,
+        110,
+        688
+      ],
+      "target": [
+        680,
+        35,
+        508
+      ],
+      "clock": {
+        "absolute": 725.33,
+        "day": 0,
+        "minute": 725.33,
+        "hour": 12,
+        "label": "12:05",
+        "working": true
+      },
+      "lost": false,
+      "badPrograms": 0,
+      "diagnostics": {
+        "ready": true,
+        "selected": null,
+        "visits": [
+          {
+            "id": "chichi",
+            "phase": "bounce",
+            "activity": "waterfront-bounce",
+            "slot": 0,
+            "position": [
+              667,
+              42.11035562495944,
+              460
+            ]
+          },
+          {
+            "id": "luna",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 1,
+            "position": [
+              443.5857864376269,
+              1.062,
+              173
+            ]
+          },
+          {
+            "id": "moti",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 2,
+            "position": [
+              443.5857864376269,
+              1.062,
+              173
+            ]
+          },
+          {
+            "id": "pixel",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 3,
+            "position": [
+              443.5857864376269,
+              1.062,
+              173
+            ]
+          },
+          {
+            "id": "peach",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 4,
+            "position": [
+              444,
+              1.062,
+              176
+            ]
+          },
+          {
+            "id": "bagel",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 5,
+            "position": [
+              444,
+              1.062,
+              176
+            ]
+          },
+          {
+            "id": "salem",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              519,
+              1.062,
+              222
+            ]
+          },
+          {
+            "id": "nori",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              537,
+              1.062,
+              222
+            ]
+          },
+          {
+            "id": "honey",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              555,
+              1.062,
+              222
+            ]
+          },
+          {
+            "id": "flora",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              573,
+              1.062,
+              222
+            ]
+          },
+          {
+            "id": "astra",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              591,
+              1.062,
+              222
+            ]
+          },
+          {
+            "id": "cloud",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              609,
+              1.062,
+              222
+            ]
+          },
+          {
+            "id": "cinnamon",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              627,
+              1.062,
+              222
+            ]
+          }
+        ],
+        "tables": 28,
+        "glassPanels": [
+          {
+            "x": 0,
+            "z": 13,
+            "w": 112,
+            "d": 48
+          },
+          {
+            "x": -96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          },
+          {
+            "x": 96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          }
+        ],
+        "staff": 2,
+        "invited": 0,
+        "pendingHero": false,
+        "player": "chichi",
+        "playerStarted": true,
+        "active": 6,
+        "queued": 7
+      }
+    },
+    {
+      "id": "15-water-contact-splash",
+      "calls": 952,
+      "triangles": 5149140,
+      "dpr": 2,
+      "camera": [
+        710,
+        11,
+        648
+      ],
+      "target": [
+        680,
+        1,
+        617
+      ],
+      "clock": {
+        "absolute": 725.183,
+        "day": 0,
+        "minute": 725.183,
+        "hour": 12,
+        "label": "12:05",
+        "working": true
+      },
+      "lost": false,
+      "badPrograms": 0,
+      "diagnostics": {
+        "ready": true,
+        "selected": null,
+        "visits": [
+          {
+            "id": "chichi",
+            "phase": "splash",
+            "activity": "waterfront-dive",
+            "slot": 0,
+            "position": [
+              629.6660698659783,
+              -1.3110046901243977,
+              604.682446582942
+            ]
+          },
+          {
+            "id": "luna",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 1,
+            "position": [
+              549.0857864376269,
+              1.062,
+              209
+            ]
+          },
+          {
+            "id": "moti",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 2,
+            "position": [
+              549.0857864376269,
+              1.062,
+              209
+            ]
+          },
+          {
+            "id": "pixel",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 3,
+            "position": [
+              549.0857864376269,
+              1.062,
+              209
+            ]
+          },
+          {
+            "id": "peach",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 4,
+            "position": [
+              552.5,
+              1.062,
+              209
+            ]
+          },
+          {
+            "id": "bagel",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 5,
+            "position": [
+              552.5,
+              1.062,
+              209
+            ]
+          },
+          {
+            "id": "salem",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              646.5,
+              1.062,
+              221
+            ]
+          },
+          {
+            "id": "nori",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              537,
+              1.062,
+              222
+            ]
+          },
+          {
+            "id": "honey",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              555,
+              1.062,
+              222
+            ]
+          },
+          {
+            "id": "flora",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              573,
+              1.062,
+              222
+            ]
+          },
+          {
+            "id": "astra",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              591,
+              1.062,
+              222
+            ]
+          },
+          {
+            "id": "cloud",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              609,
+              1.062,
+              222
+            ]
+          },
+          {
+            "id": "cinnamon",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              627,
+              1.062,
+              222
+            ]
+          }
+        ],
+        "tables": 28,
+        "glassPanels": [
+          {
+            "x": 0,
+            "z": 13,
+            "w": 112,
+            "d": 48
+          },
+          {
+            "x": -96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          },
+          {
+            "x": 96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          }
+        ],
+        "staff": 2,
+        "invited": 0,
+        "pendingHero": false,
+        "player": "chichi",
+        "playerStarted": true,
+        "active": 7,
+        "queued": 6
+      }
+    },
+    {
+      "id": "16-actual-swimming",
+      "calls": 849,
+      "triangles": 3737938,
+      "dpr": 2,
+      "camera": [
+        710,
+        8,
+        648
+      ],
+      "target": [
+        680,
+        1,
+        608
+      ],
+      "clock": {
+        "absolute": 724.215,
+        "day": 0,
+        "minute": 724.215,
+        "hour": 12,
+        "label": "12:04",
+        "working": true
+      },
+      "lost": false,
+      "badPrograms": 0,
+      "diagnostics": {
+        "ready": true,
+        "selected": null,
+        "visits": [
+          {
+            "id": "chichi",
+            "phase": "swim",
+            "activity": "waterfront-dive",
+            "slot": 0,
+            "position": [
+              630.3534775797622,
+              -0.01969426549548107,
+              604.4682722730199
+            ]
+          },
+          {
+            "id": "luna",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 1,
+            "position": [
+              557.5857864376269,
+              1.062,
+              209
+            ]
+          },
+          {
+            "id": "moti",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 2,
+            "position": [
+              557.5857864376269,
+              1.062,
+              209
+            ]
+          },
+          {
+            "id": "pixel",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 3,
+            "position": [
+              557.5857864376269,
+              1.062,
+              209
+            ]
+          },
+          {
+            "id": "peach",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 4,
+            "position": [
+              561,
+              1.062,
+              209
+            ]
+          },
+          {
+            "id": "bagel",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 5,
+            "position": [
+              561,
+              1.062,
+              209
+            ]
+          },
+          {
+            "id": "salem",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              655,
+              1.062,
+              221
+            ]
+          },
+          {
+            "id": "nori",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              537,
+              1.062,
+              222
+            ]
+          },
+          {
+            "id": "honey",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              555,
+              1.062,
+              222
+            ]
+          },
+          {
+            "id": "flora",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              573,
+              1.062,
+              222
+            ]
+          },
+          {
+            "id": "astra",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              591,
+              1.062,
+              222
+            ]
+          },
+          {
+            "id": "cloud",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              609,
+              1.062,
+              222
+            ]
+          },
+          {
+            "id": "cinnamon",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              627,
+              1.062,
+              222
+            ]
+          }
+        ],
+        "tables": 28,
+        "glassPanels": [
+          {
+            "x": 0,
+            "z": 13,
+            "w": 112,
+            "d": 48
+          },
+          {
+            "x": -96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          },
+          {
+            "x": 96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          }
+        ],
+        "staff": 2,
+        "invited": 0,
+        "pendingHero": false,
+        "player": "chichi",
+        "playerStarted": true,
+        "active": 7,
+        "queued": 6
+      }
+    },
+    {
+      "id": "17-restaurant-night",
+      "calls": 245,
+      "triangles": 1699352,
+      "dpr": 2,
+      "camera": [
+        690,
+        68,
+        398
+      ],
+      "target": [
+        690,
+        36,
+        150
+      ],
+      "clock": {
+        "absolute": 1441.808,
+        "day": 1,
+        "minute": 1.8079999999999927,
+        "hour": 0,
+        "label": "00:01",
+        "working": false
+      },
+      "lost": false,
+      "badPrograms": 0,
+      "diagnostics": {
+        "ready": true,
+        "selected": null,
+        "visits": [
+          {
+            "id": "chichi",
+            "phase": "swim",
+            "activity": "waterfront-dive",
+            "slot": 0,
+            "position": [
+              631.0408852935459,
+              -0.0057074166636876126,
+              604.254097963098
+            ]
+          },
+          {
+            "id": "luna",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 1,
+            "position": [
+              558.5857864376269,
+              1.062,
+              209
+            ]
+          },
+          {
+            "id": "moti",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 2,
+            "position": [
+              558.5857864376269,
+              1.062,
+              209
+            ]
+          },
+          {
+            "id": "pixel",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 3,
+            "position": [
+              558.5857864376269,
+              1.062,
+              209
+            ]
+          },
+          {
+            "id": "peach",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 4,
+            "position": [
+              562,
+              1.062,
+              209
+            ]
+          },
+          {
+            "id": "bagel",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 5,
+            "position": [
+              562,
+              1.062,
+              209
+            ]
+          },
+          {
+            "id": "salem",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              656,
+              1.062,
+              221
+            ]
+          },
+          {
+            "id": "nori",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              537,
+              1.062,
+              222
+            ]
+          },
+          {
+            "id": "honey",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              555,
+              1.062,
+              222
+            ]
+          },
+          {
+            "id": "flora",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              573,
+              1.062,
+              222
+            ]
+          },
+          {
+            "id": "astra",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              591,
+              1.062,
+              222
+            ]
+          },
+          {
+            "id": "cloud",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              609,
+              1.062,
+              222
+            ]
+          },
+          {
+            "id": "cinnamon",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              627,
+              1.062,
+              222
+            ]
+          }
+        ],
+        "tables": 28,
+        "glassPanels": [
+          {
+            "x": 0,
+            "z": 13,
+            "w": 112,
+            "d": 48
+          },
+          {
+            "x": -96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          },
+          {
+            "x": 96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          }
+        ],
+        "staff": 2,
+        "invited": 0,
+        "pendingHero": false,
+        "player": "chichi",
+        "playerStarted": true,
+        "active": 7,
+        "queued": 6
+      }
+    },
+    {
+      "id": "18-trampoline-night",
+      "calls": 1676,
+      "triangles": 13335124,
+      "dpr": 2,
+      "camera": [
+        850,
+        70,
+        608
+      ],
+      "target": [
+        680,
+        3,
+        508
+      ],
+      "clock": {
+        "absolute": 1453.476,
+        "day": 1,
+        "minute": 13.476000000000113,
+        "hour": 0,
+        "label": "00:13",
+        "working": false
+      },
+      "lost": false,
+      "badPrograms": 0,
+      "diagnostics": {
+        "ready": true,
+        "selected": null,
+        "visits": [
+          {
+            "id": "chichi",
+            "phase": "swim",
+            "activity": "waterfront-dive",
+            "slot": 0,
+            "position": [
+              631.7282930073296,
+              0.008526553161237103,
+              604.039923653176
+            ]
+          },
+          {
+            "id": "luna",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 1,
+            "position": [
+              559.5857864376269,
+              1.062,
+              209
+            ]
+          },
+          {
+            "id": "moti",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 2,
+            "position": [
+              559.5857864376269,
+              1.062,
+              209
+            ]
+          },
+          {
+            "id": "pixel",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 3,
+            "position": [
+              559.5857864376269,
+              1.062,
+              209
+            ]
+          },
+          {
+            "id": "peach",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 4,
+            "position": [
+              563,
+              1.062,
+              209
+            ]
+          },
+          {
+            "id": "bagel",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 5,
+            "position": [
+              563,
+              1.062,
+              209
+            ]
+          },
+          {
+            "id": "salem",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              657,
+              1.062,
+              221
+            ]
+          },
+          {
+            "id": "nori",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              537,
+              1.062,
+              222
+            ]
+          },
+          {
+            "id": "honey",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              555,
+              1.062,
+              222
+            ]
+          },
+          {
+            "id": "flora",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              573,
+              1.062,
+              222
+            ]
+          },
+          {
+            "id": "astra",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              591,
+              1.062,
+              222
+            ]
+          },
+          {
+            "id": "cloud",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              609,
+              1.062,
+              222
+            ]
+          },
+          {
+            "id": "cinnamon",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              627,
+              1.062,
+              222
+            ]
+          }
+        ],
+        "tables": 28,
+        "glassPanels": [
+          {
+            "x": 0,
+            "z": 13,
+            "w": 112,
+            "d": 48
+          },
+          {
+            "x": -96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          },
+          {
+            "x": 96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          }
+        ],
+        "staff": 2,
+        "invited": 0,
+        "pendingHero": false,
+        "player": "chichi",
+        "playerStarted": true,
+        "active": 7,
+        "queued": 6
+      }
+    },
+    {
+      "id": "19-three-protected-and-waterfront",
+      "calls": 3776,
+      "triangles": 19820953,
+      "dpr": 2,
+      "camera": [
+        2190,
+        1500,
+        3158
+      ],
+      "target": [
+        640,
+        -70,
+        608
+      ],
+      "clock": {
+        "absolute": 742.303,
+        "day": 0,
+        "minute": 742.303,
+        "hour": 12,
+        "label": "12:22",
+        "working": true
+      },
+      "lost": false,
+      "badPrograms": 0,
+      "diagnostics": {
+        "ready": true,
+        "selected": null,
+        "visits": [
+          {
+            "id": "chichi",
+            "phase": "swim",
+            "activity": "waterfront-dive",
+            "slot": 0,
+            "position": [
+              632.4157007211135,
+              0.01803530880556429,
+              603.8257493432541
+            ]
+          },
+          {
+            "id": "luna",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 1,
+            "position": [
+              560.5857864376269,
+              1.062,
+              209
+            ]
+          },
+          {
+            "id": "moti",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 2,
+            "position": [
+              560.5857864376269,
+              1.062,
+              209
+            ]
+          },
+          {
+            "id": "pixel",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 3,
+            "position": [
+              560.5857864376269,
+              1.062,
+              209
+            ]
+          },
+          {
+            "id": "peach",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 4,
+            "position": [
+              564,
+              1.062,
+              209
+            ]
+          },
+          {
+            "id": "bagel",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 5,
+            "position": [
+              564,
+              1.062,
+              209
+            ]
+          },
+          {
+            "id": "salem",
+            "phase": "approach",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              658,
+              1.062,
+              221
+            ]
+          },
+          {
+            "id": "nori",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              537,
+              1.062,
+              222
+            ]
+          },
+          {
+            "id": "honey",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              555,
+              1.062,
+              222
+            ]
+          },
+          {
+            "id": "flora",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              573,
+              1.062,
+              222
+            ]
+          },
+          {
+            "id": "astra",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              591,
+              1.062,
+              222
+            ]
+          },
+          {
+            "id": "cloud",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              609,
+              1.062,
+              222
+            ]
+          },
+          {
+            "id": "cinnamon",
+            "phase": "waiting",
+            "activity": "waterfront-bounce",
+            "slot": 6,
+            "position": [
+              627,
+              1.062,
+              222
+            ]
+          }
+        ],
+        "tables": 28,
+        "glassPanels": [
+          {
+            "x": 0,
+            "z": 13,
+            "w": 112,
+            "d": 48
+          },
+          {
+            "x": -96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          },
+          {
+            "x": 96,
+            "z": 22,
+            "w": 32,
+            "d": 24
+          }
+        ],
+        "staff": 2,
+        "invited": 0,
+        "pendingHero": false,
+        "player": "chichi",
+        "playerStarted": true,
+        "active": 7,
+        "queued": 6
+      }
+    }
+  ],
+  "errors": [],
+  "httpErrors": []
+}

@@ -28,10 +28,17 @@ pitch ограничен при возврате после look-down, оста�
 **62related checks PASS**, Node22fullbuild PASS. App JS SHA256
 **aa2a920989f5f7a5bc63c487218f4cf2b7daa7752adcbbbd7b29f1b15ee01b2f**,
 CSS **ed0f6fc4c986acd5e3ad1ee3d6d70ad7e36cea229f266afc45c618feab881f7a**,
-одно app. Final native `/workspace/qa/waterfront-v14-release-desktop`, session64178,
-идёт на clean56f305e. Не изменять public/build до окончания hardlinked QA.
-Затем подготовленный `check-waterfront-v14-phone.cjs`/`waterfront-v14-phone.mjs`:
-реальные held touch/look/V/dive/44px, один GPU за раз. Full CI/обычный merge/main
+одно app. Final desktop `/workspace/qa/waterfront-v14-release-desktop` завершён
+PASS на clean56f305e: все19views,466source modulesexact, protectednative0diff,
+realmouse lookdown/V (third pitch.2736), group13/6,7hops,firstpersonwater,
+**2privateSQLite reloads** (все34savednative initialposes/yaws иполныеbanks,
+inventory/placements/personalcoins/catLocations exact). JS/HTTP/GL errors0.
+[Прямые PNG/video/provenance](../qa/2026-11-22/waterfront-v14/release-desktop/).
+Телефон: actualheldtouch/movement/7hops/view/look/44px PASS, явный water tap пока
+не перевёл runtime изplayer. Две attempts не считаютсяPASS; третий trace проверяет
+доставку nativeclick/возвратобычногоonclick. Session8090,
+`/workspace/qa/waterfront-v14-release-phone-click`. Не менять public/build при
+активном hardlinked QA. CI44960985278 fulltest ещё идёт. Один GPU за раз. Full CI/обычный merge/main
 workflow/actual live HTML+JS+CSS+assets+Worker SHA ещё впереди; PRskipped не publish.
 
 Предыдущий d2e9native дал19views/exactprotection/group13active6/реальныйWASD/
