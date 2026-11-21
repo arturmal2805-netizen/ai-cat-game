@@ -1,0 +1,22 @@
+{
+  "README.md": "cdb8f2c537b7e275bf87378033c84067ffb9e7acfb3e279cce89a8c8315aa043",
+  "waterfront-v14-unit-interactive.log": "75b14975026cea4491a1d5631b24a8218f6804fcb15a2209692a3a277e9fd521",
+  "waterfront-v14-build-final.log": "306aeec44fd6148584d44d4cf3a049150e09c433f0def494c7fd5a6e3deabc49",
+  "waterfront-v14-related-final.log": "ba086e2b32f0f4319f9204100fa5b6b62733509bfdf3398e44d458636e8697e1",
+  "PROGRESS.md": "7ba8594ba2d739fbbeb9466a419bdc6fc1bf294e601316c93a99732cef0d79ee",
+  "waterfront-v14-unit-stage3b.log": "4f7f65b8b09e16d67542088c3e231608aaf16c1bd372bb87a3215c97ca9e18e7",
+  "stage2/visual-stage.json": "d37f2f6a0371275032ada10c180eedf02fda5a8e5617570fbb015ba8daa39ee4",
+  "stage2/qa-build.json": "8de379740a4dd7b3980d3267f282d07e5031875337fd9e0d668a09cc535abcf7",
+  "stage2/trampoline.png": "998ee1621f42e2b83ac837cf43c91631623dde5c2cd9564062aad1fcdd672704",
+  "stage2/overview.png": "b0a29437849789840482de949905b2e48957ca652132b81d81ee5caa20867243",
+  "stage2/interior.png": "f5aad6d302334a690d4b12b1f2b6f00f9881775753c4f0cb94148f8e6fb54155",
+  "stage2/restaurant.png": "739b51a09da03d7f15b1220e3be53243a11b3286dad9a4fa7cfda42eccd399c9",
+  "stage2/actual-public-inputs.tar.gz": "d9b8c28a5fdace9c79ebd26a012510044f1c51994b9f8fe92d56a17388f86642",
+  "stage3/visual-stage.json": "1d59b253762ecc2f089e4de8f0005dd36e9e7ce2944fe9f70cd6aa6cfd9ef55b",
+  "stage3/qa-build.json": "d6b437de88149d6eb1097a8859722caf29325f21fc2c91c422635e3525ddac9c",
+  "stage3/trampoline.png": "d4a0845c7ec5b8cc0019e7fed5f96767ca0814f75b0cae38db391956793090cd",
+  "stage3/overview.png": "2fedc76d12ae597644a9d3342a2acebb1217283a458f008cc3647cdcccc6d908",
+  "stage3/interior.png": "fa71ed56e3dc4b5fa3833953bbf56c459ddc76c058957e8a9b06c582b7f6e9e2",
+  "stage3/restaurant.png": "44db77180bb33254fb916bffc1b99a739a92840d62c490fab95a1ee8793f3e1d",
+  "stage3/actual-public-inputs.tar.gz": "98630bbd61b578ea0cc486ec2fd0e435e1af9db408ca4f0defa2b5a393fc6c15"
+}

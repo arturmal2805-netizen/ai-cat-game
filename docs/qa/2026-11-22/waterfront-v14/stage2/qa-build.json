@@ -1,0 +1,8 @@
+{
+  "sha256": "2e2ae1e72c1682bbea278887c588cbd020ace748df9df9ae3dc56c61f2d6b19f",
+  "baseline": null,
+  "node": "v22.23.5",
+  "head": "defad6b90b6518fd2339a9192bbbf8678a7f1cfb",
+  "dirty": " M public/ocean-swimmer.js\n M public/submarine-runtime.js\n M public/waterfront-data.js\n M public/waterfront-effects.js\n M public/waterfront-model.js\n M public/waterfront-navigation.js\n M public/waterfront-physics.js\n M public/waterfront-primitives.js\n M public/waterfront-restaurant.js\n M public/waterfront-runtime.js\n M public/waterfront-trampoline.js\n M public/waterfront-world.js\n M public/world.js\n?? test/waterfront-v14.test.mjs\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

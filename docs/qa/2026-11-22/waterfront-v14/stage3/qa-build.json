@@ -1,0 +1,8 @@
+{
+  "sha256": "4618f655e57bb660558cc0b600a8bcfc4adada2bd737b27004066626d4a6574d",
+  "baseline": null,
+  "node": "v22.23.5",
+  "head": "896eaad749c13db9bc9355f4319554920efca97f",
+  "dirty": " M public/index.html\n M public/waterfront-data.js\n M public/waterfront-model.js\n M public/waterfront-navigation.js\n M public/waterfront-primitives.js\n M public/waterfront-restaurant.js\n M public/waterfront-runtime.js\n M public/waterfront-trampoline.js\n M public/waterfront-world.js\n M test/waterfront-v14.test.mjs\n?? public/waterfront-lighting.js\n",
+  "sourceOverlay": "source-HEAD.patch"
+}

@@ -6,9 +6,19 @@
 
 ## Активная работа — V14 (не опубликовано)
 
-Полный запрос пользователя сохранён без изменений в `docs/specifications/waterfront-v14-2026-11-21.md` ветки **codex/v14-waterfront**, worktree `/workspace/chichi-v12-island-warehouse`. Remote implementation checkpoint **cfbeb9c** (full SHA — git log); original contract **ac99f40fb0e35cd026f5a04237b11f48ef58949f**. Новый ресторан, набережная, мост и большой батут — отдельная зона напротив Warehouse, autumn-local центр `[1140,-342]`; старые три комплекса не перемещать и не менять. В `waterfront-v14-protection.json` зафиксированы SHA256 116 защищённых исходников; native baseline из опубликованного d0d944a содержит точные buffers/materials/transforms/bounds всех трёх зданий. Native capture завершён PASS.
+Полный запрос пользователя сохранён без изменений в `docs/specifications/waterfront-v14-2026-11-21.md` ветки **codex/v14-waterfront**, worktree `/workspace/chichi-v12-island-warehouse`. Remote implementation checkpoint **5d9e0f35330a030048302435b44b099e6ba0a24c**, PR #17 draft; original contract **ac99f40fb0e35cd026f5a04237b11f48ef58949f**. Новый ресторан, набережная, мост и большой батут — отдельная зона напротив Warehouse, autumn-local центр `[1140,-342]`; старые три комплекса не перемещать и не менять. В `waterfront-v14-protection.json` зафиксированы SHA256 116 защищённых исходников; native baseline из опубликованного d0d944a содержит точные buffers/materials/transforms/bounds всех трёх зданий. Native capture завершён PASS.
 
 Оригинальный inline-референс просмотрен в чате, доступного файла байтов нет: не выдумывать hash или заменять картинкой генератора. Запрос и registry с этим ограничением скопированы в [V14 QA](../qa/2026-11-21/waterfront-v14/). Реализованы отдельные waterfront-модули, подключены новая зона, 6 AI offers, native cat carriers/высокие баллистические прыжки/плавание/возврат/стеклянные отверстия/мост. 10 новых meaningful tests + 48 прежних checks PASS; полный stage2 build PASS. Stage1 capture прерван до валидации из-за найденного normal-count дефекта, исправлен. Stage2: 4 реальные native PNG без JS/HTTP ошибок, но визуальная сверка выявила слишком плоскую кровлю, прямоугольный пирс, тёмный материал и ошибочно маленький torus обода. Художественно НЕ принят; идёт stage3 коррекция силуэта/мрамора/обода, затем 19 PNG/проверка protection/controls/saves/AI/full CI. Журнал source `docs/qa/waterfront-v14/PROGRESS.md`. Не путать этот WIP с d0d944a ниже.
+
+22 ноября: новый пользовательский запрос — клик по батуту → все свободные +
+Чичи даже занята; ручное WASD/held Space/touch с нарастающими прыжками и большим
+всплеском. Реализованы очередь (6 одновременно), безопасный forced hero intent,
+прогрессия прыжков ~3/6/9/14/22/32/46м (ограничение60), native rig/carrier, safe
+release, 320 pooled spray/12 rings, физические openings/stairs через обод.
+56 related Node checks PASS, full Node22 build PASS. Вся реализация сохранена
+на remote SHA выше; live остаётся d0d944a. Финальный native19/protection/controls
+в процессе, CI44956406483 test running; deploy/pages PR не означают публикацию.
+[Сохранённые visual stages/источники/журнал](../qa/2026-11-22/waterfront-v14/README.md).
 
 ## Опубликовано
 

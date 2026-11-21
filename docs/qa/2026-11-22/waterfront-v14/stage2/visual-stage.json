@@ -1,0 +1,33 @@
+{
+  "stage": "initial-native-geometry",
+  "diagnostics": {
+    "ready": true,
+    "selected": null,
+    "visits": [],
+    "tables": 28,
+    "glassPanels": [
+      {
+        "x": 0,
+        "z": 13,
+        "w": 112,
+        "d": 48
+      },
+      {
+        "x": -96,
+        "z": 22,
+        "w": 32,
+        "d": 24
+      },
+      {
+        "x": 96,
+        "z": 22,
+        "w": 32,
+        "d": 24
+      }
+    ],
+    "staff": 2,
+    "invited": 0
+  },
+  "errors": [],
+  "httpErrors": []
+}
