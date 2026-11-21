@@ -7,7 +7,11 @@ test('approved glass shell retains its topology and exact 2.5x width/height with
  const box=new T.Box3().setFromObject(root,true),old=baseline.bounds;assert(Math.abs((box.max.x-box.min.x)/(old.max[0]-old.min[0])-2.5)<.001);assert(Math.abs((box.max.y-box.min.y)/(old.max[1]-old.min[1])-2.5)<.001);assert(Math.abs((box.max.z-box.min.z)-(old.max[2]-old.min[2]))<.001);assert(box.max.y< -30);const plan=warehousePlanBounds();for(let i=0;i<3;i++){assert(plan.min[i]<=[box.min.x,box.min.y,box.min.z][i]);assert(plan.max[i]>=[box.max.x,box.max.y,box.max.z][i]);}
  // Navigation boundaries are explicitly extended to the common lagoon in the
  // subsequent open-water request; its dedicated movement/save tests cover them.
- for(const[path,hash]of Object.entries(baseline.protectedFiles).filter(([p])=>!['public/ocean-swimmer.js','public/submarine-physics.js'].includes(p)))assert.equal(digest(readFileSync(new URL('../'+path,import.meta.url))),hash,path);
+ // The later toolbar-latency request authorizes camera/controller changes.
+ // Keep authored building models, geometry, economy and save sources frozen;
+ // exact camera bounds/framing and pending-request ownership have dedicated
+ // warehouse-camera and native venue regressions. Preserve historical fixtures.
+ for(const[path,hash]of Object.entries(baseline.protectedFiles).filter(([p])=>!['public/ocean-swimmer.js','public/submarine-physics.js','public/mall-world.js','public/resort-spa-world.js','public/warehouse-camera.js'].includes(p)))assert.equal(digest(readFileSync(new URL('../'+path,import.meta.url))),hash,path);
 });
 test('architectural facade uses static shared batches without adding an interior, interactions or dynamic lights',()=>{
  const root=runSceneSteps(warehouseExteriorSteps());assert.deepEqual(root.userData.facade,{version:2,wallPanelCount:20,lanternCount:12,portalLayers:4,roofSecondaryRibs:16,interiorAdded:false});assert.equal(root.userData.interiorEquipped,false);assert.equal(root.userData.interactive,false);

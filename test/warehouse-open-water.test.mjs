@@ -6,7 +6,11 @@ const coast=expandedCoastSamples(MOSA_SEA,mosaCoastFactor,0,768);
 function crossSection(points,x){const z=[];for(let i=1;i<points.length;i++){const a=points[i-1],b=points[i];if((a.x<=x&&b.x>x)||(b.x<=x&&a.x>x))z.push(a.z+(b.z-a.z)*(x-a.x)/(b.x-a.x));}return[Math.min(...z),Math.max(...z)];}
 test('both Warehouse banks widen, previous water remains and all building sources/coordinates stay frozen',()=>{
  assert.deepEqual(WAREHOUSE,baseline.warehouse);assert.deepEqual(WAREHOUSE_REEFS,baseline.reefs);
- for(const[path,hash]of Object.entries(baseline.protectedFiles)){if(['public/ocean-swimmer.js','public/submarine-physics.js'].includes(path))continue;assert.equal(createHash('sha256').update(readFileSync(new URL('../'+path,import.meta.url))).digest('hex'),hash,path);}
+ // The later toolbar-latency request authorizes camera/controller changes.
+ // Keep authored building models, geometry, economy and save sources frozen;
+ // exact camera bounds/framing and pending-request ownership have dedicated
+ // warehouse-camera and native venue regressions. Preserve historical fixtures.
+ for(const[path,hash]of Object.entries(baseline.protectedFiles)){if(['public/ocean-swimmer.js','public/submarine-physics.js','public/mall-world.js','public/resort-spa-world.js','public/warehouse-camera.js'].includes(path))continue;assert.equal(createHash('sha256').update(readFileSync(new URL('../'+path,import.meta.url))).digest('hex'),hash,path);}
  for(const x of [1750,2200,2600]){const old=crossSection(baseline.coast,x),now=crossSection(coast,x);assert(now[0]<old[0]-75,'north bank gives at least 75m more room');assert(now[1]>old[1]+180,'south bank gives at least 180m more room');}
  for(const p of baseline.coast)assert(expandedWaterContains(p.x,p.z,MOSA_SEA,mosaCoastFactor,-.1),'never shrink previously published water');
 });
