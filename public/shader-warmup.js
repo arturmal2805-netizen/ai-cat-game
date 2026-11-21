@@ -255,9 +255,7 @@ export function createShaderWarmup(
     root.traverse((o) => {
       if (
         (o.isMesh || o.isPoints || o.isLine || o.isSprite) &&
-        o.layers.isEnabled(0) &&
-        !o.isSkinnedMesh &&
-        !o.userData.rigMaterialSource
+        o.layers.isEnabled(0)
       )
         objects.push(o);
     });
@@ -266,7 +264,11 @@ export function createShaderWarmup(
       if (disposed || !needed()) return;
       // Native projection lazily scans every vertex when a sphere is missing.
       // Finish that exact static bound cooperatively before revealing the root.
-      for (const _ of geometryBoundsSteps(object.geometry)) {
+      // Animated cat bounds belong to their rig. Their colour/depth shaders
+      // still need preparation: skipping the entire object leaves first-use
+      // reflection blocking the first frame in a newly opened venue.
+      for (const _ of object.isSkinnedMesh || object.userData.rigMaterialSource
+        ? [] : geometryBoundsSteps(object.geometry)) {
         if (disposed || !needed()) return;
         if (performance.now() - start > 3) {
           await turn(background);

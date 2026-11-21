@@ -1904,6 +1904,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
         !existing?.userData.built
       ) {
         if (!courtPreparing.has(o.id)) {
+          const priority = o.type==='ride-mosasaur'?'autumn':jobBusiness(o.id) ? "jobcity" : courtObject(o.id)?.kind === "zoo" ? ZOO_ID : "foodcourt";
           const task = (o.type==='ride-mosasaur'?prepareMosasaurModels():Promise.resolve()).then(()=>prepareSceneSteps(
             o.type==='ride-mosasaur'?mosasaurRideSteps(o.type):jobBusiness(o.id)
               ? jobBuildingSteps(o.id)
@@ -1912,9 +1913,21 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
                 }),
             {
               scheduler: scenePreparation,
-              priority: o.type==='ride-mosasaur'?'autumn':jobBusiness(o.id) ? "jobcity" : courtObject(o.id)?.kind === "zoo" ? ZOO_ID : "foodcourt",
+              priority,
             },
-          ));
+          )).then(async g => {
+            try {
+              if (!disposed) await shaderWarmup.prepare(g, {
+                background: priority !== focused,
+                needed: () => !disposed,
+              });
+              return g;
+            } catch (error) {
+              g.userData.disposeStaff?.();
+              disposeScenery(g);
+              throw error;
+            }
+          });
           courtPreparing.set(o.id, task);
           task
             .then((g) => {
