@@ -1,0 +1,60 @@
+TAP version 13
+# Subtest: a continuously drawn over-budget scene does not consume the bounded returning-camera cache
+not ok 1 - a continuously drawn over-budget scene does not consume the bounded returning-camera cache
+  ---
+  duration_ms: 7.729548
+  type: 'test'
+  location: '/workspace/qa/test-active-floor-before.mjs:306:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    each turning buffer learns one return, then stays cached
+    
+    16 !== 2
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 2
+  actual: 16
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/qa/test-active-floor-before.mjs:317:9)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: the active floor includes the entire shared-owner component without extending its lifetime
+not ok 2 - the active floor includes the entire shared-owner component without extending its lifetime
+  ---
+  duration_ms: 4.764031
+  type: 'test'
+  location: '/workspace/qa/test-active-floor-before.mjs:328:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    implicit shared-owner pins cannot steal the returning cache allowance
+    
+    16 !== 2
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 2
+  actual: 16
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/qa/test-active-floor-before.mjs:342:9)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 0
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 110.93288

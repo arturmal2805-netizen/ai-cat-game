@@ -56,18 +56,33 @@ RAFs/controls/sampling/asserts прежние. Всеfailedattempts/точные
 отменён послеmerge и не является productionproof. Localfullbuild выполнялся
 доcommit при тогдаHEADc199; finalmainCI пересобрал/проверил Worker1e0ea47.
 
-## Аппаратный результат ещё нужен
+## Новый M2 report1e0ea47 и следующий узкий bottleneck
 
-Последний полученный report — **c199697/app0ce8e474**, до этого исправления:
-16.21FPS/18.45s, framegap8883.8ms/eventloop8922.5ms, maxlongtask808ms,
-GPUmedian10.65/p9514.32ms, lastframe1.147Mtri/496calls, loadingmax1551.5ms.
-[Rawreport/hash](../qa/2026-11-21/scene-task-fairness/user-c199-report.json).
-Пользователь подтвердил: пауза при загрузке/переходе; безFPSдиагностики ещё не
-сравнивал. Предыдущий shaderfix действительно не убрал большуюпаузу.
-Новый1e0ea47 проверен локально/CI/live, но физический M2/iPhone FPS/сходство и
-устранение всех пауз не обещать до нового report того же cold/transition пути.
-CI/Native не художественное одобрение пользователя. Диагностика толькоopt-in,
-one-shot и закрываемая; не добавлять паузу мира или quality downgrade.
+Полученреальныйreportapp1a198981:54.167s session, maxgapSinceStart533ms,
+rollingmax432.6ms; прежняя8.9sпауза в этомсеансе не повторилась. User«красава,
+осталосьдовестидоидеала» — положительная оценка этого результата, не одобрение
+визуальногосходства/всехсценариев. FPS24.85/12.033s, но19.38Mtri/3908calls вместо
+1.147M/496 предыдущегоreport:не контролируемый FPSмножитель. GPU24.32median/
+37.32p95ms, CPUrender14.6median/40.9p95/max417.8ms.608.9MBgeometry/2.126GBJSheap.
+1264refaults/508.8MB,588rapid/174.4MB заrollingwindow. Цель текущегошага —
+ненужныеповторныеGPUuploads, безquality/DPR/nativecats/воды/теней/data cuts.
+[Rawreport/hash иWIPQA](../qa/2026-11-21/active-geometry-refaults/README.md).
+
+BaselinefullMall+SPA/lagoon controlledcachetrace reproduced1.450GBrefaults;
+в capped5000events1470evictions с ещёактивнымlearnedhold, всеpressure, age266ms+.
+192+64MiBfixedtargetнедостижимпри609MBpinnedworking set, такчтодавлениевыбрасывает
+returningbufferбезвозможностидостичьtarget. WIPfix учитываетuniqueattributes
+в existingnonretireable/shared-ownercomponents; same64MiBidleallowance над
+max(192MiB,pinnedfloor), остальныеgrace/cleanup/data прежние. Не blindbudgetbump.
+
+Source **b67979f1880cc32985265e963ad70122a84ac683**, branchcodex/active-geometry-refaults,
+тотжеworktree.36focusedchecksPASS; новые2tests failold16vs2 и passnew, samepeak/
+abandonmentreclaim. FullNode22buildPASS дофинальногоразмещенияbookkeeping;
+послеlatestsource runtimebundle/Workerrebuilt,cacheversiona496 прежняя.
+Nativebaseline60634completed. Candidatecache/realGLproof session **21711**,
+/workspace/qa/active-refault-candidate{,.log}, runnercheck-active-refault-proof.cjs.
+No otherGPUjobs. Текущийliveвсёещё1e0ea47; новыйpatchнеопубликован. ПослеNative
+comparison/pixelproof нужныall19+returns/phone/private2reload/CI/live/remoteSHA.
 
 ## Защищённые предыдущие изменения
 

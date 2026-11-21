@@ -1,0 +1,49 @@
+{
+  "source": "1e0ea4762167e0572c9c53121b975c6cd1ebbd70",
+  "allCapturedPublicModulesMatchSource": true,
+  "moduleCount": 453,
+  "state": "native-resource-attribution-only-raster-suppressed-virtual30Hz",
+  "scope": "Actual native game/private Worker/SQLite; SwiftShader correctness only, hardware FPS unmeasured",
+  "files": {
+    "check-aquarium.cjs": {
+      "bytes": 120039,
+      "sha256": "330b5432c56062329d25edd692c8787a5e0d9b74fbe8a2c40a9b787d2d565c4b"
+    },
+    "cache-cycles.json": {
+      "bytes": 1676093,
+      "sha256": "f597604cbb18cbc74ecc8c62d98483db9e586088c66f93061e410dffb1b9faf5"
+    },
+    "qa-build.json": {
+      "bytes": 233,
+      "sha256": "55b5ef88039fc84f8933f3007ca43fba3d3f6ba83d91111dcf2b098e588f32e9"
+    },
+    "progress.json": {
+      "bytes": 384,
+      "sha256": "bbf620f8cad8b65b03fa4e5096711f0390922081565f7f3869eceb1b23d458ce"
+    },
+    "source-proof.tar.gz": {
+      "bytes": 2263356,
+      "sha256": "d099f3c81c6ad62f5e06cd14eb83364024e64f90debdcd1512ad57d426c688ac"
+    },
+    "audit-v12-native.mjs": {
+      "bytes": 8185,
+      "sha256": "f0869e31e5aeed61408b5b275733bae8054fbd4a7ae7695d5d838b1bc283f41d"
+    },
+    "check-native-map-frames.mjs": {
+      "bytes": 25290,
+      "sha256": "c97ec2343991d2d1a6730902af3ae35898dbaf7271857dd45475fe3f441580ca"
+    },
+    "audit-warehouse-open-water.mjs": {
+      "bytes": 5201,
+      "sha256": "8e4a18348cc38d51bc84fc09da3a79ca96df37246c8d5b58a4a6d469b96042b0"
+    },
+    "source-files.json": {
+      "bytes": 42052,
+      "sha256": "ae05cc08a3a5cb573c17ae8832d515b87864685809d08eef70aa03bafbdd08ea"
+    },
+    "source-status.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

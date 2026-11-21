@@ -1,0 +1,226 @@
+TAP version 13
+# Subtest: cooperative static bounds match native spheres bit for bit for actual Float16/interleaved/off-centre geometry
+ok 1 - cooperative static bounds match native spheres bit for bit for actual Float16/interleaved/off-centre geometry
+  ---
+  duration_ms: 76.465484
+  type: 'test'
+  ...
+# Subtest: cooperative work preserves native/custom/morph bounds and abandons replaced or mutated buffers
+ok 2 - cooperative work preserves native/custom/morph bounds and abandons replaced or mutated buffers
+  ---
+  duration_ms: 153.497058
+  type: 'test'
+  ...
+# Subtest: direct static reads preserve normalized/custom getters, empty buffers and Float64 arithmetic exactly
+ok 3 - direct static reads preserve normalized/custom getters, empty buffers and Float64 arithmetic exactly
+  ---
+  duration_ms: 0.679232
+  type: 'test'
+  ...
+# Subtest: baking copies approved primitive buffers exactly without re-running procedural constructors
+ok 4 - baking copies approved primitive buffers exactly without re-running procedural constructors
+  ---
+  duration_ms: 31.994671
+  type: 'test'
+  ...
+# Subtest: old GPU geometry is retired without altering CPU vertices and can be drawn again
+ok 5 - old GPU geometry is retired without altering CPU vertices and can be drawn again
+  ---
+  duration_ms: 2.789426
+  type: 'test'
+  ...
+# Subtest: recent shadow/colour owners protect every shared-attribute geometry
+ok 6 - recent shadow/colour owners protect every shared-attribute geometry
+  ---
+  duration_ms: 1.106002
+  type: 'test'
+  ...
+# Subtest: budget retains the most recently used geometry and external disposal is accounted once
+ok 7 - budget retains the most recently used geometry and external disposal is accounted once
+  ---
+  duration_ms: 0.902252
+  type: 'test'
+  ...
+# Subtest: GPU-only eviction preserves a living cat and its pose slots across repeated returns
+ok 8 - GPU-only eviction preserves a living cat and its pose slots across repeated returns
+  ---
+  duration_ms: 383.104331
+  type: 'test'
+  ...
+# Subtest: memory pressure retires buffers absent from three colour/shadow frames and the short active window, without waiting ten seconds
+ok 9 - memory pressure retires buffers absent from three colour/shadow frames and the short active window, without waiting ten seconds
+  ---
+  duration_ms: 0.502823
+  type: 'test'
+  ...
+# Subtest: repeated colour/shadow draws read the use clock once per native render frame
+ok 10 - repeated colour/shadow draws read the use clock once per native render frame
+  ---
+  duration_ms: 0.588759
+  type: 'test'
+  ...
+# Subtest: alternating render caches survive brief native/colony switches under pressure, while abandoned island buffers still retire
+ok 11 - alternating render caches survive brief native/colony switches under pressure, while abandoned island buffers still retire
+  ---
+  duration_ms: 0.384007
+  type: 'test'
+  ...
+# Subtest: returning camera geometry learns a bounded working set instead of repeatedly deleting and uploading it
+ok 12 - returning camera geometry learns a bounded working set instead of repeatedly deleting and uploading it
+  ---
+  duration_ms: 0.965305
+  type: 'test'
+  ...
+# Subtest: refault protection yields to its memory cap when the working set cannot fit
+ok 13 - refault protection yields to its memory cap when the working set cannot fit
+  ---
+  duration_ms: 2.126959
+  type: 'test'
+  ...
+# Subtest: refault telemetry counts restored shared streams only once and ordinary disposal stays final
+ok 14 - refault telemetry counts restored shared streams only once and ordinary disposal stays final
+  ---
+  duration_ms: 0.577322
+  type: 'test'
+  ...
+# Subtest: temporary memory overflow reclaims cold scenery before the oldest protected returning camera buffers
+ok 15 - temporary memory overflow reclaims cold scenery before the oldest protected returning camera buffers
+  ---
+  duration_ms: 0.449683
+  type: 'test'
+  ...
+# Subtest: recent animation/camera geometry survives pressure when its actual working set exceeds the idle-cache allowance
+ok 16 - recent animation/camera geometry survives pressure when its actual working set exceeds the idle-cache allowance
+  ---
+  duration_ms: 1.393106
+  type: 'test'
+  ...
+# Subtest: the short active window does not retain an endless stream of abandoned geometries or destroy shared active owners
+ok 17 - the short active window does not retain an endless stream of abandoned geometries or destroy shared active owners
+  ---
+  duration_ms: 7.115201
+  type: 'test'
+  ...
+# Subtest: a continuously drawn over-budget scene does not consume the bounded returning-camera cache
+ok 18 - a continuously drawn over-budget scene does not consume the bounded returning-camera cache
+  ---
+  duration_ms: 2.109083
+  type: 'test'
+  ...
+# Subtest: the active floor includes the entire shared-owner component without extending its lifetime
+ok 19 - the active floor includes the entire shared-owner component without extending its lifetime
+  ---
+  duration_ms: 3.528898
+  type: 'test'
+  ...
+# Subtest: many attached/direct background preparations share one job per root and never flood the GPU concurrently
+ok 20 - many attached/direct background preparations share one job per root and never flood the GPU concurrently
+  ---
+  duration_ms: 503.50414
+  type: 'test'
+  ...
+# Subtest: a newly selected root promotes its queued preparation ahead of unrelated background roots
+ok 21 - a newly selected root promotes its queued preparation ahead of unrelated background roots
+  ---
+  duration_ms: 44.839636
+  type: 'test'
+  ...
+# Subtest: preparation mirrors native colour and depth variants without changing objects or renderer state
+ok 22 - preparation mirrors native colour and depth variants without changing objects or renderer state
+  ---
+  duration_ms: 7.300775
+  type: 'test'
+  ...
+# Subtest: custom depth shaders retain rig callbacks and program keys; cancellation restores renderer state
+ok 23 - custom depth shaders retain rig callbacks and program keys; cancellation restores renderer state
+  ---
+  duration_ms: 3.347821
+  type: 'test'
+  ...
+# Subtest: hundreds of identical props share preparation, upload original textures once and collect only the real lights
+ok 24 - hundreds of identical props share preparation, upload original textures once and collect only the real lights
+  ---
+  duration_ms: 100.925739
+  type: 'test'
+  ...
+# Subtest: selected island preparation pauses cooperative background work, then resumes it after success or failure
+ok 25 - selected island preparation pauses cooperative background work, then resumes it after success or failure
+  ---
+  duration_ms: 183.123891
+  type: 'test'
+  ...
+# Subtest: retired queued batches never recreate disposed GPU resources; active retirement stops at the next async boundary
+ok 26 - retired queued batches never recreate disposed GPU resources; active retirement stops at the next async boundary
+  ---
+  duration_ms: 9.527811
+  type: 'test'
+  ...
+# Subtest: animated cat shaders prepare natively without replacing rig-owned bounds or skeletons
+ok 27 - animated cat shaders prepare natively without replacing rig-owned bounds or skeletons
+  ---
+  duration_ms: 4.124677
+  type: 'test'
+  ...
+# Subtest: a visible dragon cat beyond the old 45-unit cutoff stays visible through ordinary orbit and zoom, without moving its carrier
+ok 28 - a visible dragon cat beyond the old 45-unit cutoff stays visible through ordinary orbit and zoom, without moving its carrier
+  ---
+  duration_ms: 232.189383
+  type: 'test'
+  ...
+# Subtest: navigation radius stays constant through breathing for ordinary, tiny and giant approved cats
+ok 29 - navigation radius stays constant through breathing for ordinary, tiny and giant approved cats
+  ---
+  duration_ms: 1911.704197
+  type: 'test'
+  ...
+# Subtest: hidden scene branches skip all descendant matrix work and refresh correctly after movement or explicit camera queries
+ok 30 - hidden scene branches skip all descendant matrix work and refresh correctly after movement or explicit camera queries
+  ---
+  duration_ms: 1.139111
+  type: 'test'
+  ...
+# Subtest: navigation cache is bounded even when many different actor sizes request routes
+ok 31 - navigation cache is bounded even when many different actor sizes request routes
+  ---
+  duration_ms: 428.495839
+  type: 'test'
+  ...
+# Subtest: all 50 fish and 120 bubbles keep geometry and GPU instance buffers stable during swimming and reduced motion
+ok 32 - all 50 fish and 120 bubbles keep geometry and GPU instance buffers stable during swimming and reduced motion
+  ---
+  duration_ms: 335.958544
+  type: 'test'
+  ...
+# Subtest: 55 fireflies retain their exact sphere detail and three colours without per-frame matrix uploads
+ok 33 - 55 fireflies retain their exact sphere detail and three colours without per-frame matrix uploads
+  ---
+  duration_ms: 0.95544
+  type: 'test'
+  ...
+# Subtest: cooperative geometry bounds match Three exactly and preserve half-float data without a duplicate buffer
+ok 34 - cooperative geometry bounds match Three exactly and preserve half-float data without a duplicate buffer
+  ---
+  duration_ms: 1.844152
+  type: 'test'
+  ...
+# Subtest: idle reward polls reuse the world and cached Kyiv dates respect midnight and DST
+ok 35 - idle reward polls reuse the world and cached Kyiv dates respect midnight and DST
+  ---
+  duration_ms: 81.505629
+  type: 'test'
+  ...
+# Subtest: linear bulk register reads preserve coins, diamonds and XP timers for a large world
+ok 36 - linear bulk register reads preserve coins, diamonds and XP timers for a large world
+  ---
+  duration_ms: 46.246121
+  type: 'test'
+  ...
+1..36
+# tests 36
+# suites 0
+# pass 36
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3650.589913
