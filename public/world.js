@@ -1,5 +1,6 @@
 import {createWaterfrontWorld} from './waterfront-world.js';
 import {waterfrontActivity} from './waterfront-data.js';
+import {waterfrontOceanClear} from './waterfront-navigation.js';
 import {venueButton} from './venue-buttons.js';
 import {warehouseCameraView,warehouseCameraBounds} from './warehouse-camera.js';
 import {survivingLegacyShore} from './mosasaur-expansion.js';
@@ -6152,7 +6153,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
   });
   warehouseAccess=venueButton('warehouse');warehouseAccess.classList.add('warehouse-access');warehouseAccess.hidden=true;warehouseAccess.setAttribute('aria-pressed','false');warehouseAccess.onclick=focusWarehouse;(container.querySelector('.map-controls')||container).append(warehouseAccess);
   const canControlChichi=()=>!waterfront?.unsafe('chichi')&&!resortSpa?.frame('chichi')?.phase?.startsWith('restoring-')&&(callbacks.canControlChichi?callbacks.canControlChichi()!==false:callbacks.canDragCat?.('chichi')!==false);
-  submarine=createSubmarineRuntime({scene,container,canvas:renderer.domElement,camera,look,actor:chichiCarrier,getModel:()=>cat,getMall:()=>mall,onLandExit:()=>{manualWalk?.start();refreshManualButton();},onError:message=>callbacks.onReaction?.(message),getIsland:()=>islands.get('autumn'),getGame:()=>game,getFocused:()=>focused,canPilot:()=>canControlChichi()&&!mall?.inspection&&!manualWalk?.active,cancelHero:()=>{callbacks.onControlChichi?.();cancelHeroActivity();heroGather=null;jobs.cancel('chichi');crew.cancel('chichi');leisure.cancel('chichi');spa.cancel('chichi');chill.cancel('chichi');court.cancel('chichi');faceCamera.setEnabled(false,look);},approachDock:point=>{heroGather=gatherTrip(chichiCarrier.position,{x:point.x,y:point.y,z:point.z},performance.now());return true;},focus});
+  submarine=createSubmarineRuntime({extraOceanClear:waterfrontOceanClear,scene,container,canvas:renderer.domElement,camera,look,actor:chichiCarrier,getModel:()=>cat,getMall:()=>mall,onLandExit:()=>{manualWalk?.start();refreshManualButton();},onError:message=>callbacks.onReaction?.(message),getIsland:()=>islands.get('autumn'),getGame:()=>game,getFocused:()=>focused,canPilot:()=>canControlChichi()&&!mall?.inspection&&!manualWalk?.active,cancelHero:()=>{callbacks.onControlChichi?.();cancelHeroActivity();heroGather=null;jobs.cancel('chichi');crew.cancel('chichi');leisure.cancel('chichi');spa.cancel('chichi');chill.cancel('chichi');court.cancel('chichi');faceCamera.setEnabled(false,look);},approachDock:point=>{heroGather=gatherTrip(chichiCarrier.position,{x:point.x,y:point.y,z:point.z},performance.now());return true;},focus});
   const manualGroundRay=new THREE.Raycaster(),manualOrigin=new THREE.Vector3(),manualDown=new THREE.Vector3(0,-1,0),manualHit=new THREE.Vector3();
   const manualCityBuildings=JOB_BUSINESSES.map(o=>({x:o.x,z:o.z,get y(){return itemGroups.get(o.id)?.position.y||0;},get getManualNavigation(){return itemGroups.get(o.id)?.userData.getManualNavigation;}}));
   function manualBuildings(b){
