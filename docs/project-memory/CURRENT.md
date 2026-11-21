@@ -127,3 +127,22 @@ archive-scene-fairness.py дляall-map/phone exactsourceba2, archive live recei
 обновить CURRENT/ROADMAP/decisions/standards, pushremote+verifyexactSHA.
 Дать немедленно игру?v=1e0ea47 иFPS?v=1e0ea47&profile=1 толькопослеactualHTTP,
 не обещать физическийMacFPS/устранениевсехпауз без нового report.
+
+ВАЖНО: scene fairness initialnative31063 FAILED readiness180s наautumn,
+послеmoonPASS. Phone3818не запускался:monitorkорректноотклонил1из21rows.
+Main44896468638attempt1 отменён доdeploy/pages; watcher80505exit1, неliveproof.
+Отдельное наблюдение64398 такжедошло до180s, но selectedrootlowOnly=false,
+кадры/движениекамерыидут, shaderpending14/preparing2:ждётглобальныеbackground
+модели, не падение. Новый fairness позволяет большеsoftwareGPUdraws во время
+строительства; rawprogress сохранён, не выдаватьsoftwaretimeзаM2FPS.
+Sourceba2НЕ менялся. FinalQA runner /workspace/qa/check-scene-fairness-map.cjs
+использует exacthelper copy check-native-map-fairness-ready.mjs с единственным
+QAизменением180000→600000readiness timeout. ВсеDPR2/fullRAF/camera/touch/data/
+asserts прежние. Никаких graphics cuts/manualdrawpause. Finalallmap session73553,
+/workspace/qa/scene-fairness-all-map-final{,.log}. Phoneautoafterjobexit session16794,
+finish-scene-fairness-native-final.py, logfile scene-fairness-native-final-finish.log.
+Mainworkflow44896468638 RERUN **attempt2** сейчас test; publicationwatcher1440,
+тот жеwatch-scene-fairness-release.py/expectedhash. Только finalsourceexact21+phone
+и actualreceipt позволяютфинальноеclaim. Finalmemoryhelperподготовлен:
+/workspace/qa/finalize-scene-fairness-memory.py (не запускатьдоreceipt/phonePASS).
+Сохранитьfailed180s evidence, указатьизменениеQAdeadline/attempt2 вCURRENT.

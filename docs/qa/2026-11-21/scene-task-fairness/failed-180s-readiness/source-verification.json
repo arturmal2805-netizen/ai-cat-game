@@ -1,0 +1,49 @@
+{
+  "source": "ba2a3dd5131988cc1d001b9e97061e4174fe2985",
+  "allCapturedPublicModulesMatchSource": true,
+  "moduleCount": 453,
+  "state": "failed-global-warmup-readiness-timeout-not-published",
+  "scope": "Actual native game/private Worker/SQLite; SwiftShader correctness only, hardware FPS unmeasured",
+  "files": {
+    "check-aquarium.cjs": {
+      "bytes": 120039,
+      "sha256": "330b5432c56062329d25edd692c8787a5e0d9b74fbe8a2c40a9b787d2d565c4b"
+    },
+    "qa-build.json": {
+      "bytes": 233,
+      "sha256": "402787f049571411f3bc583c0e42fa5cf3c6fae9739d24304404794e07329a54"
+    },
+    "source-proof.tar.gz": {
+      "bytes": 2263076,
+      "sha256": "628e03baee271fb77d1feb14349abceff44bd8b89be12769d1edcebcc70dedc5"
+    },
+    "audit-v12-native.mjs": {
+      "bytes": 8185,
+      "sha256": "f0869e31e5aeed61408b5b275733bae8054fbd4a7ae7695d5d838b1bc283f41d"
+    },
+    "map-moon.png": {
+      "bytes": 1124877,
+      "sha256": "bbd230dddee4bf7bfdcd0f07d83e7eb54ec91930b2983ebe65e1bec8ac0d0add"
+    },
+    "check-native-map-frames.mjs": {
+      "bytes": 25290,
+      "sha256": "c97ec2343991d2d1a6730902af3ae35898dbaf7271857dd45475fe3f441580ca"
+    },
+    "native-map-frames.json": {
+      "bytes": 5528,
+      "sha256": "b16f0736bb6830aac8361ce69f392c2777b7d8a71e89129b9545c2aa5e5a9f03"
+    },
+    "audit-warehouse-open-water.mjs": {
+      "bytes": 5201,
+      "sha256": "8e4a18348cc38d51bc84fc09da3a79ca96df37246c8d5b58a4a6d469b96042b0"
+    },
+    "source-files.json": {
+      "bytes": 42052,
+      "sha256": "14425a03741e36e2dd611f329125eccac56b87348ae0911a43b5d9ac5440bcc2"
+    },
+    "source-status.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}
