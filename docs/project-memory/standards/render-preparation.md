@@ -52,3 +52,17 @@ QA-onlyreadinesswait600s допускается с явной фиксацией
 graphics/fullnativeRAF/input/asserts. Не называть такой timeout gamecrash и не
 выдавать продление за ускорение. Обязательны конечный PASS/actualsource и новый
 physicalMacreport; не пропускать gates и не скрывать незавершённую сцену.
+
+## 2026-11-21 — pinned floor и bounded returning-camera cache
+
+При active/shared-owner working set выше soft192MiB fixed192+64MiBtarget
+недостижим. Учитывать unique BufferAttribute bytes всего nonretireable owner
+component: pressure target=max(softbudget,pinnedfloor)+ПРЕЖНИЙ idle allowance
+<=64MiB и <=budget/3. Это не повышениеконстант/новый owning cache. Cold-first pass
+по-прежнему стремится к originalbudget, abandoned data reclaim сохраняется,
+250ms/3frames/learned2s/cat10s и общий2msretirementtimer прежние. Floor/sort/filter
+bookkeeping вне cleanup timer; allsharedowners safe и currentdrawing wins.
+Нужны old-policy failing regression, actualuploadbytes/sameintrinsicpeak, exact
+GPU pixels/retire-return/livecat slots, all19+returns и phone2reloads. Resource
+proof не hardwareFPS; capped event subset counts нельзя сравнивать междуролями.
+См. [измеренный релиз и rawQA](../../qa/2026-11-21/active-geometry-refaults/README.md).

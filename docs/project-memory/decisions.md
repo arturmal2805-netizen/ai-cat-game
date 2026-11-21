@@ -931,3 +931,13 @@ ExistingWindowMessageChannelFIFOпредпочтёнboostedscheduler.yield по�
 Node22build/native19+2maps/phonecontrols/deepdive/2SQLite reloadPASS.
 PhysicalM2FPS/все8.9s паузы ещё не проверены новымreport. Artwork/DPR/вода/rig/
 сохранения прежние; canonicalQAхранитrawreport/модули/метрики/точныйsource.
+
+## 2026-11-21 — учитывать уже защищённый GPU working set
+
+Main15cb5b4c20dd8acaf3a80818d9c1fb0ea0ce7992/sourceb67979f1880cc32985265e963ad70122a84ac683,PR#14normalmerge,workflow44914901033/actualHTTPPASS.
+Новый пользовательский M2report показал отсутствие прежней8.9sпаузы в54s, но
+508.8MBrefaults/12s. Pressure accounting теперь использует unique shared-owner
+nonretireable floor плюс тот же <=64MiBidlecache; cold reclaim/grace/2msbudget
+прежние. Controlled cycle82,211,624B fewer uploads, same616,583,450Bpeak; exact
+GL/fullwidepixels/native19+2/phone2reloads/dataPASS. PhysicalnewFPSещёнеизмерен.
+[QA](../qa/2026-11-21/active-geometry-refaults/README.md).

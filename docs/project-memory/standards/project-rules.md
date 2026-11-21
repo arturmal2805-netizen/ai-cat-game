@@ -395,6 +395,10 @@ retirement for cold remote geometry, shared-stream ownership and one clock read
 per native frame. The current learned grace is two seconds of last use, with
 at most 64 MiB / one third of the soft budget as an idle-cache allowance; current
 rendering still wins and the existing sweep cadence is not a hard memory cap.
+When the already non-retireable/shared-owner working set exceeds the soft budget,
+account for its unique attribute bytes before adding that SAME bounded idle-cache
+allowance: max(soft budget, pinned floor) + allowance. Cold reclaim still aims at
+the original budget; do not enlarge constants or keep a second owning model cache.
 Check real bufferData transfers, over-cap reclamation, eventual idle release,
 live cat registrations and exact return frames. Resource savings alone do not
 establish physical-device FPS. Opt-in reports distinguish fresh transfers from

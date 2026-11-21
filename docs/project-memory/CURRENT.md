@@ -1,90 +1,94 @@
 # Текущий статус
 
-21 ноября2026, Europe/Kyiv. Каноническая память — codex/ocean-recovery-memory.
-Старое приложение ветки памяти не является текущим main. Предыдущий CURRENT:
-[история перед fairness-релизом](history/CURRENT-before-scene-fairness-publication-2026-11-21.md).
+21 ноября 2026, Europe/Kyiv. Каноническая память: `codex/ocean-recovery-memory`.
+Приложение этой ветки памяти старое; актуальный код — main и source ниже.
+[Предыдущий CURRENT со всеми checkpoint](history/CURRENT-before-active-geometry-publication-2026-11-21.md).
 
 ## Опубликовано и проверено
 
-Main **1e0ea4762167e0572c9c53121b975c6cd1ebbd70**, source **ba2a3dd5131988cc1d001b9e97061e4174fe2985**,
-PR#13 normal merge/noadmin. Branch codex/scene-task-fairness,
-/workspace/chichi-v12-island-warehouse. Source/main trees совпали.
-[Игра](https://arturmal2805-netizen.github.io/ai-cat-game/?v=1e0ea47) ·
-[FPS](https://arturmal2805-netizen.github.io/ai-cat-game/?v=1e0ea47&profile=1).
-Workflow **44896468638 attempt2** test/build/dry-run/deploy/pages SUCCESS, точный Worker
-release/shared-save checks PASS, paidAI в routine deploy не вызывался.
-Actual HTTP verification **2026-11-21 13:19 Europe/Kyiv**:HTML/JS/CSS/probe/reef/SPA/wind
-bytes совпали, одно подключение приложения. [Receipt](../qa/2026-11-21/scene-task-fairness/live/live-verification.json).
+Main **15cb5b4c20dd8acaf3a80818d9c1fb0ea0ce7992**, source **b67979f1880cc32985265e963ad70122a84ac683**,
+branch `codex/active-geometry-refaults`, worktree `/workspace/chichi-v12-island-warehouse`.
+[PR #14](https://github.com/arturmal2805-netizen/ai-cat-game/pull/14) merged normally,
+без admin/bypass. Exact source/main tree `a2edf381fc9e4f958ef21a0c3bc2387e94ba05c9`.
+[Игра](https://arturmal2805-netizen.github.io/ai-cat-game/?v=15cb5b4) ·
+[FPS](https://arturmal2805-netizen.github.io/ai-cat-game/?v=15cb5b4&profile=1).
+[Workflow 44914901033](https://github.com/arturmal2805-netizen/ai-cat-game/actions/runs/44914901033):
+test/build/deploy/pages SUCCESS; точный Worker release/shared-save checks PASS.
+Paid AI routine deploy не вызывает. PR duplicate 44914690669 отменён после merge;
+отдельный external Workers Builds не подменяет результат этого official workflow.
+Actual HTTP **2026-11-21 16:52 Europe/Kyiv**: HTML/JS/CSS/coast/reef/SPA/wind совпали с expected
+bytes, **одно подключение приложения** и корректные versioned JS/CSS URL.
+[Receipt](../qa/2026-11-21/active-geometry-refaults/live/live-verification.json).
 
-- JS:1a198981ae54d9d020864efbfafb41cefc9f6726a3b315fd4c9b7732fad3e52c.
-- CSS:1fd2857ef1fbaedd5e7a34a5082a77ff49bcf7f1c7030d5292502753b86967d0.
-- HTML:0d704b4ae57d413e8d6fb7abba5ba551d1f76465e812cb3109f3df20a4793cc5.
-- App`./dist/app.js?v=1a198981ae54d9d0`;
-  CSS`./style.css?v=1fd2857ef1fbaedd`.
-- Coastafc536509c5b98ea660eb1a4baa3a608653168e3083dd6673ce7c82ad36c5b6e,
-  reefgzip70d7512296dbb20dbb2f6468b558db374dfdbc0232810118b54a1c81c5cec395.
-  Полные SPA/wind/resource hashes в receipt. Art/model/geometry прежние.
+- JS SHA256: `fec56d9990ec8549b9bf147e5ae063e742fab6993601ef7b0417cb8c050a58cf`.
+- CSS SHA256: `1fd2857ef1fbaedd5e7a34a5082a77ff49bcf7f1c7030d5292502753b86967d0`.
+- HTML SHA256: `3fc41c5ab820878daa05f01795a38f2480c3bbbfcfeeb6eca67eb19c42e1f935`.
+- App URL: `./dist/app.js?v=fec56d9990ec8549`.
+- CSS URL: `./style.css?v=1fd2857ef1fbaedd`.
+- Coast/reef/SPA/wind полные хеши в receipt; art/model bytes не менялись.
 
-## Исправлено: starvation boosted continuations
+## Исправление повторных GPU uploads
 
-Window yieldSceneTask прежде предпочитал scheduler.yield. Длинная цепь его
-boosted continuations задерживала обычные задачи/таймеры и уменьшала RAF даже
-при3ms slices. Теперь первым используется уже существующий MessageChannelFIFO;
-worker/scheduler/timerfallback прежние. Порядок builder steps, бюджеты,
-priority/cancel/ошибки не меняются. Нет новых renderpasses/loadingoverlay или
-отключения диагностик. Water/material/DPR/тени/котики/позы/сохранения прежние.
-Sculpt-cache version прежняя:sculpt-v2-a496203fa13a037a7a10a927.
+Fixed pressure target 192+64 MiB был недостижим, когда уже используемые и
+защищённые общими attributes буферы сами занимали больше. Контроллер преждевременно
+выбрасывал возвращающиеся в камеру буферы даже внутри learned grace.
+Теперь pressure floor = max(192 MiB, unique bytes уже non-retireable shared-owner
+components) плюс ПРЕЖНИЙ bounded idle allowance <=64 MiB и <=budget/3.
+Это учёт уже защищённой памяти, без нового owning model cache/повышения констант.
+Cold-first reclaim, 250ms/3 absent frames, learned 2s, cat time grace 10s,
+2ms retirement budget и совместная безопасность owners прежние. Floor bookkeeping
+вне 2ms sweep timer, как существующие candidate filter/sort. Abandoned data
+освобождаются. Вода/DPR/тени/материалы/геометрия/позы/котики/AI/сохранения прежние.
+Sculpt cache version: `sculpt-v2-a496203fa13a037a7a10a927` неизменна.
 
-35focused scheduler/loading/crowd/warmup/bounds tests и Node22fullbuild PASS.
-Реальный Chromium156/productionESM3000x3ms: до9532.8ms max200ms-timer delay,
-2timer/102RAF; после6.1ms,46timer/564RAF. Отдельный uncontended эксперимент:
-8877.1→5.6ms delay/96→557RAF. В productionESM baseline одновременно выполнялись
-Nodechecks; самостоятельный первый опыт не имел этой нагрузки. Это CPU task
-fairness attribution, НЕ physicalM2FPS или доказательство устранения всей
-пользовательской8.9s паузы. Исходные оба модуля/хеши/runners/rawJSON сохранены.
+## Доказательства и ограничения
 
-NativeDPR2:19islands+2returns/fullRAF/realmouseorbitzoom PASS. Phone390×844/coarse/
-DPR2 productoverview/8heldtouch crossings/deepdivebelow-200m/2privateSQLite reload
-PASS. Balances/inventory/placements/personalwallets сохранены; JS/HTTP/GL ошибок
-нет. Все453publicmodules каждого capture совпали с source.
-[QA](../qa/2026-11-21/scene-task-fairness/README.md). ОдинGPUjob за раз;
-QA толькоprivateWorker/SQLite, никаких живыхplayerworlds.
-Первый native readiness deadline180s истёк на softwareGPU; mainattempt1 отменён
-до публикации. Progress showed selectedrootready/кадрыидут/backgroundprepещёидёт.
-Finalfixture увеличивает только QA globalidle ожидание до600s; source/графика/DPR2/
-RAFs/controls/sampling/asserts прежние. Всеfailedattempts/точныеrunners сохранены. PRduplicate44896465884
-отменён послеmerge и не является productionproof. Localfullbuild выполнялся
-доcommit при тогдаHEADc199; finalmainCI пересобрал/проверил Worker1e0ea47.
+36 focused tests PASS; два новых regression cases FAIL на опубликованной старой
+policy и PASS на новой. Full Node22 build PASS до финального перемещения bookkeeping;
+после него runtime/Worker rebuilt и 36 tests повторно PASS. Official main CI
+собрал и проверил exact final source. Не выдумывать общее число CI tests из blocked raw logs.
 
-## Новый M2 report1e0ea47 и следующий узкий bottleneck
+Native full Mall+SPA/lagoon camera cycle: refault bytes **1,450,375,695 → 1,368,164,071**,
+**82,211,624 bytes / около 5.7% меньше**, tracked peak ровно **616,583,450** в обоих.
+Это submission-only resource trace: raster suppressed только в QA, virtual30Hz,
+нативные culling/shader dispatch/uploads сохранены; НЕ FPS или pixel benchmark.
+Events capped5000 с разным coverage, raw held-event counts между ролями не сравнивать.
+Cold returns остаются при bounded cache. Separate actual isolated64x64 realGL:
+exact pixels, same8400B peak, late uploads11760→0B, rapid returns16→2,
+abandonment reclaim2520B=originalbudget; actual game DPR2 прежний.
+Actual fullwide GPU retirement/return: **0 changed pixels**, 19,206,975tri/3688calls,
+GPU611,233,198→3,037,076→611,233,198 bytes; cats81/atlas slots2191 сохранены,
+GLerror0/contextnotlost/DPR2. Не выдавать маленький isolated proof за full-game FPS.
 
-Полученреальныйreportapp1a198981:54.167s session, maxgapSinceStart533ms,
-rollingmax432.6ms; прежняя8.9sпауза в этомсеансе не повторилась. User«красава,
-осталосьдовестидоидеала» — положительная оценка этого результата, не одобрение
-визуальногосходства/всехсценариев. FPS24.85/12.033s, но19.38Mtri/3908calls вместо
-1.147M/496 предыдущегоreport:не контролируемый FPSмножитель. GPU24.32median/
-37.32p95ms, CPUrender14.6median/40.9p95/max417.8ms.608.9MBgeometry/2.126GBJSheap.
-1264refaults/508.8MB,588rapid/174.4MB заrollingwindow. Цель текущегошага —
-ненужныеповторныеGPUuploads, безquality/DPR/nativecats/воды/теней/data cuts.
-[Rawreport/hash иWIPQA](../qa/2026-11-21/active-geometry-refaults/README.md).
+Final native **19 islands+2 returns**, full RAF/DPR2/real mouse orbit/zoom PASS.
+Phone390×844/coarse/DPR2/product overview/full Warehouse bbox: **8 held-touch
+crossings, deep dive below-200m, 2 private SQLite reloads PASS**; balances,
+inventory/placements/personal wallets сохранены. JS/HTTP/GL errors отсутствуют.
+Все453 public modules каждого capture совпали с exact source. QA only private
+Worker/SQLite, один GPU job за раз. SoftwareGPU correctness не physicalM2/iPhone FPS.
+All-map QA global readiness600s — ранее обоснованный explicit helper только для
+software background warmup, не изменение продукта/графики/asserts и не ускорение.
+[Raw reports, hashes, source archives, runners, PNG and results](../qa/2026-11-21/active-geometry-refaults/README.md).
 
-BaselinefullMall+SPA/lagoon controlledcachetrace reproduced1.450GBrefaults;
-в capped5000events1470evictions с ещёактивнымlearnedhold, всеpressure, age266ms+.
-192+64MiBfixedtargetнедостижимпри609MBpinnedworking set, такчтодавлениевыбрасывает
-returningbufferбезвозможностидостичьtarget. WIPfix учитываетuniqueattributes
-в existingnonretireable/shared-ownercomponents; same64MiBidleallowance над
-max(192MiB,pinnedfloor), остальныеgrace/cleanup/data прежние. Не blindbudgetbump.
+## Последний физический M2 report и следующий шаг
 
-Source **b67979f1880cc32985265e963ad70122a84ac683**, branchcodex/active-geometry-refaults,
-тотжеworktree.36focusedchecksPASS; новые2tests failold16vs2 и passnew, samepeak/
-abandonmentreclaim. FullNode22buildPASS дофинальногоразмещенияbookkeeping;
-послеlatestsource runtimebundle/Workerrebuilt,cacheversiona496 прежняя.
-Nativebaseline60634completed. Candidatecache/realGLproof session **21711**,
-/workspace/qa/active-refault-candidate{,.log}, runnercheck-active-refault-proof.cjs.
-No otherGPUjobs. Текущийliveвсёещё1e0ea47; новыйpatchнеопубликован. ПослеNative
-comparison/pixelproof нужныall19+returns/phone/private2reload/CI/live/remoteSHA.
+Baseline 1e0ea4762167e0572c9c53121b975c6cd1ebbd70/app1a198981:
+54.167s session; worst framegap533.334ms/rolling432.6ms — прежняя8.9s пауза не
+повторилась в этом сеансе. Eventloop max1523.4ms, то есть все задержки не исчезли.
+FPS24.85 за12.033s, current19.38Mtri/3908calls/GPU24.32median/p9537.32ms,
+CPU render14.6median/p9540.9/max417.8ms, geometry608.9MB/JS2.126GB;
+1264refaults/508.8MB и588rapid/174.4MB. Это не контролируемый FPS рост относительно
+старого1.147Mtri/496calls report. User«красава осталось довести до идеала» —
+положительный отзыв о предыдущем результате, не visual approval Crimson Desert.
+Новый cache fix опубликован; следующий шаг — свежий M2 report той же камеры/
+loading/transition с новым app hashfec56d9990ec8549. Не обещать60FPS/«идеал»/полное
+исчезновение пауз. Не расширять scope/снижать качество без новых измерений.
+Диагностика opt-in, one-shot, закрываемая; обычная игра не открывает её сама.
+Предыдущий release1e0 сохранил Window MessageChannel FIFO раньше scheduler.yield;
+это устранение boosted continuation starvation не откатывать.
 
 ## Защищённые предыдущие изменения
+
 
 c199697c2bcf3d18efc3b250f71c1171badc8516/sourcefef3924: deferredMosasaur/bank/court
 root warmup до публикации; animatedcat colour/depth prep без изменения rigbounds/
@@ -103,25 +107,3 @@ b995a82:3compactSVG44pxvenuebuttons+actualWarehousecamera;
 unmerged. Не включать её/редизайнТРЦ/интерьерWarehouse/AI/экономику самовольно.
 CrimsonDesert — visualtarget, stable — regressionbaseline, d6fa805 — historicalbase.
 Не удалять старые worktrees/pre-existing scripts/__pycache__/ в ветке памяти.
-
-PR#14MERGED normal/noadmin: main **15cb5b4c20dd8acaf3a80818d9c1fb0ea0ce7992**,
-sourceb67979f1880cc32985265e963ad70122a84ac683. Source/main exacttree
-a2edf381fc9e4f958ef21a0c3bc2387e94ba05c9. Mainworkflow **44914901033** running;
-PRduplicate44914690669cancelledaftermerge. Liveпока1e0ea47, неclaimnewpublication.
-Nativecandidateproof21711PASS: refaultbytes1,450,375,695→1,368,164,071,
-**82,211,624bytesless**, trackedpeakEXACT616,583,450both. Только5.7% в этомшироком
-cycle, не обещатьсильнорастущийFPS; legitimatecoldreturnsприограниченномcacheостаются.
-TinyrealGLold/new:pixelchanged0, samepeak8400, lateuploads11760→0bytes,
-rapidreturns16→2; abandonment2520==originalbudget. Isolated64x64proof, gamestillDPR2.
-Actualfullwide19,206,975tri/3688calls returnbefore/after retirementpixelchanged0,
-GPU611,233,198→retired3,037,076→restored611,233,198, cats81/slots2191preserved,
-GLerror0/contextnotlost/DPR2. Eventtracescapped5000, heldcountssubsetsnotcomparable.
-Fullwholemap session **8436**, /workspace/qa/active-refault-all-map-final{,.log},
-unchangedfairnessready600QAhelper/realRAF/DPR2/19+2asserts. Phoneautoafterexit
-session **32667**, finish-active-refault-native.py, logactive-refault-native-finish.log.
-Publicationwatcher session **4303**, watch-active-refault-release.py. Expected
-JSfec56d9990ec8549b9bf147e5ae063e742fab6993601ef7b0417cb8c050a58cf,
-CSSsame1fd...; expectedfileactive-refault-expected-production.json, receipt
-/workspace/qa/active-refault-live/live-verification.json. НужноNative21/phone2reload
-+fullmainCI/livebytes, archiveall exactsource453modules, updateCURRENT/ROADMAP/
-standards/decisions иremoteSHA. Датьновыеигра/FPS?v=15cb5b4 толькопослеactualHTTP.

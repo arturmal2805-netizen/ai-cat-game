@@ -1,0 +1,3 @@
+V12 required buildings and full-detail island READY
+V12 actual game capture phone-overview 3715 19210975
+Warehouse open water: all 8 native sweeps and 2 private SQLite reloads PASS
