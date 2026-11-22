@@ -3335,3 +3335,12 @@ button.cat-profile-card {
 .venue-access[data-venue="warehouse"] svg{color:#9cdee3}
 .venue-access:focus-visible{outline:2px solid #ffe3a8;outline-offset:2px}
 .venue-access[aria-pressed="true"]{border-color:#f4d28e;background:#64513d}
+
+/* V14: these selectors affect only the new waterfront controls. */
+.waterfront-access svg{width:28px;height:28px;fill:none;stroke:#f5cba4;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.waterfront-panel{position:absolute;right:12px;top:90px;z-index:5;display:flex;flex-direction:column;gap:5px;max-height:min(58vh,570px);width:min(220px,48vw);overflow-y:auto;padding:12px;background:#152940ed;border:1px solid #d2aa6a;border-radius:18px;overscroll-behavior:contain}
+.waterfront-panel[hidden]{display:none}.waterfront-panel strong{padding:6px 0;color:#f8dfa5;font-size:13px}.waterfront-panel button{min-height:36px;padding:7px 9px;border:1px solid #c39b5d;border-radius:10px;background:#27394f;color:#fff0d3;font-size:12px}.waterfront-panel button[aria-pressed=true]{background:#6b4f35}.waterfront-panel button:disabled{opacity:.55}
+@media(max-width:600px){.waterfront-panel{top:82px;right:6px;width:174px;padding:8px}.waterfront-panel button{min-height:44px}}
+.waterfront-jump{position:absolute;right:18px;bottom:162px;z-index:8;min-height:58px;min-width:100px;border-radius:22px;border:2px solid #edcbff;background:#8659b9ed;color:white;font-weight:700;touch-action:none}.waterfront-jump[hidden]{display:none}
+.waterfront-view-toggle{position:absolute;right:18px;bottom:230px;z-index:8;width:58px;height:48px;border-radius:16px;border:1px solid #e4c7ff;background:#453368ec;color:white;touch-action:manipulation}.waterfront-view-toggle[hidden]{display:none}
+.waterfront-dive-control{touch-action:manipulation;user-select:none;position:absolute;right:18px;bottom:230px;z-index:8;min-width:100px;min-height:48px;border-radius:18px;border:1px solid #c8eafa;background:#285d81ed;color:white}.waterfront-dive-control[hidden]{display:none}.waterfront-dive-control:disabled{opacity:.6}.waterfront-view-toggle{right:128px;bottom:162px}

@@ -7,9 +7,10 @@ import {mallPressureContact} from './mall-pressure.js';
 import {pushCapsule} from './submarine-physics.js';
 
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-export function createOceanSwimmer(raw,{radius=.6,obstacles=mosaTerrainObstacles()}={}){
+export function createOceanSwimmer(raw,{radius=.6,obstacles=mosaTerrainObstacles(),extraClear=()=>true}={}){
   const state={...raw,vertical:0};let jumping=false;
   function clear(p){
+    if(!extraClear(p,radius))return false;
     if(!oceanWaterContains(p.x,p.z,2)||p.y<mosaBedY(p.x,p.z)+.15)return false;
     const body={x:p.x,y:p.y+.7,z:p.z};
     if(mosaReefClearance(body.x,body.y,body.z)<radius||mallPressureContact(body.x,body.y,body.z,radius))return false;

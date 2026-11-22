@@ -1,3 +1,5 @@
+import {WATERFRONT} from './waterfront-data.js';
+import {waterfrontDrySupport} from './waterfront-navigation.js';
 import {worldRoads,WORLD_ROAD_WIDTH} from './world-roads.js';
 import {BIOMES,byBiome} from './game-data.js';
 import {activeCats} from './cat-roster.js';
@@ -16,6 +18,7 @@ function inIsland(p,b,game,roads=false){
     if(section>=housingSectionCount(game.housing))return false;
     x+=section*HOUSING_SECTION_PITCH;
   }
+  if(b.id==='autumn'){const s=waterfrontDrySupport({x:p.x-WATERFRONT.x,z:p.z-WATERFRONT.z},.55);if(s&&Math.abs(p.y-s.y)<.8)return true;}
   return Math.hypot(x,p.z)<(b.radius||11.65)-.2||roads&&onRoad(p,b,game);
 }
 export function normalizeCatLocations(raw,game,now=Date.now()){

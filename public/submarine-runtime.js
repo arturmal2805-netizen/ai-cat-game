@@ -16,12 +16,12 @@ import {catNavigationRadius} from './cat-navigation-size.js';
 import {byBiome} from './game-data.js';
 import {MOSA_SEA} from './mosasaur-data.js';
 
-export function createSubmarineRuntime({container,canvas,camera,look,actor,getModel,getIsland,getGame,getFocused,cancelHero,approachDock,canPilot=()=>true,scene,focus,getMall=()=>null,onError=()=>{},onLandExit=()=>{}}){
+export function createSubmarineRuntime({container,canvas,camera,look,actor,getModel,getIsland,getGame,getFocused,cancelHero,approachDock,canPilot=()=>true,scene,focus,getMall=()=>null,onError=()=>{},onLandExit=()=>{},extraOceanClear=()=>true}){
  const physics=createSubmarinePhysics(getGame().mosasaurSubmarine),state=physics.state,biome=byBiome('autumn'),centre=new T.Vector3(biome.center[0],0,biome.center[1]);
  const anchor=new T.Group();anchor.position.copy(centre);scene.add(anchor);let boat=null,disposed=false;
  const saved=state.explorer;
  let phase=saved?.mode||(state.active?'piloting':'docked'),controlled=phase!=='docked'&&!saved?.returning&&!state.released,age=0,returning=false,returnRoute=null,boatReturning=!!state.returning,boatRoute=boatReturning?createSubmarineReturn(state):null;
- let swimmer=saved?createOceanSwimmer(saved,{radius:catNavigationRadius(getModel())}):null,returningExplorer=!!saved?.returning,swimReturn=swimmer&&returningExplorer?createSubmarineReturn(swimmer.state):null;
+ let swimmer=saved?createOceanSwimmer(saved,{radius:catNavigationRadius(getModel()),extraClear:extraOceanClear}):null,returningExplorer=!!saved?.returning,swimReturn=swimmer&&returningExplorer?createSubmarineReturn(swimmer.state):null;
  if(phase==='piloting'&&!controlled){returning=true;returnRoute=createSubmarineReturn(state);}
  let wantLandControl=false;
  let touchMove=null,touchDepth=null,boatTap=null,lastTap=null,touchJump=0;
@@ -78,11 +78,11 @@ export function createSubmarineRuntime({container,canvas,camera,look,actor,getMo
   clear();state.active=false;returning=false;
   if(physics.atDock()){phase='exiting';age=0;start.copy(actor.position);return true;}
   const radius=catNavigationRadius(getModel()),candidate={mode:'swimming',floor:0,x:state.x,y:state.y+.6,z:state.z,yaw:state.yaw,returning:false};
-  const trial=createOceanSwimmer(candidate,{radius});let spawn=null;
+  const trial=createOceanSwimmer(candidate,{radius,extraClear:extraOceanClear});let spawn=null;
   // Find a clear place beside the real hull, not inside it or through glass.
   spawnSearch:for(const r of [3.2,4.5,6])for(const angle of [Math.PI/2,-Math.PI/2,Math.PI,0]){const p={...candidate,x:state.x+Math.sin(state.yaw+angle)*r,z:state.z+Math.cos(state.yaw+angle)*r};if(trial.clear(p)){spawn=p;break spawnSearch;}}
   if(!spawn){state.active=true;return false;}
-  returningExplorer=false;swimReturn=null;state.speed=0;state.vertical=0;swimmer=createOceanSwimmer(spawn,{radius});phase='swimming';pan=tilt=0;actor.rotation.set(0,state.yaw,0);cameraFollow.reset();resetExplorerView();return true;
+  returningExplorer=false;swimReturn=null;state.speed=0;state.vertical=0;swimmer=createOceanSwimmer(spawn,{radius,extraClear:extraOceanClear});phase='swimming';pan=tilt=0;actor.rotation.set(0,state.yaw,0);cameraFollow.reset();resetExplorerView();return true;
  }
  async function controlChichi(){
   if(!canPilot()||!getGame().unlocked.includes('autumn'))return false;
@@ -96,7 +96,7 @@ export function createSubmarineRuntime({container,canvas,camera,look,actor,getMo
   }
   if(!mode&&p.y<MOSA_SEA.surfaceY&&oceanWaterContains(p.x,p.z,2))mode='swimming';
   if(!mode)return false;focus('autumn',false,true);if(!canPilot())return false;
-  const next=createOceanSwimmer({...p,yaw:actor.rotation.y,floor:mode==='mall'?floor:0,mode},{radius});if(mode==='swimming'&&!next.clear(next.state))return false;
+  const next=createOceanSwimmer({...p,yaw:actor.rotation.y,floor:mode==='mall'?floor:0,mode},{radius,extraClear:extraOceanClear});if(mode==='swimming'&&!next.clear(next.state))return false;
   cancelHero();swimmer=next;phase=mode;controlled=true;returningExplorer=false;returning=false;route=[];clear();resetExplorerView();return true;
  }
  function boatHome(){boatReturning=true;boatRoute=createSubmarineReturn(state);}
