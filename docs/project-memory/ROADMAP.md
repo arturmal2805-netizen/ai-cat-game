@@ -1,3 +1,5 @@
+22 ноября2026: V14 main970800c/source2254018 merged. Native thirdperson phone/desktop PASS. Дождаться workflow45016375295 wholeSUCCESS иactualHTTP+Worker; сразу датьигрокуссылку. Никаких новыхкосметическихэтаповдоэтого. ТочныеSHA/ограничения — CURRENT.
+
 # Очередь
 
 21 ноября2026: опубликован main **d0d944acdc83ab69c1337d85e77c0471b044cb7a**, source **5c198b50bbf986f1381d5090abfc8b9f2a93d4f9**.

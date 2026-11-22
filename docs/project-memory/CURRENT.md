@@ -4,47 +4,43 @@
 Приложение в ветке памяти старое: актуальный код указан ниже.
 [Предыдущие checkpoint и неуспешные попытки](history/CURRENT-before-toolbar-camera-publication-2026-11-21.md).
 
-## Активная работа — V14 (пока не опубликовано)
+## V14 объединён — публикация проверяется
 
-22 ноября2026, Europe/Kyiv. Source `/workspace/chichi-v12-island-warehouse`,
-ветка `codex/v14-waterfront`, remote HEAD **2254018f6abbfd32da0e678bc895a340497964df**,
-producer **bb7d53bff0c03edbd18cb240293bb2d27168769b**. PR#17draft, main покаd0d944a.
-Пользователь ИСПРАВИЛ запрос: прыжки от **ТРЕТЬЕГО лица**, не от первого.
-Третий вид теперь default при управлении батутом:7.2mbehind/.28radpitch, весь
-approved native кот/лапки/поверхность видны. Обычный worldmanual camera default
-прежний. V остаётся только явным optional1↔3, не запускать от глаз автоматически.
-Пользователь просит satisfying анимацию: проверить живую подготовку/прогиб/
-физический отрыв/полет/пружное приземление, нарастающие прыжки и большой всплеск.
+22 ноября2026, Europe/Kyiv. Main **970800ccf7e53d1e4a128ecefe8fd2e491787a9c**,
+source **2254018f6abbfd32da0e678bc895a340497964df**, producer **bb7d53bff0c03edbd18cb240293bb2d27168769b**.
+PR#17 normalmerge безadmin/bypass. Publictree обоих одинаковый
+**c7fbe37e4950dc431b956f18f0796183a55e23f5**. Workflow **45016375295** идёт;
+НЕ объявлять опубликованным до test/deploy/pages иactualHTTP+WorkerfullSHA.
+Code worktree `/workspace/chichi-v12-island-warehouse`, branchcodex/v14-waterfront.
 
-Runtime spring-v3/contact/catposes/ballistics9.81/queue6/6AIoffers/safe saves
-сохранены. Новые ресторан/набережная/стеклянный habitat/мост/батут — прежняя зона
-`[1140,-342]`. Защищённые ТРЦ/SPA/Warehouse/116sourcefiles unchanged. Exact native
-buffers/materials/transforms/light/DPR baseline d0d944a уже PASS; final19views на
-56f305e [сохранены напрямую](../qa/2026-11-22/waterfront-v14/release-desktop/).
-2privateSQLite reloads PASS: все34initial native poses/yaws/locations, wallets,
-inventory/placements/personalcoins exact. Эти persistence/architecture modules
-не менялись в последнем UI-only/default-camera исправлении. Не выдавать старые
-PNG за новый camera-input capture. Финальный thirdperson native ещё идёт:
-`/workspace/qa/waterfront-v14-third-phone`, runner `check-waterfront-v14-third-final.cjs`,
-helper `waterfront-v14-third-final.mjs`, session98535; затем тот же desktop runner.
-Один GPU. Не менять public/build при активном hardlinked QA.
+User исправил запрос FIRST→**THIRD PERSON**. Default батут thirdperson7.2m/.28rad;
+whole native кот/лапки/landing видны. V остаётся optional. Сохраненыspring-v3,
+подготовка/полёт/приземление,9.81gravity,высокиерастущиепрыжки,6active/очередь,
+всеfree+forcedbusyЧичи,большойвсплеск/swim/climb. Новаяwaterbutton использует
+boundedtrustedtouchrelease/capture/cancel: raw enabled-touch trace не имелclick.
+Mouse/keyboardclick сохранён; duplicate compatibility click не запускает дважды.
 
-Phone failure найден фактически: trustedtouch down/up дошли до enabled button,
-editablecloudtrue, но browser НЕ создалclick послеcamera gesture. Теперь новый
-water control обрабатывает boundedtouchrelease сcapture/cancel/drag guards;
-обычныйmouse/keyboardclick сохранён, runtimeотвергаетповторнуюcompatibilityclick.
-CSS touch-actionmanipulation. Четыре failedattempts/raw events/source/helpers
-сохранены в `phone-touch-failed-attempts.tar.gz`.36targetedchecks иNode22fullbuild
-новогоthirddefaultPASS;62relatedtouchchecksPASS. FullCI44960985278 PASS на прежнем
-56f305e. Новый source2254018 проходитPRCI; mainworkflow fulltest/deploy/pages и
-actual HTTP+Worker fullSHA обязательны перед объявлением публикации. Normalmerge,
-безadmin/bypass. Не расширять scope новыми косметическими этапами до релиза.
+Final phone+desktop native PASS наclean2254018,466source modulesexact;
+7hops2.5→43.31m, actualpeak40.78m, полныйвидимыйnativebody вкадре, реальные
+WASD/Space/heldtouch/look/water действия,0JS/HTTP/GLerrors. Старые3nativebuffers/
+materials/transforms/globallights/DPR сноваexact0diff. [Phone](../qa/2026-11-22/waterfront-v14/third-person-phone/) ·
+[Desktop](../qa/2026-11-22/waterfront-v14/third-person-desktop/).
+Текущая privatefixture имеет0freeNPC: проверенывсеeligible+Чичи; earlier13/6positive
+иpure30queuePASS сохранены. Failedbbox probe включалhiddenbranches/матрицыдоdraw;
+correctedизмеряетtraverseVisible nativeverticesпослеdraw. Failedattempts хранить.
 
-JS **0e47a2b458e7d21c3ba8aeaa729fd14b48eee7a036056d92cd1a54ecc43f9f06**,
-CSS **6009872ae8865f57fb8d358ee2e71be2eac6ad5bdac240cba496a6664983b2d3**,
-oneapp. Originalcontract/spec/provenance в source `docs/specifications/`;
-inline art originalbytes unavailable. GTA6/1:1/physical60FPS/userartapproval не
-подтверждены. Pause raster/manualstep — QA preparation, не performance evidence.
+[19nativeviews+2privateSQLite restores](../qa/2026-11-22/waterfront-v14/release-desktop/)
+на56f305e сохранены: rendering/physics/economy/persistence sources unchanged,
+после них изменялись толькоnewUI/defaultcameraentry/world/manual иCSS. Все34
+initialrestorednativeposes/yaws/locations/banks/inventory/placements/personalcoins
+exact. Currentprimarycamera/body/contact/water смотрены вfinalcaptures выше.
+36currenttargetedNode22checks/fullbuildPASS,62relatedtouchchecksPASS; прежнийfull
+CI44960985278PASS. Новый PRCI45015643305 иmainCI45016375295 пока проверяются.
+JS **0e47a2b458e7d21c3ba8aeaa729fd14b48eee7a036056d92cd1a54ecc43f9f06**;
+CSS **6009872ae8865f57fb8d358ee2e71be2eac6ad5bdac240cba496a6664983b2d3**; oneapp.
+Не добавлять новые этапы до релиза. Mainoldstable ниже остаётся live доactualreceipt.
+GTA6/1:1/physical60FPS/userartapproval не заявлять. Source/fullspec/protection116
+вdocs/specifications; originalinlineimagebytes недоступны, не выдумыватьhash.
 
 ## Опубликовано
 

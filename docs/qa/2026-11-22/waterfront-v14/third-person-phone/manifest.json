@@ -1,0 +1,43 @@
+{
+  "source": "2254018f6abbfd32da0e678bc895a340497964df",
+  "scope": "Phone390x844,coarse,DPR2,actualheldtouch,WASD,7increasingjumps,defaultthirdperson/bodyfullyvisible,physicalwaterentryandtrustedpointerupafterlookgesture. SoftwareGPU,notphysicalphoneFPS.",
+  "previousAttempt": "waterfront-v14-third-phone whole Box3 included non-rendered branches/camera matrices before draw; corrected probe samples traverseVisible native vertices after actual draw/camera update. Original PNG showed full body. Failed assertion not counted asPASS.",
+  "files": {
+    "actual-third-person-controls.png": {
+      "bytes": 867656,
+      "sha256": "9bd814068e74fb4773114731df867098629ede14ee937f6a718f4378f84e2e7e"
+    },
+    "exact-source-and-runner.tar.gz": {
+      "bytes": 2547072,
+      "sha256": "668c856d83067acd2dc284ea3ec3c64222b56100c5738a1a3539c40162dd0f13"
+    },
+    "qa-build.json": {
+      "bytes": 233,
+      "sha256": "7409a658604564b8bb5ef3d7372d8bae733c75a2bff5331959b7b7c9f768f793"
+    },
+    "source-files.json": {
+      "bytes": 43301,
+      "sha256": "c36e0bce96d5be64f135017411178ad103577a1117c06533cfb0debf41f0cf0b"
+    },
+    "third-person-high-jump.json": {
+      "bytes": 1189,
+      "sha256": "afee76bc43a4ea45ae02f6819e313c19ce0db6b1e8cfeb0472739d897686c2da"
+    },
+    "third-person-high-jump.png": {
+      "bytes": 1221655,
+      "sha256": "e0b443f91af5271d4af71abf35f22c15f797a616d3aa0eaa30bd899827a25f93"
+    },
+    "third-person-native.json": {
+      "bytes": 4248,
+      "sha256": "1aee9f61d8d0decac64cae52ec426dbeab84bd96213896589c95aaee1f9f99c2"
+    },
+    "third-person-water-splash.json": {
+      "bytes": 1194,
+      "sha256": "b0a0364b20b82b26eb09cd538acb71c72e2958f962ce89f70136e551201d8737"
+    },
+    "third-person-water-splash.png": {
+      "bytes": 1389692,
+      "sha256": "2f568299397ef9dcf91dacc36d661b87b2a6e5b152ba94f424f3bf40f116ce77"
+    }
+  }
+}

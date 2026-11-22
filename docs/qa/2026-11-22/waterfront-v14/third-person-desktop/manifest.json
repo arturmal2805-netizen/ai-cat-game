@@ -1,0 +1,74 @@
+{
+  "source": "2254018f6abbfd32da0e678bc895a340497964df",
+  "main": "970800ccf7e53d1e4a128ecefe8fd2e491787a9c",
+  "publicTree": "c7fbe37e4950dc431b956f18f0796183a55e23f5",
+  "scope": "Complete native visible-vertex bounds after draw, DPR2, actual input,7 increasing jumps, compression/flight/landing/water/swim. Protected native old3 exact.",
+  "group": "Current fixture has no free NPCs; all eligible IDs plus forced Chichi asserted. Earlier13cat/6active and pure30queue positive cases preserved.",
+  "limitations": "Software GPU/manual clock, no physicalFPS/AAA/artistic approval.",
+  "files": {
+    "actual-third-person-controls.png": {
+      "bytes": 2106020,
+      "sha256": "b443065120370eff32969ec8b8140b73ad2575ec37277cf3b2f552d3030852bc"
+    },
+    "exact-source-protected-snapshot-and-runner.tar.gz": {
+      "bytes": 4019224,
+      "sha256": "216582631bbd678877d3ea0236e7f24a332b0fe2d2a129594046560e4d3d7235"
+    },
+    "protected-comparison.json": {
+      "bytes": 77,
+      "sha256": "520bebb694ce0df3a0bcabec13b960107d1cc52500d7b6aacb5550904f68d7bb"
+    },
+    "qa-build.json": {
+      "bytes": 233,
+      "sha256": "7409a658604564b8bb5ef3d7372d8bae733c75a2bff5331959b7b7c9f768f793"
+    },
+    "source-files.json": {
+      "bytes": 43301,
+      "sha256": "10c9ebbdef8d50a979cd98cbaafeef27a362f6956cc5e33835e748b73bf1830d"
+    },
+    "third-person-high-jump.json": {
+      "bytes": 1197,
+      "sha256": "8d5a0b1efcfbfab686ea5f7ecf5d7faa624a09563fe9031d858a27696c8f5c5b"
+    },
+    "third-person-high-jump.png": {
+      "bytes": 3062504,
+      "sha256": "cc90ee6dfff7ee9b682256f2e198ace38a3ac6e0c2685acf6c7f79eb8e17c2ad"
+    },
+    "third-person-native.json": {
+      "bytes": 8372,
+      "sha256": "8f2a06bccb6ffe08f2fdf2699f2c885986a0eefa765f001fdbb729dd7e0b682a"
+    },
+    "third-person-net-compression.json": {
+      "bytes": 1193,
+      "sha256": "ee002a47405389f103b1dc2bd6e96ed6d8b1857f85ed9b6f88de871129ce7f30"
+    },
+    "third-person-net-compression.png": {
+      "bytes": 1701935,
+      "sha256": "cbd44804918ed6163b4f215b93a32be8fda5b2111da4568bcfdda86519e73004"
+    },
+    "third-person-spring-landing.json": {
+      "bytes": 1176,
+      "sha256": "a0e41356ab0670396af4af8c3216aa47bd29a9c899f0a98d959c02b0fceeae07"
+    },
+    "third-person-spring-landing.png": {
+      "bytes": 1706676,
+      "sha256": "8fb3db0b975bc6ec79b3528fc4644d73df0a4ccac1895283787675b6c49f17d9"
+    },
+    "third-person-water-splash.json": {
+      "bytes": 1201,
+      "sha256": "4dafdc54028428babbc1d2fdeb9185dee60a534a4f377200760d0cacd0943fd8"
+    },
+    "third-person-water-splash.png": {
+      "bytes": 3545884,
+      "sha256": "5c85d05230f474fa725b2f27061bee1461e1d8424daa03df4191d917abafe1e8"
+    },
+    "third-person-water-swimming.json": {
+      "bytes": 1195,
+      "sha256": "1f686f8c09d49e04834c3d639f63b1ac8e36a667b7d3a9a9a657d146538f1e43"
+    },
+    "third-person-water-swimming.png": {
+      "bytes": 3580780,
+      "sha256": "c6924f342b55a6d07f895039cae97d86e8b0bf9340fa6405d6e578a2c549d0f5"
+    }
+  }
+}
