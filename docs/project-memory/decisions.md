@@ -962,3 +962,11 @@ User отдельно попросил проработать прыжки от 
 exact protected comparison/group/7progressive hops PASS, full desktop+phone ещё
 идут на source d2e9a8b73beaa33dd49d1e0d287001bea417f5ee. Обнаруженное downward
 net winding исправить перед финальной проверкой. V14 ещё не опубликован.
+
+## 2026-11-22 — corrected third-person request and real phone touch release
+
+User исправил first→THIRD person.2254018f6abbfd32da0e678bc895a340497964df сохраняет
+corephysics/architecture/saves, defaultcamera7.2m/.28rad иреальныйboundedtouchup
+дляновойwaterbutton. Raw native phone trace подтвердил trustedpointerup безclick
+наenabledcontrol/editablecloud. Не менятьглобальныеinputhandlers.36targeted/fullbuild
+PASS,finalnativepending; не объявлятьfeature опубликованнойдоactualmainHTTP.

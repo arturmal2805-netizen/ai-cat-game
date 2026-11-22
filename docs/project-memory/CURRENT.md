@@ -4,52 +4,47 @@
 Приложение в ветке памяти старое: актуальный код указан ниже.
 [Предыдущие checkpoint и неуспешные попытки](history/CURRENT-before-toolbar-camera-publication-2026-11-21.md).
 
-## Активная работа — V14 (ещё не опубликовано)
+## Активная работа — V14 (пока не опубликовано)
 
 22 ноября2026, Europe/Kyiv. Source `/workspace/chichi-v12-island-warehouse`,
-ветка `codex/v14-waterfront`, remote HEAD **56f305e21abf87a1be8f40ee2c3761a6a840d110**,
-runtime producer **8e3a4d321f253f7ea5b39a2877bec849a0e21c52**. PR#17draft.
-Full request `docs/specifications/waterfront-v14-2026-11-21.md`; contract ac99f40.
-Новая зона autumn-local `[1140,-342]`, старые комплексы/их камеры не менять.
-116 source hashes совпали; native exact buffers/materials/transforms/light/DPR
-старых3зданий при общем animation time7 совпали с опубликованным d0d944a.
-Inline reference просмотрен; байты недоступны, не выдумывать original image hash.
+ветка `codex/v14-waterfront`, remote HEAD **2254018f6abbfd32da0e678bc895a340497964df**,
+producer **bb7d53bff0c03edbd18cb240293bb2d27168769b**. PR#17draft, main покаd0d944a.
+Пользователь ИСПРАВИЛ запрос: прыжки от **ТРЕТЬЕГО лица**, не от первого.
+Третий вид теперь default при управлении батутом:7.2mbehind/.28radpitch, весь
+approved native кот/лапки/поверхность видны. Обычный worldmanual camera default
+прежний. V остаётся только явным optional1↔3, не запускать от глаз автоматически.
+Пользователь просит satisfying анимацию: проверить живую подготовку/прогиб/
+физический отрыв/полет/пружное приземление, нарастающие прыжки и большой всплеск.
 
-First-person от настоящих глаз Чичи, V/кнопка1↔3, реальный WASD/touch, held Space/
-кнопка для возрастающих прыжков, подготовка/полёт/контакт/приземление approved rig.
-Water action сохраняет first-person через погружение/swim/автовозврат. UI44px в
-видимом viewport. Уникальные dry reservations для airborne saves/rest-height на
-деформируемой сетке. Все свободные + forced busy Чичи, очередь6активных, без дублей.
-Persistent8-node springs/120Hz, единая CPU/colour/depth деформация. Corrected
-upward triangle winding: старая сине-чёрная сетка была backface shading defect;
-независимый normal/triangle/ray test воспроизвёл ошибку и теперь PASS. Third-person
-pitch ограничен при возврате после look-down, остальные режимы прежние.
+Runtime spring-v3/contact/catposes/ballistics9.81/queue6/6AIoffers/safe saves
+сохранены. Новые ресторан/набережная/стеклянный habitat/мост/батут — прежняя зона
+`[1140,-342]`. Защищённые ТРЦ/SPA/Warehouse/116sourcefiles unchanged. Exact native
+buffers/materials/transforms/light/DPR baseline d0d944a уже PASS; final19views на
+56f305e [сохранены напрямую](../qa/2026-11-22/waterfront-v14/release-desktop/).
+2privateSQLite reloads PASS: все34initial native poses/yaws/locations, wallets,
+inventory/placements/personalcoins exact. Эти persistence/architecture modules
+не менялись в последнем UI-only/default-camera исправлении. Не выдавать старые
+PNG за новый camera-input capture. Финальный thirdperson native ещё идёт:
+`/workspace/qa/waterfront-v14-third-phone`, runner `check-waterfront-v14-third-final.cjs`,
+helper `waterfront-v14-third-final.mjs`, session98535; затем тот же desktop runner.
+Один GPU. Не менять public/build при активном hardlinked QA.
 
-**62related checks PASS**, Node22fullbuild PASS. App JS SHA256
-**aa2a920989f5f7a5bc63c487218f4cf2b7daa7752adcbbbd7b29f1b15ee01b2f**,
-CSS **ed0f6fc4c986acd5e3ad1ee3d6d70ad7e36cea229f266afc45c618feab881f7a**,
-одно app. Final desktop `/workspace/qa/waterfront-v14-release-desktop` завершён
-PASS на clean56f305e: все19views,466source modulesexact, protectednative0diff,
-realmouse lookdown/V (third pitch.2736), group13/6,7hops,firstpersonwater,
-**2privateSQLite reloads** (все34savednative initialposes/yaws иполныеbanks,
-inventory/placements/personalcoins/catLocations exact). JS/HTTP/GL errors0.
-[Прямые PNG/video/provenance](../qa/2026-11-22/waterfront-v14/release-desktop/).
-Телефон: actualheldtouch/movement/7hops/view/look/44px PASS, явный water tap пока
-не перевёл runtime изplayer. Две attempts не считаютсяPASS; третий trace проверяет
-доставку nativeclick/возвратобычногоonclick. Session8090,
-`/workspace/qa/waterfront-v14-release-phone-click`. Не менять public/build при
-активном hardlinked QA. CI44960985278 fulltest ещё идёт. Один GPU за раз. Full CI/обычный merge/main
-workflow/actual live HTML+JS+CSS+assets+Worker SHA ещё впереди; PRskipped не publish.
+Phone failure найден фактически: trustedtouch down/up дошли до enabled button,
+editablecloudtrue, но browser НЕ создалclick послеcamera gesture. Теперь новый
+water control обрабатывает boundedtouchrelease сcapture/cancel/drag guards;
+обычныйmouse/keyboardclick сохранён, runtimeотвергаетповторнуюcompatibilityclick.
+CSS touch-actionmanipulation. Четыре failedattempts/raw events/source/helpers
+сохранены в `phone-touch-failed-attempts.tar.gz`.36targetedchecks иNode22fullbuild
+новогоthirddefaultPASS;62relatedtouchchecksPASS. FullCI44960985278 PASS на прежнем
+56f305e. Новый source2254018 проходитPRCI; mainworkflow fulltest/deploy/pages и
+actual HTTP+Worker fullSHA обязательны перед объявлением публикации. Normalmerge,
+безadmin/bypass. Не расширять scope новыми косметическими этапами до релиза.
 
-Предыдущий d2e9native дал19views/exactprotection/group13active6/реальныйWASD/
-7hops2.60→43.69m/V/nativeeye/waterentry/swim и24framesvideo. Балансы/инвентарь/
-личные кошельки прошли reload. CatLocations equality после автономногоRAF FAIL:
-котики успели начать обычное движение, занятая Чичи работу. Не считать этот run
-полнымPASS. Следующий audit останавливает только autonomousRAF ДО первого кадра
-reload и сравнивает initialnative координаты/yaw/полные game locations и банки.
-Нормальную автономию в product не отключать. Raw failed attempt/source/helpers/
-PNG/video/timedbaseline сохранены [в QAархивах](../qa/2026-11-22/waterfront-v14/).
-GTA6/точное сходство/60FPS — не подтверждённые обещания, user visual approval нет.
+JS **0e47a2b458e7d21c3ba8aeaa729fd14b48eee7a036056d92cd1a54ecc43f9f06**,
+CSS **6009872ae8865f57fb8d358ee2e71be2eac6ad5bdac240cba496a6664983b2d3**,
+oneapp. Originalcontract/spec/provenance в source `docs/specifications/`;
+inline art originalbytes unavailable. GTA6/1:1/physical60FPS/userartapproval не
+подтверждены. Pause raster/manualstep — QA preparation, не performance evidence.
 
 ## Опубликовано
 
