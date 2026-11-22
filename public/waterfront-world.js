@@ -58,7 +58,7 @@ export function createWaterfrontWorld({
     wantPlayer = false,
     playerStarted = false,
     jumpHeld = false,
-    firstPerson = true;
+    firstPerson = false;
   const access = document.createElement("button");
   access.className = "venue-access waterfront-access";
   access.dataset.venue = "waterfront";
@@ -96,9 +96,9 @@ export function createWaterfrontWorld({
     () => void controlPlayer(),
   );
   playerButton.dataset.waterfrontPlayer = "";
-  const viewButton = button("👁 Від очей Чічі · V", () => {
+  const viewButton = button("🐈 Від третьої особи · V", () => {
     if (!playerStarted) {
-      firstPerson = true;
+      firstPerson = false;
       void controlPlayer();
       return;
     }
@@ -107,7 +107,7 @@ export function createWaterfrontWorld({
   viewButton.dataset.waterfrontFirstPerson = "";
   const viewToggle = document.createElement("button");
   viewToggle.className = "waterfront-view-toggle";
-  viewToggle.textContent = "1 ↔ 3";
+  viewToggle.textContent = "3 ↔ 1";
   viewToggle.setAttribute("aria-label", "Перемкнути перше або третє лице");
   viewToggle.hidden = true;
   viewToggle.onclick = () => toggleView();
@@ -449,6 +449,8 @@ export function createWaterfrontWorld({
   async function controlPlayer() {
     if (!canSimulate() || !(await ensure())) return false;
     wantPlayer = true;
+    firstPerson = false;
+    onViewChange();
     playerStarted = false;
     pendingHero = true;
     await tryHero();

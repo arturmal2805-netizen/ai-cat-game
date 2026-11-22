@@ -119,3 +119,13 @@ keep that provenance honest, do not synthesize a substitute as the original.
   compatibility click after the first route starts. Added touch-action manipulation.
   Only new button/UI changed; all rendered geometry/physics/cameras remain exact.
   Recheck the same native phone gesture sequence before normal merge/publication.
+
+22 November, latest player correction: THIRD PERSON, not first person.
+- Player clarified the earlier request was mistaken. Default trampoline control
+  is now third person; V remains an explicit optional switch. Native camera
+  starts7.2m behind at.28rad pitch to keep the complete approved body, paws/net
+  and landing area visible. Ordinary-world camera defaults are unchanged.
+- Scope bounded for publication: preserve validated continuous spring contact,
+  true gravity, preparation/air/landing rig reactions and increasing jump chain.
+  Final real-input native check must use this default third-person view and the
+  repaired phone touch release. Do not claim this new source was already live.

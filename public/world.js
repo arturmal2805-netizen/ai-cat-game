@@ -6151,7 +6151,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     canInvite:(id,options={})=>id==='chichi'?canControlChichi()&&!submarine?.active&&(options.force||!mall?.has(id)&&!resortSpa?.has(id)&&!heroGather&&availableGatherCats().includes(id)):waterfront?.has(id)?!waterfront.unsafe(id):freeSpaGuest(id)&&!resortSpa?.has(id),
     prepareHero:()=>{if(callbacks.canSimulateLeisure?.()===false)return false;if(submarine?.active){submarine.releaseControl();return false;}if(waterfront?.unsafe('chichi')||resortSpa?.transportFrame('chichi'))return false;return true;},
     hold:id=>{const n=npcs.get(id);if(n)n.manualUntil=performance.now()+60000;},
-    onPlayerStart:()=>manualWalk?.start()||false,onViewChange:()=>waterfrontFirstPerson.reset(),
+    onPlayerStart:()=>manualWalk?.start({pitch:.28,distance:7.2})||false,onViewChange:()=>waterfrontFirstPerson.reset(),
     reserve:id=>{if(id==='chichi'){manualWalk?.stop();callbacks.onControlChichi?.();cancelHeroActivity();heroGather=null;jobs.cancel(id);crew.cancel(id);housingLife.cancel?.(id);}else{cancelResident(id,true);const n=npcs.get(id);if(!n)return false;n.manualAnchor={x:n.carrier.position.x,z:n.carrier.position.z};n.manualUntil=performance.now()+3600000;n.leisureBiome='autumn';}return true;},
     onPark:(id,p)=>{if(!p)return;const carrier=id==='chichi'?chichiCarrier:npcs.get(id)?.carrier;if(carrier)carrier.position.copy(p);const n=npcs.get(id);if(n){n.manualAnchor={x:p.x,z:p.z};n.manualUntil=performance.now()+90000;}gatherSavePending=true;},
     onComplete:(id,result)=>{if(result.ticket)finishLeisure(id,result);},onError:message=>callbacks.onReaction?.(message),
