@@ -1,3 +1,4 @@
+import {warehouseOffers,warehouseActivity} from './warehouse-access-data.js';
 import {waterfrontOffers,waterfrontActivity} from './waterfront-data.js';
 import {mallOffers,mallStore} from './mall-data.js';
 import { byItem, BIOMES } from "./game-data.js";
@@ -32,7 +33,7 @@ export function leisureOffers(game, now = Date.now()) {
       .map((p) => ({ ...p, type: p.item })),
   ];
   const seen = new Set();
-  return [...mallOffers(game),...waterfrontOffers(game), ...objects.flatMap((o) => {
+  return [...warehouseOffers(game),...mallOffers(game),...waterfrontOffers(game), ...objects.flatMap((o) => {
     if (seen.has(o.id) || !game.unlocked.includes(o.biome)) return [];
     seen.add(o.id);
     const item = byItem(o.type),
@@ -76,7 +77,7 @@ export function validateLeisureOffers(raw = []) {
       !/^[\w-]{1,90}$/.test(o.id) ||
       seen.has(o.id) ||
       !BIOMES.some((b) => b.id === o.biome) ||
-      !(waterfrontActivity(o.id)?waterfrontActivity(o.id).action===o.action&&o.type===o.id&&o.biome==="autumn":mallStore(o.id) ? mallOffers({unlocked:["autumn"]}).find(p=>p.id===o.id)?.action===o.action && o.type===o.id && o.biome==="autumn" : activityActions(o).includes(o.action)) ||
+      !(warehouseActivity(o.id)?warehouseActivity(o.id).action===o.action&&o.type===o.id&&o.biome==="autumn":waterfrontActivity(o.id)?waterfrontActivity(o.id).action===o.action&&o.type===o.id&&o.biome==="autumn":mallStore(o.id) ? mallOffers({unlocked:["autumn"]}).find(p=>p.id===o.id)?.action===o.action && o.type===o.id && o.biome==="autumn" : activityActions(o).includes(o.action)) ||
       !priorities.includes(o.action)
     )
       throw Error("Invalid leisure offer");
