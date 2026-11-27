@@ -30,12 +30,16 @@ Desktop724601a: auto4растущихпрыжка2.5/5.5/11/20→dive/splash/swi
 2.5→43.3096m, nativepeak40.58m, compression/landing/dive/splash/swim screenshots.
 Mall/SPA native geometry/material/poses exact, DPR2/lights at same target exact.
 Warehouse product view был визуально отклонён из-за короткого slope, не публиковать724.
-Final985 desktop native сейчас идёт; PNG product показывает полный корпус, bedray0.
-QAroot `/workspace/qa/warehouse-threefold-native-desktop`, helper
-`/workspace/qa/check-warehouse-threefold.cjs`, env как в log scripts/session summary.
-One GPU at a time, не менять public/build пока QA идёт. Следом phone с реальными
-кнопками и двумя privateSQLite deep saves (helperwarehouse-threefold-deep-save.mjs).
-CI PR985 **46001305748** идёт; старый724CI отменён новым push. Ещё НЕ опубликовано.
+Final985 desktop іphone native PASS;466modulesexact кожен. Повнийкорпус укадрі,
+actual bedray0, реальніmouse/touch controls і2deepSQLite reloads wallets/purchases exact.
+[QA](../qa/2026-11-27/warehouse-threefold/README.md). Source985b436/publictree
+**d29fe3a4b239ebc8702762273ed53054e9f6fb81**, PR#18 звичайнийmergeбезadmin/bypass.
+Main **7656b9544c986ad29dc470f25d45693689f96dd1**; mainworkflow **46002981562** ще йде.
+Не оголошуватиlive доtest/deploy/pages іactualHTTP+WorkerfullSHA. Verifier:
+`/workspace/qa/verify-warehouse-threefold-live.py MAIN_SHA 46002981562`; expected
+`/workspace/qa/warehouse-threefold-expected-production.json`; outputwarehouse-threefold-live-final.
+Чиннийliveзалишається970800c дофінальногоreceipt. Desktop/phone/archivefailures+logs
+вжеpush memory3468ce6, raw27MBnativejson збережені exactgzip, не дублювати їх знову.
 
 ## Новый запрос: функциональный Warehouse — следующий выпуск сразу после текущего
 
@@ -51,7 +55,19 @@ Warehouse через обычное AI-решение, садятся в мал�
 Использовать существующие native submarine/seat/airlock/navigation, bounded queue,
 один simulation owner и существующий compact AI leisure batch без новых per-cat
 AI calls. Новые save enum опасны для старых клиентов — проверить совместимость,
-никаких live-player QA/paid inference. Точные архитектурные решения ещё не приняты.
+никаких live-player QA/paid inference. Новий worktree `/workspace/chichi-warehouse-submarine-access`, branch
+`codex/warehouse-submarine-access`, base985b436. Remote098f1cf125ffc2501ca9d6214bb57d4e73fb6164:
+точнийзапит6a89ca7 + access data/compact2offers/sharedarcroute + aperture triangleclip.
+3NodechecksPASS:full swept hull route/bed/reefs/Mall/SPA/waterfront, identityoffers,
+actualtriangleaperture без приховування великої частини facade. Clone/boat runtime/UI/AI
+ще НЕ підключені. Зараз localWIP робочоїgallery/pressuredoors/actualshellcut + airlock:
+4NodechecksPASS; actualray through alloldcornices/glazing open, neighbouring glass stays,
+constantfloor (no lift), sequentialseals neverbothopen. Потрібноcommit/push localWIP.
+Нові `warehouse-entry-model.js`, `warehouse-airlock.js`, modified`warehouse-exterior.js`,
+`warehouse-access-data.js`,`test/warehouse-access.test.mjs`. Інші будівлі незмінні.
+Defaultgallery8mwide floorW.y+.86, chamberW.z+170, dockW.z+183, shore6/-.85/92,
+boarding0/.16/96; shared1024arc route via250/-8/110 to dock. Actualcontroller/AI/recall
+і native QA/2SQLite ще попереду. Не публікувати незавершений функціональний WIP.
 
 User исправил запрос FIRST→**THIRD PERSON**. Default батут thirdperson7.2m/.28rad;
 whole native кот/лапки/landing видны. V остаётся optional. Сохраненыspring-v3,
