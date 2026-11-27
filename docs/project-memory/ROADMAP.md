@@ -1,14 +1,8 @@
-22 ноября2026: V14 main970800c/source2254018 merged. Native thirdperson phone/desktop PASS. Дождаться workflow45016375295 wholeSUCCESS иactualHTTP+Worker; сразу датьигрокуссылку. Никаких новыхкосметическихэтаповдоэтого. ТочныеSHA/ограничения — CURRENT.
-
 # Очередь
 
-21 ноября2026: опубликован main **d0d944acdc83ab69c1337d85e77c0471b044cb7a**, source **5c198b50bbf986f1381d5090abfc8b9f2a93d4f9**.
-PR#15 camera implementation + PR#16 tests-only compatibility. Workflow44930181677,
-actual HTTP/одно app,24related tests/native19+2/desktop+phone cameras/8touch/
-deep dive/2privateSQLite reloads PASS. Точные хеши и ограничения — CURRENT/QA.
-
-Приоритет пользователя изменён на V14: отдельный waterfront-ресторан и батут напротив Warehouse. Сохранять старые ТРЦ/SPA/Warehouse полностью; полный запрос/116 source hashes/native baseline в CURRENT. Пошаговые remote checkpoints, настоящие native PNG, физика/AI/save compatibility, затем публикация с actual HTTP. Новый физический M2 report с app21fc1aa9e5cc5091 и проверка тех же
-верхних иконок после загрузки/cold transition. Не обещать FPS gain: предыдущий
-отзыв «прироста нет» принят, early intent не ускоряет построение моделей.
-Сохранять качество/DPR/воду/тени/котиков/data. SPA excavation parked; redesign
-ТРЦ исключён; Warehouse interior не запрошен.
+27 ноября 2026: ресторан/батут V14 опубликованы, main970800c, actual HTTP + Worker proof
+сохранены в CURRENT. Новая задача: Warehouse **ещё ×3 по ширине и высоте** от текущего
+(уже ×2.5), глубина прежняя. Сохранить ТРЦ/SPA/ресторан/батут и деньги/кошельки/покупки.
+Подводное размещение, реальное свободное пространство, физическое дно и камера должны
+соответствовать новым габаритам. Node22/native/CI перед публикацией; checkpoints в Git.
+Warehouse interior не запрошен, SPA excavation parked, redesign ТРЦ исключён.

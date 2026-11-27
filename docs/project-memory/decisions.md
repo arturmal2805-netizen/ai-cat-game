@@ -970,3 +970,11 @@ corephysics/architecture/saves, defaultcamera7.2m/.28rad иреальныйbound
 дляновойwaterbutton. Raw native phone trace подтвердил trustedpointerup безclick
 наenabledcontrol/editablecloud. Не менятьглобальныеinputhandlers.36targeted/fullbuild
 PASS,finalnativepending; не объявлятьfeature опубликованнойдоactualmainHTTP.
+
+## 2026-11-27 — V14 live подтверждён; Warehouse ещё ×3
+
+Actual site bytes и deployed Worker full SHA970800c проверены; release workflow45016375295
+SUCCESS. Прямой status ограничен allowlist, management source + workflow status/save proof
+записаны отдельно без выдуманных headers. Пользователь уточнил дополнительное ×3 ширины
+и высоты Warehouse, а не замену старого ×2.5 на ×3. Новая задача не разрешает менять
+другие здания, деньги, котиков или добавлять интерьер.

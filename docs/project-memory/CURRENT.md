@@ -4,14 +4,22 @@
 Приложение в ветке памяти старое: актуальный код указан ниже.
 [Предыдущие checkpoint и неуспешные попытки](history/CURRENT-before-toolbar-camera-publication-2026-11-21.md).
 
-## V14 объединён — публикация проверяется
+## V14 опубликован; следующая задача — Warehouse ещё ×3
 
-22 ноября2026, Europe/Kyiv. Main **970800ccf7e53d1e4a128ecefe8fd2e491787a9c**,
-source **2254018f6abbfd32da0e678bc895a340497964df**, producer **bb7d53bff0c03edbd18cb240293bb2d27168769b**.
-PR#17 normalmerge безadmin/bypass. Publictree обоих одинаковый
-**c7fbe37e4950dc431b956f18f0796183a55e23f5**. Workflow **45016375295** идёт;
-НЕ объявлять опубликованным до test/deploy/pages иactualHTTP+WorkerfullSHA.
-Code worktree `/workspace/chichi-v12-island-warehouse`, branchcodex/v14-waterfront.
+27 ноября 2026: main **970800ccf7e53d1e4a128ecefe8fd2e491787a9c** опубликован.
+Source **2254018f6abbfd32da0e678bc895a340497964df**; PR #17, workflow **45016375295**:
+test/deploy/pages SUCCESS. Actual HTTP HTML/JS/CSS/assets повторно совпали 27 ноября,
+одно приложение; actual deployed Worker source через разрешённый Cloudflare management API
+содержит полный main SHA. Прямой workers.dev /api/status ограничен сетевой политикой среды;
+сам workflow проверил status/shared saves. Платный inference не вызывался.
+[Квитанция](../qa/2026-11-27/waterfront-v14-live/live-verification.json).
+[Игра](https://arturmal2805-netizen.github.io/ai-cat-game/?v=970800c).
+
+Пользователь явно уточнил: Warehouse увеличить **ещё ×3 от текущего размера по ширине
+и высоте**, глубину не менять. Новая ветка `codex/warehouse-scale-three`, worktree
+`/workspace/chichi-warehouse-scale-three`, база main970800c. ТРЦ/SPA/ресторан/батут,
+модели котов, экономика и сохранения неизменны. Проверить реальные границы/дно/камеру,
+сохранить единую лагуну и подводную оболочку. Это ещё WIP, не опубликованное увеличение.
 
 User исправил запрос FIRST→**THIRD PERSON**. Default батут thirdperson7.2m/.28rad;
 whole native кот/лапки/landing видны. V остаётся optional. Сохраненыspring-v3,
@@ -35,14 +43,14 @@ correctedизмеряетtraverseVisible nativeverticesпослеdraw. Failedatt
 initialrestorednativeposes/yaws/locations/banks/inventory/placements/personalcoins
 exact. Currentprimarycamera/body/contact/water смотрены вfinalcaptures выше.
 36currenttargetedNode22checks/fullbuildPASS,62relatedtouchchecksPASS; прежнийfull
-CI44960985278PASS. Новый PRCI45015643305 иmainCI45016375295 пока проверяются.
+CI44960985278PASS. PR CI45015643305 и main CI45016375295 завершились SUCCESS.
 JS **0e47a2b458e7d21c3ba8aeaa729fd14b48eee7a036056d92cd1a54ecc43f9f06**;
 CSS **6009872ae8865f57fb8d358ee2e71be2eac6ad5bdac240cba496a6664983b2d3**; oneapp.
-Не добавлять новые этапы до релиза. Mainoldstable ниже остаётся live доactualreceipt.
+Не добавлять новые этапы до релиза. Исторический прежний релиз ниже сохранён только как rollback reference.
 GTA6/1:1/physical60FPS/userartapproval не заявлять. Source/fullspec/protection116
 вdocs/specifications; originalinlineimagebytes недоступны, не выдумыватьhash.
 
-## Опубликовано
+## Исторический прежний релиз
 
 - Main: **d0d944acdc83ab69c1337d85e77c0471b044cb7a**.
 - Итоговый source: **5c198b50bbf986f1381d5090abfc8b9f2a93d4f9**, ветка `codex/venue-camera-validation`,
