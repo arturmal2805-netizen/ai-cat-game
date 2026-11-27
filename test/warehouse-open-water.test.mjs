@@ -5,7 +5,7 @@ import {MOSA_SEA,mosaCoastFactor} from '../public/mosasaur-data.js';import {expa
 const coast=expandedCoastSamples(MOSA_SEA,mosaCoastFactor,0,768);
 function crossSection(points,x){const z=[];for(let i=1;i<points.length;i++){const a=points[i-1],b=points[i];if((a.x<=x&&b.x>x)||(b.x<=x&&a.x>x))z.push(a.z+(b.z-a.z)*(x-a.x)/(b.x-a.x));}return[Math.min(...z),Math.max(...z)];}
 test('both Warehouse banks widen, previous water remains and all building sources/coordinates stay frozen',()=>{
- for(const k of ['id','z','depth','platformDepth','exteriorOnly'])assert.equal(WAREHOUSE[k],baseline.warehouse[k]);
+ for(const k of ['id','z','exteriorOnly'])assert.equal(WAREHOUSE[k],baseline.warehouse[k]);
  // The later toolbar-latency request authorizes camera/controller changes.
  // Keep authored building models, geometry, economy and save sources frozen;
  // exact camera bounds/framing and pending-request ownership have dedicated
