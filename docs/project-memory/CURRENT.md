@@ -1,86 +1,21 @@
-# Текущий статус — 27 ноября2026, Europe/Kyiv
+# Current — 27 November2026, Europe/Kyiv
 
-Каноническая память — codex/ocean-recovery-memory. Код ветки памяти старый;
-использовать названные ниже source worktrees. Не удалять/reset старые worktrees.
-[Полная предыдущая запись и история](history/CURRENT-before-proportions-correction-2026-11-27.md).
+Canonical memory: codex/ocean-recovery-memory. Its source code is historical; use the implementation worktree below. Preserve all old worktrees.
 
-## Сейчас опубликовано и проверено:e9fd96c
+## Published and verified
 
-Main e9fd96c00bf4ae114dc3851f1d2c4bb5159d06c5, source56afaec7396cb2e6401aa875c97f8fa1d7ff67b5. Workflow46045467951 test/deploy/pages SUCCESS. ActualHTTP JS/CSS/probes + deployedWorker fullSHA verified by `/workspace/qa/warehouse-proportions-bed-live-final/live-verification.json`. NativePC/phone exact466modules, oldMall/SPA/lights/DPR/shadows preserved, 2privateSQLite.
-[Игра](https://arturmal2805-netizen.github.io/ai-cat-game/?v=e9fd96c) · [receipt](../qa/2026-11-27/warehouse-proportions-bed/live/live-verification.json). User received live link. Warehouse depth720/platformDepth888, length3600/height7.5 unchanged, high oblique camera, hidden decorative cone below real deep bed. No paid AI.
+Main **541293e6f5d9ba24e0f71485820e4e2547e01da8**, source **23a5043877f186eb719eb673f37c5406ba017277**, same tree920ebdc277351c1068647d061b8875af97cf6888. PR21 merged normally; run46049325298 all3shards/test/deploy/pages SUCCESS. Actual HTTP app/CSS/probe and deployed Worker fullSHA verified. [Game](https://arturmal2805-netizen.github.io/ai-cat-game/?v=541293e) · [Evidence](../qa/2026-11-27/warehouse-access/README.md).
 
-## Предыдущая публикация:7656b95
+Warehouse width corrected: depth720/platformDepth888, length3600/heightScale7.5/position retained. Real no-elevator entry, clipped glass aperture, 2 pressure doors, actual dry floor, 3 water berths/deployable gangplanks and 3 original native submarines. Existing native cats board/travel/enter/return; safe queued manual takeover. Recall/control/return panel and 2 free existing-batch AI offers. Native desktop1100x800/DPR2 + coarsephone390x844/DPR2 PASS with474 exact modules and2 private SQLite reloads. Separate cold Worker restart/stale-write test preserves129 positive cat wallets/playercoins. Original Mall/SPA/restaurant/trampoline/cats/economy/saveformats preserved. Software QA is not physical-device FPS or artistic approval.
 
-Main **7656b9544c986ad29dc470f25d45693689f96dd1**, source
-**985b436d92b42f721b8ad2c59b1acef09a899364**, PR#18 normalmerge безadmin/bypass.
-Workflow **46002981562** test/deploy/pages SUCCESS. ActualHTTP+deployedWorker fullSHA
-проверены27ноября13:18UTC; одноappподключение, JS/CSS/assets exact. ManagementAPI
-использован дляWorker:прямойworkers.dev ограниченallowlist; самworkflowпроверил
-status/shared saves. Paid inference не вызывался.
-JS **5020781e6cb7028afa491d8322352910e9ed7afec39e6202f03e7be96e6b299e**,
-CSS **6009872ae8865f57fb8d358ee2e71be2eac6ad5bdac240cba496a6664983b2d3**.
-[Игра](https://arturmal2805-netizen.github.io/ai-cat-game/?v=7656b95) ·
-[FPS opt-in](https://arturmal2805-netizen.github.io/ai-cat-game/?v=7656b95&profile=1) ·
-[Live receipt](../qa/2026-11-27/warehouse-threefold/live/live-verification.json) ·
-[NativeQA](../qa/2026-11-27/warehouse-threefold/README.md).
+## Active: Squish Warehouse V16 + visual validation V17
 
-Батут: исправленыauto4растущихhops→water/splash/swim/climb, global-button takeover
-наapproach/flight/return, заметныйpinnednet sag, groundedcontacts. Thirdpersondefault,
-настоящиеkeyboard/touch,7hopsдо43.31m;2privateSQLitedeeprestores wallets/purchases exact.
-Техническая проверка — не Mac/iPhoneFPS или художественное одобрение.
+User supplied full V16physics spec and V17 mandatory repeated reference validation. The earlier phase1 prohibition on equipping Warehouse is SUPERSEDED for its interior only. Exterior, dimensions/worldcoords, other venues/geography/water/cats/economy/user saveformats frozen. No new per-cat inference calls.
 
-## СЕЙЧАС: исправить слишком узкие пропорции Warehouse
+Sourceworktree **/workspace/chichi-squish-v16**, branch **codex/warehouse-squish-v16**, based on published541293e; created clean. V16 andV17 fully read. Next: preserve exactspecs, engineaudit/freeze, Node22baselinebuild, one contact-driven XPBD squish with actualnativeQA before spreading to materials/10zones. No implementation yet. ReferencesA(interior) andB(5materialstatepanels) are user inline images; seen in conversation; no original image bytes available in workspace. Do not substitute generated art or pretend pixel artifact exists. Register immutable conversation provenance and explicit missing-byte status; use real scene screenshots/evidence.
 
-Пользователь после7656b95 явно отверг вытянутую узкую форму и прислалliveскрин.
-Новая цель — увеличить **ПОПЕРЕЧНЫЙ** размер (data.depth/Z), а не снова длинуX.
-Выбрано ×3 depth:240→720, platformDepth296→888; длинуwidth3600 иheightScale7.5
-сохранить. Прежнее условие«depth unchanged» явноsuperseded этим новымзапросом.
-Вернуть пропорции до последнего×3растяжения, сохранить остальные здания/кошельки.
-Новыйworktree `/workspace/chichi-warehouse-proportions`, branch`codex/warehouse-proportions`,
-basepublished7656b95. Source7c00f111139252e79a34e2bb9093d2af8abfd044, PR19 merged mainf240386219e025fa3c65ea86f376860916f4c4b8. Desktop+phone native PASS exact466modules; evidence `docs/qa/2026-11-27/warehouse-proportions`. NOT LIVE: full PR CI found real grey-underside regression after widened deep shelf. Old decorative cone cap -212 is above newly deepened bed at historical grey-patch rays.
-Correction source56afaec7396cb2e6401aa875c97f8fa1d7ff67b5, PR20 CI PASS (1260tests/build/dry deploy), nativeDesktop+phone PASS exact466modules, 2privateSQLite restores. PR20 MERGED main **e9fd96c00bf4ae114dc3851f1d2c4bb5159d06c5**, current main publication run **46045467951** in progress; watcher16380 runsactualHTTP verifier afteralljobs. Not live until receipt. QAarchive `docs/qa/2026-11-27/warehouse-proportions-bed`, memory7c808e2.
-Correction worktree `/workspace/chichi-warehouse-proportions-fix`, branch `codex/warehouse-proportions-bed-fix`: only hidden underside moved to min(old-12,WAREHOUSE.y-32), physical seabed/buildings unchanged; probe rebaked, build/native/CI pending. The grey-patch regression itself PASSES; prebuild missing uncompressed reef asset is build prerequisite, not implementation failure. Local full tests on7c00 also first missed sparse historicalQAJSON; materialized two referenced files. Do not weaken the real grey-patch test.
-DefaultWarehousecamera станет fittedsteepobliqueoverview:
-старыйwest-underwaterfitдляширокогокорпусанаphoneвыходитзаберег/скрываетсядном.
-Проверитьactualshape/shoreclearance/camera, Node22/actualdesktop+phone/CI/live.
-Не называть7656b95визуальноодобренным: userrejectsaspect. Inlinephotoнетисходныхbytes.
+V16 sourceupload /workspace/attachments/9d033ccc-c520-4b72-855a-4c20e62ebf0c/Вставленный текст.txt (85484B). V17 /workspace/attachments/c5389bb6-7408-4033-9bbb-d5823656654c/Вставленный текст.txt (30221B). Requirements: hybrid localXPBD/rigidfragments/viscoelastic slime, local fourpaw/twist/IK, 8materialprofiles, layeredbutterdamage, jellywaves/cloudsinking/foamimprints/crunchyfiller/mochi, giant/multicontact, explicitmouse+touchactions, originalaudio, bounded4LOD/fixedstep. Ten sectors inside original shell, no10newbuildings. No new purchasedeconomy/customization requested: ephemeral deformations reconstructed; no globalparticle saves. V17 fixed cameras/seed/steps, real screenshots/video, per-phase comparison/correction/retest, semantic reference analysis; no pixel-similarity claims againstconceptart. Final reference board and HTMLreports; evidence needed beforeclosingissues.
 
-## Затем сразу: рабочий вход и субмарины (не отменено)
+## Runtime and safeguards
 
-Явныйзапрос: безлифта, адекватныйвход, маленькиесубмаринысреальнойпосадкойкотиков,
-кнопка«ВідправитиЧічідоWarehouse» принажатииWarehouse, теже рейсыдляЧичи,
-WarehouseвсуществующемAIспискевизитов/активностей. Безновыхper-catAIcalls/экономики.
-Пользователюсказанпорядок: быстрыепроверенныерелизы, затемфункциональныйвход;
-последнеекорректирующеерасширениеприоритетно, но незавершатьобщуюзадачупосленего.
-
-Worktree `/workspace/chichi-warehouse-submarine-access`, branch`codex/warehouse-submarine-access`,
-remote checkpoint **7a34c5e70cdab3faa7b24f3c74ea3e593e6d4a63**, base985b436 (предыдущийgeometry).
-Spec6a89ca7, route/aperture098f1cf, entryc1f5578, fleet/visitRuntime7529ca0.
-9Node route/doors/cancel/manual/offer/freeze checks PASS. World/recall/AI catalogue now wired WIP, actual native QA STILL REQUIRED. Widened current footprint carried by f2523a2; entry parameterized; actual native anchored floor remains W.y+.86 (geometry scaling is offset by anchored mesh.position). Preserve that exact level; test now raycasts original floor beside cut corridor. Scene reparenting needs root.updateWorldMatrix(true,true) after adding prebatched entry. Remote checkpoints712171c+8f4c3a4 now preserve world/controller/gangplank/floor/cancel integration plus buried-cone correction. A.floor is finally actual slab cap +2cm (W.y+1.1*heightScale+.86*(1-heightScale)+.02); neutral old plane is raised to that same level, no other building changes. Actual ray test verifies dry floor is above the unchanged slab, rather than inside it. 63targeted checks PASS; new all3slots/bothlanes fullhulls also10access testsPASS. Finalreflectionb306fa967244 pendingfinalbuild; uncommitted protectionJSON(newbase56)/test/probe/index expected. NoentrynativeQA yet. Harness `/workspace/qa/check-warehouse-access.cjs` + `/workspace/qa/warehouse-access-native.mjs` built for actualcall/queuedtoolbarrequest/nativebody/keyboardtouch/return/resident/freewallets. OneGPUbrowser. Must finishactualPC/phone, sourcearchive/fullCI/mainlive beforecomplete.
-Need cherry-pick buried-cone fix after correction settles, then update independent access scope baseline to corrected published main. No entry publication yet.
-ActualdoorwaycutsownWarehouseglass/cornices, сохраняетoldvertexprefixиостальныездания;
-neighboringglasssealed.8mlevelgallery, sequentialpressuredoors,sharedwatercore; floor
-неподнимается. Статика/створкиbatchModelSteps. НетSquish/interior/economyfeature.
-Fixed3native-submarinepool, queuedroundtrip simulation, portssemaphores, reverse shipping
-lanes, реальныеboarding→outbound→airlock→visit→airlock→inbound→disembark. Queue7testPASS.
-Важно:послеwidth/depthкоррекцииmergeновыйmainвэтотworktree и параметризоватьaccessdata/
-gallery/aperture/route/lobby отновыхW.depth/platformDepth; сейчасчастьzhardcoded110/170/183.
-
-Нужныдалее: gallery/shoregangplanks,fleetWorldbinding, recallbutton, leisureOffers+validation,
-всеsingle-ownerframe/blocked/cancel/saveхукивworld.js, manualinsidefloor/returncontrol,
-pressure/collision/cat-clearance/cancellation tests, compactAIbudget и2privateSQLite.
-Не вводитьопасныйновыйsaveenum:предпочтительноtransientvisit clegacysafedock и прежним
-sharedsaveформатом. Никакихliveplayerworlds/кодааккаунта/paidinferenceвQA.
-
-## Постоянные ограничения
-
-OneGPUbrowser за раз; не менять public/build sourceподrunningQA. Node22:
-`/home/agent/.npm/_npx/52027bd8fc0022aa/node_modules/.bin` вPATH.
-Нативные коты, Mall/SPA/restaurant/trampoline, всеsavedIDs/покупки/балансы неизменны,
-кромеявноновыхWarehouseentry/activities. Диагностика толькоprofile=1/явныйзапрос.
-CanonicalQAсmanifest/exactsources/PNG/hash; не переиспользоватьстарыеPNGкакновыепроверки.
-Всеисторическиеsnapshots/failedattempts/backupR10 сохраненывистории/QA.
-
-## Latest access checkpoint18:13UTC
-PR21 branchcodex/warehouse-submarine-access worktreeunchanged. Source8efa5f974fd02735135fe80c5493cb312d70d19d actualnativeDesktop PASS allrealUI recall/toolbarpending/manualWASD/airlock/roundtrip/nativeNPC/freewallets. 474modules exact, archivedpre-dock-desktop. Geometry/photo review found docking slab intersects subhull; NOT FINAL. WIPcuts3realwaterberths+deployablegangplanks+readablestatus. CurrentHEADb9c79f7f55295c601b1d69c4debd5c5c7803f9fa adds3requiredCIshards(alltestsretained, aggregatejobtest gatesdeploy). Finaldockbodyuncommitted, fullNode22buildPASS, newcontactunit/frontendupdate pending. Mustcommitpush, freshnativePC/phone+2privateSQLite reloads, archiveexactsource, normalmergePR21(noadmin), all3shards/test/deploy/pages andactualHTTP/Worker beforecomplete.
-Workerpreflight63a4failed rendererMeshoptTLA; source5fd fixed importboundary(sharedexpansionphysics no longerimportswarehouseRenderer; biomeimports builder directly), actualworkerdstatus/privateSavePASS. Native5fdfailedundefinedheroBuildcallback;8efa usescrewownershipandguardscontradictoryactions. Preservefailedattempts at `/workspace/qa/warehouse-access-preflight-failed`; noSQLite/credentials. Noelevators/interiorSquish/economychanges.
+Node22 PATH /home/agent/.npm/_npx/52027bd8fc0022aa/node_modules/.bin. ONE GPU browser at a time. Keep renderer imports out of shared Worker physics graph (public/mosasaur-expansion.js must not import warehouse renderer/MeshoptTLA). Use public/mosasaur-biome.js renderer boundary. FloorA follows scaledslabcap+2cm, not old buriedneutralplane. Keep hidden decorativecone below realbed. Preserve original cat rigs/saves/money and physical entry ownership. User requests autonomous progress and remote backups at each meaningful stage; do not end after plan/checkpoint. No delegated agents without explicituser/AGENTS request. Historical details: [previousCURRENT](history/CURRENT-before-squish-v16-2026-11-27.md).

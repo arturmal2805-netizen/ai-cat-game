@@ -1,0 +1,10 @@
+{
+  "api": "https://chichi-cat-world.arturmal2805.workers.dev",
+  "release": "541293e6f5d9ba24e0f71485820e4e2547e01da8",
+  "proof": "Actual deployed source via Cloudflare management API; completed Actions workflow separately verified status and shared saves.",
+  "bytes": 2573426,
+  "sha256": "886a477c1808aec909ea6d0436d733d6ecd89b2286560642da6bc154ac78284f",
+  "contentType": "multipart/form-data; boundary=19813e14fc8e10214bb39413b7ee43c48dcb916d9ad711a32c4f5da25942",
+  "directStatus": "Not repeated: workers.dev is outside the environment allowlist.",
+  "paidInferenceCalled": false
+}

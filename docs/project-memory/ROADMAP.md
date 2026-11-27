@@ -1,11 +1,7 @@
-# Очередь — 27 ноября2026
+# Active queue — 27 November2026
 
-1. ИсправитьпропорцииWarehouseпослеuserrejects7656: поперечныйdepth×3, длина/высота
-   прежние; реальнаякамера/берег/Node22/native/CI/live. Прежнийdepthfreezeотменён.
-2. СразупродолжитьрабочийвходWarehouseбезлифта, маленькиесубмариныNPC/Чичи,
-   кнопкаотправкивобзорепоздания, AIleisureвизиты. WIP7529ca0 хранитсяотдельно,
-   подключениекworld/UI/AIиnative/saveQAещёне выполнены. Mergeновыеproportionsпередэтим.
-3. Не расширятьобъёмнаSquish/магазины/новуюэкономику. Preserveotherbuildings/cats/saves.
+1. Warehouse V16 contact-driven material physics and interior, V17 repeated real reference validation. Ordered engineaudit → onecorrectsquish → materialvariants → nativepawcontacts/IK → damage/slime/twist → giant → tenzones → LOD → existingAI/originalaudio → fullnative/reference/save/CI/liveproof.
+2. Preserve published541293e entry/submarines, exterior/dimensions/coords, Mall/SPA/waterfront/nativecats/geography/economy/saves. Prior nointeriorrestriction superseded by V16/V17 only forWarehouseinterior.
+3. Checkpoint remote at meaningful stages, native screenshots/metadata and correctionloops, exactsource evidence. Do not claim artisticapproval or hardwareFPS fromCI/SwiftShader.
 
-7656b95 опубликован: trampolinebugfix/nativephone+desktop/2SQLite иactualHTTP+Worker
-подтверждены. ТочныеSHA/receipts/статусследующихэтапов — CURRENT.
+Published release and exact evidence: CURRENT.md. All older tasks/history remain preserved.

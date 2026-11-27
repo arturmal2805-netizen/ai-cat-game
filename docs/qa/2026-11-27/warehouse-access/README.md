@@ -7,3 +7,7 @@ Source23a5043877f186eb719eb673f37c5406ba017277, PR21. Native desktop and coarse3
 Other buildings/cats/water/economy/save sources are independently frozen against56afaec, with explicit Warehouse entry/world/import-boundary exceptions. Native complete Mall/SPA geometry/material/poses/lights/DPR/shadows compare unchanged. No elevator or Squish equipped interior added.
 
 `pre-dock-desktop` is a clearly superseded stage whose physical trip checks passed before visual polish opened the three berths. Failed startup/callback attempts are retained in `superseded-native-attempts.tar.gz`; no private SQLite or credentials included. Native SwiftShader images prove correctness/interaction, not deviceFPS or artistic approval. Final publication requires actual main all-shard/test/deploy/pages SUCCESS and HTTP/Worker receipt under live/.
+
+## Published release 541293e
+
+Main541293e6f5d9ba24e0f71485820e4e2547e01da8 and candidate23a5043877f186eb719eb673f37c5406ba017277 share tree920ebdc277351c1068647d061b8875af97cf6888. All three required CI shards, aggregate test, deploy and pages succeeded in run46049325298. Actual HTTP artifacts and full deployed Worker revision match: [receipt](live/live-verification.json). Separate actual private Worker cold-restart test preserves129 positive cat wallets and player4,389,014coins/240diamonds against stale zero writes: [proof](positive-wallets/warehouse-positive-wallets.json). No live world or paid AI.
