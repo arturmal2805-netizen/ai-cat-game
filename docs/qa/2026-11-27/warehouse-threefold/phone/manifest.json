@@ -1,0 +1,124 @@
+{
+  "capturedSource": "985b436d92b42f721b8ad2c59b1acef09a899364",
+  "capturedModules": 466,
+  "allModuleBytesMatchSource": true,
+  "archivedAt": "2026-11-27T12:57:29.063206+00:00",
+  "node": "v22.23.5",
+  "qaBundleSha256": "99dca482fa561e650d32364f2ba62cea7a767d37bac77176aac7da3fdd468f95",
+  "role": "phone",
+  "viewport": [
+    390,
+    844
+  ],
+  "dpr": 2,
+  "renderer": "Headless Chromium SwiftShader",
+  "fixture": "Private world; no player token, live save or paid inference.",
+  "clock": "Fixed noon/time7 for architecture; explicit simulated monotonic steps for transport/physics, raster paused during preparation.",
+  "limitations": "Native correctness/geometry/input images do not establish artistic approval, physical device FPS or AAA equivalence.",
+  "files": {
+    "warehouse-product-camera.png": {
+      "bytes": 673083,
+      "sha256": "7cd3d68338145905bcfe2c1cd919056114bbe01b42b1788949497055aecfd134"
+    },
+    "automatic-trampoline-cycle.json": {
+      "bytes": 328,
+      "sha256": "daf9b856781cbe9ff99dce9762b7f6a79057c84c965c2c7198cabb262f14b1ca"
+    },
+    "third-person-high-jump.png": {
+      "bytes": 1289301,
+      "sha256": "d2ac4a7f10d02bd00618cb82e6bf705f474bfbfe05c2b21b0f2bfd1d66333479"
+    },
+    "third-person-high-jump.json": {
+      "bytes": 1192,
+      "sha256": "45e6b0e2e652b22676b00305b54dc2bf2edc3281c439f4044053c18ff5d33474"
+    },
+    "actual-third-person-controls.png": {
+      "bytes": 886837,
+      "sha256": "71c0b4061f1ae9048d309d7cdb76a53ed510365bdfb12ec109b08bf4ae8fa56a"
+    },
+    "warehouse-product.json": {
+      "bytes": 1610,
+      "sha256": "8be26c65988c5acaa54c033549574faf8376c5f639ab30fed5f8afe4391831bc"
+    },
+    "qa-build.json": {
+      "bytes": 233,
+      "sha256": "333a87c0b0dfc3ae0bb005782bb8eaf2e3cbebfbfeb233b346aa8f3d3568e335"
+    },
+    "source-proof.tar.gz": {
+      "bytes": 2328002,
+      "sha256": "8d607b3d6028ebb71bf3b4d8fe25ee42cca69a82e8344a6fcbb54df30d468de4"
+    },
+    "warehouse-native-views.json": {
+      "bytes": 307,
+      "sha256": "61e0e69ec2c8d30d73b9ce5e00ef167cacb1f889d4fdb78892fbafeab20ec7b1"
+    },
+    "third-person-water-splash.json": {
+      "bytes": 1200,
+      "sha256": "fbb397a55d5220aa3449cf6764f6d30a5ccae33407d4d022cb46fc09a84f576d"
+    },
+    "run.log": {
+      "bytes": 783,
+      "sha256": "30899ae30d53953cdcd007cb46d3423258a4b82bb02fd60ccf2b84b0628232d4"
+    },
+    "third-person-native.json": {
+      "bytes": 4255,
+      "sha256": "1a0a0ba445d12e558bb2026bfd1fecad60cdf3bd6205431e54e908863c320198"
+    },
+    "common-lagoon-overview.png": {
+      "bytes": 301477,
+      "sha256": "820da5eff62794dad9364ebc982a68b786a872175c65375153522348cb5deee7"
+    },
+    "deep-private-save.json": {
+      "bytes": 23197,
+      "sha256": "020bd55dc69e74d71ded18a6dfd13bb23208edcccd0984b1c703d0dcd34dcef9"
+    },
+    "protected-comparison.json": {
+      "bytes": 163,
+      "sha256": "3913e90bfb84ab97120a595230489e8c7095fc3968b2c453fe5f1530b6a7ffb1"
+    },
+    "warehouse-phone-portal.png": {
+      "bytes": 641902,
+      "sha256": "776cb8b50c5316cf6a811cdaee35e92ffabf850e0c8b13ee871426dcad958374"
+    },
+    "third-person-water-splash.png": {
+      "bytes": 1479661,
+      "sha256": "225eb412f6f014167cf4c87e452e9672363ac7389f9ef81ab8f9f469913e9852"
+    },
+    "source-files.json": {
+      "bytes": 43301,
+      "sha256": "4ca141eca8799a4f77db8d65850822fbaf2e30f2097f264f0b596d04346e682e"
+    },
+    "harness/warehouse-threefold-protected.mjs": {
+      "bytes": 4515,
+      "sha256": "6579f1057bb2cbba898da5cc7e3195a1f7558a3014a6e9247124f0bcf1d8c647"
+    },
+    "harness/warehouse-threefold-native.mjs": {
+      "bytes": 8233,
+      "sha256": "152303b9d91245a4518248931262250b3b0e5b3c547ce3e625988442c03049f5"
+    },
+    "harness/waterfront-threefold-third-final.mjs": {
+      "bytes": 9470,
+      "sha256": "6d26992394377c51398de14d5ff773bc3a9ff4f76f4764d3ebca797cf8be407c"
+    },
+    "harness/warehouse-threefold-deep-save.mjs": {
+      "bytes": 3393,
+      "sha256": "4470284b52bfcca02cf63025ec6c72b77d7f8511ab600ba0c8ea8ab0683802cc"
+    },
+    "harness/check-warehouse-threefold.cjs": {
+      "bytes": 124154,
+      "sha256": "b8b75435f95331b63f2eacf52ed3693d0713c91202c785e33bb38ed48df7baac"
+    },
+    "harness/warehouse-threefold-hardlinks.cjs": {
+      "bytes": 609,
+      "sha256": "239941b021a0f98438f50a0208c75ffc83fc8e046257488d961695f594e1b2df"
+    },
+    "protected-buildings.json.gz": {
+      "bytes": 1138190,
+      "sha256": "dca96926b2bbf4b8408b45e73a7ad5e0a585d25c7b8ba108716691727f0a67f9",
+      "decompressed": {
+        "bytes": 27611483,
+        "sha256": "63920e9b808bddf53c4cf63d901abe09bade9c9634a2f2d8f20c3991a9dbdd0a"
+      }
+    }
+  }
+}

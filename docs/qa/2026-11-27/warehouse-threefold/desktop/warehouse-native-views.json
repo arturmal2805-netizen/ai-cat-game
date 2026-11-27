@@ -1,0 +1,103 @@
+{
+  "rows": [
+    {
+      "name": "warehouse-aerial-front",
+      "eye": [
+        3070,
+        1900,
+        5600
+      ],
+      "fov": 50,
+      "dpr": 2,
+      "lost": false,
+      "badPrograms": 0
+    },
+    {
+      "name": "warehouse-aerial-side",
+      "eye": [
+        5250,
+        1200,
+        2800
+      ],
+      "fov": 65,
+      "dpr": 2,
+      "lost": false,
+      "badPrograms": 0
+    },
+    {
+      "name": "warehouse-overhead",
+      "eye": [
+        3070,
+        3800,
+        950
+      ],
+      "fov": 65,
+      "dpr": 2,
+      "lost": false,
+      "badPrograms": 0
+    },
+    {
+      "name": "warehouse-portal",
+      "eye": [
+        3070,
+        -120,
+        1450
+      ],
+      "fov": 65,
+      "dpr": 2,
+      "lost": false,
+      "badPrograms": 0
+    },
+    {
+      "name": "warehouse-glass-gold-close",
+      "eye": [
+        4030,
+        -80,
+        1550
+      ],
+      "fov": 65,
+      "dpr": 2,
+      "lost": false,
+      "badPrograms": 0
+    },
+    {
+      "name": "old-core-preserved",
+      "eye": [
+        0,
+        740,
+        1550
+      ],
+      "fov": 40,
+      "dpr": 2,
+      "lost": false,
+      "badPrograms": 0
+    },
+    {
+      "name": "new-far-shore",
+      "eye": [
+        5250,
+        160,
+        1650
+      ],
+      "fov": 55,
+      "dpr": 2,
+      "lost": false,
+      "badPrograms": 0
+    },
+    {
+      "name": "all-four-venues",
+      "eye": [
+        3200,
+        3700,
+        4200
+      ],
+      "fov": 55,
+      "dpr": 2,
+      "lost": false,
+      "badPrograms": 0
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "renderer": "SwiftShader; no physical device FPS claim"
+}

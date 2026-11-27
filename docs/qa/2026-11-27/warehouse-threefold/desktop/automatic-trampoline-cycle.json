@@ -1,0 +1,29 @@
+{
+  "input": "real group invitation button, no manual takeover",
+  "hops": [
+    2.5,
+    5.5,
+    11,
+    20
+  ],
+  "phases": [
+    "approach",
+    "prepare",
+    "compress",
+    "bounce",
+    "land",
+    "launch",
+    "dive",
+    "splash",
+    "swim",
+    "climb",
+    "shake",
+    "return",
+    "done"
+  ],
+  "captures": [
+    "compress",
+    "dive",
+    "splash"
+  ]
+}

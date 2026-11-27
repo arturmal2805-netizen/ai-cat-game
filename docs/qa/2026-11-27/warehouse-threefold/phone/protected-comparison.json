@@ -1,0 +1,15 @@
+{
+  "protected": [
+    "mall",
+    "spa",
+    "global lights",
+    "DPR",
+    "shadow quality"
+  ],
+  "diffs": [],
+  "warehouseRatios": [
+    3,
+    3,
+    1
+  ]
+}
