@@ -1513,6 +1513,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     swimVisits.delete(id);
   }
   function performResident(id, decision, { autonomous = false } = {}) {
+    if(warehouseVisits?.has(id))return false;
     const n = npcs.get(id),
       object = itemGroups.get(decision.activityId);
     if(n&&object?.userData.loadingReference&&isBuilt(object.userData.placement)){
@@ -2674,7 +2675,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     decision,
     { manualFriendDrop = false, leisureTicket = null, background = false } = {},
   ) {
-    if((submarine?.active||manualWalk?.active))return Promise.resolve({cancelled:true});
+    if((submarine?.active||manualWalk?.active)||warehouseVisits?.has('chichi'))return Promise.resolve({cancelled:true});
     const pending=decision.activityId&&itemGroups.get(decision.activityId);
     if(pending?.userData.loadingReference&&isBuilt(pending.userData.placement)){
       if(!background)focus(pending.userData.placement.biome,false,true);
@@ -3380,7 +3381,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
         ...[...npcs]
           .filter(([, n]) => n.carrier.visible)
           .map(([id, n]) => ({ id, ...n })),
-      ].filter((a) => callbacks.canDragCat?.(a.id) !== false),
+      ].filter((a) => callbacks.canDragCat?.(a.id) !== false&&!warehouseVisits?.has(a.id)),
       candidates = [];
     for (const actor of actors) {
       const head = actor.carrier.position
@@ -6114,8 +6115,9 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     onGuestPark:(id,p)=>{const n=npcs.get(id);if(n){n.carrier.position.set(p.x,p.y,p.z);n.manualAnchor={x:p.x,z:p.z};n.manualUntil=performance.now()+90000;}callbacks.onGatherComplete?.();},
     onGuestRelease:id=>{const n=npcs.get(id);if(n?.spaInvitationHeld){n.spaInvitationHeld=false;if(n.gatherTrip?.spaInvitation)n.gatherTrip=null;n.manualUntil=0;n.gatheredUntil=0;}},
     onInvitationArrive:()=>{callbacks.onReaction?.('Чичи пришла в SPA. Выбери ей занятие — вызов бесплатный.');callbacks.onGatherComplete?.();},
-    callBusy:()=>!!heroGather?.spaInvitation||!!resortSpa?.transportFrame('chichi'),
+    callBusy:()=>warehouseVisits?.has('chichi')||!!heroGather?.spaInvitation||!!resortSpa?.transportFrame('chichi'),
     onCall:async()=>{
+      if(warehouseVisits?.has('chichi'))return false;
       if(callbacks.canSimulateLeisure?.()===false||!canControlChichi()){callbacks.onReaction?.('Сначала получи управление этим миром.');return false;}
       if(heroGather?.spaInvitation||resortSpa?.has('chichi')){callbacks.onReaction?.('Чичи уже в SPA или направляется туда.');return false;}
       if(submarine?.active){callbacks.onReaction?.('Сначала выйди из субмарины на причале.');return false;}
@@ -6131,7 +6133,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
       heroGather=gatherTrip(chichiCarrier.position,{x:b.center[0]+arrival[0],y:.16+islandHeight('autumn',arrival[0],arrival[1]),z:b.center[1]+arrival[1]},performance.now());heroGather.spaInvitation=true;gatherSavePending=true;
       focus('autumn',false,true);callbacks.onReaction?.('Зову Чичи на причал: дальше она пройдёт в SPA через лифт. Вызов бесплатный.');return true;
     },onRecovery:()=>focus('autumn',false,true),getActors:()=>lifeActors,getAccessSurfaces:()=>[islands.get('autumn')?.userData.navigationSurface].filter(Boolean),accessClear:(p,r)=>spaClear(p,r,manualPhysicalObstacles.get('autumn')||[]),registerCat:model=>enableCatRenderBatch(model,poseAtlas),canSimulate:()=>callbacks.canSimulateLeisure?.()!==false,
-    blocked:id=>draggingCat?.catId===id||crew.workers.has(id)||jobs.has(id)||!!housingLife.get(id)||(id==='chichi'&&!!(operation||submarine?.active||manualWalk?.active)),
+    blocked:id=>warehouseVisits?.has(id)||draggingCat?.catId===id||crew.workers.has(id)||jobs.has(id)||!!housingLife.get(id)||(id==='chichi'&&!!(operation||submarine?.active||manualWalk?.active)),
     onPurchase:(...args)=>callbacks.onMallPurchase?.(...args),onUse:(...args)=>callbacks.onResortSpaUse?.(...args),onGoal:(...args)=>callbacks.onMallGoal?.(...args),
     onComplete:(id,result)=>{if(leisure.has(id))finishLeisure(id,result);},getGame:()=>game,getFocused:()=>focused,getOverview:()=>viewingOverview,
     prepare:(steps,signal)=>prepareSceneSteps(steps,{scheduler:scenePreparation,priority:'autumn',signal}),
@@ -6167,7 +6169,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
   warehouseAccess=venueButton('warehouse');warehouseAccess.classList.add('warehouse-access');warehouseAccess.hidden=true;warehouseAccess.setAttribute('aria-pressed','false');warehouseAccess.onclick=focusWarehouse;(container.querySelector('.map-controls')||container).append(warehouseAccess);
   warehouseVisits=createWarehouseWorld({scene,container,getGame:()=>game,getActors:()=>lifeActors,getFocused:()=>focused,getOverview:()=>viewingOverview,getModel:()=>islands.get('autumn')?.userData.ocean?.warehouse,
     prepare:(steps,signal)=>prepareSceneSteps(steps,{scheduler:scenePreparation,priority:'autumn',signal}),prepareModel:model=>shaderWarmup.prepare(model,{background:focused!=='autumn'}),canSimulate:()=>callbacks.canSimulateLeisure?.()!==false,
-    canInvite:id=>id==='chichi'?!submarine?.active&&!waterfront?.unsafe(id)&&!resortSpa?.transportFrame(id)&&!heroBuild&&!draggingCat:freeSpaGuest(id)&&!resortSpa?.has(id),
+    canInvite:id=>id==='chichi'?!submarine?.active&&!waterfront?.unsafe(id)&&!resortSpa?.transportFrame(id)&&!crew.workers.has(id)&&!draggingCat:freeSpaGuest(id)&&!resortSpa?.has(id),
     reserve:id=>{if(id==='chichi'){manualWalk?.stop();callbacks.onControlChichi?.();cancelHeroActivity();heroGather=null;jobs.cancel(id);crew.cancel(id);housingLife.cancel?.(id);}else{cancelResident(id,true);const n=npcs.get(id);if(!n)return false;n.leisureBiome='autumn';n.manualUntil=performance.now()+60000;}return true;},
     hold:id=>{const n=npcs.get(id);if(n)n.manualUntil=performance.now()+60000;},
     onPark:(id,p)=>{const carrier=id==='chichi'?chichiCarrier:npcs.get(id)?.carrier;if(p&&carrier)carrier.position.copy(p);const n=npcs.get(id);if(n){n.manualAnchor={x:p.x,z:p.z};n.manualUntil=performance.now()+90000;}gatherSavePending=true;},
@@ -6257,7 +6259,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     inspectMall:floor=>mall.inspect(floor),
     focusWarehouse,
     warehouse:()=>warehouseVisits,
-    async useMallItem(id,itemId){const item=mallProduct(itemId),actor=lifeActors.find(a=>a.id===id);if(!item||!actor||!game.jobCity?.profiles[id]?.inventory[itemId]||mall.has(id))return false;
+    async useMallItem(id,itemId){const item=mallProduct(itemId),actor=lifeActors.find(a=>a.id===id);if(!item||!actor||!game.jobCity?.profiles[id]?.inventory[itemId]||mall.has(id)||warehouseVisits?.has(id))return false;
       if(item.use==='wear')return !!callbacks.onMallUse?.(id,itemId);
       if(crew.workers.has(id)||jobs.has(id)||housingLife.get(id)||(id==='chichi'&&(operation||(submarine?.active||manualWalk?.active)||game.care?.resting))||id!=='chichi'&&(residentPlay.get(id)||court.get(id)||spa.get(id)||chill.get(id)))return false;
       if(['cinema','arcade','bowling','spa','photo'].includes(item.use)){
@@ -6268,7 +6270,7 @@ export function createWorld(container, initialGame, callbacks = {}, {residentMod
     },
     async visitMall(id,storeId,productId=null){
       const actor=lifeActors.find(a=>a.id===id),b=byBiome('autumn');if(!actor||!game.jobCity?.profiles[id]||Math.hypot(actor.position.x-b.center[0],actor.position.z-b.center[1])>b.radius||crew.workers.has(id)||jobs.get(id)?.job||id==='chichi'&&(operation||(submarine?.active||manualWalk?.active)))return false;
-      if(mall.has(id))return false;
+      if(mall.has(id)||warehouseVisits?.has(id))return false;
       if(id==='chichi')cancelHeroActivity();else cancelResident(id);
       return mall.start(id,storeId,{productId});
     },
