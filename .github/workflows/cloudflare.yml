@@ -21,7 +21,26 @@ concurrency:
   group: chichi-${{ github.ref }}
   cancel-in-progress: true
 jobs:
+  test-shards:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Run complete test suite shard
+        run: node --test --test-shard=${{ matrix.shard }}/3
   test:
+    # Every test file runs in exactly one shard. Deployment still requires all
+    # shards plus this independent full build and Wrangler validation to pass.
+    needs: test-shards
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -31,7 +50,6 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
-      - run: npm test
       - run: npx wrangler deploy --dry-run
   deploy:
     if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.deploy))

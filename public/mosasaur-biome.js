@@ -1,6 +1,7 @@
+import {warehouseExteriorSteps as expansionWarehouseSteps} from './warehouse-exterior.js';
 import {WAREHOUSE} from './mosasaur-expansion-data.js';
 import {warehouseHabitatSteps} from './warehouse-habitat.js';
-import {expansionShorePath,expansionOuterPoint,expansionCoastDecorPoint,expandMosaSeaSteps,expansionWarehouseSteps} from './mosasaur-expansion.js';
+import {expansionShorePath,expansionOuterPoint,expansionCoastDecorPoint,expandMosaSeaSteps} from './mosasaur-expansion.js';
 import {mosaPierPoles,mosaPierRails} from './resort-pier-link-data.js';
 import {floorStoneSteps} from './mosasaur-floor-stones.js';
 import {installSandRegionSteps} from './mosasaur-sand-region.js';

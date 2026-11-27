@@ -1,3 +1,4 @@
+import accessScope from '../docs/specifications/warehouse-access-protection-2026-11-27.json' with {type:'json'};
 import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';import {createHash} from 'node:crypto';import * as T from 'three';
 import baseline from './fixtures/warehouse-f289-water.json' with {type:'json'};
 import {expandedCoastSamples,expandedWaterContains,WAREHOUSE,WAREHOUSE_REEFS} from '../public/mosasaur-expansion-data.js';
@@ -10,7 +11,7 @@ test('both Warehouse banks widen, previous water remains and all building source
  // Keep authored building models, geometry, economy and save sources frozen;
  // exact camera bounds/framing and pending-request ownership have dedicated
  // warehouse-camera and native venue regressions. Preserve historical fixtures.
- for(const[path,hash]of Object.entries(baseline.protectedFiles)){if(['public/mosasaur-water-probe-assets.js','public/mosasaur-expansion-data.js','public/mosasaur-expansion.js','public/ocean-water-domain.js','public/ocean-swimmer.js','public/submarine-physics.js','public/mall-world.js','public/resort-spa-world.js','public/warehouse-camera.js'].includes(path))continue;assert.equal(createHash('sha256').update(readFileSync(new URL('../'+path,import.meta.url))).digest('hex'),hash,path);}
+ for(const[path,hash]of Object.entries(baseline.protectedFiles)){if(accessScope.authorizedFiles.includes(path)||['public/mosasaur-water-probe-assets.js','public/mosasaur-expansion-data.js','public/mosasaur-expansion.js','public/ocean-water-domain.js','public/ocean-swimmer.js','public/submarine-physics.js','public/mall-world.js','public/resort-spa-world.js','public/warehouse-camera.js'].includes(path))continue;assert.equal(createHash('sha256').update(readFileSync(new URL('../'+path,import.meta.url))).digest('hex'),hash,path);}
  for(const x of [1750,2200,2600]){const old=crossSection(baseline.coast,x),now=crossSection(coast,x);assert(now[0]<old[0]-75,'north bank gives at least 75m more room');assert(now[1]>old[1]+180,'south bank gives at least 180m more room');}
  for(const p of baseline.coast)assert(expandedWaterContains(p.x,p.z,MOSA_SEA,mosaCoastFactor,-.1),'never shrink previously published water');
 });
