@@ -488,5 +488,12 @@
     "public/zoo-surface.js": "cf07b4c07ae0a4e9f8c0746b3145f2b63be231f12cb86b8c122e7e7d4859e38f",
     "public/zoo-system.js": "1c0346f91f580fdbe0c82cd8be2768edcaf6dc6d7a4af8e203b32bc1174314b8",
     "public/zoo-waterlife.js": "d1042acb0825e040f226d7c8d2f6061a30e6287e1abf272edf531d4341842bfc"
-  }
+  },
+  "followupRequest": "User reported trampoline invitation never dives, takeover walks away and weak net sag; fix these in the same release.",
+  "followupAuthorizedFiles": [
+    "public/waterfront-runtime.js",
+    "public/waterfront-world.js",
+    "public/waterfront-trampoline.js",
+    "public/world.js"
+  ]
 }

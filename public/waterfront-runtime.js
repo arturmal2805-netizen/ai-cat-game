@@ -13,6 +13,7 @@ import {
   diveLane,
 } from "./waterfront-physics.js";
 import { gatherTrip, gatherFrame } from "./gather-system.js";
+const AUTO_HOPS = [2.5, 5.5, 11, 20];
 const same = (a, b) => Math.hypot(a.x - b.x, a.y - b.y, a.z - b.z) < 0.04;
 export function createWaterfrontRuntime({
   origin,
@@ -91,7 +92,7 @@ export function createWaterfrontRuntime({
     // Spring potential becomes launch energy; the player's timed pumping adds
     // energy between contacts. Gravity remains 9.81 throughout every flight.
     const mass = 4,
-      stiffness = 4500,
+      stiffness = 500,
       weight = mass * 9.81;
     v.compression =
       (weight + Math.sqrt(weight * weight + 2 * stiffness * weight * height)) /
@@ -300,11 +301,11 @@ export function createWaterfrontRuntime({
           if (v.cancelled) phase(v, "return");
           else if (v.id === player) phase(v, "player");
           else if (["bounce", "dive"].includes(v.activity.kind))
-            bounce(v, 1.8, "land");
+            bounce(v, AUTO_HOPS[0], "land");
           else phase(v, v.activity.kind);
         }
       } else if (v.phase === "compress") {
-        const u = Math.min(1, v.age / 0.28),
+        const u = Math.min(1, v.age / 0.42),
           weight = 0.5 - 0.5 * Math.cos(Math.PI * u);
         getTrampoline()?.userData.press?.(
           v.slot,
@@ -380,7 +381,7 @@ export function createWaterfrontRuntime({
             v.local.x - W.trampoline.x,
             v.local.z - W.trampoline.z,
             time,
-            0.8,
+            Math.min(2.6, 0.5 + Math.abs(p.vy) / 12),
             v.slot,
           );
           phase(v, v.afterFlight);
@@ -443,16 +444,16 @@ export function createWaterfrontRuntime({
         if (v.age > 0.5) {
           v.bounces++;
           if (v.id === player && !v.cancelled) phase(v, "player");
-          else if (v.cancelled || v.bounces >= 4) phase(v, "return");
-          else if (v.activity.kind === "dive" && v.bounces >= 2) {
+          else if (v.cancelled) phase(v, "return");
+          else if (v.bounces >= (v.activity.kind === "dive" ? 2 : AUTO_HOPS.length)) {
             v.lane = diveLane(v.slot);
             if (!route(v, v.lane.launch, "launch")) phase(v, "return");
-          } else bounce(v, v.bounces === 2 ? 26 : 4.5, "land");
+          } else bounce(v, AUTO_HOPS[v.bounces], "land");
         }
       } else if (v.phase === "launch") {
         reaction.crouch = 0.5;
         if (v.age > 0.55) {
-          v.flight = ballisticLaunch(v.local, v.lane.water, { height: 18 });
+          v.flight = ballisticLaunch(v.local, v.lane.water, { height: Math.max(18, (v.launchHeight || 0) * 1.2) });
           phase(v, "dive");
         }
       } else if (v.phase === "dive") {
@@ -623,7 +624,7 @@ export function createWaterfrontRuntime({
     // Resolve all simultaneous spring loads before the shared native net is
     // rendered, so one kitten cannot float above a later neighbour's impact.
     for (const v of visits.values())
-      if (["compress", "player", "land", "player-land"].includes(v.phase)) {
+      if (["compress", "player", "land", "player-land", "prepare", "launch", "approach", "exit"].includes(v.phase) && waterfrontDrySupport(v.local,v.radius)?.kind === "net") {
         v.local.y = netSurface(v, time);
         pose(v);
       }
@@ -640,8 +641,19 @@ export function createWaterfrontRuntime({
     requestPlayer(id = "chichi") {
       const v = visits.get(id);
       if (!v || !["bounce", "dive"].includes(v.activity.kind)) return false;
+      if (player === id) return true;
       player = id;
       v.chain = 1;
+      v.cancelled = false;
+      v.redirect = null;
+      // Latch takeover even in flight or water: complete that physical phase,
+      // then hand over on the net. An old return/launch path must not win.
+      v.activity = waterfrontActivity("waterfront-bounce");
+      if (["return", "exit", "done", "launch"].includes(v.phase) ||
+          v.phase === "approach" && v.next !== "prepare" && v.next !== "waiting") {
+        v.target = destination(v.activity, v.slot);
+        route(v, v.target, "prepare");
+      }
       return true;
     },
     get ownsPlayer() {

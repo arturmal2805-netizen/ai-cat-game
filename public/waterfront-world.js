@@ -397,13 +397,20 @@ export function createWaterfrontWorld({
   }
   async function tryHero() {
     if (!pendingHero || !runtime || !canSimulate()) return false;
-    if (!prepareHero()) return false;
     if (runtime.has("chichi")) {
+      // A takeover of an existing visit owns its pending safe handoff too.
+      // Do not defer until an airborne cat has already begun its exit route.
+      if (wantPlayer) {
+        if (!runtime.requestPlayer()) return false;
+        pendingHero = false;
+        return true;
+      }
+      if (!prepareHero()) return false;
       runtime.redirect("chichi", "waterfront-bounce");
       pendingHero = false;
-      if (wantPlayer) runtime.requestPlayer();
       return true;
     }
+    if (!prepareHero()) return false;
     if (
       !canInvite("chichi", { force: true }) ||
       !reserve("chichi", { force: true })
@@ -451,7 +458,6 @@ export function createWaterfrontWorld({
     wantPlayer = true;
     firstPerson = false;
     onViewChange();
-    playerStarted = false;
     pendingHero = true;
     await tryHero();
     onError(
@@ -469,6 +475,7 @@ export function createWaterfrontWorld({
     inviteAll,
     inviteAllTrampoline,
     controlPlayer,
+    get playerRequested() { return wantPlayer; },
     get playerControlled() {
       return (
         canSimulate() &&

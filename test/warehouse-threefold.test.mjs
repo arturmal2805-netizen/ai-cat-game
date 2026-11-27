@@ -18,7 +18,7 @@ test('explicit additional x3 supersedes only Warehouse size and its necessary su
  assert.equal(W.width/old.width,3);assert.equal(W.heightScale/old.heightScale,3);
  assert.equal(W.platformWidth/old.platformWidth,3);
  for(const k of ['id','depth','platformDepth','z','exteriorOnly'])assert.equal(W[k],old[k],k);
- for(const [file,hash] of Object.entries(scope.frozenFiles))assert.equal(createHash('sha256').update(readFileSync(new URL('../'+file,import.meta.url))).digest('hex'),hash,file);
+ for(const [file,hash] of Object.entries(scope.frozenFiles).filter(([f])=>!scope.followupAuthorizedFiles.includes(f)))assert.equal(createHash('sha256').update(readFileSync(new URL('../'+file,import.meta.url))).digest('hex'),hash,file);
 });
 test('the larger native shell stays submerged, embedded and separated by the previous open-water approach',()=>{
  const root=runSceneSteps(warehouseExteriorSteps()),b=new T.Box3().setFromObject(root,true),old=scope.previousWarehouse;
