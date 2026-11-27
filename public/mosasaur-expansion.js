@@ -25,9 +25,10 @@ export function expansionBedY(x,z){
  if(protectedBuildingBed(x,z))return mosaBedY(x,z);
  const a=Math.atan2(z/MOSA_SEA.rz,x/MOSA_SEA.rx),p=expansionPoint(a),r=Math.hypot(x,z),outer=Math.hypot(p.x,p.z),q=mosaWaterRadius(x,z),oldR=r/Math.max(q,.00001),extension=outer-oldR;
  if(extension<1||q<=EXPANSION_PROTECTED_CORE)return mosaBedY(x,z);
- const coastDistance=outer-r,deep=MOSA_EXPANSION.bedY+5*Math.sin(x*.008)*Math.sin(z*.007),shoal=smooth(coastDistance,0,100),channel=T.MathUtils.lerp(-.495,deep,shoal),carve=smooth(q,EXPANSION_PROTECTED_CORE,1),carved=q<1?T.MathUtils.lerp(mosaBedY(x,z),channel,carve):channel,base=T.MathUtils.lerp(mosaBedY(x,z),carved,smooth(buildingBedShoulderDistance(x,z),0,90));
- // A broad natural shelf embeds the pale foundation; no suspended warehouse.
- const dx=Math.max(0,Math.abs(x-WAREHOUSE.x)-WAREHOUSE.platformWidth/2),dz=Math.max(0,Math.abs(z-WAREHOUSE.z)-WAREHOUSE.platformDepth/2),shelf=1-smooth(Math.hypot(dx,dz),0,80);let y=T.MathUtils.lerp(base,WAREHOUSE.y-1.25,shelf);
+ const coastDistance=outer-r,deep=MOSA_EXPANSION.bedY+5*Math.sin(x*.008)*Math.sin(z*.007),shoal=smooth(coastDistance,0,100),channel=T.MathUtils.lerp(-.495,deep,shoal),carve=smooth(q,EXPANSION_PROTECTED_CORE,1),carved=q<1?T.MathUtils.lerp(mosaBedY(x,z),channel,carve):channel,shoulder=smooth(buildingBedShoulderDistance(x,z),0,90),base=T.MathUtils.lerp(mosaBedY(x,z),carved,shoulder);
+ // A wide smooth approach keeps the complete enlarged shell visible from its
+ // underwater camera. Fade at protected buildings/core and the real shoreline.
+ const dx=Math.max(0,Math.abs(x-WAREHOUSE.x)-WAREHOUSE.platformWidth/2),dz=Math.max(0,Math.abs(z-WAREHOUSE.z)-WAREHOUSE.platformDepth/2),shelf=(1-smooth(Math.hypot(dx,dz),0,1400))*shoal*carve*shoulder;let y=T.MathUtils.lerp(base,WAREHOUSE.y-1.25,shelf);
  // Only the real outside shore keeps headland roots; no old internal ring.
  for(const h of expansionHeadlands()){const d=Math.hypot(x-h.x,z-h.z);if(d<h.radius+15)y=Math.max(y,T.MathUtils.lerp(-10,base,smooth(d,h.radius*.84,h.radius+15)));}
  // The eight Warehouse mounds were explicitly removed by the player. Coral

@@ -4,14 +4,16 @@ import { parts } from "./waterfront-primitives.js";
 export const TRAMPOLINE_GRAVITY = 9.81,
   TRAMPOLINE_SLOTS = 8;
 export function netDisplacement(x, z, time, springs) {
+  const r = WATERFRONT.trampoline.radius - 6;
+  if (Math.hypot(x,z) >= r) return 0;
   let y = 0;
   for (const p of springs) {
     const r2 = (x - p.x) ** 2 + (z - p.y) ** 2;
-    y += p.z * Math.exp(-r2 / 95);
+    y += p.z * Math.exp(-r2 / 320);
   }
-  return Math.max(-1.1, Math.min(0.42, y));
+  return Math.max(-1.1, Math.min(0.42, y)) * (1 - T.MathUtils.smoothstep(Math.hypot(x,z),r-10,r));
 }
-const deform = `uniform vec4 wfSprings[8];float wfDeform(vec2 p){float d=0.;for(int i=0;i<8;i++){vec2 v=p-wfSprings[i].xy;d+=wfSprings[i].z*exp(-dot(v,v)/95.);}return clamp(d,-1.1,.42);}`;
+const deform = `uniform vec4 wfSprings[8];float wfDeform(vec2 p){float d=0.;for(int i=0;i<8;i++){vec2 v=p-wfSprings[i].xy;d+=wfSprings[i].z*exp(-dot(v,v)/320.);}return clamp(d,-1.1,.42)*(1.-smoothstep(58.,68.,length(p)));}`;
 function netTexture() {
   if (typeof document === "undefined") return null;
   const c = document.createElement("canvas");
@@ -145,7 +147,7 @@ export function* trampolineSteps(root, materials) {
   };
   mat.onBeforeCompile = patch;
   mat.customProgramCacheKey = () =>
-    "waterfront-elastic-net-v3-persistent-springs";
+    "waterfront-elastic-net-v4-pinned-bowl";
   const geometry = new T.CircleGeometry(r - 6, 128, 0, Math.PI * 2);
   // Concentric topology resolves local paw impacts across the entire net.
   const v = [0, 0, 0],
