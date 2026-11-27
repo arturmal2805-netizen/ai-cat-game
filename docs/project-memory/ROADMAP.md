@@ -6,3 +6,7 @@
 Подводное размещение, реальное свободное пространство, физическое дно и камера должны
 соответствовать новым габаритам. Node22/native/CI перед публикацией; checkpoints в Git.
 Warehouse interior не запрошен, SPA excavation parked, redesign ТРЦ исключён.
+
+Добавлен явный follow-up пользователя: исправить trampoline auto water jump, слабый прогиб
+и global-button takeover на подходе/вполёте. Включить в тот же релиз с Warehouse; точный
+checkpoint/QA в CURRENT. Не начинать новый art redesign перед релизом.

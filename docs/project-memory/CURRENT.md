@@ -15,11 +15,23 @@ test/deploy/pages SUCCESS. Actual HTTP HTML/JS/CSS/assets повторно со�
 [Квитанция](../qa/2026-11-27/waterfront-v14-live/live-verification.json).
 [Игра](https://arturmal2805-netizen.github.io/ai-cat-game/?v=970800c).
 
-Пользователь явно уточнил: Warehouse увеличить **ещё ×3 от текущего размера по ширине
-и высоте**, глубину не менять. Новая ветка `codex/warehouse-scale-three`, worktree
-`/workspace/chichi-warehouse-scale-three`, база main970800c. ТРЦ/SPA/ресторан/батут,
-модели котов, экономика и сохранения неизменны. Проверить реальные границы/дно/камеру,
-сохранить единую лагуну и подводную оболочку. Это ещё WIP, не опубликованное увеличение.
+Пользователь явно уточнил: Warehouse **ещё ×3 по ширине и высоте**, глубина прежняя.
+WIP ветка `codex/warehouse-scale-three`, worktree `/workspace/chichi-warehouse-scale-three`.
+Checkpoint Warehouse **2e8ebff**; текущий **724601a70fbb305996f720f479d67d345d923565**, PR #18.
+Width3600/platform3960, heightScale7.5; глубина240/296 прежняя. Рост east/down:
+x3520/y-453/z450 удерживает старый открытый подход и крышу ниже-30м; география одной
+лагуны расширена, foundation физически углублён, minY restore учитывает новый floor.
+Actual reflection rebaked fb0c25fc4b94, исторические PNG сохранены. Другие здания/коты/
+сохранения/деньги защищены frozen registry main970. 29terrain/camera/save checks PASS.
+
+Новый отзыв пользователя: авто Чичи не прыгала в воду, слабо прогибалась сетка, takeover
+на пути к батуту уводил её обратно. Все3регрессии воспроизведены failing tests.
+Исправлено в724601a: авто4растущихпрыжка2.5/5.5/11/20→dive/splash/swim/climb;
+requestPlayer защёлкивается через approach/flight/water/oldreturn; глобальная кнопка
+перехватывает тот же actor. Springk500, press.42s, Gaussian320, pinnedrim58–68м;
+поддержка всех grounded phases следует общей сетке. 26control/physics/nativegeometry
+Node22checks PASS. Native desktop/phone actual clicks/QA пока идут; CI45999865046 идёт.
+Новые размеры и исправления **ещё не опубликованы**. Не повторять ratio-вопрос.
 
 User исправил запрос FIRST→**THIRD PERSON**. Default батут thirdperson7.2m/.28rad;
 whole native кот/лапки/landing видны. V остаётся optional. Сохраненыspring-v3,
