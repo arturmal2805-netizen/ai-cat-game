@@ -12,9 +12,9 @@ test('the actual doorway cuts crossing triangles rather than hiding whole facade
 test('pressure entry has real independently moving doors, a constant floor and no simultaneously open seals',async()=>{
  const {warehouseExteriorSteps}=await import('../public/warehouse-exterior.js'),{createWarehouseAirlock}=await import('../public/warehouse-airlock.js');
  const root=runSceneSteps(warehouseExteriorSteps());root.updateMatrixWorld(true);assert.equal(root.userData.phase,2);assert.equal(root.userData.interiorEquipped,false);
- const core=root.children.filter(o=>o!==root.userData.entry),near=new T.Vector3(A.chamber.x,A.floor+2,A.chamber.z+15),ray=new T.Raycaster(near,new T.Vector3(0,0,-1),0,100);
+ const core=root.children.filter(o=>o!==root.userData.entry),near=new T.Vector3(A.chamber.x,A.floor+2,A.chamber.z+15),ray=new T.Raycaster(near,new T.Vector3(0,0,-1),0,near.z-A.lobby.z+5);
  assert.equal(ray.intersectObjects(core,true).length,0,'actual lower facade and all cornices clear the working aperture');
- assert(new T.Raycaster(near.clone().add(new T.Vector3(7,0,0)),new T.Vector3(0,0,-1),0,100).intersectObjects(core,true).length>0,'neighbouring glazing remains sealed');
+ assert(new T.Raycaster(near.clone().add(new T.Vector3(7,0,0)),new T.Vector3(0,0,-1),0,near.z-A.lobby.z+5).intersectObjects(core,true).length>0,'neighbouring glazing remains sealed');
  for(const entering of [true,false]){const transit=createWarehouseAirlock(entering);for(let i=0;i<2000&&!transit.frame.done;i++){const f=transit.step(1/120);assert.equal(f.position.y,A.foot,'no elevator movement');assert(f.outer<1e-6||f.inner<1e-6);if(f.inner>.01)assert(f.water<.001);if(f.outer>.01)assert(f.water>.999);root.userData.entry.userData.update(f.outer,f.inner,f.water,i/120);}assert(transit.frame.done);}
 });
 

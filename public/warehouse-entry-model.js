@@ -9,10 +9,10 @@ export function* warehouseEntrySteps(){
  const root=new T.Group(),statics=new T.Group();root.name='Warehouse · level submarine pressure entrance';root.position.set(0,A.chamber.y-W.y,A.chamber.z-W.z);
  const glass=new T.MeshStandardMaterial({color:0xc9f0f5,transparent:true,opacity:.14,roughness:.12,metalness:.1,side:T.DoubleSide,depthWrite:false,forceSinglePass:true}),stone=litWarehouseMaterial(new T.MeshStandardMaterial({color:0xe3ddd1,roughness:.66})),gold=litWarehouseMaterial(new T.MeshStandardMaterial({color:0xcfa54e,metalness:.62,roughness:.25,emissive:0x8d5b20,emissiveIntensity:.16})),light=new T.MeshBasicMaterial({color:0xffd58c});
  function box(name,x,y,z,w,h,d,material,parent=statics){const m=new T.Mesh(new T.BoxGeometry(w,h,d),material);m.name=name;m.position.set(x,y,z);m.castShadow=!material.transparent;m.receiveShadow=true;parent.add(m);return m;}
- const length=74,back=-70,front=4,mid=(back+front)/2;
+ const back=A.lobby.z-A.chamber.z,front=4,length=front-back,mid=(back+front)/2;
  box('Embedded level gallery foundation',0,-1.4,mid,8.2,3,length,stone);
  for(const side of [-1,1]){yield;box('Sealed gallery glazing',side*4,3.6,mid,.12,7.2,length,glass);for(const z of [back,-4,4])box('Gold entrance jamb',side*4,3.6,z,.24,7.2,.24,gold);box('Continuous warm gallery sill',side*3.85,.22,mid,.08,.08,length,light);}
- for(const z of [120,121.2,122,125.6,127.7,130,144])for(const side of [-1,1])box('Closed brass trim over cut cornice ends',side*4,3.6,z-170,.48,7.2,.65,gold);
+ for(const z of [120,121.2,122,125.6,127.7,130,144])for(const side of [-1,1])box('Closed brass trim over cut cornice ends',side*4,3.6,z*W.depth/240-(A.chamber.z-W.z),.48,7.2,.65,gold);
  box('Glazed gallery roof',0,7.2,mid,8.1,.12,length,glass);
  const pairs=[];
  for(const [label,z]of [['inner',-4],['outer',4]]){yield;box(label+' door lintel',0,7.05,z,8.2,.24,.35,gold);box(label+' safety light',0,6.8,z,7.5,.06,.12,light);const pair=[];

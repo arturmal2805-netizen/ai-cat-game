@@ -10,7 +10,7 @@ export function createWarehouseVisits({origin,getActors,canSimulate=()=>true,onB
  const visits=new Map(),routes=Array.from({length:A.capacity},(_,i)=>createWarehouseShuttleRoute(1024,i)),scratch={};
  const boats=routes.map((r,slot)=>({slot,id:null,...r.sample(0),speed:0,open:0}));let clock=0,shoreOwner=null,entryOwner=null,manual=null;
  const world=p=>new T.Vector3(p.x+origin.x,p.y,p.z+origin.z),local=p=>({x:p.x-origin.x,y:p.y,z:p.z-origin.z});
- const visitPoint=v=>({x:W.x+(v.boat-1)*30,y:A.foot,z:W.z+60});
+ const visitPoint=v=>({x:W.x+(v.boat-1)*30,y:A.foot,z:A.lobby.z-40});
  function phase(v,name){v.phase=name;v.age=0;}
  function pose(v){const f=v.frame;f.position.set(v.local.x+origin.x,v.local.y,v.local.z+origin.z);f.yaw=v.yaw;f.phase=v.phase;return f;}
  function seat(v){const b=boats[v.boat];onBoatPose(b,clock);return getSeat?getSeat(b):{x:b.x+Math.sin(b.yaw)*.25,y:b.y-.55,z:b.z+Math.cos(b.yaw)*.25};}
