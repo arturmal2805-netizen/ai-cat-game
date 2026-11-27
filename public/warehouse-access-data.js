@@ -10,7 +10,7 @@ export const WAREHOUSE_ACCESS=Object.freeze({
  outside:Object.freeze({x:W.x,y:floor+.012,z:W.z+175}),
  inside:Object.freeze({x:W.x,y:floor+.012,z:W.z+154}),
  lobby:Object.freeze({x:W.x,y:floor+.012,z:W.z+100}),
- aperture:Object.freeze({min:Object.freeze([-6,.66,110]),max:Object.freeze([6,9.06,151])}),
+ aperture:Object.freeze({min:Object.freeze([-4,.66,110]),max:Object.freeze([4,8,151])}),
 });
 export const WAREHOUSE_ACTIVITIES=Object.freeze([
  Object.freeze({id:'warehouse-explore',name:'Warehouse · огляд',action:'explore',duration:45,capacity:12}),

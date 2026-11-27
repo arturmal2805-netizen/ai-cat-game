@@ -1,10 +1,13 @@
+import {warehouseEntrySteps} from './warehouse-entry-model.js';
+import {warehouseApertureSteps} from './warehouse-aperture.js';
+import {WAREHOUSE_ACCESS as A} from './warehouse-access-data.js';
 import {warehouseFacadeSteps,litWarehouseMaterial} from './warehouse-facade.js';
 import * as T from 'three';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 import {WAREHOUSE as W} from './mosasaur-expansion-data.js';
 // One sealed shell, deliberately no shops, equipped rooms, NPCs or access logic.
 export function* warehouseExteriorSteps(){
- const root=new T.Group();root.name='CHICHI WAREHOUSE · SQUISH GAME ZONE · exterior only';root.position.set(W.x,W.y,W.z);
+ const root=new T.Group();root.name='CHICHI WAREHOUSE · SQUISH GAME ZONE · submarine entrance';root.position.set(W.x,W.y,W.z);
  const stone=new T.MeshStandardMaterial({color:0xe3ddd1,roughness:.66}),gold=new T.MeshStandardMaterial({color:0xcfa54e,metalness:.62,roughness:.25,emissive:0x8d5b20,emissiveIntensity:.16}),glass=new T.MeshStandardMaterial({color:0xc9f0f5,roughness:.12,metalness:.1,transparent:true,opacity:.14,depthWrite:false,side:T.DoubleSide,forceSinglePass:true}),warm=new T.MeshBasicMaterial({color:0xffd58c,fog:false}),lavender=new T.MeshBasicMaterial({color:0xa49be2,fog:false});
  const bronze=new T.MeshStandardMaterial({color:0x876d48,metalness:.78,roughness:.3}),enamel=new T.MeshStandardMaterial({color:0x183949,metalness:.35,roughness:.26});
  for(const material of [gold,stone,bronze,enamel])litWarehouseMaterial(material);
@@ -33,5 +36,8 @@ export function* warehouseExteriorSteps(){
  for(const [key,geometries]of Object.entries(buffers)){yield;if(geometries.length)mesh(mergeGeometries(geometries),palette[key],key+' structure · one shared batch');geometries.forEach(g=>g.dispose());}
  // Author the larger shell into its own geometry; no island/old-building scale.
  const sx=W.width/240,sy=W.heightScale||1,sz=W.depth/120,anchor=.86;root.traverse(o=>{if(o.isMesh){o.geometry.scale(sx,sy,sz);o.position.x*=sx;o.position.y=anchor+(o.position.y-anchor)*sy;o.position.z*=sz;}});
- root.userData={warehouse:true,phase:1,exteriorOnly:true,interiorEquipped:false,interactive:false,dimensions:{width:W.width,depth:W.depth,heightScale:W.heightScale||1},facade,dispose(){const geometries=new Set(),materials=new Set(),textures=new Set();root.traverse(o=>{if(o.isMesh){geometries.add(o.geometry);for(const m of Array.isArray(o.material)?o.material:[o.material]){materials.add(m);if(m.map)textures.add(m.map);}}});for(const g of geometries)g.dispose();for(const t of textures)t.dispose();for(const m of materials)m.dispose();}};return root;
+ const aperture=new T.Box3(new T.Vector3(...A.aperture.min),new T.Vector3(...A.aperture.max));
+ for(const child of root.children)if(child.isMesh)yield* warehouseApertureSteps(child,aperture);
+ const entry=yield* warehouseEntrySteps();root.add(entry);
+ root.userData={warehouse:true,phase:2,exteriorOnly:false,interiorEquipped:false,interactive:true,entry,dimensions:{width:W.width,depth:W.depth,heightScale:W.heightScale||1},facade,dispose(){const geometries=new Set(),materials=new Set(),textures=new Set();root.traverse(o=>{if(o.isMesh){geometries.add(o.geometry);for(const m of Array.isArray(o.material)?o.material:[o.material]){materials.add(m);if(m.map)textures.add(m.map);}}});for(const g of geometries)g.dispose();for(const t of textures)t.dispose();for(const m of materials)m.dispose();}};return root;
 }
